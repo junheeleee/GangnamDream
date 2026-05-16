@@ -376,8 +376,19 @@ func serialize():
 	}
 
 func load_from_dict(data):
+	var int_fields = [
+		"age", "year", "month", "turn",
+		"health", "mental", "intelligence", "social_skill", "appearance",
+		"investment_skill", "luck", "stress", "reputation",
+		"gambling_tendency", "addiction_tendency",
+		"job_tenure", "work_performance",
+	]
 	var allowed = serialize().keys()
 	for key in data:
-		if allowed.has(key):
-			set(key, data[key])
+		if not allowed.has(key):
+			continue
+		var value = data[key]
+		if int_fields.has(key) and value is float:
+			value = int(value)
+		set(key, value)
 	stats_changed.emit()

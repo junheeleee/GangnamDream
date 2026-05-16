@@ -8,11 +8,16 @@ const SLOT_COUNT = 3
 const AUTOSAVE_SLOT = 0
 
 func save_game(slot):
+	var state = GameState.serialize()
+	# 로그 크기 캡 — 파일 비대화 방지
+	state["action_log"] = state["action_log"].slice(max(0, state["action_log"].size() - 100))
+	state["news_log"]   = state["news_log"].slice(max(0, state["news_log"].size() - 60))
+	state["event_log"]  = state["event_log"].slice(max(0, state["event_log"].size() - 100))
 	var payload = {
 		"version": SAVE_VERSION,
 		"slot": slot,
 		"saved_at": Time.get_datetime_string_from_system(),
-		"state": GameState.serialize(),
+		"state": state,
 	}
 	var file = FileAccess.open(_slot_path(slot), FileAccess.WRITE)
 	if file == null:
@@ -33,6 +38,10 @@ func load_game(slot):
 	if not (parsed is Dictionary):
 		load_completed.emit(false, slot)
 		return false
+	# 버전 불일치 경고 (미래 마이그레이션 훅)
+	var file_version = int(parsed.get("version", 1))
+	if file_version < SAVE_VERSION:
+		push_warning("SaveManager: save file version %d < current %d (slot %d). Loading anyway." % [file_version, SAVE_VERSION, slot])
 	GameState.load_from_dict(parsed.get("state", parsed))
 	load_completed.emit(true, slot)
 	return true

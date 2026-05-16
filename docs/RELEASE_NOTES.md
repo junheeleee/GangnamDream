@@ -3,6 +3,8 @@
 ## Unreleased
 
 ### Added
+- Save/Load int 필드 타입 복원 수정 — 로드 후 스탯이 float으로 표시되던 버그 해결.
+- Save 로그 크기 캡 적용 — action_log 100개, news_log 60개, event_log 100개.
 - `appearance` 스탯 효과 구현 — 스탯 패널 표시, 직업 요건 3종(유튜브 크리에이터/보험 영업/외국계 세일즈), 연애 관계 호감도 감소 완화.
 - `NotificationToast` UI 연결 — 저장, 직업 변경, 매수/매도, 아이템 구매/사용 시 화면 우측에 토스트 피드백 표시.
 - `CLAUDE.md` — Codex/Claude Code 세션 컨텍스트 파일.
