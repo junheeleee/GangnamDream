@@ -1,6 +1,7 @@
 extends Control
 
 var trait_option: OptionButton
+var trait_desc_label: Label
 
 func _ready():
 	_build_ui()
@@ -43,7 +44,14 @@ func _build_ui():
 	trait_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for trait_name in MetaProgression.get_unlocked_traits():
 		trait_option.add_item(trait_name)
+	trait_option.item_selected.connect(_on_trait_selected)
 	box.add_child(trait_option)
+
+	trait_desc_label = _label("", 13, "#94a3b8", HORIZONTAL_ALIGNMENT_LEFT)
+	trait_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	trait_desc_label.custom_minimum_size = Vector2(360, 36)
+	box.add_child(trait_desc_label)
+	_on_trait_selected(0)
 
 	var new_game = _button("새 런 시작", "#238636")
 	new_game.pressed.connect(_start_new_run)
@@ -69,6 +77,42 @@ func _build_ui():
 
 	var meta = MetaProgression.data
 	box.add_child(_label("누적 런 %d회 / 최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))], 13, "#94a3b8", HORIZONTAL_ALIGNMENT_CENTER))
+
+func _on_trait_selected(index):
+	if trait_desc_label == null:
+		return
+	var unlocked = MetaProgression.get_unlocked_traits()
+	if index < 0 or index >= unlocked.size():
+		trait_desc_label.text = ""
+		return
+	var trait_name = unlocked[index]
+	var desc = ""
+	var hint = ""
+	for trait in DataRegistry.traits:
+		if trait.get("id", "") == trait_name:
+			desc = trait.get("description", "")
+			var bonus = trait.get("bonus", {})
+			if not bonus.is_empty():
+				var parts: Array = []
+				for k in bonus:
+					var v = int(bonus[k])
+					var sign = "+" if v >= 0 else ""
+					var label = k
+					match k:
+						"money": label = "시작 자금 %s%d원" % [sign, v]
+						"health": label = "건강 %s%d" % [sign, v]
+						"mental": label = "정신력 %s%d" % [sign, v]
+						"intelligence": label = "지력 %s%d" % [sign, v]
+						"social_skill": label = "사회성 %s%d" % [sign, v]
+						"appearance": label = "외모 %s%d" % [sign, v]
+						"investment_skill": label = "투자 %s%d" % [sign, v]
+						"luck": label = "행운 %s%d" % [sign, v]
+						"stress": label = "스트레스 %s%d" % [sign, v]
+						_: label = "%s %s%d" % [k, sign, v]
+					parts.append(label)
+				hint = " [" + ", ".join(parts) + "]"
+			break
+	trait_desc_label.text = desc + hint
 
 func _start_new_run():
 	var selected_trait = "흙수저 생존본능"

@@ -12,6 +12,7 @@ const ITEMS_PATH = "res://content/items.json"
 const ENDINGS_PATH = "res://content/endings.json"
 const NEWS_PATH = "res://content/news_templates.json"
 const META_PATH = "res://content/meta/default_meta.json"
+const TRAITS_PATH = "res://content/meta/traits.json"
 
 var events: Array = []
 var events_by_id: Dictionary = {}
@@ -25,6 +26,8 @@ var endings: Array = []
 var endings_by_id: Dictionary = {}
 var news_templates: Array = []
 var default_meta: Dictionary = {}
+var traits: Array = []
+var traits_by_id: Dictionary = {}
 
 func _ready():
 	reload()
@@ -47,6 +50,8 @@ func reload():
 	endings_by_id = _index_by_id(endings)
 	news_templates = _load_array(NEWS_PATH)
 	default_meta = _load_dict(META_PATH)
+	traits = _load_array(TRAITS_PATH)
+	traits_by_id = _index_by_id(traits)
 
 func find_event(event_id):
 	return events_by_id.get(event_id, {})

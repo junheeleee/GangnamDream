@@ -1,0 +1,54 @@
+[
+  {
+    "id": "흙수저 생존본능",
+    "unlock": "default",
+    "unlock_hint": "기본 트레이트",
+    "description": "아무것도 없이 시작한다. 하지만 잃을 것도 없다.",
+    "bonus": {}
+  },
+  {
+    "id": "야근 면역자",
+    "unlock": "assets_50m",
+    "unlock_hint": "한 런에서 5천만원 이상 자산 달성 시 해금",
+    "description": "야근이 일상이 됐다. 시작부터 스트레스에 강하고 체력이 붙어 있다.",
+    "bonus": {
+      "stress": -15,
+      "health": 8
+    }
+  },
+  {
+    "id": "리스크 중독자",
+    "unlock": "assets_200m",
+    "unlock_hint": "한 런에서 2억원 이상 자산 달성 시 해금",
+    "description": "한 번 크게 먹어봤다. 투자 감각과 배짱이 남달라졌다. 대신 멈출 줄 모른다.",
+    "bonus": {
+      "investment_skill": 10,
+      "luck": 8,
+      "stress": 12
+    }
+  },
+  {
+    "id": "안정 지향형",
+    "unlock": "ending_stable_life",
+    "unlock_hint": "안정적 노후 또는 평범한 삶 엔딩 달성 시 해금",
+    "description": "안정을 알고 다시 시작한다. 사회성과 지식이 이미 쌓여 있고 여윳돈이 있다.",
+    "bonus": {
+      "money": 2000000,
+      "intelligence": 5,
+      "social_skill": 4
+    }
+  },
+  {
+    "id": "강남드림 계승자",
+    "unlock": "ending_gangnam_dream",
+    "unlock_hint": "강남드림 엔딩 달성 시 해금",
+    "description": "전생의 기억이 남아 있다. 투자 본능과 사회적 감각이 이미 깨어 있다.",
+    "bonus": {
+      "money": 3000000,
+      "investment_skill": 12,
+      "social_skill": 5,
+      "luck": 10,
+      "stress": 8
+    }
+  }
+]

@@ -22,7 +22,10 @@ func get_unlocked_traits():
 	return data.get("unlocked_traits", ["흙수저 생존본능"])
 
 func get_trait_bonus(trait_name):
-	return data.get("trait_bonuses", {}).get(trait_name, {})
+	for trait in DataRegistry.traits:
+		if trait.get("id", "") == trait_name:
+			return trait.get("bonus", {})
+	return {}
 
 func unlock_trait(trait_name):
 	var traits: Array = data.get("unlocked_traits", [])
@@ -54,9 +57,17 @@ func record_run(summary):
 
 func _check_progression_unlocks(summary):
 	var total_assets = float(summary.get("total_assets", 0.0))
+	var ending_id = str(summary.get("ending_id", ""))
+	# 자산 기준 언락
 	if total_assets >= 50_000_000:
 		unlock_trait("야근 면역자")
 	if total_assets >= 200_000_000:
 		unlock_trait("리스크 중독자")
+	# 엔딩 기준 언락
+	if ending_id in ["stable_success", "ordinary_life"]:
+		unlock_trait("안정 지향형")
+	if ending_id == "gangnam_dream":
+		unlock_trait("강남드림 계승자")
+	# 런 횟수 기준 업적
 	if int(data.get("total_runs", 0)) >= 5:
 		unlock_achievement("five_lives")

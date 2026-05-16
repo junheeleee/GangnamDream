@@ -1,5 +1,15 @@
 # Gangnam Dream Work Log
 
+## 2026-05-16 (Meta-Progression First Pass)
+
+### 기능 구현
+- `content/meta/traits.json` 신규 생성 — 5종 트레이트 정의 (id, unlock 조건, description, bonus).
+- `DataRegistry.gd` — `TRAITS_PATH` 상수, `traits` 배열 및 `traits_by_id` 딕셔너리 추가. `reload()`에 로드 로직 포함.
+- `MetaProgression.gd`:
+  - `get_trait_bonus()` — `data["trait_bonuses"]` 딕셔너리 하드코딩 방식 → `DataRegistry.traits` 룩업으로 교체.
+  - `_check_progression_unlocks()` — 엔딩 기반 언락 추가: `stable_success`/`ordinary_life` → 안정 지향형, `gangnam_dream` → 강남드림 계승자.
+- `StartMenu.gd` — `trait_desc_label` 추가. 트레이트 선택 시 `_on_trait_selected()` 콜백으로 설명 + 보너스 요약 실시간 표시.
+
 ## 2026-05-16 (Init)
 - Standardized project management around an independent GitHub Desktop repository.
 - Published the Godot project to GitHub.
