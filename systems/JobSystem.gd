@@ -70,6 +70,8 @@ func _check_requirements(req):
 				if GameState.intelligence < int(val): return false
 			"min_social", "min_social_skill":
 				if GameState.social_skill < int(val): return false
+			"min_appearance":
+				if GameState.appearance < int(val): return false
 			"min_investment_skill":
 				if GameState.investment_skill < int(val): return false
 			"min_money":

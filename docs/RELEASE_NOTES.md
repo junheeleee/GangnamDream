@@ -3,6 +3,8 @@
 ## Unreleased
 
 ### Added
+- `appearance` 스탯 효과 구현 — 스탯 패널 표시, 직업 요건 3종(유튜브 크리에이터/보험 영업/외국계 세일즈), 연애 관계 호감도 감소 완화.
+- `NotificationToast` UI 연결 — 저장, 직업 변경, 매수/매도, 아이템 구매/사용 시 화면 우측에 토스트 피드백 표시.
 - `CLAUDE.md` — Codex/Claude Code 세션 컨텍스트 파일.
 - 투자 모달: 매수 금액 3단계 선택(10만/50만/100만원).
 - 투자 모달: 분할 매도(25%/50%/전량) + 보유 수익률 표시.
@@ -18,6 +20,7 @@
 
 ### Fixed
 - 엔딩 ID 불일치 버그: `health_collapse` → `burnout`, `mental_burnout` → `mental_break`, `debt_spiral` → `bankruptcy`, `ordinary_retirement` → `ordinary_life`.
+- `EndingSystem.evaluate_current_ending()` 잔존 구 ID 수정 (이전 패스에서 누락).
 - `_set_stat_value()` warn/danger 파라미터 역전 버그 (건강 50↓ 노랑, 30↓ 빨강).
 - 모달 오버플로: `ScrollContainer` 추가.
 

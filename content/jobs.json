@@ -228,7 +228,8 @@
     "description": "콘텐츠가 자산이다. 채널을 키우면 광고 수익과 협찬이 들어온다. 유행에 올라타는 감각이 전부다.",
     "base_salary": 6240000,
     "requirements": {
-      "min_intelligence": 73
+      "min_intelligence": 73,
+      "min_appearance": 55
     },
     "stress_per_month": 24,
     "stat_gains": {
@@ -247,7 +248,8 @@
     "description": "지인에서 시작해 확장한다. 인맥이 곧 실적이다. 사회성이 높아지지만 관계가 상품화되는 아이러니가 있다.",
     "base_salary": 6660000,
     "requirements": {
-      "min_intelligence": 77
+      "min_intelligence": 77,
+      "min_appearance": 48
     },
     "stress_per_month": 28,
     "stat_gains": {
@@ -266,7 +268,8 @@
     "description": "영어 미팅, 글로벌 실적 압박, 성과 인센티브. 기본급보다 커미션이 크다. 실적을 내면 강남 입성이 보인다.",
     "base_salary": 7080000,
     "requirements": {
-      "min_intelligence": 81
+      "min_intelligence": 81,
+      "min_appearance": 52
     },
     "stress_per_month": 32,
     "stat_gains": {

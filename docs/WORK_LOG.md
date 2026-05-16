@@ -36,3 +36,21 @@
 - `CLAUDE.md` 생성 (Codex 세션 컨텍스트).
 - `docs/` 전체 오늘 세션 반영.
 
+## 2026-05-16 (QA & Toast Integration)
+
+### 버그 수정
+- `EndingSystem.evaluate_current_ending()` 엔딩 ID 불일치 수정 — `health_collapse` → `burnout`, `mental_burnout` → `mental_break`, `debt_spiral` → `bankruptcy`, `ordinary_retirement` → `ordinary_life`, `upper_middle` → `stable_success`. (`GameState.check_game_over()`는 이전 패스에서 수정됐으나 이 함수는 누락됐었음.)
+
+### UI 개선
+- `NotificationToast` 연결 완료 — `MainGame.gd`에 `_toast_container` 및 `_show_toast()` 추가.
+- 저장, 직업 변경, 매수, 매도, 아이템 구매/사용 시 토스트 피드백 표시.
+
+## 2026-05-16 (Appearance Stat Implementation)
+
+### 기능 구현
+- `appearance` 스탯 효과 전면 구현.
+  - **UI**: 스탯 패널에 `외모` 항목 추가 (기존에 저장만 되고 미표시였음).
+  - **직업 요건**: `유튜브 크리에이터`(min 55), `보험 영업직`(min 48), `외국계 세일즈`(min 52)에 `min_appearance` 요건 추가.
+  - **JobSystem**: `_check_requirements()`에 `min_appearance` 케이스 추가.
+  - **RelationshipSystem**: 외모 60 이상일 때 연애 관계(`romantic`) 호감도 월간 감소 차단.
+

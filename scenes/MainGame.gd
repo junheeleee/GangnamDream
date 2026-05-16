@@ -20,6 +20,7 @@ var modal_layer: ColorRect
 var modal_body: VBoxContainer
 var modal_title_label: Label
 var next_button: Button
+var _toast_container: VBoxContainer
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
@@ -76,6 +77,7 @@ func _build_ui():
 	_build_right_panel(main)
 	_build_bottom_bar(root)
 	_build_modal()
+	_build_toast_layer()
 
 func _build_top_bar(parent):
 	var panel = _panel("#0d1b2f", "#1f3a5b")
@@ -108,7 +110,7 @@ func _build_left_panel(parent):
 	box.add_theme_constant_override("separation", 6)
 	panel.add_child(box)
 	box.add_child(_label("PLAYER", 15, "#58a6ff"))
-	for key in ["job", "health", "mental", "stress", "intelligence", "social_skill", "investment_skill", "luck", "reputation", "asset"]:
+	for key in ["job", "health", "mental", "stress", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
 		var row = HBoxContainer.new()
 		box.add_child(row)
 		var name_label = _label(_stat_name(key), 13, "#9fb3c8")
@@ -236,6 +238,25 @@ func _build_modal():
 	modal_body.add_theme_constant_override("separation", 8)
 	scroll.add_child(modal_body)
 
+func _build_toast_layer():
+	_toast_container = VBoxContainer.new()
+	_toast_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_toast_container.add_theme_constant_override("separation", 6)
+	_toast_container.set_anchor(SIDE_LEFT, 1.0)
+	_toast_container.set_anchor(SIDE_TOP, 0.0)
+	_toast_container.set_anchor(SIDE_RIGHT, 1.0)
+	_toast_container.set_anchor(SIDE_BOTTOM, 1.0)
+	_toast_container.offset_left = -280
+	_toast_container.offset_top = 70
+	_toast_container.offset_right = -10
+	_toast_container.offset_bottom = -70
+	add_child(_toast_container)
+
+func _show_toast(message: String, color: Color = Color("#dbe7ff")):
+	var toast = load("res://ui_components/NotificationToast.gd").new()
+	_toast_container.add_child(toast)
+	toast.show_message(message, color)
+
 func _begin_month():
 	prev_prices = GameState.market_prices.duplicate()
 	if GameState.news_log.is_empty() or GameState.turn > 1:
@@ -326,6 +347,7 @@ func _refresh_all():
 	_set_stat_value("stress", GameState.stress, false, 60, 80)
 	stat_labels["intelligence"].text = str(GameState.intelligence)
 	stat_labels["social_skill"].text = str(GameState.social_skill)
+	stat_labels["appearance"].text = str(GameState.appearance)
 	stat_labels["investment_skill"].text = str(GameState.investment_skill)
 	stat_labels["luck"].text = str(GameState.luck)
 	stat_labels["reputation"].text = str(GameState.reputation)
@@ -505,30 +527,37 @@ func _open_shop():
 func _on_save_pressed():
 	SaveManager.save_game(1)
 	GameState.add_log("게임 저장 완료", "system")
+	_show_toast("💾 저장 완료", Color("#4ade80"))
 
 func _on_job_selected(job_id):
 	var result = job_system.apply_for_job(job_id)
 	_close_modal()
 	_refresh_all()
+	var job_name = GameState.current_job.get("name", "직업 변경")
+	_show_toast("💼 %s" % job_name, Color("#fbbf24"))
 
 func _on_buy_asset(asset_id, amount):
 	investment_system.buy_asset(asset_id, float(amount))
 	_close_modal()
 	_refresh_all()
+	_show_toast("📈 매수 완료 %s" % GameState.format_money(amount), Color("#4ade80"))
 
 func _on_sell_asset(asset_id, ratio):
 	investment_system.sell_asset(asset_id, float(ratio))
 	_close_modal()
 	_refresh_all()
+	_show_toast("📉 매도 완료", Color("#f87171"))
 
 func _on_shop_item(item_id):
 	inventory_system.purchase_item(item_id)
 	_close_modal()
 	_refresh_all()
+	_show_toast("🛒 아이템 구매 완료", Color("#d8b4fe"))
 
 func _on_use_item(item_id):
 	inventory_system.use_item(item_id)
 	_refresh_all()
+	_show_toast("✨ 아이템 사용", Color("#fbbf24"))
 
 func _go_to_menu():
 	SaveManager.autosave()
@@ -666,6 +695,7 @@ func _stat_name(key):
 		"stress": "스트레스",
 		"intelligence": "지능",
 		"social_skill": "사회성",
+		"appearance": "외모",
 		"investment_skill": "투자감각",
 		"luck": "운",
 		"reputation": "평판",

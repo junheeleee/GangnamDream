@@ -14,16 +14,16 @@ func get_ending(ending_id):
 func evaluate_current_ending():
 	var total = GameState.get_total_asset_value()
 	if GameState.health <= 0:
-		return get_ending("health_collapse")
+		return get_ending("burnout")
 	if GameState.mental <= 0:
-		return get_ending("mental_burnout")
+		return get_ending("mental_break")
 	if total >= 2_000_000_000:
 		return get_ending("gangnam_dream")
 	if total >= 500_000_000:
-		return get_ending("upper_middle")
+		return get_ending("stable_success")
 	if GameState.money < -30_000_000:
-		return get_ending("debt_spiral")
-	return get_ending("ordinary_retirement")
+		return get_ending("bankruptcy")
+	return get_ending("ordinary_life")
 
 func get_score():
 	return int(GameState.get_total_asset_value() / 100_000.0) + GameState.turn * 10 + GameState.reputation * 100

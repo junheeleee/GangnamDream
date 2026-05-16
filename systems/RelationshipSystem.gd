@@ -5,7 +5,11 @@ signal relationship_changed(rel: Dictionary)
 
 func process_monthly_relationships():
 	for rel in GameState.relationships.duplicate():
-		rel["affection"] = clamp(int(rel.get("affection", rel.get("affinity", 40))) - 1, 0, 100)
+		# 외모가 높으면 연애 관계의 호감도 감소를 완화
+		var affection_decay = 1
+		if str(rel.get("type", "")) == "romantic" and GameState.appearance >= 60:
+			affection_decay = 0
+		rel["affection"] = clamp(int(rel.get("affection", rel.get("affinity", 40))) - affection_decay, 0, 100)
 		var trust_decay = 0
 		if GameState.stress > 75:
 			trust_decay = 1
