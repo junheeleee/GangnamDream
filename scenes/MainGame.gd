@@ -264,7 +264,7 @@ func _begin_month():
 		current_event = {
 			"id": "tutorial_intro",
 			"title": "2026년 1월, 서울",
-			"description": "스무 살. 지방에서 올라온 지 사흘째.\n\n통장엔 100만원이 전부다. 월세 65만원은 이미 빠져나갔다.\n\n부모님은 '알아서 해봐'라고 했다. 친구들도 각자 살길을 찾고 있다.\n\n지금 당장 뭐라도 해야 한다.\n강남까지의 거리가 얼마나 되는지, 아직은 가늠도 안 된다.\n\n━━━\n\n[ 이 게임의 목표 ]\n매달 행동력 ⚡ 3개로 한 가지씩 선택합니다.\n직업을 구하고, 투자하고, 인맥을 쌓으며 자산을 불려나가세요.\n65세가 되면 결말이 결정됩니다. 최종 자산 20억이면 강남드림 달성!",
+			"description": "스무 살. 지방에서 올라온 지 사흘째.\n\n통장엔 100만원이 전부다. 월세와 식비, 교통비만 해도 120만원.\n이미 적자에서 시작하는 서울 생활이다.\n\n부모님은 '알아서 해봐'라고 했다. 친구들도 각자 살길을 찾고 있다.\n\n지금 당장 뭐라도 해야 한다.\n강남까지의 거리가 얼마나 되는지, 아직은 가늠도 안 된다.\n\n━━━\n\n[ 이 게임의 목표 ]\n매달 행동력 ⚡ 3개로 한 가지씩 선택합니다.\n직업을 구하고, 투자하고, 인맥을 쌓으며 자산을 불려나가세요.\n65세가 되면 결말이 결정됩니다. 최종 자산 20억이면 강남드림 달성!",
 			"choices": [{"text": "시작하기", "effects": {}, "result_text": ""}]
 		}
 		_render_event()
@@ -447,9 +447,16 @@ func _render_sidebars():
 		relationship_box.add_child(_label("아직 중요한 인연이 없다.", 12, "#9fb3c8"))
 	for rel in GameState.relationships:
 		var affection = int(rel.get("affection", 40))
-		var type_kr = {"romantic": "연인", "mentor": "멘토", "business": "비즈니스", "family": "가족", "friends": "친구"}.get(str(rel.get("type", "friends")), "인연")
+		var trust = int(rel.get("trust", 40))
+		var type_str = str(rel.get("type", "friends"))
+		var type_kr = {"romantic": "연인", "mentor": "멘토", "business": "비즈니스", "family": "가족", "friends": "친구"}.get(type_str, "인연")
 		var affinity = relationship_system.get_affinity_label(affection)
-		relationship_box.add_child(_label("%s  [%s]  %s (%d)" % [rel.get("name", "?"), type_kr, affinity, affection], 12, "#dbe7ff"))
+		relationship_box.add_child(_label("%s  [%s]  %s (%d/%d)" % [rel.get("name", "?"), type_kr, affinity, affection, trust], 12, "#dbe7ff"))
+		# 관계 효과 힌트
+		if affection >= 45:
+			var effect_hint = _rel_effect_hint(type_str, affection, trust)
+			if not effect_hint.is_empty():
+				relationship_box.add_child(_wrap_label("  ▸ " + effect_hint, 11, "#64748b"))
 
 	_clear_box(inventory_box)
 	inventory_box.add_child(_label("▸ INVENTORY", 14, "#fbbf24"))
@@ -598,26 +605,50 @@ func _ap_side_job():
 	_refresh_all()
 
 func _open_jobs():
-	_open_modal("직업 선택")
+	_open_modal("💼 직업 선택")
 	var current_job_id = GameState.current_job.get("id", "")
+	# 경력 경로 안내
+	var tier_labels = {1: "입문", 2: "성장", 3: "전문가", 4: "상위"}
+	var current_tier = int(GameState.current_job.get("tier", 0))
+	if current_tier > 0:
+		var promo_count = int(GameState.current_job.get("promotion_count", 0))
+		var max_promo = int(GameState.current_job.get("max_promotions", 3))
+		modal_body.add_child(_wrap_label("현재: %s  Tier %d  승진 %d/%d회" % [GameState.current_job.get("name",""), current_tier, promo_count, max_promo], 13, "#ffd166"))
+	modal_body.add_child(_wrap_label("지력 %d  |  사회성 %d  |  외모 %d" % [GameState.intelligence, GameState.social_skill, GameState.appearance], 12, "#94a3b8"))
+	var sep = HSeparator.new()
+	sep.add_theme_color_override("color", Color("#334155"))
+	modal_body.add_child(sep)
+	var prev_tier = 0
 	for job in job_system.get_available_jobs():
+		var tier = int(job.get("tier", 1))
+		if tier != prev_tier:
+			var tier_label = tier_labels.get(tier, "Tier %d" % tier)
+			modal_body.add_child(_label("── Tier %d  %s ──" % [tier, tier_label], 12, "#475569"))
+			prev_tier = tier
 		var is_current = job.get("id", "") == current_job_id
+		var eligible = job.get("eligible", false)
 		var button_color = "#30363d"
-		if is_current:
-			button_color = "#0f5132"
-		elif job.get("eligible", false):
-			button_color = "#9a6700"
+		if is_current: button_color = "#0f5132"
+		elif eligible: button_color = "#9a6700"
 		var stress_val = int(job.get("stress_per_month", 5))
-		var stress_label = "스트레스 %d/월" % stress_val
-		var label = "%s  |  %s/월  [%s]" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_label]
-		if is_current:
-			label += "  [현재]"
+		var req = job.get("requirements", {})
+		var req_parts: Array = []
+		for k in req:
+			match k:
+				"min_intelligence": req_parts.append("지력 %d" % req[k])
+				"min_appearance": req_parts.append("외모 %d" % req[k])
+				"min_social_skill", "min_social": req_parts.append("사회성 %d" % req[k])
+		var req_str = " · ".join(req_parts) if not req_parts.is_empty() else "제한 없음"
+		var label = "%s  %s/월  스트레스 %d/월" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_val]
+		if is_current: label += "  ✓현재"
 		var button = _button(label, button_color)
-		button.disabled = not job.get("eligible", false) and not is_current
+		button.disabled = not eligible and not is_current
 		button.pressed.connect(Callable(self, "_on_job_selected").bind(job.get("id", "")))
 		modal_body.add_child(button)
+		var detail_color = "#4ade80" if eligible else "#64748b"
+		modal_body.add_child(_wrap_label("  조건: %s" % req_str, 11, detail_color))
 		if not job.get("description", "").is_empty():
-			modal_body.add_child(_wrap_label(job.get("description", ""), 12, "#94a3b8"))
+			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#94a3b8"))
 
 func _open_investments():
 	_open_modal("투자 / 매수·매도")
@@ -987,6 +1018,28 @@ func _stat_name(key):
 		"reputation": "평판",
 		"asset": "총자산",
 	}.get(key, key)
+
+func _rel_effect_hint(type_str: String, affection: int, trust: int) -> String:
+	match type_str:
+		"romantic":
+			if affection >= 80: return "매달 정신력 +2, 스트레스 -4, 생활비 분담 기회"
+			elif affection >= 60: return "매달 정신력 +1, 스트레스 -2"
+			else: return "매달 스트레스 -1"
+		"mentor":
+			if affection >= 75 and trust >= 60: return "매달 투자감각 +1, 지력 +1, 투자 인사이트 수익"
+			elif affection >= 55: return "매달 투자감각/지력 성장 기회"
+			else: return "매달 지력 성장 기회"
+		"business":
+			if affection >= 75 and trust >= 70: return "매달 평판 +2, 수익 공유 기회"
+			elif affection >= 55: return "매달 평판 +1, 소액 수익 기회"
+			else: return "매달 평판 성장 기회"
+		"family":
+			if affection >= 70: return "매달 정신력 +2, 스트레스 -2, 위기 시 지원금"
+			elif affection >= 50: return "매달 정신력 +1, 스트레스 -1"
+		"friends":
+			if affection >= 70: return "매달 스트레스 -3, 사회성 성장 기회"
+			elif affection >= 50: return "매달 스트레스 -1, 사회성 성장 기회"
+	return ""
 
 func _hint_box() -> StyleBoxFlat:
 	var s = StyleBoxFlat.new()

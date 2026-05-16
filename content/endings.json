@@ -10,8 +10,8 @@
     "id": "stable_success",
     "title": "안정적인 성공",
     "grade": "B",
-    "condition": "age >= 65 and total_asset >= 500000000",
-    "description": "5억 이상의 자산을 쌓고 은퇴했다.\n\n강남은 아니더라도, 걱정 없이 먹고 살 수 있는 기반이 생겼다. 젊을 때 더 공격적으로 투자했다면? 그 질문은 이제 내려놓는다.\n\n이 정도면 충분히 잘 살았다."
+    "condition": "age >= 65 and total_asset >= 1000000000",
+    "description": "10억 이상의 자산을 쌓고 은퇴했다.\n\n강남은 아니더라도, 걱정 없이 먹고 살 수 있는 기반이 생겼다. 젊을 때 더 공격적으로 투자했다면? 그 질문은 이제 내려놓는다.\n\n이 정도면 충분히 잘 살았다."
   },
   {
     "id": "ordinary_life",

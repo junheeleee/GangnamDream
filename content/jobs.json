@@ -6,7 +6,7 @@
     "description": "늦은 밤 편의점 카운터를 지킨다. 진상 손님, 택배 정리, 청소까지 혼자다. 최저시급이지만 지금은 이게 전부다.",
     "base_salary": 1200000,
     "requirements": {},
-    "stress_per_month": 8,
+    "stress_per_month": 2,
     "stat_gains": {
       "intelligence": 0,
       "social_skill": 1,
@@ -14,7 +14,8 @@
     },
     "tier": 1,
     "promotion_threshold": 6,
-    "promotion_bonus": 150000
+    "promotion_bonus": 150000,
+    "max_promotions": 3
   },
   {
     "id": "job_02",
@@ -23,7 +24,7 @@
     "description": "스마트폰 배터리와 체력이 고갈되기 전까지 달린다. 비 오는 날 수당이 나쁘지 않지만, 사고 한 번이면 끝이다.",
     "base_salary": 1620000,
     "requirements": {},
-    "stress_per_month": 12,
+    "stress_per_month": 3,
     "stat_gains": {
       "intelligence": 1,
       "social_skill": 2,
@@ -31,7 +32,8 @@
     },
     "tier": 1,
     "promotion_threshold": 9,
-    "promotion_bonus": 220000
+    "promotion_bonus": 220000,
+    "max_promotions": 3
   },
   {
     "id": "job_03",
@@ -40,7 +42,7 @@
     "description": "시계를 보는 횟수가 늘어간다. 성장 가능성은 불분명하지만 고정급이 있다는 사실 하나로 버틴다.",
     "base_salary": 2040000,
     "requirements": {},
-    "stress_per_month": 16,
+    "stress_per_month": 4,
     "stat_gains": {
       "intelligence": 2,
       "social_skill": 0,
@@ -48,7 +50,8 @@
     },
     "tier": 1,
     "promotion_threshold": 12,
-    "promotion_bonus": 290000
+    "promotion_bonus": 290000,
+    "max_promotions": 3
   },
   {
     "id": "job_04",
@@ -59,7 +62,7 @@
     "requirements": {
       "min_intelligence": 37
     },
-    "stress_per_month": 20,
+    "stress_per_month": 5,
     "stat_gains": {
       "intelligence": 0,
       "social_skill": 1,
@@ -67,7 +70,8 @@
     },
     "tier": 1,
     "promotion_threshold": 15,
-    "promotion_bonus": 360000
+    "promotion_bonus": 360000,
+    "max_promotions": 3
   },
   {
     "id": "job_05",
@@ -78,7 +82,7 @@
     "requirements": {
       "min_intelligence": 41
     },
-    "stress_per_month": 24,
+    "stress_per_month": 6,
     "stat_gains": {
       "intelligence": 1,
       "social_skill": 2,
@@ -86,7 +90,8 @@
     },
     "tier": 2,
     "promotion_threshold": 18,
-    "promotion_bonus": 430000
+    "promotion_bonus": 430000,
+    "max_promotions": 3
   },
   {
     "id": "job_06",
@@ -97,7 +102,7 @@
     "requirements": {
       "min_intelligence": 45
     },
-    "stress_per_month": 28,
+    "stress_per_month": 7,
     "stat_gains": {
       "intelligence": 2,
       "social_skill": 0,
@@ -105,7 +110,8 @@
     },
     "tier": 2,
     "promotion_threshold": 6,
-    "promotion_bonus": 500000
+    "promotion_bonus": 500000,
+    "max_promotions": 3
   },
   {
     "id": "job_07",
@@ -116,7 +122,7 @@
     "requirements": {
       "min_intelligence": 49
     },
-    "stress_per_month": 32,
+    "stress_per_month": 8,
     "stat_gains": {
       "intelligence": 0,
       "social_skill": 1,
@@ -124,7 +130,8 @@
     },
     "tier": 2,
     "promotion_threshold": 9,
-    "promotion_bonus": 570000
+    "promotion_bonus": 570000,
+    "max_promotions": 3
   },
   {
     "id": "job_08",
@@ -135,7 +142,7 @@
     "requirements": {
       "min_intelligence": 53
     },
-    "stress_per_month": 36,
+    "stress_per_month": 9,
     "stat_gains": {
       "intelligence": 1,
       "social_skill": 2,
@@ -143,7 +150,8 @@
     },
     "tier": 2,
     "promotion_threshold": 12,
-    "promotion_bonus": 640000
+    "promotion_bonus": 640000,
+    "max_promotions": 3
   },
   {
     "id": "job_09",
@@ -154,7 +162,7 @@
     "requirements": {
       "min_intelligence": 57
     },
-    "stress_per_month": 8,
+    "stress_per_month": 2,
     "stat_gains": {
       "intelligence": 2,
       "social_skill": 0,
@@ -162,7 +170,8 @@
     },
     "tier": 3,
     "promotion_threshold": 15,
-    "promotion_bonus": 710000
+    "promotion_bonus": 710000,
+    "max_promotions": 3
   },
   {
     "id": "job_10",
@@ -173,7 +182,7 @@
     "requirements": {
       "min_intelligence": 61
     },
-    "stress_per_month": 12,
+    "stress_per_month": 3,
     "stat_gains": {
       "intelligence": 0,
       "social_skill": 1,
@@ -181,7 +190,8 @@
     },
     "tier": 3,
     "promotion_threshold": 18,
-    "promotion_bonus": 780000
+    "promotion_bonus": 780000,
+    "max_promotions": 3
   },
   {
     "id": "job_11",
@@ -192,7 +202,7 @@
     "requirements": {
       "min_intelligence": 65
     },
-    "stress_per_month": 16,
+    "stress_per_month": 5,
     "stat_gains": {
       "intelligence": 1,
       "social_skill": 2,
@@ -200,7 +210,8 @@
     },
     "tier": 3,
     "promotion_threshold": 6,
-    "promotion_bonus": 850000
+    "promotion_bonus": 850000,
+    "max_promotions": 3
   },
   {
     "id": "job_12",
@@ -211,7 +222,7 @@
     "requirements": {
       "min_intelligence": 69
     },
-    "stress_per_month": 20,
+    "stress_per_month": 6,
     "stat_gains": {
       "intelligence": 2,
       "social_skill": 0,
@@ -219,7 +230,8 @@
     },
     "tier": 3,
     "promotion_threshold": 9,
-    "promotion_bonus": 920000
+    "promotion_bonus": 920000,
+    "max_promotions": 3
   },
   {
     "id": "job_13",
@@ -231,7 +243,7 @@
       "min_intelligence": 73,
       "min_appearance": 55
     },
-    "stress_per_month": 24,
+    "stress_per_month": 7,
     "stat_gains": {
       "intelligence": 0,
       "social_skill": 1,
@@ -239,7 +251,8 @@
     },
     "tier": 4,
     "promotion_threshold": 12,
-    "promotion_bonus": 990000
+    "promotion_bonus": 990000,
+    "max_promotions": 3
   },
   {
     "id": "job_14",
@@ -251,7 +264,7 @@
       "min_intelligence": 77,
       "min_appearance": 48
     },
-    "stress_per_month": 28,
+    "stress_per_month": 8,
     "stat_gains": {
       "intelligence": 1,
       "social_skill": 2,
@@ -259,7 +272,8 @@
     },
     "tier": 4,
     "promotion_threshold": 15,
-    "promotion_bonus": 1060000
+    "promotion_bonus": 1060000,
+    "max_promotions": 3
   },
   {
     "id": "job_15",
@@ -271,7 +285,7 @@
       "min_intelligence": 81,
       "min_appearance": 52
     },
-    "stress_per_month": 32,
+    "stress_per_month": 10,
     "stat_gains": {
       "intelligence": 2,
       "social_skill": 0,
@@ -279,6 +293,7 @@
     },
     "tier": 4,
     "promotion_threshold": 18,
-    "promotion_bonus": 1130000
+    "promotion_bonus": 1130000,
+    "max_promotions": 3
   }
 ]

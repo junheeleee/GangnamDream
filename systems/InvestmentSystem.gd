@@ -120,9 +120,12 @@ func _update_asset(asset, news_items):
 	if GameState.market_context.get("bubble_assets", []).has(id):
 		bubble_bonus = volatility * 0.6
 	var crash = 0.0
-	if randf() < float(GameState.market_context.get("crash_risk", 0.03)) * volatility:
-		crash = -randf_range(0.22, 0.55)
-	var total_change = clamp(cycle_bias + greed_bias + random_move + news_bias + bubble_bonus + crash, -0.65, 0.95)
+	# 크래시 확률 절반으로 낮춤 (2%→1%)
+	if randf() < float(GameState.market_context.get("crash_risk", 0.03)) * volatility * 0.5:
+		crash = -randf_range(0.15, 0.40)
+	# 장기적 양의 드리프트 +0.3%/월 (연 3.6% 기대수익)
+	var drift = 0.003
+	var total_change = clamp(cycle_bias + greed_bias + random_move + news_bias + bubble_bonus + crash + drift, -0.65, 0.95)
 	var new_price = max(10.0, old_price * (1.0 + total_change))
 	GameState.market_prices[id] = new_price
 	price_updated.emit(id, new_price, (new_price - old_price) / max(old_price, 0.01))

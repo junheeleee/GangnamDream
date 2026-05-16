@@ -17,7 +17,7 @@ var current_trait = "흙수저 생존본능"
 
 var money = 1_000_000.0
 var monthly_income = 0.0
-var fixed_expense = 650_000.0
+var fixed_expense = 1_200_000.0
 var health = 70
 var mental = 70
 var intelligence = 50
@@ -73,7 +73,7 @@ func start_new_game(selected_trait):
 
 	money = 1_000_000.0
 	monthly_income = 0.0
-	fixed_expense = 650_000.0
+	fixed_expense = 1_200_000.0
 	health = 70
 	mental = 70
 	intelligence = 50
@@ -137,7 +137,9 @@ func advance_calendar():
 
 func apply_monthly_pressure():
 	add_money(monthly_income - fixed_expense)
+	# 자연 회복 -7 + 기본 압박 +2 = 실질 -5 (수면/주말 회복)
 	modify_hidden_stat("stress", 2)
+	modify_hidden_stat("stress", -7)
 	if stress > 70:
 		modify_stat("health", -2)
 		modify_stat("mental", -3)
@@ -340,7 +342,7 @@ func check_game_over():
 	elif money < -30_000_000:
 		finish_run("bankruptcy")
 	elif age >= 65:
-		if get_total_asset_value() >= 500_000_000:
+		if get_total_asset_value() >= 1_000_000_000:
 			finish_run("stable_success")
 		else:
 			finish_run("ordinary_life")

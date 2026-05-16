@@ -42,7 +42,9 @@ func process_monthly_job():
 		if randf() < 0.55:
 			GameState.modify_stat(stat, int(job["stat_gains"][stat]))
 	GameState.work_performance = clamp(GameState.work_performance + randi_range(-4, 8), 0, 100)
-	if GameState.job_tenure >= int(job.get("promotion_threshold", 999)) and GameState.work_performance >= 60 and randf() < 0.35:
+	var promo_count = int(GameState.current_job.get("promotion_count", 0))
+	var max_promo = int(job.get("max_promotions", 3))
+	if GameState.job_tenure >= int(job.get("promotion_threshold", 999)) and GameState.work_performance >= 60 and randf() < 0.35 and promo_count < max_promo:
 		_promote(job)
 
 func get_available_jobs():
@@ -59,7 +61,10 @@ func _promote(job):
 	GameState.add_money(bonus * 2.0)
 	GameState.modify_hidden_stat("reputation", 6)
 	GameState.job_tenure = 0
-	GameState.add_log("승진: 월급 +%s" % GameState.format_money(bonus), "job")
+	var promo_count = int(GameState.current_job.get("promotion_count", 0)) + 1
+	GameState.current_job["promotion_count"] = promo_count
+	var max_promo = int(job.get("max_promotions", 3))
+	GameState.add_log("승진 (%d/%d): 월급 +%s" % [promo_count, max_promo, GameState.format_money(bonus)], "job")
 	promoted.emit(job, bonus)
 
 func _check_requirements(req):
