@@ -584,8 +584,9 @@ func _open_jobs():
 			button_color = "#0f5132"
 		elif job.get("eligible", false):
 			button_color = "#9a6700"
-		var stress_icon = "⚡".repeat(int(clamp(int(job.get("stress_per_month", 5)) / 5, 1, 5)))
-		var label = "%s  |  %s/월  %s" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_icon]
+		var stress_val = int(job.get("stress_per_month", 5))
+		var stress_label = "스트레스 %d/월" % stress_val
+		var label = "%s  |  %s/월  [%s]" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_label]
 		if is_current:
 			label += "  [현재]"
 		var button = _button(label, button_color)
@@ -631,7 +632,7 @@ func _open_investments():
 		modal_body.add_child(sep)
 
 func _open_shop():
-	_open_modal("상점")
+	_open_modal("🛍 상점")
 	for item in inventory_system.get_shop_items():
 		var price = float(item.get("price", 0))
 		var can_buy = GameState.money >= price
@@ -641,8 +642,22 @@ func _open_shop():
 		btn.disabled = not can_buy
 		btn.pressed.connect(Callable(self, "_on_shop_item").bind(item.get("id", "")))
 		modal_body.add_child(btn)
+		# 효과 요약 표시
+		var effect_parts: Array = []
+		for k in item.get("effects", {}):
+			var v = int(item["effects"][k])
+			var sign = "+" if v >= 0 else ""
+			effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
+		for k in item.get("passive_effects", {}):
+			var v = int(item["passive_effects"][k])
+			var sign = "+" if v >= 0 else ""
+			effect_parts.append("매달 %s %s%d" % [_stat_name(k), sign, v])
+		var one_time = bool(item.get("one_time", true))
+		var use_type = "사용 시 소모" if one_time else "보유 지속 효과"
+		if not effect_parts.is_empty():
+			modal_body.add_child(_wrap_label("  ▸ %s  [%s]" % [", ".join(effect_parts), use_type], 12, "#4ade80"))
 		if not item.get("description", "").is_empty():
-			modal_body.add_child(_wrap_label(item.get("description", ""), 12, "#94a3b8"))
+			modal_body.add_child(_wrap_label("  %s" % item.get("description", ""), 12, "#94a3b8"))
 
 func _on_save_pressed():
 	SaveManager.save_game(1)
