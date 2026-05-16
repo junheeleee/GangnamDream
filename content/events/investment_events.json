@@ -22,7 +22,7 @@
           "money": 280000,
           "intelligence": -5
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 28만원 획득. 하지만 지능 -5. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -30,7 +30,7 @@
           "stress": 12,
           "mental": -7
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 스트레스 +12, 정신 -7. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -38,7 +38,7 @@
           "reputation": -1,
           "investment_skill": 0
         },
-        "result_text": "",
+        "result_text": "세상은 계획대로 움직이지 않는다. 평판 -1. 선택했다. 이제 앞으로.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "leveraged",
@@ -70,7 +70,7 @@
           "money": 380000,
           "investment_skill": -2
         },
-        "result_text": ""
+        "result_text": "도박은 끝이 없다. 38만원 획득. 하지만 투자감각 -2. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -78,7 +78,7 @@
           "stress": -4,
           "mental": -1
         },
-        "result_text": ""
+        "result_text": "판이 끝났다. 스트레스 4 해소. 하지만 정신 -1. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -86,7 +86,7 @@
           "reputation": 3,
           "investment_skill": -1
         },
-        "result_text": "",
+        "result_text": "도박은 끝이 없다. 평판 +3. 하지만 투자감각 -1. 작은 결정이 큰 흐름을 만든다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "real_estate",
@@ -118,7 +118,7 @@
           "money": -130000,
           "health": -3
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 13만원 지출, 건강 -3. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -126,7 +126,7 @@
           "stress": 10,
           "mental": 6
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 정신 +6. 하지만 스트레스 +10. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -134,7 +134,7 @@
           "reputation": -2,
           "investment_skill": 5
         },
-        "result_text": "",
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 투자감각 +5. 하지만 평판 -2. 결과는 복리로 돌아온다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "us_stock",
@@ -166,7 +166,7 @@
           "money": 320000,
           "appearance": 3
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 32만원 획득, 외모 +3. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -174,7 +174,7 @@
           "stress": -5,
           "mental": -4
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 스트레스 5 해소. 하지만 정신 -4. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -182,7 +182,7 @@
           "reputation": 3,
           "investment_skill": 3
         },
-        "result_text": "",
+        "result_text": "정치가 시장을 건드렸다. 평판 +3, 투자감각 +3. 작은 결정이 큰 흐름을 만든다.",
         "investment_effects": {
           "market_bias": "momentum",
           "asset_tag": "us_stock",
@@ -196,7 +196,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 스트레스 3 해소. 하지만 건강 -2. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -223,7 +223,7 @@
           "money": 380000,
           "stress": 2
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 38만원 획득. 하지만 스트레스 +2. 다음 달도 서울은 계속된다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -231,7 +231,7 @@
           "stress": 9,
           "mental": 6
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 정신 +6. 하지만 스트레스 +9. 다음 달도 서울은 계속된다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -239,7 +239,7 @@
           "reputation": 8,
           "investment_skill": 3
         },
-        "result_text": "",
+        "result_text": "세상은 계획대로 움직이지 않는다. 평판 +8, 투자감각 +3. 서울은 멈추지 않는다.",
         "flags": [
           "seen_disasters_005"
         ],
@@ -274,7 +274,7 @@
           "money": 130000,
           "luck": 4
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 13만원 획득, 운 +4. 다음 달도 서울은 계속된다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -282,7 +282,7 @@
           "stress": 8,
           "mental": 3
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 정신 +3. 하지만 스트레스 +8. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -290,7 +290,7 @@
           "reputation": 8,
           "investment_skill": 3
         },
-        "result_text": "",
+        "result_text": "예상치 못한 일이 일어났다. 평판 +8, 투자감각 +3. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "investment_effects": {
           "market_bias": "momentum",
           "asset_tag": "us_stock",
@@ -323,7 +323,7 @@
           "money": 230000,
           "investment_skill": -6
         },
-        "result_text": ""
+        "result_text": "판이 끝났다. 23만원 획득. 하지만 투자감각 -6. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -331,7 +331,7 @@
           "stress": 9,
           "mental": -3
         },
-        "result_text": ""
+        "result_text": "도박은 끝이 없다. 스트레스 +9, 정신 -3. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -339,7 +339,7 @@
           "reputation": -2,
           "investment_skill": -1
         },
-        "result_text": "",
+        "result_text": "운명이 주사위를 굴렸다. 평판 -2, 투자감각 -1. 작은 결정이 큰 흐름을 만든다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "real_estate",
@@ -371,7 +371,7 @@
           "money": -230000,
           "social_skill": 3
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 사회성 +3. 하지만 23만원 지출. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -379,7 +379,7 @@
           "stress": -7,
           "mental": 3
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 스트레스 7 해소, 정신 +3. 다음 달도 서울은 계속된다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -387,7 +387,7 @@
           "reputation": 7,
           "investment_skill": 4
         },
-        "result_text": "",
+        "result_text": "예상치 못한 일이 일어났다. 평판 +7, 투자감각 +4. 작은 결정이 큰 흐름을 만든다.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "real_estate",
@@ -401,7 +401,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 스트레스 3 해소. 하지만 건강 -2. 이 선택이 맞는지는 시간이 알려줄 것이다."
       }
     ]
   },
@@ -428,7 +428,7 @@
           "money": 430000,
           "reputation": 8
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 43만원 획득, 평판 +8. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -436,7 +436,7 @@
           "stress": 9,
           "mental": -7
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 스트레스 +9, 정신 -7. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -444,7 +444,7 @@
           "reputation": -4,
           "investment_skill": 6
         },
-        "result_text": "",
+        "result_text": "예상치 못한 일이 일어났다. 투자감각 +6. 하지만 평판 -4. 서울은 멈추지 않는다.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "korean_stock",
@@ -476,7 +476,7 @@
           "money": 220000,
           "mental": -3
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 22만원 획득. 하지만 정신 -3. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -484,7 +484,7 @@
           "stress": 12,
           "mental": -3
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 스트레스 +12, 정신 -3. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -492,7 +492,7 @@
           "reputation": -2,
           "investment_skill": 4
         },
-        "result_text": "",
+        "result_text": "세상은 계획대로 움직이지 않는다. 투자감각 +4. 하지만 평판 -2. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "flags": [
           "seen_disasters_010"
         ],
@@ -528,7 +528,7 @@
           "money": 430000,
           "intelligence": -1
         },
-        "result_text": ""
+        "result_text": "숫자가 현실이 됐다. 43만원 획득. 하지만 지능 -1. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -536,7 +536,7 @@
           "stress": 0,
           "mental": -2
         },
-        "result_text": ""
+        "result_text": "계좌가 움직였다. 정신 -2. 선택했다. 이제 앞으로."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -544,7 +544,7 @@
           "reputation": 2,
           "investment_skill": 4
         },
-        "result_text": "",
+        "result_text": "돈의 흐름이 바뀌었다. 평판 +2, 투자감각 +4. 선택했다. 이제 앞으로.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "korean_stock",
@@ -576,7 +576,7 @@
           "money": 140000,
           "luck": -1
         },
-        "result_text": ""
+        "result_text": "숫자가 현실이 됐다. 14만원 획득. 하지만 운 -1. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -584,7 +584,7 @@
           "stress": -8,
           "mental": 0
         },
-        "result_text": ""
+        "result_text": "돈의 흐름이 바뀌었다. 스트레스 8 해소. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -592,7 +592,7 @@
           "reputation": -2,
           "investment_skill": 1
         },
-        "result_text": "",
+        "result_text": "돈의 흐름이 바뀌었다. 투자감각 +1. 하지만 평판 -2. 서울은 멈추지 않는다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "korean_stock",
@@ -606,7 +606,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "돈의 흐름이 바뀌었다. 스트레스 3 해소. 하지만 건강 -2. 서울은 멈추지 않는다."
       }
     ]
   },
@@ -634,7 +634,7 @@
           "money": 220000,
           "appearance": -4
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 22만원 획득. 하지만 외모 -4. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -642,7 +642,7 @@
           "stress": -4,
           "mental": 5
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 스트레스 4 해소, 정신 +5. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -650,7 +650,7 @@
           "reputation": -1,
           "investment_skill": 5
         },
-        "result_text": "",
+        "result_text": "정치가 시장을 건드렸다. 투자감각 +5. 하지만 평판 -1. 선택했다. 이제 앞으로.",
         "investment_effects": {
           "market_bias": "momentum",
           "asset_tag": "us_stock",
@@ -683,7 +683,7 @@
           "money": -200000,
           "mental": -2
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 20만원 지출, 정신 -2. 다음 달도 서울은 계속된다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -691,7 +691,7 @@
           "stress": 8,
           "mental": 2
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 정신 +2. 하지만 스트레스 +8. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -699,7 +699,7 @@
           "reputation": -1,
           "investment_skill": -1
         },
-        "result_text": "",
+        "result_text": "세상은 계획대로 움직이지 않는다. 평판 -1, 투자감각 -1. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "investment_effects": {
           "market_bias": "momentum",
           "asset_tag": "leveraged",
@@ -731,7 +731,7 @@
           "money": 360000,
           "health": 6
         },
-        "result_text": ""
+        "result_text": "숫자가 현실이 됐다. 36만원 획득, 건강 +6. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -739,7 +739,7 @@
           "stress": 2,
           "mental": -6
         },
-        "result_text": ""
+        "result_text": "숫자가 현실이 됐다. 스트레스 +2, 정신 -6. 다음 달도 서울은 계속된다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -747,7 +747,7 @@
           "reputation": 8,
           "investment_skill": -2
         },
-        "result_text": "",
+        "result_text": "돈의 흐름이 바뀌었다. 평판 +8. 하지만 투자감각 -2. 작은 결정이 큰 흐름을 만든다.",
         "flags": [
           "seen_finance_015"
         ],
@@ -782,7 +782,7 @@
           "money": -90000,
           "intelligence": -3
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 9만원 지출, 지능 -3. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -790,7 +790,7 @@
           "stress": 11,
           "mental": -6
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 스트레스 +11, 정신 -6. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -798,7 +798,7 @@
           "reputation": 3,
           "investment_skill": 1
         },
-        "result_text": "",
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 평판 +3, 투자감각 +1. 선택했다. 이제 앞으로.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "us_stock",
@@ -812,7 +812,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 스트레스 3 해소. 하지만 건강 -2. 선택했다. 이제 앞으로."
       }
     ]
   },
@@ -839,7 +839,7 @@
           "money": -180000,
           "stress": 7
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 18만원 지출, 스트레스 +7. 다음 달도 서울은 계속된다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -847,7 +847,7 @@
           "stress": 4,
           "mental": 0
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 스트레스 +4. 서울은 멈추지 않는다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -855,7 +855,7 @@
           "reputation": 7,
           "investment_skill": 1
         },
-        "result_text": "",
+        "result_text": "예상치 못한 일이 일어났다. 평판 +7, 투자감각 +1. 선택했다. 이제 앞으로.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "leveraged",
@@ -887,7 +887,7 @@
           "money": -80000,
           "health": -5
         },
-        "result_text": ""
+        "result_text": "숫자가 현실이 됐다. 8만원 지출, 건강 -5. 다음 달도 서울은 계속된다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -895,7 +895,7 @@
           "stress": 8,
           "mental": 2
         },
-        "result_text": ""
+        "result_text": "숫자가 현실이 됐다. 정신 +2. 하지만 스트레스 +8. 선택했다. 이제 앞으로."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -903,7 +903,7 @@
           "reputation": -1,
           "investment_skill": 2
         },
-        "result_text": "",
+        "result_text": "숫자가 현실이 됐다. 투자감각 +2. 하지만 평판 -1. 서울은 멈추지 않는다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "us_stock",
@@ -935,7 +935,7 @@
           "money": -170000,
           "health": 6
         },
-        "result_text": ""
+        "result_text": "계좌가 움직였다. 건강 +6. 하지만 17만원 지출. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -943,7 +943,7 @@
           "stress": -5,
           "mental": 3
         },
-        "result_text": ""
+        "result_text": "돈의 흐름이 바뀌었다. 스트레스 5 해소, 정신 +3. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -951,7 +951,7 @@
           "reputation": -2,
           "investment_skill": 4
         },
-        "result_text": "",
+        "result_text": "계좌가 움직였다. 투자감각 +4. 하지만 평판 -2. 작은 결정이 큰 흐름을 만든다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "crypto",
@@ -983,7 +983,7 @@
           "money": -10000,
           "intelligence": 5
         },
-        "result_text": ""
+        "result_text": "운명이 주사위를 굴렸다. 지능 +5. 하지만 1만원 지출. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -991,7 +991,7 @@
           "stress": 11,
           "mental": 2
         },
-        "result_text": ""
+        "result_text": "판이 끝났다. 정신 +2. 하지만 스트레스 +11. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -999,7 +999,7 @@
           "reputation": -4,
           "investment_skill": 2
         },
-        "result_text": "",
+        "result_text": "도박은 끝이 없다. 투자감각 +2. 하지만 평판 -4. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "flags": [
           "seen_gambling_020"
         ],
@@ -1016,7 +1016,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "판이 끝났다. 스트레스 3 해소. 하지만 건강 -2. 이 선택이 맞는지는 시간이 알려줄 것이다."
       }
     ]
   },
@@ -1044,7 +1044,7 @@
           "money": 420000,
           "intelligence": 7
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 42만원 획득, 지능 +7. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1052,7 +1052,7 @@
           "stress": 1,
           "mental": 5
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 정신 +5. 하지만 스트레스 +1. 다음 달도 서울은 계속된다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1060,7 +1060,7 @@
           "reputation": 0,
           "investment_skill": 0
         },
-        "result_text": "",
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 서울은 멈추지 않는다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "us_stock",
@@ -1093,7 +1093,7 @@
           "money": 190000,
           "appearance": 0
         },
-        "result_text": ""
+        "result_text": "계좌가 움직였다. 19만원 획득. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1101,7 +1101,7 @@
           "stress": -1,
           "mental": 2
         },
-        "result_text": ""
+        "result_text": "숫자가 현실이 됐다. 스트레스 1 해소, 정신 +2. 결과는 복리로 돌아온다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1109,7 +1109,7 @@
           "reputation": 7,
           "investment_skill": 4
         },
-        "result_text": "",
+        "result_text": "숫자가 현실이 됐다. 평판 +7, 투자감각 +4. 결과는 복리로 돌아온다.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "leveraged",
@@ -1141,7 +1141,7 @@
           "money": 190000,
           "stress": 6
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 19만원 획득. 하지만 스트레스 +6. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1149,7 +1149,7 @@
           "stress": 12,
           "mental": -1
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 스트레스 +12, 정신 -1. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1157,7 +1157,7 @@
           "reputation": 3,
           "investment_skill": 0
         },
-        "result_text": "",
+        "result_text": "정치가 시장을 건드렸다. 평판 +3. 선택했다. 이제 앞으로.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "us_stock",
@@ -1189,7 +1189,7 @@
           "money": -30000,
           "luck": -2
         },
-        "result_text": ""
+        "result_text": "도박은 끝이 없다. 3만원 지출, 운 -2. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1197,7 +1197,7 @@
           "stress": -2,
           "mental": -2
         },
-        "result_text": ""
+        "result_text": "운명이 주사위를 굴렸다. 스트레스 2 해소. 하지만 정신 -2. 선택했다. 이제 앞으로."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1205,7 +1205,7 @@
           "reputation": 8,
           "investment_skill": 1
         },
-        "result_text": "",
+        "result_text": "도박은 끝이 없다. 평판 +8, 투자감각 +1. 결과는 복리로 돌아온다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "korean_stock",
@@ -1219,7 +1219,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "운명이 주사위를 굴렸다. 스트레스 3 해소. 하지만 건강 -2. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -1246,7 +1246,7 @@
           "money": -200000,
           "intelligence": -4
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 20만원 지출, 지능 -4. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1254,7 +1254,7 @@
           "stress": 10,
           "mental": 2
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 정신 +2. 하지만 스트레스 +10. 서울은 멈추지 않는다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1262,7 +1262,7 @@
           "reputation": 6,
           "investment_skill": -1
         },
-        "result_text": "",
+        "result_text": "정치가 시장을 건드렸다. 평판 +6. 하지만 투자감각 -1. 작은 결정이 큰 흐름을 만든다.",
         "flags": [
           "seen_politics_025"
         ],
@@ -1298,7 +1298,7 @@
           "money": 330000,
           "health": -1
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 33만원 획득. 하지만 건강 -1. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1306,7 +1306,7 @@
           "stress": 1,
           "mental": 6
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 정신 +6. 하지만 스트레스 +1. 다음 달도 서울은 계속된다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1314,7 +1314,7 @@
           "reputation": -3,
           "investment_skill": -1
         },
-        "result_text": "",
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 평판 -3, 투자감각 -1. 다음 달도 서울은 계속된다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "crypto",
@@ -1346,7 +1346,7 @@
           "money": -220000,
           "intelligence": -5
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 22만원 지출, 지능 -5. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1354,7 +1354,7 @@
           "stress": 11,
           "mental": 0
         },
-        "result_text": ""
+        "result_text": "세상은 계획대로 움직이지 않는다. 스트레스 +11. 선택했다. 이제 앞으로."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1362,7 +1362,7 @@
           "reputation": 6,
           "investment_skill": -2
         },
-        "result_text": "",
+        "result_text": "예상치 못한 일이 일어났다. 평판 +6. 하지만 투자감각 -2. 서울은 멈추지 않는다.",
         "investment_effects": {
           "market_bias": "momentum",
           "asset_tag": "us_stock",
@@ -1395,7 +1395,7 @@
           "money": -130000,
           "investment_skill": -6
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 13만원 지출, 투자감각 -6. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1403,7 +1403,7 @@
           "stress": -1,
           "mental": 4
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 스트레스 1 해소, 정신 +4. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1411,7 +1411,7 @@
           "reputation": -3,
           "investment_skill": -1
         },
-        "result_text": "",
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 평판 -3, 투자감각 -1. 다음 달도 서울은 계속된다.",
         "investment_effects": {
           "market_bias": "crash",
           "asset_tag": "korean_stock",
@@ -1425,7 +1425,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 스트레스 3 해소. 하지만 건강 -2. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -1452,7 +1452,7 @@
           "money": -40000,
           "luck": 5
         },
-        "result_text": ""
+        "result_text": "정치가 시장을 건드렸다. 운 +5. 하지만 4만원 지출. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1460,7 +1460,7 @@
           "stress": 12,
           "mental": 1
         },
-        "result_text": ""
+        "result_text": "뉴스 한 줄이 자산을 흔들었다. 정신 +1. 하지만 스트레스 +12. 선택했다. 이제 앞으로."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1468,7 +1468,7 @@
           "reputation": 8,
           "investment_skill": -2
         },
-        "result_text": "",
+        "result_text": "정치가 시장을 건드렸다. 평판 +8. 하지만 투자감각 -2. 다음 달도 서울은 계속된다.",
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "crypto",
@@ -1500,7 +1500,7 @@
           "money": 230000,
           "stress": 0
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 23만원 획득. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1508,7 +1508,7 @@
           "stress": 0,
           "mental": 1
         },
-        "result_text": ""
+        "result_text": "예상치 못한 일이 일어났다. 정신 +1. 서울은 멈추지 않는다."
       },
       {
         "text": "위험하지만 기회를 잡는다",
@@ -1516,7 +1516,7 @@
           "reputation": 7,
           "investment_skill": 1
         },
-        "result_text": "",
+        "result_text": "예상치 못한 일이 일어났다. 평판 +7, 투자감각 +1. 선택했다. 이제 앞으로.",
         "flags": [
           "seen_disasters_030"
         ],

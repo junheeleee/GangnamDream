@@ -22,7 +22,7 @@
           "money": 260000,
           "investment_skill": -5
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 26만원 획득. 하지만 투자감각 -5. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -30,7 +30,7 @@
           "stress": -5,
           "mental": 5
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 스트레스 5 해소, 정신 +5. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "relationship_effects": {
           "affinity": -1,
           "type": "romantic"
@@ -42,7 +42,7 @@
           "reputation": 3,
           "investment_skill": 6
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 평판 +3, 투자감각 +6. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -69,7 +69,7 @@
           "money": 70000,
           "health": -3
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 7만원 획득. 하지만 건강 -3. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -77,7 +77,7 @@
           "stress": -8,
           "mental": -3
         },
-        "result_text": "",
+        "result_text": "행동이 결과를 만들었다. 스트레스 8 해소. 하지만 정신 -3. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "relationship_effects": {
           "affinity": 8,
           "type": "romantic"
@@ -89,7 +89,7 @@
           "reputation": 3,
           "investment_skill": 1
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 평판 +3, 투자감각 +1. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -116,7 +116,7 @@
           "money": -100000,
           "luck": 2
         },
-        "result_text": ""
+        "result_text": "커리어의 방향이 틀어졌다. 운 +2. 하지만 10만원 지출. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -124,7 +124,7 @@
           "stress": -6,
           "mental": -5
         },
-        "result_text": "",
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 스트레스 6 해소. 하지만 정신 -5. 다음 달도 서울은 계속된다.",
         "relationship_effects": {
           "affinity": 9,
           "type": "business_partners"
@@ -136,7 +136,7 @@
           "reputation": 1,
           "investment_skill": 2
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 평판 +1, 투자감각 +2. 다음 달도 서울은 계속된다."
       }
     ]
   },
@@ -163,7 +163,7 @@
           "money": 70000,
           "social_skill": -3
         },
-        "result_text": ""
+        "result_text": "커리어의 방향이 틀어졌다. 7만원 획득. 하지만 사회성 -3. 다음 달도 서울은 계속된다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -171,7 +171,7 @@
           "stress": 0,
           "mental": -4
         },
-        "result_text": "",
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 정신 -4. 다음 달도 서울은 계속된다.",
         "relationship_effects": {
           "affinity": -3,
           "type": "friends"
@@ -183,7 +183,7 @@
           "reputation": 6,
           "investment_skill": 1
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 평판 +6, 투자감각 +1. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "아무것도 하지 않고 버틴다",
@@ -192,7 +192,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 스트레스 3 해소. 하지만 건강 -2. 서울은 멈추지 않는다."
       }
     ]
   },
@@ -219,7 +219,7 @@
           "money": -80000,
           "mental": 3
         },
-        "result_text": ""
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 정신 +3. 하지만 8만원 지출. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -227,7 +227,7 @@
           "stress": -4,
           "mental": -3
         },
-        "result_text": "",
+        "result_text": "가족과의 관계가 조금 달라졌다. 스트레스 4 해소. 하지만 정신 -3. 작은 결정이 큰 흐름을 만든다.",
         "relationship_effects": {
           "affinity": -9,
           "type": "mentors"
@@ -239,7 +239,7 @@
           "reputation": 2,
           "investment_skill": -2
         },
-        "result_text": "",
+        "result_text": "감정과 현실이 충돌했다. 평판 +2. 하지만 투자감각 -2. 작은 결정이 큰 흐름을 만든다.",
         "flags": [
           "seen_family_005"
         ]
@@ -269,7 +269,7 @@
           "money": 130000,
           "mental": 2
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 13만원 획득, 정신 +2. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -277,7 +277,7 @@
           "stress": -5,
           "mental": 3
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 스트레스 5 해소, 정신 +3. 작은 결정이 큰 흐름을 만든다.",
         "relationship_effects": {
           "affinity": 8,
           "type": "business_partners"
@@ -289,7 +289,7 @@
           "reputation": 2,
           "investment_skill": 5
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 평판 +2, 투자감각 +5. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -317,7 +317,7 @@
           "money": 430000,
           "appearance": -1
         },
-        "result_text": ""
+        "result_text": "가족과의 관계가 조금 달라졌다. 43만원 획득. 하지만 외모 -1. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -325,7 +325,7 @@
           "stress": 3,
           "mental": 3
         },
-        "result_text": "",
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 정신 +3. 하지만 스트레스 +3. 선택했다. 이제 앞으로.",
         "relationship_effects": {
           "affinity": -1,
           "type": "business_partners"
@@ -337,7 +337,7 @@
           "reputation": 2,
           "investment_skill": -1
         },
-        "result_text": ""
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 평판 +2. 하지만 투자감각 -1. 이 선택이 맞는지는 시간이 알려줄 것이다."
       }
     ]
   },
@@ -364,7 +364,7 @@
           "money": 80000,
           "intelligence": 5
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 8만원 획득, 지능 +5. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -372,7 +372,7 @@
           "stress": 1,
           "mental": -5
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 스트레스 +1, 정신 -5. 서울은 멈추지 않는다.",
         "relationship_effects": {
           "affinity": 8,
           "type": "friends"
@@ -384,7 +384,7 @@
           "reputation": -3,
           "investment_skill": 6
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 투자감각 +6. 하지만 평판 -3. 선택했다. 이제 앞으로."
       },
       {
         "text": "아무것도 하지 않고 버틴다",
@@ -393,7 +393,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 스트레스 3 해소. 하지만 건강 -2. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -420,7 +420,7 @@
           "money": -200000,
           "reputation": 6
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 평판 +6. 하지만 20만원 지출. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -428,7 +428,7 @@
           "stress": -2,
           "mental": 2
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 스트레스 2 해소, 정신 +2. 결과는 복리로 돌아온다.",
         "relationship_effects": {
           "affinity": -9,
           "type": "mentors"
@@ -440,7 +440,7 @@
           "reputation": 5,
           "investment_skill": 4
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 평판 +5, 투자감각 +4. 다음 달도 서울은 계속된다."
       }
     ]
   },
@@ -467,7 +467,7 @@
           "money": 260000,
           "health": 6
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 26만원 획득, 건강 +6. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -475,7 +475,7 @@
           "stress": 7,
           "mental": 0
         },
-        "result_text": "",
+        "result_text": "직장 생활이 조금 달라졌다. 스트레스 +7. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "relationship_effects": {
           "affinity": -5,
           "type": "romantic"
@@ -487,7 +487,7 @@
           "reputation": 1,
           "investment_skill": 4
         },
-        "result_text": "",
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 평판 +1, 투자감각 +4. 선택했다. 이제 앞으로.",
         "flags": [
           "seen_jobs_010"
         ]
@@ -518,7 +518,7 @@
           "money": 300000,
           "health": -6
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 30만원 획득. 하지만 건강 -6. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -526,7 +526,7 @@
           "stress": -5,
           "mental": -3
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 스트레스 5 해소. 하지만 정신 -3. 작은 결정이 큰 흐름을 만든다.",
         "relationship_effects": {
           "affinity": 4,
           "type": "family"
@@ -538,7 +538,7 @@
           "reputation": 3,
           "investment_skill": 1
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 평판 +3, 투자감각 +1. 작은 결정이 큰 흐름을 만든다."
       }
     ]
   },
@@ -565,7 +565,7 @@
           "money": -70000,
           "luck": -3
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 7만원 지출, 운 -3. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -573,7 +573,7 @@
           "stress": 10,
           "mental": -1
         },
-        "result_text": "",
+        "result_text": "행동이 결과를 만들었다. 스트레스 +10, 정신 -1. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "relationship_effects": {
           "affinity": 13,
           "type": "friends"
@@ -585,7 +585,7 @@
           "reputation": 1,
           "investment_skill": 4
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 평판 +1, 투자감각 +4. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "아무것도 하지 않고 버틴다",
@@ -594,7 +594,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 스트레스 3 해소. 하지만 건강 -2. 다음 달도 서울은 계속된다."
       }
     ]
   },
@@ -622,7 +622,7 @@
           "money": 280000,
           "investment_skill": 5
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 28만원 획득, 투자감각 +5. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -630,7 +630,7 @@
           "stress": -3,
           "mental": 0
         },
-        "result_text": "",
+        "result_text": "행동이 결과를 만들었다. 스트레스 3 해소. 서울은 멈추지 않는다.",
         "relationship_effects": {
           "affinity": 5,
           "type": "business_partners"
@@ -642,7 +642,7 @@
           "reputation": 6,
           "investment_skill": -2
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 평판 +6. 하지만 투자감각 -2. 선택했다. 이제 앞으로."
       }
     ]
   },
@@ -670,7 +670,7 @@
           "money": -190000,
           "social_skill": 5
         },
-        "result_text": ""
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 사회성 +5. 하지만 19만원 지출. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -678,7 +678,7 @@
           "stress": -8,
           "mental": -7
         },
-        "result_text": "",
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 스트레스 8 해소. 하지만 정신 -7. 선택했다. 이제 앞으로.",
         "relationship_effects": {
           "affinity": -12,
           "type": "romantic"
@@ -690,7 +690,7 @@
           "reputation": -1,
           "investment_skill": -1
         },
-        "result_text": ""
+        "result_text": "감정과 현실이 충돌했다. 평판 -1, 투자감각 -1. 이 선택이 맞는지는 시간이 알려줄 것이다."
       }
     ]
   },
@@ -717,7 +717,7 @@
           "money": 140000,
           "appearance": 7
         },
-        "result_text": ""
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 14만원 획득, 외모 +7. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -725,7 +725,7 @@
           "stress": -1,
           "mental": 4
         },
-        "result_text": "",
+        "result_text": "가족과의 관계가 조금 달라졌다. 스트레스 1 해소, 정신 +4. 선택했다. 이제 앞으로.",
         "relationship_effects": {
           "affinity": -12,
           "type": "romantic"
@@ -737,7 +737,7 @@
           "reputation": 5,
           "investment_skill": 5
         },
-        "result_text": "",
+        "result_text": "감정과 현실이 충돌했다. 평판 +5, 투자감각 +5. 다음 달도 서울은 계속된다.",
         "flags": [
           "seen_family_015"
         ]
@@ -767,7 +767,7 @@
           "money": 130000,
           "reputation": 5
         },
-        "result_text": ""
+        "result_text": "감정과 현실이 충돌했다. 13만원 획득, 평판 +5. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -775,7 +775,7 @@
           "stress": 4,
           "mental": 6
         },
-        "result_text": "",
+        "result_text": "감정과 현실이 충돌했다. 정신 +6. 하지만 스트레스 +4. 선택했다. 이제 앞으로.",
         "relationship_effects": {
           "affinity": 13,
           "type": "coworkers"
@@ -787,7 +787,7 @@
           "reputation": 6,
           "investment_skill": 3
         },
-        "result_text": ""
+        "result_text": "감정과 현실이 충돌했다. 평판 +6, 투자감각 +3. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "아무것도 하지 않고 버틴다",
@@ -796,7 +796,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 스트레스 3 해소. 하지만 건강 -2. 이 선택이 맞는지는 시간이 알려줄 것이다."
       }
     ]
   },
@@ -823,7 +823,7 @@
           "money": -250000,
           "health": 2
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 건강 +2. 하지만 25만원 지출. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -831,7 +831,7 @@
           "stress": 4,
           "mental": 5
         },
-        "result_text": "",
+        "result_text": "행동이 결과를 만들었다. 정신 +5. 하지만 스트레스 +4. 작은 결정이 큰 흐름을 만든다.",
         "relationship_effects": {
           "affinity": 3,
           "type": "business_partners"
@@ -843,7 +843,7 @@
           "reputation": -4,
           "investment_skill": 2
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 투자감각 +2. 하지만 평판 -4. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -870,7 +870,7 @@
           "money": 210000,
           "social_skill": -5
         },
-        "result_text": ""
+        "result_text": "커리어의 방향이 틀어졌다. 21만원 획득. 하지만 사회성 -5. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -878,7 +878,7 @@
           "stress": 4,
           "mental": -2
         },
-        "result_text": "",
+        "result_text": "직장 생활이 조금 달라졌다. 스트레스 +4, 정신 -2. 선택했다. 이제 앞으로.",
         "relationship_effects": {
           "affinity": -5,
           "type": "romantic"
@@ -890,7 +890,7 @@
           "reputation": -4,
           "investment_skill": 4
         },
-        "result_text": ""
+        "result_text": "직장 생활이 조금 달라졌다. 투자감각 +4. 하지만 평판 -4. 다음 달도 서울은 계속된다."
       }
     ]
   },
@@ -917,7 +917,7 @@
           "money": -60000,
           "reputation": -3
         },
-        "result_text": ""
+        "result_text": "가족과의 관계가 조금 달라졌다. 6만원 지출, 평판 -3. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -925,7 +925,7 @@
           "stress": -8,
           "mental": -1
         },
-        "result_text": "",
+        "result_text": "가족과의 관계가 조금 달라졌다. 스트레스 8 해소. 하지만 정신 -1. 서울은 멈추지 않는다.",
         "relationship_effects": {
           "affinity": -5,
           "type": "coworkers"
@@ -937,7 +937,7 @@
           "reputation": 5,
           "investment_skill": 1
         },
-        "result_text": ""
+        "result_text": "가족과의 관계가 조금 달라졌다. 평판 +5, 투자감각 +1. 이 선택이 맞는지는 시간이 알려줄 것이다."
       }
     ]
   },
@@ -964,7 +964,7 @@
           "money": 120000,
           "intelligence": -6
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 12만원 획득. 하지만 지능 -6. 이 선택이 맞는지는 시간이 알려줄 것이다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -972,7 +972,7 @@
           "stress": 1,
           "mental": -5
         },
-        "result_text": "",
+        "result_text": "행동이 결과를 만들었다. 스트레스 +1, 정신 -5. 다음 달도 서울은 계속된다.",
         "relationship_effects": {
           "affinity": -2,
           "type": "coworkers"
@@ -984,7 +984,7 @@
           "reputation": -1,
           "investment_skill": 2
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 투자감각 +2. 하지만 평판 -1. 다음 달도 서울은 계속된다.",
         "flags": [
           "seen_romance_020"
         ]
@@ -996,7 +996,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 스트레스 3 해소. 하지만 건강 -2. 다음 달도 서울은 계속된다."
       }
     ]
   },
@@ -1024,7 +1024,7 @@
           "money": 200000,
           "mental": -5
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 20만원 획득. 하지만 정신 -5. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1032,7 +1032,7 @@
           "stress": 6,
           "mental": 6
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 정신 +6. 하지만 스트레스 +6. 선택했다. 이제 앞으로.",
         "relationship_effects": {
           "affinity": 15,
           "type": "family"
@@ -1044,7 +1044,7 @@
           "reputation": 5,
           "investment_skill": 2
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 평판 +5, 투자감각 +2. 서울은 멈추지 않는다."
       }
     ]
   },
@@ -1072,7 +1072,7 @@
           "money": 210000,
           "appearance": 7
         },
-        "result_text": ""
+        "result_text": "커리어의 방향이 틀어졌다. 21만원 획득, 외모 +7. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1080,7 +1080,7 @@
           "stress": 7,
           "mental": -5
         },
-        "result_text": "",
+        "result_text": "직장 생활이 조금 달라졌다. 스트레스 +7, 정신 -5. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "relationship_effects": {
           "affinity": 6,
           "type": "romantic"
@@ -1092,7 +1092,7 @@
           "reputation": 8,
           "investment_skill": 5
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 평판 +8, 투자감각 +5. 결과는 복리로 돌아온다."
       }
     ]
   },
@@ -1119,7 +1119,7 @@
           "money": 400000,
           "mental": 6
         },
-        "result_text": ""
+        "result_text": "감정과 현실이 충돌했다. 40만원 획득, 정신 +6. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1127,7 +1127,7 @@
           "stress": 10,
           "mental": -4
         },
-        "result_text": "",
+        "result_text": "감정과 현실이 충돌했다. 스트레스 +10, 정신 -4. 선택했다. 이제 앞으로.",
         "relationship_effects": {
           "affinity": 5,
           "type": "coworkers"
@@ -1139,7 +1139,7 @@
           "reputation": -3,
           "investment_skill": 0
         },
-        "result_text": ""
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 평판 -3. 작은 결정이 큰 흐름을 만든다."
       }
     ]
   },
@@ -1166,7 +1166,7 @@
           "money": 450000,
           "social_skill": 1
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 45만원 획득, 사회성 +1. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1174,7 +1174,7 @@
           "stress": 2,
           "mental": 2
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 정신 +2. 하지만 스트레스 +2. 결과는 복리로 돌아온다.",
         "relationship_effects": {
           "affinity": 3,
           "type": "family"
@@ -1186,7 +1186,7 @@
           "reputation": -2,
           "investment_skill": 6
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 투자감각 +6. 하지만 평판 -2. 서울은 멈추지 않는다."
       },
       {
         "text": "아무것도 하지 않고 버틴다",
@@ -1195,7 +1195,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 스트레스 3 해소. 하지만 건강 -2. 선택했다. 이제 앞으로."
       }
     ]
   },
@@ -1222,7 +1222,7 @@
           "money": -20000,
           "investment_skill": 2
         },
-        "result_text": ""
+        "result_text": "가족과의 관계가 조금 달라졌다. 투자감각 +2. 하지만 2만원 지출. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1230,7 +1230,7 @@
           "stress": 3,
           "mental": 3
         },
-        "result_text": "",
+        "result_text": "피는 물보다 진하지만, 현실도 진하다. 정신 +3. 하지만 스트레스 +3. 서울은 멈추지 않는다.",
         "relationship_effects": {
           "affinity": 13,
           "type": "business_partners"
@@ -1242,7 +1242,7 @@
           "reputation": 5,
           "investment_skill": 4
         },
-        "result_text": "",
+        "result_text": "가족과의 관계가 조금 달라졌다. 평판 +5, 투자감각 +4. 서울은 멈추지 않는다.",
         "flags": [
           "seen_family_025"
         ]
@@ -1273,7 +1273,7 @@
           "money": 210000,
           "luck": -1
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 21만원 획득. 하지만 운 -1. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1281,7 +1281,7 @@
           "stress": 2,
           "mental": -4
         },
-        "result_text": "",
+        "result_text": "커리어의 방향이 틀어졌다. 스트레스 +2, 정신 -4. 결과는 복리로 돌아온다.",
         "relationship_effects": {
           "affinity": 2,
           "type": "family"
@@ -1293,7 +1293,7 @@
           "reputation": 2,
           "investment_skill": -1
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 평판 +2. 하지만 투자감각 -1. 작은 결정이 큰 흐름을 만든다."
       }
     ]
   },
@@ -1320,7 +1320,7 @@
           "money": 270000,
           "luck": 5
         },
-        "result_text": ""
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 27만원 획득, 운 +5. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1328,7 +1328,7 @@
           "stress": 3,
           "mental": 3
         },
-        "result_text": "",
+        "result_text": "오늘의 선택이 이력서를 바꾼다. 정신 +3. 하지만 스트레스 +3. 서울은 멈추지 않는다.",
         "relationship_effects": {
           "affinity": 0,
           "type": "family"
@@ -1340,7 +1340,7 @@
           "reputation": 5,
           "investment_skill": 1
         },
-        "result_text": ""
+        "result_text": "직장 생활이 조금 달라졌다. 평판 +5, 투자감각 +1. 서울은 멈추지 않는다."
       }
     ]
   },
@@ -1368,7 +1368,7 @@
           "money": -210000,
           "investment_skill": 0
         },
-        "result_text": ""
+        "result_text": "직장 생활이 조금 달라졌다. 21만원 지출. 선택했다. 이제 앞으로."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1376,7 +1376,7 @@
           "stress": 5,
           "mental": 2
         },
-        "result_text": "",
+        "result_text": "커리어의 방향이 틀어졌다. 정신 +2. 하지만 스트레스 +5. 이 선택이 맞는지는 시간이 알려줄 것이다.",
         "relationship_effects": {
           "affinity": 11,
           "type": "romantic"
@@ -1388,7 +1388,7 @@
           "reputation": -4,
           "investment_skill": -1
         },
-        "result_text": ""
+        "result_text": "직장 생활이 조금 달라졌다. 평판 -4, 투자감각 -1. 작은 결정이 큰 흐름을 만든다."
       },
       {
         "text": "아무것도 하지 않고 버틴다",
@@ -1397,7 +1397,7 @@
           "stress": -3,
           "money": 0
         },
-        "result_text": ""
+        "result_text": "커리어의 방향이 틀어졌다. 스트레스 3 해소. 하지만 건강 -2. 다음 달도 서울은 계속된다."
       }
     ]
   },
@@ -1424,7 +1424,7 @@
           "money": -120000,
           "appearance": 4
         },
-        "result_text": ""
+        "result_text": "행동이 결과를 만들었다. 외모 +4. 하지만 12만원 지출. 서울은 멈추지 않는다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1432,7 +1432,7 @@
           "stress": 11,
           "mental": 3
         },
-        "result_text": "",
+        "result_text": "행동이 결과를 만들었다. 정신 +3. 하지만 스트레스 +11. 다음 달도 서울은 계속된다.",
         "relationship_effects": {
           "affinity": 13,
           "type": "friends"
@@ -1444,7 +1444,7 @@
           "reputation": 1,
           "investment_skill": 3
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 평판 +1, 투자감각 +3. 이 선택이 맞는지는 시간이 알려줄 것이다."
       }
     ]
   },
@@ -1471,7 +1471,7 @@
           "money": -230000,
           "health": -6
         },
-        "result_text": ""
+        "result_text": "선택의 결과가 돌아왔다. 23만원 지출, 건강 -6. 결과는 복리로 돌아온다."
       },
       {
         "text": "감정이 시키는 쪽을 따른다",
@@ -1479,7 +1479,7 @@
           "stress": -7,
           "mental": -5
         },
-        "result_text": "",
+        "result_text": "행동이 결과를 만들었다. 스트레스 7 해소. 하지만 정신 -5. 결과는 복리로 돌아온다.",
         "relationship_effects": {
           "affinity": 14,
           "type": "friends"
@@ -1491,7 +1491,7 @@
           "reputation": 4,
           "investment_skill": 5
         },
-        "result_text": "",
+        "result_text": "선택의 결과가 돌아왔다. 평판 +4, 투자감각 +5. 다음 달도 서울은 계속된다.",
         "flags": [
           "seen_romance_030"
         ]

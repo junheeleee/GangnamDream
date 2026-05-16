@@ -4,69 +4,69 @@
     "title": "강남드림 달성",
     "grade": "S",
     "condition": "total_asset >= 2000000000",
-    "description": "강남드림 달성. 이 도시는 당신에게 S 등급의 결말을 남겼다."
+    "description": "20억. 드디어 강남에 입성했다.\n\n처음엔 100만 원으로 시작했다. 월세가 밀리던 시절, 라면을 먹으며 시황을 읽던 시절. 지금 그 기억이 이 자리를 더 선명하게 만든다.\n\n서울은 당신에게 지지 않았다. 당신이 서울을 이긴 것도 아니다. 그냥, 버텼고, 선택했고, 운이 조금 따랐다. 그게 전부다."
   },
   {
     "id": "stable_success",
     "title": "안정적인 성공",
     "grade": "B",
     "condition": "age >= 65 and total_asset >= 500000000",
-    "description": "안정적인 성공. 이 도시는 당신에게 B 등급의 결말을 남겼다."
+    "description": "5억 이상의 자산을 쌓고 은퇴했다.\n\n강남은 아니더라도, 걱정 없이 먹고 살 수 있는 기반이 생겼다. 젊을 때 더 공격적으로 투자했다면? 그 질문은 이제 내려놓는다.\n\n이 정도면 충분히 잘 살았다."
   },
   {
     "id": "ordinary_life",
     "title": "그냥 사람",
     "grade": "C",
     "condition": "age >= 65",
-    "description": "그냥 사람. 이 도시는 당신에게 C 등급의 결말을 남겼다."
+    "description": "65세, 평범하게 늙었다.\n\n특별히 크게 성공하지도, 완전히 실패하지도 않았다. 서울은 그런 사람들로 가득 차 있고, 그게 나쁜 건 아니다.\n\n다음 생은 조금 더 과감하게. 아니, 그냥 이대로도 괜찮았다."
   },
   {
     "id": "burnout",
-    "title": "과로사",
+    "title": "과로로 쓰러지다",
     "grade": "F",
     "condition": "health <= 0",
-    "description": "과로사. 이 도시는 당신에게 F 등급의 결말을 남겼다."
+    "description": "몸이 먼저 멈췄다.\n\n신호는 있었다. 피로가 쌓이고, 식사를 거르고, 잠이 줄었다. 그래도 멈추지 않았다. 서울은 쉬는 사람을 기다려주지 않으니까.\n\n결국 몸이 결정을 대신 내렸다."
   },
   {
     "id": "mental_break",
     "title": "정신 붕괴",
     "grade": "F",
     "condition": "mental <= 0",
-    "description": "정신 붕괴. 이 도시는 당신에게 F 등급의 결말을 남겼다."
+    "description": "마음이 먼저 꺾였다.\n\n압박이 너무 오래됐다. 비교하고, 불안하고, 지쳐갔다. 도움을 요청하지 못했고, 쉬어야 할 때 쉬지 못했다.\n\n다음에는 마음을 먼저 챙기는 것부터 시작해야 한다."
   },
   {
     "id": "bankruptcy",
-    "title": "파산",
+    "title": "부채 나락",
     "grade": "F",
-    "condition": "money <= -10000000",
-    "description": "파산. 이 도시는 당신에게 F 등급의 결말을 남겼다."
+    "condition": "money <= -30000000",
+    "description": "빚이 3000만 원을 넘었다.\n\n처음엔 작은 마이너스였다. 잠깐이면 된다고 생각했다. 그게 눈덩이처럼 굴러갔다. 서울에서 빚은 무이자가 없다.\n\n리셋. 다시 100만 원부터."
   },
   {
     "id": "crypto_ghost",
     "title": "코인 망령",
     "grade": "F",
     "condition": "addiction_tendency >= 90",
-    "description": "코인 망령. 이 도시는 당신에게 F 등급의 결말을 남겼다."
+    "description": "스마트폰을 내려놓을 수 없게 됐다.\n\n코인 차트를 보는 것이 삶의 중심이 됐다. 올랐다고 좋고, 내렸다고 무너지는 삶. 어느 순간부터 현실이 게임이고, 차트가 현실이 됐다.\n\n한 발짝 물러날 용기가 필요하다."
   },
   {
     "id": "startup_exit",
     "title": "스타트업 엑싯",
     "grade": "A",
     "condition": "flags.startup_exit",
-    "description": "스타트업 엑싯. 이 도시는 당신에게 A 등급의 결말을 남겼다."
+    "description": "스타트업이 인수됐다.\n\n투자받고, 밤새우고, 팀원과 싸우고, 다시 합치고. 그 과정 끝에 인수 제안이 들어왔다. 서명하는 순간, 숫자가 달라졌다.\n\n강남드림은 꼭 혼자 사는 게 아니라는 걸 알았다."
   },
   {
     "id": "political_fix",
     "title": "정치 테마주 졸업",
     "grade": "B",
     "condition": "flags.political_winner",
-    "description": "정치 테마주 졸업. 이 도시는 당신에게 B 등급의 결말을 남겼다."
+    "description": "테마주 타이밍을 정확히 맞혔다.\n\n선거 직전에 샀고, 결과가 나온 직후에 팔았다. 운인지 실력인지 모르겠지만 계좌는 정직하다.\n\n이 도시에서 정보는 돈이고, 타이밍이 전부다."
   },
   {
     "id": "lonely_rich",
     "title": "외로운 부자",
     "grade": "A",
     "condition": "total_asset >= 1000000000 and relationships == 0",
-    "description": "외로운 부자. 이 도시는 당신에게 A 등급의 결말을 남겼다."
+    "description": "10억을 넘었지만, 연락할 사람이 없다.\n\n돈을 쫓는 동안 곁의 사람들이 떠났다. 강남 아파트 거실에 혼자 앉아 창밖을 본다. 서울 야경은 언제나 아름답다.\n\n돈으로 살 수 없는 것들이 있다는 걸, 이제야 안다."
   }
 ]

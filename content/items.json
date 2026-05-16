@@ -1,36 +1,36 @@
 [
   {
     "id": "item_01",
-    "name": "knowledge 아이템 1",
+    "name": "주식 기초 투자 서적",
     "category": "knowledge",
     "price": 37000,
-    "description": "현대 생존에 필요한 knowledge 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "주린이 필독서. 읽고 나면 PER이 뭔지 알게 된다. 알게 됐다고 돈이 생기는 건 아니지만.",
     "effects": {
       "investment_skill": 8
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "💳"
+    "icon": "📚"
   },
   {
     "id": "item_02",
-    "name": "appearance 아이템 2",
-    "category": "appearance",
+    "name": "온라인 강의 수강권",
+    "category": "knowledge",
     "price": 59000,
-    "description": "현대 생존에 필요한 appearance 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "30일 완성 자기계발 강의. 3강까지 듣다가 멈추는 게 인류의 숙명이지만, 들은 것만큼은 머리에 남는다.",
     "effects": {
       "intelligence": 8
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "💊"
+    "icon": "💻"
   },
   {
     "id": "item_03",
-    "name": "social 아이템 3",
+    "name": "동네 포장마차 회식",
     "category": "social",
     "price": 81000,
-    "description": "현대 생존에 필요한 social 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "힘든 하루를 소주 한 잔으로 달랜다. 마음은 잠깐 가벼워지지만, 다음 날 몸은 더 무겁다.",
     "effects": {
       "mental": 6
     },
@@ -38,40 +38,40 @@
       "stress": 2
     },
     "one_time": false,
-    "icon": "💊"
+    "icon": "🍺"
   },
   {
     "id": "item_04",
-    "name": "investment 아이템 4",
+    "name": "재테크 유튜브 프리미엄",
     "category": "investment",
     "price": 103000,
-    "description": "현대 생존에 필요한 investment 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "광고 없이 경제 영상만 본다. 재야의 고수들과 사기꾼의 경계가 흐릿하지만, 분별력도 실력이다.",
     "effects": {
       "investment_skill": 2
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "📚"
+    "icon": "📱"
   },
   {
     "id": "item_05",
-    "name": "life 아이템 5",
-    "category": "life",
+    "name": "북클럽 1개월 멤버십",
+    "category": "social",
     "price": 125000,
-    "description": "현대 생존에 필요한 life 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "매주 한 권의 책을 읽고 토론한다. 지식보다 사람을 얻는 모임. 좋은 인연이 자산이 될 수 있다.",
     "effects": {
       "social_skill": 6
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "💊"
+    "icon": "📖"
   },
   {
     "id": "item_06",
-    "name": "gambling 아이템 6",
-    "category": "gambling",
+    "name": "헬스장 PT 세션 (1개월)",
+    "category": "health",
     "price": 147000,
-    "description": "현대 생존에 필요한 gambling 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "몸이 자산이라는 말이 틀리지 않다. 체력이 오르면 모든 게 조금씩 나아진다. 트레이너 눈치도 보게 된다.",
     "effects": {
       "health": 8
     },
@@ -79,40 +79,40 @@
       "reputation": 2
     },
     "one_time": false,
-    "icon": "💊"
+    "icon": "💪"
   },
   {
     "id": "item_07",
-    "name": "mental 아이템 7",
-    "category": "mental",
+    "name": "커뮤니티 자원봉사 참여",
+    "category": "social",
     "price": 169000,
-    "description": "현대 생존에 필요한 mental 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "봉사는 무료가 아니다. 교통비, 식비, 시간. 그래도 평판이 오른다. 인생에서 평판은 복리로 작동한다.",
     "effects": {
       "reputation": 7
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "🎲"
+    "icon": "🤝"
   },
   {
     "id": "item_08",
-    "name": "health 아이템 8",
+    "name": "종합 비타민 영양제",
     "category": "health",
     "price": 191000,
-    "description": "현대 생존에 필요한 health 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "3개월치 영양제 세트. 효과가 있는지 없는지 모르지만, 챙겨 먹는다는 사실 자체가 정신력을 키운다.",
     "effects": {
       "intelligence": 2
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "📚"
+    "icon": "💊"
   },
   {
     "id": "item_09",
-    "name": "knowledge 아이템 9",
+    "name": "경제신문 정기 구독 (1개월)",
     "category": "knowledge",
     "price": 213000,
-    "description": "현대 생존에 필요한 knowledge 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "매일 아침 시황을 읽는 습관. 처음엔 어렵고, 나중엔 패턴이 보인다. 시장 감각은 꾸준함에서 온다.",
     "effects": {
       "investment_skill": 4
     },
@@ -120,40 +120,40 @@
       "luck": 1
     },
     "one_time": false,
-    "icon": "☕"
+    "icon": "📰"
   },
   {
     "id": "item_10",
-    "name": "appearance 아이템 10",
-    "category": "appearance",
+    "name": "재무설계 상담 1회",
+    "category": "investment",
     "price": 235000,
-    "description": "현대 생존에 필요한 appearance 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "FP에게 현재 상태를 진단받는다. 포트폴리오 리밸런싱과 절세 전략. 아는 만큼 돈이 보인다.",
     "effects": {
       "investment_skill": 5
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "📚"
+    "icon": "💼"
   },
   {
     "id": "item_11",
-    "name": "social 아이템 11",
-    "category": "social",
+    "name": "힐링 스파 패키지",
+    "category": "mental",
     "price": 257000,
-    "description": "현대 생존에 필요한 social 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "하루치 카드값이 나가지만, 정신이 리셋된다. 내일도 서울에서 버텨야 하니까 이 정도는 투자다.",
     "effects": {
       "mental": 8
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "☕"
+    "icon": "🛁"
   },
   {
     "id": "item_12",
-    "name": "investment 아이템 12",
-    "category": "investment",
+    "name": "심야 독서실 월정액",
+    "category": "mental",
     "price": 279000,
-    "description": "현대 생존에 필요한 investment 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "퇴근 후 독서실에 앉아 공부하는 삶. 스트레스는 쌓이지만, 뭔가를 하고 있다는 감각이 정신을 붙들어준다.",
     "effects": {
       "stress": 4
     },
@@ -161,40 +161,40 @@
       "mental": 2
     },
     "one_time": false,
-    "icon": "📚"
+    "icon": "🌙"
   },
   {
     "id": "item_13",
-    "name": "life 아이템 13",
+    "name": "혼자 떠나는 1박 여행",
     "category": "life",
     "price": 301000,
-    "description": "현대 생존에 필요한 life 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "서울을 벗어나 숨을 쉰다. 아무것도 안 해도 된다. 돌아오면 도시가 조금 다르게 보인다.",
     "effects": {
       "mental": 3
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "🎲"
+    "icon": "🏕️"
   },
   {
     "id": "item_14",
-    "name": "gambling 아이템 14",
-    "category": "gambling",
+    "name": "퀀트 투자 전략 강의",
+    "category": "investment",
     "price": 323000,
-    "description": "현대 생존에 필요한 gambling 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "데이터로 주식을 분석하는 방법을 배운다. 어렵지만 이걸 이해하면 감으로 투자하는 시대는 끝난다.",
     "effects": {
       "investment_skill": 5
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "☕"
+    "icon": "📊"
   },
   {
     "id": "item_15",
-    "name": "mental 아이템 15",
+    "name": "심리 상담 3회 이용권",
     "category": "mental",
     "price": 345000,
-    "description": "현대 생존에 필요한 mental 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "마음속 이야기를 전문가에게 털어놓는다. 운이 좋아지는 건 마음이 정리됐을 때부터다.",
     "effects": {
       "luck": 7
     },
@@ -202,40 +202,40 @@
       "reputation": 3
     },
     "one_time": false,
-    "icon": "🎲"
+    "icon": "🧘"
   },
   {
     "id": "item_16",
-    "name": "health 아이템 16",
-    "category": "health",
+    "name": "자격증 준비 인강 패키지",
+    "category": "knowledge",
     "price": 367000,
-    "description": "현대 생존에 필요한 health 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "증권투자권유대리인, 재무설계사, 공인중개사. 자격증 하나가 이력서의 무게를 바꾼다.",
     "effects": {
       "investment_skill": 7
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "📈"
+    "icon": "🏅"
   },
   {
     "id": "item_17",
-    "name": "knowledge 아이템 17",
-    "category": "knowledge",
+    "name": "자기관리 코칭 세션",
+    "category": "appearance",
     "price": 389000,
-    "description": "현대 생존에 필요한 knowledge 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "퍼스널 브랜딩 전문가에게 피드백을 받는다. 고칠 게 많다는 걸 알게 되는 과정. 스트레스지만 성장이다.",
     "effects": {
       "stress": 2
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "👔"
+    "icon": "🪞"
   },
   {
     "id": "item_18",
-    "name": "appearance 아이템 18",
+    "name": "프리미엄 외모 케어 (정기)",
     "category": "appearance",
     "price": 411000,
-    "description": "현대 생존에 필요한 appearance 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "피부 관리, 헤어, 네일. 외모는 투자다. 보이는 것이 신뢰를 만들고 신뢰가 기회를 만든다.",
     "effects": {
       "appearance": 7
     },
@@ -243,27 +243,27 @@
       "investment_skill": 3
     },
     "one_time": false,
-    "icon": "💳"
+    "icon": "💅"
   },
   {
     "id": "item_19",
-    "name": "social 아이템 19",
+    "name": "비즈니스 네트워킹 모임",
     "category": "social",
     "price": 433000,
-    "description": "현대 생존에 필요한 social 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "청년 창업자와 직장인들의 인맥 파티. 명함 교환이 비즈니스의 시작이다. 어색함도 실력이다.",
     "effects": {
       "social_skill": 7
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "📚"
+    "icon": "🤝"
   },
   {
     "id": "item_20",
-    "name": "investment 아이템 20",
+    "name": "해외 ETF 투자 세미나",
     "category": "investment",
     "price": 455000,
-    "description": "현대 생존에 필요한 investment 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "S&P500, 나스닥, 채권 배분까지. 글로벌 시장을 이해하면 국내 시장이 좁아 보이기 시작한다.",
     "effects": {
       "health": 6
     },
@@ -273,10 +273,10 @@
   },
   {
     "id": "item_21",
-    "name": "life 아이템 21",
+    "name": "주말 농촌 체험 프로그램",
     "category": "life",
     "price": 477000,
-    "description": "현대 생존에 필요한 life 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "흙을 밟고, 채소를 심고, 밥을 먹는다. 서울의 속도를 잠깐 잊는다. 다양한 사람을 만나는 부수 효과도 있다.",
     "effects": {
       "intelligence": 2
     },
@@ -284,14 +284,14 @@
       "social_skill": 1
     },
     "one_time": false,
-    "icon": "🧠"
+    "icon": "🌾"
   },
   {
     "id": "item_22",
-    "name": "gambling 아이템 22",
-    "category": "gambling",
+    "name": "보드게임 카페 정기 모임",
+    "category": "social",
     "price": 499000,
-    "description": "현대 생존에 필요한 gambling 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "전략 게임을 통해 사람을 읽는 법을 배운다. 매달 새로운 얼굴들과 섞이면 사회성은 자연스럽게 오른다.",
     "effects": {
       "social_skill": 4
     },
@@ -301,10 +301,10 @@
   },
   {
     "id": "item_23",
-    "name": "mental 아이템 23",
+    "name": "부의 심리학 특강 참여",
     "category": "mental",
     "price": 521000,
-    "description": "현대 생존에 필요한 mental 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "부자의 마인드셋을 배운다. 실제로 부자가 되는지는 모르겠지만, 생각의 프레임이 바뀌면 행동이 달라진다.",
     "effects": {
       "luck": 2
     },
@@ -314,10 +314,10 @@
   },
   {
     "id": "item_24",
-    "name": "health 아이템 24",
+    "name": "홈트레이닝 장비 구입",
     "category": "health",
     "price": 543000,
-    "description": "현대 생존에 필요한 health 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "덤벨, 매트, 저항 밴드 세트. 초반에만 쓴다는 통계가 있지만, 쓰는 동안만큼은 확실히 효과가 있다.",
     "effects": {
       "intelligence": 2
     },
@@ -325,40 +325,40 @@
       "stress": 2
     },
     "one_time": false,
-    "icon": "👔"
+    "icon": "🏃"
   },
   {
     "id": "item_25",
-    "name": "knowledge 아이템 25",
+    "name": "강남 부동산 임장 투어",
     "category": "knowledge",
     "price": 565000,
-    "description": "현대 생존에 필요한 knowledge 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "직접 발로 뛰며 매물을 보는 경험. 가격표가 현실을 가르쳐준다. 보기만 해도 눈이 높아진다.",
     "effects": {
       "appearance": 6
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "📈"
+    "icon": "🏢"
   },
   {
     "id": "item_26",
-    "name": "appearance 아이템 26",
+    "name": "럭셔리 스킨케어 세트",
     "category": "appearance",
     "price": 587000,
-    "description": "현대 생존에 필요한 appearance 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "성분표 읽는 것부터 피부과학까지. 피부가 좋아지면 자신감이 생기고, 자신감 있는 사람은 영리해 보인다.",
     "effects": {
       "intelligence": 1
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "📚"
+    "icon": "✨"
   },
   {
     "id": "item_27",
-    "name": "social 아이템 27",
+    "name": "재테크 소모임 클럽 (정기)",
     "category": "social",
     "price": 609000,
-    "description": "현대 생존에 필요한 social 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "매달 모여서 포트폴리오를 공유한다. 남의 성공은 자극이 되고, 내 실패는 위로가 된다. 스트레스도 공유된다.",
     "effects": {
       "stress": 3
     },
@@ -370,36 +370,36 @@
   },
   {
     "id": "item_28",
-    "name": "investment 아이템 28",
+    "name": "해외 주식 투자 마스터 클래스",
     "category": "investment",
     "price": 631000,
-    "description": "현대 생존에 필요한 investment 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "미국 시장 실전 투자 전략. 커리큘럼보다 같이 듣는 사람들에게서 배우는 게 더 많다.",
     "effects": {
       "social_skill": 2
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "☕"
+    "icon": "💹"
   },
   {
     "id": "item_29",
-    "name": "life 아이템 29",
+    "name": "취미 클래스 (기타 또는 드로잉)",
     "category": "life",
     "price": 653000,
-    "description": "현대 생존에 필요한 life 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "숫자와 업무에서 벗어나 손으로 무언가를 만든다. 예상치 못한 인연이 생기기도 한다.",
     "effects": {
       "social_skill": 3
     },
     "passive_effects": {},
     "one_time": true,
-    "icon": "👔"
+    "icon": "🎸"
   },
   {
     "id": "item_30",
-    "name": "gambling 아이템 30",
+    "name": "코인 유료 정보 채널 구독",
     "category": "gambling",
     "price": 675000,
-    "description": "현대 생존에 필요한 gambling 계열 소비. 살 때는 합리화가 쉽고, 카드값은 정직하다.",
+    "description": "\"내부자 정보\"라고 주장하는 채널이다. 맞을 때도 있고 틀릴 때도 있다. 적어도 화제가 된다.",
     "effects": {
       "luck": 3
     },
@@ -407,6 +407,6 @@
       "reputation": 2
     },
     "one_time": false,
-    "icon": "📚"
+    "icon": "🎰"
   }
 ]

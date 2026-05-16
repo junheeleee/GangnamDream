@@ -314,13 +314,16 @@ func check_game_over():
 	if is_game_over:
 		return
 	if health <= 0:
-		finish_run("health_collapse")
+		finish_run("burnout")
 	elif mental <= 0:
-		finish_run("mental_burnout")
+		finish_run("mental_break")
 	elif money < -30_000_000:
-		finish_run("debt_spiral")
+		finish_run("bankruptcy")
 	elif age >= 65:
-		finish_run("ordinary_retirement")
+		if get_total_asset_value() >= 500_000_000:
+			finish_run("stable_success")
+		else:
+			finish_run("ordinary_life")
 	elif get_total_asset_value() >= 2_000_000_000:
 		finish_run("gangnam_dream")
 
