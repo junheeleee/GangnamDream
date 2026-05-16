@@ -284,12 +284,35 @@ func _on_next_month():
 	job_system.process_monthly_job()
 	relationship_system.process_monthly_relationships()
 	inventory_system.process_monthly_items()
+
+	# 초반 난이도 완화: 튜토리얼 3턴 동안 정착 지원금 30만원
+	var subsidy_applied = GameState.turn <= 3
+	if subsidy_applied:
+		GameState.add_money(300_000.0)
+		GameState.add_log("초기 정착 지원금 30만원 수령", "system")
+
+	# 결산 전 스냅샷
+	var snap = {
+		"date": GameState.get_date_string(),
+		"money_before": GameState.money,
+		"monthly_income": GameState.monthly_income,
+		"fixed_expense": GameState.fixed_expense,
+		"assets_before": GameState.get_total_asset_value(),
+		"health_before": GameState.health,
+		"mental_before": GameState.mental,
+		"stress_before": GameState.stress,
+		"actions": turn_action_log.duplicate(),
+		"subsidy": subsidy_applied,
+	}
+
 	GameState.apply_monthly_pressure()
 	GameState.advance_calendar()
-	if not GameState.is_game_over:
-		_begin_month()
-		SaveManager.autosave()
 	_refresh_all()
+
+	if GameState.is_game_over:
+		return
+	SaveManager.autosave()
+	_show_month_summary(snap)
 
 func _choose(index):
 	var choices: Array = current_event.get("choices", [])
@@ -598,11 +621,27 @@ func _open_jobs():
 
 func _open_investments():
 	_open_modal("투자 / 매수·매도")
+	# 시장 분위기 표시
+	var fg = int(GameState.market_context.get("fear_greed", 50))
+	var cycle = str(GameState.market_context.get("cycle", "neutral"))
+	var cycle_kr = {"bull": "🟢 상승장", "bear": "🔴 하락장", "neutral": "⚪ 횡보"}.get(cycle, cycle)
+	var fg_color = "#f87171" if fg < 30 else ("#4ade80" if fg > 70 else "#ffd166")
+	var filled = int(float(fg) / 10.0)
+	var gauge = "█".repeat(filled) + "░".repeat(10 - filled)
+	modal_body.add_child(_label("📊 시장 분위기 — %s  |  공포/탐욕: %d  [%s]" % [cycle_kr, fg, gauge], 14, fg_color))
+	var sep_top = HSeparator.new()
+	sep_top.add_theme_color_override("color", Color("#334155"))
+	modal_body.add_child(sep_top)
 	for row in investment_system.get_asset_rows():
 		var asset_id = row["id"]
 		var price = float(row["price"])
 		var risk_str = "리스크 %d/5" % int(row.get("risk_level", 1))
-		modal_body.add_child(_label("%s  (%s)  현재가 %s" % [row["name"], risk_str, GameState.format_money(price)], 14, "#ffd166"))
+		var hist: Array = GameState.price_history.get(asset_id, [])
+		var sparkline = _price_sparkline(hist)
+		var last_color = "#dbe7ff"
+		if hist.size() >= 2:
+			last_color = "#4ade80" if float(hist[-1]) >= float(hist[-2]) else "#f87171"
+		modal_body.add_child(_label("%s  (%s)  현재가 %s  %s" % [row["name"], risk_str, GameState.format_money(price), sparkline], 14, last_color))
 		var buy_row = HBoxContainer.new()
 		buy_row.add_theme_constant_override("separation", 6)
 		for amount in [100_000, 500_000, 1_000_000]:
@@ -761,6 +800,93 @@ func _show_ending(ending_id):
 	var menu_btn = _button("메인 메뉴", "#30363d")
 	menu_btn.pressed.connect(_go_to_menu)
 	modal_body.add_child(menu_btn)
+
+func _show_month_summary(snap: Dictionary):
+	_open_modal("📊 %s 결산" % snap["date"])
+
+	# 수입/지출 섹션
+	var income = float(snap["monthly_income"])
+	var expense = float(snap["fixed_expense"])
+	var net = income - expense
+	var net_color = "#4ade80" if net >= 0 else "#f87171"
+
+	modal_body.add_child(_label("💰 수입 / 지출", 16, "#ffd166"))
+	var income_row = _summary_row("월급 수입", GameState.format_money(income), "#4ade80")
+	modal_body.add_child(income_row)
+	if bool(snap.get("subsidy", false)):
+		modal_body.add_child(_summary_row("정착 지원금", "+30만원", "#60a5fa"))
+	var expense_row = _summary_row("고정 지출", "-%s" % GameState.format_money(expense), "#f87171")
+	modal_body.add_child(expense_row)
+	var sep1 = HSeparator.new()
+	sep1.add_theme_color_override("color", Color("#334155"))
+	modal_body.add_child(sep1)
+	modal_body.add_child(_summary_row("이번 달 순이익", GameState.format_money(net), net_color))
+
+	# 자산 변화
+	var assets_now = GameState.get_total_asset_value()
+	var asset_delta = assets_now - float(snap["assets_before"])
+	var asset_color = "#4ade80" if asset_delta >= 0 else "#f87171"
+	var asset_sign = "+" if asset_delta >= 0 else ""
+	modal_body.add_child(_summary_row("총 자산 변화", "%s%s" % [asset_sign, GameState.format_money(asset_delta)], asset_color))
+	modal_body.add_child(_summary_row("현재 총 자산", GameState.format_money(assets_now), "#dbe7ff"))
+
+	# 행동 요약
+	if not snap["actions"].is_empty():
+		var sep2 = HSeparator.new()
+		sep2.add_theme_color_override("color", Color("#334155"))
+		modal_body.add_child(sep2)
+		modal_body.add_child(_label("⚡ 이번 달 행동", 16, "#ffd166"))
+		for entry in snap["actions"]:
+			modal_body.add_child(_wrap_label(entry, 13, "#c4c4c4"))
+
+	# 스탯 변화 (변화 있을 때만)
+	var stat_changes: Array = []
+	if GameState.health != int(snap["health_before"]):
+		var d = GameState.health - int(snap["health_before"])
+		stat_changes.append("건강 %s%d" % ["+" if d > 0 else "", d])
+	if GameState.mental != int(snap["mental_before"]):
+		var d = GameState.mental - int(snap["mental_before"])
+		stat_changes.append("정신력 %s%d" % ["+" if d > 0 else "", d])
+	if GameState.stress != int(snap["stress_before"]):
+		var d = GameState.stress - int(snap["stress_before"])
+		stat_changes.append("스트레스 %s%d" % ["+" if d > 0 else "", d])
+	if not stat_changes.is_empty():
+		modal_body.add_child(_wrap_label("스탯 변화: " + ", ".join(stat_changes), 13, "#94a3b8"))
+
+	var confirm_btn = _button("다음 달 시작 →", "#1f6feb")
+	confirm_btn.pressed.connect(func():
+		_close_modal()
+		_begin_month()
+		_refresh_all()
+	)
+	modal_body.add_child(confirm_btn)
+
+func _summary_row(label_text: String, value_text: String, value_color: String) -> HBoxContainer:
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	var lbl = _label(label_text, 13, "#9fb3c8")
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(lbl)
+	var val = _label(value_text, 13, value_color)
+	val.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(val)
+	return row
+
+func _price_sparkline(history: Array) -> String:
+	if history.size() < 2:
+		return "——"
+	var min_p = history.min()
+	var max_p = history.max()
+	var range_p = max_p - min_p
+	if range_p < 0.001:
+		return "━━━━━━"
+	var blocks = ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+	var result = ""
+	for p in history:
+		var idx = int((float(p) - min_p) / range_p * 7.0)
+		idx = clamp(idx, 0, 7)
+		result += blocks[idx]
+	return result
 
 func _restart_run():
 	_close_modal()

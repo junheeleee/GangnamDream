@@ -47,6 +47,7 @@ var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
 var market_prices: Dictionary = {}
+var price_history: Dictionary = {}
 var market_context = {
 	"fear_greed": 50,
 	"cycle": "neutral",
@@ -98,6 +99,7 @@ func start_new_game(selected_trait):
 	action_log = []
 	flags = {}
 	market_prices = {}
+	price_history = {}
 	market_context = {
 		"fear_greed": 50,
 		"cycle": "neutral",
@@ -393,6 +395,7 @@ func serialize():
 		"action_log": action_log,
 		"flags": flags,
 		"market_prices": market_prices,
+		"price_history": price_history,
 		"market_context": market_context,
 	}
 

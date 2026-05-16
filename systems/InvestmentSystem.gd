@@ -18,6 +18,7 @@ func process_month(news_items):
 		_roll_cycle()
 	for asset in DataRegistry.assets:
 		_update_asset(asset, news_items)
+	_record_price_history()
 	_apply_dividends()
 	portfolio_updated.emit()
 
@@ -133,6 +134,17 @@ func _news_bias_for_asset(asset, news_items):
 		if effect.get("category", "") == asset.get("category", ""):
 			bias += float(effect.get("power", 0.0))
 	return bias
+
+func _record_price_history():
+	for asset in DataRegistry.assets:
+		var id = str(asset.get("id", ""))
+		var price = float(GameState.market_prices.get(id, 0.0))
+		if not GameState.price_history.has(id):
+			GameState.price_history[id] = []
+		var hist: Array = GameState.price_history[id]
+		hist.append(price)
+		if hist.size() > 6:
+			hist.pop_front()
 
 func _apply_dividends():
 	for asset_id in GameState.portfolio:
