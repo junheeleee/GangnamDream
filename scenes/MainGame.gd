@@ -25,6 +25,7 @@ var _toast_container: VBoxContainer
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
 var pending_result_text: String = ""
+var turn_action_log: Array = []
 
 func _ready():
 	_init_systems()
@@ -182,13 +183,7 @@ func _build_bottom_bar(parent):
 	next_button = _button("다음 달 ▶", "#1f6feb")
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
-	var job_button = _button("직업", "#9a6700")
-	job_button.pressed.connect(_open_jobs)
-	row.add_child(job_button)
-	var invest_button = _button("투자", "#238636")
-	invest_button.pressed.connect(_open_investments)
-	row.add_child(invest_button)
-	var shop_button = _button("상점", "#8957e5")
+	var shop_button = _button("🛍 상점", "#8957e5")
 	shop_button.pressed.connect(_open_shop)
 	row.add_child(shop_button)
 	var save_button = _button("저장", "#30363d")
@@ -258,10 +253,22 @@ func _show_toast(message: String, color: Color = Color("#dbe7ff")):
 	toast.show_message(message, color)
 
 func _begin_month():
+	GameState.restore_ap()
+	turn_action_log.clear()
 	prev_prices = GameState.market_prices.duplicate()
 	if GameState.news_log.is_empty() or GameState.turn > 1:
 		var news = NewsManager.generate_monthly_news()
 		investment_system.process_month(news)
+	# 튜토리얼 스텝 3: 턴 1 스토리 인트로 강제 주입
+	if GameState.turn == 1 and GameState.tutorial_step >= 3:
+		current_event = {
+			"id": "tutorial_intro",
+			"title": "2026년 1월, 서울",
+			"description": "스무 살. 지방에서 올라온 지 사흘째.\n\n통장엔 100만원이 전부다. 월세 65만원은 이미 빠져나갔다.\n\n부모님은 '알아서 해봐'라고 했다. 친구들도 각자 살길을 찾고 있다.\n\n지금 당장 뭐라도 해야 한다.\n강남까지의 거리가 얼마나 되는지, 아직은 가늠도 안 된다.\n\n━━━\n\n[ 이 게임의 목표 ]\n매달 행동력 ⚡ 3개로 한 가지씩 선택합니다.\n직업을 구하고, 투자하고, 인맥을 쌓으며 자산을 불려나가세요.\n65세가 되면 결말이 결정됩니다. 최종 자산 20억이면 강남드림 달성!",
+			"choices": [{"text": "시작하기", "effects": {}, "result_text": ""}]
+		}
+		_render_event()
+		return
 	EventManager.process_month_events()
 	current_event = EventManager.get_next_event()
 	_render_event()
@@ -272,6 +279,8 @@ func _on_next_month():
 	if not pending_result_text.is_empty():
 		pending_result_text = ""
 		return
+	if GameState.tutorial_step > 0:
+		GameState.tutorial_step -= 1
 	job_system.process_monthly_job()
 	relationship_system.process_monthly_relationships()
 	inventory_system.process_monthly_items()
@@ -314,9 +323,8 @@ func _render_event():
 	for child in choice_box.get_children():
 		child.queue_free()
 	if current_event.is_empty():
-		event_title.text = "이번 달은 조용하다"
-		event_body.text = "뉴스와 시장이 움직이는 동안, 당신은 다음 선택을 준비한다."
 		next_button.disabled = false
+		_render_ap_actions()
 		return
 	next_button.disabled = true
 	event_title.text = current_event.get("title", "이벤트")
@@ -454,6 +462,118 @@ func _render_log():
 		lines.append("[color=%s][%s] %s[/color]" % [color, date_str, msg])
 	log_box.text = "\n".join(lines)
 
+func _render_ap_actions():
+	for child in choice_box.get_children():
+		child.queue_free()
+	var ap = GameState.action_points
+	var ap_dots = "⚡".repeat(ap) + "○".repeat(max(0, GameState.max_action_points - ap))
+	event_title.text = "이번 달  %s  %d / %d" % [ap_dots, ap, GameState.max_action_points]
+	if turn_action_log.is_empty():
+		event_body.text = "이번 달 행동을 선택하세요.\n행동력을 다 쓰거나, 남겨두고 다음 달로 넘어갈 수 있습니다."
+	else:
+		event_body.text = "[ 이번 달 행동 ]\n" + "\n".join(turn_action_log) + "\n\n남은 행동력으로 추가 행동을 선택하세요."
+
+	# 튜토리얼 힌트 박스
+	var hint_text = ""
+	if GameState.tutorial_step == 2:
+		hint_text = "📌  첫 달입니다. 직업이 없으면 월급이 없어요.\n      먼저 [💼 구직활동]으로 직업을 구하는 걸 추천합니다."
+	elif GameState.tutorial_step == 1:
+		hint_text = "📌  첫 월급이 들어왔어요! ⚡ 행동력 3개로 이번 달 행동을 고르세요.\n      자기계발로 능력치를 올리거나, 투자로 돈을 불릴 수 있어요."
+	elif GameState.tutorial_step == 0 and GameState.turn == 3:
+		hint_text = "📌  이제 자유롭게! 매달 3개 행동 → 다음 달 반복.\n      65세까지 살아남고 자산 20억이면 강남드림 달성!"
+	if not hint_text.is_empty():
+		var hint = _wrap_label(hint_text, 13, "#ffd166")
+		hint.add_theme_stylebox_override("normal", _hint_box())
+		choice_box.add_child(hint)
+
+	var disabled = (ap <= 0)
+	var ap_actions = [
+		{"label": "📚 자기계발  — 독서 / 운동 / 명상 중 하나", "color": "#1d4ed8", "fn": "_ap_study"},
+		{"label": "📈 투자  — 자산을 매수하거나 매도한다", "color": "#065f46", "fn": "_ap_invest"},
+		{"label": "🤝 인맥활동  — 사회성 +1, 관계 친밀도 상승", "color": "#6b21a8", "fn": "_ap_network"},
+		{"label": "💼 구직활동  — 더 나은 직업을 알아본다", "color": "#92400e", "fn": "_ap_job_hunt"},
+		{"label": "💰 알바 추가  — 수입 +40만원, 건강 -5", "color": "#1e3a5f", "fn": "_ap_side_job"},
+	]
+	for action in ap_actions:
+		var color = action["color"] if not disabled else "#2a2a3a"
+		var btn = _button("%s" % action["label"], color)
+		btn.disabled = disabled
+		btn.pressed.connect(Callable(self, action["fn"]))
+		choice_box.add_child(btn)
+
+func _ap_study():
+	if not GameState.spend_ap():
+		return
+	_open_modal("📚 자기계발")
+	var options = [
+		{"label": "📖 독서  — 지력 +3", "effects": {"intelligence": 3}},
+		{"label": "🏃 운동  — 건강 +4, 스트레스 -4", "effects": {"health": 4, "stress": -4}},
+		{"label": "🧘 명상  — 정신력 +3, 스트레스 -5", "effects": {"mental": 3, "stress": -5}},
+		{"label": "📊 재테크 공부  — 투자감각 +2", "effects": {"investment_skill": 2}},
+	]
+	for opt in options:
+		var btn = _button(opt["label"], "#1d4ed8")
+		btn.pressed.connect(Callable(self, "_on_study_chosen").bind(opt["effects"]))
+		modal_body.add_child(btn)
+
+func _on_study_chosen(effects):
+	GameState.apply_effects(effects)
+	_close_modal()
+	var parts: Array = []
+	for k in effects:
+		var v = int(effects[k])
+		var sign = "+" if v >= 0 else ""
+		match k:
+			"intelligence": parts.append("지력 %s%d" % [sign, v])
+			"health": parts.append("건강 %s%d" % [sign, v])
+			"mental": parts.append("정신력 %s%d" % [sign, v])
+			"stress": parts.append("스트레스 %s%d" % [sign, v])
+			"investment_skill": parts.append("투자감각 %s%d" % [sign, v])
+	turn_action_log.append("✓ 📚 자기계발 → %s" % ", ".join(parts))
+	_show_toast("📚 자기계발 완료", Color("#60a5fa"))
+	_refresh_all()
+
+func _ap_invest():
+	if not GameState.spend_ap():
+		return
+	turn_action_log.append("✓ 📈 투자 — 매수/매도 진행")
+	_open_investments()
+
+func _ap_job_hunt():
+	if not GameState.spend_ap():
+		return
+	turn_action_log.append("✓ 💼 구직활동 — 직업 목록 열람")
+	_open_jobs()
+
+func _ap_network():
+	if not GameState.spend_ap():
+		return
+	GameState.modify_stat("social_skill", 1)
+	var result = "사회성 +1"
+	if not GameState.relationships.is_empty():
+		var rel = GameState.relationships[randi() % GameState.relationships.size()]
+		rel["affection"] = clamp(int(rel.get("affection", 40)) + 6, 0, 100)
+		result += ", %s 친밀도 ↑" % rel.get("name", "인연")
+	GameState.add_log("인맥활동: %s" % result, "relationship")
+	turn_action_log.append("✓ 🤝 인맥활동 → %s" % result)
+	_show_toast("🤝 인맥활동 완료", Color("#d8b4fe"))
+	GameState.stats_changed.emit()
+	_render_ap_actions()
+	_refresh_all()
+
+func _ap_side_job():
+	if not GameState.spend_ap():
+		return
+	var income = 400_000.0
+	GameState.add_money(income)
+	GameState.modify_stat("health", -5)
+	GameState.modify_hidden_stat("stress", 6)
+	GameState.add_log("알바 추가 수입 %s (건강 -5, 스트레스 +6)" % GameState.format_money(income), "job")
+	turn_action_log.append("✓ 💰 알바 추가 → 수입 +%s, 건강 -5, 스트레스 +6" % GameState.format_money(income))
+	_show_toast("💰 알바 수입 %s" % GameState.format_money(income), Color("#4ade80"))
+	_render_ap_actions()
+	_refresh_all()
+
 func _open_jobs():
 	_open_modal("직업 선택")
 	var current_job_id = GameState.current_job.get("id", "")
@@ -464,7 +584,7 @@ func _open_jobs():
 			button_color = "#0f5132"
 		elif job.get("eligible", false):
 			button_color = "#9a6700"
-		var stress_icon = "⚡" * clamp(int(job.get("stress_per_month", 5)) / 5, 1, 5)
+		var stress_icon = "⚡".repeat(int(clamp(int(job.get("stress_per_month", 5)) / 5, 1, 5)))
 		var label = "%s  |  %s/월  %s" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_icon]
 		if is_current:
 			label += "  [현재]"
@@ -531,19 +651,42 @@ func _on_save_pressed():
 
 func _on_job_selected(job_id):
 	var result = job_system.apply_for_job(job_id)
+	var job_name = GameState.current_job.get("name", "직업 변경")
+	# 구직 로그 항목 갱신
+	for i in range(turn_action_log.size() - 1, -1, -1):
+		if turn_action_log[i].begins_with("✓ 💼"):
+			turn_action_log[i] = "✓ 💼 구직활동 → %s 취업" % job_name
+			break
 	_close_modal()
 	_refresh_all()
-	var job_name = GameState.current_job.get("name", "직업 변경")
 	_show_toast("💼 %s" % job_name, Color("#fbbf24"))
 
 func _on_buy_asset(asset_id, amount):
 	investment_system.buy_asset(asset_id, float(amount))
+	var asset_name = GameState.market_prices.keys().front() if GameState.market_prices.is_empty() else asset_id
+	for data in DataRegistry.assets:
+		if data.get("id", "") == asset_id:
+			asset_name = data.get("name", asset_id)
+			break
+	for i in range(turn_action_log.size() - 1, -1, -1):
+		if turn_action_log[i].begins_with("✓ 📈"):
+			turn_action_log[i] = "✓ 📈 투자 → %s 매수 %s" % [asset_name, GameState.format_money(amount)]
+			break
 	_close_modal()
 	_refresh_all()
 	_show_toast("📈 매수 완료 %s" % GameState.format_money(amount), Color("#4ade80"))
 
 func _on_sell_asset(asset_id, ratio):
 	investment_system.sell_asset(asset_id, float(ratio))
+	var asset_name = asset_id
+	for data in DataRegistry.assets:
+		if data.get("id", "") == asset_id:
+			asset_name = data.get("name", asset_id)
+			break
+	for i in range(turn_action_log.size() - 1, -1, -1):
+		if turn_action_log[i].begins_with("✓ 📈"):
+			turn_action_log[i] = "✓ 📈 투자 → %s 매도" % asset_name
+			break
 	_close_modal()
 	_refresh_all()
 	_show_toast("📉 매도 완료", Color("#f87171"))
@@ -572,6 +715,8 @@ func _open_modal(title):
 func _close_modal():
 	modal_layer.visible = false
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if current_event.is_empty() and not GameState.is_game_over:
+		_render_ap_actions()
 
 func _show_ending(ending_id):
 	_open_modal("엔딩")
@@ -701,6 +846,18 @@ func _stat_name(key):
 		"reputation": "평판",
 		"asset": "총자산",
 	}.get(key, key)
+
+func _hint_box() -> StyleBoxFlat:
+	var s = StyleBoxFlat.new()
+	s.bg_color = Color("#1a2a0a")
+	s.border_color = Color("#4a7a1a")
+	s.set_border_width_all(1)
+	s.set_corner_radius_all(5)
+	s.content_margin_left = 10
+	s.content_margin_right = 10
+	s.content_margin_top = 8
+	s.content_margin_bottom = 8
+	return s
 
 func _random_topic(news):
 	var topics: Array = news.get("topics", ["시장"])

@@ -88,10 +88,10 @@ func _on_trait_selected(index):
 	var trait_name = unlocked[index]
 	var desc = ""
 	var hint = ""
-	for trait in DataRegistry.traits:
-		if trait.get("id", "") == trait_name:
-			desc = trait.get("description", "")
-			var bonus = trait.get("bonus", {})
+	for tr in DataRegistry.traits:
+		if tr.get("id", "") == trait_name:
+			desc = tr.get("description", "")
+			var bonus = tr.get("bonus", {})
 			if not bonus.is_empty():
 				var parts: Array = []
 				for k in bonus:

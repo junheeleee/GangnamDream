@@ -22,9 +22,9 @@ func get_unlocked_traits():
 	return data.get("unlocked_traits", ["흙수저 생존본능"])
 
 func get_trait_bonus(trait_name):
-	for trait in DataRegistry.traits:
-		if trait.get("id", "") == trait_name:
-			return trait.get("bonus", {})
+	for tr in DataRegistry.traits:
+		if tr.get("id", "") == trait_name:
+			return tr.get("bonus", {})
 	return {}
 
 func unlock_trait(trait_name):

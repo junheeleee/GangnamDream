@@ -26,6 +26,10 @@ var appearance = 50
 var investment_skill = 12
 var luck = 45
 
+var action_points = 3
+var max_action_points = 3
+var tutorial_step = 3
+
 var stress = 25
 var reputation = 10
 var gambling_tendency = 0
@@ -76,6 +80,9 @@ func start_new_game(selected_trait):
 	appearance = 50
 	investment_skill = 12
 	luck = 45
+	action_points = 3
+	max_action_points = 3
+	tutorial_step = 3
 	stress = 25
 	reputation = 10
 	gambling_tendency = 0
@@ -241,6 +248,17 @@ func modify_hidden_stat(stat_name, amount):
 		"addiction_tendency":
 			addiction_tendency = clamp(addiction_tendency + amount, 0, 100)
 
+func spend_ap(amount: int = 1) -> bool:
+	if action_points < amount:
+		return false
+	action_points -= amount
+	stats_changed.emit()
+	return true
+
+func restore_ap():
+	action_points = max_action_points
+	stats_changed.emit()
+
 func add_item(item_id, quantity):
 	var item = DataRegistry.get_item(item_id)
 	if item.is_empty():
@@ -359,6 +377,9 @@ func serialize():
 		"luck": luck,
 		"stress": stress,
 		"reputation": reputation,
+		"action_points": action_points,
+		"max_action_points": max_action_points,
+		"tutorial_step": tutorial_step,
 		"gambling_tendency": gambling_tendency,
 		"addiction_tendency": addiction_tendency,
 		"current_job": current_job,
@@ -382,6 +403,7 @@ func load_from_dict(data):
 		"investment_skill", "luck", "stress", "reputation",
 		"gambling_tendency", "addiction_tendency",
 		"job_tenure", "work_performance",
+		"action_points", "max_action_points", "tutorial_step",
 	]
 	var allowed = serialize().keys()
 	for key in data:
