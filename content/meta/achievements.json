@@ -1,0 +1,72 @@
+[
+  {
+    "id": "five_lives",
+    "name": "다섯 번의 인생",
+    "icon": "🔄",
+    "description": "총 5번 런을 완료했다. 서울은 쉽지 않다.",
+    "hint": "5번 플레이"
+  },
+  {
+    "id": "first_billion",
+    "name": "첫 억",
+    "icon": "💰",
+    "description": "한 런에서 1억원 이상 자산을 달성했다.",
+    "hint": "자산 1억원 달성"
+  },
+  {
+    "id": "gangnam_dream",
+    "name": "강남드림",
+    "icon": "🏙️",
+    "description": "강남드림 엔딩에 도달했다. 이게 꿈인지 현실인지.",
+    "hint": "강남드림 엔딩 달성"
+  },
+  {
+    "id": "survived_burnout",
+    "name": "번아웃 경험자",
+    "icon": "🔥",
+    "description": "바닥까지 가봤다. 번아웃 또는 멘탈붕괴 엔딩을 경험했다.",
+    "hint": "번아웃/멘탈붕괴 엔딩"
+  },
+  {
+    "id": "startup_exit",
+    "name": "엑싯 성공",
+    "icon": "🚀",
+    "description": "스타트업 엑싯에 성공했다. 스물에 억대 계약.",
+    "hint": "스타트업 엑싯 엔딩 달성"
+  },
+  {
+    "id": "political_fix",
+    "name": "정보의 힘",
+    "icon": "🗳️",
+    "description": "정치 테마주로 한탕을 챙겼다. 세상은 아는 사람이 먹는다.",
+    "hint": "정치 테마 엔딩 달성"
+  },
+  {
+    "id": "stable_life",
+    "name": "소확행",
+    "icon": "☕",
+    "description": "평범하지만 안정적인 삶을 선택했다. 그것도 용기다.",
+    "hint": "안정적 삶/평범한 삶 엔딩"
+  },
+  {
+    "id": "investment_master",
+    "name": "투자 고수",
+    "icon": "📈",
+    "description": "투자만으로 성공했다. 숫자가 나를 먹여살린다.",
+    "hint": "투자 마스터 엔딩 달성"
+  },
+  {
+    "id": "reputation_legend",
+    "name": "전설의 시작",
+    "icon": "⭐",
+    "description": "평판이 전설이 됐다. 이름 석 자가 브랜드다.",
+    "hint": "평판 전설 엔딩 달성"
+  },
+  {
+    "id": "ten_lives",
+    "name": "열 번의 인생",
+    "icon": "🏙️",
+    "description": "10번을 살았다. 이제 강남이 낯설지 않다.",
+    "hint": "10번 플레이"
+  }
+]

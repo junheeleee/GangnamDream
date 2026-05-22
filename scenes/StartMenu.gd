@@ -179,10 +179,37 @@ func _build_ui():
 	right_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	right.add_child(right_spacer)
 
+	right.add_child(_sep())
+
+	# ── 업적 섹션 ──
 	var meta = MetaProgression.data
+	var unlocked_ach = MetaProgression.get_unlocked_achievements()
+	var total_ach = DataRegistry.achievements.size()
 	right.add_child(_label(
-		"누적 %d런\n최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
-		11, "#3a3a5a", HORIZONTAL_ALIGNMENT_LEFT))
+		"업적  %d / %d" % [unlocked_ach.size(), total_ach],
+		12, "#5b9cf6", HORIZONTAL_ALIGNMENT_LEFT))
+
+	var ach_grid = GridContainer.new()
+	ach_grid.columns = 5
+	ach_grid.add_theme_constant_override("h_separation", 6)
+	ach_grid.add_theme_constant_override("v_separation", 6)
+	right.add_child(ach_grid)
+
+	for ach_data in DataRegistry.achievements:
+		var ach_id = str(ach_data.get("id", ""))
+		var is_unlocked = unlocked_ach.has(ach_id)
+		var icon_lbl = Label.new()
+		icon_lbl.text = ach_data.get("icon", "?")
+		icon_lbl.add_theme_font_size_override("font_size", 22)
+		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		icon_lbl.custom_minimum_size = Vector2(36, 36)
+		icon_lbl.modulate = Color(1, 1, 1, 1.0) if is_unlocked else Color(1, 1, 1, 0.15)
+		icon_lbl.tooltip_text = "%s\n%s" % [ach_data.get("name", ""), ach_data.get("description", "—")] if is_unlocked else "???\n%s" % ach_data.get("hint", "")
+		ach_grid.add_child(icon_lbl)
+
+	right.add_child(_label(
+		"누적 %d런  ·  최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
+		10, "#3a3a5a", HORIZONTAL_ALIGNMENT_LEFT))
 
 # ── 슬롯 목록 빌드 / 새로고침 ─────────────────────────────────
 func _rebuild_slots():

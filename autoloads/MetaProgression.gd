@@ -55,26 +55,49 @@ func record_run(summary):
 	_check_progression_unlocks(summary)
 	save_meta()
 
+func get_unlocked_achievements() -> Array:
+	return data.get("achievements", [])
+
+func is_achievement_unlocked(achievement_id: String) -> bool:
+	return data.get("achievements", []).has(achievement_id)
+
 func _check_progression_unlocks(summary):
 	var total_assets = float(summary.get("total_assets", 0.0))
 	var ending_id = str(summary.get("ending_id", ""))
 	var total_runs = int(data.get("total_runs", 0))
-	# 자산 기준 언락
+
+	# 자산 기준 트레이트/업적
 	if total_assets >= 50_000_000:
 		unlock_trait("야근 면역자")
+	if total_assets >= 100_000_000:
+		unlock_achievement("first_billion")
 	if total_assets >= 200_000_000:
 		unlock_trait("리스크 중독자")
-	# 엔딩 기준 언락
+
+	# 엔딩 기준 트레이트/업적
 	if ending_id in ["stable_success", "ordinary_life"]:
 		unlock_trait("안정 지향형")
+		unlock_achievement("stable_life")
 	if ending_id == "gangnam_dream":
 		unlock_trait("강남드림 계승자")
+		unlock_achievement("gangnam_dream")
 	if ending_id in ["burnout", "mental_break"]:
 		unlock_trait("번아웃 생존자")
+		unlock_achievement("survived_burnout")
 	if ending_id in ["startup_exit", "political_fix"]:
 		unlock_trait("인맥왕")
-	# 런 횟수 기준 언락
+	if ending_id == "startup_exit":
+		unlock_achievement("startup_exit")
+	if ending_id == "political_fix":
+		unlock_achievement("political_fix")
+	if ending_id == "investment_master":
+		unlock_achievement("investment_master")
+	if ending_id == "reputation_legend":
+		unlock_achievement("reputation_legend")
+
+	# 런 횟수 기준
 	if total_runs >= 5:
 		unlock_achievement("five_lives")
 	if total_runs >= 10:
 		unlock_trait("강남 토박이")
+		unlock_achievement("ten_lives")
