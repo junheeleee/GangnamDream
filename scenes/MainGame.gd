@@ -17,6 +17,7 @@ var relationship_box: VBoxContainer
 var inventory_box: VBoxContainer
 var log_box: RichTextLabel
 var modal_layer: ColorRect
+var modal_scroll: ScrollContainer
 var modal_body: VBoxContainer
 var modal_title_label: Label
 var next_button: Button
@@ -488,15 +489,15 @@ func _build_modal():
 	header.add_child(close_x)
 
 	# Scrollable content area
-	var scroll = ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.custom_minimum_size = Vector2(0, 420)
-	outer.add_child(scroll)
+	modal_scroll = ScrollContainer.new()
+	modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	modal_scroll.custom_minimum_size = Vector2(0, 420)
+	outer.add_child(modal_scroll)
 
 	modal_body = VBoxContainer.new()
 	modal_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	modal_body.add_theme_constant_override("separation", 8)
-	scroll.add_child(modal_body)
+	modal_scroll.add_child(modal_body)
 
 func _build_toast_layer():
 	_toast_container = VBoxContainer.new()
@@ -1388,6 +1389,9 @@ func _open_modal(title):
 	modal_title_label.text = title
 	modal_layer.visible = true
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	# 스크롤 기본값 복원 (결산 화면에서 끈 경우 대비)
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	AudioManager.play("open_modal")
 
 func _close_modal():
@@ -1447,6 +1451,8 @@ func _show_ending(ending_id):
 func _show_month_summary(snap: Dictionary):
 	_pending_month_summary = true
 	_open_modal("📊 %s 결산" % snap["date"])
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 
 	# 확인 버튼을 맨 위에 (항상 보임)
 	var confirm_btn = _button("다음 달 시작 →", "#1f6feb")
