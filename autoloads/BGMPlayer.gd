@@ -17,6 +17,9 @@ func _ready():
 	_player.volume_db = _db(volume)
 
 func start():
+	# AudioManager가 먼저 로드되므로 저장된 bgm_volume 적용
+	volume = AudioManager.bgm_volume
+	_player.volume_db = _db(volume)
 	_player.play()
 
 func stop():
@@ -25,6 +28,10 @@ func stop():
 func toggle():
 	if _player.playing: stop()
 	else: start()
+
+func apply_volume(v: float):
+	volume = clampf(v, 0.0, 1.0)
+	_player.volume_db = _db(volume)
 
 func _db(v: float) -> float:
 	return -80.0 if v < 0.001 else 20.0 * log(v) / log(10.0)

@@ -1325,12 +1325,12 @@ func _on_use_item(item_id):
 
 func _open_system_menu():
 	_open_modal("≡ 시스템")
-	var lbl = Label.new()
-	lbl.text = "저장 후 이동하거나 게임을 종료합니다."
-	lbl.add_theme_font_size_override("font_size", 13)
-	lbl.add_theme_color_override("font_color", Color("#8892a4"))
-	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	modal_body.add_child(lbl)
+
+	_build_volume_sliders(modal_body)
+
+	var sep = HSeparator.new()
+	sep.modulate = Color("#2a2a3a")
+	modal_body.add_child(sep)
 
 	var menu_btn2 = _button("🏠  메인 메뉴로", "#1e3a5f")
 	menu_btn2.pressed.connect(_go_to_menu)
@@ -1346,6 +1346,38 @@ func _open_system_menu():
 	var cancel_btn = _button("✕  취소", "#2a2a3a")
 	cancel_btn.pressed.connect(_close_modal)
 	modal_body.add_child(cancel_btn)
+
+func _build_volume_sliders(parent: Control):
+	var _make_row = func(label_text: String, init_val: float, on_change: Callable):
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		parent.add_child(row)
+		var lbl = Label.new()
+		lbl.text = label_text
+		lbl.add_theme_font_size_override("font_size", 13)
+		lbl.add_theme_color_override("font_color", Color("#8892a4"))
+		lbl.custom_minimum_size = Vector2(48, 0)
+		row.add_child(lbl)
+		var slider = HSlider.new()
+		slider.min_value = 0.0
+		slider.max_value = 1.0
+		slider.step = 0.05
+		slider.value = init_val
+		slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		slider.custom_minimum_size = Vector2(0, 24)
+		slider.value_changed.connect(on_change)
+		row.add_child(slider)
+		var pct = Label.new()
+		pct.text = "%d%%" % int(init_val * 100)
+		pct.add_theme_font_size_override("font_size", 12)
+		pct.add_theme_color_override("font_color", Color("#5a6075"))
+		pct.custom_minimum_size = Vector2(36, 0)
+		pct.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		row.add_child(pct)
+		slider.value_changed.connect(func(v): pct.text = "%d%%" % int(v * 100))
+
+	_make_row.call("🎵 BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
+	_make_row.call("🔊 SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
 
 func _go_to_menu():
 	SaveManager.autosave()

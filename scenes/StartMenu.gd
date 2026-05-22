@@ -37,6 +37,7 @@ var bg_cards: Array = []
 var trait_option: OptionButton
 var trait_desc_label: Label
 var slot_container: VBoxContainer
+var _settings_overlay: ColorRect
 
 func _ready():
 	_build_ui()
@@ -83,6 +84,11 @@ func _build_ui():
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_row.add_child(title_lbl)
 	title_row.add_child(_label("KOREAN LIFE ROGUELIKE", 12, "#3a3a5a", HORIZONTAL_ALIGNMENT_RIGHT))
+	var settings_btn = _button("⚙", "#1e1e2a")
+	settings_btn.custom_minimum_size = Vector2(40, 36)
+	settings_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+	settings_btn.pressed.connect(_open_settings_popup)
+	title_row.add_child(settings_btn)
 
 	root.add_child(_sep())
 
@@ -544,6 +550,85 @@ func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: C
 		outer.add_child(btn)
 
 	return outer
+
+func _open_settings_popup():
+	if _settings_overlay and is_instance_valid(_settings_overlay):
+		_settings_overlay.queue_free()
+
+	_settings_overlay = ColorRect.new()
+	_settings_overlay.color = Color(0, 0, 0, 0.7)
+	_settings_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_settings_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(_settings_overlay)
+
+	var panel = PanelContainer.new()
+	panel.custom_minimum_size = Vector2(340, 0)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	var pst = StyleBoxFlat.new()
+	pst.bg_color = Color("#13131f")
+	pst.border_color = Color("#2a2a40")
+	pst.set_border_width_all(1)
+	pst.set_corner_radius_all(10)
+	pst.content_margin_left = 24
+	pst.content_margin_right = 24
+	pst.content_margin_top = 20
+	pst.content_margin_bottom = 20
+	panel.add_theme_stylebox_override("panel", pst)
+	_settings_overlay.add_child(panel)
+
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 14)
+	panel.add_child(vbox)
+
+	var title = Label.new()
+	title.text = "⚙️ 설정"
+	title.add_theme_font_size_override("font_size", 16)
+	title.add_theme_color_override("font_color", Color("#e8eaf0"))
+	vbox.add_child(title)
+
+	var sep = HSeparator.new()
+	sep.modulate = Color("#2a2a3a")
+	vbox.add_child(sep)
+
+	_build_volume_sliders_menu(vbox)
+
+	var close_btn = _button("닫기", "#1e2a3a")
+	close_btn.pressed.connect(func(): _settings_overlay.queue_free())
+	vbox.add_child(close_btn)
+
+func _build_volume_sliders_menu(parent: Control):
+	var _make_row = func(label_text: String, init_val: float, on_change: Callable):
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		parent.add_child(row)
+		var lbl = Label.new()
+		lbl.text = label_text
+		lbl.add_theme_font_size_override("font_size", 13)
+		lbl.add_theme_color_override("font_color", Color("#8892a4"))
+		lbl.custom_minimum_size = Vector2(48, 0)
+		row.add_child(lbl)
+		var slider = HSlider.new()
+		slider.min_value = 0.0
+		slider.max_value = 1.0
+		slider.step = 0.05
+		slider.value = init_val
+		slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		slider.custom_minimum_size = Vector2(0, 24)
+		row.add_child(slider)
+		var pct = Label.new()
+		pct.text = "%d%%" % int(init_val * 100)
+		pct.add_theme_font_size_override("font_size", 12)
+		pct.add_theme_color_override("font_color", Color("#5a6075"))
+		pct.custom_minimum_size = Vector2(36, 0)
+		pct.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		row.add_child(pct)
+		slider.value_changed.connect(func(v):
+			pct.text = "%d%%" % int(v * 100)
+			on_change.call(v)
+		)
+
+	_make_row.call("🎵 BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
+	_make_row.call("🔊 SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
 
 func _format_money(amount) -> String:
 	if abs(amount) >= 100_000_000:

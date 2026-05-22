@@ -1,7 +1,10 @@
 extends Node
 
+const SETTINGS_PATH = "user://gangnam_dream_settings.json"
+
 # 볼륨 설정 (0.0 ~ 1.0)
 var master_volume: float = 0.8
+var bgm_volume: float = 0.25
 var sfx_enabled: bool = true
 
 var _pool: Array[AudioStreamPlayer] = []
@@ -9,6 +12,7 @@ const _POOL_SIZE = 8
 var _sounds: Dictionary = {}
 
 func _ready():
+	load_settings()
 	for i in range(_POOL_SIZE):
 		var p = AudioStreamPlayer.new()
 		p.bus = "Master"
@@ -16,6 +20,29 @@ func _ready():
 		_pool.append(p)
 	_generate_sounds()
 	_connect_signals()
+
+func load_settings():
+	if FileAccess.file_exists(SETTINGS_PATH):
+		var parsed = JSON.parse_string(FileAccess.get_file_as_string(SETTINGS_PATH))
+		if parsed is Dictionary:
+			master_volume = float(parsed.get("sfx_volume", 0.8))
+			bgm_volume    = float(parsed.get("bgm_volume", 0.25))
+
+func save_settings():
+	var file = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
+	file.store_string(JSON.stringify({
+		"sfx_volume": master_volume,
+		"bgm_volume": bgm_volume,
+	}))
+
+func set_sfx_volume(v: float):
+	master_volume = clampf(v, 0.0, 1.0)
+	save_settings()
+
+func set_bgm_volume(v: float):
+	bgm_volume = clampf(v, 0.0, 1.0)
+	BGMPlayer.apply_volume(bgm_volume)
+	save_settings()
 
 func _connect_signals():
 	GameState.money_changed.connect(_on_money_changed)
