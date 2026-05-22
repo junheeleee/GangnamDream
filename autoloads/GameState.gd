@@ -8,6 +8,7 @@ signal log_added(entry: Dictionary)
 signal run_started()
 
 var player_name = "김민준"
+var player_background = "지방_상경"  # 지방_상경 | 명문대_중퇴 | 금수저
 var age = 20
 var year = 2026
 var month = 1
@@ -15,9 +16,18 @@ var turn = 1
 var is_game_over = false
 var current_trait = "흙수저 생존본능"
 
+const HOUSING_DATA = {
+	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 800_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
+	"oneroom":   {"name": "원룸",       "emoji": "🏠", "expense": 1_100_000.0, "deposit": 5_000_000.0,   "next": "apartment", "req_cash": 7_000_000.0},
+	"apartment": {"name": "아파트",     "emoji": "🏢", "expense": 1_600_000.0, "deposit": 30_000_000.0,  "next": "gangnam",   "req_cash": 35_000_000.0},
+	"gangnam":   {"name": "강남 아파트", "emoji": "🏙", "expense": 2_800_000.0, "deposit": 100_000_000.0, "next": "",          "req_cash": 120_000_000.0},
+}
+
+var housing: String = "gosiwon"
+
 var money = 1_000_000.0
 var monthly_income = 0.0
-var fixed_expense = 1_200_000.0
+var fixed_expense = 800_000.0
 var health = 70
 var mental = 70
 var intelligence = 50
@@ -39,6 +49,7 @@ var current_job: Dictionary = {}
 var job_tenure = 0
 var work_performance = 50
 
+var milestones_reached: Dictionary = {}  # "10m","100m","500m","1b","2b"
 var portfolio: Dictionary = {}
 var relationships: Array = []
 var inventory: Array = []
@@ -62,8 +73,9 @@ func _ready():
 func new_game():
 	start_new_game("흙수저 생존본능")
 
-func start_new_game(selected_trait):
-	player_name = "김민준"
+func start_new_game(selected_trait: String, chosen_name: String = "김민준", chosen_background: String = "지방_상경"):
+	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else "김민준"
+	player_background = chosen_background
 	age = 20
 	year = 2026
 	month = 1
@@ -71,9 +83,10 @@ func start_new_game(selected_trait):
 	is_game_over = false
 	current_trait = selected_trait
 
+	housing = "gosiwon"
 	money = 1_000_000.0
 	monthly_income = 0.0
-	fixed_expense = 1_200_000.0
+	fixed_expense = 800_000.0
 	health = 70
 	mental = 70
 	intelligence = 50
@@ -91,6 +104,7 @@ func start_new_game(selected_trait):
 	current_job = {}
 	job_tenure = 0
 	work_performance = 50
+	milestones_reached = {}
 	portfolio = {}
 	relationships = []
 	inventory = []
@@ -109,10 +123,33 @@ func start_new_game(selected_trait):
 	}
 
 	_apply_trait_bonus(selected_trait)
+	_apply_background_bonus(chosen_background)
 	_init_market_prices()
-	add_log("새 런 시작: %s" % selected_trait, "system")
+	add_log("새 런 시작: %s / %s" % [chosen_background, selected_trait], "system")
 	stats_changed.emit()
 	run_started.emit()
+
+func _apply_background_bonus(bg: String):
+	match bg:
+		"명문대_중퇴":
+			# 머리는 좋지만 학자금 빚이 있고 현실 경험 부족
+			intelligence += 15
+			reputation += 8
+			social_skill += 5
+			money -= 500_000.0
+			stress += 10
+			flags["background_elite"] = true
+		"금수저":
+			# 시작 자금 넉넉하지만 생존 감각이 없음
+			money += 1_500_000.0
+			social_skill += 8
+			appearance += 5
+			investment_skill -= 5
+			luck += 5
+			flags["background_rich"] = true
+		_:  # 지방_상경 (기본)
+			# 기본값 그대로. 보너스 없지만 패널티도 없음
+			flags["background_local"] = true
 
 func _apply_trait_bonus(selected_trait):
 	var bonuses = {}
@@ -135,8 +172,43 @@ func advance_calendar():
 		age += 1
 	turn_advanced.emit(turn)
 
+func get_housing_expense() -> float:
+	return float(HOUSING_DATA.get(housing, HOUSING_DATA["gosiwon"]).get("expense", 800_000.0))
+
+func get_housing_info() -> Dictionary:
+	return HOUSING_DATA.get(housing, HOUSING_DATA["gosiwon"])
+
+func can_upgrade_housing() -> bool:
+	var info = get_housing_info()
+	var next_id = str(info.get("next", ""))
+	if next_id.is_empty():
+		return false
+	var next_info = HOUSING_DATA.get(next_id, {})
+	return money >= float(next_info.get("req_cash", 0.0))
+
+func upgrade_housing() -> Dictionary:
+	var info = get_housing_info()
+	var next_id = str(info.get("next", ""))
+	if next_id.is_empty():
+		return {"success": false, "message": "이미 최고 등급 주거입니다."}
+	var next_info = HOUSING_DATA.get(next_id, {})
+	if money < float(next_info.get("req_cash", 0.0)):
+		return {"success": false, "message": "자금이 부족합니다."}
+	var deposit_diff = float(next_info.get("deposit", 0.0)) - float(info.get("deposit", 0.0))
+	add_money(-deposit_diff)
+	housing = next_id
+	fixed_expense = get_housing_expense()
+	add_log("이사: %s → %s (보증금 %s)" % [info.get("name",""), next_info.get("name",""), format_money(deposit_diff)], "system")
+	stats_changed.emit()
+	return {"success": true, "housing": next_info}
+
 func apply_monthly_pressure():
+	fixed_expense = get_housing_expense()
 	add_money(monthly_income - fixed_expense)
+	# 첫 월급 수령 플래그 — 투자 기능 잠금 해제 트리거
+	if monthly_income > 0 and not flags.get("has_received_paycheck", false):
+		flags["has_received_paycheck"] = true
+		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 	# 자연 회복 -7 + 기본 압박 +2 = 실질 -5 (수면/주말 회복)
 	modify_hidden_stat("stress", 2)
 	modify_hidden_stat("stress", -7)
@@ -336,18 +408,35 @@ func check_game_over():
 	if is_game_over:
 		return
 	if health <= 0:
-		finish_run("burnout")
-	elif mental <= 0:
-		finish_run("mental_break")
-	elif money < -30_000_000:
-		finish_run("bankruptcy")
-	elif age >= 65:
-		if get_total_asset_value() >= 1_000_000_000:
+		finish_run("burnout"); return
+	if mental <= 0:
+		finish_run("mental_break"); return
+	if money < -50_000_000:
+		finish_run("debt_spiral"); return
+	if money < -30_000_000:
+		finish_run("bankruptcy"); return
+	if addiction_tendency >= 90:
+		finish_run("crypto_ghost"); return
+	if get_total_asset_value() >= 2_000_000_000:
+		finish_run("gangnam_dream"); return
+	if flags.get("startup_exit", false):
+		finish_run("startup_exit"); return
+	if age >= 65:
+		var total = get_total_asset_value()
+		if reputation >= 80 and total >= 300_000_000:
+			finish_run("reputation_legend")
+		elif investment_skill >= 85 and total >= 500_000_000:
+			finish_run("investment_master")
+		elif total >= 1_000_000_000 and relationships.is_empty():
+			finish_run("lonely_rich")
+		elif total >= 1_000_000_000:
 			finish_run("stable_success")
+		elif health >= 70 and mental >= 70:
+			finish_run("healthy_retirement")
+		elif flags.get("political_winner", false):
+			finish_run("political_fix")
 		else:
 			finish_run("ordinary_life")
-	elif get_total_asset_value() >= 2_000_000_000:
-		finish_run("gangnam_dream")
 
 func finish_run(ending_id):
 	is_game_over = true
@@ -363,12 +452,14 @@ func finish_run(ending_id):
 func serialize():
 	return {
 		"player_name": player_name,
+		"player_background": player_background,
 		"age": age,
 		"year": year,
 		"month": month,
 		"turn": turn,
 		"is_game_over": is_game_over,
 		"current_trait": current_trait,
+		"housing": housing,
 		"money": money,
 		"monthly_income": monthly_income,
 		"fixed_expense": fixed_expense,
@@ -389,6 +480,7 @@ func serialize():
 		"current_job": current_job,
 		"job_tenure": job_tenure,
 		"work_performance": work_performance,
+		"milestones_reached": milestones_reached,
 		"portfolio": portfolio,
 		"relationships": relationships,
 		"inventory": inventory,

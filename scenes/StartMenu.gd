@@ -1,83 +1,261 @@
 extends Control
 
+# ── 배경 데이터 ──────────────────────────────────────────────────
+const BACKGROUNDS = [
+	{
+		"id": "지방_상경",
+		"emoji": "🚂",
+		"name": "지방 상경",
+		"tagline": "아무것도 없이 시작한다. 잃을 것도 없다.",
+		"desc": "지방 출신. 연고 없음. 100만원.\n가장 어렵지만 가장 자유로운 출발.",
+		"bonuses": "기본 스탯 / 패널티 없음",
+		"color": "#5b9cf6",
+	},
+	{
+		"id": "명문대_중퇴",
+		"emoji": "📚",
+		"name": "명문대 중퇴",
+		"tagline": "머리는 있는데 길을 잃었다.",
+		"desc": "학벌과 지력은 있지만 학자금 빚이 남아 있다.\n지식으로 앞서가되 빚을 갚아야 한다.",
+		"bonuses": "지력 +15  평판 +8  사회성 +5\n시작 자금 -50만원  스트레스 +10",
+		"color": "#a78bfa",
+	},
+	{
+		"id": "금수저",
+		"emoji": "💎",
+		"name": "금수저",
+		"tagline": "돈은 있다. 그런데 그게 다가 아니다.",
+		"desc": "풍족하게 자랐다. 시작 자금이 넉넉하지만\n생존 감각이 부족해 투자감각이 낮다.",
+		"bonuses": "시작 자금 +150만원  사회성 +8  외모 +5\n투자감각 -5",
+		"color": "#f0b429",
+	},
+]
+
+var name_input: LineEdit
+var selected_bg_index: int = 0
+var bg_cards: Array = []
 var trait_option: OptionButton
 var trait_desc_label: Label
 
 func _ready():
 	_build_ui()
+	BGMPlayer.start()
 
 func _build_ui():
 	var bg = ColorRect.new()
-	bg.color = Color("#07111f")
+	bg.color = Color("#0c0c10")
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 
-	var wrap = CenterContainer.new()
-	wrap.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(wrap)
+	var scroll = ScrollContainer.new()
+	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(scroll)
+
+	var outer = CenterContainer.new()
+	outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	outer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.add_child(outer)
 
 	var panel = PanelContainer.new()
-	panel.custom_minimum_size = Vector2(560, 640)
+	panel.custom_minimum_size = Vector2(600, 0)
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color("#0f172a")
-	style.border_color = Color("#334155")
+	style.bg_color = Color("#13131a")
+	style.border_color = Color("#252535")
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(8)
-	style.content_margin_left = 26
-	style.content_margin_right = 26
-	style.content_margin_top = 26
-	style.content_margin_bottom = 26
+	style.set_corner_radius_all(10)
+	style.content_margin_left = 32
+	style.content_margin_right = 32
+	style.content_margin_top = 32
+	style.content_margin_bottom = 32
 	panel.add_theme_stylebox_override("panel", style)
-	wrap.add_child(panel)
+	outer.add_child(panel)
 
 	var box = VBoxContainer.new()
-	box.add_theme_constant_override("separation", 14)
+	box.add_theme_constant_override("separation", 18)
 	panel.add_child(box)
 
-	box.add_child(_label("강남드림", 44, "#ffd166", HORIZONTAL_ALIGNMENT_CENTER))
-	box.add_child(_label("KOREAN LIFE ROGUELIKE", 14, "#94a3b8", HORIZONTAL_ALIGNMENT_CENTER))
-	box.add_child(_label("100만원, 스무 살, 서울. 이번 생은 어디까지 올라갈 수 있을까.", 15, "#dbe7ff", HORIZONTAL_ALIGNMENT_CENTER))
+	# ── 타이틀 ──
+	box.add_child(_label("강남드림", 48, "#f0b429", HORIZONTAL_ALIGNMENT_CENTER))
+	box.add_child(_label("KOREAN LIFE ROGUELIKE", 13, "#5a6075", HORIZONTAL_ALIGNMENT_CENTER))
+	box.add_child(_sep())
 
+	# ── 이름 입력 ──
+	box.add_child(_label("이름", 14, "#8892a4", HORIZONTAL_ALIGNMENT_LEFT))
+	name_input = LineEdit.new()
+	name_input.placeholder_text = "이름을 입력하세요"
+	name_input.text = "김민준"
+	name_input.custom_minimum_size = Vector2(0, 46)
+	name_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var input_style = StyleBoxFlat.new()
+	input_style.bg_color = Color("#1e1e2a")
+	input_style.border_color = Color("#3a3a5a")
+	input_style.set_border_width_all(1)
+	input_style.set_corner_radius_all(6)
+	input_style.content_margin_left = 12
+	input_style.content_margin_right = 12
+	name_input.add_theme_stylebox_override("normal", input_style)
+	name_input.add_theme_stylebox_override("focus", input_style)
+	name_input.add_theme_color_override("font_color", Color("#e8eaf0"))
+	name_input.add_theme_color_override("font_placeholder_color", Color("#5a6075"))
+	name_input.add_theme_font_size_override("font_size", 16)
+	box.add_child(name_input)
+
+	# ── 출신 배경 ──
+	box.add_child(_sep())
+	box.add_child(_label("출신 배경", 14, "#8892a4", HORIZONTAL_ALIGNMENT_LEFT))
+	box.add_child(_label("배경에 따라 시작 스탯과 초반 이야기가 달라집니다.", 12, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT))
+
+	var bg_grid = VBoxContainer.new()
+	bg_grid.add_theme_constant_override("separation", 8)
+	box.add_child(bg_grid)
+
+	for i in BACKGROUNDS.size():
+		var card = _bg_card(i)
+		bg_grid.add_child(card)
+		bg_cards.append(card)
+	_update_bg_selection()
+
+	# ── 트레이트 (메타 진행 보너스) ──
+	box.add_child(_sep())
+	box.add_child(_label("시작 특성  (플레이 실적에 따라 해금)", 14, "#8892a4", HORIZONTAL_ALIGNMENT_LEFT))
 	trait_option = OptionButton.new()
-	trait_option.custom_minimum_size = Vector2(360, 44)
+	trait_option.custom_minimum_size = Vector2(0, 44)
 	trait_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for trait_name in MetaProgression.get_unlocked_traits():
 		trait_option.add_item(trait_name)
 	trait_option.item_selected.connect(_on_trait_selected)
 	box.add_child(trait_option)
 
-	trait_desc_label = _label("", 13, "#94a3b8", HORIZONTAL_ALIGNMENT_LEFT)
+	trait_desc_label = _label("", 12, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT)
 	trait_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	trait_desc_label.custom_minimum_size = Vector2(360, 36)
+	trait_desc_label.custom_minimum_size = Vector2(0, 32)
 	box.add_child(trait_desc_label)
 	_on_trait_selected(0)
 
-	var new_game = _button("새 런 시작", "#238636")
+	# ── 시작 버튼 ──
+	box.add_child(_sep())
+	var new_game = _button("새 런 시작  ▶", "#00c896")
 	new_game.pressed.connect(_start_new_run)
 	box.add_child(new_game)
 
-	box.add_child(_label("저장 슬롯", 16, "#58a6ff", HORIZONTAL_ALIGNMENT_LEFT))
+	# ── 저장 슬롯 ──
+	box.add_child(_sep())
+	box.add_child(_label("저장 슬롯", 14, "#5b9cf6", HORIZONTAL_ALIGNMENT_LEFT))
 	for slot in range(0, 4):
 		var info = SaveManager.get_save_info(slot)
-		var label = "슬롯 %d" % slot
-		if slot == 0:
-			label = "자동저장"
+		var lbl = "슬롯 %d" % slot
+		if slot == 0: lbl = "자동저장"
 		if info.get("empty", true):
-			label += " / 비어 있음"
+			lbl += "  /  비어 있음"
 		else:
-			label += " / %d년 %d월 / 자산 %s" % [info.get("year", 2026), info.get("month", 1), _format_money(info.get("total_assets", 0))]
-		var button_color = "#30363d"
-		if not info.get("empty", true):
-			button_color = "#1f6feb"
-		var button = _button(label, button_color)
-		button.disabled = info.get("empty", true)
-		button.pressed.connect(Callable(self, "_load_slot").bind(slot))
-		box.add_child(button)
+			lbl += "  /  %d년 %d월  /  자산 %s" % [
+				info.get("year", 2026), info.get("month", 1),
+				_format_money(info.get("total_assets", 0))
+			]
+		var btn = _button(lbl, "#1e1e2a" if info.get("empty", true) else "#5b9cf6")
+		btn.disabled = info.get("empty", true)
+		btn.pressed.connect(Callable(self, "_load_slot").bind(slot))
+		box.add_child(btn)
 
+	# ── 메타 통계 ──
 	var meta = MetaProgression.data
-	box.add_child(_label("누적 런 %d회 / 최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))], 13, "#94a3b8", HORIZONTAL_ALIGNMENT_CENTER))
+	box.add_child(_label(
+		"누적 %d런  /  최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
+		12, "#3a3a5a", HORIZONTAL_ALIGNMENT_CENTER))
 
+# ── 배경 카드 생성 ──────────────────────────────────────────────
+func _bg_card(index: int) -> PanelContainer:
+	var bg_data = BACKGROUNDS[index]
+	var card = PanelContainer.new()
+	card.custom_minimum_size = Vector2(0, 80)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.mouse_filter = Control.MOUSE_FILTER_STOP
+
+	var card_style = StyleBoxFlat.new()
+	card_style.bg_color = Color("#1a1a26")
+	card_style.border_color = Color("#2a2a40")
+	card_style.set_border_width_all(2)
+	card_style.set_corner_radius_all(8)
+	card_style.content_margin_left = 14
+	card_style.content_margin_right = 14
+	card_style.content_margin_top = 10
+	card_style.content_margin_bottom = 10
+	card.add_theme_stylebox_override("panel", card_style)
+	card.set_meta("style", card_style)
+	card.set_meta("index", index)
+
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	card.add_child(row)
+
+	# 이모지
+	var emoji_lbl = Label.new()
+	emoji_lbl.text = bg_data["emoji"]
+	emoji_lbl.add_theme_font_size_override("font_size", 28)
+	emoji_lbl.custom_minimum_size = Vector2(38, 0)
+	emoji_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(emoji_lbl)
+
+	# 텍스트
+	var text_col = VBoxContainer.new()
+	text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_col.add_theme_constant_override("separation", 2)
+	row.add_child(text_col)
+
+	var name_row = HBoxContainer.new()
+	name_row.add_theme_constant_override("separation", 8)
+	text_col.add_child(name_row)
+	var name_lbl = Label.new()
+	name_lbl.text = "%s  %s" % [bg_data["name"], bg_data["tagline"]]
+	name_lbl.add_theme_font_size_override("font_size", 14)
+	name_lbl.add_theme_color_override("font_color", Color("#e8eaf0"))
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_row.add_child(name_lbl)
+
+	var bonus_lbl = Label.new()
+	bonus_lbl.text = bg_data["bonuses"]
+	bonus_lbl.add_theme_font_size_override("font_size", 11)
+	bonus_lbl.add_theme_color_override("font_color", Color(bg_data["color"]))
+	bonus_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bonus_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_col.add_child(bonus_lbl)
+
+	# 클릭 가능하게
+	var btn_overlay = Button.new()
+	btn_overlay.flat = true
+	btn_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	btn_overlay.pressed.connect(Callable(self, "_select_background").bind(index))
+	card.add_child(btn_overlay)
+
+	return card
+
+func _select_background(index: int):
+	selected_bg_index = index
+	_update_bg_selection()
+
+func _update_bg_selection():
+	for i in bg_cards.size():
+		var card = bg_cards[i]
+		var card_style: StyleBoxFlat = card.get_meta("style")
+		if i == selected_bg_index:
+			card_style.bg_color = Color("#1e2040")
+			card_style.border_color = Color(BACKGROUNDS[i]["color"])
+			card_style.border_width_left = 3
+			card_style.border_width_top = 3
+			card_style.border_width_right = 3
+			card_style.border_width_bottom = 3
+		else:
+			card_style.bg_color = Color("#1a1a26")
+			card_style.border_color = Color("#2a2a40")
+			card_style.border_width_left = 2
+			card_style.border_width_top = 2
+			card_style.border_width_right = 2
+			card_style.border_width_bottom = 2
+		card.add_theme_stylebox_override("panel", card_style)
+
+# ── 트레이트 선택 ───────────────────────────────────────────────
 func _on_trait_selected(index):
 	if trait_desc_label == null:
 		return
@@ -97,49 +275,57 @@ func _on_trait_selected(index):
 				for k in bonus:
 					var v = int(bonus[k])
 					var sign = "+" if v >= 0 else ""
-					var label = k
+					var lbl = k
 					match k:
-						"money": label = "시작 자금 %s%d원" % [sign, v]
-						"health": label = "건강 %s%d" % [sign, v]
-						"mental": label = "정신력 %s%d" % [sign, v]
-						"intelligence": label = "지력 %s%d" % [sign, v]
-						"social_skill": label = "사회성 %s%d" % [sign, v]
-						"appearance": label = "외모 %s%d" % [sign, v]
-						"investment_skill": label = "투자 %s%d" % [sign, v]
-						"luck": label = "행운 %s%d" % [sign, v]
-						"stress": label = "스트레스 %s%d" % [sign, v]
-						_: label = "%s %s%d" % [k, sign, v]
-					parts.append(label)
-				hint = " [" + ", ".join(parts) + "]"
+						"money": lbl = "시작 자금 %s%d원" % [sign, v]
+						"health": lbl = "건강 %s%d" % [sign, v]
+						"mental": lbl = "정신력 %s%d" % [sign, v]
+						"intelligence": lbl = "지력 %s%d" % [sign, v]
+						"social_skill": lbl = "사회성 %s%d" % [sign, v]
+						"appearance": lbl = "외모 %s%d" % [sign, v]
+						"investment_skill": lbl = "투자 %s%d" % [sign, v]
+						"luck": lbl = "행운 %s%d" % [sign, v]
+						"stress": lbl = "스트레스 %s%d" % [sign, v]
+						_: lbl = "%s %s%d" % [k, sign, v]
+					parts.append(lbl)
+				hint = "  [" + "  ".join(parts) + "]"
 			break
 	trait_desc_label.text = desc + hint
 
+# ── 시작 / 로드 ─────────────────────────────────────────────────
 func _start_new_run():
+	var chosen_name = name_input.text.strip_edges()
+	var chosen_bg = BACKGROUNDS[selected_bg_index]["id"]
 	var selected_trait = "흙수저 생존본능"
 	if trait_option.get_item_count() > 0:
 		selected_trait = trait_option.get_item_text(trait_option.selected)
-	GameState.start_new_game(selected_trait)
+	GameState.start_new_game(selected_trait, chosen_name, chosen_bg)
 	get_tree().change_scene_to_file("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):
 	if SaveManager.load_game(slot):
 		get_tree().change_scene_to_file("res://scenes/MainGame.tscn")
 
-func _label(text, size, color, align):
-	var label = Label.new()
-	label.text = text
-	label.horizontal_alignment = align
-	label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	label.clip_text = true
-	label.custom_minimum_size = Vector2(360, 0)
-	label.add_theme_font_size_override("font_size", size)
-	label.add_theme_color_override("font_color", Color(color))
-	return label
+# ── UI 헬퍼 ────────────────────────────────────────────────────
+func _label(text, size, color, align) -> Label:
+	var lbl = Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = align
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lbl.add_theme_font_size_override("font_size", size)
+	lbl.add_theme_color_override("font_color", Color(color))
+	return lbl
 
-func _button(text, color):
+func _sep() -> HSeparator:
+	var s = HSeparator.new()
+	s.add_theme_color_override("color", Color("#1e1e2a"))
+	return s
+
+func _button(text, color) -> Button:
 	var button = Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(360, 46)
+	button.custom_minimum_size = Vector2(0, 48)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color(color)
@@ -149,9 +335,10 @@ func _button(text, color):
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_color_override("font_color", Color("#ffffff"))
+	button.add_theme_font_size_override("font_size", 15)
 	return button
 
-func _format_money(amount):
+func _format_money(amount) -> String:
 	if abs(amount) >= 100_000_000:
 		return "%.1f억원" % (amount / 100_000_000.0)
 	if abs(amount) >= 10_000:

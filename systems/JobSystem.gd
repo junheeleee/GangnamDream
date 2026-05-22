@@ -16,6 +16,10 @@ func apply_for_job(job_id):
 	GameState.work_performance = 50
 	GameState.monthly_income += float(job.get("base_salary", 0.0))
 	GameState.flags["has_job"] = true
+	# 최고 직업 티어 갱신 — 다음 티어 잠금 해제에 사용
+	var job_tier: int = int(job.get("tier", 1))
+	if job_tier > int(GameState.flags.get("max_job_tier", 0)):
+		GameState.flags["max_job_tier"] = job_tier
 	GameState.add_log("%s 취업. 월급 %s" % [job.get("name", "직장"), GameState.format_money(job.get("base_salary", 0.0))], "job")
 	job_changed.emit(job)
 	return {"success": true, "message": "취업 완료"}
@@ -49,9 +53,20 @@ func process_monthly_job():
 
 func get_available_jobs():
 	var rows: Array = []
+	# 현재까지 도달한 최고 티어 + 1 까지 열람 가능
+	# 예: max_job_tier=0(무직경험없음) → 티어1만 접근
+	#     max_job_tier=1(티어1 경력) → 티어1·2 접근
+	var max_accessible: int = int(GameState.flags.get("max_job_tier", 0)) + 1
 	for job in DataRegistry.jobs:
 		var row = job.duplicate(true)
+		var tier: int = int(job.get("tier", 1))
 		row["eligible"] = _check_requirements(job.get("requirements", {}))
+		if tier > max_accessible:
+			row["locked"] = true
+			row["lock_reason"] = "🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기" % (tier - 1)
+		else:
+			row["locked"] = false
+			row["lock_reason"] = ""
 		rows.append(row)
 	return rows
 
@@ -64,8 +79,12 @@ func _promote(job):
 	var promo_count = int(GameState.current_job.get("promotion_count", 0)) + 1
 	GameState.current_job["promotion_count"] = promo_count
 	var max_promo = int(job.get("max_promotions", 3))
-	GameState.add_log("승진 (%d/%d): 월급 +%s" % [promo_count, max_promo, GameState.format_money(bonus)], "job")
+	GameState.add_log("⬆ 승진 (%d/%d): 월급 +%s" % [promo_count, max_promo, GameState.format_money(bonus)], "job")
 	promoted.emit(job, bonus)
+	# 승진할 때마다 직장 내 암투 이벤트 트리거
+	var drama_ev = DataRegistry.find_event("drama_office_politics")
+	if not drama_ev.is_empty() and randf() < 0.6:
+		EventManager.queue_event(drama_ev)
 
 func _check_requirements(req):
 	for key in req:

@@ -35,7 +35,7 @@ func get_affinity_label(value):
 func _apply_passive(rel):
 	var affection = int(rel.get("affection", 40))
 	var trust = int(rel.get("trust", 40))
-	var name = rel.get("name", "인연")
+	var rel_name = rel.get("name", "인연")
 	if affection < 45:
 		return
 	match str(rel.get("type", "friends")):
@@ -47,7 +47,7 @@ func _apply_passive(rel):
 				if randf() < 0.15:
 					# 생활비 분담 효과 (월 10만원)
 					GameState.add_money(100_000.0)
-					GameState.add_log("%s: 생활비 분담 효과 +10만원" % name, "relationship")
+					GameState.add_log("%s: 생활비 분담 효과 +10만원" % rel_name, "relationship")
 			elif affection >= 60:
 				GameState.modify_stat("mental", 1)
 				GameState.modify_hidden_stat("stress", -2)
@@ -61,7 +61,7 @@ func _apply_passive(rel):
 				if randf() < 0.20:
 					# 멘토의 투자 팁: 월 20만원 가치의 인사이트
 					GameState.add_money(200_000.0)
-					GameState.add_log("%s 멘토: 투자 인사이트 +20만원 가치" % name, "relationship")
+					GameState.add_log("%s 멘토: 투자 인사이트 +20만원 가치" % rel_name, "relationship")
 			elif affection >= 55:
 				if randf() < 0.55:
 					GameState.modify_stat("investment_skill", 1)
@@ -78,7 +78,7 @@ func _apply_passive(rel):
 					# 비즈니스 파트너 수익 공유
 					var bonus = 150_000.0
 					GameState.add_money(bonus)
-					GameState.add_log("%s: 비즈니스 파트너 수익 공유 +15만원" % name, "relationship")
+					GameState.add_log("%s: 비즈니스 파트너 수익 공유 +15만원" % rel_name, "relationship")
 			elif affection >= 55:
 				GameState.modify_hidden_stat("reputation", 1)
 				if randf() < 0.15:
@@ -94,7 +94,7 @@ func _apply_passive(rel):
 				if randf() < 0.10 and GameState.money < 500_000:
 					# 용돈/지원
 					GameState.add_money(300_000.0)
-					GameState.add_log("%s: 가족 지원금 +30만원" % name, "relationship")
+					GameState.add_log("%s: 가족 지원금 +30만원" % rel_name, "relationship")
 			elif affection >= 50:
 				GameState.modify_stat("mental", 1)
 				GameState.modify_hidden_stat("stress", -1)

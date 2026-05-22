@@ -1,0 +1,448 @@
+[
+  {
+    "id": "story_arrival",
+    "title": "2026년 1월, 서울",
+    "description": "스무 살. 지방에서 올라온 지 사흘째.\n\n고시원 방은 1평 반이다. 침대, 선반, 작은 책상.\n창문 밖으로 보이는 건 맞은편 건물 외벽뿐이다.\n옆방에서 누군가 통화하는 소리가 벽을 뚫고 들어온다.\n\n짐은 캐리어 하나. 통장엔 100만원.\n월세 35만원, 밥값, 교통비, 공과금...\n다음 달이면 이미 적자다.\n\n서울은 기다려주지 않는다는 말이 어떤 뜻인지,\n이제 조금 알 것 같다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "내일 일찍 일어나 동네를 걸어본다",
+        "effects": { "social_skill": 1, "stress": -2 },
+        "flags": [],
+        "follow_up_event": "story_pressure",
+        "result_text": "골목 편의점, 세탁소, 24시 식당, PC방.\n낯선 동네가 조금씩 눈에 익기 시작했다."
+      },
+      {
+        "text": "방에서 재테크 영상을 찾아본다",
+        "effects": { "investment_skill": 1, "mental": -2 },
+        "flags": [],
+        "follow_up_event": "story_pressure",
+        "result_text": "부동산, 주식, 코인... 돈 버는 방법은 많았다.\n다만 지금 내 통장엔 100만원뿐이라는 게 문제였다."
+      }
+    ]
+  },
+  {
+    "id": "story_pressure",
+    "title": "보름이 지났다",
+    "description": "1월 중순. 아직 반도 안 됐는데 통장에서 40만원이 빠져나갔다.\n\n밥값, 버스비, 세탁기 동전, 편의점 삼각김밥...\n작은 것들이 쌓였다.\n\n이 속도라면 100만원은 두 달을 못 버틴다.\n\n친구한테서 문자가 왔다.\n'야, 우리 동네 편의점에서 야간 알바 구한대. 너 할 거야?'\n\n처음으로 현실이 코앞에 닥쳤다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "job_unlock"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"응, 알아볼게.\" 구인 앱을 다운받는다",
+        "effects": { "stress": 2 },
+        "flags": ["story_job_unlocked"],
+        "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다."
+      },
+      {
+        "text": "\"조금만 더 생각해보고.\" 일단 공부부터 한다",
+        "effects": { "intelligence": 2, "mental": -1 },
+        "flags": ["story_job_unlocked"],
+        "result_text": "더 준비하고 싶었지만, 통장이 허락하질 않았다.\n결국 구인 앱을 켰다. 선택의 여지가 없었다."
+      }
+    ]
+  },
+  {
+    "id": "story_six_months",
+    "title": "반년이 지났다",
+    "description": "6개월째.\n\n처음 이 방에 들어왔을 때의 그 막막함이 아직 기억난다.\n캐리어 하나, 100만원.\n지금은 그때보다 나아졌을까?\n\n창밖의 서울은 여전히 빠르게 돌아간다.\n라이벌들은 각자의 속도로 앞으로 가고 있다.\n\n나는 지금 어느 자리에 서 있는 걸까.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "잘 버텼다. 계속 가보자.",
+        "effects": { "mental": 4, "stress": -4 },
+        "flags": ["story_six_months_seen"],
+        "result_text": "반년. 작은 것들이 쌓여 여기까지 왔다.\n앞으로도 그렇게 가면 된다."
+      },
+      {
+        "text": "아직 부족하다. 더 빠르게 움직여야 한다.",
+        "effects": { "intelligence": 2, "investment_skill": 1, "stress": 5 },
+        "flags": ["story_six_months_seen"],
+        "result_text": "조급함이 생겼다. 나쁜 건 아니다.\n다만 무너지지 않을 만큼만 조여야 한다."
+      }
+    ]
+  },
+  {
+    "id": "story_one_year",
+    "title": "1년이 지났다",
+    "description": "12개월.\n\n작년 이맘때 이 방에 처음 짐을 풀었다.\n그때의 나는 서울이 얼마나 큰지도 몰랐다.\n\n지금은?\n\n여전히 고시원이라면 뭔가 잘못 가고 있는 것 같고,\n아파트에 산다면 운이 좋았거나, 아니면 정말 잘 한 것이다.\n어디 있든 — 1년을 버텼다는 건 사실이다.\n\n서울에서 버티는 게 얼마나 어려운 일인지는\n버텨본 사람만 안다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "여기까지 온 것만으로도 의미 있다",
+        "effects": { "mental": 5, "stress": -5, "social_skill": 1 },
+        "flags": ["story_one_year_seen"],
+        "result_text": "비교하지 않기로 했다. 나는 나의 속도로 가고 있다."
+      },
+      {
+        "text": "1년이 지났는데 아직도 이 자리? 불태우자.",
+        "effects": { "intelligence": 3, "investment_skill": 2, "stress": 8, "mental": -3 },
+        "flags": ["story_one_year_seen"],
+        "result_text": "불꽃을 당겼다. 이 에너지가 오래 가야 할 텐데."
+      }
+    ]
+  },
+  {
+    "id": "story_rainy_night",
+    "title": "비 오는 밤",
+    "description": "밤 11시, 빗소리가 창문을 두드린다.\n\n고시원 복도 자판기에서 캔커피를 뽑아 방으로 돌아왔다.\n침대에 누워 천장을 본다.\n\n오늘 하루를 제대로 살았나.\n서울에 온 이유를 기억하고 있나.\n\n강남까지는 아직 멀다. 하지만 오늘도 한 발 왔다.",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "tags": ["story", "introspection"],
+    "cooldown": 14,
+    "choices": [
+      {
+        "text": "그래, 한 발씩. 포기하지 않는다.",
+        "effects": { "mental": 3, "stress": -3 },
+        "flags": [],
+        "result_text": "커피 한 모금. 내일 다시 시작하면 된다."
+      },
+      {
+        "text": "지쳤다. 오늘은 그냥 쉰다.",
+        "effects": { "health": 3, "mental": 2, "stress": -5 },
+        "flags": [],
+        "result_text": "억지로 뭔가 하려다 아무것도 못 하는 것보다\n제대로 쉬는 게 나을 때도 있다."
+      }
+    ]
+  },
+  {
+    "id": "story_compare_friend",
+    "title": "친구의 소식",
+    "description": "고등학교 친구한테서 카톡이 왔다.\n\n'나 이번에 대기업 붙었어 ㅋㅋ'\n\n순간 축하한다고 답하면서 손가락이 잠깐 멈췄다.\n\n같은 해에 서울 왔는데.\n걔는 대기업, 나는 아직...\n비교하지 않으려고 했는데, 생각보다 쉽지 않다.",
+    "category": "story",
+    "rarity": "common",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": { "min_turn": 4, "no_job": true },
+    "tags": ["story", "comparison", "anxiety"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "진심으로 축하한다. 나는 나의 길이 있다.",
+        "effects": { "mental": 2, "social_skill": 1 },
+        "flags": [],
+        "result_text": "축하 메시지를 보냈다. 마음이 조금 복잡하지만, 그것도 괜찮다."
+      },
+      {
+        "text": "자극이 됐다. 더 열심히 해야겠다.",
+        "effects": { "intelligence": 2, "stress": 4, "mental": -2 },
+        "flags": [],
+        "result_text": "답장을 보내고 책상 앞에 앉았다. 조급함과 의지가 뒤섞였다."
+      },
+      {
+        "text": "SNS를 닫는다. 지금은 내 것에 집중할 때.",
+        "effects": { "stress": -3, "investment_skill": 1 },
+        "flags": [],
+        "result_text": "비교는 에너지 낭비다. 지금 내가 할 수 있는 것에 집중하기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "story_first_paycheck_feel",
+    "title": "첫 월급",
+    "description": "알림이 울렸다.\n\n[입금] OO  ₩ 1,200,000\n\n멍하게 화면을 봤다.\n세금 떼고, 교통비 제하면 그리 많지 않다.\n그래도 — 내가 일해서 번 돈이다.\n\n처음으로 통장에 내 이름으로 들어온 돈.\n작은 숫자지만 왠지 뭉클했다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "milestone", "paycheck"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "일부를 저금하고, 나머지는 제대로 쓴다",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["story_first_paycheck_seen"],
+        "result_text": "생애 첫 월급. 기념으로 동네 삼겹살집을 갔다. 혼자였지만 맛있었다."
+      },
+      {
+        "text": "전부 저금한다. 아직 쓸 때가 아니다.",
+        "effects": { "stress": 2, "mental": -1 },
+        "flags": ["story_first_paycheck_seen"],
+        "result_text": "통장에 그대로 넣었다. 절약은 맞지만 왠지 뭔가 빠진 기분이었다."
+      }
+    ]
+  },
+  {
+    "id": "story_first_workday",
+    "title": "첫 출근",
+    "description": "자명종이 울리기 10분 전에 눈이 떠졌다.\n\n처음 가는 직장. 뭘 입어야 할지, 몇 분 일찍 가야 할지,\n점심은 혼자 먹는 건지 같이 먹는 건지.\n사소한 게 전부 처음이다.\n\n지하철 안에서 멍하니 서 있었다.\n다들 각자의 아침을 살아가고 있었다.\n\n나도 이제 그 중 한 명이 됐다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "job"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "10분 일찍 도착해서 자리를 살핀다",
+        "effects": { "intelligence": 1, "stress": 2, "reputation": 2 },
+        "flags": ["story_first_workday_seen"],
+        "result_text": "아무도 없는 사무실에 혼자 앉아 있었다. 어색했지만, 첫인상은 챙겼다."
+      },
+      {
+        "text": "정시에 딱 맞춰 들어간다",
+        "effects": { "stress": -1 },
+        "flags": ["story_first_workday_seen"],
+        "result_text": "칼같이 정시 출근. 너무 의식하지 않기로 했다. 첫날이지만 평소처럼."
+      }
+    ]
+  },
+  {
+    "id": "story_late_night_grind",
+    "title": "야근",
+    "description": "밤 10시. 사무실에 나만 남았다.\n\n형광등 아래서 화면을 보다 고개를 들었을 때,\n창밖은 이미 깜깜했다.\n\n오늘 못 끝내면 내일로 넘어간다.\n내일 또 야근이 될 수도 있다.\n\n서울 어딘가에서 친구들은 지금 뭘 하고 있을까.",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": { "has_job": true, "min_turn": 4, "min_stress": 52 },
+    "tags": ["story", "work", "stress"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "끝내고 간다. 어차피 집에 가봤자 고시원이다.",
+        "effects": { "intelligence": 2, "stress": 5, "health": -3, "reputation": 3 },
+        "flags": [],
+        "result_text": "밤 11시 반. 마감은 했다. 버스 안에서 바로 잠들었다."
+      },
+      {
+        "text": "오늘은 그냥 퇴근한다. 내일 일은 내일 하자.",
+        "effects": { "stress": -4, "mental": 2, "health": 2 },
+        "flags": [],
+        "result_text": "눈치가 보였지만 나갔다. 퇴근길 편의점 어묵 국물이 그날 최고였다."
+      },
+      {
+        "text": "커피 한 잔 더 뽑고 버틴다",
+        "effects": { "stress": 3, "health": -2, "investment_skill": 1 },
+        "flags": [],
+        "result_text": "새벽 1시. 다 끝냈다. 집 가는 길이 멀었지만 이상하게 개운했다."
+      }
+    ]
+  },
+  {
+    "id": "story_weekend_choice",
+    "title": "토요일 아침",
+    "description": "오전 9시. 자명종이 없는 날.\n\n평일엔 이 시간에 이미 출근 지하철을 타고 있다.\n오늘은 아무것도 안 해도 된다.\n\n근데 아무것도 안 하면 왠지 뒤처지는 것 같다.\n쉬면 죄책감이 생기는 이 느낌은 뭘까.",
+    "category": "story",
+    "rarity": "common",
+    "weight": 3.5,
+    "hidden": false,
+    "conditions": { "has_job": true, "min_turn": 4 },
+    "tags": ["story", "weekend", "balance"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "카페 가서 공부한다. 시간이 아깝다.",
+        "effects": { "intelligence": 2, "investment_skill": 1, "stress": 2, "mental": -1 },
+        "flags": [],
+        "result_text": "4시간 앉아서 공부했다. 생산적이었다. 근데 좀 피곤하다."
+      },
+      {
+        "text": "그냥 쉰다. 오늘 하루는 나한테 준다.",
+        "effects": { "health": 4, "mental": 4, "stress": -6 },
+        "flags": [],
+        "result_text": "아무것도 안 했다. 오후에 동네 산책만 했다.\n왠지 다음 주가 더 잘 될 것 같은 기분이 들었다."
+      },
+      {
+        "text": "친구 만나러 나간다",
+        "effects": { "social_skill": 2, "stress": -4, "mental": 3 },
+        "flags": [],
+        "result_text": "오랜만에 웃었다. 서울에서 혼자 살다 보면 이게 제일 어렵다."
+      }
+    ]
+  },
+  {
+    "id": "story_gosiwon_neighbor",
+    "title": "옆방 사람",
+    "description": "고시원에 산 지 몇 달이 지났는데,\n옆방 사람 얼굴을 아직 제대로 본 적이 없다.\n\n복도에서 마주치면 눈을 피한다.\n나도 그렇고, 그 사람도 그렇다.\n\n각자 이유가 있어서 여기 있는 거고,\n각자의 방식으로 버티고 있는 거겠지.\n\n오늘 처음으로 말을 걸어볼까.",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": { "min_turn": 3, "no_flag": "story_gosiwon_neighbor_seen" },
+    "tags": ["story", "social", "gosiwon"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"안녕하세요\" 한마디를 건넨다",
+        "effects": { "social_skill": 2, "mental": 2, "stress": -2 },
+        "flags": ["story_gosiwon_neighbor_seen"],
+        "result_text": "\"아, 네.\" 짧게 대답하고 갔다. 근데 그다음부터 복도가 좀 덜 어색해졌다."
+      },
+      {
+        "text": "그냥 지나친다. 엮이지 않는 게 편하다.",
+        "effects": { "mental": -1 },
+        "flags": ["story_gosiwon_neighbor_seen"],
+        "result_text": "눈을 내리깔고 지나쳤다. 서울에서 혼자 산다는 건 이런 것이다."
+      }
+    ]
+  },
+  {
+    "id": "story_payday_morning",
+    "title": "월급날",
+    "description": "25일 아침. 출근 지하철 안에서 앱을 열었다.\n\n입금 확인.\n숫자가 바뀌어 있었다.\n\n세금 떼고, 월세 빠지면 얼마 남는지 벌써 계산이 됐다.\n그래도 한 달 일한 대가가 저 숫자라는 게\n괜히 뭉클하기도 했다.",
+    "category": "story",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": { "has_job": true, "min_turn": 3 },
+    "tags": ["story", "money", "work"],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "전액 저금. 지금은 아낄 때다.",
+        "effects": { "stress": 2, "mental": -1 },
+        "flags": [],
+        "result_text": "통장에 그대로 남겼다. 욕구를 눌렀다. 나중을 위해서."
+      },
+      {
+        "text": "고생한 나한테 작은 선물을 산다",
+        "effects": { "mental": 4, "stress": -3, "money": -50000 },
+        "flags": [],
+        "result_text": "5만원짜리 운동화. 비싼 건 아니지만 내 돈으로 산 것이었다."
+      },
+      {
+        "text": "이 돈을 어떻게 불릴지 생각한다",
+        "effects": { "investment_skill": 2, "stress": 1 },
+        "flags": [],
+        "result_text": "메모장에 수입·지출을 적었다. 투자 여력이 얼마인지가 보이기 시작했다."
+      }
+    ]
+  },
+  {
+    "id": "story_hometown_nostalgia",
+    "title": "고향 생각",
+    "description": "명절 즈음. 귀성 인파 뉴스가 보인다.\n\n나는 표를 끊지 못했다. 아니, 안 끊었다.\n고향 가면 질문이 쏟아진다.\n'취직은 했어?' '돈은 모았어?' '서울은 어때?'\n\n서울이 숨막혀도,\n고향은 아직 돌아갈 준비가 안 됐다.",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": { "min_turn": 6 },
+    "tags": ["story", "family", "nostalgia"],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "그래도 내려간다. 부모님이 보고 싶다.",
+        "effects": { "mental": 5, "stress": -3, "money": -100000, "social_skill": 1 },
+        "flags": [],
+        "result_text": "엄마가 차려준 밥을 먹었다. 질문이 쏟아졌지만 버틸 만했다.\n서울로 돌아오는 길이 이상하게 더 가벼웠다."
+      },
+      {
+        "text": "올해는 서울에 남는다. 이게 맞다.",
+        "effects": { "stress": 3, "mental": -3 },
+        "flags": [],
+        "result_text": "연락은 했다. 목소리가 조금 쓸쓸하게 들렸다.\n명절 연휴에 혼자 고시원에 있는 건 생각보다 외로운 일이었다."
+      }
+    ]
+  },
+  {
+    "id": "story_first_savings_milestone",
+    "title": "통장을 열었다",
+    "description": "오늘 우연히 통장 잔액을 봤다.\n\n처음 서울 왔을 때 100만원이었는데.\n\n숫자가 달라져 있었다.\n크게 큰 금액은 아니지만 — 내가 만든 숫자다.\n먹고, 자고, 일하고, 아끼면서 쌓아온 것들.\n\n강남까지는 멀지만,\n출발선에서 한 걸음은 온 것 같다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "milestone", "money"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "이 돈을 지키면서 더 불린다",
+        "effects": { "mental": 3, "investment_skill": 2 },
+        "flags": ["story_first_savings_seen"],
+        "result_text": "잃지 않는 게 먼저다. 그다음이 불리는 것이다."
+      },
+      {
+        "text": "좀 더 공격적으로 움직일 때가 됐다",
+        "effects": { "stress": 3, "investment_skill": 3, "mental": -1 },
+        "flags": ["story_first_savings_seen"],
+        "result_text": "머뭇거릴 시간이 없다. 지금이 기회다."
+      }
+    ]
+  },
+  {
+    "id": "story_arrival_elite",
+    "title": "2026년 1월, 서울",
+    "description": "스무 살. 명문대를 1년 만에 그만뒀다.\n\n학교가 잘못된 게 아니었다. 내가 다른 걸 원했다.\n근데 그 '다른 것'이 뭔지는 아직 모른다.\n\n고시원 방에 앉아 있다. 학자금 대출 50만원이 통장에서 빠져나갔다.\n\n지력은 있다. 학벌도 있다.\n근데 지금 당장 이 빈 방과 빈 통장이 전부다.\n\n서울은 스펙이 아니라 실력으로 돌아간다는 걸\n이제야 실감한다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "중퇴한 건 후회 없다. 내 길을 간다.",
+        "effects": { "mental": 3, "stress": -3 },
+        "flags": [],
+        "follow_up_event": "story_pressure",
+        "result_text": "결정은 내가 했다. 그 무게도 내가 진다."
+      },
+      {
+        "text": "불안하다. 빠르게 증명해야 한다.",
+        "effects": { "intelligence": 2, "stress": 5, "mental": -2 },
+        "flags": [],
+        "follow_up_event": "story_pressure",
+        "result_text": "조급함이 생겼다. 나쁜 건 아니지만 오래가면 안 된다."
+      }
+    ]
+  },
+  {
+    "id": "story_arrival_rich",
+    "title": "2026년 1월, 서울",
+    "description": "스무 살. 집에서 독립하겠다고 나왔다.\n\n부모님은 말렸다. '왜 굳이 고시원이야?'\n그래도 나왔다. 뭔가를 스스로 해보고 싶었다.\n\n고시원 방이 생각보다 좁다.\n집에서 쓰던 방 화장실보다 작은 것 같다.\n\n통장엔 250만원. 집에서 받은 돈이다.\n부모님 없이 스스로 버는 첫 번째 돈은 언제 생길까.\n\n이게 진짜 시작이다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "이 경험을 즐기기로 한다. 재밌을 것 같다.",
+        "effects": { "mental": 2, "social_skill": 2 },
+        "flags": [],
+        "follow_up_event": "story_pressure",
+        "result_text": "낯선 환경이 오히려 설렌다. 이 감각을 오래 간직하고 싶다."
+      },
+      {
+        "text": "빨리 나만의 돈을 벌고 싶다",
+        "effects": { "investment_skill": 2, "stress": 3 },
+        "flags": [],
+        "follow_up_event": "story_pressure",
+        "result_text": "부모님 돈 말고, 내 이름으로 번 돈. 그게 목표가 됐다."
+      }
+    ]
+  }
+]

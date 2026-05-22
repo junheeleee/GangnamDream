@@ -1,10 +1,12 @@
 extends Node
 
 const EVENT_PATHS = [
+	"res://content/events/story_events.json",
 	"res://content/events/life_events.json",
 	"res://content/events/investment_events.json",
 	"res://content/events/relationship_events.json",
 	"res://content/events/hidden_events.json",
+	"res://content/events/drama_events.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"

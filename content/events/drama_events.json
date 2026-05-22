@@ -1,0 +1,530 @@
+[
+  {
+    "id": "drama_crypto_allin",
+    "title": "코인 한 방",
+    "description": "새벽 2시. 오픈카톡방이 터지고 있다.\n\n'지금 이거 안 사면 평생 후회함. 내일 3배는 간다.'\n\n누군가 전재산을 넣었다고 올렸다. 차트는 수직 상승 중이다.\n통장엔 지금 쓸 수 있는 돈이 있다.\n\n이 기회가 진짜인지, 함정인지는 모른다.\n하지만 기회는 지금 이 순간이다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_money": 500000,
+      "min_turn": 3
+    },
+    "tags": ["finance", "risk", "gambling"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "전재산을 넣는다 (최대 500만원)",
+        "effects": {},
+        "result_text": "손이 떨렸다. 확인 버튼을 눌렀다.",
+        "follow_up_event": "drama_crypto_result_big"
+      },
+      {
+        "text": "여윳돈 50만원만 써본다",
+        "effects": {},
+        "result_text": "조금만 써보기로 했다.",
+        "follow_up_event": "drama_crypto_result_small"
+      },
+      {
+        "text": "차트를 보다가 닫는다",
+        "effects": {
+          "mental": 2,
+          "stress": -3
+        },
+        "result_text": "오픈카톡을 껐다. 내일 아침에 결과를 알게 될 것이다. 잘 결정한 건지 모르겠다."
+      }
+    ]
+  },
+  {
+    "id": "drama_crypto_result_big",
+    "title": "코인 결과 — 전재산",
+    "description": "거래 내역을 열었다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["finance"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "결과를 확인한다",
+        "effects": {},
+        "result_text": "운이 갈렸다. 어떻게 됐는지는 통장이 알고 있다."
+      }
+    ]
+  },
+  {
+    "id": "drama_crypto_result_small",
+    "title": "코인 결과 — 소액",
+    "description": "50만원을 넣은 코인의 가격이 움직였다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["finance"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "확인한다",
+        "effects": {},
+        "result_text": "소액이라 다행이거나, 소액이라 아쉽거나."
+      }
+    ]
+  },
+  {
+    "id": "drama_startup_offer",
+    "title": "스타트업의 제안",
+    "description": "전 직장 동료가 메시지를 보내왔다.\n\n'우리 팀 합류 안 해? 시드 받았어. 주식 줄게.'\n\n회사는 6개월째다. 월급은 없고 스톡옵션만 있다.\n성공하면 억대지만, 실패하면 백수다.\n\n지금 직장을 그만두고 뛰어들 용기가 있는가?",
+    "category": "career",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_intelligence": 50,
+      "min_turn": 6
+    },
+    "tags": ["career", "risk", "opportunity"],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "합류한다 — 현 직장을 그만둔다",
+        "effects": {
+          "monthly_income": -1500000,
+          "intelligence": 5,
+          "social_skill": 4,
+          "stress": 18,
+          "mental": -5,
+          "flag": "joined_startup"
+        },
+        "result_text": "사표를 냈다. 통장 잔고가 빠르게 줄어들 것이다. 성공하면 인생이 바뀐다."
+      },
+      {
+        "text": "거절한다 — 안정이 먼저",
+        "effects": {
+          "mental": 3,
+          "stress": -5,
+          "reputation": 2
+        },
+        "result_text": "정중히 거절했다. 안정을 택했다. 그 친구의 스타트업이 어떻게 될지는 아무도 모른다."
+      },
+      {
+        "text": "파트타임 조건으로 협상한다",
+        "effects": {
+          "social_skill": 3,
+          "intelligence": 2,
+          "stress": 8
+        },
+        "result_text": "주말 파트타임으로 참여하기로 했다. 직장도 유지하면서 가능성을 열어둔다."
+      }
+    ]
+  },
+  {
+    "id": "drama_chaebol_encounter",
+    "title": "재벌 2세와의 접촉",
+    "description": "강남 어느 카페에서 우연히 대화가 시작됐다.\n\n상대방은 이름을 밝히지 않았지만, 말투와 차림새가 달랐다.\n'요즘 재미있는 프로젝트가 있는데, 같이 해볼 사람을 찾고 있어요.'\n\n기회인지 위험인지 판단이 서지 않는다.\n이런 우연은 다시 오지 않을 수도 있다.",
+    "category": "social",
+    "rarity": "legendary",
+    "weight": 0.4,
+    "hidden": false,
+    "conditions": {
+      "min_social_skill": 45,
+      "min_turn": 8
+    },
+    "tags": ["social", "opportunity", "network"],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "명함을 건네며 적극적으로 어필한다",
+        "effects": {
+          "social_skill": 6,
+          "reputation": 15,
+          "stress": 5,
+          "money": 500000,
+          "flag": "chaebol_connection"
+        },
+        "relationship_effects": [
+          {
+            "id": "chaebol_contact",
+            "name": "강남 인맥",
+            "type": "business",
+            "affection": 50,
+            "trust": 35
+          }
+        ],
+        "result_text": "연락처를 교환했다. 일주일 뒤, 소규모 모임에 초대됐다. 강남의 문이 조금 열렸다."
+      },
+      {
+        "text": "가볍게 대화만 나누고 자리를 뜬다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 4
+        },
+        "result_text": "좋은 대화였다. 하지만 연락처는 교환하지 않았다. 그 사람의 이름도 끝내 모른 채로."
+      }
+    ]
+  },
+  {
+    "id": "drama_scam_attempt",
+    "title": "수상한 투자 제안",
+    "description": "SNS DM으로 메시지가 왔다.\n\n'월 30% 수익 보장. 원금 손실 없음. 지금 100만원 넣으면 한 달 뒤 130만원.'\n\n프로필 사진은 고급차와 명품 시계. 팔로워는 3만 명.\n후기 댓글들이 가득하다. 다들 돈을 벌었다고 한다.\n\n뭔가 이상하다. 아니면 진짜일 수도 있다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": ["finance", "risk", "scam"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "100만원을 넣어본다",
+        "effects": {
+          "money": -1000000,
+          "stress": 20,
+          "mental": -8,
+          "gambling_tendency": 5
+        },
+        "result_text": "입금 확인 메시지를 보냈지만 답장이 없다. 3일 뒤 계정이 사라졌다. 전형적인 사기였다."
+      },
+      {
+        "text": "수상하다 — 신고하고 차단한다",
+        "effects": {
+          "intelligence": 2,
+          "mental": 3
+        },
+        "result_text": "신고하고 차단했다. 이런 거 걸리면 안 된다는 걸 다시 한번 새겼다."
+      },
+      {
+        "text": "주변에 알려서 피해를 막는다",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "reputation": 5,
+          "mental": 4
+        },
+        "result_text": "오픈카톡방에 사기 정보를 공유했다. '덕분에 살았어요' 댓글이 달렸다. 기분이 좋았다."
+      }
+    ]
+  },
+  {
+    "id": "drama_inheritance_news",
+    "title": "예상치 못한 연락",
+    "description": "낯선 번호로 전화가 왔다.\n\n'안녕하세요. 법무법인 OO입니다. 먼 친척분이 남기신 유산 관련해서...'\n\n전화를 끊고 내용을 소화하는 데 시간이 걸렸다.\n연락 한 번 없던 먼 친척이 세상을 떠나며 작은 돈을 남겼다.\n\n받아도 되는 돈인지, 받아야 하는 돈인지 모르겠다.",
+    "category": "life",
+    "rarity": "rare",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": ["life", "money", "family"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "상속을 받는다",
+        "effects": {
+          "money": 5000000,
+          "mental": -5,
+          "stress": 10
+        },
+        "result_text": "통장에 500만원이 들어왔다. 한 번도 본 적 없는 사람이었지만, 어딘가 묘한 감정이 남았다."
+      },
+      {
+        "text": "모두 기부한다",
+        "effects": {
+          "mental": 15,
+          "reputation": 10,
+          "stress": -8
+        },
+        "result_text": "전액 기부했다. 돈보다 더 가벼운 마음이 생겼다. 이게 맞는 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "drama_housing_lottery",
+    "title": "청약 당첨",
+    "description": "잊고 있던 청약 통장.\n\n문자 한 통이 왔다. '귀하께서 신청하신 공공분양 청약에 당첨되셨습니다.'\n\n손이 떨렸다. 계약금이 필요하다. 지금 가진 돈으로 간신히 가능하다.\n\n이건 진짜 기회다.",
+    "category": "housing",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {
+      "min_money": 10000000,
+      "min_turn": 18
+    },
+    "tags": ["housing", "opportunity"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "계약금을 내고 계약한다",
+        "effects": {
+          "money": -8000000,
+          "mental": 20,
+          "stress": 15,
+          "reputation": 8,
+          "flag": "bought_apartment"
+        },
+        "result_text": "계약서에 도장을 찍었다. 2년 뒤 입주. 손이 계속 떨렸다. 이게 진짜 내 집이라는 게 실감이 안 났다."
+      },
+      {
+        "text": "지금은 자금이 부족하다 — 포기한다",
+        "effects": {
+          "mental": -10,
+          "stress": 8
+        },
+        "result_text": "포기 문자를 보냈다. 언젠가 다시 기회가 오겠지. 언젠가는."
+      }
+    ]
+  },
+  {
+    "id": "drama_office_politics",
+    "title": "직장 내 암투",
+    "description": "팀장 자리가 비었다.\n\n부장이 조용히 불렀다. '자네가 적임자야. 근데 김 대리도 노리고 있어. 어떻게 할 건가?'\n\n실력으로 가면 시간이 걸린다.\n정치적으로 움직이면 더 빠르지만, 적이 생긴다.\n\n직장이란 건 결국 사람 싸움이다.",
+    "category": "career",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10,
+      "min_intelligence": 45
+    },
+    "tags": ["career", "social", "risk"],
+    "cooldown": 14,
+    "choices": [
+      {
+        "text": "실력으로 정정당당하게 경쟁한다",
+        "effects": {
+          "intelligence": 4,
+          "reputation": 8,
+          "stress": 12,
+          "work_performance": 15
+        },
+        "result_text": "야근을 자처했다. 결과물로 말했다. 시간이 좀 걸리겠지만, 후회는 없을 것 같다."
+      },
+      {
+        "text": "부장 편에 서서 정치적으로 움직인다",
+        "effects": {
+          "social_skill": 4,
+          "reputation": 12,
+          "stress": 8,
+          "mental": -6,
+          "monthly_income": 300000
+        },
+        "result_text": "팀장이 됐다. 월급도 올랐다. 김 대리의 눈빛이 차가워졌다. 이 바닥에서 이 정도는 감수해야 한다."
+      },
+      {
+        "text": "관심 없는 척하고 이직을 알아본다",
+        "effects": {
+          "stress": -10,
+          "intelligence": 2,
+          "mental": 5
+        },
+        "result_text": "팀장 경쟁에서 빠졌다. 조용히 이직 사이트를 들여다봤다. 더 좋은 곳이 있을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "drama_friend_investment",
+    "title": "친구의 사업 제안",
+    "description": "오랜 친구에게서 연락이 왔다.\n\n'나 사업 시작하려고. 500만원만 투자해줄 수 있어? 1년 뒤에 두 배로 갚을게.'\n\n친구라는 것만으로 믿기엔 큰 돈이다.\n거절하면 사이가 어색해질 것 같다.\n\n돈인가 우정인가.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_money": 3000000,
+      "has_relationship": true,
+      "min_turn": 8
+    },
+    "tags": ["social", "risk", "finance"],
+    "cooldown": 16,
+    "choices": [
+      {
+        "text": "500만원을 빌려준다",
+        "effects": {
+          "money": -5000000,
+          "stress": 12,
+          "mental": -4
+        },
+        "relationship_effects": [
+          {
+            "id": "close_friend",
+            "name": "친한 친구",
+            "type": "friends",
+            "affection": 20,
+            "trust": 15
+          }
+        ],
+        "result_text": "계좌 이체를 했다. 친구는 고마워했다. 1년 뒤 어떻게 될지는 아무도 모른다."
+      },
+      {
+        "text": "100만원만 도와준다",
+        "effects": {
+          "money": -1000000,
+          "mental": 3
+        },
+        "relationship_effects": [
+          {
+            "id": "close_friend",
+            "name": "친한 친구",
+            "type": "friends",
+            "affection": 8,
+            "trust": 5
+          }
+        ],
+        "result_text": "조금만 돕겠다고 했다. 친구는 아쉬워했지만 받아들였다."
+      },
+      {
+        "text": "거절한다 — 돈 문제로 우정을 흔들기 싫다",
+        "effects": {
+          "mental": 2,
+          "stress": -3
+        },
+        "relationship_effects": [
+          {
+            "id": "close_friend",
+            "name": "친한 친구",
+            "type": "friends",
+            "affection": -10,
+            "trust": -8
+          }
+        ],
+        "result_text": "거절했다. 잠시 침묵이 흘렀다. 친구는 알겠다고 했지만 분위기가 달라졌다."
+      }
+    ]
+  },
+  {
+    "id": "drama_mentor_encounter",
+    "title": "인생 멘토",
+    "description": "강연장에서 우연히 옆자리에 앉은 중년의 남성.\n\n강연이 끝나고 그가 먼저 말을 걸었다.\n'스무 살에 서울 와서 고시원 살던 게 엊그제 같네요. 지금은 뭐 하세요?'\n\n그는 20년 전 당신과 똑같은 처지에서 시작해 지금은 자산 수십억이라고 했다.\n제자를 받는다고 한다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "min_intelligence": 55,
+      "min_turn": 10
+    },
+    "tags": ["social", "opportunity", "mentor"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "제자가 된다",
+        "effects": {
+          "intelligence": 8,
+          "investment_skill": 6,
+          "social_skill": 4,
+          "stress": -5,
+          "mental": 8
+        },
+        "relationship_effects": [
+          {
+            "id": "life_mentor",
+            "name": "인생 멘토",
+            "type": "mentor",
+            "affection": 60,
+            "trust": 50
+          }
+        ],
+        "result_text": "매주 한 번 만나기 시작했다. 그는 부자의 언어로 말했다. 조금씩 들리기 시작했다."
+      },
+      {
+        "text": "명함만 받고 지켜본다",
+        "effects": {
+          "social_skill": 3,
+          "intelligence": 2
+        },
+        "result_text": "명함을 받았다. 아직은 그 사람의 말을 다 믿기 어렵다. 천천히 지켜보기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "drama_media_appearance",
+    "title": "뉴스 인터뷰 요청",
+    "description": "'2030 청년 자산 형성 특집' 기사를 준비 중인 기자가 연락했다.\n\n'서울에서 혼자 자립한 2030 청년 이야기를 담고 싶어요.'\n\n노출이 되면 평판이 올라가지만, 사생활이 공개된다.\n거절하면 조용하게 살 수 있다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15,
+      "min_reputation": 15
+    },
+    "tags": ["social", "reputation"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "인터뷰에 응한다",
+        "effects": {
+          "reputation": 20,
+          "social_skill": 5,
+          "stress": 8,
+          "mental": 6,
+          "money": 200000
+        },
+        "result_text": "기사가 나갔다. SNS에서 공유가 됐다. 모르는 사람들이 응원 댓글을 달았다. 낯간지럽지만 나쁘지 않았다."
+      },
+      {
+        "text": "거절한다 — 조용히 살고 싶다",
+        "effects": {
+          "mental": 5,
+          "stress": -5
+        },
+        "result_text": "정중히 거절했다. 조용한 게 좋다. 강남드림은 혼자 조용히 이루는 거다."
+      }
+    ]
+  },
+  {
+    "id": "drama_burnout_warning",
+    "title": "번아웃의 경계",
+    "description": "월요일 아침. 알람이 울렸는데 몸이 안 일어난다.\n\n머리가 아프다. 가슴이 답답하다. 아무것도 하기 싫다.\n이게 번아웃인지 그냥 피곤한 건지 구분이 안 된다.\n\n지금 멈추면 뒤처진다. 하지만 계속 가다간 완전히 망가질 것 같다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_stress": 65,
+      "max_health": 55
+    },
+    "tags": ["health", "stress", "burnout"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "병원에 간다",
+        "effects": {
+          "money": -150000,
+          "health": 15,
+          "mental": 12,
+          "stress": -20
+        },
+        "result_text": "의사가 말했다. '쉬셔야 해요.' 잠시 브레이크를 밟기로 했다."
+      },
+      {
+        "text": "그냥 밀어붙인다",
+        "effects": {
+          "health": -12,
+          "mental": -10,
+          "stress": 15,
+          "money": 300000
+        },
+        "result_text": "커피를 더 마시고 버텼다. 월말 실적은 나왔다. 하지만 몸은 한계를 넘어가고 있다."
+      },
+      {
+        "text": "이틀 쉬면서 재정비한다",
+        "effects": {
+          "health": 8,
+          "mental": 10,
+          "stress": -18,
+          "money": -100000
+        },
+        "result_text": "이틀을 통째로 비웠다. 산책하고 밥 먹고 잠을 잤다. 단순한 것들이 얼마나 좋은지 잊고 있었다."
+      }
+    ]
+  }
+]

@@ -28,6 +28,9 @@ EventManager="*res://autoloads/EventManager.gd"
 NewsManager="*res://autoloads/NewsManager.gd"
 MetaProgression="*res://autoloads/MetaProgression.gd"
 SaveManager="*res://autoloads/SaveManager.gd"
+AudioManager="*res://autoloads/AudioManager.gd"
+BGMPlayer="*res://autoloads/BGMPlayer.gd"
+RivalSystem="*res://autoloads/RivalSystem.gd"
 EndingSystem="*res://systems/EndingSystem.gd"
 
 [display]
