@@ -2,7 +2,7 @@
   {
     "id": "first_month_rent_pressure",
     "title": "첫 월세 자동이체",
-    "description": "월세 자동이체 문자가 도착했다. 통장 잔고는 시작부터 얇고, 서울은 기다려주지 않는다.",
+    "description": "월세 자동이체 문자가 도착했다.\n{name}의 통장 잔고는 시작부터 얇고, 서울은 기다려주지 않는다.",
     "category": "finance",
     "rarity": "common",
     "weight": 1.7,
@@ -2238,7 +2238,7 @@
   {
     "id": "gosiwon_thin_walls",
     "title": "고시원 벽 너머",
-    "description": "새벽 1시, 옆방에서 울음소리가 들린다. 벽이 너무 얇아서 숨소리까지 들린다. 나도 처음엔 저랬지.",
+    "description": "새벽 1시, 옆방에서 울음소리가 들린다.\n벽이 너무 얇아서 숨소리까지 들린다.\n{name}도 처음엔 저랬지.",
     "category": "housing",
     "rarity": "common",
     "weight": 1.4,
@@ -3427,7 +3427,7 @@
   {
     "id": "social_borrow_money",
     "title": "돈 빌려달라는 친구",
-    "description": "오랜 친구에게 카톡이 왔다. '급하게 50만원만 빌릴 수 있어? 다음 달에 꼭 갚을게.' 통장 잔액이 80만원이다.",
+    "description": "오랜 친구에게 카톡이 왔다.\n'급하게 50만원만 빌릴 수 있어? 다음 달에 꼭 갚을게.'\n{name}의 통장 잔액이 80만원이다.",
     "category": "social_life",
     "rarity": "uncommon",
     "weight": 0.9,
@@ -3688,7 +3688,7 @@
   {
     "id": "health_burnout_signal",
     "title": "번아웃의 신호",
-    "description": "아무것도 하기 싫다. 잘 해야 한다는 것도 알고, 이러면 안 된다는 것도 안다. 근데 몸이 안 움직인다.",
+    "description": "아무것도 하기 싫다.\n잘 해야 한다는 것도 알고, 이러면 안 된다는 것도 안다.\n{name}의 몸이 안 움직인다.",
     "category": "health",
     "rarity": "uncommon",
     "weight": 0.9,
@@ -3824,7 +3824,7 @@
   {
     "id": "health_crying_alone",
     "title": "이유 없이 눈물이 났다",
-    "description": "집에 돌아와서 문을 닫자마자 눈물이 났다. 특별히 나쁜 일이 있진 않았다. 그냥 지쳤나보다.",
+    "description": "{name}이 집에 돌아와서 문을 닫자마자 눈물이 났다.\n특별히 나쁜 일이 있진 않았다.\n그냥 지쳤나보다.",
     "category": "health",
     "rarity": "uncommon",
     "weight": 0.8,
@@ -4136,7 +4136,7 @@
   {
     "id": "season_year_end",
     "title": "연말의 무게",
-    "description": "12월. 친구들은 한 해를 정산한다. 연봉, 결혼, 이직, 합격... 나는 올해 뭘 했지? 숫자로 적기 힘든 것들뿐이다.",
+    "description": "12월. 친구들은 한 해를 정산한다.\n연봉, 결혼, 이직, 합격...\n{name}은 올해 뭘 했지? 숫자로 적기 힘든 것들뿐이다.",
     "category": "daily_life",
     "rarity": "uncommon",
     "weight": 0.8,

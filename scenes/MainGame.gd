@@ -25,6 +25,7 @@ var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var character_portrait: TextureRect
 var stats_panel: Control
+var market_panel: Control
 var player_name_label: Label
 
 const BG_PATHS = {
@@ -116,8 +117,9 @@ func _build_ui():
 
 	_build_bottom_bar(root)
 
-	# ── 5. 우측 슬라이드 스탯 패널 (기본 숨김, root 위에 올라감) ──
+	# ── 5. 우측 슬라이드 패널들 (기본 숨김) ──
 	_build_stats_panel()
+	_build_market_panel()
 
 	_build_modal()
 	_build_toast_layer()
@@ -157,6 +159,12 @@ func _build_top_bar(parent):
 	stats_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	stats_btn.pressed.connect(_toggle_stats_panel)
 	row.add_child(stats_btn)
+
+	var market_btn = _small_button("📈 시세", "#1a2e1a")
+	market_btn.custom_minimum_size = Vector2(82, 36)
+	market_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+	market_btn.pressed.connect(_toggle_market_panel)
+	row.add_child(market_btn)
 
 	var save_btn = _small_button("💾", "#1e2a3a")
 	save_btn.custom_minimum_size = Vector2(40, 36)
@@ -308,49 +316,6 @@ func _build_stats_panel():
 	news_box.add_theme_constant_override("separation", 3)
 	box.add_child(news_box)
 
-	# ── 시세 ──
-	ticker_rtl = RichTextLabel.new()
-	ticker_rtl.bbcode_enabled = true
-	ticker_rtl.fit_content = true
-	ticker_rtl.scroll_active = false
-	ticker_rtl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ticker_rtl.add_theme_font_size_override("normal_font_size", 11)
-	ticker_rtl.add_theme_color_override("default_color", Color("#8892a4"))
-	box.add_child(ticker_rtl)
-
-	# ── 관계/아이템 탭 ──
-	var tabs = TabContainer.new()
-	tabs.custom_minimum_size = Vector2(0, 150)
-	box.add_child(tabs)
-	var tab_sel = StyleBoxFlat.new()
-	tab_sel.bg_color = Color("#1e1e2a")
-	tab_sel.border_color = Color("#5b9cf6")
-	tab_sel.set_border_width_all(1)
-	tab_sel.content_margin_left = 8
-	tab_sel.content_margin_right = 8
-	tab_sel.content_margin_top = 4
-	tab_sel.content_margin_bottom = 4
-	var tab_unsel = StyleBoxFlat.new()
-	tab_unsel.bg_color = Color("#13131a")
-	tab_unsel.border_color = Color("#252535")
-	tab_unsel.set_border_width_all(1)
-	tab_unsel.content_margin_left = 8
-	tab_unsel.content_margin_right = 8
-	tab_unsel.content_margin_top = 4
-	tab_unsel.content_margin_bottom = 4
-	var tab_panel_style = StyleBoxFlat.new()
-	tab_panel_style.bg_color = Color("#13131a")
-	tab_panel_style.border_color = Color("#252535")
-	tab_panel_style.set_border_width_all(1)
-	tabs.add_theme_stylebox_override("tab_selected", tab_sel)
-	tabs.add_theme_stylebox_override("tab_unselected", tab_unsel)
-	tabs.add_theme_stylebox_override("panel", tab_panel_style)
-	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
-	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
-	tabs.add_theme_font_size_override("font_size", 12)
-	relationship_box = _tab_box(tabs, "관계")
-	inventory_box = _tab_box(tabs, "아이템")
-
 	# ── 로그 ──
 	box.add_child(_label("LOG", 13, "#5b9cf6"))
 	log_box = RichTextLabel.new()
@@ -362,7 +327,92 @@ func _build_stats_panel():
 
 func _toggle_stats_panel():
 	if stats_panel:
+		if market_panel and market_panel.visible:
+			market_panel.visible = false
 		stats_panel.visible = not stats_panel.visible
+
+func _build_market_panel():
+	# 시세 + 관계 + 아이템 전용 패널 (우측, 스탯 패널과 상호 배타적)
+	market_panel = PanelContainer.new()
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.04, 0.08, 0.05, 0.97)
+	style.border_color = Color("#1e3520")
+	style.set_border_width_all(0)
+	style.border_width_left = 1
+	style.content_margin_left = 14
+	style.content_margin_right = 14
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
+	market_panel.add_theme_stylebox_override("panel", style)
+	market_panel.set_anchor(SIDE_LEFT, 1.0)
+	market_panel.set_anchor(SIDE_TOP, 0.0)
+	market_panel.set_anchor(SIDE_RIGHT, 1.0)
+	market_panel.set_anchor(SIDE_BOTTOM, 1.0)
+	market_panel.offset_left = -340
+	market_panel.offset_top = 48
+	market_panel.offset_right = 0
+	market_panel.offset_bottom = 0
+	market_panel.visible = false
+	add_child(market_panel)
+
+	var scroll = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	market_panel.add_child(scroll)
+
+	var box = VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 6)
+	scroll.add_child(box)
+
+	# ── 시세 ──
+	ticker_rtl = RichTextLabel.new()
+	ticker_rtl.bbcode_enabled = true
+	ticker_rtl.fit_content = true
+	ticker_rtl.scroll_active = false
+	ticker_rtl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ticker_rtl.add_theme_font_size_override("normal_font_size", 12)
+	ticker_rtl.add_theme_color_override("default_color", Color("#8892a4"))
+	box.add_child(ticker_rtl)
+
+	# ── 관계/아이템 탭 ──
+	var tabs = TabContainer.new()
+	tabs.custom_minimum_size = Vector2(0, 180)
+	box.add_child(tabs)
+	var tab_sel = StyleBoxFlat.new()
+	tab_sel.bg_color = Color("#1e2a1e")
+	tab_sel.border_color = Color("#3fb950")
+	tab_sel.set_border_width_all(1)
+	tab_sel.content_margin_left = 8
+	tab_sel.content_margin_right = 8
+	tab_sel.content_margin_top = 4
+	tab_sel.content_margin_bottom = 4
+	var tab_unsel = StyleBoxFlat.new()
+	tab_unsel.bg_color = Color("#0f140f")
+	tab_unsel.border_color = Color("#1e3520")
+	tab_unsel.set_border_width_all(1)
+	tab_unsel.content_margin_left = 8
+	tab_unsel.content_margin_right = 8
+	tab_unsel.content_margin_top = 4
+	tab_unsel.content_margin_bottom = 4
+	var tab_panel_style = StyleBoxFlat.new()
+	tab_panel_style.bg_color = Color("#0f140f")
+	tab_panel_style.border_color = Color("#1e3520")
+	tab_panel_style.set_border_width_all(1)
+	tabs.add_theme_stylebox_override("tab_selected", tab_sel)
+	tabs.add_theme_stylebox_override("tab_unselected", tab_unsel)
+	tabs.add_theme_stylebox_override("panel", tab_panel_style)
+	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
+	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
+	tabs.add_theme_font_size_override("font_size", 12)
+	relationship_box = _tab_box(tabs, "관계")
+	inventory_box = _tab_box(tabs, "아이템")
+
+func _toggle_market_panel():
+	if market_panel:
+		if stats_panel and stats_panel.visible:
+			stats_panel.visible = false
+		market_panel.visible = not market_panel.visible
 
 func _build_bottom_bar(parent):
 	var margin = MarginContainer.new()
@@ -553,7 +603,7 @@ func _show_result(result_text: String):
 		child.queue_free()
 	pending_result_text = result_text
 	event_title.text = "결과"
-	event_body.text = result_text
+	event_body.text = _fmt(result_text)
 	var confirm_btn = _button("확인", "#1f6feb")
 	confirm_btn.pressed.connect(_on_result_confirmed)
 	choice_box.add_child(confirm_btn)
@@ -563,6 +613,18 @@ func _on_result_confirmed():
 	pending_result_text = ""
 	_render_event()
 
+func _fmt(text: String) -> String:
+	# 이벤트 텍스트 안의 플레이스홀더를 실제 값으로 치환
+	var job_name = GameState.current_job.get("name", "무직")
+	var housing_info = GameState.get_housing_info()
+	return text \
+		.replace("{name}", GameState.player_name) \
+		.replace("{job}", job_name) \
+		.replace("{housing}", housing_info.get("name", "고시원")) \
+		.replace("{month}", str(GameState.month)) \
+		.replace("{year}", str(GameState.year)) \
+		.replace("{money}", GameState.format_money(GameState.money))
+
 func _render_event():
 	for child in choice_box.get_children():
 		child.queue_free()
@@ -571,14 +633,14 @@ func _render_event():
 		_render_ap_actions()
 		return
 	next_button.disabled = true
-	event_title.text = current_event.get("title", "이벤트")
-	event_body.text = current_event.get("description", "")
+	event_title.text = _fmt(current_event.get("title", "이벤트"))
+	event_body.text = _fmt(current_event.get("description", ""))
 	# 이벤트에 맞는 배경 즉시 전환
 	_update_event_bg()
 	var choices: Array = current_event.get("choices", [])
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
-		var button = _button("%d. %s" % [i + 1, choice.get("text", "선택")], "#5b9cf6")
+		var button = _button("%d. %s" % [i + 1, _fmt(choice.get("text", "선택"))], "#5b9cf6")
 		button.pressed.connect(Callable(self, "_choose").bind(i))
 		choice_box.add_child(button)
 
