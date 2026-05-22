@@ -209,17 +209,42 @@ func apply_monthly_pressure():
 	if monthly_income > 0 and not flags.get("has_received_paycheck", false):
 		flags["has_received_paycheck"] = true
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
-	# 자연 회복 -7 + 기본 압박 +2 = 실질 -5 (수면/주말 회복)
-	modify_hidden_stat("stress", 2)
-	modify_hidden_stat("stress", -7)
-	if stress > 70:
-		modify_stat("health", -2)
+
+	# ── 서울살이 기본 압박 ──────────────────────────────────────────
+	# 건강: 매달 자동 -3 (바쁜 일상, 수면 부족, 불규칙한 식사)
+	# 정신: 매달 자동 -4 (고독, 미래 불안, 도시 피로)
+	# 스트레스: 매달 자동 +4 (서울은 기본이 힘들다)
+	modify_stat("health", -3)
+	modify_stat("mental", -4)
+	modify_hidden_stat("stress", 4)
+
+	# 무직이면 정신/스트레스 추가 압박
+	if monthly_income == 0:
 		modify_stat("mental", -3)
-	elif stress > 50:
-		modify_stat("mental", -1)
-	if money < 0:
 		modify_hidden_stat("stress", 5)
+		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "stress")
+
+	# 스트레스 단계별 추가 피해 (누적 구조)
+	if stress >= 80:
+		modify_stat("health", -4)
+		modify_stat("mental", -4)
+		add_log("🚨 극심한 스트레스가 몸과 마음을 갉아먹고 있다.", "stress")
+	elif stress >= 60:
+		modify_stat("health", -2)
 		modify_stat("mental", -2)
+	elif stress >= 40:
+		modify_stat("mental", -1)
+
+	# 현금 위기 — 잔고 30만원 미만
+	if money < 300_000:
+		modify_hidden_stat("stress", 8)
+		modify_stat("mental", -4)
+		add_log("😰 통장 잔고가 30만원 아래다. 이번 달을 버틸 수 있을까.", "money")
+	elif money < 0:
+		modify_hidden_stat("stress", 12)
+		modify_stat("mental", -5)
+		add_log("🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.", "money")
+
 	check_game_over()
 
 func apply_choice(event, choice):

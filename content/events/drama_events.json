@@ -11,7 +11,11 @@
       "min_money": 500000,
       "min_turn": 3
     },
-    "tags": ["finance", "risk", "gambling"],
+    "tags": [
+      "finance",
+      "risk",
+      "gambling"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -45,7 +49,9 @@
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
-    "tags": ["finance"],
+    "tags": [
+      "finance"
+    ],
     "cooldown": 99,
     "choices": [
       {
@@ -64,7 +70,9 @@
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
-    "tags": ["finance"],
+    "tags": [
+      "finance"
+    ],
     "cooldown": 99,
     "choices": [
       {
@@ -87,7 +95,11 @@
       "min_intelligence": 50,
       "min_turn": 6
     },
-    "tags": ["career", "risk", "opportunity"],
+    "tags": [
+      "career",
+      "risk",
+      "opportunity"
+    ],
     "cooldown": 18,
     "choices": [
       {
@@ -134,7 +146,11 @@
       "min_social_skill": 45,
       "min_turn": 8
     },
-    "tags": ["social", "opportunity", "network"],
+    "tags": [
+      "social",
+      "opportunity",
+      "network"
+    ],
     "cooldown": 30,
     "choices": [
       {
@@ -178,7 +194,11 @@
     "conditions": {
       "min_turn": 2
     },
-    "tags": ["finance", "risk", "scam"],
+    "tags": [
+      "finance",
+      "risk",
+      "scam"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -222,7 +242,11 @@
     "conditions": {
       "min_turn": 12
     },
-    "tags": ["life", "money", "family"],
+    "tags": [
+      "life",
+      "money",
+      "family"
+    ],
     "cooldown": 99,
     "choices": [
       {
@@ -257,7 +281,10 @@
       "min_money": 10000000,
       "min_turn": 18
     },
-    "tags": ["housing", "opportunity"],
+    "tags": [
+      "housing",
+      "opportunity"
+    ],
     "cooldown": 99,
     "choices": [
       {
@@ -294,7 +321,11 @@
       "min_turn": 10,
       "min_intelligence": 45
     },
-    "tags": ["career", "social", "risk"],
+    "tags": [
+      "career",
+      "social",
+      "risk"
+    ],
     "cooldown": 14,
     "choices": [
       {
@@ -342,7 +373,11 @@
       "has_relationship": true,
       "min_turn": 8
     },
-    "tags": ["social", "risk", "finance"],
+    "tags": [
+      "social",
+      "risk",
+      "finance"
+    ],
     "cooldown": 16,
     "choices": [
       {
@@ -411,7 +446,11 @@
       "min_intelligence": 55,
       "min_turn": 10
     },
-    "tags": ["social", "opportunity", "mentor"],
+    "tags": [
+      "social",
+      "opportunity",
+      "mentor"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -456,7 +495,10 @@
       "min_turn": 15,
       "min_reputation": 15
     },
-    "tags": ["social", "reputation"],
+    "tags": [
+      "social",
+      "reputation"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -492,7 +534,11 @@
       "min_stress": 65,
       "max_health": 55
     },
-    "tags": ["health", "stress", "burnout"],
+    "tags": [
+      "health",
+      "stress",
+      "burnout"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -524,6 +570,556 @@
           "money": -100000
         },
         "result_text": "이틀을 통째로 비웠다. 산책하고 밥 먹고 잠을 잤다. 단순한 것들이 얼마나 좋은지 잊고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "drama_rooftop_oneroom",
+    "title": "옥탑방 원룸 계약",
+    "description": "보증금 500에 월세 45만원 옥탑방. 여름엔 찜통, 겨울엔 냉동고라는 걸 이미 안다. 그래도 혼자인 공간이 생긴다.",
+    "category": "housing",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "housing",
+      "ambition",
+      "opportunity"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "계약한다, 드디어 내 공간이다",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "money": -5000000
+        },
+        "result_text": "열쇠를 받았다. 작고 낡았지만 내 공간이다. 짐을 풀면서 괜히 눈물이 났다."
+      },
+      {
+        "text": "조금 더 모아서 더 나은 곳으로",
+        "effects": {
+          "mental": 3,
+          "stress": 2
+        },
+        "result_text": "참기로 했다. 지금은 아직 아니야. 근데 그 기준이 계속 올라가진 않길 바란다."
+      },
+      {
+        "text": "쉐어하우스를 계약한다",
+        "effects": {
+          "money": -3000000,
+          "mental": 8,
+          "social_skill": 4
+        },
+        "result_text": "룸메이트 2명. 복불복이지만 혼자보다 낫다. 관계가 생겼다."
+      }
+    ]
+  },
+  {
+    "id": "drama_viral_moment",
+    "title": "갑자기 바이럴",
+    "description": "올린 지 3일 된 짧은 영상이 10만 뷰를 넘겼다. 댓글이 수백 개. 팔로워가 늘었다. 이게 기회일까.",
+    "category": "opportunity",
+    "rarity": "rare",
+    "weight": 0.25,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "opportunity",
+      "luck",
+      "reputation",
+      "viral"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "채널을 진지하게 키워보기로 한다",
+        "effects": {
+          "reputation": 15,
+          "social_skill": 5,
+          "stress": 8,
+          "intelligence": 3
+        },
+        "result_text": "3개월 꾸준히 올렸다. 구독자 1만명. 부업 수익이 생기기 시작했다."
+      },
+      {
+        "text": "그냥 해프닝으로 흘려보낸다",
+        "effects": {
+          "luck": 2,
+          "mental": 3
+        },
+        "result_text": "잠깐의 관심. 파도가 왔다가 갔다. 괜찮다. 내 일상은 계속된다."
+      },
+      {
+        "text": "브랜드 협업 문의를 받아본다",
+        "effects": {
+          "money": 500000,
+          "reputation": 8,
+          "stress": 5
+        },
+        "result_text": "소정의 원고료를 받았다. 세상엔 다양한 방식으로 돈 버는 사람들이 있다."
+      }
+    ]
+  },
+  {
+    "id": "drama_eviction_notice",
+    "title": "갑작스러운 명도 통보",
+    "description": "집주인이 건물을 팔았다. 새 주인은 리모델링을 한다고 한다. 두 달 안에 나가야 한다.",
+    "category": "housing",
+    "rarity": "uncommon",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "housing",
+      "stress",
+      "anxiety",
+      "risk"
+    ],
+    "cooldown": 25,
+    "choices": [
+      {
+        "text": "법적 대항력을 확인하고 맞선다",
+        "effects": {
+          "intelligence": 6,
+          "stress": 5,
+          "money": 1000000
+        },
+        "result_text": "전입신고와 확정일자가 있었다. 법이 나를 보호했다. 정보가 권리다."
+      },
+      {
+        "text": "빠르게 새 집을 알아본다",
+        "effects": {
+          "stress": 8,
+          "money": -3000000
+        },
+        "result_text": "두 달 안에 이사했다. 급하게 찾은 집이라 아쉽지만, 집이 생겼다."
+      },
+      {
+        "text": "이사비 보상을 요구한다",
+        "effects": {
+          "social_skill": 3,
+          "money": 500000,
+          "stress": 4
+        },
+        "result_text": "협상해서 50만원 받았다. 당당하게 요구하길 잘했다."
+      }
+    ]
+  },
+  {
+    "id": "drama_job_offer_dilemma",
+    "title": "두 곳에서 동시 합격",
+    "description": "대기업 계열사와 스타트업에서 동시에 합격 통보가 왔다. 연봉은 대기업이 높고, 성장 가능성은 스타트업이 높다.",
+    "category": "job",
+    "rarity": "rare",
+    "weight": 0.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "job",
+      "opportunity",
+      "ambition"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "대기업을 선택한다, 안정이 먼저다",
+        "effects": {
+          "money": 500000,
+          "reputation": 8,
+          "stress": 3,
+          "intelligence": 4
+        },
+        "result_text": "안정적인 월급. 체계적인 시스템. 그리고 빠르게 배우는 것들. 지금은 이 선택이 맞다."
+      },
+      {
+        "text": "스타트업을 선택한다, 성장이 먼저다",
+        "effects": {
+          "intelligence": 8,
+          "investment_skill": 4,
+          "stress": 8,
+          "social_skill": 5
+        },
+        "result_text": "롤러코스터 같은 회사. 배움의 속도가 다르다. 잘 되면 보상도 크다."
+      },
+      {
+        "text": "처우 협상을 한 번 더 해본다",
+        "effects": {
+          "social_skill": 5,
+          "intelligence": 3,
+          "money": 200000
+        },
+        "result_text": "연봉 협상 시도. 스타트업이 50만원 올려줬다. 요구하지 않으면 얻을 수 없다."
+      }
+    ]
+  },
+  {
+    "id": "drama_investment_big_win",
+    "title": "투자 대박의 순간",
+    "description": "6개월 전에 분산 투자한 ETF 수익률이 38%다. 처음으로 '돈이 돈을 번다'는 게 실감 난다.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.2,
+    "hidden": false,
+    "conditions": {
+      "min_investment_skill": 40
+    },
+    "tags": [
+      "investment",
+      "opportunity",
+      "finance",
+      "luck"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "수익을 실현하고 다시 분산한다",
+        "effects": {
+          "money": 3000000,
+          "investment_skill": 6,
+          "intelligence": 4
+        },
+        "result_text": "팔았다. 기분 좋게. 그리고 다시 공부하기 시작했다. 이 사이클이 반복될 것이다."
+      },
+      {
+        "text": "더 오를 것 같아서 들고 간다",
+        "effects": {
+          "investment_skill": 4,
+          "stress": 6
+        },
+        "result_text": "10% 더 올랐다가 15% 빠졌다. 욕심의 적정선이 어디인지 배웠다."
+      },
+      {
+        "text": "수익의 절반을 현금화하고 절반은 유지한다",
+        "effects": {
+          "money": 1500000,
+          "investment_skill": 7,
+          "stress": -3
+        },
+        "result_text": "기계적 분산 실현. 욕심도 두려움도 아닌, 계획대로. 이게 맞는 방식이다."
+      }
+    ]
+  },
+  {
+    "id": "drama_friend_betrayal",
+    "title": "친구의 배신",
+    "description": "같이 사업 아이디어를 공유했던 친구가 먼저 사업자를 냈다. 내 아이디어로. 연락도 없었다.",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.25,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "stress",
+      "risk",
+      "mental"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "직접 따지고 대화한다",
+        "effects": {
+          "social_skill": 5,
+          "stress": 8,
+          "mental": -5
+        },
+        "result_text": "긴 싸움이었다. 친구는 사과했다. 관계는 예전으로 돌아갈 수 없었다."
+      },
+      {
+        "text": "법적으로 대응할 수 있는지 알아본다",
+        "effects": {
+          "intelligence": 5,
+          "stress": 5
+        },
+        "result_text": "아이디어만으론 특허 성립이 어렵다는 걸 알았다. 앞으로는 기록을 남기기로 했다."
+      },
+      {
+        "text": "잊고 더 좋은 아이디어를 찾는다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 3,
+          "stress": -3
+        },
+        "result_text": "분했지만 에너지를 거기 쓰지 않기로 했다. 이 경험이 오히려 동력이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "drama_public_contest_win",
+    "title": "공모전 입선",
+    "description": "반신반의로 낸 공모전에서 입선했다. 상금 100만원. 공식 명단에 내 이름이 올라간다.",
+    "category": "opportunity",
+    "rarity": "rare",
+    "weight": 0.2,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "opportunity",
+      "reputation",
+      "intelligence",
+      "luck"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "포트폴리오에 추가하고 다음 공모전도 도전한다",
+        "effects": {
+          "money": 1000000,
+          "reputation": 10,
+          "intelligence": 5
+        },
+        "result_text": "명단에 이름이 올라갔다. 처음으로 '내가 뭔가를 해냈다'는 느낌이 실재했다."
+      },
+      {
+        "text": "이 분야로 진로를 재고해본다",
+        "effects": {
+          "money": 1000000,
+          "reputation": 8,
+          "stress": 3,
+          "intelligence": 4
+        },
+        "result_text": "잘할 수 있는 게 있다는 걸 알았다. 진로를 다시 생각하게 됐다."
+      },
+      {
+        "text": "상금만 받고 계속 현재를 유지한다",
+        "effects": {
+          "money": 1000000,
+          "mental": 5
+        },
+        "result_text": "상금이 생겼다. 한 달 생활비가 해결됐다. 이것도 충분히 가치 있다."
+      }
+    ]
+  },
+  {
+    "id": "drama_health_scare",
+    "title": "건강 경고등",
+    "description": "혈액검사 결과 이상 소견. 의사가 정밀검사를 권한다. 아직 20대인데. 갑자기 몸이 무겁게 느껴진다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "health",
+      "anxiety",
+      "stress",
+      "mental"
+    ],
+    "cooldown": 25,
+    "choices": [
+      {
+        "text": "바로 정밀검사를 받는다",
+        "effects": {
+          "money": -500000,
+          "health": 10,
+          "stress": -8,
+          "mental": 5
+        },
+        "result_text": "이상 없었다. 과로로 인한 수치 이상이었다. 몸이 보낸 경고를 들었다."
+      },
+      {
+        "text": "생활습관부터 바꾼다",
+        "effects": {
+          "health": 6,
+          "mental": 4,
+          "stress": -5
+        },
+        "result_text": "수면, 식사, 운동. 기본부터 시작했다. 몸은 생각보다 빨리 반응했다."
+      },
+      {
+        "text": "무시하고 계속 같은 생활을 한다",
+        "effects": {
+          "health": -10,
+          "stress": 4
+        },
+        "result_text": "다음 검사에서 수치가 더 나빠졌다. 몸은 무시한다고 괜찮아지지 않는다."
+      }
+    ]
+  },
+  {
+    "id": "drama_apartment_lottery_win",
+    "title": "아파트 청약 당첨",
+    "description": "무심코 넣은 서울 외곽 아파트 청약에 당첨됐다. 분양가 3억 8천. 대출 없이는 불가능한 금액이다.",
+    "category": "housing",
+    "rarity": "rare",
+    "weight": 0.15,
+    "hidden": false,
+    "conditions": {
+      "min_money": 50000000
+    },
+    "tags": [
+      "housing",
+      "opportunity",
+      "finance",
+      "luck"
+    ],
+    "cooldown": 40,
+    "choices": [
+      {
+        "text": "대출 받아서 계약한다",
+        "effects": {
+          "money": -50000000,
+          "reputation": 10,
+          "stress": 10,
+          "mental": 5
+        },
+        "result_text": "30년 대출. 무겁다. 근데 서울에 내 집이 생겼다. 그 무게가 의미 있다."
+      },
+      {
+        "text": "전매 가능 시점을 기다려 판다",
+        "effects": {
+          "money": 30000000,
+          "investment_skill": 8
+        },
+        "result_text": "프리미엄을 받고 팔았다. 3천만원 이익. 투자감각이 늘었다."
+      },
+      {
+        "text": "포기한다, 지금은 무리다",
+        "effects": {
+          "stress": -5,
+          "mental": 3
+        },
+        "result_text": "냉정하게 판단했다. 지금은 아니다. 내 속도가 있다."
+      }
+    ]
+  },
+  {
+    "id": "drama_layoff_survivor",
+    "title": "구조조정 생존자",
+    "description": "회사가 구조조정을 발표했다. 팀에서 2명이 잘렸다. 나는 살아남았다. 안도와 죄책감이 동시에 온다.",
+    "category": "job",
+    "rarity": "rare",
+    "weight": 0.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "job",
+      "stress",
+      "mental",
+      "risk"
+    ],
+    "cooldown": 25,
+    "choices": [
+      {
+        "text": "살아남은 것에 집중하고 더 열심히 한다",
+        "effects": {
+          "reputation": 5,
+          "stress": 8,
+          "intelligence": 4
+        },
+        "result_text": "살아남은 사람의 몫을 해야 한다는 부담이 생겼다. 그게 더 열심히 하게 만들었다."
+      },
+      {
+        "text": "이직을 준비하기 시작한다",
+        "effects": {
+          "intelligence": 5,
+          "stress": 4,
+          "investment_skill": 2
+        },
+        "result_text": "언제 나의 차례가 될지 모른다. 항상 준비해야 한다는 걸 배웠다."
+      },
+      {
+        "text": "떠난 동료들에게 연락한다",
+        "effects": {
+          "social_skill": 5,
+          "mental": 3,
+          "stress": -3
+        },
+        "result_text": "밥 한 번 사줬다. '고생했다'는 말 한마디. 사람이 먼저라는 걸 잊지 않으려 했다."
+      }
+    ]
+  },
+  {
+    "id": "drama_mentor_intro",
+    "title": "업계 거물의 연락",
+    "description": "링크드인에 글을 올렸더니 업계 유명인이 DM을 보냈다. '한번 만나보고 싶다'는 메시지. 가짜인지 확인부터 해야 한다.",
+    "category": "opportunity",
+    "rarity": "rare",
+    "weight": 0.2,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "opportunity",
+      "social_skill",
+      "reputation"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "공개 장소에서 만나보기로 한다",
+        "effects": {
+          "social_skill": 6,
+          "intelligence": 5,
+          "reputation": 8,
+          "stress": 3
+        },
+        "result_text": "진짜였다. 1시간 대화. 2년치 깨달음을 얻었다. 글 하나가 이 만남을 만들었다."
+      },
+      {
+        "text": "온라인으로 먼저 더 알아본다",
+        "effects": {
+          "intelligence": 4,
+          "reputation": 4
+        },
+        "result_text": "영상 통화로 먼저 했다. 신뢰가 쌓인 후 만났다. 조심스럽게 열린 기회였다."
+      },
+      {
+        "text": "사기일 것 같아서 무시한다",
+        "effects": {
+          "luck": -3
+        },
+        "result_text": "나중에 그 사람 강연에서 얼굴을 봤다. 진짜였다. 기회를 의심으로 놓쳤다."
+      }
+    ]
+  },
+  {
+    "id": "drama_parents_financial_crisis",
+    "title": "부모님의 위기",
+    "description": "부모님에게서 전화가 왔다. 사업이 어려워졌다고 한다. 지금 내 통장에 있는 돈이 전부다.",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 0.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "family",
+      "finance",
+      "stress",
+      "mental"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "가진 걸 최대한 도와드린다",
+        "effects": {
+          "money": -3000000,
+          "mental": 5,
+          "stress": 8
+        },
+        "result_text": "300만원을 보냈다. 내 통장이 텅 비었다. 근데 부모님 목소리가 달라졌다. 그것으로 충분했다."
+      },
+      {
+        "text": "할 수 있는 선에서만 돕는다",
+        "effects": {
+          "money": -1000000,
+          "mental": 3,
+          "stress": 4
+        },
+        "result_text": "100만원. 전부는 아니지만 내가 할 수 있는 것. 한계를 아는 것도 성숙함이다."
+      },
+      {
+        "text": "지금은 나도 힘들다고 솔직히 말한다",
+        "effects": {
+          "mental": 2,
+          "stress": -4,
+          "social_skill": 3
+        },
+        "result_text": "처음으로 '나도 힘들어'라고 했다. 부모님이 오히려 미안해했다. 솔직함이 관계를 구하기도 한다."
       }
     ]
   }
