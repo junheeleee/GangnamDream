@@ -24,8 +24,7 @@ var shop_button: Button
 var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var character_portrait: TextureRect
-var stats_panel: Control
-var market_panel: Control
+var info_panel: Control
 var player_name_label: Label
 
 const BG_PATHS = {
@@ -117,9 +116,8 @@ func _build_ui():
 
 	_build_bottom_bar(root)
 
-	# ── 5. 우측 슬라이드 패널들 (기본 숨김) ──
-	_build_stats_panel()
-	_build_market_panel()
+	# ── 5. 우측 슬라이드 정보 패널 (기본 숨김) ──
+	_build_info_panel()
 
 	_build_modal()
 	_build_toast_layer()
@@ -154,17 +152,11 @@ func _build_top_bar(parent):
 	top_labels["money"] = money_lbl
 	row.add_child(money_lbl)
 
-	var stats_btn = _small_button("📊 스탯", "#1e2a3a")
-	stats_btn.custom_minimum_size = Vector2(82, 36)
-	stats_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
-	stats_btn.pressed.connect(_toggle_stats_panel)
-	row.add_child(stats_btn)
-
-	var market_btn = _small_button("📈 시세", "#1a2e1a")
-	market_btn.custom_minimum_size = Vector2(82, 36)
-	market_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
-	market_btn.pressed.connect(_toggle_market_panel)
-	row.add_child(market_btn)
+	var info_btn = _small_button("📋 정보", "#1e2a3a")
+	info_btn.custom_minimum_size = Vector2(82, 36)
+	info_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+	info_btn.pressed.connect(_toggle_info_panel)
+	row.add_child(info_btn)
 
 	var save_btn = _small_button("💾", "#1e2a3a")
 	save_btn.custom_minimum_size = Vector2(40, 36)
@@ -254,118 +246,128 @@ func _build_story_panel(parent):
 	choice_box.add_theme_constant_override("separation", 10)
 	layout.add_child(choice_box)
 
-func _build_stats_panel():
-	# 우측 슬라이드 스탯 패널 (320px, 기본 숨김)
-	stats_panel = PanelContainer.new()
+func _build_info_panel():
+	# ── 우측 슬라이드 통합 정보 패널 (340px, 기본 숨김) ──
+	info_panel = PanelContainer.new()
 	var style = StyleBoxFlat.new()
 	style.bg_color = Color(0.05, 0.05, 0.08, 0.97)
 	style.border_color = Color("#252535")
 	style.set_border_width_all(0)
 	style.border_width_left = 1
-	style.content_margin_left = 14
-	style.content_margin_right = 14
-	style.content_margin_top = 12
-	style.content_margin_bottom = 12
-	stats_panel.add_theme_stylebox_override("panel", style)
-	stats_panel.set_anchor(SIDE_LEFT, 1.0)
-	stats_panel.set_anchor(SIDE_TOP, 0.0)
-	stats_panel.set_anchor(SIDE_RIGHT, 1.0)
-	stats_panel.set_anchor(SIDE_BOTTOM, 1.0)
-	stats_panel.offset_left = -320
-	stats_panel.offset_top = 48
-	stats_panel.offset_right = 0
-	stats_panel.offset_bottom = 0
-	stats_panel.visible = false
-	add_child(stats_panel)
+	style.content_margin_left = 0
+	style.content_margin_right = 0
+	style.content_margin_top = 0
+	style.content_margin_bottom = 0
+	info_panel.add_theme_stylebox_override("panel", style)
+	info_panel.set_anchor(SIDE_LEFT, 1.0)
+	info_panel.set_anchor(SIDE_TOP, 0.0)
+	info_panel.set_anchor(SIDE_RIGHT, 1.0)
+	info_panel.set_anchor(SIDE_BOTTOM, 1.0)
+	info_panel.offset_left = -340
+	info_panel.offset_top = 48
+	info_panel.offset_right = 0
+	info_panel.offset_bottom = 0
+	info_panel.visible = false
+	add_child(info_panel)
 
-	var scroll = ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	stats_panel.add_child(scroll)
+	# ── TabContainer: 스탯 / 시황 / 관계 ──
+	var tabs = TabContainer.new()
+	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var tab_sel = StyleBoxFlat.new()
+	tab_sel.bg_color = Color("#13131f")
+	tab_sel.border_color = Color("#5b9cf6")
+	tab_sel.border_width_bottom = 2
+	tab_sel.content_margin_left = 10
+	tab_sel.content_margin_right = 10
+	tab_sel.content_margin_top = 6
+	tab_sel.content_margin_bottom = 6
+	var tab_unsel = StyleBoxFlat.new()
+	tab_unsel.bg_color = Color("#0a0a12")
+	tab_unsel.border_color = Color("#1e1e2a")
+	tab_unsel.set_border_width_all(0)
+	tab_unsel.content_margin_left = 10
+	tab_unsel.content_margin_right = 10
+	tab_unsel.content_margin_top = 6
+	tab_unsel.content_margin_bottom = 6
+	var tab_panel_style = StyleBoxFlat.new()
+	tab_panel_style.bg_color = Color("#0c0c14")
+	tab_panel_style.set_border_width_all(0)
+	tabs.add_theme_stylebox_override("tab_selected", tab_sel)
+	tabs.add_theme_stylebox_override("tab_unselected", tab_unsel)
+	tabs.add_theme_stylebox_override("panel", tab_panel_style)
+	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
+	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
+	tabs.add_theme_font_size_override("font_size", 13)
+	info_panel.add_child(tabs)
 
-	var box = VBoxContainer.new()
-	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_theme_constant_override("separation", 5)
-	scroll.add_child(box)
+	# ── Tab 0: 📊 스탯 ──
+	var stat_scroll = ScrollContainer.new()
+	stat_scroll.name = "📊 스탯"
+	stat_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	tabs.add_child(stat_scroll)
+	var stat_box = VBoxContainer.new()
+	stat_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stat_box.add_theme_constant_override("separation", 5)
+	var stat_margin = MarginContainer.new()
+	stat_margin.add_theme_constant_override("margin_left", 14)
+	stat_margin.add_theme_constant_override("margin_right", 14)
+	stat_margin.add_theme_constant_override("margin_top", 10)
+	stat_margin.add_theme_constant_override("margin_bottom", 10)
+	stat_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stat_margin.add_child(stat_box)
+	stat_scroll.add_child(stat_margin)
 
-	# ── 스탯 ──
-	box.add_child(_label("PLAYER", 13, "#5b9cf6"))
+	stat_box.add_child(_label("PLAYER", 13, "#5b9cf6"))
 	for key in ["housing", "job", "health", "mental", "stress", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
-		var row = HBoxContainer.new()
-		box.add_child(row)
+		var stat_row = HBoxContainer.new()
+		stat_box.add_child(stat_row)
 		var name_label = _label(_stat_name(key), 12, "#5a6075")
 		name_label.custom_minimum_size = Vector2(70, 0)
-		row.add_child(name_label)
+		stat_row.add_child(name_label)
 		var value = _label("", 12, "#e8eaf0")
 		value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		stat_labels[key] = value
-		row.add_child(value)
+		stat_row.add_child(value)
 
-	# ── 라이벌 ──
-	box.add_child(_label("RIVAL", 13, "#ff4444"))
+	stat_box.add_child(_label("RIVAL", 13, "#ff4444"))
 	rival_label = _label("—", 11, "#5a6075")
 	rival_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rival_label.clip_text = false
 	rival_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_child(rival_label)
+	stat_box.add_child(rival_label)
 
-	# ── 뉴스 ──
-	box.add_child(_label("▸ NEWS", 12, "#f97316"))
-	news_box = VBoxContainer.new()
-	news_box.add_theme_constant_override("separation", 3)
-	box.add_child(news_box)
-
-	# ── 로그 ──
-	box.add_child(_label("LOG", 13, "#5b9cf6"))
+	stat_box.add_child(_label("LOG", 13, "#5b9cf6"))
 	log_box = RichTextLabel.new()
 	log_box.bbcode_enabled = true
 	log_box.fit_content = true
 	log_box.add_theme_font_size_override("normal_font_size", 11)
 	log_box.add_theme_color_override("default_color", Color("#5a6075"))
-	box.add_child(log_box)
+	stat_box.add_child(log_box)
 
-func _toggle_stats_panel():
-	if stats_panel:
-		if market_panel and market_panel.visible:
-			market_panel.visible = false
-		stats_panel.visible = not stats_panel.visible
+	# ── Tab 1: 📰 시황 ──
+	var news_scroll = ScrollContainer.new()
+	news_scroll.name = "📰 시황"
+	news_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	tabs.add_child(news_scroll)
+	var news_outer = VBoxContainer.new()
+	news_outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	news_outer.add_theme_constant_override("separation", 6)
+	var news_margin = MarginContainer.new()
+	news_margin.add_theme_constant_override("margin_left", 14)
+	news_margin.add_theme_constant_override("margin_right", 14)
+	news_margin.add_theme_constant_override("margin_top", 10)
+	news_margin.add_theme_constant_override("margin_bottom", 10)
+	news_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	news_margin.add_child(news_outer)
+	news_scroll.add_child(news_margin)
 
-func _build_market_panel():
-	# 시세 + 관계 + 아이템 전용 패널 (우측, 스탯 패널과 상호 배타적)
-	market_panel = PanelContainer.new()
-	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.04, 0.08, 0.05, 0.97)
-	style.border_color = Color("#1e3520")
-	style.set_border_width_all(0)
-	style.border_width_left = 1
-	style.content_margin_left = 14
-	style.content_margin_right = 14
-	style.content_margin_top = 12
-	style.content_margin_bottom = 12
-	market_panel.add_theme_stylebox_override("panel", style)
-	market_panel.set_anchor(SIDE_LEFT, 1.0)
-	market_panel.set_anchor(SIDE_TOP, 0.0)
-	market_panel.set_anchor(SIDE_RIGHT, 1.0)
-	market_panel.set_anchor(SIDE_BOTTOM, 1.0)
-	market_panel.offset_left = -340
-	market_panel.offset_top = 48
-	market_panel.offset_right = 0
-	market_panel.offset_bottom = 0
-	market_panel.visible = false
-	add_child(market_panel)
+	news_box = VBoxContainer.new()
+	news_box.add_theme_constant_override("separation", 4)
+	news_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	news_outer.add_child(news_box)
 
-	var scroll = ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	market_panel.add_child(scroll)
-
-	var box = VBoxContainer.new()
-	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_theme_constant_override("separation", 6)
-	scroll.add_child(box)
-
-	# ── 시세 ──
 	ticker_rtl = RichTextLabel.new()
 	ticker_rtl.bbcode_enabled = true
 	ticker_rtl.fit_content = true
@@ -373,46 +375,38 @@ func _build_market_panel():
 	ticker_rtl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ticker_rtl.add_theme_font_size_override("normal_font_size", 12)
 	ticker_rtl.add_theme_color_override("default_color", Color("#8892a4"))
-	box.add_child(ticker_rtl)
+	news_outer.add_child(ticker_rtl)
 
-	# ── 관계/아이템 탭 ──
-	var tabs = TabContainer.new()
-	tabs.custom_minimum_size = Vector2(0, 180)
-	box.add_child(tabs)
-	var tab_sel = StyleBoxFlat.new()
-	tab_sel.bg_color = Color("#1e2a1e")
-	tab_sel.border_color = Color("#3fb950")
-	tab_sel.set_border_width_all(1)
-	tab_sel.content_margin_left = 8
-	tab_sel.content_margin_right = 8
-	tab_sel.content_margin_top = 4
-	tab_sel.content_margin_bottom = 4
-	var tab_unsel = StyleBoxFlat.new()
-	tab_unsel.bg_color = Color("#0f140f")
-	tab_unsel.border_color = Color("#1e3520")
-	tab_unsel.set_border_width_all(1)
-	tab_unsel.content_margin_left = 8
-	tab_unsel.content_margin_right = 8
-	tab_unsel.content_margin_top = 4
-	tab_unsel.content_margin_bottom = 4
-	var tab_panel_style = StyleBoxFlat.new()
-	tab_panel_style.bg_color = Color("#0f140f")
-	tab_panel_style.border_color = Color("#1e3520")
-	tab_panel_style.set_border_width_all(1)
-	tabs.add_theme_stylebox_override("tab_selected", tab_sel)
-	tabs.add_theme_stylebox_override("tab_unselected", tab_unsel)
-	tabs.add_theme_stylebox_override("panel", tab_panel_style)
-	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
-	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
-	tabs.add_theme_font_size_override("font_size", 12)
-	relationship_box = _tab_box(tabs, "관계")
-	inventory_box = _tab_box(tabs, "아이템")
+	# ── Tab 2: 👥 관계 ──
+	var social_scroll = ScrollContainer.new()
+	social_scroll.name = "👥 관계"
+	social_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	tabs.add_child(social_scroll)
+	var social_outer = VBoxContainer.new()
+	social_outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	social_outer.add_theme_constant_override("separation", 6)
+	var social_margin = MarginContainer.new()
+	social_margin.add_theme_constant_override("margin_left", 14)
+	social_margin.add_theme_constant_override("margin_right", 14)
+	social_margin.add_theme_constant_override("margin_top", 10)
+	social_margin.add_theme_constant_override("margin_bottom", 10)
+	social_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	social_margin.add_child(social_outer)
+	social_scroll.add_child(social_margin)
 
-func _toggle_market_panel():
-	if market_panel:
-		if stats_panel and stats_panel.visible:
-			stats_panel.visible = false
-		market_panel.visible = not market_panel.visible
+	relationship_box = VBoxContainer.new()
+	relationship_box.add_theme_constant_override("separation", 4)
+	relationship_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	social_outer.add_child(relationship_box)
+
+	inventory_box = VBoxContainer.new()
+	inventory_box.add_theme_constant_override("separation", 4)
+	inventory_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	social_outer.add_child(inventory_box)
+
+func _toggle_info_panel():
+	if info_panel:
+		info_panel.visible = not info_panel.visible
 
 func _build_bottom_bar(parent):
 	var margin = MarginContainer.new()
