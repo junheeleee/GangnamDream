@@ -1078,6 +1078,101 @@
     ]
   },
   {
+    "id": "drama_startup_acquisition",
+    "title": "인수 제안",
+    "description": "VC에서 연락이 왔다.\n\n'귀사에 관심이 있습니다. 미팅 가능할까요?'\n\n팀원들과 밤새 토론했다. 숫자가 나왔다. 우리가 생각하던 것보다 훨씬 컸다.\n\n여기서 팔면 끝이다. 하지만 숫자가 통장에 찍힌다.\n\n계속 가면 더 커질 수도 있다. 아니면 다 날릴 수도 있다.",
+    "category": "career",
+    "rarity": "legendary",
+    "weight": 0.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "joined_startup",
+      "min_turn": 18
+    },
+    "tags": [
+      "career",
+      "opportunity",
+      "finance",
+      "startup"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "인수를 수락한다 — 지금 현금화한다",
+        "effects": {
+          "money": 80000000,
+          "mental": 20,
+          "stress": -20,
+          "reputation": 25,
+          "flag": "startup_exit"
+        },
+        "result_text": "서명했다. 8천만원이 통장에 들어왔다.\n\n팀원들과 마지막으로 술 한 잔 했다. 아무도 말이 없었다.\n잘한 건지 모르겠다. 근데 숫자는 거짓말을 안 한다."
+      },
+      {
+        "text": "거절한다 — 더 크게 키운다",
+        "effects": {
+          "intelligence": 6,
+          "investment_skill": 5,
+          "stress": 8,
+          "reputation": 10
+        },
+        "result_text": "거절했다. VC 담당자가 놀란 눈치였다.\n\n더 큰 그림이 있다. 아직 팔 때가 아니다.\n이 결정이 옳았는지는 시간이 알려줄 것이다."
+      }
+    ]
+  },
+  {
+    "id": "drama_election_theme_stock",
+    "title": "선거 테마주",
+    "description": "선거가 3개월 앞으로 다가왔다.\n\n특정 후보 관련 테마주들이 들썩이고 있다.\n증권 커뮤니티가 들끓는다. '이번엔 진짜다.'\n\n테마주는 결과가 나오면 급등하거나 급락한다.\n타이밍이 전부인 게임이다.\n\n어떻게 할 것인가.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.4,
+    "hidden": false,
+    "conditions": {
+      "min_investment_skill": 35,
+      "min_turn": 10,
+      "min_money": 2000000
+    },
+    "tags": [
+      "finance",
+      "risk",
+      "politics",
+      "opportunity"
+    ],
+    "cooldown": 40,
+    "choices": [
+      {
+        "text": "선거 직전 매수 — 결과 직후 매도 타이밍을 노린다",
+        "effects": {
+          "money": 12000000,
+          "investment_skill": 8,
+          "stress": 10,
+          "luck": 5,
+          "flag": "political_winner"
+        },
+        "result_text": "선거 결과가 나온 날 새벽 4시, 차트를 보며 손가락을 뻗었다.\n\n매도. 확인.\n\n1200만원. 계좌가 달라졌다.\n이 도시에서 정보는 돈이고, 타이밍이 전부라는 걸 몸으로 배웠다."
+      },
+      {
+        "text": "소액만 테스트해본다",
+        "effects": {
+          "money": 800000,
+          "investment_skill": 5,
+          "stress": 4
+        },
+        "result_text": "80만원 수익. 아쉽지만 안전하게 남겼다.\n다음엔 더 크게 들어갈 용기가 생겼다."
+      },
+      {
+        "text": "테마주는 안 한다 — 원칙을 지킨다",
+        "effects": {
+          "intelligence": 3,
+          "mental": 4,
+          "stress": -3
+        },
+        "result_text": "안 했다. 며칠 뒤 테마주들이 폭락했다는 뉴스가 떴다.\n원칙이 나를 지켰다."
+      }
+    ]
+  },
+  {
     "id": "drama_parents_financial_crisis",
     "title": "부모님의 위기",
     "description": "부모님에게서 전화가 왔다. 사업이 어려워졌다고 한다. 지금 내 통장에 있는 돈이 전부다.",
