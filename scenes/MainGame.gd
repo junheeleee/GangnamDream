@@ -57,6 +57,10 @@ func _ready():
 	_begin_month()
 	_refresh_all()
 	BGMPlayer.start()
+	# 첫 게임에만 튜토리얼 팝업 표시
+	if not GameState.flags.get("tutorial_shown", false):
+		GameState.flags["tutorial_shown"] = true
+		_show_tutorial_intro()
 
 func _init_systems():
 	investment_system = load("res://systems/InvestmentSystem.gd").new()
@@ -1750,3 +1754,41 @@ func _get_month_advice() -> String:
 		if tenure >= 5 and promo_count < max_promo and GameState.work_performance >= 55:
 			return "근속 %d개월, 업무 성과 %d입니다. 승진 기회가 다가오고 있어요. 꾸준히 유지하세요." % [tenure, GameState.work_performance]
 	return ""
+
+func _show_tutorial_intro():
+	_open_modal("🏙 강남드림")
+	modal_body.add_child(_wrap_label(
+		"서울 고시원 100만원으로 시작해 65세까지 자산 20억을 만드는 게임이에요.",
+		15, "#e8eaf0"))
+
+	var sep0 = HSeparator.new()
+	sep0.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep0)
+
+	var steps = [
+		["⚡ 행동력(AP)", "매달 3개. 공부·투자·구직·인맥 중 골라 쓰세요."],
+		["💼 구직 → 💰 월급", "먼저 취업이 최우선이에요. 수입이 없으면 버티기 어려워요."],
+		["📈 투자", "첫 월급 이후 열려요. 돈이 돈을 버는 구조를 만드세요."],
+		["🏠 이사", "고시원 → 원룸 → 아파트 → 강남. 자산 쌓이면 이사하세요."],
+		["❤️ 건강·정신", "0이 되면 게임오버. 스트레스 관리도 필수예요."],
+	]
+	for step in steps:
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 14)
+		modal_body.add_child(row)
+		var key_lbl = _label(step[0], 13, "#f0b429")
+		key_lbl.custom_minimum_size = Vector2(130, 0)
+		row.add_child(key_lbl)
+		row.add_child(_wrap_label(step[1], 13, "#8892a4"))
+
+	var sep1 = HSeparator.new()
+	sep1.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep1)
+
+	modal_body.add_child(_wrap_label(
+		"🎯  목표: 자산 20억 달성 = 강남드림!\n    65세까지 버티며 자산을 키워보세요.",
+		13, "#00c896"))
+
+	var start_btn = _button("서울 생활 시작 →", "#1f6feb")
+	start_btn.pressed.connect(_close_modal)
+	modal_body.add_child(start_btn)
