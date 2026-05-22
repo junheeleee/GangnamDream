@@ -36,10 +36,12 @@ var selected_bg_index: int = 0
 var bg_cards: Array = []
 var trait_option: OptionButton
 var trait_desc_label: Label
+var slot_container: VBoxContainer
 
 func _ready():
 	_build_ui()
 	BGMPlayer.start()
+	SceneTransition.fade_in()
 
 func _build_ui():
 	# ── 배경 ──
@@ -168,6 +170,25 @@ func _build_ui():
 
 	right.add_child(_label("불러오기", 14, "#5b9cf6", HORIZONTAL_ALIGNMENT_LEFT))
 
+	slot_container = VBoxContainer.new()
+	slot_container.add_theme_constant_override("separation", 8)
+	right.add_child(slot_container)
+	_rebuild_slots()
+
+	var right_spacer = Control.new()
+	right_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	right.add_child(right_spacer)
+
+	var meta = MetaProgression.data
+	right.add_child(_label(
+		"누적 %d런\n최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
+		11, "#3a3a5a", HORIZONTAL_ALIGNMENT_LEFT))
+
+# ── 슬롯 목록 빌드 / 새로고침 ─────────────────────────────────
+func _rebuild_slots():
+	for child in slot_container.get_children():
+		child.queue_free()
+
 	for slot in range(0, 4):
 		var info = SaveManager.get_save_info(slot)
 		var top_line = "자동저장" if slot == 0 else "슬롯 %d" % slot
@@ -180,19 +201,100 @@ func _build_ui():
 				_format_money(info.get("total_assets", 0))
 			]
 		var enabled = not info.get("empty", true)
+
+		# 슬롯 행: [슬롯 버튼] + [삭제 버튼]
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		slot_container.add_child(row)
+
 		var cb = Callable()
 		if enabled:
 			cb = func(): _load_slot(slot)
-		right.add_child(_slot_button(top_line, sub_line, enabled, cb))
+		var slot_panel = _slot_button(top_line, sub_line, enabled, cb)
+		slot_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(slot_panel)
 
-	var right_spacer = Control.new()
-	right_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	right.add_child(right_spacer)
+		# 삭제 버튼 (데이터가 있을 때만 표시)
+		if enabled:
+			var del_btn = Button.new()
+			del_btn.text = "🗑"
+			del_btn.custom_minimum_size = Vector2(36, 56)
+			del_btn.flat = false
+			var del_st = StyleBoxFlat.new()
+			del_st.bg_color = Color("#2a1010")
+			del_st.border_color = Color("#5a1a1a")
+			del_st.set_border_width_all(1)
+			del_st.set_corner_radius_all(6)
+			var del_hover = del_st.duplicate()
+			del_hover.bg_color = Color("#3d1515")
+			del_btn.add_theme_stylebox_override("normal", del_st)
+			del_btn.add_theme_stylebox_override("hover", del_hover)
+			del_btn.add_theme_stylebox_override("pressed", del_hover)
+			del_btn.add_theme_font_size_override("font_size", 16)
+			del_btn.pressed.connect(func(): _confirm_delete(slot))
+			row.add_child(del_btn)
 
-	var meta = MetaProgression.data
-	right.add_child(_label(
-		"누적 %d런\n최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
-		11, "#3a3a5a", HORIZONTAL_ALIGNMENT_LEFT))
+var _delete_confirm_slot: int = -1
+
+func _confirm_delete(slot: int):
+	if _delete_confirm_slot == slot:
+		# 두 번째 클릭 → 실제 삭제
+		SaveManager.delete_save(slot)
+		_delete_confirm_slot = -1
+		_rebuild_slots()
+	else:
+		# 첫 번째 클릭 → 확인 대기 상태로 전환 후 슬롯 다시 그림
+		_delete_confirm_slot = slot
+		_rebuild_slots_with_confirm(slot)
+
+func _rebuild_slots_with_confirm(confirm_slot: int):
+	# _rebuild_slots와 동일하되, confirm_slot의 삭제 버튼을 "확인?" 상태로 표시
+	for child in slot_container.get_children():
+		child.queue_free()
+
+	for slot in range(0, 4):
+		var info = SaveManager.get_save_info(slot)
+		var top_line = "자동저장" if slot == 0 else "슬롯 %d" % slot
+		var sub_line = ""
+		if info.get("empty", true):
+			sub_line = "비어 있음"
+		else:
+			sub_line = "%d년 %d월  ·  %s" % [
+				info.get("year", 2026), info.get("month", 1),
+				_format_money(info.get("total_assets", 0))
+			]
+		var enabled = not info.get("empty", true)
+
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		slot_container.add_child(row)
+
+		var cb = Callable()
+		if enabled and slot != confirm_slot:
+			cb = func(): _load_slot(slot)
+		var slot_panel = _slot_button(top_line, sub_line, enabled and slot != confirm_slot, cb)
+		slot_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(slot_panel)
+
+		if enabled:
+			var del_btn = Button.new()
+			var is_confirm = (slot == confirm_slot)
+			del_btn.text = "?" if is_confirm else "🗑"
+			del_btn.custom_minimum_size = Vector2(36, 56)
+			var del_st = StyleBoxFlat.new()
+			del_st.bg_color = Color("#5a1a1a") if is_confirm else Color("#2a1010")
+			del_st.border_color = Color("#ff4444") if is_confirm else Color("#5a1a1a")
+			del_st.set_border_width_all(1)
+			del_st.set_corner_radius_all(6)
+			var del_hover = del_st.duplicate()
+			del_hover.bg_color = Color("#7a2020") if is_confirm else Color("#3d1515")
+			del_btn.add_theme_stylebox_override("normal", del_st)
+			del_btn.add_theme_stylebox_override("hover", del_hover)
+			del_btn.add_theme_stylebox_override("pressed", del_hover)
+			del_btn.add_theme_font_size_override("font_size", 16)
+			del_btn.add_theme_color_override("font_color", Color("#ff6666") if is_confirm else Color("#884444"))
+			del_btn.pressed.connect(func(): _confirm_delete(slot))
+			row.add_child(del_btn)
 
 # ── 배경 카드 생성 ──────────────────────────────────────────────
 func _bg_card(index: int) -> PanelContainer:
@@ -329,11 +431,11 @@ func _start_new_run():
 	if trait_option.get_item_count() > 0:
 		selected_trait = trait_option.get_item_text(trait_option.selected)
 	GameState.start_new_game(selected_trait, chosen_name, chosen_bg)
-	get_tree().change_scene_to_file("res://scenes/MainGame.tscn")
+	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):
 	if SaveManager.load_game(slot):
-		get_tree().change_scene_to_file("res://scenes/MainGame.tscn")
+		SceneTransition.go("res://scenes/MainGame.tscn")
 
 # ── UI 헬퍼 ────────────────────────────────────────────────────
 func _label(text, size, color, align) -> Label:

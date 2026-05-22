@@ -25,6 +25,7 @@ var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var character_portrait: TextureRect
 var info_panel: Control
+var info_tabs: TabContainer
 var player_name_label: Label
 
 const BG_PATHS = {
@@ -57,6 +58,7 @@ func _ready():
 	_begin_month()
 	_refresh_all()
 	BGMPlayer.start()
+	SceneTransition.fade_in()
 	# 첫 게임에만 튜토리얼 팝업 표시
 	if not GameState.flags.get("tutorial_shown", false):
 		GameState.flags["tutorial_shown"] = true
@@ -275,7 +277,8 @@ func _build_info_panel():
 	add_child(info_panel)
 
 	# ── TabContainer: 스탯 / 시황 / 관계 ──
-	var tabs = TabContainer.new()
+	info_tabs = TabContainer.new()
+	var tabs = info_tabs
 	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var tab_sel = StyleBoxFlat.new()
@@ -303,6 +306,7 @@ func _build_info_panel():
 	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
 	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
 	tabs.add_theme_font_size_override("font_size", 13)
+	tabs.tab_changed.connect(func(idx): GameState.flags["_last_info_tab"] = idx)
 	info_panel.add_child(tabs)
 
 	# ── Tab 0: 📊 스탯 ──
@@ -432,6 +436,9 @@ func _build_info_panel():
 func _toggle_info_panel():
 	if info_panel:
 		info_panel.visible = not info_panel.visible
+		if info_panel.visible and info_tabs:
+			var last = GameState.flags.get("_last_info_tab", 0)
+			info_tabs.current_tab = clampi(last, 0, info_tabs.get_tab_count() - 1)
 
 func _build_bottom_bar(parent):
 	var margin = MarginContainer.new()
@@ -1342,7 +1349,7 @@ func _open_system_menu():
 
 func _go_to_menu():
 	SaveManager.autosave()
-	get_tree().change_scene_to_file("res://scenes/StartMenu.tscn")
+	SceneTransition.go("res://scenes/StartMenu.tscn")
 
 func _open_modal(title):
 	_clear_box(modal_body)

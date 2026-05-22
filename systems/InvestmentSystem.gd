@@ -146,7 +146,7 @@ func _record_price_history():
 			GameState.price_history[id] = []
 		var hist: Array = GameState.price_history[id]
 		hist.append(price)
-		if hist.size() > 6:
+		if hist.size() > 12:
 			hist.pop_front()
 
 func _apply_dividends():
