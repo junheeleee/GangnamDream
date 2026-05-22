@@ -48,6 +48,18 @@ func _build_ui():
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 
+	# 배경 분위기 이미지 (고시원 - 시작 화면 분위기)
+	var scene_bg = TextureRect.new()
+	scene_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scene_bg.stretch_mode = TextureRect.STRETCH_SCALE
+	scene_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	scene_bg.modulate = Color(1, 1, 1, 0.18)
+	scene_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var bg_tex = load("res://assets/backgrounds/goshiwon_room.png")
+	if bg_tex:
+		scene_bg.texture = bg_tex
+	add_child(scene_bg)
+
 	var scroll = ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED

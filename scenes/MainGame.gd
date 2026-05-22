@@ -22,6 +22,16 @@ var modal_title_label: Label
 var next_button: Button
 var shop_button: Button
 var _toast_container: VBoxContainer
+var event_bg: TextureRect
+var character_portrait: TextureRect
+
+const BG_PATHS = {
+	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
+	"oneroom":   "res://assets/backgrounds/oneroom_apartment.png",
+	"apartment": "res://assets/backgrounds/gangnam_apartment.png",
+}
+const BG_DEFAULT = "res://assets/backgrounds/seoul_rainy_street.png"
+const PORTRAIT_NEUTRAL = "res://assets/characters/main_character_neutral_goshiwon.png"
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
@@ -118,6 +128,17 @@ func _build_left_panel(parent):
 	var box = VBoxContainer.new()
 	box.add_theme_constant_override("separation", 6)
 	panel.add_child(box)
+	# ── 캐릭터 초상화 ──
+	character_portrait = TextureRect.new()
+	character_portrait.custom_minimum_size = Vector2(0, 160)
+	character_portrait.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	character_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	var portrait_tex = load(PORTRAIT_NEUTRAL)
+	if portrait_tex:
+		character_portrait.texture = portrait_tex
+	box.add_child(character_portrait)
+
 	box.add_child(_label("PLAYER", 15, "#5b9cf6"))
 	for key in ["housing", "job", "health", "mental", "stress", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
 		var row = HBoxContainer.new()
@@ -162,12 +183,49 @@ func _build_center_panel(parent):
 	news_box.add_theme_constant_override("separation", 4)
 	news_panel.add_child(news_box)
 
-	var event_panel = _panel("#13131a", "#252535")
-	event_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	center.add_child(event_panel)
+	# ── 이벤트 패널 (레이어드: 배경 이미지 + 어두운 오버레이 + 콘텐츠) ──
+	var event_area = Control.new()
+	event_area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	event_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	center.add_child(event_area)
+
+	event_bg = TextureRect.new()
+	event_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	event_bg.stretch_mode = TextureRect.STRETCH_SCALE
+	event_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	event_bg.modulate = Color(1, 1, 1, 0.13)
+	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	event_area.add_child(event_bg)
+
+	var dark_overlay = ColorRect.new()
+	dark_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dark_overlay.color = Color("#13131a")
+	dark_overlay.self_modulate = Color(1, 1, 1, 0.86)
+	dark_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	event_area.add_child(dark_overlay)
+
+	var border_panel = Panel.new()
+	border_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	border_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var border_style = StyleBoxFlat.new()
+	border_style.bg_color = Color(0, 0, 0, 0)
+	border_style.border_color = Color("#252535")
+	border_style.set_border_width_all(1)
+	border_style.set_corner_radius_all(4)
+	border_panel.add_theme_stylebox_override("panel", border_style)
+	event_area.add_child(border_panel)
+
+	var event_margin = MarginContainer.new()
+	event_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	event_margin.add_theme_constant_override("margin_left", 12)
+	event_margin.add_theme_constant_override("margin_right", 12)
+	event_margin.add_theme_constant_override("margin_top", 12)
+	event_margin.add_theme_constant_override("margin_bottom", 12)
+	event_area.add_child(event_margin)
+
 	var event_layout = VBoxContainer.new()
 	event_layout.add_theme_constant_override("separation", 10)
-	event_panel.add_child(event_layout)
+	event_margin.add_child(event_layout)
 	event_title = _label("이벤트 대기 중", 22, "#e8eaf0")
 	event_layout.add_child(event_title)
 	event_body = RichTextLabel.new()
@@ -488,6 +546,9 @@ func _refresh_all():
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
 	var h = GameState.get_housing_info()
 	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), h.get("name","")]
+
+	# 배경 이미지 업데이트
+	_update_event_bg()
 
 	# 라이벌 표시
 	if rival_label:
@@ -1500,6 +1561,14 @@ func _calc_month_grade(snap: Dictionary) -> Dictionary:
 		return {"emoji": "😰", "title": "위기 상황", "msg": "재정과 체력 모두 위험합니다. 전략을 바꾸세요.", "color": "#ff4444"}
 
 # ── 다음 달 조언 ─────────────────────────────────────
+func _update_event_bg():
+	if not event_bg:
+		return
+	var bg_path = BG_PATHS.get(GameState.housing, BG_DEFAULT)
+	var tex = load(bg_path)
+	if tex:
+		event_bg.texture = tex
+
 func _get_month_advice() -> String:
 	if GameState.health <= 40:
 		return "⚠ 건강 %d — 위험합니다. 다음 달 [운동]을 반드시 선택하세요. 건강이 0이 되면 '과로 엔딩'으로 종료됩니다." % GameState.health
