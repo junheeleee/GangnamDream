@@ -171,7 +171,7 @@ func _build_top_bar(parent):
 	var menu_btn = _small_button("≡", "#1e2a3a")
 	menu_btn.custom_minimum_size = Vector2(40, 36)
 	menu_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
-	menu_btn.pressed.connect(_go_to_menu)
+	menu_btn.pressed.connect(_open_system_menu)
 	row.add_child(menu_btn)
 
 func _build_portrait_panel(parent):
@@ -1315,6 +1315,30 @@ func _on_use_item(item_id):
 	inventory_system.use_item(item_id)
 	_refresh_all()
 	_show_toast("✨ 아이템 사용", Color("#fbbf24"))
+
+func _open_system_menu():
+	_open_modal("≡ 시스템")
+	var lbl = Label.new()
+	lbl.text = "저장 후 이동하거나 게임을 종료합니다."
+	lbl.add_theme_font_size_override("font_size", 13)
+	lbl.add_theme_color_override("font_color", Color("#8892a4"))
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	modal_body.add_child(lbl)
+
+	var menu_btn2 = _button("🏠  메인 메뉴로", "#1e3a5f")
+	menu_btn2.pressed.connect(_go_to_menu)
+	modal_body.add_child(menu_btn2)
+
+	var quit_btn = _button("🚪  게임 종료", "#5a1a1a")
+	quit_btn.pressed.connect(func():
+		SaveManager.autosave()
+		get_tree().quit()
+	)
+	modal_body.add_child(quit_btn)
+
+	var cancel_btn = _button("✕  취소", "#2a2a3a")
+	cancel_btn.pressed.connect(_close_modal)
+	modal_body.add_child(cancel_btn)
 
 func _go_to_menu():
 	SaveManager.autosave()

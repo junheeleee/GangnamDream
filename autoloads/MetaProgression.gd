@@ -58,6 +58,7 @@ func record_run(summary):
 func _check_progression_unlocks(summary):
 	var total_assets = float(summary.get("total_assets", 0.0))
 	var ending_id = str(summary.get("ending_id", ""))
+	var total_runs = int(data.get("total_runs", 0))
 	# 자산 기준 언락
 	if total_assets >= 50_000_000:
 		unlock_trait("야근 면역자")
@@ -68,6 +69,12 @@ func _check_progression_unlocks(summary):
 		unlock_trait("안정 지향형")
 	if ending_id == "gangnam_dream":
 		unlock_trait("강남드림 계승자")
-	# 런 횟수 기준 업적
-	if int(data.get("total_runs", 0)) >= 5:
+	if ending_id in ["burnout", "mental_break"]:
+		unlock_trait("번아웃 생존자")
+	if ending_id in ["startup_exit", "political_fix"]:
+		unlock_trait("인맥왕")
+	# 런 횟수 기준 언락
+	if total_runs >= 5:
 		unlock_achievement("five_lives")
+	if total_runs >= 10:
+		unlock_trait("강남 토박이")

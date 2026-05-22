@@ -50,5 +50,39 @@
       "luck": 10,
       "stress": 8
     }
+  },
+  {
+    "id": "번아웃 생존자",
+    "unlock": "ending_burnout_or_mental",
+    "unlock_hint": "번아웃 또는 멘탈 붕괴 엔딩 경험 시 해금",
+    "description": "바닥까지 가봤다. 이제 무너지지 않는 법을 안다. 시작부터 정신이 단단하다.",
+    "bonus": {
+      "mental": 15,
+      "stress": -20,
+      "health": 5
+    }
+  },
+  {
+    "id": "인맥왕",
+    "unlock": "ending_startup_or_political",
+    "unlock_hint": "스타트업 엑싯 또는 정치 테마 엔딩 달성 시 해금",
+    "description": "사람이 자산이라는 걸 깨달았다. 처음부터 사회성과 평판이 남다르다.",
+    "bonus": {
+      "social_skill": 10,
+      "reputation": 8,
+      "intelligence": 3
+    }
+  },
+  {
+    "id": "강남 토박이",
+    "unlock": "runs_10",
+    "unlock_hint": "총 10번 이상 런 완료 시 해금",
+    "description": "강남의 생리를 몸으로 익혔다. 보이는 것과 보이지 않는 것을 구분할 줄 안다.",
+    "bonus": {
+      "money": 1500000,
+      "appearance": 6,
+      "reputation": 5,
+      "luck": 4
+    }
   }
 ]
