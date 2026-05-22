@@ -179,10 +179,11 @@ func _build_ui():
 				info.get("year", 2026), info.get("month", 1),
 				_format_money(info.get("total_assets", 0))
 			]
-		var slot_btn = _slot_button(top_line, sub_line, not info.get("empty", true))
-		if not info.get("empty", true):
-			slot_btn.pressed.connect(Callable(self, "_load_slot").bind(slot))
-		right.add_child(slot_btn)
+		var enabled = not info.get("empty", true)
+		var cb = Callable()
+		if enabled:
+			cb = func(): _load_slot(slot)
+		right.add_child(_slot_button(top_line, sub_line, enabled, cb))
 
 	var right_spacer = Control.new()
 	right_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -366,11 +367,10 @@ func _button(text, color) -> Button:
 	button.add_theme_font_size_override("font_size", 15)
 	return button
 
-func _slot_button(top_line: String, sub_line: String, enabled: bool) -> Button:
-	var btn = Button.new()
-	btn.custom_minimum_size = Vector2(0, 56)
-	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn.disabled = not enabled
+func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: Callable = Callable()) -> Control:
+	var outer = PanelContainer.new()
+	outer.custom_minimum_size = Vector2(0, 56)
+	outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var st = StyleBoxFlat.new()
 	st.bg_color = Color("#1a1a26") if enabled else Color("#111118")
 	st.border_color = Color("#3a3a5a") if enabled else Color("#1e1e2a")
@@ -380,18 +380,41 @@ func _slot_button(top_line: String, sub_line: String, enabled: bool) -> Button:
 	st.content_margin_right = 14
 	st.content_margin_top = 8
 	st.content_margin_bottom = 8
-	var st_hover = st.duplicate()
-	st_hover.bg_color = Color("#222236")
-	btn.add_theme_stylebox_override("normal", st)
-	btn.add_theme_stylebox_override("hover", st_hover)
-	btn.add_theme_stylebox_override("disabled", st)
-	# Build label text manually (two-line style)
-	btn.text = "%s\n%s" % [top_line, sub_line]
-	btn.add_theme_font_size_override("font_size", 12)
-	var fc = Color("#e8eaf0") if enabled else Color("#3a3a5a")
-	btn.add_theme_color_override("font_color", fc)
-	btn.add_theme_color_override("font_color_disabled", Color("#3a3a5a"))
-	return btn
+	outer.add_theme_stylebox_override("panel", st)
+
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 3)
+	vbox.set_anchors_preset(Control.PRESET_FULL_RECT)
+	outer.add_child(vbox)
+
+	var lbl1 = Label.new()
+	lbl1.text = top_line
+	lbl1.add_theme_font_size_override("font_size", 13)
+	lbl1.add_theme_color_override("font_color", Color("#e8eaf0") if enabled else Color("#3a3a5a"))
+	vbox.add_child(lbl1)
+
+	var lbl2 = Label.new()
+	lbl2.text = sub_line
+	lbl2.add_theme_font_size_override("font_size", 11)
+	lbl2.add_theme_color_override("font_color", Color("#5b7a9a") if enabled else Color("#2a2a3a"))
+	vbox.add_child(lbl2)
+
+	if enabled and on_press.is_valid():
+		var btn = Button.new()
+		btn.flat = true
+		btn.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var empty_st = StyleBoxEmpty.new()
+		btn.add_theme_stylebox_override("normal", empty_st)
+		btn.add_theme_stylebox_override("pressed", empty_st)
+		btn.add_theme_stylebox_override("focus", empty_st)
+		var hover_st = StyleBoxFlat.new()
+		hover_st.bg_color = Color(1.0, 1.0, 1.0, 0.06)
+		hover_st.set_corner_radius_all(6)
+		btn.add_theme_stylebox_override("hover", hover_st)
+		btn.pressed.connect(on_press)
+		outer.add_child(btn)
+
+	return outer
 
 func _format_money(amount) -> String:
 	if abs(amount) >= 100_000_000:
