@@ -322,6 +322,27 @@ func _build_info_panel():
 	stat_margin.add_child(stat_box)
 	stat_scroll.add_child(stat_margin)
 
+	# ── 배경 / 트레이트 표시 ──
+	var bg_trait_row = HBoxContainer.new()
+	bg_trait_row.add_theme_constant_override("separation", 6)
+	stat_box.add_child(bg_trait_row)
+	var bg_lbl = _label("배경", 10, "#5a6075")
+	bg_lbl.custom_minimum_size = Vector2(28, 0)
+	bg_trait_row.add_child(bg_lbl)
+	var bg_map = {"지방_상경": "지방 상경", "명문대_중퇴": "명문대 중퇴", "금수저": "금수저"}
+	var bg_name = bg_map.get(GameState.player_background, GameState.player_background)
+	var bg_val = _label(bg_name, 10, "#a0aec0")
+	bg_val.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bg_trait_row.add_child(bg_val)
+	var trait_lbl = _label("트레이트", 10, "#5a6075")
+	bg_trait_row.add_child(trait_lbl)
+	var trait_val = _label(GameState.current_trait, 10, "#f6c90e")
+	bg_trait_row.add_child(trait_val)
+
+	var sep_line = HSeparator.new()
+	sep_line.modulate = Color("#2a2a3a")
+	stat_box.add_child(sep_line)
+
 	stat_box.add_child(_label("PLAYER", 13, "#5b9cf6"))
 	for key in ["housing", "job", "health", "mental", "stress", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
 		var stat_row = HBoxContainer.new()

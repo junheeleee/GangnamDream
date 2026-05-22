@@ -1,5 +1,89 @@
 [
   {
+    "id": "gosiwon_neighbor_first_meet",
+    "title": "옆방 사람",
+    "description": "복도에서 마주쳤다.\n\n비슷한 나이. 짧은 눈인사.\n세탁기 앞에서 기다리다 말이 텄다.\n\n'여기 온 지 얼마나 됐어요?'\n\n고시원에서 친해지는 건 대부분 이런 식이다.\n작은 공간, 같은 처지, 우연한 타이밍.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "max_stress": 80
+    },
+    "tags": ["social", "gosiwon", "relationship"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "편하게 말을 건넨다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 4,
+          "stress": -3
+        },
+        "relationship_effects": [
+          {
+            "id": "gosiwon_neighbor",
+            "name": "옆방 이웃",
+            "type": "friends",
+            "affection": 45,
+            "trust": 35
+          }
+        ],
+        "result_text": "이름을 알게 됐다. 같은 처지라는 것도.\n서울에서 처음으로 '아는 사람'이 생겼다.\n고시원이 조금 덜 낯설어졌다."
+      },
+      {
+        "text": "가볍게 인사만 하고 방으로 들어간다",
+        "effects": {
+          "mental": 1,
+          "stress": -1
+        },
+        "result_text": "괜찮은 사람 같았지만, 오늘은 피곤했다.\n나중에 또 마주치겠지."
+      }
+    ]
+  },
+  {
+    "id": "neighborhood_cafe_regular",
+    "title": "단골 카페 직원",
+    "description": "매일 가는 편의점 옆 작은 카페.\n\n오늘 직원이 먼저 말을 걸었다.\n'매일 오시더라고요. 아이스 아메리카노 맞죠?'\n\n이름도 모르는 사람이 내 주문을 기억하고 있었다.\n서울에서 이런 게 의외로 위로가 된다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 2,
+      "max_stress": 85
+    },
+    "tags": ["social", "daily", "relationship"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "반갑게 대화를 이어간다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 5,
+          "stress": -4
+        },
+        "relationship_effects": [
+          {
+            "id": "cafe_friend",
+            "name": "카페 단골 친구",
+            "type": "friends",
+            "affection": 40,
+            "trust": 30
+          }
+        ],
+        "result_text": "10분 남짓한 대화.\n직장, 서울, 꿈 이야기를 조금씩 나눴다.\n내일도 올 것 같다."
+      },
+      {
+        "text": "미소만 짓고 커피를 받는다",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "오늘은 그냥 커피만 마셨다.\n그것도 충분했다."
+      }
+    ]
+  },
+  {
     "id": "first_month_rent_pressure",
     "title": "첫 월세 자동이체",
     "description": "월세 자동이체 문자가 도착했다.\n{name}의 통장 잔고는 시작부터 얇고, 서울은 기다려주지 않는다.",
