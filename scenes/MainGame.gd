@@ -18,6 +18,7 @@ var inventory_box: VBoxContainer
 var log_box: RichTextLabel
 var modal_layer: ColorRect
 var modal_scroll: ScrollContainer
+var modal_panel: PanelContainer
 var modal_body: VBoxContainer
 var modal_title_label: Label
 var next_button: Button
@@ -467,11 +468,12 @@ func _build_modal():
 	modal_layer.visible = false
 	add_child(modal_layer)
 
-	var panel = _panel("#13131a", "#252535")
-	panel.set_anchors_preset(Control.PRESET_CENTER)
-	panel.custom_minimum_size = Vector2(640, 560)
-	panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	modal_layer.add_child(panel)
+	modal_panel = _panel("#13131a", "#252535")
+	modal_panel.set_anchors_preset(Control.PRESET_CENTER)
+	modal_panel.custom_minimum_size = Vector2(640, 560)
+	modal_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	modal_layer.add_child(modal_panel)
+	var panel = modal_panel
 
 	var outer = VBoxContainer.new()
 	outer.add_theme_constant_override("separation", 8)
@@ -1389,9 +1391,13 @@ func _open_modal(title):
 	modal_title_label.text = title
 	modal_layer.visible = true
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
-	# 스크롤 기본값 복원 (결산 화면에서 끈 경우 대비)
+	# 스크롤/크기 기본값 복원
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+		modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		modal_scroll.custom_minimum_size = Vector2(0, 420)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(640, 560)
 	AudioManager.play("open_modal")
 
 func _close_modal():
@@ -1451,8 +1457,13 @@ func _show_ending(ending_id):
 func _show_month_summary(snap: Dictionary):
 	_pending_month_summary = true
 	_open_modal("📊 %s 결산" % snap["date"])
+	# 결산 화면: 스크롤 없이 내용에 맞게 패널 자동 확장
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		modal_scroll.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		modal_scroll.custom_minimum_size = Vector2(0, 0)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(640, 0)
 
 	# 확인 버튼을 맨 위에 (항상 보임)
 	var confirm_btn = _button("다음 달 시작 →", "#1f6feb")
