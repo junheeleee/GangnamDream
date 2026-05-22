@@ -30,8 +30,14 @@ const BG_PATHS = {
 	"oneroom":   "res://assets/backgrounds/oneroom_apartment.png",
 	"apartment": "res://assets/backgrounds/gangnam_apartment.png",
 }
-const BG_DEFAULT = "res://assets/backgrounds/seoul_rainy_street.png"
-const PORTRAIT_NEUTRAL = "res://assets/characters/main_character_neutral_goshiwon.png"
+const BG_DEFAULT   = "res://assets/backgrounds/seoul_rainy_street.png"
+const BG_OFFICE    = "res://assets/backgrounds/office_desk.png"
+const BG_SUBWAY    = "res://assets/backgrounds/seoul_subway.png"
+
+const PORTRAIT_NEUTRAL    = "res://assets/characters/main_character_neutral_goshiwon.png"
+const PORTRAIT_TIRED      = "res://assets/characters/main_character_tired.png"
+const PORTRAIT_DETERMINED = "res://assets/characters/main_character_determined.png"
+const PORTRAIT_HAPPY      = "res://assets/characters/main_character_happy.png"
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
@@ -507,6 +513,8 @@ func _render_event():
 	next_button.disabled = true
 	event_title.text = current_event.get("title", "이벤트")
 	event_body.text = current_event.get("description", "")
+	# 이벤트에 맞는 배경 즉시 전환
+	_update_event_bg()
 	var choices: Array = current_event.get("choices", [])
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
@@ -547,8 +555,9 @@ func _refresh_all():
 	var h = GameState.get_housing_info()
 	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), h.get("name","")]
 
-	# 배경 이미지 업데이트
+	# 배경 + 초상화 업데이트
 	_update_event_bg()
+	_update_portrait()
 
 	# 라이벌 표시
 	if rival_label:
@@ -1344,6 +1353,12 @@ func _check_milestones():
 			GameState.add_log(m["msg"], "system")
 			_show_toast(m["msg"], Color(m["color"]))
 			AudioManager.play("money_big")
+			# 기쁜 표정 2초간 표시
+			GameState.flags["just_hit_milestone"] = true
+			_update_portrait()
+			await get_tree().create_timer(2.0).timeout
+			GameState.flags["just_hit_milestone"] = false
+			_update_portrait()
 
 func _on_rival_message(message: String, color: String):
 	_show_toast(message, Color(color))
@@ -1564,10 +1579,42 @@ func _calc_month_grade(snap: Dictionary) -> Dictionary:
 func _update_event_bg():
 	if not event_bg:
 		return
-	var bg_path = BG_PATHS.get(GameState.housing, BG_DEFAULT)
+	var bg_path = _get_bg_for_event(current_event)
 	var tex = load(bg_path)
 	if tex:
 		event_bg.texture = tex
+
+func _get_bg_for_event(ev: Dictionary) -> String:
+	# 이벤트 태그 기반 배경 결정
+	var tags = ev.get("tags", [])
+	if "job" in tags or "work" in tags or "office" in tags:
+		return BG_OFFICE
+	if "social" in tags or "commute" in tags or "subway" in tags:
+		return BG_SUBWAY
+	if "night" in tags or "city" in tags or "stress" in tags:
+		return BG_DEFAULT  # seoul_rainy_street
+	# 이벤트 없을 때는 주거 기반
+	return BG_PATHS.get(GameState.housing, BG_DEFAULT)
+
+func _update_portrait():
+	if not character_portrait:
+		return
+	var portrait_path = _get_portrait_path()
+	var tex = load(portrait_path)
+	if tex:
+		character_portrait.texture = tex
+
+func _get_portrait_path() -> String:
+	# 자산 마일스톤 달성 직후 — 기쁨
+	if GameState.flags.get("just_hit_milestone", false):
+		return PORTRAIT_HAPPY
+	# 스트레스 높거나 건강/정신 위험 — 피로
+	if GameState.stress >= 65 or GameState.health <= 35 or GameState.mental <= 35:
+		return PORTRAIT_TIRED
+	# 직장 있고 안정적 — 결의
+	if not GameState.current_job.is_empty() and GameState.stress < 45 and GameState.health >= 60:
+		return PORTRAIT_DETERMINED
+	return PORTRAIT_NEUTRAL
 
 func _get_month_advice() -> String:
 	if GameState.health <= 40:
