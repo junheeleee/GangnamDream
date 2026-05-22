@@ -155,7 +155,7 @@
     "price": 279000,
     "description": "퇴근 후 독서실에 앉아 공부하는 삶. 스트레스는 쌓이지만, 뭔가를 하고 있다는 감각이 정신을 붙들어준다.",
     "effects": {
-      "stress": 4
+      "intelligence": 4
     },
     "passive_effects": {
       "mental": 2
@@ -224,7 +224,7 @@
     "price": 389000,
     "description": "퍼스널 브랜딩 전문가에게 피드백을 받는다. 고칠 게 많다는 걸 알게 되는 과정. 스트레스지만 성장이다.",
     "effects": {
-      "stress": 2
+      "appearance": 5
     },
     "passive_effects": {},
     "one_time": true,
@@ -265,7 +265,7 @@
     "price": 455000,
     "description": "S&P500, 나스닥, 채권 배분까지. 글로벌 시장을 이해하면 국내 시장이 좁아 보이기 시작한다.",
     "effects": {
-      "health": 6
+      "investment_skill": 5
     },
     "passive_effects": {},
     "one_time": true,
@@ -319,10 +319,10 @@
     "price": 543000,
     "description": "덤벨, 매트, 저항 밴드 세트. 초반에만 쓴다는 통계가 있지만, 쓰는 동안만큼은 확실히 효과가 있다.",
     "effects": {
-      "intelligence": 2
+      "health": 8
     },
     "passive_effects": {
-      "stress": 2
+      "stress": -2
     },
     "one_time": false,
     "icon": "🏃"
@@ -334,7 +334,7 @@
     "price": 565000,
     "description": "직접 발로 뛰며 매물을 보는 경험. 가격표가 현실을 가르쳐준다. 보기만 해도 눈이 높아진다.",
     "effects": {
-      "appearance": 6
+      "investment_skill": 5
     },
     "passive_effects": {},
     "one_time": true,
@@ -347,7 +347,7 @@
     "price": 587000,
     "description": "성분표 읽는 것부터 피부과학까지. 피부가 좋아지면 자신감이 생기고, 자신감 있는 사람은 영리해 보인다.",
     "effects": {
-      "intelligence": 1
+      "appearance": 6
     },
     "passive_effects": {},
     "one_time": true,
@@ -375,7 +375,7 @@
     "price": 631000,
     "description": "미국 시장 실전 투자 전략. 커리큘럼보다 같이 듣는 사람들에게서 배우는 게 더 많다.",
     "effects": {
-      "social_skill": 2
+      "investment_skill": 6
     },
     "passive_effects": {},
     "one_time": true,
