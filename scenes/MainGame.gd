@@ -469,9 +469,17 @@ func _build_modal():
 	add_child(modal_layer)
 
 	modal_panel = _panel("#13131a", "#252535")
-	modal_panel.set_anchors_preset(Control.PRESET_CENTER)
 	modal_panel.custom_minimum_size = Vector2(640, 560)
 	modal_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	# 명시적 anchor로 화면 정중앙 고정
+	modal_panel.anchor_left   = 0.5
+	modal_panel.anchor_right  = 0.5
+	modal_panel.anchor_top    = 0.5
+	modal_panel.anchor_bottom = 0.5
+	modal_panel.offset_left   = -320
+	modal_panel.offset_right  =  320
+	modal_panel.offset_top    = -280
+	modal_panel.offset_bottom =  280
 	modal_layer.add_child(modal_panel)
 	var panel = modal_panel
 
@@ -1391,13 +1399,17 @@ func _open_modal(title):
 	modal_title_label.text = title
 	modal_layer.visible = true
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
-	# 스크롤/크기 기본값 복원
+	# 스크롤/크기/위치 기본값 복원
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 		modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		modal_scroll.custom_minimum_size = Vector2(0, 420)
 	if modal_panel:
 		modal_panel.custom_minimum_size = Vector2(640, 560)
+		modal_panel.offset_left   = -320
+		modal_panel.offset_right  =  320
+		modal_panel.offset_top    = -280
+		modal_panel.offset_bottom =  280
 	AudioManager.play("open_modal")
 
 func _close_modal():
@@ -1457,102 +1469,127 @@ func _show_ending(ending_id):
 func _show_month_summary(snap: Dictionary):
 	_pending_month_summary = true
 	_open_modal("📊 %s 결산" % snap["date"])
-	# 결산 화면: 스크롤 없이 내용에 맞게 패널 자동 확장
+	# 결산: 스크롤바만 숨김 (넘치면 마우스 휠로 접근)
 	if modal_scroll:
-		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-		modal_scroll.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-		modal_scroll.custom_minimum_size = Vector2(0, 0)
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	# 결산은 가운데 모달, 크기를 약간 더 넉넉하게
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(640, 0)
+		modal_panel.custom_minimum_size = Vector2(660, 580)
+		modal_panel.offset_left   = -330
+		modal_panel.offset_right  =  330
+		modal_panel.offset_top    = -290
+		modal_panel.offset_bottom =  290
 
-	# 확인 버튼을 맨 위에 (항상 보임)
-	var confirm_btn = _button("다음 달 시작 →", "#1f6feb")
-	confirm_btn.pressed.connect(func():
-		_close_modal()
-	)
-	modal_body.add_child(confirm_btn)
-	var top_sep = HSeparator.new()
-	top_sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(top_sep)
-
-	# ── 이달 등급 ──────────────────────────────────
+	# ── 이달 등급 (한 줄) ──────────────────────────
 	var grade = _calc_month_grade(snap)
 	var grade_row = HBoxContainer.new()
-	grade_row.add_theme_constant_override("separation", 14)
+	grade_row.add_theme_constant_override("separation", 10)
 	modal_body.add_child(grade_row)
-	grade_row.add_child(_label(grade["emoji"], 34, "#ffffff"))
-	var grade_text_col = VBoxContainer.new()
-	grade_text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grade_row.add_child(grade_text_col)
-	grade_text_col.add_child(_label(grade["title"], 18, grade["color"]))
-	grade_text_col.add_child(_wrap_label(grade["msg"], 12, "#5a6075"))
-	var grade_sep = HSeparator.new()
-	grade_sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(grade_sep)
+	var emoji_lbl = Label.new()
+	emoji_lbl.text = grade["emoji"]
+	emoji_lbl.add_theme_font_size_override("font_size", 26)
+	grade_row.add_child(emoji_lbl)
+	var grade_col = VBoxContainer.new()
+	grade_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grade_col.add_theme_constant_override("separation", 2)
+	grade_row.add_child(grade_col)
+	var grade_title = Label.new()
+	grade_title.text = grade["title"]
+	grade_title.add_theme_font_size_override("font_size", 15)
+	grade_title.add_theme_color_override("font_color", Color(grade["color"]))
+	grade_col.add_child(grade_title)
+	var grade_msg = Label.new()
+	grade_msg.text = grade["msg"]
+	grade_msg.add_theme_font_size_override("font_size", 11)
+	grade_msg.add_theme_color_override("font_color", Color("#5a6075"))
+	grade_msg.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	grade_msg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grade_col.add_child(grade_msg)
 
-	# 수입/지출 섹션
-	var income = float(snap["monthly_income"])
+	var div = HSeparator.new()
+	div.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(div)
+
+	# ── 재정 요약 (2행 그리드) ─────────────────────
+	var income  = float(snap["monthly_income"])
 	var expense = float(snap["fixed_expense"])
-	var net = income - expense
-	var net_color = "#00c896" if net >= 0 else "#ff4444"
-
-	modal_body.add_child(_label("💰 수입 / 지출", 16, "#f0b429"))
-	var income_row = _summary_row("월급 수입", GameState.format_money(income), "#00c896")
-	modal_body.add_child(income_row)
-	if bool(snap.get("subsidy", false)):
-		modal_body.add_child(_summary_row("정착 지원금", "+30만원", "#5b9cf6"))
-	var expense_row = _summary_row("고정 지출", "-%s" % GameState.format_money(expense), "#ff4444")
-	modal_body.add_child(expense_row)
-	var sep1 = HSeparator.new()
-	sep1.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep1)
-	modal_body.add_child(_summary_row("이번 달 순이익", GameState.format_money(net), net_color))
-
-	# 자산 변화
+	var net     = income - expense
+	var net_color  = "#00c896" if net >= 0 else "#ff4444"
 	var assets_now = GameState.get_total_asset_value()
 	var asset_delta = assets_now - float(snap["assets_before"])
 	var asset_color = "#00c896" if asset_delta >= 0 else "#ff4444"
-	var asset_sign = "+" if asset_delta >= 0 else ""
-	modal_body.add_child(_summary_row("총 자산 변화", "%s%s" % [asset_sign, GameState.format_money(asset_delta)], asset_color))
-	modal_body.add_child(_summary_row("현재 총 자산", GameState.format_money(assets_now), "#8892a4"))
+	var asset_sign  = "+" if asset_delta >= 0 else ""
 
-	# 행동 요약
+	# 행1: 수입 / 지출 / 순이익
+	var fin_row1 = HBoxContainer.new()
+	fin_row1.add_theme_constant_override("separation", 0)
+	modal_body.add_child(fin_row1)
+	var _fc = func(label: String, value: String, color: String):
+		var cell = VBoxContainer.new()
+		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cell.add_theme_constant_override("separation", 1)
+		var lbl = Label.new()
+		lbl.text = label
+		lbl.add_theme_font_size_override("font_size", 10)
+		lbl.add_theme_color_override("font_color", Color("#4a5568"))
+		cell.add_child(lbl)
+		var val = Label.new()
+		val.text = value
+		val.add_theme_font_size_override("font_size", 14)
+		val.add_theme_color_override("font_color", Color(color))
+		cell.add_child(val)
+		return cell
+	fin_row1.add_child(_fc.call("월급 수입", GameState.format_money(income), "#00c896"))
+	if bool(snap.get("subsidy", false)):
+		fin_row1.add_child(_fc.call("지원금", "+30만원", "#5b9cf6"))
+	fin_row1.add_child(_fc.call("고정 지출", "-%s" % GameState.format_money(expense), "#ff6b6b"))
+	fin_row1.add_child(_fc.call("순이익", GameState.format_money(net), net_color))
+
+	# 행2: 자산변화 / 총자산
+	var fin_row2 = HBoxContainer.new()
+	fin_row2.add_theme_constant_override("separation", 0)
+	modal_body.add_child(fin_row2)
+	fin_row2.add_child(_fc.call("자산 변화", "%s%s" % [asset_sign, GameState.format_money(asset_delta)], asset_color))
+	fin_row2.add_child(_fc.call("현재 총자산", GameState.format_money(assets_now), "#8892a4"))
+
+	# ── 행동 요약 ─────────────────────────────────
 	if not snap["actions"].is_empty():
-		var sep2 = HSeparator.new()
-		sep2.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(sep2)
-		modal_body.add_child(_label("⚡ 이번 달 행동", 16, "#f0b429"))
+		var div2 = HSeparator.new()
+		div2.add_theme_color_override("color", Color("#252535"))
+		modal_body.add_child(div2)
 		for entry in snap["actions"]:
-			modal_body.add_child(_wrap_label(entry, 13, "#8892a4"))
+			modal_body.add_child(_wrap_label(entry, 12, "#8892a4"))
 
-	# 스탯 변화 (변화 있을 때만)
-	var stat_changes: Array = []
-	if GameState.health != int(snap["health_before"]):
-		var d = GameState.health - int(snap["health_before"])
-		stat_changes.append("건강 %s%d" % ["+" if d > 0 else "", d])
-	if GameState.mental != int(snap["mental_before"]):
-		var d = GameState.mental - int(snap["mental_before"])
-		stat_changes.append("정신력 %s%d" % ["+" if d > 0 else "", d])
-	if GameState.stress != int(snap["stress_before"]):
-		var d = GameState.stress - int(snap["stress_before"])
-		stat_changes.append("스트레스 %s%d" % ["+" if d > 0 else "", d])
-	if not stat_changes.is_empty():
-		modal_body.add_child(_wrap_label("스탯 변화: " + ", ".join(stat_changes), 13, "#5a6075"))
+	# ── 스탯 변화 (한 줄) ─────────────────────────
+	var stat_parts: Array = []
+	var stat_map = [["health", "건강"], ["mental", "정신력"], ["stress", "스트레스"]]
+	for pair in stat_map:
+		if GameState.get(pair[0]) != int(snap.get(pair[0] + "_before", GameState.get(pair[0]))):
+			var d = GameState.get(pair[0]) - int(snap[pair[0] + "_before"])
+			stat_parts.append("%s %s%d" % [pair[1], "+" if d > 0 else "", d])
+	if not stat_parts.is_empty():
+		modal_body.add_child(_wrap_label("스탯  " + "  ".join(stat_parts), 12, "#5a6075"))
 
-	# ── 다음 달 조언 ────────────────────────────────
+	# ── 조언 ──────────────────────────────────────
 	var advice = _get_month_advice()
 	if not advice.is_empty():
-		var adv_sep = HSeparator.new()
-		adv_sep.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(adv_sep)
-		modal_body.add_child(_label("💡 다음 달 조언", 15, "#f0b429"))
-		modal_body.add_child(_wrap_label(advice, 13, "#8892a4"))
+		var div3 = HSeparator.new()
+		div3.add_theme_color_override("color", Color("#252535"))
+		modal_body.add_child(div3)
+		modal_body.add_child(_wrap_label(advice, 12, "#8892a4"))
 
-	# ── 목표 진행 ────────────────────────────────────
-	var total_now = GameState.get_total_asset_value()
-	var ms = _next_milestone_hint(total_now)
+	# ── 목표 힌트 ─────────────────────────────────
+	var ms = _next_milestone_hint(assets_now)
 	if not ms.is_empty():
-		modal_body.add_child(_wrap_label(ms, 13, "#3fb950"))
+		modal_body.add_child(_wrap_label(ms, 11, "#3fb950"))
+
+	# ── 확인 버튼 (하단) ──────────────────────────
+	var div4 = HSeparator.new()
+	div4.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(div4)
+	var confirm_btn = _button("다음 달 시작 →", "#1f6feb")
+	confirm_btn.pressed.connect(_close_modal)
+	modal_body.add_child(confirm_btn)
 
 
 func _check_milestones():
