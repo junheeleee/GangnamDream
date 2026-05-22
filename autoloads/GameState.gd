@@ -211,17 +211,17 @@ func apply_monthly_pressure():
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 
 	# ── 서울살이 기본 압박 ──────────────────────────────────────────
-	# 건강: 매달 자동 -3 (바쁜 일상, 수면 부족, 불규칙한 식사)
-	# 정신: 매달 자동 -4 (고독, 미래 불안, 도시 피로)
-	# 스트레스: 매달 자동 +4 (서울은 기본이 힘들다)
-	modify_stat("health", -3)
-	modify_stat("mental", -4)
-	modify_hidden_stat("stress", 4)
+	# 건강: 매달 자동 -2 (바쁜 일상, 수면 부족, 불규칙한 식사)
+	# 정신: 매달 자동 -3 (고독, 미래 불안, 도시 피로)
+	# 스트레스: 매달 자동 +3 (서울은 기본이 힘들다)
+	modify_stat("health", -2)
+	modify_stat("mental", -3)
+	modify_hidden_stat("stress", 3)
 
-	# 무직이면 정신/스트레스 추가 압박
+	# 무직이면 정신/스트레스 추가 압박 (완화: -3/-5 → -2/-3)
 	if monthly_income == 0:
-		modify_stat("mental", -3)
-		modify_hidden_stat("stress", 5)
+		modify_stat("mental", -2)
+		modify_hidden_stat("stress", 3)
 		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "stress")
 
 	# 스트레스 단계별 추가 피해 (누적 구조)

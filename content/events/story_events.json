@@ -19,6 +19,7 @@
           "mental": 5,
           "intelligence": 2
         },
+        "follow_up_event": "story_pressure",
         "result_text": "골목 편의점, 세탁소, 24시 식당, PC방.\n낯선 동네가 조금씩 눈에 익기 시작했다.\n{name}의 서울이, 아주 조금 시작됐다."
       },
       {
@@ -27,6 +28,7 @@
           "intelligence": 3,
           "investment_skill": 2
         },
+        "follow_up_event": "story_pressure",
         "result_text": "부동산, 주식, 코인...\n돈 버는 방법은 많았다.\n다만 지금 {name}의 통장엔 100만원뿐이라는 게 문제였다."
       },
       {
@@ -35,6 +37,7 @@
           "mental": 6,
           "stress": -4
         },
+        "follow_up_event": "story_pressure",
         "result_text": "전화기 너머로 엄마 목소리가 들렸다.\n'밥은 먹었어?'\n그 한 마디에 눈물이 날 것 같았다."
       }
     ]
@@ -59,18 +62,20 @@
         "effects": {
           "money": 150000,
           "health": -3,
-          "stress": 4
+          "stress": 4,
+          "flag": "story_job_unlocked"
         },
-        "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n{name}은 지원 버튼을 눌렀다."
+        "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n{name}은 지원 버튼을 눌렀다.\n\n이제 구직활동을 할 수 있다."
       },
       {
         "text": "조금만 더 생각해보고. 일단 아끼는 것부터",
         "effects": {
           "mental": -3,
           "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "flag": "story_job_unlocked"
         },
-        "result_text": "더 준비하고 싶었지만, 통장이 허락하질 않았다.\n결국 구인 앱을 켰다.\n선택의 여지가 없었다."
+        "result_text": "더 준비하고 싶었지만, 통장이 허락하질 않았다.\n결국 구인 앱을 켰다.\n선택의 여지가 없었다.\n\n이제 구직활동을 할 수 있다."
       }
     ]
   },
