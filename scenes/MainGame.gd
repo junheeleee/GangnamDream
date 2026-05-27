@@ -907,7 +907,9 @@ func _render_ap_actions():
 	# ── 튜토리얼 힌트 ──────────────────────────────
 	var hint_text = ""
 	var job_story_done: bool = GameState.flags.get("story_job_unlocked", false)
-	if GameState.tutorial_step == 2 and not job_story_done:
+	if GameState.tutorial_step >= 3 and job_story_done and GameState.current_job.is_empty():
+		hint_text = "📌 서울 첫 달! 구직활동으로 취업을 먼저 하세요.\n    행동력 ⚡을 모두 쓴 뒤 '다음 달 ▶' 버튼으로 결산할 수 있어요."
+	elif GameState.tutorial_step == 2 and not job_story_done:
 		hint_text = "📌 스토리를 따라가며 서울 생활을 시작해보세요.\n    이번 달엔 자기계발과 인맥활동을 해볼 수 있어요."
 	elif GameState.tutorial_step == 2 and job_story_done and GameState.current_job.is_empty():
 		hint_text = "📌 구직활동이 열렸습니다! 먼저 취업부터 해서 월급을 만들어보세요."
@@ -1280,8 +1282,10 @@ func _on_save_pressed():
 	_show_toast("💾 저장 완료", Color("#00c896"))
 
 func _on_job_selected(job_id):
+	var is_first_job = GameState.current_job.is_empty()
 	job_system.apply_for_job(job_id)
 	var job_name = GameState.current_job.get("name", "직업 변경")
+	var salary = GameState.format_money(GameState.monthly_income)
 	# 구직 로그 항목 갱신
 	for i in range(turn_action_log.size() - 1, -1, -1):
 		if turn_action_log[i].begins_with("✓ 💼"):
@@ -1289,7 +1293,11 @@ func _on_job_selected(job_id):
 			break
 	_close_modal()
 	_refresh_all()
-	_show_toast("💼 %s" % job_name, Color("#fbbf24"))
+	if is_first_job:
+		AudioManager.play("housing_up")
+		_show_toast("🎉 첫 취업! %s  월 %s" % [job_name, salary], Color("#00c896"))
+	else:
+		_show_toast("💼 %s  월 %s" % [job_name, salary], Color("#fbbf24"))
 
 func _on_buy_asset(asset_id, amount):
 	AudioManager.play("money_gain")

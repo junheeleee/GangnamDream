@@ -6,8 +6,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story"
     ],
@@ -49,8 +49,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story",
       "job_unlock"
@@ -62,9 +62,9 @@
         "effects": {
           "money": 150000,
           "health": -3,
-          "stress": 4,
-          "flag": "story_job_unlocked"
+          "stress": 4
         },
+        "flags": ["story_job_unlocked"],
         "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n{name}은 지원 버튼을 눌렀다.\n\n이제 구직활동을 할 수 있다."
       },
       {
@@ -72,9 +72,9 @@
         "effects": {
           "mental": -3,
           "stress": 5,
-          "intelligence": 2,
-          "flag": "story_job_unlocked"
+          "intelligence": 2
         },
+        "flags": ["story_job_unlocked"],
         "result_text": "더 준비하고 싶었지만, 통장이 허락하질 않았다.\n결국 구인 앱을 켰다.\n선택의 여지가 없었다.\n\n이제 구직활동을 할 수 있다."
       }
     ]
@@ -86,8 +86,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story",
       "milestone"
@@ -100,6 +100,7 @@
           "mental": 8,
           "stress": -5
         },
+        "flags": ["story_six_months_seen"],
         "result_text": "반년.\n작은 것들이 쌓여 여기까지 왔다.\n{name}은 아직 여기 있다. 그게 전부이고, 그게 충분하다."
       },
       {
@@ -109,6 +110,7 @@
           "intelligence": 4,
           "mental": 2
         },
+        "flags": ["story_six_months_seen"],
         "result_text": "조급함이 생겼다. 나쁜 건 아니다.\n다만 무너지지 않을 만큼만 조여야 한다.\n{name}은 그 경계를 알고 있다."
       },
       {
@@ -117,6 +119,7 @@
           "mental": 10,
           "stress": -8
         },
+        "flags": ["story_six_months_seen"],
         "result_text": "아무것도 하지 않는 반나절.\n죄책감이 올라왔다가 사라졌다.\n버티는 것도 체력이다. {name}은 오늘 그 체력을 충전했다."
       }
     ]
@@ -128,8 +131,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story",
       "milestone"
@@ -142,6 +145,7 @@
           "mental": 10,
           "stress": -8
         },
+        "flags": ["story_one_year_seen"],
         "result_text": "비교하지 않기로 했다.\n{name}은 {name}의 속도로 가고 있다.\n그 속도가 느려 보여도, 멈춘 건 아니다."
       },
       {
@@ -151,6 +155,7 @@
           "intelligence": 5,
           "mental": 3
         },
+        "flags": ["story_one_year_seen"],
         "result_text": "불꽃을 당겼다.\n이 에너지가 오래 가야 할 텐데.\n{name}은 이미 알고 있다 — 조급함과 의지는 다르다는 걸."
       }
     ]
@@ -243,8 +248,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story",
       "milestone",
@@ -259,6 +264,7 @@
           "mental": 12,
           "stress": -6
         },
+        "flags": ["story_first_paycheck_seen"],
         "result_text": "10만원짜리 상품권을 보냈다.\n'괜찮아, 네 돈 아껴' 라는 답장이 왔다.\n{name}은 그 문자를 오래 들여다봤다."
       },
       {
@@ -267,6 +273,7 @@
           "mental": 4,
           "stress": 2
         },
+        "flags": ["story_first_paycheck_seen"],
         "result_text": "통장에 그대로 남겼다.\n뭉클한 감정도 잠시. {name}은 다음 달을 준비한다."
       },
       {
@@ -276,6 +283,7 @@
           "mental": 8,
           "stress": -5
         },
+        "flags": ["story_first_paycheck_seen"],
         "result_text": "5만원짜리 운동화.\n비싼 건 아니지만 {name}의 첫 월급으로 산 것이었다.\n신을 때마다 이 날이 생각날 것 같다."
       }
     ]
@@ -287,8 +295,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story",
       "job"
@@ -301,6 +309,7 @@
           "reputation": 4,
           "stress": 3
         },
+        "flags": ["story_first_workday_seen"],
         "result_text": "아무도 없는 사무실에 {name} 혼자 앉아 있었다.\n어색했지만, 첫인상은 챙겼다.\n이 10분이 나중에 기억될 수도 있다."
       },
       {
@@ -309,6 +318,7 @@
           "stress": -2,
           "social_skill": 2
         },
+        "flags": ["story_first_workday_seen"],
         "result_text": "칼같이 정시 출근.\n너무 의식하지 않기로 했다.\n{name}은 그냥 {name}답게 시작하기로 했다."
       }
     ]
@@ -544,8 +554,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story",
       "milestone",
@@ -559,6 +569,7 @@
           "investment_skill": 5,
           "mental": 5
         },
+        "flags": ["story_first_savings_seen"],
         "result_text": "잃지 않는 게 먼저다. 그다음이 불리는 것이다.\n{name}은 처음으로 돈을 지키는 사람이 됐다."
       },
       {
@@ -568,6 +579,7 @@
           "stress": 4,
           "mental": 3
         },
+        "flags": ["story_first_savings_seen"],
         "result_text": "머뭇거릴 시간이 없다. 지금이 기회다.\n{name}은 첫 번째 진짜 베팅을 준비하기 시작했다."
       },
       {
@@ -576,6 +588,7 @@
           "mental": 8,
           "stress": -3
         },
+        "flags": ["story_first_savings_seen"],
         "result_text": "메모장에 날짜와 금액을 적었다.\n나중에 이 숫자를 보면서 웃을 수 있기를.\n{name}의 강남드림이 여기서 시작됐다."
       }
     ]
@@ -587,8 +600,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story"
     ],
@@ -601,6 +614,7 @@
           "stress": -3,
           "intelligence": 3
         },
+        "follow_up_event": "story_pressure",
         "result_text": "결정은 {name}이 했다. 그 무게도 {name}이 진다.\n두렵지만 — 이 방향이 맞다."
       },
       {
@@ -609,6 +623,7 @@
           "stress": 6,
           "intelligence": 5
         },
+        "follow_up_event": "story_pressure",
         "result_text": "조급함이 생겼다. 나쁜 건 아니지만 오래가면 안 된다.\n{name}은 불안을 연료로 쓰기로 했다. 지치기 전까지만."
       }
     ]
@@ -620,8 +635,8 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": true,
-    "conditions": {},
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
     "tags": [
       "story"
     ],
@@ -633,6 +648,7 @@
           "mental": 8,
           "stress": -5
         },
+        "follow_up_event": "story_pressure",
         "result_text": "낯선 환경이 오히려 설렌다.\n{name}은 이 감각을 오래 간직하고 싶다.\n두려움보다 호기심이 먼저인 사람이 된다."
       },
       {
@@ -642,6 +658,7 @@
           "intelligence": 3,
           "investment_skill": 2
         },
+        "follow_up_event": "story_pressure",
         "result_text": "부모님 돈 말고, {name} 이름으로 번 돈.\n그게 목표가 됐다.\n작은 목표 하나가 방향을 만든다."
       }
     ]

@@ -4612,5 +4612,127 @@
         "result_text": "경제는 나중에. 지금은 음악이다. 그것도 나쁘지 않다."
       }
     ]
+  },
+  {
+    "id": "first_job_rejection",
+    "title": "서류 탈락",
+    "description": "이메일 알림이 떴다.\n\n'지원해주셔서 감사합니다. 귀하의 서류를 검토한 결과,\n이번에는 함께하기 어렵게 됐습니다...'\n\n3일을 기다린 결과가 이 한 줄이었다.\n{name}은 스마트폰 화면을 끄고 잠깐 천장을 봤다.\n\n괜찮다. 첫 번째가 아닐 수도 있는 것이다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 3.5,
+    "hidden": false,
+    "conditions": {
+      "no_job": true,
+      "flag": "story_job_unlocked",
+      "max_stress": 75
+    },
+    "tags": ["job", "rejection", "early_game"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "다음 지원서를 바로 쓴다. 멈출 수 없다.",
+        "effects": {
+          "intelligence": 3,
+          "stress": 4,
+          "mental": -2
+        },
+        "result_text": "탈락한 이유를 분석하고 이력서를 고쳤다.\n감정은 나중에. 지금은 다음 회사다.\n{name}은 다시 지원 버튼을 눌렀다."
+      },
+      {
+        "text": "잠깐 쉬었다가 다시 한다.",
+        "effects": {
+          "mental": 5,
+          "stress": -3
+        },
+        "result_text": "커피 한 잔.\n탈락도 과정이다.\n{name}은 오늘 그것을 받아들이기로 했다."
+      },
+      {
+        "text": "무엇이 부족했는지 스스로 점검한다.",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 1,
+          "stress": 2
+        },
+        "result_text": "지원 자격, 자기소개서, 경력란...\n모자란 부분이 보였다.\n다음엔 다르게 쓸 수 있다. {name}은 조금 성장했다."
+      }
+    ]
+  },
+  {
+    "id": "convenience_midnight_snack",
+    "title": "자정 편의점",
+    "description": "밤 12시.\n배가 고파서 편의점에 들렀다.\n\n냉장고 앞에 한참 서서 골랐다.\n1,000원짜리 삼각김밥이냐, 3,800원짜리 도시락이냐.\n\n통장 잔고가 머릿속을 스쳤다.\n{name}은 여기서 처음으로 '돈 때문에' 망설였다.",
+    "category": "life",
+    "rarity": "common",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "no_flag": "story_six_months_seen"
+    },
+    "tags": ["daily", "food", "early_game"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "그냥 도시락 산다. 오늘은 나를 챙긴다.",
+        "effects": {
+          "money": -3800,
+          "health": 3,
+          "mental": 4
+        },
+        "result_text": "3,800원.\n집에서 먹던 밥이랑 비교하면 작은 돈인데.\n{name}은 혼자 먹는 이 도시락이 묘하게 뭉클했다."
+      },
+      {
+        "text": "삼각김밥 두 개. 절약이 미래다.",
+        "effects": {
+          "money": -2000,
+          "health": 1,
+          "stress": 2
+        },
+        "result_text": "삼각김밥 두 개. 1,000원 아꼈다.\n이 1,000원이 쌓이면 언젠가 의미가 생긴다.\n{name}은 그걸 믿기로 했다."
+      },
+      {
+        "text": "참는다. 내일 아침까지 버틸 수 있다.",
+        "effects": {
+          "health": -3,
+          "stress": 3,
+          "mental": -2
+        },
+        "result_text": "돈을 아꼈지만 배는 고팠다.\n밤 12시에 이런 선택을 하게 될 줄 몰랐다.\n{name}은 빨리 취업해야겠다고 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "small_unexpected_win",
+    "title": "오늘의 작은 행운",
+    "description": "걸어가다가 5만원짜리 지폐를 발견했다.\n아무도 없는 골목.\n\n주변을 둘러봤지만 떨어뜨린 사람은 보이지 않는다.\n서울에 올라온 뒤 처음으로 운이 따라준 날.",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_luck": 40,
+      "no_flag": "story_six_months_seen"
+    },
+    "tags": ["luck", "money", "early_game"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "근처 파출소에 신고한다.",
+        "effects": {
+          "reputation": 6,
+          "mental": 8,
+          "stress": -3
+        },
+        "result_text": "파출소 경찰관이 '요즘 이런 분도 있군요' 했다.\n돈은 못 가졌지만 마음이 가벼워졌다.\n{name}은 오늘 스스로가 마음에 들었다."
+      },
+      {
+        "text": "6개월 뒤에도 주인이 안 나타나면 내 거. 일단 챙긴다.",
+        "effects": {
+          "money": 50000,
+          "luck": 2,
+          "mental": 5
+        },
+        "result_text": "모르는 척하고 주머니에 넣었다.\n죄책감이 잠깐 올라왔다가 사라졌다.\n5만원. 서울에서의 첫 번째 행운이었다."
+      }
+    ]
   }
 ]
