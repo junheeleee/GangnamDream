@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (UI 대시보드 개선 — 바이탈 HUD + 진행 바)
+
+### 탑바 바이탈 HUD 추가 (Football Manager 스타일)
+- `_build_top_bar()`: AP 레이블 우측에 `vitals_row` HBoxContainer 삽입
+  - `vital_health` (❤ + 숫자 + 6칸 블록바), `vital_mental` (🧠), `vital_stress` (😤)
+  - 세퍼레이터 `│` 로 AP / 바이탈 / 머니 시각적 구분
+  - 건강/정신: 30↓ 빨강, 50↓ 노랑, 정상 초록/파랑
+  - 스트레스: 80↑ 빨강, 60↑ 노랑, 정상 민트
+- `_refresh_vitals()` 신규 메서드: `_refresh_all()` 호출 시 바이탈 갱신
+- `_bar_str(value, max_val, bars)` 신규 헬퍼: `"█".repeat(filled) + "░".repeat(empty)` 블록 진행 바 생성
+
+### 스탯 패널 진행 바 표시
+- `_set_stat_value()`: 건강/정신/스트레스 항목에 10칸 블록 진행 바 추가 (`63  ██████░░░░`)
+- 기타 스탯(지력, 사회성 등)은 기존 숫자 표시 유지
+
 ## 2026-05-27 (Polish Beta — 투자 차트 히스토리 + 한국어 톤 패스)
 
 ### 투자 차트 히스토리 시각화

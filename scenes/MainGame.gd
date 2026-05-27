@@ -155,6 +155,30 @@ func _build_top_bar(parent):
 	top_labels["ap"] = ap_lbl
 	row.add_child(ap_lbl)
 
+	row.add_child(_label("│", 13, "#2a2a3a"))
+
+	# ── 바이탈 HUD: 건강 / 정신 / 스트레스 ──────────────────
+	var vitals_row = HBoxContainer.new()
+	vitals_row.add_theme_constant_override("separation", 10)
+	row.add_child(vitals_row)
+
+	var hp_lbl = _label("", 13, "#34d399")
+	hp_lbl.custom_minimum_size = Vector2(70, 0)
+	top_labels["vital_health"] = hp_lbl
+	vitals_row.add_child(hp_lbl)
+
+	var mp_lbl = _label("", 13, "#93c5fd")
+	mp_lbl.custom_minimum_size = Vector2(70, 0)
+	top_labels["vital_mental"] = mp_lbl
+	vitals_row.add_child(mp_lbl)
+
+	var sp_lbl = _label("", 13, "#fca5a5")
+	sp_lbl.custom_minimum_size = Vector2(70, 0)
+	top_labels["vital_stress"] = sp_lbl
+	vitals_row.add_child(sp_lbl)
+
+	row.add_child(_label("│", 13, "#2a2a3a"))
+
 	var money_lbl = _label("", 15, "#00c896")
 	money_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top_labels["money"] = money_lbl
@@ -698,6 +722,9 @@ func _refresh_all():
 	_set_stat_value("health", GameState.health, true, 50, 30)
 	_set_stat_value("mental", GameState.mental, true, 50, 30)
 	_set_stat_value("stress", GameState.stress, false, 60, 80)
+
+	# ── 탑바 바이탈 HUD 갱신 ─────────────────────────
+	_refresh_vitals()
 	stat_labels["intelligence"].text = str(GameState.intelligence)
 	stat_labels["social_skill"].text = str(GameState.social_skill)
 	stat_labels["appearance"].text = str(GameState.appearance)
@@ -733,9 +760,62 @@ func _refresh_all():
 	_render_sidebars()
 	_render_log()
 
+func _bar_str(value: int, max_val: int = 100, bars: int = 8) -> String:
+	var filled = int(round(float(value) / float(max_val) * bars))
+	filled = clampi(filled, 0, bars)
+	return "█".repeat(filled) + "░".repeat(bars - filled)
+
+func _refresh_vitals():
+	if not top_labels.has("vital_health"):
+		return
+	# 건강
+	var hp = GameState.health
+	var hp_bar = _bar_str(hp, 100, 6)
+	var hp_color: Color
+	if hp <= 30:
+		hp_color = Color("#ff4444")
+	elif hp <= 50:
+		hp_color = Color("#f0b429")
+	else:
+		hp_color = Color("#34d399")
+	var hp_lbl = top_labels["vital_health"]
+	hp_lbl.text = "❤ %d %s" % [hp, hp_bar]
+	hp_lbl.add_theme_color_override("font_color", hp_color)
+	# 정신
+	var mp = GameState.mental
+	var mp_bar = _bar_str(mp, 100, 6)
+	var mp_color: Color
+	if mp <= 30:
+		mp_color = Color("#ff4444")
+	elif mp <= 50:
+		mp_color = Color("#f0b429")
+	else:
+		mp_color = Color("#93c5fd")
+	var mp_lbl = top_labels["vital_mental"]
+	mp_lbl.text = "🧠 %d %s" % [mp, mp_bar]
+	mp_lbl.add_theme_color_override("font_color", mp_color)
+	# 스트레스
+	var st = GameState.stress
+	var st_bar = _bar_str(st, 100, 6)
+	var st_color: Color
+	if st >= 80:
+		st_color = Color("#ff4444")
+	elif st >= 60:
+		st_color = Color("#f0b429")
+	else:
+		st_color = Color("#6ee7b7")
+	var st_lbl = top_labels["vital_stress"]
+	st_lbl.text = "😤 %d %s" % [st, st_bar]
+	st_lbl.add_theme_color_override("font_color", st_color)
+
 func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int, danger_thresh: int):
 	var label = stat_labels[key]
-	label.text = str(value)
+	# 건강/정신/스트레스에는 미니 바 추가
+	var show_bar = key in ["health", "mental", "stress"]
+	if show_bar:
+		label.text = "%d  %s" % [value, _bar_str(value, 100, 10)]
+	else:
+		label.text = str(value)
 	if low_is_bad:
 		if value <= danger_thresh:
 			label.add_theme_color_override("font_color", Color("#ff4444"))
