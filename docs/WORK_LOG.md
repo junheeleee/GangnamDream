@@ -1,5 +1,25 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (이미지 에셋 연동 완료)
+
+### Codex 생성 이미지 9종 + 캐릭터 포트레이트 연동
+- `assets/backgrounds/` 신규 8종: convenience_store_night, cafe_seoul, investment_phone,
+  hospital_corridor, rooftop_daytime, gangnam_night_street, penthouse_view, burnout_hospital_room
+- `assets/characters/main_character_shocked.png` 추가
+- `icon.png` (Godot 프로젝트 아이콘) 교체
+- 총 19개 에셋 경로 검증 완료 (누락 0)
+
+### `scenes/MainGame.gd` — 이미지 연동 코드 완성
+- `_get_bg_for_event()` 태그 매핑 6개 신규 추가:
+  - `hospital/health` → `BG_HOSPITAL`
+  - `convenience` / `night+food` → `BG_CONVENIENCE`
+  - `investment` / `finance+stock` → `BG_INVESTMENT`
+  - `social/date/cafe/relationship/romance` → `BG_CAFE`
+  - `rooftop/break` → `BG_ROOFTOP_DAY`
+  - `politics / reputation+late_game` → `BG_GANGNAM_NIGHT`
+- `_get_portrait_path()` — `PORTRAIT_SHOCKED` 연결 (`just_critical_event` 플래그)
+- `_choose()` — 충격 이벤트 감지: 건강·정신 -15이상 / 돈 -100만이상 시 1.2초간 shocked 포트레이트 표시
+
 ## 2026-05-27 (한국어 톤 패스 — hidden_events.json)
 
 ### hidden_events.json 20개 전면 패치

@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Added (2026-05-27) — 이미지 에셋 연동
+
+#### 배경 이미지 8종 신규 (Codex 생성)
+- `convenience_store_night` / `cafe_seoul` / `investment_phone` / `hospital_corridor`
+- `rooftop_daytime` / `gangnam_night_street` / `penthouse_view` / `burnout_hospital_room`
+
+#### 캐릭터 포트레이트 추가
+- `main_character_shocked` — 건강·정신 -15이상 or 돈 -100만이상 선택지 후 1.2초 자동 표시
+
+#### 이벤트-배경 자동 매핑
+- `_get_bg_for_event()` 태그/카테고리 기반 11케이스 매핑 (기존 3 → 11)
+
 ### Added (2026-05-27) — 특수 엔딩 트리거 구현
 
 #### 스타트업 엑싯 경로
