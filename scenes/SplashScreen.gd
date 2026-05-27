@@ -11,7 +11,24 @@ var _tagline_lbl: Label
 var _context_lbl: Label
 var _press_lbl:  Label
 
+var _font: FontFile
+var _font_bold: FontFile
+
+func _load_fonts():
+	_font = FontFile.new()
+	if _font.load_dynamic_font("res://assets/fonts/Pretendard-Regular.ttf") != OK:
+		_font = null
+	_font_bold = FontFile.new()
+	if _font_bold.load_dynamic_font("res://assets/fonts/Pretendard-Bold.ttf") != OK:
+		_font_bold = null
+
+func _apply_font(lbl: Label, bold: bool = false):
+	var f = _font_bold if bold else _font
+	if f:
+		lbl.add_theme_font_override("font", f)
+
 func _ready():
+	_load_fonts()
 	_build_ui()
 	BGMPlayer.start()
 	SceneTransition.fade_in()
@@ -74,6 +91,7 @@ func _build_ui():
 	_title_lbl.add_theme_color_override("font_color", Color("#f0f4ff"))
 	_title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title_lbl.modulate = Color(1, 1, 1, 0.0)
+	_apply_font(_title_lbl, true)
 	vbox.add_child(_title_lbl)
 
 	# ── 영문 부제 ──
@@ -83,6 +101,7 @@ func _build_ui():
 	_sub_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
 	_sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_sub_lbl.modulate = Color(1, 1, 1, 0.0)
+	_apply_font(_sub_lbl)
 	vbox.add_child(_sub_lbl)
 
 	# ── 구분선 ──
@@ -100,6 +119,7 @@ func _build_ui():
 	_tagline_lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	_tagline_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_tagline_lbl.modulate = Color(1, 1, 1, 0.0)
+	_apply_font(_tagline_lbl, true)
 	vbox.add_child(_tagline_lbl)
 
 	# ── 배경 설명 ──
@@ -109,6 +129,7 @@ func _build_ui():
 	_context_lbl.add_theme_color_override("font_color", Color("#3d4a5e"))
 	_context_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_context_lbl.modulate = Color(1, 1, 1, 0.0)
+	_apply_font(_context_lbl)
 	vbox.add_child(_context_lbl)
 
 	# ── 하단 스킵 힌트 ──
@@ -117,6 +138,7 @@ func _build_ui():
 	_press_lbl.add_theme_font_size_override("font_size", 13)
 	_press_lbl.add_theme_color_override("font_color", Color("#3a4455"))
 	_press_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_apply_font(_press_lbl)
 	_press_lbl.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	_press_lbl.offset_top    = -44
 	_press_lbl.offset_bottom = 0

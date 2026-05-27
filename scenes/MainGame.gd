@@ -59,7 +59,21 @@ var pending_result_text: String = ""
 var turn_action_log: Array = []
 var _pending_month_summary: bool = false
 
+# ── Pretendard 폰트 (한국어 가독성) ─────────────────────────────
+var _font_regular: FontFile
+var _font_bold: FontFile
+
+func _load_fonts():
+	_font_regular = FontFile.new()
+	var err_r = _font_regular.load_dynamic_font("res://assets/fonts/Pretendard-Regular.ttf")
+	_font_bold = FontFile.new()
+	var err_b = _font_bold.load_dynamic_font("res://assets/fonts/Pretendard-Bold.ttf")
+	if err_r != OK or err_b != OK:
+		_font_regular = null
+		_font_bold    = null
+
 func _ready():
+	_load_fonts()
 	_init_systems()
 	_build_ui()
 	_connect_signals()
@@ -2114,6 +2128,8 @@ func _label(text, size, color):
 	label.clip_text = true
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_color_override("font_color", Color(color))
+	if _font_regular:
+		label.add_theme_font_override("font", _font_regular)
 	return label
 
 func _wrap_label(text, size, color):
@@ -2139,6 +2155,9 @@ func _button(text, color):
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed_style)
 	button.add_theme_color_override("font_color", Color("#ffffff"))
+	if _font_bold:
+		button.add_theme_font_override("font", _font_bold)
+	button.add_theme_font_size_override("font_size", 15)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	return button
 
@@ -2156,6 +2175,8 @@ func _small_button(text, color):
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_color_override("font_color", Color("#ffffff"))
 	button.add_theme_font_size_override("font_size", 13)
+	if _font_regular:
+		button.add_theme_font_override("font", _font_regular)
 	return button
 
 func _stat_name(key):

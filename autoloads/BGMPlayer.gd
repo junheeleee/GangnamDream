@@ -114,12 +114,35 @@ func _bake() -> AudioStreamWAV:
 		# 이 바의 믹스
 		var bmap: Dictionary = bar_idx_maps[bi % 4]
 		var s := 0.0
-		s += sin(phases[bmap["bass"]]) * bass_env * 0.24
-		for fi in bmap["pads"]:
-			s += sin(phases[fi]) * pad_env * 0.068
+
+		# 베이스: 사인 + 삼각파 혼합 (삼각파 = 더 따뜻한 하모닉)
+		var bp := phases[bmap["bass"]]
+		var bass_sin := sin(bp)
+		var bass_tri := (2.0 / PI) * asin(sin(bp))          # triangle wave
+		s += (bass_sin * 0.6 + bass_tri * 0.4) * bass_env * 0.22
+
+		# 패드: 사인 + 미세 디튜닝(±0.3%) → 자연스러운 코러스 감
+		var pad_count := bmap["pads"].size()
+		for pi2 in range(pad_count):
+			var fi2: int = bmap["pads"][pi2]
+			var detune_factor := 1.0 + (float(pi2 % 2) * 2.0 - 1.0) * 0.003
+			var dp := phases[fi2] * detune_factor
+			var pad_sin := sin(dp)
+			var pad_tri := (2.0 / PI) * asin(clamp(sin(dp), -1.0, 1.0))
+			s += (pad_sin * 0.7 + pad_tri * 0.3) * pad_env * 0.058
+
+		# 하이햇: 8분음표 (beat의 절반) — 화이트노이즈 버스트로 리듬감
+		var hihat_phase := float(i % (beat / 2)) / float(beat / 2)
+		var hihat_env   := smoothstep(0.0, 0.01, hihat_phase) * smoothstep(1.0, 0.85, hihat_phase)
+		# 결정론적 노이즈 (seed 기반, 매 런 동일)
+		var noise_val := sin(float(i) * 127.1 + float(i * i) * 0.00317) * sin(float(i) * 311.7)
+		s += noise_val * hihat_env * 0.018
+
+		# 소프트 클리핑 (tanh 근사) — 따뜻한 아날로그 왜곡
+		s = s / (1.0 + abs(s) * 0.6)
 
 		s = clamp(s, -1.0, 1.0)
-		var samp := int(s * 28000)
+		var samp := int(s * 26000)
 		buf[i * 2]     = samp & 0xFF
 		buf[i * 2 + 1] = (samp >> 8) & 0xFF
 

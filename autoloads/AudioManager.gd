@@ -127,12 +127,22 @@ func _chord(freqs: Array, duration: float, envelope: Array) -> AudioStreamWAV:
 		var seg_i = int(seg)
 		var seg_f = seg - float(seg_i)
 		var amp = lerp(float(envelope[seg_i]), float(envelope[min(seg_i + 1, env_count - 1)]), seg_f)
-		# 여러 주파수 합산
+		# 여러 주파수 합산 — 사인 70% + 삼각파 30% (따뜻한 음색)
 		var s = 0.0
-		for freq in freqs:
-			s += sin(2.0 * PI * float(freq) * float(i) / float(_SAMPLE_RATE))
+		for fi in range(freqs.size()):
+			var freq = float(freqs[fi])
+			var phase = 2.0 * PI * freq * float(i) / float(_SAMPLE_RATE)
+			var s_sin = sin(phase)
+			var s_tri = (2.0 / PI) * asin(clamp(sin(phase), -1.0, 1.0))
+			# 짝수 번호 음은 미세 디튜닝 (+0.2%) → 코러스 효과
+			var detune = 1.0 + float(fi % 2) * 0.002
+			var phase_d = 2.0 * PI * freq * detune * float(i) / float(_SAMPLE_RATE)
+			var s_det = sin(phase_d) * 0.25
+			s += (s_sin * 0.7 + s_tri * 0.3 + s_det) / 1.25
 		s /= float(freqs.size())
-		var sample = clamp(int(s * amp * 28000), -32768, 32767)
+		# 소프트 클리핑
+		s = s / (1.0 + abs(s) * 0.4)
+		var sample = clamp(int(s * amp * 26000), -32768, 32767)
 		data[i * 2]     = sample & 0xFF
 		data[i * 2 + 1] = (sample >> 8) & 0xFF
 	var wav = AudioStreamWAV.new()
