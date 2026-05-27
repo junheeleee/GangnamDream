@@ -804,7 +804,12 @@ func _render_sidebars():
 			if float(row["owned_value"]) > 0:
 				owned_str = "  [color=#5b9cf6]▶%s[/color]" % GameState.format_money(row["owned_value"])
 			var risk_dots = "●".repeat(int(row.get("risk_level", 1))) + "○".repeat(5 - int(row.get("risk_level", 1)))
-			lines.append("[color=%s]%s  %s%s%s  %s[/color]" % [color, row["name"], GameState.format_money(price), pct_str, owned_str, risk_dots])
+			# 6개월 미니 스파크라인
+			var spark_hist: Array = GameState.price_history.get(asset_id, [])
+			var mini_spark = ""
+			if spark_hist.size() >= 2:
+				mini_spark = "  " + _price_sparkline(spark_hist.slice(max(0, spark_hist.size() - 6)))
+			lines.append("[color=%s]%s  %s%s%s  %s%s[/color]" % [color, row["name"], GameState.format_money(price), pct_str, owned_str, risk_dots, mini_spark])
 		ticker_rtl.clear()
 		ticker_rtl.append_text("\n".join(lines))
 
@@ -1361,6 +1366,29 @@ func _open_investments():
 	var sep_top = HSeparator.new()
 	sep_top.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep_top)
+	# ── 포트폴리오 전체 수익률 요약 ─────────────────────
+	if not GameState.portfolio.is_empty():
+		var total_cost = 0.0
+		var total_now  = 0.0
+		for aid in GameState.portfolio:
+			var h: Dictionary = GameState.portfolio[aid]
+			var qty   = float(h.get("quantity", 0.0))
+			var avg_p = float(h.get("avg_price", 0.0))
+			var now_p = float(GameState.market_prices.get(aid, avg_p))
+			total_cost += qty * avg_p
+			total_now  += qty * now_p
+		var overall_pct = (total_now - total_cost) / max(total_cost, 0.01) * 100.0
+		var port_color  = "#00c896" if overall_pct >= 0 else "#ff4444"
+		modal_body.add_child(_wrap_label(
+			"💼 포트폴리오  원금 %s → 현재 %s  (수익률 %+.1f%%)" % [
+				GameState.format_money(total_cost),
+				GameState.format_money(total_now),
+				overall_pct,
+			], 13, port_color))
+		var port_sep = HSeparator.new()
+		port_sep.add_theme_color_override("color", Color("#252535"))
+		modal_body.add_child(port_sep)
+
 	for row in investment_system.get_asset_rows():
 		var asset_id = row["id"]
 		var price = float(row["price"])
@@ -1370,7 +1398,24 @@ func _open_investments():
 		var last_color = "#8892a4"
 		if hist.size() >= 2:
 			last_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
-		modal_body.add_child(_label("%s  (%s)  현재가 %s  %s" % [row["name"], risk_str, GameState.format_money(price), sparkline], 14, last_color))
+		# ─ 자산 헤더 ─
+		modal_body.add_child(_label(
+			"%s  (%s)  현재가 %s" % [row["name"], risk_str, GameState.format_money(price)],
+			14, last_color))
+		# ─ 스파크라인 + 변동률 ─
+		var hist_parts: Array = [sparkline]
+		if hist.size() >= 2:
+			var d1 = (float(hist[-1]) - float(hist[-2])) / max(float(hist[-2]), 0.01) * 100.0
+			hist_parts.append("1개월 %+.1f%%" % d1)
+		if hist.size() >= 4:
+			var d3 = (float(hist[-1]) - float(hist[hist.size() - 4])) / max(float(hist[hist.size() - 4]), 0.01) * 100.0
+			hist_parts.append("3개월 %+.1f%%" % d3)
+		if hist.size() >= 12:
+			var d12 = (float(hist[-1]) - float(hist[0])) / max(float(hist[0]), 0.01) * 100.0
+			hist_parts.append("12개월 %+.1f%%" % d12)
+		modal_body.add_child(_wrap_label(
+			"  " + "  |  ".join(hist_parts),
+			12, last_color if hist.size() >= 2 else "#3a3a5a"))
 		var buy_row = HBoxContainer.new()
 		buy_row.add_theme_constant_override("separation", 6)
 		for amount in [100_000, 500_000, 1_000_000]:

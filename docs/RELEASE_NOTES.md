@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Added (2026-05-27) — 투자 차트 + 한국어 톤 패스
+
+#### 투자 차트 히스토리 시각화
+- 투자 모달 상단: 포트폴리오 전체 수익률 요약 (원금→현재가치, 수익률%)
+- 자산별 스파크라인 + 1개월/3개월/12개월 변동률 표시
+- 시황 티커: 6개월 미니 스파크라인 추가
+
+#### 한국어 톤 패스
+- `life_events.json` 플레이스홀더 설명 35개 전부 제거 → 개별 장면 묘사로 교체
+  (family, social, politics, gambling, military, health, disasters, comedy, finance, romance 전 카테고리)
+- 톤: 2030 서울 청년의 자조적·담백한 일상 감각
+
 ### Added (2026-05-27) — Polish Beta
 
 #### 관계 패널 능동 상호작용
