@@ -448,20 +448,23 @@ func check_game_over():
 		finish_run("startup_exit"); return
 	if age >= 65:
 		var total = get_total_asset_value()
+		# 특수 플래그 엔딩 — 자산 무관하게 먼저 체크
+		if flags.get("political_winner", false) and total >= 100_000_000:
+			finish_run("political_fix"); return
+		# 자산 + 스탯 기반 특수 엔딩
 		if reputation >= 80 and total >= 300_000_000:
-			finish_run("reputation_legend")
-		elif investment_skill >= 85 and total >= 500_000_000:
-			finish_run("investment_master")
-		elif total >= 1_000_000_000 and relationships.is_empty():
-			finish_run("lonely_rich")
-		elif total >= 1_000_000_000:
-			finish_run("stable_success")
-		elif health >= 70 and mental >= 70:
-			finish_run("healthy_retirement")
-		elif flags.get("political_winner", false):
-			finish_run("political_fix")
-		else:
-			finish_run("ordinary_life")
+			finish_run("reputation_legend"); return
+		if investment_skill >= 75 and total >= 400_000_000:
+			finish_run("investment_master"); return
+		# 고자산 분기
+		if total >= 800_000_000 and relationships.is_empty():
+			finish_run("lonely_rich"); return
+		if total >= 800_000_000:
+			finish_run("stable_success"); return
+		# 건강 은퇴 — 자산 기준 낮게 (돈보단 건강을 지킨 사람)
+		if health >= 70 and mental >= 70 and total >= 50_000_000:
+			finish_run("healthy_retirement"); return
+		finish_run("ordinary_life")
 
 func finish_run(ending_id):
 	is_game_over = true

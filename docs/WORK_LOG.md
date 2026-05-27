@@ -1,5 +1,39 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (특수 엔딩 트리거 구현)
+
+### 엔딩 발동 조건 전면 재정비 (`GameState.gd`)
+- `investment_master` 스킬 조건 85 → **75** (기존 값은 사실상 도달 불가)
+- `stable_success` / `lonely_rich` 자산 기준 1B → **800M** (달성 가능 범위 조정)
+- `healthy_retirement` 최소 자산 5,000만 조건 추가 (건강만 좋고 파산 직전인 케이스 차단)
+- `political_fix` 조건 정비: age 65 fallback → **자산 1억+ AND 플래그** 로 격상, 순서 최우선으로 이동
+- 모든 age 65 분기에 `return` 명시 추가 (이전엔 elif 체인이라 fall-through 버그 가능)
+
+### 특수 엔딩 도달 경로 신규 구현
+
+#### 스타트업 엑싯 경로 (`life_events.json` 이벤트 2개)
+- `startup_opportunity` — 스타트업 공동창업 제안
+  - 조건: 자금 500만+, 투자감각 35+, 평판 30+, Turn 12+
+  - 수락 시 300만원 투입 + `startup_founded` 플래그 세팅
+- `startup_acquisition_offer` — M&A 인수 제안 (4억원)
+  - 조건: `startup_founded` 플래그, Turn 24+
+  - 수락 시 +4억 + `startup_exit` 플래그 → 즉시 `startup_exit` 엔딩 발동
+
+#### 정치인 경로 (`life_events.json` 이벤트 2개)
+- `political_recruitment` — 정치권 영입 제안 (보좌관)
+  - 조건: 평판 55+, 사회성 40+, Turn 18+
+  - 수락 시 `political_candidate` 플래그 세팅
+- `political_election_victory` — 선거 당선
+  - 조건: `political_candidate` 플래그, 평판 70+, Turn 30+
+  - 수락 시 -1,000만원 + `political_winner` 플래그 → 65세에 `political_fix` 엔딩
+
+#### 코인 망령 경로 (`investment_events.json` 6개 선택지)
+- `gambling_002` 레버리지 풀베팅 → `addiction_tendency` +15
+- `gambling_007` 소액 질러보기 / 링크 클릭 → +10 / +8
+- `gambling_020` 전 재산 몰아넣기 / 흔들림 → +25 / +5
+- `inv_crypto_mania` 소액 참여 → +8
+- `addiction_tendency` 90 도달 시 `crypto_ghost` 엔딩 발동
+
 ## 2026-05-27 (스플래시 화면 추가)
 
 ### 타이틀 스플래시 씬 신규 구현

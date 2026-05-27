@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+### Added (2026-05-27) — 특수 엔딩 트리거 구현
+
+#### 스타트업 엑싯 경로
+- 이벤트 2종: `startup_opportunity` (창업 제안) → `startup_acquisition_offer` (M&A 인수)
+- 수락 시 4억 수령 + 즉시 `startup_exit` A등급 엔딩 발동
+
+#### 정치인 경로
+- 이벤트 2종: `political_recruitment` (보좌관 제안) → `political_election_victory` (당선)
+- 65세 도달 시 자산 1억+ 조건으로 `political_fix` B등급 엔딩 발동
+
+#### 코인 망령 경로 강화
+- 도박/코인 이벤트 6개 위험 선택지에 `addiction_tendency` 증가 추가
+- 누적 90 도달 시 즉시 `crypto_ghost` F등급 엔딩
+
+### Fixed (2026-05-27) — 엔딩 조건 재정비
+- `investment_master` 스킬 조건 85 → 75 (기존 사실상 도달 불가)
+- `stable_success` / `lonely_rich` 자산 기준 10억 → 8억
+- `healthy_retirement` 최소 자산 5,000만 조건 추가
+- `political_fix` 조건 격상 및 체크 순서 최우선으로 이동
+
 ### Added (2026-05-27) — 타이틀 스플래시 화면
 
 #### 스플래시 씬 (`SplashScreen.tscn`)

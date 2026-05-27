@@ -84,7 +84,8 @@
         "text": "레버리지 풀베팅을 건다",
         "effects": {
           "reputation": 3,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "addiction_tendency": 15
         },
         "result_text": "모든 걸 걸었다. 운명이 어느 쪽을 선택할지는 아침이 되어야 알 수 있다.",
         "investment_effects": {
@@ -329,7 +330,8 @@
         "text": "지인이 보낸 거라 고민하다 결국 들어간다",
         "effects": {
           "stress": 9,
-          "mental": -3
+          "mental": -3,
+          "addiction_tendency": 8
         },
         "result_text": "링크를 눌렀다. 호기심이 이성을 이겼고, 결과는 예상대로였다."
       },
@@ -337,7 +339,8 @@
         "text": "소액으로 한 번 질러본다",
         "effects": {
           "reputation": -2,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "addiction_tendency": 10
         },
         "result_text": "딱 한 번이라고 스스로를 설득했다. 판도라의 상자는 그렇게 열린다.",
         "investment_effects": {
@@ -589,7 +592,8 @@
         "text": "마음이 흔들려 주변을 돌아본다",
         "effects": {
           "stress": 11,
-          "mental": 2
+          "mental": 2,
+          "addiction_tendency": 5
         },
         "result_text": "주변 사람들의 성공담에 흔들렸다. 비교는 가장 위험한 투자 심리다."
       },
@@ -597,7 +601,8 @@
         "text": "전 재산을 한 곳에 몰아넣는다",
         "effects": {
           "reputation": -4,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "addiction_tendency": 25
         },
         "result_text": "한 방을 믿었다. 결과가 어떻든 이 선택은 오래 기억될 것이다.",
         "flags": [
@@ -1280,7 +1285,8 @@
         "effects": {
           "money": -200000,
           "gambling_tendency": 5,
-          "luck": 2
+          "luck": 2,
+          "addiction_tendency": 8
         },
         "result_text": "20만 원어치를 샀다. 처음엔 올랐다가 반 토막이 났다. 그래도 경험값은 얻었다고 스스로를 위로했다."
       },

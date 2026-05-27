@@ -4777,5 +4777,186 @@
         "result_text": "모르는 척하고 주머니에 넣었다.\n죄책감이 잠깐 올라왔다가 사라졌다.\n5만원. 서울에서의 첫 번째 행운이었다."
       }
     ]
+  },
+  {
+    "id": "startup_opportunity",
+    "title": "스타트업 공동창업 제안",
+    "description": "지인이 B2B SaaS 스타트업을 같이 해보자고 연락이 왔다. 아이디어는 있고 투자 유치도 얘기가 됐다고. 공동창업자로 들어오면 지분 20%를 주겠다 한다. 300만원이 필요하다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "min_money": 5000000,
+      "min_investment_skill": 35,
+      "min_reputation": 30,
+      "min_turn": 12,
+      "no_flag": "startup_founded"
+    },
+    "tags": [
+      "startup",
+      "opportunity",
+      "finance"
+    ],
+    "choices": [
+      {
+        "text": "함께한다 — 공동창업자로 합류 (자금 300만원 투입)",
+        "effects": {
+          "money": -3000000,
+          "reputation": 5,
+          "investment_skill": 3,
+          "stress": 8
+        },
+        "flags": [
+          "startup_founded"
+        ],
+        "result_text": "공동창업자 계약서에 도장을 찍었다. 통장에서 300만원이 빠져나갔고, 내 명함에 '공동창업자'가 찍혔다. 설레는 만큼 무섭다."
+      },
+      {
+        "text": "거절한다 — 지금은 리스크가 너무 크다",
+        "effects": {
+          "stress": -2,
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "정중히 거절했다. 지금 내 상황에서 감당할 수 있는 리스크가 아니었다. 언젠가 다른 기회가 올 것이다."
+      }
+    ]
+  },
+  {
+    "id": "startup_acquisition_offer",
+    "title": "스타트업 M&A 인수 제안",
+    "description": "같이 키운 스타트업에 대기업에서 인수 제안이 들어왔다. 내 지분 20%를 4억원에 사겠다고 한다. 팀원 고용 승계 조건까지 붙었다. 여기서 엑싯할 것인가, 아니면 더 키워볼 것인가.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "flag": "startup_founded",
+      "min_turn": 24,
+      "no_flag": "startup_exit"
+    },
+    "tags": [
+      "startup",
+      "exit",
+      "finance"
+    ],
+    "choices": [
+      {
+        "text": "수락한다 — 지금 4억원에 엑싯",
+        "effects": {
+          "money": 400000000,
+          "reputation": 20,
+          "stress": -15,
+          "mental": 10
+        },
+        "flags": [
+          "startup_exit"
+        ],
+        "result_text": "계약서에 서명하는 손이 미세하게 떨렸다. 잠시 후 통장에 4억이 찍혔다. 스타트업 엑싯. 이게 그 느낌이구나."
+      },
+      {
+        "text": "거절한다 — 아직 가능성이 있다",
+        "effects": {
+          "stress": 6,
+          "investment_skill": 5,
+          "reputation": 3
+        },
+        "flags": [],
+        "result_text": "제안을 거절했다. 대기업 담당자가 아쉬운 표정을 지었다. 더 크게 만들어서 더 비싸게 팔든지, 아니면 망하든지."
+      }
+    ]
+  },
+  {
+    "id": "political_recruitment",
+    "title": "정치권 영입 제안",
+    "description": "지역구 의원 보좌관 출신 지인이 조심스럽게 물어봤다. 당에서 젊은 인재를 찾고 있다고, 보좌관을 거쳐 다음 선거를 준비해볼 생각이 있냐고. 뜬금없지만 솔직히 귀가 솔깃하다.",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "min_reputation": 55,
+      "min_social_skill": 40,
+      "min_turn": 18,
+      "no_flag": "political_candidate"
+    },
+    "tags": [
+      "politics",
+      "opportunity",
+      "career"
+    ],
+    "choices": [
+      {
+        "text": "진지하게 고려해본다 — 보좌관 자리를 수락",
+        "effects": {
+          "reputation": 10,
+          "social_skill": 5,
+          "stress": 6
+        },
+        "flags": [
+          "political_candidate"
+        ],
+        "result_text": "국회의원 보좌관 발령을 받았다. 정치의 맛은 예상보다 훨씬 복잡하고 더러웠다. 하지만 가능성도 보였다."
+      },
+      {
+        "text": "정중히 거절한다 — 정치는 내 길이 아니다",
+        "effects": {
+          "mental": 3,
+          "stress": -3
+        },
+        "flags": [],
+        "result_text": "웃으며 거절했다. 정치는 누군가가 해야 할 일이지만, 그게 반드시 나일 필요는 없다."
+      }
+    ]
+  },
+  {
+    "id": "political_election_victory",
+    "title": "선거 출마 결정",
+    "description": "3년을 보좌관으로 일했다. 이제 직접 나설 때라는 말을 계속 듣는다. 당 공천도 기대해볼 만하고 지지 세력도 생겼다. 하지만 선거는 돈과 체력을 많이 요구한다. 출마할 것인가.",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "flag": "political_candidate",
+      "min_reputation": 70,
+      "min_turn": 30,
+      "no_flag": "political_winner"
+    },
+    "tags": [
+      "politics",
+      "election",
+      "career"
+    ],
+    "choices": [
+      {
+        "text": "출마 선언 — 국회의원에 도전한다",
+        "effects": {
+          "money": -10000000,
+          "reputation": 20,
+          "social_skill": 8,
+          "stress": 15,
+          "health": -5
+        },
+        "flags": [
+          "political_winner"
+        ],
+        "result_text": "당선됐다. 개표 방송을 보는 내내 심장이 멎는 것 같았다. 이제 진짜 시작이다."
+      },
+      {
+        "text": "이번엔 포기한다 — 아직 때가 아니다",
+        "effects": {
+          "mental": -5,
+          "stress": 5
+        },
+        "flags": [],
+        "result_text": "출마를 포기했다. 지지자들에게 미안했다. 다음 기회가 있을지 모르겠지만, 지금은 아니다."
+      }
+    ]
   }
 ]
