@@ -35,14 +35,23 @@ const BG_PATHS = {
 	"oneroom":   "res://assets/backgrounds/oneroom_apartment.png",
 	"apartment": "res://assets/backgrounds/gangnam_apartment.png",
 }
-const BG_DEFAULT   = "res://assets/backgrounds/seoul_rainy_street.png"
-const BG_OFFICE    = "res://assets/backgrounds/office_desk.png"
-const BG_SUBWAY    = "res://assets/backgrounds/seoul_subway.png"
+const BG_DEFAULT        = "res://assets/backgrounds/seoul_rainy_street.png"
+const BG_OFFICE         = "res://assets/backgrounds/office_desk.png"
+const BG_SUBWAY         = "res://assets/backgrounds/seoul_subway.png"
+const BG_CONVENIENCE    = "res://assets/backgrounds/convenience_store_night.png"
+const BG_CAFE           = "res://assets/backgrounds/cafe_seoul.png"
+const BG_INVESTMENT     = "res://assets/backgrounds/investment_phone.png"
+const BG_HOSPITAL       = "res://assets/backgrounds/hospital_corridor.png"
+const BG_ROOFTOP_DAY    = "res://assets/backgrounds/rooftop_daytime.png"
+const BG_GANGNAM_NIGHT  = "res://assets/backgrounds/gangnam_night_street.png"
+const BG_PENTHOUSE      = "res://assets/backgrounds/penthouse_view.png"
+const BG_BURNOUT        = "res://assets/backgrounds/burnout_hospital_room.png"
 
 const PORTRAIT_NEUTRAL    = "res://assets/characters/main_character_neutral_goshiwon.png"
 const PORTRAIT_TIRED      = "res://assets/characters/main_character_tired.png"
 const PORTRAIT_DETERMINED = "res://assets/characters/main_character_determined.png"
 const PORTRAIT_HAPPY      = "res://assets/characters/main_character_happy.png"
+const PORTRAIT_SHOCKED    = "res://assets/characters/main_character_shocked.png"
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
@@ -655,6 +664,21 @@ func _choose(index):
 		effects = choices[index].get("effects", {})
 	EventManager.resolve_current_event(index)
 	current_event = EventManager.get_next_event()
+
+	# 충격 이벤트 감지: 건강·정신 -15 이상 손실 또는 100만원 이상 갑작스러운 손실
+	var is_critical = (int(effects.get("health", 0)) <= -15
+		or int(effects.get("mental", 0)) <= -15
+		or int(effects.get("money", 0)) <= -1_000_000)
+	if is_critical:
+		GameState.flags["just_critical_event"] = true
+		_update_portrait()
+		# 1.2초 후 플래그 해제
+		var _t = get_tree().create_timer(1.2)
+		_t.timeout.connect(func():
+			GameState.flags["just_critical_event"] = false
+			_update_portrait()
+		)
+
 	if not effects.is_empty():
 		_show_effects_float(effects)
 	if not result_text.is_empty() and current_event.is_empty():
@@ -2213,14 +2237,52 @@ func _update_event_bg():
 		event_bg.texture = tex
 
 func _get_bg_for_event(ev: Dictionary) -> String:
-	# 이벤트 태그 기반 배경 결정
+	# 이벤트 태그·카테고리 기반 배경 결정 (우선순위 순)
 	var tags = ev.get("tags", [])
-	if "job" in tags or "work" in tags or "office" in tags:
+	var category = str(ev.get("category", ""))
+
+	# 병원·건강
+	if "hospital" in tags or "health" in tags or category == "health":
+		return BG_HOSPITAL
+
+	# 편의점 (야간 + 음식/일상)
+	if "convenience" in tags or ("night" in tags and ("food" in tags or "daily" in tags)):
+		return BG_CONVENIENCE
+
+	# 투자·주식·금융
+	if "investment" in tags or category == "investment" \
+			or ("finance" in tags or ("stock" in tags and category == "finance")):
+		return BG_INVESTMENT
+
+	# 사무실·직장
+	if "job" in tags or "work" in tags or "office" in tags or category == "jobs":
 		return BG_OFFICE
-	if "social" in tags or "commute" in tags or "subway" in tags:
+
+	# 지하철·출퇴근
+	if "commute" in tags or "subway" in tags:
 		return BG_SUBWAY
+
+	# 카페·만남·소셜·연애
+	if "social" in tags or "date" in tags or "cafe" in tags \
+			or "relationship" in tags or category == "romance":
+		return BG_CAFE
+
+	# 옥상·휴식
+	if "rooftop" in tags or "break" in tags:
+		return BG_ROOFTOP_DAY
+
+	# 정치·명성·강남 야경
+	if category == "politics" or ("reputation" in tags and ("late_game" in tags or GameState.age >= 45)):
+		return BG_GANGNAM_NIGHT
+
+	# 도박·코인 (도시 야경 분위기)
+	if category == "gambling" or "gambling" in tags:
+		return BG_DEFAULT
+
+	# 야간·도시·스트레스 — 기본 서울 야경
 	if "night" in tags or "city" in tags or "stress" in tags:
-		return BG_DEFAULT  # seoul_rainy_street
+		return BG_DEFAULT
+
 	# 이벤트 없을 때는 주거 기반
 	return BG_PATHS.get(GameState.housing, BG_DEFAULT)
 
@@ -2233,10 +2295,13 @@ func _update_portrait():
 		character_portrait.texture = tex
 
 func _get_portrait_path() -> String:
+	# 충격·위기 상황 (이벤트 직후 플래그)
+	if GameState.flags.get("just_critical_event", false):
+		return PORTRAIT_SHOCKED
 	# 자산 마일스톤 달성 직후 — 기쁨
 	if GameState.flags.get("just_hit_milestone", false):
 		return PORTRAIT_HAPPY
-	# 스트레스 높거나 건강/정신 위험 — 피로
+	# 스트레스 매우 높거나 건강/정신 위험 — 피로
 	if GameState.stress >= 65 or GameState.health <= 35 or GameState.mental <= 35:
 		return PORTRAIT_TIRED
 	# 직장 있고 안정적 — 결의
