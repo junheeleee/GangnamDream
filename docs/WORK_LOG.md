@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (스플래시 화면 추가)
+
+### 타이틀 스플래시 씬 신규 구현
+- `scenes/SplashScreen.gd` / `SplashScreen.tscn` 신규 생성
+- `project.godot` 메인씬: `StartMenu.tscn` → `SplashScreen.tscn`
+- 연출 시퀀스 (총 ~4.5초):
+  1. 검정 → 페이드인 (SceneTransition)
+  2. 옥상 키아트 배경 서서히 등장 (38% 불투명)
+  3. 로고 이미지 페이드인
+  4. "강남드림" 한글 타이틀 (64px)
+  5. "GANGNAM DREAM" 영문 부제 + 구분선
+  6. "서울에서 살아남아라" 태그라인
+  7. "― 2030년대 서울, 당신의 이야기 ―" 컨텍스트
+  8. "아무 키나 눌러 계속" 힌트 (깜빡임 3회)
+  9. 자동 전환 / 키·마우스 클릭으로 스킵
+
 ## 2026-05-27 (UI 대시보드 개선 — 바이탈 HUD + 진행 바)
 
 ### 탑바 바이탈 HUD 추가 (Football Manager 스타일)
