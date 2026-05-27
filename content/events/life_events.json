@@ -10,7 +10,11 @@
     "conditions": {
       "max_stress": 80
     },
-    "tags": ["social", "gosiwon", "relationship"],
+    "tags": [
+      "social",
+      "gosiwon",
+      "relationship"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -53,7 +57,11 @@
       "min_turn": 2,
       "max_stress": 85
     },
-    "tags": ["social", "daily", "relationship"],
+    "tags": [
+      "social",
+      "daily",
+      "relationship"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -171,12 +179,15 @@
   {
     "id": "jobs_003",
     "title": "이직 공고 발견",
-    "description": "이직 공고 발견. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "헤드헌터한테 LinkedIn 메시지가 왔다. 현재 연봉보다 20% 높은 포지션 제안. 그런데 지금 팀에 이제 막 적응하고 있는 중이다.",
     "category": "jobs",
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
     "tags": [
       "jobs",
       "pressure"
@@ -661,13 +672,15 @@
   {
     "id": "jobs_014",
     "title": "팀장님의 한마디",
-    "description": "팀장님의 한마디. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "팀 회의 중 팀장님이 한마디 했다. '요즘 퇴근이 좀 빠른 것 같던데, 맡은 일 다 되고 있는 거죠?' 전 팀원이 듣는 자리에서.",
     "category": "jobs",
     "rarity": "common",
     "weight": 8,
     "hidden": false,
     "conditions": {
-      "min_turn": 18
+      "has_job": true,
+      "min_turn": 18,
+      "min_job_tier": 2
     },
     "tags": [
       "jobs",
@@ -973,12 +986,14 @@
   {
     "id": "jobs_025",
     "title": "퇴사 브이로그 유혹",
-    "description": "퇴사 브이로그 유혹. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "유튜브 알고리즘에 '퇴사 브이로그'가 뜬다. 브이로그 속 그는 자유로워 보인다. 근데 현실을 보면, 내 통장 잔액이 눈에 밟힌다.",
     "category": "jobs",
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "jobs",
       "anxiety"
@@ -1241,12 +1256,14 @@
   {
     "id": "jobs_036",
     "title": "야근 메신저",
-    "description": "야근 메신저. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "저녁 8시에 팀장님한테 메시지가 왔다. '오늘 야근 가능해요?' 퇴근길 지하철 안이다. 사실 불가능하지만, 어떻게 답해야 할지 모르겠다.",
     "category": "jobs",
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "jobs",
       "satire"
@@ -2016,7 +2033,8 @@
     "weight": 1.6,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_job": true,
+      "min_job_tier": 2
     },
     "tags": [
       "job",
@@ -2065,7 +2083,8 @@
     "hidden": false,
     "conditions": {
       "has_job": true,
-      "min_turn": 8
+      "min_turn": 8,
+      "min_job_tier": 2
     },
     "tags": [
       "job",
@@ -2227,7 +2246,8 @@
     "conditions": {
       "has_job": true,
       "min_turn": 7,
-      "min_reputation": 5
+      "min_reputation": 5,
+      "min_job_tier": 2
     },
     "tags": [
       "job",
@@ -2939,12 +2959,14 @@
   {
     "id": "job_first_hoesik",
     "title": "첫 회식",
-    "description": "팀장님이 오늘 회식이라고 했다. '자율참여'지만 분위기상 안 갈 수 없다. 고기집에서 소주가 돌아온다.",
+    "description": "팀장님이 '오늘 회식이에요, 자율 참여예요'라고 했다. 자율이지만 분위기상 안 갈 수 없다. 삼겹살집에 소주가 돌아온다. 술을 얼마나 마셔야 자연스러울까.",
     "category": "job",
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "social",
@@ -2985,12 +3007,14 @@
   {
     "id": "job_kakaotalk_after_work",
     "title": "퇴근 후 업무 카톡",
-    "description": "밤 10시, 팀장님한테 카톡이 왔다. '내일 아침 보고서 있어요? 오늘 밤 중으로 초안 부탁드립니다.'",
+    "description": "밤 10시, 퇴근하고 누웠는데 팀장님한테 카톡이 왔다. '내일 아침 보고서 있어요? 오늘 밤 중으로 초안 부탁드립니다.' 내일 9시 출근인데.",
     "category": "job",
     "rarity": "common",
     "weight": 1.4,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "stress",
@@ -3118,12 +3142,14 @@
   {
     "id": "job_annual_leave",
     "title": "연차 쓰는 법을 모르겠다",
-    "description": "몸이 안 좋아서 연차를 쓰고 싶다. 팀장님한테 어떻게 말하지? 시스템은 어디 있지? 눈치는 얼마나 봐야 하지?",
+    "description": "몸이 안 좋아서 연차를 쓰고 싶다. 그런데 팀장님한테 어떻게 말해야 하지? 사내 시스템은 어디 있지? 눈치는 얼마나 봐야 하지?",
     "category": "job",
     "rarity": "common",
     "weight": 1.1,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "stress",
@@ -3164,12 +3190,15 @@
   {
     "id": "job_performance_feedback",
     "title": "첫 성과 피드백",
-    "description": "3개월차 첫 성과 면담. 팀장님이 '기대 이하'라고 했다. 구체적으로 뭘 잘못했는지는 안 알려줬다.",
+    "description": "입사 3개월차, 첫 성과 면담. 팀장님이 '기대 이하'라고 했다. 구체적으로 뭘 잘못했는지는 안 알려준다. 혼자 유추해야 한다.",
     "category": "job",
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true,
+      "min_turn": 3
+    },
     "tags": [
       "job",
       "stress",
@@ -3209,12 +3238,14 @@
   {
     "id": "job_office_gossip",
     "title": "점심 시간 험담",
-    "description": "점심 먹으러 갔더니 직원들이 다른 팀 얘기를 한다. 나한테도 동참을 유도한다. 나도 모르게 웃으며 끄덕였다.",
+    "description": "점심을 먹으러 갔더니 동료들이 다른 팀 얘기를 한다. 나한테도 동참을 유도한다. 나도 모르게 웃으며 고개를 끄덕였다.",
     "category": "job",
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "social",
@@ -4626,7 +4657,11 @@
       "flag": "story_job_unlocked",
       "max_stress": 75
     },
-    "tags": ["job", "rejection", "early_game"],
+    "tags": [
+      "job",
+      "rejection",
+      "early_game"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -4668,7 +4703,11 @@
     "conditions": {
       "no_flag": "story_six_months_seen"
     },
-    "tags": ["daily", "food", "early_game"],
+    "tags": [
+      "daily",
+      "food",
+      "early_game"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -4712,7 +4751,11 @@
       "min_luck": 40,
       "no_flag": "story_six_months_seen"
     },
-    "tags": ["luck", "money", "early_game"],
+    "tags": [
+      "luck",
+      "money",
+      "early_game"
+    ],
     "cooldown": 9999,
     "choices": [
       {

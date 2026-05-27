@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (Polish Beta — 관계/직업/엔딩 3종 개선)
+
+### 관계 패널 능동 상호작용
+- `MainGame.gd`: `_ap_network()` → `_ap_socialize()` + `_open_relationship_manager()` 모달로 교체
+  - 관계 유형별 전용 행동: 친구=커피, 연인=데이트(친밀도 60+ 기준), 멘토=조언/근황보고(신뢰 50+ 기준), 비즈니스=파트너 미팅, 가족=통화
+  - "새 인연 만들기" 선택지: 사회성 +3, 50% 확률 인연 생성 (이름 풀 16개)
+  - 각 행동 후 turn_action_log, add_log, toast 피드백 연동
+
+### 직업별 이벤트 조건 강화
+- `EventManager.gd`: `min_job_tier`, `max_job_tier`, `job_category` 조건 추가
+- `life_events.json`: 12개 이벤트 조건 패치
+  - 직업 없이 뜨던 이벤트 5개에 `has_job: true` 추가 (첫 회식, 업무 카톡, 연차, 피드백, 험담)
+  - 이직/퇴사 이벤트 3개: `has_job: true` + 설명 교체 (플레이스홀더 제거)
+  - 야근/성과/프로젝트 이벤트 3개: `min_job_tier: 2` 추가 (T2+ 직장에서만)
+
+### 엔딩 화면 메타 진행도 표시
+- `MetaProgression.gd`: `_new_this_run` 딕셔너리 추가, `record_run()` 시작 시 초기화
+  `unlock_trait()` / `unlock_achievement()` 호출 시 신규 해금이면 목록에 추가
+  `get_new_unlocks()` 메서드 추가
+- `MainGame.gd `_show_ending()`: 새 해금 트레이트/업적 표시 (🔓 섹션, 업적 ID→한글명 매핑)
+
 ## 2026-05-27 (밸런스 패스 — 초반 생존성 개선)
 
 ### 수치 조정

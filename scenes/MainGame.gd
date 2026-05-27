@@ -962,7 +962,7 @@ func _render_ap_actions():
 	var ap_actions = [
 		{"label": study_label,  "color": "#5b9cf6",  "fn": "_ap_study",    "locked": false},
 		{"label": invest_label, "color": invest_color, "fn": "_ap_invest",  "locked": invest_locked},
-		{"label": "🤝 인맥활동  — 사회성 +1, 관계 친밀도 상승", "color": "#7c3aed", "fn": "_ap_network", "locked": false},
+		{"label": "🤝 인맥관리  — 관계별 행동 선택 / 새 인연", "color": "#7c3aed", "fn": "_ap_socialize", "locked": false},
 		{"label": job_label,    "color": job_color,  "fn": "_ap_job_hunt", "locked": job_locked},
 	]
 	# 단기 알바는 직업 없을 때만 표시 — 본업 있으면 어색해서 숨김
@@ -1078,25 +1078,176 @@ func _ap_job_hunt():
 	turn_action_log.append("✓ 💼 구직활동 — 직업 목록 열람")
 	_open_jobs()
 
-func _ap_network():
+func _ap_socialize():
 	if not GameState.spend_ap():
 		return
-	var social_before = GameState.social_skill
-	GameState.modify_stat("social_skill", 1)
-	var result_parts: Array = ["사회성 %d→%d" % [social_before, GameState.social_skill]]
-	var toast_extra = ""
+	turn_action_log.append("✓ 🤝 인맥관리 — 선택 중...")
+	_open_relationship_manager()
+
+func _open_relationship_manager():
+	_open_modal("🤝 인맥 관리")
+	modal_body.add_child(_wrap_label(
+		"사회성 %d  |  인연 %d명" % [GameState.social_skill, GameState.relationships.size()],
+		13, "#5a6075"))
+	var hdr_sep = HSeparator.new()
+	hdr_sep.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(hdr_sep)
+
 	if not GameState.relationships.is_empty():
-		var rel = GameState.relationships[randi() % GameState.relationships.size()]
-		var aff_before = int(rel.get("affection", 40))
-		rel["affection"] = clamp(aff_before + 6, 0, 100)
-		var rel_name_str = str(rel.get("name", "인연"))
-		result_parts.append("%s 친밀도 %d→%d" % [rel_name_str, aff_before, rel["affection"]])
-		toast_extra = "  (%s 친밀도 ↑)" % rel_name_str
-	GameState.add_log("인맥활동: %s" % ", ".join(result_parts), "relationship")
-	turn_action_log.append("✓ 🤝 인맥활동 → %s" % ", ".join(result_parts))
-	_show_toast("🤝 인맥활동 완료%s" % toast_extra, Color("#d8b4fe"))
+		for rel in GameState.relationships:
+			var affection = int(rel.get("affection", 40))
+			var trust     = int(rel.get("trust", 40))
+			var type_str  = str(rel.get("type", "friends"))
+			var type_map  = {"romantic": "연인", "mentor": "멘토", "business": "비즈니스",
+							 "family": "가족", "friends": "친구"}
+			var type_kr   = type_map.get(type_str, "인연")
+			var affinity  = relationship_system.get_affinity_label(affection)
+
+			modal_body.add_child(_label(
+				"%s  [%s]  %s  (%d / %d)" % [rel.get("name","?"), type_kr, affinity, affection, trust],
+				14, "#d8b4fe"))
+
+			# 관계 유형별 전용 행동 정의
+			var action_label = ""
+			var action_color = "#7c3aed"
+			var stat_effects: Dictionary = {}
+			var rel_delta: Dictionary   = {}
+
+			match type_str:
+				"romantic":
+					if affection >= 60:
+						action_label = "💑 데이트  — 친밀도 +15, 정신 +5, 스트레스 -8  (-3만원)"
+						stat_effects = {"mental": 5, "stress": -8, "money": -30000}
+						rel_delta    = {"affection": 15}
+						action_color = "#be185d"
+					else:
+						action_label = "📞 연락하기  — 친밀도 +10, 정신 +3, 스트레스 -4"
+						stat_effects = {"mental": 3, "stress": -4}
+						rel_delta    = {"affection": 10}
+						action_color = "#9d174d"
+				"mentor":
+					if trust >= 50:
+						action_label = "🧠 조언 구하기  — 신뢰 +8, 지력 +2, 투자감각 +1"
+						stat_effects = {"intelligence": 2, "investment_skill": 1}
+						rel_delta    = {"trust": 8, "affection": 4}
+						action_color = "#0369a1"
+					else:
+						action_label = "📩 근황 보고  — 신뢰 +10, 친밀도 +5"
+						stat_effects = {}
+						rel_delta    = {"trust": 10, "affection": 5}
+						action_color = "#075985"
+				"business":
+					action_label = "🤝 파트너 미팅  — 신뢰 +8, 평판 +2, 사회성 +1"
+					stat_effects = {"reputation": 2, "social_skill": 1}
+					rel_delta    = {"trust": 8, "affection": 3}
+					action_color = "#0f766e"
+				"family":
+					action_label = "📞 통화  — 친밀도 +10, 정신 +5, 스트레스 -4"
+					stat_effects = {"mental": 5, "stress": -4}
+					rel_delta    = {"affection": 10}
+					action_color = "#7c2d12"
+				_:  # friends and unknown
+					action_label = "☕ 커피 한 잔  — 친밀도 +12, 정신 +3, 스트레스 -5"
+					stat_effects = {"mental": 3, "stress": -5, "social_skill": 1}
+					rel_delta    = {"affection": 12}
+					action_color = "#7c3aed"
+
+			var btn = _button(action_label, action_color)
+			btn.pressed.connect(Callable(self, "_on_rel_action").bind(rel, stat_effects, rel_delta))
+			modal_body.add_child(btn)
+			var rsep = HSeparator.new()
+			rsep.add_theme_color_override("color", Color("#1a1a2a"))
+			modal_body.add_child(rsep)
+	else:
+		modal_body.add_child(_wrap_label(
+			"아직 중요한 인연이 없다.\n이벤트를 통해 인연을 만들거나, 아래 '새 인연 만들기'를 눌러보자.",
+			13, "#5a6075"))
+
+	# 새 인연 만들기 — 항상 표시
+	modal_body.add_child(_label("── 새로운 인연 ──", 12, "#3a3a5a"))
+	var new_btn = _button("🌐 새 인연 만들기  — 사회성 +3, 50% 확률로 인연 생성", "#1e4d72")
+	new_btn.pressed.connect(Callable(self, "_on_rel_new_connection"))
+	modal_body.add_child(new_btn)
+
+func _on_rel_action(rel: Dictionary, stat_effects: Dictionary, rel_delta: Dictionary):
+	# 스탯 효과 적용
+	if not stat_effects.is_empty():
+		GameState.apply_effects(stat_effects)
+	# 관계 수치 직접 갱신 (Dictionary는 참조형이므로 원본 반영)
+	if rel_delta.has("affection"):
+		rel["affection"] = clamp(int(rel.get("affection", 40)) + int(rel_delta["affection"]), 0, 100)
+	if rel_delta.has("trust"):
+		rel["trust"] = clamp(int(rel.get("trust", 40)) + int(rel_delta["trust"]), 0, 100)
+
+	var type_map = {"romantic": "연인", "mentor": "멘토", "business": "비즈니스",
+					"family": "가족", "friends": "친구"}
+	var type_kr  = type_map.get(str(rel.get("type", "")), "인연")
+	var rel_name = str(rel.get("name", "?"))
+
+	# 결과 텍스트 조립
+	var parts: Array = []
+	if rel_delta.has("affection") and int(rel_delta["affection"]) > 0:
+		parts.append("친밀도 →%d" % int(rel.get("affection", 40)))
+	if rel_delta.has("trust") and int(rel_delta["trust"]) > 0:
+		parts.append("신뢰 →%d" % int(rel.get("trust", 40)))
+	for k in stat_effects:
+		if k == "money":
+			continue
+		var v = int(stat_effects[k])
+		parts.append("%s %s%d" % [_stat_name(k), "+" if v >= 0 else "", v])
+	var result_str = ", ".join(parts) if not parts.is_empty() else "시간을 보냈다"
+
+	GameState.add_log("인맥관리 (%s) %s — %s" % [type_kr, rel_name, result_str], "relationship")
+	for i in range(turn_action_log.size() - 1, -1, -1):
+		if turn_action_log[i].begins_with("✓ 🤝"):
+			turn_action_log[i] = "✓ 🤝 인맥관리 → %s [%s]" % [rel_name, type_kr]
+			break
+
+	AudioManager.play("stat_up")
+	_close_modal()
+	_show_toast("🤝 %s와 시간을 보냈다" % rel_name, Color("#d8b4fe"))
 	GameState.stats_changed.emit()
-	_render_ap_actions()
+	_refresh_all()
+
+func _on_rel_new_connection():
+	var social_before = GameState.social_skill
+	GameState.modify_stat("social_skill", 3)
+	var made = randf() < 0.50
+	var toast_msg = "🌐 새 인연 탐색  사회성 %d→%d" % [social_before, GameState.social_skill]
+
+	if made:
+		var name_pool = ["이서연", "박준혁", "김민지", "정태양", "최하늘", "윤지수",
+						 "한도현", "오가영", "송재원", "임채원", "조예진", "강현우",
+						 "신유리", "백준서", "류하은", "장민성"]
+		var used: Array = []
+		for r in GameState.relationships:
+			used.append(r.get("name", ""))
+		var avail: Array = name_pool.filter(func(n): return not used.has(n))
+		if avail.is_empty():
+			avail = name_pool
+		var new_name = avail[randi() % avail.size()]
+		GameState.relationships.append({
+			"id": "friend_%d" % GameState.turn,
+			"name": new_name,
+			"type": "friends",
+			"affection": 35,
+			"trust": 30,
+			"met_turn": GameState.turn,
+		})
+		toast_msg += "  |  새 인연: %s" % new_name
+		GameState.add_log("새 인연: %s (친구)" % new_name, "relationship")
+	else:
+		toast_msg += "  |  아직 인연이 닿지 않았다"
+		GameState.add_log("새 인연 탐색 — 인연이 닿지 않았다.", "relationship")
+
+	for i in range(turn_action_log.size() - 1, -1, -1):
+		if turn_action_log[i].begins_with("✓ 🤝"):
+			turn_action_log[i] = "✓ 🤝 인맥관리 → 새 인연 탐색"
+			break
+
+	_close_modal()
+	_show_toast(toast_msg, Color("#d8b4fe"))
+	GameState.stats_changed.emit()
 	_refresh_all()
 
 func _ap_side_job():
@@ -1467,6 +1618,33 @@ func _show_ending(ending_id):
 	body.add_theme_color_override("default_color", Color("#8892a4"))
 	body.add_theme_font_size_override("normal_font_size", 15)
 	modal_body.add_child(body)
+	# ── 이번 런 새 해금 표시 ──────────────────────────
+	var new_unlocks = MetaProgression.get_new_unlocks()
+	var new_traits: Array = new_unlocks.get("traits", [])
+	var new_ach: Array    = new_unlocks.get("achievements", [])
+	if not new_traits.is_empty() or not new_ach.is_empty():
+		var unlock_sep = HSeparator.new()
+		unlock_sep.add_theme_color_override("color", Color("#252535"))
+		modal_body.add_child(unlock_sep)
+		modal_body.add_child(_label("🔓 이번 런 해금", 15, "#f0b429"))
+		for t in new_traits:
+			modal_body.add_child(_wrap_label("  ✦ 트레이트 해금: %s" % t, 13, "#d8b4fe"))
+		var ach_names = {
+			"first_billion":     "첫 1억 달성",
+			"stable_life":       "안정적인 삶",
+			"gangnam_dream":     "강남드림 달성",
+			"survived_burnout":  "번아웃 생존",
+			"startup_exit":      "스타트업 엑싯",
+			"political_fix":     "정계 입문",
+			"investment_master": "투자의 달인",
+			"reputation_legend": "평판 전설",
+			"five_lives":        "다섯 번의 인생",
+			"ten_lives":         "열 번의 인생",
+		}
+		for a in new_ach:
+			var ach_name = ach_names.get(a, a)
+			modal_body.add_child(_wrap_label("  🏅 업적 달성: %s" % ach_name, 13, "#fbbf24"))
+
 	var restart_btn = _button("새 런 시작", "#00c896")
 	restart_btn.pressed.connect(_restart_run)
 	modal_body.add_child(restart_btn)
