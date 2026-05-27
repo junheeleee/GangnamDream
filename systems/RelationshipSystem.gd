@@ -4,22 +4,34 @@ signal relationship_added(rel: Dictionary)
 signal relationship_changed(rel: Dictionary)
 
 func process_monthly_relationships():
-	for rel in GameState.relationships.duplicate():
-		# 외모가 높으면 연애 관계의 호감도 감소를 완화
+	# 역순 인덱스로 순회해야 제거 중 인덱스 오류 없음
+	var i = GameState.relationships.size() - 1
+	while i >= 0:
+		var rel = GameState.relationships[i]
+
+		# ── 친밀도 감소: 매월 -1 (연인 + 외모 60↑이면 면제) ──
 		var affection_decay = 1
 		if str(rel.get("type", "")) == "romantic" and GameState.appearance >= 60:
 			affection_decay = 0
-		rel["affection"] = clamp(int(rel.get("affection", rel.get("affinity", 40))) - affection_decay, 0, 100)
-		var trust_decay = 0
+		rel["affection"] = clamp(int(rel.get("affection", 40)) - affection_decay, 0, 100)
+
+		# ── 신뢰 감소: 매월 -1 기본 (스트레스 75↑이면 -2로 가속) ──
+		var trust_decay = 1
 		if GameState.stress > 75:
-			trust_decay = 1
+			trust_decay = 2
 		rel["trust"] = clamp(int(rel.get("trust", 40)) - trust_decay, 0, 100)
+
 		_apply_passive(rel)
-		if int(rel.get("affection", 0)) <= 0 and int(rel.get("trust", 0)) <= 10:
-			GameState.relationships.erase(rel)
+
+		# ── 소멸 조건: 친밀도 0 OR (친밀도 ≤5 AND 신뢰 ≤10) ──
+		var affection_val = int(rel.get("affection", 0))
+		var trust_val     = int(rel.get("trust", 0))
+		if affection_val <= 0 or (affection_val <= 5 and trust_val <= 10):
 			GameState.add_log("%s와의 관계가 끊어졌다." % rel.get("name", "누군가"), "relationship")
+			GameState.relationships.remove_at(i)
 		else:
 			relationship_changed.emit(rel)
+		i -= 1
 
 func add_relationship(rel_data):
 	GameState.apply_relationship_effect(rel_data)
