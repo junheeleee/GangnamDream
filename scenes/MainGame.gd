@@ -649,10 +649,14 @@ func _on_next_month():
 func _choose(index):
 	var choices: Array = current_event.get("choices", [])
 	var result_text = ""
+	var effects: Dictionary = {}
 	if index >= 0 and index < choices.size():
 		result_text = str(choices[index].get("result_text", "")).strip_edges()
+		effects = choices[index].get("effects", {})
 	EventManager.resolve_current_event(index)
 	current_event = EventManager.get_next_event()
+	if not effects.is_empty():
+		_show_effects_float(effects)
 	if not result_text.is_empty() and current_event.is_empty():
 		_show_result(result_text)
 	else:
@@ -759,6 +763,61 @@ func _refresh_all():
 	_render_news()
 	_render_sidebars()
 	_render_log()
+
+# ── 스탯 변화 플로팅 숫자 애니메이션 ──────────────────────────────
+const _STAT_KR = {
+	"health": "건강", "mental": "정신", "stress": "스트레스",
+	"intelligence": "지력", "social_skill": "사회성",
+	"investment_skill": "투자감각", "luck": "운",
+	"appearance": "외모", "reputation": "평판",
+	"money": "₩", "addiction_tendency": "중독도",
+}
+
+func _show_effects_float(effects: Dictionary):
+	var idx = 0
+	for key in effects:
+		var val = int(effects[key])
+		if val == 0 or key not in _STAT_KR:
+			continue
+		var label_kr = _STAT_KR[key]
+		var sign = "+" if val > 0 else ""
+		var text: String
+		if key == "money":
+			text = "%s%s" % [sign, GameState.format_money(float(val))]
+		else:
+			text = "%s%d %s" % [sign, val, label_kr]
+		# 색상: 좋은 변화=초록, 나쁜 변화=빨강
+		var is_good: bool
+		if key == "stress" or key == "addiction_tendency":
+			is_good = val < 0
+		elif key == "money":
+			is_good = val > 0
+		else:
+			is_good = val > 0
+		var color = Color("#34d399") if is_good else Color("#ff6b6b")
+		if key == "money":
+			color = Color("#f0b429")
+		_spawn_float(text, color, idx)
+		idx += 1
+
+func _spawn_float(text: String, color: Color, index: int):
+	var lbl = Label.new()
+	lbl.text = text
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", color)
+	# 화면 중앙 우측 — 이벤트/행동 패널 위
+	var vp = get_viewport_rect().size
+	var base_x = vp.x * 0.58 + randf_range(-30.0, 30.0)
+	var base_y = vp.y * 0.48 - index * 26.0
+	lbl.position = Vector2(base_x, base_y)
+	lbl.z_index = 200
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(lbl)
+	# 위로 떠오르며 페이드아웃
+	var tw = create_tween()
+	tw.tween_property(lbl, "position:y", base_y - 55.0, 1.3).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.85).set_delay(0.45)
+	tw.tween_callback(lbl.queue_free)
 
 func _bar_str(value: int, max_val: int = 100, bars: int = 8) -> String:
 	var filled = int(round(float(value) / float(max_val) * bars))
@@ -1122,6 +1181,7 @@ func _on_study_chosen(effects):
 	}
 	GameState.apply_effects(effects)
 	AudioManager.play("stat_up")
+	_show_effects_float(effects)
 	_close_modal()
 	var parts: Array = []
 	var toast_main = ""
@@ -1289,6 +1349,8 @@ func _on_rel_action(rel: Dictionary, stat_effects: Dictionary, rel_delta: Dictio
 			break
 
 	AudioManager.play("stat_up")
+	if not stat_effects.is_empty():
+		_show_effects_float(stat_effects)
 	_close_modal()
 	_show_toast("🤝 %s와 시간을 보냈다" % rel_name, Color("#d8b4fe"))
 	GameState.stats_changed.emit()
@@ -1348,6 +1410,7 @@ func _ap_side_job():
 	turn_action_log.append("✓ 💰 알바 추가 → +%s  건강 %d→%d" % [
 		GameState.format_money(income), health_before, GameState.health])
 	AudioManager.play("money_gain")
+	_show_effects_float({"money": int(income), "health": -5, "stress": 6})
 	_show_toast("💰 알바 수입 +%s  (건강 %d→%d)" % [
 		GameState.format_money(income), health_before, GameState.health], Color("#00c896"))
 	_render_ap_actions()
