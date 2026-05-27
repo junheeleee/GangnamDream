@@ -1796,6 +1796,29 @@ func _close_modal():
 		_render_ap_actions()
 
 func _show_ending(ending_id):
+	# ── 엔딩별 배경 전환 ──────────────────────────────────────
+	var ending_bg_map = {
+		"gangnam_dream":     BG_PENTHOUSE,
+		"stable_success":    BG_PENTHOUSE,
+		"lonely_rich":       BG_PENTHOUSE,
+		"investment_master": BG_PENTHOUSE,
+		"startup_exit":      BG_PENTHOUSE,
+		"burnout":           BG_BURNOUT,
+		"mental_break":      BG_BURNOUT,
+		"bankruptcy":        BG_DEFAULT,
+		"crypto_ghost":      BG_DEFAULT,
+		"political_fix":     BG_GANGNAM_NIGHT,
+		"reputation_legend": BG_GANGNAM_NIGHT,
+		"healthy_retirement":BG_ROOFTOP_DAY,
+		"ordinary_life":     BG_DEFAULT,
+	}
+	var bg_path = ending_bg_map.get(ending_id, BG_DEFAULT)
+	if event_bg:
+		var tex = load(bg_path)
+		if tex:
+			event_bg.texture = tex
+			event_bg.modulate = Color(1, 1, 1, 0.35)  # 엔딩은 살짝 더 진하게
+
 	_open_modal("🏁 엔딩")
 	var ending = EndingSystem.get_ending(ending_id)
 	var grade = ending.get("grade", "?")

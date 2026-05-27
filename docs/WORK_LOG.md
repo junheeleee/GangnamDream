@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (엔딩 배경 전환 + CLAUDE.md 정리)
+
+### 엔딩 화면 배경 전환 (`scenes/MainGame.gd`)
+- `_show_ending()` 최상단에 엔딩 ID → 배경 매핑 테이블 추가 (13개 엔딩 전부 커버)
+- S급/성공 엔딩: `BG_PENTHOUSE` (penthouse_view.png)
+- 정치/명성: `BG_GANGNAM_NIGHT`, 건강은퇴: `BG_ROOFTOP_DAY`
+- 번아웃/정신붕괴: `BG_BURNOUT` (burnout_hospital_room.png)
+- 배경 불투명도 0.25 → 0.35 (엔딩 화면에서 더 선명하게)
+- BG_PENTHOUSE, BG_BURNOUT 상수가 처음으로 실제 사용됨
+
+### CLAUDE.md 미구현 목록 정리
+- 기존 TODO 6개 → 전부 ✅ 완료 표시
+- 남은 항목: QA 플레이스루, Export 패키징, 스토어 소재 (로컬 Godot 필요)
+
 ## 2026-05-27 (이미지 에셋 연동 완료)
 
 ### Codex 생성 이미지 9종 + 캐릭터 포트레이트 연동

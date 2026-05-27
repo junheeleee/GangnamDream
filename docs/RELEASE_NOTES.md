@@ -14,6 +14,14 @@
 #### 이벤트-배경 자동 매핑
 - `_get_bg_for_event()` 태그/카테고리 기반 11케이스 매핑 (기존 3 → 11)
 
+#### 엔딩 화면 배경 전환
+- 엔딩 종류에 따라 배경 자동 전환 (13개 엔딩 ID 전부 매핑)
+  - S급 성공 (gangnam_dream / stable_success / lonely_rich / investment_master / startup_exit) → 펜트하우스
+  - 정치/명성 (political_fix / reputation_legend) → 강남 야경
+  - 건강 은퇴 (healthy_retirement) → 서울 옥상
+  - 번아웃/정신붕괴 (burnout / mental_break) → 병원 병실
+  - 파산/코인망령/평범 → 서울 야경 (기본)
+
 ### Added (2026-05-27) — 특수 엔딩 트리거 구현
 
 #### 스타트업 엑싯 경로
