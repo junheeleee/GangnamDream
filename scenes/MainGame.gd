@@ -635,6 +635,7 @@ func _on_next_month():
 	job_system.process_monthly_job()
 	relationship_system.process_monthly_relationships()
 	inventory_system.process_monthly_items()
+	BGMPlayer.update_context()  # 게임 상태에 따라 BGM 트랙 자동 전환
 
 	# 초반 난이도 완화: 튜토리얼 3턴 동안 정착 지원금 30만원
 	var subsidy_applied = GameState.turn <= 3
@@ -1810,6 +1811,7 @@ func _close_modal():
 		_render_ap_actions()
 
 func _show_ending(ending_id):
+	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
 	# ── 엔딩별 배경 전환 ──────────────────────────────────────
 	var ending_bg_map = {
 		"gangnam_dream":     BG_PENTHOUSE,
