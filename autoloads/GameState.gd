@@ -17,7 +17,7 @@ var is_game_over = false
 var current_trait = "흙수저 생존본능"
 
 const HOUSING_DATA = {
-	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 800_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
+	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 650_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
 	"oneroom":   {"name": "원룸",       "emoji": "🏠", "expense": 1_100_000.0, "deposit": 5_000_000.0,   "next": "apartment", "req_cash": 7_000_000.0},
 	"apartment": {"name": "아파트",     "emoji": "🏢", "expense": 1_600_000.0, "deposit": 30_000_000.0,  "next": "gangnam",   "req_cash": 35_000_000.0},
 	"gangnam":   {"name": "강남 아파트", "emoji": "🏙", "expense": 2_800_000.0, "deposit": 100_000_000.0, "next": "",          "req_cash": 120_000_000.0},
@@ -27,7 +27,7 @@ var housing: String = "gosiwon"
 
 var money = 1_000_000.0
 var monthly_income = 0.0
-var fixed_expense = 800_000.0
+var fixed_expense = 650_000.0
 var health = 70
 var mental = 70
 var intelligence = 50
@@ -86,7 +86,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	housing = "gosiwon"
 	money = 1_000_000.0
 	monthly_income = 0.0
-	fixed_expense = 800_000.0
+	fixed_expense = 650_000.0
 	health = 70
 	mental = 70
 	intelligence = 50

@@ -78,3 +78,39 @@ Observed Result: 분할 매도 가능, 보유 평가액·평단·수익률 표�
 Next Adjustment: 지정가/시장가 개념 추가 고려 (Content Alpha 단계).
 ```
 
+### 2026-05-27 — Balance Pass (초반 생존성 개선)
+
+```text
+Date: 2026-05-27
+Commit: balance-pass
+Changed: 고시원 월 생활비 800,000원 → 650,000원
+Reason: 시작 자금 1,000,000원 기준, 무직 1개월 후 잔액이 200,000원만 남아
+         Turn 2에 즉시 현금위기(-30만)가 발생. CLAUDE.md 설계 기준(650K)과의 불일치 수정.
+Observed Result: 1개월 버퍼 확보. 신규 플레이어가 직업 탐색에 여유 1턴 추가.
+Next Adjustment: 원룸 이사 요건(req_cash 7M) 유지 — 고시원 절약 효과로 더 빠른 상위 주거 진입 가능해짐.
+```
+
+```text
+Date: 2026-05-27
+Commit: balance-pass
+Changed: JobSystem.process_monthly_job() 무직 스트레스 +2 제거
+Reason: apply_monthly_pressure()에서 이미 무직 패널티 +6/월(기본+3, 무직+3)을 적용하는데,
+         process_monthly_job()에서 추가로 +2를 더해 총 +8이 되는 이중계산 구조.
+         T1 콜센터(직업 보유, +8)와 무직(+8)이 스트레스 동일한 이상한 결과 발생.
+Observed Result: 무직 스트레스 +6/월로 정상화. T1 편의점(+5) < 무직(+6) < T1 배달(+6) < 중소기업(+7)
+Next Adjustment: 배달 라이더 = 무직 스트레스 동일 문제 남아있음 — 수입 차이가 유일한 인센티브로 설계상 허용.
+```
+
+```text
+Date: 2026-05-27
+Commit: balance-pass
+Changed: T3 직업 스트레스 곡선 조정
+  - 공공기관 계약직: stress_per_month 2 → 3
+  - 부동산 중개보조:  stress_per_month 3 → 4
+Reason: T3(공공기관 +2, 부동산 +3)이 T1(편의점 +2, 배달 +3)과 동일한 스트레스를 가지면서
+         월급은 3~4백만원 더 높아 명백히 우월 선택이 됨.
+         T3 곡선을 3/4/5/6으로 조정해 스트레스 ≥ T2(6/7/8/9) 미만 유지하면서 T1과 구분.
+Observed Result: T1~T4 스트레스 곡선: 2/3/4/5 → 6/7/8/9 → 3/4/5/6 → 7/8/10 (T3 이상)
+Next Adjustment: T4 외국계 세일즈(+10/월) — T4 최고 직업 치고 극단적 수치. 관찰 후 조정 여부 결정.
+```
+

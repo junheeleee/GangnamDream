@@ -157,12 +157,12 @@
     "id": "job_09",
     "name": "공공기관 계약직",
     "category": "education",
-    "description": "민간보다 안정적이지만 정규직 전환 경쟁은 치열하다. 스트레스는 낮고, 지식은 꾸준히 쌓인다.",
+    "description": "민간보다 안정적이지만 정규직 전환 경쟁은 치열하다. 스트레스는 상대적으로 낮고, 지식은 꾸준히 쌓인다.",
     "base_salary": 4560000,
     "requirements": {
       "min_intelligence": 57
     },
-    "stress_per_month": 2,
+    "stress_per_month": 3,
     "stat_gains": {
       "intelligence": 2,
       "social_skill": 0,
@@ -182,7 +182,7 @@
     "requirements": {
       "min_intelligence": 61
     },
-    "stress_per_month": 3,
+    "stress_per_month": 4,
     "stat_gains": {
       "intelligence": 0,
       "social_skill": 1,
