@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (첫 30분 몰입도 개선)
+
+### 버그 수정 (Critical)
+- `story_arrival_elite`, `story_arrival_rich` → `follow_up_event: "story_pressure"` 누락 수정.
+  명문대/금수저 배경에서 구직 해금(`story_job_unlocked`)이 永久 잠겼던 문제.
+- `story_first_workday`, `story_first_paycheck_feel`, `story_first_savings_milestone`, `story_six_months`, `story_one_year` → `seen` 플래그 누락 수정.
+  매 턴 무한 반복 트리거 방지 (`flags: ["...seen"]` 형식으로 통일).
+- story 이벤트가 random pool에 노출되지 않도록 `conditions: {min_turn: 9999}` 추가.
+
+### 신규 콘텐츠
+- `first_job_rejection` (life_events.json): 구직 해금 후 무직 상태 단발 이벤트. 첫 취업 전 긴장감 서사 추가.
+- `convenience_midnight_snack` (life_events.json): 자정 편의점 도시락 딜레마. 초반 6개월 이내 한정.
+- `small_unexpected_win` (life_events.json): 5만원 발견 행운 이벤트. luck≥40, 초반 한정.
+
+### 튜토리얼/UX 개선
+- `MainGame.gd`: `tutorial_step >= 3` 조건 추가 — Turn 1 액션 단계에서 "서울 첫 달!" 힌트 표시.
+- `MainGame.gd`: 첫 취업 시 🎉 특별 토스트 피드백 (housing_up SFX + 초록 강조색). 이직 시 기존 노란 토스트 유지.
+
+### 라이벌 시스템
+- `RivalSystem.gd`: Turn 2에 라이벌 첫 소개 메시지 자동 표시. 이름·나이·출발선 공개, 경쟁 의식 조기 형성.
+
 ## 2026-05-16 (Meta-Progression First Pass)
 
 ### 기능 구현

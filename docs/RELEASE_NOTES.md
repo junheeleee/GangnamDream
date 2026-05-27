@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Added (2026-05-27)
+- 초반 이벤트 3종: `first_job_rejection` (구직 후 첫 탈락), `convenience_midnight_snack` (자정 편의점 딜레마), `small_unexpected_win` (작은 행운).
+- Turn 2 라이벌 첫 소개 메시지 자동 표시 (`RivalSystem`).
+- Turn 1 액션 단계 "서울 첫 달" 가이드 힌트.
+- 첫 취업 시 특별 토스트 피드백 (🎉 초록색, housing_up SFX).
+
+### Fixed (2026-05-27)
+- **[Critical]** `story_arrival_elite`·`story_arrival_rich` → `follow_up_event: "story_pressure"` 누락. 명문대/금수저 배경에서 구직 영구 잠금 현상.
+- **[Critical]** `story_first_workday`·`story_first_paycheck_feel`·`story_first_savings_milestone`·`story_six_months`·`story_one_year` → `seen` 플래그 누락으로 매 턴 무한 트리거.
+- story 이벤트가 random pool에 등장하던 문제 (`conditions.min_turn: 9999`로 차단).
+
 ### Added
 - 메타 진행 트레이트 시스템 — `traits.json` 5종 정의, 자산/엔딩 기반 언락 조건, 런 시작 시 보너스 적용.
   - 기본: 흙수저 생존본능.
