@@ -6073,5 +6073,500 @@
         "result_text": "거절했다. 박 과장이 '그래, 네 뜻대로 해'라고 했다. 뭔가 서운해 보이기도 했고, 존중하는 것 같기도 했다."
       }
     ]
+  },
+
+  {
+    "id": "startup_idea_spark",
+    "title": "창업 아이디어",
+    "description": "퇴근길 지하철 안, 머릿속에 아이디어가 하나 떠올랐다. '이 문제, 앱으로 해결하면 되지 않을까?' 주변을 둘러보니 같은 불편함을 겪는 사람이 꽤 많아 보였다. 뇌가 갑자기 빠르게 돌아가기 시작했다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"min_route_unorthodox": 5, "has_job": true, "min_turn": 6, "no_flag": "startup_idea"},
+    "tags": ["work", "unorthodox", "risk"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "메모하고 조사를 시작한다. 이거 될 것 같다.",
+        "effects": {"intelligence": 2, "stress": 3, "mental": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["startup_idea"],
+        "follow_up_event": "",
+        "result_text": "퇴근 후 2시간을 투자해서 시장 조사를 했다. 경쟁자도 있고, 없는 틈새도 보였다. 이 아이디어, 써볼 수 있겠다는 생각이 들었다."
+      },
+      {
+        "text": "현실적이지 않다. 내일도 출근해야 한다.",
+        "effects": {"mental": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "접었다. 현실이 바쁘니까. 그 아이디어가 머릿속에서 조용히 사라졌다."
+      }
+    ]
+  },
+
+  {
+    "id": "startup_co_founder",
+    "title": "공동창업 제안",
+    "description": "아이디어를 술 자리에서 선배에게 얘기했더니, 선배가 진지하게 받아들였다. '나도 퇴직 생각하고 있었는데, 같이 해볼래?' 예상 외의 반응이다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {"flag": "startup_idea", "has_job": true, "min_turn": 10, "no_flag": "startup_team"},
+    "tags": ["work", "unorthodox", "social", "relationship"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "함께 하자. 혼자보다 낫다.",
+        "effects": {"stress": 5, "reputation": 3},
+        "relationship_effects": [{"id": "startup_cofounder", "name": "박진호 선배", "type": "business", "affection": 50, "trust": 45}],
+        "investment_effects": [],
+        "flags": ["startup_team"],
+        "follow_up_event": "",
+        "result_text": "악수를 했다. 선배는 기획을 맡기로 했고, 나는 실행을 맡기로 했다. 회의실을 하나 잡아서 첫 미팅을 했다. 뭔가 시작되는 느낌이다."
+      },
+      {
+        "text": "혼자 하겠다. 내 아이디어니까.",
+        "effects": {"intelligence": 2, "stress": 8, "mental": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["startup_going_solo"],
+        "follow_up_event": "",
+        "result_text": "고맙지만 혼자 해보겠다고 했다. 선배는 이해했다. 이제 혼자 모든 걸 해야 한다는 압박이 생겼지만, 내 그림대로 그릴 수 있다는 자유도 생겼다."
+      }
+    ]
+  },
+
+  {
+    "id": "startup_launch_day",
+    "title": "사업자 등록",
+    "description": "드디어 사업자 등록을 했다. 등록증 한 장인데, 뭔가 달라진 느낌이다. 이제 현실이다. 직장과 창업을 병행할 것인가, 모든 걸 걸 것인가.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {"flag": "startup_idea", "min_turn": 14, "no_flag": "startup_launched"},
+    "tags": ["work", "unorthodox", "risk", "career"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "직장을 다니면서 병행한다. 안정을 유지하면서.",
+        "effects": {"stress": 15, "intelligence": 3, "mental": -3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["startup_launched", "startup_side"],
+        "follow_up_event": "",
+        "result_text": "낮에는 직장, 밤에는 창업. 잠이 줄었다. 체력이 버텨줄지 모르겠지만, 당장 수입이 끊기는 리스크는 없다. 이 선택이 현명한 건지 겁쟁이인 건지 아직 모른다."
+      },
+      {
+        "text": "올인한다. 이게 맞다면 지금 해야 한다.",
+        "effects": {"stress": -5, "mental": 10, "luck": 2, "intelligence": 2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["startup_launched", "startup_allin"],
+        "follow_up_event": "",
+        "result_text": "사직서를 냈다. 상사가 말렸지만 마음이 이미 정해져 있었다. 통장 잔고를 확인했다. 이 돈으로 얼마나 버틸 수 있을지 계산했다. 무서우면서도 이상하게 홀가분했다."
+      }
+    ]
+  },
+
+  {
+    "id": "startup_pivot_challenge",
+    "title": "창업 6개월 위기",
+    "description": "사업자 등록 후 6개월. 매출이 기대보다 훨씬 적다. 지쳐가고 있다. 방향을 바꿔야 하는 걸까, 아니면 믿고 버텨야 하는 걸까.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {"flag": "startup_launched", "min_turn": 18, "no_flag": "startup_pivoted"},
+    "tags": ["work", "unorthodox", "risk", "stress"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "피벗한다. 시장이 원하는 걸 만들어야 한다.",
+        "effects": {"stress": 10, "intelligence": 4, "mental": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["startup_pivoted", "startup_growing"],
+        "follow_up_event": "",
+        "result_text": "전략을 바꿨다. 처음 아이디어에 집착을 버리는 게 생각보다 아팠다. 하지만 시장 반응이 달라지기 시작했다. 작은 신호였지만 확실히 다른 뭔가가 생겼다."
+      },
+      {
+        "text": "원래 방향을 믿는다. 조금만 더.",
+        "effects": {"stress": 5, "luck": 1, "mental": 2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["startup_pivoted"],
+        "follow_up_event": "",
+        "result_text": "버티기로 했다. 이 결정이 고집인지 신념인지는 결과가 말해줄 것이다. 일단 오늘도 앞으로 나아간다."
+      }
+    ]
+  },
+
+  {
+    "id": "startup_acquisition_offer",
+    "title": "인수 제안",
+    "description": "대기업 M&A 담당자에게서 연락이 왔다. 우리 서비스가 관심을 받고 있다는 것, 조건을 논의하고 싶다는 것. 창업 당시에는 꿈도 못 꾸던 일이 현실이 됐다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.5,
+    "hidden": false,
+    "conditions": {"flag": "startup_growing", "min_reputation": 25, "min_turn": 24},
+    "tags": ["work", "unorthodox", "finance", "career"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "조건을 협상하고 매각한다. 이것도 성공이다.",
+        "effects": {"money": 50000000, "reputation": 20, "stress": -20, "mental": 15},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["startup_exit"],
+        "follow_up_event": "",
+        "result_text": "서명했다. 계좌에 숫자가 찍혔다. 팀원들과 마지막 저녁을 먹었다. 끝이기도 하고, 새로운 시작이기도 했다. 이 경험이 이 도시에서 나를 정의하는 이야기가 됐다."
+      },
+      {
+        "text": "독립을 유지한다. 아직 더 크고 싶다.",
+        "effects": {"monthly_income": 1500000, "reputation": 10, "stress": 8, "mental": 8},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "거절했다. 상대방이 놀랐다. '다음에 연락 드려도 될까요?' 됩니다, 하지만 가격은 지금보다 높을 거예요. 그 자신감이 어디서 나오는지 모르겠지만 나쁘지 않았다."
+      }
+    ]
+  },
+
+  {
+    "id": "creator_first_upload",
+    "title": "첫 영상 업로드",
+    "description": "퇴근 후 핸드폰으로 영상을 하나 찍어서 유튜브에 올렸다. 조회수 37. 친구가 눌러줬을 수도 있다. 근데 이상하게 기분이 좋았다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {"min_route_unorthodox": 4, "min_turn": 3, "no_flag": "creator_started"},
+    "tags": ["unorthodox", "social", "daily"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "꾸준히 올려보기로 한다. 일단 해보자.",
+        "effects": {"mental": 3, "stress": 2, "luck": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["creator_started"],
+        "follow_up_event": "",
+        "result_text": "일주일에 두 개씩 올리기로 했다. 조회수는 여전히 낮지만, 뭔가를 만드는 행위 자체가 작게 즐거웠다."
+      },
+      {
+        "text": "그냥 한번 해봤다. 조회수가 없어서 접는다.",
+        "effects": {"mental": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "일주일 만에 접었다. 관심 받는 게 이렇게 어렵나. 조용히 채널을 삭제했다."
+      }
+    ]
+  },
+
+  {
+    "id": "creator_first_viral",
+    "title": "바이럴의 순간",
+    "description": "올린 영상 중 하나가 갑자기 조회수가 폭발했다. 트위터에 공유됐고, 커뮤니티에 퍼졌다. 댓글이 달리고 구독자가 늘고 있다. 심장이 빠르게 뛴다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {"flag": "creator_started", "min_turn": 7, "no_flag": "creator_viral"},
+    "tags": ["unorthodox", "social", "luck"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "흐름을 타서 관련 영상을 연속으로 업로드한다.",
+        "effects": {"reputation": 12, "stress": 8, "mental": 5},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["creator_viral"],
+        "follow_up_event": "",
+        "result_text": "3일 동안 세 편을 더 올렸다. 구독자가 5천명을 넘었다. 이게 뭔지 모르겠지만, 계속하고 싶었다."
+      },
+      {
+        "text": "당황해서 그냥 지켜본다.",
+        "effects": {"reputation": 8, "luck": 2, "mental": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["creator_viral"],
+        "follow_up_event": "",
+        "result_text": "뭘 해야 할지 몰라서 그냥 댓글 구경만 했다. 구독자가 3천명을 넘었다. 이 사람들이 진짜 나를 보고 있다는 게 이상하게 느껴졌다."
+      }
+    ]
+  },
+
+  {
+    "id": "creator_monetization_unlocked",
+    "title": "수익화 승인",
+    "description": "구독자 1만명을 넘어 유튜브 수익화가 승인됐다. 첫 달 광고 수익이 입금됐다. 영상을 만들어서 돈이 들어온다는 게 아직도 실감나지 않는다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {"flag": "creator_viral", "min_turn": 11, "no_flag": "creator_monetized"},
+    "tags": ["unorthodox", "finance", "social"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "수익금을 장비 업그레이드에 재투자한다.",
+        "effects": {"money": -300000, "reputation": 5, "intelligence": 2, "mental": 4},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["creator_monetized"],
+        "follow_up_event": "",
+        "result_text": "카메라와 마이크를 업그레이드했다. 영상 품질이 달라졌다. 구독자들이 댓글로 알아챘다. 투자가 콘텐츠로 돌아오는 구조가 생겼다."
+      },
+      {
+        "text": "일단 적립해둔다. 아직 불안하다.",
+        "effects": {"money": 800000, "reputation": 3, "mental": 2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["creator_monetized"],
+        "follow_up_event": "",
+        "result_text": "통장에 넣어뒀다. 지속될지 아닐지 모르니까 아껴두는 게 맞다. 이 돈이 생긴 게 기뻤다. 내가 만든 것으로 번 돈이니까."
+      }
+    ]
+  },
+
+  {
+    "id": "creator_brand_deal",
+    "title": "브랜드 협찬 제안",
+    "description": "스포츠 의류 브랜드에서 협찬 제안이 들어왔다. 영상에 제품을 자연스럽게 녹여달라는 것이다. 처음 받아보는 협업 제안이다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {"flag": "creator_monetized", "min_reputation": 20, "no_flag": "creator_brand_deal_done"},
+    "tags": ["unorthodox", "social", "finance"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "수락한다. 좋은 기회다.",
+        "effects": {"money": 2000000, "reputation": 15, "stress": 5},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["creator_brand_deal_done"],
+        "follow_up_event": "",
+        "result_text": "협찬 영상을 올렸다. 구독자들 반응은 나쁘지 않았다. 계좌에 200만원이 들어왔다. 이게 진짜 크리에이터가 됐다는 실감이었다."
+      },
+      {
+        "text": "가치관과 맞지 않아 거절한다.",
+        "effects": {"mental": 5, "reputation": 3, "stress": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "거절했다. 구독자들이 고맙다고 했다. 돈보다 신뢰를 택했다. 이 선택이 장기적으로 맞을 것 같다는 느낌이 들었다."
+      }
+    ]
+  },
+
+  {
+    "id": "creator_full_time",
+    "title": "크리에이터 풀타임",
+    "description": "팔로워 100만. 여러 브랜드에서 연락이 온다. 이제 크리에이터가 본업이 될 수 있는 임계점에 도달했다. 직장보다 이쪽이 더 버는 달도 생겼다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {"flag": "creator_brand_deal_done", "min_turn": 16, "no_flag": "creator_success_unlocked"},
+    "tags": ["unorthodox", "finance", "work", "career"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "크리에이터를 본업으로 전환한다.",
+        "effects": {"monthly_income": 3000000, "reputation": 20, "stress": -10, "mental": 15},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["creator_success_unlocked"],
+        "follow_up_event": "",
+        "result_text": "이제 직함이 '크리에이터'다. 이상하게 들리지만 사실이다. 매달 광고비와 협찬비가 들어온다. 서울에서 카메라 하나로 살아남은 사람이 됐다."
+      },
+      {
+        "text": "부업으로 유지하며 안정을 도모한다.",
+        "effects": {"monthly_income": 1000000, "mental": 5, "stress": -3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "직장을 유지하면서 크리에이터 활동도 계속하기로 했다. 두 가지를 다 챙기는 게 쉽진 않지만, 어느 한 쪽이 무너져도 버틸 수 있는 구조가 생겼다."
+      }
+    ]
+  },
+
+  {
+    "id": "job_rejection_blues",
+    "title": "또 서류 탈락",
+    "description": "세 번째 서류 탈락이다. 메일 제목을 보자마자 내용을 알 수 있었다. '지원해주셔서 감사합니다만...' 노트북 화면을 닫았다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {"no_job": true, "min_turn": 4, "no_flag": "story_first_workday_seen"},
+    "tags": ["jobs", "stress", "daily"],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "자기계발 시간으로 활용한다. 어디서 떨어지는지 분석해보자.",
+        "effects": {"intelligence": 2, "mental": -3, "stress": 5},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "탈락 원인을 분석했다. 자소서 키워드 문제인 것 같다. 다시 써야 한다. 지치지만 포기하면 안 된다."
+      },
+      {
+        "text": "한강 가서 바람을 쐰다. 오늘은 쉬자.",
+        "effects": {"mental": 8, "stress": -5, "luck": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한강에 앉아서 물을 봤다. 취업이 안 되는 건 내 문제만은 아니라는 것, 그리고 내일 다시 하면 된다는 것. 조금 나아진 기분으로 집에 돌아왔다."
+      }
+    ]
+  },
+
+  {
+    "id": "job_fair_networking",
+    "title": "취업 박람회",
+    "description": "COEX에서 열린 취업 박람회에 갔다. 대기업 부스마다 긴 줄이 서 있었다. 그러다 한 스타트업 부스에서 현업 개발자와 짧게 대화를 나눴다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {"no_job": true, "min_social_skill": 28, "min_turn": 3},
+    "tags": ["jobs", "social", "spec"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "적극적으로 대화를 이어간다. 연락처를 교환한다.",
+        "effects": {"social_skill": 2, "reputation": 3, "intelligence": 1},
+        "relationship_effects": [{"id": "job_fair_contact", "name": "현업 개발자 이씨", "type": "business", "affection": 30, "trust": 25}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "명함을 받고 링크드인을 맞팔했다. 이 인연이 어디로 이어질지는 모르지만, 실제 현업 이야기를 들은 것만으로도 오늘이 의미 있는 하루가 됐다."
+      },
+      {
+        "text": "명함만 받고 조용히 나온다.",
+        "effects": {"intelligence": 1, "luck": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "긴장해서 제대로 대화를 못 했다. 명함만 지갑에 넣고 나왔다. 다음엔 더 잘할 수 있을 것 같다."
+      }
+    ]
+  },
+
+  {
+    "id": "resume_rewrite_marathon",
+    "title": "자소서 밤샘 수정",
+    "description": "커피를 세 잔 마시며 자소서를 전면 수정했다. '성장 과정'부터 '지원 동기'까지 모두 다시 썼다. 새벽 3시, 완성된 문서를 보며 이게 맞는지 모르겠다는 생각이 들었다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"no_job": true, "min_intelligence": 38, "no_flag": "story_first_workday_seen"},
+    "tags": ["jobs", "spec", "study"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "전면 수정. 솔직하게, 내 말로 쓴다.",
+        "effects": {"intelligence": 3, "stress": 8, "mental": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "공식적인 표현 대신 내 언어로 썼다. 떨어질 수도 있지만, 이 자소서는 진짜 나다. 제출했다."
+      },
+      {
+        "text": "기존 틀에 살만 더 붙인다. 안전하게.",
+        "effects": {"intelligence": 1, "stress": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "검증된 구조로 다듬었다. 무난하지만 특색이 없다. 이게 통할지 모르겠지만, 일단 제출했다."
+      }
+    ]
+  },
+
+  {
+    "id": "mock_interview_practice",
+    "title": "모의 면접",
+    "description": "취업 스터디 친구가 모의 면접을 같이 해주겠다고 했다. 실제 면접관처럼 날카로운 질문을 던지겠다는 것이다. 준비가 됐는지 모르겠지만 해봐야 한다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"no_job": true, "min_turn": 3},
+    "tags": ["jobs", "spec", "social"],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "실전처럼 진지하게 임한다.",
+        "effects": {"intelligence": 2, "social_skill": 2, "stress": 4},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'왜 이 직무여야 하냐'는 질문에 버벅였다. 친구가 피드백을 줬다. 쑥스러웠지만 실제 면접에서 그러는 것보다 낫다. 다음엔 더 잘할 수 있을 것 같다."
+      },
+      {
+        "text": "가볍게 해본다. 부담 없이.",
+        "effects": {"social_skill": 1, "mental": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "농담 섞인 분위기로 했다. 긴장이 풀렸다. 면접이 그렇게 무서운 게 아닐 수도 있다는 생각이 들었다."
+      }
+    ]
+  },
+
+  {
+    "id": "job_consultant_offer",
+    "title": "취업 컨설팅 제안",
+    "description": "취업 컨설팅 업체에서 문자가 왔다. '당신의 이력서를 분석해드립니다. 상위 1% 취업 컨설턴트.' 사기 같기도 하고, 진짜 도움이 될 것 같기도 하다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {"no_job": true, "min_turn": 5, "min_stress": 30},
+    "tags": ["jobs", "daily", "finance"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "컨설팅을 받는다. 80만원이지만 투자라고 생각하자.",
+        "effects": {"money": -800000, "intelligence": 4, "social_skill": 3, "stress": -5},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "3회 세션을 받았다. 면접 답변 구조가 확실히 바뀌었다. 80만원짜리 투자가 맞는지는 취업이 돼봐야 알겠지만, 자신감은 올라갔다."
+      },
+      {
+        "text": "돈이 없다. 혼자 한다.",
+        "effects": {"intelligence": 2, "stress": 3, "luck": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "유튜브와 취업 카페로 혼자 공부했다. 비용은 안 들었지만 시간이 많이 들었다. 이것도 결국엔 자기만의 방식이다."
+      }
+    ]
   }
 ]
