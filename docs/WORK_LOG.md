@@ -1,5 +1,32 @@
 # Gangnam Dream Work Log
 
+## 2026-05-28 (칭호 시스템 + 장기 프로젝트 구조 정비)
+
+### 칭호(Title) 시스템 완성
+- `MetaProgression.ALL_TITLES` 29개 정의 (주거/직업/투자/성향/관계/생활/자산/메타)
+- `check_and_unlock_titles()` / `_check_title_condition()` — 매달 결산 후 자동 체크
+- `GameState.get_current_title()` — 실시간 동적 칭호 계산 (16가지 분기)
+- 초상화 패널 하단 `「현재 칭호」` 표시 (`title_label`)
+- `_check_title_unlocks()` — 새 칭호 해금 시 희귀도 색상 토스트
+- 🏆 도감 버튼 (하단 바) + `_open_title_collection()` 모달
+- `_ap_free_time()` → `free_time_count` 증가 (자유 영혼 칭호 조건)
+
+### 루트 시스템 연동
+- 행동 버튼 람다 래퍼로 `add_route_point()` 자동 적립
+- `month_focus` — 이번 달 첫 행동 기록, 이벤트 조건으로 활용
+- `housing_months` — 거주지별 체류 기간 추적 (칭호 조건)
+
+### 프로젝트 문서 구조 정비 (장기 개발 대비)
+- `CLAUDE.md` 재작성: 최상단에 🔴 현재 상태 블록 추가 (매 세션 종료 시 업데이트)
+- `docs/GAME_DESIGN.md` 신규 생성: 게임 정체성, 코어 루프, 시스템 존재 이유,
+  기능 추가 기준, 절대 안 하는 것 등 설계 바이블
+- `docs/ROADMAP.md` 재작성: 실제 완료 상태 반영, Phase 1-3 체계화, 구현된 시스템 표
+
+### 다음 세션 작업
+1-C: 거주지별 전용 이벤트 (고시원 소음/무기력, 원룸 첫 자립, 아파트 층간소음, 강남 소비 유혹)
+
+---
+
 ## 2026-05-28 (Tester Feedback + RPG/Roguelike Pass)
 
 ### 버그 수정
