@@ -157,8 +157,9 @@ func _build_top_bar(parent):
 	top_labels["ap"] = ap_lbl
 	row.add_child(ap_lbl)
 
-	var money_lbl = _label("", 15, "#00c896")
+	var money_lbl = _label("", 13, "#00c896")
 	money_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	money_lbl.clip_text = false
 	top_labels["money"] = money_lbl
 	row.add_child(money_lbl)
 
@@ -864,9 +865,11 @@ func _render_event():
 	# 이벤트에 맞는 배경 즉시 전환
 	_update_event_bg()
 	var choices: Array = current_event.get("choices", [])
+	var btn_colors = ["#1d4ed8", "#7c3aed", "#0f766e"]
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
-		var button = _button("%d. %s" % [i + 1, _fmt(choice.get("text", "선택"))], "#5b9cf6")
+		var col = btn_colors[i % btn_colors.size()]
+		var button = _button("  %d.  %s" % [i + 1, _fmt(choice.get("text", "선택"))], col)
 		button.pressed.connect(Callable(self, "_choose").bind(i))
 		choice_box.add_child(button)
 
@@ -874,7 +877,13 @@ func _refresh_all():
 	if not is_inside_tree():
 		return
 	top_labels["date"].text = GameState.get_date_string()
-	top_labels["money"].text = "💰 %s" % GameState.format_money(GameState.money)
+	var total_assets = GameState.get_total_asset_value()
+	var cash_str = GameState.format_money(GameState.money)
+	var asset_str = GameState.format_money(total_assets)
+	if abs(total_assets - GameState.money) > 10000:
+		top_labels["money"].text = "💰 %s  │  📊 %s" % [cash_str, asset_str]
+	else:
+		top_labels["money"].text = "💰 %s" % cash_str
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
 	top_labels["ap"].text = "⚡".repeat(ap) + "○".repeat(max(0, GameState.max_action_points - ap))
@@ -926,21 +935,23 @@ func _refresh_all():
 
 func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int, danger_thresh: int):
 	var label = stat_labels[key]
-	label.text = str(value)
+	var filled = clamp(int(value / 10.0), 0, 10)
+	var bar = "█".repeat(filled) + "░".repeat(10 - filled)
+	label.text = "%s %d" % [bar, value]
+	var is_danger: bool
+	var is_warn: bool
 	if low_is_bad:
-		if value <= danger_thresh:
-			label.add_theme_color_override("font_color", Color("#ff4444"))
-		elif value <= warn_thresh:
-			label.add_theme_color_override("font_color", Color("#f0b429"))
-		else:
-			label.add_theme_color_override("font_color", Color("#e8eaf0"))
+		is_danger = value <= danger_thresh
+		is_warn   = value <= warn_thresh and not is_danger
 	else:
-		if value >= danger_thresh:
-			label.add_theme_color_override("font_color", Color("#ff4444"))
-		elif value >= warn_thresh:
-			label.add_theme_color_override("font_color", Color("#f0b429"))
-		else:
-			label.add_theme_color_override("font_color", Color("#e8eaf0"))
+		is_danger = value >= danger_thresh
+		is_warn   = value >= warn_thresh and not is_danger
+	if is_danger:
+		label.add_theme_color_override("font_color", Color("#ff4444"))
+	elif is_warn:
+		label.add_theme_color_override("font_color", Color("#f0b429"))
+	else:
+		label.add_theme_color_override("font_color", Color("#e8eaf0"))
 
 func _render_news():
 	for child in news_box.get_children():
@@ -1091,11 +1102,30 @@ func _render_ap_actions():
 	var job_story_unlocked: bool = GameState.flags.get("story_job_unlocked", false)
 	var warn_body = GameState.health <= 45 or GameState.mental <= 45
 
-	# ── 행동력 소진 안내 ────────────────────────────────
+	# ── 행동력 소진 안내 + 버튼 강조 ──────────────────────
 	if disabled:
-		var done = _wrap_label("✅  이번 달 행동 완료!  아래 '다음 달 ▶' 버튼으로 결산하세요.", 13, "#00c896")
+		var done = _wrap_label("✅  이번 달 행동 완료!", 13, "#00c896")
 		done.add_theme_stylebox_override("normal", _hint_box())
 		choice_box.add_child(done)
+		next_button.text = "▶▶ 다음 달로!"
+		var btn_style = StyleBoxFlat.new()
+		btn_style.bg_color = Color("#065f46")
+		btn_style.border_color = Color("#00c896")
+		btn_style.set_border_width_all(2)
+		btn_style.corner_radius_top_left = 6
+		btn_style.corner_radius_top_right = 6
+		btn_style.corner_radius_bottom_left = 6
+		btn_style.corner_radius_bottom_right = 6
+		btn_style.content_margin_left = 20
+		btn_style.content_margin_right = 20
+		btn_style.content_margin_top = 10
+		btn_style.content_margin_bottom = 10
+		next_button.add_theme_stylebox_override("normal", btn_style)
+		next_button.add_theme_color_override("font_color", Color("#00c896"))
+	else:
+		next_button.text = "다음 달 ▶"
+		next_button.remove_theme_stylebox_override("normal")
+		next_button.remove_theme_color_override("font_color")
 
 	# ── 이번 달 방향 / 루트 성향 ────────────────────────
 	var route_total = GameState.route_orthodox + GameState.route_unorthodox
@@ -2135,6 +2165,17 @@ func _show_month_summary(snap: Dictionary):
 		div3.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(div3)
 		modal_body.add_child(_wrap_label(advice, 12, "#8892a4"))
+
+	# ── 강남드림 달성률 진행 바 ──────────────────────
+	var goal = 2_000_000_000.0
+	var pct = clamp(assets_now / goal, 0.0, 1.0)
+	var filled_blocks = int(pct * 20)
+	var bar_str = "█".repeat(filled_blocks) + "░".repeat(20 - filled_blocks)
+	var pct_disp = "%.1f%%" % (pct * 100.0)
+	var bar_color = "#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#5b9cf6")
+	modal_body.add_child(_wrap_label(
+		"🎯 강남드림  %s  %s  (%s)" % [bar_str, GameState.format_money(assets_now), pct_disp],
+		11, bar_color))
 
 	# ── 목표 힌트 ─────────────────────────────────
 	var ms = _next_milestone_hint(assets_now)
