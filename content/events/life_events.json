@@ -5273,7 +5273,7 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"housing": "oneroom", "flag": "housing_moved_once", "max_turn": 4},
+    "conditions": {"housing": "oneroom", "no_flag": "oneroom_first_night_seen"},
     "tags": ["oneroom", "moving", "alone"],
     "cooldown": 99,
     "choices": [
@@ -5282,7 +5282,7 @@
         "effects": {"mental": 10, "money": -25000, "stress": -5},
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["celebrated_first_move"],
+        "flags": ["celebrated_first_move", "oneroom_first_night_seen"],
         "follow_up_event": "",
         "result_text": "치킨과 맥주. 혼자였지만 이상하게 뿌듯했다. 이 공간이 내 것이라는 실감이 났다."
       },
@@ -5291,7 +5291,7 @@
         "effects": {"mental": 4, "stress": -3, "health": 3},
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": [],
+        "flags": ["oneroom_first_night_seen"],
         "follow_up_event": "",
         "result_text": "짐 정리를 끝내고 일찍 잠들었다. 내일부터 새로운 루틴이 시작된다."
       }
@@ -7391,6 +7391,105 @@
         "flags": ["story_one_year_seen"],
         "follow_up_event": "",
         "result_text": "주변과 비교했다. 조급해졌다. 이 조급함이 나쁜 것만은 아니다. 불편함이 성장을 만든다."
+      }
+    ]
+  },
+
+  {
+    "id": "apartment_first_night",
+    "title": "아파트 첫 날",
+    "description": "드디어 아파트로 이사했다. 엘리베이터가 있고, 택배함이 있고, 복도에 아무도 없다. 고시원 벽 너머 소음도, 공용 화장실도 없다. 이게 자유인가 아니면 외로움인가.",
+    "category": "daily",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"housing": "apartment", "no_flag": "apartment_first_night_seen"},
+    "tags": ["daily", "moving", "orthodox"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "이사 축하 파티를 연다",
+        "effects": {"mental": 12, "social_skill": 3, "money": -100000, "stress": -8},
+        "result_text": "친구들을 불러 집들이를 했다. 고시원 시절 얘기가 술안주가 됐다. 그때도 지금도 괜찮다.",
+        "flags": ["apartment_first_night_seen"]
+      },
+      {
+        "text": "조용히 혼자 맥주 한 캔을 연다",
+        "effects": {"mental": 10, "stress": -6, "health": 2},
+        "result_text": "혼자 창밖을 바라봤다. 서울 야경이 이렇게 보이는 곳에서 사는 게 현실이 됐다.",
+        "flags": ["apartment_first_night_seen"]
+      },
+      {
+        "text": "바로 다음 목표를 계획한다",
+        "effects": {"intelligence": 3, "stress": 3, "mental": 5},
+        "result_text": "아파트는 중간 목표였다. 다음은 강남이다. 뿌듯함이 채워지기도 전에 또 달리기 시작했다.",
+        "flags": ["apartment_first_night_seen"]
+      }
+    ]
+  },
+
+  {
+    "id": "asset_milestone_50m",
+    "title": "총자산 5천만 돌파",
+    "description": "앱을 열었다. 예금 + 투자 + 포트폴리오 합산이 5,000만원을 넘었다. 작년 이맘때 100만원으로 시작했는데. 숫자가 현실감이 없어서 몇 번을 다시 봤다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {"flag": "asset_50m_reached", "no_flag": "asset_50m_seen"},
+    "tags": ["finance", "milestone", "investment"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "이 기세로 1억을 목표로 삼는다",
+        "effects": {"intelligence": 3, "mental": 8, "stress": 4},
+        "result_text": "5천만이 아니라 1억이 보이기 시작했다. 눈이 높아지는 게 성장의 신호다.",
+        "flags": ["asset_50m_seen"]
+      },
+      {
+        "text": "전략을 점검하고 리밸런싱한다",
+        "effects": {"investment_skill": 5, "intelligence": 2, "stress": -2},
+        "result_text": "이 정도면 전략을 다시 짤 시점이다. 처음과 같은 방식으로 다음 단계까지 갈 수 없다.",
+        "flags": ["asset_50m_seen"]
+      },
+      {
+        "text": "가족에게 조용히 알린다",
+        "effects": {"mental": 10, "social_skill": 2, "reputation": 3},
+        "result_text": "부모님께 전화했다. 설명하기 어려워서 '저 좀 모았어요'라고만 했다. 그래도 목소리가 좋아지셨다.",
+        "flags": ["asset_50m_seen"]
+      }
+    ]
+  },
+
+  {
+    "id": "asset_milestone_100m",
+    "title": "1억 돌파",
+    "description": "1억. 이 숫자를 처음 목표로 잡았을 때 얼마나 멀게 느껴졌는지 기억한다. 서울에서 1억이 뭘 의미하는지도 안다. 강남 아파트 한 달 이자도 안 된다. 그래도 지금 이 순간은 특별하다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {"flag": "asset_100m_reached", "no_flag": "asset_100m_seen"},
+    "tags": ["finance", "milestone", "investment"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "이 순간을 기억하기 위해 특별한 걸 한다",
+        "effects": {"mental": 15, "stress": -10, "money": -200000},
+        "result_text": "평소엔 가지 않는 레스토랑에 혼자 갔다. 와인을 마시며 여기까지 온 길을 돌아봤다. 충분히 자랑스러웠다.",
+        "flags": ["asset_100m_seen"]
+      },
+      {
+        "text": "다음 목표를 세우고 더 공격적으로 간다",
+        "effects": {"investment_skill": 5, "intelligence": 3, "stress": 6},
+        "result_text": "1억은 시작이다. 10억을 목표로 전략을 바꿨다. 이 게임의 룰을 이제야 이해하는 것 같다.",
+        "flags": ["asset_100m_seen"]
+      },
+      {
+        "text": "조용히 앱을 닫는다",
+        "effects": {"mental": 8, "luck": 2},
+        "result_text": "자랑하지 않기로 했다. 서울에서 돈 자랑은 독이 된다. 조용히 계속 가는 것이다.",
+        "flags": ["asset_100m_seen"]
       }
     ]
   }

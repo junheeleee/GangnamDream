@@ -528,6 +528,14 @@ func get_wealth_tier():
 func check_game_over():
 	if is_game_over:
 		return
+	# 자산 마일스톤 플래그 자동 추적 (이벤트 조건용)
+	var total_now = get_total_asset_value()
+	if total_now >= 50_000_000 and not flags.get("asset_50m_reached", false):
+		flags["asset_50m_reached"] = true
+	if total_now >= 100_000_000 and not flags.get("asset_100m_reached", false):
+		flags["asset_100m_reached"] = true
+	if total_now >= 500_000_000 and not flags.get("asset_500m_reached", false):
+		flags["asset_500m_reached"] = true
 	if health <= 0:
 		finish_run("burnout"); return
 	if mental <= 0:
