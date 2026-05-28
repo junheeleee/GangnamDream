@@ -10953,5 +10953,260 @@
         "result_text": "쌓이는 숫자가 안도감을 준다. 당분간 이 방향이다."
       }
     ]
+  },
+  {
+    "id": "kakao_group_chat_war",
+    "title": "단체방이 터졌다",
+    "description": "대학 동기 단체방. 조용하다가 갑자기 100개 알림이 왔다.\n\n누군가 '월급 200만원은 너무 적지 않냐'는 글을 올렸고, '나는 400 받는데?' '나는 스타트업 다니는데 주식까지 하면 억대' 같은 댓글이 쏟아졌다.\n\n내 월급을 떠올렸다. 폰을 내려놓을지, 읽을지 고민된다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["social", "comedy", "daily", "fomo"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "조용히 읽기만 한다. 나는 패스.",
+        "effects": {
+          "mental": -4,
+          "stress": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "끝까지 읽었다. 후회했다. 비교는 아무것도 해결하지 않는다는 걸 알면서도 멈출 수가 없었다."
+      },
+      {
+        "text": "조용히 방을 나간다. 이런 대화는 나한테 독이다.",
+        "effects": {
+          "mental": 5,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "알림을 껐다. 며칠 뒤 방에 다시 들어갔을 때 이미 다른 주제로 넘어가 있었다. 현명한 선택이었다."
+      },
+      {
+        "text": "나도 한 마디 한다. 돈보다 가치 있는 게 있다고.",
+        "effects": {
+          "mental": 3,
+          "stress": 3,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "공감 댓글이 달렸다. 비슷하게 생각하는 친구가 있었다. 이런 게 단체방의 순기능 아닐까."
+      }
+    ]
+  },
+  {
+    "id": "chimaek_friday",
+    "title": "치맥의 유혹",
+    "description": "금요일 저녁. 친구한테 연락이 왔다.\n\n'치킨 시켜서 한강 갈래? 산 사람이 맥주 산다.'\n\n다음 달 생활비를 생각하면 나가면 안 된다. 그런데 이런 저녁이 얼마나 남았다고.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["social", "comedy", "daily", "chimaek"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "간다. 오늘 하루 수고한 나에게.",
+        "effects": {
+          "money": -35000,
+          "mental": 12,
+          "social_skill": 2,
+          "stress": -8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한강 바람, 후라이드 반 양념 반, 캔맥주. 이게 서울 생활의 이유가 됐다. 3만5천원 아깝지 않다."
+      },
+      {
+        "text": "돈이 없다. 다음에.",
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "친구는 '그래 다음에'라고 했다. 폰을 내려놓고 혼자 편의점 맥주를 켰다. 오늘은 이게 최선이다."
+      },
+      {
+        "text": "치킨은 못 사도 맥주 한 캔만 들고 간다.",
+        "effects": {
+          "money": -5000,
+          "mental": 9,
+          "social_skill": 1,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "5천원짜리 편의점 캔맥주 들고 갔다. 치킨은 친구가 사줬다. '너 나중에 잘 돼서 사.' 그 말이 따뜻했다."
+      }
+    ]
+  },
+  {
+    "id": "subway_line_2_sleeping",
+    "title": "2호선에서 잠들다",
+    "description": "퇴근 지하철. 앉자마자 눈이 감겼다.\n\n다음에 일어났을 때 이미 3정거장을 지나쳤다. 다시 방향을 바꿔 탔다가, 또 잠들었다.\n\n어느 순간 고개를 드니 종착역이다. 서울역. 나는 강남구에 산다.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": ["comedy", "daily", "subway", "commute"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "아무도 못 봤길 바라며 다시 탄다.",
+        "effects": {
+          "stress": -4,
+          "mental": 3,
+          "health": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "30분을 더 걸려 집에 왔다. 그래도 잤으니까 이득인가 싶었다. 만원 지하철에서 꾸는 꿈이 제일 달다."
+      },
+      {
+        "text": "이 김에 서울역 편의점 가서 뭔가 사먹는다.",
+        "effects": {
+          "money": -8000,
+          "mental": 6,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "서울역 편의점 핫바와 캔커피. 뜻밖의 야식이 됐다. 가끔 이런 우연이 하루를 구한다."
+      }
+    ]
+  },
+  {
+    "id": "convenience_store_1plus1",
+    "title": "1+1의 함정",
+    "description": "편의점 계산대 앞. 마감 세일 스티커가 붙은 도시락을 들었다.\n\n옆에 '이 상품 1+1' 표시가 있다. 하나는 필요했는데, 두 개씩이나 먹을 수 있을까.\n\n그런데 단가를 생각하면 사는 게 맞다. 아닌가? 필요 없는 걸 사는 게 절약인가?",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["comedy", "finance", "daily"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "두 개 다 산다. 단가 계산상 맞다.",
+        "effects": {
+          "money": -6000,
+          "health": 2,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "저녁 먹고 자기 전에 하나 더 먹었다. 과식했지만 묘하게 뿌듯했다. 이게 1+1의 마법이다."
+      },
+      {
+        "text": "하나만 산다. 필요한 것만.",
+        "effects": {
+          "money": -3000,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "절제의 승리. 3천원 아꼈다. 소비는 필요한 것만이 원칙이다. 그것이 진정한 재테크다."
+      },
+      {
+        "text": "둘 다 안 산다. 오늘 밥 먹었으니까.",
+        "effects": {
+          "money": 0,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "나왔다. 그리고 세 걸음 만에 다시 들어갔다. 삼각김밥 하나를 사서 나왔다. 이게 인간이다."
+      }
+    ]
+  },
+  {
+    "id": "norebang_midnight",
+    "title": "새벽 노래방",
+    "description": "친구들이랑 술 한 잔 했다. 누군가 '노래방 가자'고 했다.\n\n새벽 1시. 내일 출근은 있다. 근데 마지막에 이 노래 한 곡만 부르면 될 것 같다.\n\n어떻게 할 거야?",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["comedy", "social", "daily", "night"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "간다! 마지막 1시간!",
+        "effects": {
+          "money": -20000,
+          "mental": 15,
+          "social_skill": 3,
+          "stress": -10,
+          "health": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "1시간이 3시간이 됐다. 집에 오니 새벽 4시. 오늘 출근은 전설이 됐다. 그래도 후회는 없다."
+      },
+      {
+        "text": "나는 집에 간다. 내일 일이 있어.",
+        "effects": {
+          "mental": -3,
+          "stress": 5,
+          "health": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "집에 왔다. 뒤에서 친구들 노래 소리가 들리는 것 같았다. 현명한 선택인지 모르겠지만, 몸은 고마워했다."
+      }
+    ]
+  },
+  {
+    "id": "jjimjilbang_recovery",
+    "title": "찜질방 피신",
+    "description": "몸도 마음도 모두 지쳐 있다. 고시원은 더 이상 쉬는 공간이 아니다.\n\n같은 동네 찜질방에 들어왔다. 9천원. 여기서 자도 된다. 드라이기도 있고, 식혜도 있고, TV도 있다.\n\n이게 지금 내가 감당할 수 있는 가장 큰 사치다.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "min_stress": 50
+    },
+    "tags": ["comedy", "health", "daily", "rest"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "아이스 식혜 마시면서 TV나 본다.",
+        "effects": {
+          "money": -15000,
+          "mental": 12,
+          "stress": -12,
+          "health": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "식혜 한 잔, 계란 한 알, 그리고 무한정 누워있기. 서울 최고의 리조트다. 내일은 좀 살 것 같다."
+      },
+      {
+        "text": "아예 여기서 잔다. 찜질방 숙박.",
+        "effects": {
+          "money": -9000,
+          "mental": 10,
+          "stress": -8,
+          "health": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "코 고는 아저씨들 사이에서 잠들었다. 불편했지만 고시원보다는 넓었다. 어쩌면 이게 맞는 삶인지도."
+      }
+    ]
   }
 ]
