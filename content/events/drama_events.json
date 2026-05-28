@@ -42,43 +42,77 @@
   },
   {
     "id": "drama_crypto_result_big",
-    "title": "코인 결과 — 전재산",
-    "description": "거래 내역을 열었다.",
+    "title": "코인 결과 — 새벽 5시",
+    "description": "눈이 저절로 떠졌다. 새벽 5시.\n\n폰을 들었다. 차트를 열었다.\n\n비트코인이 38% 폭락해 있었다. 강제청산 완료. 전재산이 들어간 포지션이 밤사이 사라졌다.\n\n알람도 없었다. 아무도 막아주지 않았다.",
     "category": "finance",
     "rarity": "common",
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
     "tags": [
-      "finance"
+      "finance",
+      "gambling"
     ],
-    "cooldown": 99,
+    "cooldown": 999,
     "choices": [
       {
-        "text": "결과를 확인한다",
-        "effects": {},
-        "result_text": "운이 갈렸다. 어떻게 됐는지는 통장이 알고 있다."
+        "text": "화면을 끄고 그냥 눈을 감는다",
+        "effects": {"money": -4000000, "mental": -20, "stress": 25, "addiction_tendency": 5},
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "400만원이 사라졌다. 오늘 출근을 해야 하는데 몸이 움직이지 않는다. 이게 뭐가 된 건지 모르겠다."
+      },
+      {
+        "text": "복구하려고 다시 포지션을 잡는다",
+        "effects": {"money": -5500000, "mental": -30, "addiction_tendency": 25, "stress": 30},
+        "flags": ["leverage_addict"],
+        "follow_up_event": "",
+        "result_text": "이성이 꺼진 상태에서 더 큰 베팅을 했다. 그것도 청산됐다. 통장 잔고가 처음 봤을 때와 달랐다."
+      },
+      {
+        "text": "차트를 닫고 편의점에 간다",
+        "effects": {"money": -4000000, "mental": -12, "stress": 15, "social_skill": -1},
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "삼각김밥을 샀다. 아무 맛도 나지 않았다. 전화할 사람이 없다는 걸 이 시간에 실감했다."
       }
     ]
   },
   {
     "id": "drama_crypto_result_small",
-    "title": "코인 결과 — 소액",
-    "description": "50만원을 넣은 코인의 가격이 움직였다.",
+    "title": "코인 50만원 — 결과",
+    "description": "일주일 후. 그 코인의 차트를 다시 확인했다.\n\n반토막이 나 있었다. 25만원이 남았다.\n\n소액이라 다행인지, 소액이라 아쉬운지 모르겠다.",
     "category": "finance",
     "rarity": "common",
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
     "tags": [
-      "finance"
+      "finance",
+      "gambling"
     ],
-    "cooldown": 99,
+    "cooldown": 999,
     "choices": [
       {
-        "text": "확인한다",
-        "effects": {},
-        "result_text": "소액이라 다행이거나, 소액이라 아쉽거나."
+        "text": "손절하고 잊는다",
+        "effects": {"money": -250000, "investment_skill": 2, "stress": 3},
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "25만원을 회수했다. 25만원은 날렸다. 좋은 수업료라고 생각하기로 했다."
+      },
+      {
+        "text": "물타기한다 — 더 넣으면 평단이 낮아진다",
+        "effects": {"money": -500000, "addiction_tendency": 8, "stress": 8},
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "50만원을 더 넣었다. 이제 반등해야만 본전이다. 차트를 수시로 확인하게 됐다."
+      },
+      {
+        "text": "그냥 들고 기다린다",
+        "effects": {"stress": 4, "addiction_tendency": 3},
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "언젠간 오를 거라고 생각했다. 포지션이 있는 한 하루에 열 번은 차트를 보게 될 것이다."
       }
     ]
   },
