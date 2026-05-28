@@ -550,6 +550,8 @@ func check_game_over():
 		finish_run("gangnam_dream"); return
 	if flags.get("startup_exit", false):
 		finish_run("startup_exit"); return
+	if flags.get("creator_success_unlocked", false) and get_total_asset_value() >= 300_000_000:
+		finish_run("creator_success"); return
 	if get_total_asset_value() >= 800_000_000 and investment_skill >= 75 and age < 50:
 		finish_run("early_retirement"); return
 	if age >= 65:
@@ -568,8 +570,6 @@ func check_game_over():
 			finish_run("orthodox_pinnacle")
 		elif health >= 70 and mental >= 70:
 			finish_run("healthy_retirement")
-		elif flags.get("creator_success_unlocked", false):
-			finish_run("creator_success")
 		elif route_orthodox >= 12 and route_unorthodox >= 12:
 			finish_run("balanced_life")
 		elif route_orthodox >= 20 and mental <= 45:
