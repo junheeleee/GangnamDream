@@ -10395,5 +10395,276 @@
         "result_text": "혼자 쌓는 것에서 나눔을 생각하기 시작했다. 내가 못 쓰는 돈보다 누군가에게 도움이 되는 돈. 그게 더 의미있었다."
       }
     ]
+  },
+  {
+    "id": "headhunter_offer_arrives",
+    "title": "헤드헌터의 본 제안",
+    "description": "지난번 만났던 헤드헌터에게서 연락이 왔다.\n\n'포지션이 나왔습니다. 현재 연봉 대비 30% 이상 상향 제안입니다. 관심 있으신가요?'\n\n구체적인 숫자가 나왔다. 지금 직장을 어떻게 할지 결정해야 한다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "headhunter_met",
+      "no_flag": "headhunter_offer_seen",
+      "has_job": true,
+      "min_turn": 4
+    },
+    "tags": [
+      "jobs",
+      "opportunity",
+      "career"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "면접을 보러 간다",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 3,
+          "stress": 8,
+          "reputation": 5
+        },
+        "flags": [
+          "headhunter_offer_seen",
+          "headhunter_interview_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "면접을 봤다. 분위기는 좋았다. 이직하면 어떨지 처음으로 진지하게 생각해봤다."
+      },
+      {
+        "text": "감사하지만 지금 직장에 집중하겠다",
+        "effects": {
+          "mental": 3,
+          "stress": -4,
+          "reputation": 2
+        },
+        "flags": [
+          "headhunter_offer_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "거절했다. 이 결정이 맞는지 모르겠다. 하지만 지금 자리를 지키기로 했다."
+      },
+      {
+        "text": "연봉 협상으로 현재 회사에 압박을 넣는다",
+        "effects": {
+          "monthly_income": 200000,
+          "reputation": 8,
+          "stress": 10,
+          "social_skill": 4
+        },
+        "flags": [
+          "headhunter_offer_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "외부 제안을 활용해서 팀장과 연봉 협상을 했다. 20만원을 올렸다. 팀장의 눈빛이 달라졌지만."
+      }
+    ]
+  },
+  {
+    "id": "chaebol_exclusive_invite",
+    "title": "강남 모임 초대",
+    "description": "그 날 명함을 교환한 사람에게서 카톡이 왔다.\n\n'이번 주 금요일 압구정에서 모임이 있어요. 같이 오실래요?'\n\n초대 메시지 하나가 다른 세계의 문처럼 느껴졌다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "no_flag": "chaebol_exclusive_seen",
+      "min_turn": 4,
+      "flag": "chaebol_contact"
+    },
+    "tags": [
+      "social",
+      "opportunity",
+      "network"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "간다 — 이런 기회는 흔치 않다",
+        "effects": {
+          "money": -200000,
+          "social_skill": 6,
+          "reputation": 12,
+          "appearance": 2,
+          "stress": 8
+        },
+        "flags": [
+          "chaebol_exclusive_seen",
+          "attended_chaebol_party"
+        ],
+        "relationship_effects": [
+          {
+            "id": "chaebol_contact",
+            "name": "강남 인맥",
+            "type": "business",
+            "affection": 15,
+            "trust": 10
+          }
+        ],
+        "follow_up_event": "",
+        "result_text": "압구정에 갔다. 모두가 자신감이 넘쳤다. 나는 조용히 관찰하면서 배웠다. 다른 세계를 잠깐 엿본 기분이었다."
+      },
+      {
+        "text": "일이 있다고 정중히 사양한다",
+        "effects": {
+          "mental": 3,
+          "stress": -3
+        },
+        "flags": [
+          "chaebol_exclusive_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "사양했다. 그 세계에 섞이는 게 아직은 어색했다. 나중에 후회할 수도 있다."
+      },
+      {
+        "text": "외모 관리를 하고 완벽하게 준비한다",
+        "effects": {
+          "money": -400000,
+          "appearance": 4,
+          "social_skill": 8,
+          "reputation": 18,
+          "stress": 5
+        },
+        "flags": [
+          "chaebol_exclusive_seen",
+          "attended_chaebol_party"
+        ],
+        "relationship_effects": [
+          {
+            "id": "chaebol_contact",
+            "name": "강남 인맥",
+            "type": "business",
+            "affection": 25,
+            "trust": 15
+          }
+        ],
+        "follow_up_event": "",
+        "result_text": "머리부터 발끝까지 준비했다. 40만원을 썼지만 그 자리에서는 어색하지 않았다. 명함을 두 장 더 받았다."
+      }
+    ]
+  },
+  {
+    "id": "business_partnership_progress",
+    "title": "사업 파트너와의 근황",
+    "description": "파트너에게서 연락이 왔다.\n\n'이번 달 매출이 나왔어요. 예상보다 낫거나 예상과 비슷하거나.'\n\n같이 시작한 일이 현실이 됐다. 지금 어떻게 가고 있는 건지 확인해야 한다.",
+    "category": "career",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "business_partnership_started",
+      "no_flag": "business_partnership_progress_seen",
+      "min_turn": 6
+    },
+    "tags": [
+      "career",
+      "finance",
+      "opportunity"
+    ],
+    "cooldown": 24,
+    "choices": [
+      {
+        "text": "데이터를 분석하고 전략을 개선한다",
+        "effects": {
+          "intelligence": 4,
+          "monthly_income": 300000,
+          "stress": 6,
+          "investment_skill": 2
+        },
+        "flags": [
+          "business_partnership_progress_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "숫자를 보고 개선 방향을 찾았다. 파트너가 '이래서 데려왔다'고 했다."
+      },
+      {
+        "text": "그냥 진행 상황만 확인한다",
+        "effects": {
+          "stress": -3,
+          "mental": 3
+        },
+        "flags": [
+          "business_partnership_progress_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "현황을 확인했다. 크지 않지만 계속 움직이고 있다. 기다리는 것도 전략이다."
+      },
+      {
+        "text": "추가 투자로 규모를 키우자고 제안한다",
+        "effects": {
+          "money": -3000000,
+          "monthly_income": 800000,
+          "stress": 12,
+          "investment_skill": 3,
+          "reputation": 5
+        },
+        "flags": [
+          "business_partnership_progress_seen",
+          "business_doubled_down"
+        ],
+        "follow_up_event": "",
+        "result_text": "300만원을 더 넣기로 했다. 이제 더 신중하게 결과를 추적하게 됐다."
+      }
+    ]
+  },
+  {
+    "id": "job_change_decision",
+    "title": "이직을 결심하는 밤",
+    "description": "밤에 혼자 생각이 많아졌다.\n\n지금 직장을 그만두고 새 출발을 할까. 아니면 여기서 버티면서 승진을 노릴까.\n\n오래 미뤄온 결정을 이제 해야 할 것 같다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "considering_job_change",
+      "no_flag": "job_change_decided",
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "career"
+    ],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "이직을 결심하고 준비를 시작한다",
+        "effects": {
+          "stress": 10,
+          "intelligence": 3,
+          "social_skill": 2
+        },
+        "flags": [
+          "job_change_decided",
+          "resume_polished"
+        ],
+        "follow_up_event": "",
+        "result_text": "이직하기로 결심했다. 이력서를 다시 꺼냈다. 이 결정이 맞는 건지는 움직이면서 알게 될 것이다."
+      },
+      {
+        "text": "지금 직장에서 승진을 노린다",
+        "effects": {
+          "stress": 8,
+          "reputation": 5,
+          "mental": -3
+        },
+        "flags": [
+          "job_change_decided"
+        ],
+        "follow_up_event": "",
+        "result_text": "여기서 더 올라가기로 했다. 포기한 게 아니라 선택한 거다."
+      },
+      {
+        "text": "일단 더 생각해보기로 한다",
+        "effects": {
+          "stress": -4,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결정을 미뤘다. 나중에 더 명확해질 거라고 스스로에게 말했다."
+      }
+    ]
   }
 ]
