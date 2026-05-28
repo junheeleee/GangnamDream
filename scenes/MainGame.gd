@@ -278,6 +278,34 @@ func _build_info_panel():
 	info_panel.visible = false
 	add_child(info_panel)
 
+	# ── VBox로 감싸서 헤더(닫기 버튼) + TabContainer 배치 ──
+	var panel_vbox = VBoxContainer.new()
+	panel_vbox.add_theme_constant_override("separation", 0)
+	info_panel.add_child(panel_vbox)
+
+	# 헤더: 패널 타이틀 + 닫기(X) 버튼
+	var panel_header = HBoxContainer.new()
+	panel_header.custom_minimum_size = Vector2(0, 36)
+	var ph_style = StyleBoxFlat.new()
+	ph_style.bg_color = Color("#0a0a12")
+	ph_style.border_color = Color("#1e1e2a")
+	ph_style.border_width_bottom = 1
+	ph_style.content_margin_left = 10
+	ph_style.content_margin_right = 6
+	ph_style.content_margin_top = 4
+	ph_style.content_margin_bottom = 4
+	panel_header.add_theme_stylebox_override("panel", ph_style)
+	panel_vbox.add_child(panel_header)
+
+	var panel_title = _label("📋 정보", 13, "#8892a4")
+	panel_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel_header.add_child(panel_title)
+
+	var panel_close = _small_button("✕", "#2a2a3a")
+	panel_close.custom_minimum_size = Vector2(32, 28)
+	panel_close.pressed.connect(_toggle_info_panel)
+	panel_header.add_child(panel_close)
+
 	# ── TabContainer: 스탯 / 시황 / 관계 ──
 	info_tabs = TabContainer.new()
 	var tabs = info_tabs
@@ -309,7 +337,7 @@ func _build_info_panel():
 	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
 	tabs.add_theme_font_size_override("font_size", 13)
 	tabs.tab_changed.connect(func(idx): GameState.flags["_last_info_tab"] = idx)
-	info_panel.add_child(tabs)
+	panel_vbox.add_child(tabs)
 
 	# ── Tab 0: 📊 스탯 ──
 	var stat_scroll = ScrollContainer.new()
@@ -1065,9 +1093,9 @@ func _on_study_chosen(effects):
 	_refresh_all()
 
 func _ap_invest():
-	if not GameState.spend_ap():
+	if GameState.action_points <= 0:
+		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
 		return
-	turn_action_log.append("✓ 📈 투자 — 매수/매도 진행")
 	_open_investments()
 
 func _ap_job_hunt():
@@ -1189,6 +1217,13 @@ func _open_jobs():
 
 func _open_investments():
 	_open_modal("📈 투자 / 매수·매도")
+	# 행동력 안내: 조회는 무료, 거래 시 소비
+	var ap_now = GameState.action_points
+	var ap_hint_color = "#00c896" if ap_now > 0 else "#ff4444"
+	var ap_hint_text = "⚡ 행동력 %d/%d — 매수·매도 실행 시 1 소비 (조회는 무료)" % [ap_now, GameState.max_action_points]
+	if ap_now <= 0:
+		ap_hint_text = "⚡ 행동력 없음 — 이번 달 거래 불가. 다음 달에 다시 오세요."
+	modal_body.add_child(_wrap_label(ap_hint_text, 12, ap_hint_color))
 	# 초보자 가이드
 	if GameState.investment_skill < 25:
 		modal_body.add_child(_wrap_label(
@@ -1292,22 +1327,27 @@ func _on_job_selected(job_id):
 	_show_toast("💼 %s" % job_name, Color("#fbbf24"))
 
 func _on_buy_asset(asset_id, amount):
+	if not GameState.spend_ap():
+		_show_toast("⚡ 행동력이 없습니다. 이번 달 거래 불가", Color("#ff4444"))
+		_close_modal()
+		return
 	AudioManager.play("money_gain")
 	investment_system.buy_asset(asset_id, float(amount))
-	var asset_name = GameState.market_prices.keys().front() if GameState.market_prices.is_empty() else asset_id
+	var asset_name = asset_id
 	for data in DataRegistry.assets:
 		if data.get("id", "") == asset_id:
 			asset_name = data.get("name", asset_id)
 			break
-	for i in range(turn_action_log.size() - 1, -1, -1):
-		if turn_action_log[i].begins_with("✓ 📈"):
-			turn_action_log[i] = "✓ 📈 투자 → %s 매수 %s" % [asset_name, GameState.format_money(amount)]
-			break
+	turn_action_log.append("✓ 📈 투자 → %s 매수 %s" % [asset_name, GameState.format_money(amount)])
 	_close_modal()
 	_refresh_all()
 	_show_toast("📈 매수 완료 %s" % GameState.format_money(amount), Color("#00c896"))
 
 func _on_sell_asset(asset_id, ratio):
+	if not GameState.spend_ap():
+		_show_toast("⚡ 행동력이 없습니다. 이번 달 거래 불가", Color("#ff4444"))
+		_close_modal()
+		return
 	AudioManager.play("money_loss")
 	investment_system.sell_asset(asset_id, float(ratio))
 	var asset_name = asset_id
@@ -1315,10 +1355,7 @@ func _on_sell_asset(asset_id, ratio):
 		if data.get("id", "") == asset_id:
 			asset_name = data.get("name", asset_id)
 			break
-	for i in range(turn_action_log.size() - 1, -1, -1):
-		if turn_action_log[i].begins_with("✓ 📈"):
-			turn_action_log[i] = "✓ 📈 투자 → %s 매도" % asset_name
-			break
+	turn_action_log.append("✓ 📈 투자 → %s 매도" % asset_name)
 	_close_modal()
 	_refresh_all()
 	_show_toast("📉 매도 완료", Color("#ff4444"))

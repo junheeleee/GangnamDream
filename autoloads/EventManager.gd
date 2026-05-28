@@ -73,7 +73,7 @@ func _remember_recent(event_id):
 	if event_id.is_empty():
 		return
 	recent_event_ids.append(event_id)
-	if recent_event_ids.size() > 14:
+	if recent_event_ids.size() > 25:
 		recent_event_ids.pop_front()
 
 func _is_event_eligible(event):

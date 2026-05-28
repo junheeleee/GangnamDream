@@ -20,7 +20,13 @@ func start():
 	# AudioManager가 먼저 로드되므로 저장된 bgm_volume 적용
 	volume = AudioManager.bgm_volume
 	_player.volume_db = _db(volume)
+	if not _player.finished.is_connected(_on_bgm_ended):
+		_player.finished.connect(_on_bgm_ended)
 	_player.play()
+
+func _on_bgm_ended():
+	if volume > 0.001:
+		_player.play()
 
 func stop():
 	_player.stop()
