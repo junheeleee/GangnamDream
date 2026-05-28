@@ -1,5 +1,33 @@
 # Gangnam Dream Work Log
 
+## 2026-05-28 (콘텐츠 패스 2 — 25-35세 구간 이벤트 14개 추가)
+
+### 신규 이벤트 (life_events.json, 234→238개)
+- `salary_negotiation_moment` (t12+, 취업 필요): 연봉 협상
+- `work_life_balance_moment` (t12+, 스트레스 45+): 퇴근 후의 시간
+- `health_checkup_results` (t24+, 스트레스 55+): 건강검진
+- `mental_health_realization` (t12+, 스트레스 60+): 정신건강 자각
+- `first_hundred_million` (1억 이상, no_flag): 처음으로 1억을 봤다
+- `mt_company_trip` (t3+, 취업 필요): 회사 MT
+- `workplace_gossip` (t8+, 취업 필요): 사무실 소문
+- `age_28_career_ceiling` (t72+, min_job_tenure 12): 승진 라인의 벽
+- `first_proper_apartment` (t60+, 1500만 이상): 드디어 내 방
+- `marriage_pressure_28` (t84+, no_flag): 결혼 얘기가 나오기 시작했다
+- `burnout_age_29` (t72+, 스트레스 65+): 번아웃
+
+### 신규 이벤트 (investment_events.json, 32→35개)
+- `invest_big_win_first` (t48+, 투자감각 20+, 포트폴리오 보유): 3배 수익이 났다
+- `invest_daytrade_catastrophe` (t24+, 투자감각 10+, 포트폴리오 보유): 단타의 대가
+- `orthodox_passive_income_milestone` (t96+, 정석 루트 10+): 월세보다 많은 배당금
+
+### 버그 수정
+- `drama_crypto_result_big`, `drama_crypto_result_small`: hidden=true 설정. 크립토 미투자자에게 크립토 손실 이벤트 발화 방지.
+
+### QA 검증
+- 전체 381개 이벤트 ID 고유성 확인 완료
+- follow_up_event 참조 16개 전부 유효
+- result_text 빈 값 없음
+
 ## 2026-05-28 (게임 재미 심화 — 스토리 마일스톤 + 라이벌 + 콘텐츠 확장)
 
 ### 버그 수정
