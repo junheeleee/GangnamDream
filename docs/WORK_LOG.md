@@ -23,7 +23,34 @@
 - `docs/ROADMAP.md` 재작성: 실제 완료 상태 반영, Phase 1-3 체계화, 구현된 시스템 표
 
 ### 다음 세션 작업
-1-C: 거주지별 전용 이벤트 (고시원 소음/무기력, 원룸 첫 자립, 아파트 층간소음, 강남 소비 유혹)
+1-B 미완료: 루트별 이벤트 가중치 차등화 → Phase 1 전체 완료 → 테스터 재검토
+
+---
+
+## 2026-05-28 (Phase 1 콘텐츠 완성 — 1-C/1-D/1-E)
+
+### 시스템 확장
+- EventManager._check_conditions(): `housing`, `min_housing_months`, `max_turn` 조건 추가
+
+### 1-C: 거주지별 전용 이벤트 9개
+- 고시원(3): gosiwon_wall_noise, gosiwon_bathroom_morning, gosiwon_long_stay_blues
+- 원룸(2): oneroom_first_night, oneroom_empty_fridge
+- 아파트(2): apartment_floor_noise, apartment_guard_greeting
+- 강남(2): gangnam_consumption_trap, gangnam_class_pressure
+
+### 1-D: 선택의 연결 이벤트 10개 (5 flag chain 세트)
+- 야근 알바 → 편의점 단골: late_night_job_ran_into → convenience_regular_bond
+- 투자 자랑 → 동료 조언 요청: bragged_about_gains → colleague_wants_investment_tips
+- 직장 하소연 → 선배 인생 이야기: vented_to_senior → senior_life_wisdom
+- 건강 무시 → 쓰러짐: ignored_body_warning → body_forced_rest
+
+### 1-E: 핵심 캐릭터 이벤트 12개
+- 연인 후보 이수민(6): meet / number / first_date / crisis / confession
+- 멘토/압박 박 과장(6): meets_you / spec_lecture / weekend_request / burnout_mirror / promotion_offer
+
+### 현황
+- life_events.json: 113 → 140개 (+27개)
+- Phase 1 잔여: 1-B 루트 가중치 차등화만 남음
 
 ---
 

@@ -5164,5 +5164,914 @@
         "result_text": "버텼다. 그리고 그 버팀의 끝에 뭔가가 기다리고 있기를 바랐다. 아직까지는 잘 모르겠다."
       }
     ]
+  },
+
+  {
+    "id": "gosiwon_wall_noise",
+    "title": "벽 너머에서",
+    "description": "새벽 1시. 옆방에서 전화 통화 소리가 들린다. 얇은 벽 너머로 누군가의 울음소리 같기도 하고, 싸우는 소리 같기도 하다. 잠을 자려고 눈을 감아도 소음이 떠나질 않는다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {"housing": "gosiwon"},
+    "tags": ["gosiwon", "stress", "night"],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "이어폰을 끼고 음악으로 덮는다",
+        "effects": {"stress": -2, "mental": -3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "음악이 소음을 가렸다. 벽 너머 그 사람이 어떤 사람인지는 영원히 모를 것 같다."
+      },
+      {
+        "text": "노크해서 조용히 해달라고 한다",
+        "effects": {"stress": 3, "social_skill": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "노크를 했다. 소음은 멈췄다. 이후로 그 방 앞을 지날 때마다 약간 어색하다."
+      }
+    ]
+  },
+
+  {
+    "id": "gosiwon_bathroom_morning",
+    "title": "화장실 전쟁",
+    "description": "아침 7시 반. 공용 화장실 앞에 세 명이 줄을 서 있다. 지각 5분 전인데 두 명은 나올 기미가 없다. 이런 아침이 일주일에 세 번 이상이다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {"housing": "gosiwon", "has_job": true},
+    "tags": ["gosiwon", "stress", "morning"],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "30분 일찍 일어나는 루틴을 만든다",
+        "effects": {"stress": -3, "health": 2, "mental": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["early_riser_habit"],
+        "follow_up_event": "",
+        "result_text": "30분 일찍 일어나기 시작했다. 화장실 문제는 해결됐지만 수면이 30분 줄었다."
+      },
+      {
+        "text": "지각을 감수하고 천천히 기다린다",
+        "effects": {"stress": 5, "mental": -4},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결국 5분 지각했다. 팀장의 눈빛이 따가웠다."
+      }
+    ]
+  },
+
+  {
+    "id": "gosiwon_long_stay_blues",
+    "title": "이 방의 색깔",
+    "description": "6개월째 이 방에서 살고 있다. 처음엔 임시라고 생각했는데 어느새 이게 일상이 됐다. 천장 얼룩의 위치, 수도꼭지 돌리는 각도. 너무 익숙해진 것들이 무섭다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {"housing": "gosiwon", "min_housing_months": 6},
+    "tags": ["gosiwon", "mental", "depression"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "이사 자금 목표를 구체적으로 세운다",
+        "effects": {"mental": 8, "stress": -5, "intelligence": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["set_moving_goal"],
+        "follow_up_event": "",
+        "result_text": "벽에 목표 금액을 적어붙였다. '3개월 안에 원룸.' 뭔가 달라진 느낌이다."
+      },
+      {
+        "text": "그냥 익숙해지는 것도 나쁘지 않다",
+        "effects": {"mental": -5, "stress": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "익숙함이 편함이 됐다. 그게 체념과 같은 말인지는 모르겠다."
+      }
+    ]
+  },
+
+  {
+    "id": "oneroom_first_night",
+    "title": "첫 날 밤",
+    "description": "드디어 원룸으로 이사했다. 짐을 정리하고 나니 방이 생각보다 넓어 보인다. 혼자다. 진짜 혼자다. 아무 소리도 안 난다. 기쁨인지 적적함인지 모를 감정이 올라온다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"housing": "oneroom", "flag": "housing_moved_once", "max_turn": 4},
+    "tags": ["oneroom", "moving", "alone"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "배달음식을 시키고 혼자 축하한다",
+        "effects": {"mental": 10, "money": -25000, "stress": -5},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["celebrated_first_move"],
+        "follow_up_event": "",
+        "result_text": "치킨과 맥주. 혼자였지만 이상하게 뿌듯했다. 이 공간이 내 것이라는 실감이 났다."
+      },
+      {
+        "text": "조용히 정리하고 일찍 잔다",
+        "effects": {"mental": 4, "stress": -3, "health": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "짐 정리를 끝내고 일찍 잠들었다. 내일부터 새로운 루틴이 시작된다."
+      }
+    ]
+  },
+
+  {
+    "id": "oneroom_empty_fridge",
+    "title": "냉장고 앞에서",
+    "description": "퇴근하고 냉장고를 열었다. 조미료 두 개, 반 쪽짜리 양파, 정체불명의 소스. 요리해보겠다고 야채도 사고 뭐도 샀는데 결국 다 썩혀버렸다. 배가 고프다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {"housing": "oneroom"},
+    "tags": ["oneroom", "alone", "food"],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "편의점 도시락으로 해결한다",
+        "effects": {"mental": -2, "health": -2, "money": -5000},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "도시락 하나 먹었다. 배는 찼는데 뭔가 허탈하다. 다음엔 진짜 요리를 해봐야지."
+      },
+      {
+        "text": "주변 식당에서 제대로 먹는다",
+        "effects": {"mental": 5, "health": 2, "money": -12000},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼밥이었지만 따뜻한 밥을 먹었다. 가게 사장님이 반갑게 말을 건네줬다."
+      }
+    ]
+  },
+
+  {
+    "id": "apartment_floor_noise",
+    "title": "위층 소리",
+    "description": "밤 11시. 위층에서 쿵쿵 소리가 난다. 이사 온 지 한 달, 매일 11시면 어린아이가 뛰어다니는 것 같다. 피곤한데 잠을 못 잔다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"housing": "apartment"},
+    "tags": ["apartment", "stress", "neighbor"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "관리실에 민원을 넣는다",
+        "effects": {"stress": -5, "social_skill": -1, "mental": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["filed_noise_complaint"],
+        "follow_up_event": "",
+        "result_text": "관리실에서 연락했다고 한다. 소음이 줄었다. 그런데 엘리베이터에서 위층 가족을 만났을 때 어색했다."
+      },
+      {
+        "text": "그냥 참는다",
+        "effects": {"stress": 4, "mental": -3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "오늘도 참았다. 근데 내일도 참을 수 있을지 모르겠다."
+      },
+      {
+        "text": "직접 위층에 찾아가 정중히 말한다",
+        "effects": {"stress": -3, "social_skill": 2, "mental": 2},
+        "relationship_effects": [{"id": "upstairs_neighbor", "name": "위층 이웃", "type": "friends", "affection": 25, "trust": 20}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "오히려 잘 됐다. 어색한 이웃이 인사 나누는 사이가 됐다."
+      }
+    ]
+  },
+
+  {
+    "id": "apartment_guard_greeting",
+    "title": "경비 아저씨",
+    "description": "아파트 1층 경비실 앞을 매일 지나친다. 경비 아저씨는 항상 신문을 보고 계신다. 오늘 눈이 마주쳤다. 아저씨가 먼저 고개를 끄덕이셨다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {"housing": "apartment"},
+    "tags": ["apartment", "social", "community"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "먼저 인사드리고 말을 건넨다",
+        "effects": {"social_skill": 1, "mental": 5, "stress": -3},
+        "relationship_effects": [{"id": "building_guard", "name": "경비 아저씨", "type": "friends", "affection": 30, "trust": 35}],
+        "investment_effects": [],
+        "flags": ["knows_building_guard"],
+        "follow_up_event": "",
+        "result_text": "이 동네에서 30년 사셨단다. 아파트 안에도 작은 공동체가 있다는 걸 처음 느꼈다."
+      },
+      {
+        "text": "그냥 지나친다",
+        "effects": {"stress": -1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "오늘도 지나쳤다. 서울에서는 이웃 모르고 사는 게 당연하다고 생각했다."
+      }
+    ]
+  },
+
+  {
+    "id": "gangnam_consumption_trap",
+    "title": "강남의 유혹",
+    "description": "편의점 가다가 길을 잘못 들었다. 백화점 명품관 앞이다. 쇼윈도 안 코트 가격이 한 달 월급이다. 근데 입어보고 싶다는 생각이 자꾸 든다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {"housing": "gangnam"},
+    "tags": ["gangnam", "consumption", "temptation"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "그냥 지나친다. 허영은 적이다",
+        "effects": {"mental": -3, "stress": -2, "intelligence": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지나쳤다. 집에 와서도 그 코트 생각이 난다. 강남에서 살다 보면 이런 유혹이 일상이다."
+      },
+      {
+        "text": "질러버린다. 나를 위한 투자다",
+        "effects": {"mental": 12, "stress": -8, "money": -1500000},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["bought_luxury_item"],
+        "follow_up_event": "",
+        "result_text": "샀다. 입었다. 기뻤다. 그런데 카드값이 나왔을 때 후회가 밀려왔다."
+      },
+      {
+        "text": "참되, 비슷한 걸 중고로 찾아본다",
+        "effects": {"mental": 4, "intelligence": 1, "money": -150000},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "당근에서 비슷한 제품을 10분의 1 가격에 찾았다. 실속을 챙겼다는 만족감."
+      }
+    ]
+  },
+
+  {
+    "id": "gangnam_class_pressure",
+    "title": "강남 사람들",
+    "description": "입주민 모임에 처음 나갔다. 다들 무슨 차 타는지, 어느 학원을 보내는지 이야기한다. 내 직업을 말했더니 반응이 미묘했다. 여기서 나는 어떤 사람인 걸까.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {"housing": "gangnam"},
+    "tags": ["gangnam", "social", "class", "pressure"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "자연스럽게 어울린다",
+        "effects": {"social_skill": 2, "stress": 5, "reputation": 2},
+        "relationship_effects": [{"id": "gangnam_neighbor", "name": "강남 이웃", "type": "business", "affection": 20, "trust": 15}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "어울렸다. 그들과 비슷해 보이려고 조금 과장해서 말했다. 이상하게 피곤했다."
+      },
+      {
+        "text": "내 길을 가면 된다. 의연하게 있는다",
+        "effects": {"mental": 6, "stress": -3, "intelligence": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["resisted_class_pressure"],
+        "follow_up_event": "",
+        "result_text": "그냥 나로 있었다. 모임이 끝나고 집에 들어오는데 이상하게 기분이 좋았다."
+      }
+    ]
+  },
+
+  {
+    "id": "late_night_job_ran_into",
+    "title": "늦은 밤 편의점",
+    "description": "야근 알바를 마치고 새벽 2시에 편의점에 들렀다. 계산대 알바생이 도시락을 데워주면서 '많이 힘드시죠?'라고 한마디 건넸다. 처음 보는 사람에게 위로받는 게 이상하게 뭉클했다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"month_focus": "부업"},
+    "tags": ["night", "social", "work"],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "말없이 계산하고 나온다",
+        "effects": {"mental": 2, "stress": -3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "나왔다. 근데 그 한마디가 하루 종일 머릿속에 맴돌았다."
+      },
+      {
+        "text": "잠깐 이야기를 나눈다",
+        "effects": {"mental": 7, "stress": -5, "social_skill": 1},
+        "relationship_effects": [{"id": "convenience_worker", "name": "편의점 알바생", "type": "friends", "affection": 20, "trust": 25}],
+        "investment_effects": [],
+        "flags": ["knows_convenience_worker"],
+        "follow_up_event": "",
+        "result_text": "알고 보니 그도 투잡을 뛰고 있었다. 서울에서 각자 버티고 있는 사람들끼리 통하는 게 있었다."
+      }
+    ]
+  },
+
+  {
+    "id": "convenience_regular_bond",
+    "title": "단골이 된다는 것",
+    "description": "그 편의점에 다시 갔더니 알바생이 먼저 알아봤다. '오늘도 힘드셨어요?' 이 질문이 일상의 일부가 됐다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "knows_convenience_worker"},
+    "tags": ["social", "friendship", "daily"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "오늘은 커피 한 잔 사드린다",
+        "effects": {"mental": 8, "social_skill": 1, "money": -3000},
+        "relationship_effects": [{"id": "convenience_worker", "name": "편의점 알바생", "type": "friends", "affection": 15, "trust": 10}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "커피를 건넸더니 많이 당황하면서 감사하다고 했다. 서울에서도 이런 인연이 가능하다."
+      },
+      {
+        "text": "반갑게 웃으며 인사만 한다",
+        "effects": {"mental": 4, "stress": -3},
+        "relationship_effects": [{"id": "convenience_worker", "name": "편의점 알바생", "type": "friends", "affection": 5, "trust": 5}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "인사를 나눴다. 서울에서 이름도 모르는 사람과 눈인사하는 것, 이것도 소중한 연결이다."
+      }
+    ]
+  },
+
+  {
+    "id": "bragged_about_gains",
+    "title": "자랑하고 싶은 마음",
+    "description": "이번 달 투자 수익이 꽤 났다. 직장에서 점심 먹다가 무심코 자랑을 해버렸다. 팀원들이 갑자기 관심을 보인다. '어디 샀어요? 저도 알려주세요'",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"has_portfolio": true, "has_job": true},
+    "tags": ["investment", "social", "work"],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "대충 얼버무리고 화제를 돌린다",
+        "effects": {"stress": -2, "social_skill": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "화제를 돌렸다. 괜히 자랑했다가 시샘만 살 수 있다는 걸 직감했다."
+      },
+      {
+        "text": "솔직하게 얼마 벌었는지 말한다",
+        "effects": {"reputation": 2, "stress": 4, "social_skill": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["bragged_investment_at_work"],
+        "follow_up_event": "",
+        "result_text": "말했더니 반응이 뜨거웠다. 그런데 이제 계속 물어볼 것 같다."
+      }
+    ]
+  },
+
+  {
+    "id": "colleague_wants_investment_tips",
+    "title": "투자 선생님",
+    "description": "지난번 자랑 이후로 팀원 둘이 따로 찾아왔다. 자기도 투자 좀 가르쳐달라고. 책임이 생기는 것 같아 부담스러운데, 거절하기도 애매하다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "bragged_investment_at_work"},
+    "tags": ["investment", "social", "work", "responsibility"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "기본적인 것만 알려주고 선을 긋는다",
+        "effects": {"social_skill": 2, "reputation": 1, "stress": 3},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기초만 알려줬다. 이후엔 알아서 하라고 했다. 투자는 결국 자기 책임이다."
+      },
+      {
+        "text": "조언을 해주되, 결과는 본인 책임이라 못 박는다",
+        "effects": {"social_skill": 3, "reputation": 2, "intelligence": 1, "stress": 5},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["became_investment_advisor"],
+        "follow_up_event": "",
+        "result_text": "조언을 했다. 그들이 수익을 내면 덕분이라 하고, 손해를 보면 자기들 잘못이라 할 것이다."
+      }
+    ]
+  },
+
+  {
+    "id": "vented_to_senior",
+    "title": "하소연",
+    "description": "퇴근 후 선배와 술 한 잔. 무심코 요즘 직장 생활이 힘들다고 털어놨다. 선배가 조용히 듣고 있다. 이상하게 눈물이 날 것 같다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"has_job": true, "min_stress": 45},
+    "tags": ["work", "social", "stress", "relationship"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "다 털어놓는다",
+        "effects": {"mental": 10, "stress": -12, "social_skill": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["senior_knows_my_struggle"],
+        "follow_up_event": "",
+        "result_text": "다 말했다. 선배는 '나도 그랬어'라고만 했다. 그런데 그게 제일 위로가 됐다."
+      },
+      {
+        "text": "적당히만 말하고 분위기를 바꾼다",
+        "effects": {"mental": 4, "stress": -4},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "적당히 말했다. 그 자리는 편했지만, 혼자 집에 오니 다시 무거워졌다."
+      }
+    ]
+  },
+
+  {
+    "id": "senior_life_wisdom",
+    "title": "선배의 이야기",
+    "description": "하소연을 들어줬던 선배가 회사 복도에서 붙잡는다. '내 이야기 좀 해도 돼?' 선배의 눈이 진지하다. 이미 퇴근 시간인데.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "senior_knows_my_struggle"},
+    "tags": ["work", "social", "wisdom", "relationship"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "시간을 내서 들어준다",
+        "effects": {"mental": 6, "stress": -5, "intelligence": 2, "social_skill": 1},
+        "relationship_effects": [{"id": "senior_colleague", "name": "직장 선배", "type": "mentor", "affection": 25, "trust": 30}],
+        "investment_effects": [],
+        "flags": ["heard_senior_story"],
+        "follow_up_event": "",
+        "result_text": "선배는 자기가 30대에 번아웃으로 병원을 갔던 이야기를 했다. 나는 아직 거기까지는 아니라고 생각했다. 아마도."
+      },
+      {
+        "text": "오늘은 피곤하다고 다음에 듣겠다고 한다",
+        "effects": {"stress": -2, "mental": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음에 듣겠다고 했다. 선배는 '그래, 다음에'라고 했다. 그 다음은 아직 오지 않았다."
+      }
+    ]
+  },
+
+  {
+    "id": "ignored_body_warning",
+    "title": "괜찮겠지",
+    "description": "요 며칠 두통이 계속 온다. 눈도 침침하고 밥맛도 없다. 바빠서 병원은 못 가고 있다. '조금 있으면 낫겠지'라고 생각하며 또 하루를 버텼다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"min_stress": 55, "min_turn": 4},
+    "tags": ["health", "stress", "work"],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "그냥 버틴다",
+        "effects": {"health": -5, "stress": 4},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["ignored_health_warning"],
+        "follow_up_event": "",
+        "result_text": "버텼다. 증상은 좀 가라앉았다. 근데 몸이 조금씩 신호를 보내고 있다는 걸 알고 있다."
+      },
+      {
+        "text": "반차를 내고 병원에 간다",
+        "effects": {"health": 8, "stress": -5, "money": -50000},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "과로로 인한 피로 누적이었다. 의사가 '좀 쉬어야 한다'고 했다. 쉬는 게 제일 어려운 일이라고는 말하지 않았다."
+      }
+    ]
+  },
+
+  {
+    "id": "body_forced_rest",
+    "title": "몸이 먼저 쓰러졌다",
+    "description": "아침에 일어나려다 어지러워서 넘어졌다. 팀장에게 연락해서 결근한다고 했다. 온종일 누워있으면서 생각했다. 몸이 이렇게 말하는 건 처음이다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "ignored_health_warning"},
+    "tags": ["health", "burnout", "rest"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "며칠 완전히 쉰다",
+        "effects": {"health": 15, "mental": 10, "stress": -15, "intelligence": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": ["forced_to_rest"],
+        "follow_up_event": "",
+        "result_text": "3일을 쉬었다. 몸이 돌아왔다. 쉬는 것도 버티는 것임을 배웠다."
+      },
+      {
+        "text": "하루만 쉬고 다시 나간다",
+        "effects": {"health": 3, "stress": 5, "mental": -5},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "하루 쉬고 복귀했다. 몸은 반쯤 돌아온 상태다. 팀장이 '고생 많아'라고 했는데 공허하게 들렸다."
+      }
+    ]
+  },
+
+  {
+    "id": "romance_sumin_meet",
+    "title": "우연한 만남",
+    "description": "카페에서 노트북으로 작업 중이었다. 콘센트가 부족해서 옆 사람에게 잠깐 빌려달라고 했다가 자연스럽게 대화가 시작됐다. 이름은 이수민. 눈이 독특하게 생겼다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {"no_flag": "met_sumin", "max_stress": 75},
+    "tags": ["romance", "social", "cafe", "meeting"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "자연스럽게 대화를 이어간다",
+        "effects": {"mental": 8, "social_skill": 1, "stress": -4},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 15, "trust": 10}],
+        "investment_effects": [],
+        "flags": ["met_sumin"],
+        "follow_up_event": "",
+        "result_text": "한 시간 넘게 얘기했다. 나올 때 '또 봐요'라고 했다. 진심인지 인사치레인지 모르겠는데 계속 생각난다."
+      },
+      {
+        "text": "콘센트만 쓰고 작업에 집중한다",
+        "effects": {"intelligence": 1, "stress": -2},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "작업을 마쳤다. 그런데 옆에 앉았던 사람이 언제 나갔는지 모르게 사라졌다."
+      }
+    ]
+  },
+
+  {
+    "id": "romance_sumin_number",
+    "title": "연락처",
+    "description": "그 카페에 또 갔다가 이수민을 다시 만났다. 이번엔 먼저 알아봤다. '또 오셨네요.' 헤어지기 전에 연락처를 물어볼 타이밍이 왔다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "met_sumin", "no_flag": "has_sumin_number"},
+    "tags": ["romance", "social"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "연락처를 물어본다",
+        "effects": {"mental": 6, "stress": -3, "social_skill": 1},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 10, "trust": 8}],
+        "investment_effects": [],
+        "flags": ["has_sumin_number"],
+        "follow_up_event": "",
+        "result_text": "번호를 받았다. 집에 오는 길에 세 번이나 폰을 꺼내봤다."
+      },
+      {
+        "text": "그냥 헤어진다. 인연이면 또 만나겠지",
+        "effects": {"mental": 2, "stress": -2},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 3, "trust": 2}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그냥 헤어졌다. 집에 와서 조금 후회했다."
+      }
+    ]
+  },
+
+  {
+    "id": "romance_sumin_first_date",
+    "title": "첫 데이트",
+    "description": "수민이에게 연락이 왔다. '다음 주 토요일에 시간 있어요?' 있다고 했다. 아무 계획도 없었는데. 어디로 가야 할까.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "has_sumin_number", "no_flag": "dated_sumin", "max_stress": 70},
+    "tags": ["romance", "social", "date"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "정성껏 코스를 짠다",
+        "effects": {"mental": 12, "stress": -6, "money": -80000, "social_skill": 1},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 20, "trust": 15}],
+        "investment_effects": [],
+        "flags": ["dated_sumin"],
+        "follow_up_event": "",
+        "result_text": "맛집, 한강, 편의점 야식. 7시간이 어떻게 지나갔는지 모르겠다. 헤어지기 싫었다."
+      },
+      {
+        "text": "가볍게 커피 한 잔만",
+        "effects": {"mental": 7, "stress": -3, "money": -15000},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 10, "trust": 8}],
+        "investment_effects": [],
+        "flags": ["dated_sumin"],
+        "follow_up_event": "",
+        "result_text": "커피 한 잔인데 두 시간이 넘었다. 다음에 또 보자고 했다."
+      }
+    ]
+  },
+
+  {
+    "id": "romance_sumin_crisis",
+    "title": "수민이와의 갈등",
+    "description": "한동안 바빠서 연락을 자주 못 했다. 수민이가 '요즘 많이 바빠요?'라고 물었다. 말투가 평소와 다르다. 뭔가 쌓인 게 있는 것 같다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "dated_sumin", "min_stress": 50},
+    "tags": ["romance", "relationship", "conflict"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "솔직하게 사과하고 시간을 낸다",
+        "effects": {"mental": 5, "stress": 5, "money": -30000},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 8, "trust": 10}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "사과했다. 저녁을 먹으면서 이런저런 이야기를 나눴다. 괜찮아진 것 같다."
+      },
+      {
+        "text": "바쁜 건 어쩔 수 없다고 설명한다",
+        "effects": {"mental": -5, "stress": -3},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": -10, "trust": -5}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "설명했다. 수민이는 '알겠어요'라고 했는데 목소리가 좀 차갑게 들렸다."
+      }
+    ]
+  },
+
+  {
+    "id": "mentor_park_meets_you",
+    "title": "박 과장",
+    "description": "오늘 입사한 팀에 박 과장이 있다. 나이는 40대 초반으로 보이는데, 첫 인상이 딱딱하다. '신입이에요? 요즘 애들은 스펙이 좋아서.' 인사치레인지 날 선 말인지 모르겠다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"has_job": true, "no_flag": "knows_park"},
+    "tags": ["work", "mentor", "pressure"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "예의 바르게 인사하고 인상을 심는다",
+        "effects": {"reputation": 1, "social_skill": 1, "stress": 2},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 15, "trust": 10}],
+        "investment_effects": [],
+        "flags": ["knows_park"],
+        "follow_up_event": "",
+        "result_text": "정중하게 인사했다. 박 과장이 짧게 고개를 끄덕였다. 이 사람 앞에서는 긴장이 풀리질 않는다."
+      },
+      {
+        "text": "적당히 인사하고 자리로 돌아온다",
+        "effects": {"stress": -1},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 8, "trust": 5}],
+        "investment_effects": [],
+        "flags": ["knows_park"],
+        "follow_up_event": "",
+        "result_text": "그냥 인사하고 자리로 왔다. 박 과장은 이미 서류를 보고 있었다."
+      }
+    ]
+  },
+
+  {
+    "id": "mentor_park_spec_lecture",
+    "title": "스펙 강의",
+    "description": "점심시간에 박 과장이 옆에 앉더니 갑자기 조언을 시작한다. '자격증은 몇 개야? 영어는? 요즘은 스펙이 없으면 어딜 가도 막혀.' 조언인지 압박인지 모르겠다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {"flag": "knows_park"},
+    "tags": ["work", "mentor", "pressure", "spec"],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "경청하면서 노트에 적는다",
+        "effects": {"intelligence": 1, "stress": 3, "reputation": 1},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 8, "trust": 10}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "받아 적었다. 박 과장이 만족스러워 보였다. 얼마나 유효한 조언인지는 모르겠다."
+      },
+      {
+        "text": "나는 내 방식이 있다고 조용히 말한다",
+        "effects": {"mental": 4, "stress": 2, "social_skill": 1},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": -3, "trust": 3}],
+        "investment_effects": [],
+        "flags": ["disagreed_with_park"],
+        "follow_up_event": "",
+        "result_text": "조용히 말했다. 박 과장이 잠깐 멈추더니 '그래, 해봐'라고 했다. 인정인지 포기인지 모르겠다."
+      }
+    ]
+  },
+
+  {
+    "id": "mentor_park_weekend_request",
+    "title": "토요일 출근",
+    "description": "금요일 퇴근 시간에 박 과장이 다가온다. '이번 주 토요일에 잠깐 나올 수 있어? 중요한 건이라.' 물음표 모양이지만 사실 명령이다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {"flag": "knows_park", "has_job": true},
+    "tags": ["work", "overtime", "pressure", "mentor"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "알겠다고 한다",
+        "effects": {"stress": 8, "health": -5, "reputation": 2},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 5, "trust": 8}],
+        "investment_effects": [],
+        "flags": ["did_weekend_work"],
+        "follow_up_event": "",
+        "result_text": "나갔다. 중요한 건이 맞긴 했다. 박 과장이 '수고했어'라고 했다. 그 한마디로 주말 하루가 사라졌다."
+      },
+      {
+        "text": "이번엔 선약이 있다고 거절한다",
+        "effects": {"mental": 8, "stress": -5},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": -5, "trust": -3}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "거절했다. 박 과장이 '그래'라고만 했다. 월요일이 약간 무섭다."
+      }
+    ]
+  },
+
+  {
+    "id": "mentor_park_burnout_mirror",
+    "title": "박 과장의 이면",
+    "description": "야근 중에 사무실에 둘만 남았다. 박 과장이 갑자기 '너, 지금 행복해?'라고 물었다. 뜬금없는 질문이다. 박 과장의 눈이 처음으로 피곤해 보였다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {"flag": "knows_park", "min_turn": 8},
+    "tags": ["work", "burnout", "depth", "mentor"],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "솔직하게 모르겠다고 한다",
+        "effects": {"mental": 8, "stress": -8, "intelligence": 2},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 20, "trust": 20}],
+        "investment_effects": [],
+        "flags": ["saw_parks_real_side"],
+        "follow_up_event": "",
+        "result_text": "모르겠다고 했다. 박 과장이 '나도 그랬어'라고 했다. 그러더니 창밖을 한참 봤다. 그게 가장 솔직한 대화였다."
+      },
+      {
+        "text": "그냥 웃으며 넘긴다",
+        "effects": {"stress": -2, "social_skill": 1},
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "웃으며 넘겼다. 박 과장도 더 말하지 않았다. 뭔가 놓친 기회가 있는 것 같다."
+      }
+    ]
+  },
+
+  {
+    "id": "romance_sumin_confession",
+    "title": "고백",
+    "description": "수민이와 한강에 나왔다. 노을이 지는데 어쩐지 지금이 아니면 말 못 할 것 같다. '나 사실 수민씨 좋아해요.' 말하고 나니 심장이 귀에서 들린다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {"flag": "dated_sumin", "no_flag": "sumin_relationship_started", "max_stress": 65},
+    "tags": ["romance", "confession", "milestone"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "진심을 다해 말한다",
+        "effects": {"mental": 15, "stress": 8, "social_skill": 1},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 25, "trust": 20}],
+        "investment_effects": [],
+        "flags": ["sumin_relationship_started"],
+        "follow_up_event": "",
+        "result_text": "수민이가 잠깐 침묵했다. 그러더니 '저도요'라고 했다. 한강 바람이 갑자기 따뜻하게 느껴졌다."
+      },
+      {
+        "text": "말하려다 결국 못 한다",
+        "effects": {"mental": -5, "stress": 3},
+        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 2, "trust": 2}],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결국 말하지 못했다. 집에 오는 내내 아까 그 순간이 계속 떠올랐다. 다음 기회가 있을 거야."
+      }
+    ]
+  },
+
+  {
+    "id": "mentor_park_promotion_offer",
+    "title": "박 과장의 제안",
+    "description": "박 과장이 퇴근 후 따로 불렀다. '팀장 자리에 자리 날 것 같아. 내가 추천해줄 수 있어.' 예상하지 못한 말이다. 그런데 조건이 있을 것 같다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {"flag": "knows_park", "has_job": true, "min_turn": 12},
+    "tags": ["work", "career", "mentor", "promotion"],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "감사히 받아들인다",
+        "effects": {"reputation": 4, "stress": 6, "intelligence": 1},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 15, "trust": 10}],
+        "investment_effects": [],
+        "flags": ["park_promoted_me"],
+        "follow_up_event": "",
+        "result_text": "알겠다고 했다. 박 과장이 만족스러워했다. 이제 박 과장의 사람이 된 건지, 내 커리어가 된 건지 경계가 흐릿하다."
+      },
+      {
+        "text": "고맙지만 혼자 해보겠다고 한다",
+        "effects": {"mental": 8, "reputation": 1, "intelligence": 2},
+        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": -8, "trust": 5}],
+        "investment_effects": [],
+        "flags": ["refused_parks_help"],
+        "follow_up_event": "",
+        "result_text": "거절했다. 박 과장이 '그래, 네 뜻대로 해'라고 했다. 뭔가 서운해 보이기도 했고, 존중하는 것 같기도 했다."
+      }
+    ]
   }
 ]

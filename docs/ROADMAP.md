@@ -54,23 +54,27 @@
   - 아파트: 평판 +1
   - 강남: 스트레스 -1, 평판 +2
 - [x] 이사 버튼 개편 (주거 업그레이드 섹션, AP 없이 자금으로)
-- [ ] **거주지별 전용 이벤트 각 2-3개** ← 지금 여기
-  - 고시원: 벽 너머 소음, 공용 화장실 불편, 장기거주 무기력
-  - 원룸: 첫 혼자 사는 적적함, 냉장고 텅 빔
-  - 아파트: 경비 아저씨, 층간소음, 입주민 커뮤니티
-  - 강남: 주변 사람들 압박, 소비 유혹
+- [x] **거주지별 전용 이벤트 각 2-3개** (2026-05-28)
+  - 고시원: gosiwon_wall_noise, gosiwon_bathroom_morning, gosiwon_long_stay_blues
+  - 원룸: oneroom_first_night, oneroom_empty_fridge
+  - 아파트: apartment_floor_noise, apartment_guard_greeting
+  - 강남: gangnam_consumption_trap, gangnam_class_pressure
 
-### 1-D. 선택의 연결 (기억되는 선택)
-- [ ] 이벤트 `sets_flag` → 이후 `requires_flag` 조건으로 연결
-- [ ] "N달 전 선택 참조" 이벤트 최소 5개
-  - 예: 지난달 야근 알바 → 이번 달 단골 편의점 알바생이 말을 건다
-  - 예: 3달 전 투자 성공 → 직장 동료가 조언을 구한다
-- [ ] follow_up_event 체인 이벤트 최소 3세트
+### 1-D. 선택의 연결 (기억되는 선택) ✅ 완료 (2026-05-28)
+- [x] 이벤트 `flags` 배열 → 이후 `flag` / `no_flag` 조건으로 연결
+- [x] "N달 전 선택 참조" 이벤트 5세트
+  - late_night_job_ran_into → convenience_regular_bond (야근 알바 → 편의점 단골)
+  - bragged_about_gains → colleague_wants_investment_tips (투자 자랑 → 동료 조언 요청)
+  - vented_to_senior → senior_life_wisdom (하소연 → 선배 인생 이야기)
+  - ignored_body_warning → body_forced_rest (건강 무시 → 쓰러짐)
+  - romance_sumin 체인 (5단계 만남→고백)
 
-### 1-E. 핵심 캐릭터 완성
+### 1-E. 핵심 캐릭터 완성 ✅ 완료 (2026-05-28)
 - [x] 라이벌 캐릭터 (RivalSystem.gd 구현 완료 — 매달 근황, FOMO 유발)
-- [ ] 연인 후보 캐릭터: 만남 → 연애 → 결혼/이별 서사 (5개 이벤트)
-- [ ] 멘토/압박 캐릭터: 부모님 or 직장 선배 (사회 압력의 목소리, 5개 이벤트)
+- [x] 연인 후보 이수민: 5단계 아크
+  - romance_sumin_meet → number → first_date → crisis → confession
+- [x] 멘토/압박 박 과장: 5단계 아크
+  - mentor_park_meets_you → spec_lecture → weekend_request → burnout_mirror → promotion_offer
 
 ---
 

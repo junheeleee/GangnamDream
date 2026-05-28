@@ -153,6 +153,12 @@ func _check_conditions(conditions):
 				if GameState.route_unorthodox > int(req): return false
 			"month_focus":
 				if GameState.month_focus != str(req): return false
+			"housing":
+				if GameState.housing != str(req): return false
+			"min_housing_months":
+				if GameState.housing_months.get(GameState.housing, 0) < int(req): return false
+			"max_turn":
+				if GameState.turn > int(req): return false
 	return true
 
 func _weighted_pick(events):
