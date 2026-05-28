@@ -864,5 +864,99 @@
         "result_text": "지금까지와는 다른 방식을 시도하기로 했다.\n루틴을 깨고, 새로운 사람을 만나고, 불편한 선택을 해보기로.\n변화는 항상 불편함에서 시작된다는 걸 {name}은 이미 알고 있다."
       }
     ]
+  },
+  {
+    "id": "story_four_year",
+    "title": "4년 — 스물넷",
+    "description": "4년.\n\n고시원에서 100만원으로 시작했던 그 날이 생각난다.\n지금 {name}은 어디에 서 있는가.\n\n주변을 보면 각자의 방식으로 자리를 잡아가고 있다.\n취업한 친구, 창업한 친구, 아직 준비 중인 친구.\n\n스물넷. 청춘의 딱 중간이다.\n가야 할 길이 아직 더 많이 남았다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "지금까지 잘 왔다. 나를 믿기로 한다.",
+        "effects": {
+          "mental": 10,
+          "stress": -6,
+          "luck": 3
+        },
+        "flags": ["story_four_year_seen"],
+        "follow_up_event": "",
+        "result_text": "4년의 흔적이 쌓여 지금의 {name}이 됐다.\n완벽하진 않았지만, 도망치지 않았다.\n그것만으로도 충분히 잘한 것이다."
+      },
+      {
+        "text": "지금부터가 진짜다. 기어 올린다.",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 3,
+          "stress": 6
+        },
+        "flags": ["story_four_year_seen"],
+        "follow_up_event": "",
+        "result_text": "4년이 준비 기간이었다면, 지금부터는 실전이다.\n{name}은 노트를 꺼내 목표를 다시 썼다.\n5년 뒤의 나에게 부끄럽지 않을 선택들을."
+      },
+      {
+        "text": "속도보다 방향이다. 한 번 점검해본다.",
+        "effects": {
+          "intelligence": 4,
+          "mental": 6,
+          "health": 4
+        },
+        "flags": ["story_four_year_seen"],
+        "follow_up_event": "",
+        "result_text": "빠르게 가는 것보다 제대로 가는 게 중요하다.\n{name}은 멈춰서 자신의 방향을 다시 확인했다.\n서두르지 않아도 된다. 아직 20대다."
+      }
+    ]
+  },
+  {
+    "id": "story_five_year",
+    "title": "5년 — 서울 5년생",
+    "description": "{name}. 서울에 온 지 5년이 됐다.\n\n처음 올라왔던 그 날, 고시원 창문 너머로 보이던 건물 외벽이 아직 기억난다.\n\n5년 동안 서울은 달라졌고, {name}도 달라졌다.\n익숙해진 것들이 있고, 아직도 낯선 것들이 있다.\n\n5년 전의 나라면 지금의 나를 보고 뭐라 할까.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["story", "milestone", "reflection"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "많이 성장했다. 스스로가 자랑스럽다.",
+        "effects": {
+          "mental": 15,
+          "stress": -8,
+          "reputation": 2
+        },
+        "flags": ["story_five_year_seen", "five_year_reflected"],
+        "follow_up_event": "",
+        "result_text": "5년 전의 {name}은 지금의 이 모습을 상상하지 못했을 것이다.\n조금씩, 꾸준히.\n서울에서 살아남는다는 건 이런 거다."
+      },
+      {
+        "text": "기대에 못 미쳤다. 더 빨리 가야 한다.",
+        "effects": {
+          "stress": 8,
+          "intelligence": 6,
+          "investment_skill": 4
+        },
+        "flags": ["story_five_year_seen", "five_year_reflected"],
+        "follow_up_event": "",
+        "result_text": "5년이 이 정도라면, 앞으로 10년은 달라야 한다.\n조급함이 올라왔다. 나쁜 신호가 아니다.\n지금의 불만이 다음 5년의 연료가 된다."
+      },
+      {
+        "text": "그냥 살아있는 것 자체가 대단한 거다.",
+        "effects": {
+          "mental": 12,
+          "health": 5,
+          "stress": -10
+        },
+        "flags": ["story_five_year_seen", "five_year_reflected"],
+        "follow_up_event": "",
+        "result_text": "서울에서 5년을 버텼다는 것 자체가 쉬운 일이 아니다.\n{name}은 그냥 오늘도 여기 있다.\n그것만으로도 충분히 대단한 일이다."
+      }
+    ]
   }
 ]

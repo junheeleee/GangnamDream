@@ -184,7 +184,9 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "jobs",
       "pressure"
@@ -675,7 +677,8 @@
     "weight": 8,
     "hidden": false,
     "conditions": {
-      "min_turn": 18
+      "min_turn": 18,
+      "has_job": true
     },
     "tags": [
       "jobs",
@@ -1254,7 +1257,9 @@
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "jobs",
       "satire"
@@ -10963,7 +10968,12 @@
     "weight": 1.3,
     "hidden": false,
     "conditions": {},
-    "tags": ["social", "comedy", "daily", "fomo"],
+    "tags": [
+      "social",
+      "comedy",
+      "daily",
+      "fomo"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -11009,7 +11019,12 @@
     "weight": 1.4,
     "hidden": false,
     "conditions": {},
-    "tags": ["social", "comedy", "daily", "chimaek"],
+    "tags": [
+      "social",
+      "comedy",
+      "daily",
+      "chimaek"
+    ],
     "cooldown": 6,
     "choices": [
       {
@@ -11059,7 +11074,12 @@
     "conditions": {
       "has_job": true
     },
-    "tags": ["comedy", "daily", "subway", "commute"],
+    "tags": [
+      "comedy",
+      "daily",
+      "subway",
+      "commute"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -11095,7 +11115,11 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {},
-    "tags": ["comedy", "finance", "daily"],
+    "tags": [
+      "comedy",
+      "finance",
+      "daily"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -11140,7 +11164,12 @@
     "weight": 1.0,
     "hidden": false,
     "conditions": {},
-    "tags": ["comedy", "social", "daily", "night"],
+    "tags": [
+      "comedy",
+      "social",
+      "daily",
+      "night"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -11180,7 +11209,12 @@
     "conditions": {
       "min_stress": 50
     },
-    "tags": ["comedy", "health", "daily", "rest"],
+    "tags": [
+      "comedy",
+      "health",
+      "daily",
+      "rest"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -11206,6 +11240,251 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "코 고는 아저씨들 사이에서 잠들었다. 불편했지만 고시원보다는 넓었다. 어쩌면 이게 맞는 삶인지도."
+      }
+    ]
+  },
+  {
+    "id": "peer_comparison_anxiety",
+    "title": "동기들의 소식",
+    "description": "SNS에 동기들 근황이 올라오기 시작했다. 누군가는 대기업 사원증 인증을, 누군가는 강남 카페에서 노트북 펴고 일하는 사진을 올린다. {name}의 화면 속 삶은 어때 보일까.\n\n비교는 의미 없다는 걸 알면서도, 자꾸 눈이 간다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 36
+    },
+    "tags": [
+      "social",
+      "stress",
+      "daily"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "SNS 앱을 삭제한다. 비교는 독이다.",
+        "effects": {
+          "mental": 8,
+          "stress": -6,
+          "intelligence": 2
+        },
+        "result_text": "앱을 삭제했다. 처음엔 허전했지만 사흘 후, 이상하게 집중이 잘 됐다."
+      },
+      {
+        "text": "나도 뭔가 올린다. 나도 잘 살고 있다.",
+        "effects": {
+          "mental": -3,
+          "stress": 4,
+          "social_skill": 2
+        },
+        "result_text": "조금 꾸민 일상 사진을 올렸다. 좋아요가 들어올수록 뭔가 공허했다."
+      },
+      {
+        "text": "그냥 내 속도대로 간다. 남과 비교할 필요 없다.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 3,
+          "stress": -2
+        },
+        "result_text": "타인의 속도에 맞출 필요 없다. {name}의 레이스는 {name}의 것이다."
+      }
+    ]
+  },
+  {
+    "id": "marriage_pressure_parent",
+    "title": "명절의 질문",
+    "description": "명절에 오랜만에 집에 갔다. 친척 어른들이 빠짐없이 묻는다. '취직은 했냐', '사귀는 사람은', '결혼은 언제쯤'.\n\n나는 스물 몇 살인데, 왜 이 자리가 이렇게 피로할까.",
+    "category": "family",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 36,
+      "no_flag": "marriage_pressure_done"
+    },
+    "tags": [
+      "family",
+      "stress",
+      "social"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "웃으면서 넘긴다. 그냥 가족 행사다.",
+        "effects": {
+          "stress": 4,
+          "mental": -2,
+          "social_skill": 1
+        },
+        "flags": [
+          "marriage_pressure_done"
+        ],
+        "result_text": "적당히 웃으면서 넘겼다. 그게 최선이었다. 집에 오는 버스 안에서 혼자 한숨을 쉬었다."
+      },
+      {
+        "text": "솔직하게 말한다. 나도 지금 힘들다고.",
+        "effects": {
+          "stress": -5,
+          "mental": 6,
+          "health": 2
+        },
+        "flags": [
+          "marriage_pressure_done"
+        ],
+        "result_text": "생각보다 솔직하게 말해버렸다. 잠시 정적이 흘렀고, 엄마가 조용히 밥을 더 줬다. 충분한 위로였다."
+      },
+      {
+        "text": "핑계를 대고 일찍 올라온다.",
+        "effects": {
+          "stress": -3,
+          "mental": 3,
+          "money": -30000
+        },
+        "flags": [
+          "marriage_pressure_done"
+        ],
+        "result_text": "바쁘다고 핑계 대고 일찍 서울로 올라왔다. 고시원 방이 오히려 편했다. 이상한 일이다."
+      }
+    ]
+  },
+  {
+    "id": "career_plateau_feeling",
+    "title": "성장이 멈춘 것 같다",
+    "description": "요즘 출근하면서 이 생각이 든다. '나 지금 성장하고 있는 건가?'\n\n처음엔 모든 게 배움이었는데. 이제 같은 일을 반복하는 것 같다. 커리어의 천장이 보이는 기분.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 48,
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "mental",
+      "career"
+    ],
+    "cooldown": 14,
+    "choices": [
+      {
+        "text": "사이드 프로젝트를 시작해본다.",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 2,
+          "stress": 4,
+          "health": -2
+        },
+        "result_text": "퇴근 후 시간을 할애해 뭔가를 만들기 시작했다. 피곤했지만 오랜만에 뭔가를 배우는 기분이었다."
+      },
+      {
+        "text": "이직을 알아본다. 새 환경이 필요하다.",
+        "effects": {
+          "intelligence": 4,
+          "reputation": 2,
+          "stress": 6
+        },
+        "result_text": "이직 공고를 들여다봤다. 아직 준비가 부족한 것 같기도 하고. 하지만 시장을 파악하는 것 자체가 성장이다."
+      },
+      {
+        "text": "지금 자리에서 더 깊이 파본다.",
+        "effects": {
+          "intelligence": 3,
+          "mental": 5,
+          "reputation": 3
+        },
+        "result_text": "천장처럼 보이던 것이 사실은 아직 파고들 여지가 있었다. 깊이의 차원이 달랐다."
+      }
+    ]
+  },
+  {
+    "id": "late_20s_money_anxiety",
+    "title": "또래 중에 제일 없나",
+    "description": "친구 중에 누군가가 집을 샀다고 한다. 전셋돈을 모았대. 또 누군가는 아직도 부모님 집에 있는데 그게 전략이라고 한다.\n\n{name}은 어디에 있을까. 또래 평균 자산이 얼마인지 검색해봤다가 창을 닫았다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 60
+    },
+    "tags": [
+      "finance",
+      "social",
+      "stress"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "내 상황을 점검한다. 현실 직시가 먼저.",
+        "effects": {
+          "intelligence": 4,
+          "stress": 3
+        },
+        "result_text": "냉정하게 숫자를 들여다봤다. 나쁘지 않았다. 아직 방향을 바꿀 시간이 있다."
+      },
+      {
+        "text": "평균 따윈 필요 없다. 나만의 기준을 만든다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "luck": 2
+        },
+        "result_text": "평균은 남의 이야기다. {name}의 삶은 {name}이 정의한다. 자산 20억 목표, 아직 유효하다."
+      },
+      {
+        "text": "조금 더 모험을 감수해야 할 것 같다.",
+        "effects": {
+          "investment_skill": 3,
+          "stress": 5
+        },
+        "result_text": "현재 방식으로는 평범한 결과밖에 못 낸다. 리스크를 감수하기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "old_friend_diverging",
+    "title": "오랜 친구와의 저녁",
+    "description": "고등학교 때부터 친한 친구와 오랜만에 만났다. 서로 너무 달라져 있었다. 그 친구는 지방에서 안정적으로 산다. 집도 있고, 가족도 있다.\n\n서울에서 혼자 달리고 있는 {name}이 잠깐 흔들렸다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 48
+    },
+    "tags": [
+      "social",
+      "mental",
+      "reflection"
+    ],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "서울에서 계속 도전하겠다고 다짐한다.",
+        "effects": {
+          "mental": 8,
+          "stress": 3,
+          "intelligence": 2
+        },
+        "result_text": "각자의 선택이 있다. {name}의 선택은 서울이다. 도전이 있는 삶. 그 대가도 감수하기로."
+      },
+      {
+        "text": "가끔은 단순한 삶이 그립다.",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "health": 3
+        },
+        "result_text": "그리움이 밀려왔다. 단순했던 그 시절이. 잠깐 그래도 괜찮다. 내일 다시 서울이다."
+      },
+      {
+        "text": "친구에게 솔직하게 힘들다고 털어놓는다.",
+        "effects": {
+          "mental": 12,
+          "stress": -8,
+          "social_skill": 2
+        },
+        "result_text": "다 털어놨다. 친구는 묵묵히 들어줬다. 오래된 친구라서 가능한 대화였다."
       }
     ]
   }

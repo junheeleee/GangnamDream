@@ -629,6 +629,24 @@ func _check_story_triggers():
 	# 3년
 	elif t == 36 and not f.get("story_three_year_seen", false):
 		EventManager.trigger_event_by_id("story_three_year")
+	# 4년
+	elif t == 48 and not f.get("story_four_year_seen", false):
+		EventManager.trigger_event_by_id("story_four_year")
+	# 5년
+	elif t == 60 and not f.get("story_five_year_seen", false):
+		EventManager.trigger_event_by_id("story_five_year")
+	# 10년 (30대 진입)
+	elif t == 120 and not f.get("30s_reflection_done", false):
+		EventManager.trigger_event_by_id("midlife_30s_reflection")
+	# 35세
+	elif t == 180 and not f.get("age_35_reflected", false):
+		EventManager.trigger_event_by_id("age_35_checkpoint")
+	# 40세
+	elif t == 240 and not f.get("age_40_reflected", false):
+		EventManager.trigger_event_by_id("age_40_threshold")
+	# 은퇴 준비 (45세)
+	elif t == 300 and not f.get("retirement_strategy_set", false):
+		EventManager.trigger_event_by_id("pre_retirement_decision")
 
 # ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
 
@@ -2327,16 +2345,40 @@ func _next_milestone_hint(total: float) -> String:
 func _calc_month_grade(snap: Dictionary) -> Dictionary:
 	var net = float(snap["monthly_income"]) - float(snap["fixed_expense"])
 	var asset_delta = GameState.get_total_asset_value() - float(snap["assets_before"])
+	var total = GameState.get_total_asset_value()
+	var t = GameState.turn
 	if asset_delta >= 10_000_000.0:
-		return {"emoji": "🏆", "title": "대박 달!", "msg": "자산이 크게 늘었습니다. 이 흐름을 유지하세요.", "color": "#fbbf24"}
+		var big_msgs = [
+			"자산이 %s 늘었습니다. 이 흐름을 유지하세요." % GameState.format_money(asset_delta),
+			"투자가 빛을 발하고 있습니다. 포지션을 점검하세요.",
+			"이런 달이 쌓이면 강남드림이 가까워집니다.",
+		]
+		return {"emoji": "🏆", "title": "대박 달!", "msg": big_msgs[t % big_msgs.size()], "color": "#fbbf24"}
 	elif asset_delta >= 2_000_000.0 and net >= 0.0:
-		return {"emoji": "✨", "title": "잘 했습니다", "msg": "흑자에 자산 성장까지. 좋은 한 달이었습니다.", "color": "#00c896"}
+		var good_msgs = [
+			"흑자에 자산 성장까지. 좋은 한 달이었습니다.",
+			"수입과 투자 모두 순조롭습니다.",
+			"꾸준히 이 방향으로 가면 됩니다.",
+		]
+		return {"emoji": "✨", "title": "잘 했습니다", "msg": good_msgs[t % good_msgs.size()], "color": "#00c896"}
 	elif net >= 0.0:
-		return {"emoji": "📊", "title": "평범한 달", "msg": "적자는 아니지만 자산 성장이 아쉽습니다.", "color": "#8892a4"}
+		if total < 5_000_000.0:
+			return {"emoji": "📊", "title": "버티는 달", "msg": "아직 초반입니다. 취업과 저축이 최우선입니다.", "color": "#8892a4"}
+		return {"emoji": "📊", "title": "평범한 달", "msg": "흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.", "color": "#8892a4"}
 	elif GameState.health > 55 and GameState.mental > 55:
-		return {"emoji": "💪", "title": "힘든 달", "msg": "재정은 적자지만 건강하게 버텼습니다. 곧 나아질 거예요.", "color": "#f0b429"}
+		var tough_msgs = [
+			"재정은 적자지만 건강하게 버텼습니다. 곧 나아질 거예요.",
+			"어려운 달이었지만 쓰러지지 않았습니다.",
+			"이 경험이 더 단단하게 만들어줄 겁니다.",
+		]
+		return {"emoji": "💪", "title": "힘든 달", "msg": tough_msgs[t % tough_msgs.size()], "color": "#f0b429"}
 	else:
-		return {"emoji": "😰", "title": "위기 상황", "msg": "재정과 체력 모두 위험합니다. 전략을 바꾸세요.", "color": "#ff4444"}
+		var crisis_msgs = [
+			"재정과 체력 모두 위험합니다. 전략을 바꾸세요.",
+			"지금 방향을 바꾸지 않으면 무너집니다.",
+			"운동이나 명상으로 정신력부터 회복하세요.",
+		]
+		return {"emoji": "😰", "title": "위기 상황", "msg": crisis_msgs[t % crisis_msgs.size()], "color": "#ff4444"}
 
 # ── 다음 달 조언 ─────────────────────────────────────
 func _update_event_bg():
