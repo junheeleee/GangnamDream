@@ -159,6 +159,18 @@ func _check_conditions(conditions):
 				if GameState.housing_months.get(GameState.housing, 0) < int(req): return false
 			"max_turn":
 				if GameState.turn > int(req): return false
+			"market_cycle":
+				if GameState.market_context.get("cycle", "neutral") != str(req): return false
+			"min_fear_greed":
+				if int(GameState.market_context.get("fear_greed", 50)) < int(req): return false
+			"max_fear_greed":
+				if int(GameState.market_context.get("fear_greed", 50)) > int(req): return false
+			"min_reputation":
+				if GameState.reputation < int(req): return false
+			"min_work_performance":
+				if GameState.work_performance < int(req): return false
+			"min_job_tenure":
+				if GameState.job_tenure < int(req): return false
 	return true
 
 func _weighted_pick(events):
