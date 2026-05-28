@@ -1,5 +1,38 @@
 # Gangnam Dream Work Log
 
+## 2026-05-28 (Phase 2-A 취준생 페이즈 + 스토리 마일스톤 + 버그 수정)
+
+### 스토리 마일스톤 이벤트 추가 (크리티컬)
+- `_check_story_triggers()`에서 참조하지만 존재하지 않던 3개 이벤트 추가
+  - `story_one_half_year` (턴 18, 1년 반): 3가지 선택, `story_one_half_year_seen` 플래그
+  - `story_two_year` (턴 24, 2년): 3가지 선택, `story_two_year_seen` 플래그
+  - `story_three_year` (턴 36, 3년): 3가지 선택, `story_three_year_seen` 플래그
+
+### Phase 2-A: 취준생 페이즈 구현
+- **취업 준비 피드백 개선**: 구직활동 모달에 "준비도 패널" 추가 (이력서 완성 ✓/✗, 면접 연습 ✓/✗, 취업 후 업무능력 보너스 미리 표시)
+- **취업 준비 보너스 적용**: `JobSystem.apply_for_job()` — 이력서 완성 시 업무능력 +10, 면접 연습 시 +7 (플래그 소모)
+- **취업 성공 토스트 개선**: 준비 보너스가 있을 때 "취업! X직업 (준비 보너스 +17 업무능력)" 표시
+
+### 버그 수정
+- **`job_rejection_blues` 조건 수정**: `no_flag: story_first_workday_seen` 제거 → 재취업 준비 중인 플레이어도 이벤트 볼 수 있게
+- **`career_crossroads` 반복 방지**: 선택지에 `career_crossroads_seen` 플래그 추가
+- **`drama_startup_offer`**: 스타트업 합류 선택지에 `startup_launched` 플래그 추가 누락 → 사이드 창업 섹션 정상 활성화
+- **`drama_viral_moment`**: 채널 키우기 선택지에 `creator_started` 플래그 추가 → 크리에이터 루트 정상 진입
+
+### 콘텐츠 확장 (이벤트 +5개)
+- `age_25_crisis`: 25살 위기감 (턴 60-66, 1회성)
+- `gosiwon_escape_day`: 고시원 탈출 기념 (oneroom 첫 이사 후 1회성)
+- `investment_first_profit`: 첫 투자 수익 (1회성 마일스톤)
+- `five_year_seoul`: 서울 5년 (턴 60-65)
+- `career_pivot_temptation`: 커리어 전환 고민 (턴 24+, 직장인)
+
+### 기타
+- `midlife_30s_reflection` 타이밍 수정: min_turn 36 → min_turn 120 (실제 30세와 일치)
+- 중복 ID 3개 제거: story_one_half_year/two_year/three_year가 life_events.json에도 존재 → 제거
+- 전체 이벤트: 320 → 325개
+
+---
+
 ## 2026-05-28 (콘텐츠 대폭 확장 + 크리티컬 버그 수정)
 
 ### 크리티컬 버그 수정

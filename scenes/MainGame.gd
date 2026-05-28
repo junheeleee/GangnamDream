@@ -1620,6 +1620,18 @@ func _open_jobs():
 		var max_promo = int(GameState.current_job.get("max_promotions", 3))
 		modal_body.add_child(_wrap_label("현재: %s  Tier %d  승진 %d/%d회" % [GameState.current_job.get("name",""), current_tier, promo_count, max_promo], 13, "#f0b429"))
 	modal_body.add_child(_wrap_label("지력 %d  |  사회성 %d  |  외모 %d" % [GameState.intelligence, GameState.social_skill, GameState.appearance], 12, "#5a6075"))
+	# 취업 준비도 패널 (무직일 때만 표시)
+	if GameState.current_job.is_empty():
+		var resume_ok: bool = GameState.flags.get("resume_polished", false)
+		var interview_ok: bool = GameState.flags.get("interview_practiced", false)
+		var bonus_wp = (10 if resume_ok else 0) + (7 if interview_ok else 0)
+		var resume_str = "✅ 이력서 완성 (+10)" if resume_ok else "✗ 이력서 미완성"
+		var interview_str = "✅ 면접 연습 완료 (+7)" if interview_ok else "✗ 면접 연습 필요"
+		var prep_color = "#00c896" if (resume_ok or interview_ok) else "#64748b"
+		var prep_line = "📋 준비도  %s  |  %s" % [resume_str, interview_str]
+		if bonus_wp > 0:
+			prep_line += "  →  취업 후 업무능력 +%d 보너스" % bonus_wp
+		modal_body.add_child(_wrap_label(prep_line, 12, prep_color))
 	var sep = HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep)
@@ -1764,16 +1776,21 @@ func _on_save_pressed():
 	_show_toast("💾 저장 완료", Color("#00c896"))
 
 func _on_job_selected(job_id):
+	var had_resume = GameState.flags.get("resume_polished", false)
+	var had_interview = GameState.flags.get("interview_practiced", false)
 	job_system.apply_for_job(job_id)
 	var job_name = GameState.current_job.get("name", "직업 변경")
+	var prep_bonus = (10 if had_resume else 0) + (7 if had_interview else 0)
+	var prep_note = ("  (준비 보너스 +%d 업무능력)" % prep_bonus) if prep_bonus > 0 else ""
 	# 구직 로그 항목 갱신
 	for i in range(turn_action_log.size() - 1, -1, -1):
 		if turn_action_log[i].begins_with("✓ 💼"):
-			turn_action_log[i] = "✓ 💼 구직활동 → %s 취업" % job_name
+			turn_action_log[i] = "✓ 💼 구직활동 → %s 취업%s" % [job_name, prep_note]
 			break
 	_close_modal()
 	_refresh_all()
-	_show_toast("💼 %s" % job_name, Color("#fbbf24"))
+	var toast_msg = "💼 취업! %s%s" % [job_name, prep_note]
+	_show_toast(toast_msg, Color("#fbbf24"))
 
 func _on_buy_asset(asset_id, amount):
 	if not GameState.spend_ap():

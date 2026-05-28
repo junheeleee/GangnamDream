@@ -7235,8 +7235,7 @@
     "hidden": false,
     "conditions": {
       "no_job": true,
-      "min_turn": 4,
-      "no_flag": "story_first_workday_seen"
+      "min_turn": 4
     },
     "tags": [
       "jobs",
@@ -7467,158 +7466,6 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "유튜브와 취업 카페로 혼자 공부했다. 비용은 안 들었지만 시간이 많이 들었다. 이것도 결국엔 자기만의 방식이다."
-      }
-    ]
-  },
-  {
-    "id": "story_one_half_year",
-    "title": "1년 반",
-    "description": "서울에 온 지 1년 반이 됐다. 처음엔 지하철 노선도를 모르던 내가 이제 환승역을 외우고, 좋아하는 편의점 도시락 브랜드도 생겼다. 그때와 뭔가 달라졌는데, 뭐가 달라진 건지 정확히는 모르겠다.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 18,
-      "max_turn": 20,
-      "no_flag": "story_one_half_year_seen"
-    },
-    "tags": [
-      "daily",
-      "rest"
-    ],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "지난 1년 반을 돌아보며 다음을 계획한다.",
-        "effects": {
-          "intelligence": 2,
-          "mental": 5,
-          "stress": -3
-        },
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": [
-          "story_one_half_year_seen"
-        ],
-        "follow_up_event": "",
-        "result_text": "어디쯤 왔는지 좌표를 찍어봤다. 부족한 것도 많지만, 그만큼 쌓인 것도 있다. 다음 1년이 기대된다."
-      },
-      {
-        "text": "그냥 계속 살아간다. 생각하면 뭐 해.",
-        "effects": {
-          "mental": 3,
-          "luck": 1
-        },
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": [
-          "story_one_half_year_seen"
-        ],
-        "follow_up_event": "",
-        "result_text": "서울 살이가 그냥 일상이 됐다. 이게 정착인 건지, 아니면 익숙해진 건지. 어쨌든 오늘도 계속된다."
-      }
-    ]
-  },
-  {
-    "id": "story_two_year",
-    "title": "서울 2년",
-    "description": "2년이 됐다. 처음 들고 올라온 짐 가방이 생각난다. 고시원 첫날 밤, 천장을 보며 '내가 왜 여기 있지'라고 생각했던 그 밤. 지금의 나는 그 밤의 내가 원하던 사람이 됐을까.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 24,
-      "max_turn": 26,
-      "no_flag": "story_two_year_seen"
-    },
-    "tags": [
-      "daily",
-      "rest",
-      "spec"
-    ],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "지금 있는 자리에 감사한다. 여기까지 왔다.",
-        "effects": {
-          "mental": 10,
-          "stress": -6,
-          "luck": 2
-        },
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": [
-          "story_two_year_seen"
-        ],
-        "follow_up_event": "",
-        "result_text": "2년 전 나에게 '버텼어, 잘했어'라고 말해주고 싶었다. 아직 갈 길이 멀지만, 여기까지 온 것도 나쁘지 않다."
-      },
-      {
-        "text": "아직 부족하다. 더 빨리 가야 한다.",
-        "effects": {
-          "intelligence": 3,
-          "stress": 8,
-          "mental": -3
-        },
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": [
-          "story_two_year_seen"
-        ],
-        "follow_up_event": "",
-        "result_text": "남들이 어디쯤 있는지 검색해봤다. 조급해졌다. 그래도 이 긴장이 나쁜 건 아니다. 긴장이 사라지면 그때가 더 무섭다."
-      }
-    ]
-  },
-  {
-    "id": "story_three_year",
-    "title": "서울 3년",
-    "description": "3년. 이제 '서울 사람'이라고 해도 어색하지 않다. 고향 친구들이 '서울 어때?'라고 물으면 '그냥 사는 거지 뭐'라고 대답하게 됐다. 그 대답이 자연스러워진 것 자체가 변화다.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 36,
-      "max_turn": 38,
-      "no_flag": "story_three_year_seen"
-    },
-    "tags": [
-      "daily",
-      "rest"
-    ],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "이 도시에 내 뿌리가 생겼다. 여기서 계속 살고 싶다.",
-        "effects": {
-          "mental": 8,
-          "stress": -5,
-          "reputation": 2
-        },
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": [
-          "story_three_year_seen"
-        ],
-        "follow_up_event": "",
-        "result_text": "서울이 집이 됐다. 소음도, 경쟁도, 그 속에서 잠깐 나오는 한강 바람도. 이게 내 도시다."
-      },
-      {
-        "text": "그래도 여기 정착이 맞는지 모르겠다. 언젠간 떠날지도.",
-        "effects": {
-          "luck": 2,
-          "mental": 5
-        },
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": [
-          "story_three_year_seen"
-        ],
-        "follow_up_event": "",
-        "result_text": "지금 여기 있는 건 선택이 아니라 관성일 수도 있다. 그래도 괜찮다. 언젠가 결정하게 될 때, 그때 생각하자."
       }
     ]
   },
@@ -8286,7 +8133,9 @@
         },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": [],
+        "flags": [
+          "career_crossroads_seen"
+        ],
         "follow_up_event": "",
         "result_text": "면접을 봤다. 회사 분위기는 나쁘지 않았다. 아직 결정은 안 했지만, 선택지가 있다는 것 자체가 다르게 느껴졌다."
       },
@@ -8299,7 +8148,9 @@
         },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": [],
+        "flags": [
+          "career_crossroads_seen"
+        ],
         "follow_up_event": "",
         "result_text": "거절했다. 지금 회사에서 하려던 걸 마무리하고 싶다. 기회는 또 온다. 아니 오지 않을 수도 있지만, 지금 이 선택은 확신에서 나왔다."
       }
@@ -9397,7 +9248,8 @@
     "weight": 1.2,
     "hidden": false,
     "conditions": {
-      "min_turn": 36,
+      "min_turn": 120,
+      "max_turn": 126,
       "no_flag": "30s_reflection_done"
     },
     "tags": [
@@ -9892,6 +9744,293 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "계좌를 닫고 일상을 살았다. 3개월 후에 보면 다를 것이다. 이 판단이 맞는 것인지는 시간이 말해줄 것이다."
+      }
+    ]
+  },
+  {
+    "id": "age_25_crisis",
+    "title": "스물다섯",
+    "description": "어느 날 문득 깨달았다. 스물다섯. 어른이 됐다고 생각했는데, 아직도 고시원이고, 아직도 답을 모르겠다. 부모님 세대는 이 나이에 이미 취직하고 결혼도 생각했다던데. 지금 나는.",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 60,
+      "max_turn": 66,
+      "no_flag": "age_25_reflected"
+    },
+    "tags": [
+      "story",
+      "reflection",
+      "milestone"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "아직 늦지 않았어. 다음 5년이 진짜야.",
+        "effects": {
+          "mental": 8,
+          "stress": -4,
+          "intelligence": 3
+        },
+        "flags": [
+          "age_25_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "25살이 마감은 아니다. 오히려 진짜 시작점. {name}은 그 말이 구호가 아닌 현실이 되길 원했다."
+      },
+      {
+        "text": "내 페이스가 있어. 비교는 그만하자.",
+        "effects": {
+          "mental": 10,
+          "stress": -6
+        },
+        "flags": [
+          "age_25_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "남의 기준으로 내 인생을 측정하는 버릇을 끊기로 했다. 쉽지 않겠지만, 지금 당장은 내 숨부터 쉬기로."
+      },
+      {
+        "text": "솔직히 불안하다. 더 열심히 해야 한다.",
+        "effects": {
+          "stress": 8,
+          "investment_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [
+          "age_25_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "불안을 인정했다. 괜찮은 척 덮는 것보다 낫다. 이 불안이 행동의 이유가 되길 바랐다."
+      }
+    ]
+  },
+  {
+    "id": "gosiwon_escape_day",
+    "title": "고시원을 나서는 날",
+    "description": "오늘 짐을 쌌다. 캐리어 하나로 들어왔는데 나갈 때는 박스도 생겼다. 고시원에서의 날들이 스쳐 지나간다. 새벽 2시의 편의점, 얇은 벽 너머로 들리던 소리들, 공용 화장실 줄... 다시는 돌아오지 않겠다는 각오가 섰다.",
+    "category": "daily",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "housing": "oneroom",
+      "no_flag": "gosiwon_escape_celebrated",
+      "flag": "housing_moved_once"
+    },
+    "tags": [
+      "daily",
+      "housing",
+      "milestone"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "고시원 생활이 나를 단단하게 만들었다.",
+        "effects": {
+          "mental": 10,
+          "stress": -5,
+          "luck": 2
+        },
+        "flags": [
+          "gosiwon_escape_celebrated"
+        ],
+        "follow_up_event": "",
+        "result_text": "버텼기 때문에 여기 있는 거다. 좁은 방이 {name}을 단련시켰다. 이제 다음 문을 열 차례다."
+      },
+      {
+        "text": "이제부터 진짜 시작이다.",
+        "effects": {
+          "mental": 8,
+          "reputation": 2,
+          "stress": -3
+        },
+        "flags": [
+          "gosiwon_escape_celebrated"
+        ],
+        "follow_up_event": "",
+        "result_text": "새 방에 짐을 풀었다. 창문으로 하늘이 보였다. 고시원에선 보이지 않던 하늘이. 뭔가 달라질 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "investment_first_profit",
+    "title": "처음으로 수익이 났다",
+    "description": "매도 버튼을 눌렀다. 그리고 숫자를 봤다. 플러스다. 처음이다. 적은 금액이지만 — 내가 판단해서, 사서, 팔아서 번 돈이다. 이게 투자라는 건가.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 6,
+      "no_flag": "first_investment_profit_seen",
+      "min_investment_skill": 5
+    },
+    "tags": [
+      "investment",
+      "milestone",
+      "finance"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "바로 재투자한다. 복리의 힘을 믿는다.",
+        "effects": {
+          "investment_skill": 5,
+          "stress": 3
+        },
+        "flags": [
+          "first_investment_profit_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "수익을 다시 굴렸다. 첫 수익을 쓰지 않고 불린다는 건 생각보다 어렵다. 하지만 그게 복리의 시작이다."
+      },
+      {
+        "text": "일단 출금해서 실감한다.",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 6
+        },
+        "flags": [
+          "first_investment_profit_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "통장에 들어온 숫자를 봤다. 노동이 아닌 판단으로 번 돈. 이 감각이 {name}을 바꿨다."
+      },
+      {
+        "text": "더 공부하고 나서 더 크게 투자할 준비를 한다.",
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 3
+        },
+        "flags": [
+          "first_investment_profit_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "초보자의 행운일 수도 있다. 제대로 알고 하고 싶었다. {name}은 책을 펼쳤다."
+      }
+    ]
+  },
+  {
+    "id": "five_year_seoul",
+    "title": "서울 5년",
+    "description": "달력을 보니 5년이 됐다. 서울에 처음 왔을 때 메모해뒀던 메모장을 찾아봤다. '5년 안에 1억 만들기.' 1억이 됐는가? 아직이라면 — 얼마나 왔는가.",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 60,
+      "max_turn": 65,
+      "no_flag": "five_year_reflected"
+    },
+    "tags": [
+      "story",
+      "milestone",
+      "reflection"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "1억을 달성했다. 계획대로 가고 있다.",
+        "effects": {
+          "mental": 12,
+          "reputation": 4
+        },
+        "flags": [
+          "five_year_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "5년 계획을 지켰다. 자축할 자격이 있다. 다음 목표: 3억. {name}은 이미 다음 숫자를 적고 있었다."
+      },
+      {
+        "text": "아직 1억이 안 됐다. 더 속도를 내야 한다.",
+        "effects": {
+          "stress": 6,
+          "investment_skill": 3,
+          "intelligence": 2
+        },
+        "flags": [
+          "five_year_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "계획보다 늦다. 하지만 아직 45년이 남았다. 조급함은 경쟁자보다 자신을 더 빨리 지친다는 걸 기억했다."
+      },
+      {
+        "text": "숫자보다 더 중요한 것도 생겼다.",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2,
+          "stress": -4
+        },
+        "flags": [
+          "five_year_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "5년 동안 사람이 생겼고, 감각이 생겼고, 이 도시가 익숙해졌다. 숫자로 환산할 수 없는 것들이. 그것도 자산이다."
+      }
+    ]
+  },
+  {
+    "id": "career_pivot_temptation",
+    "title": "다른 분야가 궁금해진다",
+    "description": "SNS에서 우연히 다른 업계 사람 인터뷰를 봤다. '저는 3년 전에 직군을 바꿨어요. 지금은 연봉이 2배예요.' 지금 당장 이직을 고민할 건지, 아니면 지금 커리어에 더 투자할 건지.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 24,
+      "min_job_tenure": 6,
+      "no_flag": "career_pivot_decided"
+    },
+    "tags": [
+      "jobs",
+      "career",
+      "work"
+    ],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "일단 현업에서 전문성을 더 쌓는다.",
+        "effects": {
+          "intelligence": 3,
+          "reputation": 2,
+          "stress": 2
+        },
+        "flags": [
+          "career_pivot_decided"
+        ],
+        "follow_up_event": "",
+        "result_text": "지금 하는 일에 더 깊이 들어가기로 했다. 스킬이 쌓이면 기회는 따라온다. 불안보다 집중이 먼저다."
+      },
+      {
+        "text": "사이드로 다른 분야를 공부하기 시작한다.",
+        "effects": {
+          "intelligence": 5,
+          "stress": 5,
+          "investment_skill": 2
+        },
+        "flags": [
+          "career_pivot_decided"
+        ],
+        "follow_up_event": "",
+        "result_text": "퇴근 후 온라인 강의를 신청했다. 느리지만 안전하게. 준비된 기회는 다르다는 걸 믿었다."
+      },
+      {
+        "text": "적극적으로 이직 시장을 탐색한다.",
+        "effects": {
+          "social_skill": 3,
+          "reputation": 3,
+          "stress": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "프리미엄 이직 플랫폼에 프로필을 업데이트했다. 움직이는 자에게 기회가 온다. 리스크도 함께."
       }
     ]
   }

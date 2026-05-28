@@ -16,11 +16,21 @@ func apply_for_job(job_id):
 	GameState.work_performance = 50
 	GameState.monthly_income += float(job.get("base_salary", 0.0))
 	GameState.flags["has_job"] = true
+	# 취업 준비 보너스: 이력서 완성 +10, 면접 연습 +7
+	var prep_bonus = 0
+	if GameState.flags.get("resume_polished", false):
+		prep_bonus += 10
+		GameState.flags.erase("resume_polished")
+	if GameState.flags.get("interview_practiced", false):
+		prep_bonus += 7
+		GameState.flags.erase("interview_practiced")
+	GameState.work_performance = clamp(GameState.work_performance + prep_bonus, 0, 100)
 	# 최고 직업 티어 갱신 — 다음 티어 잠금 해제에 사용
 	var job_tier: int = int(job.get("tier", 1))
 	if job_tier > int(GameState.flags.get("max_job_tier", 0)):
 		GameState.flags["max_job_tier"] = job_tier
-	GameState.add_log("%s 취업. 월급 %s" % [job.get("name", "직장"), GameState.format_money(job.get("base_salary", 0.0))], "job")
+	var prep_log = (" (준비 보너스 업무능력 +%d)" % prep_bonus) if prep_bonus > 0 else ""
+	GameState.add_log("%s 취업. 월급 %s%s" % [job.get("name", "직장"), GameState.format_money(job.get("base_salary", 0.0)), prep_log], "job")
 	job_changed.emit(job)
 	return {"success": true, "message": "취업 완료"}
 

@@ -112,7 +112,10 @@
           "mental": -5,
           "flag": "joined_startup"
         },
-        "result_text": "사표를 냈다. 통장 잔고가 빠르게 줄어들 것이다. 성공하면 인생이 바뀐다."
+        "result_text": "사표를 냈다. 통장 잔고가 빠르게 줄어들 것이다. 성공하면 인생이 바뀐다.",
+        "flags": [
+          "startup_launched"
+        ]
       },
       {
         "text": "거절한다 — 안정이 먼저",
@@ -644,7 +647,10 @@
           "stress": 8,
           "intelligence": 3
         },
-        "result_text": "3개월 꾸준히 올렸다. 구독자 1만명. 부업 수익이 생기기 시작했다."
+        "result_text": "3개월 꾸준히 올렸다. 구독자 1만명. 부업 수익이 생기기 시작했다.",
+        "flags": [
+          "creator_started"
+        ]
       },
       {
         "text": "그냥 해프닝으로 흘려보낸다",

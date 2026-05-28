@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+### Added (2026-05-28 — Phase 2-A 취준생 페이즈 + 스토리 마일스톤)
+- **스토리 마일스톤 3개 추가** (기존 코드에서 참조하나 존재하지 않아 무음 실패하던 것 수정):
+  - `story_one_half_year` — 1년 반 적응의 시간 (턴 18)
+  - `story_two_year` — 2년 차 갈림길 (턴 24)
+  - `story_three_year` — 3년 20대의 절반 (턴 36)
+- **취업 준비 피드백 시스템**: 구직 모달에 이력서/면접 준비도 표시 + 취업 보너스 사전 안내
+- **취업 준비 보너스**: `apply_for_job()` 시 이력서 완성 +10, 면접 연습 +7 업무능력 보너스 (플래그 소모)
+- **새 이벤트 5개**: age_25_crisis, gosiwon_escape_day, investment_first_profit, five_year_seoul, career_pivot_temptation
+
+### Fixed (2026-05-28 — Phase 2-A)
+- `job_rejection_blues` 조건 수정: 재취업 준비 중인 플레이어에게도 표시
+- `career_crossroads` 반복 방지 플래그 추가
+- `drama_startup_offer` "합류" 선택지에 `startup_launched` 플래그 누락 수정 → 창업 섹션 정상 표시
+- `drama_viral_moment` "채널 키우기" 선택지에 `creator_started` 플래그 누락 수정
+- `midlife_30s_reflection` 타이밍 수정: 실제 30세 시점으로 이동 (min_turn 36 → 120)
+- 중복 이벤트 ID 3개 제거 (story milestone이 life_events.json에도 잔존)
+
+
+
 ### Added (2026-05-28 — Content Expansion + Critical Bug Fixes)
 - **320 total events** (life: 197, story: 16, drama: 27, investment: 30, relationship: 30, hidden: 20)
   - 20 new mid-game life events (min_turn: 12+): 연차 평가, 헤드헌터 연락, 동료 퇴사, 전세 시장 충격, 회식, 번아웃, 청약 탈락, 친구 집 구매, 대출 투자 유혹, 커리어 한계, 연차 쉬기, 배당 시즌, 새벽 편의점, 코인 급등, 30대 회고, 가족 금전 부탁, 자산 점검, 종합소득세, 강세장 유혹, 폭락장
