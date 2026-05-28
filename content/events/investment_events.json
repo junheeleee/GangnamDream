@@ -10,24 +10,41 @@
     "conditions": {
       "has_portfolio": true
     },
-    "tags": ["disasters", "class"],
+    "tags": [
+      "disasters",
+      "class"
+    ],
     "cooldown": 7,
     "choices": [
       {
         "text": "집주인과 협상을 시도한다",
-        "effects": {"money": 280000, "intelligence": -5},
+        "effects": {
+          "money": 280000,
+          "intelligence": -5
+        },
         "result_text": "끈질긴 협상 끝에 인상폭을 조금 줄였다. 현실적인 판단이 결과를 만들었다."
       },
       {
         "text": "억울하지만 그냥 받아들인다",
-        "effects": {"stress": 12, "mental": -7},
+        "effects": {
+          "stress": 12,
+          "mental": -7
+        },
         "result_text": "속으로 끙끙 앓으면서도 계약서에 도장을 찍었다. 스트레스가 몸속에 쌓인다."
       },
       {
         "text": "이참에 더 싼 방을 찾는다",
-        "effects": {"reputation": -1, "investment_skill": 0},
+        "effects": {
+          "reputation": -1,
+          "investment_skill": 0
+        },
         "result_text": "이사를 결심했다. 새 출발은 늘 리스크를 동반하지만, 멈춰 있을 수만은 없다.",
-        "investment_effects": [{"asset_id": "kospi_etf", "price_delta": -0.02}]
+        "investment_effects": [
+          {
+            "asset_id": "kospi_etf",
+            "price_delta": -0.02
+          }
+        ]
       }
     ]
   },
@@ -39,25 +56,45 @@
     "rarity": "rare",
     "weight": 1.7,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["gambling", "viral"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "gambling",
+      "viral"
+    ],
     "cooldown": 9,
     "choices": [
       {
         "text": "조용히 포지션을 정리한다",
-        "effects": {"money": 380000, "investment_skill": -2},
+        "effects": {
+          "money": 380000,
+          "investment_skill": -2
+        },
         "result_text": "냉정하게 수익을 확정했다. 욕심을 참는 것이 가장 어려운 투자 기술이다."
       },
       {
         "text": "모른 척 창을 닫는다",
-        "effects": {"stress": -4, "mental": -1},
+        "effects": {
+          "stress": -4,
+          "mental": -1
+        },
         "result_text": "유혹을 외면했지만 불안감은 쉽게 가시지 않는다. 마음이 흔들리는 밤이다."
       },
       {
         "text": "레버리지 풀베팅을 건다",
-        "effects": {"addiction_tendency": 8, "investment_skill": -1},
+        "effects": {
+          "addiction_tendency": 8,
+          "investment_skill": -1
+        },
         "result_text": "모든 걸 걸었다. 운명이 어느 쪽을 선택할지는 아침이 되어야 알 수 있다.",
-        "investment_effects": [{"asset_id": "bitcoin", "price_delta": 0.12}]
+        "investment_effects": [
+          {
+            "asset_id": "bitcoin",
+            "price_delta": 0.12
+          }
+        ],
+        "follow_up_event": "coin_futures_result"
       }
     ]
   },
@@ -69,25 +106,44 @@
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["politics", "opportunity"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "politics",
+      "opportunity"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "뉴스를 보고 방어적으로 조정한다",
-        "effects": {"money": -130000, "health": -3},
+        "effects": {
+          "money": -130000,
+          "health": -3
+        },
         "result_text": "포트폴리오를 보수적으로 재편했다. 손실을 피하는 것도 수익의 일부다."
       },
       {
         "text": "그냥 지켜보기로 한다",
-        "effects": {"stress": 10, "mental": 6},
+        "effects": {
+          "stress": 10,
+          "mental": 6
+        },
         "result_text": "불안한 마음을 억누르며 모니터만 바라봤다. 아무것도 안 하는 것도 선택이다."
       },
       {
         "text": "정책 수혜주에 올라탄다",
-        "effects": {"investment_skill": 5, "stress": 6},
+        "effects": {
+          "investment_skill": 5,
+          "stress": 6
+        },
         "result_text": "뉴스 속 숫자를 읽고 과감히 베팅했다. 정치는 시장의 또 다른 얼굴이다.",
-        "investment_effects": [{"asset_id": "bitcoin", "price_delta": 0.08}]
+        "investment_effects": [
+          {
+            "asset_id": "bitcoin",
+            "price_delta": 0.08
+          }
+        ]
       }
     ]
   },
@@ -99,29 +155,51 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["politics", "opportunity"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "politics",
+      "opportunity"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "소문 전에 미리 매수한다",
-        "effects": {"money": 320000, "appearance": 3},
+        "effects": {
+          "money": 320000,
+          "appearance": 3
+        },
         "result_text": "선거 전 눈치 빠른 매수로 포지션을 잡았다. 정보보다 빠른 발이 수익을 만든다."
       },
       {
         "text": "테마주를 외면한다",
-        "effects": {"stress": -5, "mental": -4},
+        "effects": {
+          "stress": -5,
+          "mental": -4
+        },
         "result_text": "묻지마 투자의 위험을 알기에 손을 대지 않았다. 소외감은 크지만 후회는 없다."
       },
       {
         "text": "단타로 치고 빠진다",
-        "effects": {"investment_skill": 3, "gambling_tendency": 4},
+        "effects": {
+          "investment_skill": 3,
+          "gambling_tendency": 4
+        },
         "result_text": "눈 깜짝할 사이에 들어갔다 나왔다. 빠른 판단이 이번엔 통했다.",
-        "investment_effects": [{"asset_id": "samsung", "price_delta": 0.05}]
+        "investment_effects": [
+          {
+            "asset_id": "samsung",
+            "price_delta": 0.05
+          }
+        ]
       },
       {
         "text": "차트만 보다가 아무것도 안 한다",
-        "effects": {"health": -2, "stress": -3},
+        "effects": {
+          "health": -2,
+          "stress": -3
+        },
         "result_text": "기회를 놓쳤는지도 모른다. 하지만 잃지 않은 것만으로 오늘은 충분하다."
       }
     ]
@@ -134,26 +212,47 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["disasters", "pressure"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "disasters",
+      "pressure"
+    ],
     "cooldown": 3,
     "choices": [
       {
         "text": "냉정하게 현황을 파악한다",
-        "effects": {"money": 380000, "stress": 2},
+        "effects": {
+          "money": 380000,
+          "stress": 2
+        },
         "result_text": "소문인지 사실인지부터 따져봤다. 감정 전에 팩트를 챙기는 습관이 중요하다."
       },
       {
         "text": "불안해서 아무것도 못 한다",
-        "effects": {"stress": 9, "mental": 6},
+        "effects": {
+          "stress": 9,
+          "mental": 6
+        },
         "result_text": "머릿속에 온갖 최악의 시나리오가 그려진다. 오늘 밤은 길 것 같다."
       },
       {
         "text": "소문을 역이용해 포지션을 잡는다",
-        "effects": {"investment_skill": 3, "reputation": 8},
+        "effects": {
+          "investment_skill": 3,
+          "reputation": 8
+        },
         "result_text": "남들이 패닉 셀할 때 과감히 들어갔다. 공포가 기회로 바뀌는 순간이었다.",
-        "flags": ["seen_disasters_005"],
-        "investment_effects": [{"asset_id": "kospi_etf", "price_delta": 0.03}]
+        "flags": [
+          "seen_disasters_005"
+        ],
+        "investment_effects": [
+          {
+            "asset_id": "kospi_etf",
+            "price_delta": 0.03
+          }
+        ]
       }
     ]
   },
@@ -165,23 +264,37 @@
     "rarity": "rare",
     "weight": 1.7,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["disasters", "pressure"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "disasters",
+      "pressure"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "보험 처리를 알아본다",
-        "effects": {"money": 130000, "luck": 4},
+        "effects": {
+          "money": 130000,
+          "luck": 4
+        },
         "result_text": "가입해둔 보험을 조용히 꺼내 확인했다. 미리 대비해둔 것이 결실을 맺었다."
       },
       {
         "text": "당황해서 그냥 새 폰을 산다",
-        "effects": {"money": -500000, "stress": 8},
+        "effects": {
+          "money": -500000,
+          "stress": 8
+        },
         "result_text": "충동적으로 매장을 찾아갔다. 화면이 박살 난 것보다 통장이 더 아프다."
       },
       {
         "text": "중고폰을 빠르게 구한다",
-        "effects": {"money": -150000, "intelligence": 2},
+        "effects": {
+          "money": -150000,
+          "intelligence": 2
+        },
         "result_text": "당근마켓을 뒤졌다. 위기에서도 효율을 찾는 것이 서울 생존법이다."
       }
     ]
@@ -194,23 +307,38 @@
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {"min_turn": 11, "has_portfolio": true},
-    "tags": ["gambling", "satire"],
+    "conditions": {
+      "min_turn": 11,
+      "has_portfolio": true
+    },
+    "tags": [
+      "gambling",
+      "satire"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "링크를 무시하고 닫는다",
-        "effects": {"money": 230000, "investment_skill": -6},
+        "effects": {
+          "money": 230000,
+          "investment_skill": -6
+        },
         "result_text": "수상한 링크는 클릭도 하지 않았다. 공짜로 보이는 것엔 언제나 함정이 있다."
       },
       {
         "text": "지인이 보낸 거라 고민하다 결국 들어간다",
-        "effects": {"stress": 9, "mental": -3},
+        "effects": {
+          "stress": 9,
+          "mental": -3
+        },
         "result_text": "링크를 눌렀다. 호기심이 이성을 이겼고, 결과는 예상대로였다."
       },
       {
         "text": "소액으로 한 번 질러본다",
-        "effects": {"gambling_tendency": 10, "investment_skill": -1},
+        "effects": {
+          "gambling_tendency": 10,
+          "investment_skill": -1
+        },
         "result_text": "딱 한 번이라고 스스로를 설득했다. 판도라의 상자는 그렇게 열린다."
       }
     ]
@@ -223,25 +351,45 @@
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {"max_mental": 65, "has_portfolio": true},
-    "tags": ["finance", "anxiety"],
+    "conditions": {
+      "max_mental": 65,
+      "has_portfolio": true
+    },
+    "tags": [
+      "finance",
+      "anxiety"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "카드값부터 먼저 갚는다",
-        "effects": {"money": 430000, "intelligence": -1},
+        "effects": {
+          "money": 430000,
+          "intelligence": -1
+        },
         "result_text": "월급이 들어오자마자 미루던 카드값을 털어냈다. 마음이 한결 가벼워졌다."
       },
       {
         "text": "최솟값만 내고 나머지는 미룬다",
-        "effects": {"stress": 5, "mental": -2},
+        "effects": {
+          "stress": 5,
+          "mental": -2
+        },
         "result_text": "이번 달도 최솟값만 결제했다. 이자가 쌓이는 걸 알면서도 지금은 방법이 없다."
       },
       {
         "text": "리볼빙으로 돌리고 투자금을 지킨다",
-        "effects": {"investment_skill": 4, "stress": 8},
+        "effects": {
+          "investment_skill": 4,
+          "stress": 8
+        },
         "result_text": "카드값은 굴리고 투자 포지션은 유지했다. 위험한 저글링이지만 기회비용 계산이다.",
-        "investment_effects": [{"asset_id": "samsung", "price_delta": 0.04}]
+        "investment_effects": [
+          {
+            "asset_id": "samsung",
+            "price_delta": 0.04
+          }
+        ]
       }
     ]
   },
@@ -253,29 +401,52 @@
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["finance", "viral"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "finance",
+      "viral"
+    ],
     "cooldown": 3,
     "choices": [
       {
         "text": "즉시 상환 계획을 세운다",
-        "effects": {"money": 140000, "luck": -1},
+        "effects": {
+          "money": 140000,
+          "luck": -1
+        },
         "result_text": "마이너스 통장 알림을 보자마자 스프레드시트를 열었다. 숫자와 마주하는 게 시작이다."
       },
       {
         "text": "알림을 꺼버린다",
-        "effects": {"stress": -8, "mental": 0},
+        "effects": {
+          "stress": -8,
+          "mental": 0
+        },
         "result_text": "알림 설정을 껐다. 보지 않으면 없는 것 같다는 착각이 하루를 버티게 해준다."
       },
       {
         "text": "마이너스를 더 키워 투자에 쓴다",
-        "effects": {"investment_skill": 1, "stress": 10, "addiction_tendency": 3},
+        "effects": {
+          "investment_skill": 1,
+          "stress": 10,
+          "addiction_tendency": 3
+        },
         "result_text": "지금 진입하지 않으면 기회를 놓친다고 판단했다. 빚으로 투자하는 도박이 시작됐다.",
-        "investment_effects": [{"asset_id": "samsung", "price_delta": 0.05}]
+        "investment_effects": [
+          {
+            "asset_id": "samsung",
+            "price_delta": 0.05
+          }
+        ]
       },
       {
         "text": "일단 오늘은 쉬기로 한다",
-        "effects": {"health": -2, "stress": -3},
+        "effects": {
+          "health": -2,
+          "stress": -3
+        },
         "result_text": "통장 잔고를 확인하고 앱을 닫았다. 내일의 나에게 미루는 것도 전략이라고 자위한다."
       }
     ]
@@ -288,23 +459,38 @@
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {"min_turn": 18, "has_portfolio": true},
-    "tags": ["disasters", "risk"],
+    "conditions": {
+      "min_turn": 18,
+      "has_portfolio": true
+    },
+    "tags": [
+      "disasters",
+      "risk"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "등기부등본과 집주인 정보를 확인한다",
-        "effects": {"money": -200000, "mental": -2},
+        "effects": {
+          "money": -200000,
+          "mental": -2
+        },
         "result_text": "당장 법원 인터넷 등기소를 열었다. 불안할수록 정보가 방패가 된다."
       },
       {
         "text": "설마 우리 집은 아니겠지 하고 넘긴다",
-        "effects": {"stress": 8, "mental": 2},
+        "effects": {
+          "stress": 8,
+          "mental": 2
+        },
         "result_text": "뉴스를 보고도 확인을 미뤘다. 남의 일처럼 느껴지는 것이 가장 위험한 착각이다."
       },
       {
         "text": "이 기회에 전세를 빼고 월세로 간다",
-        "effects": {"investment_skill": -1, "mental": 3},
+        "effects": {
+          "investment_skill": -1,
+          "mental": 3
+        },
         "result_text": "전세의 위험을 피해 월세 전환을 결정했다. 손해 같지만 마음은 편해졌다."
       }
     ]
@@ -317,29 +503,51 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["politics", "satire"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "politics",
+      "satire"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "요건을 꼼꼼히 확인해 신청한다",
-        "effects": {"money": -90000, "intelligence": -3},
+        "effects": {
+          "money": -90000,
+          "intelligence": -3
+        },
         "result_text": "지원 자격과 절차를 꼼꼼히 따져 신청서를 제출했다. 부끄럽지 않다, 내 권리다."
       },
       {
         "text": "쓸데없는 논쟁에 휘말린다",
-        "effects": {"stress": 11, "mental": -6},
+        "effects": {
+          "stress": 11,
+          "mental": -6
+        },
         "result_text": "SNS에서 논쟁을 시작했다. 에너지를 다 써버리고 아무것도 얻지 못했다."
       },
       {
         "text": "지원금을 시드머니로 활용한다",
-        "effects": {"investment_skill": 1, "reputation": 3},
+        "effects": {
+          "investment_skill": 1,
+          "reputation": 3
+        },
         "result_text": "받은 돈을 곧장 투자 계좌에 넣었다. 지원금도 굴리면 자산이 된다.",
-        "investment_effects": [{"asset_id": "kospi_etf", "price_delta": -0.02}]
+        "investment_effects": [
+          {
+            "asset_id": "kospi_etf",
+            "price_delta": -0.02
+          }
+        ]
       },
       {
         "text": "지원금 이슈 자체를 무시한다",
-        "effects": {"health": -2, "stress": -3},
+        "effects": {
+          "health": -2,
+          "stress": -3
+        },
         "result_text": "어차피 나와는 상관없는 이야기라고 생각했다. 무관심이 가장 편한 선택이었다."
       }
     ]
@@ -352,30 +560,54 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["gambling", "anxiety"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "gambling",
+      "anxiety"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "그 말을 듣고 냉정하게 계산한다",
-        "effects": {"money": -10000, "intelligence": 5},
+        "effects": {
+          "money": -10000,
+          "intelligence": 5
+        },
         "result_text": "한 방의 확률을 직접 계산해봤다. 숫자는 거짓말을 하지 않는다."
       },
       {
         "text": "마음이 흔들려 주변을 돌아본다",
-        "effects": {"stress": 11, "mental": 2},
+        "effects": {
+          "stress": 11,
+          "mental": 2
+        },
         "result_text": "주변 사람들의 성공담에 흔들렸다. 비교는 가장 위험한 투자 심리다."
       },
       {
         "text": "전 재산을 한 곳에 몰아넣는다",
-        "effects": {"gambling_tendency": 15, "investment_skill": 2},
+        "effects": {
+          "gambling_tendency": 15,
+          "investment_skill": 2
+        },
         "result_text": "한 방을 믿었다. 결과가 어떻든 이 선택은 오래 기억될 것이다.",
-        "flags": ["seen_gambling_020"],
-        "investment_effects": [{"asset_id": "meme_coin", "price_delta": 0.3}]
+        "flags": [
+          "seen_gambling_020"
+        ],
+        "investment_effects": [
+          {
+            "asset_id": "meme_coin",
+            "price_delta": 0.3
+          }
+        ]
       },
       {
         "text": "귀를 막고 그 자리를 떠난다",
-        "effects": {"health": -2, "stress": -3},
+        "effects": {
+          "health": -2,
+          "stress": -3
+        },
         "result_text": "듣지 않기로 했다. 유혹으로부터 멀어지는 것도 용기다."
       }
     ]
@@ -388,25 +620,45 @@
     "rarity": "rare",
     "weight": 1.7,
     "hidden": false,
-    "conditions": {"max_mental": 65, "has_portfolio": true},
-    "tags": ["finance", "anxiety"],
+    "conditions": {
+      "max_mental": 65,
+      "has_portfolio": true
+    },
+    "tags": [
+      "finance",
+      "anxiety"
+    ],
     "cooldown": 9,
     "choices": [
       {
         "text": "ETF 구성 종목을 꼼꼼히 분석한다",
-        "effects": {"money": 190000, "intelligence": 3},
+        "effects": {
+          "money": 190000,
+          "intelligence": 3
+        },
         "result_text": "남들이 인증샷 올리는 동안 내실을 따졌다. 트렌드 뒤에 숨은 리스크를 봐야 한다."
       },
       {
         "text": "나도 따라서 소액을 산다",
-        "effects": {"stress": -1, "mental": 2},
+        "effects": {
+          "stress": -1,
+          "mental": 2
+        },
         "result_text": "인증샷에 자극받아 똑같이 매수 버튼을 눌렀다. 군중 심리는 막기 어렵다."
       },
       {
         "text": "인증샷 트렌드를 마케팅에 활용한다",
-        "effects": {"investment_skill": 4, "reputation": 7},
+        "effects": {
+          "investment_skill": 4,
+          "reputation": 7
+        },
         "result_text": "투자보다 이 흐름 자체를 콘텐츠로 만들었다. 시대를 읽는 감각이 다른 길을 열었다.",
-        "investment_effects": [{"asset_id": "kospi_etf", "price_delta": -0.03}]
+        "investment_effects": [
+          {
+            "asset_id": "kospi_etf",
+            "price_delta": -0.03
+          }
+        ]
       }
     ]
   },
@@ -418,26 +670,47 @@
     "rarity": "rare",
     "weight": 1.7,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["politics", "anxiety"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "politics",
+      "anxiety"
+    ],
     "cooldown": 7,
     "choices": [
       {
         "text": "공식 발표 전에 선제적으로 움직인다",
-        "effects": {"money": -200000, "intelligence": -4},
+        "effects": {
+          "money": -200000,
+          "intelligence": -4
+        },
         "result_text": "루머가 사실이 되기 전에 포지션을 조정했다. 정보의 속도가 곧 수익이다."
       },
       {
         "text": "루머에 흔들려 감정적으로 매도한다",
-        "effects": {"stress": 10, "mental": 2},
+        "effects": {
+          "stress": 10,
+          "mental": 2
+        },
         "result_text": "불안감에 서둘러 팔아버렸다. 이성보다 공포가 먼저 손가락을 움직였다."
       },
       {
         "text": "루머를 역이용해 저점 매수를 노린다",
-        "effects": {"investment_skill": -1, "reputation": 6},
+        "effects": {
+          "investment_skill": -1,
+          "reputation": 6
+        },
         "result_text": "남들이 팔 때 샀다. 루머 뒤의 공포는 종종 기회의 다른 이름이다.",
-        "flags": ["seen_politics_025"],
-        "investment_effects": [{"asset_id": "reits", "price_delta": 0.06}]
+        "flags": [
+          "seen_politics_025"
+        ],
+        "investment_effects": [
+          {
+            "asset_id": "reits",
+            "price_delta": 0.06
+          }
+        ]
       }
     ]
   },
@@ -449,26 +722,47 @@
     "rarity": "common",
     "weight": 7,
     "hidden": false,
-    "conditions": {"max_turn": 12},
-    "tags": ["finance", "investment", "beginning"],
+    "conditions": {
+      "max_turn": 12
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "beginning"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "앱을 깔고 계좌를 개설한다",
-        "effects": {"investment_skill": 2, "intelligence": 1, "stress": 2},
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 1,
+          "stress": 2
+        },
         "result_text": "처음엔 복잡해 보였지만 계좌 개설을 완료했다. 첫 발을 내디딘 것이다.",
-        "flags": ["investment_account_opened"]
+        "flags": [
+          "investment_account_opened"
+        ]
       },
       {
         "text": "일단 지켜보기로 한다",
-        "effects": {"mental": -1, "stress": -2},
+        "effects": {
+          "mental": -1,
+          "stress": -2
+        },
         "result_text": "당장은 아니다. 더 공부하고 시작하자고 다짐했다. 다짐이 언제까지 유효한지는 모른다."
       },
       {
         "text": "투자보다 지금은 저축이 먼저다",
-        "effects": {"intelligence": 2, "stress": -3, "mental": 1},
+        "effects": {
+          "intelligence": 2,
+          "stress": -3,
+          "mental": 1
+        },
         "result_text": "원금 보호가 먼저라고 생각했다. 금리가 낮아도 잃지 않는 것이 시작이다.",
-        "flags": ["savings_first_mindset"]
+        "flags": [
+          "savings_first_mindset"
+        ]
       }
     ]
   },
@@ -480,23 +774,37 @@
     "rarity": "common",
     "weight": 6,
     "hidden": false,
-    "conditions": {"max_turn": 10},
-    "tags": ["finance", "education", "daily"],
+    "conditions": {
+      "max_turn": 10
+    },
+    "tags": [
+      "finance",
+      "education",
+      "daily"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "진지하게 보고 노트에 적는다",
-        "effects": {"intelligence": 3, "investment_skill": 2},
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2
+        },
         "result_text": "영상을 여러 번 돌려봤다. 완전히 이해한 건 아니지만, 세상을 보는 프레임이 달라졌다."
       },
       {
         "text": "반반 신뢰하고 기본 개념만 챙긴다",
-        "effects": {"investment_skill": 1, "stress": -1},
+        "effects": {
+          "investment_skill": 1,
+          "stress": -1
+        },
         "result_text": "전부 믿진 않았다. 하지만 분산투자와 복리 개념 하나는 새겼다."
       },
       {
         "text": "광고 영상이겠지 하고 넘긴다",
-        "effects": {"mental": 1},
+        "effects": {
+          "mental": 1
+        },
         "result_text": "재테크 유튜버들은 다 뭔가 팔려는 거라는 생각이 들었다. 틀린 말도 아닐 것이다."
       }
     ]
@@ -509,26 +817,47 @@
     "rarity": "uncommon",
     "weight": 5,
     "hidden": false,
-    "conditions": {"min_money": 500000, "max_turn": 15},
-    "tags": ["finance", "orthodox", "spec"],
+    "conditions": {
+      "min_money": 500000,
+      "max_turn": 15
+    },
+    "tags": [
+      "finance",
+      "orthodox",
+      "spec"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "가입한다",
-        "effects": {"money": -200000, "investment_skill": 2, "stress": -2},
+        "effects": {
+          "money": -200000,
+          "investment_skill": 2,
+          "stress": -2
+        },
         "result_text": "서류에 도장을 찍었다. 원금 보장이 안 된다는 게 걸리지만, 시작이 중요하다.",
-        "flags": ["bank_fund_invested"]
+        "flags": [
+          "bank_fund_invested"
+        ]
       },
       {
         "text": "일단 설명만 듣고 팸플릿을 챙겨온다",
-        "effects": {"intelligence": 2, "stress": 1},
+        "effects": {
+          "intelligence": 2,
+          "stress": 1
+        },
         "result_text": "집에서 꼼꼼히 읽어보고 결정하기로 했다. 서두르지 않는 것도 능력이다."
       },
       {
         "text": "수수료 없는 ETF를 직접 사는 게 낫겠다",
-        "effects": {"intelligence": 3, "investment_skill": 3},
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 3
+        },
         "result_text": "수수료 구조를 따져보니 직접 투자가 유리했다. 스스로 결정하는 능력을 키우는 것이다.",
-        "flags": ["prefers_direct_invest"]
+        "flags": [
+          "prefers_direct_invest"
+        ]
       }
     ]
   },
@@ -540,24 +869,42 @@
     "rarity": "uncommon",
     "weight": 5,
     "hidden": false,
-    "conditions": {"has_job": true, "min_job_tenure": 3},
-    "tags": ["finance", "orthodox", "work"],
+    "conditions": {
+      "has_job": true,
+      "min_job_tenure": 3
+    },
+    "tags": [
+      "finance",
+      "orthodox",
+      "work"
+    ],
     "cooldown": 20,
     "choices": [
       {
         "text": "참석해서 진지하게 듣는다",
-        "effects": {"intelligence": 4, "investment_skill": 3, "stress": -1},
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3,
+          "stress": -1
+        },
         "result_text": "DC형으로 바꾸면 직접 운용이 가능하다는 걸 처음 알았다. 작은 지식이 30년 후 차이를 만든다.",
-        "flags": ["pension_knowledge_unlocked"]
+        "flags": [
+          "pension_knowledge_unlocked"
+        ]
       },
       {
         "text": "귀찮아서 안 간다",
-        "effects": {"stress": -2},
+        "effects": {
+          "stress": -2
+        },
         "result_text": "어차피 나중에 받으면 되니까 지금은 상관없다고 생각했다. 그런데 왜 이렇게 찜찜하지."
       },
       {
         "text": "가서 졸다가 나온다",
-        "effects": {"intelligence": 1, "stress": 1},
+        "effects": {
+          "intelligence": 1,
+          "stress": 1
+        },
         "result_text": "중간에 졸기도 했지만 DC형이라는 단어만은 기억에 남았다. 나중에 찾아봐야겠다."
       }
     ]
@@ -570,25 +917,53 @@
     "rarity": "uncommon",
     "weight": 5,
     "hidden": false,
-    "conditions": {"flag": "has_received_paycheck", "min_money": 300000},
-    "tags": ["finance", "investment", "beginning"],
+    "conditions": {
+      "flag": "has_received_paycheck",
+      "min_money": 300000
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "beginning"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "더 살 수 있을 만큼 더 산다",
-        "effects": {"investment_skill": 3, "money": -500000, "stress": 5},
+        "effects": {
+          "investment_skill": 3,
+          "money": -500000,
+          "stress": 5
+        },
         "result_text": "통장 잔고와 상의하며 조금 더 샀다. 주식은 사놓고 나면 왜 이렇게 걱정되는 걸까.",
-        "investment_effects": [{"asset_id": "samsung", "price_delta": 0.01}]
+        "investment_effects": [
+          {
+            "asset_id": "samsung",
+            "price_delta": 0.01
+          }
+        ]
       },
       {
         "text": "딱 1주만 경험삼아 갖고 있기로 한다",
-        "effects": {"investment_skill": 2, "stress": 1},
+        "effects": {
+          "investment_skill": 2,
+          "stress": 1
+        },
         "result_text": "1주면 충분하다. 잃어도 공부비다. 처음은 언제나 겁이 났다.",
-        "investment_effects": [{"asset_id": "samsung", "price_delta": 0.0}]
+        "investment_effects": [
+          {
+            "asset_id": "samsung",
+            "price_delta": 0.0
+          }
+        ]
       },
       {
         "text": "무서워서 바로 판다",
-        "effects": {"intelligence": 1, "mental": 2, "investment_skill": 1},
+        "effects": {
+          "intelligence": 1,
+          "mental": 2,
+          "investment_skill": 1
+        },
         "result_text": "산 지 10분 만에 팔았다. 수수료만 날렸지만 심리를 알게 됐다."
       }
     ]
@@ -601,25 +976,50 @@
     "rarity": "uncommon",
     "weight": 5,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "min_turn": 3},
-    "tags": ["finance", "investment", "anxiety"],
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 3
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "anxiety"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "공황 매도 — 다 판다",
-        "effects": {"investment_skill": 3, "mental": -5, "stress": 10},
+        "effects": {
+          "investment_skill": 3,
+          "mental": -5,
+          "stress": 10
+        },
         "result_text": "전부 팔았다. 손실을 확정짓는 것이 이렇게 고통스러운 줄 몰랐다."
       },
       {
         "text": "버틴다 — 장기 투자를 믿는다",
-        "effects": {"investment_skill": 4, "stress": 8, "mental": -2},
+        "effects": {
+          "investment_skill": 4,
+          "stress": 8,
+          "mental": -2
+        },
         "result_text": "아무것도 안 했다. 숫자를 보지 않기로 했다. 회복을 믿는 것도 전략이다."
       },
       {
         "text": "더 산다 — 분할 매수 기회다",
-        "effects": {"investment_skill": 5, "money": -300000, "stress": 5, "mental": 2},
+        "effects": {
+          "investment_skill": 5,
+          "money": -300000,
+          "stress": 5,
+          "mental": 2
+        },
         "result_text": "떨어질 때 더 사는 것이 더 싸게 사는 거라고 배웠다. 손이 떨렸지만 매수 버튼을 눌렀다.",
-        "investment_effects": [{"asset_id": "kospi_etf", "price_delta": -0.03}]
+        "investment_effects": [
+          {
+            "asset_id": "kospi_etf",
+            "price_delta": -0.03
+          }
+        ]
       }
     ]
   },
@@ -631,27 +1031,52 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "no_flag": "first_dividend_received"},
-    "tags": ["finance", "investment", "milestone"],
+    "conditions": {
+      "has_portfolio": true,
+      "no_flag": "first_dividend_received"
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "milestone"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "배당금을 재투자한다",
-        "effects": {"investment_skill": 3, "mental": 5, "money": -3200},
+        "effects": {
+          "investment_skill": 3,
+          "mental": 5,
+          "money": -3200
+        },
         "result_text": "3,200원을 곧장 재투자했다. 복리의 시작이 이 작은 금액에서 비롯된다.",
-        "flags": ["first_dividend_received", "dividend_reinvest_habit"]
+        "flags": [
+          "first_dividend_received",
+          "dividend_reinvest_habit"
+        ]
       },
       {
         "text": "그냥 쓴다 — 커피라도 산다",
-        "effects": {"mental": 8, "stress": -3},
+        "effects": {
+          "mental": 8,
+          "stress": -3
+        },
         "result_text": "배당금으로 커피 두 잔을 샀다. 달았다. 수익으로 마신 커피는 특별히 다른 맛이다.",
-        "flags": ["first_dividend_received"]
+        "flags": [
+          "first_dividend_received"
+        ]
       },
       {
         "text": "더 많이 받으려면 어떻게 해야 할지 공부한다",
-        "effects": {"investment_skill": 4, "intelligence": 2, "mental": 3},
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 2,
+          "mental": 3
+        },
         "result_text": "3,200원이 100만원이 되려면 얼마나 투자해야 하는지 계산해봤다. 숫자가 선명해졌다.",
-        "flags": ["first_dividend_received"]
+        "flags": [
+          "first_dividend_received"
+        ]
       }
     ]
   },
@@ -663,23 +1088,41 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "min_investment_skill": 15},
-    "tags": ["finance", "investment", "orthodox"],
+    "conditions": {
+      "has_portfolio": true,
+      "min_investment_skill": 15
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "orthodox"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "포트폴리오를 리밸런싱한다",
-        "effects": {"investment_skill": 4, "intelligence": 2, "stress": -2},
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 2,
+          "stress": -2
+        },
         "result_text": "비중이 틀어진 자산을 조정했다. 원칙을 지키는 것이 장기 투자의 전부다."
       },
       {
         "text": "현 전략을 유지한다",
-        "effects": {"investment_skill": 2, "stress": -3},
+        "effects": {
+          "investment_skill": 2,
+          "stress": -3
+        },
         "result_text": "꾸준함이 전략이라고 생각했다. 당장 안 움직이는 것이 때로는 최선이다."
       },
       {
         "text": "전략을 완전히 바꾼다",
-        "effects": {"investment_skill": 3, "stress": 6, "mental": -3},
+        "effects": {
+          "investment_skill": 3,
+          "stress": 6,
+          "mental": -3
+        },
         "result_text": "기존 포지션을 정리하고 새 전략을 세웠다. 잦은 전략 변경의 함정을 모르는 건 아니지만."
       }
     ]
@@ -692,23 +1135,42 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {"has_portfolio": true},
-    "tags": ["gambling", "risk", "investment"],
+    "conditions": {
+      "has_portfolio": true
+    },
+    "tags": [
+      "gambling",
+      "risk",
+      "investment"
+    ],
     "cooldown": 15,
     "choices": [
       {
         "text": "레버리지는 절대 안 하겠다고 다짐한다",
-        "effects": {"investment_skill": 4, "mental": 3, "stress": -3},
+        "effects": {
+          "investment_skill": 4,
+          "mental": 3,
+          "stress": -3
+        },
         "result_text": "친구의 이야기가 생생한 교훈이 됐다. 레버리지는 수익도 크지만 손실도 크다."
       },
       {
         "text": "그 친구가 틀린 것이지 레버리지 자체는 괜찮다",
-        "effects": {"investment_skill": 2, "stress": 3, "addiction_tendency": 5},
+        "effects": {
+          "investment_skill": 2,
+          "stress": 3,
+          "addiction_tendency": 5
+        },
         "result_text": "타이밍과 리스크 관리가 문제였다고 분석했다. 그 분석이 맞을 수도, 틀릴 수도 있다."
       },
       {
         "text": "친구를 위로하고 같이 밥을 먹는다",
-        "effects": {"mental": 5, "social_skill": 2, "money": -50000, "stress": -5},
+        "effects": {
+          "mental": 5,
+          "social_skill": 2,
+          "money": -50000,
+          "stress": -5
+        },
         "result_text": "돈 이야기는 꺼내지 않고 밥만 같이 먹었다. 친구에겐 지금 그게 필요했다."
       }
     ]
@@ -721,24 +1183,48 @@
     "rarity": "rare",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "min_fear_greed": 75},
-    "tags": ["investment", "finance", "risk"],
+    "conditions": {
+      "has_portfolio": true,
+      "min_fear_greed": 75
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "risk"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "일부 이익 실현을 한다",
-        "effects": {"investment_skill": 5, "money": 500000, "mental": 5, "stress": -4},
+        "effects": {
+          "investment_skill": 5,
+          "money": 500000,
+          "mental": 5,
+          "stress": -4
+        },
         "result_text": "욕심을 놓을 줄 아는 것도 투자 실력이다. 수익 일부를 확정지었다."
       },
       {
         "text": "더 산다 — 모멘텀이 남아있다",
-        "effects": {"investment_skill": 2, "stress": 8, "addiction_tendency": 3},
+        "effects": {
+          "investment_skill": 2,
+          "stress": 8,
+          "addiction_tendency": 3
+        },
         "result_text": "탐욕이 두려움보다 컸다. 이 선택이 얼마나 위험한지는 다음 달이 알려줄 것이다.",
-        "investment_effects": [{"asset_id": "nvidia", "price_delta": 0.1}]
+        "investment_effects": [
+          {
+            "asset_id": "nvidia",
+            "price_delta": 0.1
+          }
+        ]
       },
       {
         "text": "그냥 바라본다",
-        "effects": {"investment_skill": 2, "stress": 3},
+        "effects": {
+          "investment_skill": 2,
+          "stress": 3
+        },
         "result_text": "아무것도 안 했다. 보고 있으면 손이 가는 게 이 세계다."
       }
     ]
@@ -751,24 +1237,48 @@
     "rarity": "uncommon",
     "weight": 3.5,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "market_cycle": "bear"},
-    "tags": ["investment", "finance", "risk"],
+    "conditions": {
+      "has_portfolio": true,
+      "market_cycle": "bear"
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "risk"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "오히려 적립식 매수를 늘린다",
-        "effects": {"investment_skill": 6, "money": -300000, "stress": 5, "mental": 3},
+        "effects": {
+          "investment_skill": 6,
+          "money": -300000,
+          "stress": 5,
+          "mental": 3
+        },
         "result_text": "남들이 팔 때 사는 것이 이론상 옳다는 걸 안다. 실천하는 건 이론과 달랐지만.",
-        "investment_effects": [{"asset_id": "kospi_etf", "price_delta": -0.02}]
+        "investment_effects": [
+          {
+            "asset_id": "kospi_etf",
+            "price_delta": -0.02
+          }
+        ]
       },
       {
         "text": "손절하고 현금화한다",
-        "effects": {"investment_skill": 3, "mental": -5, "stress": 8},
+        "effects": {
+          "investment_skill": 3,
+          "mental": -5,
+          "stress": 8
+        },
         "result_text": "더 이상의 손실을 막기로 했다. 손절은 언제나 아프지만 때로는 필요하다."
       },
       {
         "text": "앱을 숨기고 아무것도 안 보기로 한다",
-        "effects": {"mental": 5, "stress": -5},
+        "effects": {
+          "mental": 5,
+          "stress": -5
+        },
         "result_text": "앱을 숨겼다. 보이지 않으면 덜 아프다. 이게 진짜 장기 투자 전략일 수 있다."
       }
     ]
@@ -781,23 +1291,44 @@
     "rarity": "uncommon",
     "weight": 3.5,
     "hidden": false,
-    "conditions": {"has_job": true, "min_money": 300000, "min_turn": 6},
-    "tags": ["investment", "finance", "opportunity"],
+    "conditions": {
+      "has_job": true,
+      "min_money": 300000,
+      "min_turn": 6
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "opportunity"
+    ],
     "cooldown": 15,
     "choices": [
       {
         "text": "최대 증거금으로 청약한다",
-        "effects": {"investment_skill": 3, "money": -500000, "stress": 4, "luck": 1},
+        "effects": {
+          "investment_skill": 3,
+          "money": -500000,
+          "stress": 4,
+          "luck": 1
+        },
         "result_text": "청약을 넣었다. 이제 2주를 기다려야 한다. 당첨 여부가 운명을 가를 것이다."
       },
       {
         "text": "균등배정 최소 금액만 넣는다",
-        "effects": {"investment_skill": 2, "money": -250000, "stress": 2},
+        "effects": {
+          "investment_skill": 2,
+          "money": -250000,
+          "stress": 2
+        },
         "result_text": "잃어도 아프지 않을 금액만 넣었다. 합리적인 선택이지만 아쉬움은 남는다."
       },
       {
         "text": "과열된 공모는 패스한다",
-        "effects": {"investment_skill": 3, "stress": -2, "mental": 1},
+        "effects": {
+          "investment_skill": 3,
+          "stress": -2,
+          "mental": 1
+        },
         "result_text": "공모가가 너무 높다고 판단했다. FOMO보다 분석이 먼저다."
       }
     ]
@@ -810,23 +1341,45 @@
     "rarity": "rare",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "has_relationship": true},
-    "tags": ["investment", "finance", "risk", "relationship"],
+    "conditions": {
+      "has_portfolio": true,
+      "has_relationship": true
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "risk",
+      "relationship"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "정보를 검토하고 직접 분석한다",
-        "effects": {"investment_skill": 4, "intelligence": 2, "stress": 3},
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 2,
+          "stress": 3
+        },
         "result_text": "카더라 정보라도 직접 분석해봤다. 결론은 근거가 부족하다는 것이었다."
       },
       {
         "text": "소액만 따라가 본다",
-        "effects": {"investment_skill": 2, "money": -200000, "gambling_tendency": 5, "stress": 4},
-        "result_text": "잃어도 수업료다 싶어 소액만 따라갔다. 결과는 나중에 안다."
+        "effects": {
+          "investment_skill": 2,
+          "money": -200000,
+          "gambling_tendency": 5,
+          "stress": 4
+        },
+        "result_text": "잃어도 수업료다 싶어 소액만 따라갔다. 결과는 나중에 안다.",
+        "follow_up_event": "insider_tip_outcome"
       },
       {
         "text": "카톡방을 나간다",
-        "effects": {"investment_skill": 3, "stress": -3, "mental": 2},
+        "effects": {
+          "investment_skill": 3,
+          "stress": -3,
+          "mental": 2
+        },
         "result_text": "루머와 소문이 가득한 공간은 독이다. 조용히 나갔다."
       }
     ]
@@ -839,23 +1392,44 @@
     "rarity": "uncommon",
     "weight": 3.5,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "min_investment_skill": 20, "min_turn": 14},
-    "tags": ["investment", "finance", "orthodox"],
+    "conditions": {
+      "has_portfolio": true,
+      "min_investment_skill": 20,
+      "min_turn": 14
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "orthodox"
+    ],
     "cooldown": 20,
     "choices": [
       {
         "text": "세무사에게 의뢰한다",
-        "effects": {"money": -300000, "intelligence": 2, "stress": -5},
+        "effects": {
+          "money": -300000,
+          "intelligence": 2,
+          "stress": -5
+        },
         "result_text": "전문가에게 맡겼다. 수수료가 들었지만 마음이 편해졌다. 돈으로 사는 안심이다."
       },
       {
         "text": "직접 공부해서 신고한다",
-        "effects": {"intelligence": 4, "investment_skill": 3, "stress": 8, "money": -150000},
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3,
+          "stress": 8,
+          "money": -150000
+        },
         "result_text": "국세청 홈택스와 씨름했다. 시간은 오래 걸렸지만 세금 지식이 늘었다."
       },
       {
         "text": "일단 모른 척한다",
-        "effects": {"stress": 12, "mental": -4, "luck": -2},
+        "effects": {
+          "stress": 12,
+          "mental": -4,
+          "luck": -2
+        },
         "result_text": "나중에 생각하기로 했다. 그런데 신고 기한이 자꾸 머릿속을 맴돌았다."
       }
     ]
@@ -868,23 +1442,41 @@
     "rarity": "common",
     "weight": 5,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "min_turn": 8},
-    "tags": ["investment", "finance", "anxiety"],
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 8
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "anxiety"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "손절한다 — 현실을 인정한다",
-        "effects": {"investment_skill": 5, "mental": -3, "stress": 5},
+        "effects": {
+          "investment_skill": 5,
+          "mental": -3,
+          "stress": 5
+        },
         "result_text": "가장 어려운 버튼을 눌렀다. 손실은 확정됐지만 심리적 짐이 사라졌다."
       },
       {
         "text": "비중을 줄이고 일부는 유지한다",
-        "effects": {"investment_skill": 3, "stress": 3},
+        "effects": {
+          "investment_skill": 3,
+          "stress": 3
+        },
         "result_text": "일부를 정리하고 나머지는 장기 투자로 돌렸다. 중간 선택이 항상 최선은 아니지만."
       },
       {
         "text": "계속 버틴다",
-        "effects": {"stress": 6, "mental": -2, "investment_skill": 1},
+        "effects": {
+          "stress": 6,
+          "mental": -2,
+          "investment_skill": 1
+        },
         "result_text": "기다린다. 오를 것이다. 아마도. 그게 투자인지 집착인지 경계가 흐릿해졌다."
       }
     ]
@@ -897,27 +1489,156 @@
     "rarity": "uncommon",
     "weight": 3,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "no_flag": "portfolio_10m_milestone"},
-    "tags": ["investment", "finance", "milestone"],
+    "conditions": {
+      "has_portfolio": true,
+      "no_flag": "portfolio_10m_milestone"
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "milestone"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "더 크게 굴릴 전략을 세운다",
-        "effects": {"investment_skill": 5, "intelligence": 3, "stress": 3},
+        "effects": {
+          "investment_skill": 5,
+          "intelligence": 3,
+          "stress": 3
+        },
         "result_text": "1천만원이 끝이 아니라 시작이라는 걸 알았다. 다음 목표는 1억이다.",
-        "flags": ["portfolio_10m_milestone"]
+        "flags": [
+          "portfolio_10m_milestone"
+        ]
       },
       {
         "text": "일부를 인출해 나를 위해 쓴다",
-        "effects": {"mental": 10, "stress": -8, "money": 300000},
+        "effects": {
+          "mental": 10,
+          "stress": -8,
+          "money": 300000
+        },
         "result_text": "고생한 자신에게 작은 선물을 했다. 돈은 결국 삶을 위해 있는 것이다.",
-        "flags": ["portfolio_10m_milestone"]
+        "flags": [
+          "portfolio_10m_milestone"
+        ]
       },
       {
         "text": "아무한테도 말 안 하기로 한다",
-        "effects": {"mental": 5, "luck": 2},
+        "effects": {
+          "mental": 5,
+          "luck": 2
+        },
         "result_text": "혼자 조용히 기뻐했다. 자랑하면 시기질투가 돌아온다는 걸 서울은 이미 가르쳐줬다.",
-        "flags": ["portfolio_10m_milestone"]
+        "flags": [
+          "portfolio_10m_milestone"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "coin_futures_result",
+    "title": "코인 선물 — 결과",
+    "description": "다음 날 새벽. 눈이 저절로 떠졌다.\n\n폰을 들었다. 거래소 앱을 켰다.\n\n비트코인이 밤사이 급락했다. 마진콜이 실행됐다. 강제청산 완료.",
+    "category": "gambling",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "gambling",
+      "finance"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "손실을 인정하고 털어낸다",
+        "effects": {
+          "money": -2000000,
+          "stress": 10,
+          "investment_skill": 3,
+          "addiction_tendency": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "통장에서 200만원이 사라졌다. 레버리지는 도박이었다. 이걸 깨닫는 데 이 돈이 들었다."
+      },
+      {
+        "text": "복구를 위해 더 큰 포지션을 잡는다",
+        "effects": {
+          "money": -1500000,
+          "addiction_tendency": 20,
+          "investment_skill": -3,
+          "stress": 18
+        },
+        "flags": [
+          "leverage_addict"
+        ],
+        "follow_up_event": "",
+        "result_text": "더 크게 베팅했다. 손을 잡아줄 사람이 없었다. 이건 더 이상 투자가 아니다."
+      },
+      {
+        "text": "거래소 계정을 탈퇴한다",
+        "effects": {
+          "money": -1800000,
+          "mental": -8,
+          "stress": -5,
+          "investment_skill": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "계정 탈퇴 버튼을 눌렀다. 180만원을 잃었다. 두 번은 없다."
+      }
+    ]
+  },
+  {
+    "id": "insider_tip_outcome",
+    "title": "정보의 결과",
+    "description": "3주 후. 그 종목의 차트를 다시 열었다.\n\n반토막이 나 있었다. 알고보니 세력의 출구전략이었다. 개인투자자들만 물렸다.\n\n카톡방은 조용해졌다.",
+    "category": "investment",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "investment",
+      "finance"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "빠르게 손절한다 — 손실을 확정한다",
+        "effects": {
+          "money": -120000,
+          "investment_skill": 3,
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "12만원을 잃었다. 비싸지는 않은 수업료였다. 다음엔 출처 불명 정보는 무시한다."
+      },
+      {
+        "text": "버틴다 — 언젠간 반등한다",
+        "effects": {
+          "stress": 12,
+          "mental": -6,
+          "investment_skill": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "존버를 선택했다. 차트를 매일 확인하게 됐다. 마음이 종목에 묶여버렸다."
+      },
+      {
+        "text": "물타기 — 평단을 낮춘다",
+        "effects": {
+          "money": -200000,
+          "addiction_tendency": 8,
+          "stress": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "20만원을 더 넣었다. 평단이 낮아졌지만 리스크는 커졌다. 이미 빠져나올 타이밍이 지났다는 걸 느꼈다."
       }
     ]
   }
