@@ -12088,5 +12088,433 @@
         "result_text": "심리상담 센터를 예약했다. 15만원. 처음엔 어색했지만 1시간이 끝나고 나서 뭔가 달라졌다. 내가 왜 이렇게 됐는지 말할 수 있게 됐다는 것만으로."
       }
     ]
+  },
+  {
+    "id": "age_50_milestone",
+    "title": "쉰 살",
+    "description": "50살이 됐다.\n\n불과 5년 전에 '마흔이라니'라고 생각했는데, 어느새 쉰이다.\n체력이 예전 같지 않다는 걸 매일 느낀다.\n하지만 20대의 불안은 없다. 30대의 조급함도 없다.\n\n자산은 어디까지 왔는가. 그리고 앞으로 얼마나 더 갈 수 있는가.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "milestone",
+      "reflection",
+      "age"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "아직 강남드림까지 간다. 15년 남았다.",
+        "effects": {
+          "mental": 20,
+          "stress": -5,
+          "investment_skill": 3,
+          "luck": 2
+        },
+        "flags": [
+          "age_50_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "15년. 충분하다. 50살에도 꿈을 꾸는 사람은 진다고 하지 않는다. {name}은 계획을 다시 폈다."
+      },
+      {
+        "text": "이제 건강과 관계에 더 투자하겠다.",
+        "effects": {
+          "health": 8,
+          "mental": 15,
+          "stress": -8,
+          "social_skill": 3
+        },
+        "flags": [
+          "age_50_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "돈보다 오래 쓸 수 있는 건 몸뿐이다. 50살의 {name}은 비로소 진짜 자산이 무엇인지 알았다."
+      },
+      {
+        "text": "지금까지 온 것만으로도 대단하다고, 스스로를 인정한다.",
+        "effects": {
+          "mental": 25,
+          "stress": -10,
+          "health": 5
+        },
+        "flags": [
+          "age_50_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "고시원 100만원에서 시작해 여기까지. 누가 뭐라 해도 그건 {name}이 해낸 일이다. 오늘 하루는 그냥 그 사실만 가지고 살았다."
+      }
+    ]
+  },
+  {
+    "id": "age_55_milestone",
+    "title": "마지막 직장",
+    "description": "쉰다섯.\n\n주변에서 명예퇴직 이야기가 나오기 시작했다.\n팀장이 불러서 갔더니 '회사 사정이 어렵다'는 이야기를 했다.\n\n10년 전이라면 패닉했을 텐데 지금은 다르다.\n지금까지 쌓아온 것들이 있으니까.\n\n앞으로 10년, 어떻게 마무리할 것인가.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "milestone",
+      "jobs",
+      "retirement"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "명예퇴직을 수용하고 제2의 인생을 시작한다.",
+        "effects": {
+          "mental": 10,
+          "stress": -15,
+          "money": 20000000,
+          "reputation": 3
+        },
+        "flags": [
+          "age_55_reflected",
+          "early_retired"
+        ],
+        "follow_up_event": "",
+        "result_text": "퇴직금을 받았다. 생각보다 묵직했다. 처음엔 허전했지만 곧 다른 문이 보이기 시작했다. 끝이 아니라 전환점이다."
+      },
+      {
+        "text": "버틴다. 65세까지 월급은 소중하다.",
+        "effects": {
+          "stress": 8,
+          "health": -3,
+          "mental": -5,
+          "monthly_income": 500000
+        },
+        "flags": [
+          "age_55_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "자리를 지켰다. 쉽지 않은 선택이었지만, 아직 10년이 남았다. 월급은 계속 들어온다. 그것만으로도 충분하다."
+      },
+      {
+        "text": "프리랜서·컨설턴트로 전향해 경험을 팔겠다.",
+        "effects": {
+          "mental": 15,
+          "stress": -5,
+          "monthly_income": -500000,
+          "reputation": 5,
+          "investment_skill": 2
+        },
+        "flags": [
+          "age_55_reflected",
+          "freelance_path"
+        ],
+        "follow_up_event": "",
+        "result_text": "30년 경력이 곧 상품이 됐다. 수입은 불안정하지만 시간은 내 것이다. {name}은 처음으로 자기 일정을 스스로 짰다."
+      }
+    ]
+  },
+  {
+    "id": "age_60_milestone",
+    "title": "예순",
+    "description": "예순이 됐다.\n\n20대에 서울에 왔을 때 예순은 상상도 못 했다.\n이제 5년 후면 65세, 게임의 끝이다.\n\n총자산을 다시 확인했다. 20억까지 얼마나 남았는가.\n아니면 이미 넘었는가.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "milestone",
+      "reflection",
+      "ending"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "마지막 5년. 모든 것을 쏟아붓는다.",
+        "effects": {
+          "mental": 15,
+          "stress": 5,
+          "investment_skill": 4,
+          "luck": 3
+        },
+        "flags": [
+          "age_60_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "5년. 60개의 달. 한 달도 허투루 쓰지 않겠다. {name}의 마지막 스프린트가 시작됐다."
+      },
+      {
+        "text": "이제 지켜야 할 것들을 보호하는 데 집중한다.",
+        "effects": {
+          "mental": 20,
+          "stress": -10,
+          "health": 5
+        },
+        "flags": [
+          "age_60_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "쌓은 것을 잃지 않는 것도 전략이다. 방어적 자산 배분, 건강 관리, 관계 정리. {name}은 마무리를 시작했다."
+      },
+      {
+        "text": "20대의 나에게 편지를 쓴다.",
+        "effects": {
+          "mental": 30,
+          "stress": -15,
+          "luck": 5
+        },
+        "flags": [
+          "age_60_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "'100만원 가지고 서울 와서 여기까지 왔어. 잘 했어.' 편지를 쓰다가 멈췄다. 눈물이 나왔다. 좋은 쪽으로."
+      }
+    ]
+  },
+  {
+    "id": "parent_health_concern",
+    "title": "부모님 전화",
+    "description": "부모님이 전화를 했다.\n\n'아버지가 요즘 좀 편찮으신 것 같더라. 병원은 가셨는데...'\n\n'괜찮으실 거야'라는 말이 나왔지만, 전화를 끊고 나서 오래 앉아 있었다.\n어느새 부모님도 나이를 먹었다. 당연한 말인데 오늘은 왜 이렇게 낯설까.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 180,
+      "no_flag": "parent_health_faced"
+    },
+    "tags": [
+      "family",
+      "health",
+      "emotion"
+    ],
+    "cooldown": 36,
+    "choices": [
+      {
+        "text": "당장 고향에 내려간다. 직접 확인해야 한다.",
+        "effects": {
+          "mental": 10,
+          "stress": -5,
+          "money": -200000,
+          "social_skill": 2
+        },
+        "flags": [
+          "parent_health_faced"
+        ],
+        "follow_up_event": "",
+        "result_text": "기차를 탔다. 집에 들어서니 아버지가 소파에 앉아 TV를 보고 있었다. 생각보다 괜찮아 보였다. 그래도 왔길 잘 했다."
+      },
+      {
+        "text": "매달 생활비를 조금씩 보내드리기 시작한다.",
+        "effects": {
+          "mental": 8,
+          "stress": 3,
+          "monthly_income": -300000
+        },
+        "flags": [
+          "parent_health_faced",
+          "supporting_parents"
+        ],
+        "follow_up_event": "",
+        "result_text": "통장에서 30만원씩 빠져나가기 시작했다. 적지 않은 돈이지만, 하지 않으면 마음이 더 무거웠다."
+      },
+      {
+        "text": "지금은 내 일이 먼저. 더 잘 되면 더 도울 수 있다.",
+        "effects": {
+          "stress": 8,
+          "mental": -5,
+          "investment_skill": 2
+        },
+        "flags": [
+          "parent_health_faced"
+        ],
+        "follow_up_event": "",
+        "result_text": "맞는 말인데 찝찝했다. 전화를 더 자주 해야겠다고 생각했다. 그게 지금 할 수 있는 최선이었다."
+      }
+    ]
+  },
+  {
+    "id": "become_senior_employee",
+    "title": "후배가 생겼다",
+    "description": "신입이 들어왔다.\n\n스물셋. 어딘지 모르게 서울에 처음 왔을 때 내 모습 같았다.\n'선배님, 이거 어떻게 하면 될까요?'\n\n언제부터 내가 '선배님'이 됐지.\n처음엔 어색했지만, 나쁘지 않았다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 150,
+      "no_flag": "became_senior"
+    },
+    "tags": [
+      "jobs",
+      "social",
+      "milestone"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "내가 겪은 시행착오를 솔직하게 알려준다.",
+        "effects": {
+          "social_skill": 4,
+          "reputation": 3,
+          "mental": 8,
+          "stress": 2
+        },
+        "flags": [
+          "became_senior",
+          "mentor_to_junior"
+        ],
+        "follow_up_event": "",
+        "result_text": "내가 처음 왔을 때 누군가 이런 말을 해줬다면 얼마나 좋았을까. 그 사람에게 해주지 못했던 말을 대신 했다."
+      },
+      {
+        "text": "알아서 배우게 둔다. 나도 그렇게 컸다.",
+        "effects": {
+          "reputation": 1,
+          "stress": -2
+        },
+        "flags": [
+          "became_senior"
+        ],
+        "follow_up_event": "",
+        "result_text": "나도 혼자 부딪히며 배웠다. 스스로 넘어져봐야 진짜 배운다. 대신 크게 다칠 것 같을 때는 잡아줄 생각이다."
+      },
+      {
+        "text": "나만의 노하우를 일부러 숨긴다. 경쟁자가 될 수도 있다.",
+        "effects": {
+          "stress": -3,
+          "social_skill": -1,
+          "intelligence": 2
+        },
+        "flags": [
+          "became_senior"
+        ],
+        "follow_up_event": "",
+        "result_text": "생존 본능이었다. 다만 나중에 그 후배가 크게 됐을 때 내가 어떤 기억으로 남을지는... 생각하지 않기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "late_career_layoff_risk",
+    "title": "구조조정 명단",
+    "description": "팀 회의 후 소문이 돌기 시작했다.\n\n다음 달에 구조조정이 있다고.\n명단에 내 이름이 있을 수도 있다는 말이 들려왔다.\n\n이 나이에 직장을 잃으면...\n잠을 못 잤다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 240
+    },
+    "tags": [
+      "jobs",
+      "pressure",
+      "anxiety"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "선제적으로 이직 준비를 시작한다.",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 3,
+          "stress": 10,
+          "reputation": 2
+        },
+        "flags": [
+          "survived_layoff_scare"
+        ],
+        "follow_up_event": "",
+        "result_text": "이력서를 꺼냈다. 이 나이 경력은 생각보다 두꺼웠다. 나가도 갈 곳이 있다는 걸 확인하니 조금 안심이 됐다."
+      },
+      {
+        "text": "성과를 최대로 내서 명단에서 빠진다.",
+        "effects": {
+          "stress": 12,
+          "health": -5,
+          "mental": -5,
+          "reputation": 5
+        },
+        "flags": [
+          "survived_layoff_scare"
+        ],
+        "follow_up_event": "",
+        "result_text": "한 달을 불태웠다. 명단에서 이름이 빠졌다. 하지만 몸이 대가를 치렀다. 이제 이런 소모가 몇 번이나 더 가능할지 모르겠다."
+      },
+      {
+        "text": "차라리 위로금을 받고 나가는 게 낫겠다.",
+        "effects": {
+          "mental": 8,
+          "stress": -10,
+          "money": 15000000,
+          "monthly_income": -2000000
+        },
+        "flags": [
+          "survived_layoff_scare",
+          "took_severance"
+        ],
+        "follow_up_event": "",
+        "result_text": "위로금을 받고 나왔다. 1500만원. 감사하기도 했고 허탈하기도 했다. 다음이 뭔지는 아직 모른다. 하지만 이 돈이 시간을 사줬다."
+      }
+    ]
+  },
+  {
+    "id": "retirement_fund_calculation",
+    "title": "노후 자금을 계산해봤다",
+    "description": "은퇴 후 월 200만원을 쓴다고 치면, 30년에 7억 2천.\n\n인플레이션, 의료비, 예상 못한 지출까지 포함하면 최소 10억은 있어야 한다.\n\n지금 내 자산은 얼마인가.\n그 숫자를 보고 한동안 앉아 있었다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 300,
+      "no_flag": "retirement_calculated"
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "milestone"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "지금부터라도 더 공격적으로 자산을 늘린다.",
+        "effects": {
+          "investment_skill": 5,
+          "mental": 10,
+          "stress": 5,
+          "intelligence": 3
+        },
+        "flags": [
+          "retirement_calculated"
+        ],
+        "follow_up_event": "",
+        "result_text": "공포에서 나온 결정이 아니라 계획에서 나온 결정이어야 한다. 숫자를 다시 봤다. 가능했다. 아직은."
+      },
+      {
+        "text": "지출을 줄이고 지금 있는 것을 지킨다.",
+        "effects": {
+          "stress": -8,
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [
+          "retirement_calculated"
+        ],
+        "follow_up_event": "",
+        "result_text": "쓸 것을 줄이면 필요한 자산도 줄어든다. 단순한 원리였다. 하지만 이게 생각보다 많은 걸 바꿨다."
+      },
+      {
+        "text": "일단 오늘 하루를 산다. 너무 멀리 보지 않겠다.",
+        "effects": {
+          "mental": 15,
+          "stress": -10
+        },
+        "flags": [
+          "retirement_calculated"
+        ],
+        "follow_up_event": "",
+        "result_text": "계획이 없는 게 아니다. 지금 이 달을 최선으로 사는 것이 가장 좋은 노후 준비다. 오늘의 {name}이 미래를 만든다."
+      }
+    ]
   }
 ]

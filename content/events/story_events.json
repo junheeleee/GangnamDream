@@ -65,7 +65,7 @@
           "stress": 4,
           "flag": "story_job_unlocked"
         },
-        "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n{name}은 지원 버튼을 눌렀다.\n\n이제 구직활동을 할 수 있다."
+        "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n\n→ 이제 행동에서 '💼 구직활동' 버튼으로 취업하세요!"
       },
       {
         "text": "조금만 더 생각해보고. 일단 아끼는 것부터",
@@ -75,7 +75,7 @@
           "intelligence": 2,
           "flag": "story_job_unlocked"
         },
-        "result_text": "더 준비하고 싶었지만, 통장이 허락하질 않았다.\n결국 구인 앱을 켰다.\n선택의 여지가 없었다.\n\n이제 구직활동을 할 수 있다."
+        "result_text": "더 준비하고 싶었지만, 통장이 허락하질 않았다.\n결국 구인 앱을 켰다. 선택의 여지가 없었다.\n\n→ 이제 행동에서 '💼 구직활동' 버튼으로 취업하세요!"
       }
     ]
   },
@@ -874,7 +874,10 @@
     "weight": 0,
     "hidden": true,
     "conditions": {},
-    "tags": ["story", "milestone"],
+    "tags": [
+      "story",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -884,7 +887,9 @@
           "stress": -6,
           "luck": 3
         },
-        "flags": ["story_four_year_seen"],
+        "flags": [
+          "story_four_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "4년의 흔적이 쌓여 지금의 {name}이 됐다.\n완벽하진 않았지만, 도망치지 않았다.\n그것만으로도 충분히 잘한 것이다."
       },
@@ -895,7 +900,9 @@
           "investment_skill": 3,
           "stress": 6
         },
-        "flags": ["story_four_year_seen"],
+        "flags": [
+          "story_four_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "4년이 준비 기간이었다면, 지금부터는 실전이다.\n{name}은 노트를 꺼내 목표를 다시 썼다.\n5년 뒤의 나에게 부끄럽지 않을 선택들을."
       },
@@ -906,7 +913,9 @@
           "mental": 6,
           "health": 4
         },
-        "flags": ["story_four_year_seen"],
+        "flags": [
+          "story_four_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "빠르게 가는 것보다 제대로 가는 게 중요하다.\n{name}은 멈춰서 자신의 방향을 다시 확인했다.\n서두르지 않아도 된다. 아직 20대다."
       }
@@ -921,7 +930,11 @@
     "weight": 0,
     "hidden": true,
     "conditions": {},
-    "tags": ["story", "milestone", "reflection"],
+    "tags": [
+      "story",
+      "milestone",
+      "reflection"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -931,7 +944,10 @@
           "stress": -8,
           "reputation": 2
         },
-        "flags": ["story_five_year_seen", "five_year_reflected"],
+        "flags": [
+          "story_five_year_seen",
+          "five_year_reflected"
+        ],
         "follow_up_event": "",
         "result_text": "5년 전의 {name}은 지금의 이 모습을 상상하지 못했을 것이다.\n조금씩, 꾸준히.\n서울에서 살아남는다는 건 이런 거다."
       },
@@ -942,7 +958,10 @@
           "intelligence": 6,
           "investment_skill": 4
         },
-        "flags": ["story_five_year_seen", "five_year_reflected"],
+        "flags": [
+          "story_five_year_seen",
+          "five_year_reflected"
+        ],
         "follow_up_event": "",
         "result_text": "5년이 이 정도라면, 앞으로 10년은 달라야 한다.\n조급함이 올라왔다. 나쁜 신호가 아니다.\n지금의 불만이 다음 5년의 연료가 된다."
       },
@@ -953,7 +972,10 @@
           "health": 5,
           "stress": -10
         },
-        "flags": ["story_five_year_seen", "five_year_reflected"],
+        "flags": [
+          "story_five_year_seen",
+          "five_year_reflected"
+        ],
         "follow_up_event": "",
         "result_text": "서울에서 5년을 버텼다는 것 자체가 쉬운 일이 아니다.\n{name}은 그냥 오늘도 여기 있다.\n그것만으로도 충분히 대단한 일이다."
       }

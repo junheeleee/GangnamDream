@@ -647,6 +647,15 @@ func _check_story_triggers():
 	# 은퇴 준비 (45세)
 	elif t == 300 and not f.get("retirement_strategy_set", false):
 		EventManager.trigger_event_by_id("pre_retirement_decision")
+	# 50세
+	elif t == 360 and not f.get("age_50_reflected", false):
+		EventManager.trigger_event_by_id("age_50_milestone")
+	# 55세
+	elif t == 420 and not f.get("age_55_reflected", false):
+		EventManager.trigger_event_by_id("age_55_milestone")
+	# 60세
+	elif t == 480 and not f.get("age_60_reflected", false):
+		EventManager.trigger_event_by_id("age_60_milestone")
 
 # ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
 
@@ -1098,17 +1107,40 @@ func _render_ap_actions():
 
 	# ── 튜토리얼 힌트 ──────────────────────────────────
 	var hint_text = ""
+	var hint_color = "#f0b429"
 	var job_story_done: bool = GameState.flags.get("story_job_unlocked", false)
-	if GameState.tutorial_step == 2 and not job_story_done:
-		hint_text = "📌 스토리를 따라가며 서울 생활을 시작해보세요."
-	elif GameState.tutorial_step == 2 and job_story_done and no_job:
-		hint_text = "📌 구직활동이 열렸습니다! 먼저 취업부터 해서 월급을 만들어보세요."
+	var just_got_paycheck = GameState.flags.get("has_received_paycheck", false) \
+		and not GameState.flags.get("invest_hint_shown", false)
+
+	# 첫 달 AP 꽉 찬 상태 — 아직 아무것도 안 한 경우
+	if GameState.turn == 1 and ap == GameState.max_action_points and turn_action_log.is_empty():
+		hint_text = "👋 첫 달이에요! ⚡AP 3개로 행동을 골라 쓰세요.\n지금 당장은 '💼 구직활동'이 가장 중요합니다."
+		hint_color = "#00c896"
+	# 구직 스토리 해금 전
+	elif GameState.tutorial_step >= 2 and not job_story_done:
+		hint_text = "📌 이벤트 선택지를 고르며 스토리를 진행하세요."
+	# 구직 가능하지만 아직 무직
+	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
+		hint_text = "⚠ 수입이 0원입니다! 아래 '💼 구직활동' 버튼으로 지금 바로 취업하세요.\n취업 안 하면 2달 안에 파산해요."
+		hint_color = "#ef4444"
+	# 취업 완료, 튜토리얼 2단계
+	elif GameState.tutorial_step == 2 and not no_job:
+		hint_text = "✅ 취업했어요! 남은 ⚡AP로 스펙 쌓기나 인맥 관리를 해보세요.\nAP를 다 쓰면 '다음 달 ▶' 버튼이 나타납니다."
+	# 첫 월급 직후 — 투자 안내
+	elif just_got_paycheck:
+		GameState.flags["invest_hint_shown"] = true
+		hint_text = "💳 첫 월급! 이제 아래 '📈 비정석 루트'에서 투자도 가능해요.\n하지만 무리한 투자는 금물 — 먼저 생활비부터 확보하세요."
+		hint_color = "#00c896"
+	# 1단계: 다음 달로 버튼 안내
 	elif GameState.tutorial_step == 1:
-		hint_text = "📌 정석 또는 비정석 — 나만의 방향을 선택하세요."
-	elif GameState.tutorial_step == 0 and GameState.turn == 3:
-		hint_text = "📌 이제 자유롭게 플레이하세요! 자산 20억 = 강남드림 달성!"
+		hint_text = "📌 AP를 다 쓰면 '✅ 이번 달 행동 완료' 안내가 나타나요.\n그때 '다음 달 ▶' 버튼으로 진행하세요."
+	# 튜토리얼 완료
+	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
+		hint_text = "🎯 이제 혼자예요. 자산 20억 달성이 목표입니다. 65세까지 버텨보세요!"
+		hint_color = "#00c896"
+
 	if not hint_text.is_empty():
-		var hint = _wrap_label(hint_text, 13, "#f0b429")
+		var hint = _wrap_label(hint_text, 13, hint_color)
 		hint.add_theme_stylebox_override("normal", _hint_box())
 		choice_box.add_child(hint)
 
@@ -2510,37 +2542,49 @@ func _open_title_collection():
 	modal_body.add_child(close_btn)
 
 func _show_tutorial_intro():
-	_open_modal("🏙 강남드림")
+	_open_modal("🏙 강남드림에 오신 걸 환영해요")
+
 	modal_body.add_child(_wrap_label(
-		"서울 고시원 100만원으로 시작해 65세까지 자산 20억을 만드는 게임이에요.",
+		"서울 고시원, 통장 100만원.\n65세까지 자산 20억을 만드는 게임입니다.",
 		15, "#e8eaf0"))
 
 	var sep0 = HSeparator.new()
 	sep0.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep0)
 
-	var steps = [
-		["⚡ 행동력(AP)", "매달 3개. 공부·투자·구직·인맥 중 골라 쓰세요."],
-		["💼 구직 → 💰 월급", "먼저 취업이 최우선이에요. 수입이 없으면 버티기 어려워요."],
-		["📈 투자", "첫 월급 이후 열려요. 돈이 돈을 버는 구조를 만드세요."],
-		["🏠 이사", "고시원 → 원룸 → 아파트 → 강남. 자산 쌓이면 이사하세요."],
-		["❤️ 건강·정신", "0이 되면 게임오버. 스트레스 관리도 필수예요."],
-	]
-	for step in steps:
-		var row = HBoxContainer.new()
-		row.add_theme_constant_override("separation", 14)
-		modal_body.add_child(row)
-		var key_lbl = _label(step[0], 13, "#f0b429")
-		key_lbl.custom_minimum_size = Vector2(130, 0)
-		row.add_child(key_lbl)
-		row.add_child(_wrap_label(step[1], 13, "#8892a4"))
+	# 한 달의 흐름
+	modal_body.add_child(_label("📅  한 달의 흐름", 13, "#f0b429"))
+	modal_body.add_child(_wrap_label(
+		"⚡ AP 3개 사용해 행동 선택  →  ▶ 다음 달로  →  이벤트 발생  →  반복",
+		12, "#8892a4"))
 
 	var sep1 = HSeparator.new()
 	sep1.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep1)
 
+	# 생존 법칙
+	modal_body.add_child(_label("⚠  생존 법칙", 13, "#f0b429"))
+	var rules = [
+		["💼 취업이 먼저", "수입 없이는 2개월 안에 파산해요. 첫 달에 꼭 취업하세요."],
+		["❤️ 건강·정신 = 0", "어느 하나라도 0이 되면 즉시 게임오버입니다."],
+		["📈 투자는 취업 후", "첫 월급을 받으면 투자·상점이 열려요. 그 전엔 불가능해요."],
+		["🏠 이사로 버프", "자산이 쌓이면 고시원→원룸→아파트→강남으로 이사하세요."],
+	]
+	for rule in rules:
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		modal_body.add_child(row)
+		var key_lbl = _label(rule[0], 12, "#cbd5e1")
+		key_lbl.custom_minimum_size = Vector2(120, 0)
+		row.add_child(key_lbl)
+		row.add_child(_wrap_label(rule[1], 12, "#64748b"))
+
+	var sep2 = HSeparator.new()
+	sep2.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep2)
+
 	modal_body.add_child(_wrap_label(
-		"🎯  목표: 자산 20억 달성 = 강남드림!\n    65세까지 버티며 자산을 키워보세요.",
+		"🎯  목표: 총자산 20억 = 강남드림 달성!\n    65세(턴 540)까지 버텨보세요.",
 		13, "#00c896"))
 
 	var start_btn = _button("서울 생활 시작 →", "#1f6feb")
