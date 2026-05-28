@@ -29,6 +29,7 @@ var character_portrait: TextureRect
 var info_panel: Control
 var info_tabs: TabContainer
 var player_name_label: Label
+var title_label: Label
 
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
@@ -218,6 +219,12 @@ func _build_portrait_panel(parent):
 	player_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	player_name_label.clip_text = false
 	name_panel.add_child(player_name_label)
+
+	title_label = _label("서울 상경 초보", 11, "#f0b429")
+	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title_label.clip_text = false
+	vbox.add_child(title_label)
 
 func _build_story_panel(parent):
 	# 스토리 메인 영역 — 이벤트 제목/본문/선택지
@@ -488,6 +495,9 @@ func _build_bottom_bar(parent):
 	shop_button = _button("🛍 상점", "#4a1d7a")
 	shop_button.pressed.connect(_open_shop)
 	row.add_child(shop_button)
+	var title_btn = _button("🏆 도감", "#1a3a2a")
+	title_btn.pressed.connect(_open_title_collection)
+	row.add_child(title_btn)
 
 func _build_modal():
 	modal_layer = ColorRect.new()
@@ -762,6 +772,7 @@ func _on_next_month():
 	if GameState.is_game_over:
 		return
 	SaveManager.autosave()
+	_check_title_unlocks()
 	_show_month_summary(snap)
 
 func _choose(index):
@@ -835,6 +846,8 @@ func _refresh_all():
 	if player_name_label:
 		var job_name = GameState.current_job.get("name", "무직")
 		player_name_label.text = "%s\n%s" % [GameState.player_name, job_name]
+	if title_label:
+		title_label.text = "「%s」" % GameState.get_current_title()
 
 	stat_labels["job"].text = GameState.current_job.get("name", "무직")
 	_set_stat_value("health", GameState.health, true, 50, 30)
@@ -1351,6 +1364,7 @@ func _ap_free_time():
 	GameState.modify_stat("mental", 10)
 	GameState.modify_hidden_stat("stress", -8)
 	GameState.flags["had_free_time_recently"] = true
+	GameState.flags["free_time_count"] = GameState.flags.get("free_time_count", 0) + 1
 	var luck_msg = ""
 	var roll = randf()
 	if roll < 0.12:
@@ -2268,6 +2282,66 @@ func _get_month_advice() -> String:
 		if tenure >= 5 and promo_count < max_promo and GameState.work_performance >= 55:
 			return "근속 %d개월, 업무 성과 %d입니다. 승진 기회가 다가오고 있어요. 꾸준히 유지하세요." % [tenure, GameState.work_performance]
 	return ""
+
+func _check_title_unlocks():
+	var newly = MetaProgression.check_and_unlock_titles()
+	var rare_colors = {"common": "#8892a4", "uncommon": "#5b9cf6", "rare": "#f0b429", "legendary": "#f97316"}
+	for t in newly:
+		var color = rare_colors.get(t.get("rare", "common"), "#8892a4")
+		_show_toast("🏆 칭호 해금! 「%s」" % t.get("name", ""), Color(color))
+		GameState.add_log("🏆 칭호 해금: %s" % t.get("name", ""), "system")
+
+func _open_title_collection():
+	_open_modal("🏆 칭호 도감")
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(680, 600)
+		modal_panel.offset_left  = -340
+		modal_panel.offset_right =  340
+		modal_panel.offset_top   = -300
+		modal_panel.offset_bottom =  300
+
+	var unlocked = MetaProgression.get_unlocked_titles()
+	var total = MetaProgression.ALL_TITLES.size()
+	modal_body.add_child(_wrap_label(
+		"해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다." % [unlocked.size(), total],
+		13, "#8892a4"))
+
+	var rare_colors = {"common": "#8892a4", "uncommon": "#5b9cf6", "rare": "#f0b429", "legendary": "#f97316"}
+	var rare_labels = {"common": "일반", "uncommon": "희귀", "rare": "레어", "legendary": "전설"}
+
+	for cat in ["주거", "직업", "투자", "성향", "관계", "생활", "자산", "메타"]:
+		var cat_titles: Array = []
+		for t in MetaProgression.ALL_TITLES:
+			if t.get("cat", "") == cat:
+				cat_titles.append(t)
+		if cat_titles.is_empty():
+			continue
+		var sep = HSeparator.new()
+		sep.add_theme_color_override("color", Color("#252535"))
+		modal_body.add_child(sep)
+		modal_body.add_child(_label("── %s ──" % cat, 12, "#5a6075"))
+		for t in cat_titles:
+			var tid: String = t["id"]
+			var is_unlocked: bool = unlocked.has(tid)
+			var rare: String = t.get("rare", "common")
+			var color = rare_colors.get(rare, "#8892a4") if is_unlocked else "#3a3a4a"
+			var name_text: String = t.get("name", tid) if is_unlocked else "???"
+			var row = HBoxContainer.new()
+			row.add_theme_constant_override("separation", 6)
+			var icon = "🏆" if is_unlocked else "🔒"
+			var lbl = _label("%s  %s  [%s]" % [icon, name_text, rare_labels.get(rare, rare)], 13, color)
+			lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(lbl)
+			modal_body.add_child(row)
+			if is_unlocked:
+				modal_body.add_child(_wrap_label("    %s" % t.get("desc", ""), 11, "#5a6075"))
+
+	var sep_end = HSeparator.new()
+	sep_end.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep_end)
+	var close_btn = _button("닫기", "#2a2a3a")
+	close_btn.pressed.connect(_close_modal)
+	modal_body.add_child(close_btn)
 
 func _show_tutorial_intro():
 	_open_modal("🏙 강남드림")

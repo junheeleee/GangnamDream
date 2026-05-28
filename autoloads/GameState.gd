@@ -47,6 +47,7 @@ var tutorial_step = 3
 var route_orthodox: int = 0
 var route_unorthodox: int = 0
 var month_focus: String = ""
+var housing_months: Dictionary = {}
 
 var stress = 25
 var reputation = 10
@@ -126,6 +127,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	route_orthodox = 0
 	route_unorthodox = 0
 	month_focus = ""
+	housing_months = {}
 	market_context = {
 		"fear_greed": 50,
 		"cycle": "neutral",
@@ -210,6 +212,7 @@ func upgrade_housing() -> Dictionary:
 	add_money(-deposit_diff)
 	housing = next_id
 	fixed_expense = get_housing_expense()
+	flags["housing_moved_once"] = true
 	add_log("이사: %s → %s (보증금 %s)" % [info.get("name",""), next_info.get("name",""), format_money(deposit_diff)], "system")
 	stats_changed.emit()
 	return {"success": true, "housing": next_info}
@@ -227,7 +230,8 @@ func apply_monthly_pressure():
 	modify_stat("mental", -3)
 	modify_hidden_stat("stress", 3)
 
-	# ── 주거 패시브 효과 ──────────────────────────────────────────
+	# ── 주거 패시브 + 거주 기간 추적 ────────────────────────────────
+	housing_months[housing] = housing_months.get(housing, 0) + 1
 	match housing:
 		"gosiwon":
 			modify_hidden_stat("stress", 2)
@@ -235,12 +239,20 @@ func apply_monthly_pressure():
 			if randf() < 0.25:
 				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "stress")
 		"apartment":
-			modify_stat("social_skill", 0)  # 중립 — 아파트는 기회의 공간
+			pass
 		"gangnam":
 			modify_hidden_stat("stress", -1)
 			if randf() < 0.15:
 				modify_hidden_stat("reputation", 1)
 				add_log("🌆 강남 주민이라는 것만으로 대화가 달라진다.", "relationship")
+
+	# ── 칭호 조건 플래그 자동 추적 ───────────────────────────────
+	if money < 0:
+		flags["was_broke_once"] = true
+	if stress >= 90:
+		flags["reached_max_stress"] = true
+	if monthly_income == 0:
+		flags["unemployed_months"] = flags.get("unemployed_months", 0) + 1
 
 	# 무직이면 정신/스트레스 추가 압박 (완화: -3/-5 → -2/-3)
 	if monthly_income == 0:
@@ -395,6 +407,27 @@ func restore_ap():
 	action_points = max_action_points
 	month_focus = ""
 	stats_changed.emit()
+
+func get_current_title() -> String:
+	if stress >= 88: return "벼랑 끝의 청년"
+	if mental <= 12: return "번아웃 직전"
+	if money < -30_000_000: return "파산 위기자"
+	var total = get_total_asset_value()
+	if total >= 2_000_000_000: return "강남드림 달성자"
+	if total >= 500_000_000: return "신흥 자산가"
+	if total >= 100_000_000: return "중산층 진입"
+	var diff = route_orthodox - route_unorthodox
+	if diff >= 18: return "엘리트 코스"
+	if diff >= 8: return "착실한 청년"
+	if diff <= -18: return "위험한 몽상가"
+	if diff <= -8: return "이단아"
+	if route_orthodox >= 10 and route_unorthodox >= 10: return "내 방식대로"
+	if housing == "gangnam": return "강남 입성자"
+	if housing == "apartment" and job_tenure >= 12: return "안정적인 직장인"
+	if current_job.is_empty() and turn >= 8: return "취업 준비생"
+	if housing == "gosiwon" and turn >= 18: return "고시원 장기거주자"
+	if turn < 4: return "서울 상경 초보"
+	return "서울 생존자"
 
 func add_route_point(route_type: String, focus_label: String = ""):
 	if route_type == "orthodox":
@@ -560,6 +593,7 @@ func serialize():
 		"route_orthodox": route_orthodox,
 		"route_unorthodox": route_unorthodox,
 		"month_focus": month_focus,
+		"housing_months": housing_months,
 		"gambling_tendency": gambling_tendency,
 		"addiction_tendency": addiction_tendency,
 		"current_job": current_job,

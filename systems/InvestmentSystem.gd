@@ -48,6 +48,7 @@ func buy_asset(asset_id, amount_krw):
 	GameState.add_money(-amount_krw)
 	if randf() < 0.35:
 		GameState.modify_stat("investment_skill", 1)
+	GameState.flags["had_first_investment"] = true
 	GameState.add_log("%s 매수: %s" % [asset.get("name", asset_id), GameState.format_money(amount_krw)], "trade")
 	trade_executed.emit(asset_id, "buy", quantity, current_price)
 	portfolio_updated.emit()
@@ -209,6 +210,7 @@ func _check_margin_calls():
 			to_erase.append(asset_id)
 			var asset = DataRegistry.get_asset(asset_id)
 			var loss = leveraged_amount - liquidation_value
+			GameState.flags["margin_called_happened"] = true
 			GameState.add_log("💥 마진콜! %s 강제청산 — 손실 %s" % [
 				asset.get("name", asset_id), GameState.format_money(loss)], "trade")
 			GameState.modify_hidden_stat("stress", 20)
