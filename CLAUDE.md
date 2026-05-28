@@ -127,8 +127,9 @@ GangnamDream/
 
 ### 세션 시작
 1. 이 파일(`CLAUDE.md`)을 읽는다.
-2. `docs/WORK_LOG.md` 최근 항목으로 현재 상태 파악.
-3. `docs/ROADMAP.md`로 다음 우선순위 확인.
+2. `docs/ROADMAP.md`를 읽는다 — **현재 단계**와 `[ ]` 태스크를 파악한다.
+3. `docs/WORK_LOG.md` 최근 항목으로 지난 세션 마무리 상태 확인.
+4. 유저가 별도 지시가 없으면 ROADMAP.md의 현재 단계 첫 번째 `[ ]` 항목부터 시작한다.
 
 ### 세션 종료 (매 작업 후 필수)
 1. `docs/WORK_LOG.md` — 날짜 + 작업 내용 추가.
