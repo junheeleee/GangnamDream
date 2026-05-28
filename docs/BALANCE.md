@@ -40,6 +40,56 @@ Next Adjustment:
 
 ## Change Log
 
+### 2026-05-28 — RPG/Roguelike Pass
+
+```text
+Date: 2026-05-28
+Changed: 크래시 확률
+Before: crash_risk * volatility * 0.5 (기본 crash_risk 0.02-0.03)
+After:  crash_risk * volatility * 1.2 (기본 crash_risk 0.02-0.05)
+Reason: 테스터 피드백 "너무 무난함". 시장 긴장감 강화.
+Next Adjustment: 플레이 테스트 후 지나치게 빠른 파산 유발 시 0.8로 하향.
+```
+
+```text
+Date: 2026-05-28
+Changed: 월별 크라이시스 시스템 (신규)
+Bonus rate: 6% (AP+1, 추가수입 20만-60만, 강세장 전환)
+Crisis rate: 18% (긴급지출 15만-70만, AP-1, 시장충격, 건강위기 -5)
+Total event rate: 24% per month (3턴 이후)
+Reason: 확정 이벤트만으로는 월별 루프가 예측 가능. 랜덤 변수 도입.
+Next Adjustment: 크라이시스 강도가 너무 강하면 긴급지출 상한 50만으로 조정.
+```
+
+```text
+Date: 2026-05-28
+Changed: 레버리지 투자 (신규)
+Leverage: 2× (동일 금액으로 2배 수량 매수)
+Fee: 1.5% (일반 0.3%보다 5배)
+Margin call: 포지션 가치 < 원금노출 × 35% → 강제청산 85%
+Margin call penalty: 스트레스+20, 정신력-10
+Reason: 고위험 고수익 전략 추가로 플레이 스타일 다양화.
+Next Adjustment: 마진콜 기준 25%로 낮추면 더 위험, 45%로 높이면 더 안전.
+```
+
+```text
+Date: 2026-05-28
+Changed: 스탯 임계값 RPG 보상 (신규)
+Thresholds: 30 / 50 / 70 (투자스킬, 지력, 사회성)
+Unlocks at 30: 심화 독서(지력), 레버리지 투자(투자스킬)
+Unlocks at 50: 시장 분석 무료(지력), VIP 인맥(사회성)
+Reason: 스탯이 단순 숫자가 아닌 행동 선택지를 여는 RPG 성장감 부여.
+Next Adjustment: 70 임계값 보상 추가 필요 (현재 해금 없음).
+```
+
+```text
+Date: 2026-05-28
+Changed: 이벤트 최근 기억 창
+Before: 14개
+After: 25개
+Reason: 14개로는 이벤트 pool 대비 반복이 빠름. 체감 다양성 개선.
+```
+
 ### 2026-05-16 — Prototype Improvement Pass
 
 ```text

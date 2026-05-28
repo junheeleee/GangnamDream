@@ -1,5 +1,37 @@
 # Gangnam Dream Work Log
 
+## 2026-05-28 (Tester Feedback + RPG/Roguelike Pass)
+
+### 버그 수정
+- **행동력 소비 버그**: `_ap_invest()`에서 모달 오픈 전에 `spend_ap()`를 호출하던 문제 수정. 매수·매도 실행 시(`_on_buy_asset`, `_on_sell_asset`)만 AP를 소비하도록 이동. 조회/분석은 무료.
+- **중복 이벤트 ID**: `relationship_events.json`의 `jobs_003`, `investment_events.json`의 `finance_011` 중복 ID를 각각 `rel_jobs_003`, `invest_finance_011`로 고유화.
+- **이벤트 설명 보일러플레이트**: `life_events.json` 37개, `relationship_events.json` 12개, `investment_events.json` 14개 — 동일한 플레이스홀더 설명("서울의 속도는 멈추지 않고…")을 고유한 한국어 텍스트로 교체.
+
+### 기능 구현 — 로그라이크 요소
+- **월별 크라이시스 시스템** (`MainGame.gd`): 매달 6% 보너스(AP+1, 추가수입, 강세장) / 18% 크라이시스(긴급지출, AP패널티, 시장충격, 건강위기) 랜덤 발동. 3턴 이후부터 활성화.
+- **레버리지 투자** (`InvestmentSystem.gd`): `buy_asset_leveraged()` — 동일 금액으로 2배 포지션. 수수료 1.5%.
+- **마진콜** (`InvestmentSystem.gd`): `_check_margin_calls()` — 포지션 가치가 원금의 35% 이하 시 85% 청산, 스트레스+20, 정신력-10.
+- **시장 충격** (`InvestmentSystem.gd`): `apply_market_shock()` — 크래시 위험 2.5배, 공포지수 -25, 약세장 전환.
+- **크래시 확률 상향**: 기존 `crash_risk * volatility * 0.5` → `* 1.2`, 기본 크래시 위험 0.03 → 0.05.
+
+### 기능 구현 — RPG 성장 요소
+- **스탯 임계값 시스템** (`GameState.gd`): `STAT_THRESHOLDS = [30, 50, 70]`, `modify_stat()`이 임계값 돌파를 감지하고 `stat_threshold_crossed` 시그널 발생.
+- **임계값 해금 알림** (`MainGame.gd`): `_on_stat_threshold_crossed()` — 토스트로 해금 메시지 표시, 게임 로그 기록.
+- **조건부 행동 버튼** (`MainGame.gd`): 스탯 수준에 따라 새 행동 버튼 표시:
+  - 지력 30+ → 📖 심화 독서 (지력+8)
+  - 지력 50+ (취업 중) → 🔭 시장 분석 [무료] (AP 소비 없음)
+  - 투자스킬 30+ (취업 중) → ⚡ 레버리지 투자 (2배 포지션)
+  - 사회성 50+ → 👔 VIP 인맥 (사회성+3, 관계 대폭 강화)
+- **무료 행동 지원**: 행동 버튼에 `free: true` 속성 추가. AP=0이어도 무료 행동은 활성화 유지.
+- **시장 예보** (`InvestmentSystem.gd`): `get_market_forecast()` — 크래시 위험/싸이클/공포지수 기반 문자열 반환.
+
+### UI 개선
+- **투자 모달 X 버튼**: `_build_info_panel()`을 VBoxContainer + 헤더 행(제목+✕) 구조로 개편.
+- **AP 힌트**: 투자 모달 상단에 "⚡ 행동력 N/M — 매수·매도 실행 시 1 소비 (조회는 무료)" 표시.
+
+### 배경음악
+- **무한 루프 보장** (`BGMPlayer.gd`): `finished` 시그널 연결 추가. WAV LOOP_FORWARD가 실패해도 `_on_bgm_ended()`에서 재생 재시작.
+
 ## 2026-05-16 (Meta-Progression First Pass)
 
 ### 기능 구현
