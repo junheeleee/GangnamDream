@@ -10153,5 +10153,247 @@
         "result_text": "더 잘 살아야 할 이유가 하나 생겼다. 막연한 목표가 아니라 구체적인 얼굴이 생겼다. 그게 동기가 됐다."
       }
     ]
+  },
+  {
+    "id": "age_35_checkpoint",
+    "title": "서른다섯",
+    "description": "35살이 됐다. 어느덧 서울 생활이 15년이 넘었다. 주변을 둘러보면 누군가는 완전히 달라졌고, 누군가는 여전히 그 자리다. 지금 내 자리는 어디인가. 만족스러운가, 아니면 뭔가 더 해야 하는가.",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 180,
+      "max_turn": 186,
+      "no_flag": "age_35_reflected"
+    },
+    "tags": [
+      "story",
+      "milestone",
+      "reflection"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "지금 여기서 더 단단하게 쌓겠다.",
+        "effects": {
+          "reputation": 5,
+          "intelligence": 3,
+          "stress": 3
+        },
+        "flags": [
+          "age_35_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "조급하지 않기로 했다. 35살에 모든 걸 다 이룬 사람은 없다. 지금 가진 것에서 더 깊게 파고들기로 했다."
+      },
+      {
+        "text": "지금이 방향을 바꿀 마지막 기회일 수도 있다.",
+        "effects": {
+          "luck": 5,
+          "stress": 8,
+          "mental": -3
+        },
+        "flags": [
+          "age_35_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "40이 되면 더 힘들다는 말이 갑자기 무겁게 느껴졌다. 두려웠지만, 지금 안 하면 평생 후회할 것 같았다."
+      },
+      {
+        "text": "이만하면 충분하다. 삶의 질에 집중하겠다.",
+        "effects": {
+          "mental": 10,
+          "health": 5,
+          "stress": -6
+        },
+        "flags": [
+          "age_35_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "숫자로 자신을 측정하는 것을 멈추기로 했다. 건강하고, 관계가 있고, 하고 싶은 것을 하는 삶. 그게 진짜 성공일 수도 있다."
+      }
+    ]
+  },
+  {
+    "id": "age_40_threshold",
+    "title": "마흔",
+    "description": "40살. 불혹(不惑). 흔들리지 않는 나이라는데 — 여전히 흔들린다. 자산은 어떻게 됐는가. 건강은 어떻게 됐는가. 주변 관계는. 20년 전 고시원에서 그리던 삶과 지금 사이에, 얼마나 왔는가.",
+    "category": "story",
+    "rarity": "rare",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 240,
+      "max_turn": 246,
+      "no_flag": "age_40_reflected"
+    },
+    "tags": [
+      "story",
+      "milestone",
+      "reflection"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "아직 강남드림이 있다. 포기하지 않겠다.",
+        "effects": {
+          "stress": 6,
+          "investment_skill": 5,
+          "intelligence": 4
+        },
+        "flags": [
+          "age_40_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "20억. 아직 꿈이 있다는 게 이 나이에 이상한 일은 아니다. 늦게 피는 꽃도 있다. {name}은 아직 봄이 오지 않았다고 믿었다."
+      },
+      {
+        "text": "부가 아니라 지속가능성에 집중하겠다.",
+        "effects": {
+          "health": 8,
+          "mental": 8,
+          "stress": -8
+        },
+        "flags": [
+          "age_40_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "40이 되면 건강이 자산임을 실감한다. 돈보다 더 오래 쓸 수 있는 몸이 먼저다. {name}의 우선순위가 조용히 바뀌었다."
+      },
+      {
+        "text": "지금까지의 성과를 정리하고 레거시를 생각한다.",
+        "effects": {
+          "reputation": 6,
+          "mental": 5,
+          "social_skill": 3
+        },
+        "flags": [
+          "age_40_reflected"
+        ],
+        "follow_up_event": "",
+        "result_text": "나는 무엇을 남길 것인가. 돈, 경험, 인간관계, 이야기. 그것들이 합쳐져 {name}이라는 사람이 된다. 이제 그 그림이 조금씩 보이기 시작했다."
+      }
+    ]
+  },
+  {
+    "id": "pre_retirement_decision",
+    "title": "은퇴를 생각하다",
+    "description": "이제 은퇴가 추상적인 개념이 아니라 계산이 가능한 미래가 됐다. 몇 살에 은퇴할 건지, 어떤 삶을 살 건지. 지금 전략을 어떻게 가져가느냐가 남은 시간의 질을 결정한다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 300,
+      "no_flag": "retirement_strategy_set"
+    },
+    "tags": [
+      "finance",
+      "planning",
+      "investment"
+    ],
+    "cooldown": 60,
+    "choices": [
+      {
+        "text": "조기 은퇴를 목표로 투자를 더 공격적으로.",
+        "effects": {
+          "investment_skill": 6,
+          "stress": 8,
+          "intelligence": 4
+        },
+        "flags": [
+          "retirement_strategy_set"
+        ],
+        "follow_up_event": "",
+        "result_text": "65살이 아니라 50살 은퇴를 목표로 다시 계획을 짰다. 리스크가 크지만, 그 목표가 지금 이 달의 행동 하나하나를 다르게 만들었다."
+      },
+      {
+        "text": "안정적인 자산 배분으로 천천히 가자.",
+        "effects": {
+          "stress": -5,
+          "mental": 6,
+          "reputation": 3
+        },
+        "flags": [
+          "retirement_strategy_set"
+        ],
+        "follow_up_event": "",
+        "result_text": "복잡한 전략보다 단순한 원칙이 오래간다. 인덱스, 부동산, 현금. 퇴직 후 걱정 없는 삶이 보이기 시작했다."
+      },
+      {
+        "text": "은퇴보다 지금 현재를 더 즐기는 삶을 산다.",
+        "effects": {
+          "mental": 10,
+          "health": 6,
+          "stress": -8
+        },
+        "flags": [
+          "retirement_strategy_set"
+        ],
+        "follow_up_event": "",
+        "result_text": "나중을 위해 지금을 희생하는 것에 지쳤다. 지금도 충분히 살 가치가 있다. 은퇴 후보다 은퇴 전의 삶이 더 길다는 걸 기억했다."
+      }
+    ]
+  },
+  {
+    "id": "asset_milestone_500m",
+    "title": "5억 돌파",
+    "description": "총자산 5억. 숫자를 세어보니 이게 맞다. 고시원에서 100만원으로 시작해 5억까지. 서울에서 5억은 많은 건지 적은 건지 모르겠지만, 분명히 다른 지점에 서 있다. 강남드림 20억까지는 아직 15억이 남았다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "asset_500m_reached",
+      "no_flag": "asset_500m_seen"
+    },
+    "tags": [
+      "finance",
+      "milestone",
+      "investment"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "여기서 더 공격적으로 간다. 20억이 목표다.",
+        "effects": {
+          "investment_skill": 8,
+          "stress": 6,
+          "intelligence": 5
+        },
+        "flags": [
+          "asset_500m_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "5억에서 20억. 4배. 처음 100만원에서 여기까지 온 것처럼, 다시 그 집중력을 꺼냈다. 강남드림은 아직 살아있다."
+      },
+      {
+        "text": "이 정도면 충분하다. 안정적인 노후가 보인다.",
+        "effects": {
+          "mental": 12,
+          "health": 5,
+          "stress": -10
+        },
+        "flags": [
+          "asset_500m_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "5억은 노후를 버틸 수 있는 기반이다. 더 쫓지 않아도 된다는 안도감이 왔다. 처음으로 진짜 쉬는 게 가능할 것 같았다."
+      },
+      {
+        "text": "자산을 나누어 다음 세대도 생각한다.",
+        "effects": {
+          "reputation": 8,
+          "mental": 8,
+          "social_skill": 3
+        },
+        "flags": [
+          "asset_500m_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "혼자 쌓는 것에서 나눔을 생각하기 시작했다. 내가 못 쓰는 돈보다 누군가에게 도움이 되는 돈. 그게 더 의미있었다."
+      }
+    ]
   }
 ]
