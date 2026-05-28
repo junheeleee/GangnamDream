@@ -8883,7 +8883,7 @@
         "flags": [
           "took_investment_loan"
         ],
-        "follow_up_event": "",
+        "follow_up_event": "loan_anxiety_night",
         "result_text": "3천만원을 받았다. 포트폴리오에 넣었다. 매달 이자가 나가는 게 체감된다. 오르면 영웅, 빠지면 나락이다."
       },
       {
@@ -8912,7 +8912,7 @@
         "flags": [
           "took_small_investment_loan"
         ],
-        "follow_up_event": "",
+        "follow_up_event": "loan_anxiety_night",
         "result_text": "1천만원. 이자 부담이 크지 않은 선에서 경험해보기로 했다. 빚투의 감각을 익히는 연습이다."
       }
     ]
@@ -9340,7 +9340,7 @@
         "flags": [
           "helped_family"
         ],
-        "follow_up_event": "",
+        "follow_up_event": "family_help_gratitude",
         "result_text": "이체했다. '고맙다'는 문자가 왔다. 그게 전부였다. 이상하게 돈이 아깝지 않고 마음이 무거웠다."
       },
       {
@@ -9369,7 +9369,7 @@
         "flags": [
           "helped_family"
         ],
-        "follow_up_event": "",
+        "follow_up_event": "family_help_gratitude",
         "result_text": "300만원을 보냈다. 상황을 설명했다. 부모님이 이해해줬다. 아니, 이해한 척 해줬다. 그게 더 마음에 걸렸다."
       }
     ]
@@ -9716,7 +9716,7 @@
         "flags": [
           "bought_the_dip"
         ],
-        "follow_up_event": "",
+        "follow_up_event": "dip_buy_waiting",
         "result_text": "폭락장에 넣었다. 손이 떨렸다. 맞을 수도, 틀릴 수도 있다. 하지만 이 결정을 내릴 수 있다는 것 자체가 경험이다."
       },
       {
@@ -10031,6 +10031,126 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "프리미엄 이직 플랫폼에 프로필을 업데이트했다. 움직이는 자에게 기회가 온다. 리스크도 함께."
+      }
+    ]
+  },
+  {
+    "id": "loan_anxiety_night",
+    "title": "빚이 생긴 밤",
+    "description": "대출 실행 문자가 왔다. 통장에 돈이 들어왔다. 그 돈의 무게가 갑자기 느껴진다. 원금 + 이자. 투자가 잘 되면 갚으면 된다. 근데 잘 안 되면?",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "finance",
+      "stress",
+      "investment"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "마음을 굳힌다. 감수하기로 했다. 흔들리지 않겠다.",
+        "effects": {
+          "stress": 3,
+          "mental": -2,
+          "investment_skill": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "대출을 결정한 건 나다. 그 무게도 내가 지는 거다. 잠이 조금 늦게 왔지만, 아침엔 괜찮았다."
+      },
+      {
+        "text": "조금 겁이 난다. 리스크 관리를 다시 계산한다.",
+        "effects": {
+          "stress": 5,
+          "intelligence": 4,
+          "mental": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "종이에 숫자를 적었다. 최악의 시나리오, 중간 시나리오, 최선. 최악도 버틸 수 있으면 해도 된다. 아슬아슬하게 버틸 수 있었다."
+      }
+    ]
+  },
+  {
+    "id": "dip_buy_waiting",
+    "title": "저점 매수 후 기다림",
+    "description": "폭락할 때 추가 매수했다. 지금도 마이너스다. 더 빠질 수도 있다. '공포에 사라'는 말은 쉽지만, 실제로 돈이 녹는 걸 보는 건 다른 이야기다. 이게 진짜 저점이길.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "investment",
+      "stress",
+      "waiting"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "원칙을 지킨다. 이건 장기 투자다. 안 판다.",
+        "effects": {
+          "stress": 5,
+          "mental": -3,
+          "investment_skill": 4
+        },
+        "flags": [
+          "held_through_crash"
+        ],
+        "follow_up_event": "",
+        "result_text": "숫자를 더 이상 보지 않기로 했다. 매일 보면 미쳐버린다. 원칙을 세웠으면 원칙을 믿어야 한다."
+      },
+      {
+        "text": "더 버티기 힘들다. 일부는 손절한다.",
+        "effects": {
+          "stress": 8,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "일부를 팔았다. 손실을 확정했다. 아프다. 근데 그 돈이 더 빠지는 것보다는 낫다. 어쩌면."
+      }
+    ]
+  },
+  {
+    "id": "family_help_gratitude",
+    "title": "가족의 연락",
+    "description": "며칠 후 부모님한테서 연락이 왔다. '잘 받았어. 고마워.' 그 짧은 문자가 이상하게 마음에 걸린다. 나는 괜찮은 건가.",
+    "category": "family",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "family",
+      "social",
+      "emotion"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "잘 됐다. 도움이 됐다면 된 거다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "마음이 가벼워졌다. 도움이 됐다면 그걸로 충분하다. 가족이 있다는 게 때로는 짐이지만, 때로는 이유가 된다."
+      },
+      {
+        "text": "다음엔 더 잘 챙겨드리고 싶다. 돈 더 벌어야겠다.",
+        "effects": {
+          "mental": 5,
+          "stress": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "더 잘 살아야 할 이유가 하나 생겼다. 막연한 목표가 아니라 구체적인 얼굴이 생겼다. 그게 동기가 됐다."
       }
     ]
   }
