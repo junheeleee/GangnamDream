@@ -81,6 +81,7 @@ func _connect_signals():
 	GameState.game_over.connect(_show_ending)
 	RivalSystem.rival_message.connect(_on_rival_message)
 	job_system.promoted.connect(_on_promoted)
+	GameState.stat_threshold_crossed.connect(_on_stat_threshold_crossed)
 
 func _build_ui():
 	# ── 1. 최하단: 단색 배경 ──
@@ -560,6 +561,11 @@ func _begin_month():
 	GameState.restore_ap()
 	turn_action_log.clear()
 	prev_prices = GameState.market_prices.duplicate()
+	# ── 로그라이크: 월별 위기/호재 롤 (튜토리얼 이후) ──
+	if GameState.turn > 3:
+		var crisis = _roll_monthly_crisis()
+		if not crisis.is_empty():
+			_apply_monthly_event(crisis)
 	if GameState.news_log.is_empty() or GameState.turn > 1:
 		var news = NewsManager.generate_monthly_news()
 		investment_system.process_month(news)
@@ -604,6 +610,114 @@ func _check_story_triggers():
 	# 1년
 	elif t == 12 and not f.get("story_one_year_seen", false):
 		EventManager.trigger_event_by_id("story_one_year")
+
+# ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
+
+func _roll_monthly_crisis() -> Dictionary:
+	var roll = randf()
+	# 6% 호재 달
+	if roll < 0.06:
+		var bonus_type = randi() % 3
+		match bonus_type:
+			0:
+				return {"type": "bonus_ap", "title": "⚡ 탄력 받은 달",
+					"desc": "컨디션이 최고다. 이번 달 행동력 +1 보너스!", "color": "#00c896"}
+			1:
+				var amt = float(randi_range(200_000, 600_000))
+				return {"type": "bonus_income", "title": "💸 뜻밖의 수입",
+					"desc": "예상치 못한 %s이 들어왔다." % GameState.format_money(amt), "amount": amt, "color": "#00c896"}
+			_:
+				return {"type": "market_boom", "title": "📈 시장 급등 신호",
+					"desc": "이번 달 시장 전반에 강세 신호가 감지됐다. 투자 기회!", "color": "#3fb950"}
+	# 18% 위기 달
+	if roll < 0.24:
+		var crisis_type = randf()
+		if crisis_type < 0.30:
+			var amt = float(randi_range(150_000, 700_000))
+			return {"type": "emergency_expense", "title": "🚨 긴급 지출",
+				"desc": "갑작스럽게 %s이 빠져나갔다." % GameState.format_money(amt), "amount": amt, "color": "#ff4444"}
+		elif crisis_type < 0.55:
+			return {"type": "ap_penalty", "title": "😩 여유 없는 달",
+				"desc": "갑작스러운 사정으로 이번 달 행동력이 1 줄어든다.", "color": "#f0b429"}
+		elif crisis_type < 0.75:
+			return {"type": "market_shock", "title": "📉 시장 충격",
+				"desc": "외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.", "color": "#ff4444"}
+		else:
+			var hp_dmg = randi_range(8, 18)
+			return {"type": "health_crisis", "title": "🏥 건강 위기",
+				"desc": "갑자기 몸이 안 좋아졌다. 건강 -%d, 스트레스 +12." % hp_dmg, "hp": hp_dmg, "color": "#ef4444"}
+	return {}
+
+func _apply_monthly_event(ev: Dictionary):
+	var t = ev.get("type", "")
+	var title = ev.get("title", "")
+	var desc = ev.get("desc", "")
+	var color = Color(ev.get("color", "#8892a4"))
+	match t:
+		"bonus_ap":
+			GameState.action_points = min(GameState.action_points + 1, GameState.max_action_points + 1)
+			_show_toast("%s — %s" % [title, desc], color)
+			GameState.add_log(desc, "system")
+		"bonus_income":
+			var amt = float(ev.get("amount", 300_000.0))
+			GameState.add_money(amt)
+			_show_toast("%s — %s" % [title, desc], color)
+			GameState.add_log(desc, "system")
+			AudioManager.play("money_gain")
+		"market_boom":
+			investment_system.apply_market_shock()  # opposite: boost
+			GameState.market_context["fear_greed"] = min(90, int(GameState.market_context.get("fear_greed", 50)) + 20)
+			GameState.market_context["cycle"] = "bull"
+			GameState.market_context["crash_risk"] = 0.02
+			_show_toast("%s — %s" % [title, desc], color)
+			GameState.add_log(desc, "market")
+		"emergency_expense":
+			var amt = float(ev.get("amount", 300_000.0))
+			GameState.add_money(-amt)
+			GameState.modify_hidden_stat("stress", 10)
+			_show_toast("%s — %s" % [title, desc], color)
+			GameState.add_log(desc, "system")
+		"ap_penalty":
+			GameState.action_points = max(1, GameState.action_points - 1)
+			_show_toast("%s — %s" % [title, desc], color)
+			GameState.add_log(desc, "system")
+		"market_shock":
+			investment_system.apply_market_shock()
+			_show_toast("%s — %s" % [title, desc], color)
+			GameState.add_log(desc, "market")
+		"health_crisis":
+			var hp_dmg = int(ev.get("hp", 10))
+			GameState.modify_stat("health", -hp_dmg)
+			GameState.modify_hidden_stat("stress", 12)
+			_show_toast("%s — %s" % [title, desc], color)
+			GameState.add_log(desc, "system")
+
+# ── RPG: 스탯 임계값 해금 알림 ──────────────────────────────────────────
+
+func _on_stat_threshold_crossed(stat_name: String, threshold: int):
+	var unlock_msgs = {
+		"investment_skill": {
+			30: "📊 레버리지 투자 해금! 2배 포지션으로 고수익을 노릴 수 있다.",
+			50: "🔭 시장 분석(무료 행동) 해금! 매달 시장 방향을 미리 읽어라.",
+			70: "⚡ 선물 매매 해금! 극한의 투자가가 되었다.",
+		},
+		"intelligence": {
+			30: "📖 심화 독서 해금! 독서 효과가 2배로 강화된다.",
+			50: "🔬 재무제표 분석 해금! 투자 결정에 정확도가 올라간다.",
+			70: "🧠 데이터 드리븐 투자 해금! 시장 예측 정확도 최고 수준.",
+		},
+		"social_skill": {
+			30: "🤝 관계 강화 효과 상승! 인맥활동 보너스가 커진다.",
+			50: "👔 VIP 인맥 해금! 사회성 3배 상승, 대형 관계 이벤트 접근 가능.",
+			70: "🎩 엘리트 서클 해금! 최상위 직군 이벤트와 네트워크에 접근한다.",
+		},
+	}
+	var stat_msg = unlock_msgs.get(stat_name, {})
+	if stat_msg.has(threshold):
+		var msg = stat_msg[threshold]
+		_show_toast("🔓 " + msg, Color("#f0b429"))
+		GameState.add_log("✨ " + msg, "system")
+		AudioManager.play("housing_up")
 
 func _on_next_month():
 	if not current_event.is_empty():
@@ -991,14 +1105,37 @@ func _render_ap_actions():
 		{"label": "🤝 인맥활동  — 사회성 +1, 관계 친밀도 상승", "color": "#7c3aed", "fn": "_ap_network", "locked": false},
 		{"label": job_label,    "color": job_color,  "fn": "_ap_job_hunt", "locked": job_locked},
 	]
-	# 단기 알바는 직업 없을 때만 표시 — 본업 있으면 어색해서 숨김
+	# 단기 알바는 직업 없을 때만
 	if no_job:
 		ap_actions.append({"label": "💰 단기 알바  — 오늘 당장 40만원 (건강 -5, 스트레스 +6)", "color": "#0369a1", "fn": "_ap_side_job", "locked": false})
+
+	# ── RPG 스탯 해금 행동 ────────────────────────────────────────────
+	# intelligence >= 30: 심화 독서 (지력 +8, 일반 독서 대체)
+	if GameState.intelligence >= 30:
+		ap_actions.append({"label": "📖 심화 독서  — 지력 +8 (해금: 지력 30)", "color": "#1d4ed8", "fn": "_ap_deep_study", "locked": false})
+	# intelligence >= 50: 시장 분석 (무료 행동, AP 소비 없음)
+	if GameState.intelligence >= 50 and has_paycheck:
+		var forecast = investment_system.get_market_forecast()
+		ap_actions.append({"label": "🔭 시장 분석 [무료] — %s" % forecast, "color": "#1e3a5f", "fn": "_ap_market_analysis", "locked": false, "free": true})
+	# investment_skill >= 30: 레버리지 투자
+	if GameState.investment_skill >= 30 and has_paycheck:
+		ap_actions.append({"label": "⚡ 레버리지 투자  — 2배 포지션 (고위험·고수익)", "color": "#7f1d1d", "fn": "_ap_leverage_invest", "locked": false})
+	# social_skill >= 50: VIP 인맥
+	if GameState.social_skill >= 50:
+		ap_actions.append({"label": "👔 VIP 인맥  — 사회성 +3, 관계 대폭 강화, 평판 +2", "color": "#4c1d95", "fn": "_ap_vip_network", "locked": false})
+
 	for action in ap_actions:
 		var action_locked: bool = action.get("locked", false)
-		var color = action["color"] if not disabled else "#1e1e2a"
-		var btn = _button(action["label"], color)
-		btn.disabled = disabled or action_locked
+		var is_free: bool = action.get("free", false)
+		var btn_color: String
+		if is_free:
+			btn_color = action["color"]
+		elif disabled:
+			btn_color = "#1e1e2a"
+		else:
+			btn_color = action["color"]
+		var btn = _button(action["label"], btn_color)
+		btn.disabled = (disabled and not is_free) or action_locked
 		btn.pressed.connect(Callable(self, action["fn"]))
 		choice_box.add_child(btn)
 
@@ -1157,6 +1294,119 @@ func _ap_move_housing():
 	else:
 		AudioManager.play("stat_down")
 		_show_toast(result.get("message", "이사 실패"), Color("#ff4444"))
+	_render_ap_actions()
+	_refresh_all()
+
+# ── RPG 해금 행동 함수들 ───────────────────────────────────────────────
+
+func _ap_deep_study():
+	if not GameState.spend_ap():
+		return
+	var int_before = GameState.intelligence
+	GameState.modify_stat("intelligence", 8)
+	AudioManager.play("stat_up")
+	turn_action_log.append("✓ 📖 심화 독서 → 지력 %d→%d" % [int_before, GameState.intelligence])
+	_show_toast("📖 심화 독서 — 지력 %d → %d" % [int_before, GameState.intelligence], Color("#1d4ed8"))
+	_render_ap_actions()
+	_refresh_all()
+
+func _ap_market_analysis():
+	# 무료 행동 — AP 소비 없음
+	var forecast = investment_system.get_market_forecast()
+	var cycle = str(GameState.market_context.get("cycle", "neutral"))
+	var fg = int(GameState.market_context.get("fear_greed", 50))
+	var crash_risk = float(GameState.market_context.get("crash_risk", 0.05))
+	_open_modal("🔭 시장 분석")
+	modal_body.add_child(_wrap_label("[행동력 소비 없음 — 이 행동은 무료입니다]", 12, "#00c896"))
+	var sep = HSeparator.new(); sep.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep)
+	modal_body.add_child(_label("📊 현재 시장 상황", 16, "#e8eaf0"))
+	var cycle_kr = {"bull": "🟢 상승장", "bear": "🔴 하락장", "neutral": "⚪ 횡보"}.get(cycle, cycle)
+	modal_body.add_child(_wrap_label("시장 국면: %s  |  공포/탐욕: %d/100  |  폭락 위험도: %.0f%%" % [cycle_kr, fg, crash_risk * 100.0], 14, "#f0b429"))
+	var sep2 = HSeparator.new(); sep2.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep2)
+	modal_body.add_child(_label("🔭 다음 달 예측", 15, "#5b9cf6"))
+	modal_body.add_child(_wrap_label(forecast, 15, "#e8eaf0"))
+	if crash_risk > 0.08:
+		modal_body.add_child(_wrap_label("⚠ 폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.", 13, "#ff4444"))
+	var ok_btn = _button("확인", "#1e3a5f")
+	ok_btn.pressed.connect(_close_modal)
+	modal_body.add_child(ok_btn)
+	GameState.add_log("🔭 시장 분석 — %s" % forecast, "market")
+
+func _ap_leverage_invest():
+	if GameState.action_points <= 0:
+		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
+		return
+	_open_leverage_investments()
+
+func _open_leverage_investments():
+	_open_modal("⚡ 레버리지 투자")
+	var ap_now = GameState.action_points
+	modal_body.add_child(_wrap_label(
+		"⚠ 고위험! 같은 자금으로 2배 포지션. 수익도 2배, 손실도 2배.\n    포지션 가치가 원금의 35% 이하 하락 시 강제 청산됩니다.",
+		13, "#ef4444"))
+	modal_body.add_child(_wrap_label("⚡ 행동력 %d/%d — 매수 실행 시 1 소비" % [ap_now, GameState.max_action_points],
+		12, "#00c896" if ap_now > 0 else "#ff4444"))
+	var sep = HSeparator.new(); sep.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep)
+	for row in investment_system.get_asset_rows():
+		var asset_id = row["id"]
+		var price = float(row["price"])
+		var hist: Array = GameState.price_history.get(asset_id, [])
+		var sparkline = _price_sparkline(hist)
+		var last_color = "#8892a4"
+		if hist.size() >= 2:
+			last_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
+		var leveraged = GameState.portfolio.get(asset_id, {}).get("leveraged_amount", 0.0) > 0
+		var lev_tag = " [⚡레버리지]" if leveraged else ""
+		modal_body.add_child(_label("%s  %s  %s%s" % [row["name"], GameState.format_money(price), sparkline, lev_tag], 14, last_color))
+		var buy_row = HBoxContainer.new()
+		buy_row.add_theme_constant_override("separation", 6)
+		for amount in [200_000, 500_000, 1_000_000]:
+			var can_afford = GameState.money >= float(amount)
+			var btn = _small_button("⚡%s×2" % GameState.format_money(amount), "#7f1d1d" if can_afford else "#64748b")
+			btn.disabled = not can_afford
+			btn.pressed.connect(Callable(self, "_on_leverage_buy").bind(asset_id, float(amount)))
+			buy_row.add_child(btn)
+		modal_body.add_child(buy_row)
+		var sep2 = HSeparator.new(); sep2.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep2)
+
+func _on_leverage_buy(asset_id: String, amount: float):
+	if not GameState.spend_ap():
+		_show_toast("⚡ 행동력이 없습니다. 이번 달 거래 불가", Color("#ff4444"))
+		_close_modal()
+		return
+	AudioManager.play("money_gain")
+	var result = investment_system.buy_asset_leveraged(asset_id, amount)
+	if result.get("success", false):
+		var asset_name = asset_id
+		for data in DataRegistry.assets:
+			if data.get("id", "") == asset_id:
+				asset_name = data.get("name", asset_id)
+				break
+		turn_action_log.append("✓ ⚡ 레버리지 → %s ×2배  %s" % [asset_name, GameState.format_money(amount)])
+		_close_modal()
+		_refresh_all()
+		_show_toast("⚡ 레버리지 매수 — %s ×2배 포지션 확보" % GameState.format_money(amount * 2.0), Color("#ef4444"))
+	else:
+		_show_toast(result.get("message", "오류"), Color("#ff4444"))
+
+func _ap_vip_network():
+	if not GameState.spend_ap():
+		return
+	var soc_before = GameState.social_skill
+	var rep_before = GameState.reputation
+	GameState.modify_stat("social_skill", 3)
+	GameState.modify_hidden_stat("reputation", 2)
+	var rel_names: Array = []
+	for rel in GameState.relationships:
+		var aff_before = int(rel.get("affection", 40))
+		rel["affection"] = clamp(aff_before + 15, 0, 100)
+		rel["trust"] = clamp(int(rel.get("trust", 30)) + 8, 0, 100)
+		rel_names.append(str(rel.get("name", "?")))
+	var rel_str = " · ".join(rel_names.slice(0, 3)) if not rel_names.is_empty() else "인맥 없음"
+	GameState.add_log("VIP 인맥: 사회성 %d→%d, 평판 %d→%d (%s)" % [soc_before, GameState.social_skill, rep_before, GameState.reputation, rel_str], "relationship")
+	turn_action_log.append("✓ 👔 VIP 인맥 → 사회성 %d→%d, 평판+2" % [soc_before, GameState.social_skill])
+	_show_toast("👔 VIP 인맥 — 사회성 %d→%d, 모든 관계 친밀도 +15" % [soc_before, GameState.social_skill], Color("#a855f7"))
+	GameState.stats_changed.emit()
 	_render_ap_actions()
 	_refresh_all()
 

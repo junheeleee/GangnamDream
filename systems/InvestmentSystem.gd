@@ -20,6 +20,7 @@ func process_month(news_items):
 		_update_asset(asset, news_items)
 	_record_price_history()
 	_apply_dividends()
+	_check_margin_calls()
 	portfolio_updated.emit()
 
 func buy_asset(asset_id, amount_krw):
@@ -120,9 +121,9 @@ func _update_asset(asset, news_items):
 	if GameState.market_context.get("bubble_assets", []).has(id):
 		bubble_bonus = volatility * 0.6
 	var crash = 0.0
-	# 크래시 확률 절반으로 낮춤 (2%→1%)
-	if randf() < float(GameState.market_context.get("crash_risk", 0.03)) * volatility * 0.5:
-		crash = -randf_range(0.15, 0.40)
+	# 로그라이크: 크래시 확률 상향 (더 예측 불가능한 시장)
+	if randf() < float(GameState.market_context.get("crash_risk", 0.05)) * volatility * 1.2:
+		crash = -randf_range(0.18, 0.45)
 	# 장기적 양의 드리프트 +0.3%/월 (연 3.6% 기대수익)
 	var drift = 0.003
 	var total_change = clamp(cycle_bias + greed_bias + random_move + news_bias + bubble_bonus + crash + drift, -0.65, 0.95)
@@ -157,3 +158,82 @@ func _apply_dividends():
 			var dividend = float(holding.get("quantity", 0.0)) * float(GameState.market_prices.get(asset_id, 0.0)) * 0.002
 			if dividend > 0:
 				GameState.add_money(dividend)
+
+func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
+	var asset = DataRegistry.get_asset(asset_id)
+	if asset.is_empty():
+		return {"success": false, "message": "존재하지 않는 자산"}
+	var current_price = float(GameState.market_prices.get(asset_id, 0.0))
+	if current_price <= 0:
+		return {"success": false, "message": "가격 정보 없음"}
+	if amount_krw > GameState.money:
+		return {"success": false, "message": "잔액 부족"}
+	var fee = amount_krw * 0.015
+	# 2배 수량으로 매수 (레버리지 효과)
+	var quantity = (amount_krw * 2.0 - fee) / current_price
+	if GameState.portfolio.has(asset_id):
+		var holding: Dictionary = GameState.portfolio[asset_id]
+		var prev_q = float(holding.get("quantity", 0.0))
+		var prev_cost = prev_q * float(holding.get("avg_price", current_price))
+		var new_total_q = prev_q + quantity
+		holding["quantity"] = new_total_q
+		holding["avg_price"] = (prev_cost + quantity * current_price) / max(new_total_q, 0.0001)
+		holding["leveraged_amount"] = float(holding.get("leveraged_amount", 0.0)) + amount_krw
+	else:
+		GameState.portfolio[asset_id] = {
+			"quantity": quantity,
+			"avg_price": current_price,
+			"leveraged_amount": amount_krw,
+		}
+	GameState.add_money(-amount_krw)
+	GameState.modify_stat("investment_skill", 1)
+	GameState.add_log("⚡ 레버리지 매수: %s ×2배 포지션 (%s)" % [asset.get("name", asset_id), GameState.format_money(amount_krw * 2.0)], "trade")
+	trade_executed.emit(asset_id, "leverage_buy", quantity, current_price)
+	portfolio_updated.emit()
+	return {"success": true}
+
+func _check_margin_calls():
+	var to_erase: Array = []
+	for asset_id in GameState.portfolio.keys():
+		var holding: Dictionary = GameState.portfolio[asset_id]
+		var leveraged_amount = float(holding.get("leveraged_amount", 0.0))
+		if leveraged_amount <= 0.0:
+			continue
+		var current_price = float(GameState.market_prices.get(asset_id, 0.0))
+		var position_value = float(holding.get("quantity", 0.0)) * current_price
+		var total_exposure = leveraged_amount * 2.0
+		# 마진콜: 포지션 가치가 원금 35% 이하로 하락 시 강제 청산
+		if position_value < total_exposure * 0.35:
+			var liquidation_value = position_value * 0.85
+			GameState.add_money(liquidation_value)
+			to_erase.append(asset_id)
+			var asset = DataRegistry.get_asset(asset_id)
+			var loss = leveraged_amount - liquidation_value
+			GameState.add_log("💥 마진콜! %s 강제청산 — 손실 %s" % [
+				asset.get("name", asset_id), GameState.format_money(loss)], "trade")
+			GameState.modify_hidden_stat("stress", 20)
+			GameState.modify_stat("mental", -10)
+	for id in to_erase:
+		GameState.portfolio.erase(id)
+
+func apply_market_shock():
+	# 시장 충격: 크래시 위험 2.5배 상승, 약세장 전환
+	GameState.market_context["crash_risk"] = float(GameState.market_context.get("crash_risk", 0.05)) * 2.5
+	GameState.market_context["fear_greed"] = max(10, int(GameState.market_context.get("fear_greed", 50)) - 25)
+	if str(GameState.market_context.get("cycle", "neutral")) != "bear":
+		GameState.market_context["cycle"] = "bear"
+		cycle_timer = randi_range(2, 4)
+
+func get_market_forecast() -> String:
+	var cycle = str(GameState.market_context.get("cycle", "neutral"))
+	var fear_greed = int(GameState.market_context.get("fear_greed", 50))
+	var crash_risk = float(GameState.market_context.get("crash_risk", 0.05))
+	if crash_risk > 0.10:
+		return "⚠ 폭락 경보 — 현금 비중 늘리기 권장"
+	if cycle == "bull" and fear_greed > 65:
+		return "🟢 상승 지속 예상 — 성장주 유리"
+	if cycle == "bear" or fear_greed < 35:
+		return "🔴 하락 압력 — 방어 자산 권장"
+	if cycle == "bull":
+		return "🟡 상승 국면 — 단기 변동 주의"
+	return "⚪ 횡보 예상 — 분산 투자 유지"

@@ -6,6 +6,10 @@ signal turn_advanced(new_turn: int)
 signal game_over(ending_id: String)
 signal log_added(entry: Dictionary)
 signal run_started()
+signal stat_threshold_crossed(stat_name: String, threshold: int)
+
+const STAT_THRESHOLDS: Array = [30, 50, 70]
+var unlocked_stat_thresholds: Dictionary = {}
 
 var player_name = "김민준"
 var player_background = "지방_상경"  # 지방_상경 | 명문대_중퇴 | 금수저
@@ -114,6 +118,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	flags = {}
 	market_prices = {}
 	price_history = {}
+	unlocked_stat_thresholds = {}
 	market_context = {
 		"fear_greed": 50,
 		"cycle": "neutral",
@@ -281,6 +286,8 @@ func apply_effects(effects):
 				flags[str(value)] = true
 			"unflag":
 				flags.erase(str(value))
+			"action_points":
+				action_points = clamp(action_points + int(value), 0, max_action_points + 2)
 	stats_changed.emit()
 
 func apply_relationship_effect(effect):
@@ -322,6 +329,7 @@ func add_money(amount):
 	stats_changed.emit()
 
 func modify_stat(stat_name, amount):
+	var old_val: int = int(get(stat_name)) if get(stat_name) != null else 0
 	match stat_name:
 		"health":
 			health = clamp(health + amount, 0, 100)
@@ -337,6 +345,14 @@ func modify_stat(stat_name, amount):
 			investment_skill = clamp(investment_skill + amount, 0, 100)
 		"luck":
 			luck = clamp(luck + amount, 0, 100)
+	# RPG 임계값 해금 감지 (상승할 때만)
+	if amount > 0 and stat_name in ["investment_skill", "intelligence", "social_skill"]:
+		var new_val: int = int(get(stat_name))
+		for threshold in STAT_THRESHOLDS:
+			var key = "%s_%d" % [stat_name, threshold]
+			if old_val < threshold and new_val >= threshold and not unlocked_stat_thresholds.has(key):
+				unlocked_stat_thresholds[key] = true
+				stat_threshold_crossed.emit(stat_name, threshold)
 
 func modify_hidden_stat(stat_name, amount):
 	match stat_name:
