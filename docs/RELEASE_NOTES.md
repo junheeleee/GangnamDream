@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Added (2026-05-28 — Content Expansion + Critical Bug Fixes)
+- **320 total events** (life: 197, story: 16, drama: 27, investment: 30, relationship: 30, hidden: 20)
+  - 20 new mid-game life events (min_turn: 12+): 연차 평가, 헤드헌터 연락, 동료 퇴사, 전세 시장 충격, 회식, 번아웃, 청약 탈락, 친구 집 구매, 대출 투자 유혹, 커리어 한계, 연차 쉬기, 배당 시즌, 새벽 편의점, 코인 급등, 30대 회고, 가족 금전 부탁, 자산 점검, 종합소득세, 강세장 유혹, 폭락장
+  - `drama_office_politics` 이벤트 추가 (승진 후 사내 암투)
+  - `gosiwon_midnight_fire_drill` — 고시원 새벽 화재 경보
+  - `job_interview_wait` — 면접 결과 대기 (적절한 선택지로 재작성)
+  - `stock_portfolio_crash` — 폭락장 의사결정 이벤트
+
+### Fixed (2026-05-28 — Critical)
+- **스토리 이벤트 무한 반복 버그** — `story_events.json`의 `story_first_workday`, `story_first_paycheck_feel`, `story_first_savings_milestone`, `story_six_months`, `story_one_year`, `story_gosiwon_neighbor` 선택지에 `*_seen` 플래그 누락. `trigger_event_by_id()`는 쿨다운을 우회하므로 플래그 없으면 매 턴 같은 스토리 이벤트가 반복됐음.
+- **story_arrival_elite/rich 취업 해금 누락** — 배경이 명문대_중퇴/금수저인 플레이어는 `story_pressure` 체인이 없어 `story_job_unlocked` 플래그가 설정되지 않았음. 이제 도착 이벤트 선택지에서 직접 설정.
+- **이벤트 중복 ID 9개 제거** — `story_arrival`, `story_six_months`, `story_one_year`, `story_first_paycheck_feel`, `story_first_workday`, `story_first_savings_milestone`, `story_arrival_elite`, `story_arrival_rich`, `drama_office_politics` 가 `life_events.json`에 중복 존재하던 것 제거 (story_events.json/drama_events.json이 정본).
+
 ### Added (2026-05-28 — RPG/Roguelike Pass)
 - 월별 크라이시스/보너스 롤: 6% 보너스(AP+1, 추가수입, 강세장) + 18% 크라이시스(긴급지출, AP-1, 시장충격, 건강위기). 3턴 이후 매달 발동.
 - 레버리지 투자: 동일 금액으로 2배 포지션, 수수료 1.5%, 마진콜(원금 35% 이하 시 강제청산 85% + 스트레스+20).

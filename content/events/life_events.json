@@ -5165,7 +5165,6 @@
       }
     ]
   },
-
   {
     "id": "gosiwon_wall_noise",
     "title": "벽 너머에서",
@@ -5174,13 +5173,22 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {"housing": "gosiwon"},
-    "tags": ["gosiwon", "stress", "night"],
+    "conditions": {
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "gosiwon",
+      "stress",
+      "night"
+    ],
     "cooldown": 4,
     "choices": [
       {
         "text": "이어폰을 끼고 음악으로 덮는다",
-        "effects": {"stress": -2, "mental": -3},
+        "effects": {
+          "stress": -2,
+          "mental": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5189,7 +5197,10 @@
       },
       {
         "text": "노크해서 조용히 해달라고 한다",
-        "effects": {"stress": 3, "social_skill": 1},
+        "effects": {
+          "stress": 3,
+          "social_skill": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5198,7 +5209,6 @@
       }
     ]
   },
-
   {
     "id": "gosiwon_bathroom_morning",
     "title": "화장실 전쟁",
@@ -5207,22 +5217,38 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {"housing": "gosiwon", "has_job": true},
-    "tags": ["gosiwon", "stress", "morning"],
+    "conditions": {
+      "housing": "gosiwon",
+      "has_job": true
+    },
+    "tags": [
+      "gosiwon",
+      "stress",
+      "morning"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "30분 일찍 일어나는 루틴을 만든다",
-        "effects": {"stress": -3, "health": 2, "mental": -2},
+        "effects": {
+          "stress": -3,
+          "health": 2,
+          "mental": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["early_riser_habit"],
+        "flags": [
+          "early_riser_habit"
+        ],
         "follow_up_event": "",
         "result_text": "30분 일찍 일어나기 시작했다. 화장실 문제는 해결됐지만 수면이 30분 줄었다."
       },
       {
         "text": "지각을 감수하고 천천히 기다린다",
-        "effects": {"stress": 5, "mental": -4},
+        "effects": {
+          "stress": 5,
+          "mental": -4
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5231,7 +5257,6 @@
       }
     ]
   },
-
   {
     "id": "gosiwon_long_stay_blues",
     "title": "이 방의 색깔",
@@ -5240,22 +5265,38 @@
     "rarity": "uncommon",
     "weight": 0.8,
     "hidden": false,
-    "conditions": {"housing": "gosiwon", "min_housing_months": 6},
-    "tags": ["gosiwon", "mental", "depression"],
+    "conditions": {
+      "housing": "gosiwon",
+      "min_housing_months": 6
+    },
+    "tags": [
+      "gosiwon",
+      "mental",
+      "depression"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "이사 자금 목표를 구체적으로 세운다",
-        "effects": {"mental": 8, "stress": -5, "intelligence": 1},
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "intelligence": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["set_moving_goal"],
+        "flags": [
+          "set_moving_goal"
+        ],
         "follow_up_event": "",
         "result_text": "벽에 목표 금액을 적어붙였다. '3개월 안에 원룸.' 뭔가 달라진 느낌이다."
       },
       {
         "text": "그냥 익숙해지는 것도 나쁘지 않다",
-        "effects": {"mental": -5, "stress": -2},
+        "effects": {
+          "mental": -5,
+          "stress": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5264,7 +5305,6 @@
       }
     ]
   },
-
   {
     "id": "oneroom_first_night",
     "title": "첫 날 밤",
@@ -5273,31 +5313,50 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"housing": "oneroom", "no_flag": "oneroom_first_night_seen"},
-    "tags": ["oneroom", "moving", "alone"],
+    "conditions": {
+      "housing": "oneroom",
+      "no_flag": "oneroom_first_night_seen"
+    },
+    "tags": [
+      "oneroom",
+      "moving",
+      "alone"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "배달음식을 시키고 혼자 축하한다",
-        "effects": {"mental": 10, "money": -25000, "stress": -5},
+        "effects": {
+          "mental": 10,
+          "money": -25000,
+          "stress": -5
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["celebrated_first_move", "oneroom_first_night_seen"],
+        "flags": [
+          "celebrated_first_move",
+          "oneroom_first_night_seen"
+        ],
         "follow_up_event": "",
         "result_text": "치킨과 맥주. 혼자였지만 이상하게 뿌듯했다. 이 공간이 내 것이라는 실감이 났다."
       },
       {
         "text": "조용히 정리하고 일찍 잔다",
-        "effects": {"mental": 4, "stress": -3, "health": 3},
+        "effects": {
+          "mental": 4,
+          "stress": -3,
+          "health": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["oneroom_first_night_seen"],
+        "flags": [
+          "oneroom_first_night_seen"
+        ],
         "follow_up_event": "",
         "result_text": "짐 정리를 끝내고 일찍 잠들었다. 내일부터 새로운 루틴이 시작된다."
       }
     ]
   },
-
   {
     "id": "oneroom_empty_fridge",
     "title": "냉장고 앞에서",
@@ -5306,13 +5365,23 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {"housing": "oneroom"},
-    "tags": ["oneroom", "alone", "food"],
+    "conditions": {
+      "housing": "oneroom"
+    },
+    "tags": [
+      "oneroom",
+      "alone",
+      "food"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "편의점 도시락으로 해결한다",
-        "effects": {"mental": -2, "health": -2, "money": -5000},
+        "effects": {
+          "mental": -2,
+          "health": -2,
+          "money": -5000
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5321,7 +5390,11 @@
       },
       {
         "text": "주변 식당에서 제대로 먹는다",
-        "effects": {"mental": 5, "health": 2, "money": -12000},
+        "effects": {
+          "mental": 5,
+          "health": 2,
+          "money": -12000
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5330,7 +5403,6 @@
       }
     ]
   },
-
   {
     "id": "apartment_floor_noise",
     "title": "위층 소리",
@@ -5339,22 +5411,37 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"housing": "apartment"},
-    "tags": ["apartment", "stress", "neighbor"],
+    "conditions": {
+      "housing": "apartment"
+    },
+    "tags": [
+      "apartment",
+      "stress",
+      "neighbor"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "관리실에 민원을 넣는다",
-        "effects": {"stress": -5, "social_skill": -1, "mental": 3},
+        "effects": {
+          "stress": -5,
+          "social_skill": -1,
+          "mental": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["filed_noise_complaint"],
+        "flags": [
+          "filed_noise_complaint"
+        ],
         "follow_up_event": "",
         "result_text": "관리실에서 연락했다고 한다. 소음이 줄었다. 그런데 엘리베이터에서 위층 가족을 만났을 때 어색했다."
       },
       {
         "text": "그냥 참는다",
-        "effects": {"stress": 4, "mental": -3},
+        "effects": {
+          "stress": 4,
+          "mental": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5363,8 +5450,20 @@
       },
       {
         "text": "직접 위층에 찾아가 정중히 말한다",
-        "effects": {"stress": -3, "social_skill": 2, "mental": 2},
-        "relationship_effects": [{"id": "upstairs_neighbor", "name": "위층 이웃", "type": "friends", "affection": 25, "trust": 20}],
+        "effects": {
+          "stress": -3,
+          "social_skill": 2,
+          "mental": 2
+        },
+        "relationship_effects": [
+          {
+            "id": "upstairs_neighbor",
+            "name": "위층 이웃",
+            "type": "friends",
+            "affection": 25,
+            "trust": 20
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5372,7 +5471,6 @@
       }
     ]
   },
-
   {
     "id": "apartment_guard_greeting",
     "title": "경비 아저씨",
@@ -5381,22 +5479,44 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"housing": "apartment"},
-    "tags": ["apartment", "social", "community"],
+    "conditions": {
+      "housing": "apartment"
+    },
+    "tags": [
+      "apartment",
+      "social",
+      "community"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "먼저 인사드리고 말을 건넨다",
-        "effects": {"social_skill": 1, "mental": 5, "stress": -3},
-        "relationship_effects": [{"id": "building_guard", "name": "경비 아저씨", "type": "friends", "affection": 30, "trust": 35}],
+        "effects": {
+          "social_skill": 1,
+          "mental": 5,
+          "stress": -3
+        },
+        "relationship_effects": [
+          {
+            "id": "building_guard",
+            "name": "경비 아저씨",
+            "type": "friends",
+            "affection": 30,
+            "trust": 35
+          }
+        ],
         "investment_effects": [],
-        "flags": ["knows_building_guard"],
+        "flags": [
+          "knows_building_guard"
+        ],
         "follow_up_event": "",
         "result_text": "이 동네에서 30년 사셨단다. 아파트 안에도 작은 공동체가 있다는 걸 처음 느꼈다."
       },
       {
         "text": "그냥 지나친다",
-        "effects": {"stress": -1},
+        "effects": {
+          "stress": -1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5405,7 +5525,6 @@
       }
     ]
   },
-
   {
     "id": "gangnam_consumption_trap",
     "title": "강남의 유혹",
@@ -5414,13 +5533,23 @@
     "rarity": "common",
     "weight": 1.1,
     "hidden": false,
-    "conditions": {"housing": "gangnam"},
-    "tags": ["gangnam", "consumption", "temptation"],
+    "conditions": {
+      "housing": "gangnam"
+    },
+    "tags": [
+      "gangnam",
+      "consumption",
+      "temptation"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "그냥 지나친다. 허영은 적이다",
-        "effects": {"mental": -3, "stress": -2, "intelligence": 1},
+        "effects": {
+          "mental": -3,
+          "stress": -2,
+          "intelligence": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5429,16 +5558,26 @@
       },
       {
         "text": "질러버린다. 나를 위한 투자다",
-        "effects": {"mental": 12, "stress": -8, "money": -1500000},
+        "effects": {
+          "mental": 12,
+          "stress": -8,
+          "money": -1500000
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["bought_luxury_item"],
+        "flags": [
+          "bought_luxury_item"
+        ],
         "follow_up_event": "",
         "result_text": "샀다. 입었다. 기뻤다. 그런데 카드값이 나왔을 때 후회가 밀려왔다."
       },
       {
         "text": "참되, 비슷한 걸 중고로 찾아본다",
-        "effects": {"mental": 4, "intelligence": 1, "money": -150000},
+        "effects": {
+          "mental": 4,
+          "intelligence": 1,
+          "money": -150000
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5447,7 +5586,6 @@
       }
     ]
   },
-
   {
     "id": "gangnam_class_pressure",
     "title": "강남 사람들",
@@ -5456,14 +5594,33 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"housing": "gangnam"},
-    "tags": ["gangnam", "social", "class", "pressure"],
+    "conditions": {
+      "housing": "gangnam"
+    },
+    "tags": [
+      "gangnam",
+      "social",
+      "class",
+      "pressure"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "자연스럽게 어울린다",
-        "effects": {"social_skill": 2, "stress": 5, "reputation": 2},
-        "relationship_effects": [{"id": "gangnam_neighbor", "name": "강남 이웃", "type": "business", "affection": 20, "trust": 15}],
+        "effects": {
+          "social_skill": 2,
+          "stress": 5,
+          "reputation": 2
+        },
+        "relationship_effects": [
+          {
+            "id": "gangnam_neighbor",
+            "name": "강남 이웃",
+            "type": "business",
+            "affection": 20,
+            "trust": 15
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5471,16 +5628,21 @@
       },
       {
         "text": "내 길을 가면 된다. 의연하게 있는다",
-        "effects": {"mental": 6, "stress": -3, "intelligence": 1},
+        "effects": {
+          "mental": 6,
+          "stress": -3,
+          "intelligence": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["resisted_class_pressure"],
+        "flags": [
+          "resisted_class_pressure"
+        ],
         "follow_up_event": "",
         "result_text": "그냥 나로 있었다. 모임이 끝나고 집에 들어오는데 이상하게 기분이 좋았다."
       }
     ]
   },
-
   {
     "id": "late_night_job_ran_into",
     "title": "늦은 밤 편의점",
@@ -5489,13 +5651,22 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"month_focus": "부업"},
-    "tags": ["night", "social", "work"],
+    "conditions": {
+      "month_focus": "부업"
+    },
+    "tags": [
+      "night",
+      "social",
+      "work"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "말없이 계산하고 나온다",
-        "effects": {"mental": 2, "stress": -3},
+        "effects": {
+          "mental": 2,
+          "stress": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5504,16 +5675,29 @@
       },
       {
         "text": "잠깐 이야기를 나눈다",
-        "effects": {"mental": 7, "stress": -5, "social_skill": 1},
-        "relationship_effects": [{"id": "convenience_worker", "name": "편의점 알바생", "type": "friends", "affection": 20, "trust": 25}],
+        "effects": {
+          "mental": 7,
+          "stress": -5,
+          "social_skill": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "convenience_worker",
+            "name": "편의점 알바생",
+            "type": "friends",
+            "affection": 20,
+            "trust": 25
+          }
+        ],
         "investment_effects": [],
-        "flags": ["knows_convenience_worker"],
+        "flags": [
+          "knows_convenience_worker"
+        ],
         "follow_up_event": "",
         "result_text": "알고 보니 그도 투잡을 뛰고 있었다. 서울에서 각자 버티고 있는 사람들끼리 통하는 게 있었다."
       }
     ]
   },
-
   {
     "id": "convenience_regular_bond",
     "title": "단골이 된다는 것",
@@ -5522,14 +5706,32 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "knows_convenience_worker"},
-    "tags": ["social", "friendship", "daily"],
+    "conditions": {
+      "flag": "knows_convenience_worker"
+    },
+    "tags": [
+      "social",
+      "friendship",
+      "daily"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "오늘은 커피 한 잔 사드린다",
-        "effects": {"mental": 8, "social_skill": 1, "money": -3000},
-        "relationship_effects": [{"id": "convenience_worker", "name": "편의점 알바생", "type": "friends", "affection": 15, "trust": 10}],
+        "effects": {
+          "mental": 8,
+          "social_skill": 1,
+          "money": -3000
+        },
+        "relationship_effects": [
+          {
+            "id": "convenience_worker",
+            "name": "편의점 알바생",
+            "type": "friends",
+            "affection": 15,
+            "trust": 10
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5537,8 +5739,19 @@
       },
       {
         "text": "반갑게 웃으며 인사만 한다",
-        "effects": {"mental": 4, "stress": -3},
-        "relationship_effects": [{"id": "convenience_worker", "name": "편의점 알바생", "type": "friends", "affection": 5, "trust": 5}],
+        "effects": {
+          "mental": 4,
+          "stress": -3
+        },
+        "relationship_effects": [
+          {
+            "id": "convenience_worker",
+            "name": "편의점 알바생",
+            "type": "friends",
+            "affection": 5,
+            "trust": 5
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5546,7 +5759,6 @@
       }
     ]
   },
-
   {
     "id": "bragged_about_gains",
     "title": "자랑하고 싶은 마음",
@@ -5555,13 +5767,23 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "has_job": true},
-    "tags": ["investment", "social", "work"],
+    "conditions": {
+      "has_portfolio": true,
+      "has_job": true
+    },
+    "tags": [
+      "investment",
+      "social",
+      "work"
+    ],
     "cooldown": 7,
     "choices": [
       {
         "text": "대충 얼버무리고 화제를 돌린다",
-        "effects": {"stress": -2, "social_skill": 1},
+        "effects": {
+          "stress": -2,
+          "social_skill": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5570,16 +5792,21 @@
       },
       {
         "text": "솔직하게 얼마 벌었는지 말한다",
-        "effects": {"reputation": 2, "stress": 4, "social_skill": 1},
+        "effects": {
+          "reputation": 2,
+          "stress": 4,
+          "social_skill": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["bragged_investment_at_work"],
+        "flags": [
+          "bragged_investment_at_work"
+        ],
         "follow_up_event": "",
         "result_text": "말했더니 반응이 뜨거웠다. 그런데 이제 계속 물어볼 것 같다."
       }
     ]
   },
-
   {
     "id": "colleague_wants_investment_tips",
     "title": "투자 선생님",
@@ -5588,13 +5815,24 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "bragged_investment_at_work"},
-    "tags": ["investment", "social", "work", "responsibility"],
+    "conditions": {
+      "flag": "bragged_investment_at_work"
+    },
+    "tags": [
+      "investment",
+      "social",
+      "work",
+      "responsibility"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "기본적인 것만 알려주고 선을 긋는다",
-        "effects": {"social_skill": 2, "reputation": 1, "stress": 3},
+        "effects": {
+          "social_skill": 2,
+          "reputation": 1,
+          "stress": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5603,16 +5841,22 @@
       },
       {
         "text": "조언을 해주되, 결과는 본인 책임이라 못 박는다",
-        "effects": {"social_skill": 3, "reputation": 2, "intelligence": 1, "stress": 5},
+        "effects": {
+          "social_skill": 3,
+          "reputation": 2,
+          "intelligence": 1,
+          "stress": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["became_investment_advisor"],
+        "flags": [
+          "became_investment_advisor"
+        ],
         "follow_up_event": "",
         "result_text": "조언을 했다. 그들이 수익을 내면 덕분이라 하고, 손해를 보면 자기들 잘못이라 할 것이다."
       }
     ]
   },
-
   {
     "id": "vented_to_senior",
     "title": "하소연",
@@ -5621,22 +5865,39 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_job": true, "min_stress": 45},
-    "tags": ["work", "social", "stress", "relationship"],
+    "conditions": {
+      "has_job": true,
+      "min_stress": 45
+    },
+    "tags": [
+      "work",
+      "social",
+      "stress",
+      "relationship"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "다 털어놓는다",
-        "effects": {"mental": 10, "stress": -12, "social_skill": 1},
+        "effects": {
+          "mental": 10,
+          "stress": -12,
+          "social_skill": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["senior_knows_my_struggle"],
+        "flags": [
+          "senior_knows_my_struggle"
+        ],
         "follow_up_event": "",
         "result_text": "다 말했다. 선배는 '나도 그랬어'라고만 했다. 그런데 그게 제일 위로가 됐다."
       },
       {
         "text": "적당히만 말하고 분위기를 바꾼다",
-        "effects": {"mental": 4, "stress": -4},
+        "effects": {
+          "mental": 4,
+          "stress": -4
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5645,7 +5906,6 @@
       }
     ]
   },
-
   {
     "id": "senior_life_wisdom",
     "title": "선배의 이야기",
@@ -5654,22 +5914,47 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "senior_knows_my_struggle"},
-    "tags": ["work", "social", "wisdom", "relationship"],
+    "conditions": {
+      "flag": "senior_knows_my_struggle"
+    },
+    "tags": [
+      "work",
+      "social",
+      "wisdom",
+      "relationship"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "시간을 내서 들어준다",
-        "effects": {"mental": 6, "stress": -5, "intelligence": 2, "social_skill": 1},
-        "relationship_effects": [{"id": "senior_colleague", "name": "직장 선배", "type": "mentor", "affection": 25, "trust": 30}],
+        "effects": {
+          "mental": 6,
+          "stress": -5,
+          "intelligence": 2,
+          "social_skill": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "senior_colleague",
+            "name": "직장 선배",
+            "type": "mentor",
+            "affection": 25,
+            "trust": 30
+          }
+        ],
         "investment_effects": [],
-        "flags": ["heard_senior_story"],
+        "flags": [
+          "heard_senior_story"
+        ],
         "follow_up_event": "",
         "result_text": "선배는 자기가 30대에 번아웃으로 병원을 갔던 이야기를 했다. 나는 아직 거기까지는 아니라고 생각했다. 아마도."
       },
       {
         "text": "오늘은 피곤하다고 다음에 듣겠다고 한다",
-        "effects": {"stress": -2, "mental": -2},
+        "effects": {
+          "stress": -2,
+          "mental": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5678,7 +5963,6 @@
       }
     ]
   },
-
   {
     "id": "ignored_body_warning",
     "title": "괜찮겠지",
@@ -5687,22 +5971,38 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_stress": 55, "min_turn": 4},
-    "tags": ["health", "stress", "work"],
+    "conditions": {
+      "min_stress": 55,
+      "min_turn": 4
+    },
+    "tags": [
+      "health",
+      "stress",
+      "work"
+    ],
     "cooldown": 7,
     "choices": [
       {
         "text": "그냥 버틴다",
-        "effects": {"health": -5, "stress": 4},
+        "effects": {
+          "health": -5,
+          "stress": 4
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["ignored_health_warning"],
+        "flags": [
+          "ignored_health_warning"
+        ],
         "follow_up_event": "",
         "result_text": "버텼다. 증상은 좀 가라앉았다. 근데 몸이 조금씩 신호를 보내고 있다는 걸 알고 있다."
       },
       {
         "text": "반차를 내고 병원에 간다",
-        "effects": {"health": 8, "stress": -5, "money": -50000},
+        "effects": {
+          "health": 8,
+          "stress": -5,
+          "money": -50000
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5711,7 +6011,6 @@
       }
     ]
   },
-
   {
     "id": "body_forced_rest",
     "title": "몸이 먼저 쓰러졌다",
@@ -5720,22 +6019,39 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "ignored_health_warning"},
-    "tags": ["health", "burnout", "rest"],
+    "conditions": {
+      "flag": "ignored_health_warning"
+    },
+    "tags": [
+      "health",
+      "burnout",
+      "rest"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "며칠 완전히 쉰다",
-        "effects": {"health": 15, "mental": 10, "stress": -15, "intelligence": 1},
+        "effects": {
+          "health": 15,
+          "mental": 10,
+          "stress": -15,
+          "intelligence": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["forced_to_rest"],
+        "flags": [
+          "forced_to_rest"
+        ],
         "follow_up_event": "",
         "result_text": "3일을 쉬었다. 몸이 돌아왔다. 쉬는 것도 버티는 것임을 배웠다."
       },
       {
         "text": "하루만 쉬고 다시 나간다",
-        "effects": {"health": 3, "stress": 5, "mental": -5},
+        "effects": {
+          "health": 3,
+          "stress": 5,
+          "mental": -5
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5744,7 +6060,6 @@
       }
     ]
   },
-
   {
     "id": "romance_sumin_meet",
     "title": "우연한 만남",
@@ -5753,22 +6068,47 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"no_flag": "met_sumin", "max_stress": 75},
-    "tags": ["romance", "social", "cafe", "meeting"],
+    "conditions": {
+      "no_flag": "met_sumin",
+      "max_stress": 75
+    },
+    "tags": [
+      "romance",
+      "social",
+      "cafe",
+      "meeting"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "자연스럽게 대화를 이어간다",
-        "effects": {"mental": 8, "social_skill": 1, "stress": -4},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 15, "trust": 10}],
+        "effects": {
+          "mental": 8,
+          "social_skill": 1,
+          "stress": -4
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 15,
+            "trust": 10
+          }
+        ],
         "investment_effects": [],
-        "flags": ["met_sumin"],
+        "flags": [
+          "met_sumin"
+        ],
         "follow_up_event": "",
         "result_text": "한 시간 넘게 얘기했다. 나올 때 '또 봐요'라고 했다. 진심인지 인사치레인지 모르겠는데 계속 생각난다."
       },
       {
         "text": "콘센트만 쓰고 작업에 집중한다",
-        "effects": {"intelligence": 1, "stress": -2},
+        "effects": {
+          "intelligence": 1,
+          "stress": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -5777,7 +6117,6 @@
       }
     ]
   },
-
   {
     "id": "romance_sumin_number",
     "title": "연락처",
@@ -5786,23 +6125,54 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "met_sumin", "no_flag": "has_sumin_number"},
-    "tags": ["romance", "social"],
+    "conditions": {
+      "flag": "met_sumin",
+      "no_flag": "has_sumin_number"
+    },
+    "tags": [
+      "romance",
+      "social"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "연락처를 물어본다",
-        "effects": {"mental": 6, "stress": -3, "social_skill": 1},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 10, "trust": 8}],
+        "effects": {
+          "mental": 6,
+          "stress": -3,
+          "social_skill": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 10,
+            "trust": 8
+          }
+        ],
         "investment_effects": [],
-        "flags": ["has_sumin_number"],
+        "flags": [
+          "has_sumin_number"
+        ],
         "follow_up_event": "",
         "result_text": "번호를 받았다. 집에 오는 길에 세 번이나 폰을 꺼내봤다."
       },
       {
         "text": "그냥 헤어진다. 인연이면 또 만나겠지",
-        "effects": {"mental": 2, "stress": -2},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 3, "trust": 2}],
+        "effects": {
+          "mental": 2,
+          "stress": -2
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 3,
+            "trust": 2
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5810,7 +6180,6 @@
       }
     ]
   },
-
   {
     "id": "romance_sumin_first_date",
     "title": "첫 데이트",
@@ -5819,31 +6188,67 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "has_sumin_number", "no_flag": "dated_sumin", "max_stress": 70},
-    "tags": ["romance", "social", "date"],
+    "conditions": {
+      "flag": "has_sumin_number",
+      "no_flag": "dated_sumin",
+      "max_stress": 70
+    },
+    "tags": [
+      "romance",
+      "social",
+      "date"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "정성껏 코스를 짠다",
-        "effects": {"mental": 12, "stress": -6, "money": -80000, "social_skill": 1},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 20, "trust": 15}],
+        "effects": {
+          "mental": 12,
+          "stress": -6,
+          "money": -80000,
+          "social_skill": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 20,
+            "trust": 15
+          }
+        ],
         "investment_effects": [],
-        "flags": ["dated_sumin"],
+        "flags": [
+          "dated_sumin"
+        ],
         "follow_up_event": "",
         "result_text": "맛집, 한강, 편의점 야식. 7시간이 어떻게 지나갔는지 모르겠다. 헤어지기 싫었다."
       },
       {
         "text": "가볍게 커피 한 잔만",
-        "effects": {"mental": 7, "stress": -3, "money": -15000},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 10, "trust": 8}],
+        "effects": {
+          "mental": 7,
+          "stress": -3,
+          "money": -15000
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 10,
+            "trust": 8
+          }
+        ],
         "investment_effects": [],
-        "flags": ["dated_sumin"],
+        "flags": [
+          "dated_sumin"
+        ],
         "follow_up_event": "",
         "result_text": "커피 한 잔인데 두 시간이 넘었다. 다음에 또 보자고 했다."
       }
     ]
   },
-
   {
     "id": "romance_sumin_crisis",
     "title": "수민이와의 갈등",
@@ -5852,14 +6257,33 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "dated_sumin", "min_stress": 50},
-    "tags": ["romance", "relationship", "conflict"],
+    "conditions": {
+      "flag": "dated_sumin",
+      "min_stress": 50
+    },
+    "tags": [
+      "romance",
+      "relationship",
+      "conflict"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "솔직하게 사과하고 시간을 낸다",
-        "effects": {"mental": 5, "stress": 5, "money": -30000},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 8, "trust": 10}],
+        "effects": {
+          "mental": 5,
+          "stress": 5,
+          "money": -30000
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 8,
+            "trust": 10
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5867,8 +6291,19 @@
       },
       {
         "text": "바쁜 건 어쩔 수 없다고 설명한다",
-        "effects": {"mental": -5, "stress": -3},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": -10, "trust": -5}],
+        "effects": {
+          "mental": -5,
+          "stress": -3
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": -10,
+            "trust": -5
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5876,7 +6311,6 @@
       }
     ]
   },
-
   {
     "id": "mentor_park_meets_you",
     "title": "박 과장",
@@ -5885,31 +6319,63 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_job": true, "no_flag": "knows_park"},
-    "tags": ["work", "mentor", "pressure"],
+    "conditions": {
+      "has_job": true,
+      "no_flag": "knows_park"
+    },
+    "tags": [
+      "work",
+      "mentor",
+      "pressure"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "예의 바르게 인사하고 인상을 심는다",
-        "effects": {"reputation": 1, "social_skill": 1, "stress": 2},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 15, "trust": 10}],
+        "effects": {
+          "reputation": 1,
+          "social_skill": 1,
+          "stress": 2
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": 15,
+            "trust": 10
+          }
+        ],
         "investment_effects": [],
-        "flags": ["knows_park"],
+        "flags": [
+          "knows_park"
+        ],
         "follow_up_event": "",
         "result_text": "정중하게 인사했다. 박 과장이 짧게 고개를 끄덕였다. 이 사람 앞에서는 긴장이 풀리질 않는다."
       },
       {
         "text": "적당히 인사하고 자리로 돌아온다",
-        "effects": {"stress": -1},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 8, "trust": 5}],
+        "effects": {
+          "stress": -1
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": 8,
+            "trust": 5
+          }
+        ],
         "investment_effects": [],
-        "flags": ["knows_park"],
+        "flags": [
+          "knows_park"
+        ],
         "follow_up_event": "",
         "result_text": "그냥 인사하고 자리로 왔다. 박 과장은 이미 서류를 보고 있었다."
       }
     ]
   },
-
   {
     "id": "mentor_park_spec_lecture",
     "title": "스펙 강의",
@@ -5918,14 +6384,33 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"flag": "knows_park"},
-    "tags": ["work", "mentor", "pressure", "spec"],
+    "conditions": {
+      "flag": "knows_park"
+    },
+    "tags": [
+      "work",
+      "mentor",
+      "pressure",
+      "spec"
+    ],
     "cooldown": 7,
     "choices": [
       {
         "text": "경청하면서 노트에 적는다",
-        "effects": {"intelligence": 1, "stress": 3, "reputation": 1},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 8, "trust": 10}],
+        "effects": {
+          "intelligence": 1,
+          "stress": 3,
+          "reputation": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": 8,
+            "trust": 10
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5933,16 +6418,29 @@
       },
       {
         "text": "나는 내 방식이 있다고 조용히 말한다",
-        "effects": {"mental": 4, "stress": 2, "social_skill": 1},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": -3, "trust": 3}],
+        "effects": {
+          "mental": 4,
+          "stress": 2,
+          "social_skill": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": -3,
+            "trust": 3
+          }
+        ],
         "investment_effects": [],
-        "flags": ["disagreed_with_park"],
+        "flags": [
+          "disagreed_with_park"
+        ],
         "follow_up_event": "",
         "result_text": "조용히 말했다. 박 과장이 잠깐 멈추더니 '그래, 해봐'라고 했다. 인정인지 포기인지 모르겠다."
       }
     ]
   },
-
   {
     "id": "mentor_park_weekend_request",
     "title": "토요일 출근",
@@ -5951,23 +6449,56 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"flag": "knows_park", "has_job": true},
-    "tags": ["work", "overtime", "pressure", "mentor"],
+    "conditions": {
+      "flag": "knows_park",
+      "has_job": true
+    },
+    "tags": [
+      "work",
+      "overtime",
+      "pressure",
+      "mentor"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "알겠다고 한다",
-        "effects": {"stress": 8, "health": -5, "reputation": 2},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 5, "trust": 8}],
+        "effects": {
+          "stress": 8,
+          "health": -5,
+          "reputation": 2
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": 5,
+            "trust": 8
+          }
+        ],
         "investment_effects": [],
-        "flags": ["did_weekend_work"],
+        "flags": [
+          "did_weekend_work"
+        ],
         "follow_up_event": "",
         "result_text": "나갔다. 중요한 건이 맞긴 했다. 박 과장이 '수고했어'라고 했다. 그 한마디로 주말 하루가 사라졌다."
       },
       {
         "text": "이번엔 선약이 있다고 거절한다",
-        "effects": {"mental": 8, "stress": -5},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": -5, "trust": -3}],
+        "effects": {
+          "mental": 8,
+          "stress": -5
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": -5,
+            "trust": -3
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -5975,7 +6506,6 @@
       }
     ]
   },
-
   {
     "id": "mentor_park_burnout_mirror",
     "title": "박 과장의 이면",
@@ -5984,22 +6514,47 @@
     "rarity": "rare",
     "weight": 0.7,
     "hidden": false,
-    "conditions": {"flag": "knows_park", "min_turn": 8},
-    "tags": ["work", "burnout", "depth", "mentor"],
+    "conditions": {
+      "flag": "knows_park",
+      "min_turn": 8
+    },
+    "tags": [
+      "work",
+      "burnout",
+      "depth",
+      "mentor"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "솔직하게 모르겠다고 한다",
-        "effects": {"mental": 8, "stress": -8, "intelligence": 2},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 20, "trust": 20}],
+        "effects": {
+          "mental": 8,
+          "stress": -8,
+          "intelligence": 2
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": 20,
+            "trust": 20
+          }
+        ],
         "investment_effects": [],
-        "flags": ["saw_parks_real_side"],
+        "flags": [
+          "saw_parks_real_side"
+        ],
         "follow_up_event": "",
         "result_text": "모르겠다고 했다. 박 과장이 '나도 그랬어'라고 했다. 그러더니 창밖을 한참 봤다. 그게 가장 솔직한 대화였다."
       },
       {
         "text": "그냥 웃으며 넘긴다",
-        "effects": {"stress": -2, "social_skill": 1},
+        "effects": {
+          "stress": -2,
+          "social_skill": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6008,7 +6563,6 @@
       }
     ]
   },
-
   {
     "id": "romance_sumin_confession",
     "title": "고백",
@@ -6017,23 +6571,56 @@
     "rarity": "rare",
     "weight": 0.8,
     "hidden": false,
-    "conditions": {"flag": "dated_sumin", "no_flag": "sumin_relationship_started", "max_stress": 65},
-    "tags": ["romance", "confession", "milestone"],
+    "conditions": {
+      "flag": "dated_sumin",
+      "no_flag": "sumin_relationship_started",
+      "max_stress": 65
+    },
+    "tags": [
+      "romance",
+      "confession",
+      "milestone"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "진심을 다해 말한다",
-        "effects": {"mental": 15, "stress": 8, "social_skill": 1},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 25, "trust": 20}],
+        "effects": {
+          "mental": 15,
+          "stress": 8,
+          "social_skill": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 25,
+            "trust": 20
+          }
+        ],
         "investment_effects": [],
-        "flags": ["sumin_relationship_started"],
+        "flags": [
+          "sumin_relationship_started"
+        ],
         "follow_up_event": "",
         "result_text": "수민이가 잠깐 침묵했다. 그러더니 '저도요'라고 했다. 한강 바람이 갑자기 따뜻하게 느껴졌다."
       },
       {
         "text": "말하려다 결국 못 한다",
-        "effects": {"mental": -5, "stress": 3},
-        "relationship_effects": [{"id": "sumin", "name": "이수민", "type": "romantic", "affection": 2, "trust": 2}],
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "relationship_effects": [
+          {
+            "id": "sumin",
+            "name": "이수민",
+            "type": "romantic",
+            "affection": 2,
+            "trust": 2
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -6041,7 +6628,6 @@
       }
     ]
   },
-
   {
     "id": "mentor_park_promotion_offer",
     "title": "박 과장의 제안",
@@ -6050,31 +6636,67 @@
     "rarity": "rare",
     "weight": 0.7,
     "hidden": false,
-    "conditions": {"flag": "knows_park", "has_job": true, "min_turn": 12},
-    "tags": ["work", "career", "mentor", "promotion"],
+    "conditions": {
+      "flag": "knows_park",
+      "has_job": true,
+      "min_turn": 12
+    },
+    "tags": [
+      "work",
+      "career",
+      "mentor",
+      "promotion"
+    ],
     "cooldown": 15,
     "choices": [
       {
         "text": "감사히 받아들인다",
-        "effects": {"reputation": 4, "stress": 6, "intelligence": 1},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": 15, "trust": 10}],
+        "effects": {
+          "reputation": 4,
+          "stress": 6,
+          "intelligence": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": 15,
+            "trust": 10
+          }
+        ],
         "investment_effects": [],
-        "flags": ["park_promoted_me"],
+        "flags": [
+          "park_promoted_me"
+        ],
         "follow_up_event": "",
         "result_text": "알겠다고 했다. 박 과장이 만족스러워했다. 이제 박 과장의 사람이 된 건지, 내 커리어가 된 건지 경계가 흐릿하다."
       },
       {
         "text": "고맙지만 혼자 해보겠다고 한다",
-        "effects": {"mental": 8, "reputation": 1, "intelligence": 2},
-        "relationship_effects": [{"id": "park_manager", "name": "박 과장", "type": "mentor", "affection": -8, "trust": 5}],
+        "effects": {
+          "mental": 8,
+          "reputation": 1,
+          "intelligence": 2
+        },
+        "relationship_effects": [
+          {
+            "id": "park_manager",
+            "name": "박 과장",
+            "type": "mentor",
+            "affection": -8,
+            "trust": 5
+          }
+        ],
         "investment_effects": [],
-        "flags": ["refused_parks_help"],
+        "flags": [
+          "refused_parks_help"
+        ],
         "follow_up_event": "",
         "result_text": "거절했다. 박 과장이 '그래, 네 뜻대로 해'라고 했다. 뭔가 서운해 보이기도 했고, 존중하는 것 같기도 했다."
       }
     ]
   },
-
   {
     "id": "startup_idea_spark",
     "title": "창업 아이디어",
@@ -6083,22 +6705,39 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_route_unorthodox": 5, "has_job": true, "min_turn": 6, "no_flag": "startup_idea"},
-    "tags": ["work", "unorthodox", "risk"],
+    "conditions": {
+      "min_route_unorthodox": 5,
+      "has_job": true,
+      "min_turn": 6,
+      "no_flag": "startup_idea"
+    },
+    "tags": [
+      "work",
+      "unorthodox",
+      "risk"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "메모하고 조사를 시작한다. 이거 될 것 같다.",
-        "effects": {"intelligence": 2, "stress": 3, "mental": 3},
+        "effects": {
+          "intelligence": 2,
+          "stress": 3,
+          "mental": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["startup_idea"],
+        "flags": [
+          "startup_idea"
+        ],
         "follow_up_event": "",
         "result_text": "퇴근 후 2시간을 투자해서 시장 조사를 했다. 경쟁자도 있고, 없는 틈새도 보였다. 이 아이디어, 써볼 수 있겠다는 생각이 들었다."
       },
       {
         "text": "현실적이지 않다. 내일도 출근해야 한다.",
-        "effects": {"mental": -2},
+        "effects": {
+          "mental": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6107,7 +6746,6 @@
       }
     ]
   },
-
   {
     "id": "startup_co_founder",
     "title": "공동창업 제안",
@@ -6116,31 +6754,59 @@
     "rarity": "uncommon",
     "weight": 0.8,
     "hidden": false,
-    "conditions": {"flag": "startup_idea", "has_job": true, "min_turn": 10, "no_flag": "startup_team"},
-    "tags": ["work", "unorthodox", "social", "relationship"],
+    "conditions": {
+      "flag": "startup_idea",
+      "has_job": true,
+      "min_turn": 10,
+      "no_flag": "startup_team"
+    },
+    "tags": [
+      "work",
+      "unorthodox",
+      "social",
+      "relationship"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "함께 하자. 혼자보다 낫다.",
-        "effects": {"stress": 5, "reputation": 3},
-        "relationship_effects": [{"id": "startup_cofounder", "name": "박진호 선배", "type": "business", "affection": 50, "trust": 45}],
+        "effects": {
+          "stress": 5,
+          "reputation": 3
+        },
+        "relationship_effects": [
+          {
+            "id": "startup_cofounder",
+            "name": "박진호 선배",
+            "type": "business",
+            "affection": 50,
+            "trust": 45
+          }
+        ],
         "investment_effects": [],
-        "flags": ["startup_team"],
+        "flags": [
+          "startup_team"
+        ],
         "follow_up_event": "",
         "result_text": "악수를 했다. 선배는 기획을 맡기로 했고, 나는 실행을 맡기로 했다. 회의실을 하나 잡아서 첫 미팅을 했다. 뭔가 시작되는 느낌이다."
       },
       {
         "text": "혼자 하겠다. 내 아이디어니까.",
-        "effects": {"intelligence": 2, "stress": 8, "mental": 3},
+        "effects": {
+          "intelligence": 2,
+          "stress": 8,
+          "mental": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["startup_going_solo"],
+        "flags": [
+          "startup_going_solo"
+        ],
         "follow_up_event": "",
         "result_text": "고맙지만 혼자 해보겠다고 했다. 선배는 이해했다. 이제 혼자 모든 걸 해야 한다는 압박이 생겼지만, 내 그림대로 그릴 수 있다는 자유도 생겼다."
       }
     ]
   },
-
   {
     "id": "startup_launch_day",
     "title": "사업자 등록",
@@ -6149,31 +6815,54 @@
     "rarity": "rare",
     "weight": 0.7,
     "hidden": false,
-    "conditions": {"flag": "startup_idea", "min_turn": 14, "no_flag": "startup_launched"},
-    "tags": ["work", "unorthodox", "risk", "career"],
+    "conditions": {
+      "flag": "startup_idea",
+      "min_turn": 14,
+      "no_flag": "startup_launched"
+    },
+    "tags": [
+      "work",
+      "unorthodox",
+      "risk",
+      "career"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "직장을 다니면서 병행한다. 안정을 유지하면서.",
-        "effects": {"stress": 15, "intelligence": 3, "mental": -3},
+        "effects": {
+          "stress": 15,
+          "intelligence": 3,
+          "mental": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["startup_launched", "startup_side"],
+        "flags": [
+          "startup_launched",
+          "startup_side"
+        ],
         "follow_up_event": "",
         "result_text": "낮에는 직장, 밤에는 창업. 잠이 줄었다. 체력이 버텨줄지 모르겠지만, 당장 수입이 끊기는 리스크는 없다. 이 선택이 현명한 건지 겁쟁이인 건지 아직 모른다."
       },
       {
         "text": "올인한다. 이게 맞다면 지금 해야 한다.",
-        "effects": {"stress": -5, "mental": 10, "luck": 2, "intelligence": 2},
+        "effects": {
+          "stress": -5,
+          "mental": 10,
+          "luck": 2,
+          "intelligence": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["startup_launched", "startup_allin"],
+        "flags": [
+          "startup_launched",
+          "startup_allin"
+        ],
         "follow_up_event": "",
         "result_text": "사직서를 냈다. 상사가 말렸지만 마음이 이미 정해져 있었다. 통장 잔고를 확인했다. 이 돈으로 얼마나 버틸 수 있을지 계산했다. 무서우면서도 이상하게 홀가분했다."
       }
     ]
   },
-
   {
     "id": "startup_pivot_challenge",
     "title": "창업 6개월 위기",
@@ -6182,31 +6871,52 @@
     "rarity": "rare",
     "weight": 0.6,
     "hidden": false,
-    "conditions": {"flag": "startup_launched", "min_turn": 18, "no_flag": "startup_pivoted"},
-    "tags": ["work", "unorthodox", "risk", "stress"],
+    "conditions": {
+      "flag": "startup_launched",
+      "min_turn": 18,
+      "no_flag": "startup_pivoted"
+    },
+    "tags": [
+      "work",
+      "unorthodox",
+      "risk",
+      "stress"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "피벗한다. 시장이 원하는 걸 만들어야 한다.",
-        "effects": {"stress": 10, "intelligence": 4, "mental": -2},
+        "effects": {
+          "stress": 10,
+          "intelligence": 4,
+          "mental": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["startup_pivoted", "startup_growing"],
+        "flags": [
+          "startup_pivoted",
+          "startup_growing"
+        ],
         "follow_up_event": "",
         "result_text": "전략을 바꿨다. 처음 아이디어에 집착을 버리는 게 생각보다 아팠다. 하지만 시장 반응이 달라지기 시작했다. 작은 신호였지만 확실히 다른 뭔가가 생겼다."
       },
       {
         "text": "원래 방향을 믿는다. 조금만 더.",
-        "effects": {"stress": 5, "luck": 1, "mental": 2},
+        "effects": {
+          "stress": 5,
+          "luck": 1,
+          "mental": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["startup_pivoted"],
+        "flags": [
+          "startup_pivoted"
+        ],
         "follow_up_event": "",
         "result_text": "버티기로 했다. 이 결정이 고집인지 신념인지는 결과가 말해줄 것이다. 일단 오늘도 앞으로 나아간다."
       }
     ]
   },
-
   {
     "id": "startup_acquisition_offer",
     "title": "인수 제안",
@@ -6215,22 +6925,43 @@
     "rarity": "rare",
     "weight": 0.5,
     "hidden": false,
-    "conditions": {"flag": "startup_growing", "min_reputation": 25, "min_turn": 24},
-    "tags": ["work", "unorthodox", "finance", "career"],
+    "conditions": {
+      "flag": "startup_growing",
+      "min_reputation": 25,
+      "min_turn": 24
+    },
+    "tags": [
+      "work",
+      "unorthodox",
+      "finance",
+      "career"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "조건을 협상하고 매각한다. 이것도 성공이다.",
-        "effects": {"money": 50000000, "reputation": 20, "stress": -20, "mental": 15},
+        "effects": {
+          "money": 50000000,
+          "reputation": 20,
+          "stress": -20,
+          "mental": 15
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["startup_exit"],
+        "flags": [
+          "startup_exit"
+        ],
         "follow_up_event": "",
         "result_text": "서명했다. 계좌에 숫자가 찍혔다. 팀원들과 마지막 저녁을 먹었다. 끝이기도 하고, 새로운 시작이기도 했다. 이 경험이 이 도시에서 나를 정의하는 이야기가 됐다."
       },
       {
         "text": "독립을 유지한다. 아직 더 크고 싶다.",
-        "effects": {"monthly_income": 1500000, "reputation": 10, "stress": 8, "mental": 8},
+        "effects": {
+          "monthly_income": 1500000,
+          "reputation": 10,
+          "stress": 8,
+          "mental": 8
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6239,7 +6970,6 @@
       }
     ]
   },
-
   {
     "id": "creator_first_upload",
     "title": "첫 영상 업로드",
@@ -6248,22 +6978,38 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {"min_route_unorthodox": 4, "min_turn": 3, "no_flag": "creator_started"},
-    "tags": ["unorthodox", "social", "daily"],
+    "conditions": {
+      "min_route_unorthodox": 4,
+      "min_turn": 3,
+      "no_flag": "creator_started"
+    },
+    "tags": [
+      "unorthodox",
+      "social",
+      "daily"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "꾸준히 올려보기로 한다. 일단 해보자.",
-        "effects": {"mental": 3, "stress": 2, "luck": 1},
+        "effects": {
+          "mental": 3,
+          "stress": 2,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["creator_started"],
+        "flags": [
+          "creator_started"
+        ],
         "follow_up_event": "",
         "result_text": "일주일에 두 개씩 올리기로 했다. 조회수는 여전히 낮지만, 뭔가를 만드는 행위 자체가 작게 즐거웠다."
       },
       {
         "text": "그냥 한번 해봤다. 조회수가 없어서 접는다.",
-        "effects": {"mental": -2},
+        "effects": {
+          "mental": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6272,7 +7018,6 @@
       }
     ]
   },
-
   {
     "id": "creator_first_viral",
     "title": "바이럴의 순간",
@@ -6281,31 +7026,50 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"flag": "creator_started", "min_turn": 7, "no_flag": "creator_viral"},
-    "tags": ["unorthodox", "social", "luck"],
+    "conditions": {
+      "flag": "creator_started",
+      "min_turn": 7,
+      "no_flag": "creator_viral"
+    },
+    "tags": [
+      "unorthodox",
+      "social",
+      "luck"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "흐름을 타서 관련 영상을 연속으로 업로드한다.",
-        "effects": {"reputation": 12, "stress": 8, "mental": 5},
+        "effects": {
+          "reputation": 12,
+          "stress": 8,
+          "mental": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["creator_viral"],
+        "flags": [
+          "creator_viral"
+        ],
         "follow_up_event": "",
         "result_text": "3일 동안 세 편을 더 올렸다. 구독자가 5천명을 넘었다. 이게 뭔지 모르겠지만, 계속하고 싶었다."
       },
       {
         "text": "당황해서 그냥 지켜본다.",
-        "effects": {"reputation": 8, "luck": 2, "mental": 3},
+        "effects": {
+          "reputation": 8,
+          "luck": 2,
+          "mental": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["creator_viral"],
+        "flags": [
+          "creator_viral"
+        ],
         "follow_up_event": "",
         "result_text": "뭘 해야 할지 몰라서 그냥 댓글 구경만 했다. 구독자가 3천명을 넘었다. 이 사람들이 진짜 나를 보고 있다는 게 이상하게 느껴졌다."
       }
     ]
   },
-
   {
     "id": "creator_monetization_unlocked",
     "title": "수익화 승인",
@@ -6314,31 +7078,51 @@
     "rarity": "uncommon",
     "weight": 0.8,
     "hidden": false,
-    "conditions": {"flag": "creator_viral", "min_turn": 11, "no_flag": "creator_monetized"},
-    "tags": ["unorthodox", "finance", "social"],
+    "conditions": {
+      "flag": "creator_viral",
+      "min_turn": 11,
+      "no_flag": "creator_monetized"
+    },
+    "tags": [
+      "unorthodox",
+      "finance",
+      "social"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "수익금을 장비 업그레이드에 재투자한다.",
-        "effects": {"money": -300000, "reputation": 5, "intelligence": 2, "mental": 4},
+        "effects": {
+          "money": -300000,
+          "reputation": 5,
+          "intelligence": 2,
+          "mental": 4
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["creator_monetized"],
+        "flags": [
+          "creator_monetized"
+        ],
         "follow_up_event": "",
         "result_text": "카메라와 마이크를 업그레이드했다. 영상 품질이 달라졌다. 구독자들이 댓글로 알아챘다. 투자가 콘텐츠로 돌아오는 구조가 생겼다."
       },
       {
         "text": "일단 적립해둔다. 아직 불안하다.",
-        "effects": {"money": 800000, "reputation": 3, "mental": 2},
+        "effects": {
+          "money": 800000,
+          "reputation": 3,
+          "mental": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["creator_monetized"],
+        "flags": [
+          "creator_monetized"
+        ],
         "follow_up_event": "",
         "result_text": "통장에 넣어뒀다. 지속될지 아닐지 모르니까 아껴두는 게 맞다. 이 돈이 생긴 게 기뻤다. 내가 만든 것으로 번 돈이니까."
       }
     ]
   },
-
   {
     "id": "creator_brand_deal",
     "title": "브랜드 협찬 제안",
@@ -6347,22 +7131,40 @@
     "rarity": "rare",
     "weight": 0.7,
     "hidden": false,
-    "conditions": {"flag": "creator_monetized", "min_reputation": 20, "no_flag": "creator_brand_deal_done"},
-    "tags": ["unorthodox", "social", "finance"],
+    "conditions": {
+      "flag": "creator_monetized",
+      "min_reputation": 20,
+      "no_flag": "creator_brand_deal_done"
+    },
+    "tags": [
+      "unorthodox",
+      "social",
+      "finance"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "수락한다. 좋은 기회다.",
-        "effects": {"money": 2000000, "reputation": 15, "stress": 5},
+        "effects": {
+          "money": 2000000,
+          "reputation": 15,
+          "stress": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["creator_brand_deal_done"],
+        "flags": [
+          "creator_brand_deal_done"
+        ],
         "follow_up_event": "",
         "result_text": "협찬 영상을 올렸다. 구독자들 반응은 나쁘지 않았다. 계좌에 200만원이 들어왔다. 이게 진짜 크리에이터가 됐다는 실감이었다."
       },
       {
         "text": "가치관과 맞지 않아 거절한다.",
-        "effects": {"mental": 5, "reputation": 3, "stress": -2},
+        "effects": {
+          "mental": 5,
+          "reputation": 3,
+          "stress": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6371,7 +7173,6 @@
       }
     ]
   },
-
   {
     "id": "creator_full_time",
     "title": "크리에이터 풀타임",
@@ -6380,22 +7181,42 @@
     "rarity": "rare",
     "weight": 0.6,
     "hidden": false,
-    "conditions": {"flag": "creator_brand_deal_done", "min_turn": 16, "no_flag": "creator_success_unlocked"},
-    "tags": ["unorthodox", "finance", "work", "career"],
+    "conditions": {
+      "flag": "creator_brand_deal_done",
+      "min_turn": 16,
+      "no_flag": "creator_success_unlocked"
+    },
+    "tags": [
+      "unorthodox",
+      "finance",
+      "work",
+      "career"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "크리에이터를 본업으로 전환한다.",
-        "effects": {"monthly_income": 3000000, "reputation": 20, "stress": -10, "mental": 15},
+        "effects": {
+          "monthly_income": 3000000,
+          "reputation": 20,
+          "stress": -10,
+          "mental": 15
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["creator_success_unlocked"],
+        "flags": [
+          "creator_success_unlocked"
+        ],
         "follow_up_event": "",
         "result_text": "이제 직함이 '크리에이터'다. 이상하게 들리지만 사실이다. 매달 광고비와 협찬비가 들어온다. 서울에서 카메라 하나로 살아남은 사람이 됐다."
       },
       {
         "text": "부업으로 유지하며 안정을 도모한다.",
-        "effects": {"monthly_income": 1000000, "mental": 5, "stress": -3},
+        "effects": {
+          "monthly_income": 1000000,
+          "mental": 5,
+          "stress": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6404,7 +7225,6 @@
       }
     ]
   },
-
   {
     "id": "job_rejection_blues",
     "title": "또 서류 탈락",
@@ -6413,13 +7233,25 @@
     "rarity": "common",
     "weight": 1.1,
     "hidden": false,
-    "conditions": {"no_job": true, "min_turn": 4, "no_flag": "story_first_workday_seen"},
-    "tags": ["jobs", "stress", "daily"],
+    "conditions": {
+      "no_job": true,
+      "min_turn": 4,
+      "no_flag": "story_first_workday_seen"
+    },
+    "tags": [
+      "jobs",
+      "stress",
+      "daily"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "자기계발 시간으로 활용한다. 어디서 떨어지는지 분석해보자.",
-        "effects": {"intelligence": 2, "mental": -3, "stress": 5},
+        "effects": {
+          "intelligence": 2,
+          "mental": -3,
+          "stress": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6428,7 +7260,11 @@
       },
       {
         "text": "한강 가서 바람을 쐰다. 오늘은 쉬자.",
-        "effects": {"mental": 8, "stress": -5, "luck": 1},
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6437,7 +7273,6 @@
       }
     ]
   },
-
   {
     "id": "job_fair_networking",
     "title": "취업 박람회",
@@ -6446,14 +7281,34 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"no_job": true, "min_social_skill": 28, "min_turn": 3},
-    "tags": ["jobs", "social", "spec"],
+    "conditions": {
+      "no_job": true,
+      "min_social_skill": 28,
+      "min_turn": 3
+    },
+    "tags": [
+      "jobs",
+      "social",
+      "spec"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "적극적으로 대화를 이어간다. 연락처를 교환한다.",
-        "effects": {"social_skill": 2, "reputation": 3, "intelligence": 1},
-        "relationship_effects": [{"id": "job_fair_contact", "name": "현업 개발자 이씨", "type": "business", "affection": 30, "trust": 25}],
+        "effects": {
+          "social_skill": 2,
+          "reputation": 3,
+          "intelligence": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "job_fair_contact",
+            "name": "현업 개발자 이씨",
+            "type": "business",
+            "affection": 30,
+            "trust": 25
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -6461,7 +7316,10 @@
       },
       {
         "text": "명함만 받고 조용히 나온다.",
-        "effects": {"intelligence": 1, "luck": 1},
+        "effects": {
+          "intelligence": 1,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6470,7 +7328,6 @@
       }
     ]
   },
-
   {
     "id": "resume_rewrite_marathon",
     "title": "자소서 밤샘 수정",
@@ -6479,13 +7336,25 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"no_job": true, "min_intelligence": 38, "no_flag": "story_first_workday_seen"},
-    "tags": ["jobs", "spec", "study"],
+    "conditions": {
+      "no_job": true,
+      "min_intelligence": 38,
+      "no_flag": "story_first_workday_seen"
+    },
+    "tags": [
+      "jobs",
+      "spec",
+      "study"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "전면 수정. 솔직하게, 내 말로 쓴다.",
-        "effects": {"intelligence": 3, "stress": 8, "mental": -2},
+        "effects": {
+          "intelligence": 3,
+          "stress": 8,
+          "mental": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6494,7 +7363,10 @@
       },
       {
         "text": "기존 틀에 살만 더 붙인다. 안전하게.",
-        "effects": {"intelligence": 1, "stress": 3},
+        "effects": {
+          "intelligence": 1,
+          "stress": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6503,7 +7375,6 @@
       }
     ]
   },
-
   {
     "id": "mock_interview_practice",
     "title": "모의 면접",
@@ -6512,13 +7383,24 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"no_job": true, "min_turn": 3},
-    "tags": ["jobs", "spec", "social"],
+    "conditions": {
+      "no_job": true,
+      "min_turn": 3
+    },
+    "tags": [
+      "jobs",
+      "spec",
+      "social"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "실전처럼 진지하게 임한다.",
-        "effects": {"intelligence": 2, "social_skill": 2, "stress": 4},
+        "effects": {
+          "intelligence": 2,
+          "social_skill": 2,
+          "stress": 4
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6527,7 +7409,10 @@
       },
       {
         "text": "가볍게 해본다. 부담 없이.",
-        "effects": {"social_skill": 1, "mental": 3},
+        "effects": {
+          "social_skill": 1,
+          "mental": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6536,7 +7421,6 @@
       }
     ]
   },
-
   {
     "id": "job_consultant_offer",
     "title": "취업 컨설팅 제안",
@@ -6545,13 +7429,26 @@
     "rarity": "uncommon",
     "weight": 0.8,
     "hidden": false,
-    "conditions": {"no_job": true, "min_turn": 5, "min_stress": 30},
-    "tags": ["jobs", "daily", "finance"],
+    "conditions": {
+      "no_job": true,
+      "min_turn": 5,
+      "min_stress": 30
+    },
+    "tags": [
+      "jobs",
+      "daily",
+      "finance"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "컨설팅을 받는다. 80만원이지만 투자라고 생각하자.",
-        "effects": {"money": -800000, "intelligence": 4, "social_skill": 3, "stress": -5},
+        "effects": {
+          "money": -800000,
+          "intelligence": 4,
+          "social_skill": 3,
+          "stress": -5
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6560,7 +7457,11 @@
       },
       {
         "text": "돈이 없다. 혼자 한다.",
-        "effects": {"intelligence": 2, "stress": 3, "luck": 1},
+        "effects": {
+          "intelligence": 2,
+          "stress": 3,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6569,7 +7470,6 @@
       }
     ]
   },
-
   {
     "id": "story_one_half_year",
     "title": "1년 반",
@@ -6578,31 +7478,48 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_turn": 18, "max_turn": 20, "no_flag": "story_one_half_year_seen"},
-    "tags": ["daily", "rest"],
+    "conditions": {
+      "min_turn": 18,
+      "max_turn": 20,
+      "no_flag": "story_one_half_year_seen"
+    },
+    "tags": [
+      "daily",
+      "rest"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "지난 1년 반을 돌아보며 다음을 계획한다.",
-        "effects": {"intelligence": 2, "mental": 5, "stress": -3},
+        "effects": {
+          "intelligence": 2,
+          "mental": 5,
+          "stress": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["story_one_half_year_seen"],
+        "flags": [
+          "story_one_half_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "어디쯤 왔는지 좌표를 찍어봤다. 부족한 것도 많지만, 그만큼 쌓인 것도 있다. 다음 1년이 기대된다."
       },
       {
         "text": "그냥 계속 살아간다. 생각하면 뭐 해.",
-        "effects": {"mental": 3, "luck": 1},
+        "effects": {
+          "mental": 3,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["story_one_half_year_seen"],
+        "flags": [
+          "story_one_half_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "서울 살이가 그냥 일상이 됐다. 이게 정착인 건지, 아니면 익숙해진 건지. 어쨌든 오늘도 계속된다."
       }
     ]
   },
-
   {
     "id": "story_two_year",
     "title": "서울 2년",
@@ -6611,31 +7528,50 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_turn": 24, "max_turn": 26, "no_flag": "story_two_year_seen"},
-    "tags": ["daily", "rest", "spec"],
+    "conditions": {
+      "min_turn": 24,
+      "max_turn": 26,
+      "no_flag": "story_two_year_seen"
+    },
+    "tags": [
+      "daily",
+      "rest",
+      "spec"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "지금 있는 자리에 감사한다. 여기까지 왔다.",
-        "effects": {"mental": 10, "stress": -6, "luck": 2},
+        "effects": {
+          "mental": 10,
+          "stress": -6,
+          "luck": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["story_two_year_seen"],
+        "flags": [
+          "story_two_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "2년 전 나에게 '버텼어, 잘했어'라고 말해주고 싶었다. 아직 갈 길이 멀지만, 여기까지 온 것도 나쁘지 않다."
       },
       {
         "text": "아직 부족하다. 더 빨리 가야 한다.",
-        "effects": {"intelligence": 3, "stress": 8, "mental": -3},
+        "effects": {
+          "intelligence": 3,
+          "stress": 8,
+          "mental": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["story_two_year_seen"],
+        "flags": [
+          "story_two_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "남들이 어디쯤 있는지 검색해봤다. 조급해졌다. 그래도 이 긴장이 나쁜 건 아니다. 긴장이 사라지면 그때가 더 무섭다."
       }
     ]
   },
-
   {
     "id": "story_three_year",
     "title": "서울 3년",
@@ -6644,31 +7580,48 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_turn": 36, "max_turn": 38, "no_flag": "story_three_year_seen"},
-    "tags": ["daily", "rest"],
+    "conditions": {
+      "min_turn": 36,
+      "max_turn": 38,
+      "no_flag": "story_three_year_seen"
+    },
+    "tags": [
+      "daily",
+      "rest"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "이 도시에 내 뿌리가 생겼다. 여기서 계속 살고 싶다.",
-        "effects": {"mental": 8, "stress": -5, "reputation": 2},
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "reputation": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["story_three_year_seen"],
+        "flags": [
+          "story_three_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "서울이 집이 됐다. 소음도, 경쟁도, 그 속에서 잠깐 나오는 한강 바람도. 이게 내 도시다."
       },
       {
         "text": "그래도 여기 정착이 맞는지 모르겠다. 언젠간 떠날지도.",
-        "effects": {"luck": 2, "mental": 5},
+        "effects": {
+          "luck": 2,
+          "mental": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["story_three_year_seen"],
+        "flags": [
+          "story_three_year_seen"
+        ],
         "follow_up_event": "",
         "result_text": "지금 여기 있는 건 선택이 아니라 관성일 수도 있다. 그래도 괜찮다. 언젠가 결정하게 될 때, 그때 생각하자."
       }
     ]
   },
-
   {
     "id": "orthodox_path_reflection",
     "title": "이 길이 맞는 걸까",
@@ -6677,31 +7630,50 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"min_route_orthodox": 15, "no_flag": "orthodox_path_reflection_seen"},
-    "tags": ["orthodox", "spec", "work", "daily"],
+    "conditions": {
+      "min_route_orthodox": 15,
+      "no_flag": "orthodox_path_reflection_seen"
+    },
+    "tags": [
+      "orthodox",
+      "spec",
+      "work",
+      "daily"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "맞다. 이 길이 결국 안정으로 이어진다.",
-        "effects": {"mental": 8, "stress": -4, "intelligence": 2},
+        "effects": {
+          "mental": 8,
+          "stress": -4,
+          "intelligence": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["orthodox_path_reflection_seen"],
+        "flags": [
+          "orthodox_path_reflection_seen"
+        ],
         "follow_up_event": "",
         "result_text": "신념을 다졌다. 정석은 느리지만 확실하다. 복리처럼, 성실함도 시간이 지날수록 쌓인다. 계속 가야 한다."
       },
       {
         "text": "모르겠다. 가끔 다른 길이 궁금하다.",
-        "effects": {"mental": 3, "luck": 2, "stress": 3},
+        "effects": {
+          "mental": 3,
+          "luck": 2,
+          "stress": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["orthodox_path_reflection_seen"],
+        "flags": [
+          "orthodox_path_reflection_seen"
+        ],
         "follow_up_event": "",
         "result_text": "정답이 없는 질문이었다. 그냥 오늘도 하던 대로 했다. 하지만 그 의문은 조용히 남아있다."
       }
     ]
   },
-
   {
     "id": "route_unorthodox_milestone",
     "title": "남들과 다른 길",
@@ -6710,31 +7682,50 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"min_route_unorthodox": 15, "no_flag": "route_unorthodox_milestone_seen"},
-    "tags": ["unorthodox", "risk", "investment", "daily"],
+    "conditions": {
+      "min_route_unorthodox": 15,
+      "no_flag": "route_unorthodox_milestone_seen"
+    },
+    "tags": [
+      "unorthodox",
+      "risk",
+      "investment",
+      "daily"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "내 방식이 맞다. 계속 간다.",
-        "effects": {"mental": 8, "stress": -3, "luck": 2},
+        "effects": {
+          "mental": 8,
+          "stress": -3,
+          "luck": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["route_unorthodox_milestone_seen"],
+        "flags": [
+          "route_unorthodox_milestone_seen"
+        ],
         "follow_up_event": "",
         "result_text": "남들이 뭐라 해도 상관없다. 내 선택의 결과는 내가 받는다. 그 리스크와 자유를 받아들이기로 했다."
       },
       {
         "text": "솔직히 불안하다. 정석 쪽이 더 안전했을까.",
-        "effects": {"mental": -3, "stress": 5, "intelligence": 3},
+        "effects": {
+          "mental": -3,
+          "stress": 5,
+          "intelligence": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["route_unorthodox_milestone_seen"],
+        "flags": [
+          "route_unorthodox_milestone_seen"
+        ],
         "follow_up_event": "",
         "result_text": "흔들렸다. 그래도 지금 되돌아가기엔 너무 멀리 왔다. 불안하더라도 계속 가는 수밖에."
       }
     ]
   },
-
   {
     "id": "workplace_burnout_warning",
     "title": "번아웃 직전",
@@ -6743,13 +7734,25 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_job": true, "min_stress": 65, "min_turn": 8},
-    "tags": ["work", "stress", "health"],
+    "conditions": {
+      "has_job": true,
+      "min_stress": 65,
+      "min_turn": 8
+    },
+    "tags": [
+      "work",
+      "stress",
+      "health"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "하루 연차를 쓴다. 몸이 먼저다.",
-        "effects": {"health": 8, "mental": 12, "stress": -15},
+        "effects": {
+          "health": 8,
+          "mental": 12,
+          "stress": -15
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6758,16 +7761,21 @@
       },
       {
         "text": "그냥 간다. 버텨야 한다.",
-        "effects": {"stress": 10, "health": -8, "work_performance": 5},
+        "effects": {
+          "stress": 10,
+          "health": -8,
+          "work_performance": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["ignored_body_warning"],
+        "flags": [
+          "ignored_body_warning"
+        ],
         "follow_up_event": "",
         "result_text": "억지로 출근했다. 회사에서 미팅 두 개를 겨우 버텼다. 몸이 경고를 보내고 있다. 언제까지 이럴 수 있을지 모른다."
       }
     ]
   },
-
   {
     "id": "social_comparison_fomo",
     "title": "친구의 성공 소식",
@@ -6776,13 +7784,23 @@
     "rarity": "common",
     "weight": 1.1,
     "hidden": false,
-    "conditions": {"min_turn": 6},
-    "tags": ["social", "daily", "stress"],
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": [
+      "social",
+      "daily",
+      "stress"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "자극 받는다. 나도 할 수 있다.",
-        "effects": {"intelligence": 2, "stress": 6, "mental": -2},
+        "effects": {
+          "intelligence": 2,
+          "stress": 6,
+          "mental": -2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6791,7 +7809,11 @@
       },
       {
         "text": "축하해주고 내 일에 집중한다.",
-        "effects": {"mental": 5, "stress": -2, "luck": 1},
+        "effects": {
+          "mental": 5,
+          "stress": -2,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6800,7 +7822,6 @@
       }
     ]
   },
-
   {
     "id": "investment_loss_lesson",
     "title": "투자 손실의 교훈",
@@ -6809,13 +7830,24 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "min_turn": 6},
-    "tags": ["investment", "finance", "stress"],
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 6
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "stress"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "손절한다. 더 잃기 전에.",
-        "effects": {"stress": -8, "mental": -5, "investment_skill": 2},
+        "effects": {
+          "stress": -8,
+          "mental": -5,
+          "investment_skill": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6824,7 +7856,11 @@
       },
       {
         "text": "버틴다. 장기투자를 믿는다.",
-        "effects": {"stress": 5, "investment_skill": 3, "mental": -3},
+        "effects": {
+          "stress": 5,
+          "investment_skill": 3,
+          "mental": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6833,7 +7869,6 @@
       }
     ]
   },
-
   {
     "id": "family_phone_call",
     "title": "고향 부모님 전화",
@@ -6842,13 +7877,22 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_turn": 4},
-    "tags": ["social", "daily", "rest"],
+    "conditions": {
+      "min_turn": 4
+    },
+    "tags": [
+      "social",
+      "daily",
+      "rest"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "솔직하게 힘들다고 말한다.",
-        "effects": {"mental": 12, "stress": -8},
+        "effects": {
+          "mental": 12,
+          "stress": -8
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6857,7 +7901,11 @@
       },
       {
         "text": "잘 지낸다고 한다. 걱정 끼치기 싫다.",
-        "effects": {"stress": 3, "mental": 4, "luck": 1},
+        "effects": {
+          "stress": 3,
+          "mental": 4,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6866,7 +7914,6 @@
       }
     ]
   },
-
   {
     "id": "seoul_spring_bonus",
     "title": "서울의 봄",
@@ -6875,13 +7922,23 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {"min_turn": 3},
-    "tags": ["daily", "rest", "social"],
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": [
+      "daily",
+      "rest",
+      "social"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "한강 가서 사진 찍고 여유를 즐긴다.",
-        "effects": {"mental": 12, "stress": -10, "luck": 2},
+        "effects": {
+          "mental": 12,
+          "stress": -10,
+          "luck": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6890,7 +7947,10 @@
       },
       {
         "text": "꽃 구경할 여유가 없다. 오늘도 할 일이 있다.",
-        "effects": {"intelligence": 1, "stress": 2},
+        "effects": {
+          "intelligence": 1,
+          "stress": 2
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6899,7 +7959,6 @@
       }
     ]
   },
-
   {
     "id": "bull_market_euphoria",
     "title": "시장이 미쳐 날뛴다",
@@ -6908,22 +7967,40 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "min_fear_greed": 72, "min_turn": 4},
-    "tags": ["investment", "finance", "risk"],
+    "conditions": {
+      "has_portfolio": true,
+      "min_fear_greed": 72,
+      "min_turn": 4
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "risk"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "흐름을 탄다. 더 투자한다.",
-        "effects": {"investment_skill": 2, "stress": 8, "addiction_tendency": 3},
+        "effects": {
+          "investment_skill": 2,
+          "stress": 8,
+          "addiction_tendency": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["bragged_about_gains"],
+        "flags": [
+          "bragged_about_gains"
+        ],
         "follow_up_event": "",
         "result_text": "포지션을 더 키웠다. 계좌가 커지는 게 보인다. 이게 실력인지 운인지 모르겠지만, 지금 이 느낌은 좋다."
       },
       {
         "text": "탐욕이 위험하다. 차익 실현한다.",
-        "effects": {"investment_skill": 3, "stress": -5, "mental": 5},
+        "effects": {
+          "investment_skill": 3,
+          "stress": -5,
+          "mental": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6932,7 +8009,6 @@
       }
     ]
   },
-
   {
     "id": "bear_market_panic",
     "title": "시장 패닉",
@@ -6941,13 +8017,25 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_portfolio": true, "max_fear_greed": 30, "min_turn": 6},
-    "tags": ["investment", "finance", "stress"],
+    "conditions": {
+      "has_portfolio": true,
+      "max_fear_greed": 30,
+      "min_turn": 6
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "stress"
+    ],
     "cooldown": 6,
     "choices": [
       {
         "text": "공포에 사는 자가 탐욕에 판다. 더 산다.",
-        "effects": {"investment_skill": 4, "stress": 12, "mental": -5},
+        "effects": {
+          "investment_skill": 4,
+          "stress": 12,
+          "mental": -5
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6956,7 +8044,11 @@
       },
       {
         "text": "손절한다. 잃는 것보다 지키는 게 먼저다.",
-        "effects": {"investment_skill": 2, "stress": -8, "mental": 3},
+        "effects": {
+          "investment_skill": 2,
+          "stress": -8,
+          "mental": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6965,7 +8057,6 @@
       }
     ]
   },
-
   {
     "id": "first_promotion_path",
     "title": "승진 직전",
@@ -6974,22 +8065,42 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"has_job": true, "min_job_tenure": 10, "min_work_performance": 55, "min_route_orthodox": 6},
-    "tags": ["work", "orthodox", "career"],
+    "conditions": {
+      "has_job": true,
+      "min_job_tenure": 10,
+      "min_work_performance": 55,
+      "min_route_orthodox": 6
+    },
+    "tags": [
+      "work",
+      "orthodox",
+      "career"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "전력을 다한다. 이건 놓치면 안 된다.",
-        "effects": {"stress": 18, "intelligence": 2, "health": -6, "reputation": 4},
+        "effects": {
+          "stress": 18,
+          "intelligence": 2,
+          "health": -6,
+          "reputation": 4
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["promotion_attempt"],
+        "flags": [
+          "promotion_attempt"
+        ],
         "follow_up_event": "",
         "result_text": "3주 동안 야근했다. 프로젝트를 마무리했다. 결과는 좋았다. 승진 확정까지는 시간이 걸리겠지만, 뭔가 이뤄낸 느낌이 들었다."
       },
       {
         "text": "욕심 없이 적당히 한다. 몸이 먼저다.",
-        "effects": {"stress": 5, "health": 3, "mental": 4},
+        "effects": {
+          "stress": 5,
+          "health": 3,
+          "mental": 4
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -6998,7 +8109,6 @@
       }
     ]
   },
-
   {
     "id": "everything_falling_apart",
     "title": "한계",
@@ -7007,13 +8117,26 @@
     "rarity": "uncommon",
     "weight": 1.3,
     "hidden": false,
-    "conditions": {"max_health": 42, "max_mental": 42, "min_turn": 5},
-    "tags": ["health", "stress", "daily"],
+    "conditions": {
+      "max_health": 42,
+      "max_mental": 42,
+      "min_turn": 5
+    },
+    "tags": [
+      "health",
+      "stress",
+      "daily"
+    ],
     "cooldown": 4,
     "choices": [
       {
         "text": "모든 걸 멈추고 1주일 쉰다.",
-        "effects": {"health": 18, "mental": 18, "stress": -20, "money": -200000},
+        "effects": {
+          "health": 18,
+          "mental": 18,
+          "stress": -20,
+          "money": -200000
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -7022,16 +8145,21 @@
       },
       {
         "text": "버틴다. 이 정도는 견딜 수 있다.",
-        "effects": {"stress": 10, "health": -5, "mental": -5},
+        "effects": {
+          "stress": 10,
+          "health": -5,
+          "mental": -5
+        },
         "relationship_effects": [],
         "investment_effects": [],
-        "flags": ["ignored_body_warning"],
+        "flags": [
+          "ignored_body_warning"
+        ],
         "follow_up_event": "body_forced_rest",
         "result_text": "계속 달렸다. 몸이 경고를 보낸다. 언제까지 버틸 수 있을지 모르겠다. 이 상태가 오래 가면 결국 쓰러진다."
       }
     ]
   },
-
   {
     "id": "lottery_temptation",
     "title": "복권",
@@ -7040,13 +8168,22 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_turn": 2},
-    "tags": ["daily", "luck", "finance"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "daily",
+      "luck",
+      "finance"
+    ],
     "cooldown": 5,
     "choices": [
       {
         "text": "확인한다. 설레는 마음으로.",
-        "effects": {"luck": 1, "mental": 3},
+        "effects": {
+          "luck": 1,
+          "mental": 3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -7055,7 +8192,9 @@
       },
       {
         "text": "그냥 버린다. 이런 데 돈 쓰지 말자.",
-        "effects": {"intelligence": 1},
+        "effects": {
+          "intelligence": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -7064,7 +8203,6 @@
       }
     ]
   },
-
   {
     "id": "night_market_encounter",
     "title": "야시장에서의 만남",
@@ -7073,14 +8211,33 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"min_turn": 3},
-    "tags": ["social", "daily", "relationship"],
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": [
+      "social",
+      "daily",
+      "relationship"
+    ],
     "cooldown": 7,
     "choices": [
       {
         "text": "오랫동안 실컷 이야기를 나눈다.",
-        "effects": {"mental": 10, "social_skill": 2, "stress": -5, "luck": 1},
-        "relationship_effects": [{"id": "old_friend", "name": "오랜 친구 정현", "type": "friends", "affection": 40, "trust": 35}],
+        "effects": {
+          "mental": 10,
+          "social_skill": 2,
+          "stress": -5,
+          "luck": 1
+        },
+        "relationship_effects": [
+          {
+            "id": "old_friend",
+            "name": "오랜 친구 정현",
+            "type": "friends",
+            "affection": 40,
+            "trust": 35
+          }
+        ],
         "investment_effects": [],
         "flags": [],
         "follow_up_event": "",
@@ -7088,7 +8245,10 @@
       },
       {
         "text": "연락처만 교환하고 일찍 자리를 뜬다.",
-        "effects": {"mental": 4, "luck": 1},
+        "effects": {
+          "mental": 4,
+          "luck": 1
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -7097,7 +8257,6 @@
       }
     ]
   },
-
   {
     "id": "career_crossroads",
     "title": "이직 제안",
@@ -7106,13 +8265,25 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {"has_job": true, "min_job_tenure": 8, "min_reputation": 15},
-    "tags": ["work", "career", "orthodox"],
+    "conditions": {
+      "has_job": true,
+      "min_job_tenure": 8,
+      "min_reputation": 15
+    },
+    "tags": [
+      "work",
+      "career",
+      "orthodox"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "면접을 본다. 일단 알아보자.",
-        "effects": {"intelligence": 2, "reputation": 3, "stress": 5},
+        "effects": {
+          "intelligence": 2,
+          "reputation": 3,
+          "stress": 5
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -7121,7 +8292,11 @@
       },
       {
         "text": "거절한다. 지금 여기서 더 쌓겠다.",
-        "effects": {"mental": 5, "reputation": 2, "stress": -3},
+        "effects": {
+          "mental": 5,
+          "reputation": 2,
+          "stress": -3
+        },
         "relationship_effects": [],
         "investment_effects": [],
         "flags": [],
@@ -7130,271 +8305,6 @@
       }
     ]
   },
-
-  {
-    "id": "story_arrival",
-    "title": "서울 입성",
-    "description": "보따리 싸서 서울역에 내렸다. 지하철을 세 번 환승해서 고시원에 도착했다. 문을 열었다. 3평. 창문이 하나. 이게 내 서울살이의 시작이다.\n\n내일부터 뭘 해야 할까. 일단 돈이 있어야 한다.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"max_turn": 2},
-    "tags": ["daily", "spec"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "일단 취업부터. 수입이 없으면 버틸 수 없다.",
-        "effects": {"intelligence": 1, "stress": 3},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_job_unlocked", "story_arrival_seen"],
-        "follow_up_event": "",
-        "result_text": "자기소개서 초안을 썼다. 어색하고 부족하지만 시작이다. 서울에서 살아남으려면 돈이 먼저다."
-      },
-      {
-        "text": "주변을 파악한다. 서울이 어떤 곳인지 먼저 알아야 한다.",
-        "effects": {"luck": 2, "mental": 4},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_job_unlocked", "story_arrival_seen"],
-        "follow_up_event": "",
-        "result_text": "동네 편의점, 지하철역, 근처 공원. 서울의 리듬을 몸으로 배우기 시작했다. 일자리는 그 다음 일이다."
-      }
-    ]
-  },
-
-  {
-    "id": "story_arrival_elite",
-    "title": "중퇴자의 서울",
-    "description": "명문대 중퇴. 학교를 그만뒀을 때 주변에서 많은 말이 있었다. 그 말들을 뒤로 하고 서울에 왔다. 이 선택이 맞는지는 결과가 말해줄 것이다.\n\n스펙은 있다. 경험은 없다. 뭘 먼저 해야 할까.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"max_turn": 2},
-    "tags": ["daily", "spec"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "배운 걸 살려 빠르게 취업 라인에 진입한다.",
-        "effects": {"intelligence": 2, "stress": 5},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_job_unlocked", "story_arrival_seen"],
-        "follow_up_event": "",
-        "result_text": "이력서에 학력을 어떻게 쓸지 한참 고민했다. 중퇴는 결점이 아니라 선택이라고 써넣었다. 맞다. 나는 그렇게 생각하기로 했다."
-      },
-      {
-        "text": "처음부터 다시 시작한다. 학벌 없이 실력으로.",
-        "effects": {"mental": 5, "luck": 2},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_job_unlocked", "story_arrival_seen"],
-        "follow_up_event": "",
-        "result_text": "학교 얘기를 꺼내지 않기로 했다. 내가 무엇을 할 수 있는지만 보여주겠다. 서울은 그런 기회를 주는 도시라고 믿는다."
-      }
-    ]
-  },
-
-  {
-    "id": "story_arrival_rich",
-    "title": "금수저의 독립",
-    "description": "부모님 차에 짐을 싣고 강남 근처 원룸에 들어왔다. 보증금은 부모님이 내줬다. '혼자 해볼게요.' 그 말이 생각보다 무겁게 들렸다.\n\n돈이 있어도 모르는 게 너무 많다.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"max_turn": 2},
-    "tags": ["daily", "spec"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "배경에 기대지 않고 스스로 취업을 준비한다.",
-        "effects": {"intelligence": 1, "mental": 3, "stress": 5},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_job_unlocked", "story_arrival_seen"],
-        "follow_up_event": "",
-        "result_text": "부모님 이름이 도움이 될 수도 있지만, 그렇게 하면 내 것이 아니다. 시간이 더 걸리더라도 내 발로 서야 한다."
-      },
-      {
-        "text": "가진 것들을 잘 활용하는 게 현명하다.",
-        "effects": {"social_skill": 2, "luck": 2},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_job_unlocked", "story_arrival_seen"],
-        "follow_up_event": "",
-        "result_text": "아는 사람들에게 연락했다. 서울은 인맥이다. 나쁜 건 아니다. 어차피 있는 걸 안 쓰는 게 멍청한 거다."
-      }
-    ]
-  },
-
-  {
-    "id": "story_first_workday",
-    "title": "첫 출근",
-    "description": "드디어 첫 출근. 알람이 울리기 전에 눈이 떠졌다. 지하철 안에서 회사 이름을 속으로 몇 번이나 되새겼다. 이게 진짜 시작이다.",
-    "category": "jobs",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"has_job": true, "max_turn": 20},
-    "tags": ["work", "orthodox", "spec"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "적극적으로 어필한다. 좋은 첫인상을 만들어야 한다.",
-        "effects": {"reputation": 3, "stress": 8, "social_skill": 1},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_first_workday_seen"],
-        "follow_up_event": "",
-        "result_text": "자기소개를 크게 했다. 몇몇이 눈을 마주쳤다. 이름을 기억해준 선배가 있었다. 첫날 치고는 나쁘지 않았다."
-      },
-      {
-        "text": "조용히 관찰한다. 처음엔 듣는 게 먼저다.",
-        "effects": {"intelligence": 2, "mental": -3, "stress": 5},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_first_workday_seen"],
-        "follow_up_event": "",
-        "result_text": "말보다 눈으로 많이 배웠다. 누가 키맨인지, 팀 분위기가 어떤지. 이 정보가 나중에 도움이 될 것이다."
-      }
-    ]
-  },
-
-  {
-    "id": "story_first_paycheck_feel",
-    "title": "첫 월급",
-    "description": "문자가 왔다. '[입금] 000,000원'. 처음으로 내가 번 돈이 통장에 찍혔다. 생각보다 적다는 느낌도 들고, 그래도 내 손으로 벌었다는 뿌듯함도 있다.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"has_job": true, "max_turn": 15},
-    "tags": ["work", "finance", "orthodox"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "저축부터 한다. 미래를 위해.",
-        "effects": {"stress": -5, "mental": 5, "intelligence": 1},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_first_paycheck_seen"],
-        "follow_up_event": "",
-        "result_text": "월급의 30%를 저축 통장으로 이체했다. 적어 보이지만 매달 쌓이면 달라진다. 이게 시작이다."
-      },
-      {
-        "text": "한 번 제대로 먹고 싶다. 맛있는 거 먹으러 간다.",
-        "effects": {"mental": 12, "stress": -8, "money": -80000},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_first_paycheck_seen"],
-        "follow_up_event": "",
-        "result_text": "혼자 고기집에 갔다. 1인분을 혼자 먹었다. 맛이 달랐다. 내가 번 돈으로 먹는 밥은 다른 맛이 난다."
-      }
-    ]
-  },
-
-  {
-    "id": "story_first_savings_milestone",
-    "title": "300만원",
-    "description": "통장 잔고가 300만원을 넘었다. 서울에 올 때 가져온 100만원에서 시작했다. 처음으로 조금 여유가 생겼다. 이제 뭘 할 수 있을까.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"min_money": 3000000, "max_turn": 20},
-    "tags": ["finance", "daily"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "계속 모은다. 원룸 보증금을 목표로.",
-        "effects": {"mental": 5, "stress": -3, "intelligence": 1},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_first_savings_seen"],
-        "follow_up_event": "",
-        "result_text": "원룸 보증금이 500만원이다. 아직 200만원 부족하다. 조금만 더. 그 구체적인 목표가 생겼다는 게 달랐다."
-      },
-      {
-        "text": "투자를 시작해볼까. 돈이 돈을 버는 구조를 만들어야 한다.",
-        "effects": {"investment_skill": 2, "mental": 5, "stress": 3},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_first_savings_seen"],
-        "follow_up_event": "",
-        "result_text": "ETF가 뭔지 찾아봤다. 일단 소액부터 넣어봤다. 처음엔 다 무서운 거다. 시작이 중요하다."
-      }
-    ]
-  },
-
-  {
-    "id": "story_six_months",
-    "title": "반년",
-    "description": "서울에 온 지 6개월이 됐다. 지하철 환승도 익숙해졌고, 단골 편의점도 생겼다. 여기 생활이 일상이 됐다. 처음엔 그게 실패처럼 느껴졌는데, 이제는 그냥 살고 있다는 느낌이 든다.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"min_turn": 6, "max_turn": 8, "no_flag": "story_six_months_seen"},
-    "tags": ["daily", "rest"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "지난 6개월을 돌아보며 다음을 계획한다.",
-        "effects": {"intelligence": 2, "mental": 5, "stress": -3},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_six_months_seen"],
-        "follow_up_event": "",
-        "result_text": "뭐가 됐고 뭐가 안 됐는지 적어봤다. 생각보다 된 것도 있었다. 다음 6개월이 더 명확해졌다."
-      },
-      {
-        "text": "그냥 계속 살아간다. 돌아봐서 뭐 해.",
-        "effects": {"mental": 4, "luck": 1},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_six_months_seen"],
-        "follow_up_event": "",
-        "result_text": "생각해봤자 달라지는 건 없다. 그냥 계속하는 거다. 오늘도 내일도 그냥 살다 보면 1년이 된다."
-      }
-    ]
-  },
-
-  {
-    "id": "story_one_year",
-    "title": "1년",
-    "description": "서울에 온 지 1년이 됐다. 처음 고시원 문을 열던 날이 생각난다. 그때의 나와 지금의 나. 뭔가 달라진 것 같기도 하고, 달라진 게 없는 것 같기도 하다.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {"min_turn": 12, "max_turn": 14, "no_flag": "story_one_year_seen"},
-    "tags": ["daily", "rest"],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "1년 동안 버텼다. 이건 작은 성취다.",
-        "effects": {"mental": 12, "stress": -8, "luck": 2},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_one_year_seen"],
-        "follow_up_event": "",
-        "result_text": "1년. 서울에서 1년을 살아남았다. 자축했다. 아무도 축하해주지 않아도, 내가 알고 있으면 됐다."
-      },
-      {
-        "text": "1년이 지났는데 아직 멀었다. 더 빨리 가야 한다.",
-        "effects": {"intelligence": 3, "stress": 8, "mental": -3},
-        "relationship_effects": [],
-        "investment_effects": [],
-        "flags": ["story_one_year_seen"],
-        "follow_up_event": "",
-        "result_text": "주변과 비교했다. 조급해졌다. 이 조급함이 나쁜 것만은 아니다. 불편함이 성장을 만든다."
-      }
-    ]
-  },
-
   {
     "id": "apartment_first_night",
     "title": "아파트 첫 날",
@@ -7403,31 +8313,56 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {"housing": "apartment", "no_flag": "apartment_first_night_seen"},
-    "tags": ["daily", "moving", "orthodox"],
+    "conditions": {
+      "housing": "apartment",
+      "no_flag": "apartment_first_night_seen"
+    },
+    "tags": [
+      "daily",
+      "moving",
+      "orthodox"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "이사 축하 파티를 연다",
-        "effects": {"mental": 12, "social_skill": 3, "money": -100000, "stress": -8},
+        "effects": {
+          "mental": 12,
+          "social_skill": 3,
+          "money": -100000,
+          "stress": -8
+        },
         "result_text": "친구들을 불러 집들이를 했다. 고시원 시절 얘기가 술안주가 됐다. 그때도 지금도 괜찮다.",
-        "flags": ["apartment_first_night_seen"]
+        "flags": [
+          "apartment_first_night_seen"
+        ]
       },
       {
         "text": "조용히 혼자 맥주 한 캔을 연다",
-        "effects": {"mental": 10, "stress": -6, "health": 2},
+        "effects": {
+          "mental": 10,
+          "stress": -6,
+          "health": 2
+        },
         "result_text": "혼자 창밖을 바라봤다. 서울 야경이 이렇게 보이는 곳에서 사는 게 현실이 됐다.",
-        "flags": ["apartment_first_night_seen"]
+        "flags": [
+          "apartment_first_night_seen"
+        ]
       },
       {
         "text": "바로 다음 목표를 계획한다",
-        "effects": {"intelligence": 3, "stress": 3, "mental": 5},
+        "effects": {
+          "intelligence": 3,
+          "stress": 3,
+          "mental": 5
+        },
         "result_text": "아파트는 중간 목표였다. 다음은 강남이다. 뿌듯함이 채워지기도 전에 또 달리기 시작했다.",
-        "flags": ["apartment_first_night_seen"]
+        "flags": [
+          "apartment_first_night_seen"
+        ]
       }
     ]
   },
-
   {
     "id": "asset_milestone_50m",
     "title": "총자산 5천만 돌파",
@@ -7436,31 +8371,55 @@
     "rarity": "uncommon",
     "weight": 3.0,
     "hidden": false,
-    "conditions": {"flag": "asset_50m_reached", "no_flag": "asset_50m_seen"},
-    "tags": ["finance", "milestone", "investment"],
+    "conditions": {
+      "flag": "asset_50m_reached",
+      "no_flag": "asset_50m_seen"
+    },
+    "tags": [
+      "finance",
+      "milestone",
+      "investment"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "이 기세로 1억을 목표로 삼는다",
-        "effects": {"intelligence": 3, "mental": 8, "stress": 4},
+        "effects": {
+          "intelligence": 3,
+          "mental": 8,
+          "stress": 4
+        },
         "result_text": "5천만이 아니라 1억이 보이기 시작했다. 눈이 높아지는 게 성장의 신호다.",
-        "flags": ["asset_50m_seen"]
+        "flags": [
+          "asset_50m_seen"
+        ]
       },
       {
         "text": "전략을 점검하고 리밸런싱한다",
-        "effects": {"investment_skill": 5, "intelligence": 2, "stress": -2},
+        "effects": {
+          "investment_skill": 5,
+          "intelligence": 2,
+          "stress": -2
+        },
         "result_text": "이 정도면 전략을 다시 짤 시점이다. 처음과 같은 방식으로 다음 단계까지 갈 수 없다.",
-        "flags": ["asset_50m_seen"]
+        "flags": [
+          "asset_50m_seen"
+        ]
       },
       {
         "text": "가족에게 조용히 알린다",
-        "effects": {"mental": 10, "social_skill": 2, "reputation": 3},
+        "effects": {
+          "mental": 10,
+          "social_skill": 2,
+          "reputation": 3
+        },
         "result_text": "부모님께 전화했다. 설명하기 어려워서 '저 좀 모았어요'라고만 했다. 그래도 목소리가 좋아지셨다.",
-        "flags": ["asset_50m_seen"]
+        "flags": [
+          "asset_50m_seen"
+        ]
       }
     ]
   },
-
   {
     "id": "asset_milestone_100m",
     "title": "1억 돌파",
@@ -7469,27 +8428,1470 @@
     "rarity": "rare",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {"flag": "asset_100m_reached", "no_flag": "asset_100m_seen"},
-    "tags": ["finance", "milestone", "investment"],
+    "conditions": {
+      "flag": "asset_100m_reached",
+      "no_flag": "asset_100m_seen"
+    },
+    "tags": [
+      "finance",
+      "milestone",
+      "investment"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "이 순간을 기억하기 위해 특별한 걸 한다",
-        "effects": {"mental": 15, "stress": -10, "money": -200000},
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "money": -200000
+        },
         "result_text": "평소엔 가지 않는 레스토랑에 혼자 갔다. 와인을 마시며 여기까지 온 길을 돌아봤다. 충분히 자랑스러웠다.",
-        "flags": ["asset_100m_seen"]
+        "flags": [
+          "asset_100m_seen"
+        ]
       },
       {
         "text": "다음 목표를 세우고 더 공격적으로 간다",
-        "effects": {"investment_skill": 5, "intelligence": 3, "stress": 6},
+        "effects": {
+          "investment_skill": 5,
+          "intelligence": 3,
+          "stress": 6
+        },
         "result_text": "1억은 시작이다. 10억을 목표로 전략을 바꿨다. 이 게임의 룰을 이제야 이해하는 것 같다.",
-        "flags": ["asset_100m_seen"]
+        "flags": [
+          "asset_100m_seen"
+        ]
       },
       {
         "text": "조용히 앱을 닫는다",
-        "effects": {"mental": 8, "luck": 2},
+        "effects": {
+          "mental": 8,
+          "luck": 2
+        },
         "result_text": "자랑하지 않기로 했다. 서울에서 돈 자랑은 독이 된다. 조용히 계속 가는 것이다.",
-        "flags": ["asset_100m_seen"]
+        "flags": [
+          "asset_100m_seen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "corp_annual_review",
+    "title": "연차 평가",
+    "description": "1년이 지나고 인사팀에서 자기평가서가 왔다. 이 종이 한 장이 내년 연봉을 결정한다. 어떻게 쓰느냐에 따라 팀장 눈에 보이는 사람이 될 수도, 그냥 묻히는 사람이 될 수도 있다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 12,
+      "no_flag": "corp_annual_review_done"
+    },
+    "tags": [
+      "work",
+      "orthodox",
+      "career"
+    ],
+    "cooldown": 24,
+    "choices": [
+      {
+        "text": "성과를 솔직하게 쓴다. 강점을 부각하고 약점은 개선 계획으로 포장한다.",
+        "effects": {
+          "reputation": 4,
+          "intelligence": 2,
+          "stress": 4
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "corp_annual_review_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "평가서를 제출했다. 상사가 처음으로 내 이름을 제대로 불러줬다. 기대치가 올라갔다는 느낌이 들었다."
+      },
+      {
+        "text": "실적을 최대한 부각한다. 어차피 모두가 그러는 거 아닌가.",
+        "effects": {
+          "reputation": 6,
+          "mental": -5,
+          "stress": 8
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "corp_annual_review_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "비교적 좋은 평가를 받았다. 하지만 긴장감이 남는다. 높아진 기대치가 양날의 검이 됐다."
+      },
+      {
+        "text": "대충 쓴다. 평가보다 실력이 중요하다.",
+        "effects": {
+          "stress": -3,
+          "intelligence": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "corp_annual_review_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "결과는 보통이었다. 좋지도 나쁘지도 않은 중간. 그게 제일 위험한 위치라는 걸 나중에 알았다."
+      }
+    ]
+  },
+  {
+    "id": "headhunter_contact",
+    "title": "헤드헌터 연락",
+    "description": "링크드인에 모르는 사람이 메시지를 보냈다. '현재 이직 의향이 있으신가요?' 헤드헌터다. 제시한 연봉은 지금보다 20% 이상 높다. 지금 직장에 불만은 없는데, 이게 기회인지 유혹인지 모르겠다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 15,
+      "min_reputation": 10
+    },
+    "tags": [
+      "work",
+      "career",
+      "opportunity"
+    ],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "미팅을 잡아본다. 들어보고 결정해도 늦지 않는다.",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "stress": 5,
+          "reputation": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "headhunter_met"
+        ],
+        "follow_up_event": "",
+        "result_text": "커피 한 잔 하며 이야기를 들었다. 조건도 좋고 회사도 괜찮았다. 결정은 안 했지만, 내 시장 가치를 확인했다."
+      },
+      {
+        "text": "정중히 거절한다. 지금 자리에서 더 성장하고 싶다.",
+        "effects": {
+          "mental": 5,
+          "reputation": 2,
+          "stress": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "거절했다. 그런데 이상하게 마음이 편했다. 지금 자리에 이유가 있다는 확신이 생겼다."
+      },
+      {
+        "text": "제안을 발판으로 현 직장에서 연봉 협상을 시도한다.",
+        "effects": {
+          "social_skill": 3,
+          "reputation": -2,
+          "stress": 12,
+          "intelligence": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "tried_salary_negotiation"
+        ],
+        "follow_up_event": "",
+        "result_text": "직속 상사에게 이직 제안을 받았다고 말했다. 표정이 굳었다. 연봉은 5% 올랐지만, 관계가 조금 멀어진 기분이 든다."
+      }
+    ]
+  },
+  {
+    "id": "coworker_startup_exit",
+    "title": "동료의 퇴사",
+    "description": "가장 실력 있던 동료가 사직서를 냈다. 스타트업에 합류한다고 한다. '너도 같이 가지 않을래?' 낮은 연봉에 스톡옵션 조금. 리스크가 크지만 성공하면 달라지는 숫자가 다르다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 12
+    },
+    "tags": [
+      "work",
+      "unorthodox",
+      "risk",
+      "opportunity"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "같이 가기로 한다. 기회는 한 번이다.",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 3,
+          "stress": 15,
+          "mental": -8
+        },
+        "relationship_effects": [
+          {
+            "id": "startup_colleague",
+            "name": "스타트업 동료",
+            "type": "business",
+            "affection": 40,
+            "trust": 35
+          }
+        ],
+        "investment_effects": [],
+        "flags": [
+          "startup_launched",
+          "quit_stable_job"
+        ],
+        "follow_up_event": "",
+        "result_text": "사직서를 냈다. 손이 떨렸다. 퇴근길에 동료와 편의점에서 맥주를 마셨다. 이게 맞는 선택인지는 모르겠지만, 살아있는 느낌은 난다."
+      },
+      {
+        "text": "응원만 한다. 나는 지금 자리를 지킨다.",
+        "effects": {
+          "mental": -5,
+          "stress": 3,
+          "intelligence": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "배웅했다. 나는 책상으로 돌아왔다. 한동안 그 자리가 비어있었다. 그게 더 신경 쓰였다."
+      },
+      {
+        "text": "일단 지켜본다. 6개월 후에도 잘 되면 그때 합류를 고려한다.",
+        "effects": {
+          "intelligence": 3,
+          "stress": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "watching_startup_friend"
+        ],
+        "follow_up_event": "",
+        "result_text": "현명한 선택일 수도 있고 겁쟁이의 선택일 수도 있다. 결과를 봐야 알 것 같다."
+      }
+    ]
+  },
+  {
+    "id": "jeonse_market_shock",
+    "title": "전세가 사라진다",
+    "description": "뉴스를 봤다. 전세 사기 피해자가 또 나왔다. 갭투자 집주인이 잠적했다. 전세보증금 5억이 날아갔다. 나도 언젠가 전세로 이사하려 했는데... 이 뉴스가 전략을 바꿔야 한다는 신호인지 모른다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": [
+      "finance",
+      "housing",
+      "anxiety"
+    ],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "월세로 방향을 바꾼다. 안전이 먼저다.",
+        "effects": {
+          "intelligence": 3,
+          "stress": -4,
+          "mental": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "decided_monthly_rent"
+        ],
+        "follow_up_event": "",
+        "result_text": "전세보증보험을 알아봤다. 복잡하고 조건도 까다롭다. 당분간 월세로 가기로 했다. 돈이 더 들지만 마음이 편하다."
+      },
+      {
+        "text": "전세보증보험을 가입하면 된다. 리스크를 관리하며 전세를 노린다.",
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 2,
+          "stress": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "보증보험 조건과 절차를 공부했다. 복잡하지만 제대로 알면 리스크를 줄일 수 있다. 정보가 곧 돈이다."
+      },
+      {
+        "text": "어차피 집을 살 계획이다. 전세는 단기 옵션일 뿐이다.",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2,
+          "stress": 5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "planning_to_buy_house"
+        ],
+        "follow_up_event": "",
+        "result_text": "매매를 목표로 잡았다. 전세 리스크 대신 대출 리스크. 어느 쪽이 낫냐는 상황에 달렸다. 일단 모은다."
+      }
+    ]
+  },
+  {
+    "id": "hwesik_night",
+    "title": "회식",
+    "description": "오늘도 회식이다. 팀장이 '오늘 한잔해요'라고 하면 사실상 참석 의무다. 술은 거의 강제, 분위기는 억지 웃음, 귀가는 자정. 이게 직장인의 일상이다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 6
+    },
+    "tags": [
+      "work",
+      "social",
+      "health",
+      "stress"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "적극적으로 분위기를 탄다. 인맥은 회식에서 쌓인다.",
+        "effects": {
+          "social_skill": 2,
+          "reputation": 3,
+          "health": -5,
+          "stress": 8,
+          "mental": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "팀장이 '이 친구 좋아'라는 표현을 했다. 사회생활에서 그게 중요하다는 걸 안다. 하지만 집에 오니 탈진했다."
+      },
+      {
+        "text": "적당히 마시고 일찍 빠진다.",
+        "effects": {
+          "health": -2,
+          "stress": 3,
+          "mental": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "2차는 빠졌다. 핑계는 '내일 일찍 일이 있어서'. 눈치가 보였지만 집에 일찍 왔다. 이게 맞는 방법인지는 모르겠다."
+      },
+      {
+        "text": "정중히 불참한다. 시간이 돈이다.",
+        "effects": {
+          "reputation": -3,
+          "mental": 8,
+          "stress": -5,
+          "health": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "팀 단톡방이 조용해졌다. 다음날 팀장 눈빛이 달랐다. 대신 그 시간에 책을 읽었다. 어느 쪽이 나은지는 각자 기준에 달렸다."
+      }
+    ]
+  },
+  {
+    "id": "night_burnout_desk",
+    "title": "밤 11시 책상",
+    "description": "야근이 끝나지 않는다. 밤 11시, 사무실에 나 혼자 남았다. 화면을 보다 멍해졌다. 이걸 왜 하고 있나. 서울에 올 때 이게 목표였던가. 아무 생각도 하기 싫은 순간이다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10,
+      "min_stress": 50
+    },
+    "tags": [
+      "work",
+      "mental",
+      "stress",
+      "health"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "지금 당장 짐 챙기고 퇴근한다. 내일 일은 내일.",
+        "effects": {
+          "mental": 10,
+          "stress": -8,
+          "health": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "컴퓨터를 껐다. 밖으로 나오니 바람이 서늘했다. 별로 달라진 게 없는데 기분이 조금 나아졌다."
+      },
+      {
+        "text": "참는다. 지금 버티면 분명 보상이 온다.",
+        "effects": {
+          "reputation": 2,
+          "stress": 10,
+          "health": -8,
+          "mental": -5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "ignored_body_warning"
+        ],
+        "follow_up_event": "body_forced_rest",
+        "result_text": "새벽 1시까지 했다. 다 끝냈다. 자리에서 일어나니 허리가 아팠다. 이게 오래가면 안 되는데."
+      },
+      {
+        "text": "업무를 줄이고 방향을 바꾸는 것을 진지하게 고민한다.",
+        "effects": {
+          "intelligence": 4,
+          "stress": 3,
+          "mental": 5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "considering_job_change"
+        ],
+        "follow_up_event": "",
+        "result_text": "퇴사를 검색했다. 이직을 검색했다. 창업을 검색했다. 아직 답은 없지만, 이 상황이 영원하지 않다는 걸 확인했다."
+      }
+    ]
+  },
+  {
+    "id": "apartment_lottery_miss",
+    "title": "청약 탈락",
+    "description": "청약 당첨 문자를 기다렸다. 결과는 '탈락'. 경쟁률 200대 1이었다. 분양가는 5억. 당첨됐으면 단번에 2억 차익이었다. 이 나라에서 집을 가지는 게 이렇게 어려운 건가.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 18,
+      "min_money": 1000000
+    },
+    "tags": [
+      "housing",
+      "finance",
+      "anxiety"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "청약을 계속 노린다. 언젠가는 된다.",
+        "effects": {
+          "intelligence": 2,
+          "mental": -3,
+          "stress": 5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "applied_for_cheongak"
+        ],
+        "follow_up_event": "",
+        "result_text": "청약통장에 계속 납입하기로 했다. 가점이 쌓이면 언젠가 된다. 시간이 자산이 되는 방식으로."
+      },
+      {
+        "text": "부동산 투자를 다른 방식으로 접근한다. 소액 부동산 리츠를 알아본다.",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 3,
+          "stress": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "리츠(REITs)를 조사했다. 직접 매수보다 진입 장벽이 낮다. 집을 사지 못해도 부동산 시장에 참여하는 방법이 있었다."
+      },
+      {
+        "text": "청약은 포기하고 자산을 주식에 집중한다.",
+        "effects": {
+          "investment_skill": 4,
+          "mental": 3,
+          "stress": -5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "집에 매이지 않기로 했다. 유동성 있는 자산이 오히려 자유일 수 있다. 그렇게 스스로를 설득했다."
+      }
+    ]
+  },
+  {
+    "id": "friend_house_purchase",
+    "title": "친구가 집을 샀다",
+    "description": "대학 친구가 인스타에 새 아파트 키 사진을 올렸다. 강동구 84㎡. 댓글에 '와 대단하다'가 줄지어 있다. 우리 나이에 어떻게 샀지? 부모 지원인가, 아니면 정말 모은 건가. 괜히 마음이 복잡해진다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 18
+    },
+    "tags": [
+      "social",
+      "class",
+      "anxiety",
+      "housing"
+    ],
+    "cooldown": 16,
+    "choices": [
+      {
+        "text": "솔직하게 축하해준다. 그게 맞다.",
+        "effects": {
+          "mental": -3,
+          "social_skill": 2,
+          "stress": 4
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "댓글을 달았다. '축하해, 진짜 대단하다.' 그 말을 하면서 내 상황을 비교했다. 축하와 부러움이 동시에 있는 감정은 설명하기 어렵다."
+      },
+      {
+        "text": "내 페이스를 지킨다. 비교는 독이다.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2,
+          "stress": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "인스타를 닫았다. 남과 비교하지 않는 게 이 게임에서 살아남는 방법이다. 내 숫자를 본다."
+      },
+      {
+        "text": "자극받아서 더 공격적으로 투자한다.",
+        "effects": {
+          "investment_skill": 2,
+          "stress": 8,
+          "mental": -4
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조급해진 마음으로 내린 투자 결정이 항상 좋지는 않았다. 하지만 그 에너지 자체는 나쁘지 않다. 방향만 맞다면."
+      }
+    ]
+  },
+  {
+    "id": "loan_temptation",
+    "title": "빚으로 투자하고 싶다",
+    "description": "마이너스 통장을 3천만원까지 팔 수 있다고 은행에서 문자가 왔다. 지금 시장이 오르고 있다. 대출 이자보다 수익이 높으면 남는 장사다. 그런데 방향이 바뀌면? 레버리지는 양방향이다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12,
+      "has_portfolio": true
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "risk",
+      "unorthodox"
+    ],
+    "cooldown": 16,
+    "choices": [
+      {
+        "text": "대출을 받아 투자한다. 기회는 지금이다.",
+        "effects": {
+          "investment_skill": 2,
+          "stress": 12,
+          "mental": -5,
+          "money": 30000000
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "took_investment_loan"
+        ],
+        "follow_up_event": "",
+        "result_text": "3천만원을 받았다. 포트폴리오에 넣었다. 매달 이자가 나가는 게 체감된다. 오르면 영웅, 빠지면 나락이다."
+      },
+      {
+        "text": "거절한다. 빚투는 하지 않겠다.",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "intelligence": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "거절했다. 내 현금으로만 투자한다. 느리더라도 잃지 않는 게 먼저다. 수익은 나중이다."
+      },
+      {
+        "text": "소액만 받는다. 1천만원만 활용해본다.",
+        "effects": {
+          "investment_skill": 3,
+          "stress": 6,
+          "mental": -2,
+          "money": 10000000
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "took_small_investment_loan"
+        ],
+        "follow_up_event": "",
+        "result_text": "1천만원. 이자 부담이 크지 않은 선에서 경험해보기로 했다. 빚투의 감각을 익히는 연습이다."
+      }
+    ]
+  },
+  {
+    "id": "career_ceiling_moment",
+    "title": "한계가 보인다",
+    "description": "팀장 자리가 났다. 후보는 나와 3년 선배. 결과는 선배였다. 납득은 간다. 하지만 이 회사에서 내가 어디까지 갈 수 있는지 처음으로 선명하게 보인다. 여기서 계속 있어야 할까.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 24
+    },
+    "tags": [
+      "work",
+      "career",
+      "anxiety",
+      "opportunity"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "이직을 진지하게 준비한다.",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 2,
+          "stress": 8,
+          "reputation": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "considering_job_change",
+          "headhunter_met"
+        ],
+        "follow_up_event": "",
+        "result_text": "포트폴리오를 정리하기 시작했다. 지난 2년이 어떤 경험이었는지 글로 적으니 생각보다 많았다. 이직 준비가 자기객관화였다."
+      },
+      {
+        "text": "이 경험을 발판 삼아 사이드 프로젝트를 시작한다.",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 1,
+          "stress": 6,
+          "mental": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "startup_launched"
+        ],
+        "follow_up_event": "",
+        "result_text": "퇴근 후 시간을 쪼갰다. 아이디어는 있다. 실행이 문제다. 잠이 줄었고 커피가 늘었다."
+      },
+      {
+        "text": "지금 자리를 충실히 한다. 기회는 또 온다.",
+        "effects": {
+          "reputation": 3,
+          "mental": 4,
+          "stress": -4
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "더 잘하기로 했다. 인정받는 사람이 먼저 보이는 자리는 아니어도 언제나 필요한 사람이 되는 방법도 있다."
+      }
+    ]
+  },
+  {
+    "id": "mental_health_day",
+    "title": "연차를 쓸 용기",
+    "description": "어젯밤 꿈에서 퇴사했다. 이상하게 그 꿈이 개운했다. 오늘 하루 연차를 쓰고 싶다. 이유 없이, 그냥. 직장인이 '아무 이유 없이 쉰다'는 게 이렇게 어렵다니.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10,
+      "min_stress": 40
+    },
+    "tags": [
+      "mental",
+      "health",
+      "daily",
+      "rest"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "연차를 쓰고 아무것도 안 한다.",
+        "effects": {
+          "mental": 18,
+          "stress": -12,
+          "health": 5,
+          "luck": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "평일 낮에 한강에 갔다. 사람이 거의 없었다. 벤치에 앉아 물만 바라봤다. 오래간만에 진짜 쉰 기분이었다."
+      },
+      {
+        "text": "연차를 쓰되 자기계발을 한다. 쉬는 건 나중에.",
+        "effects": {
+          "intelligence": 4,
+          "stress": -3,
+          "mental": 8
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "원래 읽으려던 책 두 권을 읽었다. 카페에 앉아 있으니 뭔가 생산적인 하루가 됐다. 완전한 휴식은 못 했지만 그래도 나쁘지 않았다."
+      },
+      {
+        "text": "그냥 출근한다. 쉬는 것도 체력이 필요하다.",
+        "effects": {
+          "stress": 5,
+          "mental": -5,
+          "reputation": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "출근했다. 팀장이 '오늘도 왔네' 했다. 그게 전부였다. 연차를 아꼈다. 나중에 쓸 것이다. 아마도."
+      }
+    ]
+  },
+  {
+    "id": "investment_dividend_season",
+    "title": "배당 시즌",
+    "description": "분기 배당이 들어왔다. 숫자가 작아서 무시했었는데, 이번엔 눈에 보이는 금액이 됐다. 내가 잠자는 동안 돈이 벌렸다. 이게 자본 소득이구나, 처음으로 실감했다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 15
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "orthodox"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "배당금을 재투자한다. 복리의 힘을 믿는다.",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 8,
+          "stress": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "배당금을 그대로 ETF에 넣었다. 티끌 모아 태산. 이 사이클을 10년 반복하면 어떻게 될까. 계산기를 눌러봤다."
+      },
+      {
+        "text": "이 돈으로 평소에 못 하던 것을 한다. 삶의 질도 중요하다.",
+        "effects": {
+          "mental": 15,
+          "stress": -8,
+          "health": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "오마카세를 예약했다. 배당금으로 먹는 밥이 이런 맛이구나. 투자가 단순히 숫자 게임이 아니라는 걸 처음으로 느꼈다."
+      },
+      {
+        "text": "포트폴리오 리밸런싱 기회로 삼는다.",
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 2,
+          "stress": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "전체 비중을 다시 점검했다. 너무 집중된 자산이 있었다. 분산했다. 배당이 포트폴리오를 다시 들여다보는 계기가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "late_night_convenience",
+    "title": "새벽 편의점",
+    "description": "새벽 2시, 편의점에서 삼각김밥 하나를 사서 계산대 앞에 서 있다. 알바생도 나도 말이 없다. 이 시간 편의점은 서울의 솔직한 얼굴이다. 아무도 잘 살고 있지 않고, 아무도 그걸 말하지 않는다.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_stress": 35
+    },
+    "tags": [
+      "daily",
+      "mental",
+      "rest"
+    ],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "그냥 먹고 자기로 한다. 내일 또 한다.",
+        "effects": {
+          "mental": 6,
+          "health": -2,
+          "stress": -4
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "삼각김밥 맛이 좋았다. 사실 배가 고팠던 게 아니라 뭔가 허기가 졌던 거다. 그래도 일단 배를 채우니 나아졌다."
+      },
+      {
+        "text": "알바생이랑 짧게 얘기를 나눈다. 요즘 어때요.",
+        "effects": {
+          "mental": 8,
+          "social_skill": 1,
+          "luck": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "비슷한 나이였다. 취준 중이라고 했다. 서로 '화이팅'이라고 했다. 모르는 사람과의 그 말이 이상하게 힘이 됐다."
+      },
+      {
+        "text": "스마트폰을 열어 내일 계획을 세운다.",
+        "effects": {
+          "intelligence": 2,
+          "stress": -2,
+          "mental": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "새벽에 쓴 계획이 낮에 쓴 것보다 솔직했다. 꾸밈없이 '이게 하고 싶다'가 나왔다. 이 시간이 나를 가장 잘 아는 것 같다."
+      }
+    ]
+  },
+  {
+    "id": "crypto_fomo_peak",
+    "title": "코인 급등",
+    "description": "단체 카톡방에 코인 얘기가 가득하다. 어제 넣은 사람은 30% 올랐다고 한다. 지금이라도 들어가야 하나. 아니면 이미 늦은 건가. FOMO가 이성을 잠식하기 시작한다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6,
+      "min_fear_greed": 65
+    },
+    "tags": [
+      "investment",
+      "risk",
+      "unorthodox",
+      "finance"
+    ],
+    "cooldown": 14,
+    "choices": [
+      {
+        "text": "소액만 넣어본다. 경험이 중요하다.",
+        "effects": {
+          "investment_skill": 2,
+          "stress": 8,
+          "mental": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [
+          {
+            "asset_id": "bitcoin",
+            "price_delta": 0.0
+          }
+        ],
+        "flags": [
+          "tried_crypto"
+        ],
+        "follow_up_event": "",
+        "result_text": "10만원을 넣었다. 다음날 오르기도 하고 떨어지기도 했다. 잠이 줄었다. 10만원이 이렇게 신경 쓰일 줄은 몰랐다."
+      },
+      {
+        "text": "크게 들어간다. 기회는 지금이다.",
+        "effects": {
+          "investment_skill": 1,
+          "stress": 18,
+          "mental": -8,
+          "luck": -1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "tried_crypto",
+          "big_crypto_bet"
+        ],
+        "follow_up_event": "",
+        "result_text": "큰돈을 넣었다. 그날부터 화장실도 폰을 들고 갔다. 시장은 언제나 내 심리를 시험한다."
+      },
+      {
+        "text": "관망한다. 오른 뒤에 들어가는 건 늦은 거다.",
+        "effects": {
+          "intelligence": 3,
+          "mental": 5,
+          "stress": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "카톡방을 나왔다. 정보와 소음을 구분하는 것도 투자 실력이다. 내 원칙을 지켰다."
+      }
+    ]
+  },
+  {
+    "id": "midlife_30s_reflection",
+    "title": "30대가 됐다",
+    "description": "30살 생일이 지나갔다. 20대엔 '30살까지는 이걸 해야지'라고 생각했는데, 그 때의 목록이 아직도 절반이다. 실패했나? 아니면 현실이 그런 건가. 모르겠다. 일단 오늘 하루를 살자.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 36,
+      "no_flag": "30s_reflection_done"
+    },
+    "tags": [
+      "daily",
+      "mental",
+      "rest",
+      "class"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "20대의 목록을 버린다. 지금부터 새로 쓴다.",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "intelligence": 3,
+          "luck": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "30s_reflection_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "새 노트를 샀다. 목표를 다시 썼다. 더 현실적이고, 더 내 것 같았다. 30대는 20대가 설계한 미래가 아니라 지금 내가 선택하는 현재다."
+      },
+      {
+        "text": "20대에 못 한 걸 지금이라도 한다. 늦은 건 없다.",
+        "effects": {
+          "mental": 10,
+          "intelligence": 2,
+          "social_skill": 2,
+          "stress": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "30s_reflection_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "늦게 시작해도 된다고 스스로에게 허락했다. 그 말이 생각보다 무거웠다. 지금까지 너무 많이 허락을 안 했던 것 같다."
+      },
+      {
+        "text": "그냥 계속한다. 숫자가 바뀌어도 나는 나다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "30s_reflection_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "30이 됐다. 별 감흥 없었다. 내일도 똑같이 산다. 그게 나쁜 건 아니다."
+      }
+    ]
+  },
+  {
+    "id": "family_financial_help",
+    "title": "가족의 연락",
+    "description": "부모님한테 전화가 왔다. 목소리가 평소랑 다르다. 사업이 좀 어렵다고. '네가 좀 도와줄 수 있니?' 1000만원. 나한테는 작지 않은 돈이다. 거절하면 어떤 기분일지, 줬을 때 어떤 기분일지. 둘 다 상상이 된다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12,
+      "min_money": 3000000
+    },
+    "tags": [
+      "family",
+      "stress",
+      "social"
+    ],
+    "cooldown": 24,
+    "choices": [
+      {
+        "text": "준다. 가족이니까.",
+        "effects": {
+          "money": -10000000,
+          "mental": -8,
+          "stress": 8,
+          "social_skill": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "helped_family"
+        ],
+        "follow_up_event": "",
+        "result_text": "이체했다. '고맙다'는 문자가 왔다. 그게 전부였다. 이상하게 돈이 아깝지 않고 마음이 무거웠다."
+      },
+      {
+        "text": "줄 수 없다. 정중히 거절한다.",
+        "effects": {
+          "mental": -10,
+          "stress": 12,
+          "intelligence": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "내 사정을 설명했다. 전화가 끊겼다. 한동안 연락이 없었다. 맞는 선택인지 틀린 선택인지, 아직도 모르겠다."
+      },
+      {
+        "text": "절충안을 제안한다. 300만원은 줄 수 있다.",
+        "effects": {
+          "money": -3000000,
+          "mental": -3,
+          "stress": 5,
+          "social_skill": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "helped_family"
+        ],
+        "follow_up_event": "",
+        "result_text": "300만원을 보냈다. 상황을 설명했다. 부모님이 이해해줬다. 아니, 이해한 척 해줬다. 그게 더 마음에 걸렸다."
+      }
+    ]
+  },
+  {
+    "id": "late_game_asset_review",
+    "title": "자산 점검",
+    "description": "연말이다. 올해 포트폴리오를 정리하고 내년 전략을 세워야 한다. 지금 가진 것, 갈 곳, 리스크. 이 세 가지를 다시 정렬하는 시간이다. 강남드림까지 얼마나 남았나.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 24
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "orthodox",
+      "milestone"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "공격적으로 비중을 늘린다. 아직 젊다.",
+        "effects": {
+          "investment_skill": 4,
+          "stress": 6,
+          "mental": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "고위험 자산 비중을 늘렸다. 기회비용을 계산했다. 잃을 수 있는 범위를 정하고 그 안에서 공격적으로."
+      },
+      {
+        "text": "방어적으로 안전 자산을 늘린다. 지킨 게 이긴 거다.",
+        "effects": {
+          "intelligence": 3,
+          "stress": -5,
+          "mental": 5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "안전 자산 비중을 높였다. 수익률은 낮아지지만 변동성도 줄어든다. 이 균형을 유지하는 게 장기전의 핵심이다."
+      },
+      {
+        "text": "현재 전략을 유지한다. 검증된 것을 바꾸지 않는다.",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 5,
+          "stress": -3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "바꾸지 않기로 했다. 시장에는 항상 새로운 '기회'가 보인다. 하지만 일관성이 복리보다 더 강한 힘이 될 때가 있다."
+      }
+    ]
+  },
+  {
+    "id": "tax_filing_stress",
+    "title": "종합소득세",
+    "description": "5월. 종합소득세 신고 기간이다. 부업, 배당, 이자소득... 신고해야 할 항목이 늘어났다. 이제 세금도 신경 써야 하는 단계가 됐다는 게 성장인지 번거로움인지 모르겠다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15,
+      "min_intelligence": 30
+    },
+    "tags": [
+      "finance",
+      "orthodox",
+      "daily"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "직접 공부해서 신고한다. 절세도 투자다.",
+        "effects": {
+          "intelligence": 5,
+          "stress": 8,
+          "investment_skill": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "filed_tax_self"
+        ],
+        "follow_up_event": "",
+        "result_text": "홈택스를 파고들었다. 처음엔 어렵더니 두 번째는 수월했다. 환급도 받았다. 세금을 아는 것이 돈을 버는 방법이다."
+      },
+      {
+        "text": "세무사에게 맡긴다. 전문가가 낫다.",
+        "effects": {
+          "stress": -5,
+          "money": -200000,
+          "intelligence": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "세무사 비용 20만원. 대신 마음이 편하다. 시간도 절약됐다. 이 비용을 아깝게 생각하지 않기로 했다."
+      },
+      {
+        "text": "일단 미룬다. 나중에 어떻게든 되겠지.",
+        "effects": {
+          "stress": -3,
+          "intelligence": -1,
+          "mental": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "6월이 됐다. 가산세가 붙었다. 미루는 습관은 언제나 이자를 청구한다."
+      }
+    ]
+  },
+  {
+    "id": "market_bull_run_temptation",
+    "title": "강세장 유혹",
+    "description": "3개월째 시장이 오르고 있다. 내 포트폴리오도 올랐다. 이쯤 되면 더 넣고 싶어진다. 하지만 오를 때 더 넣는 게 맞는 건지, 이미 늦은 건지. 탐욕과 이성이 싸우기 시작한다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 8,
+      "market_cycle": "bull"
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "risk",
+      "unorthodox"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "추가 매수한다. 추세가 살아있다.",
+        "effects": {
+          "investment_skill": 2,
+          "stress": 6,
+          "mental": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "추가로 샀다. 며칠은 더 올랐다. 그 이후는 모른다. 시장은 아무도 완벽히 예측하지 못한다."
+      },
+      {
+        "text": "일부를 매도한다. 수익을 확정한다.",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 8,
+          "stress": -5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "25%를 팔았다. 수익이 현금화됐다. 기분이 이상했다. 더 오를 수도 있는데. 하지만 먹은 건 내 것이다."
+      },
+      {
+        "text": "아무것도 안 한다. 투자는 인내다.",
+        "effects": {
+          "intelligence": 2,
+          "stress": -3,
+          "mental": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "안 했다. 계좌를 닫아뒀다. 노이즈를 차단하는 것도 투자 실력이다. 시장이 결국 판단해 줄 것이다."
+      }
+    ]
+  },
+  {
+    "id": "gosiwon_midnight_fire_drill",
+    "title": "새벽 화재 경보",
+    "description": "새벽 3시, 화재 경보가 울렸다. 잠이 덜 깬 채로 계단을 뛰어내려갔다. 오발경보였다. 주민들이 복도에 모여 서로 얼굴을 봤다. 고시원에서 이렇게 많은 사람이 사는지 몰랐다.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon",
+      "min_turn": 2
+    },
+    "tags": [
+      "daily",
+      "housing",
+      "social"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "옆방 사람이랑 얘기를 나눈다. 이름도 모르고 살았는데.",
+        "effects": {
+          "mental": 6,
+          "social_skill": 2,
+          "stress": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "옆방은 취준생이었다. 직장 얘기, 고시원 얘기. 15분이 지났다. 이런 인연이 서울에서 유일한 위안이 되기도 한다."
+      },
+      {
+        "text": "얼른 방으로 돌아가 다시 잔다.",
+        "effects": {
+          "health": -3,
+          "stress": 3
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다시 누웠는데 잠이 안 왔다. 새벽 4시. 출근은 7시. 뜬눈으로 버텼다."
+      },
+      {
+        "text": "이참에 이사를 진지하게 생각한다.",
+        "effects": {
+          "intelligence": 2,
+          "mental": -2,
+          "stress": 2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "considering_move"
+        ],
+        "follow_up_event": "",
+        "result_text": "어둠 속에서 원룸을 검색했다. 보증금이 문제다. 목표가 생겼다. 빨리 나가야 한다."
+      }
+    ]
+  },
+  {
+    "id": "job_interview_wait",
+    "title": "면접 결과 대기",
+    "description": "최종 면접을 봤다. 이제 결과를 기다리는 일만 남았다. 폰을 손에서 못 놓게 된다. 잘 답했는지, 표정이 이상하지 않았는지. 이 기다리는 시간이 제일 힘들다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "no_job": true,
+      "min_turn": 3,
+      "flag": "story_job_unlocked"
+    },
+    "tags": [
+      "work",
+      "orthodox",
+      "career",
+      "anxiety"
+    ],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "긍정적으로 생각한다. 잘 봤다. 분명히 된다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "luck": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결과가 나왔다. 좋든 나쁘든, 면접을 본 것 자체가 진전이다. 취업은 숫자 게임이다. 많이 칠수록 확률이 올라간다."
+      },
+      {
+        "text": "떨어졌을 때를 대비해 다른 곳에도 동시 지원한다.",
+        "effects": {
+          "intelligence": 3,
+          "stress": 8,
+          "social_skill": 1
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "resume_polished"
+        ],
+        "follow_up_event": "",
+        "result_text": "자소서 다섯 장을 더 넣었다. 지원하는 동안 어떤 회사가 나한테 맞는지도 더 명확해졌다. 선택지가 생기면 불안이 줄어든다."
+      },
+      {
+        "text": "기다리는 동안 스펙을 더 쌓는다.",
+        "effects": {
+          "intelligence": 4,
+          "stress": 5,
+          "mental": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결과가 나오기 전에 자격증 공부를 시작했다. 떨어져도 손해가 아닌 준비가 되었다. 움직이는 것이 기다림보다 낫다."
+      }
+    ]
+  },
+  {
+    "id": "stock_portfolio_crash",
+    "title": "폭락장",
+    "description": "오늘 장이 5% 빠졌다. 포트폴리오가 눈에 띄게 줄었다. 뉴스에는 '코스피 급락', '공포지수 최고치'가 뜬다. 주변에서 다들 팔고 있다는 말이 들린다. 이럴 때 어떻게 해야 하지.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "market_cycle": "bear"
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "risk",
+      "anxiety"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "추가 매수한다. 공포에 살고 탐욕에 팔아라.",
+        "effects": {
+          "investment_skill": 4,
+          "mental": -5,
+          "stress": 10
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [
+          "bought_the_dip"
+        ],
+        "follow_up_event": "",
+        "result_text": "폭락장에 넣었다. 손이 떨렸다. 맞을 수도, 틀릴 수도 있다. 하지만 이 결정을 내릴 수 있다는 것 자체가 경험이다."
+      },
+      {
+        "text": "일단 손절한다. 더 빠질 수 있다.",
+        "effects": {
+          "investment_skill": 1,
+          "mental": -8,
+          "stress": 5
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "팔았다. 손실이 확정됐다. 더 빠질 것 같아서였는데, 이후 어떻게 됐는지는 보지 않기로 했다."
+      },
+      {
+        "text": "아무것도 안 한다. 장기로 본다면 이건 노이즈다.",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 3,
+          "stress": -2
+        },
+        "relationship_effects": [],
+        "investment_effects": [],
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "계좌를 닫고 일상을 살았다. 3개월 후에 보면 다를 것이다. 이 판단이 맞는 것인지는 시간이 말해줄 것이다."
       }
     ]
   }

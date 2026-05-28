@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-05-28 (콘텐츠 대폭 확장 + 크리티컬 버그 수정)
+
+### 크리티컬 버그 수정
+- **스토리 이벤트 무한 반복 버그 수정**: `story_events.json`에서 `_seen` 플래그 누락으로 `trigger_event_by_id()`가 매 턴 같은 스토리를 반복 재생하던 문제 수정
+  - 수정 대상: story_first_workday, story_first_paycheck_feel, story_first_savings_milestone, story_six_months, story_one_year, story_gosiwon_neighbor
+- **배경별 취업 잠금 해제 버그**: story_arrival_elite/rich 이벤트가 `story_job_unlocked` 플래그를 설정하지 않아 명문대/금수저 배경 플레이어가 영원히 취업 불가하던 문제 수정
+- **이벤트 중복 ID 9개 제거**: story_events.json과 life_events.json에 동일 ID 이벤트가 중복 존재 → life_events.json의 중복 버전 삭제
+
+### 콘텐츠 확장
+- **life_events.json**: 183 → 197개 (+14개 중복 제거 반영 후 순수 추가 이벤트 포함)
+- **새 이벤트 카테고리**: 직장 중기(연차 평가, 헤드헌터, 동료 퇴사, 회식, 번아웃, 사내 암투), 한국 부동산(전세 충격, 청약 탈락), 투자 중기(배당 시즌, 폭락장, 강세장 유혹, 코인 FOMO), 사회 비교(친구 집 구매, 30대 회고), 재무(대출 투자 유혹, 가족 금전 부탁, 종합소득세, 자산 점검)
+- **이벤트 분포 개선**: 중기(min_turn 7-24) 이벤트 9 → 35개 (3.9배 증가)
+- **전체 이벤트 수**: 286 → 320개
+
+### 다음 작업
+Phase 2 진입 검토: 취준생 페이즈, 엔딩 강화, 이벤트 품질 패스
+
+---
+
 ## 2026-05-28 (칭호 시스템 + 장기 프로젝트 구조 정비)
 
 ### 칭호(Title) 시스템 완성
