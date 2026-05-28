@@ -1234,7 +1234,8 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 		parent.add_child(btn)
 
 func _ap_study():
-	if not GameState.spend_ap():
+	if GameState.action_points <= 0:
+		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
 		return
 	_open_modal("📚 자기계발")
 	modal_body.add_child(_wrap_label(
@@ -1261,6 +1262,10 @@ func _ap_study():
 		modal_body.add_child(btn)
 
 func _on_study_chosen(effects):
+	if not GameState.spend_ap():
+		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
+		_close_modal()
+		return
 	# before snapshot
 	var before = {
 		"intelligence": GameState.intelligence, "health": GameState.health,
