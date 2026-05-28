@@ -10728,5 +10728,230 @@
         "result_text": "한 달을 편의점 도시락으로 버텼다. 돈은 아꼈지만 몸이 버텨주길 빌었다."
       }
     ]
+  },
+  {
+    "id": "focus_investment_opportunity",
+    "title": "이번 달은 투자에 집중한 보람",
+    "description": "차트를 매일 보면서 한 가지 패턴을 발견했다.\n\n조용히 오르는 종목이 있었다. 아직 아무도 주목하지 않는다. 이게 기회일 수도 있다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "month_focus": "투자",
+      "has_portfolio": true
+    },
+    "tags": [
+      "investment",
+      "opportunity"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "소액으로 포지션을 잡는다",
+        "effects": {
+          "money": -300000,
+          "investment_skill": 4,
+          "stress": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조용히 들어갔다. 얼마나 맞는 판단인지는 시간이 알려줄 것이다."
+      },
+      {
+        "text": "더 공부한 다음에 들어간다",
+        "effects": {
+          "investment_skill": 6,
+          "intelligence": 2,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "서두르지 않기로 했다. 준비된 투자가 더 든든하다."
+      },
+      {
+        "text": "그냥 보유 중인 것에 집중한다",
+        "effects": {
+          "investment_skill": 3,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "새 종목보다 지금 것을 더 잘 알아가기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "focus_study_result",
+    "title": "공부한 게 쓰인다",
+    "description": "이번 달 스펙을 쌓는 데 집중했다.\n\n그 덕분인지 오늘 대화에서 처음으로 '아는 척'이 아니라 '진짜 아는' 느낌으로 말할 수 있었다.\n\n작은 변화인데 이상하게 자신감이 생겼다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "month_focus": "스펙 쌓기"
+    },
+    "tags": [
+      "jobs",
+      "growth"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "이 기세로 더 공부한다",
+        "effects": {
+          "intelligence": 4,
+          "stress": 4,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "성장하고 있다는 느낌이 도파민이 된다. 더 하고 싶어졌다."
+      },
+      {
+        "text": "적당히 쉬면서 소화한다",
+        "effects": {
+          "mental": 8,
+          "health": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "배운 것을 쉬면서 정리했다. 지식이 자리를 잡는 시간이 필요하다."
+      }
+    ]
+  },
+  {
+    "id": "focus_network_payoff",
+    "title": "인맥이 돌아온다",
+    "description": "인맥 관리에 집중한 달이었다.\n\n오늘 연락이 온 사람이 있었다. 지난달에 명함을 교환한 사람이었다. '혹시 아는 자리 있으면 연락드려도 될까요?'",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "month_focus": "인맥 관리"
+    },
+    "tags": [
+      "social",
+      "opportunity"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "적극적으로 연결해준다",
+        "effects": {
+          "social_skill": 5,
+          "reputation": 8,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "네트워크를 연결해줬다. 두 사람이 모두 고마워했다. 인맥은 줄수록 늘어난다."
+      },
+      {
+        "text": "일단 더 알아보고 대답한다",
+        "effects": {
+          "intelligence": 2,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "신중하게 대처했다. 도움이 될 수 있을 때 제대로 돕는 게 낫다."
+      },
+      {
+        "text": "직접적인 이득이 없어 흘려듣는다",
+        "effects": {
+          "stress": -3,
+          "social_skill": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "귀찮아서 대충 넘겼다. 인맥은 심어놓은 대로 거둔다는 말이 있다."
+      }
+    ]
+  },
+  {
+    "id": "focus_career_visibility",
+    "title": "커리어 관리의 효과",
+    "description": "커리어에 집중한 달이었다.\n\n팀장이 옆에서 지나가다 말했다. '요즘 보니까 많이 성장했네요.'\n\n짧은 말이었는데 이상하게 기분이 좋아졌다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "month_focus": "커리어 관리",
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "career"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "감사하다고 하고 더 열심히 한다",
+        "effects": {
+          "reputation": 6,
+          "stress": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "인정받으면 더 하게 된다. 지금 이 흐름이 중요하다."
+      },
+      {
+        "text": "이 기회에 연봉 협상 얘기를 꺼낸다",
+        "effects": {
+          "monthly_income": 150000,
+          "stress": 6,
+          "social_skill": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "연봉 조정을 요청했다. 팀장이 검토해보겠다고 했다. 15만원 올렸다."
+      }
+    ]
+  },
+  {
+    "id": "focus_save_compound",
+    "title": "절약의 복리",
+    "description": "이번 달 저축에 집중했다.\n\n아껴쓰면서 생각이 명확해졌다. 필요한 것과 원하는 것이 구분되기 시작했다.\n\n통장 잔액이 늘었다. 아주 조금이지만, 방향이 맞는 느낌이다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "month_focus": "저축 집중"
+    },
+    "tags": [
+      "finance"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "이 돈으로 소액 투자를 시작한다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "저축한 돈 중 일부를 투자에 넣었다. 잃을 수도 있지만 배울 수 있다."
+      },
+      {
+        "text": "계속 모으기만 한다",
+        "effects": {
+          "mental": 3,
+          "stress": -4,
+          "money": 200000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "쌓이는 숫자가 안도감을 준다. 당분간 이 방향이다."
+      }
+    ]
   }
 ]
