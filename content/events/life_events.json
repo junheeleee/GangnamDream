@@ -6071,7 +6071,7 @@
     "description": "카페에서 노트북으로 작업 중이었다. 콘센트가 부족해서 옆 사람에게 잠깐 빌려달라고 했다가 자연스럽게 대화가 시작됐다. 이름은 이수민. 눈이 독특하게 생겼다.",
     "category": "social",
     "rarity": "uncommon",
-    "weight": 0.9,
+    "weight": 2.5,
     "hidden": false,
     "conditions": {
       "no_flag": "met_sumin",
@@ -6128,7 +6128,7 @@
     "description": "그 카페에 또 갔다가 이수민을 다시 만났다. 이번엔 먼저 알아봤다. '또 오셨네요.' 헤어지기 전에 연락처를 물어볼 타이밍이 왔다.",
     "category": "social",
     "rarity": "uncommon",
-    "weight": 1.0,
+    "weight": 2.5,
     "hidden": false,
     "conditions": {
       "flag": "met_sumin",
@@ -6191,7 +6191,7 @@
     "description": "수민이에게 연락이 왔다. '다음 주 토요일에 시간 있어요?' 있다고 했다. 아무 계획도 없었는데. 어디로 가야 할까.",
     "category": "social",
     "rarity": "uncommon",
-    "weight": 1.0,
+    "weight": 2.0,
     "hidden": false,
     "conditions": {
       "flag": "has_sumin_number",
@@ -6322,7 +6322,7 @@
     "description": "오늘 입사한 팀에 박 과장이 있다. 나이는 40대 초반으로 보이는데, 첫 인상이 딱딱하다. '신입이에요? 요즘 애들은 스펙이 좋아서.' 인사치레인지 날 선 말인지 모르겠다.",
     "category": "jobs",
     "rarity": "uncommon",
-    "weight": 1.0,
+    "weight": 2.5,
     "hidden": false,
     "conditions": {
       "has_job": true,
@@ -6387,7 +6387,7 @@
     "description": "점심시간에 박 과장이 옆에 앉더니 갑자기 조언을 시작한다. '자격증은 몇 개야? 영어는? 요즘은 스펙이 없으면 어딜 가도 막혀.' 조언인지 압박인지 모르겠다.",
     "category": "jobs",
     "rarity": "common",
-    "weight": 1.0,
+    "weight": 2.0,
     "hidden": false,
     "conditions": {
       "flag": "knows_park"
@@ -6452,7 +6452,7 @@
     "description": "금요일 퇴근 시간에 박 과장이 다가온다. '이번 주 토요일에 잠깐 나올 수 있어? 중요한 건이라.' 물음표 모양이지만 사실 명령이다.",
     "category": "jobs",
     "rarity": "uncommon",
-    "weight": 0.9,
+    "weight": 1.8,
     "hidden": false,
     "conditions": {
       "flag": "knows_park",
@@ -6517,7 +6517,7 @@
     "description": "야근 중에 사무실에 둘만 남았다. 박 과장이 갑자기 '너, 지금 행복해?'라고 물었다. 뜬금없는 질문이다. 박 과장의 눈이 처음으로 피곤해 보였다.",
     "category": "jobs",
     "rarity": "rare",
-    "weight": 0.7,
+    "weight": 1.8,
     "hidden": false,
     "conditions": {
       "flag": "knows_park",
@@ -6574,7 +6574,7 @@
     "description": "수민이와 한강에 나왔다. 노을이 지는데 어쩐지 지금이 아니면 말 못 할 것 같다. '나 사실 수민씨 좋아해요.' 말하고 나니 심장이 귀에서 들린다.",
     "category": "social",
     "rarity": "rare",
-    "weight": 0.8,
+    "weight": 2.0,
     "hidden": false,
     "conditions": {
       "flag": "dated_sumin",
@@ -6639,7 +6639,7 @@
     "description": "박 과장이 퇴근 후 따로 불렀다. '팀장 자리에 자리 날 것 같아. 내가 추천해줄 수 있어.' 예상하지 못한 말이다. 그런데 조건이 있을 것 같다.",
     "category": "jobs",
     "rarity": "rare",
-    "weight": 0.7,
+    "weight": 1.8,
     "hidden": false,
     "conditions": {
       "flag": "knows_park",
@@ -11249,7 +11249,7 @@
     "description": "SNS에 동기들 근황이 올라오기 시작했다. 누군가는 대기업 사원증 인증을, 누군가는 강남 카페에서 노트북 펴고 일하는 사진을 올린다. {name}의 화면 속 삶은 어때 보일까.\n\n비교는 의미 없다는 걸 알면서도, 자꾸 눈이 간다.",
     "category": "social",
     "rarity": "common",
-    "weight": 1.5,
+    "weight": 2.0,
     "hidden": false,
     "conditions": {
       "min_turn": 36
@@ -11402,7 +11402,7 @@
     "description": "친구 중에 누군가가 집을 샀다고 한다. 전셋돈을 모았대. 또 누군가는 아직도 부모님 집에 있는데 그게 전략이라고 한다.\n\n{name}은 어디에 있을까. 또래 평균 자산이 얼마인지 검색해봤다가 창을 닫았다.",
     "category": "finance",
     "rarity": "common",
-    "weight": 1.3,
+    "weight": 1.8,
     "hidden": false,
     "conditions": {
       "min_turn": 60
