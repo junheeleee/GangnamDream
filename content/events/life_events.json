@@ -10666,5 +10666,67 @@
         "result_text": "결정을 미뤘다. 나중에 더 명확해질 거라고 스스로에게 말했다."
       }
     ]
+  },
+  {
+    "id": "financial_danger_warning",
+    "title": "통장이 바닥나고 있다",
+    "description": "통장을 열었다. 50만원도 안 남았다.\n\n다음 달 월세가 35만원. 밥값, 교통비까지 하면 이미 부족하다.\n\n이대로 가면 다음 달은 버티기 어렵다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "max_money": 500000,
+      "no_flag": "financial_warning_acknowledged"
+    },
+    "tags": [
+      "finance",
+      "pressure"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "알바를 찾는다 — 당장 현금이 필요하다",
+        "effects": {
+          "money": 500000,
+          "health": -5,
+          "stress": 10,
+          "mental": -3
+        },
+        "flags": [
+          "financial_warning_acknowledged"
+        ],
+        "follow_up_event": "",
+        "result_text": "편의점 야간 알바를 구했다. 50만원이 들어왔다. 몸이 힘들지만 숨통이 트였다."
+      },
+      {
+        "text": "부모님께 50만원만 빌린다",
+        "effects": {
+          "money": 500000,
+          "mental": -8,
+          "stress": 6
+        },
+        "flags": [
+          "financial_warning_acknowledged",
+          "borrowed_from_parents"
+        ],
+        "follow_up_event": "",
+        "result_text": "전화하기 싫었지만 어쩔 수 없었다. 부모님은 말없이 보내줬다. 그 침묵이 더 무거웠다."
+      },
+      {
+        "text": "지출을 극단적으로 줄인다",
+        "effects": {
+          "health": -8,
+          "mental": -5,
+          "stress": 8,
+          "intelligence": 3
+        },
+        "flags": [
+          "financial_warning_acknowledged"
+        ],
+        "follow_up_event": "",
+        "result_text": "한 달을 편의점 도시락으로 버텼다. 돈은 아꼈지만 몸이 버텨주길 빌었다."
+      }
+    ]
   }
 ]
