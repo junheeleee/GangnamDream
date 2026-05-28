@@ -416,6 +416,12 @@ func get_current_title() -> String:
 	if total >= 2_000_000_000: return "강남드림 달성자"
 	if total >= 500_000_000: return "신흥 자산가"
 	if total >= 100_000_000: return "중산층 진입"
+	# 비정석 특수 상태
+	if flags.get("creator_success_unlocked", false): return "크리에이터"
+	if flags.get("startup_exit", false): return "스타트업 엑시터"
+	if flags.get("startup_launched", false): return "창업가"
+	if flags.get("creator_monetized", false): return "유튜버"
+	if flags.get("creator_started", false): return "콘텐츠 크리에이터"
 	var diff = route_orthodox - route_unorthodox
 	if diff >= 18: return "엘리트 코스"
 	if diff >= 8: return "착실한 청년"
@@ -536,8 +542,6 @@ func check_game_over():
 		finish_run("gangnam_dream"); return
 	if flags.get("startup_exit", false):
 		finish_run("startup_exit"); return
-	if flags.get("creator_success_unlocked", false):
-		finish_run("creator_success"); return
 	if get_total_asset_value() >= 800_000_000 and investment_skill >= 75 and age < 50:
 		finish_run("early_retirement"); return
 	if age >= 65:
@@ -556,6 +560,8 @@ func check_game_over():
 			finish_run("orthodox_pinnacle")
 		elif health >= 70 and mental >= 70:
 			finish_run("healthy_retirement")
+		elif flags.get("creator_success_unlocked", false):
+			finish_run("creator_success")
 		elif route_orthodox >= 12 and route_unorthodox >= 12:
 			finish_run("balanced_life")
 		elif route_orthodox >= 20 and mental <= 45:

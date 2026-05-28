@@ -620,6 +620,15 @@ func _check_story_triggers():
 	# 1년
 	elif t == 12 and not f.get("story_one_year_seen", false):
 		EventManager.trigger_event_by_id("story_one_year")
+	# 1년 반
+	elif t == 18 and not f.get("story_one_half_year_seen", false):
+		EventManager.trigger_event_by_id("story_one_half_year")
+	# 2년
+	elif t == 24 and not f.get("story_two_year_seen", false):
+		EventManager.trigger_event_by_id("story_two_year")
+	# 3년
+	elif t == 36 and not f.get("story_three_year_seen", false):
+		EventManager.trigger_event_by_id("story_three_year")
 
 # ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
 
@@ -1143,6 +1152,37 @@ func _render_ap_actions():
 
 	_add_action_buttons(choice_box, unorthodox, disabled)
 
+	# ── 창업/크리에이터 전용 행동 ─────────────────────────
+	var startup_active: bool = GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false)
+	var creator_active: bool = GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_success_unlocked", false)
+	if startup_active or creator_active:
+		_add_action_section_header(choice_box, "🚀 내 사업  —  비정석 루트 진행 중", "#1a0a2a")
+		var biz_actions: Array = []
+		if startup_active:
+			var startup_stage = "아이디어" if not GameState.flags.get("startup_team", false) else ("런칭" if not GameState.flags.get("startup_pivoted", false) else "성장")
+			biz_actions.append({"label": "🚀 창업 업무  —  %s 단계 (명성+2, 지력+1, 스트레스+5)" % startup_stage, "color": "#3b1a5c", "fn": "_ap_startup_work", "route": "unorthodox", "focus": "창업"})
+		if creator_active:
+			var creator_stage = "시작" if not GameState.flags.get("creator_viral", false) else ("성장 중" if not GameState.flags.get("creator_monetized", false) else "수익화")
+			biz_actions.append({"label": "🎬 콘텐츠 제작  —  %s (명성+1, 정신+5)" % creator_stage, "color": "#1a2a0a", "fn": "_ap_create_content", "route": "unorthodox", "focus": "부업"})
+		_add_action_buttons(choice_box, biz_actions, disabled)
+
+	# ── 취업 준비 특화 행동 (무직일 때만) ──────────────────
+	if no_job and job_story_unlocked:
+		_add_action_section_header(choice_box, "📋 취업 준비  —  전문 스펙 쌓기", "#0a1a2a")
+		var job_seeker: Array = []
+		job_seeker.append({
+			"label": "🖊 자소서 작성  —  지력 +3, 스트레스 +4",
+			"color": "#0f4c5c", "fn": "_ap_write_resume",
+			"route": "orthodox", "focus": "취업 준비"
+		})
+		if GameState.social_skill >= 20:
+			job_seeker.append({
+				"label": "🎯 모의 면접  —  사회성 +2, 운 +1",
+				"color": "#0f3a5c", "fn": "_ap_interview_prep",
+				"route": "orthodox", "focus": "취업 준비"
+			})
+		_add_action_buttons(choice_box, job_seeker, disabled)
+
 	# ── 이사 버튼 — AP 불필요 ────────────────────────────
 	if GameState.can_upgrade_housing():
 		_add_action_section_header(choice_box, "🏠 주거 업그레이드", "#1a2a1a")
@@ -1381,6 +1421,62 @@ func _ap_free_time():
 	turn_action_log.append("✓ " + msg)
 	_show_toast("🌊 자유시간%s" % luck_msg, Color("#0891b2"))
 	GameState.stats_changed.emit()
+	_render_ap_actions()
+	_refresh_all()
+
+func _ap_startup_work():
+	if not GameState.spend_ap():
+		return
+	var rep_before = GameState.reputation
+	GameState.modify_hidden_stat("reputation", 2)
+	GameState.modify_stat("intelligence", 1)
+	GameState.modify_hidden_stat("stress", 5)
+	var stage = "아이디어" if not GameState.flags.get("startup_launched", false) else "운영"
+	turn_action_log.append("✓ 🚀 창업 업무[%s] → 명성+2, 지력+1, 스트레스+5" % stage)
+	_show_toast("🚀 창업 업무 — 명성 %d → %d" % [rep_before, GameState.reputation], Color("#7c3aed"))
+	_render_ap_actions()
+	_refresh_all()
+
+func _ap_create_content():
+	if not GameState.spend_ap():
+		return
+	var rep_before = GameState.reputation
+	var mental_before = GameState.mental
+	GameState.modify_hidden_stat("reputation", 1)
+	GameState.modify_stat("mental", 5)
+	GameState.modify_stat("luck", 1)
+	if GameState.flags.get("creator_monetized", false):
+		var content_income = float(randi_range(50_000, 200_000))
+		GameState.add_money(content_income)
+		turn_action_log.append("✓ 🎬 콘텐츠 제작 → 명성+1, 정신+5, 수익 +%s" % GameState.format_money(content_income))
+		_show_toast("🎬 콘텐츠 제작 완료  명성+1  수익 +%s" % GameState.format_money(content_income), Color("#3fb950"))
+	else:
+		turn_action_log.append("✓ 🎬 콘텐츠 제작 → 명성+1, 정신 %d→%d" % [mental_before, GameState.mental])
+		_show_toast("🎬 콘텐츠 제작 완료  정신 %d→%d" % [mental_before, GameState.mental], Color("#3fb950"))
+	_render_ap_actions()
+	_refresh_all()
+
+func _ap_write_resume():
+	if not GameState.spend_ap():
+		return
+	var int_before = GameState.intelligence
+	GameState.modify_stat("intelligence", 3)
+	GameState.modify_hidden_stat("stress", 4)
+	GameState.flags["resume_polished"] = true
+	turn_action_log.append("✓ 🖊 자소서 작성 → 지력 %d→%d, 스트레스 +4" % [int_before, GameState.intelligence])
+	_show_toast("🖊 자소서 완성 — 지력 %d → %d" % [int_before, GameState.intelligence], Color("#0f4c5c"))
+	_render_ap_actions()
+	_refresh_all()
+
+func _ap_interview_prep():
+	if not GameState.spend_ap():
+		return
+	var soc_before = GameState.social_skill
+	GameState.modify_stat("social_skill", 2)
+	GameState.modify_stat("luck", 1)
+	GameState.flags["interview_practiced"] = true
+	turn_action_log.append("✓ 🎯 모의 면접 준비 → 사회성 %d→%d" % [soc_before, GameState.social_skill])
+	_show_toast("🎯 면접 준비 완료 — 사회성 %d → %d" % [soc_before, GameState.social_skill], Color("#0f3a5c"))
 	_render_ap_actions()
 	_refresh_all()
 
