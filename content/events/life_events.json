@@ -11487,5 +11487,606 @@
         "result_text": "다 털어놨다. 친구는 묵묵히 들어줬다. 오래된 친구라서 가능한 대화였다."
       }
     ]
+  },
+  {
+    "id": "salary_negotiation_moment",
+    "title": "연봉 협상 테이블",
+    "description": "드디어 연봉 협상 날이다.\n인사팀 담당자가 숫자를 내밀었다. 예상보다 낮다.\n\n받아들일 것인가, 협상할 것인가.\n이 순간을 위해 일 년을 버텼다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 12
+    },
+    "tags": [
+      "jobs",
+      "orthodox",
+      "finance"
+    ],
+    "cooldown": 24,
+    "choices": [
+      {
+        "text": "당당하게 더 달라고 요청한다. 시장 데이터를 꺼낸다.",
+        "effects": {
+          "money": 500000,
+          "reputation": 3,
+          "stress": 4
+        },
+        "result_text": "준비한 자료를 펼쳤다. 담당자가 잠시 침묵했다. 결국 50만원이 올랐다.\n준비한 자가 이긴다는 걸 확인했다."
+      },
+      {
+        "text": "그냥 받아들인다. 내 가치는 다음에 증명하면 된다.",
+        "effects": {
+          "stress": -3,
+          "reputation": 1
+        },
+        "result_text": "조용히 사인했다. 아쉬웠지만 마찰은 없었다.\n다음 해를 더 단단하게 준비하기로 했다."
+      },
+      {
+        "text": "이 기회에 이직을 고민하겠다고 부드럽게 압박한다.",
+        "effects": {
+          "money": 300000,
+          "stress": 7,
+          "reputation": 2
+        },
+        "result_text": "담당자가 '재고해보겠다'고 했다. 사흘 후 30만원을 더 올려줬다.\n배짱도 무기가 된다."
+      }
+    ]
+  },
+  {
+    "id": "work_life_balance_moment",
+    "title": "퇴근 후의 시간",
+    "description": "밤 9시. 드디어 퇴근이다.\n집에 가도 아무것도 없다. 아니, 집이 고시원이다.\n\n이 시간을 어떻게 쓸 것인가.\n오늘 하루의 연장선인지, 새로운 시작인지.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_stress": 45
+    },
+    "tags": [
+      "daily",
+      "health",
+      "orthodox"
+    ],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "편의점 맥주 한 캔. 오늘은 그냥 쉰다.",
+        "effects": {
+          "mental": 8,
+          "stress": -7,
+          "money": -5000
+        },
+        "result_text": "차가운 캔을 땄다. 아무 생각 안 하기로 했다.\n내일을 위한 재충전이다."
+      },
+      {
+        "text": "자기계발 유튜브를 켠다. 아직 성장해야 한다.",
+        "effects": {
+          "intelligence": 3,
+          "stress": 2,
+          "health": -2
+        },
+        "result_text": "영상을 2시간 봤다. 뭔가 배운 것 같은 기분이다.\n다만 몸은 더 피곤해졌다."
+      },
+      {
+        "text": "오늘은 일찍 잔다. 건강이 먼저다.",
+        "effects": {
+          "health": 7,
+          "stress": -5,
+          "mental": 5
+        },
+        "result_text": "10시에 누웠다. 오랜만에 6시간 넘게 잤다.\n다음 날 아침이 달랐다."
+      }
+    ]
+  },
+  {
+    "id": "health_checkup_results",
+    "title": "건강검진 결과",
+    "description": "회사 건강검진 결과가 나왔다.\n\n'고혈압 주의', '혈당 경계선', '스트레스성 위염 소견.'\n\n{name}은 아직 20대다. 이 결과지가 너무 낯설다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_stress": 55,
+      "min_turn": 24
+    },
+    "tags": [
+      "health",
+      "stress",
+      "daily"
+    ],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "생활 습관을 바꾸기로 한다. 담배부터.",
+        "effects": {
+          "health": 6,
+          "stress": -8,
+          "intelligence": 2
+        },
+        "result_text": "일주일이 지나도 버텼다. 한 달이 지났다.\n몸이 조금씩 응답하기 시작했다."
+      },
+      {
+        "text": "병원에 간다. 검사를 더 받는다.",
+        "effects": {
+          "health": 4,
+          "money": -150000,
+          "stress": -5
+        },
+        "result_text": "의사가 말했다. '지금 관리하면 됩니다.'\n15만원을 썼지만 마음이 가벼워졌다."
+      },
+      {
+        "text": "일단 덮어둔다. 바빠서 신경 쓸 겨를이 없다.",
+        "effects": {
+          "stress": 6,
+          "health": -5
+        },
+        "result_text": "서류를 서랍에 넣었다. 바쁜 게 사실이다.\n다만 몸은 거짓말을 하지 않는다."
+      }
+    ]
+  },
+  {
+    "id": "mental_health_realization",
+    "title": "정신과 상담을 예약하다",
+    "description": "친구가 정신과 다닌다고 했다.\n처음엔 놀랐는데, 이야기를 들을수록 '나도 가봐야 하나' 싶어졌다.\n\n요즘 이유 없이 무기력하고, 밤에 잠이 안 온다.\n이게 그냥 피곤한 건지, 아닌 건지 모르겠다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_stress": 60,
+      "min_turn": 12
+    },
+    "tags": [
+      "health",
+      "stress",
+      "mental"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "예약하고 간다. 전문가의 도움이 필요하다.",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "money": -80000,
+          "health": 3
+        },
+        "result_text": "의사가 말했다. '충분히 힘드셨군요.'\n그 말 한마디에 눈물이 났다. 8만원이 전혀 아깝지 않았다."
+      },
+      {
+        "text": "아직은 혼자 해결할 수 있다. 운동을 시작한다.",
+        "effects": {
+          "health": 8,
+          "stress": -6,
+          "mental": 5
+        },
+        "result_text": "운동화를 샀다. 매일 30분씩 뛰기로 했다.\n몸이 힘들수록 머리가 맑아지는 게 신기했다."
+      },
+      {
+        "text": "주변에 털어놓는다. 친구에게 연락한다.",
+        "effects": {
+          "mental": 10,
+          "stress": -8,
+          "social_skill": 2
+        },
+        "result_text": "오래된 친구를 불렀다. 새벽까지 이야기했다.\n말하는 것만으로도 절반은 해결됐다."
+      }
+    ]
+  },
+  {
+    "id": "first_hundred_million",
+    "title": "처음으로 1억을 봤다",
+    "description": "통장을 열었다.\n\n투자 포트폴리오 포함 순자산이 1억을 넘었다.\n\n숫자가 믿어지지 않아 새로고침을 세 번 했다.\n고시원에서 시작한 {name}이 1억을 만들었다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "no_flag": "first_100m_felt",
+      "min_money": 100000000
+    },
+    "tags": [
+      "finance",
+      "milestone",
+      "story"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "조용히 혼자 축하한다. 아무도 몰라도 된다.",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "luck": 3
+        },
+        "flags": [
+          "first_100m_felt"
+        ],
+        "result_text": "편의점 아이스크림을 하나 샀다.\n그게 {name}의 방식이다. 조용하지만, 분명히."
+      },
+      {
+        "text": "부모님께 전화한다. 보고하고 싶다.",
+        "effects": {
+          "mental": 20,
+          "stress": -8,
+          "social_skill": 1
+        },
+        "flags": [
+          "first_100m_felt"
+        ],
+        "result_text": "전화기 너머 엄마가 울었다.\n'고생했다.' 그 세 글자가 100만원보다 크게 들렸다."
+      },
+      {
+        "text": "다음 목표를 세운다. 5억, 10억.",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 3,
+          "stress": 4
+        },
+        "flags": [
+          "first_100m_felt"
+        ],
+        "result_text": "노트에 숫자를 썼다.\n1억이 가능했다면, 그 다음도 가능하다.\n{name}의 눈이 달라졌다."
+      }
+    ]
+  },
+  {
+    "id": "mt_company_trip",
+    "title": "회사 MT",
+    "description": "팀장이 공지를 올렸다. '이번 주말 MT 갑니다 ^^'\n\n자발적 강제참여. 토요일 아침 7시 집결.\n불참하면 팀 분위기가 어떻게 될지 눈에 보인다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 3
+    },
+    "tags": [
+      "jobs",
+      "social",
+      "orthodox"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "간다. 팀 결속도 업무의 일환이다.",
+        "effects": {
+          "social_skill": 3,
+          "reputation": 2,
+          "health": -3,
+          "stress": 4,
+          "mental": -2
+        },
+        "result_text": "삼겹살을 구웠다. 술을 마셨다. 팀장과 이야기를 나눴다.\n다음 주 월요일, 팀장이 눈을 맞추며 고개를 끄덕였다. 그게 투자 수익이다."
+      },
+      {
+        "text": "안 간다. 핑계를 댄다.",
+        "effects": {
+          "mental": 5,
+          "health": 3,
+          "stress": -3,
+          "reputation": -2
+        },
+        "result_text": "집에서 쉬었다. 몸이 편했다.\n월요일에 약간의 어색함이 있었다. 그 정도는 감수할 만하다."
+      },
+      {
+        "text": "가서 적당히 있다가 일찍 빠진다.",
+        "effects": {
+          "social_skill": 1,
+          "reputation": 1,
+          "stress": 2
+        },
+        "result_text": "건배사 두 번, 삼겹살 두 점 먹고 빠졌다.\n적당한 존재감, 적당한 자유. 직장 생활의 기술이다."
+      }
+    ]
+  },
+  {
+    "id": "workplace_gossip",
+    "title": "사무실 소문",
+    "description": "점심을 먹다가 들었다.\n어떤 팀원이 이직을 준비 중이라는 소문.\n\n사무실 분위기가 미묘하게 달라진 것 같다.\n정치가 시작되는 냄새가 난다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 8
+    },
+    "tags": [
+      "jobs",
+      "social",
+      "orthodox"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "중립을 지킨다. 소문에 끼어들지 않는다.",
+        "effects": {
+          "stress": -3,
+          "reputation": 2,
+          "intelligence": 1
+        },
+        "result_text": "모든 사람의 이야기를 들었지만 판단을 내리지 않았다.\n'저 사람은 믿을 수 있다'는 신뢰가 쌓였다."
+      },
+      {
+        "text": "정보를 모은다. 내 포지셔닝을 챙긴다.",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "stress": 3
+        },
+        "result_text": "누가 왜 나가는지, 누가 대신 올라올지 파악했다.\n정보는 힘이다. 직장도 예외가 아니다."
+      },
+      {
+        "text": "나도 슬슬 다음을 생각해야 할 것 같다.",
+        "effects": {
+          "stress": 5,
+          "intelligence": 2,
+          "investment_skill": 1
+        },
+        "result_text": "이직 공고를 들여다봤다. 아직 갈 곳은 많다.\n가만히 있으면 당하는 게 직장이다."
+      }
+    ]
+  },
+  {
+    "id": "age_28_career_ceiling",
+    "title": "승진 라인의 벽",
+    "description": "올해 승진 명단이 발표됐다. 이름이 없었다.\n\n사실 예상은 했다. 위 직급이 꽉 차 있다는 걸 알고 있었으니까.\n입사 6년차. 팀에서 제일 오래 됐지만 팀장은 외부 영입이다.\n이 회사에서 계속 가는 게 맞는 건지 처음으로 진지하게 의심이 들었다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 72,
+      "min_job_tenure": 12
+    },
+    "tags": [
+      "jobs",
+      "career",
+      "pressure"
+    ],
+    "cooldown": 24,
+    "choices": [
+      {
+        "text": "이 회사에서 더 이상 성장이 없다. 이직을 준비한다.",
+        "effects": {
+          "stress": 8,
+          "intelligence": 4,
+          "social_skill": 3,
+          "reputation": 2
+        },
+        "flags": [
+          "career_ceiling_seen",
+          "considering_job_change"
+        ],
+        "follow_up_event": "",
+        "result_text": "이력서를 열었다. 6년치 경력이 생각보다 묵직했다. 이제 이걸 가지고 시장에 나갈 시간이다."
+      },
+      {
+        "text": "회사 내 다른 팀이나 직무로 전환을 시도한다.",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 4,
+          "stress": 5,
+          "reputation": 3
+        },
+        "flags": [
+          "career_ceiling_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "인사팀에 전직 신청을 넣었다. 회사를 떠나지 않고 길을 바꾸는 것도 방법이었다."
+      },
+      {
+        "text": "지금은 참는다. 대신 퇴근 후 부업을 시작한다.",
+        "effects": {
+          "health": -3,
+          "intelligence": 3,
+          "monthly_income": 200000,
+          "stress": 6
+        },
+        "flags": [
+          "career_ceiling_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "낮엔 직장, 밤엔 내 일. 몸은 두 배로 힘들지만 적어도 선택지는 두 개가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "first_proper_apartment",
+    "title": "드디어 내 방",
+    "description": "이사했다.\n\n고시원도 아니고, 반지하도 아니고, 창문이 있는 원룸이다.\n보증금 1,000만원에 월세 55만원. 처음으로 나만의 주소가 생겼다.\n\n박스를 풀면서 갑자기 무서워졌다. 이걸 매달 감당할 수 있을까.",
+    "category": "housing",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 60,
+      "min_money": 15000000,
+      "no_flag": "moved_to_own_place"
+    },
+    "tags": [
+      "housing",
+      "milestone",
+      "daily"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "생활비 예산을 다시 짠다. 감당할 수 있다.",
+        "effects": {
+          "mental": 15,
+          "stress": -5,
+          "intelligence": 3,
+          "money": -1000000
+        },
+        "flags": [
+          "moved_to_own_place"
+        ],
+        "follow_up_event": "",
+        "result_text": "스프레드시트에 월 고정지출을 정리했다. 빠듯하지만 된다. 자기 방에서 자는 첫날 밤이 이렇게 다를 줄 몰랐다."
+      },
+      {
+        "text": "월세가 부담스러워 룸메이트를 구한다.",
+        "effects": {
+          "mental": 5,
+          "stress": 2,
+          "social_skill": 3,
+          "money": -500000
+        },
+        "flags": [
+          "moved_to_own_place"
+        ],
+        "follow_up_event": "",
+        "result_text": "당근 동네 게시판에 룸메이트 구인 글을 올렸다. 낯선 사람과 사는 건 새로운 스트레스지만 월세 부담이 절반이 됐다."
+      },
+      {
+        "text": "이 방에서 5년 안에 강남으로 가겠다고 다짐한다.",
+        "effects": {
+          "mental": 18,
+          "stress": -3,
+          "luck": 3,
+          "money": -1000000
+        },
+        "flags": [
+          "moved_to_own_place",
+          "gangnam_dream_renewed"
+        ],
+        "follow_up_event": "",
+        "result_text": "창문 너머 서울 야경을 봤다. 아직 저기까지 갈 길이 멀다. 하지만 이 방에서 시작한다. 반드시."
+      }
+    ]
+  },
+  {
+    "id": "marriage_pressure_28",
+    "title": "결혼 얘기가 나오기 시작했다",
+    "description": "명절도 아닌데 부모님이 전화로 꺼냈다.\n\n'친구들은 다들 결혼한다더라. 너는 만나는 사람 없어?'\n\n자산도 없고, 집도 없고, 아직 나도 불안정한데.\n결혼이 지금 현실적인 이야기인지 모르겠다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 84,
+      "no_flag": "marriage_pressure_faced"
+    },
+    "tags": [
+      "family",
+      "romance",
+      "pressure"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "솔직하게 지금은 경제적으로 준비가 안 됐다고 말한다.",
+        "effects": {
+          "mental": 5,
+          "stress": -3,
+          "social_skill": 2
+        },
+        "flags": [
+          "marriage_pressure_faced"
+        ],
+        "follow_up_event": "",
+        "result_text": "부모님이 잠시 조용해졌다. 솔직한 말이 가장 빠른 대화였다. 이해받았는지는 모르겠지만 더 이상 눈치 보진 않기로 했다."
+      },
+      {
+        "text": "일단 소개팅 한 번 나가본다.",
+        "effects": {
+          "social_skill": 3,
+          "mental": 3,
+          "money": -50000,
+          "stress": 2
+        },
+        "flags": [
+          "marriage_pressure_faced"
+        ],
+        "follow_up_event": "",
+        "result_text": "나갔다. 상대방도 바쁜 직장인이었다. 결혼 얘기는 안 나왔고 그냥 밥 한 끼 먹은 거다. 나쁘지 않았다."
+      },
+      {
+        "text": "강남드림을 이루면 자연스럽게 해결될 거라 믿는다.",
+        "effects": {
+          "mental": 8,
+          "stress": 4,
+          "investment_skill": 2,
+          "luck": 1
+        },
+        "flags": [
+          "marriage_pressure_faced"
+        ],
+        "follow_up_event": "",
+        "result_text": "돈이 먼저다. 결혼은 그 다음이다. 맞는 순서인지 아닌지는 나중에 알겠지만, 지금 집중할 건 정해져 있다."
+      }
+    ]
+  },
+  {
+    "id": "burnout_age_29",
+    "title": "번아웃",
+    "description": "월요일 아침, 출근 준비를 하다가 멈췄다.\n\n지난 3년을 생각해봤다. 일만 했다. 저축도 했다. 투자도 공부했다.\n\n근데 오늘은 왜 이렇게 아무것도 하기 싫은 걸까.\n몸이 안 따라가는 건지, 마음이 안 따라가는 건지.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 72,
+      "min_stress": 65,
+      "has_job": true
+    },
+    "tags": [
+      "health",
+      "mental",
+      "jobs",
+      "pressure"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "연차를 쓰고 아무것도 안 한다.",
+        "effects": {
+          "health": 8,
+          "mental": 12,
+          "stress": -15,
+          "reputation": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "3일을 쉬었다. 처음 이틀은 죄책감이 들었다. 셋째 날에야 비로소 뭔가 돌아오는 느낌이 들었다. 쉬는 것도 선택이다."
+      },
+      {
+        "text": "그냥 버틴다. 무너질 여유가 없다.",
+        "effects": {
+          "health": -8,
+          "stress": 10,
+          "mental": -8,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이를 악물고 나갔다. 몸은 버텼다. 하지만 퇴근 후 아무것도 할 에너지가 없었다. 버티는 것과 사는 것은 다르다."
+      },
+      {
+        "text": "전문 상담을 받아본다.",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "health": 3,
+          "money": -150000
+        },
+        "flags": [
+          "received_counseling"
+        ],
+        "follow_up_event": "",
+        "result_text": "심리상담 센터를 예약했다. 15만원. 처음엔 어색했지만 1시간이 끝나고 나서 뭔가 달라졌다. 내가 왜 이렇게 됐는지 말할 수 있게 됐다는 것만으로."
+      }
+    ]
   }
 ]

@@ -1641,5 +1641,198 @@
         "result_text": "20만원을 더 넣었다. 평단이 낮아졌지만 리스크는 커졌다. 이미 빠져나올 타이밍이 지났다는 걸 느꼈다."
       }
     ]
+  },
+  {
+    "id": "invest_big_win_first",
+    "title": "3배 수익이 났다",
+    "description": "2년 전에 샀던 종목을 열었다.\n\n매수 평균가 22,000원. 현재가 68,400원.\n잔액이 눈에 들어왔다. 투자금 900만원이 2,700만원이 됐다.\n\n손이 떨렸다. 파는 게 맞는 건지, 더 기다리는 건지.\n이 돈이 진짜 내 돈이 맞는지.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 48,
+      "min_investment_skill": 20
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "opportunity",
+      "milestone"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "전부 매도해서 수익을 확정한다.",
+        "effects": {
+          "money": 18000000,
+          "investment_skill": 5,
+          "mental": 20,
+          "stress": -5
+        },
+        "flags": [
+          "first_big_win"
+        ],
+        "follow_up_event": "",
+        "result_text": "매도 버튼을 눌렀다. 1,800만원이 계좌에 들어왔다. 한동안 화면을 멍하니 봤다. 2년의 기다림이 이렇게 느껴지는구나."
+      },
+      {
+        "text": "절반만 팔고 나머지는 계속 보유한다.",
+        "effects": {
+          "money": 9000000,
+          "investment_skill": 6,
+          "stress": 4,
+          "mental": 10
+        },
+        "flags": [
+          "first_big_win"
+        ],
+        "follow_up_event": "",
+        "result_text": "절반은 팔고 절반은 남겼다. 수익은 확정했고 기회도 남겼다. 욕심과 이성 사이에서 중간 지점을 찾은 것이다."
+      },
+      {
+        "text": "더 기다린다. 5배까지 가지 않겠어?",
+        "effects": {
+          "stress": 8,
+          "addiction_tendency": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "팔지 않기로 했다. 그 판단이 옳을 수도, 틀릴 수도 있다. 이제 매일 주가를 확인하게 됐다. 가지고 있는 동안에는 내 돈이 아니다."
+      }
+    ]
+  },
+  {
+    "id": "invest_daytrade_catastrophe",
+    "title": "단타의 대가",
+    "description": "오전 9시 30분. 시초가가 튀었다.\n\n10초 만에 전재산의 30%를 몰아넣었다.\n10시 40분. 종목이 -15%를 찍었다.\n점심을 못 먹었다. 화면을 닫을 수도 없었다.\n\n회의 중에 핸드폰으로 차트를 보다 팀장과 눈이 마주쳤다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 24,
+      "min_investment_skill": 10
+    },
+    "tags": [
+      "gambling",
+      "investment",
+      "anxiety",
+      "risk"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "손절한다. 더 이상 보고 싶지 않다.",
+        "effects": {
+          "money": -4000000,
+          "investment_skill": 5,
+          "stress": 10,
+          "mental": -5,
+          "addiction_tendency": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "손절 버튼을 눌렀다. 400만원이 사라졌다. 단타는 결코 쉬운 돈이 아니었다. 이 금액이 수업료라고 납득하는 데 일주일이 걸렸다."
+      },
+      {
+        "text": "버틴다. 저가에 더 산다.",
+        "effects": {
+          "money": -3000000,
+          "stress": 15,
+          "mental": -8,
+          "addiction_tendency": 8,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "추가 매수 버튼을 눌렀다. 이제 포지션이 두 배가 됐다. 오르면 다 만회한다. 내리면... 그 다음은 생각하지 않기로 했다."
+      },
+      {
+        "text": "이날 이후 단타는 절대 안 하기로 맹세한다.",
+        "effects": {
+          "money": -4000000,
+          "investment_skill": 7,
+          "mental": 5,
+          "stress": 8
+        },
+        "flags": [
+          "no_more_daytrading"
+        ],
+        "follow_up_event": "",
+        "result_text": "손절 후 투자 일지에 '단타 금지'를 세 번 썼다. 400만원짜리 교훈이다. 비쌌지만 이제는 절대 잊지 않는다."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_passive_income_milestone",
+    "title": "월세보다 많은 배당금",
+    "description": "이번 달 증권사 앱 알림이 울렸다.\n\n배당금 입금 내역을 합산해봤다. 이번 달만 1,120,000원.\n\n월세가 110만원이다.\n\n처음으로 투자 수익이 고정지출을 넘었다.\n아무것도 안 했는데 돈이 들어왔다는 게 실감이 안 난다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 96,
+      "min_route_orthodox": 10,
+      "no_flag": "passive_income_milestone"
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "orthodox",
+      "milestone"
+    ],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "배당금을 전부 재투자한다. 복리의 마법이 시작됐다.",
+        "effects": {
+          "investment_skill": 6,
+          "mental": 20,
+          "stress": -8,
+          "intelligence": 3
+        },
+        "flags": [
+          "passive_income_milestone",
+          "dividend_reinvest_habit"
+        ],
+        "follow_up_event": "",
+        "result_text": "배당금을 바로 재투자했다. 이제 돈이 돈을 버는 구조가 돌아가고 있다. 5년 전의 선택들이 지금 이 숫자를 만들었다. 복리는 기다린 사람에게만 온다."
+      },
+      {
+        "text": "이 순간을 축하한다. 오마카세 한 번 가자.",
+        "effects": {
+          "mental": 25,
+          "stress": -12,
+          "money": -200000
+        },
+        "flags": [
+          "passive_income_milestone"
+        ],
+        "follow_up_event": "",
+        "result_text": "오마카세를 예약했다. 20만원. 월세보다 많은 배당금이 들어온 날, 처음으로 투자 수익으로 제대로 된 밥을 먹었다. 이 맛이 목표를 유지하게 해준다."
+      },
+      {
+        "text": "여기서 멈추지 않는다. 목표는 강남 자가다.",
+        "effects": {
+          "mental": 18,
+          "stress": 3,
+          "intelligence": 4,
+          "investment_skill": 4,
+          "luck": 2
+        },
+        "flags": [
+          "passive_income_milestone",
+          "gangnam_dream_renewed"
+        ],
+        "follow_up_event": "",
+        "result_text": "메모장을 열었다. 다음 목표를 썼다. 배당금 월 500만원. 강남 아파트 자가. 먼 길이지만 방향이 맞다는 걸 오늘 처음 확신했다."
+      }
+    ]
   }
 ]
