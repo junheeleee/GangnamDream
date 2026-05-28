@@ -2167,7 +2167,7 @@ func _show_month_summary(snap: Dictionary):
 		modal_body.add_child(_wrap_label(advice, 12, "#8892a4"))
 
 	# ── 강남드림 달성률 진행 바 ──────────────────────
-	var goal = 2_000_000_000.0
+	var goal = 3_000_000_000.0
 	var pct = clamp(assets_now / goal, 0.0, 1.0)
 	var filled_blocks = int(pct * 20)
 	var bar_str = "█".repeat(filled_blocks) + "░".repeat(20 - filled_blocks)
@@ -2194,11 +2194,12 @@ func _show_month_summary(snap: Dictionary):
 func _check_milestones():
 	var total = GameState.get_total_asset_value()
 	var milestones = [
-		{"id": "10m",  "amount": 10_000_000.0,    "msg": "💰 자산 1천만원 돌파!",  "color": "#fbbf24"},
-		{"id": "50m",  "amount": 50_000_000.0,    "msg": "💰 자산 5천만원 돌파!",  "color": "#fbbf24"},
+		{"id": "10m",  "amount": 10_000_000.0,    "msg": "💰 자산 1천만원 돌파!",            "color": "#fbbf24"},
+		{"id": "50m",  "amount": 50_000_000.0,    "msg": "💰 자산 5천만원 돌파!",            "color": "#fbbf24"},
 		{"id": "100m", "amount": 100_000_000.0,   "msg": "🏆 자산 1억 돌파! 진짜 시작이다.", "color": "#f0b429"},
 		{"id": "500m", "amount": 500_000_000.0,   "msg": "🔥 자산 5억! 강남이 보인다.",      "color": "#f0b429"},
-		{"id": "1b",   "amount": 1_000_000_000.0, "msg": "⚡ 자산 10억! 부자의 문턱.",       "color": "#00c896"},
+		{"id": "1b",   "amount": 1_000_000_000.0, "msg": "⚡ 자산 10억! 절반 왔다.",         "color": "#00c896"},
+		{"id": "2b",   "amount": 2_000_000_000.0, "msg": "💎 자산 20억! 강남드림이 보인다.", "color": "#00c896"},
 	]
 	for m in milestones:
 		if total >= m["amount"] and not GameState.milestones_reached.has(m["id"]):

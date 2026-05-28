@@ -411,9 +411,9 @@ func restore_ap():
 func get_current_title() -> String:
 	if stress >= 88: return "벼랑 끝의 청년"
 	if mental <= 12: return "번아웃 직전"
-	if money < -30_000_000: return "파산 위기자"
+	if money < -100_000_000: return "파산 위기자"
 	var total = get_total_asset_value()
-	if total >= 2_000_000_000: return "강남드림 달성자"
+	if total >= 3_000_000_000: return "강남드림 달성자"
 	if total >= 500_000_000: return "신흥 자산가"
 	if total >= 100_000_000: return "중산층 진입"
 	# 비정석 특수 상태
@@ -540,13 +540,13 @@ func check_game_over():
 		finish_run("burnout"); return
 	if mental <= 0:
 		finish_run("mental_break"); return
-	if money < -50_000_000:
+	if money < -200_000_000:
 		finish_run("debt_spiral"); return
-	if money < -30_000_000:
+	if money < -100_000_000:
 		finish_run("bankruptcy"); return
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
-	if get_total_asset_value() >= 2_000_000_000:
+	if get_total_asset_value() >= 3_000_000_000:
 		finish_run("gangnam_dream"); return
 	if flags.get("startup_exit", false):
 		finish_run("startup_exit"); return
@@ -554,7 +554,7 @@ func check_game_over():
 		finish_run("creator_success"); return
 	if get_total_asset_value() >= 800_000_000 and investment_skill >= 75 and age < 50:
 		finish_run("early_retirement"); return
-	if age >= 65:
+	if age >= 55:
 		var total = get_total_asset_value()
 		if reputation >= 80 and total >= 300_000_000:
 			finish_run("reputation_legend")

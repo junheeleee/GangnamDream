@@ -125,8 +125,8 @@ func _update_asset(asset, news_items):
 	# 로그라이크: 크래시 확률 상향 (더 예측 불가능한 시장)
 	if randf() < float(GameState.market_context.get("crash_risk", 0.05)) * volatility * 1.2:
 		crash = -randf_range(0.18, 0.45)
-	# 장기적 양의 드리프트 +0.3%/월 (연 3.6% 기대수익)
-	var drift = 0.003
+	# 장기적 양의 드리프트 +0.35%/월 (연 4.2% 기대수익, +15% 상향)
+	var drift = 0.0035
 	var total_change = clamp(cycle_bias + greed_bias + random_move + news_bias + bubble_bonus + crash + drift, -0.65, 0.95)
 	var new_price = max(10.0, old_price * (1.0 + total_change))
 	GameState.market_prices[id] = new_price
