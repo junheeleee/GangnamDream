@@ -44,6 +44,10 @@ var action_points = 3
 var max_action_points = 3
 var tutorial_step = 3
 
+var route_orthodox: int = 0
+var route_unorthodox: int = 0
+var month_focus: String = ""
+
 var stress = 25
 var reputation = 10
 var gambling_tendency = 0
@@ -119,6 +123,9 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	market_prices = {}
 	price_history = {}
 	unlocked_stat_thresholds = {}
+	route_orthodox = 0
+	route_unorthodox = 0
+	month_focus = ""
 	market_context = {
 		"fear_greed": 50,
 		"cycle": "neutral",
@@ -216,12 +223,24 @@ func apply_monthly_pressure():
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 
 	# ── 서울살이 기본 압박 ──────────────────────────────────────────
-	# 건강: 매달 자동 -2 (바쁜 일상, 수면 부족, 불규칙한 식사)
-	# 정신: 매달 자동 -3 (고독, 미래 불안, 도시 피로)
-	# 스트레스: 매달 자동 +3 (서울은 기본이 힘들다)
 	modify_stat("health", -2)
 	modify_stat("mental", -3)
 	modify_hidden_stat("stress", 3)
+
+	# ── 주거 패시브 효과 ──────────────────────────────────────────
+	match housing:
+		"gosiwon":
+			modify_hidden_stat("stress", 2)
+			modify_stat("mental", -1)
+			if randf() < 0.25:
+				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "stress")
+		"apartment":
+			modify_stat("social_skill", 0)  # 중립 — 아파트는 기회의 공간
+		"gangnam":
+			modify_hidden_stat("stress", -1)
+			if randf() < 0.15:
+				modify_hidden_stat("reputation", 1)
+				add_log("🌆 강남 주민이라는 것만으로 대화가 달라진다.", "relationship")
 
 	# 무직이면 정신/스트레스 추가 압박 (완화: -3/-5 → -2/-3)
 	if monthly_income == 0:
@@ -374,7 +393,29 @@ func spend_ap(amount: int = 1) -> bool:
 
 func restore_ap():
 	action_points = max_action_points
+	month_focus = ""
 	stats_changed.emit()
+
+func add_route_point(route_type: String, focus_label: String = ""):
+	if route_type == "orthodox":
+		route_orthodox += 1
+	elif route_type == "unorthodox":
+		route_unorthodox += 1
+	if month_focus.is_empty() and not focus_label.is_empty():
+		month_focus = focus_label
+
+func get_route_identity() -> String:
+	var diff = route_orthodox - route_unorthodox
+	var total = route_orthodox + route_unorthodox
+	if total == 0: return "📍 방향 없음"
+	if diff >= 15: return "🏆 정석 엘리트"
+	if diff >= 7:  return "📘 정석 지향"
+	if diff <= -15: return "🔥 완전 아웃사이더"
+	if diff <= -7:  return "🌊 비정석 지향"
+	return "⚖️ 균형형"
+
+func get_route_label() -> String:
+	return "%s  (정석 %d / 비정석 %d)" % [get_route_identity(), route_orthodox, route_unorthodox]
 
 func add_item(item_id, quantity):
 	var item = DataRegistry.get_item(item_id)
@@ -516,6 +557,9 @@ func serialize():
 		"action_points": action_points,
 		"max_action_points": max_action_points,
 		"tutorial_step": tutorial_step,
+		"route_orthodox": route_orthodox,
+		"route_unorthodox": route_unorthodox,
+		"month_focus": month_focus,
 		"gambling_tendency": gambling_tendency,
 		"addiction_tendency": addiction_tendency,
 		"current_job": current_job,
@@ -542,6 +586,7 @@ func load_from_dict(data):
 		"gambling_tendency", "addiction_tendency",
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
+		"route_orthodox", "route_unorthodox",
 	]
 	var allowed = serialize().keys()
 	for key in data:

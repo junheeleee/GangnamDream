@@ -143,6 +143,16 @@ func _check_conditions(conditions):
 				if not GameState.flags.get(str(req), false): return false
 			"no_flag":
 				if GameState.flags.get(str(req), false): return false
+			"min_route_orthodox":
+				if GameState.route_orthodox < int(req): return false
+			"min_route_unorthodox":
+				if GameState.route_unorthodox < int(req): return false
+			"max_route_orthodox":
+				if GameState.route_orthodox > int(req): return false
+			"max_route_unorthodox":
+				if GameState.route_unorthodox > int(req): return false
+			"month_focus":
+				if GameState.month_focus != str(req): return false
 	return true
 
 func _weighted_pick(events):
