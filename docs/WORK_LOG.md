@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-05-28 (스타트업·크리에이터 루트 강화 + 한국 일상 유머 이벤트)
+
+### 스타트업 루트 중간 이벤트 추가
+- `startup_first_user_traction` — 첫 유저 피드백으로 팀 동력 회복 (startup_launched 후, growing 이전)
+- `startup_team_conflict` — 공동창업자와 B2B vs B2C 방향 충돌 (startup_team 보유 시)
+
+### 크리에이터 루트 중간 이벤트 추가
+- `creator_algorithm_penalty` — 알고리즘 페널티 대응 (started 이후 viral 이전)
+- `creator_hater_crisis` — 악플 폭격 위기 관리 (viral 이후)
+- `creator_collab_offer` — 100만 유튜버 콜라보 제안 (monetized 이후)
+
+### creator_success 엔딩 버그 수정
+- 기존: age 65 블록 내부에서만 체크 → 다른 엔딩 조건에 가려 사실상 불가
+- 수정: 총자산 3억+ 달성 시 startup_exit처럼 즉시 발동
+- age 65 블록의 중복 check 제거
+
+### 한국 일상 유머 이벤트 6개 추가 (Phase 2-D)
+- `kakao_group_chat_war` — 카카오 단체방 연봉 자랑 폭발
+- `chimaek_friday` — 금요일 한강 치맥 유혹
+- `subway_line_2_sleeping` — 2호선에서 통잠 후 종착역
+- `convenience_store_1plus1` — 편의점 1+1의 철학적 고민
+- `norebang_midnight` — 새벽 노래방의 유혹
+- `jjimjilbang_recovery` — 스트레스 50+ 일 때 찜질방 피신
+
+### 시스템 검증
+- 360개 이벤트 모두 follow_up 참조 유효, result_text 비어있지 않음 확인
+- 모든 required flag 어딘가에서 set됨 확인 (dead-end 없음)
+- 정석 루트 이벤트 38개, 비정석 루트 61개 (각 30개+ 목표 달성)
+
+---
+
 ## 2026-05-28 (뉴스 템플릿 전면 재작성 + 이벤트 품질 패스 계속)
 
 ### 뉴스 템플릿 전면 재작성 (`content/news_templates.json`)
