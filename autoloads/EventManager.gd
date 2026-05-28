@@ -190,4 +190,31 @@ func _effective_weight(event):
 		weight *= 1.6
 	if GameState.market_context.get("fear_greed", 50) > 75 and event.get("category", "") == "finance":
 		weight *= 1.35
+	# 루트 성향 가중치 차등: 쌓인 루트 방향의 이벤트를 최대 1.5배 부스트
+	var tags: Array = event.get("tags", [])
+	var orth = GameState.route_orthodox
+	var unorth = GameState.route_unorthodox
+	var diff = orth - unorth
+	if diff >= 6 and (tags.has("orthodox") or tags.has("work") or tags.has("spec")):
+		weight *= 1.0 + min(float(diff) / 30.0, 0.5)
+	elif diff <= -6 and (tags.has("investment") or tags.has("unorthodox") or tags.has("risk")):
+		weight *= 1.0 + min(float(-diff) / 30.0, 0.5)
+	# 이번 달 집중 태그와 일치하면 보너스
+	var focus = GameState.month_focus
+	if not focus.is_empty():
+		var focus_tag_map = {
+			"투자": ["investment", "finance"],
+			"부업": ["work", "side_job"],
+			"연애": ["romance", "social"],
+			"자유시간": ["daily", "rest"],
+			"스펙 쌓기": ["spec", "study"],
+			"커리어 관리": ["work", "jobs"],
+			"인맥 관리": ["social", "relationship"],
+			"저축 집중": ["finance"],
+		}
+		var boost_tags: Array = focus_tag_map.get(focus, [])
+		for bt in boost_tags:
+			if tags.has(bt):
+				weight *= 1.25
+				break
 	return max(0.01, weight)

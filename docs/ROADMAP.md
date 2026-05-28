@@ -44,7 +44,9 @@
 - [x] `check_and_unlock_titles()` — 매달 결산 후 조건 체크 & 토스트
 - [x] 🏆 도감 버튼 + `_open_title_collection()` 모달 (카테고리/희귀도별)
 - [x] 루트 조건 이벤트 10개 (min_route_orthodox, min_route_unorthodox, month_focus)
-- [ ] 루트별 이벤트 풀 가중치 차등화 (현재 조건만 있고 가중치 부스트 없음)
+- [x] 루트별 이벤트 풀 가중치 차등화 (2026-05-28)
+  - route_orthodox/unorthodox 차이 6+ 시 해당 방향 이벤트 최대 ×1.5 부스트
+  - month_focus 태그 일치 이벤트 ×1.25 보너스
 
 ### 1-C. 하우징 시스템 ← **다음 작업**
 - [x] 거주지 단계 정의 (gosiwon/oneroom/apartment/gangnam) — GameState.HOUSING_DATA
