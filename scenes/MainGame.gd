@@ -2305,11 +2305,12 @@ func _random_topic(news):
 func _next_milestone_hint(total: float) -> String:
 	var milestones: Array = [
 		[5_000_000.0,     "첫 500만원"],
+		[8_000_000.0,     "🏠 원룸 이사 구간 — 현금 700만 있으면 이사 가능"],
 		[10_000_000.0,    "자산 1천만원"],
-		[30_000_000.0,    "원룸 이사 (보증금)"],
+		[35_000_000.0,    "🏢 아파트 이사 구간 — 현금 3500만 있으면 이사 가능"],
 		[50_000_000.0,    "자산 5천만원"],
 		[100_000_000.0,   "자산 1억 돌파"],
-		[350_000_000.0,   "아파트 이사 (보증금)"],
+		[120_000_000.0,   "🏙 강남 이사 구간 — 현금 1.2억 있으면 이사 가능"],
 		[500_000_000.0,   "자산 5억"],
 		[1_000_000_000.0, "자산 10억"],
 		[2_000_000_000.0, "🏙 강남드림 달성!"],
@@ -2391,6 +2392,11 @@ func _get_month_advice() -> String:
 		return "직업이 없으면 매달 수입이 0원입니다. 생활비만큼 계속 줄어들어요. [구직활동]을 최우선으로 하세요."
 	if GameState.money < 0:
 		return "잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 3천만원을 넘으면 파산 엔딩입니다." % GameState.format_money(GameState.money)
+	if GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
+		var next_id = str(GameState.get_housing_info().get("next", ""))
+		var next_info = GameState.HOUSING_DATA.get(next_id, {})
+		return "🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 스트레스·정신력 패시브가 개선돼요!" % [
+			next_info.get("name", "원룸"), GameState.format_money(GameState.money)]
 	if GameState.investment_skill < 20 and GameState.get_total_asset_value() > 2_000_000.0 and GameState.turn > 4:
 		return "투자감각이 아직 낮습니다 (%d). [재테크 공부]로 올리면 투자 수익률이 올라갑니다." % GameState.investment_skill
 	if not GameState.current_job.is_empty():
