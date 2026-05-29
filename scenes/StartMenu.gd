@@ -45,7 +45,7 @@ var _splash_active: bool = true
 func _ready():
 	_build_ui()
 	_build_splash()
-	BGMPlayer.start()
+	BGMPlayer.start_menu()
 	SceneTransition.fade_in()
 
 func _build_splash():

@@ -4,12 +4,13 @@ extends Node
 
 # ── 트랙 정의 ─────────────────────────────────────────────────
 const TRACKS = {
-	"early":       "res://assets/audio/bgm_main_early.mp3",
-	"hustle":      "res://assets/audio/bgm_main_hustle.mp3",
-	"late_tense":  "res://assets/audio/bgm_late_tense.mp3",
-	"crisis":      "res://assets/audio/bgm_crisis.mp3",
-	"ending_good": "res://assets/audio/bgm_ending_good.mp3",
-	"ending_bad":  "res://assets/audio/bgm_ending_bad.mp3",
+	"menu":        "res://assets/audio/bgm_menu.ogg",
+	"early":       "res://assets/audio/bgm_gosiwon.ogg",
+	"hustle":      "res://assets/audio/bgm_main.ogg",
+	"late_tense":  "res://assets/audio/bgm_apartment.ogg",
+	"crisis":      "res://assets/audio/bgm_crisis.ogg",
+	"ending_good": "res://assets/audio/bgm_victory.ogg",
+	"ending_bad":  "res://assets/audio/bgm_ending.ogg",
 }
 
 # ── 상태 ──────────────────────────────────────────────────────
@@ -38,6 +39,10 @@ func _make_player() -> AudioStreamPlayer:
 func start():
 	volume = AudioManager.bgm_volume
 	_switch_to(_pick_track(), true)
+
+func start_menu():
+	volume = AudioManager.bgm_volume
+	_switch_to("menu", true)
 
 func stop():
 	_player_a.stop()
