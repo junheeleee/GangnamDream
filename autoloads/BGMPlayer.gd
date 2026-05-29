@@ -172,13 +172,13 @@ func _bake_procedural() -> AudioStreamWAV:
 			var ph: float = phases[fi] + TAU * freqs[fi] / float(SR)
 			if ph >= TAU: ph -= TAU
 			phases[fi] = ph
-		var bmap = bar_maps[bi % 4]
+		var bmap: Dictionary = bar_maps[bi % 4]
 		var s := 0.0
-		var bp := phases[bmap["bass"]]
+		var bp: float = phases[bmap["bass"]]
 		s += (sin(bp) * 0.6 + (2.0/PI)*asin(sin(bp)) * 0.4) * bass_env * 0.22
-		for pi2 in range(bmap["pads"].size()):
-			var fi2: int = bmap["pads"][pi2]
-			var dp := phases[fi2] * (1.0 + float(pi2 % 2) * 0.003)
+		for pi2 in range((bmap["pads"] as Array).size()):
+			var fi2: int = (bmap["pads"] as Array)[pi2]
+			var dp: float = phases[fi2] * (1.0 + float(pi2 % 2) * 0.003)
 			s += (sin(dp) * 0.7 + (2.0/PI)*asin(clamp(sin(dp),-1.0,1.0)) * 0.3) * pad_env * 0.058
 		var hihat_env := smoothstep(0.0,0.01,float(i%(beat/2))/float(beat/2)) * smoothstep(1.0,0.85,float(i%(beat/2))/float(beat/2))
 		s += sin(float(i)*127.1+float(i*i)*0.00317)*sin(float(i)*311.7) * hihat_env * 0.018
