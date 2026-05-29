@@ -235,6 +235,27 @@ func _build_top_bar(parent):
 	menu_btn.pressed.connect(_open_system_menu)
 	row.add_child(menu_btn)
 
+	var sep2 = _label("│", 13, "#2a2a3a")
+	row.add_child(sep2)
+
+	next_button = _button("다음 달 ▶", "#1a3a5a")
+	next_button.custom_minimum_size = Vector2(110, 36)
+	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	next_button.pressed.connect(_on_next_month)
+	row.add_child(next_button)
+
+	shop_button = _small_button("🛍", "#2a1a3a")
+	shop_button.custom_minimum_size = Vector2(40, 36)
+	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	shop_button.pressed.connect(_open_shop)
+	row.add_child(shop_button)
+
+	var title_btn2 = _small_button("🏆", "#1a2a1a")
+	title_btn2.custom_minimum_size = Vector2(40, 36)
+	title_btn2.size_flags_horizontal = Control.SIZE_SHRINK_END
+	title_btn2.pressed.connect(_open_title_collection)
+	row.add_child(title_btn2)
+
 func _build_portrait_panel(parent):
 	# 왼쪽 고정 초상화 패널 (180px 너비, 전체 높이)
 	var panel = _panel("#0d0d14", "#1a1a28")
@@ -541,25 +562,7 @@ func _toggle_info_panel():
 			info_tabs.current_tab = clampi(last, 0, info_tabs.get_tab_count() - 1)
 
 func _build_bottom_bar(parent):
-	var margin = MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 180)
-	margin.add_theme_constant_override("margin_right", 32)
-	margin.add_theme_constant_override("margin_top", 8)
-	margin.add_theme_constant_override("margin_bottom", 10)
-	parent.add_child(margin)
-	var row = HBoxContainer.new()
-	row.custom_minimum_size = Vector2(0, 48)
-	row.add_theme_constant_override("separation", 12)
-	margin.add_child(row)
-	next_button = _button("다음 달 ▶", "#1f4f8a")
-	next_button.pressed.connect(_on_next_month)
-	row.add_child(next_button)
-	shop_button = _button("🛍 상점", "#4a1d7a")
-	shop_button.pressed.connect(_open_shop)
-	row.add_child(shop_button)
-	var title_btn = _button("🏆 도감", "#1a3a2a")
-	title_btn.pressed.connect(_open_title_collection)
-	row.add_child(title_btn)
+	pass  # 다음 달/상점/도감은 상단 바로 이동됨
 
 func _build_modal():
 	modal_layer = ColorRect.new()
@@ -1380,9 +1383,6 @@ func _render_ap_actions():
 	if warn_body: study_label = "📚 자기계발  🚨 체력·정신 회복 필요"
 	orthodox.append({"label": study_label, "color": "#5b9cf6", "fn": "_ap_study", "route": "orthodox", "focus": "스펙 쌓기"})
 
-	if GameState.intelligence >= 30:
-		orthodox.append({"label": "📖 심화 독서  —  지력 +8", "color": "#1d4ed8", "fn": "_ap_deep_study", "route": "orthodox", "focus": "심화 공부"})
-
 	# 취업/직장
 	if not job_story_unlocked:
 		orthodox.append({"label": "💼 구직활동  🔒 스토리 진행 후 해금", "color": "#2d3748", "fn": "_ap_job_hunt", "route": "orthodox", "focus": "취업 준비", "locked": true})
@@ -1393,9 +1393,6 @@ func _render_ap_actions():
 
 	orthodox.append({"label": "🤝 인맥 관리  —  사회성+1, 직장·학교 관계", "color": "#7c3aed", "fn": "_ap_network", "route": "orthodox", "focus": "인맥 관리"})
 	orthodox.append({"label": "💰 저축/절약  —  스트레스 -4, 절약 마인드", "color": "#0369a1", "fn": "_ap_save_money", "route": "orthodox", "focus": "저축 집중"})
-
-	if GameState.social_skill >= 50:
-		orthodox.append({"label": "👔 VIP 인맥  —  사회성+3, 모든 관계 친밀도+15", "color": "#4c1d95", "fn": "_ap_vip_network", "route": "orthodox", "focus": "고급 인맥"})
 
 	_add_action_buttons(choice_box, orthodox, disabled)
 
@@ -1411,18 +1408,11 @@ func _render_ap_actions():
 	else:
 		unorthodox.append({"label": "📈 투자  🔒 첫 월급 수령 후 해금", "color": "#2d3748", "fn": "_ap_invest", "route": "unorthodox", "focus": "투자", "locked": true})
 
-	if GameState.investment_skill >= 30 and has_paycheck:
-		unorthodox.append({"label": "⚡ 레버리지 투자  —  2배 포지션 (고위험)", "color": "#7f1d1d", "fn": "_ap_leverage_invest", "route": "unorthodox", "focus": "고위험 투자"})
-
 	var side_label = "💰 단기 알바  —  +40만원 (건강-5, 스트레스+6)" if no_job else "🎨 부업/사이드  —  추가 수입 도전 (건강-5)"
 	unorthodox.append({"label": side_label, "color": "#0369a1", "fn": "_ap_side_job", "route": "unorthodox", "focus": "부업"})
 
 	unorthodox.append({"label": "❤️ 연애/관계  —  정신력+8, 스트레스-5, 인연", "color": "#db2777", "fn": "_ap_romance", "route": "unorthodox", "focus": "연애"})
 	unorthodox.append({"label": "🌊 자유시간  —  한강·편의점·산책 (정신력+10)", "color": "#0891b2", "fn": "_ap_free_time", "route": "unorthodox", "focus": "자유시간"})
-
-	if GameState.intelligence >= 50 and has_paycheck:
-		var forecast = investment_system.get_market_forecast()
-		unorthodox.append({"label": "🔭 시장 분석 [무료] — %s" % forecast, "color": "#1e3a5f", "fn": "_ap_market_analysis", "route": "unorthodox", "focus": "시장 분석", "free": true})
 
 	_add_action_buttons(choice_box, unorthodox, disabled)
 
@@ -1477,15 +1467,9 @@ func _render_ap_actions():
 		shop_button.text = "🛍 상점" if has_paycheck else "🛍 상점 🔒"
 		shop_button.disabled = not has_paycheck
 
-func _add_action_section_header(parent: Control, title: String, bg_hex: String):
-	var lbl = _label("  " + title, 11, "#8892a4")
-	var style = StyleBoxFlat.new()
-	style.bg_color = Color(bg_hex)
-	style.set_corner_radius_all(3)
-	style.content_margin_left = 6
-	style.content_margin_top = 3
-	style.content_margin_bottom = 3
-	lbl.add_theme_stylebox_override("normal", style)
+func _add_action_section_header(parent: Control, title: String, _bg_hex: String):
+	var lbl = _label("  " + title, 10, "#2e3a4e")
+	lbl.custom_minimum_size = Vector2(0, 16)
 	parent.add_child(lbl)
 
 func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
@@ -1497,7 +1481,7 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 		var btn_color: String = action["color"]
 		if action_locked or (disabled and not is_free):
 			btn_color = "#1e1e2a"
-		var btn = _button(action["label"], btn_color)
+		var btn = _action_button(action["label"], btn_color)
 		btn.disabled = (disabled and not is_free) or action_locked
 		var fn_name: String = action["fn"]
 		btn.pressed.connect(func():
@@ -2768,6 +2752,33 @@ func _button(text, color):
 	if _font_bold:
 		button.add_theme_font_override("font", _font_bold)
 	button.add_theme_font_size_override("font_size", 15)
+	button.pressed.connect(func(): AudioManager.play("click"))
+	return button
+
+func _action_button(text: String, accent_color: String) -> Button:
+	var button = Button.new()
+	button.text = text
+	button.custom_minimum_size = Vector2(0, 40)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	var normal = StyleBoxFlat.new()
+	normal.bg_color = Color("#111118")
+	normal.border_color = Color(accent_color)
+	normal.border_width_left = 3
+	normal.set_corner_radius_all(4)
+	normal.content_margin_left = 14
+	normal.content_margin_right = 10
+	var hover = normal.duplicate()
+	hover.bg_color = Color("#1c1c2a")
+	var pressed_style = normal.duplicate()
+	pressed_style.bg_color = Color("#0d0d16")
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed_style)
+	button.add_theme_color_override("font_color", Color("#c8d0e0"))
+	button.add_theme_font_size_override("font_size", 14)
+	if _font_regular:
+		button.add_theme_font_override("font", _font_regular)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	return button
 
