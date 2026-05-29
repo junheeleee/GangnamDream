@@ -211,6 +211,11 @@ func _effective_weight(event):
 		weight *= 1.0 + min(float(diff) / 30.0, 0.5)
 	elif diff <= -6 and (tags.has("investment") or tags.has("unorthodox") or tags.has("risk")):
 		weight *= 1.0 + min(float(-diff) / 30.0, 0.5)
+	# 런 테마 보너스: 매 런마다 2개 카테고리 이벤트 1.35x
+	var run_themes: Array = GameState.run_theme_categories
+	if not run_themes.is_empty():
+		if run_themes.has(str(event.get("category", ""))):
+			weight *= 1.35
 	# 이번 달 집중 태그와 일치하면 보너스
 	var focus = GameState.month_focus
 	if not focus.is_empty():

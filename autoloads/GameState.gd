@@ -66,6 +66,7 @@ var news_log: Array = []
 var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
+var run_theme_categories: Array = []
 var market_prices: Dictionary = {}
 var price_history: Dictionary = {}
 var market_context = {
@@ -121,6 +122,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	event_log = []
 	action_log = []
 	flags = {}
+	run_theme_categories = []
 	market_prices = {}
 	price_history = {}
 	unlocked_stat_thresholds = {}
@@ -138,6 +140,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 
 	_apply_trait_bonus(selected_trait)
 	_apply_background_bonus(chosen_background)
+	_roll_run_theme()
 	_init_market_prices()
 	add_log("새 런 시작: %s / %s" % [chosen_background, selected_trait], "system")
 	stats_changed.emit()
@@ -170,6 +173,18 @@ func _apply_trait_bonus(selected_trait):
 	if has_node("/root/MetaProgression"):
 		bonuses = MetaProgression.get_trait_bonus(selected_trait)
 	apply_effects(bonuses)
+
+func _roll_run_theme():
+	var pool = ["investment", "jobs", "social", "health", "relationship", "gambling", "finance"]
+	pool.shuffle()
+	run_theme_categories = [pool[0], pool[1]]
+	var label_map = {
+		"investment": "투자", "jobs": "직장", "social": "인간관계",
+		"health": "건강", "relationship": "연애", "gambling": "도박", "finance": "재정"
+	}
+	var a = label_map.get(pool[0], pool[0])
+	var b = label_map.get(pool[1], pool[1])
+	add_log("🎲 이번 런 테마: [%s + %s] — 관련 이벤트가 더 자주 등장합니다." % [a, b], "system")
 
 func _init_market_prices():
 	for asset in DataRegistry.assets:
@@ -209,6 +224,9 @@ func upgrade_housing() -> Dictionary:
 	if money < float(next_info.get("req_cash", 0.0)):
 		return {"success": false, "message": "자금이 부족합니다."}
 	var deposit_diff = float(next_info.get("deposit", 0.0)) - float(info.get("deposit", 0.0))
+	if current_trait == "강남 토박이" and deposit_diff > 0:
+		deposit_diff *= 0.8
+		add_log("🏙 강남 토박이 특성: 이사 비용 20% 절감", "system")
 	add_money(-deposit_diff)
 	housing = next_id
 	fixed_expense = get_housing_expense()
@@ -225,10 +243,18 @@ func apply_monthly_pressure():
 		flags["has_received_paycheck"] = true
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 
-	# ── 서울살이 기본 압박 ──────────────────────────────────────────
-	modify_stat("health", -2)
-	modify_stat("mental", -3)
-	modify_hidden_stat("stress", 3)
+	# ── 서울살이 기본 압박 (트레이트 패시브 적용) ──────────────────
+	var _s_mod := 3; var _h_mod := -2; var _m_mod := -3
+	match current_trait:
+		"야근 면역자":   _s_mod -= 2; _h_mod += 1
+		"번아웃 생존자": _s_mod -= 1; _m_mod += 2
+		"안정 지향형":   _s_mod -= 1; _m_mod += 1
+		"인맥왕":
+			if relationships.size() >= 3:
+				modify_hidden_stat("reputation", 1)
+	modify_stat("health", _h_mod)
+	modify_stat("mental", _m_mod)
+	modify_hidden_stat("stress", _s_mod)
 
 	# ── 주거 패시브 + 거주 기간 추적 ────────────────────────────────
 	housing_months[housing] = housing_months.get(housing, 0) + 1
@@ -256,14 +282,17 @@ func apply_monthly_pressure():
 
 	# 무직이면 정신/스트레스 추가 압박 (완화: -3/-5 → -2/-3)
 	if monthly_income == 0:
-		modify_stat("mental", -2)
-		modify_hidden_stat("stress", 3)
+		var _u_mental := -1 if current_trait == "안정 지향형" else -2
+		var _u_stress := 1 if current_trait == "안정 지향형" else 3
+		modify_stat("mental", _u_mental)
+		modify_hidden_stat("stress", _u_stress)
 		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "stress")
 
 	# 스트레스 단계별 추가 피해 (누적 구조)
 	if stress >= 80:
-		modify_stat("health", -4)
-		modify_stat("mental", -4)
+		var _extreme := -4 if current_trait != "번아웃 생존자" else -2
+		modify_stat("health", _extreme)
+		modify_stat("mental", _extreme)
 		add_log("🚨 극심한 스트레스가 몸과 마음을 갉아먹고 있다.", "stress")
 	elif stress >= 60:
 		modify_stat("health", -2)
@@ -636,6 +665,7 @@ func serialize():
 		"market_prices": market_prices,
 		"price_history": price_history,
 		"market_context": market_context,
+		"run_theme_categories": run_theme_categories,
 	}
 
 func load_from_dict(data):
