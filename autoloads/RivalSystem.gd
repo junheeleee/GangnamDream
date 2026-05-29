@@ -39,7 +39,7 @@ func _init_rival():
 func _on_turn_advanced(turn: int):
 	if not _initialized or rival.is_empty():
 		return
-	rival["age"] += 0  # 나이는 GameState 기준
+	rival["age"] = GameState.age
 	_process_rival(turn)
 
 func _process_rival(turn: int):

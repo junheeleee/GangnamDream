@@ -8,6 +8,15 @@ var current_event: Dictionary = {}
 var event_cooldowns: Dictionary = {}
 var recent_event_ids: Array = []
 
+func _ready():
+	GameState.run_started.connect(_on_run_started)
+
+func _on_run_started():
+	event_cooldowns.clear()
+	recent_event_ids.clear()
+	pending_events.clear()
+	current_event = {}
+
 func process_month_events():
 	_tick_cooldowns()
 	if pending_events.is_empty():
