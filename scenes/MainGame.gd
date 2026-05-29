@@ -681,48 +681,30 @@ func _check_story_triggers():
 	if GameState.money >= 3_000_000 and not f.get("story_first_savings_seen", false):
 		EventManager.trigger_event_by_id("story_first_savings_milestone")
 		return
-	# 반년
+	# 반년 (30.5세)
 	if t == 6 and not f.get("story_six_months_seen", false):
 		EventManager.trigger_event_by_id("story_six_months")
-	# 1년
+	# 1년 (31세)
 	elif t == 12 and not f.get("story_one_year_seen", false):
 		EventManager.trigger_event_by_id("story_one_year")
-	# 1년 반
-	elif t == 18 and not f.get("story_one_half_year_seen", false):
-		EventManager.trigger_event_by_id("story_one_half_year")
-	# 2년
+	# 2년 (32세)
 	elif t == 24 and not f.get("story_two_year_seen", false):
 		EventManager.trigger_event_by_id("story_two_year")
-	# 3년
+	# 3년 (33세) — 중간 점검
 	elif t == 36 and not f.get("story_three_year_seen", false):
 		EventManager.trigger_event_by_id("story_three_year")
-	# 4년
-	elif t == 48 and not f.get("story_four_year_seen", false):
-		EventManager.trigger_event_by_id("story_four_year")
-	# 5년
+	# 5년 (35세) — 반환점
 	elif t == 60 and not f.get("story_five_year_seen", false):
 		EventManager.trigger_event_by_id("story_five_year")
-	# 10년 (30대 진입)
-	elif t == 120 and not f.get("30s_reflection_done", false):
-		EventManager.trigger_event_by_id("midlife_30s_reflection")
-	# 35세
-	elif t == 180 and not f.get("age_35_reflected", false):
+	# 35세 체크포인트
+	elif t == 60 and not f.get("age_35_reflected", false):
 		EventManager.trigger_event_by_id("age_35_checkpoint")
-	# 40세
-	elif t == 240 and not f.get("age_40_reflected", false):
-		EventManager.trigger_event_by_id("age_40_threshold")
-	# 은퇴 준비 (45세)
-	elif t == 300 and not f.get("retirement_strategy_set", false):
+	# 7년 (37세) — 3년 남음
+	elif t == 84 and not f.get("story_seven_year_seen", false):
 		EventManager.trigger_event_by_id("pre_retirement_decision")
-	# 50세
-	elif t == 360 and not f.get("age_50_reflected", false):
-		EventManager.trigger_event_by_id("age_50_milestone")
-	# 55세
-	elif t == 420 and not f.get("age_55_reflected", false):
-		EventManager.trigger_event_by_id("age_55_milestone")
-	# 60세
-	elif t == 480 and not f.get("age_60_reflected", false):
-		EventManager.trigger_event_by_id("age_60_milestone")
+	# 9년 (39세) — 마지막 1년
+	elif t == 108 and not f.get("age_39_seen", false):
+		EventManager.trigger_event_by_id("age_39_final")
 
 # ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
 
@@ -1363,7 +1345,7 @@ func _render_ap_actions():
 		hint_text = "💳 첫 월급 수령 — 이제 📈 투자도 가능합니다."
 		hint_color = "#00c896"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
-		hint_text = "🎯 목표: 30억 자산 달성 (55세 은퇴 전)"
+		hint_text = "🎯 목표: 강남 입성 (40세 전 — 남은 시간 %d년)" % max(0, 40 - GameState.age)
 		hint_color = "#5b9cf6"
 
 	if not hint_text.is_empty():
@@ -3098,7 +3080,7 @@ func _show_tutorial_intro():
 	_open_modal("🏙 강남드림에 오신 걸 환영해요")
 
 	modal_body.add_child(_wrap_label(
-		"서울 고시원, 통장 100만원.\n55세까지 자산 30억을 만드는 게임입니다.",
+		"서울 고시원, 통장 50만원. 30살 백수.\n40세 전 강남 입성이 목표입니다.",
 		15, "#e8eaf0"))
 
 	var sep0 = HSeparator.new()
@@ -3137,7 +3119,7 @@ func _show_tutorial_intro():
 	modal_body.add_child(sep2)
 
 	modal_body.add_child(_wrap_label(
-		"🎯  목표: 총자산 30억 = 강남드림 달성!\n    55세(턴 420)까지 버텨보세요.",
+		"🎯  목표: 강남 입성 = 강남드림 달성!\n    40세(턴 120)까지 — 10년, 120턴.",
 		13, "#00c896"))
 
 	var start_btn = _button("서울 생활 시작 →", "#1f6feb")

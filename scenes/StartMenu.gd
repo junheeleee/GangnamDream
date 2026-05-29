@@ -1,33 +1,33 @@
 extends Control
 
 # ── 배경 데이터 ──────────────────────────────────────────────────
-const BACKGROUNDS = [
+const ROUTES = [
 	{
-		"id": "지방_상경",
-		"emoji": "🚂",
-		"name": "지방 상경",
-		"tagline": "아무것도 없이 시작한다. 잃을 것도 없다.",
-		"desc": "지방 출신. 연고 없음. 100만원.\n가장 어렵지만 가장 자유로운 출발.",
-		"bonuses": "기본 스탯 / 패널티 없음",
+		"id": "직장형",
+		"emoji": "💼",
+		"name": "직장형",
+		"tagline": "꾸준함으로 강남을 노린다",
+		"desc": "취업→승진→저축→부동산.\n가장 현실적인 루트. 느리지만 안전하다.",
+		"bonuses": "지력 +8  사회성 +8  스트레스 -5\n취업 이벤트 우선 제공",
 		"color": "#5b9cf6",
 	},
 	{
-		"id": "명문대_중퇴",
-		"emoji": "📚",
-		"name": "명문대 중퇴",
-		"tagline": "머리는 있는데 길을 잃었다.",
-		"desc": "학벌과 지력은 있지만 학자금 빚이 남아 있다.\n지식으로 앞서가되 빚을 갚아야 한다.",
-		"bonuses": "지력 +15  평판 +8  사회성 +5\n시작 자금 -50만원  스트레스 +10",
-		"color": "#a78bfa",
+		"id": "투자형",
+		"emoji": "📈",
+		"name": "투자형",
+		"tagline": "10년 공부한 시장으로 승부한다",
+		"desc": "주식·부동산·코인으로 자산을 불린다.\n리스크 높지만 10년 안에 가장 빠르다.",
+		"bonuses": "투자감각 +18  지력 +5  즉시 투자 가능\n시작 자금 -10만원  스트레스 +10",
+		"color": "#00c896",
 	},
 	{
-		"id": "금수저",
-		"emoji": "💎",
-		"name": "금수저",
-		"tagline": "돈은 있다. 그런데 그게 다가 아니다.",
-		"desc": "풍족하게 자랐다. 시작 자금이 넉넉하지만\n생존 감각이 부족해 투자감각이 낮다.",
-		"bonuses": "시작 자금 +150만원  사회성 +8  외모 +5\n투자감각 -5",
-		"color": "#f0b429",
+		"id": "창업형",
+		"emoji": "🚀",
+		"name": "창업형",
+		"tagline": "한 방을 노린다. 지금이 마지막 기회다",
+		"desc": "내 사업으로 빠르게 크거나 망한다.\n가장 불안정하지만 상한선이 없다.",
+		"bonuses": "운 +12  사회성 +10  창업 이벤트 빠른 해금\n시작 자금 -15만원  스트레스 +8",
+		"color": "#f97316",
 	},
 ]
 
@@ -241,12 +241,12 @@ func _build_ui():
 	name_input.add_theme_font_size_override("font_size", 15)
 	name_row.add_child(name_input)
 
-	# 배경 선택
-	left.add_child(_label("출신 배경", 13, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT))
+	# 루트 선택
+	left.add_child(_label("강남 입성 전략  —  40세까지 어떻게 갈 것인가", 13, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT))
 	var bg_grid = VBoxContainer.new()
 	bg_grid.add_theme_constant_override("separation", 6)
 	left.add_child(bg_grid)
-	for i in BACKGROUNDS.size():
+	for i in ROUTES.size():
 		var card = _bg_card(i)
 		bg_grid.add_child(card)
 		bg_cards.append(card)
@@ -463,7 +463,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 
 # ── 배경 카드 생성 ──────────────────────────────────────────────
 func _bg_card(index: int) -> PanelContainer:
-	var bg_data = BACKGROUNDS[index]
+	var bg_data = ROUTES[index]
 	var card = PanelContainer.new()
 	card.custom_minimum_size = Vector2(0, 80)
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -591,11 +591,11 @@ func _on_trait_selected(index):
 # ── 시작 / 로드 ─────────────────────────────────────────────────
 func _start_new_run():
 	var chosen_name = name_input.text.strip_edges()
-	var chosen_bg = BACKGROUNDS[selected_bg_index]["id"]
+	var chosen_route = ROUTES[selected_bg_index]["id"]
 	var selected_trait = "흙수저 생존본능"
 	if trait_option.get_item_count() > 0:
 		selected_trait = trait_option.get_item_text(trait_option.selected)
-	GameState.start_new_game(selected_trait, chosen_name, chosen_bg)
+	GameState.start_new_game(selected_trait, chosen_name, "지방_상경", chosen_route)
 	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):

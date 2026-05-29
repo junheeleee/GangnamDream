@@ -2,50 +2,39 @@
   {
     "id": "story_arrival",
     "title": "2026년 1월, 서울",
-    "description": "{name}. 스무 살.\n지방에서 올라온 지 사흘째.\n\n고시원 방은 1평 반이다. 침대, 선반, 작은 책상.\n창문 밖으로 보이는 건 맞은편 건물 외벽뿐이다.\n옆방에서 누군가 통화하는 소리가 벽을 뚫고 들어온다.\n\n짐은 캐리어 하나. 통장엔 100만원.\n월세 35만원, 밥값, 교통비, 공과금...\n다음 달이면 이미 적자다.\n\n서울은 기다려주지 않는다.",
+    "description": "{name}. 서른 살. 백수.\n\n고시원 방 1평 반. 짐은 캐리어 하나.\n통장엔 50만원. 다음 달 고시원비가 65만원이다.\n\n친구들은 벌써 결혼했거나, 대리·과장이 됐거나, 집을 샀다.\n{name}은 아직 여기 있다.\n\n30대가 시작됐다. 10년이 남았다.\n\n강남은 여기서 지하철로 40분 거리다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
     "conditions": {"min_turn": 9999},
-    "tags": [
-      "story"
-    ],
+    "tags": ["story"],
     "cooldown": 9999,
     "choices": [
       {
-        "text": "내일 일찍 일어나 동네를 걸어본다",
-        "effects": {
-          "mental": 5,
-          "intelligence": 2
-        },
+        "text": "지금부터 다르게 살기로 결심한다",
+        "effects": { "mental": 8, "stress": -5, "intelligence": 2 },
         "follow_up_event": "story_pressure",
-        "result_text": "골목 편의점, 세탁소, 24시 식당, PC방.\n낯선 동네가 조금씩 눈에 익기 시작했다.\n{name}의 서울이, 아주 조금 시작됐다."
+        "result_text": "지금까지와는 다르게.\n구체적인 방법은 아직 모른다.\n하지만 방향은 정했다. 강남."
       },
       {
-        "text": "방에서 재테크 영상을 찾아본다",
-        "effects": {
-          "intelligence": 3,
-          "investment_skill": 2
-        },
+        "text": "폰을 켜서 취업·투자 정보를 뒤진다",
+        "effects": { "intelligence": 4, "investment_skill": 3, "stress": 3 },
         "follow_up_event": "story_pressure",
-        "result_text": "부동산, 주식, 코인...\n돈 버는 방법은 많았다.\n다만 지금 {name}의 통장엔 100만원뿐이라는 게 문제였다."
+        "result_text": "사람인, 잡코리아, 증권 유튜브, 부동산 카페.\n정보는 넘쳤다. 선택의 문제였다.\n{name}은 폰을 내려놓고 천장을 봤다."
       },
       {
-        "text": "부모님께 잘 도착했다고 연락한다",
-        "effects": {
-          "mental": 6,
-          "stress": -4
-        },
+        "text": "일단 자고 내일 생각한다",
+        "effects": { "health": 5, "mental": 5, "stress": -8 },
         "follow_up_event": "story_pressure",
-        "result_text": "전화기 너머로 엄마 목소리가 들렸다.\n'밥은 먹었어?'\n그 한 마디에 눈물이 날 것 같았다."
+        "result_text": "지쳤다. 오늘은 이게 한계다.\n내일의 {name}이 더 잘할 것이다.\n아마도."
       }
     ]
   },
   {
     "id": "story_pressure",
     "title": "보름이 지났다",
-    "description": "1월 중순. 아직 반도 안 됐는데 통장에서 40만원이 빠져나갔다.\n\n밥값, 버스비, 세탁기 동전, 편의점 삼각김밥...\n작은 것들이 쌓였다.\n\n이 속도라면 100만원은 두 달을 못 버틴다.\n\n친구한테서 문자가 왔다.\n'야, 우리 동네 편의점에서 야간 알바 구한대. 너 할 거야?'\n\n처음으로 현실이 코앞에 닥쳤다.",
+    "description": "1월 중순. 통장에서 이미 20만원이 빠져나갔다.\n\n밥값, 버스비, 편의점, 세탁기 동전.\n이 속도면 한 달을 못 버틴다.\n\n30살. 백수. 통장 잔고 30만원.\n\n고등학교 단톡방에 결혼 소식이 올라왔다.\n{name}은 '축하해'를 치고 폰을 뒤집었다.\n\n더 이상 기다릴 시간이 없다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -596,70 +585,52 @@
   {
     "id": "story_arrival_elite",
     "title": "2026년 1월, 서울",
-    "description": "{name}. 스무 살.\n명문대를 1년 만에 그만뒀다.\n\n학교가 잘못된 게 아니었다. 내가 다른 걸 원했다.\n근데 그 '다른 것'이 뭔지는 아직 모른다.\n\n고시원 방에 앉아 있다.\n학자금 대출 50만원이 통장에서 빠져나갔다.\n\n지력은 있다. 학벌도 있다.\n근데 지금 당장 이 빈 방과 빈 통장이 전부다.\n\n서울은 스펙이 아니라 실력으로 돌아간다는 걸\n이제야 실감한다.",
+    "description": "{name}. 서른 살.\n직장형 루트를 선택했다.\n\n10년간 이 직장 저 직장 전전했다.\n이제는 제대로 된 커리어를 쌓을 시간이다.\n\n고시원 방. 통장 50만원.\n하지만 쌓인 경험과 인맥이 있다.\n\n30대는 다르게 살기로 했다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
     "conditions": {"min_turn": 9999},
-    "tags": [
-      "story"
-    ],
+    "tags": ["story"],
     "cooldown": 9999,
     "choices": [
       {
-        "text": "중퇴한 건 후회 없다. 내 길을 간다.",
-        "effects": {
-          "mental": 8,
-          "stress": -3,
-          "intelligence": 3
-        },
+        "text": "체계적으로 커리어를 쌓는다",
+        "effects": { "mental": 8, "stress": -3, "intelligence": 3 },
         "follow_up_event": "story_pressure",
-        "result_text": "결정은 {name}이 했다. 그 무게도 {name}이 진다.\n두렵지만 — 이 방향이 맞다."
+        "result_text": "20대의 시행착오가 이제 자산이 됐다.\n{name}은 이번엔 방향이 보인다."
       },
       {
-        "text": "불안하다. 빠르게 증명해야 한다.",
-        "effects": {
-          "stress": 6,
-          "intelligence": 5
-        },
+        "text": "빠르게 취업해서 기반부터 잡는다",
+        "effects": { "stress": 4, "social_skill": 4 },
         "follow_up_event": "story_pressure",
-        "result_text": "조급함이 생겼다. 나쁜 건 아니지만 오래가면 안 된다.\n{name}은 불안을 연료로 쓰기로 했다. 지치기 전까지만."
+        "result_text": "일단 들어가는 게 먼저다.\n{name}은 이력서를 꺼냈다."
       }
     ]
   },
   {
     "id": "story_arrival_rich",
     "title": "2026년 1월, 서울",
-    "description": "{name}. 스무 살.\n집에서 독립하겠다고 나왔다.\n\n부모님은 말렸다. '왜 굳이 고시원이야?'\n그래도 나왔다. 뭔가를 스스로 해보고 싶었다.\n\n고시원 방이 생각보다 좁다.\n집에서 쓰던 방 화장실보다 작은 것 같다.\n\n통장엔 250만원. 집에서 받은 돈이다.\n부모님 없이 스스로 버는 첫 번째 돈은 언제 생길까.\n\n이게 진짜 시작이다.",
+    "description": "{name}. 서른 살.\n창업형 루트를 선택했다.\n\n20대에 한 번 시도했다가 실패했다.\n그래도 또 하려고 한다.\n\n고시원 방. 통장 35만원 (준비에 다 썼다).\n이번엔 다를 것이다. 아니, 달라야 한다.\n\n30대가 마지막 기회다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
     "conditions": {"min_turn": 9999},
-    "tags": [
-      "story"
-    ],
+    "tags": ["story"],
     "cooldown": 9999,
     "choices": [
       {
-        "text": "이 경험을 즐기기로 한다. 재밌을 것 같다.",
-        "effects": {
-          "mental": 8,
-          "stress": -5
-        },
+        "text": "실패를 교훈 삼아 다시 시작한다",
+        "effects": { "mental": 8, "stress": -5, "intelligence": 3 },
         "follow_up_event": "story_pressure",
-        "result_text": "낯선 환경이 오히려 설렌다.\n{name}은 이 감각을 오래 간직하고 싶다.\n두려움보다 호기심이 먼저인 사람이 된다."
+        "result_text": "한 번 망해봤으니 뭘 하면 안 되는지 안다.\n그게 {name}의 가장 큰 자산이다."
       },
       {
-        "text": "빨리 나만의 돈을 벌고 싶다",
-        "effects": {
-          "stress": 4,
-          "intelligence": 3,
-          "investment_skill": 2
-        },
+        "text": "이번엔 반드시 성공한다",
+        "effects": { "stress": 5, "luck": 3, "social_skill": 3 },
         "follow_up_event": "story_pressure",
-        "result_text": "부모님 돈 말고, {name} 이름으로 번 돈.\n그게 목표가 됐다.\n작은 목표 하나가 방향을 만든다."
+        "result_text": "절박함이 연료가 됐다.\n{name}은 이미 시작했다."
       }
     ]
   },
@@ -857,7 +828,7 @@
   {
     "id": "midlife_30s_reflection",
     "title": "서른",
-    "description": "서른.\n\n30이라는 숫자가 생각보다 무겁다.\n\n스무 살에 서울에 왔을 때는\n서른이 되면 뭔가 돼 있을 거라 막연하게 믿었다.\n\n강남까지 아직 갈 길이 멀다.\n그런데 이상하게 — 포기하고 싶지 않다.\n그 마음이 아직 살아있다는 게\n{name}에게 가장 소중한 것인지도 모른다.\n\n20대가 끝났다. 30대가 시작됐다.",
+    "description": "서른.\n\n이미 서른으로 시작했다.\n그 무게를 알면서도 여기까지 왔다.\n\n강남까지 아직 갈 길이 멀다.\n하지만 시작 때보다는 가깝다.\n\n포기하지 않은 것만으로도 충분히 잘 하고 있다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -1125,6 +1096,38 @@
         },
         "flags": ["age_60_reflected"],
         "result_text": "60살의 {name}에게 아직 불씨가 남아있었다.\n마지막까지 최선을 다하는 것.\n그것이 {name}이 40년 동안 해온 방식이다."
+      }
+    ]
+  },
+  {
+    "id": "age_39_final",
+    "title": "마지막 1년",
+    "description": "서른아홉.\n\n딱 1년이 남았다.\n\n통장 잔고, 포트폴리오, 월급명세서.\n{name}은 숫자들을 다시 들여다봤다.\n\n강남 아파트까지 얼마나 남았나.\n이 1년 안에 가능한가.\n\n이 달 하는 선택 하나가 지금까지의 어느 달보다 무겁다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "마지막 1년, 모든 걸 쏟아붓는다",
+        "effects": { "investment_skill": 6, "intelligence": 4, "stress": 12, "mental": 5 },
+        "flags": ["age_39_seen"],
+        "result_text": "후회는 나중에 해도 된다.\n지금은 그냥 간다.\n{name}은 남은 패를 전부 꺼냈다."
+      },
+      {
+        "text": "무리하지 않는다. 지금까지 한 것만으로도 충분하다",
+        "effects": { "health": 8, "mental": 10, "stress": -10 },
+        "flags": ["age_39_seen"],
+        "result_text": "강남이 전부가 아닐 수도 있다.\n{name}은 처음으로 그 생각을 진심으로 받아들였다."
+      },
+      {
+        "text": "아직 방법이 있다. 계산을 다시 한다",
+        "effects": { "intelligence": 6, "investment_skill": 4, "stress": 5 },
+        "flags": ["age_39_seen"],
+        "result_text": "숫자는 거짓말을 안 한다.\n{name}은 남은 12달의 시뮬레이션을 돌렸다.\n가능성이 보였다."
       }
     ]
   }

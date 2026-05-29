@@ -12,8 +12,9 @@ const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
 
 var player_name = "김민준"
-var player_background = "지방_상경"  # 지방_상경 | 명문대_중퇴 | 금수저
-var age = 20
+var player_background = "지방_상경"  # legacy — 신규 런은 player_route 사용
+var player_route = "직장형"  # 직장형 | 투자형 | 창업형
+var age = 30
 var year = 2026
 var month = 1
 var turn = 1
@@ -83,10 +84,11 @@ func _ready():
 func new_game():
 	start_new_game("흙수저 생존본능")
 
-func start_new_game(selected_trait: String, chosen_name: String = "김민준", chosen_background: String = "지방_상경"):
+func start_new_game(selected_trait: String, chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형"):
 	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else "김민준"
 	player_background = chosen_background
-	age = 20
+	player_route = chosen_route
+	age = 30
 	year = 2026
 	month = 1
 	turn = 1
@@ -94,21 +96,21 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	current_trait = selected_trait
 
 	housing = "gosiwon"
-	money = 1_000_000.0
+	money = 500_000.0
 	monthly_income = 0.0
 	fixed_expense = 650_000.0
-	health = 70
-	mental = 70
-	intelligence = 50
-	social_skill = 40
+	health = 65
+	mental = 60
+	intelligence = 55
+	social_skill = 45
 	appearance = 50
-	investment_skill = 12
+	investment_skill = 15
 	luck = 45
 	action_points = 3
 	max_action_points = 3
 	tutorial_step = 3
-	stress = 25
-	reputation = 10
+	stress = 35
+	reputation = 5
 	gambling_tendency = 0
 	addiction_tendency = 0
 	current_job = {}
@@ -139,34 +141,42 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	}
 
 	_apply_trait_bonus(selected_trait)
-	_apply_background_bonus(chosen_background)
+	_apply_route_bonus(chosen_route)
 	_roll_run_theme()
 	_init_market_prices()
-	add_log("새 런 시작: %s / %s" % [chosen_background, selected_trait], "system")
+	add_log("새 런 시작: %s / %s" % [chosen_route, selected_trait], "system")
 	stats_changed.emit()
 	run_started.emit()
 
 func _apply_background_bonus(bg: String):
-	match bg:
-		"명문대_중퇴":
-			# 머리는 좋지만 학자금 빚이 있고 현실 경험 부족
-			intelligence += 15
-			reputation += 8
-			social_skill += 5
-			money -= 500_000.0
-			stress += 10
-			flags["background_elite"] = true
-		"금수저":
-			# 시작 자금 넉넉하지만 생존 감각이 없음
-			money += 1_500_000.0
-			social_skill += 8
-			appearance += 5
-			investment_skill -= 5
-			luck += 5
-			flags["background_rich"] = true
-		_:  # 지방_상경 (기본)
-			# 기본값 그대로. 보너스 없지만 패널티도 없음
-			flags["background_local"] = true
+	pass  # legacy — 신규 런은 _apply_route_bonus 사용
+
+func _apply_route_bonus(route: String):
+	match route:
+		"직장형":
+			# 커리어 준비된 30대 — 사회성·지력 높고 취업 빠름
+			intelligence   += 8
+			social_skill   += 8
+			stress         -= 5
+			flags["route_career"] = true
+			flags["job_priority"] = true   # 첫 달 취업 이벤트 우선 노출
+		"투자형":
+			# 10년간 시장 공부한 30대 — 투자감각 높지만 불안감 큼
+			investment_skill += 18
+			intelligence     += 5
+			stress           += 10
+			money            -= 100_000.0  # 공부에 돈 씀
+			flags["route_invest"] = true
+			flags["has_received_paycheck"] = true  # 투자 즉시 가능
+		"창업형":
+			# 한방을 노리는 30대 — 운·사회성 높고 사업 빠름
+			luck          += 12
+			social_skill  += 10
+			appearance    += 5
+			stress        += 8
+			money         -= 150_000.0  # 사업 준비에 씀
+			flags["route_startup"] = true
+			flags["startup_intent"] = true  # 창업 이벤트 해금
 
 func _apply_trait_bonus(selected_trait):
 	var bonuses = {}
@@ -581,34 +591,35 @@ func check_game_over():
 		finish_run("startup_exit"); return
 	if flags.get("creator_success_unlocked", false) and get_total_asset_value() >= 300_000_000:
 		finish_run("creator_success"); return
-	if get_total_asset_value() >= 800_000_000 and investment_skill >= 75 and age < 50:
+	# 40세 이전 조기 성공
+	if get_total_asset_value() >= 500_000_000 and investment_skill >= 75 and age < 40:
 		finish_run("early_retirement"); return
-	if age >= 55:
+	# 40세 = 타임리밋
+	if age >= 40:
 		var total = get_total_asset_value()
-		# 특수 플래그 엔딩 — 자산 무관하게 먼저 체크
+		# 강남 입성 성공
+		if housing == "gangnam" or total >= 3_000_000_000:
+			finish_run("gangnam_dream"); return
+		# 특수 플래그 엔딩
 		if flags.get("political_winner", false) and total >= 100_000_000:
 			finish_run("political_fix"); return
-		# 자산 + 스탯 기반 특수 엔딩
+		if flags.get("startup_exit", false):
+			finish_run("startup_exit"); return
+		# 자산 + 스탯 기반 엔딩
 		if reputation >= 80 and total >= 300_000_000:
 			finish_run("reputation_legend"); return
 		if investment_skill >= 85 and total >= 500_000_000:
 			finish_run("investment_master"); return
-		if route_unorthodox >= 25 and total >= 500_000_000:
-			finish_run("unorthodox_legend"); return
 		if total >= 1_000_000_000 and relationships.is_empty():
 			finish_run("lonely_rich"); return
 		if total >= 1_000_000_000:
 			finish_run("stable_success"); return
-		if route_orthodox >= 25 and route_unorthodox <= 5 and total >= 200_000_000 and job_tenure >= 24:
+		if route_orthodox >= 20 and total >= 200_000_000 and job_tenure >= 18:
 			finish_run("orthodox_pinnacle"); return
-		if health >= 70 and mental >= 70:
+		if health >= 70 and mental >= 70 and total >= 100_000_000:
 			finish_run("healthy_retirement"); return
-		if route_orthodox >= 12 and route_unorthodox >= 12:
-			finish_run("balanced_life"); return
 		if route_orthodox >= 20 and mental <= 45:
 			finish_run("orthodox_hollow"); return
-		if flags.get("political_winner", false):
-			finish_run("political_fix"); return
 		finish_run("ordinary_life")
 
 func finish_run(ending_id):
