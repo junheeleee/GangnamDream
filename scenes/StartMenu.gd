@@ -425,8 +425,8 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 		if enabled:
 			var del_btn = Button.new()
 			var is_confirm = (slot == confirm_slot)
-			del_btn.text = "?" if is_confirm else "🗑"
-			del_btn.custom_minimum_size = Vector2(36, 56)
+			del_btn.text = "삭제!" if is_confirm else "🗑"
+			del_btn.custom_minimum_size = Vector2(44, 56)
 			var del_st = StyleBoxFlat.new()
 			del_st.bg_color = Color("#5a1a1a") if is_confirm else Color("#2a1010")
 			del_st.border_color = Color("#ff4444") if is_confirm else Color("#5a1a1a")
@@ -437,10 +437,29 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 			del_btn.add_theme_stylebox_override("normal", del_st)
 			del_btn.add_theme_stylebox_override("hover", del_hover)
 			del_btn.add_theme_stylebox_override("pressed", del_hover)
-			del_btn.add_theme_font_size_override("font_size", 16)
+			del_btn.add_theme_font_size_override("font_size", 11)
 			del_btn.add_theme_color_override("font_color", Color("#ff6666") if is_confirm else Color("#884444"))
 			del_btn.pressed.connect(func(): _confirm_delete(slot))
 			row.add_child(del_btn)
+
+			# 확인 대기 중이면 취소 버튼 추가
+			if is_confirm:
+				var cancel_btn = Button.new()
+				cancel_btn.text = "취소"
+				cancel_btn.custom_minimum_size = Vector2(44, 56)
+				var cancel_st = StyleBoxFlat.new()
+				cancel_st.bg_color = Color("#1a1a28")
+				cancel_st.border_color = Color("#3a3a50")
+				cancel_st.set_border_width_all(1)
+				cancel_st.set_corner_radius_all(6)
+				cancel_btn.add_theme_stylebox_override("normal", cancel_st)
+				cancel_btn.add_theme_font_size_override("font_size", 11)
+				cancel_btn.add_theme_color_override("font_color", Color("#6a7590"))
+				cancel_btn.pressed.connect(func():
+					_delete_confirm_slot = -1
+					_rebuild_slots()
+				)
+				row.add_child(cancel_btn)
 
 # ── 배경 카드 생성 ──────────────────────────────────────────────
 func _bg_card(index: int) -> PanelContainer:
