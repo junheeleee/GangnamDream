@@ -19,6 +19,8 @@ func _ready():
 	add_child(label)
 	label.add_theme_font_size_override("font_size", 13)
 	label.add_theme_color_override("font_color", Color("#dbe7ff"))
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if UIStyle.font_regular:
 		label.add_theme_font_override("font", UIStyle.font_regular)
 

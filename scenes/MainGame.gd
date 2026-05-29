@@ -618,14 +618,15 @@ func _build_toast_layer():
 	_toast_container = VBoxContainer.new()
 	_toast_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_toast_container.add_theme_constant_override("separation", 6)
+	_toast_container.size_flags_horizontal = Control.SIZE_SHRINK_END
 	_toast_container.set_anchor(SIDE_LEFT, 1.0)
 	_toast_container.set_anchor(SIDE_TOP, 0.0)
 	_toast_container.set_anchor(SIDE_RIGHT, 1.0)
 	_toast_container.set_anchor(SIDE_BOTTOM, 1.0)
-	_toast_container.offset_left = -280
-	_toast_container.offset_top = 70
-	_toast_container.offset_right = -10
-	_toast_container.offset_bottom = -70
+	_toast_container.offset_left  = -320
+	_toast_container.offset_top   = 60
+	_toast_container.offset_right = -8
+	_toast_container.offset_bottom = -60
 	add_child(_toast_container)
 
 func _show_toast(message: String, color: Color = Color("#8892a4")):
