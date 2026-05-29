@@ -138,13 +138,13 @@ func _bake_procedural() -> AudioStreamWAV:
 	var _snap := func(f: float) -> float:
 		return round(f * float(loop) / float(SR)) * float(SR) / float(loop)
 
-	var C2  := _snap.call(65.41);  var Eb2 := _snap.call(77.78)
-	var Ab2 := _snap.call(103.83); var Bb2 := _snap.call(116.54)
-	var C3  := _snap.call(130.81); var Eb3 := _snap.call(155.56)
-	var G3  := _snap.call(196.00); var Bb3 := _snap.call(233.08)
-	var Ab3 := _snap.call(207.65); var C4  := _snap.call(261.63)
-	var Eb4 := _snap.call(311.13); var G4  := _snap.call(392.00)
-	var D4  := _snap.call(293.66); var F4  := _snap.call(349.23); var Ab4 := _snap.call(415.30)
+	var C2: float  = float(_snap.call(65.41));  var Eb2: float = float(_snap.call(77.78))
+	var Ab2: float = float(_snap.call(103.83)); var Bb2: float = float(_snap.call(116.54))
+	var C3: float  = float(_snap.call(130.81)); var Eb3: float = float(_snap.call(155.56))
+	var G3: float  = float(_snap.call(196.00)); var Bb3: float = float(_snap.call(233.08))
+	var Ab3: float = float(_snap.call(207.65)); var C4: float  = float(_snap.call(261.63))
+	var Eb4: float = float(_snap.call(311.13)); var G4: float  = float(_snap.call(392.00))
+	var D4: float  = float(_snap.call(293.66)); var F4: float  = float(_snap.call(349.23)); var Ab4: float = float(_snap.call(415.30))
 
 	var prog = [
 		[C2, C3, Eb3, G3, Bb3], [Ab2, Ab3, C4, Eb4, G4],
