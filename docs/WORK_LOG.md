@@ -1,5 +1,202 @@
 # Gangnam Dream Work Log
 
+## 2026-05-27 (엔딩 배경 전환 + CLAUDE.md 정리)
+
+### 엔딩 화면 배경 전환 (`scenes/MainGame.gd`)
+- `_show_ending()` 최상단에 엔딩 ID → 배경 매핑 테이블 추가 (13개 엔딩 전부 커버)
+- S급/성공 엔딩: `BG_PENTHOUSE` (penthouse_view.png)
+- 정치/명성: `BG_GANGNAM_NIGHT`, 건강은퇴: `BG_ROOFTOP_DAY`
+- 번아웃/정신붕괴: `BG_BURNOUT` (burnout_hospital_room.png)
+- 배경 불투명도 0.25 → 0.35 (엔딩 화면에서 더 선명하게)
+- BG_PENTHOUSE, BG_BURNOUT 상수가 처음으로 실제 사용됨
+
+### CLAUDE.md 미구현 목록 정리
+- 기존 TODO 6개 → 전부 ✅ 완료 표시
+- 남은 항목: QA 플레이스루, Export 패키징, 스토어 소재 (로컬 Godot 필요)
+
+## 2026-05-27 (이미지 에셋 연동 완료)
+
+### Codex 생성 이미지 9종 + 캐릭터 포트레이트 연동
+- `assets/backgrounds/` 신규 8종: convenience_store_night, cafe_seoul, investment_phone,
+  hospital_corridor, rooftop_daytime, gangnam_night_street, penthouse_view, burnout_hospital_room
+- `assets/characters/main_character_shocked.png` 추가
+- `icon.png` (Godot 프로젝트 아이콘) 교체
+- 총 19개 에셋 경로 검증 완료 (누락 0)
+
+### `scenes/MainGame.gd` — 이미지 연동 코드 완성
+- `_get_bg_for_event()` 태그 매핑 6개 신규 추가:
+  - `hospital/health` → `BG_HOSPITAL`
+  - `convenience` / `night+food` → `BG_CONVENIENCE`
+  - `investment` / `finance+stock` → `BG_INVESTMENT`
+  - `social/date/cafe/relationship/romance` → `BG_CAFE`
+  - `rooftop/break` → `BG_ROOFTOP_DAY`
+  - `politics / reputation+late_game` → `BG_GANGNAM_NIGHT`
+- `_get_portrait_path()` — `PORTRAIT_SHOCKED` 연결 (`just_critical_event` 플래그)
+- `_choose()` — 충격 이벤트 감지: 건강·정신 -15이상 / 돈 -100만이상 시 1.2초간 shocked 포트레이트 표시
+
+## 2026-05-27 (한국어 톤 패스 — hidden_events.json)
+
+### hidden_events.json 20개 전면 패치
+- 타이틀 접두사 제거: "비밀 이벤트: [제목]" → "[제목]" (20개)
+- description 19개 플레이스홀더 교체 (기존: "서울의 속도는 멈추지 않고..." 반복구)
+  - 각 이벤트 상황에 맞는 개별 장면 묘사로 교체
+  - 새벽 가슴 두근거림, 군대 선임 연락, 폰 파손, 퇴사 브이로그, 건강검진 결과,
+    병무청 우편, 팀장님 한마디, 강남역 도믿맨, 인스타 비교 지옥, 친구 투자 자랑 등
+- 중복 타이틀 구분: hidden_011 "또 폰이 박살났다", hidden_014 "또 카드값 폭탄"으로 분리
+- investment_events.json / relationship_events.json: 이미 개별 묘사 완료 확인 (패치 불필요)
+
+## 2026-05-27 (특수 엔딩 트리거 구현)
+
+### 엔딩 발동 조건 전면 재정비 (`GameState.gd`)
+- `investment_master` 스킬 조건 85 → **75** (기존 값은 사실상 도달 불가)
+- `stable_success` / `lonely_rich` 자산 기준 1B → **800M** (달성 가능 범위 조정)
+- `healthy_retirement` 최소 자산 5,000만 조건 추가 (건강만 좋고 파산 직전인 케이스 차단)
+- `political_fix` 조건 정비: age 65 fallback → **자산 1억+ AND 플래그** 로 격상, 순서 최우선으로 이동
+- 모든 age 65 분기에 `return` 명시 추가 (이전엔 elif 체인이라 fall-through 버그 가능)
+
+### 특수 엔딩 도달 경로 신규 구현
+
+#### 스타트업 엑싯 경로 (`life_events.json` 이벤트 2개)
+- `startup_opportunity` — 스타트업 공동창업 제안
+  - 조건: 자금 500만+, 투자감각 35+, 평판 30+, Turn 12+
+  - 수락 시 300만원 투입 + `startup_founded` 플래그 세팅
+- `startup_acquisition_offer` — M&A 인수 제안 (4억원)
+  - 조건: `startup_founded` 플래그, Turn 24+
+  - 수락 시 +4억 + `startup_exit` 플래그 → 즉시 `startup_exit` 엔딩 발동
+
+#### 정치인 경로 (`life_events.json` 이벤트 2개)
+- `political_recruitment` — 정치권 영입 제안 (보좌관)
+  - 조건: 평판 55+, 사회성 40+, Turn 18+
+  - 수락 시 `political_candidate` 플래그 세팅
+- `political_election_victory` — 선거 당선
+  - 조건: `political_candidate` 플래그, 평판 70+, Turn 30+
+  - 수락 시 -1,000만원 + `political_winner` 플래그 → 65세에 `political_fix` 엔딩
+
+#### 코인 망령 경로 (`investment_events.json` 6개 선택지)
+- `gambling_002` 레버리지 풀베팅 → `addiction_tendency` +15
+- `gambling_007` 소액 질러보기 / 링크 클릭 → +10 / +8
+- `gambling_020` 전 재산 몰아넣기 / 흔들림 → +25 / +5
+- `inv_crypto_mania` 소액 참여 → +8
+- `addiction_tendency` 90 도달 시 `crypto_ghost` 엔딩 발동
+
+## 2026-05-27 (스플래시 화면 추가)
+
+### 타이틀 스플래시 씬 신규 구현
+- `scenes/SplashScreen.gd` / `SplashScreen.tscn` 신규 생성
+- `project.godot` 메인씬: `StartMenu.tscn` → `SplashScreen.tscn`
+- 연출 시퀀스 (총 ~4.5초):
+  1. 검정 → 페이드인 (SceneTransition)
+  2. 옥상 키아트 배경 서서히 등장 (38% 불투명)
+  3. 로고 이미지 페이드인
+  4. "강남드림" 한글 타이틀 (64px)
+  5. "GANGNAM DREAM" 영문 부제 + 구분선
+  6. "서울에서 살아남아라" 태그라인
+  7. "― 2030년대 서울, 당신의 이야기 ―" 컨텍스트
+  8. "아무 키나 눌러 계속" 힌트 (깜빡임 3회)
+  9. 자동 전환 / 키·마우스 클릭으로 스킵
+
+## 2026-05-27 (UI 대시보드 개선 — 바이탈 HUD + 진행 바)
+
+### 탑바 바이탈 HUD 추가 (Football Manager 스타일)
+- `_build_top_bar()`: AP 레이블 우측에 `vitals_row` HBoxContainer 삽입
+  - `vital_health` (❤ + 숫자 + 6칸 블록바), `vital_mental` (🧠), `vital_stress` (😤)
+  - 세퍼레이터 `│` 로 AP / 바이탈 / 머니 시각적 구분
+  - 건강/정신: 30↓ 빨강, 50↓ 노랑, 정상 초록/파랑
+  - 스트레스: 80↑ 빨강, 60↑ 노랑, 정상 민트
+- `_refresh_vitals()` 신규 메서드: `_refresh_all()` 호출 시 바이탈 갱신
+- `_bar_str(value, max_val, bars)` 신규 헬퍼: `"█".repeat(filled) + "░".repeat(empty)` 블록 진행 바 생성
+
+### 스탯 패널 진행 바 표시
+- `_set_stat_value()`: 건강/정신/스트레스 항목에 10칸 블록 진행 바 추가 (`63  ██████░░░░`)
+- 기타 스탯(지력, 사회성 등)은 기존 숫자 표시 유지
+
+## 2026-05-27 (Polish Beta — 투자 차트 히스토리 + 한국어 톤 패스)
+
+### 투자 차트 히스토리 시각화
+- `MainGame._open_investments()`:
+  - 포트폴리오 보유 시 전체 수익률 요약 헤더 추가 (원금 → 현재가치, 수익률 %)
+  - 자산별 2줄 표시: ①자산명·리스크·현재가 ②스파크라인 + 1개월/3개월/12개월 변동률
+- `MainGame._render_sidebars()` 시황 티커: 6개월 미니 스파크라인 추가
+
+### 한국어 톤 패스
+- `life_events.json` 플레이스홀더 설명 35개 → **전부 제거** (0개 남음)
+  - 교체 대상: family, social_life, politics, gambling, military, health, disasters, comedy, finance, romance 카테고리 전반
+  - 톤: 2030 서울 청년의 자조적·관찰적 시선. 과장 없이 담백한 일상 문장
+
+## 2026-05-27 (Polish Beta — 관계/직업/엔딩 3종 개선)
+
+### 관계 패널 능동 상호작용
+- `MainGame.gd`: `_ap_network()` → `_ap_socialize()` + `_open_relationship_manager()` 모달로 교체
+  - 관계 유형별 전용 행동: 친구=커피, 연인=데이트(친밀도 60+ 기준), 멘토=조언/근황보고(신뢰 50+ 기준), 비즈니스=파트너 미팅, 가족=통화
+  - "새 인연 만들기" 선택지: 사회성 +3, 50% 확률 인연 생성 (이름 풀 16개)
+  - 각 행동 후 turn_action_log, add_log, toast 피드백 연동
+
+### 직업별 이벤트 조건 강화
+- `EventManager.gd`: `min_job_tier`, `max_job_tier`, `job_category` 조건 추가
+- `life_events.json`: 12개 이벤트 조건 패치
+  - 직업 없이 뜨던 이벤트 5개에 `has_job: true` 추가 (첫 회식, 업무 카톡, 연차, 피드백, 험담)
+  - 이직/퇴사 이벤트 3개: `has_job: true` + 설명 교체 (플레이스홀더 제거)
+  - 야근/성과/프로젝트 이벤트 3개: `min_job_tier: 2` 추가 (T2+ 직장에서만)
+
+### 엔딩 화면 메타 진행도 표시
+- `MetaProgression.gd`: `_new_this_run` 딕셔너리 추가, `record_run()` 시작 시 초기화
+  `unlock_trait()` / `unlock_achievement()` 호출 시 신규 해금이면 목록에 추가
+  `get_new_unlocks()` 메서드 추가
+- `MainGame.gd `_show_ending()`: 새 해금 트레이트/업적 표시 (🔓 섹션, 업적 ID→한글명 매핑)
+
+## 2026-05-27 (밸런스 패스 — 초반 생존성 개선)
+
+### 수치 조정
+- **고시원 월세**: 800,000원 → **650,000원** — 설계 기준(CLAUDE.md) 불일치 수정. 신규 플레이어가 Turn 2에 현금위기(-30만)로 즉시 패닉하던 문제 해소. 1개월 여유 버퍼 확보.
+- **무직 스트레스 이중계산 제거**: `JobSystem.process_monthly_job()` 무직 시 +2 스트레스 제거. `apply_monthly_pressure()`에서 이미 +6/월 처리 중. 총 무직 스트레스 +8 → **+6/월**으로 정상화.
+- **T3 직업 스트레스 곡선**: 공공기관 계약직(+2→+3), 부동산 중개보조(+3→+4). T3 직업이 T1 직업과 동일한 스트레스를 가지면서 월급은 훨씬 높던 우열 구도 해소.
+
+### 분석 내용
+- 15개 직업 전체 스트레스·급여 커브 검토
+- `InvestmentSystem.gd` 수익 구조 분석: drift +0.3%/월, 크래시 확률 및 위험도 밸런스 적절 — 조정 불필요
+- `assets.json` 18개 자산 변동성·최소 투자금 검토 — 현행 유지
+
+## 2026-05-27 (이벤트 확충 — Content Alpha 달성)
+
+### 콘텐츠 추가
+- 투자 이벤트 14 → **30개** (+16): 리밸런싱, 단톡방 주식 정보, 시장 폭락 경보, 배당금 입금, 손절 결정, 공모주 청약, ETF 공부, 부동산 버블 공포, 경기침체 우려, 투자 서적, 선배 내부 정보, 금융소득 과세, 적립식 투자, 코인 광풍, 해외 주식, 1년 수익률 점검
+- 관계 이벤트 15 → **30개** (+15): 멘토 커피, 동료 갈등, 소개팅, 친구 이별 위로, 부모님 상경, 전 연인 연락, 사무실 뒷담화, 썸 진전, 사업 파트너 제안, SNS 비교, 멘토 쓴소리, 가족 대출 부탁, 팀 회식, 네트워킹 세미나, 새벽 통화
+
+### 품질 개선
+- 기존 투자 14개 + 관계 15개 설명 전면 개선: 동일한 플레이스홀더 텍스트를 이벤트별 개별 장면 묘사로 교체
+
+### Content Alpha 달성 현황
+| 콘텐츠 | 목표 | 현재 | 상태 |
+|--------|------|------|------|
+| 일반 생활 이벤트 | 100개+ | 106개 | ✅ |
+| 투자 이벤트 | 30개 | 30개 | ✅ |
+| 관계 이벤트 | 30개 | 30개 | ✅ |
+| 히든 이벤트 | 20개 | 20개 | ✅ |
+| 직업 | 15개 | 15개 | ✅ |
+| 아이템 | 30개 | 30개 | ✅ |
+| 엔딩 | 10개 | 14개 | ✅ |
+
+## 2026-05-27 (첫 30분 몰입도 개선)
+
+### 버그 수정 (Critical)
+- `story_arrival_elite`, `story_arrival_rich` → `follow_up_event: "story_pressure"` 누락 수정.
+  명문대/금수저 배경에서 구직 해금(`story_job_unlocked`)이 永久 잠겼던 문제.
+- `story_first_workday`, `story_first_paycheck_feel`, `story_first_savings_milestone`, `story_six_months`, `story_one_year` → `seen` 플래그 누락 수정.
+  매 턴 무한 반복 트리거 방지 (`flags: ["...seen"]` 형식으로 통일).
+- story 이벤트가 random pool에 노출되지 않도록 `conditions: {min_turn: 9999}` 추가.
+
+### 신규 콘텐츠
+- `first_job_rejection` (life_events.json): 구직 해금 후 무직 상태 단발 이벤트. 첫 취업 전 긴장감 서사 추가.
+- `convenience_midnight_snack` (life_events.json): 자정 편의점 도시락 딜레마. 초반 6개월 이내 한정.
+- `small_unexpected_win` (life_events.json): 5만원 발견 행운 이벤트. luck≥40, 초반 한정.
+
+### 튜토리얼/UX 개선
+- `MainGame.gd`: `tutorial_step >= 3` 조건 추가 — Turn 1 액션 단계에서 "서울 첫 달!" 힌트 표시.
+- `MainGame.gd`: 첫 취업 시 🎉 특별 토스트 피드백 (housing_up SFX + 초록 강조색). 이직 시 기존 노란 토스트 유지.
+
+### 라이벌 시스템
+- `RivalSystem.gd`: Turn 2에 라이벌 첫 소개 메시지 자동 표시. 이름·나이·출발선 공개, 경쟁 의식 조기 형성.
+
 ## 2026-05-16 (Meta-Progression First Pass)
 
 ### 기능 구현

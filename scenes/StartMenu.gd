@@ -39,10 +39,123 @@ var trait_desc_label: Label
 var slot_container: VBoxContainer
 var _settings_overlay: ColorRect
 
+var _splash_layer: Control
+var _splash_active: bool = true
+
 func _ready():
 	_build_ui()
+	_build_splash()
 	BGMPlayer.start()
 	SceneTransition.fade_in()
+
+func _build_splash():
+	_splash_layer = Control.new()
+	_splash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_splash_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(_splash_layer)
+
+	# 배경
+	var bg = ColorRect.new()
+	bg.color = Color("#0a0a0e")
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_splash_layer.add_child(bg)
+
+	var bg_img = TextureRect.new()
+	bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+	bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg_img.modulate = Color(1, 1, 1, 0.10)
+	bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var tex = load("res://assets/backgrounds/goshiwon_room.png")
+	if tex:
+		bg_img.texture = tex
+	_splash_layer.add_child(bg_img)
+
+	# 중앙 컨텐츠
+	var center = CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_splash_layer.add_child(center)
+
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 10)
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	center.add_child(vbox)
+
+	# 로고
+	var logo = Label.new()
+	logo.text = "강남드림"
+	logo.add_theme_font_size_override("font_size", 80)
+	logo.add_theme_color_override("font_color", Color("#f0b429"))
+	logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(logo)
+
+	var sub = Label.new()
+	sub.text = "KOREAN LIFE ROGUELIKE"
+	sub.add_theme_font_size_override("font_size", 15)
+	sub.add_theme_color_override("font_color", Color("#2e3050"))
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(sub)
+
+	var sep = HSeparator.new()
+	sep.modulate = Color("#1e1e2a")
+	sep.custom_minimum_size = Vector2(320, 0)
+	vbox.add_child(sep)
+
+	var tagline = Label.new()
+	tagline.text = "서울 고시원 100만원에서 강남드림까지"
+	tagline.add_theme_font_size_override("font_size", 15)
+	tagline.add_theme_color_override("font_color", Color("#4a5068"))
+	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(tagline)
+
+	# 누적 기록 (런 있을 때만 표시)
+	var meta = MetaProgression.data
+	var total_runs = int(meta.get("total_runs", 0))
+	if total_runs > 0:
+		var stats_lbl = Label.new()
+		stats_lbl.text = "누적 %d런  ·  최고 자산 %s" % [total_runs, _format_money(meta.get("best_asset", 0))]
+		stats_lbl.add_theme_font_size_override("font_size", 12)
+		stats_lbl.add_theme_color_override("font_color", Color("#2e3050"))
+		stats_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		vbox.add_child(stats_lbl)
+
+	var spacer = Control.new()
+	spacer.custom_minimum_size = Vector2(0, 52)
+	vbox.add_child(spacer)
+
+	# PRESS ANY KEY — 깜빡임
+	var press_lbl = Label.new()
+	press_lbl.text = "PRESS ANY KEY"
+	press_lbl.add_theme_font_size_override("font_size", 17)
+	press_lbl.add_theme_color_override("font_color", Color("#5a6075"))
+	press_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(press_lbl)
+
+	var tween = create_tween()
+	tween.set_loops()
+	tween.tween_property(press_lbl, "modulate:a", 0.12, 0.75)
+	tween.tween_property(press_lbl, "modulate:a", 1.0, 0.75)
+
+func _input(event):
+	if not _splash_active:
+		return
+	var dismiss = false
+	if event is InputEventKey and event.pressed and not event.echo:
+		dismiss = true
+	elif event is InputEventMouseButton and event.pressed:
+		dismiss = true
+	if dismiss:
+		get_viewport().set_input_as_handled()
+		_dismiss_splash()
+
+func _dismiss_splash():
+	_splash_active = false
+	AudioManager.play("click")
+	var tween = create_tween()
+	tween.tween_property(_splash_layer, "modulate:a", 0.0, 0.25)
+	tween.tween_callback(_splash_layer.queue_free)
 
 func _build_ui():
 	# ── 배경 ──
@@ -441,7 +554,7 @@ func _on_trait_selected(index):
 					var sign = "+" if v >= 0 else ""
 					var lbl = k
 					match k:
-						"money": lbl = "시작 자금 %s%d원" % [sign, v]
+						"money": lbl = "시작 자금 %s" % _format_money(abs(v)) if v >= 0 else "시작 자금 -%s" % _format_money(abs(v))
 						"health": lbl = "건강 %s%d" % [sign, v]
 						"mental": lbl = "정신력 %s%d" % [sign, v]
 						"intelligence": lbl = "지력 %s%d" % [sign, v]

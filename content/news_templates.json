@@ -2,1580 +2,711 @@
   {
     "id": "news_001",
     "category": "korean_stocks",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.091
-    },
+    "headline": "{topic}, 외국인 순매수 전환 — 코스피 반등 기대감 확산",
+    "topics": ["삼성전자", "SK하이닉스", "LG에너지솔루션", "현대차", "NAVER", "카카오", "포스코"],
+    "market_effect": {"category": "korean_stock", "power": 0.091},
     "misleading_chance": 0.15,
     "sentiment": "greed"
   },
   {
     "id": "news_002",
     "category": "us_stocks",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": -0.059
-    },
+    "headline": "{topic}, AI 수혜주로 부각 — 기관투자자 비중 확대 소식",
+    "topics": ["엔비디아", "마이크로소프트", "구글", "아마존 AWS", "메타", "AMD", "애플"],
+    "market_effect": {"category": "us_stock", "power": 0.059},
     "misleading_chance": 0.09,
     "sentiment": "greed"
   },
   {
     "id": "news_003",
     "category": "real_estate",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.072
-    },
+    "headline": "{topic} 아파트값 한 달 새 1억원 급등 — '패닉 바잉' 재현 우려",
+    "topics": ["강남구", "서초구", "송파구", "반포", "대치동", "잠실", "도곡동"],
+    "market_effect": {"category": "real_estate", "power": -0.072},
     "misleading_chance": 0.1,
     "sentiment": "fear"
   },
   {
     "id": "news_004",
     "category": "politics",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": -0.077
-    },
+    "headline": "정부, {topic} 규제 강화 방침 발표 — 관련 업계 강력 반발",
+    "topics": ["가상자산", "부동산 투기", "외국인 투자", "플랫폼 독점", "금투세", "법인세", "단기투자"],
+    "market_effect": {"category": "crypto", "power": -0.077},
     "misleading_chance": 0.23,
     "sentiment": "fear"
   },
   {
     "id": "news_005",
     "category": "social_trends",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.014
-    },
+    "headline": "{topic} 사이 '투자 인증' 유행 — SNS 수익 인증 열풍 과열",
+    "topics": ["MZ세대", "2030 직장인", "대학생 투자자", "30대 직장인", "영끌족", "주린이", "사회초년생"],
+    "market_effect": {"category": "startup", "power": 0.014},
     "misleading_chance": 0.1,
     "sentiment": "neutral"
   },
   {
     "id": "news_006",
     "category": "ai_boom",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.033
-    },
+    "headline": "{topic} 공개 발표에 관련주 동시 급등 — 'AI 슈퍼사이클' 신호탄",
+    "topics": ["GPT-5", "삼성 가우스2", "하이퍼클로바X2", "클로드 4", "제미나이 울트라", "코파일럿 엔터프라이즈", "Sora2"],
+    "market_effect": {"category": "real_estate", "power": 0.033},
     "misleading_chance": 0.16,
     "sentiment": "neutral"
   },
   {
     "id": "news_007",
     "category": "startup_culture",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": -0.068
-    },
+    "headline": "{topic} 시리즈C 1200억 투자 유치 — 유니콘 등극 초읽기",
+    "topics": ["AI 스타트업", "핀테크 유망주", "바이오 벤처", "모빌리티 스타트업", "에듀테크 기업", "푸드테크 스타트업", "리걸테크 기업"],
+    "market_effect": {"category": "startup", "power": 0.068},
     "misleading_chance": 0.15,
     "sentiment": "greed"
   },
   {
     "id": "news_008",
     "category": "employment_crisis",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": 0.002
-    },
+    "headline": "{topic} 도입 후 IT 취업 경쟁률 30:1 돌파 — 취준생 코딩 독학 열풍",
+    "topics": ["수시채용", "블라인드 채용", "AI 역량검사", "직무 중심 채용", "포트폴리오 전형", "깃허브 이력서", "코딩 테스트"],
+    "market_effect": {"category": "us_stock", "power": 0.002},
     "misleading_chance": 0.17,
     "sentiment": "greed"
   },
   {
     "id": "news_009",
     "category": "cryptocurrency",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": 0.09
-    },
+    "headline": "{topic} 하루 만에 +22% 폭등 — '불장 시작' vs '데드캣 바운스' 논쟁",
+    "topics": ["비트코인", "이더리움", "솔라나", "리플", "도지코인", "에이다", "아발란체"],
+    "market_effect": {"category": "us_stock", "power": 0.09},
     "misleading_chance": 0.16,
     "sentiment": "greed"
   },
   {
     "id": "news_010",
     "category": "korean_stocks",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": 0.056
-    },
+    "headline": "{topic} 실적 쇼크... 영업이익 37% 감소 '어닝 미스'",
+    "topics": ["삼성전자", "SK하이닉스", "카카오", "현대차", "LG에너지솔루션", "셀트리온", "HMM"],
+    "market_effect": {"category": "us_stock", "power": -0.056},
     "misleading_chance": 0.11,
     "sentiment": "fear"
   },
   {
     "id": "news_011",
     "category": "us_stocks",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.0
-    },
+    "headline": "연준 매파 발언에 {topic} 출렁 — 10년물 금리 4.8% 돌파",
+    "topics": ["나스닥", "S&P500", "다우존스", "테슬라", "애플", "빅테크 전반", "성장주"],
+    "market_effect": {"category": "us_stock", "power": -0.02},
     "misleading_chance": 0.24,
     "sentiment": "neutral"
   },
   {
     "id": "news_012",
     "category": "real_estate",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.015
-    },
+    "headline": "{topic} 재건축 안전진단 완화 발표 — '기대감 선반영' 호가 급등",
+    "topics": ["은마아파트", "잠실 주공5단지", "개포주공", "목동 아파트", "상계주공", "압구정 현대", "둔촌주공"],
+    "market_effect": {"category": "crypto", "power": 0.015},
     "misleading_chance": 0.23,
     "sentiment": "greed"
   },
   {
     "id": "news_013",
     "category": "politics",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.062
-    },
+    "headline": "여야 합의로 {topic} 세제 혜택 법안 통과 — 시장 환호 반응",
+    "topics": ["청년 투자", "ISA 한도 확대", "코인 과세 유예", "부동산 취득세", "스타트업 투자", "R&D 세액공제", "소득세 완화"],
+    "market_effect": {"category": "real_estate", "power": 0.062},
     "misleading_chance": 0.2,
     "sentiment": "greed"
   },
   {
     "id": "news_014",
     "category": "social_trends",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": -0.041
-    },
+    "headline": "{topic} 커뮤니티 '지금 사도 되나?' 글 폭주 — 집단 불안 확산",
+    "topics": ["부동산 갤러리", "주식 커뮤니티", "코인 오픈카톡", "재테크 카페", "직장인 커뮤니티", "투자 유튜브 댓글", "부동산 앱 리뷰"],
+    "market_effect": {"category": "real_estate", "power": -0.041},
     "misleading_chance": 0.24,
     "sentiment": "neutral"
   },
   {
     "id": "news_015",
     "category": "ai_boom",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": -0.059
-    },
+    "headline": "{topic} 전력 수요 폭증 — 데이터센터 전력비 충당 방안 논란",
+    "topics": ["AI 데이터센터", "ChatGPT 서버", "클라우드 인프라", "반도체 공장", "엔비디아 GPU 클러스터", "삼성 AI 시설", "네이버 데이터센터"],
+    "market_effect": {"category": "real_estate", "power": -0.059},
     "misleading_chance": 0.18,
     "sentiment": "neutral"
   },
   {
     "id": "news_016",
     "category": "startup_culture",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": 0.084
-    },
+    "headline": "국내 스타트업 {topic} 폐업 선언 — '금리 인상·투자 혹한기 희생양'",
+    "topics": ["패션테크 기업", "O2O 플랫폼", "숙박 앱", "배달 스타트업", "이커머스 신생", "콘텐츠 스타트업", "AI 챗봇 서비스"],
+    "market_effect": {"category": "us_stock", "power": -0.084},
     "misleading_chance": 0.14,
     "sentiment": "fear"
   },
   {
     "id": "news_017",
     "category": "employment_crisis",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.071
-    },
+    "headline": "대기업 {topic} 대규모 단행 — 공채 폐지·수시채용 전환 가속화",
+    "topics": ["구조조정", "인력 감축", "명예퇴직", "희망퇴직", "조기퇴직", "계약직 전환", "아웃소싱 확대"],
+    "market_effect": {"category": "startup", "power": -0.071},
     "misleading_chance": 0.21,
     "sentiment": "fear"
   },
   {
     "id": "news_018",
     "category": "cryptocurrency",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": -0.063
-    },
+    "headline": "{topic} 거래소 대규모 해킹 — 고객 자산 800억원 증발 충격",
+    "topics": ["업비트", "빗썸", "코인원", "코빗", "해외 거래소", "DeFi 프로토콜", "NFT 마켓플레이스"],
+    "market_effect": {"category": "real_estate", "power": -0.063},
     "misleading_chance": 0.21,
     "sentiment": "fear"
   },
   {
     "id": "news_019",
     "category": "korean_stocks",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.055
-    },
+    "headline": "{topic} 공매도 집중 타깃 — 개미들 '또 당했다' 분통",
+    "topics": ["카카오", "LG에너지솔루션", "카카오뱅크", "셀트리온", "에코프로", "코스닥 바이오주", "2차전지주"],
+    "market_effect": {"category": "crypto", "power": -0.055},
     "misleading_chance": 0.16,
     "sentiment": "fear"
   },
   {
     "id": "news_020",
     "category": "us_stocks",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": -0.062
-    },
+    "headline": "{topic} PER 45배 논란... '성장주냐 버블이냐' 월가 의견 엇갈려",
+    "topics": ["엔비디아", "테슬라", "팔란티어", "스노우플레이크", "크라우드스트라이크", "리비안", "ARM"],
+    "market_effect": {"category": "crypto", "power": -0.02},
     "misleading_chance": 0.1,
     "sentiment": "neutral"
   },
   {
     "id": "news_021",
     "category": "real_estate",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.007
-    },
+    "headline": "{topic} 전세 매물 실종 — 임차인들 '월세 전환' 울며 겨자 먹기",
+    "topics": ["서울 전체", "강남권", "마포구", "용산구", "성동구", "노원구", "강서구"],
+    "market_effect": {"category": "real_estate", "power": 0.007},
     "misleading_chance": 0.16,
     "sentiment": "neutral"
   },
   {
     "id": "news_022",
     "category": "politics",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.005
-    },
+    "headline": "{topic} 예산안 처리 지연 — 정치권 혼란에 시장 관망세",
+    "topics": ["복지 확대", "국방 예산", "SOC 투자", "청년 지원", "반도체 보조금", "신재생에너지", "교육 예산"],
+    "market_effect": {"category": "us_stock", "power": -0.005},
     "misleading_chance": 0.25,
     "sentiment": "neutral"
   },
   {
     "id": "news_023",
     "category": "social_trends",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.094
-    },
+    "headline": "파이어족 꿈꾸는 {topic}... 극단적 절약 vs 공격적 투자 논쟁 점화",
+    "topics": ["2030 직장인", "밀레니얼 세대", "Z세대", "신혼부부", "40대 직장인", "프리랜서", "1인 가구"],
+    "market_effect": {"category": "crypto", "power": 0.094},
     "misleading_chance": 0.09,
     "sentiment": "neutral"
   },
   {
     "id": "news_024",
     "category": "ai_boom",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.071
-    },
+    "headline": "국내 대기업 {topic} 대규모 투자 선언 — 반도체·HBM주 동반 강세",
+    "topics": ["AI 반도체", "HBM 생산", "AI 인프라", "엔비디아 파트너십", "AI 데이터센터", "차세대 파운드리", "AI 칩 R&D"],
+    "market_effect": {"category": "real_estate", "power": 0.071},
     "misleading_chance": 0.14,
     "sentiment": "greed"
   },
   {
     "id": "news_025",
     "category": "startup_culture",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.09
-    },
+    "headline": "{topic} IPO 첫날 흥행 — 시초가 대비 +84%, 공모주 투자자 함박웃음",
+    "topics": ["AI 반도체 스타트업", "바이오 유니콘", "핀테크 기업", "모빌리티 스타트업", "에듀테크 기업", "로보틱스 기업", "블록체인 기업"],
+    "market_effect": {"category": "startup", "power": 0.09},
     "misleading_chance": 0.11,
     "sentiment": "neutral"
   },
   {
     "id": "news_026",
     "category": "employment_crisis",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.07
-    },
+    "headline": "청년 실질 실업률 22% 육박 — {topic} 심화에 구직 포기자 급증",
+    "topics": ["취업절벽", "구조조정 여파", "AI 대체", "무급 인턴 확산", "스펙 인플레이션", "공채 폐지 후폭풍", "플랫폼 노동 확산"],
+    "market_effect": {"category": "startup", "power": -0.07},
     "misleading_chance": 0.09,
     "sentiment": "fear"
   },
   {
     "id": "news_027",
     "category": "cryptocurrency",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.064
-    },
+    "headline": "정부 {topic} 규제 강화 — '코인 실명제·전면 과세' 시행 임박",
+    "topics": ["가상자산", "비트코인", "이더리움", "알트코인", "NFT", "P2E 게임 토큰", "스테이블코인"],
+    "market_effect": {"category": "us_stock", "power": -0.064},
     "misleading_chance": 0.13,
     "sentiment": "fear"
   },
   {
     "id": "news_028",
     "category": "korean_stocks",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.096
-    },
+    "headline": "{topic} 외국인 대규모 이탈... 환율 1450원 돌파에 매도 확산",
+    "topics": ["코스피", "코스닥", "삼성전자", "SK하이닉스", "한국증시", "외국인 보유주", "블루칩주"],
+    "market_effect": {"category": "real_estate", "power": -0.096},
     "misleading_chance": 0.07,
     "sentiment": "fear"
   },
   {
     "id": "news_029",
     "category": "us_stocks",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.015
-    },
+    "headline": "{topic} 주식분할 결정 — 개인투자자 유입 기대로 장후 급등",
+    "topics": ["엔비디아", "애플", "테슬라", "구글", "아마존", "마이크로소프트", "버크셔헤서웨이"],
+    "market_effect": {"category": "real_estate", "power": 0.015},
     "misleading_chance": 0.15,
     "sentiment": "greed"
   },
   {
     "id": "news_030",
     "category": "real_estate",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.033
-    },
+    "headline": "{topic} 거래절벽 지속 — 고금리에 매수자·매도자 모두 관망",
+    "topics": ["서울 아파트", "수도권 부동산", "강북 아파트", "경기도 아파트", "인천 아파트", "신도시 아파트", "공공택지"],
+    "market_effect": {"category": "real_estate", "power": 0.033},
     "misleading_chance": 0.08,
     "sentiment": "neutral"
   },
   {
     "id": "news_031",
     "category": "politics",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "korean_stock",
-      "power": 0.072
-    },
+    "headline": "한미 {topic} 협력 강화 선언 — 외국인 투자 심리 개선 기대",
+    "topics": ["반도체 공급망", "방산 수출", "배터리 산업", "AI 공동연구", "금융 협력", "친환경 기술", "우주 개발"],
+    "market_effect": {"category": "korean_stock", "power": 0.072},
     "misleading_chance": 0.15,
     "sentiment": "neutral"
   },
   {
     "id": "news_032",
     "category": "social_trends",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.018
-    },
+    "headline": "{topic} 재테크 유튜버 우후죽순 — '구독자 100만 = 연봉 10억' 신드롬",
+    "topics": ["MZ세대", "2030 투자자", "직장인 부업족", "주부 투자자", "대학생", "프리랜서", "N잡러"],
+    "market_effect": {"category": "crypto", "power": -0.018},
     "misleading_chance": 0.06,
     "sentiment": "fear"
   },
   {
     "id": "news_033",
     "category": "ai_boom",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "korean_stock",
-      "power": -0.054
-    },
+    "headline": "{topic} 규제 논의 본격화 — 관련 기업들 불확실성 확대",
+    "topics": ["AI 생성물 저작권", "딥페이크 처벌", "AI 채용 차별", "자율주행 책임", "AI 의료 규제", "챗봇 금융 상담 제한", "AI 개인정보 처리"],
+    "market_effect": {"category": "korean_stock", "power": -0.054},
     "misleading_chance": 0.19,
     "sentiment": "neutral"
   },
   {
     "id": "news_034",
     "category": "startup_culture",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.007
-    },
+    "headline": "글로벌 테크 한파 — {topic} 직원 30% 감원 쇼크",
+    "topics": ["구글 코리아", "메타 코리아", "카카오", "네이버", "쿠팡", "배달의민족", "토스"],
+    "market_effect": {"category": "real_estate", "power": -0.07},
     "misleading_chance": 0.11,
     "sentiment": "fear"
   },
   {
     "id": "news_035",
     "category": "employment_crisis",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.071
-    },
+    "headline": "공무원·공기업 인기 재상승 — {topic} 시대, '안정직' 회귀 현상",
+    "topics": ["불확실한 경제 상황", "AI 대체 위기", "테크 기업 감원 한파", "취업난 장기화", "스타트업 혹한기", "플랫폼 노동 불안정", "고금리 경기침체"],
+    "market_effect": {"category": "us_stock", "power": 0.071},
     "misleading_chance": 0.07,
     "sentiment": "greed"
   },
   {
     "id": "news_036",
     "category": "cryptocurrency",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": -0.04
-    },
+    "headline": "비트코인 현물 ETF 추가 승인 기대에 {topic} 동반 급등",
+    "topics": ["이더리움", "솔라나", "리플", "알트코인 전반", "DeFi 토큰", "L2 토큰", "BTC 연동 코인"],
+    "market_effect": {"category": "real_estate", "power": 0.04},
     "misleading_chance": 0.18,
     "sentiment": "greed"
   },
   {
     "id": "news_037",
     "category": "korean_stocks",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.035
-    },
+    "headline": "{topic} 52주 신고가 경신 — '추격 매수냐 차익실현이냐' 고민",
+    "topics": ["삼성전자", "현대차", "KB금융", "SK이노베이션", "LG화학", "POSCO홀딩스", "한화에어로스페이스"],
+    "market_effect": {"category": "crypto", "power": 0.035},
     "misleading_chance": 0.18,
     "sentiment": "neutral"
   },
   {
     "id": "news_038",
     "category": "us_stocks",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": -0.071
-    },
+    "headline": "미국 CPI 예상치 큰 폭 상회 — {topic} 패닉셀 나스닥 -3.2%",
+    "topics": ["나스닥", "S&P500", "테슬라", "메타", "넷플릭스", "엔비디아", "빅테크 전반"],
+    "market_effect": {"category": "startup", "power": -0.071},
     "misleading_chance": 0.12,
     "sentiment": "fear"
   },
   {
     "id": "news_039",
     "category": "real_estate",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.015
-    },
+    "headline": "{topic} 신축 청약 경쟁률 389:1 — '청약 로또' 열풍 재현",
+    "topics": ["강남 역세권", "판교 테크노밸리", "동탄2신도시", "위례신도시", "마곡 신축", "광교신도시", "검단신도시"],
+    "market_effect": {"category": "crypto", "power": 0.015},
     "misleading_chance": 0.25,
     "sentiment": "greed"
   },
   {
     "id": "news_040",
     "category": "politics",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.055
-    },
+    "headline": "선거 앞두고 {topic} 포퓰리즘 공약 난립 — '재정 건전성 우려' 경고음",
+    "topics": ["청년 기본소득", "부채 탕감", "주4일제 의무화", "최저임금 대폭 인상", "전국민 의료비 무상", "재건축 규제 폐지", "부동산 동결"],
+    "market_effect": {"category": "real_estate", "power": -0.055},
     "misleading_chance": 0.22,
     "sentiment": "fear"
   },
   {
     "id": "news_041",
     "category": "social_trends",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.04
-    },
+    "headline": "'영끌' {topic}, 이자 폭탄에 매달 200만원 한숨 — 하소연 봇물",
+    "topics": ["2030 집주인", "신혼부부 영끌족", "30대 패닉바이어", "부동산 투자자", "주담대 가입자", "고금리 대출자", "전세 낀 갭투자자"],
+    "market_effect": {"category": "us_stock", "power": -0.04},
     "misleading_chance": 0.23,
     "sentiment": "fear"
   },
   {
     "id": "news_042",
     "category": "ai_boom",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.024
-    },
+    "headline": "글로벌 빅테크, {topic} 경쟁 격화 — 한국 공급망 수혜 가능성",
+    "topics": ["AI 반도체 패권", "HBM 수요", "AI 모델 성능", "클라우드 AI 서비스", "엣지 AI 기기", "AI 보안 솔루션", "AI 법인세 논쟁"],
+    "market_effect": {"category": "real_estate", "power": 0.024},
     "misleading_chance": 0.24,
     "sentiment": "greed"
   },
   {
     "id": "news_043",
     "category": "startup_culture",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.049
-    },
+    "headline": "{topic} 글로벌 M&A 성사 — 창업자 수백억 EXIT 실현",
+    "topics": ["AI 스타트업", "헬스케어 앱", "핀테크 기업", "모빌리티 플랫폼", "SaaS 기업", "B2B 솔루션", "이커머스 기업"],
+    "market_effect": {"category": "real_estate", "power": 0.049},
     "misleading_chance": 0.07,
     "sentiment": "greed"
   },
   {
     "id": "news_044",
     "category": "employment_crisis",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": 0.019
-    },
+    "headline": "AI 대체 가능성 낮은 {topic} 직군 주목 — 취준생 진로 대전환",
+    "topics": ["간호사·돌봄직종", "전기·배관 기술직", "상담·코칭직", "창의 예술직", "리더십 관리직", "수작업 전문직", "현장 점검직"],
+    "market_effect": {"category": "us_stock", "power": -0.05},
     "misleading_chance": 0.14,
     "sentiment": "fear"
   },
   {
     "id": "news_045",
     "category": "cryptocurrency",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "korean_stock",
-      "power": -0.048
-    },
+    "headline": "기관투자자 {topic} 대거 편입 — '코인의 제도권 진입' 신호탄",
+    "topics": ["비트코인", "이더리움", "리플", "솔라나", "BTC ETF", "ETH ETF", "스테이블코인"],
+    "market_effect": {"category": "korean_stock", "power": 0.06},
     "misleading_chance": 0.24,
     "sentiment": "greed"
   },
   {
     "id": "news_046",
     "category": "korean_stocks",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": 0.029
-    },
+    "headline": "기관, {topic} 조용한 매집 포착 — 다음 달 실적 발표 앞두고",
+    "topics": ["삼성전자", "현대차", "LG에너지솔루션", "SK이노베이션", "한화솔루션", "삼성SDI", "두산에너빌리티"],
+    "market_effect": {"category": "us_stock", "power": 0.029},
     "misleading_chance": 0.16,
     "sentiment": "neutral"
   },
   {
     "id": "news_047",
     "category": "us_stocks",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.008
-    },
+    "headline": "{topic} 실적 발표 예상 큰 폭 상회 — 시간외 거래 +6% 급등",
+    "topics": ["엔비디아", "마이크로소프트", "애플", "구글", "메타", "아마존", "넷플릭스"],
+    "market_effect": {"category": "us_stock", "power": 0.05},
     "misleading_chance": 0.2,
     "sentiment": "greed"
   },
   {
     "id": "news_048",
     "category": "real_estate",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.072
-    },
+    "headline": "{topic} 공시지가 급등 — 종부세 폭탄에 다주택자 고심",
+    "topics": ["강남구", "서초구", "용산구", "마포구", "성동구", "광진구", "강동구"],
+    "market_effect": {"category": "real_estate", "power": 0.072},
     "misleading_chance": 0.18,
     "sentiment": "neutral"
   },
   {
     "id": "news_049",
     "category": "politics",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.007
-    },
+    "headline": "{topic} 검찰 수사 착수 — 연관 기업 대표들 소환 예정",
+    "topics": ["가상자산 사기", "불법 리딩방", "부동산 투기", "회계 조작", "비자금 의혹", "불공정 거래", "횡령 배임"],
+    "market_effect": {"category": "real_estate", "power": 0.007},
     "misleading_chance": 0.06,
     "sentiment": "neutral"
   },
   {
     "id": "news_050",
     "category": "social_trends",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.004
-    },
+    "headline": "{topic} '코인 손실 경험자' 62% — 재투자 의향은 여전히 71%",
+    "topics": ["MZ세대", "2030 투자자", "코인 투자자", "대학생 투자자", "2030 직장인", "소액 투자자", "주식·코인 병행 투자자"],
+    "market_effect": {"category": "us_stock", "power": -0.004},
     "misleading_chance": 0.05,
     "sentiment": "fear"
   },
   {
     "id": "news_051",
     "category": "ai_boom",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.067
-    },
+    "headline": "한국 {topic} 스타트업 나스닥 상장 추진 — 기업가치 1조원 달성",
+    "topics": ["AI 의료진단", "AI 법률 서비스", "AI 교육", "AI 물류", "AI 채용 플랫폼", "생성형 AI 콘텐츠", "AI 금융 자문"],
+    "market_effect": {"category": "crypto", "power": 0.067},
     "misleading_chance": 0.13,
     "sentiment": "greed"
   },
   {
     "id": "news_052",
     "category": "startup_culture",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "korean_stock",
-      "power": 0.081
-    },
+    "headline": "2030 창업 열풍 — '{topic}처럼 나도 유니콘' 꿈꾸는 세대 급증",
+    "topics": ["토스 이승건", "당근마켓", "야놀자", "컬리", "크래프톤", "쏘카", "직방"],
+    "market_effect": {"category": "korean_stock", "power": 0.081},
     "misleading_chance": 0.19,
     "sentiment": "neutral"
   },
   {
     "id": "news_053",
     "category": "employment_crisis",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.033
-    },
+    "headline": "외국계 기업 한국 법인 확장 — {topic} 전문 인력 채용 문 넓어져",
+    "topics": ["AI·데이터 직군", "반도체 엔지니어", "회계·세무 전문가", "국제영업 인력", "바이오 연구원", "ESG 전문가", "사이버보안 전문가"],
+    "market_effect": {"category": "real_estate", "power": 0.033},
     "misleading_chance": 0.09,
     "sentiment": "greed"
   },
   {
     "id": "news_054",
     "category": "cryptocurrency",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": -0.014
-    },
+    "headline": "{topic} 반감기 D-30 — '역대급 상승' 강세론 vs '이미 반영' 신중론",
+    "topics": ["비트코인", "라이트코인", "비트코인캐시", "이캐시", "모네로", "지캐시", "대시"],
+    "market_effect": {"category": "crypto", "power": -0.014},
     "misleading_chance": 0.07,
     "sentiment": "neutral"
   },
   {
     "id": "news_055",
     "category": "korean_stocks",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.055
-    },
+    "headline": "{topic} 목표주가 줄줄이 상향... 증권가 '지금이 매수 타이밍'",
+    "topics": ["삼성전자", "SK하이닉스", "현대차", "LG에너지솔루션", "삼성바이오로직스", "카카오페이", "크래프톤"],
+    "market_effect": {"category": "real_estate", "power": 0.055},
     "misleading_chance": 0.11,
     "sentiment": "greed"
   },
   {
     "id": "news_056",
     "category": "us_stocks",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": -0.08
-    },
+    "headline": "달러 강세 지속에 {topic} 하락 — 원화 투자자 이중 손실 경고",
+    "topics": ["나스닥", "S&P500", "해외 성장주", "미국 기술주", "테슬라", "엔비디아", "빅테크 ETF"],
+    "market_effect": {"category": "startup", "power": -0.08},
     "misleading_chance": 0.06,
     "sentiment": "fear"
   },
   {
     "id": "news_057",
     "category": "real_estate",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.049
-    },
+    "headline": "{topic} 경매 물건 급증 — 낙찰가율 78% 하락, 급매 기회 포착 주목",
+    "topics": ["서울 아파트", "강북 빌라", "오피스텔", "수도권 아파트", "경기 아파트", "인천 아파트", "원룸 다가구"],
+    "market_effect": {"category": "us_stock", "power": -0.049},
     "misleading_chance": 0.08,
     "sentiment": "neutral"
   },
   {
     "id": "news_058",
     "category": "politics",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.085
-    },
+    "headline": "정부 {topic} 긴급 대책 발표 — 효과 의문에 시장 냉담",
+    "topics": ["물가 급등", "전세 사기", "주거 불안", "청년 취업", "코인 투기", "금융 불안", "외환위기 우려"],
+    "market_effect": {"category": "crypto", "power": -0.085},
     "misleading_chance": 0.08,
     "sentiment": "fear"
   },
   {
     "id": "news_059",
     "category": "social_trends",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": -0.053
-    },
+    "headline": "주4일제 도입 기업 늘자 {topic} 이직 러시 — 중소기업 인력난 심화",
+    "topics": ["IT 직군", "사무직 직장인", "마케터", "개발자", "디자이너", "콘텐츠 크리에이터", "영업직"],
+    "market_effect": {"category": "startup", "power": -0.053},
     "misleading_chance": 0.1,
     "sentiment": "neutral"
   },
   {
     "id": "news_060",
     "category": "ai_boom",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": 0.031
-    },
+    "headline": "{topic}, 오픈소스 공개로 AI 민주화 논쟁 점화 — 기업 독점 vs 공유",
+    "topics": ["메타 라마", "미스트랄AI", "네이버 HyperCLOVA", "삼성 가우스", "카카오 KoGPT", "LG EXAONE", "코난테크놀로지"],
+    "market_effect": {"category": "us_stock", "power": 0.031},
     "misleading_chance": 0.14,
     "sentiment": "greed"
   },
   {
     "id": "news_061",
     "category": "startup_culture",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.002
-    },
+    "headline": "{topic} 직원 평균 연봉 1억 돌파 — '스타트업이 대기업보다 낫다' 인식 확산",
+    "topics": ["토스", "카카오", "네이버", "쿠팡", "배달의민족", "당근마켓", "크래프톤"],
+    "market_effect": {"category": "real_estate", "power": 0.002},
     "misleading_chance": 0.09,
     "sentiment": "greed"
   },
   {
     "id": "news_062",
     "category": "employment_crisis",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": -0.025
-    },
+    "headline": "정규직 비율 역대 최저 — {topic} 상황에 노동시장 양극화 심화",
+    "topics": ["비정규직 확산", "플랫폼 노동 증가", "긱 이코노미", "계약직·파견직", "프리랜서 급증", "무기계약직 확대", "특수고용 형태"],
+    "market_effect": {"category": "real_estate", "power": -0.025},
     "misleading_chance": 0.15,
     "sentiment": "fear"
   },
   {
     "id": "news_063",
     "category": "cryptocurrency",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.08
-    },
+    "headline": "김치프리미엄 10% 돌파 — {topic} 국내 과열 수준 재진입 경보",
+    "topics": ["비트코인", "이더리움", "리플", "국내 코인 시장", "업비트 거래량", "빗썸 시세", "알트코인 시장"],
+    "market_effect": {"category": "crypto", "power": 0.08},
     "misleading_chance": 0.11,
     "sentiment": "neutral"
   },
   {
     "id": "news_064",
     "category": "korean_stocks",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "korean_stock",
-      "power": 0.088
-    },
+    "headline": "{topic} 회계감리 착수 소식에 장중 -9% 급락",
+    "topics": ["카카오", "셀트리온", "HMM", "한진칼", "에코프로", "NICE평가정보", "포스코DX"],
+    "market_effect": {"category": "korean_stock", "power": -0.088},
     "misleading_chance": 0.19,
     "sentiment": "fear"
   },
   {
     "id": "news_065",
     "category": "us_stocks",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.023
-    },
+    "headline": "{topic} CEO 갑작스런 사임 루머 — 주가 장중 -14% 낙폭 기록",
+    "topics": ["테슬라", "인텔", "보잉", "우버", "트위터(X)", "리비안", "패스트패션 기업"],
+    "market_effect": {"category": "us_stock", "power": -0.023},
     "misleading_chance": 0.19,
     "sentiment": "fear"
   },
   {
     "id": "news_066",
     "category": "real_estate",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.07
-    },
+    "headline": "{topic} 미분양 증가 가속 — 분양 시장 한파 전망 잇따라",
+    "topics": ["수도권 외곽", "지방 신도시", "대구 아파트", "인천 검단", "경기 화성", "세종시", "지방 오피스텔"],
+    "market_effect": {"category": "us_stock", "power": -0.07},
     "misleading_chance": 0.08,
     "sentiment": "neutral"
   },
   {
     "id": "news_067",
     "category": "politics",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "korean_stock",
-      "power": -0.023
-    },
+    "headline": "{topic} 국회 특위 구성 — '용두사미 될 것' 전문가들 회의론",
+    "topics": ["가상자산 제도화", "부동산 개혁", "노동시장 유연화", "연금 개혁", "반도체 지원법", "금융규제 완화", "탄소중립"],
+    "market_effect": {"category": "korean_stock", "power": -0.023},
     "misleading_chance": 0.14,
     "sentiment": "neutral"
   },
   {
     "id": "news_068",
     "category": "social_trends",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.009
-    },
+    "headline": "앱테크·짠테크 열풍 — {topic} 소소한 절약으로 종잣돈 모으기",
+    "topics": ["MZ세대", "20대 사회초년생", "직장인", "대학생", "N잡러", "프리랜서", "1인 가구"],
+    "market_effect": {"category": "crypto", "power": 0.009},
     "misleading_chance": 0.05,
     "sentiment": "greed"
   },
   {
     "id": "news_069",
     "category": "ai_boom",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.036
-    },
+    "headline": "삼성·SK의 {topic} 공급 계약 — 수조원 빅딜 성사 임박",
+    "topics": ["HBM4", "차세대 AI 칩", "엔비디아향 HBM", "애플 AI 서버 메모리", "마이크로소프트 AI 인프라", "구글 TPU", "아마존 커스텀 칩"],
+    "market_effect": {"category": "startup", "power": 0.036},
     "misleading_chance": 0.1,
     "sentiment": "neutral"
   },
   {
     "id": "news_070",
     "category": "startup_culture",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.012
-    },
+    "headline": "{topic} 투자 혹한기 지속 — VC들 '수익성 없으면 투자 없다'",
+    "topics": ["스타트업 생태계", "초기 스타트업", "시드 투자 시장", "VC 펀드 결성", "엑셀러레이터", "테크 스타트업", "AI 스타트업"],
+    "market_effect": {"category": "startup", "power": -0.05},
     "misleading_chance": 0.1,
     "sentiment": "fear"
   },
   {
     "id": "news_071",
     "category": "employment_crisis",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.057
-    },
+    "headline": "청년 창업 지원금 {topic} 확대 — '취업 대신 창업' 선택하는 2030 급증",
+    "topics": ["정부 창업 지원금", "청년 창업 대출", "액셀러레이터 지원", "창업 부트캠프", "기술창업 보조금", "소셜벤처 지원", "예비창업자 패키지"],
+    "market_effect": {"category": "crypto", "power": 0.057},
     "misleading_chance": 0.19,
     "sentiment": "greed"
   },
   {
     "id": "news_072",
     "category": "cryptocurrency",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": 0.033
-    },
+    "headline": "{topic} 거래량 역대 최고 경신 — 개인 투자자 폭발적 유입 과열 우려",
+    "topics": ["국내 코인 시장", "업비트", "빗썸", "전체 암호화폐 시장", "비트코인 거래량", "알트코인 시장", "선물 거래량"],
+    "market_effect": {"category": "crypto", "power": 0.033},
     "misleading_chance": 0.15,
     "sentiment": "neutral"
   },
   {
     "id": "news_073",
     "category": "korean_stocks",
-    "headline": "정부 {topic} 대책 발표, 시장은 엇갈린 반응",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "crypto",
-      "power": -0.031
-    },
+    "headline": "{topic}, 미중 무역분쟁 피해주로 분류 — 당분간 약세 불가피",
+    "topics": ["삼성전자", "SK하이닉스", "LG에너지솔루션", "코스피 수출주", "반도체주", "배터리주", "2차전지주"],
+    "market_effect": {"category": "crypto", "power": -0.031},
     "misleading_chance": 0.07,
     "sentiment": "fear"
   },
   {
     "id": "news_074",
     "category": "us_stocks",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.056
-    },
+    "headline": "월가 애널리스트 '{topic} 향후 12개월 30% 상승 가능성' 보고서",
+    "topics": ["엔비디아", "마이크로소프트", "구글", "아마존", "메타", "애플", "테슬라"],
+    "market_effect": {"category": "startup", "power": 0.056},
     "misleading_chance": 0.06,
     "sentiment": "greed"
   },
   {
     "id": "news_075",
     "category": "real_estate",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.035
-    },
+    "headline": "{topic} GTX 개통 확정에 역세권 매물 실종 — 호가 폭등",
+    "topics": ["동탄", "수서", "운정", "킨텍스", "의정부", "인덕원", "팔달"],
+    "market_effect": {"category": "real_estate", "power": 0.035},
     "misleading_chance": 0.24,
     "sentiment": "neutral"
   },
   {
     "id": "news_076",
     "category": "politics",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "real_estate",
-      "power": 0.02
-    },
+    "headline": "여당, {topic} 입법 강행 예고 — 재계 '기업 옥죄기' 경고",
+    "topics": ["플랫폼 규제", "대기업 집단 소유제한", "금융지주 제한", "핀테크 허가제", "코인거래소 규제", "공정거래법 개정", "산업 안전법"],
+    "market_effect": {"category": "real_estate", "power": -0.02},
     "misleading_chance": 0.12,
     "sentiment": "fear"
   },
   {
     "id": "news_077",
     "category": "social_trends",
-    "headline": "{topic} 관련주 급등락... 전문가들 \"과열 주의\"",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "us_stock",
-      "power": -0.068
-    },
+    "headline": "{topic} 내집 마련 포기 비율 역대 최고 — '부동산은 기성세대 것'",
+    "topics": ["2030 세대", "청년층", "MZ세대", "30대 직장인", "사회초년생", "신혼부부", "1인 가구"],
+    "market_effect": {"category": "us_stock", "power": -0.068},
     "misleading_chance": 0.13,
     "sentiment": "fear"
   },
   {
     "id": "news_078",
     "category": "ai_boom",
-    "headline": "2030 사이에서 {topic} 인증 열풍... FOMO 확산",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.031
-    },
+    "headline": "{topic}, 인간 대체 가능 영역 급속 확대 — '화이트칼라 일자리 위협' 경고",
+    "topics": ["ChatGPT", "클로드", "제미나이", "코파일럿", "AI 변호사", "AI 회계사", "AI 의사"],
+    "market_effect": {"category": "startup", "power": 0.031},
     "misleading_chance": 0.16,
     "sentiment": "neutral"
   },
   {
     "id": "news_079",
     "category": "startup_culture",
-    "headline": "[속보] {topic}, 투자자 불안 커져... 커뮤니티는 갑론을박",
-    "topics": [
-      "AI",
-      "코인",
-      "강남 부동산",
-      "청년 취업",
-      "미국 기술주",
-      "전세 시장",
-      "스타트업 투자"
-    ],
-    "market_effect": {
-      "category": "startup",
-      "power": 0.033
-    },
+    "headline": "실패한 창업가 모임 {topic}... '창업 실패 경험' 재평가 문화 확산",
+    "topics": ["리셋 클럽", "피벗 커뮤니티", "폐업 창업자 네트워크", "시니어 창업자 모임", "연쇄 창업가 그룹", "2차 창업자 네트워크", "스타트업 부검 세미나"],
+    "market_effect": {"category": "startup", "power": -0.04},
     "misleading_chance": 0.24,
     "sentiment": "fear"
   }

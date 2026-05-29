@@ -10,7 +10,11 @@
     "conditions": {
       "max_stress": 80
     },
-    "tags": ["social", "gosiwon", "relationship"],
+    "tags": [
+      "social",
+      "gosiwon",
+      "relationship"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -53,7 +57,11 @@
       "min_turn": 2,
       "max_stress": 85
     },
-    "tags": ["social", "daily", "relationship"],
+    "tags": [
+      "social",
+      "daily",
+      "relationship"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -130,7 +138,7 @@
   {
     "id": "family_002",
     "title": "부모님의 전화",
-    "description": "부모님의 전화. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "일요일 오후, 화면에 '엄마'가 뜬다. 요즘 잘 지내냐는 말에 뭐라고 답해야 할지 모르겠다. 고시원 월세도 아직 통장에 없다는 말은 차마 못 꺼낸다.",
     "category": "family",
     "rarity": "common",
     "weight": 8,
@@ -171,12 +179,15 @@
   {
     "id": "jobs_003",
     "title": "이직 공고 발견",
-    "description": "이직 공고 발견. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "헤드헌터한테 LinkedIn 메시지가 왔다. 현재 연봉보다 20% 높은 포지션 제안. 그런데 지금 팀에 이제 막 적응하고 있는 중이다.",
     "category": "jobs",
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
     "tags": [
       "jobs",
       "pressure"
@@ -212,7 +223,7 @@
   {
     "id": "social_life_004",
     "title": "친구의 투자 자랑",
-    "description": "친구의 투자 자랑. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "단톡방에 친구의 수익 인증샷이 올라왔다. '나도 그거 봤었는데'라는 말이 목구멍에서 맴돈다. 자랑인지 위로인지 모르겠지만, 부러운 건 확실하다.",
     "category": "social_life",
     "rarity": "uncommon",
     "weight": 4,
@@ -262,7 +273,7 @@
   {
     "id": "politics_005",
     "title": "선거철 테마주",
-    "description": "선거철 테마주. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "선거가 다가오자 증권 앱 알림이 폭발한다. 특정 후보 관련주라며 단톡방이 난리다. 이게 투자인지 도박인지 헷갈리기 시작한다.",
     "category": "politics",
     "rarity": "rare",
     "weight": 1.7,
@@ -306,7 +317,7 @@
   {
     "id": "gambling_006",
     "title": "불법 리딩방 광고",
-    "description": "불법 리딩방 광고. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "인스타 DM에 리딩방 광고가 또 왔다. 수익 인증 스크린샷이 가득하다. 저게 다 맞으면 왜 나한테 알려주는 걸까.",
     "category": "gambling",
     "rarity": "uncommon",
     "weight": 4,
@@ -347,7 +358,7 @@
   {
     "id": "military_007",
     "title": "예비군 문자",
-    "description": "예비군 문자. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "'예비군 훈련 통지서'라는 문자가 왔다. 연차를 써야 하나, 병가를 써야 하나. 국방부랑 회사 사이에 낀 기분이다.",
     "category": "military",
     "rarity": "common",
     "weight": 8,
@@ -390,7 +401,7 @@
   {
     "id": "health_008",
     "title": "수면 부족 누적",
-    "description": "수면 부족 누적. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "새벽 2시인데 잠이 안 온다. 눈은 피곤한데 뇌는 계속 돌아간다. 어제도 그제도 같은 시간에 같은 고민을 했다는 걸 스스로 알고 있다.",
     "category": "health",
     "rarity": "uncommon",
     "weight": 4,
@@ -440,7 +451,7 @@
   {
     "id": "disasters_009",
     "title": "휴대폰 파손",
-    "description": "휴대폰 파손. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "계단에서 폰을 떨어뜨렸다. 화면이 산산조각이다. 수리 견적은 30만원, 새 기기는 100만원이 넘는다. 통장을 열어볼 엄두가 안 난다.",
     "category": "disasters",
     "rarity": "common",
     "weight": 8,
@@ -481,7 +492,7 @@
   {
     "id": "comedy_010",
     "title": "강남역 도믿맨",
-    "description": "강남역 도믿맨. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "강남역 출구 앞에 전단지를 나눠주는 사람이 서 있다. 오늘따라 왠지 걸음이 잠깐 느려진다. 이 도시에서 무상으로 뭔가를 받아본 게 언제였더라.",
     "category": "comedy",
     "rarity": "rare",
     "weight": 1.7,
@@ -525,7 +536,7 @@
   {
     "id": "finance_011",
     "title": "청약 단톡방 광풍",
-    "description": "청약 단톡방 광풍. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "단톡방에 청약 공고가 공유됐다. 가점 총합, 예상 경쟁률, 당첨 확률 계산이 쏟아진다. 청약 통장도 없다는 사실이 갑자기 뼈아프다.",
     "category": "finance",
     "rarity": "common",
     "weight": 8,
@@ -568,7 +579,7 @@
   {
     "id": "romance_012",
     "title": "카톡 읽씹 3시간",
-    "description": "카톡 읽씹 3시간. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "보냈던 카톡에 읽음 표시가 떴다. 그런데 답장이 없다. 3시간째다. 뭔가 잘못한 게 있나 처음부터 대화를 돌아보기 시작한다.",
     "category": "romance",
     "rarity": "rare",
     "weight": 1.7,
@@ -618,7 +629,7 @@
   {
     "id": "family_013",
     "title": "집안 병원비",
-    "description": "집안 병원비. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "부모님한테 연락이 왔다. 병원비가 생각보다 많이 나왔다고 한다. 도와드리고 싶은데, 내 통장도 빠듯하다. 이 죄책감의 무게가 얼마인지 계산이 안 된다.",
     "category": "family",
     "rarity": "common",
     "weight": 8,
@@ -661,13 +672,15 @@
   {
     "id": "jobs_014",
     "title": "팀장님의 한마디",
-    "description": "팀장님의 한마디. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "팀 회의 중 팀장님이 한마디 했다. '요즘 퇴근이 좀 빠른 것 같던데, 맡은 일 다 되고 있는 거죠?' 전 팀원이 듣는 자리에서.",
     "category": "jobs",
     "rarity": "common",
     "weight": 8,
     "hidden": false,
     "conditions": {
-      "min_turn": 18
+      "has_job": true,
+      "min_turn": 18,
+      "min_job_tier": 2
     },
     "tags": [
       "jobs",
@@ -704,7 +717,7 @@
   {
     "id": "gambling_017",
     "title": "토토방 링크",
-    "description": "토토방 링크. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "오픈카톡방에 토토 링크가 올라왔다. '이번 주 적중률 89%'라는 문구가 달려있다. 89%면 손해 안 보는 거 아닌가, 라는 생각이 0.3초간 들었다.",
     "category": "gambling",
     "rarity": "rare",
     "weight": 1.7,
@@ -745,7 +758,7 @@
   {
     "id": "military_018",
     "title": "복무 기억의 밤",
-    "description": "복무 기억의 밤. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "밤에 혼자 있다 보면 군 복무 시절 기억이 갑자기 떠오른다. 그 날들이 좋았는지 나빴는지 아직도 모르겠다. 친했던 동기한테 연락해볼까 싶다.",
     "category": "military",
     "rarity": "common",
     "weight": 8,
@@ -786,7 +799,7 @@
   {
     "id": "health_019",
     "title": "건강검진 결과",
-    "description": "건강검진 결과. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "건강검진 결과지가 나왔다. '경계 수치', '추적 관찰 필요'라는 단어들이 보인다. 이게 진짜 문제인지 아닌지, 혼자선 판단이 안 된다.",
     "category": "health",
     "rarity": "rare",
     "weight": 1.7,
@@ -827,7 +840,7 @@
   {
     "id": "disasters_020",
     "title": "전세 사기 뉴스",
-    "description": "전세 사기 뉴스. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "뉴스에 전세 사기 피해자 기사가 또 나왔다. 내 이름으로 된 계약서가 떠오른다. 설마 내 집도? 생각이 거기까지 가자 손이 떨려왔다.",
     "category": "disasters",
     "rarity": "common",
     "weight": 8,
@@ -880,7 +893,7 @@
   {
     "id": "comedy_021",
     "title": "AI 관상 앱",
-    "description": "AI 관상 앱. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "AI 관상 앱이 SNS에서 유행이다. 사진 올리면 사주를 봐준다고 한다. 반신반의하면서도 앱을 다운 받고 있는 나 자신이 우습다.",
     "category": "comedy",
     "rarity": "common",
     "weight": 8,
@@ -923,7 +936,7 @@
   {
     "id": "family_024",
     "title": "동생의 부탁",
-    "description": "동생의 부탁. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "동생한테 카톡이 왔다. '형(언니), 잠깐 50만원만...' 나도 빠듯한데 가족한테 못 한다는 말이 입에서 안 나온다. 이 사람이 제일 착한 사람인지, 제일 호구인지 알 수가 없다.",
     "category": "family",
     "rarity": "uncommon",
     "weight": 4,
@@ -973,12 +986,14 @@
   {
     "id": "jobs_025",
     "title": "퇴사 브이로그 유혹",
-    "description": "퇴사 브이로그 유혹. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "유튜브 알고리즘에 '퇴사 브이로그'가 뜬다. 브이로그 속 그는 자유로워 보인다. 근데 현실을 보면, 내 통장 잔액이 눈에 밟힌다.",
     "category": "jobs",
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "jobs",
       "anxiety"
@@ -1017,7 +1032,7 @@
   {
     "id": "health_030",
     "title": "새벽 가슴 두근거림",
-    "description": "새벽 가슴 두근거림. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "자려고 누웠는데 갑자기 심장이 쿵쿵댄다. 커피를 너무 마셨나, 스트레스인가. 새벽 2시에 응급실 검색을 시작하면 이미 늦은 거다.",
     "category": "health",
     "rarity": "uncommon",
     "weight": 4,
@@ -1061,7 +1076,7 @@
   {
     "id": "comedy_032",
     "title": "중고거래 네고왕",
-    "description": "중고거래 네고왕. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "당근에 물건을 올렸더니 댓글이 달렸다. '3만원에 드릴 수 있나요? 바로 가져갈게요.' 5만원을 올렸는데 왜 항상 원가의 60%를 부르는 걸까.",
     "category": "comedy",
     "rarity": "common",
     "weight": 8,
@@ -1111,7 +1126,7 @@
   {
     "id": "finance_033",
     "title": "ETF 인증샷",
-    "description": "ETF 인증샷. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "인스타에 S&P500 ETF 수익률 인증샷이 올라왔다. '작년에 30% 수익!' 댓글은 전부 '대단하다', '어떻게 했어요?'. 나는 좋아요만 눌렀다.",
     "category": "finance",
     "rarity": "common",
     "weight": 8,
@@ -1154,7 +1169,7 @@
   {
     "id": "romance_034",
     "title": "강남역 비 오는 밤",
-    "description": "강남역 비 오는 밤. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "퇴근길에 비가 쏟아졌다. 우산이 없다. 강남역 입구에서 잠깐 멈췄다. 이상하게 오늘 같은 날은 혼자인 게 더 실감난다.",
     "category": "romance",
     "rarity": "rare",
     "weight": 1.7,
@@ -1195,7 +1210,7 @@
   {
     "id": "family_035",
     "title": "친척 모임 압박",
-    "description": "친척 모임 압박. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "설 연휴 전날 친척 모임 공지가 왔다. '올해는 꼭 오세요.' '뭐 해요 요즘, 결혼은요?' 질문들이 이미 머릿속에서 준비되고 있다.",
     "category": "family",
     "rarity": "common",
     "weight": 8,
@@ -1241,12 +1256,14 @@
   {
     "id": "jobs_036",
     "title": "야근 메신저",
-    "description": "야근 메신저. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "저녁 8시에 팀장님한테 메시지가 왔다. '오늘 야근 가능해요?' 퇴근길 지하철 안이다. 사실 불가능하지만, 어떻게 답해야 할지 모르겠다.",
     "category": "jobs",
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "jobs",
       "satire"
@@ -1291,7 +1308,7 @@
   {
     "id": "social_life_037",
     "title": "술자리 계산서",
-    "description": "술자리 계산서. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "술자리가 끝났는데 계산서가 나왔다. 다들 서로 쳐다본다. 오늘 가장 많이 마신 사람이 누구인지 대충 알지만, 아무도 말을 꺼내지 않는다.",
     "category": "social_life",
     "rarity": "uncommon",
     "weight": 4,
@@ -1332,7 +1349,7 @@
   {
     "id": "politics_038",
     "title": "부동산 규제 루머",
-    "description": "부동산 규제 루머. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "부동산 카페에 규제 완화 루머가 돌고 있다. 공식 발표는 없고 '내부자 말로는...'이라는 글만 수백 개다. 믿어야 하나, 말아야 하나.",
     "category": "politics",
     "rarity": "uncommon",
     "weight": 4,
@@ -1373,7 +1390,7 @@
   {
     "id": "gambling_039",
     "title": "한 방이면 끝이라는 말",
-    "description": "한 방이면 끝이라는 말. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "'야, 이거 한 방이면 다 해결돼.' 어디선가 그 말이 들려왔다. 통계적으로는 말이 안 된다는 걸 알면서도, 0.5초간 솔깃해진 건 비밀이다.",
     "category": "gambling",
     "rarity": "legendary",
     "weight": 0.55,
@@ -1416,7 +1433,7 @@
   {
     "id": "military_040",
     "title": "군대 선임의 연락",
-    "description": "군대 선임의 연락. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "연락 없던 군대 선임한테 갑자기 카톡이 왔다. '야, 오랜만이다.' 근황 묻다가 어딘가 이상한 방향으로 흘러갈 것 같은 예감이 든다.",
     "category": "military",
     "rarity": "uncommon",
     "weight": 4,
@@ -1469,7 +1486,7 @@
   {
     "id": "comedy_043",
     "title": "재테크 유튜버의 춤",
-    "description": "재테크 유튜버의 춤. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "'50억 자산가'라는 유튜버가 춤을 추고 있다. 썸네일은 '30대에 강남 아파트 산 비결.' 실제 내용은 6분 뒤 보험 가입 권유로 시작된다.",
     "category": "comedy",
     "rarity": "common",
     "weight": 8,
@@ -1510,7 +1527,7 @@
   {
     "id": "romance_045",
     "title": "연인의 현실 질문",
-    "description": "연인의 현실 질문. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "사귄 지 6개월이 됐다. 상대가 물었다. '우리 앞으로 어떻게 될 것 같아?' 감정적으로는 좋은데, 현실적으로는 불안하다. 진심을 말하면 다칠 것 같다.",
     "category": "romance",
     "rarity": "rare",
     "weight": 1.7,
@@ -1554,7 +1571,7 @@
   {
     "id": "social_life_048",
     "title": "동창회 초대장",
-    "description": "동창회 초대장. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "고등학교 동창회 초대장이 왔다. '10년만의 모임!' 그때 잘나가던 애들이 다 잘살고 있을 텐데. 잘 사는 척하러 가야 하나, 바쁘다고 빠져야 하나.",
     "category": "social_life",
     "rarity": "common",
     "weight": 8,
@@ -1604,7 +1621,7 @@
   {
     "id": "health_063",
     "title": "편의점 도시락의 역습",
-    "description": "편의점 도시락의 역습. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "오늘도 저녁은 편의점 도시락이다. 삼각김밥, 레몬파이, 에너지음료. 이게 식사인지 간식인지 경계가 흐릿해진 지 오래다.",
     "category": "health",
     "rarity": "uncommon",
     "weight": 4,
@@ -1647,7 +1664,7 @@
   {
     "id": "gambling_072",
     "title": "코인 선물 유혹",
-    "description": "코인 선물 유혹. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "코인 선물 거래 광고가 계속 뜬다. '10배 레버리지로 1000만원을 5000만원으로!' 유혹은 구체적인데 실패 사례는 아무도 안 보여준다.",
     "category": "gambling",
     "rarity": "common",
     "weight": 8,
@@ -1697,7 +1714,7 @@
   {
     "id": "disasters_075",
     "title": "월세 인상 통보",
-    "description": "월세 인상 통보. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "집주인한테 연락이 왔다. '이번에 월세 5만원 올려야 할 것 같아요.' 5만원이지만, 1년이면 60만원이다. 더 싼 곳을 구해도 이사 비용이 더 들 것 같다.",
     "category": "disasters",
     "rarity": "common",
     "weight": 8,
@@ -1741,7 +1758,7 @@
   {
     "id": "romance_078",
     "title": "소개팅 후 정적",
-    "description": "소개팅 후 정적. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "소개팅이 끝났다. 헤어질 때 '연락해요'라는 말을 했는데 그게 빈말인지 진심인지 모르겠다. 집에 오는 지하철 안, 폰 화면만 계속 쳐다보게 된다.",
     "category": "romance",
     "rarity": "common",
     "weight": 8,
@@ -1784,7 +1801,7 @@
   {
     "id": "politics_082",
     "title": "청년 지원금 논란",
-    "description": "청년 지원금 논란. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "정부가 청년 지원금을 발표했다. SNS에선 '공돈이다' vs '세금 낭비다' 싸움이 난리다. 나는 일단 내가 받을 수 있는지부터 확인하고 싶다.",
     "category": "politics",
     "rarity": "common",
     "weight": 8,
@@ -1825,7 +1842,7 @@
   {
     "id": "finance_099",
     "title": "마이너스 통장 알림",
-    "description": "마이너스 통장 알림. 서울의 속도는 멈추지 않고, 당신의 통장과 멘탈은 매달 시험대에 오른다. 이번 선택은 돈, 관계, 평판 중 무엇을 지킬지 묻는다.",
+    "description": "새벽에 은행 앱 알림이 왔다. '마이너스 통장 잔액 경고.' 이달 지출을 되짚어보니 어디서 샌 건지 모르겠다. 그냥 이대로 두면 다음 달엔 어떻게 되는 거지.",
     "category": "finance",
     "rarity": "uncommon",
     "weight": 4,
@@ -2016,7 +2033,8 @@
     "weight": 1.6,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_job": true,
+      "min_job_tier": 2
     },
     "tags": [
       "job",
@@ -2065,7 +2083,8 @@
     "hidden": false,
     "conditions": {
       "has_job": true,
-      "min_turn": 8
+      "min_turn": 8,
+      "min_job_tier": 2
     },
     "tags": [
       "job",
@@ -2227,7 +2246,8 @@
     "conditions": {
       "has_job": true,
       "min_turn": 7,
-      "min_reputation": 5
+      "min_reputation": 5,
+      "min_job_tier": 2
     },
     "tags": [
       "job",
@@ -2939,12 +2959,14 @@
   {
     "id": "job_first_hoesik",
     "title": "첫 회식",
-    "description": "팀장님이 오늘 회식이라고 했다. '자율참여'지만 분위기상 안 갈 수 없다. 고기집에서 소주가 돌아온다.",
+    "description": "팀장님이 '오늘 회식이에요, 자율 참여예요'라고 했다. 자율이지만 분위기상 안 갈 수 없다. 삼겹살집에 소주가 돌아온다. 술을 얼마나 마셔야 자연스러울까.",
     "category": "job",
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "social",
@@ -2985,12 +3007,14 @@
   {
     "id": "job_kakaotalk_after_work",
     "title": "퇴근 후 업무 카톡",
-    "description": "밤 10시, 팀장님한테 카톡이 왔다. '내일 아침 보고서 있어요? 오늘 밤 중으로 초안 부탁드립니다.'",
+    "description": "밤 10시, 퇴근하고 누웠는데 팀장님한테 카톡이 왔다. '내일 아침 보고서 있어요? 오늘 밤 중으로 초안 부탁드립니다.' 내일 9시 출근인데.",
     "category": "job",
     "rarity": "common",
     "weight": 1.4,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "stress",
@@ -3118,12 +3142,14 @@
   {
     "id": "job_annual_leave",
     "title": "연차 쓰는 법을 모르겠다",
-    "description": "몸이 안 좋아서 연차를 쓰고 싶다. 팀장님한테 어떻게 말하지? 시스템은 어디 있지? 눈치는 얼마나 봐야 하지?",
+    "description": "몸이 안 좋아서 연차를 쓰고 싶다. 그런데 팀장님한테 어떻게 말해야 하지? 사내 시스템은 어디 있지? 눈치는 얼마나 봐야 하지?",
     "category": "job",
     "rarity": "common",
     "weight": 1.1,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "stress",
@@ -3164,12 +3190,15 @@
   {
     "id": "job_performance_feedback",
     "title": "첫 성과 피드백",
-    "description": "3개월차 첫 성과 면담. 팀장님이 '기대 이하'라고 했다. 구체적으로 뭘 잘못했는지는 안 알려줬다.",
+    "description": "입사 3개월차, 첫 성과 면담. 팀장님이 '기대 이하'라고 했다. 구체적으로 뭘 잘못했는지는 안 알려준다. 혼자 유추해야 한다.",
     "category": "job",
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true,
+      "min_turn": 3
+    },
     "tags": [
       "job",
       "stress",
@@ -3209,12 +3238,14 @@
   {
     "id": "job_office_gossip",
     "title": "점심 시간 험담",
-    "description": "점심 먹으러 갔더니 직원들이 다른 팀 얘기를 한다. 나한테도 동참을 유도한다. 나도 모르게 웃으며 끄덕였다.",
+    "description": "점심을 먹으러 갔더니 동료들이 다른 팀 얘기를 한다. 나한테도 동참을 유도한다. 나도 모르게 웃으며 고개를 끄덕였다.",
     "category": "job",
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "job",
       "social",
@@ -4610,6 +4641,321 @@
           "stress": -3
         },
         "result_text": "경제는 나중에. 지금은 음악이다. 그것도 나쁘지 않다."
+      }
+    ]
+  },
+  {
+    "id": "first_job_rejection",
+    "title": "서류 탈락",
+    "description": "이메일 알림이 떴다.\n\n'지원해주셔서 감사합니다. 귀하의 서류를 검토한 결과,\n이번에는 함께하기 어렵게 됐습니다...'\n\n3일을 기다린 결과가 이 한 줄이었다.\n{name}은 스마트폰 화면을 끄고 잠깐 천장을 봤다.\n\n괜찮다. 첫 번째가 아닐 수도 있는 것이다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 3.5,
+    "hidden": false,
+    "conditions": {
+      "no_job": true,
+      "flag": "story_job_unlocked",
+      "max_stress": 75
+    },
+    "tags": [
+      "job",
+      "rejection",
+      "early_game"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "다음 지원서를 바로 쓴다. 멈출 수 없다.",
+        "effects": {
+          "intelligence": 3,
+          "stress": 4,
+          "mental": -2
+        },
+        "result_text": "탈락한 이유를 분석하고 이력서를 고쳤다.\n감정은 나중에. 지금은 다음 회사다.\n{name}은 다시 지원 버튼을 눌렀다."
+      },
+      {
+        "text": "잠깐 쉬었다가 다시 한다.",
+        "effects": {
+          "mental": 5,
+          "stress": -3
+        },
+        "result_text": "커피 한 잔.\n탈락도 과정이다.\n{name}은 오늘 그것을 받아들이기로 했다."
+      },
+      {
+        "text": "무엇이 부족했는지 스스로 점검한다.",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 1,
+          "stress": 2
+        },
+        "result_text": "지원 자격, 자기소개서, 경력란...\n모자란 부분이 보였다.\n다음엔 다르게 쓸 수 있다. {name}은 조금 성장했다."
+      }
+    ]
+  },
+  {
+    "id": "convenience_midnight_snack",
+    "title": "자정 편의점",
+    "description": "밤 12시.\n배가 고파서 편의점에 들렀다.\n\n냉장고 앞에 한참 서서 골랐다.\n1,000원짜리 삼각김밥이냐, 3,800원짜리 도시락이냐.\n\n통장 잔고가 머릿속을 스쳤다.\n{name}은 여기서 처음으로 '돈 때문에' 망설였다.",
+    "category": "life",
+    "rarity": "common",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "no_flag": "story_six_months_seen"
+    },
+    "tags": [
+      "daily",
+      "food",
+      "early_game"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "그냥 도시락 산다. 오늘은 나를 챙긴다.",
+        "effects": {
+          "money": -3800,
+          "health": 3,
+          "mental": 4
+        },
+        "result_text": "3,800원.\n집에서 먹던 밥이랑 비교하면 작은 돈인데.\n{name}은 혼자 먹는 이 도시락이 묘하게 뭉클했다."
+      },
+      {
+        "text": "삼각김밥 두 개. 절약이 미래다.",
+        "effects": {
+          "money": -2000,
+          "health": 1,
+          "stress": 2
+        },
+        "result_text": "삼각김밥 두 개. 1,000원 아꼈다.\n이 1,000원이 쌓이면 언젠가 의미가 생긴다.\n{name}은 그걸 믿기로 했다."
+      },
+      {
+        "text": "참는다. 내일 아침까지 버틸 수 있다.",
+        "effects": {
+          "health": -3,
+          "stress": 3,
+          "mental": -2
+        },
+        "result_text": "돈을 아꼈지만 배는 고팠다.\n밤 12시에 이런 선택을 하게 될 줄 몰랐다.\n{name}은 빨리 취업해야겠다고 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "small_unexpected_win",
+    "title": "오늘의 작은 행운",
+    "description": "걸어가다가 5만원짜리 지폐를 발견했다.\n아무도 없는 골목.\n\n주변을 둘러봤지만 떨어뜨린 사람은 보이지 않는다.\n서울에 올라온 뒤 처음으로 운이 따라준 날.",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_luck": 40,
+      "no_flag": "story_six_months_seen"
+    },
+    "tags": [
+      "luck",
+      "money",
+      "early_game"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "근처 파출소에 신고한다.",
+        "effects": {
+          "reputation": 6,
+          "mental": 8,
+          "stress": -3
+        },
+        "result_text": "파출소 경찰관이 '요즘 이런 분도 있군요' 했다.\n돈은 못 가졌지만 마음이 가벼워졌다.\n{name}은 오늘 스스로가 마음에 들었다."
+      },
+      {
+        "text": "6개월 뒤에도 주인이 안 나타나면 내 거. 일단 챙긴다.",
+        "effects": {
+          "money": 50000,
+          "luck": 2,
+          "mental": 5
+        },
+        "result_text": "모르는 척하고 주머니에 넣었다.\n죄책감이 잠깐 올라왔다가 사라졌다.\n5만원. 서울에서의 첫 번째 행운이었다."
+      }
+    ]
+  },
+  {
+    "id": "startup_opportunity",
+    "title": "스타트업 공동창업 제안",
+    "description": "지인이 B2B SaaS 스타트업을 같이 해보자고 연락이 왔다. 아이디어는 있고 투자 유치도 얘기가 됐다고. 공동창업자로 들어오면 지분 20%를 주겠다 한다. 300만원이 필요하다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "min_money": 5000000,
+      "min_investment_skill": 35,
+      "min_reputation": 30,
+      "min_turn": 12,
+      "no_flag": "startup_founded"
+    },
+    "tags": [
+      "startup",
+      "opportunity",
+      "finance"
+    ],
+    "choices": [
+      {
+        "text": "함께한다 — 공동창업자로 합류 (자금 300만원 투입)",
+        "effects": {
+          "money": -3000000,
+          "reputation": 5,
+          "investment_skill": 3,
+          "stress": 8
+        },
+        "flags": [
+          "startup_founded"
+        ],
+        "result_text": "공동창업자 계약서에 도장을 찍었다. 통장에서 300만원이 빠져나갔고, 내 명함에 '공동창업자'가 찍혔다. 설레는 만큼 무섭다."
+      },
+      {
+        "text": "거절한다 — 지금은 리스크가 너무 크다",
+        "effects": {
+          "stress": -2,
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "정중히 거절했다. 지금 내 상황에서 감당할 수 있는 리스크가 아니었다. 언젠가 다른 기회가 올 것이다."
+      }
+    ]
+  },
+  {
+    "id": "startup_acquisition_offer",
+    "title": "스타트업 M&A 인수 제안",
+    "description": "같이 키운 스타트업에 대기업에서 인수 제안이 들어왔다. 내 지분 20%를 4억원에 사겠다고 한다. 팀원 고용 승계 조건까지 붙었다. 여기서 엑싯할 것인가, 아니면 더 키워볼 것인가.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "flag": "startup_founded",
+      "min_turn": 24,
+      "no_flag": "startup_exit"
+    },
+    "tags": [
+      "startup",
+      "exit",
+      "finance"
+    ],
+    "choices": [
+      {
+        "text": "수락한다 — 지금 4억원에 엑싯",
+        "effects": {
+          "money": 400000000,
+          "reputation": 20,
+          "stress": -15,
+          "mental": 10
+        },
+        "flags": [
+          "startup_exit"
+        ],
+        "result_text": "계약서에 서명하는 손이 미세하게 떨렸다. 잠시 후 통장에 4억이 찍혔다. 스타트업 엑싯. 이게 그 느낌이구나."
+      },
+      {
+        "text": "거절한다 — 아직 가능성이 있다",
+        "effects": {
+          "stress": 6,
+          "investment_skill": 5,
+          "reputation": 3
+        },
+        "flags": [],
+        "result_text": "제안을 거절했다. 대기업 담당자가 아쉬운 표정을 지었다. 더 크게 만들어서 더 비싸게 팔든지, 아니면 망하든지."
+      }
+    ]
+  },
+  {
+    "id": "political_recruitment",
+    "title": "정치권 영입 제안",
+    "description": "지역구 의원 보좌관 출신 지인이 조심스럽게 물어봤다. 당에서 젊은 인재를 찾고 있다고, 보좌관을 거쳐 다음 선거를 준비해볼 생각이 있냐고. 뜬금없지만 솔직히 귀가 솔깃하다.",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "min_reputation": 55,
+      "min_social_skill": 40,
+      "min_turn": 18,
+      "no_flag": "political_candidate"
+    },
+    "tags": [
+      "politics",
+      "opportunity",
+      "career"
+    ],
+    "choices": [
+      {
+        "text": "진지하게 고려해본다 — 보좌관 자리를 수락",
+        "effects": {
+          "reputation": 10,
+          "social_skill": 5,
+          "stress": 6
+        },
+        "flags": [
+          "political_candidate"
+        ],
+        "result_text": "국회의원 보좌관 발령을 받았다. 정치의 맛은 예상보다 훨씬 복잡하고 더러웠다. 하지만 가능성도 보였다."
+      },
+      {
+        "text": "정중히 거절한다 — 정치는 내 길이 아니다",
+        "effects": {
+          "mental": 3,
+          "stress": -3
+        },
+        "flags": [],
+        "result_text": "웃으며 거절했다. 정치는 누군가가 해야 할 일이지만, 그게 반드시 나일 필요는 없다."
+      }
+    ]
+  },
+  {
+    "id": "political_election_victory",
+    "title": "선거 출마 결정",
+    "description": "3년을 보좌관으로 일했다. 이제 직접 나설 때라는 말을 계속 듣는다. 당 공천도 기대해볼 만하고 지지 세력도 생겼다. 하지만 선거는 돈과 체력을 많이 요구한다. 출마할 것인가.",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "flag": "political_candidate",
+      "min_reputation": 70,
+      "min_turn": 30,
+      "no_flag": "political_winner"
+    },
+    "tags": [
+      "politics",
+      "election",
+      "career"
+    ],
+    "choices": [
+      {
+        "text": "출마 선언 — 국회의원에 도전한다",
+        "effects": {
+          "money": -10000000,
+          "reputation": 20,
+          "social_skill": 8,
+          "stress": 15,
+          "health": -5
+        },
+        "flags": [
+          "political_winner"
+        ],
+        "result_text": "당선됐다. 개표 방송을 보는 내내 심장이 멎는 것 같았다. 이제 진짜 시작이다."
+      },
+      {
+        "text": "이번엔 포기한다 — 아직 때가 아니다",
+        "effects": {
+          "mental": -5,
+          "stress": 5
+        },
+        "flags": [],
+        "result_text": "출마를 포기했다. 지지자들에게 미안했다. 다음 기회가 있을지 모르겠지만, 지금은 아니다."
       }
     ]
   }

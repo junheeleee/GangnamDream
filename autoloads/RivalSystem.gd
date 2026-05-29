@@ -32,17 +32,25 @@ func _init_rival():
 		"luck": randi_range(35, 65),
 		"turn_first_job": -1,
 		"turn_first_million": -1,
+		"narrative_milestones": {},
 	}
 	_initialized = true
 
 func _on_turn_advanced(turn: int):
 	if not _initialized or rival.is_empty():
 		return
-	rival["age"] += 0  # 나이는 GameState 기준
+	rival["age"] = GameState.age
 	_process_rival(turn)
 
 func _process_rival(turn: int):
 	var r: Dictionary = rival
+
+	# 턴 2: 라이벌 첫 소개
+	if turn == 2:
+		rival_message.emit(
+			"👀 라이벌 등장  —  %s, 20세, 고시원.\n같은 출발선에서 시작했다. 누가 먼저 강남에 닿을까?" % r["name"],
+			"#a78bfa"
+		)
 
 	# 취업 판정
 	if r["job_name"] == "무직":
@@ -127,6 +135,7 @@ func _check_rival_housing():
 
 # ── 비교 메시지 ───────────────────────────────────
 func _maybe_compare(turn: int):
+	_check_rival_narrative(turn)
 	if turn % 4 != 0:
 		return
 	var player_assets: float = GameState.get_total_asset_value()
@@ -153,6 +162,71 @@ func _maybe_compare(turn: int):
 		color = "#ff4444"
 
 	rival_message.emit(msg, color)
+
+# ── 라이벌 서사 이벤트 ────────────────────────────
+func _check_rival_narrative(turn: int):
+	var n: String = str(rival["name"])
+	var assets: float = float(rival["total_assets"])
+	var milestones: Dictionary = rival.get("narrative_milestones", {})
+
+	# 첫 취업 후 첫 월급 한 턴
+	if rival.get("turn_first_job", -1) == turn - 1 and not milestones.get("first_paycheck_mentioned", false):
+		milestones["first_paycheck_mentioned"] = true
+		rival["narrative_milestones"] = milestones
+		rival_message.emit(
+			"💼 %s이(가) 첫 월급을 받았다고 한다. 치킨 샀대." % n, "#fbbf24")
+		return
+
+	# 2년차 — 이직 고민
+	if turn == 24 and not milestones.get("two_year_mentioned", false):
+		milestones["two_year_mentioned"] = true
+		rival["narrative_milestones"] = milestones
+		if assets > GameState.get_total_asset_value():
+			rival_message.emit(
+				"📱 %s이(가) 요즘 날아다닌다는 소문이 들린다. 이직 성공했대." % n, "#f97316")
+		else:
+			rival_message.emit(
+				"📱 %s도 요즘 이직 고민 중이라고 한다. 다들 그렇지." % n, "#8892a4")
+		return
+
+	# 3년차 — 투자 소문
+	if turn == 36 and not milestones.get("three_year_mentioned", false):
+		milestones["three_year_mentioned"] = true
+		rival["narrative_milestones"] = milestones
+		if assets >= 30_000_000.0:
+			rival_message.emit(
+				"💰 %s이(가) 주식으로 꽤 벌었다고 카톡 단체방이 시끄럽다." % n, "#f97316")
+		else:
+			rival_message.emit(
+				"💬 %s이(가) 요즘 코인 얘기를 달고 산다더라. 아직 수익은 없대." % n, "#8892a4")
+		return
+
+	# 5년차 — 인생의 갈림길
+	if turn == 60 and not milestones.get("five_year_mentioned", false):
+		milestones["five_year_mentioned"] = true
+		rival["narrative_milestones"] = milestones
+		if assets >= 100_000_000.0:
+			rival_message.emit(
+				"🏆 %s이(가) 서울 온 지 5년 만에 1억을 넘었다고 한다. FOMO 온다." % n, "#ff4444")
+		elif rival.get("housing", "gosiwon") in ["apartment", "gangnam"]:
+			rival_message.emit(
+				"🏠 %s이(가) 아파트로 이사했다고 SNS에 올렸다. 부럽다." % n, "#f97316")
+		else:
+			rival_message.emit(
+				"📊 서울 5년. %s도 아직 고군분투 중이라고 한다. 다들 그렇구나." % n, "#5a6075")
+		return
+
+	# 10년차 — 30대 진입
+	if turn == 120 and not milestones.get("ten_year_mentioned", false):
+		milestones["ten_year_mentioned"] = true
+		rival["narrative_milestones"] = milestones
+		if assets >= 500_000_000.0:
+			rival_message.emit(
+				"💎 %s이(가) 30대가 되자마자 자산 5억을 넘었다고 한다. 격차가 벌어진다." % n, "#ff4444")
+		else:
+			rival_message.emit(
+				"🎂 %s도 30대가 됐다. 서울에서 10년. 다들 어른이 됐네." % n, "#8892a4")
+		return
 
 # ── 유틸 ─────────────────────────────────────────
 func _rival_expense() -> float:

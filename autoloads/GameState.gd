@@ -6,6 +6,10 @@ signal turn_advanced(new_turn: int)
 signal game_over(ending_id: String)
 signal log_added(entry: Dictionary)
 signal run_started()
+signal stat_threshold_crossed(stat_name: String, threshold: int)
+
+const STAT_THRESHOLDS: Array = [30, 50, 70]
+var unlocked_stat_thresholds: Dictionary = {}
 
 var player_name = "김민준"
 var player_background = "지방_상경"  # 지방_상경 | 명문대_중퇴 | 금수저
@@ -17,7 +21,7 @@ var is_game_over = false
 var current_trait = "흙수저 생존본능"
 
 const HOUSING_DATA = {
-	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 800_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
+	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 650_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
 	"oneroom":   {"name": "원룸",       "emoji": "🏠", "expense": 1_100_000.0, "deposit": 5_000_000.0,   "next": "apartment", "req_cash": 7_000_000.0},
 	"apartment": {"name": "아파트",     "emoji": "🏢", "expense": 1_600_000.0, "deposit": 30_000_000.0,  "next": "gangnam",   "req_cash": 35_000_000.0},
 	"gangnam":   {"name": "강남 아파트", "emoji": "🏙", "expense": 2_800_000.0, "deposit": 100_000_000.0, "next": "",          "req_cash": 120_000_000.0},
@@ -27,7 +31,7 @@ var housing: String = "gosiwon"
 
 var money = 1_000_000.0
 var monthly_income = 0.0
-var fixed_expense = 800_000.0
+var fixed_expense = 650_000.0
 var health = 70
 var mental = 70
 var intelligence = 50
@@ -39,6 +43,11 @@ var luck = 45
 var action_points = 3
 var max_action_points = 3
 var tutorial_step = 3
+
+var route_orthodox: int = 0
+var route_unorthodox: int = 0
+var month_focus: String = ""
+var housing_months: Dictionary = {}
 
 var stress = 25
 var reputation = 10
@@ -57,6 +66,7 @@ var news_log: Array = []
 var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
+var run_theme_categories: Array = []
 var market_prices: Dictionary = {}
 var price_history: Dictionary = {}
 var market_context = {
@@ -86,7 +96,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	housing = "gosiwon"
 	money = 1_000_000.0
 	monthly_income = 0.0
-	fixed_expense = 800_000.0
+	fixed_expense = 650_000.0
 	health = 70
 	mental = 70
 	intelligence = 50
@@ -112,8 +122,14 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	event_log = []
 	action_log = []
 	flags = {}
+	run_theme_categories = []
 	market_prices = {}
 	price_history = {}
+	unlocked_stat_thresholds = {}
+	route_orthodox = 0
+	route_unorthodox = 0
+	month_focus = ""
+	housing_months = {}
 	market_context = {
 		"fear_greed": 50,
 		"cycle": "neutral",
@@ -124,6 +140,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 
 	_apply_trait_bonus(selected_trait)
 	_apply_background_bonus(chosen_background)
+	_roll_run_theme()
 	_init_market_prices()
 	add_log("새 런 시작: %s / %s" % [chosen_background, selected_trait], "system")
 	stats_changed.emit()
@@ -156,6 +173,18 @@ func _apply_trait_bonus(selected_trait):
 	if has_node("/root/MetaProgression"):
 		bonuses = MetaProgression.get_trait_bonus(selected_trait)
 	apply_effects(bonuses)
+
+func _roll_run_theme():
+	var pool = ["investment", "jobs", "social", "health", "relationship", "gambling", "finance"]
+	pool.shuffle()
+	run_theme_categories = [pool[0], pool[1]]
+	var label_map = {
+		"investment": "투자", "jobs": "직장", "social": "인간관계",
+		"health": "건강", "relationship": "연애", "gambling": "도박", "finance": "재정"
+	}
+	var a = label_map.get(pool[0], pool[0])
+	var b = label_map.get(pool[1], pool[1])
+	add_log("🎲 이번 런 테마: [%s + %s] — 관련 이벤트가 더 자주 등장합니다." % [a, b], "system")
 
 func _init_market_prices():
 	for asset in DataRegistry.assets:
@@ -195,9 +224,13 @@ func upgrade_housing() -> Dictionary:
 	if money < float(next_info.get("req_cash", 0.0)):
 		return {"success": false, "message": "자금이 부족합니다."}
 	var deposit_diff = float(next_info.get("deposit", 0.0)) - float(info.get("deposit", 0.0))
+	if current_trait == "강남 토박이" and deposit_diff > 0:
+		deposit_diff *= 0.8
+		add_log("🏙 강남 토박이 특성: 이사 비용 20% 절감", "system")
 	add_money(-deposit_diff)
 	housing = next_id
 	fixed_expense = get_housing_expense()
+	flags["housing_moved_once"] = true
 	add_log("이사: %s → %s (보증금 %s)" % [info.get("name",""), next_info.get("name",""), format_money(deposit_diff)], "system")
 	stats_changed.emit()
 	return {"success": true, "housing": next_info}
@@ -210,24 +243,56 @@ func apply_monthly_pressure():
 		flags["has_received_paycheck"] = true
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 
-	# ── 서울살이 기본 압박 ──────────────────────────────────────────
-	# 건강: 매달 자동 -2 (바쁜 일상, 수면 부족, 불규칙한 식사)
-	# 정신: 매달 자동 -3 (고독, 미래 불안, 도시 피로)
-	# 스트레스: 매달 자동 +3 (서울은 기본이 힘들다)
-	modify_stat("health", -2)
-	modify_stat("mental", -3)
-	modify_hidden_stat("stress", 3)
+	# ── 서울살이 기본 압박 (트레이트 패시브 적용) ──────────────────
+	var _s_mod := 3; var _h_mod := -2; var _m_mod := -3
+	match current_trait:
+		"야근 면역자":   _s_mod -= 2; _h_mod += 1
+		"번아웃 생존자": _s_mod -= 1; _m_mod += 2
+		"안정 지향형":   _s_mod -= 1; _m_mod += 1
+		"인맥왕":
+			if relationships.size() >= 3:
+				modify_hidden_stat("reputation", 1)
+	modify_stat("health", _h_mod)
+	modify_stat("mental", _m_mod)
+	modify_hidden_stat("stress", _s_mod)
+
+	# ── 주거 패시브 + 거주 기간 추적 ────────────────────────────────
+	housing_months[housing] = housing_months.get(housing, 0) + 1
+	match housing:
+		"gosiwon":
+			modify_hidden_stat("stress", 2)
+			modify_stat("mental", -1)
+			if randf() < 0.25:
+				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "stress")
+		"apartment":
+			pass
+		"gangnam":
+			modify_hidden_stat("stress", -1)
+			if randf() < 0.15:
+				modify_hidden_stat("reputation", 1)
+				add_log("🌆 강남 주민이라는 것만으로 대화가 달라진다.", "relationship")
+
+	# ── 칭호 조건 플래그 자동 추적 ───────────────────────────────
+	if money < 0:
+		flags["was_broke_once"] = true
+	if stress >= 90:
+		flags["reached_max_stress"] = true
+	if monthly_income == 0:
+		flags["unemployed_months"] = flags.get("unemployed_months", 0) + 1
 
 	# 무직이면 정신/스트레스 추가 압박 (완화: -3/-5 → -2/-3)
 	if monthly_income == 0:
-		modify_stat("mental", -2)
-		modify_hidden_stat("stress", 3)
+		var _u_mental := -1 if current_trait == "안정 지향형" else -2
+		var _u_stress := 1 if current_trait == "안정 지향형" else 3
+		modify_stat("mental", _u_mental)
+		modify_hidden_stat("stress", _u_stress)
 		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "stress")
 
 	# 스트레스 단계별 추가 피해 (누적 구조)
 	if stress >= 80:
-		modify_stat("health", -4)
-		modify_stat("mental", -4)
+		var _extreme := -4 if current_trait != "번아웃 생존자" else -2
+		modify_stat("health", _extreme)
+		modify_stat("mental", _extreme)
 		add_log("🚨 극심한 스트레스가 몸과 마음을 갉아먹고 있다.", "stress")
 	elif stress >= 60:
 		modify_stat("health", -2)
@@ -281,6 +346,8 @@ func apply_effects(effects):
 				flags[str(value)] = true
 			"unflag":
 				flags.erase(str(value))
+			"action_points":
+				action_points = clamp(action_points + int(value), 0, max_action_points + 2)
 	stats_changed.emit()
 
 func apply_relationship_effect(effect):
@@ -322,6 +389,7 @@ func add_money(amount):
 	stats_changed.emit()
 
 func modify_stat(stat_name, amount):
+	var old_val: int = int(get(stat_name)) if get(stat_name) != null else 0
 	match stat_name:
 		"health":
 			health = clamp(health + amount, 0, 100)
@@ -337,6 +405,14 @@ func modify_stat(stat_name, amount):
 			investment_skill = clamp(investment_skill + amount, 0, 100)
 		"luck":
 			luck = clamp(luck + amount, 0, 100)
+	# RPG 임계값 해금 감지 (상승할 때만)
+	if amount > 0 and stat_name in ["investment_skill", "intelligence", "social_skill"]:
+		var new_val: int = int(get(stat_name))
+		for threshold in STAT_THRESHOLDS:
+			var key = "%s_%d" % [stat_name, threshold]
+			if old_val < threshold and new_val >= threshold and not unlocked_stat_thresholds.has(key):
+				unlocked_stat_thresholds[key] = true
+				stat_threshold_crossed.emit(stat_name, threshold)
 
 func modify_hidden_stat(stat_name, amount):
 	match stat_name:
@@ -358,7 +434,56 @@ func spend_ap(amount: int = 1) -> bool:
 
 func restore_ap():
 	action_points = max_action_points
+	month_focus = ""
 	stats_changed.emit()
+
+func get_current_title() -> String:
+	if stress >= 88: return "벼랑 끝의 청년"
+	if mental <= 12: return "번아웃 직전"
+	if money < -100_000_000: return "파산 위기자"
+	var total = get_total_asset_value()
+	if total >= 3_000_000_000: return "강남드림 달성자"
+	if total >= 500_000_000: return "신흥 자산가"
+	if total >= 100_000_000: return "중산층 진입"
+	# 비정석 특수 상태
+	if flags.get("creator_success_unlocked", false): return "크리에이터"
+	if flags.get("startup_exit", false): return "스타트업 엑시터"
+	if flags.get("startup_launched", false): return "창업가"
+	if flags.get("creator_monetized", false): return "유튜버"
+	if flags.get("creator_started", false): return "콘텐츠 크리에이터"
+	var diff = route_orthodox - route_unorthodox
+	if diff >= 18: return "엘리트 코스"
+	if diff >= 8: return "착실한 청년"
+	if diff <= -18: return "위험한 몽상가"
+	if diff <= -8: return "이단아"
+	if route_orthodox >= 10 and route_unorthodox >= 10: return "내 방식대로"
+	if housing == "gangnam": return "강남 입성자"
+	if housing == "apartment" and job_tenure >= 12: return "안정적인 직장인"
+	if current_job.is_empty() and turn >= 8: return "취업 준비생"
+	if housing == "gosiwon" and turn >= 18: return "고시원 장기거주자"
+	if turn < 4: return "서울 상경 초보"
+	return "서울 생존자"
+
+func add_route_point(route_type: String, focus_label: String = ""):
+	if route_type == "orthodox":
+		route_orthodox += 1
+	elif route_type == "unorthodox":
+		route_unorthodox += 1
+	if month_focus.is_empty() and not focus_label.is_empty():
+		month_focus = focus_label
+
+func get_route_identity() -> String:
+	var diff = route_orthodox - route_unorthodox
+	var total = route_orthodox + route_unorthodox
+	if total == 0: return "📍 방향 없음"
+	if diff >= 15: return "🏆 정석 엘리트"
+	if diff >= 7:  return "📘 정석 지향"
+	if diff <= -15: return "🔥 완전 아웃사이더"
+	if diff <= -7:  return "🌊 비정석 지향"
+	return "⚖️ 균형형"
+
+func get_route_label() -> String:
+	return "%s  (정석 %d / 비정석 %d)" % [get_route_identity(), route_orthodox, route_unorthodox]
 
 func add_item(item_id, quantity):
 	var item = DataRegistry.get_item(item_id)
@@ -432,36 +557,59 @@ func get_wealth_tier():
 func check_game_over():
 	if is_game_over:
 		return
+	# 자산 마일스톤 플래그 자동 추적 (이벤트 조건용)
+	var total_now = get_total_asset_value()
+	if total_now >= 50_000_000 and not flags.get("asset_50m_reached", false):
+		flags["asset_50m_reached"] = true
+	if total_now >= 100_000_000 and not flags.get("asset_100m_reached", false):
+		flags["asset_100m_reached"] = true
+	if total_now >= 500_000_000 and not flags.get("asset_500m_reached", false):
+		flags["asset_500m_reached"] = true
 	if health <= 0:
 		finish_run("burnout"); return
 	if mental <= 0:
 		finish_run("mental_break"); return
-	if money < -50_000_000:
+	if money < -200_000_000:
 		finish_run("debt_spiral"); return
-	if money < -30_000_000:
+	if money < -100_000_000:
 		finish_run("bankruptcy"); return
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
-	if get_total_asset_value() >= 2_000_000_000:
+	if get_total_asset_value() >= 3_000_000_000:
 		finish_run("gangnam_dream"); return
 	if flags.get("startup_exit", false):
 		finish_run("startup_exit"); return
-	if age >= 65:
+	if flags.get("creator_success_unlocked", false) and get_total_asset_value() >= 300_000_000:
+		finish_run("creator_success"); return
+	if get_total_asset_value() >= 800_000_000 and investment_skill >= 75 and age < 50:
+		finish_run("early_retirement"); return
+	if age >= 55:
 		var total = get_total_asset_value()
+		# 특수 플래그 엔딩 — 자산 무관하게 먼저 체크
+		if flags.get("political_winner", false) and total >= 100_000_000:
+			finish_run("political_fix"); return
+		# 자산 + 스탯 기반 특수 엔딩
 		if reputation >= 80 and total >= 300_000_000:
-			finish_run("reputation_legend")
-		elif investment_skill >= 85 and total >= 500_000_000:
-			finish_run("investment_master")
-		elif total >= 1_000_000_000 and relationships.is_empty():
-			finish_run("lonely_rich")
-		elif total >= 1_000_000_000:
-			finish_run("stable_success")
-		elif health >= 70 and mental >= 70:
-			finish_run("healthy_retirement")
-		elif flags.get("political_winner", false):
-			finish_run("political_fix")
-		else:
-			finish_run("ordinary_life")
+			finish_run("reputation_legend"); return
+		if investment_skill >= 85 and total >= 500_000_000:
+			finish_run("investment_master"); return
+		if route_unorthodox >= 25 and total >= 500_000_000:
+			finish_run("unorthodox_legend"); return
+		if total >= 1_000_000_000 and relationships.is_empty():
+			finish_run("lonely_rich"); return
+		if total >= 1_000_000_000:
+			finish_run("stable_success"); return
+		if route_orthodox >= 25 and route_unorthodox <= 5 and total >= 200_000_000 and job_tenure >= 24:
+			finish_run("orthodox_pinnacle"); return
+		if health >= 70 and mental >= 70:
+			finish_run("healthy_retirement"); return
+		if route_orthodox >= 12 and route_unorthodox >= 12:
+			finish_run("balanced_life"); return
+		if route_orthodox >= 20 and mental <= 45:
+			finish_run("orthodox_hollow"); return
+		if flags.get("political_winner", false):
+			finish_run("political_fix"); return
+		finish_run("ordinary_life")
 
 func finish_run(ending_id):
 	is_game_over = true
@@ -500,6 +648,10 @@ func serialize():
 		"action_points": action_points,
 		"max_action_points": max_action_points,
 		"tutorial_step": tutorial_step,
+		"route_orthodox": route_orthodox,
+		"route_unorthodox": route_unorthodox,
+		"month_focus": month_focus,
+		"housing_months": housing_months,
 		"gambling_tendency": gambling_tendency,
 		"addiction_tendency": addiction_tendency,
 		"current_job": current_job,
@@ -516,6 +668,7 @@ func serialize():
 		"market_prices": market_prices,
 		"price_history": price_history,
 		"market_context": market_context,
+		"run_theme_categories": run_theme_categories,
 	}
 
 func load_from_dict(data):
@@ -526,6 +679,7 @@ func load_from_dict(data):
 		"gambling_tendency", "addiction_tendency",
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
+		"route_orthodox", "route_unorthodox",
 	]
 	var allowed = serialize().keys()
 	for key in data:

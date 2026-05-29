@@ -8,6 +8,15 @@ var current_event: Dictionary = {}
 var event_cooldowns: Dictionary = {}
 var recent_event_ids: Array = []
 
+func _ready():
+	GameState.run_started.connect(_on_run_started)
+
+func _on_run_started():
+	event_cooldowns.clear()
+	recent_event_ids.clear()
+	pending_events.clear()
+	current_event = {}
+
 func process_month_events():
 	_tick_cooldowns()
 	if pending_events.is_empty():
@@ -73,7 +82,7 @@ func _remember_recent(event_id):
 	if event_id.is_empty():
 		return
 	recent_event_ids.append(event_id)
-	if recent_event_ids.size() > 14:
+	if recent_event_ids.size() > 25:
 		recent_event_ids.pop_front()
 
 func _is_event_eligible(event):
@@ -135,6 +144,16 @@ func _check_conditions(conditions):
 				if bool(req) and GameState.current_job.is_empty(): return false
 			"no_job":
 				if bool(req) and not GameState.current_job.is_empty(): return false
+			"min_job_tier":
+				# 현재 직업 티어가 req 미만이면 제외 (무직이면 tier 0으로 취급)
+				var cur_tier = int(GameState.current_job.get("tier", 0))
+				if cur_tier < int(req): return false
+			"max_job_tier":
+				var cur_tier = int(GameState.current_job.get("tier", 999))
+				if cur_tier > int(req): return false
+			"job_category":
+				# 직업 카테고리가 일치하지 않으면 제외 (무직이면 항상 false)
+				if GameState.current_job.get("category", "") != str(req): return false
 			"has_portfolio":
 				if bool(req) and GameState.portfolio.is_empty(): return false
 			"has_relationship":
@@ -143,6 +162,32 @@ func _check_conditions(conditions):
 				if not GameState.flags.get(str(req), false): return false
 			"no_flag":
 				if GameState.flags.get(str(req), false): return false
+			"min_route_orthodox":
+				if GameState.route_orthodox < int(req): return false
+			"min_route_unorthodox":
+				if GameState.route_unorthodox < int(req): return false
+			"max_route_orthodox":
+				if GameState.route_orthodox > int(req): return false
+			"max_route_unorthodox":
+				if GameState.route_unorthodox > int(req): return false
+			"month_focus":
+				if GameState.month_focus != str(req): return false
+			"housing":
+				if GameState.housing != str(req): return false
+			"min_housing_months":
+				if GameState.housing_months.get(GameState.housing, 0) < int(req): return false
+			"max_turn":
+				if GameState.turn > int(req): return false
+			"market_cycle":
+				if GameState.market_context.get("cycle", "neutral") != str(req): return false
+			"min_fear_greed":
+				if int(GameState.market_context.get("fear_greed", 50)) < int(req): return false
+			"max_fear_greed":
+				if int(GameState.market_context.get("fear_greed", 50)) > int(req): return false
+			"min_work_performance":
+				if GameState.work_performance < int(req): return false
+			"min_job_tenure":
+				if GameState.job_tenure < int(req): return false
 	return true
 
 func _weighted_pick(events):
@@ -174,4 +219,36 @@ func _effective_weight(event):
 		weight *= 1.6
 	if GameState.market_context.get("fear_greed", 50) > 75 and event.get("category", "") == "finance":
 		weight *= 1.35
+	# 루트 성향 가중치 차등: 쌓인 루트 방향의 이벤트를 최대 1.5배 부스트
+	var tags: Array = event.get("tags", [])
+	var orth = GameState.route_orthodox
+	var unorth = GameState.route_unorthodox
+	var diff = orth - unorth
+	if diff >= 6 and (tags.has("orthodox") or tags.has("work") or tags.has("spec")):
+		weight *= 1.0 + min(float(diff) / 30.0, 0.5)
+	elif diff <= -6 and (tags.has("investment") or tags.has("unorthodox") or tags.has("risk")):
+		weight *= 1.0 + min(float(-diff) / 30.0, 0.5)
+	# 런 테마 보너스: 매 런마다 2개 카테고리 이벤트 1.35x
+	var run_themes: Array = GameState.run_theme_categories
+	if not run_themes.is_empty():
+		if run_themes.has(str(event.get("category", ""))):
+			weight *= 1.35
+	# 이번 달 집중 태그와 일치하면 보너스
+	var focus = GameState.month_focus
+	if not focus.is_empty():
+		var focus_tag_map = {
+			"투자": ["investment", "finance"],
+			"부업": ["work", "side_job"],
+			"연애": ["romance", "social"],
+			"자유시간": ["daily", "rest"],
+			"스펙 쌓기": ["spec", "study"],
+			"커리어 관리": ["work", "jobs"],
+			"인맥 관리": ["social", "relationship"],
+			"저축 집중": ["finance"],
+		}
+		var boost_tags: Array = focus_tag_map.get(focus, [])
+		for bt in boost_tags:
+			if tags.has(bt):
+				weight *= 1.25
+				break
 	return max(0.01, weight)
