@@ -307,15 +307,22 @@ func _build_story_panel(parent):
 
 	event_body = RichTextLabel.new()
 	event_body.bbcode_enabled = false
-	event_body.fit_content = false
-	event_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	event_body.fit_content = true
+	event_body.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	event_body.add_theme_font_size_override("normal_font_size", 18)
 	event_body.add_theme_color_override("default_color", Color("#c8d0df"))
 	layout.add_child(event_body)
 
+	var choice_scroll = ScrollContainer.new()
+	choice_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	choice_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	choice_scroll.vertical_scroll_mode   = ScrollContainer.SCROLL_MODE_AUTO
+	layout.add_child(choice_scroll)
+
 	choice_box = VBoxContainer.new()
 	choice_box.add_theme_constant_override("separation", 10)
-	layout.add_child(choice_box)
+	choice_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	choice_scroll.add_child(choice_box)
 
 func _build_info_panel():
 	# ── 우측 슬라이드 통합 정보 패널 (340px, 기본 숨김) ──
