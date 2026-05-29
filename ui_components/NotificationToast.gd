@@ -10,14 +10,17 @@ func _ready():
 	style.bg_color = Color("#0f172a")
 	style.border_color = Color("#f97316")
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
+	style.set_corner_radius_all(8)
+	style.content_margin_left   = 16
+	style.content_margin_right  = 16
+	style.content_margin_top    = 10
+	style.content_margin_bottom = 10
 	add_theme_stylebox_override("panel", style)
 	add_child(label)
+	label.add_theme_font_size_override("font_size", 13)
 	label.add_theme_color_override("font_color", Color("#dbe7ff"))
+	if UIStyle.font_regular:
+		label.add_theme_font_override("font", UIStyle.font_regular)
 
 func show_message(message, color):
 	label.text = message

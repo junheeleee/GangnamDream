@@ -18,14 +18,14 @@ config/name="강남드림"
 config/description="대한민국 현대를 배경으로 한 로그라이크 인생 시뮬레이션 RPG"
 run/main_scene="res://scenes/SplashScreen.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.png"
-boot_splash/image="res://assets/logos/gangnam_dream_logo_concept.png"
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/minimum_display_time=0
-boot_splash/fullsize=false
+boot_splash/stretch_mode=0
+boot_splash/image="res://assets/logos/gangnam_dream_logo_concept.png"
+config/icon="res://icon.png"
 
 [autoload]
 
+UIStyle="*res://autoloads/UIStyle.gd"
 DataRegistry="*res://autoloads/DataRegistry.gd"
 GameState="*res://autoloads/GameState.gd"
 EventManager="*res://autoloads/EventManager.gd"

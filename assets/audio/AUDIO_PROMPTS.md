@@ -1,4 +1,4 @@
-# 강남드림 — 오디오 에셋 가이드
+# 강남드림 — 오디오 에셋 가이드 (v2)
 
 ## 파일 구조
 
@@ -7,92 +7,224 @@
 
 ```
 assets/audio/
-├── bgm_main.ogg        ← 메인 BGM (로파이 서울 루프)
-├── bgm_crisis.ogg      ← 위기 BGM (건강/정신 30 이하)
-├── bgm_victory.ogg     ← 마일스톤 달성 BGM (8초, 자동 복귀)
-├── bgm_ending.ogg      ← 엔딩 BGM
-├── sfx_click.ogg       ← 버튼 클릭
-├── sfx_close.ogg       ← 모달 닫기
-├── sfx_modal.ogg       ← 모달 열기
-├── sfx_month.ogg       ← 다음 달 전환
-├── sfx_coin.ogg        ← 수입/돈 획득
-├── sfx_loss.ogg        ← 손실/매도
-├── sfx_big_win.ogg     ← 대형 수익/마일스톤
-├── sfx_stat_up.ogg     ← 스탯 상승
-├── sfx_stat_down.ogg   ← 스탯 하락
-├── sfx_event.ogg       ← 이벤트 등장
-├── sfx_choice.ogg      ← 선택지 결정
-├── sfx_housing.ogg     ← 이사
-├── sfx_gameover.ogg    ← 게임오버
-└── sfx_success.ogg     ← 성공/강남드림 달성
+├── BGM (상황별 자동 전환)
+│   ├── bgm_menu.ogg        ← 시작 메뉴 (서울 네온 밤, 여정 시작 전)
+│   ├── bgm_gosiwon.ogg     ← 고시원 생활 (새벽 형광등, 막막함)
+│   ├── bgm_main.ogg        ← 원룸 생활 (로파이 서울 루프)
+│   ├── bgm_apartment.ogg   ← 아파트/강남 생활 (올라가는 중, 자신감)
+│   ├── bgm_crisis.ogg      ← 위기 BGM (건강/정신 30 이하)
+│   ├── bgm_victory.ogg     ← 마일스톤 달성 BGM (8초, 자동 복귀)
+│   └── bgm_ending.ogg      ← 엔딩 BGM
+└── SFX
+    ├── sfx_click.ogg       ← 버튼 클릭
+    ├── sfx_close.ogg       ← 모달 닫기
+    ├── sfx_modal.ogg       ← 모달 열기
+    ├── sfx_month.ogg       ← 다음 달 전환
+    ├── sfx_coin.ogg        ← 수입/돈 획득
+    ├── sfx_loss.ogg        ← 손실/매도
+    ├── sfx_big_win.ogg     ← 대형 수익/마일스톤
+    ├── sfx_stat_up.ogg     ← 스탯 상승
+    ├── sfx_stat_down.ogg   ← 스탯 하락
+    ├── sfx_event.ogg       ← 이벤트 등장
+    ├── sfx_choice.ogg      ← 선택지 결정
+    ├── sfx_housing.ogg     ← 이사
+    ├── sfx_gameover.ogg    ← 게임오버
+    └── sfx_success.ogg     ← 성공/강남드림 달성
+```
+
+## BGM 자동 전환 로직
+
+```
+시작 메뉴          → bgm_menu.ogg
+게임 중 고시원     → bgm_gosiwon.ogg
+게임 중 원룸       → bgm_main.ogg
+게임 중 아파트/강남 → bgm_apartment.ogg
+건강 또는 정신 ≤ 30 → bgm_crisis.ogg (주거 BGM 위에 덮임)
+마일스톤 달성      → bgm_victory.ogg (8초 후 주거 BGM 복귀)
+엔딩 화면          → bgm_ending.ogg
 ```
 
 ---
 
 ## BGM 생성 프롬프트 (Suno / Udio)
 
-### bgm_main.ogg — 메인 루프
-```
-lo-fi hip hop instrumental, gentle piano melody, soft dusty drums,
-nostalgic and slightly melancholy mood, Seoul late-night study room atmosphere,
-Korean indie game feeling, hopeful undertone beneath financial anxiety,
-warm tape texture, subtle city ambience, no vocals, seamless 2-3 minute loop
-```
-
-### bgm_crisis.ogg — 위기 테마 (건강/정신 위험)
-```
-tense ambient electronic instrumental, minimal drums, low bass hum,
-occasional sparse piano notes, urban stress and pressure,
-unsettling but not horror, dark Korean city night mood,
-restrained tension, no vocals, seamless 90 second loop
-```
-
-### bgm_victory.ogg — 마일스톤 달성
-```
-uplifting lo-fi instrumental with understated triumph, soft piano,
-warm synth pads, gentle beat, Korean indie pop influence,
-hopeful but not flashy, feeling of reaching a small life milestone after hardship,
-no vocals, 8-12 seconds or seamless short loop
-```
-
-### bgm_ending.ogg — 엔딩 테마
-```
-emotional orchestral lo-fi hybrid instrumental, bittersweet triumph,
-piano lead with soft strings and gentle beat,
-reflective Korean drama OST influence,
-feeling of finally reaching a long-sought goal but remembering the cost,
-no vocals, 2-3 minutes
-```
+> **공통 주의사항**  
+> - 모든 BGM: **no vocals, instrumental only**  
+> - BGM Loop 설정: bgm_victory 제외 모두 Loop ON  
+> - 파일 형식: `.ogg` (Suno에서 MP3로 받으면 ffmpeg으로 변환)
 
 ---
 
-## SFX 생성 및 추천 소스
+### 1. bgm_menu.ogg — 시작 메뉴
 
-### 생성 도구
-- **Suno / Udio**: BGM에 최적
-- **ElevenLabs Sound Effects**: 프롬프트로 단발 SFX 생성
-- **jsfxr** (https://sfxr.me): 레트로/픽셀 SFX 무료 생성 (coin, stat up 등에 잘 맞음)
-- **Freesound.org**: CC 라이선스 무료 SFX 다수
+**분위기**: 서울 야경, 여정이 시작되기 직전의 설렘과 긴장감. 네온사인 빛이 창문에 반사되는 늦은 밤. "이제 시작이야."
 
-### 각 SFX 특성
-| 파일 | 느낌 | 길이 |
-|------|------|------|
-| sfx_click.ogg | 짧고 깔끔한 UI 클릭 | ~0.05s |
-| sfx_coin.ogg | 동전 획득 느낌 (jsfxr COIN 프리셋) | ~0.2s |
-| sfx_big_win.ogg | 팡파르/짧은 상승 코드 | ~0.5s |
-| sfx_stat_up.ogg | 레벨업 느낌 (jsfxr POWERUP) | ~0.15s |
-| sfx_stat_down.ogg | 낮은 하강음 | ~0.2s |
-| sfx_housing.ogg | 상쾌한 이사/업그레이드 음 | ~0.3s |
-| sfx_gameover.ogg | 낮고 무거운 하강 | ~0.6s |
-| sfx_success.ogg | 강남드림 달성 팡파르 | ~0.5s |
+```
+lo-fi instrumental, Seoul night city atmosphere, distant traffic hum,
+slow ethereal piano melody over sparse lo-fi beats, neon-lit anticipation,
+dreamy and introspective mood, soft reverb on keys,
+city ambience in background (rain optional), hopeful but nervous undertone,
+Korean indie game title screen feeling, no vocals,
+tempo around 70 BPM, seamless 2-minute loop
+```
+
+**Suno 태그 추천**: `#lofi #ambient #korean #cinematic #instrumental`
+
+---
+
+### 2. bgm_gosiwon.ogg — 고시원 생활
+
+**분위기**: 새벽 2시 고시원 방. 형광등이 미묘하게 깜빡인다. 옆 방 소리가 벽을 타고 들린다. 막막하지만 포기하지 않는다. 이 게임에서 가장 어두운 일상 BGM.
+
+```
+ultra minimal lo-fi hip hop instrumental, single muted piano loop,
+dusty vinyl crackle, soft kick drum barely present,
+cramped and tired mood but with quiet resilience,
+Seoul late night gosiwon (tiny single room) atmosphere,
+fluorescent hum texture, distant city sounds, melancholy undertone,
+sparse arrangement — mostly silence with occasional notes,
+no vocals, 72 BPM, seamless 2-minute loop
+```
+
+**Suno 태그 추천**: `#lofi #melancholy #minimal #ambient #study`
+
+---
+
+### 3. bgm_main.ogg — 원룸 생활 (기본 메인)
+
+**분위기**: 작지만 내 공간이 생겼다. 늦은 밤 서울 원룸, 노트북 화면 빛. 힘들지만 리듬이 있는 일상. 이 게임의 대표 BGM.
+
+```
+lo-fi hip hop instrumental, gentle piano melody, soft dusty drums,
+warm bass groove, nostalgic and slightly melancholy mood,
+Seoul late-night studio apartment atmosphere,
+Korean indie game feeling, hopeful undertone beneath financial anxiety,
+warm tape texture, subtle city ambience,
+no vocals, 82 BPM, seamless 2-3 minute loop
+```
+
+**Suno 태그 추천**: `#lofi #hiphop #chillhop #korean #instrumental`
+
+---
+
+### 4. bgm_apartment.ogg — 아파트 생활 (상승 국면)
+
+**분위기**: 아파트 창문 너머로 서울 야경이 펼쳐진다. 뭔가 되어가고 있다. 여전히 로파이지만, 더 밝고 자신감 있다. "나 이제 좀 올라왔다."
+
+```
+upbeat lo-fi hip hop instrumental, brighter piano chords,
+confident warm groove, city success vibe,
+Seoul apartment window with city lights mood,
+uplifting but still chill, more prominent beat than usual lo-fi,
+synth pads underneath piano, feeling of upward mobility and confidence,
+Korean drama OST meets lo-fi, no vocals,
+90 BPM, seamless 2-minute loop
+```
+
+**Suno 태그 추천**: `#lofi #upbeat #confident #korean #instrumental`
+
+---
+
+### 5. bgm_crisis.ogg — 위기 (건강/정신력 30 이하)
+
+**분위기**: 몸도 정신도 한계. 번아웃. 서울 새벽 거리, 가로등만 켜진 골목. 구급차 소리가 멀리서 들린다. "더 이상 못 버티겠다."
+
+```
+tense dark ambient electronic instrumental, deep low bass drone,
+irregular minimal percussion, sparse dissonant piano stabs,
+urban burnout and exhaustion mood, Seoul 4am empty street atmosphere,
+unsettling but not horror — psychological pressure, inner voice breaking,
+distant siren texture optional, dark Korean city night,
+no rhythm you can tap to — fractured and unstable,
+no vocals, seamless 90-second loop
+```
+
+**Suno 태그 추천**: `#ambient #dark #tense #electronic #psychological`
+
+---
+
+### 6. bgm_victory.ogg — 마일스톤 달성 (단발 8초)
+
+**분위기**: "해냈다!" 짧지만 진짜 느껴지는 한 순간. 과하지 않게, 로파이 감성으로. 8초 후 원래 BGM으로 자동 복귀.
+
+```
+short triumphant lo-fi instrumental burst, warm uplifting chord progression,
+soft brass stab or synth fanfare, gentle piano resolution,
+Korean indie game milestone feeling, small victory after long struggle,
+NOT overly flashy — understated triumph, warm and genuine,
+no vocals, exactly 8-10 seconds, NO loop (play once only)
+```
+
+**Suno 태그 추천**: `#lofi #victory #short #jingle #uplifting`
+
+---
+
+### 7. bgm_ending.ogg — 엔딩 / 결말 화면
+
+**분위기**: 달렸던 모든 시간이 스쳐 지나간다. 성공이든 실패든, 그 여정은 진짜였다. 눈물이 날 수도 있는 BGM. 한국 드라마 OST × 로파이.
+
+```
+emotional orchestral lo-fi hybrid instrumental, bittersweet and reflective,
+solo piano lead with soft string arrangement, gentle lo-fi beat underneath,
+Korean drama OST influence — the feeling of a journey ending,
+both triumph and loss at the same time, warm but sad,
+remembering all the hard months, the choices made, the dreams chased,
+gradually builds then softly resolves, cinematic but intimate,
+no vocals, 2-3 minutes, seamless loop
+```
+
+**Suno 태그 추천**: `#emotional #orchestral #lofi #korean #cinematic #bittersweet`
+
+---
+
+## SFX 생성 — jsfxr.me 설정 가이드
+
+[jsfxr.me](https://sfxr.me) 에서 생성 후 `.ogg`로 익스포트:
+
+| 파일 | jsfxr 프리셋 | 조정 포인트 |
+|------|-------------|------------|
+| sfx_click.ogg | BLIP | Duration 0.04s, Freq high |
+| sfx_coin.ogg | COIN | 기본 그대로 |
+| sfx_stat_up.ogg | POWERUP | Duration 0.15s |
+| sfx_stat_down.ogg | HIT | Pitch 낮게, Duration 0.18s |
+| sfx_big_win.ogg | POWERUP | Duration 0.45s, multiple notes |
+| sfx_housing.ogg | POWERUP | Bright, Duration 0.3s |
+| sfx_gameover.ogg | HIT | Very low pitch, Duration 0.6s |
+| sfx_success.ogg | POWERUP | Long, triumphant, Duration 0.5s |
+
+---
+
+## Suno → 게임 파일 변환 방법
+
+Suno에서 MP3/WAV로 다운로드 후:
+
+```bash
+# MP3 → OGG 변환 (ffmpeg 필요)
+ffmpeg -i bgm_menu.mp3 -c:a libvorbis -q:a 5 bgm_menu.ogg
+
+# 배치 변환 (downloads 폴더의 모든 mp3)
+for f in ~/Downloads/bgm_*.mp3; do
+  ffmpeg -i "$f" -c:a libvorbis -q:a 5 "${f%.mp3}.ogg"
+done
+```
+
+**대상 폴더**: `/Users/junheelee/Documents/GitHub/GangnamDream/assets/audio/`
 
 ---
 
 ## Godot 임포트 설정 (중요)
 
 BGM `.ogg` 파일은 Godot 에디터에서 임포트 후 아래 설정 확인:
-- **Loop**: ✅ 체크
-- **Loop Offset**: 0 (크로스페이드 없는 경우)
+
+| 파일 | Loop | 비고 |
+|------|------|------|
+| bgm_menu.ogg | ✅ ON | |
+| bgm_gosiwon.ogg | ✅ ON | |
+| bgm_main.ogg | ✅ ON | |
+| bgm_apartment.ogg | ✅ ON | |
+| bgm_crisis.ogg | ✅ ON | |
+| bgm_victory.ogg | ❌ OFF | 코드에서 8초 후 자동 복귀 |
+| bgm_ending.ogg | ✅ ON | |
 
 SFX `.ogg`는 Loop 체크 해제.
 
@@ -100,7 +232,7 @@ SFX `.ogg`는 Loop 체크 해제.
 
 ## 파일이 없을 때 (프로시저럴 폴백)
 
-`BGMPlayer.gd` — `bgm_main.ogg` 없으면 Cm7→Ab→Eb→Bb 사인파 루프 재생  
+`BGMPlayer.gd` — bgm 파일 없으면 Cm7→Ab→Eb→Bb 사인파 루프 재생  
 `AudioManager.gd` — 각 SFX 파일 없으면 사인파 합성음 재생
 
 → **파일 없어도 게임 동작에 지장 없음**
