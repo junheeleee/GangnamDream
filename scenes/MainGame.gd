@@ -39,11 +39,18 @@ const BG_PATHS = {
 const BG_DEFAULT   = "res://assets/backgrounds/seoul_rainy_street.png"
 const BG_OFFICE    = "res://assets/backgrounds/office_desk.png"
 const BG_SUBWAY    = "res://assets/backgrounds/seoul_subway.png"
+const BG_HOSPITAL   = "res://assets/backgrounds/hospital_clinic.png"
+const BG_INVESTMENT = "res://assets/backgrounds/investment_monitor.png"
+const BG_CAFE       = "res://assets/backgrounds/cafe_meetup.png"
+const BG_NIGHT_ROOM = "res://assets/backgrounds/late_night_room.png"
+const BG_HOMETOWN   = "res://assets/backgrounds/hometown_train_station.png"
 
 const PORTRAIT_NEUTRAL    = "res://assets/characters/main_character_neutral_goshiwon.png"
 const PORTRAIT_TIRED      = "res://assets/characters/main_character_tired.png"
 const PORTRAIT_DETERMINED = "res://assets/characters/main_character_determined.png"
 const PORTRAIT_HAPPY      = "res://assets/characters/main_character_happy.png"
+const PORTRAIT_30S        = "res://assets/characters/main_character_30s.png"
+const PORTRAIT_50S        = "res://assets/characters/main_character_50s.png"
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
@@ -2464,15 +2471,31 @@ func _update_event_bg():
 		event_bg.texture = tex
 
 func _get_bg_for_event(ev: Dictionary) -> String:
-	# 이벤트 태그 기반 배경 결정
 	var tags = ev.get("tags", [])
-	if "job" in tags or "work" in tags or "office" in tags:
+	var category = str(ev.get("category", ""))
+
+	# 병원/건강
+	if "health" in tags or category == "health":
+		return BG_HOSPITAL
+	# 투자/주식/도박
+	if "investment" in tags or "gambling" in tags or category in ["investment", "gambling"]:
+		return BG_INVESTMENT
+	# 카페/로맨스/소셜 만남
+	if "romance" in tags or ("social" in tags and not ("commute" in tags)):
+		return BG_CAFE
+	# 야간/번아웃/정신
+	if "night" in tags or "mental" in tags or "anxiety" in tags or "burnout" in tags or "stress" in tags:
+		return BG_NIGHT_ROOM
+	# 가족/고향
+	if "family" in tags or "hometown" in tags:
+		return BG_HOMETOWN
+	# 직장/사무실
+	if "job" in tags or "jobs" in tags or "work" in tags or "office" in tags or category == "jobs":
 		return BG_OFFICE
-	if "social" in tags or "commute" in tags or "subway" in tags:
+	# 출퇴근/지하철
+	if "commute" in tags or "subway" in tags:
 		return BG_SUBWAY
-	if "night" in tags or "city" in tags or "stress" in tags:
-		return BG_DEFAULT  # seoul_rainy_street
-	# 이벤트 없을 때는 주거 기반
+	# 이벤트 없을 때 — 주거 기반
 	return BG_PATHS.get(GameState.housing, BG_DEFAULT)
 
 func _update_portrait():
@@ -2490,6 +2513,12 @@ func _get_portrait_path() -> String:
 	# 스트레스 높거나 건강/정신 위험 — 피로
 	if GameState.stress >= 65 or GameState.health <= 35 or GameState.mental <= 35:
 		return PORTRAIT_TIRED
+	# 50대 이상
+	if GameState.age >= 50:
+		return PORTRAIT_50S
+	# 30대 이상, 안정적
+	if GameState.age >= 30 and GameState.stress < 55:
+		return PORTRAIT_30S
 	# 직장 있고 안정적 — 결의
 	if not GameState.current_job.is_empty() and GameState.stress < 45 and GameState.health >= 60:
 		return PORTRAIT_DETERMINED

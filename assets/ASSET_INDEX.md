@@ -22,6 +22,14 @@ Generated on 2026-05-22 for Claude/Godot integration.
   - Main protagonist surprised/happy smartphone portrait.
   - Use for windfalls, good news, relationship wins, and rare opportunity events.
 
+- `assets/characters/main_character_30s.png`
+  - Main protagonist in his 30s, older and steadier.
+  - Use for age 30+ runs when stress is stable.
+
+- `assets/characters/main_character_50s.png`
+  - Main protagonist in his 50s, calm and weathered.
+  - Use for age 50+ runs and late-life phases.
+
 ### Backgrounds
 - `assets/backgrounds/goshiwon_room.png`
   - Starting room / poor early-life background.
@@ -40,6 +48,26 @@ Generated on 2026-05-22 for Claude/Godot integration.
 
 - `assets/backgrounds/office_desk.png`
   - Late-night office desk background for overtime, salary, promotion, startup, and burnout events.
+
+- `assets/backgrounds/hospital_clinic.png`
+  - Korean clinic or hospital outpatient waiting area.
+  - Use for health checkups, burnout counseling, parent health, and mental health events.
+
+- `assets/backgrounds/investment_monitor.png`
+  - Late-night trading monitor setup.
+  - Use for investment, stock, crypto, day trading, and gambling events.
+
+- `assets/backgrounds/cafe_meetup.png`
+  - Small Seoul cafe for ordinary but tense meetups.
+  - Use for romance, social, friend, date, and networking events.
+
+- `assets/backgrounds/late_night_room.png`
+  - Lonely late-night one-room apartment.
+  - Use for burnout, mental health, anxiety, late-night grind, and exhaustion events.
+
+- `assets/backgrounds/hometown_train_station.png`
+  - Provincial Korean train station with nostalgic distance.
+  - Use for family, hometown, holiday travel, and parent-related events.
 
 ### Key Art
 - `assets/keyart/gangnam_dream_keyart_rooftop.png`
