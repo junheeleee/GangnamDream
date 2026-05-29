@@ -184,8 +184,6 @@ func _check_conditions(conditions):
 				if int(GameState.market_context.get("fear_greed", 50)) < int(req): return false
 			"max_fear_greed":
 				if int(GameState.market_context.get("fear_greed", 50)) > int(req): return false
-			"min_reputation":
-				if GameState.reputation < int(req): return false
 			"min_work_performance":
 				if GameState.work_performance < int(req): return false
 			"min_job_tenure":

@@ -39,10 +39,6 @@ func start():
 	volume = AudioManager.bgm_volume
 	_switch_to(_pick_track(), true)
 
-func _on_bgm_ended():
-	if volume > 0.001:
-		_player.play()
-
 func stop():
 	_player_a.stop()
 	_player_b.stop()
