@@ -132,19 +132,8 @@ func _build_ui():
 	_apply_font(_context_lbl)
 	vbox.add_child(_context_lbl)
 
-	# ── 하단 스킵 힌트 ──
+	# _press_lbl 는 더 이상 사용하지 않음 (컷신에서 처리)
 	_press_lbl = Label.new()
-	_press_lbl.text = "아무 키나 눌러 계속"
-	_press_lbl.add_theme_font_size_override("font_size", 13)
-	_press_lbl.add_theme_color_override("font_color", Color("#3a4455"))
-	_press_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_apply_font(_press_lbl)
-	_press_lbl.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_press_lbl.offset_top    = -44
-	_press_lbl.offset_bottom = 0
-	_press_lbl.mouse_filter  = Control.MOUSE_FILTER_IGNORE
-	_press_lbl.modulate = Color(1, 1, 1, 0.0)
-	add_child(_press_lbl)
 
 # ── 애니메이션 시퀀스 ──────────────────────────────────────────────────
 func _run_sequence():
@@ -167,34 +156,20 @@ func _run_sequence():
 	await get_tree().create_timer(0.35).timeout
 	_fade_in(_context_lbl, 0.55)
 
-	await get_tree().create_timer(0.6).timeout
-	_fade_in(_press_lbl, 0.8)
-
-	# 힌트 깜빡임 (주의 유도)
-	_blink_hint()
-
-	# 자동 전환 (힌트 등장 후 약 2초)
-	await get_tree().create_timer(2.0).timeout
+	# 로고 완성 후 잠시 대기 → 컷신으로 자동 전환
+	await get_tree().create_timer(1.5).timeout
 	_go_to_start()
 
 func _fade_in(node: Control, duration: float, target_alpha: float = 1.0):
 	var tw = create_tween()
 	tw.tween_property(node, "modulate", Color(1, 1, 1, target_alpha), duration)
 
-func _blink_hint():
-	if _transitioning:
-		return
-	var tw = create_tween()
-	tw.set_loops(3)
-	tw.tween_property(_press_lbl, "modulate", Color(1, 1, 1, 0.5), 0.6)
-	tw.tween_property(_press_lbl, "modulate", Color(1, 1, 1, 1.0), 0.6)
-
 # ── 전환 ─────────────────────────────────────────────────────────────────
 func _go_to_start():
 	if _transitioning:
 		return
 	_transitioning = true
-	SceneTransition.go("res://scenes/StartMenu.tscn")
+	SceneTransition.go("res://scenes/OpeningCinematic.tscn")
 
 func _input(event):
 	if _transitioning:
