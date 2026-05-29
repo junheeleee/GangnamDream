@@ -274,9 +274,8 @@ func _build_portrait_panel(parent):
 	character_portrait.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	character_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-	var portrait_tex = load(PORTRAIT_NEUTRAL)
-	if portrait_tex:
-		character_portrait.texture = portrait_tex
+	if ResourceLoader.exists(PORTRAIT_NEUTRAL):
+		character_portrait.texture = load(PORTRAIT_NEUTRAL)
 	vbox.add_child(character_portrait)
 
 	# 이름/직업 영역 — 초상화 아래 고정 높이
@@ -978,12 +977,14 @@ func _refresh_all():
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
 	top_labels["ap"].text = "⚡".repeat(ap) + "○".repeat(max(0, GameState.max_action_points - ap))
-	# 초상화 하단 플레이어 정보
-	if player_name_label:
-		var job_name = GameState.current_job.get("name", "무직")
-		player_name_label.text = "%s\n%s" % [GameState.player_name, job_name]
-	if title_label:
-		title_label.text = "「%s」" % GameState.get_current_title()
+	# 초상화 하단 플레이어 정보 (이벤트 중 인물 표시 시에는 건드리지 않음)
+	var showing_character = not current_event.is_empty() and str(current_event.get("portrait", "")) != ""
+	if not showing_character:
+		if player_name_label:
+			var job_name = GameState.current_job.get("name", "무직")
+			player_name_label.text = "%s\n%s" % [GameState.player_name, job_name]
+		if title_label:
+			title_label.text = "「%s」" % GameState.get_current_title()
 
 	stat_labels["job"].text = GameState.current_job.get("name", "무직")
 	_set_stat_value("health", GameState.health, true, 50, 30)
@@ -2892,10 +2893,17 @@ func _calc_month_grade(snap: Dictionary) -> Dictionary:
 func _update_event_bg():
 	if not event_bg:
 		return
+	# 1순위: 이벤트가 명시한 background ID (ImageRegistry 경유)
+	var explicit_id = str(current_event.get("background", ""))
+	if explicit_id != "":
+		var reg_path = ImageRegistry.get_background(explicit_id)
+		if reg_path != "" and ResourceLoader.exists(reg_path):
+			event_bg.texture = load(reg_path)
+			return
+	# 2순위: 태그/카테고리 기반 자동 매핑 (기존 로직)
 	var bg_path = _get_bg_for_event(current_event)
-	var tex = load(bg_path)
-	if tex:
-		event_bg.texture = tex
+	if bg_path != "" and ResourceLoader.exists(bg_path):
+		event_bg.texture = load(bg_path)
 
 func _get_bg_for_event(ev: Dictionary) -> String:
 	# 이벤트 태그·카테고리 기반 배경 결정 (우선순위 순)
@@ -2962,10 +2970,46 @@ func _get_bg_for_event(ev: Dictionary) -> String:
 func _update_portrait():
 	if not character_portrait:
 		return
+	# 이벤트가 인물 초상화를 명시하면 그 인물을 표시 (드라마 연출)
+	if not current_event.is_empty():
+		var pid = str(current_event.get("portrait", ""))
+		if pid != "":
+			_show_character_portrait(pid)
+			return
+	# 평상시 — 주인공 초상화 (ImageRegistry 우선, 없으면 기존 상수)
+	_show_player_portrait()
+
+func _show_character_portrait(portrait_id: String):
+	var reg_path = ImageRegistry.get_portrait(portrait_id)
+	if reg_path != "" and ResourceLoader.exists(reg_path):
+		character_portrait.texture = load(reg_path)
+		character_portrait.modulate = Color(1, 1, 1, 1)
+	else:
+		# 파일 없음 → 플레이스홀더(이름+색상 박스) 표시
+		_show_portrait_placeholder(portrait_id)
+	# 이름표 업데이트
+	var info = ImageRegistry.get_person_info(portrait_id)
+	if player_name_label and not info.is_empty():
+		player_name_label.text = str(info.get("name", ""))
+	if title_label:
+		title_label.text = "이번 이야기"
+
+func _show_player_portrait():
 	var portrait_path = _get_portrait_path()
-	var tex = load(portrait_path)
-	if tex:
-		character_portrait.texture = tex
+	if portrait_path != "" and ResourceLoader.exists(portrait_path):
+		character_portrait.texture = load(portrait_path)
+		character_portrait.modulate = Color(1, 1, 1, 1)
+	else:
+		_show_portrait_placeholder("player_normal")
+
+func _show_portrait_placeholder(portrait_id: String):
+	# 이미지 파일이 없을 때: 인물 테마색 단색 텍스처로 대체
+	var info = ImageRegistry.get_person_info(portrait_id)
+	var col = Color(str(info.get("color", "#2a2a3a"))) if not info.is_empty() else Color("#2a2a3a")
+	var img = Image.create(2, 3, false, Image.FORMAT_RGB8)
+	img.fill(col.darkened(0.55))
+	character_portrait.texture = ImageTexture.create_from_image(img)
+	character_portrait.modulate = Color(1, 1, 1, 1)
 
 func _get_portrait_path() -> String:
 	# 충격·위기 상황 (이벤트 직후 플래그)

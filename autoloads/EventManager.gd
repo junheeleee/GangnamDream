@@ -188,6 +188,40 @@ func _check_conditions(conditions):
 				if GameState.work_performance < int(req): return false
 			"min_job_tenure":
 				if GameState.job_tenure < int(req): return false
+			# ── 스토리 인물(cast) 조건 ──────────────────────────
+			"route":
+				# 경제 루트: "직장형" | "투자형" | "창업형"
+				if GameState.player_route != str(req): return false
+			"cast_stage":
+				# { "person": "jiyeon", "is": "interest" } 또는 { "person":"jiyeon", "in":["interest","warm"] }
+				if not _check_cast_stage(req): return false
+			"cast_met":
+				# { "jiyeon": true } 형태 — 만났는지 여부
+				for pid in req:
+					if GameState.cast_has_met(str(pid)) != bool(req[pid]): return false
+			"min_cast_affinity":
+				# { "jiyeon": 30 } — 호감도 최소
+				for pid in req:
+					if GameState.get_cast_affinity(str(pid)) < int(req[pid]): return false
+			"max_cast_affinity":
+				for pid in req:
+					if GameState.get_cast_affinity(str(pid)) > int(req[pid]): return false
+			"cast_flag":
+				# { "person":"jaehyuk", "flag":"suspected" }
+				if not GameState.cast_has_flag(str(req.get("person","")), str(req.get("flag",""))): return false
+	return true
+
+func _check_cast_stage(req: Dictionary) -> bool:
+	var pid = str(req.get("person", ""))
+	if pid == "":
+		return true
+	var stage = GameState.get_cast_stage(pid)
+	if req.has("is"):
+		return stage == str(req["is"])
+	if req.has("in"):
+		return (req["in"] as Array).has(stage)
+	if req.has("not"):
+		return stage != str(req["not"])
 	return true
 
 func _weighted_pick(events):

@@ -62,6 +62,21 @@ var work_performance = 50
 var milestones_reached: Dictionary = {}  # "10m","100m","500m","1b","2b"
 var portfolio: Dictionary = {}
 var relationships: Array = []
+
+# ── 스토리 인물 관계 (드라마 시스템) ──────────────────────────────
+# 각 인물: { stage: 단계, affinity: 호감도(-100~100), met: 만났는가, flags: 인물별 기억 }
+# stage는 인물별로 정의됨 (STORY_BIBLE 참조)
+var cast: Dictionary = {}
+
+func _default_cast() -> Dictionary:
+	return {
+		"jiyeon":   {"stage": "unknown", "affinity": 0,  "met": false, "flags": {}},
+		"daeun":    {"stage": "unknown", "affinity": 0,  "met": false, "flags": {}},
+		"jaehyuk":  {"stage": "unknown", "affinity": 0,  "met": false, "flags": {}},
+		"father":   {"stage": "distant", "affinity": 40, "met": true,  "flags": {}},
+		"sangchul": {"stage": "unknown", "affinity": 0,  "met": false, "flags": {}},
+	}
+
 var inventory: Array = []
 var news_log: Array = []
 var event_log: Array = []
@@ -119,6 +134,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	milestones_reached = {}
 	portfolio = {}
 	relationships = []
+	cast = _default_cast()
 	inventory = []
 	news_log = []
 	event_log = []
@@ -330,6 +346,10 @@ func apply_choice(event, choice):
 		apply_investment_effect(investment_effect)
 	for flag_id in choice.get("flags", []):
 		flags[str(flag_id)] = true
+	# 스토리 인물 관계 변화 (cast_effects)
+	# 예: "cast_effects": { "jiyeon": { "affinity": 10, "stage": "interest", "met": true } }
+	for person_id in choice.get("cast_effects", {}):
+		apply_cast_effect(str(person_id), choice["cast_effects"][person_id])
 	event_log.append({
 		"turn": turn,
 		"event_id": event.get("id", ""),
@@ -337,6 +357,40 @@ func apply_choice(event, choice):
 		"result": choice.get("result_text", ""),
 	})
 	add_log("%s: %s" % [event.get("title", "이벤트"), choice.get("result_text", choice.get("text", ""))], "event")
+
+# ── 스토리 인물 관계 조작 ─────────────────────────────────────────
+func _ensure_cast(person_id: String):
+	if not cast.has(person_id):
+		cast[person_id] = {"stage": "unknown", "affinity": 0, "met": false, "flags": {}}
+
+func apply_cast_effect(person_id: String, effect: Dictionary):
+	_ensure_cast(person_id)
+	var c: Dictionary = cast[person_id]
+	if effect.has("affinity"):
+		c["affinity"] = clampi(int(c.get("affinity", 0)) + int(effect["affinity"]), -100, 100)
+	if effect.has("stage"):
+		c["stage"] = str(effect["stage"])
+	if effect.has("met"):
+		c["met"] = bool(effect["met"])
+	for fk in effect.get("flags", []):
+		(c["flags"] as Dictionary)[str(fk)] = true
+	stats_changed.emit()
+
+func get_cast_stage(person_id: String) -> String:
+	_ensure_cast(person_id)
+	return str(cast[person_id].get("stage", "unknown"))
+
+func get_cast_affinity(person_id: String) -> int:
+	_ensure_cast(person_id)
+	return int(cast[person_id].get("affinity", 0))
+
+func cast_has_met(person_id: String) -> bool:
+	_ensure_cast(person_id)
+	return bool(cast[person_id].get("met", false))
+
+func cast_has_flag(person_id: String, flag: String) -> bool:
+	_ensure_cast(person_id)
+	return bool((cast[person_id].get("flags", {}) as Dictionary).get(flag, false))
 
 func apply_effects(effects):
 	for key in effects:
@@ -671,6 +725,8 @@ func serialize():
 		"milestones_reached": milestones_reached,
 		"portfolio": portfolio,
 		"relationships": relationships,
+		"cast": cast,
+		"player_route": player_route,
 		"inventory": inventory,
 		"news_log": news_log,
 		"event_log": event_log,
@@ -700,4 +756,7 @@ func load_from_dict(data):
 		if int_fields.has(key) and value is float:
 			value = int(value)
 		set(key, value)
+	# 구버전 세이브 호환 — cast 없으면 기본값 채움
+	if cast == null or cast.is_empty():
+		cast = _default_cast()
 	stats_changed.emit()
