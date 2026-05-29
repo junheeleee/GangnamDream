@@ -554,7 +554,7 @@ func _on_trait_selected(index):
 					var sign = "+" if v >= 0 else ""
 					var lbl = k
 					match k:
-						"money": lbl = "시작 자금 %s%d원" % [sign, v]
+						"money": lbl = "시작 자금 %s" % _format_money(abs(v)) if v >= 0 else "시작 자금 -%s" % _format_money(abs(v))
 						"health": lbl = "건강 %s%d" % [sign, v]
 						"mental": lbl = "정신력 %s%d" % [sign, v]
 						"intelligence": lbl = "지력 %s%d" % [sign, v]
