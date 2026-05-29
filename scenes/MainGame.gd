@@ -1166,7 +1166,7 @@ func _render_ap_actions():
 		hint_text = "📌 AP를 다 쓰면 '✅ 이번 달 행동 완료' 안내가 나타나요.\n그때 '다음 달 ▶' 버튼으로 진행하세요."
 	# 튜토리얼 완료
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
-		hint_text = "🎯 이제 혼자예요. 자산 20억 달성이 목표입니다. 65세까지 버텨보세요!"
+		hint_text = "🎯 이제 혼자예요. 자산 30억 달성이 목표입니다. 55세까지 버텨보세요!"
 		hint_color = "#00c896"
 
 	if not hint_text.is_empty():
@@ -2405,7 +2405,7 @@ func _next_milestone_hint(total: float) -> String:
 		[120_000_000.0,   "🏙 강남 이사 구간 — 현금 1.2억 있으면 이사 가능"],
 		[500_000_000.0,   "자산 5억"],
 		[1_000_000_000.0, "자산 10억"],
-		[2_000_000_000.0, "🏙 강남드림 달성!"],
+		[3_000_000_000.0, "🏙 강남드림 달성!"],
 	]
 	for m in milestones:
 		var target: float = float(m[0])
@@ -2507,7 +2507,7 @@ func _get_month_advice() -> String:
 	if GameState.current_job.is_empty():
 		return "직업이 없으면 매달 수입이 0원입니다. 생활비만큼 계속 줄어들어요. [구직활동]을 최우선으로 하세요."
 	if GameState.money < 0:
-		return "잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 3천만원을 넘으면 파산 엔딩입니다." % GameState.format_money(GameState.money)
+		return "잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 1억원을 넘으면 파산 엔딩입니다." % GameState.format_money(GameState.money)
 	if GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
@@ -2587,7 +2587,7 @@ func _show_tutorial_intro():
 	_open_modal("🏙 강남드림에 오신 걸 환영해요")
 
 	modal_body.add_child(_wrap_label(
-		"서울 고시원, 통장 100만원.\n65세까지 자산 20억을 만드는 게임입니다.",
+		"서울 고시원, 통장 100만원.\n55세까지 자산 30억을 만드는 게임입니다.",
 		15, "#e8eaf0"))
 
 	var sep0 = HSeparator.new()
@@ -2626,7 +2626,7 @@ func _show_tutorial_intro():
 	modal_body.add_child(sep2)
 
 	modal_body.add_child(_wrap_label(
-		"🎯  목표: 총자산 20억 = 강남드림 달성!\n    65세(턴 540)까지 버텨보세요.",
+		"🎯  목표: 총자산 30억 = 강남드림 달성!\n    55세(턴 420)까지 버텨보세요.",
 		13, "#00c896"))
 
 	var start_btn = _button("서울 생활 시작 →", "#1f6feb")
