@@ -267,9 +267,10 @@ func _build_portrait_panel(parent):
 	vbox.add_theme_constant_override("separation", 0)
 	panel.add_child(vbox)
 
-	# 초상화 — 세로 가득 채움
+	# 초상화 — 고정 높이
 	character_portrait = TextureRect.new()
-	character_portrait.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	character_portrait.custom_minimum_size = Vector2(0, 210)
+	character_portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	character_portrait.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	character_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
@@ -949,11 +950,12 @@ func _render_event():
 	# 이벤트에 맞는 배경 즉시 전환
 	_update_event_bg()
 	var choices: Array = current_event.get("choices", [])
-	var btn_colors = ["#1d4ed8", "#7c3aed", "#0f766e"]
+	var btn_accents = ["#3a6ea8", "#4a7a5a", "#6a4a7a"]
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
-		var col = btn_colors[i % btn_colors.size()]
-		var button = _button("  %d.  %s" % [i + 1, _fmt(choice.get("text", "선택"))], col)
+		var acc = btn_accents[i % btn_accents.size()]
+		var button = _action_button("  %d.  %s" % [i + 1, _fmt(choice.get("text", "선택"))], acc)
+		button.custom_minimum_size = Vector2(0, 44)
 		button.pressed.connect(Callable(self, "_choose").bind(i))
 		choice_box.add_child(button)
 
@@ -1299,24 +1301,18 @@ func _render_ap_actions():
 	var job_story_unlocked: bool = GameState.flags.get("story_job_unlocked", false)
 	var warn_body = GameState.health <= 45 or GameState.mental <= 45
 
-	# ── 행동력 소진 안내 + 버튼 강조 ──────────────────────
+	# ── 행동력 소진 시 다음 달 버튼 강조 ──────────────
 	if disabled:
-		var done = _wrap_label("✅  이번 달 행동 완료!", 13, "#00c896")
-		done.add_theme_stylebox_override("normal", _hint_box())
-		choice_box.add_child(done)
 		next_button.text = "▶▶ 다음 달로!"
 		var btn_style = StyleBoxFlat.new()
-		btn_style.bg_color = Color("#065f46")
+		btn_style.bg_color = Color("#0a2a1a")
 		btn_style.border_color = Color("#00c896")
-		btn_style.set_border_width_all(2)
-		btn_style.corner_radius_top_left = 6
-		btn_style.corner_radius_top_right = 6
-		btn_style.corner_radius_bottom_left = 6
-		btn_style.corner_radius_bottom_right = 6
+		btn_style.border_width_left = 3
+		btn_style.set_corner_radius_all(4)
 		btn_style.content_margin_left = 20
 		btn_style.content_margin_right = 20
-		btn_style.content_margin_top = 10
-		btn_style.content_margin_bottom = 10
+		btn_style.content_margin_top = 8
+		btn_style.content_margin_bottom = 8
 		next_button.add_theme_stylebox_override("normal", btn_style)
 		next_button.add_theme_color_override("font_color", Color("#00c896"))
 	else:
@@ -1324,57 +1320,33 @@ func _render_ap_actions():
 		next_button.remove_theme_stylebox_override("normal")
 		next_button.remove_theme_color_override("font_color")
 
-	# ── 이번 달 방향 / 루트 성향 ────────────────────────
-	var route_total = GameState.route_orthodox + GameState.route_unorthodox
-	if route_total > 0:
-		var route_color = "#5b9cf6" if GameState.route_orthodox >= GameState.route_unorthodox else "#f97316"
-		choice_box.add_child(_wrap_label(GameState.get_route_label(), 12, route_color))
-	if not GameState.month_focus.is_empty():
-		choice_box.add_child(_wrap_label("이번 달 집중: %s" % GameState.month_focus, 12, "#f0b429"))
-
-	# ── 튜토리얼 힌트 ──────────────────────────────────
+	# ── 튜토리얼 힌트 (1줄, 스타일박스 없음) ──────────
 	var hint_text = ""
 	var hint_color = "#f0b429"
 	var job_story_done: bool = GameState.flags.get("story_job_unlocked", false)
 	var just_got_paycheck = GameState.flags.get("has_received_paycheck", false) \
 		and not GameState.flags.get("invest_hint_shown", false)
 
-	# 첫 달 AP 꽉 찬 상태 — 아직 아무것도 안 한 경우
 	if GameState.turn == 1 and ap == GameState.max_action_points and turn_action_log.is_empty():
-		hint_text = "👋 첫 달이에요! ⚡AP 3개로 행동을 골라 쓰세요.\n지금 당장은 '💼 구직활동'이 가장 중요합니다."
+		hint_text = "👋 첫 달 — ⚡AP 3개로 행동을 골라 쓰세요. 취업이 가장 중요합니다."
 		hint_color = "#00c896"
-	# 구직 스토리 해금 전
 	elif GameState.tutorial_step >= 2 and not job_story_done:
-		hint_text = "📌 이벤트 선택지를 고르며 스토리를 진행하세요."
-	# 구직 가능하지만 아직 무직
+		hint_text = "📌 이벤트 선택지를 골라 스토리를 진행하세요."
 	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
-		hint_text = "⚠ 수입이 0원입니다! 아래 '💼 구직활동' 버튼으로 지금 바로 취업하세요.\n취업 안 하면 2달 안에 파산해요."
+		hint_text = "⚠ 수입 0원 — 지금 바로 💼 구직활동으로 취업하세요!"
 		hint_color = "#ef4444"
-	# 취업 완료, 튜토리얼 2단계
-	elif GameState.tutorial_step == 2 and not no_job:
-		hint_text = "✅ 취업했어요! 남은 ⚡AP로 스펙 쌓기나 인맥 관리를 해보세요.\nAP를 다 쓰면 '다음 달 ▶' 버튼이 나타납니다."
-	# 첫 월급 직후 — 투자 안내
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
-		hint_text = "💳 첫 월급! 이제 아래 '📈 비정석 루트'에서 투자도 가능해요.\n하지만 무리한 투자는 금물 — 먼저 생활비부터 확보하세요."
+		hint_text = "💳 첫 월급 수령 — 이제 📈 투자도 가능합니다."
 		hint_color = "#00c896"
-	# 1단계: 다음 달로 버튼 안내
-	elif GameState.tutorial_step == 1:
-		hint_text = "📌 AP를 다 쓰면 '✅ 이번 달 행동 완료' 안내가 나타나요.\n그때 '다음 달 ▶' 버튼으로 진행하세요."
-	# 튜토리얼 완료
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
-		hint_text = "🎯 이제 혼자예요. 자산 30억 달성이 목표입니다. 55세까지 버텨보세요!"
-		hint_color = "#00c896"
+		hint_text = "🎯 목표: 30억 자산 달성 (55세 은퇴 전)"
+		hint_color = "#5b9cf6"
 
 	if not hint_text.is_empty():
-		var hint = _wrap_label(hint_text, 13, hint_color)
-		hint.add_theme_stylebox_override("normal", _hint_box())
-		choice_box.add_child(hint)
+		choice_box.add_child(_label(hint_text, 12, hint_color))
 
-	# ══════════════════════════════════════════════════════
-	# 📘 정석 루트  —  사회가 기대하는 방향
-	# ══════════════════════════════════════════════════════
-	_add_action_section_header(choice_box, "📘 정석 루트  —  사회가 기대하는 방향", "#0f2040")
+	# 정석 루트
 
 	var orthodox: Array = []
 
@@ -1396,10 +1368,7 @@ func _render_ap_actions():
 
 	_add_action_buttons(choice_box, orthodox, disabled)
 
-	# ══════════════════════════════════════════════════════
-	# 🔥 비정석 루트  —  나만의 길
-	# ══════════════════════════════════════════════════════
-	_add_action_section_header(choice_box, "🔥 비정석 루트  —  나만의 길", "#2a0a0a")
+	# 비정석 루트
 
 	var unorthodox: Array = []
 
@@ -1420,7 +1389,6 @@ func _render_ap_actions():
 	var startup_active: bool = GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false)
 	var creator_active: bool = GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_success_unlocked", false)
 	if startup_active or creator_active:
-		_add_action_section_header(choice_box, "🚀 내 사업  —  비정석 루트 진행 중", "#1a0a2a")
 		var biz_actions: Array = []
 		if startup_active:
 			var startup_stage = "아이디어" if not GameState.flags.get("startup_team", false) else ("런칭" if not GameState.flags.get("startup_pivoted", false) else "성장")
@@ -1432,7 +1400,6 @@ func _render_ap_actions():
 
 	# ── 취업 준비 특화 행동 (무직일 때만) ──────────────────
 	if no_job and job_story_unlocked:
-		_add_action_section_header(choice_box, "📋 취업 준비  —  전문 스펙 쌓기", "#0a1a2a")
 		var job_seeker: Array = []
 		job_seeker.append({
 			"label": "🖊 자소서 작성  —  지력 +3, 스트레스 +4",
@@ -1449,7 +1416,6 @@ func _render_ap_actions():
 
 	# ── 이사 버튼 — AP 불필요 ────────────────────────────
 	if GameState.can_upgrade_housing():
-		_add_action_section_header(choice_box, "🏠 주거 업그레이드", "#1a2a1a")
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
 		var move_btn = _button(
