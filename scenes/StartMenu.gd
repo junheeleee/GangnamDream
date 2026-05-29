@@ -272,7 +272,7 @@ func _build_ui():
 	left.add_child(spacer)
 
 	# 시작 버튼
-	var new_game = _button("새 런 시작  ▶", "#00c896")
+	var new_game = _button("새 런 시작  ▶", "#0e3a2a")
 	new_game.pressed.connect(_start_new_run)
 	left.add_child(new_game)
 

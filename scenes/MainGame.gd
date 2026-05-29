@@ -950,6 +950,28 @@ func _render_event():
 	# 이벤트에 맞는 배경 즉시 전환
 	_update_event_bg()
 	var choices: Array = current_event.get("choices", [])
+
+	# ── 텍스트 / 선택지 구분선 ───────────────────────────
+	var sep_row = HBoxContainer.new()
+	sep_row.add_theme_constant_override("separation", 8)
+	sep_row.custom_minimum_size = Vector2(0, 20)
+	var line_l = ColorRect.new()
+	line_l.color = Color("#1e2038")
+	line_l.custom_minimum_size = Vector2(0, 1)
+	line_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line_l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	sep_row.add_child(line_l)
+	var sep_lbl = _label("선택", 11, "#2e3a52")
+	sep_lbl.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	sep_row.add_child(sep_lbl)
+	var line_r = ColorRect.new()
+	line_r.color = Color("#1e2038")
+	line_r.custom_minimum_size = Vector2(0, 1)
+	line_r.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line_r.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	sep_row.add_child(line_r)
+	choice_box.add_child(sep_row)
+
 	var btn_accents = ["#3a6ea8", "#4a7a5a", "#6a4a7a"]
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
@@ -2442,10 +2464,10 @@ func _show_ending(ending_id):
 			var ach_name = ach_names.get(a, a)
 			modal_body.add_child(_wrap_label("  🏅 업적 달성: %s" % ach_name, 13, "#fbbf24"))
 
-	var restart_btn = _button("새 런 시작", "#00c896")
+	var restart_btn = _button("새 런 시작  ▶", "#0e3a2a")
 	restart_btn.pressed.connect(_restart_run)
 	modal_body.add_child(restart_btn)
-	var menu_btn = _button("메인 메뉴", "#64748b")
+	var menu_btn = _button("메인 메뉴로", "#1a1a28")
 	menu_btn.pressed.connect(_go_to_menu)
 	modal_body.add_child(menu_btn)
 
@@ -2581,7 +2603,7 @@ func _show_month_summary(snap: Dictionary):
 	var div4 = HSeparator.new()
 	div4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(div4)
-	var confirm_btn = _button("다음 달 시작 →", "#1f6feb")
+	var confirm_btn = _button("다음 달 시작  ▶", "#0e2a3a")
 	confirm_btn.pressed.connect(_close_modal)
 	modal_body.add_child(confirm_btn)
 
