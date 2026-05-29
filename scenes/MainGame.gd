@@ -49,6 +49,9 @@ const BG_ROOFTOP_DAY    = "res://assets/backgrounds/rooftop_daytime.png"
 const BG_GANGNAM_NIGHT  = "res://assets/backgrounds/gangnam_night_street.png"
 const BG_PENTHOUSE      = "res://assets/backgrounds/penthouse_view.png"
 const BG_BURNOUT        = "res://assets/backgrounds/burnout_hospital_room.png"
+const BG_FAMILY         = "res://assets/backgrounds/family_living_room.png"
+const BG_MILITARY       = "res://assets/backgrounds/military_training_ground.png"
+const BG_TRADING        = "res://assets/backgrounds/trading_screen_night.png"
 
 const PORTRAIT_NEUTRAL    = "res://assets/characters/main_character_neutral_goshiwon.png"
 const PORTRAIT_TIRED      = "res://assets/characters/main_character_tired.png"
@@ -2936,8 +2939,16 @@ func _get_bg_for_event(ev: Dictionary) -> String:
 			or "relationship" in tags or category == "romance":
 		return BG_CAFE
 
-	# 가족·고향
-	if "family" in tags or "hometown" in tags:
+	# 군대·훈련
+	if category == "military" or "military" in tags:
+		return BG_MILITARY
+
+	# 가족 (거실)
+	if "family" in tags or category == "family":
+		return BG_FAMILY
+
+	# 고향·귀성
+	if "hometown" in tags:
 		return BG_HOMETOWN
 
 	# 옥상·휴식
@@ -2948,9 +2959,9 @@ func _get_bg_for_event(ev: Dictionary) -> String:
 	if category == "politics" or ("reputation" in tags and ("late_game" in tags or GameState.age >= 45)):
 		return BG_GANGNAM_NIGHT
 
-	# 도박·코인 (도시 야경 분위기)
-	if category == "gambling" or "gambling" in tags:
-		return BG_DEFAULT
+	# 도박·코인·트레이딩
+	if category == "gambling" or "gambling" in tags or "crypto" in tags:
+		return BG_TRADING
 
 	# 야간·도시·스트레스 — 야간 룸
 	if "night" in tags or "city" in tags or "stress" in tags:
