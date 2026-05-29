@@ -646,15 +646,9 @@ func _begin_month():
 		var news = NewsManager.generate_monthly_news()
 		investment_system.process_month(news)
 	# ── 스토리 이벤트 트리거 ─────────────────────────
-	# 턴 1: 프롤로그 (루트별 맞춤 오프닝 → story_pressure 체인)
+	# 턴 1: 프롤로그 (모두 동일한 출발 → story_pressure 체인)
 	if GameState.turn == 1 and GameState.tutorial_step >= 3:
-		var arrival_id = "story_arrival"
-		match GameState.player_route:
-			"직장형": arrival_id = "story_arrival_elite"
-			"창업형": arrival_id = "story_arrival_rich"
-		if DataRegistry.find_event(arrival_id).is_empty():
-			arrival_id = "story_arrival"
-		EventManager.trigger_event_by_id(arrival_id)
+		EventManager.trigger_event_by_id("story_arrival")
 		current_event = EventManager.get_next_event()
 		_render_event()
 		return

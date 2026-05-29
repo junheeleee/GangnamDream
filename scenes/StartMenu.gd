@@ -1,41 +1,8 @@
 extends Control
 
-# ── 배경 데이터 ──────────────────────────────────────────────────
-const ROUTES = [
-	{
-		"id": "직장형",
-		"emoji": "💼",
-		"name": "직장형",
-		"tagline": "꾸준함으로 강남을 노린다",
-		"desc": "취업→승진→저축→부동산.\n가장 현실적인 루트. 느리지만 안전하다.",
-		"bonuses": "지력 +8  사회성 +8  스트레스 -5\n취업 이벤트 우선 제공",
-		"color": "#5b9cf6",
-	},
-	{
-		"id": "투자형",
-		"emoji": "📈",
-		"name": "투자형",
-		"tagline": "10년 공부한 시장으로 승부한다",
-		"desc": "주식·부동산·코인으로 자산을 불린다.\n리스크 높지만 10년 안에 가장 빠르다.",
-		"bonuses": "투자감각 +18  지력 +5  즉시 투자 가능\n시작 자금 -10만원  스트레스 +10",
-		"color": "#00c896",
-	},
-	{
-		"id": "창업형",
-		"emoji": "🚀",
-		"name": "창업형",
-		"tagline": "한 방을 노린다. 지금이 마지막 기회다",
-		"desc": "내 사업으로 빠르게 크거나 망한다.\n가장 불안정하지만 상한선이 없다.",
-		"bonuses": "운 +12  사회성 +10  창업 이벤트 빠른 해금\n시작 자금 -15만원  스트레스 +8",
-		"color": "#f97316",
-	},
-]
+# 드라마 모드: 루트/특성 선택 없이 김민준 33세 백수로 고정 시작.
+# 성향(직장/투자/창업)은 플레이 중 선택 누적으로 자연스럽게 결정된다.
 
-var name_input: LineEdit
-var selected_bg_index: int = 0
-var bg_cards: Array = []
-var trait_option: OptionButton
-var trait_desc_label: Label
 var slot_container: VBoxContainer
 var _settings_overlay: ColorRect
 
@@ -217,54 +184,22 @@ func _build_ui():
 	left.add_theme_constant_override("separation", 10)
 	cols.add_child(left)
 
-	# 이름
-	var name_row = HBoxContainer.new()
-	name_row.add_theme_constant_override("separation", 10)
-	left.add_child(name_row)
-	name_row.add_child(_label("이름", 13, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT))
-	name_input = LineEdit.new()
-	name_input.placeholder_text = "이름"
-	name_input.text = "김민준"
-	name_input.custom_minimum_size = Vector2(0, 40)
-	name_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var input_style = StyleBoxFlat.new()
-	input_style.bg_color = Color("#1e1e2a")
-	input_style.border_color = Color("#3a3a5a")
-	input_style.set_border_width_all(1)
-	input_style.set_corner_radius_all(6)
-	input_style.content_margin_left = 12
-	input_style.content_margin_right = 12
-	name_input.add_theme_stylebox_override("normal", input_style)
-	name_input.add_theme_stylebox_override("focus", input_style)
-	name_input.add_theme_color_override("font_color", Color("#e8eaf0"))
-	name_input.add_theme_color_override("font_placeholder_color", Color("#5a6075"))
-	name_input.add_theme_font_size_override("font_size", 15)
-	name_row.add_child(name_input)
+	# ── 게임 소개 ──
+	var intro = _label("김민준. 서른셋. 백수.", 22, "#e8eaf0", HORIZONTAL_ALIGNMENT_LEFT)
+	intro.add_theme_font_size_override("font_size", 22)
+	left.add_child(intro)
 
-	# 루트 선택
-	left.add_child(_label("강남 입성 전략  —  40세까지 어떻게 갈 것인가", 13, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT))
-	var bg_grid = VBoxContainer.new()
-	bg_grid.add_theme_constant_override("separation", 6)
-	left.add_child(bg_grid)
-	for i in ROUTES.size():
-		var card = _bg_card(i)
-		bg_grid.add_child(card)
-		bg_cards.append(card)
-	_update_bg_selection()
+	var premise = _label(
+		"아버지의 빚을 6년간 갚았다. 이제 통장엔 50만원뿐이다.\n\n남은 건 신촌 고시원 한 칸과, 5년이라는 시간.\n\n38살이 되기 전에 — 강남에 입성한다.\n불가능하다는 걸 안다. 그래서 시작한다.",
+		14, "#a0aec0", HORIZONTAL_ALIGNMENT_LEFT)
+	premise.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	left.add_child(premise)
 
-	# 트레이트
-	left.add_child(_label("시작 특성  (플레이 실적에 따라 해금)", 13, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT))
-	trait_option = OptionButton.new()
-	trait_option.custom_minimum_size = Vector2(0, 40)
-	trait_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for trait_name in MetaProgression.get_unlocked_traits():
-		trait_option.add_item(trait_name)
-	trait_option.item_selected.connect(_on_trait_selected)
-	left.add_child(trait_option)
-	trait_desc_label = _label("", 11, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT)
-	trait_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	left.add_child(trait_desc_label)
-	_on_trait_selected(0)
+	var hint = _label(
+		"※ 당신의 선택이 쌓여 어떤 사람이 될지 결정됩니다.\n   직장으로, 투자로, 사업으로 — 길은 정해져 있지 않습니다.",
+		12, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT)
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	left.add_child(hint)
 
 	# 스페이서
 	var spacer = Control.new()
@@ -272,7 +207,7 @@ func _build_ui():
 	left.add_child(spacer)
 
 	# 시작 버튼
-	var new_game = _button("새 런 시작  ▶", "#0e3a2a")
+	var new_game = _button("새 이야기 시작  ▶", "#0e3a2a")
 	new_game.pressed.connect(_start_new_run)
 	left.add_child(new_game)
 
@@ -461,141 +396,12 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 				)
 				row.add_child(cancel_btn)
 
-# ── 배경 카드 생성 ──────────────────────────────────────────────
-func _bg_card(index: int) -> PanelContainer:
-	var bg_data = ROUTES[index]
-	var card = PanelContainer.new()
-	card.custom_minimum_size = Vector2(0, 80)
-	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.mouse_filter = Control.MOUSE_FILTER_STOP
-
-	var card_style = StyleBoxFlat.new()
-	card_style.bg_color = Color("#1a1a26")
-	card_style.border_color = Color("#2a2a40")
-	card_style.set_border_width_all(2)
-	card_style.set_corner_radius_all(8)
-	card_style.content_margin_left = 14
-	card_style.content_margin_right = 14
-	card_style.content_margin_top = 10
-	card_style.content_margin_bottom = 10
-	card.add_theme_stylebox_override("panel", card_style)
-	card.set_meta("style", card_style)
-	card.set_meta("index", index)
-
-	var row = HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
-	card.add_child(row)
-
-	# 이모지
-	var emoji_lbl = Label.new()
-	emoji_lbl.text = bg_data["emoji"]
-	emoji_lbl.add_theme_font_size_override("font_size", 28)
-	emoji_lbl.custom_minimum_size = Vector2(38, 0)
-	emoji_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	row.add_child(emoji_lbl)
-
-	# 텍스트
-	var text_col = VBoxContainer.new()
-	text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	text_col.add_theme_constant_override("separation", 2)
-	row.add_child(text_col)
-
-	var name_row = HBoxContainer.new()
-	name_row.add_theme_constant_override("separation", 8)
-	text_col.add_child(name_row)
-	var name_lbl = Label.new()
-	name_lbl.text = "%s  %s" % [bg_data["name"], bg_data["tagline"]]
-	name_lbl.add_theme_font_size_override("font_size", 14)
-	name_lbl.add_theme_color_override("font_color", Color("#e8eaf0"))
-	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_row.add_child(name_lbl)
-
-	var bonus_lbl = Label.new()
-	bonus_lbl.text = bg_data["bonuses"]
-	bonus_lbl.add_theme_font_size_override("font_size", 11)
-	bonus_lbl.add_theme_color_override("font_color", Color(bg_data["color"]))
-	bonus_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	bonus_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	text_col.add_child(bonus_lbl)
-
-	# 클릭 가능하게
-	var btn_overlay = Button.new()
-	btn_overlay.flat = true
-	btn_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	btn_overlay.pressed.connect(Callable(self, "_select_background").bind(index))
-	card.add_child(btn_overlay)
-
-	return card
-
-func _select_background(index: int):
-	selected_bg_index = index
-	_update_bg_selection()
-
-func _update_bg_selection():
-	for i in bg_cards.size():
-		var card = bg_cards[i]
-		var card_style: StyleBoxFlat = card.get_meta("style")
-		if i == selected_bg_index:
-			card_style.bg_color = Color("#1e2040")
-			card_style.border_color = Color(ROUTES[i]["color"])
-			card_style.border_width_left = 3
-			card_style.border_width_top = 3
-			card_style.border_width_right = 3
-			card_style.border_width_bottom = 3
-		else:
-			card_style.bg_color = Color("#1a1a26")
-			card_style.border_color = Color("#2a2a40")
-			card_style.border_width_left = 2
-			card_style.border_width_top = 2
-			card_style.border_width_right = 2
-			card_style.border_width_bottom = 2
-		card.add_theme_stylebox_override("panel", card_style)
-
-# ── 트레이트 선택 ───────────────────────────────────────────────
-func _on_trait_selected(index):
-	if trait_desc_label == null:
-		return
-	var unlocked = MetaProgression.get_unlocked_traits()
-	if index < 0 or index >= unlocked.size():
-		trait_desc_label.text = ""
-		return
-	var trait_name = unlocked[index]
-	var desc = ""
-	var hint = ""
-	for tr in DataRegistry.traits:
-		if tr.get("id", "") == trait_name:
-			desc = tr.get("description", "")
-			var bonus = tr.get("bonus", {})
-			if not bonus.is_empty():
-				var parts: Array = []
-				for k in bonus:
-					var v = int(bonus[k])
-					var sign = "+" if v >= 0 else ""
-					var lbl = k
-					match k:
-						"money": lbl = "시작 자금 %s" % _format_money(abs(v)) if v >= 0 else "시작 자금 -%s" % _format_money(abs(v))
-						"health": lbl = "건강 %s%d" % [sign, v]
-						"mental": lbl = "정신력 %s%d" % [sign, v]
-						"intelligence": lbl = "지력 %s%d" % [sign, v]
-						"social_skill": lbl = "사회성 %s%d" % [sign, v]
-						"appearance": lbl = "외모 %s%d" % [sign, v]
-						"investment_skill": lbl = "투자 %s%d" % [sign, v]
-						"luck": lbl = "행운 %s%d" % [sign, v]
-						"stress": lbl = "스트레스 %s%d" % [sign, v]
-						_: lbl = "%s %s%d" % [k, sign, v]
-					parts.append(lbl)
-				hint = "  [" + "  ".join(parts) + "]"
-			break
-	trait_desc_label.text = desc + hint
 
 # ── 시작 / 로드 ─────────────────────────────────────────────────
 func _start_new_run():
-	var chosen_name = name_input.text.strip_edges()
-	var chosen_route = ROUTES[selected_bg_index]["id"]
-	var selected_trait = "흙수저 생존본능"
-	if trait_option.get_item_count() > 0:
-		selected_trait = trait_option.get_item_text(trait_option.selected)
-	GameState.start_new_game(selected_trait, chosen_name, "지방_상경", chosen_route)
+	# 이름·루트·특성 선택 없이 고정 시작 (드라마 모드)
+	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
+	GameState.start_new_game("none", "김민준", "지방_상경", "none")
 	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):
