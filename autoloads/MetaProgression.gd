@@ -3,6 +3,8 @@ extends Node
 const META_SAVE_PATH = "user://gangnam_dream_meta.json"
 
 var data: Dictionary = {}
+# 이번 런에서 새로 해금된 항목 (ending 화면에 표시용)
+var _new_this_run: Dictionary = {"traits": [], "achievements": []}
 
 const ALL_TITLES := [
 	# ── 주거 ──
@@ -103,6 +105,9 @@ func unlock_trait(trait_name):
 		traits.append(trait_name)
 		data["unlocked_traits"] = traits
 		save_meta()
+		# 이번 런 해금 목록에 추가
+		if not _new_this_run["traits"].has(trait_name):
+			_new_this_run["traits"].append(trait_name)
 
 func unlock_achievement(achievement_id):
 	var achievements: Array = data.get("achievements", [])
@@ -110,6 +115,9 @@ func unlock_achievement(achievement_id):
 		achievements.append(achievement_id)
 		data["achievements"] = achievements
 		save_meta()
+		# 이번 런 해금 목록에 추가
+		if not _new_this_run["achievements"].has(achievement_id):
+			_new_this_run["achievements"].append(achievement_id)
 
 # ── 칭호 시스템 ───────────────────────────────────────────────────
 func get_unlocked_titles() -> Array:
@@ -184,7 +192,12 @@ func _check_title_condition(tid: String) -> bool:
 func is_hidden_event_unlocked(event_id):
 	return data.get("rare_event_unlocks", []).has(event_id) or data.get("unlocked_hidden_events", []).has(event_id)
 
+func get_new_unlocks() -> Dictionary:
+	return _new_this_run.duplicate(true)
+
 func record_run(summary):
+	# 이번 런 해금 목록 초기화
+	_new_this_run = {"traits": [], "achievements": []}
 	data["total_runs"] = int(data.get("total_runs", 0)) + 1
 	data["best_asset"] = max(float(data.get("best_asset", 0.0)), float(summary.get("total_assets", 0.0)))
 	var history: Array = data.get("run_history", [])

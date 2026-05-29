@@ -21,7 +21,7 @@ var is_game_over = false
 var current_trait = "흙수저 생존본능"
 
 const HOUSING_DATA = {
-	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 800_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
+	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 650_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
 	"oneroom":   {"name": "원룸",       "emoji": "🏠", "expense": 1_100_000.0, "deposit": 5_000_000.0,   "next": "apartment", "req_cash": 7_000_000.0},
 	"apartment": {"name": "아파트",     "emoji": "🏢", "expense": 1_600_000.0, "deposit": 30_000_000.0,  "next": "gangnam",   "req_cash": 35_000_000.0},
 	"gangnam":   {"name": "강남 아파트", "emoji": "🏙", "expense": 2_800_000.0, "deposit": 100_000_000.0, "next": "",          "req_cash": 120_000_000.0},
@@ -31,7 +31,7 @@ var housing: String = "gosiwon"
 
 var money = 1_000_000.0
 var monthly_income = 0.0
-var fixed_expense = 800_000.0
+var fixed_expense = 650_000.0
 var health = 70
 var mental = 70
 var intelligence = 50
@@ -96,7 +96,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	housing = "gosiwon"
 	money = 1_000_000.0
 	monthly_income = 0.0
-	fixed_expense = 800_000.0
+	fixed_expense = 650_000.0
 	health = 70
 	mental = 70
 	intelligence = 50
@@ -585,28 +585,31 @@ func check_game_over():
 		finish_run("early_retirement"); return
 	if age >= 55:
 		var total = get_total_asset_value()
+		# 특수 플래그 엔딩 — 자산 무관하게 먼저 체크
+		if flags.get("political_winner", false) and total >= 100_000_000:
+			finish_run("political_fix"); return
+		# 자산 + 스탯 기반 특수 엔딩
 		if reputation >= 80 and total >= 300_000_000:
-			finish_run("reputation_legend")
-		elif investment_skill >= 85 and total >= 500_000_000:
-			finish_run("investment_master")
-		elif route_unorthodox >= 25 and total >= 500_000_000:
-			finish_run("unorthodox_legend")
-		elif total >= 1_000_000_000 and relationships.is_empty():
-			finish_run("lonely_rich")
-		elif total >= 1_000_000_000:
-			finish_run("stable_success")
-		elif route_orthodox >= 25 and route_unorthodox <= 5 and total >= 200_000_000 and job_tenure >= 24:
-			finish_run("orthodox_pinnacle")
-		elif health >= 70 and mental >= 70:
-			finish_run("healthy_retirement")
-		elif route_orthodox >= 12 and route_unorthodox >= 12:
-			finish_run("balanced_life")
-		elif route_orthodox >= 20 and mental <= 45:
-			finish_run("orthodox_hollow")
-		elif flags.get("political_winner", false):
-			finish_run("political_fix")
-		else:
-			finish_run("ordinary_life")
+			finish_run("reputation_legend"); return
+		if investment_skill >= 85 and total >= 500_000_000:
+			finish_run("investment_master"); return
+		if route_unorthodox >= 25 and total >= 500_000_000:
+			finish_run("unorthodox_legend"); return
+		if total >= 1_000_000_000 and relationships.is_empty():
+			finish_run("lonely_rich"); return
+		if total >= 1_000_000_000:
+			finish_run("stable_success"); return
+		if route_orthodox >= 25 and route_unorthodox <= 5 and total >= 200_000_000 and job_tenure >= 24:
+			finish_run("orthodox_pinnacle"); return
+		if health >= 70 and mental >= 70:
+			finish_run("healthy_retirement"); return
+		if route_orthodox >= 12 and route_unorthodox >= 12:
+			finish_run("balanced_life"); return
+		if route_orthodox >= 20 and mental <= 45:
+			finish_run("orthodox_hollow"); return
+		if flags.get("political_winner", false):
+			finish_run("political_fix"); return
+		finish_run("ordinary_life")
 
 func finish_run(ending_id):
 	is_game_over = true

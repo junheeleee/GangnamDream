@@ -1,140 +1,193 @@
 extends Node
-## 배경음악: AudioStreamWAV 미리 굽기 방식
-## SFX와 동일한 원리라 안정적. 4바 루프 (Cm7→Ab→Eb→Bb)
-## 게임 시작 시 _ready()에서 한 번 생성 (~0.3s), 이후 무한 루프
+## BGMPlayer — 게임 상태에 따라 6트랙 자동 전환
+## Suno .mp3 파일 우선 재생, 없으면 프로시저럴 폴백
 
-var _player: AudioStreamPlayer
-var volume: float = 0.25
+# ── 트랙 정의 ─────────────────────────────────────────────────
+const TRACKS = {
+	"early":       "res://assets/audio/bgm_main_early.mp3",
+	"hustle":      "res://assets/audio/bgm_main_hustle.mp3",
+	"late_tense":  "res://assets/audio/bgm_late_tense.mp3",
+	"crisis":      "res://assets/audio/bgm_crisis.mp3",
+	"ending_good": "res://assets/audio/bgm_ending_good.mp3",
+	"ending_bad":  "res://assets/audio/bgm_ending_bad.mp3",
+}
 
-const SR  := 11025   # Hz — 낮을수록 생성 빠름, 배경음은 충분
-const BPM := 80.0
+# ── 상태 ──────────────────────────────────────────────────────
+var volume: float       = 0.25
+var _current_key: String = ""
+var _is_ending: bool    = false
 
+var _player_a: AudioStreamPlayer  # 현재 재생
+var _player_b: AudioStreamPlayer  # 크로스페이드 대상
+var _procedural_stream: AudioStreamWAV  # 폴백 스트림 (1회 생성)
+
+const _FADE_TIME = 2.5  # 크로스페이드 초
+
+# ── 초기화 ────────────────────────────────────────────────────
 func _ready():
-	_player = AudioStreamPlayer.new()
-	_player.bus = "Master"
-	add_child(_player)
-	_player.stream    = _bake()
-	_player.volume_db = _db(volume)
+	_player_a = _make_player()
+	_player_b = _make_player()
+	_procedural_stream = _bake_procedural()
+
+func _make_player() -> AudioStreamPlayer:
+	var p = AudioStreamPlayer.new()
+	p.bus = "Master"
+	add_child(p)
+	return p
 
 func start():
-	# AudioManager가 먼저 로드되므로 저장된 bgm_volume 적용
 	volume = AudioManager.bgm_volume
-	_player.volume_db = _db(volume)
-	if not _player.finished.is_connected(_on_bgm_ended):
-		_player.finished.connect(_on_bgm_ended)
-	_player.play()
+	_switch_to(_pick_track(), true)
 
 func _on_bgm_ended():
 	if volume > 0.001:
 		_player.play()
 
 func stop():
-	_player.stop()
-
-func toggle():
-	if _player.playing: stop()
-	else: start()
+	_player_a.stop()
+	_player_b.stop()
 
 func apply_volume(v: float):
 	volume = clampf(v, 0.0, 1.0)
-	_player.volume_db = _db(volume)
+	_player_a.volume_db = _db(volume)
+
+# ── 매월 상태 체크 ─────────────────────────────────────────────
+func update_context():
+	if _is_ending:
+		return
+	var target = _pick_track()
+	if target != _current_key:
+		_crossfade_to(target)
+
+func on_ending(ending_id: String):
+	_is_ending = true
+	var good = ["gangnam_dream", "stable_success", "investment_master",
+				"startup_exit", "reputation_legend", "healthy_retirement", "political_fix"]
+	_crossfade_to("ending_good" if ending_id in good else "ending_bad")
+
+# ── 트랙 선택 로직 ─────────────────────────────────────────────
+func _pick_track() -> String:
+	# 위기 우선 — 건강 ≤35 OR 스트레스 ≥75
+	if GameState.health <= 35 or GameState.stress >= 75 or GameState.mental <= 30:
+		return "crisis"
+	# 후반 긴장 — Turn 35+ 또는 65세 10년 이내
+	if GameState.turn >= 35 or GameState.age >= 55:
+		return "late_tense"
+	# 초중반 — 취직 여부로 분기
+	if GameState.turn >= 12 and not GameState.current_job.is_empty():
+		return "hustle"
+	return "early"
+
+# ── 크로스페이드 ──────────────────────────────────────────────
+func _switch_to(key: String, immediate: bool = false):
+	_current_key = key
+	var stream = _load_track(key)
+	_player_a.stream    = stream
+	_player_a.volume_db = _db(volume)
+	_player_a.play()
+
+func _crossfade_to(key: String):
+	if key == _current_key:
+		return
+	_current_key = key
+
+	# B에 새 트랙 준비 (0 볼륨)
+	var stream = _load_track(key)
+	_player_b.stream    = stream
+	_player_b.volume_db = _db(0.0)
+	_player_b.play()
+
+	# A 페이드아웃, B 페이드인
+	var tw = create_tween()
+	tw.set_parallel(true)
+	tw.tween_method(_set_vol_a, volume, 0.0, _FADE_TIME)
+	tw.tween_method(_set_vol_b, 0.0, volume, _FADE_TIME)
+	tw.chain().tween_callback(_swap_players)
+
+func _set_vol_a(v: float): _player_a.volume_db = _db(v)
+func _set_vol_b(v: float): _player_b.volume_db = _db(v)
+
+func _swap_players():
+	_player_a.stop()
+	# A ↔ B 교체
+	var tmp = _player_a
+	_player_a = _player_b
+	_player_b = tmp
+
+# ── 스트림 로딩 ───────────────────────────────────────────────
+func _load_track(key: String) -> AudioStream:
+	var path = TRACKS.get(key, "")
+	if path != "" and ResourceLoader.exists(path):
+		return load(path)
+	# 파일 없으면 프로시저럴 폴백
+	return _procedural_stream
 
 func _db(v: float) -> float:
 	return -80.0 if v < 0.001 else 20.0 * log(v) / log(10.0)
 
-# ── 루프 호환 주파수 스냅 ─────────────────────────
-# freq × loop_samples / SR = 정수 → 루프 경계에서 위상 연속 → 클릭 없음
-func _snap(f: float, loop_len: int) -> float:
-	return round(f * float(loop_len) / float(SR)) * float(SR) / float(loop_len)
+# ── 프로시저럴 폴백 BGM (Suno 파일 없을 때) ─────────────────────
+const SR  := 11025
+const BPM := 80.0
 
-# ── WAV 굽기 ─────────────────────────────────────
-func _bake() -> AudioStreamWAV:
-	var beat := int(round(float(SR) * 60.0 / BPM))  # 한 비트 샘플 수
-	var bar  := beat * 4                              # 한 바
-	var loop := bar  * 4                              # 4바 루프
+func _bake_procedural() -> AudioStreamWAV:
+	var beat := int(round(float(SR) * 60.0 / BPM))
+	var bar  := beat * 4
+	var loop := bar  * 4
 
-	# 루프 호환 주파수
-	var C2  := _snap(65.41,  loop)
-	var Eb2 := _snap(77.78,  loop)
-	var Ab2 := _snap(103.83, loop)
-	var Bb2 := _snap(116.54, loop)
-	var C3  := _snap(130.81, loop)
-	var Eb3 := _snap(155.56, loop)
-	var G3  := _snap(196.00, loop)
-	var Bb3 := _snap(233.08, loop)
-	var Ab3 := _snap(207.65, loop)
-	var C4  := _snap(261.63, loop)
-	var Eb4 := _snap(311.13, loop)
-	var G4  := _snap(392.00, loop)
-	var D4  := _snap(293.66, loop)
-	var F4  := _snap(349.23, loop)
-	var Ab4 := _snap(415.30, loop)
+	func _snap(f: float) -> float:
+		return round(f * float(loop) / float(SR)) * float(SR) / float(loop)
 
-	# 코드 진행 [베이스, 패드×4]
-	# Cm7 → Ab → Eb → Bb  (K-pop i–VI–III–VII)
-	var prog: Array = [
-		[C2,  C3, Eb3, G3,  Bb3],
-		[Ab2, Ab3, C4, Eb4, G4 ],
-		[Eb2, Eb3, G3, Bb3, Eb4],
-		[Bb2, Bb3, D4, F4,  Ab4],
+	var C2  := _snap(65.41);  var Eb2 := _snap(77.78)
+	var Ab2 := _snap(103.83); var Bb2 := _snap(116.54)
+	var C3  := _snap(130.81); var Eb3 := _snap(155.56)
+	var G3  := _snap(196.00); var Bb3 := _snap(233.08)
+	var Ab3 := _snap(207.65); var C4  := _snap(261.63)
+	var Eb4 := _snap(311.13); var G4  := _snap(392.00)
+	var D4  := _snap(293.66); var F4  := _snap(349.23); var Ab4 := _snap(415.30)
+
+	var prog = [
+		[C2, C3, Eb3, G3, Bb3], [Ab2, Ab3, C4, Eb4, G4],
+		[Eb2, Eb3, G3, Bb3, Eb4], [Bb2, Bb3, D4, F4, Ab4],
 	]
-
-	# 사용되는 고유 주파수 목록 + 위상 누산기
 	var freqs: Array = []
 	for chord in prog:
 		for f in chord:
-			if not freqs.has(f):
-				freqs.append(f)
-	var phases: Array = []
-	phases.resize(freqs.size())
-	phases.fill(0.0)
+			if not freqs.has(f): freqs.append(f)
+	var phases: Array = []; phases.resize(freqs.size()); phases.fill(0.0)
 
-	# 바별 인덱스 사전 계산 (내부 루프 O(1) 보장)
-	var bar_idx_maps: Array = []
+	var bar_maps: Array = []
 	for chord in prog:
-		var bass_fi: int = freqs.find(chord[0])
 		var pad_fis: Array = []
-		for ci in range(1, chord.size()):
-			pad_fis.append(freqs.find(chord[ci]))
-		bar_idx_maps.append({"bass": bass_fi, "pads": pad_fis})
+		for ci in range(1, chord.size()): pad_fis.append(freqs.find(chord[ci]))
+		bar_maps.append({"bass": freqs.find(chord[0]), "pads": pad_fis})
 
-	# 샘플 생성
-	var buf := PackedByteArray()
-	buf.resize(loop * 2)
-
+	var buf := PackedByteArray(); buf.resize(loop * 2)
 	for i in range(loop):
 		var bi   := i / bar
-		var bpos := float(i % bar) / float(bar)  # 0..1
-
-		# 엔벨로프
+		var bpos := float(i % bar) / float(bar)
 		var pad_env  := smoothstep(0.0, 0.05, bpos) * smoothstep(1.0, 0.92, bpos)
 		var bass_env := smoothstep(0.0, 0.01, bpos) * smoothstep(0.45, 0.12, bpos)
-
-		# 위상 전체 업데이트 (연속성 유지)
 		for fi in range(freqs.size()):
 			var ph: float = phases[fi] + TAU * freqs[fi] / float(SR)
-			if ph >= TAU:
-				ph -= TAU
+			if ph >= TAU: ph -= TAU
 			phases[fi] = ph
-
-		# 이 바의 믹스
-		var bmap: Dictionary = bar_idx_maps[bi % 4]
+		var bmap = bar_maps[bi % 4]
 		var s := 0.0
-		s += sin(phases[bmap["bass"]]) * bass_env * 0.24
-		for fi in bmap["pads"]:
-			s += sin(phases[fi]) * pad_env * 0.068
-
+		var bp := phases[bmap["bass"]]
+		s += (sin(bp) * 0.6 + (2.0/PI)*asin(sin(bp)) * 0.4) * bass_env * 0.22
+		for pi2 in range(bmap["pads"].size()):
+			var fi2: int = bmap["pads"][pi2]
+			var dp := phases[fi2] * (1.0 + float(pi2 % 2) * 0.003)
+			s += (sin(dp) * 0.7 + (2.0/PI)*asin(clamp(sin(dp),-1.0,1.0)) * 0.3) * pad_env * 0.058
+		var hihat_env := smoothstep(0.0,0.01,float(i%(beat/2))/float(beat/2)) * smoothstep(1.0,0.85,float(i%(beat/2))/float(beat/2))
+		s += sin(float(i)*127.1+float(i*i)*0.00317)*sin(float(i)*311.7) * hihat_env * 0.018
+		s = s / (1.0 + abs(s) * 0.6)
 		s = clamp(s, -1.0, 1.0)
-		var samp := int(s * 28000)
-		buf[i * 2]     = samp & 0xFF
-		buf[i * 2 + 1] = (samp >> 8) & 0xFF
+		var samp := int(s * 26000)
+		buf[i*2] = samp & 0xFF; buf[i*2+1] = (samp>>8) & 0xFF
 
 	var wav := AudioStreamWAV.new()
-	wav.format     = AudioStreamWAV.FORMAT_16_BITS
-	wav.mix_rate   = SR
-	wav.stereo     = false
-	wav.data       = buf
-	wav.loop_mode  = AudioStreamWAV.LOOP_FORWARD
-	wav.loop_begin = 0
-	wav.loop_end   = loop
+	wav.format=AudioStreamWAV.FORMAT_16_BITS; wav.mix_rate=SR
+	wav.stereo=false; wav.data=buf
+	wav.loop_mode=AudioStreamWAV.LOOP_FORWARD; wav.loop_begin=0; wav.loop_end=loop
 	return wav

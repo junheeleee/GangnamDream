@@ -144,6 +144,16 @@ func _check_conditions(conditions):
 				if bool(req) and GameState.current_job.is_empty(): return false
 			"no_job":
 				if bool(req) and not GameState.current_job.is_empty(): return false
+			"min_job_tier":
+				# 현재 직업 티어가 req 미만이면 제외 (무직이면 tier 0으로 취급)
+				var cur_tier = int(GameState.current_job.get("tier", 0))
+				if cur_tier < int(req): return false
+			"max_job_tier":
+				var cur_tier = int(GameState.current_job.get("tier", 999))
+				if cur_tier > int(req): return false
+			"job_category":
+				# 직업 카테고리가 일치하지 않으면 제외 (무직이면 항상 false)
+				if GameState.current_job.get("category", "") != str(req): return false
 			"has_portfolio":
 				if bool(req) and GameState.portfolio.is_empty(): return false
 			"has_relationship":

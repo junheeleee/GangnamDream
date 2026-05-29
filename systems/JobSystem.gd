@@ -47,7 +47,8 @@ func quit_job(voluntary):
 
 func process_monthly_job():
 	if GameState.current_job.is_empty():
-		GameState.modify_hidden_stat("stress", 2)
+		# 무직 스트레스는 apply_monthly_pressure()에서 이미 처리됨 (+6/월)
+		# 여기서 추가로 더하면 이중 계산이 됨 — 제거
 		return
 	var job = GameState.current_job
 	GameState.job_tenure += 1

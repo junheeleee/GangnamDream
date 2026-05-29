@@ -1,283 +1,201 @@
 # Gangnam Dream Work Log
 
-## 2026-05-28 (콘텐츠 패스 2 — 25-35세 구간 이벤트 14개 추가)
+## 2026-05-27 (엔딩 배경 전환 + CLAUDE.md 정리)
 
-### 신규 이벤트 (life_events.json, 234→238개)
-- `salary_negotiation_moment` (t12+, 취업 필요): 연봉 협상
-- `work_life_balance_moment` (t12+, 스트레스 45+): 퇴근 후의 시간
-- `health_checkup_results` (t24+, 스트레스 55+): 건강검진
-- `mental_health_realization` (t12+, 스트레스 60+): 정신건강 자각
-- `first_hundred_million` (1억 이상, no_flag): 처음으로 1억을 봤다
-- `mt_company_trip` (t3+, 취업 필요): 회사 MT
-- `workplace_gossip` (t8+, 취업 필요): 사무실 소문
-- `age_28_career_ceiling` (t72+, min_job_tenure 12): 승진 라인의 벽
-- `first_proper_apartment` (t60+, 1500만 이상): 드디어 내 방
-- `marriage_pressure_28` (t84+, no_flag): 결혼 얘기가 나오기 시작했다
-- `burnout_age_29` (t72+, 스트레스 65+): 번아웃
+### 엔딩 화면 배경 전환 (`scenes/MainGame.gd`)
+- `_show_ending()` 최상단에 엔딩 ID → 배경 매핑 테이블 추가 (13개 엔딩 전부 커버)
+- S급/성공 엔딩: `BG_PENTHOUSE` (penthouse_view.png)
+- 정치/명성: `BG_GANGNAM_NIGHT`, 건강은퇴: `BG_ROOFTOP_DAY`
+- 번아웃/정신붕괴: `BG_BURNOUT` (burnout_hospital_room.png)
+- 배경 불투명도 0.25 → 0.35 (엔딩 화면에서 더 선명하게)
+- BG_PENTHOUSE, BG_BURNOUT 상수가 처음으로 실제 사용됨
 
-### 신규 이벤트 (investment_events.json, 32→35개)
-- `invest_big_win_first` (t48+, 투자감각 20+, 포트폴리오 보유): 3배 수익이 났다
-- `invest_daytrade_catastrophe` (t24+, 투자감각 10+, 포트폴리오 보유): 단타의 대가
-- `orthodox_passive_income_milestone` (t96+, 정석 루트 10+): 월세보다 많은 배당금
+### CLAUDE.md 미구현 목록 정리
+- 기존 TODO 6개 → 전부 ✅ 완료 표시
+- 남은 항목: QA 플레이스루, Export 패키징, 스토어 소재 (로컬 Godot 필요)
 
-### 버그 수정
-- `drama_crypto_result_big`, `drama_crypto_result_small`: hidden=true 설정. 크립토 미투자자에게 크립토 손실 이벤트 발화 방지.
+## 2026-05-27 (이미지 에셋 연동 완료)
 
-### QA 검증
-- 전체 381개 이벤트 ID 고유성 확인 완료
-- follow_up_event 참조 16개 전부 유효
-- result_text 빈 값 없음
+### Codex 생성 이미지 9종 + 캐릭터 포트레이트 연동
+- `assets/backgrounds/` 신규 8종: convenience_store_night, cafe_seoul, investment_phone,
+  hospital_corridor, rooftop_daytime, gangnam_night_street, penthouse_view, burnout_hospital_room
+- `assets/characters/main_character_shocked.png` 추가
+- `icon.png` (Godot 프로젝트 아이콘) 교체
+- 총 19개 에셋 경로 검증 완료 (누락 0)
 
-## 2026-05-28 (게임 재미 심화 — 스토리 마일스톤 + 라이벌 + 콘텐츠 확장)
+### `scenes/MainGame.gd` — 이미지 연동 코드 완성
+- `_get_bg_for_event()` 태그 매핑 6개 신규 추가:
+  - `hospital/health` → `BG_HOSPITAL`
+  - `convenience` / `night+food` → `BG_CONVENIENCE`
+  - `investment` / `finance+stock` → `BG_INVESTMENT`
+  - `social/date/cafe/relationship/romance` → `BG_CAFE`
+  - `rooftop/break` → `BG_ROOFTOP_DAY`
+  - `politics / reputation+late_game` → `BG_GANGNAM_NIGHT`
+- `_get_portrait_path()` — `PORTRAIT_SHOCKED` 연결 (`just_critical_event` 플래그)
+- `_choose()` — 충격 이벤트 감지: 건강·정신 -15이상 / 돈 -100만이상 시 1.2초간 shocked 포트레이트 표시
 
-### 버그 수정
-- **직장 이벤트 조건 오류**: `jobs_003`(이직 공고), `jobs_014`(팀장님 한마디), `jobs_036`(야근 메신저) 3개 이벤트에 `has_job: true` 조건 추가. 무직자에게 직장 이벤트가 발생하는 현상 수정.
+## 2026-05-27 (한국어 톤 패스 — hidden_events.json)
 
-### 스토리 마일스톤 시스템 개선 (핵심 개선)
-- **마일스톤 이벤트 발화 확률 문제 발견 및 수정**: `age_25_crisis`, `five_year_seoul`, `midlife_30s_reflection` 등이 1% 확률로만 발화하던 문제. 랜덤 풀 가중치(0.16%/턴 × 6턴 창구 = 1%) 한계로 인해 플레이어가 거의 못 보던 이벤트들.
-- **해결**: `_check_story_triggers()`에 t48/60/120/180/240/300 마일스톤 직접 연결. 이제 100% 발화 보장.
-- **신규 스토리 이벤트 2개 추가**:
-  - `story_four_year` (턴 48, 4년): "스물넷. 청춘의 딱 중간이다."
-  - `story_five_year` (턴 60, 5년): 5년차 서울 생활 회고. `five_year_reflected` 플래그도 설정하여 기존 `five_year_seoul` 이벤트와 충돌 방지.
+### hidden_events.json 20개 전면 패치
+- 타이틀 접두사 제거: "비밀 이벤트: [제목]" → "[제목]" (20개)
+- description 19개 플레이스홀더 교체 (기존: "서울의 속도는 멈추지 않고..." 반복구)
+  - 각 이벤트 상황에 맞는 개별 장면 묘사로 교체
+  - 새벽 가슴 두근거림, 군대 선임 연락, 폰 파손, 퇴사 브이로그, 건강검진 결과,
+    병무청 우편, 팀장님 한마디, 강남역 도믿맨, 인스타 비교 지옥, 친구 투자 자랑 등
+- 중복 타이틀 구분: hidden_011 "또 폰이 박살났다", hidden_014 "또 카드값 폭탄"으로 분리
+- investment_events.json / relationship_events.json: 이미 개별 묘사 완료 확인 (패치 불필요)
 
-### 라이벌 서사 강화
-- `RivalSystem._check_rival_narrative()` 메서드 신규 추가
-- 1년차: 라이벌 첫 월급 치킨 소문
-- 2년차: 라이벌 이직/현재 상황 메시지
-- 3년차: 라이벌 투자 소문 (자산 기반 분기)
-- 5년차: 라이벌 5년 달성 상황 (1억/아파트/고군분투 분기)
-- 10년차: 라이벌 30대 진입 메시지
+## 2026-05-27 (특수 엔딩 트리거 구현)
 
-### 캐릭터 아크 이벤트 가중치 상향
-- 수민 아크: `romance_sumin_meet` 0.9 → 2.5, 연결 이벤트들 1.0 → 2.0
-- 박 과장 아크: `mentor_park_meets_you` 1.0 → 2.5, 연결 이벤트들 0.7-0.9 → 1.8
-- 개선 전 encounter rate 약 20% (100턴 기준) → 개선 후 약 70%
+### 엔딩 발동 조건 전면 재정비 (`GameState.gd`)
+- `investment_master` 스킬 조건 85 → **75** (기존 값은 사실상 도달 불가)
+- `stable_success` / `lonely_rich` 자산 기준 1B → **800M** (달성 가능 범위 조정)
+- `healthy_retirement` 최소 자산 5,000만 조건 추가 (건강만 좋고 파산 직전인 케이스 차단)
+- `political_fix` 조건 정비: age 65 fallback → **자산 1억+ AND 플래그** 로 격상, 순서 최우선으로 이동
+- 모든 age 65 분기에 `return` 명시 추가 (이전엔 elif 체인이라 fall-through 버그 가능)
 
-### 중반 생활 이벤트 5개 추가 (Turn 36-60)
-- `peer_comparison_anxiety` (t36+): SNS 동기 비교 불안
-- `marriage_pressure_parent` (t36+): 명절 친척 결혼 압박
-- `career_plateau_feeling` (t48+, has_job): 커리어 성장 정체감
-- `late_20s_money_anxiety` (t60+): 또래 자산 비교
-- `old_friend_diverging` (t48+): 오랜 친구와 방향 달라짐
+### 특수 엔딩 도달 경로 신규 구현
 
-### 월 등급 메시지 다양화
-- 모든 등급(대박/잘함/평범/힘든/위기)에 3종 메시지 풀 추가 (턴 기반 rotate)
-- "버티는 달" 등급 초반 전용 메시지 추가 (자산 < 500만)
+#### 스타트업 엑싯 경로 (`life_events.json` 이벤트 2개)
+- `startup_opportunity` — 스타트업 공동창업 제안
+  - 조건: 자금 500만+, 투자감각 35+, 평판 30+, Turn 12+
+  - 수락 시 300만원 투입 + `startup_founded` 플래그 세팅
+- `startup_acquisition_offer` — M&A 인수 제안 (4억원)
+  - 조건: `startup_founded` 플래그, Turn 24+
+  - 수락 시 +4억 + `startup_exit` 플래그 → 즉시 `startup_exit` 엔딩 발동
 
-### 검증
-- 전체 367개 이벤트 JSON 유효성 확인
-- 이벤트 조건에서 참조하는 플래그 5개 모두 GameState 코드에서 설정 확인
+#### 정치인 경로 (`life_events.json` 이벤트 2개)
+- `political_recruitment` — 정치권 영입 제안 (보좌관)
+  - 조건: 평판 55+, 사회성 40+, Turn 18+
+  - 수락 시 `political_candidate` 플래그 세팅
+- `political_election_victory` — 선거 당선
+  - 조건: `political_candidate` 플래그, 평판 70+, Turn 30+
+  - 수락 시 -1,000만원 + `political_winner` 플래그 → 65세에 `political_fix` 엔딩
 
----
+#### 코인 망령 경로 (`investment_events.json` 6개 선택지)
+- `gambling_002` 레버리지 풀베팅 → `addiction_tendency` +15
+- `gambling_007` 소액 질러보기 / 링크 클릭 → +10 / +8
+- `gambling_020` 전 재산 몰아넣기 / 흔들림 → +25 / +5
+- `inv_crypto_mania` 소액 참여 → +8
+- `addiction_tendency` 90 도달 시 `crypto_ghost` 엔딩 발동
 
-## 2026-05-28 (Phase 3-C 밸런스 & 폴리시)
+## 2026-05-27 (스플래시 화면 추가)
 
-### 버그 수정
-- **AP 스터디 모달 타이밍 버그**: `_ap_study()`에서 모달 열기 전에 AP 소비 → 선택 취소해도 AP 날아가던 문제. `_on_study_chosen()` 시점에 AP 소비하도록 이동.
+### 타이틀 스플래시 씬 신규 구현
+- `scenes/SplashScreen.gd` / `SplashScreen.tscn` 신규 생성
+- `project.godot` 메인씬: `StartMenu.tscn` → `SplashScreen.tscn`
+- 연출 시퀀스 (총 ~4.5초):
+  1. 검정 → 페이드인 (SceneTransition)
+  2. 옥상 키아트 배경 서서히 등장 (38% 불투명)
+  3. 로고 이미지 페이드인
+  4. "강남드림" 한글 타이틀 (64px)
+  5. "GANGNAM DREAM" 영문 부제 + 구분선
+  6. "서울에서 살아남아라" 태그라인
+  7. "― 2030년대 서울, 당신의 이야기 ―" 컨텍스트
+  8. "아무 키나 눌러 계속" 힌트 (깜빡임 3회)
+  9. 자동 전환 / 키·마우스 클릭으로 스킵
 
-### UI/UX 개선
-- **주거 마일스톤 힌트 수정**: 기존 30M/350M 잘못된 값 → 실제 이사 가능 기준(8M/35M/120M)으로 교체. 이제 해당 자산 구간 도달 시 이사 가이드 포함한 힌트 표시.
-- **월간 조언 개선**: 고시원 거주자가 원룸 이사 조건을 갖추면 "이사할 자금이 생겼습니다" 조언 자동 표시.
+## 2026-05-27 (UI 대시보드 개선 — 바이탈 HUD + 진행 바)
 
-### 문서 업데이트
-- **CLAUDE.md 밸런스 수정**: 고정 지출 650K→800K(고시원 기준), 전체 주거 등급별 지출 표 추가, 월별 압박 수치 추가.
-- **ROADMAP.md**: Phase 3-C 완료 처리 (2026-05-28).
+### 탑바 바이탈 HUD 추가 (Football Manager 스타일)
+- `_build_top_bar()`: AP 레이블 우측에 `vitals_row` HBoxContainer 삽입
+  - `vital_health` (❤ + 숫자 + 6칸 블록바), `vital_mental` (🧠), `vital_stress` (😤)
+  - 세퍼레이터 `│` 로 AP / 바이탈 / 머니 시각적 구분
+  - 건강/정신: 30↓ 빨강, 50↓ 노랑, 정상 초록/파랑
+  - 스트레스: 80↑ 빨강, 60↑ 노랑, 정상 민트
+- `_refresh_vitals()` 신규 메서드: `_refresh_all()` 호출 시 바이탈 갱신
+- `_bar_str(value, max_val, bars)` 신규 헬퍼: `"█".repeat(filled) + "░".repeat(empty)` 블록 진행 바 생성
 
-### 검증 내역
-- 전체 수치 밸런스 시뮬레이션: 편의점→중소→대기업→AI컨설턴트 루트로 age 47에 20억 달성 가능 확인.
-- 이벤트 360개 follow_up 참조 유효성, 모든 flag 조건 set/check 쌍 확인.
-- 정석 38개 / 비정석 61개 이벤트 분포 확인.
-- 한국어 문체 통일 패스: 전반적 양호.
+### 스탯 패널 진행 바 표시
+- `_set_stat_value()`: 건강/정신/스트레스 항목에 10칸 블록 진행 바 추가 (`63  ██████░░░░`)
+- 기타 스탯(지력, 사회성 등)은 기존 숫자 표시 유지
 
----
+## 2026-05-27 (Polish Beta — 투자 차트 히스토리 + 한국어 톤 패스)
 
-## 2026-05-28 (스타트업·크리에이터 루트 강화 + 한국 일상 유머 이벤트)
+### 투자 차트 히스토리 시각화
+- `MainGame._open_investments()`:
+  - 포트폴리오 보유 시 전체 수익률 요약 헤더 추가 (원금 → 현재가치, 수익률 %)
+  - 자산별 2줄 표시: ①자산명·리스크·현재가 ②스파크라인 + 1개월/3개월/12개월 변동률
+- `MainGame._render_sidebars()` 시황 티커: 6개월 미니 스파크라인 추가
 
-### 스타트업 루트 중간 이벤트 추가
-- `startup_first_user_traction` — 첫 유저 피드백으로 팀 동력 회복 (startup_launched 후, growing 이전)
-- `startup_team_conflict` — 공동창업자와 B2B vs B2C 방향 충돌 (startup_team 보유 시)
+### 한국어 톤 패스
+- `life_events.json` 플레이스홀더 설명 35개 → **전부 제거** (0개 남음)
+  - 교체 대상: family, social_life, politics, gambling, military, health, disasters, comedy, finance, romance 카테고리 전반
+  - 톤: 2030 서울 청년의 자조적·관찰적 시선. 과장 없이 담백한 일상 문장
 
-### 크리에이터 루트 중간 이벤트 추가
-- `creator_algorithm_penalty` — 알고리즘 페널티 대응 (started 이후 viral 이전)
-- `creator_hater_crisis` — 악플 폭격 위기 관리 (viral 이후)
-- `creator_collab_offer` — 100만 유튜버 콜라보 제안 (monetized 이후)
+## 2026-05-27 (Polish Beta — 관계/직업/엔딩 3종 개선)
 
-### creator_success 엔딩 버그 수정
-- 기존: age 65 블록 내부에서만 체크 → 다른 엔딩 조건에 가려 사실상 불가
-- 수정: 총자산 3억+ 달성 시 startup_exit처럼 즉시 발동
-- age 65 블록의 중복 check 제거
+### 관계 패널 능동 상호작용
+- `MainGame.gd`: `_ap_network()` → `_ap_socialize()` + `_open_relationship_manager()` 모달로 교체
+  - 관계 유형별 전용 행동: 친구=커피, 연인=데이트(친밀도 60+ 기준), 멘토=조언/근황보고(신뢰 50+ 기준), 비즈니스=파트너 미팅, 가족=통화
+  - "새 인연 만들기" 선택지: 사회성 +3, 50% 확률 인연 생성 (이름 풀 16개)
+  - 각 행동 후 turn_action_log, add_log, toast 피드백 연동
 
-### 한국 일상 유머 이벤트 6개 추가 (Phase 2-D)
-- `kakao_group_chat_war` — 카카오 단체방 연봉 자랑 폭발
-- `chimaek_friday` — 금요일 한강 치맥 유혹
-- `subway_line_2_sleeping` — 2호선에서 통잠 후 종착역
-- `convenience_store_1plus1` — 편의점 1+1의 철학적 고민
-- `norebang_midnight` — 새벽 노래방의 유혹
-- `jjimjilbang_recovery` — 스트레스 50+ 일 때 찜질방 피신
+### 직업별 이벤트 조건 강화
+- `EventManager.gd`: `min_job_tier`, `max_job_tier`, `job_category` 조건 추가
+- `life_events.json`: 12개 이벤트 조건 패치
+  - 직업 없이 뜨던 이벤트 5개에 `has_job: true` 추가 (첫 회식, 업무 카톡, 연차, 피드백, 험담)
+  - 이직/퇴사 이벤트 3개: `has_job: true` + 설명 교체 (플레이스홀더 제거)
+  - 야근/성과/프로젝트 이벤트 3개: `min_job_tier: 2` 추가 (T2+ 직장에서만)
 
-### 시스템 검증
-- 360개 이벤트 모두 follow_up 참조 유효, result_text 비어있지 않음 확인
-- 모든 required flag 어딘가에서 set됨 확인 (dead-end 없음)
-- 정석 루트 이벤트 38개, 비정석 루트 61개 (각 30개+ 목표 달성)
+### 엔딩 화면 메타 진행도 표시
+- `MetaProgression.gd`: `_new_this_run` 딕셔너리 추가, `record_run()` 시작 시 초기화
+  `unlock_trait()` / `unlock_achievement()` 호출 시 신규 해금이면 목록에 추가
+  `get_new_unlocks()` 메서드 추가
+- `MainGame.gd `_show_ending()`: 새 해금 트레이트/업적 표시 (🔓 섹션, 업적 ID→한글명 매핑)
 
----
+## 2026-05-27 (밸런스 패스 — 초반 생존성 개선)
 
-## 2026-05-28 (뉴스 템플릿 전면 재작성 + 이벤트 품질 패스 계속)
+### 수치 조정
+- **고시원 월세**: 800,000원 → **650,000원** — 설계 기준(CLAUDE.md) 불일치 수정. 신규 플레이어가 Turn 2에 현금위기(-30만)로 즉시 패닉하던 문제 해소. 1개월 여유 버퍼 확보.
+- **무직 스트레스 이중계산 제거**: `JobSystem.process_monthly_job()` 무직 시 +2 스트레스 제거. `apply_monthly_pressure()`에서 이미 +6/월 처리 중. 총 무직 스트레스 +8 → **+6/월**으로 정상화.
+- **T3 직업 스트레스 곡선**: 공공기관 계약직(+2→+3), 부동산 중개보조(+3→+4). T3 직업이 T1 직업과 동일한 스트레스를 가지면서 월급은 훨씬 높던 우열 구도 해소.
 
-### 뉴스 템플릿 전면 재작성 (`content/news_templates.json`)
-- 기존 79개 템플릿이 단 5개의 동일한 헤드라인 패턴을 재사용하던 문제 수정
-  - 이전: "2030 사이에서 {topic} 인증 열풍..." 등 5개 패턴이 모든 카테고리에 반복
-  - 이전: 모든 항목의 topics 배열이 동일한 7개 일반 단어 (AI, 코인, 강남 부동산...)
-- 수정 후: 79개 헤드라인 모두 고유, 카테고리별 맞춤 헤드라인 및 topics 배열
-  - korean_stocks: 실적 쇼크, 외국인 순매수, 공매도 타깃, 회계감리, 목표주가 상향 등
-  - us_stocks: AI 수혜주, 연준 발언, 실적 서프라이즈, CEO 사임, 달러 강세 등
-  - real_estate: 아파트 급등, 재건축 완화, 전세 매물 실종, 청약 경쟁률, GTX 개통 등
-  - politics: 규제 강화, 세제 혜택 통과, 포퓰리즘 공약, 검찰 수사, 한미 협력 등
-  - social_trends: 투자 인증 열풍, 영끌 이자 폭탄, 파이어족 논쟁, 앱테크 열풍 등
-  - ai_boom: AI 모델 공개, 전력 수요, HBM 공급 계약, 규제, 나스닥 상장 등
-  - startup_culture: 시리즈C 유치, 폐업 선언, IPO 흥행, 감원 쇼크, M&A EXIT 등
-  - employment_crisis: 취업 경쟁률, 구조조정, 청년 실업, 공무원 회귀, AI 대체 직군 등
-  - cryptocurrency: 폭등/해킹, 규제, ETF 기대, 반감기, 김치프리미엄 등
+### 분석 내용
+- 15개 직업 전체 스트레스·급여 커브 검토
+- `InvestmentSystem.gd` 수익 구조 분석: drift +0.3%/월, 크래시 확률 및 위험도 밸런스 적절 — 조정 불필요
+- `assets.json` 18개 자산 변동성·최소 투자금 검토 — 현행 유지
 
----
+## 2026-05-27 (이벤트 확충 — Content Alpha 달성)
 
-## 2026-05-28 (Phase 2-A 취준생 페이즈 + 스토리 마일스톤 + 버그 수정)
+### 콘텐츠 추가
+- 투자 이벤트 14 → **30개** (+16): 리밸런싱, 단톡방 주식 정보, 시장 폭락 경보, 배당금 입금, 손절 결정, 공모주 청약, ETF 공부, 부동산 버블 공포, 경기침체 우려, 투자 서적, 선배 내부 정보, 금융소득 과세, 적립식 투자, 코인 광풍, 해외 주식, 1년 수익률 점검
+- 관계 이벤트 15 → **30개** (+15): 멘토 커피, 동료 갈등, 소개팅, 친구 이별 위로, 부모님 상경, 전 연인 연락, 사무실 뒷담화, 썸 진전, 사업 파트너 제안, SNS 비교, 멘토 쓴소리, 가족 대출 부탁, 팀 회식, 네트워킹 세미나, 새벽 통화
 
-### 스토리 마일스톤 이벤트 추가 (크리티컬)
-- `_check_story_triggers()`에서 참조하지만 존재하지 않던 3개 이벤트 추가
-  - `story_one_half_year` (턴 18, 1년 반): 3가지 선택, `story_one_half_year_seen` 플래그
-  - `story_two_year` (턴 24, 2년): 3가지 선택, `story_two_year_seen` 플래그
-  - `story_three_year` (턴 36, 3년): 3가지 선택, `story_three_year_seen` 플래그
+### 품질 개선
+- 기존 투자 14개 + 관계 15개 설명 전면 개선: 동일한 플레이스홀더 텍스트를 이벤트별 개별 장면 묘사로 교체
 
-### Phase 2-A: 취준생 페이즈 구현
-- **취업 준비 피드백 개선**: 구직활동 모달에 "준비도 패널" 추가 (이력서 완성 ✓/✗, 면접 연습 ✓/✗, 취업 후 업무능력 보너스 미리 표시)
-- **취업 준비 보너스 적용**: `JobSystem.apply_for_job()` — 이력서 완성 시 업무능력 +10, 면접 연습 시 +7 (플래그 소모)
-- **취업 성공 토스트 개선**: 준비 보너스가 있을 때 "취업! X직업 (준비 보너스 +17 업무능력)" 표시
+### Content Alpha 달성 현황
+| 콘텐츠 | 목표 | 현재 | 상태 |
+|--------|------|------|------|
+| 일반 생활 이벤트 | 100개+ | 106개 | ✅ |
+| 투자 이벤트 | 30개 | 30개 | ✅ |
+| 관계 이벤트 | 30개 | 30개 | ✅ |
+| 히든 이벤트 | 20개 | 20개 | ✅ |
+| 직업 | 15개 | 15개 | ✅ |
+| 아이템 | 30개 | 30개 | ✅ |
+| 엔딩 | 10개 | 14개 | ✅ |
 
-### 버그 수정
-- **`job_rejection_blues` 조건 수정**: `no_flag: story_first_workday_seen` 제거 → 재취업 준비 중인 플레이어도 이벤트 볼 수 있게
-- **`career_crossroads` 반복 방지**: 선택지에 `career_crossroads_seen` 플래그 추가
-- **`drama_startup_offer`**: 스타트업 합류 선택지에 `startup_launched` 플래그 추가 누락 → 사이드 창업 섹션 정상 활성화
-- **`drama_viral_moment`**: 채널 키우기 선택지에 `creator_started` 플래그 추가 → 크리에이터 루트 정상 진입
+## 2026-05-27 (첫 30분 몰입도 개선)
 
-### 콘텐츠 확장 (이벤트 +5개)
-- `age_25_crisis`: 25살 위기감 (턴 60-66, 1회성)
-- `gosiwon_escape_day`: 고시원 탈출 기념 (oneroom 첫 이사 후 1회성)
-- `investment_first_profit`: 첫 투자 수익 (1회성 마일스톤)
-- `five_year_seoul`: 서울 5년 (턴 60-65)
-- `career_pivot_temptation`: 커리어 전환 고민 (턴 24+, 직장인)
+### 버그 수정 (Critical)
+- `story_arrival_elite`, `story_arrival_rich` → `follow_up_event: "story_pressure"` 누락 수정.
+  명문대/금수저 배경에서 구직 해금(`story_job_unlocked`)이 永久 잠겼던 문제.
+- `story_first_workday`, `story_first_paycheck_feel`, `story_first_savings_milestone`, `story_six_months`, `story_one_year` → `seen` 플래그 누락 수정.
+  매 턴 무한 반복 트리거 방지 (`flags: ["...seen"]` 형식으로 통일).
+- story 이벤트가 random pool에 노출되지 않도록 `conditions: {min_turn: 9999}` 추가.
 
-### 기타
-- `midlife_30s_reflection` 타이밍 수정: min_turn 36 → min_turn 120 (실제 30세와 일치)
-- 중복 ID 3개 제거: story_one_half_year/two_year/three_year가 life_events.json에도 존재 → 제거
-- 전체 이벤트: 320 → 325개
+### 신규 콘텐츠
+- `first_job_rejection` (life_events.json): 구직 해금 후 무직 상태 단발 이벤트. 첫 취업 전 긴장감 서사 추가.
+- `convenience_midnight_snack` (life_events.json): 자정 편의점 도시락 딜레마. 초반 6개월 이내 한정.
+- `small_unexpected_win` (life_events.json): 5만원 발견 행운 이벤트. luck≥40, 초반 한정.
 
----
+### 튜토리얼/UX 개선
+- `MainGame.gd`: `tutorial_step >= 3` 조건 추가 — Turn 1 액션 단계에서 "서울 첫 달!" 힌트 표시.
+- `MainGame.gd`: 첫 취업 시 🎉 특별 토스트 피드백 (housing_up SFX + 초록 강조색). 이직 시 기존 노란 토스트 유지.
 
-## 2026-05-28 (콘텐츠 대폭 확장 + 크리티컬 버그 수정)
-
-### 크리티컬 버그 수정
-- **스토리 이벤트 무한 반복 버그 수정**: `story_events.json`에서 `_seen` 플래그 누락으로 `trigger_event_by_id()`가 매 턴 같은 스토리를 반복 재생하던 문제 수정
-  - 수정 대상: story_first_workday, story_first_paycheck_feel, story_first_savings_milestone, story_six_months, story_one_year, story_gosiwon_neighbor
-- **배경별 취업 잠금 해제 버그**: story_arrival_elite/rich 이벤트가 `story_job_unlocked` 플래그를 설정하지 않아 명문대/금수저 배경 플레이어가 영원히 취업 불가하던 문제 수정
-- **이벤트 중복 ID 9개 제거**: story_events.json과 life_events.json에 동일 ID 이벤트가 중복 존재 → life_events.json의 중복 버전 삭제
-
-### 콘텐츠 확장
-- **life_events.json**: 183 → 197개 (+14개 중복 제거 반영 후 순수 추가 이벤트 포함)
-- **새 이벤트 카테고리**: 직장 중기(연차 평가, 헤드헌터, 동료 퇴사, 회식, 번아웃, 사내 암투), 한국 부동산(전세 충격, 청약 탈락), 투자 중기(배당 시즌, 폭락장, 강세장 유혹, 코인 FOMO), 사회 비교(친구 집 구매, 30대 회고), 재무(대출 투자 유혹, 가족 금전 부탁, 종합소득세, 자산 점검)
-- **이벤트 분포 개선**: 중기(min_turn 7-24) 이벤트 9 → 35개 (3.9배 증가)
-- **전체 이벤트 수**: 286 → 320개
-
-### 다음 작업
-Phase 2 진입 검토: 취준생 페이즈, 엔딩 강화, 이벤트 품질 패스
-
----
-
-## 2026-05-28 (칭호 시스템 + 장기 프로젝트 구조 정비)
-
-### 칭호(Title) 시스템 완성
-- `MetaProgression.ALL_TITLES` 29개 정의 (주거/직업/투자/성향/관계/생활/자산/메타)
-- `check_and_unlock_titles()` / `_check_title_condition()` — 매달 결산 후 자동 체크
-- `GameState.get_current_title()` — 실시간 동적 칭호 계산 (16가지 분기)
-- 초상화 패널 하단 `「현재 칭호」` 표시 (`title_label`)
-- `_check_title_unlocks()` — 새 칭호 해금 시 희귀도 색상 토스트
-- 🏆 도감 버튼 (하단 바) + `_open_title_collection()` 모달
-- `_ap_free_time()` → `free_time_count` 증가 (자유 영혼 칭호 조건)
-
-### 루트 시스템 연동
-- 행동 버튼 람다 래퍼로 `add_route_point()` 자동 적립
-- `month_focus` — 이번 달 첫 행동 기록, 이벤트 조건으로 활용
-- `housing_months` — 거주지별 체류 기간 추적 (칭호 조건)
-
-### 프로젝트 문서 구조 정비 (장기 개발 대비)
-- `CLAUDE.md` 재작성: 최상단에 🔴 현재 상태 블록 추가 (매 세션 종료 시 업데이트)
-- `docs/GAME_DESIGN.md` 신규 생성: 게임 정체성, 코어 루프, 시스템 존재 이유,
-  기능 추가 기준, 절대 안 하는 것 등 설계 바이블
-- `docs/ROADMAP.md` 재작성: 실제 완료 상태 반영, Phase 1-3 체계화, 구현된 시스템 표
-
-### 다음 세션 작업
-1-B 미완료: 루트별 이벤트 가중치 차등화 → Phase 1 전체 완료 → 테스터 재검토
-
----
-
-## 2026-05-28 (Phase 1 콘텐츠 완성 — 1-C/1-D/1-E)
-
-### 시스템 확장
-- EventManager._check_conditions(): `housing`, `min_housing_months`, `max_turn` 조건 추가
-
-### 1-C: 거주지별 전용 이벤트 9개
-- 고시원(3): gosiwon_wall_noise, gosiwon_bathroom_morning, gosiwon_long_stay_blues
-- 원룸(2): oneroom_first_night, oneroom_empty_fridge
-- 아파트(2): apartment_floor_noise, apartment_guard_greeting
-- 강남(2): gangnam_consumption_trap, gangnam_class_pressure
-
-### 1-D: 선택의 연결 이벤트 10개 (5 flag chain 세트)
-- 야근 알바 → 편의점 단골: late_night_job_ran_into → convenience_regular_bond
-- 투자 자랑 → 동료 조언 요청: bragged_about_gains → colleague_wants_investment_tips
-- 직장 하소연 → 선배 인생 이야기: vented_to_senior → senior_life_wisdom
-- 건강 무시 → 쓰러짐: ignored_body_warning → body_forced_rest
-
-### 1-E: 핵심 캐릭터 이벤트 12개
-- 연인 후보 이수민(6): meet / number / first_date / crisis / confession
-- 멘토/압박 박 과장(6): meets_you / spec_lecture / weekend_request / burnout_mirror / promotion_offer
-
-### 현황
-- life_events.json: 113 → 140개 (+27개)
-- Phase 1 잔여: 1-B 루트 가중치 차등화만 남음
-
----
-
-## 2026-05-28 (Tester Feedback + RPG/Roguelike Pass)
-
-### 버그 수정
-- **행동력 소비 버그**: `_ap_invest()`에서 모달 오픈 전에 `spend_ap()`를 호출하던 문제 수정. 매수·매도 실행 시(`_on_buy_asset`, `_on_sell_asset`)만 AP를 소비하도록 이동. 조회/분석은 무료.
-- **중복 이벤트 ID**: `relationship_events.json`의 `jobs_003`, `investment_events.json`의 `finance_011` 중복 ID를 각각 `rel_jobs_003`, `invest_finance_011`로 고유화.
-- **이벤트 설명 보일러플레이트**: `life_events.json` 37개, `relationship_events.json` 12개, `investment_events.json` 14개 — 동일한 플레이스홀더 설명("서울의 속도는 멈추지 않고…")을 고유한 한국어 텍스트로 교체.
-
-### 기능 구현 — 로그라이크 요소
-- **월별 크라이시스 시스템** (`MainGame.gd`): 매달 6% 보너스(AP+1, 추가수입, 강세장) / 18% 크라이시스(긴급지출, AP패널티, 시장충격, 건강위기) 랜덤 발동. 3턴 이후부터 활성화.
-- **레버리지 투자** (`InvestmentSystem.gd`): `buy_asset_leveraged()` — 동일 금액으로 2배 포지션. 수수료 1.5%.
-- **마진콜** (`InvestmentSystem.gd`): `_check_margin_calls()` — 포지션 가치가 원금의 35% 이하 시 85% 청산, 스트레스+20, 정신력-10.
-- **시장 충격** (`InvestmentSystem.gd`): `apply_market_shock()` — 크래시 위험 2.5배, 공포지수 -25, 약세장 전환.
-- **크래시 확률 상향**: 기존 `crash_risk * volatility * 0.5` → `* 1.2`, 기본 크래시 위험 0.03 → 0.05.
-
-### 기능 구현 — RPG 성장 요소
-- **스탯 임계값 시스템** (`GameState.gd`): `STAT_THRESHOLDS = [30, 50, 70]`, `modify_stat()`이 임계값 돌파를 감지하고 `stat_threshold_crossed` 시그널 발생.
-- **임계값 해금 알림** (`MainGame.gd`): `_on_stat_threshold_crossed()` — 토스트로 해금 메시지 표시, 게임 로그 기록.
-- **조건부 행동 버튼** (`MainGame.gd`): 스탯 수준에 따라 새 행동 버튼 표시:
-  - 지력 30+ → 📖 심화 독서 (지력+8)
-  - 지력 50+ (취업 중) → 🔭 시장 분석 [무료] (AP 소비 없음)
-  - 투자스킬 30+ (취업 중) → ⚡ 레버리지 투자 (2배 포지션)
-  - 사회성 50+ → 👔 VIP 인맥 (사회성+3, 관계 대폭 강화)
-- **무료 행동 지원**: 행동 버튼에 `free: true` 속성 추가. AP=0이어도 무료 행동은 활성화 유지.
-- **시장 예보** (`InvestmentSystem.gd`): `get_market_forecast()` — 크래시 위험/싸이클/공포지수 기반 문자열 반환.
-
-### UI 개선
-- **투자 모달 X 버튼**: `_build_info_panel()`을 VBoxContainer + 헤더 행(제목+✕) 구조로 개편.
-- **AP 힌트**: 투자 모달 상단에 "⚡ 행동력 N/M — 매수·매도 실행 시 1 소비 (조회는 무료)" 표시.
-
-### 배경음악
-- **무한 루프 보장** (`BGMPlayer.gd`): `finished` 시그널 연결 추가. WAV LOOP_FORWARD가 실패해도 `_on_bgm_ended()`에서 재생 재시작.
+### 라이벌 시스템
+- `RivalSystem.gd`: Turn 2에 라이벌 첫 소개 메시지 자동 표시. 이름·나이·출발선 공개, 경쟁 의식 조기 형성.
 
 ## 2026-05-16 (Meta-Progression First Pass)
 

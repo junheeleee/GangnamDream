@@ -45,6 +45,13 @@ func _on_turn_advanced(turn: int):
 func _process_rival(turn: int):
 	var r: Dictionary = rival
 
+	# 턴 2: 라이벌 첫 소개
+	if turn == 2:
+		rival_message.emit(
+			"👀 라이벌 등장  —  %s, 20세, 고시원.\n같은 출발선에서 시작했다. 누가 먼저 강남에 닿을까?" % r["name"],
+			"#a78bfa"
+		)
+
 	# 취업 판정
 	if r["job_name"] == "무직":
 		var hire_chance: float = 0.35 + float(r["intelligence"]) * 0.004

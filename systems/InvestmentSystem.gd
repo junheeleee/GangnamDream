@@ -27,7 +27,9 @@ func buy_asset(asset_id, amount_krw):
 	var asset = DataRegistry.get_asset(asset_id)
 	if asset.is_empty():
 		return {"success": false, "message": "존재하지 않는 자산입니다."}
-	var current_price = float(GameState.market_prices.get(asset_id, asset.get("initial_price", 0.0)))
+	var current_price = float(GameState.market_prices.get(asset_id, asset.get("initial_price", asset.get("base_price", 10_000.0))))
+	if current_price <= 0.0:
+		return {"success": false, "message": "자산 가격 정보가 없습니다."}
 	var min_invest = float(asset.get("min_invest", current_price))
 	if amount_krw < min_invest:
 		return {"success": false, "message": "최소 투자 금액은 %s입니다." % GameState.format_money(min_invest)}
@@ -60,7 +62,9 @@ func sell_asset(asset_id, sell_ratio):
 		return {"success": false, "message": "보유하지 않은 자산입니다."}
 	var asset = DataRegistry.get_asset(asset_id)
 	var holding: Dictionary = GameState.portfolio[asset_id]
-	var current_price = float(GameState.market_prices.get(asset_id, holding.get("avg_price", 0.0)))
+	var current_price = float(GameState.market_prices.get(asset_id, holding.get("avg_price", 10_000.0)))
+	if current_price <= 0.0:
+		current_price = float(holding.get("avg_price", 10_000.0))
 	var sell_quantity = float(holding.get("quantity", 0.0)) * clamp(sell_ratio, 0.0, 1.0)
 	var gross = sell_quantity * current_price
 	var net = gross * 0.995
