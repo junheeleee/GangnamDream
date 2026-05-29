@@ -537,7 +537,7 @@ func _update_bg_selection():
 		var card_style: StyleBoxFlat = card.get_meta("style")
 		if i == selected_bg_index:
 			card_style.bg_color = Color("#1e2040")
-			card_style.border_color = Color(BACKGROUNDS[i]["color"])
+			card_style.border_color = Color(ROUTES[i]["color"])
 			card_style.border_width_left = 3
 			card_style.border_width_top = 3
 			card_style.border_width_right = 3
