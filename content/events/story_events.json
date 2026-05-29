@@ -662,5 +662,470 @@
         "result_text": "부모님 돈 말고, {name} 이름으로 번 돈.\n그게 목표가 됐다.\n작은 목표 하나가 방향을 만든다."
       }
     ]
+  },
+  {
+    "id": "story_one_half_year",
+    "title": "1년 반",
+    "description": "18개월.\n\n이제 서울이 낯설지 않다.\n출퇴근 경로도, 자주 가는 편의점도, 점심 먹는 식당도.\n다 익숙해졌다.\n\n근데 익숙해진다는 게 좋은 건지 모르겠다.\n{name}이 원하는 것들이 아직도 여기 있는 걸까.\n아니면 그냥 이렇게 사는 게 되는 건지.\n\n이직 공고를 보다가 창을 닫았다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "지금이 때다. 이직을 준비한다.",
+        "effects": {
+          "intelligence": 4,
+          "stress": 6,
+          "mental": 2
+        },
+        "flags": ["story_one_half_year_seen"],
+        "result_text": "이력서를 다시 꺼냈다.\n현재 직장에서 배운 걸 정리했다.\n아직 준비가 덜 됐다고 느껴도 — 움직이는 사람이 기회를 잡는다."
+      },
+      {
+        "text": "조금 더 버틴다. 지금 자리에서 더 쌓는다.",
+        "effects": {
+          "reputation": 4,
+          "mental": 4,
+          "stress": -3
+        },
+        "flags": ["story_one_half_year_seen"],
+        "result_text": "이직은 나중에. 지금은 여기서 더 배우기로 했다.\n조급함보다 깊이가 필요한 시간이다.\n{name}은 오늘도 자리를 지켰다."
+      },
+      {
+        "text": "지금은 생각하지 않기로 한다. 오늘 하루만 살자.",
+        "effects": {
+          "mental": 6,
+          "stress": -5,
+          "health": 3
+        },
+        "flags": ["story_one_half_year_seen"],
+        "result_text": "창을 닫고 밥을 먹었다.\n지금 당장 답이 안 나오는 것들이 있다.\n{name}은 그걸 받아들이는 법을 조금씩 배우고 있다."
+      }
+    ]
+  },
+  {
+    "id": "story_two_year",
+    "title": "2년",
+    "description": "24개월.\n\n{name}은 서울 사람이 됐다.\n지하철 환승도, 부동산 앱도, 점심 8분 안에 먹는 것도.\n\n고향 친구들을 오랜만에 만났는데\n말이 조금 달라진 것 같다고 했다.\n서울 말투가 섞였다고.\n\n그게 이상하게 좀 쓸쓸했다.\n그리고 동시에 — 뭔가 됐다는 기분도 들었다.\n\n2년이 지났다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "서울에서 더 깊이 뿌리내리겠다고 다짐한다",
+        "effects": {
+          "mental": 8,
+          "reputation": 3,
+          "stress": -4
+        },
+        "flags": ["story_two_year_seen"],
+        "result_text": "여기가 {name}의 도시가 됐다.\n언젠가 이 도시에서 뭔가를 만들 것이다.\n그 확신이 조금 생겼다."
+      },
+      {
+        "text": "변해가는 내가 낯설다. 잠깐 고향에 다녀온다.",
+        "effects": {
+          "mental": 10,
+          "stress": -7,
+          "money": -80000
+        },
+        "flags": ["story_two_year_seen"],
+        "result_text": "기차를 타고 내려갔다.\n엄마가 차려준 밥을 먹으며 잠깐 어린 시절로 돌아갔다.\n{name}은 다시 서울로 올라오면서 조금 더 단단해진 기분이 들었다."
+      }
+    ]
+  },
+  {
+    "id": "story_three_year",
+    "title": "3년",
+    "description": "3년.\n\n스물셋.\n\n주변이 달라지기 시작했다.\n누군가는 결혼을 했고, 누군가는 집을 샀고,\n누군가는 유학을 갔고, 누군가는 창업을 했다.\n\n{name}은 지금 어디에 있나.\n강남은 아직 멀다.\n그런데 이상하게 — 포기하고 싶지 않다.\n\n그게 아직 {name}이 여기 있는 이유다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "내 길이 맞다. 속도가 달라도 괜찮다.",
+        "effects": {
+          "mental": 10,
+          "stress": -6,
+          "intelligence": 2
+        },
+        "flags": ["story_three_year_seen"],
+        "result_text": "남의 이정표로 나를 재지 않기로 했다.\n{name}의 출발선은 처음부터 달랐다.\n비교는 의미 없다. 지금 {name}이 가는 방향이 맞다."
+      },
+      {
+        "text": "더 빠르게 움직여야 한다. 3년은 충분히 걸렸다.",
+        "effects": {
+          "stress": 7,
+          "intelligence": 5,
+          "investment_skill": 3
+        },
+        "flags": ["story_three_year_seen"],
+        "result_text": "조급함이 다시 올라왔다. 이번엔 방향이 있다.\n허비할 시간이 없다.\n{name}은 기어를 올렸다."
+      },
+      {
+        "text": "지금 이 자리에서 할 수 있는 걸 다 한다",
+        "effects": {
+          "reputation": 4,
+          "mental": 5,
+          "stress": -2
+        },
+        "flags": ["story_three_year_seen"],
+        "result_text": "거창한 전략보다 오늘 하루를 제대로 사는 것.\n{name}은 손에 있는 패에 집중하기로 했다.\n기회는 준비된 사람 앞에 온다."
+      }
+    ]
+  },
+  {
+    "id": "story_four_year",
+    "title": "4년",
+    "description": "4년째.\n\n스물넷.\n\n이제 서울이 집처럼 느껴진다.\n고시원을 벗어났든 아직 있든 — 이 도시가 {name}의 터전이 됐다.\n\n요즘은 '이 길이 맞나'보다\n'이 속도로 충분한가'가 더 많이 든다.\n\n강남은 여전히 멀다.\n근데 2년 전보다는 가깝다.\n그게 사실이다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "속도를 높인다. 더 공격적으로 움직인다.",
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 3,
+          "stress": 6
+        },
+        "flags": ["story_four_year_seen"],
+        "result_text": "편한 선택을 내려놨다.\n불편하지만 성장하는 쪽을 선택했다.\n{name}의 4년이 5년으로 이어진다."
+      },
+      {
+        "text": "지금 상태를 안정시키는 게 먼저다",
+        "effects": {
+          "health": 5,
+          "mental": 6,
+          "stress": -5
+        },
+        "flags": ["story_four_year_seen"],
+        "result_text": "달리기 전에 체력을 챙겼다.\n무너지면 모든 게 처음부터다.\n{name}은 기반을 다지는 것도 전략임을 안다."
+      }
+    ]
+  },
+  {
+    "id": "story_five_year",
+    "title": "5년",
+    "description": "5년.\n\n스물다섯.\n\n이십대의 정중앙이다.\n\n처음 서울에 왔을 때 상상했던 '5년 후의 나'는 이랬을까.\n더 멀리 가 있을 거라 생각했다.\n아니면 이미 포기했을 거라 생각했다.\n\n{name}은 아직 여기 있다.\n포기하지 않았다.\n그게 전부이고, 그게 전부가 아니다.\n\n강남은 아직 멀다. 하지만 {name}은 아직 걷고 있다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "5년이 지났다. 다음 5년이 진짜다.",
+        "effects": {
+          "mental": 10,
+          "stress": -5,
+          "intelligence": 4,
+          "investment_skill": 3
+        },
+        "flags": ["story_five_year_seen"],
+        "result_text": "지난 5년은 준비 기간이었다.\n이제부터가 본게임이다.\n{name}은 그렇게 결심했다."
+      },
+      {
+        "text": "잘 버텼다. 오늘 하루는 나를 칭찬한다.",
+        "effects": {
+          "mental": 14,
+          "stress": -10,
+          "health": 5
+        },
+        "flags": ["story_five_year_seen"],
+        "result_text": "5년이다.\n서울에서 5년을 버텼다는 게 얼마나 대단한 일인지\n버텨본 사람만 안다.\n{name}은 오늘 그 사실을 인정하기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "midlife_30s_reflection",
+    "title": "서른",
+    "description": "서른.\n\n30이라는 숫자가 생각보다 무겁다.\n\n스무 살에 서울에 왔을 때는\n서른이 되면 뭔가 돼 있을 거라 막연하게 믿었다.\n\n강남까지 아직 갈 길이 멀다.\n그런데 이상하게 — 포기하고 싶지 않다.\n그 마음이 아직 살아있다는 게\n{name}에게 가장 소중한 것인지도 모른다.\n\n20대가 끝났다. 30대가 시작됐다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "30대는 더 치열하게 간다",
+        "effects": {
+          "intelligence": 6,
+          "investment_skill": 5,
+          "stress": 7,
+          "mental": 4
+        },
+        "flags": ["30s_reflection_done"],
+        "result_text": "20대의 실수들이 이제 재산이 됐다.\n{name}은 더 이상 방향을 모르지 않는다.\n30대는 실행의 시간이다."
+      },
+      {
+        "text": "숫자에 흔들리지 않는다. 내 속도가 있다.",
+        "effects": {
+          "mental": 12,
+          "stress": -8,
+          "health": 4
+        },
+        "flags": ["30s_reflection_done"],
+        "result_text": "나이는 숫자다.\n남들의 기준으로 나를 판단하지 않기로 했다.\n{name}은 {name}의 시계로 살아간다."
+      },
+      {
+        "text": "지금까지 온 길을 되돌아본다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 3,
+          "stress": -4
+        },
+        "flags": ["30s_reflection_done"],
+        "result_text": "10년이다. 서울에서 10년.\n돌아보면 버텨온 게 대부분이지만 — 그 버팀이 지금의 {name}을 만들었다.\n앞으로 10년은 더 잘 할 수 있다."
+      }
+    ]
+  },
+  {
+    "id": "age_35_checkpoint",
+    "title": "서른다섯",
+    "description": "서른다섯.\n\n한국 사회에서 이 나이가 갖는 무게를 {name}은 안다.\n결혼, 내집 마련, 커리어 안착.\n주변에서 묻는다. 어디 살아? 결혼은?\n\n{name}의 대답은 아직 준비 중이다.\n강남이 목표다. 아직 거기 없다.\n\n그런데 35살이 지나면 기회가 줄어든다는 말,\n{name}은 믿지 않기로 했다.\n\n아직 시간이 있다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "지금이 인생에서 가장 중요한 분기점이다. 올인한다.",
+        "effects": {
+          "investment_skill": 6,
+          "intelligence": 5,
+          "stress": 8,
+          "mental": 3
+        },
+        "flags": ["age_35_reflected"],
+        "result_text": "이제 실력이 쌓였다. 타이밍도 있다.\n{name}은 35살을 '아직'이 아니라 '지금'으로 읽었다.\n도전은 나이 제한이 없다."
+      },
+      {
+        "text": "흔들리지 않는다. 내 기반을 지킨다.",
+        "effects": {
+          "health": 6,
+          "mental": 8,
+          "stress": -6,
+          "reputation": 3
+        },
+        "flags": ["age_35_reflected"],
+        "result_text": "남들이 뭐라 하든 {name}만의 속도가 있다.\n무너지지 않는 것이 먼저다.\n단단한 기반 위에서 강남을 노린다."
+      }
+    ]
+  },
+  {
+    "id": "age_40_threshold",
+    "title": "마흔",
+    "description": "마흔.\n\n{name}의 나이가 드디어 여기까지 왔다.\n\n20살에 서울에 왔을 때, 40살은 아득히 먼 나이였다.\n지금 거울을 보면 — 그때의 {name}이 맞는지 모르겠다.\n눈가에 주름이 생겼다. 흰 머리카락도 보인다.\n\n강남은 아직 꿈인가, 아니면 현실에 가까워지고 있는가.\n{name}은 그 답을 이 나이에 알고 있어야 한다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "마흔은 시작이다. 아직 20년이 남았다.",
+        "effects": {
+          "mental": 12,
+          "stress": -7,
+          "intelligence": 4,
+          "investment_skill": 4
+        },
+        "flags": ["age_40_reflected"],
+        "result_text": "40살에 시작하는 것들이 있다.\n20년의 경험이 이제 무기가 됐다.\n{name}은 이 나이에 비로소 자신이 뭘 원하는지 알게 됐다."
+      },
+      {
+        "text": "건강이 먼저다. 여기서 무너지면 안 된다.",
+        "effects": {
+          "health": 10,
+          "mental": 8,
+          "stress": -10
+        },
+        "flags": ["age_40_reflected"],
+        "result_text": "몸이 신호를 보내고 있었다.\n{name}은 처음으로 건강에 제대로 투자하기로 했다.\n강남까지 가려면 여기서 쓰러지면 안 된다."
+      },
+      {
+        "text": "지금까지의 선택을 돌아보고 전략을 수정한다",
+        "effects": {
+          "intelligence": 6,
+          "investment_skill": 5,
+          "stress": 3
+        },
+        "flags": ["age_40_reflected"],
+        "result_text": "잘한 것, 못한 것, 아까운 것.\n{name}은 40살의 눈으로 다시 정리했다.\n남은 시간을 더 현명하게 쓰겠다는 결심이 섰다."
+      }
+    ]
+  },
+  {
+    "id": "pre_retirement_decision",
+    "title": "마흔다섯",
+    "description": "마흔다섯.\n\n강남까지 시간이 얼마 남지 않았다.\n\n55살 은퇴까지 10년.\n이 10년 안에 30억을 만들지 못하면\n{name}의 강남드림은 없는 것이다.\n\n계산이 된다. 지금 자산이 얼마인지.\n거기서 10년 안에 어떻게 30억을 채울 수 있는지.\n가능한 길이 있는가.\n\n{name}은 지금 그 계산을 해야 한다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "마지막 10년, 모든 걸 건다",
+        "effects": {
+          "investment_skill": 8,
+          "intelligence": 5,
+          "stress": 10,
+          "mental": 4
+        },
+        "flags": ["retirement_strategy_set"],
+        "result_text": "리스크를 올렸다.\n잃을 것도 있지만, 지금 아니면 없다.\n{name}의 마지막 베팅이 시작됐다."
+      },
+      {
+        "text": "안전하게 간다. 지금 가진 것을 지킨다.",
+        "effects": {
+          "stress": -8,
+          "health": 6,
+          "mental": 8
+        },
+        "flags": ["retirement_strategy_set"],
+        "result_text": "강남드림이 안 될 수도 있다.\n그래도 지금까지 쌓은 것들이 있다.\n{name}은 그것으로도 충분한 삶을 설계하기 시작했다."
+      },
+      {
+        "text": "전략을 다시 짠다. 방법이 있을 것이다.",
+        "effects": {
+          "intelligence": 7,
+          "investment_skill": 6,
+          "stress": 4
+        },
+        "flags": ["retirement_strategy_set"],
+        "result_text": "포기는 아직 이르다.\n다른 길이 있을 수 있다.\n{name}은 마흔다섯에 전략을 처음부터 다시 짰다."
+      }
+    ]
+  },
+  {
+    "id": "age_50_milestone",
+    "title": "쉰",
+    "description": "쉰.\n\n반세기.\n\n스무 살에 서울에 왔을 때,\n50살의 자신을 상상한 적이 있었나.\n\n거울 속 {name}은 낯설면서도 익숙하다.\n주름, 흰 머리, 조금 굽은 어깨.\n\n강남드림. 아직 살아있는가.\n은퇴까지 5년.\n\n{name}은 오늘, 남은 시간을 어떻게 쓸지 생각한다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "5년이 남았다. 아직 포기하지 않는다.",
+        "effects": {
+          "mental": 12,
+          "investment_skill": 5,
+          "stress": 5
+        },
+        "flags": ["age_50_reflected"],
+        "result_text": "60개월.\n{name}은 그 시간을 손가락으로 꼽았다.\n아직 할 수 있다."
+      },
+      {
+        "text": "건강하게 마무리하는 게 진짜 성공이다.",
+        "effects": {
+          "health": 10,
+          "mental": 10,
+          "stress": -10
+        },
+        "flags": ["age_50_reflected"],
+        "result_text": "돈만이 답이 아닐 수 있다.\n건강하게, 품위 있게 마무리하는 것.\n{name}은 그게 또 다른 강남드림임을 알게 됐다."
+      }
+    ]
+  },
+  {
+    "id": "age_55_milestone",
+    "title": "쉰다섯",
+    "description": "쉰다섯.\n\n은퇴의 나이다.\n\n{name}은 지금 어디에 있나.\n30억을 모았나. 아직 모자란가.\n아니면 이미 강남에 살고 있나.\n\n어느 쪽이든 — 여기까지 왔다.\n서울 고시원 100만원에서 여기까지.\n\n35년이 지났다.\n{name}은 잠시 숨을 고른다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "아직 끝이 아니다. 더 간다.",
+        "effects": {
+          "mental": 10,
+          "investment_skill": 4,
+          "stress": 4
+        },
+        "flags": ["age_55_reflected"],
+        "result_text": "은퇴? 아직 이르다.\n{name}에게 나이는 숫자였고 앞으로도 그럴 것이다.\n계속 간다."
+      },
+      {
+        "text": "35년의 서울을 마음속으로 정리한다.",
+        "effects": {
+          "mental": 15,
+          "stress": -12,
+          "health": 6
+        },
+        "flags": ["age_55_reflected"],
+        "result_text": "고시원, 첫 월급, 야근, 투자 실패, 그리고 오늘.\n{name}의 서울 35년이 스쳐 지나갔다.\n후회보다 감사가 조금 더 많았다."
+      }
+    ]
+  },
+  {
+    "id": "age_60_milestone",
+    "title": "예순",
+    "description": "예순.\n\n{name}의 이름 앞에 '60대'가 붙는다.\n\n스무 살에 캐리어 하나 끌고 고시원에 들어왔던 그 사람이\n40년이 지나 이 자리에 있다.\n\n강남드림을 이뤘든, 아직 가는 길이든, 다른 방향을 찾았든.\n{name}은 포기하지 않았다.\n그게 이 40년을 관통하는 하나의 사실이다.\n\n서울은 아직도 빠르게 돌아간다.\n{name}만이 조금 느려졌다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "40년을 버텼다. 그것만으로 충분하다.",
+        "effects": {
+          "mental": 20,
+          "stress": -15,
+          "health": 8
+        },
+        "flags": ["age_60_reflected"],
+        "result_text": "누가 뭐라 해도 — {name}은 버텼다.\n그 버팀이 지금의 {name}을 만들었다.\n충분히 잘 살았다."
+      },
+      {
+        "text": "아직 마무리할 것들이 있다. 끝까지 한다.",
+        "effects": {
+          "mental": 12,
+          "investment_skill": 3,
+          "intelligence": 3,
+          "stress": 3
+        },
+        "flags": ["age_60_reflected"],
+        "result_text": "60살의 {name}에게 아직 불씨가 남아있었다.\n마지막까지 최선을 다하는 것.\n그것이 {name}이 40년 동안 해온 방식이다."
+      }
+    ]
   }
 ]
