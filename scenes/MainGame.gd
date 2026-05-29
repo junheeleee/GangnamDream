@@ -646,16 +646,20 @@ func _begin_month():
 		var news = NewsManager.generate_monthly_news()
 		investment_system.process_month(news)
 	# ── 스토리 이벤트 트리거 ─────────────────────────
-	# 턴 1: 프롤로그 (배경별 맞춤 story_arrival → story_pressure 체인)
+	# 턴 1: 프롤로그 (루트별 맞춤 오프닝 → story_pressure 체인)
 	if GameState.turn == 1 and GameState.tutorial_step >= 3:
 		var arrival_id = "story_arrival"
-		match GameState.player_background:
-			"명문대_중퇴": arrival_id = "story_arrival_elite"
-			"금수저":      arrival_id = "story_arrival_rich"
-		# 배경별 이벤트가 없으면 기본으로 폴백
+		match GameState.player_route:
+			"직장형": arrival_id = "story_arrival_elite"
+			"창업형": arrival_id = "story_arrival_rich"
 		if DataRegistry.find_event(arrival_id).is_empty():
 			arrival_id = "story_arrival"
 		EventManager.trigger_event_by_id(arrival_id)
+		current_event = EventManager.get_next_event()
+		_render_event()
+		return
+	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선
+	if _check_arc_triggers():
 		current_event = EventManager.get_next_event()
 		_render_event()
 		return
@@ -664,6 +668,26 @@ func _begin_month():
 	EventManager.process_month_events()
 	current_event = EventManager.get_next_event()
 	_render_event()
+
+## 아크 이벤트 트리거 — 조건 맞으면 queue하고 true 반환
+## 우선순위: 위에서부터. 한 턴에 하나만 발동.
+func _check_arc_triggers() -> bool:
+	var t = GameState.turn
+	var f = GameState.flags
+	# ── 한지연 아크 ──────────────────────────────────
+	# 턴 3: 교통사고 첫 만남
+	if t >= 3 and not f.get("arc_jiyeon_crash_seen", false):
+		EventManager.trigger_event_by_id("arc_jiyeon_01_crash")
+		return true
+	# 사고 후 최소 2턴 뒤: 편의점 재회
+	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 6:
+		EventManager.trigger_event_by_id("arc_jiyeon_02_store")
+		return true
+	# 재회 후: 보상하러 찾아옴
+	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 9:
+		EventManager.trigger_event_by_id("arc_jiyeon_03_offer")
+		return true
+	return false
 
 func _check_story_triggers():
 	var t = GameState.turn
@@ -680,29 +704,21 @@ func _check_story_triggers():
 	if GameState.money >= 3_000_000 and not f.get("story_first_savings_seen", false):
 		EventManager.trigger_event_by_id("story_first_savings_milestone")
 		return
-	# 반년 (30.5세)
-	if t == 6 and not f.get("story_six_months_seen", false):
-		EventManager.trigger_event_by_id("story_six_months")
-	# 1년 (31세)
-	elif t == 12 and not f.get("story_one_year_seen", false):
+	# 5년 = 60턴 압축. 33→38세.
+	# 1년차 (34세) — 1년 지남
+	if t == 12 and not f.get("story_one_year_seen", false):
 		EventManager.trigger_event_by_id("story_one_year")
-	# 2년 (32세)
+	# 2년차 (35세) — 절반 지점
 	elif t == 24 and not f.get("story_two_year_seen", false):
 		EventManager.trigger_event_by_id("story_two_year")
-	# 3년 (33세) — 중간 점검
+	# 3년차 (36세) — 중간 점검
 	elif t == 36 and not f.get("story_three_year_seen", false):
 		EventManager.trigger_event_by_id("story_three_year")
-	# 5년 (35세) — 반환점
-	elif t == 60 and not f.get("story_five_year_seen", false):
-		EventManager.trigger_event_by_id("story_five_year")
-	# 35세 체크포인트
-	elif t == 60 and not f.get("age_35_reflected", false):
-		EventManager.trigger_event_by_id("age_35_checkpoint")
-	# 7년 (37세) — 3년 남음
-	elif t == 84 and not f.get("story_seven_year_seen", false):
+	# 4년차 (37세) — 3년 지남, 압박
+	elif t == 48 and not f.get("story_seven_year_seen", false):
 		EventManager.trigger_event_by_id("pre_retirement_decision")
-	# 9년 (39세) — 마지막 1년
-	elif t == 108 and not f.get("age_39_seen", false):
+	# 마지막 해 (37.5세) — 1년 남음
+	elif t == 54 and not f.get("age_39_seen", false):
 		EventManager.trigger_event_by_id("age_39_final")
 
 # ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
@@ -929,8 +945,9 @@ func _render_event():
 	next_button.disabled = true
 	event_title.text = _fmt(current_event.get("title", "이벤트"))
 	event_body.text = _fmt(current_event.get("description", ""))
-	# 이벤트에 맞는 배경 즉시 전환
+	# 이벤트에 맞는 배경 + 인물 초상화 즉시 전환
 	_update_event_bg()
+	_update_portrait()
 	var choices: Array = current_event.get("choices", [])
 
 	# ── 텍스트 / 선택지 구분선 ───────────────────────────

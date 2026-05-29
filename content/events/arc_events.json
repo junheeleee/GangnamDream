@@ -1,0 +1,107 @@
+[
+  {
+    "id": "arc_jiyeon_01_crash",
+    "title": "접촉",
+    "background": "street_rainy",
+    "portrait": "jiyeon_normal",
+    "cg": "cg_jiyeon_crash",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "봄 오후. 알바 가는 길.\n자전거 페달을 밟던 그 순간, 골목을 돌아 나온 검은 외제차가 앞바퀴를 스쳤다.\n\n{name}은 아스팔트에 넘어졌다. 무릎이 까졌고 자전거 앞바퀴가 휘었다.\n\n차에서 한 여자가 내린다. 또래로 보인다. 비싼 옷, 비싼 차, 당황한 얼굴.\n\n\"어, 어떡해... 괜찮으세요? 제가 보험 처리—\"\n\n{name}은 자전거를 일으켜 세운다. 바퀴를 살핀다. 시계를 본다.\n알바 시간까지 12분.",
+    "choices": [
+      {
+        "text": "\"괜찮습니다.\" — 그냥 자리를 뜬다",
+        "effects": { "stress": 3 },
+        "flags": ["arc_jiyeon_crash_seen", "jiyeon_walked_away"],
+        "cast_effects": { "jiyeon": { "met": true, "stage": "curious", "affinity": 8 } },
+        "result_text": "보상도, 연락처도 받지 않고 {name}은 걸어간다.\n뒤도 돌아보지 않는다.\n\n여자는 그 자리에 멈춰 선 채로 멀어지는 뒷모습을 바라본다.\n— 처음 본다. 저런 사람."
+      },
+      {
+        "text": "휘어진 자전거를 보여주며 \"수리비만 주세요\"",
+        "effects": { "money": 80000 },
+        "flags": ["arc_jiyeon_crash_seen", "jiyeon_took_money"],
+        "cast_effects": { "jiyeon": { "met": true, "stage": "transaction", "affinity": 2 } },
+        "result_text": "여자가 지갑에서 5만원짜리 두 장을 꺼낸다. 망설임이 없다.\n\"이거면 될까요? 모자라면—\"\n\"됐습니다.\"\n\n{name}은 돈을 받아 주머니에 넣고 걸어간다.\n그 여자에게 이건 그냥 점심값 정도였을 것이다."
+      },
+      {
+        "text": "화를 낸다 — \"앞을 보고 운전해야죠\"",
+        "effects": { "stress": -2, "mental": 2 },
+        "flags": ["arc_jiyeon_crash_seen", "jiyeon_got_angry"],
+        "cast_effects": { "jiyeon": { "met": true, "stage": "awkward", "affinity": 5 } },
+        "result_text": "참았던 말이 튀어나왔다. 여자는 고개를 숙인다.\n\"...죄송합니다. 정말로.\"\n\n진심인 것 같았다. 그래서 더 화를 낼 수가 없었다.\n{name}은 한숨을 쉬고 자전거를 끌고 간다.\n여자의 시선이 등 뒤에 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_02_store",
+    "title": "또, 너",
+    "background": "convenience_night",
+    "portrait": "jiyeon_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "편의점 야간 카운터.\n자정이 넘은 시각, 문에 달린 종이 울린다.\n\n들어온 사람을 보고 {name}은 멈칫한다.\n그 여자다. 자전거를 친 그 외제차의 주인.\n\n그녀도 {name}을 알아본다. 눈이 커진다.\n\"...어? 그때 그?\"\n\n손에는 와인 한 병. 이 동네에 어울리지 않는 옷차림.\n왜 이 시간에, 이 동네 편의점에 있는 걸까.",
+    "choices": [
+      {
+        "text": "모른 척 계산만 한다",
+        "effects": { "stress": 2 },
+        "flags": ["arc_jiyeon_store_seen"],
+        "cast_effects": { "jiyeon": { "affinity": 3, "stage": "curious" } },
+        "result_text": "\"15,000원입니다.\"\n{name}은 사무적으로 바코드를 찍는다.\n\n그녀는 뭔가 말하려다 만다. 카드를 내밀고, 받고, 봉투를 든다.\n나가기 직전 한 번 더 돌아본다.\n\"...여기서 일하시는구나.\"\n문이 닫힌다. 종이 울린다."
+      },
+      {
+        "text": "\"자전거 주인이네요.\" 먼저 아는 척한다",
+        "effects": { "social_skill": 2 },
+        "flags": ["arc_jiyeon_store_seen", "jiyeon_acknowledged"],
+        "cast_effects": { "jiyeon": { "affinity": 12, "stage": "interest" } },
+        "result_text": "그녀의 얼굴이 환해진다. 안도하는 표정.\n\"기억하시네요! 그때 그냥 가셔서... 미안해서 한참 찾았어요.\"\n\"찾을 게 뭐 있다고요.\"\n\"보통은 그렇게 안 가잖아요.\"\n그녀는 잠깐 망설이다 말한다.\n\"저... 한지연이에요.\"\n그날 처음으로, 이름을 알았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_03_offer",
+    "title": "갚고 싶어요",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "며칠 뒤. 알바 끝나고 나오는데 편의점 앞에 그 차가 서 있다.\n\n한지연이 차에서 내린다. 이번엔 작정하고 온 것 같다.\n\n\"커피 한 잔만 사게 해주세요. 그게 안 되면 밥이라도.\n계속 마음에 걸려서요. 그날 제가 잘못한 건데 그쪽은 아무것도 안 받고 가셨잖아요.\"\n\n진심인 것 같다. 근데 {name}은 안다.\n이 사람과 자기는 사는 세계가 다르다.\n커피 한 잔이 시작이 되면, 그 다음은 감당할 수 없는 거리가 보일 것이다.",
+    "choices": [
+      {
+        "text": "거절한다 — \"신경 쓰지 마세요. 정말 괜찮으니까\"",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_jiyeon_offer_seen", "jiyeon_refused_coffee"],
+        "cast_effects": { "jiyeon": { "affinity": 6, "stage": "intrigued" } },
+        "result_text": "{name}은 고개를 젓고 지하철역 쪽으로 걷는다.\n\n한지연은 따라오지 않는다. 대신 등 뒤로 말한다.\n\"왜 자꾸 도망가요?\"\n\n{name}은 멈추지 않는다. 근데 그 말이 계속 따라온다.\n— 도망? 이게 도망인가.\n한지연은 그날, {name}이라는 사람이 더 궁금해졌다."
+      },
+      {
+        "text": "커피만 받는다 — 딱 한 번",
+        "effects": { "social_skill": 3, "mental": 2 },
+        "flags": ["arc_jiyeon_offer_seen", "jiyeon_had_coffee"],
+        "cast_effects": { "jiyeon": { "affinity": 15, "stage": "connected" } },
+        "result_text": "카페에 마주 앉았다. 그녀는 6,500원짜리 라떼를, {name}은 가장 싼 아메리카노를.\n\n한지연은 말이 많았다. 유학 얘기, 아버지 회사 얘기, 답답한 집안 얘기.\n{name}은 거의 듣기만 했다.\n\n\"그쪽은요? 무슨 일 하세요?\"\n\"...이것저것이요.\"\n그녀는 더 묻지 않았다. 대신 웃었다.\n\"다음에 또 봐요. 이번엔 제가 아니라 그쪽이 사는 걸로.\"\n다음이 있다는 듯이."
+      },
+      {
+        "text": "솔직하게 말한다 — \"우리 사는 세계가 너무 달라요\"",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_jiyeon_offer_seen", "jiyeon_honest"],
+        "cast_effects": { "jiyeon": { "affinity": 20, "stage": "drawn" } },
+        "result_text": "{name}은 처음으로 솔직하게 말했다.\n\"그쪽 차가 제 한 달 월세의 몇 배인지 아세요? 커피 한 잔 사주는 게 그쪽한텐 아무것도 아니겠지만, 저한텐 그게 아니에요.\"\n\n한지연은 한동안 말이 없었다.\n\"...그래서 그날 그냥 가신 거예요?\"\n\"네.\"\n\"근데요.\" 그녀가 {name}을 똑바로 봤다.\n\"전 그런 사람 처음 봤어요. 그래서 더 알고 싶은데.\"\n그 눈빛이, {name}을 흔들었다."
+      }
+    ]
+  }
+]
