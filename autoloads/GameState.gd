@@ -22,13 +22,14 @@ var is_game_over = false
 var current_trait = "흙수저 생존본능"
 
 const HOUSING_DATA = {
-	# 고시원 → 원룸 → 빌라 → 아파트(서울 외곽) → 강남
-	# 강남은 월급 저축만으론 절대 불가. 종잣돈을 투자/창업/기회로 불려야 도달.
-	"gosiwon":   {"name": "고시원",       "emoji": "🏚", "expense": 650_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
-	"oneroom":   {"name": "원룸",         "emoji": "🏠", "expense": 1_100_000.0, "deposit": 10_000_000.0,  "next": "villa",     "req_cash": 13_000_000.0},
-	"villa":     {"name": "빌라 전세",    "emoji": "🏡", "expense": 900_000.0,   "deposit": 80_000_000.0,  "next": "apartment", "req_cash": 90_000_000.0},
-	"apartment": {"name": "외곽 아파트",  "emoji": "🏢", "expense": 1_400_000.0, "deposit": 200_000_000.0, "next": "gangnam",   "req_cash": 230_000_000.0},
-	"gangnam":   {"name": "강남 아파트",  "emoji": "🏙", "expense": 2_500_000.0, "deposit": 500_000_000.0, "next": "",          "req_cash": 600_000_000.0},
+	# 주거 = '삶의 질' 단계 (스트레스/건강에 영향). 강남 입성과는 별개.
+	# 진짜 목표는 자산 30억 달성 → 강남 아파트 매매 엔딩.
+	# 주거는 월세/전세 개념이라 보증금은 나중에 돌려받지만, 여기선 단순화해
+	# 이사 시점에 보증금만큼 묶이는 비용으로 처리.
+	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 650_000.0,   "deposit": 0.0,          "next": "oneroom",   "req_cash": 0.0},
+	"oneroom":   {"name": "원룸",       "emoji": "🏠", "expense": 1_100_000.0, "deposit": 5_000_000.0,  "next": "villa",     "req_cash": 8_000_000.0},
+	"villa":     {"name": "빌라 전세",  "emoji": "🏡", "expense": 900_000.0,   "deposit": 30_000_000.0, "next": "apartment", "req_cash": 40_000_000.0},
+	"apartment": {"name": "아파트 전세","emoji": "🏢", "expense": 1_300_000.0, "deposit": 100_000_000.0,"next": "",          "req_cash": 130_000_000.0},
 }
 
 var housing: String = "gosiwon"
@@ -626,12 +627,18 @@ func check_game_over():
 		return
 	# 자산 마일스톤 플래그 자동 추적 (이벤트 조건용)
 	var total_now = get_total_asset_value()
-	if total_now >= 50_000_000 and not flags.get("asset_50m_reached", false):
-		flags["asset_50m_reached"] = true
 	if total_now >= 100_000_000 and not flags.get("asset_100m_reached", false):
 		flags["asset_100m_reached"] = true
+		add_log("💰 자산 1억 돌파 — 종잣돈이 생겼다.", "money")
 	if total_now >= 500_000_000 and not flags.get("asset_500m_reached", false):
 		flags["asset_500m_reached"] = true
+		add_log("💰 자산 5억 돌파 — 길이 보이기 시작한다.", "money")
+	if total_now >= 1_000_000_000 and not flags.get("asset_1b_reached", false):
+		flags["asset_1b_reached"] = true
+		add_log("💰 자산 10억 돌파 — 강남이 멀지 않다.", "money")
+	if total_now >= 2_000_000_000 and not flags.get("asset_2b_reached", false):
+		flags["asset_2b_reached"] = true
+		add_log("🔥 자산 20억 — 마지막 고비다.", "money")
 	# ── 즉시 게임오버 (실패) ──────────────────────────
 	if health <= 0:
 		finish_run("burnout"); return
@@ -644,9 +651,9 @@ func check_game_over():
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
 
-	# ── 강남 입성 = 즉시 성공 엔딩 (목표 달성) ──────────
-	# 강남 아파트에 살게 되는 순간, 게임의 목표를 이룬 것.
-	if housing == "gangnam":
+	# ── 강남 입성 = 자산 30억 달성 = 즉시 성공 엔딩 ──────
+	# 30억으로 강남 아파트를 매매한다. 게임의 최종 목표.
+	if total_now >= 3_000_000_000:
 		# 어떤 사람이 되어 입성했는가로 엔딩 분기
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
