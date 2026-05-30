@@ -22,10 +22,13 @@ var is_game_over = false
 var current_trait = "흙수저 생존본능"
 
 const HOUSING_DATA = {
-	"gosiwon":   {"name": "고시원",     "emoji": "🏚", "expense": 650_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
-	"oneroom":   {"name": "원룸",       "emoji": "🏠", "expense": 1_100_000.0, "deposit": 5_000_000.0,   "next": "apartment", "req_cash": 7_000_000.0},
-	"apartment": {"name": "아파트",     "emoji": "🏢", "expense": 1_600_000.0, "deposit": 30_000_000.0,  "next": "gangnam",   "req_cash": 35_000_000.0},
-	"gangnam":   {"name": "강남 아파트", "emoji": "🏙", "expense": 2_800_000.0, "deposit": 100_000_000.0, "next": "",          "req_cash": 120_000_000.0},
+	# 고시원 → 원룸 → 빌라 → 아파트(서울 외곽) → 강남
+	# 강남은 월급 저축만으론 절대 불가. 종잣돈을 투자/창업/기회로 불려야 도달.
+	"gosiwon":   {"name": "고시원",       "emoji": "🏚", "expense": 650_000.0,   "deposit": 0.0,           "next": "oneroom",   "req_cash": 0.0},
+	"oneroom":   {"name": "원룸",         "emoji": "🏠", "expense": 1_100_000.0, "deposit": 10_000_000.0,  "next": "villa",     "req_cash": 13_000_000.0},
+	"villa":     {"name": "빌라 전세",    "emoji": "🏡", "expense": 900_000.0,   "deposit": 80_000_000.0,  "next": "apartment", "req_cash": 90_000_000.0},
+	"apartment": {"name": "외곽 아파트",  "emoji": "🏢", "expense": 1_400_000.0, "deposit": 200_000_000.0, "next": "gangnam",   "req_cash": 230_000_000.0},
+	"gangnam":   {"name": "강남 아파트",  "emoji": "🏙", "expense": 2_500_000.0, "deposit": 500_000_000.0, "next": "",          "req_cash": 600_000_000.0},
 }
 
 var housing: String = "gosiwon"
@@ -608,15 +611,15 @@ func get_total_asset_value():
 
 func get_wealth_tier():
 	var total = get_total_asset_value()
-	if total >= 2_000_000_000:
-		return "강남 상류층"
-	if total >= 500_000_000:
-		return "자산가"
-	if total >= 100_000_000:
-		return "중산층"
-	if total >= 30_000_000:
-		return "버티는 청년"
-	return "월세 생존자"
+	if total >= 600_000_000:
+		return "강남 입성권"
+	if total >= 200_000_000:
+		return "내 집 마련"
+	if total >= 80_000_000:
+		return "전세 탈출"
+	if total >= 20_000_000:
+		return "종잣돈 모으는 중"
+	return "고시원 생존자"
 
 func check_game_over():
 	if is_game_over:
@@ -629,52 +632,46 @@ func check_game_over():
 		flags["asset_100m_reached"] = true
 	if total_now >= 500_000_000 and not flags.get("asset_500m_reached", false):
 		flags["asset_500m_reached"] = true
+	# ── 즉시 게임오버 (실패) ──────────────────────────
 	if health <= 0:
 		finish_run("burnout"); return
 	if mental <= 0:
 		finish_run("mental_break"); return
-	if money < -200_000_000:
-		finish_run("debt_spiral"); return
 	if money < -100_000_000:
+		finish_run("debt_spiral"); return
+	if money < -30_000_000:
 		finish_run("bankruptcy"); return
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
-	if get_total_asset_value() >= 3_000_000_000:
-		finish_run("gangnam_dream"); return
+
+	# ── 강남 입성 = 즉시 성공 엔딩 (목표 달성) ──────────
+	# 강남 아파트에 살게 되는 순간, 게임의 목표를 이룬 것.
+	if housing == "gangnam":
+		# 어떤 사람이 되어 입성했는가로 엔딩 분기
+		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
+			finish_run("jaehyuk_way"); return        # 최재혁의 방식
+		if cast_has_flag("father", "passed_away"):
+			finish_run("empty_house"); return         # 빈 집
+		finish_run("gangnam_dream"); return           # 강남드림 (정상)
+
+	# 특수 성공 엔딩 (강남 외 경로)
 	if flags.get("startup_exit", false):
 		finish_run("startup_exit"); return
-	if flags.get("creator_success_unlocked", false) and get_total_asset_value() >= 300_000_000:
-		finish_run("creator_success"); return
-	# 40세 이전 조기 성공
-	if get_total_asset_value() >= 500_000_000 and investment_skill >= 75 and age < 40:
-		finish_run("early_retirement"); return
-	# 40세 = 타임리밋
-	if age >= 40:
+
+	# ── 38세 = 타임리밋 (5년 종료) ────────────────────
+	if age >= 38:
 		var total = get_total_asset_value()
-		# 강남 입성 성공
-		if housing == "gangnam" or total >= 3_000_000_000:
-			finish_run("gangnam_dream"); return
-		# 특수 플래그 엔딩
-		if flags.get("political_winner", false) and total >= 100_000_000:
-			finish_run("political_fix"); return
-		if flags.get("startup_exit", false):
-			finish_run("startup_exit"); return
-		# 자산 + 스탯 기반 엔딩
-		if reputation >= 80 and total >= 300_000_000:
-			finish_run("reputation_legend"); return
-		if investment_skill >= 85 and total >= 500_000_000:
-			finish_run("investment_master"); return
-		if total >= 1_000_000_000 and relationships.is_empty():
-			finish_run("lonely_rich"); return
+		if get_cast_stage("daeun") in ["lover", "together"]:
+			finish_run("with_daeun"); return          # 다은과 함께
+		if get_cast_stage("jiyeon") in ["lover", "together"]:
+			finish_run("jiyeon_man"); return          # 한지연의 남자
 		if total >= 1_000_000_000:
-			finish_run("stable_success"); return
-		if route_orthodox >= 20 and total >= 200_000_000 and job_tenure >= 18:
-			finish_run("orthodox_pinnacle"); return
-		if health >= 70 and mental >= 70 and total >= 100_000_000:
-			finish_run("healthy_retirement"); return
-		if route_orthodox >= 20 and mental <= 45:
-			finish_run("orthodox_hollow"); return
-		finish_run("ordinary_life")
+			finish_run("stable_success"); return      # 큰 자산, 강남은 못 감
+		if health >= 70 and mental >= 70 and not relationships.is_empty():
+			finish_run("healthy_retirement"); return  # 강남은 못 갔지만 잃지 않음
+		if cast_has_flag("father", "reconciled"):
+			finish_run("late_call"); return           # 늦은 전화 (화해)
+		finish_run("ordinary_life")                   # 평범한 결말
 
 func finish_run(ending_id):
 	is_game_over = true

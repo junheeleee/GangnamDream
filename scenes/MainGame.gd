@@ -34,7 +34,9 @@ var title_label: Label
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
 	"oneroom":   "res://assets/backgrounds/oneroom_apartment.png",
+	"villa":     "res://assets/backgrounds/oneroom_apartment.png",
 	"apartment": "res://assets/backgrounds/gangnam_apartment.png",
+	"gangnam":   "res://assets/backgrounds/gangnam_apartment.png",
 }
 const BG_DEFAULT        = "res://assets/backgrounds/seoul_rainy_street.png"
 const BG_OFFICE         = "res://assets/backgrounds/office_desk.png"
