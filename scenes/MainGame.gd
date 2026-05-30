@@ -665,20 +665,44 @@ func _begin_month():
 
 ## 아크 이벤트 트리거 — 조건 맞으면 queue하고 true 반환
 ## 우선순위: 위에서부터. 한 턴에 하나만 발동.
+## 설계: 초반(턴1-8)은 주인공 몰입, 중반(9-16) 멘토/조연, 후반(17+) 여주인공.
 func _check_arc_triggers() -> bool:
 	var t = GameState.turn
 	var f = GameState.flags
-	# ── 한지연 아크 ──────────────────────────────────
-	# 턴 3: 교통사고 첫 만남
-	if t >= 3 and not f.get("arc_jiyeon_crash_seen", false):
+
+	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
+	# 턴 2: 첫 끼니 — 통장 압박 체감
+	if t >= 2 and not f.get("arc_intro_meal_seen", false):
+		EventManager.trigger_event_by_id("arc_intro_01_meal")
+		return true
+	# 턴 3: 아버지 첫 전화 (목소리만)
+	if t >= 3 and not f.get("arc_intro_dad_seen", false):
+		EventManager.trigger_event_by_id("arc_intro_02_dad_call")
+		return true
+	# 턴 5: SNS 동창 — 비교의 밤
+	if t >= 5 and not f.get("arc_intro_sns_seen", false):
+		EventManager.trigger_event_by_id("arc_intro_03_sns")
+		return true
+	# 턴 7: 옆방 현수 — 같은 처지
+	if t >= 7 and not f.get("arc_intro_hyunsu_seen", false):
+		EventManager.trigger_event_by_id("arc_intro_04_hyunsu")
+		return true
+
+	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
+	# 턴 10: 임상철 첫 만남 — "왜 강남인가"
+	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
+		EventManager.trigger_event_by_id("arc_sangchul_01_meet")
+		return true
+
+	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
+	# 턴 17: 한지연 교통사고 첫 만남
+	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
 		EventManager.trigger_event_by_id("arc_jiyeon_01_crash")
 		return true
-	# 사고 후 최소 2턴 뒤: 편의점 재회
-	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 6:
+	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 20:
 		EventManager.trigger_event_by_id("arc_jiyeon_02_store")
 		return true
-	# 재회 후: 보상하러 찾아옴
-	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 9:
+	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 23:
 		EventManager.trigger_event_by_id("arc_jiyeon_03_offer")
 		return true
 	return false
