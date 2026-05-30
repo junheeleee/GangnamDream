@@ -354,6 +354,9 @@ func apply_choice(event, choice):
 	# 예: "cast_effects": { "jiyeon": { "affinity": 10, "stage": "interest", "met": true } }
 	for person_id in choice.get("cast_effects", {}):
 		apply_cast_effect(str(person_id), choice["cast_effects"][person_id])
+	# 결정적 기회 — 큰 베팅 (인물이 제공하는 30억 경로의 핵심)
+	if choice.has("opportunity"):
+		_resolve_opportunity(choice["opportunity"])
 	event_log.append({
 		"turn": turn,
 		"event_id": event.get("id", ""),
@@ -395,6 +398,64 @@ func cast_has_met(person_id: String) -> bool:
 func cast_has_flag(person_id: String, flag: String) -> bool:
 	_ensure_cast(person_id)
 	return bool((cast[person_id].get("flags", {}) as Dictionary).get(flag, false))
+
+# ── 결정적 기회 (큰 베팅) ─────────────────────────────────────────
+## 인물이 제공하는 30억 경로의 핵심 메커니즘.
+## 가진 돈의 일부/전부를 걸고, 성공 확률에 따라 크게 불리거나 잃는다.
+## opportunity = {
+##   "cost": 금액 or "stake_ratio": 0.0~1.0(현재현금 비율),
+##   "success_rate": 0.0~1.0,        # luck 스탯이 보정
+##   "win_multiplier": 3.0,          # 성공 시 베팅금 x배 (순이익)
+##   "loss_ratio": 1.0,              # 실패 시 베팅금 x비율 손실
+##   "luck_factor": 0.001,           # luck 1당 성공률 가산
+##   "win_flag": "...", "lose_flag": "...",  # 결과 플래그(선택)
+##   "skill_gain": 5                 # 결과 무관 투자감각 상승(선택)
+## }
+## 결과를 flags["_last_opportunity_result"]에 "win"/"lose"로 남겨 UI/후속이 참조.
+func _resolve_opportunity(opp: Dictionary) -> String:
+	var stake: float = 0.0
+	if opp.has("stake_ratio"):
+		stake = max(0.0, money) * float(opp["stake_ratio"])
+	else:
+		stake = float(opp.get("cost", 0.0))
+	# 돈이 부족하면 가진 만큼만 (마이너스 베팅 방지)
+	stake = min(stake, max(0.0, money)) if opp.has("stake_ratio") else stake
+
+	# 성공 확률 = 기본 + luck 보정
+	var rate: float = float(opp.get("success_rate", 0.5))
+	rate += float(luck) * float(opp.get("luck_factor", 0.0015))
+	rate = clampf(rate, 0.02, 0.98)
+
+	# 베팅금 차감
+	add_money(-stake)
+
+	# 투자감각 상승 (결과 무관 — 배움)
+	if opp.has("skill_gain"):
+		modify_stat("investment_skill", int(opp["skill_gain"]))
+
+	var result := ""
+	if randf() < rate:
+		# 성공 — 베팅금 + 베팅금 x 배수
+		var win = stake * float(opp.get("win_multiplier", 2.0))
+		add_money(stake + win)
+		modify_hidden_stat("stress", -3)
+		result = "win"
+		if opp.has("win_flag"):
+			flags[str(opp["win_flag"])] = true
+		add_log("📈 베팅 성공! %s 벌었다." % format_money(win), "money")
+	else:
+		# 실패 — 베팅금 x 손실비율 만큼 날림 (이미 차감됐으니 나머지 환급)
+		var loss_ratio = clampf(float(opp.get("loss_ratio", 1.0)), 0.0, 1.0)
+		var refund = stake * (1.0 - loss_ratio)
+		add_money(refund)
+		modify_hidden_stat("stress", 12)
+		modify_stat("mental", -6)
+		result = "lose"
+		if opp.has("lose_flag"):
+			flags[str(opp["lose_flag"])] = true
+		add_log("📉 베팅 실패. %s 잃었다." % format_money(stake - refund), "money")
+	flags["_last_opportunity_result"] = result
+	return result
 
 func apply_effects(effects):
 	for key in effects:

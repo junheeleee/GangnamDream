@@ -441,5 +441,75 @@
         "result_text": "\"신고 대신, 같이 하자. 대신 이번엔 제대로.\"\n재혁의 눈에 안도와 두려움이 섞였다.\n\n{name}은 선을 넘었다. 강남은 가까워질 것이다.\n빠르게. 더럽게.\n아버지한테 보여줄 그 집이, 이런 돈으로 사는 집이어도 되는 걸까.\n그 질문을, {name}은 묻지 않기로 했다. 지금은."
       }
     ]
+  },
+  {
+    "id": "arc_opp_sangchul_realty",
+    "title": "임상철의 전화",
+    "background": "realestate_office",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "sangchul", "opportunity"],
+    "cooldown": 9999,
+    "description": "임상철에게서 오랜만에 전화가 왔다.\n\n\"민준아, 너 종잣돈 좀 모았다며. 마침 물건이 하나 나왔어.\"\n\n재개발 직전 빌라. 사정 급한 주인이 시세보다 한참 싸게 내놨다.\n임상철이 자기 인맥으로 잡아둔 거였다.\n\n\"이거 1년 안에 재개발 확정되면 두 배는 봐. 안 되면... 뭐, 묶이는 거고.\n내가 30년 이 바닥에서 봤는데, 이건 꽤 확률 높아.\n근데 결정은 네가 해. 난 권하지도 말리지도 않아.\"\n\n가진 돈의 상당 부분이 들어간다. 도박은 아니지만, 안전하지도 않다.",
+    "choices": [
+      {
+        "text": "믿고 들어간다 — 임상철의 30년을 믿는다",
+        "effects": { "stress": 6 },
+        "opportunity": { "stake_ratio": 0.7, "success_rate": 0.62, "win_multiplier": 1.6, "loss_ratio": 0.45, "luck_factor": 0.002, "skill_gain": 5 },
+        "cast_effects": { "sangchul": { "affinity": 10, "stage": "trusted" } },
+        "flags": ["arc_opp_sangchul_seen"],
+        "result_text": "임상철과 함께 계약서에 도장을 찍었다.\n그가 어깨를 두드린다. \"잘했어. 이제 기다리는 게 일이야.\"\n부동산은 주식과 다르다. 느리지만, 묵직하다.\n결과가 어떻든, {name}은 처음으로 '판'에 올라탔다."
+      },
+      {
+        "text": "조금만 넣는다 — 욕심내지 않는다",
+        "effects": { "stress": 2, "intelligence": 2 },
+        "opportunity": { "stake_ratio": 0.3, "success_rate": 0.62, "win_multiplier": 1.6, "loss_ratio": 0.45, "luck_factor": 0.002, "skill_gain": 3 },
+        "cast_effects": { "sangchul": { "affinity": 5 } },
+        "flags": ["arc_opp_sangchul_seen"],
+        "result_text": "\"무리는 안 하는 게 맞지.\" 임상철이 고개를 끄덕인다.\n절반의 확신, 절반의 베팅.\n{name}은 자기 그릇만큼만 걸기로 했다. 그게 오래 가는 법이니까."
+      },
+      {
+        "text": "거절한다 — 아직은 내 돈을 지킨다",
+        "effects": { "mental": 3, "stress": -2 },
+        "cast_effects": { "sangchul": { "affinity": -2 } },
+        "flags": ["arc_opp_sangchul_seen", "declined_sangchul_deal"],
+        "result_text": "\"...그래. 네 돈인데. 신중한 것도 능력이지.\"\n임상철은 아쉬워하지 않았다. 오히려 그 신중함을 좋게 봤다.\n기회는 또 온다. 다만, 자주 오진 않는다는 게 문제다."
+      }
+    ]
+  },
+  {
+    "id": "arc_opp_jiyeon_bunyang",
+    "title": "분양권",
+    "background": "gangnam_day",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon", "opportunity"],
+    "cooldown": 9999,
+    "description": "한지연이 조용히 불렀다.\n\n\"우리 아빠 회사에서 강남에 분양 하나 올려. 아직 공개 안 됐어.\n계약금만 넣어두면, 프리미엄이 어마어마할 거야. 너한테만 말하는 거야.\"\n\n{name}은 망설였다. 이건 한지연의 세계가 주는 기회다.\n잡으면 강남에 성큼 다가선다. 근데 그 순간, 그녀에게 빚을 지는 거다.\n그녀의 세계에, 한 발 들여놓는 거다.\n\n\"왜 나한테 이걸 줘?\"\n\"...몰라서 물어?\" 그녀가 웃었다.\n\n돈도, 마음도 걸린 선택이다.",
+    "choices": [
+      {
+        "text": "기회를 잡는다 — 강남에 다가서기 위해",
+        "effects": { "stress": 8 },
+        "opportunity": { "stake_ratio": 0.8, "success_rate": 0.72, "win_multiplier": 2.4, "loss_ratio": 0.35, "luck_factor": 0.0015, "skill_gain": 4 },
+        "cast_effects": { "jiyeon": { "affinity": 15, "stage": "indebted" } },
+        "flags": ["arc_opp_jiyeon_seen", "took_jiyeon_deal"],
+        "result_text": "계약금을 넣었다. 한지연의 세계에 한 발을 들였다.\n\n그녀가 만족스러운 듯 웃는다. \"잘 생각했어.\"\n근데 {name}은 알고 있었다. 이건 공짜가 아니라는 걸.\n강남이 가까워진 만큼, 그녀도 가까워졌다. 빚처럼."
+      },
+      {
+        "text": "거절한다 — 내 힘으로 가고 싶다",
+        "effects": { "mental": 6, "stress": -3 },
+        "cast_effects": { "jiyeon": { "affinity": -8, "stage": "rejected_help" } },
+        "flags": ["arc_opp_jiyeon_seen", "refused_jiyeon_deal"],
+        "result_text": "\"고마워. 근데 이건 내 힘으로 하고 싶어.\"\n한지연의 표정이 미묘하게 굳었다.\n\"...넌 진짜 이상한 사람이야. 이걸 거절해?\"\n\n그녀는 이해 못 했다. 근데 {name}은,\n그녀에게 빚지지 않은 자기 자신이 마음에 들었다.\n강남은 멀어졌지만, 떳떳했다."
+      }
+    ]
   }
 ]

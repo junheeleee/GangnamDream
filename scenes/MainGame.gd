@@ -729,6 +729,21 @@ func _check_arc_triggers() -> bool:
 	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 42:
 		EventManager.trigger_event_by_id("arc_jaehyuk_04b_counter")
 		return true
+
+	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
+	# 종잣돈(1억+)을 모은 사람에게만 의미 있는 큰 기회들.
+	# 임상철 — 부동산 급매 (신뢰 쌓였을 때, 안정적 베팅)
+	if GameState.get_cast_stage("sangchul") == "interested" \
+			and not f.get("arc_opp_sangchul_seen", false) \
+			and t >= 40 and GameState.get_total_asset_value() >= 50_000_000:
+		EventManager.trigger_event_by_id("arc_opp_sangchul_realty")
+		return true
+	# 한지연 — 강남 분양권 정보 (가까워졌을 때, 큰 베팅)
+	if GameState.get_cast_affinity("jiyeon") >= 25 \
+			and not f.get("arc_opp_jiyeon_seen", false) \
+			and t >= 45 and GameState.get_total_asset_value() >= 200_000_000:
+		EventManager.trigger_event_by_id("arc_opp_jiyeon_bunyang")
+		return true
 	return false
 
 func _check_story_triggers():
