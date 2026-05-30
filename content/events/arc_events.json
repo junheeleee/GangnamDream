@@ -269,5 +269,177 @@
         "result_text": "{name}은 처음으로 솔직하게 말했다.\n\"그쪽 차가 제 한 달 월세의 몇 배인지 아세요? 커피 한 잔 사주는 게 그쪽한텐 아무것도 아니겠지만, 저한텐 그게 아니에요.\"\n\n한지연은 한동안 말이 없었다.\n\"...그래서 그날 그냥 가신 거예요?\"\n\"네.\"\n\"근데요.\" 그녀가 {name}을 똑바로 봤다.\n\"전 그런 사람 처음 봤어요. 그래서 더 알고 싶은데.\"\n그 눈빛이, {name}을 흔들었다."
       }
     ]
+  },
+  {
+    "id": "arc_jaehyuk_01_reunion",
+    "title": "10년 만에",
+    "background": "pojangmacha",
+    "portrait": "jaehyuk_friendly",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "카카오톡 메시지 하나.\n\"야 {name}아! 나 재혁이. 군대 최재혁. 기억나지? 서울 올라왔는데 오랜만에 얼굴이나 보자.\"\n\n프로필 사진엔 외제차 앞에서 찍은 그가 있다.\n22살, 같은 내무반. 3년 친했다가 제대하고 끊긴 사이.\n\n포장마차에서 만난 재혁은 달라져 있었다.\n좋은 옷, 비싼 시계, 자신감 넘치는 얼굴.\n\"야 너 하나도 안 변했다! 술 한잔 받아.\"\n그가 계산을 한다. 카드 긁는 손에 망설임이 없다.",
+    "choices": [
+      {
+        "text": "반갑게 응한다 — 오랜만의 옛 친구",
+        "effects": { "mental": 6, "social_skill": 2, "stress": -3 },
+        "cast_effects": { "jaehyuk": { "met": true, "affinity": 12, "stage": "reunited" } },
+        "flags": ["arc_jaehyuk_reunion_seen"],
+        "result_text": "옛날 군대 얘기로 밤이 깊었다.\n오랜만에 소리 내 웃었다. 힘든 시기에 반가운 얼굴.\n\"자주 보자, {name}아. 내가 연락할게.\"\n재혁은 진심인 것 같았다. 적어도 그날은."
+      },
+      {
+        "text": "반갑지만 어딘가 거리를 둔다",
+        "effects": { "intelligence": 3, "stress": 2 },
+        "cast_effects": { "jaehyuk": { "met": true, "affinity": 5, "stage": "reunited", "flags": ["kept_distance"] } },
+        "flags": ["arc_jaehyuk_reunion_seen"],
+        "result_text": "웃으며 술잔을 부딪쳤지만, 어딘가 마음이 놓이지 않았다.\n10년 만에 연락한 사람이 이렇게 잘 나간다.\n왜 하필 지금, 나한테.\n{name}은 그 생각을 애써 밀어냈다. 오랜만의 친구인데."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_02_bond",
+    "title": "형 동생",
+    "background": "cafe",
+    "portrait": "jaehyuk_friendly",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "그 뒤로 재혁은 자주 연락했다.\n밥을 사고, 술을 사고, 가끔 용돈처럼 슬쩍 돈을 쥐여주려 했다.\n\n\"야 너 요즘 힘들지? 이거 그냥 받아. 우리 사이에 무슨.\"\n{name}은 받지 않았다. 그래도 그 마음이 고마웠다.\n\n오늘은 카페에서 만났다. 재혁이 폰을 꺼낸다.\n\"{name}아, 나 사실 요즘 투자로 좀 벌어. 꽤 많이.\"\n화면을 보여준다. 수익률 그래프. 숫자가 가파르게 올라간다.\n\"너도 관심 있으면 알려줄게. 부담 갖지 말고.\"",
+    "choices": [
+      {
+        "text": "관심을 보인다 — \"어떻게 하는 건데?\"",
+        "effects": { "investment_skill": 2, "stress": 2 },
+        "cast_effects": { "jaehyuk": { "affinity": 10, "stage": "trusted", "flags": ["showed_interest"] } },
+        "flags": ["arc_jaehyuk_bond_seen"],
+        "result_text": "재혁의 눈이 반짝였다.\n\"역시 너는 감이 있어. 천천히 알려줄게.\"\n그가 보여준 수익률은 비현실적으로 좋았다.\n좋은 게 너무 좋으면 의심해야 한다는 걸, 그때는 잊고 있었다."
+      },
+      {
+        "text": "고맙지만 선을 긋는다 — \"난 투자는 잘 몰라서\"",
+        "effects": { "intelligence": 3, "mental": 2 },
+        "cast_effects": { "jaehyuk": { "affinity": 4, "stage": "trusted", "flags": ["hesitant"] } },
+        "flags": ["arc_jaehyuk_bond_seen"],
+        "result_text": "\"에이, 누가 지금 하래. 그냥 그렇다고.\"\n재혁은 웃으며 화제를 돌렸다.\n근데 그 수익률 그래프가 자꾸 눈에 밟혔다.\n저게 진짜라면... {name}은 고개를 저었다. 일단은."
+      },
+      {
+        "text": "수익률이 너무 좋다 — 슬쩍 의심한다",
+        "effects": { "intelligence": 5, "stress": 3 },
+        "cast_effects": { "jaehyuk": { "affinity": 2, "stage": "trusted", "flags": ["doubting"] } },
+        "flags": ["arc_jaehyuk_bond_seen"],
+        "result_text": "\"재혁아, 이거 너무 좋은데? 이런 게 진짜 있어?\"\n재혁의 표정이 0.5초 굳었다가 풀린다.\n\"하하, 그래서 다들 못 믿고 안 하는 거야. 너도 안 하면 그만이고.\"\n그 0.5초를, {name}은 놓치지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_03_pitch",
+    "title": "마지막 기회",
+    "background": "meeting",
+    "portrait": "jaehyuk_charisma",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "재혁이 정색하고 불렀다. 호텔 라운지.\n\n\"{name}아, 이건 진짜 너한테만 말하는 거야.\n이번에 큰 게 하나 들어와. 원금의 세 배. 근데 이번 주까지만 자리가 있어.\"\n\n그가 몸을 기울인다.\n\"너 강남 가고 싶다며. 월급 모아서 언제 가? 이게 지름길이야.\n나 믿지? 우리가 남이야? 같이 죽고 같이 산 사이잖아.\"\n\n통장의 돈이 떠오른다. 그리고 강남이 떠오른다.\n그리고 아버지가 떠오른다.\n\n결정해야 한다. 지금.",
+    "choices": [
+      {
+        "text": "전 재산을 투자한다 — 믿는다, 재혁이를",
+        "effects": { "money": -3000000, "stress": 8 },
+        "cast_effects": { "jaehyuk": { "affinity": 5, "stage": "all_in", "flags": ["invested"] } },
+        "flags": ["arc_jaehyuk_pitch_seen", "jaehyuk_trusted_fully"],
+        "result_text": "통장을 털어 보냈다. 가진 거의 전부.\n재혁이 어깨를 두드린다. \"잘 생각했어. 곧 웃게 될 거야.\"\n\n그날 밤, {name}은 잠을 설쳤다.\n기대 때문인지, 불안 때문인지 알 수 없었다."
+      },
+      {
+        "text": "일부만 넣는다 — 욕심내되 다 걸진 않는다",
+        "effects": { "money": -1000000, "stress": 5, "intelligence": 2 },
+        "cast_effects": { "jaehyuk": { "affinity": 3, "stage": "partial", "flags": ["invested"] } },
+        "flags": ["arc_jaehyuk_pitch_seen", "jaehyuk_partial"],
+        "result_text": "\"재혁아, 난 이만큼만. 더는 무리야.\"\n재혁이 살짝 아쉬운 표정을 짓는다. \"뭐... 그래도 어디야. 고맙다.\"\n전부를 걸지 않은 건, 본능적인 방어였다.\n그 본능이 나중에 {name}을 살릴지도 몰랐다."
+      },
+      {
+        "text": "거절하고, 조용히 알아보기 시작한다",
+        "effects": { "intelligence": 6, "stress": 6 },
+        "cast_effects": { "jaehyuk": { "affinity": -5, "stage": "suspect", "flags": ["suspected"] } },
+        "flags": ["arc_jaehyuk_pitch_seen", "jaehyuk_refused"],
+        "result_text": "\"생각 좀 해볼게.\" {name}은 자리를 떴다.\n그리고 집에 와서 검색을 시작했다.\n재혁이 말한 투자 상품, 그 회사 이름, 비슷한 피해 사례.\n\n검색 결과가 하나둘 뜨기 시작했다.\n등골이 서늘해졌다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_04a_ghost",
+    "title": "연락 두절",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "cg": "cg_jaehyuk_reveal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk", "crisis"],
+    "cooldown": 9999,
+    "description": "수익 정산일. 재혁에게 연락했다.\n\n[ 읽음 ] 표시가 안 뜬다.\n전화는 신호만 가다 끊긴다.\n카톡 프로필 사진이 사라졌다.\n\n불안이 확신으로 바뀌는 데 사흘이 걸렸다.\n\n재혁이 말했던 회사를 검색한다.\n'투자 사기 피해자 모임' 카페가 뜬다.\n게시판에 수십 개의 글. 같은 이름. 최재혁.\n\n{name}만이 아니었다.\n같이 죽고 같이 산 사이라던 그 말이,\n가장 비싼 거짓말이었다.",
+    "choices": [
+      {
+        "text": "무너진다 — 한동안 아무것도 못 한다",
+        "effects": { "mental": -15, "stress": 20, "health": -8 },
+        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "betrayed" } },
+        "flags": ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "hit_rock_bottom"],
+        "result_text": "며칠을 고시원 방에 누워만 있었다.\n천장만 봤다. 통장은 비었고, 강남은 멀어졌다.\n\n근데 이상하게, 바닥까지 떨어지니 더 떨어질 데가 없었다.\n다시 일어서는 것 말곤 할 게 없었다.\n언젠가, 반드시, 이 돈을 되찾는다."
+      },
+      {
+        "text": "피해자 모임에 들어간다 — 혼자가 아니다",
+        "effects": { "mental": -8, "stress": 12, "intelligence": 4 },
+        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "betrayed" } },
+        "flags": ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "joined_victims"],
+        "result_text": "카페에 가입하고 글을 남겼다.\n'저도 당했습니다. 군대 동기였어요.'\n\n댓글이 달렸다. '저도요.' '저도 동창이었어요.'\n그는 늘 가까운 사람을 노렸다. 신뢰를 무기로.\n\n피해자들이 모이기 시작했다. {name}은 그 중심에 섰다.\n잃은 걸 되찾는 방법이 아예 없는 건 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_04b_counter",
+    "title": "역으로",
+    "background": "meeting",
+    "portrait": "jaehyuk_cornered",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "{name}은 한 달간 조용히 모았다.\n재혁의 투자 상품 구조, 자금 흐름, 다른 피해자들의 증언.\n\n그건 전형적인 폰지 사기였다. 새 투자금으로 옛 수익을 메우는.\n구조를 이해하자, 약점이 보였다.\n\n재혁을 다시 만났다. 이번엔 {name}이 불렀다.\n\"재혁아. 나 다 알아. 회사 구조도, 피해자들도.\"\n재혁의 얼굴이 하얗게 질린다.\n\"...너 뭐 하려고.\"\n\n선택의 순간이다. {name}은 어떤 사람이 될 것인가.",
+    "choices": [
+      {
+        "text": "경찰에 넘긴다 — 옳은 일을 한다",
+        "effects": { "mental": 10, "stress": -5, "reputation": 8 },
+        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "reported" } },
+        "flags": ["arc_jaehyuk_counter_seen", "jaehyuk_reported", "took_high_road"],
+        "result_text": "증거를 경찰에 넘겼다. 피해자들의 진술과 함께.\n재혁은 구속됐다. {name}은 돈을 돌려받진 못했지만\n적어도 더 이상의 피해자는 막았다.\n\n임상철이 말했다. \"잘했어. 돈보다 중요한 걸 지켰네.\"\n{name}은 빈손이었지만, 거울 보기가 부끄럽지 않았다."
+      },
+      {
+        "text": "약점을 쥐고 거래한다 — 내 돈, 아니 그 이상을 받아낸다",
+        "effects": { "money": 8000000, "mental": -6, "stress": 10 },
+        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "blackmailed" } },
+        "flags": ["arc_jaehyuk_counter_seen", "jaehyuk_exploited", "crossed_line"],
+        "result_text": "\"신고 안 할게. 대신 내 돈 세 배로 돌려줘. 일주일 안에.\"\n재혁은 떨면서 고개를 끄덕였다. 돈이 들어왔다.\n\n강남에 한 발 가까워졌다. 근데 {name}은 그날 밤,\n자기가 재혁과 뭐가 다른지 한참을 생각했다.\n답을 찾지 못했다."
+      },
+      {
+        "text": "그를 끌어들여 더 큰 판을 짠다 — 사기를 사업으로",
+        "effects": { "money": 5000000, "mental": -12, "stress": 14, "investment_skill": 6 },
+        "cast_effects": { "jaehyuk": { "affinity": -50, "stage": "partner_in_crime" } },
+        "flags": ["arc_jaehyuk_counter_seen", "jaehyuk_partnered", "fell_to_darkness"],
+        "result_text": "\"신고 대신, 같이 하자. 대신 이번엔 제대로.\"\n재혁의 눈에 안도와 두려움이 섞였다.\n\n{name}은 선을 넘었다. 강남은 가까워질 것이다.\n빠르게. 더럽게.\n아버지한테 보여줄 그 집이, 이런 돈으로 사는 집이어도 되는 걸까.\n그 질문을, {name}은 묻지 않기로 했다. 지금은."
+      }
+    ]
   }
 ]

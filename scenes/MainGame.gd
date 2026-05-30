@@ -705,6 +705,28 @@ func _check_arc_triggers() -> bool:
 	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 23:
 		EventManager.trigger_event_by_id("arc_jiyeon_03_offer")
 		return true
+
+	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (턴 27+, 2막 핵심) ══
+	# 턴 27: 카톡 → 재회
+	if t >= 27 and not f.get("arc_jaehyuk_reunion_seen", false):
+		EventManager.trigger_event_by_id("arc_jaehyuk_01_reunion")
+		return true
+	# 턴 32: 친밀해짐
+	if f.get("arc_jaehyuk_reunion_seen", false) and not f.get("arc_jaehyuk_bond_seen", false) and t >= 32:
+		EventManager.trigger_event_by_id("arc_jaehyuk_02_bond")
+		return true
+	# 턴 37: 투자 제안 (분기 시작)
+	if f.get("arc_jaehyuk_bond_seen", false) and not f.get("arc_jaehyuk_pitch_seen", false) and t >= 37:
+		EventManager.trigger_event_by_id("arc_jaehyuk_03_pitch")
+		return true
+	# 분기 A — 믿고 투자함 → 연락 두절 (턴 42+)
+	if GameState.cast_has_flag("jaehyuk", "invested") and not f.get("arc_jaehyuk_ghost_seen", false) and t >= 42:
+		EventManager.trigger_event_by_id("arc_jaehyuk_04a_ghost")
+		return true
+	# 분기 B — 의심함 → 증거/역이용 (턴 42+)
+	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 42:
+		EventManager.trigger_event_by_id("arc_jaehyuk_04b_counter")
+		return true
 	return false
 
 func _check_story_triggers():
