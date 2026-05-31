@@ -1509,7 +1509,7 @@ func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_
 
 	# [사람/관계]
 	_add_category_card(
-		"🤝", "사람 · 관계", "인맥·연애·휴식",
+		"🤝", "사람 · 관계", "내 사람 챙기기·인맥·휴식",
 		"#8a5a9a", disabled, "_open_cat_people", false, "", false)
 
 	# [생활] — AP 불필요 (이사/상점)
@@ -1591,7 +1591,7 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 # ══════════════════════════════════════════════════════════
 # 카테고리 모달 — 세부 행동을 묶어서 보여줌. 기존 _ap_* 재사용.
 # ══════════════════════════════════════════════════════════
-func _cat_modal_button(label: String, accent: String, fn: String):
+func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	var btn = _button(label, "#15151f")
 	var st = StyleBoxFlat.new()
 	st.bg_color = Color("#15151f")
@@ -1608,9 +1608,13 @@ func _cat_modal_button(label: String, accent: String, fn: String):
 	btn.add_theme_stylebox_override("pressed", st)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var fn_name := fn
+	var fn_arg = arg
 	btn.pressed.connect(func():
 		_close_modal()
-		self.call(fn_name)
+		if fn_arg == null:
+			self.call(fn_name)
+		else:
+			self.call(fn_name, fn_arg)
 	)
 	modal_body.add_child(btn)
 
@@ -1651,9 +1655,36 @@ func _open_cat_dev():
 
 func _open_cat_people():
 	_open_modal("🤝 사람 · 관계")
-	modal_body.add_child(_wrap_label("혼자 강남에 가는 사람은 없다. 사람을 만나고, 쉬어간다.", 13, "#7a8496"))
-	_cat_modal_button("🤝 인맥 관리  —  사회성 +1, 직장·학교 관계", "#8a5a9a", "_ap_network")
-	_cat_modal_button("❤️ 연애 · 만남  —  정신력 +8, 스트레스 -5", "#b85a7a", "_ap_romance")
+	modal_body.add_child(_wrap_label("혼자 강남에 가는 사람은 없다. 곁에 있는 사람을 챙기고, 쉬어간다.", 13, "#7a8496"))
+
+	# ── 내가 실제로 만난 사람들 (cast 기반) ──
+	var met_ids: Array = []
+	for pid in ["father", "sangchul", "jiyeon", "daeun", "jaehyuk"]:
+		if GameState.cast_has_met(pid):
+			met_ids.append(pid)
+
+	if not met_ids.is_empty():
+		modal_body.add_child(_label("── 내 사람들 ──", 12, "#3a3a5a"))
+		for pid in met_ids:
+			var info: Dictionary = ImageRegistry.PERSON_INFO.get(pid, {})
+			var pname: String = str(info.get("name", "인연"))
+			var accent: String = str(info.get("color", "#8a5a9a"))
+			var aff: int = GameState.get_cast_affinity(pid)
+			var verb := "📞 연락하기"
+			if pid in ["jiyeon", "daeun"]:
+				verb = "☕ 만나기" if aff >= 50 else "💬 안부 묻기"
+			elif pid == "sangchul":
+				verb = "🍶 한 잔 하기"
+			elif pid == "father":
+				verb = "📞 전화드리기"
+			elif pid == "jaehyuk":
+				verb = "🍺 만나기"
+			var lbl := "%s  ·  %s  —  호감도 %d  (정신 +5, 호감도 +4)" % [verb, pname, aff]
+			_cat_modal_button(lbl, accent, "_ap_contact_person", pid)
+
+	# ── 새로운 사람·휴식 ──
+	modal_body.add_child(_label("── 인맥 · 휴식 ──", 12, "#3a3a5a"))
+	_cat_modal_button("🤝 인맥 넓히기  —  사회성 +1 (업계·직장 사람들)", "#8a5a9a", "_ap_network")
 	_cat_modal_button("🌊 자유시간  —  한강·산책 (정신력 +10)", "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():
@@ -1990,32 +2021,53 @@ func _ap_save_money():
 	_render_ap_actions()
 	_refresh_all()
 
-func _ap_romance():
+func _ap_network():
 	if not GameState.spend_ap():
 		return
-	var mental_before = GameState.mental
-	GameState.modify_stat("mental", 8)
-	GameState.modify_hidden_stat("stress", -5)
-	var rel_result = ""
-	if not GameState.relationships.is_empty():
-		var rel: Dictionary = GameState.relationships[randi() % GameState.relationships.size()]
-		var aff_before = int(rel.get("affection", 40))
-		rel["affection"] = clamp(aff_before + 10, 0, 100)
-		rel_result = "  (%s 친밀도 ↑)" % str(rel.get("name", "인연"))
-	elif randf() < 0.35:
-		var names = ["이수민", "박지훈", "김나연", "이준호", "최서연"]
-		GameState.apply_relationship_effect({
-			"id": "romance_new_%d" % GameState.turn,
-			"name": names[randi() % names.size()],
-			"type": "romantic",
-			"affection": 20,
-			"trust": 15,
-		})
-		rel_result = "  (새 인연!)"
-	var msg = "❤️ 연애/관계 — 정신 %d→%d%s" % [mental_before, GameState.mental, rel_result]
-	GameState.add_log(msg, "relationship")
+	var before = GameState.social_skill
+	GameState.modify_stat("social_skill", 1)
+	GameState.reputation = clampi(GameState.reputation + 1, 0, 100)
+	GameState.modify_hidden_stat("stress", 2)  # 인맥 자리는 조금 진 빠진다
+	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
+	var msg = "🤝 인맥 넓히기 — 사회성 %d→%d, 평판 +1" % [before, GameState.social_skill]
+	GameState.add_log(msg + " / 업계 사람들과 명함을 주고받았다. 언젠가 쓸모가 있겠지.", "relationship")
 	turn_action_log.append("✓ " + msg)
-	_show_toast(msg, Color("#db2777"))
+	_show_toast(msg, Color("#8a5a9a"))
+	GameState.stats_changed.emit()
+	_render_ap_actions()
+	_refresh_all()
+
+func _ap_contact_person(person_id: String):
+	if not GameState.spend_ap():
+		return
+	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
+	var pname: String = str(info.get("name", "인연"))
+	var mental_before = GameState.mental
+	GameState.modify_stat("mental", 5)
+	GameState.modify_hidden_stat("stress", -3)
+	GameState.apply_cast_effect(person_id, {"affinity": 4})
+	var aff: int = GameState.get_cast_affinity(person_id)
+
+	# 인물별 결과 텍스트 — 리얼리티
+	var flavor := ""
+	match person_id:
+		"father":
+			flavor = "아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다."
+		"sangchul":
+			flavor = "임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다."
+		"jiyeon":
+			flavor = "한지연과의 대화는 다른 세계를 들여다보는 창 같다."
+		"daeun":
+			flavor = "김다은과 있으면 서울살이의 팍팍함이 잠깐 누그러진다."
+		"jaehyuk":
+			flavor = "최재혁은 늘 큰 그림을 그린다. 듣고 있으면 가슴이 뛴다."
+		_:
+			flavor = "사람을 챙기는 일에는 마음이 든다."
+
+	var msg = "%s — 정신 %d→%d, 호감도 %d" % [pname, mental_before, GameState.mental, aff]
+	GameState.add_log("🤝 " + msg + " / " + flavor, "relationship")
+	turn_action_log.append("✓ 🤝 " + msg)
+	_show_toast("🤝 " + msg, Color(str(info.get("color", "#db2777"))))
 	GameState.stats_changed.emit()
 	_render_ap_actions()
 	_refresh_all()
