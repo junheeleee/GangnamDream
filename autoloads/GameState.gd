@@ -14,7 +14,7 @@ var unlocked_stat_thresholds: Dictionary = {}
 var player_name = "김민준"
 var player_background = "지방_상경"  # legacy — 신규 런은 player_route 사용
 var player_route = "직장형"  # 직장형 | 투자형 | 창업형
-var age = 30
+var age = 33
 var year = 2026
 var month = 1
 var turn = 1
@@ -112,7 +112,7 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else "김민준"
 	player_background = chosen_background
 	player_route = chosen_route
-	age = 30
+	age = 33   # 김민준 33세 시작 → 38세(=5년/60턴)가 강남 입성 마감
 	year = 2026
 	month = 1
 	turn = 1
@@ -701,10 +701,13 @@ func check_game_over():
 		add_log("💰 자산 5억 돌파 — 길이 보이기 시작한다.", "money")
 	if total_now >= 1_000_000_000 and not flags.get("asset_1b_reached", false):
 		flags["asset_1b_reached"] = true
-		add_log("💰 자산 10억 돌파 — 강남이 멀지 않다.", "money")
+		add_log("💰 자산 10억 돌파 — 30억의 3분의 1. 이제부터 가속이 붙는다.", "money")
 	if total_now >= 2_000_000_000 and not flags.get("asset_2b_reached", false):
 		flags["asset_2b_reached"] = true
-		add_log("🔥 자산 20억 — 마지막 고비다.", "money")
+		add_log("🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다. 남은 건 10억.", "money")
+	if total_now >= 2_700_000_000 and not flags.get("asset_2_7b_reached", false):
+		flags["asset_2_7b_reached"] = true
+		add_log("🔥 자산 27억 — 마지막 고비다. 강남 입성이 코앞이다.", "money")
 	# ── 즉시 게임오버 (실패) ──────────────────────────
 	if health <= 0:
 		finish_run("burnout"); return
