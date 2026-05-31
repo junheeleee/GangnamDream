@@ -400,11 +400,11 @@ func _on_choice(idx: int):
 		cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	# 실제 적용
 	GameState.apply_choice(_current, choice)
+	# 첫 변화에는 팝업 설명 먼저 (떴으면 토스트는 팝업 닫힌 뒤 자연스럽게 남음)
+	_maybe_show_tutorial_popup(before, cast_before)
 	# 변화 토스트 (스탯 → 관계 순)
 	_show_change_toasts(before)
 	_show_cast_toasts(cast_before)
-	# 첫 변화에는 팝업 설명 1회
-	_maybe_show_tutorial_popup(before, cast_before)
 
 	# 결과 텍스트 표시
 	_showing_choices = false
@@ -492,7 +492,8 @@ func _show_cast_toasts(before: Dictionary):
 		if diff == 0:
 			continue
 		var nm = CAST_NAME.get(pid, pid)
-		var txt = "❤ %s  %s%d" % [nm, "+" if diff > 0 else "", diff]
+		var arrow = "▲ 가까워짐" if diff > 0 else "▼ 멀어짐"
+		var txt = "❤ %s 호감도 %s%d  (%s)" % [nm, "+" if diff > 0 else "", diff, arrow]
 		_spawn_toast(txt, Color("#e8a0c0") if diff > 0 else Color("#ff6b6b"))
 
 ## 첫 변화에 1회만 안내 팝업. GameState.flags로 중복 방지.
@@ -518,8 +519,8 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 	if cast_changed and not GameState.flags.get("tut_cast_shown", false):
 		GameState.flags["tut_cast_shown"] = true
 		_show_popup(
-			"❤  사람, 그리고 인연",
-			"이 도시에서 혼자 강남에 가는 사람은 없다.\n\n아버지, 그리고 앞으로 만날 사람들.\n네 선택이 그들과의 관계를 바꾼다.\n\n쌓인 인연은 언젠가 — 위기에서 너를 구하거나, 결정적 기회가 되어 돌아온다.")
+			"❤  호감도 — 사람과의 인연",
+			"방금 '아버지 호감도'가 변했다.\n\n호감도는 그 사람과 얼마나 가까운지를 나타낸다.\n네 말과 선택이 호감도를 올리거나 내린다.\n\n쌓인 호감도는 언젠가 위기에서 너를 구하거나,\n결정적 기회가 되어 돌아온다.\n\n혼자 강남에 가는 사람은 없다.")
 
 ## 화면 중앙 안내 팝업 (클릭하면 닫힘)
 func _show_popup(title: String, body: String):
