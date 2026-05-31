@@ -345,7 +345,7 @@ func _build_story_panel(parent):
 	layout.add_child(event_title)
 
 	event_body = RichTextLabel.new()
-	event_body.bbcode_enabled = false
+	event_body.bbcode_enabled = true
 	event_body.fit_content = true
 	event_body.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	event_body.add_theme_font_size_override("normal_font_size", 18)
@@ -1343,6 +1343,9 @@ func _render_ap_actions():
 	var net = GameState.monthly_income - GameState.get_housing_expense()
 	var total = GameState.get_total_asset_value()
 	var lines: PackedStringArray = PackedStringArray()
+	# 분위기 내레이션 한 줄 (비주얼노벨 톤)
+	lines.append("[i]%s[/i]" % _month_narration())
+	lines.append("")
 	if not turn_action_log.is_empty():
 		for entry in turn_action_log:
 			lines.append(entry)
@@ -1364,6 +1367,30 @@ func _render_ap_actions():
 	if GameState.money < 0:
 		lines.append("🚨  잔고 마이너스  %s  — 빚이 생겼습니다!" % GameState.format_money(GameState.money))
 	event_body.text = "\n".join(lines)
+
+## 매달 분위기 내레이션 한 줄 (계절 + 상태 기반)
+func _month_narration() -> String:
+	var m = GameState.month
+	# 상태 우선 (위기면 그 분위기)
+	if GameState.money < 0:
+		return "통장은 마이너스. 벼랑 끝에서 하루를 버틴다."
+	if GameState.mental <= 40:
+		return "마음이 자꾸 가라앉는다. 버티는 것도 힘이 든다."
+	if GameState.stress >= 75:
+		return "어깨가 무겁다. 잠깐의 숨 돌릴 틈도 없다."
+	if GameState.current_job.is_empty() and GameState.turn > 2:
+		return "수입은 0원. 통장은 매일 조금씩 줄어든다."
+	# 계절 기반 (평상시)
+	var season := ""
+	if m in [12, 1, 2]:
+		season = "창밖으로 겨울 바람이 분다. 서울의 1평 반은 오늘도 좁다."
+	elif m in [3, 4, 5]:
+		season = "봄이 왔다. 거리에 사람이 늘고, 마음이 조금 들뜬다."
+	elif m in [6, 7, 8]:
+		season = "여름. 고시원은 덥고, 에어컨은 사치다."
+	else:
+		season = "가을. 한 해가 또 저문다. {name}은 수첩의 숫자를 본다."
+	return season.replace("{name}", GameState.player_name)
 
 	var disabled = (ap <= 0)
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
@@ -1398,16 +1425,14 @@ func _render_ap_actions():
 		and not GameState.flags.get("invest_hint_shown", false)
 
 	if GameState.turn == 1 and ap == GameState.max_action_points and turn_action_log.is_empty():
-		hint_text = "👋 첫 달 — ⚡AP 3개로 행동을 골라 쓰세요. 취업이 가장 중요합니다."
+		hint_text = "👋 ⚡AP를 써서 행동을 고르세요. [💼 일·커리어]로 일자리부터 구하세요."
 		hint_color = "#00c896"
-	elif GameState.tutorial_step >= 2 and not job_story_done:
-		hint_text = "📌 이벤트 선택지를 골라 스토리를 진행하세요."
 	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
-		hint_text = "⚠ 수입 0원 — 지금 바로 💼 구직활동으로 취업하세요!"
+		hint_text = "⚠ 수입 0원 — [💼 일·커리어]에서 구직활동으로 취업하세요!"
 		hint_color = "#ef4444"
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
-		hint_text = "💳 첫 월급 수령 — 이제 📈 투자도 가능합니다."
+		hint_text = "💳 첫 월급 수령 — 이제 [📈 돈·투자]에서 투자도 가능합니다."
 		hint_color = "#00c896"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
 		hint_text = "🎯 목표: 자산 30억 → 강남 입성 (남은 시간 %d년)" % max(0, 38 - GameState.age)
@@ -1416,92 +1441,196 @@ func _render_ap_actions():
 	if not hint_text.is_empty():
 		choice_box.add_child(_label(hint_text, 12, hint_color))
 
-	# 정석 루트
+	# ══════════════════════════════════════════════════════
+	# 5개 핵심 행동 카드 (비주얼노벨 톤). 누르면 세부 모달.
+	# ══════════════════════════════════════════════════════
+	_render_action_cards(disabled, no_job, has_paycheck, job_story_unlocked, warn_body)
 
-	var orthodox: Array = []
-
-	# 스펙/공부
-	var study_label = "📚 스펙 쌓기  —  독서·운동·명상 선택"
-	if warn_body: study_label = "📚 자기계발  🚨 체력·정신 회복 필요"
-	orthodox.append({"label": study_label, "color": "#5b9cf6", "fn": "_ap_study", "route": "orthodox", "focus": "스펙 쌓기"})
-
-	# 취업/직장
-	if not job_story_unlocked:
-		orthodox.append({"label": "💼 구직활동  🔒 스토리 진행 후 해금", "color": "#2d3748", "fn": "_ap_job_hunt", "route": "orthodox", "focus": "취업 준비", "locked": true})
-	elif no_job:
-		orthodox.append({"label": "💼 구직활동  ⚠  지금 무직 — 취업 필수!", "color": "#dc2626", "fn": "_ap_job_hunt", "route": "orthodox", "focus": "취업 준비"})
-	else:
-		orthodox.append({"label": "💼 직장 생활  —  커리어 관리·승진 준비", "color": "#b45309", "fn": "_ap_job_hunt", "route": "orthodox", "focus": "커리어 관리"})
-
-	orthodox.append({"label": "🤝 인맥 관리  —  사회성+1, 직장·학교 관계", "color": "#7c3aed", "fn": "_ap_network", "route": "orthodox", "focus": "인맥 관리"})
-	orthodox.append({"label": "💰 저축/절약  —  스트레스 -4, 절약 마인드", "color": "#0369a1", "fn": "_ap_save_money", "route": "orthodox", "focus": "저축 집중"})
-
-	_add_action_buttons(choice_box, orthodox, disabled)
-
-	# 비정석 루트
-
-	var unorthodox: Array = []
-
-	if has_paycheck:
-		unorthodox.append({"label": "📈 투자 집중  —  매수·매도 (투자감각 %d)" % GameState.investment_skill, "color": "#059669", "fn": "_ap_invest", "route": "unorthodox", "focus": "투자"})
-	else:
-		unorthodox.append({"label": "📈 투자  🔒 첫 월급 수령 후 해금", "color": "#2d3748", "fn": "_ap_invest", "route": "unorthodox", "focus": "투자", "locked": true})
-
-	var side_label = "💰 단기 알바  —  +40만원 (건강-5, 스트레스+6)" if no_job else "🎨 부업/사이드  —  추가 수입 도전 (건강-5)"
-	unorthodox.append({"label": side_label, "color": "#0369a1", "fn": "_ap_side_job", "route": "unorthodox", "focus": "부업"})
-
-	unorthodox.append({"label": "❤️ 연애/관계  —  정신력+8, 스트레스-5, 인연", "color": "#db2777", "fn": "_ap_romance", "route": "unorthodox", "focus": "연애"})
-	unorthodox.append({"label": "🌊 자유시간  —  한강·편의점·산책 (정신력+10)", "color": "#0891b2", "fn": "_ap_free_time", "route": "unorthodox", "focus": "자유시간"})
-
-	_add_action_buttons(choice_box, unorthodox, disabled)
-
-	# ── 창업/크리에이터 전용 행동 ─────────────────────────
-	var startup_active: bool = GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false)
-	var creator_active: bool = GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_success_unlocked", false)
-	if startup_active or creator_active:
-		var biz_actions: Array = []
-		if startup_active:
-			var startup_stage = "아이디어" if not GameState.flags.get("startup_team", false) else ("런칭" if not GameState.flags.get("startup_pivoted", false) else "성장")
-			biz_actions.append({"label": "🚀 창업 업무  —  %s 단계 (명성+2, 지력+1, 스트레스+5)" % startup_stage, "color": "#3b1a5c", "fn": "_ap_startup_work", "route": "unorthodox", "focus": "창업"})
-		if creator_active:
-			var creator_stage = "시작" if not GameState.flags.get("creator_viral", false) else ("성장 중" if not GameState.flags.get("creator_monetized", false) else "수익화")
-			biz_actions.append({"label": "🎬 콘텐츠 제작  —  %s (명성+1, 정신+5)" % creator_stage, "color": "#1a2a0a", "fn": "_ap_create_content", "route": "unorthodox", "focus": "부업"})
-		_add_action_buttons(choice_box, biz_actions, disabled)
-
-	# ── 취업 준비 특화 행동 (무직일 때만) ──────────────────
-	if no_job and job_story_unlocked:
-		var job_seeker: Array = []
-		job_seeker.append({
-			"label": "🖊 자소서 작성  —  지력 +3, 스트레스 +4",
-			"color": "#0f4c5c", "fn": "_ap_write_resume",
-			"route": "orthodox", "focus": "취업 준비"
-		})
-		if GameState.social_skill >= 20:
-			job_seeker.append({
-				"label": "🎯 모의 면접  —  사회성 +2, 운 +1",
-				"color": "#0f3a5c", "fn": "_ap_interview_prep",
-				"route": "orthodox", "focus": "취업 준비"
-			})
-		_add_action_buttons(choice_box, job_seeker, disabled)
-
-	# ── 이사 버튼 — AP 불필요 ────────────────────────────
-	if GameState.can_upgrade_housing():
-		var next_id = str(GameState.get_housing_info().get("next", ""))
-		var next_info = GameState.HOUSING_DATA.get(next_id, {})
-		var move_btn = _button(
-			"🏠 이사  —  %s%s  (월 %s / 보증금 %s)" % [
-				next_info.get("emoji",""), next_info.get("name",""),
-				GameState.format_money(float(next_info.get("expense", 0.0))),
-				GameState.format_money(float(next_info.get("deposit", 0.0)))
-			], "#f0b429")
-		move_btn.disabled = false
-		move_btn.pressed.connect(_ap_move_housing)
-		choice_box.add_child(move_btn)
-
-	# ── 상점 버튼 ───────────────────────────────────────
+	# ── 상점 버튼 (상단 바) ───────────────────────────────
 	if shop_button:
 		shop_button.text = "🛍 상점" if has_paycheck else "🛍 상점 🔒"
 		shop_button.disabled = not has_paycheck
+
+## 5개 카테고리 행동 카드 렌더링
+func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_unlocked: bool, warn_body: bool):
+	# [일/커리어]
+	var work_sub = "구직·자소서·면접" if no_job else "직장 생활·승진 준비"
+	var work_urgent = no_job and job_unlocked
+	_add_category_card(
+		"💼", "일 · 커리어", work_sub,
+		"#3a6ea8", disabled, "_open_cat_work",
+		not job_unlocked, "스토리 진행 후" if not job_unlocked else "",
+		work_urgent)
+
+	# [돈/투자]
+	var money_sub = "단기 알바로 종잣돈" if not has_paycheck else "투자·부업으로 자산 증식"
+	_add_category_card(
+		"📈", "돈 · 투자", money_sub,
+		"#4a8a5a", disabled, "_open_cat_money", false, "", false)
+
+	# [자기계발]
+	var dev_sub = "체력·정신 회복 필요!" if warn_body else "독서·운동·명상으로 성장"
+	_add_category_card(
+		"📚", "자기계발", dev_sub,
+		"#5a6ea8", disabled, "_open_cat_dev", false, "", warn_body)
+
+	# [사람/관계]
+	_add_category_card(
+		"🤝", "사람 · 관계", "인맥·연애·휴식",
+		"#8a5a9a", disabled, "_open_cat_people", false, "", false)
+
+	# [생활] — AP 불필요 (이사/상점)
+	var can_move = GameState.can_upgrade_housing()
+	var life_sub = "이사 가능!" if can_move else "주거·생활 관리"
+	_add_category_card(
+		"🏠", "생활", life_sub,
+		"#9a8a5a", false, "_open_cat_life", false, "", can_move)
+
+## 행동 카테고리 카드 1개 생성
+func _add_category_card(icon: String, title: String, subtitle: String,
+		accent: String, disabled: bool, fn: String,
+		locked: bool, lock_note: String, highlight: bool):
+	var card = Button.new()
+	card.custom_minimum_size = Vector2(0, 56)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.disabled = disabled or locked
+	card.focus_mode = Control.FOCUS_NONE
+
+	var st = StyleBoxFlat.new()
+	st.bg_color = Color("#111119") if not highlight else Color("#1a1410")
+	st.border_color = Color(accent) if not locked else Color("#2a2a38")
+	st.border_width_left = 4 if not highlight else 5
+	if highlight:
+		st.border_color = Color("#f0b429")
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 18
+	st.content_margin_right = 16
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	var hov = st.duplicate()
+	hov.bg_color = Color("#1c1c2a")
+	card.add_theme_stylebox_override("normal", st)
+	card.add_theme_stylebox_override("hover", hov)
+	card.add_theme_stylebox_override("pressed", st)
+	card.add_theme_stylebox_override("disabled", st)
+
+	# 카드 내부 레이아웃
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	row.set_anchors_preset(Control.PRESET_FULL_RECT)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(row)
+
+	var icon_lbl = _label(icon, 24, "#ffffff")
+	icon_lbl.custom_minimum_size = Vector2(36, 0)
+	icon_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(icon_lbl)
+
+	var txt = VBoxContainer.new()
+	txt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	txt.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	txt.add_theme_constant_override("separation", 1)
+	row.add_child(txt)
+	var title_lbl = _label(title, 16, "#e8eaf0" if not locked else "#5a5a6a")
+	txt.add_child(title_lbl)
+	var sub_color = "#f0b429" if highlight else "#7a8496"
+	if locked:
+		sub_color = "#4a4a58"
+	txt.add_child(_label(("🔒 " + lock_note) if locked else subtitle, 12, sub_color))
+
+	# AP 비용 표시 (생활 카테고리는 AP 무료)
+	if fn != "_open_cat_life":
+		var ap_lbl = _label("⚡", 16, accent if not disabled else "#3a3a48")
+		ap_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		row.add_child(ap_lbl)
+	else:
+		row.add_child(_label("무료", 11, "#5a6478"))
+
+	if not (disabled or locked):
+		card.pressed.connect(Callable(self, fn))
+	choice_box.add_child(card)
+
+# ══════════════════════════════════════════════════════════
+# 카테고리 모달 — 세부 행동을 묶어서 보여줌. 기존 _ap_* 재사용.
+# ══════════════════════════════════════════════════════════
+func _cat_modal_button(label: String, accent: String, fn: String):
+	var btn = _button(label, "#15151f")
+	var st = StyleBoxFlat.new()
+	st.bg_color = Color("#15151f")
+	st.border_color = Color(accent)
+	st.border_width_left = 3
+	st.set_corner_radius_all(5)
+	st.content_margin_left = 16
+	st.content_margin_right = 12
+	st.content_margin_top = 10
+	st.content_margin_bottom = 10
+	var hov = st.duplicate(); hov.bg_color = Color("#20202e")
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", hov)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.pressed.connect(func():
+		_close_modal()
+		call(fn))
+	modal_body.add_child(btn)
+
+func _open_cat_work():
+	var no_job = GameState.current_job.is_empty()
+	_open_modal("💼 일 · 커리어")
+	if no_job:
+		modal_body.add_child(_wrap_label("아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.", 13, "#c8a060"))
+		_cat_modal_button("💼 구직활동  —  일자리를 찾아 지원한다", "#dc6a2a", "_ap_job_hunt")
+		_cat_modal_button("🖊 자소서 작성  —  지력 +3, 스트레스 +4", "#3a6ea8", "_ap_write_resume")
+		if GameState.social_skill >= 20:
+			_cat_modal_button("🎯 모의 면접  —  사회성 +2, 운 +1", "#3a6ea8", "_ap_interview_prep")
+	else:
+		modal_body.add_child(_wrap_label("%s — 커리어를 관리하고 승진을 준비한다." % GameState.current_job.get("name","직장인"), 13, "#7a8496"))
+		_cat_modal_button("💼 직장 생활  —  커리어 관리·승진 준비", "#b4791a", "_ap_job_hunt")
+	# 창업/크리에이터 진행 중이면 노출
+	if GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false):
+		_cat_modal_button("🚀 창업 업무  —  내 사업을 키운다", "#6a3a9a", "_ap_startup_work")
+	if GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_success_unlocked", false):
+		_cat_modal_button("🎬 콘텐츠 제작  —  채널을 키운다", "#4a7a3a", "_ap_create_content")
+
+func _open_cat_money():
+	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
+	var no_job = GameState.current_job.is_empty()
+	_open_modal("📈 돈 · 투자")
+	modal_body.add_child(_wrap_label("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", 13, "#7a8496"))
+	if has_paycheck:
+		_cat_modal_button("📈 투자 집중  —  매수·매도 (투자감각 %d)" % GameState.investment_skill, "#3a8a5a", "_ap_invest")
+	else:
+		modal_body.add_child(_wrap_label("🔒 투자는 첫 월급을 받은 뒤 가능하다.", 12, "#5a5a6a"))
+	var side_label = "💰 단기 알바  —  +40만원 (건강-5, 스트레스+6)" if no_job else "🎨 부업/사이드  —  추가 수입 도전"
+	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
+	_cat_modal_button("💰 저축/절약  —  스트레스 -4, 절약 마인드", "#3a6ea8", "_ap_save_money")
+
+func _open_cat_dev():
+	# _ap_study가 이미 세부 모달(독서/운동/명상)을 띄움 → 바로 호출
+	_ap_study()
+
+func _open_cat_people():
+	_open_modal("🤝 사람 · 관계")
+	modal_body.add_child(_wrap_label("혼자 강남에 가는 사람은 없다. 사람을 만나고, 쉬어간다.", 13, "#7a8496"))
+	_cat_modal_button("🤝 인맥 관리  —  사회성 +1, 직장·학교 관계", "#8a5a9a", "_ap_network")
+	_cat_modal_button("❤️ 연애 · 만남  —  정신력 +8, 스트레스 -5", "#b85a7a", "_ap_romance")
+	_cat_modal_button("🌊 자유시간  —  한강·산책 (정신력 +10)", "#3a8a9a", "_ap_free_time")
+
+func _open_cat_life():
+	_open_modal("🏠 생활")
+	modal_body.add_child(_wrap_label("주거는 삶의 질이다. 더 나은 곳으로 갈수록 스트레스가 준다.", 13, "#7a8496"))
+	if GameState.can_upgrade_housing():
+		var next_id = str(GameState.get_housing_info().get("next", ""))
+		var next_info = GameState.HOUSING_DATA.get(next_id, {})
+		var move_label = "🏠 이사  —  %s%s  (월 %s / 보증금 %s)" % [
+			next_info.get("emoji",""), next_info.get("name",""),
+			GameState.format_money(float(next_info.get("expense", 0.0))),
+			GameState.format_money(float(next_info.get("deposit", 0.0)))]
+		_cat_modal_button(move_label, "#c8a040", "_ap_move_housing")
+	else:
+		modal_body.add_child(_wrap_label("아직 이사할 현금이 부족하다.", 12, "#5a5a6a"))
+	if GameState.flags.get("has_received_paycheck", false):
+		_cat_modal_button("🛍 상점  —  생활용품·자기관리 아이템", "#6a5a8a", "_open_shop")
 
 func _add_action_section_header(parent: Control, title: String, _bg_hex: String):
 	var lbl = _label("  " + title, 10, "#2e3a4e")
