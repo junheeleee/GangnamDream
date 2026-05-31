@@ -65,6 +65,8 @@ func _load_fonts():
 	_font_bold = FontFile.new()
 	if _font_bold.load_dynamic_font("res://assets/fonts/Pretendard-Bold.ttf") != OK:
 		_font_bold = null
+	FontKit.attach_emoji_fallback(_font)
+	FontKit.attach_emoji_fallback(_font_bold)
 
 # ── UI 구성 ───────────────────────────────────────────────────
 func _build_ui():

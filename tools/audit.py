@@ -135,6 +135,8 @@ def check_deprecated():
                 continue
             for pat, desc in DEPRECATED:
                 for ln_no, line in enumerate(lines, 1):
+                    if "audit-ignore" in line:   # 라인 단위 예외 (문서에서 패턴 자체를 설명할 때)
+                        continue
                     if re.search(pat, line):
                         warn('%s:%d  폐기 키워드 [%s] → %s'
                              % (rel(p), ln_no, desc, line.strip()[:70]))

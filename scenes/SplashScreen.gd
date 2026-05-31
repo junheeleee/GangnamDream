@@ -21,6 +21,8 @@ func _load_fonts():
 	_font_bold = FontFile.new()
 	if _font_bold.load_dynamic_font("res://assets/fonts/Pretendard-Bold.ttf") != OK:
 		_font_bold = null
+	FontKit.attach_emoji_fallback(_font)
+	FontKit.attach_emoji_fallback(_font_bold)
 
 func _apply_font(lbl: Label, bold: bool = false):
 	var f = _font_bold if bold else _font

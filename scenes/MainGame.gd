@@ -81,6 +81,9 @@ func _load_fonts():
 	if err_r != OK or err_b != OK:
 		_font_regular = null
 		_font_bold    = null
+	else:
+		FontKit.attach_emoji_fallback(_font_regular)
+		FontKit.attach_emoji_fallback(_font_bold)
 
 func _ready():
 	_load_fonts()
