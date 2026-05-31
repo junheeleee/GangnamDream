@@ -104,12 +104,12 @@ func _build_ui():
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_portrait)
 
-	# 5. 이름표 — 텍스트 박스 위에 띄움
+	# 5. 이름표 — 텍스트 박스(상단 -250) 위에 완전히 올림
 	var name_panel = PanelContainer.new()
 	name_panel.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	name_panel.offset_left = 60
-	name_panel.offset_top = -262
-	name_panel.offset_bottom = -226
+	name_panel.offset_left = 64
+	name_panel.offset_top = -294
+	name_panel.offset_bottom = -256
 	name_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var name_style = StyleBoxFlat.new()
 	name_style.bg_color = Color(0.10, 0.16, 0.30, 0.96)
