@@ -205,13 +205,14 @@ func _build_ui():
 	_choice_box.visible = false
 	add_child(_choice_box)
 
-	# 7. 토스트 레이어 (스탯/관계 변화 노출)
+	# 8. 토스트 레이어 (스탯/관계 변화 노출) — 우측 상단
 	_toast_layer = VBoxContainer.new()
 	_toast_layer.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_toast_layer.offset_left = -320
-	_toast_layer.offset_top = 30
+	_toast_layer.offset_left = -340
+	_toast_layer.offset_top = 28
 	_toast_layer.offset_right = -24
 	_toast_layer.add_theme_constant_override("separation", 6)
+	_toast_layer.alignment = BoxContainer.ALIGNMENT_END
 	_toast_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_toast_layer)
 
@@ -392,12 +393,18 @@ func _on_choice(idx: int):
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
 	_pending_follow_up = str(choice.get("follow_up_event", ""))
 
-	# 변화 스냅샷 (노출용)
+	# 변화 스냅샷 (노출용) — 스탯 + 인물 관계
 	var before = _snapshot_stats()
+	var cast_before := {}
+	for pid in choice.get("cast_effects", {}):
+		cast_before[str(pid)] = GameState.get_cast_affinity(str(pid))
 	# 실제 적용
 	GameState.apply_choice(_current, choice)
-	# 변화 토스트
+	# 변화 토스트 (스탯 → 관계 순)
 	_show_change_toasts(before)
+	_show_cast_toasts(cast_before)
+	# 첫 변화에는 팝업 설명 1회
+	_maybe_show_tutorial_popup(before, cast_before)
 
 	# 결과 텍스트 표시
 	_showing_choices = false
@@ -442,42 +449,171 @@ func _snapshot_stats() -> Dictionary:
 		"luck": GameState.luck,
 	}
 
+# 스탯 표시 정보: 이모지 + 한글 이름
+const STAT_INFO = {
+	"money":            {"icon": "💰", "name": "돈"},
+	"health":           {"icon": "❤", "name": "건강"},
+	"mental":           {"icon": "🧠", "name": "정신력"},
+	"stress":           {"icon": "😰", "name": "스트레스"},
+	"intelligence":     {"icon": "📚", "name": "지력"},
+	"social_skill":     {"icon": "🤝", "name": "사회성"},
+	"investment_skill": {"icon": "📈", "name": "투자감각"},
+	"luck":             {"icon": "🍀", "name": "운"},
+}
+# 인물 한글 이름 (관계 변화 토스트용)
+const CAST_NAME = {
+	"father": "아버지", "jiyeon": "한지연", "daeun": "김다은",
+	"jaehyuk": "최재혁", "sangchul": "임상철", "hyunsu": "현수",
+}
+
 func _show_change_toasts(before: Dictionary):
-	var labels = {
-		"money": "💰", "health": "❤", "mental": "🧠", "stress": "😰",
-		"intelligence": "📚", "social_skill": "🤝", "investment_skill": "📈", "luck": "🍀",
-	}
 	for key in before:
 		var now = GameState.get(key)
 		var diff = now - before[key]
 		if abs(diff) < 0.01:
 			continue
+		var info = STAT_INFO.get(key, {"icon": "·", "name": key})
 		var txt = ""
 		if key == "money":
-			txt = "%s %s%s" % [labels[key], "+" if diff > 0 else "-", GameState.format_money(abs(diff))]
+			txt = "%s %s  %s%s" % [info["icon"], info["name"], "+" if diff > 0 else "-", GameState.format_money(abs(diff))]
 		else:
-			txt = "%s %s%d" % [labels[key], "+" if diff > 0 else "", int(diff)]
+			txt = "%s %s  %s%d" % [info["icon"], info["name"], "+" if diff > 0 else "", int(diff)]
 		# 스트레스는 +가 나쁨
 		var good = diff > 0
 		if key == "stress":
 			good = diff < 0
 		_spawn_toast(txt, Color("#00c896") if good else Color("#ff6b6b"))
 
+## 인물 관계(호감도) 변화 토스트
+func _show_cast_toasts(before: Dictionary):
+	for pid in before:
+		var now = GameState.get_cast_affinity(pid)
+		var diff = now - int(before[pid])
+		if diff == 0:
+			continue
+		var nm = CAST_NAME.get(pid, pid)
+		var txt = "❤ %s  %s%d" % [nm, "+" if diff > 0 else "", diff]
+		_spawn_toast(txt, Color("#e8a0c0") if diff > 0 else Color("#ff6b6b"))
+
+## 첫 변화에 1회만 안내 팝업. GameState.flags로 중복 방지.
+func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary):
+	# 자원(돈/스탯) 첫 변화
+	var stat_changed = false
+	for k in stat_before:
+		if abs(GameState.get(k) - stat_before[k]) >= 0.01:
+			stat_changed = true
+			break
+	if stat_changed and not GameState.flags.get("tut_stat_shown", false):
+		GameState.flags["tut_stat_shown"] = true
+		_show_popup(
+			"📊  능력치와 자원",
+			"선택에는 대가가 따른다.\n\n돈, 건강, 정신력, 스트레스 — 모든 선택이 이 수치들을 움직인다.\n오른쪽 위에 뜨는 변화를 눈여겨봐라.\n\n무엇을 얻고 무엇을 잃을지, 늘 저울질해야 한다.")
+		return
+	# 인물 관계 첫 변화
+	var cast_changed = false
+	for pid in cast_before:
+		if GameState.get_cast_affinity(pid) != int(cast_before[pid]):
+			cast_changed = true
+			break
+	if cast_changed and not GameState.flags.get("tut_cast_shown", false):
+		GameState.flags["tut_cast_shown"] = true
+		_show_popup(
+			"❤  사람, 그리고 인연",
+			"이 도시에서 혼자 강남에 가는 사람은 없다.\n\n아버지, 그리고 앞으로 만날 사람들.\n네 선택이 그들과의 관계를 바꾼다.\n\n쌓인 인연은 언젠가 — 위기에서 너를 구하거나, 결정적 기회가 되어 돌아온다.")
+
+## 화면 중앙 안내 팝업 (클릭하면 닫힘)
+func _show_popup(title: String, body: String):
+	var overlay = ColorRect.new()
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0.55)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var panel = PanelContainer.new()
+	panel.anchor_left = 0.5; panel.anchor_right = 0.5
+	panel.anchor_top = 0.5; panel.anchor_bottom = 0.5
+	panel.offset_left = -300; panel.offset_right = 300
+	panel.offset_top = -150; panel.offset_bottom = 150
+	var st = StyleBoxFlat.new()
+	st.bg_color = Color("#0e1322")
+	st.border_color = Color("#3a5a8a")
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(12)
+	st.content_margin_left = 32; st.content_margin_right = 32
+	st.content_margin_top = 28; st.content_margin_bottom = 28
+	panel.add_theme_stylebox_override("panel", st)
+	overlay.add_child(panel)
+
+	var vb = VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 16)
+	panel.add_child(vb)
+
+	var tl = Label.new()
+	tl.text = title
+	tl.add_theme_font_size_override("font_size", 22)
+	tl.add_theme_color_override("font_color", Color("#7eb6ff"))
+	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	if _font_bold: tl.add_theme_font_override("font", _font_bold)
+	vb.add_child(tl)
+
+	var bl = Label.new()
+	bl.text = body
+	bl.add_theme_font_size_override("font_size", 16)
+	bl.add_theme_color_override("font_color", Color("#c8d0e0"))
+	bl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	bl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if _font: bl.add_theme_font_override("font", _font)
+	vb.add_child(bl)
+
+	var hint = Label.new()
+	hint.text = "클릭하여 닫기"
+	hint.add_theme_font_size_override("font_size", 12)
+	hint.add_theme_color_override("font_color", Color("#5a6478"))
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	if _font: hint.add_theme_font_override("font", _font)
+	vb.add_child(hint)
+
+	# 등장 애니메이션
+	overlay.modulate.a = 0
+	var tw = create_tween()
+	tw.tween_property(overlay, "modulate:a", 1.0, 0.2)
+	# 클릭하면 닫힘
+	overlay.gui_input.connect(func(ev):
+		if ev is InputEventMouseButton and ev.pressed:
+			overlay.queue_free())
+
 func _spawn_toast(text: String, color: Color):
+	# 어두운 배경 칩 + 라벨 (배경에 안 묻히게)
+	var chip = PanelContainer.new()
+	chip.size_flags_horizontal = Control.SIZE_SHRINK_END
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st = StyleBoxFlat.new()
+	st.bg_color = Color(0.04, 0.05, 0.09, 0.92)
+	st.border_color = color
+	st.border_width_left = 3
+	st.set_corner_radius_all(5)
+	st.content_margin_left = 12
+	st.content_margin_right = 14
+	st.content_margin_top = 5
+	st.content_margin_bottom = 5
+	chip.add_theme_stylebox_override("panel", st)
+
 	var lbl = Label.new()
 	lbl.text = text
 	lbl.add_theme_font_size_override("font_size", 15)
 	lbl.add_theme_color_override("font_color", color)
-	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	if _font_bold:
 		lbl.add_theme_font_override("font", _font_bold)
-	_toast_layer.add_child(lbl)
+	chip.add_child(lbl)
+
+	_toast_layer.add_child(chip)
 	var tw = create_tween()
-	lbl.modulate.a = 0
-	tw.tween_property(lbl, "modulate:a", 1.0, 0.2)
-	tw.tween_interval(1.8)
-	tw.tween_property(lbl, "modulate:a", 0.0, 0.5)
-	tw.tween_callback(lbl.queue_free)
+	chip.modulate.a = 0
+	tw.tween_property(chip, "modulate:a", 1.0, 0.2)
+	tw.tween_interval(2.0)
+	tw.tween_property(chip, "modulate:a", 0.0, 0.5)
+	tw.tween_callback(chip.queue_free)
 
 # ── 종료 ──────────────────────────────────────────────────────
 func _finish_all():
