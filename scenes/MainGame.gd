@@ -617,6 +617,7 @@ func _build_modal():
 	header.add_child(modal_title_label)
 	var close_x = _small_button("✕", "#da3633")
 	close_x.custom_minimum_size = Vector2(36, 36)
+	close_x.size_flags_horizontal = Control.SIZE_SHRINK_END
 	close_x.pressed.connect(_close_modal)
 	header.add_child(close_x)
 
@@ -1151,6 +1152,40 @@ func _bar_str(value: int, max_val: int = 100, bars: int = 8) -> String:
 	var filled = int(round(float(value) / float(max_val) * bars))
 	filled = clampi(filled, 0, bars)
 	return "█".repeat(filled) + "░".repeat(bars - filled)
+
+## 그래픽 진행 바 (ColorRect) — 문자 블록보다 깔끔함.
+## label + 진행바 + 값을 담은 VBox 반환.
+func _make_progress_row(title: String, ratio: float, fill_color: String, value_text: String) -> Control:
+	var box = VBoxContainer.new()
+	box.add_theme_constant_override("separation", 4)
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	var top = HBoxContainer.new()
+	var t = _label(title, 12, "#9aa4b8")
+	t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(t)
+	top.add_child(_label(value_text, 12, fill_color))
+	box.add_child(top)
+
+	# 바 트랙
+	var track = PanelContainer.new()
+	track.custom_minimum_size = Vector2(0, 10)
+	var track_st = StyleBoxFlat.new()
+	track_st.bg_color = Color("#1a1a26")
+	track_st.set_corner_radius_all(5)
+	track.add_theme_stylebox_override("panel", track_st)
+	box.add_child(track)
+
+	# 채움 — Control 안에 앵커로 비율 폭
+	var fill_holder = Control.new()
+	fill_holder.custom_minimum_size = Vector2(0, 10)
+	track.add_child(fill_holder)
+	var fill = ColorRect.new()
+	fill.color = Color(fill_color)
+	fill.set_anchors_preset(Control.PRESET_LEFT_WIDE)
+	fill.anchor_right = clampf(ratio, 0.0, 1.0)
+	fill_holder.add_child(fill)
+	return box
 
 func _refresh_vitals():
 	if not top_labels.has("vital_health"):
@@ -2765,16 +2800,14 @@ func _show_month_summary(snap: Dictionary):
 		modal_body.add_child(div3)
 		modal_body.add_child(_wrap_label(advice, 12, "#8892a4"))
 
-	# ── 강남드림 달성률 진행 바 ──────────────────────
+	# ── 강남드림 달성률 진행 바 (그래픽) ──────────────
 	var goal = 3_000_000_000.0
 	var pct = clamp(assets_now / goal, 0.0, 1.0)
-	var filled_blocks = int(pct * 20)
-	var bar_str = "█".repeat(filled_blocks) + "░".repeat(20 - filled_blocks)
 	var pct_disp = "%.1f%%" % (pct * 100.0)
 	var bar_color = "#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#5b9cf6")
-	modal_body.add_child(_wrap_label(
-		"🎯 강남드림  %s  %s  (%s)" % [bar_str, GameState.format_money(assets_now), pct_disp],
-		11, bar_color))
+	modal_body.add_child(_make_progress_row(
+		"🎯 강남드림 (30억)", pct, bar_color,
+		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
 
 	# ── 목표 힌트 ─────────────────────────────────
 	var ms = _next_milestone_hint(assets_now)
