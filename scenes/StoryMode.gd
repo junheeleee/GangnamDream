@@ -33,6 +33,7 @@ var _pending_follow_up: String = ""
 var _bg_img: TextureRect
 var _bg_dim: ColorRect
 var _portrait: TextureRect
+var _name_panel: PanelContainer
 var _name_tag: Label
 var _title_lbl: Label
 var _body_lbl: RichTextLabel
@@ -90,50 +91,67 @@ func _build_ui():
 	click_catcher.pressed.connect(_on_advance)
 	add_child(click_catcher)
 
-	# 4. 인물 초상화 — 좌측 하단, 크게
+	# 4. 인물 초상화 — 우측, 세로로 크게 (비주얼노벨 표준)
 	_portrait = TextureRect.new()
-	_portrait.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	_portrait.position = Vector2(40, -460)
-	_portrait.custom_minimum_size = Vector2(320, 440)
-	_portrait.size = Vector2(320, 440)
+	_portrait.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_portrait.offset_left = -520
+	_portrait.offset_right = -40
+	_portrait.offset_top = -720
+	_portrait.offset_bottom = -260
 	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.modulate = Color(1, 1, 1, 0)
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_portrait)
 
-	# 5. 하단 텍스트 박스
+	# 5. 이름표 — 텍스트 박스 위에 띄움
+	var name_panel = PanelContainer.new()
+	name_panel.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	name_panel.offset_left = 60
+	name_panel.offset_top = -262
+	name_panel.offset_bottom = -226
+	name_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var name_style = StyleBoxFlat.new()
+	name_style.bg_color = Color(0.10, 0.16, 0.30, 0.96)
+	name_style.set_corner_radius_all(7)
+	name_style.content_margin_left = 18
+	name_style.content_margin_right = 18
+	name_style.content_margin_top = 5
+	name_style.content_margin_bottom = 5
+	name_panel.add_theme_stylebox_override("panel", name_style)
+	add_child(name_panel)
+	_name_tag = Label.new()
+	_name_tag.add_theme_font_size_override("font_size", 18)
+	_name_tag.add_theme_color_override("font_color", Color("#cfe0ff"))
+	_apply_font(_name_tag, true)
+	name_panel.add_child(_name_tag)
+	_name_panel = name_panel
+	name_panel.visible = false
+
+	# 6. 하단 텍스트 박스 — 전체 폭
 	var text_panel = PanelContainer.new()
 	text_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	text_panel.offset_left = 60
-	text_panel.offset_right = -60
-	text_panel.offset_top = -300
-	text_panel.offset_bottom = -50
+	text_panel.offset_left = 50
+	text_panel.offset_right = -50
+	text_panel.offset_top = -230
+	text_panel.offset_bottom = -40
 	text_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = Color(0.03, 0.03, 0.06, 0.86)
+	panel_style.bg_color = Color(0.03, 0.03, 0.06, 0.90)
 	panel_style.border_color = Color("#2a3450")
 	panel_style.set_border_width_all(1)
 	panel_style.set_corner_radius_all(10)
-	panel_style.content_margin_left = 32
-	panel_style.content_margin_right = 32
-	panel_style.content_margin_top = 20
-	panel_style.content_margin_bottom = 20
+	panel_style.content_margin_left = 36
+	panel_style.content_margin_right = 36
+	panel_style.content_margin_top = 22
+	panel_style.content_margin_bottom = 18
 	text_panel.add_theme_stylebox_override("panel", panel_style)
 	add_child(text_panel)
 
 	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 10)
+	vbox.add_theme_constant_override("separation", 8)
 	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	text_panel.add_child(vbox)
-
-	# 이름표
-	_name_tag = Label.new()
-	_name_tag.add_theme_font_size_override("font_size", 18)
-	_name_tag.add_theme_color_override("font_color", Color("#5b9cf6"))
-	_apply_font(_name_tag, true)
-	_name_tag.visible = false
-	vbox.add_child(_name_tag)
 
 	# 제목 (이벤트 타이틀, 작게)
 	_title_lbl = Label.new()
@@ -147,7 +165,7 @@ func _build_ui():
 	_body_lbl.bbcode_enabled = true
 	_body_lbl.fit_content = true
 	_body_lbl.scroll_active = false
-	_body_lbl.custom_minimum_size = Vector2(0, 120)
+	_body_lbl.custom_minimum_size = Vector2(0, 110)
 	_body_lbl.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_body_lbl.add_theme_font_size_override("normal_font_size", 20)
 	_body_lbl.add_theme_color_override("default_color", Color(C_NARRATION))
@@ -166,14 +184,18 @@ func _build_ui():
 	_continue_hint.visible = false
 	vbox.add_child(_continue_hint)
 
-	# 6. 선택지 박스 (텍스트 박스 위에 겹침)
+	# 7. 선택지 박스 — 화면 하단(텍스트 박스 위)에 가로 중앙 정렬
 	_choice_box = VBoxContainer.new()
-	_choice_box.set_anchors_preset(Control.PRESET_CENTER)
-	_choice_box.anchor_top = 0.30
-	_choice_box.anchor_bottom = 0.30
-	_choice_box.offset_left = -360
-	_choice_box.offset_right = 360
-	_choice_box.add_theme_constant_override("separation", 12)
+	_choice_box.anchor_left = 0.5
+	_choice_box.anchor_right = 0.5
+	_choice_box.anchor_top = 1.0
+	_choice_box.anchor_bottom = 1.0
+	_choice_box.offset_left = -420
+	_choice_box.offset_right = 420
+	_choice_box.offset_top = -580
+	_choice_box.offset_bottom = -250
+	_choice_box.add_theme_constant_override("separation", 10)
+	_choice_box.alignment = BoxContainer.ALIGNMENT_END
 	_choice_box.visible = false
 	add_child(_choice_box)
 
@@ -218,13 +240,9 @@ func _render_current():
 		if bp != "" and ResourceLoader.exists(bp):
 			_bg_img.texture = load(bp)
 
-	# 초상화
+	# 초상화 + 이름표
 	var pid = str(_current.get("portrait", ""))
-	if pid != "":
-		_show_portrait(pid)
-	else:
-		_portrait.modulate = Color(1, 1, 1, 0)
-		_name_tag.visible = false
+	_show_portrait(pid)
 
 	# 제목
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
@@ -242,25 +260,30 @@ func _render_current():
 	_start_typing(_paragraphs[0])
 
 func _show_portrait(portrait_id: String):
-	var info = ImageRegistry.get_person_info(portrait_id)
-	var path = ImageRegistry.get_portrait(portrait_id)
+	var info := {}
+	var path := ""
+	if portrait_id != "":
+		info = ImageRegistry.get_person_info(portrait_id)
+		path = ImageRegistry.get_portrait(portrait_id)
+
+	# 초상화 이미지가 실제로 있을 때만 표시. 없으면(플레이스홀더 시기) 깔끔히 숨김.
 	if path != "" and ResourceLoader.exists(path):
 		_portrait.texture = load(path)
+		_portrait.modulate = Color(1, 1, 1, 0)
+		var tw = create_tween()
+		tw.tween_property(_portrait, "modulate", Color(1, 1, 1, 1), 0.4)
 	else:
-		# 플레이스홀더 — 인물 테마색 단색
-		var col = Color(str(info.get("color", "#2a2a3a"))) if not info.is_empty() else Color("#2a2a3a")
-		var img = Image.create(3, 4, false, Image.FORMAT_RGB8)
-		img.fill(col.darkened(0.5))
-		_portrait.texture = ImageTexture.create_from_image(img)
-	# 페이드 인
-	var tw = create_tween()
-	tw.tween_property(_portrait, "modulate", Color(1, 1, 1, 1), 0.4)
-	# 이름표
-	if not info.is_empty():
+		_portrait.texture = null
+		_portrait.modulate = Color(1, 1, 1, 0)
+
+	# 이름표 — 인물 정보가 있으면 표시 (이미지 없어도 누구 대사인지 알려줌)
+	if not info.is_empty() and str(info.get("name", "")) != "":
 		_name_tag.text = str(info.get("name", ""))
-		_name_tag.visible = true
+		if _name_panel:
+			_name_panel.visible = true
 	else:
-		_name_tag.visible = false
+		if _name_panel:
+			_name_panel.visible = false
 
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
