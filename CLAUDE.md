@@ -33,6 +33,20 @@
 5. `docs/DECISIONS.md` — 설계 결정이 있으면 날짜 + 근거 기록
 6. 수치 조정 시 `docs/BALANCE.md` 업데이트
 
+### ⭐ 커밋 전 정적 감사 (필수)
+```bash
+./tools/audit.sh
+```
+플레이 없이 옛/새 시스템 모순을 잡는다:
+1. **dangling 동적 호출** — `self.call("_x")`/`Callable(self,"_x")`/헬퍼에 넘긴 함수명이
+   실제 정의돼 있는지 (← 문자열 호출이라 Godot 파싱을 통과해버리는 "눌러도 무반응" 버그)
+2. **폐기 키워드** — age=30, 65세, 은퇴, 가짜 랜덤 인물 이름 등 옛 설계 잔재
+   (코드 전체 + CLAUDE.md·STORY_BIBLE.md만 검사. 과거 로그 문서는 제외)
+3. **이벤트 JSON 무결성** — 파싱/중복 id/없는 follow_up/없는 portrait·background·cg/빈 result_text
+4. **Godot 헤드리스 파싱**
+
+ERROR 0 이면 통과. **새 함수·이벤트·인물 추가 후 반드시 돌릴 것.**
+
 ### JSON 수정 후
 ```bash
 python3 -c "import json; json.load(open('파일.json'))"
