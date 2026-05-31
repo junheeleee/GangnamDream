@@ -399,9 +399,9 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 
 # ── 시작 / 로드 ─────────────────────────────────────────────────
 func _start_new_run():
-	# 이름·루트·특성 선택 없이 고정 시작 (드라마 모드)
+	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
-	GameState.start_new_game("none", "김민준", "지방_상경", "none")
+	GameState.start_new_game("김민준", "지방_상경", "none")
 	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):

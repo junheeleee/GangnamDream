@@ -1,5 +1,37 @@
 # Gangnam Dream Work Log
 
+## 2026-06-01 (죽은 트레이트 시스템 완전 제거)
+
+### 배경
+드라마 피벗 때 StartMenu의 트레이트(특성) 선택이 사라지면서 `current_trait`은 항상
+"none"(StartMenu) 또는 "흙수저 생존본능"(폴백)으로만 설정됐다. 그런데 패시브 분기는
+"야근 면역자/번아웃 생존자/안정 지향형/인맥왕/강남 토박이/강남드림 계승자/리스크 중독자"
+같은 **존재하지 않는** 트레이트만 체크 → 모든 트레이트 패시브가 죽은 코드였다.
+
+### 처리 (option A — 완전 제거)
+- `autoloads/GameState.gd`: `current_trait` 변수 삭제. `start_new_game()`에서 `selected_trait`
+  파라미터 제거(시그니처 단순화). `_apply_trait_bonus()` 함수·호출 삭제. `apply_monthly_pressure()`
+  의 `match current_trait` → 기본값으로 단순화(스트레스 +3 / 건강 -2 / 정신 -3). 무직 압박·
+  스트레스 극한(80+) 분기도 상수화. `upgrade_housing()`의 "강남 토박이" 이사비 20% 할인 제거.
+  `record_run`의 `trait` 필드 → `""`. `serialize()`에서 `current_trait` 제거.
+- `autoloads/MetaProgression.gd`: `get_unlocked_traits()`·`get_trait_bonus()`·`unlock_trait()`
+  삭제. `_check_progression_unlocks()`의 `unlock_trait(...)` 호출 7개 제거(업적 해금은 유지).
+  `_new_this_run`에서 `"traits"` 키 제거.
+- `autoloads/DataRegistry.gd`: `TRAITS_PATH`·`traits`·`traits_by_id` 및 로딩 제거.
+- `systems/InvestmentSystem.gd`: 매수 수수료 "강남드림 계승자" 할인, 매도 "리스크 중독자"
+  ×1.15 증폭 제거.
+- `scenes/MainGame.gd`: 스탯 패널 트레이트 라벨 제거(배경만 표시). 엔딩 화면 "트레이트 해금"
+  표시 제거(업적 해금은 유지).
+- `scenes/StartMenu.gd`: `start_new_game()` 호출에서 트레이트 인자 제거.
+- `content/meta/traits.json` 삭제. `default_meta.json`에서 `unlocked_traits` 제거.
+
+### 대체
+캐릭터성은 성향(직장/투자/창업) 자각 시스템(`tendency`)이 담당. 행동 누적 → 임계점에서
+자각 → 1회 패시브 보상. 트레이트처럼 "선택"이 아니라 "행동"이 정체성을 만든다.
+
+### 검증
+`./tools/audit.sh` 통과 (ERROR 0 / WARNING 0, Godot 헤드리스 파싱 깨끗).
+
 ## 2026-05-27 (엔딩 배경 전환 + CLAUDE.md 정리)
 
 ### 엔딩 화면 배경 전환 (`scenes/MainGame.gd`)

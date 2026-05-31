@@ -9,9 +9,9 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | Phase 3 완료 — QA 대기 |
-| **최근 완료** | Codex 브랜치 머지 완료. FM SFX 14종 + BGM 6트랙, Pretendard 폰트, 배경 이미지 13종, 특성 패시브 시스템, 런 테마 시스템, 버그 수정 (EventManager 쿨다운 리셋, RivalSystem 나이, 엔딩 분기 개선) 모두 통합. |
-| **다음 작업** | **Godot에서 플레이테스트** — 게임오버 경로, 강남드림 달성, 저장/불러오기, 오디오, UI 검증 |
-| **마지막 업데이트** | 2026-05-29 |
+| **최근 완료** | 죽은 트레이트(특성) 시스템 완전 제거 — `current_trait`·`_apply_trait_bonus`·`MetaProgression` 트레이트 해금/보너스·`traits.json` 삭제. 드라마 피벗으로 StartMenu 트레이트 선택이 사라지면서 모든 트레이트 패시브가 죽은 코드였음. 캐릭터성은 성향(직장/투자/창업) 자각 시스템(`tendency`)으로 대체. |
+| **다음 작업** | **Godot에서 플레이테스트** — 게임오버 경로, 강남드림 달성, 저장/불러오기, 오디오, UI 검증 + 성향 자각 흐름 확인 |
+| **마지막 업데이트** | 2026-06-01 |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
@@ -104,7 +104,7 @@ GangnamDream/
 │   ├── InventorySystem.gd     # 아이템 구매/사용
 │   └── EndingSystem.gd        # 엔딩 조회 & 점수
 ├── scenes/
-│   ├── StartMenu.tscn / .gd   # 시작 화면, 특성 선택, 저장 슬롯
+│   ├── StartMenu.tscn / .gd   # 시작 화면, 저장 슬롯 (드라마 모드: 고정 시작)
 │   └── MainGame.tscn / .gd    # 메인 대시보드 UI
 ├── ui_components/
 │   ├── StatRow.gd
@@ -216,5 +216,5 @@ GangnamDream/
 - ✅ 엔딩 화면 배경 전환 (penthouse/burnout/gangnam_night/rooftop)
 - ✅ FM SFX 14종 + BGM 6트랙 (AudioManager + BGMPlayer)
 - ✅ Pretendard 한국어 폰트 적용
-- ✅ 특성 패시브 효과 전면 구현
 - ✅ 런 테마 시스템 (매 런 카테고리 2개 부스트)
+- ❎ 트레이트(특성) 시스템 — 드라마 피벗으로 제거. 성향(tendency) 자각 시스템으로 대체.

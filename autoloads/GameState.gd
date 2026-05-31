@@ -7,6 +7,7 @@ signal game_over(ending_id: String)
 signal log_added(entry: Dictionary)
 signal run_started()
 signal stat_threshold_crossed(stat_name: String, threshold: int)
+signal tendency_awakened(kind: String)
 
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
@@ -19,7 +20,6 @@ var year = 2026
 var month = 1
 var turn = 1
 var is_game_over = false
-var current_trait = "흙수저 생존본능"
 
 const HOUSING_DATA = {
 	# 주거 = '삶의 질' 단계 (스트레스/건강에 영향). 강남 입성과는 별개.
@@ -53,6 +53,20 @@ var route_orthodox: int = 0
 var route_unorthodox: int = 0
 var month_focus: String = ""
 var housing_months: Dictionary = {}
+
+# ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
+# 죽은 트레이트 시스템을 대체: 선택이 아니라 행동이 정체성을 만든다.
+const TENDENCY_KINDS := ["career", "invest", "found"]
+const TENDENCY_NAMES := {"career": "직장형", "invest": "투자형", "found": "창업형"}
+const TENDENCY_DESC := {
+	"career": "성실하게 쌓아 올린다. 월급과 승진, 신용이 무기다.",
+	"invest": "돈이 돈을 벌게 한다. 시장을 읽고 베팅한다.",
+	"found":  "내 것을 만든다. 위험하지만 천장이 없다.",
+}
+const TENDENCY_REALIZE_THRESHOLD := 12   # 1위가 이 점수 넘고
+const TENDENCY_REALIZE_GAP := 4          # 2위와 격차가 이 이상이면 자각
+var tendency: Dictionary = {"career": 0, "invest": 0, "found": 0}
+var tendency_realized: String = ""       # "" = 아직, 아니면 career/invest/found
 
 var stress = 25
 var reputation = 10
@@ -106,9 +120,9 @@ func _ready():
 	randomize()
 
 func new_game():
-	start_new_game("흙수저 생존본능")
+	start_new_game()
 
-func start_new_game(selected_trait: String, chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형"):
+func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형"):
 	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else "김민준"
 	player_background = chosen_background
 	player_route = chosen_route
@@ -117,7 +131,6 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	month = 1
 	turn = 1
 	is_game_over = false
-	current_trait = selected_trait
 
 	housing = "gosiwon"
 	money = 500_000.0
@@ -157,6 +170,8 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 	route_unorthodox = 0
 	month_focus = ""
 	housing_months = {}
+	tendency = {"career": 0, "invest": 0, "found": 0}
+	tendency_realized = ""
 	market_context = {
 		"fear_greed": 50,
 		"cycle": "neutral",
@@ -165,11 +180,10 @@ func start_new_game(selected_trait: String, chosen_name: String = "김민준", c
 		"momentum": 0.0,
 	}
 
-	_apply_trait_bonus(selected_trait)
 	_apply_route_bonus(chosen_route)
 	_roll_run_theme()
 	_init_market_prices()
-	add_log("새 런 시작: %s / %s" % [chosen_route, selected_trait], "system")
+	add_log("새 런 시작: %s" % chosen_route, "system")
 	stats_changed.emit()
 	run_started.emit()
 
@@ -202,12 +216,6 @@ func _apply_route_bonus(route: String):
 			money         -= 150_000.0  # 사업 준비에 씀
 			flags["route_startup"] = true
 			flags["startup_intent"] = true  # 창업 이벤트 해금
-
-func _apply_trait_bonus(selected_trait):
-	var bonuses = {}
-	if has_node("/root/MetaProgression"):
-		bonuses = MetaProgression.get_trait_bonus(selected_trait)
-	apply_effects(bonuses)
 
 func _roll_run_theme():
 	var pool = ["investment", "jobs", "social", "health", "relationship", "gambling", "finance"]
@@ -259,9 +267,6 @@ func upgrade_housing() -> Dictionary:
 	if money < float(next_info.get("req_cash", 0.0)):
 		return {"success": false, "message": "자금이 부족합니다."}
 	var deposit_diff = float(next_info.get("deposit", 0.0)) - float(info.get("deposit", 0.0))
-	if current_trait == "강남 토박이" and deposit_diff > 0:
-		deposit_diff *= 0.8
-		add_log("🏙 강남 토박이 특성: 이사 비용 20% 절감", "system")
 	add_money(-deposit_diff)
 	housing = next_id
 	fixed_expense = get_housing_expense()
@@ -278,18 +283,10 @@ func apply_monthly_pressure():
 		flags["has_received_paycheck"] = true
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 
-	# ── 서울살이 기본 압박 (트레이트 패시브 적용) ──────────────────
-	var _s_mod := 3; var _h_mod := -2; var _m_mod := -3
-	match current_trait:
-		"야근 면역자":   _s_mod -= 2; _h_mod += 1
-		"번아웃 생존자": _s_mod -= 1; _m_mod += 2
-		"안정 지향형":   _s_mod -= 1; _m_mod += 1
-		"인맥왕":
-			if relationships.size() >= 3:
-				modify_hidden_stat("reputation", 1)
-	modify_stat("health", _h_mod)
-	modify_stat("mental", _m_mod)
-	modify_hidden_stat("stress", _s_mod)
+	# ── 서울살이 기본 압박 ──────────────────────────────────────────
+	modify_stat("health", -2)
+	modify_stat("mental", -3)
+	modify_hidden_stat("stress", 3)
 
 	# ── 주거 패시브 + 거주 기간 추적 ────────────────────────────────
 	housing_months[housing] = housing_months.get(housing, 0) + 1
@@ -310,19 +307,16 @@ func apply_monthly_pressure():
 	if monthly_income == 0:
 		flags["unemployed_months"] = flags.get("unemployed_months", 0) + 1
 
-	# 무직이면 정신/스트레스 추가 압박 (완화: -3/-5 → -2/-3)
+	# 무직이면 정신/스트레스 추가 압박
 	if monthly_income == 0:
-		var _u_mental := -1 if current_trait == "안정 지향형" else -2
-		var _u_stress := 1 if current_trait == "안정 지향형" else 3
-		modify_stat("mental", _u_mental)
-		modify_hidden_stat("stress", _u_stress)
+		modify_stat("mental", -2)
+		modify_hidden_stat("stress", 3)
 		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "stress")
 
 	# 스트레스 단계별 추가 피해 (누적 구조)
 	if stress >= 80:
-		var _extreme := -4 if current_trait != "번아웃 생존자" else -2
-		modify_stat("health", _extreme)
-		modify_stat("mental", _extreme)
+		modify_stat("health", -4)
+		modify_stat("mental", -4)
 		add_log("🚨 극심한 스트레스가 몸과 마음을 갉아먹고 있다.", "stress")
 	elif stress >= 60:
 		modify_stat("health", -2)
@@ -350,6 +344,14 @@ func apply_choice(event, choice):
 		apply_investment_effect(investment_effect)
 	for flag_id in choice.get("flags", []):
 		flags[str(flag_id)] = true
+		# 마인드셋 선택(arc_intro_02) → 성향 초기 시드
+		match str(flag_id):
+			"mindset_saver":    add_tendency("career", 6)
+			"mindset_investor": add_tendency("invest", 6)
+			"mindset_founder":  add_tendency("found", 6)
+	# 선택지가 직접 성향 포인트를 줄 수도 있다: "tendency": {"invest": 2}
+	for tk in choice.get("tendency", {}):
+		add_tendency(str(tk), int(choice["tendency"][tk]))
 	# 스토리 인물 관계 변화 (cast_effects)
 	# 예: "cast_effects": { "jiyeon": { "affinity": 10, "stage": "interest", "met": true } }
 	for person_id in choice.get("cast_effects", {}):
@@ -595,7 +597,7 @@ func get_current_title() -> String:
 	if diff <= -18: return "위험한 몽상가"
 	if diff <= -8: return "이단아"
 	if route_orthodox >= 10 and route_unorthodox >= 10: return "내 방식대로"
-	if housing == "gangnam": return "강남 입성자"
+	if get_total_asset_value() >= 3_000_000_000: return "강남 입성자"
 	if housing == "apartment" and job_tenure >= 12: return "안정적인 직장인"
 	if current_job.is_empty() and turn >= 8: return "취업 준비생"
 	if housing == "gosiwon" and turn >= 18: return "고시원 장기거주자"
@@ -622,6 +624,75 @@ func get_route_identity() -> String:
 
 func get_route_label() -> String:
 	return "%s  (정석 %d / 비정석 %d)" % [get_route_identity(), route_orthodox, route_unorthodox]
+
+# ── 성향 시스템 ────────────────────────────────────────────────
+func add_tendency(kind: String, amount: int = 1):
+	if not tendency.has(kind):
+		return
+	tendency[kind] = int(tendency[kind]) + amount
+	stats_changed.emit()
+	check_tendency_realization()   # 임계점 넘으면 tendency_awakened 시그널 발생
+
+func get_dominant_tendency() -> String:
+	var best := ""
+	var best_v := -1
+	for k in TENDENCY_KINDS:
+		var v := int(tendency.get(k, 0))
+		if v > best_v:
+			best_v = v
+			best = k
+	return best if best_v > 0 else ""
+
+func tendency_name(kind: String) -> String:
+	return str(TENDENCY_NAMES.get(kind, ""))
+
+## 현재 성향 라벨 (자각했으면 확정, 아니면 '~ 기질')
+func get_tendency_label() -> String:
+	if not tendency_realized.is_empty():
+		return tendency_name(tendency_realized)
+	var dom := get_dominant_tendency()
+	if dom.is_empty():
+		return "아직 모르는 길"
+	return tendency_name(dom) + " 기질"
+
+## 자각 판정: 1위가 임계점 넘고 2위와 격차 충분 + 아직 미자각 → 자각한 kind 반환(없으면 "")
+func check_tendency_realization() -> String:
+	if not tendency_realized.is_empty():
+		return ""
+	var ranked: Array = []
+	for k in TENDENCY_KINDS:
+		ranked.append([int(tendency.get(k, 0)), k])
+	ranked.sort_custom(func(a, b): return a[0] > b[0])
+	var top: Array = ranked[0]
+	var second: Array = ranked[1]
+	if top[0] >= TENDENCY_REALIZE_THRESHOLD and (top[0] - second[0]) >= TENDENCY_REALIZE_GAP:
+		tendency_realized = top[1]
+		_apply_tendency_passive(top[1])
+		tendency_awakened.emit(top[1])
+		return top[1]
+	return ""
+
+## 자각 시 1회 보상(드라마식 정체성 = 실제 능력). 죽은 트레이트 패시브를 대체.
+func _apply_tendency_passive(kind: String):
+	# 자각 = '성향(route) 정체성' 확정. player_route/route 플래그를 켜서
+	# 이후 route 전용 이벤트(EventManager의 player_route 조건)가 반응하게 한다.
+	match kind:
+		"career":
+			player_route = "직장형"
+			flags["route_career"] = true
+			work_performance = clampi(work_performance + 12, 0, 100)
+			modify_stat("social_skill", 3)
+		"invest":
+			player_route = "투자형"
+			flags["route_invest"] = true
+			modify_stat("investment_skill", 6)
+			modify_stat("intelligence", 2)
+		"found":
+			player_route = "창업형"
+			flags["route_startup"] = true
+			flags["founder_awakened"] = true
+			modify_stat("luck", 3)
+			modify_stat("intelligence", 2)
 
 func add_item(item_id, quantity):
 	var item = DataRegistry.get_item(item_id)
@@ -760,7 +831,7 @@ func finish_run(ending_id):
 		"turn": turn,
 		"age": age,
 		"total_assets": get_total_asset_value(),
-		"trait": current_trait,
+		"trait": "",
 	})
 	game_over.emit(ending_id)
 
@@ -773,7 +844,6 @@ func serialize():
 		"month": month,
 		"turn": turn,
 		"is_game_over": is_game_over,
-		"current_trait": current_trait,
 		"housing": housing,
 		"money": money,
 		"monthly_income": monthly_income,
@@ -792,6 +862,8 @@ func serialize():
 		"tutorial_step": tutorial_step,
 		"route_orthodox": route_orthodox,
 		"route_unorthodox": route_unorthodox,
+		"tendency": tendency,
+		"tendency_realized": tendency_realized,
 		"month_focus": month_focus,
 		"housing_months": housing_months,
 		"gambling_tendency": gambling_tendency,
@@ -836,4 +908,7 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — cast 없으면 기본값 채움
 	if cast == null or cast.is_empty():
 		cast = _default_cast()
+	# 구버전 세이브 호환 — tendency 없으면 기본값
+	if typeof(tendency) != TYPE_DICTIONARY or tendency.is_empty():
+		tendency = {"career": 0, "invest": 0, "found": 0}
 	stats_changed.emit()

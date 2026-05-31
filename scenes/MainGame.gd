@@ -134,6 +134,7 @@ func _connect_signals():
 	RivalSystem.rival_message.connect(_on_rival_message)
 	job_system.promoted.connect(_on_promoted)
 	GameState.stat_threshold_crossed.connect(_on_stat_threshold_crossed)
+	GameState.tendency_awakened.connect(_on_tendency_awakened)
 
 func _build_ui():
 	# ── 1. 최하단: 단색 배경 ──
@@ -468,22 +469,18 @@ func _build_info_panel():
 	stat_margin.add_child(stat_box)
 	stat_scroll.add_child(stat_margin)
 
-	# ── 배경 / 트레이트 표시 ──
-	var bg_trait_row = HBoxContainer.new()
-	bg_trait_row.add_theme_constant_override("separation", 6)
-	stat_box.add_child(bg_trait_row)
+	# ── 배경 표시 ──
+	var bg_row = HBoxContainer.new()
+	bg_row.add_theme_constant_override("separation", 6)
+	stat_box.add_child(bg_row)
 	var bg_lbl = _label("배경", 10, "#5a6075")
 	bg_lbl.custom_minimum_size = Vector2(28, 0)
-	bg_trait_row.add_child(bg_lbl)
+	bg_row.add_child(bg_lbl)
 	var bg_map = {"지방_상경": "지방 상경", "명문대_중퇴": "명문대 중퇴", "금수저": "금수저"}
 	var bg_name = bg_map.get(GameState.player_background, GameState.player_background)
 	var bg_val = _label(bg_name, 10, "#a0aec0")
 	bg_val.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bg_trait_row.add_child(bg_val)
-	var trait_lbl = _label("트레이트", 10, "#5a6075")
-	bg_trait_row.add_child(trait_lbl)
-	var trait_val = _label(GameState.current_trait, 10, "#f6c90e")
-	bg_trait_row.add_child(trait_val)
+	bg_row.add_child(bg_val)
 
 	var sep_line = HSeparator.new()
 	sep_line.modulate = Color("#2a2a3a")
@@ -880,6 +877,34 @@ func _on_stat_threshold_crossed(stat_name: String, threshold: int):
 		GameState.add_log("✨ " + msg, "system")
 		AudioManager.play("housing_up")
 
+# ── 성향 자각 (직장/투자/창업) ─────────────────────────────────
+func _on_tendency_awakened(kind: String):
+	# 액션 중 동기 호출이면 그 액션의 _close_modal에 닫힐 수 있어 다음 idle로 미룬다
+	call_deferred("_present_tendency_realization", kind)
+
+func _present_tendency_realization(kind: String):
+	if GameState.is_game_over:
+		return
+	var tname := GameState.tendency_name(kind)
+	var desc := str(GameState.TENDENCY_DESC.get(kind, ""))
+	var icon := {"career": "💼", "invest": "📈", "found": "🚀"}.get(kind, "✨")
+	var accent := {"career": "#5b9cf6", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
+	var passive := {
+		"career": "업무 성과 +12, 사회성 +3 — 승진과 신용이 너의 무기가 된다.",
+		"invest": "투자 감각 +6, 지력 +2 — 시장이 한층 선명하게 보인다.",
+		"found":  "운 +3, 지력 +2 — 창업가의 촉이 열렸다.",
+	}.get(kind, "")
+	_open_modal("✨ 성향 자각")
+	modal_body.add_child(_label("%s  너는 결국 — %s 인간이다." % [icon, tname], 21, "#ffffff"))
+	modal_body.add_child(_wrap_label(desc, 14, "#aab3c5"))
+	var sep := HSeparator.new()
+	sep.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep)
+	modal_body.add_child(_wrap_label("⟡ " + passive, 14, accent))
+	modal_body.add_child(_wrap_label("이 길이 옳은지는 아무도 모른다. 하지만 이제 네 방식이 생겼다. 강남까지, 그 방식대로.", 13, "#7a8496"))
+	AudioManager.play("housing_up")
+	GameState.add_log("✨ 성향 자각 — 너는 %s 인간이다. %s" % [tname, passive], "system")
+
 func _on_next_month():
 	if not current_event.is_empty():
 		return
@@ -891,6 +916,8 @@ func _on_next_month():
 	job_system.process_monthly_job()
 	relationship_system.process_monthly_relationships()
 	inventory_system.process_monthly_items()
+	if not GameState.current_job.is_empty():
+		GameState.add_tendency("career", 1)   # 한 달 직장 생활 = 직장형 누적
 	BGMPlayer.update_context()  # 게임 상태에 따라 BGM 트랙 자동 전환
 
 	# 초반 난이도 완화: 튜토리얼 3턴 동안 정착 지원금 30만원
@@ -1052,7 +1079,10 @@ func _refresh_all():
 			var job_name = GameState.current_job.get("name", "무직")
 			player_name_label.text = "%s\n%s" % [GameState.player_name, job_name]
 		if title_label:
-			title_label.text = "「%s」" % GameState.get_current_title()
+			var ttl := "「%s」" % GameState.get_current_title()
+			if not GameState.get_dominant_tendency().is_empty():
+				ttl += "\n· %s ·" % GameState.get_tendency_label()
+			title_label.text = ttl
 
 	stat_labels["job"].text = GameState.current_job.get("name", "무직")
 	_set_stat_value("health", GameState.health, true, 50, 30)
@@ -1821,6 +1851,7 @@ func _ap_side_job():
 	GameState.add_money(income)
 	GameState.modify_stat("health", -5)
 	GameState.modify_hidden_stat("stress", 6)
+	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
 	GameState.add_log("알바 추가 수입 %s (건강 %d→%d, 스트레스 +6)" % [
 		GameState.format_money(income), health_before, GameState.health], "job")
 	turn_action_log.append("✓ 💰 알바 추가 → +%s  건강 %d→%d" % [
@@ -1837,6 +1868,7 @@ func _ap_save_money():
 		return
 	GameState.modify_hidden_stat("stress", -4)
 	GameState.modify_stat("mental", 2)
+	GameState.add_tendency("career", 1)   # 절약·저축 = 직장형(안정) 기질
 	var savings_bonus = 0.0
 	if GameState.money > 500_000:
 		savings_bonus = min(GameState.money * 0.005, 80_000.0)
@@ -1935,6 +1967,7 @@ func _ap_startup_work():
 	GameState.modify_hidden_stat("reputation", 2)
 	GameState.modify_stat("intelligence", 1)
 	GameState.modify_hidden_stat("stress", 5)
+	GameState.add_tendency("found", 1)   # 창업 업무 = 창업형
 	var stage = "아이디어" if not GameState.flags.get("startup_launched", false) else "운영"
 	turn_action_log.append("✓ 🚀 창업 업무[%s] → 명성+2, 지력+1, 스트레스+5" % stage)
 	_show_toast("🚀 창업 업무 — 명성 %d → %d" % [rep_before, GameState.reputation], Color("#7c3aed"))
@@ -1949,6 +1982,7 @@ func _ap_create_content():
 	GameState.modify_hidden_stat("reputation", 1)
 	GameState.modify_stat("mental", 5)
 	GameState.modify_stat("luck", 1)
+	GameState.add_tendency("found", 1)   # 콘텐츠 = 창업형(내 것 만들기)
 	if GameState.flags.get("creator_monetized", false):
 		var content_income = float(randi_range(50_000, 200_000))
 		GameState.add_money(content_income)
@@ -1966,6 +2000,7 @@ func _ap_write_resume():
 	var int_before = GameState.intelligence
 	GameState.modify_stat("intelligence", 3)
 	GameState.modify_hidden_stat("stress", 4)
+	GameState.add_tendency("career", 1)   # 자소서 = 직장형(취업 준비)
 	GameState.flags["resume_polished"] = true
 	turn_action_log.append("✓ 🖊 자소서 작성 → 지력 %d→%d, 스트레스 +4" % [int_before, GameState.intelligence])
 	_show_toast("🖊 자소서 완성 — 지력 %d → %d" % [int_before, GameState.intelligence], Color("#0f4c5c"))
@@ -1978,6 +2013,7 @@ func _ap_interview_prep():
 	var soc_before = GameState.social_skill
 	GameState.modify_stat("social_skill", 2)
 	GameState.modify_stat("luck", 1)
+	GameState.add_tendency("career", 1)   # 면접 준비 = 직장형
 	GameState.flags["interview_practiced"] = true
 	turn_action_log.append("✓ 🎯 모의 면접 준비 → 사회성 %d→%d" % [soc_before, GameState.social_skill])
 	_show_toast("🎯 면접 준비 완료 — 사회성 %d → %d" % [soc_before, GameState.social_skill], Color("#0f3a5c"))
@@ -2348,6 +2384,7 @@ func _on_buy_asset(asset_id, amount):
 		return
 	AudioManager.play("money_gain")
 	investment_system.buy_asset(asset_id, float(amount))
+	GameState.add_tendency("invest", 1)   # 자산 매수 = 투자형
 	var asset_name = asset_id
 	for data in DataRegistry.assets:
 		if data.get("id", "") == asset_id:
@@ -2537,15 +2574,12 @@ func _show_ending(ending_id):
 	modal_body.add_child(body)
 	# ── 이번 런 새 해금 표시 ──────────────────────────
 	var new_unlocks = MetaProgression.get_new_unlocks()
-	var new_traits: Array = new_unlocks.get("traits", [])
 	var new_ach: Array    = new_unlocks.get("achievements", [])
-	if not new_traits.is_empty() or not new_ach.is_empty():
+	if not new_ach.is_empty():
 		var unlock_sep = HSeparator.new()
 		unlock_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(unlock_sep)
 		modal_body.add_child(_label("🔓 이번 런 해금", 15, "#f0b429"))
-		for t in new_traits:
-			modal_body.add_child(_wrap_label("  ✦ 트레이트 해금: %s" % t, 13, "#d8b4fe"))
 		var ach_names = {
 			"first_billion":     "첫 1억 달성",
 			"stable_life":       "안정적인 삶",

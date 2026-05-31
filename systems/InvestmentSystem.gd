@@ -37,7 +37,7 @@ func buy_asset(asset_id, amount_krw):
 		return {"success": false, "message": "잔액이 부족합니다."}
 
 	var decision_penalty = clamp(float(GameState.stress - 55) / 250.0, 0.0, 0.2)
-	var base_fee_rate = 0.0015 if GameState.current_trait == "강남드림 계승자" else 0.003
+	var base_fee_rate = 0.003
 	var fee = amount_krw * (base_fee_rate + decision_penalty)
 	var quantity = max(0.0, amount_krw - fee) / current_price
 	if GameState.portfolio.has(asset_id):
@@ -70,9 +70,6 @@ func sell_asset(asset_id, sell_ratio):
 	var net = gross * 0.995
 	var cost = sell_quantity * float(holding.get("avg_price", current_price))
 	var profit = net - cost
-	if GameState.current_trait == "리스크 중독자" and profit != 0:
-		profit *= 1.15
-		net = cost + profit
 	holding["quantity"] = float(holding.get("quantity", 0.0)) - sell_quantity
 	if float(holding["quantity"]) <= 0.0001:
 		GameState.portfolio.erase(asset_id)
