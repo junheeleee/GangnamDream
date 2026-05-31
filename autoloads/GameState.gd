@@ -299,13 +299,8 @@ func apply_monthly_pressure():
 			modify_stat("mental", -1)
 			if randf() < 0.25:
 				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "stress")
-		"apartment":
-			pass
-		"gangnam":
-			modify_hidden_stat("stress", -1)
-			if randf() < 0.15:
-				modify_hidden_stat("reputation", 1)
-				add_log("🌆 강남 주민이라는 것만으로 대화가 달라진다.", "relationship")
+		"villa", "apartment":
+			modify_hidden_stat("stress", -1)  # 더 나은 주거 = 삶의 질 ↑
 
 	# ── 칭호 조건 플래그 자동 추적 ───────────────────────────────
 	if money < 0:
@@ -403,6 +398,15 @@ func cast_has_met(person_id: String) -> bool:
 func cast_has_flag(person_id: String, flag: String) -> bool:
 	_ensure_cast(person_id)
 	return bool((cast[person_id].get("flags", {}) as Dictionary).get(flag, false))
+
+## 의미 있는 인연이 하나라도 있는가 (옛 relationships[] 또는 cast 호감도 60+)
+func has_any_close_relationship() -> bool:
+	if not relationships.is_empty():
+		return true
+	for pid in cast:
+		if int(cast[pid].get("affinity", 0)) >= 60:
+			return true
+	return false
 
 # ── 결정적 기회 (큰 베팅) ─────────────────────────────────────────
 ## 인물이 제공하는 30억 경로의 핵심 메커니즘.
@@ -743,7 +747,7 @@ func check_game_over():
 			finish_run("jiyeon_man"); return          # 한지연의 남자
 		if total >= 1_000_000_000:
 			finish_run("stable_success"); return      # 큰 자산, 강남은 못 감
-		if health >= 70 and mental >= 70 and not relationships.is_empty():
+		if health >= 70 and mental >= 70 and has_any_close_relationship():
 			finish_run("healthy_retirement"); return  # 강남은 못 갔지만 잃지 않음
 		if cast_has_flag("father", "reconciled"):
 			finish_run("late_call"); return           # 늦은 전화 (화해)

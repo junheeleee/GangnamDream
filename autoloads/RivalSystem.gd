@@ -21,11 +21,11 @@ func _on_run_started():
 func _init_rival():
 	rival = {
 		"name": RIVAL_NAMES[randi() % RIVAL_NAMES.size()],
-		"age": 20,
+		"age": 33,
 		"housing": "gosiwon",
 		"job_name": "무직",
 		"monthly_income": 0.0,
-		"total_assets": 1_000_000.0,
+		"total_assets": 500_000.0,
 		"intelligence": randi_range(38, 62),
 		"social_skill": randi_range(33, 58),
 		"investment_skill": randi_range(8, 22),
@@ -48,7 +48,7 @@ func _process_rival(turn: int):
 	# 턴 2: 라이벌 첫 소개
 	if turn == 2:
 		rival_message.emit(
-			"👀 라이벌 등장  —  %s, 20세, 고시원.\n같은 출발선에서 시작했다. 누가 먼저 강남에 닿을까?" % r["name"],
+			"👀 라이벌 등장  —  %s, %d세, 고시원.\n같은 출발선에서 시작했다. 누가 먼저 강남에 닿을까?" % [r["name"], r["age"]],
 			"#a78bfa"
 		)
 
