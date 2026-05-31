@@ -90,14 +90,30 @@ func _ready():
 	if GameState.action_log.is_empty():
 		GameState.new_game()
 	investment_system.initialize()
-	_begin_month()
-	_refresh_all()
 	BGMPlayer.start()
 	SceneTransition.fade_in()
-	# 첫 게임에만 튜토리얼 팝업 표시
-	if not GameState.flags.get("tutorial_shown", false):
-		GameState.flags["tutorial_shown"] = true
-		_show_tutorial_intro()
+	_refresh_all()
+	# StoryMode에서 복귀한 경우: 달을 다시 시작하지 않고 이어진 스토리만 체크
+	if GameState.returning_from_story:
+		GameState.returning_from_story = false
+		_continue_after_story()
+	else:
+		_begin_month()
+
+## StoryMode 복귀 후: 같은 턴에 이어질 스토리가 더 있으면 다시 StoryMode로,
+## 없으면 이번 달 행동(AP) 화면으로 진입.
+func _continue_after_story():
+	var arc_id = _next_arc_id()
+	if arc_id != "":
+		_go_story_mode([arc_id])
+		return
+	var ms_id = _next_milestone_id()
+	if ms_id != "":
+		_go_story_mode([ms_id])
+		return
+	# 더 없으면 일반 행동 화면
+	current_event = {}
+	_render_event()
 
 func _init_systems():
 	investment_system = load("res://systems/InvestmentSystem.gd").new()
@@ -648,135 +664,109 @@ func _begin_month():
 		var news = NewsManager.generate_monthly_news()
 		investment_system.process_month(news)
 	# ── 스토리 이벤트 트리거 ─────────────────────────
-	# 턴 1: 프롤로그 (모두 동일한 출발 → story_pressure 체인)
-	if GameState.turn == 1 and GameState.tutorial_step >= 3:
-		EventManager.trigger_event_by_id("story_arrival")
-		current_event = EventManager.get_next_event()
-		_render_event()
+	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
+	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
+		GameState.flags["prologue_done"] = true
+		_go_story_mode(["story_arrival"])
 		return
 	# 아크 이벤트 (인물 스토리) — 마일스톤보다 우선
-	if _check_arc_triggers():
-		current_event = EventManager.get_next_event()
-		_render_event()
+	var arc_id = _next_arc_id()
+	if arc_id != "":
+		_go_story_mode([arc_id])
 		return
-	# 마일스톤 이벤트
-	_check_story_triggers()
+	# 마일스톤 이벤트 (스토리) → StoryMode
+	var ms_id = _next_milestone_id()
+	if ms_id != "":
+		_go_story_mode([ms_id])
+		return
+	# 일반 앰비언트 이벤트 → MainGame 인라인 렌더
 	EventManager.process_month_events()
 	current_event = EventManager.get_next_event()
 	_render_event()
 
-## 아크 이벤트 트리거 — 조건 맞으면 queue하고 true 반환
-## 우선순위: 위에서부터. 한 턴에 하나만 발동.
+## 스토리/아크 이벤트들을 StoryMode 화면으로 보낸다.
+func _go_story_mode(event_ids: Array):
+	GameState.pending_story_queue = event_ids
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	SceneTransition.go("res://scenes/StoryMode.tscn")
+
+## 아크 이벤트 트리거 — 조건 맞으면 이벤트 ID를 반환 (없으면 "").
+## 우선순위: 위에서부터. 한 턴에 하나만 발동. StoryMode로 재생됨.
 ## 설계: 초반(턴1-8)은 주인공 몰입, 중반(9-16) 멘토/조연, 후반(17+) 여주인공.
-func _check_arc_triggers() -> bool:
+func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
-	# 턴 2: 첫 끼니 — 통장 압박 체감
 	if t >= 2 and not f.get("arc_intro_meal_seen", false):
-		EventManager.trigger_event_by_id("arc_intro_01_meal")
-		return true
-	# 턴 3: 아버지 첫 전화 (목소리만)
+		return "arc_intro_01_meal"
 	if t >= 3 and not f.get("arc_intro_dad_seen", false):
-		EventManager.trigger_event_by_id("arc_intro_02_dad_call")
-		return true
-	# 턴 5: SNS 동창 — 비교의 밤
+		return "arc_intro_02_dad_call"
 	if t >= 5 and not f.get("arc_intro_sns_seen", false):
-		EventManager.trigger_event_by_id("arc_intro_03_sns")
-		return true
-	# 턴 7: 옆방 현수 — 같은 처지
+		return "arc_intro_03_sns"
 	if t >= 7 and not f.get("arc_intro_hyunsu_seen", false):
-		EventManager.trigger_event_by_id("arc_intro_04_hyunsu")
-		return true
+		return "arc_intro_04_hyunsu"
 
 	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
-	# 턴 10: 임상철 첫 만남 — "왜 강남인가"
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
-		EventManager.trigger_event_by_id("arc_sangchul_01_meet")
-		return true
+		return "arc_sangchul_01_meet"
 
 	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
-	# 턴 17: 한지연 교통사고 첫 만남
 	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
-		EventManager.trigger_event_by_id("arc_jiyeon_01_crash")
-		return true
+		return "arc_jiyeon_01_crash"
 	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 20:
-		EventManager.trigger_event_by_id("arc_jiyeon_02_store")
-		return true
+		return "arc_jiyeon_02_store"
 	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 23:
-		EventManager.trigger_event_by_id("arc_jiyeon_03_offer")
-		return true
+		return "arc_jiyeon_03_offer"
 
 	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (턴 27+, 2막 핵심) ══
-	# 턴 27: 카톡 → 재회
 	if t >= 27 and not f.get("arc_jaehyuk_reunion_seen", false):
-		EventManager.trigger_event_by_id("arc_jaehyuk_01_reunion")
-		return true
-	# 턴 32: 친밀해짐
+		return "arc_jaehyuk_01_reunion"
 	if f.get("arc_jaehyuk_reunion_seen", false) and not f.get("arc_jaehyuk_bond_seen", false) and t >= 32:
-		EventManager.trigger_event_by_id("arc_jaehyuk_02_bond")
-		return true
-	# 턴 37: 투자 제안 (분기 시작)
+		return "arc_jaehyuk_02_bond"
 	if f.get("arc_jaehyuk_bond_seen", false) and not f.get("arc_jaehyuk_pitch_seen", false) and t >= 37:
-		EventManager.trigger_event_by_id("arc_jaehyuk_03_pitch")
-		return true
-	# 분기 A — 믿고 투자함 → 연락 두절 (턴 42+)
+		return "arc_jaehyuk_03_pitch"
 	if GameState.cast_has_flag("jaehyuk", "invested") and not f.get("arc_jaehyuk_ghost_seen", false) and t >= 42:
-		EventManager.trigger_event_by_id("arc_jaehyuk_04a_ghost")
-		return true
-	# 분기 B — 의심함 → 증거/역이용 (턴 42+)
+		return "arc_jaehyuk_04a_ghost"
 	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 42:
-		EventManager.trigger_event_by_id("arc_jaehyuk_04b_counter")
-		return true
+		return "arc_jaehyuk_04b_counter"
 
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
-	# 종잣돈(1억+)을 모은 사람에게만 의미 있는 큰 기회들.
-	# 임상철 — 부동산 급매 (신뢰 쌓였을 때, 안정적 베팅)
 	if GameState.get_cast_stage("sangchul") == "interested" \
 			and not f.get("arc_opp_sangchul_seen", false) \
 			and t >= 40 and GameState.get_total_asset_value() >= 50_000_000:
-		EventManager.trigger_event_by_id("arc_opp_sangchul_realty")
-		return true
-	# 한지연 — 강남 분양권 정보 (가까워졌을 때, 큰 베팅)
+		return "arc_opp_sangchul_realty"
 	if GameState.get_cast_affinity("jiyeon") >= 25 \
 			and not f.get("arc_opp_jiyeon_seen", false) \
 			and t >= 45 and GameState.get_total_asset_value() >= 200_000_000:
-		EventManager.trigger_event_by_id("arc_opp_jiyeon_bunyang")
-		return true
-	return false
+		return "arc_opp_jiyeon_bunyang"
+	return ""
 
-func _check_story_triggers():
+## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.
+func _next_milestone_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
 	# 첫 출근 (직업 생긴 직후 턴)
 	if not GameState.current_job.is_empty() and not f.get("story_first_workday_seen", false):
-		EventManager.trigger_event_by_id("story_first_workday")
-		return
+		return "story_first_workday"
 	# 첫 월급 감정 이벤트
 	if f.get("has_received_paycheck", false) and not f.get("story_first_paycheck_seen", false):
-		EventManager.trigger_event_by_id("story_first_paycheck_feel")
-		return
+		return "story_first_paycheck_feel"
 	# 첫 저축 마일스톤 — 통장 300만원 돌파
 	if GameState.money >= 3_000_000 and not f.get("story_first_savings_seen", false):
-		EventManager.trigger_event_by_id("story_first_savings_milestone")
-		return
+		return "story_first_savings_milestone"
 	# 5년 = 60턴 압축. 33→38세.
-	# 1년차 (34세) — 1년 지남
 	if t == 12 and not f.get("story_one_year_seen", false):
-		EventManager.trigger_event_by_id("story_one_year")
-	# 2년차 (35세) — 절반 지점
-	elif t == 24 and not f.get("story_two_year_seen", false):
-		EventManager.trigger_event_by_id("story_two_year")
-	# 3년차 (36세) — 중간 점검
-	elif t == 36 and not f.get("story_three_year_seen", false):
-		EventManager.trigger_event_by_id("story_three_year")
-	# 4년차 (37세) — 3년 지남, 압박
-	elif t == 48 and not f.get("story_seven_year_seen", false):
-		EventManager.trigger_event_by_id("pre_retirement_decision")
-	# 마지막 해 (37.5세) — 1년 남음
-	elif t == 54 and not f.get("age_39_seen", false):
-		EventManager.trigger_event_by_id("age_39_final")
+		return "story_one_year"
+	if t == 24 and not f.get("story_two_year_seen", false):
+		return "story_two_year"
+	if t == 36 and not f.get("story_three_year_seen", false):
+		return "story_three_year"
+	if t == 48 and not f.get("story_seven_year_seen", false):
+		return "pre_retirement_decision"
+	if t == 54 and not f.get("age_39_seen", false):
+		return "age_39_final"
+	return ""
 
 # ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
 

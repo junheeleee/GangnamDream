@@ -72,6 +72,11 @@ var relationships: Array = []
 # stage는 인물별로 정의됨 (STORY_BIBLE 참조)
 var cast: Dictionary = {}
 
+# ── StoryMode(비주얼노벨 화면) 연동 ──────────────────────────────
+var pending_story_queue: Array = []   # StoryMode에서 재생할 이벤트 ID 목록
+var story_return_scene: String = ""    # StoryMode 종료 후 복귀할 씬 경로
+var returning_from_story: bool = false # true면 MainGame이 달을 다시 시작하지 않음
+
 func _default_cast() -> Dictionary:
 	return {
 		"jiyeon":   {"stage": "unknown", "affinity": 0,  "met": false, "flags": {}},
