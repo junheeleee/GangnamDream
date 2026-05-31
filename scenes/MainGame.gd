@@ -1368,30 +1368,6 @@ func _render_ap_actions():
 		lines.append("🚨  잔고 마이너스  %s  — 빚이 생겼습니다!" % GameState.format_money(GameState.money))
 	event_body.text = "\n".join(lines)
 
-## 매달 분위기 내레이션 한 줄 (계절 + 상태 기반)
-func _month_narration() -> String:
-	var m = GameState.month
-	# 상태 우선 (위기면 그 분위기)
-	if GameState.money < 0:
-		return "통장은 마이너스. 벼랑 끝에서 하루를 버틴다."
-	if GameState.mental <= 40:
-		return "마음이 자꾸 가라앉는다. 버티는 것도 힘이 든다."
-	if GameState.stress >= 75:
-		return "어깨가 무겁다. 잠깐의 숨 돌릴 틈도 없다."
-	if GameState.current_job.is_empty() and GameState.turn > 2:
-		return "수입은 0원. 통장은 매일 조금씩 줄어든다."
-	# 계절 기반 (평상시)
-	var season := ""
-	if m in [12, 1, 2]:
-		season = "창밖으로 겨울 바람이 분다. 서울의 1평 반은 오늘도 좁다."
-	elif m in [3, 4, 5]:
-		season = "봄이 왔다. 거리에 사람이 늘고, 마음이 조금 들뜬다."
-	elif m in [6, 7, 8]:
-		season = "여름. 고시원은 덥고, 에어컨은 사치다."
-	else:
-		season = "가을. 한 해가 또 저문다. {name}은 수첩의 숫자를 본다."
-	return season.replace("{name}", GameState.player_name)
-
 	var disabled = (ap <= 0)
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
 	var no_job = GameState.current_job.is_empty()
@@ -1451,6 +1427,28 @@ func _month_narration() -> String:
 		shop_button.text = "🛍 상점" if has_paycheck else "🛍 상점 🔒"
 		shop_button.disabled = not has_paycheck
 
+## 매달 분위기 내레이션 한 줄 (계절 + 상태 기반)
+func _month_narration() -> String:
+	var m = GameState.month
+	if GameState.money < 0:
+		return "통장은 마이너스. 벼랑 끝에서 하루를 버틴다."
+	if GameState.mental <= 40:
+		return "마음이 자꾸 가라앉는다. 버티는 것도 힘이 든다."
+	if GameState.stress >= 75:
+		return "어깨가 무겁다. 잠깐의 숨 돌릴 틈도 없다."
+	if GameState.current_job.is_empty() and GameState.turn > 2:
+		return "수입은 0원. 통장은 매일 조금씩 줄어든다."
+	var season := ""
+	if m in [12, 1, 2]:
+		season = "창밖으로 겨울 바람이 분다. 서울의 1평 반은 오늘도 좁다."
+	elif m in [3, 4, 5]:
+		season = "봄이 왔다. 거리에 사람이 늘고, 마음이 조금 들뜬다."
+	elif m in [6, 7, 8]:
+		season = "여름. 고시원은 덥고, 에어컨은 사치다."
+	else:
+		season = "가을. 한 해가 또 저문다. {name}은 수첩의 숫자를 본다."
+	return season.replace("{name}", GameState.player_name)
+
 ## 5개 카테고리 행동 카드 렌더링
 func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_unlocked: bool, warn_body: bool):
 	# [일/커리어]
@@ -1497,11 +1495,16 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 	card.focus_mode = Control.FOCUS_NONE
 
 	var st = StyleBoxFlat.new()
-	st.bg_color = Color("#111119") if not highlight else Color("#1a1410")
-	st.border_color = Color(accent) if not locked else Color("#2a2a38")
-	st.border_width_left = 4 if not highlight else 5
 	if highlight:
+		st.bg_color = Color("#1a1410")
 		st.border_color = Color("#f0b429")
+		st.border_width_left = 5
+	else:
+		st.bg_color = Color("#111119")
+		st.border_color = Color(accent)
+		st.border_width_left = 4
+	if locked:
+		st.border_color = Color("#2a2a38")
 	st.set_corner_radius_all(6)
 	st.content_margin_left = 18
 	st.content_margin_right = 16
@@ -1569,9 +1572,11 @@ func _cat_modal_button(label: String, accent: String, fn: String):
 	btn.add_theme_stylebox_override("hover", hov)
 	btn.add_theme_stylebox_override("pressed", st)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	var fn_name := fn
 	btn.pressed.connect(func():
 		_close_modal()
-		call(fn))
+		self.call(fn_name)
+	)
 	modal_body.add_child(btn)
 
 func _open_cat_work():
