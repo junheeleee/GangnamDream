@@ -128,12 +128,13 @@ func _build_ui():
 	_name_panel = name_panel
 	name_panel.visible = false
 
-	# 6. 하단 텍스트 박스 — 전체 폭
-	var text_panel = PanelContainer.new()
+	# 6. 하단 텍스트 박스 — 고정 높이 (타이핑해도 흔들리지 않음)
+	# PanelContainer(자식 크기 추종) 대신 고정 Panel + 절대 배치 사용.
+	var text_panel = Panel.new()
 	text_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	text_panel.offset_left = 50
 	text_panel.offset_right = -50
-	text_panel.offset_top = -230
+	text_panel.offset_top = -250
 	text_panel.offset_bottom = -40
 	text_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var panel_style = StyleBoxFlat.new()
@@ -141,59 +142,64 @@ func _build_ui():
 	panel_style.border_color = Color("#2a3450")
 	panel_style.set_border_width_all(1)
 	panel_style.set_corner_radius_all(10)
-	panel_style.content_margin_left = 36
-	panel_style.content_margin_right = 36
-	panel_style.content_margin_top = 22
-	panel_style.content_margin_bottom = 18
 	text_panel.add_theme_stylebox_override("panel", panel_style)
 	add_child(text_panel)
 
-	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 8)
-	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	text_panel.add_child(vbox)
-
-	# 제목 (이벤트 타이틀, 작게)
+	# 제목 (이벤트 타이틀, 작게) — 박스 좌상단 고정
 	_title_lbl = Label.new()
+	_title_lbl.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_title_lbl.offset_left = 36
+	_title_lbl.offset_top = 18
+	_title_lbl.offset_right = -36
 	_title_lbl.add_theme_font_size_override("font_size", 13)
 	_title_lbl.add_theme_color_override("font_color", Color(C_DIM))
+	_title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(_title_lbl)
-	vbox.add_child(_title_lbl)
+	text_panel.add_child(_title_lbl)
 
-	# 본문 (타이핑)
+	# 본문 (타이핑) — 박스 안 고정 영역. fit_content 끔 → 높이 불변.
 	_body_lbl = RichTextLabel.new()
 	_body_lbl.bbcode_enabled = true
-	_body_lbl.fit_content = true
+	_body_lbl.fit_content = false
 	_body_lbl.scroll_active = false
-	_body_lbl.custom_minimum_size = Vector2(0, 110)
-	_body_lbl.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_body_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_body_lbl.offset_left = 36
+	_body_lbl.offset_top = 44
+	_body_lbl.offset_right = -36
+	_body_lbl.offset_bottom = -34
 	_body_lbl.add_theme_font_size_override("normal_font_size", 20)
 	_body_lbl.add_theme_color_override("default_color", Color(C_NARRATION))
 	if _font:
 		_body_lbl.add_theme_font_override("normal_font", _font)
 	_body_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_child(_body_lbl)
+	text_panel.add_child(_body_lbl)
 
-	# 계속 힌트
+	# 계속 힌트 — 박스 우하단 고정
 	_continue_hint = Label.new()
+	_continue_hint.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_continue_hint.offset_left = -200
+	_continue_hint.offset_top = -28
+	_continue_hint.offset_right = -16
+	_continue_hint.offset_bottom = -8
 	_continue_hint.text = "▼  클릭하여 계속"
 	_continue_hint.add_theme_font_size_override("font_size", 12)
 	_continue_hint.add_theme_color_override("font_color", Color("#4a5468"))
 	_continue_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_continue_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(_continue_hint)
 	_continue_hint.visible = false
-	vbox.add_child(_continue_hint)
+	text_panel.add_child(_continue_hint)
 
-	# 7. 선택지 박스 — 화면 하단(텍스트 박스 위)에 가로 중앙 정렬
+	# 7. 선택지 박스 — 텍스트 박스(높이250) 위에 띄움. 겹치지 않게 -270부터.
 	_choice_box = VBoxContainer.new()
 	_choice_box.anchor_left = 0.5
 	_choice_box.anchor_right = 0.5
 	_choice_box.anchor_top = 1.0
 	_choice_box.anchor_bottom = 1.0
-	_choice_box.offset_left = -420
-	_choice_box.offset_right = 420
-	_choice_box.offset_top = -580
-	_choice_box.offset_bottom = -250
+	_choice_box.offset_left = -440
+	_choice_box.offset_right = 440
+	_choice_box.offset_top = -620
+	_choice_box.offset_bottom = -270
 	_choice_box.add_theme_constant_override("separation", 10)
 	_choice_box.alignment = BoxContainer.ALIGNMENT_END
 	_choice_box.visible = false
