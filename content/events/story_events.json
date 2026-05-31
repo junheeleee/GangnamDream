@@ -2,69 +2,124 @@
   {
     "id": "story_arrival",
     "title": "2026년 1월, 서울",
-    "description": "{name}. 서른 살. 백수.\n\n고시원 방 1평 반. 짐은 캐리어 하나.\n통장엔 50만원. 다음 달 고시원비가 65만원이다.\n\n친구들은 벌써 결혼했거나, 대리·과장이 됐거나, 집을 샀다.\n{name}은 아직 여기 있다.\n\n30대가 시작됐다. 10년이 남았다.\n\n강남은 여기서 지하철로 40분 거리다.",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "description": "어둠 속에서 눈을 뜬다.\n\n천장까지 손이 닿는 방. 1평 반.\n창문을 열면 옆 건물 벽이 닿을 듯 가깝다.\n여기는 신촌의 한 고시원. {name}의 방이다.\n\n{name}. 서른셋.\n반년 전까지만 해도, 빚을 갚고 있었다.\n\n아버지가 보증을 잘못 섰다. 상대는 잠적했고, 빚은 아버지에게, 그리고 {name}에게 왔다.\n스물일곱부터 서른셋까지. 6년.\n\n다 갚았다. 그리고 남은 건 — 통장의 50만원과, 이 방.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
     "conditions": {"min_turn": 9999},
-    "tags": ["story"],
+    "tags": ["story", "prologue"],
     "cooldown": 9999,
     "choices": [
       {
-        "text": "지금부터 다르게 살기로 결심한다",
-        "effects": { "mental": 8, "stress": -5, "intelligence": 2 },
-        "follow_up_event": "story_pressure",
-        "result_text": "지금까지와는 다르게.\n구체적인 방법은 아직 모른다.\n하지만 방향은 정했다. 강남."
+        "text": "천천히 몸을 일으킨다",
+        "effects": {},
+        "follow_up_event": "story_prologue_dad",
+        "result_text": "이불을 걷고 일어난다.\n작은 창으로 겨울 아침 빛이 스며든다.\n오늘도 하루가 시작됐다. 살아야 하는 하루가."
+      }
+    ]
+  },
+  {
+    "id": "story_prologue_dad",
+    "title": "전화",
+    "background": "goshiwon_room",
+    "portrait": "father_normal",
+    "description": "폰이 울린다. 화면에 '아버지'.\n\n받을까 말까 잠깐 망설이다, 받는다.\n\n\"어, 아들. 일어났나.\"\n\"네.\"\n\n잠깐의 침묵. 아버지는 늘 할 말을 미리 정해두지 않는다.\n\n\"...밥은 먹었고?\"\n\n그 한 마디에 6년이 들어있다.\n미안함, 부끄러움, 그리고 차마 못 하는 말들.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "prologue", "father"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"먹었어요. 아버지도 끼니 거르지 마세요.\"",
+        "effects": { "mental": 5 },
+        "cast_effects": { "father": { "affinity": 12 } },
+        "follow_up_event": "story_prologue_goal",
+        "result_text": "거짓말이었다. 아직 아무것도 못 먹었다.\n근데 아버지가 그 거짓말에 안심하는 게 느껴졌다.\n\"그래... 아빠가 미안하다.\"\n\"미안하긴요.\"\n전화를 끊고, {name}은 한참 천장만 봤다.\n\n[관계가 쌓였다 — 사람과의 인연이 이 게임의 한 축이다.]"
       },
       {
-        "text": "폰을 켜서 취업·투자 정보를 뒤진다",
-        "effects": { "intelligence": 4, "investment_skill": 3, "stress": 3 },
+        "text": "\"바빠요. 나중에 통화해요.\" 짧게 끊는다",
+        "effects": { "stress": 3, "mental": -2 },
+        "cast_effects": { "father": { "affinity": 3 } },
+        "follow_up_event": "story_prologue_goal",
+        "result_text": "빨리 끊었다. 길어지면 서로 할 말이 없어 더 아프니까.\n폰을 내려놓고, {name}은 못 한 말을 삼켰다.\n언젠가, 강남 아파트에서 아버지를 초대할 날에 하면 된다. 언젠가.\n\n[관계가 쌓였다 — 사람과의 인연이 이 게임의 한 축이다.]"
+      }
+    ]
+  },
+  {
+    "id": "story_prologue_goal",
+    "title": "강남",
+    "background": "gangnam_day",
+    "portrait": "player_normal",
+    "description": "전화를 끊고, {name}은 낡은 수첩을 편다.\n\n맨 앞장에 한 줄이 적혀 있다.\n아버지가 평생 모은 돈으로 사려던 집. 사기로 날아간 그 집.\n— 강남 아파트.\n\n아버지는 다시는 그 얘기를 꺼내지 않는다.\n{name}도 묻지 않는다.\n하지만 둘 다 안다. 그게 무엇을 의미하는지.\n\n의사가 아버지에게 말했다. 무리하지 마시라고.\n시간이 얼마나 남았는지는, 아무도 모른다.\n\n{name}은 수첩에 숫자 하나를 적는다.\n30억. 5년 안에.\n불가능하다는 걸 안다. 그래서 — 시작한다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "prologue"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "수첩을 덮고, 일어선다",
+        "effects": { "mental": 6, "stress": -3 },
+        "follow_up_event": "story_prologue_meal",
+        "result_text": "목표는 정해졌다.\n방법은 아직 없다. 돈도, 빽도, 시간도 부족하다.\n그래도 — 멈추면 끝이다. {name}은 신발을 신었다."
+      }
+    ]
+  },
+  {
+    "id": "story_prologue_meal",
+    "title": "첫 끼니",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "description": "고시원을 나와 편의점에 들른다.\n\n통장 잔고를 떠올린다. 50만원.\n다음 달 고시원비가 65만원. 이미 적자다.\n\n진열대 앞에서 {name}은 계산한다.\n삼각김밥 하나 1,200원. 이것도 아껴야 하나.\n\n하루에 쓸 수 있는 돈이 만원이 안 된다.\n매 끼니가, 매 선택이 — 통장에 그대로 찍힌다.\n\n그게 지금 {name}의 현실이다.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "prologue"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "삼각김밥을 산다 (-1,200원)",
+        "effects": { "money": -1200, "health": 3 },
         "follow_up_event": "story_pressure",
-        "result_text": "사람인, 잡코리아, 증권 유튜브, 부동산 카페.\n정보는 넘쳤다. 선택의 문제였다.\n{name}은 폰을 내려놓고 천장을 봤다."
+        "result_text": "참치마요 하나를 집어 계산한다.\n천 원 조금 넘는 돈이 통장에서 빠져나간다.\n\n[선택이 자원을 바꾼다 — 돈, 체력, 정신력. 모든 선택에 대가가 있다.]"
       },
       {
-        "text": "일단 자고 내일 생각한다",
-        "effects": { "health": 5, "mental": 5, "stress": -8 },
+        "text": "오늘은 굶는다. 한 푼이라도 아낀다",
+        "effects": { "health": -5, "stress": 4, "mental": -2 },
         "follow_up_event": "story_pressure",
-        "result_text": "지쳤다. 오늘은 이게 한계다.\n내일의 {name}이 더 잘할 것이다.\n아마도."
+        "result_text": "빈손으로 편의점을 나선다.\n배에서 소리가 났지만, 통장은 지켰다.\n\n[선택이 자원을 바꾼다 — 아끼면 돈이 남고, 몸이 상한다. 균형이 관건이다.]"
       }
     ]
   },
   {
     "id": "story_pressure",
-    "title": "보름이 지났다",
-    "description": "1월 중순. 통장에서 이미 20만원이 빠져나갔다.\n\n밥값, 버스비, 편의점, 세탁기 동전.\n이 속도면 한 달을 못 버틴다.\n\n30살. 백수. 통장 잔고 30만원.\n\n고등학교 단톡방에 결혼 소식이 올라왔다.\n{name}은 '축하해'를 치고 폰을 뒤집었다.\n\n더 이상 기다릴 시간이 없다.",
+    "title": "더는 못 미룬다",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "description": "보름이 지났다.\n\n통장은 이미 줄고 있다. 수입은 0원.\n이대로면 한 달도 못 버틴다.\n\n고등학교 단톡방에 또 결혼 소식이 올라온다.\n{name}은 '축하해'를 치고 폰을 뒤집는다.\n\n분명한 건 하나다.\n뭐라도 — 당장 시작해야 한다.\n구직이든, 알바든, 무엇이든.\n\n이제, {name}이 움직일 차례다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
     "conditions": {"min_turn": 9999},
-    "tags": [
-      "story",
-      "job_unlock"
-    ],
+    "tags": ["story", "prologue", "job_unlock"],
     "cooldown": 9999,
     "choices": [
       {
-        "text": "응, 알아볼게. 구인 앱을 다운받는다",
-        "effects": {
-          "money": 150000,
-          "health": -3,
-          "stress": 4
-        },
+        "text": "구인 앱을 켠다. 살아남는 게 먼저다",
+        "effects": { "intelligence": 2 },
         "flags": ["story_job_unlocked"],
-        "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n{name}은 지원 버튼을 눌렀다.\n\n이제 구직활동을 할 수 있다."
-      },
-      {
-        "text": "조금만 더 생각해보고. 일단 아끼는 것부터",
-        "effects": {
-          "mental": -3,
-          "stress": 5,
-          "intelligence": 2
-        },
-        "flags": ["story_job_unlocked"],
-        "result_text": "더 준비하고 싶었지만, 통장이 허락하질 않았다.\n결국 구인 앱을 켰다.\n선택의 여지가 없었다.\n\n이제 구직활동을 할 수 있다."
+        "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n{name}은 지원 버튼에 손을 올린다.\n\n[이제 매달, 직접 행동을 골라야 한다.\n다음 화면에서 — 첫 행동을 시작하라.]"
       }
     ]
   },
