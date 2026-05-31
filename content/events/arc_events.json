@@ -1,8 +1,8 @@
 [
   {
     "id": "arc_intro_01_meal",
-    "title": "삼각김밥",
-    "background": "goshiwon_room",
+    "title": "첫 면접",
+    "background": "office",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -11,56 +11,53 @@
     "conditions": {"min_turn": 9999},
     "tags": ["story", "arc", "intro"],
     "cooldown": 9999,
-    "description": "고시원 방. 형광등 하나가 깜빡인다.\n\n저녁은 편의점 삼각김밥 하나. 1,200원.\n폰 계산기를 켠다. 통장 잔고를 12로 나눈다.\n\n월세 65만원을 빼면, 하루에 쓸 수 있는 돈이 만원이 안 된다.\n밥값, 교통비, 통신비... 만원으로.\n\n6년을 빚 갚는 데 썼다. 다 갚았다.\n근데 남은 게 이거다. 1평 반, 만원짜리 하루.\n\n서른셋. 다시 시작이다. 아니, 처음 시작이다.",
+    "description": "구인 앱으로 지원한 곳에서 연락이 왔다.\n작은 사무실, 면접.\n\n면접관이 이력서를 훑는다. 그리고 묻는다.\n\"여기 6년 공백이 있네요. 뭐 하셨어요?\"\n\n빚을 갚았다고는 차마 말 못 한다.\n6년을, 어떻게 한 문장으로 설명하나.\n\n{name}의 손에 땀이 났다.",
     "choices": [
       {
-        "text": "그래도 한다. 어차피 잃을 것도 없다",
-        "effects": { "mental": 6, "stress": -3 },
+        "text": "솔직하게 말한다 — \"집안 사정이 있었습니다\"",
+        "effects": { "mental": 4, "stress": 3, "social_skill": 2 },
         "flags": ["arc_intro_meal_seen"],
-        "result_text": "삼각김밥을 까서 한입에 절반을 먹는다.\n잃을 게 없다는 건, 두려울 것도 없다는 뜻이다.\n김민준은 처음으로 그렇게 생각하기로 했다."
+        "result_text": "면접관이 잠깐 {name}을 본다.\n더 캐묻지 않았다. 그 눈빛에 약간의 이해가 있었다.\n\"...성실하게 일하실 분 같네요.\"\n합격일지 아닐지는 모른다. 하지만 거짓말은 안 했다."
       },
       {
-        "text": "막막하다. 근데 멈추면 끝이다",
-        "effects": { "intelligence": 3, "stress": 2 },
-        "flags": ["arc_intro_meal_seen"],
-        "result_text": "막막함은 사라지지 않는다. 그냥 안고 가는 거다.\n김민준은 남은 절반을 마저 먹고, 폰으로 구인 공고를 켰다.\n오늘 할 수 있는 건 그거였다."
+        "text": "둘러댄다 — \"개인 사업을 준비했었습니다\"",
+        "effects": { "intelligence": 2, "stress": 5 },
+        "flags": ["arc_intro_meal_seen", "lied_interview"],
+        "result_text": "그럴듯하게 포장했다.\n면접관은 고개를 끄덕였지만, 어딘가 미심쩍은 표정.\n{name}은 면접장을 나오며 생각했다.\n거짓말은, 또 다른 거짓말을 부른다는 걸."
       }
     ]
   },
   {
     "id": "arc_intro_02_dad_call",
-    "title": "아버지",
-    "background": "goshiwon_room",
-    "portrait": "father_normal",
+    "title": "통장에 찍힌 숫자",
+    "background": "convenience_night",
+    "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
     "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "intro", "father"],
+    "tags": ["story", "arc", "intro"],
     "cooldown": 9999,
-    "description": "밤 9시. 폰이 울린다. '아버지'.\n\n받을까 말까 망설이는 사이 세 번이 울리고, 받는다.\n\n\"어, 아들. 자나?\"\n\"아니요. 안 자요.\"\n\n잠깐의 침묵. 아버지는 늘 할 말을 미리 정해두지 않는다.\n\n\"...밥은 먹었고?\"\n\"먹었어요.\"\n\"그래. 그럼 됐다.\"\n\n그 한 마디에 6년이 들어있다.\n미안함, 부끄러움, 그리고 차마 못 하는 말들.",
+    "description": "편의점 야간 알바. 새벽 3시.\n\n진상 손님, 택배 정리, 청소.\n시급 만원 남짓. 한 달 꼬박 일해야 200만원이 안 된다.\n\n{name}은 계산해본다.\n이 속도로 30억까지 — 1,250년.\n\n웃음이 났다. 어이가 없어서.\n월급만으로는, 절대 안 된다.\n다른 길을 찾아야 한다.",
     "choices": [
       {
-        "text": "\"아버지, 저 괜찮아요. 진짜로.\"",
-        "effects": { "mental": 8, "stress": -5 },
-        "cast_effects": { "father": { "affinity": 10 } },
-        "flags": ["arc_intro_dad_seen"],
-        "result_text": "거짓말이었다. 괜찮지 않았다.\n근데 아버지가 그 거짓말에 안심하는 게 느껴졌다.\n\"그래... 아빠가 미안하다.\"\n\"미안하긴요.\"\n전화를 끊고, 김민준은 한참을 천장만 봤다."
+        "text": "일단 종잣돈부터. 악착같이 모은다",
+        "effects": { "stress": 4, "investment_skill": 2 },
+        "flags": ["arc_intro_dad_seen", "mindset_saver"],
+        "result_text": "큰 돈은 작은 돈에서 시작한다.\n{name}은 알바를 마치고도 구인 앱을 뒤졌다.\n종잣돈. 그게 첫 관문이다."
       },
       {
-        "text": "\"건강은 어떠세요?\" 화제를 돌린다",
-        "effects": { "mental": 4, "stress": -2 },
-        "cast_effects": { "father": { "affinity": 6, "flags": ["health_asked"] } },
-        "flags": ["arc_intro_dad_seen"],
-        "result_text": "\"나야 뭐... 괜찮지.\"\n괜찮다는 말이 어딘가 힘이 없었다.\n물어보고 싶은 게 더 있었지만, 아버지가 먼저 끊었다.\n\"늦었다. 자라.\"\n뚜, 뚜, 뚜."
+        "text": "투자를 공부하기 시작한다",
+        "effects": { "intelligence": 3, "investment_skill": 4, "stress": 2 },
+        "flags": ["arc_intro_dad_seen", "mindset_investor"],
+        "result_text": "유튜브, 책, 카페 글.\n새벽 알바가 끝나면 도서관으로 갔다.\n월급으로 안 되면, 돈이 돈을 벌게 해야 한다.\n{name}은 그 방법을 배우기로 했다."
       },
       {
-        "text": "짧게 받고 끊는다 — 길어지면 둘 다 힘들다",
-        "effects": { "stress": 3, "mental": -2 },
-        "cast_effects": { "father": { "affinity": 2 } },
-        "flags": ["arc_intro_dad_seen"],
-        "result_text": "\"네, 잘게요. 아버지도 주무세요.\"\n빨리 끊었다. 길어지면 서로 할 말이 없어 더 아프니까.\n전화를 내려놓고, 김민준은 못 한 말을 삼켰다.\n언젠가, 강남 아파트에서 아버지를 초대할 날에 하면 된다. 언젠가."
+        "text": "언젠가 내 사업을. 아이디어를 메모한다",
+        "effects": { "intelligence": 2, "luck": 3, "stress": 3 },
+        "flags": ["arc_intro_dad_seen", "mindset_founder"],
+        "result_text": "편의점 카운터 뒤에서, {name}은 수첩에 뭔가를 적었다.\n남들이 안 하는 것. 틈새. 기회.\n한 방이 필요하다. 그리고 한 방은, 준비된 자에게만 온다."
       }
     ]
   },
