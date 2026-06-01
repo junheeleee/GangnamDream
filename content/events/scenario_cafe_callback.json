@@ -1,0 +1,356 @@
+[
+  {
+    "id": "cafe_cb_stole_00",
+    "title": "그날 외운 번호",
+    "background": "street_rainy",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "몇 달이 지났다. {name}은 악착같이 종잣돈을 모았다.\n그리고 — 그날 카페에서 훔쳐본 번호 하나가,\n여전히 머릿속에서 지워지지 않는다. 김 부장. 010-XXXX.\n\n새벽 3시. {name}은 휴대폰을 들었다 놨다.\n그 입주권 — 아직 살아있을까. 전화 한 통이면 알 수 있다.",
+    "choices": [
+      {
+        "text": "전화를 건다",
+        "result_text": "",
+        "follow_up_event": "cafe_cb_stole_call",
+        "effects": {
+          "stress": 5
+        },
+        "flags": [
+          "cafe_callback_seen"
+        ]
+      },
+      {
+        "text": "번호를 지운다 — 훔친 걸로 시작하긴 싫다",
+        "result_text": "{name}은 번호를 지웠다. 손끝이 조금 떨렸다.\n쉬운 길 하나를 또 버렸다. 하지만 — 그날 카페에서\n자기도 모르게 더러워진 마음 한 구석이, 비로소 깨끗해졌다.\n시작은 내 발로 하고 싶었다.",
+        "flags": [
+          "cafe_stole_redeemed",
+          "cafe_callback_seen"
+        ],
+        "effects": {
+          "mental": 7,
+          "stress": -4
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_cb_stole_call",
+    "title": "통화",
+    "background": "street_rainy",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "신호음 세 번. \"여보세요.\"\n김 부장은 {name}을 기억 못 했다. {name}은 둘러댔다.\n\"그때 카페에서... 입주권 건 소개받았던 사람입니다.\"\n\n잠깐의 침묵. 그러더니 목소리가 부드러워진다.\n\"아아, 그거. 아직 한 자리 있어요. 근데 프리미엄 올랐어.\n지금 7천. 오늘내일 안에 결정해야 돼. 어떻게, 들어와요?\"",
+    "choices": [
+      {
+        "text": "먼저 알아본다 — 등기·시세부터 확인",
+        "result_text": "",
+        "follow_up_event": "cafe_cb_stole_verify"
+      },
+      {
+        "text": "직감을 믿고 지른다 — 있는 돈 전부",
+        "result_text": "",
+        "follow_up_event": "cafe_cb_stole_allin"
+      },
+      {
+        "text": "...역시 아니다. 끊는다",
+        "result_text": "{name}은 조용히 전화를 끊었다.\n너무 빨랐다. '오늘내일'이라는 말이 자꾸 걸렸다.\n급하게 미는 건 늘 이유가 있다. 직감이 그렇게 말했다.\n기회를 놓쳤을 수도, 함정을 피했을 수도. 알 수 없다.",
+        "flags": [
+          "cafe_stole_walked"
+        ],
+        "effects": {
+          "intelligence": 2,
+          "stress": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_cb_stole_verify",
+    "title": "파헤치기",
+    "background": "street_rainy",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 사흘을 매달렸다. 등기부등본, 부동산 카페, 뉴스.\n진실은 절반이었다 — 재개발은 진짜다. 확정도 맞다.\n근데 김 부장은 조합원도 뭣도 아닌 그냥 브로커였고,\n7천 중 2천은 그의 '수고비'로 부풀려진 거품이었다.\n\n진짜 기회 위에, 가짜 가격표가 붙어 있었다.",
+    "choices": [
+      {
+        "text": "거품을 빼고, 신중하게 들어간다",
+        "result_text": "",
+        "follow_up_event": "cafe_cb_stole_smart"
+      },
+      {
+        "text": "이런 식이면 위험하다. 발 뺀다",
+        "result_text": "{name}은 손을 뗐다. 김 부장은 욕을 하며 전화를 끊었다.\n나중에 들으니, 그 입주권에 들어간 사람들은\n브로커 거품에 물려 한참을 마음고생했다고 한다.\n파헤친 사흘이, {name}을 구했다.",
+        "flags": [
+          "cafe_stole_dodged"
+        ],
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3,
+          "mental": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_cb_stole_allin",
+    "title": "지른다",
+    "background": "street_rainy",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 통장을 털었다. 검증도, 망설임도 없이.\n그날 훔쳐본 번호가, 그날 훔쳐본 욕망이\n결국 여기까지 끌고 왔다.\n\n주사위는 던져졌다. 재개발이 진짜라면 인생이 바뀐다.\n아니라면 — 다시 바닥이다.",
+    "choices": [
+      {
+        "text": "결과를 받아들인다",
+        "result_text": "통장 잔고가 요동쳤다. {name}은 한참을 멍하니 봤다.",
+        "flags": [
+          "cafe_stole_gambled",
+          "crossed_line_early"
+        ],
+        "opportunity": {
+          "stake_ratio": 0.85,
+          "success_rate": 0.46,
+          "win_multiplier": 2.4,
+          "loss_ratio": 0.7,
+          "luck_factor": 0.0022,
+          "skill_gain": 4,
+          "win_flag": "cafe_jackpot",
+          "lose_flag": "cafe_burned"
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_cb_stole_smart",
+    "title": "거품을 걷고",
+    "background": "street_rainy",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 김 부장에게 등기를 들이밀었다.\n\"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가.\"\n김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.\n\"...물건은 볼 줄 아네. 좋아, 5천.\"\n\n검증한 자만이 깎을 수 있다. {name}은 제값에 들어갔다.",
+    "choices": [
+      {
+        "text": "계약한다",
+        "result_text": "위험은 여전히 있다. 하지만 이번엔, 알고 들어가는 위험이다.",
+        "flags": [
+          "cafe_stole_invested"
+        ],
+        "effects": {
+          "investment_skill": 3
+        },
+        "opportunity": {
+          "stake_ratio": 0.6,
+          "success_rate": 0.64,
+          "win_multiplier": 1.9,
+          "loss_ratio": 0.4,
+          "luck_factor": 0.002,
+          "skill_gain": 6,
+          "win_flag": "cafe_smart_win",
+          "lose_flag": "cafe_smart_loss"
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_cb_honest_00",
+    "title": "걸려온 전화",
+    "background": "street_rainy",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "모르는 번호. 받으니, 익숙한 목소리.\n\"그 카페 친구. 나 기억해? 폴더 훔쳐보다 들킨 그 친구.\"\n그날의 그 남자였다. {name}이 명함을 두 손으로 받았던.\n\n\"공부 좀 했나 해서. 작은 거 하나 도는데,\n진짜 준비된 놈한테만 주는 거야. 어때, 들어볼래?\"",
+    "choices": [
+      {
+        "text": "\"준비됐습니다. 듣고 싶습니다\"",
+        "result_text": "",
+        "follow_up_event": "cafe_cb_honest_in",
+        "flags": [
+          "cafe_callback_seen"
+        ]
+      },
+      {
+        "text": "\"아직입니다. 더 배우고 연락드리겠습니다\"",
+        "result_text": "남자는 잠시 말이 없더니, 웃었다.\n\"...그 말 할 줄 아는 놈은 결국 와. 됐어, 천천히 와.\"\n그는 끊었다. 기회를 미뤘지만, 문은 닫히지 않았다.\n오히려 — '아직'이라고 말할 줄 아는 {name}을, 그는 더 신뢰했다.",
+        "flags": [
+          "cafe_honest_trust",
+          "cafe_callback_seen"
+        ],
+        "effects": {
+          "intelligence": 2,
+          "reputation": 3,
+          "mental": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_cb_honest_in",
+    "title": "검증된 기회",
+    "background": "street_rainy",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "남자가 내민 건 깨끗했다. 거품도, 급한 척도 없었다.\n\"내가 직접 보는 물건이야. 대박은 아니어도, 안 깨져.\n네 형편에 맞게만 들어와. 무리하지 말고.\"\n\n훔친 정보가 아니라, 사람이 보증한 기회.\n그게 얼마나 다른지 — {name}은 이제 안다.",
+    "choices": [
+      {
+        "text": "형편에 맞게, 들어간다",
+        "result_text": "큰 베팅은 아니다. 하지만 단단한 첫 걸음이다.",
+        "flags": [
+          "cafe_honest_invested",
+          "kept_clean_hands"
+        ],
+        "effects": {
+          "reputation": 2
+        },
+        "opportunity": {
+          "stake_ratio": 0.55,
+          "success_rate": 0.7,
+          "win_multiplier": 1.7,
+          "loss_ratio": 0.3,
+          "luck_factor": 0.0018,
+          "skill_gain": 6,
+          "win_flag": "cafe_honest_win",
+          "lose_flag": "cafe_honest_loss"
+        }
+      },
+      {
+        "text": "아직 무리다. 다음 기회를 기약한다",
+        "result_text": "\"무리 안 하는 것도 실력이야.\" 남자가 끄덕였다.\n{name}은 이번엔 보냈다. 하지만 관계는 남았다.\n사람을 얻는 게, 기회 하나보다 길게 간다.",
+        "flags": [
+          "cafe_honest_patient"
+        ],
+        "effects": {
+          "mental": 4,
+          "reputation": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_cb_humiliated_00",
+    "title": "다시, 그 카페",
+    "background": "street_rainy",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe_callback"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 그날의 굴욕을 잊지 못했다.\n'사기 치려면 공부부터 하고 와.' 그 말에 이를 갈며,\n몇 달간 부동산을 미친 듯이 팠다. LTV도, 갭도, 이젠 안다.\n\n그리고 우연히 — 같은 카페, 같은 남자.\n그가 {name}을 알아본다. \"어? 그때 그 허세남?\"",
+    "choices": [
+      {
+        "text": "이번엔 제대로 묻는다 — 배운 걸로",
+        "result_text": "{name}은 또박또박 물었다. 정확한 용어로, 핵심을.\n남자의 표정이 바뀌었다. 비웃음이 호기심으로.\n\"...진짜 공부했네. 그때 그 쪽팔림이 약이 됐나 봐.\"\n그가 처음으로, {name}을 사람으로 대했다.\n굴욕은 가장 독한 스승이었다.",
+        "flags": [
+          "cafe_redeemed",
+          "cafe_callback_seen"
+        ],
+        "effects": {
+          "mental": 6,
+          "reputation": 3,
+          "investment_skill": 2,
+          "social_skill": 2
+        }
+      },
+      {
+        "text": "아직도 민망하다. 고개 숙이고 피한다",
+        "result_text": "{name}은 눈을 피하고 카페를 나섰다.\n공부는 했지만, 그날의 부끄러움은 아직 마음에 남아 있었다.\n언젠가는 — 떳떳하게 마주 볼 날이 오겠지.",
+        "flags": [
+          "cafe_still_ashamed",
+          "cafe_callback_seen"
+        ],
+        "effects": {
+          "stress": 4,
+          "mental": -2
+        }
+      }
+    ]
+  }
+]

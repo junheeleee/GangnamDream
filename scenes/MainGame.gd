@@ -704,6 +704,14 @@ func _next_arc_id() -> String:
 		return "cafe_00"
 	if t >= 7 and not f.get("arc_intro_hyunsu_seen", false):
 		return "arc_intro_04_hyunsu"
+	# ★ 카페의 장기 파장 (턴 13) — 턴 6 선택이 되돌아온다. 위쳐3식 장기 결과.
+	if t >= 13 and not f.get("cafe_callback_seen", false):
+		if f.get("cafe_stole_lead", false):
+			return "cafe_cb_stole_00"
+		if f.get("cafe_got_card_honest", false):
+			return "cafe_cb_honest_00"
+		if f.get("cafe_humiliated", false):
+			return "cafe_cb_humiliated_00"
 	# ★ 첫 유혹의 후폭풍/보상 (턴 8) — 선택에 따라 갈림
 	if f.get("lent_account", false) and not f.get("arc_temptation_fallout_seen", false) and t >= 8:
 		return "arc_temptation_fallout"
