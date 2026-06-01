@@ -885,11 +885,11 @@ func _on_tendency_awakened(kind: String):
 func _present_tendency_realization(kind: String):
 	if GameState.is_game_over:
 		return
-	var tname := GameState.tendency_name(kind)
-	var desc := str(GameState.TENDENCY_DESC.get(kind, ""))
-	var icon := {"career": "💼", "invest": "📈", "found": "🚀"}.get(kind, "✨")
-	var accent := {"career": "#5b9cf6", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
-	var passive := {
+	var tname: String = GameState.tendency_name(kind)
+	var desc: String = str(GameState.TENDENCY_DESC.get(kind, ""))
+	var icon: String = {"career": "💼", "invest": "📈", "found": "🚀"}.get(kind, "✨")
+	var accent: String = {"career": "#5b9cf6", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
+	var passive: String = {
 		"career": "업무 성과 +12, 사회성 +3 — 승진과 신용이 너의 무기가 된다.",
 		"invest": "투자 감각 +6, 지력 +2 — 시장이 한층 선명하게 보인다.",
 		"found":  "운 +3, 지력 +2 — 창업가의 촉이 열렸다.",
