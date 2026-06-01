@@ -31,6 +31,32 @@ func select_random_event():
 			eligible.append(event)
 	return _weighted_pick(eligible)
 
+## 상황 카드용 — 서로 다른 앰비언트 이벤트 count개를 뽑는다.
+## 스토리/아크/시나리오(StoryMode 전용)와 weight<=0은 제외. 쿨다운 1회 틱.
+func draw_situations(count: int) -> Array:
+	_tick_cooldowns()
+	var eligible: Array = []
+	for event in DataRegistry.events:
+		if not _is_event_eligible(event):
+			continue
+		if str(event.get("rarity", "")) == "story":
+			continue
+		if str(event.get("category", "")) == "story":
+			continue
+		if float(event.get("weight", 1.0)) <= 0.0:
+			continue
+		eligible.append(event)
+	var picked: Array = []
+	for i in range(count):
+		if eligible.is_empty():
+			break
+		var e: Dictionary = _weighted_pick(eligible)
+		if e.is_empty():
+			break
+		picked.append(e)
+		eligible.erase(e)
+	return picked
+
 func queue_event(event):
 	if event.is_empty():
 		return

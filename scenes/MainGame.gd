@@ -65,6 +65,10 @@ const PORTRAIT_50S        = "res://assets/characters/main_character_50s.png"
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
 var pending_result_text: String = ""
+# 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
+var month_situations: Array = []
+var month_situations_turn: int = -1
+var engaged_situations: Dictionary = {}
 var turn_action_log: Array = []
 var _pending_month_summary: bool = false
 
@@ -671,10 +675,10 @@ func _begin_month():
 	if ms_id != "":
 		_go_story_mode([ms_id])
 		return
-	# 일반 앰비언트 이벤트 → MainGame 인라인 렌더
-	EventManager.process_month_events()
-	current_event = EventManager.get_next_event()
-	_render_event()
+	# 상황 카드 단계 — 앰비언트 이벤트를 '상황'으로 뽑아 카드로 제시.
+	# (강제 단일 이벤트 대신, 여러 상황 중 무엇에 반응할지 플레이어가 고른다)
+	current_event = {}
+	_render_ap_actions()
 
 ## 스토리/아크 이벤트들을 StoryMode 화면으로 보낸다.
 func _go_story_mode(event_ids: Array):
@@ -1465,14 +1469,14 @@ func _render_ap_actions():
 		and not GameState.flags.get("invest_hint_shown", false)
 
 	if GameState.turn == 1 and ap == GameState.max_action_points and turn_action_log.is_empty():
-		hint_text = "👋 ⚡AP를 써서 행동을 고르세요. [💼 일·커리어]로 일자리부터 구하세요."
+		hint_text = "👋 이번 달 상황에 반응하거나, 아래 [💼 구직활동]으로 일자리부터 구하세요."
 		hint_color = "#00c896"
 	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
-		hint_text = "⚠ 수입 0원 — [💼 일·커리어]에서 구직활동으로 취업하세요!"
+		hint_text = "⚠ 수입 0원 — 아래 [💼 구직활동]으로 취업하세요!"
 		hint_color = "#ef4444"
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
-		hint_text = "💳 첫 월급 수령 — 이제 [📈 돈·투자]에서 투자도 가능합니다."
+		hint_text = "💳 첫 월급 수령 — 이제 [📈 투자]도 가능합니다."
 		hint_color = "#00c896"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
 		hint_text = "🎯 목표: 자산 30억 → 강남 입성 (남은 시간 %d년)" % max(0, 38 - GameState.age)
@@ -1482,9 +1486,9 @@ func _render_ap_actions():
 		choice_box.add_child(_label(hint_text, 12, hint_color))
 
 	# ══════════════════════════════════════════════════════
-	# 5개 핵심 행동 카드 (비주얼노벨 톤). 누르면 세부 모달.
+	# 상황 카드 — 매 턴 '이번 달 상황'에 반응. (추상 메뉴 대체)
 	# ══════════════════════════════════════════════════════
-	_render_action_cards(disabled, no_job, has_paycheck, job_story_unlocked, warn_body)
+	_render_situation_cards()
 
 	# ── 상점 버튼 (상단 바) ───────────────────────────────
 	if shop_button:
@@ -1513,7 +1517,99 @@ func _month_narration() -> String:
 		season = "가을. 한 해가 또 저문다. {name}은 수첩의 숫자를 본다."
 	return season.replace("{name}", GameState.player_name)
 
-## 5개 카테고리 행동 카드 렌더링
+# ══════════════════════════════════════════════════════════════
+# 상황 카드 시스템 — 추상 메뉴 대신 '이번 달 상황'에 반응한다.
+# ══════════════════════════════════════════════════════════════
+const SITUATION_ICONS := {
+	"finance": "💰", "family": "👨‍👩‍👧", "jobs": "💼", "social": "🤝",
+	"gambling": "🎲", "health": "🏥", "investment": "📈", "relationship": "❤",
+	"disasters": "🌀", "politics": "🏛", "comedy": "😆", "military": "🎖",
+}
+
+func _render_situation_cards():
+	# 이번 달의 '사건' 하나를 뽑는다 (턴당 1회). 그 달을 규정하는 핵심 장면.
+	if month_situations_turn != GameState.turn:
+		month_situations = EventManager.draw_situations(1)
+		month_situations_turn = GameState.turn
+		engaged_situations.clear()
+
+	var ap: int = GameState.action_points
+
+	var sit_done: bool = true
+	if not month_situations.is_empty():
+		var sit: Dictionary = month_situations[0]
+		var sid: String = str(sit.get("id", ""))
+		var engaged: bool = engaged_situations.has(sid)
+		sit_done = engaged
+		choice_box.add_child(_label("📖  이번 달, 이런 일이 있었다", 13, "#c8b88a"))
+		choice_box.add_child(_situation_card(sit, engaged, ap <= 0))
+	else:
+		choice_box.add_child(_label("📖  이번 달은 조용히 흘러갔다.", 13, "#7a8496"))
+
+	# 직접 행동 — 구직/투자/자기계발/휴식/생활 (그 달의 루틴)
+	choice_box.add_child(_label("", 4, "#000000"))
+	_render_essential_actions(ap)
+
+func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
+	var cat: String = str(sit.get("category", "social"))
+	var icon: String = str(SITUATION_ICONS.get(cat, "•"))
+	var title: String = _fmt(str(sit.get("title", "상황")))
+	var desc: String = _fmt(str(sit.get("description", "")))
+	var hook: String = desc.split("\n")[0]
+	if hook.length() > 40:
+		hook = hook.substr(0, 40) + "…"
+	var label_text: String = ""
+	var accent: String = "#3a6ea8"
+	if engaged:
+		label_text = "  ✓  %s  %s" % [icon, title]
+		accent = "#24242e"
+	else:
+		label_text = "  %s  %s\n        %s" % [icon, title, hook]
+	var btn: Button = _action_button(label_text, accent)
+	btn.custom_minimum_size = Vector2(0, 54)
+	btn.disabled = engaged or no_ap
+	if not engaged and not no_ap:
+		var captured: Dictionary = sit
+		btn.pressed.connect(func(): _engage_situation(captured))
+	return btn
+
+func _engage_situation(sit: Dictionary):
+	if GameState.action_points <= 0:
+		_show_toast("⚡ 시간이 없습니다", Color("#ff4444"))
+		return
+	var sid: String = str(sit.get("id", ""))
+	if engaged_situations.has(sid):
+		return
+	GameState.spend_ap()
+	engaged_situations[sid] = true
+	# 기존 이벤트 흐름 재활용 — follow_up 체인까지 자동 처리
+	EventManager.current_event = sit
+	current_event = sit
+	_render_event()
+
+func _render_essential_actions(ap: int):
+	var disabled: bool = ap <= 0
+	choice_box.add_child(_label("──  직접 행동  ──", 11, "#3a3a5a"))
+	var no_job: bool = GameState.current_job.is_empty()
+	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
+	if no_job:
+		_essential_btn("💼 구직활동  —  일자리를 찾는다", "#dc6a2a", "_ap_job_hunt", disabled)
+	if has_paycheck:
+		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
+	_essential_btn("📚 자기계발  —  독서·운동·명상", "#5a6ea8", "_open_cat_dev", disabled)
+	_essential_btn("🌊 휴식  —  정신력 회복", "#3a8a9a", "_ap_free_time", disabled)
+	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
+
+func _essential_btn(text: String, accent: String, fn: String, disabled: bool):
+	var btn: Button = _action_button(text, accent if not disabled else "#2a2a38")
+	btn.custom_minimum_size = Vector2(0, 34)
+	btn.disabled = disabled
+	if not disabled:
+		var fn_name: String = fn
+		btn.pressed.connect(func(): self.call(fn_name))
+	choice_box.add_child(btn)
+
+## 5개 카테고리 행동 카드 렌더링 (구버전 — 상황 카드로 대체됨)
 func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_unlocked: bool, warn_body: bool):
 	# [일/커리어] — 취업 후 일은 자동(월급·승진 패시브)이라 카드를 숨긴다.
 	# 무직(구직 필요)이거나 능동적 사업(창업/콘텐츠)이 있을 때만 노출.
