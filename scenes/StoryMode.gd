@@ -40,6 +40,7 @@ var _body_lbl: RichTextLabel
 var _continue_hint: Label
 var _choice_box: VBoxContainer
 var _toast_layer: VBoxContainer
+var _hud_label: Label   # 얇은 상단 HUD — 자산/돈/컨디션/시간
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -49,6 +50,8 @@ const TYPE_SPEED := 0.018   # 글자당 초
 func _ready():
 	_load_fonts()
 	_build_ui()
+	_refresh_hud()
+	GameState.stats_changed.connect(_refresh_hud)
 	SceneTransition.fade_in()
 	# 큐 가져오기
 	_queue = GameState.pending_story_queue.duplicate()
@@ -207,16 +210,50 @@ func _build_ui():
 	_choice_box.visible = false
 	add_child(_choice_box)
 
-	# 8. 토스트 레이어 (스탯/관계 변화 노출) — 우측 상단
+	# 8. 토스트 레이어 (스탯/관계 변화 노출) — 우측 상단 (HUD 아래로)
 	_toast_layer = VBoxContainer.new()
 	_toast_layer.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	_toast_layer.offset_left = -340
-	_toast_layer.offset_top = 28
+	_toast_layer.offset_top = 50
 	_toast_layer.offset_right = -24
 	_toast_layer.add_theme_constant_override("separation", 6)
 	_toast_layer.alignment = BoxContainer.ALIGNMENT_END
 	_toast_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_toast_layer)
+
+	# 9. 얇은 상단 HUD — 드라마 모드의 스테이크(자산/30억·돈·컨디션·시간) 상시 표시
+	var hud_panel = Panel.new()
+	hud_panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	hud_panel.offset_top = 0
+	hud_panel.offset_bottom = 38
+	hud_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var hud_style = StyleBoxFlat.new()
+	hud_style.bg_color = Color(0.02, 0.02, 0.05, 0.82)
+	hud_style.border_color = Color("#1e2438")
+	hud_style.border_width_bottom = 1
+	hud_panel.add_theme_stylebox_override("panel", hud_style)
+	add_child(hud_panel)
+	_hud_label = Label.new()
+	_hud_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_hud_label.offset_left = 24
+	_hud_label.offset_right = -24
+	_hud_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_hud_label.add_theme_font_size_override("font_size", 14)
+	_hud_label.add_theme_color_override("font_color", Color("#aeb6c8"))
+	_hud_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_apply_font(_hud_label)
+	hud_panel.add_child(_hud_label)
+
+func _refresh_hud():
+	if _hud_label == null:
+		return
+	var assets: float = GameState.get_total_asset_value()
+	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
+	var yrs_left: int = max(0, 38 - GameState.age)
+	_hud_label.text = "🎯 %s / 30억 (%d%%)      💰 %s      ❤%d  🧠%d  😫%d      ⏳ %d년" % [
+		GameState.format_money(assets), pct,
+		GameState.format_money(GameState.money),
+		GameState.health, GameState.mental, GameState.stress, yrs_left]
 
 func _apply_font(lbl: Label, bold: bool = false):
 	var f = _font_bold if bold else _font

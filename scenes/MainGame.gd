@@ -117,7 +117,10 @@ func _continue_after_story():
 	if ms_id != "":
 		_go_story_mode([ms_id])
 		return
-	# 더 없으면 일반 행동 화면
+	# 이번 턴 핵심 사건을 아직 VN으로 안 틀었으면 재생
+	if _maybe_play_month_situation():
+		return
+	# 더 없으면 루틴 행동 화면
 	current_event = {}
 	_render_event()
 
@@ -675,10 +678,32 @@ func _begin_month():
 	if ms_id != "":
 		_go_story_mode([ms_id])
 		return
-	# 상황 카드 단계 — 앰비언트 이벤트를 '상황'으로 뽑아 카드로 제시.
-	# (강제 단일 이벤트 대신, 여러 상황 중 무엇에 반응할지 플레이어가 고른다)
+	# 드라마 모드 — 이번 달의 핵심 사건을 풀스크린 VN으로 재생.
+	# (재생했으면 거기서 돌아온 뒤 루틴 행동 화면으로 이어진다)
 	current_event = {}
+	if _maybe_play_month_situation():
+		return
 	_render_ap_actions()
+
+## 이번 턴의 '사건' 하나를 VN(StoryMode)으로 재생한다. 재생했으면 true.
+## 드라마 모드: 매달의 핵심 사건은 풀스크린 VN으로. (앰비언트 이벤트를 1개 뽑아 재생)
+func _maybe_play_month_situation() -> bool:
+	# 주의: MainGame은 StoryMode 다녀오면 재생성되므로 인스턴스 변수로는 추적 불가.
+	# GameState(오토로드)에 '이번 턴 사건 재생함'을 기록해야 무한 루프를 막는다.
+	if int(GameState.flags.get("month_event_turn", -1)) == GameState.turn:
+		return false
+	GameState.flags["month_event_turn"] = GameState.turn
+	var sits: Array = EventManager.draw_situations(1)
+	if sits.is_empty():
+		return false
+	var sit: Dictionary = sits[0]
+	var sid: String = str(sit.get("id", ""))
+	if sid.is_empty():
+		return false
+	# StoryMode는 apply_choice 경유라 쿨다운을 안 박으므로 여기서 박아 재추첨 방지
+	EventManager.event_cooldowns[sid] = int(sit.get("cooldown", 6))
+	_go_story_mode([sid])
+	return true
 
 ## 스토리/아크 이벤트들을 StoryMode 화면으로 보낸다.
 func _go_story_mode(event_ids: Array):
@@ -1527,27 +1552,13 @@ const SITUATION_ICONS := {
 }
 
 func _render_situation_cards():
-	# 이번 달의 '사건' 하나를 뽑는다 (턴당 1회). 그 달을 규정하는 핵심 장면.
-	if month_situations_turn != GameState.turn:
-		month_situations = EventManager.draw_situations(1)
-		month_situations_turn = GameState.turn
-		engaged_situations.clear()
-
+	# 그 달의 '사건'은 풀스크린 VN으로 이미 재생됨(드라마 모드).
+	# 여기선 남은 시간으로 할 '루틴 행동'만 고른다.
 	var ap: int = GameState.action_points
-
-	var sit_done: bool = true
-	if not month_situations.is_empty():
-		var sit: Dictionary = month_situations[0]
-		var sid: String = str(sit.get("id", ""))
-		var engaged: bool = engaged_situations.has(sid)
-		sit_done = engaged
-		choice_box.add_child(_label("📖  이번 달, 이런 일이 있었다", 13, "#c8b88a"))
-		choice_box.add_child(_situation_card(sit, engaged, ap <= 0))
+	if ap > 0:
+		choice_box.add_child(_label("──  남은 시간에, 무엇을 할까  ──", 12, "#9aa4b8"))
 	else:
-		choice_box.add_child(_label("📖  이번 달은 조용히 흘러갔다.", 13, "#7a8496"))
-
-	# 직접 행동 — 구직/투자/자기계발/휴식/생활 (그 달의 루틴)
-	choice_box.add_child(_label("", 4, "#000000"))
+		choice_box.add_child(_label("이번 달을 다 보냈다. [다음 달]로.", 12, "#7a8496"))
 	_render_essential_actions(ap)
 
 func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
