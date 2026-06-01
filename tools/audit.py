@@ -69,6 +69,13 @@ DISPATCH_PATTERNS = [
 # fn 이름을 위치 인자로 받는 헬퍼 — 이 줄에선 "_x" 토큰 전부가 함수 후보
 HELPER_LINE_FUNCS = ("_cat_modal_button(", "_add_category_card(")
 
+# ':=' 추론이 Variant(.get())를 받는 패턴.
+# Dictionary.get()/Object.get()은 Variant를 반환 → Godot 'inferred from Variant'
+# 경고를 에러로 승격해 스크립트 컴파일이 통째로 실패한다(게임 안 켜짐).
+# 헤드리스 --check-only는 autoload-not-found에서 조기 중단해 이걸 못 잡으므로 grep으로 방어.
+INFER_RHS_RE  = re.compile(r':=\s*(.+)$')
+CAST_WRAP_RE  = re.compile(r'^\s*(str|int|float|bool|String|StringName)\s*\(')
+
 def check_gdscript():
     gd_files = []
     for d in GD_DIRS:
@@ -96,6 +103,13 @@ def check_gdscript():
             if any(h in line for h in HELPER_LINE_FUNCS):
                 for ref in re.findall(r'"(_\w+)"', line):
                     report(f, ln_no, ref, file_defs)
+            # := 가 Variant(.get())를 추론 받는 컴파일-실패 패턴
+            mi = INFER_RHS_RE.search(line)
+            if mi:
+                rhs = mi.group(1)
+                if ".get(" in rhs and not CAST_WRAP_RE.match(rhs):
+                    err('%s:%d  := 가 Variant(.get())를 추론 → "경고=에러"로 컴파일 실패(게임 안 켜짐). 명시적 타입 지정(: String 등).  %s'
+                        % (rel(f), ln_no, line.strip()[:60]))
 
 # ══════════════════════════════════════════════════════════════
 # 2) 폐기 키워드 스캔
