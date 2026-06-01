@@ -694,10 +694,18 @@ func _next_arc_id() -> String:
 		return "arc_intro_01_meal"
 	if t >= 3 and not f.get("arc_intro_dad_seen", false):
 		return "arc_intro_02_dad_call"
+	# ★ 첫 유혹 (턴 4) — 정석 vs 위험한 지름길. 결말까지 갈리는 큰 분기.
+	if t >= 4 and not f.get("arc_temptation_seen", false):
+		return "arc_temptation_01"
 	if t >= 5 and not f.get("arc_intro_sns_seen", false):
 		return "arc_intro_03_sns"
 	if t >= 7 and not f.get("arc_intro_hyunsu_seen", false):
 		return "arc_intro_04_hyunsu"
+	# ★ 첫 유혹의 후폭풍/보상 (턴 8) — 선택에 따라 갈림
+	if f.get("lent_account", false) and not f.get("arc_temptation_fallout_seen", false) and t >= 8:
+		return "arc_temptation_fallout"
+	if f.get("kept_clean_hands", false) and not f.get("arc_temptation_clean_seen", false) and t >= 8:
+		return "arc_temptation_clean"
 
 	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):

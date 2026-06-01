@@ -8,21 +8,39 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "intro"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "intro"
+    ],
     "cooldown": 9999,
     "description": "구인 앱으로 지원한 곳에서 연락이 왔다.\n작은 사무실, 면접.\n\n면접관이 이력서를 훑는다. 그리고 묻는다.\n\"여기 6년 공백이 있네요. 뭐 하셨어요?\"\n\n빚을 갚았다고는 차마 말 못 한다.\n6년을, 어떻게 한 문장으로 설명하나.\n\n{name}의 손에 땀이 났다.",
     "choices": [
       {
         "text": "솔직하게 말한다 — \"집안 사정이 있었습니다\"",
-        "effects": { "mental": 4, "stress": 3, "social_skill": 2 },
-        "flags": ["arc_intro_meal_seen"],
+        "effects": {
+          "mental": 4,
+          "stress": 3,
+          "social_skill": 2
+        },
+        "flags": [
+          "arc_intro_meal_seen"
+        ],
         "result_text": "면접관이 잠깐 {name}을 본다.\n더 캐묻지 않았다. 그 눈빛에 약간의 이해가 있었다.\n\"...성실하게 일하실 분 같네요.\"\n합격일지 아닐지는 모른다. 하지만 거짓말은 안 했다."
       },
       {
         "text": "둘러댄다 — \"개인 사업을 준비했었습니다\"",
-        "effects": { "intelligence": 2, "stress": 5 },
-        "flags": ["arc_intro_meal_seen", "lied_interview"],
+        "effects": {
+          "intelligence": 2,
+          "stress": 5
+        },
+        "flags": [
+          "arc_intro_meal_seen",
+          "lied_interview"
+        ],
         "result_text": "그럴듯하게 포장했다.\n면접관은 고개를 끄덕였지만, 어딘가 미심쩍은 표정.\n{name}은 면접장을 나오며 생각했다.\n거짓말은, 또 다른 거짓말을 부른다는 걸."
       }
     ]
@@ -36,27 +54,53 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "intro"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "intro"
+    ],
     "cooldown": 9999,
     "description": "편의점 야간 알바. 새벽 3시.\n\n진상 손님, 택배 정리, 청소.\n시급 만원 남짓. 한 달 꼬박 일해야 200만원이 안 된다.\n\n{name}은 계산해본다.\n이 속도로 30억까지 — 1,250년.\n\n웃음이 났다. 어이가 없어서.\n월급만으로는, 절대 안 된다.\n다른 길을 찾아야 한다.",
     "choices": [
       {
         "text": "일단 종잣돈부터. 악착같이 모은다",
-        "effects": { "stress": 4, "investment_skill": 2 },
-        "flags": ["arc_intro_dad_seen", "mindset_saver"],
+        "effects": {
+          "stress": 4,
+          "investment_skill": 2
+        },
+        "flags": [
+          "arc_intro_dad_seen",
+          "mindset_saver"
+        ],
         "result_text": "큰 돈은 작은 돈에서 시작한다.\n{name}은 알바를 마치고도 구인 앱을 뒤졌다.\n종잣돈. 그게 첫 관문이다."
       },
       {
         "text": "투자를 공부하기 시작한다",
-        "effects": { "intelligence": 3, "investment_skill": 4, "stress": 2 },
-        "flags": ["arc_intro_dad_seen", "mindset_investor"],
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 4,
+          "stress": 2
+        },
+        "flags": [
+          "arc_intro_dad_seen",
+          "mindset_investor"
+        ],
         "result_text": "유튜브, 책, 카페 글.\n새벽 알바가 끝나면 도서관으로 갔다.\n월급으로 안 되면, 돈이 돈을 벌게 해야 한다.\n{name}은 그 방법을 배우기로 했다."
       },
       {
         "text": "언젠가 내 사업을. 아이디어를 메모한다",
-        "effects": { "intelligence": 2, "luck": 3, "stress": 3 },
-        "flags": ["arc_intro_dad_seen", "mindset_founder"],
+        "effects": {
+          "intelligence": 2,
+          "luck": 3,
+          "stress": 3
+        },
+        "flags": [
+          "arc_intro_dad_seen",
+          "mindset_founder"
+        ],
         "result_text": "편의점 카운터 뒤에서, {name}은 수첩에 뭔가를 적었다.\n남들이 안 하는 것. 틈새. 기회.\n한 방이 필요하다. 그리고 한 방은, 준비된 자에게만 온다."
       }
     ]
@@ -70,27 +114,51 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "intro"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "intro"
+    ],
     "cooldown": 9999,
     "description": "새벽 두 시. 잠이 안 온다.\n\n습관처럼 인스타를 연다. 손가락이 피드를 넘긴다.\n\n고등학교 동창. '내 집 마련 성공 🏠 #영끌 #30대'\n또 다른 동창. 신혼여행 몰디브.\n과 동기. 외제차 키 인증.\n\n다들 어딘가 도착해 있었다.\n김민준만 아직 출발선이다. 아니, 출발선보다 뒤다.\n\n폰을 든 손이 무거워진다.",
     "choices": [
       {
         "text": "앱을 지운다 — 비교는 독이다",
-        "effects": { "mental": 7, "stress": -6 },
-        "flags": ["arc_intro_sns_seen", "deleted_sns"],
+        "effects": {
+          "mental": 7,
+          "stress": -6
+        },
+        "flags": [
+          "arc_intro_sns_seen",
+          "deleted_sns"
+        ],
         "result_text": "꾹 눌러서 앱을 삭제한다.\n남의 결승선을 보면서 내 출발을 미룰 순 없다.\n화면이 조금 비워졌다. 마음도 아주 조금."
       },
       {
         "text": "그 감정을 연료로 쓴다 — 두고 보자",
-        "effects": { "intelligence": 4, "stress": 5, "mental": 2 },
-        "flags": ["arc_intro_sns_seen", "envy_fuel"],
+        "effects": {
+          "intelligence": 4,
+          "stress": 5,
+          "mental": 2
+        },
+        "flags": [
+          "arc_intro_sns_seen",
+          "envy_fuel"
+        ],
         "result_text": "부러움이 분노가 되고, 분노가 의지가 된다.\n위험한 연료다. 오래 타면 자기를 태운다.\n그래도 지금은 이거라도 써야 한다. 김민준은 폰을 끄고 눈을 감았다."
       },
       {
         "text": "그냥 본다 — 부러우면 부러운 거다",
-        "effects": { "mental": -3, "stress": 4 },
-        "flags": ["arc_intro_sns_seen"],
+        "effects": {
+          "mental": -3,
+          "stress": 4
+        },
+        "flags": [
+          "arc_intro_sns_seen"
+        ],
         "result_text": "끝까지 봤다. 좋아요도 눌렀다.\n부러움을 부정하지 않기로 했다. 그것도 솔직한 거니까.\n다만 그 솔직함이 오늘 밤은 좀 아팠다."
       }
     ]
@@ -104,23 +172,54 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "intro"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "intro"
+    ],
     "cooldown": 9999,
     "description": "고시원 공용 주방. 새벽 한 시.\n\n컵라면에 물을 붓고 있는데, 옆방 남자가 들어온다.\n며칠 마주쳤지만 인사는 처음이다.\n\n\"...형도 라면이네요.\" 그가 먼저 말한다.\n눈 밑이 까맣다. 책상에 오래 앉아있는 사람의 얼굴.\n\n\"공무원 준비 4년째예요. 올해가 마지막이라고 매년 말하는데.\"\n그가 피식 웃는다. 웃는데 안 웃는 것 같은 표정.\n\n\"형은 뭐 하는 사람이에요?\"",
     "choices": [
       {
         "text": "\"저도 아직 모르겠어요. 찾는 중이에요.\"",
-        "effects": { "mental": 5, "social_skill": 3, "stress": -3 },
-        "cast_effects": { "hyunsu": { "met": true, "affinity": 12 } },
-        "flags": ["arc_intro_hyunsu_seen"],
+        "effects": {
+          "mental": 5,
+          "social_skill": 3,
+          "stress": -3
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "met": true,
+            "affinity": 12
+          }
+        },
+        "flags": [
+          "arc_intro_hyunsu_seen"
+        ],
         "result_text": "현수가 고개를 끄덕인다.\n\"그게 제일 정직한 답이네요.\"\n둘은 좁은 주방에서 말없이 라면을 먹었다.\n같은 처지의 사람이 옆에 있다는 것만으로, 그 밤은 덜 추웠다."
       },
       {
         "text": "\"강남 갈 거예요. 5년 안에.\"",
-        "effects": { "mental": 6, "stress": 2 },
-        "cast_effects": { "hyunsu": { "met": true, "affinity": 8, "flags": ["told_dream"] } },
-        "flags": ["arc_intro_hyunsu_seen", "declared_dream"],
+        "effects": {
+          "mental": 6,
+          "stress": 2
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "met": true,
+            "affinity": 8,
+            "flags": [
+              "told_dream"
+            ]
+          }
+        },
+        "flags": [
+          "arc_intro_hyunsu_seen",
+          "declared_dream"
+        ],
         "result_text": "현수가 라면을 먹다 말고 김민준을 본다.\n비웃을 줄 알았는데, 그러지 않았다.\n\"...진심이네요, 형.\" 잠깐 침묵. \"왠지 형은 갈 것 같다.\"\n그 말이, 이상하게 오래 남았다."
       }
     ]
@@ -134,30 +233,74 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "sangchul"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
     "cooldown": 9999,
     "description": "신촌 골목, 작은 부동산.\n원룸 시세나 알아보려고 들어갔다.\n\n50대 남자가 안경 너머로 김민준을 본다.\n\"원룸? 지금 사정으론 보증금이 빠듯하겠는데.\"\n\n맞는 말이라 할 말이 없었다. 나가려는데 그가 부른다.\n\"커피나 한 잔 하고 가. 어차피 손님도 없어.\"\n\n믹스커피를 타주며, 그가 묻는다.\n\"어디 살고 싶어서 왔어?\"\n\"...강남이요.\"\n그가 웃지도 비웃지도 않고, 그냥 본다.\n\"왜?\"",
     "choices": [
       {
         "text": "\"아버지한테... 한 번은 보여드리고 싶어서요.\"",
-        "effects": { "mental": 6, "intelligence": 3 },
-        "cast_effects": { "sangchul": { "met": true, "affinity": 15, "stage": "interested", "flags": ["knows_dad_reason"] } },
-        "flags": ["arc_sangchul_met_seen"],
+        "effects": {
+          "mental": 6,
+          "intelligence": 3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "met": true,
+            "affinity": 15,
+            "stage": "interested",
+            "flags": [
+              "knows_dad_reason"
+            ]
+          }
+        },
+        "flags": [
+          "arc_sangchul_met_seen"
+        ],
         "result_text": "처음으로 입 밖에 낸 이유였다.\n임상철은 한참 김민준을 보더니 고개를 끄덕였다.\n\"그 '왜'가 확실하네. 그럼 됐어.\"\n\"흔들릴 때마다 그게 버텨줄 거야. 명함 줄 테니까, 가끔 들러.\"\n낯선 동네에 처음으로 아는 사람이 생겼다."
       },
       {
         "text": "\"돈 있으면 다 강남 가고 싶지 않나요?\"",
-        "effects": { "intelligence": 4, "stress": 2 },
-        "cast_effects": { "sangchul": { "met": true, "affinity": 6, "stage": "watching" } },
-        "flags": ["arc_sangchul_met_seen"],
+        "effects": {
+          "intelligence": 4,
+          "stress": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "met": true,
+            "affinity": 6,
+            "stage": "watching"
+          }
+        },
+        "flags": [
+          "arc_sangchul_met_seen"
+        ],
         "result_text": "임상철이 피식 웃는다.\n\"그렇게 답하는 사람치고 진짜 가는 사람 못 봤어.\"\n\"강남이 목적이면 못 가. 강남이 수단인 사람만 가더라고.\"\n무슨 뜻인지 그때는 몰랐다. 명함만 받아 나왔다."
       },
       {
         "text": "솔직히 말한다 — \"지는 게 싫어서요. 이 도시한테.\"",
-        "effects": { "mental": 5, "stress": -2, "intelligence": 2 },
-        "cast_effects": { "sangchul": { "met": true, "affinity": 12, "stage": "interested" } },
-        "flags": ["arc_sangchul_met_seen", "pride_motive"],
+        "effects": {
+          "mental": 5,
+          "stress": -2,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "met": true,
+            "affinity": 12,
+            "stage": "interested"
+          }
+        },
+        "flags": [
+          "arc_sangchul_met_seen",
+          "pride_motive"
+        ],
         "result_text": "임상철이 커피잔을 내려놨다.\n\"...나도 30년 전에 똑같이 말했어. 충청도서 올라와서.\"\n\"그 오기로 여기까지 왔지. 건물 두 채. 근데 잃은 것도 많아.\"\n\"너는 잃지 마. 갈 거면, 잃지 말고 가.\"\n그 말에는 어떤 무게가 있었다."
       }
     ]
@@ -172,30 +315,70 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jiyeon"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "봄 오후. 알바 가는 길.\n자전거 페달을 밟던 그 순간, 골목을 돌아 나온 검은 외제차가 앞바퀴를 스쳤다.\n\n{name}은 아스팔트에 넘어졌다. 무릎이 까졌고 자전거 앞바퀴가 휘었다.\n\n차에서 한 여자가 내린다. 또래로 보인다. 비싼 옷, 비싼 차, 당황한 얼굴.\n\n\"어, 어떡해... 괜찮으세요? 제가 보험 처리—\"\n\n{name}은 자전거를 일으켜 세운다. 바퀴를 살핀다. 시계를 본다.\n알바 시간까지 12분.",
     "choices": [
       {
         "text": "\"괜찮습니다.\" — 그냥 자리를 뜬다",
-        "effects": { "stress": 3 },
-        "flags": ["arc_jiyeon_crash_seen", "jiyeon_walked_away"],
-        "cast_effects": { "jiyeon": { "met": true, "stage": "curious", "affinity": 8 } },
+        "effects": {
+          "stress": 3
+        },
+        "flags": [
+          "arc_jiyeon_crash_seen",
+          "jiyeon_walked_away"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "met": true,
+            "stage": "curious",
+            "affinity": 8
+          }
+        },
         "result_text": "보상도, 연락처도 받지 않고 {name}은 걸어간다.\n뒤도 돌아보지 않는다.\n\n여자는 그 자리에 멈춰 선 채로 멀어지는 뒷모습을 바라본다.\n— 처음 본다. 저런 사람."
       },
       {
         "text": "휘어진 자전거를 보여주며 \"수리비만 주세요\"",
-        "effects": { "money": 80000 },
-        "flags": ["arc_jiyeon_crash_seen", "jiyeon_took_money"],
-        "cast_effects": { "jiyeon": { "met": true, "stage": "transaction", "affinity": 2 } },
+        "effects": {
+          "money": 80000
+        },
+        "flags": [
+          "arc_jiyeon_crash_seen",
+          "jiyeon_took_money"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "met": true,
+            "stage": "transaction",
+            "affinity": 2
+          }
+        },
         "result_text": "여자가 지갑에서 5만원짜리 두 장을 꺼낸다. 망설임이 없다.\n\"이거면 될까요? 모자라면—\"\n\"됐습니다.\"\n\n{name}은 돈을 받아 주머니에 넣고 걸어간다.\n그 여자에게 이건 그냥 점심값 정도였을 것이다."
       },
       {
         "text": "화를 낸다 — \"앞을 보고 운전해야죠\"",
-        "effects": { "stress": -2, "mental": 2 },
-        "flags": ["arc_jiyeon_crash_seen", "jiyeon_got_angry"],
-        "cast_effects": { "jiyeon": { "met": true, "stage": "awkward", "affinity": 5 } },
+        "effects": {
+          "stress": -2,
+          "mental": 2
+        },
+        "flags": [
+          "arc_jiyeon_crash_seen",
+          "jiyeon_got_angry"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "met": true,
+            "stage": "awkward",
+            "affinity": 5
+          }
+        },
         "result_text": "참았던 말이 튀어나왔다. 여자는 고개를 숙인다.\n\"...죄송합니다. 정말로.\"\n\n진심인 것 같았다. 그래서 더 화를 낼 수가 없었다.\n{name}은 한숨을 쉬고 자전거를 끌고 간다.\n여자의 시선이 등 뒤에 오래 남았다."
       }
     ]
@@ -209,23 +392,48 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jiyeon"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "편의점 야간 카운터.\n자정이 넘은 시각, 문에 달린 종이 울린다.\n\n들어온 사람을 보고 {name}은 멈칫한다.\n그 여자다. 자전거를 친 그 외제차의 주인.\n\n그녀도 {name}을 알아본다. 눈이 커진다.\n\"...어? 그때 그?\"\n\n손에는 와인 한 병. 이 동네에 어울리지 않는 옷차림.\n왜 이 시간에, 이 동네 편의점에 있는 걸까.",
     "choices": [
       {
         "text": "모른 척 계산만 한다",
-        "effects": { "stress": 2 },
-        "flags": ["arc_jiyeon_store_seen"],
-        "cast_effects": { "jiyeon": { "affinity": 3, "stage": "curious" } },
+        "effects": {
+          "stress": 2
+        },
+        "flags": [
+          "arc_jiyeon_store_seen"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 3,
+            "stage": "curious"
+          }
+        },
         "result_text": "\"15,000원입니다.\"\n{name}은 사무적으로 바코드를 찍는다.\n\n그녀는 뭔가 말하려다 만다. 카드를 내밀고, 받고, 봉투를 든다.\n나가기 직전 한 번 더 돌아본다.\n\"...여기서 일하시는구나.\"\n문이 닫힌다. 종이 울린다."
       },
       {
         "text": "\"자전거 주인이네요.\" 먼저 아는 척한다",
-        "effects": { "social_skill": 2 },
-        "flags": ["arc_jiyeon_store_seen", "jiyeon_acknowledged"],
-        "cast_effects": { "jiyeon": { "affinity": 12, "stage": "interest" } },
+        "effects": {
+          "social_skill": 2
+        },
+        "flags": [
+          "arc_jiyeon_store_seen",
+          "jiyeon_acknowledged"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 12,
+            "stage": "interest"
+          }
+        },
         "result_text": "그녀의 얼굴이 환해진다. 안도하는 표정.\n\"기억하시네요! 그때 그냥 가셔서... 미안해서 한참 찾았어요.\"\n\"찾을 게 뭐 있다고요.\"\n\"보통은 그렇게 안 가잖아요.\"\n그녀는 잠깐 망설이다 말한다.\n\"저... 한지연이에요.\"\n그날 처음으로, 이름을 알았다."
       }
     ]
@@ -239,30 +447,69 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jiyeon"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "며칠 뒤. 알바 끝나고 나오는데 편의점 앞에 그 차가 서 있다.\n\n한지연이 차에서 내린다. 이번엔 작정하고 온 것 같다.\n\n\"커피 한 잔만 사게 해주세요. 그게 안 되면 밥이라도.\n계속 마음에 걸려서요. 그날 제가 잘못한 건데 그쪽은 아무것도 안 받고 가셨잖아요.\"\n\n진심인 것 같다. 근데 {name}은 안다.\n이 사람과 자기는 사는 세계가 다르다.\n커피 한 잔이 시작이 되면, 그 다음은 감당할 수 없는 거리가 보일 것이다.",
     "choices": [
       {
         "text": "거절한다 — \"신경 쓰지 마세요. 정말 괜찮으니까\"",
-        "effects": { "mental": 3, "stress": -2 },
-        "flags": ["arc_jiyeon_offer_seen", "jiyeon_refused_coffee"],
-        "cast_effects": { "jiyeon": { "affinity": 6, "stage": "intrigued" } },
+        "effects": {
+          "mental": 3,
+          "stress": -2
+        },
+        "flags": [
+          "arc_jiyeon_offer_seen",
+          "jiyeon_refused_coffee"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 6,
+            "stage": "intrigued"
+          }
+        },
         "result_text": "{name}은 고개를 젓고 지하철역 쪽으로 걷는다.\n\n한지연은 따라오지 않는다. 대신 등 뒤로 말한다.\n\"왜 자꾸 도망가요?\"\n\n{name}은 멈추지 않는다. 근데 그 말이 계속 따라온다.\n— 도망? 이게 도망인가.\n한지연은 그날, {name}이라는 사람이 더 궁금해졌다."
       },
       {
         "text": "커피만 받는다 — 딱 한 번",
-        "effects": { "social_skill": 3, "mental": 2 },
-        "flags": ["arc_jiyeon_offer_seen", "jiyeon_had_coffee"],
-        "cast_effects": { "jiyeon": { "affinity": 15, "stage": "connected" } },
+        "effects": {
+          "social_skill": 3,
+          "mental": 2
+        },
+        "flags": [
+          "arc_jiyeon_offer_seen",
+          "jiyeon_had_coffee"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 15,
+            "stage": "connected"
+          }
+        },
         "result_text": "카페에 마주 앉았다. 그녀는 6,500원짜리 라떼를, {name}은 가장 싼 아메리카노를.\n\n한지연은 말이 많았다. 유학 얘기, 아버지 회사 얘기, 답답한 집안 얘기.\n{name}은 거의 듣기만 했다.\n\n\"그쪽은요? 무슨 일 하세요?\"\n\"...이것저것이요.\"\n그녀는 더 묻지 않았다. 대신 웃었다.\n\"다음에 또 봐요. 이번엔 제가 아니라 그쪽이 사는 걸로.\"\n다음이 있다는 듯이."
       },
       {
         "text": "솔직하게 말한다 — \"우리 사는 세계가 너무 달라요\"",
-        "effects": { "mental": 5, "stress": -3 },
-        "flags": ["arc_jiyeon_offer_seen", "jiyeon_honest"],
-        "cast_effects": { "jiyeon": { "affinity": 20, "stage": "drawn" } },
+        "effects": {
+          "mental": 5,
+          "stress": -3
+        },
+        "flags": [
+          "arc_jiyeon_offer_seen",
+          "jiyeon_honest"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 20,
+            "stage": "drawn"
+          }
+        },
         "result_text": "{name}은 처음으로 솔직하게 말했다.\n\"그쪽 차가 제 한 달 월세의 몇 배인지 아세요? 커피 한 잔 사주는 게 그쪽한텐 아무것도 아니겠지만, 저한텐 그게 아니에요.\"\n\n한지연은 한동안 말이 없었다.\n\"...그래서 그날 그냥 가신 거예요?\"\n\"네.\"\n\"근데요.\" 그녀가 {name}을 똑바로 봤다.\n\"전 그런 사람 처음 봤어요. 그래서 더 알고 싶은데.\"\n그 눈빛이, {name}을 흔들었다."
       }
     ]
@@ -276,23 +523,55 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jaehyuk"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk"
+    ],
     "cooldown": 9999,
     "description": "카카오톡 메시지 하나.\n\"야 {name}아! 나 재혁이. 군대 최재혁. 기억나지? 서울 올라왔는데 오랜만에 얼굴이나 보자.\"\n\n프로필 사진엔 외제차 앞에서 찍은 그가 있다.\n22살, 같은 내무반. 3년 친했다가 제대하고 끊긴 사이.\n\n포장마차에서 만난 재혁은 달라져 있었다.\n좋은 옷, 비싼 시계, 자신감 넘치는 얼굴.\n\"야 너 하나도 안 변했다! 술 한잔 받아.\"\n그가 계산을 한다. 카드 긁는 손에 망설임이 없다.",
     "choices": [
       {
         "text": "반갑게 응한다 — 오랜만의 옛 친구",
-        "effects": { "mental": 6, "social_skill": 2, "stress": -3 },
-        "cast_effects": { "jaehyuk": { "met": true, "affinity": 12, "stage": "reunited" } },
-        "flags": ["arc_jaehyuk_reunion_seen"],
+        "effects": {
+          "mental": 6,
+          "social_skill": 2,
+          "stress": -3
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "met": true,
+            "affinity": 12,
+            "stage": "reunited"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_reunion_seen"
+        ],
         "result_text": "옛날 군대 얘기로 밤이 깊었다.\n오랜만에 소리 내 웃었다. 힘든 시기에 반가운 얼굴.\n\"자주 보자, {name}아. 내가 연락할게.\"\n재혁은 진심인 것 같았다. 적어도 그날은."
       },
       {
         "text": "반갑지만 어딘가 거리를 둔다",
-        "effects": { "intelligence": 3, "stress": 2 },
-        "cast_effects": { "jaehyuk": { "met": true, "affinity": 5, "stage": "reunited", "flags": ["kept_distance"] } },
-        "flags": ["arc_jaehyuk_reunion_seen"],
+        "effects": {
+          "intelligence": 3,
+          "stress": 2
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "met": true,
+            "affinity": 5,
+            "stage": "reunited",
+            "flags": [
+              "kept_distance"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_reunion_seen"
+        ],
         "result_text": "웃으며 술잔을 부딪쳤지만, 어딘가 마음이 놓이지 않았다.\n10년 만에 연락한 사람이 이렇게 잘 나간다.\n왜 하필 지금, 나한테.\n{name}은 그 생각을 애써 밀어냈다. 오랜만의 친구인데."
       }
     ]
@@ -306,30 +585,75 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jaehyuk"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk"
+    ],
     "cooldown": 9999,
     "description": "그 뒤로 재혁은 자주 연락했다.\n밥을 사고, 술을 사고, 가끔 용돈처럼 슬쩍 돈을 쥐여주려 했다.\n\n\"야 너 요즘 힘들지? 이거 그냥 받아. 우리 사이에 무슨.\"\n{name}은 받지 않았다. 그래도 그 마음이 고마웠다.\n\n오늘은 카페에서 만났다. 재혁이 폰을 꺼낸다.\n\"{name}아, 나 사실 요즘 투자로 좀 벌어. 꽤 많이.\"\n화면을 보여준다. 수익률 그래프. 숫자가 가파르게 올라간다.\n\"너도 관심 있으면 알려줄게. 부담 갖지 말고.\"",
     "choices": [
       {
         "text": "관심을 보인다 — \"어떻게 하는 건데?\"",
-        "effects": { "investment_skill": 2, "stress": 2 },
-        "cast_effects": { "jaehyuk": { "affinity": 10, "stage": "trusted", "flags": ["showed_interest"] } },
-        "flags": ["arc_jaehyuk_bond_seen"],
+        "effects": {
+          "investment_skill": 2,
+          "stress": 2
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": 10,
+            "stage": "trusted",
+            "flags": [
+              "showed_interest"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_bond_seen"
+        ],
         "result_text": "재혁의 눈이 반짝였다.\n\"역시 너는 감이 있어. 천천히 알려줄게.\"\n그가 보여준 수익률은 비현실적으로 좋았다.\n좋은 게 너무 좋으면 의심해야 한다는 걸, 그때는 잊고 있었다."
       },
       {
         "text": "고맙지만 선을 긋는다 — \"난 투자는 잘 몰라서\"",
-        "effects": { "intelligence": 3, "mental": 2 },
-        "cast_effects": { "jaehyuk": { "affinity": 4, "stage": "trusted", "flags": ["hesitant"] } },
-        "flags": ["arc_jaehyuk_bond_seen"],
+        "effects": {
+          "intelligence": 3,
+          "mental": 2
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": 4,
+            "stage": "trusted",
+            "flags": [
+              "hesitant"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_bond_seen"
+        ],
         "result_text": "\"에이, 누가 지금 하래. 그냥 그렇다고.\"\n재혁은 웃으며 화제를 돌렸다.\n근데 그 수익률 그래프가 자꾸 눈에 밟혔다.\n저게 진짜라면... {name}은 고개를 저었다. 일단은."
       },
       {
         "text": "수익률이 너무 좋다 — 슬쩍 의심한다",
-        "effects": { "intelligence": 5, "stress": 3 },
-        "cast_effects": { "jaehyuk": { "affinity": 2, "stage": "trusted", "flags": ["doubting"] } },
-        "flags": ["arc_jaehyuk_bond_seen"],
+        "effects": {
+          "intelligence": 5,
+          "stress": 3
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": 2,
+            "stage": "trusted",
+            "flags": [
+              "doubting"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_bond_seen"
+        ],
         "result_text": "\"재혁아, 이거 너무 좋은데? 이런 게 진짜 있어?\"\n재혁의 표정이 0.5초 굳었다가 풀린다.\n\"하하, 그래서 다들 못 믿고 안 하는 거야. 너도 안 하면 그만이고.\"\n그 0.5초를, {name}은 놓치지 않았다."
       }
     ]
@@ -343,30 +667,79 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jaehyuk"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk"
+    ],
     "cooldown": 9999,
     "description": "재혁이 정색하고 불렀다. 호텔 라운지.\n\n\"{name}아, 이건 진짜 너한테만 말하는 거야.\n이번에 큰 게 하나 들어와. 원금의 세 배. 근데 이번 주까지만 자리가 있어.\"\n\n그가 몸을 기울인다.\n\"너 강남 가고 싶다며. 월급 모아서 언제 가? 이게 지름길이야.\n나 믿지? 우리가 남이야? 같이 죽고 같이 산 사이잖아.\"\n\n통장의 돈이 떠오른다. 그리고 강남이 떠오른다.\n그리고 아버지가 떠오른다.\n\n결정해야 한다. 지금.",
     "choices": [
       {
         "text": "전 재산을 투자한다 — 믿는다, 재혁이를",
-        "effects": { "money": -3000000, "stress": 8 },
-        "cast_effects": { "jaehyuk": { "affinity": 5, "stage": "all_in", "flags": ["invested"] } },
-        "flags": ["arc_jaehyuk_pitch_seen", "jaehyuk_trusted_fully"],
+        "effects": {
+          "money": -3000000,
+          "stress": 8
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": 5,
+            "stage": "all_in",
+            "flags": [
+              "invested"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_pitch_seen",
+          "jaehyuk_trusted_fully"
+        ],
         "result_text": "통장을 털어 보냈다. 가진 거의 전부.\n재혁이 어깨를 두드린다. \"잘 생각했어. 곧 웃게 될 거야.\"\n\n그날 밤, {name}은 잠을 설쳤다.\n기대 때문인지, 불안 때문인지 알 수 없었다."
       },
       {
         "text": "일부만 넣는다 — 욕심내되 다 걸진 않는다",
-        "effects": { "money": -1000000, "stress": 5, "intelligence": 2 },
-        "cast_effects": { "jaehyuk": { "affinity": 3, "stage": "partial", "flags": ["invested"] } },
-        "flags": ["arc_jaehyuk_pitch_seen", "jaehyuk_partial"],
+        "effects": {
+          "money": -1000000,
+          "stress": 5,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": 3,
+            "stage": "partial",
+            "flags": [
+              "invested"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_pitch_seen",
+          "jaehyuk_partial"
+        ],
         "result_text": "\"재혁아, 난 이만큼만. 더는 무리야.\"\n재혁이 살짝 아쉬운 표정을 짓는다. \"뭐... 그래도 어디야. 고맙다.\"\n전부를 걸지 않은 건, 본능적인 방어였다.\n그 본능이 나중에 {name}을 살릴지도 몰랐다."
       },
       {
         "text": "거절하고, 조용히 알아보기 시작한다",
-        "effects": { "intelligence": 6, "stress": 6 },
-        "cast_effects": { "jaehyuk": { "affinity": -5, "stage": "suspect", "flags": ["suspected"] } },
-        "flags": ["arc_jaehyuk_pitch_seen", "jaehyuk_refused"],
+        "effects": {
+          "intelligence": 6,
+          "stress": 6
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -5,
+            "stage": "suspect",
+            "flags": [
+              "suspected"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_pitch_seen",
+          "jaehyuk_refused"
+        ],
         "result_text": "\"생각 좀 해볼게.\" {name}은 자리를 떴다.\n그리고 집에 와서 검색을 시작했다.\n재혁이 말한 투자 상품, 그 회사 이름, 비슷한 피해 사례.\n\n검색 결과가 하나둘 뜨기 시작했다.\n등골이 서늘해졌다."
       }
     ]
@@ -381,23 +754,56 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jaehyuk", "crisis"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "crisis"
+    ],
     "cooldown": 9999,
     "description": "수익 정산일. 재혁에게 연락했다.\n\n[ 읽음 ] 표시가 안 뜬다.\n전화는 신호만 가다 끊긴다.\n카톡 프로필 사진이 사라졌다.\n\n불안이 확신으로 바뀌는 데 사흘이 걸렸다.\n\n재혁이 말했던 회사를 검색한다.\n'투자 사기 피해자 모임' 카페가 뜬다.\n게시판에 수십 개의 글. 같은 이름. 최재혁.\n\n{name}만이 아니었다.\n같이 죽고 같이 산 사이라던 그 말이,\n가장 비싼 거짓말이었다.",
     "choices": [
       {
         "text": "무너진다 — 한동안 아무것도 못 한다",
-        "effects": { "mental": -15, "stress": 20, "health": -8 },
-        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "betrayed" } },
-        "flags": ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "hit_rock_bottom"],
+        "effects": {
+          "mental": -15,
+          "stress": 20,
+          "health": -8
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -100,
+            "stage": "betrayed"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_ghost_seen",
+          "jaehyuk_scammed",
+          "hit_rock_bottom"
+        ],
         "result_text": "며칠을 고시원 방에 누워만 있었다.\n천장만 봤다. 통장은 비었고, 강남은 멀어졌다.\n\n근데 이상하게, 바닥까지 떨어지니 더 떨어질 데가 없었다.\n다시 일어서는 것 말곤 할 게 없었다.\n언젠가, 반드시, 이 돈을 되찾는다."
       },
       {
         "text": "피해자 모임에 들어간다 — 혼자가 아니다",
-        "effects": { "mental": -8, "stress": 12, "intelligence": 4 },
-        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "betrayed" } },
-        "flags": ["arc_jaehyuk_ghost_seen", "jaehyuk_scammed", "joined_victims"],
+        "effects": {
+          "mental": -8,
+          "stress": 12,
+          "intelligence": 4
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -100,
+            "stage": "betrayed"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_ghost_seen",
+          "jaehyuk_scammed",
+          "joined_victims"
+        ],
         "result_text": "카페에 가입하고 글을 남겼다.\n'저도 당했습니다. 군대 동기였어요.'\n\n댓글이 달렸다. '저도요.' '저도 동창이었어요.'\n그는 늘 가까운 사람을 노렸다. 신뢰를 무기로.\n\n피해자들이 모이기 시작했다. {name}은 그 중심에 섰다.\n잃은 걸 되찾는 방법이 아예 없는 건 아니었다."
       }
     ]
@@ -411,30 +817,76 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jaehyuk"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk"
+    ],
     "cooldown": 9999,
     "description": "{name}은 한 달간 조용히 모았다.\n재혁의 투자 상품 구조, 자금 흐름, 다른 피해자들의 증언.\n\n그건 전형적인 폰지 사기였다. 새 투자금으로 옛 수익을 메우는.\n구조를 이해하자, 약점이 보였다.\n\n재혁을 다시 만났다. 이번엔 {name}이 불렀다.\n\"재혁아. 나 다 알아. 회사 구조도, 피해자들도.\"\n재혁의 얼굴이 하얗게 질린다.\n\"...너 뭐 하려고.\"\n\n선택의 순간이다. {name}은 어떤 사람이 될 것인가.",
     "choices": [
       {
         "text": "경찰에 넘긴다 — 옳은 일을 한다",
-        "effects": { "mental": 10, "stress": -5, "reputation": 8 },
-        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "reported" } },
-        "flags": ["arc_jaehyuk_counter_seen", "jaehyuk_reported", "took_high_road"],
+        "effects": {
+          "mental": 10,
+          "stress": -5,
+          "reputation": 8
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -100,
+            "stage": "reported"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_counter_seen",
+          "jaehyuk_reported",
+          "took_high_road"
+        ],
         "result_text": "증거를 경찰에 넘겼다. 피해자들의 진술과 함께.\n재혁은 구속됐다. {name}은 돈을 돌려받진 못했지만\n적어도 더 이상의 피해자는 막았다.\n\n임상철이 말했다. \"잘했어. 돈보다 중요한 걸 지켰네.\"\n{name}은 빈손이었지만, 거울 보기가 부끄럽지 않았다."
       },
       {
         "text": "약점을 쥐고 거래한다 — 내 돈, 아니 그 이상을 받아낸다",
-        "effects": { "money": 8000000, "mental": -6, "stress": 10 },
-        "cast_effects": { "jaehyuk": { "affinity": -100, "stage": "blackmailed" } },
-        "flags": ["arc_jaehyuk_counter_seen", "jaehyuk_exploited", "crossed_line"],
+        "effects": {
+          "money": 8000000,
+          "mental": -6,
+          "stress": 10
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -100,
+            "stage": "blackmailed"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_counter_seen",
+          "jaehyuk_exploited",
+          "crossed_line"
+        ],
         "result_text": "\"신고 안 할게. 대신 내 돈 세 배로 돌려줘. 일주일 안에.\"\n재혁은 떨면서 고개를 끄덕였다. 돈이 들어왔다.\n\n강남에 한 발 가까워졌다. 근데 {name}은 그날 밤,\n자기가 재혁과 뭐가 다른지 한참을 생각했다.\n답을 찾지 못했다."
       },
       {
         "text": "그를 끌어들여 더 큰 판을 짠다 — 사기를 사업으로",
-        "effects": { "money": 5000000, "mental": -12, "stress": 14, "investment_skill": 6 },
-        "cast_effects": { "jaehyuk": { "affinity": -50, "stage": "partner_in_crime" } },
-        "flags": ["arc_jaehyuk_counter_seen", "jaehyuk_partnered", "fell_to_darkness"],
+        "effects": {
+          "money": 5000000,
+          "mental": -12,
+          "stress": 14,
+          "investment_skill": 6
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -50,
+            "stage": "partner_in_crime"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_counter_seen",
+          "jaehyuk_partnered",
+          "fell_to_darkness"
+        ],
         "result_text": "\"신고 대신, 같이 하자. 대신 이번엔 제대로.\"\n재혁의 눈에 안도와 두려움이 섞였다.\n\n{name}은 선을 넘었다. 강남은 가까워질 것이다.\n빠르게. 더럽게.\n아버지한테 보여줄 그 집이, 이런 돈으로 사는 집이어도 되는 걸까.\n그 질문을, {name}은 묻지 않기로 했다. 지금은."
       }
     ]
@@ -448,32 +900,81 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "sangchul", "opportunity"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "opportunity"
+    ],
     "cooldown": 9999,
     "description": "임상철에게서 오랜만에 전화가 왔다.\n\n\"민준아, 너 종잣돈 좀 모았다며. 마침 물건이 하나 나왔어.\"\n\n재개발 직전 빌라. 사정 급한 주인이 시세보다 한참 싸게 내놨다.\n임상철이 자기 인맥으로 잡아둔 거였다.\n\n\"이거 1년 안에 재개발 확정되면 두 배는 봐. 안 되면... 뭐, 묶이는 거고.\n내가 30년 이 바닥에서 봤는데, 이건 꽤 확률 높아.\n근데 결정은 네가 해. 난 권하지도 말리지도 않아.\"\n\n가진 돈의 상당 부분이 들어간다. 도박은 아니지만, 안전하지도 않다.",
     "choices": [
       {
         "text": "믿고 들어간다 — 임상철의 30년을 믿는다",
-        "effects": { "stress": 6 },
-        "opportunity": { "stake_ratio": 0.7, "success_rate": 0.62, "win_multiplier": 1.6, "loss_ratio": 0.45, "luck_factor": 0.002, "skill_gain": 5 },
-        "cast_effects": { "sangchul": { "affinity": 10, "stage": "trusted" } },
-        "flags": ["arc_opp_sangchul_seen"],
+        "effects": {
+          "stress": 6
+        },
+        "opportunity": {
+          "stake_ratio": 0.7,
+          "success_rate": 0.62,
+          "win_multiplier": 1.6,
+          "loss_ratio": 0.45,
+          "luck_factor": 0.002,
+          "skill_gain": 5
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 10,
+            "stage": "trusted"
+          }
+        },
+        "flags": [
+          "arc_opp_sangchul_seen"
+        ],
         "result_text": "임상철과 함께 계약서에 도장을 찍었다.\n그가 어깨를 두드린다. \"잘했어. 이제 기다리는 게 일이야.\"\n부동산은 주식과 다르다. 느리지만, 묵직하다.\n결과가 어떻든, {name}은 처음으로 '판'에 올라탔다."
       },
       {
         "text": "조금만 넣는다 — 욕심내지 않는다",
-        "effects": { "stress": 2, "intelligence": 2 },
-        "opportunity": { "stake_ratio": 0.3, "success_rate": 0.62, "win_multiplier": 1.6, "loss_ratio": 0.45, "luck_factor": 0.002, "skill_gain": 3 },
-        "cast_effects": { "sangchul": { "affinity": 5 } },
-        "flags": ["arc_opp_sangchul_seen"],
+        "effects": {
+          "stress": 2,
+          "intelligence": 2
+        },
+        "opportunity": {
+          "stake_ratio": 0.3,
+          "success_rate": 0.62,
+          "win_multiplier": 1.6,
+          "loss_ratio": 0.45,
+          "luck_factor": 0.002,
+          "skill_gain": 3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 5
+          }
+        },
+        "flags": [
+          "arc_opp_sangchul_seen"
+        ],
         "result_text": "\"무리는 안 하는 게 맞지.\" 임상철이 고개를 끄덕인다.\n절반의 확신, 절반의 베팅.\n{name}은 자기 그릇만큼만 걸기로 했다. 그게 오래 가는 법이니까."
       },
       {
         "text": "거절한다 — 아직은 내 돈을 지킨다",
-        "effects": { "mental": 3, "stress": -2 },
-        "cast_effects": { "sangchul": { "affinity": -2 } },
-        "flags": ["arc_opp_sangchul_seen", "declined_sangchul_deal"],
+        "effects": {
+          "mental": 3,
+          "stress": -2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": -2
+          }
+        },
+        "flags": [
+          "arc_opp_sangchul_seen",
+          "declined_sangchul_deal"
+        ],
         "result_text": "\"...그래. 네 돈인데. 신중한 것도 능력이지.\"\n임상철은 아쉬워하지 않았다. 오히려 그 신중함을 좋게 봤다.\n기회는 또 온다. 다만, 자주 오진 않는다는 게 문제다."
       }
     ]
@@ -487,25 +988,195 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "arc", "jiyeon", "opportunity"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "opportunity"
+    ],
     "cooldown": 9999,
     "description": "한지연이 조용히 불렀다.\n\n\"우리 아빠 회사에서 강남에 분양 하나 올려. 아직 공개 안 됐어.\n계약금만 넣어두면, 프리미엄이 어마어마할 거야. 너한테만 말하는 거야.\"\n\n{name}은 망설였다. 이건 한지연의 세계가 주는 기회다.\n잡으면 강남에 성큼 다가선다. 근데 그 순간, 그녀에게 빚을 지는 거다.\n그녀의 세계에, 한 발 들여놓는 거다.\n\n\"왜 나한테 이걸 줘?\"\n\"...몰라서 물어?\" 그녀가 웃었다.\n\n돈도, 마음도 걸린 선택이다.",
     "choices": [
       {
         "text": "기회를 잡는다 — 강남에 다가서기 위해",
-        "effects": { "stress": 8 },
-        "opportunity": { "stake_ratio": 0.8, "success_rate": 0.72, "win_multiplier": 2.4, "loss_ratio": 0.35, "luck_factor": 0.0015, "skill_gain": 4 },
-        "cast_effects": { "jiyeon": { "affinity": 15, "stage": "indebted" } },
-        "flags": ["arc_opp_jiyeon_seen", "took_jiyeon_deal"],
+        "effects": {
+          "stress": 8
+        },
+        "opportunity": {
+          "stake_ratio": 0.8,
+          "success_rate": 0.72,
+          "win_multiplier": 2.4,
+          "loss_ratio": 0.35,
+          "luck_factor": 0.0015,
+          "skill_gain": 4
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 15,
+            "stage": "indebted"
+          }
+        },
+        "flags": [
+          "arc_opp_jiyeon_seen",
+          "took_jiyeon_deal"
+        ],
         "result_text": "계약금을 넣었다. 한지연의 세계에 한 발을 들였다.\n\n그녀가 만족스러운 듯 웃는다. \"잘 생각했어.\"\n근데 {name}은 알고 있었다. 이건 공짜가 아니라는 걸.\n강남이 가까워진 만큼, 그녀도 가까워졌다. 빚처럼."
       },
       {
         "text": "거절한다 — 내 힘으로 가고 싶다",
-        "effects": { "mental": 6, "stress": -3 },
-        "cast_effects": { "jiyeon": { "affinity": -8, "stage": "rejected_help" } },
-        "flags": ["arc_opp_jiyeon_seen", "refused_jiyeon_deal"],
+        "effects": {
+          "mental": 6,
+          "stress": -3
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": -8,
+            "stage": "rejected_help"
+          }
+        },
+        "flags": [
+          "arc_opp_jiyeon_seen",
+          "refused_jiyeon_deal"
+        ],
         "result_text": "\"고마워. 근데 이건 내 힘으로 하고 싶어.\"\n한지연의 표정이 미묘하게 굳었다.\n\"...넌 진짜 이상한 사람이야. 이걸 거절해?\"\n\n그녀는 이해 못 했다. 근데 {name}은,\n그녀에게 빚지지 않은 자기 자신이 마음에 들었다.\n강남은 멀어졌지만, 떳떳했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_temptation_01",
+    "title": "쉬운 돈",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "intro",
+      "fork"
+    ],
+    "cooldown": 9999,
+    "description": "고시원, 새벽 2시. 다음 주가 월세다. 통장엔 50만원.\n\n모르는 번호로 문자가 왔다.\n\"통장이랑 체크카드만 빌려주면 즉시 200. 아무것도 안 하셔도 됩니다.\n딱 한 달. 리스크 0. 급한 분들만 연락 주세요.\"\n\n{name}은 그게 뭔지 안다. 대포통장.\n보이스피싱에 쓰일 돈이 이 통장을 거쳐 간다.\n\n200만원. 넉 달은 버틴다.\n손가락이 답장 위에서 멈춘다.",
+    "choices": [
+      {
+        "text": "지운다 — 그렇게까지 살진 않는다",
+        "effects": {
+          "mental": -2,
+          "stress": 6
+        },
+        "flags": [
+          "arc_temptation_seen",
+          "kept_clean_hands"
+        ],
+        "result_text": "{name}은 번호를 차단하고 휴대폰을 엎어놨다.\n200만원이 눈앞에서 사라졌다. 월세는 그대로 남았다.\n\n한심한 자존심이라고, 누군가는 비웃겠지.\n그래도 — 아버지가 6년을 갚은 그 빚처럼 살고 싶진 않았다.\n깨끗한 손으로, 천천히 가기로 한다."
+      },
+      {
+        "text": "딱 한 번만. 통장을 빌려준다  (+200만원)",
+        "effects": {
+          "money": 2000000,
+          "stress": 10,
+          "mental": -6
+        },
+        "flags": [
+          "arc_temptation_seen",
+          "lent_account",
+          "crossed_line_early"
+        ],
+        "result_text": "통장 번호를 보냈다. 한 시간 뒤, 200만원이 찍혔다.\n이렇게 쉬운 돈이 세상에 있었다.\n\n{name}은 그 숫자를 한참 봤다. 안도와 함께,\n뱃속 어딘가가 서늘해지는 걸 느꼈다.\n이 돈이 누구의 눈물에서 왔는지는 — 생각하지 않기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_temptation_clean",
+    "title": "지나간 자리",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "intro"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "다행이다. 내 방식대로 간다",
+        "effects": {
+          "mental": 7,
+          "reputation": 2,
+          "stress": -3
+        },
+        "flags": [
+          "arc_temptation_clean_seen",
+          "stayed_clean"
+        ],
+        "result_text": "뉴스 자막이 지나갔다.\n\"대포통장 모집책 일당 검거 — 명의자 수십 명 입건.\"\n\n그날 통장을 빌려줬다면, 저 '명의자 수십 명' 중 하나가 됐을 거다.\n전과자가 된 채로 30억을 꿈꿨겠지.\n\n{name}은 길게 숨을 뱉었다.\n느려도, 떳떳한 길이 결국 멀리 간다. 그렇게 믿기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_temptation_fallout",
+    "title": "통장의 대가",
+    "background": "street_rainy",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "intro",
+      "fork"
+    ],
+    "cooldown": 9999,
+    "description": "한 통의 전화. 모르는 여자가 울고 있었다.\n\"제 통장으로 입금했는데... 사기였대요. 그쪽 계좌로 갔다고...\n삼천만원이에요. 제발, 제발 돌려주세요...\"\n\n{name}이 빌려준 그 통장이었다.\n누군가의 전 재산이 거길 지나갔다.\n\n그리고 다음 날, 또 다른 번호.\n\"형님, 일 깔끔하게 하셨네. 통장 몇 개 더 구해주면\n건당 백씩 더 드릴게. 어차피 이미 발 담그셨잖아.\"",
+    "choices": [
+      {
+        "text": "여기서 손 뗀다 — 무슨 수를 써서라도",
+        "effects": {
+          "money": -1500000,
+          "stress": 14,
+          "mental": -5,
+          "health": -4
+        },
+        "flags": [
+          "arc_temptation_fallout_seen",
+          "escaped_dirty_money",
+          "was_compromised"
+        ],
+        "result_text": "{name}은 번호를 다 차단하고, 받은 200만원에 사비를 더해\n그 여자에게 할 수 있는 만큼 돌려보냈다. 통장도 해지했다.\n\n잔고는 다시 바닥. 며칠 잠도 못 잤다.\n하지만 더 깊은 곳으로 끌려가기 전에, 발을 뺐다.\n한 번의 실수로 끝낼 기회는 — 아직 있었다."
+      },
+      {
+        "text": "이왕 이렇게 된 거, 더 깊이 들어간다  (+300만원)",
+        "effects": {
+          "money": 3000000,
+          "stress": 6,
+          "luck": 2,
+          "mental": -8
+        },
+        "flags": [
+          "arc_temptation_fallout_seen",
+          "fell_to_darkness"
+        ],
+        "result_text": "{name}은 그 여자의 번호를 차단했다. 울음소리도 함께.\n\"몇 개 더 구할 수 있어요.\"\n\n이미 건넌 선이었다. 돌아가도 깨끗해지지 않는다면,\n차라리 끝까지 가는 게 낫다고 — 그렇게 자신을 설득했다.\n돈이 들어올수록, 거울 보기가 힘들어졌다.\n강남이 가까워지고 있었다. 다른 누군가의 지옥을 밟고서."
       }
     ]
   }
