@@ -1,0 +1,380 @@
+[
+  {
+    "id": "cafe_00",
+    "title": "강남 카페",
+    "background": "cafe",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 6,500원짜리 아메리카노를 시켰다.\n무직 주제에 강남 카페라니. 그래도 한 번은,\n자기가 가고 싶은 그 세계에 앉아보고 싶었다.\n\n옆 테이블. 정장 입은 남자가 통화 중이다.\n\"그 입주권 마지막 한 자리예요. 오늘 안 잡으면 끝나요.\n재개발 확정 났다니까. ...네, 현금 5천이면 됩니다.\"\n\n{name}의 귀가 저절로 그쪽으로 기운다.",
+    "choices": [
+      {
+        "text": "조용히, 계속 엿듣는다",
+        "result_text": "",
+        "follow_up_event": "cafe_listen_01",
+        "flags": [
+          "cafe_scenario_seen"
+        ],
+        "effects": {
+          "stress": 2
+        }
+      },
+      {
+        "text": "신경 끄고 이력서나 본다",
+        "result_text": "",
+        "follow_up_event": "cafe_mind_01",
+        "flags": [
+          "cafe_scenario_seen"
+        ]
+      },
+      {
+        "text": "자리가 불편하다. 그냥 나간다",
+        "result_text": "{name}은 식은 커피를 두고 일어섰다.\n그 남자가 무슨 얘길 했는지, 무슨 기회였는지 —\n영영 모른 채로. 가끔은 모르는 게 약이다.\n적어도, 아무 일도 일어나지 않았다.",
+        "flags": [
+          "cafe_scenario_seen",
+          "cafe_left_early"
+        ],
+        "effects": {
+          "stress": -3,
+          "mental": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_listen_01",
+    "title": "틈",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "남자가 통화를 끊고 일어선다. 화장실인가 보다.\n테이블 위에 휴대폰과 — 서류 폴더가 그대로 놓여 있다.\n표지에 큼지막하게: 「○○구역 조합원 분양 안내」.\n\n주위엔 아무도 신경 쓰지 않는다.\n{name}의 심장이 조금 빨라진다.",
+    "choices": [
+      {
+        "text": "폴더를 슬쩍 펼쳐본다",
+        "result_text": "",
+        "follow_up_event": "cafe_peek_01",
+        "effects": {
+          "stress": 6
+        }
+      },
+      {
+        "text": "그가 돌아오면 말을 걸어본다",
+        "result_text": "",
+        "follow_up_event": "cafe_talk_01"
+      },
+      {
+        "text": "못 본 척, 내 커피만 마신다",
+        "result_text": "들은 건 있지만 — 거기까지다.\n{name}은 남의 기회에 손대지 않았다.\n이름 하나, 단어 몇 개만 머릿속에 남았다.",
+        "flags": [
+          "cafe_overheard_only"
+        ],
+        "effects": {
+          "intelligence": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_peek_01",
+    "title": "훔쳐본 것",
+    "background": "cafe",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "폴더가 열린다. 분양가, 평형, 그리고 연락처 —\n「김 부장 010-XXXX-XXXX」. '확정'이라는 빨간 도장.\n{name}은 그 번호를 외워버렸다.\n\n그 순간, 그림자가 드리운다.\n남자가 돌아와 — {name}의 눈과 펼쳐진 폴더를 번갈아 본다.\n\"...뭐 하세요, 지금?\"",
+    "choices": [
+      {
+        "text": "솔직히 사과한다 — \"죄송합니다, 관심이 많아서\"",
+        "result_text": "",
+        "follow_up_event": "cafe_caught_honest"
+      },
+      {
+        "text": "시선을 돌리고 모른 척한다",
+        "result_text": "\"아, 죄송합니다. 제 자리인 줄.\"\n{name}은 어색하게 웃으며 고개를 돌렸다.\n남자는 미심쩍게 폴더를 챙겨 떠났다.\n\n하지만 그 번호는 — {name}의 머릿속에 남았다.\n쓸지 말지는, 나중의 문제다.",
+        "flags": [
+          "cafe_stole_lead"
+        ],
+        "effects": {
+          "stress": 8,
+          "mental": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_caught_honest",
+    "title": "들킨 솔직함",
+    "background": "cafe",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 고개를 숙였다.\n\"무직입니다. 통장에 50만원 있고요.\n근데 저도... 언젠가 여기 오고 싶어서, 그래서 봤습니다.\n죄송합니다.\"\n\n남자가 한참 {name}을 봤다. 그러더니, 피식 웃었다.\n\"미친놈이네. 근데 — 그 눈빛, 옛날 내 거랑 똑같다.\"",
+    "choices": [
+      {
+        "text": "\"한 가지만 여쭤도 될까요\"",
+        "result_text": "남자는 명함을 테이블에 툭 놓았다.\n\"공부부터 해. 준비 안 된 놈한테 기회 주면 그게 사고야.\n진짜 준비되면, 그때 전화해. 안 그럼 번호 지우고.\"\n\n{name}은 명함을 두 손으로 받았다.\n도둑질이 아니라, 받은 것이었다. 그게 달랐다.",
+        "flags": [
+          "cafe_got_card_honest"
+        ],
+        "effects": {
+          "mental": 6,
+          "reputation": 3,
+          "intelligence": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_talk_01",
+    "title": "말을 걸다",
+    "background": "cafe",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "남자가 돌아온다. {name}은 용기를 냈다.\n\"실례지만, 아까 말씀하신 거... 저도 좀 듣고 싶어서요.\"\n\n남자는 경계하듯 {name}을 위아래로 훑는다.\n낡은 패딩, 닳은 운동화, 식은 아메리카노 한 잔.\n\"...뭐 하시는 분인데?\"",
+    "choices": [
+      {
+        "text": "솔직하게 — \"무직입니다. 배우고 싶습니다\"",
+        "result_text": "",
+        "follow_up_event": "cafe_humble"
+      },
+      {
+        "text": "있는 척한다 — \"저도 이쪽 일 좀 합니다\"",
+        "result_text": "",
+        "follow_up_event": "cafe_bluff_01"
+      }
+    ]
+  },
+  {
+    "id": "cafe_humble",
+    "title": "낮은 자세",
+    "background": "cafe",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "\"무직이요. 근데 이대로는 못 살겠어서,\n뭐라도 배우려고 강남까지 와서 커피 한 잔 시켜놓고 앉아있었습니다.\"\n\n남자는 어이없다는 듯 웃었다. 그러더니 의자를 돌려 앉았다.\n\"5천만원짜리 얘기에 5만원도 없는 놈이 끼어드네.\n근데 뭐 — 시간은 많아 보이니까. 딱 십 분만 얘기해줄게.\"",
+    "choices": [
+      {
+        "text": "귀를 쫑긋 세우고 듣는다",
+        "result_text": "십 분이 삼십 분이 됐다.\n갭투자, 레버리지, 입주권, 프리미엄 —\n{name}은 처음 듣는 세계의 언어를 머리에 욱여넣었다.\n\n남자는 명함도 안 줬다. 이름도 안 알려줬다.\n그래도 {name}은, 오늘 강남의 문틈을 처음 들여다봤다.",
+        "flags": [
+          "cafe_humble_lesson"
+        ],
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 3,
+          "mental": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_bluff_01",
+    "title": "허세",
+    "background": "cafe",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "\"이쪽 일을 하신다. 그래요?\"\n남자의 눈이 가늘어진다. 시험하듯 묻는다.\n\"그럼 LTV 70 나오는 물건에 갭 5천이면,\n실투자금 얼마 잡으세요?\"\n\n{name}은 — 그 단어들이 무슨 뜻인지 하나도 모른다.\n등에서 식은땀이 흐른다.",
+    "choices": [
+      {
+        "text": "아는 척 우긴다 — 대충 숫자를 던진다",
+        "result_text": "",
+        "follow_up_event": "cafe_bluff_caught"
+      },
+      {
+        "text": "무너진다 — \"...사실 모릅니다. 죄송합니다\"",
+        "result_text": "",
+        "follow_up_event": "cafe_bluff_recover"
+      }
+    ]
+  },
+  {
+    "id": "cafe_bluff_caught",
+    "title": "들통",
+    "background": "cafe",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "\"한 2억쯤...?\" {name}이 아무 숫자나 던졌다.\n남자가 코웃음을 쳤다.\n\"갭이 5천인데 실투가 2억? 학생, 사기 치려면 공부부터 하고 와.\"\n\n옆 테이블 사람들이 힐끔거린다.\n{name}의 얼굴이 화끈거렸다. 강남은 — 허세를 가장 먼저 알아본다.",
+    "choices": [
+      {
+        "text": "도망치듯 카페를 나선다",
+        "result_text": "{name}은 커피를 반도 못 비우고 나왔다.\n겨울 바람이 뜨거운 뺨에 닿았다.\n부끄러움이 오래 남았다. 하지만 — 그 부끄러움이,\n'제대로 알아야겠다'는 독기로 바뀌는 데는 오래 걸리지 않았다.",
+        "flags": [
+          "cafe_humiliated"
+        ],
+        "effects": {
+          "stress": 12,
+          "mental": -6,
+          "intelligence": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_bluff_recover",
+    "title": "무너진 뒤",
+    "background": "cafe",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 고개를 떨궜다.\n\"...죄송합니다. 하나도 모릅니다.\n그냥, 너무 절박해서 아는 척했습니다.\"\n\n남자가 잠시 말이 없었다. 그러더니 짧게 한숨.\n\"허세 부리던 놈이 바로 꼬리 내리는 건 처음 보네.\n그 솔직함이 차라리 낫다. 한 가지만 알려줄게 —\n모르면 모른다고 해. 이 바닥에서 그거 하나는 안 죽어.\"",
+    "choices": [
+      {
+        "text": "그 말을 가슴에 새긴다",
+        "result_text": "남자는 더 말하지 않고 자리를 떴다.\n명함도, 이름도 없었다.\n하지만 {name}은 오늘 값진 걸 배웠다.\n허세는 강남에서 가장 빨리 죽는 길이라는 걸.",
+        "flags": [
+          "cafe_learned_humility"
+        ],
+        "effects": {
+          "mental": 3,
+          "social_skill": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "cafe_mind_01",
+    "title": "아메리카노 한 잔의 시간",
+    "background": "cafe",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "scenario",
+      "cafe"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 옆 테이블을 무시하고 이력서를 들여다봤다.\n6년의 공백. 그걸 어떻게 채워 쓸지, 막막했다.\n\n두 시간째. 커피는 진작에 바닥났다.\n그때, 알바생이 슬그머니 다가와 컵을 채워줬다.\n\"...오래 계시길래. 서비스예요. 추우니까 따뜻한 걸로.\"\n낯선 친절에, {name}은 잠시 멍해졌다.",
+    "choices": [
+      {
+        "text": "진심으로 고맙다고 인사한다",
+        "result_text": "\"...감사합니다. 진짜로.\"\n별것 아닌 한 잔에 코끝이 시큰했다.\n서울은 차갑기만 한 줄 알았는데, 가끔 이런 온기가 있다.\n\n{name}은 그날, 조금 더 버틸 힘을 얻었다.\n거창한 기회는 아니어도 — 이런 게 사람 사는 거였다.",
+        "flags": [
+          "cafe_kindness"
+        ],
+        "effects": {
+          "mental": 8,
+          "stress": -5
+        }
+      },
+      {
+        "text": "민망해서 어색하게 자리를 뜬다",
+        "result_text": "{name}은 고맙다는 말도 제대로 못 하고 일어섰다.\n호의가 익숙하지 않은 사람은, 호의 앞에서 도망친다.\n돌아오는 길 내내, 그 따뜻한 커피가 생각났다.",
+        "flags": [
+          "cafe_awkward"
+        ],
+        "effects": {
+          "mental": 2
+        }
+      }
+    ]
+  }
+]

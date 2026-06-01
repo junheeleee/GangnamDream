@@ -699,6 +699,9 @@ func _next_arc_id() -> String:
 		return "arc_temptation_01"
 	if t >= 5 and not f.get("arc_intro_sns_seen", false):
 		return "arc_intro_03_sns"
+	# ★ 깊은 분기 시나리오 데모 — '강남 카페' (꼬리에 꼬리를 무는 선택)
+	if t >= 6 and not f.get("cafe_scenario_seen", false):
+		return "cafe_00"
 	if t >= 7 and not f.get("arc_intro_hyunsu_seen", false):
 		return "arc_intro_04_hyunsu"
 	# ★ 첫 유혹의 후폭풍/보상 (턴 8) — 선택에 따라 갈림

@@ -219,7 +219,9 @@ def check_events():
                 if fu and fu not in known_ids:
                     err('%s  [%s] 선택지%d follow_up_event "%s" 가 존재하지 않음 (스토리 체인 끊김)'
                         % (rel(p), eid, ci, fu))
-                if "result_text" in ch and not str(ch["result_text"]).strip():
+                # follow_up이 있는 '이어지는 선택지'는 result_text 없이 바로 다음 노드로
+                # 내려가는 게 정상(연속 분기). 그 경우는 빈 result_text를 경고하지 않는다.
+                if "result_text" in ch and not str(ch["result_text"]).strip() and not fu:
                     warn('%s  [%s] 선택지%d result_text 가 비어 있음' % (rel(p), eid, ci))
                 ce = ch.get("cast_effects", {})
                 if isinstance(ce, dict):
