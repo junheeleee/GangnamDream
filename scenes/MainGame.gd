@@ -7,7 +7,6 @@ var inventory_system: Node
 
 var top_labels: Dictionary = {}
 var stat_labels: Dictionary = {}
-var rival_label: Label
 var event_title: Label
 var event_body: RichTextLabel
 var choice_box: VBoxContainer
@@ -131,7 +130,6 @@ func _init_systems():
 func _connect_signals():
 	GameState.stats_changed.connect(_refresh_all)
 	GameState.game_over.connect(_show_ending)
-	RivalSystem.rival_message.connect(_on_rival_message)
 	job_system.promoted.connect(_on_promoted)
 	GameState.stat_threshold_crossed.connect(_on_stat_threshold_crossed)
 	GameState.tendency_awakened.connect(_on_tendency_awakened)
@@ -498,13 +496,6 @@ func _build_info_panel():
 		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		stat_labels[key] = value
 		stat_row.add_child(value)
-
-	stat_box.add_child(_label("RIVAL", 13, "#ff4444"))
-	rival_label = _label("—", 11, "#5a6075")
-	rival_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	rival_label.clip_text = false
-	rival_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	stat_box.add_child(rival_label)
 
 	stat_box.add_child(_label("LOG", 13, "#5b9cf6"))
 	log_box = RichTextLabel.new()
@@ -1105,20 +1096,6 @@ func _refresh_all():
 	_update_event_bg()
 	_update_portrait()
 
-	# 라이벌 표시
-	if rival_label:
-		var rival = RivalSystem.get_rival()
-		if not rival.is_empty():
-			var r_housing = GameState.HOUSING_DATA.get(rival.get("housing","gosiwon"),{})
-			var r_assets  = GameState.format_money(float(rival.get("total_assets", 0.0)))
-			var player_a  = GameState.get_total_asset_value()
-			var rival_a   = float(rival.get("total_assets", 0.0))
-			var diff      = player_a - rival_a
-			var sign      = "▲" if diff >= 0 else "▼"
-			rival_label.text = "%s  %s  %s\n나 %s%s" % [
-				rival["name"], r_housing.get("name","고시원"), r_assets, sign, GameState.format_money(abs(diff))
-			]
-
 	# 자산 마일스톤 체크
 	_check_milestones()
 
@@ -1519,14 +1496,19 @@ func _month_narration() -> String:
 
 ## 5개 카테고리 행동 카드 렌더링
 func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_unlocked: bool, warn_body: bool):
-	# [일/커리어]
-	var work_sub = "구직·자소서·면접" if no_job else "직장 생활·승진 준비"
-	var work_urgent = no_job and job_unlocked
-	_add_category_card(
-		"💼", "일 · 커리어", work_sub,
-		"#3a6ea8", disabled, "_open_cat_work",
-		not job_unlocked, "스토리 진행 후" if not job_unlocked else "",
-		work_urgent)
+	# [일/커리어] — 취업 후 일은 자동(월급·승진 패시브)이라 카드를 숨긴다.
+	# 무직(구직 필요)이거나 능동적 사업(창업/콘텐츠)이 있을 때만 노출.
+	var has_venture = (GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false)) \
+		or (GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_success_unlocked", false))
+	if no_job or has_venture:
+		var work_title = "일 · 커리어" if no_job else "내 사업"
+		var work_sub = "구직·자소서·면접" if no_job else "창업·콘텐츠 운영"
+		var work_urgent = no_job and job_unlocked
+		_add_category_card(
+			"💼", work_title, work_sub,
+			"#3a6ea8", disabled, "_open_cat_work",
+			not job_unlocked, "스토리 진행 후" if not job_unlocked else "",
+			work_urgent)
 
 	# [돈/투자]
 	var money_sub = "단기 알바로 종잣돈" if not has_paycheck else "투자·부업으로 자산 증식"
@@ -1661,8 +1643,9 @@ func _open_cat_work():
 		if GameState.social_skill >= 20:
 			_cat_modal_button("🎯 모의 면접  —  사회성 +2, 운 +1", "#3a6ea8", "_ap_interview_prep")
 	else:
-		modal_body.add_child(_wrap_label("%s — 커리어를 관리하고 승진을 준비한다." % GameState.current_job.get("name","직장인"), 13, "#7a8496"))
-		_cat_modal_button("💼 직장 생활  —  커리어 관리·승진 준비", "#b4791a", "_ap_job_hunt")
+		modal_body.add_child(_wrap_label(
+			"%s — 월급과 승진은 매달 자동으로 처리된다. 일에 더 쏟을 행동은 없다.\n남는 시간은 투자·사람·자기계발에 쓰자." % GameState.current_job.get("name","직장인"),
+			13, "#7a8496"))
 	# 창업/크리에이터 진행 중이면 노출
 	if GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false):
 		_cat_modal_button("🚀 창업 업무  —  내 사업을 키운다", "#6a3a9a", "_ap_startup_work")
@@ -2760,10 +2743,6 @@ func _check_milestones():
 			await get_tree().create_timer(2.0).timeout
 			GameState.flags["just_hit_milestone"] = false
 			_update_portrait()
-
-func _on_rival_message(message: String, color: String):
-	_show_toast(message, Color(color))
-	GameState.add_log(message, "system")
 
 func _on_promoted(job: Dictionary, bonus: float):
 	var msg = "⬆ 승진! %s  월급 +%s" % [job.get("name",""), GameState.format_money(bonus)]

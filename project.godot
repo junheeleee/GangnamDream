@@ -35,7 +35,6 @@ MetaProgression="*res://autoloads/MetaProgression.gd"
 SaveManager="*res://autoloads/SaveManager.gd"
 AudioManager="*res://autoloads/AudioManager.gd"
 BGMPlayer="*res://autoloads/BGMPlayer.gd"
-RivalSystem="*res://autoloads/RivalSystem.gd"
 SceneTransition="*res://autoloads/SceneTransition.gd"
 EndingSystem="*res://systems/EndingSystem.gd"
 

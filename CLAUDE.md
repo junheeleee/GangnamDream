@@ -83,7 +83,6 @@ GangnamDream/
 │   ├── EventManager.gd        # 조건/가중치/쿨다운/연쇄 이벤트
 │   ├── NewsManager.gd         # 월별 뉴스 생성 & 시장 영향
 │   ├── MetaProgression.gd     # 런 히스토리, 업적, 칭호(29개) 해금
-│   ├── RivalSystem.gd         # 라이벌 캐릭터 매달 진행
 │   └── SaveManager.gd         # 자동저장 + 다중 슬롯
 ├── content/
 │   ├── events/
