@@ -1,0 +1,245 @@
+[
+  {
+    "id": "amb_coin_00",
+    "title": "확실한 정보",
+    "background": "convenience_night",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "오랜만에 현수에게서 연락이 왔다. 잔뜩 들뜬 목소리.\n\"형(야), 이건 진짜 확실해. 내부 정보야.\n이 코인 다음 주에 상장 호재 뜬다고. 나 전세금 뺐어.\n너도 지금 들어가, 같이 인생 바꾸자.\"\n\n{name}의 통장 잔고가 떠오른다. 그리고 — 30억까지의 까마득한 거리도.",
+    "choices": [
+      {
+        "text": "현수를 믿고, 가진 돈을 건다  (대박 or 쪽박)",
+        "result_text": "주사위는 던져졌다. 현수의 '확실한 정보'에 {name}은 통장을 걸었다.",
+        "flags": [
+          "coin_gambled"
+        ],
+        "opportunity": {
+          "stake_ratio": 0.7,
+          "success_rate": 0.4,
+          "win_multiplier": 2.6,
+          "loss_ratio": 0.75,
+          "luck_factor": 0.0022,
+          "skill_gain": 3,
+          "win_flag": "coin_jackpot",
+          "lose_flag": "coin_rekt"
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 5
+          }
+        }
+      },
+      {
+        "text": "거절한다 — 도박은 안 한다  (절제 / FOMO·관계)",
+        "result_text": "{name}은 거절했다. 현수는 \"겁쟁이\"라며 전화를 끊었다.\n며칠간 그 코인 시세를 몰래 들여다봤다. 오를 때마다 속이 쓰렸다.\n안 잃은 건지, 못 번 건지 — FOMO는 오래도 갔다.",
+        "flags": [
+          "coin_refused"
+        ],
+        "effects": {
+          "intelligence": 2,
+          "stress": 6,
+          "mental": -2
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": -5
+          }
+        }
+      },
+      {
+        "text": "현수를 말린다 — \"너 그거 위험해\"  (우정 / 충돌)",
+        "result_text": "",
+        "follow_up_event": "amb_coin_warn",
+        "effects": {
+          "stress": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_coin_warn",
+    "title": "말리는 손",
+    "background": "convenience_night",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "\"현수야, 전세금까지 뺐다고? 그건 진짜 아니야.\"\n{name}은 진심으로 말렸다. 현수의 얼굴이 일그러진다.\n\"넌 항상 그래. 기회를 기회로 못 봐.\n나중에 나 강남 갈 때 후회하지 마.\"\n\n우정과 돈 사이, 무슨 말을 더 해야 할까.",
+    "choices": [
+      {
+        "text": "끝까지 진심으로 설득한다  (우정 / 시간·감정 소모)",
+        "result_text": "{name}은 새벽까지 현수를 붙잡고 설득했다.\n현수는 결국 액수를 줄였다. 완전히는 못 막았지만.\n진짜 친구는 욕먹을 각오로 말린다 — 그게 {name}이 줄 수 있는 거였다.",
+        "flags": [
+          "coin_warned_friend"
+        ],
+        "effects": {
+          "stress": 6,
+          "mental": 3
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 10
+          }
+        }
+      },
+      {
+        "text": "더는 못 말린다. 손을 뗀다  (마음 편함 / 죄책감)",
+        "result_text": "\"네 돈이니 네가 알아서 해.\" {name}은 물러섰다.\n더 다투지 않아 마음은 편했다.\n하지만 몇 주 뒤 현수의 소식을 들었을 때 — 그 편함이 후회로 바뀌었다.",
+        "flags": [
+          "coin_let_go"
+        ],
+        "effects": {
+          "stress": -2,
+          "mental": -4
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": -2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_holiday_00",
+    "title": "명절",
+    "background": "ktx_window",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "설이 다가온다. 내려갈까, 말까.\n큰집에 가면 친척들의 질문 폭격이 기다린다.\n\"취직은 했니? 나이가 몇인데. 옆집 누구는 강남 아파트 샀다더라.\"\n\n아버지는 \"바쁘면 안 와도 된다\"고 했다.\n그 말이, {name}의 마음을 더 무겁게 했다.",
+    "choices": [
+      {
+        "text": "내려간다 — 그래도 가족이다  (관계 / 돈·스트레스)",
+        "result_text": "",
+        "follow_up_event": "amb_holiday_home",
+        "effects": {
+          "money": -150000,
+          "stress": 7
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8
+          }
+        }
+      },
+      {
+        "text": "바쁘다며 안 내려간다  (회피 / 죄책감·관계)",
+        "result_text": "{name}은 \"일이 있다\"고 둘러댔다. 비교당할 일도, 차비 쓸 일도 없었다.\n대신 명절 내내 고시원 1평 반에 혼자 있었다.\n아버지가 보낸 '밥은 챙겨 먹어라' 문자에 — 한참 답을 못 했다.",
+        "flags": [
+          "holiday_skipped"
+        ],
+        "effects": {
+          "money": 0,
+          "stress": -3,
+          "mental": -5
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": -4
+          }
+        }
+      },
+      {
+        "text": "아버지만 따로 뵙고 온다  (절충 / 비용)",
+        "result_text": "{name}은 큰집은 건너뛰고, 아버지만 따로 찾아뵀다.\n둘이 먹은 국밥 한 그릇. 비교도, 잔소리도 없었다.\n차비는 들었지만 — 가장 보고 싶던 사람만, 조용히 보고 왔다.",
+        "flags": [
+          "holiday_dad_only"
+        ],
+        "effects": {
+          "money": -80000,
+          "mental": 5,
+          "stress": -2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 6
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_holiday_home",
+    "title": "큰집",
+    "background": "dad_house",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "예상대로였다. 상 위로 질문이 쏟아진다.\n\"아직도 그러고 있어? 사람이 눈을 낮춰야지.\"\n\"우리 애는 이번에 대리 달았는데.\"\n\n아버지가 조용히 {name}의 잔에 사이다를 따라준다.\n그 손이, 모든 말보다 따뜻했다.",
+    "choices": [
+      {
+        "text": "웃으며 받아넘긴다  (평화 / 속으로 삭임)",
+        "result_text": "{name}은 \"열심히 하고 있어요\" 하며 웃었다.\n분위기는 안 깨졌다. 아버지 체면도 섰다.\n대신 집에 오는 KTX 안에서, 삼킨 말들이 가슴을 눌렀다.",
+        "flags": [
+          "holiday_endured"
+        ],
+        "effects": {
+          "stress": 8,
+          "mental": -2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 4
+          }
+        }
+      },
+      {
+        "text": "\"제 인생은 제가 알아서 합니다\" 받아친다  (속 시원 / 분위기)",
+        "result_text": "{name}은 더는 참지 않았다. 순간 상이 조용해졌다.\n친척들은 머쓱해했고, 아버지는 곤란한 표정을 지었다.\n속은 시원했지만 — 돌아오는 길, 아버지의 굳은 얼굴이 밟혔다.",
+        "flags": [
+          "holiday_snapped"
+        ],
+        "effects": {
+          "stress": -4,
+          "mental": 3
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": -3
+          }
+        }
+      }
+    ]
+  }
+]
