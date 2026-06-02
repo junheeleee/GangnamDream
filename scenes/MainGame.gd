@@ -751,6 +751,18 @@ func _next_arc_id() -> String:
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
 		return "arc_sangchul_01_meet"
 
+	# ── 김다은 아크 — 편의점 단골, 사랑 vs 야망 (슬로우번) ──
+	if t >= 9 and not f.get("arc_daeun_met", false):
+		return "arc_daeun_01_meet"
+	if t >= 15 and f.get("arc_daeun_met", false) \
+			and GameState.get_cast_affinity("daeun") >= 8 \
+			and not f.get("arc_daeun_regular_seen", false):
+		return "arc_daeun_02_regular"
+	if t >= 23 and f.get("arc_daeun_regular_seen", false) \
+			and GameState.get_cast_affinity("daeun") >= 12 \
+			and not f.get("arc_daeun_fork_seen", false):
+		return "arc_daeun_03_fork"
+
 	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
 	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
 		return "arc_jiyeon_01_crash"

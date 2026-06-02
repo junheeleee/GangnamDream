@@ -1,0 +1,244 @@
+[
+  {
+    "id": "arc_daeun_01_meet",
+    "title": "1+1",
+    "background": "convenience_night",
+    "portrait": "daeun_smile",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "매일 가는 편의점, 야간. 알바생은 늘 피곤해 보이지만 인사는 따뜻하다.\n오늘도 삼각김밥 하나를 들고 잔고를 셈하는데, 그녀가 말을 건다.\n\"그거 유통기한 임박이라 1+1이에요. 하나 더 가져가세요.\"\n\n별것 아닌 친절에, {name}은 잠깐 멈칫했다.\n서울 와서 이런 호의를 받은 게 얼마 만인지.",
+    "choices": [
+      {
+        "text": "고맙다고, 이름을 묻는다  (인연 시작 / 용기·약간의 거리)",
+        "result_text": "\"...감사합니다. 저, 자주 오는데 매번 챙겨주시네요.\"\n그녀가 처음으로 웃었다. \"김다은이에요. 자주 보니까, 뭐.\"\n작은 이름 하나가 오갔다. 서울의 밤이, 조금 덜 차가워졌다.",
+        "flags": [
+          "arc_daeun_met"
+        ],
+        "effects": {
+          "mental": 6,
+          "stress": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "met": true,
+            "affinity": 8,
+            "stage": "acquaintance"
+          }
+        }
+      },
+      {
+        "text": "고맙다는 인사만 하고 나온다  (집중 유지 / 따뜻함 놓침)",
+        "result_text": "{name}은 고개만 꾸벅하고 편의점을 나섰다.\n괜한 인연은 사치다 — 지금은 30억만 보고 가야 한다.\n그래도 봉지 속 삼각김밥 두 개가, 이상하게 마음에 남았다.",
+        "flags": [
+          "arc_daeun_met",
+          "daeun_kept_distance"
+        ],
+        "effects": {
+          "mental": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "met": true,
+            "affinity": 3
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_02_regular",
+    "title": "단골",
+    "background": "convenience_night",
+    "portrait": "daeun_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "이제 그녀는 {name}의 주문을 외운다. 삼각김밥, 가끔 컵라면.\n새벽의 편의점은 둘만의 작은 세계가 됐다.\n오늘 그녀가 문득 말했다.\n\"저는 엄마 모시고 오려고 돈 모아요. 시골에 혼자 계셔서.\n...근데 서울 살이가 이렇게 비쌀 줄은 몰랐어요.\"\n\n{name}과 같은 무게의 삶이, 카운터 너머에 있었다.",
+    "choices": [
+      {
+        "text": "진심으로 응원하고, 가끔 손을 보탠다  (관계 / 돈·시간)",
+        "result_text": "{name}은 가끔 그녀의 짐을 들어주고, 따뜻한 음료를 건넸다.\n큰 건 아니어도, 서로의 고단함을 아는 사이가 됐다.\n내 코가 석 자인데 — 그래도 이 온기는, 포기하고 싶지 않았다.",
+        "flags": [
+          "daeun_supportive",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": 7,
+          "money": -30000,
+          "stress": -4
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 12,
+            "stage": "close"
+          }
+        }
+      },
+      {
+        "text": "선을 지킨다 — 나도 여유가 없다  (집중 / 멀어짐)",
+        "result_text": "{name}은 따뜻하게 대하되, 깊이 들어가진 않았다.\n그녀도 그 거리를 눈치챈 듯, 한 발 물러섰다.\n정 주는 데도 비용이 든다 — {name}은 지금 그걸 치를 형편이 아니었다.\n현명한 절제였는지, 외로운 회피였는지는 모른 채.",
+        "flags": [
+          "daeun_guarded",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": -2,
+          "stress": -1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 4
+          }
+        }
+      },
+      {
+        "text": "내 '강남 꿈'을 솔직히 털어놓는다  (진심 / 평가받음)",
+        "result_text": "",
+        "follow_up_event": "arc_daeun_02b_dream",
+        "effects": {
+          "stress": 3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 3
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_02b_dream",
+    "title": "꿈 이야기",
+    "background": "convenience_night",
+    "portrait": "daeun_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "\"저는요, 5년 안에 강남에 입성할 거예요. 자산 30억.\"\n{name}의 말에 다은이 잠깐 멍해지더니, 피식 웃었다.\n\"...크다. 근데 왜 하필 강남이에요?\"\n그 질문에, {name}은 쉽게 답하지 못했다.\n그녀의 눈엔 비웃음이 아니라 — 진짜 궁금함이 있었다.",
+    "choices": [
+      {
+        "text": "\"무시당하지 않으려고요\" 솔직히 말한다  (이해받음 / 약점 노출)",
+        "result_text": "{name}은 처음으로 속을 털어놨다. 가난이 부끄러웠던 순간들을.\n다은은 한참 듣더니 조용히 말했다.\n\"...그 마음 알아요. 근데, 강남 못 가도 당신은 무시당할 사람 아니에요.\"\n누군가 그렇게 말해준 건, 처음이었다.",
+        "flags": [
+          "daeun_understood",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": 9,
+          "stress": -3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 15,
+            "stage": "close"
+          }
+        }
+      },
+      {
+        "text": "\"그냥, 성공의 상징이니까\" 가볍게 넘긴다  (거리 유지 / 깊어질 기회 놓침)",
+        "result_text": "{name}은 진심을 숨기고 웃어넘겼다.\n다은도 더 묻지 않았다. 대화는 가벼웠고, 안전했다.\n속을 안 보인 만큼, 가까워질 기회도 한 뼘 멀어졌다.",
+        "flags": [
+          "daeun_deflected",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_03_fork",
+    "title": "갈림길",
+    "background": "convenience_night",
+    "portrait": "daeun_sad",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "다은에게 고향에서 연락이 왔다. 엄마가 편찮으시고, 고향 마트에 안정된 자리가 났다고.\n\"...서울 정리하고 내려갈까 봐요. 여긴 너무 버거워요.\"\n그녀가 {name}을 본다. 묻지 않은 질문이 눈에 담겨 있다.\n\n같이 평범하게 살자고 하면, 그녀는 남을지도 모른다.\n하지만 그건 — 30억의 길에서 한 발 비켜서는 일이었다.\n사랑과 야망이, 같은 저울 위에 올랐다.",
+    "choices": [
+      {
+        "text": "\"가지 마요. 같이 잘 살아봐요\" 붙잡는다  (사랑·안정 / 야망 흔들림)",
+        "result_text": "{name}은 처음으로, 30억보다 중요한 걸 입에 담았다.\n다은의 눈이 붉어졌다. 그녀는 서울에 남기로 했다.\n강남은 조금 멀어졌을지 모른다. 대신 {name}은,\n혼자가 아닌 길을 걷게 됐다. 그게 약함인지 행복인지는, 끝에 가서야 알 일이다.",
+        "flags": [
+          "daeun_chose_her",
+          "arc_daeun_fork_seen"
+        ],
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 20,
+            "stage": "lover"
+          }
+        }
+      },
+      {
+        "text": "아무 말도 못 하고, 그녀를 보낸다  (목표 집중 / 후회·상실)",
+        "result_text": "{name}은 입을 열지 못했다. 지금 발목 잡힐 순 없다고, 그렇게 자신을 다잡았다.\n다은은 옅게 웃으며 \"잘 지내요\" 하고 돌아섰다.\n그날 이후 새벽 편의점은, 다시 혼자만의 세계가 됐다.\n목표는 또렷해졌고 — 마음 한 구석은, 영영 비었다.",
+        "flags": [
+          "daeun_let_her_go",
+          "arc_daeun_fork_seen"
+        ],
+        "effects": {
+          "mental": -8,
+          "stress": 4
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": -5,
+            "stage": "distant"
+          }
+        }
+      }
+    ]
+  }
+]

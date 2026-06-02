@@ -3,6 +3,7 @@ extends Node
 const EVENT_PATHS = [
 	"res://content/events/story_events.json",
 	"res://content/events/arc_events.json",
+	"res://content/events/arc_daeun.json",
 	"res://content/events/scenario_cafe.json",
 	"res://content/events/scenario_cafe_callback.json",
 	"res://content/events/amb_scenarios.json",
