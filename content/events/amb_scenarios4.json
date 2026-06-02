@@ -1,0 +1,204 @@
+[
+  {
+    "id": "amb_wallet_00",
+    "title": "길 위의 지갑",
+    "background": "street_rainy",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "버스정류장 벤치 밑. 지갑이 떨어져 있다.\n주워 열어보니 — 현금 30만원, 신분증, 카드 몇 장.\n주위엔 아무도 없다. CCTV도 안 보인다.\n\n{name}의 통장엔 이번 달 월세도 빠듯하다.\n30만원이면 며칠은 숨통이 트인다.\n양심과 배고픔이, 같은 손바닥 위에 놓였다.",
+    "choices": [
+      {
+        "text": "경찰서에 갖다준다  (떳떳함·평판 / 시간·30만 포기)",
+        "result_text": "",
+        "follow_up_event": "amb_wallet_return",
+        "effects": {
+          "stress": 3,
+          "reputation": 2
+        }
+      },
+      {
+        "text": "현금만 챙기고 지갑은 우체통에 넣는다  (30만원 / 죄책감)",
+        "result_text": "{name}은 현금을 주머니에 넣고, 지갑만 우체통에 밀어 넣었다.\n신분증은 주인에게 돌아갈 거다 — 그렇게 자신을 변명했다.\n30만원이 생겼다. 그런데 그날 밤, 밥이 잘 넘어가지 않았다.\n작은 선을 한 번 넘으면, 다음 선은 더 쉬워진다.",
+        "flags": [
+          "wallet_took_cash",
+          "crossed_line_early"
+        ],
+        "effects": {
+          "money": 300000,
+          "mental": -6,
+          "stress": 4
+        }
+      },
+      {
+        "text": "못 본 척 그냥 지나간다  (둘 다 안 함 / 찜찜함)",
+        "result_text": "{name}은 모른 척 발걸음을 옮겼다.\n남의 돈도, 양심의 짐도 지지 않았다.\n다만 버스 안에서 내내 그 지갑이 생각났다.\n아무것도 안 하는 것도, 하나의 선택이었다.",
+        "flags": [
+          "wallet_ignored"
+        ],
+        "effects": {
+          "mental": -1,
+          "stress": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_wallet_return",
+    "title": "돌려준 뒤",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "경찰서에 지갑을 맡기고 돌아서는데, 며칠 뒤 연락이 왔다.\n지갑 주인 — 중년 사장님이 고맙다며 보자고 한다.\n\"요즘 세상에 이런 사람이 다 있네. 식사라도 대접하고 싶어요.\"",
+    "choices": [
+      {
+        "text": "사양하지 않고 인사를 받는다  (인맥·사례 / 어색한 자리)",
+        "result_text": "어색했지만 {name}은 식사 자리에 나갔다.\n사장님은 사례금을 쥐여줬고, 명함도 건넸다.\n\"사람 됨됨이가 재산이에요. 필요한 일 있으면 연락해요.\"\n떳떳한 손이, 뜻밖의 인연을 데려왔다.",
+        "flags": [
+          "wallet_connection"
+        ],
+        "effects": {
+          "money": 100000,
+          "reputation": 3,
+          "social_skill": 2
+        }
+      },
+      {
+        "text": "\"당연한 일인데요\" 하고 정중히 사양한다  (자존심 / 인연·돈)",
+        "result_text": "{name}은 사례를 정중히 사양했다. 당연한 일을 한 거니까.\n사장님은 더 깊이 감탄했지만, 인연은 거기서 가볍게 스쳤다.\n떳떳함은 지켰고 — 손에 잡히는 건 없었다. 그래도 마음은 가벼웠다.",
+        "flags": [
+          "wallet_declined_reward"
+        ],
+        "effects": {
+          "mental": 5,
+          "reputation": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_jobswitch_00",
+    "title": "제안",
+    "background": "office",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 14,
+      "has_job": true
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "전 직장 동료에게서 연락이 왔다.\n\"우리 스타트업으로 와. 연봉 1.5배 챙겨줄게.\n지금 시리즈A 받았고, 잘되면 스톡옵션이 인생을 바꿔.\n물론 — 2년 안에 망할 확률도 절반은 되지만.\"\n\n지금 직장은 따분하지만 안정적이다.\n{name}의 30억은, 이 따분한 월급으론 까마득하다.",
+    "choices": [
+      {
+        "text": "도전한다 — 안정은 버린다  (고연봉·기회 / 위험·안정)",
+        "result_text": "",
+        "follow_up_event": "amb_jobswitch_in",
+        "flags": [
+          "jobswitch_took"
+        ],
+        "effects": {
+          "stress": 7,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "거절하고 지금 자리를 지킨다  (안정 / 기회·후회)",
+        "result_text": "{name}은 안정을 택했다. 매달 또박또박 들어오는 월급의 안도감.\n하지만 몇 달 뒤, 그 스타트업이 투자 유치 뉴스에 떴을 때 —\n'그때 갔어야 했나' 하는 생각이 며칠을 따라다녔다.\n안전한 길의 대가는, 가지 않은 길에 대한 미련이다.",
+        "flags": [
+          "jobswitch_declined"
+        ],
+        "effects": {
+          "stress": -3,
+          "mental": -3
+        }
+      },
+      {
+        "text": "조건을 더 따져보고 결정하겠다 한다  (신중 / 기회 놓칠 위험)",
+        "result_text": "{name}은 \"며칠만 생각해보겠다\"고 했다.\n재무제표를 뜯어보고, 업계 평판도 알아봤다. 신중했다.\n그 사이 — 그 자리는 다른 사람으로 채워졌다.\n돌다리도 두드려야 하지만, 너무 두드리면 다리를 못 건넌다.",
+        "flags": [
+          "jobswitch_hesitated"
+        ],
+        "effects": {
+          "intelligence": 2,
+          "stress": 3,
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_jobswitch_in",
+    "title": "베팅",
+    "background": "meeting",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n그리고 — 야근은 두 배, 미래는 안갯속.\n스톡옵션 종이 한 장이, 휴지가 될지 인생이 될지.",
+    "choices": [
+      {
+        "text": "올인한다 — 밤낮없이 갈아넣는다  (성장·지분 / 건강·번아웃)",
+        "result_text": "{name}은 몸을 갈아 일했다. 회사는 빠르게 컸고, 지분 가치도 올랐다.\n대신 건강은 바닥났고, 거울 속 얼굴은 늘 피곤했다.\n천장 없는 기회의 값은 — 몸과 시간으로 치른다.",
+        "flags": [
+          "startup_grind"
+        ],
+        "effects": {
+          "health": -10,
+          "stress": 8,
+          "investment_skill": 3,
+          "reputation": 3
+        }
+      },
+      {
+        "text": "페이스를 지키며 일한다  (지속가능 / 핵심에서 밀림)",
+        "result_text": "{name}은 무리하지 않기로 했다. 건강을 지키며 꾸준히.\n번아웃은 피했지만, 핵심 멤버들과의 거리는 조금 벌어졌다.\n오래 가려면 지켜야 할 게 있고 — 그만큼 놓치는 것도 있다.",
+        "flags": [
+          "startup_balanced"
+        ],
+        "effects": {
+          "health": 2,
+          "stress": 2,
+          "reputation": -1,
+          "mental": 2
+        }
+      }
+    ]
+  }
+]
