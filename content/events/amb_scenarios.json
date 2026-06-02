@@ -1,0 +1,287 @@
+[
+  {
+    "id": "amb_jeonse_00",
+    "title": "집주인의 빚",
+    "background": "street_rainy",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12,
+      "flag": "housing_moved_once"
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "옆집 아주머니가 {name}을 붙잡고 속삭인다.\n\"그 집주인 양반, 이 건물 말고도 빚이 산더미래.\n등기부는 떼봤어? 요즘 전세 사기 무서워.\"\n\n{name}의 전세보증금 — 몇 년을 모은 전 재산이 —\n그 집에 묶여 있다. '깡통전세' 네 글자가 머릿속을 맴돈다.",
+    "choices": [
+      {
+        "text": "당장 등기부등본부터 뗀다  (발급비·시간)",
+        "result_text": "",
+        "follow_up_event": "amb_jeonse_check",
+        "effects": {
+          "money": -1000,
+          "stress": 8
+        }
+      },
+      {
+        "text": "설마 싶다. 불안하지만 일단 덮는다",
+        "result_text": "{name}은 애써 생각을 밀어냈다. 당장은 마음이 편해졌다.\n하지만 밤마다 그 '빚더미'라는 말이 떠올라 잠을 설쳤다.\n모르는 게 약일까, 외면이 독일까 — 알 수 없었다.",
+        "flags": [
+          "jeonse_ignored"
+        ],
+        "effects": {
+          "stress": -3,
+          "mental": -5
+        }
+      },
+      {
+        "text": "집주인에게 전화해 따져 묻는다  (스트레스)",
+        "result_text": "",
+        "follow_up_event": "amb_jeonse_confront",
+        "effects": {
+          "stress": 10,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_jeonse_check",
+    "title": "80%",
+    "background": "realestate_office",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "등기부를 떼보니 — 근저당이 시세의 80%.\n집주인이 무너지면 보증금은 한 푼도 못 건진다.\n다행히 아직 전세보증보험에 들 수 있는 마지노선은 넘기지 않았다.\n\n보험료 30만원. {name}의 한 달 식비보다 많다.",
+    "choices": [
+      {
+        "text": "30만원을 내고 전세보증보험에 가입한다",
+        "result_text": "{name}은 보험에 가입했다. 통장이 또 얇아졌다.\n하지만 그날 밤, 몇 달 만에 처음으로 푹 잤다.\n전 재산을 지키는 값으로 30만원은 — 싼 거였다.",
+        "flags": [
+          "jeonse_insured"
+        ],
+        "effects": {
+          "money": -300000,
+          "stress": -10,
+          "mental": 6
+        }
+      },
+      {
+        "text": "보험료가 아깝다. 운에 맡기고 버틴다",
+        "result_text": "30만원을 아꼈다. 종잣돈에 보탤 수 있다.\n대신 {name}은 매달 집주인의 안부를 초조하게 살피게 됐다.\n아낀 30만원이, 마음의 평화값이었는지는 — 나중에야 알게 될 일이다.",
+        "flags": [
+          "jeonse_uninsured_gamble"
+        ],
+        "effects": {
+          "stress": 7,
+          "mental": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_jeonse_confront",
+    "title": "걱정 마세요",
+    "background": "street_rainy",
+    "portrait": "player_shocked",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "집주인은 \"걱정 마세요\"만 반복했다. 명확한 답은 없었다.\n오히려 \"사람을 뭘로 보고\" 하며 언짢아했다.\n전화를 끊은 {name}의 손에 식은땀이 났다.\n믿어야 할까, 도망쳐야 할까.",
+    "choices": [
+      {
+        "text": "계약 만료 전 이사를 알아본다  (이사·중개비)",
+        "result_text": "{name}은 미리 움직이기로 했다. 발품과 중개비가 들었지만,\n불안한 집에 발 묶여 있는 것보단 나았다.\n최악을 피하려는 자는, 늘 먼저 움직인다.",
+        "flags": [
+          "jeonse_planning_move"
+        ],
+        "effects": {
+          "money": -150000,
+          "stress": 4,
+          "mental": 3
+        }
+      },
+      {
+        "text": "그래도 믿어보기로 한다  (이사 비용 아낌)",
+        "result_text": "{name}은 일단 믿기로 했다. 이사 비용도, 에너지도 아꼈다.\n다만 그 '믿음'이 매일 밤 조금씩 마음을 갉아먹었다.\n때로 가장 비싼 선택은, 아무것도 안 하는 것이다.",
+        "flags": [
+          "jeonse_trusting"
+        ],
+        "effects": {
+          "money": 0,
+          "mental": -4,
+          "stress": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_hoesik_00",
+    "title": "한 잔 더",
+    "background": "pojangmacha",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8,
+      "has_job": true
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "부서 회식. 벌써 3차다. 부장이 {name}의 잔에 소주를 채운다.\n\"신입이 빠지면 쓰나. 받아, 받아.\"\n\n내일은 중요한 일정이 있다. 속은 이미 뒤집혔다.\n근데 여기서 빠지면 — '센스 없는 놈'이 된다.\n한국 회사의 진짜 평가는, 책상이 아니라 술자리에서 난다.",
+    "choices": [
+      {
+        "text": "끝까지 받아 마신다  (관계·평판 / 건강·정신)",
+        "result_text": "",
+        "follow_up_event": "amb_hoesik_drink",
+        "effects": {
+          "reputation": 3,
+          "social_skill": 2,
+          "health": -8,
+          "stress": -2
+        }
+      },
+      {
+        "text": "정중히 거절하고 일찍 일어선다  (건강 / 관계)",
+        "result_text": "{name}은 \"내일 일정이 있어서\" 하며 먼저 일어섰다.\n집에 오니 몸은 멀쩡했다. 잠도 푹 잤다.\n다만 다음 날, 부장의 인사가 어딘가 서늘했다.\n건강을 지킨 값으로, 보이지 않는 점수를 잃었다.",
+        "flags": [
+          "hoesik_left_early"
+        ],
+        "effects": {
+          "health": 5,
+          "stress": 3,
+          "reputation": -4,
+          "social_skill": -1
+        }
+      },
+      {
+        "text": "취한 척, 화장실에서 시간을 끈다  (절충 / 들킬 위험)",
+        "result_text": "",
+        "follow_up_event": "amb_hoesik_dodge",
+        "effects": {
+          "stress": 5,
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_hoesik_drink",
+    "title": "다음 날 아침",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 부장의 술잔을 끝까지 받았다.\n부장은 어깨를 두드리며 \"역시 우리 사람\"이라고 했다.\n\n그리고 다음 날 아침 — 머리가 깨질 듯하고, 속이 뒤집힌다.\n중요한 일정은 엉망이 됐다. 몸이 천근만근이다.",
+    "choices": [
+      {
+        "text": "약 먹고 어떻게든 버틴다  (출근 / 건강 악화)",
+        "result_text": "{name}은 숙취해소제를 털어넣고 출근했다.\n비틀거리며 하루를 버텼다. 결근은 면했지만,\n몸은 한참을 회복하지 못했다. 관계를 산 값은, 늘 몸으로 치른다.",
+        "flags": [
+          "hoesik_pushed_through"
+        ],
+        "effects": {
+          "health": -5,
+          "stress": 6,
+          "reputation": 1
+        }
+      },
+      {
+        "text": "도저히 안 되겠다. 반차를 쓴다  (회복 / 평판)",
+        "result_text": "{name}은 반차를 냈다. 종일 앓았다.\n어제 쌓은 점수가 오늘 조금 깎였다.\n관계도, 건강도 다 가질 수는 없다는 걸 — 또 배웠다.",
+        "flags": [
+          "hoesik_halfday"
+        ],
+        "effects": {
+          "health": 3,
+          "reputation": -2,
+          "mental": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_hoesik_dodge",
+    "title": "눈치 게임",
+    "background": "pojangmacha",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 취한 척 화장실에서 시간을 끌었다.\n술은 덜 마셨지만, 신경은 곤두섰다.\n자리에 돌아오니 부장이 빤히 본다.\n\"어이, 어디 갔다 와? 도망친 거 아냐?\"",
+    "choices": [
+      {
+        "text": "능청스럽게 웃어넘긴다  (모면 / 사회성 소모)",
+        "result_text": "{name}은 \"화장실이 줄이 길어서요\" 하며 너스레를 떨었다.\n부장이 픽 웃었다. 위기는 넘겼다.\n술은 덜 마셨고, 큰 점수도 안 깎였다 — 대신 진땀을 뺐다.\n적당히 빠져나가는 것도, 실력이고 피곤한 일이다.",
+        "flags": [
+          "hoesik_dodged"
+        ],
+        "effects": {
+          "social_skill": 2,
+          "stress": 4,
+          "health": 2
+        }
+      },
+      {
+        "text": "결국 다시 잔을 받는다  (관계 / 건강)",
+        "result_text": "버티려다 결국 다시 잔을 받았다.\n어정쩡하게 술도 마시고, 마음도 졸였다.\n둘 다 피하려다, 둘 다 조금씩 잃는 — 가장 애매한 결말.",
+        "flags": [
+          "hoesik_caved"
+        ],
+        "effects": {
+          "health": -5,
+          "reputation": 1,
+          "stress": 3
+        }
+      }
+    ]
+  }
+]
