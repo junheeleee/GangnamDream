@@ -1,0 +1,137 @@
+[
+  {
+    "id": "amb_mlm_00",
+    "title": "좋은 사업",
+    "background": "cafe",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 4,
+      "has_job": false
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "연락 끊겼던 동창에게서 카톡이 왔다. 반가운 인사.\n\"잘 지내? 요즘 뭐 해? 나 좋은 사업 하나 하는데,\n무자본으로 월 천도 가능해. 너 같은 사람한테 딱이야.\n시간 되면 한번 보자, 응?\"\n\n무직에 통장은 바닥. {name}은 그게 뭔지 어렴풋이 안다.\n그래도 — '월 천'이라는 네 글자가 자꾸 눈에 밟힌다.",
+    "choices": [
+      {
+        "text": "설명이라도 들어보러 나간다  (지푸라기 / 함정·시간)",
+        "result_text": "",
+        "follow_up_event": "amb_mlm_meet",
+        "effects": {
+          "stress": 4,
+          "money": -10000
+        }
+      },
+      {
+        "text": "딱 잘라 거절한다  (존엄·안전 / 관계·일말의 희망)",
+        "result_text": "{name}은 \"관심 없어\" 하고 대화를 닫았다.\n동창은 \"기회를 발로 찬다\"며 비아냥댔고, 인연은 거기서 끊겼다.\n월 천의 환상도 함께 접었다. 절박할수록, 단호해야 했다.",
+        "flags": [
+          "mlm_refused"
+        ],
+        "effects": {
+          "mental": 3,
+          "social_skill": -1,
+          "stress": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_mlm_meet",
+    "title": "강의실",
+    "background": "meeting",
+    "portrait": "player_shocked",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "화려한 호텔 세미나실. 박수 소리, '성공 신화' 영상, 명품을 두른 강사.\n분위기에 휩쓸려 {name}의 심장도 잠깐 뛴다.\n그때 동창이 다가와 어깨를 감싼다.\n\"등록비 300만원만 있으면 돼. 카드 되지? 인생 바꾸자.\"",
+    "choices": [
+      {
+        "text": "정신을 차리고 자리를 박차고 나온다  (탈출 / 머쓱함·관계)",
+        "result_text": "{name}은 \"화장실\" 핑계로 빠져나와 그대로 집까지 걸었다.\n등 뒤로 동창의 전화가 빗발쳤다. 차단했다.\n300만원도, 자존심도 지켰다. 다만 그 밤은 유난히 길고 추웠다.",
+        "flags": [
+          "mlm_escaped"
+        ],
+        "effects": {
+          "mental": 4,
+          "stress": 8,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "'한 번뿐인 기회'라는 말에 카드를 꺼낸다  (헛된 희망 / 빚·후회)",
+        "result_text": "{name}은 결국 카드를 긁었다. 없는 300만원을 빚으로.\n며칠 만에 깨달았다 — 물건은 안 팔리고, 빚만 남았다는 걸.\n절박함은, 가장 비싼 약점이었다.",
+        "flags": [
+          "mlm_trapped",
+          "crossed_line_early"
+        ],
+        "effects": {
+          "money": -3000000,
+          "stress": 12,
+          "mental": -8
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_health_00",
+    "title": "쓰러진 날",
+    "background": "hospital",
+    "portrait": "player_shocked",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6,
+      "max_health": 55
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 30,
+    "description": "지하철 계단. 갑자기 눈앞이 하얗게 변하고 — 주저앉았다.\n사람들이 웅성거린다. 누군가 119를 부르려 한다.\n\n몇 달째 잠도 못 자고, 끼니도 거르고 달려왔다.\n몸이 보내는 마지막 경고였다.\n응급실에 가면 — 돈이, 시간이, 또 깨진다.",
+    "choices": [
+      {
+        "text": "응급실에 간다  (치료·안심 / 병원비·시간)",
+        "result_text": "{name}은 응급실에서 링거를 맞았다. 과로와 영양실조.\n\"이러다 진짜 큰일 나요.\" 의사의 말이 무거웠다.\n병원비가 통장을 또 갉았다. 하지만 몸은, 조금 살아났다.\n때로는 멈추는 게 가장 빠른 길이다.",
+        "flags": [
+          "health_treated"
+        ],
+        "effects": {
+          "money": -200000,
+          "health": 12,
+          "stress": -6
+        }
+      },
+      {
+        "text": "괜찮다며 사람들을 물리고 일어선다  (돈·시간 아낌 / 건강 도박)",
+        "result_text": "{name}은 \"괜찮습니다\" 하며 억지로 일어나 벽을 짚고 걸었다.\n병원비도, 반나절도 아꼈다.\n하지만 그날 이후 몸은 부쩍 무거워졌다.\n아낀 20만원이, 더 큰 값으로 돌아올지는 — 아무도 모른다.",
+        "flags": [
+          "health_ignored"
+        ],
+        "effects": {
+          "money": 0,
+          "health": -10,
+          "stress": 4
+        }
+      }
+    ]
+  }
+]
