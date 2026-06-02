@@ -133,5 +133,70 @@
         }
       }
     ]
+  },
+  {
+    "id": "amb_mlm_aftermath",
+    "title": "카드값",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 3.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "mlm_trapped",
+      "min_turn": 8
+    },
+    "tags": [
+      "scenario",
+      "tradeoff",
+      "ripple"
+    ],
+    "cooldown": 999,
+    "description": "다단계로 떠안은 물건은 창고에 그대로다. 한 개도 못 팔았다.\n그리고 — 300만원 카드값이 돌아왔다. 독촉 전화가 빗발친다.\n그 동창은 연락이 끊겼다. 처음부터 {name}은 '고객'이 아니라 '먹잇감'이었다.\n\n그날의 '한 번뿐인 기회'가, 매일 울리는 빚 독촉으로 돌아왔다.",
+    "choices": [
+      {
+        "text": "악착같이 알바해서 갚는다  (빚 청산 / 건강·시간)",
+        "result_text": "{name}은 새벽·주말 알바를 닥치는 대로 잡았다.\n몇 달을 몸으로 갈아 빚을 메웠다. 신용은 지켰다.\n대신 몸은 상했고, 종잣돈 모을 시간은 통째로 날아갔다.\n실수의 값은, 결국 가장 비싼 화폐 — 시간으로 치렀다.",
+        "flags": [
+          "mlm_debt_repaid"
+        ],
+        "effects": {
+          "money": -1500000,
+          "health": -8,
+          "stress": 10,
+          "mental": 4
+        }
+      },
+      {
+        "text": "못 갚는다. 신용불량을 감수한다  (당장 모면 / 미래)",
+        "result_text": "{name}은 결국 카드값을 연체했다. 당장의 알바 지옥은 면했다.\n대신 신용점수가 무너졌다. 앞으로 대출도, 전세도 막힌다.\n강남으로 가는 길에, 스스로 가시밭을 깔았다.",
+        "flags": [
+          "credit_damaged"
+        ],
+        "effects": {
+          "stress": 8,
+          "mental": -6,
+          "investment_skill": -1
+        }
+      },
+      {
+        "text": "자존심 접고 아버지께 손을 벌린다  (해결 / 가족·수치)",
+        "result_text": "{name}은 차마 안 떨어지는 입을 열어 아버지께 전화했다.\n아버지는 아무것도 묻지 않고 돈을 부쳤다. \"밥은 먹고 다니냐\"만.\n빚은 사라졌지만, 그 침묵이 더 아팠다.\n6년을 빚 갚은 아버지에게, 또 빚을 안겼다.",
+        "flags": [
+          "borrowed_from_parents"
+        ],
+        "effects": {
+          "money": 3000000,
+          "mental": -7,
+          "stress": -4
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": -6
+          }
+        }
+      }
+    ]
   }
 ]
