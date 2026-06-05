@@ -311,4 +311,8 @@ func _effective_weight(event):
 			if tags.has(bt):
 				weight *= 1.25
 				break
+	# 강남드림 트레이드오프 시나리오(신규 고품질 콘텐츠)를 매 턴 사건으로 우선 노출.
+	# (옛 로그라이크 이벤트보다 훨씬 자주 등장 → 일방적 선택지 비중 자연 감소)
+	if tags.has("tradeoff"):
+		weight *= 4.5
 	return max(0.01, weight)
