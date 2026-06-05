@@ -1619,8 +1619,8 @@ func _render_essential_actions(ap: int):
 		_essential_btn("💼 구직활동  —  일자리를 찾는다", "#dc6a2a", "_ap_job_hunt", disabled)
 	if has_paycheck:
 		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
-	_essential_btn("📚 자기계발  —  독서·운동·명상", "#5a6ea8", "_open_cat_dev", disabled)
-	_essential_btn("🌊 휴식  —  정신력 회복", "#3a8a9a", "_ap_free_time", disabled)
+	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
+	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
 	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
 
 func _essential_btn(text: String, accent: String, fn: String, disabled: bool):
@@ -2054,32 +2054,82 @@ func _ap_contact_person(person_id: String):
 	_render_ap_actions()
 	_refresh_all()
 
+# ── 변주되는 루틴 미니 장면 ──────────────────────────────────────
+# 같은 행동도 매번 다른 짧은 장면(좋은 일·헛탕·소소한 행운)이 나온다.
+const REST_VIGNETTES := [
+	{"t":"한강을 걸었다. 강물이 도시의 소음을 잠시 데려갔다.", "e":{"mental":11,"stress":-9}},
+	{"t":"알람 없이 푹 잤다. 며칠 만에 몸이 깃털처럼 가벼웠다.", "e":{"health":6,"mental":7,"stress":-7}},
+	{"t":"종일 누워 유튜브만 봤다. 쉰 건지 시간을 버린 건지 모르겠다.", "e":{"mental":4,"stress":-2}},
+	{"t":"쉬려고 누웠는데, 통장 잔고 생각에 도무지 잠이 안 왔다.", "e":{"mental":2,"stress":-1}},
+	{"t":"동네 포장마차에서 혼술. 쓸쓸했지만, 따뜻했다.", "e":{"mental":6,"stress":-5,"money":-12000}},
+	{"t":"공원 벤치에서 멍하니 사람들을 봤다. 다들 어딘가로 바쁘다.", "e":{"mental":5,"stress":-4}},
+	{"t":"낮잠을 자다 강남 아파트에서 쫓겨나는 꿈을 꿨다. 식은땀.", "e":{"mental":3,"stress":-2}},
+	{"t":"목욕탕에서 때를 밀었다. 묵은 피로가 조금 벗겨졌다.", "e":{"health":4,"mental":5,"stress":-6,"money":-9000}},
+	{"t":"길에서 꼬깃한 만원짜리를 주웠다. 오늘은 운이 좋다.", "e":{"mental":6,"stress":-5,"money":50000,"luck":1}},
+	{"t":"쉬는 날인데 자꾸 일·돈 생각이 났다. 제대로 못 쉬었다.", "e":{"mental":3,"stress":-2}},
+]
+const SELFDEV_VIGNETTES := [
+	{"t":"읽던 책의 한 구절이 오래 남았다. \"버티는 것도 재능이다.\"", "e":{"intelligence":3,"mental":2}},
+	{"t":"집중이 안 됐다. 같은 페이지만 세 번 읽다 덮었다.", "e":{"intelligence":1,"stress":2}},
+	{"t":"투자 강의에서 무릎을 쳤다. 숫자 너머가 보이기 시작한다.", "e":{"investment_skill":3,"intelligence":1}},
+	{"t":"운동을 했다. 땀이 머릿속 잡념까지 같이 씻어냈다.", "e":{"health":5,"stress":-4}},
+	{"t":"명상 앱을 켰는데 5분 만에 잠들었다. 그래도 개운했다.", "e":{"health":2,"mental":3,"stress":-2}},
+	{"t":"강의를 듣다 문득, 내가 뭘 위해 이러나 싶었다.", "e":{"intelligence":2,"mental":-2}},
+	{"t":"자격증 인강을 결제했다. 작심삼일이 될지, 발판이 될지.", "e":{"intelligence":2,"money":-30000,"investment_skill":1}},
+	{"t":"운동하다 거울 속 야윈 몸을 봤다. 그래도 조금은 가뿐해졌다.", "e":{"health":4,"mental":-1,"stress":-2}},
+	{"t":"도서관에서 부동산 책을 팠다. 용어가 조금씩 눈에 익는다.", "e":{"investment_skill":2,"intelligence":1}},
+	{"t":"새벽에 영어 단어를 외웠다. 쓸 일이 있을지는, 일단 모른다.", "e":{"intelligence":2,"stress":1}},
+]
+
+func _ap_selfdev():
+	_ap_vignette("📚 자기계발", SELFDEV_VIGNETTES, "#5a6ea8")
+
 func _ap_free_time():
+	_ap_vignette("🌊 휴식", REST_VIGNETTES, "#0891b2")
+
+## 루틴 행동을 '변주되는 미니 장면'으로 처리. 풀에서 무작위 결과를 뽑아 적용.
+func _ap_vignette(title: String, pool: Array, color: String):
 	if not GameState.spend_ap():
 		return
-	var mental_before = GameState.mental
-	GameState.modify_stat("mental", 10)
-	GameState.modify_hidden_stat("stress", -8)
-	GameState.flags["had_free_time_recently"] = true
-	GameState.flags["free_time_count"] = GameState.flags.get("free_time_count", 0) + 1
-	var luck_msg = ""
-	var roll = randf()
-	if roll < 0.12:
-		var windfall = float(randi_range(30_000, 150_000))
-		GameState.add_money(windfall)
-		GameState.modify_stat("luck", 1)
-		luck_msg = "  💸 뜻밖의 행운 +%s!" % GameState.format_money(windfall)
-		AudioManager.play("money_gain")
-	elif roll < 0.30:
-		GameState.modify_stat("luck", 1)
-		luck_msg = "  ✨ 흥미로운 만남의 예감"
-	var msg = "🌊 자유시간 — 정신 %d→%d, 스트레스 -8%s" % [mental_before, GameState.mental, luck_msg]
-	GameState.add_log(msg, "event")
-	turn_action_log.append("✓ " + msg)
-	_show_toast("🌊 자유시간%s" % luck_msg, Color("#0891b2"))
+	var v: Dictionary = pool[randi() % pool.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "money":
+			GameState.add_money(float(val))
+			if val > 0:
+				AudioManager.play("money_gain")
+		elif k == "stress" or k == "reputation":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
+	GameState.add_log(title + " — " + flavor, "event")
 	GameState.stats_changed.emit()
-	_render_ap_actions()
-	_refresh_all()
+	_show_vignette(title, flavor, eff, color)
+
+func _show_vignette(title: String, body: String, eff: Dictionary, color: String):
+	for child in choice_box.get_children():
+		child.queue_free()
+	event_title.text = title
+	var parts: PackedStringArray = PackedStringArray()
+	var names := {"money":"💰","health":"❤","mental":"🧠","stress":"😫",
+		"intelligence":"📖","investment_skill":"📈","social_skill":"🤝","luck":"🍀","reputation":"⭐"}
+	for k in eff:
+		var val: int = int(eff[k])
+		if val == 0:
+			continue
+		var sym: String = str(names.get(k, k))
+		if k == "money":
+			parts.append("%s %s%s" % [sym, ("+" if val > 0 else ""), GameState.format_money(float(val))])
+		else:
+			parts.append("%s %s%d" % [sym, ("+" if val > 0 else ""), val])
+	event_body.text = _fmt(body) + "\n\n" + "    ".join(parts)
+	var btn: Button = _button("확인", color)
+	btn.pressed.connect(_on_result_confirmed)
+	choice_box.add_child(btn)
+	next_button.disabled = true
 
 func _ap_startup_work():
 	if not GameState.spend_ap():
