@@ -102,3 +102,55 @@ static func payout_win(race: Dictionary, bet_idx: int, stake: float, finish: Arr
 	if finish[0] == bet_horse:
 		return stake * float(bet_horse["odds"])
 	return 0.0
+
+# ── 조합 베팅 ─────────────────────────────────────────────────
+# 대중 함의 승률(합≈1). 조합 배당은 이 확률을 Plackett-Luce로 조합해 산출.
+static func _pub_probs(race: Dictionary) -> Array:
+	var p: Array = []
+	for h in race["horses"]:
+		p.append((1.0 - TAKE) / float(h["odds"]))
+	return p
+
+## 연승 배당 — 1·2착 안에 들면 적중 (안전, 낮은 배당)
+static func place_odds(race: Dictionary, idx: int) -> float:
+	var p: Array = _pub_probs(race)
+	var pi: float = float(p[idx])
+	var prob: float = pi                       # idx 1착
+	for j in range(p.size()):
+		if j == idx: continue
+		prob += float(p[j]) * pi / max(1.0 - float(p[j]), 0.001)   # j 1착, idx 2착
+	return max(1.0, (1.0 - TAKE) / max(prob, 0.001))
+
+## 복승 배당 — 고른 2마리가 1·2착 (순서 무관, 중간 배당)
+static func quinella_odds(race: Dictionary, a: int, b: int) -> float:
+	var p: Array = _pub_probs(race)
+	var pa: float = float(p[a]); var pb: float = float(p[b])
+	var prob: float = pa * pb / max(1.0 - pa, 0.001) + pb * pa / max(1.0 - pb, 0.001)
+	return max(1.5, (1.0 - TAKE) / max(prob, 0.0001))
+
+## 삼쌍승 배당 — 1·2·3착을 순서까지 정확히 (대박 배당)
+static func trifecta_odds(race: Dictionary, a: int, b: int, c: int) -> float:
+	var p: Array = _pub_probs(race)
+	var pa: float = float(p[a]); var pb: float = float(p[b]); var pc: float = float(p[c])
+	var prob: float = pa * (pb / max(1.0 - pa, 0.001)) * (pc / max(1.0 - pa - pb, 0.001))
+	return max(3.0, (1.0 - TAKE) / max(prob, 0.00001))
+
+static func payout_place(race: Dictionary, idx: int, stake: float, finish: Array) -> float:
+	if finish.size() < 2: return 0.0
+	if race["horses"][idx] == finish[0] or race["horses"][idx] == finish[1]:
+		return stake * place_odds(race, idx)
+	return 0.0
+
+static func payout_quinella(race: Dictionary, a: int, b: int, stake: float, finish: Array) -> float:
+	if finish.size() < 2: return 0.0
+	var ha = race["horses"][a]; var hb = race["horses"][b]
+	var top2 := [finish[0], finish[1]]
+	if (ha in top2) and (hb in top2):
+		return stake * quinella_odds(race, a, b)
+	return 0.0
+
+static func payout_trifecta(race: Dictionary, a: int, b: int, c: int, stake: float, finish: Array) -> float:
+	if finish.size() < 3: return 0.0
+	if finish[0] == race["horses"][a] and finish[1] == race["horses"][b] and finish[2] == race["horses"][c]:
+		return stake * trifecta_odds(race, a, b, c)
+	return 0.0
