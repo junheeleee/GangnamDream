@@ -6,11 +6,25 @@ extends Control
 signal closed
 
 enum Phase { BETTING, RACE, RESULT }
+enum BetType { PLACE, WIN, QUINELLA, TRIFECTA }
+
+const BET_NAMES := ["연승", "단승", "복승", "삼쌍승"]
+const BET_PICKS := [1, 1, 2, 3]           # 필요한 말 수
+const BET_ORDERED := [false, false, false, true]   # 삼쌍승만 착순 순서 중요
+const BET_DESC := [
+	"고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당",
+	"고른 말이 1착이면 배당만큼 — 기본",
+	"고른 2마리가 1·2착 (순서 무관) — 중간 배당",
+	"1·2·3착을 순서까지 정확히 — 대박, 초고배당",
+]
+const PICK_BADGE := ["①", "②", "③"]
+const HR := preload("res://systems/HorseRace.gd")   # class_name 글로벌 캐시 의존 제거(콜드런 크래시 방지)
 
 var _phase: int = Phase.BETTING
 var _race: Dictionary = {}
 var _finish: Array = []          # 증명된 모델 simulate() 착순
-var _bet_idx: int = -1
+var _bet_type: int = BetType.WIN
+var _picks: Array = []           # 선택한 말 인덱스 (순서 보존 — 삼쌍승은 착순 예측)
 var _bet_stake: float = 0.0
 var _rng := RandomNumberGenerator.new()
 var _race_t: float = 0.0
@@ -105,9 +119,9 @@ func open() -> void:
 
 func _new_race() -> void:
 	var info: float = float(GameState.intelligence)
-	_race = HorseRace.generate_race(_rng, info)
+	_race = HR.generate_race(_rng, info)
 	_finish = []
-	_bet_idx = -1
+	_picks = []
 	_bet_stake = 0.0
 	_phase = Phase.BETTING
 	_races_today += 1
@@ -165,6 +179,7 @@ func _value_pick() -> int:
 func _render_betting() -> void:
 	var hs: Array = _race["horses"]
 	var vpick: int = _value_pick()
+	var ordered: bool = BET_ORDERED[_bet_type]
 
 	var head := RichTextLabel.new()
 	head.bbcode_enabled = true; head.fit_content = true; head.scroll_active = false
@@ -172,12 +187,12 @@ func _render_betting() -> void:
 	head.offset_left = 8; head.offset_top = 0; head.offset_right = -8; head.offset_bottom = 24
 	_f(head); head.add_theme_font_size_override("normal_font_size", 12)
 	head.add_theme_color_override("default_color", Color("#6a7488"))
-	head.text = "   말   ·   클래스   거리적성   마장적성   기수   ·   배당   (★ 높고 배당 높으면 = 저평가 노림수)"
+	head.text = "   말   ·   클래스   거리적성   마장적성   기수   ·   단승배당   (★ 높은데 배당도 높으면 = 저평가 노림수)"
 	_content.add_child(head)
 
 	var scroll := ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
-	scroll.offset_top = 30; scroll.offset_bottom = -132
+	scroll.offset_top = 30; scroll.offset_bottom = -158
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_content.add_child(scroll)
 	var vb := VBoxContainer.new()
@@ -187,15 +202,20 @@ func _render_betting() -> void:
 
 	for i in range(hs.size()):
 		var h: Dictionary = hs[i]
-		var sel: bool = (i == _bet_idx)
+		var pos: int = _picks.find(i)
+		var sel: bool = pos >= 0
 		var rt := RichTextLabel.new()
 		rt.bbcode_enabled = true; rt.fit_content = true; rt.scroll_active = false
 		rt.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		rt.custom_minimum_size = Vector2(0, 40)
 		_f(rt); rt.add_theme_font_size_override("normal_font_size", 15)
 		var tag: String = "  [color=#f0c45d]💡저평가[/color]" if i == vpick else ""
-		rt.text = "[color=%s]●[/color] [b]%s[/b]    [color=#c8a050]%s[/color]  [color=#5d9ce8]%s[/color]  [color=#5de89c]%s[/color]  [color=#aaaaaa]%s[/color]    배당 [b]%.1f[/b]%s" % [
-			COLORS[i % COLORS.size()], str(h["name"]),
+		# 선택 배지: 삼쌍승은 착순(①②③), 그 외는 ✓
+		var badge: String = ""
+		if sel:
+			badge = ("[color=#ffe14d]%s[/color] " % PICK_BADGE[pos]) if ordered else "[color=#ffe14d]✓[/color] "
+		rt.text = "%s[color=%s]●[/color] [b]%s[/b]    [color=#c8a050]%s[/color]  [color=#5d9ce8]%s[/color]  [color=#5de89c]%s[/color]  [color=#aaaaaa]%s[/color]    배당 [b]%.1f[/b]%s" % [
+			badge, COLORS[i % COLORS.size()], str(h["name"]),
 			_stars(int(h["star_class"])), _stars(int(h["star_dist"])),
 			_stars(int(h["star_cond"])), _stars(int(h["star_jockey"])),
 			float(h["odds"]), tag]
@@ -203,7 +223,7 @@ func _render_betting() -> void:
 		btn.custom_minimum_size = Vector2(0, 42)
 		var st := StyleBoxFlat.new()
 		st.bg_color = Color("#141c28") if sel else Color("#0d1119")
-		st.border_color = Color("#4a7ad0") if sel else Color("#1a2230")
+		st.border_color = Color("#d0b04a") if sel else Color("#1a2230")
 		st.border_width_left = 4
 		st.set_corner_radius_all(5)
 		st.content_margin_left = 12
@@ -213,30 +233,46 @@ func _render_betting() -> void:
 		btn.add_theme_stylebox_override("pressed", st)
 		btn.focus_mode = Control.FOCUS_NONE
 		var idx: int = i
-		btn.pressed.connect(func(): _bet_idx = idx; _render())
+		btn.pressed.connect(func(): _toggle_pick(idx))
 		btn.add_child(rt)
 		rt.set_anchors_preset(Control.PRESET_FULL_RECT)
 		rt.offset_left = 12; rt.offset_top = 9
 		vb.add_child(btn)
 
-	# 베팅 컨트롤
+	# ── 베팅 컨트롤 ──
 	var bet_panel := VBoxContainer.new()
 	bet_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	bet_panel.offset_left = 8; bet_panel.offset_top = -120; bet_panel.offset_right = -8
-	bet_panel.add_theme_constant_override("separation", 8)
+	bet_panel.offset_left = 8; bet_panel.offset_top = -150; bet_panel.offset_right = -8
+	bet_panel.add_theme_constant_override("separation", 7)
 	_content.add_child(bet_panel)
 
-	var info := Label.new()
-	_f(info); info.add_theme_font_size_override("font_size", 14)
-	if _bet_idx < 0:
-		info.text = "베팅할 말을 고르세요. (단승 — 1착을 맞히면 배당만큼 받는다)"
-		info.add_theme_color_override("font_color", Color("#9aa4b8"))
-	else:
-		var bh: Dictionary = hs[_bet_idx]
-		info.text = "선택: %s  (배당 %.1f) — 단승 베팅액을 고르세요" % [str(bh["name"]), float(bh["odds"])]
-		info.add_theme_color_override("font_color", Color("#cfe0ff"))
+	# 베팅종류 선택 (연승/단승/복승/삼쌍승)
+	var type_row := HBoxContainer.new()
+	type_row.add_theme_constant_override("separation", 6)
+	bet_panel.add_child(type_row)
+	for t in range(BET_NAMES.size()):
+		var tb := Button.new()
+		tb.text = BET_NAMES[t]
+		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		if t == _bet_type:
+			_style(tb, "#2a1e0e", "#d0a040")
+			tb.add_theme_color_override("font_color", Color("#ffe7a0"))
+		else:
+			_style(tb, "#12161e", "#2a3242")
+		var tt: int = t
+		tb.pressed.connect(func(): _set_bet_type(tt))
+		type_row.add_child(tb)
+
+	var info := RichTextLabel.new()
+	info.bbcode_enabled = true; info.fit_content = true; info.scroll_active = false
+	info.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_f(info); info.add_theme_font_size_override("normal_font_size", 14)
+	info.custom_minimum_size = Vector2(0, 24)
+	info.text = _bet_info_text()
 	bet_panel.add_child(info)
 
+	var need: int = BET_PICKS[_bet_type]
+	var ready: bool = _picks.size() >= need
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	bet_panel.add_child(row)
@@ -244,7 +280,7 @@ func _render_betting() -> void:
 		var b := Button.new()
 		b.text = GameState.format_money(float(amt))
 		_style(b, "#10231a", "#2a7a52")
-		b.disabled = (_bet_idx < 0) or (GameState.money < float(amt))
+		b.disabled = (not ready) or (GameState.money < float(amt))
 		var a: int = amt
 		b.pressed.connect(func(): _place_bet(float(a)))
 		row.add_child(b)
@@ -254,14 +290,60 @@ func _render_betting() -> void:
 	skip.pressed.connect(_new_race)
 	row.add_child(skip)
 
+func _set_bet_type(t: int) -> void:
+	if t == _bet_type: return
+	_bet_type = t
+	_picks = []
+	_render()
+
+func _toggle_pick(i: int) -> void:
+	var need: int = BET_PICKS[_bet_type]
+	var pos: int = _picks.find(i)
+	if pos >= 0:
+		_picks.remove_at(pos)
+	elif need == 1:
+		_picks = [i]                       # 단일 선택은 교체
+	elif _picks.size() >= need:
+		_flash("%s은 %d마리까지" % [BET_NAMES[_bet_type], need], "#e8c45d")
+		return
+	else:
+		_picks.append(i)
+	_render()
+
+# 현재 선택 조합의 배당 (선택 완료 시)
+func _current_odds() -> float:
+	var need: int = BET_PICKS[_bet_type]
+	if _picks.size() < need: return 0.0
+	match _bet_type:
+		BetType.PLACE: return HR.place_odds(_race, _picks[0])
+		BetType.WIN: return float(_race["horses"][_picks[0]]["odds"])
+		BetType.QUINELLA: return HR.quinella_odds(_race, _picks[0], _picks[1])
+		BetType.TRIFECTA: return HR.trifecta_odds(_race, _picks[0], _picks[1], _picks[2])
+	return 0.0
+
+func _bet_info_text() -> String:
+	var need: int = BET_PICKS[_bet_type]
+	var hs: Array = _race["horses"]
+	if _picks.size() < need:
+		var left: int = need - _picks.size()
+		var how: String = "착순대로 " if BET_ORDERED[_bet_type] else ""
+		return "[color=#9aa4b8][b]%s[/b] · %s  →  %s%d마리 더 고르세요[/color]" % [
+			BET_NAMES[_bet_type], BET_DESC[_bet_type], how, left]
+	var names: Array = []
+	for p in _picks: names.append(str(hs[p]["name"]))
+	var joiner: String = " → " if BET_ORDERED[_bet_type] else " + "
+	return "[color=#cfe0ff][b]%s[/b]  %s   →   배당 [color=#ffe14d][b]×%.1f[/b][/color]  (베팅액을 고르세요)[/color]" % [
+		BET_NAMES[_bet_type], joiner.join(names), _current_odds()]
+
 func _place_bet(stake: float) -> void:
-	if _bet_idx < 0: return
+	if _picks.size() < BET_PICKS[_bet_type]: return
 	if GameState.money < stake:
 		_flash("현금이 부족하다", "#e85d5d"); return
 	_bet_stake = stake
 	GameState.add_money(-stake)
-	# 도박 — 중독·도박성향 상승. 진 뒤 또 거는(추격)이면 가속.
+	# 도박 — 중독·도박성향 상승. 진 뒤 또 거는(추격) + 엑조틱(고변동)이면 가속.
 	var add: int = 3 + (4 if _last_lost else 0)
+	if _bet_type == BetType.TRIFECTA: add += 2
 	GameState.addiction_tendency = clampi(GameState.addiction_tendency + add, 0, 100)
 	GameState.gambling_tendency = clampi(GameState.gambling_tendency + 2, 0, 100)
 	GameState.stats_changed.emit()
@@ -271,7 +353,7 @@ func _place_bet(stake: float) -> void:
 func _start_race() -> void:
 	_phase = Phase.RACE
 	# 증명된 모델로 공정한 착순 결정
-	_finish = HorseRace.simulate(_race, _rng)
+	_finish = HR.simulate(_race, _rng)
 	# 착순대로 결승 시간 배정 (1착이 가장 빠름, 약간 겹쳐 사진판정 긴장)
 	var base: float = 3.2
 	for rank in range(_finish.size()):
@@ -330,14 +412,23 @@ func _draw_track() -> void:
 		var col := Color(COLORS[i % COLORS.size()])
 		# 말 (캡슐 + 번호)
 		_track.draw_circle(Vector2(x, y), 9.0, col)
-		if i == _bet_idx:
+		var ppos: int = _picks.find(i)
+		if ppos >= 0:
 			_track.draw_arc(Vector2(x, y), 13.0, 0, TAU, 24, Color("#ffe14d"), 2.0)
+			if BET_ORDERED[_bet_type]:
+				_track.draw_string(f, Vector2(x + 14, y + 5), PICK_BADGE[ppos],
+					HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#ffe14d"))
 		_track.draw_string(f, Vector2(pad_l - 2, y - 12), str(h["name"]),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col)
 
 func _finish_race() -> void:
 	_phase = Phase.RESULT
-	var payout: float = HorseRace.payout_win(_race, _bet_idx, _bet_stake, _finish)
+	var payout: float = 0.0
+	match _bet_type:
+		BetType.PLACE: payout = HR.payout_place(_race, _picks[0], _bet_stake, _finish)
+		BetType.WIN: payout = HR.payout_win(_race, _picks[0], _bet_stake, _finish)
+		BetType.QUINELLA: payout = HR.payout_quinella(_race, _picks[0], _picks[1], _bet_stake, _finish)
+		BetType.TRIFECTA: payout = HR.payout_trifecta(_race, _picks[0], _picks[1], _picks[2], _bet_stake, _finish)
 	if payout > 0:
 		GameState.add_money(payout)
 		AudioManager.play("money_gain")
@@ -369,7 +460,8 @@ func _render_result() -> void:
 		var medal: String = ["🥇", "🥈", "🥉", "  "][rank]
 		var lbl := Label.new()
 		_f(lbl); lbl.add_theme_font_size_override("font_size", 16)
-		var mine: String = "   ← 내 베팅" if _race["horses"][_bet_idx] == h and _bet_idx >= 0 else ""
+		var hidx: int = _race["horses"].find(h)
+		var mine: String = "   ← 내 픽" if hidx in _picks else ""
 		lbl.text = "%s %d착   %s   (배당 %.1f)%s" % [medal, rank + 1, str(h["name"]), float(h["odds"]), mine]
 		lbl.add_theme_color_override("font_color", Color("#f0c45d") if rank == 0 else Color("#aab3c5"))
 		box.add_child(lbl)

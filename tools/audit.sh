@@ -13,21 +13,31 @@ python3 tools/audit.py
 PY_EXIT=$?
 
 echo "──────────────────────────────────────────"
-echo "● Godot 헤드리스 파싱 체크"
+echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd load 강제 컴파일)"
+# 주의: --quit-after 2(메인씬 부팅)는 RaceTrack/MainGame 등 부팅 시 미로드 스크립트를
+# 컴파일하지 않아 컴파일 버그를 놓친다(게다가 macOS엔 timeout 바이너리도 없어 헛돌았음).
+# CompileCheck.tscn은 오토로드·class_name이 모두 등록된 상태에서 전체 .gd를 load()해
+# 함수 본문까지 완전 컴파일한다 → 깨진 스크립트는 stderr에 'Failed to load script'.
 if [ -x "$GODOT" ]; then
-  GD_OUT=$(timeout 40 "$GODOT" --headless --quit-after 2 2>&1 \
-    | grep -iE "SCRIPT ERROR|Parse Error|error\(|expected|Compile Error" \
-    | grep -v "Cannot open\|No loader\|texture\|\.png\|\.ogg\|\.mp3\|AudioStream\|Identifier not found: GameState")
+  # 1) 에디터 부팅으로 class_name 글로벌 캐시 최신화(스태일 캐시발 콜드 크래시 예방)
+  command -v gtimeout >/dev/null 2>&1 && GT="gtimeout 150" || GT=""
+  $GT "$GODOT" --headless --editor --quit-after 30 >/dev/null 2>&1
+  # 2) 씬 부팅으로 전 스크립트 강제 컴파일
+  RAW=$($GT "$GODOT" --headless res://tools/CompileCheck.tscn 2>&1)
+  echo "$RAW" | grep -E "COMPILE_SCAN" | sed 's/^/  /'
+  GD_OUT=$(echo "$RAW" | grep -v "COMPILE_SCAN" \
+    | grep -iE "Failed to load script|Parse Error|Compile Error" \
+    | grep -viE "Cannot open|No loader|\.png|\.ogg|\.mp3|AudioStream|texture|\.import")
   if [ -n "$GD_OUT" ]; then
-    echo "  ✗ 파싱 에러:"
-    echo "$GD_OUT" | sed 's/^/    /'
+    echo "  ✗ 컴파일 에러:"
+    echo "$GD_OUT" | sed 's/^/    /' | head -20
     GD_EXIT=1
   else
-    echo "  ✓ 파싱 깨끗"
+    echo "  ✓ 전체 컴파일 깨끗 (모든 스크립트)"
     GD_EXIT=0
   fi
 else
-  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 파싱 체크 건너뜀. GODOT=경로 로 지정 가능."
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 컴파일 체크 건너뜀. GODOT=경로 로 지정 가능."
   GD_EXIT=0
 fi
 
