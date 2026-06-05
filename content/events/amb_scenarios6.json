@@ -1,0 +1,168 @@
+[
+  {
+    "id": "amb_guarantee_00",
+    "title": "도장 하나만",
+    "background": "pojangmacha",
+    "portrait": "player_tired",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 40,
+    "description": "고등학교 친구가 오랜만에 술을 사겠다며 불러냈다.\n몇 잔 돌고 나서야 본론이 나온다.\n\"사업 자금 대출인데, 보증인 한 명이 모자라. 도장만 찍어주면 돼.\n절대 너한테 피해 안 가. 우리 사이에 이 정도도 못 해줘?\"\n\n{name}은 안다. 보증은 남의 빚을 내 빚으로 만드는 일이라는 걸.\n그리고 — 거절은, 20년 우정에 금을 낸다는 것도.",
+    "choices": [
+      {
+        "text": "\"미안하다, 보증만은 못 서겠다\" 거절한다  (안전 / 우정)",
+        "result_text": "{name}은 어렵게 거절했다. 친구의 얼굴이 싸늘하게 식었다.\n\"...너도 똑같구나.\" 그 말을 끝으로 연락이 끊겼다.\n돈은 지켰다. 대신 20년이 한순간에 무너졌다.\n때로 옳은 선택은, 가장 외로운 선택이다.",
+        "flags": [
+          "guarantee_refused"
+        ],
+        "effects": {
+          "mental": -4,
+          "stress": 5,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "우정을 믿고 도장을 찍어준다  (의리 / 시한폭탄)",
+        "result_text": "{name}은 결국 도장을 찍었다. 친구는 눈물까지 글썽이며 고마워했다.\n우정은 지켰다. 대신 — 남의 빚이 {name}의 어깨에 얹혔다.\n그 사업이 잘되길, {name}은 매일 빌게 됐다.\n호의로 찍은 도장 하나가, 평생의 불안이 될 줄도 모르고.",
+        "flags": [
+          "guarantee_signed"
+        ],
+        "effects": {
+          "stress": 10,
+          "mental": 2
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 8
+          }
+        }
+      },
+      {
+        "text": "\"빚 대신 내가 할 수 있는 걸 돕겠다\" 절충한다  (관계 일부 / 어정쩡)",
+        "result_text": "{name}은 보증 대신, 가진 선에서 작게 돕겠다 제안했다.\n친구는 떨떠름해했다. 완전히 만족도, 완전히 등돌리지도 않았다.\n선을 지키되 정도 지키려 한 절충 — 둘 다 어중간하게 남았다.",
+        "flags": [
+          "guarantee_compromise"
+        ],
+        "effects": {
+          "money": -300000,
+          "stress": 3,
+          "mental": 1
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 3
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_credit_steal_00",
+    "title": "내 보고서",
+    "background": "office",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12,
+      "has_job": true
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 40,
+    "description": "몇 날 밤을 새워 만든 기획서. 부장이 그걸 임원 회의에서 발표한다.\n\"제가 이번에 준비한 안인데요—\" 제가. 제가.\n{name}의 이름은 어디에도 없었다. 박수는 부장이 받았다.\n\n속이 부글거린다. 여기서 따지면 '싸가지', 참으면 '호구'.\n한국 회사에서, 공은 위로 흐르고 책임은 아래로 흐른다.",
+    "choices": [
+      {
+        "text": "조용히 삼킨다 — 때를 기다린다  (평화 / 자존감)",
+        "result_text": "{name}은 표정을 관리하며 삼켰다. 부장과 척져서 좋을 거 없다.\n분위기는 지켰고, 미운털도 안 박혔다.\n대신 그날 밤, 거울 속 자기 얼굴을 오래 못 봤다.\n참는 것도 실력이지만 — 매번 참으면, 그게 나인 줄 알게 된다.",
+        "flags": [
+          "credit_swallowed"
+        ],
+        "effects": {
+          "stress": 9,
+          "mental": -4,
+          "reputation": 1
+        }
+      },
+      {
+        "text": "회의 후, 부장에게 정중히 따진다  (자존심·인정 / 미운털)",
+        "result_text": "",
+        "follow_up_event": "amb_credit_confront",
+        "effects": {
+          "stress": 7,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "임원에게 슬쩍 '제 자료'였음을 흘린다  (인정 / 정치적 위험)",
+        "result_text": "{name}은 임원에게 따로 자료 원본을 보냈다. '참고하시라'며.\n임원은 알아챘다. {name}의 이름이 윗선에 각인됐다.\n대신 부장은 — 누가 찔렀는지 안다. 보이지 않는 칼이 갈리기 시작했다.\n인정을 얻은 값으로, {name}은 적을 하나 만들었다.",
+        "flags": [
+          "credit_went_over_head"
+        ],
+        "effects": {
+          "reputation": 4,
+          "stress": 8,
+          "mental": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_credit_confront",
+    "title": "독대",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
+    "cooldown": 9999,
+    "description": "{name}은 부장을 따로 불렀다. \"부장님, 그 기획서 제가 만든 건데요.\"\n부장의 눈썹이 꿈틀했다.\n\"...어, 그랬나? 팀 작업이잖아. 뭘 그런 걸 따져.\n너 일 잘하는 거 내가 알아. 다음에 챙겨줄게, 응?\"\n뻔한 무마. 믿어야 할까, 못 박아야 할까.",
+    "choices": [
+      {
+        "text": "\"다음엔 제 이름도 같이 올려주십시오\" 못 박는다  (선언 / 관계 냉각)",
+        "result_text": "{name}은 분명히 선을 그었다. 부장은 떨떠름하게 \"알았어\" 했다.\n호구는 면했다. 부장도 함부로 못 하게 됐다.\n대신 둘 사이엔 서늘한 거리가 생겼다.\n존중은 요구해야 얻어지지만 — 그 대가는 편안함이다.",
+        "flags": [
+          "credit_drew_line"
+        ],
+        "effects": {
+          "reputation": 2,
+          "stress": 4,
+          "mental": 4
+        }
+      },
+      {
+        "text": "\"네, 믿겠습니다\" 하고 물러선다  (관계 / 또 호구)",
+        "result_text": "{name}은 부장의 말을 믿어보기로 했다. 분위기는 부드럽게 넘어갔다.\n관계는 지켰다 — 다만 '다음에 챙겨준다'는 말의 유효기간을,\n{name}은 경험으로 안다. 보통, 그 다음은 오지 않는다.",
+        "flags": [
+          "credit_backed_down"
+        ],
+        "effects": {
+          "stress": 5,
+          "mental": -3,
+          "social_skill": 1
+        }
+      }
+    ]
+  }
+]
