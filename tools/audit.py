@@ -75,6 +75,8 @@ HELPER_LINE_FUNCS = ("_cat_modal_button(", "_add_category_card(")
 # 헤드리스 --check-only는 autoload-not-found에서 조기 중단해 이걸 못 잡으므로 grep으로 방어.
 INFER_RHS_RE  = re.compile(r':=\s*(.+)$')
 CAST_WRAP_RE  = re.compile(r'^\s*(str|int|float|bool|String|StringName)\s*\(')
+# 배열 리터럴을 바로 인덱싱 → Variant ( var x := [...][i] )
+INFER_LIT_IDX = re.compile(r':=\s*\[.*\]\s*\[')
 
 def check_gdscript():
     gd_files = []
@@ -107,8 +109,10 @@ def check_gdscript():
             mi = INFER_RHS_RE.search(line)
             if mi:
                 rhs = mi.group(1)
-                if ".get(" in rhs and not CAST_WRAP_RE.match(rhs):
-                    err('%s:%d  := 가 Variant(.get())를 추론 → "경고=에러"로 컴파일 실패(게임 안 켜짐). 명시적 타입 지정(: String 등).  %s'
+                bad = (".get(" in rhs and not CAST_WRAP_RE.match(rhs)) \
+                      or INFER_LIT_IDX.search(line) is not None
+                if bad:
+                    err('%s:%d  := 가 Variant(.get()/배열인덱싱)를 추론 → "경고=에러"로 컴파일 실패(게임 안 켜짐). 명시적 타입 지정(: String 등).  %s'
                         % (rel(f), ln_no, line.strip()[:60]))
 
 # ══════════════════════════════════════════════════════════════

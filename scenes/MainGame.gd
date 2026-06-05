@@ -65,6 +65,7 @@ const PORTRAIT_50S        = "res://assets/characters/main_character_50s.png"
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
 var pending_result_text: String = ""
+var racetrack   # 경마 미니게임 오버레이
 # 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
 var month_situations: Array = []
 var month_situations_turn: int = -1
@@ -93,6 +94,10 @@ func _ready():
 	_init_systems()
 	_build_ui()
 	_connect_signals()
+	# 경마 미니게임 오버레이 (최상단)
+	racetrack = load("res://scenes/RaceTrack.gd").new()
+	add_child(racetrack)
+	racetrack.closed.connect(_on_racetrack_closed)
 	if GameState.action_log.is_empty():
 		GameState.new_game()
 	investment_system.initialize()
@@ -1621,6 +1626,8 @@ func _render_essential_actions(ap: int):
 		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
 	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
 	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
+	if has_paycheck or GameState.money >= 50000:
+		_essential_btn("🏇 경마장  —  폼 읽고 베팅 (한탕! 중독 주의)", "#9a5a3a", "_open_racetrack", disabled)
 	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
 
 func _essential_btn(text: String, accent: String, fn: String, disabled: bool):
@@ -2080,6 +2087,17 @@ const SELFDEV_VIGNETTES := [
 	{"t":"도서관에서 부동산 책을 팠다. 용어가 조금씩 눈에 익는다.", "e":{"investment_skill":2,"intelligence":1}},
 	{"t":"새벽에 영어 단어를 외웠다. 쓸 일이 있을지는, 일단 모른다.", "e":{"intelligence":2,"stress":1}},
 ]
+
+## 경마장 — 시각 미니게임 오버레이를 연다 (방문 = 시간 1 소비)
+func _open_racetrack():
+	if not GameState.spend_ap():
+		return
+	racetrack.open()
+
+func _on_racetrack_closed():
+	GameState.add_log("🏇 경마장에 다녀왔다.", "event")
+	_refresh_all()
+	_render_ap_actions()
 
 func _ap_selfdev():
 	_ap_vignette("📚 자기계발", SELFDEV_VIGNETTES, "#5a6ea8")
