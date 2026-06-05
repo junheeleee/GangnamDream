@@ -10,6 +10,7 @@ const EVENT_PATHS = [
 	"res://content/events/amb_scenarios2.json",
 	"res://content/events/amb_scenarios3.json",
 	"res://content/events/amb_scenarios4.json",
+	"res://content/events/amb_scenarios5.json",
 	"res://content/events/life_events.json",
 	"res://content/events/investment_events.json",
 	"res://content/events/relationship_events.json",
