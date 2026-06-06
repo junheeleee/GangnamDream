@@ -19,6 +19,7 @@ const BET_DESC := [
 ]
 const PICK_BADGE := ["①", "②", "③"]
 const HR := preload("res://systems/HorseRace.gd")   # class_name 글로벌 캐시 의존 제거(콜드런 크래시 방지)
+const HW := preload("res://systems/HorseWorld.gd")  # 영속 명마 세계 + 정보상 팁
 
 var _phase: int = Phase.BETTING
 var _race: Dictionary = {}
@@ -31,6 +32,9 @@ var _race_t: float = 0.0
 var _race_dur: float = 0.0
 var _last_lost: bool = false     # 직전 베팅 패배(추격 베팅 감지)
 var _races_today: int = 0
+var _world: Dictionary = {}      # 영속 로스터(GameState.flags["horse_world"] 참조)
+var _tip: Dictionary = {}        # 이번 경주 정보상 팁
+var _tip_seen: bool = false      # 이번 경주 팁을 샀는가
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -115,14 +119,21 @@ func open() -> void:
 	visible = true
 	_races_today = 0
 	_last_lost = false
+	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다
+	if not (GameState.flags.get("horse_world") is Dictionary):
+		GameState.flags["horse_world"] = {}
+	_world = GameState.flags["horse_world"]
+	HW.ensure(_world, _rng)
 	_new_race()
 
 func _new_race() -> void:
 	var info: float = float(GameState.intelligence)
-	_race = HR.generate_race(_rng, info)
+	_race = HW.make_card(_world, _rng, info)
 	_finish = []
 	_picks = []
 	_bet_stake = 0.0
+	_tip = {}
+	_tip_seen = false
 	_phase = Phase.BETTING
 	_races_today += 1
 	_render()
@@ -187,12 +198,14 @@ func _render_betting() -> void:
 	head.offset_left = 8; head.offset_top = 0; head.offset_right = -8; head.offset_bottom = 24
 	_f(head); head.add_theme_font_size_override("normal_font_size", 12)
 	head.add_theme_color_override("default_color", Color("#6a7488"))
-	head.text = "   말   ·   클래스   거리적성   마장적성   기수   ·   단승배당   (★ 높은데 배당도 높으면 = 저평가 노림수)"
+	head.text = "   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)"
 	_content.add_child(head)
+
+	var tip_target: int = int(_tip.get("target", -1)) if _tip_seen else -1
 
 	var scroll := ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
-	scroll.offset_top = 30; scroll.offset_bottom = -158
+	scroll.offset_top = 30; scroll.offset_bottom = -188
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_content.add_child(scroll)
 	var vb := VBoxContainer.new()
@@ -207,23 +220,30 @@ func _render_betting() -> void:
 		var rt := RichTextLabel.new()
 		rt.bbcode_enabled = true; rt.fit_content = true; rt.scroll_active = false
 		rt.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		rt.custom_minimum_size = Vector2(0, 40)
+		rt.custom_minimum_size = Vector2(0, 52)
 		_f(rt); rt.add_theme_font_size_override("normal_font_size", 15)
-		var tag: String = "  [color=#f0c45d]💡저평가[/color]" if i == vpick else ""
+		var tag: String = ""
+		if i == tip_target: tag += "  [color=#6cc5ff]🕵 정보상 지목[/color]"
+		if i == vpick: tag += "  [color=#f0c45d]💡저평가[/color]"
 		# 선택 배지: 삼쌍승은 착순(①②③), 그 외는 ✓
 		var badge: String = ""
 		if sel:
 			badge = ("[color=#ffe14d]%s[/color] " % PICK_BADGE[pos]) if ordered else "[color=#ffe14d]✓[/color] "
-		rt.text = "%s[color=%s]●[/color] [b]%s[/b]    [color=#c8a050]%s[/color]  [color=#5d9ce8]%s[/color]  [color=#5de89c]%s[/color]  [color=#aaaaaa]%s[/color]    배당 [b]%.1f[/b]%s" % [
+		# 2줄: 1) 이름·★·배당  2) 최근전적·통산·선호
+		var line2: String = "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]" % [
+			str(h.get("recent", "신마")), str(h.get("record", "0전 0승")),
+			int(h.get("dist_pref", 0)), HW.TRACKS[int(h.get("cond_pref", 0))],
+			HW.STYLE_NAMES[int(h.get("style", 0))]]
+		rt.text = "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s" % [
 			badge, COLORS[i % COLORS.size()], str(h["name"]),
 			_stars(int(h["star_class"])), _stars(int(h["star_dist"])),
 			_stars(int(h["star_cond"])), _stars(int(h["star_jockey"])),
-			float(h["odds"]), tag]
+			float(h["odds"]), tag, line2]
 		var btn := Button.new()
-		btn.custom_minimum_size = Vector2(0, 42)
+		btn.custom_minimum_size = Vector2(0, 54)
 		var st := StyleBoxFlat.new()
 		st.bg_color = Color("#141c28") if sel else Color("#0d1119")
-		st.border_color = Color("#d0b04a") if sel else Color("#1a2230")
+		st.border_color = Color("#d0b04a") if sel else (Color("#2d5a7a") if i == tip_target else Color("#1a2230"))
 		st.border_width_left = 4
 		st.set_corner_radius_all(5)
 		st.content_margin_left = 12
@@ -236,15 +256,18 @@ func _render_betting() -> void:
 		btn.pressed.connect(func(): _toggle_pick(idx))
 		btn.add_child(rt)
 		rt.set_anchors_preset(Control.PRESET_FULL_RECT)
-		rt.offset_left = 12; rt.offset_top = 9
+		rt.offset_left = 12; rt.offset_top = 5
 		vb.add_child(btn)
 
 	# ── 베팅 컨트롤 ──
 	var bet_panel := VBoxContainer.new()
 	bet_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	bet_panel.offset_left = 8; bet_panel.offset_top = -150; bet_panel.offset_right = -8
+	bet_panel.offset_left = 8; bet_panel.offset_top = -182; bet_panel.offset_right = -8
 	bet_panel.add_theme_constant_override("separation", 7)
 	_content.add_child(bet_panel)
+
+	# 정보상 (오늘의 한 마리 — 진짜일까 함정일까)
+	_build_dealer_row(bet_panel)
 
 	# 베팅종류 선택 (연승/단승/복승/삼쌍승)
 	var type_row := HBoxContainer.new()
@@ -295,6 +318,50 @@ func _set_bet_type(t: int) -> void:
 	_bet_type = t
 	_picks = []
 	_render()
+
+# ── 정보상 (오늘의 한 마리 — 진짜 정보 vs 작전 함정) ──────────────
+func _build_dealer_row(parent) -> void:
+	if not _tip_seen:
+		var b := Button.new()
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		if GameState.money < 3000:
+			b.text = "🕵 정보상에게 듣기  (현금 부족)"
+			_style(b, "#1a1620", "#3a2a3a"); b.disabled = true
+		else:
+			b.text = "🕵 정보상에게 듣기   −3,000   (오늘의 한 마리…)"
+			_style(b, "#1c1726", "#5a4a7a")
+			b.pressed.connect(_consult_dealer)
+		parent.add_child(b)
+		return
+	# 팁 표시 — claim + 신뢰도(안목 낮으면 노이즈). 진짜/가짜는 숨긴다.
+	var cred: float = float(_tip.get("cred", 0.5))
+	var rt := RichTextLabel.new()
+	rt.bbcode_enabled = true; rt.fit_content = true; rt.scroll_active = false
+	rt.custom_minimum_size = Vector2(0, 30)
+	_f(rt); rt.add_theme_font_size_override("normal_font_size", 14)
+	var hint: String = ""
+	if GameState.intelligence < 40:
+		hint = "  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]"
+	rt.text = "[color=#6cc5ff]🕵 “%s”[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s" % [
+		str(_tip.get("claim", "")), _cred_bar(cred), roundi(cred * 100.0), hint]
+	parent.add_child(rt)
+
+func _consult_dealer() -> void:
+	if _tip_seen: return
+	if GameState.money < 3000:
+		_flash("현금이 부족하다", "#e85d5d"); return
+	GameState.add_money(-3000)
+	GameState.addiction_tendency = clampi(GameState.addiction_tendency + 1, 0, 100)
+	GameState.stats_changed.emit()
+	_tip = HW.gen_tip(_race, _rng, float(GameState.intelligence))
+	_tip_seen = true
+	AudioManager.play("open_modal")
+	_render()
+
+func _cred_bar(cred: float) -> String:
+	var n: int = clampi(roundi(cred * 5.0), 0, 5)
+	var col: String = "#5de89c" if cred >= 0.6 else ("#e8c45d" if cred >= 0.4 else "#e85d5d")
+	return "[color=%s]%s[/color][color=#39414f]%s[/color]" % [col, "●".repeat(n), "○".repeat(5 - n)]
 
 func _toggle_pick(i: int) -> void:
 	var need: int = BET_PICKS[_bet_type]
@@ -354,6 +421,8 @@ func _start_race() -> void:
 	_phase = Phase.RACE
 	# 증명된 모델로 공정한 착순 결정
 	_finish = HR.simulate(_race, _rng)
+	# 영속 세계에 결과 기록 (재등장 시 전적으로 쌓임)
+	HW.record(_world, _race, _finish, GameState.turn)
 	# 착순대로 결승 시간 배정 (1착이 가장 빠름, 약간 겹쳐 사진판정 긴장)
 	var base: float = 3.2
 	for rank in range(_finish.size()):
@@ -480,6 +549,21 @@ func _render_result() -> void:
 		res.text = "💸 꽝.  -%s" % GameState.format_money(_bet_stake)
 		res.add_theme_color_override("font_color", Color("#e85d5d"))
 	box.add_child(res)
+
+	# 정보상 팁을 샀다면 진위 공개 — 다음엔 안목을 믿을지 학습
+	if _tip_seen:
+		var won_h: Dictionary = _finish[0] if not _finish.is_empty() else {}
+		var hit: bool = (not won_h.is_empty()) and int(won_h.get("rid", -99)) == int(_race["horses"][int(_tip["target"])]["rid"])
+		var verdict := Label.new()
+		_f(verdict); verdict.add_theme_font_size_override("font_size", 14)
+		if bool(_tip.get("is_true", false)):
+			verdict.text = "🕵 정보상은 진짜였다 — '%s' (지목마 %s)" % [
+				str(_tip.get("name", "")), "1착 적중" if hit else "이번엔 안 풀림"]
+			verdict.add_theme_color_override("font_color", Color("#6cc5ff"))
+		else:
+			verdict.text = "🕵 정보상은 함정이었다 — '%s'는 작전이었다" % str(_tip.get("name", ""))
+			verdict.add_theme_color_override("font_color", Color("#c47a7a"))
+		box.add_child(verdict)
 
 	if GameState.addiction_tendency >= 70:
 		var warn := Label.new()

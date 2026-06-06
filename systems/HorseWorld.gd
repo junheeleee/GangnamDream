@@ -75,6 +75,7 @@ static func make_card(world: Dictionary, rng: RandomNumberGenerator, info_level:
 		var effective: float = base * dist_apt * cond_apt * jockey * today_form
 		horses.append({
 			"name": str(r["name"]), "rid": int(r["id"]), "style": int(r["style"]),
+			"dist_pref": int(r["dist_pref"]), "cond_pref": int(r["cond_pref"]),
 			"base": base, "dist_apt": dist_apt, "cond_apt": cond_apt, "jockey": jockey,
 			"effective": effective,
 			"history": (r["history"] as Array).duplicate(),
