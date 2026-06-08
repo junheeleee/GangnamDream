@@ -153,10 +153,10 @@
       {
         "text": "돈 얘기는 피하고 안부만 전한다",
         "effects": {
-          "money": -160000,
-          "investment_skill": 5
+          "stress": -3,
+          "mental": 3
         },
-        "result_text": "안부 통화만 했는데 통장에서 생활비 한 달치가 빠졌다. 가족이 그립고 또 부담스럽다."
+        "result_text": "안부 통화만 했다. 힘들다는 말은 못 꺼냈지만, 엄마 목소리를 들었다는 것만으로 조금 나아졌다."
       },
       {
         "text": "솔직하게 힘들다고 털어놓는다",
@@ -169,8 +169,8 @@
       {
         "text": "곧 크게 벌겠다고 큰소리친다",
         "effects": {
-          "reputation": 4,
-          "investment_skill": 0
+          "stress": 3,
+          "mental": -1
         },
         "result_text": "곧 큰돈 벌겠다고 큰소리쳤다. 전화를 끊고 나서야 스스로가 좀 창피해졌다."
       }
@@ -416,16 +416,18 @@
       {
         "text": "수면 루틴을 정해 일찍 잔다",
         "effects": {
-          "money": -120000,
-          "stress": 3
+          "health": 4,
+          "mental": 3,
+          "stress": -5
         },
-        "result_text": "수면 루틴을 정하고 앱도 깔았다. 12만원 나갔지만 며칠 지나니까 몸이 달랐다."
+        "result_text": "수면 루틴을 정하고 앱도 깔았다. 며칠 지나니까 몸이 달랐다. 잠을 자야 살 수 있다는 걸 새삼 깨달았다."
       },
       {
         "text": "피곤해도 폰을 놓지 못한다",
         "effects": {
-          "stress": 11,
-          "mental": 1
+          "health": -2,
+          "stress": 9,
+          "mental": -1
         },
         "result_text": "피곤한데도 폰을 손에서 못 놨다. 새벽이 되어서야 겨우 잠들었다."
       },
@@ -440,11 +442,11 @@
       {
         "text": "그냥 이 상태로 버틴다",
         "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
+          "health": -3,
+          "stress": 2,
+          "luck": 1
         },
-        "result_text": "그냥 버티기로 했다. 몸이 서서히 응답하는 게 느껴졌다."
+        "result_text": "그냥 버티기로 했다. 몸이 조금씩 망가지고 있다는 건 알았지만, 당장 바꿀 여유가 없었다."
       }
     ]
   },
@@ -474,8 +476,9 @@
       {
         "text": "깨진 화면 그대로 쓰며 속상해한다",
         "effects": {
-          "stress": 2,
-          "mental": -5
+          "money": 200000,
+          "stress": 3,
+          "mental": -3
         },
         "result_text": "깨진 화면 그대로 썼다. 볼 때마다 기분이 가라앉았다."
       },
@@ -773,24 +776,28 @@
       {
         "text": "술 한 잔 하고 빨리 잠든다",
         "effects": {
-          "money": -240000,
-          "mental": -4
+          "money": -20000,
+          "health": -1,
+          "mental": -2,
+          "stress": -2
         },
-        "result_text": "술 한 잔 하고 빨리 잤다. 24만원이 나갔지만 그날 밤만큼은 좀 잊을 수 있었다."
+        "result_text": "술 한 잔 하고 빨리 잤다. 2만원짜리 캔맥주였지만 그날 밤만큼은 좀 잊을 수 있었다."
       },
       {
         "text": "그때 기억에 잠기며 멍하니 있는다",
         "effects": {
-          "stress": 5,
-          "mental": -2
+          "stress": 4,
+          "mental": -2,
+          "intelligence": 1
         },
         "result_text": "그때 기억에 빠져 한동안 멍하니 있었다. 시간이 다 지나가고 나서야 정신이 들었다."
       },
       {
         "text": "군대 관련 커뮤니티에 글을 올린다",
         "effects": {
-          "reputation": 6,
-          "investment_skill": 1
+          "social_skill": 4,
+          "mental": 3,
+          "reputation": 2
         },
         "result_text": "커뮤니티에 글을 올렸더니 공감 댓글이 쏟아졌다. 군대 얘기로 의외의 연결이 생겼다."
       }
@@ -814,24 +821,28 @@
       {
         "text": "의사와 상담 예약을 잡는다",
         "effects": {
-          "money": -150000,
-          "intelligence": -5
+          "money": -50000,
+          "health": 4,
+          "intelligence": 3,
+          "stress": -2
         },
-        "result_text": "의사 상담 예약을 잡았다. 15만원 들었지만 막연한 불안보다는 나았다."
+        "result_text": "의사 상담 예약을 잡았다. 5만원 들었지만 막연한 불안보다는 나았다. 모르고 사는 것보다 알고 사는 게 낫다."
       },
       {
         "text": "결과지를 서랍에 넣고 잊어버린다",
         "effects": {
-          "stress": 3,
-          "mental": 4
+          "health": -5,
+          "stress": -2,
+          "mental": 2
         },
         "result_text": "결과지를 서랍에 넣고 잊었다. 당장은 모른 척하는 게 편했다."
       },
       {
         "text": "인터넷에서 병명을 직접 검색한다",
         "effects": {
-          "reputation": -3,
-          "investment_skill": 1
+          "stress": 4,
+          "mental": -2,
+          "intelligence": -1
         },
         "result_text": "인터넷에서 직접 병명을 검색했다. 오히려 더 무서워져서 밤새 떨었다."
       }
@@ -910,16 +921,16 @@
       {
         "text": "재미로만 보고 넘긴다",
         "effects": {
-          "money": -160000,
-          "investment_skill": -5
+          "mental": 2,
+          "stress": -1
         },
-        "result_text": "재미로만 봤는데 16만원이 나갔다. 결과도 황당했고 돈도 아까웠다."
+        "result_text": "무료 앱인데 왜인지 진지하게 봤다. 결과는 황당했고 5분만 빼앗겼다. 그냥 잠깐 웃었다."
       },
       {
         "text": "결과를 보며 진지하게 고민한다",
         "effects": {
-          "stress": -3,
-          "mental": 4
+          "stress": -2,
+          "mental": 3
         },
         "result_text": "결과를 보며 진지하게 고민했다. 우스운데 이상하게 마음에 걸렸다."
       },
@@ -927,7 +938,7 @@
         "text": "주변에 적극적으로 공유한다",
         "effects": {
           "reputation": -2,
-          "investment_skill": 3
+          "social_skill": 3
         },
         "result_text": "주변에 공유했더니 다들 해봤다. 화제는 됐는데 나중에 좀 민망해졌다."
       }
@@ -951,33 +962,35 @@
       {
         "text": "줄 수 있는 금액만 명확히 선긋는다",
         "effects": {
-          "money": -240000,
-          "health": -3
+          "money": -100000,
+          "stress": 2,
+          "mental": -2
         },
-        "result_text": "줄 수 있는 만큼만 명확하게 선을 그었다. 24만원 나갔고 동생은 알겠다고 했다."
+        "result_text": "줄 수 있는 만큼만 명확하게 선을 그었다. 10만원을 빌려주고 나머지는 못 한다고 했다. 동생은 알겠다고 했다."
       },
       {
         "text": "거절 못하고 전부 빌려준다",
         "effects": {
-          "stress": 10,
-          "mental": -6
+          "money": -500000,
+          "stress": 8,
+          "mental": -5
         },
         "result_text": "거절 못하고 전부 빌려줬다. 통장이 텅 비었고 돌려받을 수 있을지도 모르겠다."
       },
       {
         "text": "이자 붙여 빌려줄 테니 약속해라 한다",
         "effects": {
-          "reputation": 3,
-          "investment_skill": 0
+          "money": -200000,
+          "social_skill": 3,
+          "investment_skill": 2
         },
         "result_text": "이자 붙여 빌려줄 테니 약속하라고 했다. 동생이 잠깐 삐쳤지만 나중에 고맙다고 했다."
       },
       {
         "text": "못 들은 척 답장을 미룬다",
         "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
+          "stress": 3,
+          "mental": -3
         },
         "result_text": "답장을 차일피일 미뤘다. 몸은 편했지만 마음 한켠이 계속 걸렸다."
       }
@@ -1184,24 +1197,26 @@
       {
         "text": "우산 살 곳을 먼저 찾아본다",
         "effects": {
-          "money": -130000,
-          "mental": 6
+          "money": -10000,
+          "mental": 3,
+          "stress": -1
         },
-        "result_text": "우산 살 곳을 검색했다. 13만원 들었지만 비에 안 맞고 기분이 맑아졌다."
+        "result_text": "편의점에서 1만원짜리 우산을 샀다. 비싼 우산은 아니었지만 비는 막을 수 있었다. 기분이 맑아졌다."
       },
       {
         "text": "비 맞으며 감성에 젖어본다",
         "effects": {
-          "stress": 4,
-          "mental": -2
+          "health": -2,
+          "stress": 2,
+          "mental": 2
         },
         "result_text": "비를 맞으며 감성에 젖어봤다. 기분은 묘했지만 몸이 찝찝해졌다."
       },
       {
         "text": "지나가는 사람에게 우산을 빌린다",
         "effects": {
-          "reputation": -1,
-          "investment_skill": -1
+          "social_skill": 3,
+          "luck": 1
         },
         "result_text": "지나가는 사람에게 우산을 빌렸다. 상대방이 불편해 보여서 좀 민망했다."
       }
@@ -1331,8 +1346,10 @@
       {
         "text": "기분 나쁘지만 그냥 쏴버린다",
         "effects": {
+          "money": -300000,
+          "social_skill": 3,
           "stress": 2,
-          "mental": -5
+          "mental": -3
         },
         "result_text": "기분은 나빴지만 그냥 쐈다. 분위기는 좋아졌는데 통장이 쓸쓸해졌다."
       },
@@ -1372,8 +1389,9 @@
       {
         "text": "불안해서 부동산 카페만 계속 새로고침한다",
         "effects": {
-          "stress": 8,
-          "mental": -4
+          "stress": 7,
+          "mental": -4,
+          "intelligence": 1
         },
         "result_text": "부동산 카페를 하루종일 새로고침했다. 결국 아무것도 못 하고 진만 빠졌다."
       },
@@ -1407,24 +1425,28 @@
       {
         "text": "냉정하게 통계를 찾아본다",
         "effects": {
-          "money": -210000,
-          "reputation": 2
+          "intelligence": 3,
+          "investment_skill": 3,
+          "stress": -1
         },
-        "result_text": "냉정하게 통계부터 찾아봤다. 21만원 들었지만 충동을 막았다."
+        "result_text": "냉정하게 통계부터 찾아봤다. 기댓값이 항상 마이너스라는 걸 숫자로 확인하니 충동이 가라앉았다."
       },
       {
         "text": "그 말이 계속 머릿속을 맴돈다",
         "effects": {
-          "stress": -7,
-          "mental": 4
+          "stress": -2,
+          "mental": 1,
+          "luck": -1,
+          "addiction": 3
         },
         "result_text": "그 말이 계속 머릿속을 맴돌았다. 한동안 그 생각에서 벗어나질 못했다."
       },
       {
         "text": "일단 소액으로 베팅해본다",
         "effects": {
-          "reputation": -3,
-          "investment_skill": -1
+          "money": -100000,
+          "stress": 3,
+          "addiction": 5
         },
         "result_text": "소액으로 베팅했다. 결과는 나빴고 그 말이 거짓말이었다는 걸 알았다."
       }
@@ -1448,24 +1470,26 @@
       {
         "text": "간단히 안부만 주고받고 끊는다",
         "effects": {
-          "money": 20000,
-          "investment_skill": 5
+          "stress": -2,
+          "mental": 1
         },
         "result_text": "안부만 짧게 주고받고 끊었다. 개운하게 정리됐다."
       },
       {
         "text": "싫지만 거절 못하고 장시간 통화한다",
         "effects": {
-          "stress": -1,
-          "mental": 2
+          "stress": 3,
+          "social_skill": 1,
+          "mental": 1
         },
         "result_text": "싫지만 거절 못 하고 장시간 통화했다. 그래도 나쁘진 않았다."
       },
       {
         "text": "술 한번 하자며 약속을 잡는다",
         "effects": {
+          "social_skill": 2,
           "reputation": 1,
-          "investment_skill": -1
+          "stress": 1
         },
         "result_text": "술 한번 하자며 약속을 잡았다. 기대는 됐지만 나중이 걱정됐다.",
         "flags": [
@@ -1475,9 +1499,9 @@
       {
         "text": "바쁘다고 문자로만 짧게 답한다",
         "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
+          "stress": -4,
+          "mental": 1,
+          "reputation": -1
         },
         "result_text": "바쁘다고 문자로만 짧게 답했다. 선임이 알겠다고 했고 몸은 가벼웠다."
       }
@@ -1586,33 +1610,37 @@
       {
         "text": "부담 안 되는 선에서 참석한다",
         "effects": {
-          "money": -200000,
-          "intelligence": -3
+          "money": -50000,
+          "social_skill": 3,
+          "mental": 2
         },
-        "result_text": "부담 안 되는 선에서 참석했다. 20만원 나갔고 오랜만에 얼굴을 비쳤다."
+        "result_text": "부담 안 되는 선에서 참석했다. 식비로 5만원 썼고, 오랜만에 웃었다. 나쁘지 않은 저녁이었다."
       },
       {
         "text": "가고 싶지만 초라해서 고민한다",
         "effects": {
-          "stress": -6,
-          "mental": 3
+          "stress": 3,
+          "mental": -2,
+          "intelligence": 1
         },
         "result_text": "초라해서 고민하다가 결국 안 갔다. 당일 스트레스는 빠졌지만 뭔가 놓친 것 같았다."
       },
       {
         "text": "가서 잘 사는 척 연기한다",
         "effects": {
-          "reputation": 7,
-          "investment_skill": 6
+          "reputation": 3,
+          "social_skill": 2,
+          "stress": 5,
+          "mental": -4
         },
-        "result_text": "잘 사는 척 연기했다. 분위기는 좋았고 오히려 자신감이 생겼다."
+        "result_text": "잘 사는 척 연기했다. 분위기는 좋았지만, 집에 오는 길에 내 모습이 좀 서글펐다."
       },
       {
         "text": "바쁘다고 핑계 대고 빠진다",
         "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
+          "stress": -4,
+          "mental": -1,
+          "social_skill": -1
         },
         "result_text": "바쁘다고 핑계 대고 빠졌다. 몸은 편했지만 내일이 걱정됐다."
       }
@@ -1737,8 +1765,9 @@
       {
         "text": "억울하지만 그냥 내겠다고 한다",
         "effects": {
-          "stress": 11,
-          "mental": -5
+          "stress": 7,
+          "mental": -3,
+          "intelligence": 2
         },
         "result_text": "억울하지만 그냥 내겠다고 했다. 싸우기 싫었는데 통장이 얇아졌다."
       },
@@ -1867,8 +1896,9 @@
       {
         "text": "알림을 무시하고 지출을 계속한다",
         "effects": {
-          "stress": 6,
-          "mental": -5
+          "stress": 4,
+          "mental": -4,
+          "luck": -1
         },
         "result_text": "알림을 무시하고 지출을 계속했다. 통장이 계속 줄어드는 게 느껴졌다."
       },
@@ -1903,18 +1933,19 @@
       {
         "text": "야근도 마다하지 않고 성과를 낸다",
         "effects": {
-          "monthly_income": 150000,
-          "stress": 10,
-          "health": -4,
-          "reputation": 5
+          "stress": 8,
+          "health": -3,
+          "reputation": 6,
+          "money": 150000,
+          "monthly_income": 150000
         },
         "result_text": "두 달 내내 야근을 감수하며 결국 승진에 성공했다. 월급이 오르고 명함이 바뀌었지만, 몸은 한계를 느끼고 있었다."
       },
       {
         "text": "평소대로 꾸준히 일하며 결과를 기다린다",
         "effects": {
-          "stress": -3,
-          "reputation": 2,
+          "stress": -1,
+          "reputation": 3,
           "mental": 2
         },
         "result_text": "결과는 다음 분기로 미뤄졌다. 하지만 상사가 '꾸준한 사람'으로 기억해주기 시작했다."
@@ -1922,9 +1953,9 @@
       {
         "text": "상사에게 직접 의욕을 어필한다",
         "effects": {
-          "social_skill": 3,
-          "reputation": 4,
-          "stress": 4
+          "social_skill": 4,
+          "reputation": 5,
+          "stress": 3
         },
         "result_text": "상사에게 직접 찾아가 의욕을 보였다. 이번 승진은 아니었지만 다음 기회는 확실히 가까워졌다."
       }
@@ -1952,18 +1983,19 @@
       {
         "text": "이직 준비를 병행하며 보험을 든다",
         "effects": {
-          "stress": 8,
+          "stress": 5,
           "social_skill": 4,
-          "mental": -2
+          "mental": -1
         },
         "result_text": "낮에는 일하고 밤에는 이력서를 다듬었다. 구조조정은 결국 없었지만, 이직 루트를 열어둔 것 자체가 자산이 됐다."
       },
       {
         "text": "성과로 증명하며 자리를 지킨다",
         "effects": {
-          "health": -5,
-          "stress": 10,
+          "health": -4,
+          "stress": 8,
           "reputation": 6,
+          "intelligence": 2,
           "monthly_income": 80000
         },
         "result_text": "위기를 기회로 삼아 실적을 끌어올렸다. 구조조정 명단에 내 이름은 없었고, 오히려 인정받는 계기가 됐다."
@@ -1971,8 +2003,9 @@
       {
         "text": "괜히 불안해하지 않고 무시한다",
         "effects": {
-          "stress": -5,
-          "mental": 3
+          "stress": -3,
+          "mental": 1,
+          "reputation": -2
         },
         "result_text": "소문은 소문일 뿐이었다. 한 달 뒤 아무 일도 없었고, 불필요한 걱정에 에너지를 쓰지 않은 게 다행이었다."
       }
@@ -2008,17 +2041,19 @@
       {
         "text": "당장은 참고 다음 기회를 노린다",
         "effects": {
-          "stress": 8,
-          "mental": -3
+          "stress": 7,
+          "mental": -2,
+          "intelligence": 2
         },
         "result_text": "꾹 참고 넘어갔다. 속은 쓰렸지만 정면충돌을 피했다. 다음에는 반드시 이름을 먼저 새기겠다고 다짐했다."
       },
       {
         "text": "동료에게 직접 따진다",
         "effects": {
-          "stress": 5,
-          "social_skill": -2,
-          "reputation": -3
+          "stress": 4,
+          "social_skill": -1,
+          "reputation": -2,
+          "mental": 3
         },
         "result_text": "직접 따졌다. 동료는 당황했지만 분위기가 팽팽해졌고, 팀 전체가 어색해졌다. 속은 시원했지만 뒷맛이 좋지 않았다."
       }
@@ -2318,19 +2353,20 @@
       {
         "text": "진지하게 이직을 준비하기 시작한다",
         "effects": {
-          "stress": 5,
-          "social_skill": 3,
-          "intelligence": 2
+          "stress": 3,
+          "social_skill": 4,
+          "intelligence": 3
         },
         "result_text": "충동을 실제 행동으로 바꿨다. 이력서를 정리하고 몇 군데 지원했다. 아직 퇴사는 아니지만, 선택지가 생겼다는 것만으로도 마음이 가벼워졌다."
       },
       {
         "text": "실제로 사직서를 쓴다",
         "effects": {
-          "mental": 8,
-          "stress": -15,
-          "monthly_income": -500000,
-          "money": -200000
+          "money": -200000,
+          "mental": 5,
+          "stress": -8,
+          "health": -2,
+          "monthly_income": -500000
         },
         "result_text": "사직서를 냈다. 마지막 날 짐을 싸며 홀가분했다. 하지만 다음 달 통장이 텅텅 비어가는 걸 보며 다시 구직 사이트를 열었다. 자유에는 대가가 있다.",
         "flags": [
@@ -2405,17 +2441,18 @@
       {
         "text": "세면대만 빠르게 쓰고 나간다",
         "effects": {
-          "stress": 5,
-          "appearance": -3
+          "stress": 4,
+          "appearance": -2,
+          "luck": 1
         },
         "result_text": "머리는 못 감았지만 어떻게든 나갔다. 면접관이 모르길 바랄 뿐."
       },
       {
         "text": "근처 찜질방에서 씻는다",
         "effects": {
-          "money": -12000,
-          "stress": -5,
-          "appearance": 3
+          "stress": 6,
+          "mental": -2,
+          "health": 1
         },
         "result_text": "12,000원 아깝지만 깔끔하게 씻고 나오니 자신감이 달랐다."
       },
@@ -2459,8 +2496,9 @@
       {
         "text": "어둠에 익숙해지기로 한다",
         "effects": {
-          "mental": -5,
-          "stress": 3
+          "mental": -4,
+          "stress": 2,
+          "intelligence": 1
         },
         "result_text": "괜찮다고 생각했는데, 며칠째 밖을 안 나가니 몸이 축축하게 늘어진다."
       },
@@ -2549,17 +2587,17 @@
         "text": "어떻게든 돈 긁어서 바로 낸다",
         "effects": {
           "money": -300000,
-          "stress": 5,
-          "mental": -3
+          "stress": 3,
+          "mental": -2
         },
         "result_text": "비상금 통장을 털었다. 한숨 돌렸지만 통장이 텅 비었다."
       },
       {
         "text": "카드 단기대출을 받는다",
         "effects": {
-          "money": -300000,
-          "stress": 8,
-          "mental": -5
+          "money": -330000,
+          "stress": 6,
+          "mental": -4
         },
         "result_text": "카드론 이자를 계산해봤다. 이달은 넘겼지만 다음 달이 두렵다."
       }
@@ -2716,19 +2754,21 @@
         "text": "간다, 오늘만 산다",
         "effects": {
           "money": -35000,
-          "mental": 8,
+          "mental": 6,
           "social_skill": 3,
-          "stress": -8
+          "stress": -6
         },
         "result_text": "야경이 예뻤다. 돈 아까운 생각은 첫 번째 치킨 조각 이후로 사라졌다."
       },
       {
         "text": "아프다고 거짓말하고 안 간다",
         "effects": {
-          "mental": -3,
-          "stress": -2
+          "money": 35000,
+          "health": 2,
+          "stress": -3,
+          "mental": -2
         },
-        "result_text": "혼자 있으니 FOMO가 왔다. 인스타 스토리를 차단했다."
+        "result_text": "혼자 집에 있으니 FOMO가 왔다. 인스타 스토리를 차단했다. 그래도 치킨 값은 아꼈다."
       },
       {
         "text": "편의점 맥주 사서 합류한다",
@@ -3034,9 +3074,9 @@
       {
         "text": "'확인했습니다. 내일 출근해서 드리면 될까요?' 라고 답한다",
         "effects": {
-          "stress": -3,
-          "mental": 2,
-          "reputation": -2
+          "stress": 3,
+          "mental": -2,
+          "health": 1
         },
         "result_text": "짧은 정적 후 '그러세요'가 왔다. 내일이 불편할 것 같지만 오늘 밤은 내 것."
       },
@@ -3078,8 +3118,9 @@
       {
         "text": "어떻게든 버티자고 생각한다",
         "effects": {
-          "stress": 4,
-          "mental": -3
+          "stress": 3,
+          "mental": -3,
+          "reputation": 2
         },
         "result_text": "막막하다. 근데 모두가 처음엔 그랬겠지."
       },
@@ -3123,8 +3164,9 @@
       {
         "text": "그냥 이 돈으로 계획을 짠다",
         "effects": {
-          "intelligence": 2,
-          "mental": 2
+          "money": -50000,
+          "stress": -2,
+          "mental": -3
         },
         "result_text": "193만원. 월세 빼고 생활비 빼면 30만원 남는다. 이게 현실이다. 받아들이는 게 먼저."
       },
@@ -3169,9 +3211,9 @@
       {
         "text": "그냥 아픈 채로 출근한다",
         "effects": {
-          "health": -6,
-          "stress": 4,
-          "reputation": 1
+          "stress": 7,
+          "health": -3,
+          "reputation": 2
         },
         "result_text": "하루 종일 머리가 지끈했다. '성실하다'는 말을 들었지만 몸이 먼저다."
       },
@@ -3219,8 +3261,9 @@
       {
         "text": "끄덕이고 나와서 혼자 삭인다",
         "effects": {
-          "mental": -5,
-          "stress": 6
+          "mental": -4,
+          "stress": 4,
+          "intelligence": 1
         },
         "result_text": "화장실에서 5분 멍했다. 뭘 잘못한 건지 모른 채 열심히만 할 순 없다."
       },
@@ -3559,8 +3602,9 @@
         "text": "빌려준다, 친구니까",
         "effects": {
           "money": -500000,
-          "social_skill": 2,
-          "stress": 5
+          "social_skill": 3,
+          "mental": 4,
+          "stress": 4
         },
         "result_text": "보냈다. 다음 달을 기다린다. 돈보다 관계가 중요하다고 믿고 싶다."
       },
@@ -3613,8 +3657,9 @@
       {
         "text": "대충 얼버무린다",
         "effects": {
-          "stress": 4,
-          "mental": -3
+          "stress": 3,
+          "mental": -3,
+          "social_skill": 1
         },
         "result_text": "숫자를 흐렸다. 모임 내내 그 말이 머릿속에 맴돌았다."
       },
@@ -3655,8 +3700,9 @@
       {
         "text": "다음엔 먼저 같이 먹자고 말해봐야겠다 생각한다",
         "effects": {
-          "social_skill": 2,
-          "mental": 2
+          "mental": -4,
+          "stress": 2,
+          "intelligence": 1
         },
         "result_text": "용기를 냈다. 그것만으로 오늘은 충분하다."
       },
@@ -3783,9 +3829,10 @@
       {
         "text": "약국 약으로 버텨본다",
         "effects": {
-          "money": -8000,
-          "health": 3,
-          "stress": 2
+          "health": -5,
+          "money": -30000,
+          "stress": 3,
+          "mental": -1
         },
         "result_text": "타이레놀 세 알. 이틀 더 걸렸지만 나았다. 아슬아슬하게 버텼다."
       },
@@ -3831,9 +3878,10 @@
       {
         "text": "그래도 할 일 목록을 지워나간다",
         "effects": {
-          "stress": 3,
-          "mental": -5,
-          "health": -3
+          "stress": 2,
+          "mental": -4,
+          "health": -3,
+          "intelligence": 2
         },
         "result_text": "억지로 했다. 했다는 사실은 남지만 기쁨은 없었다. 이렇게 소진되는 거구나."
       },
@@ -4147,9 +4195,9 @@
       {
         "text": "국민건강보험 급여 항목 체크해서 절감한다",
         "effects": {
-          "money": -250000,
-          "health": 5,
-          "intelligence": 3
+          "health": -7,
+          "money": -5000,
+          "stress": 2
         },
         "result_text": "급여 항목으로만 처치받았다. 15만원 아꼈다. 정보가 돈이다."
       }
@@ -4183,18 +4231,18 @@
       {
         "text": "상대방에게 직접 연락해 돌려달라 한다",
         "effects": {
-          "money": 200000,
-          "stress": 8,
-          "social_skill": 3
+          "money": -200000,
+          "stress": 4,
+          "mental": -1
         },
-        "result_text": "긴 협상 끝에 20만원만 돌아왔다. 사람을 믿어야 하는 상황이 이렇게 힘들다."
+        "result_text": "직접 연락해서 사정을 설명했다. 30만원 중 10만원만 돌아왔다. 나머지는 그냥 비용이라 생각하기로 했다."
       },
       {
         "text": "포기한다",
         "effects": {
           "money": -300000,
-          "mental": -5,
-          "stress": 4
+          "mental": -2,
+          "stress": -1
         },
         "result_text": "30만원이 사라졌다. 이런 실수를 다시는 안 하겠다고 다짐했다."
       }
@@ -4231,9 +4279,10 @@
       {
         "text": "참고 버틴다",
         "effects": {
-          "health": -5,
-          "stress": 5,
-          "mental": -3
+          "health": -3,
+          "stress": 3,
+          "money": 30000,
+          "mental": -1
         },
         "result_text": "선풍기 하나로 버텼다. 한국 여름은 무기로 쓰일 수 있는 수준이다."
       },
@@ -4241,8 +4290,9 @@
         "text": "한강공원 야외에서 바람 쐰다",
         "effects": {
           "health": 2,
-          "mental": 6,
-          "stress": -4
+          "stress": -2,
+          "money": -10000,
+          "mental": 3
         },
         "result_text": "밤에 한강변. 바람이 불었다. 서울이 이렇게 아름다울 때도 있구나 싶었다."
       }
@@ -4732,8 +4782,8 @@
         "text": "참는다. 내일 아침까지 버틸 수 있다.",
         "effects": {
           "health": -3,
-          "stress": 3,
-          "mental": -2
+          "stress": 2,
+          "money": 3800
         },
         "result_text": "돈을 아꼈지만 배는 고팠다.\n밤 12시에 이런 선택을 하게 될 줄 몰랐다.\n{name}은 빨리 취업해야겠다고 생각했다."
       }

@@ -919,9 +919,9 @@
         },
         "opportunity": {
           "stake_ratio": 0.7,
-          "success_rate": 0.62,
+          "success_rate": 0.32,
           "win_multiplier": 1.6,
-          "loss_ratio": 0.45,
+          "loss_ratio": 0.55,
           "luck_factor": 0.002,
           "skill_gain": 5
         },
@@ -944,9 +944,9 @@
         },
         "opportunity": {
           "stake_ratio": 0.3,
-          "success_rate": 0.62,
+          "success_rate": 0.32,
           "win_multiplier": 1.6,
-          "loss_ratio": 0.45,
+          "loss_ratio": 0.55,
           "luck_factor": 0.002,
           "skill_gain": 3
         },
@@ -1007,9 +1007,9 @@
         },
         "opportunity": {
           "stake_ratio": 0.8,
-          "success_rate": 0.72,
+          "success_rate": 0.28,
           "win_multiplier": 2.4,
-          "loss_ratio": 0.35,
+          "loss_ratio": 0.80,
           "luck_factor": 0.0015,
           "skill_gain": 4
         },
@@ -1177,6 +1177,324 @@
           "fell_to_darkness"
         ],
         "result_text": "{name}은 그 여자의 번호를 차단했다. 울음소리도 함께.\n\"몇 개 더 구할 수 있어요.\"\n\n이미 건넌 선이었다. 돌아가도 깨끗해지지 않는다면,\n차라리 끝까지 가는 게 낫다고 — 그렇게 자신을 설득했다.\n돈이 들어올수록, 거울 보기가 힘들어졌다.\n강남이 가까워지고 있었다. 다른 누군가의 지옥을 밟고서."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_02_coffee",
+    "title": "두 번째 커피",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "원룸 시세를 알아보러 그 동네를 지나쳤다가,\n임상철 사무소 불이 켜져 있는 게 눈에 걸렸다.\n\n들어갈까 말까 잠깐 망설이다 문을 밀었다.\n임상철이 반겼다. \"왔어. 커피 줄까.\"\n\n그는 오늘 유독 말이 많았다.\n충청도에서 아무 연줄 없이 서울로 올라온 얘기.\n처음 강남에 발 딛던 날.\n\n\"강남 들어온 사람들 봐봐. 다 어딘가 연결이 있었어.\n사람이 문을 열어준 거야. 혼자 두드려서 들어온 사람은 — 진짜 드물어.\"\n\n잠깐 침묵 후, 임상철이 덧붙인다.\n\"종잣돈 좀 생기면 내가 데려갈 데가 있어. 한 달에 한 번 모이는 자리야.\n부동산, 건설, 자금. 강남이 돌아가는 방식을 보여줄 수 있어.\"",
+    "choices": [
+      {
+        "text": "\"언제든지요. 꼭 데려가 주세요.\"",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "stress": 1
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 10,
+            "stage": "mentoring"
+          }
+        },
+        "flags": [
+          "arc_sangchul_02_seen",
+          "sangchul_invited"
+        ],
+        "result_text": "임상철이 고개를 끄덕였다.\n\"그래. 준비가 되면 내가 연락할게.\n그 자리에서 보고 배워야 할 것들이 있어.\"\n\n사무소를 나오며 {name}은 생각했다.\n어떤 문은 두드려서 열리지 않는다.\n누군가 안에서 열어줘야 한다."
+      },
+      {
+        "text": "\"고맙지만 아직은 제 힘으로 해보고 싶어요.\"",
+        "effects": {
+          "intelligence": 4,
+          "mental": 3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 5,
+            "stage": "mentoring"
+          }
+        },
+        "flags": [
+          "arc_sangchul_02_seen"
+        ],
+        "result_text": "임상철이 잠깐 봤다. 그러더니 웃었다.\n\"좋아. 그 자신감도 필요해.\n근데 나중에 막히면 와. 문 항상 열려 있어.\"\n\n{name}은 제 발로 걸어가기로 했다.\n언제까지 그럴 수 있는지는 — 아직 모를 일이지만."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_03_network",
+    "title": "강남이 돌아가는 방식",
+    "background": "gangnam_day",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철에게서 연락이 왔다.\n\"그 자리, 이번 달에 있어. 나랑 같이 가.\"\n\n강남 한복판 레스토랑 개인실.\n테이블마다 명함이 오가고, 부드러운 목소리로 큰 숫자들이 오갔다.\n건설사, 시행사, 투자조합. 임상철이 한 명씩 소개해줬다.\n\"이쪽 친구야. 내가 보는 사람.\"\n\n대화 중에 이름 하나가 자연스럽게 지나쳤다.\n\"한PD건설 그쪽은요?\" — 누군가의 말.\n임상철이 표정 하나 바꾸지 않고 화제를 돌렸다.\n{name}은 그 이름을 마음 어딘가에 걸어뒀다.\n\n자리 한쪽에는 다른 분위기의 사람들도 있었다.\n'수익 보장', '단기 고수익'. 낮은 목소리지만 익숙한 단어들.\n임상철이 눈짓했다. \"저쪽은 섞이지 마.\n진짜도 있고 가짜도 있어. 구분하는 게 실력이야.\"",
+    "choices": [
+      {
+        "text": "임상철 옆에 붙어서 사람들에게 인사한다",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 4,
+          "stress": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 8,
+            "stage": "trusted"
+          }
+        },
+        "flags": [
+          "arc_sangchul_03_seen",
+          "entered_network"
+        ],
+        "result_text": "임상철이 소개해주는 사람마다 명함을 받았다.\n이 자리에서 오가는 정보의 무게가 느껴졌다.\n강남은 건물이 아니었다 — 이 사람들의 망이었다.\n{name}은 그 망의 가장 바깥쪽에 조심스럽게 발을 올렸다."
+      },
+      {
+        "text": "저쪽 구석, 수익 보장 얘기 하는 사람들에게 다가간다",
+        "effects": {
+          "investment_skill": 2,
+          "stress": 4,
+          "luck": -2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 2
+          }
+        },
+        "flags": [
+          "arc_sangchul_03_seen",
+          "approached_shadow_investors"
+        ],
+        "result_text": "그들의 말은 달콤했다. 구체적인 수치, 그럴듯한 구조.\n{name}은 듣다 보니 심장이 뛰었다.\n\n자리를 마치고 나오는 길, 임상철이 조용히 말했다.\n\"저 사람들 — 몇 년 뒤에 잡혀가는 경우 많아.\n그리고 주변 사람들도 같이 망해.\"\n{name}은 고개를 끄덕였다. 조금 늦게."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_jiyeon_reveal",
+    "title": "두 세계가 붙어 있는 자리",
+    "background": "realestate_office",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "jiyeon"],
+    "cooldown": 9999,
+    "description": "결정을 앞두고 임상철을 찾아갔다.\n조언을 구하려고.\n\n대화 중에 한지연 얘기가 나왔다. 의도한 건 아닌데,\n자연스럽게 — 그 사람을 알게 됐다고, 부동산 관련 제안을 받았다고.\n\n임상철의 표정이 바뀌었다.\n\n\"한지연. 성이 한씨야?\" \"네.\"\n\"어디 집 딸이야?\" \"건설 쪽이라고 들었는데...\"\n임상철이 잠시 생각하더니 낮게 말했다.\n\n\"한PD건설.\"\n\n그 이름. 지난번 모임에서 스쳐 지나간 바로 그 이름이었다.\n임상철의 얼굴이 굳어 있었다.\n\"그 집 분양 얘기 꺼냈지?\"",
+    "choices": [
+      {
+        "text": "\"네. 무슨 문제가 있는 건가요?\"",
+        "effects": {
+          "intelligence": 5,
+          "stress": 8
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 6,
+            "stage": "guardian"
+          }
+        },
+        "flags": [
+          "arc_sangchul_jiyeon_reveal_seen",
+          "sangchul_knows_jiyeon",
+          "warned_about_jiyeon"
+        ],
+        "result_text": "임상철이 말을 고르더니 천천히 꺼냈다.\n\"업계에서 말이 좀 있어. 확실한 건 아니야, 아직은.\n근데 그 분양 — 내가 좀 알아볼게.\"\n\"그 애가 나쁜 사람이라는 게 아니야.\n근데 거기 연결된 돈의 흐름을 — 네가 알아야 해.\"\n\n{name}은 사무소를 나오면서 생각했다.\n두 세계가 생각보다 훨씬 가까이 붙어 있다는 걸."
+      },
+      {
+        "text": "\"임상철 씨도 같은 업계잖아요. 경쟁이니까 그럴 수도...\"",
+        "effects": {
+          "stress": 3,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": -3
+          }
+        },
+        "flags": [
+          "arc_sangchul_jiyeon_reveal_seen",
+          "sangchul_knows_jiyeon",
+          "dismissed_sangchul_warning"
+        ],
+        "result_text": "임상철은 상처받은 표정을 잠깐 보였다가, 이내 고개를 끄덕였다.\n\"...그럴 수 있지. 내 말이 틀릴 수도 있어.\"\n\"근데 민준아. 내가 왜 너한테 거짓말을 하겠어.\"\n\n그 말이 집으로 오는 길 내내 따라왔다.\n{name}은 눌러두기로 했다. 지금은."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_hyunsu_warning",
+    "title": "너무 늦은 연락",
+    "background": "convenience_night",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jaehyuk", "hyunsu"],
+    "cooldown": 9999,
+    "description": "현수에게서 카카오톡이 왔다.\n\n\"형, 혹시 최재혁 알아요?\"\n\n{name}은 폰을 내려놓았다가 다시 들었다.\n\"군대 동기인데 왜?\"\n\"...형 그 사람한테 돈 넣었어요?\"\n\n잠깐의 침묵.\n\n\"저 투자 카페 들어가는데요. 거기서 이름 봤어요.\n최재혁. 피해 주의 경고. 폰지 구조 의심. 몇 달 전부터 글이 있었어요.\n저는 직접 엮이진 않았는데... 형은요?\"",
+    "choices": [
+      {
+        "text": "당장 돌려달라고 재혁에게 연락한다 — 지금 빼낼 수 있을지 모른다",
+        "effects": {
+          "money": 500000,
+          "stress": 15,
+          "mental": -5
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 10
+          },
+          "jaehyuk": {
+            "stage": "retreating"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_hyunsu_warning_seen",
+          "tried_to_withdraw",
+          "hyunsu_warned"
+        ],
+        "result_text": "전화를 걸었다. 재혁이 받았다 — 아직은 연락이 됐다.\n\"야, 나 돈 좀 빼야 할 것 같아. 급한 일이 생겼어.\"\n재혁이 잠깐 말이 없더니, 웃으며 말했다.\n\"야 무슨 소리야. 지금 빼면 손해야. 조금만 더 있으면...\"\n\n어렵게 어렵게, 일부만 겨우 건져냈다.\n나머지는 이미 어디에 있는지 알 수 없었다.\n\n현수가 말했다. \"형, 제가 더 일찍 말했어야 했는데. 죄송해요.\"\n그 말이 더 아팠다. 현수 잘못이 아니니까."
+      },
+      {
+        "text": "\"...재혁이는 아닐 거야\" — 군대 친구를 믿기로 한다",
+        "effects": {
+          "stress": 10,
+          "mental": -3
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 3
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_hyunsu_warning_seen",
+          "ignored_hyunsu_warning"
+        ],
+        "result_text": "\"현수야, 그 카페 글이 다 사실은 아닐 수 있어.\n재혁이 진짜 내 친구야. 군대에서 같이 죽고 살았어.\"\n현수가 잠시 말이 없더니, \"...네, 제가 괜히 걱정했나봐요\" 라고 했다.\n\n{name}은 폰을 내려놓았다.\n심장이 조금 빨리 뛰었다.\n믿고 싶어서였는지, 이미 알고 있어서였는지 — 구분이 안 됐다."
+      },
+      {
+        "text": "\"나도 이상하다 싶었어. 같이 알아보자\"",
+        "effects": {
+          "intelligence": 5,
+          "stress": 8
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 12
+          },
+          "jaehyuk": {
+            "stage": "suspect"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_hyunsu_warning_seen",
+          "hyunsu_warned",
+          "started_investigating"
+        ],
+        "result_text": "\"현수야, 그 카페 링크 좀 보내줘.\n나도 좀 찾아보고 있었거든.\"\n\"형도 의심했어요?\" \"응. 근데 확신이 없었어.\"\n\n두 사람이 정보를 모으기 시작했다.\n재혁이 만든 인간관계의 패턴, 자금의 흐름.\n점점 그림이 선명해졌다.\n그리고 선명해질수록, 구역질이 났다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_truth_moment",
+    "title": "그때 말 못 한 것들",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "한지연에게서 먼저 연락이 왔다.\n\"민준 씨, 시간 되면 잠깐 만날 수 있어요?\"\n\n카페에 마주 앉은 그녀의 얼굴이 평소와 달랐다.\n무언가를 오래 준비한 사람의 얼굴.\n\n\"민준 씨한테 솔직하게 말씀드려야 할 것 같아요.\"\n\n아버지 회사가 어렵다고 했다.\n이번 분양이 잘 되어야 한다고.\n그래서 투자자가 필요했고, 민준에게 권한 거라고.\n그것도 맞다고.\n\n\"근데 그게 다는 아니에요.\n민준 씨가 잘 됐으면 하는 마음도 진짜였어요.\n그리고... 민준 씨가 궁금했고, 곁에 있고 싶었어요.\"\n\n\"세 가지가 다 섞여있어서, 제가 어떤 사람인지 모르겠어요.\n나쁜 사람인가요?\"",
+    "choices": [
+      {
+        "text": "\"솔직하게 말해줘서 고마워요. 같이 방법을 찾아봐요.\"",
+        "effects": {
+          "mental": 8,
+          "stress": 5
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 20,
+            "stage": "honest_together"
+          }
+        },
+        "flags": [
+          "arc_jiyeon_truth_seen",
+          "jiyeon_came_clean",
+          "jiyeon_together"
+        ],
+        "result_text": "한지연의 눈에 눈물이 맺혔다.\n\"...고마워요. 그 말 들을 자격이 있는지 모르겠는데.\"\n\n둘은 오래 얘기했다.\n분양의 실제 구조, 빠져나올 방법, 최악의 경우.\n이번엔 계산도, 숨김도 없이.\n\n이상하게도 — 이게 더 강남에 가까워지는 길처럼 느껴졌다.\n돈이 아니라, 사람으로."
+      },
+      {
+        "text": "\"이용당한 거잖아요.\" — 배신감을 솔직하게 꺼낸다",
+        "effects": {
+          "mental": -5,
+          "stress": 8
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": -12,
+            "stage": "hurt"
+          }
+        },
+        "flags": [
+          "arc_jiyeon_truth_seen",
+          "jiyeon_came_clean",
+          "confronted_jiyeon"
+        ],
+        "result_text": "한지연은 고개를 숙였다.\n\"맞아요. 그렇게 느낄 수 있어요.\"\n반박하지 않았다.\n\n{name}은 카페를 나오면서 속이 후련하지 않다는 걸 알았다.\n그녀가 나쁜 사람이 아니라는 것도 알았다.\n그래서 더 복잡했다."
+      },
+      {
+        "text": "\"당신은 당신 세계에서 살았고, 저는 제 선택을 한 거예요.\"",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3,
+          "stress": -3
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 15,
+            "stage": "respected"
+          }
+        },
+        "flags": [
+          "arc_jiyeon_truth_seen",
+          "jiyeon_came_clean",
+          "forgave_jiyeon"
+        ],
+        "result_text": "한지연이 오랫동안 {name}을 바라봤다.\n\"...그렇게 말해줄 수 있는 사람이 많지 않아요.\"\n\n{name}은 진심이었다.\n자기 선택은 자기 것이다.\n탓할 사람을 찾는 건 — 강남과 더 멀어지는 길이다.\n\n그녀가 작게 웃었다.\n처음으로, 꾸미지 않은 웃음이었다."
       }
     ]
   }

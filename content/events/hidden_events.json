@@ -21,8 +21,9 @@
       {
         "text": "침착하게 말을 건다",
         "effects": {
-          "reputation": 15,
-          "social_skill": 8
+          "reputation": 10,
+          "social_skill": 6,
+          "luck": 3
         },
         "result_text": "90초를 기회로 바꿨다. 짧은 대화 하나가 새로운 세계의 문을 열었다.",
         "relationship_effects": {
@@ -33,8 +34,9 @@
       {
         "text": "명함을 건넨다",
         "effects": {
-          "reputation": 8,
-          "stress": 6
+          "reputation": 6,
+          "social_skill": 3,
+          "luck": 2
         },
         "result_text": "떨리는 손으로 명함을 내밀었다. 엘리베이터 문이 열리고, 운명도 함께 열린 것 같았다.",
         "flags": [
@@ -44,7 +46,9 @@
       {
         "text": "모른 척한다",
         "effects": {
-          "mental": 2
+          "mental": 3,
+          "stress": -2,
+          "luck": 1
         },
         "result_text": "알아봤지만 아는 척하지 않았다. 어떤 인연은 억지로 만드는 것이 아니다."
       }
@@ -161,8 +165,9 @@
       {
         "text": "충격에 멍하니 화면만 바라본다",
         "effects": {
-          "stress": 7,
-          "mental": -6
+          "stress": 5,
+          "mental": -4,
+          "luck": 1
         },
         "result_text": "금 간 화면을 들고 한참을 서 있었다. 오늘 날이 아닌 것 같다."
       },
@@ -701,33 +706,36 @@
       {
         "text": "침착하게 듣고 개선 방향을 묻는다",
         "effects": {
-          "money": -180000,
-          "social_skill": -1
+          "social_skill": 3,
+          "intelligence": 2,
+          "stress": -2
         },
         "result_text": "방어적으로 반응하지 않고 구체적인 피드백을 요청했다. 성장은 불편함에서 시작된다."
       },
       {
         "text": "속으로 삭이며 겉으로는 고개를 끄덕인다",
         "effects": {
-          "stress": 4,
-          "mental": -7
+          "stress": 2,
+          "mental": -5,
+          "intelligence": 2
         },
         "result_text": "\"알겠습니다\"라고 했지만 속으론 다른 말들이 맴돌았다. 프로는 표정을 관리한다."
       },
       {
         "text": "당당하게 반박하고 논쟁을 시작한다",
         "effects": {
-          "reputation": 7,
-          "investment_skill": 2
+          "reputation": -3,
+          "social_skill": -2,
+          "stress": 4,
+          "mental": 3
         },
         "result_text": "틀렸다고 생각하는 부분을 직접 말했다. 침묵보다 나은 용기였다."
       },
       {
         "text": "자리를 피해 혼자 감정을 정리한다",
         "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
+          "stress": -4,
+          "mental": 2
         },
         "result_text": "화장실로 피해 잠깐 숨을 골랐다. 멘탈 관리도 스킬이다."
       }
@@ -794,24 +802,27 @@
       {
         "text": "루머 진위 여부를 먼저 확인한다",
         "effects": {
-          "money": -130000,
-          "social_skill": 5
+          "intelligence": 3,
+          "social_skill": 2,
+          "investment_skill": 1
         },
         "result_text": "국토부 공식 사이트부터 열었다. 루머와 사실의 차이가 투자를 가른다."
       },
       {
         "text": "패닉 셀링을 한다",
         "effects": {
-          "stress": 8,
-          "mental": -4
+          "money": -100000,
+          "stress": 5,
+          "mental": -3
         },
         "result_text": "루머가 사실인 줄 알고 급하게 팔았다. 나중에 보니 허위 정보였다."
       },
       {
         "text": "루머를 기회 삼아 저점 매수를 노린다",
         "effects": {
-          "reputation": 6,
-          "investment_skill": 3
+          "money": -200000,
+          "investment_skill": 4,
+          "luck": 2
         },
         "result_text": "공포로 흔들린 시장에서 반대로 움직였다. 루머 뒤의 저점은 기회가 되기도 한다."
       }
@@ -836,24 +847,26 @@
       {
         "text": "앱을 끄고 나만의 목표에 집중한다",
         "effects": {
-          "money": -170000,
-          "mental": 5
+          "mental": 5,
+          "stress": -3
         },
         "result_text": "스크롤을 멈추고 내 일을 시작했다. 비교는 에너지를 먹고 자란다."
       },
       {
         "text": "비교에 지쳐 자책을 반복한다",
         "effects": {
-          "stress": 6,
-          "mental": -4
+          "stress": 5,
+          "mental": -4,
+          "intelligence": 1
         },
         "result_text": "피드를 보면 볼수록 내가 작아지는 느낌이었다. 알면서도 멈출 수가 없었다."
       },
       {
         "text": "인기 계정의 전략을 분석하고 따라 한다",
         "effects": {
-          "reputation": 6,
-          "investment_skill": 3
+          "reputation": 2,
+          "social_skill": 3,
+          "intelligence": 2
         },
         "result_text": "질투 대신 분석으로 방향을 바꿨다. 부러운 감정을 동기로 쓰는 법을 배우는 중이다."
       }

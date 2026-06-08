@@ -27,8 +27,9 @@
       {
         "text": "억울하지만 그냥 받아들인다",
         "effects": {
-          "stress": 12,
-          "mental": -7
+          "stress": 9,
+          "mental": -6,
+          "intelligence": 1
         },
         "result_text": "속으로 끙끙 앓으면서도 계약서에 도장을 찍었다. 스트레스가 몸속에 쌓인다."
       },
@@ -534,8 +535,9 @@
       {
         "text": "쓸데없는 논쟁에 휘말린다",
         "effects": {
-          "stress": 11,
-          "mental": -6
+          "stress": 8,
+          "mental": -5,
+          "social_skill": -1
         },
         "result_text": "SNS에서 논쟁을 시작했다. 에너지를 다 써버리고 아무것도 얻지 못했다."
       },
@@ -702,8 +704,9 @@
       {
         "text": "루머에 흔들려 감정적으로 매도한다",
         "effects": {
-          "stress": 10,
-          "mental": 2
+          "money": -200000,
+          "investment_skill": 3,
+          "luck": 1
         },
         "result_text": "불안감에 서둘러 팔아버렸다. 이성보다 공포가 먼저 손가락을 움직였다."
       },

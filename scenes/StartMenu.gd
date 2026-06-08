@@ -9,6 +9,46 @@ var _settings_overlay: ColorRect
 var _splash_layer: Control
 var _splash_active: bool = true
 
+# ── 런 테마 선택 ─────────────────────────────────────────────────
+var _selected_theme: String = "자유런"
+var _theme_row: HBoxContainer
+var _theme_desc_label: Label
+
+const RUN_THEMES = [
+	{
+		"id": "자유런",
+		"icon": "🎲",
+		"name": "자유런",
+		"tagline": "매 판 다른 이야기",
+		"desc": "런마다 랜덤 카테고리 2개 부스트. 아무 제약 없음.",
+		"diff": "★★★☆☆",
+	},
+	{
+		"id": "투자런",
+		"icon": "📈",
+		"name": "투자런",
+		"tagline": "돈으로 돈을 번다",
+		"desc": "투자·재정 이벤트 집중. 투자감각 +5 시작. 시장 파동에 올라타라.",
+		"diff": "★★★★☆",
+	},
+	{
+		"id": "인맥런",
+		"icon": "🤝",
+		"name": "인맥런",
+		"tagline": "사람이 자본이다",
+		"desc": "사회·관계 이벤트 집중. 사교력 +10 시작. 연결이 돈이 된다.",
+		"diff": "★★★☆☆",
+	},
+	{
+		"id": "청렴런",
+		"icon": "✨",
+		"name": "청렴런",
+		"tagline": "도박 없이, 실력으로만",
+		"desc": "도박 이벤트 완전 차단. 평판 +10 시작. 정직하게 30억.",
+		"diff": "★★★★★",
+	},
+]
+
 func _ready():
 	_build_ui()
 	_build_splash()
@@ -127,7 +167,7 @@ func _dismiss_splash():
 func _build_ui():
 	# ── 배경 ──
 	var bg = ColorRect.new()
-	bg.color = Color("#0c0c10")
+	bg.color = Color("#080810")
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
@@ -136,93 +176,164 @@ func _build_ui():
 	scene_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scene_bg.stretch_mode = TextureRect.STRETCH_SCALE
 	scene_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	scene_bg.modulate = Color(1, 1, 1, 0.18)
+	scene_bg.modulate = Color(1, 1, 1, 0.13)
 	scene_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var bg_tex = load("res://assets/backgrounds/goshiwon_room.png")
 	if bg_tex:
 		scene_bg.texture = bg_tex
 	add_child(scene_bg)
 
-	# ── 메인 레이아웃 (스크롤 없음) ──
+	# ── 메인 마진 ──
 	var margin = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 48)
-	margin.add_theme_constant_override("margin_right", 48)
-	margin.add_theme_constant_override("margin_top", 28)
-	margin.add_theme_constant_override("margin_bottom", 28)
+	margin.add_theme_constant_override("margin_left", 40)
+	margin.add_theme_constant_override("margin_right", 40)
+	margin.add_theme_constant_override("margin_top", 22)
+	margin.add_theme_constant_override("margin_bottom", 22)
 	add_child(margin)
 
 	var root = VBoxContainer.new()
-	root.add_theme_constant_override("separation", 12)
+	root.add_theme_constant_override("separation", 0)
 	margin.add_child(root)
 
-	# ── 타이틀 행 ──
-	var title_row = HBoxContainer.new()
-	title_row.add_theme_constant_override("separation", 12)
-	root.add_child(title_row)
-	var title_lbl = _label("강남드림", 40, "#f0b429", HORIZONTAL_ALIGNMENT_LEFT)
-	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title_row.add_child(title_lbl)
-	title_row.add_child(_label("KOREAN LIFE ROGUELIKE", 12, "#3a3a5a", HORIZONTAL_ALIGNMENT_RIGHT))
-	var settings_btn = _button("⚙", "#1e1e2a")
-	settings_btn.custom_minimum_size = Vector2(40, 36)
+	# ── 헤더 행 (타이틀 + 설정) ──
+	var header_row = HBoxContainer.new()
+	header_row.custom_minimum_size = Vector2(0, 52)
+	header_row.add_theme_constant_override("separation", 10)
+	root.add_child(header_row)
+
+	var title_vb = VBoxContainer.new()
+	title_vb.add_theme_constant_override("separation", 2)
+	title_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_vb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header_row.add_child(title_vb)
+	var title_lbl = _label("강남드림", 34, "#f0b429", HORIZONTAL_ALIGNMENT_LEFT)
+	title_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	title_lbl.clip_text = false
+	title_vb.add_child(title_lbl)
+	var sub_lbl = _label("한국 인생 시뮬레이션  ·  38세 전에 자산 30억", 10, "#2e3e50", HORIZONTAL_ALIGNMENT_LEFT)
+	sub_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	sub_lbl.clip_text = false
+	title_vb.add_child(sub_lbl)
+
+	var settings_btn = _button("⚙", "#1a1a28")
+	settings_btn.custom_minimum_size = Vector2(44, 44)
 	settings_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+	settings_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	settings_btn.pressed.connect(_open_settings_popup)
-	title_row.add_child(settings_btn)
+	header_row.add_child(settings_btn)
 
-	root.add_child(_sep())
+	var hdr_sep = HSeparator.new()
+	hdr_sep.add_theme_color_override("color", Color("#161622"))
+	root.add_child(hdr_sep)
 
-	# ── 본문: 왼쪽(새 게임) + 오른쪽(불러오기) ──
+	var sp_top = Control.new(); sp_top.custom_minimum_size = Vector2(0, 14); root.add_child(sp_top)
+
+	# ── 본문: 왼쪽(새 게임) + 구분 + 오른쪽(불러오기) ──
 	var cols = HBoxContainer.new()
 	cols.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	cols.add_theme_constant_override("separation", 24)
+	cols.add_theme_constant_override("separation", 30)
 	root.add_child(cols)
 
-	# ── 왼쪽 컬럼: 새 게임 설정 ──
+	# ═══ 왼쪽 컬럼 ═══════════════════════════════════════
 	var left = VBoxContainer.new()
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	left.add_theme_constant_override("separation", 10)
 	cols.add_child(left)
 
-	# ── 게임 소개 ──
-	var intro = _label("김민준. 서른셋. 백수.", 22, "#e8eaf0", HORIZONTAL_ALIGNMENT_LEFT)
-	intro.add_theme_font_size_override("font_size", 22)
-	left.add_child(intro)
+	# ── 스토리 텍스트 (큼직하게) ──
+	var story_panel = PanelContainer.new()
+	var sp_st = StyleBoxFlat.new()
+	sp_st.bg_color = Color("#09091400")
+	sp_st.border_color = Color("#f0b429")
+	sp_st.border_width_left = 3
+	sp_st.set_corner_radius_all(4)
+	sp_st.content_margin_left = 16
+	sp_st.content_margin_right = 12
+	sp_st.content_margin_top = 14
+	sp_st.content_margin_bottom = 14
+	story_panel.add_theme_stylebox_override("panel", sp_st)
+	var story_rtl = RichTextLabel.new()
+	story_rtl.bbcode_enabled = true
+	story_rtl.fit_content = true
+	story_rtl.scroll_active = false
+	story_rtl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	story_rtl.add_theme_font_size_override("normal_font_size", 15)
+	story_rtl.add_theme_color_override("default_color", Color("#6a7888"))
+	story_rtl.text = (
+		"[color=#b0bcd0][b]김민준, 33세.[/b]  아버지의 빚 6년.  이제 통장에 50만원만 남았다.[/color]\n\n"
+		+ "[color=#e8eaf0][b]38살이 되기 전에, 강남에 입성한다.[/b][/color]\n"
+		+ "[color=#6a7888]불가능하다는 걸 안다.  그래서 시작한다.[/color]")
+	story_panel.add_child(story_rtl)
+	left.add_child(story_panel)
 
-	var premise = _label(
-		"아버지의 빚을 6년간 갚았다. 이제 통장엔 50만원뿐이다.\n\n남은 건 신촌 고시원 한 칸과, 5년이라는 시간.\n\n38살이 되기 전에 — 강남에 입성한다.\n불가능하다는 걸 안다. 그래서 시작한다.",
-		14, "#a0aec0", HORIZONTAL_ALIGNMENT_LEFT)
-	premise.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	left.add_child(premise)
+	var sp1 = Control.new(); sp1.custom_minimum_size = Vector2(0, 18); left.add_child(sp1)
 
-	var hint = _label(
-		"※ 당신의 선택이 쌓여 어떤 사람이 될지 결정됩니다.\n   직장으로, 투자로, 사업으로 — 길은 정해져 있지 않습니다.",
-		12, "#5a6075", HORIZONTAL_ALIGNMENT_LEFT)
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	left.add_child(hint)
+	# ── 런 테마 (compact 가로 버튼) ──
+	var theme_hdr = HBoxContainer.new()
+	theme_hdr.add_theme_constant_override("separation", 8)
+	left.add_child(theme_hdr)
+	var theme_hdr_lbl = _label("런 테마", 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
+	theme_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	theme_hdr_lbl.clip_text = false
+	theme_hdr_lbl.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	theme_hdr.add_child(theme_hdr_lbl)
+	var theme_hint_lbl = _label("(2회차 이상 추천 — 처음이라면 자유런)", 10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT)
+	theme_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	theme_hint_lbl.clip_text = false
+	theme_hdr.add_child(theme_hint_lbl)
 
-	# 스페이서
+	_theme_row = HBoxContainer.new()
+	_theme_row.add_theme_constant_override("separation", 6)
+	left.add_child(_theme_row)
+
+	# 테마 설명 (작고 심플하게)
+	_theme_desc_label = Label.new()
+	_theme_desc_label.add_theme_font_size_override("font_size", 11)
+	_theme_desc_label.add_theme_color_override("font_color", Color("#4a6a54"))
+	_theme_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_theme_desc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left.add_child(_theme_desc_label)
+
+	_build_theme_cards()
+
+	# 스페이서 (시작 버튼을 항상 하단에 붙임)
 	var spacer = Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	left.add_child(spacer)
 
-	# 시작 버튼
-	var new_game = _button("새 이야기 시작  ▶", "#0e3a2a")
+	# ── 새 게임 시작 버튼 ──
+	var new_game = _button("새 이야기 시작  ▶", "#0d2a1a")
+	var ng_st = StyleBoxFlat.new()
+	ng_st.bg_color = Color("#0d2a1a")
+	ng_st.border_color = Color("#00c896")
+	ng_st.border_width_left = 4
+	ng_st.set_corner_radius_all(5)
+	ng_st.content_margin_left = 20
+	ng_st.content_margin_right = 20
+	ng_st.content_margin_top = 12
+	ng_st.content_margin_bottom = 12
+	new_game.add_theme_stylebox_override("normal", ng_st)
+	var ng_hov = ng_st.duplicate()
+	ng_hov.bg_color = Color("#133a24")
+	new_game.add_theme_stylebox_override("hover", ng_hov)
+	new_game.add_theme_color_override("font_color", Color("#00c896"))
+	new_game.add_theme_font_size_override("font_size", 17)
 	new_game.pressed.connect(_start_new_run)
 	left.add_child(new_game)
 
 	# ── 구분선 ──
 	var vsep = VSeparator.new()
-	vsep.add_theme_color_override("color", Color("#1e1e2a"))
+	vsep.add_theme_color_override("color", Color("#181828"))
 	cols.add_child(vsep)
 
-	# ── 오른쪽 컬럼: 불러오기 ──
+	# ═══ 오른쪽 컬럼 ═══════════════════════════════════════
 	var right = VBoxContainer.new()
-	right.custom_minimum_size = Vector2(240, 0)
-	right.add_theme_constant_override("separation", 8)
+	right.custom_minimum_size = Vector2(232, 0)
+	right.add_theme_constant_override("separation", 10)
 	cols.add_child(right)
 
-	right.add_child(_label("불러오기", 14, "#5b9cf6", HORIZONTAL_ALIGNMENT_LEFT))
+	right.add_child(_label("이어하기", 13, "#5b9cf6", HORIZONTAL_ALIGNMENT_LEFT))
 
 	slot_container = VBoxContainer.new()
 	slot_container.add_theme_constant_override("separation", 8)
@@ -235,35 +346,16 @@ func _build_ui():
 
 	right.add_child(_sep())
 
-	# ── 업적 섹션 ──
+	# 메타 한 줄 (업적 그리드 제거 — 첫 플레이어 혼란 방지)
 	var meta = MetaProgression.data
-	var unlocked_ach = MetaProgression.get_unlocked_achievements()
-	var total_ach = DataRegistry.achievements.size()
-	right.add_child(_label(
-		"업적  %d / %d" % [unlocked_ach.size(), total_ach],
-		12, "#5b9cf6", HORIZONTAL_ALIGNMENT_LEFT))
-
-	var ach_grid = GridContainer.new()
-	ach_grid.columns = 5
-	ach_grid.add_theme_constant_override("h_separation", 6)
-	ach_grid.add_theme_constant_override("v_separation", 6)
-	right.add_child(ach_grid)
-
-	for ach_data in DataRegistry.achievements:
-		var ach_id = str(ach_data.get("id", ""))
-		var is_unlocked = unlocked_ach.has(ach_id)
-		var icon_lbl = Label.new()
-		icon_lbl.text = ach_data.get("icon", "?")
-		icon_lbl.add_theme_font_size_override("font_size", 22)
-		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		icon_lbl.custom_minimum_size = Vector2(36, 36)
-		icon_lbl.modulate = Color(1, 1, 1, 1.0) if is_unlocked else Color(1, 1, 1, 0.15)
-		icon_lbl.tooltip_text = "%s\n%s" % [ach_data.get("name", ""), ach_data.get("description", "—")] if is_unlocked else "???\n%s" % ach_data.get("hint", "")
-		ach_grid.add_child(icon_lbl)
-
+	var unlocked_ach_count: int = MetaProgression.get_unlocked_achievements().size()
+	var total_ach: int = DataRegistry.achievements.size()
 	right.add_child(_label(
 		"누적 %d런  ·  최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
-		10, "#3a3a5a", HORIZONTAL_ALIGNMENT_LEFT))
+		10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT))
+	right.add_child(_label(
+		"업적 %d / %d 해금" % [unlocked_ach_count, total_ach],
+		10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT))
 
 # ── 슬롯 목록 빌드 / 새로고침 ─────────────────────────────────
 func _rebuild_slots():
@@ -395,13 +487,84 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 					_rebuild_slots()
 				)
 				row.add_child(cancel_btn)
+func _build_theme_cards() -> void:
+	if not is_instance_valid(_theme_row):
+		return
+	for ch in _theme_row.get_children():
+		ch.queue_free()
+	await get_tree().process_frame
+	for t in RUN_THEMES:
+		var tid: String = t["id"]
+		var is_selected: bool = (_selected_theme == tid)
+		var card := PanelContainer.new()
+		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		card.custom_minimum_size = Vector2(0, 74)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#111e14") if is_selected else Color("#0d1017")
+		st.border_color = Color("#3dba6a") if is_selected else Color("#1a2030")
+		st.set_border_width_all(2 if is_selected else 1)
+		st.set_corner_radius_all(7)
+		st.content_margin_top = 6
+		st.content_margin_bottom = 6
+		card.add_theme_stylebox_override("panel", st)
+		var vb := VBoxContainer.new()
+		vb.add_theme_constant_override("separation", 3)
+		vb.alignment = BoxContainer.ALIGNMENT_CENTER
+		card.add_child(vb)
+		var icon_lbl := Label.new()
+		icon_lbl.text = t["icon"]
+		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		icon_lbl.add_theme_font_size_override("font_size", 22)
+		icon_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vb.add_child(icon_lbl)
+		var name_lbl := Label.new()
+		name_lbl.text = t["name"]
+		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name_lbl.add_theme_font_size_override("font_size", 11)
+		name_lbl.add_theme_color_override("font_color", Color("#b8e8c8") if is_selected else Color("#5a6a7a"))
+		name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vb.add_child(name_lbl)
+		var diff_lbl2 := Label.new()
+		diff_lbl2.text = t["diff"]
+		diff_lbl2.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		diff_lbl2.add_theme_font_size_override("font_size", 9)
+		diff_lbl2.add_theme_color_override("font_color", Color("#5a8a60") if is_selected else Color("#1e2830"))
+		diff_lbl2.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vb.add_child(diff_lbl2)
+		var btn := Button.new()
+		btn.flat = true
+		btn.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var empty_st := StyleBoxEmpty.new()
+		btn.add_theme_stylebox_override("normal", empty_st)
+		btn.add_theme_stylebox_override("pressed", empty_st)
+		btn.add_theme_stylebox_override("focus", empty_st)
+		var hover_st2 := StyleBoxFlat.new()
+		hover_st2.bg_color = Color(1, 1, 1, 0.05)
+		hover_st2.set_corner_radius_all(6)
+		btn.add_theme_stylebox_override("hover", hover_st2)
+		btn.pressed.connect(func(): _select_theme(tid))
+		card.add_child(btn)
+		_theme_row.add_child(card)
+	_update_theme_desc()
 
+func _select_theme(tid: String) -> void:
+	_selected_theme = tid
+	AudioManager.play("click")
+	_build_theme_cards()
+
+func _update_theme_desc() -> void:
+	if not is_instance_valid(_theme_desc_label):
+		return
+	for t in RUN_THEMES:
+		if t["id"] == _selected_theme:
+			_theme_desc_label.text = "%s  %s" % [t["tagline"], t["diff"]]
+			return
 
 # ── 시작 / 로드 ─────────────────────────────────────────────────
 func _start_new_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
-	GameState.start_new_game("김민준", "지방_상경", "none")
+	GameState.start_new_game("김민준", "지방_상경", "none", "백수", _selected_theme)
 	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):
@@ -409,6 +572,15 @@ func _load_slot(slot):
 		SceneTransition.go("res://scenes/MainGame.tscn")
 
 # ── UI 헬퍼 ────────────────────────────────────────────────────
+func _section_header(text: String) -> Label:
+	var lbl = Label.new()
+	lbl.text = text
+	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	lbl.clip_text = false
+	lbl.add_theme_font_size_override("font_size", 13)
+	lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+	return lbl
+
 func _label(text, size, color, align) -> Label:
 	var lbl = Label.new()
 	lbl.text = text

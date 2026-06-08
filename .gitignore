@@ -9,3 +9,6 @@ export_presets.cfg
 # OS files
 .DS_Store
 Thumbs.db
+
+# Build output (too large for GitHub)
+build/

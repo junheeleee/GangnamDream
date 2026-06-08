@@ -4,6 +4,11 @@ extends Node
 ## Pretendard 폰트 + 색상 팔레트 + 스타일박스 헬퍼를 중앙 관리.
 ## MainGame, StartMenu 등 모든 씬에서 UIStyle.font_regular 등으로 접근.
 
+# ── 폰트 preload (autoload 레벨 → export 시 반드시 PCK 포함) ─────────
+const _PRELOAD_REGULAR  := preload("res://assets/fonts/Pretendard-Regular.ttf")
+const _PRELOAD_SEMIBOLD := preload("res://assets/fonts/Pretendard-SemiBold.ttf")
+const _PRELOAD_BOLD     := preload("res://assets/fonts/Pretendard-Bold.ttf")
+
 # ── 색상 팔레트 ──────────────────────────────────────────────────
 const C_BG_BASE       := "#0c0c10"
 const C_BG_PANEL      := "#0d0d14"
@@ -39,16 +44,13 @@ func _ready():
 	_load_fonts()
 
 func _load_fonts():
-	const REGULAR  = "res://assets/fonts/Pretendard-Regular.ttf"
-	const SEMIBOLD = "res://assets/fonts/Pretendard-SemiBold.ttf"
-	const BOLD     = "res://assets/fonts/Pretendard-Bold.ttf"
-
-	if ResourceLoader.exists(REGULAR):
-		font_regular  = load(REGULAR)
-	if ResourceLoader.exists(SEMIBOLD):
-		font_semibold = load(SEMIBOLD)
-	if ResourceLoader.exists(BOLD):
-		font_bold     = load(BOLD)
+	font_regular  = _PRELOAD_REGULAR
+	font_semibold = _PRELOAD_SEMIBOLD
+	font_bold     = _PRELOAD_BOLD
+	# 전역 fallback 설정 → 폰트 오버라이드 없는 라벨도 한국어 표시
+	if font_regular:
+		ThemeDB.fallback_font      = font_regular
+		ThemeDB.fallback_font_size = 15
 
 # ── 스타일박스 헬퍼 ──────────────────────────────────────────────
 func panel_style(bg: String, border: String = C_BORDER, radius: int = 8) -> StyleBoxFlat:

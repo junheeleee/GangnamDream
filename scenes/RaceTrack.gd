@@ -57,10 +57,8 @@ func _ready() -> void:
 	set_process(false)
 
 func _load_fonts() -> void:
-	_font = FontFile.new()
-	if _font.load_dynamic_font("res://assets/fonts/Pretendard-Regular.ttf") != OK: _font = null
-	_font_bold = FontFile.new()
-	if _font_bold.load_dynamic_font("res://assets/fonts/Pretendard-Bold.ttf") != OK: _font_bold = null
+	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
+	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 
@@ -74,9 +72,23 @@ func _f(lbl, bold := false) -> void:
 
 # ── 골격 ──────────────────────────────────────────────────────
 func _build_skeleton() -> void:
+	# 배경 이미지 (이미지 있으면 표시, 없으면 단색)
+	var bg_img := TextureRect.new()
+	bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+	bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	const _BG_BETTING = "res://assets/backgrounds/racetrack_betting_hall.png"
+	if ResourceLoader.exists(_BG_BETTING):
+		bg_img.texture = load(_BG_BETTING) as Texture2D
+		bg_img.modulate = Color(1, 1, 1, 0.35)
+	add_child(bg_img)
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color("#0a0d12")
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var _bg_color := Color("#0a0d12")
+	_bg_color.a = 0.75 if bg_img.texture else 1.0
+	bg.color = _bg_color
 	add_child(bg)
 
 	_header = RichTextLabel.new()
@@ -139,6 +151,7 @@ func _new_race() -> void:
 	_render()
 
 func _on_exit() -> void:
+	MetaProgression.record_minigame_play("racetrack")
 	set_process(false)
 	visible = false
 	closed.emit()
@@ -354,6 +367,9 @@ func _consult_dealer() -> void:
 	GameState.addiction_tendency = clampi(GameState.addiction_tendency + 1, 0, 100)
 	GameState.stats_changed.emit()
 	_tip = HW.gen_tip(_race, _rng, float(GameState.intelligence))
+	# 마스터리 2+: 정보상 함정 없음 (진짜 정보만)
+	if MetaProgression.get_mastery("racetrack") >= 2:
+		_tip["is_true"] = true
 	_tip_seen = true
 	AudioManager.play("open_modal")
 	_render()

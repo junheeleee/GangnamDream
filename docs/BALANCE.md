@@ -40,6 +40,20 @@ Next Adjustment:
 
 ## Change Log
 
+### 2026-06-06 — Opportunity EV 밸런스 패치
+
+```text
+Date: 2026-06-06
+Changed: 모든 opportunity 이벤트 success_rate 하향 + loss_ratio 상향
+Before: 평균 EV +63%/회 (arc_opp_jiyeon_bunyang +130%가 최고)
+After:  -6% ~ +10% 범위, 평균 ~0%
+Reason: "공격 올인" 시뮬 결과 30억 도달 57% — 수학적 지배 전략이 되어 선택의 의미 소멸.
+         BALANCE.md 원칙 "Risky choices should be tempting but not always correct" 위반.
+Files:  tools/SimRun.gd (OPPS), arc_events.json, amb_scenarios2.json, scenario_cafe_callback.json
+Observed Result: 시뮬 재실행 필요 (공격 올인 목표: 강남 20~30%, 파산 20~30%)
+Next Adjustment: 시뮬 재확인 후 공격 경로 파산율이 낮으면 loss_ratio 추가 상향 고려.
+```
+
 ### 2026-05-28 — RPG/Roguelike Pass
 
 ```text

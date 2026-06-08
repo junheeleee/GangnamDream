@@ -6,48 +6,50 @@ extends Node
 ## 이렇게 하면 이미지가 한 장도 없어도 게임이 정상 동작한다.
 
 # ── 인물 초상화 ────────────────────────────────────────────────
+# 경로 규칙: assets/characters/ 플랫 구조 (Codex 생성 파일과 일치)
 const PORTRAITS = {
-	# 주인공 ({name}, 33세)
-	"player_normal":      "res://assets/characters/player/normal.png",
-	"player_tired":       "res://assets/characters/player/tired.png",
-	"player_determined":  "res://assets/characters/player/determined.png",
-	"player_happy":       "res://assets/characters/player/happy.png",
-	"player_shocked":     "res://assets/characters/player/shocked.png",
-	"player_suit":        "res://assets/characters/player/suit.png",        # 성공 후
-	"player_hollow":      "res://assets/characters/player/hollow.png",      # 공허 엔딩
+	# 주인공 (김민준, 33세 백수) — MainGame의 PORTRAIT_* 상수와 동기화
+	"player_normal":      "res://assets/characters/main_character_neutral_goshiwon.png",
+	"player_tired":       "res://assets/characters/main_character_tired.png",
+	"player_determined":  "res://assets/characters/main_character_determined.png",
+	"player_happy":       "res://assets/characters/main_character_happy.png",
+	"player_shocked":     "res://assets/characters/main_character_shocked.png",
+	"player_suit":        "res://assets/characters/main_character_30s.png",
+	"player_hollow":      "res://assets/characters/main_character_50s.png",
 
-	# 한지연 (31세, 금수저)
-	"jiyeon_normal":      "res://assets/characters/jiyeon/normal.png",
-	"jiyeon_warm":        "res://assets/characters/jiyeon/warm.png",
-	"jiyeon_cold":        "res://assets/characters/jiyeon/cold.png",
-	"jiyeon_conflict":    "res://assets/characters/jiyeon/conflict.png",
+	# 김다은 (연인)
+	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
+	"daeun_smile":        "res://assets/characters/npc_romantic_interest.png",
+	"daeun_sad":          "res://assets/characters/npc_romantic_interest.png",
 
-	# 김다은 (33세, 평범)
-	"daeun_normal":       "res://assets/characters/daeun/normal.png",
-	"daeun_smile":        "res://assets/characters/daeun/smile.png",
-	"daeun_sad":          "res://assets/characters/daeun/sad.png",
+	# 임상철 (인맥 브로커)
+	"sangchul_normal":    "res://assets/characters/npc_boss.png",
+	"sangchul_serious":   "res://assets/characters/npc_boss.png",
 
-	# 최재혁 (34세, 군대 동기·사기꾼)
-	"jaehyuk_charisma":   "res://assets/characters/jaehyuk/charisma.png",
-	"jaehyuk_friendly":   "res://assets/characters/jaehyuk/friendly.png",
-	"jaehyuk_shadow":     "res://assets/characters/jaehyuk/shadow.png",
-	"jaehyuk_cornered":   "res://assets/characters/jaehyuk/cornered.png",
+	# 강현수 (오랜 친구)
+	"hyunsu":             "res://assets/characters/npc_close_friend.png",
+	"hyunsu_normal":      "res://assets/characters/npc_close_friend.png",
 
-	# 아버지 (63세)
-	"father_normal":      "res://assets/characters/father/normal.png",
-	"father_proud":       "res://assets/characters/father/proud.png",
-	"father_weak":        "res://assets/characters/father/weak.png",
-
-	# 임상철 (52세, 멘토)
-	"sangchul_normal":    "res://assets/characters/sangchul/normal.png",
-	"sangchul_serious":   "res://assets/characters/sangchul/serious.png",
+	# 박지연 (멘토)
+	"jiyeon_normal":      "res://assets/characters/npc_mentor.png",
+	"jiyeon_warm":        "res://assets/characters/npc_mentor.png",
+	"jiyeon_cold":        "res://assets/characters/npc_mentor.png",
+	"seongjun":           "res://assets/characters/npc_mentor.png",
 
 	# 조연
-	"goshiwon_owner":     "res://assets/characters/extra/goshiwon_owner.png",
-	"hyunsu":             "res://assets/characters/extra/hyunsu.png",
-	"seongjun":           "res://assets/characters/extra/seongjun.png",
-	"mother":             "res://assets/characters/extra/mother.png",
-	"boss":               "res://assets/characters/extra/boss.png",
+	"boss":               "res://assets/characters/npc_coworker.png",
+	"goshiwon_owner":     "res://assets/characters/npc_coworker.png",
+	"mother":             "res://assets/characters/npc_romantic_interest.png",
+	"father_normal":      "res://assets/characters/npc_close_friend.png",
+	"father_proud":       "res://assets/characters/npc_close_friend.png",
+	"father_weak":        "res://assets/characters/npc_close_friend.png",
+	"jaehyuk_charisma":   "res://assets/characters/npc_boss.png",
+	"jaehyuk_friendly":   "res://assets/characters/npc_boss.png",
+	"jaehyuk_shadow":     "res://assets/characters/npc_boss.png",
+	"jaehyuk_cornered":   "res://assets/characters/npc_boss.png",
+
+	# 경마장 정보상
+	"tip_seller":         "res://assets/characters/npc_tip_seller.png",
 }
 
 # ── 인물 표시 정보 (플레이스홀더용 — 이름 + 테마색) ──────────────
@@ -87,8 +89,21 @@ const BACKGROUNDS = {
 	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
 	# 특수
 	"hospital":          "res://assets/backgrounds/hospital_corridor.png",
-	"dad_house":         "res://assets/backgrounds/dad_house.png",
-	"ktx_window":        "res://assets/backgrounds/ktx_window.png",
+	"hospital_clinic":   "res://assets/backgrounds/hospital_clinic.png",
+	"dad_house":         "res://assets/backgrounds/family_living_room.png",
+	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
+	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
+	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
+	"trading":           "res://assets/backgrounds/trading_screen_night.png",
+	"pc_bang":           "res://assets/backgrounds/pc_bang_interior.png",
+	"late_night":        "res://assets/backgrounds/late_night_room.png",
+	# 미니게임 전용
+	"racetrack_betting": "res://assets/backgrounds/racetrack_betting_hall.png",
+	"racetrack_track":   "res://assets/backgrounds/racetrack_track_view.png",
+	"holdem_club":       "res://assets/backgrounds/holdem_club_interior.png",
+	"scalping_room":     "res://assets/backgrounds/scalping_trading_room.png",
+	"aruba_delivery":    "res://assets/backgrounds/aruba_delivery_street.png",
+	"gangnam_station":   "res://assets/backgrounds/gangnam_station_exit.png",
 }
 
 const FALLBACK_BG = "res://assets/backgrounds/goshiwon_room.png"

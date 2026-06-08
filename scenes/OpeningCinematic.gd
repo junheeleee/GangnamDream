@@ -57,12 +57,8 @@ func _ready():
 	_play_card(0)
 
 func _load_fonts():
-	_font = FontFile.new()
-	if _font.load_dynamic_font("res://assets/fonts/Pretendard-Regular.ttf") != OK:
-		_font = null
-	_font_bold = FontFile.new()
-	if _font_bold.load_dynamic_font("res://assets/fonts/Pretendard-Bold.ttf") != OK:
-		_font_bold = null
+	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
+	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 

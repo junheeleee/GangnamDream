@@ -74,6 +74,25 @@ const ALL_TITLES := [
 	 "desc":"번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다."},
 	{"id":"ordinary_end_title", "name":"평범한 행복",       "cat":"메타", "rare":"uncommon",
 	 "desc":"ordinary_life 엔딩. 평범함도 하나의 성취다."},
+	# ── 미니게임 마스터리 ──
+	{"id":"holdem_master_title","name":"홀덤 무법자",       "cat":"미니게임", "rare":"rare",
+	 "desc":"지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다."},
+	{"id":"racetrack_master_title","name":"경마 귀신",      "cat":"미니게임", "rare":"rare",
+	 "desc":"경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다."},
+	{"id":"scalping_master_title","name":"스캘퍼",          "cat":"미니게임", "rare":"uncommon",
+	 "desc":"스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다."},
+	# ── 전문화 ──
+	{"id":"spec_elite_title",   "name":"엘리트의 길",       "cat":"성향", "rare":"uncommon",
+	 "desc":"엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까."},
+	{"id":"spec_quant_title",   "name":"퀀트 마인드",       "cat":"성향", "rare":"uncommon",
+	 "desc":"퀀트형 전문화 선택. 시장을 수식으로 본다."},
+	{"id":"spec_founder_title", "name":"창업가 정신",       "cat":"성향", "rare":"rare",
+	 "desc":"창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람."},
+	# ── 런 테마 ──
+	{"id":"clean_run_title",    "name":"청렴한 강남행",      "cat":"메타", "rare":"rare",
+	 "desc":"청렴런으로 30억 달성. 도박 없이, 이 도시에서 살아남았다."},
+	{"id":"network_run_title",  "name":"서울 인맥왕",        "cat":"메타", "rare":"uncommon",
+	 "desc":"인맥런으로 강남 입성. 결국 사람이 가장 큰 자산이었다."},
 ]
 
 func _ready():
@@ -168,10 +187,62 @@ func _check_title_condition(tid: String) -> bool:
 			for run in data.get("run_history", []):
 				if run.get("ending_id","") == "ordinary_life": return true
 			return false
+		# ── 미니게임 마스터리 칭호 ──
+		"holdem_master_title":   return int(data.get("mg_plays_holdem", 0)) >= 15
+		"racetrack_master_title":return int(data.get("mg_plays_racetrack", 0)) >= 15
+		"scalping_master_title": return int(data.get("mg_plays_scalping", 0)) >= 15
+		# ── 전문화 칭호 ──
+		"spec_elite_title":   return GameState.flags.get("spec_elite", false)
+		"spec_quant_title":   return GameState.flags.get("spec_quant", false)
+		"spec_founder_title": return GameState.flags.get("spec_tech_founder", false) or GameState.flags.get("spec_social_entrepreneur", false)
+		# ── 런 테마 달성 칭호 ──
+		"clean_run_title":
+			for run in data.get("run_history", []):
+				if run.get("run_theme","") == "청렴런" and float(run.get("total_assets",0)) >= 3_000_000_000: return true
+			return false
+		"network_run_title":
+			for run in data.get("run_history", []):
+				if run.get("run_theme","") == "인맥런" and run.get("ending_id","") == "gangnam_dream": return true
+			return false
 	return false
 
 func is_hidden_event_unlocked(event_id):
 	return data.get("rare_event_unlocks", []).has(event_id) or data.get("unlocked_hidden_events", []).has(event_id)
+
+func is_starting_profile_unlocked(profile_id: String) -> bool:
+	match profile_id:
+		"코인폐인": return int(data.get("total_runs", 0)) >= 1
+	return true
+
+# ── 미니게임 마스터리 트랙 ────────────────────────────────────────
+# 등급: 0(입문) → 1(숙련) → 2(고급) → 3(마스터)
+const MASTERY_THRESHOLDS := [0, 5, 15, 30]  # 플레이 횟수 → 해당 등급 해금
+
+func record_minigame_play(game_id: String) -> int:
+	## 미니게임 플레이를 기록하고 현재 마스터리 등급을 반환한다.
+	## game_id: "holdem" | "racetrack" | "scalping" | "aruba"
+	var key: String = "mg_plays_" + game_id
+	var plays: int = int(data.get(key, 0)) + 1
+	data[key] = plays
+	save_meta()
+	return get_mastery(game_id)
+
+func get_mastery(game_id: String) -> int:
+	## 현재 마스터리 등급 반환 (0~3).
+	var plays: int = int(data.get("mg_plays_" + game_id, 0))
+	var grade: int = 0
+	for i in range(MASTERY_THRESHOLDS.size()):
+		if plays >= MASTERY_THRESHOLDS[i]:
+			grade = i
+	return grade
+
+func get_mastery_label(game_id: String) -> String:
+	match get_mastery(game_id):
+		0: return "입문"
+		1: return "숙련"
+		2: return "고급"
+		3: return "마스터"
+	return "입문"
 
 func get_new_unlocks() -> Dictionary:
 	return _new_this_run.duplicate(true)
@@ -225,6 +296,10 @@ func _check_progression_unlocks(summary):
 		unlock_achievement("five_lives")
 	if total_runs >= 10:
 		unlock_achievement("ten_lives")
+
+	# 청렴런 승리
+	if str(summary.get("run_theme","")) == "청렴런" and float(summary.get("total_assets",0)) >= 3_000_000_000:
+		unlock_achievement("clean_gangnam")
 
 	# 런 종료 시점 칭호 체크 (메타 칭호)
 	check_and_unlock_titles()

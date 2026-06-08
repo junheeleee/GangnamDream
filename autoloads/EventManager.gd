@@ -160,6 +160,12 @@ func _check_conditions(conditions):
 				if GameState.appearance < int(req): return false
 			"min_reputation":
 				if GameState.reputation < int(req): return false
+			"min_addiction":
+				if GameState.addiction_tendency < int(req): return false
+			"max_addiction":
+				if GameState.addiction_tendency > int(req): return false
+			"min_gambling":
+				if GameState.gambling_tendency < int(req): return false
 			"min_turn":
 				if GameState.turn < int(req): return false
 			"max_stress":
@@ -288,6 +294,9 @@ func _effective_weight(event):
 		weight *= 1.0 + min(float(diff) / 30.0, 0.5)
 	elif diff <= -6 and (tags.has("investment") or tags.has("unorthodox") or tags.has("risk")):
 		weight *= 1.0 + min(float(-diff) / 30.0, 0.5)
+	# 청렴런: gambling 카테고리 이벤트 완전 차단
+	if GameState.flags.get("no_gambling", false) and str(event.get("category", "")) == "gambling":
+		return 0.0
 	# 런 테마 보너스: 매 런마다 2개 카테고리 이벤트 1.35x
 	var run_themes: Array = GameState.run_theme_categories
 	if not run_themes.is_empty():

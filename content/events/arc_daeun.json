@@ -240,5 +240,93 @@
         }
       }
     ]
+  },
+  {
+    "id": "arc_daeun_04_morning",
+    "title": "이 아침이 이유가 된다",
+    "background": "goshiwon_room",
+    "portrait": "player_happy",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "daeun", "romance"],
+    "cooldown": 9999,
+    "description": "새벽 5시.\n\n다은이 자고 있다. 이불이 한쪽으로 밀려났고,\n창밖엔 서울 불빛이 아직 꺼지지 않았다.\n\n{name}은 오늘도 일찍 일어났다. 30억은 아직 멀고,\n시간은 항상 부족하다.\n\n그런데 오늘 아침엔 — 이상하게 서두르기가 싫었다.\n이 사람이 곁에 있어서, 내가 왜 달리는지 비로소 알 것 같았다.",
+    "choices": [
+      {
+        "text": "조용히 옆에 앉아 있는다 — 이 사람을 위해서도 이기고 싶다",
+        "effects": {
+          "mental": 12,
+          "stress": -8
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 15,
+            "stage": "together"
+          }
+        },
+        "flags": ["arc_daeun_04_seen", "daeun_together_path"],
+        "result_text": "{name}은 한참 그 자리에 있었다.\n아무것도 하지 않은 새벽이었는데,\n이상하게 오늘은 30억이 선명하게 보였다.\n두렵지 않았다. 같이 가는 게 생겼다."
+      },
+      {
+        "text": "일어나 노트북을 연다 — 이 사람 모르게 흔들리면 안 된다",
+        "effects": {
+          "stress": 5,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "flags": ["arc_daeun_04_seen"],
+        "result_text": "{name}은 화면을 켰다.\n그녀의 숨소리가 배경음처럼 깔렸다.\n다정함과 집착 사이 어딘가를 오가며,\n오늘도 숫자를 채웠다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_ghost",
+    "title": "그 사람 소식",
+    "background": "convenience_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "daeun"],
+    "cooldown": 9999,
+    "description": "SNS에서 우연히 봤다.\n\n다은이 고향에서 엄마랑 찍은 사진.\n마트 앞, 작은 화분, 환한 웃음.\n\n'잘 지내고 있어요 :)'\n\n{name}은 한참 그 사진을 보다가 폰을 내려놓았다.\n잘 지내고 있구나. 그 생각이 드는데 — 왜인지 더 허전했다.",
+    "choices": [
+      {
+        "text": "좋아요를 눌렀다 — 잘 지내. 나도 잘 지낼게",
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 3
+          }
+        },
+        "flags": ["arc_daeun_ghost_seen", "daeun_saw_her_ok"],
+        "result_text": "알림이 왔다. '다은 님이 좋아요를 눌렀습니다.'\n짧은 댓글은 없었다.\n{name}도 아무 말 하지 않았다.\n그걸로 충분했다. 그걸로 끝이었다."
+      },
+      {
+        "text": "그냥 넘겼다 — 보지 않은 척하는 게 낫다",
+        "effects": {
+          "mental": -8,
+          "stress": 5
+        },
+        "flags": ["arc_daeun_ghost_seen"],
+        "result_text": "{name}은 스크롤을 내렸다.\n다음 피드는 코인 광고였다.\n삶은 계속됐다.\n아직 도달하지 못한 것들만 남아 있었다."
+      }
+    ]
   }
 ]

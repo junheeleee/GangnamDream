@@ -1,412 +1,282 @@
 [
   {
-    "id": "item_01",
-    "name": "주식 기초 투자 서적",
-    "category": "knowledge",
-    "price": 37000,
-    "description": "주린이 필독서. 읽고 나면 PER이 뭔지 알게 된다. 알게 됐다고 돈이 생기는 건 아니지만.",
-    "effects": {
-      "investment_skill": 8
-    },
-    "passive_effects": {},
+    "id": "item_lotto",
+    "name": "로또 5장",
+    "icon": "🎫",
+    "price": 25000,
     "one_time": true,
-    "icon": "📚"
+    "effects": { "luck": 1 },
+    "passive_effects": {},
+    "description": "꿈은 25,000원이면 살 수 있다. 당첨은 별개의 문제지만."
   },
   {
-    "id": "item_02",
-    "name": "온라인 강의 수강권",
-    "category": "knowledge",
+    "id": "item_vitamins",
+    "name": "종합 비타민 세트",
+    "icon": "💊",
+    "price": 35000,
+    "one_time": true,
+    "effects": { "health": 6 },
+    "passive_effects": {},
+    "description": "몸이 버텨야 돈도 번다."
+  },
+  {
+    "id": "item_book_invest",
+    "name": "주식 입문 서적",
+    "icon": "📖",
+    "price": 38000,
+    "one_time": true,
+    "effects": { "investment_skill": 5 },
+    "passive_effects": {},
+    "description": "남들이 읽을 때 같이 읽어야 남들만큼은 된다."
+  },
+  {
+    "id": "item_meditation_app",
+    "name": "명상 앱 구독",
+    "icon": "🧘",
+    "price": 11900,
+    "one_time": false,
+    "effects": {},
+    "passive_effects": { "mental": 1, "stress": -2 },
+    "description": "구독 유지 중 — 매달 자동 적용. 하루 10분, 무너지지 않기 위한 최소한."
+  },
+  {
+    "id": "item_news_sub",
+    "name": "경제신문 구독",
+    "icon": "📰",
+    "price": 14900,
+    "one_time": false,
+    "effects": {},
+    "passive_effects": { "investment_skill": 1 },
+    "description": "구독 유지 중 — 매달 자동 적용. 매일 읽으면 매달 감각이 쌓인다."
+  },
+  {
+    "id": "item_study_room",
+    "name": "독서실 이용권 (1개월)",
+    "icon": "🔖",
+    "price": 55000,
+    "one_time": true,
+    "effects": { "intelligence": 5 },
+    "passive_effects": {},
+    "description": "환경을 만들면 집중이 따라온다."
+  },
+  {
+    "id": "item_pojang",
+    "name": "동네 포장마차 한 자리",
+    "icon": "🍺",
+    "price": 58000,
+    "one_time": true,
+    "effects": { "mental": 6, "social_skill": 2 },
+    "passive_effects": {},
+    "description": "돈 없을 때 속 얘기 꺼낼 수 있는 자리. 그게 가장 비싼 자리다."
+  },
+  {
+    "id": "item_gym",
+    "name": "헬스장 월정액",
+    "icon": "🏋",
     "price": 59000,
-    "description": "30일 완성 자기계발 강의. 3강까지 듣다가 멈추는 게 인류의 숙명이지만, 들은 것만큼은 머리에 남는다.",
-    "effects": {
-      "intelligence": 8
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "💻"
-  },
-  {
-    "id": "item_03",
-    "name": "동네 포장마차 회식",
-    "category": "social",
-    "price": 81000,
-    "description": "힘든 하루를 소주 한 잔으로 달랜다. 마음은 잠깐 가벼워지지만, 다음 날 몸은 더 무겁다.",
-    "effects": {
-      "mental": 6
-    },
-    "passive_effects": {
-      "stress": 2
-    },
     "one_time": false,
-    "icon": "🍺"
+    "effects": {},
+    "passive_effects": { "health": 2, "stress": -3 },
+    "description": "구독 유지 중 — 매달 자동 적용. 몸을 쓰면 머리가 비워진다."
   },
   {
-    "id": "item_04",
-    "name": "재테크 유튜브 프리미엄",
-    "category": "investment",
-    "price": 103000,
-    "description": "광고 없이 경제 영상만 본다. 재야의 고수들과 사기꾼의 경계가 흐릿하지만, 분별력도 실력이다.",
-    "effects": {
-      "investment_skill": 2
-    },
-    "passive_effects": {},
+    "id": "item_online_course",
+    "name": "온라인 재무 강의",
+    "icon": "💻",
+    "price": 89000,
     "one_time": true,
-    "icon": "📱"
-  },
-  {
-    "id": "item_05",
-    "name": "북클럽 1개월 멤버십",
-    "category": "social",
-    "price": 125000,
-    "description": "매주 한 권의 책을 읽고 토론한다. 지식보다 사람을 얻는 모임. 좋은 인연이 자산이 될 수 있다.",
-    "effects": {
-      "social_skill": 6
-    },
+    "effects": { "intelligence": 5, "investment_skill": 3 },
     "passive_effects": {},
-    "one_time": true,
-    "icon": "📖"
+    "description": "유튜브로는 알 수 없는 것들이 있다."
   },
   {
-    "id": "item_06",
-    "name": "헬스장 PT 세션 (1개월)",
-    "category": "health",
-    "price": 147000,
-    "description": "몸이 자산이라는 말이 틀리지 않다. 체력이 오르면 모든 게 조금씩 나아진다. 트레이너 눈치도 보게 된다.",
-    "effects": {
-      "health": 8
-    },
-    "passive_effects": {
-      "reputation": 2
-    },
+    "id": "item_counseling",
+    "name": "심리상담 3회권",
+    "icon": "🛋",
+    "price": 180000,
+    "one_time": true,
+    "effects": { "mental": 10, "stress": -12 },
+    "passive_effects": {},
+    "description": "한 번이라도 진짜로 털어놓으면 달라진다."
+  },
+  {
+    "id": "item_realty_tour",
+    "name": "부동산 임장 투어",
+    "icon": "🏘",
+    "price": 290000,
+    "one_time": true,
+    "effects": { "investment_skill": 6, "intelligence": 2 },
+    "passive_effects": {},
+    "description": "실제로 걸어봐야 숫자가 보인다."
+  },
+  {
+    "id": "item_invest_mentor",
+    "name": "투자 1:1 멘토링",
+    "icon": "🎯",
+    "price": 350000,
+    "one_time": true,
+    "effects": { "investment_skill": 8, "intelligence": 3 },
+    "passive_effects": {},
+    "description": "방향이 맞으면 속도가 따라온다. 틀린 방향으로 열심히 하는 건 낭비다."
+  },
+  {
+    "id": "item_coaching",
+    "name": "자기개발 코칭 세션",
+    "icon": "🗣",
+    "price": 450000,
+    "one_time": true,
+    "effects": { "social_skill": 8, "intelligence": 4 },
+    "passive_effects": {},
+    "description": "말하는 방식을 바꾸면 사람이 달리 보인다."
+  },
+  {
+    "id": "item_coin_channel",
+    "name": "코인 유료 정보 채널",
+    "icon": "📡",
+    "price": 490000,
     "one_time": false,
-    "icon": "💪"
+    "effects": {},
+    "passive_effects": { "luck": 1, "addiction_tendency": 4 },
+    "description": "구독 유지 중 — 매달 자동 적용. 정보와 중독 사이 어딘가. 손이 점점 빨라진다."
   },
   {
-    "id": "item_07",
-    "name": "커뮤니티 자원봉사 참여",
-    "category": "social",
-    "price": 169000,
-    "description": "봉사는 무료가 아니다. 교통비, 식비, 시간. 그래도 평판이 오른다. 인생에서 평판은 복리로 작동한다.",
-    "effects": {
-      "reputation": 7
-    },
-    "passive_effects": {},
+    "id": "item_spa",
+    "name": "럭셔리 스파 패키지",
+    "icon": "♨",
+    "price": 680000,
     "one_time": true,
-    "icon": "🤝"
-  },
-  {
-    "id": "item_08",
-    "name": "종합 비타민 영양제",
-    "category": "health",
-    "price": 191000,
-    "description": "3개월치 영양제 세트. 효과가 있는지 없는지 모르지만, 챙겨 먹는다는 사실 자체가 정신력을 키운다.",
-    "effects": {
-      "intelligence": 2
-    },
+    "effects": { "mental": 15, "stress": -20, "health": 5 },
     "passive_effects": {},
-    "one_time": true,
-    "icon": "💊"
+    "description": "사치처럼 보이지만 쓰러지지 않는 방법 중 하나다."
   },
   {
-    "id": "item_09",
-    "name": "경제신문 정기 구독 (1개월)",
-    "category": "knowledge",
-    "price": 213000,
-    "description": "매일 아침 시황을 읽는 습관. 처음엔 어렵고, 나중엔 패턴이 보인다. 시장 감각은 꾸준함에서 온다.",
-    "effects": {
-      "investment_skill": 4
-    },
-    "passive_effects": {
-      "luck": 1
-    },
+    "id": "item_health_checkup",
+    "name": "의료 종합검진",
+    "icon": "🏥",
+    "price": 850000,
+    "one_time": true,
+    "effects": { "health": 20, "mental": 3 },
+    "passive_effects": {},
+    "description": "몸이 무너지면 다 무너진다. 한 번쯤은 제대로 봐야 한다."
+  },
+  {
+    "id": "item_financial_consult",
+    "name": "재무설계 전문 상담",
+    "icon": "📋",
+    "price": 980000,
+    "one_time": true,
+    "effects": { "investment_skill": 10, "intelligence": 4 },
+    "passive_effects": {},
+    "description": "100만짜리 그림을 그려야 10억짜리 그림도 보인다."
+  },
+  {
+    "id": "item_stock_camp",
+    "name": "단기 주식 집중 캠프",
+    "icon": "📊",
+    "price": 1200000,
+    "one_time": true,
+    "effects": { "investment_skill": 10, "intelligence": 6 },
+    "passive_effects": {},
+    "description": "3일이 3년을 바꿀 수도 있다."
+  },
+  {
+    "id": "item_realty_vip",
+    "name": "강남 부동산 VIP 임장",
+    "icon": "🏙",
+    "price": 1500000,
+    "one_time": true,
+    "effects": { "investment_skill": 12, "intelligence": 5 },
+    "passive_effects": {},
+    "description": "아는 사람만 들어가는 자리. 거기서 보는 강남과 밖에서 보는 강남은 다르다."
+  },
+  {
+    "id": "item_underground_seminar",
+    "name": "지하 투기 세미나",
+    "icon": "🎲",
+    "price": 1500000,
+    "one_time": true,
+    "effects": { "luck": 5, "investment_skill": 5, "gambling_tendency": 15, "addiction_tendency": 8 },
+    "passive_effects": {},
+    "description": "합법과 불법 사이. 여기서 배운 건 어디서도 안 가르쳐준다. 그 이유도."
+  },
+  {
+    "id": "item_golf",
+    "name": "강남 골프 레슨 (1개월)",
+    "icon": "⛳",
+    "price": 1800000,
+    "one_time": true,
+    "effects": { "social_skill": 10, "reputation": 8, "appearance": 3 },
+    "passive_effects": {},
+    "description": "이 동네 사람들은 아직 골프를 친다. 코스에 오르면 대화가 달라진다."
+  },
+  {
+    "id": "item_restaurant",
+    "name": "고급 레스토랑 접대",
+    "icon": "🍽",
+    "price": 2800000,
+    "one_time": true,
+    "effects": { "social_skill": 10, "reputation": 12 },
+    "passive_effects": {},
+    "description": "사람은 먹으면서 열린다. 음식값이 아니라 관계값이다."
+  },
+  {
+    "id": "item_suit",
+    "name": "고급 정장 맞춤 제작",
+    "icon": "👔",
+    "price": 3500000,
+    "one_time": true,
+    "effects": { "appearance": 10, "reputation": 8, "social_skill": 5 },
+    "passive_effects": {},
+    "description": "옷이 사람을 만들진 않는다. 하지만 첫 5초는 만든다."
+  },
+  {
+    "id": "item_quant",
+    "name": "퀀트 트레이딩 강의",
+    "icon": "🤖",
+    "price": 4500000,
+    "one_time": true,
+    "effects": { "investment_skill": 15, "intelligence": 6 },
+    "passive_effects": {},
+    "description": "사람보다 덜 실수한다는 걸 증명하는 데 4,500,000원이 든다."
+  },
+  {
+    "id": "item_overseas_seminar",
+    "name": "해외 투자 마스터 클래스",
+    "icon": "✈",
+    "price": 5800000,
+    "one_time": true,
+    "effects": { "investment_skill": 15, "intelligence": 8 },
+    "passive_effects": {},
+    "description": "돈을 쓰는 것도 공부다. 580만이 5억을 만드는 법을 배운다."
+  },
+  {
+    "id": "item_watch",
+    "name": "명품 시계",
+    "icon": "⌚",
+    "price": 8500000,
+    "one_time": true,
+    "effects": { "reputation": 20, "appearance": 15 },
+    "passive_effects": {},
+    "description": "강남 사람들은 손목으로 말한다. 이 시계를 차면 그 언어를 배운 셈이다."
+  },
+  {
+    "id": "item_vip_club",
+    "name": "강남 VIP 멤버십 클럽",
+    "icon": "🏛",
+    "price": 12000000,
     "one_time": false,
-    "icon": "📰"
+    "effects": { "reputation": 10, "social_skill": 5 },
+    "passive_effects": { "reputation": 3, "social_skill": 1 },
+    "description": "구독 유지 중 — 매달 자동 적용. 돈보다 비싼 건 여기서 만나는 사람들이다."
   },
   {
-    "id": "item_10",
-    "name": "재무설계 상담 1회",
-    "category": "investment",
-    "price": 235000,
-    "description": "FP에게 현재 상태를 진단받는다. 포트폴리오 리밸런싱과 절세 전략. 아는 만큼 돈이 보인다.",
-    "effects": {
-      "investment_skill": 5
-    },
-    "passive_effects": {},
+    "id": "item_swiss_forum",
+    "name": "스위스 투자 포럼 참가",
+    "icon": "🌐",
+    "price": 25000000,
     "one_time": true,
-    "icon": "💼"
-  },
-  {
-    "id": "item_11",
-    "name": "힐링 스파 패키지",
-    "category": "mental",
-    "price": 257000,
-    "description": "하루치 카드값이 나가지만, 정신이 리셋된다. 내일도 서울에서 버텨야 하니까 이 정도는 투자다.",
-    "effects": {
-      "mental": 8
-    },
+    "effects": { "investment_skill": 18, "intelligence": 10, "reputation": 15 },
     "passive_effects": {},
-    "one_time": true,
-    "icon": "🛁"
-  },
-  {
-    "id": "item_12",
-    "name": "심야 독서실 월정액",
-    "category": "mental",
-    "price": 279000,
-    "description": "퇴근 후 독서실에 앉아 공부하는 삶. 스트레스는 쌓이지만, 뭔가를 하고 있다는 감각이 정신을 붙들어준다.",
-    "effects": {
-      "intelligence": 4
-    },
-    "passive_effects": {
-      "mental": 2
-    },
-    "one_time": false,
-    "icon": "🌙"
-  },
-  {
-    "id": "item_13",
-    "name": "혼자 떠나는 1박 여행",
-    "category": "life",
-    "price": 301000,
-    "description": "서울을 벗어나 숨을 쉰다. 아무것도 안 해도 된다. 돌아오면 도시가 조금 다르게 보인다.",
-    "effects": {
-      "mental": 3
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🏕️"
-  },
-  {
-    "id": "item_14",
-    "name": "퀀트 투자 전략 강의",
-    "category": "investment",
-    "price": 323000,
-    "description": "데이터로 주식을 분석하는 방법을 배운다. 어렵지만 이걸 이해하면 감으로 투자하는 시대는 끝난다.",
-    "effects": {
-      "investment_skill": 5
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "📊"
-  },
-  {
-    "id": "item_15",
-    "name": "심리 상담 3회 이용권",
-    "category": "mental",
-    "price": 345000,
-    "description": "마음속 이야기를 전문가에게 털어놓는다. 운이 좋아지는 건 마음이 정리됐을 때부터다.",
-    "effects": {
-      "luck": 7
-    },
-    "passive_effects": {
-      "reputation": 3
-    },
-    "one_time": false,
-    "icon": "🧘"
-  },
-  {
-    "id": "item_16",
-    "name": "자격증 준비 인강 패키지",
-    "category": "knowledge",
-    "price": 367000,
-    "description": "증권투자권유대리인, 재무설계사, 공인중개사. 자격증 하나가 이력서의 무게를 바꾼다.",
-    "effects": {
-      "investment_skill": 7
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🏅"
-  },
-  {
-    "id": "item_17",
-    "name": "자기관리 코칭 세션",
-    "category": "appearance",
-    "price": 389000,
-    "description": "퍼스널 브랜딩 전문가에게 피드백을 받는다. 고칠 게 많다는 걸 알게 되는 과정. 스트레스지만 성장이다.",
-    "effects": {
-      "appearance": 5
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🪞"
-  },
-  {
-    "id": "item_18",
-    "name": "프리미엄 외모 케어 (정기)",
-    "category": "appearance",
-    "price": 411000,
-    "description": "피부 관리, 헤어, 네일. 외모는 투자다. 보이는 것이 신뢰를 만들고 신뢰가 기회를 만든다.",
-    "effects": {
-      "appearance": 7
-    },
-    "passive_effects": {
-      "investment_skill": 3
-    },
-    "one_time": false,
-    "icon": "💅"
-  },
-  {
-    "id": "item_19",
-    "name": "비즈니스 네트워킹 모임",
-    "category": "social",
-    "price": 433000,
-    "description": "청년 창업자와 직장인들의 인맥 파티. 명함 교환이 비즈니스의 시작이다. 어색함도 실력이다.",
-    "effects": {
-      "social_skill": 7
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🤝"
-  },
-  {
-    "id": "item_20",
-    "name": "해외 ETF 투자 세미나",
-    "category": "investment",
-    "price": 455000,
-    "description": "S&P500, 나스닥, 채권 배분까지. 글로벌 시장을 이해하면 국내 시장이 좁아 보이기 시작한다.",
-    "effects": {
-      "investment_skill": 5
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "📈"
-  },
-  {
-    "id": "item_21",
-    "name": "주말 농촌 체험 프로그램",
-    "category": "life",
-    "price": 477000,
-    "description": "흙을 밟고, 채소를 심고, 밥을 먹는다. 서울의 속도를 잠깐 잊는다. 다양한 사람을 만나는 부수 효과도 있다.",
-    "effects": {
-      "intelligence": 2
-    },
-    "passive_effects": {
-      "social_skill": 1
-    },
-    "one_time": false,
-    "icon": "🌾"
-  },
-  {
-    "id": "item_22",
-    "name": "보드게임 카페 정기 모임",
-    "category": "social",
-    "price": 499000,
-    "description": "전략 게임을 통해 사람을 읽는 법을 배운다. 매달 새로운 얼굴들과 섞이면 사회성은 자연스럽게 오른다.",
-    "effects": {
-      "social_skill": 4
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🎲"
-  },
-  {
-    "id": "item_23",
-    "name": "부의 심리학 특강 참여",
-    "category": "mental",
-    "price": 521000,
-    "description": "부자의 마인드셋을 배운다. 실제로 부자가 되는지는 모르겠지만, 생각의 프레임이 바뀌면 행동이 달라진다.",
-    "effects": {
-      "luck": 2
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🧠"
-  },
-  {
-    "id": "item_24",
-    "name": "홈트레이닝 장비 구입",
-    "category": "health",
-    "price": 543000,
-    "description": "덤벨, 매트, 저항 밴드 세트. 초반에만 쓴다는 통계가 있지만, 쓰는 동안만큼은 확실히 효과가 있다.",
-    "effects": {
-      "health": 8
-    },
-    "passive_effects": {
-      "stress": -2
-    },
-    "one_time": false,
-    "icon": "🏃"
-  },
-  {
-    "id": "item_25",
-    "name": "강남 부동산 임장 투어",
-    "category": "knowledge",
-    "price": 565000,
-    "description": "직접 발로 뛰며 매물을 보는 경험. 가격표가 현실을 가르쳐준다. 보기만 해도 눈이 높아진다.",
-    "effects": {
-      "investment_skill": 5
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🏢"
-  },
-  {
-    "id": "item_26",
-    "name": "럭셔리 스킨케어 세트",
-    "category": "appearance",
-    "price": 587000,
-    "description": "성분표 읽는 것부터 피부과학까지. 피부가 좋아지면 자신감이 생기고, 자신감 있는 사람은 영리해 보인다.",
-    "effects": {
-      "appearance": 6
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "✨"
-  },
-  {
-    "id": "item_27",
-    "name": "재테크 소모임 클럽 (정기)",
-    "category": "social",
-    "price": 609000,
-    "description": "매달 모여서 포트폴리오를 공유한다. 남의 성공은 자극이 되고, 내 실패는 위로가 된다. 스트레스도 공유된다.",
-    "effects": {
-      "stress": 3
-    },
-    "passive_effects": {
-      "mental": 3
-    },
-    "one_time": false,
-    "icon": "☕"
-  },
-  {
-    "id": "item_28",
-    "name": "해외 주식 투자 마스터 클래스",
-    "category": "investment",
-    "price": 631000,
-    "description": "미국 시장 실전 투자 전략. 커리큘럼보다 같이 듣는 사람들에게서 배우는 게 더 많다.",
-    "effects": {
-      "investment_skill": 6
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "💹"
-  },
-  {
-    "id": "item_29",
-    "name": "취미 클래스 (기타 또는 드로잉)",
-    "category": "life",
-    "price": 653000,
-    "description": "숫자와 업무에서 벗어나 손으로 무언가를 만든다. 예상치 못한 인연이 생기기도 한다.",
-    "effects": {
-      "social_skill": 3
-    },
-    "passive_effects": {},
-    "one_time": true,
-    "icon": "🎸"
-  },
-  {
-    "id": "item_30",
-    "name": "코인 유료 정보 채널 구독",
-    "category": "gambling",
-    "price": 675000,
-    "description": "\"내부자 정보\"라고 주장하는 채널이다. 맞을 때도 있고 틀릴 때도 있다. 적어도 화제가 된다.",
-    "effects": {
-      "luck": 3
-    },
-    "passive_effects": {
-      "reputation": 2
-    },
-    "one_time": false,
-    "icon": "🎰"
+    "description": "세계의 돈이 어디로 가는지 직접 본다. 이걸 살 수 있게 됐다면 이미 달라진 것이다."
   }
 ]

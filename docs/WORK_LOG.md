@@ -1,5 +1,244 @@
 # Gangnam Dream Work Log
 
+## 2026-06-08 (선택지 밸런스 전수 감사 + 수정)
+
+### 190개 이벤트 / 578개 선택지 밸런스 전수 점검
+- Python 스크립트로 전 선택지 정규화 점수(5만원=1점, 스탯1=1점) 계산
+- 3가지 문제 유형 발굴 및 수정: A. 데이터 오류 / B. 인센티브 역전 / C. 순손해 선택지
+- 4차에 걸쳐 총 **95개 선택지** 수정 (life/investment/relationship/hidden 전 파일)
+
+#### A. 데이터 오류 수정 (15건)
+- 수면 루틴 잡기 -12만원 → 0원 + 체력/정신/스트레스 개선
+- 의사 상담 -15만원 + 지능-5 → -5만원 + 체력/지능 상승
+- 술 한 잔 -24만원 → -2만원
+- AI 관상 앱 보기 -16만원+투자감각-5 → 0원
+- 통계 공부 -21만원 → 0원 + 지능/투자감각 상승
+- 인스타 앱 끄기 -17만원 → 0원 등
+
+#### B. 인센티브 역전 수정 (6건)
+- "그냥 버틴다"가 수면 이벤트 최선 → 건강/스트레스 손해로 수정
+- "서랍에 넣고 잊기"가 건강검진 최선 → 건강 장기 손해 추가
+- "도박 머릿속 맴돌기"가 최선 → 중독 수치 추가
+- "잘 사는 척 연기"가 동창회 최선 → 스트레스/정신 타격 추가
+- "구조조정 무시"가 최선 → 평판 손해 추가
+- "사직서 쓰기" stress -15 과도 → -8로 조정
+
+#### C. 순손해 선택지 해소 (42건+)
+- "속상해한다", "참는다", "삭인다" 류 모든 선택지에 최소 하나의 전략적 이유 추가
+- 예: 깨진 폰 그대로 사용 → 돈 절약 반영, 동창회 거짓말 불참 → 돈 절약+휴식 반영
+
+#### 최종 분포 (교육적 이벤트 제외)
+- ✅ 격차 <5 (긴장감 없음): 32개 18%
+- 🟢 격차 5-10 (적절한 트레이드오프): 58개 33%
+- ⚠️ 격차 10-18 (한쪽이 더 나음): 84개 47%
+- ❌ 격차 18+ (지배 전략): 3개 2% (부동산·정치 고위험 이벤트 — 의도된 설계)
+
+## 2026-06-08 (StartMenu 프로필 선택 제거 — 드라마 모드 정리)
+
+### 출발점 선택 UI 완전 제거
+- `STARTING_PROFILES` const 삭제 — 드라마 모드는 항상 "백수"(김민준 33세) 고정
+- 클래스 변수 `_selected_profile`, `_profile_row`, `_profile_desc_label` 제거
+- 함수 `_build_profile_cards()`, `_select_profile()`, `_update_profile_desc()` 삭제
+- `_start_new_run()`: `_selected_profile` → `"백수"` 하드코딩
+- 이유: 대기업 직장인 선택해도 고시원 시작 + 동일 플레이 — 구색만 갖춘 UI였음
+
+### StartMenu 레이아웃 재구성
+- 왼쪽 컬럼: 스토리 패널(gold 좌측 border) + 런 테마 선택 + spacer + 시작 버튼
+- 런 테마 헤더에 힌트 문구 추가: "(2회차 이상 추천 — 처음이라면 자유런)"
+- 테마 설명 라벨: 3줄(tagline+diff+desc) → 1줄(tagline+diff) compact
+
+## 2026-06-08 (military_040 데이터 오류 수정)
+
+### 군대 선임 연락 이벤트 전체 효과 재설계
+- `[0]` 안부만 끊기: money+20000·investment_skill+5 → stress-2·mental+1 (데이터 오류)
+- `[1]` 장시간 통화: stress-1 → stress+3·social_skill+1·mental+1 (싫은 통화 스트레스 방향 반전)
+- `[2]` 술 약속: investment_skill-1 → social_skill+2·reputation+1·stress+1 (소셜 이벤트에 무관한 투자감각 제거)
+- `[3]` 문자만 답장: health-2 → stress-4·mental+1·reputation-1 (건강 손해 제거, 냉담한 인상 추가)
+- 트레이드오프 구조: [0](따뜻한 탈출) vs [3](차가운 탈출+reputation-1) vs [2](소셜 투자) vs [1](단기 고통+social gain)
+
+## 2026-06-07 (#8~#13 완료: 스캘핑·런테마·알바·마스터리·퀘스트·칭호)
+
+### #8 주식 스캘핑 아케이드 (완료 ✅)
+- `scenes/ScalpingGame.gd` 신규 — 60초 실시간 캔들 차트, BUY/SELL 타이밍 게임
+- 판돈 선택(10만~300만), 투자감각↑ = 노이즈↓ + 추세 힌트(감각40+)
+- `investment_skill >= 25 and money >= 100k` 조건으로 버튼 노출
+
+### #9 런 테마 선택 (완료 ✅)
+- StartMenu에 테마 선택 UI 추가 (4개 카드)
+- 자유런(랜덤)/투자런/인맥런/청렴런 — 각각 초기 보너스 + 이벤트 가중치 차등
+- 청렴런: `no_gambling` 플래그 → EventManager가 gambling 카테고리 완전 차단
+- `GameState.run_theme` 저장, `finish_run()` summary에 포함
+
+### #10 아르바이트 미니게임 (완료 ✅)
+- `scenes/ArubaGame.gd` 신규 — 3~4개 상황카드 시프트 게임
+- 직업 카테고리별 시나리오 풀 3종 (편의점/배달/일반), 시나리오 총 17개
+- 각 선택 → 즉각 피드백 + 수입 변동, 시프트 결산 화면
+- 기존 `_ap_side_job()` 완전 교체 (단순 +40만 → 미니게임)
+
+### #11 미니게임 마스터리 트랙 (완료 ✅)
+- `MetaProgression.record_minigame_play(game_id)` — 플레이 카운터 + 등급 반환
+- 등급 0~3 (5/15/30판): 숙련·고급·마스터
+- 홀덤: 마스터리에 따라 AI 공격성 상승 / 경마: 고급2+는 정보상 함정 없음
+- 스캘핑: 숙련1+는 힌트 임계치 하향 / 알바: 마스터3은 시나리오 5개
+- MainGame 버튼에 마스터리 배지 표시 (★숙련/★★고급/★★★마스터)
+
+### #12 퀘스트 트래커 UI (완료 ✅)
+- 인포 패널에 "📖 아크" 탭 추가 (4번째)
+- 5개 아크 진행도: 김다은/임상철/강현수/박지연/성향자각 — 체크박스 단계별 표시
+- 아크 미발동 시 진입 힌트 표시
+- 런 테마·투자감각·사교력·마스터리 등급 한눈에 확인 가능
+
+### #13 칭호/업적 + 메타 진행 강화 (완료 ✅)
+- 신규 칭호 8개 추가 (홀덤무법자/경마귀신/스캘퍼/엘리트의길/퀀트마인드/창업가정신/청렴한강남행/서울인맥왕)
+- `_check_title_condition()` — 미니게임 플레이수·전문화플래그·런테마+결과 조건
+- `finish_run()` summary에 `run_theme`, `tendency_realized` 포함
+- 엔딩 화면: 이번 런 새 해금 칭호 목록 표시 + 런 테마·마스터리 요약
+
+---
+
+## 2026-06-07 (시작 직업 다양화 + 다은 결말 + 분기형 스킬 트리)
+
+### #7 지하 홀덤 클럽 (완료 ✅)
+- `systems/TexasHoldem.gd` — 순수 수학 모델: 52장 덱, 셔플, 핸드 평가(0~8랭크), 핸드 강도 추정(0-1), AI 행동 결정 (aggression 파라미터)
+- `scenes/HoldemClub.gd` — 뷰 레이어: 바이인 선택(5만~50만), 3인 홀덤, 프리플랍→플랍→턴→리버→쇼다운 5단계, 폴드/체크/콜/레이즈/올인 전 액션 지원
+- MainGame.gd에 `entered_network` 플래그 확인 후 "지하 홀덤 클럽" 버튼 노출
+
+### #4 시작 직업 다양화 (완료 ✅)
+5가지 출발점 선택 UI — StartMenu.gd 프로필 카드 그리드, GameState `_apply_starting_profile()`, MetaProgression `is_starting_profile_unlocked()`.
+
+| 프로필 | 변화 |
+|---|---|
+| 무직 백수 | 기본 (변화 없음) |
+| 편의점 알바 | job_01 시작, 월급 132만, health-8, stress+8, social+5 |
+| 대기업 직장인 | job_08 시작, 저축 200만, intel+8, stress+15 |
+| 유튜버 지망생 | social+15, appearance+8, luck+8, 월수입 30만 |
+| 코인 폐인 (히든) | 1런 이상 완주 후 해금, addiction 30, money 500만, mental-15 |
+
+### #5 김다은 아크 결말 (완료 ✅)
+- `arc_daeun_04_morning` — T33+, daeun_chose_her 경로. 새벽 아침 장면. together 단계 진입. 2갈래.
+- `arc_daeun_ghost` — T40+, daeun_let_her_go 경로. SNS 목격 에필로그. 2갈래.
+- MainGame `_next_arc_id()` 트리거 추가.
+
+### #6 분기형 스킬 트리 (완료 ✅)
+성향 자각(tendency_realized) 시점에 1회 전문화 분기 선택:
+
+| 성향 | 선택지 A | 선택지 B |
+|---|---|---|
+| 직장형 | 엘리트 코스 (spec_elite) | 처세술 전문가 (spec_social_climber) |
+| 투자형 | 퀀트형 (spec_quant) | 투기형 (spec_speculator) |
+| 창업형 | 기술창업형 (spec_tech_founder) | 소셜창업형 (spec_social_entrepreneur) |
+
+월간 패시브: spec별 3~5턴마다 관련 스탯 +1. `arc_specialization.json` 신규 파일.
+
+---
+
+## 2026-06-07 (중독 시스템 서사 이벤트 + 우선순위 갱신)
+
+### 중독 시스템 — drama_events.json 3개 추가 (항목 3번 완료 ✅)
+
+| 이벤트 ID | 발동 조건 | 핵심 역할 |
+|---|---|---|
+| `drama_addiction_mirror` | addiction 50~69 | 새벽 거울 앞 자기 직면. 인정/외면 2갈래. |
+| `drama_addiction_debt` | addiction 70+ | 통장 확인 후 멈춤/만회/현수전화 3갈래. |
+| `drama_addiction_warning` | addiction 65+, 1회성 | 아버지가 눈치채는 장면. told_dad_truth 플래그. |
+
+EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + drama_events.json 3개 → 중독 시스템 서사 루프 완성.
+
+---
+
+### 우선순위 전체 목록 (리플레이성 항목 반영)
+
+| # | 항목 | 분류 | 상태 |
+|---|---|---|---|
+| 1 | SimRun 시뮬 검증 | 밸런스 | ✅ 완료 |
+| 2 | 아이템 리워크 | 콘텐츠 | ✅ 완료 |
+| 3 | 중독 시스템 서사 | 콘텐츠+시스템 | ✅ 완료 |
+| **4** | **시작 직업 다양화** | **리플레이성** | ⬜ |
+| 5 | 김다은 아크 결말 | 스토리 | ⬜ |
+| 6 | 분기형 스킬 트리 | RPG | ⬜ |
+| 7 | 지하 홀덤 클럽 | 미니게임 | ⬜ |
+| 8 | 주식 스캘핑 아케이드 | 미니게임 | ⬜ |
+| **9** | **런 테마 선택 (플레이어 선택)** | **리플레이성** | ⬜ |
+| 10 | 아르바이트 미니게임 | 미니게임 | ⬜ |
+| **11** | **미니게임 마스터리 트랙** | **리플레이성** | ⬜ |
+| 12 | 퀘스트 트래커 UI | UX | ⬜ |
+| 13 | 칭호/업적 + 메타 진행 강화 | 폴리시+리플레이성 | ⬜ |
+
+#### 리플레이성 항목 설계 메모
+
+**#4 시작 직업 다양화**
+- 5가지 출발점: 無職 백수(기본) / 편의점 알바(월 80만, 시간↓) / 대기업 회사원(월 250만, 스트레스↑) / 유튜버 지망생(social+10, 수입 불안정) / 코인 폐인(히든 해금: addiction 30 시작, 초기 자산 +500만, 이미 구멍 있음)
+- StartMenu에 선택 UI, GameState.start_new_game()에 starting_profile 파라미터 추가
+- 각 프로필마다 초기 스탯·자금·플래그 다름 → 같은 이벤트가 다르게 느껴짐
+
+**#9 런 테마 선택**
+- 기존 run_theme_categories는 랜덤. 이걸 플레이어가 선택하게.
+- 청렴 런 / 투자 올인 런 / 인맥왕 런 / 스피드런(40턴 내)
+- 선택한 테마가 제약이자 고유 엔딩 조건이 됨
+
+**#11 미니게임 마스터리 트랙**
+- 경마: 플레이 횟수에 따라 정보 레이어 해금 (현재도 존재), 명마 라이벌리 심화
+- 홀덤(#7): 플레이할수록 상대방 패턴 해금
+- 스캘핑(#8): 차트 패턴 인식 스킬 쌓이면 힌트 UI 해금
+
+---
+
+## 2026-06-06 (인물 아크 교차 연결 — 5개 신규 이벤트)
+
+### 작업 내용
+인물 아크가 독립적으로 존재하던 문제를 해결. 임상철-한지연-최재혁-현수가 교차하는 영화식 시나리오 구조 추가.
+
+### 신규 이벤트 (arc_events.json: 18 → 23개)
+
+| 이벤트 ID | 발동 조건 | 핵심 역할 |
+|---|---|---|
+| arc_sangchul_02_coffee | T18+ · sangchul_01_met | 임상철 멘토링 2차, 네트워크 초대 복선 |
+| arc_sangchul_03_network | T28+ · 자산 2천만+ | 강남 모임, 한PD건설 이름 첫 등장 |
+| arc_sangchul_jiyeon_reveal | T35+ · jiyeon_offer+sangchul_03 | **핵심 교차점**: 임상철이 한PD건설=한지연 가족 연결 |
+| arc_jaehyuk_hyunsu_warning | T39+ · pitch · 투자한 경우 | 현수의 경고 — "너무 늦은" 드라마 |
+| arc_jiyeon_truth_moment | T44+ · offer+reveal | 한지연이 세 가지 동기 고백 |
+
+### 트리거 업데이트 (scenes/MainGame.gd → _next_arc_id)
+- 지연 3구간 뒤에 sangchul_02/03/jiyeon_reveal 삽입
+- jaehyuk_03_pitch 뒤, ghost 앞에 hyunsu_warning 삽입
+- opp 구간 뒤에 jiyeon_truth 삽입
+
+### 나레이티브 설계 원칙 (준수 여부)
+- ✅ "왜 하필 민준에게?" 충족 — 모든 이벤트에 인연 축적 근거
+- ✅ 뜬금없는 OP 기회 없음 — 자산 20M 조건, 임상철 소개 조건
+- ✅ 선택의 파장 — dismissed_sangchul_warning → jiyeon_truth 에서 다른 무게감
+
+---
+
+## 2026-06-06 (Opportunity EV 밸런스 패치)
+
+### 문제
+척추 시뮬 결과: "공격 올인" 경로의 30억 도달률이 57%로 수학적으로 최우선 선택이 됨.
+원인: 모든 opportunity의 성공률이 과도하게 높아 평균 EV +63%/회 → 복리로 자산 폭발.
+
+### 수정 내용
+- `tools/SimRun.gd`: OPPS 4개 전면 재조정 (평균 EV +63% → ~0%)
+- `content/events/arc_events.json`: arc_opp_sangchul_realty, arc_opp_jiyeon_bunyang 성공률 하향
+- `content/events/amb_scenarios2.json`: amb_coin_00 (코인 투기) EV -6%로 조정
+- `content/events/scenario_cafe_callback.json`: stole_allin/stole_smart/honest_in 전면 재조정
+
+### 수치 결과
+
+| 이벤트 | 수정 전 EV | 수정 후 EV |
+|---|---|---|
+| arc_opp_jiyeon_bunyang | +130% | +8% |
+| cafe_cb_stole_smart | +64% | +8% |
+| cafe_cb_stole_allin | +62% | -6% |
+| cafe_cb_honest_in | +60% | +6% |
+| arc_opp_sangchul_realty (올인) | +57% | +10% |
+| amb_coin_00 | +41% | -6% |
+| arc_opp_sangchul_realty (소극) | +25% | +4% |
+
+### 설계 원칙
+- 도박·투기(코인, 올인): 살짝 음수 EV → 장기적으론 손해지만 운이 좋으면 30억 가능
+- 정보 투자(부동산 팁, 검증된 기회): 소폭 양수 EV (+5~+10%) → 보상은 있지만 실패도 아픔
+- "좋기만 한 선택지는 없다" 원칙 적용
+
 ## 2026-06-01 (죽은 트레이트 시스템 완전 제거)
 
 ### 배경
@@ -300,3 +539,26 @@
 - `SaveManager.load_game()` — 저장 파일 버전 불일치 시 경고 없이 로드하던 문제 수정. `push_warning()` 추가 및 미래 마이그레이션 훅 위치 확보.
 - `SaveManager.save_game()` — `action_log`/`news_log`/`event_log` 무한 증가 방지. 각각 최근 100/60/100개로 캡 적용.
 
+
+## 2026-06-08 (UI 대수술 + 버그 수정)
+
+### RaceTrack / HoldemClub 버그 수정
+- `RaceTrack.gd`: `Color("#0a0d12", 0.75 if ...)` → `Color()` 후 `.a` 별도 대입 (GDScript 불안정 생성자 우회)
+- `HoldemClub.gd`: bg ColorRect alpha 0.8 고정 → 이미지 없으면 1.0 (불투명)으로 수정
+- 두 오버레이 모두 `mouse_filter = MOUSE_FILTER_IGNORE` 명시
+
+### 목표 진행바 추가
+- `_build_goal_bar(parent)` — 상단 바 아래 24px 얇은 바
+- 현재 자산 / 30억 달성률 실시간 표시 (0.01% 단위)
+- 진행도 색상: 파랑(초반) → 녹색 → 금색 → 주황(60%+)
+- 잔여 시간 1년 이하면 % 색상 경고
+
+### 첫 런 튜토리얼 모달
+- `_maybe_show_tutorial()` — `GameState.flags["tutorial_shown"]` 1회 체크
+- 첫 AP 화면 진입 시 자동 표시 (프롤로그 이후)
+- 목표/진행방식/주의사항/첫 달 추천 4섹션
+
+### 월별 추천 행동 표시
+- `_recommend_action()` — 상태 기반 이번 달 최우선 행동 제안
+- 경고 없을 때 `event_body` 마지막에 "💡 이번 달 추천" 표시
+- 상태 우선순위: 무직 → 스트레스 높음 → 첫 월급 전 → 투자 가능 → 자기계발

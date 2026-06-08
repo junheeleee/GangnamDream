@@ -6,10 +6,14 @@ extends Node
 ## 주의: 이벤트(스탯 노이즈)·정밀 AP는 미모델. 급여=고정, 휴식=대표값으로 생존 유지.
 
 const OPPS := [
-	{"stake_ratio":0.70,"success_rate":0.62,"win_multiplier":2.4,"loss_ratio":0.45,"luck_factor":0.0015},
-	{"stake_ratio":0.80,"success_rate":0.46,"win_multiplier":2.6,"loss_ratio":1.00,"luck_factor":0.0015},
-	{"stake_ratio":0.85,"success_rate":0.40,"win_multiplier":2.6,"loss_ratio":1.00,"luck_factor":0.0015},
-	{"stake_ratio":0.70,"success_rate":0.72,"win_multiplier":1.6,"loss_ratio":0.45,"luck_factor":0.0015},
+	# 부동산 신중 투자 — 낮은 stake, EV +4%
+	{"stake_ratio":0.30,"success_rate":0.32,"win_multiplier":1.6,"loss_ratio":0.55,"luck_factor":0.0015},
+	# 코인 투기 — 고위험 전손, EV -6%
+	{"stake_ratio":0.70,"success_rate":0.22,"win_multiplier":2.6,"loss_ratio":0.85,"luck_factor":0.0015},
+	# 분양권 도박 — 고 stake, EV +8%
+	{"stake_ratio":0.80,"success_rate":0.28,"win_multiplier":2.4,"loss_ratio":0.80,"luck_factor":0.0015},
+	# 레버리지 올인 — 극고위험, EV -6%
+	{"stake_ratio":0.85,"success_rate":0.24,"win_multiplier":2.4,"loss_ratio":0.85,"luck_factor":0.0015},
 ]
 const SALARY := 2_240_000.0   # 중소기업 사무직(중간값)
 var _eid := ""

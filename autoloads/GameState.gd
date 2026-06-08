@@ -106,6 +106,7 @@ var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
 var run_theme_categories: Array = []
+var run_theme: String = "자유런"
 var market_prices: Dictionary = {}
 var price_history: Dictionary = {}
 var market_context = {
@@ -122,7 +123,7 @@ func _ready():
 func new_game():
 	start_new_game()
 
-func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형"):
+func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형", starting_profile: String = "백수", chosen_theme: String = "자유런"):
 	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else "김민준"
 	player_background = chosen_background
 	player_route = chosen_route
@@ -163,6 +164,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	action_log = []
 	flags = {}
 	run_theme_categories = []
+	run_theme = "자유런"
 	market_prices = {}
 	price_history = {}
 	unlocked_stat_thresholds = {}
@@ -181,9 +183,10 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	}
 
 	_apply_route_bonus(chosen_route)
-	_roll_run_theme()
+	_apply_starting_profile(starting_profile)
+	_apply_run_theme(chosen_theme)
 	_init_market_prices()
-	add_log("새 런 시작: %s" % chosen_route, "system")
+	add_log("새 런 시작: %s / 출발점: %s" % [chosen_route, starting_profile], "system")
 	stats_changed.emit()
 	run_started.emit()
 
@@ -217,6 +220,60 @@ func _apply_route_bonus(route: String):
 			flags["route_startup"] = true
 			flags["startup_intent"] = true  # 창업 이벤트 해금
 
+func _apply_starting_profile(profile: String):
+	match profile:
+		"알바":
+			# 편의점 알바생 — 수입은 있지만 몸이 먼저 닳는다
+			money          += 300_000.0    # 몇 달치 절약
+			health         -= 8
+			stress         += 8
+			social_skill   += 5
+			flags["part_time_worker"]      = true
+			flags["has_received_paycheck"] = true
+			var job = DataRegistry.get_job("job_01")
+			if not job.is_empty():
+				current_job    = job.duplicate(true)
+				job_tenure     = 0
+				monthly_income = float(job.get("base_salary", 1_320_000))
+		"직장인":
+			# 대기업 회사원 — 월급은 두둑하지만 삶이 없다
+			money          += 2_000_000.0  # 2년치 저축
+			intelligence   += 8
+			social_skill   += 5
+			appearance     += 3
+			stress         += 15
+			health         -= 5
+			flags["corporate_worker"]      = true
+			flags["has_received_paycheck"] = true
+			var job = DataRegistry.get_job("job_08")
+			if not job.is_empty():
+				current_job    = job.duplicate(true)
+				job_tenure     = 0
+				monthly_income = float(job.get("base_salary", 4_550_000))
+		"유튜버":
+			# 유튜버 지망생 — 구독자 3천명, 가능성과 불안정성 공존
+			money          += 200_000.0
+			social_skill   += 15
+			appearance     += 8
+			luck           += 8
+			intelligence   -= 5
+			stress         += 5
+			monthly_income  = 300_000.0   # 소액 광고 수입 (변동)
+			flags["youtuber_start"]        = true
+			flags["has_received_paycheck"] = true
+		"코인폐인":
+			# 코인 폐인 (히든) — 500만 시작, 중독 이미 진행 중
+			money          += 4_500_000.0  # 코인으로 4배 갔다가 원금 회복
+			mental         -= 15
+			stress         += 20
+			luck           -= 5
+			investment_skill += 10         # 차트는 읽을 줄 안다
+			addiction_tendency  = 30
+			gambling_tendency   = 25
+			flags["coin_maniac"]            = true
+			flags["had_first_investment"]   = true
+			flags["entered_network"]        = false  # 인맥은 없다
+
 func _roll_run_theme():
 	var pool = ["investment", "jobs", "social", "health", "relationship", "gambling", "finance"]
 	pool.shuffle()
@@ -228,6 +285,30 @@ func _roll_run_theme():
 	var a = label_map.get(pool[0], pool[0])
 	var b = label_map.get(pool[1], pool[1])
 	add_log("🎲 이번 런 테마: [%s + %s] — 관련 이벤트가 더 자주 등장합니다." % [a, b], "system")
+
+func _apply_run_theme(theme: String) -> void:
+	run_theme = theme
+	match theme:
+		"자유런":
+			_roll_run_theme()
+		"투자런":
+			run_theme_categories = ["investment", "finance"]
+			investment_skill += 5
+			flags["theme_invest_run"] = true
+			add_log("📈 [투자런] 시작 — 투자·재정 이벤트가 집중 등장합니다. 투자감각 +5.", "system")
+		"인맥런":
+			run_theme_categories = ["social", "relationship"]
+			social_skill += 10
+			flags["theme_network_run"] = true
+			add_log("🤝 [인맥런] 시작 — 사회·관계 이벤트가 집중 등장합니다. 사교력 +10.", "system")
+		"청렴런":
+			run_theme_categories = ["jobs", "health"]
+			reputation += 10
+			flags["theme_clean_run"] = true
+			flags["no_gambling"] = true   # EventManager가 gambling 카테고리 이벤트 차단
+			add_log("✨ [청렴런] 시작 — 도박 이벤트 없음. 평판 +10. 정직하게만 30억.", "system")
+		_:
+			_roll_run_theme()
 
 func _init_market_prices():
 	for asset in DataRegistry.assets:
@@ -323,6 +404,31 @@ func apply_monthly_pressure():
 		modify_stat("mental", -2)
 	elif stress >= 40:
 		modify_stat("mental", -1)
+
+	# ── 중독 단계별 월간 압박 ────────────────────────────────────
+	if addiction_tendency >= 70:
+		modify_hidden_stat("stress", 4)
+		modify_stat("mental", -2)
+		if randf() < 0.5:
+			add_log("🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.", "stress")
+	elif addiction_tendency >= 50:
+		modify_hidden_stat("stress", 2)
+		if randf() < 0.4:
+			add_log("🎰 다음 판이 자꾸 눈에 밟힌다.", "stress")
+
+	# ── 전문화 성향 월간 패시브 (3~5턴마다 소량 누적) ─────────────
+	if flags.get("spec_elite", false) and turn % 3 == 0:
+		work_performance = mini(work_performance + 1, 100)
+	if flags.get("spec_social_climber", false) and turn % 5 == 0:
+		modify_stat("social_skill", 1)
+	if flags.get("spec_quant", false) and turn % 4 == 0:
+		modify_stat("investment_skill", 1)
+	if flags.get("spec_speculator", false):
+		modify_hidden_stat("gambling_tendency", 1)
+	if flags.get("spec_tech_founder", false) and turn % 5 == 0:
+		modify_stat("luck", 1)
+	if flags.get("spec_social_entrepreneur", false) and turn % 4 == 0:
+		modify_stat("reputation", 1)
 
 	# 현금 위기 — 잔고 30만원 미만
 	if money < 300_000:
@@ -682,17 +788,20 @@ func _apply_tendency_passive(kind: String):
 			flags["route_career"] = true
 			work_performance = clampi(work_performance + 12, 0, 100)
 			modify_stat("social_skill", 3)
+			flags["pending_spec_career"] = true  # 전문화 분기 이벤트 큐
 		"invest":
 			player_route = "투자형"
 			flags["route_invest"] = true
 			modify_stat("investment_skill", 6)
 			modify_stat("intelligence", 2)
+			flags["pending_spec_invest"] = true
 		"found":
 			player_route = "창업형"
 			flags["route_startup"] = true
 			flags["founder_awakened"] = true
 			modify_stat("luck", 3)
 			modify_stat("intelligence", 2)
+			flags["pending_spec_found"] = true
 
 func add_item(item_id, quantity):
 	var item = DataRegistry.get_item(item_id)
@@ -832,6 +941,8 @@ func finish_run(ending_id):
 		"age": age,
 		"total_assets": get_total_asset_value(),
 		"trait": "",
+		"run_theme": run_theme,
+		"tendency_realized": tendency_realized,
 	})
 	game_over.emit(ending_id)
 
