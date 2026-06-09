@@ -34,19 +34,19 @@ const PORTRAITS = {
 	"jiyeon_normal":      "res://assets/characters/npc_mentor.png",
 	"jiyeon_warm":        "res://assets/characters/npc_mentor.png",
 	"jiyeon_cold":        "res://assets/characters/npc_mentor.png",
-	"seongjun":           "res://assets/characters/npc_mentor.png",
 
 	# 조연
-	"boss":               "res://assets/characters/npc_coworker.png",
-	"goshiwon_owner":     "res://assets/characters/npc_coworker.png",
-	"mother":             "res://assets/characters/npc_romantic_interest.png",
-	"father_normal":      "res://assets/characters/npc_close_friend.png",
-	"father_proud":       "res://assets/characters/npc_close_friend.png",
-	"father_weak":        "res://assets/characters/npc_close_friend.png",
-	"jaehyuk_charisma":   "res://assets/characters/npc_boss.png",
-	"jaehyuk_friendly":   "res://assets/characters/npc_boss.png",
-	"jaehyuk_shadow":     "res://assets/characters/npc_boss.png",
-	"jaehyuk_cornered":   "res://assets/characters/npc_boss.png",
+	"boss":               "res://assets/characters/npc_team_lead.png",
+	"goshiwon_owner":     "res://assets/characters/npc_goshiwon_owner.png",
+	"mother":             "res://assets/characters/npc_mother.png",
+	"father_normal":      "res://assets/characters/npc_father.png",
+	"father_proud":       "res://assets/characters/npc_father.png",
+	"father_weak":        "res://assets/characters/npc_father.png",
+	"jaehyuk_charisma":   "res://assets/characters/npc_jaehyuk.png",
+	"jaehyuk_friendly":   "res://assets/characters/npc_jaehyuk.png",
+	"jaehyuk_shadow":     "res://assets/characters/npc_jaehyuk.png",
+	"jaehyuk_cornered":   "res://assets/characters/npc_jaehyuk.png",
+	"seongjun":           "res://assets/characters/npc_seongjun.png",
 
 	# 경마장 정보상
 	"tip_seller":         "res://assets/characters/npc_tip_seller.png",
@@ -111,11 +111,8 @@ const FALLBACK_BG = "res://assets/backgrounds/goshiwon_room.png"
 # ── CG (감정적 클라이맥스 전체화면) ────────────────────────────
 const CG = {
 	"cg_start":          "res://assets/cg/start.png",
-	"cg_father_phone":   "res://assets/cg/father_phone.png",
 	"cg_jiyeon_crash":   "res://assets/cg/jiyeon_crash.png",
 	"cg_jaehyuk_reveal": "res://assets/cg/jaehyuk_reveal.png",
-	"cg_crisis":         "res://assets/cg/crisis.png",
-	"cg_gangnam_door":   "res://assets/cg/gangnam_door.png",
 	"cg_ending_father":  "res://assets/cg/ending_father.png",
 }
 

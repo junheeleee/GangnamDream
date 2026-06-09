@@ -2,6 +2,32 @@
 
 ## Unreleased
 
+### Added (2026-06-09) — 핵심 인물/CG/스플래시 보강
+- 주요 조연 독립 포트레이트 6종 추가: `npc_father`, `npc_mother`, `npc_jaehyuk`, `npc_team_lead`, `npc_goshiwon_owner`, `npc_seongjun`.
+- 실제 콘텐츠에서 참조하는 스토리 CG 3종 추가: `ending_father`, `jaehyuk_reveal`, `jiyeon_crash`.
+- 인게임 스플래시 키아트 `gangnam_dream_keyart_rooftop.png`를 완전 애니/한국 만화풍 rooftop-to-Gangnam 이미지로 교체.
+- `ImageRegistry`에서 부모님/재혁/팀장/고시원 원장/성준 alias를 독립 파일로 연결.
+- 실제 콘텐츠에서 쓰지 않는 미래용 CG 슬롯 3종(`cg_father_phone`, `cg_crisis`, `cg_gangnam_door`)은 레지스트리에서 제거해 누락 에셋 혼선을 줄임.
+- `main_character_happy`와 `jiyeon_crash`의 부자연스러운 구도(폰 방향, 자전거/차문 설정)를 수정한 이미지로 교체.
+- 홀덤용 `card_back.png`, `poker_chip_icon.png`를 실제 포커 카드/칩 구조의 UI 에셋으로 교체. 코드 연결은 별도 작업.
+
+### Fixed (2026-06-09) — 주인공 초상화 상태 로직
+- 33세 시작이라는 이유만으로 `main_character_30s`가 초반부터 표시되던 조건을 수정.
+- `main_character_30s`는 아파트/강남 주거 또는 총자산 1억 이상 같은 중후반 상승 상태에서만 표시.
+
+### Added (2026-06-09) — 에셋 생성 파이프라인
+- `tools/generate_assets.py` 추가: 44개 이미지 에셋 생성 프롬프트, `gpt-image-2` 기본 모델, `--model`/`--quality`/`--force`/`--dry-run`/`--limit` 옵션 지원.
+- 기존 전체 에셋 편차 분석 후 완전 애니/한국 만화풍 VN 기준 `STYLE_SUMMARY`를 모든 이미지 프롬프트 앞에 자동 접두.
+- 기존 파일은 기본 스킵하고, API 실패 시 경고 후 다음 에셋으로 진행하며, 완료 시 `assets/ASSET_INDEX.md`에 generated/skipped/failed 체크리스트를 기록.
+- `openai` SDK가 없으면 `requests` 전송으로 자동 fallback.
+
+### Changed (2026-06-09) — 주인공 애니풍 포트레이트
+- `main_character_neutral_goshiwon`, `main_character_tired`, `main_character_determined`, `main_character_happy`, `main_character_shocked`, `main_character_30s`, `main_character_50s`를 완전 애니/한국 만화풍 VN 스타일로 교체.
+
+### Changed (2026-06-09) — NPC/신규 배경 애니풍 에셋
+- NPC 5종(`npc_romantic_interest`, `npc_boss`, `npc_close_friend`, `npc_mentor`, `npc_tip_seller`)을 완전 애니/한국 만화풍 VN 스타일로 교체/추가.
+- 신규 배경 6종(`racetrack_betting_hall`, `racetrack_track_view`, `holdem_club_interior`, `scalping_trading_room`, `aruba_delivery_street`, `gangnam_station_exit`)을 1280×800 애니 배경 미술 스타일로 추가.
+
 ### Removed (2026-06-01) — 트레이트(특성) 시스템 완전 제거
 - 드라마 피벗으로 StartMenu 트레이트 선택이 사라진 뒤 모든 트레이트 패시브가 죽은 코드였음 → 전면 제거.
 - `current_trait` 변수, `_apply_trait_bonus()`, `MetaProgression`의 트레이트 해금/보너스 로직, `content/meta/traits.json` 삭제.
@@ -154,4 +180,3 @@
 ### Documentation
 - Repository structure standardized for project-specific development.
 - `docs/` 문서 구조 추가.
-

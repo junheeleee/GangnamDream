@@ -1,5 +1,48 @@
 # Gangnam Dream Work Log
 
+## 2026-06-09 (에셋 생성 파이프라인 준비)
+
+### 스타일 분석
+- 기존 배경 3종(`goshiwon_room`, `gangnam_night_street`, `convenience_store_night`)과 이후 전체 이미지 세트(배경/캐릭터/키아트/로고)를 기준으로 공통 스타일 편차 확인.
+- 기존 에셋은 여러 세대가 섞여 있어 “있는 그림체를 그대로 추종”하기보다 새 기준으로 통일하는 편이 낫다고 판단.
+- 최종 기준: 완전 애니/한국 만화풍 비주얼노벨 아트. 배경은 애니 배경 미술, 캐릭터는 serious manhwa/VN 포트레이트. 실사/DSLR/피부 모공/카메라 보케 금지.
+
+### 도구 추가
+- `tools/generate_assets.py` 신규 추가.
+- 기본 이미지 모델: `gpt-image-2` (`--model`로 변경 가능).
+- 총 44개 에셋 프롬프트 내장: 주인공/NPC 초상화, 신규/기존 배경, 미니게임 UI, Steam 키아트.
+- `STYLE_SUMMARY` → `Master Style Guide` → 카테고리별 규칙(캐릭터/배경) → 개별 프롬프트 순서로 모든 프롬프트 구성.
+- `--force` 없으면 기존 파일 스킵, API/IO 에러는 경고 후 다음 이미지 계속 진행, 완료 시 `assets/ASSET_INDEX.md` 생성 체크리스트 갱신.
+- `openai` SDK가 있으면 SDK를 사용하고, 없으면 `requests` 기반 Images API 호출로 fallback.
+
+### 검증/상태
+- `python3 -m py_compile tools/generate_assets.py` 통과.
+- `python3 tools/generate_assets.py --dry-run`으로 44개 작업 목록 확인.
+- Codex 내장 이미지 생성으로 애니풍 주인공/고시원 샘플 생성 후 `/tmp/gangnamdream_style_samples/anime_style_pair.png`에 비교 시트 저장.
+- 주인공 포트레이트 7종을 애니풍으로 생성해 `assets/characters/main_character_*.png`에 512×768 저장.
+- `/tmp/gangnamdream_style_samples/main_character_7_anime_sheet.png`로 7종 시트 검수 완료.
+- NPC 포트레이트 5종(`npc_romantic_interest`, `npc_boss`, `npc_close_friend`, `npc_mentor`, `npc_tip_seller`)을 애니풍으로 생성해 512×768 저장.
+- 신규 배경 6종(`racetrack_betting_hall`, `racetrack_track_view`, `holdem_club_interior`, `scalping_trading_room`, `aruba_delivery_street`, `gangnam_station_exit`)을 애니풍으로 생성해 1280×800 저장.
+- `/tmp/gangnamdream_style_samples/npc_5_anime_sheet.png`, `/tmp/gangnamdream_style_samples/new_backgrounds_6_anime_sheet.png`로 묶음 검수 완료.
+- 스크립트 기반 실제 실행은 현재 환경에 `OPENAI_API_KEY`가 없어 중단됨. 대량 일괄 생성은 미실행.
+
+### 게임 전체 에셋 재감사 및 실사용 보강
+- 유저 피드백에 따라 카드/칩 UI 에셋을 재검토. 현재 `HoldemClub.gd`는 카드/칩을 코드로 직접 그리므로 `assets/ui/card_back.png`, `assets/ui/poker_chip_icon.png`는 실사용 에셋이 아님. 실제 홀덤 카드/칩으로 재작업하거나 코드 연결 전까지 보류.
+- 주인공 초상화 로직 수정: 시작 나이 33세라는 이유만으로 `main_character_30s`가 초반부터 뜨지 않도록, 아파트/강남 주거 또는 총자산 1억 이상일 때만 중후반 상승 컷 사용.
+- 주요 조연 독립 포트레이트 6종 추가: `npc_father`, `npc_mother`, `npc_jaehyuk`, `npc_team_lead`, `npc_goshiwon_owner`, `npc_seongjun`.
+- `ImageRegistry` alias 정리: 부모님/재혁/팀장/고시원 원장/성준을 기존 범용 NPC 이미지에서 독립 파일로 연결.
+- 실제 JSON 콘텐츠가 직접 참조하는 CG 3종(`ending_father`, `jaehyuk_reveal`, `jiyeon_crash`)을 1280×800 애니풍으로 추가.
+- 인게임 스플래시에서 실제 사용되는 `assets/keyart/gangnam_dream_keyart_rooftop.png`를 새 애니풍 rooftop-to-Gangnam 키아트로 교체.
+- `main_character_happy` 교정: 폰 화면을 관객에게 보이는 부자연스러운 포즈와 40대처럼 보이는 인상을 제거하고, 33세 김민준에 가까운 자연스러운 고시원 미소 컷으로 교체.
+- `jiyeon_crash` 교정: 자전거 두 바퀴가 명확히 보이고, 한지연이 좌핸들 외제 고급 세단(벤츠/포르쉐급)의 앞 운전석에서 내리는 구도로 교체.
+
+### 에셋 QA
+- `/tmp/gangnamdream_asset_qa_characters.png`, `/tmp/gangnamdream_asset_qa_backgrounds.png`, `/tmp/gangnamdream_asset_qa_cg_key_ui.png` 검수 시트 생성.
+- `docs/ASSET_QA.md` 추가: 통과/재검토/보류/미사용 PNG 후보 목록 정리.
+- `ImageRegistry` 누락 파일 0개 확인.
+- QA 결론: 추가 대량 생성보다 실제 UI 크롭 검수 후 개별 실패 에셋만 재생성하는 단계로 전환.
+- `assets/ui/card_back.png`, `assets/ui/poker_chip_icon.png` 교체: 기존 판타지/메달 느낌을 제거하고 실제 홀덤용 카드 백(256×358)과 투명 포커 칩 아이콘(128×128)으로 재작성. 아직 `HoldemClub.gd`에는 미연결.
+
 ## 2026-06-08 (선택지 밸런스 전수 감사 + 수정)
 
 ### 190개 이벤트 / 578개 선택지 밸런스 전수 점검

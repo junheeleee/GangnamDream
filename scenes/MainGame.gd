@@ -3832,8 +3832,11 @@ func _get_portrait_path() -> String:
 	# 50대 이상
 	if GameState.age >= 50:
 		return PORTRAIT_50S
-	# 30대 이상, 안정적
-	if GameState.age >= 30 and GameState.stress < 55:
+	# 중후반 상승 상태 — 초반 33세 고시원 시작 컷과 분리
+	var total_asset: float = float(GameState.get_total_asset_value())
+	if GameState.housing in ["apartment", "gangnam"] and GameState.stress < 60:
+		return PORTRAIT_30S
+	if total_asset >= 100_000_000.0 and GameState.stress < 60:
 		return PORTRAIT_30S
 	# 직장 있고 안정적 — 결의
 	if not GameState.current_job.is_empty() and GameState.stress < 45 and GameState.health >= 60:
