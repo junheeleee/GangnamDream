@@ -33,6 +33,7 @@ var _pending_follow_up: String = ""
 var _bg_img: TextureRect
 var _bg_dim: ColorRect
 var _portrait: TextureRect
+var _portrait_frame: PanelContainer
 var _name_panel: PanelContainer
 var _name_tag: Label
 var _title_lbl: Label
@@ -92,18 +93,34 @@ func _build_ui():
 	click_catcher.pressed.connect(_on_advance)
 	add_child(click_catcher)
 
-	# 4. 인물 초상화 — 우측, 세로로 크게 (비주얼노벨 표준)
+	# 4. 인물 초상화 — 우측 하단, 액자(프레임) 인셋. 세로 비율(초상화 1024x1792≈0.57)에 맞춤.
+	#    프레임으로 감싸 "장면 위에 떠 있는 사진"처럼 의도된 구분감을 준다.
+	_portrait_frame = PanelContainer.new()
+	_portrait_frame.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_portrait_frame.offset_left = -316   # 폭 268 (≈ 470 * 0.57, 초상화 비율)
+	_portrait_frame.offset_right = -48
+	_portrait_frame.offset_top = -726    # 높이 470
+	_portrait_frame.offset_bottom = -256
+	_portrait_frame.clip_contents = true
+	_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_portrait_frame.modulate = Color(1, 1, 1, 0)
+	_portrait_frame.visible = false
+	var frame_style := StyleBoxFlat.new()
+	frame_style.bg_color = Color(0.05, 0.06, 0.09, 0.92)   # 어두운 매트
+	frame_style.set_corner_radius_all(10)
+	frame_style.set_border_width_all(2)
+	frame_style.border_color = Color(0.85, 0.70, 0.36, 0.9)  # 따뜻한 골드 테두리
+	frame_style.shadow_color = Color(0, 0, 0, 0.55)
+	frame_style.shadow_size = 10
+	frame_style.set_content_margin_all(3)
+	_portrait_frame.add_theme_stylebox_override("panel", frame_style)
+	add_child(_portrait_frame)
+
 	_portrait = TextureRect.new()
-	_portrait.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_portrait.offset_left = -520
-	_portrait.offset_right = -40
-	_portrait.offset_top = -720
-	_portrait.offset_bottom = -260
-	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED  # 프레임 비율과 일치 → 빈틈 없이 채움
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_portrait.modulate = Color(1, 1, 1, 0)
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_portrait)
+	_portrait_frame.add_child(_portrait)
 
 	# 5. 이름표 — 텍스트 박스(상단 -250) 위에 완전히 올림
 	var name_panel = PanelContainer.new()
@@ -282,9 +299,10 @@ func _render_current():
 		if bp != "" and ResourceLoader.exists(bp):
 			_bg_img.texture = load(bp)
 
-	# 초상화 + 이름표
+	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid = str(_current.get("portrait", ""))
-	_show_portrait(pid)
+	var bg_only := bool(_current.get("bg_focus", false))
+	_show_portrait(pid, bg_only)
 
 	# 제목
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
@@ -301,22 +319,25 @@ func _render_current():
 	_para_index = 0
 	_start_typing(_paragraphs[0])
 
-func _show_portrait(portrait_id: String):
+func _show_portrait(portrait_id: String, bg_only: bool = false):
 	var info := {}
 	var path := ""
+	# bg_only 장면(배경이 주연)에선 초상화 id가 있어도 인물 정보만 쓰고 그림은 띄우지 않는다.
 	if portrait_id != "":
 		info = ImageRegistry.get_person_info(portrait_id)
-		path = ImageRegistry.get_portrait(portrait_id)
+		if not bg_only:
+			path = ImageRegistry.get_portrait(portrait_id)
 
-	# 초상화 이미지가 실제로 있을 때만 표시. 없으면(플레이스홀더 시기) 깔끔히 숨김.
+	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
 	if path != "" and ResourceLoader.exists(path):
 		_portrait.texture = load(path)
-		_portrait.modulate = Color(1, 1, 1, 0)
+		_portrait_frame.visible = true
+		_portrait_frame.modulate = Color(1, 1, 1, 0)
 		var tw = create_tween()
-		tw.tween_property(_portrait, "modulate", Color(1, 1, 1, 1), 0.4)
+		tw.tween_property(_portrait_frame, "modulate", Color(1, 1, 1, 1), 0.4)
 	else:
 		_portrait.texture = null
-		_portrait.modulate = Color(1, 1, 1, 0)
+		_portrait_frame.visible = false
 
 	# 이름표 — 인물 정보가 있으면 표시 (이미지 없어도 누구 대사인지 알려줌)
 	if not info.is_empty() and str(info.get("name", "")) != "":
