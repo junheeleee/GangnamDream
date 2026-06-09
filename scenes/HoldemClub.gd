@@ -7,7 +7,6 @@ signal closed
 
 const TH := preload("res://systems/TexasHoldem.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
-const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
 
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000
@@ -209,7 +208,7 @@ func _render_table() -> void:
 	var hdr := RichTextLabel.new()
 	hdr.bbcode_enabled = true
 	var phase_names := ["설정", "프리플랍", "플랍", "턴", "리버", "쇼다운", "결과"]
-	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]   [img=16]res://assets/ui/poker_chip_icon.png[/img] [color=#5b9cf6]팟 %s[/color]" % [phase_names[_phase], _fmt(_pot)]
+	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]   [color=#5b9cf6]팟 %s[/color]" % [phase_names[_phase], _fmt(_pot)]
 	hdr.fit_content = true
 	hdr.scroll_active = false
 	_f(hdr, true)

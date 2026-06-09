@@ -48,8 +48,8 @@ Current core image set is usable for an anime / Korean manhwa VN build, but it s
 - `assets/ui/card_back.png` (256x358, RGBA, rounded transparent corners)
   - Wired into `HoldemClub._card_back()` as a `TextureRect` (KEEP_ASPECT_CENTERED). Procedural panel kept as fallback if texture is null.
 
-- `assets/ui/poker_chip_icon.png` (128x128, RGBA, transparent bg)
-  - Wired into HoldemClub header via BBCode `[img=16]` next to the pot amount.
+- `assets/ui/poker_chip_icon.png` (128x128, RGBA, transparent bg) — REVERTED, needs regen
+  - Was briefly wired into the HoldemClub header, but the source art is defective: the center club (♣) emblem is off-center (shifted down-left) relative to the chip rings. Can't be fixed by cropping. Removed from the UI until a chip with a centered emblem is regenerated.
 
 - `assets/ui/horse_silhouette.png` (1024x128, RGBA, 8 transparent black gallop frames)
   - Wired into `RaceTrack._draw_track()` via `draw_texture_rect_region`. Per-lane frame offset animates the gallop; a lane-colored saddle dot preserves horse identity (silhouettes are pure black, so `modulate` tint is impossible). Procedural color circle kept as fallback.
