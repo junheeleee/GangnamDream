@@ -43,18 +43,17 @@ Current core image set is usable for an anime / Korean manhwa VN build, but it s
   - Latest version fixes the major issues: two bicycle wheels, wealthy imported car, front driver-side exit, visible steering wheel.
   - Keep this one unless an in-game crop makes the driver-side detail ambiguous.
 
-## Draft / Hold
+## Wired (2026-06-10)
 
-- `assets/ui/card_back.png`
-  - Not wired into `HoldemClub.gd`.
-  - Replaced with a practical 256x358 poker card back. Keep on hold until HoldemClub uses image-backed cards.
+- `assets/ui/card_back.png` (256x358, RGBA, rounded transparent corners)
+  - Wired into `HoldemClub._card_back()` as a `TextureRect` (KEEP_ASPECT_CENTERED). Procedural panel kept as fallback if texture is null.
 
-- `assets/ui/poker_chip_icon.png`
-  - Not wired into `HoldemClub.gd`.
-  - Replaced with a practical 128x128 transparent poker chip icon. Keep on hold until HoldemClub uses image-backed chips.
+- `assets/ui/poker_chip_icon.png` (128x128, RGBA, transparent bg)
+  - Wired into HoldemClub header via BBCode `[img=16]` next to the pot amount.
 
-- `assets/ui/horse_silhouette.png`
-  - Not wired into `RaceTrack.gd`; RaceTrack currently draws horses procedurally.
+- `assets/ui/horse_silhouette.png` (1024x128, RGBA, 8 transparent black gallop frames)
+  - Wired into `RaceTrack._draw_track()` via `draw_texture_rect_region`. Per-lane frame offset animates the gallop; a lane-colored saddle dot preserves horse identity (silhouettes are pure black, so `modulate` tint is impossible). Procedural color circle kept as fallback.
+  - NOTE: frames are a run-cycle of one horse, not 8 distinct breeds. Fine for animation; regen if distinct-breed silhouettes are wanted.
 
 ## Unused PNG Candidates
 

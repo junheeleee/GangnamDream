@@ -20,6 +20,7 @@ const BET_DESC := [
 const PICK_BADGE := ["①", "②", "③"]
 const HR := preload("res://systems/HorseRace.gd")   # class_name 글로벌 캐시 의존 제거(콜드런 크래시 방지)
 const HW := preload("res://systems/HorseWorld.gd")  # 영속 명마 세계 + 정보상 팁
+const HORSE_TEX := preload("res://assets/ui/horse_silhouette.png")  # 질주 실루엣 8프레임(128px) 아틀라스
 
 var _phase: int = Phase.BETTING
 var _race: Dictionary = {}
@@ -495,8 +496,17 @@ func _draw_track() -> void:
 		var prog: float = clampf(_race_t / max(ft, 0.1), 0.0, 1.0)
 		var x: float = pad_l + (fin_x - pad_l) * prog
 		var col := Color(COLORS[i % COLORS.size()])
-		# 말 (캡슐 + 번호)
-		_track.draw_circle(Vector2(x, y), 9.0, col)
+		# 말: 질주 실루엣(레인별 프레임 오프셋으로 애니) + 레인색 새들 마커
+		#     텍스처 없으면 색 원으로 폴백
+		if HORSE_TEX != null:
+			var hsz: float = clampf(lane_h * 1.1, 20.0, 34.0)
+			var frame: int = (int(_race_t * 14.0) + i) % 8
+			var src := Rect2(float(frame) * 128.0, 0.0, 128.0, 128.0)
+			var dst := Rect2(x - hsz * 0.5, (y + lane_h * 0.45) - hsz, hsz, hsz)
+			_track.draw_texture_rect_region(HORSE_TEX, dst, src)
+			_track.draw_circle(Vector2(x, dst.position.y + hsz * 0.42), 4.0, col)
+		else:
+			_track.draw_circle(Vector2(x, y), 9.0, col)
 		var ppos: int = _picks.find(i)
 		if ppos >= 0:
 			_track.draw_arc(Vector2(x, y), 13.0, 0, TAU, 24, Color("#ffe14d"), 2.0)

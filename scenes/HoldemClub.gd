@@ -6,6 +6,8 @@ extends Control
 signal closed
 
 const TH := preload("res://systems/TexasHoldem.gd")
+const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
 
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000
@@ -207,7 +209,7 @@ func _render_table() -> void:
 	var hdr := RichTextLabel.new()
 	hdr.bbcode_enabled = true
 	var phase_names := ["설정", "프리플랍", "플랍", "턴", "리버", "쇼다운", "결과"]
-	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]   [color=#5b9cf6]팟 %s[/color]" % [phase_names[_phase], _fmt(_pot)]
+	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]   [img=16]res://assets/ui/poker_chip_icon.png[/img] [color=#5b9cf6]팟 %s[/color]" % [phase_names[_phase], _fmt(_pot)]
 	hdr.fit_content = true
 	hdr.scroll_active = false
 	_f(hdr, true)
@@ -703,6 +705,14 @@ func _card_label(card: Dictionary, highlight := false) -> Control:
 	return panel
 
 func _card_back() -> Control:
+	# 이미지 카드 뒷면 (로드 실패 시 절차적 패널로 폴백)
+	if CARD_BACK_TEX != null:
+		var tex := TextureRect.new()
+		tex.custom_minimum_size = Vector2(38, 52)
+		tex.texture = CARD_BACK_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		return tex
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(38, 52)
 	var st := StyleBoxFlat.new()
