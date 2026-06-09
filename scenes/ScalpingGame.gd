@@ -42,7 +42,7 @@ var _font_bold: FontFile
 func _ready() -> void:
 	_rng.randomize()
 	_load_fonts()
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # 오프셋까지 0 — 루트 0x0 collapse 방지
 	_build_ui()
 	visible = false
 	set_process(false)

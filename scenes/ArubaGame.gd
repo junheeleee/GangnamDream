@@ -144,7 +144,7 @@ var _waiting_feedback: bool = false
 
 func _ready() -> void:
 	_rng.randomize()
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # 오프셋까지 0 — 루트 0x0 collapse 방지
 	_build_ui()
 	visible = false
 	set_process(false)
