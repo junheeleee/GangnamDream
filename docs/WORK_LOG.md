@@ -1,5 +1,39 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (스팀 출시 준비 — 데스크톱 폴리시 + 빌드 파이프라인 검증)
+
+### DisplayManager autoload 신설
+- 전체화면 설정 영속화 (`user://gangnam_dream_display.json`, AudioManager 설정 파일과 분리해 키 덮어쓰기 충돌 방지)
+- F11 / Alt+Enter 전역 전체화면 토글 (`_input`에서 처리, 스플래시/시네마틱 키 디스미스와 충돌 없음)
+- 창 최소 크기 960×600 적용
+- 창 X 버튼 닫기 시 MainGame 진행 중(게임오버 아님)이면 자동저장
+- 웹 빌드(`OS.has_feature("web")`)에서는 전부 비활성
+
+### 설정 UI 보강
+- StartMenu ⚙️ 설정 모달 + MainGame ≡ 시스템 메뉴에 🖥️ 전체화면 CheckButton 추가 (F11/Alt+Enter 힌트 표기, 웹에선 숨김)
+- MainGame `_unhandled_input`: ESC → 시스템 메뉴 열기 / 시스템 메뉴 닫기. 이벤트·결산 모달은 ESC 비대상 (흐름 보호 — DECISIONS.md 참고)
+
+### 빌드 파이프라인 완성
+- `export_presets.cfg` 생성 + 커밋 (기존엔 gitignore 상태라 `build.sh`가 참조하는 프리셋이 아예 없어 빌드 불가였음)
+  - Windows Desktop: x86_64, embed_pck(단일 exe), modify_resources=false(rcedit 불필요)
+  - macOS: universal, ad-hoc 서명, 번들 ID `dev.junheelee.gangnamdream`
+  - Web: nothreads, canvas resize policy=adaptive
+  - 공통 exclude: `tools/*, docs/*, build/*`
+- `tools/build.sh`: `GODOT=경로` 환경변수 지원 + Linux 템플릿 경로(`~/.local/share/godot`) 지원 + windows 사용법 추가
+
+### 헤드리스 QA (Godot 4.6.2 Linux, 원격 환경에서 실제 실행)
+- `GODOT=… ./tools/audit.sh` 전체 통과 — 컴파일 체크 38개 스크립트 깨끗 (신규 DisplayManager 포함)
+- `tools/SimRun.tscn` 12,000런: 데드락 0 / 크래시 0 / 승리 도달률 1.3~3.6% (밸런스 의도 범위)
+- `tools/SmokeRace.tscn` 전체 통과 (단승/삼쌍승/연승/복승/정보상/전적)
+- Windows export 실제 성공 → `GangnamDream.exe` 196MB 단일 파일
+- Web export 실제 성공 → index.html/wasm/pck 정상 생성
+- `./tools/build.sh windows` 엔드투엔드 검증 완료
+
+### 남은 일 (로컬 필요)
+- 로컬에서 인게임 화면 크롭·톤 검수 (Start/Splash/MainGame/Story CG/Holdem/RaceTrack)
+- Windows exe 실제 실행 테스트 (헤드리스 환경에선 GUI 실행 불가)
+- macOS export는 로컬 macOS에서 검증 권장 (서명/공증 경로)
+
 ## 2026-06-09 (에셋 생성 파이프라인 준비)
 
 ### 스타일 분석

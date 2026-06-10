@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Added (2026-06-10) — 스팀 출시 준비: 데스크톱 폴리시 + 빌드 파이프라인
+- `DisplayManager` autoload 신설: 전체화면 설정 영속화(`user://gangnam_dream_display.json`), F11/Alt+Enter 전역 토글, 창 최소 크기 960×600, 창 X 버튼으로 닫을 때 진행 중 런 자동저장. 웹 빌드에서는 비활성(브라우저 충돌 방지).
+- StartMenu ⚙️ 설정과 MainGame ≡ 시스템 메뉴에 🖥️ 전체화면 토글 추가 (단축키 힌트 표시).
+- MainGame ESC 키 동선: 평소엔 시스템 메뉴 열기, 시스템 메뉴가 열려 있으면 닫기. 이벤트/결산 모달은 흐름 보호를 위해 ESC 비대상.
+- `export_presets.cfg` 저장소에 추가 (Windows x86_64 단일 exe[pck 임베드]/macOS universal/Web). `.gitignore`에서 제외 해제 — 서명 키 등 비밀정보 없음.
+- `tools/build.sh`: `GODOT=경로` 환경변수 지원(audit.sh와 동일), Linux 템플릿 경로 지원, windows 사용법 문구 추가.
+
+### Verified (2026-06-10) — 헤드리스 QA (Godot 4.6.2)
+- 전체 스크립트 컴파일 체크 38개 깨끗 (DisplayManager 포함).
+- SimRun 60턴 경제 시뮬 12,000런: 데드락 0, 크래시 0, 승리(30억) 도달률 정책별 1.3~3.6%.
+- SmokeRace 경마 런타임 스모크 전체 통과.
+- Windows exe(196MB)·Web 빌드 실제 export 성공 — `./tools/build.sh windows` 엔드투엔드 검증 완료.
+
 ### Added (2026-06-09) — 핵심 인물/CG/스플래시 보강
 - 주요 조연 독립 포트레이트 6종 추가: `npc_father`, `npc_mother`, `npc_jaehyuk`, `npc_team_lead`, `npc_goshiwon_owner`, `npc_seongjun`.
 - 실제 콘텐츠에서 참조하는 스토리 CG 3종 추가: `ending_father`, `jaehyuk_reveal`, `jiyeon_crash`.

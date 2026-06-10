@@ -739,6 +739,29 @@ func _build_volume_sliders_menu(parent: Control):
 
 	_make_row.call("🎵 BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
 	_make_row.call("🔊 SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
+	_build_fullscreen_toggle(parent)
+
+func _build_fullscreen_toggle(parent: Control):
+	if OS.has_feature("web"):
+		return
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	parent.add_child(row)
+	var lbl = Label.new()
+	lbl.text = "🖥️ 전체화면"
+	lbl.add_theme_font_size_override("font_size", 13)
+	lbl.add_theme_color_override("font_color", Color("#8892a4"))
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(lbl)
+	var hint = Label.new()
+	hint.text = "F11 / Alt+Enter"
+	hint.add_theme_font_size_override("font_size", 11)
+	hint.add_theme_color_override("font_color", Color("#5a6075"))
+	row.add_child(hint)
+	var toggle = CheckButton.new()
+	toggle.button_pressed = DisplayManager.fullscreen
+	toggle.toggled.connect(func(on): DisplayManager.set_fullscreen(on))
+	row.add_child(toggle)
 
 func _format_money(amount) -> String:
 	if abs(amount) >= 100_000_000:

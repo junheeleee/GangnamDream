@@ -3,7 +3,8 @@
 ## 사용법:
 ##   ./tools/build.sh web      → build/web/index.html
 ##   ./tools/build.sh macos    → build/macos/GangnamDream.zip
-##   ./tools/build.sh all      → 둘 다
+##   ./tools/build.sh windows  → build/windows/GangnamDream.exe (Steam용)
+##   ./tools/build.sh all      → 전부
 ##
 ## 전제조건:
 ##   Godot.app이 ~/Downloads/Godot.app 또는 /Applications/Godot.app에 있어야 함
@@ -13,19 +14,23 @@
 
 set -e
 
-GODOT_PATHS=(
-  "$HOME/Downloads/Godot.app/Contents/MacOS/Godot"
-  "/Applications/Godot.app/Contents/MacOS/Godot"
-  "/Applications/Godot_4.app/Contents/MacOS/Godot"
-)
-GODOT=""
-for p in "${GODOT_PATHS[@]}"; do
-  if [[ -x "$p" ]]; then GODOT="$p"; break; fi
-done
-
+# GODOT=경로 환경변수가 있으면 우선 사용 (audit.sh와 동일)
+GODOT="${GODOT:-}"
 if [[ -z "$GODOT" ]]; then
+  GODOT_PATHS=(
+    "$HOME/Downloads/Godot.app/Contents/MacOS/Godot"
+    "/Applications/Godot.app/Contents/MacOS/Godot"
+    "/Applications/Godot_4.app/Contents/MacOS/Godot"
+  )
+  for p in "${GODOT_PATHS[@]}"; do
+    if [[ -x "$p" ]]; then GODOT="$p"; break; fi
+  done
+fi
+
+if [[ -z "$GODOT" || ! -x "$GODOT" ]]; then
   echo "❌ Godot 바이너리를 찾지 못했습니다."
-  echo "   ~/Downloads/Godot.app 또는 /Applications/Godot.app에 설치하세요."
+  echo "   ~/Downloads/Godot.app 또는 /Applications/Godot.app에 설치하거나"
+  echo "   GODOT=/경로/Godot ./tools/build.sh 로 지정하세요."
   exit 1
 fi
 
@@ -33,8 +38,11 @@ PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 echo "📂 프로젝트: $PROJECT_DIR"
 echo "🔧 Godot:    $GODOT ($("$GODOT" --version 2>&1 | head -1))"
 
-# 템플릿 확인
+# 템플릿 확인 (macOS / Linux 경로 모두 지원)
 TEMPLATES_DIR="$HOME/Library/Application Support/Godot/export_templates"
+if [[ ! -d "$TEMPLATES_DIR" ]]; then
+  TEMPLATES_DIR="$HOME/.local/share/godot/export_templates"
+fi
 if [[ -z "$(ls "$TEMPLATES_DIR" 2>/dev/null)" ]]; then
   echo ""
   echo "⚠️  Export Templates가 설치되지 않았습니다."

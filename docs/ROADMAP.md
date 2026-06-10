@@ -141,7 +141,8 @@
   - [ ] 경마 UI 이미지는 실제 코드 연결 여부 결정 후 재작업
 - [ ] QA 체크리스트 완료
 - [ ] 저장 호환성 검증
-- [ ] 빌드/배포 설정
+- [x] 빌드/배포 설정 (2026-06-10) — export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수·Linux 지원, Windows/Web export 실제 검증
+- [x] 데스크톱 폴리시 (2026-06-10) — DisplayManager(전체화면 영속화 + F11/Alt+Enter + 창 닫기 자동저장), 설정 UI 전체화면 토글, ESC 시스템 메뉴
 
 ---
 

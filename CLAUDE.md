@@ -8,10 +8,10 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **에셋 통합 + 인게임 QA** — 웹툰체 이미지 전수 생성 완료, 화면 검수·UI 연결 단계 |
-| **최근 완료** | **웹툰체 에셋 전수 생성**(주인공 7종·NPC 다수·배경·CG 3종·키아트) + ImageRegistry NPC 전용 포트레이트 분리 + 주인공 표시 로직 개선(자산/주거 조건). 선택지 밸런스 전수 감사(95개 수정) + military_040 효과 재설계. StartMenu 프로필 제거 |
-| **다음 작업** | **인게임 에셋 QA (로컬 Godot 실행 필요)** — Start/Splash/MainGame/Story CG/Holdem/RaceTrack 화면 크롭·톤 검수. UI 에셋(카드뒷면·칩·말 실루엣) 연결·미사용 PNG 8종 정리는 완료. 빌드: `./tools/build.sh windows` |
-| **마지막 업데이트** | 2026-06-10 (UI 에셋 미니게임 연결 + PNG 정리 완료) |
+| **단계** | **스팀 출시 준비** — 빌드 파이프라인 완성·데스크톱 폴리시 완료, 인게임 화면 검수 단계 |
+| **최근 완료** | **스팀 데스크톱 폴리시**: DisplayManager(전체화면 영속화+F11/Alt+Enter+창닫기 자동저장), 설정 UI 전체화면 토글, ESC 시스템 메뉴. **빌드 파이프라인**: export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수 지원. 헤드리스 QA 전수 통과(컴파일 38개·SimRun 12,000런·SmokeRace·Windows/Web export 실검증) |
+| **다음 작업** | **인게임 에셋 QA (로컬 Godot 실행 필요)** — Start/Splash/MainGame/Story CG/Holdem/RaceTrack 화면 크롭·톤 검수 + Windows exe 실행 테스트 + 저장 호환성 검증. 빌드: `./tools/build.sh windows` (또는 `GODOT=경로` 지정) |
+| **마지막 업데이트** | 2026-06-10 (스팀 출시 준비 — 데스크톱 폴리시 + 빌드 파이프라인) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

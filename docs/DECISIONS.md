@@ -1,5 +1,13 @@
 # Gangnam Dream Decisions
 
+## 2026-06-10 (스팀 출시 데스크톱 폴리시)
+
+- **export_presets.cfg 커밋**: 원래 `.gitignore` 대상이었으나, 이 프로젝트의 프리셋에는 서명 키/비밀정보가 전혀 없고 빌드 재현성(어느 머신에서나 `build.sh` 한 줄로 빌드)이 더 중요하므로 저장소에 커밋한다. 향후 코드사인 키를 넣게 되면 그때 분리한다.
+- **Windows 단일 exe (embed_pck=true)**: Steam 업로드와 배포 단순화를 위해 pck를 exe에 임베드한다. `application/modify_resources=false`로 rcedit 의존성을 제거해 어느 환경에서나 export 가능하게 한다.
+- **ESC는 시스템 메뉴 전용**: ESC가 모든 모달을 닫게 하면 이벤트 선택/월 결산 흐름이 의도치 않게 스킵될 수 있다(`_close_modal()`이 `_begin_month()` 등 사이드이펙트 보유). 따라서 ESC는 시스템 메뉴 열기/닫기에만 반응하고, 콘텐츠 모달은 명시적 버튼으로만 닫는다.
+- **전체화면 설정 별도 파일**: `AudioManager`가 `gangnam_dream_settings.json`을 통째로 덮어쓰므로, 키 충돌(서로 키 누락 덮어쓰기)을 피해 디스플레이 설정은 `gangnam_dream_display.json`로 분리한다.
+- **웹 빌드에서 전체화면 비활성**: 브라우저가 F11과 전체화면을 자체 관리하므로 웹 feature 감지 시 DisplayManager 입력 처리와 토글 UI를 모두 끈다.
+
 ## 2026-06-09 (이미지 생성 모델/프롬프트 파이프라인)
 
 - **기본 이미지 모델**: 유저 지시에 따라 `tools/generate_assets.py`의 기본 모델을 `gpt-image-2`로 설정한다. 공식 문서에서 확인 가능한 모델명과 실제 계정 노출 모델명이 다를 수 있으므로 `--model` 옵션으로 `gpt-image-1.5`, `dall-e-3` 등으로 즉시 전환 가능하게 했다.

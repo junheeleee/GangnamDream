@@ -36,6 +36,7 @@ SaveManager="*res://autoloads/SaveManager.gd"
 AudioManager="*res://autoloads/AudioManager.gd"
 BGMPlayer="*res://autoloads/BGMPlayer.gd"
 SceneTransition="*res://autoloads/SceneTransition.gd"
+DisplayManager="*res://autoloads/DisplayManager.gd"
 EndingSystem="*res://systems/EndingSystem.gd"
 
 [display]

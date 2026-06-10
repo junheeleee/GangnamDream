@@ -3059,6 +3059,7 @@ func _open_system_menu():
 	_open_modal("≡ 시스템")
 
 	_build_volume_sliders(modal_body)
+	_build_fullscreen_toggle(modal_body)
 
 	var sep = HSeparator.new()
 	sep.modulate = Color("#2a2a3a")
@@ -3110,6 +3111,42 @@ func _build_volume_sliders(parent: Control):
 
 	_make_row.call("🎵 BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
 	_make_row.call("🔊 SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
+
+func _build_fullscreen_toggle(parent: Control):
+	if OS.has_feature("web"):
+		return
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	parent.add_child(row)
+	var lbl = Label.new()
+	lbl.text = "🖥️ 전체화면"
+	lbl.add_theme_font_size_override("font_size", 13)
+	lbl.add_theme_color_override("font_color", Color("#8892a4"))
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(lbl)
+	var hint = Label.new()
+	hint.text = "F11 / Alt+Enter"
+	hint.add_theme_font_size_override("font_size", 11)
+	hint.add_theme_color_override("font_color", Color("#5a6075"))
+	row.add_child(hint)
+	var toggle = CheckButton.new()
+	toggle.button_pressed = DisplayManager.fullscreen
+	toggle.toggled.connect(func(on): DisplayManager.set_fullscreen(on))
+	row.add_child(toggle)
+
+func _unhandled_input(event):
+	if not event.is_action_pressed("ui_cancel"):
+		return
+	if GameState.is_game_over:
+		return
+	if modal_layer and modal_layer.visible:
+		# 시스템 메뉴만 ESC로 닫는다 — 이벤트/결산 모달은 흐름 보호를 위해 버튼으로만
+		if modal_title_label and modal_title_label.text == "≡ 시스템":
+			_close_modal()
+			get_viewport().set_input_as_handled()
+		return
+	_open_system_menu()
+	get_viewport().set_input_as_handled()
 
 func _go_to_menu():
 	SaveManager.autosave()
