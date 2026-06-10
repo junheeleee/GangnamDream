@@ -3,7 +3,7 @@ extends Node
 signal save_completed(success: bool, slot: int)
 signal load_completed(success: bool, slot: int)
 
-const SAVE_VERSION = 2
+const SAVE_VERSION = 3
 const SLOT_COUNT = 3
 const AUTOSAVE_SLOT = 0
 

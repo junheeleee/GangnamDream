@@ -1038,6 +1038,8 @@ func serialize():
 		"price_history": price_history,
 		"market_context": market_context,
 		"run_theme_categories": run_theme_categories,
+		"run_theme": run_theme,
+		"unlocked_stat_thresholds": unlocked_stat_thresholds,
 	}
 
 func load_from_dict(data):
@@ -1064,4 +1066,16 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — tendency 없으면 기본값
 	if typeof(tendency) != TYPE_DICTIONARY or tendency.is_empty():
 		tendency = {"career": 0, "invest": 0, "found": 0}
+	# 구버전 세이브 호환 — run_theme 없으면 run_theme_categories로 역추론
+	if run_theme == "자유런" and not run_theme_categories.is_empty():
+		var cat_str = ",".join(run_theme_categories)
+		if "investment" in cat_str and "finance" in cat_str:
+			run_theme = "투자런"
+		elif "social" in cat_str and "relationship" in cat_str:
+			run_theme = "인맥런"
+		elif "jobs" in cat_str and "health" in cat_str:
+			run_theme = "성실런"
+	# 구버전 세이브 호환 — unlocked_stat_thresholds 없으면 빈 딕셔너리 유지 (기본값)
+	if typeof(unlocked_stat_thresholds) != TYPE_DICTIONARY:
+		unlocked_stat_thresholds = {}
 	stats_changed.emit()
