@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (Steam Deck 컨트롤러 지원 — Verified 대응)
+
+### 구현 내용
+- **project.godot**: `gd_tab_next`(RB = button 5) / `gd_tab_prev`(LB = button 4) 입력 액션 추가
+- **ControllerHints**: `shoulder_l()` / `r3()` 메서드 추가; LB 레이블 컬럼 추가;
+  패드 조작 시 마우스 커서 자동 숨김 (joypad 이벤트 → MOUSE_MODE_HIDDEN, 마우스 이동 → 복원)
+- **StoryMode** (가장 중요):
+  - `_unhandled_input` 추가 — A버튼으로 텍스트 진행, B버튼 실수 방지 흡수
+  - 선택지 표시 시 첫 버튼 `grab_focus()` → 패드로 즉시 D패드/스틱 탐색 + A 선택
+  - 포커스 스타일박스 시각적 구분 (파란 왼쪽 테두리 4px + 밝은 배경)
+  - `_continue_hint` 텍스트 동적 반영 — 패드 연결 시 "[A] 또는 클릭"
+  - 튜토리얼 팝업 패드 버튼으로 닫기 지원
+- **MainGame**: `gd_tab_next/prev` 탭 순환 처리; 패드 힌트 R3/LB/RB로 수정
+
+### Steam Deck Verified 체크리스트 업데이트
+- ✅ Input (컨트롤러 전용 플레이 가능): StoryMode A버튼 진행 + 선택지 D패드 탐색, 메인게임 탭 LB/RB
+- ✅ Display (1280×800, 9px+): 기존 구현 유지
+- ✅ Seamlessness (커서 자동 숨김): ControllerHints._input 구현
+- ⬜ System Support (Linux 빌드): 로컬 Godot 필요
+
+---
+
 ## 2026-06-10 (QA 전 전체 게임 분석 + 발견 사항 수정)
 
 ### 분석 범위
