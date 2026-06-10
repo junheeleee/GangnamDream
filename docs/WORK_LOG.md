@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (QA 패스 6차 — 엔딩·세이브·아크 결과 수정)
+
+### 세이브 호환성 버그 2건
+- run_theme 직렬화 누락 → 로드 후 런 테마 UI 오표시
+- unlocked_stat_thresholds 누락 → 스탯 알림 중복 발생
+- 구버전 세이브 역추론 로직(run_theme_categories → run_theme), SaveManager 버전 2→3
+
+### 미사용 엔딩 9종 활성화 (check_game_over)
+- lonely_rich, creator_success, reputation_legend, orthodox_pinnacle, unorthodox_legend
+- early_retirement, investment_master, balanced_life, orthodox_hollow
+
+### 아크 베팅 결과 내러티브 4종 (arc_events.json + _next_arc_id)
+- sangchul 기회 이벤트에 win_flag/lose_flag 추가
+- arc_opp_sangchul_win/lose, arc_opp_jiyeon_win/lose 이벤트 작성
+- 베팅 결과(win/lose)에 따른 인물 관계·루트 분기
+
 ## 2026-06-10 (난이도 조정 5차 — 30억 달성률 목표 5~8%)
 
 ### 투자 수익 개선

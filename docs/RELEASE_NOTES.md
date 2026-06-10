@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Fixed (2026-06-10) — QA 패스
+- **세이브 버그**: `run_theme` / `unlocked_stat_thresholds` 직렬화 누락 수정, SaveManager v3
+- **미사용 엔딩 9종 활성화**: `lonely_rich`, `creator_success`, `reputation_legend`, `orthodox_pinnacle`, `unorthodox_legend`, `early_retirement`, `investment_master`, `balanced_life`, `orthodox_hollow`
+- **아크 베팅 결과 내러티브**: 임상철·한지연 기회 이벤트 win/lose 후속 이벤트 4종 연결
+
 ### Balancing (2026-06-10) — 난이도 조정
 - **투자 드리프트**: 월 0.35% → 0.6%(연 7.2% 기대수익), 크래시 피해 축소
 - **arc 기회 이벤트 버프**: 임상철 부동산(성공률 +10%p, 배수 1.6→2.8), 한지연 분양권(+10%p, 배수 2.4→4.0)
