@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added (2026-06-10) — 인게임 폴리시 3종
+- **중간 저장/불러오기**: ≡ 시스템 메뉴에 슬롯 1–3 저장·불러오기 패널 추가. 슬롯별 저장 일시, 연도·월·총자산 표시.
+- **직업 승진 현황 UI**: 💼 일·커리어 탭에서 근속 ProgressBar, 업무 성과 60+ 게이트, 다음 직급 예시 표시. 최고 직급 달성 시 이직 안내로 대체.
+- **목표 달성 속도**: 상황판 마일스톤 힌트 하단에 "현재 수입만으로 N개월 필요" 추가. 잔여 시간과 비교해 투자 필요성 경고.
+
 ### Added (2026-06-10) — Steam Deck 대응
 - `export_presets.cfg`에 "Linux / Steam Deck" 프리셋 추가 (x86_64, embed_pck 단일 바이너리).
 - `tools/build.sh`에 `linux` 타겟 추가 (`./tools/build.sh linux` → `build/linux/GangnamDream.x86_64`, chmod+x 자동 처리).
