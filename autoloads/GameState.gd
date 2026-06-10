@@ -458,6 +458,9 @@ func apply_choice(event, choice):
 	# 선택지가 직접 성향 포인트를 줄 수도 있다: "tendency": {"invest": 2}
 	for tk in choice.get("tendency", {}):
 		add_tendency(str(tk), int(choice["tendency"][tk]))
+	# 선택지가 루트 포인트를 줄 수도 있다: "route": "orthodox" | "unorthodox"
+	if choice.has("route"):
+		add_route_point(str(choice["route"]))
 	# 선택지가 직접 직업을 줄 수도 있다: "grant_job": "job_01" (이미 직업이 있으면 무시)
 	if choice.has("grant_job") and current_job.is_empty():
 		var gj = DataRegistry.get_job(str(choice["grant_job"]))

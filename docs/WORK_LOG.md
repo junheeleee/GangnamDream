@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (UX 감사 기반 개선 1~3차 — 신규 유저 경험)
+
+### 4방향 감사 (병렬 에이전트)
+- 첫 30분 UX / 오디오·비주얼 커버리지 / 난이도·콘텐츠 볼륨 / NPC 생동감·개연성
+- 핵심 발견: 승률 1.3~3.6%(신규 좌절), 이벤트 77.7% 텍스트만(StoryMode 한정),
+  NPC 고정 대사, 무직 3턴 사망 나선, 미니게임 SFX 빈약
+
+### 1차 — 개연성·NPC·안전망
+- 개연성: drama_job_offer_dilemma(no_job), gangnam_coffee(max_money), arc_temptation_01(잔고 하드코딩 제거)
+- _contact_flavor() 신설: 연락하기 대사가 스토리 플래그(재혁 신고/동업/사기, 다은 분기, 아버지 화해, 상철 네트워크, 지연 진실)에 반응
+- GameState.apply_choice에 grant_job 지원 + arc_rescue_job(턴5+ 무직 안전망, 고시원 주인 소개)
+- 엔딩 상위 N% 표시(_ending_percentile_line) — 30억 실패를 정상으로 리프레이밍
+- 효과 플로팅 1.3→2.2초
+
+### 2차 — 비주얼·오디오
+- ImageRegistry.infer_background_id() + StoryMode 폴백 — 배경 잔존/공백 해소
+- 미니게임 SFX: 홀덤 쇼다운, 스캘핑 정산, 경마 출발, 알바 결과
+
+### 3차 — 콘텐츠 공백
+- 상철 일상 2종(sangchul_amb_call/lunch) — 아크 사이 생동감
+- 마지막 10턴 2종(final_stretch_check 50~54턴 / final_last_winter 56~59턴)
+- apply_choice에 choice "route" 키 지원 (선택지가 정석/비정석 포인트 적립)
+
+### 남은 항목 (우선순위)
+- 칭호 재설계(선택 경로 연동), 런테마 실효성, 영어 로컬라이제이션, 미니게임 전용 BGM(에셋 필요), CG 추가(에셋 필요)
+
 ## 2026-06-10 (인게임 폴리시 — 저장/불러오기, 승진 UI, 목표 속도)
 
 ### 중간 저장/불러오기 (시스템 메뉴)

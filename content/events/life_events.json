@@ -6228,5 +6228,209 @@
         "result_text": "다음 날 다시 보니, 아버지는 확인을 확인했다.\n답 없는 메시지 옆에 작은 '1'이 사라져 있었다."
       }
     ]
+  },
+  {
+    "id": "sangchul_amb_call",
+    "title": "임상철의 전화",
+    "description": "모르는 번호인 줄 알았는데 임상철이었다.\n\n'지나가다 네 생각 나서. 별일 없지?'\n\n용건은 없었다. 그냥 안부였다.\n끊기 전에 한 마디를 덧붙였다.\n\n'요즘 OO동 쪽 분위기가 심상치 않아. 참고만 해.'",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "cast_met": {
+        "sangchul": true
+      },
+      "min_turn": 12
+    },
+    "tags": [
+      "relationship",
+      "investment"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "그 동네 정보를 좀 더 캐묻는다",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 1
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "임상철은 웃으며 몇 가지를 더 알려줬다.\n'공부하는 자세가 좋네. 그게 제일 중요한 거야.'"
+      },
+      {
+        "text": "감사 인사만 하고 끊는다",
+        "effects": {
+          "mental": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 1
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이 도시에서 누군가 나를 떠올려준다는 것.\n그것만으로 묘하게 든든한 날이었다."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_amb_lunch",
+    "title": "국밥 한 그릇",
+    "description": "임상철이 점심을 사겠다고 했다.\n\n비싼 곳이 아니었다. 시장 골목 국밥집.\n\n'30년 동안 점심은 거의 여기서 먹었어. 부동산으로 번 돈하고 점심값은 별개야.'\n\n그가 국밥에 깍두기 국물을 부으며 말했다.\n'돈을 다루는 사람일수록, 돈에 잡아먹히면 안 돼.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "cast_met": {
+        "sangchul": true
+      },
+      "min_turn": 16
+    },
+    "tags": [
+      "relationship",
+      "life"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "그 말의 의미를 곱씹는다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2,
+          "stress": -3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "국밥 한 그릇이 어떤 강의보다 오래 남았다.\n돈을 좇되, 돈에 잡아먹히지 말 것."
+      },
+      {
+        "text": "'그래도 전 강남 가야겠어요'라고 웃으며 답한다",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 2
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "임상철이 껄껄 웃었다.\n'그래, 그 패기로 가는 거야. 대신 내 말 잊지 말고.'"
+      }
+    ]
+  },
+  {
+    "id": "final_stretch_check",
+    "title": "남은 시간",
+    "description": "달력을 봤다.\n\n38살까지, 이제 1년이 채 남지 않았다.\n\n5년 전 서울에 올라올 때의 자신이 떠올랐다.\n그때 상상한 지금과, 지금의 현실.\n\n남은 시간 동안 무엇을 할 것인가.\n아니, 무엇을 하지 않을 것인가.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 50,
+      "max_turn": 54
+    },
+    "tags": [
+      "life"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "끝까지 공격적으로 간다. 후회 없이",
+        "effects": {
+          "mental": 4,
+          "stress": 5,
+          "luck": 1,
+          "investment_skill": 2
+        },
+        "route": "unorthodox",
+        "flags": [
+          "final_sprint_aggressive"
+        ],
+        "follow_up_event": "",
+        "result_text": "마지막 1년. 어차피 여기까지 온 거, 끝을 보기로 했다.\n심장이 빠르게 뛰었다. 나쁘지 않은 느낌이었다."
+      },
+      {
+        "text": "지금 가진 것을 지키는 데 집중한다",
+        "effects": {
+          "mental": 5,
+          "stress": -5
+        },
+        "route": "orthodox",
+        "flags": [
+          "final_sprint_defensive"
+        ],
+        "follow_up_event": "",
+        "result_text": "잃지 않는 것도 전략이다.\n마지막 1년은 쌓아온 것들을 단단히 다지기로 했다."
+      },
+      {
+        "text": "강남이 전부가 아니라는 생각이 들기 시작했다",
+        "effects": {
+          "mental": 7,
+          "stress": -7
+        },
+        "flags": [
+          "final_sprint_reflective"
+        ],
+        "follow_up_event": "",
+        "result_text": "5년을 달려와서야 보이는 것들이 있다.\n결승선이 어디인지는, 어쩌면 내가 정하는 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "final_last_winter",
+    "title": "마지막 겨울",
+    "description": "이번 겨울이 끝나면, 5년이 끝난다.\n\n창밖에 눈이 내리고 있었다.\n첫 해 겨울, 고시원 창문에 성에가 꼈던 밤이 생각났다.\n그때의 나에게 지금의 나는 어떻게 보일까.\n\n폰이 울렸다. 아버지였다.\n'춥다. 옷 따뜻하게 입고 다녀라.'",
+    "category": "daily_life",
+    "rarity": "rare",
+    "weight": 5.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 56,
+      "max_turn": 59
+    },
+    "tags": [
+      "life",
+      "family"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "'네, 아버지도요.' 길게 통화한다",
+        "effects": {
+          "mental": 8,
+          "stress": -6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결과가 어떻게 나오든, 이 5년에 이 통화가 있었다는 게 다행이었다."
+      },
+      {
+        "text": "통화를 마치고 마지막 계획을 점검한다",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "노트에 적힌 숫자들을 하나씩 확인했다.\n마지막 겨울. 할 수 있는 것을 한다."
+      }
+    ]
   }
 ]
