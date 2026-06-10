@@ -1710,5 +1710,194 @@
         "result_text": "아버지가 한참 말이 없었다. 그러더니 말했다.\n\"그래. 말해줘서 고맙다.\n아버지는 여기 있다.\"\n\n{name}은 전화를 끊고 한참을 있었다.\n눈물이 왜 나는지 몰랐다. 아니, 알았다."
       }
     ]
+  },
+  {
+    "id": "creator_first_income",
+    "title": "첫 번째 정산",
+    "background": "goshiwon_room",
+    "portrait": "player_happy",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "creator_started",
+      "no_flag": "creator_monetized",
+      "min_turn": 6
+    },
+    "tags": [
+      "comedy",
+      "social",
+      "creator"
+    ],
+    "cooldown": 15,
+    "description": "유튜브 스튜디오 대시보드를 열었다.\n\n추정 수익: ₩23,400\n\n첫 번째 정산이었다.\n2만 3천원.\n고시원 이틀치 밥값.\n그런데 이상하게 — 지금까지 번 어떤 돈보다 기분이 달랐다.\n내가 만든 것이 돈이 된 거니까.",
+    "choices": [
+      {
+        "text": "다음 달엔 이걸 세 배로 만들겠다",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "mental": 8,
+          "stress": 2
+        },
+        "flags": [
+          "creator_monetized"
+        ],
+        "result_text": "2만 3천원짜리 목표가 생겼다.\n아직은 아무것도 아니다.\n하지만 처음이 2만원이면 — 다음은 20만원, 그 다음은 200만원이 될 수도 있다.\n{name}은 그 가능성을 믿어보기로 했다."
+      },
+      {
+        "text": "이 정도면 됐다. 취미로만 한다",
+        "effects": {
+          "mental": 6,
+          "stress": -3
+        },
+        "result_text": "2만 3천원을 받아들이고 전략을 접었다.\n취미는 취미로 남겨두는 게 더 오래 즐길 수 있다.\n{name}에게는 다른 길이 있었다."
+      }
+    ]
+  },
+  {
+    "id": "creator_breakout_video",
+    "title": "터진 영상",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "comedy",
+    "rarity": "rare",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "creator_monetized",
+      "no_flag": "creator_viral",
+      "min_turn": 10
+    },
+    "tags": [
+      "comedy",
+      "social",
+      "creator"
+    ],
+    "cooldown": 20,
+    "description": "알림이 멈추지 않았다.\n\n\"고시원에서 30억 가는 현실 루트\" — 그냥 올렸던 영상.\n\n조회수: 420,000\n구독자: +8,200명\n\n포털 뉴스에 링크가 올라왔다.\n\"2030 공감 유발 콘텐츠로 화제\"\n\n{name}의 얼굴이 — 인터넷에 퍼지고 있었다.",
+    "choices": [
+      {
+        "text": "이 흐름을 타서 후속 영상을 바로 올린다",
+        "effects": {
+          "social_skill": 5,
+          "reputation": 12,
+          "intelligence": 2,
+          "stress": 6
+        },
+        "flags": [
+          "creator_viral",
+          "sns_viral_fame"
+        ],
+        "result_text": "후속 영상도 30만 뷰가 됐다.\n{name}은 이제 작은 인플루언서였다.\n길에서 누가 알아볼 일은 없지만,\n폰을 열면 댓글 창에 응원이 쌓여있었다."
+      },
+      {
+        "text": "노출이 부담스럽다 — 조용히 살고 싶다",
+        "effects": {
+          "mental": 5,
+          "stress": -5
+        },
+        "result_text": "댓글을 닫고, 알림을 껐다.\n이 정도면 됐다.\n강남을 위한 자금이 되기엔 너무 느리고,\n인생이 너무 공개되는 것 같았다.\n{name}은 카메라를 서랍에 넣었다."
+      },
+      {
+        "text": "수익화와 스폰서를 협상한다",
+        "effects": {
+          "social_skill": 3,
+          "investment_skill": 2,
+          "money": 500000,
+          "stress": 4
+        },
+        "flags": [
+          "creator_viral"
+        ],
+        "result_text": "첫 스폰서 계약. 50만원.\n콘텐츠 크리에이터의 공식 첫 수익이었다.\n작은 금액이지만 — 이건 월급이 아니라 내가 만든 것의 값어치였다.\n그 차이가, 뭔가를 바꿨다."
+      }
+    ]
+  },
+  {
+    "id": "addiction_recovery_step",
+    "title": "21일째",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "addiction_paused",
+      "no_flag": "addiction_escalated",
+      "min_turn": 3
+    },
+    "tags": [
+      "health",
+      "gambling"
+    ],
+    "cooldown": 15,
+    "description": "베팅 앱을 지운 지 21일이 됐다.\n\n처음 3일은 미칠 것 같았다.\n특히 경기가 있는 날엔, 손가락이 저절로 앱 있던 자리를 눌렀다.\n\n지금은 — 아직은 힘들지만, 21일 전보다는 낫다.\n\n오늘 입금된 돈이 있었다. 베팅할 수 없어서, 저축 계좌로 자동이체됐다.\n처음으로 그 돈이 통장에 남아있었다.",
+    "choices": [
+      {
+        "text": "이걸 기록해 둔다 — 오늘의 {name}을 잊지 않기 위해",
+        "effects": {
+          "mental": 10,
+          "health": 4,
+          "stress": -6,
+          "intelligence": 2
+        },
+        "flags": [
+          "addiction_recovery_milestone"
+        ],
+        "result_text": "노트에 적었다. '21일째. 남은 돈: OO만원.'\n숫자가 의외로 컸다.\n그동안 베팅에 쓰던 돈이, 이번 달은 통장에 있었다.\n작은 회복이 — 첫 번째 저축이 됐다."
+      },
+      {
+        "text": "아직 힘들다 — 다른 걸로 대체한다",
+        "effects": {
+          "health": 2,
+          "stress": -3,
+          "mental": 4
+        },
+        "result_text": "달리기를 시작했다.\n베팅을 대신할 뭔가가 필요했다.\n어설픈 운동이었다. 그래도 돈은 안 잃었다."
+      }
+    ]
+  },
+  {
+    "id": "addiction_clean_hands_echo",
+    "title": "깨끗한 손",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "category": "health",
+    "rarity": "rare",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "deleted_gambling_apps",
+      "no_flag": "addiction_escalated",
+      "min_turn": 5
+    },
+    "tags": [
+      "health",
+      "gambling"
+    ],
+    "cooldown": 20,
+    "description": "편의점에서 아는 얼굴을 마주쳤다.\n옛날에 같은 경마 카페에 자주 보이던 사람이었다.\n\n그의 눈빛이 예전과 달랐다. 공허하고, 어딘가 놓친 것 같은 얼굴.\n\n\"요즘도 하냐?\" 그가 물었다.\n\"아니.\" {name}이 답했다.\n\n그 한 마디가 자기 자신에게도 확인이 됐다.",
+    "choices": [
+      {
+        "text": "\"나도 그만뒀어.\" 솔직하게 말한다",
+        "effects": {
+          "mental": 8,
+          "reputation": 4,
+          "stress": -5
+        },
+        "result_text": "그 사람의 표정이 잠깐 바뀌었다.\n\"...어떻게?\"\n{name}은 간단히 말해줬다. 앱 삭제, 첫 3일, 21일.\n뭔가를 줬는지 모르겠다. 하지만 그날 {name}은\n자기 이야기를 부끄럽지 않게 할 수 있었다."
+      },
+      {
+        "text": "그냥 자리를 피한다",
+        "effects": {
+          "mental": 4,
+          "stress": -3
+        },
+        "result_text": "편의점을 나왔다. 그 사람의 눈빛이 따라왔다.\n저 눈빛이 — 3개월 전 자기 눈빛이었을 거다.\n{name}은 그 생각을 오래 가지고 갔다."
+      }
+    ]
   }
 ]
