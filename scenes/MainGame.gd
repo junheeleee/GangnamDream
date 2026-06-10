@@ -974,6 +974,13 @@ func _next_arc_id() -> String:
 		return "arc_temptation_fallout"
 	if f.get("kept_clean_hands", false) and not f.get("arc_temptation_clean_seen", false) and t >= 8:
 		return "arc_temptation_clean"
+	# ★ 신규 유저 안전망 (턴 5+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.
+	#   거절 가능. 창업/크리에이터 의도가 있으면 안 뜸.
+	if t >= 5 and GameState.current_job.is_empty() \
+			and not f.get("arc_rescue_job_seen", false) \
+			and not f.get("startup_intent", false) \
+			and not f.get("creator_started", false):
+		return "arc_rescue_job"
 
 	# ── 전문화 분기 이벤트 — 성향 자각 직후 1회 ──
 	if f.get("pending_spec_career", false) and not f.get("pending_spec_career_done", false):
@@ -1494,8 +1501,8 @@ func _spawn_float(text: String, color: Color, index: int):
 	add_child(lbl)
 	# 위로 떠오르며 페이드아웃
 	var tw = create_tween()
-	tw.tween_property(lbl, "position:y", base_y - 55.0, 1.3).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.85).set_delay(0.45)
+	tw.tween_property(lbl, "position:y", base_y - 70.0, 2.2).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 1.1).set_delay(1.1)
 	tw.tween_callback(lbl.queue_free)
 
 func _bar_str(value: int, max_val: int = 100, bars: int = 8) -> String:
@@ -2626,21 +2633,8 @@ func _ap_contact_person(person_id: String):
 	GameState.apply_cast_effect(person_id, {"affinity": 4})
 	var aff: int = GameState.get_cast_affinity(person_id)
 
-	# 인물별 결과 텍스트 — 리얼리티
-	var flavor := ""
-	match person_id:
-		"father":
-			flavor = "아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다."
-		"sangchul":
-			flavor = "임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다."
-		"jiyeon":
-			flavor = "한지연과의 대화는 다른 세계를 들여다보는 창 같다."
-		"daeun":
-			flavor = "김다은과 있으면 서울살이의 팍팍함이 잠깐 누그러진다."
-		"jaehyuk":
-			flavor = "최재혁은 늘 큰 그림을 그린다. 듣고 있으면 가슴이 뛴다."
-		_:
-			flavor = "사람을 챙기는 일에는 마음이 든다."
+	# 인물별 결과 텍스트 — 스토리 진행/관계 상태에 반응한다
+	var flavor := _contact_flavor(person_id, aff)
 
 	var msg = "%s — 정신 %d→%d, 호감도 %d" % [pname, mental_before, GameState.mental, aff]
 	GameState.add_log("🤝 " + msg + " / " + flavor, "relationship")
@@ -2649,6 +2643,61 @@ func _ap_contact_person(person_id: String):
 	GameState.stats_changed.emit()
 	_render_ap_actions()
 	_refresh_all()
+
+## 연락하기 대사 — 스토리 플래그·호감도·자산 상태에 따라 달라진다
+func _contact_flavor(person_id: String, aff: int) -> String:
+	var f = GameState.flags
+	var t = GameState.turn
+	var rich: bool = GameState.get_total_asset_value() >= 500_000_000.0
+	match person_id:
+		"father":
+			if f.get("father_reconciled", false):
+				return "아버지와의 통화가 더 이상 어색하지 않다. 시시콜콜한 동네 이야기가 이렇게 좋을 줄 몰랐다."
+			if f.get("visited_father", false):
+				return "병원에서 본 아버지의 야윈 손이 자꾸 떠오른다. 목소리라도 자주 들어야겠다."
+			if f.get("arc_father_02_done", false):
+				return "'밥은 먹었냐.' 그 말 뒤에 숨긴 것들이 들리는 것 같았다."
+			if rich:
+				return "아버지는 여전히 돈 얘기를 먼저 꺼내지 않는다. '몸 상하면서 벌지 마라'는 말만 반복하신다."
+			return "아버지의 목소리는 늘 그대로다. 별일 없냐는 말에 괜히 코끝이 시큰하다."
+		"sangchul":
+			if f.get("arc_sangchul_jiyeon_reveal_seen", false):
+				return "임상철은 지연 이야기를 묻지 않았다. 다만 '네 판단을 믿어라'고만 했다."
+			if f.get("arc_sangchul_03_seen", false):
+				return "그의 네트워크 안에 들어온 뒤로, 임상철의 한 마디 한 마디가 다르게 들린다."
+			if f.get("arc_sangchul_02_seen", false):
+				return "두 번째 커피 이후로 임상철은 진짜 이야기를 시작했다. 30년의 눈이 담긴 이야기들."
+			return "임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다."
+		"jiyeon":
+			if f.get("arc_jiyeon_truth_seen", false):
+				return "그날 이후, 한지연과의 대화에서 더 이상 숨기는 것이 없다. 그게 무엇보다 귀하다."
+			if aff >= 25:
+				return "한지연이 먼저 연락해오는 일이 잦아졌다. 다른 세계였던 그녀가, 조금씩 가까워진다."
+			return "한지연과의 대화는 다른 세계를 들여다보는 창 같다."
+		"daeun":
+			if f.get("daeun_together_path", false):
+				return "다은과는 이제 말이 필요 없는 사이가 됐다. 전화 너머의 숨소리만으로도 충분하다."
+			if f.get("daeun_let_her_go", false):
+				return "다은은 고향에서 잘 지낸다고 했다. 잘된 일이다. 정말, 잘된 일이라고 생각하기로 했다."
+			if aff >= 12:
+				return "편의점 야간 조명 아래에서 나누는 대화가 어느새 하루의 끝 의식이 됐다."
+			return "김다은과 있으면 서울살이의 팍팍함이 잠깐 누그러진다."
+		"jaehyuk":
+			if f.get("jaehyuk_reported", false):
+				return "최재혁은 수사를 받고 있다고 한다. 옳은 일을 했다. 그런데 왜 아무 기분도 들지 않을까."
+			if f.get("jaehyuk_partnered", false):
+				return "재혁과의 통화는 점점 짧아지고, 단어는 점점 조심스러워진다. 이 길의 끝이 어딘지 둘 다 묻지 않는다."
+			if f.get("jaehyuk_exploited", false):
+				return "재혁은 약속한 돈을 보내온다. 침묵의 대가. 통장에 찍히는 숫자가 매번 차갑다."
+			if f.get("jaehyuk_scammed", false):
+				return "전화는 연결되지 않는다. '없는 번호'라는 안내음만. 그래도 가끔, 걸어보게 된다."
+			if f.get("hyunsu_warned", false):
+				return "재혁의 목소리는 여전히 자신만만하다. 현수의 말이 자꾸 겹쳐 들린다."
+			if t >= 32:
+				return "최재혁은 늘 큰 그림을 그린다. 듣고 있으면 가슴이 뛴다. 가끔은, 너무 잘 그려서 불안하다."
+			return "최재혁은 늘 큰 그림을 그린다. 듣고 있으면 가슴이 뛴다."
+		_:
+			return "사람을 챙기는 일에는 마음이 든다."
 
 # ── 변주되는 루틴 미니 장면 ──────────────────────────────────────
 # 같은 행동도 매번 다른 짧은 장면(좋은 일·헛탕·소소한 행운)이 나온다.
@@ -3471,6 +3520,7 @@ func _show_ending(ending_id):
 	stats_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(stats_sep)
 	_ending_stat_grid(modal_body)
+	modal_body.add_child(_wrap_label(_ending_percentile_line(), 13, "#5b9cf6"))
 	_ending_route_bar(modal_body)
 	_ending_milestones(modal_body)
 	# ── 이번 런 새 해금 표시 ──────────────────────────
@@ -3577,6 +3627,24 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "자산보다 이름이 먼저 강남에 닿았다"
 		_:
 			return "그렇게 5년이 지나갔다"
+
+## 같은 조건으로 5년을 산 사람들 중 상위 몇 %인지 — 30억 실패를 '정상'으로 리프레이밍
+func _ending_percentile_line() -> String:
+	var total = GameState.get_total_asset_value()
+	var pct: int
+	if total >= 3_000_000_000.0:   pct = 1
+	elif total >= 1_500_000_000.0: pct = 3
+	elif total >= 800_000_000.0:   pct = 6
+	elif total >= 400_000_000.0:   pct = 12
+	elif total >= 200_000_000.0:   pct = 22
+	elif total >= 100_000_000.0:   pct = 35
+	elif total >= 50_000_000.0:    pct = 50
+	elif total >= 20_000_000.0:    pct = 65
+	elif total >= 0.0:             pct = 80
+	else:                          pct = 95
+	if pct <= 1:
+		return "📊 같은 50만원으로 시작한 사람들 중  상위 1%  — 강남드림은 원래 이런 확률이었다."
+	return "📊 같은 50만원으로 시작한 사람들 중  상위 %d%%  — 강남 입성은 상위 1%%의 일이다." % pct
 
 func _ending_stat_grid(parent: Control):
 	var total = GameState.get_total_asset_value()

@@ -458,6 +458,15 @@ func apply_choice(event, choice):
 	# 선택지가 직접 성향 포인트를 줄 수도 있다: "tendency": {"invest": 2}
 	for tk in choice.get("tendency", {}):
 		add_tendency(str(tk), int(choice["tendency"][tk]))
+	# 선택지가 직접 직업을 줄 수도 있다: "grant_job": "job_01" (이미 직업이 있으면 무시)
+	if choice.has("grant_job") and current_job.is_empty():
+		var gj = DataRegistry.get_job(str(choice["grant_job"]))
+		if not gj.is_empty():
+			current_job    = gj.duplicate(true)
+			job_tenure     = 0
+			work_performance = 50
+			monthly_income = float(gj.get("base_salary", 0))
+			add_log("💼 취업: %s" % str(gj.get("name", "")), "job")
 	# 스토리 인물 관계 변화 (cast_effects)
 	# 예: "cast_effects": { "jiyeon": { "affinity": 10, "stage": "interest", "met": true } }
 	for person_id in choice.get("cast_effects", {}):

@@ -2789,7 +2789,9 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "max_money": 5000000
+    },
     "tags": [
       "finance",
       "ambition",
