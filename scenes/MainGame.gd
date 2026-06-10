@@ -1059,10 +1059,20 @@ func _next_arc_id() -> String:
 			and not f.get("arc_opp_sangchul_seen", false) \
 			and t >= 40 and GameState.get_total_asset_value() >= 50_000_000:
 		return "arc_opp_sangchul_realty"
+	# ── 임상철 베팅 결과 ──
+	if f.get("arc_opp_sangchul_seen", false) \
+			and not f.get("arc_opp_sangchul_result_seen", false) \
+			and (f.get("sangchul_deal_won", false) or f.get("sangchul_deal_lost", false)):
+		return "arc_opp_sangchul_win" if f.get("sangchul_deal_won", false) else "arc_opp_sangchul_lose"
 	if GameState.get_cast_affinity("jiyeon") >= 25 \
 			and not f.get("arc_opp_jiyeon_seen", false) \
 			and t >= 45 and GameState.get_total_asset_value() >= 200_000_000:
 		return "arc_opp_jiyeon_bunyang"
+	# ── 한지연 베팅 결과 ──
+	if f.get("arc_opp_jiyeon_seen", false) \
+			and not f.get("arc_opp_jiyeon_result_seen", false) \
+			and (f.get("jiyeon_deal_won", false) or f.get("jiyeon_deal_lost", false)):
+		return "arc_opp_jiyeon_win" if f.get("jiyeon_deal_won", false) else "arc_opp_jiyeon_lose"
 	# ── 지연의 고백 — 제안 이후, 임상철 경고 이후 ──
 	if t >= 44 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_jiyeon_reveal_seen", false) \

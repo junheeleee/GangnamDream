@@ -928,7 +928,9 @@
           "win_multiplier": 2.8,
           "loss_ratio": 0.55,
           "luck_factor": 0.002,
-          "skill_gain": 5
+          "skill_gain": 5,
+          "win_flag": "sangchul_deal_won",
+          "lose_flag": "sangchul_deal_lost"
         },
         "cast_effects": {
           "sangchul": {
@@ -953,7 +955,9 @@
           "win_multiplier": 2.0,
           "loss_ratio": 0.55,
           "luck_factor": 0.002,
-          "skill_gain": 3
+          "skill_gain": 3,
+          "win_flag": "sangchul_deal_won",
+          "lose_flag": "sangchul_deal_lost"
         },
         "cast_effects": {
           "sangchul": {
@@ -1016,7 +1020,9 @@
           "win_multiplier": 4.0,
           "loss_ratio": 0.75,
           "luck_factor": 0.0015,
-          "skill_gain": 4
+          "skill_gain": 4,
+          "win_flag": "jiyeon_deal_won",
+          "lose_flag": "jiyeon_deal_lost"
         },
         "cast_effects": {
           "jiyeon": {
@@ -1667,6 +1673,176 @@
           "arc_daeun_later_echo_seen"
         ],
         "result_text": "다은은 고향에서 잘 살고 있다.\n그리고 {name}은 강남 한 발 앞에 있다.\n\n두 사람의 선택이 서로 다른 방향이었지만,\n둘 다 자기 방식으로 행복에 가까워진 것 같았다.\n{name}은 그걸로 충분하다고 생각했다. 지금은."
+      }
+    ]
+  },
+  {
+    "id": "arc_opp_sangchul_win",
+    "title": "재개발 확정",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철에게서 전화가 왔다.\n\n\"민준아. 확정 났어.\"\n\n재개발 지구 지정 공문. {name}은 숫자를 두 번 확인했다.\n시세가 두 배 반 넘게 뛰었다.\n\n임상철은 짧게 말했다.\n\"이게 부동산이야. 느리지만, 확실하다.\"\n\n처음으로 진짜 '판'에서 이겼다는 느낌이 들었다.",
+    "choices": [
+      {
+        "text": "다음에 또 기회 있으면 알려달라고 한다",
+        "effects": {
+          "stress": -5,
+          "mental": 5,
+          "investment_skill": 3
+        },
+        "cast_effects": {
+          "sangchul": {"affinity": 15, "stage": "trusted"}
+        },
+        "flags": ["arc_opp_sangchul_result_seen"],
+        "result_text": "\"당연하지. 이 바닥 내 인맥이 다야.\"\n임상철이 웃으며 전화를 끊었다.\n{name}은 잠시 창밖을 바라봤다.\n서울이 조금 달라 보였다. 아직 강남은 아니지만."
+      },
+      {
+        "text": "이 수익, 다음 베팅의 재료로 쓴다",
+        "effects": {
+          "investment_skill": 5,
+          "intelligence": 2,
+          "stress": -3
+        },
+        "cast_effects": {
+          "sangchul": {"affinity": 8}
+        },
+        "flags": ["arc_opp_sangchul_result_seen"],
+        "tendency": {"invest": 3},
+        "result_text": "이겼으면 더 크게 베팅해야 한다.\n{name}은 다음 기회를 이미 계산하고 있었다.\n돈이 돈을 벌어오는 구조. 그게 보이기 시작했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_opp_sangchul_lose",
+    "title": "재개발 불발",
+    "background": "realestate_office",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철에게서 전화가 왔다.\n\n\"...민준아. 미안하다.\"\n\n재개발 지구 지정이 다음 회기로 미뤄졌다.\n사실상 무산. 돌려받은 돈은 손실분이 빠진 금액이었다.\n\n그는 더 말이 없었다.\n30년 이 바닥에서 처음으로 틀렸다는 말은 하지 않았다.\n그냥 미안하다는 말만.",
+    "choices": [
+      {
+        "text": "어쩔 수 없다 — 처음부터 위험을 알고 들어갔다",
+        "effects": {
+          "mental": -5,
+          "stress": 5,
+          "intelligence": 3
+        },
+        "cast_effects": {
+          "sangchul": {"affinity": 5}
+        },
+        "flags": ["arc_opp_sangchul_result_seen"],
+        "result_text": "\"고맙다, 상철 씨. 판단은 내가 했으니까.\"\n{name}은 그렇게 말했다. 진심이기도 했고,\n그렇게 정리해야 앞으로 나아갈 수 있기 때문이기도 했다.\n잃은 돈은 수업료다. 그것도 꽤 비싼."
+      },
+      {
+        "text": "솔직히 배신감이 든다",
+        "effects": {
+          "mental": -10,
+          "stress": 12
+        },
+        "cast_effects": {
+          "sangchul": {"affinity": -10, "stage": "strained"}
+        },
+        "flags": ["arc_opp_sangchul_result_seen"],
+        "result_text": "전화를 끊고 한동안 아무것도 할 수 없었다.\n억울함이 분노보다 컸다. 믿었으니까.\n임상철은 잘못이 없을지도 모른다.\n근데 지금은 그게 위로가 되지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_opp_jiyeon_win",
+    "title": "프리미엄",
+    "background": "gangnam_day",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "한지연에게서 문자가 왔다.\n\n이모티콘 하나. 그리고 숫자.\n\n{name}은 잠시 화면을 바라봤다.\n현실인지 확인하려는 것처럼.\n\n그녀의 세계에 발을 들였고,\n이번엔 이쪽이 이겼다.\n\n근데 이상하게도, 그녀에게 빚을 갚은 느낌이 들었다.",
+    "choices": [
+      {
+        "text": "한지연에게 감사를 전한다",
+        "effects": {
+          "stress": -5,
+          "mental": 6,
+          "social_skill": 2
+        },
+        "cast_effects": {
+          "jiyeon": {"affinity": 20, "stage": "trust"}
+        },
+        "flags": ["arc_opp_jiyeon_result_seen"],
+        "result_text": "\"덕분이야. 진심으로.\"\n한지연이 잠시 침묵하다 답했다.\n\"...그 말 듣고 싶었어.\"\n강남에 한 발 더 가까워졌다. 그녀와 함께."
+      },
+      {
+        "text": "이제 나는 그녀의 세계와 동등하다",
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 3,
+          "stress": -3
+        },
+        "cast_effects": {
+          "jiyeon": {"affinity": 5}
+        },
+        "flags": ["arc_opp_jiyeon_result_seen"],
+        "route": "unorthodox",
+        "tendency": {"invest": 3},
+        "result_text": "감사는 잠깐이면 충분하다.\n{name}은 이번 수익을 이미 다음 계획으로 연결하고 있었다.\n한지연의 세계가 아니라 자신의 세계.\n그게 진짜 강남 입성이라고 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_opp_jiyeon_lose",
+    "title": "분양권 취소",
+    "background": "gangnam_night",
+    "portrait": "jiyeon_cold",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "분양이 취소됐다는 문자가 왔다.\n\n한지연이 직접 전화를 걸어왔다.\n\"미안해. 나도 몰랐어.\"\n\n그녀의 목소리에는 진심이 있었다. 아마도.\n\n계약금은 날아갔다.\n한지연의 세계가 항상 이긴다는 보장은 없었다.\n\n{name}은 천장을 바라봤다. 한참 동안.",
+    "choices": [
+      {
+        "text": "괜찮아 — 네 잘못이 아니다",
+        "effects": {
+          "mental": -8,
+          "stress": 10
+        },
+        "cast_effects": {
+          "jiyeon": {"affinity": 3}
+        },
+        "flags": ["arc_opp_jiyeon_result_seen"],
+        "result_text": "\"괜찮아.\" 그 말이 어렵지 않게 나왔다.\n솔직히 말하면 괜찮지 않았다.\n근데 그녀 앞에서 무너지고 싶지 않았다.\n강남은 멀어졌지만, 체면은 지켰다."
+      },
+      {
+        "text": "한지연을 믿은 게 실수였다",
+        "effects": {
+          "mental": -12,
+          "stress": 15,
+          "intelligence": 3
+        },
+        "cast_effects": {
+          "jiyeon": {"affinity": -15, "stage": "disillusioned"}
+        },
+        "flags": ["arc_opp_jiyeon_result_seen"],
+        "route": "orthodox",
+        "result_text": "\"믿는 게 아니었어.\"\n말하고 나서 전화를 끊었다.\n한지연의 세계가 화려해 보였던 건 진짜가 아니었을 수도 있다.\n{name}은 처음으로 그녀를 다르게 봤다."
       }
     ]
   }
