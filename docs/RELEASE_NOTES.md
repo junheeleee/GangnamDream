@@ -2,7 +2,13 @@
 
 ## Unreleased
 
-### Added (2026-06-10) — 아크 깊이 작업
+### Added (2026-06-10) — 아크 깊이 작업 2·3차
+- **재혁 아크 강화**: arc_jaehyuk_01b_real_face(취중 고백) · arc_jaehyuk_02b_favor(조건 없는 도움) · arc_jaehyuk_04c_stand_up(재기 선택) 추가; aftermath 피해자 경로 3번째 선택지 추가
+- **다은 아크 강화**: arc_daeun_03b_date(첫 외출) · arc_daeun_04b_future(관계 긴장) · arc_daeun_regret_draft(이별 후 여운) 추가
+- **한지연 아크 강화**: arc_jiyeon_03b_lunch(투자 파트너 vs 감정) · arc_jiyeon_05_epilogue(관계 결말 3종) 추가
+- **arc 패널 버그 3종 수정**: daeun/jiyeon/sangchul 아크 패널 표시 플래그 실제 이벤트 플래그로 교정; 한지연 패널 이름 수정 ("박지연 멘토" → "한지연 투자·로맨스")
+
+### Added (2026-06-10) — 아크 깊이 작업 1차
 - **아버지 아크 5단계 신설**: arc_father_01_call ~ arc_father_05_after_visit (t≥11/22/35/43/52)
   — 병환 통보·병원 방문·화해까지 전체 아크 구현
 - **다은 아크 플래그 수정**: met_daeun / arc_daeun_01_seen 플래그 누락 수정; 빈 result_text 채움

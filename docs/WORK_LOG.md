@@ -1,5 +1,32 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (아크 깊이 작업 3차 — 다은·한지연 콘텐츠 + 패널 버그 수정)
+
+### 다은 아크 콘텐츠 추가 (arc_daeun.json + MainGame 라우팅)
+- arc_daeun_03b_date (t≥28, together path): 편의점 밖 첫 외출 — 관계에 질감 추가
+- arc_daeun_04b_future (t≥42, together_path): "강남 가면 나는?" 관계 긴장 장면
+- arc_daeun_regret_draft (t≥47, let_her_go path): 보내지 못한 문자 — 이별 후 여운
+- arc panel 표시 버그 수정: arc_daeun_02_seen / arc_daeun_03_seen → arc_daeun_regular_seen / arc_daeun_fork_seen
+
+### 한지연 아크 콘텐츠 추가 + 패널 수정 (arc_events.json + MainGame)
+- arc_jiyeon_03b_lunch (t≥27, after offer): 청담 점심 — 투자 파트너 vs 감정 분기
+- arc_jiyeon_05_epilogue (t≥50, after truth): 고백 다음 날 — 관계 방향 결말 선택 3종
+- arc panel 이름 수정: "박지연 (멘토)" → "한지연 (투자·로맨스)"
+- arc panel 플래그 수정: met_jiyeon / arc_jiyeon_01/02/03_seen → 실제 이벤트 플래그
+
+### 임상철 아크 패널 버그 수정 (MainGame)
+- met_sangchul / arc_sangchul_01_seen → arc_sangchul_met_seen
+
+### audit ERROR 0 / WARNING 0 통과
+
+## 2026-06-10 (아크 깊이 작업 2차 — 재혁 아크 깊이 강화)
+
+### 재혁 아크 3개 이벤트 추가 (arc_events.json + MainGame 라우팅)
+- arc_jaehyuk_01b_real_face (t≥29): 포장마차 취중 고백 — 재혁도 처음엔 피해자
+- arc_jaehyuk_02b_favor (t≥34): 조건 없는 인맥 도움 — 배신을 더 아프게 만드는 장치
+- arc_jaehyuk_04c_stand_up (t≥44): 사기 당한 후 재기 선택 — t42~t50 빈 공간 채움
+- arc_jaehyuk_aftermath: 피해자 경로 3번째 선택지 추가 (jaehyuk_scammed)
+
 ## 2026-06-10 (아크 깊이 작업 1차 — 아버지 아크 신설 + 다은 아크 수정)
 
 ### 아버지 아크 5단계 신설 (arc_events.json + MainGame._next_arc_id)

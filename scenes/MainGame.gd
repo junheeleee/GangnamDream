@@ -1006,13 +1006,24 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_fork_seen", false):
 		return "arc_daeun_03_fork"
 	# ── 다은 결말 — 붙잡은 경우 ──
+	if t >= 28 and f.get("daeun_chose_her", false) \
+			and not f.get("arc_daeun_03b_seen", false) \
+			and not f.get("arc_daeun_04_seen", false):
+		return "arc_daeun_03b_date"
 	if t >= 33 and f.get("daeun_chose_her", false) \
 			and not f.get("arc_daeun_04_seen", false):
 		return "arc_daeun_04_morning"
+	if t >= 42 and f.get("daeun_together_path", false) \
+			and not f.get("arc_daeun_04b_seen", false):
+		return "arc_daeun_04b_future"
 	# ── 다은 에필로그 — 보낸 경우 ──
 	if t >= 40 and f.get("daeun_let_her_go", false) \
 			and not f.get("arc_daeun_ghost_seen", false):
 		return "arc_daeun_ghost"
+	if t >= 47 and f.get("daeun_let_her_go", false) \
+			and f.get("arc_daeun_ghost_seen", false) \
+			and not f.get("arc_daeun_regret_seen", false):
+		return "arc_daeun_regret_draft"
 
 	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
 	if t >= 11 and not f.get("arc_father_01_seen", false):
@@ -1037,6 +1048,10 @@ func _next_arc_id() -> String:
 		return "arc_jiyeon_02_store"
 	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 23:
 		return "arc_jiyeon_03_offer"
+	if t >= 27 and f.get("arc_jiyeon_offer_seen", false) \
+			and not f.get("arc_jiyeon_03b_seen", false) \
+			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
+		return "arc_jiyeon_03b_lunch"
 
 	# ── 임상철 관계 심화 ──
 	if t >= 18 and f.get("arc_sangchul_met_seen", false) \
@@ -1107,6 +1122,9 @@ func _next_arc_id() -> String:
 			and f.get("arc_sangchul_jiyeon_reveal_seen", false) \
 			and not f.get("arc_jiyeon_truth_seen", false):
 		return "arc_jiyeon_truth_moment"
+	if t >= 50 and f.get("arc_jiyeon_truth_seen", false) \
+			and not f.get("arc_jiyeon_epilogue_seen", false):
+		return "arc_jiyeon_05_epilogue"
 
 	# ══ 6구간: 전문화 결말 — 선택한 방식이 결실을 맺는다 (턴 25+) ══
 	if t >= 25 and f.get("spec_elite", false) and not f.get("arc_spec_elite_result_seen", false):
@@ -1783,8 +1801,8 @@ func _refresh_arc_box() -> void:
 			"done": f.get("arc_daeun_together_done", false) or f.get("arc_daeun_ghost_seen", false),
 			"stages": [
 				{"label": "첫 만남", "done": f.get("arc_daeun_01_seen", false)},
-				{"label": "거리 둠 / 가까워짐", "done": f.get("arc_daeun_02_seen", false)},
-				{"label": "기로", "done": f.get("arc_daeun_03_seen", false)},
+				{"label": "거리 둠 / 가까워짐", "done": f.get("arc_daeun_regular_seen", false)},
+				{"label": "기로", "done": f.get("arc_daeun_fork_seen", false)},
 				{"label": "결말", "done": f.get("arc_daeun_04_seen", false) or f.get("arc_daeun_ghost_seen", false)},
 			],
 			"hint": "T3+ 조건 충족 시 시작" if not f.get("met_daeun", false) else "",
@@ -1792,11 +1810,11 @@ func _refresh_arc_box() -> void:
 		{
 			"name": "임상철 (인맥)",
 			"icon": "🤝",
-			"active": f.get("met_sangchul", false),
+			"active": f.get("arc_sangchul_met_seen", false),
 			"done": f.get("arc_sangchul_03_seen", false),
 			"stages": [
-				{"label": "첫 만남", "done": f.get("arc_sangchul_01_seen", false)},
-				{"label": "사업 제안", "done": f.get("arc_sangchul_02_seen", false)},
+				{"label": "첫 만남", "done": f.get("arc_sangchul_met_seen", false)},
+				{"label": "두 번째 커피", "done": f.get("arc_sangchul_02_seen", false)},
 				{"label": "네트워크 입성", "done": f.get("arc_sangchul_03_seen", false)},
 			],
 			"hint": "직장 경험 후 만남 가능",
@@ -1814,14 +1832,15 @@ func _refresh_arc_box() -> void:
 			"hint": "",
 		},
 		{
-			"name": "박지연 (멘토)",
-			"icon": "📚",
-			"active": f.get("met_jiyeon", false),
-			"done": f.get("arc_jiyeon_03_seen", false),
+			"name": "한지연 (투자·로맨스)",
+			"icon": "💎",
+			"active": f.get("arc_jiyeon_crash_seen", false),
+			"done": f.get("arc_jiyeon_truth_seen", false) or f.get("arc_jiyeon_epilogue_seen", false),
 			"stages": [
-				{"label": "첫 만남", "done": f.get("arc_jiyeon_01_seen", false)},
-				{"label": "강의", "done": f.get("arc_jiyeon_02_seen", false)},
-				{"label": "독립 선언", "done": f.get("arc_jiyeon_03_seen", false)},
+				{"label": "접촉", "done": f.get("arc_jiyeon_crash_seen", false)},
+				{"label": "재회", "done": f.get("arc_jiyeon_store_seen", false)},
+				{"label": "연결", "done": f.get("arc_jiyeon_offer_seen", false)},
+				{"label": "진실", "done": f.get("arc_jiyeon_truth_seen", false)},
 			],
 			"hint": "",
 		},

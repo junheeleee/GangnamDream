@@ -515,6 +515,73 @@
     ]
   },
   {
+    "id": "arc_jiyeon_03b_lunch",
+    "title": "그녀의 세계",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "한지연이 점심을 사겠다고 했다. 약속한 거라며.\n\n그녀가 데리고 간 곳은 청담 한식당. 점심 코스가 4만원이다.\n\n{name}은 메뉴를 덮었다가, 폈다가, 다시 덮었다.\n\n그녀는 눈치채지 못하는 척했다. 아니면 정말로 몰랐거나.\n주문을 마치고 나서 그녀가 말했다.\n\n\"저 사실 투자에 관심 있어요. 아버지 회사일로 공부하고 있는데,\n이쪽 공부하는 사람이 주변에 없어서 답답했거든요.\"\n\n{name}은 잠시 생각했다.\n이 사람이 원하는 게 뭔지, 정확히 알 수 없었다.",
+    "choices": [
+      {
+        "text": "\"저도 공부하고 있어요. 같이 얘기해봐요\" — 투자 파트너로 접근",
+        "effects": {"investment_skill": 3, "social_skill": 2, "stress": 2},
+        "cast_effects": {"jiyeon": {"affinity": 12, "stage": "business_partner"}},
+        "flags": ["arc_jiyeon_03b_seen", "jiyeon_investment_talk"],
+        "result_text": "두 시간 동안 부동산, 분양, 투자 이야기를 나눴다.\n한지연은 아는 게 많았다. 공부를 많이 했다.\n{name}이 알고 있던 것과 그녀가 알고 있는 것이 달랐다. 보이는 곳이 달라서.\n점심값은 {name}이 계산하려 했다. 어렵게 어렵게 — 그녀가 먼저 카드를 꺼냈다."
+      },
+      {
+        "text": "\"그냥 오늘은 밥이나 맛있게 먹어요\" — 관계의 성격을 지금 정하지 않는다",
+        "effects": {"mental": 5, "stress": -3},
+        "cast_effects": {"jiyeon": {"affinity": 6}},
+        "flags": ["arc_jiyeon_03b_seen", "jiyeon_deflected_business"],
+        "result_text": "점심은 맛있었다. 대화는 가벼웠다.\n돌아오는 길에 그녀가 말했다. '다음엔 어딜 가고 싶어요?'\n'다음'이 생겼다. 어떤 다음인지는 아직 몰랐다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_05_epilogue",
+    "title": "이후",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "모든 걸 솔직하게 털어놓은 다음 날,\n한지연에게서 먼저 문자가 왔다.\n\n'아직 민준 씨가 화났을까봐 무서워서요.\n어제 말 많이 했는데... 저 좀 이상한 사람이죠?'\n\n{name}은 폰을 보며 생각했다.\n\n세 가지 이유가 섞인 여자.\n아버지 회사 때문에, 투자자가 필요해서, 그리고 곁에 있고 싶어서.\n\n이 관계는 무엇이 될 수 있을까.",
+    "choices": [
+      {
+        "text": "\"이상하지 않아요. 그냥 인간적인 거죠.\" — 받아들인다",
+        "effects": {"mental": 8, "stress": -5},
+        "cast_effects": {"jiyeon": {"affinity": 15, "stage": "close"}},
+        "flags": ["arc_jiyeon_epilogue_seen", "jiyeon_accepted"],
+        "result_text": "답장을 보냈다.\n잠시 후 그녀의 답장: '민준 씨도 이상한 사람이에요. 그래서 좋아요.'\n{name}은 피식 웃었다. 강남을 가는 이유가 하나 더 생긴 기분이었다."
+      },
+      {
+        "text": "\"지연씨, 나는 아직 강남이 먼저예요.\" — 솔직하게 선을 긋는다",
+        "effects": {"intelligence": 3, "stress": 3},
+        "cast_effects": {"jiyeon": {"affinity": -5, "stage": "respected"}},
+        "flags": ["arc_jiyeon_epilogue_seen", "jiyeon_prioritized_goal"],
+        "result_text": "한지연은 잠시 말이 없더니 '...알겠어요. 그게 더 솔직한 거네요'라고 했다.\n다음 날, 그녀에게서 분양권 관련 자료가 왔다.\n'도움이 필요하면 연락해요. 그 부분은 진심이니까.'\n감정 빼고 사업 파트너로."
+      },
+      {
+        "text": "\"그 세 가지 이유, 전부 이해해요.\" — 판단하지 않는다",
+        "effects": {"mental": 6, "stress": -2},
+        "cast_effects": {"jiyeon": {"affinity": 10, "stage": "honest_together"}},
+        "flags": ["arc_jiyeon_epilogue_seen", "jiyeon_forgave_complexity"],
+        "result_text": "한지연이 잠깐 조용하더니 말했다. '...그 말이 제일 무섭네요. 왜냐면 감사해서요.'\n강남과 감정과 계산이 섞인 이 관계.\n단순하지 않아서 포기하지 않기로 했다."
+      }
+    ]
+  },
+  {
     "id": "arc_jaehyuk_01_reunion",
     "title": "10년 만에",
     "background": "pojangmacha",
