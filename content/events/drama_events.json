@@ -1314,7 +1314,9 @@
           "reputation": 2,
           "intelligence": 2
         },
-        "flags": [],
+        "flags": [
+          "startup_growing"
+        ],
         "follow_up_event": "",
         "result_text": "작은 불씨 하나가 팀 전체를 다시 달아오르게 했다. 이 메시지 스크린샷을 사무실 벽에 붙여뒀다."
       },
@@ -1325,7 +1327,9 @@
           "stress": 5,
           "intelligence": 1
         },
-        "flags": [],
+        "flags": [
+          "startup_growing"
+        ],
         "follow_up_event": "",
         "result_text": "현실 감각을 잃지 말자. 유저 애정만으론 살 수 없다. 수익화 전략을 다시 꺼냈다."
       }
@@ -1340,7 +1344,7 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "startup_team"
+      "flag": "startup_founded"
     },
     "tags": [
       "startup",

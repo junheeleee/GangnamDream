@@ -734,7 +734,7 @@ func get_current_title() -> String:
 	if total >= 500_000_000: return "신흥 자산가"
 	if total >= 100_000_000: return "중산층 진입"
 	# 비정석 특수 상태
-	if flags.get("creator_success_unlocked", false): return "크리에이터"
+	if flags.get("creator_viral", false): return "크리에이터"
 	if flags.get("startup_exit", false): return "스타트업 엑시터"
 	if flags.get("startup_launched", false): return "창업가"
 	if flags.get("creator_monetized", false): return "유튜버"
@@ -952,9 +952,10 @@ func check_game_over():
 		# 어떤 사람이 되어 입성했는가로 엔딩 분기
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
-		if cast_has_flag("father", "passed_away"):
-			finish_run("empty_house"); return         # 빈 집
 		if relationships.is_empty() and not has_any_close_relationship():
+			# 아버지와도 화해 못 했으면 진짜 아무도 없는 집
+			if not flags.get("father_reconciled", false):
+				finish_run("empty_house"); return     # 빈 집
 			finish_run("lonely_rich"); return         # 외로운 부자 — 돈만 남음
 		finish_run("gangnam_dream"); return           # 강남드림 (정상)
 
@@ -1002,7 +1003,7 @@ func check_game_over():
 		if route_orthodox >= 20 and total < 300_000_000:
 			finish_run("orthodox_hollow"); return
 		# 아버지 화해
-		if cast_has_flag("father", "reconciled"):
+		if flags.get("father_reconciled", false):
 			finish_run("late_call"); return           # 늦은 전화 (화해)
 		finish_run("ordinary_life")                   # 평범한 결말
 

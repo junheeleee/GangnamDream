@@ -9,8 +9,13 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "prologue"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "prologue"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -31,21 +36,40 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "prologue", "father"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "prologue",
+      "father"
+    ],
     "cooldown": 9999,
     "choices": [
       {
         "text": "\"먹었어요. 아버지도 끼니 거르지 마세요.\"",
-        "effects": { "mental": 5 },
-        "cast_effects": { "father": { "affinity": 12 } },
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 12
+          }
+        },
         "follow_up_event": "story_prologue_goal",
         "result_text": "거짓말이었다. 아직 아무것도 못 먹었다.\n근데 아버지가 그 거짓말에 안심하는 게 느껴졌다.\n\"그래... 아빠가 미안하다.\"\n\"미안하긴요.\"\n전화를 끊고, {name}은 한참 천장만 봤다.\n\n[아버지와 가까워졌다 — 인연은 이 게임의 한 축이다.]"
       },
       {
         "text": "\"바빠요. 나중에 통화해요.\" 짧게 끊는다",
-        "effects": { "stress": 3, "mental": -2 },
-        "cast_effects": { "father": { "affinity": -5 } },
+        "effects": {
+          "stress": 3,
+          "mental": -2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": -5
+          }
+        },
         "follow_up_event": "story_prologue_goal",
         "result_text": "빨리 끊었다. 길어지면 서로 할 말이 없어 더 아프니까.\n폰을 내려놓고, {name}은 못 한 말을 삼켰다.\n아버지의 목소리가 잠깐 머뭇거리던 게, 자꾸 마음에 걸렸다.\n\n[아버지와 조금 멀어졌다 — 선택은 관계를 바꾼다.]"
       }
@@ -61,13 +85,21 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "prologue"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "prologue"
+    ],
     "cooldown": 9999,
     "choices": [
       {
         "text": "수첩을 덮고, 일어선다",
-        "effects": { "mental": 6, "stress": -3 },
+        "effects": {
+          "mental": 6,
+          "stress": -3
+        },
         "follow_up_event": "story_prologue_meal",
         "result_text": "목표는 정해졌다.\n방법은 아직 없다. 돈도, 빽도, 시간도 부족하다.\n그래도 — 멈추면 끝이다. {name}은 신발을 신었다."
       }
@@ -83,19 +115,31 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "prologue"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "prologue"
+    ],
     "cooldown": 9999,
     "choices": [
       {
         "text": "삼각김밥을 산다 (-1,200원)",
-        "effects": { "money": -1200, "health": 3 },
+        "effects": {
+          "money": -1200,
+          "health": 3
+        },
         "follow_up_event": "story_pressure",
         "result_text": "참치마요 하나를 집어 계산한다.\n천 원 조금 넘는 돈이 통장에서 빠져나간다.\n\n[선택이 자원을 바꾼다 — 돈, 체력, 정신력. 모든 선택에 대가가 있다.]"
       },
       {
         "text": "오늘은 굶는다. 한 푼이라도 아낀다",
-        "effects": { "health": -5, "stress": 4, "mental": -2 },
+        "effects": {
+          "health": -5,
+          "stress": 4,
+          "mental": -2
+        },
         "follow_up_event": "story_pressure",
         "result_text": "빈손으로 편의점을 나선다.\n배에서 소리가 났지만, 통장은 지켰다.\n\n[선택이 자원을 바꾼다 — 아끼면 돈이 남고, 몸이 상한다. 균형이 관건이다.]"
       }
@@ -111,14 +155,24 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "prologue", "job_unlock"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "prologue",
+      "job_unlock"
+    ],
     "cooldown": 9999,
     "choices": [
       {
         "text": "구인 앱을 켠다. 살아남는 게 먼저다",
-        "effects": { "intelligence": 2 },
-        "flags": ["story_job_unlocked"],
+        "effects": {
+          "intelligence": 2
+        },
+        "flags": [
+          "story_job_unlocked"
+        ],
         "result_text": "편의점, 배달, 카페, 중소기업 사무직...\n처음으로 '일'이 현실적인 선택지로 느껴졌다.\n{name}은 지원 버튼에 손을 올린다.\n\n[이제 매달, 직접 행동을 골라야 한다.\n다음 화면에서 — 첫 행동을 시작하라.]"
       }
     ]
@@ -126,12 +180,14 @@
   {
     "id": "story_six_months",
     "title": "반년이 지났다",
-    "description": "6개월째.\n\n처음 이 방에 들어왔을 때의 그 막막함이 아직 기억난다.\n캐리어 하나, 100만원.\n\n{name}은 지금 어디에 서 있을까.\n그때보다 나아졌을까? 아니면 그냥 버틴 걸까?\n\n창밖의 서울은 여전히 빠르게 돌아간다.",
+    "description": "6개월째.\n\n처음 이 방에 들어왔을 때의 그 막막함이 아직 기억난다.\n캐리어 하나, 50만원.\n\n{name}은 지금 어디에 서 있을까.\n그때보다 나아졌을까? 아니면 그냥 버틴 걸까?\n\n창밖의 서울은 여전히 빠르게 돌아간다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
+    "conditions": {
+      "min_turn": 9999
+    },
     "tags": [
       "story",
       "milestone"
@@ -144,7 +200,9 @@
           "mental": 8,
           "stress": -5
         },
-        "flags": ["story_six_months_seen"],
+        "flags": [
+          "story_six_months_seen"
+        ],
         "result_text": "반년.\n작은 것들이 쌓여 여기까지 왔다.\n{name}은 아직 여기 있다. 그게 전부이고, 그게 충분하다."
       },
       {
@@ -154,7 +212,9 @@
           "intelligence": 4,
           "mental": 2
         },
-        "flags": ["story_six_months_seen"],
+        "flags": [
+          "story_six_months_seen"
+        ],
         "result_text": "조급함이 생겼다. 나쁜 건 아니다.\n다만 무너지지 않을 만큼만 조여야 한다.\n{name}은 그 경계를 알고 있다."
       },
       {
@@ -163,7 +223,9 @@
           "mental": 10,
           "stress": -8
         },
-        "flags": ["story_six_months_seen"],
+        "flags": [
+          "story_six_months_seen"
+        ],
         "result_text": "아무것도 하지 않는 반나절.\n죄책감이 올라왔다가 사라졌다.\n버티는 것도 체력이다. {name}은 오늘 그 체력을 충전했다."
       }
     ]
@@ -176,7 +238,9 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
+    "conditions": {
+      "min_turn": 9999
+    },
     "tags": [
       "story",
       "milestone"
@@ -189,7 +253,9 @@
           "mental": 10,
           "stress": -8
         },
-        "flags": ["story_one_year_seen"],
+        "flags": [
+          "story_one_year_seen"
+        ],
         "result_text": "비교하지 않기로 했다.\n{name}은 {name}의 속도로 가고 있다.\n그 속도가 느려 보여도, 멈춘 건 아니다."
       },
       {
@@ -199,7 +265,9 @@
           "intelligence": 5,
           "mental": 3
         },
-        "flags": ["story_one_year_seen"],
+        "flags": [
+          "story_one_year_seen"
+        ],
         "result_text": "불꽃을 당겼다.\n이 에너지가 오래 가야 할 텐데.\n{name}은 이미 알고 있다 — 조급함과 의지는 다르다는 걸."
       }
     ]
@@ -293,7 +361,9 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
+    "conditions": {
+      "min_turn": 9999
+    },
     "tags": [
       "story",
       "milestone",
@@ -308,7 +378,9 @@
           "mental": 12,
           "stress": -6
         },
-        "flags": ["story_first_paycheck_seen"],
+        "flags": [
+          "story_first_paycheck_seen"
+        ],
         "result_text": "10만원짜리 상품권을 보냈다.\n'괜찮아, 네 돈 아껴' 라는 답장이 왔다.\n{name}은 그 문자를 오래 들여다봤다."
       },
       {
@@ -317,7 +389,9 @@
           "mental": 4,
           "stress": 2
         },
-        "flags": ["story_first_paycheck_seen"],
+        "flags": [
+          "story_first_paycheck_seen"
+        ],
         "result_text": "통장에 그대로 남겼다.\n뭉클한 감정도 잠시. {name}은 다음 달을 준비한다."
       },
       {
@@ -327,7 +401,9 @@
           "mental": 8,
           "stress": -5
         },
-        "flags": ["story_first_paycheck_seen"],
+        "flags": [
+          "story_first_paycheck_seen"
+        ],
         "result_text": "5만원짜리 운동화.\n비싼 건 아니지만 {name}의 첫 월급으로 산 것이었다.\n신을 때마다 이 날이 생각날 것 같다."
       }
     ]
@@ -340,7 +416,9 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
+    "conditions": {
+      "min_turn": 9999
+    },
     "tags": [
       "story",
       "job"
@@ -353,7 +431,9 @@
           "reputation": 4,
           "stress": 3
         },
-        "flags": ["story_first_workday_seen"],
+        "flags": [
+          "story_first_workday_seen"
+        ],
         "result_text": "아무도 없는 사무실에 {name} 혼자 앉아 있었다.\n어색했지만, 첫인상은 챙겼다.\n이 10분이 나중에 기억될 수도 있다."
       },
       {
@@ -362,7 +442,9 @@
           "stress": -2,
           "social_skill": 2
         },
-        "flags": ["story_first_workday_seen"],
+        "flags": [
+          "story_first_workday_seen"
+        ],
         "result_text": "칼같이 정시 출근.\n너무 의식하지 않기로 했다.\n{name}은 그냥 {name}답게 시작하기로 했다."
       }
     ]
@@ -493,7 +575,10 @@
           "social_skill": 4,
           "mental": 5
         },
-        "result_text": "'아, 네.' 짧게 대답하고 갔다.\n근데 그다음부터 복도가 좀 덜 어색해졌다.\n{name}은 그걸로 충분하다고 생각했다."
+        "result_text": "'아, 네.' 짧게 대답하고 갔다.\n근데 그다음부터 복도가 좀 덜 어색해졌다.\n{name}은 그걸로 충분하다고 생각했다.",
+        "flags": [
+          "story_gosiwon_neighbor_seen"
+        ]
       },
       {
         "text": "그냥 지나친다. 엮이지 않는 게 편하다.",
@@ -501,7 +586,10 @@
           "stress": -2,
           "mental": -2
         },
-        "result_text": "눈을 내리깔고 지나쳤다.\n서울에서 혼자 산다는 건 이런 것이다.\n{name}도 이제 그 방식을 배우고 있다."
+        "result_text": "눈을 내리깔고 지나쳤다.\n서울에서 혼자 산다는 건 이런 것이다.\n{name}도 이제 그 방식을 배우고 있다.",
+        "flags": [
+          "story_gosiwon_neighbor_seen"
+        ]
       }
     ]
   },
@@ -599,7 +687,9 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
+    "conditions": {
+      "min_turn": 9999
+    },
     "tags": [
       "story",
       "milestone",
@@ -613,7 +703,9 @@
           "investment_skill": 5,
           "mental": 5
         },
-        "flags": ["story_first_savings_seen"],
+        "flags": [
+          "story_first_savings_seen"
+        ],
         "result_text": "잃지 않는 게 먼저다. 그다음이 불리는 것이다.\n{name}은 처음으로 돈을 지키는 사람이 됐다."
       },
       {
@@ -623,7 +715,9 @@
           "stress": 4,
           "mental": 3
         },
-        "flags": ["story_first_savings_seen"],
+        "flags": [
+          "story_first_savings_seen"
+        ],
         "result_text": "머뭇거릴 시간이 없다. 지금이 기회다.\n{name}은 첫 번째 진짜 베팅을 준비하기 시작했다."
       },
       {
@@ -632,7 +726,9 @@
           "mental": 8,
           "stress": -3
         },
-        "flags": ["story_first_savings_seen"],
+        "flags": [
+          "story_first_savings_seen"
+        ],
         "result_text": "메모장에 날짜와 금액을 적었다.\n나중에 이 숫자를 보면서 웃을 수 있기를.\n{name}의 강남드림이 여기서 시작됐다."
       }
     ]
@@ -645,19 +741,30 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story"
+    ],
     "cooldown": 9999,
     "choices": [
       {
         "text": "체계적으로 커리어를 쌓는다",
-        "effects": { "mental": 8, "stress": -3, "intelligence": 3 },
+        "effects": {
+          "mental": 8,
+          "stress": -3,
+          "intelligence": 3
+        },
         "follow_up_event": "story_pressure",
         "result_text": "20대의 시행착오가 이제 자산이 됐다.\n{name}은 이번엔 방향이 보인다."
       },
       {
         "text": "빠르게 취업해서 기반부터 잡는다",
-        "effects": { "stress": 4, "social_skill": 4 },
+        "effects": {
+          "stress": 4,
+          "social_skill": 4
+        },
         "follow_up_event": "story_pressure",
         "result_text": "일단 들어가는 게 먼저다.\n{name}은 이력서를 꺼냈다."
       }
@@ -671,19 +778,31 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story"
+    ],
     "cooldown": 9999,
     "choices": [
       {
         "text": "실패를 교훈 삼아 다시 시작한다",
-        "effects": { "mental": 8, "stress": -5, "intelligence": 3 },
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "intelligence": 3
+        },
         "follow_up_event": "story_pressure",
         "result_text": "한 번 망해봤으니 뭘 하면 안 되는지 안다.\n그게 {name}의 가장 큰 자산이다."
       },
       {
         "text": "이번엔 반드시 성공한다",
-        "effects": { "stress": 5, "luck": 3, "social_skill": 3 },
+        "effects": {
+          "stress": 5,
+          "luck": 3,
+          "social_skill": 3
+        },
         "follow_up_event": "story_pressure",
         "result_text": "절박함이 연료가 됐다.\n{name}은 이미 시작했다."
       }
@@ -697,8 +816,13 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -708,7 +832,9 @@
           "stress": 6,
           "mental": 2
         },
-        "flags": ["story_one_half_year_seen"],
+        "flags": [
+          "story_one_half_year_seen"
+        ],
         "result_text": "이력서를 다시 꺼냈다.\n현재 직장에서 배운 걸 정리했다.\n아직 준비가 덜 됐다고 느껴도 — 움직이는 사람이 기회를 잡는다."
       },
       {
@@ -718,7 +844,9 @@
           "mental": 4,
           "stress": -3
         },
-        "flags": ["story_one_half_year_seen"],
+        "flags": [
+          "story_one_half_year_seen"
+        ],
         "result_text": "이직은 나중에. 지금은 여기서 더 배우기로 했다.\n조급함보다 깊이가 필요한 시간이다.\n{name}은 오늘도 자리를 지켰다."
       },
       {
@@ -728,7 +856,9 @@
           "stress": -5,
           "health": 3
         },
-        "flags": ["story_one_half_year_seen"],
+        "flags": [
+          "story_one_half_year_seen"
+        ],
         "result_text": "창을 닫고 밥을 먹었다.\n지금 당장 답이 안 나오는 것들이 있다.\n{name}은 그걸 받아들이는 법을 조금씩 배우고 있다."
       }
     ]
@@ -741,8 +871,13 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -752,7 +887,9 @@
           "reputation": 3,
           "stress": -4
         },
-        "flags": ["story_two_year_seen"],
+        "flags": [
+          "story_two_year_seen"
+        ],
         "result_text": "여기가 {name}의 도시가 됐다.\n언젠가 이 도시에서 뭔가를 만들 것이다.\n그 확신이 조금 생겼다."
       },
       {
@@ -762,7 +899,9 @@
           "stress": -7,
           "money": -80000
         },
-        "flags": ["story_two_year_seen"],
+        "flags": [
+          "story_two_year_seen"
+        ],
         "result_text": "기차를 타고 내려갔다.\n엄마가 차려준 밥을 먹으며 잠깐 어린 시절로 돌아갔다.\n{name}은 다시 서울로 올라오면서 조금 더 단단해진 기분이 들었다."
       }
     ]
@@ -775,8 +914,13 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -786,7 +930,9 @@
           "stress": -6,
           "intelligence": 2
         },
-        "flags": ["story_three_year_seen"],
+        "flags": [
+          "story_three_year_seen"
+        ],
         "result_text": "남의 이정표로 나를 재지 않기로 했다.\n{name}의 출발선은 처음부터 달랐다.\n비교는 의미 없다. 지금 {name}이 가는 방향이 맞다."
       },
       {
@@ -796,7 +942,9 @@
           "intelligence": 5,
           "investment_skill": 3
         },
-        "flags": ["story_three_year_seen"],
+        "flags": [
+          "story_three_year_seen"
+        ],
         "result_text": "조급함이 다시 올라왔다. 이번엔 방향이 있다.\n허비할 시간이 없다.\n{name}은 기어를 올렸다."
       },
       {
@@ -806,7 +954,9 @@
           "mental": 5,
           "stress": -2
         },
-        "flags": ["story_three_year_seen"],
+        "flags": [
+          "story_three_year_seen"
+        ],
         "result_text": "거창한 전략보다 오늘 하루를 제대로 사는 것.\n{name}은 손에 있는 패에 집중하기로 했다.\n기회는 준비된 사람 앞에 온다."
       }
     ]
@@ -814,13 +964,18 @@
   {
     "id": "story_four_year",
     "title": "4년",
-    "description": "4년째.\n\n스물넷.\n\n이제 서울이 집처럼 느껴진다.\n고시원을 벗어났든 아직 있든 — 이 도시가 {name}의 터전이 됐다.\n\n요즘은 '이 길이 맞나'보다\n'이 속도로 충분한가'가 더 많이 든다.\n\n강남은 여전히 멀다.\n근데 2년 전보다는 가깝다.\n그게 사실이다.",
+    "description": "4년째.\n\n서른일곱.\n\n이제 서울이 집처럼 느껴진다.\n고시원을 벗어났든 아직 있든 — 이 도시가 {name}의 터전이 됐다.\n\n요즘은 '이 길이 맞나'보다\n'이 속도로 충분한가'가 더 많이 든다.\n\n강남은 여전히 멀다.\n근데 2년 전보다는 가깝다.\n그게 사실이다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -830,7 +985,9 @@
           "intelligence": 3,
           "stress": 6
         },
-        "flags": ["story_four_year_seen"],
+        "flags": [
+          "story_four_year_seen"
+        ],
         "result_text": "편한 선택을 내려놨다.\n불편하지만 성장하는 쪽을 선택했다.\n{name}의 4년이 5년으로 이어진다."
       },
       {
@@ -840,88 +997,10 @@
           "mental": 6,
           "stress": -5
         },
-        "flags": ["story_four_year_seen"],
+        "flags": [
+          "story_four_year_seen"
+        ],
         "result_text": "달리기 전에 체력을 챙겼다.\n무너지면 모든 게 처음부터다.\n{name}은 기반을 다지는 것도 전략임을 안다."
-      }
-    ]
-  },
-  {
-    "id": "story_five_year",
-    "title": "5년",
-    "description": "5년.\n\n스물다섯.\n\n이십대의 정중앙이다.\n\n처음 서울에 왔을 때 상상했던 '5년 후의 나'는 이랬을까.\n더 멀리 가 있을 거라 생각했다.\n아니면 이미 포기했을 거라 생각했다.\n\n{name}은 아직 여기 있다.\n포기하지 않았다.\n그게 전부이고, 그게 전부가 아니다.\n\n강남은 아직 멀다. 하지만 {name}은 아직 걷고 있다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "5년이 지났다. 다음 5년이 진짜다.",
-        "effects": {
-          "mental": 10,
-          "stress": -5,
-          "intelligence": 4,
-          "investment_skill": 3
-        },
-        "flags": ["story_five_year_seen"],
-        "result_text": "지난 5년은 준비 기간이었다.\n이제부터가 본게임이다.\n{name}은 그렇게 결심했다."
-      },
-      {
-        "text": "잘 버텼다. 오늘 하루는 나를 칭찬한다.",
-        "effects": {
-          "mental": 14,
-          "stress": -10,
-          "health": 5
-        },
-        "flags": ["story_five_year_seen"],
-        "result_text": "5년이다.\n서울에서 5년을 버텼다는 게 얼마나 대단한 일인지\n버텨본 사람만 안다.\n{name}은 오늘 그 사실을 인정하기로 했다."
-      }
-    ]
-  },
-  {
-    "id": "midlife_30s_reflection",
-    "title": "서른",
-    "description": "서른.\n\n이미 서른으로 시작했다.\n그 무게를 알면서도 여기까지 왔다.\n\n강남까지 아직 갈 길이 멀다.\n하지만 시작 때보다는 가깝다.\n\n포기하지 않은 것만으로도 충분히 잘 하고 있다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "30대는 더 치열하게 간다",
-        "effects": {
-          "intelligence": 6,
-          "investment_skill": 5,
-          "stress": 7,
-          "mental": 4
-        },
-        "flags": ["30s_reflection_done"],
-        "result_text": "20대의 실수들이 이제 재산이 됐다.\n{name}은 더 이상 방향을 모르지 않는다.\n30대는 실행의 시간이다."
-      },
-      {
-        "text": "숫자에 흔들리지 않는다. 내 속도가 있다.",
-        "effects": {
-          "mental": 12,
-          "stress": -8,
-          "health": 4
-        },
-        "flags": ["30s_reflection_done"],
-        "result_text": "나이는 숫자다.\n남들의 기준으로 나를 판단하지 않기로 했다.\n{name}은 {name}의 시계로 살아간다."
-      },
-      {
-        "text": "지금까지 온 길을 되돌아본다",
-        "effects": {
-          "mental": 8,
-          "intelligence": 3,
-          "stress": -4
-        },
-        "flags": ["30s_reflection_done"],
-        "result_text": "10년이다. 서울에서 10년.\n돌아보면 버텨온 게 대부분이지만 — 그 버팀이 지금의 {name}을 만들었다.\n앞으로 10년은 더 잘 할 수 있다."
       }
     ]
   },
@@ -933,8 +1012,13 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -945,7 +1029,9 @@
           "stress": 8,
           "mental": 3
         },
-        "flags": ["age_35_reflected"],
+        "flags": [
+          "age_35_reflected"
+        ],
         "result_text": "이제 실력이 쌓였다. 타이밍도 있다.\n{name}은 35살을 '아직'이 아니라 '지금'으로 읽었다.\n도전은 나이 제한이 없다."
       },
       {
@@ -956,232 +1042,65 @@
           "stress": -6,
           "reputation": 3
         },
-        "flags": ["age_35_reflected"],
+        "flags": [
+          "age_35_reflected"
+        ],
         "result_text": "남들이 뭐라 하든 {name}만의 속도가 있다.\n무너지지 않는 것이 먼저다.\n단단한 기반 위에서 강남을 노린다."
       }
     ]
   },
   {
-    "id": "age_40_threshold",
-    "title": "마흔",
-    "description": "마흔.\n\n{name}의 나이가 드디어 여기까지 왔다.\n\n20살에 서울에 왔을 때, 40살은 아득히 먼 나이였다.\n지금 거울을 보면 — 그때의 {name}이 맞는지 모르겠다.\n눈가에 주름이 생겼다. 흰 머리카락도 보인다.\n\n강남은 아직 꿈인가, 아니면 현실에 가까워지고 있는가.\n{name}은 그 답을 이 나이에 알고 있어야 한다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "마흔은 시작이다. 아직 20년이 남았다.",
-        "effects": {
-          "mental": 12,
-          "stress": -7,
-          "intelligence": 4,
-          "investment_skill": 4
-        },
-        "flags": ["age_40_reflected"],
-        "result_text": "40살에 시작하는 것들이 있다.\n20년의 경험이 이제 무기가 됐다.\n{name}은 이 나이에 비로소 자신이 뭘 원하는지 알게 됐다."
-      },
-      {
-        "text": "건강이 먼저다. 여기서 무너지면 안 된다.",
-        "effects": {
-          "health": 10,
-          "mental": 8,
-          "stress": -10
-        },
-        "flags": ["age_40_reflected"],
-        "result_text": "몸이 신호를 보내고 있었다.\n{name}은 처음으로 건강에 제대로 투자하기로 했다.\n강남까지 가려면 여기서 쓰러지면 안 된다."
-      },
-      {
-        "text": "지금까지의 선택을 돌아보고 전략을 수정한다",
-        "effects": {
-          "intelligence": 6,
-          "investment_skill": 5,
-          "stress": 3
-        },
-        "flags": ["age_40_reflected"],
-        "result_text": "잘한 것, 못한 것, 아까운 것.\n{name}은 40살의 눈으로 다시 정리했다.\n남은 시간을 더 현명하게 쓰겠다는 결심이 섰다."
-      }
-    ]
-  },
-  {
-    "id": "pre_retirement_decision",
-    "title": "마흔다섯",
-    "description": "마흔다섯.\n\n강남까지 시간이 얼마 남지 않았다.\n\n55살 은퇴까지 10년.\n이 10년 안에 30억을 만들지 못하면\n{name}의 강남드림은 없는 것이다.\n\n계산이 된다. 지금 자산이 얼마인지.\n거기서 10년 안에 어떻게 30억을 채울 수 있는지.\n가능한 길이 있는가.\n\n{name}은 지금 그 계산을 해야 한다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "마지막 10년, 모든 걸 건다",
-        "effects": {
-          "investment_skill": 8,
-          "intelligence": 5,
-          "stress": 10,
-          "mental": 4
-        },
-        "flags": ["retirement_strategy_set"],
-        "result_text": "리스크를 올렸다.\n잃을 것도 있지만, 지금 아니면 없다.\n{name}의 마지막 베팅이 시작됐다."
-      },
-      {
-        "text": "안전하게 간다. 지금 가진 것을 지킨다.",
-        "effects": {
-          "stress": -8,
-          "health": 6,
-          "mental": 8
-        },
-        "flags": ["retirement_strategy_set"],
-        "result_text": "강남드림이 안 될 수도 있다.\n그래도 지금까지 쌓은 것들이 있다.\n{name}은 그것으로도 충분한 삶을 설계하기 시작했다."
-      },
-      {
-        "text": "전략을 다시 짠다. 방법이 있을 것이다.",
-        "effects": {
-          "intelligence": 7,
-          "investment_skill": 6,
-          "stress": 4
-        },
-        "flags": ["retirement_strategy_set"],
-        "result_text": "포기는 아직 이르다.\n다른 길이 있을 수 있다.\n{name}은 마흔다섯에 전략을 처음부터 다시 짰다."
-      }
-    ]
-  },
-  {
-    "id": "age_50_milestone",
-    "title": "쉰",
-    "description": "쉰.\n\n반세기.\n\n스무 살에 서울에 왔을 때,\n50살의 자신을 상상한 적이 있었나.\n\n거울 속 {name}은 낯설면서도 익숙하다.\n주름, 흰 머리, 조금 굽은 어깨.\n\n강남드림. 아직 살아있는가.\n은퇴까지 5년.\n\n{name}은 오늘, 남은 시간을 어떻게 쓸지 생각한다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "5년이 남았다. 아직 포기하지 않는다.",
-        "effects": {
-          "mental": 12,
-          "investment_skill": 5,
-          "stress": 5
-        },
-        "flags": ["age_50_reflected"],
-        "result_text": "60개월.\n{name}은 그 시간을 손가락으로 꼽았다.\n아직 할 수 있다."
-      },
-      {
-        "text": "건강하게 마무리하는 게 진짜 성공이다.",
-        "effects": {
-          "health": 10,
-          "mental": 10,
-          "stress": -10
-        },
-        "flags": ["age_50_reflected"],
-        "result_text": "돈만이 답이 아닐 수 있다.\n건강하게, 품위 있게 마무리하는 것.\n{name}은 그게 또 다른 강남드림임을 알게 됐다."
-      }
-    ]
-  },
-  {
-    "id": "age_55_milestone",
-    "title": "쉰다섯",
-    "description": "쉰다섯.\n\n은퇴의 나이다.\n\n{name}은 지금 어디에 있나.\n30억을 모았나. 아직 모자란가.\n아니면 이미 강남에 살고 있나.\n\n어느 쪽이든 — 여기까지 왔다.\n서울 고시원 100만원에서 여기까지.\n\n35년이 지났다.\n{name}은 잠시 숨을 고른다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "아직 끝이 아니다. 더 간다.",
-        "effects": {
-          "mental": 10,
-          "investment_skill": 4,
-          "stress": 4
-        },
-        "flags": ["age_55_reflected"],
-        "result_text": "은퇴? 아직 이르다.\n{name}에게 나이는 숫자였고 앞으로도 그럴 것이다.\n계속 간다."
-      },
-      {
-        "text": "35년의 서울을 마음속으로 정리한다.",
-        "effects": {
-          "mental": 15,
-          "stress": -12,
-          "health": 6
-        },
-        "flags": ["age_55_reflected"],
-        "result_text": "고시원, 첫 월급, 야근, 투자 실패, 그리고 오늘.\n{name}의 서울 35년이 스쳐 지나갔다.\n후회보다 감사가 조금 더 많았다."
-      }
-    ]
-  },
-  {
-    "id": "age_60_milestone",
-    "title": "예순",
-    "description": "예순.\n\n{name}의 이름 앞에 '60대'가 붙는다.\n\n스무 살에 캐리어 하나 끌고 고시원에 들어왔던 그 사람이\n40년이 지나 이 자리에 있다.\n\n강남드림을 이뤘든, 아직 가는 길이든, 다른 방향을 찾았든.\n{name}은 포기하지 않았다.\n그게 이 40년을 관통하는 하나의 사실이다.\n\n서울은 아직도 빠르게 돌아간다.\n{name}만이 조금 느려졌다.",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "40년을 버텼다. 그것만으로 충분하다.",
-        "effects": {
-          "mental": 20,
-          "stress": -15,
-          "health": 8
-        },
-        "flags": ["age_60_reflected"],
-        "result_text": "누가 뭐라 해도 — {name}은 버텼다.\n그 버팀이 지금의 {name}을 만들었다.\n충분히 잘 살았다."
-      },
-      {
-        "text": "아직 마무리할 것들이 있다. 끝까지 한다.",
-        "effects": {
-          "mental": 12,
-          "investment_skill": 3,
-          "intelligence": 3,
-          "stress": 3
-        },
-        "flags": ["age_60_reflected"],
-        "result_text": "60살의 {name}에게 아직 불씨가 남아있었다.\n마지막까지 최선을 다하는 것.\n그것이 {name}이 40년 동안 해온 방식이다."
-      }
-    ]
-  },
-  {
     "id": "age_39_final",
-    "title": "마지막 1년",
-    "description": "서른아홉.\n\n딱 1년이 남았다.\n\n통장 잔고, 포트폴리오, 월급명세서.\n{name}은 숫자들을 다시 들여다봤다.\n\n강남 아파트까지 얼마나 남았나.\n이 1년 안에 가능한가.\n\n이 달 하는 선택 하나가 지금까지의 어느 달보다 무겁다.",
+    "title": "마지막 반년",
+    "description": "서른여덟이 코앞이다.\n\n딱 6개월 남았다.\n\n통장 잔고, 포트폴리오, 월급명세서.\n{name}은 숫자들을 다시 들여다봤다.\n\n강남 아파트까지 얼마나 남았나.\n이 반년 안에 가능한가.\n\n이 달 하는 선택 하나가 지금까지의 어느 달보다 무겁다.",
     "category": "story",
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": {"min_turn": 9999},
-    "tags": ["story", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
         "text": "마지막 1년, 모든 걸 쏟아붓는다",
-        "effects": { "investment_skill": 6, "intelligence": 4, "stress": 12, "mental": 5 },
-        "flags": ["age_39_seen"],
+        "effects": {
+          "investment_skill": 6,
+          "intelligence": 4,
+          "stress": 12,
+          "mental": 5
+        },
+        "flags": [
+          "age_39_seen"
+        ],
         "result_text": "후회는 나중에 해도 된다.\n지금은 그냥 간다.\n{name}은 남은 패를 전부 꺼냈다."
       },
       {
         "text": "무리하지 않는다. 지금까지 한 것만으로도 충분하다",
-        "effects": { "health": 8, "mental": 10, "stress": -10 },
-        "flags": ["age_39_seen"],
+        "effects": {
+          "health": 8,
+          "mental": 10,
+          "stress": -10
+        },
+        "flags": [
+          "age_39_seen"
+        ],
         "result_text": "강남이 전부가 아닐 수도 있다.\n{name}은 처음으로 그 생각을 진심으로 받아들였다."
       },
       {
         "text": "아직 방법이 있다. 계산을 다시 한다",
-        "effects": { "intelligence": 6, "investment_skill": 4, "stress": 5 },
-        "flags": ["age_39_seen"],
+        "effects": {
+          "intelligence": 6,
+          "investment_skill": 4,
+          "stress": 5
+        },
+        "flags": [
+          "age_39_seen"
+        ],
         "result_text": "숫자는 거짓말을 안 한다.\n{name}은 남은 12달의 시뮬레이션을 돌렸다.\n가능성이 보였다."
       }
     ]

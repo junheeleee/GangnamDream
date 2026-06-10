@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Fixed (2026-06-10) — 플래그 교차 검증 도입 + 잠재 버그 15개 수정
+- **audit 4번 검사 신설**: 코드/이벤트가 읽는 플래그를 실제 set 위치와 대조 — 오타·이름 불일치로 조용히 죽는 버그를 커밋 전에 기계적으로 검출
+- **엔딩 복구 2종**: `late_call`(아버지 화해) 도달 불가 버그, `empty_house` 도달 불가 → "관계 전무 + 비화해"로 재정의
+- **칭호 복구**: "자유로운 영혼"(free_spirit) — 자유시간 카운터가 구현돼 있지 않아 해금 불가였음
+- **아크 패널 복구**: 강현수 패널 전체(존재하지 않는 플래그 참조), 다은 패널 완료 표시
+- **이벤트 복구 3종**: startup_team_conflict(조건 플래그 미존재로 영영 안 뜸), startup_first_user_traction(1회성 보호 깨짐), story_gosiwon_neighbor(반복 방지 깨짐)
+- **죽은 분기 정리**: creator_success_unlocked→creator_viral, political_career_started→political_candidate, 구 캐릭터 수민 분기 제거
+- **옛 설계 이벤트 11종 삭제**: 마흔다섯/쉰/예순 마일스톤 7종(20세 시작·65세 은퇴 전제) + 아버지 아크 구버전 4종(신버전과 중복 진행 — 아버지가 두 번 아픈 버그)
+- **마일스톤 라우팅 정비**: t48이 옛 은퇴 이벤트를 호출하던 버그 수정 → story_four_year. 고아 이벤트 3종(t6 반년/t18 1년반/t30 서른다섯) 라우팅 연결
+- **나이 텍스트 교정**: story_four_year(스물넷→서른일곱), story_six_months(100만원→50만원), age_39_final(서른아홉→서른여덟 직전/마지막 반년)
+
 ### Added (2026-06-10) — 아크 깊이 작업 2·3차
 - **재혁 아크 강화**: arc_jaehyuk_01b_real_face(취중 고백) · arc_jaehyuk_02b_favor(조건 없는 도움) · arc_jaehyuk_04c_stand_up(재기 선택) 추가; aftermath 피해자 경로 3번째 선택지 추가
 - **다은 아크 강화**: arc_daeun_03b_date(첫 외출) · arc_daeun_04b_future(관계 긴장) · arc_daeun_regret_draft(이별 후 여운) 추가

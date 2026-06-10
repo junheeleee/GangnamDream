@@ -9,6 +9,8 @@
   2) 폐기 키워드 스캔          : age=30, 65세, 은퇴, 가짜 랜덤 인물 이름 등 옛 설계 잔재
   3) 이벤트 JSON 무결성        : 파싱/중복 id/없는 follow_up/없는 portrait·background·cg
                                  /빈 result_text/모르는 cast 인물
+  4) 플래그 교차 검증          : 코드/JSON에서 읽는 플래그가 실제로 어딘가에서 set되는가
+                                 (← 문자열 플래그라 오타·이름 불일치가 조용히 죽는 버그)
 
 ERROR가 하나라도 있으면 exit code 1.  WARNING은 통과(코드 0)하되 보고만 한다.
 """
@@ -234,11 +236,118 @@ def check_events():
                             warn('%s  [%s] 선택지%d 모르는 cast 인물 → "%s"' % (rel(p), eid, ci, pid))
 
 # ══════════════════════════════════════════════════════════════
+# 4) 플래그 교차 검증 — 읽기만 하고 아무도 set 안 하는 플래그를 잡는다
+# ══════════════════════════════════════════════════════════════
+# 게임 플래그 SET 위치:
+#   JSON: choices[].flags[], effects.flag, opportunity.win_flag/lose_flag
+#   GD  : flags["x"] = ...
+# 게임 플래그 READ 위치:
+#   GD  : f.get("x") / flags.get("x") / f.has("x") / flags.has("x")
+#   JSON: conditions.flag / conditions.no_flag
+# cast 플래그(인물별 네임스페이스):
+#   SET : cast_effects.<pid>.flags[]
+#   READ: cast_has_flag("pid","flag"), conditions.cast_flag {person,flag}
+FLAG_SET_GD   = re.compile(r'\bflags\["([A-Za-z0-9_]+)"\]\s*=\s*[^=]')
+FLAG_READ_GD  = [
+    re.compile(r'\bf\.get\("([A-Za-z0-9_]+)"'),
+    re.compile(r'\bflags\.get\("([A-Za-z0-9_]+)"'),
+    re.compile(r'\bf\.has\("([A-Za-z0-9_]+)"'),
+    re.compile(r'\bflags\.has\("([A-Za-z0-9_]+)"'),
+    re.compile(r'\bflags\["([A-Za-z0-9_]+)"\]\s*=='),
+]
+CAST_READ_GD  = re.compile(r'cast_has_flag\(\s*"([a-z0-9_]+)"\s*,\s*"([A-Za-z0-9_]+)"')
+
+def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json, where):
+    cond = ev.get("conditions", {})
+    if isinstance(cond, dict):
+        for key in ("flag", "no_flag"):
+            v = cond.get(key)
+            if isinstance(v, str) and v:
+                game_reads_json.setdefault(v, []).append(where)
+        cf = cond.get("cast_flag")
+        if isinstance(cf, dict):
+            p, fl = str(cf.get("person", "")), str(cf.get("flag", ""))
+            if p and fl:
+                cast_reads_json.setdefault((p, fl), []).append(where)
+    for ch in ev.get("choices", []):
+        for fl in ch.get("flags", []):
+            game_sets.add(str(fl))
+        eff = ch.get("effects", {})
+        if isinstance(eff, dict) and isinstance(eff.get("flag"), str):
+            game_sets.add(eff["flag"])
+        opp = ch.get("opportunity", {})
+        if isinstance(opp, dict):
+            for key in ("win_flag", "lose_flag"):
+                if isinstance(opp.get(key), str) and opp[key]:
+                    game_sets.add(opp[key])
+        ce = ch.get("cast_effects", {})
+        if isinstance(ce, dict):
+            for pid, pe in ce.items():
+                if isinstance(pe, dict):
+                    for fl in pe.get("flags", []):
+                        cast_sets.add((str(pid), str(fl)))
+
+def check_flags():
+    game_sets = set()           # set되는 게임 플래그 전체
+    cast_sets = set()           # set되는 (인물, 플래그) 전체
+    game_reads_gd   = {}        # flag -> [위치]
+    game_reads_json = {}
+    cast_reads_gd   = {}
+    cast_reads_json = {}
+
+    # ── JSON 수집 ──
+    for p in glob.glob(os.path.join(ROOT, "content", "**", "*.json"), recursive=True):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for ev in evs:
+            if not isinstance(ev, dict):
+                continue
+            where = "%s [%s]" % (rel(p), ev.get("id", "?"))
+            _walk_event_flags(ev, game_sets, game_reads_json,
+                              cast_sets, cast_reads_json, where)
+
+    # ── GDScript 수집 ──
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            for ln_no, line in enumerate(open(f, encoding="utf-8").read().splitlines(), 1):
+                if "audit-ignore" in line:
+                    continue
+                for m in FLAG_SET_GD.finditer(line):
+                    game_sets.add(m.group(1))
+                for pat in FLAG_READ_GD:
+                    for name in pat.findall(line):
+                        game_reads_gd.setdefault(name, []).append("%s:%d" % (rel(f), ln_no))
+                for m in CAST_READ_GD.finditer(line):
+                    cast_reads_gd.setdefault((m.group(1), m.group(2)), []).append(
+                        "%s:%d" % (rel(f), ln_no))
+
+    # ── 대조: 읽기만 하고 set 없는 플래그 → ERROR ──
+    for name, locs in sorted(game_reads_gd.items()):
+        if name not in game_sets:
+            err('플래그 "%s" 를 코드가 읽지만 아무도 set 안 함 (패널/분기 조용히 죽음)  %s'
+                % (name, locs[0]))
+    for name, locs in sorted(game_reads_json.items()):
+        if name not in game_sets:
+            err('플래그 "%s" 를 이벤트 조건이 읽지만 아무도 set 안 함 (이벤트 영영 안 뜸)  %s'
+                % (name, locs[0]))
+    for (pid, fl), locs in sorted(cast_reads_gd.items()):
+        if (pid, fl) not in cast_sets:
+            err('cast 플래그 %s.%s 를 코드가 읽지만 어떤 cast_effects도 set 안 함  %s'
+                % (pid, fl, locs[0]))
+    for (pid, fl), locs in sorted(cast_reads_json.items()):
+        if (pid, fl) not in cast_sets:
+            err('cast 플래그 %s.%s 를 이벤트 조건이 읽지만 어떤 cast_effects도 set 안 함  %s'
+                % (pid, fl, locs[0]))
+
+# ══════════════════════════════════════════════════════════════
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)
     check_gdscript()
     check_deprecated()
     check_events()
+    check_flags()
 
     if errors:
         print("\n" + C.R + C.BOLD + "● ERROR (%d)" % len(errors) + C.Z)

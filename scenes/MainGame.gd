@@ -1164,14 +1164,20 @@ func _next_milestone_id() -> String:
 	if GameState.money >= 3_000_000 and not f.get("story_first_savings_seen", false):
 		return "story_first_savings_milestone"
 	# 5년 = 60턴 압축. 33→38세.
+	if t == 6 and not f.get("story_six_months_seen", false):
+		return "story_six_months"
 	if t == 12 and not f.get("story_one_year_seen", false):
 		return "story_one_year"
+	if t == 18 and not f.get("story_one_half_year_seen", false):
+		return "story_one_half_year"
 	if t == 24 and not f.get("story_two_year_seen", false):
 		return "story_two_year"
+	if t == 30 and not f.get("age_35_reflected", false):
+		return "age_35_checkpoint"
 	if t == 36 and not f.get("story_three_year_seen", false):
 		return "story_three_year"
-	if t == 48 and not f.get("story_seven_year_seen", false):
-		return "pre_retirement_decision"
+	if t == 48 and not f.get("story_four_year_seen", false):
+		return "story_four_year"
 	if t == 54 and not f.get("age_39_seen", false):
 		return "age_39_final"
 	return ""
@@ -1798,7 +1804,7 @@ func _refresh_arc_box() -> void:
 			"name": "김다은",
 			"icon": "💙",
 			"active": f.get("met_daeun", false),
-			"done": f.get("arc_daeun_together_done", false) or f.get("arc_daeun_ghost_seen", false),
+			"done": f.get("arc_daeun_04_seen", false) or f.get("arc_daeun_ghost_seen", false),
 			"stages": [
 				{"label": "첫 만남", "done": f.get("arc_daeun_01_seen", false)},
 				{"label": "거리 둠 / 가까워짐", "done": f.get("arc_daeun_regular_seen", false)},
@@ -1822,12 +1828,11 @@ func _refresh_arc_box() -> void:
 		{
 			"name": "강현수 (친구)",
 			"icon": "🍺",
-			"active": f.get("met_hyunsu", false),
-			"done": f.get("arc_hyunsu_03_seen", false),
+			"active": f.get("arc_intro_hyunsu_seen", false),
+			"done": f.get("arc_jaehyuk_hyunsu_warning_seen", false),
 			"stages": [
-				{"label": "술자리", "done": f.get("arc_hyunsu_01_seen", false)},
-				{"label": "부탁", "done": f.get("arc_hyunsu_02_seen", false)},
-				{"label": "결말", "done": f.get("arc_hyunsu_03_seen", false)},
+				{"label": "옆방 라면", "done": f.get("arc_intro_hyunsu_seen", false)},
+				{"label": "그의 경고", "done": f.get("arc_jaehyuk_hyunsu_warning_seen", false)},
 			],
 			"hint": "",
 		},
@@ -2100,11 +2105,9 @@ func _month_narration() -> String:
 		if m in [12, 1, 2]:
 			return "다은이 따뜻한 국을 끓여줬다. 이 겨울은 작년보다 따뜻하다."
 		return "다은이 있다. 오늘 그것만으로 충분한 날이었다."
-	if f.get("romance_sumin_confession", false):
-		return "수민이 생각났다. 바쁜 와중에도 그 사람 얼굴이 떠오른다."
 	if f.get("startup_exit", false):
 		return "한 번은 해냈다. 그게 자신감이 됐다."
-	if f.get("creator_success_unlocked", false):
+	if f.get("creator_viral", false):
 		return "오늘도 알림이 울렸다. 낯선 누군가가 내 이야기를 보고 있다."
 
 	# ── 자산 마일스톤 내레이션 ──────────────────────
@@ -2273,7 +2276,7 @@ func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_
 	# [일/커리어] — 취업 후 일은 자동(월급·승진 패시브)이라 카드를 숨긴다.
 	# 무직(구직 필요)이거나 능동적 사업(창업/콘텐츠)이 있을 때만 노출.
 	var has_venture = (GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false)) \
-		or (GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_success_unlocked", false))
+		or (GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_viral", false))
 	if no_job or has_venture:
 		var work_title = "일 · 커리어" if no_job else "내 사업"
 		var work_sub = "구직·자소서·면접" if no_job else "창업·콘텐츠 운영"
@@ -2471,7 +2474,7 @@ func _open_cat_work():
 	# 창업/크리에이터 진행 중이면 노출
 	if GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false):
 		_cat_modal_button("🚀 창업 업무  —  내 사업을 키운다", "#6a3a9a", "_ap_startup_work")
-	if GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_success_unlocked", false):
+	if GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_viral", false):
 		_cat_modal_button("🎬 콘텐츠 제작  —  채널을 키운다", "#4a7a3a", "_ap_create_content")
 
 func _open_cat_money():
@@ -2842,6 +2845,8 @@ func _ap_selfdev():
 	_ap_vignette("📚 자기계발", SELFDEV_VIGNETTES, "#5a6ea8")
 
 func _ap_free_time():
+	# 자유시간 누적 → 칭호 "자유로운 영혼" (MetaProgression free_spirit) 조건
+	GameState.flags["free_time_count"] = int(GameState.flags.get("free_time_count", 0)) + 1
 	_ap_vignette("🌊 휴식", REST_VIGNETTES, "#0891b2")
 
 ## 루틴 행동을 '변주되는 미니 장면'으로 처리. 풀에서 무작위 결과를 뽑아 적용.
@@ -3818,17 +3823,15 @@ func _ending_milestones(parent: Control):
 		milestones.append("🚀 스타트업 엑싯 성공")
 	elif f.get("startup_launched", false):
 		milestones.append("🚀 창업 도전")
-	if f.get("creator_success_unlocked", false):
+	if f.get("creator_viral", false):
 		milestones.append("🎬 크리에이터 수익화 성공")
 	elif f.get("creator_started", false):
 		milestones.append("🎬 크리에이터 활동 시작")
-	if f.get("romance_sumin_confession", false):
-		milestones.append("💕 수민과 이어졌다")
 	if GameState.investment_skill >= 50:
 		milestones.append("📈 투자 고수 레벨 달성")
 	elif GameState.investment_skill >= 25:
 		milestones.append("📈 투자 중수 달성")
-	if f.get("political_career_started", false):
+	if f.get("political_candidate", false):
 		milestones.append("🏛️ 정계 진출")
 	if milestones.is_empty():
 		return

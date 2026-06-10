@@ -1,5 +1,42 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (플래그 교차 검증 도입 — 잠재 버그 15개 일괄 수정)
+
+### 왜: "아크 볼 때마다 수정거리가 나온다"의 근본 원인
+게임 전체가 문자열 플래그(JSON set ↔ GDScript read)로 연결돼 있는데
+둘의 일치를 검증하는 장치가 없었다. 오타·이름 불일치는 Godot 파싱을 통과하고
+"패널이 안 뜸 / 이벤트가 영영 안 뜸 / 엔딩이 안 나옴"으로 조용히 죽는다.
+
+### audit.py 4번 검사 신설: 플래그 교차 검증
+- 게임 플래그: JSON(choices.flags / effects.flag / opportunity win·lose_flag) +
+  GD(`flags["x"]=`) 의 SET 풀 ↔ GD(`f.get`/`flags.get`/`f.has`) + JSON(`flag`/`no_flag`) READ 대조
+- cast 플래그: cast_effects.<pid>.flags ↔ cast_has_flag(pid, flag) 대조
+- 읽기만 하고 set 없는 플래그 → ERROR
+
+### 검출된 15개 전부 수정
+- **엔딩 게이트 2종 (GameState)**: `late_call` 엔딩이 한 번도 set 안 되는
+  cast 플래그(father.reconciled)를 읽고 있었음 → `father_reconciled` 게임 플래그로.
+  `empty_house`는 존재하지 않는 father.passed_away 의존 → "관계 전무 + 아버지 비화해"로 재정의.
+- **아크 패널 2종 (MainGame)**: 현수 패널(met_hyunsu/arc_hyunsu_0X_seen 전부 미존재) →
+  실제 플래그(arc_intro_hyunsu_seen/arc_jaehyuk_hyunsu_warning_seen)로 재구성.
+  다은 패널 done(arc_daeun_together_done 미존재) → arc_daeun_04_seen.
+- **죽은 플래그 읽기 4종**: creator_success_unlocked→creator_viral(5곳),
+  political_career_started→political_candidate, romance_sumin_confession 분기 2곳 제거(구 캐릭터),
+  free_time_count → _ap_free_time에 카운터 구현(칭호 "자유로운 영혼" 해금 복구).
+- **이벤트 조건 3종**: startup_team_conflict(flag: startup_team 미존재→startup_founded),
+  startup_first_user_traction(no_flag: startup_growing 미설정→본인이 set, 1회성화),
+  story_gosiwon_neighbor(반복 방지 플래그 미설정→choices에 추가).
+
+### 옛 설계 잔재 이벤트 11종 제거 + 마일스톤 라우팅 정비
+- story_events 7종 삭제: pre_retirement_decision(마흔다섯/55세 은퇴), age_40/50/55/60,
+  story_five_year(스물다섯), midlife_30s_reflection — 전부 시작 20세/은퇴 65세 옛 설계
+- life_events 4종 삭제: arc_father_01~04 구버전 체인 — arc_events 신버전 5단계와
+  같은 스토리를 중복 진행(아버지가 두 번 아프고 두 번 화해하는 버그)
+- 마일스톤 라우팅: t48이 옛 pre_retirement_decision을 호출하던 버그 → story_four_year로.
+  고아 상태였던 story_six_months(t6)/story_one_half_year(t18)/age_35_checkpoint(t30) 라우팅 추가
+- 텍스트 수정: story_four_year 스물넷→서른일곱, story_six_months 100만원→50만원,
+  age_39_final 서른아홉/마지막 1년→서른여덟 직전/마지막 반년
+
 ## 2026-06-10 (아크 깊이 작업 3차 — 다은·한지연 콘텐츠 + 패널 버그 수정)
 
 ### 다은 아크 콘텐츠 추가 (arc_daeun.json + MainGame 라우팅)
