@@ -93,7 +93,51 @@ const ALL_TITLES := [
 	 "desc":"청렴런으로 30억 달성. 도박 없이, 이 도시에서 살아남았다."},
 	{"id":"network_run_title",  "name":"서울 인맥왕",        "cat":"메타", "rare":"uncommon",
 	 "desc":"인맥런으로 강남 입성. 결국 사람이 가장 큰 자산이었다."},
+	# ── 이야기의 선택 (스토리 분기 연동) ──
+	{"id":"temptation_resist_title", "name":"그날 밤의 선택", "cat":"이야기", "rare":"common",
+	 "desc":"가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다."},
+	{"id":"high_road_title",    "name":"선을 지킨 사람",     "cat":"이야기", "rare":"rare",
+	 "desc":"친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다."},
+	{"id":"father_peace_title", "name":"마지막 봄",          "cat":"이야기", "rare":"uncommon",
+	 "desc":"아버지와 화해했다. 벚꽃이 피기 전에, 늦지 않게."},
+	{"id":"love_chosen_title",  "name":"사랑을 택한 사람",   "cat":"이야기", "rare":"uncommon",
+	 "desc":"갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것."},
+	{"id":"investigator_title", "name":"의심하는 자",        "cat":"이야기", "rare":"uncommon",
+	 "desc":"친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다."},
 ]
+
+# ── 칭호 보유 → 다음 런 시작 보너스 (카테고리별, 상한 있음) ────────
+const PERK_RULES := {
+	"투자":     {"stat": "investment_skill", "per": 1, "cap": 4},
+	"직업":     {"stat": "intelligence",     "per": 1, "cap": 4},
+	"관계":     {"stat": "social_skill",     "per": 1, "cap": 4},
+	"주거":     {"stat": "stress",           "per": -1, "cap": -4},
+	"성향":     {"stat": "luck",             "per": 1, "cap": 4},
+	"이야기":   {"stat": "mental",           "per": 1, "cap": 4},
+	"메타":     {"stat": "money",            "per": 50_000, "cap": 250_000},
+	"미니게임": {"stat": "money",            "per": 50_000, "cap": 150_000},
+}
+
+## 해금 칭호 수에 비례한 시작 보너스를 계산한다. {"investment_skill": 2, "money": 100000, ...}
+func get_run_start_bonus() -> Dictionary:
+	var counts: Dictionary = {}
+	for tid in get_unlocked_titles():
+		var info = get_title_info(str(tid))
+		if info.is_empty():
+			continue
+		var cat = str(info.get("cat", ""))
+		counts[cat] = int(counts.get(cat, 0)) + 1
+	var bonus: Dictionary = {}
+	for cat in counts:
+		if not PERK_RULES.has(cat):
+			continue
+		var rule: Dictionary = PERK_RULES[cat]
+		var stat = str(rule["stat"])
+		var amount = int(rule["per"]) * int(counts[cat])
+		var cap = int(rule["cap"])
+		amount = clampi(amount, mini(cap, 0), maxi(cap, 0))
+		bonus[stat] = int(bonus.get(stat, 0)) + amount
+	return bonus
 
 func _ready():
 	load_meta()
@@ -204,6 +248,12 @@ func _check_title_condition(tid: String) -> bool:
 			for run in data.get("run_history", []):
 				if run.get("run_theme","") == "인맥런" and run.get("ending_id","") == "gangnam_dream": return true
 			return false
+		# ── 이야기의 선택 칭호 ──
+		"temptation_resist_title": return GameState.flags.get("kept_clean_hands", false)
+		"high_road_title":         return GameState.flags.get("took_high_road", false)
+		"father_peace_title":      return GameState.flags.get("father_reconciled", false)
+		"love_chosen_title":       return GameState.flags.get("daeun_chose_her", false)
+		"investigator_title":      return GameState.flags.get("started_investigating", false)
 	return false
 
 func is_hidden_event_unlocked(event_id):

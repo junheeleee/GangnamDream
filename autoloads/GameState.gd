@@ -185,10 +185,40 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	_apply_route_bonus(chosen_route)
 	_apply_starting_profile(starting_profile)
 	_apply_run_theme(chosen_theme)
+	_apply_title_perks()
 	_init_market_prices()
 	add_log("새 런 시작: %s / 출발점: %s" % [chosen_route, starting_profile], "system")
 	stats_changed.emit()
 	run_started.emit()
+
+## 해금한 칭호가 다음 런 시작 보너스가 된다 — 수집의 실질 보상
+func _apply_title_perks():
+	var bonus: Dictionary = MetaProgression.get_run_start_bonus()
+	if bonus.is_empty():
+		return
+	var parts: PackedStringArray = PackedStringArray()
+	var stat_kr = {
+		"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
+		"stress": "스트레스", "luck": "운", "mental": "정신력", "money": "자금",
+	}
+	for stat in bonus:
+		var amount = int(bonus[stat])
+		if amount == 0:
+			continue
+		match str(stat):
+			"money":            money += float(amount)
+			"investment_skill": investment_skill += amount
+			"intelligence":     intelligence += amount
+			"social_skill":     social_skill += amount
+			"stress":           stress = clampi(stress + amount, 0, 100)
+			"luck":             luck += amount
+			"mental":           mental = clampi(mental + amount, 0, 100)
+		if str(stat) == "money":
+			parts.append("자금 +%s" % format_money(float(amount)))
+		else:
+			parts.append("%s %+d" % [stat_kr.get(str(stat), str(stat)), amount])
+	if not parts.is_empty():
+		add_log("🏆 칭호 보너스: %s  (수집한 칭호가 힘이 된다)" % " · ".join(parts), "system")
 
 func _apply_background_bonus(bg: String):
 	pass  # legacy — 신규 런은 _apply_route_bonus 사용

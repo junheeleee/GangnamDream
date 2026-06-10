@@ -4421,10 +4421,30 @@ func _open_title_collection():
 		"해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다." % [unlocked.size(), total],
 		13, "#8892a4"))
 
+	# 칭호 보유 보너스 (다음 런 시작 시 적용)
+	var perk_bonus: Dictionary = MetaProgression.get_run_start_bonus()
+	if not perk_bonus.is_empty():
+		var stat_kr = {
+			"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
+			"stress": "스트레스", "luck": "운", "mental": "정신력", "money": "자금",
+		}
+		var perk_parts: PackedStringArray = PackedStringArray()
+		for stat in perk_bonus:
+			var amount = int(perk_bonus[stat])
+			if amount == 0:
+				continue
+			if str(stat) == "money":
+				perk_parts.append("자금 +%s" % GameState.format_money(float(amount)))
+			else:
+				perk_parts.append("%s %+d" % [stat_kr.get(str(stat), str(stat)), amount])
+		if not perk_parts.is_empty():
+			modal_body.add_child(_wrap_label(
+				"🎁 다음 런 시작 보너스:  " + " · ".join(perk_parts), 12, "#f0b429"))
+
 	var rare_colors = {"common": "#8892a4", "uncommon": "#5b9cf6", "rare": "#f0b429", "legendary": "#f97316"}
 	var rare_labels = {"common": "일반", "uncommon": "희귀", "rare": "레어", "legendary": "전설"}
 
-	for cat in ["주거", "직업", "투자", "성향", "관계", "생활", "자산", "메타"]:
+	for cat in ["주거", "직업", "투자", "성향", "관계", "생활", "자산", "메타", "미니게임", "이야기"]:
 		var cat_titles: Array = []
 		for t in MetaProgression.ALL_TITLES:
 			if t.get("cat", "") == cat:
