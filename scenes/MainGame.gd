@@ -2059,14 +2059,15 @@ func _render_ap_actions():
 	# ── 패드 힌트 (컨트롤러 연결 시에만 표시) ───────────────
 	if ControllerHints.is_pad_active():
 		var s := ControllerHints.south()
-		var e := ControllerHints.east()
-		var r := ControllerHints.shoulder_r()
+		var lb := ControllerHints.shoulder_l()
+		var rb := ControllerHints.shoulder_r()
+		var r3 := ControllerHints.r3()
 		var m := ControllerHints.start_btn()
 		var pad_hint: String
 		if disabled:
-			pad_hint = "🎮  [%s] 확인  [%s] 다음달  [%s] 메뉴" % [s, r, m]
+			pad_hint = "🎮  [%s] 확인  [%s] 다음달  [%s/%s] 탭  [%s] 메뉴" % [s, r3, lb, rb, m]
 		else:
-			pad_hint = "🎮  [%s] 선택  [%s] 메뉴 (%s)" % [s, m, ControllerHints.brand_name()]
+			pad_hint = "🎮  [%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)" % [s, lb, rb, m, ControllerHints.brand_name()]
 		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
 
 	# ── 상점 버튼 (상단 바) ───────────────────────────────
@@ -3529,6 +3530,17 @@ func _unhandled_input(event):
 		if not modal_layer.visible:
 			_open_system_menu()
 		get_viewport().set_input_as_handled()
+		return
+	# RB/LB: 정보 탭 순환 (모달 닫힌 상태에서만)
+	if event.is_action_pressed("gd_tab_next"):
+		if not modal_layer.visible and info_tabs:
+			info_tabs.current_tab = (info_tabs.current_tab + 1) % info_tabs.get_tab_count()
+			get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("gd_tab_prev"):
+		if not modal_layer.visible and info_tabs:
+			info_tabs.current_tab = (info_tabs.current_tab - 1 + info_tabs.get_tab_count()) % info_tabs.get_tab_count()
+			get_viewport().set_input_as_handled()
 		return
 	if not event.is_action_pressed("ui_cancel"):
 		return

@@ -6,12 +6,12 @@ enum Brand { GENERIC, XBOX, PLAYSTATION, NINTENDO }
 
 var _brand: Brand = Brand.GENERIC
 
-# [south, east, west, north, r_shoulder, start]
+# [south, east, west, north, r_shoulder, start, l_shoulder]
 const _LABELS: Dictionary = {
-	Brand.XBOX:        ["A",  "B",  "X",  "Y",  "RB", "Menu"],
-	Brand.PLAYSTATION: ["✕",  "○",  "□",  "△",  "R1", "Options"],
-	Brand.NINTENDO:    ["B",  "A",  "Y",  "X",  "R",  "+"],
-	Brand.GENERIC:     ["A",  "B",  "X",  "Y",  "RB", "Menu"],
+	Brand.XBOX:        ["A",  "B",  "X",  "Y",  "RB", "Menu",    "LB"],
+	Brand.PLAYSTATION: ["✕",  "○",  "□",  "△",  "R1", "Options", "L1"],
+	Brand.NINTENDO:    ["B",  "A",  "Y",  "X",  "R",  "+",       "L"],
+	Brand.GENERIC:     ["A",  "B",  "X",  "Y",  "RB", "Menu",    "LB"],
 }
 
 func _ready():
@@ -37,6 +37,8 @@ func _detect():
 			_brand = Brand.XBOX
 			return
 
+var _mouse_visible_until: float = 0.0
+
 func is_pad_active() -> bool:
 	return Input.get_connected_joypads().size() > 0
 
@@ -48,6 +50,10 @@ func east()      -> String: return _LABELS[_brand][1]
 func shoulder_r()-> String: return _LABELS[_brand][4]
 ## 스타트/옵션/+ 버튼
 func start_btn() -> String: return _LABELS[_brand][5]
+## 왼쪽 어깨 (LB/L1/L)
+func shoulder_l()-> String: return _LABELS[_brand][6]
+## 오른쪽 스틱 클릭 (R3 — 모든 패드 동일)
+func r3()        -> String: return "R3"
 
 ## 현재 브랜드 이름 (UI 디버그용)
 func brand_name() -> String:
@@ -56,3 +62,11 @@ func brand_name() -> String:
 		Brand.PLAYSTATION: return "PlayStation"
 		Brand.NINTENDO:    return "Nintendo"
 	return "Generic"
+
+## 패드 조작 시 마우스 커서 자동 숨김 / 마우스 이동 시 다시 표시
+func _input(event: InputEvent):
+	if event is InputEventJoypadButton or \
+			(event is InputEventJoypadMotion and abs(event.axis_value) > 0.3):
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	elif event is InputEventMouseMotion or event is InputEventMouseButton:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

@@ -195,7 +195,7 @@ func _build_ui():
 	# 계속 힌트 — 박스 우하단 고정
 	_continue_hint = Label.new()
 	_continue_hint.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_continue_hint.offset_left = -200
+	_continue_hint.offset_left = -240
 	_continue_hint.offset_top = -28
 	_continue_hint.offset_right = -16
 	_continue_hint.offset_bottom = -8
@@ -371,6 +371,8 @@ func _process(delta):
 	if _type_pos >= _type_full.length():
 		_type_pos = _type_full.length()
 		_typing = false
+		_continue_hint.text = "[%s] 또는 클릭" % ControllerHints.south() \
+				if ControllerHints.is_pad_active() else "▼  클릭하여 계속"
 		_continue_hint.visible = true
 	_body_lbl.text = _type_full.substr(0, _type_pos)
 
@@ -398,6 +400,19 @@ func _on_advance():
 		# 본문 끝 → 선택지
 		_show_choices()
 
+# ── 컨트롤러 입력 ─────────────────────────────────────────────
+func _unhandled_input(event: InputEvent):
+	if _transitioning:
+		return
+	if event.is_action_pressed("ui_accept"):
+		if _showing_choices:
+			return  # 포커스된 선택지 버튼이 직접 처리
+		_on_advance()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_cancel"):
+		# B/○/East: 이야기 도중엔 뒤로 가지 않음 (실수 방지)
+		get_viewport().set_input_as_handled()
+
 # ── 선택지 ────────────────────────────────────────────────────
 func _show_choices():
 	var choices: Array = _current.get("choices", [])
@@ -412,6 +427,9 @@ func _show_choices():
 		var ch: Dictionary = choices[i]
 		var btn = _make_choice_button(_fmt(str(ch.get("text", "선택"))), i)
 		_choice_box.add_child(btn)
+	# 컨트롤러: 첫 번째 선택지에 포커스 (A 버튼으로 즉시 선택 가능)
+	if _choice_box.get_child_count() > 0:
+		_choice_box.get_child(0).grab_focus()
 
 func _make_choice_button(text: String, idx: int) -> Button:
 	var btn = Button.new()
@@ -428,10 +446,14 @@ func _make_choice_button(text: String, idx: int) -> Button:
 	normal.content_margin_right = 14
 	var hover = normal.duplicate()
 	hover.bg_color = Color(0.12, 0.15, 0.24, 0.98)
+	var focus = normal.duplicate()
+	focus.bg_color = Color(0.14, 0.18, 0.30, 0.98)
+	focus.border_color = Color("#7eb6ff")
+	focus.border_width_left = 4
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
 	btn.add_theme_stylebox_override("pressed", hover)
-	btn.add_theme_stylebox_override("focus", normal)
+	btn.add_theme_stylebox_override("focus", focus)
 	btn.add_theme_color_override("font_color", Color(C_CHOICE))
 	btn.add_theme_font_size_override("font_size", 17)
 	if _font:
@@ -625,7 +647,7 @@ func _show_popup(title: String, body: String):
 	vb.add_child(bl)
 
 	var hint = Label.new()
-	hint.text = "클릭하여 닫기"
+	hint.text = "[A] 또는 클릭하여 닫기" if ControllerHints.is_pad_active() else "클릭하여 닫기"
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", Color("#5a6478"))
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -636,9 +658,10 @@ func _show_popup(title: String, body: String):
 	overlay.modulate.a = 0
 	var tw = create_tween()
 	tw.tween_property(overlay, "modulate:a", 1.0, 0.2)
-	# 클릭하면 닫힘
+	# 클릭 또는 아무 패드 버튼으로 닫힘
 	overlay.gui_input.connect(func(ev):
-		if ev is InputEventMouseButton and ev.pressed:
+		if (ev is InputEventMouseButton and ev.pressed) or \
+				(ev is InputEventJoypadButton and ev.pressed):
 			overlay.queue_free())
 
 func _spawn_toast(text: String, color: Color):
