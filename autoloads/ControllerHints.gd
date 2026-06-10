@@ -23,7 +23,7 @@ func _on_joy_changed(_device: int, _connected: bool):
 
 func _detect():
 	_brand = Brand.GENERIC
-	for i in range(Input.get_connected_joypads()):
+	for i in Input.get_connected_joypads():
 		var n: String = Input.get_joy_name(i).to_lower()
 		if "playstation" in n or "dualshock" in n or "dualsense" in n or "sony" in n \
 				or "ps3" in n or "ps4" in n or "ps5" in n:
