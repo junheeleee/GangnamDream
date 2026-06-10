@@ -1852,6 +1852,9 @@ func _render_ap_actions():
 	var ms_hint = _next_milestone_hint(total)
 	if not ms_hint.is_empty():
 		lines.append(ms_hint)
+	var traj = _months_to_goal_estimate()
+	if not traj.is_empty():
+		lines.append(traj)
 	# ── 경고 ──
 	var has_warning := false
 	if GameState.current_job.is_empty():
@@ -2235,9 +2238,57 @@ func _open_cat_work():
 		if GameState.social_skill >= 20:
 			_cat_modal_button("🎯 모의 면접  —  사회성 +2, 운 +1", "#3a6ea8", "_ap_interview_prep")
 	else:
+		var job_name = GameState.current_job.get("name", "직장인")
+		var tenure = GameState.job_tenure
+		var threshold = int(GameState.current_job.get("promotion_threshold", 12))
+		var promo_count = int(GameState.current_job.get("promotion_count", 0))
+		var max_promo = int(GameState.current_job.get("max_promotions", 3))
+		var perf = GameState.work_performance
+		var salary = GameState.monthly_income
 		modal_body.add_child(_wrap_label(
-			"%s — 월급과 승진은 매달 자동으로 처리된다. 일에 더 쏟을 행동은 없다.\n남는 시간은 투자·사람·자기계발에 쓰자." % GameState.current_job.get("name","직장인"),
-			13, "#7a8496"))
+			"%s — 월급 %s" % [job_name, GameState.format_money(salary)], 14, "#c8a060"))
+		modal_body.add_child(_label("── 승진 현황 ──", 11, "#3a3a5a"))
+		if promo_count >= max_promo:
+			modal_body.add_child(_wrap_label("✅ 최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.", 13, "#5b9cf6"))
+		else:
+			var tenure_row = HBoxContainer.new()
+			tenure_row.add_theme_constant_override("separation", 8)
+			modal_body.add_child(tenure_row)
+			var tenure_lbl = _label("근속", 12, "#7a8496")
+			tenure_lbl.custom_minimum_size = Vector2(36, 0)
+			tenure_row.add_child(tenure_lbl)
+			var bar = ProgressBar.new()
+			bar.min_value = 0
+			bar.max_value = maxi(threshold, 1)
+			bar.value = mini(tenure, threshold)
+			bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			bar.custom_minimum_size = Vector2(0, 18)
+			bar.show_percentage = false
+			tenure_row.add_child(bar)
+			var months_lbl = _label("%d / %d개월" % [tenure, threshold], 12, "#aab3c5")
+			months_lbl.custom_minimum_size = Vector2(72, 0)
+			tenure_row.add_child(months_lbl)
+			var perf_color = "#00c896" if perf >= 60 else "#ef4444"
+			var perf_gate = "승진 가능 ✓" if perf >= 60 else "승진 불가 ✗"
+			modal_body.add_child(_wrap_label(
+				"업무 성과  %d / 100  [%s]  (기준: 60+)" % [perf, perf_gate], 12, perf_color))
+			if tenure >= threshold and perf >= 60:
+				modal_body.add_child(_wrap_label("🎯 이번 달 승진 판정 대상!  (35% 확률)", 13, "#f0b429"))
+			elif tenure >= threshold:
+				modal_body.add_child(_wrap_label("⚠ 근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", 13, "#f0b429"))
+			else:
+				var left = threshold - tenure
+				modal_body.add_child(_wrap_label(
+					"%d개월 후 승진 판정 — 그때까지 성과를 쌓아라." % left, 13, "#7a8496"))
+			var job_tier = int(GameState.current_job.get("tier", 1))
+			var next_jobs: Array = []
+			for j in DataRegistry.jobs:
+				if int(j.get("tier", 0)) == job_tier + 1:
+					next_jobs.append(str(j.get("name", "")))
+			if not next_jobs.is_empty():
+				modal_body.add_child(_wrap_label(
+					"📈 다음 직급 예시  " + "  /  ".join(next_jobs.slice(0, 3)), 12, "#3a6ea8"))
+		modal_body.add_child(_wrap_label("남는 행동력은 투자·자기계발·관계에 쓰자.", 12, "#3a3a5a"))
 	# 창업/크리에이터 진행 중이면 노출
 	if GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false):
 		_cat_modal_button("🚀 창업 업무  —  내 사업을 키운다", "#6a3a9a", "_ap_startup_work")
@@ -3084,6 +3135,7 @@ func _open_system_menu():
 
 	_build_volume_sliders(modal_body)
 	_build_fullscreen_toggle(modal_body)
+	_build_save_load_section(modal_body)
 
 	var sep = HSeparator.new()
 	sep.modulate = Color("#2a2a3a")
@@ -3157,6 +3209,55 @@ func _build_fullscreen_toggle(parent: Control):
 	toggle.button_pressed = DisplayManager.fullscreen
 	toggle.toggled.connect(func(on): DisplayManager.set_fullscreen(on))
 	row.add_child(toggle)
+
+func _build_save_load_section(parent: Control):
+	var sep = HSeparator.new()
+	sep.modulate = Color("#2a2a3a")
+	parent.add_child(sep)
+	var header = _label("💾 저장 / 불러오기", 12, "#5a6075")
+	parent.add_child(header)
+	for slot in range(1, 4):
+		var info = SaveManager.get_save_info(slot)
+		var row = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		parent.add_child(row)
+		var slot_lbl = _label("슬롯 %d" % slot, 12, "#8892a4")
+		slot_lbl.custom_minimum_size = Vector2(48, 0)
+		row.add_child(slot_lbl)
+		var info_lbl = Label.new()
+		info_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info_lbl.add_theme_font_size_override("font_size", 11)
+		if _font_regular:
+			info_lbl.add_theme_font_override("font", _font_regular)
+		if info.get("empty", true):
+			info_lbl.text = "빈 슬롯"
+			info_lbl.add_theme_color_override("font_color", Color("#3a3a5a"))
+		else:
+			info_lbl.text = "%d년 %d월  %s" % [
+				info.get("year", 0), info.get("month", 0),
+				GameState.format_money(float(info.get("total_assets", 0)))]
+			info_lbl.add_theme_color_override("font_color", Color("#7a8496"))
+		row.add_child(info_lbl)
+		var save_btn = _small_button("저장", "#3a5a8a")
+		save_btn.custom_minimum_size = Vector2(52, 32)
+		save_btn.pressed.connect(_save_to_slot.bind(slot))
+		row.add_child(save_btn)
+		var load_btn = _small_button("불러오기", "#2a5a3a" if not info.get("empty", true) else "#242430")
+		load_btn.custom_minimum_size = Vector2(72, 32)
+		if info.get("empty", true):
+			load_btn.disabled = true
+		else:
+			load_btn.pressed.connect(_load_from_slot.bind(slot))
+		row.add_child(load_btn)
+
+func _save_to_slot(slot: int):
+	SaveManager.save_game(slot)
+	_close_modal()
+	_show_toast("💾 슬롯 %d에 저장했습니다" % slot, Color("#5b9cf6"))
+
+func _load_from_slot(slot: int):
+	SaveManager.load_game(slot)
+	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _unhandled_input(event):
 	if GameState.is_game_over:
@@ -3744,6 +3845,22 @@ func _next_milestone_hint(total: float) -> String:
 			var pct: int = int(total / target * 100.0)
 			return "🎯  %s  까지  %s 남음  [%d%%]" % [str(m[1]), GameState.format_money(needed), pct]
 	return ""
+
+func _months_to_goal_estimate() -> String:
+	const GOAL: float = 3_000_000_000.0
+	var total: float = float(GameState.get_total_asset_value())
+	if total >= GOAL:
+		return ""
+	var net: float = float(GameState.monthly_income) - float(GameState.get_housing_expense())
+	var remaining = GOAL - total
+	if net <= 0.0:
+		return "[color=#ff7070]💡 투자 없이는 달성 불가 — 자산을 굴려야 합니다[/color]"
+	var months_needed = int(ceil(remaining / net))
+	var turns_left: int = maxi(0, 60 - GameState.turn + 1)
+	if months_needed <= turns_left:
+		return "[color=#7a8496]💡 현재 수입만으로  약 %d개월 후 달성 가능 (투자 수익 제외)[/color]" % months_needed
+	else:
+		return "[color=#f0b429]💡 현재 수입만으로  %d개월 필요 → 남은 시간 %d개월, 투자가 필수![/color]" % [months_needed, turns_left]
 
 # ── 월 등급 계산 ─────────────────────────────────────
 func _calc_month_grade(snap: Dictionary) -> Dictionary:
