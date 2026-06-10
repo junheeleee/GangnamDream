@@ -1383,6 +1383,10 @@ func _render_event():
 			_first_choice_btn = button
 	if _first_choice_btn:
 		_first_choice_btn.call_deferred("grab_focus")
+	if ControllerHints.is_pad_active():
+		var hint = "🎮  [%s] 선택  [%s] 메뉴  (%s)" % [
+			ControllerHints.south(), ControllerHints.start_btn(), ControllerHints.brand_name()]
+		choice_box.add_child(_label(hint, 11, "#3a4a5a"))
 
 func _refresh_all():
 	if not is_inside_tree():
@@ -1925,6 +1929,19 @@ func _render_ap_actions():
 	# 상황 카드 — 매 턴 '이번 달 상황'에 반응. (추상 메뉴 대체)
 	# ══════════════════════════════════════════════════════
 	_render_situation_cards()
+
+	# ── 패드 힌트 (컨트롤러 연결 시에만 표시) ───────────────
+	if ControllerHints.is_pad_active():
+		var s := ControllerHints.south()
+		var e := ControllerHints.east()
+		var r := ControllerHints.shoulder_r()
+		var m := ControllerHints.start_btn()
+		var pad_hint: String
+		if disabled:
+			pad_hint = "🎮  [%s] 확인  [%s] 다음달  [%s] 메뉴" % [s, r, m]
+		else:
+			pad_hint = "🎮  [%s] 선택  [%s] 메뉴 (%s)" % [s, m, ControllerHints.brand_name()]
+		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
 
 	# ── 상점 버튼 (상단 바) ───────────────────────────────
 	if shop_button:
@@ -3142,12 +3159,24 @@ func _build_fullscreen_toggle(parent: Control):
 	row.add_child(toggle)
 
 func _unhandled_input(event):
-	if not event.is_action_pressed("ui_cancel"):
-		return
 	if GameState.is_game_over:
 		return
+	# R1/RB/R: AP 소진 후 다음 달로 (패드 전용 빠른 진행)
+	if event.is_action_pressed("gd_next_month"):
+		if not modal_layer.visible and GameState.action_points <= 0:
+			_on_next_month()
+			get_viewport().set_input_as_handled()
+		return
+	# Start/Options/+: 시스템 메뉴 (ESC·B와 동일 역할, 패드에서 더 직관적)
+	if event.is_action_pressed("gd_menu"):
+		if not modal_layer.visible:
+			_open_system_menu()
+		get_viewport().set_input_as_handled()
+		return
+	if not event.is_action_pressed("ui_cancel"):
+		return
 	if modal_layer and modal_layer.visible:
-		# 시스템 메뉴만 ESC로 닫는다 — 이벤트/결산 모달은 흐름 보호를 위해 버튼으로만
+		# 시스템 메뉴만 ESC/B로 닫는다 — 이벤트/결산 모달은 흐름 보호를 위해 버튼으로만
 		if modal_title_label and modal_title_label.text == "≡ 시스템":
 			_close_modal()
 			get_viewport().set_input_as_handled()

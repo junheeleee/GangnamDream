@@ -284,9 +284,13 @@ func _choice_btn(text: String) -> Button:
 	st.set_corner_radius_all(6)
 	var hov := st.duplicate()
 	hov.bg_color = Color("#1a2e44")
+	var focus_st := st.duplicate()
+	focus_st.border_color = Color("#f0b429")
+	focus_st.set_border_width_all(2)
 	btn.add_theme_stylebox_override("normal", st)
 	btn.add_theme_stylebox_override("hover", hov)
 	btn.add_theme_stylebox_override("pressed", hov)
+	btn.add_theme_stylebox_override("focus", focus_st)
 	btn.add_theme_color_override("font_color", Color("#c8d8e8"))
 	btn.add_theme_font_size_override("font_size", 13)
 	return btn

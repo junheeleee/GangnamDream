@@ -189,6 +189,8 @@ func _input(event: InputEvent):
 		pressed = true
 	elif event is InputEventMouseButton and event.pressed:
 		pressed = true
+	elif event is InputEventJoypadButton and event.pressed:
+		pressed = true
 
 	if not pressed:
 		return

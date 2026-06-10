@@ -261,11 +261,14 @@ func _render_betting() -> void:
 		st.border_width_left = 4
 		st.set_corner_radius_all(5)
 		st.content_margin_left = 12
+		var foc_pick := st.duplicate()
+		foc_pick.border_color = Color("#f0b429")
+		foc_pick.set_border_width_all(2)
 		btn.add_theme_stylebox_override("normal", st)
 		var hov := st.duplicate(); hov.bg_color = Color("#1a2433")
 		btn.add_theme_stylebox_override("hover", hov)
 		btn.add_theme_stylebox_override("pressed", st)
-		btn.focus_mode = Control.FOCUS_NONE
+		btn.add_theme_stylebox_override("focus", foc_pick)
 		var idx: int = i
 		btn.pressed.connect(func(): _toggle_pick(idx))
 		btn.add_child(rt)
@@ -631,12 +634,15 @@ func _style(b: Button, bg: String, border: String) -> void:
 	st.content_margin_top = 8; st.content_margin_bottom = 8
 	var hov := st.duplicate(); hov.bg_color = Color(bg).lightened(0.1)
 	var dis := st.duplicate(); dis.bg_color = Color("#141419"); dis.border_color = Color("#222")
+	var foc := st.duplicate()
+	foc.border_color = Color("#f0b429")
+	foc.set_border_width_all(2)
 	b.add_theme_stylebox_override("normal", st)
 	b.add_theme_stylebox_override("hover", hov)
 	b.add_theme_stylebox_override("pressed", st)
 	b.add_theme_stylebox_override("disabled", dis)
+	b.add_theme_stylebox_override("focus", foc)
 	b.add_theme_color_override("font_color", Color("#dce4f0"))
 	b.add_theme_color_override("font_disabled_color", Color("#4a4a58"))
 	b.add_theme_font_size_override("font_size", 14)
 	_f(b)
-	b.focus_mode = Control.FOCUS_NONE

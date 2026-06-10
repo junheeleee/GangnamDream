@@ -37,6 +37,7 @@ AudioManager="*res://autoloads/AudioManager.gd"
 BGMPlayer="*res://autoloads/BGMPlayer.gd"
 SceneTransition="*res://autoloads/SceneTransition.gd"
 DisplayManager="*res://autoloads/DisplayManager.gd"
+ControllerHints="*res://autoloads/ControllerHints.gd"
 EndingSystem="*res://systems/EndingSystem.gd"
 
 [display]
@@ -51,3 +52,14 @@ window/stretch/aspect="expand"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+
+[input]
+
+gd_next_month={
+"deadzone": 0.5,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":false,"script":null)]
+}
+gd_menu={
+"deadzone": 0.5,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":false,"script":null)]
+}

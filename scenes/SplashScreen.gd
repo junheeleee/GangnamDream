@@ -176,3 +176,5 @@ func _input(event):
 		_go_to_start()
 	elif event is InputEventMouseButton and event.pressed:
 		_go_to_start()
+	elif event is InputEventJoypadButton and event.pressed:
+		_go_to_start()
