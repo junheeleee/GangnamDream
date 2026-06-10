@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (아크 패널 완성 + warned 분기 신설)
+
+### 작업 내용
+1. **arc_jiyeon_truth_warned 신설** — `warned_about_jiyeon` 플래그 실질 파장 구현
+   - 임상철 경고를 들은 플레이어는 진실 씬에서 다른 묘사(미리 알고 있었던 관점)
+   - 기존 3가지 선택지를 유지하되 description 과 result_text 를 재구성
+   - `_next_arc_id()` 라우팅 분기 추가: warned_about_jiyeon → truth_warned, 아닌 경우 → truth_moment
+2. **arc 패널 아버지 · 재혁 추가** — 두 주요 아크가 패널 목록에서 누락됐음
+3. **임상철 패널 힌트 수정** — "직장 경험 후" → "10개월차 이후 자동 만남"
+
+### 결과
+- 아크 패널: 7개 항목 (다은/임상철/현수/지연/아버지/재혁/성향전문화)
+- audit ERROR 0 · WARNING 0 유지
+
+---
+
 ## 2026-06-10 (플래그 교차 검증 도입 — 잠재 버그 15개 일괄 수정)
 
 ### 왜: "아크 볼 때마다 수정거리가 나온다"의 근본 원인

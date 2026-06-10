@@ -1121,6 +1121,8 @@ func _next_arc_id() -> String:
 	if t >= 44 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_jiyeon_reveal_seen", false) \
 			and not f.get("arc_jiyeon_truth_seen", false):
+		if f.get("warned_about_jiyeon", false):
+			return "arc_jiyeon_truth_warned"
 		return "arc_jiyeon_truth_moment"
 	if t >= 50 and f.get("arc_jiyeon_truth_seen", false) \
 			and not f.get("arc_jiyeon_epilogue_seen", false):
@@ -1823,7 +1825,7 @@ func _refresh_arc_box() -> void:
 				{"label": "두 번째 커피", "done": f.get("arc_sangchul_02_seen", false)},
 				{"label": "네트워크 입성", "done": f.get("arc_sangchul_03_seen", false)},
 			],
-			"hint": "직장 경험 후 만남 가능",
+			"hint": "10개월차 이후 자동 만남",
 		},
 		{
 			"name": "강현수 (친구)",
@@ -1846,6 +1848,34 @@ func _refresh_arc_box() -> void:
 				{"label": "재회", "done": f.get("arc_jiyeon_store_seen", false)},
 				{"label": "연결", "done": f.get("arc_jiyeon_offer_seen", false)},
 				{"label": "진실", "done": f.get("arc_jiyeon_truth_seen", false)},
+			],
+			"hint": "",
+		},
+		{
+			"name": "아버지",
+			"icon": "👨",
+			"active": f.get("arc_father_01_seen", false),
+			"done": f.get("arc_father_05_seen", false) or f.get("father_reconciled", false),
+			"stages": [
+				{"label": "전화", "done": f.get("arc_father_01_seen", false)},
+				{"label": "이상 신호", "done": f.get("arc_father_02_done", false)},
+				{"label": "병원 소식", "done": f.get("arc_father_03_seen", false)},
+				{"label": "방문", "done": f.get("visited_father", false)},
+				{"label": "화해 / 여운", "done": f.get("arc_father_05_seen", false)},
+			],
+			"hint": "",
+		},
+		{
+			"name": "최재혁 (군대 동기)",
+			"icon": "⚠️",
+			"active": f.get("arc_jaehyuk_reunion_seen", false),
+			"done": f.get("arc_jaehyuk_aftermath_seen", false),
+			"stages": [
+				{"label": "재회", "done": f.get("arc_jaehyuk_reunion_seen", false)},
+				{"label": "유대", "done": f.get("arc_jaehyuk_bond_seen", false)},
+				{"label": "투자 제안", "done": f.get("arc_jaehyuk_pitch_seen", false)},
+				{"label": "도주 / 반격", "done": f.get("arc_jaehyuk_ghost_seen", false) or f.get("arc_jaehyuk_counter_seen", false)},
+				{"label": "사후처리", "done": f.get("arc_jaehyuk_aftermath_seen", false)},
 			],
 			"hint": "",
 		},
