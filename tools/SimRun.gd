@@ -6,15 +6,17 @@ extends Node
 ## 주의: 이벤트(스탯 노이즈)·정밀 AP는 미모델. 급여=고정, 휴식=대표값으로 생존 유지.
 
 const OPPS := [
-	# 부동산 신중 투자 — 낮은 stake, EV +4%
-	{"stake_ratio":0.30,"success_rate":0.32,"win_multiplier":1.6,"loss_ratio":0.55,"luck_factor":0.0015},
-	# 코인 투기 — 고위험 전손, EV -6%
-	{"stake_ratio":0.70,"success_rate":0.22,"win_multiplier":2.6,"loss_ratio":0.85,"luck_factor":0.0015},
-	# 분양권 도박 — 고 stake, EV +8%
-	{"stake_ratio":0.80,"success_rate":0.28,"win_multiplier":2.4,"loss_ratio":0.80,"luck_factor":0.0015},
-	# 레버리지 올인 — 극고위험, EV -6%
-	{"stake_ratio":0.85,"success_rate":0.24,"win_multiplier":2.4,"loss_ratio":0.85,"luck_factor":0.0015},
+	# 부동산 신중 (상철 conservative, buffed) — EV +57%/stake
+	{"stake_ratio":0.30,"success_rate":0.44,"win_multiplier":2.0,"loss_ratio":0.55,"luck_factor":0.0015},
+	# 부동산 올인 (상철 all-in, buffed) — EV +116%/stake
+	{"stake_ratio":0.70,"success_rate":0.42,"win_multiplier":2.8,"loss_ratio":0.55,"luck_factor":0.0015},
+	# 분양권 올인 (지연, buffed) — EV +105%/stake
+	{"stake_ratio":0.80,"success_rate":0.38,"win_multiplier":4.0,"loss_ratio":0.75,"luck_factor":0.0015},
+	# 공모주 (mid-game IPO, 새 이벤트) — EV +88%/stake
+	{"stake_ratio":0.60,"success_rate":0.36,"win_multiplier":3.5,"loss_ratio":0.60,"luck_factor":0.0015},
 ]
+# 재개발 올인: 고자산(>200M) 전용, mode 4에서 드물게 활성화
+const OPP_MEGA := {"stake_ratio":0.65,"success_rate":0.40,"win_multiplier":7.0,"loss_ratio":0.70,"luck_factor":0.0015}
 const SALARY := 2_240_000.0   # 중소기업 사무직(중간값)
 var _eid := ""
 
@@ -57,7 +59,11 @@ func _run_policy(pname: String, mode: int, runs: int) -> void:
 				if mode == 2 and employed and GameState.money > 3_000_000.0 and randf() < 0.25:
 					GameState._resolve_opportunity(OPPS[randi() % OPPS.size()])
 				elif mode == 3 and employed and GameState.money > 1_000_000.0 and randf() < 0.6:
-					GameState._resolve_opportunity(OPPS[randi() % OPPS.size()])
+					# 고자산 시 재개발 메가베팅 우선 (실제 게임 inv_redev_zone_tip 반영)
+					if GameState.money > 200_000_000.0 and t >= 28 and randf() < 0.5:
+						GameState._resolve_opportunity(OPP_MEGA)
+					else:
+						GameState._resolve_opportunity(OPPS[randi() % OPPS.size()])
 			# 월말
 			if GameState.turn <= 3: GameState.add_money(300_000.0)
 			GameState.apply_monthly_pressure()

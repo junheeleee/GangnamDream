@@ -924,8 +924,8 @@
         },
         "opportunity": {
           "stake_ratio": 0.7,
-          "success_rate": 0.32,
-          "win_multiplier": 1.6,
+          "success_rate": 0.42,
+          "win_multiplier": 2.8,
           "loss_ratio": 0.55,
           "luck_factor": 0.002,
           "skill_gain": 5
@@ -949,8 +949,8 @@
         },
         "opportunity": {
           "stake_ratio": 0.3,
-          "success_rate": 0.32,
-          "win_multiplier": 1.6,
+          "success_rate": 0.44,
+          "win_multiplier": 2.0,
           "loss_ratio": 0.55,
           "luck_factor": 0.002,
           "skill_gain": 3
@@ -1012,9 +1012,9 @@
         },
         "opportunity": {
           "stake_ratio": 0.8,
-          "success_rate": 0.28,
-          "win_multiplier": 2.4,
-          "loss_ratio": 0.8,
+          "success_rate": 0.38,
+          "win_multiplier": 4.0,
+          "loss_ratio": 0.75,
           "luck_factor": 0.0015,
           "skill_gain": 4
         },

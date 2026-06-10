@@ -1839,5 +1839,138 @@
         "result_text": "링크를 닫았다. 여기까지만이다.\n이미 여러 선을 건넜지만, 이 선만큼은 안 건너기로 했다.\n{name}에게도 마지막 선 하나는 남아있었다."
       }
     ]
+  },
+  {
+    "id": "inv_ipo_hot_tip",
+    "title": "공모주 대박 예고",
+    "description": "직장 선배에게서 귀띔이 왔다.\n\"이번 AI 반도체 관련 기업 공모주, 기관들이 엄청 밀고 있어.\n균등배정으로 들어가면 상한가 두세 번은 기본이래.\"\n\n청약 증거금이 묶이고, 배정 여부는 운이지만,\n지금 이 시장 분위기라면 올 것 같다는 느낌이 든다.\n뭘 얼마나 넣을지가 관건이다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12,
+      "min_money": 10000000,
+      "has_portfolio": true
+    },
+    "tags": [
+      "investment",
+      "opportunity",
+      "stock"
+    ],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "크게 넣는다 — 이번 기회가 아니면 언제",
+        "effects": {
+          "stress": 8,
+          "investment_skill": 2
+        },
+        "opportunity": {
+          "stake_ratio": 0.6,
+          "success_rate": 0.36,
+          "win_multiplier": 3.5,
+          "loss_ratio": 0.60,
+          "luck_factor": 0.002,
+          "skill_gain": 4
+        },
+        "result_text": "청약 접수를 했다. 자금이 묶이는 며칠이 길게 느껴진다.\n결과는 상장일에 알 수 있다.\n{name}은 숫자들이 춤추는 화면을 바라보며 기다렸다."
+      },
+      {
+        "text": "소액만 넣는다 — 분산이 원칙이다",
+        "effects": {
+          "stress": 3,
+          "intelligence": 1
+        },
+        "opportunity": {
+          "stake_ratio": 0.25,
+          "success_rate": 0.40,
+          "win_multiplier": 2.5,
+          "loss_ratio": 0.45,
+          "luck_factor": 0.002,
+          "skill_gain": 2
+        },
+        "result_text": "일부만 넣었다. 욕심은 버렸다.\n잃어도 감당할 수 있는 금액, 벌면 좋고 아니면 그냥 경험이다.\n이게 오래 가는 투자자의 마음가짐이라고 스스로를 설득했다."
+      },
+      {
+        "text": "공모주는 도박이다 — 패스",
+        "effects": {
+          "mental": 3,
+          "stress": -2,
+          "intelligence": 2
+        },
+        "result_text": "공모주는 결국 타이밍 게임이다.\n확신이 없으면 안 하는 게 낫다.\n{name}은 화면을 껐다. 다음 기회를 기다린다."
+      }
+    ]
+  },
+  {
+    "id": "inv_redev_zone_tip",
+    "title": "재개발 예정지 정보",
+    "description": "오래된 지인에게서 연락이 왔다.\n\"민준아, 이건 나만 아는 거야. 구청 담당자한테 들었는데,\n저기 빌라촌 일대가 내년에 재개발 지구 지정 확정이래.\n지금 평당 시세의 30%짜리 물건이 나왔는데, 알음알음 팔리고 있어.\"\n\n부동산 정보의 가치는 타이밍에 있다.\n재개발이 확정되면 몇 배는 뛰지만, 불발되면 그냥 허름한 빌라다.\n이 금액이면 올인이다. 판단은 네가 해.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 28,
+      "min_money": 100000000
+    },
+    "tags": [
+      "investment",
+      "opportunity",
+      "real_estate"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "전부 건다 — 강남 가는 마지막 기회일 수 있다",
+        "effects": {
+          "stress": 15,
+          "investment_skill": 3
+        },
+        "opportunity": {
+          "stake_ratio": 0.65,
+          "success_rate": 0.40,
+          "win_multiplier": 7.0,
+          "loss_ratio": 0.70,
+          "luck_factor": 0.0015,
+          "skill_gain": 6
+        },
+        "flags": [
+          "redev_bet_taken"
+        ],
+        "result_text": "계약서에 도장을 찍었다.\n열쇠를 받아들고 낡은 빌라 앞에 섰을 때,\n{name}은 이게 꿈인지 현실인지 잠시 혼란스러웠다.\n기다림이 시작됐다. 재개발 확정 공문을 기다리는 시간."
+      },
+      {
+        "text": "부분만 넣는다 — 위험을 분산한다",
+        "effects": {
+          "stress": 7,
+          "intelligence": 2
+        },
+        "opportunity": {
+          "stake_ratio": 0.30,
+          "success_rate": 0.46,
+          "win_multiplier": 5.0,
+          "loss_ratio": 0.55,
+          "luck_factor": 0.0015,
+          "skill_gain": 3
+        },
+        "flags": [
+          "redev_bet_taken"
+        ],
+        "result_text": "전부 거는 건 무리라고 판단했다.\n일부만 투자하고 나머지는 현금으로 유지했다.\n\"욕심 부리다 다 잃는 것보다 절반이 낫다.\"\n{name}은 스스로를 납득시켰다."
+      },
+      {
+        "text": "내부 정보는 위험하다 — 거절한다",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "intelligence": 3,
+          "reputation": 2
+        },
+        "route": "orthodox",
+        "result_text": "내부 정보를 이용한 거래는 법적 위험이 있다.\n솔깃하지만 패스다.\n{name}은 전화를 끊고 창밖을 바라봤다.\n깨끗한 손이 낫다고, 그렇게 믿기로 했다."
+      }
+    ]
   }
 ]
