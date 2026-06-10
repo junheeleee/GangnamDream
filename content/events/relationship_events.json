@@ -1589,5 +1589,259 @@
         "result_text": "접속 표시를 보다가 핸드폰을 내려놨다. 혼자 버티는 연습도 필요하다고 생각했다. 날이 밝을 때까지 한동안 눈을 떴다."
       }
     ]
+  },
+  {
+    "id": "rel_friend_big_success",
+    "title": "친구의 성공 소식",
+    "description": "대학 동기 카톡이 왔다.\n\n'나 이번에 스타트업 시리즈 A 투자 받았어. 10억'\n\n짧은 문장이었다.\n\n{name}은 잠깐 멈췄다.\n같이 편의점 알바 하던 친구였다.",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "relationship",
+      "social_life"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "진심으로 축하하고 노하우를 물어본다",
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 2,
+          "mental": 3,
+          "luck": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 시간을 통화했다. 돈 이야기보다 과정 이야기가 더 값졌다."
+      },
+      {
+        "text": "축하는 하지만 묘하게 자극을 받는다",
+        "effects": {
+          "mental": -2,
+          "stress": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "시기심인지 자극인지 구분이 안 됐다. 그냥 더 열심히 하기로 했다."
+      },
+      {
+        "text": "SNS를 끄고 내 할 일에 집중한다",
+        "effects": {
+          "mental": 3,
+          "stress": -3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남과 비교하지 않기로 했다. 내 레이스가 있다."
+      }
+    ]
+  },
+  {
+    "id": "rel_mentor_life_question",
+    "title": "멘토의 질문",
+    "description": "오랜만에 연락이 온 멘토 선생님이 커피를 마시자고 했다.\n\n근황 이야기를 나누다가 조용히 물었다.\n\n'지금 행복해?'\n\n예상치 못한 질문이었다.\n뭐라고 답해야 할지, 잠깐 생각이 멈췄다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": [
+      "relationship",
+      "life"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "'솔직히 모르겠어요' 라고 털어놓는다",
+        "effects": {
+          "mental": 6,
+          "stress": -5,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "멘토가 고개를 끄덕였다. '그 질문을 계속 가지고 살아라'라고 했다. 이상하게 위로가 됐다."
+      },
+      {
+        "text": "'네, 바쁘게 잘 지내요' 라고 웃으며 넘긴다",
+        "effects": {
+          "stress": 3,
+          "mental": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "커피가 식어갔다. 멘토도 더 묻지 않았다. 괜찮다는 말이 항상 사실은 아니다."
+      },
+      {
+        "text": "지금 하는 일과 목표에 대해 솔직히 이야기한다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2,
+          "social_skill": 1,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "두 시간이 지나갔다. 멘토가 몇 가지 연결을 해줬다. 인맥은 이렇게 움직인다."
+      }
+    ]
+  },
+  {
+    "id": "rel_family_proud_call",
+    "title": "부모님의 전화",
+    "description": "저녁에 아버지에게서 전화가 왔다.\n\n처음 몇 분은 날씨 이야기.\n그러다 목소리가 조금 낮아졌다.\n\n'밥은 잘 먹고 다니냐.'\n\n짧은 말에 많은 것이 담겨 있었다.\n{name}은 잠깐 말이 막혔다.",
+    "category": "family",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "family",
+      "relationship"
+    ],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "요즘 힘든 것들을 솔직하게 이야기한다",
+        "effects": {
+          "mental": 6,
+          "stress": -6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지가 오래 들어줬다. 해결책 없이 들어주는 것만으로도 충분한 날이 있다."
+      },
+      {
+        "text": "'네, 잘 지내요'라고 밝게 대답한다",
+        "effects": {
+          "stress": 2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "걱정시키기 싫었다. 그것도 하나의 배려다."
+      },
+      {
+        "text": "명절에 내려가겠다고 약속한다",
+        "effects": {
+          "mental": 5,
+          "stress": -3,
+          "money": -100000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "전화를 끊고 기차표를 예매했다. 오랜만에 집밥이 먹고 싶었다."
+      }
+    ]
+  },
+  {
+    "id": "rel_online_community_tribe",
+    "title": "온라인 커뮤니티의 동료들",
+    "description": "재테크 커뮤니티에 가입했다.\n\n비슷한 나이, 비슷한 목표를 가진 사람들이 매일 정보를 나눴다.\n종목 이야기, 절약 후기, 실패 경험까지.\n\n오프라인에선 말 못 하는 이야기를 여기선 할 수 있었다.\n익명이었지만 연대감이 있었다.",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "relationship",
+      "investment",
+      "social_life"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "적극적으로 참여하고 정보를 공유한다",
+        "effects": {
+          "investment_skill": 3,
+          "social_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아는 것을 나눌수록 더 많은 것이 돌아왔다. 커뮤니티는 그런 곳이었다."
+      },
+      {
+        "text": "눈팅만 하면서 정보를 수집한다",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "몇 가지 유용한 팁을 건졌다. 조용한 참여도 학습이 된다."
+      },
+      {
+        "text": "과몰입하지 않으려고 거리를 둔다",
+        "effects": {
+          "stress": -2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "군중 심리는 위험하다. 남의 판단에 끌려가지 않는 것도 능력이다."
+      }
+    ]
+  },
+  {
+    "id": "rel_ex_encounter",
+    "title": "우연한 재회",
+    "description": "퇴근길 카페에서 마주쳤다.\n\n2년 전 헤어진 사람이었다.\n서로 눈이 마주쳤다.\n\n주문을 기다리는 짧은 시간.\n먼저 말을 걸 것인가.",
+    "category": "romance",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": [
+      "romance",
+      "relationship",
+      "life"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "먼저 가볍게 인사를 건넨다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 2,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "10분쯤 이야기를 나눴다. 서로 잘 살고 있었다. 그걸 확인하는 것으로 충분했다."
+      },
+      {
+        "text": "못 본 척 그냥 나온다",
+        "effects": {
+          "stress": 4,
+          "mental": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지하철을 타고 나서야 마음이 가라앉았다. 모른 척도 하나의 선택이다."
+      },
+      {
+        "text": "밝게 인사하고 연락처를 다시 교환한다",
+        "effects": {
+          "social_skill": 3,
+          "mental": 3,
+          "stress": 4,
+          "luck": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "헤어질 때보다 둘 다 성장해 있었다. 두 번째 이야기가 시작될 수도 있었다."
+      }
+    ]
   }
 ]

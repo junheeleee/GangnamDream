@@ -5008,5 +5008,988 @@
         "result_text": "출마를 포기했다. 지지자들에게 미안했다. 다음 기회가 있을지 모르겠지만, 지금은 아니다."
       }
     ]
+  },
+  {
+    "id": "work_overtime_bomb",
+    "title": "퇴근 5분 전 야근 통보",
+    "description": "오후 5시 55분. 코트를 집으려던 순간 팀장이 나타났다.\n\n'오늘 급하게 처리해야 할 건이 생겼어. {name}씨, 오늘 야근 좀 해줄 수 있어?'\n\n질문 형식이지만 거절할 수 없는 어조였다.\n밖에서 기다리는 약속이 있었다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "stress",
+      "workplace"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "군말 없이 야근한다",
+        "effects": {
+          "stress": 8,
+          "mental": -4,
+          "reputation": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "새벽이 되어서야 퇴근했다. 팀장이 '수고했어'라고 했지만 뭔가 허탈했다."
+      },
+      {
+        "text": "먼저 잡힌 약속이 있다고 솔직히 말한다",
+        "effects": {
+          "stress": -3,
+          "mental": 3,
+          "reputation": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "약속을 지켰다. 다음 날 분위기가 약간 어색했지만, 나쁜 시간이 아니었다."
+      },
+      {
+        "text": "핑계를 대고 빠져나온다",
+        "effects": {
+          "stress": -2,
+          "mental": 2,
+          "social_skill": -1,
+          "luck": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "나중에 더 큰 부탁이 돌아왔다. 회피는 임시방편이었다."
+      }
+    ]
+  },
+  {
+    "id": "boss_power_trip",
+    "title": "불합리한 지시",
+    "description": "부장이 아무 이유 없이 완성된 보고서를 다시 쓰라고 했다.\n\n'내 마음에 안 들어. 다시 해와.'\n\n구체적인 피드백 없음. 개인 취향의 문제.\n이미 두 번 수정한 문서였다.\n\n주변 동료들은 못 본 척 모니터만 들여다보고 있었다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 3
+    },
+    "tags": [
+      "jobs",
+      "stress",
+      "workplace"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "참고 다시 쓴다. 직장생활이 다 그렇지",
+        "effects": {
+          "stress": 10,
+          "mental": -6,
+          "intelligence": 1
+        },
+        "route": "orthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "세 번째 버전을 제출했다. 이번엔 통과됐다. 속이 쓰렸다."
+      },
+      {
+        "text": "정중하게 구체적인 피드백을 요청한다",
+        "effects": {
+          "stress": 4,
+          "social_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "뜻밖에도 부장이 당황했다. 이후 지시가 조금 더 구체적으로 바뀌었다."
+      },
+      {
+        "text": "퇴근 후 이직 공고를 검색한다",
+        "effects": {
+          "stress": -3,
+          "mental": 3,
+          "luck": 1
+        },
+        "route": "unorthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "좋은 포지션이 있었다. 당장 움직이진 않았지만, 선택지가 생겼다는 것만으로 숨통이 트였다."
+      }
+    ]
+  },
+  {
+    "id": "year_end_tax_refund",
+    "title": "연말정산 환급",
+    "description": "1월. 회사에서 연말정산 서류를 제출하라는 공지가 왔다.\n\n처음엔 귀찮았다. 하지만 꼼꼼히 챙겨보니 공제받을 항목이 생각보다 많았다.\n카드 사용 내역, 의료비, 교육비...\n\n환급이냐 추가 납부냐, 결과는 서류를 얼마나 챙기느냐에 달려 있다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 6
+    },
+    "tags": [
+      "finance",
+      "jobs"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "꼼꼼하게 챙겨 최대 환급을 받는다",
+        "effects": {
+          "money": 350000,
+          "intelligence": 2,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "35만원이 통장에 들어왔다. 세금은 아는 만큼 돌려받는다."
+      },
+      {
+        "text": "귀찮아서 대충 낸다",
+        "effects": {
+          "money": -80000,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "추가 납부가 나왔다. 조금 더 신경 쓸 걸 싶었다."
+      }
+    ]
+  },
+  {
+    "id": "annual_health_checkup",
+    "title": "직장 건강검진",
+    "description": "매년 한 번, 회사에서 건강검진을 지원한다.\n\n결과지를 받아들었다.\n혈압이 살짝 높고, 위장에 경미한 이상 소견.\n'스트레스성'이라고 의사가 덧붙였다.\n\n수치들이 말하고 있었다.\n몸이 버텨주고 있긴 한데, 한계가 보이기 시작했다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 8
+    },
+    "tags": [
+      "health",
+      "jobs"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "생활습관을 바꾸기로 결심한다",
+        "effects": {
+          "health": 6,
+          "stress": -5,
+          "mental": 4,
+          "money": -50000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "헬스장을 등록하고 야식을 끊었다. 몸이 서서히 달라지기 시작했다."
+      },
+      {
+        "text": "결과지를 서랍에 넣고 잊는다",
+        "effects": {
+          "stress": -1,
+          "health": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "잊으면 없어지는 게 아닌데. 몸은 기억하고 있었다."
+      },
+      {
+        "text": "정밀 검사를 예약한다",
+        "effects": {
+          "health": 8,
+          "money": -150000,
+          "stress": -3,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다행히 심각한 건 없었다. 일찍 확인한 것만으로도 마음이 가벼워졌다."
+      }
+    ]
+  },
+  {
+    "id": "jeonse_scam_warning",
+    "title": "전세사기 주의보",
+    "description": "뉴스에 또 나왔다. 이번엔 동네 이야기였다.\n\n인근 빌라 수십 채가 깡통 전세였다는 보도.\n임대인이 잠적하고, 보증금을 돌려받지 못한 세입자들이 줄을 섰다.\n\n{name}의 계약서를 다시 꺼내봤다.\n등기부등본에 기재된 채권액이 마음에 걸렸다.",
+    "category": "disasters",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": [
+      "disasters",
+      "housing",
+      "finance"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "등기부등본을 다시 떼서 확인한다",
+        "effects": {
+          "intelligence": 2,
+          "stress": 3,
+          "money": -3000
+        },
+        "flags": [
+          "checked_registry"
+        ],
+        "follow_up_event": "",
+        "result_text": "이상 없었다. 하지만 이런 걸 확인할 줄 알게 됐다는 게 수확이었다."
+      },
+      {
+        "text": "전세보증보험에 가입한다",
+        "effects": {
+          "money": -200000,
+          "stress": -5,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "보험료가 아깝게 느껴졌지만, 잠이 잘 왔다. 위험 대비는 이런 것이다."
+      },
+      {
+        "text": "내 집은 괜찮겠지 하고 넘긴다",
+        "effects": {
+          "stress": 2,
+          "luck": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아마 괜찮겠지. 아마도."
+      }
+    ]
+  },
+  {
+    "id": "floor_noise_war",
+    "title": "층간소음 분쟁",
+    "description": "밤 11시. 위층에서 쿵쿵 소리가 났다.\n\n세 번째 주였다. 벽을 두드려봤지만 소용없었다.\n아래층 사람도 올라와서 {name}의 집 문을 두드렸다.\n\n'혹시 위에서 소리가 나는 거 아세요?'\n\n서울에서 이웃과 갈등을 시작하면 끝이 없다.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 4
+    },
+    "tags": [
+      "daily_life",
+      "stress",
+      "housing"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "직접 위층에 조심히 올라가 말한다",
+        "effects": {
+          "stress": 5,
+          "social_skill": 2,
+          "mental": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "위층 주민이 미안해했다. 이후 확실히 조용해졌다. 말하길 잘했다."
+      },
+      {
+        "text": "관리사무소에 민원을 넣는다",
+        "effects": {
+          "stress": 3,
+          "reputation": -1,
+          "mental": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "처리는 됐지만 복도에서 마주칠 때마다 어색해졌다."
+      },
+      {
+        "text": "귀마개를 사서 그냥 버틴다",
+        "effects": {
+          "stress": 7,
+          "health": -2,
+          "money": -5000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "귀마개 끼고 잠들었다. 서울 생존이란 이런 것이다."
+      }
+    ]
+  },
+  {
+    "id": "frugal_month_challenge",
+    "title": "무지출 챌린지",
+    "description": "SNS에서 '이번 달 무지출 챌린지'가 유행하고 있다.\n\n커피 한 잔도 안 사고, 외식도 안 하고, 꼭 필요한 것만.\n한 달 동안 소비를 최소화해서 얼마나 모을 수 있는지 테스트.\n\n{name}은 이번 달 통장 잔액을 봤다.\n해볼 만한 상황이었다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "finance",
+      "daily_life"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "완벽하게 도전한다. 한 달간 외식 금지",
+        "effects": {
+          "money": 300000,
+          "stress": 8,
+          "mental": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "30만원을 더 모았다. 그런데 마지막 주에 폭식을 했다. 결국 균형이 중요하다."
+      },
+      {
+        "text": "커피와 외식만 줄이는 느슨한 버전으로",
+        "effects": {
+          "money": 120000,
+          "stress": -2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "12만원 정도 아꼈다. 작지만 지속 가능한 습관이 생겼다."
+      },
+      {
+        "text": "삶의 질을 포기하면서까지 아끼긴 싫다",
+        "effects": {
+          "mental": 3,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "오늘도 아이스 아메리카노를 마셨다. 이게 나다."
+      }
+    ]
+  },
+  {
+    "id": "ipo_lottery_opportunity",
+    "title": "공모주 청약",
+    "description": "증권사 앱에 알림이 왔다.\n\n'[청약 D-1] OO바이오 공모주 청약 마감 임박'\n\n지인 말로는 이번 공모주가 핫하다고 했다.\n균등 배정이라 소액으로도 참여 가능하다는데.\n증거금이 필요하고 배정 여부는 운이다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_money": 500000
+    },
+    "tags": [
+      "finance",
+      "investment",
+      "luck"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "소액으로 청약에 참여한다",
+        "effects": {
+          "money": -300000,
+          "investment_skill": 2,
+          "luck": 1
+        },
+        "flags": [
+          "ipo_participated"
+        ],
+        "follow_up_event": "",
+        "result_text": "배정은 됐다. 상장 당일 수익이 났다. 첫 공모주 경험이 묘하게 짜릿했다."
+      },
+      {
+        "text": "정보를 공부하고 다음을 기약한다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "공모주 구조를 이해하게 됐다. 다음 기회에 더 잘 판단할 수 있을 것 같다."
+      },
+      {
+        "text": "관심 없다. 코인이 낫지",
+        "effects": {
+          "luck": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 공모주, 상장 당일 30% 올랐다는 소식을 들었다. 아는 척 안 하기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "government_youth_policy",
+    "title": "청년 지원 정책 발견",
+    "description": "우연히 정부 블로그를 보다가 발견했다.\n청년 월세 지원, 청년도약계좌, 청년 내일채움공제...\n\n조건을 확인해보니 {name}에게 해당되는 항목이 있었다.\n신청 기한이 이번 달까지다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 2,
+      "max_money": 50000000
+    },
+    "tags": [
+      "finance",
+      "government"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "꼼꼼히 확인하고 모두 신청한다",
+        "effects": {
+          "money": 500000,
+          "intelligence": 2,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "서류가 많았지만 통과됐다. 50만원. 국가가 주는 돈은 받는 게 맞다."
+      },
+      {
+        "text": "월세 지원만 빠르게 신청한다",
+        "effects": {
+          "money": 240000,
+          "stress": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "매달 임대료가 조금씩 지원됐다. 작지만 쌓이는 돈이다."
+      },
+      {
+        "text": "복잡해 보여서 그냥 넘긴다",
+        "effects": {
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "나중에 기한이 지났다는 걸 알았다. 모르면 손해다."
+      }
+    ]
+  },
+  {
+    "id": "salary_gap_shock",
+    "title": "동료 연봉 유출",
+    "description": "실수로 공유된 파일 하나가 팀 전체에 퍼졌다.\n직급별 연봉 테이블이었다.\n\n{name}보다 한 살 어린 동기가 20% 더 받고 있었다.\n같은 시간, 같은 일, 그런데 다른 숫자.\n\n화가 나야 할지, 내가 못 협상한 건지, 아니면 그 친구가 잘한 건지.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 6
+    },
+    "tags": [
+      "jobs",
+      "finance",
+      "stress"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "HR에 연봉 재협상을 요청한다",
+        "effects": {
+          "money": 200000,
+          "stress": 8,
+          "social_skill": 2,
+          "reputation": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "생각보다 쉽게 올려줬다. 요구하지 않으면 아무것도 바뀌지 않는다."
+      },
+      {
+        "text": "이직 준비를 시작한다",
+        "effects": {
+          "intelligence": 2,
+          "stress": -2,
+          "luck": 1
+        },
+        "route": "unorthodox",
+        "flags": [
+          "job_seeking"
+        ],
+        "follow_up_event": "",
+        "result_text": "이력서를 업데이트했다. 지금 회사가 전부가 아니라는 걸 다시 확인했다."
+      },
+      {
+        "text": "그냥 모른 척 넘긴다",
+        "effects": {
+          "stress": 7,
+          "mental": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모른 척해도 몸은 알고 있었다. 다음 달 성과가 눈에 띄게 떨어졌다."
+      }
+    ]
+  },
+  {
+    "id": "certification_exam_day",
+    "title": "자격증 시험",
+    "description": "몇 달을 준비한 자격증 시험 당일이다.\n\n새벽 6시에 일어났다.\n수험표, 신분증, 컴퓨터용 사인펜.\n시험장에 들어서니 비슷한 처지의 사람들이 가득했다.\n\n스펙 하나, 선택지 하나.\n오늘의 결과가 내일을 바꿀 수도 있다.",
+    "category": "self_development",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_intelligence": 30
+    },
+    "tags": [
+      "self_development",
+      "jobs"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "최선을 다해 시험을 본다",
+        "effects": {
+          "intelligence": 4,
+          "stress": 5,
+          "reputation": 2,
+          "money": -50000
+        },
+        "flags": [
+          "has_certification"
+        ],
+        "follow_up_event": "",
+        "result_text": "합격했다. 자격증 한 장이 이력서 한 줄이 됐다."
+      },
+      {
+        "text": "너무 긴장해서 실수가 많았다",
+        "effects": {
+          "stress": 8,
+          "mental": -3,
+          "money": -50000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "불합격이었다. 다음 번엔 더 잘할 수 있다. 경험이 쌓였다."
+      }
+    ]
+  },
+  {
+    "id": "work_chat_typo",
+    "title": "단톡방 실수",
+    "description": "급하게 메시지를 보냈다.\n\n그런데 보내고 나서야 알았다.\n팀 단톡방이 아니라 전체 공지방에 올라간 것을.\n\n'오늘 점심 뭐 먹어요?'가 전 직원 200명에게 발송됐다.\n읽은 표시가 120개를 넘어가고 있었다.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "comedy",
+      "jobs",
+      "social"
+    ],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "'죄송합니다' 메시지를 빠르게 올린다",
+        "effects": {
+          "stress": 5,
+          "social_skill": 1,
+          "mental": -2,
+          "reputation": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "사과 메시지에 '저도 궁금했어요'라는 댓글이 달렸다. 이틀 뒤 웃을 수 있었다."
+      },
+      {
+        "text": "당당하게 '삼겹살 어때요?'로 이어받는다",
+        "effects": {
+          "stress": -3,
+          "social_skill": 3,
+          "reputation": 2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "팀장이 '오 센스 있는데'라고 했다. 위기를 반전시켰다."
+      },
+      {
+        "text": "그냥 아무 말 없이 기다린다",
+        "effects": {
+          "stress": 8,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음 날까지도 누군가 복도에서 웃으며 지나갔다. 서울에서 이 굴욕이 소재가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "deposit_refund_trouble",
+    "title": "보증금 반환 지연",
+    "description": "이사 날이 다가오고 있었다.\n집주인에게 보증금 반환을 요청했는데 답이 없었다.\n\n'이번 달 자금 사정이 좀 어려워서...' 라는 문자 한 통.\n\n계약서엔 반환일이 명시되어 있었다.\n보증금은 {name}이 몇 달을 모은 돈이었다.",
+    "category": "disasters",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8,
+      "min_money": 2000000
+    },
+    "tags": [
+      "disasters",
+      "housing",
+      "finance"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "내용증명을 보내고 법적 절차를 밟는다",
+        "effects": {
+          "stress": 12,
+          "money": 800000,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "내용증명이 도착하자마자 집주인이 연락해왔다. 법 앞에선 달라졌다."
+      },
+      {
+        "text": "주거안심보험(전세보증보험)으로 청구한다",
+        "effects": {
+          "money": 500000,
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "보험 덕분에 보증금을 돌려받았다. 가입한 게 이때를 위해서였다."
+      },
+      {
+        "text": "일단 기다려본다. 큰일은 아니겠지",
+        "effects": {
+          "stress": 8,
+          "mental": -5,
+          "money": -200000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기다리는 동안 이자 손해가 생겼다. 기다리는 것도 비용이다."
+      }
+    ]
+  },
+  {
+    "id": "coworker_sudden_quit",
+    "title": "동료의 갑작스러운 퇴사",
+    "description": "어제까지 옆자리에 있던 이 대리가 오늘 없었다.\n\n'개인 사정으로 퇴사했습니다'라는 공지가 올라왔다.\n인수인계도 없었다. 그 사람 업무가 자연스럽게 {name}의 자리로 내려왔다.\n\n한 마디 작별도 없이 사라진 사람.\n그리고 남겨진 일들.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
+    "tags": [
+      "jobs",
+      "stress"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "추가 업무를 묵묵히 해낸다",
+        "effects": {
+          "stress": 10,
+          "reputation": 2,
+          "intelligence": 2
+        },
+        "route": "orthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 달 뒤 팀장이 '고생했다'며 성과급을 챙겨줬다. 묵묵함은 보였다."
+      },
+      {
+        "text": "추가 업무 수당을 협상한다",
+        "effects": {
+          "money": 150000,
+          "stress": 5,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "당당하게 요청했다. 절반쯤 통했다. 요구하지 않으면 아무것도 바뀌지 않는다."
+      },
+      {
+        "text": "나도 이참에 퇴사를 진지하게 고민한다",
+        "effects": {
+          "stress": -4,
+          "mental": 3,
+          "luck": 1
+        },
+        "route": "unorthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "동료의 퇴사가 나에게 거울이 됐다. 선택은 언제나 내 손에 있다."
+      }
+    ]
+  },
+  {
+    "id": "pay_day_ritual",
+    "title": "월급날의 허무",
+    "description": "25일. 월급이 들어왔다.\n\n알림 소리와 함께 잔고가 올라갔다.\n\n하지만 월세, 보험료, 통신비, 카드값이 이미 나가 있었다.\n통장에 머문 시간은 48시간도 안 됐다.\n\n'이걸로 한 달을 버는 건가' 하는 생각이 스쳤다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 2
+    },
+    "tags": [
+      "finance",
+      "daily_life"
+    ],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "지출 항목을 하나씩 정리해본다",
+        "effects": {
+          "intelligence": 2,
+          "stress": -3,
+          "money": 80000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "불필요한 구독 서비스 2개를 해지했다. 작은 절약이 습관이 된다."
+      },
+      {
+        "text": "그냥 이게 현실이다 받아들인다",
+        "effects": {
+          "mental": -2,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "월급날 허무함은 어른이 되는 통과의례인 것 같다."
+      },
+      {
+        "text": "부업이나 투자로 수입을 늘리겠다고 다짐한다",
+        "effects": {
+          "investment_skill": 1,
+          "luck": 1,
+          "mental": 3
+        },
+        "route": "unorthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다짐만으로도 방향이 생겼다. 다음 달은 조금 달라질 것이다."
+      }
+    ]
+  },
+  {
+    "id": "midnight_market_alert",
+    "title": "새벽 3시 시장 폭락",
+    "description": "잠결에 핸드폰 알림 소리.\n\n투자 앱에서 '-8% 긴급 알림'이 와 있었다.\n미국 시장에서 뭔가 터진 모양이었다.\n\n새벽 3시. 아직 한국 시장이 열리기 전.\n매도할지, 버틸지, 추가 매수할지.\n잠을 깨우는 숫자들.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 6
+    },
+    "tags": [
+      "investment",
+      "daily_life",
+      "stress"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "새벽에 패닉셀 하지 않고 그냥 잔다",
+        "effects": {
+          "stress": 8,
+          "mental": -3,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음 날 시장은 반등했다. 감정적 매매를 참은 것이 옳았다."
+      },
+      {
+        "text": "리스크 자산 절반을 정리한다",
+        "effects": {
+          "stress": -4,
+          "money": 300000,
+          "investment_skill": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "손실을 줄였지만 이후 반등에서 수익을 놓쳤다. 모든 선택엔 대가가 따른다."
+      },
+      {
+        "text": "추가 매수 기회로 본다",
+        "effects": {
+          "stress": 5,
+          "money": -500000,
+          "investment_skill": 3,
+          "luck": 1
+        },
+        "route": "unorthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "공포에 살 수 있는 사람이 결국 이긴다. 새벽 시장의 가격은 낮았다."
+      }
+    ]
+  },
+  {
+    "id": "phone_detox_attempt",
+    "title": "스마트폰 사용시간 4시간",
+    "description": "설정 앱에서 주간 사용 리포트가 왔다.\n\n하루 평균 4시간 22분.\n어딘가에서 읽었다. 그게 연간 66일이라고.\n\n유튜브, 인스타그램, 뉴스 앱.\n스크롤하면서 무언가를 찾고 있었지만 찾지 못하고 있었다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "health",
+      "comedy",
+      "daily_life"
+    ],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "하루 1시간으로 제한을 걸어본다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 3,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "처음엔 손이 근질거렸다. 3주 뒤 책 한 권을 다 읽었다. 시간이 이렇게 많았구나."
+      },
+      {
+        "text": "그냥 산다. 스마트폰이 친구인걸",
+        "effects": {
+          "mental": -2,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "맞는 말이기도 하다. 하지만 뭔가 채워지지 않는 기분이 남았다."
+      },
+      {
+        "text": "독서나 운동으로 대체한다",
+        "effects": {
+          "health": 4,
+          "intelligence": 4,
+          "stress": -4,
+          "mental": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "일주일 뒤 몸과 머리가 달라진 기분이 들었다. 습관 하나가 삶을 바꿨다."
+      }
+    ]
+  },
+  {
+    "id": "late_career_pivot_thought",
+    "title": "직업의 의미를 묻다",
+    "description": "퇴근 지하철 안. 창문에 비친 내 얼굴을 봤다.\n\n지금 이 일이 맞는 건가.\n5년 후에도 이 자리에 있을 건가.\n아니면 완전히 다른 무언가를.\n\n흔들리는 것이 약한 게 아니다.\n다만 흔들릴 때 어떤 선택을 하느냐가 중요했다.",
+    "category": "self_development",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15
+    },
+    "tags": [
+      "self_development",
+      "jobs",
+      "life"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "현재 직업에서 전문성을 더 키운다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 1,
+          "stress": -2,
+          "mental": 3
+        },
+        "route": "orthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "깊어지는 것도 방향이다. 흔들림이 지나가고 다시 단단해졌다."
+      },
+      {
+        "text": "완전히 다른 분야를 공부하기 시작한다",
+        "effects": {
+          "intelligence": 4,
+          "stress": 5,
+          "mental": 4,
+          "luck": 1
+        },
+        "route": "unorthodox",
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "새로운 언어를 배우는 기분이었다. 처음은 느리지만, 방향이 생겼다."
+      },
+      {
+        "text": "아직 모르겠다. 조금 더 생각하기로 한다",
+        "effects": {
+          "mental": 2,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "빠른 답이 항상 좋은 건 아니다. 지하철이 종착역에 도착했다."
+      }
+    ]
+  },
+  {
+    "id": "housewarming_alone",
+    "title": "혼자 하는 집들이",
+    "description": "이사를 했다.\n\n짐을 다 정리하고 나니 저녁 9시였다.\n아무도 없었다. 불러야 할 사람이 몇 없었다.\n\n편의점에서 맥주 한 캔을 사왔다.\n창문 밖 서울의 불빛을 바라보며 혼자 집들이를 했다.\n\n이게 나쁜 건 아니었다.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 4
+    },
+    "tags": [
+      "daily_life",
+      "life"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "이 고요함을 즐긴다",
+        "effects": {
+          "mental": 5,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자라는 것이 외로운 게 아니라 온전히 내 것이라는 뜻이기도 하다."
+      },
+      {
+        "text": "지인에게 연락해서 같이 마신다",
+        "effects": {
+          "mental": 6,
+          "stress": -4,
+          "social_skill": 2,
+          "money": -30000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "늦게까지 수다를 떨었다. 새 공간이 기억으로 채워지기 시작했다."
+      }
+    ]
   }
 ]

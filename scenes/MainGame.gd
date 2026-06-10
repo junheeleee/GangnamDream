@@ -3371,20 +3371,17 @@ func _show_ending(ending_id):
 	var ending_sep = HSeparator.new()
 	ending_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(ending_sep)
-	var body = RichTextLabel.new()
-	body.bbcode_enabled = false
-	body.text = "%s\n\n최종 자산: %s\n최종 나이: %d세\n총 턴: %d\n점수: %d" % [
-		ending.get("description", ""),
-		GameState.format_money(GameState.get_total_asset_value()),
-		GameState.age,
-		GameState.turn,
-		EndingSystem.get_score()
-	]
-	body.custom_minimum_size = Vector2(560, 200)
-	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.add_theme_color_override("default_color", Color("#8892a4"))
-	body.add_theme_font_size_override("normal_font_size", 15)
-	modal_body.add_child(body)
+	# ── 드라마틱 한 줄 요약 ──
+	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, "#c8a060"))
+	# ── 엔딩 설명 ──
+	modal_body.add_child(_wrap_label(ending.get("description", ""), 13, "#6a7486"))
+	# ── 스탯 그리드 ──
+	var stats_sep = HSeparator.new()
+	stats_sep.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(stats_sep)
+	_ending_stat_grid(modal_body)
+	_ending_route_bar(modal_body)
+	_ending_milestones(modal_body)
 	# ── 이번 런 새 해금 표시 ──────────────────────────
 	var new_unlocks = MetaProgression.get_new_unlocks()
 	var new_ach: Array    = new_unlocks.get("achievements", [])
@@ -3442,6 +3439,165 @@ func _show_ending(ending_id):
 	var menu_btn = _button("메인 메뉴로", "#1a1a28")
 	menu_btn.pressed.connect(_go_to_menu)
 	modal_body.add_child(menu_btn)
+
+func _ending_run_summary(ending_id: String) -> String:
+	var route = GameState.get_route_identity()
+	var f = GameState.flags
+	var is_orthodox = "정석" in route or "엘리트" in route
+	var is_unorthodox = "아웃사이더" in route or "이단아" in route
+	match ending_id:
+		"gangnam_dream":
+			if is_orthodox:
+				return "착실하게 살아온 청년이 마침내 강남에 입성했다"
+			elif is_unorthodox:
+				return "아무도 믿지 않았던 아웃사이더가 강남의 문을 열었다"
+			elif f.get("startup_exit", false):
+				return "작은 아이디어 하나가 강남드림으로 이어졌다"
+			else:
+				return "5년의 고군분투 끝에 강남드림을 이뤘다"
+		"burnout":
+			return "완벽을 향해 달리다 어느 날 아무것도 할 수 없게 됐다"
+		"mental_break":
+			return "버텨내려 했지만 마음이 먼저 무너졌다"
+		"bankruptcy":
+			return "빚은 쌓이고 꿈은 멀어졌다 — 이번 판은 여기까지"
+		"stable_success":
+			if is_orthodox:
+				return "강남은 아니었지만 흔들리지 않는 삶을 쌓았다"
+			else:
+				return "파란만장했지만 결국 자기만의 안정을 찾았다"
+		"ordinary_life":
+			if f.get("startup_launched", false):
+				return "창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다"
+			return "특별하지 않아도 괜찮다 — 그것도 하나의 삶이다"
+		"startup_exit":
+			return "작은 아이디어 하나가 억대 엑싯으로 이어졌다"
+		"crypto_ghost":
+			return "전부 걸었던 코인은 결국 전부를 가져갔다"
+		"lonely_rich":
+			return "돈은 모았지만 곁에 남은 사람이 없었다"
+		"political_fix":
+			return "강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다"
+		"investment_master":
+			return "돈이 돈을 버는 법을 깨달았다 — 투자의 달인"
+		"healthy_retirement":
+			return "강남보다 건강을 택한 선택, 후회 없는 삶"
+		"reputation_legend":
+			return "자산보다 이름이 먼저 강남에 닿았다"
+		_:
+			return "그렇게 5년이 지나갔다"
+
+func _ending_stat_grid(parent: Control):
+	var total = GameState.get_total_asset_value()
+	var score = EndingSystem.get_score()
+	var stats = [
+		["💰 최종 자산", GameState.format_money(total), "#f0b429"],
+		["🏆 점수", "%d점" % score, "#34d399"],
+		["❤️ 건강", "%d / 100" % GameState.health,
+			"#ef4444" if GameState.health <= 45 else "#34d399"],
+		["🧠 정신력", "%d / 100" % GameState.mental,
+			"#ef4444" if GameState.mental <= 45 else "#5b9cf6"],
+		["😤 스트레스", "%d" % GameState.stress,
+			"#ef4444" if GameState.stress >= 72 else "#8892a4"],
+		["⭐ 명성", "%d" % GameState.reputation, "#f0b429"],
+		["🎂 최종 나이", "%d세" % GameState.age, "#aab3c5"],
+		["📅 총 턴", "%d턴" % GameState.turn, "#5a6075"],
+	]
+	var grid = GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 16)
+	grid.add_theme_constant_override("v_separation", 5)
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.add_child(grid)
+	for s in stats:
+		var cell = HBoxContainer.new()
+		cell.add_theme_constant_override("separation", 6)
+		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		grid.add_child(cell)
+		var key_lbl = _label(str(s[0]), 11, "#5a6075")
+		key_lbl.custom_minimum_size = Vector2(84, 0)
+		cell.add_child(key_lbl)
+		cell.add_child(_label(str(s[1]), 13, str(s[2])))
+
+func _ending_route_bar(parent: Control):
+	var o = GameState.route_orthodox
+	var u = GameState.route_unorthodox
+	if o + u == 0:
+		return
+	var route_sep = HSeparator.new()
+	route_sep.add_theme_color_override("color", Color("#252535"))
+	parent.add_child(route_sep)
+	var info_row = HBoxContainer.new()
+	info_row.add_theme_constant_override("separation", 8)
+	parent.add_child(info_row)
+	var id_lbl = _label(GameState.get_route_identity(), 13, "#c8a060")
+	id_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info_row.add_child(id_lbl)
+	info_row.add_child(_label("정석 %d" % o, 11, "#5b9cf6"))
+	info_row.add_child(_label(" / ", 11, "#3a3a5a"))
+	info_row.add_child(_label("비정석 %d" % u, 11, "#f97316"))
+	var bar_bg = PanelContainer.new()
+	bar_bg.custom_minimum_size = Vector2(0, 10)
+	bar_bg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var bar_row = HBoxContainer.new()
+	bar_row.add_theme_constant_override("separation", 0)
+	bar_bg.add_child(bar_row)
+	parent.add_child(bar_bg)
+	var o_ratio = float(o) / float(o + u)
+	var o_bar = ColorRect.new()
+	o_bar.color = Color("#3a5a9a")
+	o_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	o_bar.size_flags_stretch_ratio = o_ratio
+	bar_row.add_child(o_bar)
+	var u_bar = ColorRect.new()
+	u_bar.color = Color("#8a4a1a")
+	u_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	u_bar.size_flags_stretch_ratio = 1.0 - o_ratio
+	bar_row.add_child(u_bar)
+
+func _ending_milestones(parent: Control):
+	var f = GameState.flags
+	var milestones: Array = []
+	var job_name: String = GameState.current_job.get("name", "")
+	var job_tier: int = int(GameState.current_job.get("tier", 0))
+	if not job_name.is_empty():
+		if job_tier >= 4:
+			milestones.append("💼 최고 티어 직장 달성: %s" % job_name)
+		elif job_tier >= 3:
+			milestones.append("💼 중견 직장인: %s" % job_name)
+		else:
+			milestones.append("💼 직장: %s" % job_name)
+	var housing_labels = {
+		"oneroom": "🏠 원룸 이사 성공",
+		"apartment": "🏢 아파트 입성",
+		"gangnam": "🏙️ 강남 아파트 입성",
+	}
+	if housing_labels.has(GameState.housing):
+		milestones.append(housing_labels[GameState.housing])
+	if f.get("startup_exit", false):
+		milestones.append("🚀 스타트업 엑싯 성공")
+	elif f.get("startup_launched", false):
+		milestones.append("🚀 창업 도전")
+	if f.get("creator_success_unlocked", false):
+		milestones.append("🎬 크리에이터 수익화 성공")
+	elif f.get("creator_started", false):
+		milestones.append("🎬 크리에이터 활동 시작")
+	if f.get("romance_sumin_confession", false):
+		milestones.append("💕 수민과 이어졌다")
+	if GameState.investment_skill >= 50:
+		milestones.append("📈 투자 고수 레벨 달성")
+	elif GameState.investment_skill >= 25:
+		milestones.append("📈 투자 중수 달성")
+	if f.get("political_career_started", false):
+		milestones.append("🏛️ 정계 진출")
+	if milestones.is_empty():
+		return
+	var ms_sep = HSeparator.new()
+	ms_sep.add_theme_color_override("color", Color("#252535"))
+	parent.add_child(ms_sep)
+	parent.add_child(_label("이번 런 발자취", 12, "#5a6075"))
+	for m in milestones:
+		parent.add_child(_wrap_label("  · %s" % m, 12, "#7a8496"))
 
 func _show_month_summary(snap: Dictionary):
 	_pending_month_summary = true
