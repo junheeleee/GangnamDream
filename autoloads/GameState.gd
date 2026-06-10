@@ -954,23 +954,54 @@ func check_game_over():
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
 		if cast_has_flag("father", "passed_away"):
 			finish_run("empty_house"); return         # 빈 집
+		if relationships.is_empty() and not has_any_close_relationship():
+			finish_run("lonely_rich"); return         # 외로운 부자 — 돈만 남음
 		finish_run("gangnam_dream"); return           # 강남드림 (정상)
 
 	# 특수 성공 엔딩 (강남 외 경로)
 	if flags.get("startup_exit", false):
 		finish_run("startup_exit"); return
+	# 크리에이터 성공 (바이럴 + 3억 달성 — 강남보다 낮아도 인정)
+	if flags.get("creator_viral", false) and total_now >= 300_000_000:
+		finish_run("creator_success"); return
 
 	# ── 38세 = 타임리밋 (5년 종료) ────────────────────
 	if age >= 38:
 		var total = get_total_asset_value()
+		# 연인 엔딩
 		if get_cast_stage("daeun") in ["lover", "together"]:
 			finish_run("with_daeun"); return          # 다은과 함께
 		if get_cast_stage("jiyeon") in ["lover", "together"]:
 			finish_run("jiyeon_man"); return          # 한지연의 남자
+		# 평판 전설 (평판 80+)
+		if reputation >= 80:
+			finish_run("reputation_legend"); return
+		# 정석의 정점 (1B+, 정석 압도)
+		if total >= 1_000_000_000 and route_orthodox - route_unorthodox >= 15:
+			finish_run("orthodox_pinnacle"); return
+		# 아웃사이더의 승리 (500M+, 비정석 압도)
+		if total >= 500_000_000 and route_unorthodox - route_orthodox >= 15:
+			finish_run("unorthodox_legend"); return
+		# 조기 은퇴 (500M+, 무직 선택)
+		if total >= 500_000_000 and current_job.is_empty():
+			finish_run("early_retirement"); return
+		# 재테크 달인 (500M+, 투자감각 고수)
+		if total >= 500_000_000 and investment_skill >= 55:
+			finish_run("investment_master"); return
+		# 안정 성공 (1B+, 위 조건 미해당)
 		if total >= 1_000_000_000:
-			finish_run("stable_success"); return      # 큰 자산, 강남은 못 감
+			finish_run("stable_success"); return
+		# 나만의 균형 (1억+, 정석·비정석 균등 10+ each)
+		if total >= 100_000_000 and route_orthodox >= 8 and route_unorthodox >= 8 \
+				and abs(route_orthodox - route_unorthodox) <= 5:
+			finish_run("balanced_life"); return
+		# 건강한 삶 (건강+정신 양호, 관계 있음)
 		if health >= 70 and mental >= 70 and has_any_close_relationship():
-			finish_run("healthy_retirement"); return  # 강남은 못 갔지만 잃지 않음
+			finish_run("healthy_retirement"); return
+		# 공허한 성공 (정석 많이 쌓았는데 자산 없음 — 허탈한 결말)
+		if route_orthodox >= 20 and total < 300_000_000:
+			finish_run("orthodox_hollow"); return
+		# 아버지 화해
 		if cast_has_flag("father", "reconciled"):
 			finish_run("late_call"); return           # 늦은 전화 (화해)
 		finish_run("ordinary_life")                   # 평범한 결말
