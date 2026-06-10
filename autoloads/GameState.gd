@@ -747,7 +747,7 @@ func get_current_title() -> String:
 	if route_orthodox >= 10 and route_unorthodox >= 10: return "내 방식대로"
 	if get_total_asset_value() >= 3_000_000_000: return "강남 입성자"
 	if housing == "apartment" and job_tenure >= 12: return "안정적인 직장인"
-	if current_job.is_empty() and turn >= 8: return "취업 준비생"
+	if current_job.is_empty() and turn >= 8 and (flags.get("resume_polished", false) or flags.get("mindset_investor", false) or flags.get("mindset_saver", false)): return "취업 준비생"
 	if housing == "gosiwon" and turn >= 18: return "고시원 장기거주자"
 	if turn < 4: return "서울 상경 초보"
 	return "서울 생존자"

@@ -88,7 +88,8 @@ func _promote(job):
 	GameState.modify_hidden_stat("reputation", 6)
 	GameState.job_tenure = 0
 	var promo_count = int(GameState.current_job.get("promotion_count", 0)) + 1
-	GameState.current_job["promotion_count"] = promo_count
+	if not GameState.current_job.is_empty():
+		GameState.current_job["promotion_count"] = promo_count
 	var max_promo = int(job.get("max_promotions", 3))
 	GameState.add_log("⬆ 승진 (%d/%d): 월급 +%s" % [promo_count, max_promo, GameState.format_money(bonus)], "job")
 	promoted.emit(job, bonus)

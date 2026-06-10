@@ -6432,5 +6432,242 @@
         "result_text": "노트에 적힌 숫자들을 하나씩 확인했다.\n마지막 겨울. 할 수 있는 것을 한다."
       }
     ]
+  },
+  {
+    "id": "lottery_last_change",
+    "title": "마지막 동전 한 닢",
+    "background": "convenience_night",
+    "portrait": "player_tired",
+    "category": "comedy",
+    "rarity": "legendary",
+    "weight": 0.45,
+    "hidden": false,
+    "conditions": {
+      "max_money": 3000000,
+      "min_turn": 2
+    },
+    "tags": [
+      "gambling",
+      "luck",
+      "comedy"
+    ],
+    "cooldown": 20,
+    "description": "통장 잔고가 또 바닥이다.\n편의점 계산대 옆, 로또 1장에 1000원.\n\n거스름돈이 딱 1000원 남았다.\n\n{name}은 잠깐 생각했다. 확률 1/8,145,060.\n계산을 안 해도 안다. 말이 안 되는 숫자다.\n\n근데 이상하게, 손이 간다.",
+    "choices": [
+      {
+        "text": "산다 — 한 번쯤은 (−1,000원)",
+        "effects": {
+          "money": -1000,
+          "luck": 3,
+          "stress": -4,
+          "mental": 3
+        },
+        "flags": [
+          "bought_lotto"
+        ],
+        "follow_up_event": "lottery_result",
+        "result_text": "번호 자동으로. 토요일까지 기다리면 된다.\n인생에서 가장 비싸지 않은 꿈이다."
+      },
+      {
+        "text": "안 산다 — 확률이 말이 안 된다",
+        "effects": {
+          "intelligence": 2,
+          "stress": -2
+        },
+        "result_text": "1000원을 주머니에 넣었다.\n어른스러운 판단이었다. 안 아픈 판단이기도 했다.\n그냥 그랬다."
+      }
+    ]
+  },
+  {
+    "id": "lottery_result",
+    "title": "토요일 밤 9시",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "comedy",
+    "rarity": "legendary",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "bought_lotto"
+    },
+    "tags": [
+      "gambling",
+      "luck"
+    ],
+    "cooldown": 9999,
+    "description": "토요일 밤 9시. 로또 앱을 켰다.\n번호를 확인한다.\n\n...3개 일치. 5등. 5,000원.\n\n처음엔 웃겼다. 그러다가 어이가 없었다.\n그러다가 또 웃겼다.\n\n5,000원. 1000원 투자해서 5배 수익이다.\n투자 수익률 400%.\n\n{name}은 그날 밤 이 이야기를 아무한테도 못 했다.\n너무 우스워서.",
+    "choices": [
+      {
+        "text": "내일 치킨이라도 사먹어야지 (+4,000원 실수익)",
+        "effects": {
+          "money": 4000,
+          "mental": 8,
+          "stress": -8,
+          "luck": 1
+        },
+        "flags": [
+          "lotto_5th_prize"
+        ],
+        "result_text": "4,000원 순이익. 세금 없음.\n이 도시에서 가장 소박한 승리.\n그 치킨이, 유독 맛있었다."
+      }
+    ]
+  },
+  {
+    "id": "job_interview_hell",
+    "title": "6년 공백",
+    "background": "office",
+    "portrait": "player_shocked",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 4.5,
+    "hidden": false,
+    "conditions": {
+      "no_job": true,
+      "min_turn": 2,
+      "max_turn": 30
+    },
+    "tags": [
+      "jobs",
+      "social",
+      "stress"
+    ],
+    "cooldown": 8,
+    "description": "면접장. 3인용 소파 맞은편에 면접관 두 명.\n이력서를 집어 들더니, 잠깐 멈춘다.\n\n\"...여기 공백이 꽤 길네요.\"\n\n{name}은 안다. 그 '꽤'가 얼마인지.\n\n\"6년이요. 그 사이에 뭐 하셨어요?\"\n\n면접관이 고개를 든다. 기다리는 눈빛.\n\n방 안이 조용해진다.",
+    "choices": [
+      {
+        "text": "\"집안 사정이 있었습니다.\" — 짧게 대답한다",
+        "effects": {
+          "stress": 5,
+          "social_skill": 3,
+          "mental": 2
+        },
+        "route": "orthodox",
+        "result_text": "면접관이 더 캐묻지 않았다.\n무언가를 견딘 사람의 눈빛이라는 걸 알아봤는지.\n합격 여부는 모르지만 — 거짓말은 안 했다."
+      },
+      {
+        "text": "\"자기 계발 중이었습니다.\" — 포장한다",
+        "effects": {
+          "stress": 8,
+          "intelligence": 2
+        },
+        "result_text": "면접관이 \"어떤 자기 계발이요?\" 라고 물었다.\n{name}은 그 질문을 예상 못 했다.\n막혔다. 그 3초가 1시간 같았다."
+      },
+      {
+        "text": "\"솔직히 말씀드리면—\" 처음으로 6년을 말한다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 4,
+          "stress": 3,
+          "reputation": 3
+        },
+        "result_text": "전부 말했다. 빚, 알바, 고시원, 그리고 지금.\n면접관이 잠시 조용했다.\n\"...그런 일이 있었군요.\"\n합격은 모른다. 하지만 그날, {name}은 처음으로 6년을 부끄러워하지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "sns_viral_post",
+    "title": "올라간 글",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": [
+      "social",
+      "comedy",
+      "lucky"
+    ],
+    "cooldown": 15,
+    "description": "자려고 누웠다가 폰을 봤다.\n\n3시간 전에 올렸던 SNS 글.\n\"고시원에서 30억 가는 방법 리서치 중\" 이라는 멍청한 제목으로.\n\n알림이 멈추지 않는다.\n\n조회수: 41,000\n공유: 1,200\n댓글: \"실화임?\" \"응원합니다\" \"나도 해\" \"저도요\"\n\n자려던 계획은 물 건너갔다.",
+    "choices": [
+      {
+        "text": "계속 올린다 — 이걸 콘텐츠로 만들어본다",
+        "effects": {
+          "social_skill": 4,
+          "reputation": 8,
+          "stress": 3,
+          "intelligence": 2
+        },
+        "route": "unorthodox",
+        "flags": [
+          "creator_started",
+          "sns_viral_fame"
+        ],
+        "result_text": "팔로워가 5,000명이 됐다.\n6년 공백이 콘텐츠가 됐다.\n누군가의 실패가 다른 누군가의 희망이 되는 이상한 세상이었다.\n그래도 — 처음으로 누군가가 {name}에게 응원을 보내줬다."
+      },
+      {
+        "text": "부담스럽다 — 조용히 비공개 처리한다",
+        "effects": {
+          "mental": 4,
+          "stress": -4
+        },
+        "result_text": "비공개로 돌렸다.\n조회수 41,000은 사라졌다. 그 응원도.\n근데 이상하게 — 그 중에 1명은 진심이었을 것 같았다.\n그 1명 생각이 오래 남았다."
+      },
+      {
+        "text": "그냥 놔둔다 — 어차피 내일이면 묻힌다",
+        "effects": {
+          "luck": 2,
+          "stress": -2,
+          "reputation": 3
+        },
+        "result_text": "그냥 놔뒀다.\n다음 날 조회수는 62,000이 됐다.\n내버려두는 것도 전략일 때가 있다."
+      }
+    ]
+  },
+  {
+    "id": "chicken_franchise_neighbor",
+    "title": "옆방 선배의 선택",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 4,
+      "max_turn": 20
+    },
+    "tags": [
+      "jobs",
+      "social",
+      "comedy"
+    ],
+    "cooldown": 12,
+    "description": "고시원 복도에서 2년 선배를 마주쳤다.\n그가 종이봉투를 들고 있었다. '본사 계약서'라고 적힌 로고가 보였다.\n\n\"공무원 시험 접었어. 치킨집 차리려고.\"\n\n{name}은 잠깐 말을 잃었다.\n4년. 그 4년이 치킨집으로.\n\n그의 얼굴은... 이상하게도 홀가분해 보였다.",
+    "choices": [
+      {
+        "text": "\"잘 생각하셨어요.\" 진심으로 응원한다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2,
+          "stress": -3
+        },
+        "result_text": "선배가 환하게 웃었다.\n\"민준이 너도 뭔가 찾겠지. 굳이 남들 방식 안 따라가도 돼.\"\n그 말이 그날 밤 오래 남았다.\n포기가 아니라, 전환이었다."
+      },
+      {
+        "text": "\"저도 사실 창업 생각해봤어요\"",
+        "effects": {
+          "intelligence": 3,
+          "stress": 2,
+          "investment_skill": 1
+        },
+        "flags": [
+          "startup_intent"
+        ],
+        "result_text": "선배에게서 가맹 본사 연락처를 받았다.\n치킨은 아니더라도, 뭔가 내 것을 만드는 꿈.\n아직 씨앗이지만, 심기는 했다."
+      },
+      {
+        "text": "\"저는 다른 길로 갈 거예요\" 내 길을 확인한다",
+        "effects": {
+          "mental": 6,
+          "stress": -2
+        },
+        "result_text": "선배의 선택을 보면서 역설적으로 더 확실해졌다.\n내 목표는 30억. 강남.\n남의 선택이 정답이 아닌 것처럼, 나의 선택도 남이 판단할 수 없다.\n{name}은 발걸음이 조금 더 단단해진 느낌이었다."
+      }
+    ]
   }
 ]
