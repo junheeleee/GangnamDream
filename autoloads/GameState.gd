@@ -965,6 +965,9 @@ func check_game_over():
 	# 크리에이터 성공 (바이럴 + 3억 달성 — 강남보다 낮아도 인정)
 	if flags.get("creator_viral", false) and total_now >= 300_000_000:
 		finish_run("creator_success"); return
+	# 정계 입성 (보좌관 → 국회의원 당선 — 강남 대신 여의도)
+	if flags.get("political_winner", false):
+		finish_run("political_fix"); return
 
 	# ── 38세 = 타임리밋 (5년 종료) ────────────────────
 	if age >= 38:
