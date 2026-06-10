@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Added (2026-06-10) — Steam Deck 대응
+- `export_presets.cfg`에 "Linux / Steam Deck" 프리셋 추가 (x86_64, embed_pck 단일 바이너리).
+- `tools/build.sh`에 `linux` 타겟 추가 (`./tools/build.sh linux` → `build/linux/GangnamDream.x86_64`, chmod+x 자동 처리).
+- 모든 Button 헬퍼(`_button`·`_action_button`·`_small_button`)에 포커스 스타일박스 추가: 포커스 시 금색(#f0b429) 테두리 강조.
+- 컨트롤러 포커스 자동 이동: 이벤트 선택지 첫 버튼, 결과 확인 버튼, 모달 첫 버튼, AP 소진 시 다음 달 버튼에 각각 grab_focus.
+- StartMenu "새 이야기 시작" 버튼에 초기 포커스, 슬롯 버튼에 금색 포커스 링.
+- 뷰포트 1280×800이 Steam Deck 화면과 일치 — 해상도 조정 불필요.
+- Linux 빌드 실검증: `GangnamDream.x86_64` 164MB 단일 바이너리 export 성공.
+
 ### Added (2026-06-10) — 스팀 출시 준비: 데스크톱 폴리시 + 빌드 파이프라인
 - `DisplayManager` autoload 신설: 전체화면 설정 영속화(`user://gangnam_dream_display.json`), F11/Alt+Enter 전역 토글, 창 최소 크기 960×600, 창 X 버튼으로 닫을 때 진행 중 런 자동저장. 웹 빌드에서는 비활성(브라우저 충돌 방지).
 - StartMenu ⚙️ 설정과 MainGame ≡ 시스템 메뉴에 🖥️ 전체화면 토글 추가 (단축키 힌트 표시).

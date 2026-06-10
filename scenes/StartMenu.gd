@@ -321,6 +321,7 @@ func _build_ui():
 	new_game.add_theme_font_size_override("font_size", 17)
 	new_game.pressed.connect(_start_new_run)
 	left.add_child(new_game)
+	new_game.call_deferred("grab_focus")
 
 	# ── 구분선 ──
 	var vsep = VSeparator.new()
@@ -606,8 +607,12 @@ func _button(text, color) -> Button:
 	normal.set_corner_radius_all(6)
 	var hover = normal.duplicate()
 	hover.bg_color = Color(color).lightened(0.12)
+	var focus_st = normal.duplicate()
+	focus_st.border_color = Color("#f0b429")
+	focus_st.set_border_width_all(2)
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("focus", focus_st)
 	button.add_theme_color_override("font_color", Color("#ffffff"))
 	button.add_theme_font_size_override("font_size", 15)
 	return button
@@ -649,9 +654,14 @@ func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: C
 		btn.flat = true
 		btn.set_anchors_preset(Control.PRESET_FULL_RECT)
 		var empty_st = StyleBoxEmpty.new()
+		var focus_slot = StyleBoxFlat.new()
+		focus_slot.bg_color = Color(0, 0, 0, 0)
+		focus_slot.border_color = Color("#f0b429")
+		focus_slot.set_border_width_all(2)
+		focus_slot.set_corner_radius_all(6)
 		btn.add_theme_stylebox_override("normal", empty_st)
 		btn.add_theme_stylebox_override("pressed", empty_st)
-		btn.add_theme_stylebox_override("focus", empty_st)
+		btn.add_theme_stylebox_override("focus", focus_slot)
 		var hover_st = StyleBoxFlat.new()
 		hover_st.bg_color = Color(1.0, 1.0, 1.0, 0.06)
 		hover_st.set_corner_radius_all(6)

@@ -1315,6 +1315,7 @@ func _show_result(result_text: String):
 	var confirm_btn = _button("확인", "#1f6feb")
 	confirm_btn.pressed.connect(_on_result_confirmed)
 	choice_box.add_child(confirm_btn)
+	confirm_btn.call_deferred("grab_focus")
 	next_button.disabled = true
 
 func _on_result_confirmed():
@@ -1370,6 +1371,7 @@ func _render_event():
 	choice_box.add_child(sep_row)
 
 	var btn_accents = ["#3a6ea8", "#4a7a5a", "#6a4a7a"]
+	var _first_choice_btn: Button = null
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
 		var acc = btn_accents[i % btn_accents.size()]
@@ -1377,6 +1379,10 @@ func _render_event():
 		button.custom_minimum_size = Vector2(0, 44)
 		button.pressed.connect(Callable(self, "_choose").bind(i))
 		choice_box.add_child(button)
+		if i == 0:
+			_first_choice_btn = button
+	if _first_choice_btn:
+		_first_choice_btn.call_deferred("grab_focus")
 
 func _refresh_all():
 	if not is_inside_tree():
@@ -1885,6 +1891,7 @@ func _render_ap_actions():
 		btn_style.content_margin_bottom = 8
 		next_button.add_theme_stylebox_override("normal", btn_style)
 		next_button.add_theme_color_override("font_color", Color("#00c896"))
+		next_button.call_deferred("grab_focus")
 	else:
 		next_button.text = "다음 달 ▶"
 		next_button.remove_theme_stylebox_override("normal")
@@ -3169,6 +3176,13 @@ func _open_modal(title):
 		modal_panel.offset_top    = -280
 		modal_panel.offset_bottom =  280
 	AudioManager.play("open_modal")
+	call_deferred("_focus_first_in_modal_body")
+
+func _focus_first_in_modal_body():
+	for child in modal_body.get_children():
+		if child is Button and child.focus_mode != Control.FOCUS_NONE and not child.disabled:
+			child.grab_focus()
+			return
 
 func _close_modal():
 	modal_layer.visible = false
@@ -3562,6 +3576,10 @@ func _button(text, color):
 	if _font_bold:
 		button.add_theme_font_override("font", _font_bold)
 	button.add_theme_font_size_override("font_size", 15)
+	var focus_st = normal.duplicate()
+	focus_st.border_color = Color("#f0b429")
+	focus_st.set_border_width_all(2)
+	button.add_theme_stylebox_override("focus", focus_st)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	return button
 
@@ -3582,9 +3600,16 @@ func _action_button(text: String, accent_color: String) -> Button:
 	hover.bg_color = Color("#1c1c2a")
 	var pressed_style = normal.duplicate()
 	pressed_style.bg_color = Color("#0d0d16")
+	var focus_action = hover.duplicate()
+	focus_action.border_color = Color("#f0b429")
+	focus_action.border_width_left = 4
+	focus_action.border_width_top = 1
+	focus_action.border_width_right = 1
+	focus_action.border_width_bottom = 1
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed_style)
+	button.add_theme_stylebox_override("focus", focus_action)
 	button.add_theme_color_override("font_color", Color("#c8d0e0"))
 	button.add_theme_font_size_override("font_size", 14)
 	if _font_regular:
@@ -3602,8 +3627,12 @@ func _small_button(text, color):
 	normal.set_corner_radius_all(4)
 	var hover = normal.duplicate()
 	hover.bg_color = Color(color).lightened(0.15)
+	var focus_sm = normal.duplicate()
+	focus_sm.border_color = Color("#f0b429")
+	focus_sm.set_border_width_all(2)
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("focus", focus_sm)
 	button.add_theme_color_override("font_color", Color("#ffffff"))
 	button.add_theme_font_size_override("font_size", 13)
 	if _font_regular:

@@ -104,13 +104,30 @@ build_windows() {
   fi
 }
 
+build_linux() {
+  echo ""
+  echo "🐧 Linux / Steam Deck 빌드 시작..."
+  mkdir -p "$PROJECT_DIR/build/linux"
+  "$GODOT" --headless --path "$PROJECT_DIR" --export-release "Linux / Steam Deck" "$PROJECT_DIR/build/linux/GangnamDream.x86_64" 2>&1
+  if [[ -f "$PROJECT_DIR/build/linux/GangnamDream.x86_64" ]]; then
+    chmod +x "$PROJECT_DIR/build/linux/GangnamDream.x86_64"
+    SIZE=$(du -sh "$PROJECT_DIR/build/linux/" | cut -f1)
+    echo "✅ Linux 빌드 완료 → build/linux/GangnamDream.x86_64 ($SIZE)"
+    echo "   Steam Deck: Depots에 이 파일 업로드 (Linux 전용 depot 권장)"
+  else
+    echo "❌ Linux 빌드 실패"
+    exit 1
+  fi
+}
+
 case "$TARGET" in
   web)     build_web ;;
   macos)   build_macos ;;
   windows) build_windows ;;
-  all)     build_web; build_macos; build_windows ;;
+  linux)   build_linux ;;
+  all)     build_web; build_macos; build_windows; build_linux ;;
   *)
-    echo "사용법: $0 [web|macos|windows|all]"
+    echo "사용법: $0 [web|macos|windows|linux|all]"
     exit 1
     ;;
 esac

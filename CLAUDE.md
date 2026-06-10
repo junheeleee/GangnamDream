@@ -9,8 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **스팀 출시 준비** — 빌드 파이프라인 완성·데스크톱 폴리시 완료, 인게임 화면 검수 단계 |
-| **최근 완료** | **스팀 데스크톱 폴리시**: DisplayManager(전체화면 영속화+F11/Alt+Enter+창닫기 자동저장), 설정 UI 전체화면 토글, ESC 시스템 메뉴. **빌드 파이프라인**: export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수 지원. 헤드리스 QA 전수 통과(컴파일 38개·SimRun 12,000런·SmokeRace·Windows/Web export 실검증) |
-| **다음 작업** | **인게임 에셋 QA (로컬 Godot 실행 필요)** — Start/Splash/MainGame/Story CG/Holdem/RaceTrack 화면 크롭·톤 검수 + Windows exe 실행 테스트 + 저장 호환성 검증. 빌드: `./tools/build.sh windows` (또는 `GODOT=경로` 지정) |
+| **최근 완료** | **Steam Deck 대응**: Linux 프리셋 추가(164MB 단일 바이너리 실검증), 컨트롤러 포커스 링(금색 테두리), 이벤트·결과·모달·다음달 버튼 자동 grab_focus. **데스크톱 폴리시**: DisplayManager(전체화면 영속화+F11/Alt+Enter+창닫기 자동저장), ESC 시스템 메뉴. **빌드 파이프라인**: Win/macOS/Web/Linux export 실검증 |
+| **다음 작업** | **인게임 에셋 QA (로컬 Godot 실행 필요)** — Start/Splash/MainGame/Story CG/Holdem/RaceTrack 화면 크롭·톤 검수 + exe/Steam Deck 실행 테스트 + 저장 호환성 검증. 빌드: `./tools/build.sh linux` / `./tools/build.sh windows` |
 | **마지막 업데이트** | 2026-06-10 (스팀 출시 준비 — 데스크톱 폴리시 + 빌드 파이프라인) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
