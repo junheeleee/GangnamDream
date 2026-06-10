@@ -1014,6 +1014,22 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_ghost_seen", false):
 		return "arc_daeun_ghost"
 
+	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
+	if t >= 11 and not f.get("arc_father_01_seen", false):
+		return "arc_father_01_call"
+	if t >= 22 and f.get("arc_father_01_seen", false) \
+			and not f.get("arc_father_02_done", false):
+		return "arc_father_02_signal"
+	if t >= 35 and f.get("arc_father_02_done", false) \
+			and not f.get("arc_father_03_seen", false):
+		return "arc_father_03_hospital"
+	if t >= 43 and f.get("arc_father_03_seen", false) \
+			and not f.get("visited_father", false):
+		return "arc_father_04_visit"
+	if t >= 52 and f.get("visited_father", false) \
+			and not f.get("arc_father_05_seen", false):
+		return "arc_father_05_after_visit"
+
 	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
 	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
 		return "arc_jiyeon_01_crash"

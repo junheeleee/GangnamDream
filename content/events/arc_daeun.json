@@ -23,7 +23,7 @@
         "text": "고맙다고, 이름을 묻는다  (인연 시작 / 용기·약간의 거리)",
         "result_text": "\"...감사합니다. 저, 자주 오는데 매번 챙겨주시네요.\"\n그녀가 처음으로 웃었다. \"김다은이에요. 자주 보니까, 뭐.\"\n작은 이름 하나가 오갔다. 서울의 밤이, 조금 덜 차가워졌다.",
         "flags": [
-          "arc_daeun_met"
+          "arc_daeun_met", "met_daeun", "arc_daeun_01_seen"
         ],
         "effects": {
           "mental": 6,
@@ -41,7 +41,7 @@
         "text": "고맙다는 인사만 하고 나온다  (집중 유지 / 따뜻함 놓침)",
         "result_text": "{name}은 고개만 꾸벅하고 편의점을 나섰다.\n괜한 인연은 사치다 — 지금은 30억만 보고 가야 한다.\n그래도 봉지 속 삼각김밥 두 개가, 이상하게 마음에 남았다.",
         "flags": [
-          "arc_daeun_met",
+          "arc_daeun_met", "met_daeun", "arc_daeun_01_seen",
           "daeun_kept_distance"
         ],
         "effects": {
@@ -114,7 +114,7 @@
       },
       {
         "text": "내 '강남 꿈'을 솔직히 털어놓는다  (진심 / 평가받음)",
-        "result_text": "",
+        "result_text": "그 말이 입 밖으로 나왔다. 처음으로, 이 사람 앞에서.",
         "follow_up_event": "arc_daeun_02b_dream",
         "effects": {
           "stress": 3
