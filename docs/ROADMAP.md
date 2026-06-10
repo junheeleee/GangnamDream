@@ -140,7 +140,7 @@
   - [x] 홀덤 카드/칩 UI 초안은 실제 포커 카드/칩 디자인으로 교체
   - [ ] 경마 UI 이미지는 실제 코드 연결 여부 결정 후 재작업
 - [ ] QA 체크리스트 완료
-- [ ] 저장 호환성 검증
+- [x] 저장 호환성 검증 (2026-06-10) — SaveManager v3, run_theme·unlocked_stat_thresholds 직렬화 추가, 구 세이브 compat 로직
 - [x] 빌드/배포 설정 (2026-06-10) — export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수·Linux 지원, Windows/Web export 실제 검증
 - [x] 데스크톱 폴리시 (2026-06-10) — DisplayManager(전체화면 영속화 + F11/Alt+Enter + 창 닫기 자동저장), 설정 UI 전체화면 토글, ESC 시스템 메뉴
 
@@ -153,7 +153,7 @@
 | 기본 턴 루프 (월별 진행) | ✅ |
 | 스탯 시스템 (건강/정신/스트레스/지력 등) | ✅ |
 | 스탯 임계값 해금 | ✅ |
-| 이벤트 시스템 (360개, 쿨다운, 가중치, follow_up 체인) | ✅ |
+| 이벤트 시스템 (395개, 쿨다운, 가중치, follow_up 체인) | ✅ |
 | 루트 조건 이벤트 (month_focus, route_orthodox 등) | ✅ |
 | 투자 시스템 (매수/매도, 레버리지, 마진콜) | ✅ |
 | 직업 시스템 (취업/퇴직/승진) | ✅ |
@@ -166,3 +166,6 @@
 | 월별 크라이시스/호재 시스템 | ✅ |
 | BGM/SFX, 저장/불러오기 | ✅ |
 | 메타 진행 (업적, 런 히스토리) | ✅ |
+| 엔딩 25종 활성화 (finish_run 전부 연결) | ✅ |
+| 아크 베팅 결과 내러티브 (임상철·한지연 win/lose follow-up) | ✅ |
+| 세이브 호환성 v3 (run_theme·stat_threshold 직렬화) | ✅ |

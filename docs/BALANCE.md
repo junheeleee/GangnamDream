@@ -40,6 +40,33 @@ Next Adjustment:
 
 ## Change Log
 
+### 2026-06-10 — 5차 난이도 조정 (목표 달성률 1~3% → 5~8%)
+
+```text
+Date: 2026-06-10
+Changed:
+  1. InvestmentSystem drift  0.35%/월 → 0.60%/월 (연 7.2% 기대수익)
+  2. 크래시 피해 축소: range -0.18~-0.45 → -0.12~-0.38, 배수 1.2→1.0
+  3. crash_risk 상한 clamp 0.98 추가 (과거: 사실상 무제한)
+  4. arc_opp_sangchul_realty 기회 이벤트:
+       올인 선택: success_rate 0.32→0.42, win_multiplier 1.6→2.8
+       보수적 선택: success_rate 0.32→0.44, win_multiplier 1.6→2.0
+  5. arc_opp_jiyeon_bunyang 기회 이벤트:
+       올인 선택: success_rate 0.28→0.38, win_multiplier 2.4→4.0, loss_ratio 0.80→0.75
+  6. 신규 투자 이벤트 2종 추가:
+       inv_ipo_hot_tip (공모주, 12턴+, uncommon): 올인 sr 0.36/wm 3.5, 보수 sr 0.40/wm 2.5
+       inv_redev_zone_tip (재개발, 28턴+, rare, 1회성): 대박 sr 0.40/wm 7.0, 보수 sr 0.46/wm 5.0
+  7. SimRun OPP 재설정: 음수 EV OPP 2개 제거, 실제 이벤트 파라미터로 교체
+       OPP[1] (구 sr 0.35/wm 1.8, EV -9.1%) → sr 0.44/wm 2.0
+       OPP[3] (구 sr 0.35/wm 2.0, EV -7.0%) → sr 0.36/wm 3.5
+Reason: SimRun 60턴 12,000런 결과 정책별 달성률 1.3~3.6%. 목표(5~8%) 미달.
+         drift 부족, 크래시 과도, arc OPP 음수 EV, SimRun OPP 파라미터 불일치가 복합 원인.
+Observed Result: 시뮬 재실행 결과 정책별 1.3~3.6% → 추정 5~8% (실제값은 로컬 Godot 재실행 필요)
+Next Adjustment: 정식 play-test 후 파산율·달성률 교차 확인. 재개발 이벤트(7× 배수) 실 플레이 체감 필요.
+Files: systems/InvestmentSystem.gd, content/events/arc_events.json,
+       content/events/investment_events.json, tools/SimRun.gd
+```
+
 ### 2026-06-06 — Opportunity EV 밸런스 패치
 
 ```text

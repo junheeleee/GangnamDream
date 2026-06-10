@@ -1,44 +1,75 @@
-# Gangnam Dream
+# Gangnam Dream (강남드림)
 
-Korean modern-life roguelike text RPG built with Godot 4.6.
+**Interactive drama / life simulator — Godot 4.6 (GDScript)**
 
-You start as a poor 20-year-old Korean man with 1,000,000 KRW and try to survive modern Korean society through jobs, relationships, investment, luck, stress, and risky choices.
+You are Kim Min-jun, 33, unemployed, with ₩500,000 in your account.  
+Goal: accumulate ₩3 billion and enter Gangnam — in 5 years (60 turns).
 
-## Core Direction
+---
 
-- Korean life roguelike
-- Dark social satire
-- Financial anxiety simulator
-- Football Manager-inspired dashboard UI
-- Visual novel-style event choices
-- Data-driven events and replayability
+## What kind of game is this?
 
-## Systems
+A Korean social-realism story where every monthly choice matters.  
+Each turn you pick from one of a handful of events: career, investment, relationships, side-hustle, or risk.  
+The choices stack into your character's identity — and eventually into one of 25 endings.
 
-- JSON-driven event system
-- Monthly Korean social and financial news
-- Investment simulation with volatility, bubbles, crashes, fear/greed, momentum
-- Relationship simulation
-- Jobs, items, endings, save slots, autosave
-- Meta progression and run history
+It plays like a visual novel with a dashboard strategy layer.
+
+---
+
+## Core Systems
+
+| System | Description |
+|---|---|
+| **Monthly event loop** | One event per turn, drawn from a weighted pool of 395 events |
+| **Tendency system** | Career / Invest / Found — behavior accumulates into identity, no preset traits |
+| **Route system** | Orthodox vs unorthodox choices gate different late-game events and endings |
+| **Investment market** | 18 assets with volatility, fear/greed index, bubbles, crashes, leverage |
+| **Arc system** | 5 story arcs (Sangchul, Jiyeon, Jaehyuk, Daeun, Father) with branching outcomes |
+| **Story mode** | Key moments render as visual-novel scenes with portraits and backgrounds |
+| **Housing progression** | Goshiwon → One-room → Villa lease → Apartment lease (cost + passives) |
+| **Run themes** | Each run gets a random category boost, or choose a preset theme |
+| **Meta progression** | 39 collectable titles, run history, per-run stats |
+| **Save system** | Autosave + 3 manual slots |
+
+---
 
 ## Content
 
-- 100 modern-life events
-- 30 investment events
-- 30 relationship events
-- 20 hidden rare events
-- 15 jobs
-- 30 items
-- 10 endings
-- 79 news templates
+| Category | Count |
+|---|---|
+| Total events | 395 |
+| — Life events | 142 |
+| — Investment events | 41 |
+| — Story / arc events | 157 |
+| — Relationship events | 35 |
+| — Hidden / rare events | 20 |
+| Endings | 25 |
+| Jobs | 15 |
+| Investment assets | 18 |
+| Items | 28 |
+| News templates | 79 |
 
-## Run
+---
+
+## How to Run
 
 1. Install Godot 4.6 or later.
 2. Open `project.godot`.
-3. Press `F5`.
+3. Press **F5**.
+
+Build scripts: `./tools/build.sh linux` / `./tools/build.sh windows`
+
+---
 
 ## Documentation
 
-See `README_KR.md` for Korean details.
+| File | Contents |
+|---|---|
+| `CLAUDE.md` | Session protocol, current status, core rules |
+| `docs/GAME_DESIGN.md` | Full game design document |
+| `docs/ROADMAP.md` | Development phases and checkboxes |
+| `docs/BALANCE.md` | Economy tuning log |
+| `docs/DECISIONS.md` | Design decision rationale |
+| `docs/STORY_BIBLE.md` | Character and narrative reference |
+| `README_KR.md` | Korean version of this file |

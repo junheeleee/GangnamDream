@@ -1,5 +1,12 @@
 # Gangnam Dream Decisions
 
+## 2026-06-10 (6차 QA — 세이브·엔딩·아크 결과 내러티브)
+
+- **SAVE_VERSION 3 / 직렬화 누락 수정**: `run_theme`·`unlocked_stat_thresholds` 두 필드가 `serialize()`에 없었다. 로드 후 런 테마가 항상 "자유런"으로 표시되고, 임계값 해금이 재발동되는 증상. whitelist 방식 직렬화 특성상 파싱 에러 없이 조용히 기본값으로 덮여 오랫동안 발견 안 됨. 구 세이브 호환은 `run_theme_categories`에서 테마를 역추론하는 compat 로직으로 처리.
+- **엔딩 9종 활성화 — `finish_run()` 누락 원인**: 기존 엔딩 설계 문서에는 25개 엔딩이 기술돼 있었으나 `check_game_over()`에 실제 `finish_run()` 호출이 없었다. `creator_success`는 `creator_success_unlocked` 플래그를 체크했는데 해당 플래그를 SET하는 코드가 어디에도 없었다 — 드라마 피벗 과정에서 setter가 누락된 것. 더 단순한 `creator_viral` 플래그(이벤트 JSON에서 실제로 set됨)로 교체.
+- **arc 결과 내러티브 구조**: `_last_opportunity_result`를 읽는 코드는 있었으나 실제로 분기에 활용되지 않았다. `win_flag`/`lose_flag` 키를 opportunity spec에 추가하여 결과를 플래그로 영속화하고, `_next_arc_id()`에서 해당 플래그를 읽어 follow-up 이벤트로 라우팅. result 이벤트에는 `min_turn:9999`를 설정해 랜덤 풀 진입 차단.
+- **SimRun OPP 파라미터 불일치**: SimRun에서 사용하던 OPP 2개가 실제 게임 이벤트와 달리 음수 EV였다. 시뮬 승률이 실제 게임보다 낮게 측정되는 원인. 실제 아크/투자 이벤트 파라미터로 교체해 시뮬-게임 일치도 높임.
+
 ## 2026-06-10 (스팀 출시 데스크톱 폴리시)
 
 - **export_presets.cfg 커밋**: 원래 `.gitignore` 대상이었으나, 이 프로젝트의 프리셋에는 서명 키/비밀정보가 전혀 없고 빌드 재현성(어느 머신에서나 `build.sh` 한 줄로 빌드)이 더 중요하므로 저장소에 커밋한다. 향후 코드사인 키를 넣게 되면 그때 분리한다.
