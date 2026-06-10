@@ -1974,27 +1974,118 @@ func _recommend_action() -> String:
 		return "💼 구직활동  →  자산 %s. 수입부터 늘려야 합니다" % GameState.format_money(float(total))
 	return "📚 자기계발 또는 📈 투자  →  꾸준히 스탯과 자산을 키우세요"
 
-## 매달 분위기 내레이션 한 줄 (계절 + 상태 기반)
+## 매달 분위기 내레이션 한 줄 (계절 + 상태 + 아크 플래그 + 턴 기반)
 func _month_narration() -> String:
 	var m = GameState.month
+	var t = GameState.turn
+	var f = GameState.flags
+	var name = GameState.player_name
+	var total = GameState.get_total_asset_value()
+
+	# ── 위기 우선 ──────────────────────────────────────
 	if GameState.money < 0:
 		return "통장은 마이너스. 벼랑 끝에서 하루를 버틴다."
-	if GameState.mental <= 40:
+	if GameState.mental <= 30:
+		return "마음이 바닥에 닿았다. 아무것도 하기 싫은 날이 늘어간다."
+	if GameState.mental <= 45:
 		return "마음이 자꾸 가라앉는다. 버티는 것도 힘이 든다."
-	if GameState.stress >= 75:
+	if GameState.stress >= 80:
+		return "몸이 신호를 보내고 있다. 이 속도로는 오래 못 간다."
+	if GameState.stress >= 70:
 		return "어깨가 무겁다. 잠깐의 숨 돌릴 틈도 없다."
-	if GameState.current_job.is_empty() and GameState.turn > 2:
+	if GameState.current_job.is_empty() and t > 2:
+		if t > 20:
+			return "아직도 직업이 없다. 서울은 기다려주지 않는다."
 		return "수입은 0원. 통장은 매일 조금씩 줄어든다."
-	var season := ""
-	if m in [12, 1, 2]:
-		season = "창밖으로 겨울 바람이 분다. 서울의 1평 반은 오늘도 좁다."
-	elif m in [3, 4, 5]:
-		season = "봄이 왔다. 거리에 사람이 늘고, 마음이 조금 들뜬다."
-	elif m in [6, 7, 8]:
-		season = "여름. 고시원은 덥고, 에어컨은 사치다."
+
+	# ── 아버지 아크 ──────────────────────────────────
+	if f.get("father_reconciled", false) and t >= 35:
+		if m in [3, 4]:
+			return "아버지와 화해했다. 봄이 유독 따뜻하게 느껴지는 건 그래서인지 모른다."
+	if f.get("visited_father", false) and not f.get("father_reconciled", false):
+		return "아버지를 만나고 왔다. 하고 싶은 말을 다 못 했다."
+	if f.get("arc_father_02_done", false) and not f.get("visited_father", false):
+		return "아버지가 편찮으시다는 소식이 마음 한구석에 걸려 있다."
+
+	# ── 관계 아크 ──────────────────────────────────
+	if f.get("daeun_together_path", false):
+		if m in [12, 1, 2]:
+			return "다은이 따뜻한 국을 끓여줬다. 이 겨울은 작년보다 따뜻하다."
+		return "다은이 있다. 오늘 그것만으로 충분한 날이었다."
+	if f.get("romance_sumin_confession", false):
+		return "수민이 생각났다. 바쁜 와중에도 그 사람 얼굴이 떠오른다."
+	if f.get("startup_exit", false):
+		return "한 번은 해냈다. 그게 자신감이 됐다."
+	if f.get("creator_success_unlocked", false):
+		return "오늘도 알림이 울렸다. 낯선 누군가가 내 이야기를 보고 있다."
+
+	# ── 자산 마일스톤 내레이션 ──────────────────────
+	if total >= 2_500_000_000.0:
+		return "강남이 손에 잡힐 것 같다. 진짜 될 것 같다."
+	if total >= 1_000_000_000.0:
+		return "10억을 넘었다. 이 숫자가 현실인지 아직 믿기지 않는다."
+	if total >= 500_000_000.0:
+		return "5억. 서울에서 이 숫자가 이렇게 무거울 줄 몰랐다."
+	if total >= 100_000_000.0:
+		return "1억을 넘었다. 작은 것 같지만, 여기서부터가 진짜다."
+
+	# ── 턴 기반 내레이션 (마일스톤 / 후반 긴장) ────
+	if t == 60:
+		return "마지막 달이다. 지금 여기, 이게 {name}의 5년이다.".replace("{name}", name)
+	if t >= 54:
+		return "6개월이 남았다. 아직 늦지 않았다고 — 믿어야 한다."
+	if t >= 48:
+		return "1년이 채 남지 않았다. 통장 숫자가 더 크게 보인다."
+	if t >= 42:
+		return "강남이 멀지 않다. 아니, 아직 멀다. 그 경계 어딘가."
+	if t == 24:
+		return "2년이 지났다. 서울이 조금 익숙해졌다."
+	if t == 12:
+		return "서울에 올라온 지 1년이 됐다. 통장 숫자와 체중이 다 줄었다."
+
+	# ── 주거 기반 ──────────────────────────────────
+	var housing = GameState.housing
+	if housing == "gosiwon":
+		if t > 24:
+			return "1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다."
+		if t > 12:
+			return "1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다."
+	elif housing == "apartment":
+		return "아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다."
+	elif housing == "gangnam":
+		return "강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다."
+
+	# ── 계절 × 게임 시기 내레이션 ──────────────────
+	if t <= 15:
+		# 초반: 낯섦과 의지
+		if m in [12, 1, 2]:
+			return "겨울 서울. 고시원 창문에 성에가 꼈다. 오늘 하루도 버텼다."
+		elif m in [3, 4, 5]:
+			return "봄이 왔다. 취업 공고가 넘쳐났다. 이번엔 될 것 같았다."
+		elif m in [6, 7, 8]:
+			return "여름. 고시원은 덥고, 에어컨은 사치다. 땀 흘리며 이력서를 수정했다."
+		else:
+			return "가을. 어딘가에서 금방 되겠다고 했던 1년 전의 자신이 생각났다."
+	elif t <= 35:
+		# 중반: 지침과 성장
+		if m in [12, 1, 2]:
+			return "겨울이 또 왔다. 작년보다 통장 숫자가 달라졌다."
+		elif m in [3, 4, 5]:
+			return "봄. 1년 전 봄과 지금 봄이 다르다는 걸 느꼈다."
+		elif m in [6, 7, 8]:
+			return "이 여름도 지나면 또 반년이 줄어든다."
+		else:
+			return "가을. 한 해가 또 저문다. %s은 수첩의 숫자를 본다." % name
 	else:
-		season = "가을. 한 해가 또 저문다. {name}은 수첩의 숫자를 본다."
-	return season.replace("{name}", GameState.player_name)
+		# 후반: 절박함과 선명해지는 목표
+		if m in [12, 1, 2]:
+			return "겨울. 시간이 별로 없다는 걸 겨울이 되면 더 실감한다."
+		elif m in [3, 4, 5]:
+			return "봄이 왔다. 이 봄이 강남드림의 마지막 봄일 수도 있다."
+		elif m in [6, 7, 8]:
+			return "더위가 기승이다. 땀 흘리는 것도 시간이고, 시간이 곧 돈이었다."
+		else:
+			return "가을. 이 가을을 어떻게 보내느냐가 결말을 바꿀지도 모른다."
 
 # ══════════════════════════════════════════════════════════════
 # 상황 카드 시스템 — 추상 메뉴 대신 '이번 달 상황'에 반응한다.
