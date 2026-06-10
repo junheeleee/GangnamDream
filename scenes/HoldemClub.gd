@@ -545,12 +545,14 @@ func _do_showdown() -> void:
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
 		msg_parts.append("🎉 %s으로 승리!" % TH.rank_name(best_hand[0]))
 		GameState.modify_hidden_stat("gambling_tendency", 3)
+		AudioManager.play("money_big" if _pot >= 1_000_000 else "money_gain")
 	else:
 		# AI 승
 		_opp[winner_idx]["stack"] += _pot
 		_net_session -= _pot if _hands_played == 1 else 0
 		msg_parts.append("😔 %s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
 		GameState.modify_hidden_stat("addiction_tendency", 2)
+		AudioManager.play("money_loss")
 
 	_render_table()
 	_set_msg(" ".join(msg_parts))

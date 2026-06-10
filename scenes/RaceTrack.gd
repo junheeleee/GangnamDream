@@ -454,7 +454,7 @@ func _start_race() -> void:
 	_race_t = 0.0
 	_clear()
 	_render_race()
-	AudioManager.play("open_modal")
+	AudioManager.play("event_new")
 	set_process(true)
 
 func _render_race() -> void:

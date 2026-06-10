@@ -325,6 +325,7 @@ func _on_choice(sc: Dictionary, choice_idx: int) -> void:
 
 # ── 결과 화면 ─────────────────────────────────────────────────────
 func _show_result() -> void:
+	AudioManager.play("money_gain" if _earned >= BASE_PAY else "money_loss")
 	_scene_lbl.text = ""
 	_feedback_lbl.text = ""
 	_progress_lbl.text = "완료"

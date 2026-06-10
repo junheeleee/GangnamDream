@@ -428,9 +428,11 @@ func _apply_result() -> void:
 		GameState.add_log("⚡ 스캘핑으로 %s 벌었다. (%d회 거래)" % [_fmt(_realized), _trades], "money")
 		GameState.modify_stat("investment_skill", 1)
 		GameState.modify_hidden_stat("gambling_tendency", 2)
+		AudioManager.play("money_big" if _realized >= 1_000_000.0 else "money_gain")
 	elif _realized < 0:
 		GameState.add_log("⚡ 스캘핑에서 %s 잃었다." % _fmt(-_realized), "money")
 		GameState.modify_hidden_stat("stress", 4)
+		AudioManager.play("money_loss")
 	# 많이 할수록 중독성
 	if _trades >= 5:
 		GameState.modify_hidden_stat("addiction_tendency", 2)

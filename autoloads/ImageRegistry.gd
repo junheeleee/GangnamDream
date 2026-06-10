@@ -134,6 +134,46 @@ func get_background(id: String) -> String:
 		return FALLBACK_BG
 	return ""
 
+## 명시 background가 없는 이벤트의 배경을 태그/카테고리로 추론.
+## (MainGame._get_bg_for_event와 같은 규칙 — StoryMode에서 빈 배경 방지)
+func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
+	var tags: Array = ev.get("tags", [])
+	var category := str(ev.get("category", ""))
+	if "hospital" in tags or "health" in tags or category == "health":
+		return "hospital"
+	if "convenience" in tags:
+		return "convenience_night"
+	if "investment" in tags or category == "investment" or "finance" in tags:
+		return "trading"
+	if "job" in tags or "work" in tags or "office" in tags or category == "jobs":
+		return "office"
+	if "commute" in tags or "subway" in tags:
+		return "subway"
+	if "social" in tags or "date" in tags or "cafe" in tags \
+			or "relationship" in tags or category == "romance":
+		return "cafe"
+	if "family" in tags or category == "family":
+		return "dad_house"
+	if "hometown" in tags:
+		return "ktx_window"
+	if "rooftop" in tags:
+		return "rooftop_night"
+	if category == "politics":
+		return "gangnam_night"
+	if category == "gambling" or "gambling" in tags or "crypto" in tags:
+		return "trading"
+	if "pc_bang" in tags or "gaming" in tags:
+		return "pc_bang"
+	if "night" in tags or "stress" in tags:
+		return "late_night"
+	if "gosiwon" in tags:
+		return "goshiwon_room"
+	# 주거 기반 폴백
+	match housing:
+		"gangnam":   return "gangnam_apartment"
+		"apartment": return "late_night"
+		_:           return "goshiwon_room"
+
 ## CG 경로 반환. 파일 없으면 "" (UI가 검은 화면 + 텍스트 처리)
 func get_cg(id: String) -> String:
 	var path = str(CG.get(id, ""))

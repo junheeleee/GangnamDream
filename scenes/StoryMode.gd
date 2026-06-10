@@ -292,8 +292,10 @@ func _render_current():
 	for c in _choice_box.get_children():
 		c.queue_free()
 
-	# 배경
+	# 배경 — 명시 ID가 없으면 태그/카테고리로 추론 (이전 장면 배경 잔존 방지)
 	var bg_id = str(_current.get("background", ""))
+	if bg_id == "":
+		bg_id = ImageRegistry.infer_background_id(_current, GameState.housing)
 	if bg_id != "":
 		var bp = ImageRegistry.get_background(bg_id)
 		if bp != "" and ResourceLoader.exists(bp):
