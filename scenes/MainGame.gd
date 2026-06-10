@@ -1068,6 +1068,29 @@ func _next_arc_id() -> String:
 			and f.get("arc_sangchul_jiyeon_reveal_seen", false) \
 			and not f.get("arc_jiyeon_truth_seen", false):
 		return "arc_jiyeon_truth_moment"
+
+	# ══ 6구간: 전문화 결말 — 선택한 방식이 결실을 맺는다 (턴 25+) ══
+	if t >= 25 and f.get("spec_elite", false) and not f.get("arc_spec_elite_result_seen", false):
+		return "arc_spec_elite_result"
+	if t >= 25 and f.get("spec_social_climber", false) and not f.get("arc_spec_climber_result_seen", false):
+		return "arc_spec_climber_result"
+	if t >= 25 and f.get("spec_quant", false) and not f.get("arc_spec_quant_result_seen", false):
+		return "arc_spec_quant_result"
+	if t >= 25 and f.get("spec_speculator", false) and not f.get("arc_spec_speculator_result_seen", false):
+		return "arc_spec_speculator_result"
+	if t >= 25 and f.get("spec_tech_founder", false) and not f.get("arc_spec_tech_result_seen", false):
+		return "arc_spec_tech_result"
+	if t >= 25 and f.get("spec_social_entrepreneur", false) and not f.get("arc_spec_social_result_seen", false):
+		return "arc_spec_social_result"
+
+	# ══ 7구간: 아크 에필로그 — 선택의 긴 그림자 (턴 50+) ══
+	if t >= 50 and (f.get("arc_jaehyuk_ghost_seen", false) or f.get("arc_jaehyuk_counter_seen", false)) \
+			and not f.get("arc_jaehyuk_aftermath_seen", false):
+		return "arc_jaehyuk_aftermath"
+	if t >= 55 and (f.get("arc_daeun_04_seen", false) or f.get("arc_daeun_ghost_seen", false)) \
+			and not f.get("arc_daeun_later_echo_seen", false):
+		return "arc_daeun_later_echo"
+
 	return ""
 
 ## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.
