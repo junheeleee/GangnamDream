@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added (2026-06-10) — 아크 깊이 작업
+- **아버지 아크 5단계 신설**: arc_father_01_call ~ arc_father_05_after_visit (t≥11/22/35/43/52)
+  — 병환 통보·병원 방문·화해까지 전체 아크 구현
+- **다은 아크 플래그 수정**: met_daeun / arc_daeun_01_seen 플래그 누락 수정; 빈 result_text 채움
+
 ### Fixed (2026-06-10) — QA 패스
 - **세이브 버그**: `run_theme` / `unlocked_stat_thresholds` 직렬화 누락 수정, SaveManager v3
 - **미사용 엔딩 9종 활성화**: `lonely_rich`, `creator_success`, `reputation_legend`, `orthodox_pinnacle`, `unorthodox_legend`, `early_retirement`, `investment_master`, `balanced_life`, `orthodox_hollow`

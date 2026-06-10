@@ -1626,6 +1626,19 @@
           "arc_jaehyuk_aftermath_seen"
         ],
         "result_text": "기사를 닫았다.\n{name}이 한 일이 그 23억 중 일부를 막았는지, 늘렸는지 알 수 없었다.\n강남으로 가는 길에서 내가 어떤 사람이 됐는지 —\n그 질문을 더 이상 피할 수 없는 날이 오고 있었다."
+      },
+      {
+        "text": "피해자로서 읽는다 — 그래도 결국 잡혔구나  [jaehyuk_scammed 경로]",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "reputation": 3
+        },
+        "conditions_note": "jaehyuk_scammed flag required",
+        "flags": [
+          "arc_jaehyuk_aftermath_seen"
+        ],
+        "result_text": "23억. {name}의 돈도 그 안에 있을 것이다.\n전부 돌려받진 못하겠지. 재판이 끝나봐야 알겠지.\n근데 이상하게, 기사를 닫고 나니 숨이 좀 쉬어졌다.\n그 새끼 결국 잡혔다. 그거면 됐다. 일단은."
       }
     ]
   },
@@ -2022,6 +2035,94 @@
         "cast_effects": {"father": {"affinity": 10, "stage": "connected"}},
         "flags": ["arc_father_05_seen", "father_reconciled"],
         "result_text": "\"그래. 아프지 마라.\"\n전화를 끊고 {name}은 그 말이 한동안 울렸다.\n아프지 마라.\n6년 동안 그 말 한 마디가 없었다.\n이제는 있다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_01b_real_face",
+    "title": "야, 사실 나도...",
+    "background": "pojangmacha",
+    "portrait": "jaehyuk_shadow",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "포장마차에서 두 번째 만남이 늦게 끝났다.\n\n재혁이 소주를 한 잔 더 따른다.\n평소보다 눈이 흐렸다.\n\n\"야 {name}아. 나... 사실 처음엔 나도 당했어.\"\n\n{name}은 젓가락을 내려놓는다.\n\n\"어떤 선배가 투자 얘기를 했어. 아주 좋은 거라고. 내가 당시에 얼마나 힘들었겠어. 그래서 넣었지. 그런데...\"\n\n재혁이 말을 흐린다.\n\n\"근데 이상한 게, 그 선배가 나중에 나한테 직접 운영하는 사람이 돼보지 않겠냐고 했어. 내가 잘할 것 같다고. 지금 생각하면 참 웃기지.\"\n\n그가 헛웃음을 친다.\n\n뭔가 더 말하려다 술잔을 기울인다. 오늘은 여기까지.",
+    "choices": [
+      {
+        "text": "\"그래서 어떻게 됐어?\" — 편하게 들어준다",
+        "effects": {"mental": 4, "social_skill": 1},
+        "cast_effects": {"jaehyuk": {"affinity": 8, "stage": "opening_up"}},
+        "flags": ["arc_jaehyuk_01b_seen", "jaehyuk_heard_his_story"],
+        "result_text": "재혁이 웃었다. '에이, 옛날 얘기야. 지금은 잘 되고 있잖아.'\n그는 화제를 돌렸다. {name}은 더 묻지 않았다.\n하지만 그 말이 자꾸 마음에 걸렸다. 그래서 어떻게 됐냐고."
+      },
+      {
+        "text": "\"운영하는 사람이 됐다는 게... 지금도 하고 있어?\" — 직접 물어본다",
+        "effects": {"intelligence": 5, "stress": 3},
+        "cast_effects": {"jaehyuk": {"affinity": -4, "stage": "guarded", "flags": ["caught_offguard"]}},
+        "flags": ["arc_jaehyuk_01b_seen", "jaehyuk_01b_pressed"],
+        "result_text": "재혁의 눈빛이 잠깐 굳었다.\n'...야, 무슨 소리야. 그 얘기는 이제 다 지난 얘기야.'\n그가 웃으며 술을 권했다.\n{name}은 술잔을 받으면서, 그 굳었던 눈빛을 잊지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_02b_favor",
+    "title": "조건 없는 도움",
+    "background": "cafe",
+    "portrait": "jaehyuk_friendly",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "카페에서 만났다. 재혁이 좋은 소식이 있다고 했다.\n\n투자 얘기가 아니었다.\n\n\"야, 나 아는 형이 중소기업 HR팀장인데, 너 이력서 한 번 보내봐. 내가 얘기해놨어.\"\n\n{name}은 잠깐 멈췄다.\n\n\"나한테 왜 이런 걸 해줘?\"\n\n재혁이 웃는다. \"야, 우리가 남이야? 군대에서 네가 나한테 얼마나 잘해줬는지 잊었어? 나는 안 잊었어.\"\n\n그가 연락처가 적힌 명함을 내민다.\n\n잘 생각해봐야 한다. 이 호의가 순수한 것인지, 아니면 나를 더 묶어두려는 것인지.",
+    "choices": [
+      {
+        "text": "\"고마워. 진짜 친구네 너는.\" — 호의를 받아들인다",
+        "effects": {"mental": 8, "social_skill": 2},
+        "cast_effects": {"jaehyuk": {"affinity": 10, "stage": "close_friends"}},
+        "flags": ["arc_jaehyuk_02b_seen", "felt_jaehyuk_kindness"],
+        "result_text": "명함을 받았다. 연락해볼 생각이다.\n재혁은 진짜 좋은 면이 있었다.\n그게 나중을 더 아프게 할 거란 걸, 그때는 몰랐다."
+      },
+      {
+        "text": "\"재혁아, 솔직히 묻는데. 너 나한테 왜 이렇게 잘해줘?\" — 진심을 확인한다",
+        "effects": {"intelligence": 4, "mental": -2, "stress": 2},
+        "cast_effects": {"jaehyuk": {"affinity": -6, "stage": "uncomfortable", "flags": ["confronted_motive"]}},
+        "flags": ["arc_jaehyuk_02b_seen", "jaehyuk_02b_questioned"],
+        "result_text": "재혁의 얼굴에 상처받은 표정이 지나갔다.\n'...야, 내가 뭘 원해서 이런 거라고 생각해? 서운하다.'\n{name}은 미안함과 의심 사이 어딘가에 있었다.\n명함은 받았다. 연락은 하지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_04c_stand_up",
+    "title": "0에서 다시",
+    "background": "late_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "사기 당한 지 한 달이 지났다.\n\n잃은 돈의 액수를 멍하니 계산해봤다.\n다시 계산해봤다. 숫자가 바뀌지 않았다.\n\n{name}은 노트를 꺼냈다.\n\n처음에 이 도시에 왔을 때 통장에 뭐가 있었더라.\n그때도 거의 없었다. 그때도 어떻게든 됐다.\n\n지금이 그때랑 다른 게 있다면 —\n최재혁 같은 사람을 알게 됐다는 것.\n그리고 왜 그 말이 그렇게 달콤하게 들렸는지를, 이제 안다는 것.\n\n{name}은 노트에 뭔가를 적기 시작했다.",
+    "choices": [
+      {
+        "text": "잃은 것보다 배운 것을 쓴다 — 이걸 돈으로 바꿀 것이다",
+        "effects": {"intelligence": 8, "investment_skill": 4, "stress": -5, "mental": 6},
+        "flags": ["arc_jaehyuk_standup_seen", "jaehyuk_stood_up"],
+        "result_text": "노트에 재혁이 했던 말들을 받아 적었다.\n어떻게 감정을 자극했는지, 어떤 말에 마음이 흔들렸는지.\n이건 비싼 수업료였다. 근데 수업료를 냈으면 뭔가는 배워야 했다.\n{name}은 노트를 덮고 다시 컴퓨터를 켰다."
+      },
+      {
+        "text": "내일 아침 일찍 일어나는 것부터 — 기본부터 다시",
+        "effects": {"health": 5, "stress": -8, "mental": 4, "reputation": 2},
+        "flags": ["arc_jaehyuk_standup_seen", "jaehyuk_stood_up"],
+        "result_text": "알람을 새벽 6시에 맞췄다.\n거창한 계획은 없었다. 아침에 일어나고, 밥을 먹고, 뭔가를 하는 것.\n그게 다였다. 그것부터였다.\n재혁을 생각했다가, 노트를 펼쳤다."
       }
     ]
   }

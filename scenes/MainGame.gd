@@ -1055,8 +1055,16 @@ func _next_arc_id() -> String:
 	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (턴 27+, 2막 핵심) ══
 	if t >= 27 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
+	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
+			and not f.get("arc_jaehyuk_01b_seen", false) \
+			and not f.get("arc_jaehyuk_bond_seen", false):
+		return "arc_jaehyuk_01b_real_face"
 	if f.get("arc_jaehyuk_reunion_seen", false) and not f.get("arc_jaehyuk_bond_seen", false) and t >= 32:
 		return "arc_jaehyuk_02_bond"
+	if t >= 34 and f.get("arc_jaehyuk_bond_seen", false) \
+			and not f.get("arc_jaehyuk_02b_seen", false) \
+			and not f.get("arc_jaehyuk_pitch_seen", false):
+		return "arc_jaehyuk_02b_favor"
 	if f.get("arc_jaehyuk_bond_seen", false) and not f.get("arc_jaehyuk_pitch_seen", false) and t >= 37:
 		return "arc_jaehyuk_03_pitch"
 	# ── 현수의 경고 — 피치 이후, 아직 도주 전 ──
@@ -1069,6 +1077,11 @@ func _next_arc_id() -> String:
 		return "arc_jaehyuk_04a_ghost"
 	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 42:
 		return "arc_jaehyuk_04b_counter"
+	# ── 사기 당한 후 재기 — ghost 이후, 사후처리 전 ──
+	if t >= 44 and f.get("arc_jaehyuk_ghost_seen", false) \
+			and f.get("jaehyuk_scammed", false) \
+			and not f.get("arc_jaehyuk_standup_seen", false):
+		return "arc_jaehyuk_04c_stand_up"
 
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
 	if GameState.get_cast_stage("sangchul") == "interested" \

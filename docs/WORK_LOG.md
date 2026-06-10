@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-06-10 (아크 깊이 작업 1차 — 아버지 아크 신설 + 다은 아크 수정)
+
+### 아버지 아크 5단계 신설 (arc_events.json + MainGame._next_arc_id)
+- arc_father_01_call (t≥11): 어색한 23초 첫 전화
+- arc_father_02_signal (t≥22): 이웃 카톡 — 아버지 병원 다닌다는 소식
+- arc_father_03_hospital (t≥35): 어머니 전화 — 뇌혈관 경고 증상
+- arc_father_04_visit (t≥43): 창원 병원 방문, "미안하다" 감정 클라이맥스
+- arc_father_05_after_visit (t≥52): 화해 이후 날씨 이야기 전화
+
+### 다은 아크 플래그 수정 (arc_daeun.json)
+- arc_daeun_01_meet: met_daeun / arc_daeun_01_seen 플래그 누락 추가
+  (arc 패널 표시 조건 및 _next_arc_id 분기 정상화)
+- arc_daeun_02_regular: 빈 result_text 채움
+
+### 이미지 ID 오류 수정
+- hospital_corridor → hospital, npc_father → father_weak, ending_father → cg_ending_father
+
+### audit: ERROR 0 / WARNING 0 통과
+
 ## 2026-06-10 (QA 패스 6차 — 엔딩·세이브·아크 결과 수정)
 
 ### 세이브 호환성 버그 2건
