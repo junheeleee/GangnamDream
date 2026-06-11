@@ -6039,6 +6039,62 @@
     ]
   },
   {
+    "id": "sangchul_meet",
+    "title": "중년 사내",
+    "description": "부동산 중개소 앞 카페였다.\n\n옆 테이블 50대 남자가 통화를 끊더니 혼잣말을 했다.\n'아직도 그 바닥 모르네.'\n\n눈이 마주쳤다. 그가 웃으며 물었다.\n'어디 사세요? 요즘 월세 얼마예요?'\n\n임상철이라고 했다. 이름은 몰랐지만 눈빛이 흥미로웠다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 10.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3,
+      "max_turn": 12,
+      "no_flag": "sangchul_met"
+    },
+    "tags": [
+      "sangchul",
+      "mentorship"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "자기 상황을 솔직하게 말한다.",
+        "effects": {
+          "social_skill": 1,
+          "intelligence": 1
+        },
+        "flags": [
+          "sangchul_met"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "met": true,
+            "affinity": 10,
+            "stage": "acquaint"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "임상철은 고개를 끄덕이며 명함을 줬다.\n'뭔가 되려는 사람처럼 보이네. 나중에 커피 한 잔 해요.'"
+      },
+      {
+        "text": "적당히 얼버무리고 자리를 뜬다.",
+        "effects": {},
+        "flags": [
+          "sangchul_met"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "met": true,
+            "affinity": 3,
+            "stage": "acquaint"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "뭔가 특이한 사람이었다. 나중에 알게 됐다, 강남에서 부동산으로 꽤 알려진 사람이라는 걸."
+      }
+    ]
+  },
+  {
     "id": "sangchul_amb_call",
     "title": "임상철의 전화",
     "description": "모르는 번호인 줄 알았는데 임상철이었다.\n\n'지나가다 네 생각 나서. 별일 없지?'\n\n용건은 없었다. 그냥 안부였다.\n끊기 전에 한 마디를 덧붙였다.\n\n'요즘 OO동 쪽 분위기가 심상치 않아. 참고만 해.'",
@@ -6047,10 +6103,8 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
-      "cast_met": {
-        "sangchul": true
-      },
-      "min_turn": 12
+      "flag": "sangchul_met",
+      "min_turn": 10
     },
     "tags": [
       "relationship",
@@ -6069,7 +6123,9 @@
             "affinity": 3
           }
         },
-        "flags": [],
+        "flags": [
+          "sangchul_call_done"
+        ],
         "follow_up_event": "",
         "result_text": "임상철은 웃으며 몇 가지를 더 알려줬다.\n'공부하는 자세가 좋네. 그게 제일 중요한 거야.'"
       },
@@ -6083,7 +6139,9 @@
             "affinity": 1
           }
         },
-        "flags": [],
+        "flags": [
+          "sangchul_call_done"
+        ],
         "follow_up_event": "",
         "result_text": "이 도시에서 누군가 나를 떠올려준다는 것.\n그것만으로 묘하게 든든한 날이었다."
       }
@@ -6098,9 +6156,7 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "cast_met": {
-        "sangchul": true
-      },
+      "flag": "sangchul_call_done",
       "min_turn": 16
     },
     "tags": [
@@ -6121,7 +6177,9 @@
             "affinity": 4
           }
         },
-        "flags": [],
+        "flags": [
+          "sangchul_lunch_done"
+        ],
         "follow_up_event": "",
         "result_text": "국밥 한 그릇이 어떤 강의보다 오래 남았다.\n돈을 좇되, 돈에 잡아먹히지 말 것."
       },
@@ -6136,7 +6194,9 @@
             "affinity": 2
           }
         },
-        "flags": [],
+        "flags": [
+          "sangchul_lunch_done"
+        ],
         "follow_up_event": "",
         "result_text": "임상철이 껄껄 웃었다.\n'그래, 그 패기로 가는 거야. 대신 내 말 잊지 말고.'"
       }
@@ -7039,6 +7099,119 @@
         ],
         "follow_up_event": "",
         "result_text": "소주를 한 잔 더 따랐다.\n선배 옆에 앉아서 그냥 마셨다.\n오늘 밤만큼은 생각하지 않기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "father_health_call",
+    "title": "아버지의 목소리",
+    "description": "일요일 저녁, 아버지에게서 전화가 왔다.\n\n\"밥은 먹고 다니냐.\"\n\n원래 그게 전부였는데. 이번엔 그 뒤에 침묵이 더 길었다.\n\n뭔가 말하려다가 안 하는 것 같았다. 목소리가 조금 달랐다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 10.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 25,
+      "max_turn": 45,
+      "no_flag": "father_health_known"
+    },
+    "tags": [
+      "father",
+      "family"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "\"아버지, 몸은요? 병원은 다니고 계세요?\"",
+        "effects": {
+          "mental": -5,
+          "stress": 5
+        },
+        "flags": [
+          "father_health_known",
+          "asked_father_health"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 15
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "잠깐 침묵이 있었다.\n\"...별거 아니야. 혈압약 좀 먹는다.\"\n\n통화를 끊고 나서 가만히 있었다.\n아버지는 평생 별거 아니라고 했다."
+      },
+      {
+        "text": "\"네, 잘 먹고 다녀요.\" 안부만 나눈다.",
+        "effects": {
+          "stress": -1
+        },
+        "flags": [
+          "father_health_known"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 3
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "10분 통화 후 끊었다.\n\n나중에 고모에게서 연락이 왔다. 아버지가 요즘 병원을 다닌다고.\n직접 들을 수 있었는데."
+      }
+    ]
+  },
+  {
+    "id": "father_first_visit",
+    "title": "고향에 내려갔다",
+    "description": "오랜만에 고향에 내려갔다.\n\n아버지 집은 그대로였다. 냉장고 위 꽃무늬 달력, 텔레비전 옆 사진액자.\n\n아버지가 밥을 했다. 된장찌개랑 삼치구이.\n\n\"맛있냐.\" 아버지가 물었다.\n\"네.\" 진심이었다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 8.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_health_known",
+      "min_turn": 30,
+      "max_turn": 52,
+      "no_flag": "father_visited"
+    },
+    "tags": [
+      "father",
+      "family"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "아버지와 오래 이야기한다. 사기 얘기도 꺼낸다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "social_skill": 1
+        },
+        "flags": [
+          "father_visited",
+          "talked_about_scam"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 30,
+            "stage": "close"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "아버지는 처음엔 손을 저었다.\n그러다 천천히 말했다. \"내가 욕심을 부린 거야.\"\n\n그 말이 가슴에 남았다.\n아버지는 평생 남 탓을 안 했다."
+      },
+      {
+        "text": "밥만 먹고 빨리 올라온다. 할 일이 쌓였다.",
+        "effects": {
+          "stress": -2
+        },
+        "flags": [
+          "father_visited"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "KTX 안에서 서울로 달리면서 생각했다.\n\n다음엔 오래 있어야겠다고.\n근데 다음이 언제인지 몰랐다."
       }
     ]
   }
