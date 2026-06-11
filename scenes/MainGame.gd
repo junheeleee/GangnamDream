@@ -743,15 +743,14 @@ func _maybe_show_tutorial() -> void:
 
 func _show_tutorial() -> void:
 	_open_modal("🗺 강남드림 — 시작 안내")
-	# 작은 모달로 조정
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(560, 480)
-		modal_panel.offset_left = -280
-		modal_panel.offset_right  = 280
-		modal_panel.offset_top    = -240
-		modal_panel.offset_bottom = 240
+		modal_panel.custom_minimum_size = Vector2(580, 560)
+		modal_panel.offset_left = -290
+		modal_panel.offset_right  = 290
+		modal_panel.offset_top    = -280
+		modal_panel.offset_bottom = 280
 	if modal_scroll:
-		modal_scroll.custom_minimum_size = Vector2(0, 350)
+		modal_scroll.custom_minimum_size = Vector2(0, 430)
 
 	# ── 목표 ──
 	modal_body.add_child(_wrap_label("🎯  목표", 15, "#f0b429"))
@@ -768,6 +767,18 @@ func _show_tutorial() -> void:
 		+ "③ [다음 달 ▶] 버튼으로 넘어갑니다", 13, "#c8d0df"))
 	modal_body.add_child(_goal_sep())
 
+	# ── 정석 vs 비정석 (핵심 메커닉) ──
+	modal_body.add_child(_wrap_label("⚖  이 게임의 핵심 선택", 15, "#a78bfa"))
+	modal_body.add_child(_wrap_label(
+		"매달 어떤 행동을 선택하느냐가 당신의 성향을 결정합니다.\n\n"
+		+ "📚 정석 루트  —  취업·승진·저축·자기계발\n"
+		+ "   안정적이지만 느리다. 사회가 원하는 삶.\n\n"
+		+ "📈 비정석 루트  —  투자·레버리지·창업·부업\n"
+		+ "   빠르지만 위험하다. 내가 원하는 삶.\n\n"
+		+ "둘 다 강남에 갈 수 있고, 둘 다 망할 수 있다.\n"
+		+ "성향에 따라 다른 이벤트와 다른 엔딩이 열립니다.", 12, "#c8d0df"))
+	modal_body.add_child(_goal_sep())
+
 	# ── 주의사항 ──
 	modal_body.add_child(_wrap_label("⚠  주의사항", 15, "#fca5a5"))
 	modal_body.add_child(_wrap_label(
@@ -779,9 +790,10 @@ func _show_tutorial() -> void:
 	# ── 첫 달 추천 ──
 	modal_body.add_child(_wrap_label("💡  첫 달 추천", 15, "#34d399"))
 	modal_body.add_child(_wrap_label(
-		"1. 💼 구직활동  →  수입 0원에서 탈출\n"
+		"1. 💼 구직활동  →  수입 0원에서 탈출 (필수)\n"
 		+ "2. AP 남으면 📚 자기계발로 스탯 올리기\n"
-		+ "3. 스트레스 주의! 🌊 휴식도 중요", 13, "#c8d0df"))
+		+ "3. 스트레스 주의! 🌊 휴식도 중요\n"
+		+ "4. 첫 월급 후 📈 투자·🛍 상점이 열립니다", 13, "#c8d0df"))
 
 	# ── 확인 버튼 ──
 	var sep = HSeparator.new()
@@ -3189,8 +3201,24 @@ func _open_investments():
 	if ap_now <= 0:
 		ap_hint_text = "⚡ 행동력 없음 — 이번 달 거래 불가. 다음 달에 다시 오세요."
 	modal_body.add_child(_wrap_label(ap_hint_text, 12, ap_hint_color))
-	# 초보자 가이드
-	if GameState.investment_skill < 25:
+	# 첫 방문 투자 가이드
+	if not GameState.flags.get("investment_first_visited", false):
+		GameState.flags["investment_first_visited"] = true
+		modal_body.add_child(_wrap_label("📖  투자 첫 방문 — 이것만 알면 됩니다", 14, "#f0b429"))
+		modal_body.add_child(_wrap_label(
+			"① 시장은 사이클로 움직입니다\n"
+			+ "   상승장(🟢) → 버블(🫧) → 폭락(🔴) → 침체 → 회복 → 반복\n"
+			+ "   '공포/탐욕' 지수가 낮을 때 사고, 높을 때 파는 게 원칙입니다.\n\n"
+			+ "② 레버리지는 수익도 2배, 손실도 2배\n"
+			+ "   원금의 35% 이하로 떨어지면 강제 청산됩니다. 입문자는 조심.\n\n"
+			+ "③ 투자감각이 높을수록 수수료가 낮아집니다\n"
+			+ "   📚 자기계발 → 투자 공부로 감각을 키우세요.\n\n"
+			+ "처음엔 리스크 낮은 자산에 소액(10~20만원)부터 시작하세요.",
+			12, "#8892a4"))
+		var guide_sep0 = HSeparator.new()
+		guide_sep0.add_theme_color_override("color", Color("#252535"))
+		modal_body.add_child(guide_sep0)
+	elif GameState.investment_skill < 25:
 		modal_body.add_child(_wrap_label(
 			"💡 투자 입문  투자감각이 낮을수록 거래 수수료가 높아집니다.\n    리스크 ●●○○○ 이하 자산부터 소액(10만원)으로 시작해보세요.",
 			13, "#f0b429"))
