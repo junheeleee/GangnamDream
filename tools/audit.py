@@ -206,9 +206,21 @@ def check_events():
                 all_events[eid] = p
     known_ids = set(all_events.keys())
 
+    # 허용 카테고리 화이트리스트
+    VALID_CATEGORIES = {
+        "finance", "family", "jobs", "social", "gambling", "health",
+        "investment", "relationship", "disasters", "politics", "comedy",
+        "military", "story", "romance", "housing", "daily_life",
+        "self_development", "career",
+    }
+
     for p, evs in events_by_file.items():
         for e in evs:
             eid = e.get("id", "?")
+            # 카테고리 화이트리스트 검증
+            cat = str(e.get("category", ""))
+            if cat and cat not in VALID_CATEGORIES:
+                warn('%s  [%s] 미등록 category → "%s"' % (rel(p), eid, cat))
             # 이미지 참조 검증 (없으면 placeholder로 폴백되지만 오타 가능성)
             port = e.get("portrait")
             if port and VALID_PORTRAITS and port not in VALID_PORTRAITS:

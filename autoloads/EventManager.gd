@@ -305,7 +305,10 @@ func _effective_weight(event):
 	# 런 테마 보너스: 매 런마다 2개 카테고리 이벤트 1.35x
 	var run_themes: Array = GameState.run_theme_categories
 	if not run_themes.is_empty():
-		if run_themes.has(str(event.get("category", ""))):
+		var ev_cat := str(event.get("category", ""))
+		# romance는 relationship 테마에도 반응
+		var effective_cat := "relationship" if ev_cat == "romance" else ev_cat
+		if run_themes.has(ev_cat) or run_themes.has(effective_cat):
 			weight *= 1.35
 	# 이번 달 집중 태그와 일치하면 보너스
 	var focus = GameState.month_focus

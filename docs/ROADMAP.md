@@ -132,7 +132,7 @@
 
 ### 3-D. 출시 준비
 - [x] 에셋 생성 스크립트 준비 (`tools/generate_assets.py`, gpt-image-2 기본)
-- [~] 실제 이미지 에셋 생성 및 Godot Reimport
+- [x] 실제 이미지 에셋 생성 및 Godot Reimport
   - [x] 주인공 7종 / 핵심 NPC / 배경 주요 세트 애니풍 교체
   - [x] 주요 조연 6종 독립 포트레이트 추가
   - [x] 실사용 스토리 CG 3종 추가
