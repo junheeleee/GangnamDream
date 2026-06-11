@@ -2644,42 +2644,28 @@ func _on_study_chosen(effects):
 		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
 		_close_modal()
 		return
-	# before snapshot
-	var before = {
-		"intelligence": GameState.intelligence, "health": GameState.health,
-		"mental": GameState.mental, "stress": GameState.stress,
-		"investment_skill": GameState.investment_skill,
-	}
 	GameState.apply_effects(effects)
 	AudioManager.play("stat_up")
 	_show_effects_float(effects)
 	_close_modal()
-	var parts: Array = []
-	var toast_main = ""
-	for k in effects:
-		var v = int(effects[k])
-		var sign = "+" if v >= 0 else ""
-		var old_val = int(before.get(k, 0))
-		match k:
-			"intelligence":
-				parts.append("지력 %d→%d" % [old_val, GameState.intelligence])
-				toast_main = "📖 독서  지력 %d → %d" % [old_val, GameState.intelligence]
-			"health":
-				parts.append("건강 %d→%d" % [old_val, GameState.health])
-				toast_main = "🏃 운동  건강 %d → %d" % [old_val, GameState.health]
-			"mental":
-				parts.append("정신 %d→%d" % [old_val, GameState.mental])
-				if toast_main.is_empty():
-					toast_main = "🧘 명상  정신 %d → %d" % [old_val, GameState.mental]
-			"stress":
-				parts.append("스트레스 %s%d" % [sign, v])
-			"investment_skill":
-				parts.append("투자감각 %d→%d" % [old_val, GameState.investment_skill])
-				toast_main = "📊 재테크 공부  투자감각 %d → %d" % [old_val, GameState.investment_skill]
-	turn_action_log.append("✓ 📚 자기계발 → %s" % ", ".join(parts))
-	if toast_main.is_empty():
-		toast_main = "📚 자기계발 완료"
-	_show_toast(toast_main, Color("#5b9cf6"))
+	# 행동 유형에 따라 vignette 풀 선택
+	var pool: Array
+	var title: String
+	var color: String
+	if effects.has("investment_skill"):
+		pool = STUDY_INVEST_VIGNETTES; title = "📊 재테크 공부"; color = "#10b981"
+	elif effects.get("health", 0) >= 8:
+		pool = STUDY_EXERCISE_VIGNETTES; title = "🏃 운동"; color = "#f59e0b"
+	elif effects.get("mental", 0) >= 8:
+		pool = STUDY_MEDITATE_VIGNETTES; title = "🧘 명상"; color = "#8b5cf6"
+	else:
+		pool = STUDY_READ_VIGNETTES; title = "📖 독서"; color = "#5b9cf6"
+	var v: Dictionary = pool[randi() % pool.size()]
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
+	GameState.add_log(title + " — " + flavor, "event")
+	GameState.stats_changed.emit()
+	_show_vignette(title, flavor, effects, color)
 	_refresh_all()
 
 func _ap_invest():
@@ -2717,37 +2703,46 @@ func _on_aruba_closed(earned: int, stress_delta: int) -> void:
 func _ap_save_money():
 	if not GameState.spend_ap():
 		return
-	GameState.modify_hidden_stat("stress", -4)
-	GameState.modify_stat("mental", 2)
-	GameState.add_tendency("career", 1)   # 절약·저축 = 직장형(안정) 기질
-	var savings_bonus = 0.0
+	var v: Dictionary = SAVE_VIGNETTES[randi() % SAVE_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "stress" or k == "reputation":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	GameState.add_tendency("career", 1)
+	var display_eff := eff.duplicate()
 	if GameState.money > 500_000:
-		savings_bonus = min(GameState.money * 0.005, 80_000.0)
-		GameState.add_money(savings_bonus)
-	var msg = "💰 저축/절약 — 스트레스 -4, 정신력 +2"
-	if savings_bonus > 0:
-		msg += ", 절약 보너스 +%s" % GameState.format_money(savings_bonus)
-	GameState.add_log(msg, "job")
-	turn_action_log.append("✓ " + msg)
-	_show_toast(msg, Color("#0369a1"))
-	_render_ap_actions()
-	_refresh_all()
+		var bonus := int(min(GameState.money * 0.005, 80_000.0))
+		GameState.add_money(float(bonus))
+		AudioManager.play("money_gain")
+		display_eff["money"] = bonus
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 💰 저축/절약 — " + flavor.substr(0, 22))
+	GameState.add_log("💰 저축/절약 — " + flavor, "event")
+	GameState.stats_changed.emit()
+	_show_vignette("💰 저축/절약", flavor, display_eff, "#0369a1")
 
 func _ap_network():
 	if not GameState.spend_ap():
 		return
-	var before = GameState.social_skill
-	GameState.modify_stat("social_skill", 1)
-	GameState.reputation = clampi(GameState.reputation + 1, 0, 100)
-	GameState.modify_hidden_stat("stress", 2)  # 인맥 자리는 조금 진 빠진다
+	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "money":
+			GameState.add_money(float(val))
+		elif k == "stress" or k == "reputation":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
 	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
-	var msg = "🤝 인맥 넓히기 — 사회성 %d→%d, 평판 +1" % [before, GameState.social_skill]
-	GameState.add_log(msg + " / 업계 사람들과 명함을 주고받았다. 언젠가 쓸모가 있겠지.", "relationship")
-	turn_action_log.append("✓ " + msg)
-	_show_toast(msg, Color("#8a5a9a"))
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 🤝 인맥 넓히기 — " + flavor.substr(0, 22))
+	GameState.add_log("🤝 인맥 넓히기 — " + flavor, "relationship")
 	GameState.stats_changed.emit()
-	_render_ap_actions()
-	_refresh_all()
+	_show_vignette("🤝 인맥 넓히기", flavor, eff, "#8a5a9a")
 
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
@@ -2851,6 +2846,85 @@ const SELFDEV_VIGNETTES := [
 	{"t":"운동하다 거울 속 야윈 몸을 봤다. 그래도 조금은 가뿐해졌다.", "e":{"health":4,"mental":-1,"stress":-2}},
 	{"t":"도서관에서 부동산 책을 팠다. 용어가 조금씩 눈에 익는다.", "e":{"investment_skill":2,"intelligence":1}},
 	{"t":"새벽에 영어 단어를 외웠다. 쓸 일이 있을지는, 일단 모른다.", "e":{"intelligence":2,"stress":1}},
+]
+
+const STUDY_READ_VIGNETTES := [
+	{"t":"도서관에서 마감 직전까지 앉아 있었다. 창이 어두워질 때쯤 뭔가 연결이 됐다.", "e":{"intelligence":5,"stress":1}},
+	{"t":"중고 서점에서 3,000원짜리 책을 집었다. 밑줄을 다섯 군데 그었다. 이걸로 됐다.", "e":{"intelligence":4}},
+	{"t":"공부 카페에서 네 시간. 집중이 안 됐는데 그냥 있었다. 어느 순간 됐다.", "e":{"intelligence":3,"stress":2}},
+	{"t":"유튜브 알고리즘이 뜻밖의 강의를 추천했다. 한 시간 반을 멈추지 않고 봤다.", "e":{"intelligence":5,"mental":2}},
+	{"t":"전자책 앱으로 지하철에서 서서 읽었다. 눈이 아팠지만 멈추지 않았다.", "e":{"intelligence":4,"health":-1}},
+	{"t":"좋아하던 작가 신간이 도서관에 있었다. 기분 좋은 날이었다.", "e":{"intelligence":3,"mental":4}},
+	{"t":"읽다가 잠들었다. 일어나서 다시 폈다. 두 번 읽은 페이지가 더 잘 들어왔다.", "e":{"intelligence":3,"health":1}},
+	{"t":"오늘은 진짜 집중이 안 됐다. 그래도 앉아있는 것 자체가 훈련이다.", "e":{"intelligence":2,"stress":3}},
+	{"t":"책 한 구절이 내 얘기 같아서 접어뒀다. 나중에 다시 볼 것 같다.", "e":{"intelligence":4,"mental":3}},
+	{"t":"열람실. 옆 사람도 열심히 뭔가를 읽고 있었다. 덩달아 집중이 됐다.", "e":{"intelligence":4,"stress":-2}},
+]
+
+const STUDY_EXERCISE_VIGNETTES := [
+	{"t":"한강을 달렸다. 처음 2km는 힘들었다. 그 다음부터는 생각이 없어졌다.", "e":{"health":10,"stress":-7}},
+	{"t":"헬스장. 오늘치를 다 채웠다. 샤워하고 나왔을 때 세상이 조금 달라 보였다.", "e":{"health":12,"stress":-6,"mental":2}},
+	{"t":"공원을 뛰었다. 할머니가 옆에서 걷고 있었다. 나도 저 나이까지 이러고 싶다.", "e":{"health":9,"stress":-5,"mental":3}},
+	{"t":"어젯밤 술이 남아서 쉬엄쉬엄했다. 그래도 안 하는 것보다 낫다.", "e":{"health":6,"stress":-4}},
+	{"t":"줄넘기 500개. 땀이 통 빠졌다. 한강 바람이 차게 식혔다.", "e":{"health":11,"stress":-8}},
+	{"t":"오늘은 몸이 안 좋아서 가볍게만 했다. 그래도 나왔다는 게 중요하다.", "e":{"health":7,"stress":-3}},
+	{"t":"PT 선생님이 자세를 고쳐줬다. 같은 무게인데 훨씬 힘들어졌다.", "e":{"health":10,"stress":-5,"intelligence":1}},
+	{"t":"근처 공원 벤치 사이를 달렸다. 서울도 이렇게 보면 좁지 않다.", "e":{"health":9,"stress":-6,"mental":2}},
+	{"t":"헬스장 가는 게 귀찮았는데 막상 하니까 잘 했다. 항상 그렇다.", "e":{"health":11,"stress":-7}},
+	{"t":"운동하다 거울 속 자신을 봤다. 조금은 나아지고 있다.", "e":{"health":10,"stress":-6}},
+]
+
+const STUDY_MEDITATE_VIGNETTES := [
+	{"t":"한강 벤치에서 눈을 감았다. 오리 우는 소리가 들렸다. 30분이 5분처럼 지나갔다.", "e":{"mental":11,"stress":-9}},
+	{"t":"명상 앱을 따라했다. 숨을 세다가 잠들었다. 그래도 일어나니 개운했다.", "e":{"mental":9,"stress":-7,"health":2}},
+	{"t":"아무것도 안 했다. 천장만 봤다. 그게 오늘은 필요했다.", "e":{"mental":10,"stress":-8}},
+	{"t":"공원 벤치. 나뭇잎이 흔들리는 걸 아무 생각 없이 봤다. 귀가 트였다.", "e":{"mental":12,"stress":-9}},
+	{"t":"일기를 썼다. 쓰다 보니 내가 무섭다고 느낀 게 뭔지 알았다.", "e":{"mental":10,"stress":-6,"intelligence":2}},
+	{"t":"음악 없이 걸었다. 서울 소리가 잘 들렸다. 나쁘지 않았다.", "e":{"mental":8,"stress":-7}},
+	{"t":"방 불을 끄고 그냥 누워 있었다. 잡념이 먼저 왔다가 나중에 떠났다.", "e":{"mental":10,"stress":-8}},
+	{"t":"찜질방에서 두 시간. 아무것도 안 하는 게 이렇게 비싼 일이었나.", "e":{"mental":11,"stress":-9,"health":3,"money":-12000}},
+	{"t":"숨을 10번 깊게 쉬었다. 단순한데, 해보면 다르다.", "e":{"mental":9,"stress":-8}},
+	{"t":"머릿속을 비우려고 했는데 오히려 정리가 됐다. 결정이 하나 났다.", "e":{"mental":12,"stress":-7,"intelligence":2}},
+]
+
+const STUDY_INVEST_VIGNETTES := [
+	{"t":"유튜브 투자 채널 두 개를 봤다. 의견이 정반대였다. 그래서 더 생각하게 됐다.", "e":{"investment_skill":3,"intelligence":1}},
+	{"t":"PER, PBR, ROE. 단어가 점점 친숙해지고 있다. 그게 진짜 공부다.", "e":{"investment_skill":4,"intelligence":1}},
+	{"t":"증권사 리포트를 처음부터 끝까지 읽었다. 반밖에 이해 못 했지만 반은 됐다.", "e":{"investment_skill":3,"intelligence":2}},
+	{"t":"차트를 봤다. 패턴이 보이기 시작한다. 아직 가설 수준이지만.", "e":{"investment_skill":3}},
+	{"t":"경제 뉴스를 읽었다. 숫자가 이야기로 보이기 시작한다.", "e":{"investment_skill":3,"intelligence":1}},
+	{"t":"커뮤니티에서 고수들 글을 읽었다. 아는 만큼 보인다는 말이 이런 거구나.", "e":{"investment_skill":4,"mental":1}},
+	{"t":"시뮬레이션 계좌로 연습했다. 실제 돈이 아니었는데도 두근거렸다.", "e":{"investment_skill":4,"stress":2}},
+	{"t":"재무제표 기초 강의를 봤다. 숫자에 이야기가 있다는 걸 처음 알았다.", "e":{"investment_skill":3,"intelligence":2}},
+	{"t":"투자 책을 반쯤 읽다가 덮었다. 그래도 남은 게 있다.", "e":{"investment_skill":2,"intelligence":1}},
+	{"t":"오늘 배운 것 하나: 모르는 걸 모른다고 아는 것도 실력이다.", "e":{"investment_skill":3,"intelligence":1}},
+]
+
+const SAVE_VIGNETTES := [
+	{"t":"배달앱 알림을 껐다. 편의점에서 재료를 사서 직접 만들었다. 3,400원.", "e":{"mental":2,"stress":-4}},
+	{"t":"커피 프랜차이즈를 지나쳤다. 편의점 아메리카노. 1,500원. 차이 8,500원.", "e":{"mental":3,"stress":-4}},
+	{"t":"카드 명세서를 열었다. 쓸 필요 없던 항목이 보였다. 취소했다.", "e":{"mental":2,"stress":-5,"intelligence":1}},
+	{"t":"옷을 사려다 멈췄다. 지금 있는 것으로 버틸 수 있다. 통장에 돈이 더 남았다.", "e":{"mental":1,"stress":-3}},
+	{"t":"지출 다이어리를 썼다. 새는 돈이 보였다. 막는 것도 버는 것이다.", "e":{"mental":3,"stress":-5,"intelligence":2}},
+	{"t":"점심은 편의점 도시락. 맛은 두 번째, 가격이 첫 번째인 날이 있다.", "e":{"mental":1,"stress":-3}},
+	{"t":"이번 달 고정 지출을 다시 정리했다. 자르기 싫은 것도 잘랐다.", "e":{"mental":2,"stress":-5}},
+	{"t":"택시 대신 버스를 탔다. 40분 더 걸렸다. 하지만 2만원이 남았다.", "e":{"mental":1,"stress":-2}},
+	{"t":"할인 앱을 뒤졌다. 같은 물건 3,000원 더 싸게 샀다. 작은 승리.", "e":{"mental":3,"stress":-4,"luck":1}},
+	{"t":"술자리를 한 번 빠졌다. 돈도 아꼈고 다음 날 아침이 달랐다.", "e":{"mental":2,"stress":-4,"health":3}},
+	{"t":"가계부 앱을 다시 켰다. 쓰다가 포기했던 것. 오늘은 좀 더 버텨봤다.", "e":{"mental":2,"stress":-5,"intelligence":1}},
+]
+
+const NETWORK_VIGNETTES := [
+	{"t":"업계 세미나. 명함을 세 개 받았다. 두 개는 언젠가 쓸 것 같다.", "e":{"social_skill":1,"reputation":1,"stress":2}},
+	{"t":"단톡방에 글을 올렸다. 답이 두 개 달렸다. 그 중 한 명이 실제로 도움이 됐다.", "e":{"social_skill":1,"reputation":1,"intelligence":1,"stress":1}},
+	{"t":"전 직장 선배에게 커피를 샀다. 근황을 들었다. 정보가 됐다.", "e":{"social_skill":1,"reputation":2,"stress":2,"money":-6000}},
+	{"t":"링크드인 프로필을 업데이트했다. 누군가 봐주길 바라는 마음으로.", "e":{"social_skill":1,"reputation":1,"stress":1}},
+	{"t":"스터디 모임에 나갔다. 말 잘하는 사람을 봤다. 나도 저렇게 말하고 싶다.", "e":{"social_skill":2,"intelligence":1,"stress":2}},
+	{"t":"선배 소개로 낯선 사람을 만났다. 어색했지만 끝날 때쯤엔 편했다.", "e":{"social_skill":1,"reputation":1,"stress":3}},
+	{"t":"오늘 만난 사람이 한 말이 머릿속에 남는다. 그게 인맥의 진짜 가치다.", "e":{"social_skill":1,"reputation":1,"intelligence":2,"stress":1}},
+	{"t":"네트워킹 행사. 명함 교환하다가 내 명함이 없다는 걸 알았다.", "e":{"social_skill":1,"reputation":1,"stress":4}},
+	{"t":"커피챗을 했다. 상대방이 먼저 연락하겠다고 했다. 그게 진짜인지는 모른다.", "e":{"social_skill":1,"reputation":1,"stress":2}},
+	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "e":{"social_skill":1,"stress":1}},
 ]
 
 ## 경마장 — 시각 미니게임 오버레이를 연다 (방문 = 시간 1 소비)
