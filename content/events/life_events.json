@@ -6611,5 +6611,217 @@
         "result_text": "강남에 가든 못 가든.\n\n이 5년 동안 {name}은 처음으로 자기 돈을 벌었고, 처음으로 혼자 살았고, 처음으로 진짜 실패를 경험했다.\n\n그게 뭔지는 나중에 알 것 같다."
       }
     ]
+  },
+  {
+    "id": "father_missed_chance",
+    "title": "아버지가 입원했다",
+    "description": "어머니한테 전화가 왔다.\n\n아버지가 쓰러지셨다고. 크게 다친 건 아닌데, 한 번 와볼 수 있겠냐고.\n\n{name}은 달력을 봤다. 이번 달도 바빴다.\n통장을 봤다. 목표까지 아직 멀었다.\n\n어머니는 기다리고 계셨다.",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 18.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 40,
+      "max_turn": 55,
+      "flag": "skipped_father_wedding"
+    },
+    "tags": [
+      "family",
+      "story_beat",
+      "father"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "내려간다. 이번엔 간다.",
+        "effects": {
+          "money": -80000,
+          "mental": 20,
+          "stress": -15,
+          "health": 5
+        },
+        "flags": [
+          "visited_father_hospital"
+        ],
+        "follow_up_event": "",
+        "result_text": "병원 복도는 조용했다.\n\n아버지는 자고 계셨다. 생각보다 많이 작아 보였다.\n어머니가 '왔니' 하셨다. 그 두 글자로 충분했다.\n\n서울로 돌아오는 KTX 안에서, 오랜만에 아무 생각도 안 했다."
+      },
+      {
+        "text": "이번에도 못 간다고 한다.",
+        "effects": {
+          "stress": 15,
+          "mental": -20,
+          "luck": -3
+        },
+        "flags": [
+          "skipped_father_hospital"
+        ],
+        "follow_up_event": "",
+        "result_text": "어머니는 '그래, 바쁘면 어쩔 수 없지' 하셨다.\n\n전화를 끊고 모니터를 봤다. 차트가 있었다. 숫자가 있었다.\n\n이번에도 최적의 선택이었을까."
+      }
+    ]
+  },
+  {
+    "id": "class_reunion",
+    "title": "동창 모임",
+    "description": "고등학교 동창 단체 카톡이 울렸다.\n\n오랜만에 보자고. 이번 주 토요일 홍대.\n\n가보니 다들 그새 많이 변해 있었다.\n취업한 놈, 결혼한 놈, 사업 시작한 놈.\n\n'요즘 뭐 해?' 누군가 물었다.\n모두가 들었다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 14.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 20,
+      "max_turn": 38
+    },
+    "tags": [
+      "social",
+      "story_beat",
+      "reunion"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "솔직하게 말한다. 목표를 향해 가는 중이라고.",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2,
+          "stress": -5,
+          "reputation": -1
+        },
+        "flags": [
+          "honest_at_reunion"
+        ],
+        "follow_up_event": "",
+        "result_text": "잠깐 어색한 침묵이 흘렀다.\n\n그러다 한 명이 '대단하다, 나는 그런 목표도 없는데' 했다.\n다들 한마디씩 했다. 생각보다 나쁘지 않았다.\n\n나는 내 이야기를 했다. 그게 다였다."
+      },
+      {
+        "text": "잘 되고 있다고 한다. 세부 사항은 생략.",
+        "effects": {
+          "stress": 8,
+          "mental": -5,
+          "social_skill": 1
+        },
+        "flags": [
+          "lied_at_reunion"
+        ],
+        "follow_up_event": "class_reunion_lie_exposed",
+        "result_text": "다들 고개를 끄덕였다.\n\n집에 오는 길에 누군가 인스타에 단체사진을 올렸다.\n캡션: '다들 잘 살고 있어서 좋았다.'\n\n{name}은 좋아요를 눌렀다."
+      },
+      {
+        "text": "화제를 돌린다. 다른 사람 근황을 묻는다.",
+        "effects": {
+          "social_skill": 3,
+          "stress": 3,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모두가 자기 이야기를 하느라 바빠졌다.\n\n{name}의 근황은 결국 나오지 않았다.\n모임이 끝나고 집에 오는 버스 안에서 창밖을 봤다.\n\n다음엔 할 말이 생겼으면 좋겠다."
+      }
+    ]
+  },
+  {
+    "id": "class_reunion_lie_exposed",
+    "title": "그때 그 얘기",
+    "description": "동창 한 명한테 카톡이 왔다.\n\n'야, 그때 잘 된다고 했잖아. 나도 투자 좀 가르쳐줘.'\n\n{name}은 화면을 잠시 보다가 카톡을 닫았다.\n그날 모임이 생각났다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 12.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 25,
+      "flag": "lied_at_reunion"
+    },
+    "tags": [
+      "social",
+      "consequence"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "솔직하게 털어놓는다. 아직 진행 중이라고.",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "social_skill": 1
+        },
+        "flags": [
+          "came_clean_to_friend"
+        ],
+        "follow_up_event": "",
+        "result_text": "친구는 잠깐 침묵했다.\n그러다 '그냥 그렇구나. 나도 사실 별로 안 잘 돼' 했다.\n\n한 시간을 더 카톡했다. 오랜만에 진짜 대화였다."
+      },
+      {
+        "text": "적당히 얼버무린다.",
+        "effects": {
+          "stress": 10,
+          "mental": -8,
+          "reputation": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "얼버무렸다. 친구는 눈치챘을 것이다.\n\n이후로 그 친구한테 먼저 연락하기가 어려워졌다.\n거짓말은 관계에 이자가 붙는다."
+      }
+    ]
+  },
+  {
+    "id": "are_you_happy",
+    "title": "행복한가",
+    "description": "어느 날 밤, 특별한 이유 없이.\n\n그 질문이 왔다.\n\n행복한가.",
+    "category": "health",
+    "rarity": "rare",
+    "weight": 10.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 50
+    },
+    "tags": [
+      "story_beat",
+      "meta",
+      "milestone"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "그렇다.",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "luck": 2
+        },
+        "flags": [
+          "answered_happy_yes"
+        ],
+        "follow_up_event": "",
+        "result_text": "그렇다.\n\n강남까지 아직 멀다. 통장은 아직 부족하다.\n그래도 — 그렇다.\n\n이 대답이 진심이었으면 좋겠다고 생각했다.\n아마 진심이었다."
+      },
+      {
+        "text": "모르겠다.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 3,
+          "stress": -3
+        },
+        "flags": [
+          "answered_happy_unsure"
+        ],
+        "follow_up_event": "",
+        "result_text": "모르겠다.\n\n행복이 뭔지 잘 모르겠다. 기준이 없다.\n목표를 이루면 알 수 있을까. 아니면 그때도 모를까.\n\n모르겠다는 대답이 오늘 밤 가장 정직한 대답이었다."
+      },
+      {
+        "text": "아니다.",
+        "effects": {
+          "mental": -5,
+          "stress": -15,
+          "intelligence": 5,
+          "luck": 3
+        },
+        "flags": [
+          "answered_happy_no"
+        ],
+        "follow_up_event": "",
+        "result_text": "아니다.\n\n솔직하게 말하는 게 이상하게 후련했다.\n\n행복하지 않다. 아직은.\n그러면 — 언제 행복할 수 있을까.\n\n그 질문이 생긴 것 자체가, 무언가의 시작 같았다."
+      }
+    ]
   }
 ]
