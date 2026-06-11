@@ -1,5 +1,30 @@
 # Gangnam Dream Work Log
 
+## 2026-06-11 (영어 이벤트 번역 전체 완료 — 150개)
+
+### 번역 파일 추가 (content/events_en/) — 이번 세션
+- **arc_events.json** (16개): 인트로 4개·상철 2개·지연 5개·재혁 5개
+- **arc_daeun.json** (9개): 다은 편의점 로맨스 아크
+- **arc_specialization.json** (9개): 엘리트/퀀트/투기/창업 전문화 분기
+- **scenario_cafe.json** (10개): 강남 카페 시나리오 전체 체인
+- **scenario_cafe_callback.json** (8개): 카페 콜백 (정보 훔친/솔직했던/굴욕당한 각 분기)
+- **amb_scenarios.json** (6개): 전세 사기 아크 + 회식 아크
+- **amb_scenarios2.json** (4개): 코인 팁 + 명절 아크
+- **amb_scenarios3.json** (4개): 다단계 함정 + 건강 붕괴 + 카드값 후폭풍
+- **amb_scenarios4.json** (4개): 잃어버린 지갑 + 이직 베팅 아크
+- **amb_scenarios5.json** (2개): 지갑 인연 콜백 + 부모님 수술 동의서
+- **amb_scenarios6.json** (3개): 보증 보험 + 직장 내 공 가로채기
+- **investment_events.json** (43개): 전체 투자 이벤트 라이브러리
+
+### 번역 현황
+- **전체 17개 파일 / 150개 이벤트 번역 완료** — EN 오버레이 시스템 완전 활성
+- 미번역 이벤트 0개 (KO 폴백 없음)
+
+### 번역 특이사항
+- 투자 용어 표준화: gap investment, LTV, jeonse, circuit breaker, DCA, REITs, PB(Private Banking)
+- 전문화 레이블 괄호 표기 통일: [Elite Track], [Quant], [Speculator], [Tech Founder] 등
+- 캐릭터 대사 스타일 유지: 상철의 「」 직접 인용 방식 EN에서도 동일하게
+
 ## 2026-06-11 (영어 이벤트 번역 확대 — 30개)
 
 ### 번역 파일 추가 (content/events_en/)
