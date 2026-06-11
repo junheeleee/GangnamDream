@@ -1,0 +1,161 @@
+[
+  {
+    "id": "story_arrival",
+    "title": "January 2026, Seoul",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "description": "Eyes open in the dark.\n\nA room where you can touch the ceiling. Four-and-a-half square meters.\nOpen the window and the next building is close enough to touch.\nA goshiwon — a micro-studio — in Sinchon. {name}'s room.\n\n{name}. Thirty-three years old.\nUntil half a year ago, he was paying off debt.\n\nHis father co-signed a loan. The debtor vanished.\nThe debt fell to the father, and then to {name}.\nAge twenty-seven to thirty-three. Six years.\n\nAll paid. And what's left — ₩500,000 in the bank, and this room.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "prologue"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Slowly pull yourself up",
+        "effects": {},
+        "follow_up_event": "story_prologue_dad",
+        "result_text": "Peel back the blanket and stand.\nWinter morning light seeps through the small window.\nAnother day. A day you have to live through."
+      }
+    ]
+  },
+  {
+    "id": "story_prologue_dad",
+    "title": "A Call",
+    "background": "goshiwon_room",
+    "portrait": "father_normal",
+    "description": "The phone rings. The screen reads 'Dad'.\n\nA moment's hesitation — then you answer.\n\n\"Hey, son. You up?\"\n\"Yeah.\"\n\nA brief silence. Dad never rehearses what he wants to say.\n\n\"...You eat yet?\"\n\nSix years in those three words.\nGuilt, shame, and everything he can't quite say.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "prologue", "father"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"Yeah, I ate. Don't skip meals, Dad.\"",
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 12
+          }
+        },
+        "follow_up_event": "story_prologue_goal",
+        "result_text": "A lie. You haven't eaten anything yet.\nBut you felt him relax on the other end of the line.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\nYou hung up and stared at the ceiling for a long time.\n\n[Your bond with Dad deepened — relationships are one of the pillars of this game.]"
+      },
+      {
+        "text": "\"I'm busy. I'll call you back.\" Click.",
+        "effects": {
+          "stress": 3,
+          "mental": -2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": -5
+          }
+        },
+        "follow_up_event": "story_prologue_goal",
+        "result_text": "You cut it short. Longer calls just make the silence hurt more.\nYou put the phone down and swallowed what you didn't say.\nThat small hesitation in his voice before you hung up — you couldn't stop thinking about it.\n\n[Your bond with Dad weakened — every choice shapes every relationship.]"
+      }
+    ]
+  },
+  {
+    "id": "story_prologue_goal",
+    "title": "Gangnam",
+    "background": "gangnam_day",
+    "portrait": "player_normal",
+    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time was left, nobody knew.\n\n{name} writes a number in the notebook.\n₩3,000,000,000. Five years.\nHe knows it's impossible. That's exactly why — he starts.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "prologue"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Close the notebook. Stand up.",
+        "effects": {
+          "mental": 6,
+          "stress": -3
+        },
+        "follow_up_event": "story_prologue_meal",
+        "result_text": "The goal is set.\nNo plan yet. Not enough money, connections, or time.\nBut — stop moving and it's over. {name} laced up his shoes."
+      }
+    ]
+  },
+  {
+    "id": "story_prologue_meal",
+    "title": "First Meal",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "description": "Out of the goshiwon, into the convenience store.\n\nYou think about the bank balance. ₩500,000.\nNext month's goshiwon rent is ₩650,000. Already in the red.\n\nStanding in front of the shelves, {name} does the math.\nOne triangle kimbap: ₩1,200. Should you even buy it?\n\nLess than ten thousand won to spend each day.\nEvery meal, every choice — shows up on the bank statement.\n\nThis is {name}'s reality right now.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "prologue"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Buy a triangle kimbap (-₩1,200)",
+        "effects": {
+          "money": -1200,
+          "health": 3
+        },
+        "follow_up_event": "story_pressure",
+        "result_text": "You grab a tuna-mayo and pay.\nA little over a thousand won leaves your account.\n\n[Every choice shifts your resources — money, health, mental strength. Every decision has a cost.]"
+      },
+      {
+        "text": "Skip it. Save every won.",
+        "effects": {
+          "health": -5,
+          "stress": 4,
+          "mental": -2
+        },
+        "follow_up_event": "story_pressure",
+        "result_text": "You walk out empty-handed.\nYour stomach growled, but the account held.\n\n[Every choice shifts your resources — save money, take the physical hit. Balance is everything.]"
+      }
+    ]
+  },
+  {
+    "id": "story_pressure",
+    "title": "Can't Wait Any Longer",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "description": "Two weeks in.\n\nThe balance is already shrinking. Income: ₩0.\nAt this rate you won't last a month.\n\nAnother wedding announcement in the old high school group chat.\n{name} types 'Congrats' and flips the phone face-down.\n\nOne thing is clear:\nSomething — anything — has to start. Now.\nJob hunting. Part-time work. Whatever it takes.\n\nIt's {name}'s turn to move.",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "prologue", "job_unlock"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Open a job app. Survival comes first.",
+        "effects": {
+          "intelligence": 2
+        },
+        "flags": ["story_job_unlocked"],
+        "result_text": "Convenience store. Delivery. Café. Office temp...\nFor the first time, 'work' felt like a real option.\n{name} hovered a finger over the apply button.\n\n[From here, every month you decide what to do.\nOn the next screen — make your first move.]"
+      }
+    ]
+  }
+]

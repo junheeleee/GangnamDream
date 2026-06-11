@@ -53,6 +53,10 @@ func reload():
 			events.append(event)
 			events_by_id[event.get("id", "")] = event
 
+	# 영어 이벤트 오버레이 — 같은 id를 영어 버전으로 교체
+	if LocaleManager.language == "en":
+		_apply_en_overlay()
+
 	assets = _load_array(ASSETS_PATH)
 	assets_by_id = _index_by_id(assets)
 	jobs = _load_array(JOBS_PATH)
@@ -80,6 +84,28 @@ func get_events(category):
 		if event.get("category", "") == category:
 			filtered.append(event)
 	return filtered
+
+func _apply_en_overlay() -> void:
+	var en_dir = "res://content/events_en/"
+	var da := DirAccess.open(en_dir)
+	if not da:
+		return
+	da.list_dir_begin()
+	var fname := da.get_next()
+	while fname != "":
+		if fname.ends_with(".json"):
+			for ev in _load_array(en_dir + fname):
+				var eid: String = str(ev.get("id", ""))
+				if eid == "":
+					fname = da.get_next()
+					continue
+				if events_by_id.has(eid):
+					var old = events_by_id[eid]
+					var idx = events.find(old)
+					if idx >= 0:
+						events[idx] = ev
+					events_by_id[eid] = ev
+		fname = da.get_next()
 
 func get_assets_by_category(category):
 	var filtered: Array = []

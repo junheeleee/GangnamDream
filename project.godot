@@ -26,6 +26,7 @@ config/icon="res://icon.png"
 [autoload]
 
 UIStyle="*res://autoloads/UIStyle.gd"
+LocaleManager="*res://autoloads/LocaleManager.gd"
 DataRegistry="*res://autoloads/DataRegistry.gd"
 GameState="*res://autoloads/GameState.gd"
 ImageRegistry="*res://autoloads/ImageRegistry.gd"

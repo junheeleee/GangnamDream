@@ -809,6 +809,7 @@ func _open_settings_popup():
 	vbox.add_child(sep)
 
 	_build_volume_sliders_menu(vbox)
+	_build_language_toggle(vbox)
 
 	var close_btn = _button("닫기", "#1e2a3a")
 	close_btn.pressed.connect(func(): _settings_overlay.queue_free())
@@ -848,6 +849,39 @@ func _build_volume_sliders_menu(parent: Control):
 	_make_row.call("🎵 BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
 	_make_row.call("🔊 SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
 	_build_fullscreen_toggle(parent)
+
+func _build_language_toggle(parent: Control):
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	parent.add_child(row)
+	var lbl = Label.new()
+	lbl.text = "🌐 언어 / Lang"
+	lbl.add_theme_font_size_override("font_size", 13)
+	lbl.add_theme_color_override("font_color", Color("#8892a4"))
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(lbl)
+	for lang_code in ["ko", "en"]:
+		var btn = Button.new()
+		btn.text = "한국어" if lang_code == "ko" else "EN"
+		btn.custom_minimum_size = Vector2(64, 28)
+		var is_active = LocaleManager.language == lang_code
+		var st = StyleBoxFlat.new()
+		st.bg_color = Color("#1a2a3a") if is_active else Color("#0d1017")
+		st.border_color = Color("#5b9cf6") if is_active else Color("#2a2a40")
+		st.set_border_width_all(1)
+		st.set_corner_radius_all(4)
+		var hov = st.duplicate()
+		hov.bg_color = Color("#1e3040") if is_active else Color("#141a22")
+		btn.add_theme_stylebox_override("normal", st)
+		btn.add_theme_stylebox_override("hover", hov)
+		btn.add_theme_color_override("font_color", Color("#e8eaf0") if is_active else Color("#5a6075"))
+		btn.add_theme_font_size_override("font_size", 12)
+		btn.pressed.connect((func(lc):
+			LocaleManager.set_language(lc)
+			if is_instance_valid(_settings_overlay):
+				_settings_overlay.queue_free()
+		).bind(lang_code))
+		row.add_child(btn)
 
 func _build_fullscreen_toggle(parent: Control):
 	if OS.has_feature("web"):
