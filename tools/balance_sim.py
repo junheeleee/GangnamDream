@@ -25,13 +25,11 @@ SALARY = 2_240_000.0
 LUCK_FACTOR = 0.0015
 
 
-LOAN_RATES = {"bank": 0.006, "second": 0.018}
-
-
 class Run:
     def __init__(self):
         self.money = 500_000.0
         self.loans = {"bank": 0.0, "second": 0.0}
+        self.tenure = 0
         self.income = 0.0
         self.health = 65
         self.mental = 60
@@ -70,11 +68,39 @@ class Run:
     def net_worth(self):
         return self.money - self.loan_total()
 
+    # 신용등급 (GameState.get_credit_score/grade 포트, 2026-06-11)
+    def credit_grade(self, tenure=0, was_broke=False):
+        s = 30.0
+        if self.income > 0:
+            s += 15.0 + min(tenure * 0.5, 12.0) + min(self.income / 1_000_000 * 2.0, 14.0)
+        s += max(0.0, min(self.net_worth() / 10_000_000, 20.0))
+        debt = self.loan_total()
+        if debt > 0:
+            s -= debt / max(1.0, max(0.0, self.net_worth()) + debt) * 25.0
+        if was_broke:
+            s -= 8.0
+        s = max(1, min(100, int(s)))
+        return max(1, min(10, 10 - (s - 5) // 10))
+
+    def loan_limit(self, product, tenure=0):
+        g = self.credit_grade(tenure)
+        if product == "bank":
+            if self.income <= 0 or g >= 8:
+                return 0.0
+            return self.income * (20 - 2 * g)
+        return 10_000_000 + (10 - g) * 4_000_000
+
+    def loan_rate(self, product, tenure=0):
+        g = self.credit_grade(tenure)
+        if product == "bank":
+            return 0.004 + (g - 1) * 0.0008
+        return 0.012 + g * 0.0008
+
     def monthly_pressure(self, cast_passives=False, lover=False, father=False, sangchul=False):
         expense = 650_000.0  # 고시원 고정 (SimRun 동일)
         self.money += self.income - expense
-        # 대출 이자 (2026-06-11 신규)
-        interest = sum(self.loans[p] * LOAN_RATES[p] for p in self.loans)
+        # 대출 이자 (2026-06-11 신규, 변동금리 — 신용등급 기준)
+        interest = sum(self.loans[p] * self.loan_rate(p, self.tenure) for p in self.loans)
         if interest > 0:
             self.money -= interest
             self.stress += 2
@@ -171,17 +197,14 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, 
                 if mode >= 1 and not employed and t >= 2:
                     s.income = SALARY
                     employed = True
-                # 대출 레버리지: 초반 한도까지 당겨서 종잣돈으로 (이후 상환은 자동 아님)
+                # 대출 레버리지: 신용등급이 허락하는 한도까지 당겨 종잣돈으로
                 if use_loans and employed and t >= 4:
-                    bank_limit = s.income * 12.0  # 평판 보너스 생략 (보수적)
-                    if s.loans["bank"] < bank_limit:
-                        amt = bank_limit - s.loans["bank"]
-                        s.loans["bank"] += amt
-                        s.money += amt
-                    if s.loans["second"] < 30_000_000 and s.money < 20_000_000:
-                        amt = 30_000_000 - s.loans["second"]
-                        s.loans["second"] += amt
-                        s.money += amt
+                    for prod in ("bank", "second"):
+                        limit = s.loan_limit(prod, s.tenure)
+                        if s.loans[prod] < limit and (prod == "bank" or s.money < 20_000_000):
+                            amt = limit - s.loans[prod]
+                            s.loans[prod] += amt
+                            s.money += amt
                     # 자산이 빚의 5배를 넘으면 전액 상환 (이자 절감)
                     if s.loan_total() > 0 and s.money > s.loan_total() * 5:
                         s.money -= s.loan_total()
@@ -197,6 +220,8 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, 
                         s.resolve_opportunity(OPP_MEGA)
                     else:
                         s.resolve_opportunity(random.choice(OPPS))
+            if employed:
+                s.tenure += 1
             if s.turn <= 3:
                 s.money += 300_000
             s.monthly_pressure(cast_passives=cast_passives, lover=cast_passives,

@@ -37,9 +37,11 @@ var housing: String = "gosiwon"
 # ── 대출 — 빚으로 판을 키운다 ─────────────────────────────────────
 # 빚은 순자산(get_total_asset_value)에서 차감되고, 파산 판정도 순자산 기준.
 # 빌린 돈을 베팅에 넣을 수 있지만, 날리면 순자산이 -1억(파산 라인)에 다가간다.
+# 한도와 금리는 신용등급(get_credit_grade)이 결정한다. 금리는 변동금리 —
+# 등급이 떨어지면(실직·자산 손실·과다 부채) 보유 중인 빚의 이자도 같이 오른다.
 const LOAN_PRODUCTS := {
-	"bank":   {"name": "1금융 신용대출", "emoji": "🏦", "rate": 0.006},  # 월 0.6% ≈ 연 7.2%
-	"second": {"name": "제2금융 대출",   "emoji": "💳", "rate": 0.018},  # 월 1.8% ≈ 연 21.6%
+	"bank":   {"name": "1금융 신용대출", "emoji": "🏦"},
+	"second": {"name": "제2금융 대출",   "emoji": "💳"},
 }
 var loans: Dictionary = {"bank": 0.0, "second": 0.0}
 
@@ -406,14 +408,14 @@ func apply_monthly_pressure():
 		flags["has_received_paycheck"] = true
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 
-	# ── 대출 이자 — 빚은 숨만 쉬어도 매달 나간다 ────────────────────
+	# ── 대출 이자 — 빚은 숨만 쉬어도 매달 나간다 (변동금리: 현재 등급 기준) ──
 	var loan_interest := 0.0
 	for p in loans:
-		loan_interest += float(loans[p]) * float(LOAN_PRODUCTS[p]["rate"])
+		loan_interest += float(loans[p]) * get_loan_rate(p)
 	if loan_interest > 0.0:
 		add_money(-loan_interest)
 		modify_hidden_stat("stress", 2)
-		add_log("🏦 대출 이자 %s 납부 (원금 %s)." % [format_money(loan_interest), format_money(get_loan_total())], "money")
+		add_log("🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급)." % [format_money(loan_interest), format_money(get_loan_total()), get_credit_grade()], "money")
 
 	# ── 서울살이 기본 압박 ──────────────────────────────────────────
 	modify_stat("health", -2)
@@ -940,6 +942,44 @@ func get_total_asset_value():
 		total += float(holding.get("quantity", 0.0)) * float(market_prices.get(asset_id, holding.get("avg_price", 0.0)))
 	return total - get_loan_total()
 
+# ── 신용등급 — 자산·직장·부채가 대출의 조건을 정한다 ──────────────
+## 신용점수 1~100. 고용·근속·소득·순자산이 올리고, 부채 비율·신용 사건이 깎는다.
+func get_credit_score() -> int:
+	var s := 30.0
+	if monthly_income > 0:
+		s += 15.0                                            # 고용 상태
+		s += minf(float(job_tenure) * 0.5, 12.0)             # 근속 (최대 +12)
+		s += minf(monthly_income / 1_000_000.0 * 2.0, 14.0)  # 소득 (최대 +14)
+	var net: float = get_total_asset_value()
+	s += clampf(net / 10_000_000.0, 0.0, 20.0)               # 순자산 1천만당 +1 (최대 +20)
+	var debt: float = get_loan_total()
+	if debt > 0.0:
+		var ratio: float = debt / maxf(1.0, maxf(0.0, net) + debt)
+		s -= ratio * 25.0                                    # 부채 비율 (최대 -25)
+	if flags.get("was_broke_once", false):
+		s -= 8.0                                             # 잔고 바닥 이력
+	s += clampf(float(reputation) * 0.1, 0.0, 5.0)           # 평판 (최대 +5)
+	return clampi(int(s), 1, 100)
+
+## 1(우량)~10(위험) 등급. 1~3 우량 / 4~6 보통 / 7~8 주의 / 9~10 위험.
+func get_credit_grade() -> int:
+	return clampi(10 - (get_credit_score() - 5) / 10, 1, 10)
+
+func get_credit_grade_label() -> String:
+	var g := get_credit_grade()
+	if g <= 3: return "우량"
+	if g <= 6: return "보통"
+	if g <= 8: return "주의"
+	return "위험"
+
+## 변동금리 — 매달 현재 등급으로 이자를 계산한다.
+func get_loan_rate(product: String) -> float:
+	var g := get_credit_grade()
+	match product:
+		"bank":   return 0.004 + float(g - 1) * 0.0008   # 1등급 월 0.4% ~ 7등급 0.88%
+		"second": return 0.012 + float(g) * 0.0008       # 1등급 월 1.28% ~ 10등급 2.0%
+	return 0.02
+
 # ── 대출 조작 ─────────────────────────────────────────────────────
 func get_loan_total() -> float:
 	var t := 0.0
@@ -948,14 +988,16 @@ func get_loan_total() -> float:
 	return t
 
 func get_loan_limit(product: String) -> float:
+	var g := get_credit_grade()
 	match product:
 		"bank":
-			# 신용 = 소득. 무직이면 1금융 문턱을 못 넘는다.
-			if monthly_income <= 0:
+			# 1금융은 직장 + 신용 7등급 이내. 무직·저신용은 문턱을 못 넘는다.
+			if monthly_income <= 0 or g >= 8:
 				return 0.0
-			return monthly_income * 12.0 + float(maxi(0, reputation)) * 1_000_000.0
+			return monthly_income * float(20 - 2 * g)        # 1등급 소득 18배 ~ 7등급 6배
 		"second":
-			return 30_000_000.0
+			# 제2금융은 누구나 — 대신 등급이 낮을수록 한도도 작고 이자는 비싸다.
+			return 10_000_000.0 + float(10 - g) * 4_000_000.0  # 1등급 4,600만 ~ 10등급 1,000만
 	return 0.0
 
 func borrow(product: String, amount: float) -> bool:

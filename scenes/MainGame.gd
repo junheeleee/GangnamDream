@@ -2934,21 +2934,31 @@ func _open_bank():
 	var net: float = GameState.get_total_asset_value()
 	modal_body.add_child(_label("현금 %s   |   순자산 %s" % [
 		GameState.format_money(GameState.money), GameState.format_money(net)], 13, "#c8d0df"))
+	# ── 신용등급 — 한도와 금리를 정하는 숫자 ──
+	var grade: int = GameState.get_credit_grade()
+	var grade_label: String = GameState.get_credit_grade_label()
+	var grade_color := "#34d399" if grade <= 3 else ("#f0b429" if grade <= 6 else ("#f97316" if grade <= 8 else "#ff4444"))
+	modal_body.add_child(_label("신용등급  %d등급 (%s)  — 점수 %d/100" % [grade, grade_label, GameState.get_credit_score()], 15, grade_color))
+	modal_body.add_child(_wrap_label("직장·근속·소득·자산이 등급을 올리고, 부채 비율과 잔고 바닥 이력이 깎습니다.\n금리는 변동금리 — 등급이 떨어지면 보유한 빚의 이자도 같이 오릅니다.", 11, "#6a7486"))
 	if net < 0:
 		modal_body.add_child(_wrap_label("⚠ 순자산 마이너스 — -1억이면 파산, -2억이면 빚의 소용돌이입니다.", 12, "#ff4444"))
 	for product in GameState.LOAN_PRODUCTS:
 		var info: Dictionary = GameState.LOAN_PRODUCTS[product]
 		var owed: float = float(GameState.loans.get(product, 0.0))
 		var limit: float = GameState.get_loan_limit(product)
-		var rate: float = float(info["rate"])
+		var rate: float = GameState.get_loan_rate(product)
 		var sep := HSeparator.new()
 		sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(sep)
-		modal_body.add_child(_label("%s %s — 월 이자 %.1f%% (연 %.1f%%)" % [
+		modal_body.add_child(_label("%s %s — 월 이자 %.2f%% (연 %.1f%%)" % [
 			info["emoji"], info["name"], rate * 100.0, rate * 1200.0], 15, "#e2e8f0"))
 		if limit <= 0.0:
-			modal_body.add_child(_wrap_label("  직장(소득)이 있어야 신용대출이 가능합니다.", 12, "#6a7486"))
-			continue
+			if GameState.monthly_income <= 0:
+				modal_body.add_child(_wrap_label("  직장(소득)이 있어야 신용대출이 가능합니다.", 12, "#6a7486"))
+			else:
+				modal_body.add_child(_wrap_label("  신용 %d등급 — 1금융은 7등급 이내만 가능합니다. 등급을 올리세요." % grade, 12, "#f97316"))
+			if owed <= 0.0:
+				continue
 		var month_cost: float = owed * rate
 		var status := "  잔액 %s / 한도 %s" % [GameState.format_money(owed), GameState.format_money(limit)]
 		if owed > 0.0:
