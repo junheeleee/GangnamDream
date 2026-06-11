@@ -1,0 +1,217 @@
+[
+  {
+    "id": "drama_crypto_allin",
+    "title": "All In",
+    "description": "2 AM. The open group chat is exploding.\n\n'If you don't buy this right now you'll regret it for life. It'll triple by tomorrow.'\n\nSomeone just posted they put in everything they had. The chart is going vertical.\nThere's money in the account right now.\n\nWhether this opportunity is real or a trap — unknown.\nBut the window is right now.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_money": 500000,
+      "min_turn": 3
+    },
+    "tags": ["finance", "risk", "gambling"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Put in everything (max ₩5,000,000)",
+        "effects": {},
+        "result_text": "Hand shaking. Hit confirm.",
+        "follow_up_event": "drama_crypto_result_big"
+      },
+      {
+        "text": "Just ₩500,000 — test the waters",
+        "effects": {},
+        "result_text": "Decided to go in small.",
+        "follow_up_event": "drama_crypto_result_small"
+      },
+      {
+        "text": "Stare at the chart. Close it.",
+        "effects": {
+          "mental": 2,
+          "stress": -3
+        },
+        "result_text": "Closed the chat. Will find out the result in the morning. No idea if it was the right call."
+      }
+    ]
+  },
+  {
+    "id": "drama_startup_offer",
+    "title": "The Startup Offer",
+    "description": "A message from a former colleague.\n\n'Want to join our team? We just got seed funding. I'll give you equity.'\n\nThe company is six months old. No salary — stock options only.\nSuccess means nine figures. Failure means unemployed.\n\nIs there enough nerve to quit and jump in?",
+    "category": "career",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_intelligence": 50,
+      "min_turn": 6
+    },
+    "tags": ["career", "risk", "opportunity"],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "Join them — quit the current job",
+        "effects": {
+          "monthly_income": -1500000,
+          "intelligence": 5,
+          "social_skill": 4,
+          "stress": 18,
+          "mental": -5,
+          "flag": "joined_startup"
+        },
+        "result_text": "Put in the resignation. The account will drain fast. But if this works — everything changes.",
+        "flags": ["startup_launched"]
+      },
+      {
+        "text": "Decline — stability first",
+        "effects": {
+          "mental": 3,
+          "stress": -5,
+          "reputation": 2
+        },
+        "result_text": "Politely declined. Chose stability. No one knows how that friend's startup will turn out."
+      },
+      {
+        "text": "Negotiate: part-time only",
+        "effects": {
+          "social_skill": 3,
+          "intelligence": 2,
+          "stress": 8
+        },
+        "result_text": "Agreed to join on weekends. Keep the day job, keep the option open."
+      }
+    ]
+  },
+  {
+    "id": "drama_chaebol_encounter",
+    "title": "The Gangnam Contact",
+    "description": "A conversation that started by chance in a Gangnam café.\n\nThe other person didn't give a name, but the way they spoke and dressed was different.\n'There's an interesting project I'm working on. Looking for the right person to do it with.'\n\nOpportunity or danger — impossible to read.\nChances like this may not come again.",
+    "category": "social",
+    "rarity": "legendary",
+    "weight": 0.4,
+    "hidden": false,
+    "conditions": {
+      "min_social_skill": 45,
+      "min_turn": 8
+    },
+    "tags": ["social", "opportunity", "network"],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "Hand over a card. Make an impression.",
+        "effects": {
+          "social_skill": 6,
+          "reputation": 15,
+          "stress": 5,
+          "money": 500000,
+          "flag": "chaebol_connection"
+        },
+        "relationship_effects": [
+          {
+            "id": "chaebol_contact",
+            "name": "Gangnam Contact",
+            "type": "business",
+            "affection": 50,
+            "trust": 35
+          }
+        ],
+        "result_text": "Exchanged numbers. A week later, an invitation to a small gathering. The door to Gangnam opened slightly."
+      },
+      {
+        "text": "Keep it light. Leave without giving contact info.",
+        "effects": {
+          "social_skill": 2,
+          "mental": 4
+        },
+        "result_text": "Good conversation. But no contact exchanged. Never did learn their name."
+      }
+    ]
+  },
+  {
+    "id": "drama_housing_lottery",
+    "title": "Housing Lottery Win",
+    "description": "The long-forgotten청약 (housing subscription) account.\n\nA text arrived. 'You have been selected in the public housing lottery.'\n\nHand trembled. A deposit is needed. Barely possible with current funds.\n\nThis is a real opportunity.",
+    "category": "housing",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {
+      "min_money": 10000000,
+      "min_turn": 18
+    },
+    "tags": ["housing", "opportunity"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "Pay the deposit. Sign the contract.",
+        "effects": {
+          "money": -8000000,
+          "mental": 20,
+          "stress": 15,
+          "reputation": 8,
+          "flag": "bought_apartment"
+        },
+        "result_text": "Stamped the contract. Move-in in two years. Hands wouldn't stop shaking. It didn't feel real — my own apartment."
+      },
+      {
+        "text": "Can't cover the deposit right now. Pass.",
+        "effects": {
+          "mental": -10,
+          "stress": 8
+        },
+        "result_text": "Sent the forfeit notice. Another chance will come someday. Someday."
+      }
+    ]
+  },
+  {
+    "id": "drama_office_politics",
+    "title": "Office Politics",
+    "description": "The team leader position opened up.\n\nThe general manager called {name} in quietly. 'You're the right fit. But Assistant Manager Kim is gunning for it too. What are you going to do?'\n\nPlaying it straight takes time.\nPlaying it politically is faster, but makes enemies.\n\nWork, in the end, is a people game.",
+    "category": "career",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10,
+      "min_intelligence": 45
+    },
+    "tags": ["career", "social", "risk"],
+    "cooldown": 14,
+    "choices": [
+      {
+        "text": "Compete on merit. Let the work speak.",
+        "effects": {
+          "intelligence": 4,
+          "reputation": 8,
+          "stress": 12,
+          "work_performance": 15
+        },
+        "result_text": "Volunteered for overtime. Let results do the talking. It'll take time — but no regrets."
+      },
+      {
+        "text": "Side with the GM. Play the politics.",
+        "effects": {
+          "social_skill": 4,
+          "reputation": 12,
+          "stress": 8,
+          "mental": -6,
+          "monthly_income": 300000
+        },
+        "result_text": "Got the team leader position. Salary went up. Assistant Manager Kim's eyes went cold. This industry — you take what comes with it."
+      },
+      {
+        "text": "Pretend not to care. Start looking for other jobs.",
+        "effects": {
+          "stress": -10,
+          "intelligence": 2,
+          "mental": 5
+        },
+        "result_text": "Stepped out of the race. Quietly opened a job listing site. Something better is out there."
+      }
+    ]
+  }
+]

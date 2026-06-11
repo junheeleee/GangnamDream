@@ -1,0 +1,203 @@
+[
+  {
+    "id": "jiyeon_meet",
+    "title": "An Accident",
+    "description": "A spring afternoon. A back-alley in Sinchon.\n\nA white BMW cutting a corner clipped a bicycle. The handlebars twisted. A knee scraped.\n\nThe woman who stepped out ran over. Clear eyes, an expensive coat. 'I'm so sorry — are you hurt? The hospital—'\n\nGlanced at the wrist. Four minutes until shift starts.",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 12.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 2,
+      "max_turn": 14,
+      "no_flag": "jiyeon_met"
+    },
+    "tags": ["romance", "jiyeon"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "'I'm fine.' Pick up the bike. Leave.",
+        "effects": {
+          "social_skill": 1,
+          "luck": 1
+        },
+        "flags": ["jiyeon_met", "jiyeon_left_first"],
+        "cast_effects": {
+          "jiyeon": {
+            "met": true,
+            "affinity": 15,
+            "stage": "interest"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "Didn't look back.\n\nHalf a block on, the knee stung.\nPulled up the pant leg — the skin was scraped clean.\n\nShe must have stood there for a moment.\nNever seen anyone do that, probably. Something like that.\n\nThe shift started three minutes late.\nThe knee hurt for three days."
+      },
+      {
+        "text": "Get her number. Bike repair costs something.",
+        "effects": {
+          "social_skill": 1,
+          "money": 50000
+        },
+        "flags": ["jiyeon_met", "jiyeon_took_number"],
+        "cast_effects": {
+          "jiyeon": {
+            "met": true,
+            "affinity": 10,
+            "stage": "interest"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "Got the number. Walked away.\n\nSomething felt strange after. An accident, and {name} didn't even know her name.\n\n₩50,000 for the repair came through the next day.\nAnd one more line beneath it:\n'I'm truly sorry about that day. I hope you weren't badly hurt.'\n\nJust bruised. {name} stared at the message for a while, then replied:\n'I'm fine. Thank you for the repair money.'\n\nWhether that was a beginning or an end — impossible to know then."
+      }
+    ]
+  },
+  {
+    "id": "daeun_choice",
+    "title": "What Daeun Said",
+    "description": "Sitting on a bench. Daeun was beside {name}.\n\nAfter a long silence she finally spoke.\n\n'Being next to someone who wants to become something in Seoul — makes me feel like I could become something too.'\n\n'Just saying. Weird thing to say, right?'",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 6.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_date_done",
+      "no_flag": "daeun_ended",
+      "min_turn": 28,
+      "max_turn": 52
+    },
+    "tags": ["romance", "daeun"],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "'It's not weird.' Stay beside her.",
+        "effects": {
+          "mental": 10,
+          "stress": -6,
+          "luck": 3
+        },
+        "flags": ["daeun_ended", "daeun_together"],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 35,
+            "stage": "lover"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "Daeun smiled quietly.\n\nSeoul's low hum settled over the bench.\n\nGangnam still felt far.\nBut right here, right now — this wasn't bad.\n\nHow long that feeling would last — no way to know.\nFor now, it seemed like enough."
+      },
+      {
+        "text": "'Gangnam comes first for me right now.'",
+        "effects": {
+          "stress": 3,
+          "mental": -5
+        },
+        "flags": ["daeun_ended"],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -15,
+            "stage": "distant"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "Daeun nodded.\n'I know. That's why I hesitated to say it.'\n\nShe stood up.\n\nShe stopped coming after that.\n\nEvery week, around 2 AM, {name} would notice — freshly — that the spot was empty."
+      }
+    ]
+  },
+  {
+    "id": "father_hospital_wait",
+    "title": "Waiting Room",
+    "description": "Dad had a check-up.\n\n{name} had come up to Seoul and was waiting in the waiting room.\nFluorescent lights. Plastic chairs. A numbered ticket.\n\nDad came out of the consultation room.\nExpression the same as always.\nNo way to know if that was good or bad.\n\n'Let's go.'\nThat was it.\n\nWalking out, {name} asked:\n'What did the doctor say?'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15,
+      "flag": "father_visited"
+    },
+    "tags": ["family", "hospital", "emotional"],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "'Said everything's fine.' Don't ask more.",
+        "effects": {
+          "mental": -5,
+          "stress": 4
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Dad said nothing more.\n{name} asked nothing more.\n\nHad lunch. Same as always.\n\nOn the train back to Seoul, {name} stared out the window.\nWhether 'fine' was actually true.\nWanted to know — and maybe it was better not to."
+      },
+      {
+        "text": "Ask to look at the results together.",
+        "effects": {
+          "mental": 3,
+          "stress": 2,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 6,
+            "stage": "hopeful"
+          }
+        },
+        "flags": ["saw_father_medical"],
+        "follow_up_event": "",
+        "result_text": "Dad hesitated for a moment, then took out the printout.\n\nRows of numbers. {name} didn't understand most of it.\nBut sitting next to him, reading it together — that itself felt like something new.\n\n'This number's a bit high, they said.'\n'Do you have to keep taking the medication?'\n'Apparently so.'\n\nThe first afternoon they thought about Dad's health together."
+      }
+    ]
+  },
+  {
+    "id": "father_old_photo",
+    "title": "One Photo",
+    "description": "Helping Dad tidy up — an old album surfaced.\n\nFlipping through it, {name} stopped at one photo.\n\nDad in his twenties.\nStanding somewhere.\nIn front of a building. Somewhere in Seoul.\n\nHe was smiling.\nA different expression from the one he has now.\n\n{name} had never asked where this was, or why it was taken.\nPicked up the album and went to find Dad.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["family", "emotional", "story_beat"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Ask where this was.",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "intelligence": 3
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8,
+            "stage": "hopeful"
+          }
+        },
+        "flags": ["heard_father_young_story"],
+        "follow_up_event": "",
+        "result_text": "Dad looked at the photo.\n\nLong silence.\n\n'That was when I first came up to Seoul. Twenty-three, twenty-four maybe.'\n'I wanted to work here. Never quite happened.'\n\nDad smiled. The same smile as in the photo.\n\n{name} felt like seeing it for the first time.\nOr like having seen it long ago and forgotten."
+      },
+      {
+        "text": "Close the album. Too hard to bring it up.",
+        "effects": {
+          "mental": -3,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 2
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Closed the album.\n\nDad may have noticed.\n\nThought: I'll ask someday.\nDidn't set a date for that someday.\n\nThe expression on that young Dad's face stayed\nall the way home."
+      }
+    ]
+  }
+]

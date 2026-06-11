@@ -1,0 +1,584 @@
+[
+  {
+    "id": "father_wedding_call",
+    "title": "Dad's Call",
+    "description": "It was Dad.\n\nA family friend's son is getting married this weekend.\nCome home, he said. It'd be nice to go together.\n\n{name} checked the calendar. An investment deadline this week.\nChecked the account. Hadn't even had fried chicken this month.\n\nOn the other end of the phone, Dad was waiting.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 18.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6,
+      "max_turn": 14
+    },
+    "tags": ["family", "story_beat", "father"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Go home. The investment can wait a month.",
+        "effects": {
+          "money": -60000,
+          "mental": 15,
+          "health": 5,
+          "stress": -10
+        },
+        "flags": ["went_home_for_father"],
+        "result_text": "Through the train window, home grew closer.\n\nDad was there on the platform. His shoulders more rounded than {name} remembered.\nAt the reception hall, Dad introduced {name} to everyone nearby as 'my son.'\n\nThe investment window is gone. But somehow — that night, {name} slept well."
+      },
+      {
+        "text": "Say you'll come next time, for sure.",
+        "effects": {
+          "stress": 7,
+          "mental": -6
+        },
+        "flags": ["skipped_father_wedding"],
+        "result_text": "Said you'd come next time, definitely.\nDad said 'okay, I know you're busy.'\n\nHung up. Opened the calendar. Three days to the investment deadline.\n\nThe optimal choice."
+      }
+    ]
+  },
+  {
+    "id": "social_life_004",
+    "title": "Friend's Profit Screenshot",
+    "description": "A friend posted a profit screenshot in the group chat. The thought 'I knew about that one too' loops somewhere in the throat. Hard to tell if it's bragging or bonding, but the envy is real.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["social_life", "viral"],
+    "cooldown": 9,
+    "choices": [
+      {
+        "text": "Congratulate them and quietly mine for info",
+        "effects": {
+          "money": 410000,
+          "social_skill": -4
+        },
+        "result_text": "Offered congratulations, picked up what I could. Made some money, but felt like I was on the outside looking in."
+      },
+      {
+        "text": "Just say you're jealous — honestly",
+        "effects": {
+          "stress": -8,
+          "mental": -3
+        },
+        "result_text": "Said it straight. The friend actually ended up comforting you. Refreshing and a little bitter at the same time."
+      },
+      {
+        "text": "Jump in and copy the trade immediately",
+        "effects": {
+          "reputation": 2,
+          "investment_skill": -1
+        },
+        "result_text": "Followed the friend's move on the spot. People around you are starting to notice you always seem to know something."
+      },
+      {
+        "text": "Steer the conversation somewhere else",
+        "effects": {
+          "health": -2,
+          "stress": -3,
+          "money": 0
+        },
+        "result_text": "Smoothly changed the subject. Everyone laughed and went home. Easy."
+      }
+    ]
+  },
+  {
+    "id": "gambling_006",
+    "title": "Stock Tip DM",
+    "description": "Another 'insider tips' DM hit the Instagram inbox. Packed with profit screenshots and testimonials. If all of it is real, why would they share it with a stranger?",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["gambling", "class"],
+    "cooldown": 9,
+    "choices": [
+      {
+        "text": "Scam. Block immediately.",
+        "effects": {
+          "money": 40000,
+          "stress": -6
+        },
+        "result_text": "Called it a scam and blocked. Counted the avoided loss as a win — and somehow ₩40,000 came back around."
+      },
+      {
+        "text": "Look for more reviews. Think it over.",
+        "effects": {
+          "stress": -1,
+          "mental": -2
+        },
+        "result_text": "Spent a long time looking into it. Ended up doing nothing. Head full of noise."
+      },
+      {
+        "text": "Put in a small amount to test it.",
+        "effects": {
+          "reputation": -3,
+          "investment_skill": 4
+        },
+        "result_text": "Threw in a small stake. Learned something. Also something you'd rather not have in the search history."
+      }
+    ]
+  },
+  {
+    "id": "health_008",
+    "title": "Can't Sleep Again",
+    "description": "2 AM and still awake. Eyes are exhausted but the brain won't stop. {name} knows — the same thoughts, the same hour, the night before too.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["health", "opportunity"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "Set a sleep schedule. Go to bed early.",
+        "effects": {
+          "health": 4,
+          "mental": 3,
+          "stress": -5
+        },
+        "result_text": "Fixed a bedtime, downloaded a sleep tracker. A few days later, the body felt different. A body that sleeps is a body that works — obvious, until it isn't."
+      },
+      {
+        "text": "Too tired to put the phone down, but can't.",
+        "effects": {
+          "health": -2,
+          "stress": 9,
+          "mental": -1
+        },
+        "result_text": "Couldn't put the phone down. Fell asleep sometime in the small hours."
+      },
+      {
+        "text": "Search for sleep aids.",
+        "effects": {
+          "reputation": -3,
+          "investment_skill": 0
+        },
+        "result_text": "Looked up sleep aids. Felt a little uneasy leaving that search history behind."
+      },
+      {
+        "text": "Just power through it.",
+        "effects": {
+          "health": -3,
+          "stress": 2,
+          "luck": 1
+        },
+        "result_text": "Decided to push through. Knew the body was taking damage. No bandwidth to change it."
+      }
+    ]
+  },
+  {
+    "id": "final_last_winter",
+    "title": "Last Winter",
+    "description": "December.\n\nThe memory of the first night in the goshiwon came back.\nThe flickering fluorescent light. A thin blanket. The neighboring wall filling the window.\n\n{name} opened the window.\nCold air came in. Seoul was in winter.\n\nFive years had passed.\n\nWhat was different now?\nThe room was different. The number in the account. What the years had written on the face.\n\nSome things hadn't changed.\nGangnam was still far. Dad's calls were still short.\nSomething unnameable remained in the chest.\n\nThis is the last month.",
+    "category": "daily_life",
+    "rarity": "rare",
+    "weight": 5.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 56,
+      "max_turn": 59
+    },
+    "tags": ["life", "family"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Focus on what time is left.",
+        "effects": {
+          "mental": 8,
+          "stress": -6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Closed the window.\n\nNo time to think. Or rather — thinking won't change anything.\nDo what can be done right now. That's all.\n\n{name} opened the spreadsheet again. You don't know until the end."
+      },
+      {
+        "text": "Slowly look back at every choice made.",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "What if the {name} from five years ago had known all this?\n\nSome of it was right. Some wasn't.\nRegrets exist. So does something like — yes, I did what I could.\n\nAll of it, together, was {name}.\nSomehow that felt okay."
+      }
+    ]
+  },
+  {
+    "id": "late_night_driver",
+    "title": "The Driver",
+    "description": "1 AM. The designated driver arrived.\n\nThe moment he got in, he started talking.\n'Where are you from? Office worker?'\n\n{name} gave a vague answer. The driver said:\n'I used to be a division manager at a mid-size company. Restructuring got me.'\n\nFor a second, his eyes were visible in the rearview mirror.\nSeoul's night skyline slid across the glass.\n\n'If I'd saved just a little more back then, I wouldn't be doing this.'\n\nSilence. Sleep drained away.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": ["late_night", "social", "work"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Listen without saying much. Nothing to say.",
+        "effects": {
+          "mental": -3,
+          "intelligence": 4,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "At the destination, {name} got out.\n'Take care,' the driver said.\n'You too,' {name} said.\n\nHis name, company, or salary from back then — unknown.\nBut what he said stayed a long time.\n\n'I used to be.'"
+      },
+      {
+        "text": "Ask: how are things now?",
+        "effects": {
+          "mental": 3,
+          "social_skill": 2,
+          "stress": -2
+        },
+        "flags": ["heard_driver_story"],
+        "follow_up_event": "",
+        "result_text": "'Once the kids get through college, things'll pick up,' he said.\n'It's fine now. This job isn't bad.'\nWhether he meant it — impossible to know.\n\nGetting out, {name} added a little more to the tip.\nThe driver said thank you.\n\nHis voice stayed for a while."
+      }
+    ]
+  },
+  {
+    "id": "parents_bankbook",
+    "title": "Their Passbook",
+    "description": "A quick trip home.\n\nDad was rummaging through a drawer and stepped away.\n{name} was tidying absently when a bank passbook appeared.\n\nKnew not to look. Looked anyway.\n\nThe balance appeared.\n\nSmaller than expected. Much smaller.\n{name} had a rough idea of what Dad earned over the years.\nAnd where it had all gone.",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10,
+      "flag": "father_visited"
+    },
+    "tags": ["family", "money", "emotional"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Put the passbook back. Pretend nothing happened.",
+        "effects": {
+          "mental": -8,
+          "intelligence": 3,
+          "stress": 5
+        },
+        "flags": ["saw_parents_bankbook"],
+        "follow_up_event": "",
+        "result_text": "Dad came back. Carried on the conversation as if nothing had happened.\n\nOver dinner {name} tried to erase the number from memory.\nIt wouldn't go.\n\nOn the train back to Seoul, a thought settled in.\nMaybe everything {name} is doing now exists because of that number."
+      },
+      {
+        "text": "When Dad comes back, say what you saw.",
+        "effects": {
+          "mental": 5,
+          "stress": -3,
+          "social_skill": 2
+        },
+        "flags": ["talked_about_parents_bankbook"],
+        "follow_up_event": "",
+        "result_text": "'I saw it. I'm sorry.'\n\nDad was quiet for a long time.\n'Hey. It's fine.' That was all.\n\nBut something shifted after those short words.\nNow neither of them had to pretend not to know.\n\n{name} stared out the window the whole ride back."
+      }
+    ]
+  },
+  {
+    "id": "friend_housewarming",
+    "title": "Housewarming Photos",
+    "description": "Photos appeared in the group chat.\n\nA college friend. New apartment. Housewarming party. Snapshots.\nIn the background — the Han River through the window.\n\nComments started piling up.\n'Wow, insane.' 'Honestly jealous.' 'Where is that?'\n\n{name} glanced at the window.\nThe window looked out at another wall.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 6.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["social", "fomo", "housing"],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Send a 'Congrats!' sticker.",
+        "effects": {
+          "mental": -5,
+          "stress": 3,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Sent the sticker.\nPut the phone down.\nLooked around the room.\n\nJealous. No more accurate word exists.\nJealous, and happy for them, and someday me too.\n\nThat all three of those can be true at the same time felt, somehow, exhausting."
+      },
+      {
+        "text": "Mute notifications. Flip the phone face-down.",
+        "effects": {
+          "mental": -2,
+          "stress": -2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Another notification arrived. New photos.\nLiving room. Sofa. Solid wood dining table.\n\n{name} put the phone in a drawer.\n\nEarly morning tomorrow. Do what can be done today.\n\nThought that. Twice."
+      }
+    ]
+  },
+  {
+    "id": "old_colleague_gangnam",
+    "title": "Old Colleague, Gangnam",
+    "description": "A familiar face on a Gangnam street.\n\nA former coworker. Left the company around the same time.\n\nBut different now. What he was wearing, what he was carrying, even the way he walked.\n\n'Oh — {name}! It's been a while!'\n\nHe seemed genuinely glad. {name} was glad too.\nSomething else was mixed into that gladness.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["social", "work", "fomo"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Ask how things have been. Catch up.",
+        "effects": {
+          "mental": -3,
+          "social_skill": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "He'd changed jobs. Got a raise.\nSaid he lived in an officetel nearby now.\n\n'How about you?' he asked.\n'Doing well,' {name} said.\n\nAfter parting, {name} sat on a bench in the alley for a while.\nCouldn't tell if that was a lie or not."
+      },
+      {
+        "text": "Pretend not to see him. Keep walking.",
+        "effects": {
+          "mental": 2,
+          "stress": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Kept walking.\n\nFifty meters on, wondered if he'd looked back.\nDidn't turn around.\n\nThat it was the comfortable choice — felt, somehow, melancholy."
+      }
+    ]
+  },
+  {
+    "id": "business_card_first",
+    "title": "First Business Card",
+    "description": "The first business card with a job title on it.\n\nThe team lead handed them over before the first outside meeting.\n'You're representing the company now. Do well.'\n\n{name} looked down at the card.\n\nName. Title. Company. Number.\n\nThis small rectangle was {name}'s weight in the world right now.\nFive years ago, this was unimaginable.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_job_tier": 2
+    },
+    "tags": ["work", "jobs", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Keep one in the wallet. Go to the meeting.",
+        "effects": {
+          "reputation": 3,
+          "mental": 5,
+          "stress": -3
+        },
+        "flags": ["got_business_card"],
+        "follow_up_event": "",
+        "result_text": "After the meeting, handed one over.\nThe other person took it naturally, slipped it into their wallet.\n\nA gesture that meant nothing to them.\nIt meant something to {name}.\n\nOn the subway back, opened the wallet and looked at the card again.\nA name, pressed into paper."
+      },
+      {
+        "text": "Pause for a moment. It still doesn't feel real.",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2
+        },
+        "flags": ["got_business_card"],
+        "follow_up_event": "",
+        "result_text": "Hand trembled slightly when handing the card over in the meeting.\nThe other person didn't notice.\n\nBack home, placed a card on the desk.\nLooked at it for a long time.\n\nWhether this is the beginning, or the middle of a long road — impossible to say.\nBut — made it here."
+      }
+    ]
+  },
+  {
+    "id": "algorithm_knows_me",
+    "title": "The Algorithm Knows",
+    "description": "The YouTube recommendations have changed.\n\nUsed to be variety shows. Now it's different.\n'Essential finances for your 30s' 'How I saved ₩300M through investing' 'The reality of moving to Gangnam.'\n\nThose were the videos {name} had watched.\nThose were the words {name} had searched.\n\nThe algorithm doesn't lie.\nIt knew what {name} wanted better than {name} did.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 5.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily_life", "social", "comedy"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Watch one video. Going to sleep anyway.",
+        "effects": {
+          "intelligence": 2,
+          "mental": -3,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "1:47 AM.\n\nWatched one video. The next played automatically.\nRelated. More related. More related.\n\nTwo hours later, {name} had watched a stranger's investing failures from a decade ago.\n\nWhether it was useful — unclear.\nSleep was gone — certain."
+      },
+      {
+        "text": "Close the app. Not sure what I'm doing.",
+        "effects": {
+          "mental": 5,
+          "stress": -3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Closed the app.\nThe room went quiet.\nStared at the ceiling.\n\nDo I actually want Gangnam, or am I just anxious?\nThat line gets blurry sometimes.\n\nWent to sleep. Felt right."
+      }
+    ]
+  },
+  {
+    "id": "hometown_friend_ask",
+    "title": "A Friend from Home",
+    "description": "A message from an old friend.\n\n'Hey, what's it actually like living in Seoul? I think I'm fine staying here.'\n\nThat friend works at a job back in their hometown.\nDoesn't earn much, but has a place to live, family nearby.\n\n'What do you think, {name}? Is Seoul really that great?'\n\n{name} stared at the screen for a moment.\n\nHad no idea what to say.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": ["social", "family", "life"],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "Be honest: 'I genuinely can't say.'",
+        "effects": {
+          "mental": 5,
+          "stress": -4,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'I don't know. Some good things, some hard things.'\n\nFriend replied: 'Still, you've got your reasons for staying.'\n\nThat one line was, strangely, a comfort.\n\nThere are reasons. Hard to put into words.\nThat's enough, sometimes."
+      },
+      {
+        "text": "Positive spin: 'Seoul's worth it. So many opportunities.'",
+        "effects": {
+          "mental": -2,
+          "stress": 2,
+          "reputation": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Friend replied: 'That's impressive, seriously.'\n\nThe word 'impressive' felt strange.\nNot sure if impressive is the right word.\n\nAfter hanging up, {name} thought:\nDo I stay because Seoul is good — or because leaving feels impossible?\n\nOne of those must be true."
+      }
+    ]
+  },
+  {
+    "id": "convenience_extra_kimbap",
+    "title": "Night Shift Kindness",
+    "description": "2 AM, a convenience store run.\n\nPicked up a triangle kimbap, walked to the register.\nThe part-timer said while scanning:\n\n'There's one with thirty minutes left on the label — want it? We'd just throw it out.'\n\n{name} looked at them.\nLooked like a student. Someone working nights.\n\nThe kindness had no special reason. That made it linger.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily_life", "night", "food"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Say thanks. Take it.",
+        "effects": {
+          "mental": 6,
+          "health": 2,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Walked out with two rolls of kimbap.\nSat on the bench outside and ate.\nTasted fine.\n\nThat part-timer is out here holding on too. Or maybe it's just a part-time job.\n\nEither way — their kindness was the warmest thing that night."
+      },
+      {
+        "text": "It's okay. Leave it.",
+        "effects": {
+          "mental": -2,
+          "stress": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Walking out: 'Should have taken it.'\n\nThought about going back. Kept walking.\n\nSeemed like nothing. Kept coming back to mind.\nIf you'd taken it, you'd have eaten it and forgotten."
+      }
+    ]
+  },
+  {
+    "id": "seoul_five_years",
+    "title": "Five Years in Seoul",
+    "description": "Moving boxes — something fell out of one.\n\nThings brought up from home when first coming to Seoul.\nAn old pair of earbuds. A blank notebook. A business card from back then.\n\nWhat did that {name} think this city would be?\n\nFive years have passed.\nBetter off than then? Honestly — hard to say.\nSomething has definitely changed.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 30
+    },
+    "tags": ["life", "daily_life", "milestone"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "Throw it out. No time to be tied to the past.",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Closed the box. Put it in recycling.\n\nThose things from before — gone.\n\nNot regretful. A little regretful.\nBoth of those were true at the same time.\n\nLooking forward doesn't mean erasing the past.\nIt just means looking forward."
+      },
+      {
+        "text": "Take a look. Then put them back.",
+        "effects": {
+          "mental": 3,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Put the box in a corner of the new place.\n\nSomeday, these things will come out again.\nWhat will this present moment look like from there?\n\nFor now, just have to live.\nThat was the only thought."
+      }
+    ]
+  },
+  {
+    "id": "salary_not_enough",
+    "title": "Payday",
+    "description": "The salary came in.\n\nA notification chimed. The number appeared.\nCredit card bill, rent, phone, insurance.\n\nSubtract all of that — not much left.\n\nThat's what's left to live on this month.\nThat's the value {name} produced this month.\n\nStared at the number for a while.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 7.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": ["finance", "work", "daily_life"],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Figure out how to save even a little more.",
+        "effects": {
+          "money": 50000,
+          "intelligence": 2,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Decided to cut back on food. One fewer coffee.\n\nSaved ₩50,000.\n\n₩50,000 seems small.\nBut that's ₩600,000 in a year.\n₩6,000,000 in ten.\n\nThe face doing that math — sometimes, felt a little sorry for it."
+      },
+      {
+        "text": "Eat something good today. Invest in yourself.",
+        "effects": {
+          "money": -30000,
+          "mental": 8,
+          "health": 3,
+          "stress": -6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Went out. Ate well.\nGood. ₩30,000.\nWorth it. A little not worth it.\n\nBoth of those coexisted through the whole meal.\n\nNext month will be better.\nDecided to believe that."
+      }
+    ]
+  }
+]

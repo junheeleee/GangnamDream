@@ -1,0 +1,128 @@
+[
+  {
+    "id": "hidden_chaebol_elevator",
+    "title": "Elevator, 18th Floor",
+    "description": "The elevator in a Gangnam office tower stopped.\n\nThe button for floor 18 was lit.\nThe man standing beside {name}. Early forties. Seen on the news a few times.\nPresident of a group subsidiary. The one his grandfather built.\n\n90 seconds.\n\nThis man's dress shirt costs more than {name}'s monthly food budget.\nThe floor this man is going to is the floor {name} is trying to reach — in a different sense.\n\nThe elevator hummed upward.",
+    "category": "social",
+    "rarity": "legendary",
+    "weight": 4,
+    "hidden": true,
+    "conditions": {
+      "min_luck": 70,
+      "min_appearance": 60
+    },
+    "tags": ["hidden", "legendary", "class_jump"],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "Speak first. Made it this far.",
+        "effects": {
+          "reputation": 10,
+          "social_skill": 6,
+          "luck": 3
+        },
+        "result_text": "'Do you come to this building often?' The words came out.\n\nThe man glanced over. 'Oh — yes.' Short.\n\nHanded over a card. He took it. Glanced at it.\nFloor 18. The doors opened. 'Take care.' Gone.\n\nA week later, {name} sent a text:\n'This is the person you met in the elevator...'\n\nRead. No reply.\n\nThe card is still in the inside pocket of the wallet.",
+        "relationship_effects": {
+          "type": "business_partners",
+          "affinity": 20
+        }
+      },
+      {
+        "text": "Hand over a card.",
+        "effects": {
+          "reputation": 6,
+          "social_skill": 3,
+          "luck": 2
+        },
+        "result_text": "Held out the card.\n\nHe took it. Looked once. Put it in his pocket.\nSeemed about to say something. Didn't.\n\nFloor 18. Doors opened.\n\nThat was it.\n\nWhere that card is now — wonders sometimes.\nThrown away, or passed to someone, or just — forgotten.",
+        "flags": ["chaebol_contact"]
+      },
+      {
+        "text": "Pretend not to notice. Different worlds anyway.",
+        "effects": {
+          "mental": 3,
+          "stress": -2,
+          "luck": 1
+        },
+        "result_text": "Head down, phone out.\n\nHe looked at his phone too.\n90 seconds. Neither said a word.\n\nFloor 18. Doors opened. He walked out.\n\nThe back of his shoes was visible for a moment.\nNot a scuff on them.\n\nSomeone made those shoes.\nThat person is somewhere, building toward something too.\n\nThe elevator doors closed."
+      }
+    ]
+  },
+  {
+    "id": "hidden_006",
+    "title": "Health Check Results",
+    "description": "The results from the annual check-up arrived in the app. Two items flagged 'Caution.' Always tired, yes — but not expecting this. Hand trembled slightly.",
+    "category": "health",
+    "rarity": "legendary",
+    "weight": 0.55,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["health", "class", "hidden"],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "Read the results. Start with diet.",
+        "effects": {
+          "money": -50000,
+          "luck": 1
+        },
+        "result_text": "Saw the numbers and cleaned out the fridge the same day. Health is something you protect before it breaks."
+      },
+      {
+        "text": "Can't face it. Stuff the printout in a drawer.",
+        "effects": {
+          "stress": 12,
+          "mental": 0
+        },
+        "result_text": "Out of sight, out of mind. The body knows, even if the eyes don't."
+      },
+      {
+        "text": "The test is wrong. Demand a retest.",
+        "effects": {
+          "reputation": -4,
+          "investment_skill": -1
+        },
+        "result_text": "Refused to accept it. Went to a different hospital. Denial is a defense mechanism too."
+      }
+    ]
+  },
+  {
+    "id": "hidden_gangnam_open_house",
+    "title": "Gangnam Open House",
+    "description": "Saw a listing and walked in on impulse.\n\nNew construction in Gangnam. Open house.\n\n107 sqm. Listed at ₩1,850,000,000.\n\nSeoul was visible through the living room windows.\nA staff member gave the pitch. Han River view. School district. Transit links.\n\nThe couple standing nearby was nodding.\nThey were people who could live here.\n\n{name} was standing in that living room.\nFeet touching the floor.\nThat, strangely, felt very real.",
+    "category": "housing",
+    "rarity": "legendary",
+    "weight": 2.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 20
+    },
+    "tags": ["housing", "gangnam", "milestone"],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Ask the staff about financing. Might come back someday.",
+        "effects": {
+          "intelligence": 5,
+          "mental": -5,
+          "stress": 3,
+          "investment_skill": 3
+        },
+        "flags": ["visited_gangnam_open_house"],
+        "follow_up_event": "",
+        "result_text": "'What's the maximum loan I could get?'\n\nThe staff ran the numbers. Income basis, asset basis, rates.\n\n{name} wrote it down.\nA cold, clear look at the distance between those numbers and where {name} stands now.\n\nTook a brochure on the way out.\nPut it in a desk drawer.\n\nHad a feeling it would be opened again."
+      },
+      {
+        "text": "Just look around. Leave.",
+        "effects": {
+          "intelligence": 2,
+          "mental": -8,
+          "stress": 5
+        },
+        "flags": ["visited_gangnam_open_house"],
+        "follow_up_event": "",
+        "result_text": "Walked out.\n\nHeading toward the subway, {name} kept thinking about the living room just left behind.\nThat floor. That window. That height.\n\n₩1,850,000,000 came out of the building attached.\n\nGot on the subway.\nSat down. Closed eyes.\n\nThe feeling of standing in that room stayed for a long time.\nThe soles of the feet still seemed to remember the floor."
+      }
+    ]
+  }
+]
