@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-11 (이벤트 카테고리 정규화 + 감사 10번째 검사)
+
+### 문제 발견
+- `job` (18개), `social_life` (18개), `drama`/`opportunity`/`life`/`hidden_rare_events` (9개) 비표준 카테고리 사용
+- 결과: 런 테마 보너스(×1.35) 누락 — 청렴런/직장런에서 직장 이벤트 18개, 인맥런에서 소셜 이벤트 18개가 보너스를 못 받음
+
+### 수정 내역
+- `job` → `jobs`, `social_life` → `social` (총 38개 이벤트, 4개 파일)
+- `drama`/`opportunity`/`life`/`hidden_rare_events` → 의미에 맞는 표준 카테고리 (9개)
+- EventManager: romance 카테고리 이벤트가 relationship 테마(인맥런) 보너스도 받도록 별칭 매핑
+- audit.py: 카테고리 화이트리스트 검사 추가 (검사 10번째) — 비표준 카테고리 즉시 WARNING
+
+### 에셋 완비 확인
+- 이미지 44종(+조연/CG 보너스), BGM 7트랙, SFX 14종 전부 존재
+- ImageRegistry 경로 전수 검증 OK
+
 ## 2026-06-11 (감사 체계 확장 — 검사 9종 + CI)
 
 ### 신설 검사 4종 (유지보수성 대응: "버그 클래스 단위 기계화")

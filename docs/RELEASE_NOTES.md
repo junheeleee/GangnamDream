@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Fixed (2026-06-11) — 이벤트 카테고리 정규화 (런 테마 보너스 누락 수정)
+- job→jobs (18개), social_life→social (18개): 청렴런/인맥런 테마 보너스(×1.35) 누락 수정
+- drama/opportunity/life/hidden_rare_events → 표준 카테고리 교체 (9개)
+- romance 카테고리: 인맥런(relationship 테마) 보너스 공유
+
+### Added (2026-06-11) — 감사 10번째 검사: 카테고리 화이트리스트
+- 비표준 카테고리 사용 시 즉시 WARNING — 새 카테고리 추가 전 화이트리스트에 등록 필요
+
 ### Fixed (2026-06-11) — 감사 확장으로 검출된 실버그 9건
 - work_performance/addiction 효과가 조용히 무시되던 5건 (엘리트 전문화 보상 복구)
 - 시즌 이벤트(연말/봄)가 아무 달에나 뜨던 month 조건 미처리 2건
