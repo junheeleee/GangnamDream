@@ -34,6 +34,15 @@ const HOUSING_DATA = {
 
 var housing: String = "gosiwon"
 
+# ── 대출 — 빚으로 판을 키운다 ─────────────────────────────────────
+# 빚은 순자산(get_total_asset_value)에서 차감되고, 파산 판정도 순자산 기준.
+# 빌린 돈을 베팅에 넣을 수 있지만, 날리면 순자산이 -1억(파산 라인)에 다가간다.
+const LOAN_PRODUCTS := {
+	"bank":   {"name": "1금융 신용대출", "emoji": "🏦", "rate": 0.006},  # 월 0.6% ≈ 연 7.2%
+	"second": {"name": "제2금융 대출",   "emoji": "💳", "rate": 0.018},  # 월 1.8% ≈ 연 21.6%
+}
+var loans: Dictionary = {"bank": 0.0, "second": 0.0}
+
 var money = 1_000_000.0
 var monthly_income = 0.0
 var fixed_expense = 650_000.0
@@ -157,6 +166,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	work_performance = 50
 	milestones_reached = {}
 	portfolio = {}
+	loans = {"bank": 0.0, "second": 0.0}
 	relationships = []
 	cast = _default_cast()
 	inventory = []
@@ -396,6 +406,15 @@ func apply_monthly_pressure():
 		flags["has_received_paycheck"] = true
 		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
 
+	# ── 대출 이자 — 빚은 숨만 쉬어도 매달 나간다 ────────────────────
+	var loan_interest := 0.0
+	for p in loans:
+		loan_interest += float(loans[p]) * float(LOAN_PRODUCTS[p]["rate"])
+	if loan_interest > 0.0:
+		add_money(-loan_interest)
+		modify_hidden_stat("stress", 2)
+		add_log("🏦 대출 이자 %s 납부 (원금 %s)." % [format_money(loan_interest), format_money(get_loan_total())], "money")
+
 	# ── 서울살이 기본 압박 ──────────────────────────────────────────
 	modify_stat("health", -2)
 	modify_stat("mental", -3)
@@ -477,15 +496,15 @@ func apply_monthly_pressure():
 	if flags.get("spec_social_entrepreneur", false) and turn % 4 == 0:
 		modify_stat("reputation", 1)
 
-	# 현금 위기 — 잔고 30만원 미만
-	if money < 300_000:
-		modify_hidden_stat("stress", 8)
-		modify_stat("mental", -4)
-		add_log("😰 통장 잔고가 30만원 아래다. 이번 달을 버틸 수 있을까.", "money")
-	elif money < 0:
+	# 현금 위기 — 마이너스가 더 심각하므로 먼저 검사 (역순이면 도달 불가)
+	if money < 0:
 		modify_hidden_stat("stress", 12)
 		modify_stat("mental", -5)
 		add_log("🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.", "money")
+	elif money < 300_000:
+		modify_hidden_stat("stress", 8)
+		modify_stat("mental", -4)
+		add_log("😰 통장 잔고가 30만원 아래다. 이번 달을 버틸 수 있을까.", "money")
 
 	check_game_over()
 
@@ -747,7 +766,7 @@ func restore_ap():
 func get_current_title() -> String:
 	if stress >= 88: return "벼랑 끝의 청년"
 	if mental <= 12: return "번아웃 직전"
-	if money < -100_000_000: return "파산 위기자"
+	if get_total_asset_value() < -50_000_000: return "파산 위기자"
 	var total = get_total_asset_value()
 	if total >= 3_000_000_000: return "강남드림 달성자"
 	if total >= 500_000_000: return "신흥 자산가"
@@ -919,7 +938,53 @@ func get_total_asset_value():
 	for asset_id in portfolio:
 		var holding: Dictionary = portfolio[asset_id]
 		total += float(holding.get("quantity", 0.0)) * float(market_prices.get(asset_id, holding.get("avg_price", 0.0)))
-	return total
+	return total - get_loan_total()
+
+# ── 대출 조작 ─────────────────────────────────────────────────────
+func get_loan_total() -> float:
+	var t := 0.0
+	for p in loans:
+		t += float(loans[p])
+	return t
+
+func get_loan_limit(product: String) -> float:
+	match product:
+		"bank":
+			# 신용 = 소득. 무직이면 1금융 문턱을 못 넘는다.
+			if monthly_income <= 0:
+				return 0.0
+			return monthly_income * 12.0 + float(maxi(0, reputation)) * 1_000_000.0
+		"second":
+			return 30_000_000.0
+	return 0.0
+
+func borrow(product: String, amount: float) -> bool:
+	if amount <= 0 or not LOAN_PRODUCTS.has(product):
+		return false
+	var owed := float(loans.get(product, 0.0))
+	if owed + amount > get_loan_limit(product) + 1.0:
+		return false
+	loans[product] = owed + amount
+	add_money(amount)
+	var info: Dictionary = LOAN_PRODUCTS[product]
+	add_log("%s %s %s 대출 실행 — 매달 이자가 먼저 나간다." % [info["emoji"], info["name"], format_money(amount)], "money")
+	stats_changed.emit()
+	return true
+
+func repay(product: String, amount: float) -> bool:
+	var owed := float(loans.get(product, 0.0))
+	if owed <= 0.0 or amount <= 0.0:
+		return false
+	amount = minf(amount, owed)
+	amount = minf(amount, maxf(0.0, money))
+	if amount <= 0.0:
+		return false
+	loans[product] = owed - amount
+	add_money(-amount)
+	var info: Dictionary = LOAN_PRODUCTS[product]
+	add_log("%s %s %s 상환 — 남은 원금 %s." % [info["emoji"], info["name"], format_money(amount), format_money(loans[product])], "money")
+	stats_changed.emit()
+	return true
 
 func get_wealth_tier():
 	var total = get_total_asset_value()
@@ -958,9 +1023,10 @@ func check_game_over():
 		finish_run("burnout"); return
 	if mental <= 0:
 		finish_run("mental_break"); return
-	if money < -100_000_000:
+	# 파산 = 순자산 기준 (현금 + 포트폴리오 - 대출원금). 빌린 돈을 날리면 여기로 온다.
+	if total_now < -200_000_000:
 		finish_run("debt_spiral"); return
-	if money < -30_000_000:
+	if total_now < -100_000_000:
 		finish_run("bankruptcy"); return
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
@@ -1080,6 +1146,7 @@ func serialize():
 		"work_performance": work_performance,
 		"milestones_reached": milestones_reached,
 		"portfolio": portfolio,
+		"loans": loans,
 		"relationships": relationships,
 		"cast": cast,
 		"player_route": player_route,
@@ -1132,4 +1199,7 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — unlocked_stat_thresholds 없으면 빈 딕셔너리 유지 (기본값)
 	if typeof(unlocked_stat_thresholds) != TYPE_DICTIONARY:
 		unlocked_stat_thresholds = {}
+	# 구버전 세이브 호환 — loans 없으면 무대출 상태
+	if typeof(loans) != TYPE_DICTIONARY or loans.is_empty():
+		loans = {"bank": 0.0, "second": 0.0}
 	stats_changed.emit()

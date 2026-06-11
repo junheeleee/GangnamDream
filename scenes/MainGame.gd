@@ -2927,6 +2927,78 @@ const NETWORK_VIGNETTES := [
 	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "e":{"social_skill":1,"stress":1}},
 ]
 
+## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
+func _open_bank():
+	_open_modal("🏦 은행")
+	modal_body.add_child(_wrap_label("빚은 도구다. 다만 이자는 매달, 반드시, 먼저 나간다.", 12, "#8892a4"))
+	var net: float = GameState.get_total_asset_value()
+	modal_body.add_child(_label("현금 %s   |   순자산 %s" % [
+		GameState.format_money(GameState.money), GameState.format_money(net)], 13, "#c8d0df"))
+	if net < 0:
+		modal_body.add_child(_wrap_label("⚠ 순자산 마이너스 — -1억이면 파산, -2억이면 빚의 소용돌이입니다.", 12, "#ff4444"))
+	for product in GameState.LOAN_PRODUCTS:
+		var info: Dictionary = GameState.LOAN_PRODUCTS[product]
+		var owed: float = float(GameState.loans.get(product, 0.0))
+		var limit: float = GameState.get_loan_limit(product)
+		var rate: float = float(info["rate"])
+		var sep := HSeparator.new()
+		sep.add_theme_color_override("color", Color("#252535"))
+		modal_body.add_child(sep)
+		modal_body.add_child(_label("%s %s — 월 이자 %.1f%% (연 %.1f%%)" % [
+			info["emoji"], info["name"], rate * 100.0, rate * 1200.0], 15, "#e2e8f0"))
+		if limit <= 0.0:
+			modal_body.add_child(_wrap_label("  직장(소득)이 있어야 신용대출이 가능합니다.", 12, "#6a7486"))
+			continue
+		var month_cost: float = owed * rate
+		var status := "  잔액 %s / 한도 %s" % [GameState.format_money(owed), GameState.format_money(limit)]
+		if owed > 0.0:
+			status += "  (월 이자 %s)" % GameState.format_money(month_cost)
+		modal_body.add_child(_wrap_label(status, 12, "#8892a4" if owed <= 0.0 else "#f59e0b"))
+		# 대출 버튼
+		if owed < limit:
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 8)
+			modal_body.add_child(row)
+			for amt in [5_000_000.0, 20_000_000.0]:
+				if limit - owed >= amt:
+					var b = _small_button("+%s" % GameState.format_money(amt), "#14532d")
+					b.pressed.connect(_bank_borrow.bind(product, amt))
+					row.add_child(b)
+			var bmax = _small_button("한도까지", "#7c2d12")
+			bmax.pressed.connect(_bank_borrow.bind(product, limit - owed))
+			row.add_child(bmax)
+		# 상환 버튼
+		if owed > 0.0:
+			var rrow := HBoxContainer.new()
+			rrow.add_theme_constant_override("separation", 8)
+			modal_body.add_child(rrow)
+			var r1 = _small_button("500만 상환", "#1e3a5f")
+			r1.pressed.connect(_bank_repay.bind(product, 5_000_000.0))
+			rrow.add_child(r1)
+			var r2 = _small_button("전액 상환", "#1e3a5f")
+			r2.pressed.connect(_bank_repay.bind(product, owed))
+			rrow.add_child(r2)
+	var back_btn = _button("← 투자 화면으로", "#1a1a28")
+	back_btn.pressed.connect(_open_investments)
+	modal_body.add_child(back_btn)
+
+func _bank_borrow(product: String, amount: float):
+	if GameState.borrow(product, amount):
+		AudioManager.play("money_gain")
+		_show_toast("🏦 대출 실행 +%s" % GameState.format_money(amount), Color("#00c896"))
+	else:
+		_show_toast("🏦 한도를 초과했습니다", Color("#ff4444"))
+	_open_bank()
+	_refresh_all()
+
+func _bank_repay(product: String, amount: float):
+	if GameState.repay(product, amount):
+		_show_toast("🏦 상환 완료", Color("#5b9cf6"))
+	else:
+		_show_toast("🏦 상환할 현금이 없습니다", Color("#ff4444"))
+	_open_bank()
+	_refresh_all()
+
 ## 경마장 — 시각 미니게임 오버레이를 연다 (방문 = 시간 1 소비)
 func _open_racetrack():
 	if not GameState.spend_ap():
@@ -3275,6 +3347,12 @@ func _open_investments():
 	if ap_now <= 0:
 		ap_hint_text = "⚡ 행동력 없음 — 이번 달 거래 불가. 다음 달에 다시 오세요."
 	modal_body.add_child(_wrap_label(ap_hint_text, 12, ap_hint_color))
+	# 은행 — 대출/상환 (재무 거래라 행동력 무소비)
+	var bank_btn = _button("🏦 은행 — 대출/상환", "#1a2438")
+	bank_btn.pressed.connect(_open_bank)
+	modal_body.add_child(bank_btn)
+	if GameState.get_loan_total() > 0:
+		modal_body.add_child(_wrap_label("🏦 대출 원금 %s — 매달 이자가 먼저 나갑니다" % GameState.format_money(GameState.get_loan_total()), 12, "#f59e0b"))
 	# 첫 방문 투자 가이드
 	if not GameState.flags.get("investment_first_visited", false):
 		GameState.flags["investment_first_visited"] = true

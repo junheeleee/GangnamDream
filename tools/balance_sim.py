@@ -25,9 +25,13 @@ SALARY = 2_240_000.0
 LUCK_FACTOR = 0.0015
 
 
+LOAN_RATES = {"bank": 0.006, "second": 0.018}
+
+
 class Run:
     def __init__(self):
         self.money = 500_000.0
+        self.loans = {"bank": 0.0, "second": 0.0}
         self.income = 0.0
         self.health = 65
         self.mental = 60
@@ -60,9 +64,20 @@ class Run:
             self.mental -= 6
         self.clamp()
 
+    def loan_total(self):
+        return sum(self.loans.values())
+
+    def net_worth(self):
+        return self.money - self.loan_total()
+
     def monthly_pressure(self, cast_passives=False, lover=False, father=False, sangchul=False):
         expense = 650_000.0  # 고시원 고정 (SimRun 동일)
         self.money += self.income - expense
+        # 대출 이자 (2026-06-11 신규)
+        interest = sum(self.loans[p] * LOAN_RATES[p] for p in self.loans)
+        if interest > 0:
+            self.money -= interest
+            self.stress += 2
         self.health -= 2
         self.mental -= 3
         self.stress += 3
@@ -91,13 +106,13 @@ class Run:
             self.mental -= 2
         elif self.stress >= 40:
             self.mental -= 1
-        # 현금 위기 — 코드 순서 그대로 (money<0 분기는 도달 불가 버그 포함 재현)
-        if self.money < 300_000:
-            self.stress += 8
-            self.mental -= 4
-        elif self.money < 0:
+        # 현금 위기 (2026-06-11 수정: 마이너스 우선 검사)
+        if self.money < 0:
             self.stress += 12
             self.mental -= 5
+        elif self.money < 300_000:
+            self.stress += 8
+            self.mental -= 4
         self.clamp()
         self.check_over()
 
@@ -108,18 +123,19 @@ class Run:
             self.over = "burnout"; return
         if self.mental <= 0:
             self.over = "mental_break"; return
-        if self.money < -100_000_000:
+        net = self.net_worth()
+        if net < -200_000_000:
             self.over = "debt_spiral"; return
-        if self.money < -30_000_000:
+        if net < -100_000_000:
             self.over = "bankruptcy"; return
-        if self.money >= 3_000_000_000:
+        if net >= 3_000_000_000:
             self.over = "gangnam_dream(30억)"; return
         if self.age >= 38:
-            if self.money >= 1_000_000_000:
+            if net >= 1_000_000_000:
                 self.over = "stable_success(10억+)"
-            elif self.money >= 500_000_000:
+            elif net >= 500_000_000:
                 self.over = "mid_success(5억+)"
-            elif self.money >= 100_000_000:
+            elif net >= 100_000_000:
                 self.over = "1억+"
             else:
                 self.over = "ordinary(1억 미만)"
@@ -132,7 +148,7 @@ class Run:
             self.age += 1
 
 
-def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False):
+def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, use_loans=False):
     endings = Counter()
     assets = []
     reached30 = 0
@@ -155,6 +171,21 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False):
                 if mode >= 1 and not employed and t >= 2:
                     s.income = SALARY
                     employed = True
+                # 대출 레버리지: 초반 한도까지 당겨서 종잣돈으로 (이후 상환은 자동 아님)
+                if use_loans and employed and t >= 4:
+                    bank_limit = s.income * 12.0  # 평판 보너스 생략 (보수적)
+                    if s.loans["bank"] < bank_limit:
+                        amt = bank_limit - s.loans["bank"]
+                        s.loans["bank"] += amt
+                        s.money += amt
+                    if s.loans["second"] < 30_000_000 and s.money < 20_000_000:
+                        amt = 30_000_000 - s.loans["second"]
+                        s.loans["second"] += amt
+                        s.money += amt
+                    # 자산이 빚의 5배를 넘으면 전액 상환 (이자 절감)
+                    if s.loan_total() > 0 and s.money > s.loan_total() * 5:
+                        s.money -= s.loan_total()
+                        s.loans = {"bank": 0.0, "second": 0.0}
                 # 상철 팁 — 신뢰 단계 + 쿨다운 12 + 자금 1천만 이상
                 if sangchul_tips and tip_cd == 0 and t >= 10 and s.money > 10_000_000 and random.random() < 0.5:
                     s.resolve_opportunity(OPP_SANGCHUL)
@@ -176,8 +207,8 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False):
         if not s.over:
             s.age = 38
             s.check_over()
-        assets.append(s.money)
-        if s.money >= 3_000_000_000:
+        assets.append(s.net_worth())
+        if s.net_worth() >= 3_000_000_000:
             reached30 += 1
         endings[s.over or "(미종료)"] += 1
     assets.sort()
@@ -208,3 +239,6 @@ print("\n--- 2026-06-11 신규 요소 영향 측정 ---")
 run_policy("③' 가끔 베팅 + 인연 패시브 풀가동", 2, cast_passives=True)
 run_policy("④' 공격 베팅 + 인연 패시브 풀가동", 3, cast_passives=True)
 run_policy("④'' 공격 베팅 + 패시브 + 상철 팁", 3, cast_passives=True, sangchul_tips=True)
+print("\n--- 대출 레버리지 (2026-06-11 신규 시스템) ---")
+run_policy("③ᴸ 가끔 베팅 + 대출 풀레버리지", 2, use_loans=True)
+run_policy("④ᴸ 공격 베팅 + 대출 풀레버리지", 3, use_loans=True)
