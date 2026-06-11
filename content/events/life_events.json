@@ -6823,5 +6823,223 @@
         "result_text": "아니다.\n\n솔직하게 말하는 게 이상하게 후련했다.\n\n행복하지 않다. 아직은.\n그러면 — 언제 행복할 수 있을까.\n\n그 질문이 생긴 것 자체가, 무언가의 시작 같았다."
       }
     ]
+  },
+  {
+    "id": "orthodox_promotion_mirror",
+    "title": "승진했다",
+    "description": "대리가 됐다.\n\n케이크가 나왔고, 박수가 나왔고, 팀장님이 악수를 청했다.\n{name}은 웃었다. 기뻐야 하는 자리였으니까.\n\n저녁에 화장실에 혼자 들어갔다.\n거울을 봤다.\n\n대리 {name}.\n이게 원하던 거였나.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 12.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_route_orthodox": 8,
+      "min_job_tier": 3
+    },
+    "tags": [
+      "jobs",
+      "orthodox",
+      "story_beat"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "기쁘다. 다음은 팀장이다.",
+        "effects": {
+          "mental": 5,
+          "reputation": 3,
+          "money": 300000
+        },
+        "flags": [
+          "got_promoted_orthodox"
+        ],
+        "follow_up_event": "",
+        "result_text": "케이크를 먹었다. 맛있었다.\n다음 목표를 메모에 적었다. 팀장.\n거울 속 얼굴은 그냥 거울 속 얼굴이었다."
+      },
+      {
+        "text": "잠깐, 내가 원하던 게 이거였는지 생각한다.",
+        "effects": {
+          "mental": -3,
+          "intelligence": 4,
+          "stress": 5
+        },
+        "flags": [
+          "got_promoted_orthodox",
+          "questioned_orthodox_path"
+        ],
+        "follow_up_event": "",
+        "result_text": "케이크를 다 먹었다.\n질문은 사라지지 않았다.\n\n모르겠다. 지금은 그냥 — 대리다."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_overtime_fomo",
+    "title": "야근하는 밤",
+    "description": "밤 11시. 아직 사무실에 있다.\n\n폰이 울렸다. 투자 쪽으로 간 옛 동료였다.\n'코인 +38%. 오늘 퇴근 일찍 해서 차트 보다가 탔어. 잘 자.'\n\n{name}은 모니터를 봤다.\n보고서가 아직 반이 남아 있었다.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 10.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_route_orthodox": 5,
+      "min_turn": 10
+    },
+    "tags": [
+      "jobs",
+      "orthodox"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "보고서를 마무리한다. 이게 내 길이다.",
+        "effects": {
+          "money": 150000,
+          "reputation": 2,
+          "stress": 6,
+          "mental": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "보고서를 끝냈다.\n새벽 1시였다.\n동료한테 답장은 하지 않았다."
+      },
+      {
+        "text": "답장한다. '잘됐다. 나는 아직 야근 중.'",
+        "effects": {
+          "stress": 8,
+          "mental": -5,
+          "social_skill": 1
+        },
+        "flags": [
+          "questioned_orthodox_path"
+        ],
+        "follow_up_event": "",
+        "result_text": "답장을 보냈다.\n동료는 '힘내'라고 했다.\n\n모니터를 다시 봤다. 보고서가 반이 남아 있었다."
+      },
+      {
+        "text": "퇴근한다. 보고서는 내일 아침에.",
+        "effects": {
+          "health": 5,
+          "mental": 3,
+          "reputation": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "컴퓨터를 껐다.\n내일 아침에 일찍 오기로 했다.\n바깥 공기가 차가웠다."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_award_ceremony",
+    "title": "모범사원 표창",
+    "description": "모범사원 표창을 받았다.\n\n명패에 이름이 박혀 있었다. 대표이사가 악수를 청했다.\n사진을 찍었다. 박수가 울렸다.\n\n퇴근길 버스 안에서 그 명패를 가방에서 꺼냈다.\n\n{name}의 이름.\n\n아무 감정도 안 느껴졌다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 10.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_route_orthodox": 12,
+      "min_turn": 20
+    },
+    "tags": [
+      "jobs",
+      "orthodox",
+      "story_beat"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "명패를 책상에 올려놓는다. 뿌듯하다.",
+        "effects": {
+          "reputation": 5,
+          "mental": 3,
+          "money": 200000
+        },
+        "flags": [
+          "received_orthodox_award"
+        ],
+        "follow_up_event": "",
+        "result_text": "책상 한쪽에 명패를 뒀다.\n동료들이 보면서 '대단하다'고 했다.\n{name}은 웃었다."
+      },
+      {
+        "text": "집에 와서 명패를 서랍에 넣는다.",
+        "effects": {
+          "mental": -5,
+          "intelligence": 3,
+          "stress": 4
+        },
+        "flags": [
+          "received_orthodox_award",
+          "questioned_orthodox_path"
+        ],
+        "follow_up_event": "",
+        "result_text": "서랍에 넣었다.\n\n이름이 박힌 명패.\n이게 내가 원하던 이름 올리는 방식이었는지 — 모르겠다."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_senior_farewell",
+    "title": "선배의 퇴직",
+    "description": "30년을 다닌 선배가 퇴직했다.\n\n회식 자리에서 선배가 말했다.\n\"그냥 — 다니다 보니 30년이었어.\"\n\n박수가 나왔다. 케이크가 나왔다.\n{name}은 박수를 치면서 생각했다.\n\n'그냥 다니다 보니 30년.'\n나도 그렇게 말하게 될까.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 12.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_route_orthodox": 10,
+      "min_turn": 25
+    },
+    "tags": [
+      "jobs",
+      "orthodox",
+      "story_beat"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "선배처럼 오래 다니는 것도 대단하다.",
+        "effects": {
+          "reputation": 3,
+          "mental": 2,
+          "intelligence": 1
+        },
+        "flags": [
+          "saw_senior_farewell"
+        ],
+        "follow_up_event": "",
+        "result_text": "선배한테 '존경합니다'라고 했다.\n선배가 웃었다.\n'그냥 버텼어.'\n\n버티는 것도 능력이라는 걸 {name}은 알고 있었다."
+      },
+      {
+        "text": "나는 다르게 살겠다고 결심한다.",
+        "effects": {
+          "mental": -3,
+          "intelligence": 5,
+          "stress": 6
+        },
+        "flags": [
+          "saw_senior_farewell",
+          "questioned_orthodox_path"
+        ],
+        "follow_up_event": "",
+        "result_text": "집에 오면서 핸드폰 메모에 썼다.\n'30년 뒤에 뭐라고 말할 것인가.'\n\n답은 없었다. 질문이 생긴 게 뭔가의 시작인지도 모른다."
+      },
+      {
+        "text": "술을 한 잔 더 마신다. 오늘 밤은 그냥 마신다.",
+        "effects": {
+          "money": -30000,
+          "stress": -5,
+          "health": -2,
+          "mental": 5
+        },
+        "flags": [
+          "saw_senior_farewell"
+        ],
+        "follow_up_event": "",
+        "result_text": "소주를 한 잔 더 따랐다.\n선배 옆에 앉아서 그냥 마셨다.\n오늘 밤만큼은 생각하지 않기로 했다."
+      }
+    ]
   }
 ]
