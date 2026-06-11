@@ -34,6 +34,40 @@ const HOUSING_DATA = {
 
 var housing: String = "gosiwon"
 
+# ── 난이도 모드 ───────────────────────────────────────────────────
+# 본편 밸런스(현실)는 불변 — 드라마/지옥고는 시작값과 월간 압박 계수만 다르다.
+# 진입 장벽은 모드로 풀고, 의도된 긴장(현실)은 그대로 둔다.
+const DIFFICULTY_DATA := {
+	"드라마": {
+		"name": "드라마 모드", "icon": "🎬", "stars": "★★☆☆☆",
+		"tagline": "이야기가 먼저다",
+		"desc": "시작 자금 200만 / 월간 압박 완화 / 베팅 성공률 +4%p. 드라마를 보러 온 사람을 위해.",
+		"start_money": 2_000_000.0, "start_stress": 30,
+		"pressure_health": -1, "pressure_mental": -2, "pressure_stress": 2,
+		"opp_bonus": 0.04,
+	},
+	"현실": {
+		"name": "현실 모드", "icon": "🌆", "stars": "★★★★☆",
+		"tagline": "의도된 서울",
+		"desc": "기본 밸런스. 통장 50만원, 5년, 30억. 개발자가 의도한 긴장 그대로.",
+		"start_money": 500_000.0, "start_stress": 35,
+		"pressure_health": -2, "pressure_mental": -3, "pressure_stress": 3,
+		"opp_bonus": 0.0,
+	},
+	"지옥고": {
+		"name": "지옥고 모드", "icon": "🔥", "stars": "★★★★★",
+		"tagline": "서울은 원래 이렇다",
+		"desc": "시작 자금 30만 / 월간 압박 강화 / 베팅 성공률 -4%p. 지옥고에서 강남까지.",
+		"start_money": 300_000.0, "start_stress": 45,
+		"pressure_health": -3, "pressure_mental": -4, "pressure_stress": 5,
+		"opp_bonus": -0.04,
+	},
+}
+var difficulty: String = "현실"
+
+func get_difficulty_data() -> Dictionary:
+	return DIFFICULTY_DATA.get(difficulty, DIFFICULTY_DATA["현실"])
+
 # ── 대출 — 빚으로 판을 키운다 ─────────────────────────────────────
 # 빚은 순자산(get_total_asset_value)에서 차감되고, 파산 판정도 순자산 기준.
 # 빌린 돈을 베팅에 넣을 수 있지만, 날리면 순자산이 -1억(파산 라인)에 다가간다.
@@ -135,10 +169,11 @@ func _ready():
 func new_game():
 	start_new_game()
 
-func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형", starting_profile: String = "백수", chosen_theme: String = "자유런"):
+func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형", starting_profile: String = "백수", chosen_theme: String = "자유런", chosen_difficulty: String = "현실"):
 	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else "김민준"
 	player_background = chosen_background
 	player_route = chosen_route
+	difficulty = chosen_difficulty if DIFFICULTY_DATA.has(chosen_difficulty) else "현실"
 	age = 33   # 김민준 33세 시작 → 38세(=5년/60턴)가 강남 입성 마감
 	year = 2026
 	month = 1
@@ -146,7 +181,8 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	is_game_over = false
 
 	housing = "gosiwon"
-	money = 500_000.0
+	var diff_data: Dictionary = get_difficulty_data()
+	money = float(diff_data.get("start_money", 500_000.0))
 	monthly_income = 0.0
 	fixed_expense = 650_000.0
 	health = 65
@@ -159,7 +195,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	action_points = 3
 	max_action_points = 3
 	tutorial_step = 3
-	stress = 35
+	stress = int(diff_data.get("start_stress", 35))
 	reputation = 5
 	gambling_tendency = 0
 	addiction_tendency = 0
@@ -417,10 +453,11 @@ func apply_monthly_pressure():
 		modify_hidden_stat("stress", 2)
 		add_log("🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급)." % [format_money(loan_interest), format_money(get_loan_total()), get_credit_grade()], "money")
 
-	# ── 서울살이 기본 압박 ──────────────────────────────────────────
-	modify_stat("health", -2)
-	modify_stat("mental", -3)
-	modify_hidden_stat("stress", 3)
+	# ── 서울살이 기본 압박 (난이도별 계수) ───────────────────────────
+	var diff_data: Dictionary = get_difficulty_data()
+	modify_stat("health", int(diff_data.get("pressure_health", -2)))
+	modify_stat("mental", int(diff_data.get("pressure_mental", -3)))
+	modify_hidden_stat("stress", int(diff_data.get("pressure_stress", 3)))
 
 	# ── 주거 패시브 + 거주 기간 추적 ────────────────────────────────
 	housing_months[housing] = housing_months.get(housing, 0) + 1
@@ -620,9 +657,10 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 	# 돈이 부족하면 가진 만큼만 (마이너스 베팅 방지)
 	stake = min(stake, max(0.0, money)) if opp.has("stake_ratio") else stake
 
-	# 성공 확률 = 기본 + luck 보정
+	# 성공 확률 = 기본 + luck 보정 + 난이도 보정
 	var rate: float = float(opp.get("success_rate", 0.5))
 	rate += float(luck) * float(opp.get("luck_factor", 0.0015))
+	rate += float(get_difficulty_data().get("opp_bonus", 0.0))
 	rate = clampf(rate, 0.02, 0.98)
 
 	# 베팅금 차감
@@ -1203,6 +1241,7 @@ func serialize():
 		"run_theme_categories": run_theme_categories,
 		"run_theme": run_theme,
 		"unlocked_stat_thresholds": unlocked_stat_thresholds,
+		"difficulty": difficulty,
 	}
 
 func load_from_dict(data):
@@ -1244,4 +1283,7 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — loans 없으면 무대출 상태
 	if typeof(loans) != TYPE_DICTIONARY or loans.is_empty():
 		loans = {"bank": 0.0, "second": 0.0}
+	# 구버전 세이브 호환 — difficulty 없거나 미지 값이면 현실 모드
+	if not DIFFICULTY_DATA.has(difficulty):
+		difficulty = "현실"
 	stats_changed.emit()

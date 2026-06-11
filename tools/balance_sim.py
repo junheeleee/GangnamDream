@@ -25,15 +25,24 @@ SALARY = 2_240_000.0
 LUCK_FACTOR = 0.0015
 
 
+# 난이도 (GameState.DIFFICULTY_DATA 포트, 2026-06-11)
+DIFFICULTY = {
+    "드라마": {"start_money": 2_000_000, "start_stress": 30, "ph": -1, "pm": -2, "ps": 2, "opp": 0.04},
+    "현실":   {"start_money": 500_000,   "start_stress": 35, "ph": -2, "pm": -3, "ps": 3, "opp": 0.0},
+    "지옥고": {"start_money": 300_000,   "start_stress": 45, "ph": -3, "pm": -4, "ps": 5, "opp": -0.04},
+}
+
+
 class Run:
-    def __init__(self):
-        self.money = 500_000.0
+    def __init__(self, diff="현실"):
+        self.diff = DIFFICULTY[diff]
+        self.money = float(self.diff["start_money"])
         self.loans = {"bank": 0.0, "second": 0.0}
         self.tenure = 0
         self.income = 0.0
         self.health = 65
         self.mental = 60
-        self.stress = 35
+        self.stress = self.diff["start_stress"]
         self.luck = 45
         self.inv_skill = 15
         self.turn = 1
@@ -50,7 +59,7 @@ class Run:
 
     def resolve_opportunity(self, opp):
         stake = max(0.0, self.money) * opp["stake_ratio"]
-        rate = opp["success_rate"] + self.luck * LUCK_FACTOR
+        rate = opp["success_rate"] + self.luck * LUCK_FACTOR + self.diff["opp"]
         rate = max(0.02, min(0.98, rate))
         self.money -= stake
         if random.random() < rate:
@@ -104,9 +113,9 @@ class Run:
         if interest > 0:
             self.money -= interest
             self.stress += 2
-        self.health -= 2
-        self.mental -= 3
-        self.stress += 3
+        self.health += self.diff["ph"]
+        self.mental += self.diff["pm"]
+        self.stress += self.diff["ps"]
         # 고시원 패시브
         self.stress += 2
         self.mental -= 1
@@ -174,19 +183,23 @@ class Run:
             self.age += 1
 
 
-def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, use_loans=False):
+def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, use_loans=False, diff="현실"):
     endings = Counter()
     assets = []
     reached30 = 0
     for r in range(runs):
         random.seed(r * 7919 + mode * 131 + (1000 if cast_passives else 0))
-        s = Run()
+        s = Run(diff)
         employed = False
         tip_cd = 0
         while not s.over and s.turn <= 64:
             t = s.turn
             if tip_cd > 0:
                 tip_cd -= 1
+            # 취업은 컨디션과 무관하게 최우선 (실제 플레이어 행동)
+            if mode >= 1 and not employed and t >= 2:
+                s.income = SALARY
+                employed = True
             # 생존 유지: 위험하면 휴식 (SimRun 대표값)
             if s.mental <= 30 or s.stress >= 58:
                 s.mental += 10
@@ -194,9 +207,6 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, 
                 s.stress -= 20
                 s.clamp()
             else:
-                if mode >= 1 and not employed and t >= 2:
-                    s.income = SALARY
-                    employed = True
                 # 대출 레버리지: 신용등급이 허락하는 한도까지 당겨 종잣돈으로
                 if use_loans and employed and t >= 4:
                     for prod in ("bank", "second"):
@@ -267,3 +277,8 @@ run_policy("④'' 공격 베팅 + 패시브 + 상철 팁", 3, cast_passives=True
 print("\n--- 대출 레버리지 (2026-06-11 신규 시스템) ---")
 run_policy("③ᴸ 가끔 베팅 + 대출 풀레버리지", 2, use_loans=True)
 run_policy("④ᴸ 공격 베팅 + 대출 풀레버리지", 3, use_loans=True)
+print("\n--- 난이도 모드 비교 (2026-06-11 신규) ---")
+for d in ("드라마", "현실", "지옥고"):
+    run_policy(f"② 성실 직장 [{d}]", 1, diff=d)
+for d in ("드라마", "현실", "지옥고"):
+    run_policy(f"③ 가끔 베팅 [{d}]", 2, diff=d)

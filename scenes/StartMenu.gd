@@ -14,6 +14,11 @@ var _selected_theme: String = "자유런"
 var _theme_row: HBoxContainer
 var _theme_desc_label: Label
 
+# ── 난이도 선택 ─────────────────────────────────────────────────
+var _selected_diff: String = "현실"
+var _diff_row: HBoxContainer
+var _diff_desc_label: Label
+
 const RUN_THEMES = [
 	{
 		"id": "자유런",
@@ -268,6 +273,27 @@ func _build_ui():
 	left.add_child(story_panel)
 
 	var sp1 = Control.new(); sp1.custom_minimum_size = Vector2(0, 18); left.add_child(sp1)
+
+	# ── 난이도 (compact 가로 카드) ──
+	var diff_hdr_lbl = _label("난이도", 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
+	diff_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	diff_hdr_lbl.clip_text = false
+	left.add_child(diff_hdr_lbl)
+
+	_diff_row = HBoxContainer.new()
+	_diff_row.add_theme_constant_override("separation", 6)
+	left.add_child(_diff_row)
+
+	_diff_desc_label = Label.new()
+	_diff_desc_label.add_theme_font_size_override("font_size", 11)
+	_diff_desc_label.add_theme_color_override("font_color", Color("#4a6a54"))
+	_diff_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_diff_desc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left.add_child(_diff_desc_label)
+
+	_build_diff_cards()
+
+	var sp_diff = Control.new(); sp_diff.custom_minimum_size = Vector2(0, 10); left.add_child(sp_diff)
 
 	# ── 런 테마 (compact 가로 버튼) ──
 	var theme_hdr = HBoxContainer.new()
@@ -553,6 +579,78 @@ func _select_theme(tid: String) -> void:
 	AudioManager.play("click")
 	_build_theme_cards()
 
+# ── 난이도 카드 (테마 카드와 같은 패턴) ─────────────────────────
+func _build_diff_cards() -> void:
+	if not is_instance_valid(_diff_row):
+		return
+	for ch in _diff_row.get_children():
+		ch.queue_free()
+	await get_tree().process_frame
+	for did in GameState.DIFFICULTY_DATA:
+		var d: Dictionary = GameState.DIFFICULTY_DATA[did]
+		var is_selected: bool = (_selected_diff == did)
+		var card := PanelContainer.new()
+		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		card.custom_minimum_size = Vector2(0, 74)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#1a1410") if is_selected else Color("#0d1017")
+		st.border_color = Color("#f0b429") if is_selected else Color("#1a2030")
+		st.set_border_width_all(2 if is_selected else 1)
+		st.set_corner_radius_all(7)
+		st.content_margin_top = 6
+		st.content_margin_bottom = 6
+		card.add_theme_stylebox_override("panel", st)
+		var vb := VBoxContainer.new()
+		vb.add_theme_constant_override("separation", 3)
+		vb.alignment = BoxContainer.ALIGNMENT_CENTER
+		card.add_child(vb)
+		var icon_lbl := Label.new()
+		icon_lbl.text = str(d["icon"])
+		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		icon_lbl.add_theme_font_size_override("font_size", 22)
+		icon_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vb.add_child(icon_lbl)
+		var name_lbl := Label.new()
+		name_lbl.text = str(d["name"])
+		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name_lbl.add_theme_font_size_override("font_size", 11)
+		name_lbl.add_theme_color_override("font_color", Color("#f0d8a8") if is_selected else Color("#5a6a7a"))
+		name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vb.add_child(name_lbl)
+		var stars_lbl := Label.new()
+		stars_lbl.text = str(d["stars"])
+		stars_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		stars_lbl.add_theme_font_size_override("font_size", 9)
+		stars_lbl.add_theme_color_override("font_color", Color("#8a7a50") if is_selected else Color("#1e2830"))
+		stars_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vb.add_child(stars_lbl)
+		var btn := Button.new()
+		btn.flat = true
+		btn.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var empty_st := StyleBoxEmpty.new()
+		btn.add_theme_stylebox_override("normal", empty_st)
+		btn.add_theme_stylebox_override("pressed", empty_st)
+		btn.add_theme_stylebox_override("focus", empty_st)
+		var hover_st := StyleBoxFlat.new()
+		hover_st.bg_color = Color(1, 1, 1, 0.05)
+		hover_st.set_corner_radius_all(6)
+		btn.add_theme_stylebox_override("hover", hover_st)
+		btn.pressed.connect(func(): _select_diff(did))
+		card.add_child(btn)
+		_diff_row.add_child(card)
+	_update_diff_desc()
+
+func _select_diff(did: String) -> void:
+	_selected_diff = did
+	AudioManager.play("click")
+	_build_diff_cards()
+
+func _update_diff_desc() -> void:
+	if not is_instance_valid(_diff_desc_label):
+		return
+	var d: Dictionary = GameState.DIFFICULTY_DATA.get(_selected_diff, {})
+	_diff_desc_label.text = "%s  —  %s" % [str(d.get("tagline", "")), str(d.get("desc", ""))]
+
 func _update_theme_desc() -> void:
 	if not is_instance_valid(_theme_desc_label):
 		return
@@ -565,7 +663,7 @@ func _update_theme_desc() -> void:
 func _start_new_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
-	GameState.start_new_game("김민준", "지방_상경", "none", "백수", _selected_theme)
+	GameState.start_new_game("김민준", "지방_상경", "none", "백수", _selected_theme, _selected_diff)
 	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):

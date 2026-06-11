@@ -3884,6 +3884,10 @@ func _show_ending(ending_id):
 	var theme_id: String = GameState.run_theme
 	if theme_id != "자유런":
 		modal_body.add_child(_wrap_label("이번 런 테마: %s" % theme_id, 11, "#5a8a7a"))
+	if GameState.difficulty != "현실":
+		modal_body.add_child(_wrap_label("난이도: %s %s" % [
+			str(GameState.get_difficulty_data().get("icon", "")),
+			str(GameState.get_difficulty_data().get("name", ""))], 11, "#8a6a3a"))
 
 	# 마스터리 요약
 	var mg_summary: Array = []
@@ -4063,6 +4067,8 @@ func _run_card_text(ending_id: String) -> String:
 	lines.append("🏠 마지막 거처: %s" % housing_name)
 	lines.append("📍 정석 %d회 / 비정석 %d회  →  %s" % [o, u, route_id])
 	lines.append("📖 이번 런 이벤트: %d / %d개" % [seen, total_events])
+	if GameState.difficulty != "현실":
+		lines.append("🎚 난이도: %s" % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
 	lines.append("🏆 엔딩: \"%s\"  (등급 %s)" % [ending_title, ending_grade])
 	lines.append("━━━━━━━━━━━━━━━━━━")
 	lines.append("#강남드림 #GangnamDream")
