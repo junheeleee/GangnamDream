@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Fixed (2026-06-11) — 감사 확장으로 검출된 실버그 9건
+- work_performance/addiction 효과가 조용히 무시되던 5건 (엘리트 전문화 보상 복구)
+- 시즌 이벤트(연말/봄)가 아무 달에나 뜨던 month 조건 미처리 2건
+- jiyeon_man 엔딩 게이트의 도달 불가 stage 비교 ("together" → "honest_together")
+- events_seen 저장 누락 (로드 시 이벤트 카운트 리셋)
+- stage 이름 분열 통일: daeun acquaintance / sangchul trusted
+
+### Added (2026-06-11) — 감사 체계 확장 (검사 9종 + CI)
+- audit 신설 4종: serialize 완전성 / 이벤트 키 화이트리스트 / 인물 stage 상태기계(cast_stages.json 정본) / 밸런스 회귀 밴드
+- GitHub Actions CI: 정적 감사 + 밸런스 밴드 + Godot 헤드리스 컴파일 + SimRun/SmokeRace
+
 ### Fixed (2026-06-11) — 아이템 사용 행동력 소모
 - 아이템 사용이 행동력 1을 소모 (무제한 사용으로 스트레스 시스템을 돈으로 우회하던 홀 차단)
 - 사용 버튼에 ⚡1 표기, 행동력 0이면 비활성

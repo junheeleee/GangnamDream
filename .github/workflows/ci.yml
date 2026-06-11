@@ -1,0 +1,47 @@
+# 강남드림 CI — 푸시마다 정적 감사 + 밸런스 회귀 + Godot 헤드리스 컴파일/시뮬.
+# 로컬(클라우드 세션)에는 Godot가 없어 컴파일 체크가 스킵되므로, CI가 그 구멍을 메운다.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+env:
+  GODOT_VERSION: "4.6.2"
+
+jobs:
+  audit:
+    name: 정적 감사 + 밸런스 회귀
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: audit.py (정적 감사 7종)
+        run: python3 tools/audit.py
+      - name: balance_check.py (밸런스 밴드)
+        run: python3 tools/balance_check.py
+
+  godot:
+    name: Godot 헤드리스 컴파일 + 경제 시뮬
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Godot ${{ env.GODOT_VERSION }} 설치
+        run: |
+          curl -sSL -o godot.zip \
+            "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q godot.zip
+          sudo mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+          godot --version
+      - name: 전체 감사 (컴파일 체크 포함)
+        run: GODOT=/usr/local/bin/godot ./tools/audit.sh
+      - name: SimRun 경제 시뮬 (60턴 완주 검증)
+        run: |
+          godot --headless res://tools/SimRun.tscn 2>&1 | tee simrun.log
+          # 데드락/크래시가 있으면 로그에 잡힌다 — 0이 아니면 실패
+          ! grep -E "데드락의심: [1-9]|크래시\(가드\): [1-9]" simrun.log
+      - name: SmokeRace 경마 스모크
+        run: godot --headless res://tools/SmokeRace.tscn

@@ -8,10 +8,10 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **스팀 출시 준비** — 난이도 모드 + 스토어 포지셔닝 완료 |
-| **최근 완료** | **아이템 사용 AP 1 소모**(홀 수정) / **난이도 3종**(드라마/현실/지옥고) / **STORE_PAGE.md 전면 갱신**(드라마 시뮬 포지셔닝) / 대출·신용등급·밸런스 감사 |
+| **단계** | **스팀 출시 준비** — 감사 체계 확장 (검사 9종 + CI) 완료 |
+| **최근 완료** | **감사 4종 신설**(serialize 완전성·키 화이트리스트·stage 상태기계·밸런스 밴드) + GitHub Actions CI — 도입 즉시 실버그 9건 검출·수정 (work_performance 효과 죽음, month 조건 미처리, stage 이름 분열, events_seen 저장 누락 등) |
 | **다음 작업** | **이미지·오디오 보강** (tools/generate_assets.py + gpt-image-2, Codex 토큰 필요): 1) 미완성 이미지 에셋 파악 2) 신규 BGM/SFX 필요 항목 파악 3) 생성 후 Godot Reimport |
-| **마지막 업데이트** | 2026-06-11 (난이도 모드 + 포지셔닝) |
+| **마지막 업데이트** | 2026-06-11 (감사 체계 확장) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
@@ -46,9 +46,20 @@
 4. **플래그 교차 검증** — 코드/이벤트 조건이 읽는 플래그(`f.get`/`flags.get`/`flag`/`no_flag`/
    `cast_has_flag`)를 실제로 누가 set하는지 대조 (← 오타·이름 불일치로 패널/분기/이벤트가
    조용히 죽는 버그. 2026-06-10 도입 시점에 잠재 버그 15개 일괄 검출)
-5. **Godot 헤드리스 파싱**
+5. **serialize 완전성** — GameState var 선언 vs serialize() 키 대조 (← 저장 누락으로 로드 시
+   조용히 리셋. transient 변수는 audit.py SERIALIZE_EXEMPT에 등록)
+6. **이벤트 키 화이트리스트** — effects/conditions/opportunity/cast_effects 키를
+   apply_effects·_check_conditions가 실제 처리하는 키와 대조 (← 오타 키가 조용히 무시되는
+   버그. 2026-06-11 도입 시점에 죽은 효과 5건·죽은 조건 2건 검출)
+7. **인물 stage 상태기계** — `content/meta/cast_stages.json`이 정본. 선언 안 된 stage를
+   set/read하면 ERROR (← acquaint vs acquaintance 같은 "같은 단계의 두 이름" 서사 모순.
+   **새 stage 추가 시 이 파일에 먼저 선언할 것**)
+8. **밸런스 회귀 밴드** — balance_check.py가 핵심 정책 시뮬로 30억 도달률·실패율 밴드 검증
+   (← 경제 파라미터 변경의 의도치 않은 파급. 의도된 변경이면 BALANCE.md 기록 + 밴드 갱신)
+9. **Godot 헤드리스 파싱** (로컬 Godot 필요 — 없으면 CI가 수행)
 
-ERROR 0 이면 통과. **새 함수·이벤트·인물·플래그 추가 후 반드시 돌릴 것.**
+ERROR 0 이면 통과. **새 함수·이벤트·인물·플래그·stage 추가 후 반드시 돌릴 것.**
+푸시하면 GitHub Actions(`.github/workflows/ci.yml`)가 같은 감사 + Godot 컴파일/SimRun을 돌린다.
 
 ### JSON 수정 후
 ```bash

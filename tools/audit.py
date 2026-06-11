@@ -342,12 +342,186 @@ def check_flags():
                 % (pid, fl, locs[0]))
 
 # ══════════════════════════════════════════════════════════════
+# 5) serialize 완전성 — GameState var 선언 vs serialize() 키 대조
+#    (run_theme/events_seen 류: 변수는 추가했는데 저장 누락 → 로드 시 조용히 리셋)
+# ══════════════════════════════════════════════════════════════
+# 의도적으로 저장하지 않는 transient 변수 (씬 전환용 임시 상태)
+SERIALIZE_EXEMPT = {
+    "pending_story_queue", "story_return_scene", "returning_from_story",
+}
+
+def check_serialize():
+    gs_path = os.path.join(ROOT, "autoloads", "GameState.gd")
+    if not os.path.exists(gs_path):
+        return
+    src = open(gs_path, encoding="utf-8").read()
+    var_names = re.findall(r'^var\s+([a-z_][a-z0-9_]*)\b', src, re.M)
+    m = re.search(r'func serialize\(\):\s*\n\treturn \{(.*?)\n\t\}', src, re.S)
+    if not m:
+        warn("GameState.serialize() 본문을 찾지 못해 완전성 검사 건너뜀")
+        return
+    ser_keys = set(re.findall(r'"([a-z_][a-z0-9_]*)"\s*:', m.group(1)))
+    for v in var_names:
+        if v not in ser_keys and v not in SERIALIZE_EXEMPT:
+            err('GameState.%s 가 serialize()에 없음 — 저장 후 로드하면 조용히 기본값으로 리셋. '
+                '저장 대상이면 serialize()에 추가, transient면 audit.py SERIALIZE_EXEMPT에 등록' % v)
+
+# ══════════════════════════════════════════════════════════════
+# 6) 이벤트 키 화이트리스트 — effects/conditions/opportunity/cast_effects의
+#    미지의 키를 잡는다 ("metal": 5 같은 오타는 apply_effects가 조용히 무시함)
+# ══════════════════════════════════════════════════════════════
+OPPORTUNITY_KEYS = {"cost", "stake_ratio", "success_rate", "win_multiplier",
+                    "loss_ratio", "luck_factor", "win_flag", "lose_flag", "skill_gain"}
+CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
+# 이벤트 루트에서 허용되는 키 (스키마)
+EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
+                   "hidden", "conditions", "tags", "cooldown", "choices",
+                   "portrait", "background", "cg", "speaker", "one_time", "_file"}
+# apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
+CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
+               "opportunity", "cast_effects", "relationship_effects",
+               "investment_effects", "tendency", "route", "grant_job",
+               "conditions_note"}
+
+def _match_arm_keys(src, func_pattern):
+    """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""
+    m = re.search(func_pattern, src)
+    if not m:
+        return set()
+    body = src[m.end():]
+    nxt = re.search(r'\nfunc ', body)
+    if nxt:
+        body = body[:nxt.start()]
+    keys = set()
+    for line in body.splitlines():
+        s = line.strip()
+        if re.match(r'^"[a-z_]', s) and s.endswith(':'):
+            keys.update(re.findall(r'"([a-z_][a-z0-9_]*)"', s))
+    return keys
+
+def check_event_keys():
+    gs = open(os.path.join(ROOT, "autoloads", "GameState.gd"), encoding="utf-8").read()
+    em = open(os.path.join(ROOT, "autoloads", "EventManager.gd"), encoding="utf-8").read()
+    effect_keys = _match_arm_keys(gs, r'func apply_effects\([^)]*\):')
+    cond_keys = _match_arm_keys(em, r'func _check_conditions\([^)]*\):')
+    if not effect_keys or not cond_keys:
+        warn("apply_effects/_check_conditions 파싱 실패 — 키 화이트리스트 검사 건너뜀")
+        return
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            eid = e.get("id", "?")
+            for k in e.keys():
+                if k not in EVENT_ROOT_KEYS:
+                    warn('%s  [%s] 모르는 이벤트 루트 키 "%s"' % (rel(p), eid, k))
+            cond = e.get("conditions", {})
+            if isinstance(cond, dict):
+                for k in cond.keys():
+                    if k not in cond_keys:
+                        err('%s  [%s] 조건 키 "%s" 를 EventManager가 처리하지 않음 — 조건이 조용히 무시돼 이벤트가 잘못 뜸'
+                            % (rel(p), eid, k))
+            for ci, ch in enumerate(e.get("choices", [])):
+                if not isinstance(ch, dict):
+                    continue
+                for k in ch.keys():
+                    if k not in CHOICE_KEYS:
+                        warn('%s  [%s] 선택지%d 모르는 키 "%s"' % (rel(p), eid, ci, k))
+                eff = ch.get("effects", {})
+                if isinstance(eff, dict):
+                    for k in eff.keys():
+                        if k not in effect_keys:
+                            err('%s  [%s] 선택지%d 효과 키 "%s" 를 apply_effects가 처리하지 않음 — 효과가 조용히 무시됨'
+                                % (rel(p), eid, ci, k))
+                opp = ch.get("opportunity", {})
+                if isinstance(opp, dict):
+                    for k in opp.keys():
+                        if k not in OPPORTUNITY_KEYS:
+                            err('%s  [%s] 선택지%d opportunity 키 "%s" 미지원' % (rel(p), eid, ci, k))
+                ce = ch.get("cast_effects", {})
+                if isinstance(ce, dict):
+                    for pid, pe in ce.items():
+                        if isinstance(pe, dict):
+                            for k in pe.keys():
+                                if k not in CAST_EFFECT_KEYS:
+                                    err('%s  [%s] 선택지%d cast_effects.%s 키 "%s" 미지원'
+                                        % (rel(p), eid, ci, pid, k))
+
+# ══════════════════════════════════════════════════════════════
+# 7) 인물 stage 상태기계 — content/meta/cast_stages.json 이 정본.
+#    선언 안 된 stage를 set/read하면 ERROR (acquaint vs acquaintance,
+#    trust vs trusted 같은 "같은 단계의 두 이름" 서사 모순을 잡는다)
+# ══════════════════════════════════════════════════════════════
+def check_cast_stages():
+    sp = os.path.join(ROOT, "content", "meta", "cast_stages.json")
+    if not os.path.exists(sp):
+        warn("content/meta/cast_stages.json 없음 — stage 상태기계 검사 건너뜀")
+        return
+    canon = {k: set(v) for k, v in json.load(open(sp, encoding="utf-8")).items()
+             if not k.startswith("_")}
+
+    def check(pid, stage, where):
+        if pid not in canon:
+            err('%s  cast_stages.json에 선언 안 된 인물 "%s"' % (where, pid))
+        elif stage not in canon[pid]:
+            err('%s  %s의 stage "%s" 가 cast_stages.json에 없음 — 오타거나 같은 단계의 다른 이름 (서사 모순)'
+                % (where, pid, stage))
+
+    # JSON: cast_effects.stage (set) + conditions.cast_stage (read)
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            where = "%s [%s]" % (rel(p), e.get("id", "?"))
+            cs = e.get("conditions", {}).get("cast_stage", {})
+            if isinstance(cs, dict) and cs.get("person"):
+                pid = str(cs["person"])
+                vals = ([cs["is"]] if "is" in cs else []) \
+                     + list(cs.get("in", [])) \
+                     + ([cs["not"]] if "not" in cs else [])
+                for s in vals:
+                    check(pid, str(s), where)
+            for ch in e.get("choices", []):
+                ce = ch.get("cast_effects", {})
+                if isinstance(ce, dict):
+                    for pid, pe in ce.items():
+                        if isinstance(pe, dict) and "stage" in pe:
+                            check(str(pid), str(pe["stage"]), where)
+
+    # GD: get_cast_stage("pid") 비교가 들어간 줄의 문자열 리터럴 검사
+    GD_STAGE = re.compile(r'get_cast_stage\(\s*"([a-z_]+)"\s*\)')
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            for ln_no, line in enumerate(open(f, encoding="utf-8").read().splitlines(), 1):
+                if "audit-ignore" in line:
+                    continue
+                m = GD_STAGE.search(line)
+                if not m:
+                    continue
+                pid = m.group(1)
+                # 같은 줄의 나머지 문자열 리터럴 = 비교 대상 stage 후보
+                rest = line[m.end():]
+                for s in re.findall(r'"([a-z_]+)"', rest):
+                    check(pid, s, "%s:%d" % (rel(f), ln_no))
+
+# ══════════════════════════════════════════════════════════════
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)
     check_gdscript()
     check_deprecated()
     check_events()
     check_flags()
+    check_serialize()
+    check_event_keys()
+    check_cast_stages()
 
     if errors:
         print("\n" + C.R + C.BOLD + "● ERROR (%d)" % len(errors) + C.Z)

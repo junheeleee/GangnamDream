@@ -255,6 +255,7 @@ def run_policy(name, mode, runs=3000, cast_passives=False, sangchul_tips=False, 
     print(f"  자산 중앙값 {won(med)} | p90 {won(p90)} | 최대 {won(mx)} | 30억 도달 {reached30} ({100*reached30/runs:.1f}%) | 실패엔딩 {100*fail/runs:.1f}%")
     line = "  엔딩: " + "  ".join(f"{k} {v}({100*v/runs:.0f}%)" for k, v in endings.most_common())
     print(line)
+    return {"win_rate": reached30 / runs, "fail_rate": fail / runs, "median": med}
 
 
 def won(v):
@@ -265,20 +266,21 @@ def won(v):
     return f"{v:.0f}"
 
 
-print("=== 밸런스 QA 시뮬 (GameState 경제 척추 Python 포트, 정책별 3000런) ===")
-run_policy("①무직 방치", 0)
-run_policy("②성실 직장(무베팅)", 1)
-run_policy("③직장+가끔 베팅(25%)", 2)
-run_policy("④직장+공격 베팅(60%+메가)", 3)
-print("\n--- 2026-06-11 신규 요소 영향 측정 ---")
-run_policy("③' 가끔 베팅 + 인연 패시브 풀가동", 2, cast_passives=True)
-run_policy("④' 공격 베팅 + 인연 패시브 풀가동", 3, cast_passives=True)
-run_policy("④'' 공격 베팅 + 패시브 + 상철 팁", 3, cast_passives=True, sangchul_tips=True)
-print("\n--- 대출 레버리지 (2026-06-11 신규 시스템) ---")
-run_policy("③ᴸ 가끔 베팅 + 대출 풀레버리지", 2, use_loans=True)
-run_policy("④ᴸ 공격 베팅 + 대출 풀레버리지", 3, use_loans=True)
-print("\n--- 난이도 모드 비교 (2026-06-11 신규) ---")
-for d in ("드라마", "현실", "지옥고"):
-    run_policy(f"② 성실 직장 [{d}]", 1, diff=d)
-for d in ("드라마", "현실", "지옥고"):
-    run_policy(f"③ 가끔 베팅 [{d}]", 2, diff=d)
+if __name__ == "__main__":
+    print("=== 밸런스 QA 시뮬 (GameState 경제 척추 Python 포트, 정책별 3000런) ===")
+    run_policy("①무직 방치", 0)
+    run_policy("②성실 직장(무베팅)", 1)
+    run_policy("③직장+가끔 베팅(25%)", 2)
+    run_policy("④직장+공격 베팅(60%+메가)", 3)
+    print("\n--- 2026-06-11 신규 요소 영향 측정 ---")
+    run_policy("③' 가끔 베팅 + 인연 패시브 풀가동", 2, cast_passives=True)
+    run_policy("④' 공격 베팅 + 인연 패시브 풀가동", 3, cast_passives=True)
+    run_policy("④'' 공격 베팅 + 패시브 + 상철 팁", 3, cast_passives=True, sangchul_tips=True)
+    print("\n--- 대출 레버리지 (2026-06-11 신규 시스템) ---")
+    run_policy("③ᴸ 가끔 베팅 + 대출 풀레버리지", 2, use_loans=True)
+    run_policy("④ᴸ 공격 베팅 + 대출 풀레버리지", 3, use_loans=True)
+    print("\n--- 난이도 모드 비교 (2026-06-11 신규) ---")
+    for d in ("드라마", "현실", "지옥고"):
+        run_policy(f"② 성실 직장 [{d}]", 1, diff=d)
+    for d in ("드라마", "현실", "지옥고"):
+        run_policy(f"③ 가끔 베팅 [{d}]", 2, diff=d)

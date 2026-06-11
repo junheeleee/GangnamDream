@@ -13,6 +13,10 @@ python3 tools/audit.py
 PY_EXIT=$?
 
 echo "──────────────────────────────────────────"
+python3 tools/balance_check.py
+BAL_EXIT=$?
+
+echo "──────────────────────────────────────────"
 echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd load 강제 컴파일)"
 # 주의: --quit-after 2(메인씬 부팅)는 RaceTrack/MainGame 등 부팅 시 미로드 스크립트를
 # 컴파일하지 않아 컴파일 버그를 놓친다(게다가 macOS엔 timeout 바이너리도 없어 헛돌았음).
@@ -42,7 +46,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

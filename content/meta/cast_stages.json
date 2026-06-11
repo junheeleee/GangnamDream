@@ -1,0 +1,27 @@
+{
+  "_comment": "인물별 허용 stage 전체 목록 (정본). 이벤트 cast_effects.stage / conditions.cast_stage / 코드의 get_cast_stage 비교가 이 목록 밖의 값을 쓰면 audit ERROR — 서사 모순(같은 단계의 두 이름, 오타로 죽는 분기)을 커밋 전에 잡는다. 새 stage 추가 시 여기 먼저 선언할 것.",
+  "jiyeon": [
+    "unknown", "curious", "awkward", "transaction", "interest", "intrigued",
+    "drawn", "warm", "close", "connected", "business_partner", "indebted",
+    "rejected_help", "respected", "trust", "hurt", "disillusioned", "distant",
+    "lover", "honest_together"
+  ],
+  "daeun": [
+    "unknown", "acquaintance", "warm", "interest", "close", "dating",
+    "lover", "together", "committed", "uncertain", "wary", "distant"
+  ],
+  "sangchul": [
+    "unknown", "acquaintance", "watching", "interested", "mentoring",
+    "trusted", "guardian", "strained"
+  ],
+  "jaehyuk": [
+    "unknown", "reunited", "opening_up", "guarded", "close_friends",
+    "uncomfortable", "trusted", "all_in", "partial", "suspect", "retreating",
+    "betrayed", "reported", "blackmailed", "partner_in_crime"
+  ],
+  "father": [
+    "unknown", "distant", "worried", "health_crisis", "quiet",
+    "close", "reconciled", "hopeful", "connected"
+  ],
+  "hyunsu": ["unknown"]
+}

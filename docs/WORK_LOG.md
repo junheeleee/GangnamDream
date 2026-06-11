@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-06-11 (감사 체계 확장 — 검사 9종 + CI)
+
+### 신설 검사 4종 (유지보수성 대응: "버그 클래스 단위 기계화")
+- **5) serialize 완전성**: GameState var vs serialize() 키 대조, SERIALIZE_EXEMPT로 transient 관리
+- **6) 이벤트 키 화이트리스트**: effects/conditions/opportunity/cast_effects 키를
+  apply_effects·_check_conditions 코드에서 동적 파싱한 목록과 대조 (코드가 진실 — 자동 동기화)
+- **7) 인물 stage 상태기계**: content/meta/cast_stages.json 정본 신설, JSON set/read + GD 비교 리터럴 검증
+- **8) 밸런스 회귀 밴드**: tools/balance_check.py — 핵심 정책 3종 시드 고정 시뮬, 밴드 이탈 시 실패 (1.3초)
+- **CI**: .github/workflows/ci.yml — 감사 + Godot 4.6.2 헤드리스 컴파일 + SimRun/SmokeRace (로컬 Godot 부재 보완)
+
+### 도입 즉시 검출·수정한 실버그 9건
+- work_performance 효과 3건 죽음 (apply_effects 미처리 → 처리 추가) — 엘리트 전문화 보상 복구
+- addiction 효과 2건 죽음 (addiction_tendency로 리네임)
+- month 조건 2건 미처리 (시즌 이벤트가 아무 달에나 등장 → EventManager에 month 조건 추가)
+- jiyeon "together" 죽은 비교 (jiyeon_man 엔딩 게이트 → honest_together로 교정)
+- events_seen serialize 누락 (로드 시 이벤트 카운트 리셋 → 추가)
+- stage 이름 분열: daeun acquaint/acquaintance, sangchul trust/trusted → acquaintance/trusted로 통일
+
+
 ## 2026-06-11 (아이템 AP 소모 — 밸런스 홀 수정)
 
 - InventorySystem.use_item: GameState.spend_ap() 게이트 추가 (실패 시 메시지 반환)

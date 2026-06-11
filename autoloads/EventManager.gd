@@ -140,6 +140,11 @@ func _check_conditions(conditions):
 				if GameState.money < float(req): return false
 			"max_money":
 				if GameState.money > float(req): return false
+			"month":
+				# 시즌 이벤트: 특정 달(int) 또는 달 목록(Array)에만 등장
+				if req is Array:
+					if not (req as Array).has(GameState.month): return false
+				elif GameState.month != int(req): return false
 			"min_health":
 				if GameState.health < int(req): return false
 			"max_health":

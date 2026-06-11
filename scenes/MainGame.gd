@@ -4008,7 +4008,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 			lines.append("☕  통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.")
 		else:
 			lines.append("☕  다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.")
-	elif ds in ["close", "warm", "interest", "acquaint", "acquaintance"]:
+	elif ds in ["close", "warm", "interest", "acquaintance"]:
 		lines.append("☕  다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.")
 	elif ds in ["distant", "wary", "uncertain"]:
 		lines.append("☕  그 카페 앞을 지날 때면 걸음이 조금 빨라진다.")

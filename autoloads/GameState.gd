@@ -708,6 +708,8 @@ func apply_effects(effects):
 				modify_stat(key, int(value))
 			"stress", "reputation", "gambling_tendency", "addiction_tendency":
 				modify_hidden_stat(key, int(value))
+			"work_performance":
+				work_performance = clampi(work_performance + int(value), 0, 100)
 			"flag":
 				flags[str(value)] = true
 			"unflag":
@@ -1140,7 +1142,7 @@ func check_game_over():
 		# 연인 엔딩
 		if get_cast_stage("daeun") in ["lover", "together"]:
 			finish_run("with_daeun"); return          # 다은과 함께
-		if get_cast_stage("jiyeon") in ["lover", "together"]:
+		if get_cast_stage("jiyeon") in ["lover", "honest_together"]:
 			finish_run("jiyeon_man"); return          # 한지연의 남자
 		# 평판 전설 (평판 80+)
 		if reputation >= 80:
@@ -1242,6 +1244,7 @@ func serialize():
 		"run_theme": run_theme,
 		"unlocked_stat_thresholds": unlocked_stat_thresholds,
 		"difficulty": difficulty,
+		"events_seen": events_seen,
 	}
 
 func load_from_dict(data):
@@ -1252,7 +1255,7 @@ func load_from_dict(data):
 		"gambling_tendency", "addiction_tendency",
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
-		"route_orthodox", "route_unorthodox",
+		"route_orthodox", "route_unorthodox", "events_seen",
 	]
 	var allowed = serialize().keys()
 	for key in data:
