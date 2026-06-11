@@ -2258,5 +2258,578 @@
         "result_text": "임상철은 잠시 침묵했다.\n\n\"맞는 말이에요. 근데.\"\n그는 천천히 잔을 비웠다. \"생존에 너무 익숙해지면, 나중에 잘 사는 법을 잊게 돼요.\""
       }
     ]
+  },
+  {
+    "id": "daeun_meet",
+    "title": "새벽 두 시, 편의점",
+    "description": "야간 알바 세 시간째.\n\n새벽 두 시에 손님이 들어왔다. 여자였다. 뭔가 고른 다음 계산대에 내밀었다.\n\n삼각김밥 하나, 캔커피 하나.\n\n카드를 찍었다. '잔액 부족'.\n\n그녀가 동전을 꺼냈다. 모자랐다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 10.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 2,
+      "max_turn": 16,
+      "no_flag": "daeun_met"
+    },
+    "tags": [
+      "romance",
+      "daeun"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "\"됐어요, 그냥 가세요.\" 넘어간다.",
+        "effects": {
+          "mental": 3,
+          "money": -1200
+        },
+        "flags": [
+          "daeun_met",
+          "daeun_first_kind"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "met": true,
+            "affinity": 15,
+            "stage": "acquaint"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "그녀가 잠깐 멈칫했다.\n'...감사해요.'\n\n문이 닫혔다. 밖에서 잠깐 창문을 통해 얼굴이 보였다. 뭔가 생각하는 표정이었다."
+      },
+      {
+        "text": "\"잔액이 부족하신데요.\" 원칙대로 처리한다.",
+        "effects": {},
+        "flags": [
+          "daeun_met"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "met": true,
+            "affinity": 5,
+            "stage": "acquaint"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "그녀가 삼각김밥을 내려놓고 캔커피만 사서 나갔다.\n\n다음 날 새벽 두 시, 같은 사람이 또 왔다. 이번엔 잔액이 맞았다."
+      }
+    ]
+  },
+  {
+    "id": "daeun_regular",
+    "title": "단골",
+    "description": "어느새 매주 오고 있었다.\n\n김다은. 이름을 알게 된 건 포인트 적립 때였다.\n\n오늘도 새벽 두 시. 삼각김밥 참치마요, 캔커피 블랙.\n\n\"맨날 같은 거 사세요.\" 말이 나왔다.\n\"편하니까요.\" 그녀가 말했다. \"어떤 날은 이것저것 고르는 게 너무 피곤해서요.\"",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 10.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_met",
+      "min_turn": 6,
+      "max_turn": 22,
+      "no_flag": "daeun_talked"
+    },
+    "tags": [
+      "romance",
+      "daeun"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "\"저도요. 야간 알바 오면 항상 같은 샌드위치 먹어요.\" 말을 받는다.",
+        "effects": {
+          "mental": 4,
+          "social_skill": 1,
+          "stress": -2
+        },
+        "flags": [
+          "daeun_talked"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 15
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "그녀가 처음으로 웃었다.\n\n그날 이후로 말이 늘었다. 날씨 얘기, 손님 얘기, 서울 얘기.\n둘 다 많이 말하는 편은 아니었는데, 새벽 두 시에는 달랐다."
+      },
+      {
+        "text": "조용히 계산만 해준다. 알바 중이니까.",
+        "effects": {},
+        "flags": [
+          "daeun_talked"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "그녀도 말이 없었다.\n\n근데 계속 왔다. 매주 새벽 두 시."
+      }
+    ]
+  },
+  {
+    "id": "daeun_share",
+    "title": "서울에서 혼자",
+    "description": "오늘은 늦게까지 있었다.\n\n영업 끝나고 청소하는데 다은이 문 옆에 서있었다.\n\"잠깐 기다려도 되나요? 택시 잡을 때까지만.\"\n\n앉아서 기다리는 동안, 처음으로 그녀 얘기를 들었다.\n\n디자인 프리랜서. 서울 온 지 2년. 부모님은 청주.\n'서울이 생각보다 더 외로워요, 가끔.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 8.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_talked",
+      "min_turn": 12,
+      "max_turn": 30,
+      "no_flag": "daeun_shared"
+    },
+    "tags": [
+      "romance",
+      "daeun"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "내 얘기도 한다. 고시원, 통장, 강남드림.",
+        "effects": {
+          "mental": 6,
+          "stress": -4,
+          "social_skill": 2
+        },
+        "flags": [
+          "daeun_shared",
+          "daeun_honest"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 25,
+            "stage": "warm"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "다은이 한참 들었다.\n\n'강남까지 30억이요.' 혼잣말처럼 말하더니 물었다. '혼자 하려고요?'\n'...네.'\n그녀가 고개를 끄덕였다. '그것도 용기야.'\n\n택시가 왔다. 그녀가 탔다. 창문이 내려왔다.\n'다음에 또 올게요.'"
+      },
+      {
+        "text": "\"서울이 다 그렇죠 뭐.\" 가볍게 넘긴다.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        },
+        "flags": [
+          "daeun_shared"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 8
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "그녀가 웃었다. '그런가요.'\n\n택시가 왔다. 그녀가 탔다.\n\n말 한마디 더 할 수 있었던 것 같은데."
+      }
+    ]
+  },
+  {
+    "id": "daeun_feeling",
+    "title": "편의점 말고",
+    "description": "다은에게서 메시지가 왔다.\n\n'혹시 낮에 시간 돼요? 밥이라도 같이 먹고 싶어서.'\n\n편의점 말고. 처음이었다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 8.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_shared",
+      "no_flag": "daeun_date_done",
+      "min_turn": 18,
+      "max_turn": 40
+    },
+    "tags": [
+      "romance",
+      "daeun"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "나간다. 오랜만에 낮에 나가는 거다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "social_skill": 1
+        },
+        "flags": [
+          "daeun_date_done"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 25,
+            "stage": "interest"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "동네 백반집. 된장찌개에 공기밥 두 개.\n\n두 시간이 지나갔다. 밥 얘기, 그림 얘기, 서울 얘기.\n\n헤어지면서 다은이 말했다. '좋다. 이런 거.'\n\n돌아오는 길이 이상하게 가벼웠다."
+      },
+      {
+        "text": "\"요즘 바빠서요.\" 거절한다.",
+        "effects": {
+          "stress": -1
+        },
+        "flags": [
+          "daeun_date_done",
+          "daeun_declined_date"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -10
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "다은이 '아, 알겠어요'라고 답했다.\n\n그 이후 편의점에 한 번 더 왔다가, 안 왔다."
+      }
+    ]
+  },
+  {
+    "id": "daeun_choice",
+    "title": "다은의 말",
+    "description": "벤치에 앉아 있었다. 다은이 옆에 있었다.\n\n한참 만에 그녀가 말했다.\n\n'서울에서 뭔가 되고 싶은 사람 옆에 있으면, 나도 뭔가 될 수 있을 것 같아요.'\n\n'그냥 그렇다고요. 이상한 말이죠?'",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 6.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_date_done",
+      "no_flag": "daeun_ended",
+      "min_turn": 28,
+      "max_turn": 52
+    },
+    "tags": [
+      "romance",
+      "daeun"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "\"이상하지 않아요.\" 그 옆에 있는다.",
+        "effects": {
+          "mental": 10,
+          "stress": -6,
+          "luck": 3
+        },
+        "flags": [
+          "daeun_ended",
+          "daeun_together"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 35,
+            "stage": "lover"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "다은이 조용히 웃었다.\n\n강남은 아직 멀었다.\n근데 지금 여기가 나쁘지 않았다."
+      },
+      {
+        "text": "\"저는 지금 강남이 먼저예요.\"",
+        "effects": {
+          "stress": 3,
+          "mental": -5
+        },
+        "flags": [
+          "daeun_ended"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -15,
+            "stage": "distant"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "다은이 고개를 끄덕였다.\n'알아요. 그래서 말하는 게 망설여졌어요.'\n\n그녀가 일어났다.\n\n편의점에는 그 이후로 오지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "jiyeon_world_gap",
+    "title": "한지연의 세계에서",
+    "description": "한지연이 친구 모임에 데려갔다.\n\n강남 루프탑 바. 샴페인, 무심코 꺼내는 명품 지갑, 해외 여행 얘기.\n\n누군가 물었다. '직업이 어떻게 되세요?'\n\n한지연이 잠깐 봤다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 8.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_together",
+      "min_turn": 34,
+      "max_turn": 54,
+      "no_flag": "jiyeon_world_faced"
+    },
+    "tags": [
+      "romance",
+      "jiyeon"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "솔직하게 말한다. 꾸미지 않고.",
+        "effects": {
+          "mental": -5,
+          "stress": 8,
+          "social_skill": 3,
+          "reputation": 2
+        },
+        "flags": [
+          "jiyeon_world_faced",
+          "jiyeon_honest_world"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 20
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "말하고 나니 이상하게 후련했다.\n\n집에 오는 길에 한지연이 말했다. '오늘 멋있었어요.'\n'그게 멋있어?'\n'그 자리에서 꾸미지 않는 사람을 처음 봤어요.'"
+      },
+      {
+        "text": "적당히 포장한다. 이 세계에서 살아남으려면.",
+        "effects": {
+          "mental": -8,
+          "stress": 12
+        },
+        "flags": [
+          "jiyeon_world_faced"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 5
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "잘 넘어갔다.\n\n근데 한지연 차 안에서 그녀가 말했다.\n'오늘 좀 불편했죠?'\n아무 말도 못 했다. 한지연은 더 묻지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "jiyeon_mother",
+    "title": "한지연 어머니",
+    "description": "한지연 어머니를 만났다.\n\n강남 카페. 한지연 어머니는 차를 한 모금 마시고 물었다.\n\n'부모님은 뭘 하세요?'\n'지방에 계세요.'\n'어디요?'\n\n한지연이 테이블 밑에서 손을 잡았다.",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 6.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_world_faced",
+      "min_turn": 38,
+      "max_turn": 56,
+      "no_flag": "jiyeon_mother_met"
+    },
+    "tags": [
+      "romance",
+      "jiyeon"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "당당하게 말한다. 사실대로.",
+        "effects": {
+          "mental": -8,
+          "stress": 10,
+          "social_skill": 3,
+          "reputation": 3
+        },
+        "flags": [
+          "jiyeon_mother_met",
+          "impressed_jiyeon_mother"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 30
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "한지연 어머니는 끝까지 표정을 바꾸지 않았다.\n\n헤어지고 한지연이 말했다.\n'엄마가 문자 했어요. 눈빛이 좋다고.'\n한지연이 웃었다. '엄마 기준에 눈빛이 유일해요.'"
+      },
+      {
+        "text": "최대한 좋게 포장한다. 한지연을 위해.",
+        "effects": {
+          "mental": -5,
+          "stress": 8
+        },
+        "flags": [
+          "jiyeon_mother_met"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 10
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "한지연 어머니는 커피를 다 마시고 자리에서 일어났다.\n\n나중에 한지연이 말했다.\n'엄마가 당신 직업 물어봤어요.'\n뭔가 더 말하려다 멈췄다."
+      }
+    ]
+  },
+  {
+    "id": "jiyeon_gangnam_moment",
+    "title": "강남에서 지연이 생각났다",
+    "description": "강남구청 앞에 섰다.\n\n처음으로 강남 주소지 전입신고를 마쳤다.\n\n아파트 열쇠가 손안에 있었다.\n목표한 게 이거였는데.\n\n핸드폰을 꺼냈다.",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 5.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_together",
+      "housing": "gangnam",
+      "no_flag": "jiyeon_gangnam_called"
+    },
+    "tags": [
+      "romance",
+      "jiyeon"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "한지연에게 전화한다.",
+        "effects": {
+          "mental": 12,
+          "stress": -8,
+          "luck": 5
+        },
+        "flags": [
+          "jiyeon_gangnam_called"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 25
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "한지연이 받았다.\n'왔어요?'\n'...네.'\n잠깐 침묵. 그리고 한지연이 말했다.\n'축하해요. 진심으로.'\n\n전화를 끊고 하늘을 봤다.\n여기까지 왔다."
+      },
+      {
+        "text": "혼자 있는다. 이건 혼자서 느껴야 하는 것 같아서.",
+        "effects": {
+          "mental": 6,
+          "stress": -4
+        },
+        "flags": [
+          "jiyeon_gangnam_called"
+        ],
+        "cast_effects": {},
+        "follow_up_event": "",
+        "result_text": "열쇠를 쥐고 한참 서 있었다.\n\n지연이한테 전화할까 했다가 안 했다.\n강남에 왔는데, 강남이 이 느낌인지 몰랐다."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_opportunity",
+    "title": "임상철의 정보",
+    "description": "임상철에게서 연락이 왔다.\n\n'지금 바빠요? 잠깐 봐요.'\n\n만났더니 종이 한 장을 건넸다. 재개발 예정 구역 지도였다.\n\n'아직 아무도 모르는 정보야. 6개월 안에 발표 난다.'\n\n그리고 말했다. '당신한테 제일 먼저 말하는 거예요.'",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 7.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_past_done",
+      "min_turn": 36,
+      "max_turn": 54,
+      "no_flag": "sangchul_opportunity_done"
+    },
+    "tags": [
+      "sangchul",
+      "investment"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "믿는다. 임상철이 지금까지 틀린 적이 없었다.",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2,
+          "luck": 5
+        },
+        "flags": [
+          "sangchul_opportunity_done",
+          "took_sangchul_tip"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 20
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "종이를 접어 주머니에 넣었다.\n\n임상철이 말했다. '이 정보로 돈 버는 게 목적이 아니에요. 당신이 어떤 사람인지 보는 겁니다.'"
+      },
+      {
+        "text": "\"그냥 주는 정보는 없다는 거 알아요.\" 묻는다.",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2
+        },
+        "flags": [
+          "sangchul_opportunity_done"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 30
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "임상철이 오랫동안 봤다.\n\n그리고 웃었다. '이제 좀 됐네요.'\n종이를 다시 가져가며 말했다. '이 질문이 나올 때까지 기다렸어요.'"
+      }
+    ]
+  },
+  {
+    "id": "sangchul_last_lesson",
+    "title": "임상철의 마지막 말",
+    "description": "임상철에게서 문자가 왔다.\n\n'잠깐 봐요.'\n\n만났더니 평소와 달리 말이 없었다.\n국밥 한 그릇 다 비우고 나서야 말을 꺼냈다.\n\n'나 건강이 좀 안 좋아서. 잠깐 쉬어야 할 것 같아요.'",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 5.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_opportunity_done",
+      "min_turn": 44,
+      "max_turn": 58,
+      "no_flag": "sangchul_farewell_done"
+    },
+    "tags": [
+      "sangchul",
+      "mentorship"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "\"많이 배웠어요.\" 솔직하게 말한다.",
+        "effects": {
+          "mental": -5,
+          "intelligence": 3,
+          "reputation": 3
+        },
+        "flags": [
+          "sangchul_farewell_done"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 25
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "임상철이 고개를 끄덕였다.\n\n'강남 가거든 연락해요. 집들이 국밥은 내가 살 테니.'\n\n일어나면서 어깨를 한 번 두드렸다.\n\n그게 마지막이었다. 아니, 아직은 아니길 바랐다."
+      },
+      {
+        "text": "\"건강하게 계세요.\" 같이 자리를 지킨다.",
+        "effects": {
+          "mental": -3,
+          "social_skill": 2
+        },
+        "flags": [
+          "sangchul_farewell_done"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 15
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "두 사람 다 말이 없었다.\n\n나중에 임상철이 말했다.\n'이렇게 있어주는 사람이 몇 명 없어요.'\n\n그 말이 오래 남았다."
+      }
+    ]
   }
 ]

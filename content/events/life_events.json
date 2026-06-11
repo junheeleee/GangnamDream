@@ -7214,5 +7214,64 @@
         "result_text": "KTX 안에서 서울로 달리면서 생각했다.\n\n다음엔 오래 있어야겠다고.\n근데 다음이 언제인지 몰랐다."
       }
     ]
+  },
+  {
+    "id": "father_reconcile",
+    "title": "아버지의 말",
+    "description": "된장찌개 다 먹고 나서, 아버지가 처음으로 그 얘기를 꺼냈다.\n\n'내가 욕심을 부렸던 거야. 강남 아파트라는 게 내 욕심이었어.'\n\n한참 침묵.\n\n'근데 너는... 잘 하고 있어. 나보다 잘 하고 있어.'",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 6.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "talked_about_scam",
+      "min_turn": 34,
+      "max_turn": 58,
+      "no_flag": "father_reconciled"
+    },
+    "tags": [
+      "father",
+      "family"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "\"아버지도 잘 하셨어요. 욕심이 아니에요.\" 말한다.",
+        "effects": {
+          "mental": 12,
+          "stress": -8,
+          "health": 3
+        },
+        "flags": [
+          "father_reconciled"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 40,
+            "stage": "close"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "아버지가 창밖을 봤다.\n\n한참 후에 말했다. '...그렇게 생각해줘서 고맙다.'\n\n그게 다였다. 아버지는 원래 길게 말하는 사람이 아니었다.\n근데 그걸로 충분했다."
+      },
+      {
+        "text": "아무 말 없이 옆에 있는다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": [
+          "father_reconciled"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 30,
+            "stage": "close"
+          }
+        },
+        "follow_up_event": "",
+        "result_text": "아버지도 아무 말 안 했다.\n\n두 사람이 한참 앉아 있었다.\n창밖에 동네가 보였다. 아버지가 평생 살아온 동네.\n\n나중에 강남에 가도, 이 집 냄새는 기억할 것 같았다."
+      }
+    ]
   }
 ]
