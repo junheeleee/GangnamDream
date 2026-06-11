@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added (2026-06-11) — 영어 이벤트 번역 확대 (30개)
+- life (15개): 감성 시그니처 이벤트 전체 번역 (부모님 통장, 대리기사, 마지막 겨울 등)
+- drama (5개): 코인 한 방, 스타트업, 재벌 접촉, 청약, 직장 암투
+- relationship (4개): 지연·다은 핵심 분기, 아버지 병원·사진
+- hidden (3개): 엘리베이터(legendary), 건강검진, 강남 오픈하우스
+
 ### Added (2026-06-11) — 영어 로컬라이제이션 인프라
 - LocaleManager autoload: ko/en 언어 전환, 자동 DataRegistry.reload() 트리거
 - DataRegistry: content/events_en/ ID-overlay 방식 (미번역 이벤트 → 자동 KO 폴백)
