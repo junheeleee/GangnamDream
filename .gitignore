@@ -10,4 +10,4 @@ export.cfg
 Thumbs.db
 
 # Build output (too large for GitHub)
-build/
+build/__pycache__/
