@@ -1798,7 +1798,9 @@ func _render_sidebars():
 		var item_label = _label("%s %s x%d" % [item.get("icon", ""), item.get("name", "아이템"), item.get("quantity", 1)], 12, "#8892a4")
 		item_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		item_row.add_child(item_label)
-		var use_btn = _small_button("사용", "#0f766e")
+		var use_btn = _small_button("사용 ⚡1", "#0f766e")
+		if GameState.action_points <= 0:
+			use_btn.disabled = true
 		use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
 		item_row.add_child(use_btn)
 		inventory_box.add_child(item_row)
@@ -3573,9 +3575,12 @@ func _on_shop_item(item_id):
 	_show_toast("🛒 아이템 구매 완료", Color("#d8b4fe"))
 
 func _on_use_item(item_id):
-	inventory_system.use_item(item_id)
+	var result: Dictionary = inventory_system.use_item(item_id)
 	_refresh_all()
-	_show_toast("✨ 아이템 사용", Color("#fbbf24"))
+	if result.get("success", false):
+		_show_toast("✨ 아이템 사용 (행동력 -1)", Color("#fbbf24"))
+	else:
+		_show_toast("⚡ " + str(result.get("message", "사용 불가")), Color("#ff4444"))
 
 func _open_system_menu():
 	_open_modal("≡ 시스템")

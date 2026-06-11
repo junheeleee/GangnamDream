@@ -20,6 +20,10 @@ func use_item(item_id):
 	var item = DataRegistry.get_item(item_id)
 	if item.is_empty():
 		return {"success": false, "message": "아이템 오류"}
+	# 회복도 시간이다 — 사용은 행동력 1을 소모한다.
+	# (무제한 사용 시 돈으로 스트레스 시스템을 우회하는 홀이 있었음. BALANCE.md 2026-06-11)
+	if not GameState.spend_ap():
+		return {"success": false, "message": "행동력이 없습니다 — 다음 달에 사용하세요"}
 	GameState.apply_effects(item.get("effects", {}))
 	if bool(item.get("one_time", true)):
 		GameState.remove_item(item_id, 1)
