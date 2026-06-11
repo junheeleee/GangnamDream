@@ -2,7 +2,7 @@
   {
     "id": "hidden_chaebol_elevator",
     "title": "재벌 3세와 엘리베이터",
-    "description": "고급 오피스텔 엘리베이터가 멈췄다. 옆 사람은 뉴스에서 본 얼굴이다. 90초의 정적이 계급 이동의 문처럼 느껴진다.",
+    "description": "강남 오피스텔 엘리베이터가 멈췄다.\n\n20층짜리 건물의 18층 버튼이 눌려 있었다.\n옆에 서 있는 남자. 40대 초반. 뉴스에서 몇 번 봤다.\n그룹 계열사 대표. 할아버지가 만든 그것.\n\n90초.\n\n이 사람의 와이셔츠 한 장이 {name}의 한 달 식비보다 비싸다.\n이 사람이 사는 층이 {name}이 모으는 것의 목표 층수다.\n\n엘리베이터가 올라가는 소리가 들렸다.",
     "category": "social",
     "rarity": "legendary",
     "weight": 4,
@@ -19,13 +19,13 @@
     "cooldown": 7,
     "choices": [
       {
-        "text": "침착하게 말을 건다",
+        "text": "먼저 말을 건다. 여기까지 왔다.",
         "effects": {
           "reputation": 10,
           "social_skill": 6,
           "luck": 3
         },
-        "result_text": "90초를 기회로 바꿨다. 짧은 대화 하나가 새로운 세계의 문을 열었다.",
+        "result_text": "'이 건물 자주 오시나요?' 말이 나왔다.\n\n남자가 잠깐 봤다. '아, 네.' 짧았다.\n\n명함을 건넸다. 받았다. 흘끗 봤다.\n18층에서 문이 열렸다. '수고하세요.' 나갔다.\n\n일주일 후 {name}이 문자를 보냈다.\n'이전에 엘리베이터에서 뵀던...'\n\n읽씹이었다.\n\n명함은 지갑 안쪽 칸에 있다. 아직도.",
         "relationship_effects": {
           "type": "business_partners",
           "affinity": 20
@@ -38,19 +38,19 @@
           "social_skill": 3,
           "luck": 2
         },
-        "result_text": "떨리는 손으로 명함을 내밀었다. 엘리베이터 문이 열리고, 운명도 함께 열린 것 같았다.",
+        "result_text": "명함을 내밀었다.\n\n남자가 받았다. 한 번 봤다. 주머니에 넣었다.\n뭔가 말하려다가 안 했다.\n\n18층. 문이 열렸다.\n\n그게 전부였다.\n\n그 명함이 지금 어디 있을지 가끔 생각한다.\n버려졌거나, 누군가에게 전달됐거나.\n아니면 그냥 잊혔거나.",
         "flags": [
           "chaebol_contact"
         ]
       },
       {
-        "text": "모른 척한다",
+        "text": "모른 척한다. 어차피 다른 세계 사람이다.",
         "effects": {
           "mental": 3,
           "stress": -2,
           "luck": 1
         },
-        "result_text": "알아봤지만 아는 척하지 않았다. 어떤 인연은 억지로 만드는 것이 아니다."
+        "result_text": "고개를 숙이고 폰을 봤다.\n\n그 사람도 폰을 봤다.\n90초 동안 둘 다 아무 말 없었다.\n\n18층. 문이 열렸다. 나갔다.\n\n그 사람의 구두 뒤꿈치가 보였다.\n닳은 데가 없었다.\n\n그 구두를 만든 사람이 어딘가 있을 것이다.\n그 사람도 뭔가를 모으고 있을 것이다.\n\n엘리베이터 문이 닫혔다."
       }
     ]
   },
@@ -923,6 +923,140 @@
           "money": 0
         },
         "result_text": "앱을 열었다.\n종목을 찾았다.\n샀다. 친구가 '야 그러지 마'라고 했다."
+      }
+    ]
+  },
+  {
+    "id": "hidden_gangnam_open_house",
+    "title": "강남 아파트 오픈하우스",
+    "description": "모집 공고를 보고 충동적으로 들어갔다.\n\n강남 신축 분양. 오픈하우스.\n\n33평. 분양가 18억 5천.\n\n거실 창으로 서울이 보였다.\n직원이 설명했다. 한강 조망. 학군. 교통.\n\n옆에 서 있는 부부가 고개를 끄덕이고 있었다.\n그들은 여기 살 수 있는 사람들이었다.\n\n{name}은 그 거실에 서 있었다.\n발이 마루에 닿아 있었다.\n그게 이상하게 실감이 났다.",
+    "category": "housing",
+    "rarity": "legendary",
+    "weight": 2.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 20
+    },
+    "tags": [
+      "housing",
+      "gangnam",
+      "milestone"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "직원에게 조건을 물어본다. 언젠간 올 수도 있다.",
+        "effects": {
+          "intelligence": 5,
+          "mental": -5,
+          "stress": 3,
+          "investment_skill": 3
+        },
+        "flags": [
+          "visited_gangnam_open_house"
+        ],
+        "follow_up_event": "",
+        "result_text": "'대출은 최대 얼마까지 가능한가요?'\n\n직원이 계산해줬다. 소득 기준, 자산 기준, 금리.\n\n{name}은 받아 적었다.\n숫자들이 지금의 {name}과 얼마나 다른지\n냉정하게 알 수 있는 시간이었다.\n\n나오면서 팸플릿을 챙겼다.\n책상 서랍에 넣어뒀다.\n\n언젠간 다시 보게 될 것 같아서."
+      },
+      {
+        "text": "그냥 구경만 하고 나온다",
+        "effects": {
+          "intelligence": 2,
+          "mental": -8,
+          "stress": 5
+        },
+        "flags": [
+          "visited_gangnam_open_house"
+        ],
+        "follow_up_event": "",
+        "result_text": "나왔다.\n\n지하철역으로 걸어가면서 방금 서 있던 거실을 생각했다.\n그 마루, 그 창, 그 높이.\n\n18억 5천이라는 숫자가 몸에 붙어서 나왔다.\n\n지하철을 탔다.\n좌석에 앉아서 눈을 감았다.\n\n그 거실에 서 있던 느낌이 한참 남아 있었다.\n발바닥이 아직 그 마루를 기억하는 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "hidden_screen_time",
+    "title": "주간 사용 시간",
+    "description": "폰에서 알림이 떴다.\n\n'이번 주 화면 사용 시간 리포트'\n\n{name}은 눌렀다.\n\n하루 평균 5시간 14분.\n\n항목별로 나왔다.\n유튜브. 주식 앱. 부동산 앱. 뉴스.\n그리고 — 검색 기록.\n\n'강남 아파트 평균 가격'\n'33세 평균 자산'\n'서울 월 생활비 최소'\n\n폰이 {name}이 무엇을 원하는지 알고 있었다.\n숫자로.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": [
+      "daily_life",
+      "comedy",
+      "social"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "사용 시간을 줄이기로 한다. 딴 데 쓸 시간이 있다.",
+        "effects": {
+          "intelligence": 4,
+          "stress": -5,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "앱 제한을 걸었다. 하루 1시간.\n\n사흘 후 제한을 풀었다.\n\n그래도 뭔가를 알게 됐다는 것 자체가 의미가 있었다.\n내가 뭘 원하는지 숫자로 보는 건 이상하게 솔직했다."
+      },
+      {
+        "text": "그냥 넘긴다. 다들 이렇게 살겠지.",
+        "effects": {
+          "stress": 2,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "넘겼다.\n\n그리고 5분 후 유튜브를 켰다.\n'30대 순자산 평균 1억? 현실은 이렇습니다'\n\n알고리즘은 언제나 한발 빠르다."
+      }
+    ]
+  },
+  {
+    "id": "hidden_bull_market_fomo",
+    "title": "온 나라가 주식을 산다",
+    "description": "단체 카톡방이 살아났다.\n\n평소엔 조용하던 사람들이 갑자기 말이 많아졌다.\n다들 수익 인증을 올리고 있었다.\n\n'어제 3% 먹었다'\n'나 이번에 진짜 잘 됐다'\n'야 왜 안 하냐'\n\n코스피 차트를 봤다. 계속 올랐다.\n뉴스는 '개인 투자자 역대 최대'라고 했다.\n\n이 파도에 올라타지 않으면 혼자만 남겨지는 것 같은 기분.\n정확히 그 기분.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "fomo",
+      "social"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "올라타기로 한다. 기회는 지금이다.",
+        "effects": {
+          "money": -300000,
+          "investment_skill": 3,
+          "stress": 5,
+          "luck": -1
+        },
+        "flags": [
+          "fomo_invested"
+        ],
+        "follow_up_event": "",
+        "result_text": "300만원을 넣었다.\n\n처음 이틀은 올랐다. 맞았다 싶었다.\n그 다음 주에 조정이 왔다.\n\n단체방이 조용해졌다.\n손실 인증을 올리는 사람은 없었다.\n\nFOMO는 양방향이었다.\n올라탈 때의 두려움과, 떨어질 때의 두려움이 같은 무게였다."
+      },
+      {
+        "text": "구경만 한다. 이게 꼭대기일 수 있다.",
+        "effects": {
+          "intelligence": 5,
+          "stress": 3,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "구경했다.\n\n3주 후 차트가 꺾였다.\n단체방이 조용해졌다.\n\n잘한 것 같기도 했다. 아닌 것 같기도 했다.\n올랐으면 '역시 올라탔어야 했는데' 했을 것이다.\n\n어떤 선택이든 후회의 여지가 있다.\n그게 투자였다."
       }
     ]
   }

@@ -1881,7 +1881,7 @@
           }
         },
         "follow_up_event": "",
-        "result_text": "뒤도 안 돌아봤다.\n\n한지연은 그 자리에 멈춰 섰다. 처음 봤다, 그런 사람."
+        "result_text": "뒤도 안 돌아봤다.\n\n한 블록 걸어가다가 무릎이 쑤셨다.\n멈춰서 바지를 걷어보니 살갗이 벗겨져 있었다.\n\n여자는 그 자리에 멈춰 섰을 것이다.\n처음 봤다, 그런 사람. 아마 그렇게 생각했겠지.\n\n알바비가 3분 늦게 시작했다.\n무릎은 3일 아팠다."
       },
       {
         "text": "연락처를 받는다. 수리비는 받아야지.",
@@ -1901,7 +1901,7 @@
           }
         },
         "follow_up_event": "",
-        "result_text": "번호를 받고 헤어졌다.\n\n자전거 수리비 5만 원이 다음 날 입금됐다. 그리고 한 줄이 더 왔다. '그날 정말 죄송했어요.'"
+        "result_text": "번호를 받고 헤어졌다.\n\n그 자리를 뜨면서 뭔가 이상한 기분이 들었다.\n사고가 났는데 이 사람 이름을 모른다.\n\n자전거 수리비 5만 원이 다음 날 입금됐다.\n그리고 한 줄이 더 왔다.\n'그날 정말 죄송했어요. 많이 다치진 않으셨나요.'\n\n타박상 정도였다. {name}은 한참 보다가 답했다.\n'괜찮아요. 수리비 감사합니다.'\n\n그게 시작이었는지 끝이었는지 그때는 몰랐다."
       }
     ]
   },
@@ -2525,7 +2525,7 @@
           }
         },
         "follow_up_event": "",
-        "result_text": "다은이 조용히 웃었다.\n\n강남은 아직 멀었다.\n근데 지금 여기가 나쁘지 않았다."
+        "result_text": "다은이 조용히 웃었다.\n\n벤치 위로 서울의 소음이 낮게 깔렸다.\n\n강남은 아직 멀었다.\n근데 지금 여기가 나쁘지 않았다.\n\n그 감각이 얼마나 갈지는 몰랐다.\n지금은 그걸로 충분한 것 같았다."
       },
       {
         "text": "\"저는 지금 강남이 먼저예요.\"",
@@ -2543,7 +2543,7 @@
           }
         },
         "follow_up_event": "",
-        "result_text": "다은이 고개를 끄덕였다.\n'알아요. 그래서 말하는 게 망설여졌어요.'\n\n그녀가 일어났다.\n\n편의점에는 그 이후로 오지 않았다."
+        "result_text": "다은이 고개를 끄덕였다.\n'알아요. 그래서 말하는 게 망설여졌어요.'\n\n그녀가 일어났다.\n\n편의점에는 그 이후로 오지 않았다.\n\n{name}은 매주 새벽 두 시가 되면\n그 자리가 비어 있는 걸 새삼스럽게 알아차렸다."
       }
     ]
   },
@@ -2829,6 +2829,115 @@
         },
         "follow_up_event": "",
         "result_text": "두 사람 다 말이 없었다.\n\n나중에 임상철이 말했다.\n'이렇게 있어주는 사람이 몇 명 없어요.'\n\n그 말이 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "father_hospital_wait",
+    "title": "병원 대기실",
+    "description": "아버지 검진이 있었다.\n\n서울 병원까지 내려온 {name}이 대기실에서 기다렸다.\n형광등. 플라스틱 의자. 번호표.\n\n아버지가 진료실에서 나왔다.\n표정이 평소와 같았다.\n그게 좋은 건지 나쁜 건지 몰랐다.\n\n'이제 가자.'\n그게 전부였다.\n\n밖으로 나오며 {name}이 물었다.\n'의사가 뭐라고 했어요?'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15,
+      "flag": "father_visited"
+    },
+    "tags": [
+      "family",
+      "hospital",
+      "emotional"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "'괜찮다고 했다.' 더 이상 묻지 않는다.",
+        "effects": {
+          "mental": -5,
+          "stress": 4
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지는 더 말하지 않았다.\n{name}도 더 묻지 않았다.\n\n점심을 먹었다. 평소처럼.\n\n서울로 돌아오는 기차에서 창밖을 봤다.\n'괜찮다'는 말이 진짜인지 아닌지.\n그걸 알고 싶은 것 같기도 했고, 모르는 게 나은 것 같기도 했다."
+      },
+      {
+        "text": "결과지를 같이 보자고 한다.",
+        "effects": {
+          "mental": 3,
+          "stress": 2,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 6,
+            "stage": "hopeful"
+          }
+        },
+        "flags": [
+          "saw_father_medical"
+        ],
+        "follow_up_event": "",
+        "result_text": "아버지가 잠깐 머뭇거리다가 결과지를 꺼냈다.\n\n수치들이 빽빽했다.\n{name}은 의미를 다 알지 못했다.\n하지만 아버지 옆에 앉아 같이 보는 것 자체가\n뭔가 처음인 것 같았다.\n\n'이 수치가 조금 높대.'\n'약 계속 먹어야 해요?'\n'그렇다더라.'\n\n처음으로 아버지의 몸에 대해 함께 생각하는 오후였다."
+      }
+    ]
+  },
+  {
+    "id": "father_old_photo",
+    "title": "사진 한 장",
+    "description": "아버지 집 정리를 돕다가 앨범이 나왔다.\n\n뒤적이다가 사진 한 장에 멈췄다.\n\n20대의 아버지.\n어딘가 서 있는 사진.\n건물 앞이었다. 서울 어딘가.\n\n웃고 있었다.\n지금의 아버지 표정과 달랐다.\n\n이게 어딘지, 왜 찍었는지 물어본 적이 없었다.\n{name}은 앨범을 들고 아버지에게 갔다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": [
+      "family",
+      "emotional",
+      "story_beat"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "여기가 어딘지 물어본다.",
+        "effects": {
+          "mental": 8,
+          "stress": -5,
+          "intelligence": 3
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8,
+            "stage": "hopeful"
+          }
+        },
+        "flags": [
+          "heard_father_young_story"
+        ],
+        "follow_up_event": "",
+        "result_text": "아버지가 사진을 봤다.\n\n한참 말이 없다가.\n\n'처음 서울 올라왔을 때야. 스물셋인가 넷이었나.'\n'여기서 일하고 싶었어. 결국은 못 했지만.'\n\n아버지가 웃었다. 사진 속 표정과 같았다.\n\n{name}은 그 웃음을 처음 보는 것 같았다.\n아니, 오래전에 봤고 잊고 있었던 것 같았다."
+      },
+      {
+        "text": "그냥 앨범을 덮는다. 말을 꺼내기 어렵다.",
+        "effects": {
+          "mental": -3,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 2
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "앨범을 덮었다.\n\n아버지는 눈치챘는지 모르겠다.\n\n나중에 물어봐야지 했다.\n그 나중이 언제인지는 정하지 않았다.\n\n그 사진 속 아버지가 무슨 표정인지\n집에 돌아오는 내내 생각났다."
       }
     ]
   }
