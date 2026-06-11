@@ -6264,7 +6264,7 @@
   {
     "id": "final_last_winter",
     "title": "마지막 겨울",
-    "description": "12월이었다.\n\n고시원 첫날 밤이 생각났다.\n형광등이 깜빡이던 그 방. 이불이 얇았다.\n얼마 남지 않았다.\n\n5년이 지나간다. 60번의 월급날, 60번의 청구서.\n{name}은 창밖을 봤다.\n\n아직 끝나지 않았다.",
+    "description": "12월이었다.\n\n고시원 첫날 밤이 생각났다.\n형광등이 깜빡이던 그 방. 이불이 얇았다. 창밖은 옆 건물 벽이었다.\n\n{name}은 창을 열었다.\n찬바람이 들어왔다. 서울이 겨울이었다.\n\n5년이 지나갔다.\n\n그 시간 동안 무엇이 달라졌는가.\n방이 달라졌다. 통장 숫자가 달라졌다. 얼굴에 새긴 것들이 달라졌다.\n\n달라지지 않은 것도 있었다.\n아직 강남은 멀다. 아버지의 전화는 여전히 짧다.\n설명하기 어려운 무언가가 가슴 한쪽에 남아 있었다.\n\n마지막 달이다.",
     "category": "daily_life",
     "rarity": "rare",
     "weight": 5.0,
@@ -6287,7 +6287,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "창을 닫았다.\n숫자를 다시 펼쳤다.\n마지막까지 가봐야 안다."
+        "result_text": "창을 닫았다.\n\n생각할 시간이 없다. 아니, 생각해봐야 달라지는 건 없다.\n지금 할 수 있는 것을 한다. 그것뿐이다.\n\n숫자를 다시 펼쳤다. 마지막까지 가봐야 안다."
       },
       {
         "text": "지금까지의 선택들을 천천히 돌아본다",
@@ -6298,7 +6298,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "잘한 것도 있었다.\n못한 것도 있었다.\n그것들이 모두 지금의 {name}이었다."
+        "result_text": "5년 전 {name}이 이 선택들을 알았다면 어땠을까.\n\n잘한 것도 있었다. 못한 것도 있었다.\n후회도 있고, 그래도 잘했다 싶은 것도 있다.\n\n그것들이 모두 지금의 {name}이었다.\n그 사실만은, 이상하게 괜찮았다."
       }
     ]
   },
@@ -7271,6 +7271,429 @@
         },
         "follow_up_event": "",
         "result_text": "아버지도 아무 말 안 했다.\n\n두 사람이 한참 앉아 있었다.\n창밖에 동네가 보였다. 아버지가 평생 살아온 동네.\n\n나중에 강남에 가도, 이 집 냄새는 기억할 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "late_night_driver",
+    "title": "대리기사 아저씨",
+    "description": "오전 1시. 대리운전 기사가 왔다.\n\n차에 타자마자 말을 걸어왔다.\n'어디서 오셨어요? 직장인이세요?'\n\n{name}이 대강 대답하자, 기사님이 말했다.\n'저도 옛날엔 중견기업 부장이었어요. 구조조정 됐죠.'\n\n백미러에 기사님 눈이 잠깐 보였다.\n서울 야경이 유리창을 타고 지나갔다.\n\n'그때 조금만 더 모아뒀으면 지금 이러진 않았을 텐데.'\n\n침묵이 흘렀다. 잠이 달아났다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": [
+      "late_night",
+      "social",
+      "work"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "묵묵히 듣는다. 할 말이 없다.",
+        "effects": {
+          "mental": -3,
+          "intelligence": 4,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "목적지에 도착했다.\n\n내리면서 '수고하세요'라고 했다.\n기사님이 '조심히 가세요'라고 했다.\n\n그 사람의 이름도, 회사도, 그때 연봉도 모른다.\n하지만 그 말이 오래 머물렀다.\n저도 옛날엔."
+      },
+      {
+        "text": "지금은 어떠세요, 여쭤본다.",
+        "effects": {
+          "mental": 3,
+          "social_skill": 2,
+          "stress": -2
+        },
+        "flags": [
+          "heard_driver_story"
+        ],
+        "follow_up_event": "",
+        "result_text": "'애들이 대학 들어가면 좀 나아지겠죠.' 기사님이 말했다.\n\n'지금은 괜찮아요. 이 일도 나쁘지 않아요.'\n그 말이 진심인지 아닌지 알 수 없었다.\n\n내리면서 팁을 좀 더 드렸다.\n고맙다고 하셨다.\n\n그분의 목소리가 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "parents_bankbook",
+    "title": "부모님 통장",
+    "description": "고향에 잠깐 내려갔을 때였다.\n\n아버지가 서랍에서 뭔가를 찾다가 자리를 비웠다.\n{name}이 무심코 서랍을 정리하다가 통장이 보였다.\n\n열지 말아야 한다는 걸 알면서 눈이 갔다.\n\n잔고가 보였다.\n\n숫자가 예상보다 훨씬 작았다.\n아버지가 얼마를 벌었는지, {name}은 대강 알고 있었다.\n그 돈이 어디로 갔는지도.",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10,
+      "flag": "father_visited"
+    },
+    "tags": [
+      "family",
+      "money",
+      "emotional"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "통장을 다시 서랍에 넣는다. 못 본 척한다.",
+        "effects": {
+          "mental": -8,
+          "intelligence": 3,
+          "stress": 5
+        },
+        "flags": [
+          "saw_parents_bankbook"
+        ],
+        "follow_up_event": "",
+        "result_text": "아버지가 돌아왔다. 아무 일 없다는 듯이 대화를 이었다.\n\n저녁을 먹으면서 {name}은 숫자를 머릿속에서 지우려 했다.\n지워지지 않았다.\n\n서울행 기차를 타며 생각했다.\n내가 지금 하는 모든 것의 이유가 저 숫자 때문인지도 모르겠다고."
+      },
+      {
+        "text": "아버지가 돌아오면 솔직하게 말한다.",
+        "effects": {
+          "mental": 5,
+          "stress": -3,
+          "social_skill": 2
+        },
+        "flags": [
+          "talked_about_parents_bankbook"
+        ],
+        "follow_up_event": "",
+        "result_text": "'봤어요. 미안해요.'\n\n아버지는 한참 말이 없었다.\n'뭘. 괜찮다.' 그게 전부였다.\n\n하지만 그 짧은 말 뒤에 뭔가 달라진 게 있었다.\n이제는 모른 척하지 않아도 됐다.\n\n서울로 돌아오는 내내 창밖만 봤다."
+      }
+    ]
+  },
+  {
+    "id": "friend_housewarming",
+    "title": "집들이",
+    "description": "카카오톡 단체방에 사진이 올라왔다.\n\n대학 동기. 신혼집 집들이. 인증샷.\n배경에 창밖 한강이 보였다.\n\n댓글이 쌓이기 시작했다.\n'와 대박.' '부럽다 진짜.' '어디야 이게.'\n\n{name}은 창밖을 봤다.\n창밖은 옆 건물이었다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 6.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "fomo",
+      "housing"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "'축하해!' 이모티콘을 보낸다",
+        "effects": {
+          "mental": -5,
+          "stress": 3,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이모티콘을 보냈다.\n\n폰을 내려놨다.\n방 안을 한 바퀴 둘러봤다.\n\n부럽다. 그것보다 더 정확한 말이 없었다.\n부럽고, 잘 됐고, 나도 언젠가는.\n\n이 감정들이 다 진심인 게 이상하게 피곤했다."
+      },
+      {
+        "text": "알림을 끄고 폰을 뒤집어 놓는다",
+        "effects": {
+          "mental": -2,
+          "stress": -2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "잠시 후 알림이 또 왔다. 새 사진.\n거실 사진. 소파. 원목 식탁.\n\n{name}은 폰을 서랍에 넣었다.\n\n내일 일찍 일어나야 한다.\n지금 할 수 있는 최선을 해야 한다.\n\n그렇게 생각했다. 두 번."
+      }
+    ]
+  },
+  {
+    "id": "old_colleague_gangnam",
+    "title": "강남에서 마주친 전 동료",
+    "description": "강남 거리에서 낯익은 얼굴을 봤다.\n\n전 직장 동료였다. 비슷한 시기에 같이 퇴사했던 사람.\n\n그런데 달라 보였다.\n입고 있는 것, 들고 있는 것, 걷는 방식까지.\n\n'어, {name}씨! 오랜만이에요!'\n\n그 사람은 반가워했다. {name}도 반가웠다.\n그 반가움 뒤에 뭔가 다른 게 섞여 있었다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": [
+      "social",
+      "work",
+      "fomo"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "잘 지냈냐고 근황을 나눈다",
+        "effects": {
+          "mental": -3,
+          "social_skill": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 사람은 이직했다. 연봉이 올랐다.\n지금 근처 오피스텔에 산다고 했다.\n\n'{name}씨는요?' 물어봤다.\n{name}은 '저도 잘 되고 있어요'라고 했다.\n\n헤어지고 나서 골목 벤치에 잠깐 앉았다.\n그게 거짓말인지 진심인지 스스로도 몰랐다."
+      },
+      {
+        "text": "못 본 척하고 지나친다",
+        "effects": {
+          "mental": 2,
+          "stress": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지나쳤다.\n\n50미터쯤 걸어가다가 혹시 뒤를 보지 않았을까 생각했다.\n뒤를 돌아보지 않았다.\n\n그게 편한 선택이었다는 게, 조금 서글펐다."
+      }
+    ]
+  },
+  {
+    "id": "business_card_first",
+    "title": "명함",
+    "description": "직함이 적힌 명함을 처음 받았다.\n\n팀장님이 첫 외부 미팅 전에 건네줬다.\n'이제 회사 얼굴이니까 잘 해요.'\n\n{name}은 명함을 내려다봤다.\n\n이름. 직함. 회사명. 연락처.\n\n이 종이 한 장이 지금 {name}의 무게였다.\n5년 전의 {name}은 이걸 상상도 못 했다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_job_tier": 2
+    },
+    "tags": [
+      "work",
+      "jobs",
+      "milestone"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "지갑에 한 장 넣어두고 미팅에 간다",
+        "effects": {
+          "reputation": 3,
+          "mental": 5,
+          "stress": -3
+        },
+        "flags": [
+          "got_business_card"
+        ],
+        "follow_up_event": "",
+        "result_text": "미팅이 끝나고 명함을 한 장 건넸다.\n상대방이 자연스럽게 받아 지갑에 넣었다.\n\n아무 일도 아닌 것 같은 동작이었다.\n{name}한테는 그렇지 않았다.\n\n돌아오는 지하철에서 지갑을 열어 명함을 다시 봤다.\n내 이름이 종이에 박혀 있었다."
+      },
+      {
+        "text": "명함을 보며 잠깐 멈칫한다. 아직 실감이 안 난다.",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2
+        },
+        "flags": [
+          "got_business_card"
+        ],
+        "follow_up_event": "",
+        "result_text": "미팅에서 명함을 처음 건넸을 때 손이 살짝 떨렸다.\n\n상대는 몰랐을 것이다.\n\n집에 돌아와 명함 한 장을 책상에 올려놨다.\n오래 쳐다봤다.\n\n이게 시작인지, 아직 갈 길이 먼 중간인지 모르겠다.\n그래도 — 여기까지 왔다."
+      }
+    ]
+  },
+  {
+    "id": "algorithm_knows_me",
+    "title": "알고리즘이 나를 파악했다",
+    "description": "유튜브 알고리즘이 달라졌다.\n\n예전엔 예능이 나왔다. 요즘은 달라졌다.\n'30대 재테크 필수' '투자로 3억 모은 방법' '강남 입성 현실 후기'.\n\n내가 본 게 이 영상들이었다.\n내가 검색한 게 이 단어들이었다.\n\n알고리즘은 거짓말을 하지 않는다.\n내가 무엇을 원하는지 나보다 더 잘 알고 있었다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 5.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "daily_life",
+      "social",
+      "comedy"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "영상 하나를 본다. 어차피 자야 하는데.",
+        "effects": {
+          "intelligence": 2,
+          "mental": -3,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "새벽 1시 47분.\n\n영상 하나를 봤는데 다음 영상이 자동으로 재생됐다.\n관련 영상이었다. 또 관련 영상이 나왔다.\n\n2시간 후 {name}은 누군가의 20대 투자 실패담까지 봤다.\n\n유익했는지는 모르겠다.\n잠이 달아난 건 확실했다."
+      },
+      {
+        "text": "앱을 닫는다. 내가 뭘 하고 있나 싶어서.",
+        "effects": {
+          "mental": 5,
+          "stress": -3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "앱을 닫았다.\n\n방 안이 조용해졌다.\n천장을 봤다.\n\n강남이 되고 싶은 건지, 그냥 불안한 건지.\n그 경계가 가끔 흐릿할 때가 있다.\n\n이날은 그냥 잤다. 그게 맞는 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "hometown_friend_ask",
+    "title": "고향 친구의 질문",
+    "description": "오래된 친구한테 카톡이 왔다.\n\n'야, 서울 사는 거 어때. 나는 그냥 여기 있는 게 낫겠다.'\n\n그 친구는 고향에서 직장 다니고 있다.\n별로 벌지는 못하지만, 집은 있고, 가족은 가깝다.\n\n'{name}이 보기엔 어때? 서울이 그렇게 좋아?'\n\n{name}은 화면을 잠깐 바라봤다.\n\n뭐라고 답해야 할지 몰랐다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": [
+      "social",
+      "family",
+      "life"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "'그렇다고도 할 수 없다'고 솔직하게 답한다",
+        "effects": {
+          "mental": 5,
+          "stress": -4,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'모르겠어. 좋은 것도 있고 힘든 것도 있고.'\n\n친구가 답했다. '그래도 거기 있는 이유가 있겠지.'\n\n그 한 마디가 이상하게 위로가 됐다.\n\n이유는 있다. 설명하기 어렵지만.\n그게 충분하다는 생각이, 가끔은 든다."
+      },
+      {
+        "text": "'서울 살 만해. 기회가 많잖아.' 긍정적으로 답한다",
+        "effects": {
+          "mental": -2,
+          "stress": 2,
+          "reputation": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "친구가 답했다. '그래, 너 대단하다.'\n\n대단하다는 말이 이상했다.\n대단한 게 맞는지 잘 모르겠다.\n\n통화를 끊고 {name}은 생각했다.\n서울이 좋아서 있는 건지, 떠나기가 두려워서 있는 건지.\n\n그 둘 중 하나가 맞겠지."
+      }
+    ]
+  },
+  {
+    "id": "convenience_extra_kimbap",
+    "title": "편의점 야간 알바",
+    "description": "새벽 2시, 편의점에 들렀다.\n\n삼각김밥 하나를 집어 계산대에 갔다.\n알바생이 계산하다가 말했다.\n\n'유통기한 30분 남은 것도 드릴까요. 그냥 버려야 해서요.'\n\n{name}은 알바생을 봤다.\n학생처럼 보였다. 새벽에 여기서 일하는 사람이었다.\n\n그 친절이 특별한 이유가 없었다. 그래서 더 마음에 걸렸다.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 4.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "daily_life",
+      "night",
+      "food"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "고맙다고 하고 받는다",
+        "effects": {
+          "mental": 6,
+          "health": 2,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "김밥 두 줄을 들고 밖으로 나왔다.\n\n편의점 앞 벤치에 앉아 먹었다.\n맛은 괜찮았다.\n\n그 알바생도 지금 서울에서 뭔가를 버티고 있겠다.\n아니면 그냥 아르바이트일 뿐이거나.\n\n뭐든 그 친절이 오늘 밤 제일 따뜻한 것이었다."
+      },
+      {
+        "text": "괜찮다고 하고 그냥 나온다",
+        "effects": {
+          "mental": -2,
+          "stress": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "나오면서 '아, 받을걸' 했다.\n\n뒤돌아갈까 잠깐 생각했다.\n그냥 걸었다.\n\n별거 아닌 것 같은데 오래 생각났다.\n받았으면 그냥 먹고 잊었을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "seoul_five_years",
+    "title": "서울살이 5년",
+    "description": "이사를 하다가 박스 하나에서 물건이 나왔다.\n\n처음 서울 올라올 때 가져왔던 것들.\n낡은 이어폰. 빈 노트. 지역 명함.\n\n그때의 {name}은 이 도시를 어떻게 생각했을까.\n\n5년이 지났다.\n그때보다 나아졌는가. 솔직히 모르겠다.\n달라진 것은 확실히 있다.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 30
+    },
+    "tags": [
+      "life",
+      "daily_life",
+      "milestone"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "물건들을 버린다. 과거에 묶여 있을 때가 아니다.",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "박스를 닫고 분리수거함에 버렸다.\n\n그때의 것들이 사라졌다.\n\n아쉽지 않았다. 조금 아쉬웠다.\n그 두 감각이 같이 있었다.\n\n앞을 보는 건 과거를 지운다는 뜻이 아닐 수 있다.\n그냥 앞을 보는 것이다."
+      },
+      {
+        "text": "잠깐 들여다보고 그냥 다시 박스에 넣는다.",
+        "effects": {
+          "mental": 3,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "박스를 새 집 구석에 뒀다.\n\n언젠가 또 이 물건들을 꺼낼 때가 있겠지.\n그때는 지금을 어떻게 볼까.\n\n지금은 그냥 살아야 한다.\n그것만 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "salary_not_enough",
+    "title": "월급날",
+    "description": "월급이 들어왔다.\n\n알림 소리와 함께 금액이 떴다.\n카드 대금, 고시원비, 통신비, 보험료.\n\n다 빠지고 나면 남는 게 별로 없다.\n\n이 돈으로 한 달을 살아야 한다.\n이 돈이 {name}이 이번 달 만들어낸 가치였다.\n\n숫자를 한참 봤다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 7.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "finance",
+      "work",
+      "daily_life"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "이 중에서 조금이라도 더 모으는 방법을 생각한다",
+        "effects": {
+          "money": 50000,
+          "intelligence": 2,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "식비를 줄이기로 했다. 커피를 한 번 덜 마시기로 했다.\n\n5만원을 더 모았다.\n\n5만원이 별거 아닌 것 같지만.\n1년이면 60만원이다.\n10년이면 600만원이다.\n\n그 계산을 하는 {name}의 얼굴이, 가끔은 스스로 측은하기도 했다."
+      },
+      {
+        "text": "오늘 하루만큼은 좋은 거 먹는다. 나한테 투자한다.",
+        "effects": {
+          "money": -30000,
+          "mental": 8,
+          "health": 3,
+          "stress": -6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "나가서 먹었다.\n\n맛있었다. 3만원이었다.\n3만원이 아깝지 않았다. 조금 아까웠다.\n\n그 두 감각이 식사 내내 같이 있었다.\n\n다음 달에는 더 잘 될 것이다.\n그렇게 생각하기로 했다."
       }
     ]
   }
