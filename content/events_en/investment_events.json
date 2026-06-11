@@ -1,0 +1,2092 @@
+[
+ {
+  "id": "disasters_001",
+  "title": "Rent Hike — Recalculating",
+  "description": "A text arrived. Rent going up ₩50,000.\n\n{name} started calculating.\n₩50,000 a month. ₩600,000 a year. ₩3,000,000 over five years.\n\nThat money doesn't just disappear.\nIt's money leaving the investable column every month.\nRun compound interest on it and the story changes.",
+  "category": "disasters",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "disasters",
+   "class"
+  ],
+  "cooldown": 7,
+  "choices": [
+   {
+    "text": "Negotiate with the landlord. Protect the margin.",
+    "effects": {
+     "money": 280000,
+     "intelligence": -5
+    },
+    "result_text": "Negotiated the increase down.\n₩30,000 a month saved — ₩360,000 a year.\nSmall differences aren't small once compound interest gets involved."
+   },
+   {
+    "text": "Accept it. Cut other expenses.",
+    "effects": {
+     "stress": 9,
+     "mental": -6,
+     "intelligence": 1
+    },
+    "result_text": "Cancelled two subscriptions.\nCombined: ₩48,000.\nMade up for the rent increase somewhere else."
+   },
+   {
+    "text": "Move to a cheaper place. Lower fixed costs.",
+    "effects": {
+     "reputation": -1,
+     "investment_skill": 0
+    },
+    "result_text": "Found a cheaper room and moved.\nMoving costs: ₩350,000.\nBreak-even in seven months.",
+    "investment_effects": {
+     "market_bias": "crash",
+     "asset_tag": "leveraged",
+     "power": 0.136
+    }
+   }
+  ]
+ },
+ {
+  "id": "gambling_002",
+  "title": "Crypto Futures Temptation",
+  "description": "1 AM. Crypto futures profit screenshots are flooding the group chat.\n'200% in one hour', 'This actually works.'\n\nEveryone who knows is already in — or so the word goes.\n10x leverage, ₩100,000 margin to get ₩1,000,000 exposure.\n{name}'s fingers hover over the screen.\nThe exchange app download button is right there.",
+  "category": "gambling",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "gambling",
+   "viral"
+  ],
+  "cooldown": 9,
+  "choices": [
+   {
+    "text": "Quietly close the position. Lock in profit.",
+    "effects": {
+     "money": 380000,
+     "investment_skill": -2
+    },
+    "result_text": "Coolheadedly locked in the gain. Resisting greed is the hardest investment skill of all."
+   },
+   {
+    "text": "Look away. Close the app.",
+    "effects": {
+     "stress": -4,
+     "mental": -1
+    },
+    "result_text": "Tuned it out — but the unease didn't settle easily. A night of wavering."
+   },
+   {
+    "text": "Full leverage. All in.",
+    "effects": {
+     "reputation": 3,
+     "investment_skill": -1,
+     "addiction_tendency": 15
+    },
+    "result_text": "Everything's on the line. Which way fate swings — that won't be known until morning.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "real_estate",
+     "power": 0.077
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_003",
+  "title": "Breaking: Rates, Tax, Housing — All at Once",
+  "description": "10:03 AM.\n\nBreaking news alerts fired.\nBase rate held. Capital gains tax eased. Some speculation zones lifted.\n\nThree things dropped simultaneously.\nThe portfolio screen flickered.\n\nThe gap between those who move now and those who wait — this is where it opens.",
+  "category": "politics",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "politics",
+   "opportunity"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Adjust risk asset weighting. Defensive reposition.",
+    "effects": {
+     "money": -130000,
+     "health": -3
+    },
+    "result_text": "Increased bonds, reduced leverage.\nMarket was up 2% the next day.\nWhether the defensive call was right — that'll be known in three months."
+   },
+   {
+    "text": "Watch and wait for now.",
+    "effects": {
+     "stress": 10,
+     "mental": 6
+    },
+    "result_text": "Closed the screen.\nReopened it two hours later.\nMarket whipped around and ended up back where it started."
+   },
+   {
+    "text": "Move fast into policy-benefit sectors.",
+    "effects": {
+     "reputation": -2,
+     "investment_skill": 5
+    },
+    "result_text": "Bought a real estate ETF.\nUp 3.2% on the day.\nDown 1.8% the next. Still in the green.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "us_stock",
+     "power": -0.068
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_004",
+  "title": "Election Thematic Plays",
+  "description": "Election season again. YouTube is flooded with 'sector beneficiaries by candidate' analysis.\nThumbnails reading 'This stock 3x if this candidate wins.'\n\nA certain sector actually surged last election — it happened.\n{name} felt the FOMO of maybe missing this wave.\nBut nobody knows who wins an election.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "politics",
+   "opportunity"
+  ],
+  "cooldown": 5,
+  "choices": [
+   {
+    "text": "Buy early, before the rumor spreads.",
+    "effects": {
+     "money": 320000,
+     "appearance": 3
+    },
+    "result_text": "Got in ahead of the noise. Being quick to read the room beats having the information."
+   },
+   {
+    "text": "Ignore the election plays.",
+    "effects": {
+     "stress": -5,
+     "mental": -4
+    },
+    "result_text": "Know the risks of speculative theme trading. Stayed out. FOMO is real — no regrets though."
+   },
+   {
+    "text": "Quick in and out. Scalp trade.",
+    "effects": {
+     "reputation": 3,
+     "investment_skill": 3
+    },
+    "result_text": "In and out in the blink of an eye. Fast judgment paid off this time.",
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "us_stock",
+     "power": -0.079
+    }
+   },
+   {
+    "text": "Watch the chart. Do nothing.",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "Might have missed the move. But not losing anything is enough for today."
+   }
+  ]
+ },
+ {
+  "id": "disasters_005",
+  "title": "Sudden Layoff Rumors",
+  "description": "Lunch hour. A strange tension in the company chat.\n'I heard there's restructuring this month' — one post.\n\nSimilar rumors are circulating on stock forums too. About a company {name} holds.\nNo official announcement — but the stock is already sliding toward -8%.\nBelieve the rumor and sell, or wait for the official word?",
+  "category": "disasters",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "disasters",
+   "pressure"
+  ],
+  "cooldown": 3,
+  "choices": [
+   {
+    "text": "Coolheadedly assess the situation first.",
+    "effects": {
+     "money": 380000,
+     "stress": 2
+    },
+    "result_text": "Checked whether it's rumor or fact before anything else. Getting the facts before the feelings matters."
+   },
+   {
+    "text": "Too anxious to do anything.",
+    "effects": {
+     "stress": 9,
+     "mental": 6
+    },
+    "result_text": "Every worst-case scenario played out in the mind. This night is going to be long."
+   },
+   {
+    "text": "Reverse the rumor — take a position.",
+    "effects": {
+     "reputation": 8,
+     "investment_skill": 3
+    },
+    "result_text": "Went in bold while others panic-sold. The moment fear became opportunity.",
+    "flags": [
+     "seen_disasters_005"
+    ],
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "crypto",
+     "power": 0.02
+    }
+   }
+  ]
+ },
+ {
+  "id": "disasters_006",
+  "title": "Phone Smashed",
+  "description": "Dropped the phone walking. Screen shattered.\nRepair estimate: ₩300,000. Or a new one: ₩1,000,000.\n\nUnexpected outflow. It comes out of money set aside for investing.\n{name} paused before reaching for the wallet.\nWhat's the most rational way to handle this?",
+  "category": "disasters",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "disasters",
+   "pressure"
+  ],
+  "cooldown": 6,
+  "choices": [
+   {
+    "text": "Check if there's insurance coverage.",
+    "effects": {
+     "money": 130000,
+     "luck": 4
+    },
+    "result_text": "Quietly dug up the insurance policy that was filed away. Being prepared pays off."
+   },
+   {
+    "text": "Panic. Just buy a new phone.",
+    "effects": {
+     "stress": 8,
+     "mental": 3
+    },
+    "result_text": "Rushed to the store on impulse. The shattered screen hurt less than the receipt."
+   },
+   {
+    "text": "Find a used phone fast.",
+    "effects": {
+     "reputation": 8,
+     "investment_skill": 3
+    },
+    "result_text": "Scoured the secondhand apps. Finding efficiency in a crisis — that's Seoul survival instinct.",
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "us_stock",
+     "power": -0.07
+    }
+   }
+  ]
+ },
+ {
+  "id": "gambling_007",
+  "title": "Sports Betting Link in Group Chat",
+  "description": "Unknown number dropped a link in the chat.\n'100% analysis for this week. If you watch Kakao closely, you'd know.'\n\nEleven people in the room.\nSomeone commented 'I hit it last week.'\n\n{name} spent three seconds debating whether to click.",
+  "category": "gambling",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 11,
+   "has_portfolio": true
+  },
+  "tags": [
+   "gambling",
+   "satire"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Ignore the link. Leave the group chat.",
+    "effects": {
+     "money": 230000,
+     "investment_skill": -6
+    },
+    "result_text": "Left the chat.\nNever found out how the week turned out.\nSometimes not knowing is the better deal."
+   },
+   {
+    "text": "Peek at it for a second.",
+    "effects": {
+     "stress": 9,
+     "mental": -3,
+     "addiction_tendency": 8
+    },
+    "result_text": "Clicked the link.\nA sign-up form appeared.\nHit back. Just looked this time."
+   },
+   {
+    "text": "Try it once. Tiny amount.",
+    "effects": {
+     "reputation": -2,
+     "investment_skill": -1,
+     "addiction_tendency": 10
+    },
+    "result_text": "Put in ₩10,000.\nGot it wrong.\nCalled it ₩10,000 in tuition.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "real_estate",
+     "power": 0.145
+    }
+   }
+  ]
+ },
+ {
+  "id": "finance_paycheck_card",
+  "title": "Payday — Running the Numbers",
+  "description": "Paycheck in.\nCard bill out at the same moment.\n\nChecked the balance.\nHow much is actually investable this month?\n\n{name} started subtracting fixed costs one by one.\nRent, food, phone, subscriptions, card payment.\nThe number shrank faster than expected.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "max_mental": 65,
+   "has_portfolio": true
+  },
+  "tags": [
+   "finance",
+   "anxiety"
+  ],
+  "cooldown": 5,
+  "choices": [
+   {
+    "text": "Pay off the card in full. Invest what's left.",
+    "effects": {
+     "money": 430000,
+     "intelligence": -1
+    },
+    "result_text": "Got to the investable amount.\nSmaller than expected.\nStill bigger than zero. Decided to cut more next month."
+   },
+   {
+    "text": "Minimum payment only. Put the rest into the market.",
+    "effects": {
+     "stress": 0,
+     "mental": -2
+    },
+    "result_text": "Transferred the minimum.\nMoved the rest to the investment account.\nInterest started accumulating. Card interest."
+   },
+   {
+    "text": "Skip investing this month.",
+    "effects": {
+     "reputation": 2,
+     "investment_skill": 4
+    },
+    "result_text": "Took a break this month.\nPaid off the card completely.\nBalance was higher than usual. Didn't feel good.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "korean_stock",
+     "power": 0.13
+    }
+   }
+  ]
+ },
+ {
+  "id": "finance_012",
+  "title": "Balance: -₩34,200",
+  "description": "8:41 AM.\nBank app notification.\n\n'Your account is negative. Overdraft interest is being applied.'\n\nThe number: -₩34,200.\nOverdraft limit remaining: ₩4,967,800.\n\n{name} closed the app and reopened it.\nThe number was the same.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "finance",
+   "viral"
+  ],
+  "cooldown": 3,
+  "choices": [
+   {
+    "text": "Deposit and cover it today.",
+    "effects": {
+     "money": 140000,
+     "luck": -1
+    },
+    "result_text": "Reached out to someone.\nBorrowed the money.\nDeposited it that evening. The negative disappeared."
+   },
+   {
+    "text": "Turn off the notifications. Let it sit.",
+    "effects": {
+     "stress": -8,
+     "mental": 0
+    },
+    "result_text": "Went into notification settings.\nTurned them off.\nDecided not to calculate how much the daily interest was."
+   },
+   {
+    "text": "Liquidate part of the portfolio to cover it.",
+    "effects": {
+     "reputation": -2,
+     "investment_skill": 1
+    },
+    "result_text": "Sold part of a profitable position.\nAfter tax it was just enough.\nAccount went to zero. Felt like starting over.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "korean_stock",
+     "power": 0.14
+    }
+   },
+   {
+    "text": "Deepen the overdraft. Use it for investing.",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "Pulled to the limit.\nTransferred to the investment account.\nRecalculated interest rate vs. expected return. Razor thin."
+   }
+  ]
+ },
+ {
+  "id": "disasters_014",
+  "title": "Jeonse Fraud News — Real Estate Sector Falls",
+  "description": "300 jeonse fraud victims in the news.\n\nReal estate stocks were dropping from the opening bell.\nConstruction -3.2%. REITs -4.1%. Real estate platforms -2.8%.\n\n{name} looked at the portfolio.\nWhen fear makes the price — is this the opportunity, or is the bottom still ahead?",
+  "category": "disasters",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 18,
+   "has_portfolio": true
+  },
+  "tags": [
+   "disasters",
+   "risk"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "More downside likely — wait and watch.",
+    "effects": {
+     "money": -200000,
+     "mental": -2
+    },
+    "result_text": "Kept hands off.\nNext day brought more selling.\nRebound started on day three. The wait was right."
+   },
+   {
+    "text": "Start staged buying into the panic sell zone.",
+    "effects": {
+     "stress": 8,
+     "mental": 2
+    },
+    "result_text": "Bought a third.\nDown another 2% the next day.\nBought another third. That's why you stage it."
+   },
+   {
+    "text": "Sell the existing position. Cut losses.",
+    "effects": {
+     "reputation": -1,
+     "investment_skill": -1
+    },
+    "result_text": "Stopped out.\n-6.3%.\nPainful number — but it fell further. Called this one right.",
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "leveraged",
+     "power": 0.091
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_016",
+  "title": "Youth Subsidy Controversy",
+  "description": "Youth subsidy policy announced. Cash payment if certain conditions are met.\nSocial media split on it.\n\nIf the subsidy actually gets distributed, consumer sentiment could tick up.\nDomestic demand stocks started moving.\n{name} considered riding the wave — or watching from the sidelines.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "politics",
+   "satire"
+  ],
+  "cooldown": 6,
+  "choices": [
+   {
+    "text": "Check eligibility carefully and apply.",
+    "effects": {
+     "money": -90000,
+     "intelligence": -3
+    },
+    "result_text": "Reviewed the eligibility and procedures thoroughly and submitted the application. Not embarrassing — it's a right."
+   },
+   {
+    "text": "Get sucked into the online debate.",
+    "effects": {
+     "stress": 8,
+     "mental": -5,
+     "social_skill": -1
+    },
+    "result_text": "Started an argument online. Burned all the energy. Got nothing in return."
+   },
+   {
+    "text": "Put the subsidy to work as seed money.",
+    "effects": {
+     "reputation": 3,
+     "investment_skill": 1
+    },
+    "result_text": "Deposited the cash straight into the investment account. Even handouts compound when you invest them.",
+    "investment_effects": {
+     "market_bias": "crash",
+     "asset_tag": "us_stock",
+     "power": -0.047
+    }
+   },
+   {
+    "text": "Ignore the whole thing.",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "Figured it had nothing to do with {name} anyway. Indifference was the easiest choice."
+   }
+  ]
+ },
+ {
+  "id": "gambling_020",
+  "title": "\"One Shot Is All It Takes\"",
+  "description": "A senior at work said it over drinks. 'I made ₩100M on crypto last year. You just need the right timing.'\n{name} couldn't shake it even back home.\n\nOpened the account. What if all of it went in right now?\nRationality says no. Emotion whispers maybe.\n{name} has to make an important decision tonight.",
+  "category": "gambling",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "gambling",
+   "anxiety"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Hear it — then coldly run the numbers.",
+    "effects": {
+     "money": -10000,
+     "intelligence": 5
+    },
+    "result_text": "Calculated the actual odds of a one-shot win. Numbers don't lie."
+   },
+   {
+    "text": "Get shaken. Start comparing to others.",
+    "effects": {
+     "stress": 11,
+     "mental": 2,
+     "addiction_tendency": 5
+    },
+    "result_text": "Got swept up in other people's success stories. Comparing is the most dangerous investment psychology."
+   },
+   {
+    "text": "Put everything on one bet.",
+    "effects": {
+     "reputation": -4,
+     "investment_skill": 2,
+     "addiction_tendency": 25
+    },
+    "result_text": "Believed in the one shot. Whatever happens — this choice will be remembered for a long time.",
+    "flags": [
+     "seen_gambling_020"
+    ],
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "leveraged",
+     "power": 0.017
+    }
+   },
+   {
+    "text": "Cover your ears and leave.",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "Chose not to listen. Walking away from temptation takes courage too."
+   }
+  ]
+ },
+ {
+  "id": "finance_022",
+  "title": "ETF Screenshot",
+  "description": "A 20-year S&P500 ETF return chart was posted to the finance community.\n600% over 20 years. Hundreds of comments.\n\n'Should've started earlier.' {name}'s hands are still empty.\nLooking at the screenshot triggered an urge to start something, now.\nStart diversified investing immediately — or study more first?",
+  "category": "finance",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "max_mental": 65,
+   "has_portfolio": true
+  },
+  "tags": [
+   "finance",
+   "anxiety"
+  ],
+  "cooldown": 9,
+  "choices": [
+   {
+    "text": "Analyze the ETF's underlying holdings properly.",
+    "effects": {
+     "money": 190000,
+     "appearance": 0
+    },
+    "result_text": "While others posted screenshots, looked at the substance. The risk behind a trend has to be examined."
+   },
+   {
+    "text": "Follow the crowd. Buy a small amount.",
+    "effects": {
+     "stress": -1,
+     "mental": 2
+    },
+    "result_text": "Triggered by the screenshot, hit the buy button just like everyone else. Herd psychology is hard to resist."
+   },
+   {
+    "text": "Turn the screenshot trend into content for the channel.",
+    "effects": {
+     "reputation": 7,
+     "investment_skill": 4
+    },
+    "result_text": "Made the flow itself into content rather than riding it. Reading the times opened a different door.",
+    "investment_effects": {
+     "market_bias": "crash",
+     "asset_tag": "leveraged",
+     "power": -0.102
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_025",
+  "title": "Housing Regulation Rumor",
+  "description": "Real estate forums are buzzing. 'Stricter lending regulations confirmed next month' — source unknown.\nAlready hit 100,000 views.\n\nSome people are moving before the official announcement.\n{name} holds assets partially in real estate.\nAct on the rumor, or wait for the official word?",
+  "category": "politics",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "politics",
+   "anxiety"
+  ],
+  "cooldown": 7,
+  "choices": [
+   {
+    "text": "Move preemptively before the official announcement.",
+    "effects": {
+     "money": -200000,
+     "intelligence": -4
+    },
+    "result_text": "Adjusted position before the rumor became fact. Speed of information is profit."
+   },
+   {
+    "text": "Let panic override logic. Sell emotionally.",
+    "effects": {
+     "money": -200000,
+     "investment_skill": 3,
+     "luck": 1
+    },
+    "result_text": "Fear moved the finger before the brain did. Sold in a rush."
+   },
+   {
+    "text": "Reverse the rumor — wait for the dip and buy.",
+    "effects": {
+     "reputation": 6,
+     "investment_skill": -1
+    },
+    "result_text": "Bought when everyone was selling. Fear is often just another name for opportunity.",
+    "flags": [
+     "seen_politics_025"
+    ],
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "leveraged",
+     "power": 0.037
+    }
+   }
+  ]
+ },
+ {
+  "id": "inv_rebalancing_dilemma",
+  "title": "Portfolio Rebalancing Dilemma",
+  "description": "Opened the investment app and stopped. One position is glowing blue alone, now over 60% of the whole portfolio. The gains are sweet — but leaving it there means one swing could take everything down. {name} stared at the screen, finger frozen in the air.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_investment_skill": 15
+  },
+  "tags": [
+   "investment",
+   "strategy",
+   "portfolio"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Rebalance now — take some profit and spread safely.",
+    "effects": {
+     "money": 300000,
+     "stress": -3,
+     "investment_skill": 2
+    },
+    "result_text": "Trimmed the oversized position and rebalanced. Protecting gains is also part of investing."
+   },
+   {
+    "text": "Hold longer — this could be the start of a bull run.",
+    "effects": {
+     "investment_skill": 2,
+     "stress": 4
+    },
+    "result_text": "Decided to ride it between greed and conviction. Sleepless nights ahead — but that's the investor's burden."
+   },
+   {
+    "text": "Watch a few expert YouTube videos first.",
+    "effects": {
+     "investment_skill": 3,
+     "mental": 2
+    },
+    "result_text": "Closed three hours of videos with no conclusion — but at least understood the principles of rebalancing. Knowledge speeds up future decisions."
+   }
+  ]
+ },
+ {
+  "id": "inv_hot_tip_kakao",
+  "title": "Stock Tip in the Group Chat",
+  "description": "2 PM. A message in the stock group chat: 'Timing to enter now — sharp rise expected tomorrow.' Sender is a someone who called it right once before. Over 100 people in the room and already half are typing 'I'm buying.' Whether this is real or noise — the palm holding the phone is sweating.",
+  "category": "gambling",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "sns",
+   "tip"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Small bet — tuition if wrong.",
+    "effects": {
+     "money": -100000,
+     "luck": 1,
+     "gambling_tendency": 3
+    },
+    "result_text": "Bought ₩100,000 worth. Next day the stock quietly dropped — and the group chat went silent."
+   },
+   {
+    "text": "Ignore it. Close the app.",
+    "effects": {
+     "investment_skill": 2
+    },
+    "result_text": "Muted the group chat. Confirmed once again: good information doesn't come to group chats first."
+   },
+   {
+    "text": "Verify the source directly.",
+    "effects": {
+     "intelligence": 2,
+     "stress": -2
+    },
+    "result_text": "Searched the disclosures. No basis whatsoever. The fact-checking habit protected the wallet again."
+   }
+  ]
+ },
+ {
+  "id": "inv_market_crash_alert",
+  "title": "Market Crash Alert",
+  "description": "3:17 AM. Phone went off. US market -4.8%. NASDAQ circuit breaker triggered. Breaking news everywhere. Korean market opens at 9. 5 hours and 45 minutes to make a decision. {name} kicked off the covers, got up, and opened the laptop.",
+  "category": "disasters",
+  "rarity": "rare",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_money": 500000
+  },
+  "tags": [
+   "investment",
+   "crisis",
+   "market"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "Full liquidation the moment the market opens.",
+    "effects": {
+     "money": -200000,
+     "stress": 5,
+     "mental": -3
+    },
+    "result_text": "At 9:00 sharp, the execution screen went red. Locking in a loss mixed strangely with the relief of not losing more."
+   },
+   {
+    "text": "Hold. Long-term investors don't trade the night.",
+    "effects": {
+     "stress": 8,
+     "investment_skill": 3
+    },
+    "result_text": "Closed the screen and forced eyes shut. A week later the market was halfway recovered — and {name}'s nerves were harder."
+   },
+   {
+    "text": "Buy more. Fear is the opportunity.",
+    "effects": {
+     "money": -300000,
+     "investment_skill": 4,
+     "luck": 2
+    },
+    "result_text": "Put in staged buys while panic selling flooded the market. Could have been wrong — but this choice might become legend later."
+   }
+  ]
+ },
+ {
+  "id": "inv_dividend_received",
+  "title": "Dividend Deposit",
+  "description": "A KakaoBank notification arrived at lunch. '₩47,200 dividend deposited.' Money from a stock held without much expectation. Small — but the sensation of money arriving without doing anything is entirely new. Took a screenshot of the balance and stared at it for a while.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "dividend",
+   "passive_income"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Reinvest the dividend immediately.",
+    "effects": {
+     "investment_skill": 2,
+     "mental": 4
+    },
+    "result_text": "Put the money right back into the same stock. The magic of compounding starts with exactly this small action."
+   },
+   {
+    "text": "Spend it on a nice dinner. Small joy.",
+    "effects": {
+     "money": 50000,
+     "mental": 6,
+     "stress": -3
+    },
+    "result_text": "Used the dividend money for samgyeopsal. Meat paid for by the market always tastes different."
+   }
+  ]
+ },
+ {
+  "id": "inv_loss_cut_decision",
+  "title": "The Stop-Loss Decision",
+  "description": "A stock bought confidently two weeks ago is down -25%. First it was 'it'll recover if I wait.' But today closed down again. Where to draw the stop-loss line — {name} stared at the red number and the hand stopped. A voice in the back of the mind kept saying 'selling now means failure.'",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_stress": 40
+  },
+  "tags": [
+   "investment",
+   "loss",
+   "psychology"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Stop-loss now — before it gets worse.",
+    "effects": {
+     "money": -300000,
+     "stress": -5,
+     "investment_skill": 3
+    },
+    "result_text": "Fingers trembled — but hit the sell button. Accepting a loss is painful, but it's how you grow as an investor."
+   },
+   {
+    "text": "Average down — lower the cost basis.",
+    "effects": {
+     "money": -200000,
+     "investment_skill": 1,
+     "stress": 5
+    },
+    "result_text": "Added more to bring the average price down. Could turn out right — could fall further. For now, the only option is to wait."
+   },
+   {
+    "text": "Just leave it. Nobody knows anyway.",
+    "effects": {
+     "stress": 3,
+     "mental": -2
+    },
+    "result_text": "Wanted to delete the app. Closed it instead. Closing your eyes doesn't make the loss disappear."
+   }
+  ]
+ },
+ {
+  "id": "inv_stock_ipo_lottery",
+  "title": "IPO Subscription",
+  "description": "A subscription opened for a hot K-beauty startup IPO. SNS is buzzing with 'guaranteed double on listing day.' Competition ratio already past 820:1, and the brokerage app is sluggish under load. {name} has ₩500,000 in subscription deposit ready and is hesitating over the click.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_money": 1000000
+  },
+  "tags": [
+   "investment",
+   "ipo",
+   "opportunity"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Apply — leave it to luck.",
+    "effects": {
+     "money": -500000,
+     "luck": 2,
+     "investment_skill": 2
+    },
+    "result_text": "Results in three weeks. Only allocated two shares — but the stock nudged up on listing day for a modest gain."
+   },
+   {
+    "text": "Pass — the hype is already priced in.",
+    "effects": {
+     "intelligence": 2
+    },
+    "result_text": "Judged that 820:1 hype was already fully reflected in the price. Cold-eyed analysis protected the wallet."
+   }
+  ]
+ },
+ {
+  "id": "inv_etf_study",
+  "title": "Starting to Learn ETFs",
+  "description": "11 PM. The YouTube algorithm recommended 'The Complete S&P500 ETF Investing Method.' Clicked out of curiosity and watched three videos back to back. The concept of investing in the whole market without the stress of picking individual stocks sounded appealing. {name} put down the beer and pulled out a notepad.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "etf",
+   "study"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Start studying ETFs seriously right now.",
+    "effects": {
+     "investment_skill": 5,
+     "intelligence": 2,
+     "mental": 3
+    },
+    "result_text": "Spent a week digging into ETF structure, expense ratios, and currency exposure. The more it made sense, the less the fear."
+   },
+   {
+    "text": "Stick to what's already known — comfort matters.",
+    "effects": {
+     "stress": -2
+    },
+    "result_text": "Closed the video and opened the usual watchlist. Familiar comfort felt better tonight."
+   }
+  ]
+ },
+ {
+  "id": "inv_real_estate_bubble_fear",
+  "title": "Real Estate Bubble Fear",
+  "description": "Three economists appeared on the evening news simultaneously warning that 'the real estate bubble collapse is imminent.' The comment section is split 50/50 between 'this is real this time' and 'they're always wrong.' {name}'s portfolio holds a fair amount of real estate REITs. Anxiously nursing a coffee, refreshing the return screen over and over.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 8
+  },
+  "tags": [
+   "investment",
+   "real_estate",
+   "risk"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Reduce real estate exposure. Safety first.",
+    "effects": {
+     "money": 200000,
+     "stress": -3,
+     "investment_skill": 2
+    },
+    "result_text": "Sold some REITs and raised cash. Whether the bubble bursts or not — the peace of mind came first."
+   },
+   {
+    "text": "Buy more. Fear marks the bottom.",
+    "effects": {
+     "money": -400000,
+     "investment_skill": 3,
+     "stress": 5
+    },
+    "result_text": "Took the news warning as a contrarian signal and added to the position. Could be wrong — but this is the path {name} chose."
+   },
+   {
+    "text": "Watch and wait. Gather more information.",
+    "effects": {
+     "stress": 2
+    },
+    "result_text": "Decided not to move hastily. Reminded {name}self that doing nothing in uncertainty is also a strategy."
+   }
+  ]
+ },
+ {
+  "id": "inv_recession_news",
+  "title": "Recession Fears",
+  "description": "10 AM, Ministry of Finance announcement. GDP growth forecast slashed from 2.1% to 0.9%. KOSPI dropped nearly 2% immediately after. Exchange rate charging toward ₩1,400, brokerage research reports overflowing with the words 'possible recession entry.' {name} forgot about lunch and stared at the screen.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 3.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "economy",
+   "crisis"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Rotate into defensive assets.",
+    "effects": {
+     "investment_skill": 3,
+     "stress": -3
+    },
+    "result_text": "Trimmed growth stocks and restructured into bonds and dividend plays. Those who prepare when the market fears are the ones who survive."
+   },
+   {
+    "text": "Recession is opportunity — contrarian buy.",
+    "effects": {
+     "investment_skill": 4,
+     "luck": 2,
+     "stress": 4
+    },
+    "result_text": "Chose to buy while everyone sold. History has often sided with those who buy into fear."
+   }
+  ]
+ },
+ {
+  "id": "inv_investment_book",
+  "title": "Reading the Investment Bible",
+  "description": "Saturday morning, picked up a Buffett biography at the bookstore. Got home, made a coffee, sat on the sofa. Couldn't look away from it all weekend. The story of an investor returning to first principles through the noise of the market quietly steadied {name}'s wavering mind.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "study",
+   "mindset"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Commit to becoming a principles-based investor.",
+    "effects": {
+     "investment_skill": 6,
+     "mental": 5,
+     "stress": -5
+    },
+    "result_text": "Turned off about half the app notifications. Started opening annual reports instead of the daily chart. For the first time, investing felt enjoyable."
+   },
+   {
+    "text": "Theory and reality are different. Reading it is enough.",
+    "effects": {
+     "investment_skill": 2,
+     "intelligence": 2
+    },
+    "result_text": "Understood Buffett's principles — but concluded the distance from {name}'s reality was still large. The mental frame shifted a little though."
+   }
+  ]
+ },
+ {
+  "id": "inv_insider_tip",
+  "title": "Senior's Inside Information",
+  "description": "After-work dinner. A senior in the same department leaned over with a glass. 'This company — next month's earnings are going to be huge. Supply contract just closed. Just between us.' The senior's eyes were serious. Trading on inside information is illegal — but {name}'s hand was already moving toward the stock app.",
+  "category": "finance",
+  "rarity": "rare",
+  "weight": 1.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "has_job": true
+  },
+  "tags": [
+   "investment",
+   "insider",
+   "ethics"
+  ],
+  "cooldown": 15,
+  "choices": [
+   {
+    "text": "Trust it and buy. Can't miss this.",
+    "effects": {
+     "money": -500000,
+     "luck": 3,
+     "gambling_tendency": 5
+    },
+    "result_text": "Stock was up 20% after the earnings release next month. Made money — but hands kept shaking. Couldn't tell anyone about this."
+   },
+   {
+    "text": "Politely decline. Pretend not to have heard.",
+    "effects": {
+     "reputation": 3,
+     "intelligence": 2
+    },
+    "result_text": "Quietly told the senior 'I'd rather not hear that kind of thing.' The senior laughed it off awkwardly — and {name}'s conscience slept easily that night."
+   },
+   {
+    "text": "Research it independently. Do it legally.",
+    "effects": {
+     "investment_skill": 5,
+     "intelligence": 3
+    },
+    "result_text": "Took only the hint and dug into the disclosures and news independently. Found sufficient grounds from public information alone. Made the call the clean way."
+   }
+  ]
+ },
+ {
+  "id": "inv_tax_worry",
+  "title": "Financial Income Tax",
+  "description": "Tax season arrived. Opened the tax authority site — too many unfamiliar categories. Asked a friend who said 'if dividend and interest income exceeds ₩20M, it becomes comprehensive taxation.' {name} calculated last year's financial income — hovering right around that threshold. Misreporting taxes now could create much bigger problems later.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_investment_skill": 25
+  },
+  "tags": [
+   "investment",
+   "tax",
+   "finance"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "Consult a tax accountant.",
+    "effects": {
+     "money": -200000,
+     "intelligence": 3,
+     "stress": -4
+    },
+    "result_text": "Consultation fee of ₩200,000 — but came away with a tax optimization strategy too. Expert advice always earns its fee."
+   },
+   {
+    "text": "Study it personally. Tax is investing too.",
+    "effects": {
+     "intelligence": 4,
+     "investment_skill": 2,
+     "stress": 3
+    },
+    "result_text": "Dug through the National Tax Service YouTube and blogs and filed the return manually. Painful — but taxes don't feel scary anymore."
+   }
+  ]
+ },
+ {
+  "id": "inv_dca_commitment",
+  "title": "DCA Commitment",
+  "description": "Auto-transfer scheduled for the day after payday. ₩300,000 monthly, S&P500 ETF. Finally decided to believe that consistency matters more than returns. {name} screenshotted the settings screen and made a quiet promise — this time, no cancelling halfway through.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "has_job": true
+  },
+  "tags": [
+   "investment",
+   "dca",
+   "discipline"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Set the auto-transfer and forget about it.",
+    "effects": {
+     "investment_skill": 4,
+     "mental": 5,
+     "stress": -4
+    },
+    "result_text": "Checked it six months later — returns were ordinary, but the balance had been building steadily. Consistency never betrays."
+   },
+   {
+    "text": "Wait for the right timing. Not yet.",
+    "effects": {
+     "investment_skill": 1,
+     "stress": 2
+    },
+    "result_text": "Waited for the perfect timing. Three months passed. That timing never came."
+   }
+  ]
+ },
+ {
+  "id": "inv_crypto_mania",
+  "title": "Crypto Mania",
+  "description": "The whole social feed is crypto. High school classmate posted a KakaoTalk status about making ₩30M on Bitcoin. A junior at work talks about nothing but coins at lunch. Am I the only one who doesn't know? Am I falling behind? {name} downloaded the Upbit app for the first time.",
+  "category": "gambling",
+  "rarity": "common",
+  "weight": 3.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "crypto",
+   "fomo"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Get in a little — quiet the FOMO.",
+    "effects": {
+     "money": -500000,
+     "gambling_tendency": 8,
+     "addiction_tendency": 10,
+     "investment_skill": -1
+    },
+    "result_text": "Put in ₩500,000. First it doubled.\nThen halved. Crept back up to -30%.\nShould sell — hand wouldn't move.\nThat was the pull of crypto. The stop-loss becomes impossible.",
+    "route": "unorthodox"
+   },
+   {
+    "text": "Watch. Every mania has an ending.",
+    "effects": {
+     "investment_skill": 4,
+     "stress": -4,
+     "mental": 5
+    },
+    "result_text": "Two months later, when the crypto market fell 42%, the classmate's KakaoTalk status went quiet.\n{name} said nothing.\nSometimes the best investment is not investing.",
+    "route": "orthodox"
+   },
+   {
+    "text": "Cut the FOMO and actually study it.",
+    "effects": {
+     "investment_skill": 5,
+     "mental": 4,
+     "intelligence": 4
+    },
+    "result_text": "Read a blockchain whitepaper. The technology was interesting.\nA principle emerged: don't put money into what {name} doesn't understand.\nThat one principle would end up saving {name} more than once."
+   }
+  ]
+ },
+ {
+  "id": "inv_overseas_stock",
+  "title": "First Overseas Stock",
+  "description": "Bought Apple stock for the first time. Paying in dollars, waking up at 3 AM for US market close, and having to self-report capital gains tax above ₩2.5M — {name} found all of this out today. More complex than expected. {name} sat with the currency converter open, staring blankly.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_investment_skill": 20
+  },
+  "tags": [
+   "investment",
+   "overseas",
+   "study"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Study all of it — exchange rate, taxes, time zones.",
+    "effects": {
+     "investment_skill": 6,
+     "intelligence": 3,
+     "stress": 3
+    },
+    "result_text": "Spent a month digging into everything about overseas investing. Complex — but now the global market feels like home turf."
+   },
+   {
+    "text": "Small amount first. Learn by doing.",
+    "effects": {
+     "money": -200000,
+     "investment_skill": 3
+    },
+    "result_text": "Didn't fully understand — but got a foot in the water. A $100 experience will protect $1,000 later."
+   },
+   {
+    "text": "Too complicated. Stick to domestic stocks.",
+    "effects": {
+     "stress": -3
+    },
+    "result_text": "Decided to get good at the market already understood. Investing within your knowledge boundary is also strategy."
+   }
+  ]
+ },
+ {
+  "id": "inv_portfolio_review",
+  "title": "Annual Return Check",
+  "description": "January 1st. Opened the 'annual return report' in the brokerage app. +7.3%. KOSPI benchmark: +11.2%. A year of hard work — and the number on the screen says the market was beaten by less than average. Good enough or not? What to change? Is it fine? No one gives the answer.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 12
+  },
+  "tags": [
+   "investment",
+   "review",
+   "strategy"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "Analyze the data and revise the strategy.",
+    "effects": {
+     "investment_skill": 5,
+     "intelligence": 3
+    },
+    "result_text": "Went through what dragged the numbers down and what calls were right. Turning failure into data is real skill."
+   },
+   {
+    "text": "Good job — celebrate surviving without losing.",
+    "effects": {
+     "mental": 8,
+     "stress": -5
+    },
+    "result_text": "Even below market average — protecting principal while lasting a full year is already something remarkable. Tomorrow's {name} is stronger than today's."
+   },
+   {
+    "text": "Disappointed. Start over from scratch.",
+    "effects": {
+     "investment_skill": 3,
+     "stress": 4
+    },
+    "result_text": "Decided to clear everything and rebuild from basics. No shame in it — a late awakening beats a fast surrender."
+   }
+  ]
+ },
+ {
+  "id": "etf_drip_discovery",
+  "title": "Discovering DCA Investing",
+  "description": "Learned something watching YouTube.\n'Just putting a fixed amount into an ETF every month generates long-term gains.'\n\nNo complex stock analysis needed. No timing required.\nJust set up an auto-transfer and put money in every month.\n\nSimple. Which somehow made it harder to believe.",
+  "category": "investment",
+  "rarity": "common",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 3
+  },
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "Start DCA investing in ETFs right away.",
+    "effects": {
+     "investment_skill": 4,
+     "money": -200000,
+     "stress": -4
+    },
+    "flags": [
+     "started_etf"
+    ],
+    "follow_up_event": "",
+    "result_text": "Set the auto-transfer. The same amount flows into the market every month.\nBoring. That's the strategy.\nGiven enough time, the market does the work."
+   },
+   {
+    "text": "Study more before deciding.",
+    "effects": {
+     "intelligence": 4,
+     "investment_skill": 3
+    },
+    "flags": [
+     "etf_study_mode"
+    ],
+    "follow_up_event": "",
+    "result_text": "The studying stretched on. But the more {name} learned, the more interesting it got.\nKnowledge doesn't incur losses.\nSlowly starting to understand why those who invest with comprehension last longer."
+   },
+   {
+    "text": "Individual stocks are more interesting than ETFs.",
+    "effects": {
+     "investment_skill": 2,
+     "stress": 4,
+     "luck": 1
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Picked a stock. If it goes up, credit the insight. If it falls, blame the market.\nFun. And risky.\nBoth statements were true.",
+    "route": "unorthodox"
+   }
+  ]
+ },
+ {
+  "id": "dividend_payday",
+  "title": "First Dividend",
+  "description": "Dividend payment day.\n\nA text arrived in the morning.\n'₩43,200 dividend deposited.'\n\nMoney arrived without working.\n₩43,200. A small amount.\nBut understanding this mechanism for the first time — something shifted.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 6
+  },
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Reinvest the dividend. Compound it.",
+    "effects": {
+     "investment_skill": 3,
+     "money": 43200
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "The dividend was reinvested. A small snowball started rolling."
+   },
+   {
+    "text": "Eat something good with this today.",
+    "effects": {
+     "mental": 4,
+     "stress": -3,
+     "money": 43200
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "The first reward from making money work. Small — but different."
+   }
+  ]
+ },
+ {
+  "id": "real_estate_regulation_news",
+  "title": "Real Estate Regulation Announcement",
+  "description": "The government announced additional real estate regulations.\n\nReduced loan limits, higher acquisition tax, gap investment restrictions...\n\nAnyone considering a purchase went back to the calculator.\nPredictions came out that demand for lease would increase, pushing up lease prices.\n\nEvery announcement has market consequences.",
+  "category": "investment",
+  "rarity": "common",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 6
+  },
+  "tags": [
+   "investment",
+   "politics",
+   "housing"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Study investment vehicles that get around the regulation.",
+    "effects": {
+     "intelligence": 3,
+     "investment_skill": 3
+    },
+    "route": "unorthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Where regulations appear, gaps appear. The educated find them first."
+   },
+   {
+    "text": "Move safely into bonds or deposits.",
+    "effects": {
+     "stress": -4,
+     "money": 100000
+    },
+    "route": "orthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Reduced risk. Returns shrank too — but sleep came easily."
+   },
+   {
+    "text": "Stay put. Don't trust government announcements.",
+    "effects": {
+     "stress": 3,
+     "luck": 1
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Time will tell."
+   }
+  ]
+ },
+ {
+  "id": "fear_greed_index",
+  "title": "Fear & Greed Index: 100",
+  "description": "A red alert appeared on the market analysis section of the investment app.\n\n'Fear & Greed Index: 98 — Extreme Greed'\n\nThey say you should sell when everyone wants to buy.\nBut if you don't buy now, maybe it goes higher.\n\nThe hardest thing in investing isn't numbers — it's emotions.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 8
+  },
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Guard against greed. Realize some gains.",
+    "effects": {
+     "investment_skill": 3,
+     "money": 400000,
+     "stress": -3
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Market corrected a few days later. Beating greed turned into profit."
+   },
+   {
+    "text": "Ride the momentum. Buy more.",
+    "effects": {
+     "money": -400000,
+     "stress": 5,
+     "investment_skill": 1,
+     "luck": -1
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Timing was poor. Bought near the top."
+   },
+   {
+    "text": "Do nothing. Stick to the plan.",
+    "effects": {
+     "investment_skill": 2,
+     "stress": -2
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Kept to the principle. Patience is the long-term investor's sharpest weapon."
+   }
+  ]
+ },
+ {
+  "id": "portfolio_rebalancing",
+  "title": "Portfolio Check",
+  "description": "End of quarter. Opened the investment app.\n\nThe original allocation was broken.\nOne position had surged and now held 60% of the total.\n\nLeaving it this way means leaning too heavily on one side.\nRebalance — or load more onto what's working?",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 10
+  },
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "Rebalance back to the original allocation.",
+    "effects": {
+     "investment_skill": 3,
+     "stress": -3
+    },
+    "route": "orthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Realized some gains and filled out the other assets. Principles bring comfort."
+   },
+   {
+    "text": "Keep holding the winner.",
+    "effects": {
+     "investment_skill": 1,
+     "stress": 3,
+     "luck": 1
+    },
+    "route": "unorthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "Went higher. Of course — it would also fall harder when it falls. Already knew that."
+   }
+  ]
+ },
+ {
+  "id": "orthodox_integrity_reward",
+  "title": "Trust as an Asset",
+  "background": "realestate_office",
+  "portrait": "sangchul_normal",
+  "category": "social",
+  "rarity": "uncommon",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_orthodox": 3,
+   "max_route_unorthodox": 4
+  },
+  "tags": [
+   "investment",
+   "social",
+   "orthodox"
+  ],
+  "cooldown": 15,
+  "description": "Walking the straight road has apparently been accumulating somewhere.\nSomeone from a brief past crossing has reached out.\n\"In times like these, people who keep their principles are rare.\nMay I ask you something?\"\nReputation builds slowly — and then one day, it just works.",
+  "choices": [
+   {
+    "text": "Meet them gladly. Connections are assets too.",
+    "effects": {
+     "reputation": 10,
+     "intelligence": 4,
+     "social_skill": 3,
+     "stress": -4
+    },
+    "route": "orthodox",
+    "result_text": "A verified person introduced a verified route.\nNot flashy, but safe and legal opportunity.\nWalking straight means these are the connections that accumulate.\nConfirmed again: not losing is also winning."
+   },
+   {
+    "text": "Too busy right now. Decline.",
+    "effects": {
+     "mental": 2,
+     "stress": -4
+    },
+    "result_text": "Turned it down. They weren't offended.\nSomeone who's walked the straight road earns that kind of latitude.\nOpportunity comes again. For people with principles it does."
+   }
+  ]
+ },
+ {
+  "id": "orthodox_institutional_access",
+  "title": "The Institutional Door Opens",
+  "background": "meeting",
+  "portrait": "player_suit",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 1.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_orthodox": 6,
+   "min_turn": 15
+  },
+  "tags": [
+   "investment",
+   "orthodox",
+   "opportunity"
+  ],
+  "cooldown": 20,
+  "description": "The path walked so far has opened a particular door.\nPrivate Banking center of a securities firm. A place ordinary clients don't enter.\n\n\"We can share our research team's reports in advance.\nWithin legal bounds, of course — but earlier information is better.\"\n\nNot the same starting line. A door that only opens for those who walked the straight road.",
+  "choices": [
+   {
+    "text": "Accept PB services.",
+    "effects": {
+     "investment_skill": 8,
+     "intelligence": 5,
+     "reputation": 6,
+     "stress": -5
+    },
+    "route": "orthodox",
+    "flags": [
+     "pb_access"
+    ],
+    "result_text": "Now receiving analysis one day ahead of the market.\nPublic information — but the interpretation is different.\nSwimming in the same pool — just a different lane. Didn't know that until now."
+   },
+   {
+    "text": "Thank you — but want to decide independently.",
+    "effects": {
+     "mental": 5,
+     "investment_skill": 3
+    },
+    "result_text": "Chose to trust {name}'s own judgment.\nThe contact was disappointed but understanding.\n\"Call if you change your mind.\"\nThat card stayed in the wallet."
+   }
+  ]
+ },
+ {
+  "id": "unorthodox_gray_zone_tip",
+  "title": "Gray Zone Information",
+  "background": "pojangmacha",
+  "portrait": "player_tired",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_unorthodox": 3,
+   "max_route_orthodox": 4
+  },
+  "tags": [
+   "investment",
+   "unorthodox",
+   "risk"
+  ],
+  "cooldown": 14,
+  "description": "Late night pojangmacha. A middle-aged man strikes up a conversation.\n\n\"...Hold on. I know your type. Someone who doesn't just take the orthodox route.\"\n\nTrue. How did he know?\nHe lowers his voice.\n\"Certain materials stocks will move this month.\nNot internal — just a strong gut feeling.\"\n\nLegally fine — probably.",
+  "choices": [
+   {
+    "text": "Act on the information. Take a position.",
+    "effects": {
+     "investment_skill": 4,
+     "stress": 6,
+     "luck": 2
+    },
+    "route": "unorthodox",
+    "flags": [
+     "took_gray_tip"
+    ],
+    "result_text": "Got into position. Right or wrong — unclear.\nIf the man is right: profit. If not: loss.\nBut this kind of information only comes to those who know how to find it."
+   },
+   {
+    "text": "Ignore it. Rumors are rumors.",
+    "effects": {
+     "intelligence": 3,
+     "stress": -3
+    },
+    "result_text": "Just drank. Good soju.\nThe market is overflowing with noise that calls itself information.\nKnowing what to discard is also a skill."
+   },
+   {
+    "text": "Find out more about this person.",
+    "effects": {
+     "intelligence": 5,
+     "investment_skill": 2,
+     "stress": 2
+    },
+    "flags": [
+     "investigating_gray_contact"
+    ],
+    "result_text": "Tracked him down a few days later. Quite an interesting figure.\nSaid he doesn't sell information. Then why did he say it?\n{name} wanted to understand the reason."
+   }
+  ]
+ },
+ {
+  "id": "unorthodox_underground_network",
+  "title": "The Underground Network",
+  "background": "trading",
+  "portrait": "player_determined",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 1.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_unorthodox": 6,
+   "min_turn": 15
+  },
+  "tags": [
+   "investment",
+   "unorthodox",
+   "underground"
+  ],
+  "cooldown": 20,
+  "description": "At some point, a different kind of person started reaching out.\nOutside the institutional system — but holding extraordinary information.\n\n\"You're not the type to follow the rules.\nI don't mind that. Come check out our circle.\"\n\nA Telegram channel link.\nClicked it. A world of different dimensions.",
+  "choices": [
+   {
+    "text": "Join the network.",
+    "effects": {
+     "investment_skill": 10,
+     "intelligence": 5,
+     "mental": -6,
+     "stress": 8
+    },
+    "route": "unorthodox",
+    "flags": [
+     "underground_network_member"
+    ],
+    "result_text": "The quality of information was different. Moves were different.\nTeetering on the edge of the legal boundary.\nReturns went up. Conscience went down a little.\nA life of both moving simultaneously had begun."
+   },
+   {
+    "text": "Won't go any deeper than this.",
+    "effects": {
+     "mental": 6,
+     "stress": -5,
+     "intelligence": 3
+    },
+    "route": "orthodox",
+    "result_text": "Closed the link. This far and no further.\nAlready crossed several lines — but not this one.\n{name} still had one last line left."
+   }
+  ]
+ },
+ {
+  "id": "inv_ipo_hot_tip",
+  "title": "IPO Jackpot Forecast",
+  "description": "Word came from a senior at work.\n\"This AI semiconductor IPO — institutions are pushing it hard.\nEquality allocation subscribers should expect two or three upper-limit days as a baseline.\"\n\nDeposit gets locked up and allocation is luck —\nbut in this market, there's a feeling it'll come through.\nHow much to put in is the only question.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 3,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 12,
+   "min_money": 10000000,
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "opportunity",
+   "stock"
+  ],
+  "cooldown": 18,
+  "choices": [
+   {
+    "text": "Go big — when else?",
+    "effects": {
+     "stress": 8,
+     "investment_skill": 2
+    },
+    "opportunity": {
+     "stake_ratio": 0.6,
+     "success_rate": 0.36,
+     "win_multiplier": 3.5,
+     "loss_ratio": 0.6,
+     "luck_factor": 0.002,
+     "skill_gain": 4
+    },
+    "result_text": "Applied for the subscription. The days with capital frozen feel long.\nFind out on listing day.\n{name} waited, watching numbers dance on the screen."
+   },
+   {
+    "text": "Small amount only — diversification is principle.",
+    "effects": {
+     "stress": 3,
+     "intelligence": 1
+    },
+    "opportunity": {
+     "stake_ratio": 0.25,
+     "success_rate": 0.4,
+     "win_multiplier": 2.5,
+     "loss_ratio": 0.45,
+     "luck_factor": 0.002,
+     "skill_gain": 2
+    },
+    "result_text": "Put in a portion. Let go of the greed.\nAn amount that can be absorbed if lost — profit if won, experience if not.\nThis is the mindset that keeps an investor going long."
+   },
+   {
+    "text": "IPOs are gambling — pass.",
+    "effects": {
+     "mental": 3,
+     "stress": -2,
+     "intelligence": 2
+    },
+    "result_text": "IPOs are ultimately a timing game.\nIf not convinced, better not to enter.\n{name} closed the screen. Waiting for the next opportunity."
+   }
+  ]
+ },
+ {
+  "id": "inv_redev_zone_tip",
+  "title": "Redevelopment Zone Information",
+  "description": "A contact from long ago reached out.\n\"Minjun, this is just between us. I heard from someone at the district office —\nthat whole villa neighborhood is confirmed for redevelopment zone designation next year.\nThere's a property listed at 30% of market price, quietly selling hand to hand.\"\n\nThe value of real estate information is all in the timing.\nIf redevelopment confirms, multiples. If it falls through — just a run-down villa.\nAt this price, it's all-in. The judgment is yours.",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 2,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 28,
+   "min_money": 100000000
+  },
+  "tags": [
+   "investment",
+   "opportunity",
+   "real_estate"
+  ],
+  "cooldown": 9999,
+  "choices": [
+   {
+    "text": "Go all in — this could be the last shot at Gangnam.",
+    "effects": {
+     "stress": 15,
+     "investment_skill": 3
+    },
+    "opportunity": {
+     "stake_ratio": 0.65,
+     "success_rate": 0.4,
+     "win_multiplier": 7.0,
+     "loss_ratio": 0.7,
+     "luck_factor": 0.0015,
+     "skill_gain": 6
+    },
+    "flags": [
+     "redev_bet_taken"
+    ],
+    "result_text": "Signed the contract.\nStanding in front of the worn-down villa with the key in hand,\n{name} was briefly confused about whether this was a dream or reality.\nThe waiting begins. Waiting for the official redevelopment confirmation notice."
+   },
+   {
+    "text": "Put in a portion — spread the risk.",
+    "effects": {
+     "stress": 7,
+     "intelligence": 2
+    },
+    "opportunity": {
+     "stake_ratio": 0.3,
+     "success_rate": 0.46,
+     "win_multiplier": 5.0,
+     "loss_ratio": 0.55,
+     "luck_factor": 0.0015,
+     "skill_gain": 3
+    },
+    "flags": [
+     "redev_bet_taken"
+    ],
+    "result_text": "Judged that all-in was too much.\nInvested part and kept the rest as cash.\n\"Half is better than losing everything chasing greed.\"\n{name} self-convinced."
+   },
+   {
+    "text": "Inside information is dangerous. Decline.",
+    "effects": {
+     "mental": 5,
+     "stress": -5,
+     "intelligence": 3,
+     "reputation": 2
+    },
+    "route": "orthodox",
+    "result_text": "Trading on insider information carries legal risk.\nTempting — but passing.\n{name} hung up and looked out the window.\nClean hands, that was the choice."
+   }
+  ]
+ },
+ {
+  "id": "sangchul_tip_redev",
+  "title": "Sangchul's Tip — A Distress Sale",
+  "description": "Pushed open the real estate office door. Sangchul waved {name} over.\n\n「Minjun, this isn't something I tell just anyone.」\n\nStation-adjacent commercial building share, distress sale. Owner needs cash fast — listed way below market.\n\n「In 30 years of looking, this is one I can count on my fingers. But money — nothing's certain. Know that before you go in.」\n\nInformation only a trusted person hears. The decision is still yours to make.",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "cast_stage": {
+    "person": "sangchul",
+    "in": [
+     "trusted",
+     "mentoring",
+     "guardian"
+    ]
+   },
+   "min_money": 10000000
+  },
+  "tags": [
+   "investment",
+   "sangchul",
+   "opportunity"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "Trust Sangchul's eye. Go in big.",
+    "effects": {
+     "stress": 6
+    },
+    "opportunity": {
+     "stake_ratio": 0.4,
+     "success_rate": 0.62,
+     "win_multiplier": 1.8,
+     "loss_ratio": 0.5,
+     "luck_factor": 0.002,
+     "skill_gain": 3,
+     "win_flag": "sangchul_tip_win",
+     "lose_flag": "sangchul_tip_lose"
+    },
+    "result_text": "Signed the contract.\nSangchul clapped a shoulder. 「Now the job is waiting.」"
+   },
+   {
+    "text": "Try a small amount.",
+    "effects": {
+     "stress": 3
+    },
+    "opportunity": {
+     "stake_ratio": 0.12,
+     "success_rate": 0.62,
+     "win_multiplier": 1.8,
+     "loss_ratio": 0.5,
+     "luck_factor": 0.002,
+     "skill_gain": 2
+    },
+    "result_text": "「Betting small is also a skill.」 Sangchul smiled.\nOnly as much as {name} could absorb without crumbling."
+   },
+   {
+    "text": "Thanks — sitting this one out.",
+    "effects": {
+     "investment_skill": 1,
+     "mental": 1
+    },
+    "result_text": "「Right. Not going in is also a judgment call.」\nSangchul didn't take it personally. That's what makes him different."
+   }
+  ]
+ },
+ {
+  "id": "sangchul_tip_warning",
+  "title": "Sangchul's Warning — The Market Is Off",
+  "description": "Gukbap place. Sangchul set down his spoon and spoke.\n\n「Have you been watching the market lately? Everyone's too excited. I've seen this atmosphere three times in 30 years — all three times it ended badly.」\n\n「Selling when it's up is the hardest thing. Because of greed. But the ones who manage to do it — those are the ones who survive.」\n\nThe portfolio flickered through {name}'s mind.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 5,
+  "hidden": false,
+  "conditions": {
+   "cast_stage": {
+    "person": "sangchul",
+    "in": [
+     "trusted",
+     "mentoring",
+     "guardian"
+    ]
+   },
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "sangchul",
+   "advice"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "Take the advice. Review the risk exposure.",
+    "effects": {
+     "investment_skill": 3,
+     "mental": 2,
+     "stress": -3
+    },
+    "flags": [
+     "heeded_sangchul_warning"
+    ],
+    "result_text": "Went back through the portfolio that night.\nSaw the places too heavily loaded.\nAn old man's words are 30 years of tuition, given for free."
+   },
+   {
+    "text": "\"This time is different\" — go with my own judgment.",
+    "effects": {
+     "stress": 4,
+     "investment_skill": 1
+    },
+    "result_text": "「That line — I heard it before each of those three crashes.」\nSangchul didn't push further. 「It's your money.」"
+   }
+  ]
+ }
+]
