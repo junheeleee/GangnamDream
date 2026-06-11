@@ -1,0 +1,124 @@
+[
+  {
+    "id": "amb_wallet_payoff",
+    "title": "That Young Person From Before",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "wallet_connection",
+      "min_turn": 14
+    },
+    "tags": [
+      "scenario",
+      "tradeoff",
+      "ripple"
+    ],
+    "cooldown": 999,
+    "description": "A call from the business owner whose wallet was returned — months later.\n\"How have you been? I kept thinking about what you did.\nAs it happens I need someone I can trust — could you help out at the shop on weekends?\nI'll pay well. I want an honest person.\"\n\nAn honest pair of hands brought an unexpected opening.",
+    "choices": [
+      {
+        "text": "Say yes.  (income + connection / weekends + rest gone)",
+        "result_text": "{name} showed up at the owner's shop every weekend. The pay was decent, and so was the learning.\nThe owner shared everything — how to run a business, how to read people.\nIn exchange, weekends disappeared entirely.\nBut the connection built on honesty — it was becoming something solid.",
+        "flags": [
+          "wallet_job_taken"
+        ],
+        "effects": {
+          "money": 600000,
+          "social_skill": 2,
+          "reputation": 2,
+          "health": -4,
+          "stress": 3
+        }
+      },
+      {
+        "text": "Decline, with thanks.  (freedom + rest / opportunity + connection)",
+        "result_text": "\"I'll receive the thought. I want to build my own foundation first.\"\nThe owner was sorry but nodded. \"Come by whenever.\"\n{name} kept the weekends — and kept the pace.\nBut that unextended hand came to mind sometimes.",
+        "flags": [
+          "wallet_job_declined"
+        ],
+        "effects": {
+          "mental": 3,
+          "reputation": 1,
+          "stress": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_parent_hospital",
+    "title": "Surgical Consent",
+    "background": "hospital",
+    "portrait": "player_shocked",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": [
+      "scenario",
+      "tradeoff",
+      "ripple"
+    ],
+    "cooldown": 999,
+    "description": "Mom calls. Voice breaking.\n\"Your father... he collapsed. They say he needs surgery. Five million won, they said...\"\n\n{name}'s account comes to mind. The seed money built through years of grinding.\nDrain it — and ₩3 billion goes impossibly far again.\nBut on the other side of the scale — Dad's life.",
+    "choices": [
+      {
+        "text": "Empty the account if that's what it takes.  (life + filial duty / goal pushed back)",
+        "result_text": "{name} didn't hesitate. Emptied the account. Years rolled back in an instant.\nThe surgery went well. Dad held {name}'s hand for a long time.\n\"Sorry. I'm a burden again.\" \"...No you're not, Dad.\"\nGangnam moved further away. But what couldn't be lost — {name} kept it.",
+        "flags": [
+          "parent_paid_full"
+        ],
+        "effects": {
+          "money": -5000000,
+          "mental": 6,
+          "stress": 8
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 18
+          }
+        }
+      },
+      {
+        "text": "Can't do it. Send just a message.  (keep the goal / guilt + relationship)",
+        "result_text": "{name} couldn't bring up the seed money. \"I'm not in a position to...\"\nMom said \"it's okay, we'll manage\" and hung up.\nThat night, {name} sat staring at the account balance for a long time.\nKept the goal. Bought a guilt that might last forever.",
+        "flags": [
+          "parent_refused"
+        ],
+        "effects": {
+          "money": 0,
+          "mental": -12,
+          "stress": 10
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": -12
+          }
+        }
+      },
+      {
+        "text": "Take a loan if needed. Find the money.  (filial duty + goal / debt's grip)",
+        "result_text": "{name} kept the seed money intact and covered the hospital bill with a loan.\nSaved Dad and protected the savings — but interest squeezes the neck every month.\nGrew up watching Dad spend six years paying off his debts. Now {name} is on that same road.\nChasing two things at once always means putting something up as collateral.",
+        "flags": [
+          "parent_took_loan"
+        ],
+        "effects": {
+          "money": 0,
+          "stress": 12,
+          "mental": 2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 10
+          }
+        }
+      }
+    ]
+  }
+]
