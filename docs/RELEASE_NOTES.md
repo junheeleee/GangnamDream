@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added (2026-06-11) — 영어 로컬라이제이션 인프라
+- LocaleManager autoload: ko/en 언어 전환, 자동 DataRegistry.reload() 트리거
+- DataRegistry: content/events_en/ ID-overlay 방식 (미번역 이벤트 → 자동 KO 폴백)
+- StartMenu 설정 팝업: 언어 토글 (한국어 / EN)
+- content/events_en/story_events.json: 오프닝 5개 이벤트 영어 번역
+
 ### Fixed (2026-06-11) — 이벤트 카테고리 정규화 (런 테마 보너스 누락 수정)
 - job→jobs (18개), social_life→social (18개): 청렴런/인맥런 테마 보너스(×1.35) 누락 수정
 - drama/opportunity/life/hidden_rare_events → 표준 카테고리 교체 (9개)

@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-11 (영어 로컬라이제이션 인프라)
+
+### 구현 내역
+- **LocaleManager autoload** — 언어 상태(ko/en) 관리, `set_language()` 호출 시 DataRegistry.reload() 자동 트리거
+- **DataRegistry EN 오버레이** — `_apply_en_overlay()`: `content/events_en/*.json`을 스캔해 ID 일치 KO 이벤트를 EN 버전으로 교체 (KO 기반 위에 EN 패치 방식 → 미번역 이벤트는 자동으로 KO 유지)
+- **project.godot**: LocaleManager를 DataRegistry 앞에 등록 (의존성 순서)
+- **StartMenu 설정 팝업**: 🌐 언어 / Lang 토글 행 추가 — 한국어 / EN 버튼, 언어 변경 시 팝업 닫기
+- **content/events_en/story_events.json**: 오프닝 5개 이벤트 영어 번역
+  - story_arrival (고시원 장면), story_prologue_dad (아버지 전화), story_prologue_goal (30억 목표 설정),
+    story_prologue_meal (편의점 첫 끼니), story_pressure (구직 시작)
+
+### 설계 결정
+- EN 이벤트 파일은 KO 전체 이벤트 배열 복사 없이 "변경된 ID만" 포함 — 유지보수 부담 최소화
+- `locale` 조건은 이벤트 JSON에 넣지 않음 — overlay 방식으로 투명하게 처리
+
 ## 2026-06-11 (이벤트 카테고리 정규화 + 감사 10번째 검사)
 
 ### 문제 발견
