@@ -105,6 +105,7 @@ var news_log: Array = []
 var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
+var events_seen: int = 0   # 이번 런에서 플레이어가 실제 선택한 이벤트 수
 var run_theme_categories: Array = []
 var run_theme: String = "자유런"
 var market_prices: Dictionary = {}
@@ -163,6 +164,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	event_log = []
 	action_log = []
 	flags = {}
+	events_seen = 0
 	run_theme_categories = []
 	run_theme = "자유런"
 	market_prices = {}
@@ -473,6 +475,8 @@ func apply_monthly_pressure():
 	check_game_over()
 
 func apply_choice(event, choice):
+	if not event.is_empty() and event.has("id"):
+		events_seen += 1
 	apply_effects(choice.get("effects", {}))
 	for rel_effect in choice.get("relationship_effects", []):
 		apply_relationship_effect(rel_effect)

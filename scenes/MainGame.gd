@@ -3702,6 +3702,9 @@ func _show_ending(ending_id):
 	if not mg_summary.is_empty():
 		modal_body.add_child(_wrap_label("미니게임 마스터리: " + ", ".join(mg_summary), 11, "#4a7a6a"))
 
+	_ending_next_run_hints(modal_body)
+	_ending_share_section(modal_body, ending_id)
+
 	var restart_btn = _button("새 런 시작  ▶", "#0e3a2a")
 	restart_btn.pressed.connect(_restart_run)
 	modal_body.add_child(restart_btn)
@@ -3725,11 +3728,11 @@ func _ending_run_summary(ending_id: String) -> String:
 			else:
 				return "5년의 고군분투 끝에 강남드림을 이뤘다"
 		"burnout":
-			return "완벽을 향해 달리다 어느 날 아무것도 할 수 없게 됐다"
+			return "강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다."
 		"mental_break":
-			return "버텨내려 했지만 마음이 먼저 무너졌다"
+			return "가장 강해야 할 때 마음이 제일 먼저 떠났다"
 		"bankruptcy":
-			return "빚은 쌓이고 꿈은 멀어졌다 — 이번 판은 여기까지"
+			return "50만원으로 시작해서 -1억으로 끝났다. 레버리지는 양방향이다."
 		"stable_success":
 			if is_orthodox:
 				return "강남은 아니었지만 흔들리지 않는 삶을 쌓았다"
@@ -3742,7 +3745,9 @@ func _ending_run_summary(ending_id: String) -> String:
 		"startup_exit":
 			return "작은 아이디어 하나가 억대 엑싯으로 이어졌다"
 		"crypto_ghost":
-			return "전부 걸었던 코인은 결국 전부를 가져갔다"
+			return "차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다."
+		"debt_spiral":
+			return "빚을 막으려고 빚을 냈다. 서울에서 자주 있는 일이다."
 		"lonely_rich":
 			return "돈은 모았지만 곁에 남은 사람이 없었다"
 		"political_fix":
@@ -3755,6 +3760,95 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "자산보다 이름이 먼저 강남에 닿았다"
 		_:
 			return "그렇게 5년이 지나갔다"
+
+## ── 런 요약 카드 텍스트 (클립보드 공유용) ──────────────────────────
+func _run_card_text(ending_id: String) -> String:
+	var total = GameState.get_total_asset_value()
+	var pct = clampi(int(total / 3_000_000_000.0 * 100.0), 0, 999)
+	var housing_labels = {
+		"gosiwon": "고시원", "oneroom": "원룸",
+		"villa": "빌라 전세", "apartment": "아파트 전세"
+	}
+	var housing_name = housing_labels.get(GameState.housing, GameState.housing)
+	var o = GameState.route_orthodox
+	var u = GameState.route_unorthodox
+	var route_id = GameState.get_route_identity()
+	var ending = EndingSystem.get_ending(ending_id)
+	var ending_title = str(ending.get("title", ending_id))
+	var ending_grade = str(ending.get("grade", "?"))
+	var total_events = DataRegistry.events.size()
+	var seen = GameState.events_seen
+	var lines: PackedStringArray = PackedStringArray()
+	lines.append("[강남드림 런 결과]")
+	lines.append("━━━━━━━━━━━━━━━━━━")
+	lines.append("👤 %s  |  33세 → %d세  |  %d개월" % [GameState.player_name, GameState.age, GameState.turn])
+	lines.append("💰 최종 자산: %s  (목표 달성률 %d%%)" % [GameState.format_money(total), pct])
+	lines.append("🏠 마지막 거처: %s" % housing_name)
+	lines.append("📍 정석 %d회 / 비정석 %d회  →  %s" % [o, u, route_id])
+	lines.append("📖 이번 런 이벤트: %d / %d개" % [seen, total_events])
+	lines.append("🏆 엔딩: \"%s\"  (등급 %s)" % [ending_title, ending_grade])
+	lines.append("━━━━━━━━━━━━━━━━━━")
+	lines.append("#강남드림 #GangnamDream")
+	return "\n".join(lines)
+
+## ── 공유 버튼 섹션 ─────────────────────────────────────────────
+func _ending_share_section(parent: Control, ending_id: String):
+	var sep = HSeparator.new()
+	sep.add_theme_color_override("color", Color("#252535"))
+	parent.add_child(sep)
+	var share_btn = _button("📋  결과 복사하기", "#122230")
+	share_btn.pressed.connect(func():
+		DisplayServer.clipboard_set(_run_card_text(ending_id))
+		share_btn.text = "✓  복사됨!"
+		var tw = create_tween()
+		tw.tween_interval(1.8)
+		tw.tween_callback(func(): share_btn.text = "📋  결과 복사하기")
+	)
+	parent.add_child(share_btn)
+
+## ── 다음 런 힌트 섹션 ──────────────────────────────────────────
+func _ending_next_run_hints(parent: Control):
+	var f = GameState.flags
+	var total = GameState.get_total_asset_value()
+	var total_events = DataRegistry.events.size()
+	var seen = GameState.events_seen
+	var hints: Array = []
+
+	hints.append("📖  이번 런에서 못 본 이벤트가 %d개 더 있습니다." % (total_events - seen))
+
+	var o = GameState.route_orthodox
+	var u = GameState.route_unorthodox
+	if o > u + 10:
+		hints.append("💡  비정석 루트를 선택했다면 어떤 강남이었을까요?")
+	elif u > o + 10:
+		hints.append("💡  정석 루트로만 살았다면 어떤 결말이 됐을까요?")
+
+	if not f.get("arc_jiyeon_crash_seen", false):
+		hints.append("🔍  이번 런에서 한지연을 만나지 못했습니다.")
+	elif not f.get("arc_jiyeon_truth_seen", false):
+		hints.append("🔍  한지연의 진실을 끝까지 보지 못했습니다.")
+
+	if not f.get("arc_father_01_seen", false):
+		hints.append("🔍  아버지 아크를 아직 시작하지 않았습니다.")
+
+	if not f.get("startup_launched", false) and not f.get("creator_started", false):
+		hints.append("💡  창업·크리에이터 루트, 둘 다 아직 가보지 않으셨네요.")
+	elif not f.get("startup_launched", false):
+		hints.append("💡  창업 루트 — 아이디어 하나로 엑싯까지, 아직 미탐험입니다.")
+	elif not f.get("creator_started", false):
+		hints.append("💡  크리에이터 루트 — 구독자 100만의 이야기, 아직 미탐험입니다.")
+
+	if total < 1_000_000_000.0 and GameState.investment_skill < 50:
+		hints.append("📈  투자 기술을 먼저 키웠다면 결과가 달랐을까요?")
+
+	if hints.is_empty():
+		return
+	var sep = HSeparator.new()
+	sep.add_theme_color_override("color", Color("#252535"))
+	parent.add_child(sep)
+	parent.add_child(_label("🔁  다음 런에서", 13, "#5b9cf6"))
+	for i in range(mini(3, hints.size())):
+		parent.add_child(_wrap_label("  " + hints[i], 12, "#5a7090"))
 
 ## 같은 조건으로 5년을 산 사람들 중 상위 몇 %인지 — 30억 실패를 '정상'으로 리프레이밍
 func _ending_percentile_line() -> String:
