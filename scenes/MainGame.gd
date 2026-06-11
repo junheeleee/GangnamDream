@@ -25,6 +25,8 @@ var next_button: Button
 var shop_button: Button
 var _toast_container: VBoxContainer
 var event_bg: TextureRect
+var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
+var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var character_portrait: TextureRect
 var info_panel: Control
 var info_tabs: TabContainer
@@ -181,7 +183,7 @@ func _build_ui():
 	event_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	event_bg.stretch_mode = TextureRect.STRETCH_SCALE
 	event_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	event_bg.modulate = Color(1, 1, 1, 0.25)
+	event_bg.modulate = Color(1, 1, 1, 0.0)   # 크로스페이드가 페이드인 처리
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(event_bg)
 
@@ -1418,9 +1420,9 @@ func _show_result(result_text: String):
 		child.queue_free()
 	pending_result_text = result_text
 	event_title.text = "결과"
-	event_body.text = _fmt(result_text)
+	_type_text(_fmt(result_text))
 	var confirm_btn = _button("확인", "#1f6feb")
-	confirm_btn.pressed.connect(_on_result_confirmed)
+	confirm_btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(confirm_btn)
 	confirm_btn.call_deferred("grab_focus")
 	next_button.disabled = true
@@ -1441,6 +1443,28 @@ func _fmt(text: String) -> String:
 		.replace("{year}", str(GameState.year)) \
 		.replace("{money}", GameState.format_money(GameState.money))
 
+# ── 타이핑 효과 ──────────────────────────────────────────────
+func _type_text(formatted_text: String, cps: float = 38.0) -> void:
+	if _typing_tween:
+		_typing_tween.kill()
+		_typing_tween = null
+	event_body.text = formatted_text
+	var n := maxi(event_body.get_total_character_count(), 1)
+	event_body.visible_ratio = 0.0
+	var dur := clampf(float(n) / cps, 0.15, 3.5)
+	_typing_tween = create_tween()
+	_typing_tween.tween_property(event_body, "visible_ratio", 1.0, dur) \
+		.set_trans(Tween.TRANS_LINEAR)
+
+# 타이핑 중이면 즉시 완료, 이미 끝났으면 false 반환
+func _finish_typing() -> bool:
+	if _typing_tween and _typing_tween.is_running():
+		_typing_tween.kill()
+		_typing_tween = null
+		event_body.visible_ratio = 1.0
+		return true
+	return false
+
 func _render_event():
 	for child in choice_box.get_children():
 		child.queue_free()
@@ -1450,7 +1474,7 @@ func _render_event():
 		return
 	next_button.disabled = true
 	event_title.text = _fmt(current_event.get("title", "이벤트"))
-	event_body.text = _fmt(current_event.get("description", ""))
+	_type_text(_fmt(current_event.get("description", "")))
 	# 이벤트에 맞는 배경 + 인물 초상화 즉시 전환
 	_update_event_bg()
 	_update_portrait()
@@ -1484,7 +1508,7 @@ func _render_event():
 		var acc = btn_accents[i % btn_accents.size()]
 		var button = _action_button("  %d.  %s" % [i + 1, _fmt(choice.get("text", "선택"))], acc)
 		button.custom_minimum_size = Vector2(0, 44)
-		button.pressed.connect(Callable(self, "_choose").bind(i))
+		button.pressed.connect((func(idx): if not _finish_typing(): _choose(idx)).bind(i))
 		choice_box.add_child(button)
 		if i == 0:
 			_first_choice_btn = button
@@ -3088,9 +3112,9 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 			parts.append("%s %s%s" % [sym, ("+" if val > 0 else ""), GameState.format_money(float(val))])
 		else:
 			parts.append("%s %s%d" % [sym, ("+" if val > 0 else ""), val])
-	event_body.text = _fmt(body) + "\n\n" + "    ".join(parts)
+	_type_text(_fmt(body) + "\n\n" + "    ".join(parts), 50.0)
 	var btn: Button = _button("확인", color)
-	btn.pressed.connect(_on_result_confirmed)
+	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(btn)
 	next_button.disabled = true
 
@@ -3811,8 +3835,13 @@ func _show_ending(ending_id):
 	if event_bg:
 		var tex = load(bg_path)
 		if tex:
-			event_bg.texture = tex
-			event_bg.modulate = Color(1, 1, 1, 0.35)  # 엔딩은 살짝 더 진하게
+			var tw_end := create_tween()
+			tw_end.tween_property(event_bg, "modulate:a", 0.0, 0.3)
+			tw_end.tween_callback(func():
+				event_bg.texture = tex
+				var tw2 := create_tween()
+				tw2.tween_property(event_bg, "modulate:a", 0.35, 0.5)  # 엔딩은 살짝 더 진하게
+			)
 
 	_open_modal("🏁 엔딩")
 	var ending = EndingSystem.get_ending(ending_id)
@@ -4729,16 +4758,35 @@ func _update_event_bg():
 	if not event_bg:
 		return
 	# 1순위: 이벤트가 명시한 background ID (ImageRegistry 경유)
+	var new_path := ""
 	var explicit_id = str(current_event.get("background", ""))
 	if explicit_id != "":
 		var reg_path = ImageRegistry.get_background(explicit_id)
 		if reg_path != "" and ResourceLoader.exists(reg_path):
-			event_bg.texture = load(reg_path)
-			return
-	# 2순위: 태그/카테고리 기반 자동 매핑 (기존 로직)
-	var bg_path = _get_bg_for_event(current_event)
-	if bg_path != "" and ResourceLoader.exists(bg_path):
-		event_bg.texture = load(bg_path)
+			new_path = reg_path
+	# 2순위: 태그/카테고리 기반 자동 매핑
+	if new_path == "":
+		var bg_path = _get_bg_for_event(current_event)
+		if bg_path != "" and ResourceLoader.exists(bg_path):
+			new_path = bg_path
+	if new_path == "" or new_path == _event_bg_path:
+		return
+	_event_bg_path = new_path
+	var new_tex: Texture2D = load(new_path)
+	# 처음 로드는 페이드인만, 이후는 크로스페이드
+	if event_bg.texture == null:
+		event_bg.texture = new_tex
+		event_bg.modulate = Color(1, 1, 1, 0.0)
+		var tw := create_tween()
+		tw.tween_property(event_bg, "modulate:a", 0.25, 0.3)
+	else:
+		var tw := create_tween()
+		tw.tween_property(event_bg, "modulate:a", 0.0, 0.15)
+		tw.tween_callback(func():
+			event_bg.texture = new_tex
+			var tw2 := create_tween()
+			tw2.tween_property(event_bg, "modulate:a", 0.25, 0.25)
+		)
 
 func _get_bg_for_event(ev: Dictionary) -> String:
 	# 이벤트 태그·카테고리 기반 배경 결정 (우선순위 순)
