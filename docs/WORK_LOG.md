@@ -1,5 +1,37 @@
 # Gangnam Dream Work Log
 
+## 2026-06-11 (90점 라이팅 패스 — 이벤트 글쓰기 품질 강화)
+
+### 목표
+메타크리틱 90점 달성을 위한 글쓰기 품질 강화 — 시그니처 이벤트, 챕터 브레이크, 이벤트 리라이트
+
+### 구현 내용
+
+**시그니처 모멘트: `father_wedding_call` (아버지의 전화)**
+- Papers Please 스타일 도덕적 딜레마: 투자 마감 vs 아버지 결혼식 귀향
+- 비정석 선택 결과문 마지막 줄: "최적의 선택이었다." — 게임이 스스로를 아이러니하게 평가
+- weight 18.0, cooldown 9999, 6-14턴 창 (조기에 플레이어 가치관 검증)
+- 플래그: `went_home_for_father` / `skipped_father_wedding`
+
+**챕터 브레이크 3종 (스토리 구조 뼈대)**
+- `chapter_break_turn15` (15턴±2): "15개월째, 서울" — 청약 FOMO, 남의 속도와 내 속도
+- `chapter_break_turn30` (30턴±2): "반환점" — 절반 지점 성찰, 전략 재검토
+- `chapter_break_turn45` (45턴±2): "15개월 남았다" — 마지막 스퍼트, 이 5년의 의미
+- 모두 weight 20.0, cooldown 9999 (각 창에서 1회만 발화)
+
+**이벤트 11종 산문체 리라이트**
+- family_002, family_013, military_007, disasters_009, finance_011
+- comedy_043, social_life_048, romance_078, gambling_072, comedy_021, comedy_032
+- 구어체 설명 → 감각 디테일 + 짧은 문장 리듬, 선택지 result_text 구체화
+
+### 총계
+138 → 142 이벤트 (시그니처 1 + 챕터 브레이크 3)
+
+### 감사 결과
+ERROR 0, WARNING 0 — 신규 플래그 2개(`went_home_for_father`, `skipped_father_wedding`) 깨끗
+
+---
+
 ## 2026-06-10 (Steam Deck 컨트롤러 지원 — Verified 대응)
 
 ### 구현 내용
