@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-06-11 (캐릭터 아크 완성 + 온보딩 강화)
+
+### Priority 5: 온보딩/첫 10분
+- `_show_tutorial()`: 정석/비정석 루트 시스템 설명 섹션 추가 (Modal 580×560으로 확장)
+- `_open_investments()`: 첫 방문 시 투자 가이드 표시 (시장 사이클, 레버리지 리스크, 스킬 효과)
+- `investment_first_visited` flag로 초회만 표시
+
+### Priority 6: 캐릭터 아크 마지막 단계 검증 → 신규 작성
+- 기존 arc 이벤트 (romance_sumin, mentor_park) JSON에 없음 확인 → 재설계
+- **한지연 로맨스 아크 5단계**: jiyeon_meet→jiyeon_coffee→jiyeon_date→jiyeon_crisis→jiyeon_confession
+  - BMW 접촉사고 첫 만남 / 강남 카페 커피 / 파인다이닝 데이트 / 전남친 위기 / 한강 고백
+  - cast_effects로 stage(interest→warm→lover/distant) + affinity 추적
+- **임상철 멘토 아크 5단계**: sangchul_meet→sangchul_amb_call→sangchul_amb_lunch→sangchul_why_gangnam→sangchul_past
+  - 부동산 카페 첫 만남 / 안부 전화 / 국밥집 / "강남 왜 가고 싶어요?" / 과거 고백
+  - 기존 sangchul_amb_call 조건 수정 (cast_met→flag: sangchul_met)
+- **아버지 아크 4단계**: father_wedding_call(기존)→father_health_call→father_first_visit→father_missed_chance(기존)
+  - 목소리가 달라진 전화 / 오랜만의 귀향+된장찌개
+- 총 이벤트: life 153개, relationship 42개
+
+---
+
 ## 2026-06-11 (90점 공략 — 이벤트/엔딩 전면 리라이트)
 
 ### 1단계: 이벤트 라이팅 패스 2차 (38개)
