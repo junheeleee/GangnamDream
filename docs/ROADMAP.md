@@ -138,7 +138,7 @@
   - [x] 실사용 스토리 CG 3종 추가
   - [x] 인게임 스플래시 키아트 교체
   - [x] 홀덤 카드/칩 UI 초안은 실제 포커 카드/칩 디자인으로 교체
-  - [ ] 경마 UI 이미지는 실제 코드 연결 여부 결정 후 재작업
+  - [x] 경마 UI 이미지 코드 연결 확인 — horse_silhouette.png 1024×128 8프레임 아틀라스 정상 연결
 - [ ] QA 체크리스트 완료
 - [x] 저장 호환성 검증 (2026-06-10) — SaveManager v3, run_theme·unlocked_stat_thresholds 직렬화 추가, 구 세이브 compat 로직
 - [x] 빌드/배포 설정 (2026-06-10) — export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수·Linux 지원, Windows/Web export 실제 검증
