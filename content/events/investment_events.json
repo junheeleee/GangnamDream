@@ -1,1976 +1,2092 @@
 [
-  {
-    "id": "disasters_001",
-    "title": "월세 인상 — 투자 여력 계산",
-    "description": "문자가 왔다. 월세 5만원 인상.\n\n{name}은 계산을 시작했다.\n월 5만원. 연 60만원. 5년이면 300만원.\n\n그 돈이 그냥 사라지는 게 아니다.\n매달 투자 가능액에서 빠져나가는 돈이다.\n복리로 계산하면 이야기가 달라진다.",
-    "category": "disasters",
-    "rarity": "common",
-    "weight": 8,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
-    },
-    "tags": [
-      "disasters",
-      "class"
-    ],
-    "cooldown": 7,
-    "choices": [
-      {
-        "text": "집주인과 협상해서 투자 여력을 지킨다",
-        "effects": {
-          "money": 280000,
-          "intelligence": -5
-        },
-        "result_text": "인상폭 협상에 성공했다.\n매달 3만원, 연간 36만원을 지켰다.\n작은 차이가 복리 앞에서는 작지 않다."
-      },
-      {
-        "text": "인상을 받아들이고 다른 지출을 줄인다",
-        "effects": {
-          "stress": 9,
-          "mental": -6,
-          "intelligence": 1
-        },
-        "result_text": "구독 서비스 두 개를 해지했다.\n합산 4만 8천원.\n월세 인상분을 다른 곳에서 메꿨다."
-      },
-      {
-        "text": "이사해서 고정비를 낮춘다",
-        "effects": {
-          "reputation": -1,
-          "investment_skill": 0
-        },
-        "result_text": "더 싼 방으로 이사했다.\n이사비 35만원이 나갔다.\n손익분기점까지 7개월이 필요했다.",
-        "investment_effects": {
-          "market_bias": "crash",
-          "asset_tag": "leveraged",
-          "power": 0.136
-        }
-      }
-    ]
+ {
+  "id": "disasters_001",
+  "title": "월세 인상 — 투자 여력 계산",
+  "description": "문자가 왔다. 월세 5만원 인상.\n\n{name}은 계산을 시작했다.\n월 5만원. 연 60만원. 5년이면 300만원.\n\n그 돈이 그냥 사라지는 게 아니다.\n매달 투자 가능액에서 빠져나가는 돈이다.\n복리로 계산하면 이야기가 달라진다.",
+  "category": "disasters",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "gambling_002",
-    "title": "코인 선물 유혹",
-    "description": "새벽 1시, 코인 선물 거래 수익 인증 스크린샷이 단톡방을 도배하고 있다.\n'1시간에 200% 수익', '진짜 됩니다'.\n\n이미 아는 사람들은 다 하고 있다는 말.\n레버리지 10배, 증거금 10만원으로 100만원 효과.\n{name}의 손가락이 화면 위에서 망설인다.\n거래소 앱 다운로드 버튼이 눈앞에 있다.",
-    "category": "gambling",
-    "rarity": "rare",
-    "weight": 1.7,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "disasters",
+   "class"
+  ],
+  "cooldown": 7,
+  "choices": [
+   {
+    "text": "집주인과 협상해서 투자 여력을 지킨다",
+    "effects": {
+     "money": 280000,
+     "intelligence": -5
     },
-    "tags": [
-      "gambling",
-      "viral"
-    ],
-    "cooldown": 9,
-    "choices": [
-      {
-        "text": "조용히 포지션을 정리한다",
-        "effects": {
-          "money": 380000,
-          "investment_skill": -2
-        },
-        "result_text": "냉정하게 수익을 확정했다. 욕심을 참는 것이 가장 어려운 투자 기술이다."
-      },
-      {
-        "text": "모른 척 창을 닫는다",
-        "effects": {
-          "stress": -4,
-          "mental": -1
-        },
-        "result_text": "유혹을 외면했지만 불안감은 쉽게 가시지 않는다. 마음이 흔들리는 밤이다."
-      },
-      {
-        "text": "레버리지 풀베팅을 건다",
-        "effects": {
-          "reputation": 3,
-          "investment_skill": -1,
-          "addiction_tendency": 15
-        },
-        "result_text": "모든 걸 걸었다. 운명이 어느 쪽을 선택할지는 아침이 되어야 알 수 있다.",
-        "investment_effects": {
-          "market_bias": "bubble",
-          "asset_tag": "real_estate",
-          "power": 0.077
-        }
-      }
-    ]
+    "result_text": "인상폭 협상에 성공했다.\n매달 3만원, 연간 36만원을 지켰다.\n작은 차이가 복리 앞에서는 작지 않다."
+   },
+   {
+    "text": "인상을 받아들이고 다른 지출을 줄인다",
+    "effects": {
+     "stress": 9,
+     "mental": -6,
+     "intelligence": 1
+    },
+    "result_text": "구독 서비스 두 개를 해지했다.\n합산 4만 8천원.\n월세 인상분을 다른 곳에서 메꿨다."
+   },
+   {
+    "text": "이사해서 고정비를 낮춘다",
+    "effects": {
+     "reputation": -1,
+     "investment_skill": 0
+    },
+    "result_text": "더 싼 방으로 이사했다.\n이사비 35만원이 나갔다.\n손익분기점까지 7개월이 필요했다.",
+    "investment_effects": {
+     "market_bias": "crash",
+     "asset_tag": "leveraged",
+     "power": 0.136
+    }
+   }
+  ]
+ },
+ {
+  "id": "gambling_002",
+  "title": "코인 선물 유혹",
+  "description": "새벽 1시, 코인 선물 거래 수익 인증 스크린샷이 단톡방을 도배하고 있다.\n'1시간에 200% 수익', '진짜 됩니다'.\n\n이미 아는 사람들은 다 하고 있다는 말.\n레버리지 10배, 증거금 10만원으로 100만원 효과.\n{name}의 손가락이 화면 위에서 망설인다.\n거래소 앱 다운로드 버튼이 눈앞에 있다.",
+  "category": "gambling",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "politics_003",
-    "title": "긴급 속보 — 금리·세제·부동산 동시 발표",
-    "description": "오전 10시 3분.\n\n뉴스 속보가 울렸다.\n기준금리 동결. 양도세 완화. 투기지역 일부 해제.\n\n세 가지가 동시에 나왔다.\n포트폴리오 화면이 깜빡였다.\n\n지금 움직이는 사람과 기다리는 사람의 결과가 나뉘는 순간이었다.",
-    "category": "politics",
-    "rarity": "common",
-    "weight": 8,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "gambling",
+   "viral"
+  ],
+  "cooldown": 9,
+  "choices": [
+   {
+    "text": "조용히 포지션을 정리한다",
+    "effects": {
+     "money": 380000,
+     "investment_skill": -2
     },
-    "tags": [
-      "politics",
-      "opportunity"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "리스크 자산 비중을 조정해 방어적으로 재배치한다",
-        "effects": {
-          "money": -130000,
-          "health": -3
-        },
-        "result_text": "채권 비중을 올리고 레버리지를 줄였다.\n시장은 다음날 2% 올랐다.\n방어적 포지션이 맞았는지 틀렸는지는 3개월 후에 안다."
-      },
-      {
-        "text": "일단 지켜본다",
-        "effects": {
-          "stress": 10,
-          "mental": 6
-        },
-        "result_text": "화면을 닫았다.\n두 시간 후에 다시 열었다.\n시장은 위아래로 흔들렸다가 제자리였다."
-      },
-      {
-        "text": "정책 수혜 섹터에 빠르게 진입한다",
-        "effects": {
-          "reputation": -2,
-          "investment_skill": 5
-        },
-        "result_text": "부동산 관련 ETF를 샀다.\n당일 3.2% 올랐다.\n다음날 1.8% 빠졌다. 아직 수익이다.",
-        "investment_effects": {
-          "market_bias": "bubble",
-          "asset_tag": "us_stock",
-          "power": -0.068
-        }
-      }
-    ]
+    "result_text": "냉정하게 수익을 확정했다. 욕심을 참는 것이 가장 어려운 투자 기술이다."
+   },
+   {
+    "text": "모른 척 창을 닫는다",
+    "effects": {
+     "stress": -4,
+     "mental": -1
+    },
+    "result_text": "유혹을 외면했지만 불안감은 쉽게 가시지 않는다. 마음이 흔들리는 밤이다."
+   },
+   {
+    "text": "레버리지 풀베팅을 건다",
+    "effects": {
+     "reputation": 3,
+     "investment_skill": -1,
+     "addiction_tendency": 15
+    },
+    "result_text": "모든 걸 걸었다. 운명이 어느 쪽을 선택할지는 아침이 되어야 알 수 있다.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "real_estate",
+     "power": 0.077
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_003",
+  "title": "긴급 속보 — 금리·세제·부동산 동시 발표",
+  "description": "오전 10시 3분.\n\n뉴스 속보가 울렸다.\n기준금리 동결. 양도세 완화. 투기지역 일부 해제.\n\n세 가지가 동시에 나왔다.\n포트폴리오 화면이 깜빡였다.\n\n지금 움직이는 사람과 기다리는 사람의 결과가 나뉘는 순간이었다.",
+  "category": "politics",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "politics_004",
-    "title": "선거철 테마주",
-    "description": "선거 시즌이 돌아왔다. 후보별 정책에 따른 수혜주 분석이 유튜브를 채웠다.\n'이 후보 당선되면 이 종목 3배'라는 썸네일.\n\n실제로 지난 선거 때 특정 섹터가 급등한 사례가 있다.\n{name}은 이 흐름을 타야 할지 모른다는 FOMO가 생겼다.\n하지만 선거 결과는 누구도 모른다.",
-    "category": "politics",
-    "rarity": "uncommon",
-    "weight": 4,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "politics",
+   "opportunity"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "리스크 자산 비중을 조정해 방어적으로 재배치한다",
+    "effects": {
+     "money": -130000,
+     "health": -3
     },
-    "tags": [
-      "politics",
-      "opportunity"
-    ],
-    "cooldown": 5,
-    "choices": [
-      {
-        "text": "소문 전에 미리 매수한다",
-        "effects": {
-          "money": 320000,
-          "appearance": 3
-        },
-        "result_text": "선거 전 눈치 빠른 매수로 포지션을 잡았다. 정보보다 빠른 발이 수익을 만든다."
-      },
-      {
-        "text": "테마주를 외면한다",
-        "effects": {
-          "stress": -5,
-          "mental": -4
-        },
-        "result_text": "묻지마 투자의 위험을 알기에 손을 대지 않았다. 소외감은 크지만 후회는 없다."
-      },
-      {
-        "text": "단타로 치고 빠진다",
-        "effects": {
-          "reputation": 3,
-          "investment_skill": 3
-        },
-        "result_text": "눈 깜짝할 사이에 들어갔다 나왔다. 빠른 판단이 이번엔 통했다.",
-        "investment_effects": {
-          "market_bias": "momentum",
-          "asset_tag": "us_stock",
-          "power": -0.079
-        }
-      },
-      {
-        "text": "차트만 보다가 아무것도 안 한다",
-        "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
-        },
-        "result_text": "기회를 놓쳤는지도 모른다. 하지만 잃지 않은 것만으로 오늘은 충분하다."
-      }
-    ]
+    "result_text": "채권 비중을 올리고 레버리지를 줄였다.\n시장은 다음날 2% 올랐다.\n방어적 포지션이 맞았는지 틀렸는지는 3개월 후에 안다."
+   },
+   {
+    "text": "일단 지켜본다",
+    "effects": {
+     "stress": 10,
+     "mental": 6
+    },
+    "result_text": "화면을 닫았다.\n두 시간 후에 다시 열었다.\n시장은 위아래로 흔들렸다가 제자리였다."
+   },
+   {
+    "text": "정책 수혜 섹터에 빠르게 진입한다",
+    "effects": {
+     "reputation": -2,
+     "investment_skill": 5
+    },
+    "result_text": "부동산 관련 ETF를 샀다.\n당일 3.2% 올랐다.\n다음날 1.8% 빠졌다. 아직 수익이다.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "us_stock",
+     "power": -0.068
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_004",
+  "title": "선거철 테마주",
+  "description": "선거 시즌이 돌아왔다. 후보별 정책에 따른 수혜주 분석이 유튜브를 채웠다.\n'이 후보 당선되면 이 종목 3배'라는 썸네일.\n\n실제로 지난 선거 때 특정 섹터가 급등한 사례가 있다.\n{name}은 이 흐름을 타야 할지 모른다는 FOMO가 생겼다.\n하지만 선거 결과는 누구도 모른다.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "disasters_005",
-    "title": "갑작스런 해고설",
-    "description": "점심시간, 회사 단톡방에 이상한 공기가 흐른다.\n'이번 달 구조조정 있다던데' — 누군가 올린 글 하나.\n\n주식 커뮤니티에서도 비슷한 소문이 돌고 있다. {name}이 보유한 종목 회사 얘기다.\n공식 발표는 없지만 주가가 이미 -8%를 향해 가고 있다.\n소문을 믿고 팔 것인가, 아니면 공식 발표를 기다릴 것인가.",
-    "category": "disasters",
-    "rarity": "uncommon",
-    "weight": 4,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "politics",
+   "opportunity"
+  ],
+  "cooldown": 5,
+  "choices": [
+   {
+    "text": "소문 전에 미리 매수한다",
+    "effects": {
+     "money": 320000,
+     "appearance": 3
     },
-    "tags": [
-      "disasters",
-      "pressure"
-    ],
-    "cooldown": 3,
-    "choices": [
-      {
-        "text": "냉정하게 현황을 파악한다",
-        "effects": {
-          "money": 380000,
-          "stress": 2
-        },
-        "result_text": "소문인지 사실인지부터 따져봤다. 감정 전에 팩트를 챙기는 습관이 중요하다."
-      },
-      {
-        "text": "불안해서 아무것도 못 한다",
-        "effects": {
-          "stress": 9,
-          "mental": 6
-        },
-        "result_text": "머릿속에 온갖 최악의 시나리오가 그려진다. 오늘 밤은 길 것 같다."
-      },
-      {
-        "text": "소문을 역이용해 포지션을 잡는다",
-        "effects": {
-          "reputation": 8,
-          "investment_skill": 3
-        },
-        "result_text": "남들이 패닉 셀할 때 과감히 들어갔다. 공포가 기회로 바뀌는 순간이었다.",
-        "flags": [
-          "seen_disasters_005"
-        ],
-        "investment_effects": {
-          "market_bias": "momentum",
-          "asset_tag": "crypto",
-          "power": 0.02
-        }
-      }
-    ]
+    "result_text": "선거 전 눈치 빠른 매수로 포지션을 잡았다. 정보보다 빠른 발이 수익을 만든다."
+   },
+   {
+    "text": "테마주를 외면한다",
+    "effects": {
+     "stress": -5,
+     "mental": -4
+    },
+    "result_text": "묻지마 투자의 위험을 알기에 손을 대지 않았다. 소외감은 크지만 후회는 없다."
+   },
+   {
+    "text": "단타로 치고 빠진다",
+    "effects": {
+     "reputation": 3,
+     "investment_skill": 3
+    },
+    "result_text": "눈 깜짝할 사이에 들어갔다 나왔다. 빠른 판단이 이번엔 통했다.",
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "us_stock",
+     "power": -0.079
+    }
+   },
+   {
+    "text": "차트만 보다가 아무것도 안 한다",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "기회를 놓쳤는지도 모른다. 하지만 잃지 않은 것만으로 오늘은 충분하다."
+   }
+  ]
+ },
+ {
+  "id": "disasters_005",
+  "title": "갑작스런 해고설",
+  "description": "점심시간, 회사 단톡방에 이상한 공기가 흐른다.\n'이번 달 구조조정 있다던데' — 누군가 올린 글 하나.\n\n주식 커뮤니티에서도 비슷한 소문이 돌고 있다. {name}이 보유한 종목 회사 얘기다.\n공식 발표는 없지만 주가가 이미 -8%를 향해 가고 있다.\n소문을 믿고 팔 것인가, 아니면 공식 발표를 기다릴 것인가.",
+  "category": "disasters",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "disasters_006",
-    "title": "휴대폰 파손",
-    "description": "길을 걷다 스마트폰을 떨어뜨렸다. 화면이 산산조각 났다.\n수리비 견적을 보니 30만원. 아니면 새 폰으로 바꾸면 100만원.\n\n갑작스러운 지출이 생겼다. 투자에 쓰려고 모아둔 돈에서 빠져나가게 된다.\n{name}은 지갑을 열기 전에 한 번 더 생각해봤다.\n어떻게 처리하는 것이 가장 합리적일까.",
-    "category": "disasters",
-    "rarity": "rare",
-    "weight": 1.7,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "disasters",
+   "pressure"
+  ],
+  "cooldown": 3,
+  "choices": [
+   {
+    "text": "냉정하게 현황을 파악한다",
+    "effects": {
+     "money": 380000,
+     "stress": 2
     },
-    "tags": [
-      "disasters",
-      "pressure"
+    "result_text": "소문인지 사실인지부터 따져봤다. 감정 전에 팩트를 챙기는 습관이 중요하다."
+   },
+   {
+    "text": "불안해서 아무것도 못 한다",
+    "effects": {
+     "stress": 9,
+     "mental": 6
+    },
+    "result_text": "머릿속에 온갖 최악의 시나리오가 그려진다. 오늘 밤은 길 것 같다."
+   },
+   {
+    "text": "소문을 역이용해 포지션을 잡는다",
+    "effects": {
+     "reputation": 8,
+     "investment_skill": 3
+    },
+    "result_text": "남들이 패닉 셀할 때 과감히 들어갔다. 공포가 기회로 바뀌는 순간이었다.",
+    "flags": [
+     "seen_disasters_005"
     ],
-    "cooldown": 6,
-    "choices": [
-      {
-        "text": "보험 처리를 알아본다",
-        "effects": {
-          "money": 130000,
-          "luck": 4
-        },
-        "result_text": "가입해둔 보험을 조용히 꺼내 확인했다. 미리 대비해둔 것이 결실을 맺었다."
-      },
-      {
-        "text": "당황해서 그냥 새 폰을 산다",
-        "effects": {
-          "stress": 8,
-          "mental": 3
-        },
-        "result_text": "충동적으로 매장을 찾아갔다. 화면이 박살 난 것보다 통장이 더 아프다."
-      },
-      {
-        "text": "중고폰을 빠르게 구한다",
-        "effects": {
-          "reputation": 8,
-          "investment_skill": 3
-        },
-        "result_text": "당근마켓을 뒤졌다. 위기에서도 효율을 찾는 것이 서울 생존법이다.",
-        "investment_effects": {
-          "market_bias": "momentum",
-          "asset_tag": "us_stock",
-          "power": -0.07
-        }
-      }
-    ]
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "crypto",
+     "power": 0.02
+    }
+   }
+  ]
+ },
+ {
+  "id": "disasters_006",
+  "title": "휴대폰 파손",
+  "description": "길을 걷다 스마트폰을 떨어뜨렸다. 화면이 산산조각 났다.\n수리비 견적을 보니 30만원. 아니면 새 폰으로 바꾸면 100만원.\n\n갑작스러운 지출이 생겼다. 투자에 쓰려고 모아둔 돈에서 빠져나가게 된다.\n{name}은 지갑을 열기 전에 한 번 더 생각해봤다.\n어떻게 처리하는 것이 가장 합리적일까.",
+  "category": "disasters",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "gambling_007",
-    "title": "오픈채팅 토토 링크",
-    "description": "모르는 번호가 채팅방에 링크를 올렸다.\n'이번 주 100% 분석 자료. 카카오 열심히 보시는 분들은 아실 거예요.'\n\n채팅방에 11명이 있었다.\n누군가 '저번 주에 맞췄음' 이라고 댓글을 달았다.\n\n링크 클릭 여부를 {name}은 3초 동안 고민했다.",
-    "category": "gambling",
-    "rarity": "common",
-    "weight": 8,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 11,
-      "has_portfolio": true
+  "tags": [
+   "disasters",
+   "pressure"
+  ],
+  "cooldown": 6,
+  "choices": [
+   {
+    "text": "보험 처리를 알아본다",
+    "effects": {
+     "money": 130000,
+     "luck": 4
     },
-    "tags": [
-      "gambling",
-      "satire"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "링크를 무시하고 채팅방을 나간다",
-        "effects": {
-          "money": 230000,
-          "investment_skill": -6
-        },
-        "result_text": "채팅방을 나왔다.\n그 주 결과는 알 수 없었다.\n모르는 게 편할 때도 있다."
-      },
-      {
-        "text": "잠깐 들여다본다",
-        "effects": {
-          "stress": 9,
-          "mental": -3,
-          "addiction_tendency": 8
-        },
-        "result_text": "링크를 눌렀다.\n회원가입 창이 떴다.\n뒤로 가기를 눌렀다. 이번은 구경만 했다."
-      },
-      {
-        "text": "소액으로 한 번만 해본다",
-        "effects": {
-          "reputation": -2,
-          "investment_skill": -1,
-          "addiction_tendency": 10
-        },
-        "result_text": "1만원을 걸었다.\n결과는 틀렸다.\n1만원짜리 수업료라고 생각하기로 했다.",
-        "investment_effects": {
-          "market_bias": "bubble",
-          "asset_tag": "real_estate",
-          "power": 0.145
-        }
-      }
-    ]
+    "result_text": "가입해둔 보험을 조용히 꺼내 확인했다. 미리 대비해둔 것이 결실을 맺었다."
+   },
+   {
+    "text": "당황해서 그냥 새 폰을 산다",
+    "effects": {
+     "stress": 8,
+     "mental": 3
+    },
+    "result_text": "충동적으로 매장을 찾아갔다. 화면이 박살 난 것보다 통장이 더 아프다."
+   },
+   {
+    "text": "중고폰을 빠르게 구한다",
+    "effects": {
+     "reputation": 8,
+     "investment_skill": 3
+    },
+    "result_text": "당근마켓을 뒤졌다. 위기에서도 효율을 찾는 것이 서울 생존법이다.",
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "us_stock",
+     "power": -0.07
+    }
+   }
+  ]
+ },
+ {
+  "id": "gambling_007",
+  "title": "오픈채팅 토토 링크",
+  "description": "모르는 번호가 채팅방에 링크를 올렸다.\n'이번 주 100% 분석 자료. 카카오 열심히 보시는 분들은 아실 거예요.'\n\n채팅방에 11명이 있었다.\n누군가 '저번 주에 맞췄음' 이라고 댓글을 달았다.\n\n링크 클릭 여부를 {name}은 3초 동안 고민했다.",
+  "category": "gambling",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 11,
+   "has_portfolio": true
   },
-  {
-    "id": "finance_paycheck_card",
-    "title": "월급날 — 투자 여력 계산",
-    "description": "월급이 들어왔다.\n동시에 카드값이 나갔다.\n\n잔액을 봤다.\n이번 달 투자 가능액은 얼마인가.\n\n{name}은 고정지출을 하나씩 빼기 시작했다.\n월세, 식비, 통신비, 구독료, 그리고 카드값.\n숫자가 생각보다 빠르게 줄었다.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 8,
-    "hidden": false,
-    "conditions": {
-      "max_mental": 65,
-      "has_portfolio": true
+  "tags": [
+   "gambling",
+   "satire"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "링크를 무시하고 채팅방을 나간다",
+    "effects": {
+     "money": 230000,
+     "investment_skill": -6
     },
-    "tags": [
-      "finance",
-      "anxiety"
-    ],
-    "cooldown": 5,
-    "choices": [
-      {
-        "text": "카드값을 다 갚고 남은 금액만 투자한다",
-        "effects": {
-          "money": 430000,
-          "intelligence": -1
-        },
-        "result_text": "투자 가능액이 나왔다.\n예상보다 작았다.\n그래도 0보다는 크다. 다음 달에 더 줄이기로 했다."
-      },
-      {
-        "text": "최솟값만 내고 나머지는 투자에 쓴다",
-        "effects": {
-          "stress": 0,
-          "mental": -2
-        },
-        "result_text": "최솟값을 이체했다.\n나머지를 투자 계좌로 옮겼다.\n이자가 붙기 시작했다. 카드값 이자가."
-      },
-      {
-        "text": "이번 달은 투자를 건너뛴다",
-        "effects": {
-          "reputation": 2,
-          "investment_skill": 4
-        },
-        "result_text": "이번 달은 쉬기로 했다.\n카드값을 다 갚았다.\n잔액이 평소보다 많았다. 좋은 기분이 아니었다.",
-        "investment_effects": {
-          "market_bias": "bubble",
-          "asset_tag": "korean_stock",
-          "power": 0.13
-        }
-      }
-    ]
+    "result_text": "채팅방을 나왔다.\n그 주 결과는 알 수 없었다.\n모르는 게 편할 때도 있다."
+   },
+   {
+    "text": "잠깐 들여다본다",
+    "effects": {
+     "stress": 9,
+     "mental": -3,
+     "addiction_tendency": 8
+    },
+    "result_text": "링크를 눌렀다.\n회원가입 창이 떴다.\n뒤로 가기를 눌렀다. 이번은 구경만 했다."
+   },
+   {
+    "text": "소액으로 한 번만 해본다",
+    "effects": {
+     "reputation": -2,
+     "investment_skill": -1,
+     "addiction_tendency": 10
+    },
+    "result_text": "1만원을 걸었다.\n결과는 틀렸다.\n1만원짜리 수업료라고 생각하기로 했다.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "real_estate",
+     "power": 0.145
+    }
+   }
+  ]
+ },
+ {
+  "id": "finance_paycheck_card",
+  "title": "월급날 — 투자 여력 계산",
+  "description": "월급이 들어왔다.\n동시에 카드값이 나갔다.\n\n잔액을 봤다.\n이번 달 투자 가능액은 얼마인가.\n\n{name}은 고정지출을 하나씩 빼기 시작했다.\n월세, 식비, 통신비, 구독료, 그리고 카드값.\n숫자가 생각보다 빠르게 줄었다.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "max_mental": 65,
+   "has_portfolio": true
   },
-  {
-    "id": "finance_012",
-    "title": "잔액 -34,200원",
-    "description": "오전 8시 41분.\n은행 앱 알림이 울렸다.\n\n'잔액이 마이너스입니다. 마이너스 통장 이자가 적용됩니다.'\n\n숫자: -34,200원.\n마이너스 통장 한도 잔액: 496만 7천800원.\n\n{name}은 앱을 닫았다가 다시 열었다.\n숫자는 그대로였다.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 8,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "finance",
+   "anxiety"
+  ],
+  "cooldown": 5,
+  "choices": [
+   {
+    "text": "카드값을 다 갚고 남은 금액만 투자한다",
+    "effects": {
+     "money": 430000,
+     "intelligence": -1
     },
-    "tags": [
-      "finance",
-      "viral"
-    ],
-    "cooldown": 3,
-    "choices": [
-      {
-        "text": "오늘 중으로 입금해서 상환한다",
-        "effects": {
-          "money": 140000,
-          "luck": -1
-        },
-        "result_text": "아는 사람에게 연락했다.\n돈을 빌렸다.\n저녁에 입금했다. 마이너스가 사라졌다."
-      },
-      {
-        "text": "알림을 끄고 일단 둔다",
-        "effects": {
-          "stress": -8,
-          "mental": 0
-        },
-        "result_text": "알림 설정에 들어갔다.\n껐다.\n이자가 하루에 얼마인지 계산하지 않기로 했다."
-      },
-      {
-        "text": "투자 포지션 일부를 정리해서 메꾼다",
-        "effects": {
-          "reputation": -2,
-          "investment_skill": 1
-        },
-        "result_text": "수익 중인 종목을 일부 팔았다.\n세금을 빼고 나니 딱 맞았다.\n통장이 0이 됐다. 출발점으로 돌아온 느낌.",
-        "investment_effects": {
-          "market_bias": "bubble",
-          "asset_tag": "korean_stock",
-          "power": 0.14
-        }
-      },
-      {
-        "text": "마이너스를 늘려서 투자 자금으로 쓴다",
-        "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
-        },
-        "result_text": "한도까지 뺐다.\n투자 계좌로 옮겼다.\n이자율과 기대 수익률을 다시 계산했다. 아슬아슬했다."
-      }
-    ]
+    "result_text": "투자 가능액이 나왔다.\n예상보다 작았다.\n그래도 0보다는 크다. 다음 달에 더 줄이기로 했다."
+   },
+   {
+    "text": "최솟값만 내고 나머지는 투자에 쓴다",
+    "effects": {
+     "stress": 0,
+     "mental": -2
+    },
+    "result_text": "최솟값을 이체했다.\n나머지를 투자 계좌로 옮겼다.\n이자가 붙기 시작했다. 카드값 이자가."
+   },
+   {
+    "text": "이번 달은 투자를 건너뛴다",
+    "effects": {
+     "reputation": 2,
+     "investment_skill": 4
+    },
+    "result_text": "이번 달은 쉬기로 했다.\n카드값을 다 갚았다.\n잔액이 평소보다 많았다. 좋은 기분이 아니었다.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "korean_stock",
+     "power": 0.13
+    }
+   }
+  ]
+ },
+ {
+  "id": "finance_012",
+  "title": "잔액 -34,200원",
+  "description": "오전 8시 41분.\n은행 앱 알림이 울렸다.\n\n'잔액이 마이너스입니다. 마이너스 통장 이자가 적용됩니다.'\n\n숫자: -34,200원.\n마이너스 통장 한도 잔액: 496만 7천800원.\n\n{name}은 앱을 닫았다가 다시 열었다.\n숫자는 그대로였다.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "disasters_014",
-    "title": "전세 사기 뉴스 — 부동산 섹터 하락",
-    "description": "전세 사기 피해자 300명 뉴스가 터졌다.\n\n부동산 관련 종목들이 장 시작부터 빠지고 있었다.\n건설사 -3.2%. REITs -4.1%. 부동산 플랫폼 -2.8%.\n\n{name}은 포트폴리오를 봤다.\n공포가 가격을 만들 때, 지금이 기회인가 아직 바닥이 아닌가.",
-    "category": "disasters",
-    "rarity": "common",
-    "weight": 8,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 18,
-      "has_portfolio": true
+  "tags": [
+   "finance",
+   "viral"
+  ],
+  "cooldown": 3,
+  "choices": [
+   {
+    "text": "오늘 중으로 입금해서 상환한다",
+    "effects": {
+     "money": 140000,
+     "luck": -1
     },
-    "tags": [
-      "disasters",
-      "risk"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "지금은 더 빠질 수 있으니 관망한다",
-        "effects": {
-          "money": -200000,
-          "mental": -2
-        },
-        "result_text": "손을 묶었다.\n다음날 추가 하락이 왔다.\n3일째에 반등이 시작됐다. 관망은 맞았다."
-      },
-      {
-        "text": "공포 매도 구간에서 분할 매수를 시작한다",
-        "effects": {
-          "stress": 8,
-          "mental": 2
-        },
-        "result_text": "3분의 1을 샀다.\n다음날 2% 더 빠졌다.\n추가로 3분의 1을 더 샀다. 분할의 이유였다."
-      },
-      {
-        "text": "이미 들고 있던 물량을 정리한다",
-        "effects": {
-          "reputation": -1,
-          "investment_skill": -1
-        },
-        "result_text": "손절했다.\n-6.3%로 나왔다.\n아픈 숫자였지만 더 빠졌다. 이번엔 맞았다.",
-        "investment_effects": {
-          "market_bias": "momentum",
-          "asset_tag": "leveraged",
-          "power": 0.091
-        }
-      }
-    ]
+    "result_text": "아는 사람에게 연락했다.\n돈을 빌렸다.\n저녁에 입금했다. 마이너스가 사라졌다."
+   },
+   {
+    "text": "알림을 끄고 일단 둔다",
+    "effects": {
+     "stress": -8,
+     "mental": 0
+    },
+    "result_text": "알림 설정에 들어갔다.\n껐다.\n이자가 하루에 얼마인지 계산하지 않기로 했다."
+   },
+   {
+    "text": "투자 포지션 일부를 정리해서 메꾼다",
+    "effects": {
+     "reputation": -2,
+     "investment_skill": 1
+    },
+    "result_text": "수익 중인 종목을 일부 팔았다.\n세금을 빼고 나니 딱 맞았다.\n통장이 0이 됐다. 출발점으로 돌아온 느낌.",
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "korean_stock",
+     "power": 0.14
+    }
+   },
+   {
+    "text": "마이너스를 늘려서 투자 자금으로 쓴다",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "한도까지 뺐다.\n투자 계좌로 옮겼다.\n이자율과 기대 수익률을 다시 계산했다. 아슬아슬했다."
+   }
+  ]
+ },
+ {
+  "id": "disasters_014",
+  "title": "전세 사기 뉴스 — 부동산 섹터 하락",
+  "description": "전세 사기 피해자 300명 뉴스가 터졌다.\n\n부동산 관련 종목들이 장 시작부터 빠지고 있었다.\n건설사 -3.2%. REITs -4.1%. 부동산 플랫폼 -2.8%.\n\n{name}은 포트폴리오를 봤다.\n공포가 가격을 만들 때, 지금이 기회인가 아직 바닥이 아닌가.",
+  "category": "disasters",
+  "rarity": "common",
+  "weight": 8,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 18,
+   "has_portfolio": true
   },
-  {
-    "id": "politics_016",
-    "title": "청년 지원금 논란",
-    "description": "청년 지원금 정책 발표. 일정 조건을 충족하면 현금이 지급된다.\n사회관계망에서는 찬반이 갈렸다.\n\n지원금이 실제로 지급된다면 소비 심리가 올라갈 수 있다.\n내수 관련 주식이 움직이기 시작했다.\n{name}은 지금 이 흐름에 올라탈 것인가, 지켜볼 것인가.",
-    "category": "politics",
-    "rarity": "uncommon",
-    "weight": 4,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "disasters",
+   "risk"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "지금은 더 빠질 수 있으니 관망한다",
+    "effects": {
+     "money": -200000,
+     "mental": -2
     },
-    "tags": [
-      "politics",
-      "satire"
-    ],
-    "cooldown": 6,
-    "choices": [
-      {
-        "text": "요건을 꼼꼼히 확인해 신청한다",
-        "effects": {
-          "money": -90000,
-          "intelligence": -3
-        },
-        "result_text": "지원 자격과 절차를 꼼꼼히 따져 신청서를 제출했다. 부끄럽지 않다, 내 권리다."
-      },
-      {
-        "text": "쓸데없는 논쟁에 휘말린다",
-        "effects": {
-          "stress": 8,
-          "mental": -5,
-          "social_skill": -1
-        },
-        "result_text": "SNS에서 논쟁을 시작했다. 에너지를 다 써버리고 아무것도 얻지 못했다."
-      },
-      {
-        "text": "지원금을 시드머니로 활용한다",
-        "effects": {
-          "reputation": 3,
-          "investment_skill": 1
-        },
-        "result_text": "받은 돈을 곧장 투자 계좌에 넣었다. 지원금도 굴리면 자산이 된다.",
-        "investment_effects": {
-          "market_bias": "crash",
-          "asset_tag": "us_stock",
-          "power": -0.047
-        }
-      },
-      {
-        "text": "지원금 이슈 자체를 무시한다",
-        "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
-        },
-        "result_text": "어차피 나와는 상관없는 이야기라고 생각했다. 무관심이 가장 편한 선택이었다."
-      }
-    ]
+    "result_text": "손을 묶었다.\n다음날 추가 하락이 왔다.\n3일째에 반등이 시작됐다. 관망은 맞았다."
+   },
+   {
+    "text": "공포 매도 구간에서 분할 매수를 시작한다",
+    "effects": {
+     "stress": 8,
+     "mental": 2
+    },
+    "result_text": "3분의 1을 샀다.\n다음날 2% 더 빠졌다.\n추가로 3분의 1을 더 샀다. 분할의 이유였다."
+   },
+   {
+    "text": "이미 들고 있던 물량을 정리한다",
+    "effects": {
+     "reputation": -1,
+     "investment_skill": -1
+    },
+    "result_text": "손절했다.\n-6.3%로 나왔다.\n아픈 숫자였지만 더 빠졌다. 이번엔 맞았다.",
+    "investment_effects": {
+     "market_bias": "momentum",
+     "asset_tag": "leveraged",
+     "power": 0.091
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_016",
+  "title": "청년 지원금 논란",
+  "description": "청년 지원금 정책 발표. 일정 조건을 충족하면 현금이 지급된다.\n사회관계망에서는 찬반이 갈렸다.\n\n지원금이 실제로 지급된다면 소비 심리가 올라갈 수 있다.\n내수 관련 주식이 움직이기 시작했다.\n{name}은 지금 이 흐름에 올라탈 것인가, 지켜볼 것인가.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "gambling_020",
-    "title": "한 방이면 끝이라는 말",
-    "description": "회사 선배가 술자리에서 말했다. '나 작년에 코인으로 1억 벌었어. 타이밍만 잘 잡으면 돼.'\n{name}은 그 말을 집에 와서도 떨치지 못했다.\n\n통장을 열었다. 지금 있는 돈을 전부 넣으면 정말 될까.\n이성은 '아니다'고 하지만 감정은 '혹시'를 속삭인다.\n{name}은 오늘 밤 중요한 결정을 해야 한다.",
-    "category": "gambling",
-    "rarity": "uncommon",
-    "weight": 4,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "politics",
+   "satire"
+  ],
+  "cooldown": 6,
+  "choices": [
+   {
+    "text": "요건을 꼼꼼히 확인해 신청한다",
+    "effects": {
+     "money": -90000,
+     "intelligence": -3
     },
-    "tags": [
-      "gambling",
-      "anxiety"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "그 말을 듣고 냉정하게 계산한다",
-        "effects": {
-          "money": -10000,
-          "intelligence": 5
-        },
-        "result_text": "한 방의 확률을 직접 계산해봤다. 숫자는 거짓말을 하지 않는다."
-      },
-      {
-        "text": "마음이 흔들려 주변을 돌아본다",
-        "effects": {
-          "stress": 11,
-          "mental": 2,
-          "addiction_tendency": 5
-        },
-        "result_text": "주변 사람들의 성공담에 흔들렸다. 비교는 가장 위험한 투자 심리다."
-      },
-      {
-        "text": "전 재산을 한 곳에 몰아넣는다",
-        "effects": {
-          "reputation": -4,
-          "investment_skill": 2,
-          "addiction_tendency": 25
-        },
-        "result_text": "한 방을 믿었다. 결과가 어떻든 이 선택은 오래 기억될 것이다.",
-        "flags": [
-          "seen_gambling_020"
-        ],
-        "investment_effects": {
-          "market_bias": "bubble",
-          "asset_tag": "leveraged",
-          "power": 0.017
-        }
-      },
-      {
-        "text": "귀를 막고 그 자리를 떠난다",
-        "effects": {
-          "health": -2,
-          "stress": -3,
-          "money": 0
-        },
-        "result_text": "듣지 않기로 했다. 유혹으로부터 멀어지는 것도 용기다."
-      }
-    ]
+    "result_text": "지원 자격과 절차를 꼼꼼히 따져 신청서를 제출했다. 부끄럽지 않다, 내 권리다."
+   },
+   {
+    "text": "쓸데없는 논쟁에 휘말린다",
+    "effects": {
+     "stress": 8,
+     "mental": -5,
+     "social_skill": -1
+    },
+    "result_text": "SNS에서 논쟁을 시작했다. 에너지를 다 써버리고 아무것도 얻지 못했다."
+   },
+   {
+    "text": "지원금을 시드머니로 활용한다",
+    "effects": {
+     "reputation": 3,
+     "investment_skill": 1
+    },
+    "result_text": "받은 돈을 곧장 투자 계좌에 넣었다. 지원금도 굴리면 자산이 된다.",
+    "investment_effects": {
+     "market_bias": "crash",
+     "asset_tag": "us_stock",
+     "power": -0.047
+    }
+   },
+   {
+    "text": "지원금 이슈 자체를 무시한다",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "어차피 나와는 상관없는 이야기라고 생각했다. 무관심이 가장 편한 선택이었다."
+   }
+  ]
+ },
+ {
+  "id": "gambling_020",
+  "title": "한 방이면 끝이라는 말",
+  "description": "회사 선배가 술자리에서 말했다. '나 작년에 코인으로 1억 벌었어. 타이밍만 잘 잡으면 돼.'\n{name}은 그 말을 집에 와서도 떨치지 못했다.\n\n통장을 열었다. 지금 있는 돈을 전부 넣으면 정말 될까.\n이성은 '아니다'고 하지만 감정은 '혹시'를 속삭인다.\n{name}은 오늘 밤 중요한 결정을 해야 한다.",
+  "category": "gambling",
+  "rarity": "uncommon",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "finance_022",
-    "title": "ETF 인증샷",
-    "description": "재테크 커뮤니티에 S&P500 ETF 장기 수익률 그래프가 올라왔다.\n20년 수익률 600%. 댓글이 수백 개.\n\n'나도 빨리 시작했어야 했는데.' {name}의 손에는 아직 아무것도 없다.\n인증샷을 보면서 뭔가 시작해야겠다는 충동이 올라왔다.\n지금 당장 분산 투자를 시작할 것인가, 공부를 더 할 것인가.",
-    "category": "finance",
-    "rarity": "rare",
-    "weight": 1.7,
-    "hidden": false,
-    "conditions": {
-      "max_mental": 65,
-      "has_portfolio": true
+  "tags": [
+   "gambling",
+   "anxiety"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "그 말을 듣고 냉정하게 계산한다",
+    "effects": {
+     "money": -10000,
+     "intelligence": 5
     },
-    "tags": [
-      "finance",
-      "anxiety"
+    "result_text": "한 방의 확률을 직접 계산해봤다. 숫자는 거짓말을 하지 않는다."
+   },
+   {
+    "text": "마음이 흔들려 주변을 돌아본다",
+    "effects": {
+     "stress": 11,
+     "mental": 2,
+     "addiction_tendency": 5
+    },
+    "result_text": "주변 사람들의 성공담에 흔들렸다. 비교는 가장 위험한 투자 심리다."
+   },
+   {
+    "text": "전 재산을 한 곳에 몰아넣는다",
+    "effects": {
+     "reputation": -4,
+     "investment_skill": 2,
+     "addiction_tendency": 25
+    },
+    "result_text": "한 방을 믿었다. 결과가 어떻든 이 선택은 오래 기억될 것이다.",
+    "flags": [
+     "seen_gambling_020"
     ],
-    "cooldown": 9,
-    "choices": [
-      {
-        "text": "ETF 구성 종목을 꼼꼼히 분석한다",
-        "effects": {
-          "money": 190000,
-          "appearance": 0
-        },
-        "result_text": "남들이 인증샷 올리는 동안 내실을 따졌다. 트렌드 뒤에 숨은 리스크를 봐야 한다."
-      },
-      {
-        "text": "나도 따라서 소액을 산다",
-        "effects": {
-          "stress": -1,
-          "mental": 2
-        },
-        "result_text": "인증샷에 자극받아 똑같이 매수 버튼을 눌렀다. 군중 심리는 막기 어렵다."
-      },
-      {
-        "text": "인증샷 트렌드를 마케팅에 활용한다",
-        "effects": {
-          "reputation": 7,
-          "investment_skill": 4
-        },
-        "result_text": "투자보다 이 흐름 자체를 콘텐츠로 만들었다. 시대를 읽는 감각이 다른 길을 열었다.",
-        "investment_effects": {
-          "market_bias": "crash",
-          "asset_tag": "leveraged",
-          "power": -0.102
-        }
-      }
-    ]
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "leveraged",
+     "power": 0.017
+    }
+   },
+   {
+    "text": "귀를 막고 그 자리를 떠난다",
+    "effects": {
+     "health": -2,
+     "stress": -3,
+     "money": 0
+    },
+    "result_text": "듣지 않기로 했다. 유혹으로부터 멀어지는 것도 용기다."
+   }
+  ]
+ },
+ {
+  "id": "finance_022",
+  "title": "ETF 인증샷",
+  "description": "재테크 커뮤니티에 S&P500 ETF 장기 수익률 그래프가 올라왔다.\n20년 수익률 600%. 댓글이 수백 개.\n\n'나도 빨리 시작했어야 했는데.' {name}의 손에는 아직 아무것도 없다.\n인증샷을 보면서 뭔가 시작해야겠다는 충동이 올라왔다.\n지금 당장 분산 투자를 시작할 것인가, 공부를 더 할 것인가.",
+  "category": "finance",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "max_mental": 65,
+   "has_portfolio": true
   },
-  {
-    "id": "politics_025",
-    "title": "부동산 규제 루머",
-    "description": "부동산 커뮤니티가 술렁이고 있다. '다음 달 대출 규제 강화 확실시' — 출처 불명의 글.\n조회수 10만을 넘었다.\n\n실제 규제가 발표되기 전에 미리 움직이는 사람들이 생겼다.\n{name}이 보유한 자산 일부가 부동산 관련이다.\n루머를 믿고 행동할 것인가, 공식 발표까지 기다릴 것인가.",
-    "category": "politics",
-    "rarity": "rare",
-    "weight": 1.7,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "finance",
+   "anxiety"
+  ],
+  "cooldown": 9,
+  "choices": [
+   {
+    "text": "ETF 구성 종목을 꼼꼼히 분석한다",
+    "effects": {
+     "money": 190000,
+     "appearance": 0
     },
-    "tags": [
-      "politics",
-      "anxiety"
-    ],
-    "cooldown": 7,
-    "choices": [
-      {
-        "text": "공식 발표 전에 선제적으로 움직인다",
-        "effects": {
-          "money": -200000,
-          "intelligence": -4
-        },
-        "result_text": "루머가 사실이 되기 전에 포지션을 조정했다. 정보의 속도가 곧 수익이다."
-      },
-      {
-        "text": "루머에 흔들려 감정적으로 매도한다",
-        "effects": {
-          "money": -200000,
-          "investment_skill": 3,
-          "luck": 1
-        },
-        "result_text": "불안감에 서둘러 팔아버렸다. 이성보다 공포가 먼저 손가락을 움직였다."
-      },
-      {
-        "text": "루머를 역이용해 저점 매수를 노린다",
-        "effects": {
-          "reputation": 6,
-          "investment_skill": -1
-        },
-        "result_text": "남들이 팔 때 샀다. 루머 뒤의 공포는 종종 기회의 다른 이름이다.",
-        "flags": [
-          "seen_politics_025"
-        ],
-        "investment_effects": {
-          "market_bias": "bubble",
-          "asset_tag": "leveraged",
-          "power": 0.037
-        }
-      }
-    ]
+    "result_text": "남들이 인증샷 올리는 동안 내실을 따졌다. 트렌드 뒤에 숨은 리스크를 봐야 한다."
+   },
+   {
+    "text": "나도 따라서 소액을 산다",
+    "effects": {
+     "stress": -1,
+     "mental": 2
+    },
+    "result_text": "인증샷에 자극받아 똑같이 매수 버튼을 눌렀다. 군중 심리는 막기 어렵다."
+   },
+   {
+    "text": "인증샷 트렌드를 마케팅에 활용한다",
+    "effects": {
+     "reputation": 7,
+     "investment_skill": 4
+    },
+    "result_text": "투자보다 이 흐름 자체를 콘텐츠로 만들었다. 시대를 읽는 감각이 다른 길을 열었다.",
+    "investment_effects": {
+     "market_bias": "crash",
+     "asset_tag": "leveraged",
+     "power": -0.102
+    }
+   }
+  ]
+ },
+ {
+  "id": "politics_025",
+  "title": "부동산 규제 루머",
+  "description": "부동산 커뮤니티가 술렁이고 있다. '다음 달 대출 규제 강화 확실시' — 출처 불명의 글.\n조회수 10만을 넘었다.\n\n실제 규제가 발표되기 전에 미리 움직이는 사람들이 생겼다.\n{name}이 보유한 자산 일부가 부동산 관련이다.\n루머를 믿고 행동할 것인가, 공식 발표까지 기다릴 것인가.",
+  "category": "politics",
+  "rarity": "rare",
+  "weight": 1.7,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "inv_rebalancing_dilemma",
-    "title": "포트폴리오 리밸런싱 고민",
-    "description": "투자 앱을 열었다가 눈이 멈췄다. 한 종목이 전체 포트폴리오의 60%를 넘기며 혼자 파랗게 빛나고 있다. 수익은 달콤하지만 이대로 두면 한 방에 무너질 수도 있다는 걸 안다. {name}은 화면을 응시하며 손가락이 떠 있는 채로 잠시 멈췄다.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 3.5,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_investment_skill": 15
+  "tags": [
+   "politics",
+   "anxiety"
+  ],
+  "cooldown": 7,
+  "choices": [
+   {
+    "text": "공식 발표 전에 선제적으로 움직인다",
+    "effects": {
+     "money": -200000,
+     "intelligence": -4
     },
-    "tags": [
-      "investment",
-      "strategy",
-      "portfolio"
+    "result_text": "루머가 사실이 되기 전에 포지션을 조정했다. 정보의 속도가 곧 수익이다."
+   },
+   {
+    "text": "루머에 흔들려 감정적으로 매도한다",
+    "effects": {
+     "money": -200000,
+     "investment_skill": 3,
+     "luck": 1
+    },
+    "result_text": "불안감에 서둘러 팔아버렸다. 이성보다 공포가 먼저 손가락을 움직였다."
+   },
+   {
+    "text": "루머를 역이용해 저점 매수를 노린다",
+    "effects": {
+     "reputation": 6,
+     "investment_skill": -1
+    },
+    "result_text": "남들이 팔 때 샀다. 루머 뒤의 공포는 종종 기회의 다른 이름이다.",
+    "flags": [
+     "seen_politics_025"
     ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "지금 리밸런싱한다 — 수익을 나누어 안전하게",
-        "effects": {
-          "money": 300000,
-          "stress": -3,
-          "investment_skill": 2
-        },
-        "result_text": "비중이 커진 종목을 일부 매도해 포트폴리오를 다시 고르게 맞췄다. 수익을 지키는 것도 투자의 한 부분임을 다시 배웠다."
-      },
-      {
-        "text": "더 들고 간다 — 상승장 초입일 수 있다",
-        "effects": {
-          "investment_skill": 2,
-          "stress": 4
-        },
-        "result_text": "욕심과 확신 사이에서 버티기로 했다. 잠을 설치는 밤이 이어지겠지만, 이것도 투자자의 몫이다."
-      },
-      {
-        "text": "전문가 유튜브부터 찾아본다",
-        "effects": {
-          "investment_skill": 3,
-          "mental": 2
-        },
-        "result_text": "세 시간 뒤 결론 없이 영상 탭을 닫았지만, 적어도 리밸런싱의 원칙은 이해했다. 지식이 쌓이면 결정이 조금씩 빨라진다."
-      }
-    ]
+    "investment_effects": {
+     "market_bias": "bubble",
+     "asset_tag": "leveraged",
+     "power": 0.037
+    }
+   }
+  ]
+ },
+ {
+  "id": "inv_rebalancing_dilemma",
+  "title": "포트폴리오 리밸런싱 고민",
+  "description": "투자 앱을 열었다가 눈이 멈췄다. 한 종목이 전체 포트폴리오의 60%를 넘기며 혼자 파랗게 빛나고 있다. 수익은 달콤하지만 이대로 두면 한 방에 무너질 수도 있다는 걸 안다. {name}은 화면을 응시하며 손가락이 떠 있는 채로 잠시 멈췄다.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_investment_skill": 15
   },
-  {
-    "id": "inv_hot_tip_kakao",
-    "title": "단톡방 주식 정보",
-    "description": "오후 2시, 주식 카카오 단톡방에 '내일 급등 예정, 지금 진입 타이밍'이라는 메시지가 올라왔다. 보낸 사람은 예전에 한 번 맞춘 적 있는 아는 형이다. 방 안에 100명이 넘는데 벌써 절반이 '살게요'를 찍고 있다. 이 정보가 진짜인지 가짜인지, {name}은 스마트폰을 쥔 손에 땀이 난다.",
-    "category": "gambling",
-    "rarity": "common",
-    "weight": 4.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "investment",
+   "strategy",
+   "portfolio"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "지금 리밸런싱한다 — 수익을 나누어 안전하게",
+    "effects": {
+     "money": 300000,
+     "stress": -3,
+     "investment_skill": 2
     },
-    "tags": [
-      "investment",
-      "sns",
-      "tip"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "소액만 베팅해본다 — 틀려도 수업료",
-        "effects": {
-          "money": -100000,
-          "luck": 1,
-          "gambling_tendency": 3
-        },
-        "result_text": "10만 원어치를 샀다. 다음 날 주가는 조용히 하락했고, 단톡방엔 아무도 말이 없었다."
-      },
-      {
-        "text": "무시하고 창을 닫는다",
-        "effects": {
-          "investment_skill": 2
-        },
-        "result_text": "단톡방 알림을 껐다. 좋은 정보는 단체 채팅방에 먼저 오지 않는다는 걸 다시 확인했다."
-      },
-      {
-        "text": "정보 출처를 직접 확인한다",
-        "effects": {
-          "intelligence": 2,
-          "stress": -2
-        },
-        "result_text": "공시를 찾아봤지만 아무런 근거가 없었다. 사실 확인 습관이 이번에도 지갑을 지켰다."
-      }
-    ]
+    "result_text": "비중이 커진 종목을 일부 매도해 포트폴리오를 다시 고르게 맞췄다. 수익을 지키는 것도 투자의 한 부분임을 다시 배웠다."
+   },
+   {
+    "text": "더 들고 간다 — 상승장 초입일 수 있다",
+    "effects": {
+     "investment_skill": 2,
+     "stress": 4
+    },
+    "result_text": "욕심과 확신 사이에서 버티기로 했다. 잠을 설치는 밤이 이어지겠지만, 이것도 투자자의 몫이다."
+   },
+   {
+    "text": "전문가 유튜브부터 찾아본다",
+    "effects": {
+     "investment_skill": 3,
+     "mental": 2
+    },
+    "result_text": "세 시간 뒤 결론 없이 영상 탭을 닫았지만, 적어도 리밸런싱의 원칙은 이해했다. 지식이 쌓이면 결정이 조금씩 빨라진다."
+   }
+  ]
+ },
+ {
+  "id": "inv_hot_tip_kakao",
+  "title": "단톡방 주식 정보",
+  "description": "오후 2시, 주식 카카오 단톡방에 '내일 급등 예정, 지금 진입 타이밍'이라는 메시지가 올라왔다. 보낸 사람은 예전에 한 번 맞춘 적 있는 아는 형이다. 방 안에 100명이 넘는데 벌써 절반이 '살게요'를 찍고 있다. 이 정보가 진짜인지 가짜인지, {name}은 스마트폰을 쥔 손에 땀이 난다.",
+  "category": "gambling",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "inv_market_crash_alert",
-    "title": "시장 폭락 경보",
-    "description": "새벽 3시 17분, 핸드폰이 울렸다. 미국 증시 -4.8%, 나스닥 서킷 브레이커 발동. 뉴스 속보가 쏟아진다. 국내장은 9시에 열린다. 5시간 45분 안에 무언가를 결정해야 한다. {name}은 이불을 걷어차고 일어나 노트북을 켰다.",
-    "category": "disasters",
-    "rarity": "rare",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_money": 500000
+  "tags": [
+   "investment",
+   "sns",
+   "tip"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "소액만 베팅해본다 — 틀려도 수업료",
+    "effects": {
+     "money": -100000,
+     "luck": 1,
+     "gambling_tendency": 3
     },
-    "tags": [
-      "investment",
-      "crisis",
-      "market"
-    ],
-    "cooldown": 12,
-    "choices": [
-      {
-        "text": "시장 열리자마자 전량 매도한다",
-        "effects": {
-          "money": -200000,
-          "stress": 5,
-          "mental": -3
-        },
-        "result_text": "9시 정각, 체결창이 빨갛게 물들었다. 손실을 확정하면서도 더 잃지 않았다는 안도감이 묘하게 뒤섞였다."
-      },
-      {
-        "text": "버틴다 — 장기 투자자는 밤을 타지 않는다",
-        "effects": {
-          "stress": 8,
-          "investment_skill": 3
-        },
-        "result_text": "화면을 닫고 억지로 눈을 감았다. 일주일 뒤 시장은 반쯤 회복했고, {name}의 심장은 단단해져 있었다."
-      },
-      {
-        "text": "오히려 추가 매수한다 — 공포가 기회다",
-        "effects": {
-          "money": -300000,
-          "investment_skill": 4,
-          "luck": 2
-        },
-        "result_text": "패닉 셀이 쏟아지는 틈에 분할 매수를 걸었다. 틀릴 수도 있었지만, 이 선택이 나중에 전설이 될 수도 있다."
-      }
-    ]
+    "result_text": "10만 원어치를 샀다. 다음 날 주가는 조용히 하락했고, 단톡방엔 아무도 말이 없었다."
+   },
+   {
+    "text": "무시하고 창을 닫는다",
+    "effects": {
+     "investment_skill": 2
+    },
+    "result_text": "단톡방 알림을 껐다. 좋은 정보는 단체 채팅방에 먼저 오지 않는다는 걸 다시 확인했다."
+   },
+   {
+    "text": "정보 출처를 직접 확인한다",
+    "effects": {
+     "intelligence": 2,
+     "stress": -2
+    },
+    "result_text": "공시를 찾아봤지만 아무런 근거가 없었다. 사실 확인 습관이 이번에도 지갑을 지켰다."
+   }
+  ]
+ },
+ {
+  "id": "inv_market_crash_alert",
+  "title": "시장 폭락 경보",
+  "description": "새벽 3시 17분, 핸드폰이 울렸다. 미국 증시 -4.8%, 나스닥 서킷 브레이커 발동. 뉴스 속보가 쏟아진다. 국내장은 9시에 열린다. 5시간 45분 안에 무언가를 결정해야 한다. {name}은 이불을 걷어차고 일어나 노트북을 켰다.",
+  "category": "disasters",
+  "rarity": "rare",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_money": 500000
   },
-  {
-    "id": "inv_dividend_received",
-    "title": "배당금 입금",
-    "description": "점심을 먹다가 카카오뱅크 알림이 왔다. '배당금 입금 47,200원'. 별 기대 없이 들고 있던 주식에서 나온 돈이다. 적다면 적지만, 아무것도 안 했는데 돈이 들어온다는 감각은 처음이다. 통장 화면을 캡처해서 한참 바라봤다.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 4.5,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "investment",
+   "crisis",
+   "market"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "시장 열리자마자 전량 매도한다",
+    "effects": {
+     "money": -200000,
+     "stress": 5,
+     "mental": -3
     },
-    "tags": [
-      "investment",
-      "dividend",
-      "passive_income"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "배당금을 그대로 재투자한다",
-        "effects": {
-          "investment_skill": 2,
-          "mental": 4
-        },
-        "result_text": "받은 돈을 바로 같은 주식에 다시 넣었다. 복리의 마법은 이렇게 작은 행동에서 시작된다."
-      },
-      {
-        "text": "오늘 외식비로 쓴다 — 소확행",
-        "effects": {
-          "money": 50000,
-          "mental": 6,
-          "stress": -3
-        },
-        "result_text": "배당금으로 삼겹살을 먹었다. 주식이 사준 고기 맛은 역시 달랐다."
-      }
-    ]
+    "result_text": "9시 정각, 체결창이 빨갛게 물들었다. 손실을 확정하면서도 더 잃지 않았다는 안도감이 묘하게 뒤섞였다."
+   },
+   {
+    "text": "버틴다 — 장기 투자자는 밤을 타지 않는다",
+    "effects": {
+     "stress": 8,
+     "investment_skill": 3
+    },
+    "result_text": "화면을 닫고 억지로 눈을 감았다. 일주일 뒤 시장은 반쯤 회복했고, {name}의 심장은 단단해져 있었다."
+   },
+   {
+    "text": "오히려 추가 매수한다 — 공포가 기회다",
+    "effects": {
+     "money": -300000,
+     "investment_skill": 4,
+     "luck": 2
+    },
+    "result_text": "패닉 셀이 쏟아지는 틈에 분할 매수를 걸었다. 틀릴 수도 있었지만, 이 선택이 나중에 전설이 될 수도 있다."
+   }
+  ]
+ },
+ {
+  "id": "inv_dividend_received",
+  "title": "배당금 입금",
+  "description": "점심을 먹다가 카카오뱅크 알림이 왔다. '배당금 입금 47,200원'. 별 기대 없이 들고 있던 주식에서 나온 돈이다. 적다면 적지만, 아무것도 안 했는데 돈이 들어온다는 감각은 처음이다. 통장 화면을 캡처해서 한참 바라봤다.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "inv_loss_cut_decision",
-    "title": "손절 결정",
-    "description": "2주 전 자신 있게 매수한 종목이 -25%다. 처음엔 '기다리면 오르겠지' 했다. 근데 오늘도 하락 마감이다. 손절선을 어디서 그어야 하는지, {name}은 빨간 숫자를 보며 손이 멈췄다. 마음 한켠에선 '지금 팔면 실패'라는 목소리가 계속 들린다.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 3.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_stress": 40
+  "tags": [
+   "investment",
+   "dividend",
+   "passive_income"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "배당금을 그대로 재투자한다",
+    "effects": {
+     "investment_skill": 2,
+     "mental": 4
     },
-    "tags": [
-      "investment",
-      "loss",
-      "psychology"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "지금 손절한다 — 더 늦기 전에",
-        "effects": {
-          "money": -300000,
-          "stress": -5,
-          "investment_skill": 3
-        },
-        "result_text": "손가락이 떨렸지만 매도 버튼을 눌렀다. 손실을 인정하는 순간은 고통스럽지만, 이게 투자자로 성장하는 방법이다."
-      },
-      {
-        "text": "물타기한다 — 단가를 낮추자",
-        "effects": {
-          "money": -200000,
-          "investment_skill": 1,
-          "stress": 5
-        },
-        "result_text": "추가 매수로 평균 단가를 낮췄다. 맞을 수도 있고 더 깊이 빠질 수도 있다 — 지금은 기다리는 수밖에 없다."
-      },
-      {
-        "text": "그냥 놔둔다 — 어차피 모른다",
-        "effects": {
-          "stress": 3,
-          "mental": -2
-        },
-        "result_text": "앱을 삭제하고 싶었지만 그냥 닫았다. 눈 감는다고 손실이 사라지진 않는다."
-      }
-    ]
+    "result_text": "받은 돈을 바로 같은 주식에 다시 넣었다. 복리의 마법은 이렇게 작은 행동에서 시작된다."
+   },
+   {
+    "text": "오늘 외식비로 쓴다 — 소확행",
+    "effects": {
+     "money": 50000,
+     "mental": 6,
+     "stress": -3
+    },
+    "result_text": "배당금으로 삼겹살을 먹었다. 주식이 사준 고기 맛은 역시 달랐다."
+   }
+  ]
+ },
+ {
+  "id": "inv_loss_cut_decision",
+  "title": "손절 결정",
+  "description": "2주 전 자신 있게 매수한 종목이 -25%다. 처음엔 '기다리면 오르겠지' 했다. 근데 오늘도 하락 마감이다. 손절선을 어디서 그어야 하는지, {name}은 빨간 숫자를 보며 손이 멈췄다. 마음 한켠에선 '지금 팔면 실패'라는 목소리가 계속 들린다.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_stress": 40
   },
-  {
-    "id": "inv_stock_ipo_lottery",
-    "title": "공모주 청약",
-    "description": "요즘 핫한 K-뷰티 스타트업 공모주 청약이 열렸다. SNS에선 '상장 당일 따상 확실'이라는 말이 돈다. 경쟁률은 이미 820대 1을 넘겼고, 증권사 앱은 터질 듯 느리다. {name}은 청약 증거금 50만 원을 준비해두고 클릭을 망설이고 있다.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 3.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_money": 1000000
+  "tags": [
+   "investment",
+   "loss",
+   "psychology"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "지금 손절한다 — 더 늦기 전에",
+    "effects": {
+     "money": -300000,
+     "stress": -5,
+     "investment_skill": 3
     },
-    "tags": [
-      "investment",
-      "ipo",
-      "opportunity"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "청약 신청한다 — 운에 맡긴다",
-        "effects": {
-          "money": -500000,
-          "luck": 2,
-          "investment_skill": 2
-        },
-        "result_text": "배정 결과는 3주 뒤였다. 달랑 2주 배정됐지만, 상장 당일 소폭 올라 소박한 수익이 됐다."
-      },
-      {
-        "text": "패스한다 — 기대감이 이미 고평가다",
-        "effects": {
-          "intelligence": 2
-        },
-        "result_text": "경쟁률 820대 1의 기대감은 이미 주가에 다 반영됐다고 판단했다. 냉정한 시선이 지갑을 지켰다."
-      }
-    ]
+    "result_text": "손가락이 떨렸지만 매도 버튼을 눌렀다. 손실을 인정하는 순간은 고통스럽지만, 이게 투자자로 성장하는 방법이다."
+   },
+   {
+    "text": "물타기한다 — 단가를 낮추자",
+    "effects": {
+     "money": -200000,
+     "investment_skill": 1,
+     "stress": 5
+    },
+    "result_text": "추가 매수로 평균 단가를 낮췄다. 맞을 수도 있고 더 깊이 빠질 수도 있다 — 지금은 기다리는 수밖에 없다."
+   },
+   {
+    "text": "그냥 놔둔다 — 어차피 모른다",
+    "effects": {
+     "stress": 3,
+     "mental": -2
+    },
+    "result_text": "앱을 삭제하고 싶었지만 그냥 닫았다. 눈 감는다고 손실이 사라지진 않는다."
+   }
+  ]
+ },
+ {
+  "id": "inv_stock_ipo_lottery",
+  "title": "공모주 청약",
+  "description": "요즘 핫한 K-뷰티 스타트업 공모주 청약이 열렸다. SNS에선 '상장 당일 따상 확실'이라는 말이 돈다. 경쟁률은 이미 820대 1을 넘겼고, 증권사 앱은 터질 듯 느리다. {name}은 청약 증거금 50만 원을 준비해두고 클릭을 망설이고 있다.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_money": 1000000
   },
-  {
-    "id": "inv_etf_study",
-    "title": "ETF 공부를 시작하다",
-    "description": "밤 11시, 유튜브 알고리즘이 'S&P500 ETF 하나로 끝내는 투자법' 영상을 추천했다. 호기심에 클릭했다가 세 편을 연달아 봤다. 개별 종목을 고르는 스트레스 없이 시장 전체에 투자한다는 개념이 솔깃했다. {name}은 맥주를 내려놓고 메모장을 꺼냈다.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 4.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "investment",
+   "ipo",
+   "opportunity"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "청약 신청한다 — 운에 맡긴다",
+    "effects": {
+     "money": -500000,
+     "luck": 2,
+     "investment_skill": 2
     },
-    "tags": [
-      "investment",
-      "etf",
-      "study"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "지금 당장 ETF 공부를 시작한다",
-        "effects": {
-          "investment_skill": 5,
-          "intelligence": 2,
-          "mental": 3
-        },
-        "result_text": "일주일 동안 ETF의 구조, 운용 보수, 환노출 개념까지 파고들었다. 이해가 쌓일수록 공포가 줄어드는 게 느껴졌다."
-      },
-      {
-        "text": "원래 하던 방식을 고수한다 — 이미 알고 있는 것이 편하다",
-        "effects": {
-          "stress": -2
-        },
-        "result_text": "영상창을 닫고 원래 쓰던 종목 리스트를 열었다. 변화 없는 익숙함이 오늘 밤은 더 편했다."
-      }
-    ]
+    "result_text": "배정 결과는 3주 뒤였다. 달랑 2주 배정됐지만, 상장 당일 소폭 올라 소박한 수익이 됐다."
+   },
+   {
+    "text": "패스한다 — 기대감이 이미 고평가다",
+    "effects": {
+     "intelligence": 2
+    },
+    "result_text": "경쟁률 820대 1의 기대감은 이미 주가에 다 반영됐다고 판단했다. 냉정한 시선이 지갑을 지켰다."
+   }
+  ]
+ },
+ {
+  "id": "inv_etf_study",
+  "title": "ETF 공부를 시작하다",
+  "description": "밤 11시, 유튜브 알고리즘이 'S&P500 ETF 하나로 끝내는 투자법' 영상을 추천했다. 호기심에 클릭했다가 세 편을 연달아 봤다. 개별 종목을 고르는 스트레스 없이 시장 전체에 투자한다는 개념이 솔깃했다. {name}은 맥주를 내려놓고 메모장을 꺼냈다.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "inv_real_estate_bubble_fear",
-    "title": "부동산 버블 공포",
-    "description": "저녁 뉴스에서 경제학자 세 명이 동시에 '부동산 버블 붕괴가 임박했다'고 경고했다. 댓글창엔 '이번엔 진짜다'와 '맨날 틀린 소리'가 반반이다. {name}의 포트폴리오에는 부동산 리츠가 꽤 많이 담겨 있다. 불안한 마음에 커피를 마시며 수익률 화면을 계속 새로고침 했다.",
-    "category": "politics",
-    "rarity": "uncommon",
-    "weight": 3.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_turn": 8
+  "tags": [
+   "investment",
+   "etf",
+   "study"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "지금 당장 ETF 공부를 시작한다",
+    "effects": {
+     "investment_skill": 5,
+     "intelligence": 2,
+     "mental": 3
     },
-    "tags": [
-      "investment",
-      "real_estate",
-      "risk"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "부동산 비중을 줄인다 — 안전이 먼저",
-        "effects": {
-          "money": 200000,
-          "stress": -3,
-          "investment_skill": 2
-        },
-        "result_text": "리츠 일부를 매도해 현금 비중을 높였다. 버블이 터지든 안 터지든, 마음이 먼저 편해졌다."
-      },
-      {
-        "text": "오히려 더 산다 — 공포가 저점이다",
-        "effects": {
-          "money": -400000,
-          "investment_skill": 3,
-          "stress": 5
-        },
-        "result_text": "뉴스 경고를 역발상의 신호로 받아들이고 추가 매수했다. 틀릴 수도 있지만, 이것이 {name}이 선택한 길이다."
-      },
-      {
-        "text": "일단 관망한다 — 정보를 더 모은다",
-        "effects": {
-          "stress": 2
-        },
-        "result_text": "섣불리 움직이지 않기로 했다. 불확실할 때 아무것도 안 하는 것도 전략이라는 걸 되새겼다."
-      }
-    ]
+    "result_text": "일주일 동안 ETF의 구조, 운용 보수, 환노출 개념까지 파고들었다. 이해가 쌓일수록 공포가 줄어드는 게 느껴졌다."
+   },
+   {
+    "text": "원래 하던 방식을 고수한다 — 이미 알고 있는 것이 편하다",
+    "effects": {
+     "stress": -2
+    },
+    "result_text": "영상창을 닫고 원래 쓰던 종목 리스트를 열었다. 변화 없는 익숙함이 오늘 밤은 더 편했다."
+   }
+  ]
+ },
+ {
+  "id": "inv_real_estate_bubble_fear",
+  "title": "부동산 버블 공포",
+  "description": "저녁 뉴스에서 경제학자 세 명이 동시에 '부동산 버블 붕괴가 임박했다'고 경고했다. 댓글창엔 '이번엔 진짜다'와 '맨날 틀린 소리'가 반반이다. {name}의 포트폴리오에는 부동산 리츠가 꽤 많이 담겨 있다. 불안한 마음에 커피를 마시며 수익률 화면을 계속 새로고침 했다.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 8
   },
-  {
-    "id": "inv_recession_news",
-    "title": "경기침체 우려",
-    "description": "오전 10시, 기획재정부 발표가 나왔다. 올해 경제성장률 전망치를 2.1%에서 0.9%로 대폭 하향. 코스피는 발표 직후 2% 가까이 빠졌다. 환율은 1,400원을 향해 치달리고, 증권사 리포트엔 '경기침체 진입 가능'이라는 단어가 넘쳐난다. {name}은 점심도 잊은 채 화면을 응시했다.",
-    "category": "politics",
-    "rarity": "uncommon",
-    "weight": 3.5,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "investment",
+   "real_estate",
+   "risk"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "부동산 비중을 줄인다 — 안전이 먼저",
+    "effects": {
+     "money": 200000,
+     "stress": -3,
+     "investment_skill": 2
     },
-    "tags": [
-      "investment",
-      "economy",
-      "crisis"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "방어적 자산으로 갈아탄다",
-        "effects": {
-          "investment_skill": 3,
-          "stress": -3
-        },
-        "result_text": "성장주를 줄이고 채권과 배당주로 포트폴리오를 재편했다. 시장이 두려워할 때 준비하는 자가 살아남는다."
-      },
-      {
-        "text": "경기침체는 곧 기회다 — 역발상 매수",
-        "effects": {
-          "investment_skill": 4,
-          "luck": 2,
-          "stress": 4
-        },
-        "result_text": "모두가 팔 때 사는 전략을 택했다. 역사는 공포 매수자에게 손을 들어준 적이 많았다."
-      }
-    ]
+    "result_text": "리츠 일부를 매도해 현금 비중을 높였다. 버블이 터지든 안 터지든, 마음이 먼저 편해졌다."
+   },
+   {
+    "text": "오히려 더 산다 — 공포가 저점이다",
+    "effects": {
+     "money": -400000,
+     "investment_skill": 3,
+     "stress": 5
+    },
+    "result_text": "뉴스 경고를 역발상의 신호로 받아들이고 추가 매수했다. 틀릴 수도 있지만, 이것이 {name}이 선택한 길이다."
+   },
+   {
+    "text": "일단 관망한다 — 정보를 더 모은다",
+    "effects": {
+     "stress": 2
+    },
+    "result_text": "섣불리 움직이지 않기로 했다. 불확실할 때 아무것도 안 하는 것도 전략이라는 걸 되새겼다."
+   }
+  ]
+ },
+ {
+  "id": "inv_recession_news",
+  "title": "경기침체 우려",
+  "description": "오전 10시, 기획재정부 발표가 나왔다. 올해 경제성장률 전망치를 2.1%에서 0.9%로 대폭 하향. 코스피는 발표 직후 2% 가까이 빠졌다. 환율은 1,400원을 향해 치달리고, 증권사 리포트엔 '경기침체 진입 가능'이라는 단어가 넘쳐난다. {name}은 점심도 잊은 채 화면을 응시했다.",
+  "category": "politics",
+  "rarity": "uncommon",
+  "weight": 3.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "inv_investment_book",
-    "title": "투자 서적 독파",
-    "description": "토요일 오전, 교보문고에서 워런 버핏 평전을 샀다. 집에 돌아와 커피 한 잔 내리고 소파에 앉았다. 주말 내내 책에서 눈을 떼지 못했다. 시장의 소음에서 벗어나 원칙으로 돌아가는 투자자의 이야기는 흔들리던 {name}의 마음을 조용히 다잡아줬다.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 4.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "investment",
+   "economy",
+   "crisis"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "방어적 자산으로 갈아탄다",
+    "effects": {
+     "investment_skill": 3,
+     "stress": -3
     },
-    "tags": [
-      "investment",
-      "study",
-      "mindset"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "원칙 투자자가 되기로 결심한다",
-        "effects": {
-          "investment_skill": 6,
-          "mental": 5,
-          "stress": -5
-        },
-        "result_text": "주식 앱의 알림을 절반쯤 껐다. 매일 보던 차트 대신 사업 보고서를 열기 시작했다. 투자가 처음으로 즐거워졌다."
-      },
-      {
-        "text": "이론과 현실은 다르다 — 읽었다는 것으로 충분",
-        "effects": {
-          "investment_skill": 2,
-          "intelligence": 2
-        },
-        "result_text": "버핏의 원칙은 이해했지만 내 현실과는 거리가 있다고 결론 냈다. 그래도 생각의 틀이 조금은 바뀌었다."
-      }
-    ]
+    "result_text": "성장주를 줄이고 채권과 배당주로 포트폴리오를 재편했다. 시장이 두려워할 때 준비하는 자가 살아남는다."
+   },
+   {
+    "text": "경기침체는 곧 기회다 — 역발상 매수",
+    "effects": {
+     "investment_skill": 4,
+     "luck": 2,
+     "stress": 4
+    },
+    "result_text": "모두가 팔 때 사는 전략을 택했다. 역사는 공포 매수자에게 손을 들어준 적이 많았다."
+   }
+  ]
+ },
+ {
+  "id": "inv_investment_book",
+  "title": "투자 서적 독파",
+  "description": "토요일 오전, 교보문고에서 워런 버핏 평전을 샀다. 집에 돌아와 커피 한 잔 내리고 소파에 앉았다. 주말 내내 책에서 눈을 떼지 못했다. 시장의 소음에서 벗어나 원칙으로 돌아가는 투자자의 이야기는 흔들리던 {name}의 마음을 조용히 다잡아줬다.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "inv_insider_tip",
-    "title": "선배의 내부 정보",
-    "description": "퇴근 후 회식 자리, 같은 부서 선배가 술잔을 기울이며 귀를 가져다 댔다. '이 회사, 다음 달 실적 엄청 좋을 거야. 공급 계약 방금 체결됐어. 나만 알아.' 선배의 눈빛은 진지했다. 내부 정보를 이용한 매매는 불법이지만, {name}의 손은 이미 주식 앱으로 가고 있었다.",
-    "category": "finance",
-    "rarity": "rare",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "has_job": true
+  "tags": [
+   "investment",
+   "study",
+   "mindset"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "원칙 투자자가 되기로 결심한다",
+    "effects": {
+     "investment_skill": 6,
+     "mental": 5,
+     "stress": -5
     },
-    "tags": [
-      "investment",
-      "insider",
-      "ethics"
-    ],
-    "cooldown": 15,
-    "choices": [
-      {
-        "text": "믿고 산다 — 이 기회를 놓치면 후회할 것 같다",
-        "effects": {
-          "money": -500000,
-          "luck": 3,
-          "gambling_tendency": 5
-        },
-        "result_text": "다음 달 실적 발표 후 주가가 20% 올랐다. 돈은 벌었지만 손이 계속 떨렸다. 이 사실을 아무에게도 말할 수 없었다."
-      },
-      {
-        "text": "정중하게 거절한다 — 모른 척한다",
-        "effects": {
-          "reputation": 3,
-          "intelligence": 2
-        },
-        "result_text": "선배에게 '그런 얘기 듣지 않는 게 낫겠어요'라고 조용히 말했다. 선배는 멋쩍게 웃었고, {name}의 양심은 그날 밤 편히 잠들었다."
-      },
-      {
-        "text": "합법적으로 직접 분석해본다",
-        "effects": {
-          "investment_skill": 5,
-          "intelligence": 3
-        },
-        "result_text": "힌트만 받고 직접 공시와 뉴스를 파고들었다. 이미 공개된 정보만으로도 충분한 근거가 나왔다. 깨끗한 방법으로 결정했다."
-      }
-    ]
+    "result_text": "주식 앱의 알림을 절반쯤 껐다. 매일 보던 차트 대신 사업 보고서를 열기 시작했다. 투자가 처음으로 즐거워졌다."
+   },
+   {
+    "text": "이론과 현실은 다르다 — 읽었다는 것으로 충분",
+    "effects": {
+     "investment_skill": 2,
+     "intelligence": 2
+    },
+    "result_text": "버핏의 원칙은 이해했지만 내 현실과는 거리가 있다고 결론 냈다. 그래도 생각의 틀이 조금은 바뀌었다."
+   }
+  ]
+ },
+ {
+  "id": "inv_insider_tip",
+  "title": "선배의 내부 정보",
+  "description": "퇴근 후 회식 자리, 같은 부서 선배가 술잔을 기울이며 귀를 가져다 댔다. '이 회사, 다음 달 실적 엄청 좋을 거야. 공급 계약 방금 체결됐어. 나만 알아.' 선배의 눈빛은 진지했다. 내부 정보를 이용한 매매는 불법이지만, {name}의 손은 이미 주식 앱으로 가고 있었다.",
+  "category": "finance",
+  "rarity": "rare",
+  "weight": 1.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "has_job": true
   },
-  {
-    "id": "inv_tax_worry",
-    "title": "금융소득 종합과세",
-    "description": "세금 신고 시즌이 왔다. 홈택스 화면을 열었다가 모르는 항목이 너무 많았다. 친구에게 물어보니 '배당·이자 소득이 2000만 원 넘으면 종합과세 대상이야'라고 한다. {name}의 작년 금융소득을 계산해보니 그 선이 아슬아슬하다. 세금을 잘못 내면 나중에 더 큰 문제가 생길 수 있다.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 2.5,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_investment_skill": 25
+  "tags": [
+   "investment",
+   "insider",
+   "ethics"
+  ],
+  "cooldown": 15,
+  "choices": [
+   {
+    "text": "믿고 산다 — 이 기회를 놓치면 후회할 것 같다",
+    "effects": {
+     "money": -500000,
+     "luck": 3,
+     "gambling_tendency": 5
     },
-    "tags": [
-      "investment",
-      "tax",
-      "finance"
-    ],
-    "cooldown": 12,
-    "choices": [
-      {
-        "text": "세무사에게 상담받는다",
-        "effects": {
-          "money": -200000,
-          "intelligence": 3,
-          "stress": -4
-        },
-        "result_text": "상담료 20만 원이 나갔지만 절세 전략까지 챙겼다. 전문가의 조언은 항상 그 값어치를 한다."
-      },
-      {
-        "text": "직접 공부한다 — 세금도 투자다",
-        "effects": {
-          "intelligence": 4,
-          "investment_skill": 2,
-          "stress": 3
-        },
-        "result_text": "국세청 유튜브와 블로그를 뒤지며 직접 신고서를 작성했다. 머리는 아팠지만 이제 세금이 두렵지 않다."
-      }
-    ]
+    "result_text": "다음 달 실적 발표 후 주가가 20% 올랐다. 돈은 벌었지만 손이 계속 떨렸다. 이 사실을 아무에게도 말할 수 없었다."
+   },
+   {
+    "text": "정중하게 거절한다 — 모른 척한다",
+    "effects": {
+     "reputation": 3,
+     "intelligence": 2
+    },
+    "result_text": "선배에게 '그런 얘기 듣지 않는 게 낫겠어요'라고 조용히 말했다. 선배는 멋쩍게 웃었고, {name}의 양심은 그날 밤 편히 잠들었다."
+   },
+   {
+    "text": "합법적으로 직접 분석해본다",
+    "effects": {
+     "investment_skill": 5,
+     "intelligence": 3
+    },
+    "result_text": "힌트만 받고 직접 공시와 뉴스를 파고들었다. 이미 공개된 정보만으로도 충분한 근거가 나왔다. 깨끗한 방법으로 결정했다."
+   }
+  ]
+ },
+ {
+  "id": "inv_tax_worry",
+  "title": "금융소득 종합과세",
+  "description": "세금 신고 시즌이 왔다. 홈택스 화면을 열었다가 모르는 항목이 너무 많았다. 친구에게 물어보니 '배당·이자 소득이 2000만 원 넘으면 종합과세 대상이야'라고 한다. {name}의 작년 금융소득을 계산해보니 그 선이 아슬아슬하다. 세금을 잘못 내면 나중에 더 큰 문제가 생길 수 있다.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_investment_skill": 25
   },
-  {
-    "id": "inv_dca_commitment",
-    "title": "적립식 투자 다짐",
-    "description": "월급날 다음날 자동이체가 설정됐다. 매달 30만 원, S&P500 ETF. 수익률보다 꾸준함이 먼저라는 말을 드디어 믿기로 했다. {name}은 설정 화면을 캡처하며 스스로에게 작게 다짐했다 — 이번엔 중간에 해지하지 않겠다고.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 4.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "has_job": true
+  "tags": [
+   "investment",
+   "tax",
+   "finance"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "세무사에게 상담받는다",
+    "effects": {
+     "money": -200000,
+     "intelligence": 3,
+     "stress": -4
     },
-    "tags": [
-      "investment",
-      "dca",
-      "discipline"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "자동 이체를 설정하고 잊어버린다",
-        "effects": {
-          "investment_skill": 4,
-          "mental": 5,
-          "stress": -4
-        },
-        "result_text": "6개월 뒤 확인해보니 수익률은 평범했지만 잔고는 착실히 쌓여 있었다. 꾸준함은 결코 배신하지 않는다."
-      },
-      {
-        "text": "타이밍 보고 넣겠다 — 지금은 아닌 것 같다",
-        "effects": {
-          "investment_skill": 1,
-          "stress": 2
-        },
-        "result_text": "완벽한 타이밍을 기다리는 동안 세 달이 지났다. 결국 그 타이밍은 오지 않았다."
-      }
-    ]
+    "result_text": "상담료 20만 원이 나갔지만 절세 전략까지 챙겼다. 전문가의 조언은 항상 그 값어치를 한다."
+   },
+   {
+    "text": "직접 공부한다 — 세금도 투자다",
+    "effects": {
+     "intelligence": 4,
+     "investment_skill": 2,
+     "stress": 3
+    },
+    "result_text": "국세청 유튜브와 블로그를 뒤지며 직접 신고서를 작성했다. 머리는 아팠지만 이제 세금이 두렵지 않다."
+   }
+  ]
+ },
+ {
+  "id": "inv_dca_commitment",
+  "title": "적립식 투자 다짐",
+  "description": "월급날 다음날 자동이체가 설정됐다. 매달 30만 원, S&P500 ETF. 수익률보다 꾸준함이 먼저라는 말을 드디어 믿기로 했다. {name}은 설정 화면을 캡처하며 스스로에게 작게 다짐했다 — 이번엔 중간에 해지하지 않겠다고.",
+  "category": "finance",
+  "rarity": "common",
+  "weight": 4.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "has_job": true
   },
-  {
-    "id": "inv_crypto_mania",
-    "title": "코인 광풍",
-    "description": "SNS 피드가 코인 얘기로 도배됐다. 고등학교 동창이 비트코인으로 3000만 원 벌었다는 카카오 상태 메시지를 올렸다. 직장 후배는 점심 때마다 코인 얘기만 한다. 나만 모르는 건가, 나만 뒤처진 건가. {name}은 처음으로 업비트 앱을 깔아봤다.",
-    "category": "gambling",
-    "rarity": "common",
-    "weight": 3.5,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true
+  "tags": [
+   "investment",
+   "dca",
+   "discipline"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "자동 이체를 설정하고 잊어버린다",
+    "effects": {
+     "investment_skill": 4,
+     "mental": 5,
+     "stress": -4
     },
-    "tags": [
-      "investment",
-      "crypto",
-      "fomo"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "소액만 참여해본다 — FOMO를 달랜다",
-        "effects": {
-          "money": -500000,
-          "gambling_tendency": 8,
-          "addiction_tendency": 10,
-          "investment_skill": -1
-        },
-        "result_text": "50만 원을 넣었다. 처음엔 두 배가 됐다.\n그리고 반 토막. 다시 조금 올라와서 -30%에 멈췄다.\n팔아야 하는데, 손에 안 잡혔다.\n코인의 마력은 그거였다. 손절이 불가능하다.",
-        "route": "unorthodox"
-      },
-      {
-        "text": "관망한다 — 광풍은 언제나 끝이 있다",
-        "effects": {
-          "investment_skill": 4,
-          "stress": -4,
-          "mental": 5
-        },
-        "result_text": "두 달 뒤 코인 시장이 42% 빠졌을 때 동창의 카카오 상태 메시지가 조용해졌다.\n{name}은 아무 말도 안 했다.\n때로 가장 좋은 투자는 안 하는 것이다.",
-        "route": "orthodox"
-      },
-      {
-        "text": "FOMO를 끊고 제대로 공부한다",
-        "effects": {
-          "investment_skill": 5,
-          "mental": 4,
-          "intelligence": 4
-        },
-        "result_text": "블록체인 백서를 읽었다. 기술은 흥미로웠다.\n이해하지 못하는 것에 돈을 넣지 않겠다는 원칙이 생겼다.\n그 원칙 하나가 나중에 {name}을 몇 번은 구해줄 거였다."
-      }
-    ]
+    "result_text": "6개월 뒤 확인해보니 수익률은 평범했지만 잔고는 착실히 쌓여 있었다. 꾸준함은 결코 배신하지 않는다."
+   },
+   {
+    "text": "타이밍 보고 넣겠다 — 지금은 아닌 것 같다",
+    "effects": {
+     "investment_skill": 1,
+     "stress": 2
+    },
+    "result_text": "완벽한 타이밍을 기다리는 동안 세 달이 지났다. 결국 그 타이밍은 오지 않았다."
+   }
+  ]
+ },
+ {
+  "id": "inv_crypto_mania",
+  "title": "코인 광풍",
+  "description": "SNS 피드가 코인 얘기로 도배됐다. 고등학교 동창이 비트코인으로 3000만 원 벌었다는 카카오 상태 메시지를 올렸다. 직장 후배는 점심 때마다 코인 얘기만 한다. 나만 모르는 건가, 나만 뒤처진 건가. {name}은 처음으로 업비트 앱을 깔아봤다.",
+  "category": "gambling",
+  "rarity": "common",
+  "weight": 3.5,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true
   },
-  {
-    "id": "inv_overseas_stock",
-    "title": "해외 주식 도전",
-    "description": "처음으로 애플 주식을 샀다. 달러로 결제하고, 미국 시장 마감 시간에 맞춰 새벽 3시에 일어나야 하고, 양도소득세는 250만 원 넘으면 직접 신고해야 한다는 걸 오늘 처음 알았다. 생각보다 훨씬 복잡하다. {name}은 환율 계산기를 켜놓고 멍하니 앉아 있었다.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 3.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_investment_skill": 20
+  "tags": [
+   "investment",
+   "crypto",
+   "fomo"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "소액만 참여해본다 — FOMO를 달랜다",
+    "effects": {
+     "money": -500000,
+     "gambling_tendency": 8,
+     "addiction_tendency": 10,
+     "investment_skill": -1
     },
-    "tags": [
-      "investment",
-      "overseas",
-      "study"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "환율·세금·시차 전부 공부한다",
-        "effects": {
-          "investment_skill": 6,
-          "intelligence": 3,
-          "stress": 3
-        },
-        "result_text": "한 달 동안 해외 투자의 모든 것을 파고들었다. 복잡했지만 이제는 글로벌 시장이 내 운동장처럼 느껴진다."
-      },
-      {
-        "text": "소액으로 일단 경험해본다",
-        "effects": {
-          "money": -200000,
-          "investment_skill": 3
-        },
-        "result_text": "잘 모르지만 일단 발을 담갔다. 100달러짜리 경험이 앞으로 1000달러를 지켜줄 것이다."
-      },
-      {
-        "text": "너무 복잡하다 — 국내 주식에 집중한다",
-        "effects": {
-          "stress": -3
-        },
-        "result_text": "아는 시장에서 잘하는 게 먼저라고 판단했다. 내가 이해하는 범위 안에서 투자하는 것도 전략이다."
-      }
-    ]
+    "result_text": "50만 원을 넣었다. 처음엔 두 배가 됐다.\n그리고 반 토막. 다시 조금 올라와서 -30%에 멈췄다.\n팔아야 하는데, 손에 안 잡혔다.\n코인의 마력은 그거였다. 손절이 불가능하다.",
+    "route": "unorthodox"
+   },
+   {
+    "text": "관망한다 — 광풍은 언제나 끝이 있다",
+    "effects": {
+     "investment_skill": 4,
+     "stress": -4,
+     "mental": 5
+    },
+    "result_text": "두 달 뒤 코인 시장이 42% 빠졌을 때 동창의 카카오 상태 메시지가 조용해졌다.\n{name}은 아무 말도 안 했다.\n때로 가장 좋은 투자는 안 하는 것이다.",
+    "route": "orthodox"
+   },
+   {
+    "text": "FOMO를 끊고 제대로 공부한다",
+    "effects": {
+     "investment_skill": 5,
+     "mental": 4,
+     "intelligence": 4
+    },
+    "result_text": "블록체인 백서를 읽었다. 기술은 흥미로웠다.\n이해하지 못하는 것에 돈을 넣지 않겠다는 원칙이 생겼다.\n그 원칙 하나가 나중에 {name}을 몇 번은 구해줄 거였다."
+   }
+  ]
+ },
+ {
+  "id": "inv_overseas_stock",
+  "title": "해외 주식 도전",
+  "description": "처음으로 애플 주식을 샀다. 달러로 결제하고, 미국 시장 마감 시간에 맞춰 새벽 3시에 일어나야 하고, 양도소득세는 250만 원 넘으면 직접 신고해야 한다는 걸 오늘 처음 알았다. 생각보다 훨씬 복잡하다. {name}은 환율 계산기를 켜놓고 멍하니 앉아 있었다.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_investment_skill": 20
   },
-  {
-    "id": "inv_portfolio_review",
-    "title": "1년 수익률 점검",
-    "description": "1월 1일, {name}은 증권사 앱에서 '연간 수익률 리포트'를 열었다. +7.3%. 코스피 기준치는 +11.2%. 1년 동안 열심히 했는데 시장 평균을 못 이겼다는 숫자가 화면에 박혀 있다. 잘한 건지 못한 건지, 뭘 바꿔야 할지, 그냥 괜찮은 건지 — 아무도 정답을 알려주지 않는다.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 3.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_turn": 12
+  "tags": [
+   "investment",
+   "overseas",
+   "study"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "환율·세금·시차 전부 공부한다",
+    "effects": {
+     "investment_skill": 6,
+     "intelligence": 3,
+     "stress": 3
     },
-    "tags": [
-      "investment",
-      "review",
-      "strategy"
-    ],
-    "cooldown": 12,
-    "choices": [
-      {
-        "text": "데이터를 분석해 전략을 수정한다",
-        "effects": {
-          "investment_skill": 5,
-          "intelligence": 3
-        },
-        "result_text": "어떤 종목이 발목을 잡았는지, 어떤 선택이 옳았는지 하나씩 짚었다. 실패를 데이터로 바꾸는 능력이 진짜 실력이다."
-      },
-      {
-        "text": "잘했다 — 잃지 않은 것만으로 자축한다",
-        "effects": {
-          "mental": 8,
-          "stress": -5
-        },
-        "result_text": "시장 평균보다 낮아도, 원금을 지키며 1년을 버텼다는 게 이미 대단한 일이다. 내일의 {name}은 오늘보다 강하다."
-      },
-      {
-        "text": "실망스럽다 — 처음부터 다시 배운다",
-        "effects": {
-          "investment_skill": 3,
-          "stress": 4
-        },
-        "result_text": "모든 걸 지우고 기초부터 다시 쌓기로 했다. 부끄럽지 않다, 늦은 각성이 빠른 포기보다 낫다."
-      }
-    ]
+    "result_text": "한 달 동안 해외 투자의 모든 것을 파고들었다. 복잡했지만 이제는 글로벌 시장이 내 운동장처럼 느껴진다."
+   },
+   {
+    "text": "소액으로 일단 경험해본다",
+    "effects": {
+     "money": -200000,
+     "investment_skill": 3
+    },
+    "result_text": "잘 모르지만 일단 발을 담갔다. 100달러짜리 경험이 앞으로 1000달러를 지켜줄 것이다."
+   },
+   {
+    "text": "너무 복잡하다 — 국내 주식에 집중한다",
+    "effects": {
+     "stress": -3
+    },
+    "result_text": "아는 시장에서 잘하는 게 먼저라고 판단했다. 내가 이해하는 범위 안에서 투자하는 것도 전략이다."
+   }
+  ]
+ },
+ {
+  "id": "inv_portfolio_review",
+  "title": "1년 수익률 점검",
+  "description": "1월 1일, {name}은 증권사 앱에서 '연간 수익률 리포트'를 열었다. +7.3%. 코스피 기준치는 +11.2%. 1년 동안 열심히 했는데 시장 평균을 못 이겼다는 숫자가 화면에 박혀 있다. 잘한 건지 못한 건지, 뭘 바꿔야 할지, 그냥 괜찮은 건지 — 아무도 정답을 알려주지 않는다.",
+  "category": "finance",
+  "rarity": "uncommon",
+  "weight": 3.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 12
   },
-  {
-    "id": "etf_drip_discovery",
-    "title": "적립식 투자의 발견",
-    "description": "유튜브를 보다가 알게 됐다.\n'매달 일정 금액을 ETF에 넣는 것만으로도 장기적으로 수익이 난다.'\n\n복잡한 종목 분석도, 타이밍도 필요 없다.\n그냥 매달 자동이체로 넣으면 된다는 이야기.\n\n단순하다. 그래서 오히려 믿기 어려웠다.",
-    "category": "investment",
-    "rarity": "common",
-    "weight": 2.5,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 3
+  "tags": [
+   "investment",
+   "review",
+   "strategy"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "데이터를 분석해 전략을 수정한다",
+    "effects": {
+     "investment_skill": 5,
+     "intelligence": 3
     },
-    "tags": [
-      "investment",
-      "finance"
-    ],
-    "cooldown": 12,
-    "choices": [
-      {
-        "text": "바로 적립식 ETF 투자를 시작한다",
-        "effects": {
-          "investment_skill": 4,
-          "money": -200000,
-          "stress": -4
-        },
-        "flags": [
-          "started_etf"
-        ],
-        "follow_up_event": "",
-        "result_text": "자동이체를 설정했다. 매달 같은 금액이 시장에 들어간다.\n지루하다. 그게 전략이다.\n시간이 흐르면, 시장이 일을 해준다."
-      },
-      {
-        "text": "좀 더 공부하고 결정한다",
-        "effects": {
-          "intelligence": 4,
-          "investment_skill": 3
-        },
-        "flags": [
-          "etf_study_mode"
-        ],
-        "follow_up_event": "",
-        "result_text": "공부가 길어졌다. 근데 알수록 재밌어졌다.\n지식은 손해 보지 않는다.\n이해하고 투자하는 사람이 오래 살아남는다는 걸, 조금씩 알겠다."
-      },
-      {
-        "text": "ETF보다 개별 종목이 더 재밌다",
-        "effects": {
-          "investment_skill": 2,
-          "stress": 4,
-          "luck": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "종목을 골랐다. 오르면 내 안목 덕분이고, 떨어지면 시장 탓이다.\n재밌다. 그리고 위험하다.\n둘 다 맞는 말이었다.",
-        "route": "unorthodox"
-      }
-    ]
+    "result_text": "어떤 종목이 발목을 잡았는지, 어떤 선택이 옳았는지 하나씩 짚었다. 실패를 데이터로 바꾸는 능력이 진짜 실력이다."
+   },
+   {
+    "text": "잘했다 — 잃지 않은 것만으로 자축한다",
+    "effects": {
+     "mental": 8,
+     "stress": -5
+    },
+    "result_text": "시장 평균보다 낮아도, 원금을 지키며 1년을 버텼다는 게 이미 대단한 일이다. 내일의 {name}은 오늘보다 강하다."
+   },
+   {
+    "text": "실망스럽다 — 처음부터 다시 배운다",
+    "effects": {
+     "investment_skill": 3,
+     "stress": 4
+    },
+    "result_text": "모든 걸 지우고 기초부터 다시 쌓기로 했다. 부끄럽지 않다, 늦은 각성이 빠른 포기보다 낫다."
+   }
+  ]
+ },
+ {
+  "id": "etf_drip_discovery",
+  "title": "적립식 투자의 발견",
+  "description": "유튜브를 보다가 알게 됐다.\n'매달 일정 금액을 ETF에 넣는 것만으로도 장기적으로 수익이 난다.'\n\n복잡한 종목 분석도, 타이밍도 필요 없다.\n그냥 매달 자동이체로 넣으면 된다는 이야기.\n\n단순하다. 그래서 오히려 믿기 어려웠다.",
+  "category": "investment",
+  "rarity": "common",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 3
   },
-  {
-    "id": "dividend_payday",
-    "title": "첫 배당금 수령",
-    "description": "배당 지급일.\n\n아침에 문자가 왔다.\n'배당금 43,200원이 입금되었습니다.'\n\n일하지 않았는데 돈이 들어왔다.\n43,200원. 작은 금액이었다.\n하지만 이 구조를 이해한 순간, 무언가가 달라졌다.",
-    "category": "investment",
-    "rarity": "uncommon",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_turn": 6
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "바로 적립식 ETF 투자를 시작한다",
+    "effects": {
+     "investment_skill": 4,
+     "money": -200000,
+     "stress": -4
     },
-    "tags": [
-      "investment",
-      "finance"
+    "flags": [
+     "started_etf"
     ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "배당금을 재투자해서 복리를 쌓는다",
-        "effects": {
-          "investment_skill": 3,
-          "money": 43200
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "배당금이 다시 투자됐다. 작은 눈덩이가 굴러가기 시작했다."
-      },
-      {
-        "text": "오늘은 이 돈으로 맛있는 걸 먹는다",
-        "effects": {
-          "mental": 4,
-          "stress": -3,
-          "money": 43200
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "돈이 일하게 만든 첫 보상이었다. 작지만 달랐다."
-      }
-    ]
+    "follow_up_event": "",
+    "result_text": "자동이체를 설정했다. 매달 같은 금액이 시장에 들어간다.\n지루하다. 그게 전략이다.\n시간이 흐르면, 시장이 일을 해준다."
+   },
+   {
+    "text": "좀 더 공부하고 결정한다",
+    "effects": {
+     "intelligence": 4,
+     "investment_skill": 3
+    },
+    "flags": [
+     "etf_study_mode"
+    ],
+    "follow_up_event": "",
+    "result_text": "공부가 길어졌다. 근데 알수록 재밌어졌다.\n지식은 손해 보지 않는다.\n이해하고 투자하는 사람이 오래 살아남는다는 걸, 조금씩 알겠다."
+   },
+   {
+    "text": "ETF보다 개별 종목이 더 재밌다",
+    "effects": {
+     "investment_skill": 2,
+     "stress": 4,
+     "luck": 1
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "종목을 골랐다. 오르면 내 안목 덕분이고, 떨어지면 시장 탓이다.\n재밌다. 그리고 위험하다.\n둘 다 맞는 말이었다.",
+    "route": "unorthodox"
+   }
+  ]
+ },
+ {
+  "id": "dividend_payday",
+  "title": "첫 배당금 수령",
+  "description": "배당 지급일.\n\n아침에 문자가 왔다.\n'배당금 43,200원이 입금되었습니다.'\n\n일하지 않았는데 돈이 들어왔다.\n43,200원. 작은 금액이었다.\n하지만 이 구조를 이해한 순간, 무언가가 달라졌다.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 6
   },
-  {
-    "id": "real_estate_regulation_news",
-    "title": "부동산 규제 발표",
-    "description": "정부가 부동산 추가 규제 방안을 발표했다.\n\n대출 한도 축소, 취득세 인상, 갭투자 제한...\n\n매수를 고려하던 사람들은 계산기를 다시 두드렸다.\n전세 수요가 늘어 전세가가 오를 거라는 전망도 나왔다.\n\n어떤 소식이든 시장에는 영향이 생긴다.",
-    "category": "investment",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 6
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "배당금을 재투자해서 복리를 쌓는다",
+    "effects": {
+     "investment_skill": 3,
+     "money": 43200
     },
-    "tags": [
-      "investment",
-      "politics",
-      "housing"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "규제 피하는 투자처를 공부한다",
-        "effects": {
-          "intelligence": 3,
-          "investment_skill": 3
-        },
-        "route": "unorthodox",
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "규제가 생기면 틈도 생긴다. 공부한 사람이 먼저 찾는다."
-      },
-      {
-        "text": "안전하게 채권이나 예금으로 옮긴다",
-        "effects": {
-          "stress": -4,
-          "money": 100000
-        },
-        "route": "orthodox",
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "리스크를 줄였다. 수익도 줄었지만, 잠이 잘 왔다."
-      },
-      {
-        "text": "그냥 유지한다. 정부 발표는 믿지 않는다",
-        "effects": {
-          "stress": 3,
-          "luck": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "시간이 말해줄 것이다."
-      }
-    ]
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "배당금이 다시 투자됐다. 작은 눈덩이가 굴러가기 시작했다."
+   },
+   {
+    "text": "오늘은 이 돈으로 맛있는 걸 먹는다",
+    "effects": {
+     "mental": 4,
+     "stress": -3,
+     "money": 43200
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "돈이 일하게 만든 첫 보상이었다. 작지만 달랐다."
+   }
+  ]
+ },
+ {
+  "id": "real_estate_regulation_news",
+  "title": "부동산 규제 발표",
+  "description": "정부가 부동산 추가 규제 방안을 발표했다.\n\n대출 한도 축소, 취득세 인상, 갭투자 제한...\n\n매수를 고려하던 사람들은 계산기를 다시 두드렸다.\n전세 수요가 늘어 전세가가 오를 거라는 전망도 나왔다.\n\n어떤 소식이든 시장에는 영향이 생긴다.",
+  "category": "investment",
+  "rarity": "common",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 6
   },
-  {
-    "id": "fear_greed_index",
-    "title": "공포·탐욕 지수 100",
-    "description": "투자 앱의 시황 분석에 빨간색 경보가 떴다.\n\n'공포·탐욕 지수 98 — 극단적 탐욕'\n\n모두가 사고 싶어 할 때는 팔아야 한다는 말이 있다.\n그런데 지금 안 사면 더 오를 것 같기도 했다.\n\n투자에서 가장 어려운 건 숫자가 아니라 감정이었다.",
-    "category": "investment",
-    "rarity": "uncommon",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_turn": 8
+  "tags": [
+   "investment",
+   "politics",
+   "housing"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "규제 피하는 투자처를 공부한다",
+    "effects": {
+     "intelligence": 3,
+     "investment_skill": 3
     },
-    "tags": [
-      "investment",
-      "finance"
-    ],
-    "cooldown": 10,
-    "choices": [
-      {
-        "text": "탐욕을 경계하고 일부 수익 실현한다",
-        "effects": {
-          "investment_skill": 3,
-          "money": 400000,
-          "stress": -3
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "며칠 뒤 시장이 조정됐다. 탐욕을 이긴 것이 수익이 됐다."
-      },
-      {
-        "text": "분위기에 편승해서 추가 매수한다",
-        "effects": {
-          "money": -400000,
-          "stress": 5,
-          "investment_skill": 1,
-          "luck": -1
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "타이밍이 좋지 않았다. 높은 곳에서 산 것이었다."
-      },
-      {
-        "text": "아무것도 하지 않는다. 내 계획대로 간다",
-        "effects": {
-          "investment_skill": 2,
-          "stress": -2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "원칙을 지켰다. 장기 투자자의 가장 강한 무기는 인내다."
-      }
-    ]
+    "route": "unorthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "규제가 생기면 틈도 생긴다. 공부한 사람이 먼저 찾는다."
+   },
+   {
+    "text": "안전하게 채권이나 예금으로 옮긴다",
+    "effects": {
+     "stress": -4,
+     "money": 100000
+    },
+    "route": "orthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "리스크를 줄였다. 수익도 줄었지만, 잠이 잘 왔다."
+   },
+   {
+    "text": "그냥 유지한다. 정부 발표는 믿지 않는다",
+    "effects": {
+     "stress": 3,
+     "luck": 1
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "시간이 말해줄 것이다."
+   }
+  ]
+ },
+ {
+  "id": "fear_greed_index",
+  "title": "공포·탐욕 지수 100",
+  "description": "투자 앱의 시황 분석에 빨간색 경보가 떴다.\n\n'공포·탐욕 지수 98 — 극단적 탐욕'\n\n모두가 사고 싶어 할 때는 팔아야 한다는 말이 있다.\n그런데 지금 안 사면 더 오를 것 같기도 했다.\n\n투자에서 가장 어려운 건 숫자가 아니라 감정이었다.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 8
   },
-  {
-    "id": "portfolio_rebalancing",
-    "title": "포트폴리오 점검",
-    "description": "분기 말. 투자 앱을 열어봤다.\n\n처음 계획했던 비중이 무너져 있었다.\n한 종목이 크게 올라 전체의 60%를 차지하고 있었다.\n\n이 상태로 두면 한 쪽에 너무 기대게 된다.\n리밸런싱을 할 것인가, 아니면 잘 되는 것에 더 실을 것인가.",
-    "category": "investment",
-    "rarity": "uncommon",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_portfolio": true,
-      "min_turn": 10
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "탐욕을 경계하고 일부 수익 실현한다",
+    "effects": {
+     "investment_skill": 3,
+     "money": 400000,
+     "stress": -3
     },
-    "tags": [
-      "investment",
-      "finance"
-    ],
-    "cooldown": 8,
-    "choices": [
-      {
-        "text": "원래 비중으로 리밸런싱한다",
-        "effects": {
-          "investment_skill": 3,
-          "stress": -3
-        },
-        "route": "orthodox",
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "수익을 일부 실현하고 다른 자산을 채웠다. 원칙은 편안함을 준다."
-      },
-      {
-        "text": "오르는 종목을 계속 유지한다",
-        "effects": {
-          "investment_skill": 1,
-          "stress": 3,
-          "luck": 1
-        },
-        "route": "unorthodox",
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "더 올랐다. 물론 내릴 때도 더 크게 내린다는 걸 이미 알고 있었다."
-      }
-    ]
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "며칠 뒤 시장이 조정됐다. 탐욕을 이긴 것이 수익이 됐다."
+   },
+   {
+    "text": "분위기에 편승해서 추가 매수한다",
+    "effects": {
+     "money": -400000,
+     "stress": 5,
+     "investment_skill": 1,
+     "luck": -1
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "타이밍이 좋지 않았다. 높은 곳에서 산 것이었다."
+   },
+   {
+    "text": "아무것도 하지 않는다. 내 계획대로 간다",
+    "effects": {
+     "investment_skill": 2,
+     "stress": -2
+    },
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "원칙을 지켰다. 장기 투자자의 가장 강한 무기는 인내다."
+   }
+  ]
+ },
+ {
+  "id": "portfolio_rebalancing",
+  "title": "포트폴리오 점검",
+  "description": "분기 말. 투자 앱을 열어봤다.\n\n처음 계획했던 비중이 무너져 있었다.\n한 종목이 크게 올라 전체의 60%를 차지하고 있었다.\n\n이 상태로 두면 한 쪽에 너무 기대게 된다.\n리밸런싱을 할 것인가, 아니면 잘 되는 것에 더 실을 것인가.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.0,
+  "hidden": false,
+  "conditions": {
+   "has_portfolio": true,
+   "min_turn": 10
   },
-  {
-    "id": "orthodox_integrity_reward",
-    "title": "신뢰라는 자산",
-    "background": "realestate_office",
-    "portrait": "sangchul_normal",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 2.5,
-    "hidden": false,
-    "conditions": {
-      "min_route_orthodox": 3,
-      "max_route_unorthodox": 4
+  "tags": [
+   "investment",
+   "finance"
+  ],
+  "cooldown": 8,
+  "choices": [
+   {
+    "text": "원래 비중으로 리밸런싱한다",
+    "effects": {
+     "investment_skill": 3,
+     "stress": -3
     },
-    "tags": [
-      "investment",
-      "social",
-      "orthodox"
-    ],
-    "cooldown": 15,
-    "description": "정도(正道)로만 걸어온 게 어딘가 쌓였나 보다.\n한때 스쳐 지나간 사람에게서 연락이 왔다.\n\"요즘 같은 세상에 당신처럼 원칙을 지키는 사람이 드물어요.\n하나 여쭤봐도 될까요?\"\n평판은 천천히 쌓이고, 어느 날 갑자기 일을 한다.",
-    "choices": [
-      {
-        "text": "기꺼이 만난다 — 인맥도 자산이다",
-        "effects": {
-          "reputation": 10,
-          "intelligence": 4,
-          "social_skill": 3,
-          "stress": -4
-        },
-        "route": "orthodox",
-        "result_text": "검증된 사람이 검증된 루트를 소개해줬다.\n화려하지 않지만 안전하고 합법적인 기회.\n정도를 걷는다는 건, 이런 인맥이 쌓인다는 거다.\n잃지 않는 것도 이기는 방법이라는 걸 다시 확인했다."
-      },
-      {
-        "text": "지금은 바쁘다고 거절한다",
-        "effects": {
-          "mental": 2,
-          "stress": -4
-        },
-        "result_text": "거절했다. 그래도 그 사람은 섭섭해하지 않았다.\n정도를 걸어온 사람에게는 그런 여유도 허락된다.\n기회는 또 온다. 원칙이 있는 사람한텐."
-      }
-    ]
+    "route": "orthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "수익을 일부 실현하고 다른 자산을 채웠다. 원칙은 편안함을 준다."
+   },
+   {
+    "text": "오르는 종목을 계속 유지한다",
+    "effects": {
+     "investment_skill": 1,
+     "stress": 3,
+     "luck": 1
+    },
+    "route": "unorthodox",
+    "flags": [],
+    "follow_up_event": "",
+    "result_text": "더 올랐다. 물론 내릴 때도 더 크게 내린다는 걸 이미 알고 있었다."
+   }
+  ]
+ },
+ {
+  "id": "orthodox_integrity_reward",
+  "title": "신뢰라는 자산",
+  "background": "realestate_office",
+  "portrait": "sangchul_normal",
+  "category": "social",
+  "rarity": "uncommon",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_orthodox": 3,
+   "max_route_unorthodox": 4
   },
-  {
-    "id": "orthodox_institutional_access",
-    "title": "제도권의 문이 열린다",
-    "background": "meeting",
-    "portrait": "player_suit",
-    "category": "investment",
-    "rarity": "rare",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_route_orthodox": 6,
-      "min_turn": 15
+  "tags": [
+   "investment",
+   "social",
+   "orthodox"
+  ],
+  "cooldown": 15,
+  "description": "정도(正道)로만 걸어온 게 어딘가 쌓였나 보다.\n한때 스쳐 지나간 사람에게서 연락이 왔다.\n\"요즘 같은 세상에 당신처럼 원칙을 지키는 사람이 드물어요.\n하나 여쭤봐도 될까요?\"\n평판은 천천히 쌓이고, 어느 날 갑자기 일을 한다.",
+  "choices": [
+   {
+    "text": "기꺼이 만난다 — 인맥도 자산이다",
+    "effects": {
+     "reputation": 10,
+     "intelligence": 4,
+     "social_skill": 3,
+     "stress": -4
     },
-    "tags": [
-      "investment",
-      "orthodox",
-      "opportunity"
-    ],
-    "cooldown": 20,
-    "description": "지금까지 걸어온 길이 어떤 문을 열었다.\n증권사 프라이빗 뱅킹 센터. 일반 고객은 들어오지 못하는 곳.\n\n\"저희 리서치팀 보고서를 먼저 공유드릴 수 있어요.\n합법적인 범위 내에서, 정보는 빠를수록 좋으니까요.\"\n\n같은 출발선이 아니다. 정도를 걸어온 자에게만 열리는 문.",
-    "choices": [
-      {
-        "text": "PB 서비스를 받기로 한다",
-        "effects": {
-          "investment_skill": 8,
-          "intelligence": 5,
-          "reputation": 6,
-          "stress": -5
-        },
-        "route": "orthodox",
-        "flags": [
-          "pb_access"
-        ],
-        "result_text": "이제 시장보다 하루 빠른 분석을 받는다.\n공개된 정보지만, 해석이 다르다.\n같은 수영장에서 수영하더라도, 레인이 다르다는 걸 처음 알았다."
-      },
-      {
-        "text": "감사하지만, 혼자 결정하고 싶다",
-        "effects": {
-          "mental": 5,
-          "investment_skill": 3
-        },
-        "result_text": "내 판단을 믿겠다는 결정이었다.\n담당자는 아쉬워하면서도 이해했다.\n\"나중에라도 마음 바뀌시면 연락 주세요.\"\n그 번호는 지갑 속에 남겨뒀다."
-      }
-    ]
+    "route": "orthodox",
+    "result_text": "검증된 사람이 검증된 루트를 소개해줬다.\n화려하지 않지만 안전하고 합법적인 기회.\n정도를 걷는다는 건, 이런 인맥이 쌓인다는 거다.\n잃지 않는 것도 이기는 방법이라는 걸 다시 확인했다."
+   },
+   {
+    "text": "지금은 바쁘다고 거절한다",
+    "effects": {
+     "mental": 2,
+     "stress": -4
+    },
+    "result_text": "거절했다. 그래도 그 사람은 섭섭해하지 않았다.\n정도를 걸어온 사람에게는 그런 여유도 허락된다.\n기회는 또 온다. 원칙이 있는 사람한텐."
+   }
+  ]
+ },
+ {
+  "id": "orthodox_institutional_access",
+  "title": "제도권의 문이 열린다",
+  "background": "meeting",
+  "portrait": "player_suit",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 1.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_orthodox": 6,
+   "min_turn": 15
   },
-  {
-    "id": "unorthodox_gray_zone_tip",
-    "title": "회색지대의 정보",
-    "background": "pojangmacha",
-    "portrait": "player_tired",
-    "category": "investment",
-    "rarity": "uncommon",
-    "weight": 2.5,
-    "hidden": false,
-    "conditions": {
-      "min_route_unorthodox": 3,
-      "max_route_orthodox": 4
+  "tags": [
+   "investment",
+   "orthodox",
+   "opportunity"
+  ],
+  "cooldown": 20,
+  "description": "지금까지 걸어온 길이 어떤 문을 열었다.\n증권사 프라이빗 뱅킹 센터. 일반 고객은 들어오지 못하는 곳.\n\n\"저희 리서치팀 보고서를 먼저 공유드릴 수 있어요.\n합법적인 범위 내에서, 정보는 빠를수록 좋으니까요.\"\n\n같은 출발선이 아니다. 정도를 걸어온 자에게만 열리는 문.",
+  "choices": [
+   {
+    "text": "PB 서비스를 받기로 한다",
+    "effects": {
+     "investment_skill": 8,
+     "intelligence": 5,
+     "reputation": 6,
+     "stress": -5
     },
-    "tags": [
-      "investment",
-      "unorthodox",
-      "risk"
+    "route": "orthodox",
+    "flags": [
+     "pb_access"
     ],
-    "cooldown": 14,
-    "description": "밤 늦은 포장마차. 처음 보는 중년 남자가 말을 건다.\n\n\"...잠깐, 당신 아는 스타일이다. 정석만으로 안 가는 사람.\"\n\n맞다. 어떻게 알았을까.\n그가 목소리를 낮춘다.\n\"이번 달에 특정 소재주 움직임이 있을 거야.\n내부 얘기는 아니야. 그냥 감이 좋아서 하는 말.\"\n\n법적으로 문제없는 선에서의 정보다. 아마도.",
-    "choices": [
-      {
-        "text": "그 정보를 살려 포지션을 잡는다",
-        "effects": {
-          "investment_skill": 4,
-          "stress": 6,
-          "luck": 2
-        },
-        "route": "unorthodox",
-        "flags": [
-          "took_gray_tip"
-        ],
-        "result_text": "포지션을 잡았다. 맞을 수도, 틀릴 수도 있다.\n그 남자가 맞다면 수익. 틀리다면 손실.\n하지만 이런 정보는 찾을 줄 아는 사람에게만 온다."
-      },
-      {
-        "text": "무시한다 — 루머는 루머다",
-        "effects": {
-          "intelligence": 3,
-          "stress": -3
-        },
-        "result_text": "그냥 마셨다. 좋은 소주였다.\n정보라는 이름의 잡음은 시장에 넘쳐흐른다.\n버릴 줄 아는 것도 기술이다."
-      },
-      {
-        "text": "그 사람에 대해 더 알아본다",
-        "effects": {
-          "intelligence": 5,
-          "investment_skill": 2,
-          "stress": 2
-        },
-        "flags": [
-          "investigating_gray_contact"
-        ],
-        "result_text": "며칠 뒤 그를 다시 찾았다. 꽤 흥미로운 인물이었다.\n정보를 팔지 않는다고 했다. 그럼 왜 그 말을 했을까.\n{name}은 그 이유를 알고 싶어졌다."
-      }
-    ]
+    "result_text": "이제 시장보다 하루 빠른 분석을 받는다.\n공개된 정보지만, 해석이 다르다.\n같은 수영장에서 수영하더라도, 레인이 다르다는 걸 처음 알았다."
+   },
+   {
+    "text": "감사하지만, 혼자 결정하고 싶다",
+    "effects": {
+     "mental": 5,
+     "investment_skill": 3
+    },
+    "result_text": "내 판단을 믿겠다는 결정이었다.\n담당자는 아쉬워하면서도 이해했다.\n\"나중에라도 마음 바뀌시면 연락 주세요.\"\n그 번호는 지갑 속에 남겨뒀다."
+   }
+  ]
+ },
+ {
+  "id": "unorthodox_gray_zone_tip",
+  "title": "회색지대의 정보",
+  "background": "pojangmacha",
+  "portrait": "player_tired",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 2.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_unorthodox": 3,
+   "max_route_orthodox": 4
   },
-  {
-    "id": "unorthodox_underground_network",
-    "title": "지하의 네트워크",
-    "background": "trading",
-    "portrait": "player_determined",
-    "category": "investment",
-    "rarity": "rare",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_route_unorthodox": 6,
-      "min_turn": 15
+  "tags": [
+   "investment",
+   "unorthodox",
+   "risk"
+  ],
+  "cooldown": 14,
+  "description": "밤 늦은 포장마차. 처음 보는 중년 남자가 말을 건다.\n\n\"...잠깐, 당신 아는 스타일이다. 정석만으로 안 가는 사람.\"\n\n맞다. 어떻게 알았을까.\n그가 목소리를 낮춘다.\n\"이번 달에 특정 소재주 움직임이 있을 거야.\n내부 얘기는 아니야. 그냥 감이 좋아서 하는 말.\"\n\n법적으로 문제없는 선에서의 정보다. 아마도.",
+  "choices": [
+   {
+    "text": "그 정보를 살려 포지션을 잡는다",
+    "effects": {
+     "investment_skill": 4,
+     "stress": 6,
+     "luck": 2
     },
-    "tags": [
-      "investment",
-      "unorthodox",
-      "underground"
+    "route": "unorthodox",
+    "flags": [
+     "took_gray_tip"
     ],
-    "cooldown": 20,
-    "description": "어느 순간부터 다른 종류의 사람들이 연락을 해온다.\n제도권 밖에 있지만, 어마어마한 정보를 가진 사람들.\n\n\"당신은 원칙을 안 따르는 스타일이더라.\n그게 싫지 않아. 우리 모임 한 번 나와봐.\"\n\n텔레그램 채널 링크 하나.\n들어가보니 — 이건 차원이 다른 세계였다.",
-    "choices": [
-      {
-        "text": "그 네트워크에 합류한다",
-        "effects": {
-          "investment_skill": 10,
-          "intelligence": 5,
-          "mental": -6,
-          "stress": 8
-        },
-        "route": "unorthodox",
-        "flags": [
-          "underground_network_member"
-        ],
-        "result_text": "정보의 질이 달랐다. 움직임이 달랐다.\n합법의 경계선에서 아슬아슬하게.\n수익이 올라갔다. 양심도 조금 내려갔다.\n두 개가 동시에 움직이는 삶이 시작됐다."
-      },
-      {
-        "text": "여기서 더 깊이 들어가진 않는다",
-        "effects": {
-          "mental": 6,
-          "stress": -5,
-          "intelligence": 3
-        },
-        "route": "orthodox",
-        "result_text": "링크를 닫았다. 여기까지만이다.\n이미 여러 선을 건넜지만, 이 선만큼은 안 건너기로 했다.\n{name}에게도 마지막 선 하나는 남아있었다."
-      }
-    ]
+    "result_text": "포지션을 잡았다. 맞을 수도, 틀릴 수도 있다.\n그 남자가 맞다면 수익. 틀리다면 손실.\n하지만 이런 정보는 찾을 줄 아는 사람에게만 온다."
+   },
+   {
+    "text": "무시한다 — 루머는 루머다",
+    "effects": {
+     "intelligence": 3,
+     "stress": -3
+    },
+    "result_text": "그냥 마셨다. 좋은 소주였다.\n정보라는 이름의 잡음은 시장에 넘쳐흐른다.\n버릴 줄 아는 것도 기술이다."
+   },
+   {
+    "text": "그 사람에 대해 더 알아본다",
+    "effects": {
+     "intelligence": 5,
+     "investment_skill": 2,
+     "stress": 2
+    },
+    "flags": [
+     "investigating_gray_contact"
+    ],
+    "result_text": "며칠 뒤 그를 다시 찾았다. 꽤 흥미로운 인물이었다.\n정보를 팔지 않는다고 했다. 그럼 왜 그 말을 했을까.\n{name}은 그 이유를 알고 싶어졌다."
+   }
+  ]
+ },
+ {
+  "id": "unorthodox_underground_network",
+  "title": "지하의 네트워크",
+  "background": "trading",
+  "portrait": "player_determined",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 1.5,
+  "hidden": false,
+  "conditions": {
+   "min_route_unorthodox": 6,
+   "min_turn": 15
   },
-  {
-    "id": "inv_ipo_hot_tip",
-    "title": "공모주 대박 예고",
-    "description": "직장 선배에게서 귀띔이 왔다.\n\"이번 AI 반도체 관련 기업 공모주, 기관들이 엄청 밀고 있어.\n균등배정으로 들어가면 상한가 두세 번은 기본이래.\"\n\n청약 증거금이 묶이고, 배정 여부는 운이지만,\n지금 이 시장 분위기라면 올 것 같다는 느낌이 든다.\n뭘 얼마나 넣을지가 관건이다.",
-    "category": "investment",
-    "rarity": "uncommon",
-    "weight": 3,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 12,
-      "min_money": 10000000,
-      "has_portfolio": true
+  "tags": [
+   "investment",
+   "unorthodox",
+   "underground"
+  ],
+  "cooldown": 20,
+  "description": "어느 순간부터 다른 종류의 사람들이 연락을 해온다.\n제도권 밖에 있지만, 어마어마한 정보를 가진 사람들.\n\n\"당신은 원칙을 안 따르는 스타일이더라.\n그게 싫지 않아. 우리 모임 한 번 나와봐.\"\n\n텔레그램 채널 링크 하나.\n들어가보니 — 이건 차원이 다른 세계였다.",
+  "choices": [
+   {
+    "text": "그 네트워크에 합류한다",
+    "effects": {
+     "investment_skill": 10,
+     "intelligence": 5,
+     "mental": -6,
+     "stress": 8
     },
-    "tags": [
-      "investment",
-      "opportunity",
-      "stock"
+    "route": "unorthodox",
+    "flags": [
+     "underground_network_member"
     ],
-    "cooldown": 18,
-    "choices": [
-      {
-        "text": "크게 넣는다 — 이번 기회가 아니면 언제",
-        "effects": {
-          "stress": 8,
-          "investment_skill": 2
-        },
-        "opportunity": {
-          "stake_ratio": 0.6,
-          "success_rate": 0.36,
-          "win_multiplier": 3.5,
-          "loss_ratio": 0.6,
-          "luck_factor": 0.002,
-          "skill_gain": 4
-        },
-        "result_text": "청약 접수를 했다. 자금이 묶이는 며칠이 길게 느껴진다.\n결과는 상장일에 알 수 있다.\n{name}은 숫자들이 춤추는 화면을 바라보며 기다렸다."
-      },
-      {
-        "text": "소액만 넣는다 — 분산이 원칙이다",
-        "effects": {
-          "stress": 3,
-          "intelligence": 1
-        },
-        "opportunity": {
-          "stake_ratio": 0.25,
-          "success_rate": 0.4,
-          "win_multiplier": 2.5,
-          "loss_ratio": 0.45,
-          "luck_factor": 0.002,
-          "skill_gain": 2
-        },
-        "result_text": "일부만 넣었다. 욕심은 버렸다.\n잃어도 감당할 수 있는 금액, 벌면 좋고 아니면 그냥 경험이다.\n이게 오래 가는 투자자의 마음가짐이라고 스스로를 설득했다."
-      },
-      {
-        "text": "공모주는 도박이다 — 패스",
-        "effects": {
-          "mental": 3,
-          "stress": -2,
-          "intelligence": 2
-        },
-        "result_text": "공모주는 결국 타이밍 게임이다.\n확신이 없으면 안 하는 게 낫다.\n{name}은 화면을 껐다. 다음 기회를 기다린다."
-      }
-    ]
+    "result_text": "정보의 질이 달랐다. 움직임이 달랐다.\n합법의 경계선에서 아슬아슬하게.\n수익이 올라갔다. 양심도 조금 내려갔다.\n두 개가 동시에 움직이는 삶이 시작됐다."
+   },
+   {
+    "text": "여기서 더 깊이 들어가진 않는다",
+    "effects": {
+     "mental": 6,
+     "stress": -5,
+     "intelligence": 3
+    },
+    "route": "orthodox",
+    "result_text": "링크를 닫았다. 여기까지만이다.\n이미 여러 선을 건넜지만, 이 선만큼은 안 건너기로 했다.\n{name}에게도 마지막 선 하나는 남아있었다."
+   }
+  ]
+ },
+ {
+  "id": "inv_ipo_hot_tip",
+  "title": "공모주 대박 예고",
+  "description": "직장 선배에게서 귀띔이 왔다.\n\"이번 AI 반도체 관련 기업 공모주, 기관들이 엄청 밀고 있어.\n균등배정으로 들어가면 상한가 두세 번은 기본이래.\"\n\n청약 증거금이 묶이고, 배정 여부는 운이지만,\n지금 이 시장 분위기라면 올 것 같다는 느낌이 든다.\n뭘 얼마나 넣을지가 관건이다.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 3,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 12,
+   "min_money": 10000000,
+   "has_portfolio": true
   },
-  {
-    "id": "inv_redev_zone_tip",
-    "title": "재개발 예정지 정보",
-    "description": "오래된 지인에게서 연락이 왔다.\n\"민준아, 이건 나만 아는 거야. 구청 담당자한테 들었는데,\n저기 빌라촌 일대가 내년에 재개발 지구 지정 확정이래.\n지금 평당 시세의 30%짜리 물건이 나왔는데, 알음알음 팔리고 있어.\"\n\n부동산 정보의 가치는 타이밍에 있다.\n재개발이 확정되면 몇 배는 뛰지만, 불발되면 그냥 허름한 빌라다.\n이 금액이면 올인이다. 판단은 네가 해.",
-    "category": "investment",
-    "rarity": "rare",
-    "weight": 2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 28,
-      "min_money": 100000000
+  "tags": [
+   "investment",
+   "opportunity",
+   "stock"
+  ],
+  "cooldown": 18,
+  "choices": [
+   {
+    "text": "크게 넣는다 — 이번 기회가 아니면 언제",
+    "effects": {
+     "stress": 8,
+     "investment_skill": 2
     },
-    "tags": [
-      "investment",
-      "opportunity",
-      "real_estate"
+    "opportunity": {
+     "stake_ratio": 0.6,
+     "success_rate": 0.36,
+     "win_multiplier": 3.5,
+     "loss_ratio": 0.6,
+     "luck_factor": 0.002,
+     "skill_gain": 4
+    },
+    "result_text": "청약 접수를 했다. 자금이 묶이는 며칠이 길게 느껴진다.\n결과는 상장일에 알 수 있다.\n{name}은 숫자들이 춤추는 화면을 바라보며 기다렸다."
+   },
+   {
+    "text": "소액만 넣는다 — 분산이 원칙이다",
+    "effects": {
+     "stress": 3,
+     "intelligence": 1
+    },
+    "opportunity": {
+     "stake_ratio": 0.25,
+     "success_rate": 0.4,
+     "win_multiplier": 2.5,
+     "loss_ratio": 0.45,
+     "luck_factor": 0.002,
+     "skill_gain": 2
+    },
+    "result_text": "일부만 넣었다. 욕심은 버렸다.\n잃어도 감당할 수 있는 금액, 벌면 좋고 아니면 그냥 경험이다.\n이게 오래 가는 투자자의 마음가짐이라고 스스로를 설득했다."
+   },
+   {
+    "text": "공모주는 도박이다 — 패스",
+    "effects": {
+     "mental": 3,
+     "stress": -2,
+     "intelligence": 2
+    },
+    "result_text": "공모주는 결국 타이밍 게임이다.\n확신이 없으면 안 하는 게 낫다.\n{name}은 화면을 껐다. 다음 기회를 기다린다."
+   }
+  ]
+ },
+ {
+  "id": "inv_redev_zone_tip",
+  "title": "재개발 예정지 정보",
+  "description": "오래된 지인에게서 연락이 왔다.\n\"민준아, 이건 나만 아는 거야. 구청 담당자한테 들었는데,\n저기 빌라촌 일대가 내년에 재개발 지구 지정 확정이래.\n지금 평당 시세의 30%짜리 물건이 나왔는데, 알음알음 팔리고 있어.\"\n\n부동산 정보의 가치는 타이밍에 있다.\n재개발이 확정되면 몇 배는 뛰지만, 불발되면 그냥 허름한 빌라다.\n이 금액이면 올인이다. 판단은 네가 해.",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 2,
+  "hidden": false,
+  "conditions": {
+   "min_turn": 28,
+   "min_money": 100000000
+  },
+  "tags": [
+   "investment",
+   "opportunity",
+   "real_estate"
+  ],
+  "cooldown": 9999,
+  "choices": [
+   {
+    "text": "전부 건다 — 강남 가는 마지막 기회일 수 있다",
+    "effects": {
+     "stress": 15,
+     "investment_skill": 3
+    },
+    "opportunity": {
+     "stake_ratio": 0.65,
+     "success_rate": 0.4,
+     "win_multiplier": 7.0,
+     "loss_ratio": 0.7,
+     "luck_factor": 0.0015,
+     "skill_gain": 6
+    },
+    "flags": [
+     "redev_bet_taken"
     ],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "전부 건다 — 강남 가는 마지막 기회일 수 있다",
-        "effects": {
-          "stress": 15,
-          "investment_skill": 3
-        },
-        "opportunity": {
-          "stake_ratio": 0.65,
-          "success_rate": 0.4,
-          "win_multiplier": 7.0,
-          "loss_ratio": 0.7,
-          "luck_factor": 0.0015,
-          "skill_gain": 6
-        },
-        "flags": [
-          "redev_bet_taken"
-        ],
-        "result_text": "계약서에 도장을 찍었다.\n열쇠를 받아들고 낡은 빌라 앞에 섰을 때,\n{name}은 이게 꿈인지 현실인지 잠시 혼란스러웠다.\n기다림이 시작됐다. 재개발 확정 공문을 기다리는 시간."
-      },
-      {
-        "text": "부분만 넣는다 — 위험을 분산한다",
-        "effects": {
-          "stress": 7,
-          "intelligence": 2
-        },
-        "opportunity": {
-          "stake_ratio": 0.3,
-          "success_rate": 0.46,
-          "win_multiplier": 5.0,
-          "loss_ratio": 0.55,
-          "luck_factor": 0.0015,
-          "skill_gain": 3
-        },
-        "flags": [
-          "redev_bet_taken"
-        ],
-        "result_text": "전부 거는 건 무리라고 판단했다.\n일부만 투자하고 나머지는 현금으로 유지했다.\n\"욕심 부리다 다 잃는 것보다 절반이 낫다.\"\n{name}은 스스로를 납득시켰다."
-      },
-      {
-        "text": "내부 정보는 위험하다 — 거절한다",
-        "effects": {
-          "mental": 5,
-          "stress": -5,
-          "intelligence": 3,
-          "reputation": 2
-        },
-        "route": "orthodox",
-        "result_text": "내부 정보를 이용한 거래는 법적 위험이 있다.\n솔깃하지만 패스다.\n{name}은 전화를 끊고 창밖을 바라봤다.\n깨끗한 손이 낫다고, 그렇게 믿기로 했다."
-      }
+    "result_text": "계약서에 도장을 찍었다.\n열쇠를 받아들고 낡은 빌라 앞에 섰을 때,\n{name}은 이게 꿈인지 현실인지 잠시 혼란스러웠다.\n기다림이 시작됐다. 재개발 확정 공문을 기다리는 시간."
+   },
+   {
+    "text": "부분만 넣는다 — 위험을 분산한다",
+    "effects": {
+     "stress": 7,
+     "intelligence": 2
+    },
+    "opportunity": {
+     "stake_ratio": 0.3,
+     "success_rate": 0.46,
+     "win_multiplier": 5.0,
+     "loss_ratio": 0.55,
+     "luck_factor": 0.0015,
+     "skill_gain": 3
+    },
+    "flags": [
+     "redev_bet_taken"
+    ],
+    "result_text": "전부 거는 건 무리라고 판단했다.\n일부만 투자하고 나머지는 현금으로 유지했다.\n\"욕심 부리다 다 잃는 것보다 절반이 낫다.\"\n{name}은 스스로를 납득시켰다."
+   },
+   {
+    "text": "내부 정보는 위험하다 — 거절한다",
+    "effects": {
+     "mental": 5,
+     "stress": -5,
+     "intelligence": 3,
+     "reputation": 2
+    },
+    "route": "orthodox",
+    "result_text": "내부 정보를 이용한 거래는 법적 위험이 있다.\n솔깃하지만 패스다.\n{name}은 전화를 끊고 창밖을 바라봤다.\n깨끗한 손이 낫다고, 그렇게 믿기로 했다."
+   }
+  ]
+ },
+ {
+  "id": "sangchul_tip_redev",
+  "title": "임상철의 귀띔 — 급매물",
+  "description": "부동산 문을 열자 임상철이 손짓했다.\n\n「민준아, 이건 아무한테나 말 안 하는 건데.」\n\n역세권 상가 지분 급매. 주인이 급전이 필요해서 시세보다 한참 아래로 내놨다고 했다.\n\n「내가 30년 본 물건 중에 손에 꼽아. 근데 돈이라는 게, 확실한 건 없다. 그건 알고 들어가라.」\n\n신뢰가 쌓인 사람만 들을 수 있는 정보다. 하지만 결정은 결국 내 몫이다.",
+  "category": "investment",
+  "rarity": "rare",
+  "weight": 4,
+  "hidden": false,
+  "conditions": {
+   "cast_stage": {
+    "person": "sangchul",
+    "in": [
+     "trusted",
+     "mentoring",
+     "guardian"
     ]
-  }
+   },
+   "min_money": 10000000
+  },
+  "tags": [
+   "investment",
+   "sangchul",
+   "opportunity"
+  ],
+  "cooldown": 12,
+  "choices": [
+   {
+    "text": "상철의 안목을 믿고 크게 들어간다",
+    "effects": {
+     "stress": 6
+    },
+    "opportunity": {
+     "stake_ratio": 0.4,
+     "success_rate": 0.62,
+     "win_multiplier": 1.8,
+     "loss_ratio": 0.5,
+     "luck_factor": 0.002,
+     "skill_gain": 3,
+     "win_flag": "sangchul_tip_win",
+     "lose_flag": "sangchul_tip_lose"
+    },
+    "result_text": "계약서에 도장을 찍었다.\n임상철이 어깨를 두드렸다. 「이제 기다리는 게 일이다.」"
+   },
+   {
+    "text": "소액만 걸어본다",
+    "effects": {
+     "stress": 3
+    },
+    "opportunity": {
+     "stake_ratio": 0.12,
+     "success_rate": 0.62,
+     "win_multiplier": 1.8,
+     "loss_ratio": 0.5,
+     "luck_factor": 0.002,
+     "skill_gain": 2
+    },
+    "result_text": "「적게 거는 것도 실력이다.」 임상철은 웃었다.\n잃어도 무너지지 않을 만큼만 걸었다."
+   },
+   {
+    "text": "고맙지만 이번엔 패스한다",
+    "effects": {
+     "investment_skill": 1,
+     "mental": 1
+    },
+    "result_text": "「그래, 안 하는 것도 판단이야.」\n임상철은 서운해하지 않았다. 그게 이 사람의 좋은 점이다."
+   }
+  ]
+ },
+ {
+  "id": "sangchul_tip_warning",
+  "title": "임상철의 경고 — 시장이 이상하다",
+  "description": "국밥집. 임상철이 숟가락을 내려놓고 말했다.\n\n「요즘 시장 분위기 봤냐. 다들 너무 들떠 있어. 내가 30년 동안 이런 분위기를 세 번 봤는데, 세 번 다 끝이 안 좋았다.」\n\n「올라갈 때 파는 게 제일 어렵다. 욕심 때문에. 근데 그걸 해내는 놈만 살아남더라.」\n\n포트폴리오가 머릿속을 스쳤다.",
+  "category": "investment",
+  "rarity": "uncommon",
+  "weight": 5,
+  "hidden": false,
+  "conditions": {
+   "cast_stage": {
+    "person": "sangchul",
+    "in": [
+     "trusted",
+     "mentoring",
+     "guardian"
+    ]
+   },
+   "has_portfolio": true
+  },
+  "tags": [
+   "investment",
+   "sangchul",
+   "advice"
+  ],
+  "cooldown": 10,
+  "choices": [
+   {
+    "text": "조언대로 위험 비중을 점검한다",
+    "effects": {
+     "investment_skill": 3,
+     "mental": 2,
+     "stress": -3
+    },
+    "flags": [
+     "heeded_sangchul_warning"
+    ],
+    "result_text": "그날 밤 포트폴리오를 다시 들여다봤다.\n과하게 물려 있던 자리가 보였다.\n노인의 말은 공짜로 듣는 30년치 수업료다."
+   },
+   {
+    "text": "「이번엔 다르다」 — 내 판단대로 간다",
+    "effects": {
+     "stress": 4,
+     "investment_skill": 1
+    },
+    "result_text": "「그 말, 세 번의 폭락 전에 다 들었던 말이다.」\n임상철은 더 말리지 않았다. 「네 돈이니까.」"
+   }
+  ]
+ }
 ]

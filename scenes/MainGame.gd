@@ -3745,6 +3745,8 @@ func _show_ending(ending_id):
 	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, "#c8a060"))
 	# ── 엔딩 설명 ──
 	modal_body.add_child(_wrap_label(ending.get("description", ""), 13, "#6a7486"))
+	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
+	_ending_cast_epilogue(modal_body, ending_id)
 	# ── 스탯 그리드 ──
 	var stats_sep = HSeparator.new()
 	stats_sep.add_theme_color_override("color", Color("#252535"))
@@ -3862,6 +3864,91 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "자산보다 이름이 먼저 강남에 닿았다"
 		_:
 			return "그렇게 5년이 지나갔다"
+
+## ── 인연 에필로그 ──────────────────────────────────────────────
+## 엔딩 티어는 숫자(자산·스탯)가 정하고, 엔딩의 표정은 관계가 정한다.
+## 각 인물의 최종 stage에 따라 결말 직후의 한 장면을 보여준다.
+func _ending_cast_epilogue(parent: Control, ending_id: String):
+	var good := ending_id in ["gangnam_dream", "stable_success", "investment_master",
+		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement"]
+	var bad := ending_id in ["burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral"]
+	var lines: Array = []
+
+	# 아버지 — 화해했는가 (아버지는 항상 존재하는 인물이라 무조건 한 줄)
+	var fs := GameState.get_cast_stage("father")
+	if fs in ["reconciled", "connected", "hopeful", "close"]:
+		if good:
+			lines.append("👨‍🦳  아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.")
+		elif bad:
+			lines.append("👨‍🦳  다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.")
+		else:
+			lines.append("👨‍🦳  아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.")
+	elif fs in ["worried", "health_crisis", "quiet"]:
+		lines.append("👨‍🦳  아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.")
+	else:
+		lines.append("👨‍🦳  창원에는 끝내 한 번도 내려가지 못했다.")
+
+	# 한지연 — 세계가 다른 사람과 어디까지 갔는가
+	var js := GameState.get_cast_stage("jiyeon")
+	if js in ["lover", "honest_together"]:
+		if bad:
+			lines.append("💜  다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」")
+		else:
+			lines.append("💜  한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.")
+	elif js in ["respected", "trust", "close", "connected", "business_partner", "indebted"]:
+		lines.append("💜  한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.")
+	elif js in ["hurt", "disillusioned", "distant", "rejected_help"]:
+		lines.append("💜  한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.")
+	elif js != "unknown":
+		lines.append("💜  한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.")
+
+	# 김다은 — 카페의 그 사람
+	var ds := GameState.get_cast_stage("daeun")
+	if ds in ["lover", "together", "committed", "dating"]:
+		if good:
+			lines.append("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.")
+		elif bad:
+			lines.append("☕  통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.")
+		else:
+			lines.append("☕  다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.")
+	elif ds in ["close", "warm", "interest", "acquaint", "acquaintance"]:
+		lines.append("☕  다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.")
+	elif ds in ["distant", "wary", "uncertain"]:
+		lines.append("☕  그 카페 앞을 지날 때면 걸음이 조금 빨라진다.")
+
+	# 임상철 — 멘토였는가
+	var ss := GameState.get_cast_stage("sangchul")
+	if ss in ["trusted", "mentoring", "guardian"]:
+		if good:
+			lines.append("🏢  임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.")
+		elif bad:
+			lines.append("🏢  임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.")
+		else:
+			lines.append("🏢  임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.")
+	elif ss == "strained":
+		lines.append("🏢  임상철 사장과는 그 일 이후 연락이 끊겼다.")
+	elif ss != "unknown":
+		lines.append("🏢  부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.")
+
+	# 박재혁 — 그 제안의 끝
+	var hs := GameState.get_cast_stage("jaehyuk")
+	if hs == "betrayed":
+		lines.append("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.")
+	elif hs == "reported":
+		lines.append("📱  박재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.")
+	elif hs in ["partner_in_crime", "blackmailed"]:
+		lines.append("📱  박재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.")
+	elif hs in ["suspect", "retreating", "guarded"]:
+		lines.append("📱  박재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.")
+	elif hs != "unknown":
+		lines.append("📱  박재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.")
+
+	var sep := HSeparator.new()
+	sep.add_theme_color_override("color", Color("#252535"))
+	parent.add_child(sep)
+	parent.add_child(_label("👥 그 사람들은", 15, "#c8a060"))
+	for l in lines:
+		parent.add_child(_wrap_label(str(l), 12, "#8a93a6"))
 
 ## ── 런 요약 카드 텍스트 (클립보드 공유용) ──────────────────────────
 func _run_card_text(ending_id: String) -> String:

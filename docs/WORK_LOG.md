@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-06-11 (아크-게임플레이 연결 — 에필로그·패시브·정보 이벤트)
+
+### 설계: "엔딩의 크기는 숫자가, 표정은 관계가 정한다"
+- 아크 선택지에 엔딩 게이트 무게를 더 두면 플레이어가 아크만 파고, 안 두면 선택 체감이 없는 딜레마 해소
+- 엔딩 티어 = 자산/스탯 (현행 유지), 아크 = 에필로그 변형 + 런 중 경제 환류 보상
+
+### 인연 에필로그 (`_ending_cast_epilogue`)
+- 엔딩 화면에 "👥 그 사람들은" 섹션 추가 — 아버지/지연/다은/상철/재혁 최종 stage별 결말 직후 한 장면
+- 성공/실패/중립 엔딩 티어에 따라 같은 관계도 다른 문장 (예: 화해한 아버지 — 성공 시 집들이, 실패 시 「내려와서 밥이나 먹자」)
+- 아버지는 항상 1줄 보장 (방치 시 "창원에는 끝내 한 번도 내려가지 못했다")
+
+### 인연 월간 패시브 (`apply_monthly_pressure`)
+- 아버지 화해(reconciled/connected/hopeful/close) → 매월 정신력 +1
+- 연인 단계(지연 lover/honest_together, 다은 lover/together/committed/dating) → 매월 스트레스 -2
+- 상철 신뢰(trusted/mentoring/guardian) → 4턴마다 투자감각 +1
+
+### 상철 투자 정보 이벤트 2종 (investment_events.json 41→43)
+- `sangchul_tip_redev`: 급매 정보 — opportunity 메커니즘 (성공률 0.62, 배수 1.8, 손실비율 0.5 = 시장 베팅보다 유리한 EV)
+- `sangchul_tip_warning`: 시장 과열 경고 — 수용 시 투자감각 +3/스트레스 -3 (보호형 정보)
+
+### AP 행동 vignette 전환 마무리
+- `_ap_save_money` / `_ap_network`: toast → vignette (SAVE 11종 / NETWORK 10종 풀)
+- 저축 절약 보너스(현금 0.5%, 상한 8만)와 network_count 플래그는 vignette 안에서 유지
+
+---
+
 ## 2026-06-11 (캐릭터 아크 완성 + 온보딩 강화)
 
 ### Priority 5: 온보딩/첫 10분

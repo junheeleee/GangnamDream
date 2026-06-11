@@ -412,6 +412,21 @@ func apply_monthly_pressure():
 		"villa", "apartment":
 			modify_hidden_stat("stress", -1)  # 더 나은 주거 = 삶의 질 ↑
 
+	# ── 인연 패시브 — 깊어진 관계가 서울살이의 바닥을 받쳐준다 ──────
+	# (아크 보상은 엔딩 분기가 아니라 런 중 유지비 절감으로 환류)
+	if get_cast_stage("father") in ["reconciled", "connected", "hopeful", "close"]:
+		modify_stat("mental", 1)
+		if randf() < 0.18:
+			add_log("📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.", "relationship")
+	if get_cast_stage("jiyeon") in ["lover", "honest_together"] \
+			or get_cast_stage("daeun") in ["lover", "together", "committed", "dating"]:
+		modify_hidden_stat("stress", -2)
+		if randf() < 0.18:
+			add_log("💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.", "relationship")
+	if get_cast_stage("sangchul") in ["trusted", "mentoring", "guardian"] and turn % 4 == 0:
+		modify_stat("investment_skill", 1)
+		add_log("🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.", "relationship")
+
 	# ── 칭호 조건 플래그 자동 추적 ───────────────────────────────
 	if money < 0:
 		flags["was_broke_once"] = true
