@@ -1,0 +1,541 @@
+[
+  {
+    "id": "arc_daeun_01_meet",
+    "title": "Buy One Get One",
+    "background": "convenience_night",
+    "portrait": "daeun_smile",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "The convenience store you go to every night.\n\nToday again — one triangle kimbap, and a card held out at the register. Then she speaks.\n\n\"That one's close to expiry, so it's buy one get one. Grab another.\"\n\nThe woman behind the counter. Not a stranger — you'd seen her before. But you'd never heard anything like that.\n\nHow long has it been since anyone in Seoul showed you this kind of kindness?\nFor a moment, the narrow little store felt a different temperature.",
+    "choices": [
+      {
+        "text": "Say thank you — and ask her name  (connection starting / courage·slight distance)",
+        "result_text": "\"...Thank you. I'm in here all the time and you always look out for me.\"\nShe smiled for the first time. \"Kim Daeun. I see you a lot.\"\n\nA small name, exchanged between two people.\nThe Seoul night felt, just a little, less cold.",
+        "flags": [
+          "arc_daeun_met",
+          "met_daeun",
+          "arc_daeun_01_seen"
+        ],
+        "effects": {
+          "mental": 6,
+          "stress": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "met": true,
+            "affinity": 8,
+            "stage": "acquaintance"
+          }
+        }
+      },
+      {
+        "text": "Just nod thanks and leave  (focus maintained / warmth missed)",
+        "result_text": "{name} gave a small bow and stepped out.\nRight now, the only thing in view is ₩3 billion.\n\nStill — the bag with two triangle kimbap in it sat strangely heavy in the hand.",
+        "flags": [
+          "arc_daeun_met",
+          "met_daeun",
+          "arc_daeun_01_seen",
+          "daeun_kept_distance"
+        ],
+        "effects": {
+          "mental": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "met": true,
+            "affinity": 3
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_02_regular",
+    "title": "Regular",
+    "background": "convenience_night",
+    "portrait": "daeun_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "She has {name}'s order memorized now. Triangle kimbap, sometimes cup ramyeon.\nThe late-night convenience store has become a small world just for the two of them.\nTonight, out of nowhere, she says something.\n\"I'm saving up to bring my mom here. She's alone back in the countryside.\nI knew Seoul was expensive, but... not like this.\"\n\nA life carrying the same weight as {name}'s — and it had been right there behind the counter all along.",
+    "choices": [
+      {
+        "text": "Genuinely cheer her on — and pitch in when you can  (connection / money·time)",
+        "result_text": "{name} helped carry her bags sometimes, and left a warm drink now and then.\nNothing big — but they'd become people who understood each other's exhaustion.\nDeep in debt himself — and yet, this warmth was something {name} didn't want to give up.",
+        "flags": [
+          "daeun_supportive",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": 7,
+          "money": -30000,
+          "stress": -4
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 12,
+            "stage": "close"
+          }
+        }
+      },
+      {
+        "text": "Keep a polite distance — you can barely afford yourself  (focus / distance)",
+        "result_text": "{name} stayed warm, but never let things go deeper.\nShe noticed the boundary too and took a small step back.\nCaring costs something — and {name} couldn't afford the bill right now.\nWhether that was wise restraint or lonely avoidance, he couldn't say.",
+        "flags": [
+          "daeun_guarded",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": -2,
+          "stress": -1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 4
+          }
+        }
+      },
+      {
+        "text": "Come out with it — tell her about the ₩3B Gangnam dream  (honesty / vulnerability)",
+        "result_text": "The words came out. For the first time, in front of this person.",
+        "follow_up_event": "arc_daeun_02b_dream",
+        "effects": {
+          "stress": 3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 3
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_02b_dream",
+    "title": "The Dream",
+    "background": "convenience_night",
+    "portrait": "daeun_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "\"Five years from now, I'll be in Gangnam. ₩3 billion in assets.\"\nDaeun went still for a moment, then laughed quietly.\n\"...That's big. But why Gangnam specifically?\"\nThe question stopped {name} cold.\nThere was no contempt in her eyes — just genuine curiosity.",
+    "choices": [
+      {
+        "text": "\"So no one can look down on me.\" Say it straight  (understood / vulnerable)",
+        "result_text": "{name} opened up for the first time — the moments when being poor felt like a mark of shame.\nDaeun listened for a long time, then said quietly:\n\"...I get that. But even without Gangnam, you're not someone people should look down on.\"\nNo one had ever said that to him before.",
+        "flags": [
+          "daeun_understood",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": 9,
+          "stress": -3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 15,
+            "stage": "close"
+          }
+        }
+      },
+      {
+        "text": "\"Just the symbol of success, really.\" Brush it off  (distance kept / opportunity missed)",
+        "result_text": "{name} smiled and kept his real answer buried.\nShe didn't press. The conversation stayed light and safe.\nThe less he showed, the less they grew closer.\nThe chance passed, by one small step.",
+        "flags": [
+          "daeun_deflected",
+          "arc_daeun_regular_seen"
+        ],
+        "effects": {
+          "mental": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_03_fork",
+    "title": "Fork in the Road",
+    "background": "convenience_night",
+    "portrait": "daeun_sad",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "Daeun got a call from home. Her mom's not well — and a stable job has opened up at the local mart.\n\"...I'm thinking of packing up and going back. Seoul is just too much.\"\nShe looks at {name}. An unasked question sitting in her eyes.\n\nIf {name} says the words — let's just live a simple life together — she might stay.\nBut that would mean stepping off the path to ₩3 billion.\nLove and ambition, placed on the same scale.",
+    "choices": [
+      {
+        "text": "\"Don't go. Let's figure this out together.\" Hold on to her  (love·stability / ambition wavers)",
+        "result_text": "For the first time, {name} said something out loud that mattered more than ₩3 billion.\nDaeun's eyes went red. She decided to stay in Seoul.\nGangnam may have moved a little further away. But {name} would no longer be walking that road alone.\nWhether that was weakness or happiness — there would be no answer until the end.",
+        "flags": [
+          "daeun_chose_her",
+          "arc_daeun_fork_seen"
+        ],
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 20,
+            "stage": "lover"
+          }
+        }
+      },
+      {
+        "text": "Say nothing. Let her go  (focus on goal / regret·loss)",
+        "result_text": "{name} couldn't open his mouth. Told himself: you can't afford to be anchored right now.\nDaeun smiled faintly, said \"Take care,\" and turned away.\nAfter that, the late-night convenience store was once again a world of one.\nThe goal was sharp and clear — and one corner of the heart was permanently empty.",
+        "flags": [
+          "daeun_let_her_go",
+          "arc_daeun_fork_seen"
+        ],
+        "effects": {
+          "mental": -8,
+          "stress": 4
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": -5,
+            "stage": "distant"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_03b_date",
+    "title": "Outside the Convenience Store",
+    "background": "pojangmacha",
+    "portrait": "daeun_smile",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance"
+    ],
+    "cooldown": 9999,
+    "description": "She asked. \"Want to go somewhere with me today?\"\n\nFirst time — seeing Daeun outside the store.\n\nAfter going back and forth on where to meet, they ended up at a pojangmacha nearby.\nOne shot of soju. One kimchi jeon.\n\nShe was different away from the counter.\nMore relaxed. More laughs.\n\n{name} said it would be nice if they sold triangle kimbap here — she burst out laughing.\nThe real kind.",
+    "choices": [
+      {
+        "text": "\"Today is enough.\" — Gangnam forgotten for a moment",
+        "result_text": "They talked until late into the night.\nNone of it mattered — what they said.\nOn the way back, she reached for {name}'s hand first.\n{name} said nothing. Nothing needed to be said.",
+        "flags": [
+          "arc_daeun_03b_seen",
+          "daeun_first_date"
+        ],
+        "effects": {
+          "mental": 10,
+          "stress": -6
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 12,
+            "stage": "dating"
+          }
+        }
+      },
+      {
+        "text": "\"Next time I'll take you somewhere better.\" — today feels insufficient",
+        "result_text": "At that, Daeun went quiet for a moment.\n'This right here is already good enough.'\n{name} heard it — and still thought about his bank balance.\nWhen Gangnam comes, things will be better. That's what he told himself.",
+        "flags": [
+          "arc_daeun_03b_seen"
+        ],
+        "effects": {
+          "mental": 5,
+          "stress": 2,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 6
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_04_morning",
+    "title": "This Morning Becomes a Reason",
+    "background": "goshiwon_room",
+    "portrait": "player_happy",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance"
+    ],
+    "cooldown": 9999,
+    "description": "Five in the morning.\n\nDaeun is asleep. The blanket has drifted to one side.\nOutside the window, Seoul's lights haven't gone dark. This city never goes dark.\n\n{name} got up quietly. ₩3 billion is still a long way off. Time is always short.\n\nBut this morning — he didn't want to rush.\nWaking up beside this person, for the first time {name} felt close to knowing.\nWhy he's been running.",
+    "choices": [
+      {
+        "text": "Sit quietly and stay beside her — I want to win for her too",
+        "result_text": "{name} stayed in that spot for a long time.\nNothing happened that morning.\nAnd yet, ₩3 billion felt strangely clear today.\n\nHe wasn't afraid. Now there was someone to go there with.",
+        "flags": [
+          "arc_daeun_04_seen",
+          "daeun_together_path"
+        ],
+        "effects": {
+          "mental": 12,
+          "stress": -8
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 15,
+            "stage": "together"
+          }
+        }
+      },
+      {
+        "text": "Get up and open the laptop — can't let her see me waver",
+        "result_text": "{name} opened the laptop.\nHer breathing became a kind of background sound.\n\nSomewhere between tenderness and obsession,\nhe filled in the numbers again today.",
+        "flags": [
+          "arc_daeun_04_seen"
+        ],
+        "effects": {
+          "stress": 5,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_04b_future",
+    "title": "You and Gangnam",
+    "background": "goshiwon_room",
+    "portrait": "daeun_sad",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "romance"
+    ],
+    "cooldown": 9999,
+    "description": "Late at night. The sound of {name} tapping away at a calculator woke Daeun.\n\nShe watched for a long moment, then asked quietly.\n\"...I get scared sometimes.\"\n\n{name} looked up. She kept going.\n\"When you get to Gangnam... what happens to me?\nYou were the one who made me stay here.\nBut I don't know if the person who makes it there still wants me.\"\n\nThe words hung in the air for a long time.",
+    "choices": [
+      {
+        "text": "\"We go together. It only means something if you're with me.\"",
+        "result_text": "Daeun looked at {name}'s face for a long time.\n\"...Do you mean that?\"\n\"Yeah.\"\nThat night, he closed the calculator.\nHe counted something other than numbers.",
+        "flags": [
+          "arc_daeun_04b_seen",
+          "daeun_committed"
+        ],
+        "effects": {
+          "mental": 8,
+          "stress": -3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 15,
+            "stage": "committed"
+          }
+        }
+      },
+      {
+        "text": "\"When I get to Gangnam I'll treat you better. Bear with it for now.\"",
+        "result_text": "Daeun nodded. \"...Okay.\"\nBut that 'okay' felt strangely weightless.\nWatching her turn away,\n{name} felt he'd lost something. He couldn't say exactly what.",
+        "flags": [
+          "arc_daeun_04b_seen",
+          "daeun_deferred"
+        ],
+        "effects": {
+          "stress": 5,
+          "intelligence": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": -8,
+            "stage": "uncertain"
+          }
+        }
+      },
+      {
+        "text": "\"Honestly I don't know. I need to think about that too.\"",
+        "result_text": "After a pause, Daeun said: \"Thank you. For being honest.\"\nThe night was quiet. Close and far at the same time.\nNeither of them had quite learned yet\nthat honesty doesn't always protect what's between people.",
+        "flags": [
+          "arc_daeun_04b_seen",
+          "daeun_uncertain"
+        ],
+        "effects": {
+          "mental": -3,
+          "stress": 3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5,
+            "stage": "wary"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_regret_draft",
+    "title": "The Text That Never Sent",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "Late at night, picked up the phone — and found himself in Daeun's contact.\n\nLast message: 'Take care.' She'd sent it.\nBelow that — nothing.\n\nHe started typing.\n'Hey, how have you been? You doing okay?'\n\nFinger hovering over send.\nThinking about the ripple that one message would make in her life.\n\nDeleted it.\nTyped it again.\nDeleted it again.",
+    "choices": [
+      {
+        "text": "Send it — a simple check-in is okay",
+        "result_text": "A reply came back a little while later.\n'Oh, hey. Doing fine :)'\nThat one emoji said a lot.\n{name} set the phone down and looked out the window.",
+        "flags": [
+          "arc_daeun_regret_seen",
+          "daeun_texted_her"
+        ],
+        "effects": {
+          "mental": -4,
+          "stress": 4
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        }
+      },
+      {
+        "text": "Don't send it — going back into her life isn't right",
+        "result_text": "Deleted.\nThe screen went black.\n{name} stared at that dark screen for a long time.\nI hope she's doing well. Truly. That's enough.\nThe most {name} could do, right now.",
+        "flags": [
+          "arc_daeun_regret_seen"
+        ],
+        "effects": {
+          "mental": -6,
+          "stress": -2,
+          "intelligence": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_ghost",
+    "title": "A Glimpse of Her",
+    "background": "convenience_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "description": "Stumbled across it on social media.\n\nA photo Daeun took back in her hometown.\nIn front of the mart. Side by side with her mom. One small potted plant. A bright smile.\n\n'Doing just fine :)'\n\n{name} looked at that photo for a long time.\nShe's okay. That thought arrived — and for some reason made the hollow feeling worse.\nIt only now fully landed that she was someone nowhere in Seoul anymore.",
+    "choices": [
+      {
+        "text": "Hit like — hope you're doing well. I'll do the same",
+        "result_text": "He tapped like.\nA moment later, a notification: 'Daeun liked your post.'\n\nNo short comment. {name} said nothing either.\nThat was enough. That was the end.",
+        "flags": [
+          "arc_daeun_ghost_seen",
+          "daeun_saw_her_ok"
+        ],
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 3
+          }
+        }
+      },
+      {
+        "text": "Scroll past — pretend you didn't see it",
+        "result_text": "{name} scrolled down.\nThe next post was a crypto ad.\nLife continued.\n\nOnly the things that never quite arrived stayed behind.",
+        "flags": [
+          "arc_daeun_ghost_seen"
+        ],
+        "effects": {
+          "mental": -8,
+          "stress": 5
+        }
+      }
+    ]
+  }
+]

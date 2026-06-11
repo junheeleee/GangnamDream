@@ -1,0 +1,447 @@
+[
+  {
+    "id": "arc_spec_career",
+    "title": "What Kind of Professional Will You Be?",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "career",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "After about a year on the job — things have started to come into focus.\n\nThere were two ways to move up in this company.\nProve your worth in numbers.\nOr rise through people.\n\nThere were people who knew both paths.\n{name} thought today about which one to take.",
+    "choices": [
+      {
+        "text": "Prove it with results — because numbers don't lie  [Elite Track]",
+        "result_text": "{name} reopened the report.\nAt a desk everyone else had already left, he polished the numbers.\nThis way is lonely. But the results are hard to argue with.\nThat's what {name} decided to lean on.",
+        "effects": {
+          "work_performance": 15,
+          "investment_skill": 3,
+          "intelligence": 5
+        },
+        "flags": [
+          "spec_elite",
+          "pending_spec_career_done"
+        ]
+      },
+      {
+        "text": "Rise through people — because in this world, it always comes back to people  [Social Climber]",
+        "result_text": "{name} bought his team lead lunch first.\nHe became the person who picks up the phone before the calculator does.\nThere are things numbers alone can't cover —\nhe was starting to learn that in his gut.",
+        "effects": {
+          "social_skill": 10,
+          "reputation": 8,
+          "appearance": 3
+        },
+        "flags": [
+          "spec_social_climber",
+          "pending_spec_career_done"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_invest",
+    "title": "How Will You Make Money Work for You?",
+    "background": "meeting",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "investment",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "After a few wins and a few losses — a style of his own had started to form.\n\nSome investors believe in spreadsheets.\nExpected value, standard deviation, correlation.\nPeople who wield the emotionlessness of numbers as a weapon.\n\nSome investors believe in instinct.\nPeople who look for when the market is wrong — and bet big.\n\nWhich way fits {name}?",
+    "choices": [
+      {
+        "text": "Fight with data and probability — stripping out emotion is the edge  [Quant]",
+        "result_text": "From that day on, {name} started building spreadsheets.\nEvery position, laid out in numbers.\nHe was wrong sometimes. But he didn't get shaken.\nThat was the power of this approach.",
+        "effects": {
+          "investment_skill": 10,
+          "intelligence": 6,
+          "stress": -5
+        },
+        "flags": [
+          "spec_quant",
+          "pending_spec_invest_done"
+        ]
+      },
+      {
+        "text": "When conviction comes, bet big — being timid kills compounding  [Speculator]",
+        "result_text": "{name} put in twice as much as usual on a single position.\nIf he was wrong, it was over.\nHe was right.\nAfter that day, {name} decided to trust this instinct.",
+        "effects": {
+          "luck": 8,
+          "investment_skill": 5,
+          "stress": 8
+        },
+        "flags": [
+          "spec_speculator",
+          "pending_spec_invest_done"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_found",
+    "title": "What Will You Build?",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "found",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "People who dream of founding a startup come in two kinds.\n\nThe kind who want to turn an idea into a product.\nPeople who start from the question: 'Why doesn't this exist?'\n\nThe kind who want to gather people.\nPeople who start from: 'Something will happen if these people come together.'\n\nWhich one is {name}?",
+    "choices": [
+      {
+        "text": "Build something nobody else has — product comes first  [Tech Founder]",
+        "result_text": "{name} wrote the first outline in his notebook.\nHe asked not 'can it be built' but 'should it be built' first.\nTechnology is just a tool. If the problem is real, the tool will follow.\nThat was the way {name} believed in.",
+        "effects": {
+          "investment_skill": 5,
+          "intelligence": 8,
+          "luck": 5
+        },
+        "flags": [
+          "spec_tech_founder",
+          "pending_spec_found_done"
+        ]
+      },
+      {
+        "text": "Build a place where people gather — the network is the asset  [Social Entrepreneur]",
+        "result_text": "{name} had his business cards remade.\nAn era where the contact matters more than the title.\nOne person brings two, two bring four.\n{name} decided to be the starting point.",
+        "effects": {
+          "social_skill": 10,
+          "reputation": 10,
+          "luck": 3
+        },
+        "flags": [
+          "spec_social_entrepreneur",
+          "pending_spec_found_done"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_elite_result",
+    "title": "The Day the Numbers Speak",
+    "background": "office",
+    "portrait": "player_suit",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "career",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "Quarterly report presentation day.\n\n{name}'s materials were different. In a room full of other teams' 'vibes' and 'directions,'\n{name} spoke only in numbers. Conversion rates, cost efficiency, six-month trends.\n\nAfterwards, the team lead called him aside.\n\"How did you put this together? Your data sources are different.\"\n\nNot a criticism. Recognition.\nA lonely road. But the numbers didn't lie.",
+    "choices": [
+      {
+        "text": "Accept the recognition — this is my method",
+        "result_text": "The team lead cited {name}'s materials in the next quarter's presentation.\nIt was a quiet way to rise.\nNot flashy — but hard to argue with.\nThat was the nature of the weapon {name} had chosen.",
+        "effects": {
+          "work_performance": 15,
+          "reputation": 8,
+          "intelligence": 4,
+          "stress": -4
+        },
+        "route": "orthodox",
+        "flags": [
+          "arc_spec_elite_result_seen",
+          "elite_recognized"
+        ]
+      },
+      {
+        "text": "But also know that you walked it alone — this loneliness was my choice too",
+        "result_text": "At the team dinner, {name} sat a little apart.\nRecognized for results, but a bit more distance from the people around him.\nThe good and the bad — both part of the method he'd chosen.\n{name} kept walking this path, knowing that.",
+        "effects": {
+          "mental": 10,
+          "work_performance": 8,
+          "stress": -6
+        },
+        "flags": [
+          "arc_spec_elite_result_seen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_climber_result",
+    "title": "The Door People Open",
+    "background": "meeting",
+    "portrait": "player_suit",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "career",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "The team lead pulled {name} aside.\n\"There's a spot opening up in the HQ task force next month.\nIf I put your name in from our side, you can get in.\"\n\nThe relationships {name} had built bore fruit — not through numbers, but another way.\nIt wasn't recognition first. It was trust first.\nHe'd learned that when trust accumulates, opportunity finds you.\n\nBut on the other hand — he also knew that a colleague with better results had been passed over.",
+    "choices": [
+      {
+        "text": "Take the opportunity — this is what my method looks like when it pays off",
+        "result_text": "He joined the task force. The colleague's name never came up.\nFor the first time, {name} looked squarely at the fact\nthat the road to Gangnam has moments that aren't clean.",
+        "effects": {
+          "social_skill": 8,
+          "reputation": 12,
+          "stress": 3
+        },
+        "route": "unorthodox",
+        "flags": [
+          "arc_spec_climber_result_seen",
+          "climber_advanced"
+        ]
+      },
+      {
+        "text": "That colleague is sitting on his mind — is this really the right way",
+        "result_text": "He thought about it for a long time. In the end, he joined anyway.\nBut he bought that colleague lunch. Without saying anything.\nAs long as he kept rising this way — he'd decided to carry at least that much debt.",
+        "effects": {
+          "mental": 8,
+          "intelligence": 5,
+          "stress": -4
+        },
+        "flags": [
+          "arc_spec_climber_result_seen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_quant_result",
+    "title": "The Day the Model Was Right",
+    "background": "trading",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "investment",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "The market crashed.\n\nEveryone panic-selling. Social media flooded with 'it's over.'\n\n{name} opened the spreadsheet.\nThe numbers said — oversold territory. Expected value positive. Entry timing.\n\nHis hands were shaking. Emotion made him doubt the model.\nBut {name} knew: this was where the real test of the quant approach began.",
+    "choices": [
+      {
+        "text": "Follow the model — trust the numbers, not the feeling",
+        "result_text": "He took the position. Three weeks later the market bounced back.\nHe'd bought when everyone else was selling.\nThe model was right. But he also understood how hard it was to actually pull the trigger knowing that.\nThe quant's real competitor isn't the market — it's yourself.",
+        "effects": {
+          "investment_skill": 10,
+          "intelligence": 5,
+          "stress": -5,
+          "money": 800000
+        },
+        "flags": [
+          "arc_spec_quant_result_seen",
+          "quant_vindicated"
+        ]
+      },
+      {
+        "text": "The model might be wrong this time — hold off for now",
+        "result_text": "The market bounced back. {name}'s model had been right.\nBut without trust in it, he'd missed the call.\nNext time — the person who built the model would trust the model.",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 4,
+          "stress": -3
+        },
+        "flags": [
+          "arc_spec_quant_result_seen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_speculator_result",
+    "title": "What Conviction Is Worth",
+    "background": "trading",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "investment",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "{name} had been watching for a long time.\nA sector he'd spotted himself. A stock no one else was paying attention to.\nHe'd read in his gut that institutions were accumulating.\n\nAnd today, he went in big.\nDouble the usual position size.\n\nTwo hours later, major news hit that stock.\nThe price climbed 30%.\n\nIf he'd been wrong, it would have been over. He was right.\nThe speculator's finest moment.",
+    "choices": [
+      {
+        "text": "Take the profit — my gut called it right",
+        "result_text": "Sold. The gain landed in the account.\nThis instinct isn't always right. But today it was.\nThe real question — how he'd handle this instinct when it's wrong —\n{name} didn't yet know.",
+        "effects": {
+          "investment_skill": 8,
+          "luck": 3,
+          "stress": -8,
+          "money": 1500000
+        },
+        "route": "unorthodox",
+        "flags": [
+          "arc_spec_speculator_result_seen",
+          "speculator_big_win"
+        ]
+      },
+      {
+        "text": "Stay in — the ceiling isn't here yet",
+        "result_text": "It went up more. Then pulled back.\nHe cut at -15% from the top.\nStill a profit. But he could have made more.\nThe speculator is fated to walk forever between greed and restraint.",
+        "effects": {
+          "investment_skill": 4,
+          "stress": 10,
+          "luck": -1
+        },
+        "route": "unorthodox",
+        "flags": [
+          "arc_spec_speculator_result_seen",
+          "speculator_greedy"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_tech_result",
+    "title": "First User",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "found",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "Months of building.\nSomething that might never get used.\n\nThen today, a notification.\nThe first real user.\n\nA stranger had sought out what {name} had made and was using it.\n\"This helped me.\" One line.\n\nThis one line was the first confirmation of what {name} had been enduring these months to reach.",
+    "choices": [
+      {
+        "text": "Reach out directly — I want to know more",
+        "result_text": "A reply came back. Pain points, wants, reasons for using it.\nDirections {name} hadn't thought of.\nThe product's direction isn't decided by the person who builds it — it's the person who uses it.\nOne person's feedback taught him that.",
+        "effects": {
+          "intelligence": 6,
+          "social_skill": 3,
+          "mental": 12,
+          "stress": -5
+        },
+        "flags": [
+          "arc_spec_tech_result_seen",
+          "first_user_connected"
+        ]
+      },
+      {
+        "text": "Put your head down and build the next version",
+        "result_text": "Grateful. But now there was work to do.\n{name} opened his notebook and started writing down the next version's list.\nIf one person uses it, ten can.\nIf ten use it, a hundred can.",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 2,
+          "mental": 8
+        },
+        "flags": [
+          "arc_spec_tech_result_seen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arc_spec_social_result",
+    "title": "Compound Interest on Connection",
+    "background": "pojangmacha",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "found",
+      "spec"
+    ],
+    "cooldown": 9999,
+    "description": "Something strange happened.\n\nPerson A, met six months ago, introduced {name} to person B.\nB told C, and C told D.\n\nD reached out.\n\"Do you know Minjun? I'd like to talk about possibly working together.\"\n\n{name} had never met D. But D already knew {name}.\nThis was the moment the network had started moving on its own.",
+    "choices": [
+      {
+        "text": "Set up the meeting with D — this is how network compounding works",
+        "result_text": "He had coffee with D. Around D were E and F.\n{name} handed out five business cards.\nAt first, meeting people had been an investment.\nNow that investment was growing on its own.",
+        "effects": {
+          "social_skill": 8,
+          "reputation": 10,
+          "luck": 4,
+          "stress": 2
+        },
+        "flags": [
+          "arc_spec_social_result_seen",
+          "network_compounding"
+        ]
+      },
+      {
+        "text": "Pause and ask — is all of this genuine",
+        "result_text": "He thought about it. How many in this network were actually sincere.\nProbably not half.\nBut if half are genuine, that's enough.\n{name} sent D a reply.",
+        "effects": {
+          "intelligence": 5,
+          "mental": 6,
+          "stress": -4
+        },
+        "flags": [
+          "arc_spec_social_result_seen"
+        ]
+      }
+    ]
+  }
+]

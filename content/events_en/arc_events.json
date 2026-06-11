@@ -1,0 +1,564 @@
+[
+  {
+    "id": "arc_intro_01_meal",
+    "title": "First Interview",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","intro"],
+    "cooldown": 9999,
+    "description": "A job app led to this.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industry Technology Co., Ltd.' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
+    "choices": [
+      {
+        "text": "Tell the truth — 'There were family circumstances.'",
+        "effects": {"mental": 4, "stress": 3, "social_skill": 2},
+        "flags": ["arc_intro_meal_seen"],
+        "result_text": "The interviewer looked at {name} for a moment. Didn't probe further.\nSomething in her eyes — understanding. Or resignation.\n'...I see. You seem like someone who works hard.'\n\nWalking down the stairs, {name} thought:\nWhether it leads to a job or not — that was the truth.\nAnd that was the only pride {name} had left right now."
+      },
+      {
+        "text": "Gloss over it — 'I was preparing to start a business.'",
+        "effects": {"intelligence": 2, "stress": 5},
+        "flags": ["arc_intro_meal_seen","lied_interview"],
+        "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected."
+      }
+    ]
+  },
+  {
+    "id": "arc_intro_02_dad_call",
+    "title": "The Number",
+    "background": "convenience_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","intro"],
+    "cooldown": 9999,
+    "description": "Convenience store night shift. 3 AM.\n\nDifficult customers, stacking deliveries, mopping floors. Slapping 'discount' stickers on near-expiry items.\nThe fluorescent tubes buzzed. Outside: no one.\n\nPulled out a calculator.\nJust over minimum wage. Not even ₩2,000,000 for a full month of work.\n₩3,000,000,000 ÷ ₩2,000,000 = 1,500 months = 125 years.\n\n125 years.\n\n{name} stared at the calculator screen. Laughed. Because what else can you do.\nSalary alone — mathematically impossible.\n\nFolding delivery boxes, thinking:\nThere has to be another way. There has to be.",
+    "choices": [
+      {
+        "text": "Start by saving aggressively — every won counts. [Saver mindset]",
+        "effects": {"stress": 4, "investment_skill": 2},
+        "flags": ["arc_intro_dad_seen","mindset_saver"],
+        "result_text": "Big money starts from small money.\n{name} finished the shift and kept scanning job apps. Side work, temp work, two jobs.\n\nSeed money. That's the first gate.\nThe number 125 years kept drifting in front of the eyes."
+      },
+      {
+        "text": "Start studying investing — money has to make money. [Investor mindset]",
+        "effects": {"intelligence": 3, "investment_skill": 4, "stress": 2},
+        "flags": ["arc_intro_dad_seen","mindset_investor"],
+        "result_text": "YouTube, books, finance forums.\nAfter the night shift ended, {name} went to the library.\n\nIf salary won't work, money has to work instead.\nCompound interest. Leverage. Assets. {name} read those words seriously for the first time."
+      },
+      {
+        "text": "Someday, my own business. Start writing down ideas. [Founder mindset]",
+        "effects": {"intelligence": 2, "luck": 3, "stress": 3},
+        "flags": ["arc_intro_dad_seen","mindset_founder"],
+        "result_text": "Behind the register, {name} wrote something in a notebook.\nGaps. Demand. Supply. What nobody else was doing.\n\nIdeas alone are nothing yet.\nBut people who write nothing down never begin."
+      }
+    ]
+  },
+  {
+    "id": "arc_intro_03_sns",
+    "title": "2 AM",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","intro"],
+    "cooldown": 9999,
+    "description": "2 AM. The goshiwon room. Can't sleep.\n\nStaring at the ceiling, {name} opened Instagram out of habit. Fingers scrolling the feed.\n\nHigh school friend Park Minho — 'Finally my own home 🏠 Housing lottery win ㅠㅠ Waited 10 years #allIn #30sHomeowner'\nUniversity classmate Lee Suhyeon — Honeymoon photos. Maldives. Turquoise water. A wedding dress.\nDepartment senior Kim Junghoon — Foreign car key flex. BMW 3 Series. 'First day in the company lot 🔑'\n\nEveryone had arrived somewhere.\nOnly {name} was still at the starting line. No, behind the starting line.\n\n₩650,000 rent. Bank balance. The stain on the goshiwon wall.\n\nThe hand holding the phone grew heavy.",
+    "choices": [
+      {
+        "text": "Delete the app — comparison is poison.",
+        "effects": {"mental": 7, "stress": -6},
+        "flags": ["arc_intro_sns_seen","deleted_sns"],
+        "result_text": "Held it down. Deleted it.\nWatching someone else's finish line won't move {name}'s starting line.\n\nThe screen cleared a little. The mind — just a little.\nBut that empty space felt like it could be filled with something."
+      },
+      {
+        "text": "Use that feeling as fuel — just you wait.",
+        "effects": {"intelligence": 4, "stress": 5, "mental": 2},
+        "flags": ["arc_intro_sns_seen","envy_fuel"],
+        "result_text": "Envy turned to anger.\n'Just you wait' is dangerous — it can burn the person who feels it.\n\nBut right now this is all there is to run on.\n{name} turned off the phone and closed the eyes. Seoul's night wasn't over yet."
+      },
+      {
+        "text": "Just look. Jealous is jealous.",
+        "effects": {"mental": -3, "stress": 4},
+        "flags": ["arc_intro_sns_seen"],
+        "result_text": "Scrolled to the end. Even hit Like.\n\nDecided not to pretend not to be jealous. That's honest too.\nBut the honesty of that night — ached a little long."
+      }
+    ]
+  },
+  {
+    "id": "arc_intro_04_hyunsu",
+    "title": "Next Door",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","intro"],
+    "cooldown": 9999,
+    "description": "Goshiwon shared kitchen. 1 AM.\n\nA narrow space with only one fluorescent tube working.\n{name} was pouring hot water into a cup ramen when the door opened behind.\n\nThe neighbor from next door. They'd crossed paths before — but this was the first time.\n'...You're doing ramen too.'\n\nHe spoke first. Hollows under his eyes. The face of someone who sits for a long time.\nLooks about twenty-six. The person whose desk was always piled with notebooks.\n\n'Fourth year studying for the civil service exam. This is my last year — I say that every year.'\nHe gave a half-laugh. A smile that didn't quite reach the eyes.\n\n'What about you? What do you do?'",
+    "choices": [
+      {
+        "text": "'I don't really know yet. Still figuring it out.'",
+        "effects": {"mental": 5, "social_skill": 3, "stress": -3},
+        "cast_effects": {"hyunsu": {"met": true, "affinity": 12}},
+        "flags": ["arc_intro_hyunsu_seen"],
+        "result_text": "Hyunsu nodded.\n'That's the most honest answer.'\n\nThe two of them ate ramen in silence in the narrow kitchen.\nJust knowing there's someone on the other side of this thin wall in the same situation —\ntonight was a little less cold."
+      },
+      {
+        "text": "'I'm going to Gangnam. Within five years.'",
+        "effects": {"mental": 6, "stress": 2},
+        "cast_effects": {"hyunsu": {"met": true, "affinity": 8, "flags": ["told_dream"]}},
+        "flags": ["arc_intro_hyunsu_seen","declared_dream"],
+        "result_text": "Hyunsu stopped mid-ramen and looked at {name}.\nExpected a laugh. Didn't get one.\n'...You mean it, don't you.'\n\nA short silence. Then, quietly:\n'Somehow I feel like you'll actually go.'\nThat line stayed. Coming from someone who'd been looking at the same wall for four years."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_01_meet",
+    "title": "Why Gangnam?",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","sangchul"],
+    "cooldown": 9999,
+    "description": "A small real estate office in the Sinchon alleys.\nWalked in to check studio apartment prices.\n\nA man in his fifties looked at {name} over his glasses.\n'A studio? With your budget, the deposit's going to be tight.'\n\nTrue — nothing to say to that. About to leave when he called.\n'Have a coffee before you go. No customers anyway.'\n\nHe made instant coffee, then asked:\n'Where do you want to live?'\n'...Gangnam.'\nHe didn't smile or sneer. Just looked.\n'Why?'",
+    "choices": [
+      {
+        "text": "'I... want to show my father. Just once.'",
+        "effects": {"mental": 6, "intelligence": 3},
+        "cast_effects": {"sangchul": {"met": true, "affinity": 15, "stage": "interested", "flags": ["knows_dad_reason"]}},
+        "flags": ["arc_sangchul_met_seen"],
+        "result_text": "The first time that reason had been spoken out loud.\nIm Sangchul looked at {name} for a long moment, then nodded.\n'That 'why' is solid. Then that's enough.'\n'When you're shaken, it'll hold you. Here's my card — stop by sometime.'\nFor the first time in an unfamiliar city — {name} had someone to know."
+      },
+      {
+        "text": "'Doesn't everyone want Gangnam if they have the money?'",
+        "effects": {"intelligence": 4, "stress": 2},
+        "cast_effects": {"sangchul": {"met": true, "affinity": 6, "stage": "watching"}},
+        "flags": ["arc_sangchul_met_seen"],
+        "result_text": "Im Sangchul chuckled.\n'Never seen someone who answered that way actually make it.'\n'If Gangnam is the goal, you won't get there. Only people who use Gangnam as a means do.'\nDidn't know what that meant then. Left with just the business card."
+      },
+      {
+        "text": "Honest — 'Because I refuse to lose. To this city.'",
+        "effects": {"mental": 5, "stress": -2, "intelligence": 2},
+        "cast_effects": {"sangchul": {"met": true, "affinity": 12, "stage": "interested"}},
+        "flags": ["arc_sangchul_met_seen","pride_motive"],
+        "result_text": "Im Sangchul set down his coffee.\n'...I said the same thing thirty years ago. Coming up from South Chungcheong Province.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'You — don't lose anything. If you're going, go without losing.'\nThere was a weight in that."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_01_crash",
+    "title": "Contact",
+    "background": "street_rainy",
+    "portrait": "jiyeon_normal",
+    "cg": "cg_jiyeon_crash",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jiyeon"],
+    "cooldown": 9999,
+    "description": "Spring afternoon. On the way to work.\nPedaling the bike, turning into an alley — a black foreign car swung out and clipped the front wheel.\n\n{name} hit the asphalt. Knee scraped. Front wheel bent.\n\nA woman gets out of the car. About the same age. Expensive clothes, expensive car, flustered face.\n\n'Oh no — are you okay? I can call insurance—'\n\n{name} stands the bike back up. Checks the wheel. Checks the watch.\n12 minutes to the start of the shift.",
+    "choices": [
+      {
+        "text": "'I'm fine.' — Just leave.",
+        "effects": {"stress": 3},
+        "flags": ["arc_jiyeon_crash_seen","jiyeon_walked_away"],
+        "cast_effects": {"jiyeon": {"met": true, "stage": "curious", "affinity": 8}},
+        "result_text": "No compensation, no contact. {name} walks.\nDoesn't look back.\n\nThe woman stays rooted to the spot, watching the figure recede.\n— Never seen anyone do that before."
+      },
+      {
+        "text": "Show the bent wheel — 'Just the repair cost, please.'",
+        "effects": {"money": 80000},
+        "flags": ["arc_jiyeon_crash_seen","jiyeon_took_money"],
+        "cast_effects": {"jiyeon": {"met": true, "stage": "transaction", "affinity": 2}},
+        "result_text": "She takes out two ₩50,000 notes from her wallet. No hesitation.\n'Is that enough? If not—'\n'It's fine.'\n\n{name} pockets the money and walks.\nTo her, this was probably lunch money."
+      },
+      {
+        "text": "Get angry — 'You need to watch where you're driving.'",
+        "effects": {"stress": -2, "mental": 2},
+        "flags": ["arc_jiyeon_crash_seen","jiyeon_got_angry"],
+        "cast_effects": {"jiyeon": {"met": true, "stage": "awkward", "affinity": 5}},
+        "result_text": "Words that had been held in came out. She bows her head.\n'...I'm really sorry.'\n\nIt seemed genuine. Which made it impossible to stay angry.\n{name} sighs and walks the bent bike away.\nThe weight of her gaze lingered."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_02_store",
+    "title": "You Again",
+    "background": "convenience_night",
+    "portrait": "jiyeon_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jiyeon"],
+    "cooldown": 9999,
+    "description": "Convenience store night shift.\nPast midnight. The door chime rings.\n\n{name} stops.\nIt's her. The woman who drove the car that hit the bike.\n\nShe recognizes {name} too. Her eyes go wide.\n'...Oh? The one from—?'\n\nA bottle of wine in her hand. Clothes that don't belong in this neighborhood.\nWhy is she here, at this hour, at this store?",
+    "choices": [
+      {
+        "text": "Pretend not to know her. Ring it up.",
+        "effects": {"stress": 2},
+        "flags": ["arc_jiyeon_store_seen"],
+        "cast_effects": {"jiyeon": {"affinity": 3, "stage": "curious"}},
+        "result_text": "'₩15,000.'\n{name} scans the barcode mechanically.\n\nShe looks like she's about to say something. Hands over the card. Bags up. Picks it up.\nAt the door, one last look back.\n'...You work here.'\nThe door closes. Chime rings."
+      },
+      {
+        "text": "'The car.' Acknowledge her first.",
+        "effects": {"social_skill": 2},
+        "flags": ["arc_jiyeon_store_seen","jiyeon_acknowledged"],
+        "cast_effects": {"jiyeon": {"affinity": 12, "stage": "interest"}},
+        "result_text": "Her face lights up. Relieved.\n'You remember me! I felt so bad — I looked around for a while after you left.'\n'Nothing to look for.'\n'But people don't usually just walk away like that.'\nShe hesitates a moment, then:\n'I'm Han Jiyeon.'\nFor the first time that day — a name."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_03_offer",
+    "title": "Let Me Make It Up to You",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jiyeon"],
+    "cooldown": 9999,
+    "description": "A few days later. Coming out after the shift — her car is parked in front.\n\nHan Jiyeon steps out. This time she came with a purpose.\n\n'Let me buy you one coffee. If not that, then a meal.\nI can't stop thinking about it. You were the one in the wrong spot, and you left without taking anything.'\n\nSeems genuine. But {name} knows.\nThey come from different worlds. A cup of coffee is fine — but what comes after is a distance too wide to close.",
+    "choices": [
+      {
+        "text": "Decline — 'Please don't worry about it. I'm really fine.'",
+        "effects": {"mental": 3, "stress": -2},
+        "flags": ["arc_jiyeon_offer_seen","jiyeon_refused_coffee"],
+        "cast_effects": {"jiyeon": {"affinity": 6, "stage": "intrigued"}},
+        "result_text": "{name} shakes the head and walks toward the subway.\n\nJiyeon doesn't follow. Instead, from behind:\n'Why do you keep running away?'\n\n{name} doesn't stop. But those words follow.\n— Running? Is this running?\nJiyeon found herself more curious about {name} than ever."
+      },
+      {
+        "text": "Accept — just the coffee. Once.",
+        "effects": {"social_skill": 3, "mental": 2},
+        "flags": ["arc_jiyeon_offer_seen","jiyeon_had_coffee"],
+        "cast_effects": {"jiyeon": {"affinity": 15, "stage": "connected"}},
+        "result_text": "Sat across from her.\nA café that felt expensive just sitting in it. ₩7,000 Americano.\n\n'I wanted to hear about the gap on your résumé.'\nShe'd looked {name} up. Somehow.\n\n{name} thought about how much to say.\nThis person — what did she actually want?"
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_03b_lunch",
+    "title": "Her World",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jiyeon"],
+    "cooldown": 9999,
+    "description": "Jiyeon said she was buying lunch. A promise.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: ₩40,000.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n'Actually I'm interested in investing. I'm studying for my father's company, but there's no one in my circle who does this, which is frustrating.'\n\n{name} thought for a moment.\nWhat exactly does this person want — impossible to read clearly.",
+    "choices": [
+      {
+        "text": "'I'm studying it too. Let's talk.' — Approach as investment partners.",
+        "effects": {"investment_skill": 3, "social_skill": 2, "stress": 2},
+        "cast_effects": {"jiyeon": {"affinity": 12, "stage": "business_partner"}},
+        "flags": ["arc_jiyeon_03b_seen","jiyeon_investment_talk"],
+        "result_text": "Two hours of real estate, pre-sales, investment talk.\nJiyeon knew a lot. Had studied hard.\nWhat {name} knew and what she knew were different. Because of where they came from.\n{name} tried to pay for the lunch. Reached — but she'd already put down the card."
+      },
+      {
+        "text": "'Let's just enjoy lunch today.' — Don't define the relationship yet.",
+        "effects": {"mental": 5, "stress": -3},
+        "cast_effects": {"jiyeon": {"affinity": 6}},
+        "flags": ["arc_jiyeon_03b_seen","jiyeon_deflected_business"],
+        "result_text": "Lunch was good. Conversation light.\nOn the way out she said: 'Where do you want to go next time?'\n'Next time' was created. What kind of next time — still unknown."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_05_epilogue",
+    "title": "After",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jiyeon"],
+    "cooldown": 9999,
+    "description": "The morning after {name} told her everything —\nJiyeon sent a message first.\n\n'I'm scared you might still be angry.\nI talked so much yesterday... I'm a little weird, aren't I?'\n\n{name} stared at the phone.\n\nA woman with three layers of reason.\nBecause of her father's company. Because she needed an investor. And because she wanted someone close.\n\nWhat can this become?",
+    "choices": [
+      {
+        "text": "'You're not weird. That's just being human.' — Accept it.",
+        "effects": {"mental": 8, "stress": -5},
+        "cast_effects": {"jiyeon": {"affinity": 15, "stage": "close"}},
+        "flags": ["arc_jiyeon_epilogue_seen","jiyeon_accepted"],
+        "result_text": "Sent the reply.\nA moment later, hers: 'You're weird too. That's why I like it.'\n{name} half-smiled. Felt like there was one more reason to reach Gangnam."
+      },
+      {
+        "text": "'Jiyeon — Gangnam still comes first for me.' — Draw a clear line.",
+        "effects": {"intelligence": 3, "stress": 3},
+        "cast_effects": {"jiyeon": {"affinity": -5, "stage": "respected"}},
+        "flags": ["arc_jiyeon_epilogue_seen","jiyeon_prioritized_goal"],
+        "result_text": "Jiyeon went quiet, then: '...I understand. That's more honest.'\nThe next day, a document on pre-sale rights came from her.\n'If you need help on this side, reach out. That part was genuine.'\nBusiness partners — without the feelings."
+      },
+      {
+        "text": "'I understand all three reasons.' — No judgment.",
+        "effects": {"mental": 6, "stress": -2},
+        "cast_effects": {"jiyeon": {"affinity": 10, "stage": "honest_together"}},
+        "flags": ["arc_jiyeon_epilogue_seen","jiyeon_forgave_complexity"],
+        "result_text": "Jiyeon went quiet a moment, then said: '...That's the scariest thing you've said. Because I'm grateful.'\nGangnam and feelings and calculation all tangled in this.\nDecided not to give up on it for being complicated."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_01_reunion",
+    "title": "Ten Years",
+    "background": "pojangmacha",
+    "portrait": "jaehyuk_friendly",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jaehyuk"],
+    "cooldown": 9999,
+    "description": "A KakaoTalk message.\n'Hey {name}! It's me, Jaehyuk. Choi Jaehyuk from the army. You remember, right? I'm in Seoul — let's catch up.'\n\nHis profile photo: him standing in front of a foreign car.\nTwenty-two, same barracks. Three years close, then lost touch after discharge.\n\nJaehyuk at the pojangmacha was different.\nGood clothes, expensive watch, confident face.\n'You haven't changed at all! Here, let me pour you one.'\nHe pays. No hesitation when the card comes out.",
+    "choices": [
+      {
+        "text": "Glad to see him — an old friend after a long time.",
+        "effects": {"mental": 6, "social_skill": 2, "stress": -3},
+        "cast_effects": {"jaehyuk": {"met": true, "affinity": 12, "stage": "reunited"}},
+        "flags": ["arc_jaehyuk_reunion_seen"],
+        "result_text": "Old army stories stretched into the night.\nFirst time laughing out loud in a while. A welcome face in a hard stretch.\n'Let's meet up often, {name}. I'll be in touch.'\nJaehyuk seemed genuine. At least that night."
+      },
+      {
+        "text": "Glad, but keeping some distance.",
+        "effects": {"intelligence": 3, "stress": 2},
+        "cast_effects": {"jaehyuk": {"met": true, "affinity": 5, "stage": "reunited", "flags": ["kept_distance"]}},
+        "flags": ["arc_jaehyuk_reunion_seen"],
+        "result_text": "Clinked glasses and smiled — but something sat uneasily.\nSomeone who contacts you after ten years is doing this well.\nWhy now, why me.\n{name} pushed that thought away. It's an old friend."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_02_bond",
+    "title": "Brothers",
+    "background": "cafe",
+    "portrait": "jaehyuk_friendly",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jaehyuk"],
+    "cooldown": 9999,
+    "description": "After that, Jaehyuk kept in touch.\nBought meals, bought drinks, sometimes tried to slip money over.\n\n'You're struggling lately, aren't you? Take this, come on, we're not strangers.'\n{name} didn't take it. But the gesture felt genuine.\n\nToday: a café. Jaehyuk takes out his phone.\n'{name}, honestly I've been making pretty good money investing. Pretty good money.'\nShows the screen. Profit graph. Numbers going sharply up.\n'If you're interested I'll fill you in. No pressure.'",
+    "choices": [
+      {
+        "text": "Show interest — 'How does it work?'",
+        "effects": {"investment_skill": 2, "stress": 2},
+        "cast_effects": {"jaehyuk": {"affinity": 10, "stage": "trusted", "flags": ["showed_interest"]}},
+        "flags": ["arc_jaehyuk_bond_seen"],
+        "result_text": "Jaehyuk's eyes lit up.\n'I knew you'd get it. I'll tell you everything slowly.'\nThe returns he showed were unrealistically good.\nToo good to be good — {name} forgot that then."
+      },
+      {
+        "text": "Thanks, but pass — 'Investing isn't really my thing.'",
+        "effects": {"intelligence": 3, "mental": 2},
+        "cast_effects": {"jaehyuk": {"affinity": 4, "stage": "trusted", "flags": ["hesitant"]}},
+        "flags": ["arc_jaehyuk_bond_seen"],
+        "result_text": "'Ah, I'm not saying do it now. Just saying.'\nJaehyuk laughed and changed subjects.\nBut that profit graph stayed in the mind.\nIf it's real... {name} shook the thought off. For now."
+      },
+      {
+        "text": "Those returns are too good — quietly start to wonder.",
+        "effects": {"intelligence": 5, "stress": 3},
+        "cast_effects": {"jaehyuk": {"affinity": 2, "stage": "trusted", "flags": ["doubting"]}},
+        "flags": ["arc_jaehyuk_bond_seen"],
+        "result_text": "'Jaehyuk — this looks too good. Is this actually real?'\nJaehyuk's expression froze for half a second, then cleared.\n'Ha, that's exactly why everyone doubts it and passes. Your call.'\nThat half-second — {name} didn't miss it."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_03_pitch",
+    "title": "Last Chance",
+    "background": "meeting",
+    "portrait": "jaehyuk_charisma",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jaehyuk"],
+    "cooldown": 9999,
+    "description": "Jaehyuk called with a serious tone. A hotel lounge.\n\n'{name}, this is just between us.\nSomething big is coming in. Triple your principal. But there's only a slot until this week.'\n\nHe leans in.\n'You want Gangnam, right. How long will you get there on a salary? This is the shortcut.\nTrust me, yeah? Are we strangers? We lived and died together.'\n\nThe account balance comes to mind. Gangnam comes to mind.\nAnd then Father comes to mind.\n\nDecision. Now.",
+    "choices": [
+      {
+        "text": "Put in everything — trust Jaehyuk.",
+        "effects": {"money": -3000000, "stress": 8},
+        "cast_effects": {"jaehyuk": {"affinity": 5, "stage": "all_in", "flags": ["invested"]}},
+        "flags": ["arc_jaehyuk_pitch_seen","jaehyuk_trusted_fully"],
+        "route": "unorthodox",
+        "result_text": "Cleaned out the account. Nearly everything.\nJaehyuk pats the shoulder. 'Good call. You'll be laughing soon.'\n\nThat night, {name} couldn't sleep.\nWhether it was anticipation or dread — impossible to tell."
+      },
+      {
+        "text": "Put in a portion — want in, but won't bet it all.",
+        "effects": {"money": -1000000, "stress": 5, "intelligence": 2},
+        "cast_effects": {"jaehyuk": {"affinity": 3, "stage": "partial", "flags": ["invested"]}},
+        "flags": ["arc_jaehyuk_pitch_seen","jaehyuk_partial"],
+        "result_text": "'Jaehyuk, this much is all I can do. More would be too much.'\nJaehyuk looks faintly disappointed. 'Well... still something. Thanks.'\nNot going all-in was an instinct.\nThat instinct might save {name} later."
+      },
+      {
+        "text": "Refuse. And quietly start looking into it.",
+        "effects": {"intelligence": 6, "stress": 6},
+        "cast_effects": {"jaehyuk": {"affinity": -5, "stage": "suspect", "flags": ["suspected"]}},
+        "flags": ["arc_jaehyuk_pitch_seen","jaehyuk_refused"],
+        "route": "orthodox",
+        "result_text": "'Let me think about it.' {name} left.\nWent home and started searching.\nThe investment product Jaehyuk mentioned. The company name. Similar fraud cases.\n\nResults started appearing one by one.\nA cold feeling ran down the spine."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_04a_ghost",
+    "title": "Gone",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "cg": "cg_jaehyuk_reveal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jaehyuk","crisis"],
+    "cooldown": 9999,
+    "description": "Settlement day. Tried to reach Jaehyuk.\n\nNo 'Read' receipt.\nPhone rings and rings, then drops.\nKakaoTalk profile photo: gone.\n\nThree days for unease to become certainty.\n\nSearched the company name Jaehyuk had mentioned.\nA victim support café comes up.\nDecades of posts on the board. The same name. Choi Jaehyuk.\n\n{name} wasn't alone.\n'We lived and died together' —\nthe most expensive lie ever told.",
+    "choices": [
+      {
+        "text": "Fall apart — can't do anything for a while.",
+        "effects": {"mental": -15, "stress": 20, "health": -8},
+        "cast_effects": {"jaehyuk": {"affinity": -100, "stage": "betrayed"}},
+        "flags": ["arc_jaehyuk_ghost_seen","jaehyuk_scammed","hit_rock_bottom"],
+        "result_text": "Spent days lying on the goshiwon floor.\nOnly looked at the ceiling. The account was empty. Gangnam felt farther.\n\nBut strangely — once you've hit the bottom, there's nowhere lower to go.\nThe only thing left to do was get back up.\nSomeday, without fail — take this money back."
+      },
+      {
+        "text": "Join the victims' group — not alone in this.",
+        "effects": {"mental": -8, "stress": 12, "intelligence": 4},
+        "cast_effects": {"jaehyuk": {"affinity": -100, "stage": "betrayed"}},
+        "flags": ["arc_jaehyuk_ghost_seen","jaehyuk_scammed","joined_victims"],
+        "result_text": "Joined the café and posted.\n'Me too. He was my army buddy.'\n\nComments: 'Same.' 'My classmate too.'\nHe always targeted people close. Used trust as his weapon.\n\nVictims started gathering. {name} ended up at the center.\nThere was still a way to get some of it back."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_04b_counter",
+    "title": "Counter",
+    "background": "meeting",
+    "portrait": "jaehyuk_cornered",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","jaehyuk"],
+    "cooldown": 9999,
+    "description": "{name} spent a month quietly gathering.\nJaehyuk's investment product structure. Money flow. Testimony from other victims.\n\nIt was a textbook Ponzi scheme. New money covering old payouts.\nOnce the structure was understood, the weak points appeared.\n\nMet Jaehyuk again. This time {name} called the meeting.\n'Jaehyuk. I know everything. The company structure. The victims.'\nJaehyuk's face goes white.\n'...What are you going to do.'\n\nA moment of decision. What kind of person will {name} become?",
+    "choices": [
+      {
+        "text": "Turn him in — do the right thing.",
+        "effects": {"mental": 10, "stress": -5, "reputation": 8},
+        "cast_effects": {"jaehyuk": {"affinity": -100, "stage": "reported"}},
+        "flags": ["arc_jaehyuk_counter_seen","jaehyuk_reported","took_high_road"],
+        "route": "orthodox",
+        "result_text": "Handed the evidence to the police. Along with victim statements.\nJaehyuk was arrested. {name} didn't get the money back.\nBut at least stopped more people from being hurt.\n\nIm Sangchul said: 'Good. You protected something more important than money.'\n{name} had empty hands — but could look in the mirror."
+      },
+      {
+        "text": "Hold the leverage and negotiate — get my money back, and then some.",
+        "effects": {"money": 8000000, "mental": -6, "stress": 10},
+        "cast_effects": {"jaehyuk": {"affinity": -100, "stage": "blackmailed"}},
+        "flags": ["arc_jaehyuk_counter_seen","jaehyuk_exploited","crossed_line"],
+        "route": "unorthodox",
+        "result_text": "'I won't report you. But give me triple my money back. One week.'\nJaehyuk nodded, trembling. The money came.\n\nOne step closer to Gangnam. But that night,\n{name} spent a long time thinking about how they were any different from Jaehyuk.\nCouldn't find an answer."
+      },
+      {
+        "text": "Pull him in and run a bigger scheme — turn fraud into business.",
+        "effects": {"money": 5000000, "mental": -12, "stress": 14, "investment_skill": 6},
+        "cast_effects": {"jaehyuk": {"affinity": -50, "stage": "partner_in_crime"}},
+        "flags": ["arc_jaehyuk_counter_seen","jaehyuk_partnered","fell_to_darkness"],
+        "route": "unorthodox",
+        "result_text": "'Instead of reporting — let's work together. But this time, properly.'\nIn Jaehyuk's eyes: relief and fear mixed.\n\n{name} crossed the line. Gangnam will get closer.\nFast. Dirty.\nIs the apartment Dad never got — supposed to be bought with this money?\nThat question, {name} decided not to ask. For now."
+      }
+    ]
+  },
+  {
+    "id": "arc_opp_sangchul_realty",
+    "title": "Sangchul's Call",
+    "background": "realestate_office",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {"min_turn": 9999},
+    "tags": ["story","arc","sangchul","opportunity"],
+    "cooldown": 9999,
+    "description": "A call from Im Sangchul after a long time.\n\n'Minjun, I heard you've saved up some seed money. Something just came up.'\n\nA villa right before redevelopment. The owner in a rush, listed well below market.\nSangchul had held it through his contacts.\n\n'If the redevelopment is confirmed within a year, you're looking at double. If not — it sits.\nThirty years in this business, I think this one has decent odds.\nBut it's your call. I'm not recommending or warning.'\n\nA significant portion of current funds. Not a gamble — but not safe either.",
+    "choices": [
+      {
+        "text": "Trust him — trust Sangchul's thirty years.",
+        "effects": {"stress": 6},
+        "opportunity": {
+          "stake_ratio": 0.7,
+          "success_rate": 0.42,
+          "win_multiplier": 2.8,
+          "loss_ratio": 0.55,
+          "luck_factor": 0.002,
+          "skill_gain": 5,
+          "win_flag": "sangchul_deal_won",
+          "lose_flag": "sangchul_deal_lost"
+        },
+        "cast_effects": {"sangchul": {"affinity": 10, "stage": "trusted"}},
+        "flags": ["arc_opp_sangchul_seen"],
+        "result_text": "Stamped the contract with Sangchul.\nHe pats the shoulder. 'Good. Now waiting is the work.'\nReal estate is different from stocks. Slower — but heavier.\nWhatever happens, {name} got on the board for the first time."
+      },
+      {
+        "text": "Put in only a little — don't get greedy.",
+        "effects": {"stress": 2, "intelligence": 2},
+        "opportunity": {
+          "stake_ratio": 0.3,
+          "success_rate": 0.44,
+          "win_multiplier": 2.0,
+          "loss_ratio": 0.55,
+          "luck_factor": 0.002,
+          "skill_gain": 3,
+          "win_flag": "sangchul_deal_won",
+          "lose_flag": "sangchul_deal_lost"
+        },
+        "cast_effects": {"sangchul": {"affinity": 5}},
+        "flags": ["arc_opp_sangchul_seen"],
+        "result_text": "'Not overextending is right.' Sangchul nods.\nHalf confidence, half bet.\n{name} decided to stake only what fits in the bucket. That's how you last."
+      },
+      {
+        "text": "Pass — protect the money for now.",
+        "effects": {"mental": 3, "intelligence": 2},
+        "cast_effects": {"sangchul": {"affinity": 3}},
+        "flags": ["arc_opp_sangchul_seen"],
+        "result_text": "'Good. The times you don't act are what keep you alive.'\nSangchul wasn't disappointed.\nBut a few months later, the redevelopment news came out.\nSangchul didn't mention it. {name} noticed on their own."
+      }
+    ]
+  }
+]
