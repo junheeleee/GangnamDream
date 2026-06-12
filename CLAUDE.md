@@ -9,9 +9,9 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **콘텐츠 심화** — 죽은 플래그 → 콜백 이벤트 연결 작업 중 |
-| **최근 완료** | **콜백 이벤트 5차 배치 완성** — 17개 (재벌연락/그림자투자/상철거절/전세경매/지갑죄책감/FOMO/선언/삭제SNS/시기연료/솔직우정/부모빚/탈출흔적/아버지청년/아버지건강/프리랜서2호). 배치 1~5 총 87개 콜백 이벤트 완성. |
-| **다음 작업** | **콜백 6차 배치** — 잔여 dead flag 우선순위: sangchul_tip_win/lose / daeun_supportive/guarded/understood/deflected / wallet_job_taken/declined / credit_backed_down/went_over_head / coin_let_go / hoesik_pushed_through/halfday/dodged / climber_advanced/elite_recognized / father_going_soon/father_reconciled_started |
-| **마지막 업데이트** | 2026-06-12 (콜백 5차 배치 17개 완성) |
+| **최근 완료** | **콜백 이벤트 배치 17~19 완성** — 44개 추가. 버그픽스 3건 (cafe_00 무직텍스트/finance_012 max_money/season_lunar_new_year no_job). 배치 1~9 총 131개 콜백 이벤트 완성. |
+| **다음 작업** | **콜백 10차 배치** — 잔여 dead flag: father_going_soon / startup_exit / startup_founded / startup_growing / jobswitch_took/declined/hesitated / headhunted / lied_at_reunion / came_clean_to_friend / deleted_gambling_apps / hit_rock_bottom / promised_father_gangnam / took_gray_tip / took_high_road |
+| **마지막 업데이트** | 2026-06-12 (콜백 배치 17~19 완성, 버그픽스 3건) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

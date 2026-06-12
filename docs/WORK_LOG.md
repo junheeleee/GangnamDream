@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-06-12 (콜백 이벤트 배치 17~19 완성 + 버그픽스 3건)
+
+### 추가된 것
+- **콜백 이벤트 배치 17** (14개 KR+EN): jaehyuk_publicly_exposed / jaehyuk_standoff_won / jaehyuk_testified / father_warm_moment / father_reconciliation_deepened / parent_bond_deepened / parents_debt_repaid / sangchul_deal_regret / sangchul_deeper_trust / chain_exec_hired / credit_recovery_started / loan_payoff_planned / lie_forgiven / lie_full_confession
+- **콜백 이벤트 배치 18** (15개 KR+EN): daeun_supportive / daeun_guarded / daeun_understood / daeun_deflected / wallet_job_taken / wallet_declined_reward / credit_backed_down / credit_went_over_head / coin_let_go / hoesik_pushed_through / hoesik_halfday / hoesik_dodged / climber_advanced / elite_recognized / father_reconciled_started
+- **콜백 이벤트 배치 19** (15개 KR+EN): shadow_burned / shadow_investigated / guarantee_confronted / guarantee_legal_route / freelance_growing / sns_content_started / startup_going_solo / jeonse_chased_landlord / daeun_reconnected / helped_failed_friend / envy_fuel_shifted / hoesik_boundary_set / holiday_reconciled / declared_dream / deleted_sns
+- `DataRegistry.gd`: callback_events_17~19 등록
+
+### 버그픽스
+- `scenario_cafe.json` `cafe_00`: 취업 상태와 무관하게 "무직 주제에" 텍스트 노출 → 해당 구절 제거
+- `investment_events.json` `finance_012`: 현금 보유 상관없이 잔액 부족 이벤트 발동 → `max_money: 500000` 조건 추가
+- `life_events.json` `season_lunar_new_year`: 취업 중에도 "취직은 했어?" 텍스트 노출 → `no_job: true` 조건 추가
+
+### 현황
+- 콜백 이벤트 총 131개 완성 (배치 1~9)
+- 감사(audit) ERROR 0 통과
+
+---
+
 ## 2026-06-12 (비주얼+오디오 업그레이드 준비)
 
 ### 추가된 것
