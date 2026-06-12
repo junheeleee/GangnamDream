@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_father_apology_made_echo",
+    "title": "After the Apology",
+    "description": "A month since you apologized to your father.\nHe said 'It's fine.'\nToday a call came from him.",
+    "choices": [
+      {
+        "text": "Answer warmly",
+        "result_text": "He didn't say much — just asked how you were.\nBut the fact that he called — was the answer in itself.\nThe apology had melted something that had built up."
+      },
+      {
+        "text": "Keep it short",
+        "result_text": "You talked briefly.\nHe talked about his health.\nFirst call after an apology — awkward, but that was the beginning."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_story_heard_echo",
+    "title": "Your Father's Story",
+    "description": "Two months since you heard your father's story of his younger days.\nFor the first time then, he felt like a person — not just a father.\nToday he brought up a similar story again.",
+    "choices": [
+      {
+        "text": "Ask deeper this time",
+        "result_text": "He talked for an hour.\nInside that hour — was one man's whole life.\nThe time left to hear a parent's story — there isn't as much of it as you think."
+      },
+      {
+        "text": "Just listen quietly",
+        "result_text": "You listened quietly.\nHis expression changed while he talked.\nListening — is sometimes everything."
+      }
+    ]
+  },
+  {
+    "id": "callback_went_home_for_father_echo",
+    "title": "After Going Home",
+    "description": "Two months since you rushed home for your father.\nSince then, something in him shifted.\nToday your mother called.\n'He still talks about you coming that day.'",
+    "choices": [
+      {
+        "text": "Decide to go more often",
+        "result_text": "You put the next visit on the calendar.\nThe fact that he still remembered — was the answer that going was right.\nBeing busy and not going — those are different words."
+      },
+      {
+        "text": "Tell your mother to look after him",
+        "result_text": "'Make sure he's taking care of himself,' you said.\nMom said 'You should come by sometimes.'\nThere are things a phone call can't replace."
+      }
+    ]
+  },
+  {
+    "id": "callback_delayed_visiting_dad_consequence",
+    "title": "The Weight of Not Going",
+    "description": "Two months since you put off visiting your father because you were busy.\nToday a text from him.\n'Minjun. You doing okay.'",
+    "choices": [
+      {
+        "text": "Call him",
+        "result_text": "You called.\nHe said 'Been a while.'\nA text was him thinking of his son.\nNext time — you had to go in person."
+      },
+      {
+        "text": "Text back \"I'm good\"",
+        "result_text": "You texted back 'I'm good.'\nHe replied 'Good, stay healthy.'\nTwo texts exchanged — that was where the relationship stood."
+      }
+    ]
+  },
+  {
+    "id": "callback_sent_money_instead_echo",
+    "title": "Sending Money Instead",
+    "description": "A month since you sent money instead of going in person.\nToday a short text from your father.\n'Got it. Thank you.'",
+    "choices": [
+      {
+        "text": "Say you'll come in person soon",
+        "result_text": "'I'll come in person next time,' you said.\nHe said 'Don't worry if you're busy.'\n'Don't worry if you're busy' — didn't mean don't come."
+      },
+      {
+        "text": "At least he's grateful",
+        "result_text": "At least he said thank you.\nBut money couldn't stand in for being there.\nYou knew that."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_dad_okay_echo",
+    "title": "After Saying You Were Fine",
+    "description": "Two months since you told your father 'I'm okay.'\nYou weren't, really.\nToday he asked again.\n'How are you these days. For real.'",
+    "choices": [
+      {
+        "text": "Be honest this time",
+        "result_text": "'Honestly — it's been a bit rough,' you said.\nYour father was quiet for a long moment, then: 'I see.'\nTwo words — that lifted two months of weight."
+      },
+      {
+        "text": "\"Still fine.\"",
+        "result_text": "'Still fine,' you said.\nHe said '...Okay.'\nThe 'okay' felt like he already knew.\nParents know."
+      }
+    ]
+  },
+  {
+    "id": "callback_saw_father_medical_echo",
+    "title": "Being There for the Appointment",
+    "description": "Two months since you went into the consultation room with your father.\nYou heard what the doctor said directly.\nToday the results of the next test came in.",
+    "choices": [
+      {
+        "text": "Check the results together with him",
+        "result_text": "You heard 'Better this time' together.\nYour father said quietly 'I see.'\nGoing into the room then — put you in the room for this moment too."
+      },
+      {
+        "text": "Let him check on his own",
+        "result_text": "He checked it himself.\nLater he told you briefly: 'They said it's fine.'\nBeing there and being told — those are different things."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_debt_closed_echo",
+    "title": "The Day It Was All Paid Off",
+    "description": "A month since you paid off the MLM debt completely.\nToday the person you'd borrowed from reached out.\n'Took long enough.'",
+    "choices": [
+      {
+        "text": "\"Thanks for waiting this long.\"",
+        "result_text": "'Thanks for waiting,' you said.\nThey replied: 'People who actually pay back are rarer than you'd think.'\nPaying it back to the end — that was the measure of a person."
+      },
+      {
+        "text": "\"Yeah — it's done now.\"",
+        "result_text": "You kept it short: 'Done now.'\nThey kept it short too: 'Good for you.'\nSome relationships don't need many words."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_refused_echo",
+    "title": "The Weight of Having Said No",
+    "description": "Three months since you turned down the MLM.\nToday the acquaintance who pitched it sent a quiet message.\n'I'm out. Lost everything.'",
+    "choices": [
+      {
+        "text": "\"Are you okay?\"",
+        "result_text": "'Must be rough,' you said.\nThey replied: 'Glad you didn't get in. Sorry for trying.'\nYou were right to say no — and they weren't to blame.\nBoth were true."
+      },
+      {
+        "text": "Just offer quiet support",
+        "result_text": "You said 'That must've been hard.'\nThey went quiet for a moment.\nYou were glad you'd said no — but you didn't say that out loud."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_boundary_held_echo",
+    "title": "After Holding the Line",
+    "description": "Two months since you held the line when you felt yourself being pulled in.\nToday the urge came back.",
+    "choices": [
+      {
+        "text": "Hold it again",
+        "result_text": "You held it.\nHold it twice — and you can hold it a third time.\nA line only becomes a line when you keep holding it."
+      },
+      {
+        "text": "Just this once is fine",
+        "result_text": "Once became once.\n'Just once' — that's always how it starts.\nWhat you'd held before was now wasted."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_recovering_echo",
+    "title": "Recovery in Progress",
+    "description": "You've been trying to stop.\nToday marks two months.\nIt's not easy.",
+    "choices": [
+      {
+        "text": "Record the two months",
+        "result_text": "You wrote the date down.\nTwo months.\nSeems small — but it was the product of a decision made every day.\nThe number became a reason."
+      },
+      {
+        "text": "Feels like there's still so far to go",
+        "result_text": "Still so far to go.\nBut you held yesterday and today.\n'Still so far' doesn't mean giving up.\nIt means you're still going."
+      }
+    ]
+  },
+  {
+    "id": "callback_health_ignored_twice_consequence",
+    "title": "The Result of Putting It Off Twice",
+    "description": "You've put off the doctor twice.\nToday your body got worse.\nYou couldn't put it off anymore.",
+    "choices": [
+      {
+        "text": "Book an appointment right now",
+        "result_text": "You booked it.\nThe doctor said 'Why did it take this long?'\nDelaying twice had made it worse.\nNo third time."
+      },
+      {
+        "text": "Hold out a bit longer",
+        "result_text": "You held out.\nA week later it got worse.\nSome things aren't about toughness.\nYour body says things louder when you ignore them."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_friend_recovered_echo",
+    "title": "The Friend's Recovery",
+    "description": "Three months since you heard your friend who'd been wiped out by MLM was recovering.\nToday a call directly from them.\n'I'm doing better these days.'",
+    "choices": [
+      {
+        "text": "\"That's great. Really.\"",
+        "result_text": "'Really glad,' you said.\nThey said 'Thanks for not judging and waiting.'\nNot judging while waiting — had made this call possible."
+      },
+      {
+        "text": "\"That's amazing. How did you do it?\"",
+        "result_text": "They talked for a long time.\nThe story of holding on alone through the hardest of it.\nEvery person recovers differently."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_insurance_saved_echo",
+    "title": "What the Insurance Protected",
+    "description": "The jeonse deposit insurance you'd signed up for — when the landlord couldn't return the deposit, it came through.\nThe insurer stepped in and covered it.\nYou got the full deposit back.",
+    "choices": [
+      {
+        "text": "Sign up for insurance first on the next place too",
+        "result_text": "You put insurance registration as the first item on the list.\nA policy costing tens of thousands protected hundreds of millions.\nInsurance wasn't a cost — it was the cover charge."
+      },
+      {
+        "text": "What a relief. I got lucky.",
+        "result_text": "Lucky.\nBut it wasn't luck — it was preparation.\nWhen preparation feels like luck — that's the best kind of preparation."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_planning_move_echo",
+    "title": "Preparing to Move",
+    "description": "With the lease expiring, you've been looking for a new place.\nToday you visited three real estate offices.\nThe gap between near-Gangnam and the outskirts felt stark.",
+    "choices": [
+      {
+        "text": "Go a little closer to Gangnam",
+        "result_text": "It cost more.\nBut that neighborhood — would put the goal in sight every day.\nEnvironment pulls your direction."
+      },
+      {
+        "text": "Now is the time to save",
+        "result_text": "You went further out.\nYou'd save more.\nWhere you live matters less than what you're doing — and that comes first."
+      }
+    ]
+  }
+]

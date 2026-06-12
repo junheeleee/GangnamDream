@@ -1,0 +1,556 @@
+[
+  {
+    "id": "callback_father_apology_made_echo",
+    "title": "사과 이후",
+    "description": "아버지께 사과했던 게 한 달 전이다.\n아버지는 \"괜찮다\"고 하셨다.\n오늘 아버지에게서 전화가 왔다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_apology_made",
+      "min_turn": 3
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "반갑게 받는다",
+        "effects": {
+          "mental": 12,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지가 별 말씀 없이 안부만 물으셨다.\n하지만 전화를 하셨다는 것이 — 그 자체로 답이었다.\n사과가 쌓인 것을 녹였다."
+      },
+      {
+        "text": "짧게 대화한다",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "짧게 이야기했다.\n아버지는 건강 이야기를 하셨다.\n사과한 뒤의 첫 통화 — 어색했지만 그것이 시작이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_story_heard_echo",
+    "title": "아버지의 이야기",
+    "description": "아버지의 젊은 시절 이야기를 들었던 게 두 달 전이다.\n그때 처음 아버지가 사람처럼 느껴졌다.\n오늘 아버지께서 그때와 비슷한 이야기를 또 꺼내셨다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_story_heard",
+      "min_turn": 4
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이번엔 더 깊이 물어본다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지가 한 시간을 이야기하셨다.\n그 시간 안에 — 한 사람의 인생이 있었다.\n부모의 이야기를 듣는 시간이 — 많지 않다는 걸 그때 알았다."
+      },
+      {
+        "text": "조용히 듣는다",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조용히 들었다.\n아버지가 말씀하시는 동안 — 표정이 달라지셨다.\n듣는 것이 — 때로는 모든 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_went_home_for_father_echo",
+    "title": "내려갔던 그날 이후",
+    "description": "아버지 때문에 급히 내려갔던 게 두 달 전이다.\n그날 이후 아버지가 조금 달라지셨다.\n오늘 어머니께서 전화를 주셨다.\n'네가 그때 온 거, 아버지가 많이 기억해.'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "went_home_for_father",
+      "min_turn": 4
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "다음엔 더 자주 가겠다고 결심한다",
+        "effects": {
+          "mental": 12,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음 방문 날짜를 잡았다.\n아버지가 기억하신다는 것 — 가는 것이 맞다는 답이었다.\n바쁜 것과 안 가는 것 — 다른 말이었다."
+      },
+      {
+        "text": "어머니께 \"아버지 잘 챙겨드리세요\"라고 한다",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"아버지 건강 잘 챙겨드리세요.\"라고 했다.\n어머니가 \"네가 가끔 와야지\"라고 하셨다.\n전화로는 대신할 수 없는 것이 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_delayed_visiting_dad_consequence",
+    "title": "못 갔던 것의 무게",
+    "description": "바빠서 아버지 방문을 미뤘던 게 두 달이 됐다.\n오늘 아버지에게서 문자가 왔다.\n'민준아. 잘 지내냐.'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "delayed_visiting_dad",
+      "min_turn": 4
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "전화드린다",
+        "effects": {
+          "mental": 8,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "전화를 드렸다.\n아버지가 \"오랜만이다\"라고 하셨다.\n문자 한 통이 — 아들 생각을 하셨다는 뜻이었다.\n다음엔 직접 가야 했다."
+      },
+      {
+        "text": "\"잘 지내요\"라고 문자로 답한다",
+        "effects": {
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "문자로 \"잘 지내요.\"라고만 했다.\n아버지가 \"그래, 건강해\"라고 답하셨다.\n문자 두 개가 오간 것이 — 관계의 현주소였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sent_money_instead_echo",
+    "title": "돈을 대신 보냈던 것",
+    "description": "직접 가는 대신 돈을 보냈던 게 한 달 전이다.\n오늘 아버지께서 짧은 문자를 보내셨다.\n'잘 받았다. 고마워.'",
+    "category": "family",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sent_money_instead",
+      "min_turn": 3
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "곧 직접 가겠다고 답한다",
+        "effects": {
+          "mental": 8,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"다음엔 직접 갈게요.\"라고 했다.\n아버지가 \"바쁘면 됐다\"라고 하셨다.\n바쁘면 됐다 — 는 됐다는 뜻이 아니었다."
+      },
+      {
+        "text": "고맙다고 하시니 다행이다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "고맙다고 하시니 다행이었다.\n하지만 돈이 — 존재를 대신할 수는 없었다.\n그건 알고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_dad_okay_echo",
+    "title": "괜찮다고 했던 것",
+    "description": "아버지께 \"괜찮아요\"라고 했던 게 두 달 전이다.\n사실 괜찮지 않았지만.\n오늘 아버지께서 다시 물으셨다.\n'요즘은 어때냐. 진짜로.'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "told_dad_okay",
+      "min_turn": 4
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이번엔 솔직하게 말한다",
+        "effects": {
+          "mental": 12,
+          "stress": -8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"사실 좀 힘들었어요.\"라고 했다.\n아버지가 오래 침묵하셨다가 — \"그렇구나\"라고 하셨다.\n그 두 글자가 — 두 달의 무게를 덜어줬다."
+      },
+      {
+        "text": "\"여전히 괜찮아요\"라고 한다",
+        "effects": {
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"여전히 괜찮아요.\"라고 했다.\n아버지가 \"...그래\"라고 하셨다.\n알면서도 \"그래\"라고 하신 것 같았다.\n부모는 알고 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_saw_father_medical_echo",
+    "title": "아버지 진료를 봤던 것",
+    "description": "아버지 진료실 안에 같이 들어갔던 게 두 달 전이다.\n의사 말을 직접 들었다.\n오늘 다음 검사 결과가 나왔다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "saw_father_medical",
+      "min_turn": 4
+    },
+    "tags": ["family", "callback", "father", "health"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "아버지와 같이 결과를 확인한다",
+        "effects": {
+          "mental": 10,
+          "stress": -5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"이번엔 좋아졌어요.\"라는 말을 같이 들었다.\n아버지가 담담하게 \"그래\"라고 하셨다.\n진료실에 같이 들어갔던 것이 — 이 순간도 같이 있게 해줬다."
+      },
+      {
+        "text": "아버지가 직접 보실 수 있도록 한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지가 직접 확인하셨다.\n나중에 \"괜찮대\"라고 짧게 알려주셨다.\n같이 있어드리는 것과 — 알려주는 것은 달랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_debt_closed_echo",
+    "title": "다 갚은 날",
+    "description": "다단계 빚을 완전히 다 갚은 게 한 달 전이다.\n오늘 그때 돈을 빌려줬던 사람에게서 연락이 왔다.\n\"오래 걸렸네.\"",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "mlm_debt_closed",
+      "min_turn": 3
+    },
+    "tags": ["finance", "callback", "mlm"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"고마워. 오래 기다려줘서.\"",
+        "effects": {
+          "mental": 12,
+          "reputation": 3,
+          "stress": -8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"오래 기다려줘서 고마워.\"라고 했다.\n상대가 \"갚는 사람이 더 드물어.\"라고 했다.\n끝까지 갚는 것 — 그게 사람이었다."
+      },
+      {
+        "text": "\"응, 이제 됐어.\"",
+        "effects": {
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "짧게 \"이제 됐어\"라고 했다.\n상대도 짧게 \"그래, 잘 됐다.\"라고 했다.\n말이 길 필요가 없는 관계도 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_refused_echo",
+    "title": "거절했던 것의 무게",
+    "description": "다단계를 거절했던 게 석 달 전이다.\n그때 권유했던 지인이 오늘 조용히 연락을 해왔다.\n'나 그거 접었어. 다 날렸어.'",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "mlm_refused",
+      "min_turn": 4
+    },
+    "tags": ["social", "callback", "mlm"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그래? 괜찮아?\"",
+        "effects": {
+          "mental": 8,
+          "social_skill": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그래, 많이 힘들겠다.\"라고 했다.\n상대가 \"네가 안 들어온 게 잘 됐어. 미안해.\"라고 했다.\n거절했던 것이 맞았고 — 그 사람은 잘못이 없었다.\n둘 다 맞는 이야기였다."
+      },
+      {
+        "text": "조용히 위로만 한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"힘들었겠다\"라고만 했다.\n상대가 잠시 말이 없었다.\n거절한 자신이 다행이었지만 — 그 말은 꺼내지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_boundary_held_echo",
+    "title": "선을 지킨 이후",
+    "description": "무언가에 빠질 것 같았던 순간 — 선을 지켰던 게 두 달 전이다.\n오늘 그 충동이 다시 왔다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "addiction_boundary_held",
+      "min_turn": 4
+    },
+    "tags": ["health", "callback", "addiction"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이번에도 선을 지킨다",
+        "effects": {
+          "mental": 10,
+          "health": 3,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지켰다.\n두 번 지키면 — 세 번도 지킬 수 있었다.\n선이란 반복해서 지킬 때 비로소 선이 됐다."
+      },
+      {
+        "text": "이번 한 번쯤은 괜찮다",
+        "effects": {
+          "mental": -5,
+          "health": -3,
+          "stress": 5
+        },
+        "flags": ["addiction_relapsed"],
+        "follow_up_event": "",
+        "result_text": "한 번이 됐다.\n\"한 번\"은 항상 그 말로 시작했다.\n지켰던 것이 아깝게 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_recovering_echo",
+    "title": "회복 중인 것",
+    "description": "끊으려고 노력하고 있다.\n오늘로 두 달이 됐다.\n쉽지 않다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "addiction_recovering",
+      "min_turn": 4
+    },
+    "tags": ["health", "callback", "addiction"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "두 달을 기록한다",
+        "effects": {
+          "mental": 10,
+          "health": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "메모장에 날짜를 적었다.\n두 달.\n작은 숫자 같지만 — 매일 결정의 결과였다.\n숫자가 이유가 됐다."
+      },
+      {
+        "text": "아직 멀었다는 생각이 든다",
+        "effects": {
+          "mental": 5,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아직 멀었다.\n하지만 어제도 오늘도 지켰다.\n\"아직 멀었다\"는 포기한 게 아니었다.\n계속 가고 있다는 뜻이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_health_ignored_twice_consequence",
+    "title": "두 번 미룬 결과",
+    "description": "두 번 병원을 미뤘다.\n오늘 몸이 더 안 좋아졌다.\n더 이상 미룰 수 없었다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "health_ignored_twice",
+      "min_turn": 3
+    },
+    "tags": ["health", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "지금 바로 예약한다",
+        "effects": {
+          "health": 5,
+          "stress": -5,
+          "mental": 5
+        },
+        "flags": ["health_treated"],
+        "follow_up_event": "",
+        "result_text": "예약했다.\n의사가 \"왜 이제 오셨어요\"라고 했다.\n두 번 미뤘던 것이 — 결과를 더 키웠다.\n세 번은 없었다."
+      },
+      {
+        "text": "조금만 더 버텨본다",
+        "effects": {
+          "health": -8,
+          "stress": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "버텼다.\n일주일 뒤 더 나빠졌다.\n버티는 것이 용기가 아닌 경우가 있었다.\n몸이 보내는 신호는 — 무시하면 크게 말했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_friend_recovered_echo",
+    "title": "친구의 회복",
+    "description": "다단계로 망했던 친구가 회복 중이라는 소식을 들었던 게 석 달 전이다.\n오늘 그 친구에게서 직접 연락이 왔다.\n'나 요즘 좀 나아졌어.'",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "mlm_friend_recovered",
+      "min_turn": 5
+    },
+    "tags": ["social", "callback", "mlm"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"잘 됐다. 진짜로.\"",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"진짜 잘 됐다.\"라고 했다.\n친구가 \"덕분이야, 안 욕하고 기다려줘서.\"라고 했다.\n판단하지 않고 기다린 것이 — 이 전화를 만들었다."
+      },
+      {
+        "text": "\"대단하다. 어떻게 했어?\"",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "친구가 길게 이야기했다.\n힘든 것을 혼자 버텼던 이야기.\n사람이 회복하는 방식은 — 다 달랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_insurance_saved_echo",
+    "title": "보험이 살린 것",
+    "description": "전세보증보험에 가입했던 것이 — 결국 집주인이 반환을 못 하는 상황에서 빛을 발했다.\n보험사에서 대위변제가 진행됐다.\n전세금을 다 돌려받았다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jeonse_insurance_saved",
+      "min_turn": 6
+    },
+    "tags": ["finance", "callback", "housing"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "다음 집도 보험부터 가입한다",
+        "effects": {
+          "mental": 15,
+          "intelligence": 5,
+          "money": 0
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "첫 번째로 할 일로 보험 가입을 메모했다.\n몇만원짜리 보험이 수억을 지켰다.\n보험은 비용이 아니었다 — 입장료였다."
+      },
+      {
+        "text": "안도한다. 운이 좋았다",
+        "effects": {
+          "mental": 10
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "운이 좋았다.\n하지만 운이 아니라 준비였다.\n준비한 것이 운처럼 느껴질 때 — 그게 가장 좋은 준비였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_planning_move_echo",
+    "title": "이사를 준비하면서",
+    "description": "전세 계약 만료를 앞두고 이사를 준비하고 있다.\n오늘 부동산을 세 군데 돌아봤다.\n강남권과 외곽의 차이가 크게 느껴졌다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jeonse_planning_move",
+      "min_turn": 4
+    },
+    "tags": ["finance", "callback", "housing"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "강남쪽 조금 더 가까운 곳으로 간다",
+        "effects": {
+          "money": -2000000,
+          "mental": 8,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "돈이 더 들었다.\n하지만 그 동네가 — 목표를 매일 보게 해줬다.\n환경이 방향을 당기는 것이었다."
+      },
+      {
+        "text": "지금은 돈을 아끼는 게 맞다",
+        "effects": {
+          "money": 1000000,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "외곽으로 갔다.\n저축이 더 됐다.\n어디서 사는지보다 — 뭘 하는지가 먼저였다."
+      }
+    ]
+  }
+]
