@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_daeun_supportive_echo",
+    "title": "After Daeun's Support",
+    "description": "Two months since Daeun was there for you.\nThat support had stayed with you.\nToday a message came from her.",
+    "choices": [
+      {
+        "text": "Tell her things are going well",
+        "result_text": "You said things were going well.\nShe said 'Glad to hear it.'\nSeeing someone you cheered for doing well — it gives that person something too."
+      },
+      {
+        "text": "Ask how she's been first",
+        "result_text": "You asked how she was first.\nShe paused a moment before answering.\nReturning the care — was its own way of saying thank you."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_guarded_echo",
+    "title": "Until the Guard Came Down",
+    "description": "Two months since Daeun kept her distance.\nShe'd crossed your path a few times in between.\nToday she spoke to you first.",
+    "choices": [
+      {
+        "text": "Take it naturally",
+        "result_text": "You let the conversation flow.\nTime had lowered the guard.\nIf you'd tried to close the distance by force — this moment might not have come."
+      },
+      {
+        "text": "Ask why all of a sudden",
+        "result_text": "You said 'Why all of a sudden?'\nShe smiled and said 'Just because.'\nJust because — sometimes that's the most honest reason there is."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_understood_echo",
+    "title": "After Being Understood",
+    "description": "Two months since Daeun understood.\nThat feeling had lingered.\nToday — for the first time — she brought up something of her own.",
+    "choices": [
+      {
+        "text": "Listen quietly",
+        "result_text": "You listened.\nShe said 'I only tell you this.'\nSomeone who has been understood — eventually opens first."
+      },
+      {
+        "text": "Think it through with her",
+        "result_text": "You thought it through with her.\nShe said 'I didn't think we could do this kind of thing together.'\nBeing understood — changes what comes after."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_deflected_echo",
+    "title": "After Letting Her Pass",
+    "description": "Two months since you let Daeun pass.\nShe still crossed your path now and then.\nToday you crossed again.",
+    "choices": [
+      {
+        "text": "Greet her properly this time",
+        "result_text": "You said hello first.\nShe looked briefly surprised.\nHaving let someone pass — is what gives you a reason to turn back."
+      },
+      {
+        "text": "Let her pass again",
+        "result_text": "You let her go again.\nShe passed too.\nLetting it happen twice — was now a decision."
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_job_taken_echo",
+    "title": "The Job from a Returned Wallet",
+    "description": "Two months into the job that came from returning the wallet.\nIt had been an unfamiliar start.\nToday — you felt yourself settling in.",
+    "choices": [
+      {
+        "text": "You've found your footing",
+        "result_text": "You'd found it.\nA chance connection had led to work.\nThe results of doing right — don't always come on schedule. But they come."
+      },
+      {
+        "text": "Still a little out of place",
+        "result_text": "Still a little out of place.\nBut you'd started.\nA start is what makes settling in possible."
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_declined_reward_echo",
+    "title": "After Turning Down the Reward",
+    "description": "Two months since you returned the wallet and turned down the offer.\nThat choice came back to you sometimes.\nToday the person reached out.",
+    "choices": [
+      {
+        "text": "Answer warmly",
+        "result_text": "You picked up warmly.\nThey still remembered.\nDeclining didn't end the relationship."
+      },
+      {
+        "text": "Ask why they're calling",
+        "result_text": "You asked why they were calling.\n'Just wanted to see how you were doing,' they said.\nYou'd turned down the reward — but left an impression."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_backed_down_echo",
+    "title": "After Backing Down",
+    "description": "Two months since you backed down from the credit dispute.\nIt had felt unfair, but you let it go.\nToday you heard how it turned out.",
+    "choices": [
+      {
+        "text": "Check the outcome",
+        "result_text": "The other party admitted the problem first.\nBecause you hadn't fought, there was no conflict — and that made a settlement possible.\nBacking down isn't the same as losing."
+      },
+      {
+        "text": "Still feels unfair",
+        "result_text": "Still felt unfair.\nBut the result wasn't bad.\nFeeling and outcome — don't always point the same direction."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_went_over_head_echo",
+    "title": "After Going Over Their Head",
+    "description": "Two months since you went above your direct contact.\nThe aftermath had been awkward.\nToday things were resolved.",
+    "choices": [
+      {
+        "text": "It worked out",
+        "result_text": "It was resolved.\nGoing to a higher level had made the difference.\nUsing the proper channels — that goes on record."
+      },
+      {
+        "text": "The relationship got awkward",
+        "result_text": "The outcome was right but the relationship felt strained.\nIt was still the right move.\nWhat's right and what's comfortable — aren't always the same."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_let_go_echo",
+    "title": "After Letting Go of the Coin",
+    "description": "Two months since you closed the crypto position.\nRegret had stayed with you.\nToday you looked at the chart again.",
+    "choices": [
+      {
+        "text": "Good call to sell",
+        "result_text": "It had gone up further — then dropped by half.\nSelling when you did wasn't bad.\nRegret is built on where the price is now. The judgment then was different."
+      },
+      {
+        "text": "Still wish I'd held on",
+        "result_text": "Still wished you'd held.\nThat's just what investing is.\nSomeone who closes without regret — is someone who never made money to begin with."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_pushed_through_echo",
+    "title": "After Pushing Through the Dinner",
+    "description": "A month since you stayed through a work dinner you hated.\nYou thought nothing would change.\nToday the team lead called you aside.",
+    "choices": [
+      {
+        "text": "Hear what it's about",
+        "result_text": "'I've noticed you putting in the effort lately,' they said.\nStaying through that dinner — had been seen.\nThings you endure get recorded. In someone's eyes."
+      },
+      {
+        "text": "It turned out to be nothing much",
+        "result_text": "It wasn't much.\nBut being called at all was something.\nYour presence had been registered — and sometimes that's enough."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_halfday_echo",
+    "title": "After Taking the Half Day",
+    "description": "A month since you slipped out early from the work dinner.\nYou'd been conscious of what the others thought.\nToday one of those colleagues said something.",
+    "choices": [
+      {
+        "text": "Hear them out",
+        "result_text": "'Honestly, I wanted to do that too,' they said.\nLeaving early hadn't made things awkward — it had given someone else permission."
+      },
+      {
+        "text": "\"What's wrong with that?\"",
+        "result_text": "You said 'What's wrong with that?'\nThey laughed.\nSomeone who holds a line — sometimes frees the people around them."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_dodged_echo",
+    "title": "After Dodging the Dinner",
+    "description": "A month since you made an excuse and skipped the work dinner.\nYou'd been watching the team dynamics since.\nToday you looked back on it.",
+    "choices": [
+      {
+        "text": "Think it was fine to skip",
+        "result_text": "Nothing in particular had changed.\nSkipping it — had passed without any real cost.\nSometimes avoiding something is the right call."
+      },
+      {
+        "text": "Maybe should've stayed once",
+        "result_text": "The lingering awkwardness in the team was on your mind.\nYou decided to stay next time.\nAvoiding every time — isn't a strategy either."
+      }
+    ]
+  },
+  {
+    "id": "callback_climber_advanced_echo",
+    "title": "After Moving Up a Level",
+    "description": "Three months since you moved up socially.\nThat position was starting to feel normal.\nToday — someone you couldn't have reached before reached out first.",
+    "choices": [
+      {
+        "text": "Meet them",
+        "result_text": "You met.\nThis was only possible because you'd moved up.\nYour position calls people — you have to occupy it first."
+      },
+      {
+        "text": "Figure out why they're contacting you first",
+        "result_text": "You looked into it first.\nIt was a harmless connection.\nThe higher you go — the more you learn to check motives first."
+      }
+    ]
+  },
+  {
+    "id": "callback_elite_recognized_echo",
+    "title": "After Being Recognized as Elite",
+    "description": "Three months since that circle acknowledged you.\nYour name had started to travel.\nToday — an unexpected opportunity came in.",
+    "choices": [
+      {
+        "text": "Look into it",
+        "result_text": "You looked into it.\nThe recognition had built this opportunity.\nReputation builds slowly — and opens doors all at once."
+      },
+      {
+        "text": "Decide it's not the right time yet",
+        "result_text": "You said not yet.\nThey said 'Understood — reach out when you're ready.'\nDelaying an opportunity and losing one — aren't always the same thing."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_reconciled_started_echo",
+    "title": "After the Reconciliation Began",
+    "description": "Two months since the careful beginning of reconciliation with your father.\nAt first it had been awkward.\nToday a text came from him.",
+    "choices": [
+      {
+        "text": "Reply right away",
+        "result_text": "You replied immediately.\nA short text — but different from before.\nReconciliation isn't a single event. It's small things, continued — like this one text."
+      },
+      {
+        "text": "Think carefully about what to say",
+        "result_text": "You sat with what to write for a while.\nYou sent 'Yeah. Me too.'\nThree words, thought through — they were real."
+      }
+    ]
+  }
+]
