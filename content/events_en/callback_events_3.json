@@ -1,0 +1,261 @@
+[
+  {
+    "id": "callback_cafe_jackpot_greed",
+    "title": "The Broker Returns",
+    "description": "You went all-in and it worked. Luck or skill — who knows.\nKim Bujang calls again.\n'This time it's real. Three times bigger and way more certain than last time.\nYou made it before. No reason it won't work again, right?'",
+    "choices": [
+      {
+        "text": "Verify it first",
+        "result_text": "Three days of digging. This one was pure markup.\n'Last time was luck — I can't spend it again.' You hung up.\nOne win doesn't mean the next one is certain."
+      },
+      {
+        "text": "Go all-in again",
+        "result_text": ""
+      },
+      {
+        "text": "Decline",
+        "result_text": "'No. Last time was enough.'\nKim Bujang went quiet, then hung up.\nGreed is expecting luck to repeat itself."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_burned_crisis",
+    "title": "Rock Bottom",
+    "description": "Two months since you lost everything on that stolen number from the café.\nThe goshiwon landlord knocked on your door today.\n'This month's rent — still outstanding.'",
+    "choices": [
+      {
+        "text": "Find a part-time job",
+        "result_text": "Night shifts at a convenience store. ₩9,860 per hour.\nThree weeks later you paid the rent.\nBack to zero. But — this time you know exactly where you lost it."
+      },
+      {
+        "text": "Call your parents",
+        "result_text": "You called.\nYour mother sent the money without asking questions.\nThat was the hardest part."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_smart_win_mentor",
+    "title": "The Man Calls",
+    "description": "A call from Kim Bujang.\n'Hey. I knew you cut the markup — from the start.\nThat's exactly why I figured you were the right kind of person.\nThis time there's something real. No broker. Just you and me, direct.'",
+    "choices": [
+      {
+        "text": "Meet him",
+        "result_text": "Two hours over coffee.\nThis deal had no commission, no inflation.\n'The ones who verify are the ones who win.' He said.\nA real connection — earned."
+      },
+      {
+        "text": "Politely pass",
+        "result_text": "'I want to build up a bit more first.'\nKim Bujang said 'Call anytime' and hung up.\nThe door wasn't closed."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_win_deeper",
+    "title": "The Mentor's Message",
+    "description": "A message from the man.\n'That deal worked out for you, right?\nI waited to see what you'd do with it.\nI have someone I want to introduce you to. My person. You can trust them.'",
+    "choices": [
+      {
+        "text": "Accept the introduction",
+        "result_text": "The introduction was to a tax accountant.\n'Let me show you how to do this cleanly.'\nAfter that, the investment structure changed.\nStarting honestly — that's what got you here."
+      },
+      {
+        "text": "Still too early — want to learn more",
+        "result_text": "'I appreciate it, but I want to study a bit more first.'\nHe said 'No rush.'\nNot delaying opportunity — just not using it before you're ready."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_trust_return",
+    "title": "A Year and a Half Later",
+    "description": "'Not ready yet. I'll contact you once I've learned more.'\nThat's what you said.\nToday that number called. After a year and a half.\n'Still studying?'",
+    "choices": [
+      {
+        "text": "\"Yes. I'm ready now.\"",
+        "result_text": "'...You're here.'\nHe laughed briefly.\n'Someone who knew to say not yet — when they show up, they're actually ready.'\nWhat he handed over that day was the most solid thing you'd ever received."
+      },
+      {
+        "text": "\"Thank you, but I've been doing it on my own now.\"",
+        "result_text": "'That works too.'\nHe hung up.\nYou'd learned to stand on your own. That was his gift too."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_humble_lesson_payoff",
+    "title": "What You Learned That Day",
+    "description": "Facing an investment decision, something suddenly came back.\nWhat that man in the Gangnam café said.\n'The most expensive thing in a market is something being sold in a hurry.'\nThis deal in front of you is exactly that.",
+    "choices": [
+      {
+        "text": "Follow what you learned — walk away",
+        "result_text": "You stepped back.\nLater you found out it was a classic 'distressed sale' scam.\nKeeping your ears open in that café protected millions today."
+      },
+      {
+        "text": "Check more carefully because of what you heard",
+        "result_text": "You pulled the registration and compared prices.\nYou entered at fair value.\nThe difference between knowing and not knowing shows up in moments like this."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_kindness_reunion",
+    "title": "Meeting Them Again",
+    "description": "At a bus stop, by chance.\nThe person who bought you an americano in the café.\n'Oh, it's you from back then. How have you been?'",
+    "choices": [
+      {
+        "text": "Greet them warmly and chat",
+        "result_text": "They run a small restaurant, they said.\n'Delivery's been keeping us busy lately.' They smiled.\nJust a short conversation — but somehow energizing.\nThey still seemed like someone who buys coffee for strangers."
+      },
+      {
+        "text": "Just say hi and catch the bus",
+        "result_text": "'Hello.' And you got on the bus.\nThrough the window you could see them. They waved briefly.\nSometimes it helps just knowing people like that exist."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_jackpot_trap",
+    "title": "Hyeonsu's Second Offer",
+    "description": "After winning big on the coin, Hyeonsu contacts you.\n'Hey, I've got something even more certain this time.\nLast time doubled, right? This one triples. For real.'\nThat 'for real' is nagging at you.",
+    "choices": [
+      {
+        "text": "\"Not this time.\" Decline.",
+        "result_text": "'Once is enough.'\nHyeonsu said 'You're going to regret this.'\nA few days later came news the coin halved.\nTrusting luck twice was never the right call."
+      },
+      {
+        "text": "Go in again",
+        "result_text": ""
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_rekt_aftermath",
+    "title": "Hyeonsu and Me",
+    "description": "A month since losing everything on the coin.\nA text from Hyeonsu.\n'Hey I lost everything too. But I think I found something new for real this time.'\nHere we go again.",
+    "choices": [
+      {
+        "text": "\"Stop. Please.\"",
+        "result_text": "'Both of us lost. This time, please stop.'\nHyeonsu said '...Okay.'\nDon't know if I can believe it. But I said what needed saying."
+      },
+      {
+        "text": "Block him",
+        "result_text": "Blocked.\nEven getting the messages was draining energy.\nI feel bad — but right now, I have to look after myself first."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_theft_blacklist",
+    "title": "A Text from an Old Colleague",
+    "description": "Three months since you quit after having your idea stolen.\nA KakaoTalk from a former colleague.\n'Hey, just so you know — the team lead has been talking about you. Not good stuff.'",
+    "choices": [
+      {
+        "text": "Document the evidence",
+        "result_text": "You saved the email and messenger logs.\nMight never use it. But having it is different from not having it.\nBeing prepared for when it's needed."
+      },
+      {
+        "text": "Don't let it bother you — already gone",
+        "result_text": "You didn't want to spend energy on that person.\nBut every time a job interview brought up the old job, there was a small tightening in the chest."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_planned_reference",
+    "title": "A Message from a Former Boss",
+    "description": "The job you left carefully, with everything wrapped up properly.\nToday a message from your former team lead.\n'Minjun, would it be okay if I wrote you a reference?\nSomeone's been asking about you.'",
+    "choices": [
+      {
+        "text": "\"Of course. Thank you.\"",
+        "result_text": "How you finish becomes the foundation for coming back.\n'Someone who left cleanly' — that phrase became a network.\nThe way you leave is the way you return."
+      },
+      {
+        "text": "\"I'm a bit tied up right now\" — politely decline",
+        "result_text": "'Sure, let me know another time.'\nThe relationship wasn't broken.\nNot doing it when you have no bandwidth is also the right call."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_impulsive_pressure",
+    "title": "Balance Alert",
+    "description": "A month and a half since you impulsively quit.\nYou open the banking app.\nBalance: ₩387,000.\nNext month's goshiwon rent: ₩450,000.",
+    "choices": [
+      {
+        "text": "Find a part-time job now",
+        "result_text": "Convenience store nights, four days a week.\nYou didn't expect to feel this chased after walking out with so much relief.\nBut — that job wasn't the answer either."
+      },
+      {
+        "text": "Go all-in on job hunting",
+        "result_text": "You sent out twenty applications.\nTwo interviews lined up.\nDesperation sharpened into focus."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_loan_pressure",
+    "title": "Payment Due",
+    "description": "A year since you took a loan for your father's surgery.\nAuto-transfer notification. This month: ₩197,000.\nThe principal hasn't been touched.",
+    "choices": [
+      {
+        "text": "Set up an early repayment plan",
+        "result_text": "You opened a spreadsheet. Eighteen months to pay it off.\nDebt with a plan is different from debt without one.\nYour father recovered from the surgery. That was enough."
+      },
+      {
+        "text": "Just pay the interest for now — no bandwidth",
+        "result_text": "You paid the interest.\nWhen do I pay the principal.\nYou know every month you delay, the total interest climbs — but still."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_refused_aftermath",
+    "title": "Mom's Words",
+    "description": "Eight months since you couldn't give the money for your father's surgery.\nYour mother called.\n'Minjun. We borrowed the surgery money from a relative.\nWe've paid it all back. You don't have to worry.'\nHer voice was strangely flat.",
+    "choices": [
+      {
+        "text": "\"Mom, I'm sorry. I'll pay it back.\"",
+        "result_text": "'It's fine. Just do well — that's everything.'\nShe hung up.\nCouldn't tell if that 'it's fine' was forgiveness or protection.\nThe only answer is to do well."
+      },
+      {
+        "text": "\"...Thank you. I'll definitely pay it back someday.\"",
+        "result_text": "Mom said 'Okay' and hung up.\nSomeday I really have to pay it back.\nHoping that 'someday' doesn't come too late."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_paid_full_response",
+    "title": "Dad's Text",
+    "description": "Five months since you emptied your savings for your father's surgery.\nA text from Dad.\n'Minjun. Dad's really sorry. And thank you.'\nThis might be the first time Dad ever texted you first.",
+    "choices": [
+      {
+        "text": "\"It's fine, Dad. Of course I would.\"",
+        "result_text": "You sent it and held the phone for a while.\nOne phrase — 'I'm sorry, and thank you' —\nstrangely carried the whole day."
+      },
+      {
+        "text": "Call him",
+        "result_text": "Dad picked up.\nNot many words were said. From either of you.\nBut some calls are enough just like that."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_dad_truth_response",
+    "title": "Dad's Reply",
+    "description": "A month since you first said 'Dad, things have been hard lately.'\nA text from Dad today.\n'Minjun. Thank you for telling me. Dad is here.'",
+    "choices": [
+      {
+        "text": "\"I know, Dad.\"",
+        "result_text": "You sent it and sat with the phone for a moment.\nThose words — 'I'm here' —\nstrangely got you through the rest of the day."
+      },
+      {
+        "text": "Don't reply — too moved to write anything",
+        "result_text": "You couldn't find the words.\nJust left the read receipt.\nDad seemed like that was enough."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_sangchul_truth_echo",
+    "title": "Sangchul's Memory",
+    "description": "Third meeting with Im Sangchul.\nSitting down at the gukbap place, he spoke first.\n'What you told me last time — about your father getting scammed. I still think about it.'",
+    "choices": [
+      {
+        "text": "\"I think it makes me more careful.\"",
+        "result_text": "Sangchul nodded.\n'That carefulness is actually a strength. You're not in a rush.'\nThat day he made an introduction.\nShowing your real self had built real trust."
+      },
+      {
+        "text": "\"It's just become a goal now. I don't think about Dad anymore.\"",
+        "result_text": "Sangchul looked at you for a moment, then scooped some broth.\n'...That's actually the scarier version, you know.'\nYou thought about what that meant through the whole meal."
+      }
+    ]
+  }
+]

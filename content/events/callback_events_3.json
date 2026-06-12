@@ -1,0 +1,668 @@
+[
+  {
+    "id": "callback_cafe_jackpot_greed",
+    "title": "브로커의 재등장",
+    "description": "그날 올인해서 됐다. 운이었는지 실력이었는지 모르겠지만.\n김 부장에게서 다시 전화가 왔다.\n\"이번엔 진짜야. 그때보다 세 배 크고 훨씬 확실해.\n너 그때 됐잖아. 이번에도 안 될 이유 없지?\"",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_jackpot",
+      "min_turn": 6
+    },
+    "tags": ["cafe", "callback", "greed_trap"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이번엔 검증부터 한다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2,
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "3일 파헤쳤다. 이번엔 진짜 거품이었다.\n\"지난번 운을 이번에 쓰면 안 되겠다.\" 전화를 끊었다.\n한번 됐다고 두 번 되는 게 아니라는 걸 안다."
+      },
+      {
+        "text": "또 올인한다",
+        "effects": {
+          "stress": 15
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "opportunity": {
+          "stake_ratio": 0.8,
+          "success_rate": 0.12,
+          "win_multiplier": 2.2,
+          "loss_ratio": 0.8,
+          "luck_factor": 0.001,
+          "skill_gain": 0,
+          "win_flag": "cafe_double_jackpot",
+          "lose_flag": "cafe_greed_burned"
+        }
+      },
+      {
+        "text": "이번엔 거절한다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": ["cafe_greed_resisted"],
+        "follow_up_event": "",
+        "result_text": "\"아닙니다. 지난번으로 충분해요.\"\n김 부장이 잠깐 침묵하더니 전화를 끊었다.\n운은 한 번이다. 두 번을 기대하는 게 탐욕이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_burned_crisis",
+    "title": "바닥",
+    "description": "카페에서 훔친 번호로 다 잃은 뒤 두 달이 됐다.\n오늘 고시원 원장이 방문을 두드렸다.\n\"이번 달 방값 아직인데요.\"",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_burned",
+      "min_turn": 4
+    },
+    "tags": ["cafe", "callback", "crisis"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "알바 자리를 잡는다",
+        "effects": {
+          "money": 500000,
+          "health": -5,
+          "stress": 5,
+          "mental": -5
+        },
+        "flags": ["cafe_burned_recovered"],
+        "follow_up_event": "",
+        "result_text": "편의점 야간 알바를 잡았다. 시급 9860원.\n3주 뒤 방값을 냈다.\n다시 바닥부터다. 그런데 — 이번엔 어디서 잃었는지 안다."
+      },
+      {
+        "text": "부모님께 연락한다",
+        "effects": {
+          "money": 1000000,
+          "mental": -15,
+          "stress": 10
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "전화를 걸었다.\n어머니가 물어보지 않고 돈을 보내줬다.\n그게 더 힘들었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_smart_win_mentor",
+    "title": "그 남자의 전화",
+    "description": "김 부장에게서 전화가 왔다.\n\"야. 거품 깎은 거 나 알고 있었어. 처음부터.\n그래서 오히려 네가 맞는 사람인 줄 알았지.\n이번엔 제대로 된 거 하나 있어. 브로커 없이, 나랑 직접.\"",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_smart_win",
+      "min_turn": 10
+    },
+    "tags": ["cafe", "callback", "mentor_network"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "만난다",
+        "effects": {
+          "investment_skill": 3,
+          "reputation": 2,
+          "money": 0
+        },
+        "flags": ["cafe_mentor_network"],
+        "follow_up_event": "",
+        "result_text": "커피를 마시며 두 시간 얘기했다.\n이번 딜은 수수료도 없고, 거품도 없었다.\n\"검증하는 놈이 이기는 거야.\" 그가 말했다.\n진짜 인맥 하나가 생겼다."
+      },
+      {
+        "text": "정중히 거절한다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"지금은 좀 더 쌓고 싶어서요.\"\n김 부장이 \"언제든 연락해\" 하고 끊었다.\n문이 닫힌 건 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_win_deeper",
+    "title": "스승의 연락",
+    "description": "그 남자에게서 연락이 왔다.\n\"저번에 들어간 거, 잘 됐지?\n오래 기다렸어. 네가 어떻게 하나 봤거든.\n이번엔 소개 하나 해줄게. 내 사람이야. 믿어도 돼.\"",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_honest_win",
+      "min_turn": 10
+    },
+    "tags": ["cafe", "callback", "mentor_trust"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "소개를 받는다",
+        "effects": {
+          "investment_skill": 4,
+          "social_skill": 2,
+          "reputation": 3
+        },
+        "flags": ["cafe_mentor_deep_network"],
+        "follow_up_event": "",
+        "result_text": "소개받은 사람은 세무사였다.\n\"깨끗하게 가는 방법 가르쳐드릴게요.\"\n그날 이후 투자 구조가 달라졌다.\n정직하게 시작한 게, 여기까지 온 것이다."
+      },
+      {
+        "text": "아직 이르다. 더 배우고 싶다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"감사한데, 조금 더 준비하고 싶어요.\"\n그가 \"그래, 급한 거 없어\" 했다.\n기회를 미루는 게 아니라, 준비가 덜 됐을 때 쓰지 않는 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_trust_return",
+    "title": "1년 6개월 뒤",
+    "description": "\"아직입니다. 더 배우고 연락드리겠습니다.\"\n그때 그렇게 말했다.\n오늘 그 번호에서 전화가 왔다. 1년 6개월 만에.\n\"아직도 배우고 있어?\"",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_honest_trust",
+      "min_turn": 20
+    },
+    "tags": ["cafe", "callback", "patience_payoff"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"네. 이제 준비됐습니다\"",
+        "effects": {
+          "investment_skill": 5,
+          "reputation": 4,
+          "mental": 10
+        },
+        "flags": ["cafe_long_game_won"],
+        "follow_up_event": "",
+        "result_text": "\"...왔네.\"\n그가 짧게 웃었다.\n\"'아직입니다'라고 말할 줄 알던 사람이 왔다면, 진짜로 준비된 거야.\"\n그날 건네받은 정보는, 지금껏 받은 것 중 가장 단단했다."
+      },
+      {
+        "text": "\"감사합니다. 근데 이제 혼자서 하고 있어요\"",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그것도 좋아.\"\n그가 통화를 끊었다.\n스스로 서는 법을 배웠다. 그것도 그가 준 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_humble_lesson_payoff",
+    "title": "그날 배운 것",
+    "description": "투자 결정을 앞에 두고 고민하다가, 갑자기 생각났다.\n강남 카페에서 그 남자가 했던 말.\n'시장에서 가장 비싼 물건은 급하게 파는 물건이야.'\n지금 이 딜이 정확히 그 꼴이다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_humble_lesson",
+      "min_turn": 16
+    },
+    "tags": ["cafe", "callback", "wisdom_payoff"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "그때 배운 대로 — 발 뺀다",
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "손을 뺐다.\n나중에 알고 보니 전형적인 '급매 사기'였다.\n그날 카페에서 귀를 열어뒀던 게, 오늘 수천만원을 지켰다."
+      },
+      {
+        "text": "그때 들은 게 있어서 더 꼼꼼히 따진다",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "등기부등본을 떼고, 시세를 비교했다.\n결국 적정가에 들어갔다.\n아는 것과 모르는 것의 차이가 이런 데서 난다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_kindness_reunion",
+    "title": "그분을 다시 만나다",
+    "description": "버스 정류장에서 우연히 만났다.\n카페에서 아메리카노 한 잔을 사줬던 그분.\n\"어, 그때 그분이네. 잘 지내셨어요?\"",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_kindness",
+      "min_turn": 12
+    },
+    "tags": ["cafe", "callback", "kindness"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "반갑게 인사하고 얘기 나눈다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 8,
+          "luck": 1
+        },
+        "flags": ["cafe_kindness_reconnected"],
+        "follow_up_event": "",
+        "result_text": "작은 식당을 운영한다고 했다.\n\"요즘 배달이 많아서요\" 하며 웃었다.\n잠깐 얘기했는데 이상하게 기운이 났다.\n그분은 지금도 모르는 사람에게 커피를 사주는 것 같았다."
+      },
+      {
+        "text": "아는 척만 하고 버스를 탄다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"안녕하세요\" 하고 버스를 탔다.\n창밖으로 그분이 보였다. 잠깐 손을 흔들었다.\n그런 사람이 세상에 있다는 게 가끔 힘이 된다."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_jackpot_trap",
+    "title": "현수의 두 번째 제안",
+    "description": "코인으로 크게 번 뒤 현수에게서 연락이 왔다.\n\"야 형, 이번엔 더 확실한 거 있어.\n지난번 두 배 됐잖아. 이번엔 세 배야. 진짜야.\"\n그 '진짜야'가 마음에 걸린다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "coin_jackpot",
+      "min_turn": 4
+    },
+    "tags": ["coin", "hyeonsu", "callback", "greed"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"이번엔 됐어\" 거절한다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 3
+        },
+        "flags": ["coin_greed_resisted"],
+        "follow_up_event": "",
+        "result_text": "\"한 번이면 충분해.\"\n현수가 \"진짜 손해야\" 했다.\n며칠 뒤 코인이 반토막 났다는 소식이 들렸다.\n운을 두 번 믿지 않은 게 맞았다."
+      },
+      {
+        "text": "또 넣는다",
+        "effects": {
+          "stress": 12
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "opportunity": {
+          "stake_ratio": 0.7,
+          "success_rate": 0.10,
+          "win_multiplier": 2.5,
+          "loss_ratio": 0.7,
+          "luck_factor": 0.0005,
+          "skill_gain": 0,
+          "win_flag": "coin_second_win",
+          "lose_flag": "coin_double_rekt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_rekt_aftermath",
+    "title": "현수와 나",
+    "description": "코인으로 다 잃고 한 달이 됐다.\n현수에게서 문자가 왔다.\n'야 나도 다 잃었어. 근데 나 진짜로 새로운 거 또 찾은 것 같아.'\n또 시작이다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "coin_rekt",
+      "min_turn": 3
+    },
+    "tags": ["coin", "hyeonsu", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"야, 그만해. 제발\"",
+        "effects": {
+          "social_skill": 1,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"너랑 나랑 둘 다 잃었잖아. 이번엔 진짜 그만해.\"\n현수가 \"...알겠어\" 했다.\n믿어야 할지 모르겠다. 근데 할 말은 했다."
+      },
+      {
+        "text": "차단한다",
+        "effects": {
+          "mental": 5,
+          "stress": -5
+        },
+        "flags": ["hyeonsu_blocked"],
+        "follow_up_event": "",
+        "result_text": "차단했다.\n연락이 오는 것 자체가 에너지 소모였다.\n미안하지만 — 지금은 나를 먼저 챙겨야 한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_theft_blacklist",
+    "title": "전 직장 동료의 문자",
+    "description": "아이디어를 도둑맞고 사직서를 낸 뒤 3개월이 됐다.\n오늘 전 직장 동기에게서 카톡이 왔다.\n'야, 혹시 알아? 팀장이 네 얘기 하고 다닌대. 좋은 얘기는 아니야.'",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "quit_after_theft",
+      "min_turn": 3
+    },
+    "tags": ["quit", "callback", "workplace"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "증거를 정리해놓는다",
+        "effects": {
+          "stress": 5,
+          "intelligence": 2
+        },
+        "flags": ["theft_documented"],
+        "follow_up_event": "",
+        "result_text": "이메일, 메신저 기록을 저장해뒀다.\n아무것도 안 할 수도 있다. 하지만 — 있는 것과 없는 것은 다르다.\n언젠가 필요할 때를 대비했다."
+      },
+      {
+        "text": "신경 쓰지 않는다. 이미 나온 일",
+        "effects": {
+          "stress": 3,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 사람 얘기에 에너지를 쓰고 싶지 않았다.\n근데 취업 면접에서 전 직장 얘기가 나올 때마다 살짝 긴장됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_planned_reference",
+    "title": "전 상사의 연락",
+    "description": "계획적으로 이직을 준비하며 마무리했던 전 직장.\n오늘 전 팀장에게서 연락이 왔다.\n\"{name}씨, 혹시 추천서 써줘도 되겠어요?\n같이 일하고 싶어하는 데가 있어서요.\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "quit_planned",
+      "min_turn": 4
+    },
+    "tags": ["quit", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"물론입니다. 감사해요\"",
+        "effects": {
+          "reputation": 3,
+          "social_skill": 1,
+          "luck": 1
+        },
+        "flags": ["quit_good_reference"],
+        "follow_up_event": "",
+        "result_text": "마무리를 잘 한 게 여기서 나왔다.\n\"깔끔하게 나간 사람\"이라는 말이 결국 인맥이 됐다.\n떠나는 방식이 돌아오는 방식이다."
+      },
+      {
+        "text": "\"지금은 좀 바빠서요\" 정중히 거절",
+        "effects": {
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"알겠어요. 다음에 기회 있으면 연락해요.\"\n관계는 끊기지 않았다.\n이쪽도 여유가 없을 때는 안 하는 게 맞다."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_impulsive_pressure",
+    "title": "통장 잔고 경보",
+    "description": "충동적으로 사직서를 낸 뒤 한 달 반이 됐다.\n통장 앱을 열었다.\n남은 돈: 387,000원.\n다음 달 고시원비: 450,000원.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "quit_job_event",
+      "min_turn": 2
+    },
+    "tags": ["quit", "callback", "crisis"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "당장 알바를 잡는다",
+        "effects": {
+          "money": 600000,
+          "health": -3,
+          "stress": 5
+        },
+        "flags": ["quit_survived"],
+        "follow_up_event": "",
+        "result_text": "편의점 야간, 주 4회.\n홀가분하게 나온 게 이렇게 쫓기게 될 줄은 몰랐다.\n근데 — 그 직장도 답이 아니었다."
+      },
+      {
+        "text": "구직에 전력을 다한다",
+        "effects": {
+          "stress": 8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이력서를 20군데 넣었다.\n면접 2개가 잡혔다.\n절박함이 집중력이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_loan_pressure",
+    "title": "이자 납부일",
+    "description": "아버지 수술비를 대출로 마련한 지 1년이 됐다.\n이자 자동이체 내역이 떴다. 이번 달 197,000원.\n원금은 아직 손도 못 댔다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "parent_took_loan",
+      "min_turn": 12
+    },
+    "tags": ["parent", "loan", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "조기 상환 계획을 세운다",
+        "effects": {
+          "intelligence": 2,
+          "stress": -3
+        },
+        "flags": ["loan_payoff_planned"],
+        "follow_up_event": "",
+        "result_text": "엑셀을 켰다. 18개월 안에 갚을 수 있다.\n계획 있는 빚과 없는 빚은 다르다.\n아버지가 수술에서 회복하셨다. 그것만으로 충분하다."
+      },
+      {
+        "text": "그냥 이자만 낸다. 지금은 여력이 없다",
+        "effects": {
+          "stress": 3,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이자만 냈다.\n원금은 언제 갚지.\n계속 뒤로 미루면 총 이자가 더 늘어난다는 걸 알면서도."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_refused_aftermath",
+    "title": "어머니의 말",
+    "description": "아버지 수술비를 드리지 못한 게 8개월이 됐다.\n어머니에게서 전화가 왔다.\n\"민준아. 아버지 수술비는 친척한테 빌렸다.\n다 갚았어. 걱정 안 해도 돼.\"\n말투가 이상하게 담담했다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "parent_refused",
+      "min_turn": 8
+    },
+    "tags": ["parent", "callback", "guilt"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"어머니, 죄송해요. 제가 갚을게요\"",
+        "effects": {
+          "mental": -10,
+          "stress": 5,
+          "social_skill": 1
+        },
+        "flags": ["parent_debt_acknowledged"],
+        "follow_up_event": "",
+        "result_text": "\"됐어. 네가 잘 되면 그게 다야.\"\n어머니가 끊었다.\n'됐어'가 진심인지 배려인지 알 수 없었다.\n그냥 잘 되는 수밖에 없다."
+      },
+      {
+        "text": "\"...감사해요. 나중에 꼭 드릴게요\"",
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "어머니가 \"그래\" 하고 끊었다.\n나중에 꼭 드려야 한다.\n그 '나중'이 너무 늦지 않기를."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_paid_full_response",
+    "title": "아버지의 문자",
+    "description": "종잣돈을 털어서 아버지 수술비를 낸 지 5개월이 됐다.\n아버지에게서 문자가 왔다.\n'민준아. 아버지가 많이 미안하다. 고맙다.'\n아버지가 먼저 문자를 보낸 게 처음인 것 같다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "parent_paid_full",
+      "min_turn": 6
+    },
+    "tags": ["parent", "callback", "family_warm"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"괜찮아요 아버지. 당연한 거죠\"",
+        "effects": {
+          "mental": 15,
+          "stress": -8
+        },
+        "flags": ["parent_bond_deepened"],
+        "follow_up_event": "",
+        "result_text": "아버지가 답장을 안 보냈다.\n그 침묵이 뭔지 알 것 같았다.\n그날 이상하게 잠이 잘 왔다."
+      },
+      {
+        "text": "전화를 건다",
+        "effects": {
+          "mental": 12,
+          "stress": -5,
+          "social_skill": 1
+        },
+        "flags": ["parent_bond_deepened"],
+        "follow_up_event": "",
+        "result_text": "아버지가 전화를 받았다.\n많은 말은 안 했다. 둘 다.\n근데 그것만으로 충분한 통화가 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_dad_truth_response",
+    "title": "아버지의 답장",
+    "description": "\"아버지, 저 요즘 좀 힘들어요\"라고 처음 말한 게 한 달 전이다.\n오늘 아버지에게서 문자가 왔다.\n'민준아. 지난번에 말해줘서 고맙다. 아버지는 여기 있다.'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "told_dad_truth",
+      "min_turn": 5
+    },
+    "tags": ["father", "callback", "family_warm"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"네. 알고 있어요 아버지\"",
+        "effects": {
+          "mental": 12,
+          "stress": -8
+        },
+        "flags": ["father_closeness_deepened"],
+        "follow_up_event": "",
+        "result_text": "답장을 보내고 잠시 폰을 들고 있었다.\n'여기 있다'는 말 하나가.\n이상하게 오늘 하루 버티게 해줬다."
+      },
+      {
+        "text": "답장을 안 한다 — 너무 뭉클해서",
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "답장을 못 했다.\n뭐라고 써야 할지 몰랐다.\n그냥 읽음 표시만 남겼다.\n아버지도 그것만으로 충분한 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_sangchul_truth_echo",
+    "title": "상철의 기억",
+    "description": "임상철과 세 번째 만남.\n국밥집에서 자리를 잡고 앉으니, 그가 먼저 말을 꺼냈다.\n\"지난번에 했던 얘기 — 아버지 사기 당한 거. 아직도 생각해.\"",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "told_sangchul_truth",
+      "min_turn": 5
+    },
+    "tags": ["sangchul", "callback", "trust"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그래서 더 조심하게 되는 것 같아요\"",
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 1,
+          "reputation": 2
+        },
+        "flags": ["sangchul_deeper_trust"],
+        "follow_up_event": "",
+        "result_text": "임상철이 끄덕였다.\n\"그 조심스러움이 오히려 강점이야. 급하지 않으니까.\"\n그날 그가 한 인맥 소개를 했다.\n진심을 보여준 게, 신뢰를 만들었다."
+      },
+      {
+        "text": "\"이젠 그냥 목표가 됐어요. 아버지 생각은 안 해요\"",
+        "effects": {
+          "mental": -3,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "임상철이 잠깐 보다가 국물을 떴다.\n\"...그게 더 무서운 거야, 사실.\"\n그 말이 뭔 뜻인지 밥 먹으면서 생각했다."
+      }
+    ]
+  }
+]
