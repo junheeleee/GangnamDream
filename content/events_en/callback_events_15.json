@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_jiyeon_apology_made_echo",
+    "title": "After the Apology to Jiyeon",
+    "description": "Two months since you apologized to Jiyeon.\nShe said 'It's fine.'\nToday Jiyeon reached out to ask to meet.",
+    "choices": [
+      {
+        "text": "Meet her",
+        "result_text": "You met.\nThe first meeting after an apology — was different.\nWith the weight lifted — other things filled the space."
+      },
+      {
+        "text": "Still a bit awkward. Suggest next time.",
+        "result_text": "You said 'Let's meet soon.'\nShe said 'Sure.'\nAwkwardness doesn't go away by avoiding it.\nFacing it was faster."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_mentor_track_echo",
+    "title": "Jiyeon's Network",
+    "description": "Three months since you started treating Jiyeon as a kind of mentor.\nSince then, someone she introduced you to had stayed in touch.\nToday they brought a proposal.",
+    "choices": [
+      {
+        "text": "Hear the proposal",
+        "result_text": "You heard it.\nIt had come through Jiyeon.\nPeople bring people — that's how networks work."
+      },
+      {
+        "text": "Ask Jiyeon about it first before deciding",
+        "result_text": "You asked Jiyeon first.\nShe replied 'They're trustworthy.'\nTrust comes before information."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_trust_built_echo",
+    "title": "Built-Up Trust",
+    "description": "Building trust with Jiyeon had taken a long time.\nAnd today — Jiyeon opened up with something real for the first time.",
+    "choices": [
+      {
+        "text": "Listen quietly",
+        "result_text": "You listened for a long time.\nJiyeon kept talking — as she talked, more came out.\nTrust takes a long time to build — and a moment to spend.\nThis was that moment."
+      },
+      {
+        "text": "Think through it with her",
+        "result_text": "You talked it through together.\nJiyeon said 'There aren't many people I can say this to.'\nTrust means — saying things you don't say to just anyone."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_opens_up_echo",
+    "title": "When Jiyeon Opened Up",
+    "description": "A month since Jiyeon opened up for the first time.\nThe conversations since have been different.\nToday she brought something up on her own again.",
+    "choices": [
+      {
+        "text": "Listen well this time too",
+        "result_text": "You listened.\nJiyeon said 'Talking to you is easy.'\nThe first door that opened — calls the next story in."
+      },
+      {
+        "text": "Open up honestly yourself too",
+        "result_text": "You were honest too.\nWhen one side opens — the other does too. That's conversation.\nThe evening stretched on."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_referral_met_echo",
+    "title": "Jiyeon's Introduction",
+    "description": "Two months since you met someone Jiyeon introduced you to.\nToday they reached out again.",
+    "choices": [
+      {
+        "text": "Continue building this connection",
+        "result_text": "You met again.\nThe introduction through Jiyeon — had continued beyond Jiyeon.\nA good introduction becomes a relationship in its own right."
+      },
+      {
+        "text": "Say you're busy this time",
+        "result_text": "'Busy these days,' you said.\nThey understood.\nBut a referred connection — is harder to rebuild once it breaks."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_respects_player_echo",
+    "title": "When Jiyeon Respects You",
+    "description": "A month since you felt Jiyeon had come to genuinely respect you.\nToday, facing an important decision, she asked for your opinion.",
+    "choices": [
+      {
+        "text": "Give your honest opinion",
+        "result_text": "You gave it straight.\nJiyeon said 'That was exactly what I needed to hear.'\nRespect shows up as asking for opinions."
+      },
+      {
+        "text": "Say it's Jiyeon's call to make",
+        "result_text": "'You know this better than I do,' you said.\nJiyeon replied '...True, but I just wanted to hear it.'\nAsking for an opinion isn't looking for an answer — it's wanting to think together."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_declined_coffee_result",
+    "title": "After Turning Down the Coffee",
+    "description": "Two months since you turned down Jiyeon's invitation — the one mixed with business talk.\nToday Jiyeon proposed a similar get-together again.",
+    "choices": [
+      {
+        "text": "Go this time",
+        "result_text": "You went.\nNo business talk.\nJust coffee.\nWhether the refusal had changed it or this was always what it was — impossible to know.\nEither way, it was good."
+      },
+      {
+        "text": "Decline again",
+        "result_text": "You declined again.\nJiyeon said 'I see.'\nTurning someone down twice — they stop asking a third time.\nWhat kind of signal that sent — you already knew."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_deflected_business_echo",
+    "title": "After Deflecting the Business Talk",
+    "description": "Two months since you brushed off Jiyeon's business pitch.\nToday she brought it up again.\nThis time, directly.",
+    "choices": [
+      {
+        "text": "Hear it out properly this time",
+        "result_text": "You listened.\nWith actual attention, it was clearer than you'd let it be.\nDeflecting doesn't make it disappear — it comes back."
+      },
+      {
+        "text": "Deflect it gently again",
+        "result_text": "You slid past it again.\nJiyeon's expression shifted for a moment.\nShe said 'I see.'\nDeflecting twice — the other side takes that as the answer."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_honest_late_echo",
+    "title": "Late Honesty",
+    "description": "Two months since you finally came clean with Jiyeon — late as it was.\nA lot had already passed by then.\nToday Jiyeon brought up that day.",
+    "choices": [
+      {
+        "text": "\"I'm sorry it took so long.\"",
+        "result_text": "'You still said it, late as it was,' Jiyeon said.\nLate honesty — was different from none at all.\nLate was still the right call."
+      },
+      {
+        "text": "\"I should have said it sooner.\"",
+        "result_text": "Jiyeon said 'But you did say it.'\nThe regret of being late — was smaller than the fact that it happened."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_met_again_echo",
+    "title": "Seeing Each Other Again",
+    "description": "A month since you ran into Jiyeon after a long gap.\nToday a message from her:\n'It was good seeing you.'",
+    "choices": [
+      {
+        "text": "\"Same here. Let's meet again.\"",
+        "result_text": "'Me too. See you again,' you said.\nA short message became a next meeting.\nAfter a good reunion — there's a next one."
+      },
+      {
+        "text": "Just send an emoji",
+        "result_text": "You sent an emoji.\nShe sent one back.\nThere was a gap between words and an emoji — even when they meant the same thing."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_mother_direct_echo",
+    "title": "Directly with Jiyeon's Mother",
+    "description": "Two months since you had a direct conversation with Jiyeon's mother.\nToday Jiyeon brought it up.\n'My mother was saying good things about you.'",
+    "choices": [
+      {
+        "text": "\"Was she? Please pass on my thanks.\"",
+        "result_text": "Jiyeon smiled.\n'I will.'\nA parent's trust — builds the foundation of a relationship."
+      },
+      {
+        "text": "\"That's nice.\" Take it calmly.",
+        "result_text": "You received it calmly.\nJiyeon said 'You're so unfazed.'\nBeing unfazed — you heard later — was what left the bigger impression."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_gratitude_returned_echo",
+    "title": "Gratitude Returned",
+    "description": "What you'd done for Jiyeon — came back in an unexpected way.\nToday Jiyeon did something for you first.",
+    "choices": [
+      {
+        "text": "Receive it with gratitude",
+        "result_text": "You received it gratefully.\nThe timing of when giving comes back — can't be predicted.\nThat's why you give without calculation — and when it returns, it feels better for it."
+      },
+      {
+        "text": "\"You didn't have to.\"",
+        "result_text": "'You didn't need to do this,' you said.\nJiyeon said 'I wanted to.'\n'Needed to' and 'wanted to' — those are different things."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_bond_deepened_echo",
+    "title": "The Deepened Connection",
+    "description": "Two months since you felt the bond with Daeun had deepened.\nToday Daeun called, voice heavy.\n\"Minjun-ssi. I'm having a rough time right now.\"",
+    "choices": [
+      {
+        "text": "\"I can come out now. Where are you?\"",
+        "result_text": "You went.\nDaeun said 'You didn't have to come out.'\n'I did,' you said.\nA deepened bond meant — getting this kind of call."
+      },
+      {
+        "text": "Listen over the phone",
+        "result_text": "You listened on the phone.\nAn hour passed.\nAt the end Daeun said 'Thank you.'\nBeing there takes different forms."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_second_date_echo",
+    "title": "The Second Time",
+    "description": "A month since you met Daeun alone for the second time.\nToday Daeun proposed a third.",
+    "choices": [
+      {
+        "text": "\"Sure.\" Reply right away.",
+        "result_text": "You said 'Sure.' right away.\nA third one became real.\nThree times — wasn't coincidence anymore."
+      },
+      {
+        "text": "\"Let me check my schedule and get back to you.\"",
+        "result_text": "You checked.\nYou were free.\nYou replied.\nGoing slow is still going."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_honest_echo",
+    "title": "Being Honest with Daeun",
+    "description": "Two months since you told Daeun something honestly.\nIt wasn't easy to say.\nToday Daeun looked back on that day.",
+    "choices": [
+      {
+        "text": "\"It wasn't easy to say.\"",
+        "result_text": "Daeun said 'I know. That's what made it good.'\nHonesty done the hard way — stays longer than the easy kind."
+      },
+      {
+        "text": "\"I just felt like I had to.\"",
+        "result_text": "'I felt like I should say it,' you said.\nDaeun replied 'Not many people are like that.'\nDoing what you're supposed to do — turns out it's not that common."
+      }
+    ]
+  }
+]
