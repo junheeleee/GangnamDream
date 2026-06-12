@@ -1,0 +1,287 @@
+[
+  {
+    "id": "callback_shadow_burned_echo",
+    "title": "그림자 투자에 데인 뒤",
+    "description": "그림자 투자에 데이고 두 달이 지났다.\n그때를 떠올리면 아직도 쓸렸다.\n오늘 비슷한 제안이 또 들어왔다.",
+    "conditions": {
+      "flag": "shadow_burned",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "바로 거절하다",
+        "result_text": "바로 거절했다.\n한 번 데인 경험이 판단을 빠르게 했다.\n경험은 이럴 때 쓰라고 있는 것이다."
+      },
+      {
+        "text": "일단 들어보다",
+        "result_text": "들었다.\n구조가 그때와 같았다.\n듣는 것—자체가 또 끌려들어갈 수 있다는 신호였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_investigated_echo",
+    "title": "그림자를 파헤친 뒤",
+    "description": "그림자 투자 구조를 직접 파헤친 지 두 달.\n그 과정이 쉽지 않았다.\n오늘 그 구조가 터졌다는 뉴스가 떴다.",
+    "conditions": {
+      "flag": "shadow_investigated",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "예상했던 결과다",
+        "result_text": "예상했다.\n파헤쳐봤기 때문에 보였던 것이다.\n아는 것—가끔은 피할 수 있게 한다."
+      },
+      {
+        "text": "그래도 씁쓸하다",
+        "result_text": "씁쓸했다.\n피해자가 있다는 게 떠올랐다.\n정보가 있어서 피했다—없었던 사람들은 그러지 못했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_confronted_echo",
+    "title": "보증 문제를 직접 대면한 뒤",
+    "description": "보증 문제를 직접 대면한 지 두 달.\n그 대화가 쉽지 않았다.\n오늘 결과가 나왔다.",
+    "conditions": {
+      "flag": "guarantee_confronted",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "결과를 확인하다",
+        "result_text": "직접 말한 게 움직임을 만들었다.\n외면했으면 질질 끌렸을 일—대면이 끝냈다.\n불편한 대화가 더 긴 불편함을 막는다."
+      },
+      {
+        "text": "아직 마무리가 안 됐다",
+        "result_text": "아직 마무리가 안 됐다.\n하지만 대면 이전과는 달랐다.\n시작이 있어야 끝도 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_legal_route_echo",
+    "title": "법적 경로를 택한 뒤",
+    "description": "보증 문제에서 법적 경로를 택한 지 세 달.\n시간이 걸리는 싸움이었다.\n오늘 진행 상황이 업데이트됐다.",
+    "conditions": {
+      "flag": "guarantee_legal_route",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "계속 진행하다",
+        "result_text": "계속했다.\n법적 경로는 느리다.\n하지만 기록이 남는다—그게 다른 방법과의 차이다."
+      },
+      {
+        "text": "지쳐간다",
+        "result_text": "지쳐갔다.\n이 싸움이 이렇게 길 줄은 몰랐다.\n하지만 포기하면—지금까지가 모두 없어진다.\n끝까지 가는 것—이 옵션의 유일한 의미다."
+      }
+    ]
+  },
+  {
+    "id": "callback_freelance_growing_echo",
+    "title": "프리랜서 일이 커지다",
+    "description": "프리랜서 일을 시작한 지 세 달.\n처음엔 들쑥날쑥했다.\n오늘 안정적인 의뢰처가 생겼다.",
+    "conditions": {
+      "flag": "freelance_growing",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "계속 키워나가다",
+        "result_text": "계속 했다.\n안정적인 의뢰처 하나—가장 중요한 토대가 된다.\n프리랜서의 두려움은 일이 없는 것. 지금은 아니다."
+      },
+      {
+        "text": "정규직 전환도 고민하다",
+        "result_text": "정규직도 고민했다.\n안정이 생기자—더 큰 안정이 당겼다.\n그게 사람이다. 하지만 지금 이 선택도 하나의 안정이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_content_started_echo",
+    "title": "SNS 콘텐츠를 시작한 뒤",
+    "description": "SNS에 콘텐츠를 올리기 시작한 지 두 달.\n반응이 거의 없었다.\n오늘—처음으로 낯선 사람이 댓글을 달았다.",
+    "conditions": {
+      "flag": "sns_content_started",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "계속하다",
+        "result_text": "계속하기로 했다.\n한 명—이 시작이다.\n반응이 없는 시기를 버틴 사람만 반응이 오는 시기를 맞는다."
+      },
+      {
+        "text": "방향을 바꿔볼까 고민하다",
+        "result_text": "방향을 고민했다.\n그 댓글을 힌트로 삼았다.\n한 명의 반응—이 방향의 나침반이 될 수 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_going_solo_echo",
+    "title": "혼자 가기로 한 뒤",
+    "description": "혼자서 창업을 이어가기로 한 지 두 달.\n팀 없이 가는 것이 외로웠다.\n오늘 처음으로 도움을 주겠다는 사람이 나타났다.",
+    "conditions": {
+      "flag": "startup_going_solo",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "같이 해보다",
+        "result_text": "같이 해보기로 했다.\n혼자 가다가 맞이한 동료—홀로 버텼기 때문에 만날 수 있었다.\n혼자서 시작한 것이 함께가 됐다."
+      },
+      {
+        "text": "일단 지켜보다",
+        "result_text": "지켜봤다.\n처음 나타난 사람—곧바로 믿기엔 이르다.\n혼자 해봤기 때문에—필요한 사람인지 아닌지를 볼 수 있게 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_chased_landlord_echo",
+    "title": "집주인을 쫓아간 뒤",
+    "description": "전세 문제로 직접 집주인을 찾아간 지 두 달.\n그 이후 연락이 끊겼다.\n오늘 법원에서 서류가 왔다.",
+    "conditions": {
+      "flag": "jeonse_chased_landlord",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "절차를 밟다",
+        "result_text": "절차대로 했다.\n직접 찾아간 것이 기록을 만들었다.\n그 기록이 지금 절차의 토대가 됐다."
+      },
+      {
+        "text": "지치지만 계속하다",
+        "result_text": "지쳤다.\n하지만 멈추면 모든 게 날아간다.\n집주인은 지치길 기다린다—그래서 더 버텨야 한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_reconnected_echo",
+    "title": "다은과 다시 이어진 뒤",
+    "description": "한동안 거리가 있었던 다은과 다시 이어진 지 두 달.\n처음엔 어색했다.\n오늘 그녀가 먼저 만나자고 했다.",
+    "conditions": {
+      "flag": "daeun_reconnected",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "만나다",
+        "result_text": "만났다.\n다시 이어진 것—두 사람 모두 원했기 때문이다.\n한 번 끊어진 관계를 다시 잇는 것은—처음보다 더 진지하다."
+      },
+      {
+        "text": "먼저 어떤 자리인지 물어보다",
+        "result_text": "어떤 자리냐고 먼저 물었다.\n그녀가 \"그냥\"이라고 했다.\n그냥—은 사실 많은 걸 담고 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_helped_failed_friend_echo",
+    "title": "실패한 친구를 도운 뒤",
+    "description": "사업에 실패한 친구를 도운 지 두 달.\n그 친구의 상황이 신경 쓰였다.\n오늘 연락이 왔다.",
+    "conditions": {
+      "flag": "helped_failed_friend",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "어떻게 됐냐고 묻다",
+        "result_text": "\"요즘 어때?\"라고 물었다.\n친구가 \"조금씩 다시 시작하고 있어\"라고 했다.\n도움을 준 뒤에도 계속 신경 써주는 것—진짜 도움이 무엇인지를 보여준다."
+      },
+      {
+        "text": "먼저 안부를 전하다",
+        "result_text": "먼저 안부를 전했다.\n친구가 \"고마워. 네 덕에 버텼어\"라고 했다.\n도움은 그 순간만이 아니다. 기억이 계속 버티게 한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_envy_fuel_shifted_echo",
+    "title": "시기가 연료가 된 뒤",
+    "description": "부러움을 에너지로 바꾸기로 한 지 세 달.\n처음엔 비교가 괴로웠다.\n오늘 그 사람보다 더 나아진 부분을 발견했다.",
+    "conditions": {
+      "flag": "envy_fuel_shifted",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "앞질렀다는 걸 확인하다",
+        "result_text": "앞질렀다.\n시기를 연료로 쓰기로 했을 때—이 결과가 목적지였다.\n비교는 목적지만 잘 설정하면 도구가 된다."
+      },
+      {
+        "text": "아직 멀었다",
+        "result_text": "아직 멀었다.\n하지만 방향이 생긴 것만으로—세 달 전과 달랐다.\n시기가 에너지가 됐다는 것—이 달라짐이 증거다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_boundary_set_echo",
+    "title": "선을 그은 뒤",
+    "description": "회식 자리에서 처음으로 선을 그은 지 두 달.\n어색함이 남아 있었다.\n오늘 같은 상황이 또 왔다.",
+    "conditions": {
+      "flag": "hoesik_boundary_set",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "이번에도 선을 긋다",
+        "result_text": "이번에도 그었다.\n한 번보다 두 번—이 더 자연스럽다.\n선은 한 번 긋는 게 아니라 반복해서 긋는 것이다."
+      },
+      {
+        "text": "이번엔 참아보다",
+        "result_text": "이번엔 참았다.\n선을 긋는 것이 유연하지 않다는 뜻은 아니다.\n상황을 보고 고르는 것—그게 선을 진짜로 가진 사람이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_reconciled_echo",
+    "title": "명절에 화해한 뒤",
+    "description": "명절에 오랫동안 멀었던 가족과 화해한 지 두 달.\n그날의 어색함이 아직 기억에 남아 있다.\n오늘 그 가족에게서 연락이 왔다.",
+    "conditions": {
+      "flag": "holiday_reconciled",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "반갑게 받다",
+        "result_text": "반갑게 받았다.\n명절의 화해가 이 연락을 만들었다.\n화해는 그날로 끝이 아니다. 그 뒤의 연락들이 화해를 완성한다."
+      },
+      {
+        "text": "아직 완전히 편하지 않지만 받다",
+        "result_text": "아직 편하지 않았지만 받았다.\n편함은 시간이 만든다.\n받는 것—그 자체가 화해가 계속되고 있다는 신호다."
+      }
+    ]
+  },
+  {
+    "id": "callback_declared_dream_echo",
+    "title": "꿈을 선언한 뒤",
+    "description": "강남 입성을 꿈으로 선언한 지 세 달.\n말로 꺼낸 것이 오히려 무겁게 느껴질 때가 있었다.\n오늘 그 말을 들었던 사람을 다시 만났다.",
+    "conditions": {
+      "flag": "declared_dream",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "잘 되고 있다고 하다",
+        "result_text": "\"잘 가고 있어\"라고 했다.\n그 사람이 \"그거 기억하고 있었어\"라고 했다.\n선언은 자신만이 아니라—들은 사람에게도 기준이 된다."
+      },
+      {
+        "text": "아직 멀었다고 솔직하게 하다",
+        "result_text": "\"아직 멀었어\"라고 솔직하게 했다.\n그 사람이 \"그래도 가고 있잖아\"라고 했다.\n선언을 지키는 것—결과가 아니라 방향을 유지하는 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_deleted_sns_echo",
+    "title": "SNS를 지운 뒤",
+    "description": "비교가 괴로워 SNS를 삭제한 지 두 달.\n처음엔 공허했다.\n오늘 그 이후를 돌아봤다.",
+    "conditions": {
+      "flag": "deleted_sns",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "잘 지웠다",
+        "result_text": "집중이 달라졌다.\n화면이 없으니 시간이 남았다.\n그 시간이 실제로 쓰인 것—지운 것의 값이다."
+      },
+      {
+        "text": "가끔 다시 깔까 생각하다",
+        "result_text": "가끔 다시 깔까 생각했다.\n하지만 이유를 떠올렸다.\n지운 이유가 설득력을 유지하는 동안—그 결정은 유효하다."
+      }
+    ]
+  }
+]

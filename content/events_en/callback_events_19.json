@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_shadow_burned_echo",
+    "title": "After Getting Burned by Gray Investing",
+    "description": "Two months since you got burned by the gray-market investment.\nThinking back still stung.\nToday a similar offer came in.",
+    "choices": [
+      {
+        "text": "Decline immediately",
+        "result_text": "You declined right away.\nGetting burned once had sharpened the response.\nExperience exists for exactly this moment."
+      },
+      {
+        "text": "At least hear it out",
+        "result_text": "You listened.\nThe structure was the same as before.\nListening itself — was a signal you could get pulled in again."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_investigated_echo",
+    "title": "After Investigating the Shadow",
+    "description": "Two months since you dug into the gray-market structure yourself.\nIt hadn't been easy.\nToday it collapsed — and the news broke.",
+    "choices": [
+      {
+        "text": "Saw it coming",
+        "result_text": "You'd seen it coming.\nBecause you'd looked into it, you'd seen it.\nKnowing something — sometimes lets you get out of the way."
+      },
+      {
+        "text": "Still feels bitter",
+        "result_text": "It felt bitter.\nYou thought about the people who got hurt.\nYou had the information and escaped — they didn't."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_confronted_echo",
+    "title": "After Confronting the Guarantee Problem",
+    "description": "Two months since you faced the loan guarantee issue head-on.\nThat conversation had not been easy.\nToday the outcome came in.",
+    "choices": [
+      {
+        "text": "Check the result",
+        "result_text": "Confronting it directly had created movement.\nLeft alone, it would have dragged on — facing it brought it to an end.\nAn uncomfortable conversation prevents a longer discomfort."
+      },
+      {
+        "text": "Still not fully resolved",
+        "result_text": "Not fully resolved yet.\nBut different from before the confrontation.\nA start is what makes an ending possible."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_legal_route_echo",
+    "title": "After Taking the Legal Route",
+    "description": "Three months since you chose the legal route on the guarantee issue.\nIt had been a slow fight.\nToday there was an update on how it was going.",
+    "choices": [
+      {
+        "text": "Keep going",
+        "result_text": "You kept going.\nLegal routes are slow.\nBut they leave a record — that's what sets them apart from other options."
+      },
+      {
+        "text": "Getting worn out",
+        "result_text": "You were getting worn out.\nYou hadn't expected it to take this long.\nBut stopping meant everything so far evaporated.\nThe other side is waiting for you to quit — which is exactly why you can't."
+      }
+    ]
+  },
+  {
+    "id": "callback_freelance_growing_echo",
+    "title": "As the Freelance Work Grows",
+    "description": "Three months into freelancing.\nIt had been uneven at first.\nToday a steady client came through.",
+    "choices": [
+      {
+        "text": "Keep building it",
+        "result_text": "You kept going.\nOne reliable client — becomes the most important foundation.\nThe freelancer's fear is no work. Right now, that's not the problem."
+      },
+      {
+        "text": "Consider going back to full-time",
+        "result_text": "You thought about full-time.\nOnce stability arrived — bigger stability pulled at you.\nThat's just human. But this path is also its own kind of stability."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_content_started_echo",
+    "title": "After Starting to Post Content",
+    "description": "Two months since you started posting on social media.\nAlmost no response.\nToday — for the first time, a stranger left a comment.",
+    "choices": [
+      {
+        "text": "Keep going",
+        "result_text": "You decided to keep going.\nOne person — is a start.\nOnly those who survive the quiet period get to see the noisy one."
+      },
+      {
+        "text": "Think about changing direction",
+        "result_text": "You thought about changing direction.\nYou used that comment as a hint.\nOne person's reaction — can be a compass for where to go next."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_going_solo_echo",
+    "title": "After Deciding to Go It Alone",
+    "description": "Two months since you decided to keep the startup going solo.\nIt had been lonely without a team.\nToday, for the first time, someone offered to help.",
+    "choices": [
+      {
+        "text": "Give it a try together",
+        "result_text": "You tried it together.\nA collaborator found while going alone — was possible because you'd held on alone.\nWhat started solo had become shared."
+      },
+      {
+        "text": "Watch and see for now",
+        "result_text": "You watched first.\nSomeone appearing right away — was too soon to trust.\nHaving done it alone — meant you could now see whether this person was needed."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_chased_landlord_echo",
+    "title": "After Going After the Landlord",
+    "description": "Two months since you tracked down the landlord over the jeonse issue.\nContact had gone dark after that.\nToday documents arrived from the court.",
+    "choices": [
+      {
+        "text": "Follow the process",
+        "result_text": "You followed the steps.\nGoing there in person had created a record.\nThat record was now the foundation for this process."
+      },
+      {
+        "text": "Worn out but pressing on",
+        "result_text": "You were worn out.\nBut stopping meant losing everything.\nThe landlord is waiting for you to exhaust yourself — that's exactly why you have to hold on."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_reconnected_echo",
+    "title": "After Reconnecting with Daeun",
+    "description": "Two months since you reconnected with Daeun after a long distance.\nAt first it had been awkward.\nToday she suggested meeting first.",
+    "choices": [
+      {
+        "text": "Meet her",
+        "result_text": "You met.\nReconnecting — was because both of you had wanted it.\nMending a relationship that had frayed — is more serious than starting one."
+      },
+      {
+        "text": "Ask what kind of meeting it is first",
+        "result_text": "You asked what kind of meeting.\nShe said 'Just.'\nJust — holds more than it sounds."
+      }
+    ]
+  },
+  {
+    "id": "callback_helped_failed_friend_echo",
+    "title": "After Helping a Friend Who Failed",
+    "description": "Two months since you helped a friend whose business had failed.\nYou'd been thinking about how they were doing.\nToday they reached out.",
+    "choices": [
+      {
+        "text": "Ask how things are going",
+        "result_text": "You said 'How are things?'\nThey said 'Slowly starting to rebuild.'\nChecking in after helping — shows what real help looks like."
+      },
+      {
+        "text": "Say hello first",
+        "result_text": "You reached out first.\nThey said 'Thanks. I got through it because of you.'\nHelp isn't just the moment. The memory of it keeps people going."
+      }
+    ]
+  },
+  {
+    "id": "callback_envy_fuel_shifted_echo",
+    "title": "After Turning Envy into Fuel",
+    "description": "Three months since you decided to use the envy as energy.\nThe comparisons had been painful at first.\nToday you found a place where you'd moved ahead.",
+    "choices": [
+      {
+        "text": "Confirm you've pulled ahead",
+        "result_text": "You had.\nWhen you'd decided to use envy as fuel — this was the destination.\nComparison becomes a tool when you set the right target."
+      },
+      {
+        "text": "Still a long way to go",
+        "result_text": "Still a long way.\nBut having a direction — was different from three months ago.\nEnvy had become energy — this change was proof."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_boundary_set_echo",
+    "title": "After Drawing the Line",
+    "description": "Two months since you held a line at a work dinner for the first time.\nSome awkwardness had stayed.\nToday the same situation came around again.",
+    "choices": [
+      {
+        "text": "Draw the line again",
+        "result_text": "You held the line again.\nOnce is harder than twice — twice starts to feel natural.\nA boundary isn't drawn once — it's drawn over and over."
+      },
+      {
+        "text": "Give in this time",
+        "result_text": "This time you gave in.\nHaving a boundary doesn't mean being inflexible.\nReading the situation and choosing — that's someone who actually has one."
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_reconciled_echo",
+    "title": "After the Holiday Reconciliation",
+    "description": "Two months since you reconciled with estranged family at a holiday gathering.\nThe awkwardness of that day still sat in memory.\nToday a message came from them.",
+    "choices": [
+      {
+        "text": "Answer warmly",
+        "result_text": "You answered warmly.\nThe holiday reconciliation had made this message possible.\nReconciliation doesn't end on the day. The messages that follow are what complete it."
+      },
+      {
+        "text": "Not fully comfortable yet, but you answer",
+        "result_text": "Not fully at ease yet — but you answered.\nComfort takes time.\nAnswering at all — is proof the reconciliation is still continuing."
+      }
+    ]
+  },
+  {
+    "id": "callback_declared_dream_echo",
+    "title": "After Declaring the Dream",
+    "description": "Three months since you declared Gangnam as your goal.\nSometimes saying it out loud had made it feel heavier.\nToday you ran into someone who'd heard it.",
+    "choices": [
+      {
+        "text": "Say things are going well",
+        "result_text": "You said 'Things are moving.'\nThey said 'I remembered that.'\nA declaration isn't just for yourself — it becomes a standard for those who heard it too."
+      },
+      {
+        "text": "Honestly say you've still got a long way",
+        "result_text": "You said honestly 'Still a long way to go.'\nThey said 'But you're still going.'\nKeeping a declaration — isn't about the result. It's about keeping the direction."
+      }
+    ]
+  },
+  {
+    "id": "callback_deleted_sns_echo",
+    "title": "After Deleting Social Media",
+    "description": "Two months since you deleted social media because the comparisons were hurting.\nThe first days had felt empty.\nToday you looked back on the time since.",
+    "choices": [
+      {
+        "text": "Good call to delete it",
+        "result_text": "Your focus had shifted.\nNo feed meant time had opened up.\nHow that time was actually used — that's what the deletion was worth."
+      },
+      {
+        "text": "Sometimes think about putting it back",
+        "result_text": "Sometimes you thought about putting it back.\nBut you remembered why you'd deleted it.\nAs long as the reason still held — the decision did too."
+      }
+    ]
+  }
+]
