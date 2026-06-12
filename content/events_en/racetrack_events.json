@@ -1,0 +1,126 @@
+[
+  {
+    "id": "race_first_visit",
+    "title": "Gwacheon Racecourse",
+    "description": "Saturday afternoon. When the train pulled into Gyeongmagongwon Station, people poured out.\n\nInside the Korea Racing Authority building — a smell unique to indoor tracks. Cigarettes, sweat, printed paper.\n\nMiddle-aged men lined up at the betting windows. It was {name}'s first time.\n\nNo entry fee. That somehow felt dangerous.",
+    "choices": [
+      {
+        "text": "Just watch for now",
+        "result_text": "Watched two races. From the stands, the horses rounding the corners were fast and quiet. More to see than expected.\nNo betting. That was a choice too."
+      },
+      {
+        "text": "Buy a win ticket (₩5,000)",
+        "result_text": "Picked number 7. No reason. Just liked 7.\nResult: 4th place. No payout.\n₩5,000 gone. Strangely, it didn't sting much.\nThat was the scary part."
+      },
+      {
+        "text": "Ask a nearby guy how he picks",
+        "result_text": "An older man in his 60s unfolded a newspaper.\nRecent race records, jockey, weight, weather adaptability.\n\"Number 3 is strong on this track. But today's weather is a variable.\"\nTen minutes of explanation. Understood maybe half."
+      }
+    ]
+  },
+  {
+    "id": "race_tip_seller_02",
+    "title": "The Tip Sheet Guy",
+    "description": "At the end of the explanation, the man held out a printed sheet.\n\nDense tables of numbers. 'Today's Recommended Horses Analysis — ₩5,000.'\n\n\"This changes everything. Twenty years of experience, me.\"\n\nAccuracy unknown. But the confidence was undeniable.",
+    "choices": [
+      {
+        "text": "Pay ₩5,000 and buy it",
+        "result_text": "Followed the sheet and bought Number 3 to win. Number 3 came in 2nd.\nWin tickets only pay for 1st. One place off.\nLooked for the tip guy. Already gone."
+      },
+      {
+        "text": "Skip it. Trust my own gut",
+        "result_text": "Picked Number 11 on instinct. Dead last.\nThought about the tip sheet guy. Hard to say whether not buying was the right call."
+      }
+    ]
+  },
+  {
+    "id": "race_number_three",
+    "title": "Number 3 Is a Sure Thing",
+    "description": "Back at Gwacheon.\n\nOut front, a man similar to the one before was waving printed sheets.\n\"Number 3 is a sure thing. Peak condition today.\"\n\nLast week, a different man had also said Number 3 was a sure thing.\n\n{name} paused.",
+    "choices": [
+      {
+        "text": "Number 3 to win — ₩10,000",
+        "result_text": "Took the ticket to the stands."
+      },
+      {
+        "text": "Ignore him, check the records myself",
+        "result_text": "Stood in front of the race information board for ten minutes.\nJockey weight, last three race rankings, track suitability.\nLooking at the numbers, Number 8 seemed better.\nNumber 8 came in 3rd. Would've paid on an exacta."
+      }
+    ]
+  },
+  {
+    "id": "race_number_three_result",
+    "title": "Number 3 Result",
+    "description": "The gates broke open.\n\nThe crowd in the stands rose as one. Someone called out — Three, three.\n\nFirst corner. Leading. Hope flickered briefly.\n\nFinal stretch. Number 3 slowly fell back.",
+    "choices": [
+      {
+        "text": "Crumple the ticket",
+        "result_text": "5th place.\n\nA ₩10,000 bill became a scrap of paper.\nLooked for the tip guy. He was already selling a different number to someone else.\n\nWalking down the stairs, {name} checked the time for the next race.\nThat was the problem."
+      },
+      {
+        "text": "Just laugh. That's what gambling is",
+        "result_text": "Worth ₩10,000 for the experience.\nWatching horses run was more impressive than expected.\n{name} decided to stop there. For today."
+      }
+    ]
+  },
+  {
+    "id": "race_big_win",
+    "title": "Exacta Hit",
+    "description": "Two races in a row correct.\n\nA perfecta — picking the 1st and 2nd place horses in exact order.\n\nThe payout appeared on screen. 18 times the bet.\n\nPeople around started clapping. {name} stood still, ticket in hand.",
+    "choices": [
+      {
+        "text": "Collect and leave immediately",
+        "result_text": "₩50,000 bet, ₩900,000 back.\nWalking to Gyeongmagongwon Station, steps felt light.\nThat lightness wouldn't last long — that was something to learn later."
+      },
+      {
+        "text": "Ride the momentum for one more race",
+        "result_text": "Put in another ₩50,000.\nThe horses ran. Nothing.\n\nLeft with ₩400,000 in hand.\nMore than before, but the ₩50,000 lost kept coming back.\nThis is how gambling catches people — learned it firsthand."
+      }
+    ]
+  },
+  {
+    "id": "race_coworker_encounter",
+    "title": "A Familiar Face",
+    "description": "Spotted a familiar face by the betting windows.\n\nA coworker. The quietest person on the team.\n\nEyes met. Both froze.\n\nNever expected to run into this person here.",
+    "choices": [
+      {
+        "text": "Smile and say hello first",
+        "result_text": "\"Oh, you come here too?\"\nThey smiled back. Awkwardly.\n\"Sometimes.\"\n\nNeither said more. Each went to a different window.\nMonday came and went like nothing had happened.\nThat was easier for both of them."
+      },
+      {
+        "text": "Pretend not to see them and move away",
+        "result_text": "Turned away.\nThe coworker played along. Probably noticed anyway.\n\nMonday morning they made eye contact.\nBoth said good morning like always.\n\nSeoul has an unspoken rule — what you see on weekends, you didn't see."
+      }
+    ]
+  },
+  {
+    "id": "race_last_train_home",
+    "title": "Last Train from Gyeongmagongwon",
+    "description": "The last race ended.\n\nHandful of losing tickets.\n\nGyeongmagongwon Station platform. People drifted toward Line 4's last train.\n\nMoney spent today: ₩70,000.\n\nOn the subway, {name} watched the lights blur past the window. Mind blank.",
+    "choices": [
+      {
+        "text": "Come back better prepared next week",
+        "result_text": "Going to study race records starting tomorrow.\nThinking that, {name} opened the phone.\nInstalled the Korea Racing Authority app.\n\nWhether this was a beginning or an ending — still unknown."
+      },
+      {
+        "text": "That's it. Today was the last time",
+        "result_text": "A ₩70,000 Saturday.\nThe price of two movies. Not a bad day of watching.\nMight come back, might not.\n\nThe train moved. Back to Seoul."
+      }
+    ]
+  },
+  {
+    "id": "race_addiction_warning",
+    "title": "Every Weekend, Gwacheon",
+    "description": "Third weekend without realizing it.\n\nOn Line 4 now, {name}'s body automatically stands up at Gyeongmagongwon Station.\n\nA betting pattern has formed. A favorite jockey too.\n\nThat part was fine. The problem — the thought of covering this week's losses next week had appeared.",
+    "choices": [
+      {
+        "text": "Take a month off. This pattern is dangerous",
+        "result_text": "Rode past Gyeongmagongwon Station.\nThe building slid past the window.\n\nDidn't know stopping something could feel this easy.\nBecause the engine hadn't fully started yet.\n\n{name} read a book that weekend. Strangely light."
+      },
+      {
+        "text": "I can make it back. I actually prepared this week",
+        "result_text": "Spent ₩80,000. No recovery.\n\nCounting the total walking down the station stairs.\n3-week sum: -₩230,000.\n\nWhen the number came out, everything went quiet.\nThat quiet — the worst sign there is. Still didn't know it yet."
+      }
+    ]
+  }
+]
