@@ -1,0 +1,700 @@
+[
+  {
+    "id": "callback_final_sprint_aggressive_all_in",
+    "title": "마지막 판",
+    "description": "38세까지 1년이 채 남지 않았다. 공격적으로 가기로 했다.\n오늘 정보가 하나 들어왔다. 안면 있는 브로커.\n\"지금이 마지막 창이야. 잡으면 두 배. 아니면 끝.\"\n강남이 이 결정 하나에 걸려 있다.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "final_sprint_aggressive",
+      "min_turn": 54
+    },
+    "tags": ["final", "callback", "endgame"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "건다",
+        "effects": {
+          "stress": 20,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "opportunity": {
+          "stake_ratio": 0.75,
+          "success_rate": 0.28,
+          "win_multiplier": 2.0,
+          "loss_ratio": 0.72,
+          "luck_factor": 0.003,
+          "skill_gain": 5,
+          "win_flag": "final_all_in_won",
+          "lose_flag": "final_all_in_lost"
+        }
+      },
+      {
+        "text": "지금까지 쌓은 것만으로 간다",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "intelligence": 2
+        },
+        "flags": ["final_sprint_pulled_back"],
+        "follow_up_event": "",
+        "result_text": "손을 뺐다.\n공격적으로 살았지만 — 마지막은 내가 가진 것으로 간다.\n브로커가 \"겁쟁이\"라고 했다. 전화를 끊었다.\n지금 내 통장 숫자가 틀리지 않다."
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_defensive_harvest",
+    "title": "지켜온 것들",
+    "description": "지키는 전략으로 마지막 1년을 보냈다.\n오늘 포트폴리오 전체 평가금이 떴다.\n5년 전 50만원으로 시작했다.\n지금 숫자를 보고 한동안 멍하니 있었다.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "final_sprint_defensive",
+      "min_turn": 54
+    },
+    "tags": ["final", "callback", "endgame"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "지금 이 숫자로, 간다",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "intelligence": 2
+        },
+        "flags": ["final_defensive_stood"],
+        "follow_up_event": "",
+        "result_text": "잃지 않은 것이 전략이었다.\n다른 사람들이 한 번의 베팅으로 올라갔다가 추락하는 걸 지켜봤다.\n지금 이 숫자는 흔들리지 않고 쌓은 것이다.\n강남은 부수적인 문제다. 지금 이 사람이 된 게 먼저다."
+      },
+      {
+        "text": "한 번만 더 — 마지막이니까",
+        "effects": {
+          "stress": 10
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "opportunity": {
+          "stake_ratio": 0.4,
+          "success_rate": 0.35,
+          "win_multiplier": 1.6,
+          "loss_ratio": 0.38,
+          "luck_factor": 0.002,
+          "skill_gain": 3,
+          "win_flag": "final_last_bet_won",
+          "lose_flag": "final_last_bet_lost"
+        }
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_reflective_call",
+    "title": "결승선에 대하여",
+    "description": "강남이 전부가 아닐 수도 있다는 생각이 든 지 몇 달이 됐다.\n오늘 아무것도 안 하고 한강 벤치에 앉아 있었다.\n폰에서 알림이 울렸다. 다은이다.\n아니면 아버지다. 아니면 아무것도 아닌 광고다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "final_sprint_reflective",
+      "min_turn": 52
+    },
+    "tags": ["final", "callback", "reflection"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "폰을 본다",
+        "effects": {
+          "mental": 10,
+          "stress": -8
+        },
+        "flags": ["final_reflective_chose_people"],
+        "follow_up_event": "",
+        "result_text": "다은이었다. '오늘 저녁 시간 돼요?'\n강남 아파트 평수 계산 대신, 답장을 보냈다.\n'돼요.'\n강남이 목표인지 아닌지는, 오늘 저녁 밥 먹으면서 생각하기로 했다."
+      },
+      {
+        "text": "폰을 주머니에 넣고 강을 본다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한강이 흘렀다.\n5년이 흘렀다.\n무엇을 위해 여기까지 왔는지 — 지금은 더 선명하게 보이는 것 같다.\n결승선은 내가 정한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_tilted_reckoning",
+    "title": "틸트의 청구서",
+    "description": "배드비트 맞고 틸트 상태로 올인했다가 15만원을 더 잃었다.\n집에 오는 길 지하철 안에서 계산을 해봤다.\n오늘 총 손실: 23만원.\n다음 달 고시원비의 절반이다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holdem_tilted",
+      "min_turn": 3
+    },
+    "tags": ["holdem", "callback", "gambling_reflection"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "다음엔 틸트 오면 무조건 나간다고 정한다",
+        "effects": {
+          "intelligence": 3,
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": ["holdem_rule_made"],
+        "follow_up_event": "",
+        "result_text": "폰 메모에 적었다. '틸트 = 퇴장.'\n감정이 끼어드는 순간, 판단은 이미 틀려있다.\n포커에서 배운 게 여기서도 쓸 데가 있을 것 같다."
+      },
+      {
+        "text": "다음엔 이긴다",
+        "effects": {
+          "stress": 3,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그렇게 생각했다.\n근데 '다음엔 이긴다'고 생각한 사람이 다음 판에 또 틸트 거는 거였다.\n알면서도 안 되는 게 틸트다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_big_win_invite",
+    "title": "프라이빗 게임",
+    "description": "테이블에서 한번 크게 땄던 날 이후, 딜러가 따로 다가왔다.\n\"혹시 관심 있으시면요. 따로 게임이 있어요.\n스테이크 훨씬 크고, 레벨도 높아요.\n오늘 것보다 열 배는 돼요.\"",
+    "category": "gambling",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "holdem_big_win",
+      "min_turn": 4
+    },
+    "tags": ["holdem", "callback", "high_stakes"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "간다",
+        "effects": {
+          "stress": 15,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "opportunity": {
+          "stake_ratio": 0.6,
+          "success_rate": 0.20,
+          "win_multiplier": 2.5,
+          "loss_ratio": 0.58,
+          "luck_factor": 0.0015,
+          "skill_gain": 5,
+          "win_flag": "holdem_high_stakes_win",
+          "lose_flag": "holdem_high_stakes_loss"
+        }
+      },
+      {
+        "text": "거절한다. 그게 내 수준 게임이 아니다",
+        "effects": {
+          "intelligence": 3,
+          "mental": 5
+        },
+        "flags": ["holdem_knew_limit"],
+        "follow_up_event": "",
+        "result_text": "\"괜찮습니다.\"\n딜러가 '아쉽네요' 했다.\n오늘 딴 돈을 주머니에 넣었다.\n자기 수준을 아는 게 실력이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_quit_vindicated",
+    "title": "떠난 자의 소식",
+    "description": "홀덤 펍을 그만둔 지 한 달이 됐다.\n오늘 거기서 같이 앉던 사람에게서 카톡이 왔다.\n\"형, 기억해요? 저번에 같이 앉았던 사람인데.\n저 어제 한 번에 다 날렸어요. 80만원.\"",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holdem_quit",
+      "min_turn": 4
+    },
+    "tags": ["holdem", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그 결정 잘 한 거예요. 진짜로.\"",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"저도 거기서 나온 거 잘한 것 같아요.\"\n그 말이 나한테 하는 말인지 상대한테 하는 말인지 몰랐다.\n나온 게 맞았다."
+      },
+      {
+        "text": "위로만 한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"힘내요.\"라고 답했다.\n내가 빠져나온 자리에서 누군가 무너졌다.\n나온 게 맞았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_took_verdict",
+    "title": "이직 6개월",
+    "description": "스타트업으로 이직한 지 6개월이 됐다.\n연봉은 올랐다. 하지만 번아웃이 시작된 것 같다.\n공동창업자가 물었다. \"어때? 잘 한 것 같아?\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jobswitch_took",
+      "min_turn": 8
+    },
+    "tags": ["jobswitch", "startup", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"잘한 것 같아요. 배우는 게 많아요.\"",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2,
+          "investment_skill": 1
+        },
+        "flags": ["jobswitch_satisfied"],
+        "follow_up_event": "",
+        "result_text": "진심 50%, 버티기 50%였다.\n근데 실제로 배우는 건 많았다.\n전 직장에선 1년 있어도 이 정도는 못 배웠을 것이다."
+      },
+      {
+        "text": "\"솔직히 모르겠어요. 힘은 해요.\"",
+        "effects": {
+          "mental": -5,
+          "stress": 5,
+          "health": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "공동창업자가 웃었다. \"다들 6개월에 그래.\"\n안심이 되면서도 안 됐다.\n그래도 계속 가보기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_declined_news",
+    "title": "그 스타트업 뉴스",
+    "description": "이직 제안을 거절한 지 5개월이 됐다.\n오늘 포털에 그 회사 기사가 떴다.\n[OO스타트업, 시리즈B 80억 유치 성공]\n같이 오자고 했던 동료의 이름이 기사 안에 있다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jobswitch_declined",
+      "min_turn": 5
+    },
+    "tags": ["jobswitch", "callback", "regret"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "기사를 닫는다. 후회해봐야 소용없다",
+        "effects": {
+          "mental": -5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기사를 닫았다.\n결과론이다. 망할 수도 있었다.\n지금 안정적으로 받는 월급이 있다.\n이게 맞는 선택이었는지는 아직 모른다."
+      },
+      {
+        "text": "동료에게 연락한다",
+        "effects": {
+          "social_skill": 1,
+          "mental": -3,
+          "luck": 1
+        },
+        "flags": ["jobswitch_reconnected"],
+        "follow_up_event": "",
+        "result_text": "\"기사 봤어. 잘됐다.\"\n동료가 \"고마워. 너 올걸 그랬잖아\" 했다.\n\"그러게\" 라고만 답했다.\n연락은 이어졌다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_hesitated_closed",
+    "title": "포지션 마감",
+    "description": "\"며칠만 생각해보겠다\" 했던 그 스타트업.\n재무제표 뜯어보다 시간이 걸렸다.\n오늘 동료에게서 문자가 왔다.\n\"야, 미안. 그 자리 어제 다른 사람 됐어.\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jobswitch_hesitated",
+      "min_turn": 4
+    },
+    "tags": ["jobswitch", "callback", "hesitation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그래. 어쩔 수 없지.\"",
+        "effects": {
+          "mental": -8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"...그래. 어쩔 수 없다.\"\n철저히 따졌는데 결국 늦었다.\n신중한 게 항상 안전한 건 아니다. 기회에는 유통기한이 있다."
+      },
+      {
+        "text": "\"다른 데 없을까 알아봐줄 수 있어?\"",
+        "effects": {
+          "social_skill": 1,
+          "luck": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "동료가 \"알아볼게\" 했다.\n이번엔 조건 따지는 걸 줄이기로 했다.\n완벽한 타이밍은 없다."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_damaged_denied",
+    "title": "대출 거절",
+    "description": "투자 기회가 생겼다. 은행에 갔다.\n대출 상담사가 화면을 보더니 표정이 굳었다.\n\"신용등급이 7등급 미만이라서요.\n저희 1금융권에선 불가합니다.\"",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "credit_damaged",
+      "min_turn": 6
+    },
+    "tags": ["credit", "callback", "loan_denied"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "신용 회복에 집중하기로 한다",
+        "effects": {
+          "intelligence": 3,
+          "stress": -3
+        },
+        "flags": ["credit_recovery_started"],
+        "follow_up_event": "",
+        "result_text": "신용 전문가에게 상담했다.\n\"6개월 꾸준히 연체 없으면 등급 올라요.\"\n6개월. 지금 당장은 못 받는다.\n하지만 방법은 있다."
+      },
+      {
+        "text": "2금융권이라도 알아본다",
+        "effects": {
+          "money": 10000000,
+          "stress": 8,
+          "intelligence": -1
+        },
+        "flags": ["credit_second_tier_loan"],
+        "follow_up_event": "",
+        "result_text": "2금융권에서 받았다. 금리 월 1.6%.\n1금융의 두 배다.\n받기는 했다. 근데 이자 계산을 해보니 무서웠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_drew_line_result",
+    "title": "선의 가치",
+    "description": "\"다음엔 제 이름도 같이 올려주십시오\" 못 박은 지 두 달이 됐다.\n부장이 새 보고서를 올렸다.\n목차에 이름이 두 개 있다. 부장. 그리고 {name}.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "credit_drew_line",
+      "min_turn": 8
+    },
+    "tags": ["credit", "workplace", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "별말 없이 받아들인다",
+        "effects": {
+          "reputation": 3,
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": ["credit_recognized"],
+        "follow_up_event": "",
+        "result_text": "부장이 특별히 말은 안 했다.\n하지만 이름이 거기 있었다.\n선을 그은 사람이 선을 가지게 됐다."
+      },
+      {
+        "text": "부장에게 감사 인사를 한다",
+        "effects": {
+          "social_skill": 1,
+          "reputation": 2,
+          "mental": 5
+        },
+        "flags": ["credit_recognized"],
+        "follow_up_event": "",
+        "result_text": "\"감사합니다. 다음에도 잘 부탁드립니다.\"\n부장이 \"응, 열심히 해\" 했다.\n어색하지만 — 이게 맞는 방향이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_self_aware_change",
+    "title": "30일",
+    "description": "\"나 요즘 좀 이상한 것 같아\"라고 스스로 인정한 지 한 달이 됐다.\n베팅 앱 사용 시간이 두 달 전의 절반 이하다.\n어제 처음으로 밤 11시에 잠들었다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "addiction_self_aware",
+      "min_turn": 4
+    },
+    "tags": ["addiction", "callback", "recovery"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이 변화를 기록해둔다",
+        "effects": {
+          "mental": 10,
+          "health": 5,
+          "stress": -8
+        },
+        "flags": ["addiction_recovering"],
+        "follow_up_event": "",
+        "result_text": "노트에 적었다. '30일. 전보다 낫다.'\n완전히 끊은 건 아니다. 근데 보고 있다.\n인정하는 게 첫 번째였다. 첫 번째를 했다."
+      },
+      {
+        "text": "아직 완전하지 않다. 더 조심한다",
+        "effects": {
+          "mental": 5,
+          "health": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조심스럽게 간다.\n자만이 가장 위험하다는 걸 안다.\n아직 완전하지 않다."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_recovery_temptation",
+    "title": "유혹",
+    "description": "베팅 앱을 지운 지 21일이 됐다는 것, 기록했었다.\n오늘 친구에게서 카톡이 왔다.\n\"야, 오늘 경기 봐? 배당 3.2배짜리 있어.\n진짜 확실한 거야. 한 번만.\"",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "addiction_recovery_milestone",
+      "min_turn": 6
+    },
+    "tags": ["addiction", "callback", "temptation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"나 지금 끊고 있어. 말도 꺼내지 마.\"",
+        "effects": {
+          "mental": 10,
+          "health": 3,
+          "stress": -3
+        },
+        "flags": ["addiction_boundary_held"],
+        "follow_up_event": "",
+        "result_text": "처음으로 솔직하게 말했다.\n친구가 \"아 미안, 몰랐어\" 했다.\n21일 지켜온 게 무너지지 않았다.\n말하는 게 지키는 것이다."
+      },
+      {
+        "text": "딱 한 번만",
+        "effects": {
+          "mental": -15,
+          "health": -5,
+          "stress": 10
+        },
+        "flags": ["addiction_relapsed"],
+        "follow_up_event": "",
+        "result_text": "'딱 한 번'이 두 번이 됐다.\n21일이 리셋됐다.\n오늘부터 다시 1일이다.\n더 힘들다. 한 번 깨진 걸 아니까."
+      }
+    ]
+  },
+  {
+    "id": "callback_heard_drunk_wisdom_echo",
+    "title": "그날 밤의 말",
+    "description": "야간 알바에서 만난 취객 아저씨가 한 말이 있었다.\n'버텼냐고? 아니. 그냥 다음 날도 일어난 거야.'\n오늘 아침에 일어나기 싫어서 누워 있다가 갑자기 그 말이 떠올랐다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "heard_drunk_wisdom",
+      "min_turn": 10
+    },
+    "tags": ["heard", "callback", "motivation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "일어난다",
+        "effects": {
+          "mental": 8,
+          "health": 2,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "일어났다.\n특별한 이유는 없었다.\n그냥 다음 날도 일어난 거야.\n그게 버티는 방법인 것 같다."
+      },
+      {
+        "text": "10분만 더 눕는다",
+        "effects": {
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "10분이 30분이 됐다.\n그래도 결국 일어났다.\n그 아저씨도 아마 이랬을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_saw_parents_bankbook_guilt",
+    "title": "고향 방문",
+    "description": "부모님 통장 잔액을 봤던 게 8개월 전이다.\n오늘 오랜만에 고향에 내려왔다.\n아버지가 식탁에 앉아 계셨다. 저녁을 차려주셨다.\n그 통장 숫자가 다시 떠올랐다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "saw_parents_bankbook",
+      "min_turn": 8
+    },
+    "tags": ["family", "father", "callback", "guilt"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "식비라도 드리고 온다",
+        "effects": {
+          "money": -200000,
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": ["family_gave_money"],
+        "follow_up_event": "",
+        "result_text": "20만원을 드렸다.\n아버지가 \"됐어\" 했지만 안 받지는 않으셨다.\n나오는 버스 안에서 이상하게 마음이 가벼웠다."
+      },
+      {
+        "text": "그냥 밥을 같이 먹는다",
+        "effects": {
+          "mental": 8,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "밥을 먹었다.\n아버지가 \"자주 와라\"고 했다.\n지금 당장 드릴 수 있는 건 많지 않지만,\n이 시간은 드릴 수 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_speculator_greedy_regret",
+    "title": "천장에서 -15%",
+    "description": "\"아직 천장이 아니다\"라고 더 가기로 했다.\n고점에서 오래 들고 있었다.\n오늘 손절하면서 계산을 해봤다.\n팔았을 때 수익과 지금 수익의 차이: 820만원.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "speculator_greedy",
+      "min_turn": 4
+    },
+    "tags": ["speculator", "callback", "greed"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "수익 구간 설정을 다음부터는 정해둔다",
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3
+        },
+        "flags": ["greed_learned"],
+        "follow_up_event": "",
+        "result_text": "룰을 정했다. '+40%면 절반 판다.'\n820만원은 탐욕의 수업료다.\n비쌌지만 — 이것보다 더 비싸게 배우는 사람도 있다."
+      },
+      {
+        "text": "어쩔 수 없다. 다음 기회를 찾는다",
+        "effects": {
+          "stress": 5,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이익은 이익이다.\n-820만원이 아니라 결국 이익으로 끝났다.\n근데 그 숫자가 오래 눈에 남을 것 같다."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lie_confessed_outcome",
+    "title": "솔직함의 결과",
+    "description": "팀장에게 \"사실 그 경험 없어요\"라고 말한 지 두 달이 됐다.\n오늘 팀장이 불렀다.\n\"{name}씨. 발표 어떻게 됐는지 알아요?\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "resume_lie_confessed",
+      "min_turn": 5
+    },
+    "tags": ["resume_lie", "callback", "honesty"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "결과를 듣는다",
+        "effects": {
+          "reputation": 4,
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": ["lie_forgiven"],
+        "follow_up_event": "",
+        "result_text": "\"솔직하게 말해줘서 고마워요.\n그 발표 내용, 제가 직접 검토했어요. 나쁘지 않았어요.\n이번은 넘어가는 거예요. 다음엔 처음부터 솔직하게.\"\n팀장이 나갔다.\n솔직함이 끝이 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lie_doubled_exposure",
+    "title": "들켰다",
+    "description": "발표를 밤새 공부해서 해냈다. 성적표 위조도 냈다.\n오늘 팀장이 불렀다.\n\"{name}씨. 성적표 원본 대학에 직접 확인했어요.\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "resume_lie_doubled_down",
+      "min_turn": 3
+    },
+    "tags": ["resume_lie", "callback", "exposure"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "모든 걸 인정한다",
+        "effects": {
+          "reputation": -5,
+          "mental": -10,
+          "stress": 15
+        },
+        "flags": ["lie_full_confession"],
+        "follow_up_event": "",
+        "result_text": "\"...죄송합니다. 다 제가 한 짓입니다.\"\n팀장이 \"오늘부로 근무 정지예요. HR에서 연락할 거예요.\" 했다.\n돌아오는 길이 멀었다.\n처음에 솔직했으면 이렇게까지 되진 않았다."
+      },
+      {
+        "text": "끝까지 우긴다",
+        "effects": {
+          "reputation": -8,
+          "mental": -15,
+          "stress": 20
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그쪽이 잘못 확인하신 거 아닌가요?\"\n팀장의 표정이 굳었다.\n\"원본이에요. 나가주세요.\"\n위조에 거짓말까지. 두 겹이 됐다."
+      }
+    ]
+  }
+]

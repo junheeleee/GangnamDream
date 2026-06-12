@@ -1,0 +1,268 @@
+[
+  {
+    "id": "callback_final_sprint_aggressive_all_in",
+    "title": "The Final Hand",
+    "description": "Less than a year left until 38. You chose to go all-in.\nToday a tip came in. A broker you know.\n'This is the last window. Double up or nothing.'\nGangnam comes down to this one decision.",
+    "choices": [
+      {
+        "text": "Go for it",
+        "result_text": ""
+      },
+      {
+        "text": "Go with what you've built",
+        "result_text": "You stepped back.\nAggressive all the way through — but the finish line, you take with what you have.\nThe broker called you a coward. You hung up.\nThe number in your account isn't wrong."
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_defensive_harvest",
+    "title": "What You Protected",
+    "description": "You spent the final year protecting what you had.\nToday the full portfolio valuation came up.\nFive years ago you started with ₩500,000.\nYou stared at the number for a long time.",
+    "choices": [
+      {
+        "text": "With this number — go",
+        "result_text": "Not losing was the strategy.\nYou watched others shoot up on a single bet, then collapse.\nThis number was built without flinching.\nGangnam is secondary. Becoming this person — that came first."
+      },
+      {
+        "text": "One more — since it's the end",
+        "result_text": ""
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_reflective_call",
+    "title": "On the Finish Line",
+    "description": "It's been months since you wondered if Gangnam is even the goal.\nToday you sat on a Han River bench doing nothing.\nYour phone buzzed. It's Daeun.\nOr Dad. Or just an ad.",
+    "choices": [
+      {
+        "text": "Check the phone",
+        "result_text": "It was Daeun. 'Free tonight?'\nInstead of calculating apartment square footage, you replied.\n'Yes.'\nWhether Gangnam is the goal — you'll think about that over dinner."
+      },
+      {
+        "text": "Pocket the phone and look at the river",
+        "result_text": "The Han River flowed.\nFive years flowed.\nWhat you ran all this way for — right now it seems clearer.\nThe finish line is yours to define."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_tilted_reckoning",
+    "title": "The Tilt Invoice",
+    "description": "After the bad beat tilt-shove you lost ₩150,000 more.\nOn the subway home, you ran the numbers.\nTotal loss today: ₩230,000.\nHalf of next month's goshiwon rent.",
+    "choices": [
+      {
+        "text": "Make a rule: tilt means leave",
+        "result_text": "You wrote it in your phone notes. 'Tilt = walk out.'\nThe moment emotion enters, the judgment is already wrong.\nPoker taught you something that works outside poker too."
+      },
+      {
+        "text": "Next time I'll win",
+        "result_text": "That's what you told yourself.\nBut the person who says 'I'll win next time' is exactly the one who tilts again.\nKnowing doesn't make it stop."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_big_win_invite",
+    "title": "The Private Game",
+    "description": "After the big win at the table, the dealer approached separately.\n'If you're interested — there's a separate game.\nMuch higher stakes, higher level.\nAbout ten times tonight.'",
+    "choices": [
+      {
+        "text": "Go",
+        "result_text": ""
+      },
+      {
+        "text": "Decline. That's not my level.",
+        "result_text": "'I'll pass.'\nThe dealer said 'Shame.'\nYou pocketed tonight's winnings.\nKnowing your level is a skill."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_quit_vindicated",
+    "title": "News from the Table",
+    "description": "A month since you quit the holdem pub.\nToday a KakaoTalk from someone who used to sit at the same table.\n'Hey, remember me? We played together.\nI lost everything yesterday. ₩800,000.'",
+    "choices": [
+      {
+        "text": "\"That was the right call. For real.\"",
+        "result_text": "'I think leaving was right for me too.'\nCouldn't tell if I was saying it for them or for myself.\nLeaving was right."
+      },
+      {
+        "text": "Just offer comfort",
+        "result_text": "Replied 'Hang in there.'\nSomebody collapsed in the seat I'd vacated.\nLeaving was right."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_took_verdict",
+    "title": "Six Months After the Switch",
+    "description": "Six months since switching to the startup.\nSalary went up. But something like burnout is starting.\nThe co-founder asked. 'How is it? Glad you came?'",
+    "choices": [
+      {
+        "text": "\"I think so. I'm learning a lot.\"",
+        "result_text": "50% genuine, 50% survival mode.\nBut actually learning more than a year at the old job would've taught.\nThe switch was right."
+      },
+      {
+        "text": "\"Honestly I don't know. It's tough.\"",
+        "result_text": "The co-founder laughed. 'Everyone says that at six months.'\nSomehow reassuring and not reassuring at once.\nDecided to keep going anyway."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_declined_news",
+    "title": "That Startup's News",
+    "description": "Five months since turning down the offer.\nA news article appeared on the portal today.\n[OO Startup Successfully Raises ₩8 Billion Series B]\nThe colleague who tried to bring you along is in the article.",
+    "choices": [
+      {
+        "text": "Close the article. Regret doesn't help.",
+        "result_text": "You closed it.\nHindsight. It could have failed.\nYou have a steady paycheck coming in every month.\nWhether this was the right call — still unknown."
+      },
+      {
+        "text": "Contact the colleague",
+        "result_text": "'Saw the article. Congrats.'\nThey replied 'Thanks. You should've come.'\n'I know.' That's all you said.\nThe connection stayed alive."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_hesitated_closed",
+    "title": "Position Filled",
+    "description": "'Give me a few days to think.' That startup.\nYou spent the time pulling apart the financials.\nToday a text from the colleague.\n'Hey, sorry. That role went to someone else yesterday.'",
+    "choices": [
+      {
+        "text": "\"Yeah. That's how it goes.\"",
+        "result_text": "'Yeah. Nothing to do about it.'\nYou analyzed it thoroughly and still came too late.\nCareful doesn't always mean safe. Opportunities have expiry dates."
+      },
+      {
+        "text": "\"Any other openings you know of?\"",
+        "result_text": "Colleague said 'I'll look around.'\nThis time you decided to cut the conditions-checking shorter.\nThere's no perfect timing."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_damaged_denied",
+    "title": "Loan Declined",
+    "description": "An investment opportunity came up. You went to the bank.\nThe loan officer looked at the screen and their expression stiffened.\n'Your credit rating is below grade 7.\nWe can't offer this at a Tier 1 bank.'",
+    "choices": [
+      {
+        "text": "Focus on rebuilding credit",
+        "result_text": "Got advice from a credit specialist.\n'Keep it clean for six months and your grade goes up.'\nSix months. Can't get it now.\nBut there's a path."
+      },
+      {
+        "text": "Look into a Tier 2 lender",
+        "result_text": "Got it at a Tier 2 bank. Monthly rate 1.6%.\nTwice the Tier 1 rate.\nGot the money. But the interest calculation was frightening."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_drew_line_result",
+    "title": "The Value of a Line",
+    "description": "Two months since you told your boss 'Put my name on it next time.'\nThe new report went up today.\nTwo names in the title. The boss. And {name}.",
+    "choices": [
+      {
+        "text": "Accept it without comment",
+        "result_text": "The boss didn't say anything special.\nBut the name was there.\nThe person who drew the line gets to keep the line."
+      },
+      {
+        "text": "Express thanks to the boss",
+        "result_text": "'Thank you. Please keep working with me.'\nBoss said 'Yeah, keep it up.'\nAwkward — but it's the right direction."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_self_aware_change",
+    "title": "Day 30",
+    "description": "A month since you admitted 'Something's off with me lately.'\nApp usage time is under half of two months ago.\nLast night you fell asleep before 11 PM for the first time.",
+    "choices": [
+      {
+        "text": "Record this change",
+        "result_text": "Wrote it down. 'Day 30. Better than before.'\nNot completely clean. But watching it.\nAdmitting it was step one. Step one happened."
+      },
+      {
+        "text": "Not complete yet. Stay careful.",
+        "result_text": "Moving carefully.\nYou know complacency is the most dangerous thing.\nNot complete yet."
+      }
+    ]
+  },
+  {
+    "id": "callback_addiction_recovery_temptation",
+    "title": "Temptation",
+    "description": "You recorded 21 days of no betting apps.\nToday a friend texted.\n'Hey, watching the game tonight? There's a 3.2x line.\nReally certain. Just this once.'",
+    "choices": [
+      {
+        "text": "\"I'm quitting right now. Don't even bring it up.\"",
+        "result_text": "Said it honestly for the first time.\nFriend said 'Oh sorry, I didn't know.'\n21 days held.\nSaying it out loud is how you keep it."
+      },
+      {
+        "text": "Just this once",
+        "result_text": "'Just once' became twice.\n21 days reset.\nBack to day one.\nHarder now. Because you know what a reset feels like."
+      }
+    ]
+  },
+  {
+    "id": "callback_heard_drunk_wisdom_echo",
+    "title": "Words from That Night",
+    "description": "A drunk man at the night shift said something.\n'Did I endure it? No. I just got up the next day.'\nThis morning you didn't want to get up and were lying there — and suddenly those words came back.",
+    "choices": [
+      {
+        "text": "Get up",
+        "result_text": "You got up.\nNo special reason.\nJust got up the next day.\nThat seems to be how you get through it."
+      },
+      {
+        "text": "Ten more minutes",
+        "result_text": "Ten minutes became thirty.\nBut you got up eventually.\nThat drunk man probably did the same thing."
+      }
+    ]
+  },
+  {
+    "id": "callback_saw_parents_bankbook_guilt",
+    "title": "Visiting Home",
+    "description": "Eight months since you saw the number in your parents' bankbook.\nYou came back to the hometown today for the first time in a while.\nDad was sitting at the dining table. He'd set out dinner.\nThat number came back to mind.",
+    "choices": [
+      {
+        "text": "Leave some money for food",
+        "result_text": "Left ₩200,000.\nDad said 'It's fine' but didn't refuse it.\nOn the bus back, something felt lighter than it should have."
+      },
+      {
+        "text": "Just eat together",
+        "result_text": "You ate.\nDad said 'Come more often.'\nYou can't give much right now —\nbut this time, you could give."
+      }
+    ]
+  },
+  {
+    "id": "callback_speculator_greedy_regret",
+    "title": "-15% from the Peak",
+    "description": "'The ceiling isn't here yet' — and you held.\nKept it too long past the peak.\nToday you cut the position and ran the numbers.\nDifference between what you sold vs. what you got: ₩8.2 million.",
+    "choices": [
+      {
+        "text": "Set a profit target rule going forward",
+        "result_text": "Made the rule. '+40% — sell half.'\n₩8.2 million is the tuition for greed.\nExpensive — but some people pay more."
+      },
+      {
+        "text": "Nothing to do. Find the next opportunity.",
+        "result_text": "A gain is still a gain.\nIt ended in profit, not at -₩8.2M.\nBut that number is going to sit in the back of the mind for a while."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lie_confessed_outcome",
+    "title": "The Cost of Honesty",
+    "description": "Two months since you told your team lead 'I didn't actually have that experience.'\nToday the team lead called you in.\n'{name}, do you know what happened with the presentation?'",
+    "choices": [
+      {
+        "text": "Hear the result",
+        "result_text": "'Thank you for being honest.\nI reviewed the presentation content myself. It wasn't bad.\nWe're letting this one go. Next time — be honest from the start.'\nThe team lead left.\nHonesty wasn't the end."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lie_doubled_exposure",
+    "title": "Caught",
+    "description": "You pulled off the presentation after studying through the night. You submitted the altered transcript too.\nToday the team lead called you in.\n'{name}. We verified the original transcript directly with your university.'",
+    "choices": [
+      {
+        "text": "Admit everything",
+        "result_text": "'...I'm sorry. Everything I did was wrong.'\nTeam lead said 'You're suspended as of today. HR will contact you.' \nThe walk back was long.\nIf you'd been honest from the start, it wouldn't have come to this."
+      },
+      {
+        "text": "Deny to the end",
+        "result_text": "'Are you sure you checked the right person?'\nThe team lead's expression went flat.\n'It's the original. Please leave.'\nThe lie on top of the forgery. Two layers now."
+      }
+    ]
+  }
+]
