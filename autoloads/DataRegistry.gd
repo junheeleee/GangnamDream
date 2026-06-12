@@ -25,6 +25,7 @@ const EVENT_PATHS = [
 	"res://content/events/racetrack_events.json",
 	"res://content/events/holdem_events.json",
 	"res://content/events/rare_encounter_events.json",
+	"res://content/events/butterfly_events.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"

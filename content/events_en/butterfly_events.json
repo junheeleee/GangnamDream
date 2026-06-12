@@ -1,0 +1,167 @@
+[
+  {
+    "id": "butterfly_mystery_info_offer",
+    "title": "A Strange Offer",
+    "description": "Near Exit 11 at Gangnam Station. Late afternoon.\n\nAbout to walk past when a man spoke up.\n\nWorn jacket, clean envelope. Eyes unusually sharp.\n\n\"Want to make money? More precisely — do you need information?\"\n\nCrowded street. Easy to walk away.",
+    "choices": [
+      {
+        "text": "\"How much?\" — listen",
+        "result_text": "The man pulled the envelope closer."
+      },
+      {
+        "text": "Ignore him and keep walking",
+        "result_text": "Walked past. The man said nothing from behind.\n\nThree blocks later, glanced back.\nAlready gone.\n\nWhat that was — will never be known."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_mystery_info_details",
+    "title": "The Price of Information",
+    "description": "The man spoke.\n\n\"One of the Mapo redevelopment zones gets project approval this month. Not announced yet. I have a source.\"\n\n\"₩500,000. Cash. Now.\"\n\nNo way to know if it's real or a scam.\nHow much ₩500,000 weighs depends on what's in the account right now.",
+    "choices": [
+      {
+        "text": "Pay ₩500,000",
+        "result_text": "Took the envelope. Dense with district names and lot numbers.\n\nThe man handed it over and walked away without looking back.\n\n{name} put the envelope in the bag. The answer comes in three months."
+      },
+      {
+        "text": "Still feels like a scam. Don't buy it",
+        "result_text": "\"I'll think about it.\" Turned and left.\n\nThe man didn't try to stop him.\n\nAt home, searched Mapo redevelopment news.\nNothing yet."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_mystery_info_result_win",
+    "title": "3 Months Later — The Article",
+    "description": "A portal news notification.\n\n'Mapo District ○○ Zone Redevelopment Final Approval — Property Surge Expected'\n\n{name} took out the envelope. The lot numbers matched.\n\nThree months ago. The man near Gangnam Station.",
+    "choices": [
+      {
+        "text": "Invest immediately in a small stake in the area",
+        "result_text": "The area's asking price rose 30% by announcement day.\n\n{name} walked away with ₩8,000,000. 16x the investment.\n\nStill don't know who that man was.\nMight never meet him again.\nSeoul has people like that."
+      },
+      {
+        "text": "Already gone up. Don't chase the price",
+        "result_text": "The information was correct. But couldn't execute the investment.\n\nThe second trap of investing — having the right information and still missing the return.\nThe first trap is believing the wrong information.\nThe second is missing the timing on the right one.\n\n₩500,000 tuition."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_mystery_info_result_scam",
+    "title": "3 Months Later — Nothing Happened",
+    "description": "Searched Mapo redevelopment.\n\nNothing. The lots were still in a greenbelt zone.\n\nThe man was just a scammer.\n\n₩500,000.",
+    "choices": [
+      {
+        "text": "Call it tuition",
+        "result_text": "₩500,000.\n\nExpensive lesson. Still a lesson.\n\nBuying possibly illegal insider information was also wrong. He knew that and came anyway.\nIt wasn't being victimized. It was participating.\n\nThat thought was the bitterest part."
+      },
+      {
+        "text": "Report him to the police",
+        "result_text": "Went to the station. Filed a statement.\n\nBut without better identifying information, tracking him would be difficult.\nSimilar cases on record, they said.\n\nGetting the ₩500,000 back was unlikely.\nBut said something. That's all that could be done."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_drunk_investor",
+    "title": "Seat Next to a Stranger",
+    "description": "Late night pojangmacha. Drinking alone.\n\nA drunk man in his 50s sat down next to {name}.\n\n\"My company's gone. Ten years of building it. Final decision came today.\"\n\nThe man pulled out a business card. Name of a company that no longer existed.\nHanded the card to {name}. \"Call me. I might be able to help.\"",
+    "choices": [
+      {
+        "text": "Take the card",
+        "result_text": "The man drank two more rounds then got up first.\n\n\"I can pour out everything I learned in ten years. No money, but.\"\n\nPut the card in the wallet. Might call. Might not."
+      },
+      {
+        "text": "Don't take it. Drunk talk.",
+        "result_text": "The man kept drinking. {name} too.\n\nAt the end the man left first. The card stayed on the table.\n\n{name} left it there."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_drunk_investor_callback",
+    "title": "5 Months Later — That Number",
+    "description": "A crumpled business card came out of the wallet.\n\nThe pojangmacha. The CEO whose company failed.\n\nTook it without much expectation.\n\nSent a text. \"This is the person who took your card that night.\"\n\nThirty minutes later, the phone rang.",
+    "choices": [
+      {
+        "text": "Meet him",
+        "result_text": "Three hours at a café.\n\nHe poured out everything from ten years — supplier negotiations, managing employees, investor meetings, and why it all fell apart.\n\n\"Learning from someone who failed is the cheapest education. Successful people don't tell you the real things.\"\n\nThis was worth more than that ₩500,000."
+      },
+      {
+        "text": "He was just drunk. Don't reach out.",
+        "result_text": "Threw the card out.\n\nJust one of those nights."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_resume_lie",
+    "title": "The Empty Line on the Resume",
+    "description": "Filling out a job application — stopped.\n\nEnglish proficiency. Typed TOEIC 900.\n\nActual score: 745.\n\nApplication deadline in two hours. No time for a retest.",
+    "choices": [
+      {
+        "text": "Write 745. Be honest.",
+        "result_text": "Submitted 745.\n\nMade it to the interview. The interviewer looked at the score and said \"a bit low.\"\n{name} answered \"I'm working on it.\"\n\nWhether it led to an offer or not — unknown. But didn't lie."
+      },
+      {
+        "text": "Write 900. Deal with it if caught.",
+        "result_text": "Submitted.\n\nPassed the document screen. Interview scheduled.\n\nNight before the interview — what if they ask for proof?\nThat thought didn't leave all night."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_resume_lie_caught",
+    "title": "4 Months Later — HR Summons",
+    "description": "An email from HR.\n\n\"As part of the onboarding document verification process, we need to confirm the original language test score.\"\n\n{name} read the email three times.\n\nThe office was quiet. Seoul was outside the window.",
+    "choices": [
+      {
+        "text": "Come clean and apologize",
+        "result_text": "Bowed in front of the HR manager.\n\"My score at the time of application was lower and I recorded it incorrectly.\"\n\nThat was the truth.\n\nProcessed as a recommended resignation.\n\nHard to make eye contact with coworkers while packing up.\nDidn't expect to be starting over in Seoul this fast."
+      },
+      {
+        "text": "Forge the transcript and submit it",
+        "result_text": "Found a method online. Modified the file.\n\nSubmitted. Passed.\n\nDrank that evening. Couldn't get drunk.\nNow one more person knows about this.\nThat person is {name}."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_usb_found",
+    "title": "USB",
+    "description": "A USB drive sitting on the break room table.\n\nNo label. Been there for a week.\n\nNo lost-and-found notice posted. Might be abandoned.",
+    "choices": [
+      {
+        "text": "Plug it in",
+        "result_text": "A folder with no company logo.\n\nFiles opened. Spreadsheets. Numbers.\n\nShouldn't be looking at this. Already looking.\nSupplier list, unit prices, contract terms.\nInformation a competitor would want.\n\n{name} pulled out the USB."
+      },
+      {
+        "text": "Take it to the general affairs team",
+        "result_text": "They were grateful.\n\"Oh, this went missing last month. Thank you.\"\n\nSmall thing. But that person included {name} at the team dinner next month.\nIn Seoul, reputation gets built in places like this."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_usb_dilemma",
+    "title": "What's on the USB",
+    "description": "A week passed.\n\nThose files won't leave {name}'s head.\n\nA competitor supplying the same products at 30% below this company's costs.\n\nThe question is what to do with this information.",
+    "choices": [
+      {
+        "text": "Report to the team lead — this benefits the company",
+        "result_text": "The team lead listened quietly.\n\"How did you find out?\"\n\"Found it in the break room. File was already open.\"\n\nTrue.\n\nThe lead escalated to legal. Didn't share the outcome with {name}.\nBut at month's end, said: \"Good work. Genuinely.\""
+      },
+      {
+        "text": "Forget it. Not my problem.",
+        "result_text": "Put the USB in a drawer and forgot about it.\n\nTwo months later, that competitor was in the news.\nAlleged trade secret leak.\n\n{name} opened the drawer. The USB was there.\nThrew it out."
+      }
+    ]
+  },
+  {
+    "id": "butterfly_old_contact",
+    "title": "KakaoTalk After 5 Years",
+    "description": "A KakaoTalk notification.\n\n'Hey, doing well? Remember me?'\n\nNo profile photo. Name not saved.\nLooking at the number — seemed like someone from a university group project.\n\nNo contact for five years, and suddenly.",
+    "choices": [
+      {
+        "text": "Reply",
+        "result_text": "\"Yeah, I remember. You been okay?\"\n\nStarted texting once or twice a month.\nTurns out they were starting an interior design company.\n\nJust ordinary day-to-day talk. But weirdly looked forward to it sometimes.\nOne more old contact brought back to life in Seoul."
+      },
+      {
+        "text": "Leave it on read. Why now.",
+        "result_text": "Read it. Didn't reply.\n\nThey didn't reach out again.\n\nA week later, saw on SNS they'd co-founded some company.\n{name} closed the post without hitting like."
+      }
+    ]
+  }
+]
