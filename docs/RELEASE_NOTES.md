@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Added (2026-06-12) — 비주얼+오디오 업그레이드 브리프
+- **VISUAL_AUDIO_UPGRADE_BRIEF.md** — 전체 이미지/오디오 교체용 에이전트 스펙 문서
+  - P1: 주인공 7포즈, NPC 14포즈, 핵심 배경 10장, CG 2장
+  - P2: 나머지 배경 20장, CG 2장, 키아트 4장
+  - P3: BGM 7트랙, SFX 14종
+- **ImageRegistry.gd**: 누락 배경 키 5개 추가 (library, restaurant, street, apartment, convenience_store)
+
 ### Added (2026-06-12) — 이벤트 500개 달성 + 콘텐츠 경고
 - **이벤트 54개 추가** (KO + EN) — 총 500개 달성
   - `life_events2` (19): 일상 마이크로 모먼트 (SNS 비교, 빈 냉장고, 동창회, 월세 인상, 첫 월급, 건강검진, 새벽 편의점 등)
