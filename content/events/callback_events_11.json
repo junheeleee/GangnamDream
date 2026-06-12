@@ -1,0 +1,594 @@
+[
+  {
+    "id": "callback_redev_bet_taken_result",
+    "title": "재개발 결과",
+    "description": "재개발 지역 투자를 결정했던 게 6개월 전이다.\n오늘 조합 총회 안내 문자가 왔다.\n사업 진행 현황을 설명하는 자리라고.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "redev_bet_taken",
+      "min_turn": 8
+    },
+    "tags": ["investment", "callback", "redev"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "총회에 참석한다",
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조합원들이 가득했다.\n사업 기간이 2년 더 늘어난다는 게 핵심이었다.\n부동산은 숫자가 아니라 시간이었다.\n지금은 기다리는 것 외에 할 게 없었다."
+      },
+      {
+        "text": "안 간다. 결과만 기다린다",
+        "effects": {
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "안 갔다.\n나중에 사업 기간 연장 소식을 문자로 받았다.\n투자하면 가야 한다.\n오너십은 총회장에서도 나온다."
+      }
+    ]
+  },
+  {
+    "id": "callback_quant_vindicated_echo",
+    "title": "퀀트가 맞았다",
+    "description": "감정 빼고 수식으로만 판단하기로 했던 그때.\n1년이 지났다.\n수익률을 정리해봤다.\n시장 평균을 조금 웃돌았다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "quant_vindicated",
+      "min_turn": 10
+    },
+    "tags": ["investment", "callback", "quant"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "계속 이 방식을 정교화한다",
+        "effects": {
+          "investment_skill": 5,
+          "intelligence": 4
+        },
+        "flags": ["quant_refined"],
+        "follow_up_event": "",
+        "result_text": "변수 두 개를 추가했다.\n백테스트 결과가 조금 더 좋아졌다.\n감정을 빼는 것이 수익을 보장하지는 않는다.\n하지만 실수를 줄이는 건 맞았다."
+      },
+      {
+        "text": "잘 됐으니 큰 베팅으로 올린다",
+        "effects": {
+          "stress": 8,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "베팅을 키웠다.\n다음 분기에 시장이 흔들렸다.\n수식이 맞아도 — 사이즈를 키우면 심리가 개입한다.\n퀀트도 크게 잃을 수 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_tip_sheet_result",
+    "title": "유료 정보의 가치",
+    "description": "종목 정보지를 구독한 지 세 달이 됐다.\n월 3만원.\n세 달 동안 추천 종목을 따라가봤다.\n성과를 정리해봤다.",
+    "category": "investment",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "bought_tip_sheet",
+      "min_turn": 4
+    },
+    "tags": ["investment", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "구독을 끊는다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "3개월 결과: 2승 3패.\n구독료 포함하면 마이너스였다.\n정보를 파는 사람은 정보로 돈 버는 게 아니라 구독료로 돈 번다.\n그 차이를 이제 알았다."
+      },
+      {
+        "text": "좀 더 지켜본다",
+        "effects": {
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 달 더 지켜봤다.\n결과가 비슷했다.\n좋은 정보지가 없는 게 아니라 — 추천을 그대로 따르는 방식 자체에 문제가 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_chased_win_ending",
+    "title": "이긴 날의 끝",
+    "description": "경마장에서 이겼는데 멈추지 않았던 그날.\n결국 그날 수익을 다 잃고 나왔다.\n지하철에서 그날을 돌이켰다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "racetrack_chased_win",
+      "min_turn": 3
+    },
+    "tags": ["racetrack", "callback", "gambling"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"이겼을 때 멈추는 것\"을 규칙으로 정한다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "메모장에 썼다.\n'이기면 바로 나온다.'\n이긴 다음 더 잃는 것이 — 도박에서 가장 흔한 방식이었다.\n규칙이 없으면 감정이 결정한다."
+      },
+      {
+        "text": "그냥 재수 없는 날이었다",
+        "effects": {
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "재수 없는 날이었다고 했다.\n하지만 그 날과 같은 패턴이 반복됐다.\n패턴을 운이라고 부르면 — 영원히 바뀌지 않는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_bet_first_reflection",
+    "title": "처음 베팅했던 날",
+    "description": "경마장에서 처음으로 베팅했던 날로부터 석 달이 됐다.\n그때 느꼈던 그 감각이 — 지금도 생각난다.\n좋은 기억인지 나쁜 기억인지 모르겠다.",
+    "category": "gambling",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "racetrack_bet_first",
+      "min_turn": 3
+    },
+    "tags": ["racetrack", "callback", "gambling"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "그 감각이 뭔지 분석한다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "흥분이었다. 통제감이었다. 그리고 착각이었다.\n그 세 가지가 섞인 게 도박의 당김이었다.\n알고 나면 조금 덜 당긴다.\n조금."
+      },
+      {
+        "text": "그냥 재미있었다",
+        "effects": {
+          "stress": -2,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "재미있었다.\n재미있는 게 나쁜 건 아니었다.\n그 재미가 어디까지 가는지 — 스스로 알아야 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_joined_verdict",
+    "title": "스타트업 6개월",
+    "description": "스타트업에 합류한 지 6개월이 됐다.\n오늘 창업자가 물었다.\n\"어때? 여기 와서 좋아?\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "startup_joined",
+      "min_turn": 8
+    },
+    "tags": ["jobs", "callback", "startup"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "솔직하게 말한다. \"힘들지만 배우고 있어요\"",
+        "effects": {
+          "mental": 8,
+          "intelligence": 3,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "창업자가 웃었다. \"다들 6개월에 그렇게 말해.\"\n이상하게 안심이 됐다.\n6개월이 가장 힘든 때라는 말이 — 계속 가야 한다는 뜻이기도 했다."
+      },
+      {
+        "text": "\"좋아요\"라고만 한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "창업자가 \"...진짜로?\" 했다.\n\"뭐, 그냥요\"라고 했다.\n솔직하게 말해도 됐을 자리였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_salary_negotiation_outcome",
+    "title": "협상 결과",
+    "description": "연봉 협상을 먼저 꺼냈던 게 두 달 전이다.\n당시엔 결론이 안 났었다.\n오늘 인사팀에서 최종 결과가 왔다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "salary_negotiation_started",
+      "min_turn": 4,
+      "has_job": true
+    },
+    "tags": ["jobs", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "올랐다 — 작지만 의미 있는 숫자다",
+        "effects": {
+          "money": 200000,
+          "mental": 10,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "월 20만원 인상.\n처음 꺼내지 않았으면 없던 숫자였다.\n말하지 않으면 아무도 올려주지 않는다.\n그게 협상이 아니라 직장 생활의 기본이었다."
+      },
+      {
+        "text": "안 됐다 — 하지만 꺼내본 게 맞다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"이번엔 어렵습니다.\"라는 답이 왔다.\n인상은 안 됐지만 — 한 번 꺼낸 뒤부터 다음 대화가 달라졌다.\n말하지 않으면 기회도 없었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_for_better_job_check",
+    "title": "나온 게 맞았나",
+    "description": "더 좋은 곳이 있을 것 같아 나왔던 게 3개월 전이다.\n아직 새 자리를 못 구했다.\n오늘 전 직장 동료에게서 연락이 왔다.\n\"야, 팀장이 바뀌었어. 분위기 완전 달라졌어.\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "quit_for_better_job",
+      "min_turn": 6
+    },
+    "tags": ["jobs", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그래? 나온 게 좀 아깝네\"",
+        "effects": {
+          "mental": -5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아쉬웠다.\n하지만 그때 그 팀장이 바뀔지 알 수 없었다.\n정보가 없었을 때의 결정을 — 정보가 생긴 뒤에 후회하는 건 공평하지 않다."
+      },
+      {
+        "text": "\"나온 이유는 그것만이 아니었어\"",
+        "effects": {
+          "mental": 8,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"팀장만 그런 게 아니었잖아\"라고 했다.\n동료가 \"...그렇긴 했지\"라고 했다.\n조건이 달라져도 — 나온 이유는 남아있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_junk_sale_connection_echo",
+    "title": "벼룩시장의 인연",
+    "description": "벼룩시장에서 물건 팔다가 옆 자리 분과 이야기를 나눴던 게 반년 전이다.\n연락처를 교환했었는데 — 저장만 해두고 있었다.\n오늘 그분 이름이 생각났다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "junk_sale_connection",
+      "min_turn": 6
+    },
+    "tags": ["social", "callback", "network"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "연락해본다. \"잘 지내세요?\"",
+        "effects": {
+          "social_skill": 2,
+          "luck": 1,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그분이 반겼다.\n짧은 통화를 했다.\n작은 연락이 작은 관계를 살렸다.\n인연은 관리하는 사람한테 남는다."
+      },
+      {
+        "text": "그냥 둔다. 서로 바쁘게 살겠지",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그냥 뒀다.\n연락처는 지우지 않았다.\n언젠가 연락할 수도 있고 아닐 수도 있는 번호가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_heard_driver_story_echo",
+    "title": "기사 아저씨의 말",
+    "description": "밤늦게 탄 택시 기사 아저씨가 했던 이야기.\n\"나도 젊었을 때 강남 한번 가보겠다고 했는데.\"\n그 말이 오늘 어려운 결정 앞에서 다시 떠올랐다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "heard_driver_story",
+      "min_turn": 8
+    },
+    "tags": ["social", "callback", "wisdom"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "그 말을 기준으로 결정한다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "포기하지 않기로 했다.\n기사 아저씨처럼 나중에 택시 안에서 같은 말을 하고 싶지 않았다.\n그 말이 나침반이 됐다."
+      },
+      {
+        "text": "그분과 나는 다르다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다르다.\n상황도 다르고 시대도 다르다.\n하지만 포기했다는 결말은 — 같은 모양이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_health_treated_followup",
+    "title": "치료 후 3개월",
+    "description": "몸이 안 좋아서 병원에 갔던 게 석 달 전이다.\n꾸준히 약을 먹었다.\n오늘 재진을 받으러 갔다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "health_treated",
+      "min_turn": 4
+    },
+    "tags": ["health", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "호전됐다 — 관리를 계속한다",
+        "effects": {
+          "health": 8,
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": ["health_managed"],
+        "follow_up_event": "",
+        "result_text": "의사가 \"많이 좋아졌어요\"라고 했다.\n꾸준히 먹은 게 맞았다.\n몸도 관리하는 사람한테 남는다."
+      },
+      {
+        "text": "아직 완전하지 않다 — 더 관리해야 한다",
+        "effects": {
+          "health": 3,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아직 더 필요하다고 했다.\n더 이어가기로 했다.\n몸이 버텨줘야 다 할 수 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_visited_gangnam_open_house_echo",
+    "title": "그 평수와 지금",
+    "description": "강남 아파트 오픈 하우스에 갔던 게 1년 전이다.\n그때 봤던 평수, 그때 들었던 호가.\n오늘 같은 단지 실거래가를 검색했다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "visited_gangnam_open_house",
+      "min_turn": 6
+    },
+    "tags": ["investment", "callback", "gangnam"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "거리가 얼마나 좁혀졌는지 계산해본다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 3,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "호가는 올랐다. 자산도 올랐다.\n격차가 줄었는지 늘었는지 — 엇갈렸다.\n하지만 1년 전엔 계산조차 못 했다.\n계산이 된다는 게 — 가까워졌다는 뜻이었다."
+      },
+      {
+        "text": "아직 멀다. 그냥 닫는다",
+        "effects": {
+          "mental": -3,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "닫았다.\n아직 멀었다.\n하지만 1년 전에도 같은 생각을 했다.\n그래도 1년이 지났다."
+      }
+    ]
+  },
+  {
+    "id": "callback_motivated_by_neighbor_check",
+    "title": "그 이웃은 어떻게 됐나",
+    "description": "같은 고시원에 살면서 자극을 받았던 그 이웃.\n반년 뒤 그 방이 비어있었다.\n공용 주방에서 아주머니한테 들었다.\n\"그 방 분, 나갔어. 이사 갔대.\"",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "motivated_by_neighbor",
+      "min_turn": 6
+    },
+    "tags": ["social", "callback", "motivation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "나도 이 방에서 나갈 날을 생각한다",
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 방을 지나쳤다.\n비어있었다.\n고시원은 거쳐 가는 곳이었다.\n그 사람이 먼저 거쳐 갔고 — 나도 거쳐 간다."
+      },
+      {
+        "text": "연락처라도 알았으면 연락했을 것 같다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "연락처를 몰랐다.\n이름도 몰랐다.\n고시원은 그런 곳이었다.\n그래도 동력이 됐다는 건 남았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_envelope_returned_late_response",
+    "title": "늦게 돌려준 봉투",
+    "description": "늦게라도 봉투를 돌려줬던 게 한 달 전이다.\n오늘 그분에게서 짧은 문자가 왔다.\n'감사해요. 오래 기억할 것 같아요.'",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "envelope_returned_late",
+      "min_turn": 4
+    },
+    "tags": ["social", "callback", "honesty"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"늦어서 죄송했어요\"라고 답장한다",
+        "effects": {
+          "mental": 10,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"늦어서 죄송했어요.\"\n그분이 \"아니에요. 돌려줬잖아요.\"라고 했다.\n늦었어도 한 것과 안 한 것은 — 다른 것이었다."
+      },
+      {
+        "text": "그냥 이모티콘만 보낸다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이모티콘을 보냈다.\n그분이 이모티콘으로 답장했다.\n말이 없어도 — 서로 알고 있는 것들이 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_envelope_kept_final_weight",
+    "title": "그 봉투",
+    "description": "봉투를 돌려주지 않고 가진 게 넉 달이 됐다.\n오늘 길에서 비슷하게 생긴 봉투를 봤다.\n그냥 스쳐지나가는 봉투인데 — 그때 생각이 났다.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "envelope_kept_final",
+      "min_turn": 6
+    },
+    "tags": ["social", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "아직 늦지 않았다. 돌려준다",
+        "effects": {
+          "money": -300000,
+          "mental": 12,
+          "stress": -5
+        },
+        "flags": ["envelope_returned_late"],
+        "follow_up_event": "",
+        "result_text": "연락처를 찾아 보냈다.\n\"그때 봉투요. 늦었지만 드려요.\"\n상대가 잠시 침묵하다 \"...감사해요\"라고 했다.\n늦었어도 한 것이 맞았다."
+      },
+      {
+        "text": "너무 늦었다. 그냥 안고 간다",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "너무 늦었다고 했다.\n하지만 늦었다고 생각하는 그 순간이 — 가장 빠른 순간이기도 했다.\n그게 계속 마음에 걸릴 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_got_lucky_call_followup",
+    "title": "운 좋은 연락 이후",
+    "description": "때맞게 연락이 왔었다.\n그 덕분에 기회가 하나 생겼다.\n오늘 그 사람과 두 번째로 만났다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "got_lucky_call",
+      "min_turn": 6
+    },
+    "tags": ["social", "callback", "luck"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이 인연을 더 키운다",
+        "effects": {
+          "social_skill": 3,
+          "luck": 2,
+          "reputation": 2
+        },
+        "flags": ["lucky_connection_built"],
+        "follow_up_event": "",
+        "result_text": "두 번째 만남이 세 번째를 약속했다.\n운은 첫 문을 여는 것이었다.\n이후는 실력과 태도가 열었다.\n그 순서가 맞았다."
+      },
+      {
+        "text": "그냥 그 기회만 쓰고 끝낸다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 기회만 활용하고 더 이어가지 않았다.\n인연은 닫는 방향으로도 선택할 수 있다.\n그게 잘못된 건 아니었다."
+      }
+    ]
+  }
+]

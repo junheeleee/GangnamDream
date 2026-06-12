@@ -1,0 +1,242 @@
+[
+  {
+    "id": "callback_redev_bet_taken_result",
+    "title": "Redevelopment Results",
+    "description": "Six months since you decided to invest in the redevelopment zone.\nToday a text came in about a general assembly meeting.\nA briefing on the project's current status, apparently.",
+    "choices": [
+      {
+        "text": "Attend the assembly",
+        "result_text": "The room was full of unit holders.\nThe key point: the project timeline was being extended by two more years.\nReal estate wasn't numbers — it was time.\nFor now, there was nothing to do but wait."
+      },
+      {
+        "text": "Skip it. Just wait for the outcome.",
+        "result_text": "You didn't go.\nThe timeline extension came later by text.\nIf you invest, you show up.\nOwnership shows up at the assembly too."
+      }
+    ]
+  },
+  {
+    "id": "callback_quant_vindicated_echo",
+    "title": "The Quant Was Right",
+    "description": "That day you decided to strip out emotion and run on math alone.\nA year has passed.\nYou tallied up the returns.\nSlightly above market average.",
+    "choices": [
+      {
+        "text": "Refine this approach further",
+        "result_text": "You added two more variables.\nThe backtest improved a bit.\nCutting emotion doesn't guarantee profit.\nBut it does cut mistakes — that was right."
+      },
+      {
+        "text": "It worked — scale up the bet",
+        "result_text": "You scaled up.\nThe market wobbled next quarter.\nEven when the math is right — sizing up lets psychology back in.\nQuant can lose big too."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_tip_sheet_result",
+    "title": "The Value of Paid Information",
+    "description": "Three months since you subscribed to the stock tip sheet.\n₩30,000 a month.\nYou followed the picks for three months.\nTime to add up the results.",
+    "choices": [
+      {
+        "text": "Cancel the subscription",
+        "result_text": "Three months: 2 wins, 3 losses.\nIncluding the subscription fee — it was negative.\nPeople who sell information make money from subscriptions, not the picks.\nNow you knew the difference."
+      },
+      {
+        "text": "Watch a bit longer",
+        "result_text": "Watched one more month.\nSimilar results.\nIt wasn't that there are no good tip sheets — the approach of following picks blindly was the problem."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_chased_win_ending",
+    "title": "The End of a Winning Day",
+    "description": "That day at the track when you won but didn't stop.\nYou ended up giving back the whole day's profit before you left.\nOn the subway home you replayed it.",
+    "choices": [
+      {
+        "text": "Make \"stop when you're up\" a rule",
+        "result_text": "You wrote it down.\n'Walk out when you're winning.'\nGiving back profits after a win — that's the most common pattern in gambling.\nNo rule means emotions decide."
+      },
+      {
+        "text": "Just an unlucky day",
+        "result_text": "You called it an unlucky day.\nBut the same pattern repeated.\nCall a pattern luck — and it never changes."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_bet_first_reflection",
+    "title": "The Day of the First Bet",
+    "description": "Three months since the day you placed your first bet at the track.\nThat feeling you had then — it still comes back.\nNot sure if it's a good memory or a bad one.",
+    "choices": [
+      {
+        "text": "Analyze what that feeling actually was",
+        "result_text": "Excitement. A sense of control. And an illusion.\nThose three mixed together — that was gambling's pull.\nOnce you name it, the pull eases a little.\nJust a little."
+      },
+      {
+        "text": "It was just fun",
+        "result_text": "It was fun.\nFun isn't inherently bad.\nBut where that fun leads — that's something you had to know yourself."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_joined_verdict",
+    "title": "Six Months at the Startup",
+    "description": "Six months since you joined the startup.\nToday the founder asked:\n\"How is it? Glad you came?\"",
+    "choices": [
+      {
+        "text": "Be honest. \"Hard — but I'm learning.\"",
+        "result_text": "The founder smiled. 'Everyone says that at six months.'\nStrangely reassuring.\nIf six months is the hardest part — it also meant you should keep going."
+      },
+      {
+        "text": "Just say \"It's good.\"",
+        "result_text": "The founder said '...Really?'\n'Sort of,' you said.\nIt had been a place where you could have been honest."
+      }
+    ]
+  },
+  {
+    "id": "callback_salary_negotiation_outcome",
+    "title": "Negotiation Result",
+    "description": "Two months since you brought up the salary negotiation first.\nNo conclusion at the time.\nToday HR sent the final answer.",
+    "choices": [
+      {
+        "text": "It went up — small but it means something",
+        "result_text": "₩200,000/month increase.\nA number that wouldn't have existed if you hadn't asked.\nNo one raises it without you speaking up.\nThat wasn't negotiation — that was just how employment works."
+      },
+      {
+        "text": "No — but asking was right",
+        "result_text": "'Not possible this time' was the answer.\nNo raise — but after raising it once, the next conversation shifted.\nWithout speaking up, there wouldn't have been a chance either."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_for_better_job_check",
+    "title": "Was Leaving Right?",
+    "description": "Three months since you left thinking something better was out there.\nStill haven't landed a new position.\nToday your old colleague reached out.\n\"Hey — the team lead changed. The whole vibe is different now.\"",
+    "choices": [
+      {
+        "text": "\"Is it? I kind of regret leaving.\"",
+        "result_text": "You felt the pang.\nBut there was no way to know the team lead would change back then.\nRegretting a decision made without information, once the information arrives — that's not fair to yourself."
+      },
+      {
+        "text": "\"The team lead wasn't the only reason I left.\"",
+        "result_text": "'It wasn't just the team lead,' you said.\nYour colleague said '...Fair enough.'\nEven if conditions change — the reasons you left remain."
+      }
+    ]
+  },
+  {
+    "id": "callback_junk_sale_connection_echo",
+    "title": "The Flea Market Connection",
+    "description": "Half a year since you chatted with the person at the next stall at the flea market.\nYou exchanged numbers — but the contact has just been sitting in your phone.\nToday their name crossed your mind.",
+    "choices": [
+      {
+        "text": "Reach out. \"How have you been?\"",
+        "result_text": "They were glad to hear from you.\nYou had a short call.\nA small message kept a small connection alive.\nRelationships stay with the people who tend them."
+      },
+      {
+        "text": "Leave it. Everyone's busy living.",
+        "result_text": "You left it.\nThe number stayed unsaved.\nIt became a contact that might get a call someday — or might not."
+      }
+    ]
+  },
+  {
+    "id": "callback_heard_driver_story_echo",
+    "title": "What the Driver Said",
+    "description": "The late-night taxi driver and what he said.\n\"When I was young, I thought I'd make it to Gangnam too.\"\nFacing a tough decision today — those words surfaced again.",
+    "choices": [
+      {
+        "text": "Use it as a compass for this decision",
+        "result_text": "You decided not to give up.\nYou didn't want to be in a cab someday saying the same thing.\nThat remark had become a compass."
+      },
+      {
+        "text": "He and I are different.",
+        "result_text": "Different.\nDifferent situation, different era.\nBut the ending of giving up — looked the same either way."
+      }
+    ]
+  },
+  {
+    "id": "callback_health_treated_followup",
+    "title": "Three Months After Treatment",
+    "description": "Three months since you went to the doctor when your body wasn't right.\nYou kept up with the medication.\nToday you went in for the follow-up.",
+    "choices": [
+      {
+        "text": "Improved — keep managing it",
+        "result_text": "The doctor said 'Much better.'\nKeeping it up was right.\nYour body stays with the people who look after it."
+      },
+      {
+        "text": "Not quite there — more care needed",
+        "result_text": "A bit more was needed, apparently.\nYou decided to keep going.\nYour body has to hold up for everything else to happen."
+      }
+    ]
+  },
+  {
+    "id": "callback_visited_gangnam_open_house_echo",
+    "title": "That Floor Plan and Now",
+    "description": "A year since you went to the Gangnam apartment open house.\nThe unit you saw then. The asking price you heard.\nToday you looked up the actual transaction price for that complex.",
+    "choices": [
+      {
+        "text": "Calculate how much the gap has closed",
+        "result_text": "The asking price went up. Your assets went up.\nWhether the gap closed or widened — it cut both ways.\nBut a year ago you couldn't even run the calculation.\nBeing able to calculate — meant getting closer."
+      },
+      {
+        "text": "Still too far. Just close it.",
+        "result_text": "You closed it.\nStill far.\nBut a year ago you were thinking the same thing.\nA year passed anyway."
+      }
+    ]
+  },
+  {
+    "id": "callback_motivated_by_neighbor_check",
+    "title": "What Became of That Neighbor",
+    "description": "The neighbor at the gosiwon who motivated you.\nHalf a year later, their room is empty.\nYou heard from the ajumma in the shared kitchen:\n\"That person moved out. Got a new place.\"",
+    "choices": [
+      {
+        "text": "Think about the day you'll leave this room too",
+        "result_text": "You passed the room.\nIt was empty.\nGosiwon is a place you pass through.\nThey passed through first — and you'd pass through too."
+      },
+      {
+        "text": "Wish I'd had their number",
+        "result_text": "No number.\nNot even a name.\nThat's what gosiwon was.\nBut the fact that they'd been a source of drive — that stayed."
+      }
+    ]
+  },
+  {
+    "id": "callback_envelope_returned_late_response",
+    "title": "The Late Return",
+    "description": "A month since you finally returned the envelope, late as it was.\nToday a short text from them:\n'Thank you. I think I'll remember this for a long time.'",
+    "choices": [
+      {
+        "text": "Reply: \"I'm sorry it was so late.\"",
+        "result_text": "'I'm sorry it took so long.'\nThey replied 'No — you returned it.'\nLate and not at all — are different things."
+      },
+      {
+        "text": "Just send an emoji",
+        "result_text": "You sent an emoji.\nThey sent one back.\nNo words needed — some things were understood between you."
+      }
+    ]
+  },
+  {
+    "id": "callback_envelope_kept_final_weight",
+    "title": "That Envelope",
+    "description": "Four months since you kept the envelope.\nToday you spotted a similar-looking one on the street.\nJust a passing envelope — but the memory surfaced.",
+    "choices": [
+      {
+        "text": "It's not too late. Return it.",
+        "result_text": "You tracked down their contact and sent it.\n'About that envelope. Late, but here it is.'\nThey went quiet a moment, then: '...Thank you.'\nLate was still the right call."
+      },
+      {
+        "text": "Too late now. Live with it.",
+        "result_text": "You called it too late.\nBut the moment you think it's too late — is actually the earliest moment.\nThis would keep nagging."
+      }
+    ]
+  },
+  {
+    "id": "callback_got_lucky_call_followup",
+    "title": "After the Lucky Call",
+    "description": "A call came at exactly the right moment.\nThanks to it, an opportunity opened up.\nToday you met that person for the second time.",
+    "choices": [
+      {
+        "text": "Build on this connection",
+        "result_text": "The second meeting promised a third.\nLuck opened the first door.\nAfter that, skill and attitude opened the rest.\nThat order was right."
+      },
+      {
+        "text": "Use this opportunity and leave it there",
+        "result_text": "You used the opportunity and didn't extend it further.\nConnections can also be closed by choice.\nThat wasn't wrong."
+      }
+    ]
+  }
+]
