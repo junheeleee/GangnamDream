@@ -95,16 +95,16 @@ Portrait of a Korean woman in her late 20s. 김다은, a first-love figure. Brig
 Portrait of a Korean man in his late 30s to early 40s. 임상철, a network broker and fixer. Slightly greasy confidence — not villainous but visibly opportunistic. Well-dressed but not quite trustworthy: a slim-fit blazer, an expensive watch glimpsed. Hair slicked back. Expression: a wide, practiced smile that doesn't reach the eyes. Background: dim bar or private room interior. 512x768 vertical. Lo-fi realism, painterly.
 ```
 
-### 10. `assets/characters/npc_close_friend.png` ← 교체 (강현수 — 오랜 친구)
+### 10. `assets/characters/npc_close_friend.png` ← 교체 (강현수 — 고시원 옆방 공시생 후배)
 
 ```
-Portrait of a Korean man in his early 30s. 강현수, a longtime friend from the protagonist's hometown. Ordinary, salt-of-the-earth look: a comfortable hoodie or casual jacket, round-ish face, natural warm expression. Not particularly successful but genuinely kind. Expression: slightly awkward warmth — a real friend trying to cheer someone up. Background: a pojangmacha or cheap restaurant interior. 512x768 vertical. Lo-fi realism, painterly.
+Transparent visual novel portrait of a Korean man age 26-27. 강현수, Minjun's goshiwon neighbor and fourth-year civil-service-exam student. Chubby but likable, round wire-frame glasses, messy medium black hair, soft round face, gentle tired eyes, olive-gray hoodie over a muted burgundy striped shirt. Expression: awkward warm half-smile, a younger friend trying to encourage Minjun. No background, no room, no props. 512x768 vertical, Korean manhwa VN style.
 ```
 
-### 11. `assets/characters/npc_mentor.png` ← 교체 (박지연 — 멘토)
+### 11. `assets/characters/npc_mentor.png` ← 교체 (한지연 — 위험한 히로인)
 
 ```
-Portrait of a Korean woman in her mid-40s. 박지연, a professional mentor figure. Competent and composed: neat blazer, reading glasses resting on her nose or held in hand. Short professional hair, no-nonsense expression with underlying warmth. The look of someone who has seen a lot and chooses her words carefully. Background: a corporate office or café interior, blurred. 512x768 vertical. Lo-fi realism, painterly.
+Transparent-background portrait of Han Jiyeon, a Korean woman age 31. Wealthy Gangnam heiress and dangerous romance heroine, not a mentor figure. Beautiful, alluring, and slightly unsafe: long black or very dark brown hair, sharp intelligent eyes, composed mouth, tailored cream or black suit, subtle old-money jewelry. No office or cafe background. No short bob, no middle-aged look, no reading glasses. 512x768 vertical.
 ```
 
 ### 12. `assets/characters/npc_coworker.png` (선택)
@@ -121,7 +121,7 @@ Portrait of a Korean man in his late 20s to early 30s. A generic workplace colle
 
 #### 1. `assets/backgrounds/goshiwon_room.png`
 ```
-Interior of a Korean goshiwon (고시원) single room, night. A single bed, a tiny desk with a laptop and a power strip overloaded with plugs, a small window with neon light bleeding through thin curtains. No room to stretch — walls very close. One desk lamp as main light source. Personal items scattered: instant noodles cup, phone charger, notebooks. Oppressive and claustrophobic but lived-in. Dark charcoal palette, amber desk lamp glow, cool neon leaking through curtains. 1280x800. Lo-fi realism.
+Interior of a Korean goshiwon (고시원) single room, night. Canon layout: narrow bed, low foldable desk at the bed foot / screen-bottom foreground, tiny high frosted ventilation window only, no scenic city view. One desk lamp as main light source. Personal items scattered: instant noodles cup, phone charger, notebooks. Oppressive and claustrophobic but lived-in. Dark charcoal palette, amber desk lamp glow. 1280x800. Lo-fi realism.
 ```
 
 #### 2. `assets/backgrounds/oneroom_apartment.png`
@@ -171,7 +171,7 @@ Long corridor of a Korean general hospital at night. Fluorescent lights stretchi
 
 #### 11. `assets/backgrounds/late_night_room.png`
 ```
-A goshiwon or one-room apartment at 4am. The laptop screen is the only light — casting blue light on the ceiling and walls. Empty instant noodle cups. Social media or job search sites visible on screen (no readable text). The exhausted insomniac atmosphere of job-hunting youth. Deep blue tones, laptop screen glow. 1280x800. Lo-fi realism.
+REGENERATED 2026-06-12 as a 4am color-grade of goshiwon_room.png. Keep the exact same canonical goshiwon layout: narrow bed, low foldable desk at bed foot / screen-bottom foreground, tiny high frosted ventilation window only, no scenic city view, no different room layout. Laptop/phone glow may add blue light, but the structure must not change. 1280x800. Lo-fi realism.
 ```
 
 #### 12. `assets/backgrounds/hometown_train_station.png`
@@ -186,12 +186,12 @@ Rooftop of an old Seoul villa (빌라) building in daytime under an overcast gre
 
 #### 14. `assets/backgrounds/gangnam_night_street.png`
 ```
-Gangnam Station (강남역) exit at night in the rain. Neon signs reflecting on wet sidewalks. Crowds with umbrellas, luxury brand storefronts. A back-view lone figure among the crowd feeling like an outsider. Glamorous and alienating — a city for people who have already made it. Dark navy, neon accent highlights (red, blue, white). 1280x800. Lo-fi realism.
+Gangnam Station (강남역) exit at night in the rain. Neon signs reflecting on wet sidewalks. Luxury storefronts, cars, umbrellas, dense urban texture. No clear foreground protagonist figure and no single back-view lone man; distant anonymous crowd silhouettes only if needed. Glamorous and alienating — a city for people who have already made it. Dark navy, neon accent highlights (red, blue, white). 1280x800. Lo-fi realism.
 ```
 
 #### 15. `assets/backgrounds/penthouse_view.png`
 ```
-Floor-to-ceiling window of a Gangnam high-rise penthouse at night. The full Seoul skyline spread below. Minimal luxury interior — a single sofa edge or a lone silhouette standing with back to viewer. Reached the top — but feels hollow. Bittersweet triumph. Soft warm interior light against glittering cold city lights outside. 1280x800. Lo-fi realism.
+Floor-to-ceiling window of a Gangnam high-rise penthouse at night. The full Seoul skyline spread below. Minimal luxury interior, empty room, no person or silhouette. Reached the top — but feels hollow through the emptiness of the room itself. Soft warm interior light against glittering cold city lights outside. 1280x800. Lo-fi realism.
 ```
 
 #### 16. `assets/backgrounds/burnout_hospital_room.png`
@@ -201,7 +201,7 @@ A hospital patient room, single bed, IV drip bag hanging, white curtain partitio
 
 #### 17. `assets/backgrounds/family_living_room.png`
 ```
-A Korean family living room in a provincial town. Old sofa, a large TV showing a drama or news. Family photos on the wall. A low wooden table with tea cups. Warm but slightly dated — the home the protagonist left behind. Warm amber television glow, evening light. 1280x800. Lo-fi realism.
+A modest older working-class living room in Changwon, Korea, tied to Kim Minjun's father. Old sofa, scuffed wooden TV cabinet, cheap wall clock, folding table with two tea cups, worn wallpaper, quiet absence and guilt. At most one small faded photo of young father, mother, and Minjun or father alone. No extended-family portrait, no happy large household signal, no luxury apartment, no scenic window. Warm but muted evening light. 1280x800.
 ```
 
 #### 18. `assets/backgrounds/military_training_ground.png`

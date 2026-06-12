@@ -8,33 +8,33 @@ extends Node
 # ── 인물 초상화 ────────────────────────────────────────────────
 # 경로 규칙: assets/characters/ 플랫 구조 (Codex 생성 파일과 일치)
 const PORTRAITS = {
-	# 주인공 (김민준, 33세 백수) — MainGame의 PORTRAIT_* 상수와 동기화
+	# 주인공 (김민준, 33세) — player_* 일부는 get_portrait()에서 직업/상태 기반으로 동적 선택
 	"player_normal":      "res://assets/characters/main_character_neutral_goshiwon.png",
 	"player_tired":       "res://assets/characters/main_character_tired.png",
 	"player_determined":  "res://assets/characters/main_character_determined.png",
 	"player_happy":       "res://assets/characters/main_character_happy.png",
 	"player_shocked":     "res://assets/characters/main_character_shocked.png",
 	"player_sad":         "res://assets/characters/main_character_tired.png",
-	"player_suit":        "res://assets/characters/main_character_30s.png",
+	"player_suit":        "res://assets/characters/main_character_corporate.png",
 	"player_hollow":      "res://assets/characters/main_character_50s.png",
 
 	# 김다은 (연인)
 	"daeun_normal":       "res://assets/characters/npc_romantic_interest.png",
-	"daeun_smile":        "res://assets/characters/npc_romantic_interest.png",
-	"daeun_sad":          "res://assets/characters/npc_romantic_interest.png",
+	"daeun_smile":        "res://assets/characters/npc_daeun_smile.png",
+	"daeun_sad":          "res://assets/characters/npc_daeun_sad.png",
 
 	# 임상철 (인맥 브로커)
 	"sangchul_normal":    "res://assets/characters/npc_boss.png",
-	"sangchul_serious":   "res://assets/characters/npc_boss.png",
+	"sangchul_serious":   "res://assets/characters/npc_sangchul_serious.png",
 
-	# 강현수 (오랜 친구)
+	# 강현수 (고시원 옆방 공시생 후배)
 	"hyunsu":             "res://assets/characters/npc_close_friend.png",
 	"hyunsu_normal":      "res://assets/characters/npc_close_friend.png",
 
-	# 박지연 (멘토)
+	# 한지연 (투자·로맨스) — legacy file names, regenerate as transparent portraits
 	"jiyeon_normal":      "res://assets/characters/npc_mentor.png",
-	"jiyeon_warm":        "res://assets/characters/npc_mentor.png",
-	"jiyeon_cold":        "res://assets/characters/npc_mentor.png",
+	"jiyeon_warm":        "res://assets/characters/npc_jiyeon_warm.png",
+	"jiyeon_cold":        "res://assets/characters/npc_jiyeon_cold.png",
 
 	# 조연
 	"boss":               "res://assets/characters/npc_team_lead.png",
@@ -42,16 +42,25 @@ const PORTRAITS = {
 	"mother":             "res://assets/characters/npc_mother.png",
 	"father_normal":      "res://assets/characters/npc_father.png",
 	"father_proud":       "res://assets/characters/npc_father.png",
-	"father_weak":        "res://assets/characters/npc_father.png",
+	"father_weak":        "res://assets/characters/npc_father_weak.png",
 	"jaehyuk_charisma":   "res://assets/characters/npc_jaehyuk.png",
 	"jaehyuk_friendly":   "res://assets/characters/npc_jaehyuk.png",
-	"jaehyuk_shadow":     "res://assets/characters/npc_jaehyuk.png",
+	"jaehyuk_shadow":     "res://assets/characters/npc_jaehyuk_shadow.png",
 	"jaehyuk_cornered":   "res://assets/characters/npc_jaehyuk.png",
 	"seongjun":           "res://assets/characters/npc_seongjun.png",
 
 	# 경마장 정보상
 	"tip_seller":         "res://assets/characters/npc_tip_seller.png",
 }
+
+const PLAYER_UNEMPLOYED = "res://assets/characters/main_character_unemployed.png"
+const PLAYER_PART_TIME = "res://assets/characters/main_character_part_time.png"
+const PLAYER_OFFICE = "res://assets/characters/main_character_office.png"
+const PLAYER_CORPORATE = "res://assets/characters/main_character_corporate.png"
+const PLAYER_TIRED = "res://assets/characters/main_character_tired.png"
+const PLAYER_HAPPY = "res://assets/characters/main_character_happy.png"
+const PLAYER_SHOCKED = "res://assets/characters/main_character_shocked.png"
+const PLAYER_HOLLOW = "res://assets/characters/main_character_50s.png"
 
 # ── 인물 표시 정보 (플레이스홀더용 — 이름 + 테마색) ──────────────
 const PERSON_INFO = {
@@ -92,12 +101,19 @@ const BACKGROUNDS = {
 	# 특수
 	"hospital":          "res://assets/backgrounds/hospital_corridor.png",
 	"hospital_clinic":   "res://assets/backgrounds/hospital_clinic.png",
+	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
 	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
 	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
 	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
-	"trading":           "res://assets/backgrounds/trading_screen_night.png",
+	"investment":        "res://assets/backgrounds/investment_phone.png",
+	"investment_phone":  "res://assets/backgrounds/investment_phone.png",
+	# Legacy key kept for old event JSON. General investing must stay phone/desk-scale;
+	# multi-monitor rooms are reserved for scalping/pro-level scenes.
+	"trading":           "res://assets/backgrounds/investment_phone.png",
+	"trading_room":      "res://assets/backgrounds/trading_screen_night.png",
 	"pc_bang":           "res://assets/backgrounds/pc_bang_interior.png",
+	# Canonical 4am variant generated from goshiwon_room.png; same room layout.
 	"late_night":        "res://assets/backgrounds/late_night_room.png",
 	# 신규 (2026-06-12)
 	"library":           "res://assets/backgrounds/library.png",
@@ -128,10 +144,70 @@ const CG = {
 
 ## 초상화 경로 반환. 파일 없으면 "" (UI가 플레이스홀더 처리)
 func get_portrait(id: String) -> String:
+	var dynamic_path = _get_dynamic_player_portrait(id)
+	if dynamic_path != "":
+		if ResourceLoader.exists(dynamic_path):
+			return dynamic_path
+		return ""
 	var path = str(PORTRAITS.get(id, ""))
 	if path != "" and ResourceLoader.exists(path):
 		return path
 	return ""
+
+func get_player_portrait_for_state(state: String = "normal") -> String:
+	match state:
+		"shocked":
+			return PLAYER_SHOCKED
+		"happy":
+			return PLAYER_HAPPY
+		"tired", "sad":
+			return PLAYER_TIRED
+		"hollow":
+			return PLAYER_HOLLOW
+		"normal", "determined", "suit":
+			return get_player_context_portrait()
+		_:
+			return get_player_context_portrait()
+
+func get_player_context_portrait() -> String:
+	if GameState.age >= 50:
+		return PLAYER_HOLLOW
+
+	var job: Dictionary = GameState.current_job
+	var total_asset := float(GameState.get_total_asset_value())
+	if job.is_empty():
+		if GameState.housing in ["apartment", "gangnam"] or total_asset >= 100_000_000.0:
+			return PLAYER_CORPORATE
+		return PLAYER_UNEMPLOYED
+
+	var job_id := str(job.get("id", ""))
+	var category := str(job.get("category", ""))
+	var tier := int(job.get("tier", 1))
+
+	if category == "survival" or job_id in ["job_01", "job_02"]:
+		return PLAYER_PART_TIME
+	if job_id == "job_08" or category in ["finance", "sales"] or tier >= 3:
+		return PLAYER_CORPORATE
+	return PLAYER_OFFICE
+
+func _get_dynamic_player_portrait(id: String) -> String:
+	match id:
+		"player_normal":
+			return get_player_portrait_for_state("normal")
+		"player_determined":
+			return get_player_portrait_for_state("determined")
+		"player_suit":
+			return get_player_portrait_for_state("suit")
+		"player_tired", "player_sad":
+			return get_player_portrait_for_state("tired")
+		"player_happy":
+			return get_player_portrait_for_state("happy")
+		"player_shocked":
+			return get_player_portrait_for_state("shocked")
+		"player_hollow":
+			return get_player_portrait_for_state("hollow")
+		_:
+			return ""
 
 ## 배경 경로 반환. 파일 없으면 기본 배경으로 폴백
 func get_background(id: String) -> String:
@@ -151,8 +227,10 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 		return "hospital"
 	if "convenience" in tags:
 		return "convenience_night"
+	if "scalping" in tags:
+		return "scalping_room"
 	if "investment" in tags or category == "investment" or "finance" in tags:
-		return "trading"
+		return "investment_phone"
 	if "job" in tags or "work" in tags or "office" in tags or category == "jobs":
 		return "office"
 	if "commute" in tags or "subway" in tags:
@@ -161,7 +239,7 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 			or "relationship" in tags or category == "romance":
 		return "cafe"
 	if "family" in tags or category == "family":
-		return "dad_house"
+		return "restaurant"
 	if "hometown" in tags:
 		return "ktx_window"
 	if "rooftop" in tags:
@@ -169,7 +247,7 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 	if category == "politics":
 		return "gangnam_night"
 	if category == "gambling" or "gambling" in tags or "crypto" in tags:
-		return "trading"
+		return "investment_phone"
 	if "pc_bang" in tags or "gaming" in tags:
 		return "pc_bang"
 	if "night" in tags or "stress" in tags:

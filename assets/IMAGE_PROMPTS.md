@@ -86,7 +86,7 @@ Gangnam Station night street. Neon signs, crowds with umbrellas, rain-soaked asp
 **저장 경로**: `assets/backgrounds/penthouse_view.png`
 
 ```
-Floor-to-ceiling window of a Gangnam high-rise penthouse at night. The full Seoul skyline spread below. Minimal luxury interior — a single sofa edge, a wine glass, or a lone silhouette standing with their back to us. Reached the top but feels empty. Bittersweet triumph. Dark background with soft warm interior light and glittering city lights outside. Lo-fi realism, no anime style.
+Floor-to-ceiling window of a Gangnam high-rise penthouse at night. The full Seoul skyline spread below. Minimal luxury interior, empty room, no person, no silhouette, no back-view figure. Reached the top but feels empty through the absence of people. Bittersweet triumph. Dark background with soft warm interior light and glittering city lights outside. Lo-fi realism, no anime style.
 ```
 
 **용도**: `gangnam_dream` 엔딩 배경

@@ -61,7 +61,7 @@
     },
     "tags": ["relationship", "tradeoff"],
     "cooldown": 25,
-    "description": "Over drinks at the pojangmacha, Hyunsu brought it up.\n\"Hey, can you lend me ₩1,000,000 for a month? Need it fast.\"\n\nClose friends. Had to ask why.\n\"There's an investment deal — don't want to miss the timing.\"",
+    "description": "Over drinks at the pojangmacha, Hyunsu brought it up.\n\"Hyung, could you lend me ₩1,000,000 for a month? I need it fast.\"\n\nClose like brothers. Had to ask why.\n\"There's an investment deal — I don't want to miss the timing.\"",
     "choices": [
       {
         "text": "Lend it. Trust Hyunsu.  (friendship / risk)",

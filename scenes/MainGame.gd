@@ -47,6 +47,7 @@ const BG_CONVENIENCE    = "res://assets/backgrounds/convenience_store_night.png"
 const BG_CAFE           = "res://assets/backgrounds/cafe_seoul.png"
 const BG_INVESTMENT     = "res://assets/backgrounds/investment_phone.png"
 const BG_HOSPITAL       = "res://assets/backgrounds/hospital_corridor.png"
+# Canonical 4am variant generated from goshiwon_room.png; same room layout.
 const BG_NIGHT_ROOM     = "res://assets/backgrounds/late_night_room.png"
 const BG_HOMETOWN       = "res://assets/backgrounds/hometown_train_station.png"
 const BG_ROOFTOP_DAY    = "res://assets/backgrounds/rooftop_daytime.png"
@@ -63,12 +64,6 @@ const BG_PC_BANG        = "res://assets/backgrounds/pc_bang_interior.png"
 const BG_GANGNAM_ST     = "res://assets/backgrounds/gangnam_station_exit.png"
 
 const PORTRAIT_NEUTRAL    = "res://assets/characters/main_character_neutral_goshiwon.png"
-const PORTRAIT_TIRED      = "res://assets/characters/main_character_tired.png"
-const PORTRAIT_DETERMINED = "res://assets/characters/main_character_determined.png"
-const PORTRAIT_HAPPY      = "res://assets/characters/main_character_happy.png"
-const PORTRAIT_SHOCKED    = "res://assets/characters/main_character_shocked.png"
-const PORTRAIT_30S        = "res://assets/characters/main_character_30s.png"
-const PORTRAIT_50S        = "res://assets/characters/main_character_50s.png"
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
@@ -3815,6 +3810,7 @@ func _close_modal():
 
 func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
+	var ending: Dictionary = EndingSystem.get_ending(ending_id)
 	# ── 엔딩별 배경 전환 ──────────────────────────────────────
 	var ending_bg_map = {
 		"gangnam_dream":     BG_PENTHOUSE,
@@ -3831,7 +3827,18 @@ func _show_ending(ending_id):
 		"healthy_retirement":BG_ROOFTOP_DAY,
 		"ordinary_life":     BG_DEFAULT,
 	}
-	var bg_path = ending_bg_map.get(ending_id, BG_DEFAULT)
+	var ending_cg_path := ""
+	var cg_id := str(ending.get("cg", ""))
+	if cg_id != "":
+		ending_cg_path = ImageRegistry.get_cg(cg_id)
+	var bg_path := ending_cg_path
+	var bg_alpha := 0.50 if ending_cg_path != "" else 0.35
+	if bg_path == "":
+		var bg_id := str(ending.get("background", ""))
+		if bg_id != "":
+			bg_path = ImageRegistry.get_background(bg_id)
+	if bg_path == "":
+		bg_path = str(ending_bg_map.get(ending_id, BG_DEFAULT))
 	if event_bg:
 		var tex = load(bg_path)
 		if tex:
@@ -3840,11 +3847,10 @@ func _show_ending(ending_id):
 			tw_end.tween_callback(func():
 				event_bg.texture = tex
 				var tw2 := create_tween()
-				tw2.tween_property(event_bg, "modulate:a", 0.35, 0.5)  # 엔딩은 살짝 더 진하게
+				tw2.tween_property(event_bg, "modulate:a", bg_alpha, 0.5)
 			)
 
 	_open_modal("🏁 엔딩")
-	var ending = EndingSystem.get_ending(ending_id)
 	var grade = ending.get("grade", "?")
 	var grade_colors = {"S": "#f0b429", "A": "#34d399", "B": "#5b9cf6", "C": "#8892a4", "F": "#ff4444"}
 	var grade_emojis = {"S": "🏆", "A": "🌟", "B": "✨", "C": "📋", "F": "💀"}
@@ -3863,6 +3869,8 @@ func _show_ending(ending_id):
 	var ending_sep = HSeparator.new()
 	ending_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(ending_sep)
+	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
+		_add_ending_cg_preview(modal_body, ending_cg_path)
 	# ── 드라마틱 한 줄 요약 ──
 	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, "#c8a060"))
 	# ── 엔딩 설명 ──
@@ -4823,7 +4831,7 @@ func _get_bg_for_event(ev: Dictionary) -> String:
 	if category == "military" or "military" in tags:
 		return BG_MILITARY
 
-	# 가족 (거실)
+	# 가족: 민준 아버지의 창원/지방 노동자 가정 배경.
 	if "family" in tags or category == "family":
 		return BG_FAMILY
 
@@ -4905,26 +4913,18 @@ func _show_portrait_placeholder(portrait_id: String):
 func _get_portrait_path() -> String:
 	# 충격·위기 상황 (이벤트 직후 플래그)
 	if GameState.flags.get("just_critical_event", false):
-		return PORTRAIT_SHOCKED
+		return ImageRegistry.get_player_portrait_for_state("shocked")
 	# 자산 마일스톤 달성 직후 — 기쁨
 	if GameState.flags.get("just_hit_milestone", false):
-		return PORTRAIT_HAPPY
+		return ImageRegistry.get_player_portrait_for_state("happy")
 	# 스트레스 매우 높거나 건강/정신 위험 — 피로
 	if GameState.stress >= 65 or GameState.health <= 35 or GameState.mental <= 35:
-		return PORTRAIT_TIRED
+		return ImageRegistry.get_player_portrait_for_state("tired")
 	# 50대 이상
 	if GameState.age >= 50:
-		return PORTRAIT_50S
-	# 중후반 상승 상태 — 초반 33세 고시원 시작 컷과 분리
-	var total_asset: float = float(GameState.get_total_asset_value())
-	if GameState.housing in ["apartment", "gangnam"] and GameState.stress < 60:
-		return PORTRAIT_30S
-	if total_asset >= 100_000_000.0 and GameState.stress < 60:
-		return PORTRAIT_30S
-	# 직장 있고 안정적 — 결의
-	if not GameState.current_job.is_empty() and GameState.stress < 45 and GameState.health >= 60:
-		return PORTRAIT_DETERMINED
-	return PORTRAIT_NEUTRAL
+		return ImageRegistry.get_player_portrait_for_state("hollow")
+	# 평상시 — 직업/주거/자산 상태에 맞는 의상 포트레이트
+	return ImageRegistry.get_player_portrait_for_state("normal")
 
 func _get_month_advice() -> String:
 	if GameState.health <= 40:

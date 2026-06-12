@@ -2,13 +2,13 @@
   {
     "id": "jiyeon_meet",
     "title": "An Accident",
-    "description": "A spring afternoon. A back-alley in Sinchon.\n\nA white BMW cutting a corner clipped a bicycle. The handlebars twisted. A knee scraped.\n\nThe woman who stepped out ran over. Clear eyes, an expensive coat. 'I'm so sorry — are you hurt? The hospital—'\n\nGlanced at the wrist. Four minutes until shift starts.",
+    "description": "A spring afternoon. A back-alley in Sinchon.\n\nA black Mercedes-Benz S-Class-level sedan cutting a corner clipped a bicycle. The handlebars twisted. A knee scraped.\n\nThe woman who stepped out from the driver's seat ran over. Long black hair, a cream tailored suit, a face that hardly loses composure even when shaken. 'I'm so sorry — are you hurt? The hospital—'\n\nGlanced at the wrist. Four minutes until shift starts.",
     "category": "relationship",
     "rarity": "rare",
-    "weight": 12.0,
-    "hidden": false,
+    "weight": 0.0,
+    "hidden": true,
     "conditions": {
-      "min_turn": 2,
+      "min_turn": 9999,
       "max_turn": 14,
       "no_flag": "jiyeon_met"
     },

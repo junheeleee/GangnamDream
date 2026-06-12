@@ -16,7 +16,7 @@
       "tradeoff"
     ],
     "cooldown": 30,
-    "description": "Hyunsu gets in touch after a long silence. Voice buzzing with excitement.\n\"Bro, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name}'s account balance surfaces in the mind. And beyond it — the impossible distance to ₩3 billion.",
+    "description": "Hyunsu gets in touch after a long silence. Voice buzzing with excitement.\n\"Hyung, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name}'s account balance surfaces in the mind. And beyond it — the impossible distance to ₩3 billion.",
     "choices": [
       {
         "text": "Trust Hyunsu. Bet what's on hand.  (jackpot or bust)",
@@ -84,7 +84,7 @@
       "tradeoff"
     ],
     "cooldown": 9999,
-    "description": "\"Hyunsu, you pulled your jeonse deposit? That's not right.\"\n{name} means every word. Hyunsu's face hardens.\n\"You're always like this. You can't see an opportunity when it's right there.\nDon't come crying when I'm in Gangnam.\"\n\nBetween friendship and money — what more is there to say?",
+    "description": "\"Hyunsu, you pulled your jeonse deposit? That's not right.\"\n{name} means every word. Hyunsu's face hardens.\n\"You're always like this, hyung. You can't see an opportunity when it's right there.\nDon't come crying when I'm in Gangnam.\"\n\nBetween friendship and money — what more is there to say?",
     "choices": [
       {
         "text": "Keep trying to get through to him. Until the end.  (friendship / time + emotional cost)",

@@ -2,6 +2,128 @@
 
 ## 2026-06-12 (비주얼+오디오 업그레이드 준비)
 
+### 정본 맵/확장 규칙 문서화 (Codex)
+- `docs/CANON_MAP.md` 추가: 하드 캐논, 주요 인물, 메인 아크, 폐기/legacy 설정, DLC/주기 업데이트 확장 게이트 정리.
+- `STORY_BIBLE.md`의 구 시작 자금 300만원을 현재 런타임 정본인 50만원으로 수정.
+- 고시원 월세 표기를 현재 기본 고정 지출 65만원으로 수정.
+- 향후 콘텐츠 확장은 canon delta → state/ID 예약 → 에셋 규칙 → JSON/코드 → audit/인게임 QA 순서로 진행하기로 명문화.
+
+### 가족 배경 정합성 격리 (Codex)
+- `family_living_room.png` 확인 결과, 큰 대가족 액자와 안정적인 화목 가정집 신호가 민준 가족 정본(아버지 보증사기, 부모 분리, 민준 혼자 서울 고시원)과 충돌.
+- `ImageRegistry.gd`의 `dad_house`와 `MainGame.gd`의 `BG_FAMILY`를 임시로 `restaurant_korean.png`에 매핑해 production 기본 가족 배경에서 격리.
+- `CANON_MAP.md`, `ASSET_QA.md`, `ASSET_INDEX.md`, `DECISIONS.md`에 가족 집 배경 재생성 기준 기록: 창원/지방 노동자 가정, 낡고 조용한 거실, 작은 오래된 가족사진 1개 이하, 대가족 단체사진 금지.
+- `docs/ASSET_CONTINUITY_CHECKLIST.md` 추가: 이미지가 암시하는 가족 구성, 경제 수준, 방 구조, 차량, 소품을 canon QA 대상으로 명문화.
+- 구 `IMAGE_PROMPTS.md` / `ASSETS_BRIEF.md`의 가족 거실 프롬프트에서 대가족/일반 화목한 집 신호를 제거하고 민준 아버지의 창원 노동자 가정 기준으로 교정.
+
+### 한지연 투명 포트레이트 + 가족 거실 재생성 (Codex)
+- `npc_mentor.png`, `npc_jiyeon_warm.png`, `npc_jiyeon_cold.png`를 같은 얼굴/의상/나이를 유지한 한지연 3표정 투명 PNG로 교체.
+- 크로마키 원본에서 배경 제거 후 512×768 RGBA로 저장. 모서리 알파 0 검증 완료.
+- `family_living_room.png`를 1280×800으로 재생성: 대가족 액자, 부유한 서울 아파트, 큰 전망창 없이 낡은 창원 노동자 가정 거실로 교정.
+- 새 가족 거실이 정합성 검수를 통과해 `ImageRegistry.gd`의 `dad_house`와 `MainGame.gd`의 `BG_FAMILY`를 `family_living_room.png`로 재연결.
+- `/tmp/gangnamdream_jiyeon_new_portraits.png` 검수 시트 생성.
+
+### 김민준 핵심 투명 포트레이트 교체 (Codex)
+- `main_character_neutral_goshiwon.png`, `main_character_tired.png`, `main_character_determined.png`, `main_character_happy.png`, `main_character_shocked.png`를 배경 없는 512×768 RGBA 포트레이트로 교체.
+- 파일명 `neutral_goshiwon`은 레거시 이름으로 유지하되, 실제 이미지는 고시원 배경을 포함하지 않도록 정리.
+- 기존 happy/shocked의 폰 소품 문제를 제거하고 얼굴 표정만으로 감정이 읽히도록 교체.
+- `/tmp/gangnamdream_minjun_new_portraits.png` 검수 시트 생성. 첫 neutral 크롭에 옆 포즈 조각이 섞인 것을 재크롭해 제거.
+
+### 현수 호감형 재디자인 (Codex)
+- `npc_close_friend.png`를 26-27세 통통한 공시생 후배 느낌의 512×768 RGBA 투명 포트레이트로 교체.
+- 이전 고구분성 버전은 민준과의 식별성은 좋았지만, 중년/비호감 인상이 강해 비주얼노벨 조연 매력이 떨어진다고 판단.
+- 첫 등장 이벤트의 "스물여섯 정도" 및 민준을 "형"이라 부르는 대사에 맞춰 `CANON_MAP.md`, `STORY_BIBLE.md`, `CHARACTER_VISUAL_BIBLE.md`, 에셋 브리프의 36세/30대 초반 문구를 교정.
+- `/tmp/gangnamdream_minjun_hyunsu_readability.png` 비교 시트 생성: 민준은 마른 검은 스웨트셔츠, 현수는 통통한 안경+올리브 후드+버건디 티셔츠로 구분.
+
+### 김민준 직업별 의상 포트레이트 (Codex)
+- `main_character_unemployed.png`, `main_character_part_time.png`, `main_character_office.png`, `main_character_corporate.png`를 512×768 RGBA 투명 포트레이트로 추가.
+- `/tmp/gangnamdream_minjun_outfit_variants.png` 비교 시트 생성. 같은 얼굴/나이/체형을 유지하면서 무직 기본복, 알바 캐주얼, 일반 사무직, 대기업 정장을 구분.
+- `ImageRegistry.get_player_context_portrait()` 추가: 현재 직업 카테고리/티어에 따라 주인공 평상시 포트레이트 의상을 자동 선택.
+- `MainGame._get_portrait_path()`를 `ImageRegistry` 기준으로 정렬해 대시보드와 이벤트 `player_normal`/`player_determined`/`player_suit`가 같은 의상 규칙을 사용.
+- `main_character_30s.png`는 방 배경이 박힌 레거시 이미지라 기본 런타임 상태 포트레이트에서 제외.
+
+### 반복 보조 NPC 투명 포트레이트 교체 (Codex)
+- 기존 `npc_goshiwon_owner.png`, `npc_team_lead.png`, `npc_seongjun.png`, `npc_tip_seller.png`는 512×768 RGBA였지만 모서리 알파가 255라 실제로는 배경 포함 이미지였음을 확인.
+- 4종을 같은 한국 만화풍 VN 스타일의 512×768 RGBA 투명 포트레이트로 교체: 고시원 원장(58세 운영자), 팀장(47세 직장 상사), 박성준(34세 고교 친구·9급 공무원), 경마장 정보상(45-50세).
+- 박성준은 금융권 연락처가 아니라 고교 친구/공무원 정본으로 에셋 인덱스 설명을 교정.
+- `/tmp/gangnamdream_minor_npc_transparent_pass.png` QA 시트 생성. 네 파일 모두 모서리 알파 0 검증 완료.
+
+### 성준/팀장 구분성 재교정 (Codex)
+- 팀장과 성준이 모두 검은 머리·안경·직장인 계열이라 첫눈에 닮아 보이는 문제를 확인.
+- `npc_seongjun.png`를 안경 없는 34세 공무원 친구 이미지로 재생성: muted cardigan/jacket, 체크 셔츠, ID lanyard, 부드러운 체념 표정.
+- 팀장은 흰 셔츠·넥타이·팔짱·안경의 압박형 상사 실루엣으로 유지해 역할 대비를 강화.
+- `/tmp/gangnamdream_teamlead_seongjun_readability.png`에서 팀장/성준/민준/현수 동시 비교 완료. 네 파일 모두 모서리 알파 0 검증.
+
+### 전체 배경 2차 정합성 감사 (Codex)
+- `ImageRegistry`, `MainGame`, 미니게임 씬, StartMenu 직접 참조를 합쳐 production/direct 배경 36장을 확인.
+- `late_night_room.png`가 큰 창문과 다른 방 구조를 가져 고시원 밤/정신력 이벤트 정본과 충돌한다고 판단. `ImageRegistry.BACKGROUNDS["late_night"]`와 `MainGame.BG_NIGHT_ROOM`를 `goshiwon_room.png`로 변경해 runtime에서 격리.
+- 변경 후 production/direct 배경은 35장. `/tmp/gangnamdream_backgrounds_production_after_remap.png` QA 시트 생성.
+- `docs/BACKGROUND_CONTINUITY_AUDIT.md` 추가: 24 pass, 6 review, 5 fix, 1 quarantined 판정 기록.
+- 재생성 대상 확정: `convenience_store_night.png`(카운터 직원 실루엣), `gangnam_day.png`/`gangnam_night_street.png`/`gangnam_station_exit.png`(전경 주인공형 실루엣), `penthouse_view.png`(엔딩 배경 내 남성 실루엣), 선택적 `late_night_room.png` canonical night variant.
+
+### 편의점 배경 person-free 재생성 (Codex)
+- `convenience_store_night.png`를 새벽 2시 한국 편의점 내부로 재생성. 카운터, 진열대, 유리창 밖 빗길은 유지하되 직원/손님/인물 실루엣을 제거.
+- 1280×800 RGB PNG로 저장하고 첫 인게임 QA용 PASS로 갱신.
+- 배경 감사 현황을 25 pass / 6 review / 4 fix / 1 quarantined로 업데이트.
+
+### 배경 실패컷 재생성 완료 (Codex)
+- `gangnam_day.png`, `gangnam_night_street.png`, `gangnam_station_exit.png`를 전경 주인공형 인물 없는 neutral Gangnam 배경으로 재생성.
+- `penthouse_view.png`를 사람/실루엣 없는 empty luxury ending background로 재생성.
+- `late_night_room.png`는 새로 그리지 않고 `goshiwon_room.png`를 기반으로 4am 색보정 변형을 만들어 같은 방 구조를 보존. `ImageRegistry.BACKGROUNDS["late_night"]`와 `MainGame.BG_NIGHT_ROOM`를 다시 `late_night_room.png`로 연결.
+- `/tmp/gangnamdream_background_regen_complete.png`와 `/tmp/gangnamdream_backgrounds_production_final.png` QA 시트 생성.
+- 배경 감사 현황을 30 pass / 6 review / 0 fix / 0 quarantined로 업데이트.
+
+### 현수 이벤트/호칭 정합성 교정 (Codex)
+- `amb_coin_00` / `amb_coin_warn`의 `형(야)` 혼합 대사를 `형` 기준으로 정리.
+- `rel_hyunsu_loan`의 "야, 나..." 대사를 26-27세 후배가 민준에게 부탁하는 말투로 교정.
+- `chicken_franchise_neighbor`가 현수 포트레이트를 쓰면서 "옆방 선배/2년 선배"로 서술되던 문제를 "옆방 후배 현수" 사건으로 교정.
+- 고등학교 친구 보증 이벤트 `amb_guarantee_00`이 현수 호감도를 올리던 잘못된 `cast_effects.hyunsu`를 KO/EN 모두 제거.
+- EN 현수 첫 등장에 `hyung` 호칭을 추가해 영어판에서도 형/동생 관계가 드러나도록 정렬.
+
+### 인게임 크롭 QA (Codex)
+- `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn` 추가. Godot headless dummy renderer가 SubViewport 스크린샷을 반환하지 않아, 실제 에셋 파일을 직접 읽고 MainGame/StoryMode/CG 크롭 수학을 CPU 합성으로 재현하는 방식으로 구현.
+- `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png` 생성: StoryMode 7조합, MainGame 4조합, CG fullscreen 4조합 총 15장.
+- P1 결과: 고시원/late-night 방 구조 일치, 편의점 무인 배경, 강남 day/night/station 배경, 가족집, 핵심 포트레이트 크롭에서 신규 P0/P1 실패 없음.
+- CG 파일 자체는 fullscreen crop QA 통과. 다만 코드 검색상 이벤트/엔딩 `cg` 키가 StoryMode/Ending 화면에서 실제로 표시되는 연결은 별도 다음 작업으로 남김.
+
+### 한지연 사고 CG 얼굴 정합성 교정 (Codex)
+- 유저 피드백: `jiyeon_crash.png`의 한지연 얼굴이 투명 포트레이트 한지연과 다른 사람처럼 읽힘.
+- `npc_mentor.png`, `npc_jiyeon_warm.png`, `npc_jiyeon_cold.png`를 정본 참조로 사용해 사고 CG를 재생성하고 1280×800으로 리샘플링해 교체.
+- 유지한 사건 정본: 비 오는 강남 야간 도로, 검은 Mercedes-Benz S-Class급 세단, 운전석 앞문에서 내리는 지연, 자전거 두 바퀴, 왼쪽의 김민준.
+- `/tmp/gangnamdream_jiyeon_crash_identity_qa.png` 비교 시트 생성 및 `tools/VisualCropQA` 재실행 완료.
+
+### 한지연 31세 정본 스캔 (Codex)
+- 한지연 관련 활성 메인 아크(`arc_jiyeon_01_crash` 이후)는 서른 초반/긴 검은 머리/크림 수트/검은 Mercedes-Benz S-Class급 세단 기준으로 정렬되어 있음을 확인.
+- 구 `relationship_events.json`의 `jiyeon_meet`→`jiyeon_confession` 체인은 `min_turn:9999`, `hidden:true`, `weight:0.0`으로 비활성 상태이며, 40대 멘토 텍스트는 활성 이벤트에서 발견되지 않음.
+- 남아 있는 `박지연`/`40s mentor` 표현은 deprecated/과거 로그 맥락으로만 유지한다. production 정본은 `CANON_MAP.md`와 `CHARACTER_VISUAL_BIBLE.md`의 31세 한지연.
+
+### 한지연 정본/정합성 교정 (Codex)
+- 한지연 역할을 "멘토"가 아니라 31세 강남 금수저 / 위험한 투자 히로인 / 로맨스 상대역으로 재정의.
+- `assets/CHARACTER_VISUAL_BIBLE.md` 추가: 긴 검은 머리, 크림/블랙 수트, 예쁘고 위험하고 고혹적인 인상, 배경 없는 투명 포트레이트 원칙, 단발 중년 멘토상 금지.
+- `STORY_BIBLE.md`, `assets/VISUAL_AUDIO_UPGRADE_BRIEF.md`, `docs/ASSET_GAP_SPEC.md`, `assets/ASSET_INDEX.md`, `docs/ASSET_QA.md`의 한지연 설명을 정본에 맞춰 수정.
+- 첫 접촉 사고 차량을 흰색 BMW가 아니라 `jiyeon_crash.png`와 맞는 검은 메르세데스 벤츠 S클래스급 세단으로 통일.
+- 구 `relationship_events.json`의 `jiyeon_meet`→`jiyeon_confession` 랜덤 체인을 legacy 비활성화. 정본 첫 만남은 `arc_jiyeon_01_crash`만 사용.
+
+### P1 비주얼 에셋 생성/연결 (Codex)
+- `assets/VISUAL_AUDIO_UPGRADE_BRIEF.md` 기준 P1 누락 이미지 10장 생성.
+- NPC 표정 파생 7장 추가:
+  - `npc_daeun_smile.png`, `npc_daeun_sad.png`
+  - `npc_father_weak.png`
+  - `npc_sangchul_serious.png`
+  - `npc_jiyeon_warm.png`, `npc_jiyeon_cold.png`
+  - `npc_jaehyuk_shadow.png`
+- 신규 배경 3장 추가:
+  - `restaurant_korean.png`
+  - `library.png`
+  - `street_seoul_day.png`
+- `ImageRegistry.gd`에서 기존 alias를 실제 파생 파일로 연결.
+- `/tmp/gangnamdream_p1_visual_upgrade_qa.png` 검수 시트 생성. P1 신규 에셋 해상도 확인: 초상화 512×768, 배경 1280×800.
+- `./tools/audit.sh` 통과: ERROR 0, WARNING 0. Godot 컴파일 체크 중 신규 PNG `.import` 파일 생성 확인.
+- 시작 CG 재생성 후보 1장은 고시원답지 않은 대형 전망창 때문에 폐기. 이후 `start.png`를 큰 창문 없는 고시원 장면으로 교체: 침대 발치/화면 하단 책상, 강남은 폰 화면의 목표 이미지로만 암시.
+- `goshiwon_room.png`도 같은 구조(작은 환기창, 침대, 침대 발치 낮은 책상)로 재생성해 시작 CG와 공간 연속성 통일.
+- `ending_father.png` 교체: 강남 전망 장면 → 병실에서 아버지 손을 잡는 감정 CG.
+- 이후 유저 QA로 반복 주연 초상화에 배경이 포함되면 장소 정합성이 계속 깨진다는 문제를 확정. 주연/핵심 반복 인물은 투명 포트레이트, 배경은 무인 장소, CG만 인물+배경 허용으로 에셋 파이프라인 전환.
+- 일반 투자 장면에서 멀티모니터 배경이 뜨는 문제를 방지하기 위해 `trading` 레거시 키를 `investment_phone.png` 스케일로 폴백. 멀티모니터는 스캘핑/전문 투자 장면 전용으로 분리.
+
 ### 추가된 것
 - **VISUAL_AUDIO_UPGRADE_BRIEF.md** (`assets/`): 이미지/오디오 에이전트용 전체 교체 스펙
   - P1 크리티컬: 주인공 7포즈 + NPC 14장 + 핵심 배경 10장 + CG 2장
@@ -661,7 +783,7 @@ ERROR 0, WARNING 0 — 신규 플래그 2개(`went_home_for_father`, `skipped_fa
 
 ### #12 퀘스트 트래커 UI (완료 ✅)
 - 인포 패널에 "📖 아크" 탭 추가 (4번째)
-- 5개 아크 진행도: 김다은/임상철/강현수/박지연/성향자각 — 체크박스 단계별 표시
+- 5개 아크 진행도: 김다은/임상철/강현수/한지연/성향자각 — 체크박스 단계별 표시
 - 아크 미발동 시 진입 힌트 표시
 - 런 테마·투자감각·사교력·마스터리 등급 한눈에 확인 가능
 

@@ -292,18 +292,29 @@ func _render_current():
 	for c in _choice_box.get_children():
 		c.queue_free()
 
-	# 배경 — 명시 ID가 없으면 태그/카테고리로 추론 (이전 장면 배경 잔존 방지)
-	var bg_id = str(_current.get("background", ""))
-	if bg_id == "":
-		bg_id = ImageRegistry.infer_background_id(_current, GameState.housing)
-	if bg_id != "":
-		var bp = ImageRegistry.get_background(bg_id)
-		if bp != "" and ResourceLoader.exists(bp):
-			_bg_img.texture = load(bp)
+	var cg_path := ""
+	var cg_id := str(_current.get("cg", ""))
+	if cg_id != "":
+		cg_path = ImageRegistry.get_cg(cg_id)
+
+	# CG가 있는 장면은 CG를 최우선 전체화면 배경으로 사용한다.
+	# 없을 때만 명시 background / 태그 추론 배경으로 폴백한다.
+	if cg_path != "" and ResourceLoader.exists(cg_path):
+		_bg_img.texture = load(cg_path)
+		_bg_dim.color = Color(0.03, 0.03, 0.05, 0.42)
+	else:
+		_bg_dim.color = Color(0.04, 0.04, 0.07, 0.62)
+		var bg_id = str(_current.get("background", ""))
+		if bg_id == "":
+			bg_id = ImageRegistry.infer_background_id(_current, GameState.housing)
+		if bg_id != "":
+			var bp = ImageRegistry.get_background(bg_id)
+			if bp != "" and ResourceLoader.exists(bp):
+				_bg_img.texture = load(bp)
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid = str(_current.get("portrait", ""))
-	var bg_only := bool(_current.get("bg_focus", false))
+	var bg_only := bool(_current.get("bg_focus", false)) or cg_path != ""
 	_show_portrait(pid, bg_only)
 
 	# 제목

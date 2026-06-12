@@ -1,5 +1,7 @@
 # Gangnam Dream — AI 이미지 생성 프롬프트
 
+> Legacy prompt collection. For production work, first apply `docs/CANON_MAP.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`, `docs/ASSET_QA.md`, and `assets/VISUAL_AUDIO_UPGRADE_BRIEF.md`. If an older prompt below conflicts with those files, the newer canon wins.
+
 ## 스타일 가이드 (모든 이미지에 공통 적용)
 
 **Base Style Suffix** (모든 프롬프트 끝에 붙이기):
@@ -59,20 +61,22 @@ slightly cold and anxious feel
 ---
 
 ### 4. `family_living_room.png`
-**용도**: `family` 카테고리 이벤트 (부모님, 동생 등)  
+**용도**: 민준 가족/아버지 고향집 전용 배경. 2026-06-12 재생성 후 production 가족 배경에 재연결됨.
 **저장**: `assets/backgrounds/family_living_room.png`
 
 ```
-Korean family living room, modest apartment interior, older furniture, 
-family portrait on the wall, small TV, round dining table visible in background, 
-warm orange lamp light, worn but loved space, late evening atmosphere, 
-slightly cluttered with newspapers and household items
+Modest older working-class living room in Changwon, Korea, belonging to
+Kim Minjun's father. Small old sofa, scuffed wooden TV cabinet, cheap wall clock,
+folding table with two tea cups, worn wallpaper, quiet absence and guilt.
+At most one small faded photo of young father, mother, and Minjun; no extended
+family portrait, no happy large household, no luxury apartment, no scenic window.
+Warm but muted evening light, restrained Korean visual novel background art.
 ```
 
 ---
 
 ### 5. `trading_screen_night.png`
-**용도**: `finance`, `investment`, `gambling` 카테고리  
+**용도**: 스캘핑/퀀트/후반 전문 투자 장면 전용. 일반 투자/초반 고시원 투자는 `investment_phone.png` 사용.
 **저장**: `assets/backgrounds/trading_screen_night.png`
 
 ```
@@ -161,14 +165,15 @@ distant sound of bugle implied by atmosphere, nostalgic and slightly oppressive 
 ---
 
 ### NPC-1. `npc_close_friend.png`
-**관계 타입**: `friends` — 오랜 친구  
+**관계 타입**: `friends` — 고시원 옆방 공시생 후배
 **저장**: `assets/characters/npc_close_friend.png`
 
 ```
-Portrait of a young Korean man in his mid-20s, casual clothing (hoodie or 
-light jacket), warm friendly smile with a hint of financial stress around 
-the eyes, slightly unkempt hair, background blurred to dark navy, 
-semi-realistic Korean webtoon style, no text
+Transparent visual novel portrait of a Korean man age 26-27, chubby but
+likable civil-service-exam student, round wire-frame glasses, messy medium
+black hair, olive-gray hoodie over a muted burgundy striped shirt, awkward
+warm half-smile with a hint of exam fatigue, no background, no props,
+Korean manhwa VN style, no text
 ```
 
 ---
@@ -201,15 +206,15 @@ semi-realistic Korean webtoon style, no text
 ---
 
 ### NPC-4. `npc_mentor.png`
-**관계 타입**: `mentors` — 인생 멘토  
+**관계 타입**: `jiyeon` — 한지연 legacy path / 위험한 로맨스 히로인
 **저장**: `assets/characters/npc_mentor.png`
 
 ```
-Portrait of a Korean man in his late 40s to early 50s, expensive but understated 
-suit, calm authoritative expression with knowing eyes, well-groomed silver-streaked 
-hair, slight confident smile that suggests decades of experience, 
-background blurred to dark charcoal with faint bokeh suggesting a private club, 
-semi-realistic Korean webtoon style, no text
+Transparent-background portrait of Han Jiyeon, a Korean woman age 31,
+wealthy Gangnam heiress and dangerous romance heroine, beautiful and alluring
+but slightly unsafe, long black or very dark brown hair, sharp intelligent eyes,
+tailored cream or black suit, subtle old-money jewelry, no office or cafe background,
+no short bob, no middle-aged look, semi-realistic Korean webtoon style, no text
 ```
 
 ---
@@ -276,8 +281,10 @@ if "health" in tags or "medical" in tags:
 if "romance" in tags:
     return "res://assets/backgrounds/cafe_afternoon.png"
 if "family" in tags:
-    return "res://assets/backgrounds/family_living_room.png"
+    return "res://assets/backgrounds/restaurant_korean.png" # temporary until canon family home exists
 if "finance" in tags or "investment" in tags or "gambling" in tags:
+    return "res://assets/backgrounds/investment_phone.png"
+if "scalping" in tags or "pro_trading" in tags:
     return "res://assets/backgrounds/trading_screen_night.png"
 if "military" in tags:
     return "res://assets/backgrounds/military_training_ground.png"
