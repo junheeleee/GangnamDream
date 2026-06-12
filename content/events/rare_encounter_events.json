@@ -222,7 +222,7 @@
           "stress": 8,
           "mental": -4
         },
-        "flags": [],
+        "flags": ["stranger_help_declined"],
         "result_text": "물건을 다 내려놓고 나왔다.\n\n빈손으로 나오는 길. 흐렸다.\n\n다음 월급날까지 버텨야 했다. 버틸 수 있었다.\n그게 지금 할 수 있는 전부였다.",
         "follow_up_event": ""
       }
@@ -406,7 +406,7 @@
           "stress": -6,
           "luck": 2
         },
-        "flags": [],
+        "flags": ["congratulated_neighbor"],
         "result_text": "\"진짜? 축하해.\"\n\n그 말을 하면서 {name}은 자기 감정을 살폈다.\n부럽긴 했다. 근데 그것보다 — 기뻤다.\n\n같은 건물에서 같은 밤을 보낸 사람이 됐으니까.\n{name} 차례도 온다. 언제가 될지 모르지만.",
         "follow_up_event": ""
       },

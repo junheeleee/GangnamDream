@@ -1,0 +1,182 @@
+[
+  {
+    "id": "chain_banchan_reunion",
+    "title": "That Woman from the Market",
+    "description": "A neighborhood alley. Passing a small banchan shop when a voice called out.\n\n\"Hey? Aren't you that young man from before?\"\n\nThe woman who'd held out her card at the market register.\n\n\"This is my shop. So you live around here too.\"",
+    "choices": [
+      {
+        "text": "\"Thank you for that day. Really.\" — bow properly",
+        "result_text": "She waved it off.\n\"Oh, that was nothing. Buy some side dishes, I'll give you a discount.\"\n\nBought rolled omelette and stir-fried anchovies. She charged half.\n\nStarted dropping by once a week after that.\nBanchan containers began stacking up in the goshiwon fridge.\nHaving a regular spot in Seoul — that means having a neighborhood."
+      },
+      {
+        "text": "Too awkward — just nod and walk past",
+        "result_text": "Lowered his head and walked faster.\n\nShe said something else from behind. Pretended not to hear.\n\nA few steps later, regret.\nChances to thank someone who deserves it don't come often.\nNext time, I'll stop by. Though next times aren't guaranteed."
+      }
+    ]
+  },
+  {
+    "id": "chain_banchan_reunion_declined",
+    "title": "A Face That Remembers",
+    "description": "In front of a banchan shop in a neighborhood alley.\n\n\"Young man. The market, right?\"\n\nThe woman whose card he'd refused at the register.\n\n\"You wouldn't take it, to the end. Rare these days, that.\"\n\nShe held out a container of side dishes. \"This one's free. Refuse and I'll get angry.\"",
+    "choices": [
+      {
+        "text": "Accept it this time",
+        "result_text": "Took the container. Rolled omelette.\n\n\"See? Feels good to receive, doesn't it.\"\n\nBack at the goshiwon, ate it over rice.\nTried to calculate how long it had been since he'd eaten someone's home cooking.\nThe calculation failed.\n\nNext week, took the empty container back to the shop. That was the beginning."
+      },
+      {
+        "text": "\"The thought is enough\" — decline again",
+        "result_text": "She sighed.\n\"Young man, you know what? Receiving takes practice too.\"\n\nPulling back the container, she said:\n\"People who only know how to give and never receive — they always end up alone.\"\n\nWalking out of the alley, those words kept following."
+      }
+    ]
+  },
+  {
+    "id": "chain_banchan_son",
+    "title": "The Banchan Shop's Son",
+    "description": "Stopped by the shop — an unfamiliar man was there.\n\nEarly 40s. Suit. Helping with his mother's shop.\n\n\"Ah, you're the one Mother talked about. The market.\"\n\nHe pulled out a business card. HR team lead at a mid-sized company.\n\n\"My mother's eye for people is accurate. Thirty years of running a shop.\"",
+    "choices": [
+      {
+        "text": "Find the courage — \"Are there any open positions?\"",
+        "result_text": "The man smiled.\n\"Send your resume. With Mother's recommendation, your documents get read. Guaranteed.\"\n\nSent the resume that week. The interview call came.\n\nThe day a card got declined at a market register.\nThat day rolled all the way here.\nLife's paths sometimes run through banchan shops."
+      },
+      {
+        "text": "Don't want to impose — just take the card",
+        "result_text": "\"Thank you,\" and put the card in the wallet.\n\nThe woman, packing anchovies, added from the side:\n\"Call my son. Impose, nonsense. In Seoul, people who calculate that stuff all starve.\"\n\nThe card in the wallet got heavier."
+      }
+    ]
+  },
+  {
+    "id": "chain_exec_meal",
+    "title": "Lunch with the Executive",
+    "description": "The promised Korean restaurant. Gangnam.\n\nThe wallet's owner — the executive — was already there.\n\n\"That wallet had my mother's photo in it. Her last one.\"\n\nHe paused for a moment.\n\n\"A meal doesn't repay it. But first, I was curious what kind of person you are.\"",
+    "choices": [
+      {
+        "text": "Tell him everything. Including the current situation",
+        "result_text": "The goshiwon, six years of debt, the plan until 38.\nSaid it all. No packaging.\n\nThe executive put down his spoon and listened.\n\n\"Someone who pays off debt for six years and starts again — that's rare even inside a company.\"\n\nAt parting, he said:\n\"I'll look into a position at an affiliate. Not a favor. You pass the verification yourself.\""
+      },
+      {
+        "text": "Deflect politely. Don't want to show everything",
+        "result_text": "\"I'm preparing various things.\"\n\nHe didn't press. The food was good.\n\nAt parting, he gave a business card.\n\"Call if you need anything.\"\n\nOn the subway home, a thought:\nWhat pride protected, and what door it closed — both were clear."
+      }
+    ]
+  },
+  {
+    "id": "chain_exec_interview",
+    "title": "Verification",
+    "description": "The affiliate company the executive mentioned called.\n\nDocuments passed. Interview scheduled.\n\nSitting in the interview room, one of the interviewers looked up from the file.\n\n\"Your referral path is unusual. What's your relationship with the executive director?\"\n\nThe air in the room shifted.",
+    "choices": [
+      {
+        "text": "Tell the wallet story exactly as it happened",
+        "result_text": "\"I found his wallet at a subway station and returned it. That's all.\"\n\nThe interviewers looked at each other. One smiled.\n\"We heard that story. We wanted to hear it from you.\"\n\nThe offer came three days later.\n\nOne wallet found on a staircase.\nLife sometimes turns on things like that."
+      },
+      {
+        "text": "Just say \"It's a personal connection\"",
+        "result_text": "The interviewer nodded. Didn't ask further.\n\nThe result was rejection.\n\nLater, a text from the executive:\n'Why didn't you tell the wallet story? That's your best credential.'\n\n{name} couldn't write a reply for a long time.\nThe habit of hiding what doesn't need hiding — six years of debt left that behind."
+      }
+    ]
+  },
+  {
+    "id": "chain_envelope_owner_return",
+    "title": "The Envelope's Owner",
+    "description": "Night shift. The door opened.\n\nThat customer. The one who'd retrieved the envelope.\n\n\"We meet again. Thank you for that, truly.\"\n\nHe put a box of drinks on the counter.\n\"This isn't for the owner — it's for you. And — are you free on weekends? I do interior work, and we're short-handed. Daily pay.\"",
+    "choices": [
+      {
+        "text": "Take the weekend site job",
+        "result_text": "Saturday dawn, a villa site in Hwagok-dong.\n\nWallpaper assist, hauling materials, cleanup. The body ached.\n\nThe boss taught constantly while working. Material costs, how to write estimates, how to deal with building owners.\n\n₩130,000 for the day. But what was learned over his shoulder was worth more.\n\"Coming next week too?\" the boss asked."
+      },
+      {
+        "text": "\"The thought is enough\" — politely decline",
+        "result_text": "\"I have my shift. Thank you though.\"\n\nHe nodded and left a business card.\n\nHid the drink box from the owner and drank one can per night shift.\n\nAround the last can, the business card came to mind.\nCouldn't remember where it went."
+      }
+    ]
+  },
+  {
+    "id": "chain_interior_offer",
+    "title": "The Boss's Offer",
+    "description": "Another weekend on site.\n\nDuring teardown, the boss sat down next to {name}.\n\n\"Starting next month I'm running two sites at once. I need someone to take one.\"\n\n\"Not full-time employment — site management. ₩2.8M a month. Learn the work, I'll raise it.\"\n\n\"I saw that you're honest. In this business, that's the rarest thing there is.\"",
+    "choices": [
+      {
+        "text": "Accept. Learn on site.",
+        "result_text": "First month's pay: ₩2,800,000.\n\nThinking back, it started with an envelope under a table.\nIf he'd walked out with that envelope — ₩500,000 would have been the end of it.\n\nThe ₩500,000 reported straight to the manager\ncame back as ₩2,800,000 a month.\n\nHonesty is an investment with delayed returns."
+      },
+      {
+        "text": "Decline. My path is elsewhere.",
+        "result_text": "\"I'm grateful, but I have a direction I'm heading.\"\n\nThe boss looked disappointed but smiled.\n\"Fine. But remember. There's always a seat for you.\"\n\nOn the way home, an odd steadiness.\nA person with somewhere to return to can go further."
+      }
+    ]
+  },
+  {
+    "id": "chain_envelope_guilt",
+    "title": "The Paper on the Wall",
+    "description": "Walking to the convenience store shift. An A4 sheet taped to the glass door.\n\n'Has anyone seen a black envelope last week?\nIt's my mother's surgery money. Reward offered.\nContact: 010-XXXX-XXXX'\n\n{name} stood in front of it for a long time.\n\nThat envelope is in the goshiwon drawer right now.",
+    "choices": [
+      {
+        "text": "Call and return it. Refuse the reward.",
+        "result_text": "\"I have it. I'm sorry. I'll bring it right away.\"\n\nThe man came running. Taking the envelope, he bowed.\n\"Thank you. Thank you so much.\"\n\nHe offered the reward. Couldn't take it. Hadn't earned the right.\n\nWalking home, the body felt light.\nFirst deep sleep in a week."
+      },
+      {
+        "text": "Pretend not to see it. Too late now.",
+        "result_text": "Walked past the paper to the shift.\n\nA week later it fell off, soaked in rain.\n\nThe ₩500,000 stays in the drawer.\nCan't even spend it. Spending it makes it truly not his.\n\nOne dawn, standing at the register, a thought:\nThe money is here — but something is gone. Not being able to name it made it worse."
+      }
+    ]
+  },
+  {
+    "id": "chain_neighbor_moving",
+    "title": "Moving Day",
+    "description": "Saturday morning. The hallway was loud.\n\nNext door — the one who passed the exam — was packing out.\n\nThree boxes, one suitcase, one blanket. Six months of living, in total.\n\n\"Oh, {name}. I'm leaving today.\"\n\nOn the stairs, a box wobbled.",
+    "choices": [
+      {
+        "text": "Help carry the boxes",
+        "result_text": "Carried boxes together. Three trips to the truck.\n\nAfter loading, they came back with two canned coffees.\n\n\"You're the first person I got attached to in a goshiwon.\"\n\nExchanged numbers. The truck pulled out of the alley.\n\nThe light next door doesn't come on anymore. But a contact remained.\nIn Seoul, that's worth quite a lot."
+      },
+      {
+        "text": "Just say \"good luck out there\"",
+        "result_text": "\"You worked hard. Live well.\"\n\nThey smiled and carried the boxes down.\n\nThat evening, the door next door stood open. An empty room.\n\nSomeone who lived one wall away for six months.\nOnly then did it register — never even asked their name."
+      }
+    ]
+  },
+  {
+    "id": "chain_neighbor_civil_servant",
+    "title": "A Text from the District Office",
+    "description": "A text arrived. The former neighbor.\n\n'{name}, I got posted to ○○ District Office.\nAnd — a youth housing support program just opened.\nI think you qualify. Apply before the deadline, please.\nSending the notice link. This is public info, so no pressure.'",
+    "choices": [
+      {
+        "text": "Apply immediately",
+        "result_text": "Gathered the documents and applied. Selected.\n\nSix months of rent support. ₩1,200,000 total.\n\nThe notice was public. Anyone could see it. But not everyone looks.\nWho tells you first — that's what connections actually are.\n\nThree trips of boxes on moving day became ₩1,200,000.\nBut bigger than the money — someone remembered him."
+      },
+      {
+        "text": "Plan to do it later — miss the deadline",
+        "result_text": "'I'll do it later' was the problem.\n\nOpened the notice the day after the deadline. Applications closed.\n\n₩1,200,000 slipped through his fingers.\n\nCouldn't bring himself to tell the neighbor.\nSent 'Applied. Thank you!' and stared at the ceiling for a while.\n\nThey say opportunity belongs to the prepared — half right.\nOpportunity belongs to those who don't postpone."
+      }
+    ]
+  },
+  {
+    "id": "chain_celeb_return",
+    "title": "Regular",
+    "description": "2:30 AM. The door opened.\n\nThe man with the low-pulled cap. Again.\n\nTwo triangle sandwiches, one energy drink. Same combination.\n\n\"This place is the most comfortable. Nobody acts like they know me.\"\n\nHe hesitated at the register.\n\"Last time, you pretended not to recognize me — I know. Thank you for that.\"",
+    "choices": [
+      {
+        "text": "\"At this hour, everyone here is just a person\"",
+        "result_text": "The man smiled. Not the screen smile — just a tired person's smile.\n\nDays later, his voice came on the radio.\n\"There's this convenience store I go to. The person working there treats me like just a person. In Seoul at dawn, you have no idea how big that is.\"\n\nHe didn't say which store.\nOnly {name} knew. That was enough."
+      },
+      {
+        "text": "Ask for just one photo",
+        "result_text": "\"Um... could I get one picture?\"\n\nThe man paused, then nodded.\n\"Just don't post it anywhere.\"\n\nTook it. Never posted it. A promise is a promise.\n\nThe man didn't come back after that.\nMaybe one photo was traded for one regular."
+      }
+    ]
+  },
+  {
+    "id": "chain_scammer_again",
+    "title": "Same Method",
+    "description": "Hongdae street. Evening.\n\nA familiar back. Worn jacket, clean envelope.\n\nThe scammer. Mapo redevelopment info, ₩500,000.\n\nRight now he was waving the envelope at some college student.\nThe student's expression — {name}'s expression from three months ago.",
+    "choices": [
+      {
+        "text": "Step in. \"That man is a scammer.\"",
+        "result_text": "The student and the scammer turned at the same time.\n\nThe scammer recognized {name}. Half a second. Then simply walked away.\nDidn't even run. This wasn't his first time.\n\nThe student asked, \"You know him?\"\n\"Cost me ₩500,000 to know him.\"\n\nNever got the ₩500,000 back.\nBut someone else's ₩500,000 was saved. Decided to call that even."
+      },
+      {
+        "text": "Walk past. Not my business.",
+        "result_text": "Didn't slow down.\n\nAt the end of the block, looked back once.\nThe student was taking out a wallet.\n\nThat night in bed, the scene replayed on loop.\n\nGetting scammed wasn't his fault.\nBut today's silence — that was a choice."
+      }
+    ]
+  }
+]
