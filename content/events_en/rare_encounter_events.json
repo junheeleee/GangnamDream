@@ -1,0 +1,193 @@
+[
+  {
+    "id": "rare_celeb_convenience",
+    "title": "3 AM Customer",
+    "description": "Night shift. 3 AM.\n\nThe door opened. A man walked in, hat pulled low.\n\nTwo triangle sandwiches, one energy drink.\nWhile paying, the hat shifted slightly.\n\n{name} froze. That was a face from TV.",
+    "choices": [
+      {
+        "text": "Act like you don't recognize him",
+        "result_text": "\"Thank you.\" Even the voice was the one from TV.\n\nThe man left. The convenience store went quiet again.\n\n{name} wiped down the counter. Like always.\nSomehow comforting — this person eats triangle sandwiches at 3 AM too."
+      },
+      {
+        "text": "Ask cautiously — \"Are you...?\"",
+        "result_text": "The man paused, then smiled.\n\"On my days off, I'm just a person.\"\n\nOn the way out, he signed the back of the receipt.\n\n{name} put it in his wallet. Not selling it."
+      }
+    ]
+  },
+  {
+    "id": "rare_interview_classmate",
+    "title": "In the Waiting Room",
+    "description": "Sitting in the interview waiting area — the person next to {name} looked familiar.\n\nA high school classmate. Different class, but the face was in the graduation photo.\n\nThey recognized {name} too.\n\nBoth here for the same company interview.",
+    "choices": [
+      {
+        "text": "Say hi and wait together",
+        "result_text": "Waited together for 30 minutes before being called.\nOld school memories surfaced. Even remembered a teacher's name.\n\nBoth got hired. First day, ran into each other in the hall.\n\"We're together again.\" Didn't feel awkward."
+      },
+      {
+        "text": "Just nod and focus on preparation",
+        "result_text": "The interview was individual.\n{name} was called in first. Did well.\n\nComing out, the classmate's seat was empty.\nNo idea if they got in. No contact info either."
+      }
+    ]
+  },
+  {
+    "id": "rare_drunk_wisdom",
+    "title": "Life Advice from a Drunk",
+    "description": "Right before closing. A drunk man in his 40s walked in.\n\nPaid for a can of beer and looked about to leave — then stopped at the counter.\n\n\"Got laid off at 40. Best thing that ever happened to me.\"\n\nEmpty convenience store. {name} pretended to wait for the next customer.",
+    "choices": [
+      {
+        "text": "Just listen",
+        "result_text": "He talked for 20 minutes.\nGot laid off, opened a chicken place that failed, started small logistics work.\n\"But it's all my story now. I can tell it like it's someone else's. That's when you know you made it.\"\n\nHe left. {name} turned that over in his head for a while."
+      },
+      {
+        "text": "Ask sincerely — \"How did you keep going?\"",
+        "result_text": "The man stopped. Looked at {name} properly for the first time.\n\n\"Keep going? No. I just got up the next day. Every day.\"\n\nFinished the beer and stood up.\n\"You just get up too. Every day.\"\n\n{name} thought about that while mopping up for closing."
+      }
+    ]
+  },
+  {
+    "id": "rare_rejection_then_call",
+    "title": "Rejection, Then",
+    "description": "10 AM. A text arrived.\n\n'Thank you for your application, however regrettably...'\n\n{name} turned off the screen. Looked out the window.\n\n30 seconds later, the phone rang. Unknown number.",
+    "choices": [
+      {
+        "text": "Answer it",
+        "result_text": "A company {name} had applied to three months ago and given up on.\n\"We had a hiring freeze at the time, but a position opened. Still looking?\"\n\n{name} paused briefly.\n\"Yes. I am.\"\n\nThe rejection text was still on screen. Decided not to think about it."
+      },
+      {
+        "text": "Don't answer — unknown number",
+        "result_text": "Missed call notification remained.\nCalled back — they'd already reached another candidate.\n\n{name} saved the number.\nDecided to answer unknown numbers from now on."
+      }
+    ]
+  },
+  {
+    "id": "rare_wallet_executive",
+    "title": "Found a Wallet",
+    "description": "A wallet lying on the subway station stairs.\n\nBusiness card inside. Senior Executive, ○○ Group.\n\nQuite a bit of cash. Several cards.\n\n{name} picked it up.",
+    "choices": [
+      {
+        "text": "Hand it in to station staff",
+        "result_text": "A text came a week later. The number from the business card.\n\"Thank you for the other day. Can I buy you a meal?\"\n\n{name} stared at the screen for a long moment.\nSome connections start on staircases."
+      },
+      {
+        "text": "Take the cash and leave the wallet",
+        "result_text": "Three 50,000-won bills.\n\nStation staff walked past. {name} went down the stairs.\n\nEvery step home felt heavy.\n₩150,000 gained, felt like nothing was gained.\nThis is what money weighs."
+      }
+    ]
+  },
+  {
+    "id": "rare_market_kind_stranger",
+    "title": "At the Register",
+    "description": "Grocery store register. Swiped the card.\n\n'Credit limit exceeded.'\n\nA line forming behind. {name} started putting items back.\n\n\"I'll pay.\"\n\nA woman in her 50s standing behind held out her card.",
+    "choices": [
+      {
+        "text": "\"Thank you. If you give me your account I'll send it right away\"",
+        "result_text": "She smiled.\n\"It's fine. I was there once too.\"\n\nTransaction done. Each went their way.\n\n{name} stood in the parking lot for a moment.\nNot all of Seoul is cold. Sometimes this is how you learn that."
+      },
+      {
+        "text": "\"It's okay\" and put the items back",
+        "result_text": "Walked out empty-handed. Sky was overcast.\n\nHad to make it until next payday. Could manage it.\nThat was all that could be done right now."
+      }
+    ]
+  },
+  {
+    "id": "rare_interview_pivot",
+    "title": "The Interviewer's Offer",
+    "description": "The interview completely fell apart.\n\nAnswers tangled, rambled, and a 10-second silence on the final question.\n\nThe interviewer stopped shuffling papers.\n\n\"Not for our current opening, but — are you interested in a different position?\"",
+    "choices": [
+      {
+        "text": "\"What position?\" — listen",
+        "result_text": "Contract position. Lower terms than regular staff.\nBut potential for conversion after 6 months.\n\n{name} accepted on the spot.\n\nA failed interview opened a door. Just a different door."
+      },
+      {
+        "text": "Politely decline. There's a specific role in mind",
+        "result_text": "\"Thank you, but I'm looking in a different direction.\"\n\nThe interviewer nodded. Handed over a business card.\n\"Call anytime if that changes.\"\n\n{name} put the card in his wallet."
+      }
+    ]
+  },
+  {
+    "id": "rare_junk_sale_mentor",
+    "title": "Used Goods Transaction",
+    "description": "Listed unused items on a secondhand app.\n\nA buyer appeared. Meeting spot: in front of a café near Gangnam Station.\n\nA man in his 50s arrived. Looked at the item, said \"I'll use this well,\" paid the asking price.\n\n\"What are you up to these days?\" he asked.",
+    "choices": [
+      {
+        "text": "Be honest. \"Looking for work.\"",
+        "result_text": "The man thought for a moment.\n\"I came up to Seoul at 33 too. Let's talk sometime.\"\n\nReceived his business card. Head of a small investment firm.\n\nSold an item for ₩30,000, got a contact.\nNever knew used goods trading worked like this."
+      },
+      {
+        "text": "\"Just clearing things out\" — keep it brief",
+        "result_text": "He smiled and left.\n₩30,000 gained.\n\nJust a transaction. That's all it was."
+      }
+    ]
+  },
+  {
+    "id": "rare_night_alva_find",
+    "title": "What a Customer Left Behind",
+    "description": "Cleaning up after the night shift.\n\nA paper bag under a table.\n\nOpened it. Cash. Counted it.\n₩500,000.\n\nThere's CCTV. The customer might come back.",
+    "choices": [
+      {
+        "text": "Call the manager immediately",
+        "result_text": "Manager arrived 30 minutes later. Reached the customer.\n\nThe customer came, took the bag. Gave {name} ₩100,000.\n\n\"Thank you. That was everything I had.\"\n\nThat sentence stayed longer than the ₩100,000."
+      },
+      {
+        "text": "Pretend not to notice and take it",
+        "result_text": "Got home and took the bag out.\n₩500,000.\n\nLay down to sleep. Couldn't sleep.\nThought about the CCTV. The customer might come back.\n\n{name} stared at the ceiling all night.\nThis is what money weighs."
+      }
+    ]
+  },
+  {
+    "id": "rare_resign_same_day",
+    "title": "Resignation and Offer — Same Day",
+    "description": "Was planning to hand in the resignation today.\n\nWriting the email on the morning commute.\n\nThen a call came in. A company {name} had applied to a month ago.\n\"Can you start tomorrow?\"\n\nThe train stopped. This was the station to get off at.",
+    "choices": [
+      {
+        "text": "Accept. Hand in resignation today.",
+        "result_text": "Got off the train.\nWent to a café instead of the office.\n\nSent the resignation by email and ordered a coffee.\n\nForfeited a month's pay.\nBut today was the first time work felt worth looking forward to."
+      },
+      {
+        "text": "\"Can I have a week?\" — wrap up the current job properly",
+        "result_text": "The new company agreed.\n\nAsked for a week for handover. The team lead was grateful.\n\nLast day, coworkers brought a small cake.\nThere were hard times, but the cake is what's remembered."
+      }
+    ]
+  },
+  {
+    "id": "rare_goshiwon_neighbor_success",
+    "title": "News from Next Door",
+    "description": "Ran into the next-door neighbor in the goshiwon hallway.\n\nSomeone who'd been studying for the civil service exam for 6 months. Light always on past midnight.\n\nToday their expression was different.\n\n\"I passed.\"",
+    "choices": [
+      {
+        "text": "Congratulate them sincerely",
+        "result_text": "\"Really? Congratulations.\"\n\nSaying that, {name} checked his own feelings.\nWas there envy? Yes. But more than that — genuine happiness.\n\nThis person had shared the same walls and same nights.\n{name}'s turn will come. Don't know when. But it will."
+      },
+      {
+        "text": "Think quietly — \"I need to get out of here too\"",
+        "result_text": "That night, {name} rewrote the plan.\n\nVague numbers became specific.\nSeeing the person next door leave — this is what it's good for."
+      }
+    ]
+  },
+  {
+    "id": "rare_convenience_lottery",
+    "title": "Scratch or Not",
+    "description": "A scratch ticket by the convenience store register.\n\nA sticker read: \"1st prize winner from this location today!\"\n\n{name} picked up a ₩5,000 ticket.\nThat's ₩5,000 out of this month's food budget.",
+    "choices": [
+      {
+        "text": "Buy it",
+        "result_text": "Paid and went outside to scratch it with a coin."
+      },
+      {
+        "text": "Don't. It's a math problem.",
+        "result_text": "Put the ticket down.\nExpected value — always a losing game.\n\nBought a triangle sandwich with ₩5,000 instead. Felt full.\nMore reliable return on investment."
+      }
+    ]
+  },
+  {
+    "id": "rare_lottery_result",
+    "title": "Scratch Result",
+    "description": "Sat on the bench outside and scratched.\n\nFirst box: nothing.\nSecond box: nothing.\nThird box —",
+    "choices": [
+      {
+        "text": "Look at the result",
+        "result_text": "₩50,000.\n\nNot 1st or 2nd prize. But ₩50,000.\n\n{name} didn't reinvest it or buy more tickets.\nJust got a proper meal. Something good.\n\nWhether that's the right use of a lottery win — unclear. But it felt good."
+      }
+    ]
+  }
+]

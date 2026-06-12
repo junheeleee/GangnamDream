@@ -1,0 +1,489 @@
+[
+  {
+    "id": "rare_celeb_convenience",
+    "title": "새벽 3시의 손님",
+    "description": "야간 알바 중 새벽 3시.\n\n문이 열렸다. 모자 깊이 눌러 쓴 남자가 들어왔다.\n\n삼각김밥 두 개, 에너지 음료 하나.\n계산하면서 모자가 살짝 올라갔다.\n\n{name}은 굳었다. TV에서 봤던 얼굴이었다.",
+    "category": "social",
+    "rarity": "legendary",
+    "weight": 0.15,
+    "background": "convenience_night",
+    "conditions": {
+      "has_job": false
+    },
+    "tags": ["alva", "night", "social", "rare"],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "아무것도 모른 척 계산해준다",
+        "effects": {
+          "reputation": 5,
+          "mental": 8,
+          "social_skill": 3
+        },
+        "flags": ["met_celebrity"],
+        "result_text": "\"감사합니다.\" 그 목소리도 TV에서 들었던 그 목소리였다.\n\n남자가 나갔다. 편의점이 다시 조용해졌다.\n\n{name}은 계산대를 닦았다. 평소처럼.\n그 사람도 새벽에 삼각김밥을 먹는다는 게 이상하게 위안이 됐다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "\"혹시... 맞으시죠?\" 조심스럽게 묻는다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 5,
+          "reputation": 3
+        },
+        "flags": ["met_celebrity"],
+        "result_text": "남자가 잠깐 멈췄다가 웃었다.\n\"쉬는 날엔 그냥 사람이에요.\"\n\n나가면서 영수증 뒤에 싸인을 해줬다.\n\n{name}은 그걸 지갑에 넣었다. 팔진 않을 거다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_interview_classmate",
+    "title": "면접장에서",
+    "description": "대기실 의자에 앉아 있는데 옆 사람이 눈에 익었다.\n\n고등학교 동창이었다. 같은 반은 아니었는데, 졸업식 사진에서 봤던 얼굴.\n\n상대도 {name}을 알아봤다.\n\n둘 다 같은 회사 면접을 보러 왔다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.3,
+    "background": "office",
+    "conditions": {
+      "has_job": false
+    },
+    "tags": ["job", "social", "rare"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "반갑게 인사하고 같이 기다린다",
+        "effects": {
+          "social_skill": 3,
+          "stress": -5,
+          "mental": 4,
+          "reputation": 2
+        },
+        "flags": [],
+        "result_text": "면접 전 30분을 같이 기다렸다.\n고등학교 때 얘기가 나왔다. 그때 선생님 이름도 기억났다.\n\n둘 다 붙었다. 입사 첫 날, 복도에서 또 만났다.\n\"우리 또 같이네.\" 그 말이 어색하지 않았다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "가볍게 목례만 하고 각자 준비한다",
+        "effects": {
+          "stress": -3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "result_text": "면접은 각자였다.\n{name}이 먼저 불려 들어갔다. 잘 봤다.\n\n나오면서 보니 동창 자리가 비어 있었다.\n붙었는지 모른다. 연락처는 없다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_drunk_wisdom",
+    "title": "취객의 인생 상담",
+    "description": "야간 알바 마감 직전. 취한 40대 남자가 들어왔다.\n\n캔맥주 하나를 계산하고 나가나 싶었는데 계산대 앞에 섰다.\n\n\"나 40에 직장 잘렸어. 근데 잘린 게 인생 최고의 일이었어.\"\n\n아무도 없는 편의점. {name}은 다음 손님을 기다리는 척했다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.35,
+    "background": "convenience_night",
+    "conditions": {
+      "has_job": false
+    },
+    "tags": ["night", "alva", "social", "rare"],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "그냥 듣는다",
+        "effects": {
+          "intelligence": 3,
+          "mental": 5,
+          "stress": -4
+        },
+        "flags": [],
+        "result_text": "남자는 20분을 얘기했다.\n직장 잘리고 치킨집 차렸다가 망하고, 다시 작은 물류 일 시작한 얘기.\n\"근데 그게 다 내 얘기잖아. 남 얘기처럼 하게 됐어. 그게 되면 다 된 거야.\"\n\n남자가 나갔다. {name}은 그 말을 한동안 생각했다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "\"어떻게 버티셨어요?\" 진짜로 묻는다",
+        "effects": {
+          "intelligence": 4,
+          "mental": 7,
+          "social_skill": 2,
+          "stress": -5
+        },
+        "flags": ["heard_drunk_wisdom"],
+        "result_text": "남자가 멈칫했다. 처음으로 {name}을 제대로 봤다.\n\n\"버텼냐고? 아니. 그냥 다음 날 일어난 거야. 매일.\"\n\n캔맥주를 다 마시고 일어났다.\n\"너도 그냥 일어나면 돼. 매일.\"\n\n{name}은 마감 청소를 하면서 그 말을 곱씹었다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_rejection_then_call",
+    "title": "불합격 문자, 그리고",
+    "description": "오전 10시. 문자가 왔다.\n\n'귀하의 지원에 감사드리나 아쉽게도...'\n\n{name}은 화면을 껐다. 창밖을 봤다.\n\n30초 뒤 전화가 울렸다. 모르는 번호였다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.4,
+    "background": "goshiwon_room",
+    "conditions": {
+      "has_job": false,
+      "min_turn": 3
+    },
+    "tags": ["job", "rare", "opportunity"],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "받는다",
+        "effects": {
+          "mental": 6,
+          "stress": -8,
+          "luck": 3,
+          "reputation": 2
+        },
+        "flags": ["got_lucky_call"],
+        "result_text": "3개월 전 지원했다 포기했던 회사였다.\n\"당시에 채용 동결이었는데, 자리가 났습니다. 아직 구직 중이신가요?\"\n\n{name}은 잠깐 멈췄다.\n\"네. 그렇습니다.\"\n\n불합격 문자가 화면에 남아 있었다. 신경 쓰지 않기로 했다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "모르는 번호라 안 받는다",
+        "effects": {
+          "stress": 5,
+          "mental": -3
+        },
+        "flags": [],
+        "result_text": "부재중 알림이 남았다.\n다시 전화했을 때 이미 다른 지원자에게 연락이 됐다고 했다.\n\n{name}은 그 번호를 저장했다.\n다음엔 모르는 번호도 받기로 했다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_wallet_executive",
+    "title": "지갑을 주웠다",
+    "description": "지하철역 계단에서 지갑이 떨어져 있었다.\n\n명함이 들어 있었다. ○○그룹 전무이사.\n\n현금도 꽤 있었다. 카드도 여러 장.\n\n{name}은 지갑을 들었다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.35,
+    "background": "subway",
+    "conditions": {},
+    "tags": ["social", "rare", "luck"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "역무원에게 가져다준다",
+        "effects": {
+          "reputation": 8,
+          "mental": 6,
+          "luck": 4
+        },
+        "flags": ["returned_wallet"],
+        "result_text": "일주일 뒤 문자가 왔다. 명함 속 번호였다.\n\"저번에 감사했습니다. 밥 한 번 사도 될까요?\"\n\n{name}은 그 자리에서 한참 화면을 봤다.\n어떤 인연은 계단에서 시작된다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "현금만 꺼내고 지갑은 놔둔다",
+        "effects": {
+          "money": 150000,
+          "mental": -8,
+          "stress": 6,
+          "luck": -3
+        },
+        "flags": [],
+        "result_text": "5만원짜리 세 장이 있었다.\n\n역무원이 지나갔다. {name}은 계단을 내려갔다.\n\n집까지 오는 내내 발걸음이 무거웠다.\n15만원이 생겼는데 아무것도 안 생긴 것 같았다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_market_kind_stranger",
+    "title": "계산대 앞에서",
+    "description": "마트 계산대. 카드를 긁었다.\n\n'한도 초과'.\n\n뒤에 줄이 서 있었다. {name}은 물건을 내려놓으려 했다.\n\n\"제가 낼게요.\"\n\n뒤에 서 있던 50대 여자가 먼저 카드를 내밀었다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.3,
+    "background": "convenience_store",
+    "conditions": {
+      "max_money": 300000
+    },
+    "tags": ["social", "rare", "stress"],
+    "cooldown": 25,
+    "choices": [
+      {
+        "text": "\"감사합니다. 계좌 알려주시면 바로 드릴게요\"",
+        "effects": {
+          "mental": 8,
+          "stress": -6,
+          "social_skill": 2,
+          "reputation": 3
+        },
+        "flags": ["stranger_helped"],
+        "result_text": "여자가 웃었다.\n\"됐어요. 나도 옛날에 그런 적 있었어.\"\n\n계산이 끝나고 각자 나갔다.\n\n{name}은 주차장에서 잠깐 서 있었다.\n서울이 다 차갑진 않다는 걸, 가끔 이렇게 배운다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "\"괜찮습니다\" 하고 물건을 내려놓는다",
+        "effects": {
+          "stress": 8,
+          "mental": -4
+        },
+        "flags": [],
+        "result_text": "물건을 다 내려놓고 나왔다.\n\n빈손으로 나오는 길. 흐렸다.\n\n다음 월급날까지 버텨야 했다. 버틸 수 있었다.\n그게 지금 할 수 있는 전부였다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_interview_pivot",
+    "title": "면접관의 제안",
+    "description": "면접이 완전히 망했다.\n\n답변이 꼬였고, 말이 길어졌고, 마지막 질문에서 공백이 10초였다.\n\n면접관이 서류를 정리하다가 멈췄다.\n\n\"저희 공고는 아니지만 — 혹시 다른 포지션에 관심 있으세요?\"",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.3,
+    "background": "office",
+    "conditions": {
+      "has_job": false,
+      "min_intelligence": 40
+    },
+    "tags": ["job", "rare", "opportunity"],
+    "cooldown": 18,
+    "choices": [
+      {
+        "text": "\"어떤 포지션인가요?\" 듣는다",
+        "effects": {
+          "mental": 7,
+          "stress": -5,
+          "reputation": 3,
+          "luck": 2
+        },
+        "flags": ["got_alternate_offer"],
+        "result_text": "계약직이었다. 정규직보다 조건은 낮았다.\n하지만 6개월 뒤 전환 가능성이 있었다.\n\n{name}은 그 자리에서 수락했다.\n\n망한 면접이 문을 열었다. 방향이 달랐을 뿐.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "정중히 거절한다. 원하는 포지션이 따로 있다",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2,
+          "stress": -2
+        },
+        "flags": [],
+        "result_text": "\"감사합니다만, 다른 방향을 보고 있습니다.\"\n\n면접관이 고개를 끄덕였다. 명함을 한 장 줬다.\n\"언제든 생각 바뀌면 연락해요.\"\n\n{name}은 명함을 지갑에 넣었다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_junk_sale_mentor",
+    "title": "중고 거래",
+    "description": "당근마켓에 안 쓰는 물건을 올렸다.\n\n구매자가 나타났다. 약속 장소는 강남역 근처 카페 앞.\n\n50대 남자가 왔다. 물건을 보더니 \"잘 쓸게요\" 하고 가격 그대로 줬다.\n\n\"혹시 요즘 뭐 하세요?\" 그가 물었다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.3,
+    "background": "street",
+    "conditions": {
+      "max_money": 500000
+    },
+    "tags": ["social", "rare", "opportunity"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "솔직하게 말한다. \"취업 준비 중입니다\"",
+        "effects": {
+          "social_skill": 3,
+          "reputation": 4,
+          "intelligence": 2,
+          "mental": 5
+        },
+        "flags": ["junk_sale_connection"],
+        "result_text": "남자가 잠깐 생각했다.\n\"저도 33살에 서울 올라왔어요. 편하게 얘기 한 번 해요.\"\n\n명함을 받았다. 작은 투자사 대표였다.\n\n물건 3만원을 팔고, 연락처를 얻었다.\n중고 거래가 이렇게 쓰이는 줄은 몰랐다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "\"그냥 정리 중이에요\" 간단히 답한다",
+        "effects": {
+          "stress": -2,
+          "money": 30000
+        },
+        "flags": [],
+        "result_text": "남자가 웃으며 갔다.\n3만원이 생겼다.\n\n별거 아닌 거래였다. 그냥 거래였다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_night_alva_find",
+    "title": "손님이 두고 간 것",
+    "description": "야간 알바 마감 정리 중.\n\n테이블 아래 봉투 하나가 있었다.\n\n열어봤다. 현금다발. 숫자를 셌다.\n50만원이었다.\n\nCCTV가 있다. 어쩌면 손님이 돌아올 수도 있다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.25,
+    "background": "convenience_night",
+    "conditions": {
+      "has_job": false
+    },
+    "tags": ["night", "alva", "rare", "money"],
+    "cooldown": 25,
+    "choices": [
+      {
+        "text": "사장님께 바로 연락한다",
+        "effects": {
+          "reputation": 10,
+          "mental": 7,
+          "luck": 4,
+          "stress": -5
+        },
+        "flags": ["honest_found_money"],
+        "result_text": "사장님이 30분 뒤 나타났다. 손님에게 연락이 됐다.\n\n손님이 와서 봉투를 가져갔다. 10만원을 {name}에게 줬다.\n\n\"고마워요. 전 재산이었는데.\"\n\n그 말이 오래 남았다. 10만원보다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "모른 척 들고 나온다",
+        "effects": {
+          "money": 500000,
+          "mental": -12,
+          "stress": 10,
+          "reputation": -5,
+          "luck": -3
+        },
+        "flags": ["took_found_money"],
+        "result_text": "집에 와서 봉투를 꺼냈다.\n50만원.\n\n자려고 누웠다. 잠이 안 왔다.\nCCTV 생각이 났다. 손님이 다시 올 수도 있었다.\n\n{name}은 새벽 내내 천장을 봤다.\n돈의 무게가 이런 거였다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_resign_same_day",
+    "title": "사직서와 입사통보",
+    "description": "오늘 사직서를 낼 생각이었다.\n\n출근 지하철 안에서 메일을 쓰고 있었다.\n\n그때 전화가 울렸다. 한 달 전에 지원했던 회사였다.\n\"내일부터 출근 가능하세요?\"\n\n지하철이 역에 멈췄다. 내려야 할 역이었다.",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.25,
+    "background": "subway",
+    "conditions": {
+      "has_job": true,
+      "min_stress": 60
+    },
+    "tags": ["job", "rare", "stress", "opportunity"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "수락한다. 오늘 사직서 낸다",
+        "effects": {
+          "stress": -15,
+          "mental": 8,
+          "reputation": 2
+        },
+        "flags": ["quit_for_better_job"],
+        "result_text": "지하철에서 내렸다.\n회사가 아니라 카페로 갔다.\n\n사직서를 메일로 보내고 커피를 시켰다.\n\n한 달 치 월급을 포기했다.\n대신 오늘 처음으로 출근이 기다려졌다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "\"일주일만 시간을 주세요\" 하고 현 직장 먼저 정리한다",
+        "effects": {
+          "stress": -8,
+          "mental": 5,
+          "intelligence": 2,
+          "reputation": 4
+        },
+        "flags": [],
+        "result_text": "신규 회사가 수락했다.\n\n현 직장에 인수인계 일주일을 요청했다. 팀장이 고마워했다.\n\n마지막 날, 동료들이 작은 케이크를 사왔다.\n욕도 먹고 나왔지만 욕보다 케이크가 기억에 남았다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_goshiwon_neighbor_success",
+    "title": "옆방 소식",
+    "description": "고시원 복도에서 옆방 사람과 마주쳤다.\n\n6개월째 공시 준비하던 사람이었다. 항상 새벽에 불이 켜져 있었다.\n\n오늘 표정이 달랐다.\n\n\"나 붙었어.\"",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.3,
+    "background": "goshiwon_hallway",
+    "conditions": {},
+    "tags": ["social", "rare", "mental", "housing"],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "진심으로 축하한다",
+        "effects": {
+          "mental": 10,
+          "stress": -6,
+          "luck": 2
+        },
+        "flags": [],
+        "result_text": "\"진짜? 축하해.\"\n\n그 말을 하면서 {name}은 자기 감정을 살폈다.\n부럽긴 했다. 근데 그것보다 — 기뻤다.\n\n같은 건물에서 같은 밤을 보낸 사람이 됐으니까.\n{name} 차례도 온다. 언제가 될지 모르지만.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "\"나도 곧 나가야지\" 혼자 생각한다",
+        "effects": {
+          "mental": 6,
+          "stress": -4,
+          "intelligence": 2
+        },
+        "flags": ["motivated_by_neighbor"],
+        "result_text": "그날 밤 {name}은 계획을 다시 썼다.\n\n막연하게 있던 숫자들을 구체적으로 바꿨다.\n옆방이 나가는 걸 보는 게 이렇게 쓸 데가 있었다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_convenience_lottery",
+    "title": "긁을까 말까",
+    "description": "편의점 계산대 옆에 복권이 있었다.\n\n\"오늘 여기서 1등 나왔어요\" 스티커가 붙어 있었다.\n\n{name}은 5,000원짜리 한 장을 들었다.\n이번 달 식비에서 5,000원이 빠진다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "background": "convenience_store",
+    "conditions": {
+      "min_money": 10000
+    },
+    "tags": ["gambling", "rare", "luck"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "산다",
+        "effects": {
+          "money": -5000,
+          "luck": 2,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "rare_lottery_result",
+        "result_text": "계산하고 나와서 동전으로 긁었다."
+      },
+      {
+        "text": "안 산다. 확률의 문제다",
+        "effects": {
+          "intelligence": 1,
+          "stress": -1
+        },
+        "flags": [],
+        "result_text": "복권을 내려놨다.\n기댓값으로 보면 항상 지는 게임이다.\n\n5,000원으로 삼각김밥을 샀다. 배가 불렀다.\n이게 더 확실한 수익이었다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "rare_lottery_result",
+    "title": "긁어본 결과",
+    "description": "편의점 벤치에 앉아 긁었다.\n\n첫 번째 칸: 꽝.\n두 번째 칸: 꽝.\n세 번째 칸 —",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0,
+    "background": "convenience_store",
+    "conditions": {},
+    "tags": ["gambling", "luck"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "결과를 본다",
+        "effects": {
+          "money": 50000,
+          "luck": 3,
+          "mental": 4,
+          "stress": -3
+        },
+        "flags": ["won_lottery_small"],
+        "result_text": "5만원.\n\n2등도 1등도 아니지만 5만원이었다.\n\n{name}은 그걸 다시 투자하거나 복권을 더 사지 않았다.\n그냥 밥을 사먹었다. 좋은 거 먹었다.\n\n그게 복권의 올바른 사용법인지는 모르겠지만, 기분은 좋았다.",
+        "follow_up_event": ""
+      }
+    ]
+  }
+]
