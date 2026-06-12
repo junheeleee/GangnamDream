@@ -1,0 +1,242 @@
+[
+  {
+    "id": "callback_jiyeon_accepted_echo",
+    "title": "After Accepting",
+    "description": "Two months since you decided to accept what Jiyeon said.\nYou thought it was the right call.\nToday a short message from Jiyeon.\n'Minjun — how've you been?'",
+    "choices": [
+      {
+        "text": "Answer honestly",
+        "result_text": "'Hanging in there, more or less,' you said.\nJiyeon replied 'That means you're okay.'\nAccepting it — had made this conversation possible."
+      },
+      {
+        "text": "Just say \"I'm good\"",
+        "result_text": "'I'm good,' you said.\nJiyeon said 'Good to hear.'\nA brief check-in proved the connection hadn't broken."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_refused_coffee_echo",
+    "title": "After Turning Down Coffee",
+    "description": "A month since you declined Jiyeon's invitation for coffee.\nToday you ran into her in the hallway.\nShe gave an awkward smile.",
+    "choices": [
+      {
+        "text": "\"I'm sorry I said no back then.\"",
+        "result_text": "'I didn't have the bandwidth then.'\nJiyeon said 'It's okay. I kind of sprung it on you.'\nNot the refusal — what came after was what shaped the relationship."
+      },
+      {
+        "text": "Just exchange a natural nod",
+        "result_text": "You nodded.\nShe nodded back.\nThe awkwardness would sort itself out with time."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_prioritized_goal_echo",
+    "title": "What Choosing the Goal Meant",
+    "description": "Three months since you chose your goal over the relationship with Jiyeon.\nToday you looked back at whether that was right.\nYour assets had grown since then.",
+    "choices": [
+      {
+        "text": "It was the right call",
+        "result_text": "The number had grown.\nThat didn't justify the choice itself.\nBut it was confirmation the direction wasn't wrong."
+      },
+      {
+        "text": "I think I was too cold",
+        "result_text": "There was a lingering regret.\nChasing a goal, but not treating people as costs.\nFinding that balance — that was the next task."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_honest_world_echo",
+    "title": "When You Spoke Honestly About the World",
+    "description": "Two months since you told Jiyeon what you honestly thought about how the world works.\nToday she reached out first.\n'Minjun — what you said then. I keep thinking about it.'",
+    "choices": [
+      {
+        "text": "\"Which part?\"",
+        "result_text": "Jiyeon pointed to a single line.\nIt had come out while you were just being honest — not rehearsed.\nThe unprepared words — those were the ones that stayed with someone."
+      },
+      {
+        "text": "\"Did you? That's good.\"",
+        "result_text": "'Thanks for remembering,' you said.\nJiyeon smiled.\nAn honest word had planted something in the relationship."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_was_honest_echo",
+    "title": "The Day You Were Honest with Jiyeon",
+    "description": "A month since you told Jiyeon something honestly.\nIt wasn't easy.\nToday Jiyeon texted:\n'Thank you for being honest with me then.'",
+    "choices": [
+      {
+        "text": "\"It wasn't easy for me either.\"",
+        "result_text": "Jiyeon said 'I know. That's why I'm grateful.'\nHonesty wasn't for when it was easy.\nThe kind done when it's hard — that's what stays."
+      },
+      {
+        "text": "\"It was the natural thing.\"",
+        "result_text": "'It's just what you do,' you said.\nJiyeon replied '...Not everyone thinks that.'\nDoing what's natural — turns out it's not that common."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_kept_distance_echo",
+    "title": "After Keeping Distance",
+    "description": "Two months since you decided to keep your distance from Daeun.\nToday you spotted her from far away.\nYou passed without saying anything.",
+    "choices": [
+      {
+        "text": "This is the right distance",
+        "result_text": "You passed.\nBeing close wasn't always the right thing with a good person.\nThe distance you had now — was the right one for both of you."
+      },
+      {
+        "text": "Maybe I could at least say hello",
+        "result_text": "'Hello, Daeun-ssi,' you said.\nShe said 'Oh — Minjun-ssi. Long time.'\nKeeping distance and cutting contact entirely — those were different things."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_saw_her_ok_echo",
+    "title": "Knowing Daeun Is Fine",
+    "description": "A month since you confirmed Daeun was doing well.\nYour mind felt a little lighter after.\nToday you heard about her again.",
+    "choices": [
+      {
+        "text": "Glad to hear it",
+        "result_text": "Good for her.\nEven when the connection was severed — knowing the other person was okay made the weight lift.\nNot every relationship had to last."
+      },
+      {
+        "text": "The thought of reaching out crosses my mind",
+        "result_text": "You wanted to reach out.\nBut you couldn't tell if it was for her or for yourself.\nYou decided to hold off a bit longer."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_uncertain_echo",
+    "title": "The Uncertainty",
+    "description": "That time when you couldn't be sure how you felt about Daeun.\nThe uncertainty still hasn't resolved.\nToday Daeun walked past with a smile.",
+    "choices": [
+      {
+        "text": "Leave it uncertain",
+        "result_text": "Not every feeling needed to be named.\nLeaving a feeling uncertain — could be a form of respect for the other person.\nFor now, that was enough."
+      },
+      {
+        "text": "Try moving a little closer",
+        "result_text": "You said hello.\nDaeun responded warmly.\nSometimes, without certainty — movement still makes a direction."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_heard_his_story_echo",
+    "title": "After Hearing Jaehyuk's Story",
+    "description": "Two months since you heard Jaehyuk's story.\nEveryone has a reason — you were reminded of that then.\nToday you ran into Jaehyuk.",
+    "choices": [
+      {
+        "text": "\"Thanks for telling me back then.\"",
+        "result_text": "Jaehyuk said '...It was nothing.'\nNo words — but his expression was different.\nListening to someone's story — changes them."
+      },
+      {
+        "text": "Just say hello naturally",
+        "result_text": "You said hello.\nHe said hello back.\nThe story you'd heard then — made this greeting carry more weight."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_01b_pressed_result",
+    "title": "After Pushing Jaehyuk",
+    "description": "A month since you pushed Jaehyuk to the wall.\nToday word came that Jaehyuk had left the company.",
+    "choices": [
+      {
+        "text": "Wonder if pushing him made a difference",
+        "result_text": "The causation wasn't clear.\nBut — it might have been the final push.\nPresuring someone sometimes creates the direction they needed."
+      },
+      {
+        "text": "It was probably the right move for him",
+        "result_text": "Whatever the reason — you hoped leaving was better for him.\nIf the push helped him land somewhere better, that was enough."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_invited_echo",
+    "title": "After Sangchul's Invitation",
+    "description": "A month since Sangchul invited you to that gathering.\nSome of the people you met there reached out today.",
+    "choices": [
+      {
+        "text": "Keep building these connections",
+        "result_text": "You met again.\nSangchul's network was his — and now, just a little, yours too.\nAn introduction makes a relationship. A relationship makes an opportunity.\nThat chain was already running."
+      },
+      {
+        "text": "Say you're busy this time",
+        "result_text": "\"Can't make it this time,\" you said.\nThey understood.\nBut some opportunities don't circle back."
+      }
+    ]
+  },
+  {
+    "id": "callback_heeded_sangchul_warning_result",
+    "title": "Taking Sangchul's Warning",
+    "description": "Two months since you listened to Sangchul's warning and stayed out.\nToday the outcome showed.\nThe people who went in took a loss.",
+    "choices": [
+      {
+        "text": "Call Sangchul and say thanks",
+        "result_text": "'Your warning kept me out. Thanks,' you said.\nSangchul said 'Of course. That's what you do.'\nGood information makes you remember the person who gave it."
+      },
+      {
+        "text": "Just feel the quiet relief",
+        "result_text": "You felt the relief quietly.\nListening to the warning had been right.\nWho you listen to — decides what you walk away from."
+      }
+    ]
+  },
+  {
+    "id": "callback_dismissed_sangchul_warning_result",
+    "title": "Ignoring Sangchul's Warning",
+    "description": "Two months since you dismissed Sangchul's warning.\nToday the outcome landed.\nExactly as he'd said.",
+    "choices": [
+      {
+        "text": "Tell Sangchul honestly",
+        "result_text": "'You were right,' you said.\nSangchul said 'Listen next time.'\nLowering your pride to admit it — kept the relationship intact."
+      },
+      {
+        "text": "Just take the lesson quietly",
+        "result_text": "You didn't say anything.\nBut you remembered.\nDismissing Sangchul's words — next time would be different."
+      }
+    ]
+  },
+  {
+    "id": "callback_took_sangchul_tip_result",
+    "title": "Sangchul's Tip Result",
+    "description": "Two months since you acted on Sangchul's tip.\nToday the outcome is in.",
+    "choices": [
+      {
+        "text": "It was right — he has a good eye",
+        "result_text": "It worked out.\nYou texted Sangchul briefly. Just: 'Done.'\nHe replied: 'Obviously.'\nA good person's tip comes from knowing them."
+      },
+      {
+        "text": "Wrong — even tips are uncertain",
+        "result_text": "It was wrong.\nSangchul's tip wasn't a guarantee.\nGood intentions and accurate information are different things.\nThat was the lesson."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_forgave_complexity_echo",
+    "title": "After Forgiving the Complexity",
+    "description": "Two months since you understood Jiyeon's complicated situation and forgave her.\nIt wasn't easy.\nToday Jiyeon reached out first.",
+    "choices": [
+      {
+        "text": "Receive it warmly",
+        "result_text": "You talked for a long time.\nForgiveness wasn't the end of a relationship — it was the start of the next stage.\nThis conversation was proof of that."
+      },
+      {
+        "text": "Keep it short, just check in",
+        "result_text": "You exchanged a brief update.\nForgiveness doesn't always bring everything back.\nBut the fact that she reached out — that was enough."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_acknowledged_echo",
+    "title": "After Acknowledging It",
+    "description": "A month since you admitted your mistake to Jiyeon.\nToday you thought back to her reaction.\nShe hadn't said anything at the time.",
+    "choices": [
+      {
+        "text": "Silence was also a response",
+        "result_text": "Saying nothing was also a kind of answer.\nThe fact that Jiyeon went quiet — meant she heard it.\nAcknowledging something doesn't require an immediate reaction."
+      },
+      {
+        "text": "She might not have accepted it yet",
+        "result_text": "She was still processing, it seemed.\nEven accepting an acknowledgment takes time.\nWaiting was what you could do for now."
+      }
+    ]
+  }
+]
