@@ -1,0 +1,261 @@
+[
+  {
+    "id": "callback_chaebol_elevator_response",
+    "title": "The Heir Calls Back",
+    "description": "Three months since you handed over your card in that elevator.\nYou'd almost forgotten about it.\nToday an unknown number texted.\n'Hi. Do you remember the elevator that time? Could we meet briefly?'",
+    "choices": [
+      {
+        "text": "Meet him",
+        "result_text": "A Gangnam café. He arrived first.\n\"A lot of people hand me cards, but giving mine out — that was a first for me.\"\nAn hour of conversation.\nHe didn't want anything. He was just — curious about the person.\nHe left his number. Where this goes, unknown."
+      },
+      {
+        "text": "Cautious. Find out who he is first.",
+        "result_text": "You searched. It checked out. That was him.\nKnowing the background made it feel more delicate.\nYou never replied.\nWhether it was an opportunity or a risk — still unknown."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_investors_proposal",
+    "title": "Their Proposal",
+    "description": "At the Sangchul network event you'd approached that guaranteed-returns group in the corner.\nToday one of them reached out.\n\"You seemed interested back then. A spot just opened up.\n22% in three months. Corporate structure.\"",
+    "choices": [
+      {
+        "text": "Look into it — understand the structure first",
+        "result_text": "You dug into the FSS website.\nSix prosecuted cases with similar structures came up.\nYou hung up.\n'Guaranteed returns' is itself illegal.\nChecking was the right move."
+      },
+      {
+        "text": "Put in a small amount to test it",
+        "result_text": "You put in ₩3 million.\nTwo months later, contact went dark.\nYou reported to the FSS. An investigation opened.\nThe ₩3 million didn't come back.\nThere are no easy paths in the Gangnam network."
+      },
+      {
+        "text": "Decline",
+        "result_text": "'Not really my style.'\nThe other person said 'We'll be in touch again.'\nYou blocked them."
+      }
+    ]
+  },
+  {
+    "id": "callback_declined_sangchul_deal_echo",
+    "title": "What Happened to That Property",
+    "description": "The redevelopment villa deal you turned down from Im Sangchul.\nToday Sangchul called.\n\"Minjun. Remember that property?\nRedevelopment consortium approval came through today.\"",
+    "choices": [
+      {
+        "text": "\"Good for you. I'm still building up.\"",
+        "result_text": "Sangchul said, \"It's a shame — but being careful isn't wrong.\"\nIf you'd entered then, it would've been 1.8x by now.\nThere's something you didn't lose either. But it stayed on your mind a long time."
+      },
+      {
+        "text": "\"Next one, let's do it together.\"",
+        "result_text": "Sangchul said 'Sure. There's always another deal.'\nAnother opportunity will come.\nThis one slipped by — but the relationship with Sangchul remains."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_ignored_result",
+    "title": "Building Goes to Auction",
+    "description": "You'd let the talk of the landlord's debt slide back then.\nToday there was an auction notice posted on the door.\nThe building was going to foreclosure.\nYour deposit is tied up.",
+    "choices": [
+      {
+        "text": "File a claim on the lease deposit insurance",
+        "result_text": "You filed with HUG.\nThree months later the full deposit came through.\nYou let out a long breath.\nGood thing you'd signed up for the insurance.\nYou shouldn't have ignored it back then — but luck was on your side."
+      },
+      {
+        "text": "Register your lease rights and fight it legally",
+        "result_text": "You hired a lawyer. ₩2 million out.\nSome would come back through the auction distribution, but not the full amount.\nIf you'd pulled the registry one more time back then, that would've been enough.\nKnowing and acting like you know are different things."
+      }
+    ]
+  },
+  {
+    "id": "callback_checked_registry_vindicated",
+    "title": "That Villa in the News",
+    "description": "Five months since you re-checked the registry after the lease fraud news.\nToday a portal article came up.\n[28 Tenants in Nearby Villa Lose Deposit]\nThe building in the photo looked familiar. Two blocks away.",
+    "choices": [
+      {
+        "text": "Check my own registry again",
+        "result_text": "All clear.\nIt's a scary world.\nKnowing — just knowing — was protection here."
+      },
+      {
+        "text": "Share the article",
+        "result_text": "You shared it to a KakaoTalk group.\nSomeone you knew lived near there.\n\"Thanks. I just checked mine because of this.\" They replied.\nA small thing — but it reached someone."
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_took_cash_guilt",
+    "title": "A Post on the Community Board",
+    "description": "Two months since you took the cash and dropped the wallet in a mailbox.\nToday a post appeared in the neighborhood community.\n[Lost Item] Lost a wallet near the bus stop.\nThere's a memorial photo of my father inside. The cash doesn't matter. Please.",
+    "choices": [
+      {
+        "text": "Leave ₩300,000 anonymously in a mailbox",
+        "result_text": "You paid it back the only way you could.\n₩300,000 and a note.\n'I found your wallet that day. Late, but I'm returning this.'\nAfter sending it, you stood there for a while."
+      },
+      {
+        "text": "Pretend you didn't see it",
+        "result_text": "You closed the screen.\nThe words — 'my father's memorial photo' — stayed in front of your eyes for a long time.\nEven now, that post comes back sometimes."
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_ignored_echo",
+    "title": "That Bus Stop",
+    "description": "Today you passed that bus stop again. The one where you walked past the wallet.\nNothing special about it. But it kept coming back.\nWhen you'd picked it up and looked at the ID — for a moment you'd imagined who that person was.",
+    "choices": [
+      {
+        "text": "Decide: next time, don't just walk past",
+        "result_text": "Not a formal resolution.\nJust — I won't do that again next time.\nSomehow that felt like something had changed."
+      },
+      {
+        "text": "That wasn't wrong of me",
+        "result_text": "You didn't have the margin back then.\nCan't say you have the margin now either.\nBut it keeps coming back, and there's nothing you can do about that."
+      }
+    ]
+  },
+  {
+    "id": "callback_fomo_invested_result",
+    "title": "Correction",
+    "description": "A month ago you'd put in ₩3 million because everyone was piling in.\nToday you opened the account.\nCurrent valuation: ₩221,000.\nReturn: -26.3%",
+    "choices": [
+      {
+        "text": "Cut losses. Close it out.",
+        "result_text": "You sold. ₩790,000 loss.\nYou left the group chat.\n'Everyone else is doing it' is the most expensive tuition."
+      },
+      {
+        "text": "Average down",
+        "result_text": ""
+      }
+    ]
+  },
+  {
+    "id": "callback_declared_dream_check",
+    "title": "Hyeonsu's Message",
+    "description": "In the goshiwon shared kitchen, you told Hyeonsu: 'I'm going to Gangnam. In five years.'\nToday a KakaoTalk from Hyeonsu.\n'Hey, you said Gangnam in five years back then. How long's left now?'",
+    "choices": [
+      {
+        "text": "\"Still on my way.\"",
+        "result_text": "Hyeonsu said 'Okay. When you make it, tell me too.'\nStill on my way.\nThat's true."
+      },
+      {
+        "text": "\"My thinking's changed a bit.\"",
+        "result_text": "'...Yeah. A lot has changed.'\nHyeonsu said 'That's part of growing up, I think.'\nThe {name} who made that declaration wasn't wrong.\nThe {name} now is right too."
+      }
+    ]
+  },
+  {
+    "id": "callback_deleted_sns_check",
+    "title": "Life After Deleting the App",
+    "description": "Ten months since you deleted Instagram.\nToday a friend asked, 'Why don't you have Insta anymore?'\n'I deleted it,' you said.\n'Why?' they asked.\nYou paused for a second thinking about how to explain.",
+    "choices": [
+      {
+        "text": "Say honestly: \"I hated the comparison.\"",
+        "result_text": "The friend was quiet for a moment, then said '...Same for me actually.'\nAfter that, things felt easier with that friend.\nOne honest sentence can shift a relationship."
+      },
+      {
+        "text": "\"Just.\" Let it go.",
+        "result_text": "'Just.' That was it.\nThe friend didn't push.\nThis decision doesn't need an explanation."
+      }
+    ]
+  },
+  {
+    "id": "callback_envy_fuel_cost",
+    "title": "The Smell of the Fuel",
+    "description": "Ten months of running on 'I'll show them.'\nToday you were tired for no reason.\nYou didn't want to do anything.\nAnger gets you far — but the exhaust comes back to you eventually.",
+    "choices": [
+      {
+        "text": "Find a different engine. Not anger.",
+        "result_text": "Anger is fast fuel but it burns to ash.\nYou shifted toward wanting to build something.\nSlower — but it smelled less."
+      },
+      {
+        "text": "This tiredness is part of the process. Keep going.",
+        "result_text": "You kept going.\nTired, but not stopped.\nWhether that's right or not — you'll know later."
+      }
+    ]
+  },
+  {
+    "id": "callback_came_clean_bond",
+    "title": "A Reply from a Friend",
+    "description": "Six months ago you told an old classmate: 'Honestly, things aren't going well.'\nToday a KakaoTalk.\n'Hey, I failed another job hunt. I wanted to tell you first.'",
+    "choices": [
+      {
+        "text": "\"Thanks for telling me. Let's get something to eat.\"",
+        "result_text": "You met up.\nNeither of you was doing well, but the meal was somehow good.\nHonest people find each other."
+      },
+      {
+        "text": "\"It'll work out.\" That's all.",
+        "result_text": "You sent the comfort.\nFriend said 'Thanks.'\nYou wished you had more to give."
+      }
+    ]
+  },
+  {
+    "id": "callback_borrowed_parents_repay_moment",
+    "title": "Time to Pay Back",
+    "description": "Ten months since you borrowed the MLM card debt from your father.\nThe fact that he didn't ask anything at the time — it'd stayed with you.\nYou looked at the balance. You can repay ₩3 million.",
+    "choices": [
+      {
+        "text": "Transfer it and call",
+        "result_text": "You transferred and called.\nDad said 'Hello?'\n'Dad, I sent back what I borrowed that time.'\nA short silence. 'It's fine.' That's what he said.\nThat 'it's fine' stayed with you for a long time."
+      },
+      {
+        "text": "Save a bit more and repay it all at once",
+        "result_text": "You decided to save more and repay in one go.\nThat's the practical approach.\nBut maybe a phone call would've been enough already."
+      }
+    ]
+  },
+  {
+    "id": "callback_escaped_dirty_trace",
+    "title": "A Police Call",
+    "description": "Five months since you touched that burner account and got out.\nToday an unknown number called.\n'Hello, this is the Cyber Investigation Unit.\nWe have a few things to ask you.'",
+    "choices": [
+      {
+        "text": "Tell them everything honestly",
+        "result_text": "You explained that you'd returned the money and contributed something to the victim.\nThe investigator said: 'So you removed yourself voluntarily.'\nThe questioning was long. You could've been charged as the account holder.\nA month later, 'No grounds for prosecution' came through.\nGetting out that day was right."
+      },
+      {
+        "text": "Hire a lawyer first",
+        "result_text": "₩2 million for a lawyer.\nThey said 'It's a good thing you stepped away early. You can get leniency.'\nIt ended with a suspended indictment.\nExpensive — but it could've been more."
+      }
+    ]
+  },
+  {
+    "id": "callback_heard_father_young_echo",
+    "title": "Father at Twenty-Three",
+    "description": "Six months ago you heard the story of your father coming up to Seoul for the first time at twenty-three.\nToday mid-call, you just asked.\n'Dad, what was it like when you first came to Seoul back then?'",
+    "choices": [
+      {
+        "text": "Listen to the whole thing",
+        "result_text": "Your father talked for a long time.\nScared when he stepped off at Seoul Station. Nearly starved for a month with no money.\nIt didn't look that different from where {name} is now.\nAfter hanging up, you stayed still for a while.\nLike you were walking the same road."
+      },
+      {
+        "text": "\"You really went through a lot, Dad.\"",
+        "result_text": "Dad said 'All in the past.'\nBut that old story stayed with you for a long time.\nDad walked this road too."
+      }
+    ]
+  },
+  {
+    "id": "callback_asked_father_health_update",
+    "title": "Dad's Blood Pressure",
+    "description": "Your father who mentioned he was on blood pressure medication.\nSix months passed.\nToday a call from your aunt.\n'Minjun. Your dad had a full check-up. Everything's fine, they said. I was worried — thank goodness.'",
+    "choices": [
+      {
+        "text": "Call Dad directly",
+        "result_text": "Dad said 'It's nothing really.'\n'Still, I'm glad you're okay.'\nAfter hanging up, you felt a weight lift.\nGood that you'd asked back then."
+      },
+      {
+        "text": "Thank your aunt",
+        "result_text": "'Auntie, thank you for telling me.'\nShe said 'Call your dad too.'\nYou said you would."
+      }
+    ]
+  },
+  {
+    "id": "callback_freelance_second_client",
+    "title": "A Second Client",
+    "description": "Two months since completing the first freelance job.\nToday a text from an unknown number.\n'Hello, I was referred by someone who knows you.\nCould I ask for similar work?'",
+    "choices": [
+      {
+        "text": "Take it. Raise the rate this time.",
+        "result_text": "Agreed on ₩500,000. Up from ₩300,000 last time.\nYou wrote a contract this time too.\nSo this is how word of mouth spreads.\nFinishing the first job well got you here."
+      },
+      {
+        "text": "Decline. Want to focus elsewhere right now.",
+        "result_text": "You politely declined.\nSaid to please reach out another time.\nHaving options — that was something that came from finishing the first job."
+      }
+    ]
+  }
+]
