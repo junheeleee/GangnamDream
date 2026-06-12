@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_jiyeon_took_number_next",
+    "title": "Jiyeon Reaches Out",
+    "description": "Jiyeon's number you'd taken that day.\nYou'd saved it but never texted.\nToday she reached out first.\n'Hello. This is Lee Jiyeon — we exchanged cards. Could we meet?'",
+    "choices": [
+      {
+        "text": "Meet her",
+        "result_text": "Gangnam café.\nShe was direct.\n\"I have a proposal I'd like to share. Would you hear me out?\"\nTaking the number — brought this table."
+      },
+      {
+        "text": "\"A bit hard right now\" — put it off",
+        "result_text": "'I'll be in touch later.'\nJiyeon said 'Whenever you're ready.'\nThe door wasn't closed."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_had_coffee_echo",
+    "title": "After That Conversation",
+    "description": "That afternoon you had coffee with Jiyeon was a month ago.\nToday facing an investment decision, something she said came back.\n\"In this market, people are the asset.\"",
+    "choices": [
+      {
+        "text": "Reach out again. Want to hear more.",
+        "result_text": "Jiyeon said 'I was hoping you'd call' and smiled.\nTwo hours of conversation.\nWhat someone who's survived Gangnam says — it lands differently."
+      },
+      {
+        "text": "Sit with the words and decide alone",
+        "result_text": "You used what she said as a benchmark.\nIt worked.\nAdvice you digest on your own stays with you longest."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_investment_talk_result",
+    "title": "What Happened to That Stock",
+    "description": "When you talked investments with Jiyeon, she'd mentioned a ticker.\n\"It's not too late to get in,\" she'd said.\nToday you pulled up the chart.",
+    "choices": [
+      {
+        "text": "Tell Jiyeon how it turned out",
+        "result_text": "Jiyeon said 'See? What did I tell you.'\nConfidence spreads when you're around someone who has it.\nThat was her power."
+      },
+      {
+        "text": "Check it alone and decide whether to buy",
+        "result_text": "You analyzed it yourself.\nJiyeon was partly right, partly off.\nVerifying someone else's conviction — that's what investing is."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_deal_consequence",
+    "title": "One Line in the Contract",
+    "description": "You took Jiyeon's deal.\nThree months after signing.\nToday the first settlement came through.\nLess than expected.",
+    "choices": [
+      {
+        "text": "Confront Jiyeon directly",
+        "result_text": "Jiyeon reopened the contract.\n\"This clause here — did you read this?\"\nThere was a clause you'd missed.\nContracts are read all the way through."
+      },
+      {
+        "text": "Read the contract carefully again",
+        "result_text": "Three times through.\nThe clause appeared. Legal — but disadvantageous.\nNext time, read before signing."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_refused_deal_echo",
+    "title": "Jiyeon Shows Up Again",
+    "description": "You turned down Jiyeon's proposal two months ago.\nToday you ran into her at a café.\n\"Oh — Minjun. Good to see you.\"\nNo trace of resentment on her face.",
+    "choices": [
+      {
+        "text": "Sit down and talk",
+        "result_text": "Jiyeon said 'Honestly, you were right to pass. It was a bit of a stretch on my part.'\nSaying no doesn't end a relationship.\nAn honest refusal was the start of real trust."
+      },
+      {
+        "text": "Just say hi and leave",
+        "result_text": "A quick hello and out.\nYou didn't look back.\nJiyeon had started to say something — and let it go."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_money_weight",
+    "title": "The Weight of That Money",
+    "description": "Two months since you took money from Jiyeon.\nToday a call from Jiyeon.\n\"Minjun. That — what I gave you — it's working out, right?\"\nHard to tell if it was a question or a check-in.",
+    "choices": [
+      {
+        "text": "Tell her honestly where things stand",
+        "result_text": "'Managing it well. I'll give you a full report.'\nJiyeon said 'No report needed. Just results.'\nThis person spoke in outcomes."
+      },
+      {
+        "text": "Just say \"It's going well.\"",
+        "result_text": "Short answer.\nJiyeon said '...Alright.'\nAs long as that money exists, this relationship won't be simple."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_stood_ground_result",
+    "title": "What Jiyeon Saw",
+    "description": "The day you didn't back down in front of Jiyeon.\nToday a short message from her.\n'Not many people can talk to me like that.'",
+    "choices": [
+      {
+        "text": "\"I will keep talking to you like that.\"",
+        "result_text": "Jiyeon said 'I'll hold you to that.'\nIn this world, the ones who keep their lines — earn trust.\nJiyeon knew that."
+      },
+      {
+        "text": "\"Thank you.\" Short reply.",
+        "result_text": "'Thank you.'\nJiyeon read it and didn't reply further.\nSometimes fewer words are enough."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_left_first_closure",
+    "title": "That Back",
+    "description": "The day you left first.\nToday you passed near the same place.\nYou remembered Jiyeon starting to say something and then stopping.",
+    "choices": [
+      {
+        "text": "Reach out to Jiyeon",
+        "result_text": "'I should have checked in after that day.'\nJiyeon said 'At least you did now.'\nLate contact is still better than none."
+      },
+      {
+        "text": "Keep walking. It's in the past.",
+        "result_text": "You kept walking.\nWhat she'd started to say will remain unknown.\nSome things just pass."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_jiyeon_connection",
+    "title": "The Name Sangchul Brought Up",
+    "description": "Over dinner today, Sangchul brought it up first.\n\"Minjun. You know Lee Jiyeon?\nShe's been mentioning your name lately.\"",
+    "choices": [
+      {
+        "text": "\"What kind of things?\" — ask more",
+        "result_text": "Sangchul said 'Good things. That you're someone who can be trusted.'\nJiyeon. Sangchul. In this network, reputation flows.\nReputation is made where nobody's watching."
+      },
+      {
+        "text": "\"Is that so?\" and move on",
+        "result_text": "You moved on naturally.\nSangchul changed the subject.\nThat one line stayed longer than expected."
+      }
+    ]
+  },
+  {
+    "id": "callback_forgave_jiyeon_outcome",
+    "title": "After the Forgiveness",
+    "description": "That conversation where you forgave Jiyeon.\nAfter that, something between you shifted.\nToday Jiyeon appeared with something.\n\"There's something I've been wanting to give you.\"",
+    "choices": [
+      {
+        "text": "Accept it",
+        "result_text": "A book.\nInside, a few words in pen.\n'This is the first book I used to learn this world.'\nForgiveness came back like this."
+      },
+      {
+        "text": "\"It's okay. Just do well.\"",
+        "result_text": "Jiyeon was quiet for a moment, then said 'Thank you. I mean it.'\nForgiveness wasn't for a gift in return.\nJiyeon knew that too."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_felt_kindness_echo",
+    "title": "A Different Side of Jaehyuk",
+    "description": "After Jaehyuk unexpectedly helped you that time, you've been seeing him differently.\nToday you ran into him again.\nStill a complicated person — but somehow different.",
+    "choices": [
+      {
+        "text": "Start a conversation",
+        "result_text": "Jaehyuk gave a short answer. Still awkward.\nBut you knew that wasn't the whole story anymore.\nYou stopped reading people by a single side."
+      },
+      {
+        "text": "Keep walking",
+        "result_text": "You walked past.\nSo did Jaehyuk.\nFor a complicated person — maybe this is the right distance."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_stood_up_aftermath",
+    "title": "After Standing Your Ground with Jaehyuk",
+    "description": "The day you held your ground in front of Jaehyuk.\nEveryone around went quiet.\nUnclear if that was good or bad.\nToday someone who'd been there reached out separately.",
+    "choices": [
+      {
+        "text": "Respond",
+        "result_text": "'You handled that well. I wanted to do the same but couldn't.'\nThose words stayed for a long time.\nPeople who hold their ground — stay in the memory of those who couldn't."
+      },
+      {
+        "text": "\"It was nothing special.\"",
+        "result_text": "'It was nothing.'\nThey said 'No — it really was something.'\nThe person in it may not see it. But witnesses do."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_refused_news",
+    "title": "News About Jaehyuk",
+    "description": "Half a year since you turned down Jaehyuk's request.\nToday a call from a mutual contact.\n\"Hey, you know Jaehyuk? Things aren't going well for him apparently.\"",
+    "choices": [
+      {
+        "text": "Ask what happened",
+        "result_text": "A business he'd stretched too far had stalled.\nIf you'd gone in with him, you'd have stalled too.\nThe refusal — was courage then and judgment now."
+      },
+      {
+        "text": "\"Yeah\" and move on",
+        "result_text": "You changed the subject.\nJaehyuk's situation wasn't your problem.\nThe refusal was decided long ago."
+      }
+    ]
+  },
+  {
+    "id": "callback_climber_advanced_door",
+    "title": "The Next Level",
+    "description": "Six months since you moved up to the next tier in your specialization track.\nToday a call from a senior in the same field.\n\"Heard about you. Where did you learn this?\nThere's a seat I know of — want to talk?\"",
+    "choices": [
+      {
+        "text": "Hear them out",
+        "result_text": "It wasn't that skill knocks on doors.\nWhen skill accumulates — doors find you.\nNow you knew the difference."
+      },
+      {
+        "text": "\"Appreciate it, but I want to build more first.\"",
+        "result_text": "The senior said 'Sure. Call when you're ready.'\nYou knew the door had opened — and kept it closed.\nNot rushing is also preparation."
+      }
+    ]
+  },
+  {
+    "id": "callback_elite_recognized_weight",
+    "title": "Being Recognized",
+    "description": "You got recognized.\nAfter that, your name started to travel.\nToday someone said:\n\"These days I keep hearing your name around.\"",
+    "choices": [
+      {
+        "text": "\"Hope it's good things.\"",
+        "result_text": "'It is. That's why I'm saying it.'\nA name that travels — was both an opportunity and a responsibility.\nYou have to do well even where no one's watching."
+      },
+      {
+        "text": "\"Probably overrated.\"",
+        "result_text": "The other person smiled. 'Humility is also reputation.'\nBeing modest and being low are different.\nThere were people who could see that."
+      }
+    ]
+  }
+]

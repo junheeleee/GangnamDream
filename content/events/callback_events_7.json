@@ -1,0 +1,557 @@
+[
+  {
+    "id": "callback_jiyeon_took_number_next",
+    "title": "지연의 연락",
+    "description": "그날 받아온 지연의 번호.\n저장만 해두고 연락 못 하고 있었다.\n오늘 먼저 문자가 왔다.\n'안녕하세요. 그때 명함 드린 이지연입니다. 한 번 뵐 수 있을까요.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_took_number",
+      "min_turn": 6
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "만난다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2,
+          "intelligence": 2
+        },
+        "flags": ["jiyeon_met_again"],
+        "follow_up_event": "",
+        "result_text": "강남 카페.\n그녀는 단도직입이었다.\n\"제가 드리고 싶은 제안이 있어요. 들어보시겠어요?\"\n번호를 받아온 게 — 이 자리를 만들었다."
+      },
+      {
+        "text": "\"지금은 좀 어렵습니다\" 미룬다",
+        "effects": {
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"나중에 연락드릴게요.\"라고 답했다.\n지연이 '언제든요'라고 했다.\n문이 닫히지는 않았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_had_coffee_echo",
+    "title": "그 대화 이후",
+    "description": "지연과 커피를 마셨던 그 오후가 한 달 전이다.\n오늘 투자 관련 결정을 내리다가 그때 그녀가 했던 말이 생각났다.\n\"이 시장에서 사람이 자산이에요.\"",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_had_coffee",
+      "min_turn": 8
+    },
+    "tags": ["jiyeon", "callback", "investment"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "다시 연락한다. 그 말에 대해 더 듣고 싶다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 3,
+          "investment_skill": 2
+        },
+        "flags": ["jiyeon_mentor_track"],
+        "follow_up_event": "",
+        "result_text": "지연이 \"기다렸어요\" 하고 웃었다.\n두 시간 얘기했다.\n강남에서 살아남은 사람의 말은 달랐다."
+      },
+      {
+        "text": "그 말을 곱씹으며 혼자 판단한다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 말을 기준으로 결정했다.\n맞았다.\n자신의 생각으로 소화한 조언이 — 가장 오래 남는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_investment_talk_result",
+    "title": "그 종목 어떻게 됐나",
+    "description": "지연이 투자 이야기를 나눌 때 언급했던 종목.\n\"지금 담기엔 늦지 않아요\"라고 했었다.\n오늘 그 종목 차트를 열어봤다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_investment_talk",
+      "min_turn": 10
+    },
+    "tags": ["jiyeon", "callback", "investment"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "지연에게 결과를 알린다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지연이 \"맞죠. 제가 뭐라고 했어요\" 했다.\n자신있는 사람 곁에 있으면 자신감이 번진다.\n그게 이 사람의 힘이었다."
+      },
+      {
+        "text": "혼자 결과를 확인하고 넣어볼지 판단한다",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "직접 분석했다.\n지연의 말이 맞기도 틀리기도 했다.\n남의 확신을 검증하는 것. 그게 투자다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_deal_consequence",
+    "title": "계약서 한 줄",
+    "description": "지연의 제안을 받았다.\n계약서에 서명하고 3개월이 지났다.\n오늘 첫 정산이 들어왔다.\n예상보다 적었다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "took_jiyeon_deal",
+      "min_turn": 8
+    },
+    "tags": ["jiyeon", "callback", "investment"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "지연에게 직접 따진다",
+        "effects": {
+          "stress": 8,
+          "social_skill": 2,
+          "investment_skill": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지연이 계약서를 다시 펼쳤다.\n\"여기 이 조항 — 읽으셨어요?\"\n읽지 않은 조항이 있었다.\n계약서는 처음부터 끝까지 읽는 거다."
+      },
+      {
+        "text": "계약서를 다시 꼼꼼히 읽는다",
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3,
+          "stress": 5
+        },
+        "flags": ["read_contract_closely"],
+        "follow_up_event": "",
+        "result_text": "세 번 읽었다.\n조항이 보였다. 합법이었다. 하지만 불리했다.\n다음엔 서명 전에 읽는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_refused_deal_echo",
+    "title": "지연의 재방문",
+    "description": "지연의 제안을 거절했던 게 두 달 전이다.\n오늘 카페에서 우연히 마주쳤다.\n\"아, 민준씨. 반가워요.\"\n표정에 서운함은 없어 보였다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "refused_jiyeon_deal",
+      "min_turn": 6
+    },
+    "tags": ["jiyeon", "callback", "investment"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "함께 앉아 이야기한다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지연이 \"그때 안 하신 거 잘하셨어요. 저도 좀 무리한 제안이었어요\"라고 했다.\n거절이 관계를 끊지 않는다.\n오히려 솔직한 거절이 신뢰의 시작이 됐다."
+      },
+      {
+        "text": "인사만 하고 자리를 피한다",
+        "effects": {
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "짧게 인사하고 나왔다.\n뒤돌아보지 않았다.\n지연도 뭔가 말하려다 그냥 놓아줬다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_money_weight",
+    "title": "그 돈의 무게",
+    "description": "지연에게서 돈을 받은 지 두 달이 됐다.\n오늘 지연에게서 연락이 왔다.\n\"민준씨. 그때 드린 거 — 잘 되고 있죠?\"\n질문인지 확인인지 모를 말투였다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_took_money",
+      "min_turn": 8
+    },
+    "tags": ["jiyeon", "callback", "investment"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "솔직하게 현황을 말한다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"잘 운용하고 있어요. 보고 드릴게요.\"\n지연이 \"보고는 됐고요. 결과만요.\" 했다.\n이 사람은 결과로 말하는 사람이었다."
+      },
+      {
+        "text": "\"잘 되고 있어요\"라고만 한다",
+        "effects": {
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "짧게 답했다.\n지연이 \"...알겠어요\"라고 했다.\n그 돈이 있는 한 이 사람과의 관계는 간단하지 않을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_stood_ground_result",
+    "title": "지연이 다시 본 것",
+    "description": "지연 앞에서 물러서지 않았던 그날.\n오늘 지연에게서 짧은 메시지가 왔다.\n'그때 그렇게 말할 수 있는 사람이 많지 않아요.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_stood_ground",
+      "min_turn": 6
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"앞으로도 그럴 거예요\"라고 답한다",
+        "effects": {
+          "mental": 10,
+          "reputation": 2,
+          "social_skill": 2
+        },
+        "flags": ["jiyeon_respects_player"],
+        "follow_up_event": "",
+        "result_text": "지연이 \"기대할게요\"라고 했다.\n이 세계에서 선을 지키는 사람이 신뢰를 얻는다는 걸 — 지연이 알고 있었다."
+      },
+      {
+        "text": "\"감사해요\" 짧게 답한다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"감사해요.\"\n지연이 읽고 더 이상 답하지 않았다.\n말이 적어도 충분할 때가 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_left_first_closure",
+    "title": "그 뒷모습",
+    "description": "먼저 자리를 떴던 그날.\n오늘 같은 장소 근처를 지나쳤다.\n그날 지연이 뭔가 말하려다 멈췄던 게 생각났다.",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_left_first",
+      "min_turn": 10
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "지연에게 연락해본다",
+        "effects": {
+          "social_skill": 1,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그날 이후로 한 번쯤 연락해야 했는데요.\"\n지연이 \"이제라도 했으니까요\"라고 했다.\n늦은 연락도 안 하는 것보다 낫다."
+      },
+      {
+        "text": "그냥 지나친다. 이미 지난 일이다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지나쳤다.\n그날 뭔가 말하려다 멈췄던 게 뭔지는 영영 모를 것이다.\n어떤 것들은 그냥 지나가는 것으로 끝난다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_jiyeon_connection",
+    "title": "상철이 먼저 꺼낸 이름",
+    "description": "오늘 상철과 밥을 먹다가 상철이 먼저 물었다.\n\"민준아. 이지연씨 알아?\n그 사람 요즘 민준이 이야기 하더라.\"",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_knows_jiyeon",
+      "min_turn": 6
+    },
+    "tags": ["sangchul", "jiyeon", "callback", "network"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"어떤 이야기요?\" 더 묻는다",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "상철이 \"좋은 얘기였어. 믿을 수 있는 사람이라고\"라고 했다.\n지연도, 상철도 — 이 네트워크에서 평판이 흐르고 있었다.\n보이지 않는 곳에서 만들어지는 것이 평판이다."
+      },
+      {
+        "text": "\"그래요?\" 하고 넘어간다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "자연스럽게 넘어갔다.\n상철이 다른 이야기를 꺼냈다.\n그 한 마디가 생각보다 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_forgave_jiyeon_outcome",
+    "title": "용서 이후",
+    "description": "지연을 용서했던 그 대화.\n그 이후로 지연과의 관계가 달라졌다.\n오늘 지연이 뭔가를 들고 나타났다.\n\"민준씨한테 드리고 싶었던 게 있어요.\"",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "forgave_jiyeon",
+      "min_turn": 8
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "받는다",
+        "effects": {
+          "mental": 12,
+          "investment_skill": 3,
+          "intelligence": 2
+        },
+        "flags": ["jiyeon_gratitude_returned"],
+        "follow_up_event": "",
+        "result_text": "책 한 권이었다.\n안쪽에 펜으로 짧게 써 있었다.\n'이게 제가 처음 이 세계를 배운 책이에요.'\n용서가 이런 것으로 돌아왔다."
+      },
+      {
+        "text": "\"괜찮아요. 그냥 잘 지내면 돼요\"",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지연이 잠깐 있다가 \"그래요. 감사해요\"라고 했다.\n용서는 선물을 받기 위한 것이 아니었다.\n그걸 지연도 알았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_felt_kindness_echo",
+    "title": "재혁의 다른 면",
+    "description": "이재혁이 뜻밖에 도와줬던 그 일.\n그 이후로 재혁을 보는 눈이 조금 달라졌다.\n오늘 재혁을 다시 마주쳤다.\n여전히 불편한 사람이지만 — 뭔가 달랐다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "felt_jaehyuk_kindness",
+      "min_turn": 6
+    },
+    "tags": ["jaehyuk", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "먼저 말을 건다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "재혁이 짧게 답했다. 여전히 어색했다.\n하지만 그게 전부가 아니라는 걸 이제는 알고 있었다.\n사람을 한 면만으로 보지 않게 됐다."
+      },
+      {
+        "text": "그냥 지나친다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지나쳤다.\n재혁도 지나쳤다.\n복잡한 사람과의 관계는 — 이게 적당한 거리인지도 모른다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_stood_up_aftermath",
+    "title": "재혁 앞에서 물러서지 않은 뒤",
+    "description": "이재혁 앞에서 버텼던 그날.\n주변 반응이 조용했다.\n나쁜 의미인지 좋은 의미인지 모를 조용함이었다.\n오늘 당시 자리에 있던 사람이 따로 연락을 해왔다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_stood_up",
+      "min_turn": 4
+    },
+    "tags": ["jaehyuk", "callback", "reputation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "연락에 응한다",
+        "effects": {
+          "social_skill": 2,
+          "reputation": 2,
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그날 잘 하셨어요. 저도 그러고 싶었는데 못 했거든요.\"\n그 말이 오래 남았다.\n버티는 사람이 — 버티지 못한 사람들의 기억에 남는다."
+      },
+      {
+        "text": "\"별 거 아니었어요\" 하고 넘긴다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"별 거 아니었어요.\" 했다.\n상대가 \"...아니에요. 대단한 거 맞아요\"라고 했다.\n당사자는 몰라도 보는 사람은 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_refused_news",
+    "title": "재혁 소식",
+    "description": "이재혁의 요청을 거절했던 게 반년 전이다.\n오늘 업계 지인에게서 연락이 왔다.\n\"야, 이재혁 알아? 그 사람 지금 좀 힘들대.\"",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_refused",
+      "min_turn": 5
+    },
+    "tags": ["jaehyuk", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "어떻게 됐는지 더 묻는다",
+        "effects": {
+          "intelligence": 2,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "무리하게 벌였던 사업이 막혔다고 했다.\n같이 했으면 나도 같이 막혔을 것이다.\n거절이 — 그때는 용기였고 지금은 판단력이었다."
+      },
+      {
+        "text": "\"그래\" 하고 넘긴다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "화제를 돌렸다.\n재혁이 힘들다는 게 내 문제는 아니었다.\n거절은 이미 한참 전에 한 일이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_climber_advanced_door",
+    "title": "그 다음 단계",
+    "description": "전문화 트랙에서 다음 레벨로 올라선 지 6개월이 됐다.\n오늘 같은 분야 선배에게서 연락이 왔다.\n\"소문 들었어. 어디서 배웠어?\n아는 자리 하나 있는데 이야기 해볼래?\"",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "climber_advanced",
+      "min_turn": 8
+    },
+    "tags": ["career", "callback", "specialization"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이야기를 들어본다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3,
+          "reputation": 3
+        },
+        "flags": ["career_door_opened"],
+        "follow_up_event": "",
+        "result_text": "실력이 먼저 문을 두드리는 게 아니었다.\n실력이 쌓이면 문이 찾아오는 것이었다.\n그 차이를 이제 알았다."
+      },
+      {
+        "text": "\"감사한데, 지금은 더 쌓고 싶어요\"",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "선배가 \"그래. 준비되면 연락해\"라고 했다.\n문이 열렸다는 걸 알면서 닫아둔 것이다.\n서두르지 않는 것도 준비의 일부다."
+      }
+    ]
+  },
+  {
+    "id": "callback_elite_recognized_weight",
+    "title": "인정받은 자리에서",
+    "description": "실력을 인정받았다.\n그 이후 이름이 돌기 시작했다.\n오늘 아는 사람이 말했다.\n\"요즘 네 이야기 여기저기서 들려.\"",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "elite_recognized",
+      "min_turn": 6
+    },
+    "tags": ["career", "callback", "reputation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그래? 좋게 들려야 할 텐데\"",
+        "effects": {
+          "mental": 10,
+          "reputation": 3,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"좋게 들려. 그래서 말하는 거지.\"\n이름이 돈다는 건 — 기회이기도 하고 책임이기도 했다.\n보이지 않는 곳에서도 잘 해야 한다는 걸 알게 됐다."
+      },
+      {
+        "text": "\"과대평가된 것 같아\"",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"과대평가된 것 같아.\"\n상대가 웃으며 \"겸손한 것도 평판이야\" 했다.\n낮추는 것과 낮은 것은 다르다.\n그게 보이는 사람들이 있었다."
+      }
+    ]
+  }
+]
