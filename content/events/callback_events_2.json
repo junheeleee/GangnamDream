@@ -1,0 +1,881 @@
+[
+  {
+    "id": "callback_daeun_deferred_silence",
+    "title": "다은의 마지막 메시지",
+    "description": "\"강남 가면 더 잘해줄 수 있다\"고 했던 말이 있다. 그게 언제였더라.\n오늘 다은에게서 문자가 왔다.\n'저 이번 달에 부산 내려가요. 좋은 사람 생겼어요. 잘 지내세요.'",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_deferred",
+      "min_turn": 36
+    },
+    "tags": ["daeun", "relationship_end", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "축하 답장을 보낸다",
+        "effects": {
+          "mental": -8,
+          "stress": 5
+        },
+        "flags": ["daeun_moved_on_accepted"],
+        "follow_up_event": "",
+        "result_text": "'잘됐네요. 잘 살아요.'\n보내고 나서 한참 폰을 내려다봤다.\n강남은 아직 멀다. 그리고 다은은 부산에 있다."
+      },
+      {
+        "text": "전화를 건다",
+        "effects": {
+          "mental": -12,
+          "stress": 8
+        },
+        "flags": ["daeun_last_call"],
+        "follow_up_event": "",
+        "result_text": "신호가 세 번 갔다.\n받지 않았다.\n문자가 왔다. '잘 지내요 :)'\n그 이모티콘이 이상하게 오래 눈에 남았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_committed_gangnam_eve",
+    "title": "강남 전날 밤",
+    "description": "내일 계약이다. 30억. 강남 아파트.\n다은에게 연락이 왔다. '오늘 저녁 시간 돼요?\n밥이나 먹어요. 간단하게.'",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_committed",
+      "min_turn": 50
+    },
+    "tags": ["daeun", "relationship", "callback", "ending_prep"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "나간다",
+        "effects": {
+          "mental": 15,
+          "stress": -10,
+          "social_skill": 1
+        },
+        "flags": ["daeun_gangnam_eve_met"],
+        "follow_up_event": "",
+        "result_text": "국밥집이었다.\n다은이 그릇을 밀며 말했다. '내일이에요?'\n'응.'\n'잘 될 거예요. 처음부터 알았어요.'\n그날 밤 잘 잤다."
+      },
+      {
+        "text": "내일 일에 집중한다. 오늘은 혼자가 낫다",
+        "effects": {
+          "stress": -3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'오늘은 좀 챙길 게 있어서.'\n다은이 '알겠어요'라고만 답했다.\n혼자 계약서를 다시 읽으며 밤을 보냈다.\n맞는 선택이었는지는 모르겠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_together_late_night",
+    "title": "새벽 두 시",
+    "description": "다은에게서 카톡이 왔다. 새벽 두 시.\n'오늘 진짜 힘들었어요. 자요?'\n편의점 야간 알바 끝난 것 같다. 거기 아직 있는 것 같다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_together",
+      "min_turn": 44
+    },
+    "tags": ["daeun", "relationship", "callback"],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "전화한다",
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": ["daeun_late_call"],
+        "follow_up_event": "",
+        "result_text": "한 시간 통화했다.\n목소리만 들었는데 이상하게 안정됐다.\n새벽 세 시에 잠들었다. 내일 좀 피곤하겠지만 괜찮다."
+      },
+      {
+        "text": "자고 있었다. 내일 연락한다",
+        "effects": {
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아침에 다은에게서 '자고 있었구나. ㅎ 아무것도 아니에요'가 와 있었다.\n읽씹은 안 했다. 그게 다행이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_ended_seen_again",
+    "title": "강남 편의점에서",
+    "description": "강남에 볼 일이 있어 나왔다가 편의점에 들렀다.\n계산대에 익숙한 얼굴이 없다. 당연하다.\n근데 출구 쪽에 누군가 있다. 다은이다.\n웃고 있다. 옆에 남자가 있다.",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_ended",
+      "min_turn": 40
+    },
+    "tags": ["daeun", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "아는 척한다",
+        "effects": {
+          "mental": -5,
+          "social_skill": 1
+        },
+        "flags": ["daeun_last_encounter"],
+        "follow_up_event": "",
+        "result_text": "다은이 눈이 마주쳤다. 잠깐 멈칫하더니 웃었다.\n'어, 안녕하세요.'\n자연스러웠다. 남자는 아무것도 몰랐다.\n나왔다. 강남 밤바람이 차가웠다."
+      },
+      {
+        "text": "그냥 지나친다",
+        "effects": {
+          "mental": -3
+        },
+        "flags": ["daeun_last_encounter"],
+        "follow_up_event": "",
+        "result_text": "지나쳤다.\n다은도 못 봤을 것이다.\n블록 하나를 돌아서야 걸음이 느려졌다.\n왜인지는 몰랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_pretended_found_out",
+    "title": "한지연의 문자",
+    "description": "한지연에게서 문자가 왔다.\n'그날 고시원 얘기... 나중에 알았어요. 처음부터 알고 있었던 것 같아요.\n왜 그랬어요?'",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_pretended",
+      "min_turn": 28
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "솔직하게 사과한다",
+        "effects": {
+          "mental": -5,
+          "social_skill": 2,
+          "stress": -3
+        },
+        "flags": ["jiyeon_honest_late"],
+        "follow_up_event": "",
+        "result_text": "'미안해요. 이쪽 세계에서 버티는 법이 그것밖에 없었어요.'\n잠시 침묵. 그리고 답장이 왔다.\n'...그거면 됐어요.'\n이상하게 이게 더 나았다."
+      },
+      {
+        "text": "변명한다",
+        "effects": {
+          "mental": -10,
+          "social_skill": -1,
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'그게 다 틀린 말은 아니었어요.'\n한참 읽음만 찍혀 있었다.\n그 다음 날, 답장이 없었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_honest_referral",
+    "title": "한지연의 소개",
+    "description": "한지연에게서 연락이 왔다.\n'제 세무사 아는 분인데, 개인 포트폴리오 관리해주는 분이에요.\n한번 만나보실래요? 당신이라면 얘기 잘 맞을 것 같아서.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_honest",
+      "min_turn": 30
+    },
+    "tags": ["jiyeon", "callback", "investment"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "만난다",
+        "effects": {
+          "money": 0,
+          "investment_skill": 3,
+          "intelligence": 2,
+          "stress": -5
+        },
+        "flags": ["jiyeon_referral_met"],
+        "follow_up_event": "",
+        "result_text": "세무사 사무실. 포트폴리오 구조를 다시 짰다.\n나중에 계산해보니 세금만 1200만원 아꼈다.\n한지연한테 고맙다는 문자를 보냈다.\n'당연한 거죠. 솔직한 분들이 좋아요.' 답장이 왔다."
+      },
+      {
+        "text": "거절한다",
+        "effects": {
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'아직은 혼자서 해볼게요.'\n한지연이 '알겠어요'라고 답했다.\n나중에 세금 신고서를 보면서 그 제안이 떠올랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_together_pressure",
+    "title": "한지연 어머니의 전화",
+    "description": "모르는 번호로 전화가 왔다.\n'저 한지연 어머니예요. 잠깐 얘기할 수 있을까요?'\n한지연이 힘들어한다는 것 같다. 집안에서 반대가 심하다고.",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_together",
+      "min_turn": 46
+    },
+    "tags": ["jiyeon", "callback", "family"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "만나서 직접 얘기한다",
+        "effects": {
+          "mental": -10,
+          "stress": 8,
+          "social_skill": 2
+        },
+        "flags": ["jiyeon_mother_direct"],
+        "follow_up_event": "",
+        "result_text": "카페에서 한 시간.\n어머니는 끝까지 표정을 안 바꿨다.\n나오면서 한지연에게 전화했다. '엄마랑 얘기했어요.'\n잠시 침묵. '...알고 있었어요. 고마워요.'"
+      },
+      {
+        "text": "한지연 스스로 결정할 문제다",
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'지연씨가 결정할 일이에요. 저는 개입하지 않겠습니다.'\n어머니가 잠깐 침묵하다 전화를 끊었다.\n한지연에게는 말하지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_ended_gangnam_encounter",
+    "title": "강남에서",
+    "description": "강남 아파트 오픈하우스에 왔다.\n복도에서 익숙한 실루엣이 보인다.\n한지연이다. 남자와 함께. 부동산 직원처럼 보이는 사람과 얘기하고 있다.\n여기서 만날 줄은 몰랐다.",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_ended",
+      "min_turn": 48
+    },
+    "tags": ["jiyeon", "callback", "ending_prep"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "먼저 인사한다",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        },
+        "flags": ["jiyeon_gangnam_final"],
+        "follow_up_event": "",
+        "result_text": "한지연이 눈이 마주치자 약간 놀랐다.\n'...여기도 보러 오셨어요?'\n'네. 드디어요.'\n그녀가 웃었다. '다행이네요.' 진심처럼 들렸다."
+      },
+      {
+        "text": "눈이 마주쳤지만 모른 척 지나간다",
+        "effects": {
+          "mental": -3
+        },
+        "flags": ["jiyeon_gangnam_final"],
+        "follow_up_event": "",
+        "result_text": "지나쳤다.\n한지연도 같은 선택을 했는지, 아무 말도 없었다.\n강남에 왔다. 아는 사람도 있었다.\n그것으로 충분했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_scammed_news",
+    "title": "뉴스에 나온 이름",
+    "description": "포털에서 뉴스를 보다 멈췄다.\n[투자 사기 혐의 스타트업 대표 구속]\n기사 안에 이름이 있다. 박재혁.\n사진도 있다. 그 얼굴이다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_scammed",
+      "min_turn": 10
+    },
+    "tags": ["jaehyuk", "callback", "scam"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "피해자 모임 글을 올린다",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "reputation": 1
+        },
+        "flags": ["jaehyuk_publicly_exposed"],
+        "follow_up_event": "",
+        "result_text": "글을 올렸다. 댓글이 달렸다. '저도요. 저도 당했어요.'\n100만원이었던 피해가 다른 사람에게는 5000만원이었다.\n잃은 돈은 안 돌아왔지만 뭔가가 정리됐다."
+      },
+      {
+        "text": "조용히 기사를 닫는다",
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기사를 닫았다.\n화가 나지 않았다. 그냥... 씁쓸했다.\n오래된 카톡 대화를 열었다가 바로 닫았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_exploited_retaliate",
+    "title": "재혁의 역제안",
+    "description": "재혁에게서 전화가 왔다.\n'야. 나 생각해봤는데. 이게 공평하지 않다.\n너한테 세 배 줄 돈 없다. 근데 너도 나한테 약점 있지 않냐.'\n블러핑인지 진짜인지 알 수 없다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_exploited",
+      "min_turn": 8
+    },
+    "tags": ["jaehyuk", "callback", "blackmail"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"신고한다\" — 증거 있다",
+        "effects": {
+          "stress": 10,
+          "money": -3000000,
+          "mental": 5
+        },
+        "flags": ["jaehyuk_standoff_won"],
+        "follow_up_event": "",
+        "result_text": "'증거 다 있어. 신고 먼저 하면 돼.'\n재혁이 잠시 침묵하다 전화를 끊었다.\n일주일 뒤 돈이 들어왔다. 3배는 아니었지만 원금은 됐다."
+      },
+      {
+        "text": "타협한다 — 원금만 받는다",
+        "effects": {
+          "stress": 5,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'원금만 줘. 끝내자.'\n재혁이 '그래, 그게 낫겠다' 했다.\n돈은 들어왔다. 그놈 목소리를 다시는 듣고 싶지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_partnered_reckoning",
+    "title": "파트너십의 끝",
+    "description": "재혁과 같이 짠 판이 마무리됐다.\n생각보다 크게 벌었다. 근데 마지막 정산에서 재혁이 숫자를 좀 다르게 제시했다.\n\"합의한 대로 나눠야지.\" 재혁이 웃는다. \"야, 원래 이런 판이 다 그래.\"",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_partnered",
+      "min_turn": 14
+    },
+    "tags": ["jaehyuk", "callback", "betrayal"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "증거 들이밀고 원래 비율대로 받는다",
+        "effects": {
+          "money": 15000000,
+          "stress": 8,
+          "reputation": -2
+        },
+        "flags": ["jaehyuk_final_break"],
+        "follow_up_event": "",
+        "result_text": "녹취가 있었다. 재혁이 식었다.\n원래 비율대로 받았다. 5800만원.\n재혁과는 그걸로 끝이다. 처음부터 끝날 관계였다."
+      },
+      {
+        "text": "그냥 받는다. 더 엮이기 싫다",
+        "effects": {
+          "money": 8000000,
+          "stress": -5,
+          "mental": -8
+        },
+        "flags": ["jaehyuk_final_break"],
+        "follow_up_event": "",
+        "result_text": "3200만원을 받았다. 합의한 것보다 2600만원 적었다.\n\"됐어.\" 재혁이 어깨를 두드렸다.\n나오는 길에 손을 씻었다. 두 번."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_reported_witness",
+    "title": "형사의 전화",
+    "description": "모르는 번호로 전화가 왔다.\n\"박재혁 피해 건으로 진술 부탁드리려고요. 피해자 명단에 성함이 있어서요.\n재판이 열렸습니다. 증인으로 출석 가능하세요?\"",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_reported",
+      "min_turn": 8
+    },
+    "tags": ["jaehyuk", "callback", "justice"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "출석한다",
+        "effects": {
+          "stress": 5,
+          "mental": 8,
+          "reputation": 2,
+          "money": -100000
+        },
+        "flags": ["jaehyuk_testified"],
+        "follow_up_event": "",
+        "result_text": "법정이었다.\n재혁과 눈이 마주쳤다. 그는 시선을 피했다.\n진술을 마치고 나왔다.\n하늘이 맑았다."
+      },
+      {
+        "text": "거절한다 — 이미 신고는 했다",
+        "effects": {
+          "mental": -3,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"개인 사정이 있어서요. 진술서는 제출하겠습니다.\"\n형사가 알겠다고 했다.\n그날 밤 재혁 이름으로 뉴스 검색을 했다가, 안 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_gambled_crash",
+    "title": "현수의 침묵",
+    "description": "현수에게 돈을 맡긴 뒤 4주가 지났다.\n현수가 연락이 없다.\n전화를 하면 받지 않는다. 카톡 '1'이 없어지지 않는다.\n마지막으로 한번 더 전화해본다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "coin_gambled",
+      "min_turn": 5
+    },
+    "tags": ["coin", "hyeonsu", "callback", "scam"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "직접 찾아간다",
+        "effects": {
+          "money": -5000000,
+          "mental": -15,
+          "stress": 20,
+          "intelligence": 3
+        },
+        "flags": ["coin_lost_confirmed"],
+        "follow_up_event": "",
+        "result_text": "고시원을 찾아갔다.\n이미 나간 뒤였다.\n얼마 걸었는지 모르게 걸었다.\n집에 와서 계산해봤다. 400만원이 없어진 것이다.\n400만원. 두 달 치 생활비."
+      },
+      {
+        "text": "포기한다. 돌아오지 않을 돈이다",
+        "effects": {
+          "money": -5000000,
+          "mental": -10,
+          "stress": 10,
+          "intelligence": 2
+        },
+        "flags": ["coin_lost_confirmed"],
+        "follow_up_event": "",
+        "result_text": "전화를 끊었다.\n잠시 있다가 현수를 차단했다.\n이 돈은 등록금이다. 다시는 '확실한 정보'를 믿지 않겠다는."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_refused_vindicated",
+    "title": "현수의 전화",
+    "description": "현수에게서 전화가 왔다.\n\"야... 나 다 날렸다.\"\n목소리가 이상했다. 가라앉아 있었다.\n\"3000만원. 다 사라졌어.\"",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "coin_refused",
+      "min_turn": 5
+    },
+    "tags": ["coin", "hyeonsu", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그래서 내가 말했잖아\"",
+        "effects": {
+          "social_skill": -1,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "순간 그 말이 나왔다.\n현수가 \"...그래. 네 말이 맞았어.\" 했다.\n전화를 끊고 나서 그 말이 후회됐다.\n3000만원 잃은 사람한테 할 말은 아니었다."
+      },
+      {
+        "text": "\"일단 밥이나 먹자\"",
+        "effects": {
+          "social_skill": 2,
+          "mental": 3,
+          "money": -20000
+        },
+        "flags": ["coin_helped_friend"],
+        "follow_up_event": "",
+        "result_text": "나왔다.\n현수는 밥 먹는 내내 말이 없었다.\n나오는 길에 현수가 말했다. \"야, 고마워.\"\n아무것도 안 했는데 고마웠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_warned_result",
+    "title": "현수의 결과",
+    "description": "현수에게서 카톡이 왔다.\n\"야 민준아. 그때 말렸던 거 기억해?\n나 액수 줄였잖아.\n결과 나왔는데 반쪽은 남았다. 덕분이야.\"",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "coin_warned_friend",
+      "min_turn": 6
+    },
+    "tags": ["coin", "hyeonsu", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"잘됐다. 그 반쪽 지켜.\"",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현수가 이모티콘을 보냈다. 엄지 하나.\n새벽에 갑자기 기분이 좋아졌다.\n한 명이 덜 다쳤다. 그것만으로 충분하다."
+      },
+      {
+        "text": "\"다음엔 더 조심해라\"",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현수가 \"그래, 이제 코인은 진짜 끝이야\"라고 했다.\n믿어도 될지 모르겠지만, 오늘은 믿기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_skipped_rift",
+    "title": "아버지의 명절 전화",
+    "description": "설날 저녁.\n전화가 왔다. 아버지다.\n\"밥은 먹었냐.\"\n그게 전부였다. 다른 말은 없었다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holiday_skipped",
+      "min_turn": 8
+    },
+    "tags": ["father", "holiday", "callback", "family"],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "\"네, 먹었어요. 아버지는요?\"",
+        "effects": {
+          "mental": -3,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"나도 먹었다.\"\n그게 끝이었다.\n5분도 안 되는 통화였다.\n끊고 나서 한참 폰을 들고 있었다."
+      },
+      {
+        "text": "\"아버지, 죄송해요. 다음엔 꼭 내려갈게요\"",
+        "effects": {
+          "mental": 5,
+          "stress": -3,
+          "social_skill": 1
+        },
+        "flags": ["father_promised_visit"],
+        "follow_up_event": "",
+        "result_text": "\"...그래. 바쁜 거 안다.\"\n아버지가 먼저 끊었다.\n더 말하려고 했는데 말할 기회가 없었다.\n다음엔 진짜 가야겠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_snapped_call",
+    "title": "어머니의 전화",
+    "description": "명절 때 '제 인생은 제가 알아서 합니다'라고 쏘았던 게 3주 전이다.\n오늘 어머니한테서 전화가 왔다.\n\"그때 네가 한 말... 지금도 좀 마음에 걸린다.\"",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holiday_snapped",
+      "min_turn": 4
+    },
+    "tags": ["family", "holiday", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "사과한다",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "social_skill": 1
+        },
+        "flags": ["holiday_reconciled"],
+        "follow_up_event": "",
+        "result_text": "\"그때 제가 좀 심했어요. 미안해요, 엄마.\"\n어머니가 \"됐다. 밥은 잘 먹고 다니냐.\" 했다.\n그 '됐다'가 용서인 것 같았다."
+      },
+      {
+        "text": "\"틀린 말 한 건 없어요\"",
+        "effects": {
+          "mental": -5,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "침묵이 흘렀다.\n\"...그래. 알겠다.\" 어머니가 끊었다.\n맞는 말을 했는데, 이상하게 찜찜했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_dad_warmth",
+    "title": "아버지의 문자",
+    "description": "아무 예고 없이 아버지한테서 카톡이 왔다.\n\"그때 국밥 맛있었다. 다음에 또 오면 같이 먹자.\"\n아버지가 카톡을 보낸 게 몇 달 만인지 기억이 안 났다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holiday_dad_only",
+      "min_turn": 6
+    },
+    "tags": ["father", "holiday", "callback", "warm"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"네. 다음엔 제가 살게요.\"",
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": ["father_warm_moment"],
+        "follow_up_event": "",
+        "result_text": "아버지가 \"됐어. 아빠가 사야지.\" 했다.\n그 답장이 이상하게 오래 눈에 남았다.\n뭔가 잘 되고 있는 것 같았다."
+      },
+      {
+        "text": "\"네 :) 꼭 내려갈게요.\"",
+        "effects": {
+          "mental": 8,
+          "stress": -3
+        },
+        "flags": ["father_warm_moment"],
+        "follow_up_event": "",
+        "result_text": "이모티콘 하나가 갔다.\n아버지도 이모티콘을 보냈다.\n엄지손가락 하나.\n아버지가 이모티콘을 쓰는 걸 처음 봤다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_left_early_office",
+    "title": "복도에서",
+    "description": "오늘 팀 복도에서 후배가 귓속말을 했다.\n\"선배, 부장님이... 지난번 회식 때 일찍 가셨던 거 아직 얘기하시더라고요.\n'요즘 젊은 애들은 어디서 배웠나' 그런 얘기요.\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hoesik_left_early",
+      "has_job": true,
+      "min_turn": 2
+    },
+    "tags": ["workplace", "hoesik", "callback"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "부장님께 직접 말한다 — 내일 일정이 있었습니다",
+        "effects": {
+          "stress": 5,
+          "social_skill": 1,
+          "reputation": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그날은 일정이 따로 있었습니다. 죄송합니다.\"\n부장이 \"됐어\" 하고 지나갔다.\n해결됐는지 모르겠지만 최소한 얘기는 했다."
+      },
+      {
+        "text": "신경 쓰지 않는다",
+        "effects": {
+          "stress": 3,
+          "reputation": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "부장 생각대로 굴면서 살 수는 없다.\n근데 평판이라는 게 조금씩 쌓이는 거라는 것도 안다.\n오늘은 일에 집중했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_caved_reputation",
+    "title": "다음 회식",
+    "description": "팀 단톡에 회식 공지가 올라왔다.\n후배가 따로 메시지를 보냈다.\n\"선배, 이번에도 당연히 오시죠? 선배는 분위기 잘 맞추시잖아요.\"",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hoesik_caved",
+      "has_job": true,
+      "min_turn": 3
+    },
+    "tags": ["workplace", "hoesik", "callback"],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "이번엔 정중히 거절한다",
+        "effects": {
+          "health": 3,
+          "stress": -3,
+          "reputation": -1
+        },
+        "flags": ["hoesik_boundary_set"],
+        "follow_up_event": "",
+        "result_text": "\"이번엔 일이 있어서요.\"\n후배가 '어, 그렇구나' 했다.\n회식 다음날 팀이 조용했다.\n그래도 몸은 멀쩡했다."
+      },
+      {
+        "text": "또 간다",
+        "effects": {
+          "health": -5,
+          "stress": 3,
+          "reputation": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "갔다.\n또 늦게까지 있었다.\n\"역시 선배는 믿을 만하다\"는 말을 들었다.\n집에 오는 택시 안에서 그 말이 뭔지 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_grind_result",
+    "title": "스타트업 1년",
+    "description": "합류한 지 1년이 됐다.\n몸은 많이 소모됐다. 근데 서비스는 커졌다.\n공동창업자가 불렀다. \"민준아, 우리 A라운드 들어왔어. 네 지분 가치 지금 1억 2천이야.\"",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "startup_grind",
+      "min_turn": 14
+    },
+    "tags": ["startup", "callback", "investment"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "계속 달린다",
+        "effects": {
+          "health": -10,
+          "mental": 10,
+          "money": 5000000,
+          "investment_skill": 2,
+          "reputation": 3
+        },
+        "flags": ["startup_still_running"],
+        "follow_up_event": "",
+        "result_text": "\"더 키우자. 엑싯은 아직 이르다.\"\n월급을 올렸다. 지분도 지켰다.\n1억 2천이 이제 시작이다."
+      },
+      {
+        "text": "일부 지분을 세컨더리로 판다",
+        "effects": {
+          "money": 40000000,
+          "health": -3,
+          "investment_skill": 1
+        },
+        "flags": ["startup_partial_exit"],
+        "follow_up_event": "",
+        "result_text": "지분 30%를 4000만원에 세컨더리로 팔았다.\n리스크를 줄였다.\n4000만원이 통장에 찍혔다. 이게 처음으로 실현한 돈이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_balanced_dividend",
+    "title": "스타트업 배당",
+    "description": "균형 잡힌 페이스로 일한 지 1년.\n서비스가 흑자로 돌아섰다.\n공동창업자가 말했다. \"이번 분기 배당 700만원. 네 지분 몫이야.\"",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "startup_balanced",
+      "min_turn": 14
+    },
+    "tags": ["startup", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "재투자한다",
+        "effects": {
+          "money": 0,
+          "investment_skill": 2,
+          "reputation": 2
+        },
+        "flags": ["startup_reinvested"],
+        "follow_up_event": "",
+        "result_text": "\"회사에 다시 넣자.\"\n공동창업자가 웃었다. \"그래서 너 믿는 거야.\"\n단기 수익은 없지만 이쪽이 맞는 것 같았다."
+      },
+      {
+        "text": "받는다",
+        "effects": {
+          "money": 7000000,
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "700만원이 들어왔다.\n안정적으로 버는 것도 나쁘지 않다.\n번아웃 없이 여기까지 온 게 잘한 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_going_solo_result",
+    "title": "혼자 가는 길의 6개월",
+    "description": "공동창업자와 갈라서고 혼자 6개월이 됐다.\n독단으로 결정한 방향이 맞을 수도, 틀릴 수도 있었다.\n오늘 첫 유료 고객 10명이 생겼다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "startup_going_solo",
+      "min_turn": 10
+    },
+    "tags": ["startup", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "모멘텀을 더 키운다",
+        "effects": {
+          "money": 3000000,
+          "health": -5,
+          "reputation": 2,
+          "investment_skill": 1
+        },
+        "flags": ["startup_solo_growing"],
+        "follow_up_event": "",
+        "result_text": "첫 10명이 100명이 되는 데 3개월이 걸렸다.\n혼자였지만 혼자여서 빨랐다.\n결정마다 이유가 있었고, 그 이유는 내 것이었다."
+      },
+      {
+        "text": "속도를 조절한다",
+        "effects": {
+          "money": 1500000,
+          "health": 3,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "10명으로 한 달을 버텼다.\n수익이 작았지만 손실도 없었다.\n혼자 가는 길은 느리지만 내 것이었다."
+      }
+    ]
+  }
+]
