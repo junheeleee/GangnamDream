@@ -159,9 +159,14 @@
   - [x] 전체 배경 이미지 2차 정합성 감사 — 가족사진/경제수준/방 구조/인물 포함 여부 기준 (2026-06-12)
   - [x] 배경 실패컷 재생성 — convenience / Gangnam day-night-station / penthouse / late_night_room (2026-06-12)
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
-  - [ ] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인
-  - [ ] VISUAL_AUDIO P2 배경/CG/키아트 품질 교체
-  - [ ] VISUAL_AUDIO P3 BGM/SFX 품질 교체
+  - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
+  - [x] VISUAL_AUDIO P2 배경/CG/키아트 품질 교체
+    - [x] Public venue 배경 리뷰/교체 — library / restaurant / PC방 / 경마장 / 홀덤 / 지방역 / 비 오는 서울 거리 (2026-06-13)
+    - [x] 남은 CG 최종 크롭 확인 및 Steam key art / capsule 소재 정리 (2026-06-13)
+  - [x] VISUAL_AUDIO P3 BGM/SFX 품질 교체 (2026-06-13)
+    - [x] BGM 7종 Ogg Vorbis 재생성 및 import loop 설정 정리
+    - [x] SFX 17종 WAV 재생성, `buy`/`sell`/`tab_open` 누락 매핑 추가
+    - [x] `tools/AudioAssetCheck` 추가 및 통과
 - [ ] QA 체크리스트 완료
 - [x] 저장 호환성 검증 (2026-06-10) — SaveManager v3, run_theme·unlocked_stat_thresholds 직렬화 추가, 구 세이브 compat 로직
 - [x] 빌드/배포 설정 (2026-06-10) — export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수·Linux 지원, Windows/Web export 실제 검증

@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/bgm_gosiwon.ogg-2f19a56937f266888b12d99e1aef3
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

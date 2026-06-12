@@ -3,13 +3,15 @@
 Generated on 2026-05-22 for Claude/Godot integration.
 Updated on 2026-06-09 for full anime / Korean manhwa VN art direction.
 Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, cast readability, and family-home regeneration.
+Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Steam key art pass.
 
 ## Use These Assets
 
 ## Production Asset Architecture
 
 - Recurring character portraits must be transparent-background PNGs and should not contain real rooms, streets, offices, or other location backgrounds.
-- Location backgrounds must be person-free environment images.
+- Location backgrounds must be reusable environment images.
+- Private/canon-sensitive backgrounds should be person-free. Public venues may include small dark faceless ambient silhouettes when emptiness would feel unnatural, but no clear face, no foreground protagonist-like person, and no named-character proxy.
 - Story CGs may combine characters and backgrounds only when the whole image represents a specific one-off scene.
 - Core recurring-cast transparent portrait pass is complete for Kim Minjun, Han Jiyeon, Kim Daeun, Choi Jaehyuk, Im Sangchul, Father, Mother, and Kang Hyunsu. Minor NPCs may still be placeholders.
 - General investment scenes use `assets/backgrounds/investment_phone.png`; multi-monitor rooms are reserved for scalping/pro-trading scenes.
@@ -132,6 +134,7 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 
 - `assets/backgrounds/seoul_rainy_street.png`
   - General event background for social life, jobs, crisis, night-city events.
+  - Status: P2 regenerated as rainy Seoul side street without a clear central pedestrian/protagonist figure.
 
 - `assets/backgrounds/street_seoul_day.png`
   - Daytime Seoul street background for ordinary errands, social pressure, and neutral city-life scenes.
@@ -153,13 +156,19 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 
 - `assets/backgrounds/restaurant_korean.png`
   - Modest Korean restaurant interior for family meals, awkward meetings, and relationship conversation scenes.
+  - Status: P2 regenerated with distant faceless diner ambience only.
 
 - `assets/backgrounds/family_living_room.png`
   - Canon-safe Minjun-family background, regenerated as his father's modest older Changwon working-class home.
   - Use for father/family/home events. Contains no large framed extended-family portrait, no wealthy Seoul apartment signal, and no happy big-family household implication.
 
+- `assets/backgrounds/hometown_train_station.png`
+  - Modest provincial Korean station platform for hometown return/family-pressure scenes.
+  - Status: P2 regenerated without a central traveler; should feel working-class and regional, not wealthy Seoul.
+
 - `assets/backgrounds/library.png`
   - Quiet public library/study room background for study, exam prep, self-improvement, and solitude scenes.
+  - Status: P2 regenerated as reusable study-room background with no recognizable students or protagonist-like figure.
 
 - `assets/backgrounds/investment_phone.png`
   - Late-night smartphone investment anxiety background.
@@ -190,6 +199,7 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 - `assets/backgrounds/racetrack_betting_hall.png`
   - Korean horse-racing betting hall background.
   - Use for RaceTrack betting screen and gambling/tipster events.
+  - Status: P2 regenerated with anonymous dark crowd silhouettes as venue texture; no single bettor dominates.
 
 - `assets/backgrounds/racetrack_track_view.png`
   - Horse-racing track grandstand view.
@@ -198,6 +208,7 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 - `assets/backgrounds/holdem_club_interior.png`
   - Underground Korean holdem club background.
   - Use for HoldemClub minigame and gambling events.
+  - Status: P2 regenerated with readable holdem table/cards/chips, distant faceless patrons, and no foreground hands.
 
 - `assets/backgrounds/scalping_trading_room.png`
   - Multi-monitor stock scalping setup.
@@ -206,6 +217,10 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 - `assets/backgrounds/aruba_delivery_street.png`
   - Night delivery-rider street POV.
   - Use for ArubaGame and delivery/gig-work events.
+
+- `assets/backgrounds/pc_bang_interior.png`
+  - Late-night Korean PC bang background for internet cafe, gaming, and escape scenes.
+  - Status: P2 regenerated with seated gamer silhouettes mostly hidden by monitors and chairs; no clear face or foreground portrait-like gamer.
 
 - `assets/backgrounds/gangnam_station_exit.png`
   - Gangnam Station daytime street-level background.
@@ -222,8 +237,20 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 
 ### Key Art
 - `assets/keyart/gangnam_dream_keyart_rooftop.png`
-  - In-game splash key art, anime rooftop view toward Gangnam.
-  - No embedded title text; overlay logo/text separately in UI or store art.
+  - Textless master key art, 1920x1080 anime rooftop view toward Gangnam.
+  - No embedded title text; use it as the clean source for title screens, trailers, and store crops.
+
+- `assets/keyart/steam_capsule_main.png`
+  - Steam main capsule, 616x353.
+  - Derived from the textless rooftop master with deterministic local-font title overlay: `GANGNAM DREAM` + `강남드림`.
+
+- `assets/keyart/steam_header.png`
+  - Steam header, 460x215.
+  - Derived from the same rooftop master with local-font title overlay.
+
+- `assets/keyart/steam_capsule_small.png`
+  - Steam small capsule, 231x87.
+  - High-contrast compact `GANGNAM DREAM` title overlay for small-store readability.
 
 ### Story CG
 - `assets/cg/start.png`

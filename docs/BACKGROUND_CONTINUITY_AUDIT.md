@@ -1,6 +1,6 @@
 # Gangnam Dream Background Continuity Audit
 
-Updated: 2026-06-12
+Updated: 2026-06-13
 
 ## Scope
 
@@ -18,6 +18,7 @@ Contact sheets:
 - `/tmp/gangnamdream_background_regen_complete.png` — regenerated failure set
 - `/tmp/gangnamdream_backgrounds_production_final.png` — current production/direct set
 - `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png` — MainGame/StoryMode/CG crop QA composite sheet
+- `/tmp/gangnamdream_p2_review_backgrounds_after.png` — P2 public venue silhouette pass
 
 Current production/direct background count: 36.
 
@@ -27,7 +28,8 @@ Quarantined background file: none.
 
 - Reusable VN backgrounds should read as places, not specific event scenes.
 - Main or recurring characters must not be baked into reusable backgrounds.
-- Public venue crowds are acceptable only when they function as ambient venue context and do not create a clear protagonist-like foreground figure.
+- Private/canon-sensitive locations should be person-free unless the event is a one-off CG.
+- Public venue crowds are acceptable, and often necessary, when they function as ambient venue context: small/dark faceless silhouettes, back views, or distant seated figures only. They must not create a clear protagonist-like foreground figure.
 - Minjun's goshiwon must keep the locked structure: tiny high frosted ventilation window, bed, low desk at bed foot / foreground, no large scenic window.
 - Family-home backgrounds must match the Changwon working-class father-home canon: modest, separated-family history, no big-family wealth signal.
 - Default investment scenes must remain phone/laptop scale. Multi-monitor rooms are reserved for pro trading, scalping, or late-game specialist scenes.
@@ -36,12 +38,14 @@ Quarantined background file: none.
 
 | Status | Count | Meaning |
 |---|---:|---|
-| PASS | 30 | Safe for first in-game QA |
-| REVIEW | 6 | Usable temporarily, but re-check crop/context before final |
+| PASS | 36 | Safe for first in-game QA |
+| REVIEW | 0 | Usable temporarily, but re-check crop/context before final |
 | FIX | 0 | Regenerate or convert to one-off CG before final |
 | QUARANTINED | 0 | Removed from production mapping until regenerated |
 
-P1 crop QA result: passed first deterministic in-game composition review. `tools/VisualCropQA` generated 15 MainGame/StoryMode/CG composites using the current 1280x800 layout and the actual asset files. No regenerated P0/P1 background produced a new crop failure. Public venue backgrounds with ambient people remain REVIEW until their final story/minigame placements are locked.
+P1 crop QA result: passed first deterministic in-game composition review. `tools/VisualCropQA` generated 15 MainGame/StoryMode/CG composites using the current 1280x800 layout and the actual asset files. No regenerated P0/P1 background produced a new crop failure.
+
+P2 public venue result: the remaining REVIEW backgrounds were regenerated or replaced with canon-safe public venue versions. PC bang, racetrack, holdem, restaurant, and library now use anonymous ambient silhouettes where the location would feel unnatural empty; no clear face, protagonist-like foreground figure, or named-character proxy remains.
 
 ## Resolved High-Priority Fixes
 
@@ -63,7 +67,7 @@ P1 crop QA result: passed first deterministic in-game composition review. `tools
 | `convenience_store_night.png` | PASS | Regenerated as a person-free 2am Korean convenience store interior with empty checkout counter. |
 | `cafe_seoul.png` | PASS | Foreground cafe table is empty; pedestrians are outside/window ambience only. |
 | `seoul_subway.png` | PASS | Empty subway interior, reusable and clean. |
-| `seoul_rainy_street.png` | REVIEW | Distant lone pedestrian is small enough for temporary use, but avoid turning it into a clear protagonist silhouette in final crop. |
+| `seoul_rainy_street.png` | PASS | Regenerated as a rainy Seoul side street with no central protagonist-like pedestrian; quiet empty/ambient street works as a reusable default background. |
 | `pojangmacha.png` | PASS | Empty tables and food setup, strong reusable social background. |
 | `rooftop_night.png` | PASS | Person-free rooftop night, appropriate for reflective scenes. |
 | `office_desk.png` | PASS | Empty office desk/space, strong workplace background. |
@@ -75,19 +79,19 @@ P1 crop QA result: passed first deterministic in-game composition review. `tools
 | `hospital_corridor.png` | PASS | Empty corridor, wheelchair is acceptable context. |
 | `hospital_clinic.png` | PASS | Empty clinic room, safe for health events. |
 | `family_living_room.png` | PASS | Modest Changwon working-class home; no large extended-family portrait or wealthy Seoul signal. |
-| `hometown_train_station.png` | REVIEW | Public station silhouettes are acceptable temporarily; re-check if used with close portraits. |
+| `hometown_train_station.png` | PASS | Regenerated as a modest provincial station platform with no central traveler; reads as working-class hometown return context. |
 | `burnout_hospital_room.png` | PASS | Empty hospital room, good burnout/failure background. |
 | `penthouse_view.png` | PASS | Regenerated as empty luxury penthouse skyline view with no person or silhouette. |
 | `investment_phone.png` | PASS | Correct default investment scale: phone on cramped desk, no multi-monitor room. |
 | `trading_screen_night.png` | PASS | Multi-monitor setup is valid only for `trading_room` / pro-trading contexts, not default investing. |
-| `pc_bang_interior.png` | REVIEW | Ambient gamers make sense for PC-bang venue, but do not use as generic portrait background without crop QA. |
-| `library.png` | REVIEW | Public study room includes seated people; acceptable for study ambience, but final may need person-free variant if portraits overlay heavily. |
-| `restaurant_korean.png` | REVIEW | Mostly safe, but faint kitchen staff silhouette is present. Low priority. |
+| `pc_bang_interior.png` | PASS | Regenerated with dark faceless seated gamer silhouettes; venue feels occupied without a foreground character. |
+| `library.png` | PASS | Regenerated as a clean study-room background with only distant low-detail ambience, safe for Hyunsu/study overlays. |
+| `restaurant_korean.png` | PASS | Regenerated as a modest Korean restaurant with distant faceless diner ambience; no staff/foreground character focus. |
 | `street_seoul_day.png` | PASS | Empty residential/day street, no strong people. |
 | `oneroom_apartment.png` | PASS | Empty improved housing background, distinct from goshiwon. |
-| `racetrack_betting_hall.png` | REVIEW | Venue crowd is expected for racetrack minigame; avoid use as generic VN portrait background. |
+| `racetrack_betting_hall.png` | PASS | Regenerated with anonymous dark betting-hall crowd silhouettes; no single bettor dominates the frame. |
 | `racetrack_track_view.png` | PASS | Track view with spectators as distant venue context; safe for racetrack minigame. |
-| `holdem_club_interior.png` | REVIEW | Players are baked into a specific poker table scene; acceptable as minigame venue background, not a neutral VN background. |
+| `holdem_club_interior.png` | PASS | Regenerated as holdem club ambience: readable table/cards/chips, distant faceless patrons, no foreground hands or player bodies. |
 | `scalping_trading_room.png` | PASS | Empty pro trading setup, reserved for scalping/pro contexts. |
 | `aruba_delivery_street.png` | PASS | Delivery street scene reads as place/situation without clear character. |
 | `gangnam_station_exit.png` | PASS | Regenerated as neutral daytime station-exit background with no dominant foreground person. |
@@ -111,4 +115,4 @@ P1 crop QA result: passed first deterministic in-game composition review. `tools
 
 ## Next Step
 
-Verify/implement the runtime full-screen CG display path for event and ending `cg` keys. The CG images themselves pass crop QA, but scene-code scan still needs a live connection check.
+Continue VISUAL_AUDIO P2 with remaining key art / store-capsule polish and any CG-specific final crop checks, then move to P3 audio.

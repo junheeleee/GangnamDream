@@ -25,9 +25,10 @@
   - 대상: 김민준, 김다은, 한지연, 최재혁, 임상철, 아버지, 어머니, 강현수, 반복 등장 조연.
   - 크기: 512×768 PNG, 알파 채널 포함.
   - 생성 시 배경이 필요하면 플랫 크로마키로 만들고 제거한다. 실제 방/거리/사무실 배경을 초상화 안에 넣지 않는다.
-- **배경 이미지는 인물 없는 장소 이미지로 제작한다.**
-  - 고시원, 사무실, 투자 책상, 카페, 병원, 강남 등은 장소만 담는다.
-  - 반복 배경에는 주인공/주연/군중을 넣지 않는다.
+- **배경 이미지는 반복 인물이 없는 재사용 장소 이미지로 제작한다.**
+  - 고시원, 사무실, 투자 책상, 병원, 가족집처럼 정합성이 민감한 장소는 사람 없이 장소만 담는다.
+  - PC방, 경마장, 홀덤 클럽, 식당, 역, 도서관처럼 비어 있으면 부자연스러운 공공장소는 작고 어두운 익명 실루엣/뒷모습/군중 텍스처를 허용한다.
+  - 반복 배경에는 주인공/주연/조연처럼 읽히는 얼굴, 전경 인물, 자세가 뚜렷한 사람, 상세한 손을 넣지 않는다.
 - **CG만 인물+배경 합성을 허용한다.**
   - `start.png`, `ending_father.png`, `jiyeon_crash.png`처럼 특정 장면용 1회성 연출 컷만 예외다.
   - CG는 해당 장면의 공간/경제상태/인물 위치 정합성을 통과해야 한다.
@@ -47,7 +48,7 @@
 
 ```
 assets/
-├── backgrounds/      ← 인물 없는 배경 이미지  1280×800 PNG
+├── backgrounds/      ← 재사용 장소 배경        1280×800 PNG
 ├── characters/       ← 투명 배경 초상화       512×768 PNG (세로형, 반복 인물)
 ├── cg/               ← CG 장면     1280×720 PNG (전체화면)
 ├── keyart/           ← Steam/마케팅  각 spec 참조
@@ -263,13 +264,13 @@ assets/
 강남 야경. 테헤란로 또는 강남역 일대. 빌딩들, 네온사인, 택시들.
 `Gangnam district Seoul night street, Teheranno avenue, glass skyscrapers with lights, neon signs, taxis and pedestrians, aspirational but distant, blue-gold palette`
 
-#### `assets/backgrounds/restaurant_korean.png`  ← **NEW: 신규**
-한국 식당 내부. 고깃집 또는 국밥집. 낮 또는 저녁. 가족 모임 또는 회식 장소.
-`Korean BBQ or soup restaurant interior, wooden tables with gas burners, metal chopsticks, paper napkins, warm lighting, family gathering or work dinner atmosphere`
+#### `assets/backgrounds/restaurant_korean.png`  ← **P2 REGENERATED 2026-06-13**
+한국 식당 내부. 고깃집 또는 국밥집. 낮 또는 저녁. 가족 모임 또는 회식 장소. 공공장소라 배경 손님 실루엣은 허용하지만, 얼굴/전경 인물/직원 주연화는 금지.
+`Korean BBQ or soup restaurant interior, wooden tables with gas burners, metal chopsticks, paper napkins, warm lighting, distant faceless diner silhouettes only, no foreground people`
 
-#### `assets/backgrounds/library.png`  ← **NEW: 신규**
-공공 도서관 열람실. 줄지어선 책상, 독서등, 책 더미와 빈 좌석. 조용하고 집중된 분위기.
-`Korean public library reading room, rows of study desks with individual lights, books and empty seats, quiet focused atmosphere, subdued lighting, 2020s Seoul, no main characters`
+#### `assets/backgrounds/library.png`  ← **P2 REGENERATED 2026-06-13**
+공공 도서관 열람실. 줄지어선 책상, 독서등, 책 더미와 좌석. 조용하고 집중된 분위기. 작고 어두운 배경 학생 실루엣은 허용하지만, 현수/민준처럼 읽히는 인물은 금지.
+`Korean public library reading room, rows of study desks with individual lights, books and seats, quiet focused atmosphere, subdued lighting, 2020s Seoul, small faceless distant student silhouettes only`
 
 ---
 
@@ -295,8 +296,8 @@ assets/
 | `oneroom_apartment.png` | 원룸 내부 | 고시원보다 넓음, 창문 있음, 밤 |
 | `gangnam_apartment.png` | 강남 아파트 내부 | 고급, 넓은 창, 야경 |
 | `seoul_subway.png` | 서울 지하철 내부 | 2호선 초록, 출퇴근 혼잡 |
-| `seoul_rainy_street.png` | 서울 비 오는 거리 | 우산들, 반사광, 우울한 아름다움 |
-| `hometown_train_station.png` | 지방 기차역 | 무궁화호, 낡은 역사, 회색 하늘 |
+| `seoul_rainy_street.png` | 서울 비 오는 거리 | P2 REGENERATED: 중앙 인물 없는 비 오는 골목, 반사광, 우울한 아름다움 |
+| `hometown_train_station.png` | 지방 기차역 | P2 REGENERATED: 중앙 여행자 없는 지방 플랫폼, 무궁화호/낡은 역사/회색 하늘 |
 | `family_living_room.png` | 민준 아버지의 창원/지방 노동자 가정 거실 | 낡은 가구, 조용한 부재감, 작은 오래된 가족사진 1개 이하; 대가족 단체사진·화목한 큰집 분위기 금지 |
 | `rooftop_daytime.png` | 서울 옥상 낮 | 한강 원경, 주변 빌딩, 바람 느낌 |
 | `rooftop_night.png` | 서울 옥상 밤 | 야경, 별, 혼자 생각하는 공간 |
@@ -310,9 +311,11 @@ assets/
 | `gangnam_day.png` | 강남 낮 거리 | 코엑스 인근, 인파, 명품샵 |
 | `gangnam_station_exit.png` | 강남역 출구 | 지하철 출구, 사람들, 서울 대표 랜드마크 |
 | `street_seoul_day.png` | 서울 일반 거리 낮 | 평범한 주택가 골목, 낮 |
-| `pc_bang_interior.png` | PC방 내부 | 어두운 조명, 모니터 빛, 의자들 |
+| `pc_bang_interior.png` | PC방 내부 | P2 REGENERATED: 모니터 뒤 익명 게이머 실루엣, 어두운 조명, 모니터 빛 |
 
-### P2-B. 나머지 CG (2장) `1280×720 PNG`
+추가 P2 public venue pass 완료: `restaurant_korean.png`, `library.png`, `racetrack_betting_hall.png`, `holdem_club_interior.png`도 익명 배경 실루엣 원칙에 맞춰 교체 완료. 홀덤은 전경 손/팔 없이 카드·칩·테이블만 보이게 유지한다.
+
+### P2-B. 나머지 CG (2장) `1280×720 PNG` — **DONE / CROP QA 2026-06-13**
 
 #### `assets/cg/jiyeon_crash.png`
 한지연 첫 접촉 사고 CG. 비 오는 강남 야간 도로, 검은 메르세데스 벤츠 S클래스급 세단, 쓰러진 자전거 두 바퀴, 운전석에서 내린 31세 지연. 투명 포트레이트 정본과 같은 긴 웨이브 흑발, 날카로운 눈매, 크림 수트/블랙 이너, 위험하게 아름답고 당황한 얼굴.
@@ -322,24 +325,23 @@ assets/
 재혁의 정체가 드러나는 순간. 충격과 배신감.
 `Korean VN CG, dramatic betrayal reveal scene, man 30s charismatic smile turning cold, shadowed face, moment of deception exposed`
 
-### P2-C. 키아트 `각 규격`
+### P2-C. 키아트 `각 규격` — **DONE 2026-06-13**
 
 | 파일 | 규격 | 용도 |
 |---|---|---|
-| `keyart/steam_capsule_main.png` | 616×353 | Steam 메인 캡슐 |
-| `keyart/steam_capsule_small.png` | 231×87 | Steam 소형 캡슐 |
-| `keyart/steam_header.png` | 460×215 | Steam 헤더 |
-| `keyart/gangnam_dream_keyart_rooftop.png` | 1920×1080 | 게임 타이틀/홍보 |
+| `keyart/steam_capsule_main.png` | 616×353 | Steam 메인 캡슐 — local-font title overlay |
+| `keyart/steam_capsule_small.png` | 231×87 | Steam 소형 캡슐 — compact local-font title overlay |
+| `keyart/steam_header.png` | 460×215 | Steam 헤더 — local-font title overlay |
+| `keyart/gangnam_dream_keyart_rooftop.png` | 1920×1080 | 텍스트 없는 마스터 키아트 |
 
-**키아트 방향**: 서울 야경을 바라보는 주인공 뒷모습. 고시원과 강남 빌딩의 대비. 게임 타이틀 "강남드림" 한자+영문. 어둡고 영화적.
+**키아트 방향**: 서울 야경을 바라보는 주인공 뒷모습. 낡은 옥상과 강남 빌딩의 대비. 마스터 키아트에는 텍스트를 넣지 않고, Steam 캡슐/헤더에만 `GANGNAM DREAM` + `강남드림`을 로컬 폰트로 합성한다. 이미지 생성 모델에 타이틀 텍스트를 맡기지 않는다.
 
 ---
 
-## P3 — 오디오 업그레이드
+## P3 — 오디오 업그레이드 — **DONE 2026-06-13**
 
 > **포맷**: BGM → `.ogg`, SFX → `.wav`
-> **기존 `AUDIO_PROMPTS.md` 파일에 Suno/jsfxr 프롬프트 상세 기재되어 있음**
-> 그 파일을 읽고 생성 후 `assets/audio/`에 저장.
+> `tools/generate_audio_assets.py`로 deterministic local synthesis를 수행했다. 외부 Suno/jsfxr 결과물이 들어오면 같은 파일명으로 교체하되, `tools/AudioAssetCheck.tscn`과 `docs/AUDIO_QA.md` 기준을 통과해야 한다.
 
 ### BGM 7트랙 교체/신규
 
@@ -353,17 +355,20 @@ assets/
 | `bgm_victory.ogg` | 마일스톤 달성 (8초 단발) | ❌ |
 | `bgm_ending.ogg` | 엔딩 화면 — 한국 드라마 OST × 로파이 | ✅ |
 
-### SFX 14종 교체
+### SFX 17종 교체
 
 | 파일 | 역할 |
 |---|---|
 | `sfx_click.wav` | 버튼 클릭 (짧고 날카롭게) |
 | `sfx_close.wav` | 모달 닫기 |
 | `sfx_open_modal.wav` | 모달 열기 |
+| `sfx_tab_open.wav` | 탭/미니게임 패널 열기 |
 | `sfx_month.wav` | 다음 달 전환 (페이지 넘기는 느낌) |
 | `sfx_money_gain.wav` | 수입/돈 획득 |
 | `sfx_money_loss.wav` | 손실/지출 |
 | `sfx_money_big.wav` | 대형 수익/마일스톤 (임팩트 있게) |
+| `sfx_buy.wav` | 매수/구매 |
+| `sfx_sell.wav` | 매도 |
 | `sfx_stat_up.wav` | 스탯 상승 |
 | `sfx_stat_down.wav` | 스탯 하락 |
 | `sfx_event_new.wav` | 이벤트 등장 알림 |

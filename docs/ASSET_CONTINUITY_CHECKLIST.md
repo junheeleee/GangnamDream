@@ -1,6 +1,6 @@
 # Gangnam Dream Asset Continuity Checklist
 
-Updated: 2026-06-12
+Updated: 2026-06-13
 
 Use this before generating, accepting, wiring, or replacing any image asset. A visually strong image still fails if it says the wrong thing about the story.
 
@@ -39,13 +39,22 @@ Use this before generating, accepting, wiring, or replacing any image asset. A v
 - Backgrounds are places, not full scenes.
 - No recurring main character inside a reusable background.
 - Avoid visible family photos, awards, luxury objects, or extra people unless the location canon explicitly allows them.
-- If a background contains a person, treat it as a special CG candidate, not a generic background.
+- Private/canon-sensitive locations should be person-free unless the image is a one-off CG.
+- Public venues may include ambient anonymous people when the location would feel unnatural empty: small dark silhouettes, distant back views, seated figures hidden by furniture/monitors, or crowd texture only.
+- If a person has a clear face, foreground pose, readable outfit identity, detailed hands, or protagonist-like framing, treat the asset as a special CG candidate, not a generic background.
 
 ### CGs
 
 - CGs may combine people and place, but must match the exact event text.
 - Check positions and objects: driver/passenger side, phone direction, bicycle wheels, hands, steering wheel, door, weather, and lighting.
 - CGs are allowed to be dramatic; they are not allowed to rewrite character age, wealth, relationship state, or location layout.
+
+### Key Art / Store Capsules
+
+- Keep master key art textless whenever possible.
+- Do not rely on image generation for readable game-title text; compose title/logo text locally with real fonts after the image is generated.
+- Capsule crops must keep both the emotional subject and the title readable at their final pixel size.
+- Store art may be more symbolic than runtime backgrounds, but it must not imply the wrong protagonist wealth tier, age, or genre.
 
 ## Locked Location Notes
 

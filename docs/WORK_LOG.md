@@ -1,5 +1,48 @@
 # Gangnam Dream Work Log
 
+## 2026-06-13 (VISUAL_AUDIO P2 public venue 배경 패스)
+
+### 공공장소 배경 실루엣 원칙 정리 (Codex)
+- 유저 피드백: PC방/경마장/식당 같은 공공장소가 완전히 비어 있으면 오히려 부자연스럽다.
+- 배경 원칙을 "무조건 무인"에서 "반복 주연/조연처럼 읽히는 인물 금지, 공공장소는 작고 어두운 익명 실루엣 허용"으로 정정.
+- `docs/ASSET_CONTINUITY_CHECKLIST.md`, `docs/BACKGROUND_CONTINUITY_AUDIT.md`, `assets/ASSET_INDEX.md`, `assets/VISUAL_AUDIO_UPGRADE_BRIEF.md`에 새 기준 기록.
+
+### P2 public venue 배경 교체 (Codex)
+- 7개 리뷰 배경을 1280×800으로 교체:
+  - `seoul_rainy_street.png`
+  - `hometown_train_station.png`
+  - `library.png`
+  - `restaurant_korean.png`
+  - `pc_bang_interior.png`
+  - `racetrack_betting_hall.png`
+  - `holdem_club_interior.png`
+- PC방/경마장/홀덤/식당/도서관은 얼굴 없는 배경 실루엣을 허용해 장소의 자연스러움을 살림.
+- 홀덤 배경은 전경 손/팔 없이 실제 홀덤 테이블, 카드, 칩만 보이게 교체.
+- `/tmp/gangnamdream_p2_review_backgrounds_after.png` QA 시트 생성.
+- 배경 감사 현황을 36 pass / 0 review / 0 fix / 0 quarantined로 갱신.
+
+### P2 CG/키아트 최종 패스 (Codex)
+- CG 런타임/크롭 기준 재확인: `tools/VisualCropQA`와 `tools/CGRuntimeCheck` 기준 `start`, `jiyeon_crash`, `jaehyuk_reveal`, `ending_father`가 현재 1280×800 런타임에서 핵심 정보를 유지함.
+- `gangnam_dream_keyart_rooftop.png`를 1920×1080 textless master key art로 교체: 낡은 서울 옥상, 뒤돌아선 김민준, 멀리 보이는 강남 스카이라인 대비를 강화.
+- Steam store material 3종을 새 마스터 키아트에서 파생:
+  - `steam_capsule_main.png` 616×353
+  - `steam_header.png` 460×215
+  - `steam_capsule_small.png` 231×87
+- Steam 캡슐 제목은 이미지 생성 모델에 맡기지 않고 로컬 폰트로 `GANGNAM DREAM` / `강남드림`을 합성해 가독성 유지.
+- `/tmp/gangnamdream_p2_keyart_after.png` QA 시트 생성.
+- VISUAL_AUDIO P2 배경/CG/키아트 품질 교체 완료 처리. 다음 단계는 P3 BGM/SFX 품질 교체.
+
+### P3 BGM/SFX 품질 교체 (Codex)
+- `tools/generate_audio_assets.py` 추가: 외부 음악 생성 서비스 없이 deterministic local synthesis로 BGM/SFX를 재생성하는 스크립트.
+- BGM 7종을 Ogg Vorbis stereo 44100 Hz로 재생성:
+  - `bgm_menu.ogg`, `bgm_gosiwon.ogg`, `bgm_main.ogg`, `bgm_apartment.ogg`, `bgm_crisis.ogg`, `bgm_victory.ogg`, `bgm_ending.ogg`
+- 기존 `bgm_gosiwon.ogg`가 `file` 기준 Theora video로 잡히던 문제를 Ogg Vorbis audio로 교체해 해결.
+- SFX 17종을 mono 44100 Hz WAV로 재생성. 기존 14종 외에 무음 호출이던 `sfx_buy.wav`, `sfx_sell.wav`, `sfx_tab_open.wav` 추가.
+- `AudioManager._SFX_FILES`에 `buy`, `sell`, `tab_open` 매핑과 프로시저럴 폴백 추가.
+- BGM import 설정 정리: menu/gosiwon/main/apartment/crisis/ending loop=true, victory loop=false.
+- `tools/AudioAssetCheck.gd` / `tools/AudioAssetCheck.tscn` 추가. 결과: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=17`.
+- `docs/AUDIO_QA.md` 추가: 파일 타입, 길이, loop/import 설정, 검증 명령 기록.
+
 ## 2026-06-12 (비주얼+오디오 업그레이드 준비)
 
 ### 정본 맵/확장 규칙 문서화 (Codex)
@@ -90,6 +133,12 @@
 - `npc_mentor.png`, `npc_jiyeon_warm.png`, `npc_jiyeon_cold.png`를 정본 참조로 사용해 사고 CG를 재생성하고 1280×800으로 리샘플링해 교체.
 - 유지한 사건 정본: 비 오는 강남 야간 도로, 검은 Mercedes-Benz S-Class급 세단, 운전석 앞문에서 내리는 지연, 자전거 두 바퀴, 왼쪽의 김민준.
 - `/tmp/gangnamdream_jiyeon_crash_identity_qa.png` 비교 시트 생성 및 `tools/VisualCropQA` 재실행 완료.
+
+### CG 런타임 표시 연결 (Codex)
+- StoryMode가 이벤트 JSON의 `cg` 키를 읽어 `ImageRegistry.get_cg()`로 전체화면 CG를 표시하도록 연결.
+- CG 장면에서는 별도 포트레이트 프레임을 숨기고, 텍스트 박스/이름표만 유지해 CG와 포트레이트가 겹치지 않게 조정.
+- MainGame 엔딩 화면이 `endings.json`의 `cg` 키를 읽어 엔딩 배경으로 사용하고, 모달 안에 와이드 CG 프리뷰를 추가하도록 연결.
+- `tools/CGRuntimeCheck.gd` / `tools/CGRuntimeCheck.tscn` 추가. `arc_jiyeon_01_crash`의 StoryMode CG 연결과 `gangnam_dream`의 엔딩 CG 경로/프리뷰 생성을 헤드리스에서 검증.
 
 ### 한지연 31세 정본 스캔 (Codex)
 - 한지연 관련 활성 메인 아크(`arc_jiyeon_01_crash` 이후)는 서른 초반/긴 검은 머리/크림 수트/검은 Mercedes-Benz S-Class급 세단 기준으로 정렬되어 있음을 확인.

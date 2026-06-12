@@ -1,12 +1,13 @@
 # Gangnam Dream Asset QA
 
-Updated: 2026-06-12
+Updated: 2026-06-13
 
 ## Scope
 
 - Visual pass over current generated PNG assets.
 - Code/content usage pass against `ImageRegistry.gd`, direct `res://assets/...png` references in GDScript, and JSON `portrait` / `background` / `cg` IDs.
 - Story-continuity pass against `docs/CANON_MAP.md`, `assets/CHARACTER_VISUAL_BIBLE.md`, and `docs/ASSET_CONTINUITY_CHECKLIST.md`.
+- Audio pass is tracked separately in `docs/AUDIO_QA.md`.
 - Contact sheets generated for local review:
   - `/tmp/gangnamdream_asset_qa_characters.png`
   - `/tmp/gangnamdream_asset_qa_backgrounds.png`
@@ -16,10 +17,12 @@ Updated: 2026-06-12
   - `/tmp/gangnamdream_background_regen_complete.png`
   - `/tmp/gangnamdream_backgrounds_production_final.png`
   - `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png`
+  - `/tmp/gangnamdream_p2_review_backgrounds_after.png`
+  - `/tmp/gangnamdream_p2_keyart_after.png`
 
 ## Summary
 
-Current core image set is usable only as a temporary visual placeholder set. The production direction has changed to a layered VN pipeline: recurring character portraits must be transparent-background assets, and backgrounds must be person-free location assets. The biggest risk is not missing files; it is visual continuity drift across repeated characters and places.
+Current core image set is usable only as a temporary visual placeholder set. The production direction has changed to a layered VN pipeline: recurring character portraits must be transparent-background assets, and backgrounds must be reusable location assets. Private/canon-sensitive backgrounds should be person-free; public venues may include small anonymous ambient silhouettes when an empty room would feel unnatural. The biggest risk is not missing files; it is visual continuity drift across repeated characters and places.
 
 P1 missing-image pass added 10 PNGs: 7 NPC expression variants and 3 backgrounds. The new backgrounds can remain in production QA; most recurring-character variants are provisional until replaced by transparent portraits. `ImageRegistry` currently has no missing files.
 
@@ -37,9 +40,15 @@ Recurring minor NPC portraits have been regenerated as transparent PNGs: `npc_go
 
 Every accepted image must now pass the continuity checklist. The main failure mode is not visual polish; it is an image implying the wrong family history, wealth tier, room layout, age, vehicle, or relationship state.
 
-Background continuity audit is recorded in `docs/BACKGROUND_CONTINUITY_AUDIT.md`. After regenerating the failed background set, the current status is 30 pass, 6 review, 0 fix, and 0 quarantined files. Runtime/direct background count is back to 36.
+Background continuity audit is recorded in `docs/BACKGROUND_CONTINUITY_AUDIT.md`. After the P2 public venue pass, the current status is 36 pass, 0 review, 0 fix, and 0 quarantined files. Runtime/direct background count is 36.
 
 In-game crop QA was added as `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn`. Because Godot headless uses a dummy renderer and does not return usable SubViewport screenshots, the tool performs deterministic CPU compositing using the same crop math as the current MainGame/StoryMode layouts. Latest output: `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png`.
+
+CG runtime display QA was added as `tools/CGRuntimeCheck.gd` / `tools/CGRuntimeCheck.tscn`. It verifies that StoryMode event `cg` keys resolve to the full-screen CG texture and suppress the separate portrait frame, and that MainGame ending `cg` keys resolve to the ending CG preview path.
+
+P2 key art/store material pass is complete. `gangnam_dream_keyart_rooftop.png` is now a textless 1920x1080 rooftop-to-Gangnam master key art, and Steam capsule/header assets are derived from it with deterministic local-font title overlays instead of generated text.
+
+P3 audio pass is complete and recorded in `docs/AUDIO_QA.md`: 7 BGM tracks and 17 SFX files resolve through runtime audio managers, including the newly mapped `buy`, `sell`, and `tab_open` SFX keys.
 
 ## Pass
 
@@ -59,15 +68,29 @@ In-game crop QA was added as `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn`
 - Gangnam day/night/station backgrounds have been regenerated without foreground protagonist-like figures.
 - `penthouse_view.png` has been regenerated as an empty luxury ending background with no lone male silhouette.
 - `late_night_room.png` has been recreated from `goshiwon_room.png` as a colder 4am variant, preserving exact room structure, and runtime maps back to it.
+- P2 public venue backgrounds have been regenerated or replaced with safe ambient silhouettes:
+  - `library`, `restaurant_korean`, `pc_bang_interior`, `racetrack_betting_hall`, and `holdem_club_interior` use small/dark faceless background figures only.
+  - `seoul_rainy_street` and `hometown_train_station` no longer contain a clear central pedestrian/traveler.
+  - QA sheet: `/tmp/gangnamdream_p2_review_backgrounds_after.png`.
 - Story CGs now exist for all currently referenced CG IDs:
   - `cg_ending_father`
   - `cg_jiyeon_crash`
   - `cg_jaehyuk_reveal`
+- Runtime CG display is connected:
+  - StoryMode uses event `cg` as the first-priority full-screen image and hides the separate portrait frame for CG scenes.
+  - MainGame ending screen uses ending `cg` as the background image and adds a wide CG preview inside the ending modal.
+  - `tools/CGRuntimeCheck.tscn` passes.
 - P1 in-game crop QA passes first review for 15 MainGame/StoryMode/CG compositions:
   - StoryMode: goshiwon + Minjun, late-night goshiwon + tired Minjun, convenience + Daeun, Gangnam station + Jiyeon, family home + father, office + team lead, library + Hyunsu.
   - MainGame dashboard: goshiwon + unemployed Minjun, Gangnam day + corporate Minjun, Gangnam night + Jiyeon, late-night goshiwon + tired Minjun.
   - CG fullscreen: start goshiwon, Jiyeon crash, Jaehyuk reveal, ending father.
 - In-game splash key art has been replaced with the anime rooftop-to-Gangnam composition.
+- P2 Steam/store key art is usable for first store-material QA:
+  - `gangnam_dream_keyart_rooftop.png` — 1920x1080 textless master
+  - `steam_capsule_main.png` — 616x353 title overlay
+  - `steam_header.png` — 460x215 title overlay
+  - `steam_capsule_small.png` — 231x87 compact title overlay
+  - QA sheet: `/tmp/gangnamdream_p2_keyart_after.png`.
 
 ## Fix Or Review Before Final
 
@@ -82,13 +105,6 @@ In-game crop QA was added as `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn`
   - General investment scenes should use `investment_phone.png`.
   - Multi-monitor rooms are reserved for `scalping_room` / pro-trading contexts, not early goshiwon investing.
 
-- Runtime CG display connection still required before final
-  - Current CG files pass fullscreen crop QA, but the scene-code scan only confirms `ImageRegistry.get_cg()`, not that StoryMode/Ending currently renders event `cg` keys as full-screen images.
-  - Verify and implement the `cg` display path before final story polish.
-
-- Public venue background review remains
-  - Review public venue backgrounds with ambient people in final context: `library`, `pc_bang_interior`, `racetrack_betting_hall`, `holdem_club_interior`, `hometown_train_station`, `restaurant_korean`.
-
 - `assets/characters/main_character_50s.png`
   - Looks closer to late 30s / 40s than 50s.
   - Low priority because the current core loop is 33 -> 38, but regenerate if old/epilogue content remains.
@@ -101,21 +117,6 @@ In-game crop QA was added as `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn`
   - Unused after `boss` was remapped to `npc_team_lead`.
   - Style is flatter and more generic than the current portrait set.
   - Either remove from production index or regenerate only if a distinct coworker role is restored.
-
-- `assets/cg/jiyeon_crash.png`
-  - Latest version fixes the major issues: two bicycle wheels, wealthy imported car, front driver-side exit, visible steering wheel.
-  - Updated again after identity QA so Han Jiyeon's face/hair/outfit match the transparent portrait set (`npc_mentor`, `npc_jiyeon_warm`, `npc_jiyeon_cold`).
-  - Identity QA sheet: `/tmp/gangnamdream_jiyeon_crash_identity_qa.png`.
-  - Keep this one unless an in-game crop makes the driver-side detail ambiguous.
-
-- `assets/cg/start.png`
-  - Replaced with a corrected cramped-goshiwon opening CG.
-  - Preserves the start-CG spatial memory: low desk at the bed foot / screen-bottom foreground, cramped room, no large view window.
-  - Gangnam is implied by the phone/goal object, not shown as a direct skyline outside the goshiwon window.
-
-- `assets/cg/ending_father.png`
-  - Replaced with the brief-correct emotional hospital scene: son holding weakened father's hand.
-  - Hands are acceptable for first in-game QA; re-check after StoryMode crop.
 
 ## Wired (2026-06-10)
 
@@ -142,19 +143,15 @@ These are not referenced by `ImageRegistry` or direct GDScript image paths at th
 - `assets/backgrounds/rooftop_dawn.png`
 - `assets/backgrounds/subway_platform_rush.png`
 - `assets/characters/npc_coworker.png`
-- `assets/keyart/steam_capsule_main.png`
-- `assets/keyart/steam_capsule_small.png`
-- `assets/keyart/steam_header.png`
 - `assets/ui/card_back.png`
 - `assets/ui/horse_silhouette.png`
 - `assets/ui/poker_chip_icon.png`
 
-Steam key art is expected to be unused in game code; keep it for store material. The other unused old backgrounds should either be deleted, archived, or deliberately wired into `ImageRegistry` after style/regeneration review.
+Steam key art is store material and is intentionally not referenced by game code. The other unused old backgrounds should either be deleted, archived, or deliberately wired into `ImageRegistry` after style/regeneration review.
 
 ## Next QA Steps
 
-1. Verify/implement StoryMode and Ending full-screen CG display for `jiyeon_crash`, `jaehyuk_reveal`, and `ending_father`.
-2. Verify MainGame portrait state switching in live play: early run should not show `main_character_30s` before a real upward mobility milestone.
-3. Review public venue backgrounds with ambient people after actual story placement.
-4. Decide whether Holdem/RaceTrack should stay code-drawn or move to image-backed cards/chips/horses.
-5. Regenerate only specific failed assets after live UI QA.
+1. Verify MainGame portrait state switching in live play: early run should not show `main_character_30s` before a real upward mobility milestone.
+2. Verify audio loudness and loop feel in live play, especially BGM transitions and minigame SFX.
+3. Decide whether Holdem/RaceTrack should stay code-drawn or move to image-backed cards/chips/horses.
+4. Regenerate only specific failed assets after live UI QA.

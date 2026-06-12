@@ -1,5 +1,31 @@
 # Gangnam Dream Decisions
 
+## 2026-06-13 (P3 오디오 생성/검증 기준)
+
+- **문제 진단**: 외부 음악 생성 서비스 결과물을 기다리면 오디오 패스가 막히고, 기존 파일 중 `bgm_gosiwon.ogg`는 Theora video로 인식되는 등 런타임 안정성 위험이 있었다. 또한 코드에서 `buy`, `sell`, `tab_open` SFX를 호출하지만 `AudioManager`에는 매핑이 없어 해당 액션이 무음이었다.
+- **결정**: 현재 production P3 패스는 `tools/generate_audio_assets.py`의 deterministic local synthesis로 생성한다. BGM은 Ogg Vorbis 44100 Hz stereo, SFX는 WAV 44100 Hz mono를 기준으로 한다. 외부 작곡/효과음으로 교체하더라도 같은 파일명, 같은 runtime key, 같은 loop 정책을 유지해야 한다.
+- **검증 기준**: `tools/AudioAssetCheck`가 `BGMPlayer.TRACKS`와 `AudioManager._SFX_FILES` 전체를 `AudioStream`으로 로드할 수 있어야 한다. 코드에서 새 `AudioManager.play("...")` 키를 추가하면 먼저 `_SFX_FILES`에 매핑하고 이 체크를 통과시킨다.
+- **루프 정책**: menu/goshiwon/main/apartment/crisis/ending BGM은 import loop ON, victory는 one-shot이므로 loop OFF다.
+
+## 2026-06-13 (Steam 키아트 타이포 합성 규칙)
+
+- **문제 진단**: 이미지 생성 모델에 게임 제목을 직접 넣기 요청하면 한글/영문 로고가 깨지거나 비슷한 글자처럼 왜곡될 위험이 높다. Steam 캡슐은 작은 크기에서 제목 가독성이 매출에 직접 영향을 주므로, 그림은 좋아도 텍스트가 깨지면 production 자산으로 부적합하다.
+- **결정**: 마스터 키아트는 텍스트 없이 생성하고, Steam 캡슐/헤더의 `GANGNAM DREAM` / `강남드림` 제목은 로컬 폰트로 후합성한다. 이렇게 하면 이미지 생성 품질과 타이포 가독성을 분리해 관리할 수 있다.
+- **적용**: `gangnam_dream_keyart_rooftop.png`는 1920x1080 textless master로 교체했고, `steam_capsule_main.png`, `steam_header.png`, `steam_capsule_small.png`는 같은 마스터에서 크롭한 뒤 로컬 폰트 타이틀을 얹어 제작했다.
+
+## 2026-06-13 (공공장소 배경 실루엣 허용 규칙)
+
+- **문제 진단**: "배경은 인물 없는 장소" 원칙을 모든 장소에 절대 적용하면 PC방, 경마장, 홀덤 클럽, 식당, 도서관처럼 원래 사람이 있어야 자연스러운 공간이 비어 보인다. 반대로 이전 배경처럼 얼굴/손/전경 인물이 선명하면 반복 포트레이트와 충돌하고 특정 장면 CG처럼 읽힌다.
+- **결정**: 배경 원칙을 "반복 인물 금지"로 정교화한다. 고시원, 가족집, 병원실, 투자 책상처럼 정합성이 민감한 공간은 person-free를 유지한다. 공공장소는 작고 어두운 익명 실루엣, 뒷모습, 모니터/가구 뒤에 가린 seated figure, 군중 텍스처를 허용한다.
+- **실패 기준**: 얼굴이 보이거나, 전경에 크게 서 있거나, 손/팔이 장면의 주체가 되거나, 한 인물이 주연/조연처럼 읽히면 그 이미지는 reusable background가 아니라 CG 후보로 판정한다.
+- **적용**: `library`, `restaurant_korean`, `pc_bang_interior`, `racetrack_betting_hall`, `holdem_club_interior`, `hometown_train_station`, `seoul_rainy_street`를 이 기준으로 교체했고, 배경 감사 상태를 PASS로 갱신했다.
+
+## 2026-06-12 (CG 런타임 표시 규칙)
+
+- **StoryMode CG 우선순위**: 이벤트에 `cg`가 있으면 background 추론보다 먼저 전체화면 CG를 표시한다. CG는 이미 특정 사건의 인물+공간을 포함하므로 별도 포트레이트 프레임을 숨긴다. 이름표와 텍스트 박스는 유지해 대사/서술 흐름은 그대로 읽히게 한다.
+- **엔딩 CG 이중 표시**: 엔딩 모달은 화면 중앙을 크게 덮기 때문에 CG를 배경으로만 깔면 핵심 장면이 가려진다. 엔딩 `cg`는 배경 이미지로도 쓰고, 모달 내부에 와이드 프리뷰를 한 번 더 넣어 플레이어가 반드시 컷을 보게 한다.
+- **헤드리스 검증**: `tools/CGRuntimeCheck`는 MainGame 전체 월 루프를 띄우지 않고, StoryMode 실제 이벤트 렌더와 MainGame CG 경로/프리뷰 헬퍼를 직접 검증한다. 장면 전환과 월 이벤트 추첨이 QA 도구를 흔들지 않게 하기 위해서다.
+
 ## 2026-06-12 (인게임 크롭 QA 방식)
 
 - **크롭 QA는 CPU 합성 툴로 고정**: Godot headless dummy renderer에서는 SubViewport 스크린샷 텍스처가 비어 실제 렌더 캡처가 안정적으로 불가능했다. 크롭 QA의 목적은 "현재 UI 수학에서 어떤 부분이 잘리는가"이므로, `tools/VisualCropQA`가 PNG를 직접 읽고 MainGame/StoryMode/CG의 배치/스케일 규칙을 CPU로 합성하는 방식으로 전환했다. 이렇게 하면 로컬/CI/headless 어디서든 같은 결과가 나오고, 최종 라이브 UI QA는 별도 실제 실행 체크로 보완한다.

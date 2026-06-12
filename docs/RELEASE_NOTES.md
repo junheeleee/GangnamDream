@@ -2,6 +2,36 @@
 
 ## Unreleased
 
+### Changed (2026-06-13) — P3 BGM/SFX 품질 교체
+- BGM 7종을 deterministic local synthesis 기반 Ogg Vorbis로 재생성: menu, goshiwon, main, apartment, crisis, victory, ending
+- 기존 `bgm_gosiwon.ogg`가 Theora video로 인식되던 문제를 Ogg Vorbis audio로 교체해 해결
+- SFX 17종을 mono 44100 Hz WAV로 재생성
+- 기존 코드에서 호출하지만 매핑이 없어 무음이던 `buy`, `sell`, `tab_open` SFX를 추가 및 연결
+- BGM import loop 설정 정리: menu/goshiwon/main/apartment/crisis/ending은 loop ON, victory는 one-shot
+- `tools/generate_audio_assets.py`와 `tools/AudioAssetCheck.gd` / `.tscn` 추가
+- `docs/AUDIO_QA.md` 추가, `AUDIO_ASSET_CHECK_OK bgm=7 sfx=17` 검증 완료
+
+### Changed (2026-06-13) — P2 CG/키아트 최종 패스
+- `gangnam_dream_keyart_rooftop.png`를 1920×1080 textless master key art로 교체
+- Steam store material 3종을 새 마스터에서 파생하고 로컬 폰트 타이틀을 합성:
+  - `steam_capsule_main.png` 616×353
+  - `steam_header.png` 460×215
+  - `steam_capsule_small.png` 231×87
+- 생성 모델 텍스트 대신 로컬 폰트로 `GANGNAM DREAM` / `강남드림`을 얹어 작은 캡슐에서도 제목 가독성 확보
+- `/tmp/gangnamdream_p2_keyart_after.png` QA 시트 생성
+
+### Changed (2026-06-13) — P2 public venue 배경 패스
+- `seoul_rainy_street.png`, `hometown_train_station.png`, `library.png`, `restaurant_korean.png`, `pc_bang_interior.png`, `racetrack_betting_hall.png`, `holdem_club_interior.png` 교체
+- 공공장소 배경 기준을 정정: 완전 무인이 어색한 장소는 작고 어두운 익명 실루엣/군중 텍스처를 허용하되, 얼굴이 보이는 전경 인물이나 주연처럼 읽히는 인물은 금지
+- 홀덤 배경은 전경 손/팔 없이 테이블·카드·칩 중심으로 교체하고, PC방/경마장은 배경 실루엣으로 장소 밀도를 보강
+- `/tmp/gangnamdream_p2_review_backgrounds_after.png` QA 시트 생성, 배경 감사 현황을 36 pass / 0 review / 0 fix / 0 quarantined로 갱신
+
+### Added (2026-06-12) — CG 런타임 표시 연결
+- StoryMode가 이벤트 `cg` 키를 최우선 전체화면 이미지로 표시하도록 연결
+- CG 장면에서는 별도 포트레이트 프레임을 숨기고, 이름표/텍스트만 유지해 CG와 인물 초상화가 중복되지 않게 조정
+- MainGame 엔딩 화면이 엔딩 `cg` 키를 배경으로 사용하고, 엔딩 모달 안에 와이드 CG 프리뷰를 추가하도록 연결
+- `tools/CGRuntimeCheck.gd` / `tools/CGRuntimeCheck.tscn` 추가: StoryMode CG 연결과 MainGame 엔딩 CG 프리뷰 경로를 헤드리스에서 검증
+
 ### Changed (2026-06-12) — 한지연 사고 CG 얼굴 정합성
 - `assets/cg/jiyeon_crash.png` 교체: 사고 장면 속 한지연 얼굴/헤어/의상을 투명 포트레이트 정본(`npc_mentor`, `npc_jiyeon_warm`, `npc_jiyeon_cold`)에 맞게 재생성
 - 기존 정합성 요소는 유지: 검은 Mercedes-Benz S-Class급 세단, 운전석 앞문 하차, 쓰러진 자전거 두 바퀴, 왼쪽의 김민준, 비 오는 강남 야간 도로

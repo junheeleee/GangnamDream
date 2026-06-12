@@ -15,10 +15,13 @@ const _SFX_FILES = {
 	"click":       "res://assets/audio/sfx_click.wav",
 	"close":       "res://assets/audio/sfx_close.wav",
 	"open_modal":  "res://assets/audio/sfx_open_modal.wav",
+	"tab_open":    "res://assets/audio/sfx_tab_open.wav",
 	"month":       "res://assets/audio/sfx_month.wav",
 	"money_gain":  "res://assets/audio/sfx_money_gain.wav",
 	"money_loss":  "res://assets/audio/sfx_money_loss.wav",
 	"money_big":   "res://assets/audio/sfx_money_big.wav",
+	"buy":         "res://assets/audio/sfx_buy.wav",
+	"sell":        "res://assets/audio/sfx_sell.wav",
 	"stat_up":     "res://assets/audio/sfx_stat_up.wav",
 	"stat_down":   "res://assets/audio/sfx_stat_down.wav",
 	"event_new":   "res://assets/audio/sfx_event_new.wav",
@@ -53,10 +56,13 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 		"click":      return _tone(880, 0.05, [1.0, 0.0])
 		"close":      return _tone(440, 0.10, [0.8, 0.0])
 		"open_modal": return _tone(660, 0.12, [0.3, 1.0, 0.0])
+		"tab_open":   return _chord([494, 659], 0.14, [0.0, 1.0, 0.0])
 		"month":      return _chord([523, 659, 784], 0.25, [0.0, 0.8, 1.0, 0.0])
 		"money_gain": return _chord([659, 784, 988], 0.20, [0.0, 0.8, 1.0, 0.0])
 		"money_loss": return _tone(220, 0.28, [0.4, 1.0, 0.0])
 		"money_big":  return _chord([523, 659, 784, 1047], 0.40, [0.0, 0.5, 1.0, 0.5, 0.0])
+		"buy":        return _chord([440, 523], 0.14, [0.0, 1.0, 0.0])
+		"sell":       return _chord([523, 440], 0.14, [0.0, 1.0, 0.0])
 		"stat_up":    return _chord([523, 659], 0.16, [0.0, 1.0, 0.0])
 		"stat_down":  return _tone(330, 0.20, [0.5, 1.0, 0.0])
 		"event_new":  return _chord([440, 550], 0.14, [0.0, 1.0, 0.5, 0.0])

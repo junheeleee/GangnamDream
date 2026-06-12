@@ -3827,10 +3827,7 @@ func _show_ending(ending_id):
 		"healthy_retirement":BG_ROOFTOP_DAY,
 		"ordinary_life":     BG_DEFAULT,
 	}
-	var ending_cg_path := ""
-	var cg_id := str(ending.get("cg", ""))
-	if cg_id != "":
-		ending_cg_path = ImageRegistry.get_cg(cg_id)
+	var ending_cg_path := _get_ending_cg_path(ending)
 	var bg_path := ending_cg_path
 	var bg_alpha := 0.50 if ending_cg_path != "" else 0.35
 	if bg_path == "":
@@ -3949,6 +3946,36 @@ func _show_ending(ending_id):
 	var menu_btn = _button("메인 메뉴로", "#1a1a28")
 	menu_btn.pressed.connect(_go_to_menu)
 	modal_body.add_child(menu_btn)
+
+func _add_ending_cg_preview(parent: Control, cg_path: String) -> void:
+	var frame := PanelContainer.new()
+	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.02, 0.02, 0.04, 0.94)
+	st.border_color = Color("#2a3450")
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(8)
+	st.content_margin_left = 4
+	st.content_margin_right = 4
+	st.content_margin_top = 4
+	st.content_margin_bottom = 4
+	frame.add_theme_stylebox_override("panel", st)
+	parent.add_child(frame)
+
+	var img := TextureRect.new()
+	img.custom_minimum_size = Vector2(0, 360)
+	img.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	img.texture = load(cg_path)
+	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.add_child(img)
+
+func _get_ending_cg_path(ending: Dictionary) -> String:
+	var cg_id := str(ending.get("cg", ""))
+	if cg_id == "":
+		return ""
+	return ImageRegistry.get_cg(cg_id)
 
 func _ending_run_summary(ending_id: String) -> String:
 	var route = GameState.get_route_identity()
