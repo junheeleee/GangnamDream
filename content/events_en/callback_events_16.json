@@ -1,0 +1,223 @@
+[
+  {
+    "id": "callback_cafe_greed_resisted_echo",
+    "title": "After Resisting the Greed",
+    "description": "Two months since you held back the greed and walked out of the cafe situation.\nToday someone who was there called.\n\"Good thing you didn't do it.\"",
+    "choices": [
+      {
+        "text": "\"Yeah. Glad it worked out.\"",
+        "result_text": "You heard what happened after.\nHolding back had been right.\nResisting greed — is the most reliable way to avoid a loss."
+      },
+      {
+        "text": "\"I did think about how nice it would've been if it worked.\"",
+        "result_text": "'I thought about it too,' you said.\nThey said 'Even if it worked, you'd have gone all in next round.'\nThe greed you held back once — helped you hold it the next time."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_guilt_resolved_echo",
+    "title": "After the Guilt Lifted",
+    "description": "Two months since you resolved the guilt that came from the cafe situation.\nToday you saw that person again.",
+    "choices": [
+      {
+        "text": "Talk naturally",
+        "result_text": "It was natural.\nThe relief showed — in this conversation.\nCarrying guilt makes conversation awkward.\nAfter resolution, it's lighter."
+      },
+      {
+        "text": "Bring up that incident one more time",
+        "result_text": "\"I still think about what happened then,\" you said.\nThey said 'Me too.'\nEven after resolution — what's worth remembering, stays."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_mentor_network_echo",
+    "title": "The Cafe Mentor's Network",
+    "description": "Three months since the mentor you met at the cafe exchanged contacts with you.\nToday one of those contacts reached out first.",
+    "choices": [
+      {
+        "text": "Build on the connection",
+        "result_text": "You met.\nWhat started at a cafe — had traveled here.\nPeople connect through people."
+      },
+      {
+        "text": "Look into who they are first",
+        "result_text": "You looked into them first.\nTrustworthy route.\nYou met.\nVerifying first was right."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_greed_resisted_echo",
+    "title": "After Holding Back on Crypto",
+    "description": "Two months since you held back the greed and sold the coin.\nToday you checked the current price.",
+    "choices": [
+      {
+        "text": "It was the right time to sell",
+        "result_text": "It had gone up further — then dropped by half.\nSelling when you did was right.\nThe timing of holding back greed — proved itself in results.\nThe rule was right."
+      },
+      {
+        "text": "The higher it went, the more I feel I missed",
+        "result_text": "You thought about the higher prices.\nBut the lower ones were visible too.\nSelling at the top was luck.\nSelling by principle — that could be used next time."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_helped_friend_echo",
+    "title": "Talking a Friend Out of Crypto",
+    "description": "Three months since you talked a friend out of putting big money into crypto.\nToday that friend called.\n\"Hey — I'm glad I listened to you.\"",
+    "choices": [
+      {
+        "text": "\"That's a relief. Really.\"",
+        "result_text": "'Really glad,' you said.\nThe friend replied 'Thanks for back then.'\nTrying to stop someone risks making things awkward.\nStopping them anyway — had been right."
+      },
+      {
+        "text": "\"You just got lucky.\"",
+        "result_text": "'You got lucky,' you said.\nThey replied 'No — you read it right.'\nThere are times when refusing the gratitude isn't humility — it's not good manners."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_lost_confirmed_echo",
+    "title": "The Confirmed Crypto Loss",
+    "description": "Two months since the crypto loss was confirmed.\nToday you looked at that number again.",
+    "choices": [
+      {
+        "text": "Write it off as tuition and move on",
+        "result_text": "You moved on.\nYou wrote down how much you'd lost.\nFor this to be tuition — you couldn't go in the same way again.\nThe record became a brake."
+      },
+      {
+        "text": "Try to recover it",
+        "result_text": "You looked for recovery.\nLooking for it in the same place — became the same approach.\nRecovery had to come from somewhere else."
+      }
+    ]
+  },
+  {
+    "id": "callback_interview_lie_confessed_echo",
+    "title": "After Confessing the Interview Lie",
+    "description": "Two months since you came clean — post-joining — about the exaggeration in your interview.\nToday the team lead called you in separately.",
+    "choices": [
+      {
+        "text": "Go in with some nerves",
+        "result_text": "The team lead said 'I appreciated you telling me honestly.'\nNot a reprimand.\nThe confession had built trust.\nHonesty had made a more solid footing than the exaggeration."
+      }
+    ]
+  },
+  {
+    "id": "callback_interview_lie_doubled_consequence",
+    "title": "The Result of Doubling Down",
+    "description": "Two months since you covered the interview exaggeration with a bigger lie.\nToday it came out.",
+    "choices": [
+      {
+        "text": "Come clean now",
+        "result_text": "You told the truth.\nThe team lead's expression was hard.\n'Why didn't you say so sooner,' they said.\nThe bigger the lie stacks — the harder it is to tell the truth.\nAnd the harder it gets — the sooner it should have been said."
+      },
+      {
+        "text": "Keep denying it",
+        "result_text": "You denied it.\nThey produced the evidence.\nLies always get found out.\nThe finding out isn't the problem — everything stacked before that was."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_02b_questioned_echo",
+    "title": "After Questioning Jaehyuk",
+    "description": "A month since you questioned Jaehyuk's behavior directly.\nToday Jaehyuk came to find you first.",
+    "choices": [
+      {
+        "text": "Hear what he has to say",
+        "result_text": "Jaehyuk said 'I'm glad you asked directly.'\nWhispering behind someone's back — talking to their face kept the relationship intact."
+      },
+      {
+        "text": "Ask first: \"Something you want to say?\"",
+        "result_text": "You said 'Is there something you want to tell me?'\nHe said 'Yeah — it's about back then.'\nAsking directly — had made him come directly."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_final_break_echo",
+    "title": "The Final Break with Jaehyuk",
+    "description": "Two months since you completely cut ties with Jaehyuk.\nToday you heard about him from a mutual contact.",
+    "choices": [
+      {
+        "text": "Just listen",
+        "result_text": "You listened.\nJaehyuk was the same.\nCutting things off had been confirmed as right.\nBreaking takes pain — but what comes after proves it."
+      },
+      {
+        "text": "\"Can we not talk about him?\"",
+        "result_text": "'Let's not,' you said.\nThey said 'Okay.'\nCutting it was cutting it.\nNot even the updates were needed."
+      }
+    ]
+  },
+  {
+    "id": "callback_investment_analysis_habit_echo",
+    "title": "When Analysis Is a Habit",
+    "description": "Three months since you made pre-investment analysis a habit.\nToday for the first time — you almost bought without analyzing. And stopped.",
+    "choices": [
+      {
+        "text": "Analyze and buy",
+        "result_text": "You stopped and analyzed.\nThe outcome was good.\nHolding up against impulse — that was what the habit was really for.\nHabit beat emotion."
+      },
+      {
+        "text": "Go with gut this time",
+        "result_text": "You went with gut.\nThe outcome was uncertain.\nBut breaking a habit once — made it easier to break the next time."
+      }
+    ]
+  },
+  {
+    "id": "callback_leverage_lesson_learned_echo",
+    "title": "After the Leverage Lesson",
+    "description": "Three months since losing big on leverage and learning the lesson.\nToday a leverage product ad appeared again.\n\"This time it's an opportunity.\"",
+    "choices": [
+      {
+        "text": "Close it",
+        "result_text": "You closed it.\nAds always said 'This time it's an opportunity.'\nSometimes they were right.\nBut when they were wrong, what you lost — was bigger than what you'd gain when right."
+      },
+      {
+        "text": "At least look at the content",
+        "result_text": "You looked.\nIt sounded plausible.\nPlausible was what made it dangerous.\nYou closed it."
+      }
+    ]
+  },
+  {
+    "id": "callback_greed_learned_echo",
+    "title": "After Learning About Greed",
+    "description": "Three months since you learned firsthand that greed creates losses.\nToday a similar situation arrived.",
+    "choices": [
+      {
+        "text": "Act on that lesson",
+        "result_text": "You stopped.\nYou pulled out when you had enough.\nA lesson is for using when the same moment returns.\nThis was that moment."
+      },
+      {
+        "text": "\"This time is different.\"",
+        "result_text": "You said 'This time is different.'\nEveryone who'd ever said that — had seen the same ending.\nThe lesson stayed as memory only."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_partial_exit_echo",
+    "title": "After the Partial Exit",
+    "description": "Two months since you sold part of your startup stake.\nYou still hold some.\nToday the founder sent an update.",
+    "choices": [
+      {
+        "text": "Check on the remaining stake",
+        "result_text": "You reviewed it.\nThe exited portion was locked in — the rest needed watching.\nPartial cash-out had reduced anxiety and sharpened judgment."
+      },
+      {
+        "text": "Good news — better to hold more",
+        "result_text": "You decided to hold more.\nThe founder's optimism had colored your judgment.\nGood news is exactly when you need to stay cold — you'd forgotten that."
+      }
+    ]
+  },
+  {
+    "id": "callback_quit_survived_echo",
+    "title": "Having Survived After Quitting",
+    "description": "Three months since the resignation.\nThe hard period was passing.\nToday, out of nowhere, a call came.",
+    "choices": [
+      {
+        "text": "Take the call",
+        "result_text": "It was someone from the old job who'd stayed in touch.\nThey were asking about an opportunity.\nSurviving the hard stretch — had put you in position to receive this call.\nResigning wasn't the end."
+      },
+      {
+        "text": "Say you're still in preparation",
+        "result_text": "'Still getting ready,' you said.\nThey said 'Sure — reach out when you're ready.'\nAn opportunity that would wait until you were ready — was there."
+      }
+    ]
+  }
+]
