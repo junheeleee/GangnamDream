@@ -1,0 +1,242 @@
+[
+  {
+    "id": "callback_sangchul_tip_win_payoff",
+    "title": "Sangchul's Verdict",
+    "description": "You went in on Sangchul's tip and it paid off.\nToday Sangchul called.\n\"Minjun. See? What did I tell you.\"\nThere was pride in his voice.",
+    "choices": [
+      {
+        "text": "\"It worked out, thanks to you.\"",
+        "result_text": "Sangchul said 'Let me treat you this time.'\nOver dinner, the next investment came up.\nOne tip was turning into trust."
+      },
+      {
+        "text": "\"I think I got lucky.\"",
+        "result_text": "Sangchul paused and said 'Luck is skill too.'\nWhether that's true or not — the next one will decide."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_tip_lose_awkward",
+    "title": "Since That Tip",
+    "description": "You followed Sangchul's tip and took a loss.\nToday you ran into Sangchul at another gathering.\nYour eyes met.\nFor a moment, it was awkward.",
+    "choices": [
+      {
+        "text": "Speak first. \"That call was my decision.\"",
+        "result_text": "Sangchul said 'I'm sorry about how it turned out.'\n'No — it was my choice.'\nA short silence, and it ended like adults.\nThe relationship was still alive."
+      },
+      {
+        "text": "Pretend you didn't see each other",
+        "result_text": "You both looked away.\nThe awkwardness kept coming back later.\nLosing the money was less uncomfortable than the damaged connection."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_supportive_warmth",
+    "title": "A Text from Daeun",
+    "description": "A few months ago you were there for Daeun when things were hard.\nToday a text from Daeun.\n'Minjun. I was thinking about that time.\nHow have you been?'",
+    "choices": [
+      {
+        "text": "\"Doing well. Let's grab food sometime.\"",
+        "result_text": "Daeun replied 'Sounds good' right away.\nBeing there for her then brought this.\nGood things come back this way sometimes."
+      },
+      {
+        "text": "Just reply \"Doing well.\"",
+        "result_text": "Daeun sent 'Good to hear :)'\nThe conversation ended quickly.\nThere was something there — but the distance didn't close."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_guarded_distance",
+    "title": "The Distance That Grew",
+    "description": "You'd kept drawing lines around Daeun.\nToday you heard through a mutual friend.\nDaeun had moved to a different neighborhood.",
+    "choices": [
+      {
+        "text": "Try reaching out",
+        "result_text": "You sent a text. 'Heard you moved. How are you?'\nOnly the read receipt appeared.\nNo reply.\nYou were the one who drew the lines."
+      },
+      {
+        "text": "Leave it",
+        "result_text": "You left it.\nYou thought you wanted a comfortable distance — but this wasn't distance, it was just far."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_understood_closeness",
+    "title": "What Daeun Remembers",
+    "description": "There was that conversation where Daeun understood your situation.\nToday you ran into her at the same café by coincidence.\nDaeun smiled and waved first.",
+    "choices": [
+      {
+        "text": "Sit down together",
+        "result_text": "You talked for an hour.\nDaeun said 'I appreciated that you were honest with me back then.'\nBeing understood then — brought this moment."
+      },
+      {
+        "text": "Just say hello and go back to your seat",
+        "result_text": "You exchanged a greeting.\nWent back to your own tables.\nYou knew she was a good person."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_deflected_last_chance",
+    "title": "Daeun's Last Question",
+    "description": "You'd brushed off Daeun's words several times.\nToday Daeun asked directly.\n\"Minjun. Am I bothering you?\nYou can be honest with me.\"",
+    "choices": [
+      {
+        "text": "\"It's not that. I just don't have the bandwidth right now.\"",
+        "result_text": "Daeun was quiet for a moment, then said 'That's a relief.'\nIt took a long time to say something honest.\nBut maybe it wasn't too late."
+      },
+      {
+        "text": "\"No, I've just been busy.\" Deflect again.",
+        "result_text": "Daeun said 'I see' and stopped asking.\nThat look — it seemed like 'that's enough for me.'"
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_job_taken_result",
+    "title": "The Job from That Introduction",
+    "description": "You returned the wallet, and that person offered a job referral.\nYou ended up reaching out and did the interview.\nToday is three months since joining that company.",
+    "choices": [
+      {
+        "text": "It's a good fit. Keep going.",
+        "result_text": "A small company, but the people were good.\nThe owner said 'I want to work together for a long time.'\nOne wallet led to all this.\nGood things do come back like this sometimes."
+      },
+      {
+        "text": "It's not a good fit. Start looking elsewhere.",
+        "result_text": "It wasn't a good fit.\nBut the referral became a line on the resume.\nConnections leave traces even when the result isn't what you hoped."
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_job_declined_echo",
+    "title": "That Contact",
+    "description": "When you returned the wallet, you turned down the job offer.\nYou'd probably deleted the contact — but on a whim you searched.\nThe company name came up.\nIt looked pretty decent.",
+    "choices": [
+      {
+        "text": "Reach out again",
+        "result_text": "'I'm sorry for turning you down back then. Is the position still open?'\nA reply came after a long wait. 'We've already filled it.'\nDisappointing.\nBut reaching out was still the right call."
+      },
+      {
+        "text": "Close it. Do well with what you have.",
+        "result_text": "You closed the tab.\nThere was a reason you said no back then.\nThat reason still holds."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_backed_down_consequence",
+    "title": "Another Nameless Report",
+    "description": "Back then you'd pushed back on the credit claim and ended up backing down.\nToday the same situation came up again.\nThe team lead submitted the whole team's work under their own name.",
+    "choices": [
+      {
+        "text": "This time, say it clearly.",
+        "result_text": "'Team lead, this material was mine — I'd appreciate it if my name was included.'\nThe team lead stiffened for a moment. '...Fine.'\nIf you back down once, you keep backing down. Now you know."
+      },
+      {
+        "text": "Let it slide again.",
+        "result_text": "You let it go again.\nThe team lead will do it next time too.\nIf you don't draw a line, there is no line."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_went_over_head_result",
+    "title": "Team Lead's 1:1",
+    "description": "A month ago you went over your team lead's head to claim credit.\nToday the team lead requested a 1:1 meeting.",
+    "choices": [
+      {
+        "text": "Walk in and take it head-on",
+        "result_text": "The team lead was cold. 'Going forward, please go through me.'\nBut after that, your name wasn't left off.\nThere was a cost — but something was gained too."
+      },
+      {
+        "text": "Apologize to the team lead first",
+        "result_text": "'Skipping the process was my mistake.'\nThe team lead's expression softened. 'Thank you for saying that.'\nBut next time, the name might be missing again.\nApologizing and changing things are different."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_let_go_space",
+    "title": "Six Months Without Hyeonsu",
+    "description": "Half a year since you cut the gambling connection with Hyeonsu.\nToday Hyeonsu posted in a group chat.\n'I got a job. Completely done with betting.'\nAn unfamiliar company name.",
+    "choices": [
+      {
+        "text": "Hit 'like'",
+        "result_text": "You pressed like.\nHyeonsu sent a short reply. 'You doing okay too?'\nYou just said 'Yeah.'\nThe distance that grew between you seemed to suit both of you."
+      },
+      {
+        "text": "Don't reach out separately",
+        "result_text": "You didn't do anything.\nYou were genuinely glad Hyeonsu was doing well.\nSome relationships don't need to be close to be good."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_pushed_through_cost",
+    "title": "The Morning After",
+    "description": "You stayed at the company dinner until 2 AM.\nThe next morning the alarm went off and your eyes wouldn't open.\nTen minutes before you had to leave.",
+    "choices": [
+      {
+        "text": "Force yourself up and go in",
+        "result_text": "You barely made it to your seat.\nThe team lead walked by and said 'Good work last night.'\nBody felt awful, face relaxed.\nThis is office life."
+      },
+      {
+        "text": "Take a half-day",
+        "result_text": "You filed for half a day.\nThe team lead said 'Last night was rough, huh.'\nBody first. Figured it out late."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_halfday_outcome",
+    "title": "The Atmosphere Since Then",
+    "description": "Two weeks since you took a half-day instead of going to the dinner.\nThe team dynamic seems subtly different.\nNot sure exactly what changed.",
+    "choices": [
+      {
+        "text": "Ask directly. \"Did I make things weird?\"",
+        "result_text": "A coworker said 'No, nothing like that. I just learned you're the type who keeps your distance.'\nThe type who keeps their distance.\nNot sure if that's good or bad."
+      },
+      {
+        "text": "Don't think about it",
+        "result_text": "You stopped thinking about it.\nSomething did shift.\nBut that's not your fault."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_dodged_noticed",
+    "title": "The Team Lead Knew",
+    "description": "The day you slipped out of the company dinner early.\nToday the team lead stopped you in the hallway.\n\"Minjun. You left early last time, right?\"",
+    "choices": [
+      {
+        "text": "\"Yes, something came up. I'm sorry.\"",
+        "result_text": "The team lead said 'Just let me know ahead of time next time.'\nNot sure if that was a scolding or consideration.\nEither way, it passed."
+      },
+      {
+        "text": "\"I wasn't feeling well.\"",
+        "result_text": "The team lead said 'Alright. Let me know next time.'\nOne small lie.\nIt passed this time."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_going_soon_visit",
+    "title": "Father's Time",
+    "description": "You found out your father's health had gotten much worse.\nYou should see him often while it's still a good time — your aunt told you something like that.\nYou searched the bus schedule to your hometown.",
+    "choices": [
+      {
+        "text": "Go down this week",
+        "result_text": "Your father was waiting at the door.\nYou had two bowls of rice.\nOn the bus back, you couldn't do anything for a long time.\nVisiting often is right. That's right."
+      },
+      {
+        "text": "Plan to go next month",
+        "result_text": "You marked it on the calendar.\nNext month.\nThe words 'while it's still a good time' kept running through your head."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_reconciled_started_progress",
+    "title": "The Pace of Reconciliation",
+    "description": "Eight months since you started making things right with your father.\nIt was awkward at first — but now calling feels natural.\nToday your father called first.\nNo reason in particular.",
+    "choices": [
+      {
+        "text": "Talk for a long time",
+        "result_text": "Forty minutes.\nNothing specific said.\nDad hung up first. 'Sleep well.'\nThis is how reconciliation completes.\nWithout a single dramatic moment."
+      },
+      {
+        "text": "\"Dad, I'm a bit busy right now. I'll call you back.\"",
+        "result_text": "Dad said 'Okay, you're busy' and hung up.\nYou called back later.\nHe picked up immediately.\nYou realized he'd been waiting."
+      }
+    ]
+  }
+]
