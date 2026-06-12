@@ -1139,3 +1139,10 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 - `_recommend_action()` — 상태 기반 이번 달 최우선 행동 제안
 - 경고 없을 때 `event_body` 마지막에 "💡 이번 달 추천" 표시
 - 상태 우선순위: 무직 → 스트레스 높음 → 첫 월급 전 → 투자 가능 → 자기계발
+
+## 2026-06-12 — 콜백 이벤트 5차 배치
+- callback_events_5.json (KR) + events_en/callback_events_5.json (EN) 생성
+- DataRegistry.gd에 경로 추가
+- 17개 이벤트: chaebol_contact, approached_shadow_investors, declined_sangchul_deal, jeonse_ignored, checked_registry, wallet_took_cash, wallet_ignored, fomo_invested, declared_dream(turn40), deleted_sns, envy_fuel, came_clean_to_friend, borrowed_from_parents, escaped_dirty_money, heard_father_young_story, asked_father_health, freelance_started
+- audit.sh ERROR 0 / WARNING 20 (기존) 통과
+- 배치 1~5 누적 87개 콜백 이벤트

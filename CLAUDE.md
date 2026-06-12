@@ -8,10 +8,10 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **스팀 출시 준비** — 비주얼/오디오 업그레이드 브리프 완성 |
-| **최근 완료** | **VISUAL_AUDIO_UPGRADE_BRIEF.md 작성** — P1(캐릭터 21장+배경 10장+CG 2장) / P2(배경 20장+CG 2장+키아트 4장) / P3(BGM 7트랙+SFX 14종) 전체 교체 스펙 완성. ImageRegistry 누락 배경 5개 추가. |
-| **다음 작업** | **비주얼 에이전트 실행** — assets/VISUAL_AUDIO_UPGRADE_BRIEF.md 기준으로 이미지/오디오 생성·배치. 또는 **QA 플레이스루** (로컬 Godot 필요) |
-| **마지막 업데이트** | 2026-06-12 (비주얼+오디오 업그레이드 브리프) |
+| **단계** | **콘텐츠 심화** — 죽은 플래그 → 콜백 이벤트 연결 작업 중 |
+| **최근 완료** | **콜백 이벤트 5차 배치 완성** — 17개 (재벌연락/그림자투자/상철거절/전세경매/지갑죄책감/FOMO/선언/삭제SNS/시기연료/솔직우정/부모빚/탈출흔적/아버지청년/아버지건강/프리랜서2호). 배치 1~5 총 87개 콜백 이벤트 완성. |
+| **다음 작업** | **콜백 6차 배치** — 잔여 dead flag 우선순위: sangchul_tip_win/lose / daeun_supportive/guarded/understood/deflected / wallet_job_taken/declined / credit_backed_down/went_over_head / coin_let_go / hoesik_pushed_through/halfday/dodged / climber_advanced/elite_recognized / father_going_soon/father_reconciled_started |
+| **마지막 업데이트** | 2026-06-12 (콜백 5차 배치 17개 완성) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
