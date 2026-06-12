@@ -97,6 +97,12 @@ const BACKGROUNDS = {
 	"trading":           "res://assets/backgrounds/trading_screen_night.png",
 	"pc_bang":           "res://assets/backgrounds/pc_bang_interior.png",
 	"late_night":        "res://assets/backgrounds/late_night_room.png",
+	# 신규 (2026-06-12)
+	"library":           "res://assets/backgrounds/library.png",
+	"restaurant":        "res://assets/backgrounds/restaurant_korean.png",
+	"street":            "res://assets/backgrounds/street_seoul_day.png",
+	"apartment":         "res://assets/backgrounds/oneroom_apartment.png",
+	"convenience_store": "res://assets/backgrounds/convenience_store_night.png",
 	# 미니게임 전용
 	"racetrack_betting": "res://assets/backgrounds/racetrack_betting_hall.png",
 	"racetrack_track":   "res://assets/backgrounds/racetrack_track_view.png",
