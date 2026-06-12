@@ -1,0 +1,238 @@
+[
+  {
+    "id": "callback_leverage_addict_margin_call",
+    "title": "Margin Call",
+    "description": "Several months of using leverage as a habit.\nToday a text from your broker.\n[Additional Margin Required]\nThe amount was on the screen.",
+    "choices": [
+      {
+        "text": "Pay it and close the position",
+        "result_text": "You paid and closed everything.\nLeverage doesn't amplify gains — it amplifies losses too.\n₩2 million tuition.\nCheap, as lessons go."
+      },
+      {
+        "text": "Put in more and hold",
+        "result_text": "You put in ₩3 million more.\nAnother text came the next day.\nOnce you're caught in leverage, it's hard to cut yourself free.\nThat's what addiction is."
+      }
+    ]
+  },
+  {
+    "id": "callback_speculator_big_win_next_move",
+    "title": "After the Big Win",
+    "description": "The speculative bet paid off big.\nWord got around.\nToday an acquaintance carefully asked:\n\"How did you do it back then? Could you show me?\"",
+    "choices": [
+      {
+        "text": "Be honest. \"It was luck.\"",
+        "result_text": "'It was luck. Do the same thing again and I could lose.'\nThe person looked thrown off.\nBut it was true.\nNot packaging one big win as skill — that's how you protect what comes next."
+      },
+      {
+        "text": "Tell them roughly what you did",
+        "result_text": "You explained the basics.\nA month later word came back that they'd tried it and lost.\nSame method doesn't guarantee same outcome."
+      }
+    ]
+  },
+  {
+    "id": "callback_etf_study_payoff",
+    "title": "The Return on Study",
+    "description": "Six months since you started studying ETFs.\nFrom not knowing the terms — you now designed your own portfolio.\nToday for the first time you wrote an investment plan in your notes.",
+    "choices": [
+      {
+        "text": "Buy the first ETF according to the plan",
+        "result_text": "₩1 million.\nThe first investment where you knew why you were buying.\nThe return wasn't the difference — being able to explain why was."
+      },
+      {
+        "text": "Study more before buying",
+        "result_text": "You felt it was too early.\nYou kept studying.\nThe day you feel ready might never come.\nAt some point you just have to start."
+      }
+    ]
+  },
+  {
+    "id": "callback_pb_access_reality",
+    "title": "The PB Meeting",
+    "description": "You finally got into the PB tier.\nToday your first meeting with the assigned private banker.\n\"For an asset level like yours, this product would be suitable.\"\nListening to the explanation — something felt off.",
+    "choices": [
+      {
+        "text": "Review the proposal before deciding",
+        "result_text": "You went home and broke down the fee structure.\nPBs also have company products to sell.\nGetting here was good — but here too, you had to look for yourself."
+      },
+      {
+        "text": "Go with the PB recommendation",
+        "result_text": "You went in as recommended.\nIt was a high-fee product.\nGetting PB access doesn't mean delegating judgment.\nA different layer — but still your job to look closely."
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_paid_result",
+    "title": "What That Information Did",
+    "description": "Two months since you went in on information of unknown origin.\nToday you opened the account.\nIt was right.",
+    "choices": [
+      {
+        "text": "Lock in the gain and don't use that route again",
+        "result_text": "You sold.\nWhether it was skill or luck — unclear.\nEven when unknown-source info is right — repeating that route will eventually cost more.\nThis was the last time."
+      },
+      {
+        "text": "Use that route again next time",
+        "result_text": "You reached out again.\nThe second one was right too.\nThe third was wrong — and that time there was an investigation too.\nOne success doesn't justify a bad route."
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_reported_outcome",
+    "title": "After the Report",
+    "description": "Three months since you reported the suspicious information channel to the FSS.\nToday a text from the FSS.\n[Report Outcome Notification]",
+    "choices": [
+      {
+        "text": "Check the result",
+        "result_text": "[Investigation Opened]\nThe report was filed and an inquiry started.\nNo direct gain.\nBut the right thing was done — and a clean exit from that route.\nBoth confirmed."
+      }
+    ]
+  },
+  {
+    "id": "callback_ipo_participated_result",
+    "title": "IPO Result",
+    "description": "You participated in an IPO subscription two months ago.\nListing morning. You opened the chart.",
+    "choices": [
+      {
+        "text": "Sell at the opening price",
+        "result_text": "Sold at open. Profit ₩800,000.\nNo greed. Clean exit.\nIPOs often run up on listing day and come back down.\nSmall but certain."
+      },
+      {
+        "text": "Looks like it'll go higher. Hold.",
+        "result_text": "Next day: -12%.\nThe profit flipped to a loss.\nGreed is when IPO gains disappear.\nSmall lesson. Expensive."
+      }
+    ]
+  },
+  {
+    "id": "callback_took_gray_tip_consequence",
+    "title": "The Cost of the Gray Zone",
+    "description": "Two months since you decided to use the gray-area information.\nYou made money.\nBut today a call from the person who gave you the tip.\n\"You know you owe me something, right?\"",
+    "choices": [
+      {
+        "text": "\"I'll pay you for the tip in cash.\"",
+        "result_text": "You transferred ₩1 million.\nThey said 'Clean.'\nGray-zone tips always come with a price.\nThis one ended with money. For now."
+      },
+      {
+        "text": "\"What do you want?\" — hear them out",
+        "result_text": "They made a request.\nNot just money.\nStep into the gray zone once — and getting out isn't easy."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_viral_aftermath",
+    "title": "After the Viral Moment",
+    "description": "Two months since a post went viral.\nFollowers spiked. Strangers commented.\nToday back in ordinary life — nothing had actually changed.",
+    "choices": [
+      {
+        "text": "Turn it into something — keep creating content",
+        "result_text": "You kept posting.\nA second viral moment didn't come — but a small group of real readers stayed.\nInterest has a short half-life. Content's half-life is longer."
+      },
+      {
+        "text": "Accept the attention fading naturally",
+        "result_text": "It faded naturally.\nFifteen minutes of fame.\nKnowing that's not everything.\nOnce you know — it feels lighter."
+      }
+    ]
+  },
+  {
+    "id": "callback_hit_rock_bottom_rebuild",
+    "title": "What Came After the Bottom",
+    "description": "Eight months from the point that felt like rock bottom.\nToday you opened old notes.\nThere was an entry: 'Can't get worse than this.'\nWith a date.",
+    "choices": [
+      {
+        "text": "Write down what happened since then",
+        "result_text": "You wrote what had changed since that day.\nA lot.\nYou need a floor to know which way is up.\nThat was true."
+      },
+      {
+        "text": "Close it. Don't look back.",
+        "result_text": "You closed it.\nEven without looking back — you know where you're standing now is different.\nThat's enough."
+      }
+    ]
+  },
+  {
+    "id": "callback_honest_at_reunion_ripple",
+    "title": "The Ripple from That Honesty",
+    "description": "Half a year since you said 'Things aren't going well' at the reunion.\nToday a message from the group — another friend said something similar.",
+    "choices": [
+      {
+        "text": "Reach out to that friend",
+        "result_text": "'I was struggling then too. Still not easy now.'\nThey said '...I needed to hear that.'\nHonesty calls honesty.\nThat one line traveled here."
+      },
+      {
+        "text": "Leave it",
+        "result_text": "You left it.\nSo a word said at a reunion spreads like that.\nThat one honest thing — had become someone's memory."
+      }
+    ]
+  },
+  {
+    "id": "callback_saw_senior_farewell_mirror",
+    "title": "That Moment as a Mirror",
+    "description": "A year since you watched a senior's farewell.\nToday someone else on the team announced they were leaving.\nThat gathering would probably look similar.",
+    "choices": [
+      {
+        "text": "Say goodbye in person this time",
+        "result_text": "'You worked hard. I hope it goes well.'\nThey said 'Thanks. Take care.'\nWhat you saw then changed how you acted now.\nWatching and learning is also experience."
+      },
+      {
+        "text": "Watch from your seat",
+        "result_text": "You watched.\nThe face of the person leaving looked like the senior's.\nWhat kind of place this is — confirmed again."
+      }
+    ]
+  },
+  {
+    "id": "callback_met_bankrupt_ceo_lesson",
+    "title": "The Bankrupt CEO's Words",
+    "description": "You'd met an executive who'd once thrived and then gone bankrupt.\nSomething they said came back today, facing an investment decision.\n\"Where I went wrong was being too certain.\"",
+    "choices": [
+      {
+        "text": "Use that as a lens to examine this certainty",
+        "result_text": "You checked three more things.\nYour certainty went down.\nSo you went in smaller.\nThat CEO's bankruptcy — changed this decision."
+      },
+      {
+        "text": "But this time my certainty is different.",
+        "result_text": "You went in as planned.\nMight be right.\nBut the bankrupt CEO probably said 'This time is different' too."
+      }
+    ]
+  },
+  {
+    "id": "callback_pride_motive_check",
+    "title": "The Cost of Pride",
+    "description": "You've been running on pride, it seems.\nToday suddenly — unclear whether this was your own goal or something to show someone else.",
+    "choices": [
+      {
+        "text": "Sort out the reasons again",
+        "result_text": "You wrote it down.\nWhy Gangnam. Who it's for.\nHalf pride, half something real.\nIf half is real — that's enough reason to keep going."
+      },
+      {
+        "text": "Whatever the reason — results matter",
+        "result_text": "Results matter. You kept running.\nBut running on pride alone — sometimes even reaching the goal leaves you empty.\nThat was starting to make sense."
+      }
+    ]
+  },
+  {
+    "id": "callback_questioned_orthodox_answer",
+    "title": "What the Straight Path Actually Is",
+    "description": "A year since you questioned whether the orthodox path was even right.\nToday you added up what you'd built through steady work.\nMore than expected.",
+    "choices": [
+      {
+        "text": "The straight path is right. Keep going.",
+        "result_text": "Slow, but it had accumulated.\nMoney made through speculation was lost through speculation — but this number remained.\nThe orthodox path isn't slow. Speculation's speed was an illusion."
+      },
+      {
+        "text": "Still unsure. There's probably a faster way.",
+        "result_text": "Still no clear answer.\nBut questioning while moving — better than moving without thinking.\nThe answer comes at the end."
+      }
+    ]
+  },
+  {
+    "id": "callback_network_compounding_moment",
+    "title": "The Day the Network Returned",
+    "description": "A year of consistent behavior with everyone you'd met.\nToday an unknown number called.\n\"Hello, I got your contact through OO. Do you have a moment?\"",
+    "choices": [
+      {
+        "text": "Set up a meeting",
+        "result_text": "You met.\nThey were looking in the same direction.\nA year of built reputation — made this table happen today.\nCompounding isn't only for money."
+      },
+      {
+        "text": "Find out who they are first",
+        "result_text": "You checked the background.\nA trustworthy route.\nSet up the meeting.\nBeing careful was right. And waiting wasn't wrong either."
+      }
+    ]
+  }
+]

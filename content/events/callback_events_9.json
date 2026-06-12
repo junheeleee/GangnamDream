@@ -1,0 +1,592 @@
+[
+  {
+    "id": "callback_leverage_addict_margin_call",
+    "title": "마진콜",
+    "description": "레버리지를 습관처럼 쓰기 시작한 지 몇 달이 됐다.\n오늘 증권사에서 문자가 왔다.\n[추가증거금 납부 요청]\n금액이 화면에 찍혀있었다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "leverage_addict",
+      "min_turn": 6
+    },
+    "tags": ["investment", "callback", "leverage"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "납부하고 포지션을 정리한다",
+        "effects": {
+          "money": -2000000,
+          "mental": 5,
+          "investment_skill": 4
+        },
+        "flags": ["leverage_lesson_learned"],
+        "follow_up_event": "",
+        "result_text": "납부하고 전부 정리했다.\n레버리지는 수익을 늘리는 게 아니라 손실도 늘리는 것이었다.\n200만원이 수업료였다.\n싸게 배웠다고 할 수 있었다."
+      },
+      {
+        "text": "추가 자금을 넣고 버틴다",
+        "effects": {
+          "money": -3000000,
+          "stress": 15,
+          "mental": -10
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "300만원을 더 넣었다.\n다음 날 또 문자가 왔다.\n레버리지는 한 번 물리면 스스로 끊기가 어렵다.\n그게 중독이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_speculator_big_win_next_move",
+    "title": "큰 수익 이후",
+    "description": "투기성 베팅이 크게 맞았다.\n주변에 소문이 났다.\n오늘 아는 사람이 조심스럽게 말을 꺼냈다.\n\"그때 어떻게 하셨어요. 저도 좀 알려주실 수 있어요?\"",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "speculator_big_win",
+      "min_turn": 5
+    },
+    "tags": ["investment", "callback", "speculation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "솔직하게 말한다. \"운이었어요\"",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"운이었어요. 그 방법 다시 하면 잃을 수도 있어요.\"\n상대가 당황했다.\n하지만 그게 사실이었다.\n한 번의 큰 수익을 실력으로 포장하지 않는 것. 그게 다음을 지키는 방법이었다."
+      },
+      {
+        "text": "적당히 알려준다",
+        "effects": {
+          "social_skill": 1,
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "대략적인 방법을 얘기했다.\n그 사람이 따라 했다가 잃었다는 소식이 한 달 뒤 들려왔다.\n같은 방법이 같은 결과를 보장하지 않는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_etf_study_payoff",
+    "title": "공부의 결과",
+    "description": "ETF 공부를 시작한 지 6개월이 됐다.\n처음엔 용어도 몰랐는데 — 이제 포트폴리오를 직접 설계했다.\n오늘 처음으로 운용 계획서를 노트에 썼다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "etf_study_mode",
+      "min_turn": 6
+    },
+    "tags": ["investment", "callback", "etf"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "계획서대로 첫 ETF를 산다",
+        "effects": {
+          "money": -1000000,
+          "investment_skill": 4,
+          "intelligence": 3
+        },
+        "flags": ["etf_first_purchase"],
+        "follow_up_event": "",
+        "result_text": "100만원.\n처음으로 이유를 알고 산 투자였다.\n수익률보다 — 왜 샀는지 설명할 수 있다는 게 달랐다."
+      },
+      {
+        "text": "더 공부하고 나서 산다",
+        "effects": {
+          "intelligence": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아직 이르다고 느꼈다.\n계속 공부했다.\n준비가 됐다고 느끼는 날이 없을 수도 있다.\n어느 시점엔 그냥 시작해야 한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_pb_access_reality",
+    "title": "PB 미팅",
+    "description": "드디어 PB 라인에 들어갔다.\n오늘 담당 PB와 첫 미팅을 했다.\n\"고객님 자산 규모라면 이런 상품이 맞습니다.\"\n설명을 듣는데 — 뭔가 달랐다.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "pb_access",
+      "min_turn": 8
+    },
+    "tags": ["investment", "callback", "pb"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "PB 제안을 검토한 뒤 결정한다",
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3
+        },
+        "flags": ["pb_verified"],
+        "follow_up_event": "",
+        "result_text": "집에 와서 수수료 구조를 뜯어봤다.\nPB도 회사 상품을 팔아야 한다.\n여기까지 온 건 좋은 일이지만 — 여기서도 직접 따져야 했다."
+      },
+      {
+        "text": "PB 추천대로 한다",
+        "effects": {
+          "investment_skill": 1,
+          "money": -2000000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "추천대로 넣었다.\n수수료가 높은 상품이었다.\nPB 라인에 들어왔다고 판단을 위임하면 안 됐다.\n레이어가 달라졌을 뿐 직접 보는 건 내 몫이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_paid_result",
+    "title": "그 정보의 결과",
+    "description": "출처 불명의 정보로 들어간 게 두 달 전이다.\n오늘 계좌를 열었다.\n맞았다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "mystery_info_paid_off",
+      "min_turn": 6
+    },
+    "tags": ["investment", "callback", "gray_area"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "수익을 확정하고 그 루트는 다시 쓰지 않는다",
+        "effects": {
+          "money": 2000000,
+          "mental": 5,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "팔았다.\n맞은 게 실력인지 운인지 모른다.\n출처가 불명인 정보가 맞아도 — 그 루트를 반복하면 언젠가 더 크게 데인다.\n이번 한 번으로 끝냈다."
+      },
+      {
+        "text": "다음에 또 그 루트를 쓴다",
+        "effects": {
+          "investment_skill": 1,
+          "stress": 8,
+          "reputation": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "또 연락했다.\n두 번째도 맞았다.\n세 번째는 틀렸고 — 그때 함께 수사를 받았다.\n한 번의 성공이 나쁜 루트를 정당화하지 않는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_reported_outcome",
+    "title": "신고 이후",
+    "description": "수상한 정보 루트를 금감원에 신고한 지 3개월이 됐다.\n오늘 금감원에서 문자가 왔다.\n[신고 처리 결과 안내]",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "mystery_info_reported",
+      "min_turn": 6
+    },
+    "tags": ["investment", "callback", "legal"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "결과를 확인한다",
+        "effects": {
+          "mental": 10,
+          "reputation": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "[조사 착수 통보]\n신고가 접수되고 수사가 시작됐다.\n직접 이득은 없었다.\n하지만 옳은 일을 했다는 것과 — 그 루트에서 깨끗하게 빠져나왔다는 것.\n둘 다 확인이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_ipo_participated_result",
+    "title": "공모주 결과",
+    "description": "공모주 청약에 넣었던 게 두 달 전이다.\n상장일 아침 차트를 열었다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "ipo_participated",
+      "min_turn": 4
+    },
+    "tags": ["investment", "callback", "ipo"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "시초가에 바로 판다",
+        "effects": {
+          "money": 800000,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "시초가에 팔았다. 수익 80만원.\n욕심 없이 정리했다.\n공모주는 상장 후 올라도 결국 내려오는 경우가 많았다.\n작지만 확실한 수익이었다."
+      },
+      {
+        "text": "더 오를 것 같다. 좀 더 들고 있는다",
+        "effects": {
+          "investment_skill": 2,
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음 날 -12% 였다.\n수익이 손실로 바뀌었다.\n공모주는 탐욕이 들어오는 순간 수익이 사라진다.\n작은 교훈을 비싸게 샀다."
+      }
+    ]
+  },
+  {
+    "id": "callback_took_gray_tip_consequence",
+    "title": "회색지대의 비용",
+    "description": "회색지대의 정보를 쓰기로 한 지 두 달이 됐다.\n돈은 벌었다.\n그런데 오늘 그 정보를 준 사람에게서 연락이 왔다.\n\"저한테 뭔가 빚진 거 알죠?\"",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "took_gray_tip",
+      "min_turn": 6
+    },
+    "tags": ["investment", "callback", "gray_area"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그 정보값을 현금으로 드리겠습니다\"",
+        "effects": {
+          "money": -1000000,
+          "mental": 8,
+          "stress": -5
+        },
+        "flags": ["gray_tip_debt_paid"],
+        "follow_up_event": "",
+        "result_text": "100만원을 보냈다.\n상대가 \"깔끔하네요\"라고 했다.\n회색지대의 정보엔 반드시 대가가 따른다.\n이번엔 그나마 돈으로 끝났다."
+      },
+      {
+        "text": "\"뭘 원하시는 건데요?\" 일단 듣는다",
+        "effects": {
+          "stress": 15,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "상대가 요구를 꺼냈다.\n단순한 돈이 아니었다.\n회색지대에 한 번 발을 담그면 — 나오는 게 쉽지 않다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_viral_aftermath",
+    "title": "바이럴 이후",
+    "description": "SNS에 올린 글이 퍼진 게 두 달 전이다.\n팔로워가 갑자기 늘었고, 모르는 사람들의 댓글이 달렸다.\n오늘 일상으로 돌아와 보니 — 아무것도 달라진 게 없었다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sns_viral_fame",
+      "min_turn": 6
+    },
+    "tags": ["sns", "callback", "social"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이걸 기회로 만든다 — 계속 콘텐츠를 만든다",
+        "effects": {
+          "intelligence": 3,
+          "reputation": 3,
+          "stress": 5
+        },
+        "flags": ["sns_content_started"],
+        "follow_up_event": "",
+        "result_text": "꾸준히 올렸다.\n두 번째 바이럴은 오지 않았지만 — 소수의 팔로워가 진짜 독자가 됐다.\n관심의 반감기는 짧다. 콘텐츠의 반감기는 더 길었다."
+      },
+      {
+        "text": "관심이 사라진 걸 자연스럽게 받아들인다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "자연스럽게 됐다.\n15분의 유명세.\n그게 전부가 아니라는 걸 알았다.\n알고 나니 오히려 가벼워졌다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hit_rock_bottom_rebuild",
+    "title": "바닥에서 올라온 것들",
+    "description": "바닥이라고 느꼈던 그 시점으로부터 8개월이 됐다.\n오늘 그때 메모장을 다시 열어봤다.\n'더 이상 나빠질 것도 없다'고 써놓은 날짜가 있었다.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hit_rock_bottom",
+      "min_turn": 8
+    },
+    "tags": ["mental", "callback", "resilience"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "그날 이후를 적어둔다",
+        "effects": {
+          "mental": 15,
+          "stress": -10
+        },
+        "flags": ["bottom_documented"],
+        "follow_up_event": "",
+        "result_text": "그날부터 지금까지 일어난 일들을 썼다.\n많은 게 달라졌다.\n바닥이 있어야 올라갈 방향이 생긴다.\n그게 맞았다."
+      },
+      {
+        "text": "창을 닫는다. 돌아보지 않는다",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "닫았다.\n돌아보지 않아도 — 지금 서있는 곳이 그때와 다르다는 걸 안다.\n그걸로 충분하다."
+      }
+    ]
+  },
+  {
+    "id": "callback_honest_at_reunion_ripple",
+    "title": "그 솔직함의 파장",
+    "description": "동창 모임에서 \"잘 안 되고 있어\"라고 솔직하게 말했던 게 반년 전이다.\n오늘 그 모임에서 연락이 왔다.\n다른 친구가 비슷한 말을 했다고.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "honest_at_reunion",
+      "min_turn": 6
+    },
+    "tags": ["social", "callback", "honesty"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "그 친구에게 연락한다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"나도 그때 힘들었어. 지금도 쉽진 않고.\"\n그 친구가 \"...그거 듣고 싶었어\"라고 했다.\n솔직함이 솔직함을 부른다.\n그날 그 말 한 마디가 여기까지 왔다."
+      },
+      {
+        "text": "그냥 둔다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그냥 뒀다.\n모임에서 한 말이 이렇게 퍼지는 구나 싶었다.\n솔직한 한 마디가 — 기억이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_saw_senior_farewell_mirror",
+    "title": "그 자리가 거울이 됐다",
+    "description": "선배의 퇴사 자리를 봤던 게 1년 전이다.\n오늘 팀에서 또 한 명이 나간다고 했다.\n그 자리도 비슷할 것 같았다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "saw_senior_farewell",
+      "min_turn": 8
+    },
+    "tags": ["jobs", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이번엔 직접 마지막 인사를 한다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"고생 많으셨어요. 잘 되셨으면 해요.\"\n그 선배가 \"고마워요. 잘 살아요\"라고 했다.\n그때 봤던 자리가 지금의 행동을 바꿨다.\n보고 배우는 것도 경험이다."
+      },
+      {
+        "text": "내 자리에서 지켜본다",
+        "effects": {
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지켜봤다.\n떠나는 사람의 얼굴이 선배와 비슷했다.\n이 자리가 어떤 자리인지 — 또 한 번 확인됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_met_bankrupt_ceo_lesson",
+    "title": "파산한 대표의 말",
+    "description": "한때 잘나갔다가 파산한 대표를 만났던 그 자리.\n그분이 했던 말이 오늘 투자 결정을 앞두고 다시 떠올랐다.\n\"내가 틀렸던 건 확신이 너무 강했던 거야.\"",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "met_bankrupt_ceo",
+      "min_turn": 8
+    },
+    "tags": ["investment", "callback", "wisdom"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "그 말을 기준으로 이번 확신을 점검한다",
+        "effects": {
+          "intelligence": 4,
+          "investment_skill": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "세 가지를 더 검토했다.\n확신이 줄었다.\n그래서 비중을 낮췄다.\n그 대표의 파산이 — 이 결정을 바꿨다."
+      },
+      {
+        "text": "그래도 이번 확신은 다르다",
+        "effects": {
+          "stress": 8,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그대로 들어갔다.\n맞을 수도 있다.\n하지만 파산한 대표도 '이번만큼은'이라고 했을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_pride_motive_check",
+    "title": "자존심의 대가",
+    "description": "자존심 때문에 계속 달려온 것 같다.\n오늘 문득 — 이게 내 목표인지 아니면 누군가에게 보여주기 위한 것인지 헷갈렸다.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "pride_motive",
+      "min_turn": 10
+    },
+    "tags": ["mental", "callback", "motivation"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이유를 다시 정리한다",
+        "effects": {
+          "mental": 10,
+          "stress": -8,
+          "intelligence": 3
+        },
+        "flags": ["motive_clarified"],
+        "follow_up_event": "",
+        "result_text": "노트에 썼다.\n왜 강남인가. 누구에게 보여주기 위한 것인가.\n절반은 자존심, 절반은 진짜 원하는 것.\n절반이라도 진짜라면 — 계속할 이유가 됐다."
+      },
+      {
+        "text": "이유가 뭐든 결과가 중요하다",
+        "effects": {
+          "stress": 5,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결과가 중요하다고 했다.\n그렇게 달렸다.\n그런데 자존심으로만 달리면 — 목표에 도달해도 공허한 경우가 있다.\n그게 이해되기 시작했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_questioned_orthodox_answer",
+    "title": "정도(正道)의 실체",
+    "description": "정도가 맞는 건지 의심했던 그 시점으로부터 1년이 됐다.\n오늘 안정적으로 일하며 쌓아온 것들을 숫자로 정리해봤다.\n예상보다 많았다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "questioned_orthodox_path",
+      "min_turn": 12
+    },
+    "tags": ["jobs", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "정도가 맞다. 계속 간다",
+        "effects": {
+          "mental": 12,
+          "stress": -8,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "느리지만 쌓이고 있었다.\n투기로 번 돈은 투기로 잃었지만 — 이 숫자는 남았다.\n정도의 속도가 느린 게 아니라 투기의 속도가 착시였다."
+      },
+      {
+        "text": "아직도 모르겠다. 더 빠른 방법이 있을 것 같다",
+        "effects": {
+          "stress": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "여전히 답이 없었다.\n하지만 의심하면서 가는 것도 — 아무 생각 없이 가는 것보다는 낫다.\n답은 끝에 가야 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_network_compounding_moment",
+    "title": "네트워크가 돌아온 날",
+    "description": "1년 동안 만났던 사람들에게 일관되게 행동해왔다.\n오늘 모르는 번호로 전화가 왔다.\n\"안녕하세요. OO 통해서 연락드렸는데요. 혹시 시간 있으세요?\"",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "network_compounding",
+      "min_turn": 12
+    },
+    "tags": ["network", "callback", "social"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "미팅을 잡는다",
+        "effects": {
+          "mental": 10,
+          "social_skill": 3,
+          "reputation": 3,
+          "luck": 2
+        },
+        "flags": ["network_converted"],
+        "follow_up_event": "",
+        "result_text": "만났다.\n그 사람도 같은 방향을 보고 있었다.\n1년 동안 쌓아온 평판이 — 오늘 이 자리를 만들었다.\n복리는 돈만 하는 게 아니었다."
+      },
+      {
+        "text": "먼저 어떤 분인지 알아본다",
+        "effects": {
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "배경을 확인했다.\n신뢰할 수 있는 루트였다.\n미팅을 잡았다.\n조심한 게 맞았다. 그리고 미룬 것도 틀리지 않았다."
+      }
+    ]
+  }
+]
