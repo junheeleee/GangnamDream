@@ -1,0 +1,510 @@
+[
+  {
+    "id": "callback_jaehyuk_publicly_exposed_echo",
+    "title": "재혁의 공개 이후",
+    "description": "재혁의 일이 공개적으로 드러났던 게 두 달 전이다.\n직접 관여됐던 입장에서 — 복잡한 감정이 남았다.\n오늘 그 이후 상황이 정리됐다는 소식이 들렸다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_publicly_exposed",
+      "min_turn": 4
+    },
+    "tags": ["relationship", "callback", "jaehyuk"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "마무리됐다고 생각한다",
+        "effects": {
+          "mental": 10,
+          "stress": -8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "마무리됐다.\n공개하는 것이 쉽지 않았지만 — 그게 맞는 방향이었다.\n옳은 것과 쉬운 것은 — 항상 같지 않았다."
+      },
+      {
+        "text": "아직도 복잡한 감정이 남아있다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "복잡했다.\n그래도 됐다.\n복잡한 감정이 남는다고 — 선택이 틀린 건 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_standoff_won_echo",
+    "title": "맞섰을 때 이긴 것",
+    "description": "재혁과 맞섰고 결국 이겼던 게 두 달 전이다.\n오늘 그때를 돌이켜봤다.\n이긴 게 좋기만 했던 건 아니었다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_standoff_won",
+      "min_turn": 4
+    },
+    "tags": ["relationship", "callback", "jaehyuk"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이긴 것이 맞는 결과였다고 생각한다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "맞는 결과였다.\n싸우지 않아도 됐다면 더 좋았겠지만 — 맞서야 했고 이겼다.\n그 순서가 지금 있게 했다."
+      },
+      {
+        "text": "이길 수 있었던 이유를 생각한다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "준비했던 게 이기게 했다.\n감정으로 맞섰다면 달랐을 것이었다.\n맞서되 냉정하게 — 그게 이긴 방식이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_testified_echo",
+    "title": "증언한 이후",
+    "description": "재혁 건에 대해 증언했던 게 두 달 전이다.\n쉽지 않은 결정이었다.\n오늘 그 결과가 나왔다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jaehyuk_testified",
+      "min_turn": 4
+    },
+    "tags": ["relationship", "callback", "jaehyuk"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "결과를 확인한다",
+        "effects": {
+          "mental": 12,
+          "reputation": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "처리가 됐다.\n증언한 것이 결과를 만들었다.\n말하지 않았다면 — 아무것도 바뀌지 않았을 것이었다.\n불편하더라도 말하는 것이 옳을 때가 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_warm_moment_echo",
+    "title": "아버지와의 따뜻한 순간",
+    "description": "아버지와 처음으로 진심이 통하는 순간이 있었던 게 두 달 전이다.\n그때 느꼈던 것이 아직 남아있었다.\n오늘 아버지께서 예고 없이 문자를 보내셨다.\n'민준아. 밥은 먹었냐.'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_warm_moment",
+      "min_turn": 3
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"네, 먹었어요. 아버지는요?\"",
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지가 \"나도 먹었다.\"라고 하셨다.\n짧은 문자였다.\n하지만 그 문자가 — 그날의 연장이었다.\n따뜻한 순간이 다음 문자를 불렀다."
+      },
+      {
+        "text": "이모티콘으로 답한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이모티콘으로 답했다.\n아버지가 이모티콘을 어떻게 보내는지 몰라 \"ㅇㅇ\"만 답하셨다.\n어색하지만 — 연결됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_reconciliation_deepened_echo",
+    "title": "화해가 깊어진 것",
+    "description": "아버지와의 화해가 점점 깊어졌던 게 석 달 전이다.\n오늘 아버지께서 처음으로 \"보고 싶다\"는 말씀을 하셨다.",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_reconciliation_deepened",
+      "min_turn": 6
+    },
+    "tags": ["family", "callback", "father"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"저도요. 곧 갈게요.\"",
+        "effects": {
+          "mental": 15,
+          "stress": -8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"저도 보고 싶어요. 이번 주말에 갈게요.\"라고 했다.\n아버지가 \"그래\"라고만 하셨다.\n그 \"그래\" 안에 — 오래된 것들이 담겨있었다."
+      },
+      {
+        "text": "\"저도요. 아버지\"",
+        "effects": {
+          "mental": 12
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"저도요.\"라고 했다.\n짧았지만 — 아버지한테 그 말을 한 게 처음이었다.\n화해가 말의 높이를 낮췄다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_bond_deepened_echo",
+    "title": "부모와 깊어진 사이",
+    "description": "부모님과의 관계가 깊어졌던 게 석 달 전이다.\n오늘 어머니께서 전화를 하셨다.\n오래 이야기하셨다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "parent_bond_deepened",
+      "min_turn": 5
+    },
+    "tags": ["family", "callback", "parents"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "기꺼이 오래 이야기한다",
+        "effects": {
+          "mental": 12,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 시간을 이야기했다.\n오래 말씀하시게 된 게 — 관계가 달라졌다는 뜻이었다.\n부모님도 이야기를 들어줄 사람이 필요했다."
+      },
+      {
+        "text": "짧게 마무리하고 나중에 또 전화드린다",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"나중에 또 전화드릴게요.\"라고 했다.\n어머니가 \"그래, 바빠?\"라고 하셨다.\n\"아니요, 그냥요.\"라고 했다.\n그 대화가 어색했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parents_debt_repaid_echo",
+    "title": "부모님 빚을 갚은 것",
+    "description": "부모님 빚을 대신 갚아드렸던 게 두 달 전이다.\n오늘 어머니께서 전화를 하셨다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "parents_debt_repaid",
+      "min_turn": 4
+    },
+    "tags": ["family", "callback", "parents"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "반갑게 받는다",
+        "effects": {
+          "mental": 15,
+          "reputation": 2,
+          "stress": -8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "어머니가 \"고맙다\"라고 하셨다.\n그 말 한 마디를 듣는 데 오래 걸렸다.\n갚은 것이 부채가 아니라 — 관계였다."
+      },
+      {
+        "text": "\"당연한 거죠\"라고 한다",
+        "effects": {
+          "mental": 10
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"당연한 거예요.\"라고 했다.\n어머니가 \"당연한 게 아니야\"라고 하셨다.\n부모님한텐 당연하지 않은 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deal_regret_echo",
+    "title": "상철 거래를 아쉬워하는 것",
+    "description": "상철의 제안을 거절했던 것을 후회하게 됐던 게 두 달 전이다.\n오늘 상철을 만났다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_deal_regret",
+      "min_turn": 4
+    },
+    "tags": ["social", "callback", "sangchul"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "솔직하게 아쉬웠다고 말한다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그때 안 한 게 아쉬워.\"라고 했다.\n상철이 \"그래도 이유가 있었던 거잖아.\"라고 했다.\n아쉬움을 솔직하게 말하는 것이 — 관계를 더 가깝게 했다."
+      },
+      {
+        "text": "그냥 넘어간다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "넘어갔다.\n상철도 넘어갔다.\n아쉬움은 안고 가는 것이었다.\n꺼내야 할 때 꺼내지 않으면 — 나중에 더 무거웠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deeper_trust_echo",
+    "title": "상철과 깊어진 신뢰",
+    "description": "상철과의 신뢰가 한 단계 더 깊어졌던 게 석 달 전이다.\n오늘 상철이 조심스럽게 개인적인 이야기를 꺼냈다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_deeper_trust",
+      "min_turn": 6
+    },
+    "tags": ["social", "callback", "sangchul"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "조용히 듣는다",
+        "effects": {
+          "mental": 12,
+          "social_skill": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "들었다.\n상철이 \"너한테만 하는 말이야.\"라고 했다.\n깊은 신뢰가 — 이 대화를 만든 것이었다.\n비즈니스 관계가 사람 관계가 됐다."
+      },
+      {
+        "text": "같이 고민해준다",
+        "effects": {
+          "mental": 10,
+          "social_skill": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "같이 이야기했다.\n상철이 \"고맙다.\"라고 했다.\n신뢰하는 사람의 고민을 같이 드는 것 — 그게 진짜 관계였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_exec_hired_echo",
+    "title": "연쇄 채용 이후",
+    "description": "체인점 운영자를 통해 소개받은 자리에 들어간 게 두 달 전이다.\n오늘 그 연결을 만들어준 분께 연락을 드렸다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "chain_exec_hired",
+      "min_turn": 4
+    },
+    "tags": ["jobs", "callback", "network"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "잘 적응하고 있다고 알린다",
+        "effects": {
+          "mental": 8,
+          "reputation": 2,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"덕분에 잘 다니고 있어요.\"라고 했다.\n상대가 \"다행이다.\"라고 했다.\n소개를 받으면 — 결과를 알려드리는 것이 예의였다."
+      },
+      {
+        "text": "아직 어렵지만 배우고 있다고 말한다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"아직 배우는 중이에요.\"라고 했다.\n상대가 \"그게 맞아.\"라고 했다.\n솔직한 것이 소개한 분께 더 신뢰가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_recovery_started_echo",
+    "title": "신용 회복 중",
+    "description": "신용 회복을 시작했던 게 석 달 전이다.\n꾸준히 납입하고 있다.\n오늘 신용점수를 확인해봤다.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "credit_recovery_started",
+      "min_turn": 5
+    },
+    "tags": ["finance", "callback", "credit"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "오른 점수를 확인한다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "올랐다.\n조금이었다.\n하지만 방향이 바뀌었다.\n신용은 쌓이는 데 오래 걸리고 — 무너지는 건 한순간이었다.\n올라가는 중이었다."
+      },
+      {
+        "text": "아직 부족하다 — 더 빠르게 올릴 방법을 찾는다",
+        "effects": {
+          "intelligence": 3,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "더 빠른 방법을 찾아봤다.\n결론: 꾸준히 납입하는 것 외에 지름길이 없었다.\n느리지만 — 그게 맞는 방식이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_loan_payoff_planned_echo",
+    "title": "상환 계획이 결과가 됐을 때",
+    "description": "대출 상환 계획을 세웠던 게 반년 전이다.\n오늘 그 계획대로라면 — 절반이 상환됐을 시점이다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "loan_payoff_planned",
+      "min_turn": 8
+    },
+    "tags": ["finance", "callback", "debt"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "계획대로 가고 있다",
+        "effects": {
+          "mental": 12,
+          "intelligence": 3,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "절반이 사라졌다.\n6개월 전에 세운 계획이 — 지금 이 숫자가 됐다.\n계획이 결과가 될 때 — 다음 계획도 믿게 됐다."
+      },
+      {
+        "text": "계획보다 늦어졌다",
+        "effects": {
+          "stress": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "늦어졌다.\n하지만 방향은 맞았다.\n계획이 현실이 안 되는 게 실패가 아니었다.\n방향이 없는 게 실패였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_forgiven_echo",
+    "title": "거짓말이 용서됐을 때",
+    "description": "거짓말을 했고 — 그게 용서됐던 게 두 달 전이다.\n오늘 그 사람과 다시 만났다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "lie_forgiven",
+      "min_turn": 4
+    },
+    "tags": ["social", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "다시는 거짓말하지 않겠다고 다짐한다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "자연스럽게 이야기했다.\n용서는 관계를 리셋하지 않았다.\n하지만 두 번은 없다는 것을 — 알고 있었다.\n알고 있는 것이 다음을 결정했다."
+      },
+      {
+        "text": "자연스럽게 대한다",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "자연스럽게 대했다.\n상대도 자연스러웠다.\n용서한 사람은 — 용서한 이후에도 자연스럽게 대할 수 있었다.\n그게 진짜 용서였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_full_confession_echo",
+    "title": "완전히 털어놓은 이후",
+    "description": "모든 것을 다 털어놓았던 게 한 달 전이다.\n그 이후의 시간이 — 달랐다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "lie_full_confession",
+      "min_turn": 3
+    },
+    "tags": ["social", "callback"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "가벼워졌다고 느낀다",
+        "effects": {
+          "mental": 15,
+          "stress": -10
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "가벼웠다.\n비밀은 무게가 있었다.\n털어놓은 뒤의 그 가벼움이 — 더 일찍 했어야 했다는 걸 알게 했다."
+      },
+      {
+        "text": "어떻게 될지 불안하다",
+        "effects": {
+          "mental": 5,
+          "stress": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "불안했다.\n털어놓은 것이 어떻게 될지 몰랐다.\n하지만 숨기는 것보다 — 불안한 게 나았다.\n적어도 솔직했으니까."
+      }
+    ]
+  }
+]

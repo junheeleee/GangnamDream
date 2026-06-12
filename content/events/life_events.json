@@ -4398,7 +4398,9 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "no_job": true
+    },
     "tags": [
       "family",
       "stress",

@@ -1,0 +1,208 @@
+[
+  {
+    "id": "callback_jaehyuk_publicly_exposed_echo",
+    "title": "After the Public Exposure",
+    "description": "Two months since Jaehyuk's situation became public.\nBeing directly involved — left complicated feelings.\nToday word came that things had been resolved.",
+    "choices": [
+      {
+        "text": "Consider it done",
+        "result_text": "Done.\nExposing it hadn't been easy — but it was the right direction.\nThe right thing and the easy thing — aren't always the same."
+      },
+      {
+        "text": "The feelings are still complicated",
+        "result_text": "Still complicated.\nBut it was done.\nComplicated feelings remaining doesn't mean the choice was wrong."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_standoff_won_echo",
+    "title": "After Winning the Standoff",
+    "description": "Two months since you stood up to Jaehyuk and won.\nToday you looked back on that time.\nWinning wasn't just good.",
+    "choices": [
+      {
+        "text": "It was the right outcome",
+        "result_text": "It was right.\nBetter if it hadn't come to a fight — but it had to, and you won.\nThat sequence is what put you here."
+      },
+      {
+        "text": "Think about why you were able to win",
+        "result_text": "Preparation is what won it.\nFighting on emotion alone — the outcome would have been different.\nStanding firm, but cold — that was how."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_testified_echo",
+    "title": "After Testifying",
+    "description": "Two months since you testified in the Jaehyuk matter.\nIt wasn't an easy decision.\nToday the result came in.",
+    "choices": [
+      {
+        "text": "Check the outcome",
+        "result_text": "It was resolved.\nTestifying had made the outcome.\nIf you hadn't spoken — nothing would have changed.\nThere are times when speaking up is the only right move — even when uncomfortable."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_warm_moment_echo",
+    "title": "After the Warm Moment",
+    "description": "Two months since the first moment something genuine passed between you and your father.\nThat feeling had stayed.\nToday an unexpected text from him.\n'Minjun. Have you eaten.'",
+    "choices": [
+      {
+        "text": "\"Yes, I have. Did you, Dad?\"",
+        "result_text": "He said 'I did too.'\nA short text.\nBut it was a continuation of that day.\nThe warm moment had called the next message."
+      },
+      {
+        "text": "Send an emoji",
+        "result_text": "You sent an emoji.\nHe didn't know how to reply with one so he sent just 'ok'.\nAwkward — but connected."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_reconciliation_deepened_echo",
+    "title": "The Deepened Reconciliation",
+    "description": "Three months since the reconciliation with your father had deepened further.\nToday, for the first time, he said 'I miss you.'",
+    "choices": [
+      {
+        "text": "\"Me too. I'll come soon.\"",
+        "result_text": "'Me too. I'll come this weekend,' you said.\nHe just said 'Okay.'\nInside that 'Okay' — a lot of old things were held."
+      },
+      {
+        "text": "\"Me too. Dad.\"",
+        "result_text": "You said 'Me too.'\nShort — but it was the first time you'd said that to him.\nReconciliation had lowered the walls of words."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_bond_deepened_echo",
+    "title": "The Deepened Bond with Your Parents",
+    "description": "Three months since the relationship with your parents deepened.\nToday your mother called.\nShe talked for a long time.",
+    "choices": [
+      {
+        "text": "Happily stay on the phone for a long time",
+        "result_text": "You talked for an hour.\nHer talking longer — was evidence the relationship had changed.\nParents need someone to talk to as well."
+      },
+      {
+        "text": "Wrap it up and say you'll call again soon",
+        "result_text": "'I'll call again soon,' you said.\nShe asked 'Are you busy?'\n'No, just,' you said.\nThat exchange felt awkward."
+      }
+    ]
+  },
+  {
+    "id": "callback_parents_debt_repaid_echo",
+    "title": "After Paying Off Your Parents' Debt",
+    "description": "Two months since you paid off your parents' debt for them.\nToday your mother called.",
+    "choices": [
+      {
+        "text": "Answer warmly",
+        "result_text": "She said 'Thank you.'\nIt had taken a long time to hear those words.\nWhat was repaid wasn't the debt — it was the relationship."
+      },
+      {
+        "text": "\"It was the natural thing.\"",
+        "result_text": "'It's the natural thing,' you said.\nShe said 'It's not.'\nFor parents — what their child does for them isn't ever just natural."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deal_regret_echo",
+    "title": "Regretting the Sangchul Deal",
+    "description": "Two months since you started regretting not taking Sangchul's offer.\nToday you ran into Sangchul.",
+    "choices": [
+      {
+        "text": "Say honestly that you regretted it",
+        "result_text": "'I regret not going in on that,' you said.\nSangchul replied 'Still — you had your reasons.'\nSaying the regret out loud — brought them closer."
+      },
+      {
+        "text": "Let it slide",
+        "result_text": "You let it go.\nSo did Sangchul.\nRegret is something you carry.\nLeaving it unspoken — made it heavier later."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deeper_trust_echo",
+    "title": "A Deeper Trust with Sangchul",
+    "description": "Three months since trust with Sangchul had gone a level deeper.\nToday Sangchul opened up about something personal.",
+    "choices": [
+      {
+        "text": "Listen quietly",
+        "result_text": "You listened.\nSangchul said 'I only tell you this.'\nThe deep trust — had made this conversation possible.\nA business relationship had become a real one."
+      },
+      {
+        "text": "Think it through with him",
+        "result_text": "You thought it through together.\nSangchul said 'Thanks.'\nCarrying someone's troubles with them — that's what a real relationship is."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_exec_hired_echo",
+    "title": "After Being Hired Through the Chain",
+    "description": "Two months since you got the job through the franchise owner's introduction.\nToday you reached out to thank the person who made it happen.",
+    "choices": [
+      {
+        "text": "Let them know you've settled in well",
+        "result_text": "'Thanks to you, things are going well,' you said.\nThey replied 'Glad to hear it.'\nWhen you get an introduction — letting them know how it went is the right thing to do."
+      },
+      {
+        "text": "Say it's still tough but you're learning",
+        "result_text": "'Still learning,' you said.\nThey said 'That's the right attitude.'\nBeing honest — built more trust with the person who'd referred you."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_recovery_started_echo",
+    "title": "Credit Recovery in Progress",
+    "description": "Three months since you started the credit recovery.\nKeeping up with the payments.\nToday you checked your credit score.",
+    "choices": [
+      {
+        "text": "See the score rise",
+        "result_text": "It had gone up.\nA little.\nBut the direction had changed.\nCredit takes a long time to build and a moment to collapse.\nIt was on the way up."
+      },
+      {
+        "text": "Still not enough — look for a faster way",
+        "result_text": "You looked for shortcuts.\nConclusion: there was none other than consistent payments.\nSlow — but that was the right way."
+      }
+    ]
+  },
+  {
+    "id": "callback_loan_payoff_planned_echo",
+    "title": "When the Plan Becomes Reality",
+    "description": "Half a year since you made the loan repayment plan.\nToday — by the plan's timeline — half should be paid off.",
+    "choices": [
+      {
+        "text": "On track",
+        "result_text": "Half was gone.\nThe plan made six months ago — had become this number.\nWhen a plan produces results — you start believing the next one too."
+      },
+      {
+        "text": "Behind schedule",
+        "result_text": "Behind.\nBut the direction was right.\nNot reaching the plan isn't failure.\nNot having a direction is."
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_forgiven_echo",
+    "title": "When the Lie Was Forgiven",
+    "description": "Two months since you lied — and were forgiven.\nToday you saw that person again.",
+    "choices": [
+      {
+        "text": "Resolve to never lie to them again",
+        "result_text": "You talked naturally.\nForgiveness didn't reset the relationship.\nBut you knew — there wouldn't be a second time.\nKnowing that shaped what came next."
+      },
+      {
+        "text": "Treat them naturally",
+        "result_text": "You acted naturally.\nSo did they.\nSomeone who forgives — can still be natural afterward.\nThat's what real forgiveness looks like."
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_full_confession_echo",
+    "title": "After Coming Fully Clean",
+    "description": "A month since you laid everything out honestly.\nThe time since — had been different.",
+    "choices": [
+      {
+        "text": "You feel lighter",
+        "result_text": "Lighter.\nSecrets have weight.\nThe lightness after coming clean — told you it should have happened sooner."
+      },
+      {
+        "text": "Unsure what comes next",
+        "result_text": "Still anxious.\nUnclear what would come of it.\nBut sitting with the uncertainty — was better than hiding.\nAt least it was honest."
+      }
+    ]
+  }
+]
