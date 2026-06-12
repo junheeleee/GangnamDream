@@ -1,0 +1,223 @@
+[
+  {
+    "id": "callback_usb_reported_to_company_echo",
+    "title": "After the Report",
+    "description": "Two months since you reported the internal misconduct to the company.\nToday HR called.\n\"I'm calling to let you know the outcome.\"",
+    "choices": [
+      {
+        "text": "Hear the result",
+        "result_text": "The person received a disciplinary action.\n'Thank you for reporting it,' they said.\nBeing recognized for doing the right thing — wasn't always how it went.\nThis time it was."
+      },
+      {
+        "text": "Just quietly check the outcome",
+        "result_text": "You confirmed the outcome.\nSomething had changed.\nReporting had been the right call — confirmed."
+      }
+    ]
+  },
+  {
+    "id": "callback_stayed_clean_echo",
+    "title": "Staying Clean",
+    "description": "Three months since you held the line against temptation.\nToday you looked back at whether that was right.\nWord came that the path you'd been tempted toward had run into trouble.",
+    "choices": [
+      {
+        "text": "It was right to hold it",
+        "result_text": "Holding out had been right.\nStaying clean isn't losing an opportunity — it's waiting for a better one.\nNow you understood the difference."
+      },
+      {
+        "text": "Partly feels like luck",
+        "result_text": "Partly luck.\nBut that luck only became luck because you'd held the line.\nChoice creates luck."
+      }
+    ]
+  },
+  {
+    "id": "callback_was_compromised_consequence",
+    "title": "The Price of Crossing the Line",
+    "description": "Two months since you crossed a line.\nAt the time you told yourself it was unavoidable.\nToday that choice came back.",
+    "choices": [
+      {
+        "text": "Try to contain the damage",
+        "result_text": "You tried to contain it.\nCouldn't fully undo it.\nCrossing a line once — the repair cost is higher than what you gained.\nYou learned that now."
+      },
+      {
+        "text": "Admit it and try to correct it",
+        "result_text": "You admitted it.\nThe other party said 'Better that you told me directly.'\nAdmitting the compromise — was the way to stop a second one."
+      }
+    ]
+  },
+  {
+    "id": "callback_formal_complaint_filed_echo",
+    "title": "After the Formal Complaint",
+    "description": "Two months since you filed the formal complaint.\nToday the agency sent a resolution notice.",
+    "choices": [
+      {
+        "text": "Check the result",
+        "result_text": "[Resolved]\nThe outcome arrived.\nThe formal process took time — but it worked.\nGoing by the book looks slow — but it doesn't collapse."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_regular_echo",
+    "title": "Becoming a Regular",
+    "description": "Three months of being a regular at the poker pub.\nToday an unknown number called.\n\"Are you the person who comes to the OO poker pub regularly?\"",
+    "choices": [
+      {
+        "text": "\"Yes — what's this about?\"",
+        "result_text": "An invitation to a tournament.\nBecoming a regular had opened a new door.\nGoing often had quietly become a network."
+      },
+      {
+        "text": "\"How did you get my number?\" — cautious",
+        "result_text": "You were wary.\nThey said 'The pub owner gave it.'\nBeing cautious wasn't wrong.\nChecking was the better move."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_rule_made_echo",
+    "title": "After Making the Rule",
+    "description": "Two months since you made a rule not to touch poker.\nToday you walked past the poker pub.\nFor a moment, you felt like going in.",
+    "choices": [
+      {
+        "text": "Walk past",
+        "result_text": "You kept walking.\nWithout the rule — you'd have gone in.\nA rule is for keeping when the urge hits.\nYou kept it."
+      },
+      {
+        "text": "Once is fine",
+        "result_text": "You went in.\nTwo hours passed.\nThe rule broke.\nYou'd need a stronger reason next time."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_knew_limit_echo",
+    "title": "Knowing the Limit",
+    "description": "A month since you knew your limit at poker and stopped there.\nToday someone you'd played with called.\n\"You stopped back then. That takes something.\"",
+    "choices": [
+      {
+        "text": "\"Not really. I just had a rule.\"",
+        "result_text": "'I just had a line I'd set,' you said.\nThey replied 'That's exactly what takes something.'\nHaving a rule — was the rarest thing at a poker table."
+      },
+      {
+        "text": "\"Did I? I just wasn't lucky that day.\"",
+        "result_text": "'Just wasn't my lucky day,' you said.\nThey said '...That's actually scarier to hear.'\nCalling it luck — creates the illusion luck will come next time."
+      }
+    ]
+  },
+  {
+    "id": "callback_lotto_5th_prize_echo",
+    "title": "After Winning 5th Place",
+    "description": "A month since the lotto 5th prize win.\n₩5,000 in winnings.\nToday you bought another ticket.",
+    "choices": [
+      {
+        "text": "Just one. Don't let it become a habit.",
+        "result_text": "You bought one.\n₩5,000 won brought ₩1,000 profit.\nOne ticket was the standard.\nA fifth-place win shouldn't lead to five more tickets."
+      },
+      {
+        "text": "Maybe I should buy more this time",
+        "result_text": "You bought five.\nAll blanks.\nThe 5th prize win — made you buy five more.\nA small win building larger expectations — that's how gambling is designed."
+      }
+    ]
+  },
+  {
+    "id": "callback_won_lottery_small_echo",
+    "title": "After the Small Win",
+    "description": "Two months since the small lottery win.\nYou felt good at the time.\nToday you tried to remember where that money went.",
+    "choices": [
+      {
+        "text": "It went into savings",
+        "result_text": "You'd saved it.\nThe number was still there.\nEven small luck — stays differently depending on what you do with it."
+      },
+      {
+        "text": "Can't remember. Must've spent it somewhere.",
+        "result_text": "You couldn't remember.\nYou'd spent it somewhere.\nThe small win — had drifted away without leaving a trace.\nNothing remained."
+      }
+    ]
+  },
+  {
+    "id": "callback_received_orthodox_award_echo",
+    "title": "After the Recognition",
+    "description": "Two months since you were commended for working the orthodox way.\nToday someone brought it up in a team meeting.",
+    "choices": [
+      {
+        "text": "Take it calmly",
+        "result_text": "You just said 'Thank you.'\nSomeone said 'Honestly — that's the hardest part.'\nThe orthodox path — looks ordinary but staying on it is the hard part."
+      },
+      {
+        "text": "Say it was just doing the job",
+        "result_text": "'I was just doing the work,' you said.\nThey smiled.\nBeing unfazed about it — was itself an impression."
+      }
+    ]
+  },
+  {
+    "id": "callback_bankrupt_ceo_mentor_echo",
+    "title": "The Mentor",
+    "description": "Two months since you first met the CEO who'd once thrived and then gone bankrupt.\nYou kept in touch after.\nToday they reached out first.\n\"How are things? Talk to me if you have something on your mind.\"",
+    "choices": [
+      {
+        "text": "Open up about what's been on your mind",
+        "result_text": "You talked for an hour.\nThey said 'If I'd made that choice back then — things would have been different.'\nThe weight in a failed person's words — different from the advice of someone who only succeeded."
+      },
+      {
+        "text": "\"Doing well\" is all you say",
+        "result_text": "'Doing well,' you said.\nThey replied 'Good to hear.'\nLeaving things unsaid at a table where you could have said them — you'd feel that later."
+      }
+    ]
+  },
+  {
+    "id": "callback_mindset_founder_echo",
+    "title": "The Founder Mindset in Action",
+    "description": "Three months since you decided to think like a founder.\nToday in a meeting — that way of thinking surfaced.",
+    "choices": [
+      {
+        "text": "Make the suggestion from that angle",
+        "result_text": "You made the suggestion.\nThe team lead said 'Where did that come from?'\nThinking like a founder — showed up at the conference table.\nThought creates action."
+      },
+      {
+        "text": "Just listen quietly",
+        "result_text": "You listened quietly.\nA point you'd have missed before was visible now.\nEven without speaking — what you saw had changed."
+      }
+    ]
+  },
+  {
+    "id": "callback_tried_to_withdraw_result",
+    "title": "Trying to Get Out",
+    "description": "Two months since you tried to step back from the relationship.\nIt wasn't easy.\nToday you tallied up where things stand.",
+    "choices": [
+      {
+        "text": "You're out — and it's better",
+        "result_text": "You got out.\nSomething heavy became lighter.\nLeaving a relationship isn't always running away.\nThis time — it wasn't."
+      },
+      {
+        "text": "Didn't fully get out",
+        "result_text": "You didn't fully leave.\nThere were reasons.\nHaving reasons for something and it being good — those aren't the same."
+      }
+    ]
+  },
+  {
+    "id": "callback_joined_victims_echo",
+    "title": "Joining the Group",
+    "description": "Two months since you joined the victim group.\nToday you received an update on the class action progress.",
+    "choices": [
+      {
+        "text": "Stay with it",
+        "result_text": "The suit was moving forward.\nAlone, you'd have given up.\nPeople who've been through the same thing together — that creates something you don't have alone."
+      },
+      {
+        "text": "It takes a lot of energy. Pull back a little.",
+        "result_text": "You pulled back.\nYou were starting to drain.\nJoining was right — but protecting yourself while staying was also a way to be there."
+      }
+    ]
+  },
+  {
+    "id": "callback_underground_network_member_consequence",
+    "title": "The Cost of the Underground Network",
+    "description": "Two months since you joined the unofficial network.\nToday a request came from inside it.\nIt wasn't a structure you could easily walk away from.",
+    "choices": [
+      {
+        "text": "Refuse and get out",
+        "result_text": "You refused.\nGetting out wasn't easy.\nWhat it cost to leave — you only learned when you tried to leave.\nGoing in had been expensive."
+      },
+      {
+        "text": "Just this once",
+        "result_text": "You did it.\nIt wasn't just once.\n'Just once' doesn't apply in this world."
+      }
+    ]
+  }
+]
