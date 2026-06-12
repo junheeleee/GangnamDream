@@ -1,0 +1,592 @@
+[
+  {
+    "id": "callback_jiyeon_got_angry_aftermath",
+    "title": "화 낸 뒤",
+    "description": "지연에게 화를 냈던 그날.\n말이 과했다는 걸 집에 돌아와서야 알았다.\n오늘 지연에게서 짧은 문자가 왔다.\n'생각해봤어요.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_got_angry",
+      "min_turn": 6
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "먼저 사과한다",
+        "effects": {
+          "mental": 10,
+          "social_skill": 3
+        },
+        "flags": ["jiyeon_apology_made"],
+        "follow_up_event": "",
+        "result_text": "\"그날 제가 과했어요. 죄송합니다.\"\n지연이 잠깐 있다가 \"...저도 잘못한 게 있었어요\"라고 했다.\n화를 먼저 낸 사람이 먼저 사과하는 것. 어렵지만 맞는 방향이었다."
+      },
+      {
+        "text": "지연의 말을 먼저 듣는다",
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"뭘 생각하셨어요?\" 물었다.\n지연이 \"우리 솔직하게 얘기해볼 필요가 있어요\"라고 했다.\n화가 대화의 시작이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_walked_away_echo",
+    "title": "먼저 떠난 자리",
+    "description": "지연이 먼저 일어나 나갔던 그날.\n두 달이 지났다.\n공통 지인에게서 지연이 요즘 잘 지낸다는 말을 들었다.",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_walked_away",
+      "min_turn": 8
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "연락해본다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"잘 지낸다고 들었어요. 한 번쯤 연락해야 했는데.\"\n지연이 \"그때는 저도 여유가 없었어요\"라고 했다.\n먼저 나간 사람이 항상 나쁜 게 아니었다."
+      },
+      {
+        "text": "그냥 둔다. 잘 지낸다니 다행이다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "잘 지낸다니 다행이었다.\n서로 다른 방향으로 간 거였을 수도 있다.\n그것도 하나의 마무리다."
+      }
+    ]
+  },
+  {
+    "id": "callback_confronted_jiyeon_respect",
+    "title": "따진 뒤 달라진 것",
+    "description": "지연에게 직접 따졌던 게 한 달 전이다.\n그 이후 지연의 태도가 조금 달라졌다.\n오늘 지연이 먼저 진지한 이야기를 꺼냈다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "confronted_jiyeon",
+      "min_turn": 5
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "진지하게 듣는다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3,
+          "social_skill": 2
+        },
+        "flags": ["jiyeon_opens_up"],
+        "follow_up_event": "",
+        "result_text": "지연이 자신의 실수를 인정했다.\n\"그때 말할 수 있어서 잘 하셨어요\"라고도 했다.\n할 말을 하는 것이 — 관계를 끊는 게 아니라 다음 단계로 가는 거였다."
+      },
+      {
+        "text": "\"별 거 아니었어요\" 하고 가볍게 넘긴다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "가볍게 넘겼다.\n지연이 \"...아니에요. 별 거 맞아요\"라고 했다.\n그 말이 생각보다 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_came_clean_result",
+    "title": "솔직함의 무게",
+    "description": "지연에게 솔직하게 털어놨던 게 두 달 전이다.\n오늘 지연이 말했다.\n\"민준씨 그때 저한테 말해줘서 — 계속 생각하고 있었어요.\"",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_came_clean",
+      "min_turn": 6
+    },
+    "tags": ["jiyeon", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그때 말하길 잘 한 것 같아요\"",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2
+        },
+        "flags": ["jiyeon_trust_built"],
+        "follow_up_event": "",
+        "result_text": "지연이 \"저도 한 가지 말할 게 있어요\"라고 했다.\n솔직함이 솔직함을 불렀다.\n그 대화가 한 시간 더 이어졌다."
+      },
+      {
+        "text": "\"잊어버리셔도 돼요\" 하고 넘긴다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"잊어버리셔도 돼요.\"\n지연이 \"...그건 잊으면 안 되는 거예요\"라고 했다.\n솔직하게 한 말은 상대가 기억해준다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_first_date_next",
+    "title": "그 다음",
+    "description": "다은과 처음 둘이 밥을 먹었던 날.\n한 달이 지났다.\n오늘 다은에게서 카톡이 왔다.\n'민준씨. 다음 주에 혹시 시간 되세요?'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_first_date",
+      "min_turn": 4
+    },
+    "tags": ["daeun", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"돼요. 어디로?\"",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2,
+          "stress": -5
+        },
+        "flags": ["daeun_second_date"],
+        "follow_up_event": "",
+        "result_text": "다은이 장소를 보내왔다.\n처음보다 편했다.\n두 번째가 되니까 — 첫 번째가 어떤 사람인지 확인한 거였다는 게 보였다."
+      },
+      {
+        "text": "\"요즘 좀 바빠서요. 다음에 해요\"",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다은이 \"그래요. 언제든요\"라고 했다.\n두 번째 기회가 생겼다.\n쓸지 말지는 내 선택이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_declined_date_echo",
+    "title": "그 거절 이후",
+    "description": "다은의 제안을 거절했던 게 두 달 전이다.\n오늘 다은을 우연히 마주쳤다.\n다은이 먼저 웃으며 인사했다.",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_declined_date",
+      "min_turn": 6
+    },
+    "tags": ["daeun", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"그때 거절했던 거 — 미안해요\"",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다은이 \"아니에요. 때가 아니었겠죠\"라고 했다.\n그 말이 생각보다 따뜻했다.\n괜찮은 사람은 거절을 상처로 안 만든다."
+      },
+      {
+        "text": "그냥 자연스럽게 인사한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"안녕하세요.\" 그게 전부였다.\n다은도 자연스럽게 지나쳤다.\n거절이 관계를 끊지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_first_kind_memory",
+    "title": "다은이 기억하는 그날",
+    "description": "다은이 힘들어 보일 때 먼저 말을 건넸던 게 오래됐다.\n오늘 다은이 밥을 먹다가 말했다.\n\"민준씨, 처음에 말 걸어줬을 때 — 그거 기억해요?\"",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_first_kind",
+      "min_turn": 8
+    },
+    "tags": ["daeun", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "\"기억해요. 많이 힘들어 보여서요\"",
+        "effects": {
+          "mental": 12,
+          "social_skill": 2
+        },
+        "flags": ["daeun_bond_deepened"],
+        "follow_up_event": "",
+        "result_text": "다은이 \"그때 많이 힘들었어요. 근데 그 말 덕분에 버텼어요\"라고 했다.\n밥 먹다가 조용해졌다.\n작은 친절이 그렇게 오래 남는다는 걸 몰랐다."
+      },
+      {
+        "text": "\"그랬나요? 저도 가물가물해요\"",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다은이 웃으며 \"저는 기억해요\"라고 했다.\n내가 한 것들이 내가 모르는 곳에서 기억되고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_texted_response",
+    "title": "먼저 보낸 문자",
+    "description": "용기 내서 먼저 문자를 보냈던 게 한 달 전이다.\n다은이 짧게 답장했었다.\n오늘 다은이 먼저 연락이 왔다.\n이번엔 다은이 먼저였다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_texted_her",
+      "min_turn": 4
+    },
+    "tags": ["daeun", "callback", "relationship"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "바로 답장한다",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "바로 답장했다.\n그날 저녁 한참을 얘기했다.\n먼저 문자 보낸 게 — 이 대화를 만들었다.\n먼저 하는 사람이 먼저 얻는다."
+      },
+      {
+        "text": "좀 있다가 답장한다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 시간 뒤 답장했다.\n다은이 \"바쁘셨어요?\" 했다.\n\"아니요, 그냥요.\"라고 했다.\n별 의미 없이 기다리게 한 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_rushed_to_father_moment",
+    "title": "달려간 뒤",
+    "description": "소식 듣고 무작정 달려갔던 그날.\n아버지는 예상보다 괜찮으셨다.\n집으로 돌아오는 길에 — 달려갔던 자신이 조금 이상하게 느껴졌다.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "rushed_to_father",
+      "min_turn": 3
+    },
+    "tags": ["father", "callback", "family"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "더 자주 가기로 한다",
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음 달 일정을 잡았다.\n이상하게 느껴진 게 아니었다.\n그게 자연스러운 거였다.\n달려가야 할 것 같을 때 달려가는 것."
+      },
+      {
+        "text": "그래도 자주 가는 건 부담이다",
+        "effects": {
+          "mental": 5,
+          "stress": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "부담이었다.\n그래도 가끔은 가야 한다.\n달려갔던 기억이 — 다음 방문을 조금 쉽게 만들었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_skipped_father_hospital_weight",
+    "title": "병원을 건너뛴 날",
+    "description": "바쁘다는 이유로 아버지 병원 동행을 건너뛴 게 석 달 전이다.\n오늘 고모에게서 연락이 왔다.\n\"민준아. 그날 아버지 많이 서운해하셨어.\"",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "skipped_father_hospital",
+      "min_turn": 5
+    },
+    "tags": ["father", "callback", "family"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "아버지께 직접 전화드린다",
+        "effects": {
+          "mental": 10,
+          "stress": -5
+        },
+        "flags": ["father_apology_made"],
+        "follow_up_event": "",
+        "result_text": "\"아버지, 그날 못 가서 죄송해요.\"\n아버지가 \"됐어, 바빴겠지\"라고 하셨다.\n'됐어'가 됐다는 게 아니라는 걸 알았다.\n다음엔 가야 한다."
+      },
+      {
+        "text": "다음에 꼭 가는 걸로 한다",
+        "effects": {
+          "stress": 3,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음에 가기로 했다.\n고모한테 들은 말이 계속 걸렸다.\n서운해하셨다는 말. 그 말이 아버지 대신 해준 말 같았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_visited_father_hospital_after",
+    "title": "병원에서 돌아와",
+    "description": "아버지 병원에 같이 다녀온 뒤.\n진료실에서 의사가 했던 말이 계속 머릿속에 남았다.\n'현재로서는 큰 이상 없습니다만, 정기 검진은 꾸준히 받으셔야 해요.'",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "visited_father_hospital",
+      "min_turn": 3
+    },
+    "tags": ["father", "callback", "family"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "다음 검진 일정을 직접 잡아드린다",
+        "effects": {
+          "mental": 12,
+          "money": -30000,
+          "stress": -5
+        },
+        "flags": ["father_appointment_set"],
+        "follow_up_event": "",
+        "result_text": "석 달 뒤 예약을 잡았다.\n아버지가 \"네가 뭘\" 하셨지만 좋아하셨다.\n데려가는 것보다 챙기는 게 먼저였다."
+      },
+      {
+        "text": "아버지께 스스로 가시도록 말씀드린다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"아버지, 꼭 다음 검진 가셔야 해요.\"\n아버지가 \"알겠어\"라고 하셨다.\n가실지 안 가실지는 모른다.\n결국 같이 가야 하는 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_got_promoted_weight",
+    "title": "승진 다음 날",
+    "description": "발령이 났다.\n어제 팀장이 악수를 청했다.\n오늘 아침 책상이 같은데 — 뭔가 달라진 것 같았다.\n책임이라는 게 이런 무게인가 싶었다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "got_promoted_orthodox",
+      "min_turn": 4,
+      "has_job": true
+    },
+    "tags": ["jobs", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "팀원들에게 먼저 인사한다",
+        "effects": {
+          "mental": 10,
+          "reputation": 3,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 명 한 명한테 \"잘 부탁해요\"라고 했다.\n다들 웃었다.\n승진은 이 사람들 앞에서 더 잘 해야 한다는 신호였다."
+      },
+      {
+        "text": "평소처럼 일한다",
+        "effects": {
+          "mental": 7,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "달라진 척 안 했다.\n달라진 게 없으니까.\n하지만 팀원들 눈에는 달라졌다는 걸 나중에 알았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_has_certification_applied",
+    "title": "자격증을 꺼낼 때",
+    "description": "땄던 자격증.\n이력서에는 한 줄이었는데 — 오늘 면접에서 그걸 집중적으로 물었다.\n생각보다 깊이 파고들었다.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "has_certification",
+      "min_turn": 6
+    },
+    "tags": ["jobs", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "공부했던 내용을 제대로 설명한다",
+        "effects": {
+          "mental": 10,
+          "reputation": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "30분 동안 그 얘기만 했다.\n면접관이 \"이 분야 좋아하시는 것 같네요\" 했다.\n자격증은 따는 게 아니라 아는 것이었다.\n알고 딴 게 맞았다."
+      },
+      {
+        "text": "솔직히 말한다. \"일반적인 수준입니다\"",
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "솔직하게 말했다.\n면접관이 \"솔직하네요\" 했다.\n과장하지 않은 것. 그것도 평가가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_headhunted_choice",
+    "title": "헤드헌팅 전화",
+    "description": "헤드헌터에게서 전화가 왔다.\n\"현재 연봉 대비 30% 이상 조건입니다.\n이직 의향이 있으시면 한 번 만나보시겠어요?\"",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "flag": "headhunted",
+      "min_turn": 4,
+      "has_job": true
+    },
+    "tags": ["jobs", "callback", "career"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "일단 만나본다",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "stress": 3
+        },
+        "flags": ["headhunting_explored"],
+        "follow_up_event": "",
+        "result_text": "만났다.\n조건이 좋았다.\n이직 결정은 숫자만으로 하는 게 아니었지만 — 선택지가 생겼다는 것 자체가 자산이었다."
+      },
+      {
+        "text": "지금은 아닌 것 같다. 거절한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"지금은 아닌 것 같아요. 감사합니다.\"\n헤드헌터가 \"연락처는 저장해둘게요\"라고 했다.\n지금 아니라는 게 — 앞으로도 아니라는 게 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_debt_repaid_lightness",
+    "title": "다 갚은 날",
+    "description": "다단계 때문에 진 빚을 오늘 마지막으로 갚았다.\n은행 앱을 열었더니 대출 잔액이 0원이었다.\n한참을 그 화면을 봤다.",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "mlm_debt_repaid",
+      "min_turn": 6
+    },
+    "tags": ["finance", "callback", "milestone"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "이날을 기록해둔다",
+        "effects": {
+          "mental": 15,
+          "stress": -10
+        },
+        "flags": ["mlm_debt_closed"],
+        "follow_up_event": "",
+        "result_text": "날짜와 함께 적었다.\n'오늘로 끝났다.'\n빌린 사람 이름도, 이유도 안 썼다.\n그냥 — 끝났다."
+      },
+      {
+        "text": "조용히 넘긴다",
+        "effects": {
+          "mental": 12
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조용히 앱을 닫았다.\n특별히 할 말이 없었다.\n그냥 가벼웠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_endured_cost",
+    "title": "명절 다음 날",
+    "description": "버티고 버텨서 명절을 넘겼다.\n친척들 질문들. 비교들. 다 지나갔다.\n오늘 아침 — 피로는 있는데 이상하게 홀가분했다.",
+    "category": "family",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holiday_endured",
+      "min_turn": 4
+    },
+    "tags": ["family", "callback", "holiday"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "올해는 다르게 준비하기로 한다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다음 명절엔 뭔가 하나라도 달라지게 하기로 했다.\n대답이든, 대화 방법이든.\n매년 같은 방식으로 버티는 건 — 버티는 게 아니라 소진이다."
+      },
+      {
+        "text": "이것도 결국 지나간다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지나갔다.\n또 지나갈 것이다.\n지금은 그게 전부였다."
+      }
+    ]
+  }
+]

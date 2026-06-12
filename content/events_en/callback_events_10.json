@@ -1,0 +1,242 @@
+[
+  {
+    "id": "callback_jiyeon_got_angry_aftermath",
+    "title": "After Getting Angry",
+    "description": "The day you got angry at Jiyeon.\nYou realized the words had gone too far once you got home.\nToday a short text from Jiyeon.\n'I've been thinking.'",
+    "choices": [
+      {
+        "text": "Apologize first",
+        "result_text": "'I went too far that day. I'm sorry.'\nJiyeon was quiet for a moment. '...I wasn't without fault either.'\nThe one who got angry going first. Hard — but the right direction."
+      },
+      {
+        "text": "Hear Jiyeon out first",
+        "result_text": "'What did you think about?' you asked.\nJiyeon said 'I think we need to talk honestly.'\nThe anger became the start of a conversation."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_walked_away_echo",
+    "title": "The Seat She Left First",
+    "description": "The day Jiyeon stood up and left first.\nTwo months have passed.\nA mutual contact mentioned she's been doing well.",
+    "choices": [
+      {
+        "text": "Reach out",
+        "result_text": "'Heard you're doing well. I should have checked in.'\nJiyeon said 'I didn't have much room back then either.'\nThe person who leaves first isn't always in the wrong."
+      },
+      {
+        "text": "Leave it. Good that she's well.",
+        "result_text": "Good that she was well.\nMaybe they'd just gone different directions.\nThat's also a kind of ending."
+      }
+    ]
+  },
+  {
+    "id": "callback_confronted_jiyeon_respect",
+    "title": "What Changed After Calling Her Out",
+    "description": "A month since you confronted Jiyeon directly.\nHer manner has shifted slightly since.\nToday Jiyeon brought up something serious first.",
+    "choices": [
+      {
+        "text": "Listen carefully",
+        "result_text": "Jiyeon acknowledged a mistake she'd made.\nShe also said 'You did well saying that.'\nSaying what needs to be said — wasn't ending things. It was moving them forward."
+      },
+      {
+        "text": "\"It was nothing\" — keep it light",
+        "result_text": "'It was nothing.'\nJiyeon said '...No — it was something.'\nThat stayed longer than expected."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_came_clean_result",
+    "title": "The Weight of Honesty",
+    "description": "Two months since you opened up to Jiyeon.\nToday she said:\n\"Minjun — what you told me then. I've been sitting with it.\"",
+    "choices": [
+      {
+        "text": "\"I'm glad I said it.\"",
+        "result_text": "Jiyeon said 'There's something I want to tell you too.'\nHonesty called honesty back.\nThat conversation lasted another hour."
+      },
+      {
+        "text": "\"You can forget about it.\"",
+        "result_text": "'You can forget it.'\nJiyeon said '...That's not something to forget.'\nWhat you say honestly — others remember."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_first_date_next",
+    "title": "What Came After",
+    "description": "A month since you had a first meal alone with Daeun.\nToday a KakaoTalk from Daeun.\n'Minjun. Are you free next week?'",
+    "choices": [
+      {
+        "text": "\"Yes. Where?\"",
+        "result_text": "Daeun sent a place.\nIt was easier than the first time.\nThe second meeting — you could see it was her way of confirming what kind of person the first one was."
+      },
+      {
+        "text": "\"Been a bit busy lately. Let's do it next time.\"",
+        "result_text": "Daeun said 'Sure, whenever.'\nA second chance materialized.\nUsing it or not — that was your call."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_declined_date_echo",
+    "title": "After the Refusal",
+    "description": "Two months since you turned down Daeun's invitation.\nToday you ran into her unexpectedly.\nShe smiled and said hello first.",
+    "choices": [
+      {
+        "text": "\"About turning you down — I'm sorry.\"",
+        "result_text": "Daeun said 'It's okay. It wasn't the right time.'\nThat came out warmer than expected.\nA good person doesn't make a refusal into a wound."
+      },
+      {
+        "text": "Greet her naturally",
+        "result_text": "'Hello.' That was all.\nDaeun passed naturally too.\nThe refusal hadn't severed anything."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_first_kind_memory",
+    "title": "What Daeun Remembered",
+    "description": "It's been a while since you first spoke up when Daeun seemed to be having a hard time.\nOver a meal today, Daeun said:\n\"Minjun — when you said something back then — do you remember that?\"",
+    "choices": [
+      {
+        "text": "\"I remember. You looked like you were really struggling.\"",
+        "result_text": "Daeun said 'I was. That's what got me through it.'\nThe table went quiet for a moment.\nA small kindness stays that long — you didn't know."
+      },
+      {
+        "text": "\"Did I? It's a bit fuzzy for me.\"",
+        "result_text": "Daeun smiled. 'I remember.'\nThe things you do — get remembered somewhere you don't know."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_texted_response",
+    "title": "The Text You Sent First",
+    "description": "A month since you worked up the nerve to text first.\nDaeun had sent a short reply.\nToday Daeun reached out first.\nThis time it was her.",
+    "choices": [
+      {
+        "text": "Reply right away",
+        "result_text": "You replied immediately.\nTalked for a long time that evening.\nThe text you sent first — made this conversation.\nThe one who goes first gets there first."
+      },
+      {
+        "text": "Reply a bit later",
+        "result_text": "You replied an hour later.\nDaeun asked 'Were you busy?'\n'No, just.' you said.\nYou'd made her wait for no reason."
+      }
+    ]
+  },
+  {
+    "id": "callback_rushed_to_father_moment",
+    "title": "After Running There",
+    "description": "The day you rushed there after hearing the news.\nYour father was better than expected.\nOn the way home — the fact that you'd rushed felt slightly odd.",
+    "choices": [
+      {
+        "text": "Decide to go more often",
+        "result_text": "You put the next visit on the calendar.\nIt wasn't odd.\nThat was the natural thing.\nGoing when you feel like you should go."
+      },
+      {
+        "text": "Going often is a burden",
+        "result_text": "It was a burden.\nBut you should go sometimes.\nThe memory of that run — made the next visit a little easier."
+      }
+    ]
+  },
+  {
+    "id": "callback_skipped_father_hospital_weight",
+    "title": "The Day You Skipped the Hospital",
+    "description": "Three months since you skipped accompanying your father to the hospital — too busy.\nToday a call from your aunt.\n'Minjun. Your father was really hurt that day.'",
+    "choices": [
+      {
+        "text": "Call your father directly",
+        "result_text": "'Dad, I'm sorry I couldn't make it that day.'\nDad said 'It's fine, you were busy.'\nYou knew that 'it's fine' didn't mean fine.\nNext time — you go."
+      },
+      {
+        "text": "Commit to going next time",
+        "result_text": "You decided to go next time.\nYour aunt's words kept nagging at you.\n'He was really hurt.' That was his words spoken through her."
+      }
+    ]
+  },
+  {
+    "id": "callback_visited_father_hospital_after",
+    "title": "Coming Back from the Hospital",
+    "description": "After accompanying your father to his appointment.\nWhat the doctor said in the consultation room kept echoing.\n'No major issues for now — but please keep up the regular check-ups.'",
+    "choices": [
+      {
+        "text": "Schedule his next appointment yourself",
+        "result_text": "You booked it for three months out.\nDad said 'What for —' but he seemed pleased.\nTaking care of it came before taking him."
+      },
+      {
+        "text": "Tell him to go on his own",
+        "result_text": "'Dad, you really have to go to the next one.'\nDad said 'I know.'\nWhether he'd actually go — unknown.\nIn the end it was going to have to be together."
+      }
+    ]
+  },
+  {
+    "id": "callback_got_promoted_weight",
+    "title": "The Morning After the Promotion",
+    "description": "The promotion came through.\nThe team lead shook your hand yesterday.\nThis morning the desk is the same — but something felt different.\nSo this is what responsibility weighs.",
+    "choices": [
+      {
+        "text": "Greet each team member",
+        "result_text": "You said 'Thanks for the support' to each one.\nThey all smiled.\nThe promotion was a signal to do better in front of these people."
+      },
+      {
+        "text": "Work the same as usual",
+        "result_text": "You didn't act different.\nBecause nothing was different.\nBut the team saw it differently — you found that out later."
+      }
+    ]
+  },
+  {
+    "id": "callback_has_certification_applied",
+    "title": "When the Certificate Comes Up",
+    "description": "The certification you earned.\nOne line on the resume — but today in the interview they focused heavily on it.\nDug deeper than expected.",
+    "choices": [
+      {
+        "text": "Explain what you actually studied",
+        "result_text": "Thirty minutes on just that topic.\nThe interviewer said 'You seem to enjoy this field.'\nA certification isn't passed — it's known.\nKnowing it when you got it was right."
+      },
+      {
+        "text": "Be honest. \"General level of knowledge.\"",
+        "result_text": "You said it straight.\nThe interviewer said 'That's refreshingly honest.'\nNot overstating. That was evaluated too."
+      }
+    ]
+  },
+  {
+    "id": "callback_headhunted_choice",
+    "title": "The Headhunting Call",
+    "description": "A headhunter called.\n\"It's over 30% above your current package.\nIf you're open to a move, would you be interested in a meeting?\"",
+    "choices": [
+      {
+        "text": "At least meet them",
+        "result_text": "You met.\nThe package was good.\nA move decision isn't just about numbers — but having options was an asset in itself."
+      },
+      {
+        "text": "Doesn't feel right. Decline.",
+        "result_text": "'I don't think it's the right time. Thank you.'\nThe headhunter said 'I'll keep your contact.'\nNot now — doesn't mean not ever."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_debt_repaid_lightness",
+    "title": "The Day It's Paid Off",
+    "description": "Today you made the final payment on the debt from the MLM.\nYou opened the banking app — loan balance: ₩0.\nYou stared at the screen for a long time.",
+    "choices": [
+      {
+        "text": "Write it down",
+        "result_text": "You wrote the date.\n'It's done today.'\nNo name of who you borrowed from. No reason.\nJust — done."
+      },
+      {
+        "text": "Close it quietly",
+        "result_text": "You quietly closed the app.\nNothing to say particularly.\nJust lighter."
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_endured_cost",
+    "title": "The Day After the Holiday",
+    "description": "You held on and got through the holiday.\nAll the questions. All the comparisons. All passed.\nThis morning — tired, but somehow lighter.",
+    "choices": [
+      {
+        "text": "Prepare differently next year",
+        "result_text": "You decided something would be different at the next one.\nA different answer. A different way of talking.\nSurviving the same way every year — that's not surviving. It's burning out."
+      },
+      {
+        "text": "This too shall pass",
+        "result_text": "It passed.\nIt will pass again.\nFor now, that's everything."
+      }
+    ]
+  }
+]
