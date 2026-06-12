@@ -1,0 +1,178 @@
+[
+  {
+    "id": "callback_guarantee_default",
+    "title": "Registered Mail",
+    "description": "Registered mail in the goshiwon mailbox.\n\n○○ Bank. Addressee: {name}.\n\n'Due to delinquency on the loan of primary debtor Kim ○○,\npayment is hereby demanded from you as joint guarantor.\nAmount claimed: ₩32,000,000.'\n\nIt was one stamp. At a drinking table. Between friends.\n\nThis is what Father spent his whole life repaying. Now it was {name}'s turn.",
+    "choices": [
+      {
+        "text": "Find the friend. First check if he ran",
+        "result_text": "The friend hadn't run. He was alone in a half-basement office.\n\n\"I'm sorry. Sorry is all I can say.\"\n\nHeard how the business collapsed. He'd been scammed. Him too.\n\nDrafted a installment repayment agreement together. {name} absorbed part of it.\n\nThought of Father. That man back then — did he have this same face?"
+      },
+      {
+        "text": "Find a lawyer. Reduce it legally first",
+        "result_text": "Retainer: ₩1,500,000. Worth every won.\n\n\"Excess over the maximum legal rate, procedural defects in the acceleration notice — there's room to fight.\"\n\n₩32,000,000 came down to ₩7,000,000. 24 monthly installments.\n\nThe lawyer's last words:\n\"From now on — don't stamp anything, not even at your parents' funeral.\"\n\nDecided to remember that for life."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_refused_news",
+    "title": "News About That Friend",
+    "description": "The alumni group chat was buzzing.\n\nThat friend — the one who asked for the guarantee — his business went under.\n\nTwo people had co-signed. Both were on the hook for tens of millions of won.\n\n{name} stared at the screen for a long time.\n\nThe friend's expression that night when he refused. The sound of something cracking.\nThat crack — saved {name}.",
+    "choices": [
+      {
+        "text": "Reach out. Can't guarantee loans, but can help with other things",
+        "result_text": "\"Let's get some food.\"\n\nMet at a gukbap place. The friend couldn't hold eye contact.\n\"Thank you — for refusing back then. Strange, right? I came out to say that.\"\n\nAt parting, pressed an envelope into his hand. ₩500,000. Not a loan. A gift.\n\nRefused the guarantee, but didn't refuse the friend.\nThat those are two different things — now they both know."
+      },
+      {
+        "text": "Don't reach out. Distance protects both",
+        "result_text": "Wrote several messages. Deleted them all.\n\nAnything sent would read as 'glad it wasn't me.'\n\nThe friend quietly left the group chat.\n\nNo telling if it was the right call.\nOnly one thing became certain — that night's refusal was correct."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_auction_insured",
+    "title": "That Building, Auction",
+    "description": "A call from the landlord's number — but an unfamiliar man's voice.\n\n\"You're the tenant? The building is going to auction. You won't reach the landlord.\"\n\nThe 80% mortgage on the registry. That day's anxiety became reality.\n\nBut {name} had a piece of paper.\nA jeonse guarantee insurance policy. The ₩300,000 paid by skimping on food.",
+    "choices": [
+      {
+        "text": "File the insurance claim",
+        "result_text": "Documents, review, two months.\n\nThe full deposit came back.\n\nOther tenants in the building got pushed down the distribution order — most recovered less than half.\nThe face of the next-door neighbor in the hallway is impossible to forget.\n\n₩300,000. One month of food.\nIt protected tens of millions.\n\nThey say insurance is a losing game.\nCorrect. Except exactly once."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_auction_uninsured",
+    "title": "Auction Notice",
+    "description": "A notice from the court.\n\nCommencement of voluntary auction proceedings.\n\nThe 80% mortgage on the registry — the 80% left to luck that day came back as a blade.\n\nSenior creditors collect first. {name}'s deposit comes after.\n\nRan the numbers. No matter how — not all of it comes back.",
+    "choices": [
+      {
+        "text": "Demand for distribution + leasehold registration — recover everything legally possible",
+        "result_text": "A month of courts, registry offices, community centers.\n\nRecovered 60% of the deposit through priority repayment and distribution.\nThe other 40% — ₩8,000,000 — vanished.\n\nThat day, ₩300,000 for insurance felt expensive.\nThat ₩300,000 was actually ₩8,000,000.\n\nBrutal tuition. But this kind of lesson lasts a lifetime after one payment."
+      },
+      {
+        "text": "Track down the landlord personally. Grab him by the collar if needed",
+        "result_text": "Went to the landlord's registered address. Already empty.\n\nLearned there that there were seventeen victims.\nJoined the class action — but recovery odds were low, they said.\n\nWhile chasing rage, the distribution demand deadline passed.\nAnger ate the procedure.\n\n₩12,000,000. Seoul's lessons always cost this much."
+      }
+    ]
+  },
+  {
+    "id": "callback_health_collapse",
+    "title": "There Was No Second Warning",
+    "description": "This time it was on the street.\n\nThat whiteout feeling — the one from the subway stairs.\nThat time, he stood up and walked away. Waved people off, said he was fine.\n\nThis time, he couldn't get up.\n\nWoke to an emergency room ceiling. IV in his arm.\nThe doctor looked at the chart. \"This isn't your first time, is it.\"",
+    "choices": [
+      {
+        "text": "Get the full workup this time",
+        "result_text": "Results — overwork, malnutrition, early arrhythmia.\n\n\"A few more months of living like this and it would have been serious.\"\n\nHospital bill: ₩1,200,000. The ER that day would have been ₩300,000.\n\nThe body always collects its debts. With interest.\n\nLeaving the hospital, made an appointment for the first time. With himself. Eat, then run."
+      },
+      {
+        "text": "Just take the IV and leave again. Can't stop now",
+        "result_text": "The doctor objected. The nurse took a consent form.\n'Discharge against medical advice.'\n\nLegs wobbled slightly walking out the hospital door.\n\nA warning ignored twice — isn't a warning the third time.\n{name} knew that. Knew it and walked.\n\nSeoul doesn't teach you how to stop.\nUntil the body teaches you directly."
+      }
+    ]
+  },
+  {
+    "id": "callback_lied_interview_surfaces",
+    "title": "That Lie",
+    "description": "Company dinner. The team lead sat down next to {name}, glass in hand.\n\n\"You said it at your interview. Six years preparing your own business.\"\n\n\"We're launching a new business initiative — put that experience to use.\nNext week, you present to the executives.\"\n\nSix years. Not a business — repaying debt.\nThe one line invented in an interview — now had to become presentation slides.",
+    "choices": [
+      {
+        "text": "Quietly tell the team lead the truth",
+        "result_text": "After the second round, pulled the team lead aside.\n\n\"The truth is it wasn't a business — I was repaying my father's debt. Six years.\"\n\nThe team lead poured a shot of soju. Said nothing for a while.\n\n\"I'll push the presentation. But — a guy who repaid debt for six years beats a guy who prepped a business.\nGrit can't be faked.\"\n\nThe lie disappeared. Strangely, leaving something sturdier behind."
+      },
+      {
+        "text": "Study all night and actually pull off the presentation",
+        "result_text": "A week of studying business plan formats until 3 AM.\n\nThe presentation — passed. An executive nodded.\n\nWalking back, the team lead clapped his shoulder. \"Knew you had the experience.\"\n\nThe compliment sat like indigestion.\n\nThe lie had become a skill. But the lie hadn't disappeared.\nIt had just gone deeper."
+      }
+    ]
+  },
+  {
+    "id": "callback_happy_yes",
+    "title": "That Night's Answer — Yes",
+    "description": "The question came again. No particular reason. At night.\n\nAre you happy?\n\nAnswered it once before. That night, the answer was 'yes.'\n\nTime has passed since. The bank account, the body, the people — all different now.\n\nAnd now?",
+    "choices": [
+      {
+        "text": "Still yes",
+        "result_text": "Not many people can answer 'yes' twice.\n\n{name} knows it isn't because of money.\nThat night and tonight — the account balance didn't write the answer.\n\nSeoul was outside the window.\nOne person in this city has said he's happy, twice — right here."
+      },
+      {
+        "text": "...Now I don't know",
+        "result_text": "Back then the answer was yes.\n\nTallied what had changed. More money than back then. And yet.\n\nFelt like something got left behind somewhere.\nWhere — finding that became the homework for the time that's left."
+      }
+    ]
+  },
+  {
+    "id": "callback_happy_no",
+    "title": "That Night's Answer — No",
+    "description": "The question came again. No particular reason. At night.\n\nAre you happy?\n\nAnswered it once before. That night, the answer was 'no.'\n\nGave that answer and kept running anyway. Didn't stop.\n\nAnd now?",
+    "choices": [
+      {
+        "text": "Now — it's a little different",
+        "result_text": "Remember the night of answering no.\n\nWhat happened between then and now?\nNo major events. Just — endured days, stacking up.\n\nIf happiness isn't something that arrives one day\nbut unhappiness draining out little by little,\nthen {name} is somewhere in the middle of that now.\n\nThat's enough. For today."
+      },
+      {
+        "text": "Still no",
+        "result_text": "Same answer the second time.\n\nBut this time another question attached itself behind it.\n\nThen — what needs to change?\n\nFor the first time, {name} seriously considered\nthat earning more might not be the answer.\n\nThe thought was frightening, so he went to sleep early.\nIt was still there in the morning."
+      }
+    ]
+  },
+  {
+    "id": "callback_happy_unsure",
+    "title": "That Night's Answer — Don't Know",
+    "description": "The question came again. No particular reason. At night.\n\nAre you happy?\n\nAnswered it once before. That night, the answer was 'I don't know.'\n\n'I don't know' was really just a postponed answer.\n\nTime passed, and the postponed question came back with interest.",
+    "choices": [
+      {
+        "text": "Now there's an answer — yes",
+        "result_text": "Wanted to tell the {name} of that night:\n\nHey. Later, you answer yes to this question.\nYou won't believe it.\n\nAsked what changed, the explanation doesn't come easily.\nJust — at some point, mornings got less heavy.\n\nIf that's the definition of happiness, then yes. Happy."
+      },
+      {
+        "text": "Now there's an answer — no",
+        "result_text": "'Don't know' became 'no.'\n\nStrangely — it was a relief.\n\n'Don't know' was fog. 'No' is a coordinate.\nWith a coordinate, you can set a direction.\n\nWhat's wrong is visible now.\nThe remaining time is for fixing it.\n\n'No' — turned out to be a usable starting point."
+      }
+    ]
+  },
+  {
+    "id": "callback_father_promise",
+    "title": "What You Said That Day",
+    "description": "Sunday night. A call from Father.\n\n\"Nothing new. You eating properly?\"\n\nThe usual script. About to hang up when Father paused a beat.\n\n\"...That time at the hospital. You said when you make it to Gangnam, you'd bring me there.\"\n\n\"For me — those words were enough. You really don't have to go.\nI called because I was thankful you said it.\"",
+    "choices": [
+      {
+        "text": "\"I'm going. I'm keeping that promise.\"",
+        "result_text": "A laugh came through the receiver.\n\n\"Alright. But don't overdo it. To me, you—\"\n\nThe words cut off. Long silence.\n\n\"...Stay healthy. Hanging up.\"\n\nListening to the dial tone, {name} held the phone for a long while.\nThe unfinished sentence hung somewhere in the line.\nTo hear the rest of it — he had to go. Gangnam or Changwon."
+      },
+      {
+        "text": "\"Father. Even if I never make Gangnam — I'm taking care of you.\"",
+        "result_text": "The other end went quiet.\n\n\"...What nonsense. I have a house.\"\n\nThe voice trembled. The pretending was fully audible.\n\n\"Hanging up. Eat your meals.\"\n\nAfter hanging up, it landed.\nGangnam was a condition, and the condition just got removed.\nRemove the condition from a promise — and it becomes a real one."
+      }
+    ]
+  },
+  {
+    "id": "callback_mlm_friend_escaped",
+    "title": "That Classmate, Afterward",
+    "description": "A KakaoTalk message. That classmate.\n\nThe one who wrapped an arm around his shoulder in the hotel seminar room. Who said ₩3,000,000 enrollment.\n\n'Hey. I got out. The day you stormed out — honestly, I started shaking that day.\n₩14,000,000 in debt left, but I'm out.\nStarted logistics work. Let's meet. Gukbap's on me.'",
+    "choices": [
+      {
+        "text": "Go. One bowl of gukbap",
+        "result_text": "The gukbap place. The classmate's face was sunburnt but his eyes had returned.\n\n\"I saw your expression in that seminar room. The pathetic-look.\nThat was a mirror. I was making someone else wear that expression too.\"\n\nTwo bowls of gukbap, one bottle of soju.\nThe classmate paid. ₩14,000.\n\n\"Once the debt's cleared, I'll buy you a real drink.\"\nThat promise seemed worth believing."
+      },
+      {
+        "text": "Just reply. Distance is still needed",
+        "result_text": "'Glad to hear it. You've been through it. Food sometime, for sure.'\n\nDidn't set when sometime was.\n\nThe applause from that seminar room still rang in his ears.\nDecided not to hate the person. Decided to hate the system.\n\nBut separating those two takes time.\nThe classmate would know that. He'd wait."
+      }
+    ]
+  },
+  {
+    "id": "callback_gambling_memory",
+    "title": "That Day's 18x",
+    "description": "Payday. The number landed in the account.\n\nA month of grinding, converted to money.\n\nBut a different number surfaced in his head.\nThe day the perfecta hit at Gwacheon. Time for ₩50,000 to become ₩900,000 — two minutes.\n\nOne month vs. two minutes.\n\nThe moment this comparison begins is the most dangerous moment there is — he'd read that somewhere.",
+    "choices": [
+      {
+        "text": "Cut the comparison itself. That day was luck",
+        "result_text": "Wrote it out on paper.\n\nWon from racing: ₩900,000 (once)\nSpent on racing: more than that, in total.\n\nThe brain remembers only the winning days. The ledger remembers everything.\n\n{name} put the paper in his wallet.\nTo take out on days Gwacheon calls.\n\nA salary has no two-minute drama. Instead, it comes every month.\nThat difference is what builds a life."
+      },
+      {
+        "text": "This weekend. Just once more",
+        "result_text": "Saturday. Gwacheon. Line 4.\n\n'Just once' became five races. ₩150,000 melted.\n\nThe memory of ₩900,000 was the problem.\nAs long as that memory exists, 'just once' is a lie.\nA lie told to himself. To the easiest mark there is.\n\nOn the train home, {name} saw his face in the window.\nA familiar expression. Where had he seen it.\n\n— The men at the betting windows. That expression."
+      }
+    ]
+  }
+]
