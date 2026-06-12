@@ -14,6 +14,7 @@ const PORTRAITS = {
 	"player_determined":  "res://assets/characters/main_character_determined.png",
 	"player_happy":       "res://assets/characters/main_character_happy.png",
 	"player_shocked":     "res://assets/characters/main_character_shocked.png",
+	"player_sad":         "res://assets/characters/main_character_tired.png",
 	"player_suit":        "res://assets/characters/main_character_30s.png",
 	"player_hollow":      "res://assets/characters/main_character_50s.png",
 
@@ -70,6 +71,7 @@ const PERSON_INFO = {
 # ── 배경 이미지 ────────────────────────────────────────────────
 const BACKGROUNDS = {
 	# 고시원/생활권
+	"goshiwon":          "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_room":     "res://assets/backgrounds/goshiwon_room.png",
 	"goshiwon_hallway":  "res://assets/backgrounds/goshiwon_hallway.png",
 	# 서울 일상
