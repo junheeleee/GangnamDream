@@ -1,0 +1,242 @@
+[
+  {
+    "id": "callback_cafe_stole_gambled_result",
+    "title": "What That Hand Paid",
+    "description": "Two months since you went in on the stolen tip from the café.\nToday you opened the portfolio.",
+    "choices": [
+      {
+        "text": "It made money. But it feels wrong.",
+        "result_text": "You made money.\nBut you knew how you made it.\nWhatever you do with this money — where it came from doesn't change."
+      },
+      {
+        "text": "It lost. And someone found out.",
+        "result_text": "The stolen information was wrong anyway.\nThen a message from someone who'd been at that table.\n'You overheard us that day, didn't you?'\nTwo things lost at once."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_walked_echo",
+    "title": "The Information You Didn't Use",
+    "description": "You overheard the tip at the café — and ultimately walked away without using it.\nToday that ticker made the news.\n[OO Stock Up 3.4x in Six Months]",
+    "choices": [
+      {
+        "text": "Disappointing — but it was the right call.",
+        "result_text": "3.4x.\nThe number stayed in front of your eyes for a while.\nBut so did how you would have made that money.\nIt was the right call.\nEven if it hurt."
+      },
+      {
+        "text": "Should've just put it in.",
+        "result_text": "3.4x.\nKeeping this in mind leads you to do it again next time.\nThe pain of opportunity cost is the most common way people rationalize bad decisions."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_redeemed_chance",
+    "title": "A Chance to Make It Right",
+    "description": "You'd made money from the stolen café tip.\nIt never sat right with you.\nToday the person appeared.\nYou could look away and pass.",
+    "choices": [
+      {
+        "text": "Come clean",
+        "result_text": "'That day at the café — I'm sorry.'\nThe other person paused. '...I already knew. Just be more careful.'\nSomething heavy lifted.\nRedemption starts with words."
+      },
+      {
+        "text": "Let it pass again",
+        "result_text": "You passed again.\nThe chance came and you missed it again.\nIf the same situation comes up next time — you'll probably pass again."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_patient_payoff",
+    "title": "The End of Waiting",
+    "description": "A year ago you chose to act honestly at the café and wait.\nToday the investment you'd quietly marked in your mind made an official announcement.",
+    "choices": [
+      {
+        "text": "Enter based on the official disclosure",
+        "result_text": "Waiting hadn't been waiting for the information — it was waiting for the right method.\nYou made money.\nSame result, but this time you could hold your head up."
+      },
+      {
+        "text": "Too late. Already up too much.",
+        "result_text": "It was already up 30% by the time you checked.\nYou watched without greed.\nWaiting doesn't always return profit.\nBut the method was right."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_loss_lesson",
+    "title": "What You Lost Honestly",
+    "description": "You went in honestly at the café — and lost.\nToday a similar investment opportunity showed up.\nThe memory came first.",
+    "choices": [
+      {
+        "text": "Look more carefully this time before entering",
+        "result_text": "A week of analysis.\nThe loss became the benchmark for this analysis.\nIf the lost money was tuition — this judgment was the product of it."
+      },
+      {
+        "text": "Skip this one. Haven't recovered yet.",
+        "result_text": "You sat it out.\nNot overextending is also investing.\nWhen you're ready — back in."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_smart_loss_rethink",
+    "title": "The Limits of Being Clever",
+    "description": "You thought you were being smart at the café — and still lost.\nSix months later you went back and reviewed the trade.\nNow you could see where it went wrong.",
+    "choices": [
+      {
+        "text": "Write up the review in notes",
+        "result_text": "Three mistakes visible.\nIncluding: 'feeling smart' is the most dangerous moment.\nThose notes became the standard for the next trade."
+      },
+      {
+        "text": "Conclude it was just bad luck.",
+        "result_text": "You called it luck.\nBut without a review, the same mistake repeats.\n'Luck' isn't a conclusion — it's avoidance."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_overheard_encounter",
+    "title": "Someone from That Café",
+    "description": "You overheard investment talk at the café and did nothing with it.\nToday on the street you ran into one of the two people from that conversation.\nYou were close enough to recognize each other.",
+    "choices": [
+      {
+        "text": "Pass without a word",
+        "result_text": "You passed.\nThey didn't seem to notice.\nThe judgment from that day felt vindicated.\nNot using what you overheard."
+      },
+      {
+        "text": "Speak first",
+        "result_text": "You spoke.\nThey asked where they'd seen you.\n'That café. Briefly.'\nA short exchange.\nWhere it leads — unknown. But something started."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_learned_humility_test",
+    "title": "Humility's Expiration Date",
+    "description": "After what happened at the café, you were humble for a while.\nSix months passed.\nToday another strong-sounding tip came in.\nSame feeling as back then.",
+    "choices": [
+      {
+        "text": "Verify it first, like last time",
+        "result_text": "You checked first.\nThis one was fake.\nHumility had become a skill.\nNot forgetting what you learned — that's how one experience lasts a long time."
+      },
+      {
+        "text": "This time is different. Go straight in.",
+        "result_text": "You went straight in.\nWrong.\nThe humility learned at the café was tested again six months later.\nAnd failed again."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_chased_loss_day",
+    "title": "That Day's Account",
+    "description": "The day you kept betting to win back what you'd lost.\nHome. You tallied the account.\nTotal loss: 1.4x your monthly rent.",
+    "choices": [
+      {
+        "text": "Delete the betting app",
+        "result_text": "Deleted.\nChasing losses — the longer you wait to stop, the more expensive it gets.\nToday was the cheapest day it could be."
+      },
+      {
+        "text": "Go back next weekend and recover it",
+        "result_text": "You went back.\nLost more.\nChasing a loss always ends in a bigger loss."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_paused_reflection",
+    "title": "Two Months Away from the Track",
+    "description": "Two months since you decided to step back.\nToday a friend said they were heading to the track, asked if you wanted to come.\nNo particular reason — just for fun.",
+    "choices": [
+      {
+        "text": "Pass. No explanation needed.",
+        "result_text": "'I'll skip.'\nFriend asked 'Why?'\n'Just.'\nTwo months held."
+      },
+      {
+        "text": "It's just watching — go along",
+        "result_text": "You went.\nMeant to just watch — tried one.\nThe pause broke.\nTwo months gone in one moment."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_self_analysis_applied",
+    "title": "The Value of Analysis",
+    "description": "At the track you'd built a habit of reading races.\nToday looking at a stock chart — that same approach came back.\nThe pattern-reading method was similar.",
+    "choices": [
+      {
+        "text": "Apply it to analyze a stock",
+        "result_text": "Half right, half wrong.\nStill better than entering with no framework.\nWherever you learned it — an analysis habit becomes a skill."
+      },
+      {
+        "text": "Tracks are tracks and stocks are stocks.",
+        "result_text": "Blindly applying lessons from one domain is dangerous.\nApply with reasons, not instinct.\nThat judgment itself — was already analysis."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_asked_tip_result",
+    "title": "That Tip's Record",
+    "description": "Three months since you asked someone who looked like an expert at the track.\nSince then, three bets.\n1 win, 2 losses.",
+    "choices": [
+      {
+        "text": "Stop relying on other people's tips",
+        "result_text": "33% hit rate.\nThey didn't know either.\nSomeone who looks like they know and someone who actually knows — different.\nThe judgment has to be yours."
+      },
+      {
+        "text": "Find better tipsters",
+        "result_text": "You paid for premium picks.\nWrong.\nNobody sells real certainty at a racetrack.\nIf they were certain, they'd use it themselves — not sell it."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_banchan_job_lead_result",
+    "title": "That Contact",
+    "description": "The restaurant owner who said 'My son's company has an opening' — you still had the number.\nCurrent situation was tighter than when she'd offered.",
+    "choices": [
+      {
+        "text": "Reach out",
+        "result_text": "The son answered.\n'My mother mentioned you. Want to come in?'\nA lead from a side-dish restaurant owner.\nPaths open from the most unexpected places."
+      },
+      {
+        "text": "Not the right time yet",
+        "result_text": "Decided it wasn't time yet.\nKept the number saved.\nA small kindness became a small possibility. Unclear when it'll be used."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_warned_victim_thanks",
+    "title": "The Person You Warned",
+    "description": "Half a year ago you warned someone who was about to get scammed.\nToday a message from that person.\n\"I'm so grateful for what you said back then.\"",
+    "choices": [
+      {
+        "text": "\"I'm glad. Hope things are going well.\"",
+        "result_text": "'If you're nearby, I'd love to buy you a meal.'\nA word to a stranger — came back like this six months later.\nGood things are remembered."
+      },
+      {
+        "text": "\"It was nothing.\"",
+        "result_text": "'It was nothing.'\nThey said 'It was everything to me.'\nThe person it happened to knows its value best."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_housing_subsidy_result",
+    "title": "Subsidy Result",
+    "description": "Four months since you applied for youth housing support.\nToday a text arrived.\n[Youth Housing Support Review Result]",
+    "choices": [
+      {
+        "text": "Approved",
+        "result_text": "₩200,000/month, 12 months.\n₩2.4 million total.\nMoney that wouldn't exist if you hadn't applied.\nKnowing what's out there and using it — that's also a skill."
+      },
+      {
+        "text": "Declined",
+        "result_text": "Declined.\nIncome slightly over the threshold.\nDisappointing — but you have to apply to find out.\nWent back and looked for other support programs."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_celeb_regular_moment",
+    "title": "What Becoming a Regular Means",
+    "description": "It's been a while since you got to know the celebrity who frequents that café.\nToday you ran into them again.\nThis time they nodded first.",
+    "choices": [
+      {
+        "text": "Exchange a casual greeting",
+        "result_text": "'Hello.'\nThey said 'You're here a lot.'\nNetworks in Gangnam — built from small recognitions like this too.\nSomething you can't force."
+      },
+      {
+        "text": "Pretend not to notice. Don't want to make it awkward.",
+        "result_text": "You looked away.\nThey'd started to say something — sat down instead.\nThere are many ways to navigate Gangnam.\nThis is one of them."
+      }
+    ]
+  }
+]
