@@ -1,0 +1,748 @@
+[
+  {
+    "id": "sns_compare_00",
+    "title": "Still No Word",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": ["social", "ripple"],
+    "cooldown": 9,
+    "description": "Scrolling Instagram before sleep.\nCollege classmate — promoted to team lead. Old friend — engagement announcement. Elementary school kid who sat behind you — launched a business.\nNumbers accumulate. Likes, congratulations, 'so inspiring's.\n{name} turns off the screen and stares at the ceiling.",
+    "choices": [
+      {
+        "text": "Move on. Everyone has their own pace.  (acceptance / numbness)",
+        "result_text": "{name} placed the phone face-down and tried to sleep.\nEveryone has their own speed — knowing that didn't make the night shorter.",
+        "effects": {
+          "mental": -2,
+          "stress": 2
+        }
+      },
+      {
+        "text": "Leave genuine congratulations on each post.  (relationship / self-comparison)",
+        "result_text": "{name} read every post and left real comments. Meant it.\nHappy for them — and something else underneath that was hard to name.",
+        "effects": {
+          "mental": -1,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "Delete the app. For now.  (self-protection / isolation)",
+        "result_text": "{name} held down the icon and pressed delete.\nInstantly lighter. Some connections might thin out — right now, that was fine.",
+        "effects": {
+          "mental": 3,
+          "stress": -2,
+          "social_skill": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "empty_fridge_00",
+    "title": "Standing at the Fridge",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {
+      "max_money": 800000
+    },
+    "tags": ["health", "daily"],
+    "cooldown": 7,
+    "description": "1 a.m. Hungry.\nOpen the fridge — half a bag of frozen dumplings, gochujang, two old eggs.\nSomewhere along the way, {name} stopped doing proper grocery runs.\nNot sure if this counts as frugality or giving up.",
+    "choices": [
+      {
+        "text": "Microwave the dumplings.  (just deal with it / health)",
+        "result_text": "{name} pulled out the dumplings and hit start.\nThe skin came out rubbery. Still warm.\nNot rice, not anything special — just the end of another day.",
+        "effects": {
+          "health": -1
+        }
+      },
+      {
+        "text": "Walk to the convenience store. Eat something real.  (comfort / expense)",
+        "result_text": "Two triangle kimbap, one cup noodle. The staff said 'enjoy your meal.'\nRamen at 1 a.m. under fluorescent lights — it was comfort in its own way.",
+        "effects": {
+          "money": -8000,
+          "mental": 2,
+          "health": -1
+        }
+      },
+      {
+        "text": "Just sleep. Eat tomorrow morning.  (save money / sleep disrupted)",
+        "result_text": "{name} shut the fridge and lay down.\nStomach said no. Delivery fee said no louder.\nSleep came late.",
+        "effects": {
+          "health": -2,
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rainy_day_umbrella",
+    "title": "No Umbrella",
+    "background": "street",
+    "portrait": "player_tired",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "comedy"],
+    "cooldown": 7,
+    "description": "The forecast said clear.\nStep out of the subway exit — and it's pouring.\nUmbrella at home. Important documents in the bag.\n{name} stands under the overhang, watching other people walk past with umbrellas.",
+    "choices": [
+      {
+        "text": "Just run. Getting wet is better.  (fast solution / health)",
+        "result_text": "{name} put the bag over their head and sprinted.\nArrived half-soaked. Documents survived. Pants did not.\nEmbarrassing — also kind of funny.",
+        "effects": {
+          "health": -1,
+          "mental": 1
+        }
+      },
+      {
+        "text": "Buy a convenience store umbrella.  (solution / expense)",
+        "result_text": "₩3,000 vinyl umbrella. Felt disposable — but stayed dry.\nSpending ₩3,000 to not get rained on is not a bad trade.",
+        "effects": {
+          "money": -3000,
+          "mental": 1
+        }
+      },
+      {
+        "text": "Wait it out. Watch the rain.  (patience / time)",
+        "result_text": "{name} stood under the overhang and watched.\nFor a moment, the world stopped pressing. Just the sound of rain.\nIt cleared in an hour.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "reunion_rsvp_00",
+    "title": "Class Reunion Invite",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": ["social", "tradeoff"],
+    "cooldown": 15,
+    "description": "A notification from the high school group chat.\n\"Reunion — third Saturday next month. Restaurant in Gangnam. ₩50,000 per person.\"\n\nHow do you explain your situation to these people right now?\nSkip and it's weird. Go and it's comparisons.",
+    "choices": [
+      {
+        "text": "Go. You'll run into them eventually.  (connection / expense + stress)",
+        "result_text": "{name} went. Uncomfortable at first.\nBut then someone passed makgeolli and the conversation just happened — a flash of the old days.\n₩50,000 well spent.",
+        "effects": {
+          "money": -50000,
+          "social_skill": 2,
+          "mental": 1,
+          "stress": 3
+        }
+      },
+      {
+        "text": "Quietly decline.  (save / social distance)",
+        "result_text": "\"Can't make it\" — one line and close the chat.\nA few people asked where you were going. Gave a vague answer.\nRelieved not to go — and slightly hollow at the same time.",
+        "effects": {
+          "mental": -1,
+          "stress": -1,
+          "social_skill": -1
+        }
+      },
+      {
+        "text": "Show up briefly and leave early.  (compromise / half-measure)",
+        "result_text": "{name} stayed an hour. Said hello to a few people, matched the energy, slipped out.\nNot quite there, not quite absent.",
+        "effects": {
+          "money": -50000,
+          "social_skill": 1,
+          "stress": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "landlord_rent_up",
+    "title": "Landlord's Call",
+    "background": "apartment",
+    "portrait": "player_shocked",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["finance", "tradeoff"],
+    "cooldown": 20,
+    "description": "A call from the landlord.\n\"Prices have gone up everywhere, so I'll need to raise the rent at renewal.\nJust ₩150,000 more. Everywhere's the same.\"\n\n₩150,000. More than the monthly electric bill.\nMoving costs money too — and cheap options have dried up.",
+    "choices": [
+      {
+        "text": "Accept it. Moving is harder.  (realistic / expense)",
+        "result_text": "{name} agreed.\nDeposit, moving costs — the raise was easier.\nJust ₩150,000 more to earn each month.",
+        "effects": {
+          "money": -150000,
+          "stress": 4
+        }
+      },
+      {
+        "text": "Negotiate. Suggest ₩50,000 instead.  (pushback / relationship awkwardness)",
+        "result_text": "{name} carefully said, \"₩150,000 is difficult — would ₩50,000 work?\"\nThe landlord paused. \"How about ₩70,000?\"\nAwkward, but less of an increase.",
+        "effects": {
+          "money": -70000,
+          "stress": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "Find a new place. Look for something cheaper.  (freedom / moving cost)",
+        "result_text": "Decided to move. Three weeks of searching.\nFound something slightly farther and slightly smaller for roughly the same money.\nMoving cost more. Still felt like a choice.",
+        "effects": {
+          "money": -400000,
+          "stress": 6,
+          "mental": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "apartment_view_00",
+    "title": "Apartment Hunting",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_money": 5000000
+    },
+    "tags": ["finance", "daily"],
+    "cooldown": 12,
+    "description": "Three apartments today.\nFirst — bathroom next to the kitchen. Second — no natural light. Third — decent conditions, but for that price in that neighborhood, the money could go elsewhere.\n\nThe agent said, \"You won't find better at this price range.\"\n{name} stood in each empty room, trying to picture living there.",
+    "choices": [
+      {
+        "text": "Sign the third one. Best conditions.  (move / expense)",
+        "result_text": "Signed.\nMoving day — surprisingly little stuff. The empty room looked bigger than expected.\nMine.",
+        "effects": {
+          "money": -500000,
+          "mental": 4,
+          "stress": -2
+        }
+      },
+      {
+        "text": "Keep looking. No need to rush.  (patience / opportunity cost)",
+        "result_text": "{name} told the agent, \"I'll think about it.\"\nA few days later, someone else signed that apartment.\nDidn't love it — but losing it stung anyway.",
+        "effects": {
+          "stress": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "health_checkup_00",
+    "title": "The Results",
+    "background": "hospital",
+    "portrait": "player_shocked",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["health", "tradeoff"],
+    "cooldown": 20,
+    "description": "The national health checkup results came back.\nMost things: normal. One item — marked 'borderline.'\nThe doctor said, \"Nothing urgent yet, but you need to change your lifestyle.\nSleep, diet, exercise.\"\n\n{name} knows. Just hasn't been doing any of it.",
+    "choices": [
+      {
+        "text": "Take it seriously. Change the routine.  (health investment / time)",
+        "result_text": "{name} started walking in the evenings that same day. Cut late-night snacks.\nNo dramatic changes. Just a little — the body started feeling different.",
+        "effects": {
+          "health": 6,
+          "mental": 3,
+          "stress": -2
+        }
+      },
+      {
+        "text": "Acknowledge it and forget it. Later.  (reality / neglect)",
+        "result_text": "Filed the results in a drawer.\nThe next checkup, same conversation.",
+        "effects": {
+          "health": -3,
+          "stress": 2
+        }
+      },
+      {
+        "text": "Get further testing. Want to know exactly.  (information / cost)",
+        "result_text": "Detailed results: still okay. But 'what you do now matters most.'\nSpent money, but felt lighter.",
+        "effects": {
+          "money": -150000,
+          "health": 2,
+          "mental": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "first_paycheck_00",
+    "title": "First Payday",
+    "background": "office",
+    "portrait": "player_happy",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
+    "tags": ["jobs", "milestone"],
+    "cooldown": 999,
+    "description": "The deposit came through.\nStaring at the number — it didn't feel real.\nPeople say you're supposed to take your parents out for a meal on your first paycheck.\n{name} looked at the account screen for a long time.",
+    "choices": [
+      {
+        "text": "Take the parents out for dinner. Small gesture.  (filial duty / expense)",
+        "result_text": "A nearby BBQ place. The three of them ate.\nFather asked, \"How's the food?\" Same as always.\nOn the walk home, {name} nearly cried.",
+        "effects": {
+          "money": -80000,
+          "mental": 8
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        }
+      },
+      {
+        "text": "Just save it. That's the real gift.  (frugality / goal)",
+        "result_text": "{name} hit the transfer button.\nTo savings. No fanfare — just the first investment in yourself.",
+        "effects": {
+          "money": 0,
+          "mental": 3
+        }
+      },
+      {
+        "text": "Spend some on yourself. Just this once.  (self-reward / expense)",
+        "result_text": "{name} bought something long put off. Nothing extravagant.\nBut the first thing bought with earned money — that felt different.",
+        "effects": {
+          "money": -100000,
+          "mental": 5,
+          "stress": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "colleague_resign_00",
+    "title": "Take Care",
+    "background": "office",
+    "portrait": "player_sad",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 8
+    },
+    "tags": ["jobs", "social"],
+    "cooldown": 15,
+    "description": "A senior colleague announced they're leaving. 40% salary increase at a new company.\nFarewell dinner — everyone drank. Genuinely happy for them.\n\n{name} watched the colleague's retreating figure and thought:\nWhen is my turn? Or — do I choose to stay?",
+    "choices": [
+      {
+        "text": "Seriously start looking for other options.  (opportunity / uncertainty)",
+        "result_text": "{name} opened LinkedIn that night.\nTwo positions worth noting. Wrote applications instead of closing the tab.\nMaking a choice — more nerve-wracking than expected.",
+        "effects": {
+          "stress": 3,
+          "intelligence": 1
+        },
+        "flags": ["considering_job_change"]
+      },
+      {
+        "text": "Stay focused on the current role. The time will come.  (stability / inertia)",
+        "result_text": "{name} saved the colleague's number and went to sleep.\nConnections carry forward. There's work to do here for now.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "overtime_delivery_00",
+    "title": "Late-Night Order",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 3
+    },
+    "tags": ["jobs", "health"],
+    "cooldown": 6,
+    "description": "Late again. 8 p.m.\nNeed to eat. Open the delivery app — delivery fee stares back.\nChicken: ₩20,000 + ₩4,000 delivery fee. Cup ramen from downstairs: ₩1,200.\n\n{name} sits with phone in hand.",
+    "choices": [
+      {
+        "text": "Order the chicken. Overtime deserves some reward.  (self-reward / expense)",
+        "result_text": "Chicken arrived and a coworker said, \"Smells amazing.\"\n{name} offered a piece. Eating together made the overtime feel less grim.",
+        "effects": {
+          "money": -24000,
+          "mental": 3,
+          "health": -1
+        }
+      },
+      {
+        "text": "Cup ramen from the corridor machine.  (save / health)",
+        "result_text": "Ate alone in the hallway.\nSalty, far from delivery, but hunger was handled.\nAnother day somehow passed.",
+        "effects": {
+          "money": -1200,
+          "health": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "random_kindness_00",
+    "title": "Unexpected Kindness",
+    "background": "subway",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["social", "daily"],
+    "cooldown": 10,
+    "description": "Dropped everything on the subway.\nDocuments, coins scattered.\n\nThe person standing next to {name} — without a word, bent down and started picking things up.\nCouldn't make eye contact properly. Said 'thank you' — they were already walking away.",
+    "choices": [
+      {
+        "text": "Nothing special — go back to the phone.  (move on / missed moment)",
+        "result_text": "{name} gathered the papers and put in the earphones.\nBut that moment stayed in mind for a while.",
+        "effects": {
+          "mental": 1
+        }
+      },
+      {
+        "text": "Decide to do the same for someone else today.  (resolve / growth)",
+        "result_text": "{name} helped an elderly man who was studying a map that afternoon.\nSomething connected in a chain.",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "library_study_00",
+    "title": "A Seat at the Library",
+    "background": "library",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "study"],
+    "cooldown": 6,
+    "description": "Public library reading room.\nFound a seat. Computer hum, pages turning, someone's keyboard clicks.\nEveryone here is heading somewhere.\n{name} opened a notebook.",
+    "choices": [
+      {
+        "text": "Focus. Study until it gets dark.  (growth / time)",
+        "result_text": "Outside darkened before {name} noticed.\nUnderstood something today. Not completely — but a little.",
+        "effects": {
+          "intelligence": 2,
+          "mental": 2
+        }
+      },
+      {
+        "text": "Can't concentrate. Just sit here anyway.  (inertia / time spent)",
+        "result_text": "An hour later — only the screen changed. Wanted to leave.\n{name} packed up. At least came.",
+        "effects": {
+          "mental": -1
+        }
+      },
+      {
+        "text": "Talk to the person sitting next to you.  (connection / social risk)",
+        "result_text": "Studying for the civil service exam. Been in Seoul for three years from a smaller city.\n\"Me too, something like that.\" {name} said.\nA brief encounter — but the same direction.",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "book_discovery_00",
+    "title": "This Book Found Me",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["study", "milestone"],
+    "cooldown": 12,
+    "description": "A book picked up at a secondhand store.\nOpened it without much thought — and stopped at one page.\nA sentence that saw straight through {name}'s current situation.\n\nRead it cover to cover, right there.",
+    "choices": [
+      {
+        "text": "Buy it. Going to read this again.  (investment / expense)",
+        "result_text": "Three passages underlined.\nOne stayed in {name}'s head for days.",
+        "effects": {
+          "money": -15000,
+          "intelligence": 3,
+          "mental": 4
+        }
+      },
+      {
+        "text": "Photograph the key pages and put it back.  (frugal / shallow)",
+        "result_text": "{name} snapped the essential pages.\nKnew even then that photos and reading are different.",
+        "effects": {
+          "intelligence": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "street_busker_00",
+    "title": "Exit 2",
+    "background": "subway",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "comedy"],
+    "cooldown": 8,
+    "description": "A busker in the subway corridor.\nOne guitar, one mic, small speaker on a cardboard box.\nThe music was better than expected.\nPeople mostly walked past. Some stopped.",
+    "choices": [
+      {
+        "text": "Stop and listen a while.  (pause / time)",
+        "result_text": "Stayed for two songs. When the second one ended, someone clapped. {name} did too.\nA stranger's song — the best moment of the day.",
+        "effects": {
+          "mental": 3,
+          "stress": -2
+        }
+      },
+      {
+        "text": "Drop ₩1,000 in the case.  (support / expense)",
+        "result_text": "Put a bill in. The busker nodded once.\nNot quite gratitude — closer to respect.",
+        "effects": {
+          "money": -1000,
+          "mental": 2
+        }
+      },
+      {
+        "text": "Keep walking. Running late.  (brisk pace / missed)",
+        "result_text": "{name} stepped onto the escalator.\nThe music faded. Didn't look back.",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "sunday_night_00",
+    "title": "Sunday, 11 p.m.",
+    "background": "goshiwon",
+    "portrait": "player_sad",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": ["health", "daily"],
+    "cooldown": 5,
+    "description": "The weekend is ending.\nWork tomorrow.\nNothing actually bad happened — but there's a tightness in the chest.\n{name} learned the name for this feeling later: the Sunday blues.",
+    "choices": [
+      {
+        "text": "Try to sleep early. For tomorrow.  (health / suppression)",
+        "result_text": "{name} put the phone down and lay there.\nSleep didn't come easily. Eyes stayed shut anyway.\nTomorrow comes.",
+        "effects": {
+          "health": 1,
+          "stress": 1
+        }
+      },
+      {
+        "text": "Watch videos until early morning.  (escape / health)",
+        "result_text": "Past midnight. Not even interesting — kept scrolling anyway.\nWoke up heavy the next morning.",
+        "effects": {
+          "health": -2,
+          "mental": -1
+        }
+      },
+      {
+        "text": "Do something enjoyable. Cleaning, exercise, anything.  (self-care / energy)",
+        "result_text": "{name} did the cleaning that had been sitting undone.\nThe room felt better. A small sense of control.\nGood enough.",
+        "effects": {
+          "mental": 3,
+          "stress": -2,
+          "health": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "friend_baby_news",
+    "title": "A Photo in the Chat",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15
+    },
+    "tags": ["social", "family"],
+    "cooldown": 20,
+    "description": "A KakaoTalk message from a friend.\nBaby photo. Newborn.\n\"This is my daughter. Isn't she beautiful?\"\n\n{name} stared at the screen for a long moment.\nWhat does it feel like to become someone's parent at this age?",
+    "choices": [
+      {
+        "text": "Congratulate them sincerely. Send a gift.  (relationship / expense)",
+        "result_text": "Navigated the baby department at the department store, a little lost — but found something decent.\nFriend said, \"Thanks, this is actually the most practical thing.\"\nThere are many ways to grow up.",
+        "effects": {
+          "money": -80000,
+          "social_skill": 1,
+          "mental": 2
+        }
+      },
+      {
+        "text": "Send a congratulations message for now.  (compromise / relationship)",
+        "result_text": "\"She's beautiful — wishing her health and happiness.\" Sent.\nFriend sent back a heart.\nBrought the gift a month later when they met.",
+        "effects": {
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "Feel strangely distant. Not quite your story yet.  (distance / introspection)",
+        "result_text": "Liked the photo. But it felt far away.\nSomeone who used to be in the same world had stepped into a different one.\n{name} put the phone down and sat for a moment.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "small_goal_00",
+    "title": "Done",
+    "background": "cafe",
+    "portrait": "player_happy",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": ["milestone", "daily"],
+    "cooldown": 8,
+    "description": "Nothing major.\nA phone call put off for too long, a form that needed filing, a task left unfinished.\n{name} got it done today.\n\nNo one knows. But — a quiet satisfaction.",
+    "choices": [
+      {
+        "text": "Move on. It was just the bare minimum.  (modesty / self-dismissal)",
+        "result_text": "Added the next item to the list.\nStill — today felt slightly different.",
+        "effects": {
+          "mental": 1
+        }
+      },
+      {
+        "text": "Give yourself a small reward. Coffee.  (self-recognition / expense)",
+        "result_text": "{name} ordered from a favorite café.\nA small acknowledgment. That felt right.",
+        "effects": {
+          "money": -5000,
+          "mental": 4,
+          "stress": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "neighborhood_regen",
+    "title": "The Neighborhood Changed",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": ["finance", "daily"],
+    "cooldown": 18,
+    "description": "Walking through a familiar neighborhood.\nThe old pojangmacha is gone — an interior design shop in its place.\nThe gopchang joint became a craft burger bar.\nA real estate agency window shows new listings — prices higher than a few months ago.\n\nRedevelopment, people are saying. Where did the original residents go?",
+    "choices": [
+      {
+        "text": "Look into nearby property carefully.  (information gathering / speculation)",
+        "result_text": "Asked the agent. \"You're thinking of getting in?\"\nWatching lines drawn on a map — {name} wasn't sure how much to trust any of it.",
+        "effects": {
+          "intelligence": 1,
+          "investment_skill": 1
+        }
+      },
+      {
+        "text": "Walk on. That money's not mine yet.  (resignation / opportunity passed)",
+        "result_text": "Did a full loop past the old snack shop site.\nSomewhere out there was the taste of the tteokbokki from years ago.\nGone now.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "letter_to_self_00",
+    "title": "Past Self",
+    "background": "goshiwon",
+    "portrait": "player_sad",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 20
+    },
+    "tags": ["milestone", "hidden"],
+    "cooldown": 999,
+    "description": "A notebook surfaced while tidying up.\nSeems to be from second year of university.\n\"By the time I'm 30, I want to be this kind of person\" — a list.\n\n{name} read it line by line.\nSome were done. Some still weren't. And some — {name} had no idea when they were given up.",
+    "choices": [
+      {
+        "text": "It's not too late.  (resolve / motivation)",
+        "result_text": "{name} added one more item: 'Enter Gangnam by 38.'\nThe old notebook came back to life.",
+        "effects": {
+          "mental": 6,
+          "stress": -3,
+          "intelligence": 1
+        }
+      },
+      {
+        "text": "That was then. Let it be.  (acceptance / resignation)",
+        "result_text": "Closed the notebook. The self who wrote those things and the self now are different people.\nNot bad — just a little lonely.",
+        "effects": {
+          "mental": -2
+        }
+      },
+      {
+        "text": "Do one item on the list right now.  (action / small courage)",
+        "result_text": "Something long put off — picked the one that could be done today.\nNot remarkable. But moving that one thing moved something else too.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1,
+          "stress": -2
+        }
+      }
+    ]
+  }
+]

@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Added (2026-06-12) — 이벤트 500개 달성 + 콘텐츠 경고
+- **이벤트 54개 추가** (KO + EN) — 총 500개 달성
+  - `life_events2` (19): 일상 마이크로 모먼트 (SNS 비교, 빈 냉장고, 동창회, 월세 인상, 첫 월급, 건강검진, 새벽 편의점 등)
+  - `amb_scenarios7` (10): 야망 딜레마 (진급 누락, 창업 합류, 헤드헌터, 연봉 노출, 사내 파벌, 퇴직 충동 등)
+  - `drama_events2` (15): 드라마 일상 (결혼 독촉, 명절 식탁, 소개팅, 전 연인 SNS, 연말정산, 폭염, 한파 등)
+  - `relationship_events2` (10): 관계 심화 (다은 먼저 문자, 현수 돈 부탁, 아버지의 침묵, 어머니의 고백, 친구 이별 등)
+- **콘텐츠 경고 모달** — 첫 실행 시 표시 (재정 어려움·가족 압박·번아웃·정신건강 경고, KO/EN 지원)
+
+### Fixed (2026-06-12) — 이벤트 조건 정합성
+- `rel_daeun_first_text`: 잘못된 stage "friend" → 올바른 ["warm","close","interest"]
+- `rel_hyunsu_loan`: 없는 hyunsu stage 조건 제거 → `arc_intro_hyunsu_seen` 플래그 조건 대체
+- `first_paycheck_00`: 세팅 없는 `first_job_taken` 조건 제거
+
 ### Added (2026-06-11) — 영어 이벤트 번역 전체 완료 (150개)
 - arc_events (16): 인트로/상철/지연/재혁 스토리 아크
 - arc_daeun (9): 다은 편의점 로맨스 아크

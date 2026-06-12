@@ -1,0 +1,748 @@
+[
+  {
+    "id": "sns_compare_00",
+    "title": "연락도 없더니",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": ["social", "ripple"],
+    "cooldown": 9,
+    "description": "자기 전에 인스타 피드를 스크롤한다.\n대학 동기 — 팀장 승진. 오래된 친구 — 결혼 발표. 중학교 때 같은 반 — 자기 사업 시작했다고 게시물.\n숫자들이 쌓인다. 좋아요, 축하 댓글, '대단하다'들.\n{name}은 화면을 끄고 천장을 본다.",
+    "choices": [
+      {
+        "text": "그냥 넘긴다. 각자의 삶이다.  (수용 / 무감각)",
+        "result_text": "{name}은 폰을 엎어두고 잠을 청했다.\n각자의 속도가 있다 — 알면서도 새벽이 길었다.",
+        "effects": {
+          "mental": -2,
+          "stress": 2
+        }
+      },
+      {
+        "text": "진심으로 축하 댓글을 단다.  (관계 유지 / 자기비교)",
+        "result_text": "{name}은 다 읽고 하나하나 답글을 달았다. 진심이었다.\n기쁜 게 맞다 — 다만 어딘가 속이 알싸했다.",
+        "effects": {
+          "mental": -1,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "앱을 지운다. 당분간.  (자기보호 / 고립)",
+        "result_text": "{name}은 앱 아이콘을 길게 누르고 삭제를 눌렀다.\n한결 홀가분했다. 연락이 끊기는 것도 있겠지만 — 지금은 그게 낫다.",
+        "effects": {
+          "mental": 3,
+          "stress": -2,
+          "social_skill": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "empty_fridge_00",
+    "title": "냉장고 앞에서",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {
+      "max_money": 800000
+    },
+    "tags": ["health", "daily"],
+    "cooldown": 7,
+    "description": "새벽 한 시. 배가 고프다.\n냉장고를 열면 — 냉동 만두 반 봉지, 고추장, 오래된 달걀 두 개.\n어느 순간부터 장을 잘 안 봤다.\n이게 절약인지 포기인지 모르겠다.",
+    "choices": [
+      {
+        "text": "냉동 만두를 데워 먹는다.  (그냥 해결 / 건강)",
+        "result_text": "{name}은 만두를 꺼내 전자레인지에 돌렸다.\n껍질이 질겅거렸다. 그래도 따뜻했다.\n밥도 아니고, 뭔가 대단한 것도 아니고 — 그냥 오늘 하루가 끝났다.",
+        "effects": {
+          "health": -1
+        }
+      },
+      {
+        "text": "편의점에 나간다. 뭔가 제대로 먹자.  (위안 / 지출)",
+        "result_text": "삼각김밥 두 개, 컵라면. 직원이 '맛있게 드세요' 했다.\n새벽 한 시에 편의점 사각형 불빛 아래서 먹는 라면은 나름 위로가 됐다.",
+        "effects": {
+          "money": -8000,
+          "mental": 2,
+          "health": -1
+        }
+      },
+      {
+        "text": "그냥 잔다. 내일 아침에 먹자.  (절약 / 수면 방해)",
+        "result_text": "{name}은 냉장고 문을 닫고 누웠다.\n배는 고팠지만 배달비가 더 아팠다.\n잠은 늦게 들었다.",
+        "effects": {
+          "health": -2,
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rainy_day_umbrella",
+    "title": "우산이 없다",
+    "background": "street",
+    "portrait": "player_tired",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "comedy"],
+    "cooldown": 7,
+    "description": "분명 맑다고 했다.\n지하철 출구를 나서자마자 비가 쏟아진다.\n우산은 집에. 가방엔 중요한 서류.\n{name}은 출구 처마 밑에서 다른 사람들이 우산 쓰고 지나가는 걸 바라본다.",
+    "choices": [
+      {
+        "text": "그냥 뛴다. 젖는 게 낫다.  (빠른 해결 / 건강)",
+        "result_text": "{name}은 가방을 머리 위에 얹고 달렸다.\n도착했을 때 반쯤 젖었다. 서류는 멀쩡했다. 바지는 아니었다.\n창피했지만 — 그냥 웃겼다.",
+        "effects": {
+          "health": -1,
+          "mental": 1
+        }
+      },
+      {
+        "text": "편의점에서 우산을 산다.  (해결 / 지출)",
+        "result_text": "3천 원짜리 비닐 우산. 일회용 같은 느낌이었지만 — 그래도 안 젖었다.\n비 피하는 데 3천 원은 나쁜 지출이 아니다.",
+        "effects": {
+          "money": -3000,
+          "mental": 1
+        }
+      },
+      {
+        "text": "멈춰서 기다린다. 그칠 때까지.  (여유 / 시간)",
+        "result_text": "{name}은 처마 밑에서 비를 구경했다.\n잠깐, 일상이 멈추는 느낌. 쫓기는 게 없는 시간 — 사실 오랜만이었다.\n비는 한 시간 만에 그쳤다.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "reunion_rsvp_00",
+    "title": "동창회 초대장",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": ["social", "tradeoff"],
+    "cooldown": 15,
+    "description": "고등학교 동창 단톡방에 알림이 떴다.\n\"동창회 다음 달 셋째 주 토요일. 강남 어느 식당. 1인 5만 원\"\n\n이 사람들 앞에서 지금 내 상황을 — 어떻게 설명해야 하나.\n안 가면 또 튄다. 가면 또 비교된다.",
+    "choices": [
+      {
+        "text": "간다. 어차피 언젠간 마주친다.  (관계 유지 / 지출 + 스트레스)",
+        "result_text": "{name}은 갔다. 처음엔 불편했다.\n하지만 누군가 막걸리 한 잔 건네며 그냥 얘기하다 보니 — 옛날이 잠깐 돌아온 것 같았다.\n5만 원이 아깝지는 않았다.",
+        "effects": {
+          "money": -50000,
+          "social_skill": 2,
+          "mental": 1,
+          "stress": 3
+        }
+      },
+      {
+        "text": "조용히 불참 처리한다.  (절약 / 관계 소원)",
+        "result_text": "\"일정이 있어서\" 한 줄 남기고 창을 닫았다.\n다음 날 몇몇이 \"어디 가냐\" 물었다. 적당히 둘러댔다.\n안 간 게 후련했다 — 동시에 조금 씁쓸했다.",
+        "effects": {
+          "mental": -1,
+          "stress": -1,
+          "social_skill": -1
+        }
+      },
+      {
+        "text": "얼굴만 비추고 일찍 나온다.  (절충안 / 어정쩡함)",
+        "result_text": "{name}은 한 시간만 있다 나왔다.\n짧게 인사하고 분위기만 맞추고 자리를 떴다.\n완전히 간 것도 아니고, 안 간 것도 아니었다.",
+        "effects": {
+          "money": -50000,
+          "social_skill": 1,
+          "stress": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "landlord_rent_up",
+    "title": "집주인 전화",
+    "background": "apartment",
+    "portrait": "player_shocked",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["finance", "tradeoff"],
+    "cooldown": 20,
+    "description": "집주인한테 전화가 왔다.\n\"물가가 많이 올랐잖아요, 이번 계약 갱신 때 월세 좀 올려야 할 것 같아서요.\n15만 원만 올립시다. 다른 데도 다 그래요.\"\n\n15만 원. 한 달 전기세보다 많다.\n당장 이사가도 어디 싸게 나오는 데가 없다.",
+    "choices": [
+      {
+        "text": "받아들인다. 이사가 더 힘들다.  (현실 수용 / 지출)",
+        "result_text": "{name}은 알겠다고 했다.\n이사 비용, 새 보증금 — 어차피 올리는 게 나았다.\n매달 15만 원. 그만큼 더 벌어야 한다.",
+        "effects": {
+          "money": -150000,
+          "stress": 4
+        }
+      },
+      {
+        "text": "협상한다. 5만 원만 올리자고.  (절충 / 관계 어색해짐)",
+        "result_text": "{name}은 조심스럽게 \"10만 원은 어렵고, 5만 원은 어떨까요\" 꺼냈다.\n집주인이 잠시 침묵하더니 — \"그럼 7만 원으로 합시다.\"\n어색해졌지만 덜 올렸다.",
+        "effects": {
+          "money": -70000,
+          "stress": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "방을 옮긴다. 더 싼 데를 찾자.  (자유 / 이사 비용)",
+        "result_text": "이사를 결심했다. 3주 동안 매물을 뒤졌다.\n결국 비슷한 돈에 좀 더 멀고 좀 더 좁은 방을 찾았다.\n이사비가 더 들었다. 그래도 내 선택이었다.",
+        "effects": {
+          "money": -400000,
+          "stress": 6,
+          "mental": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "apartment_view_00",
+    "title": "집 보러 다니기",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_money": 5000000
+    },
+    "tags": ["finance", "daily"],
+    "cooldown": 12,
+    "description": "오늘 세 군데를 봤다.\n첫 번째 — 화장실이 부엌 옆이었다. 두 번째 — 채광이 없었다. 세 번째 — 조건은 좋은데 그 동네에서 그 돈이면 다른 걸 할 수 있다.\n\n공인중개사가 \"요즘 이 정도면 찾기 힘들어요\" 했다.\n{name}은 방마다 잠깐 서서 이 공간에서 사는 나를 상상해봤다.",
+    "choices": [
+      {
+        "text": "세 번째 집을 계약한다. 조건이 가장 낫다.  (이사 / 지출)",
+        "result_text": "계약서에 도장을 찍었다.\n들어가는 날 짐이 생각보다 별로 없었다. 빈 방이 조금 커 보였다.\n내 방이다.",
+        "effects": {
+          "money": -500000,
+          "mental": 4,
+          "stress": -2
+        }
+      },
+      {
+        "text": "더 찾아본다. 서두를 필요 없다.  (기다림 / 기회비용)",
+        "result_text": "{name}은 중개소에 \"좀 더 생각해보겠습니다\" 했다.\n며칠 뒤 그 방은 다른 사람이 계약했다.\n마음에 안 들면서도 사라지니 아쉬웠다.",
+        "effects": {
+          "stress": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "health_checkup_00",
+    "title": "건강검진 결과",
+    "background": "hospital",
+    "portrait": "player_shocked",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["health", "tradeoff"],
+    "cooldown": 20,
+    "description": "국가검진 결과지가 왔다.\n대부분은 정상이었다. 그런데 항목 하나 — '경계' 표시.\n의사가 말했다. \"당장 문제는 아닌데, 생활습관을 좀 바꾸셔야 해요. 수면, 식사, 운동.\"\n\n다 안다. 하고 있지 않다는 것도.",
+    "choices": [
+      {
+        "text": "진지하게 받아들인다. 루틴을 바꿔보자.  (건강 투자 / 시간)",
+        "result_text": "{name}은 그날부터 저녁 산책을 시작했다. 야식을 줄였다.\n드라마틱한 변화는 없었다. 그냥 조금씩 — 몸이 달라지는 게 느껴졌다.",
+        "effects": {
+          "health": 6,
+          "mental": 3,
+          "stress": -2
+        }
+      },
+      {
+        "text": "알겠다고 하고 잊어버린다. 나중에.  (현실 / 방치)",
+        "result_text": "결과지를 서랍에 넣었다.\n다음 검진 때 같은 말을 들었다.",
+        "effects": {
+          "health": -3,
+          "stress": 2
+        }
+      },
+      {
+        "text": "재검사를 받는다. 정확히 알고 싶다.  (정보 / 비용)",
+        "result_text": "정밀 검사 결과 — 아직 괜찮다고 했다. 다만 '지금부터가 중요하다'고.\n돈을 좀 썼지만 마음이 가벼워졌다.",
+        "effects": {
+          "money": -150000,
+          "health": 2,
+          "mental": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "first_paycheck_00",
+    "title": "첫 월급날",
+    "background": "office",
+    "portrait": "player_happy",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
+    "tags": ["jobs", "milestone"],
+    "cooldown": 999,
+    "description": "월급이 들어왔다.\n숫자를 확인하는데 — 이상하게 실감이 안 났다.\n처음 봉급을 받았을 때 사람들이 부모님께 밥을 산다고 했다.\n{name}은 통장 화면을 보며 한참 생각했다.",
+    "choices": [
+      {
+        "text": "부모님께 밥을 산다. 작은 효도.  (효도 / 지출)",
+        "result_text": "가까운 고깃집에서 셋이 먹었다.\n아버지가 \"밥은 맛있냐\" 물었다. 평소랑 다를 게 없었다.\n집에 오는 길에 {name}은 눈물이 날 뻔했다.",
+        "effects": {
+          "money": -80000,
+          "mental": 8
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        }
+      },
+      {
+        "text": "그냥 저축한다. 그게 효도다.  (절약 / 목표)",
+        "result_text": "{name}은 이체 버튼을 눌렀다.\n저축 계좌로. 티도 안 나지만 — 자기 자신에게 보내는 첫 투자였다.",
+        "effects": {
+          "money": 0,
+          "mental": 3
+        }
+      },
+      {
+        "text": "오랜만에 나 자신에게 쓴다. 오늘만큼은.  (자기 보상 / 지출)",
+        "result_text": "{name}은 오랫동안 미뤄왔던 것을 샀다. 대단한 건 아니었다.\n하지만 내 돈으로 산 첫 번째 물건 — 그건 달랐다.",
+        "effects": {
+          "money": -100000,
+          "mental": 5,
+          "stress": -3
+        }
+      }
+    ]
+  },
+  {
+    "id": "colleague_resign_00",
+    "title": "잘 지내",
+    "background": "office",
+    "portrait": "player_sad",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 8
+    },
+    "tags": ["jobs", "social"],
+    "cooldown": 15,
+    "description": "같은 팀 선배가 이직을 발표했다. 연봉이 40% 올랐다고.\n퇴사 회식 날 — 다들 술을 마셨다. 진심으로 잘 됐다고 했다.\n\n{name}은 선배가 나가는 뒷모습을 보며 생각했다.\n언제 내 차례가 되는 건지. 아니면 — 내가 남겠다고 선택하는 건지.",
+    "choices": [
+      {
+        "text": "나도 이직을 진지하게 알아본다.  (기회탐색 / 불확실성)",
+        "result_text": "{name}은 그날 밤 링크드인에 접속했다.\n눈에 띄는 공고 두 개. 덮어두지 않고 지원서를 썼다.\n뭔가를 선택한다는 것 — 생각보다 긴장됐다.",
+        "effects": {
+          "stress": 3,
+          "intelligence": 1
+        },
+        "flags": ["considering_job_change"]
+      },
+      {
+        "text": "일단 지금 자리에 집중한다. 때가 되면 알겠지.  (안정 / 관성)",
+        "result_text": "{name}은 그날 밤 선배 연락처를 저장하고 잠들었다.\n인연은 이어지겠지. 지금은 지금 할 일이 있다.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "overtime_delivery_00",
+    "title": "야근 배달",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 3
+    },
+    "tags": ["jobs", "health"],
+    "cooldown": 6,
+    "description": "또 야근이다. 저녁 여덟 시.\n뭔가 먹어야 한다. 앱을 켜면 배달비가 눈에 밟힌다.\n치킨 2만 원에 배달비 4천 원 — 근처 편의점에서 컵라면 먹으면 1,200원.\n\n{name}은 핸드폰을 들고 고민했다.",
+    "choices": [
+      {
+        "text": "치킨 시킨다. 야근 때는 이 정도 보상은 필요하다.  (자기 보상 / 지출)",
+        "result_text": "치킨이 도착했을 때 팀원이 \"냄새 좋다\" 했다.\n{name}은 한 조각을 내밀었다. 함께 먹으니 야근이 조금 덜 고됐다.",
+        "effects": {
+          "money": -24000,
+          "mental": 3,
+          "health": -1
+        }
+      },
+      {
+        "text": "편의점 컵라면으로 버틴다.  (절약 / 건강)",
+        "result_text": "혼자 복도 자판기 앞에서 라면을 먹었다.\n짜고, 배달 오기엔 좀 멀었지만 — 허기는 면했다.\n오늘 하루도 어떻게 지나갔다.",
+        "effects": {
+          "money": -1200,
+          "health": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "random_kindness_00",
+    "title": "뜻밖의 친절",
+    "background": "subway",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["social", "daily"],
+    "cooldown": 10,
+    "description": "지하철에서 짐을 떨어뜨렸다.\n흩어진 서류, 동전들.\n\n바로 옆에 있던 사람이 — 아무 말 없이 같이 주워줬다.\n눈도 제대로 못 마주쳤다. \"감사합니다\"라고 했는데 이미 가고 있었다.",
+    "choices": [
+      {
+        "text": "별일 아니다 — 다시 폰을 본다.  (넘어가기 / 기회 놓침)",
+        "result_text": "{name}은 서류를 정리하고 이어폰을 꽂았다.\n그런데 그 장면이 한참 머릿속에 남았다.",
+        "effects": {
+          "mental": 1
+        }
+      },
+      {
+        "text": "저도 언제 누군가에게 그렇게 하자고 다짐한다.  (다짐 / 성장)",
+        "result_text": "{name}은 그날 오후 길에서 지도를 보며 헤매는 할아버지를 도와줬다.\n뭔가 연결된 느낌이었다.",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "library_study_00",
+    "title": "도서관 자리",
+    "background": "library",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "study"],
+    "cooldown": 6,
+    "description": "공공 도서관 열람실.\n자리를 잡고 앉았다. 컴퓨터 소리, 책장 넘기는 소리, 누군가의 키보드 소리.\n여기서 공부하는 사람들은 다 어디를 향해 가고 있을까.\n{name}은 노트를 폈다.",
+    "choices": [
+      {
+        "text": "집중해서 공부한다. 몇 시간이 지났다.  (성장 / 시간)",
+        "result_text": "창밖이 어두워질 때까지 했다.\n오늘은 뭔가를 이해했다. 완전히는 아니지만 — 조금.",
+        "effects": {
+          "intelligence": 2,
+          "mental": 2
+        }
+      },
+      {
+        "text": "집중이 안 된다. 그냥 앉아 있는다.  (무력감 / 시간 소비)",
+        "result_text": "한 시간 후 — 화면만 바뀌었다. 집에 가고 싶었다.\n{name}은 가방을 챙겼다. 와보긴 했다.",
+        "effects": {
+          "mental": -1
+        }
+      },
+      {
+        "text": "옆에 앉은 사람에게 말을 건다.  (인연 / 눈치)",
+        "result_text": "공무원 시험 준비생이었다. 지방에서 상경한 지 3년 됐다고.\n\"저도 그 비슷한 사람인데요.\" {name}이 말했다.\n짧은 인연이었지만 — 같은 방향 같은 느낌이 들었다.",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "book_discovery_00",
+    "title": "이 책이 나한테",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["study", "milestone"],
+    "cooldown": 12,
+    "description": "중고책방에서 집어든 책.\n처음엔 별 생각 없이 폈는데 — 어느 페이지에서 멈췄다.\n지금 내 상황을 꿰뚫는 문장이었다.\n\n{name}은 그 자리에서 끝까지 읽었다.",
+    "choices": [
+      {
+        "text": "구입한다. 다시 읽을 것 같다.  (투자 / 지출)",
+        "result_text": "밑줄 친 곳이 세 군데였다.\n그 중 한 문장은 며칠 동안 머릿속에서 떠나지 않았다.",
+        "effects": {
+          "money": -15000,
+          "intelligence": 3,
+          "mental": 4
+        }
+      },
+      {
+        "text": "사진만 찍어 두고 내려놓는다.  (검소함 / 깊이)",
+        "result_text": "{name}은 스마트폰으로 핵심 페이지를 찍었다.\n하지만 사진과 읽는 건 다르다는 걸 알면서도 — 그렇게 했다.",
+        "effects": {
+          "intelligence": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "street_busker_00",
+    "title": "지하 2번 출구",
+    "background": "subway",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "comedy"],
+    "cooldown": 8,
+    "description": "지하철 통로에 버스커가 있다.\n기타 하나, 마이크 하나, 종이 박스 위에 작은 스피커.\n노래는 생각보다 좋았다.\n사람들은 다들 지나쳤다. 몇몇은 잠깐 멈췄다.",
+    "choices": [
+      {
+        "text": "잠깐 서서 듣는다.  (여유 / 시간)",
+        "result_text": "두 곡을 들었다. 두 번째 곡이 끝났을 때 박수가 났다. {name}도 쳤다.\n어디서 왔는지 모르는 낯선 사람의 노래가 — 오늘 가장 좋은 순간이었다.",
+        "effects": {
+          "mental": 3,
+          "stress": -2
+        }
+      },
+      {
+        "text": "천 원을 넣는다.  (지지 / 지출)",
+        "result_text": "천 원을 케이스에 넣자 버스커가 고개를 끄덕였다.\n돈을 받았는데 감사보다 존중에 더 가까운 눈빛이었다.",
+        "effects": {
+          "money": -1000,
+          "mental": 2
+        }
+      },
+      {
+        "text": "그냥 지나친다. 늦었다.  (빠른 이동 / 놓침)",
+        "result_text": "{name}은 에스컬레이터를 탔다.\n노래 소리가 점점 작아졌다. 뒤돌아보지 않았다.",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "sunday_night_00",
+    "title": "일요일 밤 열한 시",
+    "background": "goshiwon",
+    "portrait": "player_sad",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": ["health", "daily"],
+    "cooldown": 5,
+    "description": "주말이 끝났다.\n내일 출근이 있다.\n딱히 나쁜 일이 있는 것도 아닌데 — 가슴이 조금 답답하다.\n이 감정의 이름을 한동안 몰랐다가 나중에 알았다: 직장인 우울.",
+    "choices": [
+      {
+        "text": "일찍 자려고 노력한다. 내일을 위해서.  (건강 / 억누름)",
+        "result_text": "{name}은 폰을 내려놓고 누웠다.\n잠은 쉽게 안 왔다. 그래도 억지로 눈을 감았다.\n내일이 또 온다.",
+        "effects": {
+          "health": 1,
+          "stress": 1
+        }
+      },
+      {
+        "text": "유튜브를 틀어놓고 새벽까지 있는다.  (도피 / 건강)",
+        "result_text": "자정이 넘었다. 재미있지도 않았는데 계속 스크롤했다.\n아침에 눈이 무거웠다.",
+        "effects": {
+          "health": -2,
+          "mental": -1
+        }
+      },
+      {
+        "text": "좋아하는 걸 한다. 설거지, 운동, 뭐든.  (자기 관리 / 활력)",
+        "result_text": "{name}은 미뤄두었던 청소를 했다.\n방이 깔끔해지니 기분이 나아졌다. 작은 통제감이었다.",
+        "effects": {
+          "mental": 3,
+          "stress": -2,
+          "health": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "friend_baby_news",
+    "title": "단톡방에 사진이",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15
+    },
+    "tags": ["social", "family"],
+    "cooldown": 20,
+    "description": "친구한테 카톡이 왔다.\n아기 사진. 갓 태어난.\n\"우리 딸이야. 예쁘지?\"\n\n{name}은 화면을 보고 한참 생각했다.\n이 나이에 누군가의 아빠, 엄마가 됐다는 게 — 어떤 느낌일까.",
+    "choices": [
+      {
+        "text": "진심으로 축하한다. 선물도 보낸다.  (관계 / 지출)",
+        "result_text": "백화점 유아 코너에서 조금 당황했지만 — 그럴듯한 걸 골랐다.\n친구가 \"고마워, 이거 제일 실용적이야\" 했다.\n어른이 되는 방식은 여러 가지라는 생각이 들었다.",
+        "effects": {
+          "money": -80000,
+          "social_skill": 1,
+          "mental": 2
+        }
+      },
+      {
+        "text": "축하 메시지만 보낸다. 선물은 나중에.  (절충 / 관계)",
+        "result_text": "\"너무 예쁘다, 건강하게 잘 크길\" 보냈다.\n친구가 하트를 보냈다.\n선물은 결국 한 달 후 봤을 때 챙겼다.",
+        "effects": {
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "잠깐 멍하다. 내 이야기가 아닌 것 같다.  (거리감 / 내면)",
+        "result_text": "좋아요를 눌렀다. 하지만 거리감이 있었다.\n같이 놀던 사람이 어느새 다른 세계에 들어갔다는 느낌.\n{name}은 폰을 내려놓고 잠시 있었다.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "small_goal_00",
+    "title": "해냈다",
+    "background": "cafe",
+    "portrait": "player_happy",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": ["milestone", "daily"],
+    "cooldown": 8,
+    "description": "별거 아닌 일이었다.\n오래 미뤄왔던 전화 한 통, 해결 못 한 서류 한 장, 못 끝내던 과제 한 개.\n{name}은 오늘 그걸 마쳤다.\n\n아무도 알아주지 않는다. 그래도 — 조금 뿌듯하다.",
+    "choices": [
+      {
+        "text": "그냥 넘어간다. 당연한 일 아닌가.  (겸손 / 자기부정)",
+        "result_text": "다음 할 일을 적었다.\n그래도 오늘 하루는 조금 달랐다.",
+        "effects": {
+          "mental": 1
+        }
+      },
+      {
+        "text": "스스로 작게 칭찬한다. 커피 한 잔.  (자기 인정 / 지출)",
+        "result_text": "{name}은 좋아하는 카페에서 커피 한 잔을 주문했다.\n사소한 보상이었다. 그게 맞다고 생각했다.",
+        "effects": {
+          "money": -5000,
+          "mental": 4,
+          "stress": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "neighborhood_regen",
+    "title": "동네가 달라졌다",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": ["finance", "daily"],
+    "cooldown": 18,
+    "description": "익숙한 동네를 걸었다.\n오래된 분식집이 없어지고 인테리어 가게가 생겼다.\n삼겹살집은 수제 버거가 됐다.\n동네 부동산 유리창에 새 매물 가격이 붙어 있다 — 몇 달 전보다 올랐다.\n\n재개발이라는 말이 들린다. 원주민들은 어디로 갔을까.",
+    "choices": [
+      {
+        "text": "주변 부동산을 유심히 알아본다.  (정보 수집 / 투기 시작)",
+        "result_text": "공인중개사에게 물었다. \"이 동네 들어오시려고요?\"\n지도 위에 선이 그어지는 걸 보면서 — {name}은 이 정보를 어디까지 믿을지 몰랐다.",
+        "effects": {
+          "intelligence": 1,
+          "investment_skill": 1
+        }
+      },
+      {
+        "text": "그냥 스쳐 지나간다. 내 돈으로 어떻게.  (체념 / 기회 포기)",
+        "result_text": "분식집 자리에 생긴 가게를 보며 한 바퀴 걸었다.\n어디선가 이 동네에서 처음 먹었던 떡볶이 맛이 났다.\n이제 없는 맛이었다.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "letter_to_self_00",
+    "title": "과거의 나",
+    "background": "goshiwon",
+    "portrait": "player_sad",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 20
+    },
+    "tags": ["milestone", "hidden"],
+    "cooldown": 999,
+    "description": "정리하다가 오래된 노트가 나왔다.\n대학교 2학년 때 쓴 것 같다.\n\"30살이 되면 이런 사람이 되고 싶다\" — 목록이 적혀 있었다.\n\n{name}은 한 줄씩 읽었다.\n몇 개는 됐고, 몇 개는 아직이었다. 그리고 몇 개는 — 언제 포기했는지도 모르는 것들이었다.",
+    "choices": [
+      {
+        "text": "지금도 늦지 않았다고 생각한다.  (결의 / 동기부여)",
+        "result_text": "{name}은 목록에 하나를 더 썼다: '38살까지 강남에 입성한다.'\n낡은 노트가 다시 살아났다.",
+        "effects": {
+          "mental": 6,
+          "stress": -3,
+          "intelligence": 1
+        }
+      },
+      {
+        "text": "그땐 그랬다고 — 덮어놓는다.  (수용 / 무력감)",
+        "result_text": "노트를 닫았다. 그 나이의 자신과 지금의 자신은 다른 사람이다.\n그게 나쁜 건 아닌데 — 조금 쓸쓸했다.",
+        "effects": {
+          "mental": -2
+        }
+      },
+      {
+        "text": "목록 하나를 지금 당장 한다.  (실행력 / 작은 용기)",
+        "result_text": "오래 미뤄왔던 것 — 지금 할 수 있는 것 중 하나를 했다.\n대단한 건 아니었다. 하지만 그 한 가지를 움직인 것만으로도 달랐다.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1,
+          "stress": -2
+        }
+      }
+    ]
+  }
+]

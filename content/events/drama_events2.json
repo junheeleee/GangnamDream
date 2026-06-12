@@ -1,0 +1,566 @@
+[
+  {
+    "id": "drama_marriage_nag",
+    "title": "그래서 언제",
+    "background": "restaurant",
+    "portrait": "player_tired",
+    "category": "family",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["family", "social"],
+    "cooldown": 10,
+    "description": "전화를 받았다. 어머니였다.\n\"밥은 먹고 다니냐, 잘 자냐\" 이야기가 잠깐 오가더니 — 결국 나왔다.\n\"너 친구들 다 결혼하던데. 너는 언제?\"\n\n{name}은 전화기를 조금 멀리 뒀다. 뭐라고 해야 하는지.",
+    "choices": [
+      {
+        "text": "\"알아서 할게요\" 짧게 끊는다.  (경계 / 관계 어색함)",
+        "result_text": "\"그래, 알겠어.\" 어머니가 말했다.\n끊고 나서 조금 미안했다.",
+        "effects": {
+          "stress": 2,
+          "mental": -1
+        }
+      },
+      {
+        "text": "\"지금은 다른 게 먼저예요, 어머니\" — 사정을 좀 털어놓는다.  (솔직함 / 걱정 유발)",
+        "result_text": "어머니는 한참 아무 말이 없었다.\n그러고 나서 \"그래, 힘들지. 엄마가 뭘 해줄 수 있으면 해줄게\"라고 했다.\n전화를 끊고 나서 눈물이 날 뻔했다.",
+        "effects": {
+          "mental": 4,
+          "stress": -2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 2
+          }
+        }
+      },
+      {
+        "text": "\"요즘 좋은 사람이 있어요\" — 적당히 둘러댄다.  (일시적 평화 / 거짓말 부담)",
+        "result_text": "어머니가 갑자기 들떠서 \"어떤 사람이야\" 물었다.\n{name}은 그 순간 후회했다.",
+        "effects": {
+          "stress": 5,
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_sibling_news",
+    "title": "동생 소식",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["family", "social"],
+    "cooldown": 20,
+    "description": "동생이 취직했다.\n좋은 회사, 좋은 조건.\n부모님이 기뻐했다.\n\n{name}은 진심으로 기뻤다 — 70%. 나머지 30%는 비교하는 자신에 대한 부끄러움.",
+    "choices": [
+      {
+        "text": "진심으로 축하해준다.  (형제애 / 내면 갈등)",
+        "result_text": "통화에서 \"잘됐다, 정말\" 했다.\n동생이 \"형이 먼저 자리 잡아야 하는데 미안해\" 했다.\n그 말이 오히려 더 따뜻했다.",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "축하는 하되 좀 거리를 둔다.  (자기보호 / 관계 거리)",
+        "result_text": "문자로 \"잘됐어\" 보내고 그날은 연락을 피했다.\n감정이 정리되면 다시 연락하기로 했다.",
+        "effects": {
+          "mental": -1,
+          "stress": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_family_flex",
+    "title": "명절 식탁",
+    "background": "restaurant",
+    "portrait": "player_tired",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": ["family", "social"],
+    "cooldown": 15,
+    "description": "친척 모임.\n사촌이 새 차 사진을 보여주고 있었다. \"요즘 좀 잘 나가서.\"\n작은 어머니가 {name}을 봤다. \"너는 요즘 어때?\"\n\n모두의 시선이 모였다. 식탁 위에 김이 피어오른다.",
+    "choices": [
+      {
+        "text": "\"그냥 그렇게 지내고 있어요\" 적당히 넘긴다.  (방어 / 자기비하)",
+        "result_text": "\"그래, 건강하면 됐어\" 작은아버지가 말했다.\n대화가 다른 쪽으로 넘어갔다.\n{name}은 밥을 더 먹었다.",
+        "effects": {
+          "stress": 3,
+          "mental": -2
+        }
+      },
+      {
+        "text": "\"열심히 하고 있어요, 머지않아 좋은 소식 드릴게요\"  (선언 / 압박)",
+        "result_text": "친척들이 웃으며 \"기대할게\" 했다.\n집에 오는 길에 그 말이 마음에 걸렸다.\n뱉어놓은 말은 이제 지켜야 한다.",
+        "effects": {
+          "stress": 5,
+          "mental": 3
+        }
+      },
+      {
+        "text": "일찍 자리를 뜬다. 오늘은 이 자리가 힘들다.  (탈출 / 관계)",
+        "result_text": "\"먼저 가볼게요\" 하고 나왔다.\n모두 아쉬워했지만 붙잡지 않았다.\n지하철 안에서 드디어 숨이 쉬어졌다.",
+        "effects": {
+          "mental": 2,
+          "stress": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_new_year_00",
+    "title": "1월 1일",
+    "background": "goshiwon",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 1,
+      "max_turn": 3
+    },
+    "tags": ["milestone", "daily"],
+    "cooldown": 999,
+    "description": "새해가 됐다.\n{name}은 노트를 꺼내 목표를 적었다.\n쓰다 보니 작년 목표와 똑같은 것들이 보였다.\n\n지우고 다시 썼다.",
+    "choices": [
+      {
+        "text": "크게 잡는다. 안 하면 안 한 거다.  (높은 목표 / 실패 리스크)",
+        "result_text": "목록이 야심찼다.\n다 안 될 수 있다. 하지만 모두 되는 것보다 하나라도 되는 게 낫다.",
+        "effects": {
+          "mental": 4,
+          "stress": 2
+        }
+      },
+      {
+        "text": "현실적으로 잡는다. 달성할 수 있는 것만.  (현실주의 / 안전한 목표)",
+        "result_text": "세 가지만 적었다. 전부 해낼 수 있을 것 같은 것들.\n올해는 달성률이 높을 것 같다.",
+        "effects": {
+          "mental": 2
+        }
+      },
+      {
+        "text": "안 쓴다. 목표는 머릿속에 있다.  (내면화 / 기록 없음)",
+        "result_text": "노트를 덮었다.\n어차피 쓰면 다 못 한다 — 그렇게 생각했다.\n올해는 그냥 움직이기로 했다.",
+        "effects": {
+          "mental": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_birthday_00",
+    "title": "오늘이 생일이었다",
+    "background": "goshiwon",
+    "portrait": "player_sad",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": ["daily", "milestone"],
+    "cooldown": 30,
+    "description": "오늘이 생일이었다.\n어머니만 카톡을 보냈다. 그리고 한두 명.\n{name}은 혼자 편의점 케이크를 샀다 — 600원짜리 초 하나 꽂고.\n\n나쁜 날은 아니었다. 그냥 조용했다.",
+    "choices": [
+      {
+        "text": "스스로 자축한다. 이 정도면 됐다.  (자기 수용 / 외로움)",
+        "result_text": "{name}은 케이크를 먹으며 조용히 혼자 생일을 보냈다.\n불을 꺼도 초가 없어도 — 올해도 살아있다.\n그것만으로 충분했다.",
+        "effects": {
+          "mental": 3,
+          "stress": -1
+        }
+      },
+      {
+        "text": "오랜 친구에게 먼저 연락한다. 밥이나 먹자.  (연결 / 주도적 관계)",
+        "result_text": "친구가 \"어 생일이었어?\" 하면서 얼른 나왔다.\n두 명이서 고기 구워 먹었다. 그게 전부였다.\n하지만 혼자보다는 나았다.",
+        "effects": {
+          "money": -40000,
+          "mental": 5,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_sogeuting_00",
+    "title": "소개팅",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["social", "daily"],
+    "cooldown": 12,
+    "description": "선배가 소개팅을 붙여줬다.\n카페에서 마주 앉은 사람 — 나쁘지 않은 첫인상이었다.\n직업, 취미, 가족 이야기가 오갔다.\n\n어느 순간 {name}은 지금 내 상황을 어떻게 설명해야 하는지 몰랐다.",
+    "choices": [
+      {
+        "text": "솔직하게 말한다. \"지금 인생의 중간 지점에 있어요\"  (솔직함 / 첫 인상 리스크)",
+        "result_text": "잠깐 어색함이 있었다.\n그런데 상대가 \"저도 그 비슷한 시기가 있었어요\" 했다.\n대화가 깊어졌다.",
+        "effects": {
+          "mental": 2,
+          "social_skill": 2
+        }
+      },
+      {
+        "text": "포장한다. 지금은 일단 좋은 모습을 보여야 한다.  (전략적 인상 / 유지 부담)",
+        "result_text": "\"프리랜서로 여러 프로젝트 하고 있어요\"라고 했다.\n틀린 말은 아니었다. 하지만 이걸 계속 유지해야 한다는 게 문제였다.",
+        "effects": {
+          "social_skill": 1,
+          "stress": 3
+        }
+      },
+      {
+        "text": "자리가 불편하다. 일찍 마무리한다.  (회피 / 관계 단절)",
+        "result_text": "\"좋은 사람 같아요, 연락할게요\" 하고 나왔다.\n연락하지 않았다.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_ex_sns_00",
+    "title": "피드에서",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": ["social", "daily"],
+    "cooldown": 15,
+    "description": "알 수도 있는 사람 피드에 뜬 얼굴.\n전 연인이었다.\n잘 지내는 것 같았다. 여행 사진, 웃는 사진.\n\n{name}은 한참 그 프로필에 머물다가 창을 닫았다.",
+    "choices": [
+      {
+        "text": "그냥 넘긴다. 각자의 삶이다.  (수용 / 내면)",
+        "result_text": "폰을 내려놨다.\n그래도 한동안 그 사진이 머릿속에 남았다.",
+        "effects": {
+          "mental": -1
+        }
+      },
+      {
+        "text": "잠깐 안부 문자를 보낸다.  (용기 / 불확실성)",
+        "result_text": "\"잘 지내?\" 보냈다.\n한참 있다가 답장이 왔다. \"어, 잘 지내. 너는?\"\n긴 대화는 아니었다. 그래도 괜찮았다.",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "차단한다. 깔끔하게 정리하자.  (결심 / 정리)",
+        "result_text": "{name}은 차단 버튼을 눌렀다.\n가벼워졌다. 조금은 아팠지만 — 앞을 보기로 했다.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_tax_return_00",
+    "title": "연말정산",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 6
+    },
+    "tags": ["finance", "jobs"],
+    "cooldown": 20,
+    "description": "연말정산 시즌.\n영수증, 의료비, 교육비, 기부금.\n{name}은 서류를 모으다 멈췄다.\n환급을 받을 것 같다. 얼마인지는 — 해봐야 안다.",
+    "choices": [
+      {
+        "text": "꼼꼼하게 챙긴다. 공부도 된다.  (절세 / 시간)",
+        "result_text": "이틀이 걸렸다. 하지만 예상보다 환급이 컸다.\n\"이걸 몰랐으면 그냥 낼 뻔했네.\" 세금도 공부하는 사람이 이긴다.",
+        "effects": {
+          "money": 250000,
+          "intelligence": 1
+        }
+      },
+      {
+        "text": "기본 항목만 넣고 제출한다. 귀찮다.  (시간 절약 / 절세 기회 손실)",
+        "result_text": "간단하게 처리했다.\n나중에 꼼꼼히 챙긴 동료가 환급을 더 받았다는 걸 알았다.\n내년엔 더 잘 챙겨야지.",
+        "effects": {
+          "money": 50000,
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_noise_upstairs",
+    "title": "윗집",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "social"],
+    "cooldown": 8,
+    "description": "새벽 한 시.\n윗집에서 쿵쿵 소리가 계속 났다.\n집중이 안 됐다. 잠도 못 잤다.\n오늘만 세 번째다.",
+    "choices": [
+      {
+        "text": "직접 올라가서 얘기한다.  (직접 해결 / 갈등 리스크)",
+        "result_text": "문을 두드렸다. 30대 초반 남자가 나왔다.\n\"죄송합니다, 몰랐어요\" — 그 이후로 조용해졌다.\n불편한 대화였지만 — 해결됐다.",
+        "effects": {
+          "stress": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "관리사무소에 신고한다.  (간접 해결 / 느린 해결)",
+        "result_text": "관리사무소에서 안내 방송을 해줬다.\n며칠 후 잠잠해졌다. 직접 마주치지 않아도 됐다.",
+        "effects": {
+          "stress": 1
+        }
+      },
+      {
+        "text": "그냥 참는다. 어차피 싸우기 싫다.  (회피 / 수면 부족)",
+        "result_text": "이어폰을 끼고 억지로 잠들었다.\n다음 날 머리가 무거웠다.\n한국 주거 환경의 소음 — 익숙해져야 하는 건지.",
+        "effects": {
+          "health": -2,
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_convenience_late",
+    "title": "새벽 두 시 편의점",
+    "background": "convenience_store",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.7,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "social"],
+    "cooldown": 6,
+    "description": "새벽 두 시 편의점.\n라면을 끓이고 있는데 — 혼자 먹는 사람이 또 있었다.\n둘 다 말은 안 했다.\n창밖에 비가 조금 내렸다.\n\n모르는 사람과 공유하는 새벽의 조용함 — 그것도 나쁘지 않다.",
+    "choices": [
+      {
+        "text": "그냥 먹고 나온다. 조용한 게 편하다.  (독립 / 여유)",
+        "result_text": "라면을 다 먹고 나왔다.\n비가 그쳐 있었다.",
+        "effects": {
+          "mental": 1
+        }
+      },
+      {
+        "text": "말을 건다. 오늘따라 말하고 싶다.  (인연 시도 / 불확실성)",
+        "result_text": "\"라면 맛있죠\" 했더니 잠깐 눈이 마주쳤다.\n\"네, 야식엔 이게 최고인 것 같아요.\"\n짧은 대화였다. 서로의 이름은 몰랐다.\n그래도 따뜻했다.",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_old_notebook",
+    "title": "오래된 다이어리",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15
+    },
+    "tags": ["daily", "hidden"],
+    "cooldown": 20,
+    "description": "이삿짐 정리 중에 나왔다.\n5년 전 다이어리.\n그때의 {name} — 무엇을 걱정했고, 무엇을 원했는지.\n\n지금과 겹치는 부분이 있었다. 달라진 부분도 있었다.",
+    "choices": [
+      {
+        "text": "끝까지 읽는다.  (회고 / 시간)",
+        "result_text": "두 시간이 걸렸다.\n어떤 페이지에선 웃고, 어떤 페이지에선 잠깐 멈췄다.\n그때의 자신이 지금의 자신을 걱정할 필요는 없겠구나 싶었다.",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        }
+      },
+      {
+        "text": "버린다. 과거는 과거다.  (정리 / 단절)",
+        "result_text": "재활용 봉투에 넣었다.\n가벼워졌다. 앞으로만 보기로 했다.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_parent_visit",
+    "title": "부모님이 오셨다",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["family", "daily"],
+    "cooldown": 20,
+    "description": "어머니가 갑자기 올라오겠다고 했다.\n\"반찬 좀 해다 줄게.\"\n\n방 상태가 엉망이었다.\n3시간 만에 청소하고 창문을 열었다.\n집이 좁아 보일까봐 걱정됐다.",
+    "choices": [
+      {
+        "text": "있는 그대로 보여준다.  (솔직함 / 걱정 유발)",
+        "result_text": "어머니는 방을 한 바퀴 보고는 아무 말 하지 않았다.\n반찬을 꺼내며 \"밥은 먹고 있냐\"만 했다.\n그게 다였다 — 그게 전부였다.",
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 3
+          }
+        }
+      },
+      {
+        "text": "괜찮은 척 한다. 걱정 드리기 싫다.  (자기 보호 / 거리)",
+        "result_text": "\"잘 지내고 있어요, 재밌어요\" 했다.\n어머니는 믿는 것 같았다 — 아니면 알면서 넘어간 것 같았다.",
+        "effects": {
+          "mental": -1,
+          "stress": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_power_cut",
+    "title": "정전",
+    "background": "goshiwon",
+    "portrait": "player_shocked",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["comedy", "daily"],
+    "cooldown": 15,
+    "description": "갑자기 불이 꺼졌다.\n핸드폰 손전등을 켰다.\n밖을 보니 동네 전체가 나간 것 같았다.\n\n마감이 내일이었다.",
+    "choices": [
+      {
+        "text": "카페로 간다. 거기서 마저 한다.  (해결 / 지출)",
+        "result_text": "노트북을 들고 나갔다.\n카페에 비슷한 사람들이 모여있었다.\n커피 한 잔에 두 시간 — 마감은 맞췄다.",
+        "effects": {
+          "money": -6000,
+          "mental": 2
+        }
+      },
+      {
+        "text": "그냥 쉰다. 오늘은 강제 휴식일이다.  (여유 / 내일 압박)",
+        "result_text": "어두운 방에 누워 폰을 봤다.\n한 시간 후 불이 들어왔다.\n오히려 잠깐 멈출 수 있어서 — 나쁘지 않았다.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_summer_heat",
+    "title": "폭염 주의보",
+    "background": "street",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["health", "daily"],
+    "cooldown": 8,
+    "description": "38도.\n지하철 안은 냉방이 됐지만 환승 통로는 사우나였다.\n{name}의 방은 에어컨이 없었다.\n선풍기 하나. 얼음 한 봉지.",
+    "choices": [
+      {
+        "text": "에어컨을 산다. 건강이 먼저다.  (건강 / 지출)",
+        "result_text": "중고 에어컨을 들였다.\n그날 밤 처음으로 편히 잤다.\n전기세가 오를 것이다. 그래도 됐다.",
+        "effects": {
+          "money": -300000,
+          "health": 4,
+          "mental": 3
+        }
+      },
+      {
+        "text": "공공 냉방 시설을 이용한다.  (절약 / 불편)",
+        "result_text": "도서관, 지하철역, 편의점을 돌아다녔다.\n집에 있는 시간이 줄었다.\n어디서나 조금은 더울 수 있었다.",
+        "effects": {
+          "health": -1,
+          "mental": 1
+        }
+      },
+      {
+        "text": "버틴다. 곧 가을이 온다.  (절약 / 건강 소모)",
+        "result_text": "어떻게 버텼다.\n가을이 왔을 때 몸이 좀 상한 것 같았다.",
+        "effects": {
+          "health": -4,
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_winter_cold",
+    "title": "한파",
+    "background": "street",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["health", "daily"],
+    "cooldown": 8,
+    "description": "영하 15도.\n장갑을 어디 뒀는지 모른다.\n출근길 바람이 얼굴을 찔렀다.\n\n따뜻한 실내가 그렇게 그리울 수 없다.",
+    "choices": [
+      {
+        "text": "전골집에서 따뜻하게 먹는다. 몸 관리.  (자기 돌봄 / 지출)",
+        "result_text": "순대국밥 한 그릇.\n따뜻한 국물이 속으로 들어갔다.\n이 온기가 하루를 버티게 했다.",
+        "effects": {
+          "money": -8000,
+          "health": 2,
+          "mental": 3
+        }
+      },
+      {
+        "text": "그냥 집에 일찍 들어간다.  (절약 / 건강)",
+        "result_text": "이불 속으로 직행했다.\n따뜻했다. 그것만으로도 충분했다.",
+        "effects": {
+          "health": 1,
+          "stress": -1
+        }
+      }
+    ]
+  }
+]

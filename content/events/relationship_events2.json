@@ -1,0 +1,437 @@
+[
+  {
+    "id": "rel_daeun_first_text",
+    "title": "먼저 보낸 문자",
+    "background": "goshiwon",
+    "portrait": "player_happy",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "cast_stage": {
+        "person": "daeun",
+        "in": ["warm", "close", "interest"]
+      },
+      "min_turn": 10
+    },
+    "tags": ["relationship", "ripple"],
+    "cooldown": 20,
+    "description": "폰에 알림이 왔다.\n다은이었다.\n\"요즘 잘 지내요?\"\n\n먼저 연락을 해본 적이 없는 사람이 — 먼저 물어봤다.\n{name}은 잠깐 화면을 보다가 답장을 쓰기 시작했다.",
+    "choices": [
+      {
+        "text": "길게 답장한다. 요즘 이야기를 나눈다.  (연결 / 관계 심화)",
+        "result_text": "한 시간 동안 카톡이 오갔다.\n편의점 삼각김밥 먹던 날부터 지금까지 — 많이 달라진 것 같기도, 비슷한 것 같기도.\n다은이 \"다음에 커피 한 잔 해요\" 했다.",
+        "effects": {
+          "mental": 5,
+          "stress": -2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 6
+          }
+        }
+      },
+      {
+        "text": "짧게 답장한다. 관계를 유지한다.  (절충 / 거리)",
+        "result_text": "\"잘 지내요, 다은씨는요?\" 했다.\n대화가 잠깐 오가다 끊겼다.\n인연은 이어졌다.",
+        "effects": {
+          "mental": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_hyunsu_loan",
+    "title": "현수의 부탁",
+    "background": "pojangmacha",
+    "portrait": "player_tired",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12,
+      "flag": "arc_intro_hyunsu_seen"
+    },
+    "tags": ["relationship", "tradeoff"],
+    "cooldown": 25,
+    "description": "현수가 포장마차에서 술을 마시다가 꺼냈다.\n\"야, 나 지금 급하게 100만 원만 빌릴 수 있냐. 한 달만.\"\n\n친한 사이다. 이유를 안 물어볼 수 없었다.\n\"투자 건이 있는데, 타이밍을 놓치기 싫어서.\"",
+    "choices": [
+      {
+        "text": "빌려준다. 현수를 믿는다.  (우정 / 리스크)",
+        "result_text": "계좌를 보냈다. 현수가 고마워했다.\n한 달이 지났다. 현수는 조금 늦게 돌려줬다 — 하지만 돌려줬다.",
+        "effects": {
+          "money": -1000000,
+          "mental": 2,
+          "stress": 4
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 5
+          }
+        }
+      },
+      {
+        "text": "못 빌려준다. 지금 나도 여유가 없다.  (자기보호 / 관계 어색함)",
+        "result_text": "현수는 \"그래, 어쩔 수 없지\" 했다.\n그날 분위기가 좀 가라앉았다.\n{name}은 잘 거절했는지 계속 생각했다.",
+        "effects": {
+          "stress": 3,
+          "mental": -2
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": -3
+          }
+        }
+      },
+      {
+        "text": "50만 원만 준다. 이게 한계다.  (절충 / 관계)",
+        "result_text": "\"50만 원은 할 수 있어.\" {name}이 말했다.\n현수는 고맙다고 했다. 어딘가서 나머지를 구한 것 같았다.",
+        "effects": {
+          "money": -500000,
+          "stress": 2,
+          "mental": 1
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 3
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_sangchul_wisdom",
+    "title": "상철의 말",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "cast_stage": {
+        "person": "sangchul",
+        "in": ["acquaintance", "trusted", "mentoring", "guardian"]
+      },
+      "min_turn": 14
+    },
+    "tags": ["relationship", "ripple"],
+    "cooldown": 20,
+    "description": "상철과 커피를 마시다가 이야기가 길어졌다.\n그가 오래된 이야기를 꺼냈다.\n30대 초반, 자기도 지금의 {name}처럼 모든 걸 빠르게 쌓으려 했다고.\n\n\"근데 내가 제일 늦게 깨달은 게 — 속도보다 방향이더라.\"",
+    "choices": [
+      {
+        "text": "그 말을 진지하게 받아들인다.  (지혜 수용 / 방향 점검)",
+        "result_text": "{name}은 그날 집에 와서 노트에 뭔가를 썼다.\n빠른 게 맞는지 — 아니면 맞는 방향인지.\n처음 물어보는 질문이었다.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2,
+          "stress": -2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 3
+          }
+        }
+      },
+      {
+        "text": "들으면서 내 방식이 맞다고 생각한다.  (자신감 / 배움 거부)",
+        "result_text": "고개를 끄덕였지만 — 마음속은 달랐다.\n상철의 방식과 내 방식은 다르다.\n그렇게 생각했다.",
+        "effects": {
+          "mental": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_father_silent",
+    "title": "아버지의 말없음",
+    "background": "restaurant",
+    "portrait": "player_sad",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["family", "ripple"],
+    "cooldown": 20,
+    "description": "오랜만에 아버지와 단둘이 밥을 먹었다.\n둘 다 말이 없었다.\n아버지가 밥을 먹으면서 몇 번 {name}을 봤다가 시선을 내렸다.\n\n뭔가 하려다 안 한 것 같았다.",
+    "choices": [
+      {
+        "text": "먼저 말을 건다. \"아버지, 요즘 어때요?\"  (접근 / 어색함)",
+        "result_text": "아버지가 잠깐 멈추더니 — \"그냥 그렇지\" 했다.\n그러고 나서 숟가락을 내려놓고 말했다.\n\"너 요즘 많이 힘들어 보인다.\"\n두 사람이 처음으로 오래 이야기했다.",
+        "effects": {
+          "mental": 7,
+          "stress": -3
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8
+          }
+        }
+      },
+      {
+        "text": "그냥 밥만 먹는다. 이게 편하다.  (익숙한 거리 / 연결 놓침)",
+        "result_text": "밥을 다 먹고 헤어졌다.\n버스 정류장에서 아버지 뒷모습을 봤다.\n말해야 했는데 — 다음에.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_mother_confession",
+    "title": "엄마의 옛날 이야기",
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 18
+    },
+    "tags": ["family", "hidden"],
+    "cooldown": 40,
+    "description": "어머니가 갑자기 옛날 이야기를 꺼냈다.\n젊었을 때 — 하고 싶었던 일이 있었다고.\n직업이 됐을 수도 있었는데 — 결혼하면서 내려놨다고.\n\n\"후회는 안 해. 근데 가끔 궁금해. 그 길을 갔으면 어떻게 됐을까.\"",
+    "choices": [
+      {
+        "text": "그 이야기를 오래 듣는다.  (이해 / 연결)",
+        "result_text": "{name}은 처음으로 어머니가 딸/아들이 아닌 한 사람으로 보였다.\n오래 이야기했다.\n집에 오는 길에 — {name}의 길을 포기하면 안 된다는 생각이 들었다.",
+        "effects": {
+          "mental": 8,
+          "intelligence": 1
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 6
+          }
+        }
+      },
+      {
+        "text": "\"어머니도 늦지 않았어요\" — 응원한다.  (용기 / 따뜻함)",
+        "result_text": "어머니가 잠깐 웃었다.\n\"그래? 뭘 어떻게 해.\"\n하지만 눈빛이 달라졌다.",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 4
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_friend_breakup",
+    "title": "친구의 이별",
+    "background": "pojangmacha",
+    "portrait": "player_sad",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["relationship", "social"],
+    "cooldown": 15,
+    "description": "친구가 갑자기 포장마차로 불렀다.\n이별했다고.\n3년이었다고.\n\n술을 따라주며 {name}은 들었다. 아무 말도 안 해도 됐다.",
+    "choices": [
+      {
+        "text": "밤새 같이 있는다. 그게 전부다.  (우정 / 다음날 피로)",
+        "result_text": "새벽까지 있었다.\n친구는 취해서 많이 울었다.\n{name}은 택시를 불러줬다.\n친구가 \"고마워\" 했다 — 그 두 글자로 충분했다.",
+        "effects": {
+          "mental": 3,
+          "health": -2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "두 시간 있다가 먼저 일어난다.  (균형 / 친구에게 미안함)",
+        "result_text": "\"나 일찍 가봐야 해, 미안.\" 했다.\n친구가 \"괜찮아, 와준 것만도 고마워\"라고 했다.\n집에 오면서 더 있어줬으면 하는 마음이 들었다.",
+        "effects": {
+          "mental": 1,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_old_flame_00",
+    "title": "오래된 이름",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 16
+    },
+    "tags": ["relationship", "tradeoff"],
+    "cooldown": 30,
+    "description": "연락이 끊겼던 전 연인한테서 카톡이 왔다.\n\"잘 지내? 오랜만이다.\"\n\n왜 지금. {name}은 화면을 보며 생각했다.\n잘 지낸다고 해야 하는가, 솔직하게 말해야 하는가.",
+    "choices": [
+      {
+        "text": "\"잘 지내, 너는?\" — 평범하게 대화한다.  (안전한 연결 / 감정 관리)",
+        "result_text": "짧은 안부가 오갔다. 어색했지만 나쁘지 않았다.\n인연은 완전히 사라진 게 아니었다.",
+        "effects": {
+          "mental": 1,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "\"왜 연락했어?\" — 솔직하게 묻는다.  (직접적 / 어색함)",
+        "result_text": "잠깐 침묵이 있었다.\n\"그냥 생각나서\" 라고 했다.\n더 긴 대화로 이어졌다.",
+        "effects": {
+          "stress": 2,
+          "mental": 2
+        }
+      },
+      {
+        "text": "답장하지 않는다. 지금은 아니다.  (자기보호 / 관계 종결)",
+        "result_text": "{name}은 창을 닫았다.\n무례한 건 아니었다. 지금 이 인연을 다시 여는 게 맞는지 몰랐다.",
+        "effects": {
+          "stress": 1,
+          "mental": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_mentor_wisdom",
+    "title": "마지막 커피",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 20,
+      "cast_stage": {
+        "person": "sangchul",
+        "in": ["mentoring", "guardian"]
+      }
+    },
+    "tags": ["relationship", "milestone"],
+    "cooldown": 30,
+    "description": "상철이 오늘따라 천천히 말했다.\n\"사람이 늙으면 결국 관계만 남더라. 돈도 좋은데 — 혼자 있으면 쓸 데가 없어.\"\n\n{name}은 아무 말도 하지 않았다. 그냥 들었다.",
+    "choices": [
+      {
+        "text": "그 말을 노트에 적는다. 잊지 않겠다.  (배움 / 기록)",
+        "result_text": "집에 오는 길에 메모앱에 적었다.\n'혼자 있으면 쓸 데가 없다.'\n30억이 목표지만 — 그 30억과 함께할 사람이 있어야 한다.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 4
+          }
+        }
+      },
+      {
+        "text": "\"아직 저는 일이 먼저예요\" — 솔직하게 말한다.  (소신 / 존중)",
+        "result_text": "상철이 웃었다. \"그래야 해. 나도 그랬으니까.\"\n틀린 길이 아니라는 것 — 그것만으로도 충분했다.",
+        "effects": {
+          "mental": 3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_coworker_secret",
+    "title": "들어버렸다",
+    "background": "office",
+    "portrait": "player_shocked",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10
+    },
+    "tags": ["relationship", "tradeoff"],
+    "cooldown": 20,
+    "description": "화장실에서 나오다가 동료 둘이 이야기하는 걸 들었다.\n들으면 안 되는 내용이었다.\n인사 관련 정보였다 — {name}에게도 직접 영향이 있는 종류의.",
+    "choices": [
+      {
+        "text": "모른 척한다. 공식 발표 때 알게 될 것이다.  (원칙 / 준비 안 됨)",
+        "result_text": "아무것도 못 들은 것처럼 지나쳤다.\n하지만 그 정보가 머릿속에서 지워지지 않았다.",
+        "effects": {
+          "stress": 4,
+          "mental": -1
+        }
+      },
+      {
+        "text": "그 동료에게 조용히 확인한다.  (정보 / 관계 어색함)",
+        "result_text": "동료는 당황했지만 — 결국 사실을 확인해줬다.\n{name}은 미리 준비할 수 있었다.\n그 동료와는 조금 더 가까워졌다.",
+        "effects": {
+          "intelligence": 1,
+          "social_skill": 1,
+          "stress": 2
+        }
+      },
+      {
+        "text": "그 정보를 이용해서 대비한다.  (현실적 / 도덕적 불편함)",
+        "result_text": "{name}은 조용히 움직였다.\n나쁜 의도는 없었다 — 그냥 먼저 준비한 것뿐이었다.\n하지만 좀 찜찜한 느낌이 남았다.",
+        "effects": {
+          "intelligence": 2,
+          "mental": -2,
+          "stress": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "rel_childhood_rival",
+    "title": "같은 동네 출신",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": ["relationship", "social"],
+    "cooldown": 20,
+    "description": "우연히 SNS에서 발견했다.\n어린 시절 같은 동네에 살던 친구 — 당시엔 뭐든 경쟁했다.\n지금은 대기업 임원이 됐다.\n\n{name}은 프로필을 보며 생각했다.\n그 친구도 그때의 우리를 기억할까.",
+    "choices": [
+      {
+        "text": "연락을 한다. 오랜만이다.  (인연 회복 / 비교 가능성)",
+        "result_text": "연락했다. 반갑게 받았다.\n밥 한 번 먹자고 했다.\n같은 출발점에서 다른 길을 걸어온 두 사람의 만남이 — 기대됐다.",
+        "effects": {
+          "social_skill": 2,
+          "mental": 2
+        }
+      },
+      {
+        "text": "그냥 지켜본다. 연락까지는 아니다.  (관망 / 기회 보류)",
+        "result_text": "팔로우만 했다.\n그 친구가 뭘 하는지 — 조용히 지켜봤다.",
+        "effects": {
+          "intelligence": 1
+        }
+      }
+    ]
+  }
+]

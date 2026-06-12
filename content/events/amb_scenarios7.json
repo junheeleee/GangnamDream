@@ -1,0 +1,425 @@
+[
+  {
+    "id": "amb_promotion_passed",
+    "title": "나는 왜",
+    "background": "office",
+    "portrait": "player_shocked",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 14
+    },
+    "tags": ["scenario", "tradeoff"],
+    "cooldown": 30,
+    "description": "진급 발표가 났다.\n{name}의 이름이 없었다. 작년에 합류한 후배가 먼저 됐다.\n직속 팀장이 \"올해는 TO가 적었고, 내년엔 꼭 챙겨줄게\"라고 했다.\n\n이 말을 이미 두 번 들었다.",
+    "choices": [
+      {
+        "text": "감정을 추스르고 묵묵히 한다.  (인내 / 자존감 소모)",
+        "result_text": "{name}은 그날 야근을 했다.\n결국 일이 보상해줄 거라고 믿었다. 아직은.",
+        "effects": {
+          "stress": 8,
+          "mental": -4,
+          "reputation": 1
+        }
+      },
+      {
+        "text": "면담을 신청한다. 기준을 묻겠다.  (주체성 / 갈등 리스크)",
+        "result_text": "팀장은 \"성과가 좋았는데 아쉽다\" 했다. 기준은 말하지 않았다.\n{name}은 그 자리에서 알았다 — 무엇을 해도 불투명하다는 것을.",
+        "effects": {
+          "stress": 5,
+          "mental": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "조용히 이직을 알아본다.  (탈출 / 불확실성)",
+        "result_text": "{name}은 그날 저녁 이력서를 꺼냈다.\n분노보다는 결심이 앞섰다 — 이곳이 전부가 아니라고.",
+        "effects": {
+          "stress": 4,
+          "mental": 3
+        },
+        "flags": ["considering_job_change"]
+      }
+    ]
+  },
+  {
+    "id": "amb_startup_invite",
+    "title": "창업 멤버 제안",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": ["scenario", "tradeoff"],
+    "cooldown": 30,
+    "description": "대학 동기 재현이 찾아왔다.\n\"야, 나 지금 창업 중이거든. 공동창업자 한 명이 필요한데 — 너 딱이야.\"\n지분 10%, 스톡옵션, 그리고 지금은 작은 월급.\n\n재현은 열정적이었다. 아이디어도 나쁘지 않았다.\n근데 성공 확률을 어떻게 아는가.",
+    "choices": [
+      {
+        "text": "합류한다. 기회는 잡아야 한다.  (도전 / 불확실성)",
+        "result_text": "{name}은 합류하기로 했다.\n작은 사무실, 작은 팀, 큰 꿈.\n잘 될지 모른다 — 하지만 이 선택을 후회하지는 않을 것 같았다.",
+        "effects": {
+          "stress": 8,
+          "mental": 4,
+          "intelligence": 2,
+          "social_skill": 1
+        },
+        "flags": ["startup_joined"]
+      },
+      {
+        "text": "거절한다. 지금은 내 기반이 먼저다.  (안정 / 기회 포기)",
+        "result_text": "재현은 아쉬워했지만 이해했다. \"언제든 생각 바뀌면 말해.\"\n{name}은 자기 길을 걷기로 했다.\n재현의 스타트업이 어떻게 됐는지는 — 나중에 알게 될 것이다.",
+        "effects": {
+          "mental": -1,
+          "stress": -2
+        }
+      },
+      {
+        "text": "조언자 역할은 한다. 합류는 못 하지만.  (타협 / 인연 유지)",
+        "result_text": "{name}은 파트타임 조언자로 남기로 했다.\n직접 뛰어들지 않는 대신, 옆에서 지켜보기로 했다.",
+        "effects": {
+          "social_skill": 1,
+          "intelligence": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_headhunter_00",
+    "title": "링크드인 메시지",
+    "background": "office",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10
+    },
+    "tags": ["scenario", "tradeoff"],
+    "cooldown": 20,
+    "description": "링크드인에 메시지가 왔다.\n\"현재 좋은 포지션이 있어서 연락드립니다. 귀하의 경력을 보고 적합하다고 판단했습니다.\"\n\n복지는 좋다. 연봉도 지금보다 15% 높다.\n지금 직장은 편하고 — 저 곳은 모른다.",
+    "choices": [
+      {
+        "text": "미팅을 잡는다. 일단 들어보자.  (정보 수집 / 현 직장 분산)",
+        "result_text": "카페에서 HR 담당자를 만났다.\n실제로 나쁜 조건이 아니었다. 이직할지 말지는 — 아직 모른다.\n하지만 시장에서 {name}의 가치를 확인했다.",
+        "effects": {
+          "intelligence": 1,
+          "mental": 2,
+          "stress": 2
+        },
+        "flags": ["headhunted"]
+      },
+      {
+        "text": "정중히 거절한다. 지금 자리가 맞다.  (안정 선택 / 기회 포기)",
+        "result_text": "\"좋은 제안이지만 지금은 아닌 것 같습니다\" 답장했다.\n현재 자리에 집중하기로 했다.",
+        "effects": {
+          "mental": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_salary_reveal",
+    "title": "실수로 본 숫자",
+    "background": "office",
+    "portrait": "player_shocked",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 8
+    },
+    "tags": ["scenario", "tradeoff"],
+    "cooldown": 25,
+    "description": "업무 중 실수로 동료 명세서를 봤다.\n같은 연차. 같은 직급.\n{name}보다 200만 원이 많았다.\n\n일을 덜 하는 것도 아니다. 오히려 같이 야근했다.\n실수로 알게 된 정보가 — 머릿속에서 지워지지 않는다.",
+    "choices": [
+      {
+        "text": "그냥 잊는다. 몰랐던 걸로 한다.  (평화 / 자존감)",
+        "result_text": "{name}은 명세서 창을 닫았다.\n잊으려고 했다. 잊히지 않았다.\n그날 퇴근길이 조금 더 길었다.",
+        "effects": {
+          "mental": -4,
+          "stress": 5
+        }
+      },
+      {
+        "text": "연봉 협상을 요청한다. 공식적으로.  (주체성 / 리스크)",
+        "result_text": "{name}은 인사팀에 면담을 신청했다.\n\"연봉 조정을 검토해주셨으면 합니다.\"\n결과는 한 달 후 — 기다리는 동안 마음이 복잡했다.",
+        "effects": {
+          "stress": 6,
+          "mental": 2,
+          "social_skill": 1
+        },
+        "flags": ["salary_negotiation_started"]
+      },
+      {
+        "text": "동료에게 슬쩍 물어본다.  (정보 수집 / 관계 어색함 리스크)",
+        "result_text": "동료는 처음엔 어색해했지만 — 결국 털어놨다.\n입사할 때 조금 더 세게 협상했다고.\n{name}은 그 간단한 사실이 이렇게 오래 따라올 줄 몰랐다.",
+        "effects": {
+          "mental": -2,
+          "stress": 4,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_nonprofit_00",
+    "title": "의미냐 돈이냐",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["scenario", "tradeoff"],
+    "cooldown": 30,
+    "description": "환경 NGO에서 연락이 왔다.\n봉사활동을 열심히 했던 게 보였는지 — 정규직 제안이다.\n연봉은 지금보다 30% 낮다.\n하지만 하는 일이 세상에 닿는 느낌이 날 것 같다.\n\n강남은 더 멀어진다. 의미는 가까워진다.",
+    "choices": [
+      {
+        "text": "간다. 돈만이 전부는 아니다.  (의미 / 목표 포기)",
+        "result_text": "{name}은 입사했다.\n돈은 빠듯했다. 하지만 월요일 아침이 달랐다 — 일어나고 싶었다.",
+        "effects": {
+          "mental": 8,
+          "stress": -4,
+          "reputation": 3,
+          "money": -200000
+        }
+      },
+      {
+        "text": "거절한다. 지금 목표가 먼저다.  (목표 유지 / 의미 포기)",
+        "result_text": "정중하게 거절했다.\n옳은 선택인지는 — 나중에 알 수 있을 것이다.",
+        "effects": {
+          "mental": -2
+        }
+      },
+      {
+        "text": "파트타임·자문 형태로 참여한다.  (절충 / 양쪽 유지)",
+        "result_text": "주말마다 봉사하고 자문 역할을 맡았다.\n에너지는 분산됐다. 하지만 포기하지 않아도 됐다.",
+        "effects": {
+          "mental": 3,
+          "stress": 3,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_freelance_first",
+    "title": "첫 의뢰",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["scenario", "tradeoff"],
+    "cooldown": 20,
+    "description": "SNS에 올린 작업물 — 누군가가 연락을 해왔다.\n\"이거 비슷한 거 하나 부탁드려도 될까요? 예산은 30만 원 정도인데.\"\n\n처음이다. 계약서도 없고, 방법도 잘 모른다.\n하지만 첫 건은 어디서나 첫 건이다.",
+    "choices": [
+      {
+        "text": "받는다. 해보면서 배우는 거다.  (도전 / 불확실성)",
+        "result_text": "일주일 동안 고생했다. 세 번 수정했다.\n30만 원이 들어왔을 때 — 지금까지 받은 돈 중 가장 뿌듯했다.",
+        "effects": {
+          "money": 300000,
+          "mental": 6,
+          "intelligence": 2,
+          "stress": 4
+        },
+        "flags": ["freelance_started"]
+      },
+      {
+        "text": "조금 더 준비되면 하겠다고 한다.  (완벽주의 / 기회 놓침)",
+        "result_text": "\"준비가 좀 더 되면 연락드릴게요\" 했다.\n그 클라이언트는 다시 연락하지 않았다.\n언제가 '준비된' 것인지 — {name}은 아직 모른다.",
+        "effects": {
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_office_faction",
+    "title": "어느 편",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 12
+    },
+    "tags": ["scenario", "tradeoff"],
+    "cooldown": 25,
+    "description": "팀 안에 보이지 않는 선이 생겼다.\n팀장 A파와 차장 B파.\n점심도 따로, 의견도 따로.\n\n{name}에게 각각 같이 밥 먹자는 연락이 온다.\n어디 앉느냐에 따라 — 다음 달 평가가 달라질 수 있다.",
+    "choices": [
+      {
+        "text": "A팀장과 간다. 윗사람을 따른다.  (안정 / 진짜 의견 억제)",
+        "result_text": "{name}은 A파 자리에 앉았다.\n차장은 조금 서운한 눈빛이었다.\n조직에서 한 방향을 선택하면 — 나머지 방향이 닫힌다.",
+        "effects": {
+          "reputation": 1,
+          "stress": 4,
+          "mental": -2
+        }
+      },
+      {
+        "text": "B차장과 간다. 일 잘하는 사람 편이다.  (소신 / 윗선과 갈등 리스크)",
+        "result_text": "{name}은 B파 자리에 앉았다.\n차장이 기뻐했다. 팀장은 다음 날 조금 냉랭했다.\n옳은 선택이 조직 안에서 늘 유리한 선택은 아니다.",
+        "effects": {
+          "reputation": 2,
+          "stress": 5,
+          "mental": 1
+        }
+      },
+      {
+        "text": "양쪽 다 안 간다. 혼자 먹는다.  (독립 / 고립)",
+        "result_text": "\"오늘 일이 있어서요\" 하고 혼자 편의점에서 먹었다.\n양쪽에서 조금씩 밀려나는 느낌이었다.\n하지만 편했다.",
+        "effects": {
+          "stress": -1,
+          "social_skill": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_quit_impulse",
+    "title": "오늘 하루만 더",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10,
+      "min_stress": 60
+    },
+    "tags": ["scenario", "health"],
+    "cooldown": 15,
+    "description": "퇴근하고 지하철에 탔다.\n오늘만 세 번 참았다.\n상사의 말, 의미없는 야근, 아무도 고마워하지 않는 일.\n\n\"내일 그냥 문자 하나 보내고 안 나가면 어떻게 될까.\"\n이 생각이 처음이 아니다.",
+    "choices": [
+      {
+        "text": "그냥 버텨본다. 충동적인 결정은 않는다.  (인내 / 소진)",
+        "result_text": "다음날 출근했다.\n아무것도 달라진 게 없었다. 그냥 또 하루가 지나갔다.",
+        "effects": {
+          "stress": 4,
+          "mental": -3,
+          "reputation": 1
+        }
+      },
+      {
+        "text": "일단 이직 준비를 시작한다. 감정이 아닌 계획으로.  (계획적 퇴직 / 이중 부담)",
+        "result_text": "{name}은 이력서를 꺼냈다. 오늘의 감정은 오늘 쓰고 — 계획은 냉정하게.\n출구를 만드는 것만으로도 숨통이 좀 트였다.",
+        "effects": {
+          "stress": -2,
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": ["quit_planned"]
+      },
+      {
+        "text": "번아웃 휴가를 낸다. 며칠 쉬어야 한다.  (자기 돌봄 / 평판 리스크)",
+        "result_text": "{name}은 반차를 냈다.\n아무데도 가지 않고 낮에 집에서 혼자 있었다.\n그게 전부였다. 그런데 — 많이 필요한 시간이었다.",
+        "effects": {
+          "health": 4,
+          "mental": 5,
+          "stress": -6,
+          "reputation": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "amb_mentor_fired",
+    "title": "그 팀장이 나갔다",
+    "background": "office",
+    "portrait": "player_shocked",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 15
+    },
+    "tags": ["scenario", "social"],
+    "cooldown": 30,
+    "description": "갑자기였다.\n{name}에게 잘해줬던 팀장 — 구조조정 명단에 있었다.\n마지막 날 조용히 짐을 쌌다.\n\"잘 해봐, 너라면 될 거야\" 말하고 나갔다.\n\n든든했던 사람이 사라지면 — 조직이 다르게 보인다.",
+    "choices": [
+      {
+        "text": "새 팀장에게 잘 보이려고 노력한다.  (적응 / 자존심)",
+        "result_text": "{name}은 새 팀장 밑에서 다시 시작했다.\n적응하는 데 시간이 걸렸다. 팀장 스타일이 달랐다.\n그래도 버텼다.",
+        "effects": {
+          "stress": 5,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "나도 다음 차례일 수 있다 — 움직이기로 한다.  (경계심 / 행동)",
+        "result_text": "{name}은 이력서를 업데이트했다.\n좋은 사람들도 이렇게 나가는 곳이라면 — 내 계획이 먼저다.",
+        "effects": {
+          "mental": 2,
+          "stress": 3,
+          "intelligence": 1
+        },
+        "flags": ["considering_job_change"]
+      }
+    ]
+  },
+  {
+    "id": "amb_idea_stolen_00",
+    "title": "다시",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "flag": "credit_swallowed",
+      "min_turn": 18
+    },
+    "tags": ["scenario", "tradeoff", "ripple"],
+    "cooldown": 40,
+    "description": "또 일어났다.\n이번엔 다른 회의에서, 다른 보고서로.\n{name}의 아이디어가 팀장 입을 통해 경영진에게 전달됐다.\n\n첫 번째엔 참았다.\n두 번째라면 — 계속 참는 것도 선택이다.",
+    "choices": [
+      {
+        "text": "이번엔 공식적으로 문제를 제기한다.  (자기 존중 / 갈등)",
+        "result_text": "{name}은 인사팀에 서면으로 상황을 기록했다.\n조직이 불편해졌다. 그래도 기록은 남았다.\n다음엔 이 이름이 지워지지 않을 것이다.",
+        "effects": {
+          "reputation": 3,
+          "stress": 9,
+          "mental": 5
+        },
+        "flags": ["formal_complaint_filed"]
+      },
+      {
+        "text": "그냥 사직서를 낸다.  (탈출 / 경력 단절)",
+        "result_text": "{name}은 사직서를 냈다.\n팀장은 \"왜 갑자기\"라고 했다.\n'{name}이 압니다, 왜인지' — 말하지 않았지만 눈빛은 말했다.",
+        "effects": {
+          "mental": 4,
+          "stress": -5
+        },
+        "flags": ["quit_after_theft"]
+      }
+    ]
+  }
+]

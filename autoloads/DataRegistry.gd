@@ -14,10 +14,14 @@ const EVENT_PATHS = [
 	"res://content/events/amb_scenarios5.json",
 	"res://content/events/amb_scenarios6.json",
 	"res://content/events/life_events.json",
+	"res://content/events/life_events2.json",
 	"res://content/events/investment_events.json",
 	"res://content/events/relationship_events.json",
+	"res://content/events/relationship_events2.json",
 	"res://content/events/hidden_events.json",
 	"res://content/events/drama_events.json",
+	"res://content/events/drama_events2.json",
+	"res://content/events/amb_scenarios7.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"

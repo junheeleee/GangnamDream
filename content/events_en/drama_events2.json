@@ -1,0 +1,566 @@
+[
+  {
+    "id": "drama_marriage_nag",
+    "title": "So When",
+    "background": "restaurant",
+    "portrait": "player_tired",
+    "category": "family",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["family", "social"],
+    "cooldown": 10,
+    "description": "Phone call. Mom.\n\"Eating well? Sleeping okay?\" A few exchanges — then it came.\n\"All your friends are getting married. When is it your turn?\"\n\n{name} held the phone slightly away from the ear.",
+    "choices": [
+      {
+        "text": "\"I'll figure it out\" — short and done.  (boundary / awkward aftermath)",
+        "result_text": "\"Okay, okay.\" Mom said.\nA small guilt crept in after hanging up.",
+        "effects": {
+          "stress": 2,
+          "mental": -1
+        }
+      },
+      {
+        "text": "\"Something else needs to come first\" — open up a little.  (honesty / worry caused)",
+        "result_text": "Mom went quiet for a long moment.\nThen: \"I know it's hard. If there's anything Mom can do, just say.\"\nNearly cried on the walk home.",
+        "effects": {
+          "mental": 4,
+          "stress": -2
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 2
+          }
+        }
+      },
+      {
+        "text": "\"Actually there's someone nice\" — buy some peace.  (temporary relief / lie burden)",
+        "result_text": "Mom suddenly lit up. \"What's this person like?\"\n{name} regretted it the moment the words came out.",
+        "effects": {
+          "stress": 5,
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_sibling_news",
+    "title": "News from a Sibling",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["family", "social"],
+    "cooldown": 20,
+    "description": "Sibling got a job.\nGood company, good terms.\nParents overjoyed.\n\n{name} was genuinely happy — about 70%.\nThe other 30%: shame at the comparison happening inside.",
+    "choices": [
+      {
+        "text": "Congratulate them sincerely.  (family bond / inner friction)",
+        "result_text": "\"That's amazing, really.\" Said it on the call.\nSibling said: \"Sorry you should be the one settling in first.\"\nThat line was somehow warmer than anything else.",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "Congratulate but create some distance.  (self-protection / relationship gap)",
+        "result_text": "Sent a \"Happy for you\" and kept away for the day.\nWaited for the feelings to settle before reconnecting.",
+        "effects": {
+          "mental": -1,
+          "stress": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_family_flex",
+    "title": "Holiday Table",
+    "background": "restaurant",
+    "portrait": "player_tired",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": ["family", "social"],
+    "cooldown": 15,
+    "description": "Family gathering.\nA cousin was showing photos of a new car. \"Things have been going pretty well.\"\nAunt looked at {name}. \"How are things with you lately?\"\n\nEveryone turned. Steam rose from the food.",
+    "choices": [
+      {
+        "text": "\"Just getting by\" — deflect.  (defense / self-deprecation)",
+        "result_text": "\"Good health is what matters.\" An uncle said.\nConversation moved on.\n{name} ate more food.",
+        "effects": {
+          "stress": 3,
+          "mental": -2
+        }
+      },
+      {
+        "text": "\"Working hard — good news coming soon.\"  (declaration / self-imposed pressure)",
+        "result_text": "Relatives smiled. \"We're counting on it.\"\nOn the ride home, those words felt heavier.\nSaid out loud now. Has to be kept.",
+        "effects": {
+          "stress": 5,
+          "mental": 3
+        }
+      },
+      {
+        "text": "Leave early. This table is hard today.  (escape / relationships)",
+        "result_text": "\"I'll head out first\" and left.\nEveryone looked disappointed, no one stopped {name}.\nFinally breathing freely on the subway.",
+        "effects": {
+          "mental": 2,
+          "stress": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_new_year_00",
+    "title": "January 1st",
+    "background": "goshiwon",
+    "portrait": "player_determined",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 1,
+      "max_turn": 3
+    },
+    "tags": ["milestone", "daily"],
+    "cooldown": 999,
+    "description": "A new year.\n{name} took out a notebook and started writing goals.\nHalfway through — some of these were last year's goals too.\n\nCrossed them out. Started again.",
+    "choices": [
+      {
+        "text": "Set ambitious goals. Nothing done is nothing done.  (high aim / failure risk)",
+        "result_text": "The list was bold.\nMight not all happen. Better to reach for ten and hit three than reach for nothing.",
+        "effects": {
+          "mental": 4,
+          "stress": 2
+        }
+      },
+      {
+        "text": "Set realistic goals. Only what's achievable.  (realism / safe targets)",
+        "result_text": "Three items. All doable.\nThis year's completion rate will probably be higher.",
+        "effects": {
+          "mental": 2
+        }
+      },
+      {
+        "text": "Write nothing. The goal lives in my head.  (internalized / unrecorded)",
+        "result_text": "Closed the notebook.\nWriting never helped anyway — decided to just move.\nThis year: only action.",
+        "effects": {
+          "mental": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_birthday_00",
+    "title": "It Was Today",
+    "background": "goshiwon",
+    "portrait": "player_sad",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": ["daily", "milestone"],
+    "cooldown": 30,
+    "description": "Today was the birthday.\nMom sent a KakaoTalk message. A couple of others.\n{name} bought a convenience store cake — one ₩600 candle pressed in.\n\nNot a bad day. Just quiet.",
+    "choices": [
+      {
+        "text": "Celebrate alone. This is enough.  (self-acceptance / loneliness)",
+        "result_text": "{name} ate the cake alone.\nNo candles blown, no singing — still here another year.\nThat was enough.",
+        "effects": {
+          "mental": 3,
+          "stress": -1
+        }
+      },
+      {
+        "text": "Reach out to an old friend. Grab food.  (connection / initiative)",
+        "result_text": "Friend said \"Wait — today's your birthday?\" and came right out.\nTwo people, BBQ, that was all.\nBetter than alone.",
+        "effects": {
+          "money": -40000,
+          "mental": 5,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_sogeuting_00",
+    "title": "Blind Date",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": ["social", "daily"],
+    "cooldown": 12,
+    "description": "A senior colleague set up a blind date (소개팅).\nSitting across the café table — first impression: not bad.\nJobs, hobbies, family — the usual circuit.\n\nAt some point {name} realized: not sure how to explain the current situation.",
+    "choices": [
+      {
+        "text": "Be honest. \"I'm somewhere in the middle of it all.\"  (honesty / impression risk)",
+        "result_text": "A short silence.\nThen: \"I had a period like that too.\"\nThe conversation went deeper.",
+        "effects": {
+          "mental": 2,
+          "social_skill": 2
+        }
+      },
+      {
+        "text": "Package it. First impressions matter.  (strategic presentation / maintenance burden)",
+        "result_text": "\"Freelancing across a few projects\" — not untrue.\nBut this version of things requires upkeep.",
+        "effects": {
+          "social_skill": 1,
+          "stress": 3
+        }
+      },
+      {
+        "text": "The vibe's off. Wrap it up early.  (avoidance / closed door)",
+        "result_text": "\"Nice meeting you, I'll be in touch.\" Left.\nNo follow-up.",
+        "effects": {
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_ex_sns_00",
+    "title": "In the Feed",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": ["social", "daily"],
+    "cooldown": 15,
+    "description": "A face in the 'People You May Know' section.\nAn ex.\nLooking good. Travel photos, smiling photos.\n\n{name} lingered on the profile, then closed it.",
+    "choices": [
+      {
+        "text": "Move on. Separate lives now.  (acceptance / introspection)",
+        "result_text": "Looked away.\nThe face stayed around for a while anyway.",
+        "effects": {
+          "mental": -1
+        }
+      },
+      {
+        "text": "Send a quick 'how are you.'  (courage / uncertainty)",
+        "result_text": "Sent it.\nResponse came after a while: \"Doing well. You?\"\nNot a long exchange. Fine though.",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "Block. Clean break.  (decisiveness / closure)",
+        "result_text": "{name} pressed block.\nLighter. A little sore — but forward-facing.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_tax_return_00",
+    "title": "Year-End Tax Season",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 6
+    },
+    "tags": ["finance", "jobs"],
+    "cooldown": 20,
+    "description": "Year-end tax settlement (연말정산) time.\nReceipts, medical expenses, education, donations.\n{name} stopped midway through the paperwork.\nLooks like a refund is possible. How much — only submitting will tell.",
+    "choices": [
+      {
+        "text": "Go through it carefully. Good exercise too.  (tax savings / time)",
+        "result_text": "Two days of paperwork. The refund came back bigger than expected.\n\"Would have just paid this without knowing.\" Tax is something those who study it win.",
+        "effects": {
+          "money": 250000,
+          "intelligence": 1
+        }
+      },
+      {
+        "text": "Submit the basics only. Too much hassle.  (time saved / refund missed)",
+        "result_text": "Done quickly.\nLater learned a colleague got a bigger refund by being thorough.\nNext year, more careful.",
+        "effects": {
+          "money": 50000,
+          "mental": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_noise_upstairs",
+    "title": "The Upstairs Neighbor",
+    "background": "goshiwon",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "social"],
+    "cooldown": 8,
+    "description": "1 a.m.\nThumping from upstairs. Third time tonight.\nCan't concentrate. Can't sleep.",
+    "choices": [
+      {
+        "text": "Go knock on the door.  (direct resolution / confrontation risk)",
+        "result_text": "Knocked. A man in his early thirties answered.\n\"Sorry, didn't realize.\" Quiet after that.\nUncomfortable conversation — but solved.",
+        "effects": {
+          "stress": 2,
+          "social_skill": 1
+        }
+      },
+      {
+        "text": "Report to building management.  (indirect resolution / slow fix)",
+        "result_text": "Management made an announcement.\nCalmed down within days. No direct contact needed.",
+        "effects": {
+          "stress": 1
+        }
+      },
+      {
+        "text": "Just endure it. Conflict isn't worth it.  (avoidance / sleep deprivation)",
+        "result_text": "Put in earphones and forced sleep.\nWoke up heavy.\nNoise is a constant in Korean apartment living — learning to tune it out or not.",
+        "effects": {
+          "health": -2,
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_convenience_late",
+    "title": "2 a.m. Convenience Store",
+    "background": "convenience_store",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.7,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["daily", "social"],
+    "cooldown": 6,
+    "description": "2 a.m. convenience store.\nBoiling cup ramen — someone else was eating alone at another table.\nNeither of them spoke.\nA little rain outside the window.\n\nThe quiet of the early morning shared with a stranger — not bad.",
+    "choices": [
+      {
+        "text": "Eat and leave. Comfortable silence.  (independence / peace)",
+        "result_text": "Finished and walked out.\nThe rain had stopped.",
+        "effects": {
+          "mental": 1
+        }
+      },
+      {
+        "text": "Say something. Felt like talking tonight.  (connection attempt / uncertain)",
+        "result_text": "\"Good ramen, right?\" — eye contact for a second.\n\"Yeah. Best late-night option.\"\nShort exchange. No names.\nWarm anyway.",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_old_notebook",
+    "title": "Old Diary",
+    "background": "goshiwon",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 15
+    },
+    "tags": ["daily", "hidden"],
+    "cooldown": 20,
+    "description": "It came up while packing.\nA diary from five years ago.\nWhat the {name} from back then was worried about. What they wanted.\n\nSome of it overlapped with now. Some of it had changed.",
+    "choices": [
+      {
+        "text": "Read it all the way through.  (reflection / time)",
+        "result_text": "Two hours in.\nLaughed at some pages, paused at others.\nThat version of {name} doesn't need to worry about this one.",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        }
+      },
+      {
+        "text": "Toss it. The past is past.  (clean break / release)",
+        "result_text": "Put it in the recycling bag.\nLighter. Forward only.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_parent_visit",
+    "title": "Parents Coming Over",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["family", "daily"],
+    "cooldown": 20,
+    "description": "Mom said she wanted to come up with some side dishes.\nThree hours to clean the place.\nOpened the windows.\nWorried the room would look too small.",
+    "choices": [
+      {
+        "text": "Show it as it is.  (honesty / worry caused)",
+        "result_text": "Mom walked around once and said nothing.\nUnpacked the side dishes. \"Are you eating properly?\"\nThat was all. That was enough.",
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 3
+          }
+        }
+      },
+      {
+        "text": "Put on a brave face. Don't want them to worry.  (self-protection / distance)",
+        "result_text": "\"Doing well, it's fun.\" Said with conviction.\nMom seemed to believe it — or chose to.",
+        "effects": {
+          "mental": -1,
+          "stress": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_power_cut",
+    "title": "Blackout",
+    "background": "goshiwon",
+    "portrait": "player_shocked",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["comedy", "daily"],
+    "cooldown": 15,
+    "description": "Lights out, suddenly.\nFlashlight on the phone.\nLooked outside — whole block dark.\n\nDeadline was tomorrow.",
+    "choices": [
+      {
+        "text": "Head to a café. Finish it there.  (solution / expense)",
+        "result_text": "Grabbed the laptop and went.\nSame café as others in the same situation.\nOne Americano, two hours — deadline met.",
+        "effects": {
+          "money": -6000,
+          "mental": 2
+        }
+      },
+      {
+        "text": "Call it a forced rest day.  (acceptance / tomorrow's pressure)",
+        "result_text": "Lay in the dark and looked at the phone.\nPower came back an hour later.\nActually — needed the pause.",
+        "effects": {
+          "mental": 2,
+          "stress": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_summer_heat",
+    "title": "Heat Advisory",
+    "background": "street",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["health", "daily"],
+    "cooldown": 8,
+    "description": "38°C.\nSubway was air-conditioned. Transfer corridors were saunas.\n{name}'s room had no AC.\nOne fan. One bag of ice.",
+    "choices": [
+      {
+        "text": "Buy an AC unit. Health first.  (health / expense)",
+        "result_text": "Got a secondhand unit installed.\nSlept properly that night for the first time in weeks.\nElectricity bill will go up. Worth it.",
+        "effects": {
+          "money": -300000,
+          "health": 4,
+          "mental": 3
+        }
+      },
+      {
+        "text": "Use public cooling centers.  (save / inconvenient)",
+        "result_text": "Library, subway station, convenience store on rotation.\nLess time at home.\nAlways slightly warm somewhere.",
+        "effects": {
+          "health": -1,
+          "mental": 1
+        }
+      },
+      {
+        "text": "Endure it. Autumn comes.  (frugal / health drain)",
+        "result_text": "Made it through somehow.\nBody felt worn out by the time autumn arrived.",
+        "effects": {
+          "health": -4,
+          "mental": -2
+        }
+      }
+    ]
+  },
+  {
+    "id": "drama_winter_cold",
+    "title": "Cold Snap",
+    "background": "street",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": ["health", "daily"],
+    "cooldown": 8,
+    "description": "Minus 15°C.\nGloves nowhere to be found.\nThe commute wind cut at the face.\n\nAnywhere warm felt like a luxury.",
+    "choices": [
+      {
+        "text": "Get a hot soup somewhere. Take care of the body.  (self-care / expense)",
+        "result_text": "A bowl of soondubu jjigae.\nThe heat going down was everything.\nWorth every won.",
+        "effects": {
+          "money": -8000,
+          "health": 2,
+          "mental": 3
+        }
+      },
+      {
+        "text": "Get home early.  (save / warmth)",
+        "result_text": "Went straight under the blanket.\nWarm. That was enough.",
+        "effects": {
+          "health": 1,
+          "stress": -1
+        }
+      }
+    ]
+  }
+]

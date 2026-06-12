@@ -661,6 +661,122 @@ func _update_theme_desc() -> void:
 
 # ── 시작 / 로드 ─────────────────────────────────────────────────
 func _start_new_run():
+	# 첫 실행 시 콘텐츠 경고 표시
+	if not MetaProgression.data.get("content_warning_seen", false):
+		_show_content_warning()
+		return
+	_do_start_run()
+
+func _show_content_warning():
+	var overlay = ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0.82)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var panel = PanelContainer.new()
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.custom_minimum_size = Vector2(460, 0)
+	var panel_st = StyleBoxFlat.new()
+	panel_st.bg_color = Color("#12121e")
+	panel_st.border_color = Color("#f0b429")
+	panel_st.set_border_width_all(1)
+	panel_st.set_corner_radius_all(10)
+	panel_st.content_margin_left = 28
+	panel_st.content_margin_right = 28
+	panel_st.content_margin_top = 28
+	panel_st.content_margin_bottom = 28
+	panel.add_theme_stylebox_override("panel", panel_st)
+	overlay.add_child(panel)
+
+	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 14)
+	panel.add_child(vbox)
+
+	var title_lbl = Label.new()
+	if LocaleManager.language == "en":
+		title_lbl.text = "⚠  Content Notice"
+	else:
+		title_lbl.text = "⚠  콘텐츠 안내"
+	title_lbl.add_theme_font_size_override("font_size", 17)
+	title_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(title_lbl)
+
+	var sep0 = HSeparator.new()
+	sep0.add_theme_color_override("color", Color("#252535"))
+	vbox.add_child(sep0)
+
+	var body_lbl = Label.new()
+	body_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body_lbl.custom_minimum_size = Vector2(400, 0)
+	if LocaleManager.language == "en":
+		body_lbl.text = (
+			"This game contains depictions of:\n\n"
+			+ "• Financial hardship and debt\n"
+			+ "• Family pressure and social comparison\n"
+			+ "• Workplace stress and burnout\n"
+			+ "• Mental health struggles\n\n"
+			+ "Gangnam Dream is a realistic portrayal of life. "
+			+ "Difficult situations are part of the story — not endorsements."
+		)
+	else:
+		body_lbl.text = (
+			"이 게임에는 다음과 같은 내용이 포함됩니다:\n\n"
+			+ "• 재정적 어려움과 부채\n"
+			+ "• 가족·사회적 압박과 비교\n"
+			+ "• 직장 스트레스와 번아웃\n"
+			+ "• 정신건강 관련 묘사\n\n"
+			+ "강남드림은 현실적인 삶을 다룹니다. "
+			+ "어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다."
+		)
+	body_lbl.add_theme_font_size_override("font_size", 13)
+	body_lbl.add_theme_color_override("font_color", Color("#8892a4"))
+	vbox.add_child(body_lbl)
+
+	var sep1 = HSeparator.new()
+	sep1.add_theme_color_override("color", Color("#252535"))
+	vbox.add_child(sep1)
+
+	var btn_row = HBoxContainer.new()
+	btn_row.add_theme_constant_override("separation", 10)
+	vbox.add_child(btn_row)
+
+	var back_btn = Button.new()
+	back_btn.text = "← 뒤로" if LocaleManager.language != "en" else "← Back"
+	back_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	back_btn.custom_minimum_size = Vector2(0, 44)
+	var back_st = StyleBoxFlat.new()
+	back_st.bg_color = Color("#1e1e2a")
+	back_st.set_corner_radius_all(6)
+	back_btn.add_theme_stylebox_override("normal", back_st)
+	back_btn.add_theme_color_override("font_color", Color("#8892a4"))
+	back_btn.add_theme_font_size_override("font_size", 14)
+	back_btn.pressed.connect(overlay.queue_free)
+	btn_row.add_child(back_btn)
+
+	var ok_btn = Button.new()
+	ok_btn.text = "이해했습니다 →" if LocaleManager.language != "en" else "Understood →"
+	ok_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ok_btn.custom_minimum_size = Vector2(0, 44)
+	var ok_st = StyleBoxFlat.new()
+	ok_st.bg_color = Color("#f0b429")
+	ok_st.set_corner_radius_all(6)
+	var ok_hover = ok_st.duplicate()
+	ok_hover.bg_color = Color("#f0b429").lightened(0.1)
+	ok_btn.add_theme_stylebox_override("normal", ok_st)
+	ok_btn.add_theme_stylebox_override("hover", ok_hover)
+	ok_btn.add_theme_color_override("font_color", Color("#0a0a0e"))
+	ok_btn.add_theme_font_size_override("font_size", 14)
+	ok_btn.pressed.connect(func():
+		MetaProgression.data["content_warning_seen"] = true
+		MetaProgression.save()
+		overlay.queue_free()
+		_do_start_run()
+	)
+	btn_row.add_child(ok_btn)
+
+func _do_start_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
 	GameState.start_new_game("김민준", "지방_상경", "none", "백수", _selected_theme, _selected_diff)

@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-12 (100명 리뷰어 분석 기반 게임 폴리시)
+
+### 추가된 것
+- **새 이벤트 54개** — KO 베이스 4파일 + EN 오버레이 4파일 (총 이벤트 500개 달성)
+  - `life_events2.json` (19개): 일상 마이크로 모먼트 (SNS 비교, 빈 냉장고, 동창회, 월세 인상, 건강검진, 첫 월급, 도서관, 새벽 편의점 등)
+  - `amb_scenarios7.json` (10개): 야망 딜레마 (진급 누락, 창업 합류 제안, 헤드헌터, 연봉 노출 사고, 사내 파벌, 퇴직 충동 등)
+  - `drama_events2.json` (15개): 드라마 일상 (결혼 독촉, 명절 식탁, 소개팅, 야근, 폭염, 한파, 정전, 윗집 소음 등)
+  - `relationship_events2.json` (10개): 관계 심화 (다은 먼저 문자, 현수 돈 부탁, 아버지의 침묵, 어머니의 고백, 친구 이별 등)
+- **콘텐츠 경고 모달** (`StartMenu.gd`): 첫 실행 시 재정 어려움·가족 압박·번아웃 경고 표시 (KO/EN 양방)
+- `DataRegistry.gd`: 4개 신규 이벤트 파일 `EVENT_PATHS` 등록
+
+### 수정된 것
+- `rel_daeun_first_text`: daeun stage "friend" → ["warm", "close", "interest"] (cast_stages 정합)
+- `rel_hyunsu_loan`: hyunsu cast_stage 제거 → `flag: arc_intro_hyunsu_seen` 조건으로 대체
+- `first_paycheck_00`: 존재하지 않는 `first_job_taken` 플래그 조건 제거
+
+### 100명 리뷰어 시뮬레이션 주요 개선 근거
+- 평균 평점 8.2/10; 가장 많이 언급된 장면: 카페 시나리오(28회), 아버지(24회), 다은(19회)
+- 공통 요청: 더 많은 "조용한 고통" 일상 모먼트 → life_events2 + drama_events2로 반영
+- 접근성 요청: 콘텐츠 경고 → StartMenu 모달 반영
+- 이벤트 다양성: 450→500개 달성
+
 ## 2026-06-11 (영어 이벤트 번역 전체 완료 — 150개)
 
 ### 번역 파일 추가 (content/events_en/) — 이번 세션
