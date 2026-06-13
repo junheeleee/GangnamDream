@@ -791,7 +791,7 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   </div>
 </div><div class="section-title">jiyeon</div><div class="arc-section" id="arc-arc_jiyeon_01_crash" style="border-color:#e8a0c0;background:#1a0a12">
   <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
-    <span class="arc-type">[jiyeon]</span> 지연 1: 추락 <span class="condition">조건: t=17</span>
+    <span class="arc-type">[jiyeon]</span> 지연 1: 접촉 <span class="condition">조건: t≥17</span>
     <span class="arc-count">1단계</span>
   </div>
   <div class="arc-body">
@@ -814,6 +814,80 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
     <span class="choice-num">선택 3</span> 화를 낸다 — &quot;앞을 보고 운전해야죠&quot;
     <span class="effects">[stress: -2, mental: +2]</span>
     <span class="flags">🚩 arc_jiyeon_crash_seen, jiyeon_got_angry</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jiyeon_02_store" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 2: 또, 너 <span class="condition">조건: t≥20, crash_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jiyeon_02_store</div>
+  <div class="event-title">또, 너</div>
+  <div class="event-desc">편의점 야간 카운터. 자정이 넘은 시각, 문에 달린 종이 울린다.  들어온 사람을 보고 {name}은 멈칫한다. 그 여자다. 자전거를 친 그 외제차의 주인.  그녀도 {name}을 알아본다. 눈이 커진다. &quot;...어…</div>
+  <div class="event-meta">배경: convenience_night | 인물: jiyeon_normal</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 모른 척 계산만 한다
+    <span class="effects">[stress: +2]</span>
+    <span class="flags">🚩 arc_jiyeon_store_seen</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;자전거 주인이네요.&quot; 먼저 아는 척한다
+    <span class="effects">[social_skill: +2]</span>
+    <span class="flags">🚩 arc_jiyeon_store_seen, jiyeon_acknowledged</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jiyeon_03_offer" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 3: 갚고 싶어요 <span class="condition">조건: t≥23, store_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jiyeon_03_offer</div>
+  <div class="event-title">갚고 싶어요</div>
+  <div class="event-desc">며칠 뒤. 알바 끝나고 나오는데 편의점 앞에 그 차가 서 있다.  한지연이 차에서 내린다. 이번엔 작정하고 온 것 같다.  &quot;커피 한 잔만 사게 해주세요. 그게 안 되면 밥이라도. 계속 마음에 걸려서요. 그날 제가 …</div>
+  <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 거절한다 — &quot;신경 쓰지 마세요. 정말 괜찮으니까&quot;
+    <span class="effects">[mental: +3, stress: -2]</span>
+    <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_refused_coffee</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 커피만 받는다 — 딱 한 번
+    <span class="effects">[social_skill: +3, mental: +2]</span>
+    <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_had_coffee</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> 솔직하게 말한다 — &quot;우리 사는 세계가 너무 달라요&quot;
+    <span class="effects">[mental: +5, stress: -3]</span>
+    <span class="flags">🚩 arc_jiyeon_offer_seen, jiyeon_honest</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jiyeon_03b_lunch" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 3b: 그녀의 세계 <span class="condition">조건: t≥27, offer_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jiyeon_03b_lunch</div>
+  <div class="event-title">그녀의 세계</div>
+  <div class="event-desc">한지연이 점심을 사겠다고 했다. 약속한 거라며.  그녀가 데리고 간 곳은 청담 한식당. 점심 코스가 4만원이다.  {name}은 메뉴를 덮었다가, 폈다가, 다시 덮었다.  그녀는 눈치채지 못하는 척했다. 아니면 정말…</div>
+  <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> &quot;저도 공부하고 있어요. 같이 얘기해봐요&quot; — 투자 파트너로 접근
+    <span class="effects">[investment_skill: +3, social_skill: +2, stress: +2]</span>
+    <span class="flags">🚩 arc_jiyeon_03b_seen, jiyeon_investment_talk</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;그냥 오늘은 밥이나 맛있게 먹어요&quot; — 관계의 성격을 지금 정하지 않는다
+    <span class="effects">[mental: +5, stress: -3]</span>
+    <span class="flags">🚩 arc_jiyeon_03b_seen, jiyeon_deflected_business</span>
   </div>
 </div>
   </div>
@@ -1116,45 +1190,436 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
   </div>
 </div>
   </div>
-</div><div class="section-title">jiyeon</div><div class="arc-section" id="arc-arc_jiyeon_02_invest" style="border-color:#e8a0c0;background:#1a0a12">
+</div><div class="section-title">jaehyuk</div><div class="arc-section" id="arc-arc_jaehyuk_01_reunion" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 1: 10년 만에 <span class="condition">조건: t≥27</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_01_reunion</div>
+  <div class="event-title">10년 만에</div>
+  <div class="event-desc">카카오톡 메시지 하나. &quot;야 {name}아! 나 재혁이. 군대 최재혁. 기억나지? 서울 올라왔는데 오랜만에 얼굴이나 보자.&quot;  프로필 사진엔 외제차 앞에서 찍은 그가 있다. 22살, 같은 내무반. 3년 친했다가 제대…</div>
+  <div class="event-meta">배경: pojangmacha | 인물: jaehyuk_friendly</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 반갑게 응한다 — 오랜만의 옛 친구
+    <span class="effects">[mental: +6, social_skill: +2, stress: -3]</span>
+    <span class="flags">🚩 arc_jaehyuk_reunion_seen</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 반갑지만 어딘가 거리를 둔다
+    <span class="effects">[intelligence: +3, stress: +2]</span>
+    <span class="flags">🚩 arc_jaehyuk_reunion_seen</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_01b_real_face" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 1b: 야, 사실 나도... <span class="condition">조건: t≥29, reunion_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_01b_real_face</div>
+  <div class="event-title">야, 사실 나도...</div>
+  <div class="event-desc">포장마차에서 두 번째 만남이 늦게 끝났다.  재혁이 소주를 한 잔 더 따른다. 평소보다 눈이 흐렸다.  &quot;야 {name}아. 나... 사실 처음엔 나도 당했어.&quot;  {name}은 젓가락을 내려놓는다.  &quot;어떤 선배가…</div>
+  <div class="event-meta">배경: pojangmacha | 인물: jaehyuk_shadow</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> &quot;그래서 어떻게 됐어?&quot; — 편하게 들어준다
+    <span class="effects">[mental: +4, social_skill: +1]</span>
+    <span class="flags">🚩 arc_jaehyuk_01b_seen, jaehyuk_heard_his_story</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;운영하는 사람이 됐다는 게... 지금도 하고 있어?&quot; — 직접 물어본다
+    <span class="effects">[intelligence: +5, stress: +3]</span>
+    <span class="flags">🚩 arc_jaehyuk_01b_seen, jaehyuk_01b_pressed</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_02_bond" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 2: 형 동생 <span class="condition">조건: t≥32, reunion_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_02_bond</div>
+  <div class="event-title">형 동생</div>
+  <div class="event-desc">그 뒤로 재혁은 자주 연락했다. 밥을 사고, 술을 사고, 가끔 용돈처럼 슬쩍 돈을 쥐여주려 했다.  &quot;야 너 요즘 힘들지? 이거 그냥 받아. 우리 사이에 무슨.&quot; {name}은 받지 않았다. 그래도 그 마음이 고마웠…</div>
+  <div class="event-meta">배경: cafe | 인물: jaehyuk_friendly</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 관심을 보인다 — &quot;어떻게 하는 건데?&quot;
+    <span class="effects">[investment_skill: +2, stress: +2]</span>
+    <span class="flags">🚩 arc_jaehyuk_bond_seen</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 고맙지만 선을 긋는다 — &quot;난 투자는 잘 몰라서&quot;
+    <span class="effects">[intelligence: +3, mental: +2]</span>
+    <span class="flags">🚩 arc_jaehyuk_bond_seen</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> 수익률이 너무 좋다 — 슬쩍 의심한다
+    <span class="effects">[intelligence: +5, stress: +3]</span>
+    <span class="flags">🚩 arc_jaehyuk_bond_seen</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_02b_favor" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 2b: 조건 없는 도움 <span class="condition">조건: t≥34, bond_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_02b_favor</div>
+  <div class="event-title">조건 없는 도움</div>
+  <div class="event-desc">카페에서 만났다. 재혁이 좋은 소식이 있다고 했다.  투자 얘기가 아니었다.  &quot;야, 나 아는 형이 중소기업 HR팀장인데, 너 이력서 한 번 보내봐. 내가 얘기해놨어.&quot;  {name}은 잠깐 멈췄다.  &quot;나한테 왜 …</div>
+  <div class="event-meta">배경: cafe | 인물: jaehyuk_friendly</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> &quot;고마워. 진짜 친구네 너는.&quot; — 호의를 받아들인다
+    <span class="effects">[mental: +8, social_skill: +2]</span>
+    <span class="flags">🚩 arc_jaehyuk_02b_seen, felt_jaehyuk_kindness</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;재혁아, 솔직히 묻는데. 너 나한테 왜 이렇게 잘해줘?&quot; — 진심을 확인한다
+    <span class="effects">[intelligence: +4, mental: -2, stress: +2]</span>
+    <span class="flags">🚩 arc_jaehyuk_02b_seen, jaehyuk_02b_questioned</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_03_pitch" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 3: 마지막 기회 <span class="condition">조건: t≥37, bond_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_03_pitch</div>
+  <div class="event-title">마지막 기회</div>
+  <div class="event-desc">재혁이 정색하고 불렀다. 호텔 라운지.  &quot;{name}아, 이건 진짜 너한테만 말하는 거야. 이번에 큰 게 하나 들어와. 원금의 세 배. 근데 이번 주까지만 자리가 있어.&quot;  그가 몸을 기울인다. &quot;너 강남 가고 싶…</div>
+  <div class="event-meta">배경: meeting | 인물: jaehyuk_charisma</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 전 재산을 투자한다 — 믿는다, 재혁이를
+    <span class="effects">[money: -3000000, stress: +8]</span>
+    <span class="flags">🚩 arc_jaehyuk_pitch_seen, jaehyuk_trusted_fully</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 일부만 넣는다 — 욕심내되 다 걸진 않는다
+    <span class="effects">[money: -1000000, stress: +5, intelligence: +2]</span>
+    <span class="flags">🚩 arc_jaehyuk_pitch_seen, jaehyuk_partial</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> 거절하고, 조용히 알아보기 시작한다
+    <span class="effects">[intelligence: +6, stress: +6]</span>
+    <span class="flags">🚩 arc_jaehyuk_pitch_seen, jaehyuk_refused</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_hyunsu_warning" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁↔현수: 너무 늦은 연락 <span class="condition">조건: t≥39, pitch_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_hyunsu_warning</div>
+  <div class="event-title">너무 늦은 연락</div>
+  <div class="event-desc">현수에게서 카카오톡이 왔다.  &quot;형, 혹시 최재혁 알아요?&quot;  {name}은 폰을 내려놓았다가 다시 들었다. &quot;군대 동기인데 왜?&quot; &quot;...형 그 사람한테 돈 넣었어요?&quot;  잠깐의 침묵.  &quot;저 투자 카페 들어가는데…</div>
+  <div class="event-meta">배경: convenience_night | 인물: hyunsu</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 당장 돌려달라고 재혁에게 연락한다 — 지금 빼낼 수 있을지 모른다
+    <span class="effects">[money: +500000, stress: +15, mental: -5]</span>
+    <span class="flags">🚩 arc_jaehyuk_hyunsu_warning_seen, tried_to_withdraw, hyunsu_warned</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;...재혁이는 아닐 거야&quot; — 군대 친구를 믿기로 한다
+    <span class="effects">[stress: +10, mental: -3]</span>
+    <span class="flags">🚩 arc_jaehyuk_hyunsu_warning_seen, ignored_hyunsu_warning</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> &quot;나도 이상하다 싶었어. 같이 알아보자&quot;
+    <span class="effects">[intelligence: +5, stress: +8]</span>
+    <span class="flags">🚩 arc_jaehyuk_hyunsu_warning_seen, hyunsu_warned, started_investigating</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_04a_ghost" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 4a: 연락 두절 <span class="condition">조건: t≥42, invested</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_04a_ghost</div>
+  <div class="event-title">연락 두절</div>
+  <div class="event-desc">수익 정산일. 재혁에게 연락했다.  [ 읽음 ] 표시가 안 뜬다. 전화는 신호만 가다 끊긴다. 카톡 프로필 사진이 사라졌다.  불안이 확신으로 바뀌는 데 사흘이 걸렸다.  재혁이 말했던 회사를 검색한다. &#x27;투자 사기…</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_shocked</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 무너진다 — 한동안 아무것도 못 한다
+    <span class="effects">[mental: -15, stress: +20, health: -8]</span>
+    <span class="flags">🚩 arc_jaehyuk_ghost_seen, jaehyuk_scammed, hit_rock_bottom</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 피해자 모임에 들어간다 — 혼자가 아니다
+    <span class="effects">[mental: -8, stress: +12, intelligence: +4]</span>
+    <span class="flags">🚩 arc_jaehyuk_ghost_seen, jaehyuk_scammed, joined_victims</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_04b_counter" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 4b: 역으로 <span class="condition">조건: t≥42, suspected</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_04b_counter</div>
+  <div class="event-title">역으로</div>
+  <div class="event-desc">{name}은 한 달간 조용히 모았다. 재혁의 투자 상품 구조, 자금 흐름, 다른 피해자들의 증언.  그건 전형적인 폰지 사기였다. 새 투자금으로 옛 수익을 메우는. 구조를 이해하자, 약점이 보였다.  재혁을 다시 …</div>
+  <div class="event-meta">배경: meeting | 인물: jaehyuk_cornered</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 경찰에 넘긴다 — 옳은 일을 한다
+    <span class="effects">[mental: +10, stress: -5, reputation: +8]</span>
+    <span class="flags">🚩 arc_jaehyuk_counter_seen, jaehyuk_reported, took_high_road</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 약점을 쥐고 거래한다 — 내 돈, 아니 그 이상을 받아낸다
+    <span class="effects">[money: +8000000, mental: -6, stress: +10]</span>
+    <span class="flags">🚩 arc_jaehyuk_counter_seen, jaehyuk_exploited, crossed_line</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> 그를 끌어들여 더 큰 판을 짠다 — 사기를 사업으로
+    <span class="effects">[money: +5000000, mental: -12, stress: +14, investment_skill: +6]</span>
+    <span class="flags">🚩 arc_jaehyuk_counter_seen, jaehyuk_partnered, fell_to_darkness</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jaehyuk_04c_stand_up" style="border-color:#d19a66;background:#1a1008">
+  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
+    <span class="arc-type">[jaehyuk]</span> 재혁 4c: 0에서 다시 <span class="condition">조건: t≥44, ghost+scammed</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_04c_stand_up</div>
+  <div class="event-title">0에서 다시</div>
+  <div class="event-desc">사기 당한 지 한 달이 지났다.  잃은 돈의 액수를 멍하니 계산해봤다. 다시 계산해봤다. 숫자가 바뀌지 않았다.  {name}은 노트를 꺼냈다.  처음에 이 도시에 왔을 때 통장에 뭐가 있었더라. 그때도 거의 없었다…</div>
+  <div class="event-meta">배경: late_night | 인물: player_determined</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 잃은 것보다 배운 것을 쓴다 — 이걸 돈으로 바꿀 것이다
+    <span class="effects">[intelligence: +8, investment_skill: +4, stress: -5, mental: +6]</span>
+    <span class="flags">🚩 arc_jaehyuk_standup_seen, jaehyuk_stood_up</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 내일 아침 일찍 일어나는 것부터 — 기본부터 다시
+    <span class="effects">[health: +5, stress: -8, mental: +4, reputation: +2]</span>
+    <span class="flags">🚩 arc_jaehyuk_standup_seen, jaehyuk_stood_up</span>
+  </div>
+</div>
+  </div>
+</div><div class="section-title">jiyeon</div><div class="arc-section" id="arc-arc_sangchul_jiyeon_reveal" style="border-color:#e8a0c0;background:#1a0a12">
   <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
-    <span class="arc-type">[jiyeon]</span> 지연 2: 투자 <span class="condition">조건: t≥22</span>
-    <span class="arc-count">0단계</span>
+    <span class="arc-type">[jiyeon]</span> 지연↔상철: 두 세계 <span class="condition">조건: t≥35, offer_seen</span>
+    <span class="arc-count">1단계</span>
   </div>
   <div class="arc-body">
-    <div class="missing">⚠ 이벤트 없음 (JSON에 미정의)</div>
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_sangchul_jiyeon_reveal</div>
+  <div class="event-title">두 세계가 붙어 있는 자리</div>
+  <div class="event-desc">결정을 앞두고 임상철을 찾아갔다. 조언을 구하려고.  대화 중에 한지연 얘기가 나왔다. 의도한 건 아닌데, 자연스럽게 — 그 사람을 알게 됐다고, 부동산 관련 제안을 받았다고.  임상철의 표정이 바뀌었다.  &quot;한지연…</div>
+  <div class="event-meta">배경: realestate_office | 인물: sangchul_serious</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> &quot;네. 무슨 문제가 있는 건가요?&quot;
+    <span class="effects">[intelligence: +5, stress: +8]</span>
+    <span class="flags">🚩 arc_sangchul_jiyeon_reveal_seen, sangchul_knows_jiyeon, warned_about_jiyeon</span>
   </div>
-</div><div class="arc-section" id="arc-arc_jiyeon_03_fork" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;임상철 씨도 같은 업계잖아요. 경쟁이니까 그럴 수도...&quot;
+    <span class="effects">[stress: +3, intelligence: +2]</span>
+    <span class="flags">🚩 arc_sangchul_jiyeon_reveal_seen, sangchul_knows_jiyeon, dismissed_sangchul_warning</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_opp_jiyeon_bunyang" style="border-color:#e8a0c0;background:#1a0a12">
   <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
-    <span class="arc-type">[jiyeon]</span> 지연 3: 분기 <span class="condition">조건: t≥28</span>
-    <span class="arc-count">0단계</span>
+    <span class="arc-type">[jiyeon]</span> 지연 기회: 분양권 <span class="condition">조건: affinity≥25</span>
+    <span class="arc-count">1단계</span>
   </div>
   <div class="arc-body">
-    <div class="missing">⚠ 이벤트 없음 (JSON에 미정의)</div>
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_opp_jiyeon_bunyang</div>
+  <div class="event-title">분양권</div>
+  <div class="event-desc">한지연이 조용히 불렀다.  &quot;우리 아빠 회사에서 강남에 분양 하나 올려. 아직 공개 안 됐어. 계약금만 넣어두면, 프리미엄이 어마어마할 거야. 너한테만 말하는 거야.&quot;  {name}은 망설였다. 이건 한지연의 세계가…</div>
+  <div class="event-meta">배경: gangnam_day | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 기회를 잡는다 — 강남에 다가서기 위해
+    <span class="effects">[stress: +8]</span>
+    <span class="flags">🚩 arc_opp_jiyeon_seen, took_jiyeon_deal</span>
   </div>
-</div><div class="section-title">jaehyuk</div><div class="arc-section" id="arc-arc_jaehyuk_01_meet" style="border-color:#d19a66;background:#1a1008">
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 거절한다 — 내 힘으로 가고 싶다
+    <span class="effects">[mental: +6, stress: -3]</span>
+    <span class="flags">🚩 arc_opp_jiyeon_seen, refused_jiyeon_deal</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_opp_jiyeon_win" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 기회 결과: 프리미엄 <span class="condition">조건: jiyeon_deal_won</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_opp_jiyeon_win</div>
+  <div class="event-title">프리미엄</div>
+  <div class="event-desc">한지연에게서 문자가 왔다.  이모티콘 하나. 그리고 숫자.  {name}은 잠시 화면을 바라봤다. 현실인지 확인하려는 것처럼.  그녀의 세계에 발을 들였고, 이번엔 이쪽이 이겼다.  근데 이상하게도, 그녀에게 빚을 …</div>
+  <div class="event-meta">배경: gangnam_day | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 한지연에게 감사를 전한다
+    <span class="effects">[stress: -5, mental: +6, social_skill: +2]</span>
+    <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 이제 나는 그녀의 세계와 동등하다
+    <span class="effects">[investment_skill: +4, intelligence: +3, stress: -3]</span>
+    <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_opp_jiyeon_lose" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 기회 결과: 취소 <span class="condition">조건: jiyeon_deal_lost</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_opp_jiyeon_lose</div>
+  <div class="event-title">분양권 취소</div>
+  <div class="event-desc">분양이 취소됐다는 문자가 왔다.  한지연이 직접 전화를 걸어왔다. &quot;미안해. 나도 몰랐어.&quot;  그녀의 목소리에는 진심이 있었다. 아마도.  계약금은 날아갔다. 한지연의 세계가 항상 이긴다는 보장은 없었다.  {nam…</div>
+  <div class="event-meta">배경: gangnam_night | 인물: jiyeon_cold</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 괜찮아 — 네 잘못이 아니다
+    <span class="effects">[mental: -8, stress: +10]</span>
+    <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 한지연을 믿은 게 실수였다
+    <span class="effects">[mental: -12, stress: +15, intelligence: +3]</span>
+    <span class="flags">🚩 arc_opp_jiyeon_result_seen</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jiyeon_truth_moment" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 진실: 그때 말 못 한 것들 <span class="condition">조건: t≥44, reveal_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jiyeon_truth_moment</div>
+  <div class="event-title">그때 말 못 한 것들</div>
+  <div class="event-desc">한지연에게서 먼저 연락이 왔다. &quot;민준 씨, 시간 되면 잠깐 만날 수 있어요?&quot;  카페에 마주 앉은 그녀의 얼굴이 평소와 달랐다. 무언가를 오래 준비한 사람의 얼굴.  &quot;민준 씨한테 솔직하게 말씀드려야 할 것 같아요…</div>
+  <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> &quot;솔직하게 말해줘서 고마워요. 같이 방법을 찾아봐요.&quot;
+    <span class="effects">[mental: +8, stress: +5]</span>
+    <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, jiyeon_together</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;이용당한 거잖아요.&quot; — 배신감을 솔직하게 꺼낸다
+    <span class="effects">[mental: -5, stress: +8]</span>
+    <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, confronted_jiyeon</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> &quot;당신은 당신 세계에서 살았고, 저는 제 선택을 한 거예요.&quot;
+    <span class="effects">[mental: +10, intelligence: +3, stress: -3]</span>
+    <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, forgave_jiyeon</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jiyeon_truth_warned" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 진실(경고): 미리 알았던 것들 <span class="condition">조건: t≥44, warned</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jiyeon_truth_warned</div>
+  <div class="event-title">미리 알았던 것들</div>
+  <div class="event-desc">한지연에게서 먼저 연락이 왔다. &quot;민준 씨, 시간 되면 잠깐 만날 수 있어요?&quot;  카페에 마주 앉았을 때, {name}은 이미 임상철의 말을 기억했다. &#x27;그 여자, 분양 실적이 필요해서 네 돈을 노리는 거야.&#x27;  그…</div>
+  <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> &quot;알고 있었어요. 그래도 직접 말해줘서 고마워요.&quot;
+    <span class="effects">[mental: +7, stress: +4]</span>
+    <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, jiyeon_together</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;말해줘서 고마워요. 근데 — 처음부터 솔직했으면 어땠을까.&quot;
+    <span class="effects">[mental: +2, stress: +7, intelligence: +2]</span>
+    <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, confronted_jiyeon</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> &quot;사람 일이 다 그렇죠. 당신 세계의 방식이 있었던 거니까.&quot;
+    <span class="effects">[mental: +10, stress: -3, intelligence: +3]</span>
+    <span class="flags">🚩 arc_jiyeon_truth_seen, jiyeon_came_clean, forgave_jiyeon</span>
+  </div>
+</div>
+  </div>
+</div><div class="arc-section" id="arc-arc_jiyeon_05_epilogue" style="border-color:#e8a0c0;background:#1a0a12">
+  <div class="arc-header" style="color:#e8a0c0" onclick="toggle(this)">
+    <span class="arc-type">[jiyeon]</span> 지연 에필로그 <span class="condition">조건: t≥50, truth_seen</span>
+    <span class="arc-count">1단계</span>
+  </div>
+  <div class="arc-body">
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jiyeon_05_epilogue</div>
+  <div class="event-title">이후</div>
+  <div class="event-desc">모든 걸 솔직하게 털어놓은 다음 날, 한지연에게서 먼저 문자가 왔다.  &#x27;아직 민준 씨가 화났을까봐 무서워서요. 어제 말 많이 했는데... 저 좀 이상한 사람이죠?&#x27;  {name}은 폰을 보며 생각했다.  세 가지 …</div>
+  <div class="event-meta">배경: cafe | 인물: jiyeon_warm</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> &quot;이상하지 않아요. 그냥 인간적인 거죠.&quot; — 받아들인다
+    <span class="effects">[mental: +8, stress: -5]</span>
+    <span class="flags">🚩 arc_jiyeon_epilogue_seen, jiyeon_accepted</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> &quot;지연씨, 나는 아직 강남이 먼저예요.&quot; — 솔직하게 선을 긋는다
+    <span class="effects">[intelligence: +3, stress: +3]</span>
+    <span class="flags">🚩 arc_jiyeon_epilogue_seen, jiyeon_prioritized_goal</span>
+  </div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> &quot;그 세 가지 이유, 전부 이해해요.&quot; — 판단하지 않는다
+    <span class="effects">[mental: +6, stress: -2]</span>
+    <span class="flags">🚩 arc_jiyeon_epilogue_seen, jiyeon_forgave_complexity</span>
+  </div>
+</div>
+  </div>
+</div><div class="section-title">jaehyuk</div><div class="arc-section" id="arc-arc_jaehyuk_aftermath" style="border-color:#d19a66;background:#1a1008">
   <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
-    <span class="arc-type">[jaehyuk]</span> 재혁 1: 첫 만남 <span class="condition">조건: t≥15</span>
-    <span class="arc-count">0단계</span>
+    <span class="arc-type">[jaehyuk]</span> 재혁 에필로그 <span class="condition">조건: t≥50</span>
+    <span class="arc-count">1단계</span>
   </div>
   <div class="arc-body">
-    <div class="missing">⚠ 이벤트 없음 (JSON에 미정의)</div>
+<div class="event-card" style="margin-left:0px">
+  <div class="event-id">arc_jaehyuk_aftermath</div>
+  <div class="event-title">그 뒤의 이야기</div>
+  <div class="event-desc">뉴스에서 이름을 봤다. 최재혁.  기사 제목: &quot;다단계 투자 사기 일당 검거, 피해액 23억.&quot;  {name}은 기사를 열지 않았다. 열어봤자 알 것 같아서.  그때의 선택이 떠올랐다. 경찰에 넘겼든, 약점을 쥐었든…</div>
+  <div class="event-meta">배경: goshiwon_room | 인물: player_normal</div>
+  <div class="choice">
+    <span class="choice-num">선택 1</span> 경찰에 넘긴 게 맞았다 — 지금 이 뉴스가 증명한다  [take_high_road 경로]
+    <span class="effects">[mental: +12, reputation: +5, stress: -8]</span>
+    <span class="flags">🚩 arc_jaehyuk_aftermath_seen</span>
   </div>
-</div><div class="arc-section" id="arc-arc_jaehyuk_02_offer" style="border-color:#d19a66;background:#1a1008">
-  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
-    <span class="arc-type">[jaehyuk]</span> 재혁 2: 제안 <span class="condition">조건: t≥20</span>
-    <span class="arc-count">0단계</span>
+  <div class="choice">
+    <span class="choice-num">선택 2</span> 그때 나는 나만 살았다 — 그게 강남으로 가는 방식이었는지 모른다  [crossed_line 경로]
+    <span class="effects">[mental: -6, intelligence: +5, stress: +4]</span>
+    <span class="flags">🚩 arc_jaehyuk_aftermath_seen</span>
   </div>
-  <div class="arc-body">
-    <div class="missing">⚠ 이벤트 없음 (JSON에 미정의)</div>
+  <div class="choice">
+    <span class="choice-num">선택 3</span> 피해자로서 읽는다 — 그래도 결국 잡혔구나  [jaehyuk_scammed 경로]
+    <span class="effects">[mental: +8, stress: -5, reputation: +3]</span>
+    <span class="flags">🚩 arc_jaehyuk_aftermath_seen</span>
   </div>
-</div><div class="arc-section" id="arc-arc_jaehyuk_03_reveal" style="border-color:#d19a66;background:#1a1008">
-  <div class="arc-header" style="color:#d19a66" onclick="toggle(this)">
-    <span class="arc-type">[jaehyuk]</span> 재혁 3: 정체 <span class="condition">조건: jaehyuk_offer_accepted</span>
-    <span class="arc-count">0단계</span>
-  </div>
-  <div class="arc-body">
-    <div class="missing">⚠ 이벤트 없음 (JSON에 미정의)</div>
+</div>
   </div>
 </div><div class="section-title">milestone</div><div class="arc-section" id="arc-story_six_months" style="border-color:#f0b429;background:#1a1400">
   <div class="arc-header" style="color:#f0b429" onclick="toggle(this)">
