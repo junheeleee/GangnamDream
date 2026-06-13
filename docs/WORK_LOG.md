@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-06-13 (콜백 이벤트 배치 23~26 완료 — dead flag 전수 연결 마무리)
+
+### 추가된 것 (claude/game-polish 브랜치)
+- **콜백 이벤트 배치 23~26** (48개 KR+EN): 잔여 dead flag 전수 콜백 연결 완료
+  - 배치 23: 재혁(4) / 지연(3) / 다은(3) / spec 전문화(3) / fell_to_darkness/escaped_dirty_money (15개)
+  - 배치 24: spec_elite/social_climber/social_entrepreneur / jaehyuk_trusted_fully/stood_up / jiyeon_took_money / daeun_chose_her/committed / 카페 결말 6종 (14개 — jiyeon_walked_away는 배치 10과 중복 제거)
+  - 배치 25: 체인 6종 / political_candidate/winner / final_sprint 3종 / parent_took_loan/paid_full / guarantee_compromise / mystery_info_paid_off (15개)
+  - 배치 26: mystery_info_scammed/resolved / resume_lie_doubled_down / resume_lied_toeic (4개)
+- `DataRegistry.gd`: callback_events_23~26 등록
+- 총 콜백 이벤트: 배치 1~26, **dead flag 전수 연결 완료**
+
+---
+
 ## 2026-06-13 (콜백 이벤트 배치 17~22 완성 + main merge)
 
 ### 추가된 것 (claude/game-polish 브랜치)
