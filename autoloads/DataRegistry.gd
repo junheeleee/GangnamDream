@@ -48,6 +48,7 @@ const EVENT_PATHS = [
 	"res://content/events/callback_events_19.json",
 	"res://content/events/callback_events_20.json",
 	"res://content/events/callback_events_21.json",
+	"res://content/events/callback_events_22.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"

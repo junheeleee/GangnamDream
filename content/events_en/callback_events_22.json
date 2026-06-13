@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_creator_started_echo",
+    "title": "After Starting as a Content Creator",
+    "description": "Two months since you started posting content.\nYou'd been consistent but the response had been small.\nToday your follower count hit 100 for the first time.",
+    "choices": [
+      {
+        "text": "Keep going",
+        "result_text": "100 people.\nThe number looked small — but it had been zero when you started.\nA hundred people were actually reading — for the first time, that felt real."
+      },
+      {
+        "text": "The pace feels too slow",
+        "result_text": "It felt slow.\nBut 100 in two months — wasn't actually bad.\nThe value of having started isn't measured by comparison — it's measured by direction."
+      }
+    ]
+  },
+  {
+    "id": "callback_creator_monetized_echo",
+    "title": "After Monetizing",
+    "description": "Two months since your content first became eligible for revenue.\nThe first earnings had come in.\nThe amount was small — but it felt different.",
+    "choices": [
+      {
+        "text": "Check the first earnings",
+        "result_text": "A small amount.\nBut it was the first money earned from content.\nJust like the first paycheck means something — this was a first too."
+      },
+      {
+        "text": "Think about scaling it",
+        "result_text": "You thought about growing it.\nThat might be right.\nBut first — this first earning deserved to be felt."
+      }
+    ]
+  },
+  {
+    "id": "callback_creator_viral_echo",
+    "title": "After Something Went Viral",
+    "description": "Two months since a piece of content spread widely.\nFollowers had jumped sharply.\nToday the momentum had settled.",
+    "choices": [
+      {
+        "text": "Prepare what comes next",
+        "result_text": "The heat had cooled.\nViral is a moment — what comes after is skill.\nOne piece that landed big — means nothing without the next."
+      },
+      {
+        "text": "Try to go viral again",
+        "result_text": "You tried to aim for it.\nViral doesn't come from aiming.\nConsistency is the only way to make the next one happen."
+      }
+    ]
+  },
+  {
+    "id": "callback_freelance_started_echo",
+    "title": "After Starting to Freelance",
+    "description": "Two months since you went independent.\nWork had been uneven.\nToday the first steady client reached out.",
+    "choices": [
+      {
+        "text": "Sign the contract",
+        "result_text": "You signed.\nThe first hard part of freelancing — is getting through the uneven stretch.\nThis one client got you over that."
+      },
+      {
+        "text": "Check the terms first",
+        "result_text": "You looked at the terms first.\nThey were fine.\nYou signed.\nWhat an independent person has to learn — is how to read terms."
+      }
+    ]
+  },
+  {
+    "id": "callback_etf_study_mode_echo",
+    "title": "After Getting into ETF Research",
+    "description": "Two months since you started studying ETF investing.\nThe concepts had felt foreign at first.\nToday for the first time you felt like you could make a judgment on your own.",
+    "choices": [
+      {
+        "text": "Decide to invest",
+        "result_text": "You decided to go in.\nThe studying had made the judgment possible.\nUnderstanding something yourself before going in — that's the difference."
+      },
+      {
+        "text": "Keep studying",
+        "result_text": "You decided to keep studying.\nFeeling like you could judge — might be the middle, not the end.\nWhen you think you understand — questioning that once more is also part of studying."
+      }
+    ]
+  },
+  {
+    "id": "callback_started_etf_echo",
+    "title": "After Starting ETF Investments",
+    "description": "Three months since you started putting money into ETFs.\nYou'd been consistent.\nToday you checked the return for the first time.",
+    "choices": [
+      {
+        "text": "Check the return",
+        "result_text": "In the green.\nA small gain — but the direction was right.\nThe power of putting in consistently — isn't easy to see over a short period."
+      },
+      {
+        "text": "Stay in even if it's negative",
+        "result_text": "In the red.\nBut you didn't stop.\nETFs are built by time, not timing.\nBeing negative now — is part of that time."
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_bought_echo",
+    "title": "After Buying the Inside Information",
+    "description": "Two months since you paid for insider information.\nYou'd made a decision based on it.\nToday the outcome came in.",
+    "choices": [
+      {
+        "text": "The information was right",
+        "result_text": "It was right.\nBut information you paid for — could have legal exposure.\nA good outcome doesn't justify the method."
+      },
+      {
+        "text": "The information was wrong",
+        "result_text": "It was wrong.\nMoney lost, and the information was bad.\nPaying for information from an unknown source — was already a loss before the outcome."
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_reported_echo",
+    "title": "After Reporting the Suspicious Information",
+    "description": "Two months since you reported the suspicious insider tip.\nThings had been quiet since.\nToday the result came in.",
+    "choices": [
+      {
+        "text": "Good call to report it",
+        "result_text": "It was handled.\nReporting hadn't been the easy choice.\nBut what's right — is different from what's easy."
+      },
+      {
+        "text": "Had wondered if it was worth the trouble",
+        "result_text": "You'd worried about it.\nBut the result came in.\nIt resolved in the right direction.\nWorrying is natural — what matters is that it didn't stop the right call."
+      }
+    ]
+  },
+  {
+    "id": "callback_opened_mystery_usb_echo",
+    "title": "After Opening the Mystery USB",
+    "description": "Two months since you opened the unknown USB drive.\nWhat was on it had stayed in your mind.\nToday something connected to its contents surfaced.",
+    "choices": [
+      {
+        "text": "Knowing helped",
+        "result_text": "Because you knew — you saw this differently.\nOpening the USB had given you information.\nInformation changes based on how it's used."
+      },
+      {
+        "text": "Wish you hadn't known",
+        "result_text": "You wished you hadn't opened it.\nKnowing isn't always lighter.\nHaving found out — now you have to decide what to do with it."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_damaged_echo",
+    "title": "After Your Credit Was Damaged",
+    "description": "Three months since the credit damage.\nRecovery was underway.\nToday you checked for the first time whether a loan was possible.",
+    "choices": [
+      {
+        "text": "Not yet",
+        "result_text": "Not yet.\nExpected — but confirming it felt heavy.\nCredit collapses in a day — and takes years to rebuild."
+      },
+      {
+        "text": "Check the recovery pace",
+        "result_text": "Recovery was underway.\nSlowly.\nBut if the direction is right — slow isn't wrong."
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_drew_line_echo",
+    "title": "After Drawing a Line on Credit",
+    "description": "Two months since you decided not to take it anymore and drew a line on the credit issue.\nToday you checked how things had gone since.",
+    "choices": [
+      {
+        "text": "The line had an effect",
+        "result_text": "It worked.\nDrawing a line — is telling the other side where you stand.\nWhat happens after you draw it — is the real test of its power."
+      },
+      {
+        "text": "They ignored the line",
+        "result_text": "They ignored it.\nDrawing a line doesn't change the situation on its own.\nAfter the line — action is what comes next."
+      }
+    ]
+  },
+  {
+    "id": "callback_fomo_invested_echo",
+    "title": "After a FOMO Investment",
+    "description": "Two months since you got swept up in the atmosphere and invested.\nYou'd seen how it turned out.\nNow a similar wave was building.",
+    "choices": [
+      {
+        "text": "Hold back this time",
+        "result_text": "You held back.\nThe last FOMO investment had taught you.\nAtmosphere is not a reason to invest — you'd learned that in your body."
+      },
+      {
+        "text": "Go in again",
+        "result_text": "You went in again.\n'This time is different' — that was what you'd thought last time.\nWhen FOMO becomes a habit — every time feels different."
+      }
+    ]
+  },
+  {
+    "id": "callback_stranger_helped_echo",
+    "title": "After Helping a Stranger",
+    "description": "Two months since you helped someone you had no connection to.\nYou'd mostly forgotten about it.\nToday you ran into that person again somewhere unexpected.",
+    "choices": [
+      {
+        "text": "Say hello warmly",
+        "result_text": "You said hello.\nThey still remembered.\nSomeone who received help — remembers. For a long time."
+      },
+      {
+        "text": "Wondered if they'd remember",
+        "result_text": "They remembered.\nSomeone whose name you hadn't known — had turned into a connection.\nThe reach of a kind act is wider than you'd think."
+      }
+    ]
+  },
+  {
+    "id": "callback_got_promoted_orthodox_echo",
+    "title": "After Getting Promoted the Right Way",
+    "description": "Two months since you were promoted on the strength of your performance.\nYou'd been settling into the role.\nToday a junior colleague came asking for advice.",
+    "choices": [
+      {
+        "text": "Be honest with them",
+        "result_text": "You were straight with them.\nThe promotion had made this conversation possible.\nMoving up brings more responsibility. This colleague is part of that responsibility."
+      },
+      {
+        "text": "Share your approach",
+        "result_text": "You shared how you'd done it.\nHaving gotten there the orthodox way — means the method can be repeated.\nThat's why it can be shared."
+      }
+    ]
+  },
+  {
+    "id": "callback_has_certification_echo",
+    "title": "After Earning the Certification",
+    "description": "Three months since you got the certification.\nYou'd been waiting for a chance to actually use it.\nToday you found a listing that had it as a requirement.",
+    "choices": [
+      {
+        "text": "Apply",
+        "result_text": "You applied.\nThe certification had opened a door.\nGetting it had felt abstract at the time — but doors show up in unexpected places."
+      },
+      {
+        "text": "Check that you meet the other requirements first",
+        "result_text": "You checked the rest of the requirements.\nYou qualified.\nYou applied.\nA prepared person recognizing an opportunity — is the same as an opportunity finding a prepared person."
+      }
+    ]
+  }
+]
