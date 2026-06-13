@@ -132,6 +132,8 @@ func _ready():
 
 ## StoryMode 복귀 후: 같은 턴에 이어질 스토리가 더 있으면 다시 StoryMode로,
 ## 없으면 이번 달 행동(AP) 화면으로 진입.
+## 앰비언트 이벤트(_maybe_play_month_situation)는 여기서 부르지 않는다.
+## 아크/마일스톤/프롤로그가 이미 재생된 달에 랜덤 이벤트가 추가로 뜨는 것을 방지.
 func _continue_after_story():
 	var arc_id = _next_arc_id()
 	if arc_id != "":
@@ -141,10 +143,7 @@ func _continue_after_story():
 	if ms_id != "":
 		_go_story_mode([ms_id])
 		return
-	# 이번 턴 핵심 사건을 아직 VN으로 안 틀었으면 재생
-	if _maybe_play_month_situation():
-		return
-	# 더 없으면 루틴 행동 화면
+	# 더 없으면 바로 루틴 행동 화면
 	current_event = {}
 	_render_event()
 
