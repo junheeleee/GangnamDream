@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_spec_elite_echo",
+    "title": "After Choosing the Elite Track",
+    "description": "Three months since you stepped into the elite track.\nIt was a narrow door, but you got through.\nToday there was a gathering of people on the same track.",
+    "choices": [
+      {
+        "text": "Mix in actively",
+        "result_text": "You mingled.\nThe way they spoke and carried themselves was different.\nThe standards that form inside this circle—you have to know them to survive on this track."
+      },
+      {
+        "text": "Observe",
+        "result_text": "You watched.\nHow they talked, what they valued.\nGetting in is harder than staying in."
+      }
+    ]
+  },
+  {
+    "id": "callback_spec_social_climber_echo",
+    "title": "After Choosing the Network Ascent Track",
+    "description": "Three months into the network-building track.\nConnections had been piling up.\nToday one of those connections brought an unexpected opportunity.",
+    "choices": [
+      {
+        "text": "Seize the opportunity",
+        "result_text": "You took it.\nThe network track had started delivering.\nThe value of a connection isn't proven when you make it — it's proven when you use it."
+      },
+      {
+        "text": "Hold out for a better opportunity through a higher-level contact",
+        "result_text": "You waited.\nAlways thinking a better opportunity is coming — that thinking can cost you the one in front of you."
+      }
+    ]
+  },
+  {
+    "id": "callback_spec_social_entrepreneur_echo",
+    "title": "After Choosing the Social Entrepreneur Track",
+    "description": "Three months into the social entrepreneurship track.\nIt was a direction that put meaning before money.\nToday that direction came back as a small result.",
+    "choices": [
+      {
+        "text": "Accept the result as meaningful",
+        "result_text": "You took it as meaningful.\nThe revenue was small.\nBut actually solving a real problem for someone—that was why you chose this track."
+      },
+      {
+        "text": "Wonder again if this is the right direction",
+        "result_text": "You wondered again.\nCan meaning and survival happen at the same time?\nSocial entrepreneurship — that question is the core of this track."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_trusted_fully_echo",
+    "title": "After Fully Trusting Jaehyuk",
+    "description": "Two months since you put your full trust in Jaehyuk and shared everything.\nThe relationship had shifted since then.\nToday you saw how Jaehyuk responded to that trust.",
+    "choices": [
+      {
+        "text": "Feel the trust was justified",
+        "result_text": "Jaehyuk had kept the trust.\nSomeone who fully honors complete trust — they're rare.\nJaehyuk was one of them."
+      },
+      {
+        "text": "Realize the trust was misplaced",
+        "result_text": "Jaehyuk had been using that trust for his own gain.\nGiving everything — had meant losing everything.\nTrust is something you give after you know the person."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_stood_up_echo",
+    "title": "After Standing Up to Jaehyuk",
+    "description": "Two months since you confronted Jaehyuk directly.\nThe relationship had gone cold.\nToday Jaehyuk reached out first.",
+    "choices": [
+      {
+        "text": "Answer",
+        "result_text": "You picked up.\nJaehyuk said, \"I'm actually glad you said it to my face.\"\nSometimes standing up to someone doesn't end a relationship — it resets it."
+      },
+      {
+        "text": "Don't answer",
+        "result_text": "You didn't pick up.\nStanding up to him had also meant closing this chapter.\nNot every relationship needs to continue."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_money_echo",
+    "title": "After Taking Money from Jiyeon",
+    "description": "Two months since you took money from Jiyeon.\nThe money had helped.\nToday Jiyeon reached out.",
+    "choices": [
+      {
+        "text": "Answer",
+        "result_text": "You picked up.\nJiyeon asked, \"Are you making good use of it?\"\n\"Yes,\" you said.\nA relationship where money has changed hands — honesty matters even more."
+      },
+      {
+        "text": "Say you'll pay it back",
+        "result_text": "You said you'd pay it back.\nJiyeon went quiet for a moment.\nBeing the first to say you'll repay a debt — can also mean you want to settle the relationship."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_chose_her_echo",
+    "title": "After Choosing Daeun",
+    "description": "Two months since you gave something up to choose Daeun.\nThat choice had changed the relationship.\nToday Daeun brought up that choice.",
+    "choices": [
+      {
+        "text": "Say it was the right call",
+        "result_text": "You said it was.\nDaeun asked, \"Was it hard back then?\"\nWhether a choice was right — doesn't show right after. It takes time."
+      },
+      {
+        "text": "Acknowledge the complicated feelings",
+        "result_text": "You said it was complicated.\nDaeun nodded.\nA relationship where you can talk about the complexity of a choice — that's a real one."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_committed_echo",
+    "title": "After Making a Real Commitment to Daeun",
+    "description": "Two months since you committed seriously to the relationship with Daeun.\nSmall promises had accumulated.\nToday Daeun used the word \"we\" for the first time.",
+    "choices": [
+      {
+        "text": "Take it naturally",
+        "result_text": "You took it in stride.\n\"We\" — it means more when the other person says it first.\nYour commitment had built that word."
+      },
+      {
+        "text": "Hold onto that moment",
+        "result_text": "You held onto it.\nSmall promises, and then \"we.\"\nRelationships aren't built in dramatic moments — they're built in ones like this."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_gambled_echo",
+    "title": "After Stealing from the Café and Gambling It",
+    "description": "Two months since you stole from the café and gambled the money.\nIt hadn't gone well.\nToday something brought that incident back to mind.",
+    "choices": [
+      {
+        "text": "Tell yourself you'll never do that again",
+        "result_text": "You told yourself never again.\nStealing and then gambling — what followed had taught you something.\nReflection is what turns experience into change."
+      },
+      {
+        "text": "Write it off as the past",
+        "result_text": "You wrote it off.\nBut the past — is what made you who you are now.\nForgetting and overcoming are different things."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_invested_echo",
+    "title": "After Stealing from the Café and Investing It",
+    "description": "Two months since you invested the money you took from the café.\nIt had turned a profit.\nToday the guilt surfaced again.",
+    "choices": [
+      {
+        "text": "Find some way to give it back",
+        "result_text": "You looked for a way to return it.\nAnonymously if needed.\nEven with a profit — a part of you still felt the original amount needed to go back."
+      },
+      {
+        "text": "Cover it over with the gains",
+        "result_text": "You buried it under the profits.\nBut covering something over doesn't make it disappear.\nGuilt surfaces more when the memory fades — not when it's fresh."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_lead_echo",
+    "title": "After Using the Café Incident as a Stepping Stone",
+    "description": "Two months since you used the café situation to open a new opportunity.\nIt had been an unexpected path.\nToday you looked back at how that opportunity had unfolded.",
+    "choices": [
+      {
+        "text": "Keep going",
+        "result_text": "You kept at it.\nIt started as a muddy beginning — but what mattered in the end was following through.\nAn opportunity belongs to whoever builds on it, regardless of where it started."
+      },
+      {
+        "text": "Admit the path now is different from how it began",
+        "result_text": "You admitted it was different.\nHowever it started — where you're standing now is a place you chose to come to."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_redeemed_echo",
+    "title": "After Making Up for the Café Incident",
+    "description": "Two months since you made a mistake at the café and tried to make amends.\nYou hadn't known how things had settled.\nToday someone connected to the café reached out.",
+    "choices": [
+      {
+        "text": "Answer honestly",
+        "result_text": "You picked up.\nThe other person knew you'd tried to make amends.\nHow you handle yourself afterward — is what people remember more than the mistake."
+      },
+      {
+        "text": "Answer despite the awkwardness",
+        "result_text": "You answered despite the discomfort.\nMaking amends doesn't erase the guilt.\nBut answering while carrying that discomfort — that's what real amends looks like."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_humiliated_echo",
+    "title": "After Being Humiliated at the Café",
+    "description": "Two months since you were publicly humiliated at the café.\nThe memory was still with you.\nToday you found yourself in a similar situation again.",
+    "choices": [
+      {
+        "text": "Handle it differently this time",
+        "result_text": "You handled it differently.\nThe humiliation back then had changed how you judged things now.\nThat's how experience gets used — you change when a similar situation comes around."
+      },
+      {
+        "text": "Repeat the same mistake",
+        "result_text": "You made the same mistake again.\nExperience doesn't automatically become a lesson.\nMaking the same mistake twice — means you haven't finished learning from it yet."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_left_early_echo",
+    "title": "After Leaving the Café Early",
+    "description": "Two months since you quit the café job ahead of schedule.\nThere had been various reasons.\nToday you ran into someone who used to work there with you.",
+    "choices": [
+      {
+        "text": "Say hello warmly",
+        "result_text": "You greeted them warmly.\nThey were glad to see you too.\nEven if you left early — you shared time there.\nThat time is what makes a greeting possible."
+      },
+      {
+        "text": "Walk past awkwardly",
+        "result_text": "You walked past awkwardly.\nLeaving early was still sitting with you.\nOne hello might have been enough to clear the air."
+      }
+    ]
+  }
+]

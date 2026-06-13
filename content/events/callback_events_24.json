@@ -1,0 +1,268 @@
+[
+  {
+    "id": "callback_spec_elite_echo",
+    "title": "엘리트 전문화를 선택한 뒤",
+    "description": "엘리트 트랙을 선택한 지 세 달.\n좁은 문이었지만 들어갔다.\n오늘 같은 트랙의 사람들이 모이는 자리가 생겼다.",
+    "conditions": {
+      "flag": "spec_elite",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "적극적으로 어울리다",
+        "result_text": "어울렸다.\n말투도 태도도 달랐다.\n이 안에서 기준이 형성되는 것—이 트랙에서 살아남으려면 그 기준을 알아야 한다."
+      },
+      {
+        "text": "관찰하다",
+        "result_text": "관찰했다.\n어떻게 말하고, 무엇을 중요하게 여기는지.\n들어가는 것—보다 머무는 것이 더 어렵다."
+      }
+    ]
+  },
+  {
+    "id": "callback_spec_social_climber_echo",
+    "title": "인맥 상승 전문화를 선택한 뒤",
+    "description": "인맥 상승 트랙을 선택한 지 세 달.\n연결들이 쌓였다.\n오늘 그 연결 중 하나가 예상치 못한 기회를 가져왔다.",
+    "conditions": {
+      "flag": "spec_social_climber",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "기회를 잡다",
+        "result_text": "잡았다.\n인맥 트랙—결과가 나오기 시작했다.\n연결의 가치는 쌓일 때가 아니라 쓰일 때 증명된다."
+      },
+      {
+        "text": "더 상위 연결을 통해 더 좋은 기회를 노리다",
+        "result_text": "기다렸다.\n항상 더 좋은 기회가 있을 거라는 생각—이 지금 있는 기회를 놓치게 만들 수 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_spec_social_entrepreneur_echo",
+    "title": "사회적 창업 전문화를 선택한 뒤",
+    "description": "사회적 기업가 트랙을 선택한 지 세 달.\n돈보다 의미를 먼저 보는 방향이었다.\n오늘 그 방향이 작은 결과로 돌아왔다.",
+    "conditions": {
+      "flag": "spec_social_entrepreneur",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "결과를 의미있게 받아들이다",
+        "result_text": "받아들였다.\n수익은 작았다.\n하지만 누군가의 실제 문제를 해결했다는 것—이 이 트랙을 선택한 이유다."
+      },
+      {
+        "text": "이게 맞는 방향인지 다시 생각하다",
+        "result_text": "다시 생각했다.\n의미와 생존이 동시에 가능한가.\n사회적 창업—이 질문이 이 트랙의 핵심이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_trusted_fully_echo",
+    "title": "재혁을 완전히 믿었던 뒤",
+    "description": "재혁을 완전히 믿고 모든 것을 공유한 지 두 달.\n그 이후 관계가 달라졌다.\n오늘 재혁이 그 신뢰에 대해 어떻게 대응하는지 봤다.",
+    "conditions": {
+      "flag": "jaehyuk_trusted_fully",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "신뢰가 맞았다고 생각하다",
+        "result_text": "재혁은 신뢰를 지켰다.\n완전한 신뢰에 완전히 응답하는 사람—많지 않다.\n그 사람이 재혁이었다."
+      },
+      {
+        "text": "신뢰가 틀렸다고 생각하다",
+        "result_text": "재혁은 그 신뢰를 자신의 이익에 쓰고 있었다.\n완전히 믿은 것—이 완전히 이용당하는 것이었다.\n신뢰는 상대를 알고 나서 주는 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_stood_up_echo",
+    "title": "재혁에게 맞섰던 뒤",
+    "description": "재혁에게 직접 맞선 지 두 달.\n관계가 냉각됐다.\n오늘 재혁이 먼저 연락을 해왔다.",
+    "conditions": {
+      "flag": "jaehyuk_stood_up",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "받다",
+        "result_text": "받았다.\n재혁이 말했다. \"그때 직접 말해줘서—고맙다.\"\n맞서는 것—이 때로 관계를 끝내는 게 아니라 재조정한다."
+      },
+      {
+        "text": "받지 않다",
+        "result_text": "받지 않았다.\n맞섰다는 것—이 그와의 관계를 여기서 정리하겠다는 것이기도 했다.\n모든 관계가 유지될 필요는 없다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_money_echo",
+    "title": "지연의 돈을 받았던 뒤",
+    "description": "지연에게서 돈을 받은 지 두 달.\n그 돈은 도움이 됐다.\n오늘 지연이 연락을 해왔다.",
+    "conditions": {
+      "flag": "jiyeon_took_money",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "받다",
+        "result_text": "받았다.\n지연이 \"그거 잘 쓰고 있어?\"라고 물었다.\n\"응\"이라고 했다.\n돈을 받은 관계—솔직함이 더 중요해진다."
+      },
+      {
+        "text": "갚겠다고 하다",
+        "result_text": "\"갚겠다\"고 했다.\n지연이 잠시 침묵했다.\n돈 관계에서 먼저 갚겠다는 말—그 관계를 정리하겠다는 말이기도 하다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_chose_her_echo",
+    "title": "다은을 선택했던 뒤",
+    "description": "무언가를 포기하고 다은을 선택한 지 두 달.\n그 선택이 관계를 바꿨다.\n오늘 다은이 그 선택에 대해 말을 꺼냈다.",
+    "conditions": {
+      "flag": "daeun_chose_her",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "그 선택이 맞았다고 말하다",
+        "result_text": "맞았다고 했다.\n다은이 \"그때 많이 힘들었지?\"라고 했다.\n선택이 옳았는지는—선택 직후가 아니라 시간이 지나야 보인다."
+      },
+      {
+        "text": "복잡한 감정을 인정하다",
+        "result_text": "복잡하다고 했다.\n다은이 고개를 끄덕였다.\n선택의 복잡함을 말할 수 있는 관계—가 진짜 관계다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_committed_echo",
+    "title": "다은에게 진심으로 헌신한 뒤",
+    "description": "다은과의 관계에 진지하게 헌신하기로 한 지 두 달.\n작은 약속들이 쌓였다.\n오늘 다은이 처음으로 \"우리\"라는 단어를 썼다.",
+    "conditions": {
+      "flag": "daeun_committed",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "자연스럽게 받아들이다",
+        "result_text": "자연스럽게 받아들였다.\n\"우리\"라는 단어—상대가 먼저 쓸 때 더 의미가 있다.\n헌신이 그 단어를 만들었다."
+      },
+      {
+        "text": "그 순간을 기억해두다",
+        "result_text": "기억해뒀다.\n작은 약속들, 그리고 \"우리\".\n관계는 극적인 순간이 아니라—이런 평범한 순간에 만들어진다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_gambled_echo",
+    "title": "카페 돈을 훔쳐 도박했던 뒤",
+    "description": "카페에서 훔친 돈을 도박에 쓴 지 두 달.\n결과는 나빴다.\n오늘 그 일이 다시 떠오르는 상황이 생겼다.",
+    "conditions": {
+      "flag": "cafe_stole_gambled",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "다시는 그러지 않겠다고 생각하다",
+        "result_text": "다시는 그러지 않겠다고 생각했다.\n훔친 돈으로 도박—그 이후가 가르쳐준 것이 있다.\n반성이 행동을 바꾸는 것이다."
+      },
+      {
+        "text": "이미 지난 일이라고 넘기다",
+        "result_text": "지난 일이라고 넘겼다.\n하지만 지난 일—이 지금의 자신을 만들어왔다.\n잊는 것과 극복하는 것은 다르다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_invested_echo",
+    "title": "카페 돈을 훔쳐 투자했던 뒤",
+    "description": "카페에서 훔친 돈으로 투자한 지 두 달.\n수익이 났다.\n오늘 그 돈에 대한 죄책감이 다시 올라왔다.",
+    "conditions": {
+      "flag": "cafe_stole_invested",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "어떻게든 되돌려줄 방법을 찾다",
+        "result_text": "되돌려줄 방법을 찾았다.\n익명으로라도.\n수익이 났어도—빌린 원금은 돌려줘야 한다는 감각이 남아있었다."
+      },
+      {
+        "text": "수익으로 덮어두다",
+        "result_text": "수익으로 덮어뒀다.\n하지만 덮인다고 없어지는 건 아니다.\n죄책감은 기억이 선명할 때보다—흐릿해질 때 더 자주 올라온다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_lead_echo",
+    "title": "카페에서 기회를 잡았던 뒤",
+    "description": "카페 상황을 발판으로 새로운 기회를 연 지 두 달.\n예상치 못한 길이었다.\n오늘 그 기회가 어떻게 흘러왔는지 돌아봤다.",
+    "conditions": {
+      "flag": "cafe_stole_lead",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "계속 이어가다",
+        "result_text": "이어갔다.\n처음엔 찜찜한 출발이었지만—결국 중요한 건 이어가는 것이다.\n기회는 어디서 시작됐든 만든 사람의 것이다."
+      },
+      {
+        "text": "지금의 길이 처음의 것과 다르다는 걸 인정하다",
+        "result_text": "달라졌다는 걸 인정했다.\n시작이 어떻든—지금 내가 선 곳은 내가 선택해서 온 곳이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_redeemed_echo",
+    "title": "카페 사건 후 만회했던 뒤",
+    "description": "카페에서 실수하고 만회하려 한 지 두 달.\n그 이후 관계가 어떻게 됐는지 몰랐다.\n오늘 카페 관련 인물에게 연락이 왔다.",
+    "conditions": {
+      "flag": "cafe_stole_redeemed",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "솔직하게 받다",
+        "result_text": "받았다.\n만회하려 했다는 것—을 상대도 알고 있었다.\n실수보다 그 이후 태도가—사람을 기억하게 한다."
+      },
+      {
+        "text": "불편하지만 받다",
+        "result_text": "불편했지만 받았다.\n만회했다고 해서 죄책감이 사라지는 건 아니다.\n하지만 불편함을 안고 받는 것—이 진짜 만회다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_humiliated_echo",
+    "title": "카페에서 망신을 당했던 뒤",
+    "description": "카페에서 공개적으로 망신을 당한 지 두 달.\n그 기억이 아직 남아있었다.\n오늘 비슷한 상황에 다시 놓였다.",
+    "conditions": {
+      "flag": "cafe_humiliated",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "이번엔 다르게 대응하다",
+        "result_text": "다르게 대응했다.\n그때의 망신이 지금의 판단을 바꿨다.\n경험은 그렇게 쓰인다—비슷한 상황에서 달라지는 것."
+      },
+      {
+        "text": "그때와 같은 실수를 반복하다",
+        "result_text": "또 같은 실수를 했다.\n경험은 자동으로 배움이 되지 않는다.\n같은 실수를 반복한다는 것—그 경험에서 아직 배우지 못했다는 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_left_early_echo",
+    "title": "카페를 일찍 그만뒀던 뒤",
+    "description": "카페 일을 일찍 그만둔 지 두 달.\n이런저런 이유가 있었다.\n오늘 카페 동료였던 사람과 우연히 마주쳤다.",
+    "conditions": {
+      "flag": "cafe_left_early",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "반갑게 인사하다",
+        "result_text": "반갑게 인사했다.\n그 사람도 반겼다.\n일찍 그만뒀어도—같이 일했던 시간이 있다.\n그 시간이 인사를 만든다."
+      },
+      {
+        "text": "어색하게 지나치다",
+        "result_text": "어색하게 지나쳤다.\n일찍 그만뒀던 것이—아직 마음에 걸려있었다.\n인사 하나가 그 어색함을 풀 수도 있었다."
+      }
+    ]
+  }
+]
