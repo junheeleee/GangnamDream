@@ -4828,9 +4828,12 @@ func _get_bg_for_event(ev: Dictionary) -> String:
 	var tags = ev.get("tags", [])
 	var category = str(ev.get("category", ""))
 
-	# 병원·건강
-	if "hospital" in tags or "health" in tags or category == "health":
+	# 병원 (병원 태그 또는 health 카테고리만 — health 태그는 스탯 관련이라 제외)
+	if "hospital" in tags or category == "health":
 		return BG_HOSPITAL
+	# 헬스장·운동
+	if "gym" in tags or "exercise" in tags:
+		return BG_ROOFTOP_DAY
 
 	# 편의점 (야간 + 음식/일상)
 	if "convenience" in tags or ("night" in tags and ("food" in tags or "daily" in tags)):

@@ -43,7 +43,8 @@
         },
         "result_text": "괜찮은 사람 같았지만, 오늘은 피곤했다.\n나중에 또 마주치겠지."
       }
-    ]
+    ],
+    "background": "goshiwon_room"
   },
   {
     "id": "neighborhood_cafe_regular",
@@ -3508,9 +3509,9 @@
     "hidden": false,
     "conditions": {},
     "tags": [
-      "health",
       "finance",
-      "stress"
+      "stress",
+      "gym"
     ],
     "cooldown": 8,
     "choices": [

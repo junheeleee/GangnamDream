@@ -591,7 +591,8 @@
           "story_gosiwon_neighbor_seen"
         ]
       }
-    ]
+    ],
+    "background": "goshiwon_room"
   },
   {
     "id": "story_payday_morning",

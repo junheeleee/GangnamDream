@@ -223,8 +223,10 @@ func get_background(id: String) -> String:
 func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 	var tags: Array = ev.get("tags", [])
 	var category := str(ev.get("category", ""))
-	if "hospital" in tags or "health" in tags or category == "health":
+	if "hospital" in tags or category == "health":
 		return "hospital"
+	if "gym" in tags or "exercise" in tags:
+		return "rooftop_day"
 	if "convenience" in tags:
 		return "convenience_night"
 	if "scalping" in tags:

@@ -11,7 +11,11 @@
       "flag": "redev_bet_taken",
       "min_turn": 8
     },
-    "tags": ["investment", "callback", "redev"],
+    "tags": [
+      "investment",
+      "callback",
+      "redev"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -48,7 +52,11 @@
       "flag": "quant_vindicated",
       "min_turn": 10
     },
-    "tags": ["investment", "callback", "quant"],
+    "tags": [
+      "investment",
+      "callback",
+      "quant"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -57,7 +65,9 @@
           "investment_skill": 5,
           "intelligence": 4
         },
-        "flags": ["quant_refined"],
+        "flags": [
+          "quant_refined"
+        ],
         "follow_up_event": "",
         "result_text": "변수 두 개를 추가했다.\n백테스트 결과가 조금 더 좋아졌다.\n감정을 빼는 것이 수익을 보장하지는 않는다.\n하지만 실수를 줄이는 건 맞았다."
       },
@@ -85,7 +95,10 @@
       "flag": "bought_tip_sheet",
       "min_turn": 4
     },
-    "tags": ["investment", "callback"],
+    "tags": [
+      "investment",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -121,7 +134,11 @@
       "flag": "racetrack_chased_win",
       "min_turn": 3
     },
-    "tags": ["racetrack", "callback", "gambling"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -158,7 +175,11 @@
       "flag": "racetrack_bet_first",
       "min_turn": 3
     },
-    "tags": ["racetrack", "callback", "gambling"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -195,7 +216,11 @@
       "flag": "startup_joined",
       "min_turn": 8
     },
-    "tags": ["jobs", "callback", "startup"],
+    "tags": [
+      "jobs",
+      "callback",
+      "startup"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -233,7 +258,11 @@
       "min_turn": 4,
       "has_job": true
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -271,7 +300,11 @@
       "flag": "quit_for_better_job",
       "min_turn": 6
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -308,7 +341,11 @@
       "flag": "junk_sale_connection",
       "min_turn": 6
     },
-    "tags": ["social", "callback", "network"],
+    "tags": [
+      "social",
+      "callback",
+      "network"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -345,7 +382,11 @@
       "flag": "heard_driver_story",
       "min_turn": 8
     },
-    "tags": ["social", "callback", "wisdom"],
+    "tags": [
+      "social",
+      "callback",
+      "wisdom"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -381,7 +422,10 @@
       "flag": "health_treated",
       "min_turn": 4
     },
-    "tags": ["health", "callback"],
+    "tags": [
+      "health",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -391,7 +435,9 @@
           "mental": 8,
           "stress": -5
         },
-        "flags": ["health_managed"],
+        "flags": [
+          "health_managed"
+        ],
         "follow_up_event": "",
         "result_text": "의사가 \"많이 좋아졌어요\"라고 했다.\n꾸준히 먹은 게 맞았다.\n몸도 관리하는 사람한테 남는다."
       },
@@ -419,7 +465,11 @@
       "flag": "visited_gangnam_open_house",
       "min_turn": 6
     },
-    "tags": ["investment", "callback", "gangnam"],
+    "tags": [
+      "investment",
+      "callback",
+      "gangnam"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -457,7 +507,11 @@
       "flag": "motivated_by_neighbor",
       "min_turn": 6
     },
-    "tags": ["social", "callback", "motivation"],
+    "tags": [
+      "social",
+      "callback",
+      "motivation"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -479,7 +533,8 @@
         "follow_up_event": "",
         "result_text": "연락처를 몰랐다.\n이름도 몰랐다.\n고시원은 그런 곳이었다.\n그래도 동력이 됐다는 건 남았다."
       }
-    ]
+    ],
+    "background": "goshiwon_room"
   },
   {
     "id": "callback_envelope_returned_late_response",
@@ -493,7 +548,11 @@
       "flag": "envelope_returned_late",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "honesty"],
+    "tags": [
+      "social",
+      "callback",
+      "honesty"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -529,7 +588,10 @@
       "flag": "envelope_kept_final",
       "min_turn": 6
     },
-    "tags": ["social", "callback"],
+    "tags": [
+      "social",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -539,7 +601,9 @@
           "mental": 12,
           "stress": -5
         },
-        "flags": ["envelope_returned_late"],
+        "flags": [
+          "envelope_returned_late"
+        ],
         "follow_up_event": "",
         "result_text": "연락처를 찾아 보냈다.\n\"그때 봉투요. 늦었지만 드려요.\"\n상대가 잠시 침묵하다 \"...감사해요\"라고 했다.\n늦었어도 한 것이 맞았다."
       },
@@ -566,7 +630,11 @@
       "flag": "got_lucky_call",
       "min_turn": 6
     },
-    "tags": ["social", "callback", "luck"],
+    "tags": [
+      "social",
+      "callback",
+      "luck"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -576,7 +644,9 @@
           "luck": 2,
           "reputation": 2
         },
-        "flags": ["lucky_connection_built"],
+        "flags": [
+          "lucky_connection_built"
+        ],
         "follow_up_event": "",
         "result_text": "두 번째 만남이 세 번째를 약속했다.\n운은 첫 문을 여는 것이었다.\n이후는 실력과 태도가 열었다.\n그 순서가 맞았다."
       },
