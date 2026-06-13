@@ -118,7 +118,7 @@ def follow_chain(eid, events, visited=None):
 def render_event_card(ev, events, depth=0):
     eid = ev.get("id", "")
     title = ev.get("title", eid)
-    desc = (ev.get("description", "") or "")[:120].replace("\n", " ")
+    desc = (ev.get("description", "") or "").replace("\n", "<br>")
     choices = ev.get("choices", [])
     bg = ev.get("background", "")
     portrait = ev.get("portrait", "")
@@ -129,7 +129,7 @@ def render_event_card(ev, events, depth=0):
     lines.append(f'  <div class="event-id">{html_mod.escape(eid)}</div>')
     lines.append(f'  <div class="event-title">{html_mod.escape(title)}</div>')
     if desc:
-        lines.append(f'  <div class="event-desc">{html_mod.escape(desc)}…</div>')
+        lines.append(f'  <div class="event-desc">{desc}</div>')
     meta = []
     if bg: meta.append(f"배경: {bg}")
     if portrait: meta.append(f"인물: {portrait}")
@@ -138,6 +138,7 @@ def render_event_card(ev, events, depth=0):
 
     for i, ch in enumerate(choices):
         ch_text = ch.get("text", "")
+        ch_result = (ch.get("result_text", "") or "").replace("\n", "<br>")
         ch_flags = ch.get("flags", [])
         ch_fu = ch.get("follow_up_event", "")
         ch_effects = ch.get("effects", {})
@@ -148,13 +149,17 @@ def render_event_card(ev, events, depth=0):
             eff_parts.append(f"{k}: {sign}{v}")
 
         lines.append(f'  <div class="choice">')
-        lines.append(f'    <span class="choice-num">선택 {i+1}</span> {html_mod.escape(ch_text)}')
+        lines.append(f'    <div class="choice-header">')
+        lines.append(f'      <span class="choice-num">선택 {i+1}</span> {html_mod.escape(ch_text)}')
         if eff_parts:
-            lines.append(f'    <span class="effects">[{", ".join(eff_parts[:4])}]</span>')
+            lines.append(f'      <span class="effects">[{", ".join(eff_parts[:4])}]</span>')
         if ch_flags:
-            lines.append(f'    <span class="flags">🚩 {", ".join(ch_flags)}</span>')
+            lines.append(f'      <span class="flags">🚩 {", ".join(ch_flags)}</span>')
         if ch_fu:
-            lines.append(f'    <span class="follow-up">→ {html_mod.escape(ch_fu)}</span>')
+            lines.append(f'      <span class="follow-up">→ {html_mod.escape(ch_fu)}</span>')
+        lines.append(f'    </div>')
+        if ch_result:
+            lines.append(f'    <div class="result-text">{ch_result}</div>')
         lines.append(f'  </div>')
 
     lines.append('</div>')
@@ -210,10 +215,12 @@ input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2b
 .event-title { font-size: 13px; font-weight: 600; color: #e5c07b; margin: 2px 0; }
 .event-desc { font-size: 11px; color: #7a8a9a; margin-bottom: 4px; }
 .event-meta { font-size: 10px; color: #4b5263; margin-bottom: 4px; }
-.choice { font-size: 11px; padding: 3px 0 3px 10px; border-left: 2px solid #3e4451;
-          margin: 3px 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+.choice { font-size: 11px; padding: 5px 0 5px 10px; border-left: 2px solid #3e4451; margin: 4px 0; }
+.choice-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
 .choice-num { background: #3e4451; color: #abb2bf; padding: 0 5px; border-radius: 3px;
               font-size: 10px; flex-shrink: 0; }
+.result-text { font-size: 11px; color: #7a8a9a; margin-top: 4px; padding-left: 4px;
+               border-left: 2px solid #4b5263; white-space: pre-wrap; line-height: 1.6; }
 .effects { color: #98c379; font-size: 10px; font-family: monospace; }
 .flags { color: #e5c07b; font-size: 10px; }
 .follow-up { color: #61afef; font-size: 10px; font-family: monospace; }
