@@ -925,6 +925,9 @@ func _begin_month():
 ## 이번 턴의 '사건' 하나를 VN(StoryMode)으로 재생한다. 재생했으면 true.
 ## 드라마 모드: 매달의 핵심 사건은 풀스크린 VN으로. (앰비언트 이벤트를 1개 뽑아 재생)
 func _maybe_play_month_situation() -> bool:
+	# 턴 1은 프롤로그 직후 — 앰비언트 이벤트 없이 바로 AP 화면으로.
+	if GameState.turn == 1:
+		return false
 	# 주의: MainGame은 StoryMode 다녀오면 재생성되므로 인스턴스 변수로는 추적 불가.
 	# GameState(오토로드)에 '이번 턴 사건 재생함'을 기록해야 무한 루프를 막는다.
 	if int(GameState.flags.get("month_event_turn", -1)) == GameState.turn:
