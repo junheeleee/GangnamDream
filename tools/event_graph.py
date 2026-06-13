@@ -1,266 +1,285 @@
 #!/usr/bin/env python3
 """
-event_graph.py — 강남드림 이벤트 흐름 시각화
+event_graph.py — 강남드림 이벤트 흐름도 (CDN 불필요, file:// 로컬 열기 가능)
 실행: python3 tools/event_graph.py
-결과: tools/event_graph.html (브라우저로 열기)
-
-노드 = 이벤트, 엣지:
-  파란 실선  — follow_up_event (이벤트 체인)
-  초록 점선  — flag 조건 (flags 세팅 → 다음 이벤트 조건)
-  빨간 점선  — no_flag 조건
+결과: tools/event_graph.html
 """
-import json, glob, os, sys, html, re
+import json, glob, os, sys, html as html_mod
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EVENT_DIRS = [os.path.join(ROOT, "content/events")]
 
-# ── 카테고리/접두어별 색상 ──────────────────────────
-COLOR_MAP = {
-    "story":        "#e8a000",   # 스토리 (프롤로그 등)
-    "arc":          "#c678dd",   # 아크
-    "arc_intro":    "#c678dd",
-    "arc_father":   "#e06c75",
-    "arc_daeun":    "#98c379",
-    "arc_jiyeon":   "#e8a0c0",
-    "arc_sangchul": "#d19a66",
-    "arc_jaehyuk":  "#e06c75",
-    "arc_temptation":"#be5046",
-    "arc_spec":     "#56b6c2",
-    "arc_rescue":   "#61afef",
-    "cafe":         "#d4a76a",
-    "callback":     "#5c6370",
-    "chain":        "#528bff",
-    "butterfly":    "#2bbac5",
-    "drama":        "#c678dd",
-    "hidden":       "#3e4451",
-    "rare":         "#f0b429",
-    "holdem":       "#e5c07b",
-    "racetrack":    "#e5c07b",
-    "investment":   "#98c379",
-    "relationship": "#e8a0c0",
-    "life":         "#61afef",
-    "amb":          "#4b5263",
+# 아크 이벤트 순서 (MainGame._next_arc_id 기준 — 직접 관리하는 주요 분기점)
+ARC_SEQUENCE = [
+    ("story_arrival",          "프롤로그 1: 눈을 뜬다",          "prologue",   None),
+    ("story_prologue_dad",     "프롤로그 2: 아버지 전화",         "prologue",   None),
+    ("story_prologue_goal",    "프롤로그 3: 강남",                "prologue",   None),
+    ("story_prologue_meal",    "프롤로그 4: 첫 끼니",             "prologue",   None),
+    ("story_pressure",         "프롤로그 5: 더는 못 미룬다",      "prologue",   None),
+    ("arc_intro_01_meal",      "인트로: 첫 끼니",                 "intro",      "t≥2"),
+    ("arc_intro_02_dad_call",  "인트로: 아버지 전화 2",           "intro",      "t≥3"),
+    ("arc_temptation_01",      "★ 첫 유혹 — 정석 vs 지름길",     "temptation", "t≥4"),
+    ("arc_intro_03_sns",       "인트로: SNS",                     "intro",      "t≥5"),
+    ("cafe_00",                "★ 카페 분기 시나리오",            "cafe",       "t≥6"),
+    ("arc_intro_04_hyunsu",    "인트로: 현수",                    "intro",      "t≥7"),
+    ("arc_temptation_fallout", "유혹 후폭풍 (lent_account)",      "temptation", "t≥8"),
+    ("arc_temptation_clean",   "유혹 보상 (kept_clean_hands)",    "temptation", "t≥8"),
+    ("arc_rescue_job",         "안전망: 무직 구조",               "rescue",     "t≥5 무직"),
+    ("arc_spec_career",        "전문화: 커리어",                  "spec",       "pending_spec_career"),
+    ("arc_spec_invest",        "전문화: 투자",                    "spec",       "pending_spec_invest"),
+    ("arc_spec_found",         "전문화: 창업",                    "spec",       "pending_spec_found"),
+    ("arc_daeun_01_meet",      "다은 1: 첫 만남",                 "daeun",      "t≥9"),
+    ("arc_sangchul_01_meet",   "상철 1: 첫 만남",                 "sangchul",   "t≥10"),
+    ("arc_daeun_02_regular",   "다은 2: 단골",                    "daeun",      "t≥15, 호감도≥8"),
+    ("arc_jiyeon_01_crash",    "지연 1: 추락",                    "jiyeon",     "t=17"),
+    ("cafe_cb_stole_00",       "카페 콜백: 절도",                 "cafe",       "t≥13, cafe_stole_lead"),
+    ("cafe_cb_honest_00",      "카페 콜백: 정직",                 "cafe",       "t≥13, cafe_got_card_honest"),
+    ("cafe_cb_humiliated_00",  "카페 콜백: 수치",                 "cafe",       "t≥13, cafe_humiliated"),
+    ("arc_daeun_03_fork",      "다은 3: 분기",                    "daeun",      "t≥23, 호감도≥12"),
+    ("arc_father_01_call",     "아버지 1: 전화",                  "father",     "t≥20"),
+    ("arc_father_02_signal",   "아버지 2: 신호",                  "father",     "t≥25"),
+    ("arc_father_03_hospital", "아버지 3: 병원",                  "father",     "t≥32"),
+    ("arc_father_04_visit",    "아버지 4: 방문",                  "father",     "t≥35"),
+    ("arc_father_05_after_visit","아버지 5: 방문 이후",           "father",     "father_hospital_seen"),
+    ("arc_jiyeon_02_invest",   "지연 2: 투자",                    "jiyeon",     "t≥22"),
+    ("arc_jiyeon_03_fork",     "지연 3: 분기",                    "jiyeon",     "t≥28"),
+    ("arc_jaehyuk_01_meet",    "재혁 1: 첫 만남",                 "jaehyuk",    "t≥15"),
+    ("arc_jaehyuk_02_offer",   "재혁 2: 제안",                    "jaehyuk",    "t≥20"),
+    ("arc_jaehyuk_03_reveal",  "재혁 3: 정체",                    "jaehyuk",    "jaehyuk_offer_accepted"),
+    ("story_six_months",       "마일스톤: 6개월",                 "milestone",  "t=6"),
+    ("story_one_year",         "마일스톤: 1년",                   "milestone",  "t=12"),
+    ("story_one_half_year",    "마일스톤: 18개월",                "milestone",  "t=18"),
+    ("story_two_year",         "마일스톤: 2년",                   "milestone",  "t=24"),
+    ("age_35_checkpoint",      "마일스톤: 35세",                  "milestone",  "t=30"),
+    ("story_three_year",       "마일스톤: 3년",                   "milestone",  "t=36"),
+    ("story_four_year",        "마일스톤: 4년",                   "milestone",  "t=48"),
+    ("age_39_final",           "마일스톤: 최후",                  "milestone",  "t=54"),
+]
+
+ARC_COLOR = {
+    "prologue":    ("#e8a000", "#1a1200"),
+    "intro":       ("#c678dd", "#1a0a1a"),
+    "temptation":  ("#e06c75", "#1a0a0a"),
+    "cafe":        ("#d4a76a", "#1a1008"),
+    "daeun":       ("#98c379", "#0a1a0a"),
+    "jiyeon":      ("#e8a0c0", "#1a0a12"),
+    "father":      ("#e06c75", "#1a0808"),
+    "jaehyuk":     ("#d19a66", "#1a1008"),
+    "sangchul":    ("#56b6c2", "#081214"),
+    "spec":        ("#61afef", "#080f1a"),
+    "rescue":      ("#61afef", "#080f1a"),
+    "milestone":   ("#f0b429", "#1a1400"),
 }
-
-def node_color(eid: str, category: str) -> str:
-    for prefix, color in COLOR_MAP.items():
-        if eid.startswith(prefix) or category == prefix:
-            return color
-    return "#4b5263"
-
-def short(eid: str, max_len=28) -> str:
-    return eid if len(eid) <= max_len else eid[:max_len-1] + "…"
 
 def load_events():
     events = {}
-    for pattern in ["*.json"]:
-        for path in sorted(glob.glob(os.path.join(ROOT, "content/events", pattern))):
-            try:
-                data = json.load(open(path, encoding="utf-8"))
-                if not isinstance(data, list):
-                    continue
+    for path in sorted(glob.glob(os.path.join(ROOT, "content/events", "*.json"))):
+        try:
+            data = json.load(open(path, encoding="utf-8"))
+            if isinstance(data, list):
                 for ev in data:
                     eid = ev.get("id", "")
                     if eid:
                         ev["_file"] = os.path.basename(path)
                         events[eid] = ev
-            except Exception as e:
-                print(f"  warn: {path}: {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"  warn: {path}: {e}", file=sys.stderr)
     return events
 
-def build_graph(events):
-    nodes = []
-    edges = []
-    edge_set = set()
+def follow_chain(eid, events, visited=None):
+    """follow_up_event 체인을 재귀로 수집."""
+    if visited is None:
+        visited = set()
+    if eid in visited or eid not in events:
+        return []
+    visited.add(eid)
+    ev = events[eid]
+    result = [ev]
+    for choice in ev.get("choices", []):
+        fu = choice.get("follow_up_event", "")
+        if fu and fu not in visited:
+            result.extend(follow_chain(fu, events, visited))
+    return result
 
-    def add_edge(src, dst, color, label, dashes):
-        key = (src, dst, label)
-        if key in edge_set or src == dst:
-            return
-        edge_set.add(key)
-        edges.append({"from": src, "to": dst,
-                      "color": color, "label": label, "dashes": dashes})
+def render_event_card(ev, events, depth=0):
+    eid = ev.get("id", "")
+    title = ev.get("title", eid)
+    desc = (ev.get("description", "") or "")[:120].replace("\n", " ")
+    choices = ev.get("choices", [])
+    bg = ev.get("background", "")
+    portrait = ev.get("portrait", "")
+    indent = depth * 32
 
-    for eid, ev in events.items():
-        cat = ev.get("category", "")
-        color = node_color(eid, cat)
-        title_kr = ev.get("title", eid)
-        file_src = ev.get("_file", "")
-        rarity = ev.get("rarity", "common")
-        cond = ev.get("conditions", {})
-        cond_str = ""
-        if cond:
-            parts = []
-            for k, v in cond.items():
-                parts.append(f"{k}={v}")
-            cond_str = ", ".join(parts[:4])
+    lines = []
+    lines.append(f'<div class="event-card" style="margin-left:{indent}px">')
+    lines.append(f'  <div class="event-id">{html_mod.escape(eid)}</div>')
+    lines.append(f'  <div class="event-title">{html_mod.escape(title)}</div>')
+    if desc:
+        lines.append(f'  <div class="event-desc">{html_mod.escape(desc)}…</div>')
+    meta = []
+    if bg: meta.append(f"배경: {bg}")
+    if portrait: meta.append(f"인물: {portrait}")
+    if meta:
+        lines.append(f'  <div class="event-meta">{" | ".join(meta)}</div>')
 
-        # 툴팁
-        tooltip = (f"<b>{eid}</b><br>"
-                   f"<i>{html.escape(title_kr)}</i><br>"
-                   f"카테고리: {cat} | 희귀도: {rarity}<br>"
-                   f"파일: {file_src}")
-        if cond_str:
-            tooltip += f"<br>조건: {cond_str}"
+    for i, ch in enumerate(choices):
+        ch_text = ch.get("text", "")
+        ch_flags = ch.get("flags", [])
+        ch_fu = ch.get("follow_up_event", "")
+        ch_effects = ch.get("effects", {})
 
-        border = "#ffd700" if rarity in ("legendary", "story") else color
+        eff_parts = []
+        for k, v in ch_effects.items():
+            sign = "+" if v > 0 else ""
+            eff_parts.append(f"{k}: {sign}{v}")
 
-        nodes.append({
-            "id": eid,
-            "label": short(eid),
-            "title": tooltip,
-            "color": {"background": color, "border": border,
-                      "highlight": {"background": "#abb2bf", "border": "#ffd700"}},
-            "font": {"color": "#abb2bf", "size": 11},
-            "borderWidth": 2 if rarity in ("legendary", "story") else 1,
-        })
+        lines.append(f'  <div class="choice">')
+        lines.append(f'    <span class="choice-num">선택 {i+1}</span> {html_mod.escape(ch_text)}')
+        if eff_parts:
+            lines.append(f'    <span class="effects">[{", ".join(eff_parts[:4])}]</span>')
+        if ch_flags:
+            lines.append(f'    <span class="flags">🚩 {", ".join(ch_flags)}</span>')
+        if ch_fu:
+            lines.append(f'    <span class="follow-up">→ {html_mod.escape(ch_fu)}</span>')
+        lines.append(f'  </div>')
 
-        # follow_up_event 엣지 (선택지별)
-        for choice in ev.get("choices", []):
-            fu = choice.get("follow_up_event", "")
-            if fu and fu in events:
-                add_edge(eid, fu, "#61afef", "", False)
+    lines.append('</div>')
+    return "\n".join(lines)
 
-            # 이 선택이 세트하는 플래그가 조건인 이벤트 연결 (flag_set → flag_req)
-            for flag in choice.get("flags", []):
-                for tid, tev in events.items():
-                    tcond = tev.get("conditions", {})
-                    if tcond.get("flag") == flag or flag in tcond.get("flags", []):
-                        add_edge(eid, tid, "#98c379", flag[:20], True)
+def render_arc_section(arc_id, arc_label, arc_type, condition, events):
+    color, bg = ARC_COLOR.get(arc_type, ("#abb2bf", "#1e2127"))
+    chain = follow_chain(arc_id, events)
 
-        # 조건의 flag → 이것을 세트하는 이벤트 (역방향은 무겁고 중복 많아 skip)
-        # no_flag 조건
-        nf = cond.get("no_flag", "")
-        if nf:
-            for sid, sev in events.items():
-                for sch in sev.get("choices", []):
-                    if nf in sch.get("flags", []):
-                        add_edge(sid, eid, "#e06c75", f"!{nf[:18]}", True)
-                        break
+    lines = []
+    cond_html = f'<span class="condition">조건: {html_mod.escape(condition)}</span>' if condition else ""
+    lines.append(f'<div class="arc-section" id="arc-{html_mod.escape(arc_id)}" style="border-color:{color};background:{bg}">')
+    lines.append(f'  <div class="arc-header" style="color:{color}" onclick="toggle(this)">')
+    lines.append(f'    <span class="arc-type">[{arc_type}]</span> {html_mod.escape(arc_label)} {cond_html}')
+    lines.append(f'    <span class="arc-count">{len(chain)}단계</span>')
+    lines.append(f'  </div>')
+    lines.append(f'  <div class="arc-body">')
+    for i, ev in enumerate(chain):
+        lines.append(render_event_card(ev, events, depth=i))
+    if not chain:
+        lines.append(f'    <div class="missing">⚠ 이벤트 없음 (JSON에 미정의)</div>')
+    lines.append(f'  </div>')
+    lines.append('</div>')
+    return "\n".join(lines)
 
-    return nodes, edges
+CSS = """
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #1e2127; color: #abb2bf; font-family: 'Segoe UI', 'Noto Sans KR', sans-serif; }
+#toolbar { position: sticky; top: 0; z-index: 100; padding: 8px 16px; background: #21252b;
+           border-bottom: 2px solid #3e4451; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+#toolbar h1 { font-size: 14px; color: #e5c07b; }
+input[type=text] { background: #282c34; border: 1px solid #3e4451; color: #abb2bf;
+                   padding: 5px 10px; border-radius: 4px; width: 260px; font-size: 12px; }
+.btn { background: #2c313a; border: 1px solid #3e4451; color: #abb2bf;
+       padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.btn:hover { background: #3e4451; }
+#content { padding: 16px; max-width: 1100px; margin: 0 auto; }
+.arc-section { border-left: 4px solid; border-radius: 6px; margin-bottom: 10px;
+               padding: 0; overflow: hidden; }
+.arc-header { padding: 10px 14px; cursor: pointer; display: flex; align-items: center;
+              gap: 8px; font-size: 13px; font-weight: 600; user-select: none; }
+.arc-header:hover { filter: brightness(1.15); }
+.arc-type { font-size: 10px; opacity: 0.7; background: rgba(255,255,255,0.08);
+            padding: 1px 6px; border-radius: 3px; }
+.arc-count { margin-left: auto; font-size: 11px; opacity: 0.6; }
+.condition { font-size: 10px; opacity: 0.7; background: rgba(255,255,255,0.06);
+             padding: 1px 8px; border-radius: 10px; font-weight: 400; }
+.arc-body { padding: 10px 12px; display: none; }
+.arc-body.open { display: block; }
+.event-card { background: rgba(255,255,255,0.04); border-radius: 5px;
+              padding: 8px 12px; margin-bottom: 8px; border-left: 2px solid rgba(255,255,255,0.1); }
+.event-id { font-size: 10px; color: #5c6370; font-family: monospace; }
+.event-title { font-size: 13px; font-weight: 600; color: #e5c07b; margin: 2px 0; }
+.event-desc { font-size: 11px; color: #7a8a9a; margin-bottom: 4px; }
+.event-meta { font-size: 10px; color: #4b5263; margin-bottom: 4px; }
+.choice { font-size: 11px; padding: 3px 0 3px 10px; border-left: 2px solid #3e4451;
+          margin: 3px 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+.choice-num { background: #3e4451; color: #abb2bf; padding: 0 5px; border-radius: 3px;
+              font-size: 10px; flex-shrink: 0; }
+.effects { color: #98c379; font-size: 10px; font-family: monospace; }
+.flags { color: #e5c07b; font-size: 10px; }
+.follow-up { color: #61afef; font-size: 10px; font-family: monospace; }
+.missing { color: #5c6370; font-style: italic; padding: 8px; }
+.section-title { font-size: 11px; color: #3e4451; padding: 6px 0 2px; font-weight: 600;
+                 letter-spacing: 1px; text-transform: uppercase; }
+"""
 
-def render_html(nodes, edges, out_path):
-    nodes_json = json.dumps(nodes, ensure_ascii=False)
-    edges_json = json.dumps(edges, ensure_ascii=False)
-    n_nodes = len(nodes)
-    n_edges = len(edges)
+JS = """
+function toggle(header) {
+  var body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+function expandAll() {
+  document.querySelectorAll('.arc-body').forEach(b => b.classList.add('open'));
+}
+function collapseAll() {
+  document.querySelectorAll('.arc-body').forEach(b => b.classList.remove('open'));
+}
+function filterType(type) {
+  document.querySelectorAll('.arc-section').forEach(sec => {
+    if (!type) { sec.style.display = ''; return; }
+    var h = sec.querySelector('.arc-type');
+    sec.style.display = (h && h.textContent.includes(type)) ? '' : 'none';
+  });
+}
+function doSearch() {
+  var val = document.getElementById('search').value.trim().toLowerCase();
+  document.querySelectorAll('.arc-section').forEach(sec => {
+    if (!val) { sec.style.display = ''; return; }
+    sec.style.display = sec.textContent.toLowerCase().includes(val) ? '' : 'none';
+  });
+}
+"""
 
-    html_content = f"""<!DOCTYPE html>
+def generate(events, out_path):
+    type_buttons = ""
+    seen_types = list(dict.fromkeys(a[2] for a in ARC_SEQUENCE))
+    for t in seen_types:
+        c, _ = ARC_COLOR.get(t, ("#abb2bf", ""))
+        type_buttons += f'<button class="btn" style="border-color:{c};color:{c}" onclick="filterType(\'{t}\')">{t}</button>'
+
+    sections_html = []
+    prev_type = None
+    for arc_id, arc_label, arc_type, condition in ARC_SEQUENCE:
+        if arc_type != prev_type:
+            sections_html.append(f'<div class="section-title">{arc_type}</div>')
+            prev_type = arc_type
+        sections_html.append(render_arc_section(arc_id, arc_label, arc_type, condition, events))
+
+    page = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>강남드림 — 이벤트 흐름도</title>
-<script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
-<link href="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.css" rel="stylesheet"/>
-<style>
-* {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{ background: #1e2127; color: #abb2bf; font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex; flex-direction: column; }}
-#toolbar {{ padding: 8px 12px; background: #21252b; border-bottom: 1px solid #3e4451; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }}
-#toolbar h1 {{ font-size: 14px; color: #e5c07b; margin-right: 8px; }}
-input[type=text] {{ background: #282c34; border: 1px solid #3e4451; color: #abb2bf; padding: 4px 8px; border-radius: 4px; width: 220px; font-size: 12px; }}
-button {{ background: #2c313a; border: 1px solid #3e4451; color: #abb2bf; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }}
-button:hover {{ background: #3e4451; }}
-.tag {{ font-size: 11px; color: #5c6370; }}
-#network {{ flex: 1; }}
-#info {{ position: fixed; bottom: 12px; right: 12px; background: #282c34; border: 1px solid #3e4451; border-radius: 6px; padding: 10px 14px; max-width: 340px; font-size: 12px; display: none; z-index: 10; }}
-#info h3 {{ color: #e5c07b; margin-bottom: 4px; }}
-</style>
+<style>{CSS}</style>
 </head>
 <body>
 <div id="toolbar">
   <h1>🗺 강남드림 이벤트 흐름도</h1>
-  <input type="text" id="search" placeholder="이벤트 ID 검색…" oninput="doSearch(this.value)"/>
-  <button onclick="resetView()">전체 보기</button>
-  <button onclick="filterArcs()">아크만</button>
-  <button onclick="filterStory()">스토리만</button>
-  <button onclick="filterAll()">전체</button>
-  <span class="tag">{n_nodes}개 노드 · {n_edges}개 엣지</span>
-  <span class="tag">— 파란 실선: follow_up | 초록 점선: flag 세팅→조건 | 빨간 점선: no_flag</span>
+  <input type="text" id="search" placeholder="ID / 텍스트 검색…" oninput="doSearch()"/>
+  <button class="btn" onclick="expandAll()">전체 펼치기</button>
+  <button class="btn" onclick="collapseAll()">전체 접기</button>
+  <button class="btn" onclick="filterType('')">전체 보기</button>
+  {type_buttons}
 </div>
-<div id="network"></div>
-<div id="info"><h3 id="info-id"></h3><div id="info-body"></div></div>
-<script>
-const ALL_NODES = {nodes_json};
-const ALL_EDGES = {edges_json};
-
-var nodesDS = new vis.DataSet(ALL_NODES);
-var edgesDS = new vis.DataSet(ALL_EDGES);
-
-var network = new vis.Network(
-  document.getElementById('network'),
-  {{ nodes: nodesDS, edges: edgesDS }},
-  {{
-    physics: {{ solver: 'forceAtlas2Based', forceAtlas2Based: {{ gravitationalConstant: -40, springLength: 120 }}, stabilization: {{ iterations: 300 }} }},
-    edges: {{ arrows: {{ to: {{ enabled: true, scaleFactor: 0.6 }} }}, smooth: {{ type: 'continuous' }}, width: 1.2 }},
-    nodes: {{ shape: 'box', margin: 6, widthConstraint: {{ maximum: 160 }} }},
-    interaction: {{ hover: true, tooltipDelay: 200, navigationButtons: true, keyboard: true }},
-  }}
-);
-
-network.on('click', function(params) {{
-  if (params.nodes.length > 0) {{
-    var nid = params.nodes[0];
-    var node = nodesDS.get(nid);
-    document.getElementById('info-id').textContent = nid;
-    document.getElementById('info-body').innerHTML = node.title || '';
-    document.getElementById('info').style.display = 'block';
-    // 연결된 노드 하이라이트
-    var connected = network.getConnectedNodes(nid);
-    network.selectNodes([nid].concat(connected));
-  }} else {{
-    document.getElementById('info').style.display = 'none';
-    network.unselectAll();
-  }}
-}});
-
-function doSearch(val) {{
-  if (!val) {{ resetView(); return; }}
-  val = val.toLowerCase();
-  var matching = ALL_NODES.filter(n => n.id.toLowerCase().includes(val));
-  nodesDS.clear(); edgesDS.clear();
-  var ids = new Set(matching.map(n => n.id));
-  var edges = ALL_EDGES.filter(e => ids.has(e.from) && ids.has(e.to));
-  nodesDS.add(matching); edgesDS.add(edges);
-}}
-
-function filterArcs() {{
-  var matching = ALL_NODES.filter(n => n.id.startsWith('arc_') || n.id.startsWith('story_') || n.id.startsWith('cafe_'));
-  apply(matching);
-}}
-
-function filterStory() {{
-  var matching = ALL_NODES.filter(n => n.id.startsWith('story_'));
-  apply(matching);
-}}
-
-function filterAll() {{ resetView(); }}
-
-function apply(matching) {{
-  nodesDS.clear(); edgesDS.clear();
-  var ids = new Set(matching.map(n => n.id));
-  var edges = ALL_EDGES.filter(e => ids.has(e.from) && ids.has(e.to));
-  nodesDS.add(matching); edgesDS.add(edges);
-}}
-
-function resetView() {{
-  nodesDS.clear(); edgesDS.clear();
-  nodesDS.add(ALL_NODES); edgesDS.add(ALL_EDGES);
-  network.fit();
-}}
-</script>
+<div id="content">
+{"".join(sections_html)}
+</div>
+<script>{JS}</script>
 </body>
 </html>"""
+
     with open(out_path, "w", encoding="utf-8") as f:
-        f.write(html_content)
-    print(f"✅ {out_path} ({n_nodes} 노드, {n_edges} 엣지)")
+        f.write(page)
+    print(f"✅ {out_path}  ({len(ARC_SEQUENCE)}개 아크, 이벤트 {len(events)}개 로드됨)")
 
 if __name__ == "__main__":
     print("이벤트 로딩 중...")
     events = load_events()
-    print(f"  총 {len(events)}개 이벤트")
-    print("그래프 생성 중...")
-    nodes, edges = build_graph(events)
+    print(f"  총 {len(events)}개")
     out = os.path.join(ROOT, "tools", "event_graph.html")
-    render_html(nodes, edges, out)
-    print(f"브라우저로 열기: open {out}")
+    generate(events, out)
+    print(f"브라우저로 열기: open \"{out}\"")
