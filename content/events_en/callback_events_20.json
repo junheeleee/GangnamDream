@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_father_going_soon_echo",
+    "title": "After Learning Father Doesn't Have Long",
+    "description": "Two months since you learned your father doesn't have much time left.\nYou'd been carrying that knowledge.\nToday a call came from him.",
+    "choices": [
+      {
+        "text": "Pick up right away",
+        "result_text": "You picked up.\nHis voice was weaker than before.\nBecause you knew — this time you talked for a long time."
+      },
+      {
+        "text": "Call back later",
+        "result_text": "You called back later.\nHe was already asleep.\nYou knew — and still let the time slip."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_exit_echo",
+    "title": "After Exiting the Startup",
+    "description": "Two months since you pulled out of the startup entirely.\nThe decision hadn't been easy.\nToday you heard news about the company.",
+    "choices": [
+      {
+        "text": "Good call to get out",
+        "result_text": "Things hadn't gone well there.\nGetting out when you did was right.\nKnowing when to leave — is just as important as knowing when to go in."
+      },
+      {
+        "text": "Still have some regrets",
+        "result_text": "Still some regret.\nBut the decision was made.\nRegret and a decision — can coexist."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_founded_echo",
+    "title": "Two Months Since Founding",
+    "description": "Two months since you started the company.\nIt had been quieter than expected.\nToday, for the first time, someone reached out from outside.",
+    "choices": [
+      {
+        "text": "Set up a meeting",
+        "result_text": "You set one up.\nFrom a state where no one knew — someone now did.\nThis is how a startup begins."
+      },
+      {
+        "text": "Check who they are first",
+        "result_text": "You looked into them first.\nPeople who approach early-stage founders — have their reasons.\nChecking before meeting was the right move."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_growing_echo",
+    "title": "After the Startup Started to Grow",
+    "description": "Three months since the startup started growing noticeably.\nIt had been a busy stretch.\nToday the first investment inquiry came in.",
+    "choices": [
+      {
+        "text": "Take the meeting",
+        "result_text": "You met.\nThe growth had brought this contact.\nInvestors only show up where something is growing."
+      },
+      {
+        "text": "Decide it's too early",
+        "result_text": "You said it was too early.\nTaking investment isn't always better the faster it comes.\nReceiving it when you're ready tends to work better."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_took_echo",
+    "title": "After Taking the New Job",
+    "description": "Two months since you made the move and joined the new company.\nIt had been an unfamiliar environment.\nToday a colleague from the old place reached out.",
+    "choices": [
+      {
+        "text": "Answer warmly",
+        "result_text": "You answered warmly.\nThey asked 'How's it going?'\nLeaving — means most when you can answer that question well."
+      },
+      {
+        "text": "Say things are going well",
+        "result_text": "You said 'Things are good.'\nThat the move had been right — you could tell by how natural those words felt."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_declined_echo",
+    "title": "After Turning Down the Offer",
+    "description": "Two months since you turned down the job offer.\nYou'd been wondering if that was right.\nToday news came about that company.",
+    "choices": [
+      {
+        "text": "Good call to decline",
+        "result_text": "Things hadn't gone well there.\nDeclining had been right.\nBut it was a decision made without that information — the timing was luck."
+      },
+      {
+        "text": "Still feel like you might have missed out",
+        "result_text": "You still wondered.\nEven if things went badly there — the possibility of something better remained.\nA decision's weight isn't measured only by the outcome."
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_hesitated_echo",
+    "title": "After Hesitating and Staying",
+    "description": "Two months since you hesitated and decided to stay.\nThe offer had come back to mind sometimes.\nToday you heard how that company had done.",
+    "choices": [
+      {
+        "text": "Staying was the right call",
+        "result_text": "Things hadn't gone well there.\nThe hesitation had kept you — and that turned out right.\nEven when the reason behind a decision differs from the outcome — the outcome is still the outcome."
+      },
+      {
+        "text": "Should've pushed harder",
+        "result_text": "Things hadn't gone badly there.\nThe hesitation may have let an opportunity pass.\nHesitation from fear — is worth looking at more honestly next time."
+      }
+    ]
+  },
+  {
+    "id": "callback_headhunted_echo",
+    "title": "After Being Headhunted",
+    "description": "Two months since the headhunting offer came in.\nYou'd made a decision.\nToday the outcome of that decision came through.",
+    "choices": [
+      {
+        "text": "It worked out",
+        "result_text": "It worked out.\nBeing headhunted — means the market has recognized you.\nThat recognition matters more than the decision itself."
+      },
+      {
+        "text": "Look back regardless of what you decided",
+        "result_text": "You looked back.\nA headhunting offer creates options.\nHaving options — means you're standing somewhere different."
+      }
+    ]
+  },
+  {
+    "id": "callback_lied_at_reunion_echo",
+    "title": "After Exaggerating at the Reunion",
+    "description": "Two months since you stretched the truth at the class reunion.\nThat night came back to you sometimes.\nToday you ran into someone who was there.",
+    "choices": [
+      {
+        "text": "Talk naturally",
+        "result_text": "You talked naturally.\nThey likely still remembered.\nA lie doesn't disappear — it stays in the other person's memory."
+      },
+      {
+        "text": "Only build on the parts that were true",
+        "result_text": "You kept to what was actually true.\nPulling gradually from the exaggeration toward the real thing.\nOne way to make a lie into the truth — is to make it true."
+      }
+    ]
+  },
+  {
+    "id": "callback_came_clean_to_friend_echo",
+    "title": "After Coming Clean to a Friend",
+    "description": "A month since you came clean with a friend.\nThings had felt different since.\nToday they reached out.",
+    "choices": [
+      {
+        "text": "Meet them",
+        "result_text": "You met.\nBeing honest had made this meeting possible.\nIf you'd kept it hidden — this call wouldn't have come."
+      },
+      {
+        "text": "Ask what the message is about first",
+        "result_text": "You asked what was going on.\nThey said 'Nothing. Just missed you.'\nBeing honest — had made you someone they just wanted to see."
+      }
+    ]
+  },
+  {
+    "id": "callback_deleted_gambling_apps_echo",
+    "title": "After Deleting the Gambling Apps",
+    "description": "Two months since you deleted all the gambling apps.\nYour hand had reached for them at first.\nToday you looked back at the two months.",
+    "choices": [
+      {
+        "text": "Good call to delete them",
+        "result_text": "You hadn't touched them in two months.\nDeleting them had created a barrier.\nRemoving access — works better than willpower."
+      },
+      {
+        "text": "There were moments of temptation",
+        "result_text": "There had been moments.\nBut the apps weren't there.\nDeleting them — had stopped you at the moments of wavering.\nIt had been a choice made for your future self."
+      }
+    ]
+  },
+  {
+    "id": "callback_hit_rock_bottom_echo",
+    "title": "After Hitting Rock Bottom",
+    "description": "Three months since you hit rock bottom.\nLooking back still felt heavy.\nToday you compared then to now.",
+    "choices": [
+      {
+        "text": "A lot has changed",
+        "result_text": "Things had changed.\nKnowing where the bottom is — means knowing you can't go further down.\nHitting bottom — is what created the direction."
+      },
+      {
+        "text": "Don't feel fully recovered yet",
+        "result_text": "Not fully there yet.\nBut the direction had shifted.\nFeeling like you need to be fully recovered — that standard makes it harder."
+      }
+    ]
+  },
+  {
+    "id": "callback_promised_father_gangnam_echo",
+    "title": "The Promise to Your Father",
+    "description": "Three months since you promised your father you'd make it to Gangnam.\nThat promise had stayed heavy.\nToday a text came from him. 'How are you doing.'",
+    "choices": [
+      {
+        "text": "\"Yeah, I'm working hard.\"",
+        "result_text": "You said 'Yeah — working hard.'\nHe said 'Good.'\nA short exchange — but the promise had made it different."
+      },
+      {
+        "text": "Give him a progress update",
+        "result_text": "You told him specifically how far you'd come.\nHe took a long time reading it.\nSomeone who takes a promise seriously — makes the one receiving it take it seriously too."
+      }
+    ]
+  },
+  {
+    "id": "callback_took_gray_tip_echo",
+    "title": "After Acting on the Gray Tip",
+    "description": "Two months since you used the borderline information and made a profit.\nThe result had been good.\nToday a similar tip came in again.",
+    "choices": [
+      {
+        "text": "Turn it down this time",
+        "result_text": "You turned it down.\nOnce was luck. Twice becomes habit.\nA good outcome doesn't justify the same action again."
+      },
+      {
+        "text": "Use it again",
+        "result_text": "You used it again.\nA good result doesn't mean the method was right.\nThe better the results keep coming — the greater the exposure risk grows alongside them."
+      }
+    ]
+  },
+  {
+    "id": "callback_took_high_road_echo",
+    "title": "After Taking the High Road",
+    "description": "Two months since you chose the harder right over the easier wrong.\nIn the short term it had cost you.\nToday something came back.",
+    "choices": [
+      {
+        "text": "Something came back",
+        "result_text": "It came back.\nNot right away — but it came.\nThe results of doing right tend to arrive late. That's what makes them hard to believe in."
+      },
+      {
+        "text": "Still nothing yet",
+        "result_text": "Still nothing.\nBut there was also something you hadn't lost.\nConscience — is the easiest thing to sell, and the most expensive to buy back."
+      }
+    ]
+  }
+]
