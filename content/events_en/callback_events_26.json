@@ -1,0 +1,62 @@
+[
+  {
+    "id": "callback_mystery_info_scammed_echo",
+    "title": "After Being Scammed by Mystery Information",
+    "description": "Two months since you trusted the mystery tip and got scammed.\nYou'd lost money.\nToday a similar type of information came in again.",
+    "choices": [
+      {
+        "text": "Block it immediately",
+        "result_text": "You blocked it.\nOnce you've been burned, the pattern becomes visible.\nBeing scammed — had become a shield this time."
+      },
+      {
+        "text": "Think maybe this time is different",
+        "result_text": "You thought maybe this time was different.\nThat thought — creates the structure to get burned again.\nScams always come with the words \"this time is different.\""
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_resolved_echo",
+    "title": "After Resolving the Mystery Information Situation",
+    "description": "Two months since you wrapped up the information incident and moved on.\nYou'd reached a conclusion one way or another.\nToday you started to see whether that judgment had been right.",
+    "choices": [
+      {
+        "text": "Accept the outcome",
+        "result_text": "The result came.\nRight or wrong — reaching a conclusion was what let you move forward.\nThings left unresolved keep pulling you back."
+      },
+      {
+        "text": "Think about how you'd handle a similar situation",
+        "result_text": "You thought it through.\nYou used this experience as a reference point.\nThe value of experience — is that it becomes the standard for the next decision."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lie_doubled_down_echo",
+    "title": "After Deciding to Double Down on the Resume Lie",
+    "description": "Two months since you chose to cover the resume lie and keep building on top of it.\nThings had been going well at work.\nToday a verification request came in directly related to that lie.",
+    "choices": [
+      {
+        "text": "Find a way to get through it",
+        "result_text": "You got through it.\nIt worked this time.\nBut a lie — doesn't disappear. It gets more complicated.\nThe more you paper over it, the heavier it gets."
+      },
+      {
+        "text": "Come clean even now",
+        "result_text": "You told the truth.\nThe reaction was less severe than expected.\nA lie — the fear of being found out is always bigger than the reality of being found out."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lied_toeic_echo",
+    "title": "After Inflating Your TOEIC Score on the Resume",
+    "description": "Two months since you padded your TOEIC score on the resume.\nThere had been no verification yet.\nToday a work situation arose where your English ability would show.",
+    "choices": [
+      {
+        "text": "Find a way to muddle through",
+        "result_text": "You got through it.\nThis time it passed.\nBut without the ability — the situation keeps coming back.\nInflating a score doesn't replace the real skill."
+      },
+      {
+        "text": "Admit the gap and decide to fill it",
+        "result_text": "You admitted the gap.\nAnd decided to fill it.\nEven if you started with a lie — choosing to become real is still possible."
+      }
+    ]
+  }
+]
