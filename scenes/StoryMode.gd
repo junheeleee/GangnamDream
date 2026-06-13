@@ -669,11 +669,15 @@ func _show_popup(title: String, body: String):
 	overlay.modulate.a = 0
 	var tw = create_tween()
 	tw.tween_property(overlay, "modulate:a", 1.0, 0.2)
-	# 클릭 또는 아무 패드 버튼으로 닫힘
-	overlay.gui_input.connect(func(ev):
+	# 클릭 또는 아무 패드 버튼으로 닫힘.
+	# panel(PanelContainer)이 MOUSE_FILTER_STOP이라 overlay까지 이벤트가 안 오므로
+	# overlay와 panel 양쪽에 연결한다.
+	var _close_fn = func(ev):
 		if (ev is InputEventMouseButton and ev.pressed) or \
 				(ev is InputEventJoypadButton and ev.pressed):
-			overlay.queue_free())
+			overlay.queue_free()
+	overlay.gui_input.connect(_close_fn)
+	panel.gui_input.connect(_close_fn)
 
 func _spawn_toast(text: String, color: Color):
 	# 어두운 배경 칩 + 라벨 (배경에 안 묻히게)
