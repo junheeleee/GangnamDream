@@ -1,8 +1,9 @@
-# Codex Image Generation Task — 강남드림 (Gangnam Dream)
+# Codex Image Generation Task — 강남드림 (Gangnam Dream) — ARCHIVED
 
 ## 이 파일의 용도
-이 파일은 Codex가 읽고 즉시 실행할 수 있는 완전한 이미지 생성 + 코드 반영 태스크입니다.
-아래 순서대로 실행하세요: 스타일 참조 → 이미지 생성 → 파일 저장 → 코드 반영.
+이 파일은 과거 이미지 생성 요청서 보존본입니다. 현재 production 작업에는 실행하지 마세요.
+
+현재 에셋 작업은 `assets/VISUAL_AUDIO_UPGRADE_BRIEF.md`, `docs/CANON_MAP.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`, `docs/ASSET_QA.md`를 먼저 확인합니다. 이 파일의 구 요청에는 `investment_monitor`, 구 로맨스 인물, 구 배경 매핑 등 현재 정본과 충돌할 수 있는 내용이 남아 있었습니다.
 
 ---
 
@@ -51,18 +52,18 @@ scenes/MainGame.gd                            ← 이미지가 연결되는 코�
 
 ---
 
-#### 2. `assets/backgrounds/investment_monitor.png`
+#### 2. `assets/backgrounds/investment_phone.png`
 
-**사용처**: 투자 이벤트 35개 전반, 주식 관련 선택지
+**사용처**: 초반/일반 투자 이벤트, 주식 관련 선택지
 (investment_events.json 전체, `invest_big_win_first`, `invest_daytrade_catastrophe`, `drama_crypto_allin`)
 
 **이미지 설명**:
-어두운 방 안, 여러 모니터 또는 하나의 와이드 모니터에 주식 차트가 떠 있음.
-캔들스틱 차트 + 빨간/초록 숫자들. 한국 증권사 HTS 스타일(삼성증권, 키움증권 느낌).
-키보드 위 빈 커피잔, 야식 포장 흔적.
-모니터 빛만이 어두운 방을 밝히는 새벽 3-4시 느낌.
+고시원 또는 원룸의 작은 책상 위 스마트폰/작은 노트북에 주식 차트가 떠 있음.
+초반 김민준의 현실적인 개인투자 스케일. 멀티모니터 금지, 전문 트레이딩룸 금지.
+옆에는 편의점 커피, 낡은 노트, 충전 케이블, 월세 고지서.
+폰/노트북 빛만이 어두운 방을 밝히는 새벽 3-4시 느낌.
 분위기: 긴장, 도박과 이성 사이, 고독한 집중.
-팔레트: 딥 블랙, 모니터의 초록/빨강 빛, 차가운 파란 반사.
+팔레트: 딥 블랙, 차가운 화면빛, 낮은 생활감.
 
 ---
 
@@ -82,11 +83,12 @@ scenes/MainGame.gd                            ← 이미지가 연결되는 코�
 
 #### 4. `assets/backgrounds/late_night_room.png`
 
+**상태**: REGENERATED 2026-06-12. `goshiwon_room.png` 기반 4am 색보정 변형이며 runtime에 연결되어 있다.
 **사용처**: 번아웃, 야근 후 귀가, 정신력 위기, 고독한 밤
 (life_events.json: `mental_health_realization`, `burnout_age_29`, story_events.json: `story_late_night_grind`, `story_rainy_night`)
 
 **이미지 설명**:
-원룸 또는 고시원보다 약간 나은 방. 자정이 지난 시간.
+정본 고시원 방의 4am 야간 변형. 큰 창문/도시 전망/다른 침대·책상 배치 금지.
 책상 위 노트북 화면만 켜져 있고, 방은 어두움.
 침대 위 쌓인 옷가지, 빈 라면 컵, 핸드폰 충전기.
 커튼 사이로 서울 야경이 희미하게 보임.
@@ -152,7 +154,7 @@ scenes/MainGame.gd                            ← 이미지가 연결되는 코�
 
 ```
 assets/backgrounds/hospital_clinic.png
-assets/backgrounds/investment_monitor.png
+assets/backgrounds/investment_phone.png
 assets/backgrounds/cafe_meetup.png
 assets/backgrounds/late_night_room.png
 assets/backgrounds/hometown_train_station.png
@@ -171,9 +173,9 @@ assets/characters/main_character_50s.png
 ```gdscript
 # 기존 코드 아래에 추가
 const BG_HOSPITAL   = "res://assets/backgrounds/hospital_clinic.png"
-const BG_INVESTMENT = "res://assets/backgrounds/investment_monitor.png"
+const BG_INVESTMENT = "res://assets/backgrounds/investment_phone.png"
 const BG_CAFE       = "res://assets/backgrounds/cafe_meetup.png"
-const BG_NIGHT_ROOM = "res://assets/backgrounds/late_night_room.png"
+const BG_NIGHT_ROOM = "res://assets/backgrounds/late_night_room.png"  # canonical 4am variant of goshiwon_room
 const BG_HOMETOWN   = "res://assets/backgrounds/hometown_train_station.png"
 
 const PORTRAIT_30S = "res://assets/characters/main_character_30s.png"
@@ -243,7 +245,7 @@ func _get_portrait_path() -> String:
 ```bash
 # 파일 존재 확인
 ls assets/backgrounds/hospital_clinic.png
-ls assets/backgrounds/investment_monitor.png
+ls assets/backgrounds/investment_phone.png
 ls assets/backgrounds/cafe_meetup.png
 ls assets/backgrounds/late_night_room.png
 ls assets/backgrounds/hometown_train_station.png
@@ -260,7 +262,7 @@ ls assets/characters/main_character_50s.png
 | 배경 | 주요 이벤트 태그 | 예시 이벤트 ID |
 |---|---|---|
 | hospital_clinic | health, anxiety | health_checkup_results, burnout_age_29, mental_health_realization |
-| investment_monitor | investment, gambling | invest_big_win_first, invest_daytrade_catastrophe, drama_crypto_allin |
+| investment_phone | investment, gambling | invest_big_win_first, invest_daytrade_catastrophe, drama_crypto_allin |
 | cafe_meetup | romance, social | romance_sumin_meet, marriage_pressure_28, peer_comparison_anxiety |
 | late_night_room | night, mental, anxiety | story_late_night_grind, story_rainy_night, mental_health_realization |
 | hometown_train_station | family, hometown | parent_health_concern, story_hometown_nostalgia |

@@ -139,6 +139,34 @@
   - [x] 인게임 스플래시 키아트 교체
   - [x] 홀덤 카드/칩 UI 초안은 실제 포커 카드/칩 디자인으로 교체
   - [x] 경마 UI 이미지 코드 연결 확인 — horse_silhouette.png 1024×128 8프레임 아틀라스 정상 연결
+  - [x] VISUAL_AUDIO P1 신규 누락 에셋 10종 생성 및 ImageRegistry 연결 (2026-06-12)
+  - [x] VISUAL_AUDIO P1 `goshiwon_room.png`/`start.png` 고시원 구조 통일 (2026-06-12)
+  - [x] VISUAL_AUDIO P1 `ending_father.png` 아버지 병실 CG 교체 (2026-06-12)
+  - [x] VISUAL_AUDIO 에셋 레이어 분리 원칙 확정 — 반복 인물 투명 포트레이트 / 배경 무인 장소 / CG 예외 (2026-06-12)
+  - [x] 일반 투자 배경을 `investment_phone.png` 스케일로 격리, 멀티모니터는 전용 장면으로 분리 (2026-06-12)
+  - [x] 한지연 캐릭터 정본 확정 및 구 첫 만남 랜덤 체인 비활성화 (2026-06-12)
+  - [x] 운영용 정본 맵 및 DLC/주기 업데이트 확장 게이트 문서화 (2026-06-12)
+  - [x] `family_living_room.png` 대가족 액자 정합성 실패로 production 기본 가족 배경에서 격리 (2026-06-12)
+  - [x] 에셋 정합성 체크리스트 추가 — 배경/포트레이트/CG별 canon QA 기준 문서화 (2026-06-12)
+  - [x] 한지연 3표정 투명 포트레이트 교체 (`npc_mentor`, `npc_jiyeon_warm`, `npc_jiyeon_cold`) (2026-06-12)
+  - [x] 민준 가족 정본에 맞는 창원/지방 노동자 가정 거실 배경 재생성 및 재연결 (2026-06-12)
+  - [x] 김민준 핵심 5표정 투명 포트레이트 교체 (`neutral`, `tired`, `determined`, `happy`, `shocked`) (2026-06-12)
+  - [x] 반복 주연/핵심 인물 투명 포트레이트 교체 패스 — 다은/재혁/상철/아버지/어머니/현수 (2026-06-12)
+  - [x] 해외/초견 유저용 캐릭터 구분성 보강 — 현수 재디자인 및 cast readability lock 추가 (2026-06-12)
+  - [x] 현수 호감형 재교정 — 26-27세 통통한 공시생 후배 정본으로 투명 포트레이트 교체 (2026-06-12)
+  - [x] 김민준 직업·상태별 의상 포트레이트 추가 — 무직/알바/사무직/대기업 정장 등 (2026-06-12)
+  - [x] 반복 보조 NPC 투명 포트레이트 교체 패스 — 고시원 원장/팀장/성준/정보상 등 (2026-06-12)
+  - [x] 전체 배경 이미지 2차 정합성 감사 — 가족사진/경제수준/방 구조/인물 포함 여부 기준 (2026-06-12)
+  - [x] 배경 실패컷 재생성 — convenience / Gangnam day-night-station / penthouse / late_night_room (2026-06-12)
+  - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
+  - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
+  - [x] VISUAL_AUDIO P2 배경/CG/키아트 품질 교체
+    - [x] Public venue 배경 리뷰/교체 — library / restaurant / PC방 / 경마장 / 홀덤 / 지방역 / 비 오는 서울 거리 (2026-06-13)
+    - [x] 남은 CG 최종 크롭 확인 및 Steam key art / capsule 소재 정리 (2026-06-13)
+  - [x] VISUAL_AUDIO P3 BGM/SFX 품질 교체 (2026-06-13)
+    - [x] BGM 7종 Ogg Vorbis 재생성 및 import loop 설정 정리
+    - [x] SFX 17종 WAV 재생성, `buy`/`sell`/`tab_open` 누락 매핑 추가
+    - [x] `tools/AudioAssetCheck` 추가 및 통과
 - [ ] QA 체크리스트 완료
 - [x] 저장 호환성 검증 (2026-06-10) — SaveManager v3, run_theme·unlocked_stat_thresholds 직렬화 추가, 구 세이브 compat 로직
 - [x] 빌드/배포 설정 (2026-06-10) — export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수·Linux 지원, Windows/Web export 실제 검증

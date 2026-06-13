@@ -1,4 +1,6 @@
-# 강남드림 — 오디오 에셋 가이드 (v2)
+# 강남드림 — 오디오 에셋 가이드 (v3)
+
+Updated: 2026-06-13 — VISUAL_AUDIO P3 local generated audio pass complete.
 
 ## 파일 구조
 
@@ -16,20 +18,23 @@ assets/audio/
 │   ├── bgm_victory.ogg     ← 마일스톤 달성 BGM (8초, 자동 복귀)
 │   └── bgm_ending.ogg      ← 엔딩 BGM
 └── SFX
-    ├── sfx_click.ogg       ← 버튼 클릭
-    ├── sfx_close.ogg       ← 모달 닫기
-    ├── sfx_modal.ogg       ← 모달 열기
-    ├── sfx_month.ogg       ← 다음 달 전환
-    ├── sfx_coin.ogg        ← 수입/돈 획득
-    ├── sfx_loss.ogg        ← 손실/매도
-    ├── sfx_big_win.ogg     ← 대형 수익/마일스톤
-    ├── sfx_stat_up.ogg     ← 스탯 상승
-    ├── sfx_stat_down.ogg   ← 스탯 하락
-    ├── sfx_event.ogg       ← 이벤트 등장
-    ├── sfx_choice.ogg      ← 선택지 결정
-    ├── sfx_housing.ogg     ← 이사
-    ├── sfx_gameover.ogg    ← 게임오버
-    └── sfx_success.ogg     ← 성공/강남드림 달성
+    ├── sfx_click.wav       ← 버튼 클릭
+    ├── sfx_close.wav       ← 모달 닫기
+    ├── sfx_open_modal.wav  ← 모달 열기
+    ├── sfx_tab_open.wav    ← 탭/미니게임 패널 열기
+    ├── sfx_month.wav       ← 다음 달 전환
+    ├── sfx_money_gain.wav  ← 수입/돈 획득
+    ├── sfx_money_loss.wav  ← 손실/지출/매도
+    ├── sfx_money_big.wav   ← 대형 수익/마일스톤
+    ├── sfx_buy.wav         ← 매수/구매
+    ├── sfx_sell.wav        ← 매도
+    ├── sfx_stat_up.wav     ← 스탯 상승
+    ├── sfx_stat_down.wav   ← 스탯 하락
+    ├── sfx_event_new.wav   ← 이벤트 등장
+    ├── sfx_choice_made.wav ← 선택지 결정
+    ├── sfx_housing_up.wav  ← 이사
+    ├── sfx_game_over.wav   ← 게임오버
+    └── sfx_success.wav     ← 성공/강남드림 달성
 ```
 
 ## BGM 자동 전환 로직
@@ -184,12 +189,12 @@ no vocals, 2-3 minutes, seamless loop
 | 파일 | jsfxr 프리셋 | 조정 포인트 |
 |------|-------------|------------|
 | sfx_click.ogg | BLIP | Duration 0.04s, Freq high |
-| sfx_coin.ogg | COIN | 기본 그대로 |
+| sfx_money_gain.wav | COIN | 기본 그대로 |
 | sfx_stat_up.ogg | POWERUP | Duration 0.15s |
 | sfx_stat_down.ogg | HIT | Pitch 낮게, Duration 0.18s |
-| sfx_big_win.ogg | POWERUP | Duration 0.45s, multiple notes |
+| sfx_money_big.wav | POWERUP | Duration 0.45s, multiple notes |
 | sfx_housing.ogg | POWERUP | Bright, Duration 0.3s |
-| sfx_gameover.ogg | HIT | Very low pitch, Duration 0.6s |
+| sfx_game_over.wav | HIT | Very low pitch, Duration 0.6s |
 | sfx_success.ogg | POWERUP | Long, triumphant, Duration 0.5s |
 
 ---
@@ -227,6 +232,17 @@ BGM `.ogg` 파일은 Godot 에디터에서 임포트 후 아래 설정 확인:
 | bgm_ending.ogg | ✅ ON | |
 
 SFX `.ogg`는 Loop 체크 해제.
+
+현재 production SFX는 `.wav`이며 Loop 체크 해제 상태를 유지한다.
+
+## 현재 production 생성 방식 (2026-06-13)
+
+외부 음악 생성 서비스 없이 `tools/generate_audio_assets.py`로 deterministic local synthesis를 수행했다.
+
+- BGM: `.ogg`, stereo 44100 Hz, Ogg Vorbis
+- SFX: `.wav`, mono 44100 Hz
+- 검증: `res://tools/AudioAssetCheck.tscn`
+- 상세 QA: `docs/AUDIO_QA.md`
 
 ---
 

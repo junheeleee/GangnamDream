@@ -107,7 +107,7 @@
     "conditions": {"min_turn": 9999},
     "tags": ["story","arc","intro"],
     "cooldown": 9999,
-    "description": "Goshiwon shared kitchen. 1 AM.\n\nA narrow space with only one fluorescent tube working.\n{name} was pouring hot water into a cup ramen when the door opened behind.\n\nThe neighbor from next door. They'd crossed paths before — but this was the first time.\n'...You're doing ramen too.'\n\nHe spoke first. Hollows under his eyes. The face of someone who sits for a long time.\nLooks about twenty-six. The person whose desk was always piled with notebooks.\n\n'Fourth year studying for the civil service exam. This is my last year — I say that every year.'\nHe gave a half-laugh. A smile that didn't quite reach the eyes.\n\n'What about you? What do you do?'",
+    "description": "Goshiwon shared kitchen. 1 AM.\n\nA narrow space with only one fluorescent tube working.\n{name} was pouring hot water into a cup ramen when the door opened behind.\n\nThe neighbor from next door. They'd crossed paths before — but this was the first time.\n'...You're doing ramen too, hyung.'\n\nHe spoke first. Hollows under his eyes. The face of someone who sits for a long time.\nLooks about twenty-six. The person whose desk was always piled with notebooks.\n\n'Fourth year studying for the civil service exam. This is my last year — I say that every year.'\nHe gave a half-laugh. A smile that didn't quite reach the eyes.\n\n'What about you, hyung? What do you do?'",
     "choices": [
       {
         "text": "'I don't really know yet. Still figuring it out.'",
@@ -121,7 +121,7 @@
         "effects": {"mental": 6, "stress": 2},
         "cast_effects": {"hyunsu": {"met": true, "affinity": 8, "flags": ["told_dream"]}},
         "flags": ["arc_intro_hyunsu_seen","declared_dream"],
-        "result_text": "Hyunsu stopped mid-ramen and looked at {name}.\nExpected a laugh. Didn't get one.\n'...You mean it, don't you.'\n\nA short silence. Then, quietly:\n'Somehow I feel like you'll actually go.'\nThat line stayed. Coming from someone who'd been looking at the same wall for four years."
+        "result_text": "Hyunsu stopped mid-ramen and looked at {name}.\nExpected a laugh. Didn't get one.\n'...You mean it, don't you, hyung.'\n\nA short silence. Then, quietly:\n'Somehow I feel like you'll actually go.'\nThat line stayed. Coming from someone who'd been looking at the same wall for four years."
       }
     ]
   },
@@ -175,7 +175,7 @@
     "conditions": {"min_turn": 9999},
     "tags": ["story","arc","jiyeon"],
     "cooldown": 9999,
-    "description": "Spring afternoon. On the way to work.\nPedaling the bike, turning into an alley — a black foreign car swung out and clipped the front wheel.\n\n{name} hit the asphalt. Knee scraped. Front wheel bent.\n\nA woman gets out of the car. About the same age. Expensive clothes, expensive car, flustered face.\n\n'Oh no — are you okay? I can call insurance—'\n\n{name} stands the bike back up. Checks the wheel. Checks the watch.\n12 minutes to the start of the shift.",
+    "description": "Spring afternoon. On the way to work.\nPedaling the bike, turning into an alley — a black Mercedes-Benz S-Class-level sedan swung out and clipped the front wheel.\n\n{name} hit the asphalt. Knee scraped. Front wheel bent.\n\nA woman steps out from the driver's seat. Early thirties. Wet long black hair, a cream tailored suit, and a composure that looks more expensive than the car. But right now, she is clearly shaken.\n\n'Oh no — are you okay? I can call insurance—'\n\n{name} stands the bike back up. Checks the wheel. Checks the watch.\n12 minutes to the start of the shift.",
     "choices": [
       {
         "text": "'I'm fine.' — Just leave.",

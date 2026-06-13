@@ -1,6 +1,6 @@
 extends Node
-## BGMPlayer — 게임 상태에 따라 6트랙 자동 전환
-## Suno .mp3 파일 우선 재생, 없으면 프로시저럴 폴백
+## BGMPlayer — 게임 상태에 따라 7트랙 자동 전환
+## assets/audio의 Ogg Vorbis 트랙 우선 재생, 없으면 프로시저럴 폴백
 
 # ── 트랙 정의 ─────────────────────────────────────────────────
 const TRACKS = {

@@ -8,10 +8,10 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **콘텐츠 심화** — 죽은 플래그 → 콜백 이벤트 연결 작업 중 |
-| **최근 완료** | **콜백 이벤트 배치 17~19 완성** — 44개 추가. 버그픽스 3건 (cafe_00 무직텍스트/finance_012 max_money/season_lunar_new_year no_job). 배치 1~9 총 131개 콜백 이벤트 완성. |
-| **다음 작업** | **콜백 10차 배치** — 잔여 dead flag: father_going_soon / startup_exit / startup_founded / startup_growing / jobswitch_took/declined/hesitated / headhunted / lied_at_reunion / came_clean_to_friend / deleted_gambling_apps / hit_rock_bottom / promised_father_gangnam / took_gray_tip / took_high_road |
-| **마지막 업데이트** | 2026-06-12 (콜백 배치 17~19 완성, 버그픽스 3건) |
+| **단계** | **스팀 출시 준비** — 비주얼/오디오 완료 + 콜백 이벤트 마무리 중 |
+| **최근 완료** | **VISUAL_AUDIO P3 완료** (main) + **콜백 이벤트 176개** (claude/game-polish 브랜치, 배치 1~12) |
+| **다음 작업** | 잔여 콜백 dead flag 마무리 (~50개) → merge → QA 플레이스루 → 빌드 패키징 |
+| **마지막 업데이트** | 2026-06-13 (main merge + 콜백 배치 12차까지 완료) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

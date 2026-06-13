@@ -39,11 +39,6 @@
         "effects": {
           "stress": 10,
           "mental": 2
-        },
-        "cast_effects": {
-          "hyunsu": {
-            "affinity": 8
-          }
         }
       },
       {
@@ -56,11 +51,6 @@
           "money": -300000,
           "stress": 3,
           "mental": 1
-        },
-        "cast_effects": {
-          "hyunsu": {
-            "affinity": 3
-          }
         }
       }
     ]
