@@ -1,0 +1,287 @@
+[
+  {
+    "id": "callback_chain_banchan_job_lead_echo",
+    "title": "반찬가게 인연으로 취업 기회를 연 뒤",
+    "description": "반찬가게 알바에서 얻은 정보로 취업 기회를 잡은 지 두 달.\n그 연결이 어떻게 됐는지 몰랐다.\n오늘 그 가게 사장님에게 연락이 왔다.",
+    "conditions": {
+      "flag": "chain_banchan_job_lead",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "감사 인사를 전하다",
+        "result_text": "감사하다고 했다.\n사장님이 \"잘 됐냐\"고 물었다.\n작은 인연—이 삶의 방향을 바꿀 수 있다는 걸 알게 됐다."
+      },
+      {
+        "text": "근황을 나누다",
+        "result_text": "근황을 나눴다.\n사장님이 또 도움이 될 게 있으면 말하라고 했다.\n인연은 한 번으로 끝나지 않는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_banchan_regular_echo",
+    "title": "반찬가게 단골이 된 뒤",
+    "description": "반찬가게 단골이 된 지 두 달.\n익숙한 얼굴이 됐다.\n오늘 가게에 갔더니 사장님이 먼저 말을 걸었다.",
+    "conditions": {
+      "flag": "chain_banchan_regular",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "반갑게 대화하다",
+        "result_text": "반갑게 얘기를 나눴다.\n단골—이 된다는 건 그 공간에 속한다는 것이다.\n속한 곳이 있다는 것—이 삶에 안정감을 준다."
+      },
+      {
+        "text": "오늘은 빠르게 사다",
+        "result_text": "바쁘게 샀다.\n사장님이 \"바쁜가봐\"라고 웃으며 챙겨줬다.\n단골—이라는 건 바쁠 때도 챙겨주는 관계다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_interior_gig_echo",
+    "title": "인테리어 단기 일을 잡은 뒤",
+    "description": "인테리어 단기 일을 한 지 두 달.\n그 경험이 쌓였다.\n오늘 비슷한 일이 다시 들어왔다.",
+    "conditions": {
+      "flag": "chain_interior_gig",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "다시 하다",
+        "result_text": "다시 했다.\n처음보다 빨리 적응됐다.\n몸으로 익힌 기술—이 쌓이면 속도가 달라진다."
+      },
+      {
+        "text": "이번엔 더 나은 조건을 요구하다",
+        "result_text": "조건을 협상했다.\n경험이 쌓이면—무조건 받아들이지 않아도 된다.\n첫 번째와 두 번째의 차이—가 협상력이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_interior_manager_echo",
+    "title": "인테리어 현장 관리자가 된 뒤",
+    "description": "인테리어 현장 관리를 맡은 지 두 달.\n책임이 달라졌다.\n오늘 처음으로 혼자 결정해야 하는 상황이 생겼다.",
+    "conditions": {
+      "flag": "chain_interior_manager",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "직접 판단하다",
+        "result_text": "직접 판단했다.\n맞는지 틀린지는 나중에 알게 될 것이다.\n관리자—는 결정을 위임받는 사람이다."
+      },
+      {
+        "text": "위에 확인을 받다",
+        "result_text": "확인을 받았다.\n판단이 틀리는 것보다 확인하는 게 낫다고 생각했다.\n하지만 매번 확인받는 것—이 관리자의 성장을 막는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_neighbor_friend_echo",
+    "title": "고시원 이웃과 친해진 뒤",
+    "description": "고시원 이웃과 가까워진 지 두 달.\n작은 인사가 이어졌다.\n오늘 그 이웃이 힘들어 보였다.",
+    "conditions": {
+      "flag": "chain_neighbor_friend",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "말을 걸다",
+        "result_text": "말을 걸었다.\n그 이웃이 \"별거 아닌데, 고마워\"라고 했다.\n가까워진다는 것—이런 순간에 의미가 생긴다."
+      },
+      {
+        "text": "지켜보다",
+        "result_text": "지켜봤다.\n다음에 기회가 되면 말을 걸어야겠다고 생각했다.\n가까운 사이일수록—지켜보는 것보다 말 한마디가 쉽다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_warned_victim_echo",
+    "title": "피해자에게 경고했던 뒤",
+    "description": "누군가에게 속을 것 같다고 경고한 지 두 달.\n그 사람이 어떻게 됐는지 몰랐다.\n오늘 그 사람에게 연락이 왔다.",
+    "conditions": {
+      "flag": "chain_warned_victim",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "어떻게 됐는지 듣다",
+        "result_text": "경고를 들었다고 했다.\n그리고 피했다고 했다.\n경고 하나—가 누군가의 피해를 막았다."
+      },
+      {
+        "text": "다행이라고 하다",
+        "result_text": "다행이라고 했다.\n그 사람도 다행이라고 했다.\n말 한마디가 이 대화를 만들었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_political_candidate_echo",
+    "title": "정치에 뛰어든 뒤",
+    "description": "정치 출마를 결심한 지 두 달.\n준비 과정이 예상보다 복잡했다.\n오늘 첫 번째 지지 여부 조사가 나왔다.",
+    "conditions": {
+      "flag": "political_candidate",
+      "min_turn": 10
+    },
+    "choices": [
+      {
+        "text": "결과를 받아들이다",
+        "result_text": "결과를 봤다.\n숫자가 전부는 아니다.\n하지만 숫자는—지금 어디에 서 있는지를 보여준다."
+      },
+      {
+        "text": "전략을 바꾸다",
+        "result_text": "전략을 다시 짰다.\n정치는 원칙만으로는 안 된다.\n원칙을 지키면서 전략을 바꾸는 것—이 정치의 어려움이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_political_winner_echo",
+    "title": "선거에서 이긴 뒤",
+    "description": "선거에서 당선된 지 두 달.\n권한이 생겼다.\n오늘 그 권한을 처음으로 실제로 써야 하는 상황이 됐다.",
+    "conditions": {
+      "flag": "political_winner",
+      "min_turn": 10
+    },
+    "choices": [
+      {
+        "text": "약속했던 것을 먼저 하다",
+        "result_text": "약속했던 것부터 했다.\n당선 전 말했던 것—이 당선 후 기준이 된다.\n권한의 첫 번째 사용이—전체를 결정한다."
+      },
+      {
+        "text": "현실을 파악하는 것부터 하다",
+        "result_text": "현실을 파악했다.\n약속과 현실 사이의 간극—이 정치를 어렵게 만든다.\n파악하지 않고 행동하면 실수한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_aggressive_echo",
+    "title": "공격적 마무리 전략을 선택한 뒤",
+    "description": "마지막 단계에서 공격적인 전략을 선택한 지 두 달.\n크게 베팅했다.\n오늘 그 결과가 나왔다.",
+    "conditions": {
+      "flag": "final_sprint_aggressive",
+      "min_turn": 10
+    },
+    "choices": [
+      {
+        "text": "결과를 확인하다",
+        "result_text": "공격적인 전략—크게 맞으면 크게 남고, 크게 틀리면 크게 잃는다.\n어느 쪽이든—이 선택을 했다는 건 그 결과를 감수했다는 것이다."
+      },
+      {
+        "text": "지금이라도 일부 방어 포지션으로 전환하다",
+        "result_text": "일부를 방어로 전환했다.\n공격만 해서는 살아남지 못한다.\n공격과 방어의 균형—이 마지막 단계의 기술이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_defensive_echo",
+    "title": "방어적 마무리 전략을 선택한 뒤",
+    "description": "마지막 단계에서 지키는 전략을 선택한 지 두 달.\n쌓아온 것을 지키는 것이 우선이었다.\n오늘 그 전략이 어떻게 됐는지 봤다.",
+    "conditions": {
+      "flag": "final_sprint_defensive",
+      "min_turn": 10
+    },
+    "choices": [
+      {
+        "text": "현재 자산을 점검하다",
+        "result_text": "점검했다.\n지키는 전략—크게 잃지 않는다.\n하지만 크게 늘리지도 않는다.\n어느 쪽을 선택했냐가—마지막 숫자를 결정한다."
+      },
+      {
+        "text": "지금 추가 기회를 노릴 여지가 있는지 보다",
+        "result_text": "여지를 봤다.\n방어 전략이라도—기회는 온다.\n지키면서 기회를 보는 것—이 방어의 진짜 의미다."
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_reflective_echo",
+    "title": "돌아보는 마무리를 선택한 뒤",
+    "description": "마지막 단계에서 지나온 길을 돌아보기로 한 지 두 달.\n숫자보다 의미를 생각했다.\n오늘 5년을 돌아봤다.",
+    "conditions": {
+      "flag": "final_sprint_reflective",
+      "min_turn": 10
+    },
+    "choices": [
+      {
+        "text": "지금까지가 의미있었다고 생각하다",
+        "result_text": "의미있었다.\n돈이 전부가 아니었다.\n이 5년—이 살아봐야 알 수 있는 것들로 채워졌다."
+      },
+      {
+        "text": "아직 끝나지 않았다",
+        "result_text": "아직 끝나지 않았다.\n돌아보는 것—이 멈추는 게 아니다.\n돌아보면서도 앞으로 갈 수 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_took_loan_echo",
+    "title": "부모 빚을 대신 갚아주기로 한 뒤",
+    "description": "부모 빚을 대신 갚아주기로 한 지 두 달.\n그 부담이 쌓였다.\n오늘 부모님에게 연락이 왔다.",
+    "conditions": {
+      "flag": "parent_took_loan",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "받다",
+        "result_text": "받았다.\n부모님이 \"고맙다\"고 했다.\n빚을 대신 갚는 것—이 고마움으로 돌아왔다.\n하지만 그 부담이 아직 있다는 것도 사실이다."
+      },
+      {
+        "text": "지금 상황을 솔직하게 말하다",
+        "result_text": "솔직하게 말했다.\n부모님이 \"미안하다\"고 했다.\n솔직함—이 부담을 나눠주는 방법이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_paid_full_echo",
+    "title": "부모 빚을 전부 갚은 뒤",
+    "description": "부모 빚을 전부 갚은 지 두 달.\n오래 걸렸다.\n오늘 아버지에게서 전화가 왔다.",
+    "conditions": {
+      "flag": "parent_paid_full",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "반갑게 받다",
+        "result_text": "반갑게 받았다.\n아버지가 \"건강하냐\"고 물었다.\n빚이 없어진 것—이 관계를 다시 시작하게 했다."
+      },
+      {
+        "text": "무슨 일인지 먼저 물어보다",
+        "result_text": "뭔 일인지 물었다.\n\"그냥 전화했다\"고 했다.\n그냥 전화할 수 있게 됐다—는 것이 변한 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_compromise_echo",
+    "title": "보증 문제를 타협으로 해결한 뒤",
+    "description": "보증 문제를 타협으로 마무리한 지 두 달.\n완전한 해결은 아니었다.\n오늘 그 타협의 결과가 어떻게 흘러가는지 보였다.",
+    "conditions": {
+      "flag": "guarantee_compromise",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "타협이 맞았다고 생각하다",
+        "result_text": "맞았다.\n완전하지 않아도—진행되는 타협이 막힌 정의보다 나을 수 있다.\n타협은 패배가 아니다."
+      },
+      {
+        "text": "아직 불완전하다고 생각하다",
+        "result_text": "불완전했다.\n하지만 불완전한 해결—이 해결 없음보다 낫다.\n완전한 해결을 기다리다가 아무것도 못하는 것—이 더 나쁜 선택이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_paid_off_echo",
+    "title": "정체불명 정보가 통했던 뒤",
+    "description": "정체불명 정보에 베팅해서 통한 지 두 달.\n그 이후 비슷한 정보가 또 들어왔다.\n오늘 어떻게 할지 결정해야 했다.",
+    "conditions": {
+      "flag": "mystery_info_paid_off",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "이번에도 베팅하다",
+        "result_text": "베팅했다.\n한 번 통했다고 다음에도 통하는 건 아니다.\n하지만 통했다는 기억—이 다시 베팅하게 만든다."
+      },
+      {
+        "text": "이번엔 검증하고 결정하다",
+        "result_text": "검증했다.\n정보의 출처를 확인했다.\n한 번 통한 경험—이 무조건 믿게 만들지 않으면 진짜 배움이 된다."
+      }
+    ]
+  }
+]
