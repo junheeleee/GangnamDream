@@ -1,0 +1,223 @@
+[
+  {
+    "id": "callback_coin_refused_echo",
+    "title": "After Refusing to Invest in Crypto",
+    "description": "Two months since you turned down the crypto investment.\nYou'd heard what happened to the people who went in.\nToday you looked at the chart.",
+    "choices": [
+      {
+        "text": "Good call to refuse",
+        "result_text": "It had dropped hard.\nRefusing had been right.\nBut it was a gut call at the time, not information.\nWhen a gut call is right — trusting a principle is more repeatable than trusting the gut."
+      },
+      {
+        "text": "Check how it played out",
+        "result_text": "Up then down.\nDeclining had worked out in the end — but it was refusing to participate, not timing the exit.\nRefusing to participate — is the most reliable method."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_warned_friend_echo",
+    "title": "After Talking a Friend Out of Crypto",
+    "description": "Two months since you talked your friend out of putting big money into crypto.\nYou'd been wondering how they were.\nToday they reached out.",
+    "choices": [
+      {
+        "text": "Hear what happened",
+        "result_text": "'Good thing I listened to you,' they said.\nYou remembered how they'd been annoyed when you stopped them.\nSaying the uncomfortable thing — that's what a real friend does."
+      },
+      {
+        "text": "Don't say \"I told you so\"",
+        "result_text": "You didn't gloat.\nThey said 'Thanks.'\nProving you were right — isn't for the friend."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_big_win_echo",
+    "title": "After Winning Big at Poker",
+    "description": "Two months since the big win at the holdem table.\nThat feeling had stayed with you.\nToday word came that there was a seat again.",
+    "choices": [
+      {
+        "text": "Turn it down",
+        "result_text": "You declined.\nAfter a big win — the urge to sit back down is at its strongest.\nThat's exactly when to be most careful."
+      },
+      {
+        "text": "Just once more",
+        "result_text": "You sat.\nThis time was different.\nSitting down after a big win — means going in already behind."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_quit_echo",
+    "title": "After Quitting Poker",
+    "description": "Two months since you decided to quit holdem.\nIt had come to mind sometimes.\nToday one of the old regulars reached out.",
+    "choices": [
+      {
+        "text": "Turn it down",
+        "result_text": "You declined.\nQuitting starts with not answering these messages.\nThe decision to quit matters less than the choices made after."
+      },
+      {
+        "text": "Go just to watch",
+        "result_text": "You went just to watch.\nYou didn't sit.\nBut breathing that air again — made the next time harder to refuse."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_chased_loss_echo",
+    "title": "After Chasing Losses at the Track",
+    "description": "Two months since you chased your losses and lost more.\nThat day was still vivid.\nToday word came that the racing season was starting again.",
+    "choices": [
+      {
+        "text": "Don't go this time",
+        "result_text": "You didn't go.\nThe memory of chasing the loss — stopped you this time.\nA bad experience becoming a lesson — is when it gets used next time."
+      },
+      {
+        "text": "This time is different",
+        "result_text": "You went.\n'This time is different' —\nyou only remembered you'd said that last time after you sat down."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_won_big_echo",
+    "title": "After Winning Big at the Track",
+    "description": "Two months since the big win at the racetrack.\nWhat mattered was what you'd done with the money.\nToday you looked back at it.",
+    "choices": [
+      {
+        "text": "Put it to good use",
+        "result_text": "You'd used it well.\nWinfall money — leaves something when it's used for something real.\nMoney won by luck stays when it isn't bet on luck again."
+      },
+      {
+        "text": "The urge to bet again had been there",
+        "result_text": "The urge had been there.\nYou'd put some back in.\nPutting winnings back in — is the fastest way to give them back."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_refused_echo",
+    "title": "After Refusing to Be a Guarantor",
+    "description": "Two months since you turned down their request to co-sign.\nThings had been awkward since.\nToday you heard how that person was doing.",
+    "choices": [
+      {
+        "text": "Good call to refuse",
+        "result_text": "Things hadn't gone well for them.\nRefusing had been right.\nThe awkwardness of declining — is easier than what would have come from co-signing badly."
+      },
+      {
+        "text": "Still thinking about the relationship",
+        "result_text": "Still on your mind.\nBut the outcome had been right.\nRefusing to guarantee someone — is choosing substance over the relationship."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_signed_echo",
+    "title": "After Signing as Guarantor",
+    "description": "Two months since you signed as their guarantor.\nNo word since.\nToday a message came from the bank.",
+    "choices": [
+      {
+        "text": "Check what it says",
+        "result_text": "A missed payment notice.\nThe moment you signed — their credit became yours.\nOnly co-sign when you're ready to pay for them."
+      },
+      {
+        "text": "Call them first",
+        "result_text": "You called first.\nNo answer.\nBeing a guarantor doesn't end at signing — it has to be managed.\nNo answer is already a signal."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_insured_echo",
+    "title": "After Getting Jeonse Insurance",
+    "description": "Three months since you took out jeonse deposit insurance.\nNothing had happened since.\nToday you heard about the unit next door.",
+    "choices": [
+      {
+        "text": "The neighbor didn't have it",
+        "result_text": "The neighbor hadn't gotten insurance.\nWhen the landlord issue came up, the difference showed.\nInsurance earns its worth when you don't need it — not using it is the good outcome."
+      },
+      {
+        "text": "Feel relief",
+        "result_text": "You felt relief.\nYou'd thought the premium was a waste at times.\nThe best insurance is the kind you never have to use — you understood that now."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_ignored_echo",
+    "title": "After Ignoring Jeonse Insurance",
+    "description": "Three months since you skipped the jeonse deposit insurance as too much hassle.\nYou'd figured nothing would happen.\nToday the landlord suddenly got in touch.",
+    "choices": [
+      {
+        "text": "Find out what it's about",
+        "result_text": "They said returning the deposit would be difficult.\nNot getting insurance — was exactly for this moment.\nThe hassle you avoided — has come back as a fight."
+      },
+      {
+        "text": "Start dealing with it now",
+        "result_text": "You moved fast to respond.\nNo insurance meant fighting it yourself.\nHassle vs. fighting — you know now which one was worse."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_refused_echo",
+    "title": "After Refusing to Help Your Parents",
+    "description": "Two months since you turned down your parents' request for financial help.\nContact had been less frequent since.\nToday a text came from your mother.",
+    "choices": [
+      {
+        "text": "Answer it",
+        "result_text": "You answered.\nNothing much said.\nJust a check-in.\nAfter the silence that followed the refusal — she was the one who broke it."
+      },
+      {
+        "text": "Still not sure how to be with them",
+        "result_text": "Still felt uncomfortable.\nThe refusal might have been right.\nBut the discomfort in the relationship — that's a separate thing that needs its own work."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lie_confessed_echo",
+    "title": "After Confessing the Resume Lie",
+    "description": "Two months since you came clean about the resume exaggeration after joining.\nYou'd been watching how the team lead would treat you since.\nToday they called you in separately.",
+    "choices": [
+      {
+        "text": "Hear what they have to say",
+        "result_text": "'I appreciate you being honest with me,' they said.\nNot a reprimand.\nThe confession had built trust.\nThe position the honesty made — is sturdier than the one the exaggeration made."
+      }
+    ]
+  },
+  {
+    "id": "callback_honest_at_reunion_echo",
+    "title": "After Being Honest at the Reunion",
+    "description": "Two months since you spoke honestly about where you were at the class reunion.\nThat night came back to you sometimes.\nToday a message came from someone who'd been there.",
+    "choices": [
+      {
+        "text": "See what they're saying",
+        "result_text": "'That was cool — the way you were just straight about it,' they said.\nThe honesty — had become an impression.\nPutting the exaggeration down — turned out to be the more memorable thing."
+      },
+      {
+        "text": "Answer warmly",
+        "result_text": "You answered warmly.\nBeing honest that night — had made this message happen.\nHonesty looks like a loss in the short term — but leaves the strongest impression long term."
+      }
+    ]
+  },
+  {
+    "id": "callback_returned_wallet_echo",
+    "title": "After Returning the Wallet",
+    "description": "Two months since you returned the lost wallet to its owner.\nYou'd moved on without thinking about it.\nToday something unexpected happened.",
+    "choices": [
+      {
+        "text": "See what it is",
+        "result_text": "A small piece of good luck.\nWhether it was connected to the wallet — impossible to say.\nBut doing right things accumulates — not just in results, but in the person you become."
+      },
+      {
+        "text": "Just a good day",
+        "result_text": "Just a good day.\nReturning the wallet hadn't been about getting something back.\nYou still remembered that."
+      }
+    ]
+  },
+  {
+    "id": "callback_took_found_money_echo",
+    "title": "After Keeping the Found Money",
+    "description": "Two months since you kept the money you found.\nIt came to mind sometimes.\nToday the same situation came up again.",
+    "choices": [
+      {
+        "text": "Return it this time",
+        "result_text": "You returned it this time.\nThe lingering guilt from last time had stayed with you.\nThat unease — had made this choice."
+      },
+      {
+        "text": "Keep it again",
+        "result_text": "You kept it again.\nWhat you've done once is easier the second time.\nAnd the third time is easier still."
+      }
+    ]
+  }
+]

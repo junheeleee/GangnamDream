@@ -1,0 +1,283 @@
+[
+  {
+    "id": "callback_coin_refused_echo",
+    "title": "코인을 거절한 뒤",
+    "description": "코인 투자를 거절한 지 두 달.\n그때 같이 들어간 사람들 소식이 들렸다.\n오늘 차트를 봤다.",
+    "conditions": {
+      "flag": "coin_refused",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "잘 거절했다",
+        "result_text": "크게 빠졌다.\n거절이 맞았다.\n하지만 그때는 정보가 아니라 직감이었다.\n직감이 맞았을 때—직감이 아니라 원칙을 믿는 것이 더 재현 가능하다."
+      },
+      {
+        "text": "올랐다 내렸다—어떻게 됐는지 확인하다",
+        "result_text": "올랐다가 내렸다.\n거절이 결과적으로 맞았지만—타이밍을 맞춘 게 아니라 참여를 거절한 것이었다.\n참여를 거절하는 것—이 가장 확실한 방법이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_warned_friend_echo",
+    "title": "친구에게 코인을 말린 뒤",
+    "description": "친구가 코인에 큰 돈을 넣으려는 걸 말린 지 두 달.\n그 친구가 어떻게 됐는지 궁금했다.\n오늘 연락이 왔다.",
+    "conditions": {
+      "flag": "coin_warned_friend",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "어떻게 됐는지 듣다",
+        "result_text": "\"네 말 듣길 잘했어\"라고 했다.\n말렸을 때 친구가 기분 나빠했던 게 기억났다.\n불편한 말을 해주는 것—그게 진짜 친구다."
+      },
+      {
+        "text": "\"내가 맞았지\"라고 하지 않다",
+        "result_text": "자랑하지 않았다.\n친구가 \"고마워\"라고 했다.\n맞았다는 걸 증명하는 것—친구를 위한 게 아니다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_big_win_echo",
+    "title": "홀덤에서 크게 따고 난 뒤",
+    "description": "홀덤에서 크게 따고 두 달이 지났다.\n그 감각이 아직 남아 있었다.\n오늘 또 자리가 생겼다는 연락이 왔다.",
+    "conditions": {
+      "flag": "holdem_big_win",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "거절하다",
+        "result_text": "거절했다.\n크게 땄을 때—다시 앉고 싶은 욕구가 가장 강하다.\n그때가 가장 조심해야 할 때다."
+      },
+      {
+        "text": "한 번만 더",
+        "result_text": "앉았다.\n이번엔 달랐다.\n크게 따고 나서 앉는 것—이미 지는 상태로 들어가는 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_quit_echo",
+    "title": "홀덤을 끊은 뒤",
+    "description": "홀덤을 끊기로 한 지 두 달.\n가끔 생각이 났다.\n오늘 예전 자리 멤버에게서 연락이 왔다.",
+    "conditions": {
+      "flag": "holdem_quit",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "거절하다",
+        "result_text": "거절했다.\n끊은 것은—연락에 응하지 않는 것부터 시작된다.\n끊겠다는 결심보다 그 이후의 선택들이 끊는 것이다."
+      },
+      {
+        "text": "그냥 구경만 하러 가다",
+        "result_text": "구경만 하러 갔다.\n앉지는 않았다.\n하지만 그 공기를 다시 마신 것—다음 번을 더 어렵게 만들었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_chased_loss_echo",
+    "title": "경마에서 손실을 쫓은 뒤",
+    "description": "잃은 돈을 만회하려다 더 잃은 지 두 달.\n그 날이 아직 생생했다.\n오늘 경마 시즌이 다시 시작됐다는 게 들렸다.",
+    "conditions": {
+      "flag": "racetrack_chased_loss",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "이번엔 안 간다",
+        "result_text": "안 갔다.\n손실을 쫓은 기억이—이번엔 막았다.\n나쁜 경험이 교훈이 되는 것—다음 번에 쓸 때다."
+      },
+      {
+        "text": "이번엔 다르다",
+        "result_text": "갔다.\n\"이번엔 다르다\"—이 말이 지난번에도 했던 말이었다는 걸\n앉고 나서야 기억했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_racetrack_won_big_echo",
+    "title": "경마에서 크게 따고 난 뒤",
+    "description": "경마에서 크게 따고 두 달이 지났다.\n그 돈을 어떻게 했는지가 중요했다.\n오늘 그 돈을 돌아봤다.",
+    "conditions": {
+      "flag": "racetrack_won_big",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "잘 썼다",
+        "result_text": "잘 썼다.\n횡재한 돈—의미있게 쓴 것이 남아 있었다.\n운으로 번 돈은 운에 쓰지 않을 때 남는다."
+      },
+      {
+        "text": "다시 쓰고 싶은 욕구가 있었다",
+        "result_text": "다시 쓰고 싶었다.\n일부를 다시 넣었다.\n따고 나서 다시 넣는 것—딴 것을 되돌려주는 가장 빠른 방법이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_refused_echo",
+    "title": "보증을 거절한 뒤",
+    "description": "그 사람의 보증 요청을 거절한 지 두 달.\n그 이후로 관계가 어색해졌다.\n오늘 그 사람 소식을 들었다.",
+    "conditions": {
+      "flag": "guarantee_refused",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "잘 거절했다",
+        "result_text": "그쪽 상황이 좋지 않게 됐다.\n거절이 맞았다.\n관계가 어색해지는 것—보증을 잘못 섰을 때 생기는 것보다는 낫다."
+      },
+      {
+        "text": "관계가 아직 신경 쓰인다",
+        "result_text": "아직 신경 쓰였다.\n하지만 결과는 맞았다.\n보증을 거절하는 것—관계보다 실체를 지키는 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_signed_echo",
+    "title": "보증을 선 뒤",
+    "description": "그 사람의 보증을 서준 지 두 달.\n아직 아무 연락이 없었다.\n오늘 은행에서 문자가 왔다.",
+    "conditions": {
+      "flag": "guarantee_signed",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "내용을 확인하다",
+        "result_text": "연체 알림이었다.\n보증을 선 순간—그 사람의 신용이 내 신용이 됐다.\n보증은 대신 갚을 준비가 됐을 때만 서는 것이다."
+      },
+      {
+        "text": "그 사람에게 먼저 연락하다",
+        "result_text": "먼저 연락했다.\n받지 않았다.\n보증은 서준 뒤에도 계속 관리해야 한다.\n연락이 안 된다는 것—이미 신호다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_insured_echo",
+    "title": "전세 보험에 든 뒤",
+    "description": "전세 보증보험에 가입한 지 세 달.\n그 이후로 조용했다.\n오늘 같은 건물 옆집 소식이 들렸다.",
+    "conditions": {
+      "flag": "jeonse_insured",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "옆집은 보험이 없었다",
+        "result_text": "옆집은 들지 않았다.\n집주인 문제가 생겼을 때 차이가 났다.\n보험은 쓰지 않을 때 빛난다—쓰지 않은 것이 잘 된 것이다."
+      },
+      {
+        "text": "다행이라고 생각하다",
+        "result_text": "다행이었다.\n보험료가 아깝다고 생각한 적이 있었다.\n안 쓰는 게 제일 좋은 보험—이 말의 뜻을 이제 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_ignored_echo",
+    "title": "전세 보험을 무시한 뒤",
+    "description": "전세 보증보험이 번거롭다고 무시한 지 세 달.\n아무 일도 없을 거라고 생각했다.\n오늘 집주인에게서 갑자기 연락이 왔다.",
+    "conditions": {
+      "flag": "jeonse_ignored",
+      "min_turn": 12
+    },
+    "choices": [
+      {
+        "text": "내용을 확인하다",
+        "result_text": "보증금 반환이 어렵다는 말이었다.\n보험에 들지 않은 것—이 순간을 위한 것이었다.\n번거로움을 감수하는 이유는—이런 순간에 있다."
+      },
+      {
+        "text": "지금이라도 대응하다",
+        "result_text": "지금 당장 대응에 나섰다.\n보험이 없으니 직접 싸워야 했다.\n번거로움 대 싸움—어느 쪽이 더 번거로운지 이제 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_refused_echo",
+    "title": "부모님 도움을 거절한 뒤",
+    "description": "부모님의 재정 문제를 도와달라는 요청을 거절한 지 두 달.\n그 이후로 연락이 줄었다.\n오늘 어머니에게서 문자가 왔다.",
+    "conditions": {
+      "flag": "parent_refused",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "받다",
+        "result_text": "받았다.\n별 말이 없었다.\n그냥 안부였다.\n거절 이후의 침묵—그 침묵을 깬 건 어머니였다."
+      },
+      {
+        "text": "아직 어떻게 대할지 모르겠다",
+        "result_text": "아직 불편했다.\n거절은 맞을 수 있다.\n하지만 관계의 불편함—이건 별도로 풀어야 한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_resume_lie_confessed_echo",
+    "title": "이력서 과장을 고백한 뒤",
+    "description": "입사 후 이력서의 과장을 솔직하게 말한 지 두 달.\n그 이후 팀장이 어떻게 볼지 신경 쓰였다.\n오늘 팀장이 따로 불렀다.",
+    "conditions": {
+      "flag": "resume_lie_confessed",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "어떤 말인지 듣다",
+        "result_text": "\"솔직하게 말해줘서 고마워\"라고 했다.\n질책이 아니었다.\n고백이 신뢰를 만들었다.\n과장이 만든 자리보다—고백이 만든 자리가 더 단단하다."
+      }
+    ]
+  },
+  {
+    "id": "callback_honest_at_reunion_echo",
+    "title": "동창회에서 솔직했던 뒤",
+    "description": "동창회에서 현재 상황을 솔직하게 말한 지 두 달.\n그때가 가끔 떠올랐다.\n오늘 그때 본 친구에게서 연락이 왔다.",
+    "conditions": {
+      "flag": "honest_at_reunion",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "무슨 연락인지 보다",
+        "result_text": "\"그때 솔직하게 말하는 거 멋있었어\"라고 했다.\n솔직함—이 인상이 됐다.\n과장을 내려놓은 자리—오히려 더 남는 자리가 됐다."
+      },
+      {
+        "text": "반갑게 받다",
+        "result_text": "반갑게 받았다.\n그때 솔직했던 것이—이 연락을 만들었다.\n솔직함은 단기에는 손해처럼 보이지만—장기에는 가장 좋은 인상을 남긴다."
+      }
+    ]
+  },
+  {
+    "id": "callback_returned_wallet_echo",
+    "title": "지갑을 돌려준 뒤",
+    "description": "잃어버린 지갑을 주인에게 돌려준 지 두 달.\n그 이후로 잊고 살았다.\n오늘 뜻밖의 일이 생겼다.",
+    "conditions": {
+      "flag": "returned_wallet",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "무슨 일인지 확인하다",
+        "result_text": "작은 행운이 왔다.\n지갑과 연관이 있는지는 알 수 없었다.\n하지만 선한 행동이 쌓이는 것—결과보다 그 사람이 되어가는 것이다."
+      },
+      {
+        "text": "그냥 좋은 하루였다",
+        "result_text": "그냥 좋은 하루였다.\n지갑을 돌려준 것—보상을 바라고 한 것이 아니었다.\n그걸 기억하고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_took_found_money_echo",
+    "title": "주운 돈을 쓴 뒤",
+    "description": "길에서 주운 돈을 그냥 가진 지 두 달.\n가끔 생각이 났다.\n오늘 비슷한 상황이 또 생겼다.",
+    "conditions": {
+      "flag": "took_found_money",
+      "min_turn": 8
+    },
+    "choices": [
+      {
+        "text": "이번엔 돌려주다",
+        "result_text": "이번엔 돌려줬다.\n지난번이 찜찜하게 남아 있었다.\n그 찜찜함—이번 선택을 만들었다."
+      },
+      {
+        "text": "또 가지다",
+        "result_text": "또 가졌다.\n한 번 한 것은 두 번째가 쉽다.\n그리고 세 번째는 더 쉬워진다."
+      }
+    ]
+  }
+]
