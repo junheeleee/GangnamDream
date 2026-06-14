@@ -83,6 +83,8 @@ const ALL_TITLES := [
 	 "desc":"스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다."},
 	{"id":"baccarat_master_title","name":"강원랜드 상주자",  "cat":"미니게임", "rare":"rare",
 	 "desc":"바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다."},
+	{"id":"blackjack_master_title","name":"기본전략의 달인", "cat":"미니게임", "rare":"rare",
+	 "desc":"블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다."},
 	# ── 전문화 ──
 	{"id":"spec_elite_title",   "name":"엘리트의 길",       "cat":"성향", "rare":"uncommon",
 	 "desc":"엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까."},
@@ -237,7 +239,8 @@ func _check_title_condition(tid: String) -> bool:
 		"holdem_master_title":    return int(data.get("mg_plays_holdem", 0)) >= 15
 		"racetrack_master_title": return int(data.get("mg_plays_racetrack", 0)) >= 15
 		"scalping_master_title":  return int(data.get("mg_plays_scalping", 0)) >= 15
-		"baccarat_master_title":  return int(data.get("mg_plays_baccarat", 0)) >= 15
+		"baccarat_master_title":   return int(data.get("mg_plays_baccarat", 0)) >= 15
+		"blackjack_master_title":  return int(data.get("mg_plays_blackjack", 0)) >= 15
 		# ── 전문화 칭호 ──
 		"spec_elite_title":   return GameState.flags.get("spec_elite", false)
 		"spec_quant_title":   return GameState.flags.get("spec_quant", false)
