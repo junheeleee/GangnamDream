@@ -406,8 +406,9 @@ func _on_wheel_draw() -> void:
 		var lbl_str: String  = str(SEG_LABELS[seg])
 
 		# 결과 세그먼트 플래시
-		if _phase == Phase.RESULT and seg == _result_seg and _flash_timer > 0.0:
-			seg_col = seg_col.lightened(0.4)
+		var is_result: bool = (_phase == Phase.RESULT and seg == _result_seg and _result_seg >= 0)
+		if is_result and _flash_timer > 0.0:
+			seg_col = seg_col.lightened(0.45)
 
 		# 슬롯별 부채꼴 그리기
 		for slot_i in range(seg_count):
@@ -420,6 +421,12 @@ func _on_wheel_draw() -> void:
 				var a: float = lerp(a0, a1, float(step) / float(steps))
 				points.append(Vector2(cx + cos(a) * r, cy + sin(a) * r))
 			_wheel_ctrl.draw_colored_polygon(points, seg_col)
+
+		# 당첨 세그먼트 — 외곽 하이라이트 아크
+		if is_result:
+			var arc_a0: float = _wheel_angle + float(seg_start_slot) * slot_angle
+			var arc_a1: float = _wheel_angle + float(seg_start_slot + seg_count) * slot_angle
+			_wheel_ctrl.draw_arc(Vector2(cx, cy), r * 0.96, arc_a0, arc_a1, 16, Color(1.0, 1.0, 1.0, 0.85), 3.5)
 
 		# 세그먼트 구분선
 		var div_a: float = _wheel_angle + float(seg_start_slot) * slot_angle
@@ -493,10 +500,15 @@ func _refresh_seg_btns() -> void:
 		if not is_instance_valid(btn):
 			continue
 		var selected: bool   = (i == _bet_segment)
+		var is_result_seg: bool = (_phase == Phase.RESULT and i == _result_seg and _result_seg >= 0)
 		var col_hex: String  = str(SEG_COLORS[i])
 		var seg_col: Color   = Color(col_hex)
 		var st := StyleBoxFlat.new()
-		if selected:
+		if is_result_seg:
+			st.bg_color = seg_col.lightened(0.25)
+			st.border_color = Color("#ffffff")
+			st.set_border_width_all(4)
+		elif selected:
 			st.bg_color = seg_col.darkened(0.25)
 			st.border_color = Color("#f39c12")
 			st.set_border_width_all(3)
@@ -512,7 +524,7 @@ func _refresh_seg_btns() -> void:
 		btn.add_theme_stylebox_override("normal", st)
 		btn.add_theme_stylebox_override("hover", hov)
 		btn.add_theme_stylebox_override("pressed", hov)
-		btn.add_theme_color_override("font_color", Color.WHITE if selected else Color(1, 1, 1, 0.65))
+		btn.add_theme_color_override("font_color", Color.WHITE if (selected or is_result_seg) else Color(1, 1, 1, 0.65))
 
 func _refresh_stake_btns() -> void:
 	for entry in _stake_btns:

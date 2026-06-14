@@ -203,6 +203,15 @@ func _start_hand() -> void:
 	_show_table_banner("NEW HAND", Color("#5b9cf6"), 0.65)
 	_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.47), 6)
 	_screen_flash(Color("#5b9cf6"), 0.10, 0.22)
+	# 홀 카드 딜 애니메이션 — 카드 2장 순서대로 scale 팝
+	if is_instance_valid(_hole_row):
+		var delay := 0.0
+		for card in _hole_row.get_children():
+			card.scale = Vector2(0.0, 0.0)
+			var tw := create_tween()
+			tw.tween_interval(delay)
+			tw.tween_property(card, "scale", Vector2(1.0, 1.0), 0.20).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			delay += 0.18
 	_process_action_turn()
 
 func _post_blind(who: int, amount: int, is_player: bool) -> void:

@@ -438,6 +438,16 @@ func _build_ui() -> void:
 		_stake_btns.append(sb)
 		stake_row.add_child(sb)
 
+	# ── MAX BET 버튼 (최대 베팅 바로 선택) ───────────────────────
+	var max_bet_btn := _make_btn("MAX BET", func():
+		_on_stake_select(STAKE_OPTIONS[-1])
+	, "#2a1a00", "#f39c12")
+	max_bet_btn.custom_minimum_size = Vector2(0, 28)
+	max_bet_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	max_bet_btn.add_theme_font_size_override("font_size", 11)
+	_f(max_bet_btn, true)
+	inner.add_child(max_bet_btn)
+
 	# ── SPIN 버튼 ──────────────────────────────────────────────
 	_spin_btn = _make_btn("🎰  SPIN", _start_spin, "#0d2a15", "#2ecc71")
 	_spin_btn.custom_minimum_size = Vector2(0, 56)

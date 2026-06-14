@@ -21,7 +21,9 @@ var _font: FontFile
 var _font_bold: FontFile
 
 var _balance_lbl: Label
+var _session_lbl: Label
 var _msg_lbl: Label
+var _entry_balance: int = 0
 
 # ── 초기화 ─────────────────────────────────────────────────────────
 func _ready() -> void:
@@ -48,6 +50,7 @@ func _f(n: Control, bold: bool = false) -> void:
 
 func open() -> void:
 	visible = true
+	_entry_balance = GameState.money
 	_refresh_balance()
 
 func _close() -> void:
@@ -57,6 +60,17 @@ func _close() -> void:
 func _refresh_balance() -> void:
 	if _balance_lbl:
 		_balance_lbl.text = "잔액: ₩%s" % _fmt(GameState.money)
+	if _session_lbl:
+		var delta: int = GameState.money - _entry_balance
+		if delta > 0:
+			_session_lbl.text = "+₩%s" % _fmt(delta)
+			_session_lbl.add_theme_color_override("font_color", Color("#3de87a"))
+		elif delta < 0:
+			_session_lbl.text = "-₩%s" % _fmt(-delta)
+			_session_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
+		else:
+			_session_lbl.text = "±₩0"
+			_session_lbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.6))
 
 # ── UI 빌드 ──────────────────────────────────────────────────────
 func _build_ui() -> void:
@@ -89,10 +103,16 @@ func _build_ui() -> void:
 	hrow.add_child(title_lbl)
 
 	_balance_lbl = Label.new()
-	_balance_lbl.add_theme_font_size_override("font_size", 16)
+	_balance_lbl.add_theme_font_size_override("font_size", 14)
 	_balance_lbl.add_theme_color_override("font_color", Color(0.8, 0.9, 0.8))
 	_f(_balance_lbl)
 	hrow.add_child(_balance_lbl)
+
+	_session_lbl = Label.new()
+	_session_lbl.add_theme_font_size_override("font_size", 13)
+	_session_lbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.6))
+	_f(_session_lbl, true)
+	hrow.add_child(_session_lbl)
 
 	var exit_btn := _make_btn("나가기", "#6a6a6a")
 	exit_btn.custom_minimum_size = Vector2(90, 44)
