@@ -1,5 +1,25 @@
 # Gangnam Dream Work Log
 
+## 2026-06-14 (스탯 정리 + 강원랜드 사후 이벤트)
+
+### 스탯 UI 정리
+- `stress` (스트레스)를 플레이어 UI에서 완전히 제거. 내부 메커니즘은 유지.
+  - 헤더 바이탈 HUD: 건강/정신 2개 바로 축소
+  - 스탯 패널: stress 행 제거
+  - 플로팅 텍스트: stress 효과 숨김 (_STAT_KR에서 제거)
+  - 어드바이스/내레이션: 스트레스 임계값 기반 → 정신력 임계값 기반으로 전환
+  - 내부적으로 stress는 계속 누적되고 매달 정신력에 영향을 줌 (hidden mechanic)
+
+### 강원랜드 사후 이벤트
+- `GangwonLand.open()`: 첫 방문 환영 메시지 + `gangwon_first_visit` 플래그
+  세션 시작 시 임시 플래그 초기화
+- `GangwonLand._close()`: 손익 기준 플래그 설정 (손실 50만↑ / 수익 100만↑)
+  방문마다 addiction_tendency +3
+- `life_events.json`: 강원랜드 사후 이벤트 3종 추가
+  - `gangwon_big_loss_bus` — 귀가 버스 성찰
+  - `gangwon_big_win_urge` — 재방문 충동
+  - `gangwon_addiction_notice` — 중독 자각 (min_addiction 60)
+
 ## 2026-06-14 (강원랜드 카지노 5종 완성)
 
 ### 신규 수학 모델 (systems/)

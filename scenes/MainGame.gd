@@ -284,7 +284,7 @@ func _build_top_bar(parent):
 
 	row.add_child(_label("│", 13, "#2a2a3a"))
 
-	# ── 바이탈 HUD: 건강 / 정신 / 스트레스 ──────────────────
+	# ── 바이탈 HUD: 건강 / 정신 ──────────────────
 	var vitals_row = HBoxContainer.new()
 	vitals_row.add_theme_constant_override("separation", 10)
 	row.add_child(vitals_row)
@@ -295,14 +295,9 @@ func _build_top_bar(parent):
 	vitals_row.add_child(hp_lbl)
 
 	var mp_lbl = _label("", 13, "#93c5fd")
-	mp_lbl.custom_minimum_size = Vector2(70, 0)
+	mp_lbl.custom_minimum_size = Vector2(80, 0)
 	top_labels["vital_mental"] = mp_lbl
 	vitals_row.add_child(mp_lbl)
-
-	var sp_lbl = _label("", 13, "#fca5a5")
-	sp_lbl.custom_minimum_size = Vector2(70, 0)
-	top_labels["vital_stress"] = sp_lbl
-	vitals_row.add_child(sp_lbl)
 
 	row.add_child(_label("│", 13, "#2a2a3a"))
 
@@ -561,7 +556,7 @@ func _build_info_panel():
 	stat_box.add_child(sep_line)
 
 	stat_box.add_child(_label("PLAYER", 13, "#5b9cf6"))
-	for key in ["housing", "job", "health", "mental", "stress", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
+	for key in ["housing", "job", "health", "mental", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
 		var stat_row = HBoxContainer.new()
 		stat_box.add_child(stat_row)
 		var name_label = _label(_stat_name(key), 12, "#5a6075")
@@ -1598,7 +1593,6 @@ func _refresh_all():
 	stat_labels["job"].text = GameState.current_job.get("name", "무직")
 	_set_stat_value("health", GameState.health, true, 50, 30)
 	_set_stat_value("mental", GameState.mental, true, 50, 30)
-	_set_stat_value("stress", GameState.stress, false, 60, 80)
 
 	# ── 탑바 바이탈 HUD 갱신 ─────────────────────────
 	_refresh_vitals()
@@ -1625,7 +1619,7 @@ func _refresh_all():
 
 # ── 스탯 변화 플로팅 숫자 애니메이션 ──────────────────────────────
 const _STAT_KR = {
-	"health": "건강", "mental": "정신", "stress": "스트레스",
+	"health": "건강", "mental": "정신",
 	"intelligence": "지력", "social_skill": "사회성",
 	"investment_skill": "투자감각", "luck": "운",
 	"appearance": "외모", "reputation": "평판",
@@ -1647,7 +1641,7 @@ func _show_effects_float(effects: Dictionary):
 			text = "%s%d %s" % [sign, val, label_kr]
 		# 색상: 좋은 변화=초록, 나쁜 변화=빨강
 		var is_good: bool
-		if key == "stress" or key == "addiction_tendency":
+		if key == "addiction_tendency":
 			is_good = val < 0
 		elif key == "money":
 			is_good = val > 0
@@ -1676,8 +1670,7 @@ func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 	var money_delta := int(effects.get("money", 0))
 	var health_delta := int(effects.get("health", 0))
 	var mental_delta := int(effects.get("mental", 0))
-	var stress_delta := int(effects.get("stress", 0))
-	var big_loss := money_delta <= -1_000_000 or health_delta <= -15 or mental_delta <= -15 or stress_delta >= 15
+	var big_loss := money_delta <= -1_000_000 or health_delta <= -15 or mental_delta <= -15
 	var big_gain := money_delta >= 1_000_000
 	if big_gain:
 		AudioManager.play("money_big")
@@ -1697,7 +1690,7 @@ func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 			or int(effects.get("social_skill", 0)) > 0 or int(effects.get("investment_skill", 0)) > 0:
 		AudioManager.play("stat_up")
 		_screen_flash(Color("#34d399"), 0.10, 0.22)
-	elif health_delta < 0 or mental_delta < 0 or stress_delta > 0:
+	elif health_delta < 0 or mental_delta < 0:
 		AudioManager.play("stat_down")
 		_screen_flash(Color("#d73a49"), 0.10, 0.22)
 
@@ -1828,21 +1821,6 @@ func _refresh_vitals():
 	mp_lbl.add_theme_color_override("font_color", mp_color)
 	if mp <= 30:
 		_pulse_vital_warning(mp_lbl)
-	# 스트레스
-	var st = GameState.stress
-	var st_bar = _bar_str(st, 100, 6)
-	var st_color: Color
-	if st >= 80:
-		st_color = Color("#ff4444")
-	elif st >= 60:
-		st_color = Color("#f0b429")
-	else:
-		st_color = Color("#6ee7b7")
-	var st_lbl = top_labels["vital_stress"]
-	st_lbl.text = "😤 %d %s" % [st, st_bar]
-	st_lbl.add_theme_color_override("font_color", st_color)
-	if st >= 80:
-		_pulse_vital_warning(st_lbl)
 
 func _pulse_vital_warning(lbl: Label) -> void:
 	if not is_instance_valid(lbl):
@@ -1853,7 +1831,7 @@ func _pulse_vital_warning(lbl: Label) -> void:
 
 func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int, danger_thresh: int):
 	var label = stat_labels[key]
-	var show_bar = key in ["health", "mental", "stress"]
+	var show_bar = key in ["health", "mental"]
 	if show_bar:
 		label.text = "%d  %s" % [value, _bar_str(value, 100, 10)]
 	else:
@@ -2167,8 +2145,8 @@ func _render_ap_actions():
 	if GameState.mental <= 45:
 		lines.append("[color=#ff4444]🚨  정신력 %d / 100[/color]  — 위험!" % GameState.mental)
 		has_warning = true
-	if GameState.stress >= 72 and GameState.health > 45 and GameState.mental > 45:
-		lines.append("[color=#f0b429]⚠  스트레스 %d[/color]  — 건강/정신에 영향을 줍니다." % GameState.stress)
+	if GameState.mental <= 55 and GameState.health > 45 and GameState.mental > 45:
+		lines.append("[color=#f0b429]⚠  정신력 %d[/color]  — 피로가 쌓이고 있습니다. 가끔 쉬세요." % GameState.mental)
 		has_warning = true
 	if GameState.money < 0:
 		lines.append("[color=#ff4444]🚨  잔고 마이너스  %s[/color]  — 빚이 생겼습니다!" % GameState.format_money(GameState.money))
@@ -2259,13 +2237,12 @@ func _recommend_action() -> String:
 	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
 	var inv_skill: int = int(GameState.investment_skill)
 	var total: float = float(GameState.get_total_asset_value())
-	var stress: int = int(GameState.stress)
 	var intel: int = int(GameState.intelligence)
 
 	if no_job:
 		return "💼 구직활동  →  수입 0원 탈출이 1순위"
-	if stress >= 60:
-		return "🌊 휴식  →  스트레스 %d 누적. 쉬는 것도 전략" % stress
+	if GameState.mental <= 50:
+		return "🌊 휴식  →  정신력 %d. 쉬는 것도 전략" % GameState.mental
 	if not has_paycheck:
 		return "💼 구직활동  →  첫 월급 수령 전까지 투자 불가"
 	if total > 10_000_000 and inv_skill >= 15:
@@ -2291,9 +2268,9 @@ func _month_narration() -> String:
 		return "마음이 바닥에 닿았다. 아무것도 하기 싫은 날이 늘어간다."
 	if GameState.mental <= 45:
 		return "마음이 자꾸 가라앉는다. 버티는 것도 힘이 든다."
-	if GameState.stress >= 80:
+	if GameState.mental <= 40:
 		return "몸이 신호를 보내고 있다. 이 속도로는 오래 못 간다."
-	if GameState.stress >= 70:
+	if GameState.mental <= 50:
 		return "어깨가 무겁다. 잠깐의 숨 돌릴 틈도 없다."
 	if GameState.current_job.is_empty() and t > 2:
 		if t > 20:
