@@ -8,7 +8,10 @@ signal closed
 
 const GAME_DURATION  := 60.0   # 게임 시간 (초)
 const TICK_INTERVAL  := 0.35   # 가격 업데이트 간격
-const CHART_BARS     := 55     # 차트에 표시할 틱 수
+const CHART_BARS     := 60     # 차트에 표시할 틱 수
+const CANDLE_TICKS   := 3      # 캔들 1개 = 틱 N개
+const MA_FAST        := 5      # 빠른 MA
+const MA_SLOW        := 20     # 느린 MA
 const VALID_STAKES   := [100_000, 500_000, 1_000_000, 3_000_000]
 
 enum Phase { SETUP, PLAYING, RESULT }
@@ -21,9 +24,11 @@ var _momentum: float = 0.0
 var _price_history: Array = []   # float 리스트 (최신이 마지막)
 var _in_position: bool = false
 var _entry_price: float = 0.0
+var _entry_tick: int = 0         # 매수 시점 틱 인덱스
 var _stake: int = 500_000
 var _realized: float = 0.0      # 확정 수익
 var _trades: int = 0
+var _trade_history: Array = []   # [{tick, price, type: "buy"/"sell", pnl}]
 var _rng := RandomNumberGenerator.new()
 var _skill_level: int = 0       # GameState.investment_skill 캐시
 
@@ -75,8 +80,10 @@ func _start_game() -> void:
 	_price_history = [_price]
 	_in_position = false
 	_entry_price = 0.0
+	_entry_tick = 0
 	_realized = 0.0
 	_trades = 0
+	_trade_history = []
 	_phase = Phase.PLAYING
 	set_process(true)
 	_rebuild()
@@ -197,57 +204,142 @@ func _build_ui() -> void:
 	_sell_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn_row.add_child(_sell_btn)
 
-# ── 차트 그리기 (custom _draw) ────────────────────────────────────
+# ── 차트 그리기 — 캔들스틱 + MA + 매매 마커 ──────────────────────
 func _draw_chart(canvas: Control) -> void:
 	if _price_history.size() < 2:
 		return
 	var w: float = canvas.size.x
-	var h: float = canvas.size.y
-	if w <= 0 or h <= 0:
+	var h_total: float = canvas.size.y
+	if w <= 0 or h_total <= 0:
 		return
 
-	# 범위 계산
+	var h: float = h_total  # 캔들 차트 높이 (전체)
+	var f := _font if _font else ThemeDB.fallback_font
+
+	# ── 캔들 OHLC 계산 ──────────────────────────────────────────
 	var history: Array = _price_history.slice(maxi(0, _price_history.size() - CHART_BARS))
-	var lo: float = history[0]
-	var hi: float = history[0]
+	# 역방향 오프셋 (히스토리 배열 내 시작 인덱스)
+	var hist_offset: int = maxi(0, _price_history.size() - CHART_BARS)
+
+	var candles: Array = []   # [{o, h, l, c, tick_start}]
+	var i := 0
+	while i < history.size():
+		var end := mini(i + CANDLE_TICKS, history.size())
+		var seg := history.slice(i, end)
+		var o: float = seg[0]; var c: float = seg[-1]
+		var ch := seg[0]; var cl: float = seg[0]
+		for v in seg:
+			ch = maxf(ch, v); cl = minf(cl, v)
+		candles.append({"o": o, "h": ch, "l": cl, "c": c, "tick_start": i})
+		i += CANDLE_TICKS
+
+	# ── 가격 범위 ───────────────────────────────────────────────
+	var lo: float = history[0]; var hi: float = history[0]
 	for v in history:
-		lo = minf(lo, v)
-		hi = maxf(hi, v)
+		lo = minf(lo, v); hi = maxf(hi, v)
 	var range_y: float = maxf(hi - lo, 0.5)
-	lo -= range_y * 0.08
-	hi += range_y * 0.08
+	lo -= range_y * 0.10; hi += range_y * 0.10
 	range_y = hi - lo
 
-	# 그리드 배경
-	canvas.draw_rect(Rect2(0, 0, w, h), Color("#0a0e18"))
-	for gi in range(4):
-		var gy: float = h * float(gi) / 3.0
-		canvas.draw_line(Vector2(0, gy), Vector2(w, gy), Color("#161e2c"), 1)
+	# ── 배경 + 그리드 ────────────────────────────────────────────
+	canvas.draw_rect(Rect2(0, 0, w, h), Color("#070a12"))
+	for gi in range(5):
+		var gy: float = h * float(gi) / 4.0
+		var pv: float = hi - (float(gi) / 4.0) * range_y
+		canvas.draw_line(Vector2(0, gy), Vector2(w, gy), Color("#111926"), 1)
+		if gi < 4:
+			canvas.draw_string(f, Vector2(4, gy + 11), "%.1f" % pv,
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("#2a3a4a"))
 
-	# 진입가 수평선
+	# ── 진입가 수평선 ─────────────────────────────────────────────
 	if _in_position and _entry_price > 0.0:
 		var ey: float = h - ((_entry_price - lo) / range_y) * h
-		canvas.draw_line(Vector2(0, ey), Vector2(w, ey), Color("#3a7a5a80"), 1)
-		canvas.draw_string(_font if _font else ThemeDB.fallback_font,
-			Vector2(4, ey - 2), "진입 %.2f" % _entry_price, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("#3a9a6a"))
+		canvas.draw_line(Vector2(0, ey), Vector2(w, ey), Color(0.15, 0.8, 0.4, 0.55), 1.5)
+		canvas.draw_string(f, Vector2(w - 70, ey - 10), "진입 %.2f" % _entry_price,
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("#3dba6a"))
 
-	# 가격 라인
-	var n: int = history.size()
-	var prev_pt := Vector2.ZERO
-	for i in range(n):
-		var x: float = w * float(i) / float(CHART_BARS - 1)
-		var y: float = h - ((float(history[i]) - lo) / range_y) * h
-		var pt := Vector2(x, y)
-		if i > 0:
-			var up: bool = float(history[i]) >= float(history[i - 1])
-			var col: Color = Color("#3dba6a") if up else Color("#e85d5d")
-			canvas.draw_line(prev_pt, pt, col, 1.5)
-		prev_pt = pt
+	# ── 캔들 렌더 ────────────────────────────────────────────────
+	var nc: int = candles.size()
+	var cw: float = maxf(w / float(maxi(nc, 1)), 3.0)
+	var wick_w: float = 1.5
 
-	# 현재가 점
-	var last_x: float = w * float(n - 1) / float(CHART_BARS - 1)
-	var last_y: float = h - ((_price - lo) / range_y) * h
-	canvas.draw_circle(Vector2(last_x, last_y), 4.0, Color("#f0b429"))
+	for ci in range(nc):
+		var cnd := candles[ci]
+		var cx: float = (float(ci) + 0.5) * cw
+		var bull: bool = float(cnd["c"]) >= float(cnd["o"])
+		var col: Color = Color("#26a65b") if bull else Color("#e84040")
+		var col_dim: Color = Color("#1a6e3d") if bull else Color("#8e2828")
+
+		var body_top: float = h - (maxf(float(cnd["o"]), float(cnd["c"])) - lo) / range_y * h
+		var body_bot: float = h - (minf(float(cnd["o"]), float(cnd["c"])) - lo) / range_y * h
+		var wick_top: float = h - (float(cnd["h"]) - lo) / range_y * h
+		var wick_bot: float = h - (float(cnd["l"]) - lo) / range_y * h
+
+		# 윅
+		canvas.draw_line(Vector2(cx, wick_top), Vector2(cx, body_top), col_dim, wick_w)
+		canvas.draw_line(Vector2(cx, body_bot), Vector2(cx, wick_bot), col_dim, wick_w)
+		# 몸통
+		var body_h: float = maxf(body_bot - body_top, 1.5)
+		canvas.draw_rect(Rect2(cx - cw * 0.35, body_top, cw * 0.7, body_h), col)
+
+	# ── 이동평균선 (MA_FAST / MA_SLOW) ───────────────────────────
+	var draw_ma := func(period: int, col: Color) -> void:
+		var pts: Array = []
+		for ti in range(history.size()):
+			if ti < period - 1: continue
+			var sum: float = 0.0
+			for ki in range(period):
+				sum += float(history[ti - ki])
+			var ma_v: float = sum / float(period)
+			# x: 해당 틱이 속한 캔들 cx
+			var ci_idx: int = ti / CANDLE_TICKS
+			var cx: float = (float(ci_idx) + 0.5 + float(ti % CANDLE_TICKS) / float(CANDLE_TICKS)) * cw
+			var y: float = h - (ma_v - lo) / range_y * h
+			pts.append(Vector2(cx, y))
+		for pi in range(1, pts.size()):
+			canvas.draw_line(pts[pi-1], pts[pi], col, 1.2)
+
+	if _skill_level >= 20:
+		draw_ma.call(MA_FAST, Color(0.9, 0.8, 0.2, 0.75))   # 노란 빠른MA
+	if _skill_level >= 40:
+		draw_ma.call(MA_SLOW, Color(0.3, 0.6, 1.0, 0.65))   # 파란 느린MA
+
+	# ── 매매 마커 ────────────────────────────────────────────────
+	for trade in _trade_history:
+		var t_tick: int = int(trade["tick"]) - hist_offset
+		if t_tick < 0: continue
+		var ci_idx: int = t_tick / CANDLE_TICKS
+		var cx: float = (float(ci_idx) + 0.5) * cw
+		var ty: float = h - (float(trade["price"]) - lo) / range_y * h
+		if trade["type"] == "buy":
+			# 녹색 위삼각형
+			var sz: float = 7.0
+			canvas.draw_line(Vector2(cx, ty - sz), Vector2(cx - sz, ty + sz * 0.5), Color("#3dff7a"), 2.0)
+			canvas.draw_line(Vector2(cx - sz, ty + sz * 0.5), Vector2(cx + sz, ty + sz * 0.5), Color("#3dff7a"), 2.0)
+			canvas.draw_line(Vector2(cx + sz, ty + sz * 0.5), Vector2(cx, ty - sz), Color("#3dff7a"), 2.0)
+			canvas.draw_string(f, Vector2(cx + sz + 2, ty + 4), "BUY",
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("#3dff7a"))
+		else:
+			# 빨간 아래삼각형
+			var sz: float = 7.0
+			canvas.draw_line(Vector2(cx, ty + sz), Vector2(cx - sz, ty - sz * 0.5), Color("#ff4040"), 2.0)
+			canvas.draw_line(Vector2(cx - sz, ty - sz * 0.5), Vector2(cx + sz, ty - sz * 0.5), Color("#ff4040"), 2.0)
+			canvas.draw_line(Vector2(cx + sz, ty - sz * 0.5), Vector2(cx, ty + sz), Color("#ff4040"), 2.0)
+			var pnl: float = float(trade.get("pnl", 0.0))
+			var pnl_str := "%+.0f" % pnl
+			canvas.draw_string(f, Vector2(cx + sz + 2, ty - 4), "SELL " + pnl_str,
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("#ff6060"))
+
+	# ── 현재가 도트 ──────────────────────────────────────────────
+	var last_ci: int = nc - 1
+	var cur_cx: float = (float(last_ci) + 0.5) * cw
+	var cur_y:  float = h - ((_price - lo) / range_y) * h
+	canvas.draw_circle(Vector2(cur_cx, cur_y), 4.5, Color("#f0b429"))
+	canvas.draw_arc(Vector2(cur_cx, cur_y), 7.0, 0, TAU, 12, Color(0.94, 0.7, 0.16, 0.4), 2.0)
+
+	# ── 현재가 우측 레이블 ────────────────────────────────────────
+	canvas.draw_string(f, Vector2(w - 62, cur_y + 4), "%.2f" % _price,
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#f0b429"))
 
 # ── UI 갱신 ───────────────────────────────────────────────────────
 func _refresh_ui() -> void:
@@ -408,7 +500,10 @@ func _on_buy() -> void:
 	if _in_position: return
 	_in_position = true
 	_entry_price = _price
+	_entry_tick = _price_history.size() - 1
+	_trade_history.append({"tick": _entry_tick, "price": _price, "type": "buy", "pnl": 0.0})
 	AudioManager.play("buy")
+	if is_instance_valid(_chart_node): _chart_node.queue_redraw()
 	_refresh_ui()
 
 func _on_sell() -> void:
@@ -418,7 +513,10 @@ func _on_sell() -> void:
 	_in_position = false
 	_entry_price = 0.0
 	_trades += 1
+	var sell_tick: int = _price_history.size() - 1
+	_trade_history.append({"tick": sell_tick, "price": _price, "type": "sell", "pnl": trade_pnl})
 	AudioManager.play("sell")
+	if is_instance_valid(_chart_node): _chart_node.queue_redraw()
 	_refresh_ui()
 
 # ── 결과 적용 ─────────────────────────────────────────────────────
