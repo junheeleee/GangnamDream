@@ -4171,5 +4171,137 @@
         "result_text": "나가서 먹었다.\n\n맛있었다. 3만원이었다.\n3만원이 아깝지 않았다. 조금 아까웠다.\n\n그 두 감각이 식사 내내 같이 있었다.\n\n다음 달에는 더 잘 될 것이다.\n그렇게 생각하기로 했다."
       }
     ]
+  },
+  {
+    "id": "gangwon_big_loss_bus",
+    "title": "귀가 버스",
+    "description": "강원랜드에서 나왔다.\n\n버스를 탔다.\n창문 밖으로 산이 흐른다.\n\n오늘 날린 돈을 머릿속으로 계산한다.\n그 숫자를 계속 다시 센다.\n\n다를 것도 없다. 결국 같은 숫자다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "gangwon_session_loss"
+    },
+    "tags": [
+      "gambling",
+      "reflection",
+      "loss"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "오락비였던 거야. 그냥 엔터테인먼트.",
+        "effects": {
+          "mental": -3,
+          "stress": 2,
+          "addiction_tendency": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그렇게 결론 내렸다.\n\n어느 정도는 믿어지기도 했다.\n완전히는 아니었지만.\n\n버스가 터미널에 도착할 때까지 {name}은 폰을 꺼내지 않았다."
+      },
+      {
+        "text": "다시는 안 간다. 진짜로.",
+        "effects": {
+          "mental": -8,
+          "stress": 8,
+          "addiction_tendency": -10
+        },
+        "flags": [
+          "gangwon_quit_vow"
+        ],
+        "follow_up_event": "",
+        "result_text": "그 말이 얼마나 유지될지는 모른다.\n\n하지만 지금 이 순간만큼은 진심이었다.\n\n버스가 출발했다. {name}은 눈을 감았다.\n산을 넘어가는 내내 잠이 오지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "gangwon_big_win_urge",
+    "title": "한 번만 더",
+    "description": "오늘 딴 돈이 지갑 안에 있다.\n\n집으로 가는 길인데 발이 안 떨어진다.\n\n오늘 운이 좋았다.\n그리고 운이 좋을 때는 계속 좋은 법이다. — 적어도 지금 이 순간, {name}의 뇌는 그렇게 말하고 있다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "gangwon_session_win"
+    },
+    "tags": [
+      "gambling",
+      "addiction",
+      "win"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "다시 들어간다. 오늘은 날이야.",
+        "effects": {
+          "money": -300000,
+          "gambling_tendency": 15,
+          "addiction_tendency": 10,
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다시 들어갔다.\n\n두 번째는 달랐다.\n\n나올 때는 수중에 남은 게 별로 없었다.\n카지노는 항상 그랬다. 가장 좋은 타이밍에 당신을 돌려보내지 않는다."
+      },
+      {
+        "text": "수익 낼 때 멈추는 거야. 집에 간다.",
+        "effects": {
+          "mental": 5,
+          "gambling_tendency": -5,
+          "stress": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "발을 돌렸다.\n\n쉬운 결정이 아니었다.\n\n오늘의 {name}은, 적어도 이 판단 하나만큼은 잘했다.\n집에 가는 길이 가볍게 느껴졌다."
+      }
+    ]
+  },
+  {
+    "id": "gangwon_addiction_notice",
+    "title": "내가 왜 여기 또 있지",
+    "description": "강원랜드에서 나오면서 문득 생각이 들었다.\n\n처음엔 그냥 한 번이었는데.\n\n언제부터인가 강원랜드 날짜를 머릿속에서 계산하고 있었다.\n버스 시간표를 외웠다.\n\n{name}은 잠시 멈췄다.",
+    "category": "gambling",
+    "rarity": "rare",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_addiction": 60,
+      "flag": "gangwon_first_visit"
+    },
+    "tags": [
+      "gambling",
+      "addiction",
+      "self_reflection"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "좀 거리를 두자. 한 달은 안 가기로.",
+        "effects": {
+          "mental": 3,
+          "addiction_tendency": -15,
+          "stress": -5
+        },
+        "flags": [
+          "gangwon_self_aware"
+        ],
+        "follow_up_event": "",
+        "result_text": "결심했다.\n\n거창한 게 아니었다. 그냥 한 달.\n\n한 달이면 충분히 멀어질 수 있었다.\n그게 얼마나 어려운 일인지는, 아직 몰랐다."
+      },
+      {
+        "text": "아직 통제 가능해. 내가 원할 때 멈출 수 있어.",
+        "effects": {
+          "mental": -5,
+          "addiction_tendency": 10,
+          "stress": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그렇게 말했다.\n\n스스로에게.\n\n중독의 가장 흔한 증상 중 하나가 '나는 괜찮다'는 확신이라는 걸, {name}은 아직 모른다."
+      }
+    ]
   }
 ]

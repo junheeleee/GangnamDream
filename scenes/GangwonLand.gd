@@ -51,9 +51,25 @@ func _f(n: Control, bold: bool = false) -> void:
 func open() -> void:
 	visible = true
 	_entry_balance = GameState.money
+	# 이번 세션 임시 플래그 초기화 (새 방문 시 리셋)
+	GameState.flags["gangwon_session_loss"] = false
+	GameState.flags["gangwon_session_win"]  = false
+	# 첫 방문 플래그 설정 + 환영 메시지
+	if not GameState.flags.get("gangwon_first_visit", false):
+		GameState.flags["gangwon_first_visit"] = true
+		if _msg_lbl:
+			_msg_lbl.text = "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 강원랜드입니다."
 	_refresh_balance()
 
 func _close() -> void:
+	# 세션 손익 기록 → 후속 이벤트 플래그
+	var delta: int = GameState.money - _entry_balance
+	if delta <= -500000:
+		GameState.flags["gangwon_session_loss"] = true
+	elif delta >= 1000000:
+		GameState.flags["gangwon_session_win"]  = true
+	# 방문 자체가 중독 성향을 조금씩 높인다
+	GameState.modify_hidden_stat("addiction_tendency", 3)
 	visible = false
 	emit_signal("closed")
 
