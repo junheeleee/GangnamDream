@@ -56,6 +56,7 @@ var _content_root: Control
 var _road_ctrl: Control
 var _msg_lbl: Label
 var _hud_lbl: RichTextLabel
+var _flash_layer: ColorRect
 
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready() -> void:
@@ -119,11 +120,14 @@ func _process(delta: float) -> void:
 	var step: Dictionary = _deal_seq[_deal_idx]
 	if step["side"] == "player":
 		_deal_p_visible.append(step["card"])
+		_show_table_banner("PLAYER CARD", Color("#5b9cf6"), 0.28)
 	else:
 		_deal_b_visible.append(step["card"])
+		_show_table_banner("BANKER CARD", Color("#e85d5d"), 0.28)
 	_deal_idx += 1
 	AudioManager.play("click")
 	_render()
+	_screen_flash(Color("#5b9cf6") if step["side"] == "player" else Color("#e85d5d"), 0.06, 0.14)
 
 # ── 베팅 배치 ──────────────────────────────────────────────────
 func _add_bet(type: String) -> void:
@@ -136,7 +140,8 @@ func _add_bet(type: String) -> void:
 		"T":  _bet_t  += add
 		"PP": _bet_pp += add
 		"BP": _bet_bp += add
-	AudioManager.play("click")
+	AudioManager.play("buy", -4.0)
+	_show_table_banner("BET  %s" % type, Color("#f0b429"), 0.22)
 	_render()
 
 func _clear_bets() -> void:
@@ -186,6 +191,8 @@ func _deal() -> void:
 	AudioManager.play("event_new")
 	set_process(true)
 	_render()
+	_show_table_banner("NO MORE BETS", Color("#f0b429"), 0.52)
+	_screen_flash(Color("#f0b429"), 0.12, 0.26)
 
 # ── 결과 정산 ──────────────────────────────────────────────────
 func _finish_result() -> void:
@@ -252,6 +259,19 @@ func _finish_result() -> void:
 
 	GameState.stats_changed.emit()
 	_render()
+	var res_ko := {"player": "PLAYER WINS", "banker": "BANKER WINS", "tie": "TIE"}
+	var res_col := {"player": Color("#5b9cf6"), "banker": Color("#e85d5d"), "tie": Color("#f0b429")}
+	var banner_text: String = str(res_ko.get(res, res))
+	if net_round > 0.0:
+		banner_text += "  +%s" % GameState.format_money(net_round)
+	elif net_round < 0.0:
+		banner_text += "  %s" % GameState.format_money(net_round)
+	_show_table_banner(banner_text, res_col.get(res, Color("#e8eaf0")), 0.78)
+	_screen_flash(res_col.get(res, Color("#e8eaf0")), 0.18, 0.36)
+	if net_round < 0.0:
+		_shake_node(_content_root, 8.0, 0.26)
+	else:
+		_pulse_node(_content_root, 1.025, 0.26)
 
 # ── 렌더 ──────────────────────────────────────────────────────
 func _render() -> void:
@@ -539,6 +559,14 @@ func _build_skeleton() -> void:
 	_msg_lbl.visible = false
 	add_child(_msg_lbl)
 
+	_flash_layer = ColorRect.new()
+	_flash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_flash_layer.color = Color(1, 1, 1, 1)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash_layer.z_index = 80
+	add_child(_flash_layer)
+
 func _clear_content() -> void:
 	if not is_instance_valid(_content_root): return
 	for c in _content_root.get_children():
@@ -672,6 +700,73 @@ func _flash(msg: String, color: String) -> void:
 	_msg_lbl.visible = true
 	get_tree().create_timer(1.8).timeout.connect(func():
 		if is_instance_valid(_msg_lbl): _msg_lbl.visible = false)
+
+func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
+	if not is_instance_valid(_flash_layer):
+		return
+	_flash_layer.color = Color(color.r, color.g, color.b, 1.0)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.visible = true
+	var tw := create_tween()
+	tw.tween_property(_flash_layer, "modulate:a", alpha, duration * 0.22)
+	tw.tween_property(_flash_layer, "modulate:a", 0.0, duration * 0.78)
+	tw.tween_callback(func():
+		if is_instance_valid(_flash_layer):
+			_flash_layer.visible = false
+	)
+
+func _show_table_banner(text: String, color: Color, duration: float = 0.5) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 75
+	panel.size = Vector2(minf(390.0, root_size.x - 48.0), 54.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(88.0, root_size.y * 0.28))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.02, 0.03, 0.04, 0.86)
+	st.border_color = color
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(8)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", color)
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.08)
+	tw.tween_interval(duration)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.16)
+	tw.tween_callback(panel.queue_free)
+
+func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	for _i in range(6):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 # ── 로드맵 드로우 콜백 ─────────────────────────────────────────
 func _refresh_road() -> void:

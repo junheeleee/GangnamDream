@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Changed (2026-06-15) — Casino premium presentation pass
+- Merged Claude's Kangwon Land expansion (`origin/main` 50c9130): hub, slots, roulette, big wheel, and scalping candlestick improvements.
+- `BlackjackTable` now has central action/result banners for DEAL, HIT, STAND, DOUBLE DOWN, SPLIT, DEALER, WIN, LOSE, and PUSH, plus screen flashes, win pulse, and loss/double-down shake.
+- `BaccaratTable` now has casino-call style banners for bets, NO MORE BETS, PLAYER CARD, BANKER CARD, and round results, plus color flashes and result pulse/shake.
+- Fixed a Godot strict type inference issue in the new `BigWheelGame`.
+- Added the explicit quality bar that minigames should move beyond flash-game presentation toward a 20,000 KRW commercial game feel.
+- `./tools/audit.sh` passed after the pass: ERROR 0 / WARNING 0, Godot compile clean.
+
+### Changed (2026-06-15) — Investment minigame presentation pass
+- `ScalpingGame` now draws candle-style bars instead of a simple line-only chart, with current-price labels, BUY/SELL markers, market/action banners, flashes, profit pulses, and loss shake.
+- `TradingFloor` now displays holding average-price lines on the chart and adds buy/sell execution feedback: banners, screen flashes, chart pulse/shake, and profit/loss-aware SFX.
+- The standalone-quality minigame bar now explicitly includes the full Kangwon Land suite: blackjack, baccarat, and future casino games.
+- `./tools/audit.sh` passed after the pass: ERROR 0 / WARNING 0, Godot compile clean.
+
 ### Fixed (2026-06-15) — Main merge + Blackjack compile stability
 - Merged Claude's latest `origin/main` (`ebfa19e`) containing Kangwon Land baccarat/blackjack, holdem odds/history upgrades, and event context cleanup.
 - Resolved `HoldemClub` conflicts by preserving both the new odds/history UI and the Codex POT/chip-burst/table-banner presentation pass.

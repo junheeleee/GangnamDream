@@ -456,6 +456,8 @@ func _make_asset_row(aid: String) -> Button:
 
 func _select(aid: String) -> void:
 	_selected = aid
+	AudioManager.play("click", -6.0)
+	_pulse_node(_chart, 1.01, 0.16)
 	_refresh()
 
 # ── 거래 ──────────────────────────────────────────────────────
@@ -469,10 +471,12 @@ func _do_buy(krw: int) -> void:
 		_flash("가격 데이터 없음", "#ff5252"); return
 	if not GameState.spend_ap():
 		return
-	AudioManager.play("money_gain")
+	AudioManager.play("buy")
 	inv.buy_asset(_selected, float(krw))
-	_screen_flash(Color(0.0, 0.8, 0.5, 0.18))
 	_flash("📈 [b]%s[/b] 매수  %s" % [_name_of(_selected), GameState.format_money(float(krw))], "#00c896")
+	_trade_burst("BUY", Color("#00c896"))
+	_screen_flash(Color("#00c896"), 0.10, 0.22)
+	_pulse_node(_chart, 1.018, 0.20)
 	GameState.stats_changed.emit()
 	_refresh()
 
@@ -487,18 +491,24 @@ func _do_sell(ratio: float) -> void:
 	var avg: float = float(owned.get("avg_price", 0.0))
 	var pl_pct: float = (price - avg) / avg * 100.0 if avg > 0 else 0.0
 	var sell_val: float = qty * ratio * price
+	var est_pnl: float = sell_val * ((price - avg) / maxf(avg, 0.01)) if avg > 0.0 else 0.0
 	if not GameState.spend_ap():
 		return
-	AudioManager.play("money_loss")
+	AudioManager.play("money_gain" if est_pnl >= 0.0 else "money_loss")
 	inv.sell_asset(_selected, ratio)
 	if pl_pct >= 0:
-		_screen_flash(Color(0.0, 0.8, 0.5, 0.20))
+		_screen_flash(Color("#00c896"), 0.12, 0.24)
 		_flash("📉 %s 매도  +%s  (%+.1f%%)" % [_name_of(_selected),
 			GameState.format_money(sell_val), pl_pct], "#00c896")
 	else:
-		_screen_flash(Color(0.8, 0.1, 0.1, 0.20))
+		_screen_flash(Color("#ff5252"), 0.12, 0.24)
 		_flash("📉 %s 매도  %s  (%+.1f%%)" % [_name_of(_selected),
 			GameState.format_money(sell_val), pl_pct], "#ff6b6b")
+	_trade_burst(("TAKE PROFIT" if est_pnl >= 0.0 else "CUT LOSS"), Color("#00c896") if est_pnl >= 0.0 else Color("#ff5252"))
+	if est_pnl < 0.0:
+		_shake_node(_chart, 5.0, 0.18)
+	else:
+		_pulse_node(_chart, 1.018, 0.20)
 	GameState.stats_changed.emit()
 	_refresh()
 
@@ -513,12 +523,13 @@ func _flash(msg: String, color: String) -> void:
 			_toast.visible = false
 	)
 
-func _screen_flash(col: Color) -> void:
+func _screen_flash(col: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
 	if not is_instance_valid(_flash_rect):
 		return
-	_flash_rect.color = col
+	_flash_rect.color = Color(col.r, col.g, col.b, 0.0)
 	var tw := create_tween()
-	tw.tween_property(_flash_rect, "color:a", 0.0, 0.5)
+	tw.tween_property(_flash_rect, "color:a", alpha, duration * 0.22)
+	tw.tween_property(_flash_rect, "color:a", 0.0, duration * 0.78)
 
 # ── 차트 그리기 ───────────────────────────────────────────────
 func _draw_chart() -> void:
@@ -650,6 +661,19 @@ func _draw_chart() -> void:
 			1.0, 4.0
 		)
 
+	# ── 내 평균단가 ──
+	var owned: Dictionary = GameState.portfolio.get(_selected, {})
+	var qty: float = float(owned.get("quantity", 0.0))
+	var avg: float = float(owned.get("avg_price", 0.0))
+	if qty > 0.0 and avg > 0.0 and avg >= lo and avg <= hi:
+		var avg_y: float = _dc_px(avg)
+		_chart.draw_dashed_line(Vector2(pad_l, avg_y), Vector2(sz.x - pad_r, avg_y),
+			Color("#f0b429", 0.7), 1.0, 6.0)
+		_chart.draw_string(_font if _font else ThemeDB.fallback_font,
+			Vector2(pad_l + 4.0, avg_y - 4.0),
+			"평단 " + GameState.format_money(avg),
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("#f0b429"))
+
 func _dc_px(v: float) -> float:
 	return _dc_pad_t + _dc_chart_h * (1.0 - (v - _dc_lo) / max(_dc_hi - _dc_lo, 0.001))
 
@@ -696,3 +720,58 @@ func _style_btn(b: Button, bg: String, border: String) -> void:
 	b.add_theme_font_size_override("font_size", 14)
 	_font_for(b)
 	b.focus_mode = Control.FOCUS_NONE
+
+func _trade_burst(text: String, color: Color) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 75
+	panel.size = Vector2(minf(360.0, root_size.x - 48.0), 48.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, 140.0)
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.02, 0.03, 0.05, 0.86)
+	st.border_color = color
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(8)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 17)
+	lbl.add_theme_color_override("font_color", color)
+	_font_for(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.08)
+	tw.tween_interval(0.44)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.16)
+	tw.tween_callback(panel.queue_free)
+
+func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	for _i in range(6):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

@@ -27,6 +27,36 @@
 
 ## 2026-06-15 (이미지 의미 매핑 2차 + 게임감 연출)
 
+### 투자 미니게임 프레젠테이션 1차
+- `ScalpingGame.gd`를 선 그래프 중심에서 캔들형 차트로 강화했다.
+  - 가격 변화를 캔들 바디/윅으로 표시하고, 현재가 라벨을 차트 위에 직접 표시한다.
+  - BUY/SELL 마커를 차트 위에 남겨 진입·청산 타이밍을 플레이어가 복기할 수 있게 했다.
+  - MARKET OPEN, BUY, PROFIT/LOSS 배너와 화면 플래시, 손실 시 차트 흔들림, 이익 시 손익 펄스를 추가했다.
+- `TradingFloor.gd`에 평균단가선과 체결 피드백을 추가했다.
+  - 보유 종목의 평균단가를 차트 수평선으로 표시한다.
+  - 매수/매도 시 BUY/TAKE PROFIT/CUT LOSS 배너, 화면 플래시, 차트 펄스/흔들림을 추가했다.
+  - 매도 전 현재가·평단·비율로 예상 실현손익을 계산해 승패 SFX를 다르게 재생한다.
+
+### 미니게임 독립 품질 기준 확장
+- 기존 경마·홀덤·투자 기준에 더해, 새로 구현 중인 강원랜드 계열 전체를 독립 게임급 품질 대상으로 포함했다.
+- 현재 포함 대상은 블랙잭, 바카라이며, Claude가 앞으로 추가할 카지노 게임도 같은 기준을 따른다.
+- 강원랜드 게임은 룰 정확도만으로는 부족하다. 카드 딜, 칩 이동, 딜러 콜, 승패 배너, 테이블 사운드, 세션 통계, 재도전 루프까지 갖춰야 한다.
+- 유저 기준을 "플래시게임 수준에서 2만원짜리 게임 품질로 올릴 것"으로 재정의했다. 앞으로 미니게임은 단순 모달이 아니라 화면 밀도, 반응성, 사운드, 애니메이션, 세션 UX를 갖춘 제품 레벨로 본다.
+
+### 강원랜드 카지노 프리미엄 연출 1차
+- Claude가 push한 `origin/main` 50c9130을 fast-forward로 병합했다.
+  - 포함 내용: 강원랜드 허브, 슬롯머신, 룰렛, 빅휠, 스캘핑 캔들스틱 업그레이드.
+  - Codex의 스캘핑 손익 배너/플래시 연출은 Claude의 `_trade_history` 구조 위로 병합했다.
+- 새 `BigWheelGame.gd`의 Variant 기반 타입 추론 한 줄을 명시 타입으로 교정해 Godot 4.6 컴파일을 통과시켰다.
+- `BlackjackTable.gd`에 테이블 게임 피드백 레이어를 추가했다.
+  - DEAL/HIT/STAND/DOUBLE DOWN/SPLIT/DEALER/WIN/LOSE/PUSH 중앙 배너를 추가했다.
+  - 액션별 화면 플래시, 더블다운·패배 흔들림, 승리 펄스를 추가했다.
+  - 기존에 `_flash()`가 참조하던 메시지 라벨을 실제 skeleton에 추가해 오류 가능성을 줄였다.
+- `BaccaratTable.gd`에 딜러 콜 느낌의 진행 연출을 추가했다.
+  - 베팅 시 BET 배너, 딜 시작 시 NO MORE BETS 배너를 표시한다.
+  - 카드 공개 시 PLAYER CARD/BANKER CARD 배너와 색상 플래시를 넣었다.
+  - 결과 정산 후 PLAYER WINS/BANKER WINS/TIE 및 손익 배너, 승리 펄스/패배 흔들림을 추가했다.
+
 ### 메인 병합 및 카지노 컴파일 안정화
 - Claude가 push한 `origin/main` ebfa19e를 fast-forward로 병합했다.
   - 포함 내용: 강원랜드 바카라/블랙잭 신규 구현, 홀덤 팟오즈/핸드히스토리/1-3팟 레이즈, life/drama/relationship 이벤트 정리.
@@ -72,6 +102,9 @@
 - `git diff --check`
 - `./tools/audit.sh` — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
 - `origin/main` ebfa19e 병합 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- 투자 미니게임 프레젠테이션 1차 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- 카지노 프리미엄 연출 1차 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- `origin/main` 50c9130 병합 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
 
 ## 2026-06-13 (실제 화면 배경 의미 매핑 1차 수정)
 

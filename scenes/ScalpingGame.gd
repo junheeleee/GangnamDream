@@ -34,6 +34,7 @@ var _skill_level: int = 0       # GameState.investment_skill 캐시
 
 # UI 노드
 var _chart_node: Control        # 차트 그리기 전담 노드
+var _flash_layer: ColorRect
 var _timer_lbl: Label
 var _price_lbl: Label
 var _pnl_lbl: Label
@@ -87,12 +88,17 @@ func _start_game() -> void:
 	_phase = Phase.PLAYING
 	set_process(true)
 	_rebuild()
+	AudioManager.play("event_new")
+	_show_trade_banner("MARKET OPEN", Color("#5b9cf6"), 0.60)
+	_screen_flash(Color("#5b9cf6"), 0.10, 0.24)
 
 func _end_game() -> void:
 	set_process(false)
 	if _in_position:
 		# 강제 청산
-		_realized += _stake * (_price - _entry_price) / _entry_price
+		var forced_pnl: float = float(_stake) * (_price - _entry_price) / _entry_price
+		_realized += forced_pnl
+		_trade_history.append({"tick": _price_history.size() - 1, "price": _price, "type": "sell", "pnl": forced_pnl})
 		_in_position = false
 	_phase = Phase.RESULT
 	_apply_result()
@@ -204,6 +210,14 @@ func _build_ui() -> void:
 	_sell_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn_row.add_child(_sell_btn)
 
+	_flash_layer = ColorRect.new()
+	_flash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_flash_layer.color = Color(1, 1, 1, 1)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash_layer.z_index = 80
+	add_child(_flash_layer)
+
 # ── 차트 그리기 — 캔들스틱 + MA + 매매 마커 ──────────────────────
 func _draw_chart(canvas: Control) -> void:
 	if _price_history.size() < 2:
@@ -227,7 +241,7 @@ func _draw_chart(canvas: Control) -> void:
 		var end := mini(i + CANDLE_TICKS, history.size())
 		var seg := history.slice(i, end)
 		var o: float = seg[0]; var c: float = seg[-1]
-		var ch := seg[0]; var cl: float = seg[0]
+		var ch: float = float(seg[0]); var cl: float = float(seg[0])
 		for v in seg:
 			ch = maxf(ch, v); cl = minf(cl, v)
 		candles.append({"o": o, "h": ch, "l": cl, "c": c, "tick_start": i})
@@ -264,7 +278,7 @@ func _draw_chart(canvas: Control) -> void:
 	var wick_w: float = 1.5
 
 	for ci in range(nc):
-		var cnd := candles[ci]
+		var cnd: Dictionary = candles[ci]
 		var cx: float = (float(ci) + 0.5) * cw
 		var bull: bool = float(cnd["c"]) >= float(cnd["o"])
 		var col: Color = Color("#26a65b") if bull else Color("#e84040")
@@ -503,6 +517,9 @@ func _on_buy() -> void:
 	_entry_tick = _price_history.size() - 1
 	_trade_history.append({"tick": _entry_tick, "price": _price, "type": "buy", "pnl": 0.0})
 	AudioManager.play("buy")
+	_show_trade_banner("BUY  %.2f" % _entry_price, Color("#5de89c"), 0.46)
+	_screen_flash(Color("#5de89c"), 0.10, 0.22)
+	_pulse_node(_chart_node, 1.015, 0.18)
 	if is_instance_valid(_chart_node): _chart_node.queue_redraw()
 	_refresh_ui()
 
@@ -515,7 +532,14 @@ func _on_sell() -> void:
 	_trades += 1
 	var sell_tick: int = _price_history.size() - 1
 	_trade_history.append({"tick": sell_tick, "price": _price, "type": "sell", "pnl": trade_pnl})
-	AudioManager.play("sell")
+	AudioManager.play("money_gain" if trade_pnl >= 0.0 else "money_loss")
+	_show_trade_banner(("PROFIT " if trade_pnl >= 0.0 else "LOSS ") + ("%+.0f" % trade_pnl),
+		Color("#5de89c") if trade_pnl >= 0.0 else Color("#e85d5d"), 0.62)
+	_screen_flash(Color("#5de89c") if trade_pnl >= 0.0 else Color("#e85d5d"), 0.14, 0.28)
+	if trade_pnl < 0.0:
+		_shake_node(_chart_node, 5.0, 0.20)
+	else:
+		_pulse_node(_pnl_lbl, 1.10, 0.28)
 	if is_instance_valid(_chart_node): _chart_node.queue_redraw()
 	_refresh_ui()
 
@@ -582,3 +606,70 @@ func _fmt(v) -> String:
 	if abs(a) >= 100_000_000: return "%.1f억" % (float(a) / 100_000_000.0)
 	if abs(a) >= 10_000:      return "%+d만" % (a / 10_000)
 	return "%+d원" % a
+
+func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
+	if not is_instance_valid(_flash_layer):
+		return
+	_flash_layer.color = Color(color.r, color.g, color.b, 1.0)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.visible = true
+	var tw := create_tween()
+	tw.tween_property(_flash_layer, "modulate:a", alpha, duration * 0.22)
+	tw.tween_property(_flash_layer, "modulate:a", 0.0, duration * 0.78)
+	tw.tween_callback(func():
+		if is_instance_valid(_flash_layer):
+			_flash_layer.visible = false
+	)
+
+func _show_trade_banner(text: String, color: Color, duration: float = 0.48) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 75
+	panel.size = Vector2(minf(360.0, root_size.x - 48.0), 48.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(82.0, root_size.y * 0.28))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.02, 0.03, 0.05, 0.86)
+	st.border_color = color
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(8)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 17)
+	lbl.add_theme_color_override("font_color", color)
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.08)
+	tw.tween_interval(duration)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.16)
+	tw.tween_callback(panel.queue_free)
+
+func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	for _i in range(6):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
