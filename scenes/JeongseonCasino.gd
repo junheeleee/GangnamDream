@@ -1,5 +1,5 @@
 extends Control
-## HangangCasino — 한강 카지노 허브 씬.
+## JeongseonCasino — 정선 카지노 허브 씬.
 ## 5개 카지노 게임(바카라·블랙잭·슬롯·룰렛·빅휠)을 한 장소에서 진입.
 ## MainGame이 overlay로 붙이고 open()으로 호출. 닫으면 closed 시그널.
 
@@ -52,22 +52,22 @@ func open() -> void:
 	visible = true
 	_entry_balance = GameState.money
 	# 이번 세션 임시 플래그 초기화 (새 방문 시 리셋)
-	GameState.flags["hangang_session_loss"] = false
-	GameState.flags["hangang_session_win"]  = false
+	GameState.flags["jeongseon_session_loss"] = false
+	GameState.flags["jeongseon_session_win"]  = false
 	# 첫 방문 플래그 설정 + 환영 메시지
-	if not GameState.flags.get("hangang_first_visit", false):
-		GameState.flags["hangang_first_visit"] = true
+	if not GameState.flags.get("jeongseon_first_visit", false):
+		GameState.flags["jeongseon_first_visit"] = true
 		if _msg_lbl:
-			_msg_lbl.text = "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 한강 카지노입니다."
+			_msg_lbl.text = "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다."
 	_refresh_balance()
 
 func _close() -> void:
 	# 세션 손익 기록 → 후속 이벤트 플래그
 	var delta: int = GameState.money - _entry_balance
 	if delta <= -500000:
-		GameState.flags["hangang_session_loss"] = true
+		GameState.flags["jeongseon_session_loss"] = true
 	elif delta >= 1000000:
-		GameState.flags["hangang_session_win"]  = true
+		GameState.flags["jeongseon_session_win"]  = true
 	# 방문 자체가 중독 성향을 조금씩 높인다
 	GameState.modify_hidden_stat("addiction_tendency", 3)
 	visible = false
@@ -111,7 +111,7 @@ func _build_ui() -> void:
 	header.add_child(hrow)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "🎰  한강 카지노"
+	title_lbl.text = "🎰  정선 카지노"
 	title_lbl.add_theme_font_size_override("font_size", 24)
 	title_lbl.add_theme_color_override("font_color", COLOR_GOLD)
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL

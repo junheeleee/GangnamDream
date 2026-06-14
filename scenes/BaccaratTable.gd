@@ -1,5 +1,5 @@
 extends Control
-## BaccaratTable — 한강 카지노 바카라 테이블.
+## BaccaratTable — 정선 카지노 바카라 테이블.
 ## Baccarat 수학 모델 위에 베팅·카드공개·로드맵·페어베팅·커미션 UI 구현.
 ## MainGame이 overlay로 붙이고 open()으로 호출. 닫으면 closed 시그널.
 

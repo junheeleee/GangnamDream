@@ -81,7 +81,7 @@ const ALL_TITLES := [
 	 "desc":"경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다."},
 	{"id":"scalping_master_title","name":"스캘퍼",          "cat":"미니게임", "rare":"uncommon",
 	 "desc":"스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다."},
-	{"id":"baccarat_master_title","name":"한강 카지노 상주자",  "cat":"미니게임", "rare":"rare",
+	{"id":"baccarat_master_title","name":"정선 카지노 상주자",  "cat":"미니게임", "rare":"rare",
 	 "desc":"바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다."},
 	{"id":"blackjack_master_title","name":"기본전략의 달인", "cat":"미니게임", "rare":"rare",
 	 "desc":"블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다."},

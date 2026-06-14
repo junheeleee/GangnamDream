@@ -439,7 +439,7 @@ static var RANDOM_EVENTS: Array = [
 	{
 		"id": "gambling_temptation",
 		"title": "카지노 초대",
-		"description": "지인이 한강 카지노 여행을 제안했다. '소액으로만 즐기자'고 한다.",
+		"description": "지인이 정선 카지노 여행을 제안했다. '소액으로만 즐기자'고 한다.",
 		"type": "random",
 		"weight": 0.8,
 		"conditions": { "min_money": 1000000 },
