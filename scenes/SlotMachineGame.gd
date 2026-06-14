@@ -198,7 +198,24 @@ func _finish_spin() -> void:
 			_set_win_line("[color=#f0b429]✨ %s ✨[/color]" % win_type)
 			_play_win_flash()
 	else:
-		_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
+		# 니어미스 체크: 3개 심볼 중 2개가 같은 높은 가치 심볼이면 "아깝다!" 연출
+		var syms: Array = result.get("symbols", [])
+		if syms.size() == 3:
+			var near_miss := false
+			if syms[0] == syms[1] and syms[0] <= 2:   # 두 릴이 7 or 바
+				near_miss = true
+			elif syms[1] == syms[2] and syms[1] <= 2:
+				near_miss = true
+			elif syms[0] == syms[2] and syms[0] <= 2:
+				near_miss = true
+			if near_miss:
+				_set_win_line("[color=#e88a30][b]아깝다! 한 끗 차이...[/b][/color]")
+				_flash_msg("💔 아깝다!", "#e88a30")
+				GameState.modify_hidden_stat("addiction_tendency", 1)
+			else:
+				_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
+		else:
+			_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
 
 	_spin_btn.disabled = false
 	_refresh_ui()

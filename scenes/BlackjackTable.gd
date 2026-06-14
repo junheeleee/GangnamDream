@@ -106,6 +106,10 @@ func _deal() -> void:
 	AudioManager.play("event_new")
 	_render()
 	_show_table_banner("DEAL", Color("#5b9cf6"), 0.48)
+	if is_instance_valid(_content_root):
+		_content_root.scale = Vector2(0.94, 0.94)
+		var tw := create_tween()
+		tw.tween_property(_content_root, "scale", Vector2(1.0, 1.0), 0.22).set_trans(Tween.TRANS_BACK)
 	_screen_flash(Color("#5b9cf6"), 0.10, 0.22)
 
 # ── 플레이어 액션 ──────────────────────────────────────────────
