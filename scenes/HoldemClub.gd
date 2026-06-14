@@ -639,11 +639,25 @@ func _advance_phase() -> void:
 			_do_showdown()
 			return
 
+	var new_cards := 1 if banner in ["TURN", "RIVER"] else 3
 	_render_table()
 	AudioManager.play("tab_open", -4.0)
 	_show_table_banner(banner, Color("#5b9cf6"), 0.62)
 	_screen_flash(Color("#5b9cf6"), 0.09, 0.20)
-	_pulse_node(_community_row, 1.06, 0.26)
+	# 새로 공개된 카드들 scale 0→1 순차 팝인
+	if is_instance_valid(_community_row):
+		var total: int = _community_row.get_child_count()
+		var start_idx: int = total - new_cards - (5 - _community.size())
+		var delay := 0.0
+		for ci in range(new_cards):
+			var idx := start_idx + ci
+			if idx >= 0 and idx < total:
+				var card = _community_row.get_child(idx)
+				card.scale = Vector2(0.0, 0.0)
+				var tw := create_tween()
+				tw.tween_interval(delay)
+				tw.tween_property(card, "scale", Vector2(1.0, 1.0), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+				delay += 0.14
 	_process_action_turn()
 
 func _do_showdown() -> void:
