@@ -351,8 +351,9 @@ func _build_ui() -> void:
 	stake_row.add_theme_constant_override("separation", 5)
 	_content_root.add_child(stake_row)
 	for s in STAKE_OPTIONS:
+		var captured_s: int = s
 		var sb := _make_btn(GameState.format_money(float(s)),
-			func(): _select_stake(s),
+			func(): _select_stake(captured_s),
 			"#1a2e1a" if s == _stake else "#0e140e",
 			"#3de87a" if s == _stake else "#2a3a2a")
 		sb.custom_minimum_size = Vector2(80, 32)
@@ -665,9 +666,3 @@ func _flash(msg: String, color: String) -> void:
 	get_tree().create_timer(1.8).timeout.connect(func():
 		if is_instance_valid(_msg_lbl): _msg_lbl.visible = false)
 
-# ── 스핀 결과 후 화면 업데이트 ────────────────────────────────
-func _process_result_display() -> void:
-	if _last_result < 0:
-		return
-	_update_number_display(_last_result, false)
-	_refresh()

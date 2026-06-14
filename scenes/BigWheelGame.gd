@@ -316,10 +316,11 @@ func _build_ui() -> void:
 	stake_row.add_theme_constant_override("separation", 5)
 	root_vbox.add_child(stake_row)
 	for s in STAKE_OPTIONS:
+		var captured_s: int    = s
 		var selected_now: bool = (s == _stake)
 		var sb := _make_btn(
 			GameState.format_money(float(s)),
-			func(): _select_stake(s),
+			func(): _select_stake(captured_s),
 			"#2a1a0a" if selected_now else "#100a04",
 			"#f39c12" if selected_now else "#2a1a08"
 		)
