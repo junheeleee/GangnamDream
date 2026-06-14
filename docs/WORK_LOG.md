@@ -25,6 +25,36 @@
 ### 품질
 - `python3 tools/audit.py` → ERROR 0 / WARNING 0
 
+## 2026-06-14 (튜토리얼 시스템 + 미니게임 퀄리티 2차 패스)
+
+### TutorialOverlay 세션 튜토리얼 시스템
+- `scenes/TutorialOverlay.gd` — `class_name TutorialOverlay`, `static var _seen`으로 세션당 1회 표시
+- `maybe_show(id, parent)` / `force_show(id, parent)` 정적 API
+- 게임별 슬라이드 콘텐츠: baccarat·blackjack·holdem(2슬라이드)·slot·roulette·bigwheel·scalping·trading·racetrack
+- `main_game` 3슬라이드 추가: 목표 설명 / 대시보드 읽는 법 / 한 달 흐름
+- MainGame._continue_after_story()에 maybe_show("main_game") 삽입 (프롤로그 직후 1회)
+
+### GangwonLand 허브 개선
+- `_add_game_card()`에 `tutorial_id` 파라미터 추가
+- 각 게임 카드에 '❓ 규칙' 보조 버튼 추가 (force_show 연결)
+
+### 전 게임 씬 인게임 도움말 버튼
+- 슬롯·룰렛·빅휠·바카라·블랙잭·홀덤·스캘핑·투자·경마 헤더/액션열에 ❓ 버튼 추가
+
+### AudioManager 버그 수정
+- RouletteTable·BigWheelGame의 `AudioManager.play_sfx()` → `AudioManager.play()` 전환
+  (play_sfx는 존재하지 않는 메서드 — SFX가 조용히 무시되던 버그)
+
+### 미니게임 연출 강화 (2차 패스)
+- SlotMachineGame: JACKPOT 3회 깜빡임 + 릴 패널 골드 테두리 / 빅윈 2회 플래시 / 니어미스 '아깝다!' 연출
+- RouletteTable: 결과 확정 시 숫자 레이블 scale 팝 펄스 트윈
+- BlackjackTable: 딜 후 content_root scale 0.94→1.0 팝 + screen_flash
+- RaceTrack: 3→2→1→출발! 카운트다운 오버레이 (레이스 시작 전)
+- MainGame: 건강 ≤ 30 / 정신 ≤ 30 / 스트레스 ≥ 80 시 vital 레이블 alpha 펄스 경보
+
+### 품질
+- `python3 tools/audit.py` → ERROR 0 / WARNING 0 (전 커밋 통과)
+
 ## 2026-06-15 (이미지 의미 매핑 2차 + 게임감 연출)
 
 ### 투자 미니게임 프레젠테이션 1차

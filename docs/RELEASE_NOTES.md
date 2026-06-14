@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Added (2026-06-14) — Tutorial system + minigame quality pass 2
+
+- New `TutorialOverlay` (static class, session-based `_seen` dict): single-call `maybe_show()` / `force_show()` API; slides for all 9 mini-games plus a 3-slide main-game onboarding (goal / dashboard / month flow).
+- `GangwonLand` hub: each game card now has a secondary "❓ 규칙" button for on-demand rules.
+- All game scenes (slot, roulette, bigwheel, baccarat, blackjack, holdem, scalping, trading, racetrack) have an in-game ❓ help button in the header/action row.
+- Main-game onboarding tutorial fires once after the prologue in `_continue_after_story()`.
+- Fixed `AudioManager.play_sfx()` → `play()` bug in `RouletteTable` and `BigWheelGame` (SFX was silently ignored).
+- `SlotMachineGame`: 3-phase win presentation (regular / big-win double flash / JACKPOT 3× flash + reel gold border) + near-miss "아깝다!" message for 2-symbol partial matches.
+- `RouletteTable`: settle-number scale-pop tween on result.
+- `BlackjackTable`: deal scale pop animation (0.94→1.0) + screen flash on deal.
+- `RaceTrack`: 3-2-1-출발! countdown overlay before race begins.
+- `MainGame`: vital labels pulse (alpha fade) when health ≤ 30, mental ≤ 30, or stress ≥ 80.
+- `audit.py` passed ERROR 0 / WARNING 0 for all commits.
+
 ### Changed (2026-06-15) — Casino premium presentation pass
 - Merged Claude's Kangwon Land expansion (`origin/main` 50c9130): hub, slots, roulette, big wheel, and scalping candlestick improvements.
 - `BlackjackTable` now has central action/result banners for DEAL, HIT, STAND, DOUBLE DOWN, SPLIT, DEALER, WIN, LOSE, and PUSH, plus screen flashes, win pulse, and loss/double-down shake.
