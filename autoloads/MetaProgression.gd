@@ -85,6 +85,12 @@ const ALL_TITLES := [
 	 "desc":"바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다."},
 	{"id":"blackjack_master_title","name":"기본전략의 달인", "cat":"미니게임", "rare":"rare",
 	 "desc":"블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다."},
+	{"id":"slot_master_title","name":"잭팟 사냥꾼",      "cat":"미니게임", "rare":"uncommon",
+	 "desc":"슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다."},
+	{"id":"roulette_master_title","name":"제로의 지배자", "cat":"미니게임", "rare":"rare",
+	 "desc":"룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다."},
+	{"id":"bigwheel_master_title","name":"바늘의 눈",     "cat":"미니게임", "rare":"uncommon",
+	 "desc":"빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다."},
 	# ── 전문화 ──
 	{"id":"spec_elite_title",   "name":"엘리트의 길",       "cat":"성향", "rare":"uncommon",
 	 "desc":"엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까."},
@@ -241,6 +247,9 @@ func _check_title_condition(tid: String) -> bool:
 		"scalping_master_title":  return int(data.get("mg_plays_scalping", 0)) >= 15
 		"baccarat_master_title":   return int(data.get("mg_plays_baccarat", 0)) >= 15
 		"blackjack_master_title":  return int(data.get("mg_plays_blackjack", 0)) >= 15
+		"slot_master_title":       return int(data.get("mg_plays_slot", 0)) >= 20
+		"roulette_master_title":   return int(data.get("mg_plays_roulette", 0)) >= 15
+		"bigwheel_master_title":   return int(data.get("mg_plays_bigwheel", 0)) >= 15
 		# ── 전문화 칭호 ──
 		"spec_elite_title":   return GameState.flags.get("spec_elite", false)
 		"spec_quant_title":   return GameState.flags.get("spec_quant", false)
