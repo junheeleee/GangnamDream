@@ -663,6 +663,7 @@ func _card_widget(card: int, highlight := false) -> Control:
 		Color("#e85d5d") if BJ.is_red(card) else Color("#1a1a2e"))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
 	panel.add_child(lbl)
+	_animate_card_appear(lbl)
 	return panel
 
 func _card_back() -> Control:
@@ -764,16 +765,58 @@ func _show_table_banner(text: String, color: Color, duration: float = 0.5) -> vo
 	tw.tween_property(panel, "modulate:a", 0.0, 0.16)
 	tw.tween_callback(panel.queue_free)
 
-func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
+func _shake_node(node: Node, amount: float = 6.0, count: int = 5) -> void:
 	if not is_instance_valid(node) or not (node is Control):
 		return
 	var ctrl := node as Control
 	var base := ctrl.position
+	var step_dur: float = 0.06
 	var tw := create_tween()
-	for _i in range(6):
+	for _i in range(count):
 		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
-		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
+		tw.tween_property(ctrl, "position", base + offset, step_dur)
 	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _animate_card_appear(lbl: Label) -> void:
+	lbl.modulate = Color(1, 1, 1, 0)
+	var tw := create_tween()
+	tw.tween_property(lbl, "modulate", Color(1, 1, 1, 1), 0.15)
+
+func _show_table_banner_bj(text: String, color: Color) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 76
+	panel.size = Vector2(minf(420.0, root_size.x - 48.0), 72.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(80.0, root_size.y * 0.26))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.36, 0.28, 0.02, 0.92)
+	st.border_color = color
+	st.set_border_width_all(3)
+	st.set_corner_radius_all(10)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 32)
+	lbl.add_theme_color_override("font_color", color)
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	panel.scale = Vector2(0.8, 0.8)
+	panel.pivot_offset = panel.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.06)
+	tw.tween_property(panel, "scale", Vector2(1.2, 1.2), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(panel, "scale", Vector2(1.0, 1.0), 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(0.72)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.18)
+	tw.tween_callback(panel.queue_free)
 
 func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
 	if not is_instance_valid(node) or not (node is Control):
