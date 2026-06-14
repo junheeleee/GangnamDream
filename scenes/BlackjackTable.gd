@@ -135,7 +135,8 @@ func _double_down() -> void:
 
 func _do_split() -> void:
 	if _player.size() != 2: return
-	var v0 := _player[0] % 13; var v1 := _player[1] % 13
+	var v0: int = int(_player[0]) % 13
+	var v1: int = int(_player[1]) % 13
 	if (mini(v0 + 1, 10) != mini(v1 + 1, 10)) and not (v0 >= 9 and v1 >= 9): return
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
@@ -229,7 +230,7 @@ func _resolve_hand() -> void:
 	_net += net_round
 
 	# 핸드 히스토리
-	var desc := hand_results[0]["label"] if not hand_results.is_empty() else "?"
+	var desc: String = str(hand_results[0]["label"]) if not hand_results.is_empty() else "?"
 	_hand_history.append({"won": net_round > 0, "net": net_round, "desc": desc})
 	if _hand_history.size() > 10:
 		_hand_history.pop_front()
@@ -305,7 +306,7 @@ func _render_betting() -> void:
 	stake_row.add_theme_constant_override("separation", 8)
 	vb.add_child(stake_row)
 	for s in STAKE_OPTIONS:
-		var can := GameState.money >= float(s)
+		var can: bool = GameState.money >= float(s)
 		var sb := _make_btn(GameState.format_money(float(s)), func(): _set_stake_and_deal(s),
 			"#1a2a1a" if s == _stake else "#0e141a",
 			"#5de89c" if s == _stake else "#2a3a4a")
@@ -426,17 +427,18 @@ func _render_game() -> void:
 		btn_row.add_child(stand_btn)
 
 		# 더블다운: 첫 두 장이고 현금 있을 때
-		var can_dbl := cur_hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
+		var can_dbl: bool = cur_hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
 		var dbl_btn := _make_btn("✖2 더블", _double_down, "#2a2a0a", "#9a9a2a")
 		dbl_btn.custom_minimum_size = Vector2(80, 40)
 		dbl_btn.disabled = not can_dbl
 		btn_row.add_child(dbl_btn)
 
 		# 스플릿: 첫 두 장 같은 값
-		var can_split := (_split.is_empty() and not _split_active and _player.size() == 2
+		var can_split: bool = (_split.is_empty() and not _split_active and _player.size() == 2
 			and GameState.money >= float(_stake))
 		if can_split:
-			var v0 := _player[0] % 13; var v1 := _player[1] % 13
+			var v0: int = int(_player[0]) % 13
+			var v1: int = int(_player[1]) % 13
 			can_split = (mini(v0+1,10) == mini(v1+1,10)) or (v0 >= 9 and v1 >= 9)
 		var split_btn := _make_btn("⑈ 스플릿", _do_split, "#2a0a2a", "#8a3a8a")
 		split_btn.custom_minimum_size = Vector2(80, 40)
@@ -484,11 +486,11 @@ func _render_result() -> void:
 
 	# 손익
 	if not _hand_history.is_empty():
-		var last := _hand_history.back()
+		var last: Dictionary = _hand_history.back()
 		var res_lbl := RichTextLabel.new()
 		res_lbl.bbcode_enabled = true; res_lbl.fit_content = true; res_lbl.scroll_active = false
 		_f(res_lbl, true); res_lbl.add_theme_font_size_override("normal_font_size", 22)
-		var col := "#5de89c" if last["won"] else "#e85d5d"
+		var col: String = "#5de89c" if bool(last["won"]) else "#e85d5d"
 		res_lbl.text = "[color=%s]%s[/color]" % [col, str(last["desc"])]
 		vb.add_child(res_lbl)
 

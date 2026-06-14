@@ -25,9 +25,12 @@ var next_button: Button
 var shop_button: Button
 var _toast_container: VBoxContainer
 var event_bg: TextureRect
+var _feedback_flash: ColorRect
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
+var _transient_bg_active: bool = false
 var character_portrait: TextureRect
+var _story_container: Control
 var info_panel: Control
 var info_tabs: TabContainer
 var player_name_label: Label
@@ -220,8 +223,18 @@ func _build_ui():
 	# ── 5. 우측 슬라이드 정보 패널 (기본 숨김) ──
 	_build_info_panel()
 
+	_build_feedback_layer()
 	_build_modal()
 	_build_toast_layer()
+
+func _build_feedback_layer():
+	_feedback_flash = ColorRect.new()
+	_feedback_flash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_feedback_flash.color = Color(1, 1, 1, 1)
+	_feedback_flash.modulate = Color(1, 1, 1, 0.0)
+	_feedback_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_feedback_flash.z_index = 90
+	add_child(_feedback_flash)
 
 func _build_top_bar(parent):
 	var panel = _panel("#0d0d14", "#1a1a28")
@@ -366,6 +379,7 @@ func _build_portrait_panel(parent):
 func _build_story_panel(parent):
 	# 스토리 메인 영역 — 이벤트 제목/본문/선택지
 	var container = Control.new()
+	_story_container = container
 	container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	container.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	parent.add_child(container)
@@ -1392,13 +1406,16 @@ func _on_next_month():
 
 func _choose(index):
 	var choices: Array = current_event.get("choices", [])
+	var selected_choice: Dictionary = {}
 	var result_text = ""
 	var effects: Dictionary = {}
 	if index >= 0 and index < choices.size():
-		result_text = str(choices[index].get("result_text", "")).strip_edges()
-		effects = choices[index].get("effects", {})
+		selected_choice = choices[index]
+		result_text = str(selected_choice.get("result_text", "")).strip_edges()
+		effects = selected_choice.get("effects", {})
 	EventManager.resolve_current_event(index)
 	current_event = EventManager.get_next_event()
+	_play_choice_feedback(effects, selected_choice)
 
 	# 충격 이벤트 감지: 건강·정신 -15 이상 손실 또는 100만원 이상 갑작스러운 손실
 	var is_critical = (int(effects.get("health", 0)) <= -15
@@ -1426,7 +1443,9 @@ func _show_result(result_text: String):
 	for child in choice_box.get_children():
 		child.queue_free()
 	pending_result_text = result_text
+	_transient_bg_active = true
 	event_title.text = "결과"
+	_pulse_node(event_title, 1.04, 0.28)
 	_type_text(_fmt(result_text))
 	var confirm_btn = _button("확인", "#1f6feb")
 	confirm_btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
@@ -1436,6 +1455,7 @@ func _show_result(result_text: String):
 
 func _on_result_confirmed():
 	pending_result_text = ""
+	_transient_bg_active = false
 	_render_event()
 
 func _fmt(text: String) -> String:
@@ -1479,6 +1499,7 @@ func _render_event():
 		next_button.disabled = false
 		_render_ap_actions()
 		return
+	_transient_bg_active = false
 	next_button.disabled = true
 	event_title.text = _fmt(current_event.get("title", "이벤트"))
 	_type_text(_fmt(current_event.get("description", "")))
@@ -1616,6 +1637,84 @@ func _show_effects_float(effects: Dictionary):
 			color = Color("#f0b429")
 		_spawn_float(text, color, idx)
 		idx += 1
+
+func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
+	AudioManager.play("choice_made")
+	if choice.has("opportunity"):
+		var result := str(GameState.flags.get("_last_opportunity_result", ""))
+		if result == "win":
+			AudioManager.play("money_big")
+			_screen_flash(Color("#f0b429"), 0.22, 0.46)
+			_pulse_node(top_labels.get("money", null), 1.12, 0.34)
+		elif result == "lose":
+			AudioManager.play("money_loss")
+			_screen_flash(Color("#d73a49"), 0.24, 0.42)
+			_shake_node(event_bg, 10.0, 0.32)
+		return
+
+	var money_delta := int(effects.get("money", 0))
+	var health_delta := int(effects.get("health", 0))
+	var mental_delta := int(effects.get("mental", 0))
+	var stress_delta := int(effects.get("stress", 0))
+	var big_loss := money_delta <= -1_000_000 or health_delta <= -15 or mental_delta <= -15 or stress_delta >= 15
+	var big_gain := money_delta >= 1_000_000
+	if big_gain:
+		AudioManager.play("money_big")
+		_screen_flash(Color("#f0b429"), 0.20, 0.42)
+		_pulse_node(top_labels.get("money", null), 1.12, 0.34)
+	elif big_loss:
+		AudioManager.play("stat_down")
+		_screen_flash(Color("#d73a49"), 0.24, 0.38)
+		_shake_node(event_bg, 9.0, 0.30)
+	elif money_delta > 0:
+		AudioManager.play("money_gain")
+		_pulse_node(top_labels.get("money", null), 1.08, 0.26)
+	elif money_delta < 0:
+		AudioManager.play("money_loss")
+		_screen_flash(Color("#d73a49"), 0.12, 0.24)
+	elif health_delta > 0 or mental_delta > 0 or int(effects.get("intelligence", 0)) > 0 \
+			or int(effects.get("social_skill", 0)) > 0 or int(effects.get("investment_skill", 0)) > 0:
+		AudioManager.play("stat_up")
+		_screen_flash(Color("#34d399"), 0.10, 0.22)
+	elif health_delta < 0 or mental_delta < 0 or stress_delta > 0:
+		AudioManager.play("stat_down")
+		_screen_flash(Color("#d73a49"), 0.10, 0.22)
+
+func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3):
+	if not is_instance_valid(_feedback_flash):
+		return
+	_feedback_flash.color = Color(color.r, color.g, color.b, 1.0)
+	_feedback_flash.modulate = Color(1, 1, 1, 0.0)
+	_feedback_flash.visible = true
+	var tw := create_tween()
+	tw.tween_property(_feedback_flash, "modulate:a", alpha, duration * 0.22)
+	tw.tween_property(_feedback_flash, "modulate:a", 0.0, duration * 0.78)
+	tw.tween_callback(func():
+		if is_instance_valid(_feedback_flash):
+			_feedback_flash.visible = false
+	)
+
+func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25):
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	var steps := 6
+	for _i in range(steps):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, duration / float(steps))
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _pulse_node(node: Variant, scale_to: float = 1.08, duration: float = 0.28):
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _spawn_float(text: String, color: Color, index: int):
 	var lbl = Label.new()
@@ -3131,6 +3230,8 @@ func _ap_vignette(title: String, pool: Array, color: String):
 func _show_vignette(title: String, body: String, eff: Dictionary, color: String):
 	for child in choice_box.get_children():
 		child.queue_free()
+	_transient_bg_active = true
+	_apply_event_bg_path(_get_bg_for_vignette(title, body, eff))
 	event_title.text = title
 	var parts: PackedStringArray = PackedStringArray()
 	var names := {"money":"💰","health":"❤","mental":"🧠","stress":"😫",
@@ -3149,6 +3250,35 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(btn)
 	next_button.disabled = true
+
+func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> String:
+	var lower_title := title.to_lower()
+	var lower_body := body.to_lower()
+	var bg_id := ""
+	if lower_title.find("운동") >= 0 or lower_body.find("헬스장") >= 0 \
+			or lower_body.find("운동") >= 0 or lower_body.find("running") >= 0 \
+			or lower_body.find("gym") >= 0:
+		bg_id = "gym"
+	elif lower_title.find("재테크") >= 0 or eff.has("investment_skill"):
+		bg_id = "investment_phone"
+	elif lower_title.find("독서") >= 0 or eff.has("intelligence"):
+		bg_id = "library"
+	elif lower_title.find("명상") >= 0:
+		bg_id = "rooftop_day"
+	elif lower_title.find("저축") >= 0:
+		bg_id = "investment_phone"
+	elif lower_title.find("인맥") >= 0:
+		bg_id = "cafe"
+
+	if bg_id == "":
+		var ev := {
+			"title": title,
+			"description": body,
+			"category": "routine",
+			"tags": []
+		}
+		bg_id = ImageRegistry.infer_background_id(ev, GameState.housing)
+	return ImageRegistry.get_background(bg_id)
 
 func _ap_startup_work():
 	if not GameState.spend_ap():
@@ -4829,6 +4959,8 @@ func _calc_month_grade(snap: Dictionary) -> Dictionary:
 func _update_event_bg():
 	if not event_bg:
 		return
+	if current_event.is_empty() and _transient_bg_active:
+		return
 	# 1순위: 이벤트가 명시한 background ID (ImageRegistry 경유)
 	var new_path := ""
 	var explicit_id = str(current_event.get("background", ""))
@@ -4841,6 +4973,11 @@ func _update_event_bg():
 		var bg_path = _get_bg_for_event(current_event)
 		if bg_path != "" and ResourceLoader.exists(bg_path):
 			new_path = bg_path
+	_apply_event_bg_path(new_path)
+
+func _apply_event_bg_path(new_path: String):
+	if not event_bg:
+		return
 	if new_path == "" or new_path == _event_bg_path:
 		return
 	_event_bg_path = new_path
@@ -4861,76 +4998,10 @@ func _update_event_bg():
 		)
 
 func _get_bg_for_event(ev: Dictionary) -> String:
-	# 이벤트 태그·카테고리 기반 배경 결정 (우선순위 순)
-	var tags = ev.get("tags", [])
-	var category = str(ev.get("category", ""))
-
-	# 병원 (병원 태그 또는 health 카테고리만 — health 태그는 스탯 관련이라 제외)
-	if "hospital" in tags or category == "health":
-		return BG_HOSPITAL
-	# 헬스장·운동
-	if "gym" in tags or "exercise" in tags:
-		return BG_ROOFTOP_DAY
-
-	# 편의점 (야간 + 음식/일상)
-	if "convenience" in tags or ("night" in tags and ("food" in tags or "daily" in tags)):
-		return BG_CONVENIENCE
-
-	# 투자·주식·금융
-	if "investment" in tags or category == "investment" \
-			or ("finance" in tags or ("stock" in tags and category == "finance")):
-		return BG_INVESTMENT
-
-	# 사무실·직장
-	if "job" in tags or "work" in tags or "office" in tags or category == "jobs":
-		return BG_OFFICE
-
-	# 지하철·출퇴근
-	if "commute" in tags or "subway" in tags:
-		return BG_SUBWAY
-
-	# 카페·만남·소셜·연애
-	if "social" in tags or "date" in tags or "cafe" in tags \
-			or "relationship" in tags or category == "romance":
-		return BG_CAFE
-
-	# 군대·훈련
-	if category == "military" or "military" in tags:
-		return BG_MILITARY
-
-	# 가족: 민준 아버지의 창원/지방 노동자 가정 배경.
-	if "family" in tags or category == "family":
-		return BG_FAMILY
-
-	# 고향·귀성
-	if "hometown" in tags:
-		return BG_HOMETOWN
-
-	# 옥상·휴식
-	if "rooftop" in tags or "break" in tags:
-		return BG_ROOFTOP_DAY
-
-	# 정치·명성·강남 야경
-	if category == "politics" or ("reputation" in tags and ("late_game" in tags or GameState.age >= 45)):
-		return BG_GANGNAM_NIGHT
-
-	# 도박·코인·트레이딩
-	if category == "gambling" or "gambling" in tags or "crypto" in tags:
-		return BG_TRADING
-
-	# PC방
-	if "pc_bang" in tags or "gaming" in tags:
-		return BG_PC_BANG
-
-	# 강남 명소
-	if "gangnam_station" in tags:
-		return BG_GANGNAM_ST
-
-	# 야간·도시·스트레스 — 야간 룸
-	if "night" in tags or "city" in tags or "stress" in tags:
-		return BG_NIGHT_ROOM
-
-	# 이벤트 없을 때는 주거 기반
+	var bg_id := ImageRegistry.infer_background_id(ev, GameState.housing)
+	var bg_path := ImageRegistry.get_background(bg_id)
+	if bg_path != "" and ResourceLoader.exists(bg_path):
+		return bg_path
 	return BG_PATHS.get(GameState.housing, BG_DEFAULT)
 
 func _update_portrait():

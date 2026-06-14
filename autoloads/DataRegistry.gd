@@ -136,11 +136,36 @@ func _apply_en_overlay() -> void:
 					continue
 				if events_by_id.has(eid):
 					var old = events_by_id[eid]
+					var merged := _merge_event_overlay(old, ev)
 					var idx = events.find(old)
 					if idx >= 0:
-						events[idx] = ev
-					events_by_id[eid] = ev
+						events[idx] = merged
+					events_by_id[eid] = merged
 		fname = da.get_next()
+
+func _merge_event_overlay(base_event: Dictionary, overlay_event: Dictionary) -> Dictionary:
+	var merged: Dictionary = base_event.duplicate(true)
+	for key in overlay_event.keys():
+		if str(key) == "choices" and base_event.get("choices", []) is Array and overlay_event.get("choices", []) is Array:
+			merged["choices"] = _merge_choice_overlay(base_event.get("choices", []), overlay_event.get("choices", []))
+		else:
+			merged[key] = overlay_event[key]
+	return merged
+
+func _merge_choice_overlay(base_choices: Array, overlay_choices: Array) -> Array:
+	var merged_choices: Array = []
+	var max_count := maxi(base_choices.size(), overlay_choices.size())
+	for i in range(max_count):
+		var base_choice: Dictionary = {}
+		if i < base_choices.size() and base_choices[i] is Dictionary:
+			base_choice = (base_choices[i] as Dictionary).duplicate(true)
+		var overlay_choice: Dictionary = {}
+		if i < overlay_choices.size() and overlay_choices[i] is Dictionary:
+			overlay_choice = overlay_choices[i] as Dictionary
+		for key in overlay_choice.keys():
+			base_choice[key] = overlay_choice[key]
+		merged_choices.append(base_choice)
+	return merged_choices
 
 func get_assets_by_category(category):
 	var filtered: Array = []

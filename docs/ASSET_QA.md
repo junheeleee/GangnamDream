@@ -50,6 +50,10 @@ P2 key art/store material pass is complete. `gangnam_dream_keyart_rooftop.png` i
 
 P3 audio pass is complete and recorded in `docs/AUDIO_QA.md`: 7 BGM tracks and 17 SFX files resolve through runtime audio managers, including the newly mapped `buy`, `sell`, and `tab_open` SFX keys.
 
+Live-screen semantic routing QA found and fixed a separate class of issue: valid background files can still appear wrong if runtime inference chooses the wrong category fallback. `집들이` / room wording now routes to the current housing background instead of cafe/social fallback, and gym/exercise wording no longer falls through to hospital/health fallback. MainGame routine vignettes also choose their own backgrounds instead of inheriting the previous event background.
+
+2026-06-15 second routing pass: runtime inference now looks for concrete place wording for cafe/coffee, convenience store, office/interview, subway, real estate, study/library, holdem, racetrack, and lottery before generic investment/gambling fallbacks. The semantic audit report now tracks the remaining manual-review set in `docs/BACKGROUND_SEMANTIC_AUDIT.md` (103 REVIEW candidates after this pass). Do not auto-fix the remainder from text keywords alone; several are legitimate scenes where the dialogue topic and physical location differ.
+
 ## Pass
 
 - Kim Minjun core 5-expression transparent portrait set is usable for first in-game QA.
@@ -72,6 +76,7 @@ P3 audio pass is complete and recorded in `docs/AUDIO_QA.md`: 7 BGM tracks and 1
   - `library`, `restaurant_korean`, `pc_bang_interior`, `racetrack_betting_hall`, and `holdem_club_interior` use small/dark faceless background figures only.
   - `seoul_rainy_street` and `hometown_train_station` no longer contain a clear central pedestrian/traveler.
   - QA sheet: `/tmp/gangnamdream_p2_review_backgrounds_after.png`.
+- Runtime background semantic routing first pass is usable for QA: `friend_housewarming` / `housewarming_alone` route to current housing, hospital routing requires medical semantics, and MainGame/StoryMode share `ImageRegistry.infer_background_id()`.
 - Story CGs now exist for all currently referenced CG IDs:
   - `cg_ending_father`
   - `cg_jiyeon_crash`
@@ -104,6 +109,11 @@ P3 audio pass is complete and recorded in `docs/AUDIO_QA.md`: 7 BGM tracks and 1
 - General investment/event backgrounds
   - General investment scenes should use `investment_phone.png`.
   - Multi-monitor rooms are reserved for `scalping_room` / pro-trading contexts, not early goshiwon investing.
+
+- `gym_interior` dedicated background
+  - Still needed before final visual lock.
+  - Current `gym` / `exercise` runtime IDs intentionally use an exercise-safe fallback so 헬스장/운동 지문 no longer displays hospital imagery.
+  - Replace the alias with a real reusable gym interior once the asset is generated.
 
 - `assets/characters/main_character_50s.png`
   - Looks closer to late 30s / 40s than 50s.

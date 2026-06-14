@@ -1,5 +1,77 @@
 # Gangnam Dream Work Log
 
+## 2026-06-15 (이미지 의미 매핑 2차 + 게임감 연출)
+
+### 메인 병합 및 카지노 컴파일 안정화
+- Claude가 push한 `origin/main` ebfa19e를 fast-forward로 병합했다.
+  - 포함 내용: 강원랜드 바카라/블랙잭 신규 구현, 홀덤 팟오즈/핸드히스토리/1-3팟 레이즈, life/drama/relationship 이벤트 정리.
+- Codex 로컬 변경과 충돌난 `CLAUDE.md`, `scenes/HoldemClub.gd`를 수동 병합했다.
+  - 홀덤은 Claude의 팟오즈/핸드히스토리와 Codex의 POT/칩 버스트/페이즈 배너 연출을 모두 유지한다.
+- 새 블랙잭 코드가 Godot 4.6 엄격 타입 검사에서 실패하던 문제를 수정했다.
+  - `systems/Blackjack.gd`, `scenes/BlackjackTable.gd`의 Variant 기반 `:=` 추론을 명시 타입으로 교정.
+  - 룰/밸런스 의미 변경 없이 컴파일 안정성만 보강했다.
+
+### 배경 의미 매핑
+- `ImageRegistry.infer_background_id()` 장소 우선순위를 보강했다.
+  - 카페/커피, 편의점, 회사/면접, 지하철, 부동산/전세/청약/재개발, 도서관/스터디카페, 홀덤, 경마, 복권 키워드를 broad category보다 먼저 본다.
+  - `holdem`/`racetrack` 태그는 `gambling` 기본 폴백보다 우선해 각각 `holdem_club`, `racetrack_betting`/`racetrack_track`으로 간다.
+  - 일반 단어 `카드`/`running`처럼 오탐이 큰 키워드는 추론에서 제외했다.
+- `content/events/callback_events_21.json`의 홀덤/경마 echo 이벤트 4종에 명시 category/tags/background/cooldown을 추가했다.
+- `tools/background_semantic_audit.py`를 런타임 추론과 맞춰 갱신하고 `docs/BACKGROUND_SEMANTIC_AUDIT.md`를 재생성했다.
+  - 리뷰 후보는 225건에서 103건으로 감소.
+  - 잔여 103건은 회식/회상/장소 전환처럼 자동 확정이 위험한 후보라 실기 QA에서 사람이 판정한다.
+
+### 게임감 연출
+- MainGame 선택 결과에 SFX, 플래시, 배경 흔들림, 상단 자금 펄스, 결과 타이틀 펄스를 추가했다.
+- 경마 미니게임에 베팅 차감 SFX, 출발 플래시/흔들림, 적중/실패 플래시, 결과 숫자 펄스를 추가했다.
+- 경마 미니게임 2차 프레젠테이션 패스를 추가했다.
+  - 베팅 화면은 `racetrack_betting_hall.png`, 레이스 시작 후에는 `racetrack_track_view.png`로 배경을 전환한다.
+  - 질주 말 실루엣 위에 레인 컬러 기반 기수/새들 오버레이를 코드로 합성해 "실제 기수가 달리는" 느낌을 보강했다.
+  - 레인 노면, 흙먼지, 속도선, 비선형 질주 흔들림, 선두 교체/마지막 직선 실황 메시지를 추가했다.
+- 홀덤 미니게임에 핸드 시작/보드 공개 플래시, 레이즈 타격감, 쇼다운 승패 플래시/흔들림, 세션 결과 펄스를 추가했다.
+- 홀덤 미니게임 2차 프레젠테이션 패스를 추가했다.
+  - 중앙 `POT` 라벨과 칩 아이콘을 추가해 판돈이 계속 보이게 했다.
+  - NEW HAND/FLOP/TURN/RIVER/SHOWDOWN 및 CALL/RAISE/FOLD/CHECK 배너를 추가했다.
+  - 콜/레이즈/블라인드/AI 액션 때 칩 버스트 파티클을 띄워 팟에 돈이 들어가는 감각을 보강했다.
+  - 카드 크기를 키우고 커뮤니티/홀카드 공개 시 카드열 펄스를 넣었다.
+
+### 미니게임 품질 기준
+- 경마·홀덤·투자·카지노 계열은 단순 부가 기능이 아니라 게임의 대중적 재미를 책임지는 핵심 축으로 본다.
+- 목표 기준을 "미니게임 하나만 떼어도 팔 수 있는 수준"으로 상향했다.
+- 1차 방향은 룰 추가보다 플레이 피드백, 애니메이션, 사운드, 승패 연출, 반복 숙련감이 먼저다.
+- 이번 패스에서 경마와 홀덤은 "정적 모달"에서 "연출이 있는 미니게임"으로 1차 상승했다. 다음 단계는 전용 SFX/스프라이트/실기 QA다.
+
+### 검증
+- `python3 -m py_compile tools/background_semantic_audit.py`
+- `python3 -c "import json; json.load(open('content/events/callback_events_21.json', encoding='utf-8'))"`
+- `git diff --check`
+- `./tools/audit.sh` — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- `origin/main` ebfa19e 병합 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+
+## 2026-06-13 (실제 화면 배경 의미 매핑 1차 수정)
+
+### 메인 최신화 확인
+- `git fetch origin main` / `git pull --ff-only origin main` 실행.
+- 로컬 `main`은 이미 `origin/main` 최신(`e21b23e`)과 동일했고, 추가 fast-forward 대상은 없었다.
+
+### 버그픽스 (Codex)
+- 유저 QA: `집들이` 결과 지문에서 "방 안을 한 바퀴 둘러봤다"가 나오는데 카페/비 오는 거리 계열 배경처럼 보이는 문제 확인.
+- 원인: 명시 `background`가 없는 이벤트가 `social`/`health` 같은 broad category 폴백을 먼저 타면서, 구체 장소 의미(`housing`, `gym`, 본문 속 방/헬스장)가 덮였다.
+- `ImageRegistry.infer_background_id()`의 우선순위를 수정:
+  - `friend_housewarming` / `housewarming_alone` / `집들이` / `방 안` / `옆 건물` 계열은 현재 주거 배경으로 매핑.
+  - `gym` / `exercise` / `헬스장` / `운동` 계열은 병원보다 먼저 운동 배경 ID로 매핑.
+  - `hospital` / 병원·의사·검진·응급실 텍스트만 병원 배경으로 매핑.
+  - `family` 계열 StoryMode 폴백도 `restaurant`가 아니라 `dad_house`로 정렬.
+  - 배경 추론은 현재 장면의 제목/본문/태그만 보고, 선택지/결과문 텍스트는 보지 않게 조정해 선택지만으로 시작 배경이 바뀌는 문제를 방지.
+- `ImageRegistry.BACKGROUNDS`에 `rooftop_day`, `gym`, `exercise`, `military` alias 추가.
+- `MainGame.gd`의 루틴 비네트(`운동`, `독서`, `명상`, `재테크`, `저축`, `인맥`)가 직전 이벤트 배경을 그대로 물고 가던 문제 수정:
+  - 비네트용 배경 선택 함수 추가.
+  - 결과/비네트 표시 중에는 빈 `current_event` 새로고침이 배경을 기본값으로 되돌리지 않도록 transient background lock 추가.
+  - MainGame 이벤트 배경 추론을 `ImageRegistry` 공통 규칙으로 통합해 StoryMode와 판단 차이를 줄임.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 전체 스크립트 컴파일 깨끗.
+
 ## 2026-06-13 (콜백 이벤트 배치 23~26 완료 — dead flag 전수 연결 마무리)
 
 ### 추가된 것 (claude/game-polish 브랜치)

@@ -167,6 +167,11 @@
     - [x] BGM 7종 Ogg Vorbis 재생성 및 import loop 설정 정리
     - [x] SFX 17종 WAV 재생성, `buy`/`sell`/`tab_open` 누락 매핑 추가
     - [x] `tools/AudioAssetCheck` 추가 및 통과
+  - [x] 실제 화면 배경-지문 semantic mismatch 1차 수정 — `집들이`/방안 지문 카페 배경, 운동/헬스장 지문 병원 배경 방지 (2026-06-13)
+  - [x] 이미지 의미 매핑 2차 + 게임감 연출 패스 — 카페/편의점/회사/지하철/부동산/홀덤/경마 추론 보강, MainGame/RaceTrack/HoldemClub 플래시·흔들림·펄스 피드백 추가 (2026-06-15)
+  - [x] 경마 미니게임 프레젠테이션 2차 — 베팅홀/트랙 배경 전환, 기수 오버레이, 흙먼지/속도선, 선두 실황 콜 추가 (2026-06-15)
+  - [x] 홀덤 미니게임 프레젠테이션 2차 — 팟 표시, 칩 버스트, 페이즈/액션 배너, 카드 공개 펄스 추가 (2026-06-15)
+  - [ ] 미니게임 독립 품질 패스 — 투자 캔들·손익 연출, 카지노 룰/연출 확장, 경마/홀덤 전용 SFX·스프라이트 고도화
 - [ ] QA 체크리스트 완료
 - [x] 저장 호환성 검증 (2026-06-10) — SaveManager v3, run_theme·unlocked_stat_thresholds 직렬화 추가, 구 세이브 compat 로직
 - [x] 빌드/배포 설정 (2026-06-10) — export_presets.cfg 커밋(Win/macOS/Web), build.sh GODOT 환경변수·Linux 지원, Windows/Web export 실제 검증

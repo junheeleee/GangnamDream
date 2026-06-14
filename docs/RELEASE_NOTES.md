@@ -2,6 +2,33 @@
 
 ## Unreleased
 
+### Fixed (2026-06-15) — Main merge + Blackjack compile stability
+- Merged Claude's latest `origin/main` (`ebfa19e`) containing Kangwon Land baccarat/blackjack, holdem odds/history upgrades, and event context cleanup.
+- Resolved `HoldemClub` conflicts by preserving both the new odds/history UI and the Codex POT/chip-burst/table-banner presentation pass.
+- Fixed Godot 4.6 strict type inference failures in `systems/Blackjack.gd` and `scenes/BlackjackTable.gd` by replacing Variant-derived `:=` inference with explicit types.
+- `./tools/audit.sh` passed after the merge: ERROR 0 / WARNING 0, Godot compile clean.
+
+### Changed (2026-06-15) — Image routing + game-feel feedback pass
+- `ImageRegistry.infer_background_id()` now recognizes concrete place wording for cafe/coffee, convenience store, office/interview, subway, real estate, study/library, holdem, racetrack, and lottery before broad investment/gambling fallbacks.
+- Runtime gambling callbacks now route holdem scenes to `holdem_club` and racetrack scenes to `racetrack_betting` / `racetrack_track` instead of generic phone/investment backgrounds.
+- `callback_events_21.json` now gives the holdem/racetrack echo events explicit category/tags/background metadata for consistent KO/EN overlay behavior.
+- `MainGame` choice resolution now adds result feedback: choice SFX, big gain/loss flashes, background shake on heavy losses, and money/title pulse animations.
+- `RaceTrack` now has betting debit SFX, race-start flash/shake, win/loss screen flash, and result label pulse.
+- `RaceTrack` now switches from betting hall to track view during the race, draws lane surfaces, speed lines, dust, jockey/saddle overlays on the running horses, and live race-call messages for leader changes / final stretch.
+- `HoldemClub` now has card-phase reveal flash, raise/call/showdown feedback, win/loss flash, loss shake, and session result pulse.
+- `HoldemClub` now has a central POT display, chip icon, chip-burst particles on bets, bigger card panels, and table banners for NEW HAND/FLOP/TURN/RIVER/SHOWDOWN plus player/AI actions.
+- `tools/background_semantic_audit.py` mirrors the updated runtime routing and writes the current review report to `docs/BACKGROUND_SEMANTIC_AUDIT.md`.
+- `./tools/audit.sh` passed after the pass: ERROR 0 / WARNING 0, Godot compile clean.
+
+### Changed (2026-06-13) — Runtime background semantic routing
+- `ImageRegistry.infer_background_id()` now prioritizes concrete scene meaning before broad categories, preventing `social` events like `집들이` from falling through to cafe backgrounds and `health`/exercise scenes from falling through to hospital backgrounds.
+- `friend_housewarming` / `housewarming_alone` and room/housewarming wording now route to the current housing background.
+- Gym/exercise wording and tags now route to an exercise-safe background before hospital checks.
+- Hospital backgrounds now require explicit hospital tags or medical wording such as hospital, doctor, checkup, ER, clinic, or Korean equivalents.
+- MainGame routine vignettes now select their own background instead of inheriting the previous event background.
+- MainGame event background routing now uses the same `ImageRegistry` inference as StoryMode.
+- `./tools/audit.sh` passed after the fix: ERROR 0 / WARNING 0, Godot compile clean.
+
 ### Changed (2026-06-13) — P3 BGM/SFX 품질 교체
 - BGM 7종을 deterministic local synthesis 기반 Ogg Vorbis로 재생성: menu, goshiwon, main, apartment, crisis, victory, ending
 - 기존 `bgm_gosiwon.ogg`가 Theora video로 인식되던 문제를 Ogg Vorbis audio로 교체해 해결
