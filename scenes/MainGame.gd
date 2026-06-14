@@ -75,12 +75,12 @@ var racetrack      # 경마 미니게임 오버레이
 var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
-var baccarat_table   # 강원랜드 바카라 오버레이
-var blackjack_table  # 강원랜드 블랙잭 오버레이
-var slot_machine_game  # 강원랜드 슬롯머신 오버레이
-var roulette_table     # 강원랜드 룰렛 오버레이
-var big_wheel_game     # 강원랜드 빅휠 오버레이
-var gangwon_land       # 강원랜드 허브 오버레이
+var baccarat_table   # 한강 카지노 바카라 오버레이
+var blackjack_table  # 한강 카지노 블랙잭 오버레이
+var slot_machine_game  # 한강 카지노 슬롯머신 오버레이
+var roulette_table     # 한강 카지노 룰렛 오버레이
+var big_wheel_game     # 한강 카지노 빅휠 오버레이
+var gangwon_land       # 한강 카지노 허브 오버레이
 # 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
 var month_situations: Array = []
 var month_situations_turn: int = -1
@@ -126,22 +126,22 @@ func _ready():
 	aruba_game = load("res://scenes/ArubaGame.gd").new()
 	add_child(aruba_game)
 	aruba_game.closed.connect(_on_aruba_closed)
-	# 강원랜드 바카라 오버레이
+	# 한강 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
-	# 강원랜드 블랙잭 오버레이
+	# 한강 카지노 블랙잭 오버레이
 	blackjack_table = load("res://scenes/BlackjackTable.gd").new()
 	add_child(blackjack_table)
-	# 강원랜드 슬롯머신 오버레이
+	# 한강 카지노 슬롯머신 오버레이
 	slot_machine_game = load("res://scenes/SlotMachineGame.gd").new()
 	add_child(slot_machine_game)
-	# 강원랜드 룰렛 오버레이
+	# 한강 카지노 룰렛 오버레이
 	roulette_table = load("res://scenes/RouletteTable.gd").new()
 	add_child(roulette_table)
-	# 강원랜드 빅휠 오버레이
+	# 한강 카지노 빅휠 오버레이
 	big_wheel_game = load("res://scenes/BigWheelGame.gd").new()
 	add_child(big_wheel_game)
-	# 강원랜드 허브 — 모든 카지노 게임 진입점
+	# 한강 카지노 허브 — 모든 카지노 게임 진입점
 	gangwon_land = load("res://scenes/GangwonLand.gd").new()
 	gangwon_land.baccarat_table   = baccarat_table
 	gangwon_land.blackjack_table  = blackjack_table
@@ -2441,7 +2441,7 @@ func _render_essential_actions(ap: int):
 		var sc_badge: String = _mastery_badge("scalping")
 		_essential_btn("⚡ 스캘핑 트레이딩  —  60초 실시간 매매 (중독 주의)" + sc_badge, "#1a2a3a", "_open_scalping", disabled)
 	if GameState.money >= 10000:
-		_essential_btn("🎰 강원랜드  —  바카라·블랙잭·슬롯·룰렛·빅휠", "#1a1030", "_open_gangwon_land", disabled)
+		_essential_btn("🎰 한강 카지노  —  바카라·블랙잭·슬롯·룰렛·빅휠", "#1a1030", "_open_gangwon_land", disabled)
 	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
 
 func _mastery_badge(game_id: String) -> String:
@@ -3191,7 +3191,7 @@ func _open_gangwon_land():
 	gangwon_land.open()
 
 func _on_gangwon_land_closed():
-	GameState.add_log("🎰 강원랜드 카지노를 나왔다.", "event")
+	GameState.add_log("🎰 한강 카지노를 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
 
@@ -3201,7 +3201,7 @@ func _open_baccarat():
 	baccarat_table.open()
 
 func _on_baccarat_closed():
-	GameState.add_log("🎰 강원랜드 바카라 테이블을 나왔다.", "event")
+	GameState.add_log("🎰 한강 카지노 바카라 테이블을 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
 
@@ -3211,7 +3211,7 @@ func _open_blackjack():
 	blackjack_table.open()
 
 func _on_blackjack_closed():
-	GameState.add_log("🃏 강원랜드 블랙잭 테이블을 나왔다.", "event")
+	GameState.add_log("🃏 한강 카지노 블랙잭 테이블을 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
 

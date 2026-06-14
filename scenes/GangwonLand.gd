@@ -1,5 +1,5 @@
 extends Control
-## GangwonLand — 강원랜드 카지노 허브 씬.
+## GangwonLand — 한강 카지노 허브 씬.
 ## 5개 카지노 게임(바카라·블랙잭·슬롯·룰렛·빅휠)을 한 장소에서 진입.
 ## MainGame이 overlay로 붙이고 open()으로 호출. 닫으면 closed 시그널.
 
@@ -58,7 +58,7 @@ func open() -> void:
 	if not GameState.flags.get("gangwon_first_visit", false):
 		GameState.flags["gangwon_first_visit"] = true
 		if _msg_lbl:
-			_msg_lbl.text = "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 강원랜드입니다."
+			_msg_lbl.text = "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 한강 카지노입니다."
 	_refresh_balance()
 
 func _close() -> void:
@@ -111,7 +111,7 @@ func _build_ui() -> void:
 	header.add_child(hrow)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "🎰  강원랜드 카지노"
+	title_lbl.text = "🎰  한강 카지노"
 	title_lbl.add_theme_font_size_override("font_size", 24)
 	title_lbl.add_theme_color_override("font_color", COLOR_GOLD)
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL

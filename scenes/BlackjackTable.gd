@@ -1,5 +1,5 @@
 extends Control
-## BlackjackTable — 강원랜드 블랙잭 테이블.
+## BlackjackTable — 한강 카지노 블랙잭 테이블.
 ## Blackjack 모델(순수 수학) 위에 히트/스탠드/더블/스플릿 UI.
 ## 기본전략 힌트 표시 → "공부하면 EV 올라간다"를 실감하게.
 
