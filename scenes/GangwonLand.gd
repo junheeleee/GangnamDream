@@ -129,23 +129,23 @@ func _build_ui() -> void:
 
 	_add_game_card(grid, "🃏", "바카라",
 		"뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~",
-		"#1a1a2e", "#4a4aff", "_launch_baccarat")
+		"#1a1a2e", "#4a4aff", "_launch_baccarat", "baccarat")
 
 	_add_game_card(grid, "🂡", "블랙잭",
 		"기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~",
-		"#1a2e1a", "#4aff4a", "_launch_blackjack")
+		"#1a2e1a", "#4aff4a", "_launch_blackjack", "blackjack")
 
 	_add_game_card(grid, "🎰", "슬롯머신",
 		"777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%",
-		"#2e1a1a", "#ff4a4a", "_launch_slot")
+		"#2e1a1a", "#ff4a4a", "_launch_slot", "slot")
 
 	_add_game_card(grid, "🎡", "룰렛",
 		"유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%",
-		"#1a2e2a", "#4affcc", "_launch_roulette")
+		"#1a2e2a", "#4affcc", "_launch_roulette", "roulette")
 
 	_add_game_card(grid, "🎯", "빅휠",
 		"바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임",
-		"#2e2a1a", "#ffcc4a", "_launch_bigwheel")
+		"#2e2a1a", "#ffcc4a", "_launch_bigwheel", "bigwheel")
 
 	# ── 안내 ──
 	var tip_lbl := Label.new()
@@ -157,7 +157,8 @@ func _build_ui() -> void:
 	root.add_child(tip_lbl)
 
 func _add_game_card(parent: Control, icon: String, name_kr: String,
-		desc: String, bg_hex: String, accent_hex: String, fn: String) -> void:
+		desc: String, bg_hex: String, accent_hex: String, fn: String,
+		tutorial_id: String = "") -> void:
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.custom_minimum_size = Vector2(0, 150)
@@ -208,9 +209,37 @@ func _add_game_card(parent: Control, icon: String, name_kr: String,
 	_f(desc_l)
 	vbox.add_child(desc_l)
 
+	var btn_row := HBoxContainer.new()
+	btn_row.add_theme_constant_override("separation", 6)
+	vbox.add_child(btn_row)
+
+	if tutorial_id != "":
+		var help_btn := Button.new()
+		help_btn.text = "❓ 규칙"
+		help_btn.add_theme_font_size_override("font_size", 11)
+		var hbs := StyleBoxFlat.new()
+		hbs.bg_color = Color(0.0, 0.0, 0.0, 0.0)
+		hbs.border_color = Color.html(accent_hex)
+		hbs.border_width_left   = 1
+		hbs.border_width_right  = 1
+		hbs.border_width_top    = 1
+		hbs.border_width_bottom = 1
+		hbs.corner_radius_top_left     = 4
+		hbs.corner_radius_top_right    = 4
+		hbs.corner_radius_bottom_left  = 4
+		hbs.corner_radius_bottom_right = 4
+		help_btn.add_theme_stylebox_override("normal", hbs)
+		help_btn.add_theme_color_override("font_color", Color.html(accent_hex))
+		help_btn.custom_minimum_size = Vector2(70, 0)
+		_f(help_btn)
+		var tid := tutorial_id
+		help_btn.pressed.connect(func(): TutorialOverlay.force_show(tid, self))
+		btn_row.add_child(help_btn)
+
 	var btn := Button.new()
 	btn.text = "▶  입장"
 	btn.add_theme_font_size_override("font_size", 13)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bs := StyleBoxFlat.new()
 	bs.bg_color = Color.html(accent_hex)
 	bs.corner_radius_top_left     = 4
@@ -221,7 +250,7 @@ func _add_game_card(parent: Control, icon: String, name_kr: String,
 	btn.add_theme_color_override("font_color", Color(0.05, 0.05, 0.05))
 	_f(btn, true)
 	btn.pressed.connect(func(): self.call(fn))
-	vbox.add_child(btn)
+	btn_row.add_child(btn)
 
 # ── 게임 런처 ─────────────────────────────────────────────────
 func _launch_baccarat() -> void:

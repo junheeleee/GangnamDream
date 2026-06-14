@@ -164,6 +164,10 @@ func _build_ui() -> void:
 	_timer_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
 	_f(_timer_lbl, true)
 	hdr_row.add_child(_timer_lbl)
+	var help_btn := _btn("❓", func(): TutorialOverlay.force_show("scalping", self), "#0a0a1a")
+	help_btn.custom_minimum_size = Vector2(34, 34)
+	hdr_row.add_child(help_btn)
+
 	var close_btn := _btn("✕", func(): _on_close_pressed(), "#2a1818")
 	close_btn.custom_minimum_size = Vector2(34, 34)
 	hdr_row.add_child(close_btn)

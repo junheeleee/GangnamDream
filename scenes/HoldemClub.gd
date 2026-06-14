@@ -159,6 +159,10 @@ func _show_buyin_screen() -> void:
 
 	vb.add_child(_sep())
 
+	var rules_btn := _make_btn("❓  게임 규칙 보기", func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
+	rules_btn.custom_minimum_size = Vector2(0, 38)
+	vb.add_child(rules_btn)
+
 	var leave := _make_btn("자리를 뜬다", _leave, "#2a1818")
 	vb.add_child(leave)
 

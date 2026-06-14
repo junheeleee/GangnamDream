@@ -275,6 +275,10 @@ func _build_ui() -> void:
 	_f(_session_lbl)
 	header.add_child(_session_lbl)
 
+	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("slot", self), "#0a0a1a", "#4a6aaa")
+	help_btn.custom_minimum_size = Vector2(42, 32)
+	header.add_child(help_btn)
+
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(80, 32)
 	header.add_child(exit_btn)

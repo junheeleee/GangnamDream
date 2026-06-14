@@ -106,7 +106,18 @@ func _build_ui() -> void:
 	_font_for(_hud)
 	_hud.add_theme_font_size_override("normal_font_size", 15)
 	hud_panel.add_child(_hud)
-	# 닫기
+	# 규칙/닫기
+	var help_btn := Button.new()
+	help_btn.text = "❓"
+	help_btn.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	help_btn.offset_left = -196
+	help_btn.offset_top = 8
+	help_btn.offset_right = -158
+	help_btn.offset_bottom = 38
+	_style_btn(help_btn, "#0a0a1a", "#4a6aaa")
+	help_btn.pressed.connect(func(): TutorialOverlay.force_show("trading", self))
+	add_child(help_btn)
+
 	var close_btn := Button.new()
 	close_btn.text = "✕  닫기"
 	close_btn.set_anchors_preset(Control.PRESET_TOP_RIGHT)

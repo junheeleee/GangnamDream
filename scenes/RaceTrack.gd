@@ -110,6 +110,14 @@ func _build_skeleton() -> void:
 	_f(_hud); _hud.add_theme_font_size_override("normal_font_size", 14)
 	add_child(_hud)
 
+	var help := Button.new()
+	help.text = "❓"
+	help.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	help.offset_left = -164; help.offset_top = 14; help.offset_right = -128; help.offset_bottom = 46
+	_style(help, "#0a0a1a", "#4a6aaa")
+	help.pressed.connect(func(): TutorialOverlay.force_show("racetrack", self))
+	add_child(help)
+
 	var exit := Button.new()
 	exit.text = "나가기"
 	exit.set_anchors_preset(Control.PRESET_TOP_RIGHT)

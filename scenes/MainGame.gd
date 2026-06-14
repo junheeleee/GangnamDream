@@ -178,6 +178,7 @@ func _continue_after_story():
 		return
 	# 더 없으면 바로 루틴 행동 화면
 	current_event = {}
+	TutorialOverlay.maybe_show("main_game", self)
 	_render_event()
 
 func _init_systems():

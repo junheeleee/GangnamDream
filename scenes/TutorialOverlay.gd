@@ -12,6 +12,12 @@ static var _seen: Dictionary = {}
 static func maybe_show(game_id: String, parent: Control) -> void:
 	if _seen.get(game_id, false):
 		return
+	_show(game_id, parent)
+
+static func force_show(game_id: String, parent: Control) -> void:
+	_show(game_id, parent)
+
+static func _show(game_id: String, parent: Control) -> void:
 	var slides: Array = _get_slides(game_id)
 	if slides.is_empty():
 		return
@@ -198,6 +204,53 @@ static func _get_slides(game_id: String) -> Array:
 					+ "   1~3위권 말을 고르는 게 안전해요![/color]"
 				)
 			}]
+		"main_game":
+			return [
+				{
+					"icon": "🏙",
+					"title": "강남드림 — 게임 목표",
+					"body": (
+						"당신은 [b]김민준, 33세, 백수[/b].\n"
+						+ "통장에 [b]50만원[/b]이 전부예요.\n\n"
+						+ "목표는 딱 하나 —\n"
+						+ "[color=#f0c040][b]5년 안에 자산 30억을 모아\n강남에 입성하는 것![/b][/color]\n\n"
+						+ "매달(= 1턴)마다 [b]행동 포인트(AP)[/b]를 써서\n"
+						+ "취업·투자·도박·인간관계 등을 선택하세요.\n\n"
+						+ "[color=#aaffaa]💡 38세(60턴)가 되면 게임이 끝나요.\n"
+						+ "   시간이 곧 자원이에요 — 매 달을 낭비하지 마세요![/color]"
+					)
+				},
+				{
+					"icon": "📊",
+					"title": "대시보드 읽는 법",
+					"body": (
+						"[b]상단 스탯 바[/b]를 항상 확인하세요:\n\n"
+						+ "  💰 [b]자산[/b] — 현금 + 포트폴리오 총합\n"
+						+ "  ❤ [b]건강[/b] — 0이 되면 입원 or 사망\n"
+						+ "  🧠 [b]정신력[/b] — 0이 되면 멘탈 붕괴\n"
+						+ "  😤 [b]스트레스[/b] — 100이 되면 번아웃\n\n"
+						+ "건강·정신력은 매달 자동으로 줄어요.\n"
+						+ "무직이면 더 빨리 떨어지니 주의!\n\n"
+						+ "[color=#aaffaa]💡 첫 달에는 [b]구직활동[/b]으로\n"
+						+ "   일자리부터 구하는 게 안전해요.[/color]"
+					)
+				},
+				{
+					"icon": "⚡",
+					"title": "한 달의 흐름",
+					"body": (
+						"매달 이렇게 진행돼요:\n\n"
+						+ "1️⃣  [b]이달의 상황[/b] — 뉴스·이벤트 확인\n"
+						+ "2️⃣  [b]선택[/b] — 행동 포인트(AP)를 써서 반응\n"
+						+ "3️⃣  [b]다음 달 ▶[/b] — 시간이 흘러 다음 달로\n\n"
+						+ "[b]AP를 쓸 수 있는 행동들:[/b]\n"
+						+ "  💼 구직활동  📈 투자  🎰 강원랜드\n"
+						+ "  🃏 홀덤  🏇 경마  👥 인맥 관리  등\n\n"
+						+ "[color=#aaffaa]💡 AP가 남아도 다음 달로 넘어갈 수 있어요.\n"
+						+ "   하지만 낭비하면 목표 달성이 어려워요![/color]"
+					)
+				}
+			]
 	return []
 
 # ── 인스턴스 ─────────────────────────────────────────────────────
