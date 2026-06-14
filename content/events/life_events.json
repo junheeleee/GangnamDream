@@ -723,7 +723,9 @@
     "rarity": "common",
     "weight": 8,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 5
+    },
     "tags": [
       "disasters",
       "opportunity"
@@ -1935,7 +1937,10 @@
           "stress": 5,
           "mental": 3
         },
-        "result_text": "2주 뒤 합격. 뭔가 달성했다는 게 이렇게 기분 좋을 줄 몰랐다."
+        "result_text": "2주 뒤 합격. 뭔가 달성했다는 게 이렇게 기분 좋을 줄 몰랐다.",
+        "flags": [
+          "has_certification"
+        ]
       },
       {
         "text": "이번엔 포기, 다음 시험 기약한다",

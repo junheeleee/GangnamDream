@@ -169,21 +169,6 @@
     ]
   },
   {
-    "id": "callback_quit_impulsive_pressure",
-    "title": "Balance Alert",
-    "description": "A month and a half since you impulsively quit.\nYou open the banking app.\nBalance: ₩387,000.\nNext month's goshiwon rent: ₩450,000.",
-    "choices": [
-      {
-        "text": "Find a part-time job now",
-        "result_text": "Convenience store nights, four days a week.\nYou didn't expect to feel this chased after walking out with so much relief.\nBut — that job wasn't the answer either."
-      },
-      {
-        "text": "Go all-in on job hunting",
-        "result_text": "You sent out twenty applications.\nTwo interviews lined up.\nDesperation sharpened into focus."
-      }
-    ]
-  },
-  {
     "id": "callback_parent_loan_pressure",
     "title": "Payment Due",
     "description": "A year since you took a loan for your father's surgery.\nAuto-transfer notification. This month: ₩197,000.\nThe principal hasn't been touched.",

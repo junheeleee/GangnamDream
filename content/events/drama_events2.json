@@ -11,7 +11,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["family", "social"],
+    "tags": [
+      "family",
+      "social"
+    ],
     "cooldown": 10,
     "description": "전화를 받았다. 어머니였다.\n\"밥은 먹고 다니냐, 잘 자냐\" 이야기가 잠깐 오가더니 — 결국 나왔다.\n\"너 친구들 다 결혼하던데. 너는 언제?\"\n\n{name}은 전화기를 조금 멀리 뒀다. 뭐라고 해야 하는지.",
     "choices": [
@@ -58,7 +61,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["family", "social"],
+    "tags": [
+      "family",
+      "social"
+    ],
     "cooldown": 20,
     "description": "동생이 취직했다.\n좋은 회사, 좋은 조건.\n부모님이 기뻐했다.\n\n{name}은 진심으로 기뻤다 — 70%. 나머지 30%는 비교하는 자신에 대한 부끄러움.",
     "choices": [
@@ -92,7 +98,10 @@
     "conditions": {
       "min_turn": 6
     },
-    "tags": ["family", "social"],
+    "tags": [
+      "family",
+      "social"
+    ],
     "cooldown": 15,
     "description": "친척 모임.\n사촌이 새 차 사진을 보여주고 있었다. \"요즘 좀 잘 나가서.\"\n작은 어머니가 {name}을 봤다. \"너는 요즘 어때?\"\n\n모두의 시선이 모였다. 식탁 위에 김이 피어오른다.",
     "choices": [
@@ -135,7 +144,10 @@
       "min_turn": 1,
       "max_turn": 3
     },
-    "tags": ["milestone", "daily"],
+    "tags": [
+      "milestone",
+      "daily"
+    ],
     "cooldown": 999,
     "description": "새해가 됐다.\n{name}은 노트를 꺼내 목표를 적었다.\n쓰다 보니 작년 목표와 똑같은 것들이 보였다.\n\n지우고 다시 썼다.",
     "choices": [
@@ -175,7 +187,10 @@
     "conditions": {
       "min_turn": 3
     },
-    "tags": ["daily", "milestone"],
+    "tags": [
+      "daily",
+      "milestone"
+    ],
     "cooldown": 30,
     "description": "오늘이 생일이었다.\n어머니만 카톡을 보냈다. 그리고 한두 명.\n{name}은 혼자 편의점 케이크를 샀다 — 600원짜리 초 하나 꽂고.\n\n나쁜 날은 아니었다. 그냥 조용했다.",
     "choices": [
@@ -210,7 +225,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["social", "daily"],
+    "tags": [
+      "social",
+      "daily"
+    ],
     "cooldown": 12,
     "description": "선배가 소개팅을 붙여줬다.\n카페에서 마주 앉은 사람 — 나쁘지 않은 첫인상이었다.\n직업, 취미, 가족 이야기가 오갔다.\n\n어느 순간 {name}은 지금 내 상황을 어떻게 설명해야 하는지 몰랐다.",
     "choices": [
@@ -251,7 +269,10 @@
     "conditions": {
       "min_turn": 5
     },
-    "tags": ["social", "daily"],
+    "tags": [
+      "social",
+      "daily"
+    ],
     "cooldown": 15,
     "description": "알 수도 있는 사람 피드에 뜬 얼굴.\n전 연인이었다.\n잘 지내는 것 같았다. 여행 사진, 웃는 사진.\n\n{name}은 한참 그 프로필에 머물다가 창을 닫았다.",
     "choices": [
@@ -293,7 +314,10 @@
       "has_job": true,
       "min_turn": 6
     },
-    "tags": ["finance", "jobs"],
+    "tags": [
+      "finance",
+      "jobs"
+    ],
     "cooldown": 20,
     "description": "연말정산 시즌.\n영수증, 의료비, 교육비, 기부금.\n{name}은 서류를 모으다 멈췄다.\n환급을 받을 것 같다. 얼마인지는 — 해봐야 안다.",
     "choices": [
@@ -324,8 +348,13 @@
     "rarity": "common",
     "weight": 1.6,
     "hidden": false,
-    "conditions": {},
-    "tags": ["daily", "social"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "daily",
+      "social"
+    ],
     "cooldown": 8,
     "description": "새벽 한 시.\n윗집에서 쿵쿵 소리가 계속 났다.\n집중이 안 됐다. 잠도 못 잤다.\n오늘만 세 번째다.",
     "choices": [
@@ -363,8 +392,13 @@
     "rarity": "common",
     "weight": 1.7,
     "hidden": false,
-    "conditions": {},
-    "tags": ["daily", "social"],
+    "conditions": {
+      "min_turn": 1
+    },
+    "tags": [
+      "daily",
+      "social"
+    ],
     "cooldown": 6,
     "description": "새벽 두 시 편의점.\n라면을 끓이고 있는데 — 혼자 먹는 사람이 또 있었다.\n둘 다 말은 안 했다.\n창밖에 비가 조금 내렸다.\n\n모르는 사람과 공유하는 새벽의 조용함 — 그것도 나쁘지 않다.",
     "choices": [
@@ -397,7 +431,10 @@
     "conditions": {
       "min_turn": 15
     },
-    "tags": ["daily", "hidden"],
+    "tags": [
+      "daily",
+      "hidden"
+    ],
     "cooldown": 20,
     "description": "이삿짐 정리 중에 나왔다.\n5년 전 다이어리.\n그때의 {name} — 무엇을 걱정했고, 무엇을 원했는지.\n\n지금과 겹치는 부분이 있었다. 달라진 부분도 있었다.",
     "choices": [
@@ -431,7 +468,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["family", "daily"],
+    "tags": [
+      "family",
+      "daily"
+    ],
     "cooldown": 20,
     "description": "어머니가 갑자기 올라오겠다고 했다.\n\"반찬 좀 해다 줄게.\"\n\n방 상태가 엉망이었다.\n3시간 만에 청소하고 창문을 열었다.\n집이 좁아 보일까봐 걱정됐다.",
     "choices": [
@@ -466,8 +506,13 @@
     "rarity": "common",
     "weight": 1.4,
     "hidden": false,
-    "conditions": {},
-    "tags": ["comedy", "daily"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "comedy",
+      "daily"
+    ],
     "cooldown": 15,
     "description": "갑자기 불이 꺼졌다.\n핸드폰 손전등을 켰다.\n밖을 보니 동네 전체가 나간 것 같았다.\n\n마감이 내일이었다.",
     "choices": [
@@ -498,8 +543,13 @@
     "rarity": "common",
     "weight": 1.6,
     "hidden": false,
-    "conditions": {},
-    "tags": ["health", "daily"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "health",
+      "daily"
+    ],
     "cooldown": 8,
     "description": "38도.\n지하철 안은 냉방이 됐지만 환승 통로는 사우나였다.\n{name}의 방은 에어컨이 없었다.\n선풍기 하나. 얼음 한 봉지.",
     "choices": [
@@ -539,8 +589,13 @@
     "rarity": "common",
     "weight": 1.6,
     "hidden": false,
-    "conditions": {},
-    "tags": ["health", "daily"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "health",
+      "daily"
+    ],
     "cooldown": 8,
     "description": "영하 15도.\n장갑을 어디 뒀는지 모른다.\n출근길 바람이 얼굴을 찔렀다.\n\n따뜻한 실내가 그렇게 그리울 수 없다.",
     "choices": [

@@ -204,20 +204,5 @@
         "result_text": "You decided to hold more.\nThe founder's optimism had colored your judgment.\nGood news is exactly when you need to stay cold — you'd forgotten that."
       }
     ]
-  },
-  {
-    "id": "callback_quit_survived_echo",
-    "title": "Having Survived After Quitting",
-    "description": "Three months since the resignation.\nThe hard period was passing.\nToday, out of nowhere, a call came.",
-    "choices": [
-      {
-        "text": "Take the call",
-        "result_text": "It was someone from the old job who'd stayed in touch.\nThey were asking about an opportunity.\nSurviving the hard stretch — had put you in position to receive this call.\nResigning wasn't the end."
-      },
-      {
-        "text": "Say you're still in preparation",
-        "result_text": "'Still getting ready,' you said.\nThey said 'Sure — reach out when you're ready.'\nAn opportunity that would wait until you were ready — was there."
-      }
-    ]
   }
 ]

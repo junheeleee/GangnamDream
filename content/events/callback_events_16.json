@@ -11,7 +11,11 @@
       "flag": "cafe_greed_resisted",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "cafe"],
+    "tags": [
+      "social",
+      "callback",
+      "cafe"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -48,7 +52,11 @@
       "flag": "cafe_guilt_resolved",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "cafe"],
+    "tags": [
+      "social",
+      "callback",
+      "cafe"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -85,7 +93,12 @@
       "flag": "cafe_mentor_network",
       "min_turn": 5
     },
-    "tags": ["social", "callback", "cafe", "network"],
+    "tags": [
+      "social",
+      "callback",
+      "cafe",
+      "network"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -122,7 +135,11 @@
       "flag": "coin_greed_resisted",
       "min_turn": 4
     },
-    "tags": ["investment", "callback", "crypto"],
+    "tags": [
+      "investment",
+      "callback",
+      "crypto"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -160,7 +177,11 @@
       "flag": "coin_helped_friend",
       "min_turn": 5
     },
-    "tags": ["social", "callback", "crypto"],
+    "tags": [
+      "social",
+      "callback",
+      "crypto"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -196,7 +217,11 @@
       "flag": "coin_lost_confirmed",
       "min_turn": 3
     },
-    "tags": ["investment", "callback", "crypto"],
+    "tags": [
+      "investment",
+      "callback",
+      "crypto"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -234,7 +259,11 @@
       "flag": "interview_lie_confessed",
       "min_turn": 4
     },
-    "tags": ["jobs", "callback", "ethics"],
+    "tags": [
+      "jobs",
+      "callback",
+      "ethics"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -262,7 +291,11 @@
       "flag": "interview_lie_doubled",
       "min_turn": 4
     },
-    "tags": ["jobs", "callback", "ethics"],
+    "tags": [
+      "jobs",
+      "callback",
+      "ethics"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -302,7 +335,11 @@
       "flag": "jaehyuk_02b_questioned",
       "min_turn": 3
     },
-    "tags": ["relationship", "callback", "jaehyuk"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jaehyuk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -340,7 +377,11 @@
       "flag": "jaehyuk_final_break",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jaehyuk"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jaehyuk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -376,7 +417,10 @@
       "flag": "investment_analysis_habit",
       "min_turn": 5
     },
-    "tags": ["investment", "callback"],
+    "tags": [
+      "investment",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -414,7 +458,10 @@
       "flag": "leverage_lesson_learned",
       "min_turn": 5
     },
-    "tags": ["investment", "callback"],
+    "tags": [
+      "investment",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -451,7 +498,10 @@
       "flag": "greed_learned",
       "min_turn": 5
     },
-    "tags": ["investment", "callback"],
+    "tags": [
+      "investment",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -489,7 +539,11 @@
       "flag": "startup_partial_exit",
       "min_turn": 5
     },
-    "tags": ["investment", "callback", "startup"],
+    "tags": [
+      "investment",
+      "callback",
+      "startup"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -511,43 +565,6 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "더 들고 가기로 했다.\n창업자의 낙관이 — 판단에 영향을 줬다.\n좋은 소식을 들을수록 — 냉정해져야 한다는 걸 잊었다."
-      }
-    ]
-  },
-  {
-    "id": "callback_quit_survived_echo",
-    "title": "퇴사 후 버텨낸 것",
-    "description": "퇴사한 지 석 달이 됐다.\n힘든 시기가 지나가고 있었다.\n오늘 예상치 못한 곳에서 연락이 왔다.",
-    "category": "jobs",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "quit_survived",
-      "min_turn": 5
-    },
-    "tags": ["jobs", "callback", "career"],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "연락을 받는다",
-        "effects": {
-          "mental": 10,
-          "luck": 2,
-          "social_skill": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "이전 회사 때 연락처를 유지했던 사람이었다.\n기회를 물어왔다.\n버텨냈던 것이 — 이 연락을 받을 수 있게 해줬다.\n퇴사는 끝이 아니었다."
-      },
-      {
-        "text": "지금은 준비 중이라고 한다",
-        "effects": {
-          "mental": 5
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "\"아직 준비 중이에요.\"라고 했다.\n상대가 \"그래, 준비 되면 연락해.\"라고 했다.\n준비를 마칠 때까지 기다려주는 기회가 있었다."
       }
     ]
   }

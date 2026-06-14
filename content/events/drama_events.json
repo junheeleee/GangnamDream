@@ -22,13 +22,19 @@
         "text": "전재산을 넣는다 (최대 500만원)",
         "effects": {},
         "result_text": "손이 떨렸다. 확인 버튼을 눌렀다.",
-        "follow_up_event": "drama_crypto_result_big"
+        "follow_up_event": "drama_crypto_result_big",
+        "flags": [
+          "did_crypto_allin"
+        ]
       },
       {
         "text": "여윳돈 50만원만 써본다",
         "effects": {},
         "result_text": "조금만 써보기로 했다.",
-        "follow_up_event": "drama_crypto_result_small"
+        "follow_up_event": "drama_crypto_result_small",
+        "flags": [
+          "did_crypto_allin"
+        ]
       },
       {
         "text": "차트를 보다가 닫는다",
@@ -48,7 +54,9 @@
     "rarity": "common",
     "weight": 0,
     "hidden": true,
-    "conditions": {},
+    "conditions": {
+      "flag": "did_crypto_allin"
+    },
     "tags": [
       "finance",
       "gambling"
@@ -103,7 +111,9 @@
     "rarity": "common",
     "weight": 0,
     "hidden": true,
-    "conditions": {},
+    "conditions": {
+      "flag": "did_crypto_allin"
+    },
     "tags": [
       "finance",
       "gambling"
@@ -741,7 +751,9 @@
     "rarity": "uncommon",
     "weight": 0.6,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 3
+    },
     "tags": [
       "housing",
       "stress",
@@ -882,7 +894,10 @@
     "rarity": "rare",
     "weight": 0.25,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true,
+      "min_turn": 5
+    },
     "tags": [
       "social",
       "stress",
@@ -1066,7 +1081,10 @@
     "rarity": "rare",
     "weight": 0.3,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true,
+      "min_turn": 3
+    },
     "tags": [
       "job",
       "stress",

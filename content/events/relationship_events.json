@@ -1598,7 +1598,9 @@
     "rarity": "common",
     "weight": 2.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 5
+    },
     "tags": [
       "relationship",
       "social_life"
@@ -1701,7 +1703,9 @@
     "rarity": "common",
     "weight": 2.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 3
+    },
     "tags": [
       "family",
       "relationship"
@@ -1750,7 +1754,9 @@
     "rarity": "common",
     "weight": 2.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 2
+    },
     "tags": [
       "relationship",
       "investment",

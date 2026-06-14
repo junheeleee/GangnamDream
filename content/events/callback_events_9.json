@@ -11,7 +11,11 @@
       "flag": "leverage_addict",
       "min_turn": 6
     },
-    "tags": ["investment", "callback", "leverage"],
+    "tags": [
+      "investment",
+      "callback",
+      "leverage"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -21,7 +25,9 @@
           "mental": 5,
           "investment_skill": 4
         },
-        "flags": ["leverage_lesson_learned"],
+        "flags": [
+          "leverage_lesson_learned"
+        ],
         "follow_up_event": "",
         "result_text": "납부하고 전부 정리했다.\n레버리지는 수익을 늘리는 게 아니라 손실도 늘리는 것이었다.\n200만원이 수업료였다.\n싸게 배웠다고 할 수 있었다."
       },
@@ -50,7 +56,11 @@
       "flag": "speculator_big_win",
       "min_turn": 5
     },
-    "tags": ["investment", "callback", "speculation"],
+    "tags": [
+      "investment",
+      "callback",
+      "speculation"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -88,7 +98,11 @@
       "flag": "etf_study_mode",
       "min_turn": 6
     },
-    "tags": ["investment", "callback", "etf"],
+    "tags": [
+      "investment",
+      "callback",
+      "etf"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -98,7 +112,9 @@
           "investment_skill": 4,
           "intelligence": 3
         },
-        "flags": ["etf_first_purchase"],
+        "flags": [
+          "etf_first_purchase"
+        ],
         "follow_up_event": "",
         "result_text": "100만원.\n처음으로 이유를 알고 산 투자였다.\n수익률보다 — 왜 샀는지 설명할 수 있다는 게 달랐다."
       },
@@ -125,7 +141,11 @@
       "flag": "pb_access",
       "min_turn": 8
     },
-    "tags": ["investment", "callback", "pb"],
+    "tags": [
+      "investment",
+      "callback",
+      "pb"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -134,7 +154,9 @@
           "intelligence": 4,
           "investment_skill": 3
         },
-        "flags": ["pb_verified"],
+        "flags": [
+          "pb_verified"
+        ],
         "follow_up_event": "",
         "result_text": "집에 와서 수수료 구조를 뜯어봤다.\nPB도 회사 상품을 팔아야 한다.\n여기까지 온 건 좋은 일이지만 — 여기서도 직접 따져야 했다."
       },
@@ -162,7 +184,11 @@
       "flag": "mystery_info_paid_off",
       "min_turn": 6
     },
-    "tags": ["investment", "callback", "gray_area"],
+    "tags": [
+      "investment",
+      "callback",
+      "gray_area"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -201,7 +227,11 @@
       "flag": "mystery_info_reported",
       "min_turn": 6
     },
-    "tags": ["investment", "callback", "legal"],
+    "tags": [
+      "investment",
+      "callback",
+      "legal"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -218,43 +248,6 @@
     ]
   },
   {
-    "id": "callback_ipo_participated_result",
-    "title": "공모주 결과",
-    "description": "공모주 청약에 넣었던 게 두 달 전이다.\n상장일 아침 차트를 열었다.",
-    "category": "investment",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "ipo_participated",
-      "min_turn": 4
-    },
-    "tags": ["investment", "callback", "ipo"],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "시초가에 바로 판다",
-        "effects": {
-          "money": 800000,
-          "investment_skill": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "시초가에 팔았다. 수익 80만원.\n욕심 없이 정리했다.\n공모주는 상장 후 올라도 결국 내려오는 경우가 많았다.\n작지만 확실한 수익이었다."
-      },
-      {
-        "text": "더 오를 것 같다. 좀 더 들고 있는다",
-        "effects": {
-          "investment_skill": 2,
-          "stress": 5
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "다음 날 -12% 였다.\n수익이 손실로 바뀌었다.\n공모주는 탐욕이 들어오는 순간 수익이 사라진다.\n작은 교훈을 비싸게 샀다."
-      }
-    ]
-  },
-  {
     "id": "callback_took_gray_tip_consequence",
     "title": "회색지대의 비용",
     "description": "회색지대의 정보를 쓰기로 한 지 두 달이 됐다.\n돈은 벌었다.\n그런데 오늘 그 정보를 준 사람에게서 연락이 왔다.\n\"저한테 뭔가 빚진 거 알죠?\"",
@@ -266,7 +259,11 @@
       "flag": "took_gray_tip",
       "min_turn": 6
     },
-    "tags": ["investment", "callback", "gray_area"],
+    "tags": [
+      "investment",
+      "callback",
+      "gray_area"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -276,7 +273,9 @@
           "mental": 8,
           "stress": -5
         },
-        "flags": ["gray_tip_debt_paid"],
+        "flags": [
+          "gray_tip_debt_paid"
+        ],
         "follow_up_event": "",
         "result_text": "100만원을 보냈다.\n상대가 \"깔끔하네요\"라고 했다.\n회색지대의 정보엔 반드시 대가가 따른다.\n이번엔 그나마 돈으로 끝났다."
       },
@@ -304,7 +303,11 @@
       "flag": "sns_viral_fame",
       "min_turn": 6
     },
-    "tags": ["sns", "callback", "social"],
+    "tags": [
+      "sns",
+      "callback",
+      "social"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -314,7 +317,9 @@
           "reputation": 3,
           "stress": 5
         },
-        "flags": ["sns_content_started"],
+        "flags": [
+          "sns_content_started"
+        ],
         "follow_up_event": "",
         "result_text": "꾸준히 올렸다.\n두 번째 바이럴은 오지 않았지만 — 소수의 팔로워가 진짜 독자가 됐다.\n관심의 반감기는 짧다. 콘텐츠의 반감기는 더 길었다."
       },
@@ -342,7 +347,11 @@
       "flag": "hit_rock_bottom",
       "min_turn": 8
     },
-    "tags": ["mental", "callback", "resilience"],
+    "tags": [
+      "mental",
+      "callback",
+      "resilience"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -351,7 +360,9 @@
           "mental": 15,
           "stress": -10
         },
-        "flags": ["bottom_documented"],
+        "flags": [
+          "bottom_documented"
+        ],
         "follow_up_event": "",
         "result_text": "그날부터 지금까지 일어난 일들을 썼다.\n많은 게 달라졌다.\n바닥이 있어야 올라갈 방향이 생긴다.\n그게 맞았다."
       },
@@ -378,7 +389,11 @@
       "flag": "honest_at_reunion",
       "min_turn": 6
     },
-    "tags": ["social", "callback", "honesty"],
+    "tags": [
+      "social",
+      "callback",
+      "honesty"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -414,7 +429,11 @@
       "flag": "saw_senior_farewell",
       "min_turn": 8
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -450,7 +469,11 @@
       "flag": "met_bankrupt_ceo",
       "min_turn": 8
     },
-    "tags": ["investment", "callback", "wisdom"],
+    "tags": [
+      "investment",
+      "callback",
+      "wisdom"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -487,7 +510,11 @@
       "flag": "pride_motive",
       "min_turn": 10
     },
-    "tags": ["mental", "callback", "motivation"],
+    "tags": [
+      "mental",
+      "callback",
+      "motivation"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -497,7 +524,9 @@
           "stress": -8,
           "intelligence": 3
         },
-        "flags": ["motive_clarified"],
+        "flags": [
+          "motive_clarified"
+        ],
         "follow_up_event": "",
         "result_text": "노트에 썼다.\n왜 강남인가. 누구에게 보여주기 위한 것인가.\n절반은 자존심, 절반은 진짜 원하는 것.\n절반이라도 진짜라면 — 계속할 이유가 됐다."
       },
@@ -525,7 +554,11 @@
       "flag": "questioned_orthodox_path",
       "min_turn": 12
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -563,7 +596,11 @@
       "flag": "network_compounding",
       "min_turn": 12
     },
-    "tags": ["network", "callback", "social"],
+    "tags": [
+      "network",
+      "callback",
+      "social"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -574,7 +611,9 @@
           "reputation": 3,
           "luck": 2
         },
-        "flags": ["network_converted"],
+        "flags": [
+          "network_converted"
+        ],
         "follow_up_event": "",
         "result_text": "만났다.\n그 사람도 같은 방향을 보고 있었다.\n1년 동안 쌓아온 평판이 — 오늘 이 자리를 만들었다.\n복리는 돈만 하는 게 아니었다."
       },

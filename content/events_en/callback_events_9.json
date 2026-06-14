@@ -86,21 +86,6 @@
     ]
   },
   {
-    "id": "callback_ipo_participated_result",
-    "title": "IPO Result",
-    "description": "You participated in an IPO subscription two months ago.\nListing morning. You opened the chart.",
-    "choices": [
-      {
-        "text": "Sell at the opening price",
-        "result_text": "Sold at open. Profit ₩800,000.\nNo greed. Clean exit.\nIPOs often run up on listing day and come back down.\nSmall but certain."
-      },
-      {
-        "text": "Looks like it'll go higher. Hold.",
-        "result_text": "Next day: -12%.\nThe profit flipped to a loss.\nGreed is when IPO gains disappear.\nSmall lesson. Expensive."
-      }
-    ]
-  },
-  {
     "id": "callback_took_gray_tip_consequence",
     "title": "The Cost of the Gray Zone",
     "description": "Two months since you decided to use the gray-area information.\nYou made money.\nBut today a call from the person who gave you the tip.\n\"You know you owe me something, right?\"",
