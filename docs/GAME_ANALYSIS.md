@@ -288,8 +288,8 @@
 **세션 손익 추적**: 방문 시 잔액 기록 → 퇴장 시 세션 P&L 표시 (녹색/빨강)
 
 **사후 이벤트 연동**:
-- 50만원 이상 손실 후 퇴장 → `hangang_big_loss_bus` 이벤트 (귀가 버스 성찰)
-- 100만원 이상 수익 후 퇴장 → `hangang_big_win_urge` 이벤트 (재방문 충동)
+- 50만원 이상 손실 후 퇴장 → `jeongseon_big_loss_bus` 이벤트 (귀가 버스 성찰)
+- 100만원 이상 수익 후 퇴장 → `jeongseon_big_win_urge` 이벤트 (재방문 충동)
 - 방문마다 `addiction_tendency +3`
 
 ### 홀덤 클럽
