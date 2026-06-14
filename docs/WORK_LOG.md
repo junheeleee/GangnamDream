@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-14 (정선 카지노 리네이밍 + GAME_ANALYSIS.md)
+
+### 정선 카지노 리네이밍
+- `HangangCasino.gd` → `JeongseonCasino.gd` 파일명 변경
+- 코드 식별자: `hangang_casino` → `jeongseon_casino`, `_open_hangang_casino` → `_open_jeongseon_casino`, `_on_hangang_casino_closed` → `_on_jeongseon_casino_closed`
+- 플래그 전체: `hangang_session_loss/win/first_visit/quit_vow/self_aware` → `jeongseon_*`
+- 이벤트 ID: `hangang_big_loss_bus/big_win_urge/addiction_notice` → `jeongseon_*`
+- 표시 텍스트: MainGame, TutorialOverlay, MetaProgression, life_events.json, EventData.gd 모두 "정선 카지노"로 통일
+- `hangang_chicken` (한강 치맥 이벤트)은 카지노와 무관 — 유지
+
+### GAME_ANALYSIS.md 신규 추가
+- 14개 카테고리 전체 게임 설계 분석 문서 (`docs/GAME_ANALYSIS.md`)
+- audit ERROR 0 / WARNING 0 확인 후 커밋·푸시 완료
+
+---
+
 ## 2026-06-14 (스탯 정리 + 강원랜드 사후 이벤트)
 
 ### 스탯 UI 정리
