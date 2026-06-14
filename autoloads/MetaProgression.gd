@@ -81,6 +81,8 @@ const ALL_TITLES := [
 	 "desc":"경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다."},
 	{"id":"scalping_master_title","name":"스캘퍼",          "cat":"미니게임", "rare":"uncommon",
 	 "desc":"스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다."},
+	{"id":"baccarat_master_title","name":"강원랜드 상주자",  "cat":"미니게임", "rare":"rare",
+	 "desc":"바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다."},
 	# ── 전문화 ──
 	{"id":"spec_elite_title",   "name":"엘리트의 길",       "cat":"성향", "rare":"uncommon",
 	 "desc":"엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까."},
@@ -232,9 +234,10 @@ func _check_title_condition(tid: String) -> bool:
 				if run.get("ending_id","") == "ordinary_life": return true
 			return false
 		# ── 미니게임 마스터리 칭호 ──
-		"holdem_master_title":   return int(data.get("mg_plays_holdem", 0)) >= 15
-		"racetrack_master_title":return int(data.get("mg_plays_racetrack", 0)) >= 15
-		"scalping_master_title": return int(data.get("mg_plays_scalping", 0)) >= 15
+		"holdem_master_title":    return int(data.get("mg_plays_holdem", 0)) >= 15
+		"racetrack_master_title": return int(data.get("mg_plays_racetrack", 0)) >= 15
+		"scalping_master_title":  return int(data.get("mg_plays_scalping", 0)) >= 15
+		"baccarat_master_title":  return int(data.get("mg_plays_baccarat", 0)) >= 15
 		# ── 전문화 칭호 ──
 		"spec_elite_title":   return GameState.flags.get("spec_elite", false)
 		"spec_quant_title":   return GameState.flags.get("spec_quant", false)

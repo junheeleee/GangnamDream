@@ -35,13 +35,19 @@ var _turn_order: Array = [0, 1, 2]  # 0=플레이어, 1,2=AI
 var _action_idx: int = 0          # turn_order 내 현재 차례
 var _rng := RandomNumberGenerator.new()
 
+# 핸드 히스토리 (최근 8핸드)
+var _hand_history: Array = []     # [{won, net, hand_rank, desc}]
+var _session_won: int = 0
+var _session_lost: int = 0
+var _custom_raise_amount: int = 0  # 커스텀 레이즈 입력값 (0이면 미입력)
+
 # UI 노드
 var _header_lbl: RichTextLabel
 var _pot_lbl: Label
 var _community_row: HBoxContainer
 var _hole_row: HBoxContainer
 var _opp_rows: Array = []
-var _msg_lbl: Label
+var _msg_lbl: RichTextLabel
 var _action_panel: Control
 var _stack_lbl: Label
 var _font: FontFile
@@ -204,15 +210,34 @@ func _render_table() -> void:
 	_clear_content()
 	var root := _content_vbox()
 
-	# 헤더
+	# 헤더 + 세션 통계
 	var hdr := RichTextLabel.new()
 	hdr.bbcode_enabled = true
 	var phase_names := ["설정", "프리플랍", "플랍", "턴", "리버", "쇼다운", "결과"]
-	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]   [color=#5b9cf6]팟 %s[/color]" % [phase_names[_phase], _fmt(_pot)]
+	var winrate_str: String = ""
+	var total_hands := _session_won + _session_lost
+	if total_hands > 0:
+		winrate_str = "   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]" % [
+			roundi(float(_session_won) / float(total_hands) * 100.0), _session_won, _session_lost]
+	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]   [color=#5b9cf6]팟 %s[/color]%s" % [
+		phase_names[_phase], _fmt(_pot), winrate_str]
 	hdr.fit_content = true
 	hdr.scroll_active = false
 	_f(hdr, true)
 	root.add_child(hdr)
+
+	# 핸드 히스토리 (최근 8핸드 컴팩트 표시)
+	if not _hand_history.is_empty():
+		var hist_rt := RichTextLabel.new()
+		hist_rt.bbcode_enabled = true; hist_rt.fit_content = true; hist_rt.scroll_active = false
+		_f(hist_rt); hist_rt.add_theme_font_size_override("normal_font_size", 11)
+		var parts: Array = []
+		for h in _hand_history:
+			var col := "#5de89c" if h["won"] else "#e85d5d"
+			var icon := "▲" if h["won"] else "▼"
+			parts.append("[color=%s]%s%s[/color]" % [col, icon, str(h["hand"]).substr(0, 3)])
+		hist_rt.text = "히스토리: " + "  ".join(parts)
+		root.add_child(hist_rt)
 
 	root.add_child(_sep())
 
@@ -310,12 +335,13 @@ func _render_table() -> void:
 		_f(hint)
 		root.add_child(hint)
 
-	# 메시지
-	_msg_lbl = Label.new()
+	# 메시지 (BBCode 지원 RichTextLabel)
+	_msg_lbl = RichTextLabel.new()
+	_msg_lbl.bbcode_enabled = true
 	_msg_lbl.text = ""
-	_msg_lbl.add_theme_font_size_override("font_size", 12)
-	_msg_lbl.add_theme_color_override("font_color", Color("#c0c8d0"))
-	_msg_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_msg_lbl.add_theme_font_size_override("normal_font_size", 12)
+	_msg_lbl.fit_content = true
+	_msg_lbl.scroll_active = false
 	_msg_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(_msg_lbl)
 	root.add_child(_msg_lbl)
@@ -376,52 +402,81 @@ func _count_active() -> int:
 # ── 플레이어 액션 UI ───────────────────────────────────────────────
 func _show_player_actions() -> void:
 	var to_call: int = _max_bet - _player_bet
-	_set_msg("당신의 차례입니다.")
+	var pot_odds_pct: int = 0
+	if to_call > 0:
+		pot_odds_pct = roundi(float(to_call) / float(maxi(_pot + to_call, 1)) * 100.0)
+	var strength := TH.hand_strength(_hole, _community)
+	var win_pct: int = roundi(strength * 100.0)
+
+	var msg := "당신의 차례"
+	if to_call > 0:
+		var equity_str: String
+		if win_pct > pot_odds_pct + 10:
+			equity_str = " — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[/color]" % [win_pct, pot_odds_pct]
+		elif win_pct < pot_odds_pct - 5:
+			equity_str = " — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[/color]" % [win_pct, pot_odds_pct]
+		else:
+			equity_str = " — [color=#e8c45d]팟오즈 %d%% / 핸드강도 %d%%[/color]" % [pot_odds_pct, win_pct]
+		msg += equity_str
+	_set_msg(msg)
 
 	for ch in _action_panel.get_children():
 		ch.queue_free()
 
+	# 액션 버튼을 VBox로 래핑
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 5)
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_action_panel.add_child(vbox)
+
+	var btn_row := HBoxContainer.new()
+	btn_row.add_theme_constant_override("separation", 6)
+	vbox.add_child(btn_row)
+
 	# Fold
 	var fold_btn := _make_btn("폴드", func(): _player_action("fold", 0), "#3a1818")
 	fold_btn.custom_minimum_size = Vector2(70, 36)
-	_action_panel.add_child(fold_btn)
+	btn_row.add_child(fold_btn)
 
 	# Check or Call
 	if to_call == 0:
 		var check_btn := _make_btn("체크", func(): _player_action("check", 0), "#1a2a3a")
 		check_btn.custom_minimum_size = Vector2(70, 36)
-		_action_panel.add_child(check_btn)
+		btn_row.add_child(check_btn)
 	else:
 		var can_call := _player_stack > 0
 		var call_lbl := "콜  %s" % _fmt(mini(to_call, _player_stack))
 		var call_btn := _make_btn(call_lbl, func(): _player_action("call", to_call), "#1a3a2a")
 		call_btn.disabled = not can_call
 		call_btn.custom_minimum_size = Vector2(80, 36)
-		_action_panel.add_child(call_btn)
+		btn_row.add_child(call_btn)
 
-	# Raise / All-in
+	# Raise / All-in 프리셋
 	var min_raise := mini(to_call + BIG_BLIND, _player_stack)
-	var half_pot  := mini(int(float(_pot) * 0.5) + to_call, _player_stack)
-	var pot_raise := mini(_pot + to_call, _player_stack)
+	var third_pot  := mini(int(float(_pot) * 0.33) + to_call, _player_stack)
+	var half_pot   := mini(int(float(_pot) * 0.5) + to_call, _player_stack)
+	var pot_raise  := mini(_pot + to_call, _player_stack)
 
 	if _player_stack > to_call:
-		var raise_options := []
-		if min_raise < half_pot:
-			raise_options.append(["하프팟  %s" % _fmt(half_pot), half_pot])
-		if half_pot < pot_raise:
-			raise_options.append(["팟  %s" % _fmt(pot_raise), pot_raise])
-		raise_options.append(["올인  %s" % _fmt(_player_stack), _player_stack])
+		var raise_options: Array = []
+		if third_pot > min_raise:
+			raise_options.append(["1/3팟\n%s" % _fmt(third_pot), third_pot])
+		if half_pot > third_pot:
+			raise_options.append(["하프팟\n%s" % _fmt(half_pot), half_pot])
+		if pot_raise > half_pot:
+			raise_options.append(["팟\n%s" % _fmt(pot_raise), pot_raise])
+		raise_options.append(["올인\n%s" % _fmt(_player_stack), _player_stack])
 
 		for opt in raise_options:
 			var amt: int = opt[1]
 			var raise_btn := _make_btn(opt[0], func(): _player_action("raise", amt), "#3a2a18")
-			raise_btn.custom_minimum_size = Vector2(90, 36)
-			_action_panel.add_child(raise_btn)
+			raise_btn.custom_minimum_size = Vector2(72, 40)
+			btn_row.add_child(raise_btn)
 
 	# 나가기
-	var leave_btn := _make_btn("자리를 뜬다", _leave_mid, "#2a1a1a")
-	leave_btn.custom_minimum_size = Vector2(90, 36)
-	_action_panel.add_child(leave_btn)
+	var leave_btn := _make_btn("자리를\n뜬다", _leave_mid, "#2a1a1a")
+	leave_btn.custom_minimum_size = Vector2(70, 40)
+	btn_row.add_child(leave_btn)
 
 func _player_action(action: String, amount: int) -> void:
 	AudioManager.play("click")
@@ -539,20 +594,35 @@ func _do_showdown() -> void:
 
 	# 팟 분배
 	var msg_parts: Array = []
+	var hand_net: int = 0
 	if winner_idx == -1:
 		# 플레이어 승
 		_player_stack += _pot
+		hand_net = _pot
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
-		msg_parts.append("🎉 %s으로 승리!" % TH.rank_name(best_hand[0]))
+		_session_won += 1
+		msg_parts.append("🎉 %s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play("money_big" if _pot >= 1_000_000 else "money_gain")
 	else:
 		# AI 승
 		_opp[winner_idx]["stack"] += _pot
+		hand_net = -_pot
 		_net_session -= _pot if _hands_played == 1 else 0
+		_session_lost += 1
 		msg_parts.append("😔 %s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 		AudioManager.play("money_loss")
+
+	# 핸드 히스토리 기록
+	var hand_rank_name: String = TH.rank_name(best_hand[0]) if not best_hand.is_empty() else "?"
+	_hand_history.append({
+		"won": winner_idx == -1,
+		"net": hand_net,
+		"hand": hand_rank_name,
+	})
+	if _hand_history.size() > 8:
+		_hand_history.pop_front()
 
 	_render_table()
 	_set_msg(" ".join(msg_parts))

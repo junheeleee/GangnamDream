@@ -72,6 +72,7 @@ var racetrack      # 경마 미니게임 오버레이
 var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
+var baccarat_table # 강원랜드 바카라 오버레이
 # 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
 var month_situations: Array = []
 var month_situations_turn: int = -1
@@ -117,6 +118,10 @@ func _ready():
 	aruba_game = load("res://scenes/ArubaGame.gd").new()
 	add_child(aruba_game)
 	aruba_game.closed.connect(_on_aruba_closed)
+	# 강원랜드 바카라 오버레이
+	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
+	add_child(baccarat_table)
+	baccarat_table.closed.connect(_on_baccarat_closed)
 	if GameState.action_log.is_empty():
 		GameState.new_game()
 	investment_system.initialize()
@@ -2320,6 +2325,9 @@ func _render_essential_actions(ap: int):
 	if GameState.investment_skill >= 25 and GameState.money >= 100000:
 		var sc_badge: String = _mastery_badge("scalping")
 		_essential_btn("⚡ 스캘핑 트레이딩  —  60초 실시간 매매 (중독 주의)" + sc_badge, "#1a2a3a", "_open_scalping", disabled)
+	if GameState.money >= 10000:
+		var bac_badge: String = _mastery_badge("baccarat")
+		_essential_btn("🎰 강원랜드 바카라  —  뱅커 vs 플레이어 (로드맵·커미션)" + bac_badge, "#1a1a2e", "_open_baccarat", disabled)
 	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
 
 func _mastery_badge(game_id: String) -> String:
@@ -3060,6 +3068,16 @@ func _open_scalping():
 
 func _on_scalping_closed():
 	GameState.add_log("⚡ 스캘핑 트레이딩 세션을 마쳤다.", "event")
+	_refresh_all()
+	_render_ap_actions()
+
+func _open_baccarat():
+	if not GameState.spend_ap():
+		return
+	baccarat_table.open()
+
+func _on_baccarat_closed():
+	GameState.add_log("🎰 강원랜드 바카라 테이블을 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
 
