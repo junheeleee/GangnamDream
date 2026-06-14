@@ -42,6 +42,19 @@ var _spin_elapsed: float = 0.0
 var _target_angle: float = 0.0
 var _flash_timer: float  = 0.0
 
+# 세그먼트 tick SFX
+var _prev_sector: int = -1
+
+# 당첨 세그먼트 깜빡임 (0.0 = 어둡, 1.0 = 밝음)
+var _flash_winner_bright: float = 0.0
+var _flash_winner_active: bool  = false
+
+# 포인터 pulse 스케일 (1.0 = 기본)
+var _pointer_scale: float = 1.0
+
+# 카운트업 대상 Label (animate_winnings 내부 참조)
+var _count_label_ref: Label = null
+
 # UI 참조
 var _font: FontFile
 var _font_bold: FontFile
@@ -78,12 +91,17 @@ func _f(n: Object, bold: bool = false) -> void:
 
 # ── 진입/종료 ──────────────────────────────────────────────────
 func open() -> void:
-	_phase        = Phase.IDLE
-	_bet_segment  = -1
-	_result_seg   = -1
-	_wheel_angle  = 0.0
-	_spin_elapsed = 0.0
-	_flash_timer  = 0.0
+	_phase               = Phase.IDLE
+	_bet_segment         = -1
+	_result_seg          = -1
+	_wheel_angle         = 0.0
+	_spin_elapsed        = 0.0
+	_flash_timer         = 0.0
+	_prev_sector         = -1
+	_flash_winner_bright = 0.0
+	_flash_winner_active = false
+	_pointer_scale       = 1.0
+	_count_label_ref     = null
 	_rounds = 0; _net = 0.0; _wins = 0; _losses = 0
 	_history = []
 	set_process(false)
@@ -114,6 +132,18 @@ func _process(delta: float) -> void:
 	if _wheel_angle < 0.0:
 		_wheel_angle += TAU
 
+	# 세그먼트 경계 통과 tick SFX
+	var slot_angle: float = TAU / float(TOTAL_SLOTS)
+	# 포인터(-PI/2)가 가리키는 슬롯 = (-PI/2 - _wheel_angle) / slot_angle (정규화)
+	var pointer_offset: float = (-PI / 2.0) - _wheel_angle
+	var raw_slot: float = pointer_offset / slot_angle
+	var current_sector: int = int(floor(raw_slot)) % TOTAL_SLOTS
+	if current_sector < 0:
+		current_sector += TOTAL_SLOTS
+	if _prev_sector >= 0 and current_sector != _prev_sector:
+		AudioManager.play("casino_coin")
+	_prev_sector = current_sector
+
 	if is_instance_valid(_wheel_ctrl):
 		_wheel_ctrl.queue_redraw()
 
@@ -129,12 +159,12 @@ func _select_segment(seg: int) -> void:
 	if _phase != Phase.IDLE:
 		return
 	_bet_segment = seg
-	AudioManager.play("bet")
+	AudioManager.play("casino_bet")
 	_refresh()
 
 func _select_stake(s: int) -> void:
 	_stake = s
-	AudioManager.play("coin")
+	AudioManager.play("casino_coin")
 	_refresh()
 
 func _do_spin() -> void:
@@ -147,14 +177,18 @@ func _do_spin() -> void:
 
 	GameState.add_money(-float(_stake))
 
-	_result_seg   = BigWheel.spin(_rng)
-	_target_angle = _compute_target(_result_seg)
-	_spin_elapsed = 0.0
-	_wheel_angle  = 0.0
-	_flash_timer  = 0.0
-	_phase        = Phase.SPINNING
+	_result_seg          = BigWheel.spin(_rng)
+	_target_angle        = _compute_target(_result_seg)
+	_spin_elapsed        = 0.0
+	_wheel_angle         = 0.0
+	_flash_timer         = 0.0
+	_prev_sector         = -1
+	_flash_winner_active = false
+	_flash_winner_bright = 0.0
+	_pointer_scale       = 1.0
+	_phase               = Phase.SPINNING
 
-	AudioManager.play("bet")
+	AudioManager.play("casino_spin")
 	set_process(true)
 	_refresh()
 

@@ -29,6 +29,15 @@ const _SFX_FILES = {
 	"housing_up":  "res://assets/audio/sfx_housing_up.wav",
 	"game_over":   "res://assets/audio/sfx_game_over.wav",
 	"success":     "res://assets/audio/sfx_success.wav",
+	# 미니게임 전용
+	"casino_win":   "res://assets/audio/sfx_casino_win.wav",
+	"casino_lose":  "res://assets/audio/sfx_casino_lose.wav",
+	"casino_bet":   "res://assets/audio/sfx_casino_bet.wav",
+	"casino_coin":  "res://assets/audio/sfx_casino_coin.wav",
+	"casino_spin":  "res://assets/audio/sfx_casino_spin.wav",
+	"casino_card":  "res://assets/audio/sfx_casino_card.wav",
+	"casino_jackpot": "res://assets/audio/sfx_casino_jackpot.wav",
+	"casino_reel":  "res://assets/audio/sfx_casino_reel.wav",
 }
 
 func _ready():
@@ -68,8 +77,16 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 		"event_new":  return _chord([440, 550], 0.14, [0.0, 1.0, 0.5, 0.0])
 		"choice_made":return _tone(600, 0.09, [0.5, 1.0, 0.0])
 		"housing_up": return _chord([523, 659, 784, 1047], 0.30, [0.0, 0.4, 1.0, 0.6, 0.0])
-		"game_over":  return _tone(110, 0.70, [0.0, 0.5, 1.0, 0.8, 0.5, 0.0])
-		"success":    return _chord([523, 659, 784, 1047], 0.55, [0.0, 0.3, 1.0, 0.8, 0.4, 0.0])
+		"game_over":    return _tone(110, 0.70, [0.0, 0.5, 1.0, 0.8, 0.5, 0.0])
+		"success":      return _chord([523, 659, 784, 1047], 0.55, [0.0, 0.3, 1.0, 0.8, 0.4, 0.0])
+		"casino_win":   return _chord([659, 784, 988, 1319], 0.35, [0.0, 0.6, 1.0, 0.6, 0.0])
+		"casino_lose":  return _tone(196, 0.32, [0.3, 1.0, 0.6, 0.0])
+		"casino_bet":   return _tone(740, 0.07, [0.8, 1.0, 0.0])
+		"casino_coin":  return _tone(1047, 0.06, [1.0, 0.8, 0.0])
+		"casino_spin":  return _tone(330, 0.10, [0.5, 1.0, 0.0])
+		"casino_card":  return _tone(880, 0.06, [1.0, 0.6, 0.0])
+		"casino_jackpot": return _chord([523, 659, 784, 1047, 1319], 0.80, [0.0, 0.3, 0.8, 1.0, 0.8, 0.4, 0.0])
+		"casino_reel":  return _tone(494, 0.04, [1.0, 0.0])
 	return _tone(440, 0.1, [1.0, 0.0])
 
 func load_settings():

@@ -58,6 +58,9 @@ var _msg_lbl: Label
 var _hud_lbl: RichTextLabel
 var _flash_layer: ColorRect
 
+# 로드맵 fade 제어
+var _road_last_count: int = 0  # 직전 렌더 시 road 크기 (새 항목 감지용)
+
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready() -> void:
 	_rng.randomize()
@@ -126,7 +129,7 @@ func _process(delta: float) -> void:
 		_deal_b_visible.append(step["card"])
 		_show_table_banner("BANKER CARD", Color("#e85d5d"), 0.28)
 	_deal_idx += 1
-	AudioManager.play("click")
+	AudioManager.play("casino_card")
 	_render()
 	_screen_flash(Color("#5b9cf6") if step["side"] == "player" else Color("#e85d5d"), 0.06, 0.14)
 
@@ -141,7 +144,7 @@ func _add_bet(type: String) -> void:
 		"T":  _bet_t  += add
 		"PP": _bet_pp += add
 		"BP": _bet_bp += add
-	AudioManager.play("buy", -4.0)
+	AudioManager.play("casino_bet")
 	_show_table_banner("BET  %s" % type, Color("#f0b429"), 0.22)
 	_render()
 
@@ -238,19 +241,40 @@ func _finish_result() -> void:
 	_net += net_round
 	_rounds += 1
 
-	# 도박 성향
+	# 도박 성향 + SFX
 	var is_win := net_round > 0
 	if is_win:
 		GameState.modify_hidden_stat("gambling_tendency", 2)
-		AudioManager.play("money_gain" if net_round < 500_000 else "money_big")
+		match res:
+			"player":
+				AudioManager.play("casino_win")
+			"banker":
+				AudioManager.play("casino_win")
+			"tie":
+				AudioManager.play("casino_jackpot")
+			_:
+				AudioManager.play("casino_win")
 	else:
 		GameState.modify_hidden_stat("addiction_tendency", 2)
-		AudioManager.play("money_loss")
+		AudioManager.play("casino_lose")
+
+	# 페어 당첨 SFX
+	if (_result.get("p_pair", false) and _bet_pp > 0) or (_result.get("b_pair", false) and _bet_bp > 0):
+		AudioManager.play("casino_jackpot")
+
+	# 내추럴 배너
+	var player_natural: bool = bool(_result.get("player_natural", false))
+	var banker_natural: bool = bool(_result.get("banker_natural", false))
+	if player_natural or banker_natural:
+		var nat_val: int = int(_result.get("player_val" if player_natural else "banker_val", 0))
+		_show_natural_banner(nat_val)
 
 	# 로드맵 업데이트
+	_road_last_count = _road.size()
 	_road.append(res.substr(0, 1).to_upper())  # P/B/T
 	if _road.size() > ROAD_MAX:
 		_road.pop_front()
+	_start_road_fade()
 
 	GameState.add_log("🎰 바카라 %s%s %s" % [
 		res, " 내추럴" if (res == "player" and bool(_result.get("player_natural", false))) or
@@ -650,7 +674,13 @@ func _card_widget(card: int) -> Control:
 		Color("#e85d5d") if (card / 13) in [1, 2] else Color("#1a1a2e"))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
 	panel.add_child(lbl)
+	_animate_card_appear(panel)
 	return panel
+
+func _animate_card_appear(node: Control) -> void:
+	node.modulate.a = 0.0
+	var tw := create_tween()
+	tw.tween_property(node, "modulate:a", 1.0, 0.2)
 
 func _card_back() -> Control:
 	var panel := PanelContainer.new()
@@ -778,6 +808,19 @@ func _refresh_road() -> void:
 	if is_instance_valid(_road_ctrl):
 		_road_ctrl.queue_redraw()
 
+# 로드맵 마지막 셀 fade alpha (0.0→1.0, _road_fade_alpha 로 제어)
+var _road_fade_alpha: float = 1.0
+
+func _start_road_fade() -> void:
+	_road_fade_alpha = 0.0
+	var tw := create_tween()
+	tw.tween_method(_set_road_fade_alpha, 0.0, 1.0, 0.3)
+
+func _set_road_fade_alpha(v: float) -> void:
+	_road_fade_alpha = v
+	if is_instance_valid(_road_ctrl):
+		_road_ctrl.queue_redraw()
+
 func _draw_road() -> void:
 	var sz := _road_ctrl.size
 	if sz.x < 10 or sz.y < 10: return
@@ -792,6 +835,7 @@ func _draw_road() -> void:
 	var cell_w := (sz.x - 8) / float(COLS)
 	var cell_h := (sz.y - 28) / float(ROWS)
 	var results := _road.slice(maxi(_road.size() - COLS * ROWS, 0))
+	var last_idx := results.size() - 1
 	for idx in range(results.size()):
 		var col := idx % COLS
 		var row := idx / COLS
@@ -804,8 +848,12 @@ func _draw_road() -> void:
 			"P": col_c = Color("#3a7abf")
 			"B": col_c = Color("#bf3a3a")
 			_:   col_c = Color("#3abf5a")
-		_road_ctrl.draw_circle(Vector2(cx, cy), r, col_c)
-		_road_ctrl.draw_arc(Vector2(cx, cy), r, 0, TAU, 16, col_c.lightened(0.3), 1.0)
+		# 새로 추가된 마지막 셀은 fade alpha 적용
+		var cell_alpha: float = _road_fade_alpha if idx == last_idx and _road.size() > _road_last_count else 1.0
+		var draw_col := Color(col_c.r, col_c.g, col_c.b, cell_alpha)
+		var arc_col := Color(col_c.lightened(0.3).r, col_c.lightened(0.3).g, col_c.lightened(0.3).b, cell_alpha)
+		_road_ctrl.draw_circle(Vector2(cx, cy), r, draw_col)
+		_road_ctrl.draw_arc(Vector2(cx, cy), r, 0, TAU, 16, arc_col, 1.0)
 		if res != "T":
 			_road_ctrl.draw_string(f, Vector2(cx - 3, cy + 4), res,
-				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1, 1, 1, 0.9))
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1, 1, 1, cell_alpha))

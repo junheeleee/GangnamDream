@@ -21,7 +21,8 @@ const COLOR_BORDER   := Color(0.20, 0.15, 0.35, 1.0)
 const STAKE_OPTIONS: Array = [1_000, 5_000, 10_000, 50_000, 100_000]
 
 const SPIN_DURATION  := 1.5   # 릴 애니메이션 총 시간(초)
-const SHUFFLE_EVERY  := 0.08  # 릴 심볼 셔플 간격(초)
+const SHUFFLE_EVERY  := 0.05  # 릴 심볼 셔플 간격(초) — 빠른 스크롤 느낌
+const REEL_STOP_GAP  := 0.3   # 릴 순차 정지 간격(초)
 
 # ── 상태 ───────────────────────────────────────────────────────
 var _phase: int         = Phase.IDLE
@@ -38,6 +39,10 @@ var _spin_timer: float  = 0.0
 var _spin_elapsed: float = 0.0
 var _shuffle_acc: float  = 0.0
 var _pending_result: Dictionary = {}
+
+# 순차 릴 정지 상태
+var _reel_stopped: Array = [false, false, false]   # 각 릴 정지 여부
+var _reel_scroll_idx: Array = [0, 0, 0]            # 각 릴의 현재 심볼 순환 인덱스
 
 # ── UI 참조 ────────────────────────────────────────────────────
 var _font: FontFile
@@ -117,11 +122,17 @@ func _start_spin() -> void:
 	_shuffle_acc  = 0.0
 	_pending_result = _slot_machine.spin(_rng)
 
+	# 릴 순차 정지 상태 초기화
+	_reel_stopped = [false, false, false]
+	_reel_scroll_idx = [0, 0, 0]
+
 	set_process(true)
 	_spin_btn.disabled = true
 	_set_win_line("")
 	_refresh_session_lbl()
 	_refresh_balance_lbl()
+
+	AudioManager.play("casino_spin")
 
 func _process(delta: float) -> void:
 	if _phase != Phase.SPINNING:
@@ -130,16 +141,41 @@ func _process(delta: float) -> void:
 	_spin_elapsed += delta
 	_shuffle_acc  += delta
 
-	# 릴 빠른 셔플 — 0.08초마다
+	# 릴 심볼 스크롤 — SHUFFLE_EVERY마다 각 릴을 _ALL_EMOJIS 순서대로 순환
 	if _shuffle_acc >= SHUFFLE_EVERY:
 		_shuffle_acc = 0.0
-		_set_reel_emojis([
-			_ALL_EMOJIS[_rng.randi_range(0, _ALL_EMOJIS.size() - 1)],
-			_ALL_EMOJIS[_rng.randi_range(0, _ALL_EMOJIS.size() - 1)],
-			_ALL_EMOJIS[_rng.randi_range(0, _ALL_EMOJIS.size() - 1)],
-		])
+		var sz: int = _ALL_EMOJIS.size()
+		for i in range(3):
+			if not _reel_stopped[i]:
+				_reel_scroll_idx[i] = (_reel_scroll_idx[i] + 1) % sz
+				if is_instance_valid(_reel_labels[i]):
+					_reel_labels[i].text = str(_ALL_EMOJIS[_reel_scroll_idx[i]])
 
-	if _spin_elapsed >= _spin_timer:
+	# 릴 1 정지: SPIN_DURATION - 0.6초
+	var stop0_at: float = SPIN_DURATION - REEL_STOP_GAP * 2.0
+	if not _reel_stopped[0] and _spin_elapsed >= stop0_at:
+		_reel_stopped[0] = true
+		var emojis: Array = _pending_result.get("emojis", ["❓", "❓", "❓"])
+		if is_instance_valid(_reel_labels[0]):
+			_reel_labels[0].text = str(emojis[0])
+		AudioManager.play("casino_reel")
+
+	# 릴 2 정지: SPIN_DURATION - 0.3초
+	var stop1_at: float = SPIN_DURATION - REEL_STOP_GAP
+	if not _reel_stopped[1] and _spin_elapsed >= stop1_at:
+		_reel_stopped[1] = true
+		var emojis: Array = _pending_result.get("emojis", ["❓", "❓", "❓"])
+		if is_instance_valid(_reel_labels[1]):
+			_reel_labels[1].text = str(emojis[1])
+		AudioManager.play("casino_reel")
+
+	# 릴 3 정지: SPIN_DURATION
+	if not _reel_stopped[2] and _spin_elapsed >= _spin_timer:
+		_reel_stopped[2] = true
+		var emojis: Array = _pending_result.get("emojis", ["❓", "❓", "❓"])
+		if is_instance_valid(_reel_labels[2]):
+			_reel_labels[2].text = str(emojis[2])
+		AudioManager.play("casino_reel")
 		set_process(false)
 		_finish_spin()
 
@@ -191,12 +227,15 @@ func _finish_spin() -> void:
 		if win_type == "JACKPOT 🎉":
 			_set_win_line("[color=#ff0][b]🎉🎉 JACKPOT 200배 🎉🎉[/b][/color]")
 			_play_jackpot_celebration()
+			AudioManager.play("casino_jackpot")
 		elif multiplier >= 20.0:
 			_set_win_line("[color=#f0b429][b]🌟 %s 🌟[/b][/color]" % win_type)
 			_play_big_win_flash()
+			AudioManager.play("casino_win")
 		else:
 			_set_win_line("[color=#f0b429]✨ %s ✨[/color]" % win_type)
 			_play_win_flash()
+			AudioManager.play("casino_win")
 	else:
 		# 니어미스 체크: 3개 심볼 중 2개가 같은 높은 가치 심볼이면 "아깝다!" 연출
 		var syms: Array = result.get("symbols", [])
@@ -212,10 +251,14 @@ func _finish_spin() -> void:
 				_set_win_line("[color=#e88a30][b]아깝다! 한 끗 차이...[/b][/color]")
 				_flash_msg("💔 아깝다!", "#e88a30")
 				GameState.modify_hidden_stat("addiction_tendency", 1)
+				_play_near_miss_shake()
+				AudioManager.play("casino_lose")
 			else:
 				_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
+				AudioManager.play("casino_lose")
 		else:
 			_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
+			AudioManager.play("casino_lose")
 
 	_spin_btn.disabled = false
 	_refresh_ui()
@@ -254,37 +297,51 @@ func _play_big_win_flash() -> void:
 	tw.tween_property(_win_flash, "modulate:a", 0.5, 0.12)
 	tw.tween_property(_win_flash, "modulate:a", 0.0, 0.25)
 	tw.tween_callback(func(): _win_flash.visible = false)
-	AudioManager.play("win")
 
 func _play_jackpot_celebration() -> void:
 	if not is_instance_valid(_win_flash):
 		return
-	_win_flash.color = Color(1.0, 0.9, 0.0, 0.7)
+	# 강렬한 금색 배경 — 0.5초 ON, 0.5초 OFF, 3회 반복
+	_win_flash.color = Color(1.0, 0.85, 0.0, 1.0)
 	_win_flash.modulate.a = 0.0
 	_win_flash.visible = true
-	# 3회 깜빡임 → 화면 전체 골드
 	var tw := create_tween()
 	for _i in range(3):
-		tw.tween_property(_win_flash, "modulate:a", 0.8, 0.1)
-		tw.tween_property(_win_flash, "modulate:a", 0.1, 0.1)
-	tw.tween_property(_win_flash, "modulate:a", 0.0, 0.4)
+		tw.tween_property(_win_flash, "modulate:a", 0.85, 0.5)
+		tw.tween_property(_win_flash, "modulate:a", 0.0,  0.5)
 	tw.tween_callback(func(): _win_flash.visible = false)
-	# 릴 패널 골드로 잠깐 바꾸기
+	# 릴 패널 골드 테두리 강조
 	for panel in _reel_panels:
 		if is_instance_valid(panel):
-			var sty := panel.get_theme_stylebox("panel") as StyleBoxFlat
+			var sty: StyleBoxFlat = panel.get_theme_stylebox("panel") as StyleBoxFlat
 			if sty:
-				var orig := sty.bg_color
 				sty.border_color = Color("#ffd700")
 				sty.border_width_left   = 4
 				sty.border_width_right  = 4
 				sty.border_width_top    = 4
 				sty.border_width_bottom = 4
-				get_tree().create_timer(2.0).timeout.connect(func():
+				get_tree().create_timer(3.5).timeout.connect(func():
 					if is_instance_valid(panel):
 						sty.border_color = COLOR_BORDER
 						sty.set_border_width_all(1))
-	AudioManager.play("win")
+
+func _play_near_miss_shake() -> void:
+	if _reel_panels.is_empty():
+		return
+	# 결과 영역(릴 패널들의 부모 행)을 ±4px 좌우로 6번 흔들기
+	# _reel_panels[0]의 부모 컨테이너(reel_row)를 직접 참조할 수 없으므로
+	# 각 릴 패널을 개별적으로 흔든다
+	for panel in _reel_panels:
+		if not is_instance_valid(panel):
+			continue
+		var origin: Vector2 = panel.position
+		var tw: Tween = create_tween()
+		tw.set_trans(Tween.TRANS_SINE)
+		tw.set_ease(Tween.EASE_IN_OUT)
+		for _i in range(3):
+			tw.tween_property(panel, "position:x", origin.x + 4.0, 0.05)
+			tw.tween_property(panel, "position:x", origin.x - 4.0, 0.05)
+		tw.tween_property(panel, "position:x", origin.x, 0.05)
 
 # ── UI 빌드 ───────────────────────────────────────────────────
 func _build_ui() -> void:

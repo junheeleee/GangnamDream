@@ -73,7 +73,7 @@ func open() -> void:
 	visible = true
 	TutorialOverlay.maybe_show("blackjack", self)
 	_render()
-	AudioManager.play("tab_open")
+	AudioManager.play("casino_card")
 
 func _on_exit() -> void:
 	MetaProgression.record_minigame_play("blackjack")
@@ -103,7 +103,7 @@ func _deal() -> void:
 		_resolve_hand()
 		return
 
-	AudioManager.play("event_new")
+	AudioManager.play("casino_card")
 	_render()
 	_show_table_banner("DEAL", Color("#5b9cf6"), 0.48)
 	if is_instance_valid(_content_root):
@@ -116,7 +116,7 @@ func _deal() -> void:
 func _hit() -> void:
 	var hand := _split_hand()
 	hand.append(_shoe.pop_front())
-	AudioManager.play("tab_open", -4.0)
+	AudioManager.play("casino_card")
 	_show_table_banner("HIT", Color("#5b9cf6"), 0.38)
 	_screen_flash(Color("#5b9cf6"), 0.08, 0.16)
 	if BJ.hand_value(hand) >= 21:
@@ -140,7 +140,7 @@ func _double_down() -> void:
 	var hand := _split_hand()
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
-	AudioManager.play("money_big")
+	AudioManager.play("casino_bet")
 	_show_table_banner("DOUBLE DOWN", Color("#f0b429"), 0.55)
 	_screen_flash(Color("#f0b429"), 0.13, 0.24)
 	_shake_node(_content_root, 4.0, 0.16)
@@ -158,7 +158,7 @@ func _do_split() -> void:
 	if (mini(v0 + 1, 10) != mini(v1 + 1, 10)) and not (v0 >= 9 and v1 >= 9): return
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
-	AudioManager.play("tab_open", -2.0)
+	AudioManager.play("casino_bet")
 	_show_table_banner("SPLIT", Color("#d4a0ff"), 0.52)
 	_screen_flash(Color("#d4a0ff"), 0.11, 0.22)
 	_split_stake = _stake
@@ -188,7 +188,7 @@ func _next_or_dealer() -> void:
 # ── 딜러 플레이 → 결과 ──────────────────────────────────────
 func _dealer_play_and_resolve() -> void:
 	# 딜러 두 번째 카드 공개 후 플레이
-	AudioManager.play("tab_open", -3.0)
+	AudioManager.play("casino_card")
 	_show_table_banner("DEALER", Color("#e85d5d"), 0.40)
 	BJ.dealer_play(_dealer, _shoe)
 	_resolve_hand()
@@ -200,6 +200,8 @@ func _resolve_hand() -> void:
 
 	var total_gain: float = 0.0
 	var hand_results: Array = []
+	var got_blackjack: bool = false
+	var got_bust: bool = false
 
 	for hi in range(2):
 		var hand: Array = _player if hi == 0 else _split
@@ -217,6 +219,7 @@ func _resolve_hand() -> void:
 		if pv > 21:
 			label = "버스트 -%s" % GameState.format_money(float(actual_stake))
 			_losses += 1
+			got_bust = true
 		elif pj and dealer_bj:
 			gain = float(actual_stake)
 			label = "블랙잭 타이 (반환)"
@@ -225,6 +228,7 @@ func _resolve_hand() -> void:
 			gain = float(actual_stake) * (1.0 + BJ_PAYOUT)
 			label = "🎉 블랙잭! +%s" % GameState.format_money(gain - float(actual_stake))
 			_wins += 1
+			got_blackjack = true
 		elif dealer_bj:
 			label = "딜러 블랙잭 -%s" % GameState.format_money(float(actual_stake))
 			_losses += 1
@@ -238,7 +242,7 @@ func _resolve_hand() -> void:
 			_wins += 1
 		elif pv == dv:
 			gain = float(actual_stake)
-			label = "타이 (반환)"
+			label = "타이 — 베팅 환불"
 			_pushes += 1
 		else:
 			label = "-%s" % GameState.format_money(float(actual_stake))
@@ -258,27 +262,40 @@ func _resolve_hand() -> void:
 	if _hand_history.size() > 10:
 		_hand_history.pop_front()
 
-	if net_round > 0:
-		AudioManager.play("money_big" if net_round >= 500_000 else "money_gain")
+	if got_blackjack:
+		AudioManager.play("casino_jackpot")
 		GameState.modify_hidden_stat("gambling_tendency", 2)
+	elif net_round > 0:
+		AudioManager.play("casino_win")
+		GameState.modify_hidden_stat("gambling_tendency", 2)
+	elif got_bust or net_round < 0:
+		AudioManager.play("casino_lose")
+		GameState.modify_hidden_stat("addiction_tendency", 2)
 	else:
-		AudioManager.play("money_loss")
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	GameState.add_log("🃏 블랙잭 %s" % desc, "money")
 	GameState.stats_changed.emit()
 	_render()
-	if net_round > 0:
+	if got_blackjack:
+		_show_table_banner_bj("🎉 블랙잭!", Color("#f0b429"))
+		_screen_flash(Color("#f0b429"), 0.22, 0.44)
+		_pulse_node(_content_root, 1.04, 0.32)
+	elif got_bust:
+		_show_table_banner("버스트  %s" % GameState.format_money(net_round), Color("#e85d5d"), 0.72)
+		_screen_flash(Color("#e85d5d"), 0.22, 0.40)
+		_shake_node(_content_root, 6.0, 5)
+	elif net_round > 0:
 		_show_table_banner("WIN  +%s" % GameState.format_money(net_round), Color("#5de89c"), 0.72)
 		_screen_flash(Color("#5de89c"), 0.18, 0.36)
 		_pulse_node(_content_root, 1.025, 0.26)
 	elif net_round == 0.0:
-		_show_table_banner("PUSH", Color("#f0b429"), 0.56)
-		_screen_flash(Color("#f0b429"), 0.10, 0.22)
+		_show_table_banner("타이 — 베팅 환불", Color("#9a9aaa"), 0.64)
+		_screen_flash(Color("#9a9aaa"), 0.10, 0.22)
 	else:
 		_show_table_banner("LOSE  %s" % GameState.format_money(net_round), Color("#e85d5d"), 0.72)
 		_screen_flash(Color("#e85d5d"), 0.18, 0.34)
-		_shake_node(_content_root, 8.0, 0.26)
+		_shake_node(_content_root, 6.0, 5)
 
 # ── 렌더 ──────────────────────────────────────────────────────
 func _render() -> void:
