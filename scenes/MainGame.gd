@@ -80,7 +80,7 @@ var blackjack_table  # 한강 카지노 블랙잭 오버레이
 var slot_machine_game  # 한강 카지노 슬롯머신 오버레이
 var roulette_table     # 한강 카지노 룰렛 오버레이
 var big_wheel_game     # 한강 카지노 빅휠 오버레이
-var gangwon_land       # 한강 카지노 허브 오버레이
+var hangang_casino       # 한강 카지노 허브 오버레이
 # 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
 var month_situations: Array = []
 var month_situations_turn: int = -1
@@ -142,14 +142,14 @@ func _ready():
 	big_wheel_game = load("res://scenes/BigWheelGame.gd").new()
 	add_child(big_wheel_game)
 	# 한강 카지노 허브 — 모든 카지노 게임 진입점
-	gangwon_land = load("res://scenes/GangwonLand.gd").new()
-	gangwon_land.baccarat_table   = baccarat_table
-	gangwon_land.blackjack_table  = blackjack_table
-	gangwon_land.slot_machine_game = slot_machine_game
-	gangwon_land.roulette_table   = roulette_table
-	gangwon_land.big_wheel_game   = big_wheel_game
-	add_child(gangwon_land)
-	gangwon_land.closed.connect(_on_gangwon_land_closed)
+	hangang_casino = load("res://scenes/HangangCasino.gd").new()
+	hangang_casino.baccarat_table   = baccarat_table
+	hangang_casino.blackjack_table  = blackjack_table
+	hangang_casino.slot_machine_game = slot_machine_game
+	hangang_casino.roulette_table   = roulette_table
+	hangang_casino.big_wheel_game   = big_wheel_game
+	add_child(hangang_casino)
+	hangang_casino.closed.connect(_on_hangang_casino_closed)
 	if GameState.action_log.is_empty():
 		GameState.new_game()
 	investment_system.initialize()
@@ -2441,7 +2441,7 @@ func _render_essential_actions(ap: int):
 		var sc_badge: String = _mastery_badge("scalping")
 		_essential_btn("⚡ 스캘핑 트레이딩  —  60초 실시간 매매 (중독 주의)" + sc_badge, "#1a2a3a", "_open_scalping", disabled)
 	if GameState.money >= 10000:
-		_essential_btn("🎰 한강 카지노  —  바카라·블랙잭·슬롯·룰렛·빅휠", "#1a1030", "_open_gangwon_land", disabled)
+		_essential_btn("🎰 한강 카지노  —  바카라·블랙잭·슬롯·룰렛·빅휠", "#1a1030", "_open_hangang_casino", disabled)
 	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
 
 func _mastery_badge(game_id: String) -> String:
@@ -3185,12 +3185,12 @@ func _on_scalping_closed():
 	_refresh_all()
 	_render_ap_actions()
 
-func _open_gangwon_land():
+func _open_hangang_casino():
 	if not GameState.spend_ap():
 		return
-	gangwon_land.open()
+	hangang_casino.open()
 
-func _on_gangwon_land_closed():
+func _on_hangang_casino_closed():
 	GameState.add_log("🎰 한강 카지노를 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()

@@ -4173,7 +4173,7 @@
     ]
   },
   {
-    "id": "gangwon_big_loss_bus",
+    "id": "hangang_big_loss_bus",
     "title": "귀가 버스",
     "description": "한강 카지노에서 나왔다.\n\n버스를 탔다.\n창문 밖으로 산이 흐른다.\n\n오늘 날린 돈을 머릿속으로 계산한다.\n그 숫자를 계속 다시 센다.\n\n다를 것도 없다. 결국 같은 숫자다.",
     "category": "gambling",
@@ -4181,7 +4181,7 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
-      "flag": "gangwon_session_loss"
+      "flag": "hangang_session_loss"
     },
     "tags": [
       "gambling",
@@ -4209,7 +4209,7 @@
           "addiction_tendency": -10
         },
         "flags": [
-          "gangwon_quit_vow"
+          "hangang_quit_vow"
         ],
         "follow_up_event": "",
         "result_text": "그 말이 얼마나 유지될지는 모른다.\n\n하지만 지금 이 순간만큼은 진심이었다.\n\n버스가 출발했다. {name}은 눈을 감았다.\n산을 넘어가는 내내 잠이 오지 않았다."
@@ -4217,7 +4217,7 @@
     ]
   },
   {
-    "id": "gangwon_big_win_urge",
+    "id": "hangang_big_win_urge",
     "title": "한 번만 더",
     "description": "오늘 딴 돈이 지갑 안에 있다.\n\n집으로 가는 길인데 발이 안 떨어진다.\n\n오늘 운이 좋았다.\n그리고 운이 좋을 때는 계속 좋은 법이다. — 적어도 지금 이 순간, {name}의 뇌는 그렇게 말하고 있다.",
     "category": "gambling",
@@ -4225,7 +4225,7 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
-      "flag": "gangwon_session_win"
+      "flag": "hangang_session_win"
     },
     "tags": [
       "gambling",
@@ -4260,7 +4260,7 @@
     ]
   },
   {
-    "id": "gangwon_addiction_notice",
+    "id": "hangang_addiction_notice",
     "title": "내가 왜 여기 또 있지",
     "description": "한강 카지노에서 나오면서 문득 생각이 들었다.\n\n처음엔 그냥 한 번이었는데.\n\n언제부터인가 한강 카지노 날짜를 머릿속에서 계산하고 있었다.\n버스 시간표를 외웠다.\n\n{name}은 잠시 멈췄다.",
     "category": "gambling",
@@ -4269,7 +4269,7 @@
     "hidden": false,
     "conditions": {
       "min_addiction": 60,
-      "flag": "gangwon_first_visit"
+      "flag": "hangang_first_visit"
     },
     "tags": [
       "gambling",
@@ -4286,7 +4286,7 @@
           "stress": -5
         },
         "flags": [
-          "gangwon_self_aware"
+          "hangang_self_aware"
         ],
         "follow_up_event": "",
         "result_text": "결심했다.\n\n거창한 게 아니었다. 그냥 한 달.\n\n한 달이면 충분히 멀어질 수 있었다.\n그게 얼마나 어려운 일인지는, 아직 몰랐다."
