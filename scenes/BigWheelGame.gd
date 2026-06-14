@@ -129,12 +129,12 @@ func _select_segment(seg: int) -> void:
 	if _phase != Phase.IDLE:
 		return
 	_bet_segment = seg
-	AudioManager.play_sfx("bet")
+	AudioManager.play("bet")
 	_refresh()
 
 func _select_stake(s: int) -> void:
 	_stake = s
-	AudioManager.play_sfx("coin")
+	AudioManager.play("coin")
 	_refresh()
 
 func _do_spin() -> void:
@@ -154,7 +154,7 @@ func _do_spin() -> void:
 	_flash_timer  = 0.0
 	_phase        = Phase.SPINNING
 
-	AudioManager.play_sfx("bet")
+	AudioManager.play("bet")
 	set_process(true)
 	_refresh()
 
@@ -187,12 +187,12 @@ func _finish_spin() -> void:
 		GameState.add_money(float(wagered + gain))
 		_net  += float(gain)
 		_wins += 1
-		AudioManager.play_sfx("win")
+		AudioManager.play("win")
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	else:
 		_net    -= float(wagered)
 		_losses += 1
-		AudioManager.play_sfx("lose")
+		AudioManager.play("lose")
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	_rounds += 1

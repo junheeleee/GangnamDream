@@ -116,17 +116,17 @@ func _select_bet_type(t: int) -> void:
 	if _phase != Phase.IDLE:
 		return
 	_bet_type = t
-	AudioManager.play_sfx("bet")
+	AudioManager.play("bet")
 	_refresh()
 
 func _select_number(n: int) -> void:
 	_chosen_number = n
-	AudioManager.play_sfx("bet")
+	AudioManager.play("bet")
 	_refresh()
 
 func _select_stake(s: int) -> void:
 	_stake = s
-	AudioManager.play_sfx("coin")
+	AudioManager.play("coin")
 	_refresh()
 
 func _do_bet() -> void:
@@ -139,7 +139,7 @@ func _do_bet() -> void:
 	if int(GameState.money) < _stake:
 		_flash("현금이 부족합니다", "#e85d5d"); return
 	_bet_amount = _stake
-	AudioManager.play_sfx("bet")
+	AudioManager.play("bet")
 	_refresh()
 
 func _do_spin() -> void:
@@ -158,7 +158,7 @@ func _do_spin() -> void:
 	_spin_elapsed   = 0.0
 	_cycle_timer    = 0.0
 	_display_number = _rng.randi_range(0, 36)
-	AudioManager.play_sfx("bet")
+	AudioManager.play("bet")
 	set_process(true)
 	_refresh()
 
@@ -173,12 +173,12 @@ func _finish_spin() -> void:
 		GameState.add_money(gain)
 		_net  += float(wagered) * multiplier
 		_wins += 1
-		AudioManager.play_sfx("win")
+		AudioManager.play("win")
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	else:
 		_net    -= float(wagered)
 		_losses += 1
-		AudioManager.play_sfx("lose")
+		AudioManager.play("lose")
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	_rounds     += 1
@@ -195,6 +195,11 @@ func _finish_spin() -> void:
 	set_process(false)
 	_update_number_display(result, false)
 	_refresh()
+	# 숫자 펄스 애니메이션
+	if is_instance_valid(_number_display_lbl):
+		var tw := create_tween()
+		tw.tween_property(_number_display_lbl, "scale", Vector2(1.3, 1.3), 0.12).set_trans(Tween.TRANS_BACK)
+		tw.tween_property(_number_display_lbl, "scale", Vector2(1.0, 1.0), 0.2).set_trans(Tween.TRANS_BOUNCE)
 	# 결과 플래시 후 IDLE로 복귀
 	if won:
 		_flash("🎉 당첨!  +" + GameState.format_money(float(wagered) * multiplier), "#3de87a")

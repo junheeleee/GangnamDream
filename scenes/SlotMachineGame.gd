@@ -186,10 +186,17 @@ func _finish_spin() -> void:
 
 	MetaProgression.record_minigame_play("slot")
 
-	# 위 라인 표시
+	# 위 라인 표시 + 당첨 연출
 	if is_win:
-		_set_win_line("[color=#f0b429]✨ %s ✨[/color]" % win_type)
-		_play_win_flash()
+		if win_type == "JACKPOT 🎉":
+			_set_win_line("[color=#ff0][b]🎉🎉 JACKPOT 200배 🎉🎉[/b][/color]")
+			_play_jackpot_celebration()
+		elif multiplier >= 20.0:
+			_set_win_line("[color=#f0b429][b]🌟 %s 🌟[/b][/color]" % win_type)
+			_play_big_win_flash()
+		else:
+			_set_win_line("[color=#f0b429]✨ %s ✨[/color]" % win_type)
+			_play_win_flash()
 	else:
 		_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
 
@@ -210,13 +217,57 @@ func _set_win_line(bbtext: String) -> void:
 func _play_win_flash() -> void:
 	if not is_instance_valid(_win_flash):
 		return
+	_win_flash.color = Color(1.0, 0.85, 0.0, 0.3)
 	_win_flash.modulate.a = 0.0
 	_win_flash.visible = true
-	# 간단 트윈 — alpha 0→0.3→0
 	var tw := create_tween()
 	tw.tween_property(_win_flash, "modulate:a", 0.3, 0.18)
 	tw.tween_property(_win_flash, "modulate:a", 0.0, 0.28)
 	tw.tween_callback(func(): _win_flash.visible = false)
+
+func _play_big_win_flash() -> void:
+	if not is_instance_valid(_win_flash):
+		return
+	_win_flash.color = Color(1.0, 0.7, 0.0, 0.5)
+	_win_flash.modulate.a = 0.0
+	_win_flash.visible = true
+	var tw := create_tween()
+	tw.tween_property(_win_flash, "modulate:a", 0.6, 0.12)
+	tw.tween_property(_win_flash, "modulate:a", 0.0, 0.2)
+	tw.tween_property(_win_flash, "modulate:a", 0.5, 0.12)
+	tw.tween_property(_win_flash, "modulate:a", 0.0, 0.25)
+	tw.tween_callback(func(): _win_flash.visible = false)
+	AudioManager.play("win")
+
+func _play_jackpot_celebration() -> void:
+	if not is_instance_valid(_win_flash):
+		return
+	_win_flash.color = Color(1.0, 0.9, 0.0, 0.7)
+	_win_flash.modulate.a = 0.0
+	_win_flash.visible = true
+	# 3회 깜빡임 → 화면 전체 골드
+	var tw := create_tween()
+	for _i in range(3):
+		tw.tween_property(_win_flash, "modulate:a", 0.8, 0.1)
+		tw.tween_property(_win_flash, "modulate:a", 0.1, 0.1)
+	tw.tween_property(_win_flash, "modulate:a", 0.0, 0.4)
+	tw.tween_callback(func(): _win_flash.visible = false)
+	# 릴 패널 골드로 잠깐 바꾸기
+	for panel in _reel_panels:
+		if is_instance_valid(panel):
+			var sty := panel.get_theme_stylebox("panel") as StyleBoxFlat
+			if sty:
+				var orig := sty.bg_color
+				sty.border_color = Color("#ffd700")
+				sty.border_width_left   = 4
+				sty.border_width_right  = 4
+				sty.border_width_top    = 4
+				sty.border_width_bottom = 4
+				get_tree().create_timer(2.0).timeout.connect(func():
+					if is_instance_valid(panel):
+						sty.border_color = COLOR_BORDER
+						sty.set_border_width_all(1))
+	AudioManager.play("win")
 
 # ── UI 빌드 ───────────────────────────────────────────────────
 func _build_ui() -> void:
