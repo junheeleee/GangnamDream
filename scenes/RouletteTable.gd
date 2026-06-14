@@ -546,8 +546,8 @@ func _refresh_bet_btns() -> void:
 			_style_bet_btn(btn, t == _bet_type)
 
 func _refresh_number_picker() -> void:
-	_number_picker_grid.visible = (_bet_type == 0)
-	# 숫자 버튼 border 재스타일 (선택 표시)
+	# 결과 확인 시엔 항상 그리드 표시 (어떤 숫자에 공이 떨어졌는지 시각화)
+	_number_picker_grid.visible = (_bet_type == 0 or _phase == Phase.RESULT)
 	var idx: int = 0
 	for child in _number_picker_grid.get_children():
 		if child is Button:
@@ -559,18 +559,26 @@ func _refresh_number_picker() -> void:
 				"black": bg = "#0a0a0a"
 				_:       bg = "#0a3a1a"
 			var sel: bool = (_bet_type == 0 and _chosen_number == n)
+			var is_result: bool = (_phase == Phase.RESULT and n == _last_result and _last_result >= 0)
 			var st := StyleBoxFlat.new()
-			st.bg_color = Color(bg)
+			if is_result:
+				st.bg_color = Color(bg).lightened(0.45)
+				st.border_color = Color("#ffffff")
+				st.set_border_width_all(3)
+			else:
+				st.bg_color = Color(bg)
+				st.border_color = Color("#f39c12") if sel else Color("#2a2a2a")
+				st.set_border_width_all(2 if sel else 1)
 			st.set_corner_radius_all(4)
 			st.content_margin_left = 2; st.content_margin_right = 2
 			st.content_margin_top = 2; st.content_margin_bottom = 2
-			st.border_color = Color("#f39c12") if sel else Color("#2a2a2a")
-			st.set_border_width_all(2 if sel else 1)
 			var hov := st.duplicate() as StyleBoxFlat
 			hov.bg_color = Color(bg).lightened(0.2)
 			child.add_theme_stylebox_override("normal", st)
 			child.add_theme_stylebox_override("hover", hov)
 			child.add_theme_stylebox_override("pressed", hov)
+			if is_result:
+				child.add_theme_color_override("font_color", Color.WHITE)
 			idx += 1
 
 func _refresh_bet_info() -> void:

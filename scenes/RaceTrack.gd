@@ -133,9 +133,9 @@ func _build_skeleton() -> void:
 
 	_msg = Label.new()
 	_msg.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_msg.offset_top = -38; _msg.offset_bottom = -10
+	_msg.offset_top = -46; _msg.offset_bottom = -8
 	_msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_f(_msg, true); _msg.add_theme_font_size_override("font_size", 16)
+	_f(_msg, true); _msg.add_theme_font_size_override("font_size", 20)
 	_msg.visible = false
 	add_child(_msg)
 
@@ -548,10 +548,14 @@ func _update_race_call(delta: float) -> void:
 	var hs: Array = _race["horses"]
 	var leader_name := str(hs[leader].get("name", "선두"))
 	if _race_dur - _race_t <= 0.85:
-		_set_race_msg("마지막 직선!  %s 버틴다!" % leader_name, "#f0c45d")
+		_set_race_msg("🏁 마지막 직선!  %s 버틴다!" % leader_name, "#f0c45d")
+		if is_instance_valid(_msg):
+			_pulse_node(_msg, 1.12, 0.22)
 	elif leader != _last_leader:
 		_last_leader = leader
-		_set_race_msg("선두 교체 — %s!" % leader_name, COLORS[leader % COLORS.size()])
+		_set_race_msg("🔄 선두 교체 — %s!" % leader_name, COLORS[leader % COLORS.size()])
+		if is_instance_valid(_msg):
+			_pulse_node(_msg, 1.08, 0.18)
 
 func _current_display_leader() -> int:
 	if not _race.has("horses"):
