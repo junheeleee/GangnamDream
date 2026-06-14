@@ -86,6 +86,7 @@ func open() -> void:
 	_rounds = 0; _net = 0.0; _wins = 0; _losses = 0
 	set_process(false)
 	visible = true
+	TutorialOverlay.maybe_show("roulette", self)
 	_refresh()
 
 func _on_exit() -> void:

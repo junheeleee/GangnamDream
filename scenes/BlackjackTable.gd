@@ -71,6 +71,7 @@ func open() -> void:
 	_hand_history = []
 	_phase = Phase.BETTING
 	visible = true
+	TutorialOverlay.maybe_show("blackjack", self)
 	_render()
 	AudioManager.play("tab_open")
 

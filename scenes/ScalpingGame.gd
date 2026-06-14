@@ -72,6 +72,7 @@ func open() -> void:
 	set_process(false)
 	_rebuild()
 	visible = true
+	TutorialOverlay.maybe_show("scalping", self)
 
 func _start_game() -> void:
 	_timer = GAME_DURATION

@@ -210,6 +210,7 @@ func open() -> void:
 	if _selected == "":
 		_selected = _pick_default()
 	visible = true
+	TutorialOverlay.maybe_show("trading", self)
 	_refresh()
 
 func _pick_default() -> String:

@@ -88,6 +88,7 @@ func open() -> void:
 	_reset_bets()
 	_phase = Phase.BETTING
 	visible = true
+	TutorialOverlay.maybe_show("baccarat", self)
 	set_process(false)
 	_render()
 	AudioManager.play("tab_open")

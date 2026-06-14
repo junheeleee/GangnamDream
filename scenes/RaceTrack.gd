@@ -142,6 +142,7 @@ func _build_skeleton() -> void:
 # ── 진입 ──────────────────────────────────────────────────────
 func open() -> void:
 	visible = true
+	TutorialOverlay.maybe_show("racetrack", self)
 	_races_today = 0
 	_last_lost = false
 	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다

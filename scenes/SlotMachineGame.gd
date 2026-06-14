@@ -90,6 +90,7 @@ func open() -> void:
 	_last_results = []
 	_phase = Phase.IDLE
 	visible = true
+	TutorialOverlay.maybe_show("slot", self)
 	set_process(false)
 	_set_reel_emojis(["🎰", "🎰", "🎰"])
 	_refresh_ui()

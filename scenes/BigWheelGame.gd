@@ -88,6 +88,7 @@ func open() -> void:
 	_history = []
 	set_process(false)
 	visible = true
+	TutorialOverlay.maybe_show("bigwheel", self)
 	_refresh()
 
 func _on_exit() -> void:

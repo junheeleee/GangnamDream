@@ -89,6 +89,7 @@ func open() -> void:
 		_opp[0]["aggression"] = 0.55  # 마스터: 둘 다 강해짐
 	_show_buyin_screen()
 	visible = true
+	TutorialOverlay.maybe_show("holdem", self)
 	AudioManager.play("tab_open")
 
 func _show_buyin_screen() -> void:
