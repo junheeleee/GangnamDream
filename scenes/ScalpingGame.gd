@@ -76,6 +76,7 @@ func open() -> void:
 
 func _start_game() -> void:
 	_timer = GAME_DURATION
+	_warned_10s = false
 	_tick_acc = 0.0
 	_price = 100.0
 	_momentum = 0.0
@@ -106,11 +107,18 @@ func _end_game() -> void:
 	_rebuild()
 
 # ── 메인 루프 ─────────────────────────────────────────────────────
+var _warned_10s := false
+
 func _process(delta: float) -> void:
 	_timer -= delta
 	if _timer <= 0.0:
 		_end_game()
 		return
+	# 10초 경고 1회 pulse
+	if not _warned_10s and _timer <= 10.0:
+		_warned_10s = true
+		if is_instance_valid(_timer_lbl):
+			_pulse_node(_timer_lbl, 1.25, 0.18)
 
 	_tick_acc += delta
 	if _tick_acc >= TICK_INTERVAL:
@@ -364,7 +372,14 @@ func _draw_chart(canvas: Control) -> void:
 func _refresh_ui() -> void:
 	if _phase != Phase.PLAYING: return
 	if is_instance_valid(_timer_lbl):
-		_timer_lbl.text = "⏱ %.0f초" % ceilf(_timer)
+		var sec_left: int = ceili(_timer)
+		_timer_lbl.text = "⏱ %d초" % sec_left
+		if _timer <= 10.0:
+			_timer_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
+		elif _timer <= 20.0:
+			_timer_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+		else:
+			_timer_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
 	if is_instance_valid(_price_lbl):
 		_price_lbl.text = "가격  %.2f" % _price
 	var total_pnl: float = _realized
