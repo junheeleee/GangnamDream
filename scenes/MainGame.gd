@@ -1401,7 +1401,7 @@ func _on_next_month():
 		"assets_before": GameState.get_total_asset_value(),
 		"health_before": GameState.health,
 		"mental_before": GameState.mental,
-		"stress_before": GameState.stress,
+		"mental_before_pressure": GameState.mental,
 		"actions": turn_action_log.duplicate(),
 		"subsidy": subsidy_applied,
 	}
@@ -2762,9 +2762,9 @@ func _ap_study():
 		return
 	_open_modal("📚 자기계발")
 	modal_body.add_child(_wrap_label(
-		"현재  건강 %d  |  정신 %d  |  지력 %d  |  투자감각 %d  |  스트레스 %d" % [
+		"현재  건강 %d  |  정신 %d  |  지력 %d  |  투자감각 %d" % [
 			GameState.health, GameState.mental, GameState.intelligence,
-			GameState.investment_skill, GameState.stress
+			GameState.investment_skill
 		], 13, "#5a6075"))
 	var sep = HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
@@ -2772,9 +2772,9 @@ func _ap_study():
 	var options = [
 		{"label": "📖 독서  — 지력 +4  (현재 %d → %d)" % [GameState.intelligence, GameState.intelligence + 4],
 			"effects": {"intelligence": 4}},
-		{"label": "🏃 운동  — 건강 +10, 스트레스 -6  (건강 %d → %d)" % [GameState.health, min(100, GameState.health + 10)],
+		{"label": "🏃 운동  — 건강 +10, 정신 +6  (건강 %d → %d)" % [GameState.health, min(100, GameState.health + 10)],
 			"effects": {"health": 10, "stress": -6}},
-		{"label": "🧘 명상  — 정신력 +10, 스트레스 -8  (정신 %d → %d)" % [GameState.mental, min(100, GameState.mental + 10)],
+		{"label": "🧘 명상  — 정신력 +18  (정신 %d → %d)" % [GameState.mental, min(100, GameState.mental + 18)],
 			"effects": {"mental": 10, "stress": -8}},
 		{"label": "📊 재테크 공부  — 투자감각 +3  (현재 %d → %d)" % [GameState.investment_skill, min(100, GameState.investment_skill + 3)],
 			"effects": {"investment_skill": 3}},
@@ -3543,7 +3543,7 @@ func _open_jobs():
 				"min_appearance": req_parts.append("외모 %d" % req[k])
 				"min_social_skill", "min_social": req_parts.append("사회성 %d" % req[k])
 		var req_str = " · ".join(req_parts) if not req_parts.is_empty() else "제한 없음"
-		var label = "%s  %s/월  스트레스 %d/월" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_val]
+		var label = "%s  %s/월  정신 -%d/월" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_val / 2]
 		if is_current: label += "  ✓현재"
 		var button = _button(label, button_color)
 		button.disabled = not eligible and not is_current
@@ -4415,8 +4415,6 @@ func _ending_stat_grid(parent: Control):
 			"#ef4444" if GameState.health <= 45 else "#34d399"],
 		["🧠 정신력", "%d / 100" % GameState.mental,
 			"#ef4444" if GameState.mental <= 45 else "#5b9cf6"],
-		["😤 스트레스", "%d" % GameState.stress,
-			"#ef4444" if GameState.stress >= 72 else "#8892a4"],
 		["⭐ 명성", "%d" % GameState.reputation, "#f0b429"],
 		["🎂 최종 나이", "%d세" % GameState.age, "#aab3c5"],
 		["📅 총 턴", "%d턴" % GameState.turn, "#5a6075"],
@@ -5073,8 +5071,8 @@ func _get_portrait_path() -> String:
 	# 자산 마일스톤 달성 직후 — 기쁨
 	if GameState.flags.get("just_hit_milestone", false):
 		return ImageRegistry.get_player_portrait_for_state("happy")
-	# 스트레스 매우 높거나 건강/정신 위험 — 피로
-	if GameState.stress >= 65 or GameState.health <= 35 or GameState.mental <= 35:
+	# 건강/정신 위험 — 피로
+	if GameState.health <= 35 or GameState.mental <= 35:
 		return ImageRegistry.get_player_portrait_for_state("tired")
 	# 50대 이상
 	if GameState.age >= 50:
@@ -5087,8 +5085,8 @@ func _get_month_advice() -> String:
 		return "⚠ 건강 %d — 위험합니다. 당장 [운동]을 하세요. 건강이 0이 되면 '과로 엔딩'으로 종료됩니다." % GameState.health
 	if GameState.mental <= 40:
 		return "⚠ 정신력 %d — 위험합니다. [명상]으로 회복하세요. 0이 되면 '정신 붕괴 엔딩'입니다." % GameState.mental
-	if GameState.stress >= 60:
-		return "스트레스 %d — 60 이상이면 건강과 정신이 매달 깎입니다. [운동]이나 [명상]으로 낮추세요." % GameState.stress
+	if GameState.mental <= 55:
+		return "정신력 %d — 피로가 쌓이고 있습니다. [명상]으로 회복하세요." % GameState.mental
 	if GameState.money < 500_000:
 		return "💸 잔고 %s — 위험 수위입니다. 알바나 투자로 당장 수입을 늘리세요." % GameState.format_money(GameState.money)
 	if GameState.current_job.is_empty():

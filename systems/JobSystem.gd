@@ -52,7 +52,7 @@ func process_monthly_job():
 		return
 	var job = GameState.current_job
 	GameState.job_tenure += 1
-	GameState.modify_hidden_stat("stress", int(job.get("stress_per_month", 6)))
+	GameState.modify_stat("mental", -int(job.get("stress_per_month", 6)) / 2)
 	for stat in job.get("stat_gains", {}):
 		if randf() < 0.55:
 			GameState.modify_stat(stat, int(job["stat_gains"][stat]))

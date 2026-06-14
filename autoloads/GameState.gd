@@ -249,7 +249,7 @@ func _apply_title_perks():
 	var parts: PackedStringArray = PackedStringArray()
 	var stat_kr = {
 		"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
-		"stress": "스트레스", "luck": "운", "mental": "정신력", "money": "자금",
+		"stress": "정신력", "luck": "운", "mental": "정신력", "money": "자금",
 	}
 	for stat in bonus:
 		var amount = int(bonus[stat])
@@ -260,7 +260,7 @@ func _apply_title_perks():
 			"investment_skill": investment_skill += amount
 			"intelligence":     intelligence += amount
 			"social_skill":     social_skill += amount
-			"stress":           stress = clampi(stress + amount, 0, 100)
+			"stress":           mental = clampi(mental - amount, 0, 100)
 			"luck":             luck += amount
 			"mental":           mental = clampi(mental + amount, 0, 100)
 		if str(stat) == "money":
@@ -279,14 +279,14 @@ func _apply_route_bonus(route: String):
 			# 커리어 준비된 30대 — 사회성·지력 높고 취업 빠름
 			intelligence   += 8
 			social_skill   += 8
-			stress         -= 5
+			mental         = clampi(mental + 5, 0, 100)
 			flags["route_career"] = true
 			flags["job_priority"] = true   # 첫 달 취업 이벤트 우선 노출
 		"투자형":
 			# 10년간 시장 공부한 30대 — 투자감각 높지만 불안감 큼
 			investment_skill += 18
 			intelligence     += 5
-			stress           += 10
+			mental           = clampi(mental - 10, 0, 100)
 			money            -= 100_000.0  # 공부에 돈 씀
 			flags["route_invest"] = true
 			flags["has_received_paycheck"] = true  # 투자 즉시 가능
@@ -295,7 +295,7 @@ func _apply_route_bonus(route: String):
 			luck          += 12
 			social_skill  += 10
 			appearance    += 5
-			stress        += 8
+			mental        = clampi(mental - 8, 0, 100)
 			money         -= 150_000.0  # 사업 준비에 씀
 			flags["route_startup"] = true
 			flags["startup_intent"] = true  # 창업 이벤트 해금
@@ -306,7 +306,7 @@ func _apply_starting_profile(profile: String):
 			# 편의점 알바생 — 수입은 있지만 몸이 먼저 닳는다
 			money          += 300_000.0    # 몇 달치 절약
 			health         -= 8
-			stress         += 8
+			mental         = clampi(mental - 8, 0, 100)
 			social_skill   += 5
 			flags["part_time_worker"]      = true
 			flags["has_received_paycheck"] = true
@@ -321,7 +321,7 @@ func _apply_starting_profile(profile: String):
 			intelligence   += 8
 			social_skill   += 5
 			appearance     += 3
-			stress         += 15
+			mental         = clampi(mental - 15, 0, 100)
 			health         -= 5
 			flags["corporate_worker"]      = true
 			flags["has_received_paycheck"] = true
@@ -337,7 +337,7 @@ func _apply_starting_profile(profile: String):
 			appearance     += 8
 			luck           += 8
 			intelligence   -= 5
-			stress         += 5
+			mental         = clampi(mental - 5, 0, 100)
 			monthly_income  = 300_000.0   # 소액 광고 수입 (변동)
 			flags["youtuber_start"]        = true
 			flags["has_received_paycheck"] = true
@@ -345,7 +345,7 @@ func _apply_starting_profile(profile: String):
 			# 코인 폐인 (히든) — 500만 시작, 중독 이미 진행 중
 			money          += 4_500_000.0  # 코인으로 4배 갔다가 원금 회복
 			mental         -= 15
-			stress         += 20
+			mental         = clampi(mental - 20, 0, 100)
 			luck           -= 5
 			investment_skill += 10         # 차트는 읽을 줄 안다
 			addiction_tendency  = 30
@@ -450,25 +450,24 @@ func apply_monthly_pressure():
 		loan_interest += float(loans[p]) * get_loan_rate(p)
 	if loan_interest > 0.0:
 		add_money(-loan_interest)
-		modify_hidden_stat("stress", 2)
+		modify_stat("mental", -1)
 		add_log("🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급)." % [format_money(loan_interest), format_money(get_loan_total()), get_credit_grade()], "money")
 
 	# ── 서울살이 기본 압박 (난이도별 계수) ───────────────────────────
 	var diff_data: Dictionary = get_difficulty_data()
 	modify_stat("health", int(diff_data.get("pressure_health", -2)))
 	modify_stat("mental", int(diff_data.get("pressure_mental", -3)))
-	modify_hidden_stat("stress", int(diff_data.get("pressure_stress", 3)))
 
 	# ── 주거 패시브 + 거주 기간 추적 ────────────────────────────────
 	housing_months[housing] = housing_months.get(housing, 0) + 1
 	match housing:
 		"gosiwon":
-			modify_hidden_stat("stress", 2)
+			modify_stat("mental", -1)
 			modify_stat("mental", -1)
 			if randf() < 0.25:
 				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "stress")
 		"villa", "apartment":
-			modify_hidden_stat("stress", -1)  # 더 나은 주거 = 삶의 질 ↑
+			modify_stat("mental", 1)  # 더 나은 주거 = 삶의 질 ↑
 
 	# ── 인연 패시브 — 깊어진 관계가 서울살이의 바닥을 받쳐준다 ──────
 	# (아크 보상은 엔딩 분기가 아니라 런 중 유지비 절감으로 환류)
@@ -478,7 +477,7 @@ func apply_monthly_pressure():
 			add_log("📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.", "relationship")
 	if get_cast_stage("jiyeon") in ["lover", "honest_together"] \
 			or get_cast_stage("daeun") in ["lover", "together", "committed", "dating"]:
-		modify_hidden_stat("stress", -2)
+		modify_stat("mental", 1)
 		if randf() < 0.18:
 			add_log("💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.", "relationship")
 	if get_cast_stage("sangchul") in ["trusted", "mentoring", "guardian"] and turn % 4 == 0:
@@ -488,7 +487,7 @@ func apply_monthly_pressure():
 	# ── 칭호 조건 플래그 자동 추적 ───────────────────────────────
 	if money < 0:
 		flags["was_broke_once"] = true
-	if stress >= 90:
+	if mental <= 15:
 		flags["reached_max_stress"] = true
 	if monthly_income == 0:
 		flags["unemployed_months"] = flags.get("unemployed_months", 0) + 1
@@ -496,28 +495,16 @@ func apply_monthly_pressure():
 	# 무직이면 정신/스트레스 추가 압박
 	if monthly_income == 0:
 		modify_stat("mental", -2)
-		modify_hidden_stat("stress", 3)
 		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "stress")
 
-	# 스트레스 단계별 추가 피해 (누적 구조)
-	if stress >= 80:
-		modify_stat("health", -4)
-		modify_stat("mental", -4)
-		add_log("🚨 극심한 스트레스가 몸과 마음을 갉아먹고 있다.", "stress")
-	elif stress >= 60:
-		modify_stat("health", -2)
-		modify_stat("mental", -2)
-	elif stress >= 40:
-		modify_stat("mental", -1)
 
 	# ── 중독 단계별 월간 압박 ────────────────────────────────────
 	if addiction_tendency >= 70:
-		modify_hidden_stat("stress", 4)
 		modify_stat("mental", -2)
 		if randf() < 0.5:
 			add_log("🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.", "stress")
 	elif addiction_tendency >= 50:
-		modify_hidden_stat("stress", 2)
+		modify_stat("mental", -1)
 		if randf() < 0.4:
 			add_log("🎰 다음 판이 자꾸 눈에 밟힌다.", "stress")
 
@@ -537,12 +524,10 @@ func apply_monthly_pressure():
 
 	# 현금 위기 — 마이너스가 더 심각하므로 먼저 검사 (역순이면 도달 불가)
 	if money < 0:
-		modify_hidden_stat("stress", 12)
-		modify_stat("mental", -5)
+		modify_stat("mental", -4)
 		add_log("🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.", "money")
 	elif money < 300_000:
-		modify_hidden_stat("stress", 8)
-		modify_stat("mental", -4)
+		modify_stat("mental", -2)
 		add_log("😰 통장 잔고가 30만원 아래다. 이번 달을 버틸 수 있을까.", "money")
 
 	check_game_over()
@@ -675,7 +660,7 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 		# 성공 — 베팅금 + 베팅금 x 배수
 		var win = stake * float(opp.get("win_multiplier", 2.0))
 		add_money(stake + win)
-		modify_hidden_stat("stress", -3)
+		modify_stat("mental", 2)
 		result = "win"
 		if opp.has("win_flag"):
 			flags[str(opp["win_flag"])] = true
@@ -685,7 +670,7 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 		var loss_ratio = clampf(float(opp.get("loss_ratio", 1.0)), 0.0, 1.0)
 		var refund = stake * (1.0 - loss_ratio)
 		add_money(refund)
-		modify_hidden_stat("stress", 12)
+		modify_stat("mental", -3)
 		modify_stat("mental", -6)
 		result = "lose"
 		if opp.has("lose_flag"):
@@ -706,7 +691,9 @@ func apply_effects(effects):
 				fixed_expense = max(0.0, fixed_expense + float(value))
 			"health", "mental", "intelligence", "social_skill", "appearance", "investment_skill", "luck":
 				modify_stat(key, int(value))
-			"stress", "reputation", "gambling_tendency", "addiction_tendency":
+			"stress":
+				modify_stat("mental", -int(value))
+			"reputation", "gambling_tendency", "addiction_tendency":
 				modify_hidden_stat(key, int(value))
 			"work_performance":
 				work_performance = clampi(work_performance + int(value), 0, 100)
@@ -806,7 +793,7 @@ func restore_ap():
 	stats_changed.emit()
 
 func get_current_title() -> String:
-	if stress >= 88: return "벼랑 끝의 청년"
+	if mental <= 20: return "벼랑 끝의 청년"
 	if mental <= 12: return "번아웃 직전"
 	if get_total_asset_value() < -50_000_000: return "파산 위기자"
 	var total = get_total_asset_value()
