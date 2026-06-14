@@ -481,11 +481,41 @@ func _start_race() -> void:
 	_set_background(BG_TRACK_PATH, 0.50, 0.62)
 	_clear()
 	_render_race()
-	_flash("출발!", "#f0c45d")
-	_screen_flash(Color("#f0c45d"), 0.14, 0.28)
-	_shake_node(_content, 4.0, 0.18)
-	AudioManager.play("event_new")
-	set_process(true)
+	_run_countdown()
+
+func _run_countdown() -> void:
+	var overlay := Label.new()
+	overlay.set_anchors_preset(Control.PRESET_CENTER)
+	overlay.offset_left = -100; overlay.offset_right = 100
+	overlay.offset_top  = -60;  overlay.offset_bottom = 60
+	overlay.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	overlay.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+	overlay.add_theme_font_size_override("font_size", 72)
+	overlay.add_theme_color_override("font_color", Color("#f0c45d"))
+	_f(overlay, true)
+	add_child(overlay)
+	var steps := ["3", "2", "1", "출발!"]
+	var colors := [Color("#e85d5d"), Color("#e8a05d"), Color("#e8e05d"), Color("#5de8a0")]
+	var idx := 0
+	var do_step: Callable
+	do_step = func():
+		if idx >= steps.size():
+			overlay.queue_free()
+			_flash("출발!", "#f0c45d")
+			_screen_flash(Color("#f0c45d"), 0.14, 0.28)
+			_shake_node(_content, 4.0, 0.18)
+			AudioManager.play("event_new")
+			set_process(true)
+			return
+		overlay.text = steps[idx]
+		overlay.add_theme_color_override("font_color", colors[idx])
+		var tw := create_tween()
+		tw.tween_property(overlay, "scale", Vector2(1.3, 1.3), 0.0)
+		tw.tween_property(overlay, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK)
+		idx += 1
+		var delay: float = 0.9 if idx < steps.size() else 0.6
+		get_tree().create_timer(delay).timeout.connect(do_step, CONNECT_ONE_SHOT)
+	do_step.call()
 
 func _render_race() -> void:
 	if _track == null or not is_instance_valid(_track):

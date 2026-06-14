@@ -1811,6 +1811,8 @@ func _refresh_vitals():
 	var hp_lbl = top_labels["vital_health"]
 	hp_lbl.text = "❤ %d %s" % [hp, hp_bar]
 	hp_lbl.add_theme_color_override("font_color", hp_color)
+	if hp <= 30:
+		_pulse_vital_warning(hp_lbl)
 	# 정신
 	var mp = GameState.mental
 	var mp_bar = _bar_str(mp, 100, 6)
@@ -1824,6 +1826,8 @@ func _refresh_vitals():
 	var mp_lbl = top_labels["vital_mental"]
 	mp_lbl.text = "🧠 %d %s" % [mp, mp_bar]
 	mp_lbl.add_theme_color_override("font_color", mp_color)
+	if mp <= 30:
+		_pulse_vital_warning(mp_lbl)
 	# 스트레스
 	var st = GameState.stress
 	var st_bar = _bar_str(st, 100, 6)
@@ -1837,6 +1841,15 @@ func _refresh_vitals():
 	var st_lbl = top_labels["vital_stress"]
 	st_lbl.text = "😤 %d %s" % [st, st_bar]
 	st_lbl.add_theme_color_override("font_color", st_color)
+	if st >= 80:
+		_pulse_vital_warning(st_lbl)
+
+func _pulse_vital_warning(lbl: Label) -> void:
+	if not is_instance_valid(lbl):
+		return
+	var tw := create_tween()
+	tw.tween_property(lbl, "modulate:a", 0.35, 0.4)
+	tw.tween_property(lbl, "modulate:a", 1.0,  0.3)
 
 func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int, danger_thresh: int):
 	var label = stat_labels[key]
