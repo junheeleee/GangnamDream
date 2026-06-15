@@ -76,6 +76,7 @@ var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
 var job_hunt_game  # 구직활동 미니게임 오버레이 (이력서/면접)
+var life_skills_game  # 절약·인맥·자기계발 미니게임 오버레이
 var baccarat_table   # 정선 카지노 바카라 오버레이
 var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
@@ -131,6 +132,10 @@ func _ready():
 	job_hunt_game = load("res://scenes/JobHuntMiniGame.gd").new()
 	add_child(job_hunt_game)
 	job_hunt_game.closed.connect(_on_job_hunt_closed)
+	# 절약·인맥·자기계발 미니게임 오버레이
+	life_skills_game = load("res://scenes/LifeSkillsMiniGame.gd").new()
+	add_child(life_skills_game)
+	life_skills_game.closed.connect(_on_life_skills_closed)
 	# 정선 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
@@ -2796,61 +2801,10 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 		parent.add_child(btn)
 
 func _ap_study():
-	if GameState.action_points <= 0:
-		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
-		return
-	_open_modal("📚 자기계발")
-	modal_body.add_child(_wrap_label(
-		"현재  건강 %d  |  정신 %d  |  지력 %d  |  투자감각 %d" % [
-			GameState.health, GameState.mental, GameState.intelligence,
-			GameState.investment_skill
-		], 13, "#5a6075"))
-	var sep = HSeparator.new()
-	sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep)
-	var options = [
-		{"label": "📖 독서  — 지력 +4  (현재 %d → %d)" % [GameState.intelligence, GameState.intelligence + 4],
-			"effects": {"intelligence": 4}},
-		{"label": "🏃 운동  — 건강 +10, 정신 +6  (건강 %d → %d)" % [GameState.health, min(100, GameState.health + 10)],
-			"effects": {"health": 10, "stress": -6}},
-		{"label": "🧘 명상  — 정신력 +18  (정신 %d → %d)" % [GameState.mental, min(100, GameState.mental + 18)],
-			"effects": {"mental": 10, "stress": -8}},
-		{"label": "📊 재테크 공부  — 투자감각 +3  (현재 %d → %d)" % [GameState.investment_skill, min(100, GameState.investment_skill + 3)],
-			"effects": {"investment_skill": 3}},
-	]
-	for opt in options:
-		var btn = _button(opt["label"], "#5b9cf6")
-		btn.pressed.connect(Callable(self, "_on_study_chosen").bind(opt["effects"]))
-		modal_body.add_child(btn)
-
-func _on_study_chosen(effects):
 	if not GameState.spend_ap():
-		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
-		_close_modal()
 		return
-	GameState.apply_effects(effects)
-	AudioManager.play("stat_up")
-	_show_effects_float(effects)
-	_close_modal()
-	# 행동 유형에 따라 vignette 풀 선택
-	var pool: Array
-	var title: String
-	var color: String
-	if effects.has("investment_skill"):
-		pool = STUDY_INVEST_VIGNETTES; title = "📊 재테크 공부"; color = "#10b981"
-	elif effects.get("health", 0) >= 8:
-		pool = STUDY_EXERCISE_VIGNETTES; title = "🏃 운동"; color = "#f59e0b"
-	elif effects.get("mental", 0) >= 8:
-		pool = STUDY_MEDITATE_VIGNETTES; title = "🧘 명상"; color = "#8b5cf6"
-	else:
-		pool = STUDY_READ_VIGNETTES; title = "📖 독서"; color = "#5b9cf6"
-	var v: Dictionary = pool[randi() % pool.size()]
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
-	GameState.add_log(title + " — " + flavor, "event")
-	GameState.stats_changed.emit()
-	_show_vignette(title, flavor, effects, color)
-	_refresh_all()
+	turn_action_log.append("✓ 📚 자기계발 — 미니게임 시작")
+	life_skills_game.open(2)  # Mode.STUDY=2
 
 func _ap_invest():
 	if GameState.action_points <= 0:
@@ -2888,46 +2842,77 @@ func _on_aruba_closed(earned: int, stress_delta: int) -> void:
 func _ap_save_money():
 	if not GameState.spend_ap():
 		return
-	var v: Dictionary = SAVE_VIGNETTES[randi() % SAVE_VIGNETTES.size()]
-	var eff: Dictionary = v.get("e", {})
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "stress" or k == "reputation":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
-	GameState.add_tendency("career", 1)
-	var display_eff := eff.duplicate()
-	if GameState.money > 500_000:
-		var bonus := int(min(GameState.money * 0.005, 80_000.0))
-		GameState.add_money(float(bonus))
-		AudioManager.play("money_gain")
-		display_eff["money"] = bonus
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ 💰 저축/절약 — " + flavor.substr(0, 22))
-	GameState.add_log("💰 저축/절약 — " + flavor, "event")
-	GameState.stats_changed.emit()
-	_show_vignette("💰 저축/절약", flavor, display_eff, "#0369a1")
+	turn_action_log.append("✓ 💰 저축/절약 — 미니게임 시작")
+	life_skills_game.open(0)  # Mode.BUDGET=0
 
 func _ap_network():
 	if not GameState.spend_ap():
 		return
-	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
-	var eff: Dictionary = v.get("e", {})
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "money":
-			GameState.add_money(float(val))
-		elif k == "stress" or k == "reputation":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
-	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ 🤝 인맥 넓히기 — " + flavor.substr(0, 22))
-	GameState.add_log("🤝 인맥 넓히기 — " + flavor, "relationship")
+	turn_action_log.append("✓ 🤝 인맥 넓히기 — 미니게임 시작")
+	life_skills_game.open(1)  # Mode.NETWORK=1
+
+func _on_life_skills_closed(quality: int, extra_money: int) -> void:
+	var mode: int = life_skills_game.current_mode  # 0=BUDGET,1=NETWORK,2=STUDY
+	match mode:
+		0:  # BUDGET — 절약 퍼즐
+			if extra_money > 0:
+				GameState.add_money(float(extra_money))
+				AudioManager.play("money_gain")
+			GameState.add_tendency("career", 1)
+			match quality:
+				3:
+					GameState.modify_hidden_stat("stress", 2)  # 타이트한 생활
+					GameState.add_log("💰 절약 우수 (%s 절약) — 스트레스 +2" % GameState.format_money(float(extra_money)), "event")
+				2:
+					GameState.modify_hidden_stat("stress", 1)
+					GameState.add_log("💰 절약 양호 (%s 절약)" % GameState.format_money(float(extra_money)), "event")
+				1:
+					GameState.add_log("💰 절약 무난 (%s 절약)" % GameState.format_money(float(extra_money)), "event")
+				0:
+					GameState.add_log("💰 절약 미흡 — 지출 조정이 필요하다", "event")
+		1:  # NETWORK — 인맥 카드
+			GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
+			match quality:
+				3:
+					GameState.modify_stat("social_skill", 3)
+					GameState.modify_stat("reputation", 1)
+					GameState.add_log("🤝 인맥 넓히기 우수 — 사회성 +3, 평판 +1", "relationship")
+				2:
+					GameState.modify_stat("social_skill", 2)
+					GameState.add_log("🤝 인맥 넓히기 양호 — 사회성 +2", "relationship")
+				1:
+					GameState.modify_stat("social_skill", 1)
+					GameState.add_log("🤝 인맥 넓히기 무난 — 사회성 +1", "relationship")
+				0:
+					GameState.add_log("🤝 인맥 넓히기 부진 — 어색하게 끝났다", "relationship")
+		2:  # STUDY — 자기계발 퀴즈
+			var topic_id: String = str(life_skills_game._study_topic.get("id", ""))
+			var stat: String = str(life_skills_game._study_topic.get("stat", ""))
+			var base_gain: int = int(life_skills_game._study_topic.get("gain", 0))
+			var actual_gain: int = life_skills_game._calc_study_gain(quality, base_gain)
+			if not stat.is_empty() and actual_gain > 0:
+				match stat:
+					"health":
+						GameState.modify_stat("health", actual_gain)
+						if quality >= 2:
+							GameState.modify_hidden_stat("stress", -int(actual_gain * 0.5))
+					"mental":
+						GameState.modify_hidden_stat("mental", actual_gain)
+						if quality >= 2:
+							GameState.modify_hidden_stat("stress", -int(actual_gain * 0.4))
+					_:
+						GameState.modify_stat(stat, actual_gain)
+			GameState.add_tendency("career", 1)
+			var title_map: Dictionary = {"read": "📖 독서", "exercise": "🏃 운동",
+				"meditate": "🧘 명상", "invest": "📊 재테크 공부"}
+			var title: String = str(title_map.get(topic_id, "📚 자기계발"))
+			match quality:
+				3: GameState.add_log("%s 우수 — %s +%d" % [title, stat, actual_gain], "event")
+				2: GameState.add_log("%s 양호 — %s +%d" % [title, stat, actual_gain], "event")
+				1: GameState.add_log("%s 무난 — %s +%d" % [title, stat, actual_gain], "event")
+				0: GameState.add_log("%s 부진 — 집중이 흐트러졌다" % title, "event")
 	GameState.stats_changed.emit()
-	_show_vignette("🤝 인맥 넓히기", flavor, eff, "#8a5a9a")
+	_refresh_all()
 
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
