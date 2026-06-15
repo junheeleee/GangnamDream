@@ -75,6 +75,7 @@ var racetrack      # 경마 미니게임 오버레이
 var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
+var job_hunt_game  # 구직활동 미니게임 오버레이 (이력서/면접)
 var baccarat_table   # 정선 카지노 바카라 오버레이
 var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
@@ -126,6 +127,10 @@ func _ready():
 	aruba_game = load("res://scenes/ArubaGame.gd").new()
 	add_child(aruba_game)
 	aruba_game.closed.connect(_on_aruba_closed)
+	# 구직활동 미니게임 오버레이
+	job_hunt_game = load("res://scenes/JobHuntMiniGame.gd").new()
+	add_child(job_hunt_game)
+	job_hunt_game.closed.connect(_on_job_hunt_closed)
 	# 정선 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
@@ -3485,42 +3490,53 @@ func _ap_create_content():
 func _ap_write_resume():
 	if not GameState.spend_ap():
 		return
-	var v: Dictionary = RESUME_VIGNETTES[randi() % RESUME_VIGNETTES.size()]
-	var eff: Dictionary = v.get("e", {})
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "stress" or k == "reputation" or k == "mental":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
-	GameState.add_tendency("career", 1)
-	GameState.flags["resume_polished"] = true
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ 🖊 자소서 작성 — " + flavor.substr(0, 22))
-	GameState.add_log("🖊 자소서 작성 — " + flavor, "event")
-	GameState.stats_changed.emit()
-	_show_vignette("🖊 자소서 작성", flavor, eff, "#0f4c5c")
-	_refresh_all()
+	turn_action_log.append("✓ 🖊 자소서 작성 — 미니게임 시작")
+	job_hunt_game.open(0)  # Mode.RESUME = 0
 
 func _ap_interview_prep():
 	if not GameState.spend_ap():
 		return
-	var v: Dictionary = INTERVIEW_VIGNETTES[randi() % INTERVIEW_VIGNETTES.size()]
-	var eff: Dictionary = v.get("e", {})
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "stress" or k == "reputation" or k == "mental":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
-	GameState.modify_stat("luck", 1)
+	turn_action_log.append("✓ 🎯 모의 면접 — 미니게임 시작")
+	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
+
+func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
+	# quality: 0=재작성필요, 1=무난, 2=양호, 3=우수
+	var is_resume: bool = job_hunt_game.current_mode == 0  # Mode.RESUME
+	GameState.modify_hidden_stat("stress", stress_delta)
 	GameState.add_tendency("career", 1)
-	GameState.flags["interview_practiced"] = true
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ 🎯 모의 면접 — " + flavor.substr(0, 22))
-	GameState.add_log("🎯 모의 면접 — " + flavor, "event")
+	if is_resume:
+		match quality:
+			3:
+				GameState.modify_stat("intelligence", 2)
+				GameState.flags["resume_polished"] = true
+				GameState.add_log("🖊 자소서 작성 완료 (우수) — 지력 +2, 이력서 완성", "event")
+			2:
+				GameState.modify_stat("intelligence", 1)
+				GameState.flags["resume_polished"] = true
+				GameState.add_log("🖊 자소서 작성 완료 (양호) — 지력 +1, 이력서 완성", "event")
+			1:
+				GameState.add_log("🖊 자소서 작성 완료 (무난) — 보완이 필요하다", "event")
+			0:
+				GameState.modify_hidden_stat("stress", 1)
+				GameState.add_log("🖊 자소서 작성 실패 (재작성필요) — 스트레스 +1", "event")
+	else:
+		match quality:
+			3:
+				GameState.modify_stat("social_skill", 2)
+				GameState.modify_stat("luck", 1)
+				GameState.flags["interview_practiced"] = true
+				GameState.add_log("🎯 모의 면접 완료 (우수) — 사회성 +2, 운 +1", "event")
+			2:
+				GameState.modify_stat("social_skill", 1)
+				GameState.flags["interview_practiced"] = true
+				GameState.add_log("🎯 모의 면접 완료 (양호) — 사회성 +1", "event")
+			1:
+				GameState.modify_stat("luck", 1)
+				GameState.add_log("🎯 모의 면접 완료 (무난) — 운 +1", "event")
+			0:
+				GameState.modify_hidden_stat("stress", 1)
+				GameState.add_log("🎯 모의 면접 실패 (긴장) — 스트레스 +1", "event")
 	GameState.stats_changed.emit()
-	_show_vignette("🎯 모의 면접 준비", flavor, eff, "#0f3a5c")
 	_refresh_all()
 
 func _ap_move_housing():
