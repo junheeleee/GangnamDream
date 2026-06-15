@@ -77,6 +77,7 @@ var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
 var job_hunt_game  # 구직활동 미니게임 오버레이 (이력서/면접)
 var life_skills_game  # 절약·인맥·자기계발 미니게임 오버레이
+var crypto_game       # 코인 변동성 단타 미니게임 오버레이
 var baccarat_table   # 정선 카지노 바카라 오버레이
 var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
@@ -136,6 +137,10 @@ func _ready():
 	life_skills_game = load("res://scenes/LifeSkillsMiniGame.gd").new()
 	add_child(life_skills_game)
 	life_skills_game.closed.connect(_on_life_skills_closed)
+	# 코인 변동성 단타 미니게임 오버레이
+	crypto_game = load("res://scenes/CryptoGame.gd").new()
+	add_child(crypto_game)
+	crypto_game.closed.connect(_on_crypto_closed)
 	# 정선 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
@@ -824,16 +829,16 @@ func _show_tutorial() -> void:
 		+ "③ [다음 달 ▶] 버튼으로 넘어갑니다", 13, "#c8d0df"))
 	modal_body.add_child(_goal_sep())
 
-	# ── 정석 vs 비정석 (핵심 메커닉) ──
-	modal_body.add_child(_wrap_label("⚖  이 게임의 핵심 선택", 15, "#a78bfa"))
+	# ── 선택이 쌓이면 삶이 된다 ──
+	modal_body.add_child(_wrap_label("⚖  선택이 쌓이면 삶이 된다", 15, "#a78bfa"))
 	modal_body.add_child(_wrap_label(
-		"매달 어떤 행동을 선택하느냐가 당신의 성향을 결정합니다.\n\n"
-		+ "📚 정석 루트  —  취업·승진·저축·자기계발\n"
-		+ "   안정적이지만 느리다. 사회가 원하는 삶.\n\n"
-		+ "📈 비정석 루트  —  투자·레버리지·창업·부업\n"
-		+ "   빠르지만 위험하다. 내가 원하는 삶.\n\n"
+		"매달 어떤 행동을 반복하느냐가 당신이 어떤 사람인지를 결정합니다.\n\n"
+		+ "💼 안정을 쌓으면  —  취업·승진·저축·자기계발이 길이 됩니다\n"
+		+ "   사회가 원하는 방식. 느리지만 무너지지 않는다.\n\n"
+		+ "📈 속도를 쌓으면  —  투자·레버리지·사업·도박이 길이 됩니다\n"
+		+ "   내가 원하는 방식. 빠르지만 한 번에 무너진다.\n\n"
 		+ "둘 다 강남에 갈 수 있고, 둘 다 망할 수 있다.\n"
-		+ "성향에 따라 다른 이벤트와 다른 엔딩이 열립니다.", 12, "#c8d0df"))
+		+ "쌓인 선택에 따라 다른 이벤트와 다른 엔딩이 열립니다.", 12, "#c8d0df"))
 	modal_body.add_child(_goal_sep())
 
 	# ── 주의사항 ──
@@ -2497,6 +2502,9 @@ func _render_essential_actions(ap: int):
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
 		var hm_badge: String = _mastery_badge("holdem")
 		_essential_btn("🃏 지하 홀덤 클럽  —  인맥 있는 사람만 (중독 주의)" + hm_badge, "#2a1a4a", "_open_holdem", disabled)
+	# 코인 단타: 투자감각 10 이상이면 해금 (스캘핑보다 일찍 접근 가능, 변동성 큼)
+	if GameState.investment_skill >= 10:
+		_essential_btn("🪙 코인 단타  —  캔들 읽고 롱/숏 판단 (3라운드)", "#0a1a2a", "_open_crypto", disabled)
 	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
 	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
 		var sc_badge: String = _mastery_badge("scalping")
@@ -3313,6 +3321,17 @@ func _open_holdem():
 func _on_holdem_closed():
 	turn_action_log.append("✓ 🃏 홀덤 클럽")
 	GameState.add_log("🃏 지하 홀덤 클럽을 나왔다.", "event")
+	_refresh_all()
+	_render_ap_actions()
+
+func _open_crypto():
+	if not GameState.spend_ap():
+		return
+	crypto_game.open()
+
+func _on_crypto_closed():
+	turn_action_log.append("✓ 🪙 코인 단타")
+	GameState.add_log("🪙 코인 단타 세션을 마쳤다.", "event")
 	_refresh_all()
 	_render_ap_actions()
 
