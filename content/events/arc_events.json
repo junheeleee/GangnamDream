@@ -1235,7 +1235,8 @@
         "flags": [
           "arc_temptation_seen",
           "lent_account",
-          "crossed_line_early"
+          "crossed_line_early",
+          "gambling_tempted"
         ],
         "result_text": "통장 번호를 보냈다. 한 시간 뒤, 200만원이 찍혔다.\n이렇게 쉬운 돈이 세상에 있었다.\n\n{name}은 그 숫자를 한참 봤다. 안도와 함께,\n뱃속 어딘가가 서늘해지는 걸 느꼈다.\n이 돈이 누구의 눈물에서 왔는지는 — 생각하지 않기로 했다.",
         "route": "unorthodox"

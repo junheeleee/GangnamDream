@@ -26,7 +26,8 @@
           "luck": 1
         },
         "flags": [
-          "racetrack_guide_met"
+          "racetrack_guide_met",
+          "racetrack_mentor_done"
         ],
         "follow_up_event": "race_first_visit",
         "result_text": "과천역 앞에서 만나기로 했다.\n경마신문 한 장을 받아들었다. 숫자와 기호가 가득했다.\n그 숫자들이 의미하는 세계에 첫 발을 내딛기로 했다."
@@ -34,7 +35,9 @@
       {
         "text": "말을 얼버무리고 자리를 피한다",
         "effects": {},
-        "flags": [],
+        "flags": [
+          "racetrack_mentor_done"
+        ],
         "follow_up_event": "",
         "result_text": "그가 건네던 경마신문을 받지 않았다.\n받았으면 어떻게 됐을지 — 잠깐 생각했다."
       }

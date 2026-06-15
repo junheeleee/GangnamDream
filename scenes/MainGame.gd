@@ -1042,6 +1042,12 @@ func _next_arc_id() -> String:
 	if f.get("pending_spec_found", false) and not f.get("pending_spec_found_done", false):
 		return "arc_spec_found"
 
+	# ── 경마 멘토 보장 — gambling_tempted + 100만원 이상이면 t=12에 확정 등장 ──
+	if t >= 12 and f.get("gambling_tempted", false) \
+			and GameState.money >= 1_000_000 \
+			and not f.get("racetrack_mentor_done", false):
+		return "racetrack_mentor_meet"
+
 	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
 		return "arc_sangchul_01_meet"
@@ -1080,7 +1086,7 @@ func _next_arc_id() -> String:
 	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
 	if t >= 11 and not f.get("arc_father_01_seen", false):
 		return "arc_father_01_call"
-	if t >= 22 and f.get("arc_father_01_seen", false) \
+	if t >= 21 and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_02_done", false):
 		return "arc_father_02_signal"
 	if t >= 35 and f.get("arc_father_02_done", false) \
@@ -1098,7 +1104,7 @@ func _next_arc_id() -> String:
 		return "arc_jiyeon_01_crash"
 	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 20:
 		return "arc_jiyeon_02_store"
-	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 23:
+	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 21:
 		return "arc_jiyeon_03_offer"
 	# 데모 6개월(24턴) 안에 지연 점심(스캘핑 해금) 가능하도록 턴 조건 축소 (원래 t>=27)
 	if t >= 22 and f.get("arc_jiyeon_offer_seen", false) \
@@ -1107,16 +1113,16 @@ func _next_arc_id() -> String:
 		return "arc_jiyeon_03b_lunch"
 
 	# ── 임상철 관계 심화 ──
-	if t >= 18 and f.get("arc_sangchul_met_seen", false) \
+	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
 		return "arc_sangchul_02_coffee"
-	# 데모 6개월(24턴) 안에 네트워크 입성 가능하도록 턴 조건 축소 (원래 t>=28)
+	# 첫 만남 후 500만원 이상 모이면 VIP 투자 모임 초대 (데모 달성 가능 수준)
 	if t >= 20 and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_sangchul_03_seen", false) \
-			and GameState.get_total_asset_value() >= 20_000_000:
+			and GameState.get_total_asset_value() >= 5_000_000:
 		return "arc_sangchul_03_network"
-	# ── 임상철 정선 카지노 초대 — 네트워크 입성 이후, 자금 300만 이상 ──
-	if t >= 22 and f.get("arc_sangchul_03_seen", false) \
+	# ── 임상철 정선 카지노 초대 — 커피(02) 이후, 자금 300만 이상이면 초대 가능 ──
+	if t >= 23 and f.get("arc_sangchul_02_seen", false) \
 			and GameState.money >= 3_000_000 \
 			and not f.get("arc_sangchul_casino_seen", false):
 		return "arc_sangchul_casino_invite"
@@ -1126,8 +1132,8 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
 
-	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=20으로 단축) ══
-	if t >= 20 and not f.get("arc_jaehyuk_reunion_seen", false):
+	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=19으로 단축) ══
+	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
 	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
 			and not f.get("arc_jaehyuk_01b_seen", false) \
