@@ -840,7 +840,7 @@ func get_current_title() -> String:
 	if housing == "apartment" and job_tenure >= 12: return "안정적인 직장인"
 	if current_job.is_empty() and turn >= 8 and (flags.get("resume_polished", false) or flags.get("mindset_investor", false) or flags.get("mindset_saver", false)): return "취업 준비생"
 	if housing == "gosiwon" and turn >= 18: return "고시원 장기거주자"
-	if turn < 4: return "서울 상경 초보"
+	if turn <= 4: return "서울 상경 초보"
 	return "서울 생존자"
 
 func add_route_point(route_type: String, focus_label: String = ""):

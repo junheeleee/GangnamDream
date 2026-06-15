@@ -900,14 +900,15 @@ func _begin_month():
 	GameState.restore_ap()
 	turn_action_log.clear()
 	prev_prices = GameState.market_prices.duplicate()
-	# ── 로그라이크: 월별 위기/호재 롤 (튜토리얼 이후) ──
-	if GameState.turn > 3:
-		var crisis = _roll_monthly_crisis()
-		if not crisis.is_empty():
-			_apply_monthly_event(crisis)
-	if GameState.news_log.is_empty() or GameState.turn > 1:
-		var news = NewsManager.generate_monthly_news()
-		investment_system.process_month(news)
+	# ── 월초 전용: 뉴스·시장·크라이시스는 새 달 첫 주(week_of_month==1)에만 ──
+	if GameState.week_of_month == 1:
+		if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
+			var crisis = _roll_monthly_crisis()
+			if not crisis.is_empty():
+				_apply_monthly_event(crisis)
+		if GameState.news_log.is_empty() or GameState.turn > 1:
+			var news = NewsManager.generate_monthly_news()
+			investment_system.process_month(news)
 	# ── 스토리 이벤트 트리거 ─────────────────────────
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
 	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
