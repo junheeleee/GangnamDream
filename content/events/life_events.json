@@ -107,7 +107,7 @@
       "rent",
       "anxiety"
     ],
-    "cooldown": 7,
+    "cooldown": 9999,
     "choices": [
       {
         "text": "생활비를 더 줄인다",
@@ -330,7 +330,7 @@
       "politics",
       "viral"
     ],
-    "cooldown": 8,
+    "cooldown": 20,
     "choices": [
       {
         "text": "테마주 위험성을 먼저 공부한다",
@@ -390,7 +390,10 @@
           "stress": -1,
           "mental": -2
         },
-        "result_text": "후기를 더 찾아보며 한참 고민했다. 결국 아무것도 못 하고 머리만 복잡해졌다."
+        "result_text": "후기를 더 찾아보며 한참 고민했다. 결국 아무것도 못 하고 머리만 복잡해졌다.",
+        "flags": [
+          "gambling_tempted"
+        ]
       },
       {
         "text": "소액으로 일단 넣어본다",
@@ -398,7 +401,10 @@
           "reputation": -3,
           "investment_skill": 4
         },
-        "result_text": "소액만 넣어봤다. 뭔가 알게 됐지만 주변에 알려지면 안 될 것 같은 찜찜함이 남았다."
+        "result_text": "소액만 넣어봤다. 뭔가 알게 됐지만 주변에 알려지면 안 될 것 같은 찜찜함이 남았다.",
+        "flags": [
+          "gambling_tempted"
+        ]
       }
     ]
   },
@@ -417,7 +423,7 @@
       "military",
       "class"
     ],
-    "cooldown": 8,
+    "cooldown": 9999,
     "choices": [
       {
         "text": "날짜 확인하고 연가 신청한다",
@@ -458,7 +464,7 @@
       "health",
       "opportunity"
     ],
-    "cooldown": 6,
+    "cooldown": 8,
     "choices": [
       {
         "text": "수면 루틴을 정해 일찍 잔다",
@@ -510,7 +516,7 @@
       "disasters",
       "class"
     ],
-    "cooldown": 7,
+    "cooldown": 12,
     "choices": [
       {
         "text": "중고폰으로 저렴하게 교체한다",
@@ -597,7 +603,7 @@
       "family",
       "anxiety"
     ],
-    "cooldown": 7,
+    "cooldown": 20,
     "choices": [
       {
         "text": "형편껏 보낼 수 있는 금액을 정한다",
@@ -683,7 +689,7 @@
       "health",
       "pressure"
     ],
-    "cooldown": 6,
+    "cooldown": 48,
     "choices": [
       {
         "text": "의사와 상담 예약을 잡는다",
@@ -1062,7 +1068,7 @@
       "family",
       "class"
     ],
-    "cooldown": 6,
+    "cooldown": 9999,
     "choices": [
       {
         "text": "바쁘다고 둘러대고 화제를 돌린다",
@@ -1264,7 +1270,10 @@
           "luck": -1,
           "addiction_tendency": 3
         },
-        "result_text": "그 말이 계속 머릿속을 맴돌았다. 한동안 그 생각에서 벗어나질 못했다."
+        "result_text": "그 말이 계속 머릿속을 맴돌았다. 한동안 그 생각에서 벗어나질 못했다.",
+        "flags": [
+          "gambling_tempted"
+        ]
       },
       {
         "text": "일단 소액으로 베팅해본다",
@@ -1273,7 +1282,10 @@
           "stress": 3,
           "addiction_tendency": 5
         },
-        "result_text": "소액으로 베팅했다. 결과는 나빴고 그 말이 거짓말이었다는 걸 알았다."
+        "result_text": "소액으로 베팅했다. 결과는 나빴고 그 말이 거짓말이었다는 걸 알았다.",
+        "flags": [
+          "gambling_tempted"
+        ]
       }
     ]
   },
@@ -1475,7 +1487,7 @@
       "mental",
       "empathy"
     ],
-    "cooldown": 6,
+    "cooldown": 4,
     "choices": [
       {
         "text": "벽을 두드려 괜찮냐고 묻는다",
@@ -1566,7 +1578,7 @@
       "mental",
       "isolation"
     ],
-    "cooldown": 7,
+    "cooldown": 4,
     "choices": [
       {
         "text": "한강공원에 바람 쐬러 간다",
@@ -1928,7 +1940,7 @@
       "stress",
       "ambition"
     ],
-    "cooldown": 8,
+    "cooldown": 20,
     "choices": [
       {
         "text": "오늘부터 하루 3시간 공부한다",
@@ -1975,7 +1987,7 @@
       "investment",
       "finance"
     ],
-    "cooldown": 6,
+    "cooldown": 8,
     "choices": [
       {
         "text": "끝까지 읽고 실천 계획을 짠다",
@@ -2018,7 +2030,7 @@
       "stress",
       "gym"
     ],
-    "cooldown": 8,
+    "cooldown": 16,
     "choices": [
       {
         "text": "루틴을 만들어 꾸준히 간다",
@@ -2065,7 +2077,7 @@
       "class",
       "job"
     ],
-    "cooldown": 8,
+    "cooldown": 16,
     "choices": [
       {
         "text": "솔직하게 말하고 넘어간다",
@@ -2754,7 +2766,7 @@
       "stress",
       "housing"
     ],
-    "cooldown": 8,
+    "cooldown": 12,
     "choices": [
       {
         "text": "직접 위층에 조심히 올라가 말한다",
@@ -2804,7 +2816,7 @@
       "finance",
       "daily_life"
     ],
-    "cooldown": 8,
+    "cooldown": 12,
     "choices": [
       {
         "text": "완벽하게 도전한다. 한 달간 외식 금지",
@@ -2857,7 +2869,7 @@
       "finance",
       "stress"
     ],
-    "cooldown": 12,
+    "cooldown": 16,
     "choices": [
       {
         "text": "HR에 연봉 재협상을 요청한다",
@@ -2967,7 +2979,7 @@
       "finance",
       "daily_life"
     ],
-    "cooldown": 6,
+    "cooldown": 4,
     "choices": [
       {
         "text": "지출 항목을 하나씩 정리해본다",
@@ -3076,7 +3088,7 @@
       "relationship",
       "investment"
     ],
-    "cooldown": 8,
+    "cooldown": 16,
     "choices": [
       {
         "text": "그 동네 정보를 좀 더 캐묻는다",

@@ -14,7 +14,7 @@
       "social_life",
       "opportunity"
     ],
-    "cooldown": 4,
+    "cooldown": 9999,
     "choices": [
       {
         "text": "참석해서 오랜 인맥을 다진다",
@@ -262,7 +262,7 @@
       "family",
       "viral"
     ],
-    "cooldown": 9,
+    "cooldown": 20,
     "choices": [
       {
         "text": "지금 가능한 만큼을 보낸다",
@@ -522,7 +522,7 @@
       "family",
       "anxiety"
     ],
-    "cooldown": 8,
+    "cooldown": 9999,
     "choices": [
       {
         "text": "진심으로 꼼꼼하게 봐준다",
@@ -879,7 +879,7 @@
       "blind_date",
       "social"
     ],
-    "cooldown": 8,
+    "cooldown": 12,
     "choices": [
       {
         "text": "설레는 마음으로 나간다",
@@ -935,7 +935,7 @@
       "emotional",
       "support"
     ],
-    "cooldown": 8,
+    "cooldown": 12,
     "choices": [
       {
         "text": "바로 달려가 옆에 있는다",
@@ -997,7 +997,7 @@
       "parents",
       "honesty"
     ],
-    "cooldown": 8,
+    "cooldown": 16,
     "choices": [
       {
         "text": "솔직하게 현실을 보여드린다",
@@ -1054,7 +1054,7 @@
       "ex",
       "emotional"
     ],
-    "cooldown": 8,
+    "cooldown": 20,
     "choices": [
       {
         "text": "답장한다",
@@ -1377,7 +1377,7 @@
       "money",
       "boundary"
     ],
-    "cooldown": 8,
+    "cooldown": 16,
     "choices": [
       {
         "text": "빌려준다",
@@ -1710,7 +1710,7 @@
       "family",
       "relationship"
     ],
-    "cooldown": 6,
+    "cooldown": 4,
     "choices": [
       {
         "text": "요즘 힘든 것들을 솔직하게 이야기한다",

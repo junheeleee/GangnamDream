@@ -2332,7 +2332,8 @@ func _render_essential_actions(ap: int):
 		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
 	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
 	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
-	if has_paycheck or GameState.money >= 50000:
+	# 경마장: 200만원 이상 + (도박 심리 이벤트를 한 번이라도 본 경우) — 33세 백수가 첫 주부터 경마장 갈 이유 없음
+	if GameState.money >= 2_000_000 and (GameState.flags.get("gambling_tempted", false) or GameState.flags.get("racetrack_visited", false) or GameState.route_unorthodox >= 5):
 		var rt_badge: String = _mastery_badge("racetrack")
 		_essential_btn("🏇 경마장  —  폼 읽고 베팅 (한탕! 중독 주의)" + rt_badge, "#9a5a3a", "_open_racetrack", disabled)
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
@@ -2341,7 +2342,8 @@ func _render_essential_actions(ap: int):
 	if GameState.investment_skill >= 25 and GameState.money >= 100000:
 		var sc_badge: String = _mastery_badge("scalping")
 		_essential_btn("⚡ 스캘핑 트레이딩  —  60초 실시간 매매 (중독 주의)" + sc_badge, "#1a2a3a", "_open_scalping", disabled)
-	if GameState.money >= 10000:
+	# 강원랜드: 500만원 이상 — 강원도 여행 + 테이블 최소 베팅이 실질적 허들
+	if GameState.money >= 5_000_000:
 		var bac_badge: String = _mastery_badge("baccarat")
 		_essential_btn("🎰 강원랜드 바카라  —  뱅커 vs 플레이어 (로드맵·커미션)" + bac_badge, "#1a1a2e", "_open_baccarat", disabled)
 		var bj_badge: String = _mastery_badge("blackjack")
