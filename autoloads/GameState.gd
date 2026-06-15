@@ -12,6 +12,9 @@ signal tendency_awakened(kind: String)
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
 
+const IS_DEMO: bool = true
+const DEMO_TURN_LIMIT: int = 12
+
 var player_name = "김민준"
 var player_background = "지방_상경"  # legacy — 신규 런은 player_route 사용
 var player_route = "직장형"  # 직장형 | 투자형 | 창업형

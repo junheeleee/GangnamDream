@@ -4036,6 +4036,39 @@ func _close_modal():
 	if current_event.is_empty() and not GameState.is_game_over:
 		_render_ap_actions()
 
+func _show_demo_ending():
+	BGMPlayer.on_ending("stable_success")
+	_open_modal("🎬 강남드림 DEMO")
+	modal_body.add_child(_label("— 1년 체험판 종료 —", 14, "#f0b429"))
+	modal_body.add_child(_wrap_label(
+		"2026년 12월. 민준은 33세로 시작해 34세를 맞이했습니다.", 14, "#c8d0df"))
+	var sep1 = HSeparator.new()
+	sep1.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep1)
+	modal_body.add_child(_label("📊 1년 성적표", 15, "#5b9cf6"))
+	var total_assets = GameState.money + GameState.get_total_asset_value()
+	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
+	modal_body.add_child(_wrap_label("총자산  %s" % GameState.format_money(total_assets), 16, asset_color))
+	modal_body.add_child(_wrap_label("현금  %s" % GameState.format_money(GameState.money), 13, "#8892a4"))
+	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
+	modal_body.add_child(_wrap_label("강남드림 30억까지  %.2f%%  달성" % progress_pct, 13, "#5b9cf6"))
+	var sep2 = HSeparator.new()
+	sep2.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep2)
+	modal_body.add_child(_wrap_label(
+		"이 이야기는 이제 시작입니다.\n민준에게는 아직 4년이 남아있습니다.", 14, "#c8a060"))
+	modal_body.add_child(_wrap_label(
+		"풀버전에서 5년의 여정을 완성하고\n강남 입성의 꿈을 이루세요.", 13, "#8892a4"))
+	var sep3 = HSeparator.new()
+	sep3.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep3)
+	var restart_btn = _button("데모 다시 시작  ▶", "#0e3a2a")
+	restart_btn.pressed.connect(_restart_run)
+	modal_body.add_child(restart_btn)
+	var menu_btn = _button("메인 메뉴로", "#1a1a28")
+	menu_btn.pressed.connect(_go_to_menu)
+	modal_body.add_child(menu_btn)
+
 func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
 	var ending: Dictionary = EndingSystem.get_ending(ending_id)
@@ -4707,9 +4740,17 @@ func _show_month_summary(snap: Dictionary):
 	var div4 = HSeparator.new()
 	div4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(div4)
-	var confirm_btn = _button("다음 달 시작  ▶", "#0e2a3a")
-	confirm_btn.pressed.connect(_close_modal)
-	modal_body.add_child(confirm_btn)
+	if GameState.IS_DEMO and GameState.turn > GameState.DEMO_TURN_LIMIT:
+		var demo_btn = _button("데모 체험 완료  —  결과 보기  ▶", "#7a1a1a")
+		demo_btn.pressed.connect(func():
+			_close_modal()
+			_show_demo_ending()
+		)
+		modal_body.add_child(demo_btn)
+	else:
+		var confirm_btn = _button("다음 달 시작  ▶", "#0e2a3a")
+		confirm_btn.pressed.connect(_close_modal)
+		modal_body.add_child(confirm_btn)
 
 
 ## A-1: 관계 연락 후 인물 리액션을 스토리 영역에 표시
