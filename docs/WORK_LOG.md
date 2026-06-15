@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-15 (AP 전면 게임화 완료 — LifeSkillsMiniGame)
+
+### 절약·인맥·자기계발 미니게임
+- `scenes/LifeSkillsMiniGame.gd` 신규 작성 (3모드 통합)
+  - `Mode.BUDGET` (절약): 6개 지출 항목 토글 퍼즐, 목표 15만원, 항목별 스탯 패널티 즉시 적용
+    - 식비절약(-건강), 카페·술금지(+스트레스), 문화생활취소(-정신) 등 트레이드오프
+    - 200k↑→quality3, 150k↑→2, 80k↑→1, else→0
+  - `Mode.NETWORK` (인맥): 5인 NPC 풀에서 3인 랜덤 선택, 10초 타이머 순차 대화
+    - 성격 유형(열정형/분석형/경쟁형/친화형)별 적절한 대응으로 score 차등
+    - 결과: 사회성+1~3, 평판+1 (quality3)
+  - `Mode.STUDY` (자기계발): 4주제(독서/운동/명상/재테크) 선택 → 각 3문 8초 퀴즈
+    - quality에 따라 기본 스탯 획득량 0.3x~1.5x 배율 적용
+- `MainGame.gd` 통합: `_ap_save_money/network/study` 모두 미니게임 호출로 교체
+- `_on_life_skills_closed`: 모드·quality·extra_money 분기 처리
+
 ## 2026-06-15 (구직 미니게임 통합 — JobHuntMiniGame)
 
 ### 자소서·면접 AP 사용처 게임화

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Added (2026-06-15) — AP 전면 게임화 완료
+- **LifeSkillsMiniGame**: 절약·인맥·자기계발 AP 사용처 3종 완전 게임화
+  - `Mode.BUDGET` (절약 퍼즐): 6개 지출 항목 토글, 목표 15만원, 항목별 스탯 패널티 트레이드오프
+  - `Mode.NETWORK` (인맥 카드): 5인 NPC 풀 랜덤 3인, 10초 타이머, 성격 매칭 채점
+  - `Mode.STUDY` (자기계발 퀴즈): 4주제 선택 후 3문 8초 타이머 퀴즈, quality별 스탯 배율 (0.3x~1.5x)
+- **AP 전면 게임화 달성**: 알바(ArubaGame) + 구직(JobHuntMiniGame) + 생활기술(LifeSkillsMiniGame) 모든 주요 AP 사용처 인터랙티브화
+
 ### Added (2026-06-15) — 구직 미니게임 통합
 - **JobHuntMiniGame**: 자소서·면접 AP 사용처 완전 게임화
   - `Mode.RESUME`: 지원동기/강점/단점극복/입사포부 4문항, 3선택지 채점형 (3/1/0점)
