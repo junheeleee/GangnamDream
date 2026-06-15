@@ -3694,8 +3694,13 @@ func _open_jobs():
 
 		var is_current = job.get("id", "") == current_job_id
 		var eligible = job.get("eligible", false)
+		var tier = int(job.get("tier", 1))
+		var resume_ok: bool = GameState.flags.get("resume_polished", false)
+		# 정규직(티어 2+)은 이력서 완성 후에야 지원 가능 — 알바(티어 1)는 즉시
+		var needs_resume = tier >= 2 and not is_current and not resume_ok
 		var button_color = "#64748b"
 		if is_current: button_color = "#0f5132"
+		elif needs_resume: button_color = "#2a2a3a"
 		elif eligible: button_color = "#9a6700"
 		var stress_val = int(job.get("stress_per_month", 5))
 		var req = job.get("requirements", {})
@@ -3708,12 +3713,16 @@ func _open_jobs():
 		var req_str = " · ".join(req_parts) if not req_parts.is_empty() else "제한 없음"
 		var label = "%s  %s/월  정신 -%d/월" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_val / 2]
 		if is_current: label += "  ✓현재"
+		if needs_resume: label += "  📋"
 		var button = _button(label, button_color)
-		button.disabled = not eligible and not is_current
+		button.disabled = (not eligible and not is_current) or needs_resume
 		button.pressed.connect(Callable(self, "_on_job_selected").bind(job.get("id", "")))
 		modal_body.add_child(button)
-		var detail_color = "#00c896" if eligible else "#64748b"
-		modal_body.add_child(_wrap_label("  조건: %s" % req_str, 11, detail_color))
+		if needs_resume:
+			modal_body.add_child(_wrap_label("  📋 이력서 먼저 완성하세요 (직업 탭 → 자소서 작성)", 11, "#5a3a7a"))
+		else:
+			var detail_color = "#00c896" if eligible else "#64748b"
+			modal_body.add_child(_wrap_label("  조건: %s" % req_str, 11, detail_color))
 		if not job.get("description", "").is_empty():
 			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#5a6075"))
 
@@ -4175,31 +4184,92 @@ func _close_modal():
 
 func _show_demo_ending():
 	BGMPlayer.on_ending("stable_success")
-	_open_modal("🎬 강남드림 DEMO")
-	modal_body.add_child(_label("— 1년 체험판 종료 —", 14, "#f0b429"))
+	var f = GameState.flags
+	var total_assets = GameState.money + GameState.get_total_asset_value()
+
+	# ── 개인화 요약 문장 ───────────────────────────────────
+	var story_lines: Array = []
+	# 도덕적 선택
+	if f.get("kept_clean_hands", false):
+		story_lines.append("대포통장 제안을 거절했다. 손은 깨끗하다.")
+	elif f.get("lent_account", false):
+		story_lines.append("선을 한 번 넘었다. 그 200만원은 아직도 기억한다.")
+	# 직업
+	if GameState.current_job.is_empty():
+		story_lines.append("직장은 아직 없다. 그게 지금 가장 큰 과제다.")
+	else:
+		story_lines.append("%s에 다니고 있다." % GameState.current_job.get("name", "직장"))
+	# 인물 관계
+	if f.get("arc_sangchul_met_seen", false):
+		if f.get("arc_sangchul_casino_seen", false):
+			story_lines.append("임상철 씨의 정선 카지노 제안을 받았다.")
+		elif f.get("arc_sangchul_02_seen", false):
+			story_lines.append("임상철 씨와 커피를 마셨다. 그가 보는 세계가 조금 보이기 시작했다.")
+		else:
+			story_lines.append("임상철이라는 사람을 만났다. 뭔가 다른 세계의 사람 같았다.")
+	if f.get("arc_daeun_met", false):
+		story_lines.append("편의점 다은 씨와 조금씩 안면을 트고 있다.")
+	if f.get("arc_jiyeon_crash_seen", false):
+		story_lines.append("한지연 씨를 우연히 만났다. 그날 이후 머릿속에 남아있다.")
+	if f.get("arc_jaehyuk_reunion_seen", false):
+		story_lines.append("군대 동기 재혁을 만났다. 좋은 건지 나쁜 건지 모르겠다.")
+	# 도박
+	if f.get("racetrack_guide_met", false):
+		story_lines.append("경마장 아저씨를 따라 과천까지 갔다왔다.")
+	# 자산
+	if total_assets >= 10_000_000:
+		story_lines.append("총자산 %s. 작은 숫자지만 민준에게는 처음이다." % GameState.format_money(total_assets))
+	elif total_assets < 0:
+		story_lines.append("통장이 마이너스다. 6개월이 이랬다.")
+
+	_open_modal("🎬 강남드림 — 6개월의 기록")
+	modal_body.add_child(_label("— 1막 종료 —", 14, "#f0b429"))
+
+	var date_str = GameState.get_date_string()
 	modal_body.add_child(_wrap_label(
-		"2026년 12월. 민준은 33세로 시작해 34세를 맞이했습니다.", 14, "#c8d0df"))
+		"%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다." % date_str, 14, "#c8d0df"))
+
 	var sep1 = HSeparator.new()
 	sep1.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep1)
-	modal_body.add_child(_label("📊 1년 성적표", 15, "#5b9cf6"))
-	var total_assets = GameState.money + GameState.get_total_asset_value()
-	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
-	modal_body.add_child(_wrap_label("총자산  %s" % GameState.format_money(total_assets), 16, asset_color))
-	modal_body.add_child(_wrap_label("현금  %s" % GameState.format_money(GameState.money), 13, "#8892a4"))
-	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label("강남드림 30억까지  %.2f%%  달성" % progress_pct, 13, "#5b9cf6"))
+
+	# 개인화 스토리 요약
+	modal_body.add_child(_label("📖 지난 6개월", 14, "#5b9cf6"))
+	for line in story_lines:
+		modal_body.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
+
 	var sep2 = HSeparator.new()
 	sep2.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep2)
-	modal_body.add_child(_wrap_label(
-		"이 이야기는 이제 시작입니다.\n민준에게는 아직 4년이 남아있습니다.", 14, "#c8a060"))
-	modal_body.add_child(_wrap_label(
-		"풀버전에서 5년의 여정을 완성하고\n강남 입성의 꿈을 이루세요.", 13, "#8892a4"))
+
+	# 자산 성적표
+	modal_body.add_child(_label("📊 6개월 성적표", 14, "#5b9cf6"))
+	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
+	modal_body.add_child(_wrap_label("총자산  %s" % GameState.format_money(total_assets), 16, asset_color))
+	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
+	modal_body.add_child(_wrap_label("강남드림 30억까지  %.3f%%  달성" % progress_pct, 12, "#5b9cf6"))
+
 	var sep3 = HSeparator.new()
 	sep3.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep3)
-	var restart_btn = _button("데모 다시 시작  ▶", "#0e3a2a")
+
+	# 풀버전 티저
+	var teaser_lines: Array = []
+	if f.get("arc_sangchul_casino_seen", false):
+		teaser_lines.append("정선 카지노 — 임상철과 함께 테이블에 앉게 된다면?")
+	if f.get("arc_jiyeon_crash_seen", false):
+		teaser_lines.append("한지연 — 그녀의 제안, 받을 것인가 말 것인가.")
+	if f.get("arc_jaehyuk_reunion_seen", false):
+		teaser_lines.append("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.")
+	teaser_lines.append("강남 입성까지 남은 거리: %s" % GameState.format_money(3_000_000_000.0 - total_assets))
+	modal_body.add_child(_label("▶ 풀버전에서 계속됩니다", 14, "#c8a060"))
+	for tl in teaser_lines:
+		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
+
+	var sep4 = HSeparator.new()
+	sep4.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep4)
+	var restart_btn = _button("처음부터 다시  ▶", "#0e3a2a")
 	restart_btn.pressed.connect(_restart_run)
 	modal_body.add_child(restart_btn)
 	var menu_btn = _button("메인 메뉴로", "#1a1a28")
@@ -4945,31 +5015,93 @@ func _get_month_narrative() -> String:
 	var tenure = int(GameState.job_tenure)
 	var umonths = int(f.get("unemployed_months", 0))
 	var assets = GameState.get_total_asset_value()
+	var t = GameState.turn
+	var stress = GameState.stress
+
+	# 위기 상황 (최우선)
+	if mental <= 20:
+		return "정신이 한계에 왔다. 오늘 하루도 버텼다는 것만이 남는다."
 	if mental <= 25:
 		return "이 달은 버티는 것만으로도 충분했다."
 	if money < 0:
 		return "통장이 마이너스다. 숫자를 볼 때마다 숨이 막혔다."
-	if job.is_empty() and umonths >= 6:
-		return "%d번째 달. 직업이 없다. 통장 숫자가 계속 줄고 있다." % umonths
-	if job.is_empty() and umonths >= 3:
-		return "또 한 달이 지났다. 이력서 쓴 게 언제였는지 기억이 흐릿하다."
-	if not job.is_empty() and tenure == 1:
-		return "첫 출근. 익숙하지 않은 것들로 가득 찬 하루하루였다."
-	if not job.is_empty() and tenure == 12:
-		return "1년이 지났다. 이 일이 조금씩 내 것이 되는 것 같다."
+	if stress >= 80:
+		return "몸이 신호를 보내고 있다. 이 속도로는 오래 못 간다."
+
+	# 도박 중독
 	if addiction >= 70:
 		return "카지노 생각이 멈추지 않는다. 이게 맞는 길인지 모르겠다."
 	if addiction >= 50:
 		return "다음 판이 자꾸 눈에 밟힌다. 스스로 이상하다는 걸 안다."
+
+	# 무직 상황
+	if job.is_empty() and umonths == 1:
+		return "첫 달이 지났다. 아직 괜찮다고 스스로를 다독였다."
+	if job.is_empty() and umonths == 2:
+		return "두 달째다. 채용 공고를 보는 눈이 조금 달라졌다."
+	if job.is_empty() and umonths >= 6:
+		return "%d개월째 무직이다. 통장 잔고가 조용히 줄고 있다." % umonths
+	if job.is_empty() and umonths >= 3:
+		return "또 한 달이 지났다. 이력서 쓴 게 언제였는지 기억이 흐릿하다."
+	if job.is_empty() and f.get("resume_polished", false):
+		return "이력서는 완성했다. 이제 누군가가 읽어줄 차례다."
+
+	# 취업/직장 상황
+	if not job.is_empty() and tenure == 1:
+		return "첫 출근. 익숙하지 않은 것들로 가득 찬 하루하루였다."
+	if not job.is_empty() and tenure == 2:
+		return "한 달 더 버텼다. 동료들 이름을 이제 외웠다."
+	if not job.is_empty() and tenure == 3:
+		return "석 달. 이 일이 어떤 건지 이제 조금 알 것 같다."
+	if not job.is_empty() and tenure == 6:
+		return "반 년이 지났다. 후배가 생기면 어떤 선배가 될까 생각했다."
+	if not job.is_empty() and tenure == 12:
+		return "1년이 지났다. 이 일이 조금씩 내 것이 되는 것 같다."
+	# 첫 월급
+	if f.get("has_received_paycheck", false) and not f.get("paycheck_narrative_done", false):
+		GameState.flags["paycheck_narrative_done"] = true
+		return "처음으로 내가 번 돈이 통장에 찍혔다. 금액이 작아서 웃음도 작았다."
+
+	# 자산 이정표
 	if assets >= 1_000_000_000.0:
 		return "10억. 그 숫자가 이제 현실로 느껴진다."
 	if assets >= 500_000_000.0:
 		return "5억. 강남이 조금씩 가까워지는 것 같다."
-	if mental <= 40:
-		return "피로가 쌓이고 있다. 이런 달이 쌓이면 어디로 가는 걸까."
+	if assets >= 100_000_000.0 and not f.get("narrative_100m_noted", false):
+		GameState.flags["narrative_100m_noted"] = true
+		return "1억을 넘었다. 처음 시작했을 때 상상도 못 했던 숫자다."
+	if assets >= 10_000_000.0 and not f.get("narrative_10m_noted", false):
+		GameState.flags["narrative_10m_noted"] = true
+		return "총자산 1천만원. 50만원에서 시작한 게 맞나 싶다."
+
+	# 인물 관계 메아리
+	if f.get("arc_sangchul_02_seen", false) and not f.get("narrative_sangchul_noted", false) and t <= 20:
+		GameState.flags["narrative_sangchul_noted"] = true
+		return "임상철 씨가 한 말이 자꾸 생각난다. 그 사람은 뭘 보고 사는 걸까."
+	if f.get("arc_jiyeon_crash_seen", false) and not f.get("narrative_jiyeon_noted", false):
+		GameState.flags["narrative_jiyeon_noted"] = true
+		return "그날 카페 앞에서 마주쳤던 사람. 이름도 모르는데 자꾸 생각난다."
+	if f.get("arc_daeun_met", false) and not f.get("narrative_daeun_noted", false) and t >= 12:
+		GameState.flags["narrative_daeun_noted"] = true
+		return "편의점을 지나칠 때마다 괜히 안을 들여다본다."
+
+	# 아버지
 	if f.get("father_reconciled", false) and not f.get("father_narrative_noted", false):
 		GameState.flags["father_narrative_noted"] = true
 		return "아버지와 화해한 뒤로, 전화가 더 자주 걸고 싶어진다."
+	if f.get("arc_father_01_seen", false) and not f.get("narrative_father_noted", false):
+		GameState.flags["narrative_father_noted"] = true
+		return "아버지한테 전화가 왔었다. 몸이 안 좋다고 했다. 그 생각이 계속 난다."
+
+	# 정신력 경고
+	if mental <= 40:
+		return "피로가 쌓이고 있다. 이런 달이 쌓이면 어디로 가는 걸까."
+
+	# 도박 유혹 (초반)
+	if f.get("gambling_tempted", false) and not f.get("narrative_gambling_noted", false) and addiction < 30:
+		GameState.flags["narrative_gambling_noted"] = true
+		return "한 방에 뒤집을 수 있다는 생각이 머릿속에서 지워지지 않는다."
+
 	return ""
 
 
