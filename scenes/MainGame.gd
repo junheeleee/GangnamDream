@@ -2965,6 +2965,45 @@ const NETWORK_VIGNETTES := [
 	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "e":{"social_skill":1,"stress":1}},
 ]
 
+const RESUME_VIGNETTES := [
+	{"t":"지원란에 '만 33세'를 썼다. 잠깐 멈췄다. 지웠다. 다시 썼다.", "e":{"intelligence":3,"stress":4}},
+	{"t":"공백기를 어떻게 쓰냐고. 세 번째 문단을 다시 지웠다.", "e":{"intelligence":3,"stress":5}},
+	{"t":"자기소개서를 열었다. 빈 화면. 커서만 깜빡인다. 나를 소개하는 게 이렇게 어렵구나.", "e":{"intelligence":4,"stress":4}},
+	{"t":"마감 전날 밤, 폰트 크기를 조금 키웠다. 한 페이지가 겨우 됐다.", "e":{"intelligence":3,"stress":6}},
+	{"t":"장점: ___. 세 번 지웠다. 결국 '꼼꼼함'이라고 썼다.", "e":{"intelligence":3,"stress":4}},
+	{"t":"합격하면 인생이 달라질 것 같았다. 제출 버튼을 눌렀다. 심장이 뛰었다.", "e":{"intelligence":4,"stress":3,"luck":1}},
+	{"t":"누군가 내 이름을 보고 서류를 넘길 것이다. 3초 안에.", "e":{"intelligence":3,"stress":5}},
+	{"t":"성과를 숫자로 쓰라는데, 내 지난 3년은 숫자가 안 됐다.", "e":{"intelligence":3,"stress":6}},
+	{"t":"전 직장 이름을 쓰다가 손이 멈췄다. 다시 써 내려갔다.", "e":{"intelligence":4,"stress":4}},
+	{"t":"동기들 SNS에 승진 소식이 올라왔다. 자소서 창을 닫았다. 다시 열었다.", "e":{"intelligence":3,"stress":5,"mental":-2}},
+]
+
+const INTERVIEW_VIGNETTES := [
+	{"t":"거울 앞에서 '1분 자기소개'를 했다. 45초에서 막혔다.", "e":{"social_skill":2,"stress":3}},
+	{"t":"\"지원 동기가 뭐냐고요?\" 혼자 물어봤다. 대답이 나오기까지 10초가 걸렸다.", "e":{"social_skill":2,"intelligence":1,"stress":3}},
+	{"t":"모범 답안을 외웠다. 입에서 나오지 않았다. 다시 했다.", "e":{"social_skill":2,"stress":4}},
+	{"t":"정장을 꺼냈다. 2년 만이다. 어깨가 조금 달랐다.", "e":{"social_skill":2,"appearance":1,"stress":2}},
+	{"t":"면접관이 할 법한 질문 30개를 만들었다. 20개는 대답하기 싫었다.", "e":{"social_skill":2,"intelligence":1,"stress":4}},
+	{"t":"유튜브에서 면접 영상을 봤다. 저 사람은 왜 저렇게 자신 있어 보일까.", "e":{"social_skill":2,"stress":3,"mental":-1}},
+	{"t":"목소리가 너무 작다는 말을 들은 적 있다. 오늘은 크게 말했다. 어색했다.", "e":{"social_skill":3,"stress":3}},
+	{"t":"\"강점이 뭐냐고요?\" 솔직히 모르겠다. 하지만 써야 했다.", "e":{"social_skill":2,"intelligence":1,"stress":4}},
+	{"t":"세 번 연습했다. 마지막엔 조금 나아졌다. 내일 진짜가 되길.", "e":{"social_skill":2,"luck":1,"stress":2}},
+	{"t":"눈 맞춤 연습을 했다. 카메라를 보는 게 사람 눈 보는 것보다 쉬웠다.", "e":{"social_skill":2,"stress":2}},
+]
+
+const JOB_HUNT_VIGNETTES := [
+	"원하는 자리는 없었다. 원할 수 있는 자리를 찾기 시작했다.",
+	"지원 자격: 경력 3년 이상. 33세 신입은 없나.",
+	"스펙 조건을 읽었다. 하나씩 체크했다. 마지막 줄에서 멈췄다.",
+	"오늘도 공고를 훑었다. 열두 개. 그 중 지원할 수 있는 건 셋.",
+	"합격 문자 소리를 미리 상상했다. 기다리는 게 에너지 든다.",
+	"JD를 읽다가 '우리 팀은 함께 성장합니다'라는 문구를 봤다. 뭔가 마음에 걸렸다.",
+	"이력서를 첨부했다. 제출 버튼을 눌렀다. 답장이 올지는 모른다.",
+	"이 회사 문화가 좋다고 들었다. 연봉은 낮다. 고민할 시간이 없다.",
+	"공고 하나를 저장해뒀다. 마감이 내일이다. 오늘 지원한다.",
+	"강남은 아직 멀지만, 일단 취직부터. 그게 첫 번째 계단이다.",
+]
+
 ## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
 func _open_bank():
 	_open_modal("🏦 은행")
@@ -3187,27 +3226,42 @@ func _ap_create_content():
 func _ap_write_resume():
 	if not GameState.spend_ap():
 		return
-	var int_before = GameState.intelligence
-	GameState.modify_stat("intelligence", 3)
-	GameState.modify_hidden_stat("stress", 4)
-	GameState.add_tendency("career", 1)   # 자소서 = 직장형(취업 준비)
+	var v: Dictionary = RESUME_VIGNETTES[randi() % RESUME_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "stress" or k == "reputation" or k == "mental":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	GameState.add_tendency("career", 1)
 	GameState.flags["resume_polished"] = true
-	turn_action_log.append("✓ 🖊 자소서 작성 → 지력 %d→%d, 스트레스 +4" % [int_before, GameState.intelligence])
-	_show_toast("🖊 자소서 완성 — 지력 %d → %d" % [int_before, GameState.intelligence], Color("#0f4c5c"))
-	_render_ap_actions()
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 🖊 자소서 작성 — " + flavor.substr(0, 22))
+	GameState.add_log("🖊 자소서 작성 — " + flavor, "event")
+	GameState.stats_changed.emit()
+	_show_vignette("🖊 자소서 작성", flavor, eff, "#0f4c5c")
 	_refresh_all()
 
 func _ap_interview_prep():
 	if not GameState.spend_ap():
 		return
-	var soc_before = GameState.social_skill
-	GameState.modify_stat("social_skill", 2)
+	var v: Dictionary = INTERVIEW_VIGNETTES[randi() % INTERVIEW_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "stress" or k == "reputation" or k == "mental":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
 	GameState.modify_stat("luck", 1)
-	GameState.add_tendency("career", 1)   # 면접 준비 = 직장형
+	GameState.add_tendency("career", 1)
 	GameState.flags["interview_practiced"] = true
-	turn_action_log.append("✓ 🎯 모의 면접 준비 → 사회성 %d→%d" % [soc_before, GameState.social_skill])
-	_show_toast("🎯 면접 준비 완료 — 사회성 %d → %d" % [soc_before, GameState.social_skill], Color("#0f3a5c"))
-	_render_ap_actions()
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 🎯 모의 면접 — " + flavor.substr(0, 22))
+	GameState.add_log("🎯 모의 면접 — " + flavor, "event")
+	GameState.stats_changed.emit()
+	_show_vignette("🎯 모의 면접 준비", flavor, eff, "#0f3a5c")
 	_refresh_all()
 
 func _ap_move_housing():
@@ -3341,6 +3395,9 @@ func _ap_vip_network():
 
 func _open_jobs():
 	_open_modal("💼 직업 선택")
+	if GameState.current_job.is_empty():
+		var mood: String = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
+		modal_body.add_child(_wrap_label("「 %s 」" % mood, 12, "#4a5a72"))
 	var current_job_id = GameState.current_job.get("id", "")
 	# 경력 경로 안내
 	var tier_labels = {1: "입문", 2: "성장", 3: "전문가", 4: "상위"}
