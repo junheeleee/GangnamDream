@@ -4476,5 +4476,170 @@
         "result_text": "그렇게 말했다.\n\n스스로에게.\n\n중독의 가장 흔한 증상 중 하나가 '나는 괜찮다'는 확신이라는 걸, {name}은 아직 모른다."
       }
     ]
+  },
+  {
+    "id": "survival_rent_due",
+    "title": "월세 납부일",
+    "background": "goshiwon_room",
+    "portrait": "player_sad",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {
+      "max_money": 1500000,
+      "has_job": false
+    },
+    "tags": ["survival", "finance", "stress"],
+    "cooldown": 4,
+    "description": "달력 앱에 '월세' 라고 적힌 날이 또 왔다.\n\n고시원비 52만 원. 전기·수도 포함이라는 게 그나마 위안이다.\n통장을 열었다. 잔고가 보였다.\n\n내야 한다는 건 안다. 근데 내고 나면 남는 게 얼마냐는 게 문제였다.\n\n아주머니가 조용히 두드리면 어쩌지 — 방에서 숨소리도 죽이고 있었다.",
+    "choices": [
+      {
+        "text": "바로 이체한다 (52만원)",
+        "effects": {
+          "money": -520000,
+          "stress": -3,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이체 완료. 잔고가 눈에 띄게 줄었다.\n한 달을 버텼다는 안도와, 이걸 또 해야 한다는 막막함이 동시에 왔다.\n방 안은 조용했다."
+      },
+      {
+        "text": "이번 달은 일단 버틴다 — 아주머니께 며칠 미루자고 말씀드린다",
+        "effects": {
+          "stress": 8,
+          "mental": -5,
+          "social_skill": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아주머니는 '그래, 어쩌겠어'라고 했지만 표정은 달랐다.\n복도에서 마주칠 때마다 눈을 피하게 됐다.\n돈 없는 사람이 가장 많이 잃는 건 자존심이다."
+      }
+    ]
+  },
+  {
+    "id": "survival_convenience_meal",
+    "title": "삼각김밥 두 개",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "max_money": 800000,
+      "has_job": false
+    },
+    "tags": ["survival", "health", "daily"],
+    "cooldown": 3,
+    "description": "오늘 끼니는 편의점에서 해결했다.\n\n삼각김밥 두 개, 총 2,400원.\n냉장고 옆에 서서 먹었다. 앉을 자리가 없어서가 아니라 — 앉으면 더 처량해 보일 것 같아서.\n\n계산대 알바생은 {name}보다 어린 것 같았다.\n저 아이는 지금 월급을 받고 있구나, 라는 생각이 잠깐 스쳤다.",
+    "choices": [
+      {
+        "text": "오늘 하루도 버텼다. 그걸로 됐다.",
+        "effects": {
+          "health": -3,
+          "mental": -2,
+          "stress": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "고시원으로 돌아오는 길, 가로등 아래를 걸었다.\n배는 반쯤 찼고 마음은 반쯤 비었다.\n내일은 면접 연락이 오려나."
+      },
+      {
+        "text": "근처 국밥집에 들어간다 — 오천 원짜리라도 제대로 먹자",
+        "effects": {
+          "money": -5000,
+          "health": 5,
+          "mental": 4,
+          "stress": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "뜨끈한 국물 한 숟가락에 눈물이 날 뻔했다.\n먹고 나니 사람 같았다.\n5천 원이 이런 가치를 갖는 날이 올 줄은 몰랐다."
+      }
+    ]
+  },
+  {
+    "id": "survival_job_portal_night",
+    "title": "채용 공고 밤샘",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {
+      "has_job": false,
+      "max_turn": 20
+    },
+    "tags": ["survival", "jobs", "night"],
+    "cooldown": 4,
+    "description": "밤 11시. 잡코리아와 사람인을 번갈아 새로고침하고 있다.\n\n'경력 3년 이상 우대' — 신입이 어디서 3년을 쌓냐.\n'나이 무관' — 근데 생년월일 칸은 왜 있냐.\n'적극적인 분' — 이게 무슨 말이야.\n\n공고 27개를 열었다가 닫았다.\n지원한 건 2개.\n\n모니터 빛만 방 안을 채웠다.",
+    "choices": [
+      {
+        "text": "일단 닥치는 대로 지원한다 — 양치기 전략",
+        "effects": {
+          "stress": 5,
+          "mental": -3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "15개 공고에 지원서를 뿌렸다. 자기소개서 복붙, 회사명만 바꿨다.\n나쁜 전략은 아니다. 숫자 게임이니까.\n결과 연락이 오는 건 대개 2주 뒤쯤이다."
+      },
+      {
+        "text": "한 곳에 집중해서 자소서를 다듬는다",
+        "effects": {
+          "stress": 2,
+          "mental": -1,
+          "intelligence": 3
+        },
+        "flags": ["resume_polished"],
+        "follow_up_event": "",
+        "result_text": "새벽 2시까지 자기소개서 하나를 붙잡았다.\n완성도는 올라갔다. 눈은 빠질 것 같았다.\n지원 완료 버튼을 누르고 자리에 누웠다."
+      }
+    ]
+  },
+  {
+    "id": "survival_friend_sns",
+    "title": "취업한 친구 인스타",
+    "background": "goshiwon_room",
+    "portrait": "player_sad",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "has_job": false,
+      "max_turn": 18
+    },
+    "tags": ["survival", "social", "mental"],
+    "cooldown": 5,
+    "description": "스크롤 하다가 대학 동기 사진이 떴다.\n\n'신입사원 출근 첫날! 설레는 마음으로 시작합니다 :)'\n\n사진 속 그는 와이셔츠를 입고 역 앞에서 찍었다.\n댓글에는 '고생했어' '드디어!' '밥 사줘ㅋㅋ' 가 줄줄이.\n\n{name}은 댓글을 달지 않았다. 좋아요도 누르지 않았다.\n그냥 핸드폰을 뒤집어 놓았다.",
+    "choices": [
+      {
+        "text": "축하 댓글을 달아준다 — 비교는 금물",
+        "effects": {
+          "mental": -3,
+          "stress": 3,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'축하해! 잘 될 거야'라고 달았다.\n진심이 0%는 아니었다.\n근데 달고 나서 더 허전했다."
+      },
+      {
+        "text": "SNS 앱을 삭제한다 — 비교 차단",
+        "effects": {
+          "mental": 5,
+          "stress": -5,
+          "social_skill": -1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "앱 삭제 확인 버튼을 눌렀다.\n고요해졌다.\n타인의 성공을 보지 않는 것이 패배는 아니다.\n지금 {name}에게 필요한 건 비교가 아니라 집중이었다."
+      }
+    ]
   }
 ]

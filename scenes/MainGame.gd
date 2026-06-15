@@ -1026,9 +1026,14 @@ func _next_arc_id() -> String:
 		return "arc_temptation_fallout"
 	if f.get("kept_clean_hands", false) and not f.get("arc_temptation_clean_seen", false) and t >= 8:
 		return "arc_temptation_clean"
-	# ★ 신규 유저 안전망 (턴 5+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.
+	# 불합격 메일 — 구직 2주차(t>=8), 아직 무직, 첫 탈락 경험
+	if t >= 8 and GameState.current_job.is_empty() \
+			and not f.get("arc_job_rejection_seen", false):
+		return "arc_job_first_rejection"
+
+	# ★ 신규 유저 안전망 (턴 10+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.
 	#   거절 가능. 창업/크리에이터 의도가 있으면 안 뜸.
-	if t >= 5 and GameState.current_job.is_empty() \
+	if t >= 10 and GameState.current_job.is_empty() \
 			and not f.get("arc_rescue_job_seen", false) \
 			and not f.get("startup_intent", false) \
 			and not f.get("creator_started", false):
@@ -1405,8 +1410,8 @@ func _on_next_month():
 			GameState.add_tendency("career", 1)
 		BGMPlayer.update_context()
 
-		# 초반 3개월 정착 지원금
-		var subsidy_applied = GameState.month <= 3
+		# 1개월만 정착 지원금 — 2개월차부터 진짜 생존 압박
+		var subsidy_applied = GameState.month <= 1
 		if subsidy_applied:
 			GameState.add_money(300_000.0)
 			GameState.add_log("초기 정착 지원금 30만원 수령", "system")
