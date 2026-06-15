@@ -2731,10 +2731,11 @@ func _on_aruba_closed(earned: int, stress_delta: int) -> void:
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
 	GameState.add_log("💼 알바 시프트 수입 %s (건강 %d→%d, 스트레스 %+d)" % [
 		GameState.format_money(float(earned)), health_before, GameState.health, stress_delta], "job")
-	turn_action_log.append("✓ 💼 알바 시프트 → +%s" % GameState.format_money(float(earned)))
+	var mood: String = SIDE_JOB_VIGNETTES[randi() % SIDE_JOB_VIGNETTES.size()]
+	turn_action_log.append("✓ 💼 알바 시프트 — " + mood.substr(0, 22))
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": -3, "stress": stress_delta})
-	_show_toast("💼 알바 시프트 +%s" % GameState.format_money(float(earned)), Color("#00c896"))
+	_show_vignette("💼 알바 시프트", mood, {"money": earned, "health": -3, "stress": stress_delta}, "#dc6a2a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -3004,6 +3005,45 @@ const JOB_HUNT_VIGNETTES := [
 	"강남은 아직 멀지만, 일단 취직부터. 그게 첫 번째 계단이다.",
 ]
 
+const SIDE_JOB_VIGNETTES := [
+	"편의점 야간. 새벽 세 시, 손님이 없었다. 그 시간이 가장 길었다.",
+	"배달을 돌았다. 비가 왔다. 우비가 없었다.",
+	"투잡이라는 말을 쓰기엔 부끄러운 금액이었다. 그래도 통장에 찍혔다.",
+	"대리운전을 했다. 손님이 취해 있었다. 내가 더 멀쩡해 보였다.",
+	"카페 알바 마감 청소. 커피 찌꺼기를 치우면서 내일을 생각했다.",
+	"주문이 폭발하는 금요일 저녁. 손이 빨라졌다. 몸이 기억하는 것들.",
+	"시급을 시간으로 나눴다. 안 나눴으면 더 좋았을 것 같다.",
+	"알바 끝나고 지하철을 탔다. 신발 바닥이 뜨거웠다.",
+	"30대 초반에 이러고 있다는 생각. 잠깐 했다. 지운다. 지금은 이게 맞다.",
+	"작은 금액이지만, 내가 번 돈이다. 그 느낌은 크다.",
+]
+
+const STARTUP_VIGNETTES := [
+	{"t":"MVP를 만들었다. 아무도 안 쓰는 것 같지만, 이게 시작이다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+	{"t":"피치덱을 고쳤다. 열두 번째다. 이번엔 좀 나은 것 같다.", "e":{"reputation":2,"intelligence":2,"stress":5}},
+	{"t":"아이디어를 노트에 적었다. 밤 세 시였다. 틀릴 수도 있다. 일단 적었다.", "e":{"reputation":2,"intelligence":1,"stress":4}},
+	{"t":"공동창업자 없이 혼자 다 하고 있다. 그게 맞는 건지 모르겠다.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
+	{"t":"첫 유저가 생겼다. 지인이었지만, 그래도 유저다.", "e":{"reputation":3,"mental":3,"stress":3}},
+	{"t":"경쟁사를 조사했다. 이미 잘 하고 있었다. 더 잘 하면 된다.", "e":{"reputation":2,"intelligence":2,"stress":5}},
+	{"t":"투자자 미팅 자료를 만들었다. 내 꿈을 슬라이드에 넣는 게 쑥스러웠다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+	{"t":"세 달째다. 수익은 없다. 가능성은 있다. 그 차이로 버티고 있다.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
+	{"t":"세무사에게 전화를 했다. 사업자 등록 얘기를 들었다. 실감이 났다.", "e":{"reputation":2,"intelligence":2,"stress":4}},
+	{"t":"오늘 한 일이 3개월 뒤 어떤 결과를 낼지 모른다. 그래도 했다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+]
+
+const CONTENT_VIGNETTES := [
+	{"t":"영상을 올렸다. 조회수 17. 그 중 10개는 내가 새로고침했다.", "e":{"reputation":1,"mental":5,"luck":1}},
+	{"t":"섬네일을 다섯 번 바꿨다. 올리고 나서 또 바꾸고 싶었다.", "e":{"reputation":1,"mental":4,"stress":2}},
+	{"t":"구독자가 한 명 늘었다. 누군지는 모른다. 오늘은 그게 충분했다.", "e":{"reputation":2,"mental":6,"luck":1}},
+	{"t":"댓글이 하나 달렸다. '좋아요'. 그게 오늘 하루를 버티게 했다.", "e":{"reputation":2,"mental":7}},
+	{"t":"오늘 편집이 생각보다 잘 됐다. 뿌듯한데 아무도 모른다.", "e":{"reputation":1,"mental":5}},
+	{"t":"알고리즘이 잠깐 봐줬다. 조회수가 튀었다가 다시 내려갔다.", "e":{"reputation":2,"mental":5,"luck":1}},
+	{"t":"콘텐츠를 만들면서 내가 뭘 생각하는지 알게 됐다. 부산물이 주인공이 되기도 한다.", "e":{"reputation":1,"mental":6,"intelligence":1}},
+	{"t":"썸네일, 제목, 태그. 세 개 다 틀렸을 수도 있다. 올렸다.", "e":{"reputation":1,"mental":4,"stress":2}},
+	{"t":"예전 영상에 갑자기 조회수가 붙었다. 이유를 모르겠다. 그냥 기쁘다.", "e":{"reputation":2,"mental":6,"luck":2}},
+	{"t":"영상을 찍으면서 말이 꼬였다. 열다섯 번 다시 찍었다. 됐다.", "e":{"reputation":1,"mental":5,"stress":3}},
+]
+
 ## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
 func _open_bank():
 	_open_modal("🏦 은행")
@@ -3192,35 +3232,46 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 func _ap_startup_work():
 	if not GameState.spend_ap():
 		return
-	var rep_before = GameState.reputation
-	GameState.modify_hidden_stat("reputation", 2)
-	GameState.modify_stat("intelligence", 1)
-	GameState.modify_hidden_stat("stress", 5)
-	GameState.add_tendency("found", 1)   # 창업 업무 = 창업형
-	var stage = "아이디어" if not GameState.flags.get("startup_launched", false) else "운영"
-	turn_action_log.append("✓ 🚀 창업 업무[%s] → 명성+2, 지력+1, 스트레스+5" % stage)
-	_show_toast("🚀 창업 업무 — 명성 %d → %d" % [rep_before, GameState.reputation], Color("#7c3aed"))
-	_render_ap_actions()
+	var v: Dictionary = STARTUP_VIGNETTES[randi() % STARTUP_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "stress" or k == "reputation" or k == "mental":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	GameState.add_tendency("found", 1)
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 🚀 창업 업무 — " + flavor.substr(0, 22))
+	GameState.add_log("🚀 창업 업무 — " + flavor, "event")
+	GameState.stats_changed.emit()
+	_show_vignette("🚀 창업 업무", flavor, eff, "#7c3aed")
 	_refresh_all()
 
 func _ap_create_content():
 	if not GameState.spend_ap():
 		return
-	var rep_before = GameState.reputation
-	var mental_before = GameState.mental
-	GameState.modify_hidden_stat("reputation", 1)
-	GameState.modify_stat("mental", 5)
-	GameState.modify_stat("luck", 1)
-	GameState.add_tendency("found", 1)   # 콘텐츠 = 창업형(내 것 만들기)
+	var v: Dictionary = CONTENT_VIGNETTES[randi() % CONTENT_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	var extra_eff: Dictionary = {}
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "stress" or k == "reputation" or k == "mental":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	GameState.add_tendency("found", 1)
 	if GameState.flags.get("creator_monetized", false):
 		var content_income = float(randi_range(50_000, 200_000))
 		GameState.add_money(content_income)
-		turn_action_log.append("✓ 🎬 콘텐츠 제작 → 명성+1, 정신+5, 수익 +%s" % GameState.format_money(content_income))
-		_show_toast("🎬 콘텐츠 제작 완료  명성+1  수익 +%s" % GameState.format_money(content_income), Color("#3fb950"))
-	else:
-		turn_action_log.append("✓ 🎬 콘텐츠 제작 → 명성+1, 정신 %d→%d" % [mental_before, GameState.mental])
-		_show_toast("🎬 콘텐츠 제작 완료  정신 %d→%d" % [mental_before, GameState.mental], Color("#3fb950"))
-	_render_ap_actions()
+		extra_eff["money"] = int(content_income)
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 🎬 콘텐츠 제작 — " + flavor.substr(0, 22))
+	GameState.add_log("🎬 콘텐츠 제작 — " + flavor, "event")
+	GameState.stats_changed.emit()
+	var display_eff = eff.duplicate()
+	display_eff.merge(extra_eff, true)
+	_show_vignette("🎬 콘텐츠 제작", flavor, display_eff, "#3fb950")
 	_refresh_all()
 
 func _ap_write_resume():
