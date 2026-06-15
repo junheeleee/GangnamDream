@@ -72,8 +72,8 @@ var racetrack      # 경마 미니게임 오버레이
 var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
-var baccarat_table   # 강원랜드 바카라 오버레이
-var blackjack_table  # 강원랜드 블랙잭 오버레이
+var baccarat_table   # 프라이빗 바카라 오버레이
+var blackjack_table  # 프라이빗 블랙잭 오버레이
 # 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
 var month_situations: Array = []
 var month_situations_turn: int = -1
@@ -119,11 +119,11 @@ func _ready():
 	aruba_game = load("res://scenes/ArubaGame.gd").new()
 	add_child(aruba_game)
 	aruba_game.closed.connect(_on_aruba_closed)
-	# 강원랜드 바카라 오버레이
+	# 프라이빗 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
 	baccarat_table.closed.connect(_on_baccarat_closed)
-	# 강원랜드 블랙잭 오버레이
+	# 프라이빗 블랙잭 오버레이
 	blackjack_table = load("res://scenes/BlackjackTable.gd").new()
 	add_child(blackjack_table)
 	blackjack_table.closed.connect(_on_blackjack_closed)
@@ -2354,9 +2354,9 @@ func _render_essential_actions(ap: int):
 	# 강원랜드: 상철의 초대를 수락(kangwon_introduced)한 경우만
 	if GameState.flags.get("kangwon_introduced", false):
 		var bac_badge: String = _mastery_badge("baccarat")
-		_essential_btn("🎰 강원랜드 바카라  —  뱅커 vs 플레이어 (로드맵·커미션)" + bac_badge, "#1a1a2e", "_open_baccarat", disabled)
+		_essential_btn("🎰 프라이빗 바카라  —  뱅커 vs 플레이어 (로드맵·커미션)" + bac_badge, "#1a1a2e", "_open_baccarat", disabled)
 		var bj_badge: String = _mastery_badge("blackjack")
-		_essential_btn("🃏 강원랜드 블랙잭  —  기본전략 힌트·더블·스플릿" + bj_badge, "#1a2a1e", "_open_blackjack", disabled)
+		_essential_btn("🃏 프라이빗 블랙잭  —  기본전략 힌트·더블·스플릿" + bj_badge, "#1a2a1e", "_open_blackjack", disabled)
 	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
 
 func _mastery_badge(game_id: String) -> String:
@@ -3185,7 +3185,7 @@ func _open_baccarat():
 	baccarat_table.open()
 
 func _on_baccarat_closed():
-	GameState.add_log("🎰 강원랜드 바카라 테이블을 나왔다.", "event")
+	GameState.add_log("🎰 프라이빗 바카라 테이블을 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
 
@@ -3195,7 +3195,7 @@ func _open_blackjack():
 	blackjack_table.open()
 
 func _on_blackjack_closed():
-	GameState.add_log("🃏 강원랜드 블랙잭 테이블을 나왔다.", "event")
+	GameState.add_log("🃏 프라이빗 블랙잭 테이블을 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
 
