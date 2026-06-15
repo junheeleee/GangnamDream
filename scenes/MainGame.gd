@@ -2894,6 +2894,7 @@ func _ap_contact_person(person_id: String):
 		return
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
 	var pname: String = str(info.get("name", "인연"))
+	var accent: String = str(info.get("color", "#db2777"))
 	var mental_before = GameState.mental
 	GameState.modify_stat("mental", 5)
 	GameState.modify_hidden_stat("stress", -3)
@@ -2906,10 +2907,15 @@ func _ap_contact_person(person_id: String):
 	var msg = "%s — 정신 %d→%d, 호감도 %d" % [pname, mental_before, GameState.mental, aff]
 	GameState.add_log("🤝 " + msg + " / " + flavor, "relationship")
 	turn_action_log.append("✓ 🤝 " + msg)
-	_show_toast("🤝 " + msg, Color(str(info.get("color", "#db2777"))))
 	GameState.stats_changed.emit()
-	_render_ap_actions()
 	_refresh_all()
+	# A-1: 모달 닫고 스토리 영역에 인물 리액션 표시
+	if not flavor.is_empty():
+		_close_modal()
+		_show_contact_reaction(pname, flavor, Color(accent))
+	else:
+		_show_toast("🤝 " + msg, Color(accent))
+		_render_ap_actions()
 
 ## 연락하기 대사 — 스토리 플래그·호감도·자산 상태에 따라 달라진다
 func _contact_flavor(person_id: String, aff: int) -> String:
@@ -3161,6 +3167,7 @@ func _open_racetrack():
 	racetrack.open()
 
 func _on_racetrack_closed():
+	turn_action_log.append("✓ 🏇 경마장")
 	GameState.add_log("🏇 경마장에 다녀왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
@@ -3171,6 +3178,7 @@ func _open_holdem():
 	holdem_club.open()
 
 func _on_holdem_closed():
+	turn_action_log.append("✓ 🃏 홀덤 클럽")
 	GameState.add_log("🃏 지하 홀덤 클럽을 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
@@ -3191,7 +3199,9 @@ func _open_jeongseon_casino():
 	jeongseon_casino.open()
 
 func _on_jeongseon_casino_closed():
+	turn_action_log.append("✓ 🎰 정선 카지노")
 	GameState.add_log("🎰 정선 카지노를 나왔다.", "event")
+	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
 
@@ -3201,7 +3211,9 @@ func _open_baccarat():
 	baccarat_table.open()
 
 func _on_baccarat_closed():
+	turn_action_log.append("✓ 🎰 바카라")
 	GameState.add_log("🎰 정선 카지노 바카라 테이블을 나왔다.", "event")
+	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
 
@@ -3211,7 +3223,9 @@ func _open_blackjack():
 	blackjack_table.open()
 
 func _on_blackjack_closed():
+	turn_action_log.append("✓ 🃏 블랙잭")
 	GameState.add_log("🃏 정선 카지노 블랙잭 테이블을 나왔다.", "event")
+	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
 
@@ -4625,6 +4639,27 @@ func _show_month_summary(snap: Dictionary):
 		modal_body.add_child(div3)
 		modal_body.add_child(_wrap_label(advice, 12, "#8892a4"))
 
+	# ── A-2: AP 사용 패턴 코멘트 ─────────────────
+	var ap_comment = _get_ap_pattern_comment(snap["actions"])
+	if not ap_comment.is_empty():
+		modal_body.add_child(_wrap_label("💭 " + ap_comment, 12, "#7a8496"))
+
+	# ── A-6: 월말 서사 내레이션 ───────────────────
+	var narrative = _get_month_narrative()
+	if not narrative.is_empty():
+		modal_body.add_child(_wrap_label("— " + narrative, 13, "#a0aabf"))
+
+	# ── A-3: 중독 90 경고 배너 ───────────────────
+	if GameState.addiction_tendency >= 90:
+		var warn_div = HSeparator.new()
+		warn_div.add_theme_color_override("color", Color("#cc0000"))
+		modal_body.add_child(warn_div)
+		modal_body.add_child(_wrap_label(
+			"🚨 중독 위험 단계 — 매달 정신력 -2가 추가로 빠지고 있습니다. 도박을 즉시 중단하세요.", 13, "#ff4444"))
+		var warn_div2 = HSeparator.new()
+		warn_div2.add_theme_color_override("color", Color("#cc0000"))
+		modal_body.add_child(warn_div2)
+
 	# ── 강남드림 달성률 진행 바 (그래픽) ──────────────
 	var goal = 3_000_000_000.0
 	var pct = clamp(assets_now / goal, 0.0, 1.0)
@@ -4646,6 +4681,127 @@ func _show_month_summary(snap: Dictionary):
 	var confirm_btn = _button("다음 달 시작  ▶", "#0e2a3a")
 	confirm_btn.pressed.connect(_close_modal)
 	modal_body.add_child(confirm_btn)
+
+
+## A-1: 관계 연락 후 인물 리액션을 스토리 영역에 표시
+func _show_contact_reaction(pname: String, flavor: String, accent: Color):
+	for child in choice_box.get_children():
+		child.queue_free()
+	pending_result_text = flavor
+	_transient_bg_active = true
+	event_title.text = pname
+	event_title.add_theme_color_override("font_color", accent)
+	_pulse_node(event_title, 1.04, 0.28)
+	_type_text(flavor)
+	var confirm_btn2 = _button("확인", "#1f6feb")
+	confirm_btn2.pressed.connect(func():
+		_finish_typing()
+		event_title.remove_theme_color_override("font_color")
+		_on_result_confirmed()
+	)
+	choice_box.add_child(confirm_btn2)
+	confirm_btn2.call_deferred("grab_focus")
+	next_button.disabled = true
+
+
+## A-3: 도박 중독 임계값 경고 (50 / 70)
+func _check_addiction_warnings():
+	var addiction = GameState.addiction_tendency
+	if addiction >= 50 and not GameState.flags.get("addiction_warn_50_shown", false):
+		GameState.flags["addiction_warn_50_shown"] = true
+	if addiction >= 70 and not GameState.flags.get("addiction_warn_70_shown", false):
+		GameState.flags["addiction_warn_70_shown"] = true
+		_screen_flash(Color("#cc0000"), 0.5, 1.0)
+		_show_addiction_warning_popup()
+	elif addiction >= 50 and not GameState.flags.get("addiction_warn_50_flash_done", false):
+		GameState.flags["addiction_warn_50_flash_done"] = true
+		_screen_flash(Color("#cc0000"), 0.35, 0.8)
+
+
+func _show_addiction_warning_popup():
+	_open_modal("🚨 경고")
+	modal_body.add_child(_wrap_label(
+		"당신은 지금 문제가 생기고 있습니다.\n\n도박 의존도가 위험 수위에 달했습니다. 매달 정신력이 추가로 감소하고, 상태가 악화되면 되돌리기 어렵습니다.\n\n지금 멈출 수 있습니다.", 14, "#ff6b6b"))
+	var ok_btn = _button("확인했습니다", "#7a1a1a")
+	ok_btn.pressed.connect(_close_modal)
+	modal_body.add_child(ok_btn)
+
+
+## A-6: 현재 상태 기반 월말 서사 1줄
+func _get_month_narrative() -> String:
+	var mental = GameState.mental
+	var money = GameState.money
+	var job = GameState.current_job
+	var f = GameState.flags
+	var addiction = GameState.addiction_tendency
+	var tenure = int(GameState.job_tenure)
+	var umonths = int(f.get("unemployed_months", 0))
+	var assets = GameState.get_total_asset_value()
+	if mental <= 25:
+		return "이 달은 버티는 것만으로도 충분했다."
+	if money < 0:
+		return "통장이 마이너스다. 숫자를 볼 때마다 숨이 막혔다."
+	if job.is_empty() and umonths >= 6:
+		return "%d번째 달. 직업이 없다. 통장 숫자가 계속 줄고 있다." % umonths
+	if job.is_empty() and umonths >= 3:
+		return "또 한 달이 지났다. 이력서 쓴 게 언제였는지 기억이 흐릿하다."
+	if not job.is_empty() and tenure == 1:
+		return "첫 출근. 익숙하지 않은 것들로 가득 찬 하루하루였다."
+	if not job.is_empty() and tenure == 12:
+		return "1년이 지났다. 이 일이 조금씩 내 것이 되는 것 같다."
+	if addiction >= 70:
+		return "카지노 생각이 멈추지 않는다. 이게 맞는 길인지 모르겠다."
+	if addiction >= 50:
+		return "다음 판이 자꾸 눈에 밟힌다. 스스로 이상하다는 걸 안다."
+	if assets >= 1_000_000_000.0:
+		return "10억. 그 숫자가 이제 현실로 느껴진다."
+	if assets >= 500_000_000.0:
+		return "5억. 강남이 조금씩 가까워지는 것 같다."
+	if mental <= 40:
+		return "피로가 쌓이고 있다. 이런 달이 쌓이면 어디로 가는 걸까."
+	if f.get("father_reconciled", false) and not f.get("father_narrative_noted", false):
+		GameState.flags["father_narrative_noted"] = true
+		return "아버지와 화해한 뒤로, 전화가 더 자주 걸고 싶어진다."
+	return ""
+
+
+## A-2: 이번 달 AP 사용 패턴 코멘트
+func _get_ap_pattern_comment(actions: Array) -> String:
+	if actions.is_empty():
+		return ""
+	var gambling := 0
+	var selfdev := 0
+	var social := 0
+	var saving := 0
+	var work := 0
+	for entry in actions:
+		var e: String = str(entry)
+		if "🎰" in e or "🏇" in e or "🃏" in e:
+			gambling += 1
+		elif "📚" in e or "📖" in e or "🏃" in e or "🎯" in e or "🖊" in e or "🌊" in e:
+			selfdev += 1
+		elif "🤝" in e:
+			social += 1
+		elif "💰" in e:
+			saving += 1
+		elif "💼" in e:
+			work += 1
+	var total = actions.size()
+	if gambling >= total and total >= 2:
+		return "이번 달은 도박장에서 살았다. 스탯은 그대로다."
+	if gambling > 0 and gambling == total:
+		return "이번 달은 도박장에서 살았다."
+	if selfdev >= total and total >= 2:
+		return "꾸준한 한 달이었다. 조금씩 달라지고 있다."
+	if selfdev > 0 and selfdev == total:
+		return "자기계발에 집중한 달이었다."
+	if social > 0 and selfdev > 0 and gambling == 0:
+		return "사람과 성장 사이에서 균형을 잡았다."
+	if gambling > 0 and selfdev > 0:
+		return "도박과 자기계발 사이를 오갔다. 방향을 정해야 할 것 같다."
+	if saving > 0 and gambling == 0:
+		return "소비를 줄이며 버텼다."
+	return ""
 
 
 func _check_milestones():
