@@ -78,6 +78,8 @@ var aruba_game     # 아르바이트 시프트 미니게임 오버레이
 var job_hunt_game  # 구직활동 미니게임 오버레이 (이력서/면접)
 var life_skills_game  # 절약·인맥·자기계발 미니게임 오버레이
 var crypto_game       # 코인 변동성 단타 미니게임 오버레이
+var futures_game      # 선물 레버리지 트레이딩 미니게임 오버레이
+var realestate_game   # 부동산 투자 분석 미니게임 오버레이
 var baccarat_table   # 정선 카지노 바카라 오버레이
 var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
@@ -141,6 +143,14 @@ func _ready():
 	crypto_game = load("res://scenes/CryptoGame.gd").new()
 	add_child(crypto_game)
 	crypto_game.closed.connect(_on_crypto_closed)
+	# 선물 레버리지 트레이딩 미니게임 오버레이
+	futures_game = load("res://scenes/FuturesGame.gd").new()
+	add_child(futures_game)
+	futures_game.closed.connect(_on_futures_closed)
+	# 부동산 투자 분석 미니게임 오버레이
+	realestate_game = load("res://scenes/RealEstateGame.gd").new()
+	add_child(realestate_game)
+	realestate_game.closed.connect(_on_realestate_closed)
 	# 정선 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
@@ -1023,6 +1033,13 @@ func _go_story_mode(event_ids: Array):
 func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
+
+	# ══ 부동산 결산 (투자 후 3개월 경과) ══════════
+	var re_exit: int = int(f.get("realestate_invest_turn", -1))
+	if re_exit > 0 and t >= re_exit and not f.get("realestate_result_seen", false):
+		_resolve_realestate_result()
+		GameState.flags["realestate_result_seen"] = true
+		GameState.flags["realestate_invest_turn"] = -1
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
 	if t >= 2 and not f.get("arc_intro_meal_seen", false):
@@ -2502,9 +2519,15 @@ func _render_essential_actions(ap: int):
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
 		var hm_badge: String = _mastery_badge("holdem")
 		_essential_btn("🃏 지하 홀덤 클럽  —  인맥 있는 사람만 (중독 주의)" + hm_badge, "#2a1a4a", "_open_holdem", disabled)
-	# 코인 단타: 투자감각 10 이상이면 해금 (스캘핑보다 일찍 접근 가능, 변동성 큼)
+	# 코인 단타: 투자감각 10 이상이면 해금
 	if GameState.investment_skill >= 10:
 		_essential_btn("🪙 코인 단타  —  캔들 읽고 롱/숏 판단 (3라운드)", "#0a1a2a", "_open_crypto", disabled)
+	# 선물거래: 투자감각 20 이상 + 첫 투자 경험 후 해금
+	if GameState.investment_skill >= 20 and not GameState.portfolio.is_empty():
+		_essential_btn("📊 선물거래  —  레버리지 1x·3x·10x, 마진콜 주의", "#0a1030", "_open_futures", disabled)
+	# 부동산: 투자감각 15 이상 + 자산 300만 이상
+	if GameState.investment_skill >= 15 and GameState.money >= 3_000_000:
+		_essential_btn("🏠 부동산 매물 분석  —  지분투자·임대수익·시세차익", "#0a1a0a", "_open_realestate", disabled)
 	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
 	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
 		var sc_badge: String = _mastery_badge("scalping")
@@ -3334,6 +3357,52 @@ func _on_crypto_closed():
 	GameState.add_log("🪙 코인 단타 세션을 마쳤다.", "event")
 	_refresh_all()
 	_render_ap_actions()
+
+func _open_futures():
+	if not GameState.spend_ap():
+		return
+	futures_game.open()
+
+func _on_futures_closed():
+	turn_action_log.append("✓ 📊 선물거래")
+	GameState.add_log("📊 선물거래 포지션을 청산했다.", "event")
+	_refresh_all()
+	_render_ap_actions()
+
+func _open_realestate():
+	if not GameState.spend_ap():
+		return
+	realestate_game.open()
+
+func _on_realestate_closed():
+	turn_action_log.append("✓ 🏠 부동산 분석")
+	GameState.add_log("🏠 부동산 매물을 검토했다.", "event")
+	_refresh_all()
+	_render_ap_actions()
+
+func _resolve_realestate_result() -> void:
+	var invest: int = int(GameState.flags.get("realestate_invest_amount", 0))
+	var risk: int   = int(GameState.flags.get("realestate_invest_risk", 3))
+	var name_str: String = str(GameState.flags.get("realestate_invest_name", "부동산"))
+	if invest <= 0:
+		return
+	# 시세 변동: risk가 높을수록 변동폭 큼
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var base_pct: float = rng.randf_range(-0.08, 0.15)        # 기본 등락
+	var noise: float    = rng.randf_range(-0.05, 0.05) * float(risk)  # 리스크 변동
+	var total_pct: float = clampf(base_pct + noise, -0.30, 0.40)
+	var profit: int = int(float(invest) * total_pct)
+	if profit != 0:
+		GameState.add_money(float(profit))
+	if profit > 0:
+		GameState.add_log("🏠 %s 3개월 결산: +%s (수익률 %+.1f%%)" % [name_str, GameState.format_money(profit), total_pct * 100.0], "invest")
+		_show_toast("🏠 부동산 +%s" % GameState.format_money(profit), Color("#34d399"))
+	elif profit < 0:
+		GameState.add_log("🏠 %s 3개월 결산: %s (손실률 %.1f%%)" % [name_str, GameState.format_money(profit), total_pct * 100.0], "invest")
+		_show_toast("🏠 부동산 %s" % GameState.format_money(profit), Color("#ff4444"))
+	else:
+		GameState.add_log("🏠 %s 3개월 결산: 원금 보전 (시장 변동 없음)" % name_str, "invest")
 
 func _open_scalping():
 	if not GameState.spend_ap():
