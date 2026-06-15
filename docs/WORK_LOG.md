@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-15 (머지 + 정선 카지노 확정 + 캐릭터 기반 해금)
+
+### origin/main 머지 충돌 해소 (6개 파일)
+- `CLAUDE.md`: 두 브랜치 상태 블록 통합
+- `autoloads/MetaProgression.gd`: "정선 카지노 상주자" 칭호 채택
+- `content/events/life_events.json`: `gambling_tempted` 플래그 체인 유지
+- `scenes/BaccaratTable.gd` / `scenes/BlackjackTable.gd`: "정선 카지노" 주석 채택
+- `scenes/MainGame.gd`: 7곳 충돌 — 주 단위 guard 유지 + 정선 카지노 허브 채택
+
+### 정선 카지노 명칭 통일
+- 카지노 명칭 확정: **정선 카지노** (상표 아님, 지명 서술어)
+- `arc_sangchul_casino_invite` 텍스트: "강원도 카지노" → "정선 카지노"
+- 카지노 버튼 조건: `casino_club_introduced` 플래그 (상철 아크 완료 후 해금)
+- 메인 브랜치 JeongseonCasino 허브 채택 (바카라·블랙잭·슬롯·룰렛·빅휠 단일 진입)
+
 ## 2026-06-15 (REVIEW_ANALYSIS A항목 완료)
 
 ### A-1 관계 감각 강화
