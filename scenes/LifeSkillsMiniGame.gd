@@ -10,20 +10,20 @@ enum Mode { BUDGET, NETWORK, STUDY }
 
 # ── 절약 항목 ─────────────────────────────────────────────────────
 const BUDGET_ITEMS: Array = [
-	{"label": "🍱 식비 절약 (편의점 도시락)", "save": 60000,
+	{"label": "🍱 식비 절약 (편의점 도시락)", "save": 80000,
 	 "fx": {"health": -5}},
-	{"label": "☕ 카페·술 자제", "save": 50000,
+	{"label": "☕ 카페·술 자제", "save": 60000,
 	 "fx": {"stress": 3}},
-	{"label": "🎬 문화생활 취소", "save": 40000,
+	{"label": "🎬 문화생활 취소", "save": 50000,
 	 "fx": {"mental": -5}},
-	{"label": "🚌 대중교통 전환", "save": 30000,
+	{"label": "🚌 대중교통 전환 (승용차 반납)", "save": 40000,
+	 "fx": {"social_skill": -1}},
+	{"label": "📱 통신비 요금제 변경", "save": 25000,
 	 "fx": {}},
-	{"label": "📱 통신비 요금제 변경", "save": 20000,
-	 "fx": {}},
-	{"label": "📺 구독서비스 해지", "save": 35000,
-	 "fx": {}},
+	{"label": "📺 구독서비스·OTT 해지", "save": 40000,
+	 "fx": {"intelligence": -2}},
 ]
-const BUDGET_TARGET: int = 150000
+const BUDGET_TARGET: int = 200000
 
 # ── 인맥 NPC 풀 ──────────────────────────────────────────────────
 const NETWORK_NPCS: Array = [
@@ -78,7 +78,7 @@ const NETWORK_NPCS: Array = [
 		]
 	},
 ]
-const NETWORK_TIMER: float = 10.0
+const NETWORK_TIMER: float = 15.0
 const NETWORK_COUNT: int = 3
 
 # ── 자기계발 퀴즈 ─────────────────────────────────────────────────
@@ -112,6 +112,24 @@ const STUDY_QUESTIONS: Dictionary = {
 			 {"text": "하루에 100페이지 목표를 잡는다", "score": 1},
 			 {"text": "기분이 좋을 때만 읽는다", "score": 0},
 		 ]},
+		{"q": "논픽션 책을 읽기 전 가장 효율적인 준비 방법은?",
+		 "choices": [
+			 {"text": "목차를 먼저 훑고 핵심 질문을 미리 떠올린다", "score": 3},
+			 {"text": "서문부터 천천히 읽기 시작한다", "score": 1},
+			 {"text": "아무 준비 없이 바로 읽는다", "score": 0},
+		 ]},
+		{"q": "읽은 책의 내용을 실생활에 적용하는 가장 좋은 방법은?",
+		 "choices": [
+			 {"text": "핵심 아이디어 하나를 골라 즉시 작은 행동으로 실천한다", "score": 3},
+			 {"text": "책 전체를 다시 한 번 읽는다", "score": 1},
+			 {"text": "다음 책을 바로 읽는다", "score": 0},
+		 ]},
+		{"q": "독서 속도를 높이면서도 이해도를 유지하는 방법은?",
+		 "choices": [
+			 {"text": "핵심 문장과 주변부 내용을 구별해 속독·정독을 병행한다", "score": 3},
+			 {"text": "무조건 빠르게 읽는 연습을 반복한다", "score": 1},
+			 {"text": "한 글자씩 소리 내어 읽는다", "score": 0},
+		 ]},
 	],
 	"exercise": [
 		{"q": "운동 후 근육 회복에 가장 중요한 것은?",
@@ -131,6 +149,24 @@ const STUDY_QUESTIONS: Dictionary = {
 			 {"text": "근육과 관절에 혈류를 공급해 부상을 예방한다", "score": 3},
 			 {"text": "운동 의지를 높이는 심리적 효과", "score": 1},
 			 {"text": "칼로리를 미리 소모해 효율을 높인다", "score": 0},
+		 ]},
+		{"q": "근력 운동 시 '점진적 과부하' 원칙이란?",
+		 "choices": [
+			 {"text": "시간이 지남에 따라 무게·횟수·강도를 점차 늘린다", "score": 3},
+			 {"text": "매번 동일한 무게로 안정적으로 운동한다", "score": 1},
+			 {"text": "첫날부터 최대 무게로 시작해 익숙해진다", "score": 0},
+		 ]},
+		{"q": "공복 유산소 운동의 실제 효과는?",
+		 "choices": [
+			 {"text": "지방 산화가 소폭 증가하나 총 칼로리 소모는 비슷하다", "score": 3},
+			 {"text": "지방이 2배 이상 빠르게 연소된다", "score": 0},
+			 {"text": "근육 손실이 일어나 역효과다", "score": 1},
+		 ]},
+		{"q": "운동 직후 단백질 섭취의 이상적인 타이밍은?",
+		 "choices": [
+			 {"text": "운동 후 30분~2시간 이내 (골든타임)", "score": 3},
+			 {"text": "운동 전날 저녁에 미리 충분히 섭취한다", "score": 1},
+			 {"text": "타이밍보다 총 하루 섭취량이 중요하다", "score": 2},
 		 ]},
 	],
 	"meditate": [
@@ -152,6 +188,24 @@ const STUDY_QUESTIONS: Dictionary = {
 			 {"text": "수면을 줄여도 집중력을 유지시킨다", "score": 0},
 			 {"text": "뇌를 완전히 비워 에너지를 보충한다", "score": 1},
 		 ]},
+		{"q": "명상 중 잡념이 떠올랐을 때 올바른 대처법은?",
+		 "choices": [
+			 {"text": "잡념을 알아채고 부드럽게 호흡으로 주의를 되돌린다", "score": 3},
+			 {"text": "잡념을 강하게 밀쳐내고 집중에 집착한다", "score": 0},
+			 {"text": "명상을 중단하고 다시 시작한다", "score": 1},
+		 ]},
+		{"q": "MBSR(마음 챙김 기반 스트레스 감소) 프로그램의 핵심은?",
+		 "choices": [
+			 {"text": "8주간 신체 감각·감정·생각을 비판단적으로 관찰하는 훈련", "score": 3},
+			 {"text": "긍정적인 생각만 반복하는 확언 기법", "score": 0},
+			 {"text": "수면 시간을 늘려 뇌를 휴식시키는 것", "score": 1},
+		 ]},
+		{"q": "일상 속 '비공식 명상' 실천 방법으로 가장 적절한 것은?",
+		 "choices": [
+			 {"text": "설거지나 걷기 등 단순 작업 중 현재 감각에 집중한다", "score": 3},
+			 {"text": "출퇴근 시 팟캐스트를 들으며 스트레스를 해소한다", "score": 1},
+			 {"text": "하루 1시간 공식 명상만이 효과가 있다", "score": 0},
+		 ]},
 	],
 	"invest": [
 		{"q": "분산 투자의 핵심 목적은?",
@@ -172,9 +226,28 @@ const STUDY_QUESTIONS: Dictionary = {
 			 {"text": "배당금이 높다는 지표", "score": 1},
 			 {"text": "회사의 성장성이 매우 높다는 신호", "score": 0},
 		 ]},
+		{"q": "인플레이션이 투자에 미치는 영향은?",
+		 "choices": [
+			 {"text": "현금의 실질 구매력이 감소하므로 자산 투자가 유리해진다", "score": 3},
+			 {"text": "모든 투자 자산의 가치가 동일하게 하락한다", "score": 0},
+			 {"text": "주식시장은 항상 인플레이션보다 높은 수익을 낸다", "score": 1},
+		 ]},
+		{"q": "부동산 투자 시 '레버리지'의 의미는?",
+		 "choices": [
+			 {"text": "대출을 이용해 자기 자본 대비 더 큰 자산을 운용한다", "score": 3},
+			 {"text": "여러 부동산을 동시에 매수해 위험을 분산한다", "score": 1},
+			 {"text": "시세보다 낮은 가격에 급매물을 잡는 전략", "score": 0},
+		 ]},
+		{"q": "72의 법칙(Rule of 72)이란?",
+		 "choices": [
+			 {"text": "72를 연이율로 나누면 원금이 두 배 되는 기간(년)이 나온다", "score": 3},
+			 {"text": "72개월(6년) 이상 보유하면 수익이 보장된다는 규칙", "score": 0},
+			 {"text": "포트폴리오를 72종목으로 분산해야 한다는 원칙", "score": 1},
+		 ]},
 	],
 }
 const STUDY_TIMER: float = 8.0
+const STUDY_QUESTIONS_PER_SESSION: int = 3  # 풀에서 랜덤으로 선택할 문항 수
 
 # ── 상태 ─────────────────────────────────────────────────────────
 var current_mode: Mode = Mode.BUDGET
@@ -476,11 +549,11 @@ func _on_budget_confirm() -> void:
 				GameState.modify_stat(k, val)
 
 	var quality: int
-	if total >= 200000:
+	if total >= 250000:
 		quality = 3
 	elif total >= BUDGET_TARGET:
 		quality = 2
-	elif total >= 80000:
+	elif total >= 100000:
 		quality = 1
 	else:
 		quality = 0
@@ -596,7 +669,9 @@ func _build_study_topic_ui() -> void:
 
 func _start_study(topic: Dictionary) -> void:
 	_study_topic = topic
-	_study_qs = STUDY_QUESTIONS[topic["id"]].duplicate()
+	var pool: Array = STUDY_QUESTIONS[topic["id"]].duplicate()
+	pool.shuffle()
+	_study_qs = pool.slice(0, STUDY_QUESTIONS_PER_SESSION)
 	_study_idx = 0
 	_study_score = 0
 	_header_lbl.text = "📚 " + str(topic["label"])
