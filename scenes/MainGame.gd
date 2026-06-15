@@ -1070,7 +1070,8 @@ func _next_arc_id() -> String:
 		return "arc_jiyeon_02_store"
 	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 23:
 		return "arc_jiyeon_03_offer"
-	if t >= 27 and f.get("arc_jiyeon_offer_seen", false) \
+	# 데모 6개월(24턴) 안에 지연 점심(스캘핑 해금) 가능하도록 턴 조건 축소 (원래 t>=27)
+	if t >= 22 and f.get("arc_jiyeon_offer_seen", false) \
 			and not f.get("arc_jiyeon_03b_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_jiyeon_03b_lunch"
@@ -1079,18 +1080,24 @@ func _next_arc_id() -> String:
 	if t >= 18 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
 		return "arc_sangchul_02_coffee"
-	if t >= 28 and f.get("arc_sangchul_02_seen", false) \
+	# 데모 6개월(24턴) 안에 네트워크 입성 가능하도록 턴 조건 축소 (원래 t>=28)
+	if t >= 20 and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_sangchul_03_seen", false) \
 			and GameState.get_total_asset_value() >= 20_000_000:
 		return "arc_sangchul_03_network"
+	# ── 임상철 강원랜드 초대 — 네트워크 입성 이후, 자금 300만 이상 ──
+	if t >= 22 and f.get("arc_sangchul_03_seen", false) \
+			and GameState.money >= 3_000_000 \
+			and not f.get("arc_sangchul_casino_seen", false):
+		return "arc_sangchul_casino_invite"
 	# ── 임상철×지연 교차점 — 두 세계의 충돌 ──
 	if t >= 35 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
 
-	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (턴 27+, 2막 핵심) ══
-	if t >= 27 and not f.get("arc_jaehyuk_reunion_seen", false):
+	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=20으로 단축) ══
+	if t >= 20 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
 	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
 			and not f.get("arc_jaehyuk_01b_seen", false) \
@@ -2332,18 +2339,20 @@ func _render_essential_actions(ap: int):
 		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
 	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
 	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
-	# 경마장: 200만원 이상 + (도박 심리 이벤트를 한 번이라도 본 경우) — 33세 백수가 첫 주부터 경마장 갈 이유 없음
-	if GameState.money >= 2_000_000 and (GameState.flags.get("gambling_tempted", false) or GameState.flags.get("racetrack_visited", false) or GameState.route_unorthodox >= 5):
+	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
+	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
 		var rt_badge: String = _mastery_badge("racetrack")
 		_essential_btn("🏇 경마장  —  폼 읽고 베팅 (한탕! 중독 주의)" + rt_badge, "#9a5a3a", "_open_racetrack", disabled)
+	# 홀덤: 상철 네트워크로 입성(entered_network)
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
 		var hm_badge: String = _mastery_badge("holdem")
 		_essential_btn("🃏 지하 홀덤 클럽  —  인맥 있는 사람만 (중독 주의)" + hm_badge, "#2a1a4a", "_open_holdem", disabled)
-	if GameState.investment_skill >= 25 and GameState.money >= 100000:
+	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
+	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
 		var sc_badge: String = _mastery_badge("scalping")
 		_essential_btn("⚡ 스캘핑 트레이딩  —  60초 실시간 매매 (중독 주의)" + sc_badge, "#1a2a3a", "_open_scalping", disabled)
-	# 강원랜드: 500만원 이상 — 강원도 여행 + 테이블 최소 베팅이 실질적 허들
-	if GameState.money >= 5_000_000:
+	# 강원랜드: 상철의 초대를 수락(kangwon_introduced)한 경우만
+	if GameState.flags.get("kangwon_introduced", false):
 		var bac_badge: String = _mastery_badge("baccarat")
 		_essential_btn("🎰 강원랜드 바카라  —  뱅커 vs 플레이어 (로드맵·커미션)" + bac_badge, "#1a1a2e", "_open_baccarat", disabled)
 		var bj_badge: String = _mastery_badge("blackjack")

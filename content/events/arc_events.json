@@ -549,9 +549,10 @@
         },
         "flags": [
           "arc_jiyeon_03b_seen",
-          "jiyeon_investment_talk"
+          "jiyeon_investment_talk",
+          "scalping_introduced"
         ],
-        "result_text": "두 시간 동안 부동산, 분양, 투자 이야기를 나눴다.\n한지연은 아는 게 많았다. 공부를 많이 했다.\n{name}이 알고 있던 것과 그녀가 알고 있는 것이 달랐다. 보이는 곳이 달라서.\n점심값은 {name}이 계산하려 했다. 어렵게 어렵게 — 그녀가 먼저 카드를 꺼냈다."
+        "result_text": "두 시간 동안 부동산, 분양, 투자 이야기를 나눴다.\n한지연은 아는 게 많았다. 공부를 많이 했다.\n{name}이 알고 있던 것과 그녀가 알고 있는 것이 달랐다. 보이는 곳이 달라서.\n점심값은 {name}이 계산하려 했다. 어렵게 어렵게 — 그녀가 먼저 카드를 꺼냈다.\n그녀가 헤어질 때 한마디 더 했다. \"단기 매매도 공부해봤어요? 요즘 그쪽도 재미있더라고요.\""
       },
       {
         "text": "\"그냥 오늘은 밥이나 맛있게 먹어요\" — 관계의 성격을 지금 정하지 않는다",
@@ -1442,6 +1443,58 @@
           "approached_shadow_investors"
         ],
         "result_text": "그들의 말은 달콤했다. 구체적인 수치, 그럴듯한 구조.\n{name}은 듣다 보니 심장이 뛰었다.\n\n자리를 마치고 나오는 길, 임상철이 조용히 말했다.\n\"저 사람들 — 몇 년 뒤에 잡혀가는 경우 많아.\n그리고 주변 사람들도 같이 망해.\"\n{name}은 고개를 끄덕였다. 조금 늦게."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_casino_invite",
+    "title": "강원랜드 제안",
+    "description": "임상철 씨의 번호로 문자가 왔다.\n\n\"이번 주말 강원랜드 어때요? 사람 몇이서 가는데.\n테이블 룸 예약해뒀으니까 편하게 오면 돼요.\"\n\n강원랜드. 사업하는 사람들이 가끔 가는 곳.\n드레스코드. 칩. 테이블에서 전략을 쓴다.\n도박이라기보다는 어떤 세계의 입장권처럼 들렸다.\n\n{name}은 통장 잔고를 확인했다.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0,
+    "hidden": false,
+    "background": "restaurant",
+    "portrait": "sangchul_serious",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "gambling"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"같이 가겠습니다\" — 강원랜드에 따라간다",
+        "effects": {
+          "social_skill": 1,
+          "stress": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 8
+          }
+        },
+        "flags": [
+          "arc_sangchul_casino_seen",
+          "kangwon_introduced"
+        ],
+        "follow_up_event": "",
+        "result_text": "강원랜드행 버스 안에서 상철 씨가 바카라 기본 규칙을 설명했다.\n뱅커와 플레이어. 마틴게일과 수수료.\n\"이기는 게 목표가 아니야. 얼마나 잃지 않느냐가 전략이에요.\"\n{name}은 그 말이 게임 밖 이야기처럼 들렸다."
+      },
+      {
+        "text": "\"지금은 아닌 것 같아요\" — 정중히 사양한다",
+        "effects": {
+          "stress": -1
+        },
+        "flags": [
+          "arc_sangchul_casino_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "상철 씨가 \"언제든 준비되면\"이라고 했다.\n제안은 열려있다는 말처럼 들렸다."
       }
     ]
   },
