@@ -9,7 +9,7 @@ const DECKS := 6
 
 ## 카드값. A는 1 또는 11 (hand_value가 결정)
 static func card_value(card: int) -> int:
-	var rank := card % 13  # 0=A, 1=2, ..., 9=10, 10=J, 11=Q, 12=K
+	var rank: int = card % 13  # 0=A, 1=2, ..., 9=10, 10=J, 11=Q, 12=K
 	if rank == 0: return 11  # A 초기값 11
 	if rank >= 9: return 10  # 10, J, Q, K = 10
 	return rank + 1
@@ -19,7 +19,7 @@ static func hand_value(cards: Array) -> int:
 	var total := 0
 	var aces := 0
 	for c in cards:
-		var rank := c % 13
+		var rank: int = int(c) % 13
 		if rank == 0:
 			aces += 1
 			total += 11
@@ -37,7 +37,7 @@ static func is_soft(cards: Array) -> bool:
 	var total := 0
 	var aces := 0
 	for c in cards:
-		var rank := c % 13
+		var rank: int = int(c) % 13
 		if rank == 0:
 			aces += 1; total += 11
 		elif rank >= 9: total += 10
@@ -60,8 +60,8 @@ static func new_shoe(rng: RandomNumberGenerator) -> Array:
 		for c in range(52):
 			shoe.append(c)
 	for i in range(shoe.size() - 1, 0, -1):
-		var j := rng.randi_range(0, i)
-		var t = shoe[i]; shoe[i] = shoe[j]; shoe[j] = t
+		var j: int = rng.randi_range(0, i)
+		var t: int = int(shoe[i]); shoe[i] = shoe[j]; shoe[j] = t
 	return shoe
 
 ## 딜러 플레이 (소프트17 히트 규칙)
@@ -78,11 +78,11 @@ static func dealer_play(hand: Array, shoe: Array) -> void:
 static func card_str(card: int) -> String:
 	const RANKS := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 	const SUITS := ["♠", "♥", "♦", "♣"]
-	return RANKS[card % 13] + SUITS[card / 13]
+	return RANKS[card % 13] + SUITS[int(card / 13)]
 
 ## 빨강 카드 (하트/다이아)
 static func is_red(card: int) -> bool:
-	return (card / 13) in [1, 2]
+	return int(card / 13) in [1, 2]
 
 ## 슈 잔여 비율
 static func shoe_remaining_ratio(shoe: Array) -> float:
@@ -99,9 +99,9 @@ static func basic_strategy(player: Array, dealer_up: int) -> String:
 
 	# 스플릿 (같은 값 2장)
 	if player.size() == 2:
-		var r0 := player[0] % 13
-		var r1 := player[1] % 13
-		var same_val := (r0 >= 9 and r1 >= 9) or r0 == r1
+		var r0: int = int(player[0]) % 13
+		var r1: int = int(player[1]) % 13
+		var same_val: bool = (r0 >= 9 and r1 >= 9) or r0 == r1
 		if same_val:
 			if r0 == 0: return "P"           # AA → 항상 스플릿
 			var sv := mini(r0 + 1, 10)

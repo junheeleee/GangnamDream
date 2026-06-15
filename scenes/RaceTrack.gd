@@ -21,6 +21,8 @@ const PICK_BADGE := ["①", "②", "③"]
 const HR := preload("res://systems/HorseRace.gd")   # class_name 글로벌 캐시 의존 제거(콜드런 크래시 방지)
 const HW := preload("res://systems/HorseWorld.gd")  # 영속 명마 세계 + 정보상 팁
 const HORSE_TEX := preload("res://assets/ui/horse_silhouette.png")  # 질주 실루엣 8프레임(128px) 아틀라스
+const BG_BETTING_PATH := "res://assets/backgrounds/racetrack_betting_hall.png"
+const BG_TRACK_PATH := "res://assets/backgrounds/racetrack_track_view.png"
 
 var _phase: int = Phase.BETTING
 var _race: Dictionary = {}
@@ -31,6 +33,8 @@ var _bet_stake: float = 0.0
 var _rng := RandomNumberGenerator.new()
 var _race_t: float = 0.0
 var _race_dur: float = 0.0
+var _last_leader: int = -1
+var _race_call_t: float = 0.0
 var _last_lost: bool = false     # 직전 베팅 패배(추격 베팅 감지)
 var _races_today: int = 0
 var _world: Dictionary = {}      # 영속 로스터(GameState.flags["horse_world"] 참조)
@@ -46,6 +50,9 @@ var _hud: RichTextLabel
 var _content: Control
 var _track: Control
 var _msg: Label
+var _bg_img: TextureRect
+var _bg_scrim: ColorRect
+var _flash_layer: ColorRect
 
 const COLORS := ["#e85d5d","#5d9ce8","#e8c45d","#5de89c","#c45de8","#e88d5d","#5de8e8","#b0b0b0"]
 
@@ -74,23 +81,20 @@ func _f(lbl, bold := false) -> void:
 # ── 골격 ──────────────────────────────────────────────────────
 func _build_skeleton() -> void:
 	# 배경 이미지 (이미지 있으면 표시, 없으면 단색)
-	var bg_img := TextureRect.new()
-	bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg_img.stretch_mode = TextureRect.STRETCH_SCALE
-	bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	const _BG_BETTING = "res://assets/backgrounds/racetrack_betting_hall.png"
-	if ResourceLoader.exists(_BG_BETTING):
-		bg_img.texture = load(_BG_BETTING) as Texture2D
-		bg_img.modulate = Color(1, 1, 1, 0.35)
-	add_child(bg_img)
-	var bg := ColorRect.new()
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_bg_img = TextureRect.new()
+	_bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+	_bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_bg_img)
+	_bg_scrim = ColorRect.new()
+	_bg_scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_bg_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var _bg_color := Color("#0a0d12")
-	_bg_color.a = 0.75 if bg_img.texture else 1.0
-	bg.color = _bg_color
-	add_child(bg)
+	_bg_color.a = 0.75
+	_bg_scrim.color = _bg_color
+	add_child(_bg_scrim)
+	_set_background(BG_BETTING_PATH, 0.35, 0.75)
 
 	_header = RichTextLabel.new()
 	_header.bbcode_enabled = true; _header.fit_content = true; _header.scroll_active = false
@@ -105,6 +109,14 @@ func _build_skeleton() -> void:
 	_hud.offset_left = 26; _hud.offset_top = 52; _hud.offset_right = -26; _hud.offset_bottom = 78
 	_f(_hud); _hud.add_theme_font_size_override("normal_font_size", 14)
 	add_child(_hud)
+
+	var help := Button.new()
+	help.text = "❓"
+	help.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	help.offset_left = -164; help.offset_top = 14; help.offset_right = -128; help.offset_bottom = 46
+	_style(help, "#0a0a1a", "#4a6aaa")
+	help.pressed.connect(func(): TutorialOverlay.force_show("racetrack", self))
+	add_child(help)
 
 	var exit := Button.new()
 	exit.text = "나가기"
@@ -121,15 +133,24 @@ func _build_skeleton() -> void:
 
 	_msg = Label.new()
 	_msg.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_msg.offset_top = -38; _msg.offset_bottom = -10
+	_msg.offset_top = -46; _msg.offset_bottom = -8
 	_msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_f(_msg, true); _msg.add_theme_font_size_override("font_size", 16)
+	_f(_msg, true); _msg.add_theme_font_size_override("font_size", 20)
 	_msg.visible = false
 	add_child(_msg)
+
+	_flash_layer = ColorRect.new()
+	_flash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_flash_layer.color = Color(1, 1, 1, 1)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash_layer.z_index = 80
+	add_child(_flash_layer)
 
 # ── 진입 ──────────────────────────────────────────────────────
 func open() -> void:
 	visible = true
+	TutorialOverlay.maybe_show("racetrack", self)
 	_races_today = 0
 	_last_lost = false
 	# 영속 명마 세계 — GameState.flags에 저장돼 씬 리로드·세이브를 견딘다
@@ -140,6 +161,7 @@ func open() -> void:
 	_new_race()
 
 func _new_race() -> void:
+	_set_background(BG_BETTING_PATH, 0.35, 0.75)
 	var info: float = float(GameState.intelligence)
 	_race = HW.make_card(_world, _rng, info)
 	_finish = []
@@ -384,6 +406,7 @@ func _cred_bar(cred: float) -> String:
 	return "[color=%s]%s[/color][color=#39414f]%s[/color]" % [col, "●".repeat(n), "○".repeat(5 - n)]
 
 func _toggle_pick(i: int) -> void:
+	AudioManager.play("click")
 	var need: int = BET_PICKS[_bet_type]
 	var pos: int = _picks.find(i)
 	if pos >= 0:
@@ -428,6 +451,7 @@ func _place_bet(stake: float) -> void:
 		_flash("현금이 부족하다", "#e85d5d"); return
 	_bet_stake = stake
 	GameState.add_money(-stake)
+	AudioManager.play("sell")
 	# 도박 — 중독·도박성향 상승. 진 뒤 또 거는(추격) + 엑조틱(고변동)이면 가속.
 	var add: int = 3 + (4 if _last_lost else 0)
 	if _bet_type == BetType.TRIFECTA: add += 2
@@ -452,10 +476,46 @@ func _start_race() -> void:
 	for h in _race["horses"]:
 		_race_dur = max(_race_dur, float(h.get("_ftime", base)))
 	_race_t = 0.0
+	_race_call_t = 0.0
+	_last_leader = -1
+	_set_background(BG_TRACK_PATH, 0.50, 0.62)
 	_clear()
 	_render_race()
-	AudioManager.play("event_new")
-	set_process(true)
+	_run_countdown()
+
+func _run_countdown() -> void:
+	var overlay := Label.new()
+	overlay.set_anchors_preset(Control.PRESET_CENTER)
+	overlay.offset_left = -100; overlay.offset_right = 100
+	overlay.offset_top  = -60;  overlay.offset_bottom = 60
+	overlay.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	overlay.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+	overlay.add_theme_font_size_override("font_size", 72)
+	overlay.add_theme_color_override("font_color", Color("#f0c45d"))
+	_f(overlay, true)
+	add_child(overlay)
+	var steps := ["3", "2", "1", "출발!"]
+	var colors := [Color("#e85d5d"), Color("#e8a05d"), Color("#e8e05d"), Color("#5de8a0")]
+	var idx := 0
+	var do_step: Callable
+	do_step = func():
+		if idx >= steps.size():
+			overlay.queue_free()
+			_flash("출발!", "#f0c45d")
+			_screen_flash(Color("#f0c45d"), 0.14, 0.28)
+			_shake_node(_content, 4.0, 0.18)
+			AudioManager.play("event_new")
+			set_process(true)
+			return
+		overlay.text = steps[idx]
+		overlay.add_theme_color_override("font_color", colors[idx])
+		var tw := create_tween()
+		tw.tween_property(overlay, "scale", Vector2(1.3, 1.3), 0.0)
+		tw.tween_property(overlay, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK)
+		idx += 1
+		var delay: float = 0.9 if idx < steps.size() else 0.6
+		get_tree().create_timer(delay).timeout.connect(do_step, CONNECT_ONE_SHOT)
+	do_step.call()
 
 func _render_race() -> void:
 	if _track == null or not is_instance_valid(_track):
@@ -472,9 +532,48 @@ func _process(delta: float) -> void:
 	_race_t += delta
 	if is_instance_valid(_track):
 		_track.queue_redraw()
+	_update_race_call(delta)
 	if _race_t >= _race_dur + 0.4:
 		set_process(false)
 		_finish_race()
+
+func _update_race_call(delta: float) -> void:
+	_race_call_t += delta
+	if _race_call_t < 0.35:
+		return
+	_race_call_t = 0.0
+	var leader := _current_display_leader()
+	if leader < 0:
+		return
+	var hs: Array = _race["horses"]
+	var leader_name := str(hs[leader].get("name", "선두"))
+	if _race_dur - _race_t <= 0.85:
+		_set_race_msg("🏁 마지막 직선!  %s 버틴다!" % leader_name, "#f0c45d")
+		if is_instance_valid(_msg):
+			_pulse_node(_msg, 1.12, 0.22)
+	elif leader != _last_leader:
+		_last_leader = leader
+		_set_race_msg("🔄 선두 교체 — %s!" % leader_name, COLORS[leader % COLORS.size()])
+		if is_instance_valid(_msg):
+			_pulse_node(_msg, 1.08, 0.18)
+
+func _current_display_leader() -> int:
+	if not _race.has("horses"):
+		return -1
+	var hs: Array = _race["horses"]
+	var best := -1
+	var best_prog := -INF
+	for i in range(hs.size()):
+		var prog := _display_progress(hs[i], i)
+		if prog > best_prog:
+			best_prog = prog
+			best = i
+	return best
+
+func _set_race_msg(text: String, color: String) -> void:
+	_msg.text = text
+	_msg.add_theme_color_override("font_color", Color(color))
+	_msg.visible = true
 
 func _draw_track() -> void:
 	var sz: Vector2 = _track.size
@@ -494,20 +593,23 @@ func _draw_track() -> void:
 		var h: Dictionary = hs[i]
 		var y: float = 14.0 + lane_h * float(i) + lane_h * 0.5
 		# 레인
-		_track.draw_line(Vector2(pad_l, y + lane_h*0.45), Vector2(fin_x, y + lane_h*0.45), Color(1,1,1,0.04), 1.0)
-		var ft: float = float(h.get("_ftime", _race_dur))
-		var prog: float = clampf(_race_t / max(ft, 0.1), 0.0, 1.0)
+		var lane_y := y + lane_h * 0.45
+		var lane_color := Color(0.18, 0.09, 0.04, 0.22 if i % 2 == 0 else 0.15)
+		_track.draw_rect(Rect2(pad_l, lane_y - lane_h * 0.28, fin_x - pad_l, lane_h * 0.56), lane_color)
+		_track.draw_line(Vector2(pad_l, lane_y), Vector2(fin_x, lane_y), Color(1,1,1,0.08), 1.0)
+		var prog: float = _display_progress(h, i)
 		var x: float = pad_l + (fin_x - pad_l) * prog
 		var col := Color(COLORS[i % COLORS.size()])
 		# 말: 질주 실루엣(레인별 프레임 오프셋으로 애니) + 레인색 새들 마커
 		#     텍스처 없으면 색 원으로 폴백
 		if HORSE_TEX != null:
-			var hsz: float = clampf(lane_h * 1.1, 20.0, 34.0)
+			var hsz: float = clampf(lane_h * 1.35, 28.0, 48.0)
 			var frame: int = (int(_race_t * 14.0) + i) % 8
 			var src := Rect2(float(frame) * 128.0, 0.0, 128.0, 128.0)
-			var dst := Rect2(x - hsz * 0.5, (y + lane_h * 0.45) - hsz, hsz, hsz)
+			var dst := Rect2(x - hsz * 0.5, lane_y - hsz, hsz, hsz)
+			_draw_speed_fx(Vector2(x, lane_y), hsz, col, prog)
 			_track.draw_texture_rect_region(HORSE_TEX, dst, src)
-			_track.draw_circle(Vector2(x, dst.position.y + hsz * 0.42), 4.0, col)
+			_draw_jockey(dst, col, i)
 		else:
 			_track.draw_circle(Vector2(x, y), 9.0, col)
 		var ppos: int = _picks.find(i)
@@ -519,6 +621,38 @@ func _draw_track() -> void:
 		_track.draw_string(f, Vector2(pad_l - 2, y - 12), str(h["name"]),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col)
 
+func _display_progress(h: Dictionary, index: int) -> float:
+	var ft: float = float(h.get("_ftime", _race_dur))
+	var raw := clampf(_race_t / max(ft, 0.1), 0.0, 1.0)
+	var wobble := sin(_race_t * (4.0 + float(index) * 0.33) + float(index) * 1.7) * 0.026 * sin(raw * PI)
+	var kick := sin(_race_t * 9.0 + float(index)) * 0.007 * sin(raw * PI)
+	return clampf(raw + wobble + kick, 0.0, 1.0)
+
+func _draw_speed_fx(hoof: Vector2, hsz: float, lane_color: Color, prog: float) -> void:
+	if prog <= 0.01:
+		return
+	var speed_alpha := clampf(0.08 + prog * 0.18, 0.08, 0.26)
+	for d in range(3):
+		var back := hoof + Vector2(-hsz * (0.44 + float(d) * 0.36), randf_range(-2.0, 2.0))
+		var dust := Color(0.86, 0.68, 0.42, speed_alpha * (1.0 - float(d) * 0.22))
+		_track.draw_circle(back, hsz * (0.08 + float(d) * 0.025), dust)
+	_track.draw_line(hoof + Vector2(-hsz * 0.22, -hsz * 0.20), hoof + Vector2(-hsz * 0.95, -hsz * 0.18), Color(lane_color.r, lane_color.g, lane_color.b, 0.28), 2.0)
+	_track.draw_line(hoof + Vector2(-hsz * 0.26, -hsz * 0.42), hoof + Vector2(-hsz * 0.82, -hsz * 0.46), Color(1, 1, 1, 0.13), 1.0)
+
+func _draw_jockey(dst: Rect2, lane_color: Color, index: int) -> void:
+	var hsz := dst.size.x
+	var saddle := Vector2(dst.position.x + hsz * 0.48, dst.position.y + hsz * 0.45)
+	var silk := lane_color.lightened(0.28)
+	var helmet := saddle + Vector2(hsz * 0.08, -hsz * 0.18)
+	var body := saddle + Vector2(hsz * 0.02, -hsz * 0.05)
+	var lean := Vector2(hsz * 0.20, -hsz * 0.08)
+	_track.draw_rect(Rect2(saddle.x - hsz * 0.18, saddle.y - hsz * 0.03, hsz * 0.34, hsz * 0.10), Color("#1a1410"))
+	_track.draw_line(body, body + lean, silk, max(2.0, hsz * 0.09))
+	_track.draw_line(body + Vector2(-hsz * 0.02, hsz * 0.02), body + Vector2(-hsz * 0.14, hsz * 0.14), Color("#f0d2a0"), max(1.5, hsz * 0.035))
+	_track.draw_circle(helmet, hsz * 0.09, Color("#f7e2a0") if index % 2 == 0 else Color("#f8f8f2"))
+	_track.draw_circle(helmet + Vector2(hsz * 0.025, hsz * 0.015), hsz * 0.045, Color("#2a221a"))
+	_track.draw_line(helmet + Vector2(hsz * 0.01, -hsz * 0.02), helmet + Vector2(hsz * 0.18, -hsz * 0.03), silk, max(1.0, hsz * 0.025))
+
 func _finish_race() -> void:
 	_phase = Phase.RESULT
 	var payout: float = 0.0
@@ -529,10 +663,15 @@ func _finish_race() -> void:
 		BetType.TRIFECTA: payout = HR.payout_trifecta(_race, _picks[0], _picks[1], _picks[2], _bet_stake, _finish)
 	if payout > 0:
 		GameState.add_money(payout)
-		AudioManager.play("money_gain")
+		var profit := payout - _bet_stake
+		AudioManager.play("money_big" if profit >= 500_000.0 else "money_gain")
+		_screen_flash(Color("#f0b429"), 0.22, 0.44)
+		_shake_node(_content, 5.0, 0.22)
 		_last_lost = false
 	else:
 		AudioManager.play("money_loss")
+		_screen_flash(Color("#d73a49"), 0.22, 0.38)
+		_shake_node(_content, 10.0, 0.30)
 		_last_lost = true
 	GameState.stats_changed.emit()
 	_payout_amt = payout
@@ -578,6 +717,7 @@ func _render_result() -> void:
 		res.text = "💸 꽝.  -%s" % GameState.format_money(_bet_stake)
 		res.add_theme_color_override("font_color", Color("#e85d5d"))
 	box.add_child(res)
+	_pulse_node(res, 1.12, 0.34)
 
 	# 정보상 팁을 샀다면 진위 공개 — 다음엔 안목을 믿을지 학습
 	if _tip_seen:
@@ -625,6 +765,52 @@ func _flash(msg: String, color: String) -> void:
 	var t := get_tree().create_timer(1.4)
 	t.timeout.connect(func():
 		if is_instance_valid(_msg): _msg.visible = false)
+
+func _set_background(path: String, image_alpha: float, scrim_alpha: float) -> void:
+	if is_instance_valid(_bg_img) and ResourceLoader.exists(path):
+		_bg_img.texture = load(path) as Texture2D
+		_bg_img.modulate = Color(1, 1, 1, image_alpha)
+	elif is_instance_valid(_bg_img):
+		_bg_img.texture = null
+	if is_instance_valid(_bg_scrim):
+		var bg_color := Color("#0a0d12")
+		bg_color.a = scrim_alpha if is_instance_valid(_bg_img) and _bg_img.texture else 1.0
+		_bg_scrim.color = bg_color
+
+func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
+	if not is_instance_valid(_flash_layer):
+		return
+	_flash_layer.color = Color(color.r, color.g, color.b, 1.0)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.visible = true
+	var tw := create_tween()
+	tw.tween_property(_flash_layer, "modulate:a", alpha, duration * 0.22)
+	tw.tween_property(_flash_layer, "modulate:a", 0.0, duration * 0.78)
+	tw.tween_callback(func():
+		if is_instance_valid(_flash_layer):
+			_flash_layer.visible = false
+	)
+
+func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	for _i in range(6):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 func _style(b: Button, bg: String, border: String) -> void:
 	var st := StyleBoxFlat.new()

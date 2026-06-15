@@ -1,5 +1,234 @@
 # Gangnam Dream Work Log
 
+## 2026-06-15 (REVIEW_ANALYSIS A항목 완료)
+
+### A-1 관계 감각 강화
+- `_ap_contact_person()` 후 모달 닫고 스토리 영역에 인물 리액션 타이핑 (`_show_contact_reaction()`)
+- 기존 `_contact_flavor()`의 인물별 대사가 이제 이벤트 패널에 확인 버튼과 함께 표시됨
+
+### A-2 AP 즉각 피드백
+- 월말 결산에 AP 사용 패턴 코멘트 삽입 (`_get_ap_pattern_comment()`)
+- 도박 집중/자기계발 집중/혼합 등 8가지 분기
+- 도박 미니게임 close handler에 `turn_action_log` 항목 추가 (경마장/홀덤/정선카지노/바카라/블랙잭)
+
+### A-3 도박 경고 연출 강화
+- addiction 50 돌파 → 붉은 화면 플래시 (1회)
+- addiction 70 돌파 → "당신은 지금 문제가 생기고 있습니다" 강제 팝업
+- addiction 90 이상 → 월말 결산 상단 붉은 경고 배너 (매달)
+
+### A-5 투자 자산 차별화 표시
+- `content/assets.json` 18종 자산에 특성 태그 3개씩 추가
+- 투자 패널 자산 헤더 하단에 `[저변동] [분기배당] [한국 대형주]` 형식으로 표시
+
+### A-4 금융 용어 툴팁
+- 은행 패널 + 투자 패널에 "📖 용어" 버튼 추가 (`_open_glossary()`)
+- 카지노 허브 하단에 "📖 용어 설명" 버튼 추가 (`_show_casino_glossary()`)
+- 은행 4개 용어 (신용등급/변동금리/레버리지/마진콜)
+- 투자 7개 용어 (포트폴리오/배당률/레버리지ETF/마진콜/공포탐욕/하우스엣지/RTP)
+- 카지노 7개 용어 (하우스엣지/RTP/배당률/내추럴/커미션/더블다운/마틴게일)
+
+### A-6 월말 서사 로그 강화
+- 월말 결산에 현재 상태 기반 서사 1줄 (`_get_month_narrative()`)
+- 무직 장기/첫 출근/정신력 위험/중독/자산 마일스톤 등 조건별 내레이션
+
+---
+
+## 2026-06-14 (정선 카지노 리네이밍 + GAME_ANALYSIS.md)
+
+### 정선 카지노 리네이밍
+- `HangangCasino.gd` → `JeongseonCasino.gd` 파일명 변경
+- 코드 식별자: `hangang_casino` → `jeongseon_casino`, `_open_hangang_casino` → `_open_jeongseon_casino`, `_on_hangang_casino_closed` → `_on_jeongseon_casino_closed`
+- 플래그 전체: `hangang_session_loss/win/first_visit/quit_vow/self_aware` → `jeongseon_*`
+- 이벤트 ID: `hangang_big_loss_bus/big_win_urge/addiction_notice` → `jeongseon_*`
+- 표시 텍스트: MainGame, TutorialOverlay, MetaProgression, life_events.json, EventData.gd 모두 "정선 카지노"로 통일
+- `hangang_chicken` (한강 치맥 이벤트)은 카지노와 무관 — 유지
+
+### GAME_ANALYSIS.md 신규 추가
+- 14개 카테고리 전체 게임 설계 분석 문서 (`docs/GAME_ANALYSIS.md`)
+- audit ERROR 0 / WARNING 0 확인 후 커밋·푸시 완료
+
+---
+
+## 2026-06-14 (스탯 정리 + 강원랜드 사후 이벤트)
+
+### 스탯 UI 정리
+- `stress` (스트레스)를 플레이어 UI에서 완전히 제거. 내부 메커니즘은 유지.
+  - 헤더 바이탈 HUD: 건강/정신 2개 바로 축소
+  - 스탯 패널: stress 행 제거
+  - 플로팅 텍스트: stress 효과 숨김 (_STAT_KR에서 제거)
+  - 어드바이스/내레이션: 스트레스 임계값 기반 → 정신력 임계값 기반으로 전환
+  - 내부적으로 stress는 계속 누적되고 매달 정신력에 영향을 줌 (hidden mechanic)
+
+### 강원랜드 사후 이벤트
+- `GangwonLand.open()`: 첫 방문 환영 메시지 + `gangwon_first_visit` 플래그
+  세션 시작 시 임시 플래그 초기화
+- `GangwonLand._close()`: 손익 기준 플래그 설정 (손실 50만↑ / 수익 100만↑)
+  방문마다 addiction_tendency +3
+- `life_events.json`: 강원랜드 사후 이벤트 3종 추가
+  - `gangwon_big_loss_bus` — 귀가 버스 성찰
+  - `gangwon_big_win_urge` — 재방문 충동
+  - `gangwon_addiction_notice` — 중독 자각 (min_addiction 60)
+
+## 2026-06-14 (강원랜드 카지노 5종 완성)
+
+### 신규 수학 모델 (systems/)
+- `SlotMachine.gd`: 3릴 슬롯 — 5심볼, 32칸 릴스트립, 이론 RTP 90%, 777=200x 잭팟
+- `Roulette.gd`: 유럽식 룰렛 — 0~36, 10가지 베팅 타입, HE 2.703%
+- `BigWheel.gd`: 빅식스 휠 — 54칸, 6구역, 조커 45:1, 구역별 HE 11~22%
+
+### 신규 UI 씬 (scenes/)
+- `SlotMachineGame.gd`: 3릴 애니메이션(0.08s 셔플→1.5s 정지), 베팅/히스토리/잔액, 잭팟 플래시
+- `RouletteTable.gd`: 번호 선택기, 스핀 애니메이션(숫자 빠른 전환→정지), 컬러 원형 히스토리
+- `BigWheelGame.gd`: 54칸 휠 `_draw()` 렌더링, ease-out 회전 애니메이션, 포인터 삼각형
+- `GangwonLand.gd`: 5게임 허브 — 바카라·블랙잭·슬롯·룰렛·빅휠 카드 레이아웃, 하위게임 종료→허브 복귀
+
+### MainGame.gd 업데이트
+- 개별 바카라/블랙잭 버튼 2개 → `_open_gangwon_land()` 단일 버튼으로 통합
+- GangwonLand 허브에 5개 하위게임 레퍼런스 주입
+
+### MetaProgression.gd
+- 슬롯 마스터리 칭호 "잭팟 사냥꾼" (20스핀 이상)
+- 룰렛 마스터리 칭호 "제로의 지배자" (15스핀 이상)
+- 빅휠 마스터리 칭호 "바늘의 눈" (15스핀 이상)
+
+### 품질
+- `python3 tools/audit.py` → ERROR 0 / WARNING 0
+
+## 2026-06-14 (튜토리얼 시스템 + 미니게임 퀄리티 2차 패스)
+
+### TutorialOverlay 세션 튜토리얼 시스템
+- `scenes/TutorialOverlay.gd` — `class_name TutorialOverlay`, `static var _seen`으로 세션당 1회 표시
+- `maybe_show(id, parent)` / `force_show(id, parent)` 정적 API
+- 게임별 슬라이드 콘텐츠: baccarat·blackjack·holdem(2슬라이드)·slot·roulette·bigwheel·scalping·trading·racetrack
+- `main_game` 3슬라이드 추가: 목표 설명 / 대시보드 읽는 법 / 한 달 흐름
+- MainGame._continue_after_story()에 maybe_show("main_game") 삽입 (프롤로그 직후 1회)
+
+### GangwonLand 허브 개선
+- `_add_game_card()`에 `tutorial_id` 파라미터 추가
+- 각 게임 카드에 '❓ 규칙' 보조 버튼 추가 (force_show 연결)
+
+### 전 게임 씬 인게임 도움말 버튼
+- 슬롯·룰렛·빅휠·바카라·블랙잭·홀덤·스캘핑·투자·경마 헤더/액션열에 ❓ 버튼 추가
+
+### AudioManager 버그 수정
+- RouletteTable·BigWheelGame의 `AudioManager.play_sfx()` → `AudioManager.play()` 전환
+  (play_sfx는 존재하지 않는 메서드 — SFX가 조용히 무시되던 버그)
+
+### 미니게임 연출 강화 (2차 패스)
+- SlotMachineGame: JACKPOT 3회 깜빡임 + 릴 패널 골드 테두리 / 빅윈 2회 플래시 / 니어미스 '아깝다!' 연출
+- RouletteTable: 결과 확정 시 숫자 레이블 scale 팝 펄스 트윈
+- BlackjackTable: 딜 후 content_root scale 0.94→1.0 팝 + screen_flash
+- RaceTrack: 3→2→1→출발! 카운트다운 오버레이 (레이스 시작 전)
+- MainGame: 건강 ≤ 30 / 정신 ≤ 30 / 스트레스 ≥ 80 시 vital 레이블 alpha 펄스 경보
+
+### 품질
+- `python3 tools/audit.py` → ERROR 0 / WARNING 0 (전 커밋 통과)
+
+## 2026-06-15 (이미지 의미 매핑 2차 + 게임감 연출)
+
+### 투자 미니게임 프레젠테이션 1차
+- `ScalpingGame.gd`를 선 그래프 중심에서 캔들형 차트로 강화했다.
+  - 가격 변화를 캔들 바디/윅으로 표시하고, 현재가 라벨을 차트 위에 직접 표시한다.
+  - BUY/SELL 마커를 차트 위에 남겨 진입·청산 타이밍을 플레이어가 복기할 수 있게 했다.
+  - MARKET OPEN, BUY, PROFIT/LOSS 배너와 화면 플래시, 손실 시 차트 흔들림, 이익 시 손익 펄스를 추가했다.
+- `TradingFloor.gd`에 평균단가선과 체결 피드백을 추가했다.
+  - 보유 종목의 평균단가를 차트 수평선으로 표시한다.
+  - 매수/매도 시 BUY/TAKE PROFIT/CUT LOSS 배너, 화면 플래시, 차트 펄스/흔들림을 추가했다.
+  - 매도 전 현재가·평단·비율로 예상 실현손익을 계산해 승패 SFX를 다르게 재생한다.
+
+### 미니게임 독립 품질 기준 확장
+- 기존 경마·홀덤·투자 기준에 더해, 새로 구현 중인 강원랜드 계열 전체를 독립 게임급 품질 대상으로 포함했다.
+- 현재 포함 대상은 블랙잭, 바카라이며, Claude가 앞으로 추가할 카지노 게임도 같은 기준을 따른다.
+- 강원랜드 게임은 룰 정확도만으로는 부족하다. 카드 딜, 칩 이동, 딜러 콜, 승패 배너, 테이블 사운드, 세션 통계, 재도전 루프까지 갖춰야 한다.
+- 유저 기준을 "플래시게임 수준에서 2만원짜리 게임 품질로 올릴 것"으로 재정의했다. 앞으로 미니게임은 단순 모달이 아니라 화면 밀도, 반응성, 사운드, 애니메이션, 세션 UX를 갖춘 제품 레벨로 본다.
+
+### 강원랜드 카지노 프리미엄 연출 1차
+- Claude가 push한 `origin/main` 50c9130을 fast-forward로 병합했다.
+  - 포함 내용: 강원랜드 허브, 슬롯머신, 룰렛, 빅휠, 스캘핑 캔들스틱 업그레이드.
+  - Codex의 스캘핑 손익 배너/플래시 연출은 Claude의 `_trade_history` 구조 위로 병합했다.
+- 새 `BigWheelGame.gd`의 Variant 기반 타입 추론 한 줄을 명시 타입으로 교정해 Godot 4.6 컴파일을 통과시켰다.
+- `BlackjackTable.gd`에 테이블 게임 피드백 레이어를 추가했다.
+  - DEAL/HIT/STAND/DOUBLE DOWN/SPLIT/DEALER/WIN/LOSE/PUSH 중앙 배너를 추가했다.
+  - 액션별 화면 플래시, 더블다운·패배 흔들림, 승리 펄스를 추가했다.
+  - 기존에 `_flash()`가 참조하던 메시지 라벨을 실제 skeleton에 추가해 오류 가능성을 줄였다.
+- `BaccaratTable.gd`에 딜러 콜 느낌의 진행 연출을 추가했다.
+  - 베팅 시 BET 배너, 딜 시작 시 NO MORE BETS 배너를 표시한다.
+  - 카드 공개 시 PLAYER CARD/BANKER CARD 배너와 색상 플래시를 넣었다.
+  - 결과 정산 후 PLAYER WINS/BANKER WINS/TIE 및 손익 배너, 승리 펄스/패배 흔들림을 추가했다.
+
+### 메인 병합 및 카지노 컴파일 안정화
+- Claude가 push한 `origin/main` ebfa19e를 fast-forward로 병합했다.
+  - 포함 내용: 강원랜드 바카라/블랙잭 신규 구현, 홀덤 팟오즈/핸드히스토리/1-3팟 레이즈, life/drama/relationship 이벤트 정리.
+- Codex 로컬 변경과 충돌난 `CLAUDE.md`, `scenes/HoldemClub.gd`를 수동 병합했다.
+  - 홀덤은 Claude의 팟오즈/핸드히스토리와 Codex의 POT/칩 버스트/페이즈 배너 연출을 모두 유지한다.
+- 새 블랙잭 코드가 Godot 4.6 엄격 타입 검사에서 실패하던 문제를 수정했다.
+  - `systems/Blackjack.gd`, `scenes/BlackjackTable.gd`의 Variant 기반 `:=` 추론을 명시 타입으로 교정.
+  - 룰/밸런스 의미 변경 없이 컴파일 안정성만 보강했다.
+
+### 배경 의미 매핑
+- `ImageRegistry.infer_background_id()` 장소 우선순위를 보강했다.
+  - 카페/커피, 편의점, 회사/면접, 지하철, 부동산/전세/청약/재개발, 도서관/스터디카페, 홀덤, 경마, 복권 키워드를 broad category보다 먼저 본다.
+  - `holdem`/`racetrack` 태그는 `gambling` 기본 폴백보다 우선해 각각 `holdem_club`, `racetrack_betting`/`racetrack_track`으로 간다.
+  - 일반 단어 `카드`/`running`처럼 오탐이 큰 키워드는 추론에서 제외했다.
+- `content/events/callback_events_21.json`의 홀덤/경마 echo 이벤트 4종에 명시 category/tags/background/cooldown을 추가했다.
+- `tools/background_semantic_audit.py`를 런타임 추론과 맞춰 갱신하고 `docs/BACKGROUND_SEMANTIC_AUDIT.md`를 재생성했다.
+  - 리뷰 후보는 225건에서 103건으로 감소.
+  - 잔여 103건은 회식/회상/장소 전환처럼 자동 확정이 위험한 후보라 실기 QA에서 사람이 판정한다.
+
+### 게임감 연출
+- MainGame 선택 결과에 SFX, 플래시, 배경 흔들림, 상단 자금 펄스, 결과 타이틀 펄스를 추가했다.
+- 경마 미니게임에 베팅 차감 SFX, 출발 플래시/흔들림, 적중/실패 플래시, 결과 숫자 펄스를 추가했다.
+- 경마 미니게임 2차 프레젠테이션 패스를 추가했다.
+  - 베팅 화면은 `racetrack_betting_hall.png`, 레이스 시작 후에는 `racetrack_track_view.png`로 배경을 전환한다.
+  - 질주 말 실루엣 위에 레인 컬러 기반 기수/새들 오버레이를 코드로 합성해 "실제 기수가 달리는" 느낌을 보강했다.
+  - 레인 노면, 흙먼지, 속도선, 비선형 질주 흔들림, 선두 교체/마지막 직선 실황 메시지를 추가했다.
+- 홀덤 미니게임에 핸드 시작/보드 공개 플래시, 레이즈 타격감, 쇼다운 승패 플래시/흔들림, 세션 결과 펄스를 추가했다.
+- 홀덤 미니게임 2차 프레젠테이션 패스를 추가했다.
+  - 중앙 `POT` 라벨과 칩 아이콘을 추가해 판돈이 계속 보이게 했다.
+  - NEW HAND/FLOP/TURN/RIVER/SHOWDOWN 및 CALL/RAISE/FOLD/CHECK 배너를 추가했다.
+  - 콜/레이즈/블라인드/AI 액션 때 칩 버스트 파티클을 띄워 팟에 돈이 들어가는 감각을 보강했다.
+  - 카드 크기를 키우고 커뮤니티/홀카드 공개 시 카드열 펄스를 넣었다.
+
+### 미니게임 품질 기준
+- 경마·홀덤·투자·카지노 계열은 단순 부가 기능이 아니라 게임의 대중적 재미를 책임지는 핵심 축으로 본다.
+- 목표 기준을 "미니게임 하나만 떼어도 팔 수 있는 수준"으로 상향했다.
+- 1차 방향은 룰 추가보다 플레이 피드백, 애니메이션, 사운드, 승패 연출, 반복 숙련감이 먼저다.
+- 이번 패스에서 경마와 홀덤은 "정적 모달"에서 "연출이 있는 미니게임"으로 1차 상승했다. 다음 단계는 전용 SFX/스프라이트/실기 QA다.
+
+### 검증
+- `python3 -m py_compile tools/background_semantic_audit.py`
+- `python3 -c "import json; json.load(open('content/events/callback_events_21.json', encoding='utf-8'))"`
+- `git diff --check`
+- `./tools/audit.sh` — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- `origin/main` ebfa19e 병합 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- 투자 미니게임 프레젠테이션 1차 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- 카지노 프리미엄 연출 1차 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+- `origin/main` 50c9130 병합 후 `./tools/audit.sh` 재실행 — ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗
+
+## 2026-06-13 (실제 화면 배경 의미 매핑 1차 수정)
+
+### 메인 최신화 확인
+- `git fetch origin main` / `git pull --ff-only origin main` 실행.
+- 로컬 `main`은 이미 `origin/main` 최신(`e21b23e`)과 동일했고, 추가 fast-forward 대상은 없었다.
+
+### 버그픽스 (Codex)
+- 유저 QA: `집들이` 결과 지문에서 "방 안을 한 바퀴 둘러봤다"가 나오는데 카페/비 오는 거리 계열 배경처럼 보이는 문제 확인.
+- 원인: 명시 `background`가 없는 이벤트가 `social`/`health` 같은 broad category 폴백을 먼저 타면서, 구체 장소 의미(`housing`, `gym`, 본문 속 방/헬스장)가 덮였다.
+- `ImageRegistry.infer_background_id()`의 우선순위를 수정:
+  - `friend_housewarming` / `housewarming_alone` / `집들이` / `방 안` / `옆 건물` 계열은 현재 주거 배경으로 매핑.
+  - `gym` / `exercise` / `헬스장` / `운동` 계열은 병원보다 먼저 운동 배경 ID로 매핑.
+  - `hospital` / 병원·의사·검진·응급실 텍스트만 병원 배경으로 매핑.
+  - `family` 계열 StoryMode 폴백도 `restaurant`가 아니라 `dad_house`로 정렬.
+  - 배경 추론은 현재 장면의 제목/본문/태그만 보고, 선택지/결과문 텍스트는 보지 않게 조정해 선택지만으로 시작 배경이 바뀌는 문제를 방지.
+- `ImageRegistry.BACKGROUNDS`에 `rooftop_day`, `gym`, `exercise`, `military` alias 추가.
+- `MainGame.gd`의 루틴 비네트(`운동`, `독서`, `명상`, `재테크`, `저축`, `인맥`)가 직전 이벤트 배경을 그대로 물고 가던 문제 수정:
+  - 비네트용 배경 선택 함수 추가.
+  - 결과/비네트 표시 중에는 빈 `current_event` 새로고침이 배경을 기본값으로 되돌리지 않도록 transient background lock 추가.
+  - MainGame 이벤트 배경 추론을 `ImageRegistry` 공통 규칙으로 통합해 StoryMode와 판단 차이를 줄임.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 전체 스크립트 컴파일 깨끗.
+
 ## 2026-06-13 (콜백 이벤트 배치 23~26 완료 — dead flag 전수 연결 마무리)
 
 ### 추가된 것 (claude/game-polish 브랜치)

@@ -1,5 +1,5 @@
 extends Control
-## BlackjackTable — 프라이빗 블랙잭 테이블.
+## BlackjackTable — 정선 카지노 블랙잭 테이블.
 ## Blackjack 모델(순수 수학) 위에 히트/스탠드/더블/스플릿 UI.
 ## 기본전략 힌트 표시 → "공부하면 EV 올라간다"를 실감하게.
 
@@ -42,6 +42,7 @@ var _font_bold: FontFile
 var _content_root: Control
 var _msg_lbl: RichTextLabel
 var _hud_lbl: RichTextLabel
+var _flash_layer: ColorRect
 
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready() -> void:
@@ -70,8 +71,9 @@ func open() -> void:
 	_hand_history = []
 	_phase = Phase.BETTING
 	visible = true
+	TutorialOverlay.maybe_show("blackjack", self)
 	_render()
-	AudioManager.play("tab_open")
+	AudioManager.play("casino_card")
 
 func _on_exit() -> void:
 	MetaProgression.record_minigame_play("blackjack")
@@ -101,19 +103,31 @@ func _deal() -> void:
 		_resolve_hand()
 		return
 
-	AudioManager.play("event_new")
+	AudioManager.play("casino_card")
 	_render()
+	_show_table_banner("DEAL", Color("#5b9cf6"), 0.48)
+	if is_instance_valid(_content_root):
+		_content_root.scale = Vector2(0.94, 0.94)
+		var tw := create_tween()
+		tw.tween_property(_content_root, "scale", Vector2(1.0, 1.0), 0.22).set_trans(Tween.TRANS_BACK)
+	_screen_flash(Color("#5b9cf6"), 0.10, 0.22)
 
 # ── 플레이어 액션 ──────────────────────────────────────────────
 func _hit() -> void:
 	var hand := _split_hand()
 	hand.append(_shoe.pop_front())
+	AudioManager.play("casino_card")
+	_show_table_banner("HIT", Color("#5b9cf6"), 0.38)
+	_screen_flash(Color("#5b9cf6"), 0.08, 0.16)
 	if BJ.hand_value(hand) >= 21:
 		_next_or_dealer()
 	else:
 		_render()
+		_pulse_node(_content_root, 1.01, 0.14)
 
 func _stand() -> void:
+	AudioManager.play("click")
+	_show_table_banner("STAND", Color("#5de89c"), 0.38)
 	if _split_active and not _split.is_empty():
 		# 스플릿 첫 핸드 스탠드 → 두 번째 핸드로
 		_split_active = false
@@ -126,6 +140,10 @@ func _double_down() -> void:
 	var hand := _split_hand()
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
+	AudioManager.play("casino_bet")
+	_show_table_banner("DOUBLE DOWN", Color("#f0b429"), 0.55)
+	_screen_flash(Color("#f0b429"), 0.13, 0.24)
+	_shake_node(_content_root, 4.0, 3)
 	if _split_active:
 		_split_stake = _stake
 	else:
@@ -135,10 +153,14 @@ func _double_down() -> void:
 
 func _do_split() -> void:
 	if _player.size() != 2: return
-	var v0 := _player[0] % 13; var v1 := _player[1] % 13
+	var v0: int = int(_player[0]) % 13
+	var v1: int = int(_player[1]) % 13
 	if (mini(v0 + 1, 10) != mini(v1 + 1, 10)) and not (v0 >= 9 and v1 >= 9): return
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
+	AudioManager.play("casino_bet")
+	_show_table_banner("SPLIT", Color("#d4a0ff"), 0.52)
+	_screen_flash(Color("#d4a0ff"), 0.11, 0.22)
 	_split_stake = _stake
 	_split = [_player.pop_back(), _shoe.pop_front()]
 	_player.append(_shoe.pop_front())
@@ -166,6 +188,8 @@ func _next_or_dealer() -> void:
 # ── 딜러 플레이 → 결과 ──────────────────────────────────────
 func _dealer_play_and_resolve() -> void:
 	# 딜러 두 번째 카드 공개 후 플레이
+	AudioManager.play("casino_card")
+	_show_table_banner("DEALER", Color("#e85d5d"), 0.40)
 	BJ.dealer_play(_dealer, _shoe)
 	_resolve_hand()
 
@@ -176,6 +200,8 @@ func _resolve_hand() -> void:
 
 	var total_gain: float = 0.0
 	var hand_results: Array = []
+	var got_blackjack: bool = false
+	var got_bust: bool = false
 
 	for hi in range(2):
 		var hand: Array = _player if hi == 0 else _split
@@ -193,6 +219,7 @@ func _resolve_hand() -> void:
 		if pv > 21:
 			label = "버스트 -%s" % GameState.format_money(float(actual_stake))
 			_losses += 1
+			got_bust = true
 		elif pj and dealer_bj:
 			gain = float(actual_stake)
 			label = "블랙잭 타이 (반환)"
@@ -201,6 +228,7 @@ func _resolve_hand() -> void:
 			gain = float(actual_stake) * (1.0 + BJ_PAYOUT)
 			label = "🎉 블랙잭! +%s" % GameState.format_money(gain - float(actual_stake))
 			_wins += 1
+			got_blackjack = true
 		elif dealer_bj:
 			label = "딜러 블랙잭 -%s" % GameState.format_money(float(actual_stake))
 			_losses += 1
@@ -214,7 +242,7 @@ func _resolve_hand() -> void:
 			_wins += 1
 		elif pv == dv:
 			gain = float(actual_stake)
-			label = "타이 (반환)"
+			label = "타이 — 베팅 환불"
 			_pushes += 1
 		else:
 			label = "-%s" % GameState.format_money(float(actual_stake))
@@ -229,21 +257,45 @@ func _resolve_hand() -> void:
 	_net += net_round
 
 	# 핸드 히스토리
-	var desc := hand_results[0]["label"] if not hand_results.is_empty() else "?"
+	var desc: String = str(hand_results[0]["label"]) if not hand_results.is_empty() else "?"
 	_hand_history.append({"won": net_round > 0, "net": net_round, "desc": desc})
 	if _hand_history.size() > 10:
 		_hand_history.pop_front()
 
-	if net_round > 0:
-		AudioManager.play("money_big" if net_round >= 500_000 else "money_gain")
+	if got_blackjack:
+		AudioManager.play("casino_jackpot")
 		GameState.modify_hidden_stat("gambling_tendency", 2)
+	elif net_round > 0:
+		AudioManager.play("casino_win")
+		GameState.modify_hidden_stat("gambling_tendency", 2)
+	elif got_bust or net_round < 0:
+		AudioManager.play("casino_lose")
+		GameState.modify_hidden_stat("addiction_tendency", 2)
 	else:
-		AudioManager.play("money_loss")
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	GameState.add_log("🃏 블랙잭 %s" % desc, "money")
 	GameState.stats_changed.emit()
 	_render()
+	if got_blackjack:
+		_show_table_banner_bj("🎉 블랙잭!", Color("#f0b429"))
+		_screen_flash(Color("#f0b429"), 0.22, 0.44)
+		_pulse_node(_content_root, 1.04, 0.32)
+	elif got_bust:
+		_show_table_banner("버스트  %s" % GameState.format_money(net_round), Color("#e85d5d"), 0.72)
+		_screen_flash(Color("#e85d5d"), 0.22, 0.40)
+		_shake_node(_content_root, 6.0, 5)
+	elif net_round > 0:
+		_show_table_banner("WIN  +%s" % GameState.format_money(net_round), Color("#5de89c"), 0.72)
+		_screen_flash(Color("#5de89c"), 0.18, 0.36)
+		_pulse_node(_content_root, 1.025, 0.26)
+	elif net_round == 0.0:
+		_show_table_banner("타이 — 베팅 환불", Color("#9a9aaa"), 0.64)
+		_screen_flash(Color("#9a9aaa"), 0.10, 0.22)
+	else:
+		_show_table_banner("LOSE  %s" % GameState.format_money(net_round), Color("#e85d5d"), 0.72)
+		_screen_flash(Color("#e85d5d"), 0.18, 0.34)
+		_shake_node(_content_root, 6.0, 5)
 
 # ── 렌더 ──────────────────────────────────────────────────────
 func _render() -> void:
@@ -305,7 +357,7 @@ func _render_betting() -> void:
 	stake_row.add_theme_constant_override("separation", 8)
 	vb.add_child(stake_row)
 	for s in STAKE_OPTIONS:
-		var can := GameState.money >= float(s)
+		var can: bool = GameState.money >= float(s)
 		var sb := _make_btn(GameState.format_money(float(s)), func(): _set_stake_and_deal(s),
 			"#1a2a1a" if s == _stake else "#0e141a",
 			"#5de89c" if s == _stake else "#2a3a4a")
@@ -320,6 +372,10 @@ func _render_betting() -> void:
 	deal_btn.custom_minimum_size = Vector2(0, 48)
 	deal_btn.disabled = GameState.money < float(_stake)
 	_f(deal_btn, true); vb.add_child(deal_btn)
+
+	var help_btn := _make_btn("❓ 규칙", func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#4a6aaa")
+	help_btn.custom_minimum_size = Vector2(0, 44)
+	vb.add_child(help_btn)
 
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(0, 44)
@@ -426,17 +482,18 @@ func _render_game() -> void:
 		btn_row.add_child(stand_btn)
 
 		# 더블다운: 첫 두 장이고 현금 있을 때
-		var can_dbl := cur_hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
+		var can_dbl: bool = cur_hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
 		var dbl_btn := _make_btn("✖2 더블", _double_down, "#2a2a0a", "#9a9a2a")
 		dbl_btn.custom_minimum_size = Vector2(80, 40)
 		dbl_btn.disabled = not can_dbl
 		btn_row.add_child(dbl_btn)
 
 		# 스플릿: 첫 두 장 같은 값
-		var can_split := (_split.is_empty() and not _split_active and _player.size() == 2
+		var can_split: bool = (_split.is_empty() and not _split_active and _player.size() == 2
 			and GameState.money >= float(_stake))
 		if can_split:
-			var v0 := _player[0] % 13; var v1 := _player[1] % 13
+			var v0: int = int(_player[0]) % 13
+			var v1: int = int(_player[1]) % 13
 			can_split = (mini(v0+1,10) == mini(v1+1,10)) or (v0 >= 9 and v1 >= 9)
 		var split_btn := _make_btn("⑈ 스플릿", _do_split, "#2a0a2a", "#8a3a8a")
 		split_btn.custom_minimum_size = Vector2(80, 40)
@@ -484,11 +541,11 @@ func _render_result() -> void:
 
 	# 손익
 	if not _hand_history.is_empty():
-		var last := _hand_history.back()
+		var last: Dictionary = _hand_history.back()
 		var res_lbl := RichTextLabel.new()
 		res_lbl.bbcode_enabled = true; res_lbl.fit_content = true; res_lbl.scroll_active = false
 		_f(res_lbl, true); res_lbl.add_theme_font_size_override("normal_font_size", 22)
-		var col := "#5de89c" if last["won"] else "#e85d5d"
+		var col: String = "#5de89c" if bool(last["won"]) else "#e85d5d"
 		res_lbl.text = "[color=%s]%s[/color]" % [col, str(last["desc"])]
 		vb.add_child(res_lbl)
 
@@ -547,6 +604,27 @@ func _build_skeleton() -> void:
 	_content_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scroll.add_child(_content_root)
 
+	_msg_lbl = RichTextLabel.new()
+	_msg_lbl.bbcode_enabled = true
+	_msg_lbl.fit_content = true
+	_msg_lbl.scroll_active = false
+	_msg_lbl.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	_msg_lbl.offset_top = -40
+	_msg_lbl.offset_bottom = -10
+	_msg_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_f(_msg_lbl, true)
+	_msg_lbl.add_theme_font_size_override("normal_font_size", 16)
+	_msg_lbl.visible = false
+	add_child(_msg_lbl)
+
+	_flash_layer = ColorRect.new()
+	_flash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_flash_layer.color = Color(1, 1, 1, 1)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash_layer.z_index = 80
+	add_child(_flash_layer)
+
 func _clear_content() -> void:
 	if not is_instance_valid(_content_root): return
 	for c in _content_root.get_children():
@@ -585,6 +663,7 @@ func _card_widget(card: int, highlight := false) -> Control:
 		Color("#e85d5d") if BJ.is_red(card) else Color("#1a1a2e"))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
 	panel.add_child(lbl)
+	_animate_card_appear(lbl)
 	return panel
 
 func _card_back() -> Control:
@@ -639,3 +718,112 @@ func _flash(msg: String, color: String) -> void:
 	_msg_lbl.visible = true
 	get_tree().create_timer(2.0).timeout.connect(func():
 		if is_instance_valid(_msg_lbl): _msg_lbl.visible = false)
+
+func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
+	if not is_instance_valid(_flash_layer):
+		return
+	_flash_layer.color = Color(color.r, color.g, color.b, 1.0)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.visible = true
+	var tw := create_tween()
+	tw.tween_property(_flash_layer, "modulate:a", alpha, duration * 0.22)
+	tw.tween_property(_flash_layer, "modulate:a", 0.0, duration * 0.78)
+	tw.tween_callback(func():
+		if is_instance_valid(_flash_layer):
+			_flash_layer.visible = false
+	)
+
+func _show_table_banner(text: String, color: Color, duration: float = 0.5) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 75
+	panel.size = Vector2(minf(390.0, root_size.x - 48.0), 54.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(88.0, root_size.y * 0.28))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.02, 0.03, 0.04, 0.86)
+	st.border_color = color
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(8)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", color)
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.08)
+	tw.tween_interval(duration)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.16)
+	tw.tween_callback(panel.queue_free)
+
+func _shake_node(node: Node, amount: float = 6.0, count: int = 5) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var step_dur: float = 0.06
+	var tw := create_tween()
+	for _i in range(count):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, step_dur)
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _animate_card_appear(lbl: Label) -> void:
+	lbl.modulate = Color(1, 1, 1, 0)
+	var tw := create_tween()
+	tw.tween_property(lbl, "modulate", Color(1, 1, 1, 1), 0.15)
+
+func _show_table_banner_bj(text: String, color: Color) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 76
+	panel.size = Vector2(minf(420.0, root_size.x - 48.0), 72.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(80.0, root_size.y * 0.26))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.36, 0.28, 0.02, 0.92)
+	st.border_color = color
+	st.set_border_width_all(3)
+	st.set_corner_radius_all(10)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 32)
+	lbl.add_theme_color_override("font_color", color)
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	panel.scale = Vector2(0.8, 0.8)
+	panel.pivot_offset = panel.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.06)
+	tw.tween_property(panel, "scale", Vector2(1.2, 1.2), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(panel, "scale", Vector2(1.0, 1.0), 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(0.72)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.18)
+	tw.tween_callback(panel.queue_free)
+
+func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

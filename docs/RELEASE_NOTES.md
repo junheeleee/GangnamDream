@@ -2,6 +2,69 @@
 
 ## Unreleased
 
+### Added (2026-06-15) — REVIEW_ANALYSIS A항목 6종 완료
+- **A-1 관계 감각**: 인물 연락 후 스토리 영역에 캐릭터 리액션 텍스트 타이핑 표시
+- **A-2 AP 패턴**: 월말 결산에 이번 달 행동 패턴 코멘트 (도박집중/자기계발/혼합 등 8분기)
+- **A-3 도박 경고**: addiction 50→플래시, 70→강제 경고 팝업, 90→월별 경고 배너
+- **A-4 금융 용어**: 은행·투자 패널에 `📖 용어` 버튼, 카지노 허브에 `📖 용어 설명` 버튼 (총 18개 용어)
+- **A-5 자산 태그**: 18종 투자 자산 각각에 특성 태그 3개 표시 (`[초저변동] [월배당] [부동산 간접]` 등)
+- **A-6 월말 서사**: 결산 화면에 현재 상태 기반 1줄 내레이션 (무직/첫 출근/중독/마일스톤 등)
+
+### Added (2026-06-14) — Tutorial system + minigame quality pass 2
+
+- New `TutorialOverlay` (static class, session-based `_seen` dict): single-call `maybe_show()` / `force_show()` API; slides for all 9 mini-games plus a 3-slide main-game onboarding (goal / dashboard / month flow).
+- `GangwonLand` hub: each game card now has a secondary "❓ 규칙" button for on-demand rules.
+- All game scenes (slot, roulette, bigwheel, baccarat, blackjack, holdem, scalping, trading, racetrack) have an in-game ❓ help button in the header/action row.
+- Main-game onboarding tutorial fires once after the prologue in `_continue_after_story()`.
+- Fixed `AudioManager.play_sfx()` → `play()` bug in `RouletteTable` and `BigWheelGame` (SFX was silently ignored).
+- `SlotMachineGame`: 3-phase win presentation (regular / big-win double flash / JACKPOT 3× flash + reel gold border) + near-miss "아깝다!" message for 2-symbol partial matches.
+- `RouletteTable`: settle-number scale-pop tween on result.
+- `BlackjackTable`: deal scale pop animation (0.94→1.0) + screen flash on deal.
+- `RaceTrack`: 3-2-1-출발! countdown overlay before race begins.
+- `MainGame`: vital labels pulse (alpha fade) when health ≤ 30, mental ≤ 30, or stress ≥ 80.
+- `audit.py` passed ERROR 0 / WARNING 0 for all commits.
+
+### Changed (2026-06-15) — Casino premium presentation pass
+- Merged Claude's Kangwon Land expansion (`origin/main` 50c9130): hub, slots, roulette, big wheel, and scalping candlestick improvements.
+- `BlackjackTable` now has central action/result banners for DEAL, HIT, STAND, DOUBLE DOWN, SPLIT, DEALER, WIN, LOSE, and PUSH, plus screen flashes, win pulse, and loss/double-down shake.
+- `BaccaratTable` now has casino-call style banners for bets, NO MORE BETS, PLAYER CARD, BANKER CARD, and round results, plus color flashes and result pulse/shake.
+- Fixed a Godot strict type inference issue in the new `BigWheelGame`.
+- Added the explicit quality bar that minigames should move beyond flash-game presentation toward a 20,000 KRW commercial game feel.
+- `./tools/audit.sh` passed after the pass: ERROR 0 / WARNING 0, Godot compile clean.
+
+### Changed (2026-06-15) — Investment minigame presentation pass
+- `ScalpingGame` now draws candle-style bars instead of a simple line-only chart, with current-price labels, BUY/SELL markers, market/action banners, flashes, profit pulses, and loss shake.
+- `TradingFloor` now displays holding average-price lines on the chart and adds buy/sell execution feedback: banners, screen flashes, chart pulse/shake, and profit/loss-aware SFX.
+- The standalone-quality minigame bar now explicitly includes the full Kangwon Land suite: blackjack, baccarat, and future casino games.
+- `./tools/audit.sh` passed after the pass: ERROR 0 / WARNING 0, Godot compile clean.
+
+### Fixed (2026-06-15) — Main merge + Blackjack compile stability
+- Merged Claude's latest `origin/main` (`ebfa19e`) containing Kangwon Land baccarat/blackjack, holdem odds/history upgrades, and event context cleanup.
+- Resolved `HoldemClub` conflicts by preserving both the new odds/history UI and the Codex POT/chip-burst/table-banner presentation pass.
+- Fixed Godot 4.6 strict type inference failures in `systems/Blackjack.gd` and `scenes/BlackjackTable.gd` by replacing Variant-derived `:=` inference with explicit types.
+- `./tools/audit.sh` passed after the merge: ERROR 0 / WARNING 0, Godot compile clean.
+
+### Changed (2026-06-15) — Image routing + game-feel feedback pass
+- `ImageRegistry.infer_background_id()` now recognizes concrete place wording for cafe/coffee, convenience store, office/interview, subway, real estate, study/library, holdem, racetrack, and lottery before broad investment/gambling fallbacks.
+- Runtime gambling callbacks now route holdem scenes to `holdem_club` and racetrack scenes to `racetrack_betting` / `racetrack_track` instead of generic phone/investment backgrounds.
+- `callback_events_21.json` now gives the holdem/racetrack echo events explicit category/tags/background metadata for consistent KO/EN overlay behavior.
+- `MainGame` choice resolution now adds result feedback: choice SFX, big gain/loss flashes, background shake on heavy losses, and money/title pulse animations.
+- `RaceTrack` now has betting debit SFX, race-start flash/shake, win/loss screen flash, and result label pulse.
+- `RaceTrack` now switches from betting hall to track view during the race, draws lane surfaces, speed lines, dust, jockey/saddle overlays on the running horses, and live race-call messages for leader changes / final stretch.
+- `HoldemClub` now has card-phase reveal flash, raise/call/showdown feedback, win/loss flash, loss shake, and session result pulse.
+- `HoldemClub` now has a central POT display, chip icon, chip-burst particles on bets, bigger card panels, and table banners for NEW HAND/FLOP/TURN/RIVER/SHOWDOWN plus player/AI actions.
+- `tools/background_semantic_audit.py` mirrors the updated runtime routing and writes the current review report to `docs/BACKGROUND_SEMANTIC_AUDIT.md`.
+- `./tools/audit.sh` passed after the pass: ERROR 0 / WARNING 0, Godot compile clean.
+
+### Changed (2026-06-13) — Runtime background semantic routing
+- `ImageRegistry.infer_background_id()` now prioritizes concrete scene meaning before broad categories, preventing `social` events like `집들이` from falling through to cafe backgrounds and `health`/exercise scenes from falling through to hospital backgrounds.
+- `friend_housewarming` / `housewarming_alone` and room/housewarming wording now route to the current housing background.
+- Gym/exercise wording and tags now route to an exercise-safe background before hospital checks.
+- Hospital backgrounds now require explicit hospital tags or medical wording such as hospital, doctor, checkup, ER, clinic, or Korean equivalents.
+- MainGame routine vignettes now select their own background instead of inheriting the previous event background.
+- MainGame event background routing now uses the same `ImageRegistry` inference as StoryMode.
+- `./tools/audit.sh` passed after the fix: ERROR 0 / WARNING 0, Godot compile clean.
+
 ### Changed (2026-06-13) — P3 BGM/SFX 품질 교체
 - BGM 7종을 deterministic local synthesis 기반 Ogg Vorbis로 재생성: menu, goshiwon, main, apartment, crisis, victory, ending
 - 기존 `bgm_gosiwon.ogg`가 Theora video로 인식되던 문제를 Ogg Vorbis audio로 교체해 해결

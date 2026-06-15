@@ -1,5 +1,5 @@
 extends Control
-## BaccaratTable — 비밀 클럽식 바카라 테이블.
+## BaccaratTable — 정선 카지노 바카라 테이블.
 ## Baccarat 수학 모델 위에 베팅·카드공개·로드맵·페어베팅·커미션 UI 구현.
 ## MainGame이 overlay로 붙이고 open()으로 호출. 닫으면 closed 시그널.
 
@@ -56,6 +56,10 @@ var _content_root: Control
 var _road_ctrl: Control
 var _msg_lbl: Label
 var _hud_lbl: RichTextLabel
+var _flash_layer: ColorRect
+
+# 로드맵 fade 제어
+var _road_last_count: int = 0  # 직전 렌더 시 road 크기 (새 항목 감지용)
 
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready() -> void:
@@ -87,6 +91,7 @@ func open() -> void:
 	_reset_bets()
 	_phase = Phase.BETTING
 	visible = true
+	TutorialOverlay.maybe_show("baccarat", self)
 	set_process(false)
 	_render()
 	AudioManager.play("tab_open")
@@ -119,11 +124,14 @@ func _process(delta: float) -> void:
 	var step: Dictionary = _deal_seq[_deal_idx]
 	if step["side"] == "player":
 		_deal_p_visible.append(step["card"])
+		_show_table_banner("PLAYER CARD", Color("#5b9cf6"), 0.28)
 	else:
 		_deal_b_visible.append(step["card"])
+		_show_table_banner("BANKER CARD", Color("#e85d5d"), 0.28)
 	_deal_idx += 1
-	AudioManager.play("click")
+	AudioManager.play("casino_card")
 	_render()
+	_screen_flash(Color("#5b9cf6") if step["side"] == "player" else Color("#e85d5d"), 0.06, 0.14)
 
 # ── 베팅 배치 ──────────────────────────────────────────────────
 func _add_bet(type: String) -> void:
@@ -136,7 +144,8 @@ func _add_bet(type: String) -> void:
 		"T":  _bet_t  += add
 		"PP": _bet_pp += add
 		"BP": _bet_bp += add
-	AudioManager.play("click")
+	AudioManager.play("casino_bet")
+	_show_table_banner("BET  %s" % type, Color("#f0b429"), 0.22)
 	_render()
 
 func _clear_bets() -> void:
@@ -186,6 +195,8 @@ func _deal() -> void:
 	AudioManager.play("event_new")
 	set_process(true)
 	_render()
+	_show_table_banner("NO MORE BETS", Color("#f0b429"), 0.52)
+	_screen_flash(Color("#f0b429"), 0.12, 0.26)
 
 # ── 결과 정산 ──────────────────────────────────────────────────
 func _finish_result() -> void:
@@ -230,19 +241,40 @@ func _finish_result() -> void:
 	_net += net_round
 	_rounds += 1
 
-	# 도박 성향
+	# 도박 성향 + SFX
 	var is_win := net_round > 0
 	if is_win:
 		GameState.modify_hidden_stat("gambling_tendency", 2)
-		AudioManager.play("money_gain" if net_round < 500_000 else "money_big")
+		match res:
+			"player":
+				AudioManager.play("casino_win")
+			"banker":
+				AudioManager.play("casino_win")
+			"tie":
+				AudioManager.play("casino_jackpot")
+			_:
+				AudioManager.play("casino_win")
 	else:
 		GameState.modify_hidden_stat("addiction_tendency", 2)
-		AudioManager.play("money_loss")
+		AudioManager.play("casino_lose")
+
+	# 페어 당첨 SFX
+	if (_result.get("p_pair", false) and _bet_pp > 0) or (_result.get("b_pair", false) and _bet_bp > 0):
+		AudioManager.play("casino_jackpot")
+
+	# 내추럴 배너
+	var player_natural: bool = bool(_result.get("player_natural", false))
+	var banker_natural: bool = bool(_result.get("banker_natural", false))
+	if player_natural or banker_natural:
+		var nat_val: int = int(_result.get("player_val" if player_natural else "banker_val", 0))
+		_show_natural_banner(nat_val)
 
 	# 로드맵 업데이트
+	_road_last_count = _road.size()
 	_road.append(res.substr(0, 1).to_upper())  # P/B/T
 	if _road.size() > ROAD_MAX:
 		_road.pop_front()
+	_start_road_fade()
 
 	GameState.add_log("🎰 바카라 %s%s %s" % [
 		res, " 내추럴" if (res == "player" and bool(_result.get("player_natural", false))) or
@@ -252,6 +284,19 @@ func _finish_result() -> void:
 
 	GameState.stats_changed.emit()
 	_render()
+	var res_ko := {"player": "PLAYER WINS", "banker": "BANKER WINS", "tie": "TIE"}
+	var res_col := {"player": Color("#5b9cf6"), "banker": Color("#e85d5d"), "tie": Color("#f0b429")}
+	var banner_text: String = str(res_ko.get(res, res))
+	if net_round > 0.0:
+		banner_text += "  +%s" % GameState.format_money(net_round)
+	elif net_round < 0.0:
+		banner_text += "  %s" % GameState.format_money(net_round)
+	_show_table_banner(banner_text, res_col.get(res, Color("#e8eaf0")), 0.78)
+	_screen_flash(res_col.get(res, Color("#e8eaf0")), 0.18, 0.36)
+	if net_round < 0.0:
+		_shake_node(_content_root, 8.0, 0.26)
+	else:
+		_pulse_node(_content_root, 1.025, 0.26)
 
 # ── 렌더 ──────────────────────────────────────────────────────
 func _render() -> void:
@@ -267,7 +312,8 @@ func _refresh_hud() -> void:
 	var shoe_pct: int = roundi(BAC.shoe_remaining_ratio(_shoe) * 100.0)
 	var comm_str: String = ""
 	if _commission > 0.0:
-		comm_str = "   ⚠커미션 [color=#e8a05d]%s[/color]" % GameState.format_money(_commission)
+		var hud_comm_col: String = "#f0d020" if _commission >= 100_000.0 else "#e8a05d"
+		comm_str = "   ⚠커미션 [color=%s]%s[/color]" % [hud_comm_col, GameState.format_money(_commission)]
 	_hud_lbl.text = "💰 [b]%s[/b]   |   🎰 %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s" % [
 		GameState.format_money(GameState.money), _rounds,
 		_p_wins, _b_wins, _ties,
@@ -346,6 +392,10 @@ func _render_betting() -> void:
 	var clear_btn := _make_btn("베팅 초기화", _clear_bets, "#1a1a1a", "#4a4a5a")
 	clear_btn.custom_minimum_size = Vector2(100, 44)
 	action_row.add_child(clear_btn)
+	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#4a6aaa")
+	help_btn.custom_minimum_size = Vector2(50, 44)
+	action_row.add_child(help_btn)
+
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(80, 44)
 	action_row.add_child(exit_btn)
@@ -402,7 +452,9 @@ func _render_result_screen() -> void:
 		var comm_lbl := Label.new()
 		comm_lbl.text = "⚠ 누적 커미션: %s (나갈 때 정산)" % GameState.format_money(_commission)
 		comm_lbl.add_theme_font_size_override("font_size", 12)
-		comm_lbl.add_theme_color_override("font_color", Color("#e8a05d"))
+		# 10만원 이상이면 노란색으로 강조
+		var comm_color: Color = Color("#f0d020") if _commission >= 100_000.0 else Color("#e8a05d")
+		comm_lbl.add_theme_color_override("font_color", comm_color)
 		_f(comm_lbl); vb.add_child(comm_lbl)
 
 	vb.add_child(_sep())
@@ -539,6 +591,14 @@ func _build_skeleton() -> void:
 	_msg_lbl.visible = false
 	add_child(_msg_lbl)
 
+	_flash_layer = ColorRect.new()
+	_flash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_flash_layer.color = Color(1, 1, 1, 1)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash_layer.z_index = 80
+	add_child(_flash_layer)
+
 func _clear_content() -> void:
 	if not is_instance_valid(_content_root): return
 	for c in _content_root.get_children():
@@ -617,7 +677,13 @@ func _card_widget(card: int) -> Control:
 		Color("#e85d5d") if (card / 13) in [1, 2] else Color("#1a1a2e"))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
 	panel.add_child(lbl)
+	_animate_card_appear(panel)
 	return panel
+
+func _animate_card_appear(node: Control) -> void:
+	node.modulate.a = 0.0
+	var tw := create_tween()
+	tw.tween_property(node, "modulate:a", 1.0, 0.2)
 
 func _card_back() -> Control:
 	var panel := PanelContainer.new()
@@ -673,8 +739,88 @@ func _flash(msg: String, color: String) -> void:
 	get_tree().create_timer(1.8).timeout.connect(func():
 		if is_instance_valid(_msg_lbl): _msg_lbl.visible = false)
 
+func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
+	if not is_instance_valid(_flash_layer):
+		return
+	_flash_layer.color = Color(color.r, color.g, color.b, 1.0)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.visible = true
+	var tw := create_tween()
+	tw.tween_property(_flash_layer, "modulate:a", alpha, duration * 0.22)
+	tw.tween_property(_flash_layer, "modulate:a", 0.0, duration * 0.78)
+	tw.tween_callback(func():
+		if is_instance_valid(_flash_layer):
+			_flash_layer.visible = false
+	)
+
+func _show_table_banner(text: String, color: Color, duration: float = 0.5) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 75
+	panel.size = Vector2(minf(390.0, root_size.x - 48.0), 54.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(88.0, root_size.y * 0.28))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.02, 0.03, 0.04, 0.86)
+	st.border_color = color
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(8)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", color)
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.08)
+	tw.tween_interval(duration)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.16)
+	tw.tween_callback(panel.queue_free)
+
+func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	for _i in range(6):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 # ── 로드맵 드로우 콜백 ─────────────────────────────────────────
 func _refresh_road() -> void:
+	if is_instance_valid(_road_ctrl):
+		_road_ctrl.queue_redraw()
+
+# 로드맵 마지막 셀 fade alpha (0.0→1.0, _road_fade_alpha 로 제어)
+var _road_fade_alpha: float = 1.0
+
+func _start_road_fade() -> void:
+	_road_fade_alpha = 0.0
+	var tw := create_tween()
+	tw.tween_method(_set_road_fade_alpha, 0.0, 1.0, 0.3)
+
+func _set_road_fade_alpha(v: float) -> void:
+	_road_fade_alpha = v
 	if is_instance_valid(_road_ctrl):
 		_road_ctrl.queue_redraw()
 
@@ -692,6 +838,7 @@ func _draw_road() -> void:
 	var cell_w := (sz.x - 8) / float(COLS)
 	var cell_h := (sz.y - 28) / float(ROWS)
 	var results := _road.slice(maxi(_road.size() - COLS * ROWS, 0))
+	var last_idx := results.size() - 1
 	for idx in range(results.size()):
 		var col := idx % COLS
 		var row := idx / COLS
@@ -704,8 +851,46 @@ func _draw_road() -> void:
 			"P": col_c = Color("#3a7abf")
 			"B": col_c = Color("#bf3a3a")
 			_:   col_c = Color("#3abf5a")
-		_road_ctrl.draw_circle(Vector2(cx, cy), r, col_c)
-		_road_ctrl.draw_arc(Vector2(cx, cy), r, 0, TAU, 16, col_c.lightened(0.3), 1.0)
+		# 새로 추가된 마지막 셀은 fade alpha 적용
+		var cell_alpha: float = _road_fade_alpha if idx == last_idx and _road.size() > _road_last_count else 1.0
+		var draw_col := Color(col_c.r, col_c.g, col_c.b, cell_alpha)
+		var arc_col := Color(col_c.lightened(0.3).r, col_c.lightened(0.3).g, col_c.lightened(0.3).b, cell_alpha)
+		_road_ctrl.draw_circle(Vector2(cx, cy), r, draw_col)
+		_road_ctrl.draw_arc(Vector2(cx, cy), r, 0, TAU, 16, arc_col, 1.0)
 		if res != "T":
 			_road_ctrl.draw_string(f, Vector2(cx - 3, cy + 4), res,
-				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1, 1, 1, 0.9))
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1, 1, 1, cell_alpha))
+
+# ── 내추럴 배너 ───────────────────────────────────────────────
+func _show_natural_banner(val: int) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 90
+	panel.size = Vector2(minf(420.0, root_size.x - 48.0), 68.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(60.0, root_size.y * 0.18))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#7a5500")
+	st.border_color = Color("#f0b429")
+	st.set_border_width_all(3)
+	st.set_corner_radius_all(10)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = "NATURAL %d !" % val
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 26)
+	lbl.add_theme_color_override("font_color", Color("#ffe566"))
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	AudioManager.play("casino_jackpot")
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.12)
+	tw.tween_interval(1.5)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.2)
+	tw.tween_callback(panel.queue_free)

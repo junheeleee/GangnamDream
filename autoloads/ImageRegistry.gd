@@ -89,6 +89,7 @@ const BACKGROUNDS = {
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
 	"street_rainy":      "res://assets/backgrounds/seoul_rainy_street.png",
 	"pojangmacha":       "res://assets/backgrounds/pojangmacha.png",
+	"rooftop_day":       "res://assets/backgrounds/rooftop_daytime.png",
 	"rooftop_night":     "res://assets/backgrounds/rooftop_night.png",
 	# 직장/사업
 	"office":            "res://assets/backgrounds/office_desk.png",
@@ -101,6 +102,9 @@ const BACKGROUNDS = {
 	# 특수
 	"hospital":          "res://assets/backgrounds/hospital_corridor.png",
 	"hospital_clinic":   "res://assets/backgrounds/hospital_clinic.png",
+	"gym":               "res://assets/backgrounds/rooftop_daytime.png",
+	"exercise":          "res://assets/backgrounds/rooftop_daytime.png",
+	"military":          "res://assets/backgrounds/military_training_ground.png",
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
 	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
@@ -222,45 +226,119 @@ func get_background(id: String) -> String:
 ## (MainGame._get_bg_for_event와 같은 규칙 — StoryMode에서 빈 배경 방지)
 func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 	var tags: Array = ev.get("tags", [])
+	var event_id := str(ev.get("id", ""))
 	var category := str(ev.get("category", ""))
-	if "hospital" in tags or category == "health":
+	var search := _event_search_text(ev)
+
+	# 구체적인 장소 의미가 broad category보다 항상 먼저다.
+	# 예: "집들이"는 social이어도 카페가 아니라 현재 방, "헬스장"은 health가 아니라 운동 배경.
+	if event_id in ["friend_housewarming", "housewarming_alone"] or _has_any(search, [
+		"집들이", "방 안", "방안을", "창문 밖", "옆 건물", "my room", "inside the room",
+		"housewarming"
+	]):
+		return _housing_background_id(housing)
+	if "holdem" in tags or _has_any(search, [
+		"홀덤", "포커", "텍사스 홀덤", "poker", "holdem", "texas hold'em",
+		"green felt", "felt table"
+	]):
+		return "holdem_club"
+	if "racetrack" in tags or "race" in tags or _has_any(search, [
+		"경마", "경마장", "경마공원", "과천", "마권", "기수", "말들이", "최종 직선",
+		"horse race", "racetrack", "racecourse", "betting hall"
+	]):
+		if _has_any(search, ["결과", "스타트", "제1코너", "최종 직선", "관람대", "track view", "finish"]):
+			return "racetrack_track"
+		return "racetrack_betting"
+	if "lotto" in tags or _has_any(search, ["복권", "로또", "스크래치", "lottery", "scratch"]):
+		return "convenience_night"
+	if "gym" in tags or "exercise" in tags or _has_any(search, [
+		"헬스장", "운동", "달리기", "달렸다", "러닝", "pt ", "gym", "exercise",
+		"workout", "fitness", "trainer"
+	]):
+		return "gym"
+	if "hospital" in tags or _has_any(search, [
+		"병원", "의사", "검진", "응급실", "진료", "입원", "퇴원", "hospital",
+		"doctor", "checkup", "clinic", "emergency room", "medical"
+	]):
 		return "hospital"
-	if "gym" in tags or "exercise" in tags:
-		return "rooftop_day"
-	if "convenience" in tags:
+	if "convenience" in tags or _has_any(search, ["편의점", "convenience store"]):
 		return "convenience_night"
 	if "scalping" in tags:
 		return "scalping_room"
-	if "investment" in tags or category == "investment" or "finance" in tags:
-		return "investment_phone"
-	if "job" in tags or "work" in tags or "office" in tags or category == "jobs":
+	if "realestate" in tags or _has_any(search, [
+		"부동산", "중개소", "청약", "전세", "경매", "보증금", "재개발", "빌라", "real estate",
+		"redevelopment", "deposit", "auction"
+	]):
+		return "realestate_office"
+	if category == "housing" or "housing" in tags:
+		if "gangnam" in tags or "gangnam_station" in tags:
+			return "gangnam_apartment"
+		return _housing_background_id(housing)
+	if "study" in tags or _has_any(search, [
+		"도서관", "열람실", "스터디카페", "독서", "책을", "library", "reading room", "study cafe"
+	]):
+		return "library"
+	if "job" in tags or "work" in tags or "office" in tags or category == "jobs" \
+			or _has_any(search, ["사무실", "회사", "직장", "면접", "office", "interview"]):
 		return "office"
-	if "commute" in tags or "subway" in tags:
+	if "commute" in tags or "subway" in tags or _has_any(search, ["지하철", "subway"]):
 		return "subway"
 	if "social" in tags or "date" in tags or "cafe" in tags \
-			or "relationship" in tags or category == "romance":
+			or "relationship" in tags or category == "romance" \
+			or _has_any(search, ["카페", "커피", "cafe", "coffee"]):
 		return "cafe"
+	if "investment" in tags or category == "investment" or "finance" in tags:
+		return "investment_phone"
 	if "family" in tags or category == "family":
-		return "restaurant"
+		return "dad_house"
 	if "hometown" in tags:
 		return "ktx_window"
 	if "rooftop" in tags:
-		return "rooftop_night"
+		return "rooftop_day"
+	if category == "health":
+		if "stress" in tags or "burnout" in tags or "mental" in tags:
+			return "late_night"
+		return "hospital"
+	if category == "military" or "military" in tags:
+		return "military"
 	if category == "politics":
 		return "gangnam_night"
 	if category == "gambling" or "gambling" in tags or "crypto" in tags:
 		return "investment_phone"
 	if "pc_bang" in tags or "gaming" in tags:
 		return "pc_bang"
+	if "gangnam_station" in tags:
+		return "gangnam_station"
 	if "night" in tags or "stress" in tags:
 		return "late_night"
 	if "gosiwon" in tags:
 		return "goshiwon_room"
 	# 주거 기반 폴백
+	return _housing_background_id(housing)
+
+func _housing_background_id(housing: String) -> String:
 	match housing:
 		"gangnam":   return "gangnam_apartment"
-		"apartment": return "late_night"
+		"apartment": return "gangnam_apartment"
+		"villa":     return "apartment"
+		"oneroom":   return "apartment"
 		_:           return "goshiwon_room"
+
+func _event_search_text(ev: Dictionary) -> String:
+	var parts := PackedStringArray()
+	parts.append(str(ev.get("id", "")))
+	parts.append(str(ev.get("title", "")))
+	parts.append(str(ev.get("description", "")))
+	parts.append(str(ev.get("category", "")))
+	for tag in ev.get("tags", []):
+		parts.append(str(tag))
+	return " ".join(parts).to_lower()
+
+func _has_any(text: String, needles: Array) -> bool:
+	for needle in needles:
+		if text.find(str(needle).to_lower()) >= 0:
+			return true
+	return false
 
 ## CG 경로 반환. 파일 없으면 "" (UI가 검은 화면 + 텍스트 처리)
 func get_cg(id: String) -> String:

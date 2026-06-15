@@ -41,6 +41,13 @@
     "id": "callback_holdem_big_win_echo",
     "title": "홀덤에서 크게 따고 난 뒤",
     "description": "홀덤에서 크게 따고 두 달이 지났다.\n그 감각이 아직 남아 있었다.\n오늘 또 자리가 생겼다는 연락이 왔다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "background": "holdem_club",
+    "tags": ["holdem", "callback", "gambling"],
+    "cooldown": 999,
     "conditions": {
       "flag": "holdem_big_win",
       "min_turn": 8
@@ -60,6 +67,13 @@
     "id": "callback_holdem_quit_echo",
     "title": "홀덤을 끊은 뒤",
     "description": "홀덤을 끊기로 한 지 두 달.\n가끔 생각이 났다.\n오늘 예전 자리 멤버에게서 연락이 왔다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "background": "holdem_club",
+    "tags": ["holdem", "callback", "gambling"],
+    "cooldown": 999,
     "conditions": {
       "flag": "holdem_quit",
       "min_turn": 8
@@ -79,6 +93,13 @@
     "id": "callback_racetrack_chased_loss_echo",
     "title": "경마에서 손실을 쫓은 뒤",
     "description": "잃은 돈을 만회하려다 더 잃은 지 두 달.\n그 날이 아직 생생했다.\n오늘 경마 시즌이 다시 시작됐다는 게 들렸다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "background": "racetrack_betting",
+    "tags": ["racetrack", "callback", "gambling"],
+    "cooldown": 999,
     "conditions": {
       "flag": "racetrack_chased_loss",
       "min_turn": 8
@@ -98,6 +119,13 @@
     "id": "callback_racetrack_won_big_echo",
     "title": "경마에서 크게 따고 난 뒤",
     "description": "경마에서 크게 따고 두 달이 지났다.\n그 돈을 어떻게 했는지가 중요했다.\n오늘 그 돈을 돌아봤다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "background": "racetrack_betting",
+    "tags": ["racetrack", "callback", "gambling"],
+    "cooldown": 999,
     "conditions": {
       "flag": "racetrack_won_big",
       "min_turn": 8

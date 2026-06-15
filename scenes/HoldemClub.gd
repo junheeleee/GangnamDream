@@ -7,6 +7,7 @@ signal closed
 
 const TH := preload("res://systems/TexasHoldem.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
 
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000
@@ -50,6 +51,8 @@ var _opp_rows: Array = []
 var _msg_lbl: RichTextLabel
 var _action_panel: Control
 var _stack_lbl: Label
+var _flash_layer: ColorRect
+var _last_phase_banner := ""
 var _font: FontFile
 var _font_bold: FontFile
 
@@ -86,6 +89,7 @@ func open() -> void:
 		_opp[0]["aggression"] = 0.55  # 마스터: 둘 다 강해짐
 	_show_buyin_screen()
 	visible = true
+	TutorialOverlay.maybe_show("holdem", self)
 	AudioManager.play("tab_open")
 
 func _show_buyin_screen() -> void:
@@ -155,6 +159,10 @@ func _show_buyin_screen() -> void:
 
 	vb.add_child(_sep())
 
+	var rules_btn := _make_btn("❓  게임 규칙 보기", func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
+	rules_btn.custom_minimum_size = Vector2(0, 38)
+	vb.add_child(rules_btn)
+
 	var leave := _make_btn("자리를 뜬다", _leave, "#2a1818")
 	vb.add_child(leave)
 
@@ -192,6 +200,18 @@ func _start_hand() -> void:
 	_phase = Phase.PREFLOP
 	_action_idx = 0  # 플레이어 먼저 (SB acts first preflop in simplified version)
 	_render_table()
+	_show_table_banner("NEW HAND", Color("#5b9cf6"), 0.65)
+	_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.47), 6)
+	_screen_flash(Color("#5b9cf6"), 0.10, 0.22)
+	# 홀 카드 딜 애니메이션 — 카드 2장 순서대로 scale 팝
+	if is_instance_valid(_hole_row):
+		var delay := 0.0
+		for card in _hole_row.get_children():
+			card.scale = Vector2(0.0, 0.0)
+			var tw := create_tween()
+			tw.tween_interval(delay)
+			tw.tween_property(card, "scale", Vector2(1.0, 1.0), 0.20).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			delay += 0.18
 	_process_action_turn()
 
 func _post_blind(who: int, amount: int, is_player: bool) -> void:
@@ -208,6 +228,7 @@ func _post_blind(who: int, amount: int, is_player: bool) -> void:
 # ── 테이블 렌더 ───────────────────────────────────────────────────
 func _render_table() -> void:
 	_clear_content()
+	_opp_rows = []
 	var root := _content_vbox()
 
 	# 헤더 + 세션 통계
@@ -219,8 +240,8 @@ func _render_table() -> void:
 	if total_hands > 0:
 		winrate_str = "   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]" % [
 			roundi(float(_session_won) / float(total_hands) * 100.0), _session_won, _session_lost]
-	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]   [color=#5b9cf6]팟 %s[/color]%s" % [
-		phase_names[_phase], _fmt(_pot), winrate_str]
+	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s" % [
+		phase_names[_phase], winrate_str]
 	hdr.fit_content = true
 	hdr.scroll_active = false
 	_f(hdr, true)
@@ -239,6 +260,24 @@ func _render_table() -> void:
 		hist_rt.text = "히스토리: " + "  ".join(parts)
 		root.add_child(hist_rt)
 
+	var pot_box := HBoxContainer.new()
+	pot_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	pot_box.add_theme_constant_override("separation", 8)
+	root.add_child(pot_box)
+	if CHIP_TEX != null:
+		var chip := TextureRect.new()
+		chip.custom_minimum_size = Vector2(24, 24)
+		chip.texture = CHIP_TEX
+		chip.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		chip.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		pot_box.add_child(chip)
+	_pot_lbl = Label.new()
+	_pot_lbl.text = "POT  %s" % _fmt(_pot)
+	_pot_lbl.add_theme_font_size_override("font_size", 18)
+	_pot_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+	_f(_pot_lbl, true)
+	pot_box.add_child(_pot_lbl)
+
 	root.add_child(_sep())
 
 	# AI 상대들
@@ -247,6 +286,7 @@ func _render_table() -> void:
 		var opp_row := HBoxContainer.new()
 		opp_row.add_theme_constant_override("separation", 8)
 		root.add_child(opp_row)
+		_opp_rows.append(opp_row)
 
 		var name_lbl := Label.new()
 		name_lbl.text = "[X] %s" % o["name"] if o["folded"] else o["name"]
@@ -291,6 +331,7 @@ func _render_table() -> void:
 	var comm_row := HBoxContainer.new()
 	comm_row.add_theme_constant_override("separation", 6)
 	community_box.add_child(comm_row)
+	_community_row = comm_row
 	for c in _community:
 		comm_row.add_child(_card_label(c))
 	for _j in range(5 - _community.size()):
@@ -312,6 +353,7 @@ func _render_table() -> void:
 	var my_card_row := HBoxContainer.new()
 	my_card_row.add_theme_constant_override("separation", 6)
 	my_box.add_child(my_card_row)
+	_hole_row = my_card_row
 	for c in _hole:
 		my_card_row.add_child(_card_label(c, true))
 	var my_spacer := Control.new()
@@ -324,6 +366,7 @@ func _render_table() -> void:
 	my_stack.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_f(my_stack, true)
 	my_box.add_child(my_stack)
+	_stack_lbl = my_stack
 
 	# 핸드 힌트 (현재 베스트 핸드)
 	if not _community.is_empty() and not _player_folded:
@@ -488,14 +531,21 @@ func _player_action(action: String, amount: int) -> void:
 		"fold":
 			_player_folded = true
 			_set_msg("폴드했습니다.")
+			_show_table_banner("FOLD", Color("#d73a49"), 0.48)
+			_screen_flash(Color("#d73a49"), 0.08, 0.18)
 		"check":
 			_set_msg("체크.")
+			_show_table_banner("CHECK", Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, _player_stack)
 			_player_stack -= actual
 			_player_bet += actual
 			_pot += actual
 			_set_msg("콜 (%s)." % _fmt(actual))
+			AudioManager.play("sell", -6.0)
+			_show_table_banner("CALL", Color("#5de89c"), 0.45)
+			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.56), 4)
+			_pulse_node(_msg_lbl, 1.04, 0.18)
 		"raise":
 			var actual := mini(amount, _player_stack)
 			_player_stack -= actual
@@ -503,6 +553,11 @@ func _player_action(action: String, amount: int) -> void:
 			_pot += actual
 			_max_bet = maxi(_max_bet, _player_bet)
 			_set_msg("레이즈 → %s" % _fmt(_player_bet))
+			AudioManager.play("money_big" if actual >= 200_000 else "sell")
+			_show_table_banner("RAISE", Color("#f0b429"), 0.58)
+			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.56), 8)
+			_screen_flash(Color("#f0b429"), 0.13, 0.22)
+			_shake_node(_content_root, 4.0, 0.16)
 
 	_action_idx += 1
 	await get_tree().create_timer(0.3).timeout
@@ -521,19 +576,27 @@ func _do_ai_action(opp_idx: int) -> void:
 	match decision["action"]:
 		"fold":
 			o["folded"] = true
+			_show_table_banner("%s  FOLD" % o["name"], Color("#8a5a5a"), 0.46)
 		"check":
-			pass
+			_show_table_banner("%s  CHECK" % o["name"], Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, o["stack"])
 			o["stack"] -= actual
 			_opp_bets[opp_idx] += actual
 			_pot += actual
+			AudioManager.play("sell", -8.0)
+			_show_table_banner("%s  CALL" % o["name"], Color("#5de89c"), 0.45)
+			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.40), 3)
 		"raise":
 			var actual := mini(int(decision["amount"]), o["stack"])
 			o["stack"] -= actual
 			_opp_bets[opp_idx] += actual
 			_pot += actual
 			_max_bet = maxi(_max_bet, _opp_bets[opp_idx])
+			AudioManager.play("sell", -5.0)
+			_show_table_banner("%s  RAISE" % o["name"], Color("#f0b429"), 0.55)
+			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.40), 6)
+			_screen_flash(Color("#f0b429"), 0.08, 0.16)
 
 	_action_idx += 1
 	await get_tree().create_timer(0.6).timeout
@@ -555,6 +618,7 @@ func _advance_phase() -> void:
 	_opp_bets = [0, 0]
 	_max_bet = 0
 	_action_idx = 0
+	var banner := ""
 
 	match _phase:
 		Phase.PREFLOP:
@@ -562,17 +626,38 @@ func _advance_phase() -> void:
 			_community.append(_deck.pop_back())
 			_community.append(_deck.pop_back())
 			_phase = Phase.FLOP
+			banner = "FLOP"
 		Phase.FLOP:
 			_community.append(_deck.pop_back())
 			_phase = Phase.TURN
+			banner = "TURN"
 		Phase.TURN:
 			_community.append(_deck.pop_back())
 			_phase = Phase.RIVER
+			banner = "RIVER"
 		Phase.RIVER:
 			_do_showdown()
 			return
 
+	var new_cards := 1 if banner in ["TURN", "RIVER"] else 3
 	_render_table()
+	AudioManager.play("tab_open", -4.0)
+	_show_table_banner(banner, Color("#5b9cf6"), 0.62)
+	_screen_flash(Color("#5b9cf6"), 0.09, 0.20)
+	# 새로 공개된 카드들 scale 0→1 순차 팝인
+	if is_instance_valid(_community_row):
+		var total: int = _community_row.get_child_count()
+		var start_idx: int = total - new_cards - (5 - _community.size())
+		var delay := 0.0
+		for ci in range(new_cards):
+			var idx := start_idx + ci
+			if idx >= 0 and idx < total:
+				var card = _community_row.get_child(idx)
+				card.scale = Vector2(0.0, 0.0)
+				var tw := create_tween()
+				tw.tween_interval(delay)
+				tw.tween_property(card, "scale", Vector2(1.0, 1.0), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+				delay += 0.14
 	_process_action_turn()
 
 func _do_showdown() -> void:
@@ -604,6 +689,7 @@ func _do_showdown() -> void:
 		msg_parts.append("🎉 %s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play("money_big" if _pot >= 1_000_000 else "money_gain")
+		_screen_flash(Color("#f0b429"), 0.22, 0.42)
 	else:
 		# AI 승
 		_opp[winner_idx]["stack"] += _pot
@@ -613,6 +699,8 @@ func _do_showdown() -> void:
 		msg_parts.append("😔 %s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 		AudioManager.play("money_loss")
+		_screen_flash(Color("#d73a49"), 0.22, 0.38)
+		_shake_node(_content_root, 8.0, 0.28)
 
 	# 핸드 히스토리 기록
 	var hand_rank_name: String = TH.rank_name(best_hand[0]) if not best_hand.is_empty() else "?"
@@ -625,7 +713,11 @@ func _do_showdown() -> void:
 		_hand_history.pop_front()
 
 	_render_table()
+	_show_table_banner("SHOWDOWN", Color("#f0b429"), 0.70)
 	_set_msg(" ".join(msg_parts))
+	_pulse_node(_msg_lbl, 1.08, 0.30)
+	_pulse_node(_community_row, 1.05, 0.28)
+	_pulse_node(_hole_row, 1.07, 0.30)
 	_show_showdown_buttons()
 
 func _show_showdown_buttons() -> void:
@@ -668,6 +760,7 @@ func _show_result_screen() -> void:
 	net_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_f(net_lbl, true)
 	vb.add_child(net_lbl)
+	_pulse_node(net_lbl, 1.12, 0.34)
 
 	vb.add_child(_sep())
 
@@ -731,6 +824,14 @@ func _build_ui() -> void:
 	_content_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scroll.add_child(_content_root)
 
+	_flash_layer = ColorRect.new()
+	_flash_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_flash_layer.color = Color(1, 1, 1, 1)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash_layer.z_index = 80
+	add_child(_flash_layer)
+
 func _clear_content() -> void:
 	if not is_instance_valid(_content_root): return
 	for ch in _content_root.get_children():
@@ -756,7 +857,7 @@ func _set_msg(text: String) -> void:
 
 func _card_label(card: Dictionary, highlight := false) -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(38, 52)
+	panel.custom_minimum_size = Vector2(44, 60)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
 	st.border_color = Color("#f0b429") if highlight else Color("#c0b090")
@@ -779,7 +880,7 @@ func _card_back() -> Control:
 	# 이미지 카드 뒷면 (로드 실패 시 절차적 패널로 폴백)
 	if CARD_BACK_TEX != null:
 		var tex := TextureRect.new()
-		tex.custom_minimum_size = Vector2(38, 52)
+		tex.custom_minimum_size = Vector2(44, 60)
 		tex.texture = CARD_BACK_TEX
 		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -803,7 +904,7 @@ func _card_back() -> Control:
 
 func _card_placeholder() -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(38, 52)
+	panel.custom_minimum_size = Vector2(44, 60)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0a1520")
 	st.border_color = Color("#1a2530")
@@ -844,3 +945,100 @@ func _fmt(amount) -> String:
 	if abs(a) >= 100_000_000: return "%.1f억" % (float(a) / 100_000_000.0)
 	if abs(a) >= 10_000:      return "%d만" % (a / 10_000)
 	return "%d원" % a
+
+func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
+	if not is_instance_valid(_flash_layer):
+		return
+	_flash_layer.color = Color(color.r, color.g, color.b, 1.0)
+	_flash_layer.modulate = Color(1, 1, 1, 0.0)
+	_flash_layer.visible = true
+	var tw := create_tween()
+	tw.tween_property(_flash_layer, "modulate:a", alpha, duration * 0.22)
+	tw.tween_property(_flash_layer, "modulate:a", 0.0, duration * 0.78)
+	tw.tween_callback(func():
+		if is_instance_valid(_flash_layer):
+			_flash_layer.visible = false
+	)
+
+func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	for _i in range(6):
+		var offset := Vector2(randf_range(-amount, amount), randf_range(-amount * 0.45, amount * 0.45))
+		tw.tween_property(ctrl, "position", base + offset, duration / 6.0)
+	tw.tween_property(ctrl, "position", base, 0.04)
+
+func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> void:
+	if not is_instance_valid(node) or not (node is Control):
+		return
+	var ctrl := node as Control
+	var base := ctrl.scale
+	ctrl.pivot_offset = ctrl.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func _show_table_banner(text: String, color: Color, duration: float = 0.55) -> void:
+	if text.is_empty():
+		return
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 75
+	panel.size = Vector2(minf(360.0, root_size.x - 48.0), 54.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(86.0, root_size.y * 0.30))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.02, 0.03, 0.04, 0.82)
+	st.border_color = color
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(8)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", color)
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.08)
+	tw.tween_interval(duration)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.18)
+	tw.tween_callback(panel.queue_free)
+
+func _spawn_chip_burst(color: Color, center_ratio: Vector2 = Vector2(0.5, 0.5), count: int = 5) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var center := Vector2(root_size.x * center_ratio.x, root_size.y * center_ratio.y)
+	for i in range(count):
+		var chip := PanelContainer.new()
+		chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		chip.z_index = 74
+		var chip_size := randf_range(10.0, 16.0)
+		chip.size = Vector2(chip_size, chip_size)
+		chip.position = center + Vector2(randf_range(-42.0, 42.0), randf_range(-18.0, 18.0))
+		var st := StyleBoxFlat.new()
+		st.bg_color = color.darkened(randf_range(0.0, 0.18))
+		st.border_color = Color("#fff3b0")
+		st.set_border_width_all(1)
+		st.set_corner_radius_all(99)
+		chip.add_theme_stylebox_override("panel", st)
+		add_child(chip)
+		var end := center + Vector2(randf_range(-70.0, 70.0), randf_range(-72.0, -26.0))
+		var tw := create_tween()
+		tw.set_parallel(true)
+		tw.tween_property(chip, "position", end, 0.34).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tw.tween_property(chip, "modulate:a", 0.0, 0.34).set_delay(0.08)
+		tw.tween_property(chip, "scale", Vector2(0.55, 0.55), 0.34)
+		tw.set_parallel(false)
+		tw.tween_callback(chip.queue_free)
