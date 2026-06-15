@@ -2089,5 +2089,297 @@
         "result_text": "「그 말, 세 번의 폭락 전에 다 들었던 말이다.」\n임상철은 더 말리지 않았다. 「네 돈이니까.」"
       }
     ]
+  },
+  {
+    "id": "invest_first_win",
+    "title": "처음으로 돈이 불었다",
+    "description": "휴대폰 화면을 봤다.\n숫자가 바뀌어 있었다.\n\n어제 산 ETF가 3.2% 올랐다.\n금액으로는 48,000원.\n\n별것 아니다. 그런데 손이 떨렸다.\n내가 아무것도 하지 않는 동안, 돈이 돈을 벌었다.",
+    "category": "investment",
+    "rarity": "common",
+    "weight": 9,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 2,
+      "max_turn": 15
+    },
+    "tags": [
+      "investment",
+      "milestone"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "더 사야겠다 — 이게 맞는 방향이다",
+        "effects": {
+          "investment_skill": 2,
+          "stress": -3,
+          "intelligence": 1
+        },
+        "flags": [
+          "first_invest_win"
+        ],
+        "result_text": "소액이었지만 확신이 생겼다.\n이렇게 조금씩, 꾸준히."
+      },
+      {
+        "text": "일단 팔아서 확정짓는다 — 손에 쥐어야 내 돈",
+        "effects": {
+          "intelligence": 1,
+          "stress": -2
+        },
+        "flags": [
+          "first_invest_win"
+        ],
+        "result_text": "48,000원을 확정했다.\n그리고 곧바로 후회했다. 그날 오후 또 2% 올랐다."
+      }
+    ]
+  },
+  {
+    "id": "invest_first_loss",
+    "title": "처음으로 돈이 줄었다",
+    "description": "잠들기 전에 앱을 열었다.\n\n빨간 숫자.\n\n-7.4%. 투자금의 7.4%가 오늘 하루 사라졌다.\n\n이성은 '장기 투자, 버텨라'고 말한다.\n본능은 '팔아, 지금 당장'을 외친다.",
+    "category": "investment",
+    "rarity": "common",
+    "weight": 9,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 3,
+      "max_turn": 20
+    },
+    "tags": [
+      "investment",
+      "psychology"
+    ],
+    "cooldown": 99,
+    "choices": [
+      {
+        "text": "버텼다 — 이건 장기 게임이다",
+        "effects": {
+          "mental": -5,
+          "stress": 5,
+          "investment_skill": 2
+        },
+        "flags": [
+          "first_invest_loss"
+        ],
+        "result_text": "버텼다.\n다음 달 6% 회복됐다. 손실보다 느리게 오르는 게 투자의 현실이다."
+      },
+      {
+        "text": "팔았다 — 더 잃기 전에",
+        "effects": {
+          "stress": -4,
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": [
+          "first_invest_loss"
+        ],
+        "result_text": "팔았다. 마음이 편해졌다.\n그리고 3주 뒤, 그 주식은 원점을 회복했다."
+      }
+    ]
+  },
+  {
+    "id": "leverage_temptation",
+    "title": "레버리지의 유혹",
+    "description": "유튜브 알고리즘이 보여준 영상이었다.\n'3배 레버리지 ETF, 1년 수익률 280%'\n\n댓글창은 열광했고, 몇몇은 '나도 했다'고 썼다.\n\n{name}은 계산기를 꺼냈다.\n지금 가진 돈에 3을 곱하면.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 6,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_investment_skill": 15,
+      "min_turn": 8
+    },
+    "tags": [
+      "investment",
+      "leverage",
+      "psychology"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "일부만 레버리지로 — 30% 정도는 괜찮겠지",
+        "effects": {
+          "investment_skill": 2,
+          "stress": 4,
+          "luck": -1
+        },
+        "result_text": "30%를 3배 레버리지에 넣었다.\n그건 사실상 전체 포트의 90%를 한 방향에 거는 것과 같았다."
+      },
+      {
+        "text": "안 한다 — 댓글에 손실 얘기는 없다",
+        "effects": {
+          "intelligence": 2,
+          "stress": -2,
+          "investment_skill": 1
+        },
+        "result_text": "영상을 껐다.\n그 영상의 제목은 '280%'였지만, 같은 기간 손실자 비율은 화면에 없었다."
+      }
+    ]
+  },
+  {
+    "id": "market_crash_panic",
+    "title": "폭락장",
+    "description": "시장이 무너지고 있었다.\n\n미국 고용지표 충격. 서킷브레이커. 코스피 -8%.\n\n SNS에는 '다 팔았다', '이미 늦었다'가 가득했다.\n{name}의 포트폴리오도 새빨간 숫자들이었다.",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 5,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 6
+    },
+    "tags": [
+      "investment",
+      "market",
+      "crisis"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "공포를 이용한다 — 분할 매수 기회",
+        "effects": {
+          "investment_skill": 3,
+          "stress": 8,
+          "intelligence": 2
+        },
+        "result_text": "공포에 살 수 있었다.\n2개월 뒤 시장은 50% 반등했고, 그 포지션은 두 배가 됐다."
+      },
+      {
+        "text": "전량 매도 — 원금은 지켜야 한다",
+        "effects": {
+          "stress": -6,
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "result_text": "팔았다. 손실을 확정했다.\n그 뒤로 한동안 시장을 보지 않았다."
+      },
+      {
+        "text": "아무것도 안 한다 — 흔들리지 않는다",
+        "effects": {
+          "mental": -3,
+          "stress": 6,
+          "investment_skill": 2
+        },
+        "result_text": "버텼다. 그게 전부였다.\n버티는 것도 전략이라는 걸, 그때 처음 알았다."
+      }
+    ]
+  },
+  {
+    "id": "dividend_income",
+    "title": "배당금 입금",
+    "description": "문자 알림이 왔다.\n\n'배당금 입금: 234,000원'\n\n처음이었다.\n아무것도 하지 않았는데 통장에 돈이 들어왔다.\n\n이게 패시브 인컴이구나.",
+    "category": "investment",
+    "rarity": "common",
+    "weight": 7,
+    "hidden": false,
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 5,
+      "min_money": 1000000
+    },
+    "tags": [
+      "investment",
+      "income"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "재투자한다 — 복리의 시작",
+        "effects": {
+          "money": 234000,
+          "investment_skill": 2,
+          "stress": -2
+        },
+        "result_text": "234,000원을 다시 투자했다.\n작은 눈덩이가 굴러가기 시작했다."
+      },
+      {
+        "text": "생활비로 쓴다 — 지금은 빠듯하다",
+        "effects": {
+          "money": 234000,
+          "stress": -5,
+          "mental": 3
+        },
+        "result_text": "234,000원으로 맛있는 걸 먹었다.\n이달은 조금 덜 빠듯했다."
+      }
+    ]
+  },
+  {
+    "id": "goshiwon_invest_night",
+    "title": "고시원 밤의 투자",
+    "description": "새벽 2시.\n\n2평짜리 고시원 방에서 노트북을 켰다.\n\n미국 장이 열리는 시간이었다.\n위에서는 누군가의 코 고는 소리.\n옆방에서는 키보드 소리.\n\n{name}은 호가창을 봤다.",
+    "category": "investment",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon",
+      "has_portfolio": true
+    },
+    "tags": [
+      "investment",
+      "lifestyle",
+      "goshiwon"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "오늘 밤 매매하지 않는다 — 감정적 결정은 독",
+        "effects": {
+          "mental": 2,
+          "intelligence": 1,
+          "stress": -3
+        },
+        "result_text": "노트북을 닫았다.\n새벽 감정으로 내린 결정은 항상 후회했다."
+      },
+      {
+        "text": "매수한다 — 하락한 채로 아침을 맞을 수 없다",
+        "effects": {
+          "investment_skill": 1,
+          "stress": 5,
+          "health": -3
+        },
+        "result_text": "샀다. 그리고 새벽 4시에 잠들었다.\n다음날 -3%. 피로와 손실이 함께 쌓였다."
+      }
+    ]
+  },
+  {
+    "id": "real_estate_news",
+    "title": "집값 뉴스",
+    "description": "뉴스를 켰다.\n\n'강남 아파트 평균 25억 돌파'\n\n25억.\n지금 {name}의 통장 잔고의 몇 배인지 계산이 안 됐다.\n\n그런데 저 아파트에 사는 사람들은 어떻게 산 걸까.",
+    "category": "investment",
+    "rarity": "common",
+    "weight": 7,
+    "hidden": false,
+    "conditions": {
+      "max_money": 50000000
+    },
+    "tags": [
+      "investment",
+      "real_estate",
+      "class"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "부동산을 공부하기 시작한다",
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 2,
+          "stress": 3
+        },
+        "result_text": "레버리지, 전세, 갭투자.\n단어들을 외우기 시작했다."
+      },
+      {
+        "text": "TV를 껐다 — 지금 내 현실과 관계없는 숫자다",
+        "effects": {
+          "mental": 3,
+          "stress": -4
+        },
+        "result_text": "껐다.\n강남 집값이 오르든 말든, 오늘 할 일은 오늘 해야 했다."
+      }
+    ]
   }
 ]
