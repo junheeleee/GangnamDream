@@ -774,9 +774,20 @@ func _refresh_goal_bar() -> void:
 	else:
 		_goal_pct_label.remove_theme_color_override("font_color")
 
-	# 자산 레이블
+	# 자산 레이블 + 다음 마일스톤
 	if _goal_money_lbl:
-		_goal_money_lbl.text = "💰 %s" % GameState.format_money(total)
+		var milestone_text: String
+		if total < 100_000_000:
+			milestone_text = "→ 1억"
+		elif total < 500_000_000:
+			milestone_text = "→ 5억"
+		elif total < 1_000_000_000:
+			milestone_text = "→ 10억"
+		elif total < 2_000_000_000:
+			milestone_text = "→ 20억"
+		else:
+			milestone_text = "→ 30억!"
+		_goal_money_lbl.text = "💰 %s  %s" % [GameState.format_money(total), milestone_text]
 
 # ══════════════════════════════════════════════════════════════
 # 튜토리얼 — 첫 런, 첫 AP 화면 진입 시 1회 표시
@@ -1067,6 +1078,11 @@ func _next_arc_id() -> String:
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
 		return "arc_sangchul_01_meet"
 
+	# ── 임상철 투자 길잡이 — 첫 만남 2주 후 (30억 경로 안내) ──
+	if t >= 12 and f.get("arc_sangchul_met_seen", false) \
+			and not f.get("arc_invest_guidance_seen", false):
+		return "arc_invest_guidance"
+
 	# ── 김다은 아크 — 편의점 단골, 사랑 vs 야망 (슬로우번) ──
 	if t >= 9 and not f.get("arc_daeun_met", false):
 		return "arc_daeun_01_meet"
@@ -1134,7 +1150,7 @@ func _next_arc_id() -> String:
 	# 첫 만남 후 500만원 이상 모이면 VIP 투자 모임 초대 (데모 달성 가능 수준)
 	if t >= 20 and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_sangchul_03_seen", false) \
-			and GameState.get_total_asset_value() >= 5_000_000:
+			and GameState.get_total_asset_value() >= 1_000_000:
 		return "arc_sangchul_03_network"
 	# ── 임상철 정선 카지노 초대 — 커피(02) 이후, 자금 300만 이상이면 초대 가능 ──
 	if t >= 23 and f.get("arc_sangchul_02_seen", false) \
@@ -2012,16 +2028,17 @@ func _refresh_arc_box() -> void:
 			"hint": "T3+ 조건 충족 시 시작" if not f.get("met_daeun", false) else "",
 		},
 		{
-			"name": "임상철 (인맥)",
+			"name": "임상철 (인맥·투자)",
 			"icon": "🤝",
 			"active": f.get("arc_sangchul_met_seen", false),
 			"done": f.get("arc_sangchul_03_seen", false),
 			"stages": [
 				{"label": "첫 만남", "done": f.get("arc_sangchul_met_seen", false)},
+				{"label": "투자 조언", "done": f.get("arc_invest_guidance_seen", false)},
 				{"label": "두 번째 커피", "done": f.get("arc_sangchul_02_seen", false)},
-				{"label": "네트워크 입성", "done": f.get("arc_sangchul_03_seen", false)},
+				{"label": "네트워크 입성 (자산 100만+ 필요)", "done": f.get("arc_sangchul_03_seen", false)},
 			],
-			"hint": "10개월차 이후 자동 만남",
+			"hint": ("자산 100만원 이상이면 다음 단계 진행 가능" if f.get("arc_sangchul_02_seen", false) and not f.get("arc_sangchul_03_seen", false) and GameState.get_total_asset_value() < 1_000_000 else "10개월차 이후 자동 만남") if not f.get("arc_sangchul_met_seen", false) else "",
 		},
 		{
 			"name": "강현수 (친구)",
@@ -2040,12 +2057,13 @@ func _refresh_arc_box() -> void:
 			"active": f.get("arc_jiyeon_crash_seen", false),
 			"done": f.get("arc_jiyeon_truth_seen", false) or f.get("arc_jiyeon_epilogue_seen", false),
 			"stages": [
-				{"label": "접촉", "done": f.get("arc_jiyeon_crash_seen", false)},
-				{"label": "재회", "done": f.get("arc_jiyeon_store_seen", false)},
-				{"label": "연결", "done": f.get("arc_jiyeon_offer_seen", false)},
+				{"label": "접촉 (17개월차+)", "done": f.get("arc_jiyeon_crash_seen", false)},
+				{"label": "재회 (20개월차+)", "done": f.get("arc_jiyeon_store_seen", false)},
+				{"label": "연결 (21개월차+)", "done": f.get("arc_jiyeon_offer_seen", false)},
+				{"label": "그녀의 세계 (22개월차+)", "done": f.get("arc_jiyeon_03b_seen", false)},
 				{"label": "진실", "done": f.get("arc_jiyeon_truth_seen", false)},
 			],
-			"hint": "",
+			"hint": "17개월차(1년5개월) 이후 자동 등장" if not f.get("arc_jiyeon_crash_seen", false) else "",
 		},
 		{
 			"name": "아버지",
@@ -2067,13 +2085,13 @@ func _refresh_arc_box() -> void:
 			"active": f.get("arc_jaehyuk_reunion_seen", false),
 			"done": f.get("arc_jaehyuk_aftermath_seen", false),
 			"stages": [
-				{"label": "재회", "done": f.get("arc_jaehyuk_reunion_seen", false)},
+				{"label": "재회 (19개월차+)", "done": f.get("arc_jaehyuk_reunion_seen", false)},
 				{"label": "유대", "done": f.get("arc_jaehyuk_bond_seen", false)},
 				{"label": "투자 제안", "done": f.get("arc_jaehyuk_pitch_seen", false)},
 				{"label": "도주 / 반격", "done": f.get("arc_jaehyuk_ghost_seen", false) or f.get("arc_jaehyuk_counter_seen", false)},
 				{"label": "사후처리", "done": f.get("arc_jaehyuk_aftermath_seen", false)},
 			],
-			"hint": "",
+			"hint": "19개월차 이후 자동 등장" if not f.get("arc_jaehyuk_reunion_seen", false) else "",
 		},
 		{
 			"name": "성향 자각 & 전문화",

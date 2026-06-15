@@ -306,6 +306,63 @@
     ]
   },
   {
+    "id": "arc_invest_guidance",
+    "title": "종잣돈을 굴려라",
+    "background": "goshiwon_room",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "invest"
+    ],
+    "cooldown": 9999,
+    "description": "임상철에게서 문자가 왔다.\n\"잘 지내? 가끔 생각나서.\"\n\n전화를 걸었다. 이런저런 이야기 끝에 그가 말했다.\n\"33살에 직장 새로 시작해서 38살까지 30억 모으려면... 계산해봤어?\"\n\n민준은 잠자코 들었다.\n\n\"월급으로는 불가능해. 서울에서 저축률 30% 잡아도 5년에 1억도 안 돼.\n종잣돈을 굴려야 해. 주식이든, 부동산이든, 사업이든.\n뭔가를 배워야 한다는 얘기야.\"",
+    "choices": [
+      {
+        "text": "\"어떻게 시작하면 될까요?\" — 진지하게 묻는다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2
+        },
+        "flags": [
+          "arc_invest_guidance_seen",
+          "investment_lesson_1"
+        ],
+        "result_text": "임상철이 한참을 생각하다 말했다.\n\"처음엔 작게 해. 잃어도 배울 수 있는 돈으로.\n잃으면서 시장이 눈에 들어오기 시작해.\"\n\n통화를 끊고, {name}은 투자 탭을 처음으로 열었다."
+      },
+      {
+        "text": "\"저축이 먼저 아닐까요?\"",
+        "effects": {
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_invest_guidance_seen"
+        ],
+        "result_text": "\"저축은 기본이지. 근데 저축만으론 절대 안 돼.\"\n임상철이 웃으며 말한다.\n\"여튼 한번 생각해봐. 급하진 않아.\"\n전화를 끊었다. 마음 한구석이 묵직했다."
+      },
+      {
+        "text": "\"제 방식이 있어요.\"",
+        "effects": {
+          "stress": -3,
+          "luck": 1
+        },
+        "flags": [
+          "arc_invest_guidance_seen"
+        ],
+        "result_text": "\"그래, 네가 알아서 해야지.\"\n임상철이 담담하게 웃었다.\n{name}은 전화를 끊고 한동안 천장을 보았다.\n내 방식이 뭔지, 아직 확실하지 않았다."
+      }
+    ]
+  },
+  {
     "id": "arc_jiyeon_01_crash",
     "title": "접촉",
     "background": "street_rainy",
@@ -1815,7 +1872,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jobs"],
+    "tags": [
+      "story",
+      "arc",
+      "jobs"
+    ],
     "cooldown": 9999,
     "description": "핸드폰에 메일 알림이 떴다.\n\n[채용 결과 안내] (주)대한유통 경영지원팀 지원자 김민준 님께\n\n안녕하세요. 지원해 주신 데 감사드립니다.\n귀하의 지원서를 검토한 결과, 유감스럽게도\n이번 채용에서는 귀하를 선발하기 어렵게 되었습니다.\n앞으로의 건승을 빕니다.\n\n{name}은 폰을 덮었다. 그러고 창문 밖을 한동안 봤다.\n\n첫 번째 불합격이라고 자위했지만 — 사실 세 번째였다.\n이력서에 적을 게 없으면 이유라도 있었으면 하는데, 그것도 주지 않는다.",
     "choices": [
@@ -1826,7 +1887,9 @@
           "mental": -3,
           "intelligence": 1
         },
-        "flags": ["arc_job_rejection_seen"],
+        "flags": [
+          "arc_job_rejection_seen"
+        ],
         "follow_up_event": "",
         "result_text": "구직 앱을 다시 열었다. 비슷한 공고, 비슷한 조건, 비슷한 느낌.\n지원 버튼을 누르는 건 0.3초짜리 용기였다.\n결과 연락은 보통 3주 후쯤 온다 — 혹은 아예 안 온다."
       },
@@ -1837,7 +1900,10 @@
           "mental": -2,
           "intelligence": 2
         },
-        "flags": ["arc_job_rejection_seen", "resume_polished"],
+        "flags": [
+          "arc_job_rejection_seen",
+          "resume_polished"
+        ],
         "follow_up_event": "",
         "result_text": "자기소개서 파일을 열었다. 6개월 공백을 어떻게 메울까 한 시간을 씨름했다.\n완벽하진 않지만, 전보다는 나아졌다.\n이 한 줄 한 줄이 나중에 면접관의 눈에 닿을 것이다."
       }
