@@ -532,7 +532,6 @@ func _bc_on_scan() -> void:
 				_bc_zone_lbl.add_theme_color_override("font_color", Color("#3dba6a"))
 			AudioManager.play("click")
 		"miss":
-			_stress_delta += 1
 			if is_instance_valid(_bc_zone_lbl):
 				_bc_zone_lbl.text = "✗ 미스"
 				_bc_zone_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
