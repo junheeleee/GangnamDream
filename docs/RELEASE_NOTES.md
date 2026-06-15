@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added (2026-06-15) — REVIEW_ANALYSIS A항목 6종 완료
+- **A-1 관계 감각**: 인물 연락 후 스토리 영역에 캐릭터 리액션 텍스트 타이핑 표시
+- **A-2 AP 패턴**: 월말 결산에 이번 달 행동 패턴 코멘트 (도박집중/자기계발/혼합 등 8분기)
+- **A-3 도박 경고**: addiction 50→플래시, 70→강제 경고 팝업, 90→월별 경고 배너
+- **A-4 금융 용어**: 은행·투자 패널에 `📖 용어` 버튼, 카지노 허브에 `📖 용어 설명` 버튼 (총 18개 용어)
+- **A-5 자산 태그**: 18종 투자 자산 각각에 특성 태그 3개 표시 (`[초저변동] [월배당] [부동산 간접]` 등)
+- **A-6 월말 서사**: 결산 화면에 현재 상태 기반 1줄 내레이션 (무직/첫 출근/중독/마일스톤 등)
+
 ### Added (2026-06-14) — Tutorial system + minigame quality pass 2
 
 - New `TutorialOverlay` (static class, session-based `_seen` dict): single-call `maybe_show()` / `force_show()` API; slides for all 9 mini-games plus a 3-slide main-game onboarding (goal / dashboard / month flow).

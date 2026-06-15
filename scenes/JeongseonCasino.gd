@@ -183,14 +183,23 @@ func _build_ui() -> void:
 		"바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임",
 		"#2e2a1a", "#ffcc4a", "_launch_bigwheel", "bigwheel")
 
-	# ── 안내 ──
+	# ── 안내 + 용어 버튼 ──
+	var bottom_row := HBoxContainer.new()
+	bottom_row.add_theme_constant_override("separation", 12)
+	root.add_child(bottom_row)
 	var tip_lbl := Label.new()
 	tip_lbl.text = "⚠ 도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요."
-	tip_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tip_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	tip_lbl.add_theme_font_size_override("font_size", 11)
 	tip_lbl.add_theme_color_override("font_color", Color(0.5, 0.4, 0.4))
+	tip_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tip_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	root.add_child(tip_lbl)
+	_f(tip_lbl)
+	bottom_row.add_child(tip_lbl)
+	var gloss_btn := _make_btn("📖 용어 설명", "#1a1a2a")
+	gloss_btn.custom_minimum_size = Vector2(100, 32)
+	gloss_btn.pressed.connect(_show_casino_glossary)
+	bottom_row.add_child(gloss_btn)
 
 func _add_game_card(parent: Control, icon: String, name_kr: String,
 		desc: String, bg_hex: String, accent_hex: String, fn: String,
@@ -359,6 +368,63 @@ func _make_btn(text: String, hex: String) -> Button:
 	b.add_theme_stylebox_override("normal", sb)
 	_f(b)
 	return b
+
+## A-4: 카지노 용어 설명 오버레이
+func _show_casino_glossary() -> void:
+	var overlay := PanelContainer.new()
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color("#0d0d18")
+	overlay.add_theme_stylebox_override("panel", sb)
+	overlay.z_index = 50
+	add_child(overlay)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 12)
+	var mc := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		mc.add_theme_constant_override(side, 32)
+	mc.add_child(vbox)
+	overlay.add_child(mc)
+
+	var title_lbl := Label.new()
+	title_lbl.text = "📖 카지노 용어 설명"
+	title_lbl.add_theme_font_size_override("font_size", 18)
+	title_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+	_f(title_lbl, true)
+	vbox.add_child(title_lbl)
+
+	var TERMS := [
+		["하우스엣지", "카지노가 장기적으로 가져가는 수익 비율. 바카라 뱅커 1.06%, 블랙잭 기본전략 0.5%, 룰렛 2.70%. 오래 할수록 이 비율만큼 잃는 게 수학적 법칙이다."],
+		["RTP", "Return To Player. 100만원 투입 시 장기적으로 돌아오는 금액 비율. 슬롯 RTP 90%면 이론상 90만원 반환. 단기에선 크게 벗어날 수 있다."],
+		["배당률", "배팅 금액 대비 당첨 시 받는 배수. 룰렛 단일 숫자 35:1, 빅휠 조커 45:1, 블랙잭 내추럴 1.5:1."],
+		["내추럴 (바카라)", "처음 두 장의 합이 8 또는 9인 경우. 추가 카드 없이 즉시 결판. 뱅커·플레이어 모두 내추럴이면 무승부."],
+		["커미션 (바카라)", "뱅커 승리 시 카지노가 가져가는 수수료, 통상 5%. 뱅커 배당률이 0.95:1인 이유."],
+		["더블다운 (블랙잭)", "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리."],
+		["마틴게일", "질 때마다 배팅액을 2배로 늘리는 전략. 이론상 한 번 이기면 원금 회복. 자금이 바닥나거나 한도에 걸리면 전액 손실."],
+	]
+	for pair in TERMS:
+		var term_vbox := VBoxContainer.new()
+		term_vbox.add_theme_constant_override("separation", 2)
+		vbox.add_child(term_vbox)
+		var term_lbl := Label.new()
+		term_lbl.text = pair[0]
+		term_lbl.add_theme_font_size_override("font_size", 13)
+		term_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+		_f(term_lbl, true)
+		term_vbox.add_child(term_lbl)
+		var def_lbl := Label.new()
+		def_lbl.text = pair[1]
+		def_lbl.add_theme_font_size_override("font_size", 12)
+		def_lbl.add_theme_color_override("font_color", Color("#8892a4"))
+		def_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_f(def_lbl)
+		term_vbox.add_child(def_lbl)
+
+	var close_btn := _make_btn("← 카지노 허브로", "#1a1a2e")
+	close_btn.pressed.connect(func(): overlay.queue_free())
+	vbox.add_child(close_btn)
+
 
 func _fmt(n: int) -> String:
 	var s := str(abs(n))

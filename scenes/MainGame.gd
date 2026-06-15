@@ -3081,7 +3081,19 @@ const NETWORK_VIGNETTES := [
 ## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
 func _open_bank():
 	_open_modal("🏦 은행")
-	modal_body.add_child(_wrap_label("빚은 도구다. 다만 이자는 매달, 반드시, 먼저 나간다.", 12, "#8892a4"))
+	var bank_header_row := HBoxContainer.new()
+	bank_header_row.add_theme_constant_override("separation", 8)
+	modal_body.add_child(bank_header_row)
+	var bank_desc_lbl := Label.new()
+	bank_desc_lbl.text = "빚은 도구다. 다만 이자는 매달, 반드시, 먼저 나간다."
+	bank_desc_lbl.add_theme_font_size_override("font_size", 12)
+	bank_desc_lbl.add_theme_color_override("font_color", Color("#8892a4"))
+	bank_desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bank_desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bank_header_row.add_child(bank_desc_lbl)
+	var bank_gloss_btn := _small_button("📖 용어", "#2a3a5a")
+	bank_gloss_btn.pressed.connect(func(): _open_glossary("🏦 금융 용어", "bank"))
+	bank_header_row.add_child(bank_gloss_btn)
 	var net: float = GameState.get_total_asset_value()
 	modal_body.add_child(_label("현금 %s   |   순자산 %s" % [
 		GameState.format_money(GameState.money), GameState.format_money(net)], 13, "#c8d0df"))
@@ -3576,7 +3588,19 @@ func _open_investments():
 	var ap_hint_text = "⚡ 행동력 %d/%d — 매수·매도 실행 시 1 소비 (조회는 무료)" % [ap_now, GameState.max_action_points]
 	if ap_now <= 0:
 		ap_hint_text = "⚡ 행동력 없음 — 이번 달 거래 불가. 다음 달에 다시 오세요."
-	modal_body.add_child(_wrap_label(ap_hint_text, 12, ap_hint_color))
+	var inv_hint_row := HBoxContainer.new()
+	inv_hint_row.add_theme_constant_override("separation", 8)
+	modal_body.add_child(inv_hint_row)
+	var inv_hint_lbl := Label.new()
+	inv_hint_lbl.text = ap_hint_text
+	inv_hint_lbl.add_theme_font_size_override("font_size", 12)
+	inv_hint_lbl.add_theme_color_override("font_color", Color(ap_hint_color))
+	inv_hint_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inv_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	inv_hint_row.add_child(inv_hint_lbl)
+	var inv_gloss_btn := _small_button("📖 용어", "#2a3a5a")
+	inv_gloss_btn.pressed.connect(func(): _open_glossary("📈 투자 용어", "invest"))
+	inv_hint_row.add_child(inv_gloss_btn)
 	# 은행 — 대출/상환 (재무 거래라 행동력 무소비)
 	var bank_btn = _button("🏦 은행 — 대출/상환", "#1a2438")
 	bank_btn.pressed.connect(_open_bank)
@@ -3654,6 +3678,11 @@ func _open_investments():
 		modal_body.add_child(_label(
 			"%s  (%s)  현재가 %s" % [row["name"], risk_str, GameState.format_money(price)],
 			14, last_color))
+		# ─ A-5: 자산 특성 태그 ─
+		var asset_tags: Array = row.get("tags", [])
+		if not asset_tags.is_empty():
+			var tag_str = "  ".join(asset_tags.map(func(t): return "[%s]" % t))
+			modal_body.add_child(_wrap_label(tag_str, 11, "#4a5a72"))
 		# ─ 스파크라인 + 변동률 ─
 		var hist_parts: Array = [sparkline]
 		if hist.size() >= 2:
@@ -5393,3 +5422,43 @@ func _show_tutorial_intro():
 	var start_btn = _button("서울 생활 시작 →", "#1f6feb")
 	start_btn.pressed.connect(_close_modal)
 	modal_body.add_child(start_btn)
+
+
+## A-4: 금융 용어 설명 모달
+const GLOSSARY_BANK := [
+	["신용등급", "1~10등급 (낮을수록 좋음). 직장·근속·소득·자산이 올리고 부채 비율·잔고 위기가 깎는다. 대출 한도와 금리를 결정한다."],
+	["변동금리", "매달 달라질 수 있는 금리. 신용등급이 떨어지면 이미 빌린 대출의 이자도 같이 오른다. 이 게임의 모든 대출은 변동금리다."],
+	["레버리지", "빌린 돈으로 더 큰 금액을 투자하는 것. 수익이 배로 나지만 손실도 배로 커진다. '레버리지 투자' 탭에서 2배 레버리지를 쓸 수 있다."],
+	["마진콜", "레버리지 투자에서 원금 대비 손실이 65% 이상 나면 강제 전량 청산. 원금의 35% 이하로 떨어지는 순간 자동 발동된다."],
+]
+const GLOSSARY_INVEST := [
+	["포트폴리오", "내가 보유한 모든 자산의 구성. 여러 자산에 나눠 투자하면 한 종목이 폭락해도 전체 타격이 줄어든다."],
+	["배당률", "자산 보유 중 정기적으로 지급받는 수익 비율. 리츠(월배당)·배당주(분기배당)는 보유만 해도 현금이 들어온다."],
+	["레버리지 ETF", "지수 움직임의 2~3배로 등락하는 고위험 상품. 상승 시 3배 수익이지만 하락 시 3배 손실, 장기 보유 시 복리 손실이 누적된다."],
+	["마진콜", "레버리지 투자 시 원금의 35% 이하로 떨어지면 강제 청산. 단기 급락으로도 전액 손실 가능."],
+	["공포/탐욕 지수", "시장 분위기를 0~100으로 나타낸 지표. 30 이하(공포)일 때 사고 70 이상(탐욕)일 때 팔면 수익 확률이 높다."],
+	["하우스엣지", "카지노가 장기적으로 가져가는 수익 비율. 바카라 1.06%, 블랙잭 0.5%, 룰렛 2.70%. 장기로 플레이할수록 이 비율만큼 손실이 쌓인다."],
+	["RTP", "Return To Player. 장기 플레이 시 플레이어에게 돌아가는 비율. 슬롯 RTP 90%면 100만원 투입 시 이론상 90만원 반환. 단기 결과는 크게 벗어날 수 있다."],
+]
+
+func _open_glossary(title: String, category: String):
+	_open_modal("📖 " + title)
+	var terms := GLOSSARY_BANK if category == "bank" else GLOSSARY_INVEST
+	for pair in terms:
+		var term_row := VBoxContainer.new()
+		term_row.add_theme_constant_override("separation", 2)
+		modal_body.add_child(term_row)
+		var term_lbl := Label.new()
+		term_lbl.text = pair[0]
+		term_lbl.add_theme_font_size_override("font_size", 13)
+		term_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+		if UIStyle.font_bold:
+			term_lbl.add_theme_font_override("font", UIStyle.font_bold)
+		term_row.add_child(term_lbl)
+		term_row.add_child(_wrap_label(pair[1], 12, "#8892a4"))
+		var sep := HSeparator.new()
+		sep.add_theme_color_override("color", Color("#1e1e2e"))
+		modal_body.add_child(sep)
+	var back_btn := _button("← 돌아가기", "#1a1a28")
+	back_btn.pressed.connect(_close_modal)
+	modal_body.add_child(back_btn)

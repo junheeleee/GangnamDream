@@ -10,6 +10,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.144,
     "min_invest": 70000,
+    "tags": ["저변동", "분기배당", "한국 대형주"],
     "description": "삼성전자 자산. 변동성 8%, 리스크 2/5."
   },
   {
@@ -23,6 +24,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.234,
     "min_invest": 55000,
+    "tags": ["중변동", "무배당", "국내 플랫폼"],
     "description": "카카오 자산. 변동성 13%, 리스크 3/5."
   },
   {
@@ -36,6 +38,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.18,
     "min_invest": 210000,
+    "tags": ["중변동", "분기배당", "수출 민감"],
     "description": "현대차 자산. 변동성 10%, 리스크 3/5."
   },
   {
@@ -49,6 +52,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.108,
     "min_invest": 35000,
+    "tags": ["저변동", "분산투자", "코스피 추종"],
     "description": "KODEX200 자산. 변동성 6%, 리스크 2/5."
   },
   {
@@ -62,6 +66,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.126,
     "min_invest": 580000,
+    "tags": ["저변동", "달러자산", "미국 분산"],
     "description": "S&P500 ETF 자산. 변동성 7%, 리스크 2/5."
   },
   {
@@ -75,6 +80,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.198,
     "min_invest": 490000,
+    "tags": ["중변동", "달러자산", "기술주 집중"],
     "description": "나스닥100 ETF 자산. 변동성 11%, 리스크 3/5."
   },
   {
@@ -88,6 +94,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.36,
     "min_invest": 850000,
+    "tags": ["고변동", "AI 테마", "달러자산"],
     "description": "엔비디아 자산. 변동성 20%, 리스크 4/5."
   },
   {
@@ -101,6 +108,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.432,
     "min_invest": 120000,
+    "tags": ["극고변동", "테마 집중", "달러자산"],
     "description": "AI 반도체 테마 자산. 변동성 24%, 리스크 5/5."
   },
   {
@@ -114,6 +122,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.576,
     "min_invest": 1000000,
+    "tags": ["극고변동", "무배당", "사이클 민감"],
     "description": "비트코인 자산. 변동성 32%, 리스크 5/5."
   },
   {
@@ -127,6 +136,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.63,
     "min_invest": 1000000,
+    "tags": ["극고변동", "무배당", "기술 생태계"],
     "description": "이더리움 자산. 변동성 35%, 리스크 5/5."
   },
   {
@@ -140,6 +150,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 1.62,
     "min_invest": 120,
+    "tags": ["투기성", "무배당", "소셜 드리븐"],
     "description": "밈코인 자산. 변동성 90%, 리스크 5/5."
   },
   {
@@ -153,6 +164,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.072,
     "min_invest": 1000000,
+    "tags": ["초저변동", "월배당", "부동산 간접"],
     "description": "리츠 ETF 자산. 변동성 4%, 리스크 2/5."
   },
   {
@@ -166,6 +178,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.063,
     "min_invest": 1000000,
+    "tags": ["초저변동", "시세차익형", "부동산 직접"],
     "description": "강남 아파트 지분 자산. 변동성 4%, 리스크 2/5."
   },
   {
@@ -179,6 +192,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.144,
     "min_invest": 1000000,
+    "tags": ["저변동", "임대수익형", "환금성 낮음"],
     "description": "오피스텔 조각투자 자산. 변동성 8%, 리스크 3/5."
   },
   {
@@ -192,6 +206,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.99,
     "min_invest": 1000000,
+    "tags": ["극고변동", "무배당", "인맥 의존"],
     "description": "친구 스타트업 시드 자산. 변동성 55%, 리스크 5/5."
   },
   {
@@ -205,6 +220,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.9,
     "min_invest": 1000000,
+    "tags": ["극고변동", "무배당", "장기 잠금"],
     "description": "AI 스타트업 SAFE 자산. 변동성 50%, 리스크 5/5."
   },
   {
@@ -218,6 +234,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.504,
     "min_invest": 15000,
+    "tags": ["극고변동", "변동성 증폭", "장기 위험"],
     "description": "코스피 3배 레버리지 자산. 변동성 28%, 리스크 5/5."
   },
   {
@@ -231,6 +248,7 @@
     "momentum": 0.0,
     "fear_greed_sensitivity": 0.612,
     "min_invest": 90000,
+    "tags": ["극고변동", "달러자산", "변동성 증폭"],
     "description": "나스닥 3배 ETF 자산. 변동성 34%, 리스크 5/5."
   }
 ]
