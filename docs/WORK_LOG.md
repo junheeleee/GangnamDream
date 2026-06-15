@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-15 (구직 미니게임 통합 — JobHuntMiniGame)
+
+### 자소서·면접 AP 사용처 게임화
+- `scenes/JobHuntMiniGame.gd` 신규 작성 (497줄)
+  - `Mode.RESUME`: 4문항 선택지 채점 (3/1/0점, 타이머 없음)
+  - `Mode.INTERVIEW`: 5문항 압박 타이머 (10s, 깜짝 문항 5s), 타임아웃 시 스트레스 +2 자동 진행
+  - quality 0-3 산정: score/max 비율 0.85+→3(우수), 0.6+→2(양호), 0.35+→1(무난), else→0(재작성필요)
+  - 타이머 바 색상 실시간 변환: 녹색>60%, 황색30-60%, 적색<30%
+- `MainGame.gd` 통합
+  - `job_hunt_game` var 선언 + `_ready()`에서 인스턴스화 & 시그널 연결
+  - `_ap_write_resume()`·`_ap_interview_prep()`: 빈네트 랜덤 → `job_hunt_game.open(mode)` 호출로 교체
+  - `_on_job_hunt_closed(stress_delta, quality)`: 이력서/면접 분기 후 quality 차등 스탯 적용
+    - 우수(3): 지력+2 or 사회성+2, 플래그 세팅
+    - 양호(2): 지력+1 or 사회성+1, 플래그 세팅
+    - 무난(1): 운+1 or 보조 없음
+    - 실패(0): 스트레스 추가 +1
+
 ## 2026-06-15 (생존게임 패키지 + 알바 미니게임 v2)
 
 ### 생존게임 첫 6개월
