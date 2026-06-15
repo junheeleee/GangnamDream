@@ -312,7 +312,8 @@ func _refresh_hud() -> void:
 	var shoe_pct: int = roundi(BAC.shoe_remaining_ratio(_shoe) * 100.0)
 	var comm_str: String = ""
 	if _commission > 0.0:
-		comm_str = "   ⚠커미션 [color=#e8a05d]%s[/color]" % GameState.format_money(_commission)
+		var hud_comm_col: String = "#f0d020" if _commission >= 100_000.0 else "#e8a05d"
+		comm_str = "   ⚠커미션 [color=%s]%s[/color]" % [hud_comm_col, GameState.format_money(_commission)]
 	_hud_lbl.text = "💰 [b]%s[/b]   |   🎰 %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s" % [
 		GameState.format_money(GameState.money), _rounds,
 		_p_wins, _b_wins, _ties,
@@ -451,7 +452,9 @@ func _render_result_screen() -> void:
 		var comm_lbl := Label.new()
 		comm_lbl.text = "⚠ 누적 커미션: %s (나갈 때 정산)" % GameState.format_money(_commission)
 		comm_lbl.add_theme_font_size_override("font_size", 12)
-		comm_lbl.add_theme_color_override("font_color", Color("#e8a05d"))
+		# 10만원 이상이면 노란색으로 강조
+		var comm_color: Color = Color("#f0d020") if _commission >= 100_000.0 else Color("#e8a05d")
+		comm_lbl.add_theme_color_override("font_color", comm_color)
 		_f(comm_lbl); vb.add_child(comm_lbl)
 
 	vb.add_child(_sep())
@@ -857,3 +860,37 @@ func _draw_road() -> void:
 		if res != "T":
 			_road_ctrl.draw_string(f, Vector2(cx - 3, cy + 4), res,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1, 1, 1, cell_alpha))
+
+# ── 내추럴 배너 ───────────────────────────────────────────────
+func _show_natural_banner(val: int) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.z_index = 90
+	panel.size = Vector2(minf(420.0, root_size.x - 48.0), 68.0)
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(60.0, root_size.y * 0.18))
+	panel.modulate = Color(1, 1, 1, 0.0)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#7a5500")
+	st.border_color = Color("#f0b429")
+	st.set_border_width_all(3)
+	st.set_corner_radius_all(10)
+	panel.add_theme_stylebox_override("panel", st)
+	add_child(panel)
+	var lbl := Label.new()
+	lbl.text = "NATURAL %d !" % val
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 26)
+	lbl.add_theme_color_override("font_color", Color("#ffe566"))
+	_f(lbl, true)
+	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(lbl)
+	AudioManager.play("casino_jackpot")
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.12)
+	tw.tween_interval(1.5)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.2)
+	tw.tween_callback(panel.queue_free)

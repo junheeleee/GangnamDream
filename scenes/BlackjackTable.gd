@@ -143,7 +143,7 @@ func _double_down() -> void:
 	AudioManager.play("casino_bet")
 	_show_table_banner("DOUBLE DOWN", Color("#f0b429"), 0.55)
 	_screen_flash(Color("#f0b429"), 0.13, 0.24)
-	_shake_node(_content_root, 4.0, 0.16)
+	_shake_node(_content_root, 4.0, 3)
 	if _split_active:
 		_split_stake = _stake
 	else:

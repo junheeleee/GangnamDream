@@ -211,8 +211,8 @@ func _compute_target(seg: int) -> float:
 	return final_pos - TAU * 5.0   # 음수 = 시계방향
 
 func _finish_spin() -> void:
-	var seg: int     = _result_seg
-	var won: bool    = (seg == _bet_segment)
+	var seg: int      = _result_seg
+	var won: bool     = (seg == _bet_segment)
 	var payout: float = float(SEG_PAYOUTS[seg])
 	var wagered: int  = _stake
 
@@ -221,12 +221,15 @@ func _finish_spin() -> void:
 		GameState.add_money(float(wagered + gain))
 		_net  += float(gain)
 		_wins += 1
-		AudioManager.play("win")
+		if payout >= 45.0:
+			AudioManager.play("casino_jackpot")
+		else:
+			AudioManager.play("casino_win")
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	else:
 		_net    -= float(wagered)
 		_losses += 1
-		AudioManager.play("lose")
+		AudioManager.play("casino_lose")
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	_rounds += 1
@@ -241,21 +244,77 @@ func _finish_spin() -> void:
 	_phase = Phase.RESULT
 	_refresh()
 
+	# 포인터 pulse: 1.0 → 1.4 → 1.0 (0.3초)
+	_pulse_pointer()
+
+	# 당첨 세그먼트 깜빡임 연출 (스핀 완료 직후)
+	_flash_winner_segment()
+
 	if won:
-		_flash_msg("🎉 당첨!  %s배   +%s" % [
-			SEG_LABELS[seg],
-			GameState.format_money(float(wagered) * payout)
-		], "#3de87a")
+		var win_amount: int = int(float(wagered) * payout)
+		# 카운트업 애니메이션 (0.6초)
+		_count_label_ref = _msg_lbl
+		_msg_lbl.add_theme_color_override("font_color", Color("#3de87a"))
+		_msg_lbl.text = "🎉 당첨!  %s배   +%s" % [SEG_LABELS[seg], "0원"]
+		_msg_lbl.visible = true
+		_animate_winnings(win_amount, _msg_lbl)
 	else:
 		_flash_msg("😢 꽝   결과: %s" % SEG_LABELS[seg], "#e85d5d")
 
 	get_tree().create_timer(2.4).timeout.connect(func():
 		if is_instance_valid(self) and _phase == Phase.RESULT:
-			_phase = Phase.IDLE
-			_flash_timer = 0.0
+			_phase               = Phase.IDLE
+			_flash_timer         = 0.0
+			_flash_winner_active = false
+			_flash_winner_bright = 0.0
+			_pointer_scale       = 1.0
+			_count_label_ref     = null
 			_refresh()
 			if is_instance_valid(_wheel_ctrl):
 				_wheel_ctrl.queue_redraw())
+
+# ── 연출 함수 ─────────────────────────────────────────────────
+
+## 당첨 세그먼트 0.2초 깜빡임 × 3회 (modulate 1.0 → 0.3 → 1.0)
+func _flash_winner_segment() -> void:
+	_flash_winner_active = true
+	var tw := create_tween()
+	tw.set_loops(3)
+	tw.tween_method(_set_flash_bright, 1.0, 0.3, 0.1)
+	tw.tween_method(_set_flash_bright, 0.3, 1.0, 0.1)
+	tw.finished.connect(func():
+		_flash_winner_active = false
+		_flash_winner_bright = 1.0
+		if is_instance_valid(_wheel_ctrl):
+			_wheel_ctrl.queue_redraw())
+
+func _set_flash_bright(val: float) -> void:
+	_flash_winner_bright = val
+	if is_instance_valid(_wheel_ctrl):
+		_wheel_ctrl.queue_redraw()
+
+## 포인터 pulse: scale 1.0 → 1.4 → 1.0 (0.3초)
+func _pulse_pointer() -> void:
+	var tw := create_tween()
+	tw.tween_method(_set_pointer_scale, 1.0, 1.4, 0.15)
+	tw.tween_method(_set_pointer_scale, 1.4, 1.0, 0.15)
+
+func _set_pointer_scale(val: float) -> void:
+	_pointer_scale = val
+	if is_instance_valid(_wheel_ctrl):
+		_wheel_ctrl.queue_redraw()
+
+## 카운트업: 0 → final (0.6초), 완료 후 최종 텍스트 고정
+func _animate_winnings(final: int, label: Label) -> void:
+	var tw := create_tween()
+	tw.tween_method(_update_count_label, 0, final, 0.6)
+
+func _update_count_label(val: int) -> void:
+	if is_instance_valid(_count_label_ref):
+		var seg: int = _result_seg
+		var lbl_str: String = str(SEG_LABELS[seg]) if seg >= 0 else ""
+		_count_label_ref.text = "🎉 당첨!  %s배   +%s" % [
+			lbl_str, GameState.format_money(float(val))]
 
 # ── UI 빌드 ──────────────────────────────────────────────────
 func _build_ui() -> void:
@@ -441,7 +500,9 @@ func _on_wheel_draw() -> void:
 
 		# 결과 세그먼트 플래시
 		var is_result: bool = (_phase == Phase.RESULT and seg == _result_seg and _result_seg >= 0)
-		if is_result and _flash_timer > 0.0:
+		if is_result and _flash_winner_active:
+			seg_col = seg_col.lightened(0.45 * _flash_winner_bright)
+		elif is_result and _flash_timer > 0.0:
 			seg_col = seg_col.lightened(0.45)
 
 		# 슬롯별 부채꼴 그리기
@@ -488,12 +549,15 @@ func _on_wheel_draw() -> void:
 	_wheel_ctrl.draw_circle(Vector2(cx, cy), 16.0, Color("#0a0804"))
 	_wheel_ctrl.draw_arc(Vector2(cx, cy), 16.0, 0.0, TAU, 32, Color("#f39c12"), 2.0)
 
-	# 포인터 (위쪽 삼각형)
-	var pt_tip := Vector2(cx, cy - r - 4.0)
-	var pt_l   := Vector2(cx - 10.0, cy - r + 14.0)
-	var pt_r   := Vector2(cx + 10.0, cy - r + 14.0)
+	# 포인터 (위쪽 삼각형) — _pointer_scale로 pulse 크기 적용
+	var ps: float  = _pointer_scale
+	var base_w: float = 10.0 * ps
+	var base_h: float = 18.0 * ps
+	var pt_tip := Vector2(cx, cy - r - 4.0 * ps)
+	var pt_l   := Vector2(cx - base_w, cy - r + base_h - 4.0 * ps)
+	var pt_r   := Vector2(cx + base_w, cy - r + base_h - 4.0 * ps)
 	_wheel_ctrl.draw_colored_polygon(PackedVector2Array([pt_tip, pt_l, pt_r]), Color("#e74c3c"))
-	_wheel_ctrl.draw_polyline(PackedVector2Array([pt_tip, pt_l, pt_r, pt_tip]), Color(1, 1, 1, 0.7), 1.5)
+	_wheel_ctrl.draw_polyline(PackedVector2Array([pt_tip, pt_l, pt_r, pt_tip]), Color(1, 1, 1, 0.7), 1.5 * ps)
 
 	# 스핀 중 / 결과 텍스트
 	if _phase == Phase.SPINNING:

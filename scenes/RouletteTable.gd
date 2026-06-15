@@ -10,8 +10,18 @@ const ROULETTE := preload("res://systems/Roulette.gd")
 enum Phase { IDLE, SPINNING, RESULT }
 
 const STAKE_OPTIONS := [10_000, 50_000, 100_000, 500_000, 1_000_000]
-const SPIN_DURATION := 2.0
-const CYCLE_RATE    := 0.07   # 초당 숫자 갱신 간격 (스핀 중)
+
+# 스핀 감속 단계 정의: [인터벌(초), 반복횟수]
+# 단계1: 0.05s × 24회 = 1.2초 (빠른 사이클)
+# 단계2: 0.12s × 7회 = 0.84초 (느린 사이클)
+# 단계3: 0.25s × 3회 = 0.75초 (마지막 3개 숫자)
+const SPIN_PHASES := [
+	{"interval": 0.05, "count": 24},
+	{"interval": 0.12, "count": 7},
+	{"interval": 0.25, "count": 3},
+]
+# tick SFX 재생 간격 (0.15초마다)
+const SFX_TICK_INTERVAL := 0.15
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _roulette: Roulette
@@ -31,11 +41,14 @@ var _net: float         = 0.0
 var _wins: int          = 0
 var _losses: int        = 0
 
-# 스핀 애니메이션
-var _spin_elapsed: float = 0.0
-var _cycle_timer: float  = 0.0
-var _display_number: int = 0
-var _result_number: int  = -1
+# 스핀 애니메이션 (단계 기반)
+var _spin_phase_idx: int    = 0   # SPIN_PHASES 인덱스
+var _spin_phase_count: int  = 0   # 현재 단계 남은 횟수
+var _spin_total_count: int  = 0   # 전체 사이클 횟수(감속 판별용)
+var _display_number: int    = 0
+var _result_number: int     = -1
+var _spin_timer: float      = 0.0 # 현재 단계 인터벌 카운터
+var _sfx_tick_timer: float  = 0.0 # tick SFX 카운터
 
 # UI
 var _font: FontFile
@@ -46,6 +59,7 @@ var _msg_lbl: Label
 var _hud_lbl: RichTextLabel
 
 var _number_display_lbl: Label       # 중앙 대형 숫자
+var _number_panel_style: StyleBoxFlat # 숫자 패널 배경 (색상 변경용)
 var _number_picker_grid: GridContainer
 var _history_box: HBoxContainer
 var _bet_info_lbl: Label
@@ -95,38 +109,53 @@ func _on_exit() -> void:
 	visible = false
 	closed.emit()
 
-# ── 스핀 애니메이션 ────────────────────────────────────────────
+# ── 스핀 애니메이션 (단계별 감속) ──────────────────────────────
 func _process(delta: float) -> void:
 	if _phase != Phase.SPINNING:
 		return
-	_spin_elapsed += delta
-	_cycle_timer  += delta
 
-	if _cycle_timer >= CYCLE_RATE:
-		_cycle_timer = 0.0
+	_spin_timer    += delta
+	_sfx_tick_timer += delta
+
+	# tick SFX: 0.15초마다
+	if _sfx_tick_timer >= SFX_TICK_INTERVAL:
+		_sfx_tick_timer = 0.0
+		AudioManager.play("casino_coin")
+
+	# 현재 단계 인터벌 도달 시 숫자 교체
+	var cur_interval: float = SPIN_PHASES[_spin_phase_idx]["interval"]
+	if _spin_timer >= cur_interval:
+		_spin_timer = 0.0
+		_spin_phase_count -= 1
 		_display_number = _rng.randi_range(0, 36)
 		_update_number_display(_display_number, true)
 
-	if _spin_elapsed >= SPIN_DURATION:
-		set_process(false)
-		_finish_spin()
+		# 현재 단계 소진 → 다음 단계로
+		if _spin_phase_count <= 0:
+			_spin_phase_idx += 1
+			if _spin_phase_idx >= SPIN_PHASES.size():
+				# 모든 단계 완료 → 스핀 종료
+				set_process(false)
+				_finish_spin()
+				return
+			_spin_phase_count = SPIN_PHASES[_spin_phase_idx]["count"]
 
 # ── 베팅 ──────────────────────────────────────────────────────
 func _select_bet_type(t: int) -> void:
 	if _phase != Phase.IDLE:
 		return
 	_bet_type = t
-	AudioManager.play("bet")
+	AudioManager.play("casino_bet")
 	_refresh()
 
 func _select_number(n: int) -> void:
 	_chosen_number = n
-	AudioManager.play("bet")
+	AudioManager.play("casino_bet")
 	_refresh()
 
 func _select_stake(s: int) -> void:
 	_stake = s
-	AudioManager.play("coin")
+	AudioManager.play("casino_coin")
 	_refresh()
 
 func _do_bet() -> void:
@@ -139,7 +168,7 @@ func _do_bet() -> void:
 	if int(GameState.money) < _stake:
 		_flash("현금이 부족합니다", "#e85d5d"); return
 	_bet_amount = _stake
-	AudioManager.play("bet")
+	AudioManager.play("casino_bet")
 	_refresh()
 
 func _do_spin() -> void:
@@ -153,12 +182,22 @@ func _do_spin() -> void:
 		_flash("현금이 부족합니다", "#e85d5d"); return
 
 	GameState.add_money(-float(_bet_amount))
-	_result_number  = _roulette.spin(_rng)
-	_phase          = Phase.SPINNING
-	_spin_elapsed   = 0.0
-	_cycle_timer    = 0.0
-	_display_number = _rng.randi_range(0, 36)
-	AudioManager.play("bet")
+	_result_number    = _roulette.spin(_rng)
+	_phase            = Phase.SPINNING
+
+	# 감속 단계 초기화
+	_spin_phase_idx   = 0
+	_spin_phase_count = SPIN_PHASES[0]["count"]
+	_spin_timer       = 0.0
+	_sfx_tick_timer   = 0.0
+	_display_number   = _rng.randi_range(0, 36)
+
+	# 스핀 시작 SFX
+	AudioManager.play("casino_spin")
+
+	# 베팅 버튼 반투명 (스핀 중 잠금 시각화)
+	_set_bet_btns_alpha(0.4)
+
 	set_process(true)
 	_refresh()
 
@@ -173,12 +212,12 @@ func _finish_spin() -> void:
 		GameState.add_money(gain)
 		_net  += float(wagered) * multiplier
 		_wins += 1
-		AudioManager.play("win")
+		AudioManager.play("casino_win")
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	else:
 		_net    -= float(wagered)
 		_losses += 1
-		AudioManager.play("lose")
+		AudioManager.play("casino_lose")
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	_rounds     += 1
@@ -193,22 +232,77 @@ func _finish_spin() -> void:
 	_phase      = Phase.RESULT
 	_bet_amount = 0
 	set_process(false)
+
+	# 베팅 버튼 alpha 복원
+	_set_bet_btns_alpha(1.0)
+
+	# 당첨 숫자 색상으로 패널 배경 변경 + 폰트 크기 72px 확대 후 복귀
 	_update_number_display(result, false)
+	_apply_result_highlight(result)
+
 	_refresh()
-	# 숫자 펄스 애니메이션
+
+	# 숫자 펄스 + 복귀 애니메이션
 	if is_instance_valid(_number_display_lbl):
 		var tw := create_tween()
 		tw.tween_property(_number_display_lbl, "scale", Vector2(1.3, 1.3), 0.12).set_trans(Tween.TRANS_BACK)
 		tw.tween_property(_number_display_lbl, "scale", Vector2(1.0, 1.0), 0.2).set_trans(Tween.TRANS_BOUNCE)
-	# 결과 플래시 후 IDLE로 복귀
+
+	# 결과 플래시
 	if won:
 		_flash("🎉 당첨!  +" + GameState.format_money(float(wagered) * multiplier), "#3de87a")
 	else:
 		_flash("😢 꽝  결과: %d" % result, "#e85d5d")
+
+	# 2.2초 후 IDLE 복귀 + 패널 배경 원래 색으로 리셋
 	get_tree().create_timer(2.2).timeout.connect(func():
 		if is_instance_valid(self) and _phase == Phase.RESULT:
 			_phase = Phase.IDLE
+			_reset_number_panel()
+			_number_display_lbl.add_theme_font_size_override("font_size", 60)
 			_refresh())
+
+# ── 당첨 강조 헬퍼 ─────────────────────────────────────────────
+func _apply_result_highlight(n: int) -> void:
+	if not is_instance_valid(_number_display_lbl):
+		return
+	var col_str: String = _roulette.number_color(n)
+	var panel_col: Color
+	var font_col: Color
+	match col_str:
+		"red":
+			panel_col = Color("#7a1010")
+			font_col  = Color("#ff6b6b")
+		"black":
+			panel_col = Color("#1a1a1a")
+			font_col  = Color("#e0e0e0")
+		_:
+			panel_col = Color("#0a4a1a")
+			font_col  = Color("#27ae60")
+
+	# 패널 배경색 변경
+	if _number_panel_style != null:
+		_number_panel_style.bg_color = panel_col
+
+	# 폰트 72px 확대 (0.3초 후 복귀는 IDLE 복귀 시 60px로 리셋)
+	_number_display_lbl.add_theme_font_size_override("font_size", 72)
+	_number_display_lbl.add_theme_color_override("font_color", font_col)
+
+	# 0.3초 후 60px로 복귀 (배경은 IDLE 복귀 때까지 유지)
+	get_tree().create_timer(0.3).timeout.connect(func():
+		if is_instance_valid(_number_display_lbl):
+			_number_display_lbl.add_theme_font_size_override("font_size", 60))
+
+func _reset_number_panel() -> void:
+	if _number_panel_style != null:
+		_number_panel_style.bg_color = Color("#0a160a")
+
+# ── 베팅 버튼 alpha 일괄 설정 ──────────────────────────────────
+func _set_bet_btns_alpha(alpha: float) -> void:
+	for entry in _bet_btn_refs:
+		var btn = entry["btn"]
+		if is_instance_valid(btn):
+			btn.modulate.a = alpha
 
 # ── UI 빌드 ──────────────────────────────────────────────────
 func _build_ui() -> void:
@@ -265,12 +359,12 @@ func _build_ui() -> void:
 	# ── 중앙 숫자 디스플레이 ──
 	var num_panel := PanelContainer.new()
 	num_panel.custom_minimum_size = Vector2(0, 100)
-	var num_st := StyleBoxFlat.new()
-	num_st.bg_color = Color("#0a160a")
-	num_st.border_color = Color("#2a6a2a")
-	num_st.set_border_width_all(2)
-	num_st.set_corner_radius_all(12)
-	num_panel.add_theme_stylebox_override("panel", num_st)
+	_number_panel_style = StyleBoxFlat.new()
+	_number_panel_style.bg_color = Color("#0a160a")
+	_number_panel_style.border_color = Color("#2a6a2a")
+	_number_panel_style.set_border_width_all(2)
+	_number_panel_style.set_corner_radius_all(12)
+	num_panel.add_theme_stylebox_override("panel", _number_panel_style)
 	_content_root.add_child(num_panel)
 
 	_number_display_lbl = Label.new()
@@ -684,4 +778,3 @@ func _flash(msg: String, color: String) -> void:
 	_msg_lbl.visible = true
 	get_tree().create_timer(1.8).timeout.connect(func():
 		if is_instance_valid(_msg_lbl): _msg_lbl.visible = false)
-
