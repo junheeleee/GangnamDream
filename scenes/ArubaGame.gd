@@ -1,13 +1,13 @@
 extends Control
-## ArubaGame v2 — 직종별 전용 알바 미니게임
-## job_01 편의점 야간: 바코드 스캔 타이밍 게임
+## ArubaGame v3 — 직종별 전용 알바 미니게임
+## job_01 편의점 야간: 손님 응대 게임 (3-슬롯 멀티태스킹, 오버쿡 스타일)
 ## job_02 배달 라이더: 루트 최적화 퍼즐
-## 그 외: 상황 카드 선택 (기존 방식)
+## 그 외: 상황 카드 선택
 ## MainGame이 overlay로 붙이고 open()으로 표시. AP는 호출 전에 소비.
 
 signal closed(earned: int, stress_delta: int)
 
-enum Mode { CARDS, BARCODE, DELIVERY }
+enum Mode { CARDS, CONVENIENCE, DELIVERY }
 
 const BASE_PAY := 400_000
 
@@ -40,8 +40,8 @@ const SCENARIOS_CONVENIENCE = [
 	{
 		"scene": "단골 할머니가 계산이 틀렸다며 화를 낸다. 실제로 계산은 맞다.",
 		"choices": [
-			{"text": "영수증을 보여드리며 차분히 설명한다", "money": 2000, "stress": 2, "health": 0, "tip": "오해가 풀렸다. 다음에 또 오셨다."},
-			{"text": "그냥 200원을 돌려드린다", "money": -200, "stress": -3, "health": 0, "tip": "갈등은 사라졌다. 속은 좀 쓰렸다."},
+			{"text": "영수증을 보여드리며 차분히 설명한다", "money": 2000, "stress": 2, "health": 0, "tip": "오해가 풀렸다."},
+			{"text": "그냥 200원을 돌려드린다", "money": -200, "stress": -3, "health": 0, "tip": "갈등은 사라졌다."},
 			{"text": "모른 척 묻어간다", "money": 0, "stress": 1, "health": -1, "tip": "기분이 영 안 좋다."},
 		]
 	},
@@ -125,26 +125,92 @@ const SCENARIOS_GENERAL = [
 	},
 ]
 
-# ── 바코드 스캔 상수 ──────────────────────────────────────────────
-const BC_TOTAL := 8            # 스캔 아이템 수
-const BC_BAR_W := 280          # 스캔 바 너비 (ScanBarDraw.TX/TW와 반드시 일치)
-const BC_TARGET_X := 105       # 목표 구간 시작 x
-const BC_TARGET_W := 70        # 목표 구간 너비
-const BC_PERFECT_W := 28       # 퍼펙트 구간 너비 (목표 중심)
-const BC_NEEDLE_W := 5         # 바늘 너비
-const BC_SPEED_BASE := 180.0   # 1번째 아이템 속도 (px/s)
-const BC_SPEED_ADD := 13.0     # 아이템마다 가속
-const BC_EARN_PERFECT := 36_000
-const BC_EARN_GOOD := 14_000
-const BC_ITEMS_POOL = [
-	"삼각김밥 참치마요", "컵라면 신라면", "핫도그", "바나나우유",
-	"에너지 음료", "냉동 만두", "아이스 아메리카노", "크림빵",
-	"허니버터칩", "닭가슴살 샐러드", "편의점 도시락", "껌 자일리톨"
+# ── 편의점 손님 유형 (10명 풀, 매 시프트 랜덤) ───────────────────
+const CUSTOMER_TYPES = [
+	{
+		"emoji": "🛒", "name": "계산 손님",
+		"text": "저기요, 계산이요.",
+		"patience": 12.0, "urgency": 1,
+		"actions": [
+			{"text": "빠르게 스캔한다", "bonus": 2_000, "stress": 0, "tip": "뚝딱 처리됐다."},
+			{"text": "\"잠깐만요~\" 다른 손님 먼저", "bonus": -1_000, "stress": 1, "tip": "한숨 쉬며 기다렸다."},
+		]
+	},
+	{
+		"emoji": "😤", "name": "진상 손님",
+		"text": "야! 왜 이렇게 느려!",
+		"patience": 6.0, "urgency": 3,
+		"actions": [
+			{"text": "\"죄송합니다\" 차분히 대응", "bonus": 0, "stress": 2, "tip": "간신히 진정됐다."},
+			{"text": "\"불편하셨다면 더 노력하겠습니다\"", "bonus": 1_000, "stress": 1, "tip": "오히려 미안해했다."},
+			{"text": "무시하고 다른 손님 먼저", "bonus": -2_000, "stress": 5, "tip": "점장한테 신고한다고."},
+		]
+	},
+	{
+		"emoji": "👵", "name": "단골 할머니",
+		"text": "총각, 나 봤어요? 매일 오는데.",
+		"patience": 16.0, "urgency": 0,
+		"actions": [
+			{"text": "반갑게 인사하며 응대한다", "bonus": 5_000, "stress": -1, "tip": "세뱃돈 같은 거라며 주셨다."},
+			{"text": "바쁜 척 빠르게 처리한다", "bonus": 0, "stress": 1, "tip": "섭섭해하셨다."},
+		]
+	},
+	{
+		"emoji": "🍺", "name": "취한 손님",
+		"text": "야... 소주 어디 있어요?",
+		"patience": 9.0, "urgency": 2,
+		"actions": [
+			{"text": "친절하게 안내한다", "bonus": 0, "stress": 1, "tip": "고맙다며 갔다."},
+			{"text": "\"많이 드셨는데 괜찮으세요?\"", "bonus": 2_000, "stress": 0, "tip": "감동받았다며 팁을."},
+			{"text": "못 본 척한다", "bonus": -1_000, "stress": 2, "tip": "혼자 한참 헤맸다."},
+		]
+	},
+	{
+		"emoji": "📦", "name": "교환 손님",
+		"text": "이거 어제 샀는데 불량이에요.",
+		"patience": 10.0, "urgency": 1,
+		"actions": [
+			{"text": "영수증 확인 후 즉시 교환", "bonus": 2_000, "stress": 1, "tip": "깔끔하게 처리됐다."},
+			{"text": "점장에게 물어봐야 한다고 설명", "bonus": -1_000, "stress": 2, "tip": "손님이 불만이다."},
+		]
+	},
+	{
+		"emoji": "📬", "name": "택배 손님",
+		"text": "택배 여기 맡겼는데요.",
+		"patience": 11.0, "urgency": 1,
+		"actions": [
+			{"text": "등록번호 확인 후 찾아준다", "bonus": 1_000, "stress": 0, "tip": "빠르게 처리됐다."},
+			{"text": "뒤에 있을 거라고 알아서 찾으라 한다", "bonus": -500, "stress": 1, "tip": "손님이 불만 표정."},
+		]
+	},
+	{
+		"emoji": "💳", "name": "포인트 손님",
+		"text": "포인트 카드요! 이거 적립 됐어요?",
+		"patience": 9.0, "urgency": 1,
+		"actions": [
+			{"text": "영수증 보고 재적립 처리", "bonus": 1_000, "stress": 0, "tip": "감사합니다! 하며 갔다."},
+			{"text": "\"계산 전에 말씀해야...\"", "bonus": -500, "stress": 2, "tip": "다시는 안 온다고."},
+		]
+	},
+	{
+		"emoji": "🤔", "name": "길 묻는 손님",
+		"text": "저기, 삼각김밥 어디 있어요?",
+		"patience": 13.0, "urgency": 0,
+		"actions": [
+			{"text": "직접 자리에서 안내한다", "bonus": 1_000, "stress": 0, "tip": "고마워하며 여러 개 샀다."},
+			{"text": "방향만 손으로 가리킨다", "bonus": 0, "stress": 0, "tip": "찾아갔다."},
+		]
+	},
 ]
 
+const CONV_TOTAL := 10           # 시프트당 총 손님 수
+const CONV_SLOTS := 3            # 동시 처리 슬롯
+const CONV_SLOT_H := 72.0        # 슬롯 패널 높이 (px)
+const CONV_TIMEOUT_STRESS := 2   # 타임아웃당 스트레스 (기본; urgency 3이면 +1 추가)
+
 # ── 배달 루트 상수 ────────────────────────────────────────────────
-const DEL_TIME_BUDGET := 120   # 총 배달 가능 시간 (분)
-const DEL_BASE_BONUS := 8_000  # 배달 완료 1건당 기본 보너스
+const DEL_TIME_BUDGET := 120
+const DEL_BASE_BONUS := 8_000
 const DEL_ORDERS_DATA = [
 	{"name": "홍대 치킨", "time": 18, "tip": 5_000, "info": "1층 · 18분"},
 	{"name": "신촌 피자", "time": 30, "tip": 11_000, "info": "3층 · 30분"},
@@ -167,21 +233,31 @@ var _card_idx: int = 0
 var _card_waiting: bool = false
 var _card_timer: float = 0.0
 
-# BARCODE 상태
-var _bc_item_idx: int = 0
-var _bc_needle_x: float = 0.0
-var _bc_needle_dir: float = 1.0
-var _bc_speed: float = BC_SPEED_BASE
-var _bc_results: Array = []   # "perfect" | "good" | "miss"
-var _bc_waiting: bool = false
-var _bc_wait_timer: float = 0.0
-var _bc_can_scan: bool = false
-var _bc_shuffled: Array = []
+# CONVENIENCE 상태
+var _conv_queue: Array = []                          # 아직 미등장 손님
+var _conv_slots: Array = [null, null, null]          # 현재 슬롯 손님 데이터
+var _conv_slot_patience: Array = [0.0, 0.0, 0.0]    # 잔여 인내심 (초)
+var _conv_selected: int = -1                         # 선택된 슬롯 (-1 = 없음)
+var _conv_feedback_slot: int = -1                    # 피드백 표시 중인 슬롯
+var _conv_action_cooldown: float = 0.0               # 액션 후 짧은 대기
+var _conv_served: int = 0                            # 처리 완료 손님 수 (성공+실패)
+var _conv_good: int = 0                              # 성공 응대 수
+# 패널 참조
+var _conv_slot_panels: Array = []                    # 3개 Panel 노드
+var _conv_slot_bars: Array = []                      # 3개 ProgressBar 노드
+var _conv_slot_name_lbls: Array = []                 # 3개 이름 Label
+var _conv_slot_text_lbls: Array = []                 # 3개 대사/상태 Label
+var _conv_fill_styles: Array = []                    # 3개 ProgressBar fill StyleBox
+var _conv_action_vb: VBoxContainer = null            # 액션 버튼 영역
+var _conv_score_lbl: Label = null
 
 # DELIVERY 상태
-var _del_selected: Array = []  # DEL_ORDERS_DATA 인덱스, 클릭 순서
+var _del_selected: Array = []
+var _del_order_btns: Array = []
+var _del_status_lbl: Label = null
+var _del_confirm_btn: Button = null
 
-# ── UI 노드 참조 ──────────────────────────────────────────────────
+# ── UI 참조 ───────────────────────────────────────────────────────
 var _root_vb: VBoxContainer
 var _header_lbl: Label
 var _progress_lbl: Label
@@ -191,59 +267,6 @@ var _content_vb: VBoxContainer
 var _scene_lbl: Label
 var _choice_vb: VBoxContainer
 var _feedback_lbl: Label
-
-# BARCODE UI
-var _bc_item_lbl: Label
-var _bc_bar          # ScanBarDraw 인스턴스 (동적 타입)
-var _bc_zone_lbl: Label
-var _bc_hist_lbl: Label
-var _bc_scan_btn: Button
-
-# DELIVERY UI
-var _del_order_btns: Array = []
-var _del_status_lbl: Label
-var _del_confirm_btn: Button
-
-# ── 스캔 바 시각화 (내부 클래스) ─────────────────────────────────
-class ScanBarDraw extends Control:
-	# 외부 클래스의 BC_TARGET_X/W 등과 반드시 일치해야 함
-	const TX := 105
-	const TW := 70
-	const PW := 28
-	const NW := 5
-
-	var needle_x: float = 0.0
-
-	func set_needle(x: float) -> void:
-		needle_x = x
-		queue_redraw()
-
-	func zone_at(x: float) -> String:
-		var center := TX + TW * 0.5
-		if abs(x - center) <= PW * 0.5:
-			return "perfect"
-		elif x >= TX and x <= TX + TW:
-			return "good"
-		return "miss"
-
-	func _draw() -> void:
-		var w := int(size.x)
-		var h := int(size.y)
-		if w <= 0 or h <= 0:
-			return
-		# 배경 (미스 구간)
-		draw_rect(Rect2(0, 0, w, h), Color("#080e1c"))
-		# 굿 구간 (초록)
-		draw_rect(Rect2(TX, 3, TW, h - 6), Color("#1a4a1a"))
-		# 퍼펙트 구간 (밝은 초록, 목표 중심)
-		var px := TX + int((TW - PW) * 0.5)
-		draw_rect(Rect2(px, 5, PW, h - 10), Color("#2a8a3a"))
-		# 바늘 (흰색)
-		var nx := int(needle_x - NW * 0.5)
-		draw_rect(Rect2(nx, 0, NW, h), Color("#f8faff"))
-		# 양끝 경계 마커
-		draw_rect(Rect2(0, int(h * 0.2), 3, int(h * 0.6)), Color("#2a3a5a"))
-		draw_rect(Rect2(w - 3, int(h * 0.2), 3, int(h * 0.6)), Color("#2a3a5a"))
 
 # ── 초기화 ───────────────────────────────────────────────────────
 func _ready() -> void:
@@ -255,26 +278,24 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	match _mode:
-		Mode.BARCODE:
-			if _bc_waiting:
-				_bc_wait_timer -= delta
-				if _bc_wait_timer <= 0.0:
-					_bc_waiting = false
-					_bc_item_idx += 1
-					if _bc_item_idx >= BC_TOTAL:
-						_show_result()
-					else:
-						_bc_show_item()
-			elif _bc_can_scan:
-				_bc_needle_x += _bc_speed * _bc_needle_dir * delta
-				if _bc_needle_x >= BC_BAR_W:
-					_bc_needle_x = BC_BAR_W
-					_bc_needle_dir = -1.0
-				elif _bc_needle_x <= 0.0:
-					_bc_needle_x = 0.0
-					_bc_needle_dir = 1.0
-				if _bc_bar != null:
-					_bc_bar.set_needle(_bc_needle_x)
+		Mode.CONVENIENCE:
+			if _conv_action_cooldown > 0.0:
+				_conv_action_cooldown -= delta
+				if _conv_action_cooldown <= 0.0:
+					if _conv_feedback_slot >= 0:
+						_conv_free_slot(_conv_feedback_slot)
+						_conv_feedback_slot = -1
+			else:
+				for i in range(CONV_SLOTS):
+					if _conv_slots[i] == null:
+						continue
+					if i == _conv_feedback_slot:
+						continue
+					_conv_slot_patience[i] -= delta
+					_conv_refresh_bar(i)
+					if _conv_slot_patience[i] <= 0.0:
+						_conv_timeout(i)
+						break  # avoid modifying array mid-iteration
 		Mode.CARDS:
 			if _card_waiting:
 				_card_timer -= delta
@@ -291,17 +312,21 @@ func open() -> void:
 	_earned = BASE_PAY
 	_stress_delta = 0
 	_health_delta = 0
-	_bc_results = []
 	_del_selected = []
-	_bc_item_idx = 0
 	_card_idx = 0
 	_card_waiting = false
-	_bc_waiting = false
-	_bc_can_scan = false
+	_conv_served = 0
+	_conv_good = 0
+	_conv_selected = -1
+	_conv_feedback_slot = -1
+	_conv_action_cooldown = 0.0
+	_conv_slots = [null, null, null]
+	_conv_slot_patience = [0.0, 0.0, 0.0]
+	_conv_queue = []
 
 	var job_id: String = GameState.current_job.get("id", "")
 	match job_id:
-		"job_01": _mode = Mode.BARCODE
+		"job_01": _mode = Mode.CONVENIENCE
 		"job_02": _mode = Mode.DELIVERY
 		_:        _mode = Mode.CARDS
 
@@ -309,9 +334,9 @@ func open() -> void:
 	visible = true
 
 	match _mode:
-		Mode.BARCODE:
+		Mode.CONVENIENCE:
 			_header_lbl.text = "🏪 편의점 야간 시프트"
-			_start_barcode()
+			_start_convenience()
 		Mode.DELIVERY:
 			_header_lbl.text = "🛵 배달 루트 설정"
 			_start_delivery()
@@ -322,11 +347,13 @@ func open() -> void:
 func _clear_content() -> void:
 	for ch in _content_vb.get_children():
 		ch.queue_free()
-	_bc_bar = null
-	_bc_scan_btn = null
-	_bc_item_lbl = null
-	_bc_zone_lbl = null
-	_bc_hist_lbl = null
+	_conv_slot_panels = []
+	_conv_slot_bars = []
+	_conv_slot_name_lbls = []
+	_conv_slot_text_lbls = []
+	_conv_fill_styles = []
+	_conv_action_vb = null
+	_conv_score_lbl = null
 	_del_order_btns = []
 	_del_status_lbl = null
 	_del_confirm_btn = null
@@ -418,7 +445,6 @@ func _show_scenario(idx: int) -> void:
 	_scene_lbl.text = sc["scene"]
 	_feedback_lbl.text = ""
 	_progress_lbl.text = "%d / %d" % [idx + 1, _scenarios.size()]
-
 	for ch in _choice_vb.get_children():
 		ch.queue_free()
 	for ci in range(sc["choices"].size()):
@@ -440,116 +466,362 @@ func _on_cards_choice(sc: Dictionary, ci: int) -> void:
 	_card_timer = 0.9
 
 # ══════════════════════════════════════════════════════════════════
-# BARCODE 모드 — 바코드 스캔 타이밍 게임
+# CONVENIENCE 모드 — 오버쿡 스타일 손님 응대 게임
 # ══════════════════════════════════════════════════════════════════
-func _start_barcode() -> void:
-	_bc_shuffled = BC_ITEMS_POOL.duplicate()
-	_bc_shuffled.shuffle()
-	_bc_shuffled = _bc_shuffled.slice(0, BC_TOTAL)
-	_bc_speed = BC_SPEED_BASE
-	_bc_needle_x = 0.0
-	_bc_needle_dir = 1.0
+func _start_convenience() -> void:
+	# 손님 큐 준비 (CUSTOMER_TYPES를 가중치로 섞어 10명)
+	var pool: Array = CUSTOMER_TYPES.duplicate()
+	pool.shuffle()
+	# 진상 손님은 1명 이하
+	var angry_added := false
+	for c in pool:
+		if _conv_queue.size() >= CONV_TOTAL:
+			break
+		if c["name"] == "진상 손님":
+			if angry_added:
+				continue
+			angry_added = true
+		_conv_queue.append(c.duplicate(true))
+	# 부족하면 일반 손님으로 채우기
+	while _conv_queue.size() < CONV_TOTAL:
+		_conv_queue.append(CUSTOMER_TYPES[0].duplicate(true))
 
-	var guide := Label.new()
-	guide.text = "바늘이 초록 구간에 들어올 때 [삐빅!] 을 누르세요."
-	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	guide.add_theme_font_size_override("font_size", 12)
-	guide.add_theme_color_override("font_color", Color("#7a9ab0"))
-	_content_vb.add_child(guide)
+	# fill StyleBox 3개 미리 생성
+	for i in range(CONV_SLOTS):
+		var fill := StyleBoxFlat.new()
+		fill.bg_color = Color("#2a7a3a")
+		_conv_fill_styles.append(fill)
 
-	_bc_item_lbl = Label.new()
-	_bc_item_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_bc_item_lbl.add_theme_font_size_override("font_size", 20)
-	_bc_item_lbl.add_theme_color_override("font_color", Color("#e8eaf0"))
-	_bc_item_lbl.custom_minimum_size = Vector2(0, 30)
-	_content_vb.add_child(_bc_item_lbl)
+	# 슬롯 패널 3개 생성
+	var slots_vb := VBoxContainer.new()
+	slots_vb.add_theme_constant_override("separation", 5)
+	_content_vb.add_child(slots_vb)
 
-	# 스캔 바 (커스텀 드로우)
-	_bc_bar = ScanBarDraw.new()
-	_bc_bar.custom_minimum_size = Vector2(BC_BAR_W, 38)
-	_bc_bar.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	_content_vb.add_child(_bc_bar)
+	for i in range(CONV_SLOTS):
+		var panel := Panel.new()
+		panel.custom_minimum_size = Vector2(0, CONV_SLOT_H)
+		panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var panel_st := StyleBoxFlat.new()
+		panel_st.bg_color = Color("#0d1420")
+		panel_st.set_corner_radius_all(6)
+		panel.add_theme_stylebox_override("panel", panel_st)
+		slots_vb.add_child(panel)
+		_conv_slot_panels.append(panel)
+		_conv_slot_bars.append(null)
+		_conv_slot_name_lbls.append(null)
+		_conv_slot_text_lbls.append(null)
 
-	_bc_zone_lbl = Label.new()
-	_bc_zone_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_bc_zone_lbl.add_theme_font_size_override("font_size", 16)
-	_bc_zone_lbl.add_theme_color_override("font_color", Color("#3dba6a"))
-	_bc_zone_lbl.custom_minimum_size = Vector2(0, 24)
-	_content_vb.add_child(_bc_zone_lbl)
+		# 패널 클릭 핸들러 (1회 연결)
+		var cap_i: int = i
+		panel.gui_input.connect(func(event: InputEvent):
+			if event is InputEventMouseButton:
+				var mb := event as InputEventMouseButton
+				if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
+					_conv_click_slot(cap_i))
 
-	_bc_hist_lbl = Label.new()
-	_bc_hist_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_bc_hist_lbl.add_theme_font_size_override("font_size", 14)
-	_bc_hist_lbl.add_theme_color_override("font_color", Color("#4a6a4a"))
-	_bc_hist_lbl.custom_minimum_size = Vector2(0, 22)
-	_content_vb.add_child(_bc_hist_lbl)
+	# 점수 라벨
+	_conv_score_lbl = Label.new()
+	_conv_score_lbl.add_theme_font_size_override("font_size", 12)
+	_conv_score_lbl.add_theme_color_override("font_color", Color("#5a8a6a"))
+	_content_vb.add_child(_conv_score_lbl)
 
-	_bc_scan_btn = _make_btn("삐빅!", "#0d3a1a", 20)
-	_bc_scan_btn.custom_minimum_size = Vector2(0, 56)
-	_bc_scan_btn.pressed.connect(_bc_on_scan)
-	_content_vb.add_child(_bc_scan_btn)
+	# 액션 영역 (클릭 시 동적 버튼 표시)
+	var action_sep := HSeparator.new()
+	action_sep.add_theme_color_override("color", Color("#1a2030"))
+	_content_vb.add_child(action_sep)
 
+	_conv_action_vb = VBoxContainer.new()
+	_conv_action_vb.add_theme_constant_override("separation", 6)
+	_conv_action_vb.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_content_vb.add_child(_conv_action_vb)
+
+	var hint := Label.new()
+	hint.text = "↑ 손님 패널을 클릭해서 응대하세요"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.add_theme_font_size_override("font_size", 11)
+	hint.add_theme_color_override("font_color", Color("#3a4a5a"))
+	_conv_action_vb.add_child(hint)
+
+	_conv_update_score_lbl()
 	set_process(true)
-	_bc_show_item()
 
-func _bc_show_item() -> void:
-	_progress_lbl.text = "%d / %d" % [_bc_item_idx + 1, BC_TOTAL]
-	if is_instance_valid(_bc_item_lbl):
-		_bc_item_lbl.text = _bc_shuffled[_bc_item_idx]
-	if is_instance_valid(_bc_zone_lbl):
-		_bc_zone_lbl.text = ""
-	_bc_needle_x = 0.0
-	_bc_needle_dir = 1.0
-	_bc_speed = BC_SPEED_BASE + _bc_item_idx * BC_SPEED_ADD
-	if _bc_bar != null:
-		_bc_bar.set_needle(_bc_needle_x)
-	_bc_can_scan = true
-	if is_instance_valid(_bc_scan_btn):
-		_bc_scan_btn.disabled = false
+	# 첫 손님 3명 즉시 등장
+	for i in range(CONV_SLOTS):
+		_conv_spawn_into(i)
 
-func _bc_on_scan() -> void:
-	if not _bc_can_scan or _bc_waiting:
+func _conv_spawn_into(slot_idx: int) -> void:
+	if _conv_queue.is_empty():
 		return
-	_bc_can_scan = false
-	if is_instance_valid(_bc_scan_btn):
-		_bc_scan_btn.disabled = true
+	var customer: Dictionary = _conv_queue.pop_front()
+	_conv_slots[slot_idx] = customer
+	_conv_slot_patience[slot_idx] = float(customer.get("patience", 10.0))
+	_conv_build_slot_content(slot_idx)
 
-	var zone := _bc_bar.zone_at(_bc_needle_x) if _bc_bar != null else "miss"
-	_bc_results.append(zone)
+func _conv_build_slot_content(slot_idx: int) -> void:
+	var panel: Panel = _conv_slot_panels[slot_idx]
+	# 기존 콘텐츠 제거
+	for ch in panel.get_children():
+		ch.queue_free()
 
-	match zone:
-		"perfect":
-			_earned += BC_EARN_PERFECT
-			_stress_delta -= 1
-			if is_instance_valid(_bc_zone_lbl):
-				_bc_zone_lbl.text = "✦ 퍼펙트!"
-				_bc_zone_lbl.add_theme_color_override("font_color", Color("#f0e040"))
-			AudioManager.play("money_gain")
-		"good":
-			_earned += BC_EARN_GOOD
-			if is_instance_valid(_bc_zone_lbl):
-				_bc_zone_lbl.text = "✓ 굿"
-				_bc_zone_lbl.add_theme_color_override("font_color", Color("#3dba6a"))
-			AudioManager.play("click")
-		"miss":
-			if is_instance_valid(_bc_zone_lbl):
-				_bc_zone_lbl.text = "✗ 미스"
-				_bc_zone_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
-			AudioManager.play("money_loss")
+	var customer: Dictionary = _conv_slots[slot_idx]
+	if customer == null:
+		return
 
-	_bc_update_hist()
-	_bc_waiting = true
-	_bc_wait_timer = 0.75
+	# 패널 스타일 리셋 (선택 해제)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0d1420")
+	st.set_corner_radius_all(6)
+	panel.add_theme_stylebox_override("panel", st)
 
-func _bc_update_hist() -> void:
-	var s := ""
-	for r in _bc_results:
-		match r:
-			"perfect": s += "★"
-			"good":    s += "○"
-			"miss":    s += "✗"
-	if is_instance_valid(_bc_hist_lbl):
-		_bc_hist_lbl.text = s
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_top", 7)
+	margin.add_theme_constant_override("margin_bottom", 7)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(margin)
+
+	var hb := HBoxContainer.new()
+	hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hb.add_theme_constant_override("separation", 8)
+	margin.add_child(hb)
+
+	# 이모지 + 이름
+	var info_vb := VBoxContainer.new()
+	info_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info_vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hb.add_child(info_vb)
+
+	var name_lbl := Label.new()
+	name_lbl.text = "%s  %s" % [customer.get("emoji", "👤"), customer.get("name", "손님")]
+	name_lbl.add_theme_font_size_override("font_size", 13)
+	name_lbl.add_theme_color_override("font_color", Color("#dde8f0"))
+	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	info_vb.add_child(name_lbl)
+	_conv_slot_name_lbls[slot_idx] = name_lbl
+
+	var text_lbl := Label.new()
+	text_lbl.text = "\"%s\"" % customer.get("text", "")
+	text_lbl.add_theme_font_size_override("font_size", 11)
+	text_lbl.add_theme_color_override("font_color", Color("#5a7a8a"))
+	text_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	info_vb.add_child(text_lbl)
+	_conv_slot_text_lbls[slot_idx] = text_lbl
+
+	# 인내심 바 + 긴급도
+	var bar_vb := VBoxContainer.new()
+	bar_vb.custom_minimum_size = Vector2(72, 0)
+	bar_vb.alignment = BoxContainer.ALIGNMENT_CENTER
+	bar_vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hb.add_child(bar_vb)
+
+	var bar := ProgressBar.new()
+	bar.min_value = 0
+	bar.max_value = 100
+	bar.value = 100
+	bar.show_percentage = false
+	bar.custom_minimum_size = Vector2(72, 10)
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_theme_stylebox_override("fill", _conv_fill_styles[slot_idx])
+	bar_vb.add_child(bar)
+	_conv_slot_bars[slot_idx] = bar
+
+	var urg: int = int(customer.get("urgency", 1))
+	var urg_lbl := Label.new()
+	urg_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	urg_lbl.add_theme_font_size_override("font_size", 10)
+	urg_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	match urg:
+		0:
+			urg_lbl.text = "느긋"
+			urg_lbl.add_theme_color_override("font_color", Color("#5a9a5a"))
+		1:
+			urg_lbl.text = "보통"
+			urg_lbl.add_theme_color_override("font_color", Color("#6a8a9a"))
+		2:
+			urg_lbl.text = "급함"
+			urg_lbl.add_theme_color_override("font_color", Color("#c8a020"))
+		_:
+			urg_lbl.text = "긴급!"
+			urg_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
+	bar_vb.add_child(urg_lbl)
+
+func _conv_clear_slot_panel(slot_idx: int) -> void:
+	var panel: Panel = _conv_slot_panels[slot_idx]
+	for ch in panel.get_children():
+		ch.queue_free()
+	_conv_slot_bars[slot_idx] = null
+	_conv_slot_name_lbls[slot_idx] = null
+	_conv_slot_text_lbls[slot_idx] = null
+	# 빈 슬롯 스타일
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#080e18")
+	st.set_corner_radius_all(6)
+	st.border_color = Color("#1a2030")
+	st.set_border_width_all(1)
+	panel.add_theme_stylebox_override("panel", st)
+
+func _conv_refresh_bar(slot_idx: int) -> void:
+	var bar: ProgressBar = _conv_slot_bars[slot_idx]
+	if not is_instance_valid(bar) or _conv_slots[slot_idx] == null:
+		return
+	var max_p: float = float(_conv_slots[slot_idx].get("patience", 10.0))
+	var ratio: float = clampf(_conv_slot_patience[slot_idx] / max_p, 0.0, 1.0)
+	bar.value = ratio * 100.0
+	var fill: StyleBoxFlat = _conv_fill_styles[slot_idx]
+	if ratio > 0.5:
+		fill.bg_color = Color("#2a7a3a")
+	elif ratio > 0.25:
+		fill.bg_color = Color("#c8a020")
+	else:
+		fill.bg_color = Color("#c83030")
+
+func _conv_click_slot(slot_idx: int) -> void:
+	if _conv_slots[slot_idx] == null:
+		return
+	if slot_idx == _conv_feedback_slot:
+		return
+	if _conv_action_cooldown > 0.0:
+		return
+
+	_conv_selected = slot_idx
+	_conv_highlight_selected()
+	_conv_show_actions(slot_idx)
+	AudioManager.play("click")
+
+func _conv_highlight_selected() -> void:
+	for i in range(CONV_SLOTS):
+		if _conv_slots[i] == null:
+			continue
+		var panel: Panel = _conv_slot_panels[i]
+		var st := StyleBoxFlat.new()
+		if i == _conv_selected:
+			st.bg_color = Color("#0d2040")
+			st.set_corner_radius_all(6)
+			st.border_color = Color("#3a6aaa")
+			st.set_border_width_all(2)
+		else:
+			st.bg_color = Color("#0d1420")
+			st.set_corner_radius_all(6)
+		panel.add_theme_stylebox_override("panel", st)
+
+func _conv_show_actions(slot_idx: int) -> void:
+	for ch in _conv_action_vb.get_children():
+		ch.queue_free()
+
+	var customer: Dictionary = _conv_slots[slot_idx]
+	var who_lbl := Label.new()
+	who_lbl.text = "%s %s 응대:" % [customer.get("emoji", ""), customer.get("name", "")]
+	who_lbl.add_theme_font_size_override("font_size", 12)
+	who_lbl.add_theme_color_override("font_color", Color("#a0b8c0"))
+	_conv_action_vb.add_child(who_lbl)
+
+	var actions: Array = customer.get("actions", [])
+	for ai in range(actions.size()):
+		var action: Dictionary = actions[ai]
+		var btn := _make_btn(action["text"], "#0e1a2e", 13)
+		btn.custom_minimum_size = Vector2(0, 38)
+		var cap_slot: int = slot_idx
+		var cap_ai: int = ai
+		btn.pressed.connect(func(): _conv_handle(cap_slot, cap_ai))
+		_conv_action_vb.add_child(btn)
+
+func _conv_handle(slot_idx: int, action_idx: int) -> void:
+	if _conv_slots[slot_idx] == null or _conv_feedback_slot == slot_idx:
+		return
+
+	var customer: Dictionary = _conv_slots[slot_idx]
+	var action: Dictionary = customer["actions"][action_idx]
+
+	var bonus: int = int(action.get("bonus", 0))
+	_earned += bonus
+	_stress_delta += int(action.get("stress", 0))
+	if bonus > 0:
+		_conv_good += 1
+		AudioManager.play("money_gain")
+	elif bonus < 0:
+		AudioManager.play("money_loss")
+	else:
+		_conv_good += 1
+		AudioManager.play("click")
+
+	# 슬롯에 결과 텍스트 잠깐 표시
+	var text_lbl: Label = _conv_slot_text_lbls[slot_idx]
+	if is_instance_valid(text_lbl):
+		text_lbl.text = "→ " + str(action.get("tip", "처리 완료"))
+		text_lbl.add_theme_color_override("font_color", Color("#3dba6a") if bonus >= 0 else Color("#e85d5d"))
+	var name_lbl: Label = _conv_slot_name_lbls[slot_idx]
+	if is_instance_valid(name_lbl):
+		name_lbl.text = "✓ " + str(customer.get("name", ""))
+
+	# 액션 영역 지우기
+	for ch in _conv_action_vb.get_children():
+		ch.queue_free()
+	_conv_selected = -1
+	_conv_highlight_selected()
+
+	_conv_served += 1
+	_conv_feedback_slot = slot_idx
+	_conv_action_cooldown = 0.7
+	_conv_update_score_lbl()
+
+func _conv_timeout(slot_idx: int) -> void:
+	if _conv_slots[slot_idx] == null:
+		return
+	var customer: Dictionary = _conv_slots[slot_idx]
+	var urgency: int = int(customer.get("urgency", 1))
+	_stress_delta += CONV_TIMEOUT_STRESS + (1 if urgency >= 3 else 0)
+
+	var text_lbl: Label = _conv_slot_text_lbls[slot_idx]
+	if is_instance_valid(text_lbl):
+		text_lbl.text = "😠 참다가 나가버렸다"
+		text_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
+	var name_lbl: Label = _conv_slot_name_lbls[slot_idx]
+	if is_instance_valid(name_lbl):
+		name_lbl.text = "✗ " + str(customer.get("name", ""))
+
+	if _conv_selected == slot_idx:
+		_conv_selected = -1
+		_conv_highlight_selected()
+		for ch in _conv_action_vb.get_children():
+			ch.queue_free()
+
+	_conv_served += 1
+	_conv_feedback_slot = slot_idx
+	_conv_action_cooldown = 0.5
+	AudioManager.play("money_loss")
+	_conv_update_score_lbl()
+
+func _conv_free_slot(slot_idx: int) -> void:
+	_conv_slots[slot_idx] = null
+	_conv_slot_patience[slot_idx] = 0.0
+	_conv_clear_slot_panel(slot_idx)
+
+	# 종료 조건: 모든 손님 처리 완료
+	var all_done: bool = _conv_queue.is_empty()
+	if all_done:
+		for i in range(CONV_SLOTS):
+			if _conv_slots[i] != null:
+				all_done = false
+				break
+	if all_done:
+		_show_result()
+		return
+
+	# 다음 손님 즉시 투입
+	_conv_spawn_into(slot_idx)
+	_conv_update_score_lbl()
+
+func _conv_update_score_lbl() -> void:
+	if not is_instance_valid(_conv_score_lbl):
+		return
+	var remaining: int = _conv_queue.size() + (CONV_TOTAL - _conv_served - _conv_queue.size())
+	remaining = CONV_TOTAL - _conv_served
+	_conv_score_lbl.text = "처리: %d / %d  |  남은 손님: %d명" % [
+		_conv_served, CONV_TOTAL,
+		_conv_queue.size() + _conv_slots.filter(func(s): return s != null).size()]
 
 # ══════════════════════════════════════════════════════════════════
 # DELIVERY 모드 — 배달 루트 최적화 퍼즐
@@ -655,7 +927,7 @@ func _del_confirm() -> void:
 		tip_total += int(DEL_ORDERS_DATA[i]["tip"])
 	var delivery_count := _del_selected.size()
 	_earned += tip_total + delivery_count * DEL_BASE_BONUS
-	_stress_delta += maxi(delivery_count - 2, 0)   # 3건부터 스트레스
+	_stress_delta += maxi(delivery_count - 2, 0)
 	_health_delta -= delivery_count
 	_show_result()
 
@@ -676,11 +948,8 @@ func _show_result() -> void:
 	_content_vb.add_child(finish_lbl)
 
 	match _mode:
-		Mode.BARCODE:
-			var p := _bc_results.count("perfect")
-			var g := _bc_results.count("good")
-			var m := _bc_results.count("miss")
-			finish_lbl.text = "시프트 종료  ★%d  ○%d  ✗%d" % [p, g, m]
+		Mode.CONVENIENCE:
+			finish_lbl.text = "시프트 종료  %d / %d명 응대 성공" % [_conv_good, CONV_TOTAL]
 		Mode.DELIVERY:
 			finish_lbl.text = "배달 완료 — %d건" % _del_selected.size()
 		Mode.CARDS:
