@@ -299,7 +299,7 @@ func _build_top_bar(parent):
 	var sep2 = _label("│", 13, "#2a2a3a")
 	row.add_child(sep2)
 
-	next_button = _button("다음 달 ▶", "#1a3a5a")
+	next_button = _button("다음 주 ▶", "#1a3a5a")
 	next_button.custom_minimum_size = Vector2(110, 36)
 	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	next_button.pressed.connect(_on_next_month)
@@ -1349,46 +1349,56 @@ func _on_next_month():
 		return
 	if GameState.tutorial_step > 0:
 		GameState.tutorial_step -= 1
-	job_system.process_monthly_job()
-	relationship_system.process_monthly_relationships()
-	inventory_system.process_monthly_items()
-	if not GameState.current_job.is_empty():
-		GameState.add_tendency("career", 1)   # 한 달 직장 생활 = 직장형 누적
-	BGMPlayer.update_context()  # 게임 상태에 따라 BGM 트랙 자동 전환
 
-	# 초반 난이도 완화: 튜토리얼 3턴 동안 정착 지원금 30만원
-	var subsidy_applied = GameState.turn <= 3
-	if subsidy_applied:
-		GameState.add_money(300_000.0)
-		GameState.add_log("초기 정착 지원금 30만원 수령", "system")
+	var is_month_end := (GameState.week_of_month == 4)
 
-	# 결산 전 스냅샷
-	var snap = {
-		"date": GameState.get_date_string(),
-		"money_before": GameState.money,
-		"monthly_income": GameState.monthly_income,
-		"fixed_expense": GameState.get_housing_expense(),
-		"assets_before": GameState.get_total_asset_value(),
-		"health_before": GameState.health,
-		"mental_before": GameState.mental,
-		"stress_before": GameState.stress,
-		"actions": turn_action_log.duplicate(),
-		"subsidy": subsidy_applied,
-	}
+	if is_month_end:
+		# ── 월말 처리 ─────────────────────────────────────────
+		job_system.process_monthly_job()
+		relationship_system.process_monthly_relationships()
+		inventory_system.process_monthly_items()
+		if not GameState.current_job.is_empty():
+			GameState.add_tendency("career", 1)
+		BGMPlayer.update_context()
 
-	var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
-	GameState.apply_monthly_pressure()
-	GameState.advance_calendar()
-	_refresh_all()
-	# 첫 월급 수령 시 투자·상점 잠금 해제 축하 토스트
-	if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
-		_show_toast("💳 첫 월급 수령! 투자·상점이 열렸습니다", Color("#00c896"))
+		# 초반 3개월 정착 지원금
+		var subsidy_applied = GameState.month <= 3
+		if subsidy_applied:
+			GameState.add_money(300_000.0)
+			GameState.add_log("초기 정착 지원금 30만원 수령", "system")
 
-	if GameState.is_game_over:
-		return
-	SaveManager.autosave()
-	_check_title_unlocks()
-	_show_month_summary(snap)
+		var snap = {
+			"date": GameState.get_date_string(),
+			"money_before": GameState.money,
+			"monthly_income": GameState.monthly_income,
+			"fixed_expense": GameState.get_housing_expense(),
+			"assets_before": GameState.get_total_asset_value(),
+			"health_before": GameState.health,
+			"mental_before": GameState.mental,
+			"stress_before": GameState.stress,
+			"actions": turn_action_log.duplicate(),
+			"subsidy": subsidy_applied,
+		}
+
+		var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
+		GameState.apply_monthly_pressure()
+		GameState.advance_calendar()
+		_refresh_all()
+		if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
+			_show_toast("💳 첫 월급 수령! 투자·상점이 열렸습니다", Color("#00c896"))
+		if GameState.is_game_over:
+			return
+		SaveManager.autosave()
+		_check_title_unlocks()
+		_show_month_summary(snap)
+	else:
+		# ── 주 전환 (월말 아님) ───────────────────────────────
+		GameState.advance_calendar()
+		_refresh_all()
+		if GameState.is_game_over:
+			return
+		SaveManager.autosave()
+		_begin_month()
 
 func _choose(index):
 	var choices: Array = current_event.get("choices", [])
@@ -2054,7 +2064,7 @@ func _render_ap_actions():
 
 	# ── 행동력 소진 시 다음 달 버튼 강조 ──────────────
 	if disabled:
-		next_button.text = "▶▶ 다음 달로!"
+		next_button.text = "▶▶ 다음 주로!"
 		var btn_style = StyleBoxFlat.new()
 		btn_style.bg_color = Color("#0a2a1a")
 		btn_style.border_color = Color("#00c896")
@@ -2068,7 +2078,7 @@ func _render_ap_actions():
 		next_button.add_theme_color_override("font_color", Color("#00c896"))
 		next_button.call_deferred("grab_focus")
 	else:
-		next_button.text = "다음 달 ▶"
+		next_button.text = "다음 주 ▶"
 		next_button.remove_theme_stylebox_override("normal")
 		next_button.remove_theme_color_override("font_color")
 
@@ -2270,7 +2280,7 @@ func _render_situation_cards():
 	if ap > 0:
 		choice_box.add_child(_label("──  남은 시간에, 무엇을 할까  ──", 12, "#9aa4b8"))
 	else:
-		choice_box.add_child(_label("이번 달을 다 보냈다. [다음 달]로.", 12, "#7a8496"))
+		choice_box.add_child(_label("이번 주를 다 보냈다. [다음 주]로.", 12, "#7a8496"))
 	_render_essential_actions(ap)
 
 func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
@@ -3521,7 +3531,7 @@ func _open_investments():
 	var ap_hint_color = "#00c896" if ap_now > 0 else "#ff4444"
 	var ap_hint_text = "⚡ 행동력 %d/%d — 매수·매도 실행 시 1 소비 (조회는 무료)" % [ap_now, GameState.max_action_points]
 	if ap_now <= 0:
-		ap_hint_text = "⚡ 행동력 없음 — 이번 달 거래 불가. 다음 달에 다시 오세요."
+		ap_hint_text = "⚡ 행동력 없음 — 이번 주 거래 불가. 다음 주에 다시 오세요."
 	modal_body.add_child(_wrap_label(ap_hint_text, 12, ap_hint_color))
 	# 은행 — 대출/상환 (재무 거래라 행동력 무소비)
 	var bank_btn = _button("🏦 은행 — 대출/상환", "#1a2438")
@@ -4649,6 +4659,7 @@ func _show_month_summary(snap: Dictionary):
 		var confirm_btn = _button("다음 달 시작  ▶", "#0e2a3a")
 		confirm_btn.pressed.connect(_close_modal)
 		modal_body.add_child(confirm_btn)
+		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
 
 
 func _check_milestones():

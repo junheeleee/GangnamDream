@@ -13,7 +13,7 @@ const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
 
 const IS_DEMO: bool = true
-const DEMO_TURN_LIMIT: int = 12
+const DEMO_TURN_LIMIT: int = 24   # 6개월 × 4주
 
 var player_name = "김민준"
 var player_background = "지방_상경"  # legacy — 신규 런은 player_route 사용
@@ -21,6 +21,7 @@ var player_route = "직장형"  # 직장형 | 투자형 | 창업형
 var age = 33
 var year = 2026
 var month = 1
+var week_of_month: int = 1
 var turn = 1
 var is_game_over = false
 
@@ -195,8 +196,9 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	appearance = 50
 	investment_skill = 15
 	luck = 45
-	action_points = 3
-	max_action_points = 3
+	week_of_month = 1
+	action_points = 2
+	max_action_points = 2
 	tutorial_step = 3
 	stress = int(diff_data.get("start_stress", 35))
 	reputation = 5
@@ -397,16 +399,22 @@ func _init_market_prices():
 	for asset in DataRegistry.assets:
 		market_prices[asset.get("id", "")] = float(asset.get("initial_price", asset.get("base_price", 10_000.0)))
 
-func advance_calendar():
+func advance_calendar() -> bool:
 	if is_game_over:
-		return
+		return false
 	turn += 1
-	month += 1
-	if month > 12:
-		month = 1
-		year += 1
-		age += 1
+	week_of_month += 1
+	var month_ended := false
+	if week_of_month > 4:
+		week_of_month = 1
+		month += 1
+		month_ended = true
+		if month > 12:
+			month = 1
+			year += 1
+			age += 1
 	turn_advanced.emit(turn)
+	return month_ended
 
 func get_housing_expense() -> float:
 	return float(HOUSING_DATA.get(housing, HOUSING_DATA["gosiwon"]).get("expense", 800_000.0))
@@ -965,7 +973,7 @@ func add_log(message, log_type):
 	log_added.emit(entry)
 
 func get_date_string():
-	return "%d년 %d월" % [year, month]
+	return "%d년 %d월 %d주차" % [year, month, week_of_month]
 
 func format_money(amount):
 	var sign = ""
@@ -1200,6 +1208,7 @@ func serialize():
 		"age": age,
 		"year": year,
 		"month": month,
+		"week_of_month": week_of_month,
 		"turn": turn,
 		"is_game_over": is_game_over,
 		"housing": housing,
@@ -1252,7 +1261,7 @@ func serialize():
 
 func load_from_dict(data):
 	var int_fields = [
-		"age", "year", "month", "turn",
+		"age", "year", "month", "week_of_month", "turn",
 		"health", "mental", "intelligence", "social_skill", "appearance",
 		"investment_skill", "luck", "stress", "reputation",
 		"gambling_tendency", "addiction_tendency",
