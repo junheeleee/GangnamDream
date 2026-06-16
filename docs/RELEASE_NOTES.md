@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added (2026-06-16) — 그림자 이벤트 시스템 (테마/메카닉 괴리 해소)
+- **deferred_events 엔진**: 선택지에 `deferred_follow_up` + `deferred_delay` 키 지정 → N턴 후 자동 발동
+- **shadow_events.json**: 6개 그림자 이벤트 — 수금 전화(4턴 후), 소문 출처(5턴 후), 창업 약속(7턴 후)
+- **audit.py 강화**: deferred_follow_up 체인 끊김 검사 + CHOICE_KEYS 화이트리스트 업데이트
+
 ### Added (2026-06-15) — 코인 단타 미니게임 + 튜토리얼 개선
 - **CryptoGame**: 3라운드 코인 롱/숏 예측 미니게임 (캔들 흐름 분석, 12초 타이머, 투자감각 기반 힌트)
 - **해금 조건 완화**: 투자감각 10 이상이면 즉시 접근 가능 — 스캘핑보다 일찍 투자 게임플레이 체험

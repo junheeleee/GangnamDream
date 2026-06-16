@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-06-16 (그림자 이벤트 시스템 — 테마/메카닉 괴리 해소)
+
+### 핵심 문제 해결: 선택의 장기 파장
+- **근본 진단**: 선택이 즉각 결과로 끝나기 때문에 "불평등 테마를 플레이한다"가 아니라 "숫자를 최적화한다"가 게임 경험으로 됨
+- **해법**: deferred_events 시스템 — 선택 후 N턴이 지나 잊을 때쯤 과거 선택이 새 이벤트로 돌아옴
+
+### 구현 내용
+- **GameState.gd**: `deferred_events: Array` 변수 선언 + new_run 초기화 + `add_deferred_event(id, delay)` / `pop_ready_deferred_events()` 헬퍼
+- **EventManager.gd**: 선택지 JSON에 `deferred_follow_up` + `deferred_delay` 키 지원 추가
+- **MainGame.gd** `_next_arc_id()`: 매 턴 시작 시 `pop_ready_deferred_events()` 호출 — 발동된 그림자가 해당 턴 arc 슬롯을 차지
+- **shadow_events.json**: 그림자 이벤트 6개 (수금 전화, 소문, 예전 약속 — 각각 4~7턴 후 콜백)
+- **tools/audit.py**: `deferred_follow_up` / `deferred_delay` CHOICE_KEYS 화이트리스트 + 체인 끊김 검사 추가
+
+### 그림자 이벤트 목록
+- `shadow_loan_collector` → `shadow_loan_answer` (4턴 후): 출처 모를 수금 전화, 내가 맺은 관계의 이면
+- `shadow_snitch_rumor` → `shadow_snitch_found` (5턴 후): 소문의 출처 추적 — 아는 사람이었음
+- `shadow_old_promise` → `shadow_promise_again` (7턴 후): 창업 약속, 잊을 때쯤 다시 온다
+
+### 감사 결과
+- ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
 ## 2026-06-15 (데모 점수 올리기 — CryptoGame + 튜토리얼 개선)
 
 ### 코인 단타 미니게임 (CryptoGame.gd 신규)
