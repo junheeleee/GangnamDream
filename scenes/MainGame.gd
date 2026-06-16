@@ -1190,9 +1190,27 @@ func _next_arc_id() -> String:
 			and not f.get("arc_job_invest_clash_seen", false):
 		return "arc_job_vs_invest"
 
+	# ── 월급의 한계 — 1년 이상 재직 중반 (턴 28~38) ──
+	if t >= 28 and t <= 38 \
+			and not GameState.current_job.is_empty() \
+			and GameState.job_tenure >= 12 \
+			and not f.get("arc_career_ceiling_seen", false):
+		return "arc_career_ceiling"
+
+	# ── 첫 5천만원 달성 — 숫자가 아니라 감각의 변화 ──
+	if t >= 15 \
+			and GameState.get_total_asset_value() >= 50_000_000.0 \
+			and not f.get("arc_first_real_win_seen", false):
+		return "arc_first_real_win"
+
 	# ── 반환점 — 5년의 절반 (턴 30) ──
 	if t >= 30 and not f.get("arc_midpoint_reckoning_seen", false):
 		return "arc_midpoint_reckoning"
+
+	# ── 동창 조우 — 잘 나가는 동창, 나는? (턴 28~35) ──
+	if t >= 28 and t <= 35 \
+			and not f.get("arc_social_comparison_seen", false):
+		return "arc_social_comparison"
 
 	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=19으로 단축) ══
 	# ── 현수 — 시험 불합격 (새벽 라면 이후) ──
@@ -1200,6 +1218,12 @@ func _next_arc_id() -> String:
 			and f.get("arc_hyunsu_night_seen", false) \
 			and not f.get("arc_hyunsu_exam_fail_seen", false):
 		return "arc_hyunsu_exam_fail"
+
+	# ── 현수의 새 길 — 불합격 이후 떠남 (턴 42~50) ──
+	if t >= 42 and t <= 50 \
+			and f.get("arc_hyunsu_exam_fail_seen", false) \
+			and not f.get("arc_hyunsu_new_path_seen", false):
+		return "arc_hyunsu_new_path"
 
 	# ── 처음 혼자 간 강남 (턴 22~28, 누구나) ──
 	if t >= 22 and t <= 28 \
