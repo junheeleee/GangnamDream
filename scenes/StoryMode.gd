@@ -93,31 +93,28 @@ func _build_ui():
 	click_catcher.pressed.connect(_on_advance)
 	add_child(click_catcher)
 
-	# 4. 인물 초상화 — 우측 하단, 액자(프레임) 인셋. 세로 비율(초상화 1024x1792≈0.57)에 맞춤.
-	#    프레임으로 감싸 "장면 위에 떠 있는 사진"처럼 의도된 구분감을 준다.
+	# 4. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
 	_portrait_frame = PanelContainer.new()
 	_portrait_frame.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_portrait_frame.offset_left = -316   # 폭 268 (≈ 470 * 0.57, 초상화 비율)
+	_portrait_frame.offset_left = -316
 	_portrait_frame.offset_right = -48
-	_portrait_frame.offset_top = -726    # 높이 470
+	_portrait_frame.offset_top = -726
 	_portrait_frame.offset_bottom = -256
 	_portrait_frame.clip_contents = true
 	_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait_frame.modulate = Color(1, 1, 1, 0)
 	_portrait_frame.visible = false
 	var frame_style := StyleBoxFlat.new()
-	frame_style.bg_color = Color(0.05, 0.06, 0.09, 0.92)   # 어두운 매트
-	frame_style.set_corner_radius_all(10)
-	frame_style.set_border_width_all(2)
-	frame_style.border_color = Color(0.85, 0.70, 0.36, 0.9)  # 따뜻한 골드 테두리
-	frame_style.shadow_color = Color(0, 0, 0, 0.55)
-	frame_style.shadow_size = 10
-	frame_style.set_content_margin_all(3)
+	frame_style.bg_color = Color(0, 0, 0, 0)      # 배경 없음
+	frame_style.set_border_width_all(0)             # 테두리 없음
+	frame_style.shadow_size = 0                     # 그림자 없음
+	frame_style.set_corner_radius_all(0)
+	frame_style.set_content_margin_all(0)
 	_portrait_frame.add_theme_stylebox_override("panel", frame_style)
 	add_child(_portrait_frame)
 
 	_portrait = TextureRect.new()
-	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED  # 프레임 비율과 일치 → 빈틈 없이 채움
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait_frame.add_child(_portrait)
