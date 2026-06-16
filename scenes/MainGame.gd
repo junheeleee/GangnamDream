@@ -76,10 +76,7 @@ var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
 var job_hunt_game  # 구직활동 미니게임 오버레이 (이력서/면접)
-var life_skills_game  # 절약·인맥·자기계발 미니게임 오버레이
-var crypto_game       # 코인 변동성 단타 미니게임 오버레이
-var futures_game      # 선물 레버리지 트레이딩 미니게임 오버레이
-var realestate_game   # 부동산 투자 분석 미니게임 오버레이
+var life_skills_game  # (제거됨 — 서사 직접 처리로 교체)
 var baccarat_table   # 정선 카지노 바카라 오버레이
 var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
@@ -135,22 +132,7 @@ func _ready():
 	job_hunt_game = load("res://scenes/JobHuntMiniGame.gd").new()
 	add_child(job_hunt_game)
 	job_hunt_game.closed.connect(_on_job_hunt_closed)
-	# 절약·인맥·자기계발 미니게임 오버레이
-	life_skills_game = load("res://scenes/LifeSkillsMiniGame.gd").new()
-	add_child(life_skills_game)
-	life_skills_game.closed.connect(_on_life_skills_closed)
-	# 코인 변동성 단타 미니게임 오버레이
-	crypto_game = load("res://scenes/CryptoGame.gd").new()
-	add_child(crypto_game)
-	crypto_game.closed.connect(_on_crypto_closed)
-	# 선물 레버리지 트레이딩 미니게임 오버레이
-	futures_game = load("res://scenes/FuturesGame.gd").new()
-	add_child(futures_game)
-	futures_game.closed.connect(_on_futures_closed)
-	# 부동산 투자 분석 미니게임 오버레이
-	realestate_game = load("res://scenes/RealEstateGame.gd").new()
-	add_child(realestate_game)
-	realestate_game.closed.connect(_on_realestate_closed)
+	life_skills_game = null  # 미니게임 제거 — 절약·인맥·자기계발은 서사 직접 처리
 	# 정선 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
@@ -1041,12 +1023,6 @@ func _next_arc_id() -> String:
 			EventManager.trigger_event_by_id(sid)
 			return ""  # 이번 턴 arc는 그림자가 가져간다
 
-	# ══ 부동산 결산 (투자 후 3개월 경과) ══════════
-	var re_exit: int = int(f.get("realestate_invest_turn", -1))
-	if re_exit > 0 and t >= re_exit and not f.get("realestate_result_seen", false):
-		_resolve_realestate_result()
-		GameState.flags["realestate_result_seen"] = true
-		GameState.flags["realestate_invest_turn"] = -1
 
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
 	if t >= 2 and not f.get("arc_intro_meal_seen", false):
@@ -2526,15 +2502,6 @@ func _render_essential_actions(ap: int):
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
 		var hm_badge: String = _mastery_badge("holdem")
 		_essential_btn("🃏 지하 홀덤 클럽  —  인맥 있는 사람만 (중독 주의)" + hm_badge, "#2a1a4a", "_open_holdem", disabled)
-	# 코인 단타: 투자감각 10 이상이면 해금
-	if GameState.investment_skill >= 10:
-		_essential_btn("🪙 코인 단타  —  캔들 읽고 롱/숏 판단 (3라운드)", "#0a1a2a", "_open_crypto", disabled)
-	# 선물거래: 투자감각 20 이상 + 첫 투자 경험 후 해금
-	if GameState.investment_skill >= 20 and not GameState.portfolio.is_empty():
-		_essential_btn("📊 선물거래  —  레버리지 1x·3x·10x, 마진콜 주의", "#0a1030", "_open_futures", disabled)
-	# 부동산: 투자감각 15 이상 + 자산 300만 이상
-	if GameState.investment_skill >= 15 and GameState.money >= 3_000_000:
-		_essential_btn("🏠 부동산 매물 분석  —  지분투자·임대수익·시세차익", "#0a1a0a", "_open_realestate", disabled)
 	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
 	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
 		var sc_badge: String = _mastery_badge("scalping")
@@ -2856,11 +2823,31 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 		)
 		parent.add_child(btn)
 
+const _STUDY_SCENES = [
+	{"tag": "📖 독서", "stat": "intelligence", "gain": 2,
+		"text": "도서관에서 경제책을 빌렸다. 어렵지만 읽다 보면 세상이 달리 보이기 시작한다."},
+	{"tag": "🏃 운동", "stat": "health", "gain": 3,
+		"text": "한강 변을 뛰었다. 발이 무겁고 숨이 찼다. 끝나고 나면 조금 가벼워진다."},
+	{"tag": "🧘 명상", "stat": "mental", "gain": 4,
+		"text": "유튜브 명상 가이드를 따라했다. 생각이 너무 많아서 잘 안 됐다. 그래도 조금은."},
+	{"tag": "📈 투자 공부", "stat": "investment_skill", "gain": 1,
+		"text": "새벽까지 재무제표를 봤다. 아는 척하는 사람이 너무 많다. 그래도 하나씩은 건진다."},
+]
+
 func _ap_study():
 	if not GameState.spend_ap():
 		return
-	turn_action_log.append("✓ 📚 자기계발 — 미니게임 시작")
-	life_skills_game.open(2)  # Mode.STUDY=2
+	var s: Dictionary = _STUDY_SCENES[randi() % _STUDY_SCENES.size()]
+	match s["stat"]:
+		"health":   GameState.modify_stat("health", s["gain"])
+		"mental":   GameState.modify_hidden_stat("mental", s["gain"])
+		_:          GameState.modify_stat(s["stat"], s["gain"])
+	GameState.add_tendency("career", 1)
+	GameState.add_log(s["tag"] + " — " + s["text"], "event")
+	_show_vignette("📚 자기계발", s["text"], {s["stat"]: s["gain"]}, "#5a6ea8")
+	turn_action_log.append("✓ " + s["tag"])
+	_render_ap_actions()
+	_refresh_all()
 
 func _ap_invest():
 	if GameState.action_points <= 0:
@@ -2895,79 +2882,48 @@ func _on_aruba_closed(earned: int, stress_delta: int) -> void:
 	_render_ap_actions()
 	_refresh_all()
 
+const _SAVE_SCENES = [
+	"편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.",
+	"구독 서비스를 정리했다. 쓰지도 않는 것들이 매달 빠져나가고 있었다.",
+	"걸어서 한 시간. 교통비 2,800원이 아깝다는 생각을 세 번 했다.",
+	"커피 대신 편의점 아메리카노. 맛은 다르지만 잔액은 같아진다.",
+	"외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.",
+]
+
 func _ap_save_money():
 	if not GameState.spend_ap():
 		return
-	turn_action_log.append("✓ 💰 저축/절약 — 미니게임 시작")
-	life_skills_game.open(0)  # Mode.BUDGET=0
+	var saved: int = 30000 + randi() % 70000
+	GameState.add_money(float(saved))
+	GameState.modify_hidden_stat("stress", 2)
+	GameState.add_tendency("career", 1)
+	var scene: String = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
+	GameState.add_log("💰 절약 — %s" % scene, "event")
+	_show_vignette("💰 절약", scene + "\n\n%s 절약했다." % GameState.format_money(saved),
+		{"money": saved, "stress": 2}, "#4a7a5a")
+	turn_action_log.append("✓ 💰 절약 — %s" % GameState.format_money(saved))
+	AudioManager.play("money_gain")
+	_render_ap_actions()
+	_refresh_all()
+
+const _NETWORK_SCENES = [
+	"업계 모임에 나갔다. 말보다 듣는 게 더 많았다. 명함 두 장.",
+	"오래된 지인에게 연락했다. 밥 한 번 먹자고 했고, 상대도 그러자고 했다.",
+	"온라인 커뮤니티에서 유용한 정보를 나눴다. 작은 신뢰가 쌓이는 것 같다.",
+	"카페에서 낯선 사람과 잠깐 얘기했다. 생각지도 않게 일이 연결될 수도 있는 사람이었다.",
+	"링크드인 메시지를 보냈다. 읽음 표시. 답장은 없었다. 그래도 보냈다는 게 중요하다.",
+]
 
 func _ap_network():
 	if not GameState.spend_ap():
 		return
-	turn_action_log.append("✓ 🤝 인맥 넓히기 — 미니게임 시작")
-	life_skills_game.open(1)  # Mode.NETWORK=1
-
-func _on_life_skills_closed(quality: int, extra_money: int) -> void:
-	var mode: int = life_skills_game.current_mode  # 0=BUDGET,1=NETWORK,2=STUDY
-	match mode:
-		0:  # BUDGET — 절약 퍼즐
-			if extra_money > 0:
-				GameState.add_money(float(extra_money))
-				AudioManager.play("money_gain")
-			GameState.add_tendency("career", 1)
-			match quality:
-				3:
-					GameState.modify_hidden_stat("stress", 2)  # 타이트한 생활
-					GameState.add_log("💰 절약 우수 (%s 절약) — 스트레스 +2" % GameState.format_money(float(extra_money)), "event")
-				2:
-					GameState.modify_hidden_stat("stress", 1)
-					GameState.add_log("💰 절약 양호 (%s 절약)" % GameState.format_money(float(extra_money)), "event")
-				1:
-					GameState.add_log("💰 절약 무난 (%s 절약)" % GameState.format_money(float(extra_money)), "event")
-				0:
-					GameState.add_log("💰 절약 미흡 — 지출 조정이 필요하다", "event")
-		1:  # NETWORK — 인맥 카드
-			GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
-			match quality:
-				3:
-					GameState.modify_stat("social_skill", 3)
-					GameState.modify_stat("reputation", 1)
-					GameState.add_log("🤝 인맥 넓히기 우수 — 사회성 +3, 평판 +1", "relationship")
-				2:
-					GameState.modify_stat("social_skill", 2)
-					GameState.add_log("🤝 인맥 넓히기 양호 — 사회성 +2", "relationship")
-				1:
-					GameState.modify_stat("social_skill", 1)
-					GameState.add_log("🤝 인맥 넓히기 무난 — 사회성 +1", "relationship")
-				0:
-					GameState.add_log("🤝 인맥 넓히기 부진 — 어색하게 끝났다", "relationship")
-		2:  # STUDY — 자기계발 퀴즈
-			var topic_id: String = str(life_skills_game._study_topic.get("id", ""))
-			var stat: String = str(life_skills_game._study_topic.get("stat", ""))
-			var base_gain: int = int(life_skills_game._study_topic.get("gain", 0))
-			var actual_gain: int = life_skills_game._calc_study_gain(quality, base_gain)
-			if not stat.is_empty() and actual_gain > 0:
-				match stat:
-					"health":
-						GameState.modify_stat("health", actual_gain)
-						if quality >= 2:
-							GameState.modify_hidden_stat("stress", -int(actual_gain * 0.5))
-					"mental":
-						GameState.modify_hidden_stat("mental", actual_gain)
-						if quality >= 2:
-							GameState.modify_hidden_stat("stress", -int(actual_gain * 0.4))
-					_:
-						GameState.modify_stat(stat, actual_gain)
-			GameState.add_tendency("career", 1)
-			var title_map: Dictionary = {"read": "📖 독서", "exercise": "🏃 운동",
-				"meditate": "🧘 명상", "invest": "📊 재테크 공부"}
-			var title: String = str(title_map.get(topic_id, "📚 자기계발"))
-			match quality:
-				3: GameState.add_log("%s 우수 — %s +%d" % [title, stat, actual_gain], "event")
-				2: GameState.add_log("%s 양호 — %s +%d" % [title, stat, actual_gain], "event")
-				1: GameState.add_log("%s 무난 — %s +%d" % [title, stat, actual_gain], "event")
-				0: GameState.add_log("%s 부진 — 집중이 흐트러졌다" % title, "event")
-	GameState.stats_changed.emit()
+	GameState.modify_stat("social_skill", 1)
+	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
+	var scene: String = _NETWORK_SCENES[randi() % _NETWORK_SCENES.size()]
+	GameState.add_log("🤝 인맥 — " + scene, "relationship")
+	_show_vignette("🤝 인맥 넓히기", scene, {"social_skill": 1}, "#8a5a9a")
+	turn_action_log.append("✓ 🤝 인맥 넓히기")
+	_render_ap_actions()
 	_refresh_all()
 
 func _ap_contact_person(person_id: String):
@@ -3354,62 +3310,6 @@ func _on_holdem_closed():
 	_refresh_all()
 	_render_ap_actions()
 
-func _open_crypto():
-	if not GameState.spend_ap():
-		return
-	crypto_game.open()
-
-func _on_crypto_closed():
-	turn_action_log.append("✓ 🪙 코인 단타")
-	GameState.add_log("🪙 코인 단타 세션을 마쳤다.", "event")
-	_refresh_all()
-	_render_ap_actions()
-
-func _open_futures():
-	if not GameState.spend_ap():
-		return
-	futures_game.open()
-
-func _on_futures_closed():
-	turn_action_log.append("✓ 📊 선물거래")
-	GameState.add_log("📊 선물거래 포지션을 청산했다.", "event")
-	_refresh_all()
-	_render_ap_actions()
-
-func _open_realestate():
-	if not GameState.spend_ap():
-		return
-	realestate_game.open()
-
-func _on_realestate_closed():
-	turn_action_log.append("✓ 🏠 부동산 분석")
-	GameState.add_log("🏠 부동산 매물을 검토했다.", "event")
-	_refresh_all()
-	_render_ap_actions()
-
-func _resolve_realestate_result() -> void:
-	var invest: int = int(GameState.flags.get("realestate_invest_amount", 0))
-	var risk: int   = int(GameState.flags.get("realestate_invest_risk", 3))
-	var name_str: String = str(GameState.flags.get("realestate_invest_name", "부동산"))
-	if invest <= 0:
-		return
-	# 시세 변동: risk가 높을수록 변동폭 큼
-	var rng := RandomNumberGenerator.new()
-	rng.randomize()
-	var base_pct: float = rng.randf_range(-0.08, 0.15)        # 기본 등락
-	var noise: float    = rng.randf_range(-0.05, 0.05) * float(risk)  # 리스크 변동
-	var total_pct: float = clampf(base_pct + noise, -0.30, 0.40)
-	var profit: int = int(float(invest) * total_pct)
-	if profit != 0:
-		GameState.add_money(float(profit))
-	if profit > 0:
-		GameState.add_log("🏠 %s 3개월 결산: +%s (수익률 %+.1f%%)" % [name_str, GameState.format_money(profit), total_pct * 100.0], "invest")
-		_show_toast("🏠 부동산 +%s" % GameState.format_money(profit), Color("#34d399"))
-	elif profit < 0:
-		GameState.add_log("🏠 %s 3개월 결산: %s (손실률 %.1f%%)" % [name_str, GameState.format_money(profit), total_pct * 100.0], "invest")
-		_show_toast("🏠 부동산 %s" % GameState.format_money(profit), Color("#ff4444"))
-	else:
-		GameState.add_log("🏠 %s 3개월 결산: 원금 보전 (시장 변동 없음)" % name_str, "invest")
 
 func _open_scalping():
 	if not GameState.spend_ap():
