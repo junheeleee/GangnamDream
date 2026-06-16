@@ -1045,5 +1045,41 @@
         "result_text": "어차피 한 번 가는 거. 제대로 가자. 목표를 30억에서 32억으로 올렸다. 2억이 더 필요하다. 그게 더 당기는 기분이었다."
       }
     ]
+  },
+  {
+    "id": "arc_four_months_in",
+    "title": "4개월째",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "introspection"],
+    "cooldown": 9999,
+    "description": "퇴근길, 한강 다리 위.\n\n4개월이 지났다.\n\n통장에 {money}. 목표까지 아직 수십억.\n\n이대로 5년이 지나면 계산이 나오지 않는다. 나오면 안 된다.\n\n다리 아래 강이 흘렀다. 서울은 밤이 되어도 환했다.\n\n{name}은 난간에 기대서 생각했다.\n강남까지, 얼마나 멀까.",
+    "choices": [
+      {
+        "text": "\"그래도 간다\" — 다시 걷기 시작한다",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_four_months_seen", "demo_resolved"],
+        "result_text": "모르겠다.\n\n근거가 없어도, 갈 수 있다는 확신도 없어도 — 일단 간다.\n\n그것뿐이었다. 발이 먼저 움직였다.",
+        "route": "orthodox"
+      },
+      {
+        "text": "\"다른 방법이 있어야 한다\" — 지름길을 생각한다",
+        "effects": { "mental": 2, "stress": 3, "intelligence": 1 },
+        "flags": ["arc_four_months_seen", "demo_seeking_shortcut"],
+        "result_text": "정석으로는 어림없다.\n\n어딘가에 레버리지가 있다. 도박이든 투자든 사업이든 — 한 번에 뒤집을 판이 있다.\n\n{name}은 핸드폰을 꺼냈다. 뭔가를 검색하기 시작했다.",
+        "route": "unorthodox"
+      },
+      {
+        "text": "그냥 오래 서 있는다",
+        "effects": { "mental": 8, "stress": -6 },
+        "flags": ["arc_four_months_seen"],
+        "result_text": "10분쯤 지났다. 아무 결론도 내리지 않았다.\n\n그냥 있었다. 서울 불빛이 강에 번지는 걸 봤다.\n\n그것도 괜찮은 것 같았다."
+      }
+    ]
   }
 ]

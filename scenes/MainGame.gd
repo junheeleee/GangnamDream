@@ -1231,6 +1231,10 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_02_seen", false):
 		return "arc_sangchul_02_coffee"
 	# 첫 만남 후 500만원 이상 모이면 VIP 투자 모임 초대 (데모 달성 가능 수준)
+	# ★ 4개월째 한강 씬 — 데모 t=15, 상철 이후 정체감 구간 채움
+	if t >= 15 and not f.get("arc_four_months_seen", false):
+		return "arc_four_months_in"
+
 	if t >= 20 and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_sangchul_03_seen", false) \
 			and GameState.get_total_asset_value() >= 1_000_000:
