@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-16 후반3 (종합 버그 수정 — 데모 검수 준비)
+
+### 캘린더 혼용 버그 6종
+BGMPlayer(late_tense 조건·hustle 판정) / MetaProgression(loner_title) / MainGame(카페 콜백 무한루프·arc_after_scam 가드·_next_milestone_id 8개 비교·개월 표시) / EndingSystem(점수 계산) — 전부 월 단위 `me` 기반으로 수정.
+
+### 이벤트 min_turn/max_turn ×4 일괄 변환 (55건)
+캘린더 마이그레이션(월→주) 이후 JSON 이벤트 조건 미반영. life_events·relationship_events·callback_events·hidden·investment·amb_scenarios7 12개 파일, 55개 이벤트. "반환점"·"마지막 겨울"·father arc 타이밍 정상화.
+
+### 엔딩 시스템 완성도
+BGMPlayer good 목록 9종 추가 / ending_bg_map 16종 추가 / _ending_run_summary 10종 / _ending_cast_epilogue good 분류 10종.
+
+### drama_events 플래그 버그 (CRITICAL)
+`startup_exit`·`political_winner` 엔딩 달성 불가 버그 수정. `effects.flag` → `flags[]` 이동 (5건).
+
+### JobSystem 승진 phantom salary
+`effective_salary` 필드 도입으로 승진 후 퇴직 시 정확한 월급 차감.
+
 ## 2026-06-16 후반2 (SimRun 수정 + 챕터1 루트 이벤트 5종 추가)
 
 ### SimRun.gd 루프 상한

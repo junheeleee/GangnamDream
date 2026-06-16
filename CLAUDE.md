@@ -8,9 +8,9 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **버그 수정 + 내레이션 정합성 완료** |
-| **최근 완료** | 2026-06-16 세션 — 아래 "이번 세션 완료 목록" 참조 |
-| **다음 작업** | **QA 플레이스루** — Godot 실행 후 챕터 카드·루트별 씬·내레이션 검증 |
+| **단계** | **종합 버그 수정 — 데모 검수 준비 완료** |
+| **최근 완료** | **2026-06-16 후반3** — 캘린더 버그 6종+이벤트 min_turn 55건+엔딩 시스템+drama_events 플래그+JobSystem 승진 |
+| **다음 작업** | **QA 플레이스루** — Godot 실행 후 챕터 카드·루트별 씬·내레이션·엔딩 검증 |
 | **마지막 업데이트** | 2026-06-16 |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
@@ -18,6 +18,41 @@
 ---
 
 ## ✅ 이번 세션 완료 목록 (2026-06-16, 컨텍스트 압축 대비)
+
+### 후반3 추가 버그 수정 (세션 재개 후)
+
+#### 캘린더 혼용 버그 6종 (별도 커밋)
+- `BGMPlayer.gd:75` — `turn >= 36` → `age >= 36` (late_tense BGM 9개월→36세)
+- `BGMPlayer.gd` hustle 판정 → `me(개월)` 기준으로 전환
+- `MetaProgression.gd:232` — loner_title `turn >= 30` → 월기준
+- `MainGame.gd:1062` — 카페 콜백 무한루프 방지 폴백 추가
+- `MainGame.gd:1360` — `arc_after_scam` `t >= 40` 가드 추가
+- `MainGame.gd:1476` — `_next_milestone_id()` 전체 `t → me` 전환 (8개 비교)
+- `MainGame.gd:4846` — 런 요약 "개월" 표시 수정
+- `EndingSystem.gd:18` — `get_score()` `turn → months_elapsed`
+
+#### 이벤트 min_turn/max_turn 월→주 일괄 변환 (×4, 55건)
+- 캘린더 마이그레이션 후 JSON이 여전히 월 단위로 작성된 버그
+- life_events 19개: chapter_break(반환점/15개월남음), final_stretch/last_winter, father arc 4종, class_reunion 등
+- relationship_events 9개: sangchul/daeun/jiyeon 윈도우
+- callback_events*.json 18개: happy/father/daeun/jiyeon/final_sprint
+- hidden/investment/amb_scenarios7 나머지 6개
+- 핵심 영향: "반환점" 씬 7.5개월→30개월, "마지막 겨울" 14개월→56개월, father arc 적절한 중후반 타이밍으로 정상화
+
+#### 엔딩 시스템 완성도
+- `BGMPlayer.on_ending()` good 목록에 신규 엔딩 9종 추가 (instant_legend 등 "ending_bad"로 잘못 재생되던 것 수정)
+- `_show_ending()` ending_bg_map: 16개 신규 엔딩 배경 추가
+- `_ending_run_summary()`: empty_house/jaehyuk_way/with_daeun/jiyeon_man 등 10종 전용 요약 추가
+- `_ending_cast_epilogue()` good 분류: 신규 성공 엔딩 10종 추가
+
+#### drama_events.json 플래그 설정 버그 (CRITICAL)
+- `startup_exit`·`political_winner` 엔딩이 절대 달성 불가한 버그 수정
+- `effects: { "flag": "startup_exit" }` → `flags: ["startup_exit"]`로 올바른 위치로 이동
+- 5개 이벤트 전체 수정 (chaebol_connection, bought_apartment, joined_startup 포함)
+
+#### JobSystem 승진 후 퇴직 phantom salary
+- 승진 보너스가 `monthly_income`에 누적된 뒤 `quit_job()`에서 `base_salary`만 차감하던 버그
+- `current_job["effective_salary"]` 필드 도입으로 정확히 추적
 
 ### 캘린더 시스템
 - **turn = 1주(週)**. 1개월 = 4턴. 5년 = 240턴 = 60개월. 종료 조건 = `age >= 38`.

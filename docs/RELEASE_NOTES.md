@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+### Fixed (2026-06-16) — 종합 버그 수정 (후반3)
+
+**CRITICAL:**
+- `drama_events.json`: `startup_exit`·`political_winner` 엔딩이 절대 달성 불가한 버그 수정 (플래그가 `effects.flag` 잘못된 키에 있어 무시됨 → `flags[]` 정위치로 이동)
+
+**캘린더:**
+- BGMPlayer: `turn >= 36` → `age >= 36` (late_tense BGM 9개월→3년 임박 시점으로 정상화)
+- BGMPlayer: hustle 판정 → 경과 개월 기준 전환
+- MetaProgression: loner_title 조건 주→월 수정
+- MainGame: 카페 콜백 무한루프 방지, arc_after_scam 가드, _next_milestone_id 전환, 개월 표시 수정
+- EndingSystem: get_score() 주→월 수정
+- JSON 이벤트 55건: `min_turn`/`max_turn` 월→주 변환(×4) — chapter_break·final_stretch·father_arc 등 중후반 타이밍 정상화
+
+**엔딩:**
+- BGM: 신규 성공 엔딩 9종 good 목록 추가 (instant_legend 등 잘못된 배경 음악 수정)
+- 배경: 16개 신규 엔딩 배경 할당
+- 요약·에필로그: 10개 신규 엔딩 전용 텍스트 추가
+
+**시스템:**
+- JobSystem: 승진 후 퇴직 시 phantom salary 버그 수정 (`effective_salary` 추적)
+
 ### Added (2026-06-16) — 챕터 카드 + Chapter 1 반응형 씬 + 고아 플래그 콜백
 - **챕터 타이틀 카드 5종** (chapter_cards.json): 연도별 챕터 경계(34/35/36/37세) 자동 트리거. 제목: 시작/확장/무게/균열/강남 (스포일러 없음)
 - **t9 자산 반응형 3분기 씬**: arc_money_check_low/mid/high — 플레이어 순자산에 따라 완전히 다른 서사 흐름
