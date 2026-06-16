@@ -1185,6 +1185,17 @@ func _next_arc_id() -> String:
 		return "arc_midpoint_reckoning"
 
 	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=19으로 단축) ══
+	# ── 현수 — 시험 불합격 (새벽 라면 이후) ──
+	if t >= 25 and t <= 35 \
+			and f.get("arc_hyunsu_night_seen", false) \
+			and not f.get("arc_hyunsu_exam_fail_seen", false):
+		return "arc_hyunsu_exam_fail"
+
+	# ── 처음 혼자 간 강남 (턴 22~28, 누구나) ──
+	if t >= 22 and t <= 28 \
+			and not f.get("arc_gangnam_visit_alone_seen", false):
+		return "arc_gangnam_visit_alone"
+
 	# ── 현수 — 밤 라면 대화 (턴 20+, 만남 이후) ──
 	if t >= 20 and f.get("arc_intro_hyunsu_seen", false) \
 			and not f.get("arc_hyunsu_night_seen", false):
@@ -1204,6 +1215,13 @@ func _next_arc_id() -> String:
 		return "arc_jaehyuk_02b_favor"
 	if f.get("arc_jaehyuk_bond_seen", false) and not f.get("arc_jaehyuk_pitch_seen", false) and t >= 37:
 		return "arc_jaehyuk_03_pitch"
+	# ── 재혁 수익 정산 대기 — 투자 후 불안의 일주일 ──
+	if t >= 38 and t <= 41 \
+			and f.get("arc_jaehyuk_pitch_seen", false) \
+			and (f.get("jaehyuk_trusted_fully", false) or f.get("jaehyuk_partial", false)) \
+			and not f.get("arc_jaehyuk_wait_seen", false):
+		return "arc_jaehyuk_wait"
+
 	# ── 현수의 경고 — 피치 이후, 아직 도주 전 ──
 	if t >= 39 and f.get("arc_jaehyuk_pitch_seen", false) \
 			and not f.get("arc_jaehyuk_ghost_seen", false) \
