@@ -8,8 +8,8 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **튜토리얼 정비 완료 — QA 대기** |
-| **최근 완료** | **2026-06-16 후반4** — TutorialOverlay 캘린더 오류+더블팝업+철학슬라이드+죽은코드 제거 |
+| **단계** | **데모 정비 완료 — QA 대기** |
+| **최근 완료** | **2026-06-16 후반5** — 포트레이트 프레임 제거·도박 게이팅 수정·arc_four_months_in 추가 |
 | **다음 작업** | **QA 플레이스루** — Godot 실행 후 챕터 카드·루트별 씬·내레이션·엔딩 검증 |
 | **마지막 업데이트** | 2026-06-16 |
 
@@ -18,6 +18,30 @@
 ---
 
 ## ✅ 이번 세션 완료 목록 (2026-06-16, 컨텍스트 압축 대비)
+
+### 후반5 (최신)
+
+#### StoryMode 포트레이트 프레임 제거
+- `scenes/StoryMode.gd` — 금색 테두리·다크 매트·그림자 완전 제거 → 투명 StyleBoxFlat으로 교체
+- `stretch_mode`: `STRETCH_KEEP_ASPECT_COVERED` → `STRETCH_KEEP_ASPECT_CENTERED`
+
+#### 도박 이벤트 게이팅 수정
+- `content/events/racetrack_events.json` — `race_first_visit`: `hidden: true` 추가 (랜덤 풀 → follow_up 전용)
+- `content/events/holdem_events.json` — `holdem_first_visit`: 조건 `{}` → `{ "flag": "entered_network" }` 추가
+- 결과: 카지노/경마/홀덤 모두 상철 네트워크 가입(t=23) 이전에는 접근 불가
+
+#### arc_four_months_in 데모 씬 추가
+- `content/events/arc_midgame.json` 끝에 새 이벤트 추가 (t=15 트리거)
+- `scenes/MainGame.gd` `_next_arc_id()` — t>=15 블록 추가
+- 데모 t=14~19 공백 구간 채움: 한강 다리 정체감 씬, 3가지 선택지(orthodox/unorthodox/침묵)
+
+#### TutorialOverlay 추가 수정 (후반4에서 이어서)
+- 더블팝업 방지: `TutorialOverlay._seen["main_game"]` 체크 추가
+- "다음 달 ▶" → "다음 주 ▶" 수정
+- 철학 슬라이드 4번째 추가 (선택 성향 안내)
+- `_show_tutorial_intro()` 죽은코드 제거 ("AP 3개" 오류 포함)
+
+---
 
 ### 후반3 추가 버그 수정 (세션 재개 후)
 

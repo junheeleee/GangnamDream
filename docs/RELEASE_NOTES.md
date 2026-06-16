@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Added (2026-06-16) — 데모 전용 아크 이벤트
+- `arc_four_months_in` (t=15): 한강 다리 한밤 씬 — 상철~재혁 구간 빈 자리 채움. 정석/비정석/침묵 3선택지.
+
+### Fixed (2026-06-16) — 도박 이벤트 조기 노출 버그
+- `race_first_visit`: `hidden:true` — 멘토 follow_up으로만 발동, 랜덤 풀 제거
+- `holdem_first_visit`: `entered_network` 플래그 조건 추가 — 상철 네트워크 전 노출 차단
+
+### Fixed (2026-06-16) — StoryMode 초상화 액자 프레임 제거
+- 골드 테두리·어두운 매트·그림자 제거, 배경 위 직접 표시
+
 ### Fixed (2026-06-16) — 튜토리얼 캘린더 오류 수정 + UX 개선
 - `TutorialOverlay` main_game 슬라이드: "1턴=1달" → "1턴=1주", "38세(60턴)" → "38세(240턴)", "다음 달 ▶" → "다음 주 ▶"
 - `TutorialOverlay` 4번째 슬라이드 추가: "선택이 쌓이면 삶이 된다" (정석/비정석 철학)
