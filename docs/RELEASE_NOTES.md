@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Added (2026-06-16) — 중반 아크 이벤트 대규모 확장 (arc_midgame 29개)
+- **19개 신규 arc 이벤트**: arc_midgame.json 10→29개. 턴 12~55 전 구간 감정 밀도 강화
+  - 현수 아크 심화: drift(방황) → new_path(떠남) 브리지
+  - 다은 아크 심화: money_gap(자산 격차) / trace(보낸 경우 편의점 기억)
+  - 임상철 아크 심화: human(한우집, 처음으로 사람으로 보인다)
+  - 재혁 사기 후: after_scam(다음 날 멍한 독백) 브리지
+  - 자산 이정표: first_real_win(5천만) / money_loneliness(1억) / almost_there(10억) / final_stretch(20억) / gangnam_real_estate(25억)
+  - 내적 장면: goal_vertigo(30억이 낯설어지는 순간) / night_routine(심야 루틴) / housing_new_life(새 집 첫날 밤)
+  - 직장 장면: first_job_week(취직 첫 주) / quit_job(사표) / career_ceiling(월급 한계) / job_vs_invest(직장+투자 충돌)
+  - 인물 없는 내적 독백: social_comparison(동창) / father_medication(아버지 약 문자)
+- **JobSystem.gd**: `quit_job(voluntary=true)` → `just_quit_job` 플래그 자동 세트 → 사표 arc 트리거 연동
+
 ### Added (2026-06-16) — 그림자 이벤트 시스템 (테마/메카닉 괴리 해소)
 - **deferred_events 엔진**: 선택지에 `deferred_follow_up` + `deferred_delay` 키 지정 → N턴 후 자동 발동
 - **shadow_events.json**: 6개 그림자 이벤트 — 수금 전화(4턴 후), 소문 출처(5턴 후), 창업 약속(7턴 후)

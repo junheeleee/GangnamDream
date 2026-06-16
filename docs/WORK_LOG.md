@@ -1,5 +1,48 @@
 # Gangnam Dream Work Log
 
+## 2026-06-16 (arc_midgame 대규모 확장 — 감정 밀도 강화)
+
+### 세션 목표
+전 세션에 확인된 문제: 미니게임 제거 후 중반부(턴 15~50) 감정 장면이 너무 희박함 → 29개 arc 이벤트로 채움
+
+### 신규 arc 이벤트 (arc_midgame.json: 10개 → 29개)
+4개 배치(커밋)로 나눠서 추가:
+
+**배치 1 (아크 트리거 4종)**
+- `arc_social_comparison` (t28~35): 동창 조우, 잘 나가는 친구 앞에서
+- `arc_first_real_win` (자산 5천만+): 처음으로 "돈을 모았다"는 감각
+- `arc_hyunsu_new_path` (t42~50, 불합격 후): 현수가 고시원을 떠난다
+- `arc_career_ceiling` (t28~38, 재직 12개월+): 월급의 구조적 한계 자각
+
+**배치 2 (감정 장면 3종)**
+- `arc_hyunsu_drift` (t36~41): 불합격 후 현수가 조용히 달라져간다
+- `arc_goal_vertigo` (t32~42): 반환점 이후 30억이 갑자기 낯선 숫자가 되는 순간
+- `arc_housing_new_life`: 고시원 탈출 직후 새 집 첫날 밤
+
+**배치 3 (1억 고독·사표·아버지 약)**
+- `arc_money_loneliness` (자산 1억+): 누구에게도 말할 수 없는 1억
+- `arc_quit_job`: 자발적 퇴사 — 팀장 앞에서의 마지막 장면 (just_quit_job 플래그 연동)
+- `arc_father_medication` (t22~32): 아버지 혈압약 문자 — 조용한 신호
+
+**배치 4 (후반 이정표 3종)**
+- `arc_almost_there` (자산 10억+): 10억 돌파 후 20억이 더 무겁게 느껴지는 역설
+- `arc_daeun_trace` (t43~50, 보낸 경우): 편의점에서 다은이 있던 자리를 본다
+- `arc_final_stretch` (자산 20억+, t47+): 강남대로에서 5년 전 그 아파트를 다시 올려다본다
+
+**배치 5 (관계 심화·사기 후독백·임상철 인간화)**
+- `arc_daeun_money_gap` (t28~35, 함께): 다은에게 자산을 숨길지 말할지
+- `arc_sangchul_human` (t30~42): 임상철이 인천 출신임을 처음 말한 한우집 밥자리
+- `arc_after_scam`: 재혁 사기 직후 다음 날 멍한 내적 독백
+
+**배치 6 (루틴·취업초기·강남집값)**
+- `arc_first_job_week`: 취직 첫 주 — 출근 루틴과 회의감
+- `arc_night_routine` (t12~22, 고시원): 현수는 인강 / 나는 차트 — 같은 밤 다른 방향
+- `arc_gangnam_real_estate` (자산 25억+, t50+): 부동산 앱에서 강남 아파트를 처음 진지하게 본다
+
+### 기타
+- `JobSystem.gd`: `quit_job(voluntary=true)` 시 `just_quit_job` 플래그 자동 세트
+- 모든 배치 후 `./tools/audit.sh` — ERROR 0 / WARNING 0 확인 후 커밋
+
 ## 2026-06-16 (그림자 이벤트 시스템 — 테마/메카닉 괴리 해소)
 
 ### 핵심 문제 해결: 선택의 장기 파장
