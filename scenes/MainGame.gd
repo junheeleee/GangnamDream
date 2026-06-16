@@ -4523,19 +4523,32 @@ func _show_ending(ending_id):
 	var ending: Dictionary = EndingSystem.get_ending(ending_id)
 	# ── 엔딩별 배경 전환 ──────────────────────────────────────
 	var ending_bg_map = {
-		"gangnam_dream":     BG_PENTHOUSE,
-		"stable_success":    BG_PENTHOUSE,
-		"lonely_rich":       BG_PENTHOUSE,
-		"investment_master": BG_PENTHOUSE,
-		"startup_exit":      BG_PENTHOUSE,
-		"burnout":           BG_BURNOUT,
-		"mental_break":      BG_BURNOUT,
-		"bankruptcy":        BG_DEFAULT,
-		"crypto_ghost":      BG_DEFAULT,
-		"political_fix":     BG_GANGNAM_NIGHT,
-		"reputation_legend": BG_GANGNAM_NIGHT,
-		"healthy_retirement":BG_ROOFTOP_DAY,
-		"ordinary_life":     BG_DEFAULT,
+		"gangnam_dream":      BG_PENTHOUSE,
+		"instant_legend":     BG_PENTHOUSE,
+		"stable_success":     BG_PENTHOUSE,
+		"lonely_rich":        BG_PENTHOUSE,
+		"empty_house":        BG_PENTHOUSE,
+		"investment_master":  BG_PENTHOUSE,
+		"startup_exit":       BG_PENTHOUSE,
+		"orthodox_pinnacle":  BG_PENTHOUSE,
+		"creator_success":    BG_PENTHOUSE,
+		"burnout":            BG_BURNOUT,
+		"mental_break":       BG_BURNOUT,
+		"bankruptcy":         BG_DEFAULT,
+		"debt_spiral":        BG_DEFAULT,
+		"crypto_ghost":       BG_DEFAULT,
+		"orthodox_hollow":    BG_DEFAULT,
+		"ordinary_life":      BG_DEFAULT,
+		"late_call":          BG_DEFAULT,
+		"political_fix":      BG_GANGNAM_NIGHT,
+		"reputation_legend":  BG_GANGNAM_NIGHT,
+		"jaehyuk_way":        BG_GANGNAM_NIGHT,
+		"unorthodox_legend":  BG_GANGNAM_NIGHT,
+		"healthy_retirement": BG_ROOFTOP_DAY,
+		"early_retirement":   BG_ROOFTOP_DAY,
+		"balanced_life":      BG_ROOFTOP_DAY,
+		"with_daeun":         BG_ROOFTOP_DAY,
+		"jiyeon_man":         BG_GANGNAM_ST,
 	}
 	var ending_cg_path := _get_ending_cg_path(ending)
 	var bg_path := ending_cg_path
@@ -4735,6 +4748,26 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "강남보다 건강을 택한 선택, 후회 없는 삶"
 		"reputation_legend":
 			return "자산보다 이름이 먼저 강남에 닿았다"
+		"empty_house":
+			return "30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다."
+		"jaehyuk_way":
+			return "최재혁의 방식으로 강남에 입성했다. 거울을 자주 피하게 됐다."
+		"with_daeun":
+			return "30억보다 소중한 것을 알게 됐다. 그게 다은이었다."
+		"jiyeon_man":
+			return "다른 세계의 사람이 나를 선택했다. 강남은 그렇게 왔다."
+		"orthodox_pinnacle":
+			return "가장 정직한 길이 결국 가장 높은 곳으로 이어졌다"
+		"unorthodox_legend":
+			return "모두가 실패라 했던 방식으로 서울을 뒤집었다"
+		"early_retirement":
+			return "충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다."
+		"balanced_life":
+			return "정석도 비정석도 아닌 나만의 균형 — 그게 가장 어려운 길이었다"
+		"orthodox_hollow":
+			return "성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다."
+		"late_call":
+			return "화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다"
 		_:
 			return "그렇게 5년이 지나갔다"
 
@@ -4742,8 +4775,13 @@ func _ending_run_summary(ending_id: String) -> String:
 ## 엔딩 티어는 숫자(자산·스탯)가 정하고, 엔딩의 표정은 관계가 정한다.
 ## 각 인물의 최종 stage에 따라 결말 직후의 한 장면을 보여준다.
 func _ending_cast_epilogue(parent: Control, ending_id: String):
-	var good := ending_id in ["gangnam_dream", "stable_success", "investment_master",
-		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement"]
+	var good := ending_id in [
+		"gangnam_dream", "stable_success", "investment_master",
+		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement",
+		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
+		"creator_success", "with_daeun", "jiyeon_man",
+		"early_retirement", "balanced_life",
+	]
 	var bad := ending_id in ["burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral"]
 	var lines: Array = []
 

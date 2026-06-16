@@ -62,8 +62,13 @@ func update_context():
 
 func on_ending(ending_id: String):
 	_is_ending = true
-	var good = ["gangnam_dream", "stable_success", "investment_master",
-				"startup_exit", "reputation_legend", "healthy_retirement", "political_fix"]
+	var good = [
+		"gangnam_dream", "stable_success", "investment_master",
+		"startup_exit", "reputation_legend", "healthy_retirement", "political_fix",
+		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
+		"creator_success", "with_daeun", "jiyeon_man",
+		"early_retirement", "balanced_life",
+	]
 	_crossfade_to("ending_good" if ending_id in good else "ending_bad")
 
 # ── 트랙 선택 로직 ─────────────────────────────────────────────
