@@ -1076,6 +1076,14 @@ func _next_arc_id() -> String:
 			and not f.get("arc_job_rejection_seen", false):
 		return "arc_job_first_rejection"
 
+	# ── 첫 달 생활비 충격 (턴 9) ──
+	if t >= 9 and not f.get("arc_expense_shock_seen", false):
+		return "arc_first_expense_shock"
+
+	# ── 얇은 벽 — 고시원 새벽 3시 (턴 11) ──
+	if t >= 11 and not f.get("arc_gosiwon_wall_seen", false):
+		return "arc_gosiwon_wall"
+
 	# ★ 신규 유저 안전망 (턴 10+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.
 	#   거절 가능. 창업/크리에이터 의도가 있으면 안 뜸.
 	if t >= 10 and GameState.current_job.is_empty() \

@@ -2834,5 +2834,73 @@
         "result_text": "알람을 새벽 6시에 맞췄다.\n거창한 계획은 없었다. 아침에 일어나고, 밥을 먹고, 뭔가를 하는 것.\n그게 다였다. 그것부터였다.\n재혁을 생각했다가, 노트를 펼쳤다."
       }
     ]
+  },
+  {
+    "id": "arc_first_expense_shock",
+    "title": "통장 잔액",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "한 달이 지났다.\n\n모바일 뱅킹 앱을 열었다. 고시원비 35만원, 통신비 4만5천원, 교통비, 밥값. 숫자들이 줄줄이 빠져나간 내역.\n\n잔액: 281,400원.\n\n50만원이 한 달 만에 반 토막이 났다. 머리로는 알고 있었는데, 숫자로 보니까 달랐다.",
+    "choices": [
+      {
+        "text": "지출 목록을 정리했다 — 어디서 더 아낄 수 있나",
+        "effects": { "intelligence": 1, "stress": 2 },
+        "flags": ["arc_expense_shock_seen", "budget_planned"],
+        "result_text": "항목별로 쪼갰다. 줄일 수 있는 건 밥값뿐이었다. 편의점 도시락 2,800원. 하루 두 끼면 한 달 16만원. 숫자를 알면 무서운 게 오히려 줄었다."
+      },
+      {
+        "text": "앱을 껐다 — 나중에 보자",
+        "effects": { "stress": -2, "mental": -4 },
+        "flags": ["arc_expense_shock_seen"],
+        "result_text": "보지 않으면 없는 것처럼. 그건 아니라는 걸 알면서도. 화면이 꺼지고 {name}의 얼굴이 반사됐다."
+      },
+      {
+        "text": "당장 알바를 알아봤다",
+        "effects": { "luck": 1, "stress": 1, "social_skill": 1 },
+        "flags": ["arc_expense_shock_seen", "considered_parttime"],
+        "result_text": "알바몬을 켰다. 편의점, 물류센터, 주유소. 시급 9,860원. 하루 8시간이면 한 달 210만원. 이걸 해야 하나 말아야 하나 — 내일 다시 생각하기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_gosiwon_wall",
+    "title": "얇은 벽",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "새벽 3시. 잠이 안 온다.\n\n옆방에서 소리가 난다. 처음엔 TV인가 했는데 — 아니다. 누군가 울고 있다. 억누르는 소리. 얇은 석고보드 하나를 사이에 두고.\n\n여기선 모두가 각자의 이유로 새벽을 버티고 있다.",
+    "choices": [
+      {
+        "text": "귀마개를 꼈다 — 내 일 아니다",
+        "effects": { "stress": -2, "mental": -2 },
+        "flags": ["arc_gosiwon_wall_seen"],
+        "result_text": "소리가 사라졌다. 아니, 들리지 않게 됐다. 내 안에서도 뭔가가 조용해졌다. 그게 자기보호인지, 아니면 무뎌진 건지 모르겠다."
+      },
+      {
+        "text": "벽을 한 번 두드렸다 — 괜찮냐고",
+        "effects": { "social_skill": 1, "mental": 4, "stress": -1 },
+        "flags": ["arc_gosiwon_wall_seen", "knocked_on_wall"],
+        "result_text": "소리가 멈췄다. 잠깐의 침묵. 그리고 낮고 작은 목소리. \"네.\"\n\n그걸로 충분했다. 이름도 얼굴도 모르는 사람과, 벽 하나 두고 나눈 대화."
+      },
+      {
+        "text": "나도 천장을 봤다 — 같이 새벽을 버텼다",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_gosiwon_wall_seen"],
+        "result_text": "여기 있는 사람 중에 편안하게 자는 사람이 몇이나 될까. 그 생각이 이상하게 위로가 됐다. 혼자가 아니라는 느낌 — 제일 이상한 방식으로."
+      }
+    ]
   }
 ]
