@@ -147,6 +147,111 @@
     ]
   },
   {
+    "id": "arc_goshiwon_goodbye",
+    "title": "고시원을 나오는 날",
+    "background": "goshiwon_hallway",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "housing"],
+    "cooldown": 9999,
+    "description": "이사 트럭은 필요 없었다. 짐은 박스 두 개였다.\n\n복도를 마지막으로 지나쳤다. 낡은 벽지, 냉장고 돌아가는 소리, 고시원 특유의 냄새. 현수 방 문 앞에 불이 켜져 있었다.\n\n원장 아주머니가 계단 아래에서 기다리고 있었다. 열쇠를 건네니 고개를 끄덕였다.\n\n\"잘 살아요.\"",
+    "choices": [
+      {
+        "text": "\"감사했습니다.\" — 짧게 인사하고 나온다",
+        "effects": { "mental": 5, "stress": -2 },
+        "flags": ["arc_goshiwon_goodbye_seen"],
+        "result_text": "박스를 들고 계단을 내려왔다. 거리에 나서자 공기가 달랐다.\n\n뒤돌아보지 않았다."
+      },
+      {
+        "text": "나오기 전에 현수 방 문을 두드린다",
+        "effects": { "mental": 6, "social_skill": 1 },
+        "flags": ["arc_goshiwon_goodbye_seen", "said_bye_to_hyunsu"],
+        "cast_effects": { "hyunsu": { "affinity": 5 } },
+        "result_text": "\"형, 이사 가요?\" 현수가 문을 열었다. 눈이 충혈돼 있었다. 인강 중이었는지 이어폰이 한쪽만 꽂혀 있었다.\n\n\"잘 되면 연락해요.\" 현수가 말했다. 짧았지만 진심이었다."
+      },
+      {
+        "text": "복도 끝에서 잠깐 멈춘다. 여기서 보낸 시간을 생각한다",
+        "effects": { "mental": 8, "stress": -4 },
+        "flags": ["arc_goshiwon_goodbye_seen", "remembered_goshiwon_days"],
+        "result_text": "얼마나 됐지. 수를 셌다.\n\n가난하고 좁고 냄새났지만 — 이상하게 나쁘지 않은 기억들이 있었다. 잠깐 서 있다가 나왔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_quiet_call",
+    "title": "일요일 저녁",
+    "background": "goshiwon_room",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "father"],
+    "cooldown": 9999,
+    "description": "일요일 저녁, 습관처럼 아버지에게 전화했다.\n\n신호가 두 번 울리고 받았다. \"응.\"\n\n\"밥은 먹었어?\"\n\"응 먹었어. 너는?\"\n\n짧은 말들이 오갔다. 서울 날씨, 창원 날씨. 아버지 어깨가 좀 아프다고 했다. {name}은 파스 붙이시라고 했다.\n\n전화를 끊고 나서 생각했다. 오늘 통화에서 뭔가 달라진 게 있었나. 없었다. 그냥 일요일이었다.",
+    "choices": [
+      {
+        "text": "\"강남 가면 제일 먼저 연락할게요.\" — 말하려다 참는다",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_father_quiet_call_seen"],
+        "cast_effects": { "father": { "affinity": 2 } },
+        "result_text": "결국 안 했다. 아직 아니어서가 아니라 — 그 말을 꺼내면 허풍 같을 것 같아서.\n\n다음에 하려고 끊었다."
+      },
+      {
+        "text": "그냥 끊는다. 특별한 말 없이",
+        "effects": { "mental": 2 },
+        "flags": ["arc_father_quiet_call_seen"],
+        "result_text": "\"응, 끊어.\" 아버지가 먼저 끊었다.\n\n매주 이 통화를 하고, 매주 비슷하게 끝난다. 그게 이상하게 안심이 됐다."
+      },
+      {
+        "text": "\"아버지, 요즘 어때요?\" — 더 물어본다",
+        "effects": { "mental": 5 },
+        "flags": ["arc_father_quiet_call_seen", "asked_father_more"],
+        "cast_effects": { "father": { "affinity": 4 } },
+        "result_text": "\"뭐, 그냥 그렇지.\" 아버지가 말했다. \"너는?\"\n\n{name}은 \"저도 그냥 그렇죠\" 하고 웃었다. 그게 오늘 제일 긴 대화였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_late_game_push",
+    "title": "남은 시간",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "계산기를 꺼냈다. 또.\n\n이제 1년 남짓 남았다. 마지막 구간.\n\n통장과 포트폴리오를 합쳤다. 강남 아파트와의 거리를 계산했다.\n\n도달할 수 있는 숫자인지, 아닌지 — 지금으로선 경계선이다.\n\n이 게임이 처음부터 정해진 결과가 있는 건지, 아니면 마지막 한 방이 남아있는 건지. {name}은 아직 모른다.",
+    "choices": [
+      {
+        "text": "\"마지막 기회에 크게 간다.\" — 남은 걸 건다",
+        "effects": { "investment_skill": 2, "stress": 7, "mental": -2 },
+        "flags": ["arc_late_game_push_seen", "final_push_decided"],
+        "result_text": "두렵고 흥분됐다. 지금 와서 겁쟁이가 되면 나중에 후회할 것 같았다.\n\n계산기를 덮고 자리에서 일어났다."
+      },
+      {
+        "text": "\"지금까지 한 것만으로도 괜찮다.\" — 받아들인다",
+        "effects": { "mental": 8, "stress": -5 },
+        "flags": ["arc_late_game_push_seen", "accepted_current_path"],
+        "result_text": "30억이 아니어도 — 1년 전보다 훨씬 달라졌다.\n\n그것만으로도 뭔가가 됐다는 느낌이 있었다."
+      },
+      {
+        "text": "결론 내지 않는다. 다음 달을 산다",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_late_game_push_seen"],
+        "result_text": "내일이 되면 알 것이다.\n\n오늘은 그냥 잔다."
+      }
+    ]
+  },
+  {
     "id": "arc_hyunsu_exam_fail",
     "title": "현수의 결과",
     "background": "goshiwon",

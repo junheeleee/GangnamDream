@@ -1016,6 +1016,11 @@ func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
 
+	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
+	if GameState.housing != "gosiwon" \
+			and not f.get("arc_goshiwon_goodbye_seen", false):
+		return "arc_goshiwon_goodbye"
+
 	# ══ 그림자 이벤트 — N턴 후 과거 선택이 되돌아온다 ══════════
 	var shadow_events = GameState.pop_ready_deferred_events()
 	for sid in shadow_events:
@@ -1122,6 +1127,11 @@ func _next_arc_id() -> String:
 	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
 	if t >= 11 and not f.get("arc_father_01_seen", false):
 		return "arc_father_01_call"
+	# ── 아버지 평범한 통화 — 두 이벤트 사이 고요한 장면 ──
+	if t >= 15 and t <= 19 \
+			and f.get("arc_father_01_seen", false) \
+			and not f.get("arc_father_quiet_call_seen", false):
+		return "arc_father_quiet_call"
 	if t >= 21 and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_02_done", false):
 		return "arc_father_02_signal"
@@ -1237,6 +1247,12 @@ func _next_arc_id() -> String:
 			and f.get("jaehyuk_scammed", false) \
 			and not f.get("arc_jaehyuk_standup_seen", false):
 		return "arc_jaehyuk_04c_stand_up"
+
+	# ── 막판 한 방 — 1년 남은 시점의 내적 정산 ──
+	if t >= 45 \
+			and GameState.get_total_asset_value() < 2_800_000_000.0 \
+			and not f.get("arc_late_game_push_seen", false):
+		return "arc_late_game_push"
 
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
 	if GameState.get_cast_stage("sangchul") == "interested" \
