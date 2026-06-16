@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-06-16) — 튜토리얼 캘린더 오류 수정 + UX 개선
+- `TutorialOverlay` main_game 슬라이드: "1턴=1달" → "1턴=1주", "38세(60턴)" → "38세(240턴)", "다음 달 ▶" → "다음 주 ▶"
+- `TutorialOverlay` 4번째 슬라이드 추가: "선택이 쌓이면 삶이 된다" (정석/비정석 철학)
+- `_maybe_show_tutorial()`: TutorialOverlay 표시 후 중복 모달 팝업 방지
+- `_show_tutorial_intro()` 죽은 코드 제거 ("AP 3개" 오류 포함)
+
 ### Fixed (2026-06-16) — 종합 버그 수정 (후반3)
 
 **CRITICAL:**
