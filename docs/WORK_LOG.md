@@ -1,5 +1,50 @@
 # Gangnam Dream Work Log
 
+## 2026-06-16 (챕터 카드 + 챕터1 반응형 밀도 강화 + 고아 플래그 콜백)
+
+### 세션 목표
+메인 브랜치 머지 후 챕터 구조 추가 + Chapter 1 이벤트의 정적 고정 문제 해결 + 편의점 알바 개연성 문제 수정 + 고아 플래그 콜백 연결
+
+### 챕터 카드 (chapter_cards.json, DataRegistry.gd)
+- 챕터1(시작)~챕터5(강남) 타이틀 카드 5종 신규 작성
+- 배신 → 균열, 입성 또는 실패 → 강남 (스포일러 방지)
+- 프롤로그 분리: prologue_done → chapter_card_33 (챕터1 시작) → 챕터 진행
+- 연도별 챕터 경계: 34/35/36/37세에 각 챕터 카드 자동 트리거
+
+### t9 반응형 씬 (arc_events.json)
+- `arc_first_expense_shock` 제거 → 자산 기반 3분기 분기
+  - `arc_money_check_low` (순자산 < 100만): 통장 충격 씬
+  - `arc_money_check_mid` (100만~3천만): 첫 성장 씬
+  - `arc_money_check_high` (3천만+): 자만 경고 씬
+- `arc_gosiwon_wall` (t11, 고시원 조건): 얇은 벽 새벽 3시
+
+### 알바/편의점 정합성 수정
+- `arc_intro_02_dad_call`: "편의점 야간 알바" 배경 → "고시원 방 새벽 3시" (일반화)
+- `arc_jiyeon_02_store`: 플레이어=점원 설정 → 플레이어=손님 (편의점 앞에서 나오는 씬)
+- `rare_celeb_convenience`, `rare_drunk_wisdom`, `rare_night_alva_find`, `chain_envelope_owner_return`, `callback_heard_drunk_wisdom_echo`: `has_job: false` 버그 → `job_id: job_01` 조건으로 교체
+- `relationship_events.json`의 `daeun_meet` 이벤트 삭제 (플레이어=점원 고정 서사 모순)
+- `arc_daeun_01_meet` 선택지에 `daeun_met`, `daeun_first_kind` 플래그 추가
+
+### `instant_legend` 히든 엔딩
+- GameState.gd: 33세(age<=33) + 자산 30억 도달 시 `finish_run("instant_legend")` 분기
+- endings.json: 히든 엔딩 "신화" 추가 (grade: "?", 50만원 → 3개월 → 30억 서사)
+- MainGame.gd: grade_colors/grade_emojis에 "?" = 보라/👁 추가, `_ending_run_summary()`에 `instant_legend` 케이스 추가
+
+### Chapter 1 고아 플래그 콜백 (callback_events_27.json)
+- 7개 신규 콜백 이벤트 (t13~24 내에서 발동):
+  - `callback_parttime_survived` (considered_parttime): 편의점 공고 앞에서
+  - `callback_budget_check_in` (budget_planned): 예산표 재점검
+  - `callback_mid_goal_echo` (set_monthly_goal): 그때 정한 목표 돌아보기
+  - `callback_quiet_money_patience` (kept_quiet_money): 아무도 모른다
+  - `callback_early_greed_humbled` (early_greed): 자만의 댓가
+  - `callback_gosiwon_wall_echo` (knocked_on_wall): 그 방에 짐이 없었다
+  - `callback_stayed_grounded_echo` (stayed_grounded): 운이었다
+
+### 감사
+- 전 커밋 후 `daeun_met/daeun_first_kind` 플래그 고아 에러 → `arc_daeun_01_meet` 패치로 해결
+- `has_job: false` 조건 버그 발견 및 전체 수정 (`if bool(false)`는 항상 false)
+- `EventManager.gd`: `job_id` 조건 키 신규 추가
+
 ## 2026-06-16 (arc_midgame 대규모 확장 — 감정 밀도 강화)
 
 ### 세션 목표

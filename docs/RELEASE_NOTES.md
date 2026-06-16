@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Added (2026-06-16) — 챕터 카드 + Chapter 1 반응형 씬 + 고아 플래그 콜백
+- **챕터 타이틀 카드 5종** (chapter_cards.json): 연도별 챕터 경계(34/35/36/37세) 자동 트리거. 제목: 시작/확장/무게/균열/강남 (스포일러 없음)
+- **t9 자산 반응형 3분기 씬**: arc_money_check_low/mid/high — 플레이어 순자산에 따라 완전히 다른 서사 흐름
+- **`instant_legend` 히든 엔딩**: 33세 내 30억 달성 시 발동하는 이스터에그 엔딩 (grade "?", 보라색)
+- **Chapter 1 콜백 이벤트 7종** (callback_events_27.json): t9~t11 선택의 기억이 t14~24 사이에 반응 이벤트로 발화
+- **알바/편의점 개연성 수정**: `has_job: false` 조건 버그 전면 수정, 편의점 알바 고정 씬 제거, `job_id: job_01` 조건으로 교체
+- **`job_id` 조건 키** (EventManager.gd): 특정 job id를 가진 플레이어에게만 이벤트 발화
+
+### Fixed (2026-06-16)
+- `daeun_met` / `daeun_first_kind` 고아 플래그 에러 해소 (arc_daeun_01_meet 패치)
+- `has_job: false` 조건이 항상 무시되는 버그 수정 (bool(false)는 if문에서 false)
+- 편의점 점원으로 고정된 씬들 플레이어 직업 미설정 시에도 발화하는 문제 수정
+
 ### Added (2026-06-16) — 중반 아크 이벤트 대규모 확장 (arc_midgame 29개)
 - **19개 신규 arc 이벤트**: arc_midgame.json 10→29개. 턴 12~55 전 구간 감정 밀도 강화
   - 현수 아크 심화: drift(방황) → new_path(떠남) 브리지
