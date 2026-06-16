@@ -936,5 +936,114 @@
         "result_text": "밥도 안 먹었다. 누워서 천장만 봤다. 저녁에 편의점에 가서 삼각김밥을 사먹었다. 그게 그날의 전부였다."
       }
     ]
+  },
+  {
+    "id": "arc_first_job_week",
+    "title": "첫 출근 주",
+    "background": "office",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jobs"],
+    "cooldown": 9999,
+    "description": "취직한 지 일주일이 됐다.\n\n팀장이 \"적응은 됐어요?\" 물었다. \"네, 잘 되고 있습니다.\" 라고 했다.\n\n거짓말은 아니다. 근데 매일 아침 7시 30분에 눈을 뜨면서 — 이게 맞나, 한 번씩 생각한다.\n\n월급날까지 3주가 남았다.",
+    "choices": [
+      {
+        "text": "그래도 이게 지금 최선이다 — 버텼다",
+        "effects": { "mental": 2, "stress": -3, "reputation": 1 },
+        "flags": ["arc_first_job_week_seen", "accepted_job_grind"],
+        "result_text": "퇴근 후 버스에서 투자 공부를 했다. 직장은 종잣돈이다. 목적이 있으면 버티는 게 다르다."
+      },
+      {
+        "text": "일 자체는 괜찮았다",
+        "effects": { "mental": 3, "intelligence": 1, "stress": -2 },
+        "flags": ["arc_first_job_week_seen", "enjoyed_work"],
+        "result_text": "생각보다 나쁘지 않았다. 배우는 게 있었다. 이게 30억 경로에 도움이 될 수도 있다는 생각이 들었다."
+      },
+      {
+        "text": "이게 맞나 싶었다 — 회의감",
+        "effects": { "mental": -4, "stress": 4, "investment_skill": 1 },
+        "flags": ["arc_first_job_week_seen", "doubted_job"],
+        "result_text": "오늘도 퇴근하면서 투자 앱을 열었다. 내 자산이 하루에 한 번씩 흔들렸다. 월급보다 그게 더 현실 같았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_night_routine",
+    "title": "심야 루틴",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "새벽 1시가 됐다.\n\n현수는 인강을 듣고, {name}은 차트를 본다. 같은 시간에 같은 공간에서 완전히 다른 걸 향해 달리고 있다.\n\n어느 쪽이 맞는 방향인지는 아직 모른다. 아니, 둘 다 모를 수도 있다.",
+    "choices": [
+      {
+        "text": "새벽 2시까지 공부했다",
+        "effects": { "intelligence": 2, "investment_skill": 1, "health": -2 },
+        "flags": ["arc_night_routine_seen", "stayed_up_studying"],
+        "result_text": "눈이 뻑뻑했다. 그래도 오늘 배운 거 하나는 있다. 내일 써먹을 수 있을 것 같았다."
+      },
+      {
+        "text": "현수한테 \"자라\" 하고 잤다",
+        "effects": { "mental": 3, "stress": -3 },
+        "flags": ["arc_night_routine_seen", "slept_early"],
+        "cast_effects": { "hyunsu": { "affinity": 1 } },
+        "result_text": "현수가 웃으면서 \"형도요\"라고 했다. 12시에 잤다. 내일이 빨리 왔다."
+      },
+      {
+        "text": "차트 대신 맥주 한 캔 했다",
+        "effects": { "mental": 4, "stress": -4, "health": -1 },
+        "flags": ["arc_night_routine_seen", "relaxed_at_night"],
+        "result_text": "가끔은 이래도 된다. 모든 밤이 생산적일 필요는 없다. {name}은 캔을 비우고 눈을 감았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_gangnam_real_estate",
+    "title": "강남 집값",
+    "background": "gangnam_day",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "부동산 앱을 켰다.\n\n강남구 아파트. 가장 싼 것이 17억. 그 위로는 20억, 25억, 35억.\n\n총자산이 25억이다. 저기서 가장 싼 것은 살 수 있다는 뜻이다. 강남에 입성한다는 게 저 숫자 중에 하나를 누르는 것인지.\n\n그게 맞는 건지 한 번도 제대로 생각해본 적이 없었다.",
+    "choices": [
+      {
+        "text": "17억짜리를 찜했다 — 이게 목표다",
+        "effects": { "mental": 5, "stress": -2 },
+        "flags": ["arc_gangnam_real_estate_seen", "picked_gangnam_target"],
+        "result_text": "지도에서 위치를 찍었다. 2호선역에서 도보 8분. 남향. 33평. 이게 되면 됐다. 목표가 생겼다."
+      },
+      {
+        "text": "앱을 닫았다 — 아직 현실이 아니다",
+        "effects": { "mental": -2, "stress": 2 },
+        "flags": ["arc_gangnam_real_estate_seen"],
+        "result_text": "너무 구체적으로 보면 무서워진다. 일단 30억을 만들자. 그다음 생각하자. 앱을 껐다."
+      },
+      {
+        "text": "25억짜리를 봤다 — 한 번 제대로 가려면",
+        "effects": { "mental": 3, "stress": 4, "investment_skill": 1 },
+        "flags": ["arc_gangnam_real_estate_seen", "aimed_higher"],
+        "result_text": "어차피 한 번 가는 거. 제대로 가자. 목표를 30억에서 32억으로 올렸다. 2억이 더 필요하다. 그게 더 당기는 기분이었다."
+      }
+    ]
   }
 ]

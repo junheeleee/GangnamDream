@@ -1078,6 +1078,12 @@ func _next_arc_id() -> String:
 	if f.get("pending_spec_found", false) and not f.get("pending_spec_found_done", false):
 		return "arc_spec_found"
 
+	# ── 첫 출근 주 — 취업 후 첫 1개월 안에 (1회) ──
+	if not GameState.current_job.is_empty() \
+			and GameState.job_tenure <= 1 \
+			and not f.get("arc_first_job_week_seen", false):
+		return "arc_first_job_week"
+
 	# ── 경마 멘토 보장 — gambling_tempted + 100만원 이상이면 t=12에 확정 등장 ──
 	if t >= 12 and f.get("gambling_tempted", false) \
 			and GameState.money >= 1_000_000 \
@@ -1238,6 +1244,13 @@ func _next_arc_id() -> String:
 			and not f.get("arc_hyunsu_new_path_seen", false):
 		return "arc_hyunsu_new_path"
 
+	# ── 심야 루틴 — 현수와 같은 시간, 다른 방향 (턴 12~22, 고시원 거주 중) ──
+	if t >= 12 and t <= 22 \
+			and GameState.housing == "gosiwon" \
+			and f.get("arc_intro_hyunsu_seen", false) \
+			and not f.get("arc_night_routine_seen", false):
+		return "arc_night_routine"
+
 	# ── 30억이라는 숫자 — 반환점 이후 목표의 무게 (턴 32~42) ──
 	if t >= 32 and t <= 42 \
 			and f.get("arc_midpoint_reckoning_seen", false) \
@@ -1346,6 +1359,12 @@ func _next_arc_id() -> String:
 			and f.get("arc_daeun_ghost_seen", false) \
 			and not f.get("arc_daeun_trace_seen", false):
 		return "arc_daeun_trace"
+
+	# ── 강남 집값 — 자산 25억 돌파, 목표가 손에 잡힌다 (턴 50+) ──
+	if t >= 50 \
+			and GameState.get_total_asset_value() >= 2_500_000_000.0 \
+			and not f.get("arc_gangnam_real_estate_seen", false):
+		return "arc_gangnam_real_estate"
 
 	# ── 끝이 보인다 — 자산 20억, 마지막 스퍼트 (턴 47+) ──
 	if t >= 47 \
