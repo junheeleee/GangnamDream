@@ -1066,6 +1066,8 @@ func _next_arc_id() -> String:
 			return "cafe_cb_honest_00"
 		if f.get("cafe_humiliated", false):
 			return "cafe_cb_humiliated_00"
+		# 세 플래그 모두 없으면 카페 씬을 안 본 것 — 재검사 방지
+		GameState.flags["cafe_callback_seen"] = true
 	# ★ 첫 유혹의 후폭풍/보상 (턴 8) — 선택에 따라 갈림
 	if f.get("lent_account", false) and not f.get("arc_temptation_fallout_seen", false) and t >= 8:
 		return "arc_temptation_fallout"
@@ -1357,7 +1359,7 @@ func _next_arc_id() -> String:
 		return "arc_jaehyuk_04c_stand_up"
 
 	# ── 사기 당한 다음 날 — 재기 이벤트 직전 내적 독백 ──
-	if f.get("arc_jaehyuk_ghost_seen", false) \
+	if t >= 40 and f.get("arc_jaehyuk_ghost_seen", false) \
 			and f.get("jaehyuk_scammed", false) \
 			and not f.get("arc_after_scam_seen", false):
 		return "arc_after_scam"
@@ -1474,8 +1476,9 @@ func _next_arc_id() -> String:
 
 ## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.
 func _next_milestone_id() -> String:
-	var t = GameState.turn
 	var f = GameState.flags
+	# 경과 개월 (1=첫 달, 60=마지막 달) — turn(주)이 아닌 달력 기준
+	var me: int = (GameState.age - 33) * 12 + GameState.month
 	# 첫 출근 (직업 생긴 직후 턴)
 	if not GameState.current_job.is_empty() and not f.get("story_first_workday_seen", false):
 		return "story_first_workday"
@@ -1485,22 +1488,22 @@ func _next_milestone_id() -> String:
 	# 첫 저축 마일스톤 — 통장 300만원 돌파
 	if GameState.money >= 3_000_000 and not f.get("story_first_savings_seen", false):
 		return "story_first_savings_milestone"
-	# 5년 = 60턴 압축. 33→38세.
-	if t == 6 and not f.get("story_six_months_seen", false):
+	# 5년 = 60개월 = 240턴(주). 마일스톤은 달력(me) 기준.
+	if me == 6 and not f.get("story_six_months_seen", false):
 		return "story_six_months"
-	if t == 12 and not f.get("story_one_year_seen", false):
+	if me == 12 and not f.get("story_one_year_seen", false):
 		return "story_one_year"
-	if t == 18 and not f.get("story_one_half_year_seen", false):
+	if me == 18 and not f.get("story_one_half_year_seen", false):
 		return "story_one_half_year"
-	if t == 24 and not f.get("story_two_year_seen", false):
+	if me == 24 and not f.get("story_two_year_seen", false):
 		return "story_two_year"
-	if t == 30 and not f.get("age_35_reflected", false):
+	if me == 30 and not f.get("age_35_reflected", false):
 		return "age_35_checkpoint"
-	if t == 36 and not f.get("story_three_year_seen", false):
+	if me == 36 and not f.get("story_three_year_seen", false):
 		return "story_three_year"
-	if t == 48 and not f.get("story_four_year_seen", false):
+	if me == 48 and not f.get("story_four_year_seen", false):
 		return "story_four_year"
-	if t == 54 and not f.get("age_39_seen", false):
+	if me == 54 and not f.get("age_39_seen", false):
 		return "age_39_final"
 	return ""
 
@@ -4840,7 +4843,7 @@ func _run_card_text(ending_id: String) -> String:
 	var lines: PackedStringArray = PackedStringArray()
 	lines.append("[강남드림 런 결과]")
 	lines.append("━━━━━━━━━━━━━━━━━━")
-	lines.append("👤 %s  |  33세 → %d세  |  %d개월" % [GameState.player_name, GameState.age, GameState.turn])
+	lines.append("👤 %s  |  33세 → %d세  |  %d개월" % [GameState.player_name, GameState.age, (GameState.age - 33) * 12 + GameState.month])
 	lines.append("💰 최종 자산: %s  (목표 달성률 %d%%)" % [GameState.format_money(total), pct])
 	lines.append("🏠 마지막 거처: %s" % housing_name)
 	lines.append("📍 정석 %d회 / 비정석 %d회  →  %s" % [o, u, route_id])

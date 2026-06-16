@@ -71,11 +71,12 @@ func _pick_track() -> String:
 	# 위기 우선 — 건강 ≤35 OR 스트레스 ≥75
 	if GameState.health <= 35 or GameState.stress >= 75 or GameState.mental <= 30:
 		return "crisis"
-	# 후반 긴장 — 후반부(턴 36+) 또는 마감 1년 전(37세, 38세가 데드라인)
-	if GameState.turn >= 36 or GameState.age >= 37:
+	# 후반 긴장 — 마감 2년 이내(36세부터)
+	if GameState.age >= 36:
 		return "late_tense"
-	# 초중반 — 취직 여부로 분기
-	if GameState.turn >= 12 and not GameState.current_job.is_empty():
+	# 초중반 — 취직 후 1년(12개월) 이상 경과
+	var _me: int = (GameState.age - 33) * 12 + GameState.month
+	if _me >= 12 and not GameState.current_job.is_empty():
 		return "hustle"
 	return "early"
 

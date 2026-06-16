@@ -15,4 +15,5 @@ func get_ending(ending_id):
 # evaluate_current_ending()은 제거됨 — GameState가 유일한 판정 소스.
 
 func get_score():
-	return int(GameState.get_total_asset_value() / 100_000.0) + GameState.turn * 10 + GameState.reputation * 100
+	var months_elapsed = (GameState.age - 33) * 12 + GameState.month
+	return int(GameState.get_total_asset_value() / 100_000.0) + months_elapsed * 10 + GameState.reputation * 100

@@ -229,7 +229,7 @@ func _check_title_condition(tid: String) -> bool:
 				if rel.get("type","") == "romantic": return true
 			return false
 		"social_king_title":  return GameState.relationships.size() >= 5
-		"loner_title":        return GameState.relationships.is_empty() and GameState.turn >= 30
+		"loner_title":        return GameState.relationships.is_empty() and (GameState.age - 33) * 12 + GameState.month >= 30
 		"stress_survivor":    return GameState.flags.get("reached_max_stress", false)
 		"first_10m_title":    return GameState.money >= 10_000_000
 		"first_100m_title":   return GameState.get_total_asset_value() >= 100_000_000
