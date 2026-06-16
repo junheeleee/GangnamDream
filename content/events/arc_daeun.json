@@ -25,7 +25,9 @@
         "flags": [
           "arc_daeun_met",
           "met_daeun",
-          "arc_daeun_01_seen"
+          "arc_daeun_01_seen",
+          "daeun_met",
+          "daeun_first_kind"
         ],
         "effects": {
           "mental": 6,
@@ -46,7 +48,8 @@
           "arc_daeun_met",
           "met_daeun",
           "arc_daeun_01_seen",
-          "daeun_kept_distance"
+          "daeun_kept_distance",
+          "daeun_met"
         ],
         "effects": {
           "mental": 1

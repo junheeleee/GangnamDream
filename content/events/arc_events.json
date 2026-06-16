@@ -63,7 +63,7 @@
       "intro"
     ],
     "cooldown": 9999,
-    "description": "편의점 야간 알바. 새벽 3시.\n\n진상 손님, 택배 정리, 바닥 청소. 유통기한 임박 스티커 붙이기.\n형광등이 왱왱 거렸다. 밖에는 아무도 없었다.\n\n계산기를 꺼냈다.\n시급 만원 남짓. 한 달 꼬박 일해야 200만원이 안 된다.\n강남 아파트 30억 ÷ 200만원 = 1,250개월 = 104년.\n\n104년.\n\n{name}은 계산기 화면을 바라봤다. 웃음이 났다. 어이가 없어서.\n월급만으로는, 수학적으로 불가능하다.\n\n택배 박스를 접으면서 생각했다.\n다른 길이 있어야 한다. 반드시.",
+    "description": "고시원 방. 새벽 3시.\n\n잠이 안 왔다. 폰을 집어 계산기 앱을 열었다.\n\n시급 만원 남짓. 한 달 꼬박 일해야 200만원이 안 된다.\n강남 아파트 30억 ÷ 200만원 = 1,250개월 = 104년.\n\n104년.\n\n{name}은 화면을 바라봤다. 웃음이 났다. 어이가 없어서.\n월급만으로는, 수학적으로 불가능하다.\n\n다른 길이 있어야 한다. 반드시.\n\n그때 폰이 울렸다. 아버지였다. 새벽 3시에.",
     "choices": [
       {
         "text": "일단 종잣돈부터. 악착같이 모은다",
@@ -458,7 +458,7 @@
       "jiyeon"
     ],
     "cooldown": 9999,
-    "description": "편의점 야간 카운터.\n자정이 넘은 시각, 문에 달린 종이 울린다.\n\n들어온 사람을 보고 {name}은 멈칫한다.\n그 여자다. 자전거를 친 그 외제차의 주인.\n\n그녀도 {name}을 알아본다. 눈이 커진다.\n\"...어? 그때 그?\"\n\n손에는 와인 한 병. 이 동네에 어울리지 않는 옷차림.\n왜 이 시간에, 이 동네 편의점에 있는 걸까.",
+    "description": "동네 편의점 앞.\n\n삼각김밥 하나 들고 나오다가 {name}은 멈췄다.\n\n그 여자다. 자전거를 친 그 외제차의 주인.\n\n그녀도 {name}을 알아본다. 눈이 커진다.\n\"...어? 그때 그?\"\n\n손에는 와인 한 병. 이 동네에 어울리지 않는 옷차림.\n왜 이 시간에, 이 동네 편의점에 있는 걸까.",
     "choices": [
       {
         "text": "모른 척 계산만 한다",
@@ -2844,27 +2844,52 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal", "money_check"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal",
+      "money_check"
+    ],
     "cooldown": 9999,
     "description": "한 달이 지났다.\n\n모바일 뱅킹 앱을 열었다. 고시원비, 통신비, 교통비, 밥값. 숫자들이 줄줄이 빠져나간 내역.\n\n잔액: {money}.\n\n머리로는 알고 있었는데, 숫자로 보니까 달랐다.",
     "choices": [
       {
         "text": "지출 목록을 정리했다 — 어디서 더 아낄 수 있나",
-        "effects": { "intelligence": 1, "stress": 2 },
-        "flags": ["arc_money_check_seen", "budget_planned"],
+        "effects": {
+          "intelligence": 1,
+          "stress": 2
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "budget_planned"
+        ],
         "result_text": "항목별로 쪼갰다. 줄일 수 있는 건 밥값뿐이었다. 편의점 도시락 2,800원. 하루 두 끼면 한 달 16만원. 숫자를 알면 무서운 게 오히려 줄었다."
       },
       {
         "text": "앱을 껐다 — 나중에 보자",
-        "effects": { "stress": -2, "mental": -4 },
-        "flags": ["arc_money_check_seen"],
+        "effects": {
+          "stress": -2,
+          "mental": -4
+        },
+        "flags": [
+          "arc_money_check_seen"
+        ],
         "result_text": "보지 않으면 없는 것처럼. 그건 아니라는 걸 알면서도. 화면이 꺼지고 {name}의 얼굴이 반사됐다."
       },
       {
         "text": "당장 알바를 알아봤다",
-        "effects": { "luck": 1, "stress": 1, "social_skill": 1 },
-        "flags": ["arc_money_check_seen", "considered_parttime"],
+        "effects": {
+          "luck": 1,
+          "stress": 1,
+          "social_skill": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "considered_parttime"
+        ],
         "result_text": "알바몬을 켰다. 편의점, 물류센터, 주유소. 시급 9,860원. 하루 8시간이면 한 달 210만원. 이걸 해야 하나 말아야 하나 — 내일 다시 생각하기로 했다."
       }
     ]
@@ -2878,27 +2903,53 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal", "money_check"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal",
+      "money_check"
+    ],
     "cooldown": 9999,
     "description": "한 달이 지났다.\n\n모바일 뱅킹 앱을 열었다. 빠져나간 것도 있지만, 처음으로 — 들어온 게 더 많았다.\n\n잔액: {money}.\n\n큰돈은 아니다. 누구한테 자랑할 숫자도 아니다. 그런데 {name}은 화면을 한참 봤다. 처음으로 줄지 않고 늘어난 통장이었다.",
     "choices": [
       {
         "text": "스크린샷을 찍었다 — 기록으로 남긴다",
-        "effects": { "mental": 4, "stress": -2 },
-        "flags": ["arc_money_check_seen"],
+        "effects": {
+          "mental": 4,
+          "stress": -2
+        },
+        "flags": [
+          "arc_money_check_seen"
+        ],
         "result_text": "앨범에 저장했다. 나중에 이 숫자가 우습게 보일 만큼 커지면, 그때 다시 보려고. 시작점을 남겨두는 거다."
       },
       {
         "text": "다음 달 목표를 적었다",
-        "effects": { "intelligence": 1, "investment_skill": 1, "stress": 1 },
-        "flags": ["arc_money_check_seen", "set_monthly_goal"],
+        "effects": {
+          "intelligence": 1,
+          "investment_skill": 1,
+          "stress": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "set_monthly_goal"
+        ],
         "result_text": "메모장을 열었다. 다음 달 목표 잔액. 숫자 하나를 적었다. 막연했던 게 처음으로 구체적인 칸이 됐다."
       },
       {
         "text": "별거 아니라고 생각했다 — 아직 멀었다",
-        "effects": { "stress": 2, "mental": -1, "intelligence": 1 },
-        "flags": ["arc_money_check_seen", "stayed_hungry"],
+        "effects": {
+          "stress": 2,
+          "mental": -1,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "stayed_hungry"
+        ],
         "result_text": "30억까지 0.0몇 퍼센트. 이 정도로 안심하면 안 된다. {name}은 앱을 껐다. 만족은 사치였다, 아직은."
       }
     ]
@@ -2912,27 +2963,55 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal", "money_check"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal",
+      "money_check"
+    ],
     "cooldown": 9999,
     "description": "한 달이 지났다.\n\n모바일 뱅킹 앱을 열었다. 그리고 — 다시 한번 봤다.\n\n잔액: {money}.\n\n한 달 전엔 50만원이었다. {name}은 숫자를 손가락으로 짚어봤다. 자릿수를 세 번 셌다. 맞았다.\n\n무서웠다. 좋은데, 무서웠다. 이게 실력인지 운인지 모르니까.",
     "choices": [
       {
         "text": "이건 운이다 — 들뜨지 말자",
-        "effects": { "intelligence": 2, "mental": 2, "stress": 1 },
-        "flags": ["arc_money_check_seen", "stayed_grounded"],
+        "effects": {
+          "intelligence": 2,
+          "mental": 2,
+          "stress": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "stayed_grounded"
+        ],
         "result_text": "들뜨는 순간 잃는다는 걸 안다. 한 번의 운을 실력으로 착각하면 그다음이 위험하다. {name}은 차분하게 다음 수를 생각했다."
       },
       {
         "text": "더 크게 가야 한다 — 지금이 기회다",
-        "effects": { "investment_skill": 1, "stress": 4, "mental": 3 },
-        "flags": ["arc_money_check_seen", "early_greed"],
+        "effects": {
+          "investment_skill": 1,
+          "stress": 4,
+          "mental": 3
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "early_greed"
+        ],
         "result_text": "이 흐름을 못 타면 바보다. {name}의 심장이 뛰었다. 더, 더 크게. 그 생각이 머리에서 떠나지 않았다. 좋은 신호인지 나쁜 신호인지는, 아직 모른다."
       },
       {
         "text": "누구한테도 말하지 않기로 했다",
-        "effects": { "mental": 1, "stress": -1, "intelligence": 1 },
-        "flags": ["arc_money_check_seen", "kept_quiet_money"],
+        "effects": {
+          "mental": 1,
+          "stress": -1,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "kept_quiet_money"
+        ],
         "result_text": "돈 얘기는 입 밖에 내는 순간 복잡해진다. 가족도, 친구도, 아직은. {name}은 폰을 엎어놓았다. 혼자 아는 비밀이 하나 생겼다."
       }
     ]
@@ -2946,27 +3025,50 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
     "cooldown": 9999,
     "description": "새벽 3시. 잠이 안 온다.\n\n옆방에서 소리가 난다. 처음엔 TV인가 했는데 — 아니다. 누군가 울고 있다. 억누르는 소리. 얇은 석고보드 하나를 사이에 두고.\n\n여기선 모두가 각자의 이유로 새벽을 버티고 있다.",
     "choices": [
       {
         "text": "귀마개를 꼈다 — 내 일 아니다",
-        "effects": { "stress": -2, "mental": -2 },
-        "flags": ["arc_gosiwon_wall_seen"],
+        "effects": {
+          "stress": -2,
+          "mental": -2
+        },
+        "flags": [
+          "arc_gosiwon_wall_seen"
+        ],
         "result_text": "소리가 사라졌다. 아니, 들리지 않게 됐다. 내 안에서도 뭔가가 조용해졌다. 그게 자기보호인지, 아니면 무뎌진 건지 모르겠다."
       },
       {
         "text": "벽을 한 번 두드렸다 — 괜찮냐고",
-        "effects": { "social_skill": 1, "mental": 4, "stress": -1 },
-        "flags": ["arc_gosiwon_wall_seen", "knocked_on_wall"],
+        "effects": {
+          "social_skill": 1,
+          "mental": 4,
+          "stress": -1
+        },
+        "flags": [
+          "arc_gosiwon_wall_seen",
+          "knocked_on_wall"
+        ],
         "result_text": "소리가 멈췄다. 잠깐의 침묵. 그리고 낮고 작은 목소리. \"네.\"\n\n그걸로 충분했다. 이름도 얼굴도 모르는 사람과, 벽 하나 두고 나눈 대화."
       },
       {
         "text": "나도 천장을 봤다 — 같이 새벽을 버텼다",
-        "effects": { "mental": 3, "stress": -2 },
-        "flags": ["arc_gosiwon_wall_seen"],
+        "effects": {
+          "mental": 3,
+          "stress": -2
+        },
+        "flags": [
+          "arc_gosiwon_wall_seen"
+        ],
         "result_text": "여기 있는 사람 중에 편안하게 자는 사람이 몇이나 될까. 그 생각이 이상하게 위로가 됐다. 혼자가 아니라는 느낌 — 제일 이상한 방식으로."
       }
     ]

@@ -11,7 +11,11 @@
       "flag": "stranger_helped",
       "min_turn": 4
     },
-    "tags": ["social", "rare", "chain"],
+    "tags": [
+      "social",
+      "rare",
+      "chain"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -21,7 +25,9 @@
           "social_skill": 2,
           "stress": -4
         },
-        "flags": ["chain_banchan_regular"],
+        "flags": [
+          "chain_banchan_regular"
+        ],
         "result_text": "여자가 손사래를 쳤다.\n\"뭘 그런 걸 갖고. 반찬이나 사가, 싸게 줄게.\"\n\n계란말이와 멸치볶음을 샀다. 값을 반만 받았다.\n\n그 뒤로 일주일에 한 번씩 들르게 됐다.\n고시원 냉장고에 반찬통이 쌓이기 시작했다.\n서울에서 단골이 생긴다는 건 — 동네가 생긴다는 거였다.",
         "follow_up_event": ""
       },
@@ -49,7 +55,11 @@
       "flag": "stranger_help_declined",
       "min_turn": 4
     },
-    "tags": ["social", "rare", "chain"],
+    "tags": [
+      "social",
+      "rare",
+      "chain"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -59,7 +69,9 @@
           "stress": -5,
           "social_skill": 2
         },
-        "flags": ["chain_banchan_regular"],
+        "flags": [
+          "chain_banchan_regular"
+        ],
         "result_text": "반찬통을 받았다. 계란말이였다.\n\n\"거 봐. 받으니까 좋잖아.\"\n\n고시원에 와서 밥에 얹어 먹었다.\n남이 만든 집밥을 먹은 게 얼마 만인지 계산해봤다.\n계산이 안 됐다.\n\n다음 주에 빈 통을 들고 가게에 갔다. 그게 시작이었다.",
         "follow_up_event": ""
       },
@@ -88,7 +100,12 @@
       "min_turn": 8,
       "has_job": false
     },
-    "tags": ["job", "rare", "chain", "opportunity"],
+    "tags": [
+      "job",
+      "rare",
+      "chain",
+      "opportunity"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -99,7 +116,9 @@
           "mental": 6,
           "stress": -5
         },
-        "flags": ["chain_banchan_job_lead"],
+        "flags": [
+          "chain_banchan_job_lead"
+        ],
         "result_text": "남자가 웃었다.\n\"이력서 보내요. 어머니 추천이면 서류는 무조건 봅니다.\"\n\n그 주에 이력서를 보냈다. 면접 연락이 왔다.\n\n마트 계산대에서 카드 한 장 못 긁었던 날.\n그날이 여기까지 굴러왔다.\n인생의 길은 가끔 반찬가게를 지나서 난다.",
         "follow_up_event": ""
       },
@@ -127,7 +146,12 @@
       "flag": "returned_wallet",
       "min_turn": 3
     },
-    "tags": ["social", "rare", "chain", "opportunity"],
+    "tags": [
+      "social",
+      "rare",
+      "chain",
+      "opportunity"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -137,7 +161,9 @@
           "mental": 5,
           "reputation": 3
         },
-        "flags": ["chain_exec_referral"],
+        "flags": [
+          "chain_exec_referral"
+        ],
         "result_text": "고시원, 6년의 빚, 38세까지의 계획.\n다 말했다. 포장하지 않았다.\n\n전무는 수저를 내려놓고 들었다.\n\n\"빚을 6년 갚고 다시 시작하는 사람은 — 회사에서도 드물어요.\"\n\n헤어질 때 그가 말했다.\n\"계열사에 자리 알아볼게요. 특혜 아니에요. 검증은 본인이 통과해야 하고.\"",
         "follow_up_event": ""
       },
@@ -167,7 +193,11 @@
       "min_turn": 5,
       "has_job": false
     },
-    "tags": ["job", "rare", "chain"],
+    "tags": [
+      "job",
+      "rare",
+      "chain"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -178,7 +208,9 @@
           "stress": -5,
           "social_skill": 2
         },
-        "flags": ["chain_exec_hired"],
+        "flags": [
+          "chain_exec_hired"
+        ],
         "result_text": "\"지하철역에서 지갑을 주워서 돌려드렸습니다. 그게 전부입니다.\"\n\n면접관들이 서로를 봤다. 한 명이 웃었다.\n\"그 얘기 들었어요. 본인 입으로 듣고 싶었습니다.\"\n\n합격 통보는 사흘 뒤에 왔다.\n\n계단에서 주운 지갑 하나.\n인생은 가끔 그런 데서 방향을 튼다.",
         "follow_up_event": ""
       },
@@ -204,9 +236,16 @@
     "background": "convenience_night",
     "conditions": {
       "flag": "honest_found_money",
-      "min_turn": 3
+      "min_turn": 3,
+      "job_id": "job_01"
     },
-    "tags": ["social", "rare", "chain", "opportunity", "alva"],
+    "tags": [
+      "social",
+      "rare",
+      "chain",
+      "opportunity",
+      "alva"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -217,7 +256,9 @@
           "social_skill": 2,
           "mental": 4
         },
-        "flags": ["chain_interior_gig"],
+        "flags": [
+          "chain_interior_gig"
+        ],
         "result_text": "토요일 새벽, 화곡동 빌라 현장.\n\n도배 보조, 자재 나르기, 청소. 몸은 힘들었다.\n\n사장은 일하면서 계속 가르쳐줬다. 자재 단가, 견적 내는 법, 건물주 상대하는 법.\n\n일당 13만원. 근데 어깨너머로 배운 게 더 컸다.\n\"다음 주도 나올래요?\" 사장이 물었다.",
         "follow_up_event": ""
       },
@@ -245,7 +286,12 @@
       "flag": "chain_interior_gig",
       "min_turn": 6
     },
-    "tags": ["job", "rare", "chain", "opportunity"],
+    "tags": [
+      "job",
+      "rare",
+      "chain",
+      "opportunity"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -257,7 +303,9 @@
           "social_skill": 3,
           "reputation": 4
         },
-        "flags": ["chain_interior_manager"],
+        "flags": [
+          "chain_interior_manager"
+        ],
         "result_text": "첫 달 월급 280만원.\n\n생각해보면 시작은 테이블 아래 봉투였다.\n그날 그 봉투를 들고 나왔다면 — 50만원이 끝이었다.\n\n사장님께 바로 연락한 50만원이\n월 280만원이 되어 돌아왔다.\n\n정직은 수익률이 늦게 터지는 투자였다.",
         "follow_up_event": ""
       },
@@ -286,7 +334,12 @@
       "flag": "took_found_money",
       "min_turn": 1
     },
-    "tags": ["social", "rare", "chain", "stress"],
+    "tags": [
+      "social",
+      "rare",
+      "chain",
+      "stress"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -298,7 +351,9 @@
           "reputation": 3,
           "luck": 3
         },
-        "flags": ["envelope_returned_late"],
+        "flags": [
+          "envelope_returned_late"
+        ],
         "result_text": "\"제가 갖고 있습니다. 죄송합니다. 바로 드릴게요.\"\n\n남자가 한걸음에 달려왔다. 봉투를 받고 그가 고개를 숙였다.\n\"감사합니다. 정말 감사합니다.\"\n\n사례금을 내밀었지만 받지 않았다. 받을 자격이 없었다.\n\n돌아오는 길, 몸이 가벼웠다.\n일주일 만에 처음으로 깊게 잤다.",
         "follow_up_event": ""
       },
@@ -309,7 +364,9 @@
           "stress": 12,
           "luck": -3
         },
-        "flags": ["envelope_kept_final"],
+        "flags": [
+          "envelope_kept_final"
+        ],
         "result_text": "종이를 지나쳐 출근했다.\n\n일주일 뒤 종이는 비에 젖어 떨어졌다.\n\n서랍 속 50만원은 그대로 있다.\n쓰지도 못하고 있다. 쓰는 순간 진짜 내 것이 아닌 게 되니까.\n\n어느 새벽, 계산대에 서서 생각했다.\n돈은 가졌는데 — 뭔가를 잃었다. 그게 뭔지 정확히 말할 수 없어서 더 나빴다.",
         "follow_up_event": ""
       }
@@ -327,7 +384,12 @@
       "flag": "congratulated_neighbor",
       "min_turn": 2
     },
-    "tags": ["social", "rare", "chain", "housing"],
+    "tags": [
+      "social",
+      "rare",
+      "chain",
+      "housing"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -338,7 +400,9 @@
           "social_skill": 2,
           "stress": -3
         },
-        "flags": ["chain_neighbor_friend"],
+        "flags": [
+          "chain_neighbor_friend"
+        ],
         "result_text": "박스를 같이 날랐다. 용달차까지 세 번 왕복.\n\n다 싣고 나서 그 사람이 캔커피 두 개를 사왔다.\n\n\"고시원에서 정 든 사람은 {name}씨가 처음이에요.\"\n\n번호를 교환했다. 차가 골목을 빠져나갔다.\n\n옆방 불은 이제 안 켜진다. 근데 연락처가 남았다.\n그게 서울에서 꽤 큰 거였다.",
         "follow_up_event": ""
       },
@@ -365,7 +429,13 @@
       "flag": "chain_neighbor_friend",
       "min_turn": 6
     },
-    "tags": ["finance", "rare", "chain", "housing", "opportunity"],
+    "tags": [
+      "finance",
+      "rare",
+      "chain",
+      "housing",
+      "opportunity"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -375,7 +445,9 @@
           "mental": 7,
           "stress": -8
         },
-        "flags": ["chain_housing_subsidy"],
+        "flags": [
+          "chain_housing_subsidy"
+        ],
         "result_text": "서류를 갖춰 신청했다. 선정됐다.\n\n월세 지원 6개월. 총 120만원.\n\n공고는 누구나 볼 수 있었다. 근데 아무나 보지 않는다.\n그걸 누가 먼저 알려주느냐 — 그게 인맥이라는 거였다.\n\n이삿날 박스 세 번 나른 게 120만원이 됐다.\n근데 돈보다, 누가 나를 기억해줬다는 게 더 컸다.",
         "follow_up_event": ""
       },
@@ -404,7 +476,13 @@
       "flag": "met_celebrity",
       "min_turn": 3
     },
-    "tags": ["social", "rare", "chain", "night", "alva"],
+    "tags": [
+      "social",
+      "rare",
+      "chain",
+      "night",
+      "alva"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -415,7 +493,9 @@
           "reputation": 4,
           "stress": -5
         },
-        "flags": ["chain_celeb_regular"],
+        "flags": [
+          "chain_celeb_regular"
+        ],
         "result_text": "남자가 웃었다. 화면에서 보던 그 웃음이 아니라 그냥 피곤한 사람의 웃음이었다.\n\n며칠 뒤 라디오에서 그의 목소리가 나왔다.\n\"단골 편의점이 있는데요, 거기 직원분이 절 그냥 사람으로 대해줘요. 새벽의 서울에서 그게 얼마나 큰 건지 몰라요.\"\n\n어느 편의점인지는 말하지 않았다.\n{name}만 알았다. 그거면 충분했다.",
         "follow_up_event": ""
       },
@@ -444,7 +524,12 @@
       "flag": "mystery_info_scammed",
       "min_turn": 2
     },
-    "tags": ["social", "rare", "chain", "risk"],
+    "tags": [
+      "social",
+      "rare",
+      "chain",
+      "risk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -455,7 +540,9 @@
           "stress": 6,
           "social_skill": 2
         },
-        "flags": ["chain_warned_victim"],
+        "flags": [
+          "chain_warned_victim"
+        ],
         "result_text": "대학생과 사기꾼이 동시에 돌아봤다.\n\n사기꾼이 {name}을 알아봤다. 0.5초. 그리고 그냥 걸어갔다.\n뛰지도 않았다. 이런 일이 처음이 아닌 거다.\n\n대학생이 물었다. \"아는 사람이에요?\"\n\"50만원짜리로 아는 사람이요.\"\n\n50만원은 못 돌려받았다.\n대신 다른 사람의 50만원을 지켰다. 그걸로 셈을 맞추기로 했다.",
         "follow_up_event": ""
       },

@@ -8,9 +8,14 @@
     "weight": 0.15,
     "background": "convenience_night",
     "conditions": {
-      "has_job": false
+      "job_id": "job_01"
     },
-    "tags": ["alva", "night", "social", "rare"],
+    "tags": [
+      "alva",
+      "night",
+      "social",
+      "rare"
+    ],
     "cooldown": 30,
     "choices": [
       {
@@ -20,7 +25,9 @@
           "mental": 8,
           "social_skill": 3
         },
-        "flags": ["met_celebrity"],
+        "flags": [
+          "met_celebrity"
+        ],
         "result_text": "\"감사합니다.\" 그 목소리도 TV에서 들었던 그 목소리였다.\n\n남자가 나갔다. 편의점이 다시 조용해졌다.\n\n{name}은 계산대를 닦았다. 평소처럼.\n그 사람도 새벽에 삼각김밥을 먹는다는 게 이상하게 위안이 됐다.",
         "follow_up_event": ""
       },
@@ -31,7 +38,9 @@
           "mental": 5,
           "reputation": 3
         },
-        "flags": ["met_celebrity"],
+        "flags": [
+          "met_celebrity"
+        ],
         "result_text": "남자가 잠깐 멈췄다가 웃었다.\n\"쉬는 날엔 그냥 사람이에요.\"\n\n나가면서 영수증 뒤에 싸인을 해줬다.\n\n{name}은 그걸 지갑에 넣었다. 팔진 않을 거다.",
         "follow_up_event": ""
       }
@@ -48,7 +57,11 @@
     "conditions": {
       "has_job": false
     },
-    "tags": ["job", "social", "rare"],
+    "tags": [
+      "job",
+      "social",
+      "rare"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -84,9 +97,14 @@
     "weight": 0.35,
     "background": "convenience_night",
     "conditions": {
-      "has_job": false
+      "job_id": "job_01"
     },
-    "tags": ["night", "alva", "social", "rare"],
+    "tags": [
+      "night",
+      "alva",
+      "social",
+      "rare"
+    ],
     "cooldown": 18,
     "choices": [
       {
@@ -108,7 +126,9 @@
           "social_skill": 2,
           "stress": -5
         },
-        "flags": ["heard_drunk_wisdom"],
+        "flags": [
+          "heard_drunk_wisdom"
+        ],
         "result_text": "남자가 멈칫했다. 처음으로 {name}을 제대로 봤다.\n\n\"버텼냐고? 아니. 그냥 다음 날 일어난 거야. 매일.\"\n\n캔맥주를 다 마시고 일어났다.\n\"너도 그냥 일어나면 돼. 매일.\"\n\n{name}은 마감 청소를 하면서 그 말을 곱씹었다.",
         "follow_up_event": ""
       }
@@ -126,7 +146,11 @@
       "has_job": false,
       "min_turn": 3
     },
-    "tags": ["job", "rare", "opportunity"],
+    "tags": [
+      "job",
+      "rare",
+      "opportunity"
+    ],
     "cooldown": 15,
     "choices": [
       {
@@ -137,7 +161,9 @@
           "luck": 3,
           "reputation": 2
         },
-        "flags": ["got_lucky_call"],
+        "flags": [
+          "got_lucky_call"
+        ],
         "result_text": "3개월 전 지원했다 포기했던 회사였다.\n\"당시에 채용 동결이었는데, 자리가 났습니다. 아직 구직 중이신가요?\"\n\n{name}은 잠깐 멈췄다.\n\"네. 그렇습니다.\"\n\n불합격 문자가 화면에 남아 있었다. 신경 쓰지 않기로 했다.",
         "follow_up_event": ""
       },
@@ -162,7 +188,11 @@
     "weight": 0.35,
     "background": "subway",
     "conditions": {},
-    "tags": ["social", "rare", "luck"],
+    "tags": [
+      "social",
+      "rare",
+      "luck"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -172,7 +202,9 @@
           "mental": 6,
           "luck": 4
         },
-        "flags": ["returned_wallet"],
+        "flags": [
+          "returned_wallet"
+        ],
         "result_text": "일주일 뒤 문자가 왔다. 명함 속 번호였다.\n\"저번에 감사했습니다. 밥 한 번 사도 될까요?\"\n\n{name}은 그 자리에서 한참 화면을 봤다.\n어떤 인연은 계단에서 시작된다.",
         "follow_up_event": ""
       },
@@ -201,7 +233,11 @@
     "conditions": {
       "max_money": 300000
     },
-    "tags": ["social", "rare", "stress"],
+    "tags": [
+      "social",
+      "rare",
+      "stress"
+    ],
     "cooldown": 25,
     "choices": [
       {
@@ -212,7 +248,9 @@
           "social_skill": 2,
           "reputation": 3
         },
-        "flags": ["stranger_helped"],
+        "flags": [
+          "stranger_helped"
+        ],
         "result_text": "여자가 웃었다.\n\"됐어요. 나도 옛날에 그런 적 있었어.\"\n\n계산이 끝나고 각자 나갔다.\n\n{name}은 주차장에서 잠깐 서 있었다.\n서울이 다 차갑진 않다는 걸, 가끔 이렇게 배운다.",
         "follow_up_event": ""
       },
@@ -222,7 +260,9 @@
           "stress": 8,
           "mental": -4
         },
-        "flags": ["stranger_help_declined"],
+        "flags": [
+          "stranger_help_declined"
+        ],
         "result_text": "물건을 다 내려놓고 나왔다.\n\n빈손으로 나오는 길. 흐렸다.\n\n다음 월급날까지 버텨야 했다. 버틸 수 있었다.\n그게 지금 할 수 있는 전부였다.",
         "follow_up_event": ""
       }
@@ -240,7 +280,11 @@
       "has_job": false,
       "min_intelligence": 40
     },
-    "tags": ["job", "rare", "opportunity"],
+    "tags": [
+      "job",
+      "rare",
+      "opportunity"
+    ],
     "cooldown": 18,
     "choices": [
       {
@@ -251,7 +295,9 @@
           "reputation": 3,
           "luck": 2
         },
-        "flags": ["got_alternate_offer"],
+        "flags": [
+          "got_alternate_offer"
+        ],
         "result_text": "계약직이었다. 정규직보다 조건은 낮았다.\n하지만 6개월 뒤 전환 가능성이 있었다.\n\n{name}은 그 자리에서 수락했다.\n\n망한 면접이 문을 열었다. 방향이 달랐을 뿐.",
         "follow_up_event": ""
       },
@@ -279,7 +325,11 @@
     "conditions": {
       "max_money": 500000
     },
-    "tags": ["social", "rare", "opportunity"],
+    "tags": [
+      "social",
+      "rare",
+      "opportunity"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -290,7 +340,9 @@
           "intelligence": 2,
           "mental": 5
         },
-        "flags": ["junk_sale_connection"],
+        "flags": [
+          "junk_sale_connection"
+        ],
         "result_text": "남자가 잠깐 생각했다.\n\"저도 33살에 서울 올라왔어요. 편하게 얘기 한 번 해요.\"\n\n명함을 받았다. 작은 투자사 대표였다.\n\n물건 3만원을 팔고, 연락처를 얻었다.\n중고 거래가 이렇게 쓰이는 줄은 몰랐다.",
         "follow_up_event": ""
       },
@@ -315,9 +367,14 @@
     "weight": 0.25,
     "background": "convenience_night",
     "conditions": {
-      "has_job": false
+      "job_id": "job_01"
     },
-    "tags": ["night", "alva", "rare", "money"],
+    "tags": [
+      "night",
+      "alva",
+      "rare",
+      "money"
+    ],
     "cooldown": 25,
     "choices": [
       {
@@ -328,7 +385,9 @@
           "luck": 4,
           "stress": -5
         },
-        "flags": ["honest_found_money"],
+        "flags": [
+          "honest_found_money"
+        ],
         "result_text": "사장님이 30분 뒤 나타났다. 손님에게 연락이 됐다.\n\n손님이 와서 봉투를 가져갔다. 10만원을 {name}에게 줬다.\n\n\"고마워요. 전 재산이었는데.\"\n\n그 말이 오래 남았다. 10만원보다.",
         "follow_up_event": ""
       },
@@ -341,7 +400,9 @@
           "reputation": -5,
           "luck": -3
         },
-        "flags": ["took_found_money"],
+        "flags": [
+          "took_found_money"
+        ],
         "result_text": "집에 와서 봉투를 꺼냈다.\n50만원.\n\n자려고 누웠다. 잠이 안 왔다.\nCCTV 생각이 났다. 손님이 다시 올 수도 있었다.\n\n{name}은 새벽 내내 천장을 봤다.\n돈의 무게가 이런 거였다.",
         "follow_up_event": ""
       }
@@ -359,7 +420,12 @@
       "has_job": true,
       "min_stress": 60
     },
-    "tags": ["job", "rare", "stress", "opportunity"],
+    "tags": [
+      "job",
+      "rare",
+      "stress",
+      "opportunity"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -369,7 +435,9 @@
           "mental": 8,
           "reputation": 2
         },
-        "flags": ["quit_for_better_job"],
+        "flags": [
+          "quit_for_better_job"
+        ],
         "result_text": "지하철에서 내렸다.\n회사가 아니라 카페로 갔다.\n\n사직서를 메일로 보내고 커피를 시켰다.\n\n한 달 치 월급을 포기했다.\n대신 오늘 처음으로 출근이 기다려졌다.",
         "follow_up_event": ""
       },
@@ -396,7 +464,12 @@
     "weight": 0.3,
     "background": "goshiwon_hallway",
     "conditions": {},
-    "tags": ["social", "rare", "mental", "housing"],
+    "tags": [
+      "social",
+      "rare",
+      "mental",
+      "housing"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -406,7 +479,9 @@
           "stress": -6,
           "luck": 2
         },
-        "flags": ["congratulated_neighbor"],
+        "flags": [
+          "congratulated_neighbor"
+        ],
         "result_text": "\"진짜? 축하해.\"\n\n그 말을 하면서 {name}은 자기 감정을 살폈다.\n부럽긴 했다. 근데 그것보다 — 기뻤다.\n\n같은 건물에서 같은 밤을 보낸 사람이 됐으니까.\n{name} 차례도 온다. 언제가 될지 모르지만.",
         "follow_up_event": ""
       },
@@ -417,7 +492,9 @@
           "stress": -4,
           "intelligence": 2
         },
-        "flags": ["motivated_by_neighbor"],
+        "flags": [
+          "motivated_by_neighbor"
+        ],
         "result_text": "그날 밤 {name}은 계획을 다시 썼다.\n\n막연하게 있던 숫자들을 구체적으로 바꿨다.\n옆방이 나가는 걸 보는 게 이렇게 쓸 데가 있었다.",
         "follow_up_event": ""
       }
@@ -434,7 +511,11 @@
     "conditions": {
       "min_money": 10000
     },
-    "tags": ["gambling", "rare", "luck"],
+    "tags": [
+      "gambling",
+      "rare",
+      "luck"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -469,7 +550,10 @@
     "weight": 0,
     "background": "convenience_store",
     "conditions": {},
-    "tags": ["gambling", "luck"],
+    "tags": [
+      "gambling",
+      "luck"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -480,7 +564,9 @@
           "mental": 4,
           "stress": -3
         },
-        "flags": ["won_lottery_small"],
+        "flags": [
+          "won_lottery_small"
+        ],
         "result_text": "5만원.\n\n2등도 1등도 아니지만 5만원이었다.\n\n{name}은 그걸 다시 투자하거나 복권을 더 사지 않았다.\n그냥 밥을 사먹었다. 좋은 거 먹었다.\n\n그게 복권의 올바른 사용법인지는 모르겠지만, 기분은 좋았다.",
         "follow_up_event": ""
       }

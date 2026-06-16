@@ -186,6 +186,9 @@ func _check_conditions(conditions):
 				if bool(req) and GameState.current_job.is_empty(): return false
 			"no_job":
 				if bool(req) and not GameState.current_job.is_empty(): return false
+			"job_id":
+				# 특정 직업 id와 일치해야 발동 (e.g. "job_01"이면 편의점 알바만)
+				if GameState.current_job.get("id", "") != str(req): return false
 			"min_job_tier":
 				# 현재 직업 티어가 req 미만이면 제외 (무직이면 tier 0으로 취급)
 				var cur_tier = int(GameState.current_job.get("tier", 0))
