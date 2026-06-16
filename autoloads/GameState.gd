@@ -94,8 +94,8 @@ var appearance = 50
 var investment_skill = 12
 var luck = 45
 
-var action_points = 3
-var max_action_points = 3
+var action_points = 2
+var max_action_points = 2
 var tutorial_step = 3
 
 var route_orthodox: int = 0
