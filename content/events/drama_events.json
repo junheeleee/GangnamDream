@@ -181,12 +181,12 @@
           "intelligence": 5,
           "social_skill": 4,
           "stress": 18,
-          "mental": -5,
-          "flag": "joined_startup"
+          "mental": -5
         },
         "result_text": "사표를 냈다. 통장 잔고가 빠르게 줄어들 것이다. 성공하면 인생이 바뀐다.",
         "flags": [
-          "startup_launched"
+          "startup_launched",
+          "joined_startup"
         ]
       },
       {
@@ -234,8 +234,7 @@
           "social_skill": 6,
           "reputation": 15,
           "stress": 5,
-          "money": 500000,
-          "flag": "chaebol_connection"
+          "money": 500000
         },
         "relationship_effects": [
           {
@@ -246,7 +245,10 @@
             "trust": 35
           }
         ],
-        "result_text": "연락처를 교환했다. 일주일 뒤, 소규모 모임에 초대됐다. 강남의 문이 조금 열렸다."
+        "result_text": "연락처를 교환했다. 일주일 뒤, 소규모 모임에 초대됐다. 강남의 문이 조금 열렸다.",
+        "flags": [
+          "chaebol_connection"
+        ]
       },
       {
         "text": "가볍게 대화만 나누고 자리를 뜬다",
@@ -368,10 +370,12 @@
           "money": -8000000,
           "mental": 20,
           "stress": 15,
-          "reputation": 8,
-          "flag": "bought_apartment"
+          "reputation": 8
         },
-        "result_text": "계약서에 도장을 찍었다. 2년 뒤 입주. 손이 계속 떨렸다. 이게 진짜 내 집이라는 게 실감이 안 났다."
+        "result_text": "계약서에 도장을 찍었다. 2년 뒤 입주. 손이 계속 떨렸다. 이게 진짜 내 집이라는 게 실감이 안 났다.",
+        "flags": [
+          "bought_apartment"
+        ]
       },
       {
         "text": "지금은 자금이 부족하다 — 포기한다",
@@ -1191,10 +1195,12 @@
           "money": 80000000,
           "mental": 20,
           "stress": -20,
-          "reputation": 25,
-          "flag": "startup_exit"
+          "reputation": 25
         },
-        "result_text": "서명했다. 8천만원이 통장에 들어왔다.\n\n팀원들과 마지막으로 술 한 잔 했다. 아무도 말이 없었다.\n잘한 건지 모르겠다. 근데 숫자는 거짓말을 안 한다."
+        "result_text": "서명했다. 8천만원이 통장에 들어왔다.\n\n팀원들과 마지막으로 술 한 잔 했다. 아무도 말이 없었다.\n잘한 건지 모르겠다. 근데 숫자는 거짓말을 안 한다.",
+        "flags": [
+          "startup_exit"
+        ]
       },
       {
         "text": "거절한다 — 더 크게 키운다",
@@ -1235,10 +1241,12 @@
           "money": 12000000,
           "investment_skill": 8,
           "stress": 10,
-          "luck": 5,
-          "flag": "political_winner"
+          "luck": 5
         },
-        "result_text": "선거 결과가 나온 날 새벽 4시, 차트를 보며 손가락을 뻗었다.\n\n매도. 확인.\n\n1200만원. 계좌가 달라졌다.\n이 도시에서 정보는 돈이고, 타이밍이 전부라는 걸 몸으로 배웠다."
+        "result_text": "선거 결과가 나온 날 새벽 4시, 차트를 보며 손가락을 뻗었다.\n\n매도. 확인.\n\n1200만원. 계좌가 달라졌다.\n이 도시에서 정보는 돈이고, 타이밍이 전부라는 걸 몸으로 배웠다.",
+        "flags": [
+          "political_winner"
+        ]
       },
       {
         "text": "소액만 테스트해본다",

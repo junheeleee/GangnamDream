@@ -3634,9 +3634,8 @@
       {
         "text": "마지막 스퍼트를 위한 계획을 세운다.",
         "effects": {
-          "intelligence": 3,
-          "stress": 5,
-          "action_points": 1
+          "intelligence": 4,
+          "stress": 5
         },
         "result_text": "노트를 펼쳤다. 남은 15개월, 할 수 있는 것들을 적었다.\n\n리스트는 생각보다 길었다. 아직 하지 않은 것들이 이만큼 남아있었다.\n\n시작한다.",
         "flags": []
