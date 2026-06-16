@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-06-16 후반 (AP 정리 + 내레이션 버그 수정)
+
+### AP 기본값 정리
+- `GameState.gd` `var action_points = 3` → 2. `start_new_game()`이 항상 2로 덮어쓰므로 선언도 일치시킴.
+
+### 내레이션·마감힌트 turn→개월 버그 수정 (MainGame.gd)
+- 배경: 캘린더가 turn=주(240턴=5년) 모델인데, `_month_narration()`은 turn을 개월로 취급(구 60턴 모델 잔재)
+- 수정: `var me = (age-33)*12 + month` 도입 → `t==12` 등 모든 비교를 `me` 기반으로 교체
+- 마감 힌트: `60 - turn + 1` → `(38 - age)*12 - month + 1`
+- CLAUDE.md "60턴" → "60개월 = 240턴(주)" 수정
+- 오딧 ERROR 0 / WARNING 0 유지
+
 ## 2026-06-16 (챕터 카드 + 챕터1 반응형 밀도 강화 + 고아 플래그 콜백)
 
 ### 세션 목표

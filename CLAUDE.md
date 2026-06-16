@@ -8,12 +8,62 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **챕터 카드 + 챕터1 반응형 밀도 강화 완료** |
-| **최근 완료** | **챕터 카드 5종 + Chapter 1 아크 콜백 7종** (2026-06-16) — 연도별 챕터 타이틀 카드(챕터1~5: 시작/확장/무게/균열/강남), t9 자산 반응형 3분기 씬, 편의점 알바 맥락 정합성 수정, `instant_legend` 히든 엔딩, Chapter 1 플래그 콜백 7개(considered_parttime·budget_planned·set_monthly_goal·kept_quiet_money·early_greed·knocked_on_wall·stayed_grounded → t14~24 반응 이벤트) |
-| **다음 작업** | **QA 플레이스루** — 실제 Godot 실행 후 챕터 카드 타이밍·챕터1 반응 씬 흐름 검증 |
+| **단계** | **버그 수정 + 내레이션 정합성 완료** |
+| **최근 완료** | 2026-06-16 세션 — 아래 "이번 세션 완료 목록" 참조 |
+| **다음 작업** | **QA 플레이스루** — Godot 실행 후 챕터 카드 타이밍·반응 씬 흐름 검증 |
 | **마지막 업데이트** | 2026-06-16 |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
+
+---
+
+## ✅ 이번 세션 완료 목록 (2026-06-16, 컨텍스트 압축 대비)
+
+### 캘린더 시스템
+- **turn = 1주(週)**. 1개월 = 4턴. 5년 = 240턴 = 60개월. 종료 조건 = `age >= 38`.
+- balance_sim / SimRun / 구 문서는 "turn=월" 모델로 작성돼 있었음 — **이미 인지된 기술 부채**.
+- `_month_narration()` 에서 `t`(주 카운터)를 월로 잘못 쓰던 것 → `me = (age-33)*12 + month`(경과 개월)로 전면 교체 완료.
+- 마감 힌트 `turns_left`: `60 - turn + 1` → `(38 - age)*12 - month + 1` 수정 완료.
+
+### AP
+- `GameState.gd` 선언 기본값 `action_points = 3` → **2**. 실제 `start_new_game()`은 항상 2로 세팅. 선언값만 정리. 게임 동작 무변.
+
+### 챕터 카드 (chapter_cards.json)
+- 5종: `chapter_card_33`(시작) / `34`(확장) / `35`(무게) / `36`(균열) / `37`(강남)
+- 트리거: `_next_arc_id()` 최상단 — prologue_done → chapter_33_seen → 이후 age별 자동 발동
+- 플래그 일치 확인: `chapter_33_seen` ~ `chapter_37_seen` set/read 완벽 매칭 (무한루프 없음)
+
+### t9 반응형 씬 (arc_events.json)
+- `arc_money_check_low` / `mid` / `high` — `get_total_asset_value()` 구간별 3가지 다른 씬
+- `arc_gosiwon_wall` (t11, gosiwon 거주 중에만)
+
+### 알바/편의점 개연성 수정
+- `has_job: false` 조건이 `if bool(false)` → 항상 false인 버그 발견 → **`job_id: "job_01"` 조건으로 전면 교체**
+- 편의점 점원 고정 씬(`rare_celeb_convenience` 등 5개) 수정
+- `arc_intro_02_dad_call`: "편의점 야간 알바" → "고시원 방 새벽 3시" (무직자에게도 맞는 설정)
+- `arc_jiyeon_02_store`: 플레이어=점원 → 플레이어=손님(편의점 나오는 중)
+- `relationship_events.json`의 `daeun_meet` 삭제 (플레이어=점원 고정 모순)
+- `arc_daeun_01_meet`에 `daeun_met` / `daeun_first_kind` 플래그 추가 (고아 에러 해소)
+- `EventManager.gd`: `job_id` 조건 키 신규 추가
+
+### instant_legend 히든 엔딩
+- `age <= 33` + 자산 30억 → `finish_run("instant_legend")` 분기 (GameState.gd)
+- endings.json: grade `"?"`, title "신화", background "gangnam_apartment"
+- MainGame.gd: `"?": "#a855f7"` (보라) / `"?": "👁"` grade 표시 추가
+
+### Chapter 1 고아 플래그 콜백 (callback_events_27.json)
+- 7개 이벤트, t13~24 범위 발동:
+  - `callback_parttime_survived` ← `considered_parttime`
+  - `callback_budget_check_in` ← `budget_planned`
+  - `callback_mid_goal_echo` ← `set_monthly_goal`
+  - `callback_quiet_money_patience` ← `kept_quiet_money`
+  - `callback_early_greed_humbled` ← `early_greed`
+  - `callback_gosiwon_wall_echo` ← `knocked_on_wall`
+  - `callback_stayed_grounded_echo` ← `stayed_grounded`
+
+### 오딧 / 밸런스
+- ERROR 0, WARNING 0 유지 중
+- 밸런스 밴드: 무직 실패 100%, 직장 실패 0%, 베팅 30억 도달 14.8% — 전부 통과
 
 ---
 
