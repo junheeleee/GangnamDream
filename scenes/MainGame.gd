@@ -793,6 +793,9 @@ func _maybe_show_tutorial() -> void:
 	if GameState.flags.get("tutorial_shown", false):
 		return
 	GameState.flags["tutorial_shown"] = true
+	# TutorialOverlay가 이미 main_game 슬라이드를 보여줬다면 중복 팝업 생략
+	if TutorialOverlay._seen.get("main_game", false):
+		return
 	_show_tutorial()
 
 func _show_tutorial() -> void:
@@ -818,7 +821,7 @@ func _show_tutorial() -> void:
 		"① 이달의 이벤트가 화면에 펼쳐집니다\n"
 		+ "② ⚡ AP(행동력)로 추가 행동을 선택\n"
 		+ "   (구직 · 투자 · 자기계발 · 휴식 · 미니게임)\n"
-		+ "③ [다음 달 ▶] 버튼으로 넘어갑니다", 13, "#c8d0df"))
+		+ "③ [다음 주 ▶] 버튼으로 넘어갑니다", 13, "#c8d0df"))
 	modal_body.add_child(_goal_sep())
 
 	# ── 선택이 쌓이면 삶이 된다 ──
@@ -5966,55 +5969,6 @@ func _open_title_collection():
 	close_btn.pressed.connect(_close_modal)
 	modal_body.add_child(close_btn)
 
-func _show_tutorial_intro():
-	_open_modal("🏙 강남드림에 오신 걸 환영해요")
-
-	modal_body.add_child(_wrap_label(
-		"서울 고시원, 통장 50만원. 서른셋 백수.\n38세 전 자산 30억 — 강남 입성이 목표입니다.",
-		15, "#e8eaf0"))
-
-	var sep0 = HSeparator.new()
-	sep0.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep0)
-
-	# 한 달의 흐름
-	modal_body.add_child(_label("📅  한 달의 흐름", 13, "#f0b429"))
-	modal_body.add_child(_wrap_label(
-		"⚡ AP 3개 사용해 행동 선택  →  ▶ 다음 달로  →  이벤트 발생  →  반복",
-		12, "#8892a4"))
-
-	var sep1 = HSeparator.new()
-	sep1.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep1)
-
-	# 생존 법칙
-	modal_body.add_child(_label("⚠  생존 법칙", 13, "#f0b429"))
-	var rules = [
-		["💼 취업이 먼저", "수입 없이는 2개월 안에 파산해요. 첫 달에 꼭 취업하세요."],
-		["❤️ 건강·정신 = 0", "어느 하나라도 0이 되면 즉시 게임오버입니다."],
-		["📈 투자는 취업 후", "첫 월급을 받으면 투자·상점이 열려요. 그 전엔 불가능해요."],
-		["🏠 이사로 버프", "자산이 쌓이면 고시원→원룸→아파트→강남으로 이사하세요."],
-	]
-	for rule in rules:
-		var row = HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
-		modal_body.add_child(row)
-		var key_lbl = _label(rule[0], 12, "#cbd5e1")
-		key_lbl.custom_minimum_size = Vector2(120, 0)
-		row.add_child(key_lbl)
-		row.add_child(_wrap_label(rule[1], 12, "#64748b"))
-
-	var sep2 = HSeparator.new()
-	sep2.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep2)
-
-	modal_body.add_child(_wrap_label(
-		"🎯  목표: 자산 30억 = 강남 입성 = 강남드림!\n    38세(턴 60)까지 — 5년, 60턴.",
-		13, "#00c896"))
-
-	var start_btn = _button("서울 생활 시작 →", "#1f6feb")
-	start_btn.pressed.connect(_close_modal)
-	modal_body.add_child(start_btn)
 
 
 ## A-4: 금융 용어 설명 모달
