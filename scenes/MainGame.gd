@@ -1016,6 +1016,17 @@ func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
 
+	# ══ 챕터 전환 카드 — 연도(나이) 넘어가는 첫 턴 ══════════
+	var _age = GameState.age
+	if _age == 34 and not f.get("chapter_34_seen", false):
+		return "chapter_card_34"
+	if _age == 35 and not f.get("chapter_35_seen", false):
+		return "chapter_card_35"
+	if _age == 36 and not f.get("chapter_36_seen", false):
+		return "chapter_card_36"
+	if _age == 37 and not f.get("chapter_37_seen", false):
+		return "chapter_card_37"
+
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
 			and not f.get("arc_goshiwon_goodbye_seen", false):

@@ -6,6 +6,7 @@ const EVENT_PATHS = [
 	"res://content/events/arc_midgame.json",
 	"res://content/events/arc_daeun.json",
 	"res://content/events/arc_specialization.json",
+	"res://content/events/chapter_cards.json",
 	"res://content/events/scenario_cafe.json",
 	"res://content/events/scenario_cafe_callback.json",
 	"res://content/events/amb_scenarios.json",

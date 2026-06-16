@@ -1,0 +1,90 @@
+[
+  {
+    "id": "chapter_card_34",
+    "title": "챕터 2",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "chapter_card"],
+    "cooldown": 9999,
+    "description": "확장\n\n34세. 2027년.\n\n내가 모르던 세계의 문이 열린다.",
+    "choices": [
+      {
+        "text": "계속",
+        "effects": {},
+        "flags": ["chapter_34_seen"],
+        "result_text": "2027년이 시작됐다."
+      }
+    ]
+  },
+  {
+    "id": "chapter_card_35",
+    "title": "챕터 3",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "chapter_card"],
+    "cooldown": 9999,
+    "description": "무게\n\n35세. 2028년.\n\n선택한 방향의 대가가 청구된다.",
+    "choices": [
+      {
+        "text": "계속",
+        "effects": {},
+        "flags": ["chapter_35_seen"],
+        "result_text": "2028년이 시작됐다."
+      }
+    ]
+  },
+  {
+    "id": "chapter_card_36",
+    "title": "챕터 4",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "chapter_card"],
+    "cooldown": 9999,
+    "description": "배신과 도박\n\n36세. 2029년.\n\n사람이 가장 큰 변수다.",
+    "choices": [
+      {
+        "text": "계속",
+        "effects": {},
+        "flags": ["chapter_36_seen"],
+        "result_text": "2029년이 시작됐다."
+      }
+    ]
+  },
+  {
+    "id": "chapter_card_37",
+    "title": "챕터 5",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "chapter_card"],
+    "cooldown": 9999,
+    "description": "입성 또는 실패\n\n37세. 2030년.\n\n끝은 숫자가 아니라 사람으로 결정된다.",
+    "choices": [
+      {
+        "text": "계속",
+        "effects": {},
+        "flags": ["chapter_37_seen"],
+        "result_text": "2030년이 시작됐다. 마지막 해다."
+      }
+    ]
+  }
+]
