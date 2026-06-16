@@ -1,0 +1,149 @@
+[
+  {
+    "id": "arc_hyunsu_night_talk",
+    "title": "새벽 2시, 라면",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "hyunsu"],
+    "cooldown": 9999,
+    "description": "고시원 공용 부엌. 새벽 2시.\n\n냉장고를 열러 나왔다가 현수가 있는 걸 봤다.\n\n4년째 공시생. 볼 때마다 이어폰에 인강이었는데, 오늘은 라면 봉지만 뜯고 창밖을 보고 있었다. {name}이 물을 끓이면서 물었다. \"오늘은 공부 안 해?\"\n\n현수가 돌아봤다. 눈이 좀 빨개져 있었다.\n\n\"...형은요. 그 30억, 진짜 될 것 같아요?\"",
+    "choices": [
+      {
+        "text": "\"그럼. 안 되면 어쩔 건데.\" — 확신 있게",
+        "effects": { "mental": 2, "stress": 2 },
+        "flags": ["arc_hyunsu_night_seen"],
+        "result_text": "\"그거면 됐죠, 뭐.\" 현수는 라면을 다시 먹기 시작했다. 뭔가를 확인한 것처럼.\n\n그날 밤, 둘 다 아무 말 없이 각자 끓인 거 먹었다. 부엌에서 냉장고 돌아가는 소리만 났다."
+      },
+      {
+        "text": "\"모르겠어. 근데 안 하면 확실히 안 되잖아.\"",
+        "effects": { "mental": 4, "social_skill": 1 },
+        "flags": ["arc_hyunsu_night_seen", "shared_doubt_with_hyunsu"],
+        "result_text": "현수가 웃었다. \"그게 더 무서운 말이에요.\"\n\n잠깐 침묵이 흘렀다. 밖에서 차 소리가 한 번 지나갔다. 라면이 다 불었는데 아무도 건드리지 않았다."
+      },
+      {
+        "text": "\"너는 될 것 같아?\" — 되물어본다",
+        "effects": { "intelligence": 1, "stress": -2 },
+        "flags": ["arc_hyunsu_night_seen"],
+        "result_text": "현수가 한동안 말이 없었다. \"...모르겠어요. 근데 그게 제일 무서운 거예요.\"\n\n둘이 라면을 먹으면서 한참 아무 말도 안 했다. 이상하게 편한 침묵이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_midpoint_reckoning",
+    "title": "반환점",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "33세에 시작했다. 지금 — 2년 반이 지났다.\n\n5년의 절반.\n\n핸드폰 계산기를 꺼냈다. 목표: 30억. 남은 시간: 30개월.\n한 달에 얼마씩 불려야 하는지 계산했다.\n\n숫자가 나왔다. {name}은 화면을 잠시 들여다봤다.\n\n불가능한 숫자는 아니었다. 하지만 지금 속도로는 — 무언가 달라져야 했다.\n밖에서 편의점 알바 끝난 현수가 들어오는 소리가 났다.",
+    "choices": [
+      {
+        "text": "\"더 크게 베팅해야 한다.\" — 속도를 올린다",
+        "effects": { "investment_skill": 1, "stress": 5, "mental": -2 },
+        "flags": ["arc_midpoint_reckoning_seen", "midpoint_bet_more"],
+        "result_text": "두려움보다 흥분이 앞섰다. 이제 와서 안전하게 가면 늦는다.\n\n지금까지 잃지 않은 게 다행인 거고 — 이제부터가 진짜다."
+      },
+      {
+        "text": "\"지금 방식이 맞다. 흔들리지 않는다.\" — 버틴다",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_midpoint_reckoning_seen", "midpoint_steady"],
+        "result_text": "2년 반 동안 포기하지 않았다. 그게 증거다.\n\n이 판은 빠른 사람이 이기는 게임만은 아니다. 버티는 사람이 남는 게임이기도 하다."
+      },
+      {
+        "text": "\"전략을 다시 짜야 한다.\" — 멈추고 생각한다",
+        "effects": { "intelligence": 2, "stress": 2 },
+        "flags": ["arc_midpoint_reckoning_seen", "midpoint_replan"],
+        "result_text": "빠른 것보다 올바른 게 낫다고 배웠다.\n\n지금까지의 선택들을 하나씩 다시 들여다봤다. 뭔가 조정이 필요한 부분이 있었다. 보이기 시작했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_offguard",
+    "title": "임상철의 빈틈",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철 씨 사무소. 계약 서류를 같이 검토하다 늦어졌다.\n\n그가 전화를 받으러 자리를 비웠다. 10분. 15분.\n\n돌아왔을 때 평소와 다른 얼굴이었다. 말없이 서류를 펼쳤다가, 갑자기 꺼냈다.\n\n\"아들내미 전화였어. 대학 그만두겠다고.\"\n\n물어보지 않았는데 그가 말했다. \"공부를 안 하겠다는 건지, 그냥 싫다는 건지. 나도 잘 모르겠어.\"\n\n이 사람이 이런 말을 꺼낸 건 처음이었다.",
+    "choices": [
+      {
+        "text": "\"힘드시겠다.\" — 조용히 공감한다",
+        "effects": { "social_skill": 1, "stress": -2 },
+        "flags": ["arc_sangchul_offguard_seen"],
+        "cast_effects": { "sangchul": { "affinity": 3 } },
+        "result_text": "임상철 씨가 잠깐 멈추더니 서류를 다시 폈다. \"어쩌겠어. 그것도 사람 일이지.\"\n\n그날 이후로 그를 조금 다르게 봤다. 30년 경력 아래에도 이런 것들이 있었다."
+      },
+      {
+        "text": "\"임상철 씨는 그때 어떻게 하셨어요?\" — 궁금해진다",
+        "effects": { "intelligence": 1 },
+        "flags": ["arc_sangchul_offguard_seen", "sangchul_personal_known"],
+        "cast_effects": { "sangchul": { "affinity": 5 } },
+        "result_text": "\"나는? 나는 그냥 버텼지.\" 그가 창밖을 보면서 말했다. \"버티다 보면 뭐가 보이더라. 지금 와서 말하는 거지만.\"\n\n짧은 침묵이 흘렀다. 30년이 그 침묵 안에 있는 것 같았다."
+      },
+      {
+        "text": "\"아드님은 뭘 하고 싶은 거래요?\" — 자식 얘기로 넘어간다",
+        "effects": { "stress": -1 },
+        "flags": ["arc_sangchul_offguard_seen"],
+        "cast_effects": { "sangchul": { "affinity": 2 } },
+        "result_text": "\"그게 없으니까 문제지.\" 임상철 씨가 말했다.\n\n그 말이 나한테도 해당되는 것 같아서 — {name}은 아무 말도 하지 못했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_job_vs_invest",
+    "title": "팀장의 말",
+    "background": "office",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "job"],
+    "cooldown": 9999,
+    "description": "오후 4시. 팀장이 불렀다.\n\n\"요즘 집중이 좀 안 돼 보여서.\"\n\n{name}은 오전 회의 중에 주식 앱을 봤었다. 잠깐이라고 생각했는데.\n\n팀장이 직접 그 얘기를 꺼내진 않았다. 그냥 \"요즘 어때요. 일이 힘든 건 아니죠?\" 라고 물었다.\n\n여기서 월급을 받아야 한다. 그리고 저기서 돈을 벌어야 한다.\n이 두 가지를 동시에 하는 게 — 가능한 걸까.",
+    "choices": [
+      {
+        "text": "\"죄송합니다. 정신 차리겠습니다.\" — 직장을 잡는다",
+        "effects": { "stress": -3, "reputation": 1, "mental": -2 },
+        "flags": ["arc_job_invest_clash_seen", "recommitted_to_job"],
+        "result_text": "팀장이 고개를 끄덕이고 보냈다. 자리로 돌아오면서 {name}은 주식 앱 알림을 껐다.\n\n이 결정이 옳은 건지, 아니면 기회를 또 놓치는 건지 — 퇴근 때까지 몰랐다."
+      },
+      {
+        "text": "솔직하게 털어놓는다 — \"개인적으로 공부하는 게 있어서요\"",
+        "effects": { "social_skill": 1, "stress": 4, "reputation": 1 },
+        "flags": ["arc_job_invest_clash_seen", "honest_to_boss"],
+        "result_text": "팀장의 눈빛이 달라졌다. \"그래요? 어떤 공부요?\"\n\n생각보다 대화가 길어졌다. 팀장도 주식에 관심이 있었다. 예상 못 한 전환이었다. 이게 도움이 될지, 감시가 될지는 아직 모른다."
+      },
+      {
+        "text": "\"좀 피곤했었어요. 조심하겠습니다.\" — 넘어간다",
+        "effects": { "stress": 5, "mental": -3 },
+        "flags": ["arc_job_invest_clash_seen"],
+        "result_text": "팀장은 믿었는지 아닌지 모를 표정으로 보냈다. {name}은 자리에 돌아와 핸드폰을 서랍 안에 넣었다.\n\n이 생활이 언제까지 갈 수 있을까. 대답을 내일로 미뤘다."
+      }
+    ]
+  }
+]

@@ -1148,6 +1148,11 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_jiyeon_03b_lunch"
 
+	# ── 임상철 인간적 면 — 아들 전화 이후 빈틈 (네트워크 이벤트 이후) ──
+	if t >= 26 and f.get("arc_sangchul_03_seen", false) \
+			and not f.get("arc_sangchul_offguard_seen", false):
+		return "arc_sangchul_offguard"
+
 	# ── 임상철 관계 심화 ──
 	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
@@ -1168,7 +1173,23 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
 
+	# ── 직장+투자 충돌 — 직장 있고 투자 시작했을 때 (턴 20~30) ──
+	if t >= 20 and t <= 30 \
+			and not GameState.current_job.is_empty() \
+			and GameState.investment_skill >= 10 \
+			and not f.get("arc_job_invest_clash_seen", false):
+		return "arc_job_vs_invest"
+
+	# ── 반환점 — 5년의 절반 (턴 30) ──
+	if t >= 30 and not f.get("arc_midpoint_reckoning_seen", false):
+		return "arc_midpoint_reckoning"
+
 	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=19으로 단축) ══
+	# ── 현수 — 밤 라면 대화 (턴 20+, 만남 이후) ──
+	if t >= 20 and f.get("arc_intro_hyunsu_seen", false) \
+			and not f.get("arc_hyunsu_night_seen", false):
+		return "arc_hyunsu_night_talk"
+
 	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
 	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
