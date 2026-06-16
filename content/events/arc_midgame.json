@@ -821,5 +821,120 @@
         "result_text": "여기까지 왔는데 왜 두렵지. {name}은 잠깐 생각했다. 실패가 두려운 게 아니라 — 성공이 두려운 걸 수도 있다는 생각이 들었다."
       }
     ]
+  },
+  {
+    "id": "arc_daeun_money_gap",
+    "title": "다은이 모르는 것",
+    "background": "cafe",
+    "portrait": "daeun_smile",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "daeun"],
+    "cooldown": 9999,
+    "description": "다은이 커피 값을 내려고 했다.\n\n{name}이 먼저 냈다. 그때 폰에 카드 알림이 떴다 — 투자 계좌에 들어온 배당 두 자릿수 숫자.\n\n다은은 눈치채지 못했다. {name}은 폰 화면을 빨리 껐다.\n\n이 사람한테 내 통장을 보여줄 수 있을까. 아직 그 단계가 아닌 것 같다.",
+    "choices": [
+      {
+        "text": "그냥 넘어갔다 — 아직은 말하기 어렵다",
+        "effects": { "stress": 2, "mental": -2 },
+        "flags": ["arc_daeun_money_gap_seen"],
+        "cast_effects": { "daeun": { "affinity": -1 } },
+        "result_text": "다은은 \"카페 이번엔 내가 살게\" 했다. {name}은 웃으면서 \"그래\"라고 했다. 거짓말이 아니었는데, 뭔가 숨긴 것 같은 기분이었다."
+      },
+      {
+        "text": "\"나 요즘 투자 좀 되고 있어\" — 조금 말했다",
+        "effects": { "stress": -2, "mental": 3 },
+        "flags": ["arc_daeun_money_gap_seen", "told_daeun_investing"],
+        "cast_effects": { "daeun": { "affinity": 2 } },
+        "result_text": "다은이 \"그래? 얼마나?\" 물었다. {name}은 \"조금.\"이라고 했다. 그 정도면 됐다. 숫자까지 말하지 않아도 뭔가 나눈 것 같았다."
+      },
+      {
+        "text": "다 말하기로 했다 — 이 사람은 믿을 수 있다",
+        "effects": { "stress": -5, "mental": 5, "social_skill": 1 },
+        "flags": ["arc_daeun_money_gap_seen", "told_daeun_everything"],
+        "cast_effects": { "daeun": { "affinity": 4 } },
+        "result_text": "다은이 한동안 말이 없었다. \"진짜 대단하다.\" 비꼬는 게 아니었다. 그냥 그 말이었다. {name}은 그게 이상하게 부담스러웠다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_human",
+    "title": "임상철의 이름",
+    "background": "restaurant",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철이 밥을 샀다.\n\n비싼 한우집이었다. 소주도 한 잔 했다. 임상철이 처음으로 \"저 어렸을 때\" 얘기를 꺼냈다.\n\n인천 변두리. 부두 노동자 아버지. 야간대. 30대 초반에 처음으로 아파트를 샀을 때 혼자 울었다고.\n\n처음 듣는 얘기였다.",
+    "choices": [
+      {
+        "text": "\"저도 비슷한 상황에서 시작했어요\" — 공감했다",
+        "effects": { "social_skill": 2, "mental": 3 },
+        "flags": ["arc_sangchul_human_seen", "shared_with_sangchul"],
+        "cast_effects": { "sangchul": { "affinity": 4 } },
+        "result_text": "임상철이 잠깐 봤다. \"그래서 자네가 눈에 띄었어.\" 소주를 한 잔 더 따랐다. 그날 처음으로 그가 '선생님'이 아니라 '사람'처럼 느껴졌다."
+      },
+      {
+        "text": "조용히 들었다",
+        "effects": { "intelligence": 1, "mental": 2 },
+        "flags": ["arc_sangchul_human_seen"],
+        "cast_effects": { "sangchul": { "affinity": 2 } },
+        "result_text": "말하지 않아도 됐다. 그냥 들으면 됐다. 임상철이 술잔을 비웠다. \"너무 오래 된 얘기 했네.\" 웃으면서 일어섰다."
+      },
+      {
+        "text": "\"그 집 얼마짜리였어요?\" — 투자 얘기로 틀었다",
+        "effects": { "investment_skill": 1, "stress": -2 },
+        "flags": ["arc_sangchul_human_seen", "sangchul_deflected"],
+        "cast_effects": { "sangchul": { "affinity": -1 } },
+        "result_text": "임상철이 잠깐 멈췄다가 웃었다. \"그게 궁금해?\" 가격을 말해줬다. 분위기가 다시 비즈니스로 돌아왔다. 그게 더 편하기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_after_scam",
+    "title": "사기 당한 다음 날",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "재혁이 잠수를 탔다.\n\n계좌에 남은 돈을 확인했다. 생각보다 많이 빠져나가 있었다. 방에 혼자 앉아 있었다.\n\n화가 나야 하는데 그냥 멍했다. 어떻게 그 놈을 믿었지. 어떻게 나는.",
+    "choices": [
+      {
+        "text": "다시 계획을 잡기 시작했다",
+        "effects": { "intelligence": 2, "mental": -3, "stress": 5 },
+        "flags": ["arc_after_scam_seen", "restarted_after_scam"],
+        "result_text": "잃은 건 잃은 거다. 남은 게 있다. 그걸로 다시 시작하면 된다. {name}은 노트북을 폈다. 손이 조금 떨렸다."
+      },
+      {
+        "text": "현수한테 연락했다",
+        "effects": { "mental": 4, "stress": -4 },
+        "flags": ["arc_after_scam_seen", "called_hyunsu_after_scam"],
+        "cast_effects": { "hyunsu": { "affinity": 3 } },
+        "result_text": "\"형 괜찮아요?\" 현수가 물었다. 괜찮지 않다고 했다. 현수가 \"그래도 다행이에요, 더 잃기 전에 알아서.\" 맞는 말인데 위로가 됐다."
+      },
+      {
+        "text": "하루 종일 아무것도 안 했다",
+        "effects": { "mental": 5, "stress": -5, "health": -2 },
+        "flags": ["arc_after_scam_seen", "did_nothing_after_scam"],
+        "result_text": "밥도 안 먹었다. 누워서 천장만 봤다. 저녁에 편의점에 가서 삼각김밥을 사먹었다. 그게 그날의 전부였다."
+      }
+    ]
   }
 ]

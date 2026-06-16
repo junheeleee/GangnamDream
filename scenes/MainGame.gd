@@ -1163,6 +1163,12 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_offguard_seen", false):
 		return "arc_sangchul_offguard"
 
+	# ── 임상철의 이름 — 밥 한 번 먹고 처음 사람으로 보인 날 (턴 30~42) ──
+	if t >= 30 and t <= 42 \
+			and f.get("arc_sangchul_offguard_seen", false) \
+			and not f.get("arc_sangchul_human_seen", false):
+		return "arc_sangchul_human"
+
 	# ── 임상철 관계 심화 ──
 	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
@@ -1291,6 +1297,12 @@ func _next_arc_id() -> String:
 			and not f.get("arc_jaehyuk_standup_seen", false):
 		return "arc_jaehyuk_04c_stand_up"
 
+	# ── 사기 당한 다음 날 — 재기 이벤트 직전 내적 독백 ──
+	if f.get("arc_jaehyuk_ghost_seen", false) \
+			and f.get("jaehyuk_scammed", false) \
+			and not f.get("arc_after_scam_seen", false):
+		return "arc_after_scam"
+
 	# ── 공유할 수 없는 숫자 — 자산 1억 돌파 후 고독 (턴 20+) ──
 	if t >= 20 \
 			and GameState.get_total_asset_value() >= 100_000_000.0 \
@@ -1321,6 +1333,12 @@ func _next_arc_id() -> String:
 			and GameState.get_total_asset_value() >= 1_000_000_000.0 \
 			and not f.get("arc_almost_there_seen", false):
 		return "arc_almost_there"
+
+	# ── 다은이 모르는 것 — 함께하는 경로, 돈 격차 (턴 28~35) ──
+	if t >= 28 and t <= 35 \
+			and f.get("daeun_chose_her", false) \
+			and not f.get("arc_daeun_money_gap_seen", false):
+		return "arc_daeun_money_gap"
 
 	# ── 다은의 흔적 — 보낸 경우 (턴 43~50) ──
 	if t >= 43 and t <= 50 \
