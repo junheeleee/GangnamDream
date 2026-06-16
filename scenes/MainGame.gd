@@ -3854,6 +3854,9 @@ func _open_leverage_investments():
 			buy_row.add_child(btn)
 		modal_body.add_child(buy_row)
 		var sep2 = HSeparator.new(); sep2.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep2)
+	var back_lev = _button("← 투자 화면으로", "#1a1a28")
+	back_lev.pressed.connect(_open_investments)
+	modal_body.add_child(back_lev)
 
 func _on_leverage_buy(asset_id: String, amount: float):
 	if not GameState.spend_ap():
@@ -4119,6 +4122,15 @@ func _open_investments():
 		var sep = HSeparator.new()
 		sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(sep)
+	# ── 레버리지 투자 진입 (투자감각 30 이상 해금) ──
+	if GameState.investment_skill >= 30:
+		var lev_btn = _button("⚡ 레버리지 투자  —  2배 포지션 고수익·고위험", "#7f1d1d")
+		lev_btn.pressed.connect(_open_leverage_investments)
+		modal_body.add_child(lev_btn)
+	else:
+		modal_body.add_child(_wrap_label(
+			"🔒 레버리지 투자 — 투자감각 30 달성 시 해금 (현재 %d)" % GameState.investment_skill,
+			12, "#4a5a72"))
 
 func _open_shop():
 	_open_modal("🛍 상점")
