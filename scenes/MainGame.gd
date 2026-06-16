@@ -1291,6 +1291,25 @@ func _next_arc_id() -> String:
 			and not f.get("arc_jaehyuk_standup_seen", false):
 		return "arc_jaehyuk_04c_stand_up"
 
+	# ── 공유할 수 없는 숫자 — 자산 1억 돌파 후 고독 (턴 20+) ──
+	if t >= 20 \
+			and GameState.get_total_asset_value() >= 100_000_000.0 \
+			and not f.get("arc_money_loneliness_seen", false):
+		return "arc_money_loneliness"
+
+	# ── 사표 — 자발적 퇴사 직후 드라마 장면 (1회) ──
+	if f.get("just_quit_job", false) \
+			and not f.get("arc_quit_job_seen", false):
+		GameState.flags.erase("just_quit_job")
+		return "arc_quit_job"
+
+	# ── 아버지 약 이야기 — 병원 방문 전 중간 신호 (아버지 01 이후, 02 이전) ──
+	if t >= 22 and t <= 32 \
+			and f.get("arc_father_01_seen", false) \
+			and not f.get("arc_father_medication_seen", false) \
+			and not f.get("arc_father_02_done", false):
+		return "arc_father_medication"
+
 	# ── 막판 한 방 — 1년 남은 시점의 내적 정산 ──
 	if t >= 45 \
 			and GameState.get_total_asset_value() < 2_800_000_000.0 \

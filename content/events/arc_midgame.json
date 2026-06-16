@@ -602,5 +602,116 @@
         "result_text": "새 공간. 새 루틴. 책상 위에 노트북을 폈다. 이 방은 여기서 일하는 방이 되는 거다. 첫날부터 그렇게 정했다."
       }
     ]
+  },
+  {
+    "id": "arc_money_loneliness",
+    "title": "공유할 수 없는 숫자",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "총자산이 1억을 넘었다.\n\n누군가한테 말하고 싶었다. 근데 할 수가 없었다. 부모님은 걱정하실 거고, 친구들은 — 아, 이걸 말할 친구가 지금 몇 명이나 있지.\n\n혼자 폰 화면을 보다가 껐다.",
+    "choices": [
+      {
+        "text": "아버지한테 전화했다 — 그냥 목소리나 들으려고",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_money_loneliness_seen", "called_dad_milestone"],
+        "cast_effects": { "father": { "affinity": 2 } },
+        "result_text": "\"어, 민준아.\" 아버지는 반가워하셨다. 별 말 없었다. 그냥 목소리만 들었다. 끊고 나서 좀 괜찮아졌다."
+      },
+      {
+        "text": "아무한테도 말 안 했다 — 혼자 간직하기로",
+        "effects": { "intelligence": 1, "mental": -3, "stress": 2 },
+        "flags": ["arc_money_loneliness_seen", "kept_milestone_secret"],
+        "result_text": "이 숫자는 내 것이다. {name}은 폰을 내려놓고 다시 엑셀을 열었다. 다음 목표. 혼자는 원래 이런 거다."
+      },
+      {
+        "text": "편의점에서 혼자 캔맥주를 마셨다 — 자축",
+        "effects": { "mental": 3, "stress": -4, "health": -1 },
+        "flags": ["arc_money_loneliness_seen", "solo_celebration"],
+        "result_text": "편의점 앞 플라스틱 의자에 앉아서 캔을 땄다. 혼자 한 잔. 지나가는 사람들은 아무도 몰랐다. 그래도 됐다."
+      }
+    ]
+  },
+  {
+    "id": "arc_quit_job",
+    "title": "사표",
+    "background": "office",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jobs"],
+    "cooldown": 9999,
+    "description": "사표를 냈다.\n\n팀장이 불렀다. \"갑자기 왜?\" 이유를 설명하기 시작했는데 — 어디서부터 말해야 할지 모르겠었다. 투자? 30억? 5년 계획? 그냥 입을 다물었다.\n\n\"개인 사정입니다.\"\n\n팀장이 잠깐 봤다. \"아 그래요.\" 그게 전부였다.",
+    "choices": [
+      {
+        "text": "\"죄송합니다\" — 예의 바르게 마무리했다",
+        "effects": { "stress": -8, "mental": 3, "reputation": 1 },
+        "flags": ["arc_quit_job_seen", "quit_gracefully"],
+        "result_text": "인수인계를 제대로 했다. 마지막 날 팀원들이 케이크를 사왔다. \"잘 돼.\" 그 말이 오래 남았다."
+      },
+      {
+        "text": "\"제가 지금 할 일이 생겼어요\" — 담담하게",
+        "effects": { "stress": -6, "mental": 5, "investment_skill": 1 },
+        "flags": ["arc_quit_job_seen", "quit_confident"],
+        "result_text": "팀장이 뭔가 더 물어보려다 관뒀다. 마지막 날 {name}은 책상을 치우면서 처음으로 이 공간이 이상하게 느껴졌다. 4개월. 거기 있었던 거다."
+      },
+      {
+        "text": "아무 말 없이 도장만 찍었다",
+        "effects": { "stress": -5, "reputation": -1, "mental": 2 },
+        "flags": ["arc_quit_job_seen", "quit_abruptly"],
+        "result_text": "팀장 표정이 굳었다. 뭔가 더 말해야 한다는 걸 알았다. 그냥 나왔다. 엘리베이터 문이 닫혔다. 이제 직장인이 아니다."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_medication",
+    "title": "약 이름",
+    "background": "street_rainy",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "family"],
+    "cooldown": 9999,
+    "description": "어머니한테서 문자가 왔다.\n\n\"아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.\"\n\n대수롭지 않다는 말을 할 때는 대개 대수롭다.",
+    "choices": [
+      {
+        "text": "아버지한테 직접 전화했다",
+        "effects": { "mental": -2, "stress": 3 },
+        "flags": ["arc_father_medication_seen", "called_about_medication"],
+        "cast_effects": { "father": { "affinity": 3 } },
+        "result_text": "\"괜찮아, 그냥 혈압약이야.\" 아버지는 아무렇지 않게 말씀하셨다. 목소리는 괜찮은데 — 뭔가 설명을 너무 빨리 하신다는 게 신경 쓰였다."
+      },
+      {
+        "text": "어머니한테 \"알겠어요\" 하고 넘겼다",
+        "effects": { "stress": 2, "mental": -3 },
+        "flags": ["arc_father_medication_seen", "ignored_medication_signal"],
+        "result_text": "지금은 그것까지 신경 쓸 여유가 없다. 그걸 알면서도 문자를 닫는 손이 좀 무거웠다."
+      },
+      {
+        "text": "주말에 내려가겠다고 했다",
+        "effects": { "mental": 3, "stress": -2, "money": -50000 },
+        "flags": ["arc_father_medication_seen", "visited_for_medication"],
+        "cast_effects": { "father": { "affinity": 4 } },
+        "result_text": "아버지는 \"멀리서 뭘\" 하셨지만 밥을 세 그릇이나 차리셨다. 가서 잘했다. 약통 옆에 오래된 사진이 있었다."
+      }
+    ]
   }
 ]

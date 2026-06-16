@@ -43,6 +43,7 @@ func quit_job(voluntary):
 	GameState.job_tenure = 0
 	GameState.flags.erase("has_job")
 	if voluntary:
+		GameState.flags["just_quit_job"] = true
 		job_changed.emit({})
 
 func process_monthly_job():
