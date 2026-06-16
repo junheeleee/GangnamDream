@@ -7,7 +7,7 @@
     "rarity": "uncommon",
     "weight": 1.2,
     "background": "holdem_club",
-    "conditions": {},
+    "conditions": { "flag": "entered_network" },
     "tags": ["gambling", "holdem", "social"],
     "cooldown": 12,
     "choices": [

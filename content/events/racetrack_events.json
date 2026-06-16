@@ -52,7 +52,7 @@
     "weight": 1.2,
     "background": "racetrack_betting",
     "portrait": "tip_seller",
-    "conditions": {},
+    "hidden": true,
     "tags": [
       "gambling",
       "race",
