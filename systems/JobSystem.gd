@@ -14,7 +14,9 @@ func apply_for_job(job_id):
 	GameState.current_job = job.duplicate(true)
 	GameState.job_tenure = 0
 	GameState.work_performance = 50
-	GameState.monthly_income += float(job.get("base_salary", 0.0))
+	var base_sal := float(job.get("base_salary", 0.0))
+	GameState.current_job["effective_salary"] = base_sal
+	GameState.monthly_income += base_sal
 	GameState.flags["has_job"] = true
 	# 취업 준비 보너스: 이력서 완성 +10, 면접 연습 +7
 	var prep_bonus = 0
@@ -37,7 +39,9 @@ func apply_for_job(job_id):
 func quit_job(voluntary):
 	if GameState.current_job.is_empty():
 		return
-	GameState.monthly_income -= float(GameState.current_job.get("base_salary", 0.0))
+	var eff := float(GameState.current_job.get("effective_salary",
+		GameState.current_job.get("base_salary", 0.0)))
+	GameState.monthly_income -= eff
 	GameState.add_log("%s 퇴사" % GameState.current_job.get("name", "직장"), "job")
 	GameState.current_job = {}
 	GameState.job_tenure = 0
@@ -85,6 +89,8 @@ func get_available_jobs():
 func _promote(job):
 	var bonus = float(job.get("promotion_bonus", 0.0))
 	GameState.monthly_income += bonus
+	GameState.current_job["effective_salary"] = float(GameState.current_job.get("effective_salary",
+		GameState.current_job.get("base_salary", 0.0))) + bonus
 	GameState.add_money(bonus * 2.0)
 	GameState.modify_hidden_stat("reputation", 6)
 	GameState.job_tenure = 0
