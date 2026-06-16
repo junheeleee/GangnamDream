@@ -713,5 +713,113 @@
         "result_text": "아버지는 \"멀리서 뭘\" 하셨지만 밥을 세 그릇이나 차리셨다. 가서 잘했다. 약통 옆에 오래된 사진이 있었다."
       }
     ]
+  },
+  {
+    "id": "arc_almost_there",
+    "title": "10억을 넘긴 날",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "총자산 10억.\n\n숫자가 맞는지 세 번 확인했다. 맞았다. 10억 2천만원.\n\n33세에 50만원으로 시작했다. 지금 10억이다. 이걸 어떻게 받아들여야 하지.\n\n근데 목표는 30억이다. 아직 20억이 남았다. 그게 더 무겁게 느껴졌다.",
+    "choices": [
+      {
+        "text": "더 가야 한다 — 계획을 짰다",
+        "effects": { "intelligence": 2, "stress": 4, "mental": -2 },
+        "flags": ["arc_almost_there_seen", "double_down_at_10b"],
+        "result_text": "잠을 못 잤다. 계획표를 다시 짰다. 가속이 필요하다. 돈이 돈을 만드는 구간. 이걸 놓치면 안 된다."
+      },
+      {
+        "text": "오늘은 쉬기로 했다",
+        "effects": { "mental": 6, "stress": -5, "health": 2 },
+        "flags": ["arc_almost_there_seen"],
+        "result_text": "노트북을 닫았다. 오늘 하루는 그냥 10억짜리 사람으로 살기로 했다. 내일부터 다시 30억을 향해 달리면 된다."
+      },
+      {
+        "text": "30억이 더 멀어 보였다",
+        "effects": { "mental": -4, "stress": 5 },
+        "flags": ["arc_almost_there_seen", "ten_b_anxiety"],
+        "result_text": "10억을 넘기면 더 자유로울 줄 알았다. 근데 30억이 더 선명하게 느껴졌다. 그만큼만 더. 그 \"만큼\"이 산이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_trace",
+    "title": "다은의 흔적",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "daeun"],
+    "cooldown": 9999,
+    "description": "편의점에 들어갔다가 다은이 생각났다.\n\n그가 항상 카운터 안에 있던 자리. 지금은 다른 알바생이 있다. {name}이 캔커피를 집으면서 잠깐 멈췄다.\n\n그때 그 자리에서 얼마나 많은 대화를 했나.",
+    "choices": [
+      {
+        "text": "그냥 계산했다 — 지나간 일이다",
+        "effects": { "mental": -2, "stress": -1 },
+        "flags": ["arc_daeun_trace_seen"],
+        "result_text": "그 시절이 그리운 건지 그가 그리운 건지 모르겠었다. 캔커피를 다 마시고 버렸다."
+      },
+      {
+        "text": "잠깐 그 자리에서 서 있었다",
+        "effects": { "mental": -4, "stress": 2 },
+        "flags": ["arc_daeun_trace_seen", "lingered_for_daeun"],
+        "result_text": "알바생이 \"뭐 더 필요하세요?\" 물었다. {name}은 \"아니요\" 했다. 다은이 그 말 대신 뭐라고 했을까. 기억이 나지 않았다."
+      },
+      {
+        "text": "다은한테 메시지를 썼다 — 지우고 안 보냈다",
+        "effects": { "mental": -5, "stress": 3 },
+        "flags": ["arc_daeun_trace_seen", "almost_messaged_daeun"],
+        "result_text": "\"잘 지내?\" 세 글자를 썼다가 지웠다. 보내는 게 맞는지 모르겠었다. 안 보내는 게 더 예의 있는 건지도 모르겠었다. 편의점을 나왔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_stretch",
+    "title": "끝이 보인다",
+    "background": "gangnam_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "강남대로를 걸었다.\n\n5년 전, 여기서 저 아파트를 올려다봤다. \"저기 살 수 있을까.\" 농담처럼 했던 생각이다.\n\n지금 총자산이 20억을 넘겼다. 10억이 남았다. 1년 안에 가능하다. 계산상으로는.\n\n그게 진짜라는 게 실감이 안 난다.",
+    "choices": [
+      {
+        "text": "그 아파트를 다시 올려다봤다",
+        "effects": { "mental": 6, "stress": -3 },
+        "flags": ["arc_final_stretch_seen", "looked_up_apartment"],
+        "result_text": "5층 불빛이 켜져 있었다. 거기서 누가 살고 있다. 조만간 저 자리가 내 것이 된다. 그 생각을 하고 돌아섰다."
+      },
+      {
+        "text": "길을 걸으면서 숫자를 계산했다",
+        "effects": { "intelligence": 2, "stress": 3, "mental": -1 },
+        "flags": ["arc_final_stretch_seen", "calculated_final_push"],
+        "result_text": "월 수익률, 복리, 남은 개월 수. 머릿속에서 자동으로 굴러갔다. 길에서 계산기를 꺼낸 게 창피하지 않았다."
+      },
+      {
+        "text": "두렵다는 걸 처음으로 인정했다",
+        "effects": { "mental": 5, "stress": -2 },
+        "flags": ["arc_final_stretch_seen", "admitted_fear"],
+        "result_text": "여기까지 왔는데 왜 두렵지. {name}은 잠깐 생각했다. 실패가 두려운 게 아니라 — 성공이 두려운 걸 수도 있다는 생각이 들었다."
+      }
+    ]
   }
 ]

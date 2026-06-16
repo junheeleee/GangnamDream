@@ -1316,6 +1316,25 @@ func _next_arc_id() -> String:
 			and not f.get("arc_late_game_push_seen", false):
 		return "arc_late_game_push"
 
+	# ── 10억 돌파 — 중반 자산 이정표 (턴 25+) ──
+	if t >= 25 \
+			and GameState.get_total_asset_value() >= 1_000_000_000.0 \
+			and not f.get("arc_almost_there_seen", false):
+		return "arc_almost_there"
+
+	# ── 다은의 흔적 — 보낸 경우 (턴 43~50) ──
+	if t >= 43 and t <= 50 \
+			and f.get("daeun_let_her_go", false) \
+			and f.get("arc_daeun_ghost_seen", false) \
+			and not f.get("arc_daeun_trace_seen", false):
+		return "arc_daeun_trace"
+
+	# ── 끝이 보인다 — 자산 20억, 마지막 스퍼트 (턴 47+) ──
+	if t >= 47 \
+			and GameState.get_total_asset_value() >= 2_000_000_000.0 \
+			and not f.get("arc_final_stretch_seen", false):
+		return "arc_final_stretch"
+
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
 	if GameState.get_cast_stage("sangchul") == "interested" \
 			and not f.get("arc_opp_sangchul_seen", false) \
