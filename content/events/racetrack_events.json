@@ -411,5 +411,32 @@
         "follow_up_event": ""
       }
     ]
+  },
+  {
+    "id": "race_early_lesson",
+    "title": "경마신문 독해",
+    "description": "경마 아저씨가 신문을 펼쳤다.\n\n숫자, 기호, 말 이름, 기수 이름, 주로 조건.\n\n\"이거 다 외우는 거예요?\"\n\n그가 웃었다. \"외우는 게 아니야. 읽는 거야.\"\n\n차이가 뭔지 아직 몰랐다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "background": "racetrack_betting",
+    "portrait": "tip_seller",
+    "conditions": { "flag": "racetrack_guide_met" },
+    "tags": ["gambling", "race", "social"],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "진지하게 배운다 — 기호부터 외운다",
+        "effects": { "intelligence": 2, "investment_skill": 1, "stress": -2 },
+        "flags": ["race_studied_form"],
+        "result_text": "한 시간 동안 경마신문을 읽었다.\n\n3연단, 단승, 연승, 복승, 쌍승 — 베팅 방식만 여섯 가지였다.\n기수 승률, 조교사 기록, 주로별 특성.\n\n이걸 다 보는 사람들이 있다는 게 신기했다.\n'읽는다'는 게 무슨 말인지 조금 알 것 같았다."
+      },
+      {
+        "text": "그냥 느낌대로 베팅한다",
+        "effects": { "luck": 2, "money": -15000 },
+        "flags": [],
+        "result_text": "7번 말을 골랐다. 이름이 마음에 들었다.\n\n졌다.\n\n아저씨가 말했다. \"느낌이 맞을 때도 있어. 근데 느낌은 누적이야.\"\n무슨 말인지 알 것 같기도 하고 모를 것 같기도 했다."
+      }
+    ]
   }
 ]

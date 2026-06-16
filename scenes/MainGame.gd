@@ -2720,8 +2720,10 @@ func _render_essential_actions(ap: int):
 	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
 	if no_job:
 		_essential_btn("💼 구직활동  —  일자리를 찾는다", "#dc6a2a", "_ap_job_hunt", disabled)
-	if has_paycheck:
+	if GameState.flags.get("arc_invest_guidance_seen", false):
 		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
+	elif has_paycheck:
+		choice_box.add_child(_label("📈 투자 — 잠금 해제 조건 미달성 (상철과의 대화 필요)", 12, "#4a5a72"))
 	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
 	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
 	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
@@ -2967,8 +2969,10 @@ func _open_cat_money():
 	var no_job = GameState.current_job.is_empty()
 	_open_modal("📈 돈 · 투자")
 	modal_body.add_child(_wrap_label("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", 13, "#7a8496"))
-	if has_paycheck:
+	if GameState.flags.get("arc_invest_guidance_seen", false):
 		_cat_modal_button("📈 투자 집중  —  매수·매도 (투자감각 %d)" % GameState.investment_skill, "#3a8a5a", "_ap_invest")
+	elif has_paycheck:
+		modal_body.add_child(_wrap_label("🔒 투자는 상철과의 대화 후 가능하다.", 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label("🔒 투자는 첫 월급을 받은 뒤 가능하다.", 12, "#5a5a6a"))
 	var side_label = "💰 단기 알바  —  +40만원 (건강-5, 스트레스+6)" if no_job else "🎨 부업/사이드  —  추가 수입 도전"

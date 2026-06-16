@@ -388,7 +388,7 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {},
+    "conditions": { "flag": "arc_sangchul_met_seen" },
     "tags": [
       "gambling",
       "class"

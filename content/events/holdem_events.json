@@ -195,5 +195,57 @@
         "follow_up_event": ""
       }
     ]
+  },
+  {
+    "id": "holdem_strategy_talk",
+    "title": "포커 철학자",
+    "description": "브레이크 타임.\n\n자판기 커피를 뽑다가 옆자리 노인과 눈이 마주쳤다.\n\n60대. 테이블에서 한 번도 흔들리지 않는 사람이었다.\n\n\"얼마나 됐어요?\" 그가 먼저 물었다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "background": "holdem_club",
+    "conditions": { "flag": "holdem_visited" },
+    "tags": ["gambling", "holdem", "social"],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "\"얼마 안 됐어요. 배우는 중이에요.\"",
+        "effects": { "social_skill": 2, "intelligence": 2, "stress": -3 },
+        "flags": ["holdem_mentor_met"],
+        "result_text": "노인이 고개를 끄덕였다.\n\"포커는 패를 이기는 게임이 아니야. 사람을 이기는 게임이야.\"\n\n자판기 커피를 한 모금 마셨다.\n\"진짜 블러프는 손이 떨리지 않는 거야. 마음이 흔들리지 않는 거고.\"\n\n짧은 대화였는데, 뭔가 달랐다."
+      },
+      {
+        "text": "그냥 다음 게임에 집중한다",
+        "effects": { "luck": 1, "stress": -2 },
+        "flags": [],
+        "result_text": "커피를 마시고 자리로 돌아왔다.\n패가 들어올 때마다 느끼는 감각이 조금씩 달라지고 있었다.\n아직 언어로 설명은 못 하는 그 감각."
+      }
+    ]
+  },
+  {
+    "id": "holdem_losing_streak",
+    "title": "5연패",
+    "description": "오늘 다섯 판을 연속으로 졌다.\n\n통계적으로는 가능하다. 80% 우위에서도 다섯 번 연속 질 수 있다.\n\n근데 지금 {name}이 통계를 쓰고 있는 건 아닌 것 같았다.\n\n뭔가 오늘은 다른 것 같다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "background": "holdem_club",
+    "conditions": { "flag": "holdem_regular" },
+    "tags": ["gambling", "holdem", "stress"],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "조용히 자리를 뜬다",
+        "effects": { "mental": 5, "stress": -4, "intelligence": 2 },
+        "flags": [],
+        "result_text": "칩을 정리하고 일어났다.\n딜러가 \"수고하셨어요\" 했다.\n\n계단을 올라오며 생각했다.\n오늘 잘못한 판 두 개가 보였다.\n그게 보인다는 건, 배우고 있다는 거다."
+      },
+      {
+        "text": "\"한 판만 더\" — 분위기를 바꿔본다",
+        "effects": { "money": -40000, "stress": 8, "mental": -4 },
+        "flags": ["holdem_tilted"],
+        "result_text": "한 판 더 했다.\n지금 상태에서 잘 될 리 없었다.\n\n4만원을 더 잃고 나왔다.\n\n총 손실을 계산하며 계단을 내려왔다 — 아니, 올라왔다.\n엘리베이터 문이 닫혔다."
+      }
+    ]
   }
 ]
