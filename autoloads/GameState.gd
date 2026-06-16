@@ -154,6 +154,7 @@ var news_log: Array = []
 var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
+var deferred_events: Array = []  # [{event_id, trigger_turn}] — N턴 후 자동 발동 이벤트
 var events_seen: int = 0   # 이번 런에서 플레이어가 실제 선택한 이벤트 수
 var run_theme_categories: Array = []
 var run_theme: String = "자유런"
@@ -217,6 +218,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	event_log = []
 	action_log = []
 	flags = {}
+	deferred_events = []
 	events_seen = 0
 	run_theme_categories = []
 	run_theme = "자유런"
@@ -1236,6 +1238,7 @@ func serialize():
 		"event_log": event_log,
 		"action_log": action_log,
 		"flags": flags,
+		"deferred_events": deferred_events,
 		"market_prices": market_prices,
 		"price_history": price_history,
 		"market_context": market_context,
@@ -1288,4 +1291,23 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — difficulty 없거나 미지 값이면 현실 모드
 	if not DIFFICULTY_DATA.has(difficulty):
 		difficulty = "현실"
+	# 구버전 세이브 호환 — deferred_events 없으면 빈 배열
+	if typeof(deferred_events) != TYPE_ARRAY:
+		deferred_events = []
 	stats_changed.emit()
+
+## 그림자 이벤트 — N턴 후 자동 발동 예약
+func add_deferred_event(event_id: String, delay: int) -> void:
+	deferred_events.append({"event_id": event_id, "trigger_turn": turn + delay})
+
+## 현재 턴에 발동할 그림자 이벤트 목록 반환 (소비 처리 포함)
+func pop_ready_deferred_events() -> Array:
+	var ready: Array = []
+	var remaining: Array = []
+	for entry in deferred_events:
+		if int(entry.get("trigger_turn", 9999)) <= turn:
+			ready.append(str(entry.get("event_id", "")))
+		else:
+			remaining.append(entry)
+	deferred_events = remaining
+	return ready

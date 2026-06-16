@@ -1034,6 +1034,13 @@ func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
 
+	# ══ 그림자 이벤트 — N턴 후 과거 선택이 되돌아온다 ══════════
+	var shadow_events = GameState.pop_ready_deferred_events()
+	for sid in shadow_events:
+		if not sid.is_empty():
+			EventManager.trigger_event_by_id(sid)
+			return ""  # 이번 턴 arc는 그림자가 가져간다
+
 	# ══ 부동산 결산 (투자 후 3개월 경과) ══════════
 	var re_exit: int = int(f.get("realestate_invest_turn", -1))
 	if re_exit > 0 and t >= re_exit and not f.get("realestate_result_seen", false):

@@ -16,6 +16,7 @@ const EVENT_PATHS = [
 	"res://content/events/life_events.json",
 	"res://content/events/life_events2.json",
 	"res://content/events/investment_events.json",
+	"res://content/events/shadow_events.json",
 	"res://content/events/relationship_events.json",
 	"res://content/events/relationship_events2.json",
 	"res://content/events/hidden_events.json",
