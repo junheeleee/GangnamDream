@@ -1017,6 +1017,9 @@ func _next_arc_id() -> String:
 	var f = GameState.flags
 
 	# ══ 챕터 전환 카드 — 연도(나이) 넘어가는 첫 턴 ══════════
+	# 챕터 1: 프롤로그 직후 1회
+	if f.get("prologue_done", false) and not f.get("chapter_33_seen", false):
+		return "chapter_card_33"
 	var _age = GameState.age
 	if _age == 34 and not f.get("chapter_34_seen", false):
 		return "chapter_card_34"

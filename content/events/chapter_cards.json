@@ -1,5 +1,27 @@
 [
   {
+    "id": "chapter_card_33",
+    "title": "챕터 1",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "chapter_card"],
+    "cooldown": 9999,
+    "description": "시작\n\n33세. 2026년.\n\n통장에 50만원이 있다.",
+    "choices": [
+      {
+        "text": "시작",
+        "effects": {},
+        "flags": ["chapter_33_seen"],
+        "result_text": "2026년이 시작됐다."
+      }
+    ]
+  },
+  {
     "id": "chapter_card_34",
     "title": "챕터 2",
     "background": "gangnam_night",
