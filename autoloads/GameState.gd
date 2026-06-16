@@ -1116,6 +1116,11 @@ func check_game_over():
 	# ── 강남 입성 = 자산 30억 달성 = 즉시 성공 엔딩 ──────
 	# 30억으로 강남 아파트를 매매한다. 게임의 최종 목표.
 	if total_now >= 3_000_000_000:
+		# ★ 히든 이스터에그 — 첫 해(33세=챕터1)에 30억은 거의 불가능한 초고속 달성.
+		#   변칙 플레이(경마/투자 대박)에 대한 보상 엔딩. 인물 아크는 챕터2+라
+		#   아직 아무도 못 만난 상태 → 빈 집 대신 '신화' 엔딩으로 인정해준다.
+		if age <= 33:
+			finish_run("instant_legend"); return
 		# 어떤 사람이 되어 입성했는가로 엔딩 분기
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식

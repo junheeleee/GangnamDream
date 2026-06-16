@@ -4531,8 +4531,8 @@ func _show_ending(ending_id):
 
 	_open_modal("🏁 엔딩")
 	var grade = ending.get("grade", "?")
-	var grade_colors = {"S": "#f0b429", "A": "#34d399", "B": "#5b9cf6", "C": "#8892a4", "F": "#ff4444"}
-	var grade_emojis = {"S": "🏆", "A": "🌟", "B": "✨", "C": "📋", "F": "💀"}
+	var grade_colors = {"S": "#f0b429", "A": "#34d399", "B": "#5b9cf6", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
+	var grade_emojis = {"S": "🏆", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
 	var grade_color = grade_colors.get(grade, "#ffffff")
 	var grade_emoji = grade_emojis.get(grade, "")
 	# 등급 헤더 행
@@ -4674,6 +4674,8 @@ func _ending_run_summary(ending_id: String) -> String:
 				return "작은 아이디어 하나가 강남드림으로 이어졌다"
 			else:
 				return "5년의 고군분투 끝에 강남드림을 이뤘다"
+		"instant_legend":
+			return "고시원 백수가 첫 해에 30억을 만들었다 — 아무도 믿지 않을 것이다"
 		"burnout":
 			return "강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다."
 		"mental_break":
