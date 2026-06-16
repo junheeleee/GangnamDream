@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-16 후반2 (SimRun 수정 + 챕터1 루트 이벤트 5종 추가)
+
+### SimRun.gd 루프 상한
+- `turn <= 64` → `244`, guard `300` → `260`. 척추 증명이 실제 5년(240주)을 커버하도록.
+
+### 챕터1 루트·테마별 반응 이벤트 5종
+arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
+- `arc_ch1_invest_first_chart` (route_invest): HTS 첫 날
+- `arc_ch1_career_first_spec` (route_career): 자소서 첫 줄 (선택지 3개)
+- `arc_ch1_startup_first_idea` (route_startup): 아이디어 노트
+- `arc_ch1_theme_network_first` (theme_network_run): 재테크 스터디 첫 모임
+- `arc_ch1_theme_invest_deep` (theme_invest_run): 차트 3시간
+이로써 route_invest/career/startup + theme_network_run/theme_invest_run 플래그가 실제 이벤트 조건으로 읽힘 (고아 플래그에서 활성 조건으로 전환).
+
 ## 2026-06-16 후반 (AP 정리 + 내레이션 버그 수정)
 
 ### AP 기본값 정리

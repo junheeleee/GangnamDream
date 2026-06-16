@@ -3072,5 +3072,260 @@
         "result_text": "여기 있는 사람 중에 편안하게 자는 사람이 몇이나 될까. 그 생각이 이상하게 위로가 됐다. 혼자가 아니라는 느낌 — 제일 이상한 방식으로."
       }
     ]
+  },
+  {
+    "id": "arc_ch1_invest_first_chart",
+    "title": "HTS 첫 날",
+    "background": "investment_phone",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "route_invest"
+    ],
+    "cooldown": 9999,
+    "description": "고시원 책상. 처음으로 주식 계좌를 텄다.\n\n차트가 올라가고 내려간다. 빨간색, 파란색. 이게 다 누군가의 돈이다. 그리고 앞으로는 내 돈도 여기 들어간다.\n\n무서운 게 아니라 — 이제 진짜 시작이라는 느낌이다.",
+    "choices": [
+      {
+        "text": "1만원 넣었다 — 일단 느껴봐야 안다",
+        "effects": {
+          "investment_skill": 1,
+          "money": -10000,
+          "mental": 2
+        },
+        "flags": [
+          "arc_ch1_invest_chart_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "10,000원. 작은 숫자지만 — 이제 이 차트가 내 것이 됐다.\n올라가면 기분 좋고, 내려가면 무섭다. 그 감각부터 배우기로 했다."
+      },
+      {
+        "text": "책부터 읽는다 — 이해하고 들어간다",
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 1,
+          "stress": -1
+        },
+        "flags": [
+          "arc_ch1_invest_chart_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "계좌는 만들었다. 돈은 아직 안 넣었다.\n뭔지도 모르고 집어넣는 것보다 — 한 번 알고 들어가기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_career_first_spec",
+    "title": "자소서 첫 줄",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "route_career"
+    ],
+    "cooldown": 9999,
+    "description": "노트북 화면. 자기소개서 1번 문항.\n\n\"지원 동기를 서술하시오.\"\n\n1분째 커서가 깜빡인다. 33세. 경력 없음. 공백 3년. 이걸 어떻게 쓰나. 솔직하게 쓰면 탈락이고, 포장하면 — 나 같지 않고.",
+    "choices": [
+      {
+        "text": "솔직하게 쓴다 — 공백의 이유를",
+        "effects": {
+          "social_skill": 1,
+          "reputation": 1,
+          "mental": 2
+        },
+        "flags": [
+          "arc_ch1_career_spec_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "썼다. 3년의 이유를. 읽어보니 초라하다.\n근데 이게 나다. 여기서부터 시작하는 거다."
+      },
+      {
+        "text": "포장한다 — 그럴듯하게 만든다",
+        "effects": {
+          "intelligence": 1,
+          "social_skill": 1,
+          "stress": 3
+        },
+        "flags": [
+          "arc_ch1_career_spec_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "그럴듯해졌다. 사실이긴 한데 — 전부는 아니다.\n면접에서 이 내용으로 질문받으면 버텨야 한다. 그것도 준비다."
+      },
+      {
+        "text": "일단 제출한다 — 완벽보다 속도",
+        "effects": {
+          "stress": -3,
+          "mental": 2,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_ch1_career_spec_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "보냈다.\n완벽하지 않아도 된다. 안 내는 것보다 내는 게 낫다."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_startup_first_idea",
+    "title": "아이디어 노트",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "route_startup"
+    ],
+    "cooldown": 9999,
+    "description": "고시원 침대. 스마트폰 메모장.\n\n서울에 올라오기 전부터 머릿속에 있던 생각들. 지금 꺼내놓으면 초라하다. 그래도 적어놓지 않으면 사라진다.\n\n첫 번째 줄부터 막혔다.",
+    "choices": [
+      {
+        "text": "지금 바로 검색해본다 — 이미 있는 건지",
+        "effects": {
+          "intelligence": 2,
+          "mental": 1
+        },
+        "flags": [
+          "arc_ch1_startup_idea_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "비슷한 게 이미 있었다. 실망했다가 — 그러면 내가 더 잘 하면 된다는 생각이 왔다.\n선점보다 실행이다."
+      },
+      {
+        "text": "일단 다 적는다 — 판단은 나중에",
+        "effects": {
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_ch1_startup_idea_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "14개. 터무니없는 것들도 있고, 뭔가 될 것 같은 것도 있다.\n지금은 구분하지 않는다. 아이디어는 일단 많아야 한다."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_theme_network_first",
+    "title": "처음 간 모임",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "theme_network"
+    ],
+    "cooldown": 9999,
+    "description": "카페. 온라인에서 찾은 재테크 스터디 첫 모임.\n\n다들 직장이 있었다. 나만 없었다. 명함을 받았다. 건넬 게 없어서 번호만 저장했다.\n\n집에 오면서 묘한 기분이 들었다. 이게 인맥인가.",
+    "choices": [
+      {
+        "text": "연락처를 저장했다 — 나중에 쓸 수 있다",
+        "effects": {
+          "social_skill": 2,
+          "reputation": 1,
+          "mental": 1
+        },
+        "flags": [
+          "arc_ch1_network_first_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "저장했다. 이름, 직장, 관심사. 지금은 일방적이지만 — 관계는 먼저 기억하는 쪽이 만든다."
+      },
+      {
+        "text": "집에 오면서 찝찝했다 — 여기서 뭘 얻으려 했나",
+        "effects": {
+          "mental": -1,
+          "intelligence": 2
+        },
+        "flags": [
+          "arc_ch1_network_first_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "인맥이라고 하지만 — 목적 없이 모이면 그냥 아는 사람이다.\n다음엔 뭘 주고 뭘 받을지 정하고 간다."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_theme_invest_deep",
+    "title": "차트 3시간",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "theme_invest"
+    ],
+    "cooldown": 9999,
+    "description": "고시원 방. 새벽 2시.\n\n보조지표, 이동평균선, 거래량. 유튜브 강의 3편을 봤다. 뭔가 보이는 것 같기도 하고, 아직 모르는 것 같기도 하다.\n\n새벽 2시다.",
+    "choices": [
+      {
+        "text": "더 본다 — 무언가 잡힐 것 같다",
+        "effects": {
+          "investment_skill": 2,
+          "health": -3,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_ch1_invest_deep_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "새벽 4시가 됐다. 눈이 뻑뻑하다.\n그래도 MACD가 뭔지 이제 안다. 이해가 쌓이는 속도가 느껴진다."
+      },
+      {
+        "text": "잔다 — 내일 맑은 정신으로",
+        "effects": {
+          "mental": 2,
+          "health": 2,
+          "stress": -2
+        },
+        "flags": [
+          "arc_ch1_invest_deep_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "덮었다.\n공부는 꾸준해야 한다. 오늘 밤새는 것보다 내일 1시간이 낫다."
+      }
+    ]
   }
 ]

@@ -1076,6 +1076,23 @@ func _next_arc_id() -> String:
 			and not f.get("arc_job_rejection_seen", false):
 		return "arc_job_first_rejection"
 
+	# ── 챕터1 루트·테마별 반응 (t>=8) — 프롤로그 선택이 씬을 만든다 ──
+	if t >= 8 and f.get("route_invest", false) \
+			and not f.get("arc_ch1_invest_chart_seen", false):
+		return "arc_ch1_invest_first_chart"
+	if t >= 8 and f.get("route_career", false) \
+			and not f.get("arc_ch1_career_spec_seen", false):
+		return "arc_ch1_career_first_spec"
+	if t >= 8 and f.get("route_startup", false) \
+			and not f.get("arc_ch1_startup_idea_seen", false):
+		return "arc_ch1_startup_first_idea"
+	if t >= 8 and f.get("theme_network_run", false) \
+			and not f.get("arc_ch1_network_first_seen", false):
+		return "arc_ch1_theme_network_first"
+	if t >= 8 and f.get("theme_invest_run", false) \
+			and not f.get("arc_ch1_invest_deep_seen", false):
+		return "arc_ch1_theme_invest_deep"
+
 	# ── 첫 정산 (턴 9) — 자산 구간이 장면을 고른다. 선택/AP의 결과가 화면으로. ──
 	if t >= 9 and not f.get("arc_money_check_seen", false):
 		var nav: float = GameState.get_total_asset_value()

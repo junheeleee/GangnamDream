@@ -10,7 +10,7 @@
 |---|---|
 | **단계** | **버그 수정 + 내레이션 정합성 완료** |
 | **최근 완료** | 2026-06-16 세션 — 아래 "이번 세션 완료 목록" 참조 |
-| **다음 작업** | **QA 플레이스루** — Godot 실행 후 챕터 카드 타이밍·반응 씬 흐름 검증 |
+| **다음 작업** | **QA 플레이스루** — Godot 실행 후 챕터 카드·루트별 씬·내레이션 검증 |
 | **마지막 업데이트** | 2026-06-16 |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
@@ -60,6 +60,18 @@
   - `callback_early_greed_humbled` ← `early_greed`
   - `callback_gosiwon_wall_echo` ← `knocked_on_wall`
   - `callback_stayed_grounded_echo` ← `stayed_grounded`
+
+### SimRun.gd 루프 상한 수정
+- `turn <= 64`(16개월) → `turn <= 244`(전체 5년) — 척추 증명이 실제 풀게임 길이를 커버하도록
+- guard 상한 `300` → `260` (244 + 버퍼)
+
+### 챕터1 루트·테마별 반응 이벤트 5종 (arc_events.json)
+- `arc_ch1_invest_first_chart` ← `route_invest` 플래그, t>=8: HTS 첫 날
+- `arc_ch1_career_first_spec` ← `route_career` 플래그, t>=8: 자소서 첫 줄 (3가지 선택지)
+- `arc_ch1_startup_first_idea` ← `route_startup` 플래그, t>=8: 아이디어 노트
+- `arc_ch1_theme_network_first` ← `theme_network_run` 플래그, t>=8: 재테크 스터디 첫 모임
+- `arc_ch1_theme_invest_deep` ← `theme_invest_run` 플래그, t>=8: 차트 3시간
+- `_next_arc_id()` t8 블록 뒤에 5개 트리거 추가 (route/theme → 해당 플레이어에게만 발동)
 
 ### 오딧 / 밸런스
 - ERROR 0, WARNING 0 유지 중

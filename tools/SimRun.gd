@@ -40,9 +40,9 @@ func _run_policy(pname: String, mode: int, runs: int) -> void:
 		_eid = ""
 		var employed := false
 		var guard := 0
-		while not GameState.is_game_over and GameState.turn <= 64:
+		while not GameState.is_game_over and GameState.turn <= 244:
 			guard += 1
-			if guard > 300: crash += 1; break
+			if guard > 260: crash += 1; break
 			var t: int = GameState.turn
 			# 생존 유지: 위험하면 이번 달은 휴식(대표값)
 			if GameState.mental <= 30 or GameState.stress >= 58:
