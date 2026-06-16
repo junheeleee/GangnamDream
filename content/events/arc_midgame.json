@@ -492,5 +492,115 @@
         "result_text": "\"왜 갑자기? 나 못 믿어?\" 재혁의 답장이 5분 만에 왔다.\n\n그 빠른 답장이 — 이상하게 더 불안하게 만들었다."
       }
     ]
+  },
+  {
+    "id": "arc_hyunsu_drift",
+    "title": "현수가 달라졌다",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "hyunsu"],
+    "cooldown": 9999,
+    "description": "어느 날부터 현수가 공부를 안 한다.\n\n새벽에 들어오고, 낮에 나가고, 이어폰엔 인강 대신 음악이다. 공용 부엌에 위스키 반병이 생겼다 없어졌다.\n\n복도에서 마주쳤다. 현수가 먼저 눈을 피했다.",
+    "choices": [
+      {
+        "text": "그냥 지나쳤다",
+        "effects": { "stress": -1 },
+        "flags": ["arc_hyunsu_drift_seen", "hyunsu_drift_ignored"],
+        "result_text": "할 말이 없었다. 아니, 있었을지도 모른다. 그냥 각자 방으로 들어갔다. 복도가 조용했다."
+      },
+      {
+        "text": "\"요즘 뭐 해?\" — 물어봤다",
+        "effects": { "social_skill": 1, "mental": -2 },
+        "flags": ["arc_hyunsu_drift_seen", "hyunsu_drift_talked"],
+        "cast_effects": { "hyunsu": { "affinity": 2 } },
+        "result_text": "현수가 잠깐 멈췄다. \"그냥... 쉬고 있어요.\" 그게 전부였다. 뭔가 더 물어보려다 관뒀다. 어떤 말은 꺼낸 순간 되돌릴 수 없다."
+      },
+      {
+        "text": "라면 하나 끓여서 현수 방 앞에 뒀다",
+        "effects": { "mental": -3, "stress": -2 },
+        "flags": ["arc_hyunsu_drift_seen", "hyunsu_drift_ramen"],
+        "cast_effects": { "hyunsu": { "affinity": 3 } },
+        "result_text": "말은 안 했다. 컵라면 하나 끓여서 문 앞에 놓고 돌아왔다. 나중에 지나가다 보니 없어져 있었다. 그걸로 충분했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_goal_vertigo",
+    "title": "30억이라는 숫자",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "자정이 넘었다. 엑셀 화면만 빛나고 있다.\n\n총자산 열에 숫자를 입력하다가 멈췄다. 30억. 처음 이 목표를 세웠을 때가 생각났다. 그때는 그냥 숫자였는데.\n\n지금도 숫자인 것 같다. 이상하게.",
+    "choices": [
+      {
+        "text": "다시 계획표를 폈다 — 숫자로 돌아간다",
+        "effects": { "intelligence": 1, "stress": 3, "mental": -2 },
+        "flags": ["arc_goal_vertigo_seen", "goal_reaffirmed"],
+        "result_text": "계획은 맞다. 수치는 현실이다. 감정은 노이즈다. {name}은 다시 셀을 채웠다. 새벽 2시가 됐다."
+      },
+      {
+        "text": "그냥 자려고 누웠다",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_goal_vertigo_seen", "goal_questioned"],
+        "result_text": "천장을 봤다. 30억. 30억. 소리 내서 읽어봤다. 여전히 실감이 없었다. 그래도 괜찮다. 실감 없이도 움직이는 게 요즘의 {name}이었다."
+      },
+      {
+        "text": "바람 쐬러 나갔다. 한강까지 걸었다",
+        "effects": { "health": 3, "mental": 4, "stress": -5 },
+        "flags": ["arc_goal_vertigo_seen", "goal_grounded"],
+        "result_text": "한강 벤치에 앉았다. 강은 아무 말이 없었다. 30억도, 계획표도 없었다. 한 30분 있다가 일어섰다. 걷고 나서야 다시 자신의 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_housing_new_life",
+    "title": "첫날 밤",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "이삿짐을 다 풀었다.\n\n고시원보다 세 배는 넓다. 화장실이 안에 있다. 창문으로 골목이 보인다. 내 것이다, 이 공간이.\n\n근데 조용하다. 고시원엔 항상 복도 소리가 났는데. 현수가 인강 틀어놓은 소리, 누군가 새벽에 냉장고 여닫는 소리.\n\n지금은 아무것도 없다.",
+    "choices": [
+      {
+        "text": "창문을 열었다 — 바깥 소리라도",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_housing_new_life_seen"],
+        "result_text": "골목 고양이 소리가 들어왔다. 차 한 대가 지나갔다. 나쁘지 않았다. 이제 이게 내 소음이다."
+      },
+      {
+        "text": "고시원이 생각났다 — 이상한 감정이다",
+        "effects": { "mental": 2, "stress": -3 },
+        "flags": ["arc_housing_new_life_seen", "missed_gosiwon"],
+        "result_text": "그 좁은 방이 그리운 게 맞나. {name}은 잠깐 거기서 멈췄다. 힘들었는데, 그 시절이. 근데 거기 있던 사람들이 그리운 걸 수도 있다."
+      },
+      {
+        "text": "제일 먼저 책상을 폈다 — 일하자",
+        "effects": { "intelligence": 1, "stress": 1 },
+        "flags": ["arc_housing_new_life_seen"],
+        "result_text": "새 공간. 새 루틴. 책상 위에 노트북을 폈다. 이 방은 여기서 일하는 방이 되는 거다. 첫날부터 그렇게 정했다."
+      }
+    ]
   }
 ]

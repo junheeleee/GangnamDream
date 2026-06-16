@@ -1219,11 +1219,30 @@ func _next_arc_id() -> String:
 			and not f.get("arc_hyunsu_exam_fail_seen", false):
 		return "arc_hyunsu_exam_fail"
 
+	# ── 현수의 방황 — 불합격 후 떠남 직전 (턴 36~41) ──
+	if t >= 36 and t <= 41 \
+			and f.get("arc_hyunsu_exam_fail_seen", false) \
+			and not f.get("arc_hyunsu_drift_seen", false) \
+			and not f.get("arc_hyunsu_new_path_seen", false):
+		return "arc_hyunsu_drift"
+
 	# ── 현수의 새 길 — 불합격 이후 떠남 (턴 42~50) ──
 	if t >= 42 and t <= 50 \
 			and f.get("arc_hyunsu_exam_fail_seen", false) \
 			and not f.get("arc_hyunsu_new_path_seen", false):
 		return "arc_hyunsu_new_path"
+
+	# ── 30억이라는 숫자 — 반환점 이후 목표의 무게 (턴 32~42) ──
+	if t >= 32 and t <= 42 \
+			and f.get("arc_midpoint_reckoning_seen", false) \
+			and not f.get("arc_goal_vertigo_seen", false):
+		return "arc_goal_vertigo"
+
+	# ── 새 집 첫날 밤 — 고시원 탈출 직후 (고시원 탈출 후 3턴 이내) ──
+	if f.get("arc_goshiwon_goodbye_seen", false) \
+			and not f.get("arc_housing_new_life_seen", false) \
+			and t <= 35:
+		return "arc_housing_new_life"
 
 	# ── 처음 혼자 간 강남 (턴 22~28, 누구나) ──
 	if t >= 22 and t <= 28 \
