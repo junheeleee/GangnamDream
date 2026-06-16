@@ -9,9 +9,13 @@
     "hidden": false,
     "conditions": {
       "flag": "daeun_deferred",
-      "min_turn": 36
+      "min_turn": 144
     },
-    "tags": ["daeun", "relationship_end", "callback"],
+    "tags": [
+      "daeun",
+      "relationship_end",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -20,7 +24,9 @@
           "mental": -8,
           "stress": 5
         },
-        "flags": ["daeun_moved_on_accepted"],
+        "flags": [
+          "daeun_moved_on_accepted"
+        ],
         "follow_up_event": "",
         "result_text": "'잘됐네요. 잘 살아요.'\n보내고 나서 한참 폰을 내려다봤다.\n강남은 아직 멀다. 그리고 다은은 부산에 있다."
       },
@@ -30,7 +36,9 @@
           "mental": -12,
           "stress": 8
         },
-        "flags": ["daeun_last_call"],
+        "flags": [
+          "daeun_last_call"
+        ],
         "follow_up_event": "",
         "result_text": "신호가 세 번 갔다.\n받지 않았다.\n문자가 왔다. '잘 지내요 :)'\n그 이모티콘이 이상하게 오래 눈에 남았다."
       }
@@ -46,9 +54,14 @@
     "hidden": false,
     "conditions": {
       "flag": "daeun_committed",
-      "min_turn": 50
+      "min_turn": 200
     },
-    "tags": ["daeun", "relationship", "callback", "ending_prep"],
+    "tags": [
+      "daeun",
+      "relationship",
+      "callback",
+      "ending_prep"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -58,7 +71,9 @@
           "stress": -10,
           "social_skill": 1
         },
-        "flags": ["daeun_gangnam_eve_met"],
+        "flags": [
+          "daeun_gangnam_eve_met"
+        ],
         "follow_up_event": "",
         "result_text": "국밥집이었다.\n다은이 그릇을 밀며 말했다. '내일이에요?'\n'응.'\n'잘 될 거예요. 처음부터 알았어요.'\n그날 밤 잘 잤다."
       },
@@ -84,9 +99,13 @@
     "hidden": false,
     "conditions": {
       "flag": "daeun_together",
-      "min_turn": 44
+      "min_turn": 176
     },
-    "tags": ["daeun", "relationship", "callback"],
+    "tags": [
+      "daeun",
+      "relationship",
+      "callback"
+    ],
     "cooldown": 12,
     "choices": [
       {
@@ -95,7 +114,9 @@
           "mental": 10,
           "stress": -5
         },
-        "flags": ["daeun_late_call"],
+        "flags": [
+          "daeun_late_call"
+        ],
         "follow_up_event": "",
         "result_text": "한 시간 통화했다.\n목소리만 들었는데 이상하게 안정됐다.\n새벽 세 시에 잠들었다. 내일 좀 피곤하겠지만 괜찮다."
       },
@@ -120,9 +141,12 @@
     "hidden": false,
     "conditions": {
       "flag": "daeun_ended",
-      "min_turn": 40
+      "min_turn": 160
     },
-    "tags": ["daeun", "callback"],
+    "tags": [
+      "daeun",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -131,7 +155,9 @@
           "mental": -5,
           "social_skill": 1
         },
-        "flags": ["daeun_last_encounter"],
+        "flags": [
+          "daeun_last_encounter"
+        ],
         "follow_up_event": "",
         "result_text": "다은이 눈이 마주쳤다. 잠깐 멈칫하더니 웃었다.\n'어, 안녕하세요.'\n자연스러웠다. 남자는 아무것도 몰랐다.\n나왔다. 강남 밤바람이 차가웠다."
       },
@@ -140,7 +166,9 @@
         "effects": {
           "mental": -3
         },
-        "flags": ["daeun_last_encounter"],
+        "flags": [
+          "daeun_last_encounter"
+        ],
         "follow_up_event": "",
         "result_text": "지나쳤다.\n다은도 못 봤을 것이다.\n블록 하나를 돌아서야 걸음이 느려졌다.\n왜인지는 몰랐다."
       }
@@ -156,9 +184,13 @@
     "hidden": false,
     "conditions": {
       "flag": "jiyeon_pretended",
-      "min_turn": 28
+      "min_turn": 112
     },
-    "tags": ["jiyeon", "callback", "relationship"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -168,7 +200,9 @@
           "social_skill": 2,
           "stress": -3
         },
-        "flags": ["jiyeon_honest_late"],
+        "flags": [
+          "jiyeon_honest_late"
+        ],
         "follow_up_event": "",
         "result_text": "'미안해요. 이쪽 세계에서 버티는 법이 그것밖에 없었어요.'\n잠시 침묵. 그리고 답장이 왔다.\n'...그거면 됐어요.'\n이상하게 이게 더 나았다."
       },
@@ -195,9 +229,13 @@
     "hidden": false,
     "conditions": {
       "flag": "jiyeon_honest",
-      "min_turn": 30
+      "min_turn": 120
     },
-    "tags": ["jiyeon", "callback", "investment"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -208,7 +246,9 @@
           "intelligence": 2,
           "stress": -5
         },
-        "flags": ["jiyeon_referral_met"],
+        "flags": [
+          "jiyeon_referral_met"
+        ],
         "follow_up_event": "",
         "result_text": "세무사 사무실. 포트폴리오 구조를 다시 짰다.\n나중에 계산해보니 세금만 1200만원 아꼈다.\n한지연한테 고맙다는 문자를 보냈다.\n'당연한 거죠. 솔직한 분들이 좋아요.' 답장이 왔다."
       },
@@ -233,9 +273,13 @@
     "hidden": false,
     "conditions": {
       "flag": "jiyeon_together",
-      "min_turn": 46
+      "min_turn": 184
     },
-    "tags": ["jiyeon", "callback", "family"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "family"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -245,7 +289,9 @@
           "stress": 8,
           "social_skill": 2
         },
-        "flags": ["jiyeon_mother_direct"],
+        "flags": [
+          "jiyeon_mother_direct"
+        ],
         "follow_up_event": "",
         "result_text": "카페에서 한 시간.\n어머니는 끝까지 표정을 안 바꿨다.\n나오면서 한지연에게 전화했다. '엄마랑 얘기했어요.'\n잠시 침묵. '...알고 있었어요. 고마워요.'"
       },
@@ -271,9 +317,13 @@
     "hidden": false,
     "conditions": {
       "flag": "jiyeon_ended",
-      "min_turn": 48
+      "min_turn": 192
     },
-    "tags": ["jiyeon", "callback", "ending_prep"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "ending_prep"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -282,7 +332,9 @@
           "mental": 3,
           "social_skill": 1
         },
-        "flags": ["jiyeon_gangnam_final"],
+        "flags": [
+          "jiyeon_gangnam_final"
+        ],
         "follow_up_event": "",
         "result_text": "한지연이 눈이 마주치자 약간 놀랐다.\n'...여기도 보러 오셨어요?'\n'네. 드디어요.'\n그녀가 웃었다. '다행이네요.' 진심처럼 들렸다."
       },
@@ -291,7 +343,9 @@
         "effects": {
           "mental": -3
         },
-        "flags": ["jiyeon_gangnam_final"],
+        "flags": [
+          "jiyeon_gangnam_final"
+        ],
         "follow_up_event": "",
         "result_text": "지나쳤다.\n한지연도 같은 선택을 했는지, 아무 말도 없었다.\n강남에 왔다. 아는 사람도 있었다.\n그것으로 충분했다."
       }
@@ -309,7 +363,11 @@
       "flag": "jaehyuk_scammed",
       "min_turn": 10
     },
-    "tags": ["jaehyuk", "callback", "scam"],
+    "tags": [
+      "jaehyuk",
+      "callback",
+      "scam"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -319,7 +377,9 @@
           "stress": -5,
           "reputation": 1
         },
-        "flags": ["jaehyuk_publicly_exposed"],
+        "flags": [
+          "jaehyuk_publicly_exposed"
+        ],
         "follow_up_event": "",
         "result_text": "글을 올렸다. 댓글이 달렸다. '저도요. 저도 당했어요.'\n100만원이었던 피해가 다른 사람에게는 5000만원이었다.\n잃은 돈은 안 돌아왔지만 뭔가가 정리됐다."
       },
@@ -347,7 +407,11 @@
       "flag": "jaehyuk_exploited",
       "min_turn": 8
     },
-    "tags": ["jaehyuk", "callback", "blackmail"],
+    "tags": [
+      "jaehyuk",
+      "callback",
+      "blackmail"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -357,7 +421,9 @@
           "money": -3000000,
           "mental": 5
         },
-        "flags": ["jaehyuk_standoff_won"],
+        "flags": [
+          "jaehyuk_standoff_won"
+        ],
         "follow_up_event": "",
         "result_text": "'증거 다 있어. 신고 먼저 하면 돼.'\n재혁이 잠시 침묵하다 전화를 끊었다.\n일주일 뒤 돈이 들어왔다. 3배는 아니었지만 원금은 됐다."
       },
@@ -385,7 +451,11 @@
       "flag": "jaehyuk_partnered",
       "min_turn": 14
     },
-    "tags": ["jaehyuk", "callback", "betrayal"],
+    "tags": [
+      "jaehyuk",
+      "callback",
+      "betrayal"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -395,7 +465,9 @@
           "stress": 8,
           "reputation": -2
         },
-        "flags": ["jaehyuk_final_break"],
+        "flags": [
+          "jaehyuk_final_break"
+        ],
         "follow_up_event": "",
         "result_text": "녹취가 있었다. 재혁이 식었다.\n원래 비율대로 받았다. 5800만원.\n재혁과는 그걸로 끝이다. 처음부터 끝날 관계였다."
       },
@@ -406,7 +478,9 @@
           "stress": -5,
           "mental": -8
         },
-        "flags": ["jaehyuk_final_break"],
+        "flags": [
+          "jaehyuk_final_break"
+        ],
         "follow_up_event": "",
         "result_text": "3200만원을 받았다. 합의한 것보다 2600만원 적었다.\n\"됐어.\" 재혁이 어깨를 두드렸다.\n나오는 길에 손을 씻었다. 두 번."
       }
@@ -424,7 +498,11 @@
       "flag": "jaehyuk_reported",
       "min_turn": 8
     },
-    "tags": ["jaehyuk", "callback", "justice"],
+    "tags": [
+      "jaehyuk",
+      "callback",
+      "justice"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -435,7 +513,9 @@
           "reputation": 2,
           "money": -100000
         },
-        "flags": ["jaehyuk_testified"],
+        "flags": [
+          "jaehyuk_testified"
+        ],
         "follow_up_event": "",
         "result_text": "법정이었다.\n재혁과 눈이 마주쳤다. 그는 시선을 피했다.\n진술을 마치고 나왔다.\n하늘이 맑았다."
       },
@@ -463,7 +543,12 @@
       "flag": "coin_gambled",
       "min_turn": 5
     },
-    "tags": ["coin", "hyeonsu", "callback", "scam"],
+    "tags": [
+      "coin",
+      "hyeonsu",
+      "callback",
+      "scam"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -474,7 +559,9 @@
           "stress": 20,
           "intelligence": 3
         },
-        "flags": ["coin_lost_confirmed"],
+        "flags": [
+          "coin_lost_confirmed"
+        ],
         "follow_up_event": "",
         "result_text": "고시원을 찾아갔다.\n이미 나간 뒤였다.\n얼마 걸었는지 모르게 걸었다.\n집에 와서 계산해봤다. 400만원이 없어진 것이다.\n400만원. 두 달 치 생활비."
       },
@@ -486,7 +573,9 @@
           "stress": 10,
           "intelligence": 2
         },
-        "flags": ["coin_lost_confirmed"],
+        "flags": [
+          "coin_lost_confirmed"
+        ],
         "follow_up_event": "",
         "result_text": "전화를 끊었다.\n잠시 있다가 현수를 차단했다.\n이 돈은 등록금이다. 다시는 '확실한 정보'를 믿지 않겠다는."
       }
@@ -504,7 +593,11 @@
       "flag": "coin_refused",
       "min_turn": 5
     },
-    "tags": ["coin", "hyeonsu", "callback"],
+    "tags": [
+      "coin",
+      "hyeonsu",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -524,7 +617,9 @@
           "mental": 3,
           "money": -20000
         },
-        "flags": ["coin_helped_friend"],
+        "flags": [
+          "coin_helped_friend"
+        ],
         "follow_up_event": "",
         "result_text": "나왔다.\n현수는 밥 먹는 내내 말이 없었다.\n나오는 길에 현수가 말했다. \"야, 고마워.\"\n아무것도 안 했는데 고마웠다."
       }
@@ -542,7 +637,11 @@
       "flag": "coin_warned_friend",
       "min_turn": 6
     },
-    "tags": ["coin", "hyeonsu", "callback"],
+    "tags": [
+      "coin",
+      "hyeonsu",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -578,7 +677,12 @@
       "flag": "holiday_skipped",
       "min_turn": 8
     },
-    "tags": ["father", "holiday", "callback", "family"],
+    "tags": [
+      "father",
+      "holiday",
+      "callback",
+      "family"
+    ],
     "cooldown": 12,
     "choices": [
       {
@@ -598,7 +702,9 @@
           "stress": -3,
           "social_skill": 1
         },
-        "flags": ["father_promised_visit"],
+        "flags": [
+          "father_promised_visit"
+        ],
         "follow_up_event": "",
         "result_text": "\"...그래. 바쁜 거 안다.\"\n아버지가 먼저 끊었다.\n더 말하려고 했는데 말할 기회가 없었다.\n다음엔 진짜 가야겠다."
       }
@@ -616,7 +722,11 @@
       "flag": "holiday_snapped",
       "min_turn": 4
     },
-    "tags": ["family", "holiday", "callback"],
+    "tags": [
+      "family",
+      "holiday",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -626,7 +736,9 @@
           "stress": -5,
           "social_skill": 1
         },
-        "flags": ["holiday_reconciled"],
+        "flags": [
+          "holiday_reconciled"
+        ],
         "follow_up_event": "",
         "result_text": "\"그때 제가 좀 심했어요. 미안해요, 엄마.\"\n어머니가 \"됐다. 밥은 잘 먹고 다니냐.\" 했다.\n그 '됐다'가 용서인 것 같았다."
       },
@@ -654,7 +766,12 @@
       "flag": "holiday_dad_only",
       "min_turn": 6
     },
-    "tags": ["father", "holiday", "callback", "warm"],
+    "tags": [
+      "father",
+      "holiday",
+      "callback",
+      "warm"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -663,7 +780,9 @@
           "mental": 10,
           "stress": -5
         },
-        "flags": ["father_warm_moment"],
+        "flags": [
+          "father_warm_moment"
+        ],
         "follow_up_event": "",
         "result_text": "아버지가 \"됐어. 아빠가 사야지.\" 했다.\n그 답장이 이상하게 오래 눈에 남았다.\n뭔가 잘 되고 있는 것 같았다."
       },
@@ -673,7 +792,9 @@
           "mental": 8,
           "stress": -3
         },
-        "flags": ["father_warm_moment"],
+        "flags": [
+          "father_warm_moment"
+        ],
         "follow_up_event": "",
         "result_text": "이모티콘 하나가 갔다.\n아버지도 이모티콘을 보냈다.\n엄지손가락 하나.\n아버지가 이모티콘을 쓰는 걸 처음 봤다."
       }
@@ -692,7 +813,11 @@
       "has_job": true,
       "min_turn": 2
     },
-    "tags": ["workplace", "hoesik", "callback"],
+    "tags": [
+      "workplace",
+      "hoesik",
+      "callback"
+    ],
     "cooldown": 6,
     "choices": [
       {
@@ -731,7 +856,11 @@
       "has_job": true,
       "min_turn": 3
     },
-    "tags": ["workplace", "hoesik", "callback"],
+    "tags": [
+      "workplace",
+      "hoesik",
+      "callback"
+    ],
     "cooldown": 6,
     "choices": [
       {
@@ -741,7 +870,9 @@
           "stress": -3,
           "reputation": -1
         },
-        "flags": ["hoesik_boundary_set"],
+        "flags": [
+          "hoesik_boundary_set"
+        ],
         "follow_up_event": "",
         "result_text": "\"이번엔 일이 있어서요.\"\n후배가 '어, 그렇구나' 했다.\n회식 다음날 팀이 조용했다.\n그래도 몸은 멀쩡했다."
       },
@@ -770,7 +901,11 @@
       "flag": "startup_grind",
       "min_turn": 14
     },
-    "tags": ["startup", "callback", "investment"],
+    "tags": [
+      "startup",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -782,7 +917,9 @@
           "investment_skill": 2,
           "reputation": 3
         },
-        "flags": ["startup_still_running"],
+        "flags": [
+          "startup_still_running"
+        ],
         "follow_up_event": "",
         "result_text": "\"더 키우자. 엑싯은 아직 이르다.\"\n월급을 올렸다. 지분도 지켰다.\n1억 2천이 이제 시작이다."
       },
@@ -793,7 +930,9 @@
           "health": -3,
           "investment_skill": 1
         },
-        "flags": ["startup_partial_exit"],
+        "flags": [
+          "startup_partial_exit"
+        ],
         "follow_up_event": "",
         "result_text": "지분 30%를 4000만원에 세컨더리로 팔았다.\n리스크를 줄였다.\n4000만원이 통장에 찍혔다. 이게 처음으로 실현한 돈이었다."
       }
@@ -811,7 +950,10 @@
       "flag": "startup_balanced",
       "min_turn": 14
     },
-    "tags": ["startup", "callback"],
+    "tags": [
+      "startup",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -821,7 +963,9 @@
           "investment_skill": 2,
           "reputation": 2
         },
-        "flags": ["startup_reinvested"],
+        "flags": [
+          "startup_reinvested"
+        ],
         "follow_up_event": "",
         "result_text": "\"회사에 다시 넣자.\"\n공동창업자가 웃었다. \"그래서 너 믿는 거야.\"\n단기 수익은 없지만 이쪽이 맞는 것 같았다."
       },
@@ -850,7 +994,10 @@
       "flag": "startup_going_solo",
       "min_turn": 10
     },
-    "tags": ["startup", "callback"],
+    "tags": [
+      "startup",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -861,7 +1008,9 @@
           "reputation": 2,
           "investment_skill": 1
         },
-        "flags": ["startup_solo_growing"],
+        "flags": [
+          "startup_solo_growing"
+        ],
         "follow_up_event": "",
         "result_text": "첫 10명이 100명이 되는 데 3개월이 걸렸다.\n혼자였지만 혼자여서 빨랐다.\n결정마다 이유가 있었고, 그 이유는 내 것이었다."
       },

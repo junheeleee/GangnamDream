@@ -11,11 +11,18 @@
     "conditions": {
       "cast_stage": {
         "person": "daeun",
-        "in": ["warm", "close", "interest"]
+        "in": [
+          "warm",
+          "close",
+          "interest"
+        ]
       },
       "min_turn": 10
     },
-    "tags": ["relationship", "ripple"],
+    "tags": [
+      "relationship",
+      "ripple"
+    ],
     "cooldown": 20,
     "description": "폰에 알림이 왔다.\n다은이었다.\n\"요즘 잘 지내요?\"\n\n먼저 연락을 해본 적이 없는 사람이 — 먼저 물어봤다.\n{name}은 잠깐 화면을 보다가 답장을 쓰기 시작했다.",
     "choices": [
@@ -59,7 +66,10 @@
       "min_turn": 12,
       "flag": "arc_intro_hyunsu_seen"
     },
-    "tags": ["relationship", "tradeoff"],
+    "tags": [
+      "relationship",
+      "tradeoff"
+    ],
     "cooldown": 25,
     "description": "현수가 포장마차에서 술을 마시다가 꺼냈다.\n\"형, 저 지금 급하게 100만 원만 빌릴 수 있어요? 한 달만요.\"\n\n형동생처럼 가까운 사이다. 이유를 안 물어볼 수 없었다.\n\"투자 건이 있는데, 타이밍을 놓치기 싫어서요.\"",
     "choices": [
@@ -118,11 +128,19 @@
     "conditions": {
       "cast_stage": {
         "person": "sangchul",
-        "in": ["acquaintance", "trusted", "mentoring", "guardian"]
+        "in": [
+          "acquaintance",
+          "trusted",
+          "mentoring",
+          "guardian"
+        ]
       },
       "min_turn": 14
     },
-    "tags": ["relationship", "ripple"],
+    "tags": [
+      "relationship",
+      "ripple"
+    ],
     "cooldown": 20,
     "description": "상철과 커피를 마시다가 이야기가 길어졌다.\n그가 오래된 이야기를 꺼냈다.\n30대 초반, 자기도 지금의 {name}처럼 모든 걸 빠르게 쌓으려 했다고.\n\n\"근데 내가 제일 늦게 깨달은 게 — 속도보다 방향이더라.\"",
     "choices": [
@@ -161,7 +179,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["family", "ripple"],
+    "tags": [
+      "family",
+      "ripple"
+    ],
     "cooldown": 20,
     "description": "오랜만에 아버지와 단둘이 밥을 먹었다.\n둘 다 말이 없었다.\n아버지가 밥을 먹으면서 몇 번 {name}을 봤다가 시선을 내렸다.\n\n뭔가 하려다 안 한 것 같았다.",
     "choices": [
@@ -197,9 +218,12 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "min_turn": 18
+      "min_turn": 72
     },
-    "tags": ["family", "hidden"],
+    "tags": [
+      "family",
+      "hidden"
+    ],
     "cooldown": 40,
     "description": "어머니가 갑자기 옛날 이야기를 꺼냈다.\n젊었을 때 — 하고 싶었던 일이 있었다고.\n직업이 됐을 수도 있었는데 — 결혼하면서 내려놨다고.\n\n\"후회는 안 해. 근데 가끔 궁금해. 그 길을 갔으면 어떻게 됐을까.\"",
     "choices": [
@@ -243,7 +267,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["relationship", "social"],
+    "tags": [
+      "relationship",
+      "social"
+    ],
     "cooldown": 15,
     "description": "친구가 갑자기 포장마차로 불렀다.\n이별했다고.\n3년이었다고.\n\n술을 따라주며 {name}은 들었다. 아무 말도 안 해도 됐다.",
     "choices": [
@@ -276,9 +303,12 @@
     "weight": 0.9,
     "hidden": false,
     "conditions": {
-      "min_turn": 16
+      "min_turn": 64
     },
-    "tags": ["relationship", "tradeoff"],
+    "tags": [
+      "relationship",
+      "tradeoff"
+    ],
     "cooldown": 30,
     "description": "연락이 끊겼던 전 연인한테서 카톡이 왔다.\n\"잘 지내? 오랜만이다.\"\n\n왜 지금. {name}은 화면을 보며 생각했다.\n잘 지낸다고 해야 하는가, 솔직하게 말해야 하는가.",
     "choices": [
@@ -318,13 +348,19 @@
     "weight": 1.2,
     "hidden": false,
     "conditions": {
-      "min_turn": 20,
+      "min_turn": 80,
       "cast_stage": {
         "person": "sangchul",
-        "in": ["mentoring", "guardian"]
+        "in": [
+          "mentoring",
+          "guardian"
+        ]
       }
     },
-    "tags": ["relationship", "milestone"],
+    "tags": [
+      "relationship",
+      "milestone"
+    ],
     "cooldown": 30,
     "description": "상철이 오늘따라 천천히 말했다.\n\"사람이 늙으면 결국 관계만 남더라. 돈도 좋은데 — 혼자 있으면 쓸 데가 없어.\"\n\n{name}은 아무 말도 하지 않았다. 그냥 들었다.",
     "choices": [
@@ -369,7 +405,10 @@
       "has_job": true,
       "min_turn": 10
     },
-    "tags": ["relationship", "tradeoff"],
+    "tags": [
+      "relationship",
+      "tradeoff"
+    ],
     "cooldown": 20,
     "description": "화장실에서 나오다가 동료 둘이 이야기하는 걸 들었다.\n들으면 안 되는 내용이었다.\n인사 관련 정보였다 — {name}에게도 직접 영향이 있는 종류의.",
     "choices": [
@@ -413,7 +452,10 @@
     "conditions": {
       "min_turn": 12
     },
-    "tags": ["relationship", "social"],
+    "tags": [
+      "relationship",
+      "social"
+    ],
     "cooldown": 20,
     "description": "우연히 SNS에서 발견했다.\n어린 시절 같은 동네에 살던 친구 — 당시엔 뭐든 경쟁했다.\n지금은 대기업 임원이 됐다.\n\n{name}은 프로필을 보며 생각했다.\n그 친구도 그때의 우리를 기억할까.",
     "choices": [

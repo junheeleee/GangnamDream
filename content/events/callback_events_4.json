@@ -9,7 +9,7 @@
     "hidden": false,
     "conditions": {
       "flag": "final_sprint_aggressive",
-      "min_turn": 54
+      "min_turn": 216
     },
     "tags": [
       "final",
@@ -62,7 +62,7 @@
     "hidden": false,
     "conditions": {
       "flag": "final_sprint_defensive",
-      "min_turn": 54
+      "min_turn": 216
     },
     "tags": [
       "final",
@@ -114,7 +114,7 @@
     "hidden": false,
     "conditions": {
       "flag": "final_sprint_reflective",
-      "min_turn": 52
+      "min_turn": 208
     },
     "tags": [
       "final",

@@ -11,7 +11,12 @@
       "flag": "guarantee_signed",
       "min_turn": 8
     },
-    "tags": ["finance", "chain", "stress", "family"],
+    "tags": [
+      "finance",
+      "chain",
+      "stress",
+      "family"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -22,7 +27,9 @@
           "mental": -8,
           "social_skill": 2
         },
-        "flags": ["guarantee_confronted"],
+        "flags": [
+          "guarantee_confronted"
+        ],
         "result_text": "친구는 도망가지 않았다. 반지하 사무실에 혼자 있었다.\n\n\"미안하다. 미안하다는 말밖에 못 하겠다.\"\n\n사업이 망한 과정을 들었다. 사기를 당한 거였다. 그도.\n\n분할 상환 합의서를 같이 썼다. 일부는 {name}이 떠안았다.\n\n아버지 생각이 났다. 그때 그 사람도 — 이런 얼굴이었을까.",
         "follow_up_event": ""
       },
@@ -34,7 +41,9 @@
           "mental": -5,
           "intelligence": 4
         },
-        "flags": ["guarantee_legal_route"],
+        "flags": [
+          "guarantee_legal_route"
+        ],
         "result_text": "수임료 150만원. 그 돈이 아깝지 않았다.\n\n\"최고이자율 초과분, 기한이익 상실 통지 절차 하자 — 다툴 게 있어요.\"\n\n3,200만원이 700만원까지 내려왔다. 분할 24개월.\n\n변호사가 마지막에 말했다.\n\"다음부터 도장은 — 부모 장례식장에서도 찍지 마세요.\"\n\n그 말을 평생 기억하기로 했다.",
         "follow_up_event": ""
       }
@@ -52,7 +61,11 @@
       "flag": "guarantee_refused",
       "min_turn": 8
     },
-    "tags": ["social", "chain", "finance"],
+    "tags": [
+      "social",
+      "chain",
+      "finance"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -64,7 +77,9 @@
           "reputation": 4,
           "stress": 3
         },
-        "flags": ["helped_failed_friend"],
+        "flags": [
+          "helped_failed_friend"
+        ],
         "result_text": "\"밥이나 먹자.\"\n\n국밥집에서 만났다. 친구는 눈을 잘 못 마주쳤다.\n\"그때 거절해줘서 — 고맙다. 이상하지. 그 말 하려고 나왔다.\"\n\n헤어질 때 봉투를 쥐여줬다. 50만원. 빌려주는 게 아니라 주는 거라고 했다.\n\n보증은 거절했지만 친구는 거절하지 않았다.\n그 둘이 다른 거라는 걸 — 이제 둘 다 안다.",
         "follow_up_event": ""
       },
@@ -92,7 +107,11 @@
       "flag": "jeonse_insured",
       "min_turn": 6
     },
-    "tags": ["finance", "chain", "housing"],
+    "tags": [
+      "finance",
+      "chain",
+      "housing"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -103,7 +122,9 @@
           "mental": 10,
           "intelligence": 3
         },
-        "flags": ["jeonse_insurance_saved"],
+        "flags": [
+          "jeonse_insurance_saved"
+        ],
         "result_text": "서류 접수, 심사, 두 달.\n\n보증금 전액이 돌아왔다.\n\n같은 건물 다른 세입자들은 배당 순위에서 밀려 절반도 못 건졌다.\n복도에서 마주친 옆집 사람의 얼굴을 잊을 수가 없다.\n\n30만원. 한 달 식비.\n그게 수천만원을 지켰다.\n\n보험은 손해 보는 게임이라고들 한다.\n맞다. 단 한 번만 빼고.",
         "follow_up_event": ""
       }
@@ -121,7 +142,12 @@
       "flag": "jeonse_uninsured_gamble",
       "min_turn": 6
     },
-    "tags": ["finance", "chain", "housing", "stress"],
+    "tags": [
+      "finance",
+      "chain",
+      "housing",
+      "stress"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -132,7 +158,9 @@
           "mental": -8,
           "intelligence": 5
         },
-        "flags": ["jeonse_partial_recovery"],
+        "flags": [
+          "jeonse_partial_recovery"
+        ],
         "result_text": "법원, 등기소, 주민센터를 한 달 동안 돌았다.\n\n최우선변제금과 배당으로 보증금의 60%를 건졌다.\n40%는 — 800만원은 사라졌다.\n\n그날 보험료 30만원이 아까웠다.\n그 30만원이 800만원이었다.\n\n수업료치고 너무 비쌌다. 근데 이런 수업은 한 번이면 평생 간다.",
         "follow_up_event": ""
       },
@@ -144,7 +172,9 @@
           "mental": -12,
           "health": -4
         },
-        "flags": ["jeonse_chased_landlord"],
+        "flags": [
+          "jeonse_chased_landlord"
+        ],
         "result_text": "임대인 주소지를 찾아갔다. 이미 비어 있었다.\n\n같은 피해자가 열일곱 명이라는 걸 거기서 알았다.\n집단 소송에 이름을 올렸지만 — 회수 가능성은 낮다고 했다.\n\n법적 절차를 놓친 사이 배당요구 기한이 지났다.\n분노가 절차를 잡아먹었다.\n\n1,200만원. 서울이 가르치는 방식은 늘 이렇게 비싸다.",
         "follow_up_event": ""
       }
@@ -163,7 +193,11 @@
       "min_turn": 4,
       "max_health": 50
     },
-    "tags": ["health", "chain", "stress"],
+    "tags": [
+      "health",
+      "chain",
+      "stress"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -174,7 +208,9 @@
           "mental": 4,
           "stress": -6
         },
-        "flags": ["health_finally_treated"],
+        "flags": [
+          "health_finally_treated"
+        ],
         "result_text": "검사 결과 — 과로, 영양실조, 부정맥 초기.\n\n\"몇 달만 더 이렇게 사셨으면 큰일 났어요.\"\n\n병원비 120만원. 그때 응급실 갔으면 30만원이었다.\n\n몸은 외상값을 꼭 받아낸다. 이자까지 쳐서.\n\n퇴원하면서 처음으로 약속을 잡았다. 자신과. 밥은 먹고 달리기로.",
         "follow_up_event": ""
       },
@@ -186,7 +222,9 @@
           "mental": -6,
           "stress": 8
         },
-        "flags": ["health_ignored_twice"],
+        "flags": [
+          "health_ignored_twice"
+        ],
         "result_text": "의사가 만류했다. 간호사가 동의서를 받아갔다.\n'자의 퇴원'.\n\n병원 문을 나서는데 다리가 살짝 풀렸다.\n\n두 번 무시한 경고는 — 세 번째엔 경고가 아니다.\n그건 {name}도 알고 있었다. 알면서 걸었다.\n\n서울은 멈추는 법을 안 가르쳐준다.\n몸이 직접 가르칠 때까지.",
         "follow_up_event": ""
       }
@@ -205,7 +243,12 @@
       "has_job": true,
       "min_turn": 6
     },
-    "tags": ["job", "chain", "stress", "risk"],
+    "tags": [
+      "job",
+      "chain",
+      "stress",
+      "risk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -216,7 +259,9 @@
           "reputation": 3,
           "social_skill": 2
         },
-        "flags": ["interview_lie_confessed"],
+        "flags": [
+          "interview_lie_confessed"
+        ],
         "result_text": "2차 끝나고 팀장을 따로 잡았다.\n\n\"사실은 사업이 아니라 — 아버지 빚을 갚았습니다. 6년.\"\n\n팀장이 소주를 한 잔 따랐다. 한참 말이 없었다.\n\n\"발표는 내가 미룰게. 근데 — 빚 6년 갚은 놈이 사업 준비한 놈보다 나아.\n끈기는 못 꾸며내거든.\"\n\n거짓말은 사라졌다. 이상하게, 더 단단해진 채로.",
         "follow_up_event": ""
       },
@@ -229,7 +274,9 @@
           "reputation": 5,
           "mental": -3
         },
-        "flags": ["interview_lie_doubled"],
+        "flags": [
+          "interview_lie_doubled"
+        ],
         "result_text": "일주일 동안 새벽 3시까지 사업계획서 양식을 공부했다.\n\n발표는 — 통과됐다. 임원이 고개를 끄덕였다.\n\n돌아오는 길에 팀장이 어깨를 쳤다. \"역시 경험자네.\"\n\n그 말이 칭찬인데 체했다.\n\n거짓말은 이제 실력이 됐다. 근데 거짓말이 사라진 건 아니었다.\n더 깊이 들어갔을 뿐.",
         "follow_up_event": ""
       }
@@ -245,9 +292,13 @@
     "background": "late_night",
     "conditions": {
       "flag": "answered_happy_yes",
-      "min_turn": 36
+      "min_turn": 144
     },
-    "tags": ["mental", "chain", "night"],
+    "tags": [
+      "mental",
+      "chain",
+      "night"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -256,7 +307,9 @@
           "mental": 10,
           "stress": -8
         },
-        "flags": ["happy_consistent"],
+        "flags": [
+          "happy_consistent"
+        ],
         "result_text": "두 번 다 '그렇다'고 답할 수 있는 사람은 많지 않다.\n\n그게 돈 때문이 아니라는 걸 {name}은 안다.\n그날도 지금도, 통장 잔고가 답을 만든 게 아니었다.\n\n창밖에 서울이 있었다.\n이 도시에서 행복하다고 두 번 말한 사람이 — 여기 하나 있다.",
         "follow_up_event": ""
       },
@@ -267,7 +320,9 @@
           "stress": 3,
           "intelligence": 2
         },
-        "flags": ["happy_faded"],
+        "flags": [
+          "happy_faded"
+        ],
         "result_text": "그때는 그렇다고 했는데.\n\n뭐가 달라졌는지 따져봤다. 돈은 그때보다 있다. 근데.\n\n어딘가에서 뭔가를 두고 온 것 같았다.\n어디서였는지 — 그걸 찾는 게 남은 시간의 숙제가 됐다.",
         "follow_up_event": ""
       }
@@ -283,9 +338,13 @@
     "background": "late_night",
     "conditions": {
       "flag": "answered_happy_no",
-      "min_turn": 36
+      "min_turn": 144
     },
-    "tags": ["mental", "chain", "night"],
+    "tags": [
+      "mental",
+      "chain",
+      "night"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -294,7 +353,9 @@
           "mental": 12,
           "stress": -8
         },
-        "flags": ["happy_recovered"],
+        "flags": [
+          "happy_recovered"
+        ],
         "result_text": "아니라고 답했던 그 밤을 기억한다.\n\n그날과 지금 사이에 뭐가 있었나.\n큰 사건은 없었다. 그냥 — 버틴 날들이 쌓였다.\n\n행복이 어느 날 오는 게 아니라\n불행이 조금씩 빠져나가는 거라면,\n{name}은 지금 그 중간 어디쯤에 있다.\n\n그거면 됐다. 오늘은.",
         "follow_up_event": ""
       },
@@ -305,7 +366,9 @@
           "stress": 5,
           "intelligence": 3
         },
-        "flags": ["happy_still_no"],
+        "flags": [
+          "happy_still_no"
+        ],
         "result_text": "두 번째도 같은 답이었다.\n\n근데 이번엔 그 답 뒤에 질문이 하나 더 붙었다.\n\n그럼 — 뭘 바꿔야 하나.\n\n돈을 더 버는 게 답이 아닐 수도 있다는 생각을\n{name}은 처음으로 진지하게 했다.\n\n그 생각이 무서워서 빨리 잤다.\n근데 아침에도 그 생각은 거기 있었다.",
         "follow_up_event": ""
       }
@@ -321,9 +384,13 @@
     "background": "late_night",
     "conditions": {
       "flag": "answered_happy_unsure",
-      "min_turn": 36
+      "min_turn": 144
     },
-    "tags": ["mental", "chain", "night"],
+    "tags": [
+      "mental",
+      "chain",
+      "night"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -332,7 +399,9 @@
           "mental": 10,
           "stress": -6
         },
-        "flags": ["happy_resolved_yes"],
+        "flags": [
+          "happy_resolved_yes"
+        ],
         "result_text": "모르겠다고 했던 그날의 {name}에게 알려주고 싶었다.\n\n야, 너 나중에 이 질문에 그렇다고 답한다.\n믿기지 않겠지만.\n\n뭐가 바뀌었냐고 물으면 설명은 잘 안 된다.\n그냥 — 어느 순간부터 아침이 덜 무거웠다.\n\n그게 행복의 정의라면, 그렇다. 행복하다.",
         "follow_up_event": ""
       },
@@ -343,7 +412,9 @@
           "intelligence": 4,
           "stress": 2
         },
-        "flags": ["happy_resolved_no"],
+        "flags": [
+          "happy_resolved_no"
+        ],
         "result_text": "모르겠다가 아니다가 됐다.\n\n이상하게 — 후련했다.\n\n모르겠다는 안개 속이었는데, 아니다는 좌표였다.\n좌표가 있으면 방향을 잡을 수 있다.\n\n뭐가 문제인지 이제 보인다.\n남은 시간 동안 그걸 고치면 된다.\n\n아니다 — 는 출발점으로 쓸 만한 답이었다.",
         "follow_up_event": ""
       }
@@ -360,9 +431,13 @@
     "portrait": "father_normal",
     "conditions": {
       "flag": "promised_father_gangnam",
-      "min_turn": 40
+      "min_turn": 160
     },
-    "tags": ["family", "chain", "father"],
+    "tags": [
+      "family",
+      "chain",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -371,7 +446,9 @@
           "mental": 10,
           "stress": -5
         },
-        "flags": ["promise_reaffirmed"],
+        "flags": [
+          "promise_reaffirmed"
+        ],
         "result_text": "전화기 너머에서 아버지가 웃는 소리가 났다.\n\n\"그래. 근데 무리는 하지 마라. 아빠는 니가 —\"\n\n말이 끊겼다. 한참 조용했다.\n\n\"...건강해라. 끊는다.\"\n\n뚜뚜 소리를 들으며 {name}은 폰을 한참 들고 있었다.\n못다 한 말이 전화선 어딘가에 걸려 있었다.\n그 말까지 들으러 — 가야 했다. 강남이든 창원이든.",
         "follow_up_event": ""
       },
@@ -381,7 +458,9 @@
           "mental": 12,
           "stress": -8
         },
-        "flags": ["promise_changed"],
+        "flags": [
+          "promise_changed"
+        ],
         "result_text": "전화기 너머가 조용해졌다.\n\n\"...뭔 소리고. 아빠 집 있다.\"\n\n목소리가 떨렸다. 아닌 척하는 게 다 들렸다.\n\n\"끊는다. 밥 챙기 묵고.\"\n\n끊고 나서 깨달았다.\n강남은 조건이었는데, 방금 조건을 뗐다.\n약속에서 조건을 떼면 — 그게 진짜 약속이 된다.",
         "follow_up_event": ""
       }
@@ -399,7 +478,10 @@
       "flag": "mlm_escaped",
       "min_turn": 6
     },
-    "tags": ["social", "chain"],
+    "tags": [
+      "social",
+      "chain"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -409,7 +491,9 @@
           "social_skill": 2,
           "stress": -5
         },
-        "flags": ["mlm_friend_recovered"],
+        "flags": [
+          "mlm_friend_recovered"
+        ],
         "result_text": "국밥집. 동창은 얼굴이 탔지만 눈은 돌아와 있었다.\n\n\"그 강의실에서 네 표정 봤거든. 한심하다는 표정.\n그게 거울이었어. 나도 누군가한테 그 표정 짓게 만들고 있구나.\"\n\n국밥 두 그릇에 소주 한 병.\n계산은 동창이 했다. 14,000원.\n\n\"빚 갚고 나면 진짜 한 잔 사께.\"\n그 약속은 믿어도 될 것 같았다.",
         "follow_up_event": ""
       },
@@ -438,7 +522,12 @@
       "has_job": true,
       "min_turn": 4
     },
-    "tags": ["gambling", "chain", "stress", "addiction"],
+    "tags": [
+      "gambling",
+      "chain",
+      "stress",
+      "addiction"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -448,7 +537,9 @@
           "intelligence": 4,
           "stress": -4
         },
-        "flags": ["gambling_memory_defused"],
+        "flags": [
+          "gambling_memory_defused"
+        ],
         "result_text": "종이에 적어봤다.\n\n경마로 번 돈: 90만원 (1회)\n경마에 쓴 돈: 합치면 그 이상.\n\n뇌는 딴 날만 기억한다. 장부는 전부 기억한다.\n\n{name}은 그 종이를 지갑에 넣었다.\n과천 가고 싶은 날 꺼내 보기로 했다.\n\n월급은 2분짜리 드라마가 없다. 대신 매달 온다.\n그 차이가 인생을 만든다.",
         "follow_up_event": ""
       },
@@ -460,7 +551,9 @@
           "mental": -6,
           "luck": -2
         },
-        "flags": ["gambling_memory_relapsed"],
+        "flags": [
+          "gambling_memory_relapsed"
+        ],
         "result_text": "토요일. 과천. 4호선.\n\n'딱 한 번'은 다섯 경주가 됐다. 15만원이 녹았다.\n\n90만원의 기억이 문제였다.\n그 기억이 있는 한 '한 번만'은 거짓말이다.\n자신에게 하는 거짓말. 제일 잘 속는 상대에게.\n\n돌아오는 지하철에서 {name}은 창에 비친 얼굴을 봤다.\n낯익은 표정이었다. 어디서 봤더라.\n\n— 베팅창 앞 아저씨들 표정이었다.",
         "follow_up_event": ""
       }

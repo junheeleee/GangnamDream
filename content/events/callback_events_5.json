@@ -11,7 +11,12 @@
       "flag": "chaebol_contact",
       "min_turn": 12
     },
-    "tags": ["chaebol", "network", "callback", "legendary"],
+    "tags": [
+      "chaebol",
+      "network",
+      "callback",
+      "legendary"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -22,7 +27,9 @@
           "luck": 2,
           "intelligence": 2
         },
-        "flags": ["chaebol_met"],
+        "flags": [
+          "chaebol_met"
+        ],
         "follow_up_event": "",
         "result_text": "강남 카페. 그가 먼저 왔다.\n\"그날 명함 드리는 사람이 많은데, 직접 드린 건 처음이라서요.\"\n한 시간 얘기했다.\n그는 무언가를 원하는 게 아니었다. 그냥 — 사람이 궁금했던 것 같다.\n연락처를 남겼다. 이게 어디로 이어질지 모른다."
       },
@@ -50,7 +57,12 @@
       "flag": "approached_shadow_investors",
       "min_turn": 8
     },
-    "tags": ["sangchul", "shadow", "callback", "scam_risk"],
+    "tags": [
+      "sangchul",
+      "shadow",
+      "callback",
+      "scam_risk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -60,7 +72,9 @@
           "investment_skill": 2,
           "stress": 5
         },
-        "flags": ["shadow_investigated"],
+        "flags": [
+          "shadow_investigated"
+        ],
         "follow_up_event": "",
         "result_text": "금융감독원 사이트를 뒤졌다.\n비슷한 구조로 기소된 사례가 6건 나왔다.\n전화를 끊었다.\n'수익 보장'이라는 말 자체가 불법이다.\n알아본 게 맞았다."
       },
@@ -72,7 +86,9 @@
           "stress": 15,
           "intelligence": 3
         },
-        "flags": ["shadow_burned"],
+        "flags": [
+          "shadow_burned"
+        ],
         "follow_up_event": "",
         "result_text": "300만원을 넣었다.\n두 달 뒤 연락이 끊겼다.\n금감원에 신고했다. 수사가 시작됐다.\n300만원은 못 돌아왔다.\n강남 네트워크에 쉬운 길은 없었다."
       },
@@ -100,7 +116,11 @@
       "flag": "declined_sangchul_deal",
       "min_turn": 10
     },
-    "tags": ["sangchul", "callback", "investment_regret"],
+    "tags": [
+      "sangchul",
+      "callback",
+      "investment_regret"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -109,7 +129,9 @@
           "mental": -5,
           "intelligence": 3
         },
-        "flags": ["sangchul_deal_regret"],
+        "flags": [
+          "sangchul_deal_regret"
+        ],
         "follow_up_event": "",
         "result_text": "임상철이 말했다. \"아쉽지만 — 신중한 게 틀린 건 아니야.\"\n그날 넣었으면 지금쯤 1.8배였다.\n잃지 않은 것도 있다. 그래도 오래 생각됐다."
       },
@@ -137,7 +159,11 @@
       "flag": "jeonse_ignored",
       "min_turn": 6
     },
-    "tags": ["jeonse", "callback", "crisis"],
+    "tags": [
+      "jeonse",
+      "callback",
+      "crisis"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -147,7 +173,9 @@
           "money": 0,
           "intelligence": 3
         },
-        "flags": ["jeonse_insurance_saved"],
+        "flags": [
+          "jeonse_insurance_saved"
+        ],
         "follow_up_event": "",
         "result_text": "HUG에 청구서를 넣었다.\n3개월 후 보증금 전액이 들어왔다.\n가슴을 쓸어내렸다.\n보험에 가입해둔 게 다행이었다.\n그때 덮어두지 말았어야 했는데 — 다행히 운이 따랐다."
       },
@@ -158,7 +186,9 @@
           "money": -2000000,
           "mental": -10
         },
-        "flags": ["jeonse_fighting"],
+        "flags": [
+          "jeonse_fighting"
+        ],
         "follow_up_event": "",
         "result_text": "변호사를 선임했다. 200만원이 나갔다.\n경매 배당으로 일부는 돌아오겠지만 전액은 아니다.\n그때 등기부등본 한 번 더 뗐으면 됐는데.\n아는 것과 아는 척은 다르다."
       }
@@ -176,7 +206,11 @@
       "flag": "checked_registry",
       "min_turn": 5
     },
-    "tags": ["jeonse", "callback", "safe"],
+    "tags": [
+      "jeonse",
+      "callback",
+      "safe"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -214,7 +248,11 @@
       "flag": "wallet_took_cash",
       "min_turn": 5
     },
-    "tags": ["wallet", "callback", "guilt"],
+    "tags": [
+      "wallet",
+      "callback",
+      "guilt"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -224,7 +262,9 @@
           "mental": 15,
           "stress": -8
         },
-        "flags": ["wallet_guilt_resolved"],
+        "flags": [
+          "wallet_guilt_resolved"
+        ],
         "follow_up_event": "",
         "result_text": "돌려줄 수 없는 방법으로 갚았다.\n30만원과 쪽지 하나.\n'그날 지갑 주웠던 사람입니다. 늦었지만 돌려드립니다.'\n보내고 나서 한참 자리를 못 떴다."
       },
@@ -252,7 +292,10 @@
       "flag": "wallet_ignored",
       "min_turn": 4
     },
-    "tags": ["wallet", "callback"],
+    "tags": [
+      "wallet",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -288,7 +331,11 @@
       "flag": "fomo_invested",
       "min_turn": 4
     },
-    "tags": ["fomo", "investment", "callback"],
+    "tags": [
+      "fomo",
+      "investment",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -298,7 +345,9 @@
           "intelligence": 4,
           "investment_skill": 2
         },
-        "flags": ["fomo_cut_loss"],
+        "flags": [
+          "fomo_cut_loss"
+        ],
         "follow_up_event": "",
         "result_text": "팔았다. 79만원 손실.\n단체방을 나갔다.\n'다 하니까 나도'는 가장 비싼 수업료다."
       },
@@ -312,7 +361,7 @@
         "follow_up_event": "",
         "opportunity": {
           "stake_ratio": 0.12,
-          "success_rate": 0.40,
+          "success_rate": 0.4,
           "win_multiplier": 1.3,
           "loss_ratio": 0.12,
           "luck_factor": 0.001,
@@ -333,9 +382,13 @@
     "hidden": false,
     "conditions": {
       "flag": "declared_dream",
-      "min_turn": 40
+      "min_turn": 160
     },
-    "tags": ["hyeonsu", "dream", "callback"],
+    "tags": [
+      "hyeonsu",
+      "dream",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -372,7 +425,10 @@
       "flag": "deleted_sns",
       "min_turn": 10
     },
-    "tags": ["sns", "callback"],
+    "tags": [
+      "sns",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -408,7 +464,11 @@
       "flag": "envy_fuel",
       "min_turn": 10
     },
-    "tags": ["sns", "burnout", "callback"],
+    "tags": [
+      "sns",
+      "burnout",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -418,7 +478,9 @@
           "health": 3,
           "stress": -8
         },
-        "flags": ["envy_fuel_shifted"],
+        "flags": [
+          "envy_fuel_shifted"
+        ],
         "follow_up_event": "",
         "result_text": "분노는 빠른 연료지만 태우면 재가 된다.\n무언가를 '이루고 싶다'는 쪽으로 바꿨다.\n속도는 느려졌지만 냄새가 덜 났다."
       },
@@ -447,7 +509,11 @@
       "flag": "came_clean_to_friend",
       "min_turn": 6
     },
-    "tags": ["friendship", "honesty", "callback"],
+    "tags": [
+      "friendship",
+      "honesty",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -457,7 +523,9 @@
           "social_skill": 2,
           "stress": -5
         },
-        "flags": ["friendship_deepened"],
+        "flags": [
+          "friendship_deepened"
+        ],
         "follow_up_event": "",
         "result_text": "나왔다.\n둘 다 잘 안 되고 있었는데 이상하게 밥이 맛있었다.\n솔직한 사람한테 솔직한 사람이 모인다."
       },
@@ -484,7 +552,11 @@
       "flag": "borrowed_from_parents",
       "min_turn": 10
     },
-    "tags": ["parent", "debt", "callback"],
+    "tags": [
+      "parent",
+      "debt",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -494,7 +566,9 @@
           "mental": 15,
           "stress": -8
         },
-        "flags": ["parents_debt_repaid"],
+        "flags": [
+          "parents_debt_repaid"
+        ],
         "follow_up_event": "",
         "result_text": "이체 후 전화를 드렸다.\n아버지가 \"왔어?\" 하셨다.\n\"아버지, 그때 빌렸던 거 드렸어요.\"\n잠깐 침묵. \"됐어.\" 하셨다.\n그 '됐어'가 이상하게 오래 남았다."
       },
@@ -521,7 +595,11 @@
       "flag": "escaped_dirty_money",
       "min_turn": 5
     },
-    "tags": ["temptation", "callback", "police"],
+    "tags": [
+      "temptation",
+      "callback",
+      "police"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -531,7 +609,9 @@
           "mental": 5,
           "reputation": 1
         },
-        "flags": ["temptation_cooperated"],
+        "flags": [
+          "temptation_cooperated"
+        ],
         "follow_up_event": "",
         "result_text": "받은 돈을 돌려줬고, 피해자에게 일부를 보탰다고 설명했다.\n수사관이 말했다. \"본인이 자진해서 빠져나오셨군요.\"\n조사는 길었다. 명의자로 입건될 수도 있었다.\n한 달 후 '혐의 없음' 통보가 왔다.\n그날 빠져나온 게 맞았다."
       },
@@ -559,7 +639,11 @@
       "flag": "heard_father_young_story",
       "min_turn": 10
     },
-    "tags": ["father", "callback", "generational"],
+    "tags": [
+      "father",
+      "callback",
+      "generational"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -569,7 +653,9 @@
           "stress": -6,
           "social_skill": 1
         },
-        "flags": ["father_story_heard"],
+        "flags": [
+          "father_story_heard"
+        ],
         "follow_up_event": "",
         "result_text": "아버지가 한참을 얘기하셨다.\n서울역에서 내렸을 때 무서웠다고. 돈이 없어서 한 달을 굶다시피 했다고.\n그때 {name}의 지금이랑 달라 보이지 않았다.\n통화를 끊고 한참 있었다.\n같은 길을 걷고 있는 것 같았다."
       },
@@ -597,7 +683,11 @@
       "flag": "asked_father_health",
       "min_turn": 6
     },
-    "tags": ["father", "health", "callback"],
+    "tags": [
+      "father",
+      "health",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -606,7 +696,9 @@
           "mental": 10,
           "stress": -5
         },
-        "flags": ["father_health_checked"],
+        "flags": [
+          "father_health_checked"
+        ],
         "follow_up_event": "",
         "result_text": "아버지가 \"뭘, 별 거 아니야\" 하셨다.\n\"그래도 괜찮으셔서 다행이에요.\"\n전화를 끊고 한숨 놨다.\n그때 물어봤던 게 다행이었다."
       },
@@ -634,7 +726,11 @@
       "flag": "freelance_started",
       "min_turn": 8
     },
-    "tags": ["freelance", "callback", "career"],
+    "tags": [
+      "freelance",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -644,7 +740,9 @@
           "intelligence": 2,
           "reputation": 2
         },
-        "flags": ["freelance_growing"],
+        "flags": [
+          "freelance_growing"
+        ],
         "follow_up_event": "",
         "result_text": "50만원에 협의했다. 지난번 30만원에서 올렸다.\n이번엔 계약서도 썼다.\n입소문이란 게 이렇게 도는 것이었다.\n첫 건을 잘 마친 게 여기까지 왔다."
       },

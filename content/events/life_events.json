@@ -677,7 +677,7 @@
     "hidden": false,
     "conditions": {
       "has_job": true,
-      "min_turn": 18,
+      "min_turn": 72,
       "min_job_tier": 2
     },
     "tags": [
@@ -1126,7 +1126,7 @@
     "weight": 8,
     "hidden": false,
     "conditions": {
-      "min_turn": 21
+      "min_turn": 84
     },
     "tags": [
       "family",
@@ -2670,7 +2670,7 @@
     "cooldown": 99,
     "conditions": {
       "flag": "startup_founded",
-      "min_turn": 24,
+      "min_turn": 96,
       "no_flag": "startup_exit"
     },
     "tags": [
@@ -2716,7 +2716,7 @@
     "conditions": {
       "min_reputation": 55,
       "min_social_skill": 40,
-      "min_turn": 18,
+      "min_turn": 72,
       "no_flag": "political_candidate"
     },
     "tags": [
@@ -2760,7 +2760,7 @@
     "conditions": {
       "flag": "political_candidate",
       "min_reputation": 70,
-      "min_turn": 30,
+      "min_turn": 120,
       "no_flag": "political_winner"
     },
     "tags": [
@@ -3287,7 +3287,7 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_call_done",
-      "min_turn": 16
+      "min_turn": 64
     },
     "tags": [
       "relationship",
@@ -3341,8 +3341,8 @@
     "weight": 4.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 50,
-      "max_turn": 54
+      "min_turn": 200,
+      "max_turn": 216
     },
     "tags": [
       "life"
@@ -3400,8 +3400,8 @@
     "weight": 5.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 56,
-      "max_turn": 59
+      "min_turn": 224,
+      "max_turn": 236
     },
     "tags": [
       "life",
@@ -3572,8 +3572,8 @@
     "weight": 20.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 30,
-      "max_turn": 32
+      "min_turn": 120,
+      "max_turn": 128
     },
     "tags": [
       "story_beat",
@@ -3622,8 +3622,8 @@
     "weight": 20.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 45,
-      "max_turn": 47
+      "min_turn": 180,
+      "max_turn": 188
     },
     "tags": [
       "story_beat",
@@ -3662,8 +3662,8 @@
     "weight": 18.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 40,
-      "max_turn": 55,
+      "min_turn": 160,
+      "max_turn": 220,
       "flag": "skipped_father_wedding"
     },
     "tags": [
@@ -3711,8 +3711,8 @@
     "weight": 14.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 20,
-      "max_turn": 38
+      "min_turn": 80,
+      "max_turn": 152
     },
     "tags": [
       "social",
@@ -3770,7 +3770,7 @@
     "weight": 12.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 25,
+      "min_turn": 100,
       "flag": "lied_at_reunion"
     },
     "tags": [
@@ -3814,7 +3814,7 @@
     "weight": 10.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 50
+      "min_turn": 200
     },
     "tags": [
       "story_beat",
@@ -3982,7 +3982,7 @@
     "conditions": {
       "has_job": true,
       "min_route_orthodox": 12,
-      "min_turn": 20
+      "min_turn": 80
     },
     "tags": [
       "jobs",
@@ -4031,7 +4031,7 @@
     "conditions": {
       "has_job": true,
       "min_route_orthodox": 10,
-      "min_turn": 25
+      "min_turn": 100
     },
     "tags": [
       "jobs",
@@ -4092,8 +4092,8 @@
     "weight": 10.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 25,
-      "max_turn": 45,
+      "min_turn": 100,
+      "max_turn": 180,
       "no_flag": "father_health_known"
     },
     "tags": [
@@ -4148,8 +4148,8 @@
     "hidden": false,
     "conditions": {
       "flag": "father_health_known",
-      "min_turn": 30,
-      "max_turn": 52,
+      "min_turn": 120,
+      "max_turn": 208,
       "no_flag": "father_visited"
     },
     "tags": [
@@ -4206,8 +4206,8 @@
     "hidden": false,
     "conditions": {
       "flag": "talked_about_scam",
-      "min_turn": 34,
-      "max_turn": 58,
+      "min_turn": 136,
+      "max_turn": 232,
       "no_flag": "father_reconciled"
     },
     "tags": [
@@ -4490,7 +4490,11 @@
       "max_money": 1500000,
       "has_job": false
     },
-    "tags": ["survival", "finance", "stress"],
+    "tags": [
+      "survival",
+      "finance",
+      "stress"
+    ],
     "cooldown": 4,
     "description": "달력 앱에 '월세' 라고 적힌 날이 또 왔다.\n\n고시원비 52만 원. 전기·수도 포함이라는 게 그나마 위안이다.\n통장을 열었다. 잔고가 보였다.\n\n내야 한다는 건 안다. 근데 내고 나면 남는 게 얼마냐는 게 문제였다.\n\n아주머니가 조용히 두드리면 어쩌지 — 방에서 숨소리도 죽이고 있었다.",
     "choices": [
@@ -4531,7 +4535,11 @@
       "max_money": 800000,
       "has_job": false
     },
-    "tags": ["survival", "health", "daily"],
+    "tags": [
+      "survival",
+      "health",
+      "daily"
+    ],
     "cooldown": 3,
     "description": "오늘 끼니는 편의점에서 해결했다.\n\n삼각김밥 두 개, 총 2,400원.\n냉장고 옆에 서서 먹었다. 앉을 자리가 없어서가 아니라 — 앉으면 더 처량해 보일 것 같아서.\n\n계산대 알바생은 {name}보다 어린 것 같았다.\n저 아이는 지금 월급을 받고 있구나, 라는 생각이 잠깐 스쳤다.",
     "choices": [
@@ -4573,7 +4581,11 @@
       "has_job": false,
       "max_turn": 20
     },
-    "tags": ["survival", "jobs", "night"],
+    "tags": [
+      "survival",
+      "jobs",
+      "night"
+    ],
     "cooldown": 4,
     "description": "밤 11시. 잡코리아와 사람인을 번갈아 새로고침하고 있다.\n\n'경력 3년 이상 우대' — 신입이 어디서 3년을 쌓냐.\n'나이 무관' — 근데 생년월일 칸은 왜 있냐.\n'적극적인 분' — 이게 무슨 말이야.\n\n공고 27개를 열었다가 닫았다.\n지원한 건 2개.\n\n모니터 빛만 방 안을 채웠다.",
     "choices": [
@@ -4595,7 +4607,9 @@
           "mental": -1,
           "intelligence": 3
         },
-        "flags": ["resume_polished"],
+        "flags": [
+          "resume_polished"
+        ],
         "follow_up_event": "",
         "result_text": "새벽 2시까지 자기소개서 하나를 붙잡았다.\n완성도는 올라갔다. 눈은 빠질 것 같았다.\n지원 완료 버튼을 누르고 자리에 누웠다."
       }
@@ -4614,7 +4628,11 @@
       "has_job": false,
       "max_turn": 18
     },
-    "tags": ["survival", "social", "mental"],
+    "tags": [
+      "survival",
+      "social",
+      "mental"
+    ],
     "cooldown": 5,
     "description": "스크롤 하다가 대학 동기 사진이 떴다.\n\n'신입사원 출근 첫날! 설레는 마음으로 시작합니다 :)'\n\n사진 속 그는 와이셔츠를 입고 역 앞에서 찍었다.\n댓글에는 '고생했어' '드디어!' '밥 사줘ㅋㅋ' 가 줄줄이.\n\n{name}은 댓글을 달지 않았다. 좋아요도 누르지 않았다.\n그냥 핸드폰을 뒤집어 놓았다.",
     "choices": [

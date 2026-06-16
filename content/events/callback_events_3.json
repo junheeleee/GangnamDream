@@ -204,7 +204,7 @@
     "hidden": false,
     "conditions": {
       "flag": "cafe_honest_trust",
-      "min_turn": 20
+      "min_turn": 80
     },
     "tags": [
       "cafe",
@@ -248,7 +248,7 @@
     "hidden": false,
     "conditions": {
       "flag": "cafe_humble_lesson",
-      "min_turn": 16
+      "min_turn": 64
     },
     "tags": [
       "cafe",

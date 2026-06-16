@@ -467,7 +467,7 @@
     "weight": 4,
     "hidden": false,
     "conditions": {
-      "min_turn": 18,
+      "min_turn": 72,
       "has_relationship": true
     },
     "tags": [
@@ -2160,8 +2160,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_lunch_done",
-      "min_turn": 20,
-      "max_turn": 40,
+      "min_turn": 80,
+      "max_turn": 160,
       "no_flag": "sangchul_why_done"
     },
     "tags": [
@@ -2218,8 +2218,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_why_done",
-      "min_turn": 30,
-      "max_turn": 50,
+      "min_turn": 120,
+      "max_turn": 200,
       "no_flag": "sangchul_past_done"
     },
     "tags": [
@@ -2389,8 +2389,8 @@
     "conditions": {
       "flag": "daeun_shared",
       "no_flag": "daeun_date_done",
-      "min_turn": 18,
-      "max_turn": 40
+      "min_turn": 72,
+      "max_turn": 160
     },
     "tags": [
       "romance",
@@ -2447,8 +2447,8 @@
     "conditions": {
       "flag": "daeun_date_done",
       "no_flag": "daeun_ended",
-      "min_turn": 28,
-      "max_turn": 52
+      "min_turn": 112,
+      "max_turn": 208
     },
     "tags": [
       "romance",
@@ -2506,8 +2506,8 @@
     "hidden": false,
     "conditions": {
       "flag": "jiyeon_together",
-      "min_turn": 34,
-      "max_turn": 54,
+      "min_turn": 136,
+      "max_turn": 216,
       "no_flag": "jiyeon_world_faced"
     },
     "tags": [
@@ -2565,8 +2565,8 @@
     "hidden": false,
     "conditions": {
       "flag": "jiyeon_world_faced",
-      "min_turn": 38,
-      "max_turn": 56,
+      "min_turn": 152,
+      "max_turn": 224,
       "no_flag": "jiyeon_mother_met"
     },
     "tags": [
@@ -2676,8 +2676,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_past_done",
-      "min_turn": 36,
-      "max_turn": 54,
+      "min_turn": 144,
+      "max_turn": 216,
       "no_flag": "sangchul_opportunity_done"
     },
     "tags": [
@@ -2734,8 +2734,8 @@
     "hidden": false,
     "conditions": {
       "flag": "sangchul_opportunity_done",
-      "min_turn": 44,
-      "max_turn": 58,
+      "min_turn": 176,
+      "max_turn": 232,
       "no_flag": "sangchul_farewell_done"
     },
     "tags": [

@@ -468,7 +468,7 @@
     "weight": 8,
     "hidden": false,
     "conditions": {
-      "min_turn": 18,
+      "min_turn": 72,
       "has_portfolio": true
     },
     "tags": [
@@ -1913,7 +1913,7 @@
     "weight": 2,
     "hidden": false,
     "conditions": {
-      "min_turn": 28,
+      "min_turn": 112,
       "min_money": 100000000
     },
     "tags": [
