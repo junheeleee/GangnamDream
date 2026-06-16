@@ -1076,12 +1076,19 @@ func _next_arc_id() -> String:
 			and not f.get("arc_job_rejection_seen", false):
 		return "arc_job_first_rejection"
 
-	# ── 첫 달 생활비 충격 (턴 9) ──
-	if t >= 9 and not f.get("arc_expense_shock_seen", false):
-		return "arc_first_expense_shock"
+	# ── 첫 정산 (턴 9) — 자산 구간이 장면을 고른다. 선택/AP의 결과가 화면으로. ──
+	if t >= 9 and not f.get("arc_money_check_seen", false):
+		var nav: float = GameState.get_total_asset_value()
+		if nav < 1_000_000.0:
+			return "arc_money_check_low"      # 마이너스~빠듯: 통장 충격
+		elif nav < 30_000_000.0:
+			return "arc_money_check_mid"       # 쌓이는 중: 첫 결실
+		else:
+			return "arc_money_check_high"      # 3천만+: 이게 되네 (자신감/경고)
 
-	# ── 얇은 벽 — 고시원 새벽 3시 (턴 11) ──
-	if t >= 11 and not f.get("arc_gosiwon_wall_seen", false):
+	# ── 얇은 벽 — 고시원 새벽 3시 (턴 11, 고시원 거주 중에만) ──
+	if t >= 11 and GameState.housing == "gosiwon" \
+			and not f.get("arc_gosiwon_wall_seen", false):
 		return "arc_gosiwon_wall"
 
 	# ★ 신규 유저 안전망 (턴 10+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.

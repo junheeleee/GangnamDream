@@ -2836,7 +2836,7 @@
     ]
   },
   {
-    "id": "arc_first_expense_shock",
+    "id": "arc_money_check_low",
     "title": "통장 잔액",
     "background": "goshiwon_room",
     "portrait": "player_tired",
@@ -2845,27 +2845,95 @@
     "weight": 0,
     "hidden": false,
     "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "tags": ["story", "arc", "internal", "money_check"],
     "cooldown": 9999,
     "description": "한 달이 지났다.\n\n모바일 뱅킹 앱을 열었다. 고시원비, 통신비, 교통비, 밥값. 숫자들이 줄줄이 빠져나간 내역.\n\n잔액: {money}.\n\n머리로는 알고 있었는데, 숫자로 보니까 달랐다.",
     "choices": [
       {
         "text": "지출 목록을 정리했다 — 어디서 더 아낄 수 있나",
         "effects": { "intelligence": 1, "stress": 2 },
-        "flags": ["arc_expense_shock_seen", "budget_planned"],
+        "flags": ["arc_money_check_seen", "budget_planned"],
         "result_text": "항목별로 쪼갰다. 줄일 수 있는 건 밥값뿐이었다. 편의점 도시락 2,800원. 하루 두 끼면 한 달 16만원. 숫자를 알면 무서운 게 오히려 줄었다."
       },
       {
         "text": "앱을 껐다 — 나중에 보자",
         "effects": { "stress": -2, "mental": -4 },
-        "flags": ["arc_expense_shock_seen"],
+        "flags": ["arc_money_check_seen"],
         "result_text": "보지 않으면 없는 것처럼. 그건 아니라는 걸 알면서도. 화면이 꺼지고 {name}의 얼굴이 반사됐다."
       },
       {
         "text": "당장 알바를 알아봤다",
         "effects": { "luck": 1, "stress": 1, "social_skill": 1 },
-        "flags": ["arc_expense_shock_seen", "considered_parttime"],
+        "flags": ["arc_money_check_seen", "considered_parttime"],
         "result_text": "알바몬을 켰다. 편의점, 물류센터, 주유소. 시급 9,860원. 하루 8시간이면 한 달 210만원. 이걸 해야 하나 말아야 하나 — 내일 다시 생각하기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_money_check_mid",
+    "title": "조금씩",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal", "money_check"],
+    "cooldown": 9999,
+    "description": "한 달이 지났다.\n\n모바일 뱅킹 앱을 열었다. 빠져나간 것도 있지만, 처음으로 — 들어온 게 더 많았다.\n\n잔액: {money}.\n\n큰돈은 아니다. 누구한테 자랑할 숫자도 아니다. 그런데 {name}은 화면을 한참 봤다. 처음으로 줄지 않고 늘어난 통장이었다.",
+    "choices": [
+      {
+        "text": "스크린샷을 찍었다 — 기록으로 남긴다",
+        "effects": { "mental": 4, "stress": -2 },
+        "flags": ["arc_money_check_seen"],
+        "result_text": "앨범에 저장했다. 나중에 이 숫자가 우습게 보일 만큼 커지면, 그때 다시 보려고. 시작점을 남겨두는 거다."
+      },
+      {
+        "text": "다음 달 목표를 적었다",
+        "effects": { "intelligence": 1, "investment_skill": 1, "stress": 1 },
+        "flags": ["arc_money_check_seen", "set_monthly_goal"],
+        "result_text": "메모장을 열었다. 다음 달 목표 잔액. 숫자 하나를 적었다. 막연했던 게 처음으로 구체적인 칸이 됐다."
+      },
+      {
+        "text": "별거 아니라고 생각했다 — 아직 멀었다",
+        "effects": { "stress": 2, "mental": -1, "intelligence": 1 },
+        "flags": ["arc_money_check_seen", "stayed_hungry"],
+        "result_text": "30억까지 0.0몇 퍼센트. 이 정도로 안심하면 안 된다. {name}은 앱을 껐다. 만족은 사치였다, 아직은."
+      }
+    ]
+  },
+  {
+    "id": "arc_money_check_high",
+    "title": "이게 되네",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal", "money_check"],
+    "cooldown": 9999,
+    "description": "한 달이 지났다.\n\n모바일 뱅킹 앱을 열었다. 그리고 — 다시 한번 봤다.\n\n잔액: {money}.\n\n한 달 전엔 50만원이었다. {name}은 숫자를 손가락으로 짚어봤다. 자릿수를 세 번 셌다. 맞았다.\n\n무서웠다. 좋은데, 무서웠다. 이게 실력인지 운인지 모르니까.",
+    "choices": [
+      {
+        "text": "이건 운이다 — 들뜨지 말자",
+        "effects": { "intelligence": 2, "mental": 2, "stress": 1 },
+        "flags": ["arc_money_check_seen", "stayed_grounded"],
+        "result_text": "들뜨는 순간 잃는다는 걸 안다. 한 번의 운을 실력으로 착각하면 그다음이 위험하다. {name}은 차분하게 다음 수를 생각했다."
+      },
+      {
+        "text": "더 크게 가야 한다 — 지금이 기회다",
+        "effects": { "investment_skill": 1, "stress": 4, "mental": 3 },
+        "flags": ["arc_money_check_seen", "early_greed"],
+        "result_text": "이 흐름을 못 타면 바보다. {name}의 심장이 뛰었다. 더, 더 크게. 그 생각이 머리에서 떠나지 않았다. 좋은 신호인지 나쁜 신호인지는, 아직 모른다."
+      },
+      {
+        "text": "누구한테도 말하지 않기로 했다",
+        "effects": { "mental": 1, "stress": -1, "intelligence": 1 },
+        "flags": ["arc_money_check_seen", "kept_quiet_money"],
+        "result_text": "돈 얘기는 입 밖에 내는 순간 복잡해진다. 가족도, 친구도, 아직은. {name}은 폰을 엎어놓았다. 혼자 아는 비밀이 하나 생겼다."
       }
     ]
   },
