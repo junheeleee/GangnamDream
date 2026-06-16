@@ -1,0 +1,1049 @@
+[
+  {
+    "id": "arc_hyunsu_night_talk",
+    "title": "새벽 2시, 라면",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "hyunsu"],
+    "cooldown": 9999,
+    "description": "고시원 공용 부엌. 새벽 2시.\n\n냉장고를 열러 나왔다가 현수가 있는 걸 봤다.\n\n4년째 공시생. 볼 때마다 이어폰에 인강이었는데, 오늘은 라면 봉지만 뜯고 창밖을 보고 있었다. {name}이 물을 끓이면서 물었다. \"오늘은 공부 안 해?\"\n\n현수가 돌아봤다. 눈이 좀 빨개져 있었다.\n\n\"...형은요. 그 30억, 진짜 될 것 같아요?\"",
+    "choices": [
+      {
+        "text": "\"그럼. 안 되면 어쩔 건데.\" — 확신 있게",
+        "effects": { "mental": 2, "stress": 2 },
+        "flags": ["arc_hyunsu_night_seen"],
+        "result_text": "\"그거면 됐죠, 뭐.\" 현수는 라면을 다시 먹기 시작했다. 뭔가를 확인한 것처럼.\n\n그날 밤, 둘 다 아무 말 없이 각자 끓인 거 먹었다. 부엌에서 냉장고 돌아가는 소리만 났다."
+      },
+      {
+        "text": "\"모르겠어. 근데 안 하면 확실히 안 되잖아.\"",
+        "effects": { "mental": 4, "social_skill": 1 },
+        "flags": ["arc_hyunsu_night_seen", "shared_doubt_with_hyunsu"],
+        "result_text": "현수가 웃었다. \"그게 더 무서운 말이에요.\"\n\n잠깐 침묵이 흘렀다. 밖에서 차 소리가 한 번 지나갔다. 라면이 다 불었는데 아무도 건드리지 않았다."
+      },
+      {
+        "text": "\"너는 될 것 같아?\" — 되물어본다",
+        "effects": { "intelligence": 1, "stress": -2 },
+        "flags": ["arc_hyunsu_night_seen"],
+        "result_text": "현수가 한동안 말이 없었다. \"...모르겠어요. 근데 그게 제일 무서운 거예요.\"\n\n둘이 라면을 먹으면서 한참 아무 말도 안 했다. 이상하게 편한 침묵이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_midpoint_reckoning",
+    "title": "반환점",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "33세에 시작했다. 지금 — 2년 반이 지났다.\n\n5년의 절반.\n\n핸드폰 계산기를 꺼냈다. 목표: 30억. 남은 시간: 30개월.\n한 달에 얼마씩 불려야 하는지 계산했다.\n\n숫자가 나왔다. {name}은 화면을 잠시 들여다봤다.\n\n불가능한 숫자는 아니었다. 하지만 지금 속도로는 — 무언가 달라져야 했다.\n밖에서 편의점 알바 끝난 현수가 들어오는 소리가 났다.",
+    "choices": [
+      {
+        "text": "\"더 크게 베팅해야 한다.\" — 속도를 올린다",
+        "effects": { "investment_skill": 1, "stress": 5, "mental": -2 },
+        "flags": ["arc_midpoint_reckoning_seen", "midpoint_bet_more"],
+        "result_text": "두려움보다 흥분이 앞섰다. 이제 와서 안전하게 가면 늦는다.\n\n지금까지 잃지 않은 게 다행인 거고 — 이제부터가 진짜다."
+      },
+      {
+        "text": "\"지금 방식이 맞다. 흔들리지 않는다.\" — 버틴다",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_midpoint_reckoning_seen", "midpoint_steady"],
+        "result_text": "2년 반 동안 포기하지 않았다. 그게 증거다.\n\n이 판은 빠른 사람이 이기는 게임만은 아니다. 버티는 사람이 남는 게임이기도 하다."
+      },
+      {
+        "text": "\"전략을 다시 짜야 한다.\" — 멈추고 생각한다",
+        "effects": { "intelligence": 2, "stress": 2 },
+        "flags": ["arc_midpoint_reckoning_seen", "midpoint_replan"],
+        "result_text": "빠른 것보다 올바른 게 낫다고 배웠다.\n\n지금까지의 선택들을 하나씩 다시 들여다봤다. 뭔가 조정이 필요한 부분이 있었다. 보이기 시작했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_offguard",
+    "title": "임상철의 빈틈",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철 씨 사무소. 계약 서류를 같이 검토하다 늦어졌다.\n\n그가 전화를 받으러 자리를 비웠다. 10분. 15분.\n\n돌아왔을 때 평소와 다른 얼굴이었다. 말없이 서류를 펼쳤다가, 갑자기 꺼냈다.\n\n\"아들내미 전화였어. 대학 그만두겠다고.\"\n\n물어보지 않았는데 그가 말했다. \"공부를 안 하겠다는 건지, 그냥 싫다는 건지. 나도 잘 모르겠어.\"\n\n이 사람이 이런 말을 꺼낸 건 처음이었다.",
+    "choices": [
+      {
+        "text": "\"힘드시겠다.\" — 조용히 공감한다",
+        "effects": { "social_skill": 1, "stress": -2 },
+        "flags": ["arc_sangchul_offguard_seen"],
+        "cast_effects": { "sangchul": { "affinity": 3 } },
+        "result_text": "임상철 씨가 잠깐 멈추더니 서류를 다시 폈다. \"어쩌겠어. 그것도 사람 일이지.\"\n\n그날 이후로 그를 조금 다르게 봤다. 30년 경력 아래에도 이런 것들이 있었다."
+      },
+      {
+        "text": "\"임상철 씨는 그때 어떻게 하셨어요?\" — 궁금해진다",
+        "effects": { "intelligence": 1 },
+        "flags": ["arc_sangchul_offguard_seen", "sangchul_personal_known"],
+        "cast_effects": { "sangchul": { "affinity": 5 } },
+        "result_text": "\"나는? 나는 그냥 버텼지.\" 그가 창밖을 보면서 말했다. \"버티다 보면 뭐가 보이더라. 지금 와서 말하는 거지만.\"\n\n짧은 침묵이 흘렀다. 30년이 그 침묵 안에 있는 것 같았다."
+      },
+      {
+        "text": "\"아드님은 뭘 하고 싶은 거래요?\" — 자식 얘기로 넘어간다",
+        "effects": { "stress": -1 },
+        "flags": ["arc_sangchul_offguard_seen"],
+        "cast_effects": { "sangchul": { "affinity": 2 } },
+        "result_text": "\"그게 없으니까 문제지.\" 임상철 씨가 말했다.\n\n그 말이 나한테도 해당되는 것 같아서 — {name}은 아무 말도 하지 못했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_job_vs_invest",
+    "title": "팀장의 말",
+    "background": "office",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "job"],
+    "cooldown": 9999,
+    "description": "오후 4시. 팀장이 불렀다.\n\n\"요즘 집중이 좀 안 돼 보여서.\"\n\n{name}은 오전 회의 중에 주식 앱을 봤었다. 잠깐이라고 생각했는데.\n\n팀장이 직접 그 얘기를 꺼내진 않았다. 그냥 \"요즘 어때요. 일이 힘든 건 아니죠?\" 라고 물었다.\n\n여기서 월급을 받아야 한다. 그리고 저기서 돈을 벌어야 한다.\n이 두 가지를 동시에 하는 게 — 가능한 걸까.",
+    "choices": [
+      {
+        "text": "\"죄송합니다. 정신 차리겠습니다.\" — 직장을 잡는다",
+        "effects": { "stress": -3, "reputation": 1, "mental": -2 },
+        "flags": ["arc_job_invest_clash_seen", "recommitted_to_job"],
+        "result_text": "팀장이 고개를 끄덕이고 보냈다. 자리로 돌아오면서 {name}은 주식 앱 알림을 껐다.\n\n이 결정이 옳은 건지, 아니면 기회를 또 놓치는 건지 — 퇴근 때까지 몰랐다."
+      },
+      {
+        "text": "솔직하게 털어놓는다 — \"개인적으로 공부하는 게 있어서요\"",
+        "effects": { "social_skill": 1, "stress": 4, "reputation": 1 },
+        "flags": ["arc_job_invest_clash_seen", "honest_to_boss"],
+        "result_text": "팀장의 눈빛이 달라졌다. \"그래요? 어떤 공부요?\"\n\n생각보다 대화가 길어졌다. 팀장도 주식에 관심이 있었다. 예상 못 한 전환이었다. 이게 도움이 될지, 감시가 될지는 아직 모른다."
+      },
+      {
+        "text": "\"좀 피곤했었어요. 조심하겠습니다.\" — 넘어간다",
+        "effects": { "stress": 5, "mental": -3 },
+        "flags": ["arc_job_invest_clash_seen"],
+        "result_text": "팀장은 믿었는지 아닌지 모를 표정으로 보냈다. {name}은 자리에 돌아와 핸드폰을 서랍 안에 넣었다.\n\n이 생활이 언제까지 갈 수 있을까. 대답을 내일로 미뤘다."
+      }
+    ]
+  },
+  {
+    "id": "arc_social_comparison",
+    "title": "동창",
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "social", "inequality"],
+    "cooldown": 9999,
+    "description": "우연이었다. 점심 혼자 먹으러 들어간 식당에서 고등학교 때 같은 반이었던 얼굴을 봤다.\n\n같은 출발선이었다. 그때는.\n\n그 애는 양복 차림에 동료들과 함께였다. 웃음소리가 컸고, 자리 잡는 게 익숙했다.\n\n눈이 마주쳤다. 상대도 봤다. 둘 다 잠깐 멈췄다.",
+    "choices": [
+      {
+        "text": "반갑게 다가간다 — \"야, 오랜만이다\"",
+        "effects": { "social_skill": 1, "stress": 5, "mental": -3 },
+        "flags": ["arc_social_comparison_seen", "faced_comparison"],
+        "result_text": "\"아, 어, 오랜만이다. 요즘 뭐 해?\" 상대가 물었다.\n\n{name}이 대답했다. 상대의 반응은 빠르고 예의 바르고 공허했다. \"아 그렇구나, 잘 됐다.\" 그리고 자기 자리로 돌아갔다."
+      },
+      {
+        "text": "못 본 척한다 — 구석 자리를 찾는다",
+        "effects": { "mental": -5, "stress": 3 },
+        "flags": ["arc_social_comparison_seen", "avoided_comparison"],
+        "result_text": "등을 돌리고 앉았다. 건너편에서 웃음소리가 들렸다.\n\n밥을 다 먹기 전에 나왔다. 이게 도망인지, 선택인지 모르겠다."
+      },
+      {
+        "text": "다가가서 진심으로 얘기한다",
+        "effects": { "social_skill": 2, "intelligence": 1, "mental": 3 },
+        "flags": ["arc_social_comparison_seen", "honest_comparison"],
+        "result_text": "얘기해보니 그 애도 잘 사는 건 아니었다. 그냥 달랐다.\n\n둘 다 같은 출발선에서 다른 방향으로 걸어온 것뿐이다. 어느 쪽이 맞는지는 아직 아무도 모른다."
+      }
+    ]
+  },
+  {
+    "id": "arc_first_real_win",
+    "title": "오천만원",
+    "background": "goshiwon_room",
+    "portrait": "player_happy",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "계산기를 껐다가 다시 켰다. 숫자가 그대로였다.\n\n오천만원.\n\n아직 30억까지 멀었다. 하지만 — 50만원에서 시작한 거였다.\n\n{name}은 처음으로 이게 가능하다는 걸 숫자로 봤다. 느낌이 아니라.",
+    "choices": [
+      {
+        "text": "아무에게도 말 안 한다. 혼자 편의점 가서 비싼 거 산다",
+        "effects": { "mental": 8, "stress": -4, "money": -15000 },
+        "flags": ["arc_first_real_win_seen"],
+        "result_text": "말해봤자 이해 못 할 것 같아서.\n\n혼자 편의점에서 5천원짜리 아이스크림을 샀다. 고시원 계단에 앉아서 먹었다. 맛있었다."
+      },
+      {
+        "text": "아버지에게 전화한다",
+        "effects": { "mental": 10, "stress": -3 },
+        "flags": ["arc_first_real_win_seen", "told_father_win"],
+        "cast_effects": { "father": { "affinity": 5 } },
+        "result_text": "자세히 말하지는 않았다. \"저 요즘 잘 되고 있어요.\"\n\n아버지가 \"그래\" 하고 짧게 대꾸했다. 그게 충분했다."
+      },
+      {
+        "text": "다음 목표를 바로 잡는다 — 5억",
+        "effects": { "mental": 5, "investment_skill": 1 },
+        "flags": ["arc_first_real_win_seen", "next_milestone_set"],
+        "result_text": "50만원에서 5천만원. 다음은 5억. 그다음은 50억.\n\n계단이 보였다. 처음으로."
+      }
+    ]
+  },
+  {
+    "id": "arc_hyunsu_new_path",
+    "title": "현수가 떠난다",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "hyunsu"],
+    "cooldown": 9999,
+    "description": "복도에 박스가 놓여 있었다.\n\n현수 방 문이 열려 있었다. 짐이 절반으로 줄어 있었다.\n\n\"형, 저 나가요.\" 현수가 말했다. \"형이 나간 뒤로 생각을 많이 했어요.\"\n\n6년. 공무원 시험 6년.\n\n\"그래서 어떻게 할 건데?\" {name}이 물었다.\n\"아직 몰라요.\" 현수가 웃었다. \"근데 이거 아닌 것 같아서요.\"",
+    "choices": [
+      {
+        "text": "\"잘 됐어. 잘 가.\" — 진심으로 응원한다",
+        "effects": { "mental": 5, "social_skill": 1 },
+        "flags": ["arc_hyunsu_new_path_seen"],
+        "cast_effects": { "hyunsu": { "affinity": 5 } },
+        "result_text": "현수가 고개를 꾸벅했다. 어색하지 않게 웃었다.\n\n짐을 들고 계단을 내려가는 걸 봤다. 이 고시원을 거쳐간 두 사람. 각자 다른 방향이었다."
+      },
+      {
+        "text": "\"뭐 할 건지 생각은 있어?\" — 궁금해진다",
+        "effects": { "intelligence": 1, "mental": 3 },
+        "flags": ["arc_hyunsu_new_path_seen", "asked_hyunsu_plan"],
+        "cast_effects": { "hyunsu": { "affinity": 4 } },
+        "result_text": "\"요리 배우려고요. 이상하죠?\" 현수가 말했다.\n\n이상하지 않았다. 오히려 — 처음으로 현수의 눈빛이 뭔가를 향하고 있었다."
+      },
+      {
+        "text": "아무 말 않고 악수한다",
+        "effects": { "mental": 4 },
+        "flags": ["arc_hyunsu_new_path_seen"],
+        "cast_effects": { "hyunsu": { "affinity": 3 } },
+        "result_text": "현수가 잠깐 놀란 것 같더니 악수를 받았다.\n\n말이 필요 없는 것들이 있다."
+      }
+    ]
+  },
+  {
+    "id": "arc_career_ceiling",
+    "title": "월급의 한계",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "job"],
+    "cooldown": 9999,
+    "description": "1년이 됐다. 승진도 했다. 월급이 올랐다.\n\n집에 와서 계산기를 꺼냈다. 이 월급으로 30억을 모으려면.\n\n숫자가 나왔다. 아무리 잘해도, 이 라인으로는 — 수학적으로 불가능했다.\n\n아버지도 월급쟁이였다. 평생.\n\n{name}은 계산기 화면을 한동안 바라봤다.",
+    "choices": [
+      {
+        "text": "\"그래도 직장은 지킨다\" — 안정의 기반으로 쓴다",
+        "effects": { "mental": 3, "stress": -4, "money": 500000 },
+        "flags": ["arc_career_ceiling_seen", "kept_job_as_base"],
+        "result_text": "월급은 수단이다. 투자 재원을 만드는 곳.\n\n이 자리에서 잘 보이는 척하면서 다른 걸 키운다. 두 마리 토끼 중 하나만 잡으려고 여기 온 게 아니었다."
+      },
+      {
+        "text": "\"더 크게 움직여야 한다\" — 이직이나 다른 길을 생각한다",
+        "effects": { "investment_skill": 1, "stress": 6, "intelligence": 1 },
+        "flags": ["arc_career_ceiling_seen", "career_pivot_intent"],
+        "result_text": "이 월급으로는 안 된다. 어딘가 다른 판이 있을 것이다.\n\n퇴근길에 이직 사이트를 열었다. 뭔가를 바꿔야 한다는 확신만 있고, 뭘 바꿔야 하는지는 아직 몰랐다."
+      },
+      {
+        "text": "\"처음부터 알고 있었다\" — 받아들인다",
+        "effects": { "intelligence": 2, "mental": 3, "stress": -2 },
+        "flags": ["arc_career_ceiling_seen"],
+        "result_text": "처음부터 월급만으로 할 생각은 없었다.\n\n계산기를 덮었다. 월급 말고 다른 걸 키우면 된다. 오늘도 그걸 하면 된다."
+      }
+    ]
+  },
+  {
+    "id": "arc_goshiwon_goodbye",
+    "title": "고시원을 나오는 날",
+    "background": "goshiwon_hallway",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "housing"],
+    "cooldown": 9999,
+    "description": "이사 트럭은 필요 없었다. 짐은 박스 두 개였다.\n\n복도를 마지막으로 지나쳤다. 낡은 벽지, 냉장고 돌아가는 소리, 고시원 특유의 냄새. 현수 방 문 앞에 불이 켜져 있었다.\n\n원장 아주머니가 계단 아래에서 기다리고 있었다. 열쇠를 건네니 고개를 끄덕였다.\n\n\"잘 살아요.\"",
+    "choices": [
+      {
+        "text": "\"감사했습니다.\" — 짧게 인사하고 나온다",
+        "effects": { "mental": 5, "stress": -2 },
+        "flags": ["arc_goshiwon_goodbye_seen"],
+        "result_text": "박스를 들고 계단을 내려왔다. 거리에 나서자 공기가 달랐다.\n\n뒤돌아보지 않았다."
+      },
+      {
+        "text": "나오기 전에 현수 방 문을 두드린다",
+        "effects": { "mental": 6, "social_skill": 1 },
+        "flags": ["arc_goshiwon_goodbye_seen", "said_bye_to_hyunsu"],
+        "cast_effects": { "hyunsu": { "affinity": 5 } },
+        "result_text": "\"형, 이사 가요?\" 현수가 문을 열었다. 눈이 충혈돼 있었다. 인강 중이었는지 이어폰이 한쪽만 꽂혀 있었다.\n\n\"잘 되면 연락해요.\" 현수가 말했다. 짧았지만 진심이었다."
+      },
+      {
+        "text": "복도 끝에서 잠깐 멈춘다. 여기서 보낸 시간을 생각한다",
+        "effects": { "mental": 8, "stress": -4 },
+        "flags": ["arc_goshiwon_goodbye_seen", "remembered_goshiwon_days"],
+        "result_text": "얼마나 됐지. 수를 셌다.\n\n가난하고 좁고 냄새났지만 — 이상하게 나쁘지 않은 기억들이 있었다. 잠깐 서 있다가 나왔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_quiet_call",
+    "title": "일요일 저녁",
+    "background": "goshiwon_room",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "father"],
+    "cooldown": 9999,
+    "description": "일요일 저녁, 습관처럼 아버지에게 전화했다.\n\n신호가 두 번 울리고 받았다. \"응.\"\n\n\"밥은 먹었어?\"\n\"응 먹었어. 너는?\"\n\n짧은 말들이 오갔다. 서울 날씨, 창원 날씨. 아버지 어깨가 좀 아프다고 했다. {name}은 파스 붙이시라고 했다.\n\n전화를 끊고 나서 생각했다. 오늘 통화에서 뭔가 달라진 게 있었나. 없었다. 그냥 일요일이었다.",
+    "choices": [
+      {
+        "text": "\"강남 가면 제일 먼저 연락할게요.\" — 말하려다 참는다",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_father_quiet_call_seen"],
+        "cast_effects": { "father": { "affinity": 2 } },
+        "result_text": "결국 안 했다. 아직 아니어서가 아니라 — 그 말을 꺼내면 허풍 같을 것 같아서.\n\n다음에 하려고 끊었다."
+      },
+      {
+        "text": "그냥 끊는다. 특별한 말 없이",
+        "effects": { "mental": 2 },
+        "flags": ["arc_father_quiet_call_seen"],
+        "result_text": "\"응, 끊어.\" 아버지가 먼저 끊었다.\n\n매주 이 통화를 하고, 매주 비슷하게 끝난다. 그게 이상하게 안심이 됐다."
+      },
+      {
+        "text": "\"아버지, 요즘 어때요?\" — 더 물어본다",
+        "effects": { "mental": 5 },
+        "flags": ["arc_father_quiet_call_seen", "asked_father_more"],
+        "cast_effects": { "father": { "affinity": 4 } },
+        "result_text": "\"뭐, 그냥 그렇지.\" 아버지가 말했다. \"너는?\"\n\n{name}은 \"저도 그냥 그렇죠\" 하고 웃었다. 그게 오늘 제일 긴 대화였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_late_game_push",
+    "title": "남은 시간",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "계산기를 꺼냈다. 또.\n\n이제 1년 남짓 남았다. 마지막 구간.\n\n통장과 포트폴리오를 합쳤다. 강남 아파트와의 거리를 계산했다.\n\n도달할 수 있는 숫자인지, 아닌지 — 지금으로선 경계선이다.\n\n이 게임이 처음부터 정해진 결과가 있는 건지, 아니면 마지막 한 방이 남아있는 건지. {name}은 아직 모른다.",
+    "choices": [
+      {
+        "text": "\"마지막 기회에 크게 간다.\" — 남은 걸 건다",
+        "effects": { "investment_skill": 2, "stress": 7, "mental": -2 },
+        "flags": ["arc_late_game_push_seen", "final_push_decided"],
+        "result_text": "두렵고 흥분됐다. 지금 와서 겁쟁이가 되면 나중에 후회할 것 같았다.\n\n계산기를 덮고 자리에서 일어났다."
+      },
+      {
+        "text": "\"지금까지 한 것만으로도 괜찮다.\" — 받아들인다",
+        "effects": { "mental": 8, "stress": -5 },
+        "flags": ["arc_late_game_push_seen", "accepted_current_path"],
+        "result_text": "30억이 아니어도 — 1년 전보다 훨씬 달라졌다.\n\n그것만으로도 뭔가가 됐다는 느낌이 있었다."
+      },
+      {
+        "text": "결론 내지 않는다. 다음 달을 산다",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_late_game_push_seen"],
+        "result_text": "내일이 되면 알 것이다.\n\n오늘은 그냥 잔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_hyunsu_exam_fail",
+    "title": "현수의 결과",
+    "background": "goshiwon",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "hyunsu"],
+    "cooldown": 9999,
+    "description": "나흘째 현수 방에서 아무 소리가 안 났다. 밥도 안 먹는 것 같았다.\n\n인강 소리도 없었다. 보통 바로 꺼지는 불이 계속 켜져 있었다.\n\n복도에서 마주쳤다. 얼굴색을 보고 알았다. 묻지 않아도.\n\n\"...형.\" 현수가 먼저 말했다. \"저 떨어졌어요.\"\n\n다섯 번째 시험.",
+    "choices": [
+      {
+        "text": "\"그래도 네가 한 5년은 어디 안 가.\" — 위로한다",
+        "effects": { "mental": 2, "stress": 2 },
+        "flags": ["arc_hyunsu_exam_fail_seen"],
+        "result_text": "현수는 아무 말도 안 했다. 고개를 꾸벅하더니 방으로 들어갔다. 문이 조용히 닫혔다.\n\n그 말이 위로가 됐는지, 아닌지 모르겠다. 다음 날 아침엔 인강 소리가 다시 났다."
+      },
+      {
+        "text": "\"다음엔 어떻게 할 거야?\" — 현실적으로 묻는다",
+        "effects": { "intelligence": 1, "stress": 3 },
+        "flags": ["arc_hyunsu_exam_fail_seen", "asked_hyunsu_next_step"],
+        "result_text": "\"...모르겠어요.\" 현수가 말했다. \"처음으로 모르겠어요.\"\n\n{name}도 딱히 할 말이 없었다. 복도에서 둘이 한동안 서 있었다. 이게 뭔지 모르는 상태를 같이 앓는 기분이었다."
+      },
+      {
+        "text": "아무 말 않고 편의점 캔커피를 문 앞에 놔둔다",
+        "effects": { "mental": 4, "social_skill": 1 },
+        "flags": ["arc_hyunsu_exam_fail_seen"],
+        "result_text": "30분 뒤 캔은 없어졌다. 감사 문자나 뭐 같은 건 오지 않았다.\n\n그냥 없어진 것뿐이다. 그걸로 충분했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_gangnam_visit_alone",
+    "title": "처음 혼자 간 강남",
+    "background": "gangnam_day",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "처음으로 아무도 따라오지 않는 강남에 왔다.\n\n임상철 씨 차에서 창문으로 본 게 아니라, 혼자 지하철 타고.\n\n카페에 들어갔다. 아메리카노가 9,000원이었다. 그냥 주문했다.\n\n창가에 앉아서 밖을 봤다. 잘 차려입고 빠르게 걷는 사람들이 서로를 보지 않으면서 지나갔다.\n\n{name}은 커피를 한 모금 마셨다.\n이게 목표다. 아니면 — 이 안에 섞이는 것?",
+    "choices": [
+      {
+        "text": "\"꼭 여기 올 거야.\" — 마음속으로 다짐한다",
+        "effects": { "mental": 4, "investment_skill": 1 },
+        "flags": ["arc_gangnam_visit_alone_seen", "gangnam_vow_made"],
+        "result_text": "커피를 다 마시고 나왔다. 지하철 타면서 핸드폰 잠금화면을 강남 거리 사진으로 바꿨다.\n\n매일 보려고."
+      },
+      {
+        "text": "\"여기가 정말 내 목표인지 모르겠다.\" — 솔직해진다",
+        "effects": { "mental": 6, "stress": -4 },
+        "flags": ["arc_gangnam_visit_alone_seen", "gangnam_doubt_once"],
+        "result_text": "커피가 식었다. 강남이 싫은 게 아니라 —\n이게 정말 내가 원하는 건지, 아니면 그냥 지지 않으려는 건지. 처음으로 구분하기 시작했다."
+      },
+      {
+        "text": "9천원짜리 영수증을 주머니에 넣는다. 나중에 꺼내보려고",
+        "effects": { "mental": 3 },
+        "flags": ["arc_gangnam_visit_alone_seen"],
+        "result_text": "집에 와서 영수증을 서랍에 넣었다. 강남 카페 9,000원.\n\n오늘 뭔가를 확인한 것 같은데, 뭘 확인한 건지 정확히 모른다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_wait",
+    "title": "정산일",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "jaehyuk"],
+    "cooldown": 9999,
+    "description": "재혁이 말한 수익 정산일이 다음 주다.\n\n어제도, 오늘도 별다른 연락이 없다. 지난 한 달 동안 늘 그랬으니까 — 이상한 게 아닐 수 있다.\n\n그런데 왜 자꾸 핸드폰을 보게 되는지 모르겠다.\n\n카카오톡을 열었다. 마지막 메시지는 3주 전 재혁이 보낸 '잘 지내?'였다.\n{name}이 답장한 '응 너는?'에 이모지만 달렸다.\n\n넣은 돈이 머릿속에서 계속 숫자가 된다.",
+    "choices": [
+      {
+        "text": "\"야 재혁아, 요즘 어때?\" — 먼저 연락해본다",
+        "effects": { "stress": 6 },
+        "flags": ["arc_jaehyuk_wait_seen", "contacted_jaehyuk_early"],
+        "result_text": "읽음이 뜨지 않았다. 한 시간. 세 시간.\n\n{name}은 핸드폰을 뒤집어 놓고 다른 걸 하려고 했다. 잘 안 됐다."
+      },
+      {
+        "text": "정산일까지 기다린다. 당연히 연락이 올 것이다",
+        "effects": { "stress": 9, "mental": -4 },
+        "flags": ["arc_jaehyuk_wait_seen"],
+        "result_text": "일주일을 버텼다. 기다리는 것도 에너지가 든다는 걸 이번에 처음 알았다.\n\n정산일 당일 아침, {name}은 일찍 눈이 떠졌다."
+      },
+      {
+        "text": "일부만이라도 돌려달라고 연락한다",
+        "effects": { "stress": 4, "mental": -2 },
+        "flags": ["arc_jaehyuk_wait_seen", "asked_partial_return"],
+        "result_text": "\"왜 갑자기? 나 못 믿어?\" 재혁의 답장이 5분 만에 왔다.\n\n그 빠른 답장이 — 이상하게 더 불안하게 만들었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_hyunsu_drift",
+    "title": "현수가 달라졌다",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "hyunsu"],
+    "cooldown": 9999,
+    "description": "어느 날부터 현수가 공부를 안 한다.\n\n새벽에 들어오고, 낮에 나가고, 이어폰엔 인강 대신 음악이다. 공용 부엌에 위스키 반병이 생겼다 없어졌다.\n\n복도에서 마주쳤다. 현수가 먼저 눈을 피했다.",
+    "choices": [
+      {
+        "text": "그냥 지나쳤다",
+        "effects": { "stress": -1 },
+        "flags": ["arc_hyunsu_drift_seen", "hyunsu_drift_ignored"],
+        "result_text": "할 말이 없었다. 아니, 있었을지도 모른다. 그냥 각자 방으로 들어갔다. 복도가 조용했다."
+      },
+      {
+        "text": "\"요즘 뭐 해?\" — 물어봤다",
+        "effects": { "social_skill": 1, "mental": -2 },
+        "flags": ["arc_hyunsu_drift_seen", "hyunsu_drift_talked"],
+        "cast_effects": { "hyunsu": { "affinity": 2 } },
+        "result_text": "현수가 잠깐 멈췄다. \"그냥... 쉬고 있어요.\" 그게 전부였다. 뭔가 더 물어보려다 관뒀다. 어떤 말은 꺼낸 순간 되돌릴 수 없다."
+      },
+      {
+        "text": "라면 하나 끓여서 현수 방 앞에 뒀다",
+        "effects": { "mental": -3, "stress": -2 },
+        "flags": ["arc_hyunsu_drift_seen", "hyunsu_drift_ramen"],
+        "cast_effects": { "hyunsu": { "affinity": 3 } },
+        "result_text": "말은 안 했다. 컵라면 하나 끓여서 문 앞에 놓고 돌아왔다. 나중에 지나가다 보니 없어져 있었다. 그걸로 충분했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_goal_vertigo",
+    "title": "30억이라는 숫자",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "자정이 넘었다. 엑셀 화면만 빛나고 있다.\n\n총자산 열에 숫자를 입력하다가 멈췄다. 30억. 처음 이 목표를 세웠을 때가 생각났다. 그때는 그냥 숫자였는데.\n\n지금도 숫자인 것 같다. 이상하게.",
+    "choices": [
+      {
+        "text": "다시 계획표를 폈다 — 숫자로 돌아간다",
+        "effects": { "intelligence": 1, "stress": 3, "mental": -2 },
+        "flags": ["arc_goal_vertigo_seen", "goal_reaffirmed"],
+        "result_text": "계획은 맞다. 수치는 현실이다. 감정은 노이즈다. {name}은 다시 셀을 채웠다. 새벽 2시가 됐다."
+      },
+      {
+        "text": "그냥 자려고 누웠다",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_goal_vertigo_seen", "goal_questioned"],
+        "result_text": "천장을 봤다. 30억. 30억. 소리 내서 읽어봤다. 여전히 실감이 없었다. 그래도 괜찮다. 실감 없이도 움직이는 게 요즘의 {name}이었다."
+      },
+      {
+        "text": "바람 쐬러 나갔다. 한강까지 걸었다",
+        "effects": { "health": 3, "mental": 4, "stress": -5 },
+        "flags": ["arc_goal_vertigo_seen", "goal_grounded"],
+        "result_text": "한강 벤치에 앉았다. 강은 아무 말이 없었다. 30억도, 계획표도 없었다. 한 30분 있다가 일어섰다. 걷고 나서야 다시 자신의 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_housing_new_life",
+    "title": "첫날 밤",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "이삿짐을 다 풀었다.\n\n고시원보다 세 배는 넓다. 화장실이 안에 있다. 창문으로 골목이 보인다. 내 것이다, 이 공간이.\n\n근데 조용하다. 고시원엔 항상 복도 소리가 났는데. 현수가 인강 틀어놓은 소리, 누군가 새벽에 냉장고 여닫는 소리.\n\n지금은 아무것도 없다.",
+    "choices": [
+      {
+        "text": "창문을 열었다 — 바깥 소리라도",
+        "effects": { "mental": 3, "stress": -2 },
+        "flags": ["arc_housing_new_life_seen"],
+        "result_text": "골목 고양이 소리가 들어왔다. 차 한 대가 지나갔다. 나쁘지 않았다. 이제 이게 내 소음이다."
+      },
+      {
+        "text": "고시원이 생각났다 — 이상한 감정이다",
+        "effects": { "mental": 2, "stress": -3 },
+        "flags": ["arc_housing_new_life_seen", "missed_gosiwon"],
+        "result_text": "그 좁은 방이 그리운 게 맞나. {name}은 잠깐 거기서 멈췄다. 힘들었는데, 그 시절이. 근데 거기 있던 사람들이 그리운 걸 수도 있다."
+      },
+      {
+        "text": "제일 먼저 책상을 폈다 — 일하자",
+        "effects": { "intelligence": 1, "stress": 1 },
+        "flags": ["arc_housing_new_life_seen"],
+        "result_text": "새 공간. 새 루틴. 책상 위에 노트북을 폈다. 이 방은 여기서 일하는 방이 되는 거다. 첫날부터 그렇게 정했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_money_loneliness",
+    "title": "공유할 수 없는 숫자",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "총자산이 1억을 넘었다.\n\n누군가한테 말하고 싶었다. 근데 할 수가 없었다. 부모님은 걱정하실 거고, 친구들은 — 아, 이걸 말할 친구가 지금 몇 명이나 있지.\n\n혼자 폰 화면을 보다가 껐다.",
+    "choices": [
+      {
+        "text": "아버지한테 전화했다 — 그냥 목소리나 들으려고",
+        "effects": { "mental": 5, "stress": -3 },
+        "flags": ["arc_money_loneliness_seen", "called_dad_milestone"],
+        "cast_effects": { "father": { "affinity": 2 } },
+        "result_text": "\"어, 민준아.\" 아버지는 반가워하셨다. 별 말 없었다. 그냥 목소리만 들었다. 끊고 나서 좀 괜찮아졌다."
+      },
+      {
+        "text": "아무한테도 말 안 했다 — 혼자 간직하기로",
+        "effects": { "intelligence": 1, "mental": -3, "stress": 2 },
+        "flags": ["arc_money_loneliness_seen", "kept_milestone_secret"],
+        "result_text": "이 숫자는 내 것이다. {name}은 폰을 내려놓고 다시 엑셀을 열었다. 다음 목표. 혼자는 원래 이런 거다."
+      },
+      {
+        "text": "편의점에서 혼자 캔맥주를 마셨다 — 자축",
+        "effects": { "mental": 3, "stress": -4, "health": -1 },
+        "flags": ["arc_money_loneliness_seen", "solo_celebration"],
+        "result_text": "편의점 앞 플라스틱 의자에 앉아서 캔을 땄다. 혼자 한 잔. 지나가는 사람들은 아무도 몰랐다. 그래도 됐다."
+      }
+    ]
+  },
+  {
+    "id": "arc_quit_job",
+    "title": "사표",
+    "background": "office",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jobs"],
+    "cooldown": 9999,
+    "description": "사표를 냈다.\n\n팀장이 불렀다. \"갑자기 왜?\" 이유를 설명하기 시작했는데 — 어디서부터 말해야 할지 모르겠었다. 투자? 30억? 5년 계획? 그냥 입을 다물었다.\n\n\"개인 사정입니다.\"\n\n팀장이 잠깐 봤다. \"아 그래요.\" 그게 전부였다.",
+    "choices": [
+      {
+        "text": "\"죄송합니다\" — 예의 바르게 마무리했다",
+        "effects": { "stress": -8, "mental": 3, "reputation": 1 },
+        "flags": ["arc_quit_job_seen", "quit_gracefully"],
+        "result_text": "인수인계를 제대로 했다. 마지막 날 팀원들이 케이크를 사왔다. \"잘 돼.\" 그 말이 오래 남았다."
+      },
+      {
+        "text": "\"제가 지금 할 일이 생겼어요\" — 담담하게",
+        "effects": { "stress": -6, "mental": 5, "investment_skill": 1 },
+        "flags": ["arc_quit_job_seen", "quit_confident"],
+        "result_text": "팀장이 뭔가 더 물어보려다 관뒀다. 마지막 날 {name}은 책상을 치우면서 처음으로 이 공간이 이상하게 느껴졌다. 4개월. 거기 있었던 거다."
+      },
+      {
+        "text": "아무 말 없이 도장만 찍었다",
+        "effects": { "stress": -5, "reputation": -1, "mental": 2 },
+        "flags": ["arc_quit_job_seen", "quit_abruptly"],
+        "result_text": "팀장 표정이 굳었다. 뭔가 더 말해야 한다는 걸 알았다. 그냥 나왔다. 엘리베이터 문이 닫혔다. 이제 직장인이 아니다."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_medication",
+    "title": "약 이름",
+    "background": "street_rainy",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "family"],
+    "cooldown": 9999,
+    "description": "어머니한테서 문자가 왔다.\n\n\"아버지 요즘 약 드시기 시작했어. 대수롭지 않대. 걱정하지 마라.\"\n\n대수롭지 않다는 말을 할 때는 대개 대수롭다.",
+    "choices": [
+      {
+        "text": "아버지한테 직접 전화했다",
+        "effects": { "mental": -2, "stress": 3 },
+        "flags": ["arc_father_medication_seen", "called_about_medication"],
+        "cast_effects": { "father": { "affinity": 3 } },
+        "result_text": "\"괜찮아, 그냥 혈압약이야.\" 아버지는 아무렇지 않게 말씀하셨다. 목소리는 괜찮은데 — 뭔가 설명을 너무 빨리 하신다는 게 신경 쓰였다."
+      },
+      {
+        "text": "어머니한테 \"알겠어요\" 하고 넘겼다",
+        "effects": { "stress": 2, "mental": -3 },
+        "flags": ["arc_father_medication_seen", "ignored_medication_signal"],
+        "result_text": "지금은 그것까지 신경 쓸 여유가 없다. 그걸 알면서도 문자를 닫는 손이 좀 무거웠다."
+      },
+      {
+        "text": "주말에 내려가겠다고 했다",
+        "effects": { "mental": 3, "stress": -2, "money": -50000 },
+        "flags": ["arc_father_medication_seen", "visited_for_medication"],
+        "cast_effects": { "father": { "affinity": 4 } },
+        "result_text": "아버지는 \"멀리서 뭘\" 하셨지만 밥을 세 그릇이나 차리셨다. 가서 잘했다. 약통 옆에 오래된 사진이 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_almost_there",
+    "title": "10억을 넘긴 날",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "총자산 10억.\n\n숫자가 맞는지 세 번 확인했다. 맞았다. 10억 2천만원.\n\n33세에 50만원으로 시작했다. 지금 10억이다. 이걸 어떻게 받아들여야 하지.\n\n근데 목표는 30억이다. 아직 20억이 남았다. 그게 더 무겁게 느껴졌다.",
+    "choices": [
+      {
+        "text": "더 가야 한다 — 계획을 짰다",
+        "effects": { "intelligence": 2, "stress": 4, "mental": -2 },
+        "flags": ["arc_almost_there_seen", "double_down_at_10b"],
+        "result_text": "잠을 못 잤다. 계획표를 다시 짰다. 가속이 필요하다. 돈이 돈을 만드는 구간. 이걸 놓치면 안 된다."
+      },
+      {
+        "text": "오늘은 쉬기로 했다",
+        "effects": { "mental": 6, "stress": -5, "health": 2 },
+        "flags": ["arc_almost_there_seen"],
+        "result_text": "노트북을 닫았다. 오늘 하루는 그냥 10억짜리 사람으로 살기로 했다. 내일부터 다시 30억을 향해 달리면 된다."
+      },
+      {
+        "text": "30억이 더 멀어 보였다",
+        "effects": { "mental": -4, "stress": 5 },
+        "flags": ["arc_almost_there_seen", "ten_b_anxiety"],
+        "result_text": "10억을 넘기면 더 자유로울 줄 알았다. 근데 30억이 더 선명하게 느껴졌다. 그만큼만 더. 그 \"만큼\"이 산이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_trace",
+    "title": "다은의 흔적",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "daeun"],
+    "cooldown": 9999,
+    "description": "편의점에 들어갔다가 다은이 생각났다.\n\n그가 항상 카운터 안에 있던 자리. 지금은 다른 알바생이 있다. {name}이 캔커피를 집으면서 잠깐 멈췄다.\n\n그때 그 자리에서 얼마나 많은 대화를 했나.",
+    "choices": [
+      {
+        "text": "그냥 계산했다 — 지나간 일이다",
+        "effects": { "mental": -2, "stress": -1 },
+        "flags": ["arc_daeun_trace_seen"],
+        "result_text": "그 시절이 그리운 건지 그가 그리운 건지 모르겠었다. 캔커피를 다 마시고 버렸다."
+      },
+      {
+        "text": "잠깐 그 자리에서 서 있었다",
+        "effects": { "mental": -4, "stress": 2 },
+        "flags": ["arc_daeun_trace_seen", "lingered_for_daeun"],
+        "result_text": "알바생이 \"뭐 더 필요하세요?\" 물었다. {name}은 \"아니요\" 했다. 다은이 그 말 대신 뭐라고 했을까. 기억이 나지 않았다."
+      },
+      {
+        "text": "다은한테 메시지를 썼다 — 지우고 안 보냈다",
+        "effects": { "mental": -5, "stress": 3 },
+        "flags": ["arc_daeun_trace_seen", "almost_messaged_daeun"],
+        "result_text": "\"잘 지내?\" 세 글자를 썼다가 지웠다. 보내는 게 맞는지 모르겠었다. 안 보내는 게 더 예의 있는 건지도 모르겠었다. 편의점을 나왔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_stretch",
+    "title": "끝이 보인다",
+    "background": "gangnam_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "강남대로를 걸었다.\n\n5년 전, 여기서 저 아파트를 올려다봤다. \"저기 살 수 있을까.\" 농담처럼 했던 생각이다.\n\n지금 총자산이 20억을 넘겼다. 10억이 남았다. 1년 안에 가능하다. 계산상으로는.\n\n그게 진짜라는 게 실감이 안 난다.",
+    "choices": [
+      {
+        "text": "그 아파트를 다시 올려다봤다",
+        "effects": { "mental": 6, "stress": -3 },
+        "flags": ["arc_final_stretch_seen", "looked_up_apartment"],
+        "result_text": "5층 불빛이 켜져 있었다. 거기서 누가 살고 있다. 조만간 저 자리가 내 것이 된다. 그 생각을 하고 돌아섰다."
+      },
+      {
+        "text": "길을 걸으면서 숫자를 계산했다",
+        "effects": { "intelligence": 2, "stress": 3, "mental": -1 },
+        "flags": ["arc_final_stretch_seen", "calculated_final_push"],
+        "result_text": "월 수익률, 복리, 남은 개월 수. 머릿속에서 자동으로 굴러갔다. 길에서 계산기를 꺼낸 게 창피하지 않았다."
+      },
+      {
+        "text": "두렵다는 걸 처음으로 인정했다",
+        "effects": { "mental": 5, "stress": -2 },
+        "flags": ["arc_final_stretch_seen", "admitted_fear"],
+        "result_text": "여기까지 왔는데 왜 두렵지. {name}은 잠깐 생각했다. 실패가 두려운 게 아니라 — 성공이 두려운 걸 수도 있다는 생각이 들었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_money_gap",
+    "title": "다은이 모르는 것",
+    "background": "cafe",
+    "portrait": "daeun_smile",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "daeun"],
+    "cooldown": 9999,
+    "description": "다은이 커피 값을 내려고 했다.\n\n{name}이 먼저 냈다. 그때 폰에 카드 알림이 떴다 — 투자 계좌에 들어온 배당 두 자릿수 숫자.\n\n다은은 눈치채지 못했다. {name}은 폰 화면을 빨리 껐다.\n\n이 사람한테 내 통장을 보여줄 수 있을까. 아직 그 단계가 아닌 것 같다.",
+    "choices": [
+      {
+        "text": "그냥 넘어갔다 — 아직은 말하기 어렵다",
+        "effects": { "stress": 2, "mental": -2 },
+        "flags": ["arc_daeun_money_gap_seen"],
+        "cast_effects": { "daeun": { "affinity": -1 } },
+        "result_text": "다은은 \"카페 이번엔 내가 살게\" 했다. {name}은 웃으면서 \"그래\"라고 했다. 거짓말이 아니었는데, 뭔가 숨긴 것 같은 기분이었다."
+      },
+      {
+        "text": "\"나 요즘 투자 좀 되고 있어\" — 조금 말했다",
+        "effects": { "stress": -2, "mental": 3 },
+        "flags": ["arc_daeun_money_gap_seen", "told_daeun_investing"],
+        "cast_effects": { "daeun": { "affinity": 2 } },
+        "result_text": "다은이 \"그래? 얼마나?\" 물었다. {name}은 \"조금.\"이라고 했다. 그 정도면 됐다. 숫자까지 말하지 않아도 뭔가 나눈 것 같았다."
+      },
+      {
+        "text": "다 말하기로 했다 — 이 사람은 믿을 수 있다",
+        "effects": { "stress": -5, "mental": 5, "social_skill": 1 },
+        "flags": ["arc_daeun_money_gap_seen", "told_daeun_everything"],
+        "cast_effects": { "daeun": { "affinity": 4 } },
+        "result_text": "다은이 한동안 말이 없었다. \"진짜 대단하다.\" 비꼬는 게 아니었다. 그냥 그 말이었다. {name}은 그게 이상하게 부담스러웠다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_human",
+    "title": "임상철의 이름",
+    "background": "restaurant",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철이 밥을 샀다.\n\n비싼 한우집이었다. 소주도 한 잔 했다. 임상철이 처음으로 \"저 어렸을 때\" 얘기를 꺼냈다.\n\n인천 변두리. 부두 노동자 아버지. 야간대. 30대 초반에 처음으로 아파트를 샀을 때 혼자 울었다고.\n\n처음 듣는 얘기였다.",
+    "choices": [
+      {
+        "text": "\"저도 비슷한 상황에서 시작했어요\" — 공감했다",
+        "effects": { "social_skill": 2, "mental": 3 },
+        "flags": ["arc_sangchul_human_seen", "shared_with_sangchul"],
+        "cast_effects": { "sangchul": { "affinity": 4 } },
+        "result_text": "임상철이 잠깐 봤다. \"그래서 자네가 눈에 띄었어.\" 소주를 한 잔 더 따랐다. 그날 처음으로 그가 '선생님'이 아니라 '사람'처럼 느껴졌다."
+      },
+      {
+        "text": "조용히 들었다",
+        "effects": { "intelligence": 1, "mental": 2 },
+        "flags": ["arc_sangchul_human_seen"],
+        "cast_effects": { "sangchul": { "affinity": 2 } },
+        "result_text": "말하지 않아도 됐다. 그냥 들으면 됐다. 임상철이 술잔을 비웠다. \"너무 오래 된 얘기 했네.\" 웃으면서 일어섰다."
+      },
+      {
+        "text": "\"그 집 얼마짜리였어요?\" — 투자 얘기로 틀었다",
+        "effects": { "investment_skill": 1, "stress": -2 },
+        "flags": ["arc_sangchul_human_seen", "sangchul_deflected"],
+        "cast_effects": { "sangchul": { "affinity": -1 } },
+        "result_text": "임상철이 잠깐 멈췄다가 웃었다. \"그게 궁금해?\" 가격을 말해줬다. 분위기가 다시 비즈니스로 돌아왔다. 그게 더 편하기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_after_scam",
+    "title": "사기 당한 다음 날",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "재혁이 잠수를 탔다.\n\n계좌에 남은 돈을 확인했다. 생각보다 많이 빠져나가 있었다. 방에 혼자 앉아 있었다.\n\n화가 나야 하는데 그냥 멍했다. 어떻게 그 놈을 믿었지. 어떻게 나는.",
+    "choices": [
+      {
+        "text": "다시 계획을 잡기 시작했다",
+        "effects": { "intelligence": 2, "mental": -3, "stress": 5 },
+        "flags": ["arc_after_scam_seen", "restarted_after_scam"],
+        "result_text": "잃은 건 잃은 거다. 남은 게 있다. 그걸로 다시 시작하면 된다. {name}은 노트북을 폈다. 손이 조금 떨렸다."
+      },
+      {
+        "text": "현수한테 연락했다",
+        "effects": { "mental": 4, "stress": -4 },
+        "flags": ["arc_after_scam_seen", "called_hyunsu_after_scam"],
+        "cast_effects": { "hyunsu": { "affinity": 3 } },
+        "result_text": "\"형 괜찮아요?\" 현수가 물었다. 괜찮지 않다고 했다. 현수가 \"그래도 다행이에요, 더 잃기 전에 알아서.\" 맞는 말인데 위로가 됐다."
+      },
+      {
+        "text": "하루 종일 아무것도 안 했다",
+        "effects": { "mental": 5, "stress": -5, "health": -2 },
+        "flags": ["arc_after_scam_seen", "did_nothing_after_scam"],
+        "result_text": "밥도 안 먹었다. 누워서 천장만 봤다. 저녁에 편의점에 가서 삼각김밥을 사먹었다. 그게 그날의 전부였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_first_job_week",
+    "title": "첫 출근 주",
+    "background": "office",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jobs"],
+    "cooldown": 9999,
+    "description": "취직한 지 일주일이 됐다.\n\n팀장이 \"적응은 됐어요?\" 물었다. \"네, 잘 되고 있습니다.\" 라고 했다.\n\n거짓말은 아니다. 근데 매일 아침 7시 30분에 눈을 뜨면서 — 이게 맞나, 한 번씩 생각한다.\n\n월급날까지 3주가 남았다.",
+    "choices": [
+      {
+        "text": "그래도 이게 지금 최선이다 — 버텼다",
+        "effects": { "mental": 2, "stress": -3, "reputation": 1 },
+        "flags": ["arc_first_job_week_seen", "accepted_job_grind"],
+        "result_text": "퇴근 후 버스에서 투자 공부를 했다. 직장은 종잣돈이다. 목적이 있으면 버티는 게 다르다."
+      },
+      {
+        "text": "일 자체는 괜찮았다",
+        "effects": { "mental": 3, "intelligence": 1, "stress": -2 },
+        "flags": ["arc_first_job_week_seen", "enjoyed_work"],
+        "result_text": "생각보다 나쁘지 않았다. 배우는 게 있었다. 이게 30억 경로에 도움이 될 수도 있다는 생각이 들었다."
+      },
+      {
+        "text": "이게 맞나 싶었다 — 회의감",
+        "effects": { "mental": -4, "stress": 4, "investment_skill": 1 },
+        "flags": ["arc_first_job_week_seen", "doubted_job"],
+        "result_text": "오늘도 퇴근하면서 투자 앱을 열었다. 내 자산이 하루에 한 번씩 흔들렸다. 월급보다 그게 더 현실 같았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_night_routine",
+    "title": "심야 루틴",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "새벽 1시가 됐다.\n\n현수는 인강을 듣고, {name}은 차트를 본다. 같은 시간에 같은 공간에서 완전히 다른 걸 향해 달리고 있다.\n\n어느 쪽이 맞는 방향인지는 아직 모른다. 아니, 둘 다 모를 수도 있다.",
+    "choices": [
+      {
+        "text": "새벽 2시까지 공부했다",
+        "effects": { "intelligence": 2, "investment_skill": 1, "health": -2 },
+        "flags": ["arc_night_routine_seen", "stayed_up_studying"],
+        "result_text": "눈이 뻑뻑했다. 그래도 오늘 배운 거 하나는 있다. 내일 써먹을 수 있을 것 같았다."
+      },
+      {
+        "text": "현수한테 \"자라\" 하고 잤다",
+        "effects": { "mental": 3, "stress": -3 },
+        "flags": ["arc_night_routine_seen", "slept_early"],
+        "cast_effects": { "hyunsu": { "affinity": 1 } },
+        "result_text": "현수가 웃으면서 \"형도요\"라고 했다. 12시에 잤다. 내일이 빨리 왔다."
+      },
+      {
+        "text": "차트 대신 맥주 한 캔 했다",
+        "effects": { "mental": 4, "stress": -4, "health": -1 },
+        "flags": ["arc_night_routine_seen", "relaxed_at_night"],
+        "result_text": "가끔은 이래도 된다. 모든 밤이 생산적일 필요는 없다. {name}은 캔을 비우고 눈을 감았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_gangnam_real_estate",
+    "title": "강남 집값",
+    "background": "gangnam_day",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "부동산 앱을 켰다.\n\n강남구 아파트. 가장 싼 것이 17억. 그 위로는 20억, 25억, 35억.\n\n총자산이 25억이다. 저기서 가장 싼 것은 살 수 있다는 뜻이다. 강남에 입성한다는 게 저 숫자 중에 하나를 누르는 것인지.\n\n그게 맞는 건지 한 번도 제대로 생각해본 적이 없었다.",
+    "choices": [
+      {
+        "text": "17억짜리를 찜했다 — 이게 목표다",
+        "effects": { "mental": 5, "stress": -2 },
+        "flags": ["arc_gangnam_real_estate_seen", "picked_gangnam_target"],
+        "result_text": "지도에서 위치를 찍었다. 2호선역에서 도보 8분. 남향. 33평. 이게 되면 됐다. 목표가 생겼다."
+      },
+      {
+        "text": "앱을 닫았다 — 아직 현실이 아니다",
+        "effects": { "mental": -2, "stress": 2 },
+        "flags": ["arc_gangnam_real_estate_seen"],
+        "result_text": "너무 구체적으로 보면 무서워진다. 일단 30억을 만들자. 그다음 생각하자. 앱을 껐다."
+      },
+      {
+        "text": "25억짜리를 봤다 — 한 번 제대로 가려면",
+        "effects": { "mental": 3, "stress": 4, "investment_skill": 1 },
+        "flags": ["arc_gangnam_real_estate_seen", "aimed_higher"],
+        "result_text": "어차피 한 번 가는 거. 제대로 가자. 목표를 30억에서 32억으로 올렸다. 2억이 더 필요하다. 그게 더 당기는 기분이었다."
+      }
+    ]
+  }
+]

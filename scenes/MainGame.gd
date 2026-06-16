@@ -75,6 +75,8 @@ var racetrack      # 경마 미니게임 오버레이
 var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
 var aruba_game     # 아르바이트 시프트 미니게임 오버레이
+var job_hunt_game  # 구직활동 미니게임 오버레이 (이력서/면접)
+var life_skills_game  # (제거됨 — 서사 직접 처리로 교체)
 var baccarat_table   # 정선 카지노 바카라 오버레이
 var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
@@ -126,6 +128,11 @@ func _ready():
 	aruba_game = load("res://scenes/ArubaGame.gd").new()
 	add_child(aruba_game)
 	aruba_game.closed.connect(_on_aruba_closed)
+	# 구직활동 미니게임 오버레이
+	job_hunt_game = load("res://scenes/JobHuntMiniGame.gd").new()
+	add_child(job_hunt_game)
+	job_hunt_game.closed.connect(_on_job_hunt_closed)
+	life_skills_game = null  # 미니게임 제거 — 절약·인맥·자기계발은 서사 직접 처리
 	# 정선 카지노 바카라 오버레이
 	baccarat_table = load("res://scenes/BaccaratTable.gd").new()
 	add_child(baccarat_table)
@@ -328,7 +335,7 @@ func _build_top_bar(parent):
 	var sep2 = _label("│", 13, "#2a2a3a")
 	row.add_child(sep2)
 
-	next_button = _button("다음 달 ▶", "#1a3a5a")
+	next_button = _button("다음 주 ▶", "#1a3a5a")
 	next_button.custom_minimum_size = Vector2(110, 36)
 	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	next_button.pressed.connect(_on_next_month)
@@ -764,9 +771,20 @@ func _refresh_goal_bar() -> void:
 	else:
 		_goal_pct_label.remove_theme_color_override("font_color")
 
-	# 자산 레이블
+	# 자산 레이블 + 다음 마일스톤
 	if _goal_money_lbl:
-		_goal_money_lbl.text = "💰 %s" % GameState.format_money(total)
+		var milestone_text: String
+		if total < 100_000_000:
+			milestone_text = "→ 1억"
+		elif total < 500_000_000:
+			milestone_text = "→ 5억"
+		elif total < 1_000_000_000:
+			milestone_text = "→ 10억"
+		elif total < 2_000_000_000:
+			milestone_text = "→ 20억"
+		else:
+			milestone_text = "→ 30억!"
+		_goal_money_lbl.text = "💰 %s  %s" % [GameState.format_money(total), milestone_text]
 
 # ══════════════════════════════════════════════════════════════
 # 튜토리얼 — 첫 런, 첫 AP 화면 진입 시 1회 표시
@@ -803,16 +821,16 @@ func _show_tutorial() -> void:
 		+ "③ [다음 달 ▶] 버튼으로 넘어갑니다", 13, "#c8d0df"))
 	modal_body.add_child(_goal_sep())
 
-	# ── 정석 vs 비정석 (핵심 메커닉) ──
-	modal_body.add_child(_wrap_label("⚖  이 게임의 핵심 선택", 15, "#a78bfa"))
+	# ── 선택이 쌓이면 삶이 된다 ──
+	modal_body.add_child(_wrap_label("⚖  선택이 쌓이면 삶이 된다", 15, "#a78bfa"))
 	modal_body.add_child(_wrap_label(
-		"매달 어떤 행동을 선택하느냐가 당신의 성향을 결정합니다.\n\n"
-		+ "📚 정석 루트  —  취업·승진·저축·자기계발\n"
-		+ "   안정적이지만 느리다. 사회가 원하는 삶.\n\n"
-		+ "📈 비정석 루트  —  투자·레버리지·창업·부업\n"
-		+ "   빠르지만 위험하다. 내가 원하는 삶.\n\n"
+		"매달 어떤 행동을 반복하느냐가 당신이 어떤 사람인지를 결정합니다.\n\n"
+		+ "💼 안정을 쌓으면  —  취업·승진·저축·자기계발이 길이 됩니다\n"
+		+ "   사회가 원하는 방식. 느리지만 무너지지 않는다.\n\n"
+		+ "📈 속도를 쌓으면  —  투자·레버리지·사업·도박이 길이 됩니다\n"
+		+ "   내가 원하는 방식. 빠르지만 한 번에 무너진다.\n\n"
 		+ "둘 다 강남에 갈 수 있고, 둘 다 망할 수 있다.\n"
-		+ "성향에 따라 다른 이벤트와 다른 엔딩이 열립니다.", 12, "#c8d0df"))
+		+ "쌓인 선택에 따라 다른 이벤트와 다른 엔딩이 열립니다.", 12, "#c8d0df"))
 	modal_body.add_child(_goal_sep())
 
 	# ── 주의사항 ──
@@ -930,14 +948,15 @@ func _begin_month():
 	GameState.restore_ap()
 	turn_action_log.clear()
 	prev_prices = GameState.market_prices.duplicate()
-	# ── 로그라이크: 월별 위기/호재 롤 (튜토리얼 이후) ──
-	if GameState.turn > 3:
-		var crisis = _roll_monthly_crisis()
-		if not crisis.is_empty():
-			_apply_monthly_event(crisis)
-	if GameState.news_log.is_empty() or GameState.turn > 1:
-		var news = NewsManager.generate_monthly_news()
-		investment_system.process_month(news)
+	# ── 월초 전용: 뉴스·시장·크라이시스는 새 달 첫 주(week_of_month==1)에만 ──
+	if GameState.week_of_month == 1:
+		if GameState.turn > 4:  # 튜토리얼 1달(4주) 이후부터 크라이시스
+			var crisis = _roll_monthly_crisis()
+			if not crisis.is_empty():
+				_apply_monthly_event(crisis)
+		if GameState.news_log.is_empty() or GameState.turn > 1:
+			var news = NewsManager.generate_monthly_news()
+			investment_system.process_month(news)
 	# ── 스토리 이벤트 트리거 ─────────────────────────
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
 	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
@@ -997,6 +1016,19 @@ func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
 
+	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
+	if GameState.housing != "gosiwon" \
+			and not f.get("arc_goshiwon_goodbye_seen", false):
+		return "arc_goshiwon_goodbye"
+
+	# ══ 그림자 이벤트 — N턴 후 과거 선택이 되돌아온다 ══════════
+	var shadow_events = GameState.pop_ready_deferred_events()
+	for sid in shadow_events:
+		if not sid.is_empty():
+			EventManager.trigger_event_by_id(sid)
+			return ""  # 이번 턴 arc는 그림자가 가져간다
+
+
 	# ══ 1구간: 주인공 몰입 (턴 1-8, 인물 없음) ══════════
 	if t >= 2 and not f.get("arc_intro_meal_seen", false):
 		return "arc_intro_01_meal"
@@ -1025,9 +1057,14 @@ func _next_arc_id() -> String:
 		return "arc_temptation_fallout"
 	if f.get("kept_clean_hands", false) and not f.get("arc_temptation_clean_seen", false) and t >= 8:
 		return "arc_temptation_clean"
-	# ★ 신규 유저 안전망 (턴 5+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.
+	# 불합격 메일 — 구직 2주차(t>=8), 아직 무직, 첫 탈락 경험
+	if t >= 8 and GameState.current_job.is_empty() \
+			and not f.get("arc_job_rejection_seen", false):
+		return "arc_job_first_rejection"
+
+	# ★ 신규 유저 안전망 (턴 10+) — 아직 무직이면 고시원 주인이 일자리를 소개한다.
 	#   거절 가능. 창업/크리에이터 의도가 있으면 안 뜸.
-	if t >= 5 and GameState.current_job.is_empty() \
+	if t >= 10 and GameState.current_job.is_empty() \
 			and not f.get("arc_rescue_job_seen", false) \
 			and not f.get("startup_intent", false) \
 			and not f.get("creator_started", false):
@@ -1041,9 +1078,26 @@ func _next_arc_id() -> String:
 	if f.get("pending_spec_found", false) and not f.get("pending_spec_found_done", false):
 		return "arc_spec_found"
 
+	# ── 첫 출근 주 — 취업 후 첫 1개월 안에 (1회) ──
+	if not GameState.current_job.is_empty() \
+			and GameState.job_tenure <= 1 \
+			and not f.get("arc_first_job_week_seen", false):
+		return "arc_first_job_week"
+
+	# ── 경마 멘토 보장 — gambling_tempted + 100만원 이상이면 t=12에 확정 등장 ──
+	if t >= 12 and f.get("gambling_tempted", false) \
+			and GameState.money >= 1_000_000 \
+			and not f.get("racetrack_mentor_done", false):
+		return "racetrack_mentor_meet"
+
 	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
 		return "arc_sangchul_01_meet"
+
+	# ── 임상철 투자 길잡이 — 첫 만남 2주 후 (30억 경로 안내) ──
+	if t >= 12 and f.get("arc_sangchul_met_seen", false) \
+			and not f.get("arc_invest_guidance_seen", false):
+		return "arc_invest_guidance"
 
 	# ── 김다은 아크 — 편의점 단골, 사랑 vs 야망 (슬로우번) ──
 	if t >= 9 and not f.get("arc_daeun_met", false):
@@ -1079,7 +1133,12 @@ func _next_arc_id() -> String:
 	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
 	if t >= 11 and not f.get("arc_father_01_seen", false):
 		return "arc_father_01_call"
-	if t >= 22 and f.get("arc_father_01_seen", false) \
+	# ── 아버지 평범한 통화 — 두 이벤트 사이 고요한 장면 ──
+	if t >= 15 and t <= 19 \
+			and f.get("arc_father_01_seen", false) \
+			and not f.get("arc_father_quiet_call_seen", false):
+		return "arc_father_quiet_call"
+	if t >= 21 and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_02_done", false):
 		return "arc_father_02_signal"
 	if t >= 35 and f.get("arc_father_02_done", false) \
@@ -1097,29 +1156,124 @@ func _next_arc_id() -> String:
 		return "arc_jiyeon_01_crash"
 	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 20:
 		return "arc_jiyeon_02_store"
-	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 23:
+	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 21:
 		return "arc_jiyeon_03_offer"
-	if t >= 27 and f.get("arc_jiyeon_offer_seen", false) \
+	# 데모 6개월(24턴) 안에 지연 점심(스캘핑 해금) 가능하도록 턴 조건 축소 (원래 t>=27)
+	if t >= 22 and f.get("arc_jiyeon_offer_seen", false) \
 			and not f.get("arc_jiyeon_03b_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_jiyeon_03b_lunch"
 
+	# ── 임상철 인간적 면 — 아들 전화 이후 빈틈 (네트워크 이벤트 이후) ──
+	if t >= 26 and f.get("arc_sangchul_03_seen", false) \
+			and not f.get("arc_sangchul_offguard_seen", false):
+		return "arc_sangchul_offguard"
+
+	# ── 임상철의 이름 — 밥 한 번 먹고 처음 사람으로 보인 날 (턴 30~42) ──
+	if t >= 30 and t <= 42 \
+			and f.get("arc_sangchul_offguard_seen", false) \
+			and not f.get("arc_sangchul_human_seen", false):
+		return "arc_sangchul_human"
+
 	# ── 임상철 관계 심화 ──
-	if t >= 18 and f.get("arc_sangchul_met_seen", false) \
+	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
 		return "arc_sangchul_02_coffee"
-	if t >= 28 and f.get("arc_sangchul_02_seen", false) \
+	# 첫 만남 후 500만원 이상 모이면 VIP 투자 모임 초대 (데모 달성 가능 수준)
+	if t >= 20 and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_sangchul_03_seen", false) \
-			and GameState.get_total_asset_value() >= 20_000_000:
+			and GameState.get_total_asset_value() >= 1_000_000:
 		return "arc_sangchul_03_network"
+	# ── 임상철 정선 카지노 초대 — 커피(02) 이후, 자금 300만 이상이면 초대 가능 ──
+	if t >= 23 and f.get("arc_sangchul_02_seen", false) \
+			and GameState.money >= 3_000_000 \
+			and not f.get("arc_sangchul_casino_seen", false):
+		return "arc_sangchul_casino_invite"
 	# ── 임상철×지연 교차점 — 두 세계의 충돌 ──
 	if t >= 35 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
 
-	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (턴 27+, 2막 핵심) ══
-	if t >= 27 and not f.get("arc_jaehyuk_reunion_seen", false):
+	# ── 직장+투자 충돌 — 직장 있고 투자 시작했을 때 (턴 20~30) ──
+	if t >= 20 and t <= 30 \
+			and not GameState.current_job.is_empty() \
+			and GameState.investment_skill >= 10 \
+			and not f.get("arc_job_invest_clash_seen", false):
+		return "arc_job_vs_invest"
+
+	# ── 월급의 한계 — 1년 이상 재직 중반 (턴 28~38) ──
+	if t >= 28 and t <= 38 \
+			and not GameState.current_job.is_empty() \
+			and GameState.job_tenure >= 12 \
+			and not f.get("arc_career_ceiling_seen", false):
+		return "arc_career_ceiling"
+
+	# ── 첫 5천만원 달성 — 숫자가 아니라 감각의 변화 ──
+	if t >= 15 \
+			and GameState.get_total_asset_value() >= 50_000_000.0 \
+			and not f.get("arc_first_real_win_seen", false):
+		return "arc_first_real_win"
+
+	# ── 반환점 — 5년의 절반 (턴 30) ──
+	if t >= 30 and not f.get("arc_midpoint_reckoning_seen", false):
+		return "arc_midpoint_reckoning"
+
+	# ── 동창 조우 — 잘 나가는 동창, 나는? (턴 28~35) ──
+	if t >= 28 and t <= 35 \
+			and not f.get("arc_social_comparison_seen", false):
+		return "arc_social_comparison"
+
+	# ══ 4구간: 최재혁 — 군대 동기 사기 아크 (데모에서 t>=19으로 단축) ══
+	# ── 현수 — 시험 불합격 (새벽 라면 이후) ──
+	if t >= 25 and t <= 35 \
+			and f.get("arc_hyunsu_night_seen", false) \
+			and not f.get("arc_hyunsu_exam_fail_seen", false):
+		return "arc_hyunsu_exam_fail"
+
+	# ── 현수의 방황 — 불합격 후 떠남 직전 (턴 36~41) ──
+	if t >= 36 and t <= 41 \
+			and f.get("arc_hyunsu_exam_fail_seen", false) \
+			and not f.get("arc_hyunsu_drift_seen", false) \
+			and not f.get("arc_hyunsu_new_path_seen", false):
+		return "arc_hyunsu_drift"
+
+	# ── 현수의 새 길 — 불합격 이후 떠남 (턴 42~50) ──
+	if t >= 42 and t <= 50 \
+			and f.get("arc_hyunsu_exam_fail_seen", false) \
+			and not f.get("arc_hyunsu_new_path_seen", false):
+		return "arc_hyunsu_new_path"
+
+	# ── 심야 루틴 — 현수와 같은 시간, 다른 방향 (턴 12~22, 고시원 거주 중) ──
+	if t >= 12 and t <= 22 \
+			and GameState.housing == "gosiwon" \
+			and f.get("arc_intro_hyunsu_seen", false) \
+			and not f.get("arc_night_routine_seen", false):
+		return "arc_night_routine"
+
+	# ── 30억이라는 숫자 — 반환점 이후 목표의 무게 (턴 32~42) ──
+	if t >= 32 and t <= 42 \
+			and f.get("arc_midpoint_reckoning_seen", false) \
+			and not f.get("arc_goal_vertigo_seen", false):
+		return "arc_goal_vertigo"
+
+	# ── 새 집 첫날 밤 — 고시원 탈출 직후 (고시원 탈출 후 3턴 이내) ──
+	if f.get("arc_goshiwon_goodbye_seen", false) \
+			and not f.get("arc_housing_new_life_seen", false) \
+			and t <= 35:
+		return "arc_housing_new_life"
+
+	# ── 처음 혼자 간 강남 (턴 22~28, 누구나) ──
+	if t >= 22 and t <= 28 \
+			and not f.get("arc_gangnam_visit_alone_seen", false):
+		return "arc_gangnam_visit_alone"
+
+	# ── 현수 — 밤 라면 대화 (턴 20+, 만남 이후) ──
+	if t >= 20 and f.get("arc_intro_hyunsu_seen", false) \
+			and not f.get("arc_hyunsu_night_seen", false):
+		return "arc_hyunsu_night_talk"
+
+	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
 	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
 			and not f.get("arc_jaehyuk_01b_seen", false) \
@@ -1133,6 +1287,13 @@ func _next_arc_id() -> String:
 		return "arc_jaehyuk_02b_favor"
 	if f.get("arc_jaehyuk_bond_seen", false) and not f.get("arc_jaehyuk_pitch_seen", false) and t >= 37:
 		return "arc_jaehyuk_03_pitch"
+	# ── 재혁 수익 정산 대기 — 투자 후 불안의 일주일 ──
+	if t >= 38 and t <= 41 \
+			and f.get("arc_jaehyuk_pitch_seen", false) \
+			and (f.get("jaehyuk_trusted_fully", false) or f.get("jaehyuk_partial", false)) \
+			and not f.get("arc_jaehyuk_wait_seen", false):
+		return "arc_jaehyuk_wait"
+
 	# ── 현수의 경고 — 피치 이후, 아직 도주 전 ──
 	if t >= 39 and f.get("arc_jaehyuk_pitch_seen", false) \
 			and not f.get("arc_jaehyuk_ghost_seen", false) \
@@ -1148,6 +1309,68 @@ func _next_arc_id() -> String:
 			and f.get("jaehyuk_scammed", false) \
 			and not f.get("arc_jaehyuk_standup_seen", false):
 		return "arc_jaehyuk_04c_stand_up"
+
+	# ── 사기 당한 다음 날 — 재기 이벤트 직전 내적 독백 ──
+	if f.get("arc_jaehyuk_ghost_seen", false) \
+			and f.get("jaehyuk_scammed", false) \
+			and not f.get("arc_after_scam_seen", false):
+		return "arc_after_scam"
+
+	# ── 공유할 수 없는 숫자 — 자산 1억 돌파 후 고독 (턴 20+) ──
+	if t >= 20 \
+			and GameState.get_total_asset_value() >= 100_000_000.0 \
+			and not f.get("arc_money_loneliness_seen", false):
+		return "arc_money_loneliness"
+
+	# ── 사표 — 자발적 퇴사 직후 드라마 장면 (1회) ──
+	if f.get("just_quit_job", false) \
+			and not f.get("arc_quit_job_seen", false):
+		GameState.flags.erase("just_quit_job")
+		return "arc_quit_job"
+
+	# ── 아버지 약 이야기 — 병원 방문 전 중간 신호 (아버지 01 이후, 02 이전) ──
+	if t >= 22 and t <= 32 \
+			and f.get("arc_father_01_seen", false) \
+			and not f.get("arc_father_medication_seen", false) \
+			and not f.get("arc_father_02_done", false):
+		return "arc_father_medication"
+
+	# ── 막판 한 방 — 1년 남은 시점의 내적 정산 ──
+	if t >= 45 \
+			and GameState.get_total_asset_value() < 2_800_000_000.0 \
+			and not f.get("arc_late_game_push_seen", false):
+		return "arc_late_game_push"
+
+	# ── 10억 돌파 — 중반 자산 이정표 (턴 25+) ──
+	if t >= 25 \
+			and GameState.get_total_asset_value() >= 1_000_000_000.0 \
+			and not f.get("arc_almost_there_seen", false):
+		return "arc_almost_there"
+
+	# ── 다은이 모르는 것 — 함께하는 경로, 돈 격차 (턴 28~35) ──
+	if t >= 28 and t <= 35 \
+			and f.get("daeun_chose_her", false) \
+			and not f.get("arc_daeun_money_gap_seen", false):
+		return "arc_daeun_money_gap"
+
+	# ── 다은의 흔적 — 보낸 경우 (턴 43~50) ──
+	if t >= 43 and t <= 50 \
+			and f.get("daeun_let_her_go", false) \
+			and f.get("arc_daeun_ghost_seen", false) \
+			and not f.get("arc_daeun_trace_seen", false):
+		return "arc_daeun_trace"
+
+	# ── 강남 집값 — 자산 25억 돌파, 목표가 손에 잡힌다 (턴 50+) ──
+	if t >= 50 \
+			and GameState.get_total_asset_value() >= 2_500_000_000.0 \
+			and not f.get("arc_gangnam_real_estate_seen", false):
+		return "arc_gangnam_real_estate"
+
+	# ── 끝이 보인다 — 자산 20억, 마지막 스퍼트 (턴 47+) ──
+	if t >= 47 \
+			and GameState.get_total_asset_value() >= 2_000_000_000.0 \
+			and not f.get("arc_final_stretch_seen", false):
+		return "arc_final_stretch"
 
 	# ══ 5구간: 인물 = 결정적 기회 (턴 40+, 30억 경로) ══════
 	if GameState.get_cast_stage("sangchul") == "interested" \
@@ -1379,46 +1602,57 @@ func _on_next_month():
 		return
 	if GameState.tutorial_step > 0:
 		GameState.tutorial_step -= 1
-	job_system.process_monthly_job()
-	relationship_system.process_monthly_relationships()
-	inventory_system.process_monthly_items()
-	if not GameState.current_job.is_empty():
-		GameState.add_tendency("career", 1)   # 한 달 직장 생활 = 직장형 누적
-	BGMPlayer.update_context()  # 게임 상태에 따라 BGM 트랙 자동 전환
 
-	# 초반 난이도 완화: 튜토리얼 3턴 동안 정착 지원금 30만원
-	var subsidy_applied = GameState.turn <= 3
-	if subsidy_applied:
-		GameState.add_money(300_000.0)
-		GameState.add_log("초기 정착 지원금 30만원 수령", "system")
+	var is_month_end := (GameState.week_of_month == 4)
 
-	# 결산 전 스냅샷
-	var snap = {
-		"date": GameState.get_date_string(),
-		"money_before": GameState.money,
-		"monthly_income": GameState.monthly_income,
-		"fixed_expense": GameState.get_housing_expense(),
-		"assets_before": GameState.get_total_asset_value(),
-		"health_before": GameState.health,
-		"mental_before": GameState.mental,
-		"mental_before_pressure": GameState.mental,
-		"actions": turn_action_log.duplicate(),
-		"subsidy": subsidy_applied,
-	}
+	if is_month_end:
+		# ── 월말 처리 ─────────────────────────────────────────
+		job_system.process_monthly_job()
+		relationship_system.process_monthly_relationships()
+		inventory_system.process_monthly_items()
+		if not GameState.current_job.is_empty():
+			GameState.add_tendency("career", 1)
+		BGMPlayer.update_context()
 
-	var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
-	GameState.apply_monthly_pressure()
-	GameState.advance_calendar()
-	_refresh_all()
-	# 첫 월급 수령 시 투자·상점 잠금 해제 축하 토스트
-	if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
-		_show_toast("💳 첫 월급 수령! 투자·상점이 열렸습니다", Color("#00c896"))
+		# 1개월만 정착 지원금 — 2개월차부터 진짜 생존 압박
+		var subsidy_applied = GameState.month <= 1
+		if subsidy_applied:
+			GameState.add_money(300_000.0)
+			GameState.add_log("초기 정착 지원금 30만원 수령", "system")
 
-	if GameState.is_game_over:
-		return
-	SaveManager.autosave()
-	_check_title_unlocks()
-	_show_month_summary(snap)
+		var snap = {
+			"date": GameState.get_date_string(),
+			"money_before": GameState.money,
+			"monthly_income": GameState.monthly_income,
+			"fixed_expense": GameState.get_housing_expense(),
+			"assets_before": GameState.get_total_asset_value(),
+			"health_before": GameState.health,
+			"mental_before": GameState.mental,
+			"mental_before_pressure": GameState.mental,
+			"stress_before": GameState.stress,
+			"actions": turn_action_log.duplicate(),
+			"subsidy": subsidy_applied,
+		}
+
+		var had_paycheck_before: bool = GameState.flags.get("has_received_paycheck", false)
+		GameState.apply_monthly_pressure()
+		GameState.advance_calendar()
+		_refresh_all()
+		if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
+			_show_toast("💳 첫 월급 수령! 투자·상점이 열렸습니다", Color("#00c896"))
+		if GameState.is_game_over:
+			return
+		SaveManager.autosave()
+		_check_title_unlocks()
+		_show_month_summary(snap)
+	else:
+		# ── 주 전환 (월말 아님) ───────────────────────────────
+		GameState.advance_calendar()
+		_refresh_all()
+		if GameState.is_game_over:
+			return
+		SaveManager.autosave()
+		_begin_month()
 
 func _choose(index):
 	var choices: Array = current_event.get("choices", [])
@@ -1972,16 +2206,17 @@ func _refresh_arc_box() -> void:
 			"hint": "T3+ 조건 충족 시 시작" if not f.get("met_daeun", false) else "",
 		},
 		{
-			"name": "임상철 (인맥)",
+			"name": "임상철 (인맥·투자)",
 			"icon": "🤝",
 			"active": f.get("arc_sangchul_met_seen", false),
 			"done": f.get("arc_sangchul_03_seen", false),
 			"stages": [
 				{"label": "첫 만남", "done": f.get("arc_sangchul_met_seen", false)},
+				{"label": "투자 조언", "done": f.get("arc_invest_guidance_seen", false)},
 				{"label": "두 번째 커피", "done": f.get("arc_sangchul_02_seen", false)},
-				{"label": "네트워크 입성", "done": f.get("arc_sangchul_03_seen", false)},
+				{"label": "네트워크 입성 (자산 100만+ 필요)", "done": f.get("arc_sangchul_03_seen", false)},
 			],
-			"hint": "10개월차 이후 자동 만남",
+			"hint": ("자산 100만원 이상이면 다음 단계 진행 가능" if f.get("arc_sangchul_02_seen", false) and not f.get("arc_sangchul_03_seen", false) and GameState.get_total_asset_value() < 1_000_000 else "10개월차 이후 자동 만남") if not f.get("arc_sangchul_met_seen", false) else "",
 		},
 		{
 			"name": "강현수 (친구)",
@@ -2000,12 +2235,13 @@ func _refresh_arc_box() -> void:
 			"active": f.get("arc_jiyeon_crash_seen", false),
 			"done": f.get("arc_jiyeon_truth_seen", false) or f.get("arc_jiyeon_epilogue_seen", false),
 			"stages": [
-				{"label": "접촉", "done": f.get("arc_jiyeon_crash_seen", false)},
-				{"label": "재회", "done": f.get("arc_jiyeon_store_seen", false)},
-				{"label": "연결", "done": f.get("arc_jiyeon_offer_seen", false)},
+				{"label": "접촉 (17개월차+)", "done": f.get("arc_jiyeon_crash_seen", false)},
+				{"label": "재회 (20개월차+)", "done": f.get("arc_jiyeon_store_seen", false)},
+				{"label": "연결 (21개월차+)", "done": f.get("arc_jiyeon_offer_seen", false)},
+				{"label": "그녀의 세계 (22개월차+)", "done": f.get("arc_jiyeon_03b_seen", false)},
 				{"label": "진실", "done": f.get("arc_jiyeon_truth_seen", false)},
 			],
-			"hint": "",
+			"hint": "17개월차(1년5개월) 이후 자동 등장" if not f.get("arc_jiyeon_crash_seen", false) else "",
 		},
 		{
 			"name": "아버지",
@@ -2027,13 +2263,13 @@ func _refresh_arc_box() -> void:
 			"active": f.get("arc_jaehyuk_reunion_seen", false),
 			"done": f.get("arc_jaehyuk_aftermath_seen", false),
 			"stages": [
-				{"label": "재회", "done": f.get("arc_jaehyuk_reunion_seen", false)},
+				{"label": "재회 (19개월차+)", "done": f.get("arc_jaehyuk_reunion_seen", false)},
 				{"label": "유대", "done": f.get("arc_jaehyuk_bond_seen", false)},
 				{"label": "투자 제안", "done": f.get("arc_jaehyuk_pitch_seen", false)},
 				{"label": "도주 / 반격", "done": f.get("arc_jaehyuk_ghost_seen", false) or f.get("arc_jaehyuk_counter_seen", false)},
 				{"label": "사후처리", "done": f.get("arc_jaehyuk_aftermath_seen", false)},
 			],
-			"hint": "",
+			"hint": "19개월차 이후 자동 등장" if not f.get("arc_jaehyuk_reunion_seen", false) else "",
 		},
 		{
 			"name": "성향 자각 & 전문화",
@@ -2165,7 +2401,7 @@ func _render_ap_actions():
 
 	# ── 행동력 소진 시 다음 달 버튼 강조 ──────────────
 	if disabled:
-		next_button.text = "▶▶ 다음 달로!"
+		next_button.text = "▶▶ 다음 주로!"
 		var btn_style = StyleBoxFlat.new()
 		btn_style.bg_color = Color("#0a2a1a")
 		btn_style.border_color = Color("#00c896")
@@ -2179,7 +2415,7 @@ func _render_ap_actions():
 		next_button.add_theme_color_override("font_color", Color("#00c896"))
 		next_button.call_deferred("grab_focus")
 	else:
-		next_button.text = "다음 달 ▶"
+		next_button.text = "다음 주 ▶"
 		next_button.remove_theme_stylebox_override("normal")
 		next_button.remove_theme_color_override("font_color")
 
@@ -2380,7 +2616,7 @@ func _render_situation_cards():
 	if ap > 0:
 		choice_box.add_child(_label("──  남은 시간에, 무엇을 할까  ──", 12, "#9aa4b8"))
 	else:
-		choice_box.add_child(_label("이번 달을 다 보냈다. [다음 달]로.", 12, "#7a8496"))
+		choice_box.add_child(_label("이번 주를 다 보냈다. [다음 주]로.", 12, "#7a8496"))
 	_render_essential_actions(ap)
 
 func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
@@ -2431,16 +2667,20 @@ func _render_essential_actions(ap: int):
 		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
 	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
 	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
-	if has_paycheck or GameState.money >= 50000:
+	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
+	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
 		var rt_badge: String = _mastery_badge("racetrack")
 		_essential_btn("🏇 경마장  —  폼 읽고 베팅 (한탕! 중독 주의)" + rt_badge, "#9a5a3a", "_open_racetrack", disabled)
+	# 홀덤: 상철 네트워크로 입성(entered_network)
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
 		var hm_badge: String = _mastery_badge("holdem")
 		_essential_btn("🃏 지하 홀덤 클럽  —  인맥 있는 사람만 (중독 주의)" + hm_badge, "#2a1a4a", "_open_holdem", disabled)
-	if GameState.investment_skill >= 25 and GameState.money >= 100000:
+	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
+	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
 		var sc_badge: String = _mastery_badge("scalping")
 		_essential_btn("⚡ 스캘핑 트레이딩  —  60초 실시간 매매 (중독 주의)" + sc_badge, "#1a2a3a", "_open_scalping", disabled)
-	if GameState.money >= 10000:
+	# 정선 카지노: 상철의 초대를 수락(casino_club_introduced)한 경우만
+	if GameState.flags.get("casino_club_introduced", false):
 		_essential_btn("🎰 정선 카지노  —  바카라·블랙잭·슬롯·룰렛·빅휠", "#1a1030", "_open_jeongseon_casino", disabled)
 	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
 
@@ -2756,61 +2996,30 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 		)
 		parent.add_child(btn)
 
-func _ap_study():
-	if GameState.action_points <= 0:
-		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
-		return
-	_open_modal("📚 자기계발")
-	modal_body.add_child(_wrap_label(
-		"현재  건강 %d  |  정신 %d  |  지력 %d  |  투자감각 %d" % [
-			GameState.health, GameState.mental, GameState.intelligence,
-			GameState.investment_skill
-		], 13, "#5a6075"))
-	var sep = HSeparator.new()
-	sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep)
-	var options = [
-		{"label": "📖 독서  — 지력 +4  (현재 %d → %d)" % [GameState.intelligence, GameState.intelligence + 4],
-			"effects": {"intelligence": 4}},
-		{"label": "🏃 운동  — 건강 +10, 정신 +6  (건강 %d → %d)" % [GameState.health, min(100, GameState.health + 10)],
-			"effects": {"health": 10, "stress": -6}},
-		{"label": "🧘 명상  — 정신력 +18  (정신 %d → %d)" % [GameState.mental, min(100, GameState.mental + 18)],
-			"effects": {"mental": 10, "stress": -8}},
-		{"label": "📊 재테크 공부  — 투자감각 +3  (현재 %d → %d)" % [GameState.investment_skill, min(100, GameState.investment_skill + 3)],
-			"effects": {"investment_skill": 3}},
-	]
-	for opt in options:
-		var btn = _button(opt["label"], "#5b9cf6")
-		btn.pressed.connect(Callable(self, "_on_study_chosen").bind(opt["effects"]))
-		modal_body.add_child(btn)
+const _STUDY_SCENES = [
+	{"tag": "📖 독서", "stat": "intelligence", "gain": 2,
+		"text": "도서관에서 경제책을 빌렸다. 어렵지만 읽다 보면 세상이 달리 보이기 시작한다."},
+	{"tag": "🏃 운동", "stat": "health", "gain": 3,
+		"text": "한강 변을 뛰었다. 발이 무겁고 숨이 찼다. 끝나고 나면 조금 가벼워진다."},
+	{"tag": "🧘 명상", "stat": "mental", "gain": 4,
+		"text": "유튜브 명상 가이드를 따라했다. 생각이 너무 많아서 잘 안 됐다. 그래도 조금은."},
+	{"tag": "📈 투자 공부", "stat": "investment_skill", "gain": 1,
+		"text": "새벽까지 재무제표를 봤다. 아는 척하는 사람이 너무 많다. 그래도 하나씩은 건진다."},
+]
 
-func _on_study_chosen(effects):
+func _ap_study():
 	if not GameState.spend_ap():
-		_show_toast("⚡ 행동력이 없습니다", Color("#ff4444"))
-		_close_modal()
 		return
-	GameState.apply_effects(effects)
-	AudioManager.play("stat_up")
-	_show_effects_float(effects)
-	_close_modal()
-	# 행동 유형에 따라 vignette 풀 선택
-	var pool: Array
-	var title: String
-	var color: String
-	if effects.has("investment_skill"):
-		pool = STUDY_INVEST_VIGNETTES; title = "📊 재테크 공부"; color = "#10b981"
-	elif effects.get("health", 0) >= 8:
-		pool = STUDY_EXERCISE_VIGNETTES; title = "🏃 운동"; color = "#f59e0b"
-	elif effects.get("mental", 0) >= 8:
-		pool = STUDY_MEDITATE_VIGNETTES; title = "🧘 명상"; color = "#8b5cf6"
-	else:
-		pool = STUDY_READ_VIGNETTES; title = "📖 독서"; color = "#5b9cf6"
-	var v: Dictionary = pool[randi() % pool.size()]
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
-	GameState.add_log(title + " — " + flavor, "event")
-	GameState.stats_changed.emit()
-	_show_vignette(title, flavor, effects, color)
+	var s: Dictionary = _STUDY_SCENES[randi() % _STUDY_SCENES.size()]
+	match s["stat"]:
+		"health":   GameState.modify_stat("health", s["gain"])
+		"mental":   GameState.modify_hidden_stat("mental", s["gain"])
+		_:          GameState.modify_stat(s["stat"], s["gain"])
+	GameState.add_tendency("career", 1)
+	GameState.add_log(s["tag"] + " — " + s["text"], "event")
+	_show_vignette("📚 자기계발", s["text"], {s["stat"]: s["gain"]}, "#5a6ea8")
+	turn_action_log.append("✓ " + s["tag"])
+	_render_ap_actions()
 	_refresh_all()
 
 func _ap_invest():
@@ -2838,56 +3047,57 @@ func _on_aruba_closed(earned: int, stress_delta: int) -> void:
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
 	GameState.add_log("💼 알바 시프트 수입 %s (건강 %d→%d, 스트레스 %+d)" % [
 		GameState.format_money(float(earned)), health_before, GameState.health, stress_delta], "job")
-	turn_action_log.append("✓ 💼 알바 시프트 → +%s" % GameState.format_money(float(earned)))
+	var mood: String = SIDE_JOB_VIGNETTES[randi() % SIDE_JOB_VIGNETTES.size()]
+	turn_action_log.append("✓ 💼 알바 시프트 — " + mood.substr(0, 22))
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": -3, "stress": stress_delta})
-	_show_toast("💼 알바 시프트 +%s" % GameState.format_money(float(earned)), Color("#00c896"))
+	_show_vignette("💼 알바 시프트", mood, {"money": earned, "health": -3, "stress": stress_delta}, "#dc6a2a")
 	_render_ap_actions()
 	_refresh_all()
+
+const _SAVE_SCENES = [
+	"편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.",
+	"구독 서비스를 정리했다. 쓰지도 않는 것들이 매달 빠져나가고 있었다.",
+	"걸어서 한 시간. 교통비 2,800원이 아깝다는 생각을 세 번 했다.",
+	"커피 대신 편의점 아메리카노. 맛은 다르지만 잔액은 같아진다.",
+	"외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.",
+]
 
 func _ap_save_money():
 	if not GameState.spend_ap():
 		return
-	var v: Dictionary = SAVE_VIGNETTES[randi() % SAVE_VIGNETTES.size()]
-	var eff: Dictionary = v.get("e", {})
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "stress" or k == "reputation":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
+	var saved: int = 30000 + randi() % 70000
+	GameState.add_money(float(saved))
+	GameState.modify_hidden_stat("stress", 2)
 	GameState.add_tendency("career", 1)
-	var display_eff := eff.duplicate()
-	if GameState.money > 500_000:
-		var bonus := int(min(GameState.money * 0.005, 80_000.0))
-		GameState.add_money(float(bonus))
-		AudioManager.play("money_gain")
-		display_eff["money"] = bonus
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ 💰 저축/절약 — " + flavor.substr(0, 22))
-	GameState.add_log("💰 저축/절약 — " + flavor, "event")
-	GameState.stats_changed.emit()
-	_show_vignette("💰 저축/절약", flavor, display_eff, "#0369a1")
+	var scene: String = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
+	GameState.add_log("💰 절약 — %s" % scene, "event")
+	_show_vignette("💰 절약", scene + "\n\n%s 절약했다." % GameState.format_money(saved),
+		{"money": saved, "stress": 2}, "#4a7a5a")
+	turn_action_log.append("✓ 💰 절약 — %s" % GameState.format_money(saved))
+	AudioManager.play("money_gain")
+	_render_ap_actions()
+	_refresh_all()
+
+const _NETWORK_SCENES = [
+	"업계 모임에 나갔다. 말보다 듣는 게 더 많았다. 명함 두 장.",
+	"오래된 지인에게 연락했다. 밥 한 번 먹자고 했고, 상대도 그러자고 했다.",
+	"온라인 커뮤니티에서 유용한 정보를 나눴다. 작은 신뢰가 쌓이는 것 같다.",
+	"카페에서 낯선 사람과 잠깐 얘기했다. 생각지도 않게 일이 연결될 수도 있는 사람이었다.",
+	"링크드인 메시지를 보냈다. 읽음 표시. 답장은 없었다. 그래도 보냈다는 게 중요하다.",
+]
 
 func _ap_network():
 	if not GameState.spend_ap():
 		return
-	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
-	var eff: Dictionary = v.get("e", {})
-	for k in eff:
-		var val: int = int(eff[k])
-		if k == "money":
-			GameState.add_money(float(val))
-		elif k == "stress" or k == "reputation":
-			GameState.modify_hidden_stat(k, val)
-		else:
-			GameState.modify_stat(k, val)
+	GameState.modify_stat("social_skill", 1)
 	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
-	var flavor: String = str(v.get("t", ""))
-	turn_action_log.append("✓ 🤝 인맥 넓히기 — " + flavor.substr(0, 22))
-	GameState.add_log("🤝 인맥 넓히기 — " + flavor, "relationship")
-	GameState.stats_changed.emit()
-	_show_vignette("🤝 인맥 넓히기", flavor, eff, "#8a5a9a")
+	var scene: String = _NETWORK_SCENES[randi() % _NETWORK_SCENES.size()]
+	GameState.add_log("🤝 인맥 — " + scene, "relationship")
+	_show_vignette("🤝 인맥 넓히기", scene, {"social_skill": 1}, "#8a5a9a")
+	turn_action_log.append("✓ 🤝 인맥 넓히기")
+	_render_ap_actions()
+	_refresh_all()
 
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
@@ -3078,6 +3288,84 @@ const NETWORK_VIGNETTES := [
 	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "e":{"social_skill":1,"stress":1}},
 ]
 
+const RESUME_VIGNETTES := [
+	{"t":"지원란에 '만 33세'를 썼다. 잠깐 멈췄다. 지웠다. 다시 썼다.", "e":{"intelligence":3,"stress":4}},
+	{"t":"공백기를 어떻게 쓰냐고. 세 번째 문단을 다시 지웠다.", "e":{"intelligence":3,"stress":5}},
+	{"t":"자기소개서를 열었다. 빈 화면. 커서만 깜빡인다. 나를 소개하는 게 이렇게 어렵구나.", "e":{"intelligence":4,"stress":4}},
+	{"t":"마감 전날 밤, 폰트 크기를 조금 키웠다. 한 페이지가 겨우 됐다.", "e":{"intelligence":3,"stress":6}},
+	{"t":"장점: ___. 세 번 지웠다. 결국 '꼼꼼함'이라고 썼다.", "e":{"intelligence":3,"stress":4}},
+	{"t":"합격하면 인생이 달라질 것 같았다. 제출 버튼을 눌렀다. 심장이 뛰었다.", "e":{"intelligence":4,"stress":3,"luck":1}},
+	{"t":"누군가 내 이름을 보고 서류를 넘길 것이다. 3초 안에.", "e":{"intelligence":3,"stress":5}},
+	{"t":"성과를 숫자로 쓰라는데, 내 지난 3년은 숫자가 안 됐다.", "e":{"intelligence":3,"stress":6}},
+	{"t":"전 직장 이름을 쓰다가 손이 멈췄다. 다시 써 내려갔다.", "e":{"intelligence":4,"stress":4}},
+	{"t":"동기들 SNS에 승진 소식이 올라왔다. 자소서 창을 닫았다. 다시 열었다.", "e":{"intelligence":3,"stress":5,"mental":-2}},
+]
+
+const INTERVIEW_VIGNETTES := [
+	{"t":"거울 앞에서 '1분 자기소개'를 했다. 45초에서 막혔다.", "e":{"social_skill":2,"stress":3}},
+	{"t":"\"지원 동기가 뭐냐고요?\" 혼자 물어봤다. 대답이 나오기까지 10초가 걸렸다.", "e":{"social_skill":2,"intelligence":1,"stress":3}},
+	{"t":"모범 답안을 외웠다. 입에서 나오지 않았다. 다시 했다.", "e":{"social_skill":2,"stress":4}},
+	{"t":"정장을 꺼냈다. 2년 만이다. 어깨가 조금 달랐다.", "e":{"social_skill":2,"appearance":1,"stress":2}},
+	{"t":"면접관이 할 법한 질문 30개를 만들었다. 20개는 대답하기 싫었다.", "e":{"social_skill":2,"intelligence":1,"stress":4}},
+	{"t":"유튜브에서 면접 영상을 봤다. 저 사람은 왜 저렇게 자신 있어 보일까.", "e":{"social_skill":2,"stress":3,"mental":-1}},
+	{"t":"목소리가 너무 작다는 말을 들은 적 있다. 오늘은 크게 말했다. 어색했다.", "e":{"social_skill":3,"stress":3}},
+	{"t":"\"강점이 뭐냐고요?\" 솔직히 모르겠다. 하지만 써야 했다.", "e":{"social_skill":2,"intelligence":1,"stress":4}},
+	{"t":"세 번 연습했다. 마지막엔 조금 나아졌다. 내일 진짜가 되길.", "e":{"social_skill":2,"luck":1,"stress":2}},
+	{"t":"눈 맞춤 연습을 했다. 카메라를 보는 게 사람 눈 보는 것보다 쉬웠다.", "e":{"social_skill":2,"stress":2}},
+]
+
+const JOB_HUNT_VIGNETTES := [
+	"원하는 자리는 없었다. 원할 수 있는 자리를 찾기 시작했다.",
+	"지원 자격: 경력 3년 이상. 33세 신입은 없나.",
+	"스펙 조건을 읽었다. 하나씩 체크했다. 마지막 줄에서 멈췄다.",
+	"오늘도 공고를 훑었다. 열두 개. 그 중 지원할 수 있는 건 셋.",
+	"합격 문자 소리를 미리 상상했다. 기다리는 게 에너지 든다.",
+	"JD를 읽다가 '우리 팀은 함께 성장합니다'라는 문구를 봤다. 뭔가 마음에 걸렸다.",
+	"이력서를 첨부했다. 제출 버튼을 눌렀다. 답장이 올지는 모른다.",
+	"이 회사 문화가 좋다고 들었다. 연봉은 낮다. 고민할 시간이 없다.",
+	"공고 하나를 저장해뒀다. 마감이 내일이다. 오늘 지원한다.",
+	"강남은 아직 멀지만, 일단 취직부터. 그게 첫 번째 계단이다.",
+]
+
+const SIDE_JOB_VIGNETTES := [
+	"편의점 야간. 새벽 세 시, 손님이 없었다. 그 시간이 가장 길었다.",
+	"배달을 돌았다. 비가 왔다. 우비가 없었다.",
+	"투잡이라는 말을 쓰기엔 부끄러운 금액이었다. 그래도 통장에 찍혔다.",
+	"대리운전을 했다. 손님이 취해 있었다. 내가 더 멀쩡해 보였다.",
+	"카페 알바 마감 청소. 커피 찌꺼기를 치우면서 내일을 생각했다.",
+	"주문이 폭발하는 금요일 저녁. 손이 빨라졌다. 몸이 기억하는 것들.",
+	"시급을 시간으로 나눴다. 안 나눴으면 더 좋았을 것 같다.",
+	"알바 끝나고 지하철을 탔다. 신발 바닥이 뜨거웠다.",
+	"30대 초반에 이러고 있다는 생각. 잠깐 했다. 지운다. 지금은 이게 맞다.",
+	"작은 금액이지만, 내가 번 돈이다. 그 느낌은 크다.",
+]
+
+const STARTUP_VIGNETTES := [
+	{"t":"MVP를 만들었다. 아무도 안 쓰는 것 같지만, 이게 시작이다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+	{"t":"피치덱을 고쳤다. 열두 번째다. 이번엔 좀 나은 것 같다.", "e":{"reputation":2,"intelligence":2,"stress":5}},
+	{"t":"아이디어를 노트에 적었다. 밤 세 시였다. 틀릴 수도 있다. 일단 적었다.", "e":{"reputation":2,"intelligence":1,"stress":4}},
+	{"t":"공동창업자 없이 혼자 다 하고 있다. 그게 맞는 건지 모르겠다.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
+	{"t":"첫 유저가 생겼다. 지인이었지만, 그래도 유저다.", "e":{"reputation":3,"mental":3,"stress":3}},
+	{"t":"경쟁사를 조사했다. 이미 잘 하고 있었다. 더 잘 하면 된다.", "e":{"reputation":2,"intelligence":2,"stress":5}},
+	{"t":"투자자 미팅 자료를 만들었다. 내 꿈을 슬라이드에 넣는 게 쑥스러웠다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+	{"t":"세 달째다. 수익은 없다. 가능성은 있다. 그 차이로 버티고 있다.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
+	{"t":"세무사에게 전화를 했다. 사업자 등록 얘기를 들었다. 실감이 났다.", "e":{"reputation":2,"intelligence":2,"stress":4}},
+	{"t":"오늘 한 일이 3개월 뒤 어떤 결과를 낼지 모른다. 그래도 했다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+]
+
+const CONTENT_VIGNETTES := [
+	{"t":"영상을 올렸다. 조회수 17. 그 중 10개는 내가 새로고침했다.", "e":{"reputation":1,"mental":5,"luck":1}},
+	{"t":"섬네일을 다섯 번 바꿨다. 올리고 나서 또 바꾸고 싶었다.", "e":{"reputation":1,"mental":4,"stress":2}},
+	{"t":"구독자가 한 명 늘었다. 누군지는 모른다. 오늘은 그게 충분했다.", "e":{"reputation":2,"mental":6,"luck":1}},
+	{"t":"댓글이 하나 달렸다. '좋아요'. 그게 오늘 하루를 버티게 했다.", "e":{"reputation":2,"mental":7}},
+	{"t":"오늘 편집이 생각보다 잘 됐다. 뿌듯한데 아무도 모른다.", "e":{"reputation":1,"mental":5}},
+	{"t":"알고리즘이 잠깐 봐줬다. 조회수가 튀었다가 다시 내려갔다.", "e":{"reputation":2,"mental":5,"luck":1}},
+	{"t":"콘텐츠를 만들면서 내가 뭘 생각하는지 알게 됐다. 부산물이 주인공이 되기도 한다.", "e":{"reputation":1,"mental":6,"intelligence":1}},
+	{"t":"썸네일, 제목, 태그. 세 개 다 틀렸을 수도 있다. 올렸다.", "e":{"reputation":1,"mental":4,"stress":2}},
+	{"t":"예전 영상에 갑자기 조회수가 붙었다. 이유를 모르겠다. 그냥 기쁘다.", "e":{"reputation":2,"mental":6,"luck":2}},
+	{"t":"영상을 찍으면서 말이 꼬였다. 열다섯 번 다시 찍었다. 됐다.", "e":{"reputation":1,"mental":5,"stress":3}},
+]
+
 ## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
 func _open_bank():
 	_open_modal("🏦 은행")
@@ -3194,6 +3482,7 @@ func _on_holdem_closed():
 	GameState.add_log("🃏 지하 홀덤 클럽을 나왔다.", "event")
 	_refresh_all()
 	_render_ap_actions()
+
 
 func _open_scalping():
 	if not GameState.spend_ap():
@@ -3327,61 +3616,98 @@ func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> Strin
 func _ap_startup_work():
 	if not GameState.spend_ap():
 		return
-	var rep_before = GameState.reputation
-	GameState.modify_hidden_stat("reputation", 2)
-	GameState.modify_stat("intelligence", 1)
-	GameState.modify_hidden_stat("stress", 5)
-	GameState.add_tendency("found", 1)   # 창업 업무 = 창업형
-	var stage = "아이디어" if not GameState.flags.get("startup_launched", false) else "운영"
-	turn_action_log.append("✓ 🚀 창업 업무[%s] → 명성+2, 지력+1, 스트레스+5" % stage)
-	_show_toast("🚀 창업 업무 — 명성 %d → %d" % [rep_before, GameState.reputation], Color("#7c3aed"))
-	_render_ap_actions()
+	var v: Dictionary = STARTUP_VIGNETTES[randi() % STARTUP_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "stress" or k == "reputation" or k == "mental":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	GameState.add_tendency("found", 1)
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 🚀 창업 업무 — " + flavor.substr(0, 22))
+	GameState.add_log("🚀 창업 업무 — " + flavor, "event")
+	GameState.stats_changed.emit()
+	_show_vignette("🚀 창업 업무", flavor, eff, "#7c3aed")
 	_refresh_all()
 
 func _ap_create_content():
 	if not GameState.spend_ap():
 		return
-	var rep_before = GameState.reputation
-	var mental_before = GameState.mental
-	GameState.modify_hidden_stat("reputation", 1)
-	GameState.modify_stat("mental", 5)
-	GameState.modify_stat("luck", 1)
-	GameState.add_tendency("found", 1)   # 콘텐츠 = 창업형(내 것 만들기)
+	var v: Dictionary = CONTENT_VIGNETTES[randi() % CONTENT_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	var extra_eff: Dictionary = {}
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "stress" or k == "reputation" or k == "mental":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	GameState.add_tendency("found", 1)
 	if GameState.flags.get("creator_monetized", false):
 		var content_income = float(randi_range(50_000, 200_000))
 		GameState.add_money(content_income)
-		turn_action_log.append("✓ 🎬 콘텐츠 제작 → 명성+1, 정신+5, 수익 +%s" % GameState.format_money(content_income))
-		_show_toast("🎬 콘텐츠 제작 완료  명성+1  수익 +%s" % GameState.format_money(content_income), Color("#3fb950"))
-	else:
-		turn_action_log.append("✓ 🎬 콘텐츠 제작 → 명성+1, 정신 %d→%d" % [mental_before, GameState.mental])
-		_show_toast("🎬 콘텐츠 제작 완료  정신 %d→%d" % [mental_before, GameState.mental], Color("#3fb950"))
-	_render_ap_actions()
+		extra_eff["money"] = int(content_income)
+	var flavor: String = str(v.get("t", ""))
+	turn_action_log.append("✓ 🎬 콘텐츠 제작 — " + flavor.substr(0, 22))
+	GameState.add_log("🎬 콘텐츠 제작 — " + flavor, "event")
+	GameState.stats_changed.emit()
+	var display_eff = eff.duplicate()
+	display_eff.merge(extra_eff, true)
+	_show_vignette("🎬 콘텐츠 제작", flavor, display_eff, "#3fb950")
 	_refresh_all()
 
 func _ap_write_resume():
 	if not GameState.spend_ap():
 		return
-	var int_before = GameState.intelligence
-	GameState.modify_stat("intelligence", 3)
-	GameState.modify_hidden_stat("stress", 4)
-	GameState.add_tendency("career", 1)   # 자소서 = 직장형(취업 준비)
-	GameState.flags["resume_polished"] = true
-	turn_action_log.append("✓ 🖊 자소서 작성 → 지력 %d→%d, 스트레스 +4" % [int_before, GameState.intelligence])
-	_show_toast("🖊 자소서 완성 — 지력 %d → %d" % [int_before, GameState.intelligence], Color("#0f4c5c"))
-	_render_ap_actions()
-	_refresh_all()
+	turn_action_log.append("✓ 🖊 자소서 작성 — 미니게임 시작")
+	job_hunt_game.open(0)  # Mode.RESUME = 0
 
 func _ap_interview_prep():
 	if not GameState.spend_ap():
 		return
-	var soc_before = GameState.social_skill
-	GameState.modify_stat("social_skill", 2)
-	GameState.modify_stat("luck", 1)
-	GameState.add_tendency("career", 1)   # 면접 준비 = 직장형
-	GameState.flags["interview_practiced"] = true
-	turn_action_log.append("✓ 🎯 모의 면접 준비 → 사회성 %d→%d" % [soc_before, GameState.social_skill])
-	_show_toast("🎯 면접 준비 완료 — 사회성 %d → %d" % [soc_before, GameState.social_skill], Color("#0f3a5c"))
-	_render_ap_actions()
+	turn_action_log.append("✓ 🎯 모의 면접 — 미니게임 시작")
+	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
+
+func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
+	# quality: 0=재작성필요, 1=무난, 2=양호, 3=우수
+	var is_resume: bool = job_hunt_game.current_mode == 0  # Mode.RESUME
+	GameState.modify_hidden_stat("stress", stress_delta)
+	GameState.add_tendency("career", 1)
+	if is_resume:
+		match quality:
+			3:
+				GameState.modify_stat("intelligence", 2)
+				GameState.flags["resume_polished"] = true
+				GameState.add_log("🖊 자소서 작성 완료 (우수) — 지력 +2, 이력서 완성", "event")
+			2:
+				GameState.modify_stat("intelligence", 1)
+				GameState.flags["resume_polished"] = true
+				GameState.add_log("🖊 자소서 작성 완료 (양호) — 지력 +1, 이력서 완성", "event")
+			1:
+				GameState.add_log("🖊 자소서 작성 완료 (무난) — 보완이 필요하다", "event")
+			0:
+				GameState.modify_hidden_stat("stress", 1)
+				GameState.add_log("🖊 자소서 작성 실패 (재작성필요) — 스트레스 +1", "event")
+	else:
+		match quality:
+			3:
+				GameState.modify_stat("social_skill", 2)
+				GameState.modify_stat("luck", 1)
+				GameState.flags["interview_practiced"] = true
+				GameState.add_log("🎯 모의 면접 완료 (우수) — 사회성 +2, 운 +1", "event")
+			2:
+				GameState.modify_stat("social_skill", 1)
+				GameState.flags["interview_practiced"] = true
+				GameState.add_log("🎯 모의 면접 완료 (양호) — 사회성 +1", "event")
+			1:
+				GameState.modify_stat("luck", 1)
+				GameState.add_log("🎯 모의 면접 완료 (무난) — 운 +1", "event")
+			0:
+				GameState.modify_hidden_stat("stress", 1)
+				GameState.add_log("🎯 모의 면접 실패 (긴장) — 스트레스 +1", "event")
+	GameState.stats_changed.emit()
 	_refresh_all()
 
 func _ap_move_housing():
@@ -3515,6 +3841,9 @@ func _ap_vip_network():
 
 func _open_jobs():
 	_open_modal("💼 직업 선택")
+	if GameState.current_job.is_empty():
+		var mood: String = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
+		modal_body.add_child(_wrap_label("「 %s 」" % mood, 12, "#4a5a72"))
 	var current_job_id = GameState.current_job.get("id", "")
 	# 경력 경로 안내
 	var tier_labels = {1: "입문", 2: "성장", 3: "전문가", 4: "상위"}
@@ -3557,8 +3886,13 @@ func _open_jobs():
 
 		var is_current = job.get("id", "") == current_job_id
 		var eligible = job.get("eligible", false)
+		var tier = int(job.get("tier", 1))
+		var resume_ok: bool = GameState.flags.get("resume_polished", false)
+		# 정규직(티어 2+)은 이력서 완성 후에야 지원 가능 — 알바(티어 1)는 즉시
+		var needs_resume = tier >= 2 and not is_current and not resume_ok
 		var button_color = "#64748b"
 		if is_current: button_color = "#0f5132"
+		elif needs_resume: button_color = "#2a2a3a"
 		elif eligible: button_color = "#9a6700"
 		var stress_val = int(job.get("stress_per_month", 5))
 		var req = job.get("requirements", {})
@@ -3571,12 +3905,16 @@ func _open_jobs():
 		var req_str = " · ".join(req_parts) if not req_parts.is_empty() else "제한 없음"
 		var label = "%s  %s/월  정신 -%d/월" % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_val / 2]
 		if is_current: label += "  ✓현재"
+		if needs_resume: label += "  📋"
 		var button = _button(label, button_color)
-		button.disabled = not eligible and not is_current
+		button.disabled = (not eligible and not is_current) or needs_resume
 		button.pressed.connect(Callable(self, "_on_job_selected").bind(job.get("id", "")))
 		modal_body.add_child(button)
-		var detail_color = "#00c896" if eligible else "#64748b"
-		modal_body.add_child(_wrap_label("  조건: %s" % req_str, 11, detail_color))
+		if needs_resume:
+			modal_body.add_child(_wrap_label("  📋 이력서 먼저 완성하세요 (직업 탭 → 자소서 작성)", 11, "#5a3a7a"))
+		else:
+			var detail_color = "#00c896" if eligible else "#64748b"
+			modal_body.add_child(_wrap_label("  조건: %s" % req_str, 11, detail_color))
 		if not job.get("description", "").is_empty():
 			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#5a6075"))
 
@@ -3587,7 +3925,7 @@ func _open_investments():
 	var ap_hint_color = "#00c896" if ap_now > 0 else "#ff4444"
 	var ap_hint_text = "⚡ 행동력 %d/%d — 매수·매도 실행 시 1 소비 (조회는 무료)" % [ap_now, GameState.max_action_points]
 	if ap_now <= 0:
-		ap_hint_text = "⚡ 행동력 없음 — 이번 달 거래 불가. 다음 달에 다시 오세요."
+		ap_hint_text = "⚡ 행동력 없음 — 이번 주 거래 불가. 다음 주에 다시 오세요."
 	var inv_hint_row := HBoxContainer.new()
 	inv_hint_row.add_theme_constant_override("separation", 8)
 	modal_body.add_child(inv_hint_row)
@@ -4038,31 +4376,92 @@ func _close_modal():
 
 func _show_demo_ending():
 	BGMPlayer.on_ending("stable_success")
-	_open_modal("🎬 강남드림 DEMO")
-	modal_body.add_child(_label("— 1년 체험판 종료 —", 14, "#f0b429"))
+	var f = GameState.flags
+	var total_assets = GameState.money + GameState.get_total_asset_value()
+
+	# ── 개인화 요약 문장 ───────────────────────────────────
+	var story_lines: Array = []
+	# 도덕적 선택
+	if f.get("kept_clean_hands", false):
+		story_lines.append("대포통장 제안을 거절했다. 손은 깨끗하다.")
+	elif f.get("lent_account", false):
+		story_lines.append("선을 한 번 넘었다. 그 200만원은 아직도 기억한다.")
+	# 직업
+	if GameState.current_job.is_empty():
+		story_lines.append("직장은 아직 없다. 그게 지금 가장 큰 과제다.")
+	else:
+		story_lines.append("%s에 다니고 있다." % GameState.current_job.get("name", "직장"))
+	# 인물 관계
+	if f.get("arc_sangchul_met_seen", false):
+		if f.get("arc_sangchul_casino_seen", false):
+			story_lines.append("임상철 씨의 정선 카지노 제안을 받았다.")
+		elif f.get("arc_sangchul_02_seen", false):
+			story_lines.append("임상철 씨와 커피를 마셨다. 그가 보는 세계가 조금 보이기 시작했다.")
+		else:
+			story_lines.append("임상철이라는 사람을 만났다. 뭔가 다른 세계의 사람 같았다.")
+	if f.get("arc_daeun_met", false):
+		story_lines.append("편의점 다은 씨와 조금씩 안면을 트고 있다.")
+	if f.get("arc_jiyeon_crash_seen", false):
+		story_lines.append("한지연 씨를 우연히 만났다. 그날 이후 머릿속에 남아있다.")
+	if f.get("arc_jaehyuk_reunion_seen", false):
+		story_lines.append("군대 동기 재혁을 만났다. 좋은 건지 나쁜 건지 모르겠다.")
+	# 도박
+	if f.get("racetrack_guide_met", false):
+		story_lines.append("경마장 아저씨를 따라 과천까지 갔다왔다.")
+	# 자산
+	if total_assets >= 10_000_000:
+		story_lines.append("총자산 %s. 작은 숫자지만 민준에게는 처음이다." % GameState.format_money(total_assets))
+	elif total_assets < 0:
+		story_lines.append("통장이 마이너스다. 6개월이 이랬다.")
+
+	_open_modal("🎬 강남드림 — 6개월의 기록")
+	modal_body.add_child(_label("— 1막 종료 —", 14, "#f0b429"))
+
+	var date_str = GameState.get_date_string()
 	modal_body.add_child(_wrap_label(
-		"2026년 12월. 민준은 33세로 시작해 34세를 맞이했습니다.", 14, "#c8d0df"))
+		"%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다." % date_str, 14, "#c8d0df"))
+
 	var sep1 = HSeparator.new()
 	sep1.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep1)
-	modal_body.add_child(_label("📊 1년 성적표", 15, "#5b9cf6"))
-	var total_assets = GameState.money + GameState.get_total_asset_value()
-	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
-	modal_body.add_child(_wrap_label("총자산  %s" % GameState.format_money(total_assets), 16, asset_color))
-	modal_body.add_child(_wrap_label("현금  %s" % GameState.format_money(GameState.money), 13, "#8892a4"))
-	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label("강남드림 30억까지  %.2f%%  달성" % progress_pct, 13, "#5b9cf6"))
+
+	# 개인화 스토리 요약
+	modal_body.add_child(_label("📖 지난 6개월", 14, "#5b9cf6"))
+	for line in story_lines:
+		modal_body.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
+
 	var sep2 = HSeparator.new()
 	sep2.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep2)
-	modal_body.add_child(_wrap_label(
-		"이 이야기는 이제 시작입니다.\n민준에게는 아직 4년이 남아있습니다.", 14, "#c8a060"))
-	modal_body.add_child(_wrap_label(
-		"풀버전에서 5년의 여정을 완성하고\n강남 입성의 꿈을 이루세요.", 13, "#8892a4"))
+
+	# 자산 성적표
+	modal_body.add_child(_label("📊 6개월 성적표", 14, "#5b9cf6"))
+	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
+	modal_body.add_child(_wrap_label("총자산  %s" % GameState.format_money(total_assets), 16, asset_color))
+	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
+	modal_body.add_child(_wrap_label("강남드림 30억까지  %.3f%%  달성" % progress_pct, 12, "#5b9cf6"))
+
 	var sep3 = HSeparator.new()
 	sep3.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep3)
-	var restart_btn = _button("데모 다시 시작  ▶", "#0e3a2a")
+
+	# 풀버전 티저
+	var teaser_lines: Array = []
+	if f.get("arc_sangchul_casino_seen", false):
+		teaser_lines.append("정선 카지노 — 임상철과 함께 테이블에 앉게 된다면?")
+	if f.get("arc_jiyeon_crash_seen", false):
+		teaser_lines.append("한지연 — 그녀의 제안, 받을 것인가 말 것인가.")
+	if f.get("arc_jaehyuk_reunion_seen", false):
+		teaser_lines.append("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.")
+	teaser_lines.append("강남 입성까지 남은 거리: %s" % GameState.format_money(3_000_000_000.0 - total_assets))
+	modal_body.add_child(_label("▶ 풀버전에서 계속됩니다", 14, "#c8a060"))
+	for tl in teaser_lines:
+		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
+
+	var sep4 = HSeparator.new()
+	sep4.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep4)
+	var restart_btn = _button("처음부터 다시  ▶", "#0e3a2a")
 	restart_btn.pressed.connect(_restart_run)
 	modal_body.add_child(restart_btn)
 	var menu_btn = _button("메인 메뉴로", "#1a1a28")
@@ -4751,6 +5150,7 @@ func _show_month_summary(snap: Dictionary):
 		var confirm_btn = _button("다음 달 시작  ▶", "#0e2a3a")
 		confirm_btn.pressed.connect(_close_modal)
 		modal_body.add_child(confirm_btn)
+		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
 
 
 ## A-1: 관계 연락 후 인물 리액션을 스토리 영역에 표시
@@ -4807,31 +5207,93 @@ func _get_month_narrative() -> String:
 	var tenure = int(GameState.job_tenure)
 	var umonths = int(f.get("unemployed_months", 0))
 	var assets = GameState.get_total_asset_value()
+	var t = GameState.turn
+	var stress = GameState.stress
+
+	# 위기 상황 (최우선)
+	if mental <= 20:
+		return "정신이 한계에 왔다. 오늘 하루도 버텼다는 것만이 남는다."
 	if mental <= 25:
 		return "이 달은 버티는 것만으로도 충분했다."
 	if money < 0:
 		return "통장이 마이너스다. 숫자를 볼 때마다 숨이 막혔다."
-	if job.is_empty() and umonths >= 6:
-		return "%d번째 달. 직업이 없다. 통장 숫자가 계속 줄고 있다." % umonths
-	if job.is_empty() and umonths >= 3:
-		return "또 한 달이 지났다. 이력서 쓴 게 언제였는지 기억이 흐릿하다."
-	if not job.is_empty() and tenure == 1:
-		return "첫 출근. 익숙하지 않은 것들로 가득 찬 하루하루였다."
-	if not job.is_empty() and tenure == 12:
-		return "1년이 지났다. 이 일이 조금씩 내 것이 되는 것 같다."
+	if stress >= 80:
+		return "몸이 신호를 보내고 있다. 이 속도로는 오래 못 간다."
+
+	# 도박 중독
 	if addiction >= 70:
 		return "카지노 생각이 멈추지 않는다. 이게 맞는 길인지 모르겠다."
 	if addiction >= 50:
 		return "다음 판이 자꾸 눈에 밟힌다. 스스로 이상하다는 걸 안다."
+
+	# 무직 상황
+	if job.is_empty() and umonths == 1:
+		return "첫 달이 지났다. 아직 괜찮다고 스스로를 다독였다."
+	if job.is_empty() and umonths == 2:
+		return "두 달째다. 채용 공고를 보는 눈이 조금 달라졌다."
+	if job.is_empty() and umonths >= 6:
+		return "%d개월째 무직이다. 통장 잔고가 조용히 줄고 있다." % umonths
+	if job.is_empty() and umonths >= 3:
+		return "또 한 달이 지났다. 이력서 쓴 게 언제였는지 기억이 흐릿하다."
+	if job.is_empty() and f.get("resume_polished", false):
+		return "이력서는 완성했다. 이제 누군가가 읽어줄 차례다."
+
+	# 취업/직장 상황
+	if not job.is_empty() and tenure == 1:
+		return "첫 출근. 익숙하지 않은 것들로 가득 찬 하루하루였다."
+	if not job.is_empty() and tenure == 2:
+		return "한 달 더 버텼다. 동료들 이름을 이제 외웠다."
+	if not job.is_empty() and tenure == 3:
+		return "석 달. 이 일이 어떤 건지 이제 조금 알 것 같다."
+	if not job.is_empty() and tenure == 6:
+		return "반 년이 지났다. 후배가 생기면 어떤 선배가 될까 생각했다."
+	if not job.is_empty() and tenure == 12:
+		return "1년이 지났다. 이 일이 조금씩 내 것이 되는 것 같다."
+	# 첫 월급
+	if f.get("has_received_paycheck", false) and not f.get("paycheck_narrative_done", false):
+		GameState.flags["paycheck_narrative_done"] = true
+		return "처음으로 내가 번 돈이 통장에 찍혔다. 금액이 작아서 웃음도 작았다."
+
+	# 자산 이정표
 	if assets >= 1_000_000_000.0:
 		return "10억. 그 숫자가 이제 현실로 느껴진다."
 	if assets >= 500_000_000.0:
 		return "5억. 강남이 조금씩 가까워지는 것 같다."
-	if mental <= 40:
-		return "피로가 쌓이고 있다. 이런 달이 쌓이면 어디로 가는 걸까."
+	if assets >= 100_000_000.0 and not f.get("narrative_100m_noted", false):
+		GameState.flags["narrative_100m_noted"] = true
+		return "1억을 넘었다. 처음 시작했을 때 상상도 못 했던 숫자다."
+	if assets >= 10_000_000.0 and not f.get("narrative_10m_noted", false):
+		GameState.flags["narrative_10m_noted"] = true
+		return "총자산 1천만원. 50만원에서 시작한 게 맞나 싶다."
+
+	# 인물 관계 메아리
+	if f.get("arc_sangchul_02_seen", false) and not f.get("narrative_sangchul_noted", false) and t <= 20:
+		GameState.flags["narrative_sangchul_noted"] = true
+		return "임상철 씨가 한 말이 자꾸 생각난다. 그 사람은 뭘 보고 사는 걸까."
+	if f.get("arc_jiyeon_crash_seen", false) and not f.get("narrative_jiyeon_noted", false):
+		GameState.flags["narrative_jiyeon_noted"] = true
+		return "그날 카페 앞에서 마주쳤던 사람. 이름도 모르는데 자꾸 생각난다."
+	if f.get("arc_daeun_met", false) and not f.get("narrative_daeun_noted", false) and t >= 12:
+		GameState.flags["narrative_daeun_noted"] = true
+		return "편의점을 지나칠 때마다 괜히 안을 들여다본다."
+
+	# 아버지
 	if f.get("father_reconciled", false) and not f.get("father_narrative_noted", false):
 		GameState.flags["father_narrative_noted"] = true
 		return "아버지와 화해한 뒤로, 전화가 더 자주 걸고 싶어진다."
+	if f.get("arc_father_01_seen", false) and not f.get("narrative_father_noted", false):
+		GameState.flags["narrative_father_noted"] = true
+		return "아버지한테 전화가 왔었다. 몸이 안 좋다고 했다. 그 생각이 계속 난다."
+
+	# 정신력 경고
+	if mental <= 40:
+		return "피로가 쌓이고 있다. 이런 달이 쌓이면 어디로 가는 걸까."
+
+	# 도박 유혹 (초반)
+	if f.get("gambling_tempted", false) and not f.get("narrative_gambling_noted", false) and addiction < 30:
+		GameState.flags["narrative_gambling_noted"] = true
+		return "한 방에 뒤집을 수 있다는 생각이 머릿속에서 지워지지 않는다."
+
 	return ""
 
 

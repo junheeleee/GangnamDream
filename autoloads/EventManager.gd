@@ -90,6 +90,11 @@ func resolve_current_event(choice_index):
 		if not chained.is_empty():
 			queue_event(chained)
 
+	var deferred_id = str(choice.get("deferred_follow_up", ""))
+	var deferred_delay = int(choice.get("deferred_delay", 6))
+	if not deferred_id.is_empty():
+		GameState.add_deferred_event(deferred_id, deferred_delay)
+
 	event_resolved.emit(current_event, choice)
 	current_event = {}
 

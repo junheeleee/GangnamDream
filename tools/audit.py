@@ -237,6 +237,10 @@ def check_events():
                 if fu and fu not in known_ids:
                     err('%s  [%s] 선택지%d follow_up_event "%s" 가 존재하지 않음 (스토리 체인 끊김)'
                         % (rel(p), eid, ci, fu))
+                dfu = ch.get("deferred_follow_up", "")
+                if dfu and dfu not in known_ids:
+                    err('%s  [%s] 선택지%d deferred_follow_up "%s" 가 존재하지 않음 (그림자 체인 끊김)'
+                        % (rel(p), eid, ci, dfu))
                 # follow_up이 있는 '이어지는 선택지'는 result_text 없이 바로 다음 노드로
                 # 내려가는 게 정상(연속 분기). 그 경우는 빈 result_text를 경고하지 않는다.
                 if "result_text" in ch and not str(ch["result_text"]).strip() and not fu:
@@ -393,7 +397,7 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
-               "conditions_note"}
+               "conditions_note", "deferred_follow_up", "deferred_delay"}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""

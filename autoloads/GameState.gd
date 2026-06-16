@@ -13,7 +13,7 @@ const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
 
 const IS_DEMO: bool = true
-const DEMO_TURN_LIMIT: int = 12
+const DEMO_TURN_LIMIT: int = 24   # 6개월 × 4주
 
 var player_name = "김민준"
 var player_background = "지방_상경"  # legacy — 신규 런은 player_route 사용
@@ -21,6 +21,7 @@ var player_route = "직장형"  # 직장형 | 투자형 | 창업형
 var age = 33
 var year = 2026
 var month = 1
+var week_of_month: int = 1
 var turn = 1
 var is_game_over = false
 
@@ -153,6 +154,7 @@ var news_log: Array = []
 var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
+var deferred_events: Array = []  # [{event_id, trigger_turn}] — N턴 후 자동 발동 이벤트
 var events_seen: int = 0   # 이번 런에서 플레이어가 실제 선택한 이벤트 수
 var run_theme_categories: Array = []
 var run_theme: String = "자유런"
@@ -195,8 +197,9 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	appearance = 50
 	investment_skill = 15
 	luck = 45
-	action_points = 3
-	max_action_points = 3
+	week_of_month = 1
+	action_points = 2
+	max_action_points = 2
 	tutorial_step = 3
 	stress = int(diff_data.get("start_stress", 35))
 	reputation = 5
@@ -215,6 +218,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	event_log = []
 	action_log = []
 	flags = {}
+	deferred_events = []
 	events_seen = 0
 	run_theme_categories = []
 	run_theme = "자유런"
@@ -397,16 +401,22 @@ func _init_market_prices():
 	for asset in DataRegistry.assets:
 		market_prices[asset.get("id", "")] = float(asset.get("initial_price", asset.get("base_price", 10_000.0)))
 
-func advance_calendar():
+func advance_calendar() -> bool:
 	if is_game_over:
-		return
+		return false
 	turn += 1
-	month += 1
-	if month > 12:
-		month = 1
-		year += 1
-		age += 1
+	week_of_month += 1
+	var month_ended := false
+	if week_of_month > 4:
+		week_of_month = 1
+		month += 1
+		month_ended = true
+		if month > 12:
+			month = 1
+			year += 1
+			age += 1
 	turn_advanced.emit(turn)
+	return month_ended
 
 func get_housing_expense() -> float:
 	return float(HOUSING_DATA.get(housing, HOUSING_DATA["gosiwon"]).get("expense", 800_000.0))
@@ -819,7 +829,7 @@ func get_current_title() -> String:
 	if housing == "apartment" and job_tenure >= 12: return "안정적인 직장인"
 	if current_job.is_empty() and turn >= 8 and (flags.get("resume_polished", false) or flags.get("mindset_investor", false) or flags.get("mindset_saver", false)): return "취업 준비생"
 	if housing == "gosiwon" and turn >= 18: return "고시원 장기거주자"
-	if turn < 4: return "서울 상경 초보"
+	if turn <= 4: return "서울 상경 초보"
 	return "서울 생존자"
 
 func add_route_point(route_type: String, focus_label: String = ""):
@@ -952,7 +962,7 @@ func add_log(message, log_type):
 	log_added.emit(entry)
 
 func get_date_string():
-	return "%d년 %d월" % [year, month]
+	return "%d년 %d월 %d주차" % [year, month, week_of_month]
 
 func format_money(amount):
 	var sign = ""
@@ -1187,6 +1197,7 @@ func serialize():
 		"age": age,
 		"year": year,
 		"month": month,
+		"week_of_month": week_of_month,
 		"turn": turn,
 		"is_game_over": is_game_over,
 		"housing": housing,
@@ -1227,6 +1238,7 @@ func serialize():
 		"event_log": event_log,
 		"action_log": action_log,
 		"flags": flags,
+		"deferred_events": deferred_events,
 		"market_prices": market_prices,
 		"price_history": price_history,
 		"market_context": market_context,
@@ -1239,7 +1251,7 @@ func serialize():
 
 func load_from_dict(data):
 	var int_fields = [
-		"age", "year", "month", "turn",
+		"age", "year", "month", "week_of_month", "turn",
 		"health", "mental", "intelligence", "social_skill", "appearance",
 		"investment_skill", "luck", "stress", "reputation",
 		"gambling_tendency", "addiction_tendency",
@@ -1279,4 +1291,23 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — difficulty 없거나 미지 값이면 현실 모드
 	if not DIFFICULTY_DATA.has(difficulty):
 		difficulty = "현실"
+	# 구버전 세이브 호환 — deferred_events 없으면 빈 배열
+	if typeof(deferred_events) != TYPE_ARRAY:
+		deferred_events = []
 	stats_changed.emit()
+
+## 그림자 이벤트 — N턴 후 자동 발동 예약
+func add_deferred_event(event_id: String, delay: int) -> void:
+	deferred_events.append({"event_id": event_id, "trigger_turn": turn + delay})
+
+## 현재 턴에 발동할 그림자 이벤트 목록 반환 (소비 처리 포함)
+func pop_ready_deferred_events() -> Array:
+	var ready: Array = []
+	var remaining: Array = []
+	for entry in deferred_events:
+		if int(entry.get("trigger_turn", 9999)) <= turn:
+			ready.append(str(entry.get("event_id", "")))
+		else:
+			remaining.append(entry)
+	deferred_events = remaining
+	return ready

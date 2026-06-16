@@ -1,5 +1,158 @@
 # Gangnam Dream Work Log
 
+## 2026-06-16 (arc_midgame 대규모 확장 — 감정 밀도 강화)
+
+### 세션 목표
+전 세션에 확인된 문제: 미니게임 제거 후 중반부(턴 15~50) 감정 장면이 너무 희박함 → 29개 arc 이벤트로 채움
+
+### 신규 arc 이벤트 (arc_midgame.json: 10개 → 29개)
+4개 배치(커밋)로 나눠서 추가:
+
+**배치 1 (아크 트리거 4종)**
+- `arc_social_comparison` (t28~35): 동창 조우, 잘 나가는 친구 앞에서
+- `arc_first_real_win` (자산 5천만+): 처음으로 "돈을 모았다"는 감각
+- `arc_hyunsu_new_path` (t42~50, 불합격 후): 현수가 고시원을 떠난다
+- `arc_career_ceiling` (t28~38, 재직 12개월+): 월급의 구조적 한계 자각
+
+**배치 2 (감정 장면 3종)**
+- `arc_hyunsu_drift` (t36~41): 불합격 후 현수가 조용히 달라져간다
+- `arc_goal_vertigo` (t32~42): 반환점 이후 30억이 갑자기 낯선 숫자가 되는 순간
+- `arc_housing_new_life`: 고시원 탈출 직후 새 집 첫날 밤
+
+**배치 3 (1억 고독·사표·아버지 약)**
+- `arc_money_loneliness` (자산 1억+): 누구에게도 말할 수 없는 1억
+- `arc_quit_job`: 자발적 퇴사 — 팀장 앞에서의 마지막 장면 (just_quit_job 플래그 연동)
+- `arc_father_medication` (t22~32): 아버지 혈압약 문자 — 조용한 신호
+
+**배치 4 (후반 이정표 3종)**
+- `arc_almost_there` (자산 10억+): 10억 돌파 후 20억이 더 무겁게 느껴지는 역설
+- `arc_daeun_trace` (t43~50, 보낸 경우): 편의점에서 다은이 있던 자리를 본다
+- `arc_final_stretch` (자산 20억+, t47+): 강남대로에서 5년 전 그 아파트를 다시 올려다본다
+
+**배치 5 (관계 심화·사기 후독백·임상철 인간화)**
+- `arc_daeun_money_gap` (t28~35, 함께): 다은에게 자산을 숨길지 말할지
+- `arc_sangchul_human` (t30~42): 임상철이 인천 출신임을 처음 말한 한우집 밥자리
+- `arc_after_scam`: 재혁 사기 직후 다음 날 멍한 내적 독백
+
+**배치 6 (루틴·취업초기·강남집값)**
+- `arc_first_job_week`: 취직 첫 주 — 출근 루틴과 회의감
+- `arc_night_routine` (t12~22, 고시원): 현수는 인강 / 나는 차트 — 같은 밤 다른 방향
+- `arc_gangnam_real_estate` (자산 25억+, t50+): 부동산 앱에서 강남 아파트를 처음 진지하게 본다
+
+### 기타
+- `JobSystem.gd`: `quit_job(voluntary=true)` 시 `just_quit_job` 플래그 자동 세트
+- 모든 배치 후 `./tools/audit.sh` — ERROR 0 / WARNING 0 확인 후 커밋
+
+## 2026-06-16 (그림자 이벤트 시스템 — 테마/메카닉 괴리 해소)
+
+### 핵심 문제 해결: 선택의 장기 파장
+- **근본 진단**: 선택이 즉각 결과로 끝나기 때문에 "불평등 테마를 플레이한다"가 아니라 "숫자를 최적화한다"가 게임 경험으로 됨
+- **해법**: deferred_events 시스템 — 선택 후 N턴이 지나 잊을 때쯤 과거 선택이 새 이벤트로 돌아옴
+
+### 구현 내용
+- **GameState.gd**: `deferred_events: Array` 변수 선언 + new_run 초기화 + `add_deferred_event(id, delay)` / `pop_ready_deferred_events()` 헬퍼
+- **EventManager.gd**: 선택지 JSON에 `deferred_follow_up` + `deferred_delay` 키 지원 추가
+- **MainGame.gd** `_next_arc_id()`: 매 턴 시작 시 `pop_ready_deferred_events()` 호출 — 발동된 그림자가 해당 턴 arc 슬롯을 차지
+- **shadow_events.json**: 그림자 이벤트 6개 (수금 전화, 소문, 예전 약속 — 각각 4~7턴 후 콜백)
+- **tools/audit.py**: `deferred_follow_up` / `deferred_delay` CHOICE_KEYS 화이트리스트 + 체인 끊김 검사 추가
+
+### 그림자 이벤트 목록
+- `shadow_loan_collector` → `shadow_loan_answer` (4턴 후): 출처 모를 수금 전화, 내가 맺은 관계의 이면
+- `shadow_snitch_rumor` → `shadow_snitch_found` (5턴 후): 소문의 출처 추적 — 아는 사람이었음
+- `shadow_old_promise` → `shadow_promise_again` (7턴 후): 창업 약속, 잊을 때쯤 다시 온다
+
+### 감사 결과
+- ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+## 2026-06-15 (데모 점수 올리기 — CryptoGame + 튜토리얼 개선)
+
+### 코인 단타 미니게임 (CryptoGame.gd 신규)
+- 3라운드 코인 롱/숏 예측 게임
+- 5캔들 흐름 표시, 12초 타이머, 롱/숏/패스 3선택
+- 투자감각 20→추세 힌트, 40→강도, 60→직감 표시
+- 해금 조건: investment_skill >= 10 (시작값 12이므로 초반부터 접근 가능)
+- MainGame 연동: crypto_game 오버레이, _open_crypto/_on_crypto_closed
+
+### 튜토리얼 텍스트 수정
+- "📚 정석 루트 / 📈 비정석 루트" 라벨 제거 (유저 요청: 노출 금지)
+- "💼 안정을 쌓으면 / 📈 속도를 쌓으면" 으로 대체 — 성향을 가르치되 이름 붙이지 않음
+
+## 2026-06-15 (30억 경로 명확화 + 아크 흐름 정비)
+
+### 30억 경로 가이드
+- `arc_invest_guidance` 이벤트 추가 (arc_events.json): 12턴 이후 임상철이 "월급만으론 불가능, 투자해야 한다"는 방향 명시
+- `_next_arc_id()` 트리거 추가: t>=12 + sangchul_met + !invest_guidance_seen
+- `arc_sangchul_03_network` 조건 완화: 500만 → 100만원 (초반 진행 막힘 해소)
+
+### 아크 흐름 정비
+- 아크 패널 힌트에 턴 타이밍 표시 (임상철 "17개월차 이후", 재혁 "19개월차 이후", 지연 "17개월차+" 등)
+- 임상철 아크 단계에 "투자 조언" 항목 추가
+
+### 골 바 마일스톤
+- `_refresh_goal_bar()`: 현재 자산 구간에 따라 "→ 1억 / 5억 / 10억 / 20억 / 30억!" 표시
+
+## 2026-06-15 (AP 전면 게임화 완료 — LifeSkillsMiniGame)
+
+### 절약·인맥·자기계발 미니게임
+- `scenes/LifeSkillsMiniGame.gd` 신규 작성 (3모드 통합)
+  - `Mode.BUDGET` (절약): 6개 지출 항목 토글 퍼즐, 목표 15만원, 항목별 스탯 패널티 즉시 적용
+    - 식비절약(-건강), 카페·술금지(+스트레스), 문화생활취소(-정신) 등 트레이드오프
+    - 200k↑→quality3, 150k↑→2, 80k↑→1, else→0
+  - `Mode.NETWORK` (인맥): 5인 NPC 풀에서 3인 랜덤 선택, 10초 타이머 순차 대화
+    - 성격 유형(열정형/분석형/경쟁형/친화형)별 적절한 대응으로 score 차등
+    - 결과: 사회성+1~3, 평판+1 (quality3)
+  - `Mode.STUDY` (자기계발): 4주제(독서/운동/명상/재테크) 선택 → 각 3문 8초 퀴즈
+    - quality에 따라 기본 스탯 획득량 0.3x~1.5x 배율 적용
+- `MainGame.gd` 통합: `_ap_save_money/network/study` 모두 미니게임 호출로 교체
+- `_on_life_skills_closed`: 모드·quality·extra_money 분기 처리
+
+## 2026-06-15 (구직 미니게임 통합 — JobHuntMiniGame)
+
+### 자소서·면접 AP 사용처 게임화
+- `scenes/JobHuntMiniGame.gd` 신규 작성 (497줄)
+  - `Mode.RESUME`: 4문항 선택지 채점 (3/1/0점, 타이머 없음)
+  - `Mode.INTERVIEW`: 5문항 압박 타이머 (10s, 깜짝 문항 5s), 타임아웃 시 스트레스 +2 자동 진행
+  - quality 0-3 산정: score/max 비율 0.85+→3(우수), 0.6+→2(양호), 0.35+→1(무난), else→0(재작성필요)
+  - 타이머 바 색상 실시간 변환: 녹색>60%, 황색30-60%, 적색<30%
+- `MainGame.gd` 통합
+  - `job_hunt_game` var 선언 + `_ready()`에서 인스턴스화 & 시그널 연결
+  - `_ap_write_resume()`·`_ap_interview_prep()`: 빈네트 랜덤 → `job_hunt_game.open(mode)` 호출로 교체
+  - `_on_job_hunt_closed(stress_delta, quality)`: 이력서/면접 분기 후 quality 차등 스탯 적용
+    - 우수(3): 지력+2 or 사회성+2, 플래그 세팅
+    - 양호(2): 지력+1 or 사회성+1, 플래그 세팅
+    - 무난(1): 운+1 or 보조 없음
+    - 실패(0): 스트레스 추가 +1
+
+## 2026-06-15 (생존게임 패키지 + 알바 미니게임 v2)
+
+### 생존게임 첫 6개월
+- 정착 지원금 단축: `month <= 3` → `month <= 1` (2개월차부터 즉시 생존 압박)
+- `arc_job_first_rejection`: t>=8 무직 시 불합격 메일 확정 등장, 이력서 다듬기 선택 시 `resume_polished` 획득
+- `arc_rescue_job` 안전망 트리거 t>=5 → t>=10 (불합격 경험 후 자연스러운 수순)
+- 생존 이벤트 4종: 월세 납부일 공포 / 삼각김밥 두 개 / 채용 공고 밤샘 / 취업한 친구 인스타
+
+### 알바 미니게임 v2 — 직종별 전용 게임플레이
+- job_01(편의점): 바코드 스캔 타이밍 게임 (ScanBarDraw 내부 클래스 커스텀 렌더링)
+  - 바늘 왕복 + 아이템마다 속도 가속 + 퍼펙트/굿/미스 즉각 피드백
+- job_02(배달): 루트 최적화 퍼즐 (6주문, 총 140분 > 제한 120분 → 선택 전략 필요)
+  - 실시간 소요 시간 + 예상 수입 업데이트, 초과 주문 자동 비활성화
+- 그 외: 상황 카드 모드 유지
+
+## 2026-06-15 (머지 + 정선 카지노 확정 + 캐릭터 기반 해금)
+
+### origin/main 머지 충돌 해소 (6개 파일)
+- `CLAUDE.md`: 두 브랜치 상태 블록 통합
+- `autoloads/MetaProgression.gd`: "정선 카지노 상주자" 칭호 채택
+- `content/events/life_events.json`: `gambling_tempted` 플래그 체인 유지
+- `scenes/BaccaratTable.gd` / `scenes/BlackjackTable.gd`: "정선 카지노" 주석 채택
+- `scenes/MainGame.gd`: 7곳 충돌 — 주 단위 guard 유지 + 정선 카지노 허브 채택
+
+### 정선 카지노 명칭 통일
+- 카지노 명칭 확정: **정선 카지노** (상표 아님, 지명 서술어)
+- `arc_sangchul_casino_invite` 텍스트: "강원도 카지노" → "정선 카지노"
+- 카지노 버튼 조건: `casino_club_introduced` 플래그 (상철 아크 완료 후 해금)
+- 메인 브랜치 JeongseonCasino 허브 채택 (바카라·블랙잭·슬롯·룰렛·빅휠 단일 진입)
+
 ## 2026-06-15 (REVIEW_ANALYSIS A항목 완료)
 
 ### A-1 관계 감각 강화

@@ -16,7 +16,7 @@
       "legendary",
       "class_jump"
     ],
-    "cooldown": 7,
+    "cooldown": 9999,
     "choices": [
       {
         "text": "먼저 말을 건다. 여기까지 왔다.",
@@ -249,7 +249,7 @@
       "class",
       "hidden"
     ],
-    "cooldown": 5,
+    "cooldown": 48,
     "choices": [
       {
         "text": "결과를 보고 식습관부터 바꾼다",
@@ -335,7 +335,7 @@
       "anxiety",
       "hidden"
     ],
-    "cooldown": 7,
+    "cooldown": 12,
     "choices": [
       {
         "text": "받는다",
@@ -386,7 +386,7 @@
       "satire",
       "hidden"
     ],
-    "cooldown": 7,
+    "cooldown": 12,
     "choices": [
       {
         "text": "결과가 마음에 들어서 저장한다",
@@ -428,7 +428,7 @@
       "satire",
       "hidden"
     ],
-    "cooldown": 7,
+    "cooldown": 10,
     "choices": [
       {
         "text": "정중하게 가격을 유지한다고 답한다",
@@ -475,7 +475,7 @@
       "viral",
       "hidden"
     ],
-    "cooldown": 6,
+    "cooldown": 8,
     "choices": [
       {
         "text": "회사 정보를 먼저 검색한다",
@@ -614,7 +614,7 @@
       "satire",
       "hidden"
     ],
-    "cooldown": 7,
+    "cooldown": 4,
     "choices": [
       {
         "text": "항목을 하나씩 확인하고 다 해지한다",
@@ -656,7 +656,7 @@
       "pressure",
       "hidden"
     ],
-    "cooldown": 6,
+    "cooldown": 9999,
     "choices": [
       {
         "text": "내용을 꼼꼼히 확인하고 대응한다",
@@ -797,7 +797,7 @@
       "viral",
       "hidden"
     ],
-    "cooldown": 7,
+    "cooldown": 16,
     "choices": [
       {
         "text": "루머 출처를 먼저 확인한다",
@@ -842,7 +842,7 @@
       "pressure",
       "hidden"
     ],
-    "cooldown": 9,
+    "cooldown": 12,
     "choices": [
       {
         "text": "앱을 끄고 나만의 목표에 집중한다",

@@ -1,5 +1,49 @@
 [
   {
+    "id": "racetrack_mentor_meet",
+    "title": "과천 경마 아저씨",
+    "description": "편의점 구석 자리에 혼자 앉아 있는 남자가 말을 걸었다.\n\n\"젊어 보이는데 경마 알아요?\"\n\n마커가 빼곡히 칠해진 경마신문. 40대 후반. 커피를 홀짝이며 번호를 적고 있었다.\n\n\"다음 주 토요일, 3번이 확실해. 봄비가 오면 과천 주로는 내측 마가 강하거든.\"\n\n돈을 번다는 사람인지, 허세인지 알 수 없었다.\n하지만 말하는 방식에 확신이 있었다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "background": "convenience_store",
+    "portrait": "tip_seller",
+    "conditions": {
+      "flag": "gambling_tempted",
+      "min_money": 1000000
+    },
+    "tags": [
+      "gambling",
+      "race",
+      "social"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"가르쳐 주실 수 있어요?\" — 다음 주 토요일에 따라간다",
+        "effects": {
+          "luck": 1
+        },
+        "flags": [
+          "racetrack_guide_met",
+          "racetrack_mentor_done"
+        ],
+        "follow_up_event": "race_first_visit",
+        "result_text": "과천역 앞에서 만나기로 했다.\n경마신문 한 장을 받아들었다. 숫자와 기호가 가득했다.\n그 숫자들이 의미하는 세계에 첫 발을 내딛기로 했다."
+      },
+      {
+        "text": "말을 얼버무리고 자리를 피한다",
+        "effects": {},
+        "flags": [
+          "racetrack_mentor_done"
+        ],
+        "follow_up_event": "",
+        "result_text": "그가 건네던 경마신문을 받지 않았다.\n받았으면 어떻게 됐을지 — 잠깐 생각했다."
+      }
+    ]
+  },
+  {
     "id": "race_first_visit",
     "title": "과천 경마공원",
     "description": "토요일 낮. 4호선 경마공원역에서 내리자마자 사람이 쏟아졌다.\n\n마사회 건물 안으로 들어섰다. 실내 경기장 특유의 냄새 — 담배, 땀, 인쇄된 종이.\n\n중장년 아저씨들이 마권 앞에 줄 서 있었다. {name}은 처음이었다.\n\n입장료는 없었다. 그게 묘하게 위험하게 느껴졌다.",
@@ -9,7 +53,11 @@
     "background": "racetrack_betting",
     "portrait": "tip_seller",
     "conditions": {},
-    "tags": ["gambling", "race", "social"],
+    "tags": [
+      "gambling",
+      "race",
+      "social"
+    ],
     "cooldown": 12,
     "choices": [
       {
@@ -19,7 +67,9 @@
           "mental": 3,
           "luck": 1
         },
-        "flags": ["racetrack_visited"],
+        "flags": [
+          "racetrack_visited"
+        ],
         "result_text": "2경주만 봤다. 관람대에서 말들이 코너를 도는 걸 봤다.\n빠르고 조용했다. 생각보다 볼 게 있었다.\n마권은 안 샀다. 그것도 하나의 선택이었다.",
         "follow_up_event": ""
       },
@@ -30,7 +80,10 @@
           "stress": -3,
           "luck": 2
         },
-        "flags": ["racetrack_visited", "racetrack_bet_first"],
+        "flags": [
+          "racetrack_visited",
+          "racetrack_bet_first"
+        ],
         "result_text": "7번 마를 찍었다. 근거는 없었다. 그냥 7이 좋아서.\n결과는 4위. 환급 없음.\n5천원이 사라졌다. 생각보다 아깝지 않았다.\n그게 좀 무서웠다.",
         "follow_up_event": ""
       },
@@ -41,7 +94,10 @@
           "stress": -4,
           "luck": 1
         },
-        "flags": ["racetrack_visited", "racetrack_asked_tip"],
+        "flags": [
+          "racetrack_visited",
+          "racetrack_asked_tip"
+        ],
         "result_text": "옆에 있던 60대 아저씨가 신문지 한 장을 펼쳤다.\n각 마의 최근 전적, 기수, 중량, 날씨 적응력.\n\"3번이 과천 주로 강해. 근데 오늘 날씨가 변수야.\"\n10분 설명을 들었다. 절반도 못 알아들었다.",
         "follow_up_event": "race_tip_seller_02"
       }
@@ -57,7 +113,10 @@
     "background": "racetrack_betting",
     "portrait": "tip_seller",
     "conditions": {},
-    "tags": ["gambling", "race"],
+    "tags": [
+      "gambling",
+      "race"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -67,7 +126,9 @@
           "luck": 3,
           "intelligence": 1
         },
-        "flags": ["bought_tip_sheet"],
+        "flags": [
+          "bought_tip_sheet"
+        ],
         "result_text": "표를 보며 3번 단승을 샀다. 3번이 2위로 들어왔다.\n단승은 1위만 환급. 한 끗 차이.\n아저씨를 찾았는데 이미 없었다.",
         "follow_up_event": ""
       },
@@ -95,7 +156,10 @@
     "conditions": {
       "flag": "racetrack_visited"
     },
-    "tags": ["gambling", "race"],
+    "tags": [
+      "gambling",
+      "race"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -115,7 +179,9 @@
           "intelligence": 1,
           "stress": -2
         },
-        "flags": ["racetrack_self_analysis"],
+        "flags": [
+          "racetrack_self_analysis"
+        ],
         "result_text": "경주마 정보 게시판 앞에 10분 서 있었다.\n기수 체중, 최근 3경주 순위, 주로 적성.\n숫자로 보니 오히려 8번이 나았다.\n8번은 3위로 들어왔다. 연승이었으면 환급됐다.",
         "follow_up_event": ""
       }
@@ -130,7 +196,10 @@
     "weight": 0,
     "background": "racetrack_track",
     "conditions": {},
-    "tags": ["gambling", "race"],
+    "tags": [
+      "gambling",
+      "race"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -168,7 +237,11 @@
       "flag": "racetrack_visited",
       "min_luck": 55
     },
-    "tags": ["gambling", "race", "windfall"],
+    "tags": [
+      "gambling",
+      "race",
+      "windfall"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -179,7 +252,9 @@
           "mental": 5,
           "luck": -1
         },
-        "flags": ["racetrack_won_big"],
+        "flags": [
+          "racetrack_won_big"
+        ],
         "result_text": "5만원 베팅에 90만원 환급.\n경마공원역으로 가는 길, 발걸음이 가벼웠다.\n그 가벼움이 오래가지 않는다는 걸 — 나중에 알게 된다.",
         "follow_up_event": ""
       },
@@ -191,7 +266,9 @@
           "mental": -4,
           "luck": -2
         },
-        "flags": ["racetrack_chased_win"],
+        "flags": [
+          "racetrack_chased_win"
+        ],
         "result_text": "5만원을 다시 넣었다.\n말들이 달렸다. 결과는 꽝.\n\n나올 때 손에 남은 건 40만원이었다.\n아까보다 많지만, 잃은 50만원이 계속 생각났다.\n이게 도박이 사람을 잡는 방식이라는 걸 몸으로 배웠다.",
         "follow_up_event": ""
       }
@@ -209,7 +286,12 @@
       "flag": "racetrack_visited",
       "has_job": true
     },
-    "tags": ["gambling", "race", "social", "work"],
+    "tags": [
+      "gambling",
+      "race",
+      "social",
+      "work"
+    ],
     "cooldown": 15,
     "choices": [
       {
@@ -246,7 +328,12 @@
     "conditions": {
       "flag": "racetrack_visited"
     },
-    "tags": ["gambling", "race", "night", "stress"],
+    "tags": [
+      "gambling",
+      "race",
+      "night",
+      "stress"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -256,7 +343,9 @@
           "mental": -3,
           "luck": -1
         },
-        "flags": ["racetrack_will_return"],
+        "flags": [
+          "racetrack_will_return"
+        ],
         "result_text": "내일부터 경주마 전적 공부해야겠다.\n그 생각을 하면서 스마트폰을 열었다.\n마사회 앱을 설치했다.\n\n이게 시작인지 끝인지는 아직 몰랐다.",
         "follow_up_event": ""
       },
@@ -285,7 +374,12 @@
       "flag": "racetrack_will_return",
       "min_stress": 45
     },
-    "tags": ["gambling", "race", "stress", "addiction"],
+    "tags": [
+      "gambling",
+      "race",
+      "stress",
+      "addiction"
+    ],
     "cooldown": 6,
     "choices": [
       {
@@ -296,7 +390,9 @@
           "luck": 2,
           "intelligence": 2
         },
-        "flags": ["racetrack_paused"],
+        "flags": [
+          "racetrack_paused"
+        ],
         "result_text": "경마공원역을 지나쳐 갔다.\n차창 밖으로 건물이 스쳐 지나갔다.\n\n뭔가를 멈추는 게 이렇게 쉬운 건지 몰랐다.\n발동이 안 걸린 거니까.\n\n{name}은 그 주말에 책을 읽었다. 이상하게 홀가분했다.",
         "follow_up_event": ""
       },
@@ -308,7 +404,9 @@
           "mental": -5,
           "luck": -1
         },
-        "flags": ["racetrack_chased_loss"],
+        "flags": [
+          "racetrack_chased_loss"
+        ],
         "result_text": "8만원을 썼다. 만회는 없었다.\n\n경마공원역 계단을 내려오면서 총합을 계산했다.\n3주 합산 -23만원.\n\n숫자가 나오자 머릿속이 조용해졌다.\n이 조용함이 제일 나쁜 신호라는 걸 — 아직 모르고 있었다.",
         "follow_up_event": ""
       }
