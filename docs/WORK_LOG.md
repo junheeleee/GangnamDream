@@ -1,5 +1,32 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반8 (자율 QA 루프 — 이벤트·엔딩·코드 정밀 점검)
+
+### 자율 정적 QA — 발견 및 수정 항목
+1. **result_text 빈칸 30건 일괄 수정** (10개 파일):
+   amb_scenarios 4건 / amb_scenarios2-4·6 5건 / callback_events 6건 /
+   scenario_cafe 9건 / scenario_cafe_callback 6건.
+   CLAUDE.md 규칙: result_text 빈 문자열 금지.
+2. **opportunity 이중 mental 페널티 정리** (GameState.gd):
+   stress→mental 머지 잔류 — `modify_stat("mental",-3)` + `modify_stat("mental",-6)` 연속 호출
+   → `modify_stat("mental",-9)` 단일 호출로 통합(동작 동일, 코드 명확화).
+3. **jaehyuk_way 엔딩 배경 수정** (endings.json):
+   `gangnam_apartment` → `gangnam_night`. ENDING_ART.md 명세(밤의 어두운 강남) 대로 수정.
+   endings.json `background` 필드가 ending_bg_map보다 우선이어서 오배치됐던 버그.
+4. **ending_bg_map 중복 항목 제거** (MainGame.gd):
+   endings.json으로 이미 커버되는 stable_success·orthodox_pinnacle·crypto_ghost 항목 제거.
+
+### 정적 QA 확인 — 이상 없음
+- 26개 엔딩 모두 finish_run 호출 대응 확인
+- 108개 아크 이벤트 전원 JSON 존재 확인
+- 25개 portrait ID 전원 ImageRegistry 등록 확인
+- 27개 background ID(이벤트용) 전원 ImageRegistry 등록 확인
+- deferred_follow_up 체인 942개 이벤트 전원 유효
+- 챕터 카드 5종(33~37) 플래그 정상 설정 확인
+- 시리얼라이즈 완전성 — 3개 transient 변수 SERIALIZE_EXEMPT 정상 처리
+
+---
+
 ## 2026-06-17 후반7 (스크린샷 QA 자동화 + 엔딩 아트 전수 점검)
 
 ### 실제 렌더러 스크린샷 QA (`tools/ScreenshotQA.tscn`)

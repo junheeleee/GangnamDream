@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-06-17) — 자율 정적 QA 2차 (후반8)
+- 이벤트 `result_text` 빈칸 30건 일괄 수정 (10개 JSON 파일: amb/callback/scenario_cafe)
+- `GameState._resolve_opportunity()`: stress→mental 머지 잔류 이중 mental 패널티 정리 (`-3 + -6` → `-9` 단일 호출)
+- `jaehyuk_way` 엔딩 배경 오류 수정: `gangnam_apartment` → `gangnam_night` (ENDING_ART.md 명세)
+- `MainGame._show_ending()` `ending_bg_map` 중복 항목 3건 제거 (endings.json background 필드로 이미 커버)
+
 ### Fixed (2026-06-17) — 엔딩 배경/CG 톤 점검 (스크린샷 QA 전수)
 - gangnam_dream 승리 엔딩의 잘못된 아버지 임종 CG 제거 → gangnam_apartment 배경 정상화
 - stable_success/orthodox_pinnacle: 본문이 "강남은 아니었다"인데 펜트하우스(강남 럭셔리) 배경이던 모순 제거 → 옥상/회식 식당으로 중립화
