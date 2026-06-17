@@ -3182,7 +3182,7 @@ func _open_cat_people():
 
 	# ── 새로운 사람·휴식 ──
 	modal_body.add_child(_label("── 인맥 · 휴식 ──", 12, "#3a3a5a"))
-	_cat_modal_button("🤝 인맥 넓히기  —  사회성 +1 (업계·직장 사람들)", "#8a5a9a", "_ap_network")
+	_cat_modal_button("🤝 인맥 넓히기  —  사교력+, 평판+ (정신력 소모)", "#8a5a9a", "_ap_network")
 	_cat_modal_button("🌊 자유시간  —  한강·산책 (정신력 +10)", "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():
