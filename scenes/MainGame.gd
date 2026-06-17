@@ -2392,11 +2392,15 @@ func _render_sidebars():
 		var item_label = _label("%s %s x%d" % [item.get("icon", ""), item.get("name", "아이템"), item.get("quantity", 1)], 12, "#8892a4")
 		item_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		item_row.add_child(item_label)
-		var use_btn = _small_button("사용 ⚡1", "#0f766e")
-		if GameState.action_points <= 0:
-			use_btn.disabled = true
-		use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
-		item_row.add_child(use_btn)
+		var has_immediate = not item.get("effects", {}).is_empty()
+		if has_immediate:
+			var use_btn = _small_button("사용 ⚡1", "#0f766e")
+			if GameState.action_points <= 0:
+				use_btn.disabled = true
+			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
+			item_row.add_child(use_btn)
+		else:
+			item_row.add_child(_label("자동 활성", 11, "#3a7a4a"))
 		inventory_box.add_child(item_row)
 
 	_refresh_arc_box()
@@ -2549,6 +2553,7 @@ func _render_log():
 		"market": "#5a6075",
 		"relationship": "#f9a8d4",
 		"system": "#64748b",
+		"money": "#f0b429",
 	}
 	for entry in GameState.action_log.slice(max(0, GameState.action_log.size() - 16)):
 		var t = entry.get("type", "system")
