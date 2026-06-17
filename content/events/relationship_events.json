@@ -29,11 +29,7 @@
         "effects": {
           "mental": 10
         },
-        "result_text": "억지로 갔다.\n근황 질문이 쏟아졌다.\n집으로 오는 길에 핸드폰을 내려다봤다. 새로운 연락은 없었다.",
-        "relationship_effects": {
-          "affinity": -1,
-          "type": "romantic"
-        }
+        "result_text": "억지로 갔다.\n근황 질문이 쏟아졌다.\n집으로 오는 길에 핸드폰을 내려다봤다. 새로운 연락은 없었다."
       },
       {
         "text": "가장 잘 차려입고 등장한다",
@@ -75,11 +71,7 @@
         "effects": {
           "mental": 1
         },
-        "result_text": "공고를 저장해두고 결국 지원하지 못했다. 두려움이 가능성을 잠가버렸다.",
-        "relationship_effects": {
-          "affinity": 9,
-          "type": "business_partners"
-        }
+        "result_text": "공고를 저장해두고 결국 지원하지 못했다. 두려움이 가능성을 잠가버렸다."
       },
       {
         "text": "현 직장에 이직 의사를 흘리며 협상 카드로 쓴다",
@@ -121,11 +113,7 @@
         "effects": {
           "mental": -4
         },
-        "result_text": "메시지를 보고 한숨 쉬다가 노트북을 열었다. 거절 못 하는 것이 나의 가장 큰 약점이다.",
-        "relationship_effects": {
-          "affinity": -3,
-          "type": "friends"
-        }
+        "result_text": "메시지를 보고 한숨 쉬다가 노트북을 열었다. 거절 못 하는 것이 나의 가장 큰 약점이다."
       },
       {
         "text": "야근비 협상을 시도한다",
@@ -176,11 +164,7 @@
         "effects": {
           "mental": 1
         },
-        "result_text": "바쁘다는 핑계로 자리를 피했다. 죄책감은 남지만 마음은 편했다.",
-        "relationship_effects": {
-          "affinity": -9,
-          "type": "mentors"
-        }
+        "result_text": "바쁘다는 핑계로 자리를 피했다. 죄책감은 남지만 마음은 편했다."
       },
       {
         "text": "직접 맞서 자신의 경계를 선언한다",
@@ -225,11 +209,7 @@
         "effects": {
           "mental": 8
         },
-        "result_text": "타인의 일상을 보며 내 부족함을 세고 또 셌다. 알면서도 멈출 수가 없었다.",
-        "relationship_effects": {
-          "affinity": 8,
-          "type": "business_partners"
-        }
+        "result_text": "타인의 일상을 보며 내 부족함을 세고 또 셌다. 알면서도 멈출 수가 없었다."
       },
       {
         "text": "자신의 성공 스토리를 올려 반격한다",
@@ -272,11 +252,7 @@
         "effects": {
           "mental": 0
         },
-        "result_text": "'엄마, 나도 지금 좀 빠듯해.'\n말하고 나니 목이 조금 막혔다.\n어머니가 '아 그래, 괜찮아'라고 했다. 괜찮지 않아 보였다.",
-        "relationship_effects": {
-          "affinity": -1,
-          "type": "business_partners"
-        }
+        "result_text": "'엄마, 나도 지금 좀 빠듯해.'\n말하고 나니 목이 조금 막혔다.\n어머니가 '아 그래, 괜찮아'라고 했다. 괜찮지 않아 보였다."
       },
       {
         "text": "대출을 받아서라도 보낸다",
@@ -318,11 +294,7 @@
         "effects": {
           "mental": -6
         },
-        "result_text": "자랑을 들을수록 마음이 불편해졌다. 질투는 인간적이지만 생산적이지는 않다.",
-        "relationship_effects": {
-          "affinity": 8,
-          "type": "friends"
-        }
+        "result_text": "자랑을 들을수록 마음이 불편해졌다. 질투는 인간적이지만 생산적이지는 않다."
       },
       {
         "text": "나도 당장 따라서 투자한다",
@@ -374,11 +346,7 @@
           "social_skill": 1,
           "mental": -5
         },
-        "result_text": "'혹시 제가 뭔가 실수한 게 있나요?'\n팀장님이 잠깐 멈췄다.\n'아니요, 반대예요.' 표정이 조금 이상했다.",
-        "relationship_effects": {
-          "affinity": -5,
-          "type": "romantic"
-        }
+        "result_text": "'혹시 제가 뭔가 실수한 게 있나요?'\n팀장님이 잠깐 멈췄다.\n'아니요, 반대예요.' 표정이 조금 이상했다."
       },
       {
         "text": "숨을 고르고 최악을 가정해둔다",
@@ -425,11 +393,7 @@
           "mental": -7,
           "reputation": -3
         },
-        "result_text": "계산 전에 화장실에 갔다. 쪽팔리지만 이번 달 통장 잔고가 그렇게 시킨 거다.",
-        "relationship_effects": {
-          "affinity": 13,
-          "type": "friends"
-        }
+        "result_text": "계산 전에 화장실에 갔다. 쪽팔리지만 이번 달 통장 잔고가 그렇게 시킨 거다."
       },
       {
         "text": "나혼자 다 낸다",
@@ -481,11 +445,7 @@
         "effects": {
           "mental": 1
         },
-        "result_text": "\"나중에 다시 할게요\"라며 끊었다. 불효라는 걸 알지만 지금은 여유가 없다.",
-        "relationship_effects": {
-          "affinity": -12,
-          "type": "romantic"
-        }
+        "result_text": "\"나중에 다시 할게요\"라며 끊었다. 불효라는 걸 알지만 지금은 여유가 없다."
       },
       {
         "text": "걱정 안 하시도록 좋은 것만 말한다",
@@ -527,11 +487,7 @@
         "effects": {
           "mental": 2
         },
-        "result_text": "'어, 뭐 괜찮은 것 같은데.'\n동생이 '진짜?'라고 다시 물었다.\n더 볼 게 있을 것 같은 느낌이 남았다.",
-        "relationship_effects": {
-          "affinity": 13,
-          "type": "coworkers"
-        }
+        "result_text": "'어, 뭐 괜찮은 것 같은데.'\n동생이 '진짜?'라고 다시 물었다.\n더 볼 게 있을 것 같은 느낌이 남았다."
       },
       {
         "text": "'나도 잘 모르겠어, 전문가한테 봐달라고 해'",
@@ -582,11 +538,7 @@
         "effects": {
           "mental": 1
         },
-        "result_text": "하루가 더 지났다.\n연락이 없었다.\n3일째 되는 날에 어떻게 할지 생각했다.",
-        "relationship_effects": {
-          "affinity": 3,
-          "type": "business_partners"
-        }
+        "result_text": "하루가 더 지났다.\n연락이 없었다.\n3일째 되는 날에 어떻게 할지 생각했다."
       },
       {
         "text": "가볍게 약속을 제안하는 카톡을 보낸다",
@@ -629,11 +581,7 @@
         "effects": {
           "mental": -6
         },
-        "result_text": "신호가 두 번 울리다가 끊겼다.\n문자를 보냈다.\n편의점 처마 밑으로 들어갔다.",
-        "relationship_effects": {
-          "affinity": -2,
-          "type": "coworkers"
-        }
+        "result_text": "신호가 두 번 울리다가 끊겼다.\n문자를 보냈다.\n편의점 처마 밑으로 들어갔다."
       },
       {
         "text": "그냥 간다",
@@ -688,11 +636,7 @@
         "effects": {
           "mental": -6
         },
-        "result_text": "14분 47초짜리였다.\n회사 이야기가 7분에 나왔다.\n구독 버튼 위에서 손이 멈췄다.",
-        "relationship_effects": {
-          "affinity": 2,
-          "type": "family"
-        }
+        "result_text": "14분 47초짜리였다.\n회사 이야기가 7분에 나왔다.\n구독 버튼 위에서 손이 멈췄다."
       },
       {
         "text": "익명 댓글을 단다",
@@ -734,11 +678,7 @@
         "effects": {
           "mental": -8
         },
-        "result_text": "'혹시 못 봤어?'\n보내고 나서 바로 후회했다.\n두 번째 읽음 표시가 켜졌다. 답장은 없었다.",
-        "relationship_effects": {
-          "affinity": 13,
-          "type": "friends"
-        }
+        "result_text": "'혹시 못 봤어?'\n보내고 나서 바로 후회했다.\n두 번째 읽음 표시가 켜졌다. 답장은 없었다."
       },
       {
         "text": "카톡 프로필을 확인한다",
