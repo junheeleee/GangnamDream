@@ -522,7 +522,7 @@
     "background": "street",
     "conditions": {
       "flag": "mystery_info_scammed",
-      "min_turn": 2
+      "min_turn": 12
     },
     "tags": [
       "social",
