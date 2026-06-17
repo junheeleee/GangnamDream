@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반20 (자율 QA — 캘린더 잔존 버그 수정 + 전수 교차검증)
+
+### 자율 QA 루프
+
+#### 캘린더 잔존 버그 수정 (arc_midgame.json 3건 + MainGame.gd 1건 + life_events.json 1건)
+- `arc_midpoint_reckoning`: 설명문 "2년 반이 지났다/5년의 절반/남은 시간 30개월" 제거
+  - t>=30주(=7.5개월) 발동 씬에 맞지 않는 텍스트 (구 월 캘린더 시절 작성)
+  - result_text "2년 반 동안 포기하지 않았다" → "지금까지 포기하지 않았다"
+- `arc_career_ceiling`: MainGame.gd `job_tenure >= 12` → `>= 6`
+  - t=28~38주 구간에서 12개월 재직은 수학적으로 불가능한 조건
+  - 설명문 "1년이 됐다. 승진도 했다." → "반년이 됐다. 이젠 좀 자리가 잡힌 것 같다."
+- `arc_late_game_push`: 설명문 "이제 1년 남짓 남았다. 마지막 구간." 제거
+  - t>=45주(=11개월) 시점에 1년 남은 것이 아님 (4+년 잔여)
+- `selfdev_invest_seminar`: `flag: "arc_sangchul_met_seen"` 조건 추가
+  - 상철 소개 전 발동 시 "상철이 링크를 보냈다" 문구가 맥락 없이 등장하는 버그
+
+#### 전수 교차검증 완료
+- 106개 arc 이벤트 ID → JSON 존재 100% (regex 미탐지 3개는 조건부 ternary 정상 트리거)
+- 26개 finish_run → 26개 endings.json 100% 커버
+- 11개 milestone 이벤트 모두 JSON 존재 확인
+- 카테고리별 이벤트 분포: social 156, story 146, relationship 91, jobs 94, investment 65 등
+- 958개 이벤트, 빈 result_text 0건, 불가능 조건 5건 수정
+- audit.sh: ERROR 0, WARNING 0, 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-17 후반19 (시네마틱 누아르 비주얼 오버홀 + ScreenshotQA 검증)
 
 ### 시네마틱 누아르 팔레트 전환
