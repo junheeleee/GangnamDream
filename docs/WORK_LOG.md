@@ -1,5 +1,30 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반25 (자율 QA 2차 — 조건 시스템 전수 감사 + housing 버그 수정)
+
+### 자율 QA 루프 — 전수 조건/효과 감사 완료
+
+#### jiyeon_gangnam_moment housing='gangnam' 무발동 버그 수정 (CRITICAL)
+- `conditions.housing: "gangnam"` — HOUSING_DATA에 없는 타입 (유효값: gosiwon/oneroom/villa/apartment)
+- 이 이벤트는 한지연과 연인 관계 + 강남 입성 직전에 발동해야 하는 고자산 구간 이벤트
+- 수정: `housing: "gangnam"` → `min_assets: 2000000000` + `min_turn: 180`
+
+#### EventManager min_assets / max_assets 조건 신규 추가
+- `get_total_asset_value()` 기반으로 총 자산(현금+포트폴리오-대출) 조건 지원
+- 이벤트에서 고자산 구간 가중치 조정에 활용 가능
+
+#### 전수 감사 항목 (모두 통과)
+- 조건 키 화이트리스트: has_portfolio/has_relationship/min_stress/max_stress/min_addiction 등
+  모두 EventManager에 구현 확인 (valid_cond_keys set 불완전했던 것 — 실제 버그 없음)
+- 효과 키 전수: VALID_EFFECT_KEYS 완전 일치, unknown 0건
+- cast stage / cast_effects: 유효 PID 외 사용 0건
+- opportunity 블록: 19개 모두 올바른 stake_ratio/success_rate 형식 (win_text/lose_text는 없는 필드)
+- deferred_follow_up 3종: 모두 대상 이벤트 존재 확인
+- 전체 arc IDs 125종 / milestone IDs 16종 / story pool 7종: 모두 JSON 파일 내 존재
+- _seen 플래그 92종: 이벤트 choices.flags 또는 코드에서 모두 설정됨
+- 인물별 cast affinity 극값(-100): arc_jaehyuk_04a_ghost/04b_counter 의도된 배신 이벤트
+- job_id/job_category/housing 조건: 모두 유효 열거값 사용
+
 ## 2026-06-17 후반24 (자율 QA 심화 — follow_up 이벤트 은닉 + 카테고리 필드 119종 보완)
 
 ### 자율 QA 루프 — 심화 감사 완료
