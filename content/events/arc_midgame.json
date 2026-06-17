@@ -2024,28 +2024,50 @@
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
-    "tags": ["reflection", "milestone"],
+    "tags": [
+      "reflection",
+      "milestone"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "1년치 기록을 정리한다. 내가 얼마나 왔는지 숫자로 확인한다.",
-        "effects": { "mental": 4, "intelligence": 1 },
-        "flags": ["arc_year_one_mark_seen", "keeps_records"],
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_year_one_mark_seen",
+          "keeps_records"
+        ],
         "result_text": "공책에 적어 내려갔다. 수입, 지출, 투자, 실패. 숫자는 거짓말을 하지 않는다. 나는 분명히 앞으로 나아가고 있었다."
       },
       {
         "text": "그냥 넘어간다. 기념일 따위를 세는 게 사치다.",
-        "effects": { "mental": -1 },
-        "flags": ["arc_year_one_mark_seen"],
+        "effects": {
+          "mental": -1
+        },
+        "flags": [
+          "arc_year_one_mark_seen"
+        ],
         "result_text": "그냥 자정을 넘겼다. 아무 것도 하지 않았다. 그것도 선택이다."
       },
       {
         "text": "더 세게 밀어붙여야 한다. 1년은 워밍업이었다.",
-        "effects": { "mental": -2, "investment_skill": 1, "luck": 1 },
-        "flags": ["arc_year_one_mark_seen", "grind_mentality"],
+        "effects": {
+          "mental": -2,
+          "investment_skill": 1,
+          "luck": 1
+        },
+        "flags": [
+          "arc_year_one_mark_seen",
+          "grind_mentality"
+        ],
         "result_text": "핸드폰을 들었다. 공부할 것, 알아볼 것, 움직여야 할 것. 목록이 길어졌다. 좋은 신호다."
       }
-    ]
+    ],
+    "background": "goshiwon_room",
+    "portrait": "player_tired"
   },
   {
     "id": "arc_year_two_pressure",
@@ -2056,28 +2078,51 @@
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
-    "tags": ["comparison", "social", "reflection"],
+    "tags": [
+      "comparison",
+      "social",
+      "reflection"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "축하해준다, 진심으로. 나는 나만의 길에 있다.",
-        "effects": { "social_skill": 2, "mental": 2, "reputation": 1 },
-        "flags": ["arc_year_two_pressure_seen", "congratulated_friend"],
+        "effects": {
+          "social_skill": 2,
+          "mental": 2,
+          "reputation": 1
+        },
+        "flags": [
+          "arc_year_two_pressure_seen",
+          "congratulated_friend"
+        ],
         "result_text": "'민기야 진짜 축하해.' 문자를 보냈다. 답장이 금방 왔다. 사람이 좋으면 어떤 소식이든 반갑다. 내 길은 내가 간다."
       },
       {
         "text": "읽고 덮어둔다. 내 상황이 부끄러운 건 아니다.",
-        "effects": { "mental": -2 },
-        "flags": ["arc_year_two_pressure_seen"],
+        "effects": {
+          "mental": -2
+        },
+        "flags": [
+          "arc_year_two_pressure_seen"
+        ],
         "result_text": "알림창을 닫았다. 뭔가 복잡한 기분이 남았다. 틀리지 않았다는 걸 알면서도 쉽지 않은 감정이 있다."
       },
       {
         "text": "SNS를 끊는다. 비교는 집중력의 독이다.",
-        "effects": { "mental": 5, "intelligence": 1 },
-        "flags": ["arc_year_two_pressure_seen", "cut_sns"],
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_year_two_pressure_seen",
+          "cut_sns"
+        ],
         "result_text": "앱을 삭제했다. 처음 며칠은 손이 갔다. 2주가 지나자 집중하는 시간이 길어졌다. 세상이 더 단순해진 느낌."
       }
-    ]
+    ],
+    "background": "late_night",
+    "portrait": "player_normal"
   },
   {
     "id": "arc_year_three_crossroads",
@@ -2088,28 +2133,53 @@
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
-    "tags": ["identity", "crossroads", "milestone"],
+    "tags": [
+      "identity",
+      "crossroads",
+      "milestone"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "계속 간다. 멈추면 여기까지가 전부다.",
-        "effects": { "mental": -3, "luck": 2, "investment_skill": 1 },
-        "flags": ["arc_year_three_crossroads_seen", "never_stop"],
+        "effects": {
+          "mental": -3,
+          "luck": 2,
+          "investment_skill": 1
+        },
+        "flags": [
+          "arc_year_three_crossroads_seen",
+          "never_stop"
+        ],
         "result_text": "선택이라기보다 관성이었다. 하지만 관성도 힘이다. 멈추지 않으면 언젠간 닿는다."
       },
       {
         "text": "지금이라도 안정적인 길로 방향을 튼다.",
-        "effects": { "mental": 4, "reputation": 2 },
-        "flags": ["arc_year_three_crossroads_seen", "pivoted_to_safe"],
+        "effects": {
+          "mental": 4,
+          "reputation": 2
+        },
+        "flags": [
+          "arc_year_three_crossroads_seen",
+          "pivoted_to_safe"
+        ],
         "result_text": "이게 포기인지 성장인지는 모르겠다. 하지만 더 이상 무너지고 싶지 않다. 이것도 삶이다."
       },
       {
         "text": "지금 손에 쥔 패로 최선을 다한다. 남은 패는 없다.",
-        "effects": { "mental": 3, "luck": 1 },
-        "flags": ["arc_year_three_crossroads_seen", "plays_hand"],
+        "effects": {
+          "mental": 3,
+          "luck": 1
+        },
+        "flags": [
+          "arc_year_three_crossroads_seen",
+          "plays_hand"
+        ],
         "result_text": "있는 것들을 다시 정리했다. 돈, 관계, 기술, 경험. 뭔가 남아 있었다. 아직은 충분하다."
       }
-    ]
+    ],
+    "background": "gangnam_day",
+    "portrait": "player_normal"
   },
   {
     "id": "arc_final_year_start",
@@ -2120,28 +2190,52 @@
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
-    "tags": ["countdown", "final", "milestone"],
+    "tags": [
+      "countdown",
+      "final",
+      "milestone"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "모든 걸 건다. 마지막 기회다.",
-        "effects": { "luck": 3, "mental": -4 },
-        "flags": ["arc_final_year_start_seen", "final_year_all_in"],
+        "effects": {
+          "luck": 3,
+          "mental": -4
+        },
+        "flags": [
+          "arc_final_year_start_seen",
+          "final_year_all_in"
+        ],
         "result_text": "남은 카드를 전부 꺼냈다. 두렵지 않다고 하면 거짓말이다. 그래도 건다. 이게 내가 선택한 드라마다."
       },
       {
         "text": "지금 가진 걸 지킨다. 안전하게 착지한다.",
-        "effects": { "mental": 5, "reputation": 2 },
-        "flags": ["arc_final_year_start_seen", "final_year_conservative"],
+        "effects": {
+          "mental": 5,
+          "reputation": 2
+        },
+        "flags": [
+          "arc_final_year_start_seen",
+          "final_year_conservative"
+        ],
         "result_text": "욕심을 줄였다. 잃지 않는 것도 전략이다. 마지막 1년, 흔들리지 않기로 했다."
       },
       {
         "text": "아직 뭔가 남아있을 것 같다. 조금 더 기다린다.",
-        "effects": { "luck": 1, "mental": 2 },
-        "flags": ["arc_final_year_start_seen", "final_year_waiting"],
+        "effects": {
+          "luck": 1,
+          "mental": 2
+        },
+        "flags": [
+          "arc_final_year_start_seen",
+          "final_year_waiting"
+        ],
         "result_text": "서두르지 않았다. 1년은 길다. 기회는 오는 법이다 — 아직은 그렇게 믿고 싶다."
       }
-    ]
+    ],
+    "background": "gangnam_night",
+    "portrait": "player_determined"
   },
   {
     "id": "arc_endgame_sixmonths",
@@ -2152,27 +2246,51 @@
     "weight": 1.0,
     "hidden": true,
     "conditions": {},
-    "tags": ["endgame", "final", "countdown"],
+    "tags": [
+      "endgame",
+      "final",
+      "countdown"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "마지막 베팅 — 전부 건다. 드라마는 여기서 갈린다.",
-        "effects": { "luck": 4, "mental": -6 },
-        "flags": ["arc_endgame_sixmonths_seen", "final_gamble_taken"],
+        "effects": {
+          "luck": 4,
+          "mental": -6
+        },
+        "flags": [
+          "arc_endgame_sixmonths_seen",
+          "final_gamble_taken"
+        ],
         "result_text": "손이 떨렸다. 클릭했다. 이제 결과를 기다리는 일만 남았다."
       },
       {
         "text": "현실적으로 마무리한다. 이 자산으로 최선의 결말을 만든다.",
-        "effects": { "mental": 6, "reputation": 2 },
-        "flags": ["arc_endgame_sixmonths_seen", "realistic_finish"],
+        "effects": {
+          "mental": 6,
+          "reputation": 2
+        },
+        "flags": [
+          "arc_endgame_sixmonths_seen",
+          "realistic_finish"
+        ],
         "result_text": "숫자를 다시 계산했다. 30억이 아니어도 괜찮을 수 있다. 지금까지 온 이 길 자체가 강남이었는지도 모른다."
       },
       {
         "text": "지금 이 순간이 이미 드라마다. 어떻게 끝나든 후회 없다.",
-        "effects": { "mental": 9, "luck": 1 },
-        "flags": ["arc_endgame_sixmonths_seen", "drama_accepted"],
+        "effects": {
+          "mental": 9,
+          "luck": 1
+        },
+        "flags": [
+          "arc_endgame_sixmonths_seen",
+          "drama_accepted"
+        ],
         "result_text": "전화를 껐다. 창문을 열었다. 서울 밤바람이 들어왔다. 5년 전 고시원 창문 너머 골목보다 조금 더 높은 곳에 있었다."
       }
-    ]
+    ],
+    "background": "gangnam_night",
+    "portrait": "player_determined"
   }
 ]
