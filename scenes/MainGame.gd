@@ -29,6 +29,7 @@ var _feedback_flash: ColorRect
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
+var _vignette_rect: ColorRect = null      # 스트레스/정신력 비네팅 레이어
 var _transient_bg_active: bool = false
 var character_portrait: TextureRect
 var _story_container: Control
@@ -252,9 +253,33 @@ func _build_ui():
 	# ── 5. 우측 슬라이드 정보 패널 (기본 숨김) ──
 	_build_info_panel()
 
+	_build_vignette_layer()
 	_build_feedback_layer()
 	_build_modal()
 	_build_toast_layer()
+
+func _build_vignette_layer():
+	_vignette_rect = ColorRect.new()
+	_vignette_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_vignette_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_vignette_rect.z_index = 80
+	var vshader_res = load("res://assets/shaders/vignette.gdshader")
+	if vshader_res:
+		var mat := ShaderMaterial.new()
+		mat.shader = vshader_res
+		_vignette_rect.material = mat
+	add_child(_vignette_rect)
+
+func _update_vignette():
+	if not is_instance_valid(_vignette_rect) or not (_vignette_rect.material is ShaderMaterial):
+		return
+	var mat := _vignette_rect.material as ShaderMaterial
+	# 스트레스 50 초과분을 0~1로 정규화
+	var s_norm := clampf((float(GameState.stress) - 50.0) / 50.0, 0.0, 1.0)
+	# 정신력 낮을수록 효과 강해짐 (70 이하부터 시작)
+	var m_norm := clampf(float(GameState.mental) / 70.0, 0.0, 1.0)
+	mat.set_shader_parameter("stress_norm", s_norm)
+	mat.set_shader_parameter("mental_norm", m_norm)
 
 func _build_feedback_layer():
 	_feedback_flash = ColorRect.new()
@@ -960,7 +985,12 @@ func _begin_month():
 				_apply_monthly_event(crisis)
 		if GameState.news_log.is_empty() or GameState.turn > 1:
 			var news = NewsManager.generate_monthly_news()
+			var had_margin_call_before: bool = GameState.flags.get("margin_called_happened", false)
 			investment_system.process_month(news)
+			# 마진콜 발생 시 전체 화면 흔들림 + 빨간 플래시
+			if not had_margin_call_before and GameState.flags.get("margin_called_happened", false):
+				_full_screen_shake(14.0, 0.55)
+				_screen_flash(Color("#d73a49"), 0.35, 0.55)
 	# ── 스토리 이벤트 트리거 ─────────────────────────
 	# 턴 1: 프롤로그 → StoryMode(비주얼노벨)로 재생 (1회만)
 	if GameState.turn == 1 and not GameState.flags.get("prologue_done", false):
@@ -1898,6 +1928,7 @@ func _reveal_choices():
 func _refresh_all():
 	if not is_inside_tree():
 		return
+	_update_vignette()
 	_refresh_goal_bar()
 	top_labels["date"].text = GameState.get_date_string()
 	var total_assets = GameState.get_total_asset_value()
@@ -2012,6 +2043,7 @@ func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 		AudioManager.play("stat_down")
 		_screen_flash(Color("#d73a49"), 0.24, 0.38)
 		_shake_node(event_bg, 9.0, 0.30)
+		_full_screen_shake(8.0, 0.38)
 	elif money_delta > 0:
 		AudioManager.play("money_gain")
 		_pulse_node(top_labels.get("money", null), 1.08, 0.26)
@@ -2039,6 +2071,21 @@ func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3):
 		if is_instance_valid(_feedback_flash):
 			_feedback_flash.visible = false
 	)
+
+func _full_screen_shake(amount: float = 10.0, duration: float = 0.45):
+	# story_container(메인 패널)를 흔들어서 화면 전체가 흔들리는 느낌
+	if not is_instance_valid(_story_container):
+		return
+	var ctrl := _story_container as Control
+	var base := ctrl.position
+	var tw := create_tween()
+	var steps := 8
+	var cur_amt := amount
+	for _i in range(steps):
+		var offset := Vector2(randf_range(-cur_amt, cur_amt), randf_range(-cur_amt * 0.4, cur_amt * 0.4))
+		tw.tween_property(ctrl, "position", base + offset, duration / float(steps))
+		cur_amt *= 0.82  # 감쇠
+	tw.tween_property(ctrl, "position", base, 0.06)
 
 func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25):
 	if not is_instance_valid(node) or not (node is Control):
@@ -4106,6 +4153,56 @@ func _open_investments():
 				GameState.format_money(total_now),
 				overall_pct,
 			], 13, port_color))
+		# ── 보유 자산 합산 가격 히스토리 차트 ──
+		var chart_hist: Array = []
+		for _tick in range(12):
+			chart_hist.append(0.0)
+		for aid in GameState.portfolio:
+			var h2: Dictionary = GameState.portfolio[aid]
+			var qty2 := float(h2.get("quantity", 0.0))
+			var ph: Array = GameState.price_history.get(aid, [])
+			for ti in range(min(ph.size(), 12)):
+				chart_hist[12 - min(ph.size(), 12) + ti] += qty2 * float(ph[ti])
+		# 합산이 0인 초기 틱 제거
+		var first_nonzero := 0
+		for ci in range(chart_hist.size()):
+			if float(chart_hist[ci]) > 0.0:
+				first_nonzero = ci
+				break
+		if first_nonzero > 0:
+			chart_hist = chart_hist.slice(first_nonzero)
+		if chart_hist.size() >= 2:
+			var chart_node := Control.new()
+			chart_node.custom_minimum_size = Vector2(0, 56)
+			chart_node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var chart_data := chart_hist.duplicate()
+			var chart_color := Color("#00c896") if float(chart_data[-1]) >= float(chart_data[0]) else Color("#ff4444")
+			chart_node.draw.connect(func():
+				var w := chart_node.size.x
+				var h3 := chart_node.size.y
+				if w < 4:
+					return
+				var mn := float(chart_data.min())
+				var mx := float(chart_data.max())
+				if mx <= mn:
+					mx = mn + 1.0
+				# 배경
+				chart_node.draw_rect(Rect2(0, 0, w, h3), Color("#07090f"))
+				# 수평 그리드
+				for gi in range(3):
+					var gy := h3 * float(gi + 1) / 4.0
+					chart_node.draw_line(Vector2(0, gy), Vector2(w, gy), Color("#0e1320"), 1)
+				# 가격 선
+				var pts := PackedVector2Array()
+				for pi in range(chart_data.size()):
+					var px := w * float(pi) / float(chart_data.size() - 1)
+					var py := h3 - h3 * (float(chart_data[pi]) - mn) / (mx - mn)
+					pts.append(Vector2(px, clampf(py, 2, h3 - 2)))
+				chart_node.draw_polyline(pts, chart_color, 2.0, true)
+				# 현재가 점
+				chart_node.draw_circle(pts[-1], 4.5, chart_color)
+			)
+			modal_body.add_child(chart_node)
 		var port_sep = HSeparator.new()
 		port_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(port_sep)
