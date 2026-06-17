@@ -3665,6 +3665,7 @@ func _open_racetrack():
 func _on_racetrack_closed():
 	turn_action_log.append("✓ 🏇 경마장")
 	GameState.add_log("🏇 경마장에 다녀왔다.", "event")
+	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
 
@@ -3676,6 +3677,7 @@ func _open_holdem():
 func _on_holdem_closed():
 	turn_action_log.append("✓ 🃏 홀덤 클럽")
 	GameState.add_log("🃏 지하 홀덤 클럽을 나왔다.", "event")
+	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
 
@@ -3686,7 +3688,9 @@ func _open_scalping():
 	scalping_game.open()
 
 func _on_scalping_closed():
+	turn_action_log.append("✓ ⚡ 스캘핑 트레이딩")
 	GameState.add_log("⚡ 스캘핑 트레이딩 세션을 마쳤다.", "event")
+	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
 
