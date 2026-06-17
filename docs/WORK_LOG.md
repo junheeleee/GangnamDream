@@ -1,5 +1,38 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반23 (자율 QA 계속 — 고아 플래그·쿨다운 버그·경마 숨김 수정)
+
+### 자율 QA 루프 계속 — 추가 버그 수정
+
+#### 고아 플래그 heard_driver_story 수정
+- callback_heard_driver_story_echo가 조건 플래그 heard_driver_story를 읽지만 소스 이벤트가 없었음
+- life_events2.json에 late_taxi_driver_00 이벤트 추가 (양쪽 선택지 모두 플래그 설정)
+
+#### 캘린더 타이밍 버그 3종 추가 수정
+- callback_quit_for_better_job_check: min_turn 6→12 ("3개월")
+- callback_jiyeon_took_deal_consequence: min_turn 8→12 ("3개월")
+- callback_mystery_info_reported_outcome: min_turn 6→12 ("3개월")
+
+#### 경마 follow_up 내러티브 모순 수정
+- race_number_three_result: hidden=true + racetrack_visited 조건 추가
+- 경마장 미방문 상태에서 무작위 풀에 노출되는 설정 모순 방지
+
+#### 콜백 이벤트 cooldown=null 버그 119종 수정
+- cooldown: null → int(null)=0 → 쿨다운 미적용으로 25개 이벤트 후 재발동 가능 버그
+- callback_events_18~26.json의 플래그 조건 있는 1회성 에코 콜백 전부 cooldown:999 적용
+
+#### 시스템 감사 추가 완료 항목
+- JobSystem.gd: 승진/퇴직 로직 정상 확인, drama_office_politics 연결 확인
+- NewsManager.gd: 뉴스 감정별 fear_greed 조정 로직 확인
+- EndingSystem.gd: get_score() 월 기반 계산 정상
+- DataRegistry.gd: EVENT_PATHS 56개 모두 존재, 미등록 파일 없음
+- 26개 엔딩 모두 finish_run() 호출과 endings.json 1:1 대응 확인
+- 956개 이벤트 고유 ID 확인
+- follow_up_event 대상 모두 유효 확인
+- 캐스트 stage 선언-사용 교차 검증 완료
+- 루트 조건/설정 시스템 정상 확인
+- 아이템/자산/직업 JSON 구조 검증 완료
+
 ## 2026-06-17 후반22 (자율 QA — stress+mental 이중 적용 버그 전수 수정 + 시스템 코드 감사)
 
 ### 자율 QA 루프 — 이중 정신력 패널티 버그 전수 수정
