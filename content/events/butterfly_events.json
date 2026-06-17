@@ -77,7 +77,7 @@
     "background": "trading",
     "conditions": {
       "flag": "mystery_info_bought",
-      "min_turn": 4
+      "min_turn": 12
     },
     "tags": ["investment", "rare", "windfall"],
     "cooldown": 999,
@@ -117,7 +117,7 @@
     "background": "goshiwon_room",
     "conditions": {
       "flag": "mystery_info_bought",
-      "min_turn": 4,
+      "min_turn": 12,
       "no_flag": "mystery_info_resolved"
     },
     "tags": ["investment", "rare", "stress"],
@@ -191,7 +191,7 @@
     "portrait": "sangchul_normal",
     "conditions": {
       "flag": "has_bankrupt_ceo_card",
-      "min_turn": 5
+      "min_turn": 20
     },
     "tags": ["social", "opportunity", "rare"],
     "cooldown": 999,
@@ -265,7 +265,7 @@
     "conditions": {
       "flag": "resume_lied_toeic",
       "has_job": true,
-      "min_turn": 4
+      "min_turn": 16
     },
     "tags": ["job", "stress", "risk"],
     "cooldown": 999,

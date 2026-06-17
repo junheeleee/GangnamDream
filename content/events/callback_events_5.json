@@ -682,7 +682,7 @@
     "hidden": false,
     "conditions": {
       "flag": "asked_father_health",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "father",

@@ -420,7 +420,7 @@
     "hidden": false,
     "conditions": {
       "flag": "health_treated",
-      "min_turn": 4
+      "min_turn": 12
     },
     "tags": [
       "health",

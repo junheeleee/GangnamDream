@@ -52,7 +52,7 @@
     "hidden": false,
     "conditions": {
       "flag": "cafe_stole_walked",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "cafe",
@@ -220,7 +220,7 @@
     "hidden": false,
     "conditions": {
       "flag": "cafe_smart_loss",
-      "min_turn": 8
+      "min_turn": 24
     },
     "tags": [
       "cafe",
@@ -302,7 +302,7 @@
     "hidden": false,
     "conditions": {
       "flag": "cafe_learned_humility",
-      "min_turn": 8
+      "min_turn": 24
     },
     "tags": [
       "cafe",

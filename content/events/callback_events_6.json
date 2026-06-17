@@ -436,7 +436,7 @@
     "hidden": false,
     "conditions": {
       "flag": "coin_let_go",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "hyeonsu",
