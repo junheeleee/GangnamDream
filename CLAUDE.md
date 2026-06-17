@@ -9,7 +9,7 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **데모 정비 완료 — QA 대기** |
-| **최근 완료** | **2026-06-17 후반8** — 자율 정적 QA: result_text 30건 수정·opportunity 이중 패널티 정리·jaehyuk_way 배경 수정·ending_bg_map 정리 |
+| **최근 완료** | **2026-06-17 후반9** — 스트레스→정신력 잔존 UI 참조 전수 수정·`has_job:false`→`no_job:true` 11건·이벤트 float 표시·critical 감지 수정 |
 | **다음 작업** | **스토어 소재 제작** — 스크린샷 캡션/설명문/태그 / 또는 ScreenshotQA 런타임 실행으로 UI 실제 확인 |
 | **마지막 업데이트** | 2026-06-17 |
 
@@ -19,7 +19,44 @@
 
 ## ✅ 이번 세션 완료 목록 (2026-06-17, 컨텍스트 압축 대비)
 
-### 후반7 (최신) — 스크린샷 QA 자동화
+### 후반9 (최신) — 스트레스 잔존 UI 전수 수정 + has_job 버그 수정
+
+#### 스트레스→정신력 UI 잔존 참조 일괄 수정
+- MetaProgression PERK_RULES "주거" 보너스: `stress/-1/-4` → `mental/+1/+4` (로그 "스트레스 -1" → "정신력 +1")
+- `_show_vignette`: eff dict에서 stress → mental 병합(부호 반전) — REST/SELFDEV 비네팅 올바르게 표시
+- `_show_effects_float`: 동일 병합 처리 — 이벤트 선택 float도 정신력으로 표시
+- 충격 이벤트 감지: stress 효과 포함해 `effective_mental_delta` 계산 (stress:15 이상도 critical 발동)
+- MainGame stat_map, `_stat_name`, perk stat_kr에서 "stress" 항목 제거
+- 관계 힌트 텍스트 "스트레스 -N" → "정신력 +N", 버튼 라벨/로그/설명문 전수 수정
+- ArubaGame/JobHuntMiniGame 결과 화면 "스트레스 %+d" → "정신력 %+d" (부호 반전)
+- StoryMode 튜토리얼 팝업 스탯 목록에서 "스트레스" 제거
+
+#### has_job:false → no_job:true 11건 수정
+- 조건 `has_job: false`는 `if bool(false)` = 항상 false → 이벤트 절대 미발동 버그
+- 수정 대상: amb_mlm_00, survival_rent_due/convenience_meal/job_portal_night/friend_sns, rare_interview_classmate/rejection_then_call/interview_pivot, chain_banchan_son/exec_interview, butterfly_resume_lie
+
+#### 검증
+- 942개 이벤트 전수 JSON 파싱 OK
+- 108개 arc 이벤트 ID 모두 존재 확인
+- cast_stages 선언-사용 교차 검증 통과
+- audit.sh ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+### 후반8 — 자율 정적 QA 1차
+
+#### 이벤트 result_text 빈칸 30건 수정
+- amb_scenarios~6, callback_events_3~5, scenario_cafe, scenario_cafe_callback 파일
+
+#### opportunity 이중 mental 패널티 단순화
+- `_resolve_opportunity()` 실패 시 `-3`+`-6` 중복 → `-9` 단일화
+
+#### jaehyuk_way 엔딩 배경 + bg_map 정리
+- endings.json jaehyuk_way background: `gangnam_apartment` → `gangnam_night`
+- ending_bg_map 사용 안 하는 엔트리 3개 제거 (stable_success, orthodox_pinnacle, crypto_ghost)
+
+#### MetaProgression stress_survivor 칭호 텍스트 갱신
+- 이름: "스트레스 끝판왕" → "멘탈 끝판왕", 설명 → "정신력 15 이하"
+
+### 후반7 — 스크린샷 QA 자동화
 
 #### 실제 렌더러 스크린샷 QA 하니스 (`tools/ScreenshotQA.tscn`/`.gd`)
 - 헤드리스 더미 렌더러는 빈 텍스처 → **xvfb + x11 + opengl3**로 실제 렌더링 캡처

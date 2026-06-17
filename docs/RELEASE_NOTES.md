@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-06-17) — 자율 정적 QA 3차 (후반9)
+- 스트레스→정신력 전환 잔존 UI 참조 전수 수정: MetaProgression 주거 보너스, `_show_vignette`/`_show_effects_float` merge 처리, 버튼 라벨·로그·힌트 텍스트, ArubaGame/JobHuntMiniGame 결과 화면, StoryMode 튜토리얼
+- 이벤트 선택 시 float 표시 누락: stress 효과가 정신력 float으로 올바르게 표시되도록 merge 처리
+- 충격 이벤트(`just_critical_event`) 감지: stress 효과 포함 effective_mental_delta 계산
+- `has_job: false` → `no_job: true` 11건 수정 — 해당 이벤트가 절대 발동하지 않던 조건 버그
+
 ### Fixed (2026-06-17) — 자율 정적 QA 2차 (후반8)
 - 이벤트 `result_text` 빈칸 30건 일괄 수정 (10개 JSON 파일: amb/callback/scenario_cafe)
 - `GameState._resolve_opportunity()`: stress→mental 머지 잔류 이중 mental 패널티 정리 (`-3 + -6` → `-9` 단일 호출)

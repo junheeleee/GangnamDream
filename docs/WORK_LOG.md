@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반9 (자율 QA 루프 — 스트레스 잔존 UI 전수 수정 + 이벤트 조건 버그)
+
+### 스트레스→정신력 UI 잔존 참조 전수 수정
+1. **MetaProgression PERK_RULES** — "주거" 보너스: `stress/-1/-4` → `mental/+1/+4`
+2. **`_show_vignette`** — eff dict stress → mental 병합(부호 반전): REST/SELFDEV 비네팅이 "정신력 +N"으로 올바르게 표시
+3. **`_show_effects_float`** — 동일 병합 처리: 이벤트 선택 float 화면도 정신력으로 표시
+4. **충격 이벤트 감지** — `effective_mental_delta = mental + (-stress)` 계산: stress:15 이상 이벤트도 critical 연출 발동
+5. **MainGame UI 텍스트** — stat_map, `_stat_name`, perk stat_kr, 관계 힌트, 버튼 라벨, 로그, 건강 위기 설명
+6. **ArubaGame/JobHuntMiniGame** — 결과 화면 "스트레스 %+d" → "정신력 %+d"(부호 반전)
+7. **StoryMode** — 튜토리얼 팝업에서 "스트레스" 제거
+
+### has_job:false → no_job:true 11건 (이벤트 절대 미발동 버그)
+`has_job: false`는 `if bool(false)` = 항상 false → 해당 이벤트가 절대 발동 안 됨.
+수정: amb_mlm_00, survival 계열 4건, rare_encounter 3건, chain 2건, butterfly 1건.
+
+### 전수 검증
+- 942개 이벤트 JSON 파싱 OK
+- 108개 arc ID, 11개 milestone ID 모두 존재
+- cast_stages 교차 검증 통과
+- audit.sh ERROR 0 / WARNING 0 / 밴드 통과
+
+---
+
 ## 2026-06-17 후반8 (자율 QA 루프 — 이벤트·엔딩·코드 정밀 점검)
 
 ### 자율 정적 QA — 발견 및 수정 항목
