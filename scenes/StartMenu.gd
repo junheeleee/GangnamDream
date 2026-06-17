@@ -360,7 +360,7 @@ func _build_ui():
 	right.add_theme_constant_override("separation", 10)
 	cols.add_child(right)
 
-	right.add_child(_label("이어하기", 13, "#5b9cf6", HORIZONTAL_ALIGNMENT_LEFT))
+	right.add_child(_label("이어하기", 13, "#c9a227", HORIZONTAL_ALIGNMENT_LEFT))
 
 	slot_container = VBoxContainer.new()
 	slot_container.add_theme_constant_override("separation", 8)
@@ -793,7 +793,7 @@ func _section_header(text: String) -> Label:
 	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	lbl.clip_text = false
 	lbl.add_theme_font_size_override("font_size", 13)
-	lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+	lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	return lbl
 
 func _label(text, size, color, align) -> Label:
@@ -983,7 +983,7 @@ func _build_language_toggle(parent: Control):
 		var is_active = LocaleManager.language == lang_code
 		var st = StyleBoxFlat.new()
 		st.bg_color = Color("#1a2a3a") if is_active else Color("#0d1017")
-		st.border_color = Color("#5b9cf6") if is_active else Color("#2a2a40")
+		st.border_color = Color("#c9a227") if is_active else Color("#2a2a40")
 		st.set_border_width_all(1)
 		st.set_corner_radius_all(4)
 		var hov = st.duplicate()

@@ -503,7 +503,7 @@ func _make_choice_button(text: String, idx: int) -> Button:
 	normal.bg_color = Color(0.06, 0.07, 0.12, 0.94)
 	normal.set_border_width_all(0)
 	normal.border_width_left = 3
-	normal.border_color = Color("#5b9cf6")
+	normal.border_color = Color("#c9a227")
 	normal.set_corner_radius_all(5)
 	normal.content_margin_left = 18
 	normal.content_margin_right = 14

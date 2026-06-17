@@ -40,6 +40,17 @@ var info_tabs: TabContainer
 var player_name_label: Label
 var title_label: Label
 
+# ── 시네마틱 누아르 팔레트 ────────────────────────────────────────
+# SaaS 프라이머리 블루(#c9a227)를 버리고 골드를 주강조색으로. '돈·욕망·강남 밤'.
+const COL_GOLD       := "#c9a227"   # 주강조 — 앤틱 골드 (헤더·타이틀·핵심 수치)
+const COL_GOLD_BRIGHT := "#e3c45a"  # 밝은 골드 — 호버·달성 강조
+const COL_GOLD_DIM   := "#8a7320"   # 어두운 골드 — 보더·비활성 강조
+const COL_INK        := "#0a070c"   # 잉크 — 패널 바닥
+const COL_INK_RAISED := "#15101a"   # 살짝 뜬 패널
+const COL_TEXT       := "#d8d2c4"   # 본문 — 따뜻한 아이보리 (순백 회색 X)
+const COL_TEXT_DIM   := "#7a7263"   # 흐린 본문 — 세피아 회색
+const COL_DANGER     := "#c0392b"   # 위험 — 딥레드
+
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
 	"oneroom":   "res://assets/backgrounds/oneroom_apartment.png",
@@ -211,9 +222,21 @@ func _connect_signals():
 	GameState.tendency_awakened.connect(_on_tendency_awakened)
 
 func _build_ui():
-	# ── 1. 최하단: 단색 배경 ──
-	var bg = ColorRect.new()
-	bg.color = Color("#0c0c10")
+	# ── 1. 최하단: 시네마틱 라디얼 그라디언트 배경 (누아르 깊이) ──
+	# 중앙은 약간 따뜻한 암갈, 가장자리는 딥블랙 — '스포트라이트' 같은 무대감.
+	var bg_grad := Gradient.new()
+	bg_grad.set_color(0, Color("#19131a"))   # 중앙 — 살짝 자홍빛 암갈
+	bg_grad.set_color(1, Color("#070509"))   # 가장자리 — 거의 검정
+	var bg_tex := GradientTexture2D.new()
+	bg_tex.gradient = bg_grad
+	bg_tex.fill = GradientTexture2D.FILL_RADIAL
+	bg_tex.fill_from = Vector2(0.5, 0.40)
+	bg_tex.fill_to = Vector2(1.05, 1.05)
+	bg_tex.width = 256
+	bg_tex.height = 160
+	var bg = TextureRect.new()
+	bg.texture = bg_tex
+	bg.stretch_mode = TextureRect.STRETCH_SCALE
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
@@ -227,10 +250,10 @@ func _build_ui():
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(event_bg)
 
-	# ── 3. 어두운 오버레이 ──
+	# ── 3. 어두운 오버레이 ── (따뜻한 흑갈 — 그라디언트 무드가 비치도록 알파 절제)
 	var dark_overlay = ColorRect.new()
 	dark_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dark_overlay.color = Color(0.05, 0.05, 0.07, 0.76)
+	dark_overlay.color = Color(0.03, 0.022, 0.04, 0.74)
 	dark_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dark_overlay)
 
@@ -365,11 +388,13 @@ func _build_top_bar(parent):
 	row.add_theme_constant_override("separation", 14)
 	panel.add_child(row)
 
-	var title = _label("강남드림", 17, "#5b9cf6")
+	var title = _label("강남드림", 18, COL_GOLD)
 	title.custom_minimum_size = Vector2(88, 0)
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
 	row.add_child(title)
 
-	row.add_child(_label("│", 13, "#2a2a3a"))
+	row.add_child(_label("│", 13, COL_GOLD_DIM))
 
 	var date_lbl = _label("", 13, "#8892a4")
 	top_labels["date"] = date_lbl
@@ -593,7 +618,7 @@ func _build_info_panel():
 	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var tab_sel = StyleBoxFlat.new()
 	tab_sel.bg_color = Color("#13131f")
-	tab_sel.border_color = Color("#5b9cf6")
+	tab_sel.border_color = Color("#c9a227")
 	tab_sel.border_width_bottom = 2
 	tab_sel.content_margin_left = 10
 	tab_sel.content_margin_right = 10
@@ -653,7 +678,10 @@ func _build_info_panel():
 	sep_line.modulate = Color("#2a2a3a")
 	stat_box.add_child(sep_line)
 
-	stat_box.add_child(_label("PLAYER", 13, "#5b9cf6"))
+	var player_hdr := _label("─ 인물", 12, COL_GOLD)
+	if _font_bold:
+		player_hdr.add_theme_font_override("font", _font_bold)
+	stat_box.add_child(player_hdr)
 	for key in ["housing", "job", "health", "mental", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
 		var stat_row = HBoxContainer.new()
 		stat_box.add_child(stat_row)
@@ -666,7 +694,10 @@ func _build_info_panel():
 		stat_labels[key] = value
 		stat_row.add_child(value)
 
-	stat_box.add_child(_label("LOG", 13, "#5b9cf6"))
+	var log_hdr := _label("─ 기록", 12, COL_GOLD)
+	if _font_bold:
+		log_hdr.add_theme_font_override("font", _font_bold)
+	stat_box.add_child(log_hdr)
 	log_box = RichTextLabel.new()
 	log_box.bbcode_enabled = true
 	log_box.fit_content = true
@@ -931,7 +962,7 @@ func _show_tutorial() -> void:
 	modal_body.add_child(_goal_sep())
 
 	# ── 매달 진행 ──
-	modal_body.add_child(_wrap_label("📅  매달 진행 방식", 15, "#5b9cf6"))
+	modal_body.add_child(_wrap_label("📅  매달 진행 방식", 15, "#c9a227"))
 	modal_body.add_child(_wrap_label(
 		"① 이달의 이벤트가 화면에 펼쳐집니다\n"
 		+ "② ⚡ AP(행동력)로 추가 행동을 선택\n"
@@ -1775,7 +1806,7 @@ func _present_tendency_realization(kind: String):
 	var tname: String = GameState.tendency_name(kind)
 	var desc: String = str(GameState.TENDENCY_DESC.get(kind, ""))
 	var icon: String = {"career": "💼", "invest": "📈", "found": "🚀"}.get(kind, "✨")
-	var accent: String = {"career": "#5b9cf6", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
+	var accent: String = {"career": "#c9a227", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
 	var passive: String = {
 		"career": "업무 성과 +12, 사회성 +3 — 승진과 신용이 너의 무기가 된다.",
 		"invest": "투자 감각 +6, 지력 +2 — 시장이 한층 선명하게 보인다.",
@@ -2537,7 +2568,7 @@ func _render_sidebars():
 				color = "#ff4444"
 			var owned_str = ""
 			if float(row["owned_value"]) > 0:
-				owned_str = "  [color=#5b9cf6]▶%s[/color]" % GameState.format_money(row["owned_value"])
+				owned_str = "  [color=#c9a227]▶%s[/color]" % GameState.format_money(row["owned_value"])
 			var risk_dots = "●".repeat(int(row.get("risk_level", 1))) + "○".repeat(5 - int(row.get("risk_level", 1)))
 			# 6개월 미니 스파크라인
 			var spark_hist: Array = GameState.price_history.get(asset_id, [])
@@ -2796,7 +2827,7 @@ func _render_ap_actions():
 	# ── 이번 달 추천 행동 ──
 	if not has_warning:
 		lines.append("")
-		lines.append("[color=#5b9cf6]💡 이번 달 추천[/color]  %s" % _recommend_action())
+		lines.append("[color=#c9a227]💡 이번 달 추천[/color]  %s" % _recommend_action())
 	# 새 주 첫 상황판은 짧게 타이핑 (60cps — 빠르게)
 	var body_text := "\n".join(lines)
 	# 위기 상황 내레이션에 wave 적용 (첫 줄이 이탤릭 내레이션)
@@ -2850,7 +2881,7 @@ func _render_ap_actions():
 		hint_color = "#00c896"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
 		hint_text = "🎯 목표: 자산 30억 → 강남 입성 (남은 시간 %d년)" % max(0, 38 - GameState.age)
-		hint_color = "#5b9cf6"
+		hint_color = "#c9a227"
 
 	if not hint_text.is_empty():
 		choice_box.add_child(_label(hint_text, 12, hint_color))
@@ -3278,7 +3309,7 @@ func _open_cat_work():
 			"%s — 월급 %s" % [job_name, GameState.format_money(salary)], 14, "#c8a060"))
 		modal_body.add_child(_label("── 승진 현황 ──", 11, "#3a3a5a"))
 		if promo_count >= max_promo:
-			modal_body.add_child(_wrap_label("✅ 최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.", 13, "#5b9cf6"))
+			modal_body.add_child(_wrap_label("✅ 최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.", 13, "#c9a227"))
 		else:
 			var tenure_row = HBoxContainer.new()
 			tenure_row.add_theme_constant_override("separation", 8)
@@ -3839,7 +3870,7 @@ func _bank_borrow(product: String, amount: float):
 
 func _bank_repay(product: String, amount: float):
 	if GameState.repay(product, amount):
-		_show_toast("🏦 상환 완료", Color("#5b9cf6"))
+		_show_toast("🏦 상환 완료", Color("#c9a227"))
 	else:
 		_show_toast("🏦 상환할 현금이 없습니다", Color("#ff4444"))
 	_open_bank()
@@ -4154,7 +4185,7 @@ func _ap_market_analysis():
 	var cycle_kr = {"bull": "🟢 상승장", "bear": "🔴 하락장", "neutral": "⚪ 횡보"}.get(cycle, cycle)
 	modal_body.add_child(_wrap_label("시장 국면: %s  |  공포/탐욕: %d/100  |  폭락 위험도: %.0f%%" % [cycle_kr, fg, crash_risk * 100.0], 14, "#f0b429"))
 	var sep2 = HSeparator.new(); sep2.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep2)
-	modal_body.add_child(_label("🔭 다음 달 예측", 15, "#5b9cf6"))
+	modal_body.add_child(_label("🔭 다음 달 예측", 15, "#c9a227"))
 	modal_body.add_child(_wrap_label(forecast, 15, "#e8eaf0"))
 	if crash_risk > 0.08:
 		modal_body.add_child(_wrap_label("⚠ 폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.", 13, "#ff4444"))
@@ -4753,7 +4784,7 @@ func _build_save_load_section(parent: Control):
 func _save_to_slot(slot: int):
 	SaveManager.save_game(slot)
 	_close_modal()
-	_show_toast("💾 슬롯 %d에 저장했습니다" % slot, Color("#5b9cf6"))
+	_show_toast("💾 슬롯 %d에 저장했습니다" % slot, Color("#c9a227"))
 
 func _load_from_slot(slot: int):
 	SaveManager.load_game(slot)
@@ -4895,7 +4926,7 @@ func _show_demo_ending():
 	modal_body.add_child(sep1)
 
 	# 개인화 스토리 요약
-	modal_body.add_child(_label("📖 지난 6개월", 14, "#5b9cf6"))
+	modal_body.add_child(_label("📖 지난 6개월", 14, "#c9a227"))
 	for line in story_lines:
 		modal_body.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
 
@@ -4904,11 +4935,11 @@ func _show_demo_ending():
 	modal_body.add_child(sep2)
 
 	# 자산 성적표
-	modal_body.add_child(_label("📊 6개월 성적표", 14, "#5b9cf6"))
+	modal_body.add_child(_label("📊 6개월 성적표", 14, "#c9a227"))
 	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
 	modal_body.add_child(_wrap_label("총자산  %s" % GameState.format_money(total_assets), 16, asset_color))
 	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label("강남드림 30억까지  %.3f%%  달성" % progress_pct, 12, "#5b9cf6"))
+	modal_body.add_child(_wrap_label("강남드림 30억까지  %.3f%%  달성" % progress_pct, 12, "#c9a227"))
 
 	var sep3 = HSeparator.new()
 	sep3.add_theme_color_override("color", Color("#252535"))
@@ -4988,7 +5019,7 @@ func _show_ending(ending_id):
 
 	_open_modal("🏁 엔딩")
 	var grade = ending.get("grade", "?")
-	var grade_colors = {"S": "#f0b429", "A": "#34d399", "B": "#5b9cf6", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
+	var grade_colors = {"S": "#f0b429", "A": "#34d399", "B": "#c9a227", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
 	var grade_emojis = {"S": "🏆", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
 	var grade_color = grade_colors.get(grade, "#ffffff")
 	var grade_emoji = grade_emojis.get(grade, "")
@@ -5018,7 +5049,7 @@ func _show_ending(ending_id):
 	stats_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(stats_sep)
 	_ending_stat_grid(modal_body)
-	modal_body.add_child(_wrap_label(_ending_percentile_line(), 13, "#5b9cf6"))
+	modal_body.add_child(_wrap_label(_ending_percentile_line(), 13, "#c9a227"))
 	_ending_route_bar(modal_body)
 	_ending_milestones(modal_body)
 	# ── 이번 런 새 해금 표시 ──────────────────────────
@@ -5053,7 +5084,7 @@ func _show_ending(ending_id):
 			title_sep.add_theme_color_override("color", Color("#252535"))
 			modal_body.add_child(title_sep)
 			modal_body.add_child(_label("🔓 이번 런 해금", 15, "#f0b429"))
-		var rare_colors := {"common": "#8892a4", "uncommon": "#5b9cf6", "rare": "#f0b429", "legendary": "#f97316"}
+		var rare_colors := {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
 		for t in newly_titles:
 			var col: String = rare_colors.get(str(t.get("rare", "common")), "#8892a4")
 			modal_body.add_child(_wrap_label("  🏆 칭호: 「%s」  %s" % [str(t.get("name","")), str(t.get("desc",""))], 12, col))
@@ -5366,7 +5397,7 @@ func _ending_next_run_hints(parent: Control):
 	var sep = HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
-	parent.add_child(_label("🔁  다음 런에서", 13, "#5b9cf6"))
+	parent.add_child(_label("🔁  다음 런에서", 13, "#c9a227"))
 	for i in range(mini(3, hints.size())):
 		parent.add_child(_wrap_label("  " + hints[i], 12, "#5a7090"))
 
@@ -5397,7 +5428,7 @@ func _ending_stat_grid(parent: Control):
 		["❤️ 건강", "%d / 100" % GameState.health,
 			"#ef4444" if GameState.health <= 45 else "#34d399"],
 		["🧠 정신력", "%d / 100" % GameState.mental,
-			"#ef4444" if GameState.mental <= 45 else "#5b9cf6"],
+			"#ef4444" if GameState.mental <= 45 else "#c9a227"],
 		["⭐ 명성", "%d" % GameState.reputation, "#f0b429"],
 		["🎂 최종 나이", "%d세" % GameState.age, "#aab3c5"],
 		["📅 총 턴", "%d턴" % GameState.turn, "#5a6075"],
@@ -5432,7 +5463,7 @@ func _ending_route_bar(parent: Control):
 	var id_lbl = _label(GameState.get_route_identity(), 13, "#c8a060")
 	id_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info_row.add_child(id_lbl)
-	info_row.add_child(_label("정석 %d" % o, 11, "#5b9cf6"))
+	info_row.add_child(_label("정석 %d" % o, 11, "#c9a227"))
 	info_row.add_child(_label(" / ", 11, "#3a3a5a"))
 	info_row.add_child(_label("비정석 %d" % u, 11, "#f97316"))
 	var bar_bg = PanelContainer.new()
@@ -5571,7 +5602,7 @@ func _show_month_summary(snap: Dictionary):
 		return cell
 	fin_row1.add_child(_fc.call("월급 수입", GameState.format_money(income), "#00c896"))
 	if bool(snap.get("subsidy", false)):
-		fin_row1.add_child(_fc.call("지원금", "+30만원", "#5b9cf6"))
+		fin_row1.add_child(_fc.call("지원금", "+30만원", "#c9a227"))
 	fin_row1.add_child(_fc.call("고정 지출", "-%s" % GameState.format_money(expense), "#ff6b6b"))
 	fin_row1.add_child(_fc.call("순이익", GameState.format_money(net), net_color))
 
@@ -5633,7 +5664,7 @@ func _show_month_summary(snap: Dictionary):
 	var goal = 3_000_000_000.0
 	var pct = clamp(assets_now / goal, 0.0, 1.0)
 	var pct_disp = "%.1f%%" % (pct * 100.0)
-	var bar_color = "#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#5b9cf6")
+	var bar_color = "#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#c9a227")
 	modal_body.add_child(_make_progress_row(
 		"🎯 강남드림 (30억)", pct, bar_color,
 		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
@@ -6302,7 +6333,7 @@ func _get_month_advice() -> String:
 
 func _check_title_unlocks():
 	var newly = MetaProgression.check_and_unlock_titles()
-	var rare_colors = {"common": "#8892a4", "uncommon": "#5b9cf6", "rare": "#f0b429", "legendary": "#f97316"}
+	var rare_colors = {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
 	for t in newly:
 		var color = rare_colors.get(t.get("rare", "common"), "#8892a4")
 		_show_toast("🏆 칭호 해금! 「%s」" % t.get("name", ""), Color(color))
@@ -6343,7 +6374,7 @@ func _open_title_collection():
 			modal_body.add_child(_wrap_label(
 				"🎁 다음 런 시작 보너스:  " + " · ".join(perk_parts), 12, "#f0b429"))
 
-	var rare_colors = {"common": "#8892a4", "uncommon": "#5b9cf6", "rare": "#f0b429", "legendary": "#f97316"}
+	var rare_colors = {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
 	var rare_labels = {"common": "일반", "uncommon": "희귀", "rare": "레어", "legendary": "전설"}
 
 	for cat in ["주거", "직업", "투자", "성향", "관계", "생활", "자산", "메타", "미니게임", "이야기"]:
