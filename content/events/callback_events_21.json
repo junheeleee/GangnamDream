@@ -16,7 +16,8 @@
         "text": "올랐다 내렸다—어떻게 됐는지 확인하다",
         "result_text": "올랐다가 내렸다.\n거절이 결과적으로 맞았지만—타이밍을 맞춘 게 아니라 참여를 거절한 것이었다.\n참여를 거절하는 것—이 가장 확실한 방법이다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_coin_warned_friend_echo",
@@ -35,7 +36,8 @@
         "text": "\"내가 맞았지\"라고 하지 않다",
         "result_text": "자랑하지 않았다.\n친구가 \"고마워\"라고 했다.\n맞았다는 걸 증명하는 것—친구를 위한 게 아니다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_holdem_big_win_echo",
@@ -46,7 +48,11 @@
     "weight": 1.0,
     "hidden": false,
     "background": "holdem_club",
-    "tags": ["holdem", "callback", "gambling"],
+    "tags": [
+      "holdem",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "conditions": {
       "flag": "holdem_big_win",
@@ -72,7 +78,11 @@
     "weight": 1.0,
     "hidden": false,
     "background": "holdem_club",
-    "tags": ["holdem", "callback", "gambling"],
+    "tags": [
+      "holdem",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "conditions": {
       "flag": "holdem_quit",
@@ -98,7 +108,11 @@
     "weight": 1.0,
     "hidden": false,
     "background": "racetrack_betting",
-    "tags": ["racetrack", "callback", "gambling"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "conditions": {
       "flag": "racetrack_chased_loss",
@@ -124,7 +138,11 @@
     "weight": 1.0,
     "hidden": false,
     "background": "racetrack_betting",
-    "tags": ["racetrack", "callback", "gambling"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "conditions": {
       "flag": "racetrack_won_big",
@@ -158,7 +176,8 @@
         "text": "관계가 아직 신경 쓰인다",
         "result_text": "아직 신경 쓰였다.\n하지만 결과는 맞았다.\n보증을 거절하는 것—관계보다 실체를 지키는 것이다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_guarantee_signed_echo",
@@ -177,7 +196,8 @@
         "text": "그 사람에게 먼저 연락하다",
         "result_text": "먼저 연락했다.\n받지 않았다.\n보증은 서준 뒤에도 계속 관리해야 한다.\n연락이 안 된다는 것—이미 신호다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_jeonse_insured_echo",
@@ -196,7 +216,8 @@
         "text": "다행이라고 생각하다",
         "result_text": "다행이었다.\n보험료가 아깝다고 생각한 적이 있었다.\n안 쓰는 게 제일 좋은 보험—이 말의 뜻을 이제 안다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_jeonse_ignored_echo",
@@ -215,7 +236,8 @@
         "text": "지금이라도 대응하다",
         "result_text": "지금 당장 대응에 나섰다.\n보험이 없으니 직접 싸워야 했다.\n번거로움 대 싸움—어느 쪽이 더 번거로운지 이제 안다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_parent_refused_echo",
@@ -234,7 +256,8 @@
         "text": "아직 어떻게 대할지 모르겠다",
         "result_text": "아직 불편했다.\n거절은 맞을 수 있다.\n하지만 관계의 불편함—이건 별도로 풀어야 한다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_resume_lie_confessed_echo",
@@ -249,7 +272,8 @@
         "text": "어떤 말인지 듣다",
         "result_text": "\"솔직하게 말해줘서 고마워\"라고 했다.\n질책이 아니었다.\n고백이 신뢰를 만들었다.\n과장이 만든 자리보다—고백이 만든 자리가 더 단단하다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_honest_at_reunion_echo",
@@ -268,7 +292,8 @@
         "text": "반갑게 받다",
         "result_text": "반갑게 받았다.\n그때 솔직했던 것이—이 연락을 만들었다.\n솔직함은 단기에는 손해처럼 보이지만—장기에는 가장 좋은 인상을 남긴다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_returned_wallet_echo",
@@ -287,7 +312,8 @@
         "text": "그냥 좋은 하루였다",
         "result_text": "그냥 좋은 하루였다.\n지갑을 돌려준 것—보상을 바라고 한 것이 아니었다.\n그걸 기억하고 있었다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_took_found_money_echo",
@@ -306,6 +332,7 @@
         "text": "또 가지다",
         "result_text": "또 가졌다.\n한 번 한 것은 두 번째가 쉽다.\n그리고 세 번째는 더 쉬워진다."
       }
-    ]
+    ],
+    "cooldown": 999
   }
 ]

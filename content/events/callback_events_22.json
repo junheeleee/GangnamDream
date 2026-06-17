@@ -16,7 +16,8 @@
         "text": "속도가 너무 느리다",
         "result_text": "느리다고 느꼈다.\n하지만 두 달에 100명—이 속도가 나쁜 게 아니었다.\n시작한 것의 가치는 비교가 아니라 방향에 있다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_creator_monetized_echo",
@@ -35,7 +36,8 @@
         "text": "앞으로 더 키울 수 있다고 생각하다",
         "result_text": "더 키울 수 있다고 생각했다.\n그 생각이 맞을 수도 있다.\n하지만 지금은—이 첫 수익을 먼저 음미해야 한다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_creator_viral_echo",
@@ -54,7 +56,8 @@
         "text": "다시 바이럴을 노리다",
         "result_text": "다시 노렸다.\n바이럴은 노려서 되는 게 아니었다.\n꾸준함이 다음 바이럴을 만드는—유일한 방법이다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_freelance_started_echo",
@@ -73,7 +76,8 @@
         "text": "조건을 먼저 확인하다",
         "result_text": "조건을 먼저 봤다.\n괜찮았다.\n계약했다.\n독립한 사람이 배워야 할 것—조건을 볼 줄 아는 것이다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_etf_study_mode_echo",
@@ -92,7 +96,8 @@
         "text": "더 공부하다",
         "result_text": "더 공부하기로 했다.\n판단이 생겼다는 느낌—그게 시작이 아니라 중간 지점일 수 있다.\n판단이 생겼을 때—한 번 더 의심하는 것도 공부다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_started_etf_echo",
@@ -111,7 +116,8 @@
         "text": "마이너스여도 계속하다",
         "result_text": "마이너스였다.\n하지만 멈추지 않았다.\nETF는 타이밍이 아니라 시간이 만든다.\n지금 마이너스—는 그 시간의 일부다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_mystery_info_bought_echo",
@@ -130,7 +136,8 @@
         "text": "정보가 틀렸다",
         "result_text": "틀렸다.\n돈도 잃고 정보도 틀렸다.\n출처 불명의 정보에 돈을 주는 것—그 자체가 이미 손실이었다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_mystery_info_reported_echo",
@@ -149,7 +156,8 @@
         "text": "괜한 짓을 한 건 아닌지 걱정했다",
         "result_text": "걱정했었다.\n하지만 결과가 나왔다.\n옳은 방향으로 해결됐다.\n걱정은 당연하다—그것이 맞는 선택을 막지 않았다는 게 중요하다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_opened_mystery_usb_echo",
@@ -168,7 +176,8 @@
         "text": "차라리 모르는 게 나았다",
         "result_text": "차라리 몰랐으면 했다.\n아는 것이 항상 가벼운 게 아니다.\n알게 된 것—이제는 어떻게 쓸지를 결정해야 한다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_credit_damaged_echo",
@@ -187,7 +196,8 @@
         "text": "회복 속도를 확인하다",
         "result_text": "회복 중이었다.\n느렸다.\n하지만 방향이 맞으면—느린 것이 잘못된 것이 아니다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_credit_drew_line_echo",
@@ -206,7 +216,8 @@
         "text": "상대가 그 선을 무시했다",
         "result_text": "무시했다.\n선을 그었다고 상황이 바뀌지는 않는다.\n선 다음에는—행동이 필요하다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_fomo_invested_echo",
@@ -225,7 +236,8 @@
         "text": "또 들어가다",
         "result_text": "또 들어갔다.\n\"이번엔 다르다\"—지난번에도 했던 생각이었다.\nFOMO가 습관이 되면—매번 이번엔 다르다고 느낀다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_stranger_helped_echo",
@@ -244,7 +256,8 @@
         "text": "기억하지 못하면 어쩌나 싶었다",
         "result_text": "기억했다.\n이름도 몰랐던 사람—이어졌다.\n선의의 반경은 생각보다 넓다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_got_promoted_orthodox_echo",
@@ -263,7 +276,8 @@
         "text": "자신의 방식을 공유하다",
         "result_text": "자신의 방식을 이야기했다.\n정통 방식으로 올라온 것—그 방식이 재현 가능하다는 뜻이다.\n그래서 공유할 수 있다."
       }
-    ]
+    ],
+    "cooldown": 999
   },
   {
     "id": "callback_has_certification_echo",
@@ -282,6 +296,7 @@
         "text": "조건이 맞는지 더 확인하다",
         "result_text": "조건을 더 확인했다.\n맞았다.\n지원했다.\n준비된 사람이 기회를 알아보는 것—기회가 준비된 사람을 찾는 것과 같다."
       }
-    ]
+    ],
+    "cooldown": 999
   }
 ]
