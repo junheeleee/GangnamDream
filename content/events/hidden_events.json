@@ -468,7 +468,8 @@
     "weight": 8,
     "hidden": true,
     "conditions": {
-      "max_mental": 65
+      "max_mental": 65,
+      "has_job": true
     },
     "tags": [
       "disasters",
@@ -695,7 +696,9 @@
     "rarity": "common",
     "weight": 8,
     "hidden": true,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "jobs",
       "class",
