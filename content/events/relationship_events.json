@@ -2560,7 +2560,8 @@
     "hidden": false,
     "conditions": {
       "flag": "jiyeon_together",
-      "housing": "gangnam",
+      "min_assets": 2000000000,
+      "min_turn": 180,
       "no_flag": "jiyeon_gangnam_called"
     },
     "tags": [

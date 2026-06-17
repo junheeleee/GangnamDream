@@ -233,6 +233,10 @@ func _check_conditions(conditions):
 				if GameState.work_performance < int(req): return false
 			"min_job_tenure":
 				if GameState.job_tenure < int(req): return false
+			"min_assets":
+				if GameState.get_total_asset_value() < float(req): return false
+			"max_assets":
+				if GameState.get_total_asset_value() > float(req): return false
 			# ── 스토리 인물(cast) 조건 ──────────────────────────
 			"route":
 				# 경제 루트: "직장형" | "투자형" | "창업형"
