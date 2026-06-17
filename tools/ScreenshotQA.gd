@@ -45,6 +45,12 @@ func _ready() -> void:
 	await _shot_investment()
 	await _shot_crisis_vignette()
 	await _shot_ap_actions()
+	await _shot_people()
+	await _shot_minigame("holdem_club", "06_holdem_club")
+	await _shot_minigame("racetrack", "07_racetrack")
+	await _shot_minigame("jeongseon_casino", "08_jeongseon_casino")
+	await _shot_ending("gangnam_dream", "09_ending_gangnam_win")
+	await _shot_ending("bankruptcy", "10_ending_bankruptcy")
 
 	print("SCREENSHOT_QA_DONE dir=%s" % OUT_DIR)
 	get_tree().quit(0)
@@ -132,3 +138,36 @@ func _close_modal() -> void:
 		if _mg.has_method(m):
 			_mg.call(m)
 			return
+
+func _shot_people() -> void:
+	# 인맥 카테고리 모달 — 캐스트 관계 상태
+	GameState.flags["entered_network"] = true
+	if _mg.has_method("_open_cat_people"):
+		_mg._open_cat_people()
+		await _settle(0.7)
+		await _save("05_people_relationships")
+		_close_modal()
+		await _settle(0.4)
+
+func _shot_minigame(node_name: String, shot_name: String) -> void:
+	# 미니게임은 AP 우회하고 오버레이를 직접 open()
+	GameState.flags["entered_network"] = true
+	GameState.money = 5_000_000.0
+	var node = _mg.get(node_name)
+	if node == null or not node.has_method("open"):
+		print("SKIP %s (no node)" % shot_name)
+		return
+	node.open()
+	await _settle(1.0)
+	await _save(shot_name)
+	# 오버레이 숨김 (다음 케이스 방해 방지)
+	if "visible" in node:
+		node.visible = false
+	await _settle(0.3)
+
+func _shot_ending(ending_id: String, shot_name: String) -> void:
+	if _mg.has_method("_show_ending"):
+		_mg._show_ending(ending_id)
+		await _settle(1.0)
+		await _save(shot_name)
+		await _settle(0.3)
