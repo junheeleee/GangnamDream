@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반22 (자율 QA — stress+mental 이중 적용 버그 전수 수정 + 시스템 코드 감사)
+
+### 자율 QA 루프 — 이중 정신력 패널티 버그 전수 수정
+
+#### stress+mental 공존 효과 1201건 일괄 수정 (44개 파일)
+- 구 dual-stat 설계에서 events effects에 "stress"와 "mental"이 공존하던 이벤트들
+- 스트레스→정신력 통합 이후 동일 축에 중복 적용: `stress:25, mental:-20` → 실제 mental -45
+- drama_events.json: 87건 (×0.65 스케일링 — 극단값 완화)
+- 나머지 43개 파일: 1114건 (완전합산 → JSON 명시, 현행 동작 유지)
+- 최악 사례 수정: drama_crypto_result_big choice[1] mental -60 → -39
+
+#### 캘린더 시대 타이밍 버그 추가 수정 10종
+- butterfly_events 4종: mystery_info_result_win/scam(4→12), drunk_investor_callback(5→20), resume_lie_caught(4→16)
+- callback_events 6종: asked_father_health_update(6→24), coin_let_go_space(6→24), cafe_stole_walked_echo(6→24), cafe_smart_loss_rethink(8→24), cafe_learned_humility_test(8→24), health_treated_followup(4→12)
+
+#### 상철 이중 만남 버그 수정
+- sangchul_meet(랜덤풀)와 arc_sangchul_01_meet(코드 트리거) 두 경로가 독립적 플래그 사용
+- 랜덤 만남 발동 시 arc_sangchul_met_seen이 미설정 → 이후 투자 가이드 아크 미발동 버그
+- MainGame._next_arc_id() 진입 시 sangchul_met → arc_sangchul_met_seen 자동 동기화
+
+#### 시스템 코드 감사 완료 항목
+- RelationshipSystem.gd: modify_hidden_stat("stress") 리다이렉트 정상 확인
+- MetaProgression.gd: reached_max_stress 플래그 (mental<=15) 올바르게 추적 확인
+- InvestmentSystem.gd: 레버리지/마진콜 로직 검증 (65% 하락 시 청산, ~40% 손실)
+- GameState.serialize(): 3개 transient 변수 SERIALIZE_EXEMPT 정상 등록 확인
+- EventManager._weighted_pick(): 모든 이벤트 weight=0이면 첫 항목 반환 — 엣지케이스 인지
+- 종료조건(check_game_over): 30억 엔딩분기 7종, 38세 타임리밋 8종 정상 작동 확인
+- audit.sh: ERROR 0, WARNING 0, 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-17 후반21 (자율 QA — 캘린더 콜백 타이밍 대규모 수정 + 내러티브 품질 개선)
 
 ### 자율 QA 루프 — 캘린더 시대 타이밍 버그 전수 수정
