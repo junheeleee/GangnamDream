@@ -594,7 +594,7 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 		GameState.flags["tut_stat_shown"] = true
 		_show_popup(
 			"📊  능력치와 자원",
-			"선택에는 대가가 따른다.\n\n돈, 건강, 정신력, 스트레스 — 모든 선택이 이 수치들을 움직인다.\n오른쪽 위에 뜨는 변화를 눈여겨봐라.\n\n무엇을 얻고 무엇을 잃을지, 늘 저울질해야 한다.")
+			"선택에는 대가가 따른다.\n\n돈, 건강, 정신력 — 모든 선택이 이 수치들을 움직인다.\n오른쪽 위에 뜨는 변화를 눈여겨봐라.\n\n무엇을 얻고 무엇을 잃을지, 늘 저울질해야 한다.")
 		return
 	# 인물 관계 첫 변화
 	var cast_changed = false

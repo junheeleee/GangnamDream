@@ -547,7 +547,7 @@ func _show_result() -> void:
 			if _mode == Mode.RESUME:
 				desc_lbl.text = "솔직히 이 자소서로는 서류도 힘들다. 다시 써야 한다."
 			else:
-				desc_lbl.text = "면접이 많이 힘들었다. 스트레스를 받았다."
+				desc_lbl.text = "면접이 많이 힘들었다. 정신이 많이 소모됐다."
 	_content_vb.add_child(desc_lbl)
 
 	# 스트레스 표시
@@ -557,7 +557,7 @@ func _show_result() -> void:
 		stat_lbl.add_theme_font_size_override("font_size", 11)
 		stat_lbl.add_theme_color_override("font_color",
 			Color("#e85d5d") if _stress_delta > 0 else Color("#3dba6a"))
-		stat_lbl.text = "스트레스 %+d" % _stress_delta
+		stat_lbl.text = "정신력 %+d" % (-_stress_delta)
 		_content_vb.add_child(stat_lbl)
 
 	var ok_btn := _make_btn("확인", "#0e3a2a", 15)

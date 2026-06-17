@@ -969,7 +969,7 @@ func _show_result() -> void:
 	_content_vb.add_child(stat_row)
 	if _stress_delta != 0:
 		stat_row.add_child(_mini_lbl(
-			"스트레스 %+d" % _stress_delta,
+			"정신력 %+d" % (-_stress_delta),
 			"#e85d5d" if _stress_delta > 0 else "#3dba6a"))
 	if _health_delta != 0:
 		stat_row.add_child(_mini_lbl(

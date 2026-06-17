@@ -904,7 +904,7 @@ func _show_tutorial() -> void:
 	modal_body.add_child(_wrap_label(
 		"1. 💼 구직활동  →  수입 0원에서 탈출 (필수)\n"
 		+ "2. AP 남으면 📚 자기계발로 스탯 올리기\n"
-		+ "3. 스트레스 주의! 🌊 휴식도 중요\n"
+		+ "3. 정신력 주의! 🌊 휴식으로 회복\n"
 		+ "4. 첫 월급 후 📈 투자·🛍 상점이 열립니다", 13, "#c8d0df"))
 
 	# ── 확인 버튼 ──
@@ -1608,7 +1608,7 @@ func _roll_monthly_crisis() -> Dictionary:
 		else:
 			var hp_dmg = randi_range(8, 18)
 			return {"type": "health_crisis", "title": "🏥 건강 위기",
-				"desc": "갑자기 몸이 안 좋아졌다. 건강 -%d, 스트레스 +12." % hp_dmg, "hp": hp_dmg, "color": "#ef4444"}
+				"desc": "갑자기 몸이 안 좋아졌다. 건강 -%d, 정신력 -12." % hp_dmg, "hp": hp_dmg, "color": "#ef4444"}
 	return {}
 
 func _apply_monthly_event(ev: Dictionary):
@@ -3064,7 +3064,7 @@ func _open_cat_work():
 	if no_job:
 		modal_body.add_child(_wrap_label("아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.", 13, "#c8a060"))
 		_cat_modal_button("💼 구직활동  —  일자리를 찾아 지원한다", "#dc6a2a", "_ap_job_hunt")
-		_cat_modal_button("🖊 자소서 작성  —  지력 +3, 스트레스 +4", "#3a6ea8", "_ap_write_resume")
+		_cat_modal_button("🖊 자소서 작성  —  지력 +3, 정신력 -4", "#3a6ea8", "_ap_write_resume")
 		if GameState.social_skill >= 20:
 			_cat_modal_button("🎯 모의 면접  —  사회성 +2, 운 +1", "#3a6ea8", "_ap_interview_prep")
 	else:
@@ -3136,9 +3136,9 @@ func _open_cat_money():
 		modal_body.add_child(_wrap_label("🔒 투자는 상철과의 대화 후 가능하다.", 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label("🔒 투자는 첫 월급을 받은 뒤 가능하다.", 12, "#5a5a6a"))
-	var side_label = "💰 단기 알바  —  +40만원 (건강-5, 스트레스+6)" if no_job else "🎨 부업/사이드  —  추가 수입 도전"
+	var side_label = "💰 단기 알바  —  +40만원 (건강-5, 정신력-6)" if no_job else "🎨 부업/사이드  —  추가 수입 도전"
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
-	_cat_modal_button("💰 저축/절약  —  스트레스 -4, 절약 마인드", "#3a6ea8", "_ap_save_money")
+	_cat_modal_button("💰 저축/절약  —  자금 절약, 정신력 -2", "#3a6ea8", "_ap_save_money")
 
 func _open_cat_dev():
 	# _ap_study가 이미 세부 모달(독서/운동/명상)을 띄움 → 바로 호출
@@ -3267,13 +3267,13 @@ func _on_aruba_closed(earned: int, stress_delta: int) -> void:
 	GameState.modify_hidden_stat("stress", stress_delta)
 	GameState.modify_stat("health", -3)  # 기본 알바 피로
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
-	GameState.add_log("💼 알바 시프트 수입 %s (건강 %d→%d, 스트레스 %+d)" % [
-		GameState.format_money(float(earned)), health_before, GameState.health, stress_delta], "job")
+	GameState.add_log("💼 알바 시프트 수입 %s (건강 %d→%d, 정신력 %+d)" % [
+		GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
 	var mood: String = SIDE_JOB_VIGNETTES[randi() % SIDE_JOB_VIGNETTES.size()]
 	turn_action_log.append("✓ 💼 알바 시프트 — " + mood.substr(0, 22))
 	AudioManager.play("money_gain")
-	_show_effects_float({"money": earned, "health": -3, "stress": stress_delta})
-	_show_vignette("💼 알바 시프트", mood, {"money": earned, "health": -3, "stress": stress_delta}, "#dc6a2a")
+	_show_effects_float({"money": earned, "health": -3, "mental": -stress_delta})
+	_show_vignette("💼 알바 시프트", mood, {"money": earned, "health": -3, "mental": -stress_delta}, "#dc6a2a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -3789,10 +3789,17 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	_apply_event_bg_path(_get_bg_for_vignette(title, body, eff))
 	event_title.text = title
 	var parts: PackedStringArray = PackedStringArray()
-	var names := {"money":"💰","health":"❤","mental":"🧠","stress":"😫",
+	var names := {"money":"💰","health":"❤","mental":"🧠",
 		"intelligence":"📖","investment_skill":"📈","social_skill":"🤝","luck":"🍀","reputation":"⭐"}
+	# merge "stress" into "mental" for display (stress removed as user-visible stat)
+	var disp: Dictionary = {}
 	for k in eff:
-		var val: int = int(eff[k])
+		if k == "stress":
+			disp["mental"] = int(disp.get("mental", 0)) - int(eff[k])
+		else:
+			disp[k] = eff[k]
+	for k in disp:
+		var val: int = int(disp[k])
 		if val == 0:
 			continue
 		var sym: String = str(names.get(k, k))
@@ -3911,7 +3918,7 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 				GameState.add_log("🖊 자소서 작성 완료 (무난) — 보완이 필요하다", "event")
 			0:
 				GameState.modify_hidden_stat("stress", 1)
-				GameState.add_log("🖊 자소서 작성 실패 (재작성필요) — 스트레스 +1", "event")
+				GameState.add_log("🖊 자소서 작성 실패 (재작성필요) — 정신력 -1", "event")
 	else:
 		match quality:
 			3:
@@ -3928,7 +3935,7 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 				GameState.add_log("🎯 모의 면접 완료 (무난) — 운 +1", "event")
 			0:
 				GameState.modify_hidden_stat("stress", 1)
-				GameState.add_log("🎯 모의 면접 실패 (긴장) — 스트레스 +1", "event")
+				GameState.add_log("🎯 모의 면접 실패 (긴장) — 정신력 -1", "event")
 	GameState.stats_changed.emit()
 	_refresh_all()
 
@@ -5404,7 +5411,7 @@ func _show_month_summary(snap: Dictionary):
 
 	# ── 스탯 변화 (한 줄) ─────────────────────────
 	var stat_parts: Array = []
-	var stat_map = [["health", "건강"], ["mental", "정신력"], ["stress", "스트레스"]]
+	var stat_map = [["health", "건강"], ["mental", "정신력"]]
 	for pair in stat_map:
 		if GameState.get(pair[0]) != int(snap.get(pair[0] + "_before", GameState.get(pair[0]))):
 			var d = GameState.get(pair[0]) - int(snap[pair[0] + "_before"])
@@ -5850,7 +5857,6 @@ func _stat_name(key):
 		"job": "직업",
 		"health": "건강",
 		"mental": "정신",
-		"stress": "스트레스",
 		"intelligence": "지능",
 		"social_skill": "사회성",
 		"appearance": "외모",
@@ -5863,9 +5869,9 @@ func _stat_name(key):
 func _rel_effect_hint(type_str: String, affection: int, trust: int) -> String:
 	match type_str:
 		"romantic":
-			if affection >= 80: return "매달 정신력 +2, 스트레스 -4, 생활비 분담 기회"
-			elif affection >= 60: return "매달 정신력 +1, 스트레스 -2"
-			else: return "매달 스트레스 -1"
+			if affection >= 80: return "매달 정신력 +6, 생활비 분담 기회"
+			elif affection >= 60: return "매달 정신력 +3"
+			else: return "매달 정신력 +1"
 		"mentor":
 			if affection >= 75 and trust >= 60: return "매달 투자감각 +1, 지력 +1, 투자 인사이트 수익"
 			elif affection >= 55: return "매달 투자감각/지력 성장 기회"
@@ -5875,11 +5881,11 @@ func _rel_effect_hint(type_str: String, affection: int, trust: int) -> String:
 			elif affection >= 55: return "매달 평판 +1, 소액 수익 기회"
 			else: return "매달 평판 성장 기회"
 		"family":
-			if affection >= 70: return "매달 정신력 +2, 스트레스 -2, 위기 시 지원금"
-			elif affection >= 50: return "매달 정신력 +1, 스트레스 -1"
+			if affection >= 70: return "매달 정신력 +4, 위기 시 지원금"
+			elif affection >= 50: return "매달 정신력 +2"
 		"friends":
-			if affection >= 70: return "매달 스트레스 -3, 사회성 성장 기회"
-			elif affection >= 50: return "매달 스트레스 -1, 사회성 성장 기회"
+			if affection >= 70: return "매달 정신력 +3, 사회성 성장 기회"
+			elif affection >= 50: return "매달 정신력 +1, 사회성 성장 기회"
 	return ""
 
 func _hint_box() -> StyleBoxFlat:
@@ -6101,7 +6107,7 @@ func _get_month_advice() -> String:
 	if GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
-		return "🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 스트레스·정신력 패시브가 개선돼요!" % [
+		return "🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 정신력 패시브가 개선돼요!" % [
 			next_info.get("name", "원룸"), GameState.format_money(GameState.money)]
 	if GameState.investment_skill < 20 and GameState.get_total_asset_value() > 2_000_000.0 and GameState.turn > 4:
 		return "투자감각이 아직 낮습니다 (%d). [재테크 공부]로 올리면 투자 수익률이 올라갑니다." % GameState.investment_skill
@@ -6141,7 +6147,7 @@ func _open_title_collection():
 	if not perk_bonus.is_empty():
 		var stat_kr = {
 			"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
-			"stress": "스트레스", "luck": "운", "mental": "정신력", "money": "자금",
+			"luck": "운", "mental": "정신력", "money": "자금",
 		}
 		var perk_parts: PackedStringArray = PackedStringArray()
 		for stat in perk_bonus:
