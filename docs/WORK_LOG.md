@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반26 (자율 QA 3차 — relationship_effects 형식 버그 + 최종 9종 체크)
+
+### relationship_effects dict 형식 버그 16종 수정
+- GDScript: `for rel_effect in choice.get("relationship_effects", []):`
+  dict를 순회하면 키(문자열) 반복 → `apply_relationship_effect("affinity")` 호출 → 조용히 실패
+- 15건: relationship_events.json (social_life_*, romance_*, family_*, jobs_*)
+- 1건: hidden_events.json (hidden_chaebol_elevator[0])
+- 모두 부정확한 `affinity` 키(실제는 `affection`) + 유효하지 않은 타입 사용
+  → 의도된 관계 생성이 아닌 데드 코드 → 제거 처리
+
+### 최종 체크리스트 (959개 이벤트 전수)
+| 체크 항목 | 결과 |
+|---|---|
+| 빈 result_text | 0 |
+| 빈 choice text | 0 |
+| 누락 category | 0 |
+| 비보호 weight=0 | 0 |
+| 끊긴 follow_up | 0 |
+| 잘못된 housing 조건 | 0 |
+| dict형식 relationship_effects | 0 |
+| 잘못된 job_id 조건 | 0 |
+| 잘못된 cast stage 참조 | 0 |
+
 ## 2026-06-17 후반25 (자율 QA 2차 — 조건 시스템 전수 감사 + housing 버그 수정)
 
 ### 자율 QA 루프 — 전수 조건/효과 감사 완료
