@@ -15,9 +15,9 @@ func process_monthly_relationships():
 			affection_decay = 0
 		rel["affection"] = clamp(int(rel.get("affection", 40)) - affection_decay, 0, 100)
 
-		# ── 신뢰 감소: 매월 -1 기본 (스트레스 75↑이면 -2로 가속) ──
+		# ── 신뢰 감소: 매월 -1 기본 (정신력 25↓이면 -2로 가속) ──
 		var trust_decay = 1
-		if GameState.stress > 75:
+		if GameState.mental < 25:
 			trust_decay = 2
 		rel["trust"] = clamp(int(rel.get("trust", 40)) - trust_decay, 0, 100)
 

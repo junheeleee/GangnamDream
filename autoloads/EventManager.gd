@@ -179,9 +179,9 @@ func _check_conditions(conditions):
 			"min_turn":
 				if GameState.turn < int(req): return false
 			"max_stress":
-				if GameState.stress > int(req): return false
+				if GameState.mental < (100 - int(req)): return false
 			"min_stress":
-				if GameState.stress < int(req): return false
+				if GameState.mental > (100 - int(req)): return false
 			"has_job":
 				if bool(req) and GameState.current_job.is_empty(): return false
 			"no_job":
@@ -294,7 +294,7 @@ func _effective_weight(event):
 			weight *= 0.28
 		"legendary":
 			weight *= 0.08
-	if GameState.stress > 70 and event.get("tags", []).has("stress"):
+	if GameState.mental < 30 and event.get("tags", []).has("stress"):
 		weight *= 1.6
 	if GameState.market_context.get("fear_greed", 50) > 75 and event.get("category", "") == "finance":
 		weight *= 1.35

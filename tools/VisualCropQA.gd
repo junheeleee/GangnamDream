@@ -171,7 +171,6 @@ func _reset_runtime_state() -> void:
 	GameState.money = 500000
 	GameState.health = 65
 	GameState.mental = 60
-	GameState.stress = 35
 	GameState.housing = "gosiwon"
 	GameState.current_job = {}
 	if not (GameState.flags is Dictionary):

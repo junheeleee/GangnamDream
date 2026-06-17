@@ -46,24 +46,24 @@ const DIFFICULTY_DATA := {
 		"name": "드라마 모드", "icon": "🎬", "stars": "★★☆☆☆",
 		"tagline": "이야기가 먼저다",
 		"desc": "시작 자금 200만 / 월간 압박 완화 / 베팅 성공률 +4%p. 드라마를 보러 온 사람을 위해.",
-		"start_money": 2_000_000.0, "start_stress": 30,
-		"pressure_health": -1, "pressure_mental": -2, "pressure_stress": 2,
+		"start_money": 2_000_000.0,
+		"pressure_health": -1, "pressure_mental": -2,
 		"opp_bonus": 0.04,
 	},
 	"현실": {
 		"name": "현실 모드", "icon": "🌆", "stars": "★★★★☆",
 		"tagline": "의도된 서울",
 		"desc": "기본 밸런스. 통장 50만원, 5년, 30억. 개발자가 의도한 긴장 그대로.",
-		"start_money": 500_000.0, "start_stress": 35,
-		"pressure_health": -2, "pressure_mental": -3, "pressure_stress": 3,
+		"start_money": 500_000.0,
+		"pressure_health": -2, "pressure_mental": -3,
 		"opp_bonus": 0.0,
 	},
 	"지옥고": {
 		"name": "지옥고 모드", "icon": "🔥", "stars": "★★★★★",
 		"tagline": "서울은 원래 이렇다",
 		"desc": "시작 자금 30만 / 월간 압박 강화 / 베팅 성공률 -4%p. 지옥고에서 강남까지.",
-		"start_money": 300_000.0, "start_stress": 45,
-		"pressure_health": -3, "pressure_mental": -4, "pressure_stress": 5,
+		"start_money": 300_000.0,
+		"pressure_health": -3, "pressure_mental": -4,
 		"opp_bonus": -0.04,
 	},
 }
@@ -117,7 +117,6 @@ const TENDENCY_REALIZE_GAP := 4          # 2위와 격차가 이 이상이면 �
 var tendency: Dictionary = {"career": 0, "invest": 0, "found": 0}
 var tendency_realized: String = ""       # "" = 아직, 아니면 career/invest/found
 
-var stress = 25
 var reputation = 10
 var gambling_tendency = 0
 var addiction_tendency = 0
@@ -201,7 +200,6 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	action_points = 2
 	max_action_points = 2
 	tutorial_step = 3
-	stress = int(diff_data.get("start_stress", 35))
 	reputation = 5
 	gambling_tendency = 0
 	addiction_tendency = 0
@@ -256,7 +254,7 @@ func _apply_title_perks():
 	var parts: PackedStringArray = PackedStringArray()
 	var stat_kr = {
 		"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
-		"stress": "정신력", "luck": "운", "mental": "정신력", "money": "자금",
+		"luck": "운", "mental": "정신력", "money": "자금",
 	}
 	for stat in bonus:
 		var amount = int(bonus[stat])
@@ -785,7 +783,7 @@ func modify_stat(stat_name, amount):
 func modify_hidden_stat(stat_name, amount):
 	match stat_name:
 		"stress":
-			stress = clamp(stress + amount, 0, 100)
+			modify_stat("mental", -amount)
 		"reputation":
 			reputation = clamp(reputation + amount, -100, 100)
 		"gambling_tendency":
@@ -1216,7 +1214,6 @@ func serialize():
 		"appearance": appearance,
 		"investment_skill": investment_skill,
 		"luck": luck,
-		"stress": stress,
 		"reputation": reputation,
 		"action_points": action_points,
 		"max_action_points": max_action_points,
@@ -1258,7 +1255,7 @@ func load_from_dict(data):
 	var int_fields = [
 		"age", "year", "month", "week_of_month", "turn",
 		"health", "mental", "intelligence", "social_skill", "appearance",
-		"investment_skill", "luck", "stress", "reputation",
+		"investment_skill", "luck", "reputation",
 		"gambling_tendency", "addiction_tendency",
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",

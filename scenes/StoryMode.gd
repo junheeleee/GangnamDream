@@ -260,10 +260,10 @@ func _refresh_hud():
 	var assets: float = GameState.get_total_asset_value()
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var yrs_left: int = max(0, 38 - GameState.age)
-	_hud_label.text = "🎯 %s / 30억 (%d%%)      💰 %s      ❤%d  🧠%d  😫%d      ⏳ %d년" % [
+	_hud_label.text = "🎯 %s / 30억 (%d%%)      💰 %s      ❤%d  🧠%d      ⏳ %d년" % [
 		GameState.format_money(assets), pct,
 		GameState.format_money(GameState.money),
-		GameState.health, GameState.mental, GameState.stress, yrs_left]
+		GameState.health, GameState.mental, yrs_left]
 
 func _apply_font(lbl: Label, bold: bool = false):
 	var f = _font_bold if bold else _font
@@ -530,7 +530,6 @@ func _snapshot_stats() -> Dictionary:
 		"money": GameState.money,
 		"health": GameState.health,
 		"mental": GameState.mental,
-		"stress": GameState.stress,
 		"intelligence": GameState.intelligence,
 		"social_skill": GameState.social_skill,
 		"investment_skill": GameState.investment_skill,
@@ -542,7 +541,6 @@ const STAT_INFO = {
 	"money":            {"icon": "💰", "name": "돈"},
 	"health":           {"icon": "❤", "name": "건강"},
 	"mental":           {"icon": "🧠", "name": "정신력"},
-	"stress":           {"icon": "😰", "name": "스트레스"},
 	"intelligence":     {"icon": "📚", "name": "지력"},
 	"social_skill":     {"icon": "🤝", "name": "사회성"},
 	"investment_skill": {"icon": "📈", "name": "투자감각"},

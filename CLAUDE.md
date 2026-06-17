@@ -9,17 +9,50 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **데모 정비 완료 — QA 대기** |
-| **최근 완료** | **2026-06-16 후반5** — 포트레이트 프레임 제거·도박 게이팅 수정·arc_four_months_in 추가 |
+| **최근 완료** | **2026-06-17 후반6** — 스트레스→정신력 통합·고닷 렌더링 활용·레버리지 UI·스토리 게이팅·컴파일 에러 4종 수정 |
 | **다음 작업** | **QA 플레이스루** — Godot 실행 후 챕터 카드·루트별 씬·내레이션·엔딩 검증 |
-| **마지막 업데이트** | 2026-06-16 |
+| **마지막 업데이트** | 2026-06-17 |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
 ---
 
-## ✅ 이번 세션 완료 목록 (2026-06-16, 컨텍스트 압축 대비)
+## ✅ 이번 세션 완료 목록 (2026-06-17, 컨텍스트 압축 대비)
 
-### 후반5 (최신)
+### 후반6 (최신)
+
+#### 스트레스 → 정신력 단일 스탯 통합 (밸런스 결정)
+- **결정**: `stress`(높을수록 나쁨) 변수 완전 제거 → `mental`(높을수록 좋음) 단일 축으로 통합
+- **구현 방식**: 적용 계층 리다이렉트 (JSON 600여 개 미수정). 데이터는 "stress" 단어 유지하되 모두 mental로 변환
+  - `GameState.apply_effects` — `"stress": X` → `modify_stat("mental", -X)` (기존부터 존재)
+  - `GameState.modify_hidden_stat("stress", X)` → `modify_stat("mental", -X)` (변경)
+  - `EventManager._check_conditions` — `max_stress: N` → `mental < (100-N)`, `min_stress: N` → `mental > (100-N)`
+  - `EventManager._effective_weight` — `stress>70` → `mental<30`
+  - `BGMPlayer` 위기 트리거 → `mental <= 25`
+  - `InvestmentSystem` 판단 페널티 → `(70 - mental) / 250`
+  - `RelationshipSystem` 신뢰 가속 감소 → `mental < 25`
+  - `MainGame._update_vignette` — `stress_norm` 0.0 고정 (셰이더 불변, mental_norm만 작동)
+  - `GameState.gd` — `var stress` 선언·serialize·load_from_dict·DIFFICULTY_DATA(start_stress/pressure_stress) 전부 제거
+- **밸런스 영향 (정량)**: stress 양수 622건(+3582)→mental -3582, 음수 594건(-2514)→mental +2514. 순 -1068을 mental 풀에 추가 (기존 mental 순합 +3597 → 통합후 +2529). 휴식 액션 강화·그라인드 액션(이력서/면접/창업) 정신력 직접 소모. **밸런스 밴드 전부 통과** (무직 100%·직장 0%·베팅 30억 14.8%)
+
+#### 고닷 렌더링 기능 적극 활용 (이전 세션 main 커밋 + 컴파일 수정)
+- 타이핑 효과(visible_ratio), 비네팅 셰이더, 포트폴리오 라인차트, 화면 흔들기, [wave]/[shake] BBCode, 골바 트윈, 코인버스트, 앰비언트 시간대 틴트
+- **컴파일 에러 4종 수정** (Godot 컴파일 체크가 그동안 Mac 경로라 스킵돼 미검출):
+  - `tier` 변수 중복 선언 (MainGame 4094/4110)
+  - `phase := turn % 4` 타입 추론 실패 → `: int =`
+  - `_button`/`_small_button`/`_label`/`_wrap_label` 반환 타입 미선언 → `-> Button`/`-> Label` 추가 (`:=` 호출부 일괄 해소)
+
+#### 레버리지 투자 UI 연결 + 스토리 게이팅
+- `_open_investments()` 하단 레버리지 버튼 추가 (투자감각 30 게이트) — 죽은 함수 `_open_leverage_investments` 연결
+- 투자 버튼 게이팅: `arc_invest_guidance_seen` 플래그 필요 (상철 대화 후)
+- 도박 조기 진입 차단: `gambling_006` 조건에 `arc_sangchul_met_seen` 추가
+- 내러티브 이벤트 3종 추가 (holdem 2 + racetrack 1)
+
+---
+
+## ✅ 이전 세션 완료 목록 (2026-06-16)
+
+### 후반5
 
 #### StoryMode 포트레이트 프레임 제거
 - `scenes/StoryMode.gd` — 금색 테두리·다크 매트·그림자 완전 제거 → 투명 StyleBoxFlat으로 교체

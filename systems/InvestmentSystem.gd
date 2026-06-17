@@ -36,7 +36,7 @@ func buy_asset(asset_id, amount_krw):
 	if amount_krw > GameState.money:
 		return {"success": false, "message": "잔액이 부족합니다."}
 
-	var decision_penalty = clamp(float(GameState.stress - 55) / 250.0, 0.0, 0.2)
+	var decision_penalty = clamp(float(70 - GameState.mental) / 250.0, 0.0, 0.2)
 	var base_fee_rate = 0.003
 	var fee = amount_krw * (base_fee_rate + decision_penalty)
 	var quantity = max(0.0, amount_krw - fee) / current_price

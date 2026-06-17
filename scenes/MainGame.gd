@@ -282,18 +282,16 @@ func _update_vignette():
 	if not is_instance_valid(_vignette_rect) or not (_vignette_rect.material is ShaderMaterial):
 		return
 	var mat := _vignette_rect.material as ShaderMaterial
-	# 스트레스 50 초과분을 0~1로 정규화
-	var s_norm := clampf((float(GameState.stress) - 50.0) / 50.0, 0.0, 1.0)
 	# 정신력 낮을수록 효과 강해짐 (70 이하부터 시작)
 	var m_norm := clampf(float(GameState.mental) / 70.0, 0.0, 1.0)
-	mat.set_shader_parameter("stress_norm", s_norm)
+	mat.set_shader_parameter("stress_norm", 0.0)
 	mat.set_shader_parameter("mental_norm", m_norm)
 
 func _update_ambient_tint():
 	if not is_instance_valid(_ambient_overlay):
 		return
 	# turn%4: 0=밤, 1=아침, 2=낮, 3=저녁
-	var phase := GameState.turn % 4
+	var phase: int = GameState.turn % 4
 	var target: Color
 	match phase:
 		0: target = Color(0.55, 0.65, 0.90, 0.09)   # 밤 — 차가운 파랑
@@ -1743,7 +1741,6 @@ func _on_next_month():
 			"health_before": GameState.health,
 			"mental_before": GameState.mental,
 			"mental_before_pressure": GameState.mental,
-			"stress_before": GameState.stress,
 			"actions": turn_action_log.duplicate(),
 			"subsidy": subsidy_applied,
 		}
@@ -2604,7 +2601,7 @@ func _render_ap_actions():
 	# 새 주 첫 상황판은 짧게 타이핑 (60cps — 빠르게)
 	var body_text := "\n".join(lines)
 	# 위기 상황 내레이션에 wave 적용 (첫 줄이 이탤릭 내레이션)
-	if GameState.mental <= 45 or GameState.money < 0 or GameState.stress >= 75:
+	if GameState.mental <= 45 or GameState.money < 0:
 		body_text = body_text.replace("[i]", "[i][wave amp=2.5 freq=1.8]") \
 							 .replace("[/i]", "[/wave][/i]")
 	_type_text(body_text, 60.0)
@@ -3600,7 +3597,7 @@ func _open_bank():
 	bank_desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bank_desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	bank_header_row.add_child(bank_desc_lbl)
-	var bank_gloss_btn := _small_button("📖 용어", "#2a3a5a")
+	var bank_gloss_btn = _small_button("📖 용어", "#2a3a5a")
 	bank_gloss_btn.pressed.connect(func(): _open_glossary("🏦 금융 용어", "bank"))
 	bank_header_row.add_child(bank_gloss_btn)
 	var net: float = GameState.get_total_asset_value()
@@ -4110,7 +4107,6 @@ func _open_jobs():
 
 		var is_current = job.get("id", "") == current_job_id
 		var eligible = job.get("eligible", false)
-		var tier = int(job.get("tier", 1))
 		var resume_ok: bool = GameState.flags.get("resume_polished", false)
 		# 정규직(티어 2+)은 이력서 완성 후에야 지원 가능 — 알바(티어 1)는 즉시
 		var needs_resume = tier >= 2 and not is_current and not resume_ok
@@ -5531,7 +5527,6 @@ func _get_month_narrative() -> String:
 	var umonths = int(f.get("unemployed_months", 0))
 	var assets = GameState.get_total_asset_value()
 	var t = GameState.turn
-	var stress = GameState.stress
 
 	# 위기 상황 (최우선)
 	if mental <= 20:
@@ -5540,8 +5535,6 @@ func _get_month_narrative() -> String:
 		return "이 달은 버티는 것만으로도 충분했다."
 	if money < 0:
 		return "통장이 마이너스다. 숫자를 볼 때마다 숨이 막혔다."
-	if stress >= 80:
-		return "몸이 신호를 보내고 있다. 이 속도로는 오래 못 간다."
 
 	# 도박 중독
 	if addiction >= 70:
@@ -5750,7 +5743,7 @@ func _panel(bg, border):
 	panel.add_theme_stylebox_override("panel", style)
 	return panel
 
-func _label(text, size, color):
+func _label(text, size, color) -> Label:
 	var label = Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
@@ -5761,14 +5754,14 @@ func _label(text, size, color):
 		label.add_theme_font_override("font", _font_regular)
 	return label
 
-func _wrap_label(text, size, color):
+func _wrap_label(text, size, color) -> Label:
 	var label = _label(text, size, color)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.clip_text = false
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	return label
 
-func _button(text, color):
+func _button(text, color) -> Button:
 	var button = Button.new()
 	button.text = text
 	button.custom_minimum_size = Vector2(0, 42)
@@ -5828,7 +5821,7 @@ func _action_button(text: String, accent_color: String) -> Button:
 	button.pressed.connect(func(): AudioManager.play("click"))
 	return button
 
-func _small_button(text, color):
+func _small_button(text, color) -> Button:
 	var button = Button.new()
 	button.text = text
 	button.custom_minimum_size = Vector2(0, 32)

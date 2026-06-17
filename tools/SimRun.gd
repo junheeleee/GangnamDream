@@ -45,7 +45,7 @@ func _run_policy(pname: String, mode: int, runs: int) -> void:
 			if guard > 260: crash += 1; break
 			var t: int = GameState.turn
 			# 생존 유지: 위험하면 이번 달은 휴식(대표값)
-			if GameState.mental <= 30 or GameState.stress >= 58:
+			if GameState.mental <= 35:
 				GameState.modify_stat("mental", 10)
 				GameState.modify_stat("health", 5)
 				GameState.modify_hidden_stat("stress", -20)

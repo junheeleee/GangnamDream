@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반6 (스트레스→정신력 통합 + 고닷 활용 + 컴파일 수정)
+
+### 스트레스 → 정신력 단일 스탯 통합
+이중 정신 스탯(`stress` 높을수록 나쁨 / `mental` 높을수록 좋음)을 `mental` 하나로 통합. `stress` 변수 완전 제거.
+적용 계층 리다이렉트 방식으로 JSON 600여 개 이벤트는 미수정 — 데이터의 "stress" 키는 그대로 두고, 적용·조건·가중치 코드에서 전부 mental로 변환.
+- `GameState`: `var stress` 선언·serialize·load·DIFFICULTY_DATA(start_stress/pressure_stress) 제거. `modify_hidden_stat("stress",X)` → `modify_stat("mental",-X)`
+- `EventManager`: `max_stress:N`→`mental<(100-N)`, `min_stress:N`→`mental>(100-N)`, 가중치 `stress>70`→`mental<30`
+- `BGMPlayer` 위기 트리거 `mental<=25` / `InvestmentSystem` 판단페널티 `(70-mental)/250` / `RelationshipSystem` 신뢰감속 `mental<25`
+- `MainGame._update_vignette` stress_norm 0.0 고정 (셰이더 불변)
+- 밸런스: stress 양수622(+3582)·음수594(-2514) → mental 풀에 순 -1068 추가. 밴드 전부 통과(무직100%/직장0%/베팅14.8%)
+
+### 고닷 컴파일 에러 4종 수정 (그동안 Mac 경로라 audit에서 스킵돼 미검출)
+`tier` 중복 선언 제거, `phase := turn%4` → `: int =`, 헬퍼 4종(`_button`/`_small_button`/`_label`/`_wrap_label`) 반환 타입 명시 → `:=` 호출부 일괄 해소. 전체 컴파일 깨끗 확인.
+
+### 레버리지 UI 연결 + 스토리 게이팅 + 내러티브 3종 (이전 세션 작업 정리)
+레버리지 투자 버튼 연결(투자감각 30), 투자 게이팅(arc_invest_guidance_seen), 도박 조기진입 차단(gambling_006+arc_sangchul_met_seen), holdem 2·racetrack 1 이벤트.
+
 ## 2026-06-16 후반5 (도박 잠금 + 데모 이벤트 + 초상화)
 
 ### StoryMode 초상화 액자 프레임 제거

@@ -74,7 +74,7 @@ func on_ending(ending_id: String):
 # ── 트랙 선택 로직 ─────────────────────────────────────────────
 func _pick_track() -> String:
 	# 위기 우선 — 건강 ≤35 OR 스트레스 ≥75
-	if GameState.health <= 35 or GameState.stress >= 75 or GameState.mental <= 30:
+	if GameState.health <= 35 or GameState.mental <= 25:
 		return "crisis"
 	# 후반 긴장 — 마감 2년 이내(36세부터)
 	if GameState.age >= 36:
