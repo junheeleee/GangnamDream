@@ -3225,29 +3225,27 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 		)
 		parent.add_child(btn)
 
-const _STUDY_SCENES = [
-	{"tag": "📖 독서", "stat": "intelligence", "gain": 2,
-		"text": "도서관에서 경제책을 빌렸다. 어렵지만 읽다 보면 세상이 달리 보이기 시작한다."},
-	{"tag": "🏃 운동", "stat": "health", "gain": 3,
-		"text": "한강 변을 뛰었다. 발이 무겁고 숨이 찼다. 끝나고 나면 조금 가벼워진다."},
-	{"tag": "🧘 명상", "stat": "mental", "gain": 4,
-		"text": "유튜브 명상 가이드를 따라했다. 생각이 너무 많아서 잘 안 됐다. 그래도 조금은."},
-	{"tag": "📈 투자 공부", "stat": "investment_skill", "gain": 1,
-		"text": "새벽까지 재무제표를 봤다. 아는 척하는 사람이 너무 많다. 그래도 하나씩은 건진다."},
-]
-
 func _ap_study():
 	if not GameState.spend_ap():
 		return
-	var s: Dictionary = _STUDY_SCENES[randi() % _STUDY_SCENES.size()]
-	match s["stat"]:
-		"health":   GameState.modify_stat("health", s["gain"])
-		"mental":   GameState.modify_hidden_stat("mental", s["gain"])
-		_:          GameState.modify_stat(s["stat"], s["gain"])
+	var study_type: int = randi() % 4
+	var tag: String = ["📖 독서", "🏃 운동", "🧘 명상", "📈 투자공부"][study_type]
+	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
+	var v: Dictionary = pool[randi() % pool.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "money":
+			GameState.add_money(float(val))
+		elif k == "stress" or k == "reputation":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
 	GameState.add_tendency("career", 1)
-	GameState.add_log(s["tag"] + " — " + s["text"], "event")
-	_show_vignette("📚 자기계발", s["text"], {s["stat"]: s["gain"]}, "#5a6ea8")
-	turn_action_log.append("✓ " + s["tag"])
+	var flavor: String = str(v.get("t", ""))
+	GameState.add_log(tag + " — " + flavor, "event")
+	_show_vignette("📚 자기계발", flavor, eff, "#5a6ea8")
+	turn_action_log.append("✓ " + tag + " — " + flavor.substr(0, 20))
 	_render_ap_actions()
 	_refresh_all()
 
@@ -3308,23 +3306,26 @@ func _ap_save_money():
 	_render_ap_actions()
 	_refresh_all()
 
-const _NETWORK_SCENES = [
-	"업계 모임에 나갔다. 말보다 듣는 게 더 많았다. 명함 두 장.",
-	"오래된 지인에게 연락했다. 밥 한 번 먹자고 했고, 상대도 그러자고 했다.",
-	"온라인 커뮤니티에서 유용한 정보를 나눴다. 작은 신뢰가 쌓이는 것 같다.",
-	"카페에서 낯선 사람과 잠깐 얘기했다. 생각지도 않게 일이 연결될 수도 있는 사람이었다.",
-	"링크드인 메시지를 보냈다. 읽음 표시. 답장은 없었다. 그래도 보냈다는 게 중요하다.",
-]
-
 func _ap_network():
 	if not GameState.spend_ap():
 		return
-	GameState.modify_stat("social_skill", 1)
 	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
-	var scene: String = _NETWORK_SCENES[randi() % _NETWORK_SCENES.size()]
-	GameState.add_log("🤝 인맥 — " + scene, "relationship")
-	_show_vignette("🤝 인맥 넓히기", scene, {"social_skill": 1}, "#8a5a9a")
-	turn_action_log.append("✓ 🤝 인맥 넓히기")
+	GameState.add_tendency("career", 1)
+	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
+	var eff: Dictionary = v.get("e", {})
+	for k in eff:
+		var val: int = int(eff[k])
+		if k == "money":
+			GameState.add_money(float(val))
+		elif k == "stress" or k == "reputation":
+			GameState.modify_hidden_stat(k, val)
+		else:
+			GameState.modify_stat(k, val)
+	var flavor: String = str(v.get("t", ""))
+	GameState.add_log("🤝 인맥 — " + flavor, "relationship")
+	turn_action_log.append("✓ 🤝 인맥 넓히기 — " + flavor.substr(0, 20))
+	GameState.stats_changed.emit()
+	_show_vignette("🤝 인맥 넓히기", flavor, eff, "#8a5a9a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -3490,20 +3491,6 @@ const STUDY_INVEST_VIGNETTES := [
 	{"t":"오늘 배운 것 하나: 모르는 걸 모른다고 아는 것도 실력이다.", "e":{"investment_skill":3,"intelligence":1}},
 ]
 
-const SAVE_VIGNETTES := [
-	{"t":"배달앱 알림을 껐다. 편의점에서 재료를 사서 직접 만들었다. 3,400원.", "e":{"mental":2,"stress":-4}},
-	{"t":"커피 프랜차이즈를 지나쳤다. 편의점 아메리카노. 1,500원. 차이 8,500원.", "e":{"mental":3,"stress":-4}},
-	{"t":"카드 명세서를 열었다. 쓸 필요 없던 항목이 보였다. 취소했다.", "e":{"mental":2,"stress":-5,"intelligence":1}},
-	{"t":"옷을 사려다 멈췄다. 지금 있는 것으로 버틸 수 있다. 통장에 돈이 더 남았다.", "e":{"mental":1,"stress":-3}},
-	{"t":"지출 다이어리를 썼다. 새는 돈이 보였다. 막는 것도 버는 것이다.", "e":{"mental":3,"stress":-5,"intelligence":2}},
-	{"t":"점심은 편의점 도시락. 맛은 두 번째, 가격이 첫 번째인 날이 있다.", "e":{"mental":1,"stress":-3}},
-	{"t":"이번 달 고정 지출을 다시 정리했다. 자르기 싫은 것도 잘랐다.", "e":{"mental":2,"stress":-5}},
-	{"t":"택시 대신 버스를 탔다. 40분 더 걸렸다. 하지만 2만원이 남았다.", "e":{"mental":1,"stress":-2}},
-	{"t":"할인 앱을 뒤졌다. 같은 물건 3,000원 더 싸게 샀다. 작은 승리.", "e":{"mental":3,"stress":-4,"luck":1}},
-	{"t":"술자리를 한 번 빠졌다. 돈도 아꼈고 다음 날 아침이 달랐다.", "e":{"mental":2,"stress":-4,"health":3}},
-	{"t":"가계부 앱을 다시 켰다. 쓰다가 포기했던 것. 오늘은 좀 더 버텨봤다.", "e":{"mental":2,"stress":-5,"intelligence":1}},
-]
-
 const NETWORK_VIGNETTES := [
 	{"t":"업계 세미나. 명함을 세 개 받았다. 두 개는 언젠가 쓸 것 같다.", "e":{"social_skill":1,"reputation":1,"stress":2}},
 	{"t":"단톡방에 글을 올렸다. 답이 두 개 달렸다. 그 중 한 명이 실제로 도움이 됐다.", "e":{"social_skill":1,"reputation":1,"intelligence":1,"stress":1}},
@@ -3515,32 +3502,6 @@ const NETWORK_VIGNETTES := [
 	{"t":"네트워킹 행사. 명함 교환하다가 내 명함이 없다는 걸 알았다.", "e":{"social_skill":1,"reputation":1,"stress":4}},
 	{"t":"커피챗을 했다. 상대방이 먼저 연락하겠다고 했다. 그게 진짜인지는 모른다.", "e":{"social_skill":1,"reputation":1,"stress":2}},
 	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "e":{"social_skill":1,"stress":1}},
-]
-
-const RESUME_VIGNETTES := [
-	{"t":"지원란에 '만 33세'를 썼다. 잠깐 멈췄다. 지웠다. 다시 썼다.", "e":{"intelligence":3,"stress":4}},
-	{"t":"공백기를 어떻게 쓰냐고. 세 번째 문단을 다시 지웠다.", "e":{"intelligence":3,"stress":5}},
-	{"t":"자기소개서를 열었다. 빈 화면. 커서만 깜빡인다. 나를 소개하는 게 이렇게 어렵구나.", "e":{"intelligence":4,"stress":4}},
-	{"t":"마감 전날 밤, 폰트 크기를 조금 키웠다. 한 페이지가 겨우 됐다.", "e":{"intelligence":3,"stress":6}},
-	{"t":"장점: ___. 세 번 지웠다. 결국 '꼼꼼함'이라고 썼다.", "e":{"intelligence":3,"stress":4}},
-	{"t":"합격하면 인생이 달라질 것 같았다. 제출 버튼을 눌렀다. 심장이 뛰었다.", "e":{"intelligence":4,"stress":3,"luck":1}},
-	{"t":"누군가 내 이름을 보고 서류를 넘길 것이다. 3초 안에.", "e":{"intelligence":3,"stress":5}},
-	{"t":"성과를 숫자로 쓰라는데, 내 지난 3년은 숫자가 안 됐다.", "e":{"intelligence":3,"stress":6}},
-	{"t":"전 직장 이름을 쓰다가 손이 멈췄다. 다시 써 내려갔다.", "e":{"intelligence":4,"stress":4}},
-	{"t":"동기들 SNS에 승진 소식이 올라왔다. 자소서 창을 닫았다. 다시 열었다.", "e":{"intelligence":3,"stress":5,"mental":-2}},
-]
-
-const INTERVIEW_VIGNETTES := [
-	{"t":"거울 앞에서 '1분 자기소개'를 했다. 45초에서 막혔다.", "e":{"social_skill":2,"stress":3}},
-	{"t":"\"지원 동기가 뭐냐고요?\" 혼자 물어봤다. 대답이 나오기까지 10초가 걸렸다.", "e":{"social_skill":2,"intelligence":1,"stress":3}},
-	{"t":"모범 답안을 외웠다. 입에서 나오지 않았다. 다시 했다.", "e":{"social_skill":2,"stress":4}},
-	{"t":"정장을 꺼냈다. 2년 만이다. 어깨가 조금 달랐다.", "e":{"social_skill":2,"appearance":1,"stress":2}},
-	{"t":"면접관이 할 법한 질문 30개를 만들었다. 20개는 대답하기 싫었다.", "e":{"social_skill":2,"intelligence":1,"stress":4}},
-	{"t":"유튜브에서 면접 영상을 봤다. 저 사람은 왜 저렇게 자신 있어 보일까.", "e":{"social_skill":2,"stress":3,"mental":-1}},
-	{"t":"목소리가 너무 작다는 말을 들은 적 있다. 오늘은 크게 말했다. 어색했다.", "e":{"social_skill":3,"stress":3}},
-	{"t":"\"강점이 뭐냐고요?\" 솔직히 모르겠다. 하지만 써야 했다.", "e":{"social_skill":2,"intelligence":1,"stress":4}},
-	{"t":"세 번 연습했다. 마지막엔 조금 나아졌다. 내일 진짜가 되길.", "e":{"social_skill":2,"luck":1,"stress":2}},
-	{"t":"눈 맞춤 연습을 했다. 카메라를 보는 게 사람 눈 보는 것보다 쉬웠다.", "e":{"social_skill":2,"stress":2}},
 ]
 
 const JOB_HUNT_VIGNETTES := [
@@ -3856,7 +3817,7 @@ func _ap_startup_work():
 	var eff: Dictionary = v.get("e", {})
 	for k in eff:
 		var val: int = int(eff[k])
-		if k == "stress" or k == "reputation" or k == "mental":
+		if k == "stress" or k == "reputation":
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
@@ -3876,7 +3837,7 @@ func _ap_create_content():
 	var extra_eff: Dictionary = {}
 	for k in eff:
 		var val: int = int(eff[k])
-		if k == "stress" or k == "reputation" or k == "mental":
+		if k == "stress" or k == "reputation":
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
