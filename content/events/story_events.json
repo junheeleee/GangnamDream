@@ -8,7 +8,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -35,7 +35,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -83,7 +83,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -112,7 +112,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -151,7 +151,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -181,7 +181,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -231,7 +231,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -348,7 +348,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -400,7 +400,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -663,7 +663,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -715,7 +715,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -767,7 +767,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -808,7 +808,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -861,7 +861,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -903,7 +903,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
@@ -946,7 +946,7 @@
     "category": "story",
     "rarity": "story",
     "weight": 0,
-    "hidden": false,
+    "hidden": true,
     "conditions": {
       "min_turn": 9999
     },
