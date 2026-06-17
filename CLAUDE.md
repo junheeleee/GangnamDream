@@ -8,8 +8,8 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **데모 정비 완료 — QA 대기** |
-| **최근 완료** | **2026-06-17 후반10** — 데드코드 비네팅 배열 정리·`_ap_study`/`_ap_network` 풀 연결(40+10씬)·startup/content mental 효과 누락 버그 수정 |
+| **단계** | **데모 정비 완료 — QA 계속** |
+| **최근 완료** | **2026-06-17 후반16** — ArubaGame health_delta 미전달 버그·`_show_effects_float`/`_show_vignette` stress+mental 병합 덮어쓰기 버그(858건) 수정 |
 | **다음 작업** | **스토어 소재 제작** — 스크린샷 캡션/설명문/태그 / 또는 ScreenshotQA 런타임 실행으로 UI 실제 확인 |
 | **마지막 업데이트** | 2026-06-17 |
 
@@ -19,7 +19,19 @@
 
 ## ✅ 이번 세션 완료 목록 (2026-06-17, 컨텍스트 압축 대비)
 
-### 후반10 (최신) — 데드코드 AP 비네팅 연결 + mental 누락 버그 수정
+### 후반16 (최신) — ArubaGame/표시 버그 2종 수정
+
+#### ArubaGame health_delta 미전달 버그 (후반15)
+- `ArubaGame.closed` signal에 `health_delta: int` 파라미터 누락 → 결과 화면에 건강 변동 표시되지만 실제 GameState에 미적용
+- `signal closed(earned, stress_delta, health_delta)` 추가, `_on_aruba_closed` 수신측 업데이트
+- DELIVERY 모드 배달 건수·CARDS 모드 선택지 건강 효과 이제 실제 적용됨
+
+#### stress+mental 병합 덮어쓰기 표시 버그 (후반16)
+- `_show_effects_float`, `_show_vignette`: effects dict에서 "stress"가 "mental"보다 앞에 오면 stress→mental 변환값이 덮어씌워지던 표시 버그 (858개 이벤트 선택지 영향)
+- 두 함수 모두 "mental" 키 처리 시 누산 방식으로 변경 (GameState.apply_effects는 원래 올바름)
+- 예: `{"stress":-3,"mental":1}` → 정신 +4 표시 (기존: +1)
+
+### 후반10 (이전) — 데드코드 AP 비네팅 연결 + mental 누락 버그 수정
 
 #### AP 비네팅 배열 연결 및 정리
 - `_ap_study`: 4개 고정 씬 → STUDY_READ/EXERCISE/MEDITATE/INVEST_VIGNETTES 40개 씬 (10×4 풀)
