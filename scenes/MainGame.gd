@@ -28,6 +28,7 @@ var event_bg: TextureRect
 var _feedback_flash: ColorRect
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
+var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
 var _transient_bg_active: bool = false
 var character_portrait: TextureRect
 var _story_container: Control
@@ -1752,11 +1753,23 @@ func _show_result(result_text: String):
 	_transient_bg_active = true
 	event_title.text = "결과"
 	_pulse_node(event_title, 1.04, 0.28)
+	event_body.modulate.a = 0.0
+	var fade_tw := create_tween()
+	fade_tw.tween_property(event_body, "modulate:a", 1.0, 0.2).set_trans(Tween.TRANS_SINE)
 	_type_text(_fmt(result_text))
+	# 확인 버튼도 타이핑 완료 후 페이드인
 	var confirm_btn = _button("확인", "#1f6feb")
+	confirm_btn.modulate.a = 0.0
 	confirm_btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(confirm_btn)
-	confirm_btn.call_deferred("grab_focus")
+	if _typing_tween:
+		_typing_tween.tween_callback(func():
+			var tw := create_tween()
+			tw.tween_property(confirm_btn, "modulate:a", 1.0, 0.22)
+			confirm_btn.call_deferred("grab_focus"))
+	else:
+		confirm_btn.modulate.a = 1.0
+		confirm_btn.call_deferred("grab_focus")
 	next_button.disabled = true
 
 func _on_result_confirmed():
@@ -1789,12 +1802,15 @@ func _type_text(formatted_text: String, cps: float = 38.0) -> void:
 	_typing_tween.tween_property(event_body, "visible_ratio", 1.0, dur) \
 		.set_trans(Tween.TRANS_LINEAR)
 
-# 타이핑 중이면 즉시 완료, 이미 끝났으면 false 반환
+# 타이핑 중이면 즉시 완료 후 선택지 표시, 이미 끝났으면 false 반환
 func _finish_typing() -> bool:
 	if _typing_tween and _typing_tween.is_running():
 		_typing_tween.kill()
 		_typing_tween = null
 		event_body.visible_ratio = 1.0
+		# 선택지가 아직 안 나왔으면 즉시 표시
+		if _choice_reveal_pending:
+			_reveal_choices()
 		return true
 	return false
 
@@ -1808,12 +1824,23 @@ func _render_event():
 	_transient_bg_active = false
 	next_button.disabled = true
 	event_title.text = _fmt(current_event.get("title", "이벤트"))
-	_type_text(_fmt(current_event.get("description", "")))
-	# 이벤트에 맞는 배경 + 인물 초상화 즉시 전환
 	_update_event_bg()
 	_update_portrait()
-	var choices: Array = current_event.get("choices", [])
+	# 이벤트 패널 페이드인
+	event_body.modulate.a = 0.0
+	var fade_tw := create_tween()
+	fade_tw.tween_property(event_body, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_SINE)
+	_type_text(_fmt(current_event.get("description", "")))
+	# 타이핑 완료 후 선택지 표시 — 콜백 예약
+	_choice_reveal_pending = true
+	if _typing_tween:
+		_typing_tween.tween_callback(_reveal_choices)
 
+func _reveal_choices():
+	if not _choice_reveal_pending:
+		return
+	_choice_reveal_pending = false
+	var choices: Array = current_event.get("choices", [])
 	# ── 텍스트 / 선택지 구분선 ───────────────────────────
 	var sep_row = HBoxContainer.new()
 	sep_row.add_theme_constant_override("separation", 8)
@@ -1833,25 +1860,40 @@ func _render_event():
 	line_r.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	line_r.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	sep_row.add_child(line_r)
+	sep_row.modulate.a = 0.0
 	choice_box.add_child(sep_row)
-
 	var btn_accents = ["#3a6ea8", "#4a7a5a", "#6a4a7a"]
 	var _first_choice_btn: Button = null
+	var stagger_delay := 0.0
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
 		var acc = btn_accents[i % btn_accents.size()]
 		var button = _action_button("  %d.  %s" % [i + 1, _fmt(choice.get("text", "선택"))], acc)
 		button.custom_minimum_size = Vector2(0, 44)
-		button.pressed.connect((func(idx): if not _finish_typing(): _choose(idx)).bind(i))
+		button.modulate.a = 0.0
+		button.pressed.connect((func(idx): _choose(idx)).bind(i))
 		choice_box.add_child(button)
 		if i == 0:
 			_first_choice_btn = button
-	if _first_choice_btn:
-		_first_choice_btn.call_deferred("grab_focus")
+		# 구분선 + 버튼 순서대로 페이드인
+		if i == 0:
+			var tw0 := create_tween()
+			tw0.tween_property(sep_row, "modulate:a", 1.0, 0.18)
+		var tw := create_tween()
+		tw.tween_interval(stagger_delay)
+		tw.tween_property(button, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
+		stagger_delay += 0.10
 	if ControllerHints.is_pad_active():
 		var hint = "🎮  [%s] 선택  [%s] 메뉴  (%s)" % [
 			ControllerHints.south(), ControllerHints.start_btn(), ControllerHints.brand_name()]
-		choice_box.add_child(_label(hint, 11, "#3a4a5a"))
+		var hlbl = _label(hint, 11, "#3a4a5a")
+		hlbl.modulate.a = 0.0
+		choice_box.add_child(hlbl)
+		var twh := create_tween()
+		twh.tween_interval(stagger_delay)
+		twh.tween_property(hlbl, "modulate:a", 1.0, 0.18)
+	if _first_choice_btn:
+		_first_choice_btn.call_deferred("grab_focus")
 
 func _refresh_all():
 	if not is_inside_tree():
@@ -2447,7 +2489,8 @@ func _render_ap_actions():
 	if not has_warning:
 		lines.append("")
 		lines.append("[color=#5b9cf6]💡 이번 달 추천[/color]  %s" % _recommend_action())
-	event_body.text = "\n".join(lines)
+	# 새 주 첫 상황판은 짧게 타이핑 (60cps — 빠르게)
+	_type_text("\n".join(lines), 60.0)
 
 	var disabled = (ap <= 0)
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
