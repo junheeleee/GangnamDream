@@ -2890,9 +2890,13 @@ func _render_essential_actions(ap: int):
 		_essential_btn("💼 구직활동  —  일자리를 찾는다", "#dc6a2a", "_ap_job_hunt", disabled)
 	if GameState.flags.get("arc_invest_guidance_seen", false):
 		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
+		if GameState.investment_skill >= 50:
+			_essential_btn("🔭 시장 분석  —  무료: 다음 달 시장 방향 예측", "#1e3a5f", "_ap_market_analysis", false)
 	elif has_paycheck:
 		choice_box.add_child(_label("📈 투자 — 잠금 해제 조건 미달성 (상철과의 대화 필요)", 12, "#4a5a72"))
 	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
+	if GameState.intelligence >= 30:
+		_essential_btn("📖 심화 독서  —  지력 +8 (지력 30 해금)", "#3a4e8a", "_ap_deep_study", disabled)
 	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
 	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
 	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
@@ -3071,9 +3075,9 @@ func _open_cat_work():
 	if no_job:
 		modal_body.add_child(_wrap_label("아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.", 13, "#c8a060"))
 		_cat_modal_button("💼 구직활동  —  일자리를 찾아 지원한다", "#dc6a2a", "_ap_job_hunt")
-		_cat_modal_button("🖊 자소서 작성  —  지력 +3, 정신력 -4", "#3a6ea8", "_ap_write_resume")
+		_cat_modal_button("🖊 자소서 작성  —  지력 +1~+2, 정신력 변동", "#3a6ea8", "_ap_write_resume")
 		if GameState.social_skill >= 20:
-			_cat_modal_button("🎯 모의 면접  —  사회성 +2, 운 +1", "#3a6ea8", "_ap_interview_prep")
+			_cat_modal_button("🎯 모의 면접  —  사회성+1~+2, 운+1 (성과 따라)", "#3a6ea8", "_ap_interview_prep")
 	else:
 		var job_name = GameState.current_job.get("name", "직장인")
 		var tenure = GameState.job_tenure
@@ -3143,7 +3147,7 @@ func _open_cat_money():
 		modal_body.add_child(_wrap_label("🔒 투자는 상철과의 대화 후 가능하다.", 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label("🔒 투자는 첫 월급을 받은 뒤 가능하다.", 12, "#5a5a6a"))
-	var side_label = "💰 단기 알바  —  +40만원 (건강-5, 정신력-6)" if no_job else "🎨 부업/사이드  —  추가 수입 도전"
+	var side_label = "💰 단기 알바  —  40만원+ (건강-3, 정신력 변동)" if no_job else "🎨 부업/사이드  —  추가 수입 도전"
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
 	_cat_modal_button("💰 저축/절약  —  자금 절약, 정신력 -2", "#3a6ea8", "_ap_save_money")
 
@@ -3177,12 +3181,14 @@ func _open_cat_people():
 				verb = "📞 전화드리기"
 			elif pid == "jaehyuk":
 				verb = "🍺 만나기"
-			var lbl := "%s  ·  %s  —  호감도 %d  (정신 +5, 호감도 +4)" % [verb, pname, aff]
+			var lbl := "%s  ·  %s  —  호감도 %d  (정신 +8, 호감도 +4)" % [verb, pname, aff]
 			_cat_modal_button(lbl, accent, "_ap_contact_person", pid)
 
 	# ── 새로운 사람·휴식 ──
 	modal_body.add_child(_label("── 인맥 · 휴식 ──", 12, "#3a3a5a"))
 	_cat_modal_button("🤝 인맥 넓히기  —  사교력+, 평판+ (정신력 소모)", "#8a5a9a", "_ap_network")
+	if GameState.social_skill >= 50:
+		_cat_modal_button("👔 VIP 인맥  —  사교력+3 (사교력 50 해금)", "#5a2a7a", "_ap_vip_network")
 	_cat_modal_button("🌊 자유시간  —  한강·산책 (정신력 +10)", "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():

@@ -476,7 +476,7 @@ func apply_monthly_pressure():
 			modify_stat("mental", -1)
 			modify_stat("mental", -1)
 			if randf() < 0.25:
-				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "stress")
+				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "event")
 		"villa", "apartment":
 			modify_stat("mental", 1)  # 더 나은 주거 = 삶의 질 ↑
 
@@ -506,18 +506,18 @@ func apply_monthly_pressure():
 	# 무직이면 정신/스트레스 추가 압박
 	if monthly_income == 0:
 		modify_stat("mental", -2)
-		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "stress")
+		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "event")
 
 
 	# ── 중독 단계별 월간 압박 ────────────────────────────────────
 	if addiction_tendency >= 70:
 		modify_stat("mental", -2)
 		if randf() < 0.5:
-			add_log("🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.", "stress")
+			add_log("🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.", "event")
 	elif addiction_tendency >= 50:
 		modify_stat("mental", -1)
 		if randf() < 0.4:
-			add_log("🎰 다음 판이 자꾸 눈에 밟힌다.", "stress")
+			add_log("🎰 다음 판이 자꾸 눈에 밟힌다.", "event")
 
 	# ── 전문화 성향 월간 패시브 (3~5턴마다 소량 누적) ─────────────
 	if flags.get("spec_elite", false) and turn % 3 == 0:
