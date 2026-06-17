@@ -4859,5 +4859,197 @@
         "result_text": "아직 때가 아닌 것 같았다. 삭제했다. 지금은 다른 게 더 중요하다."
       }
     ]
+  },
+  {
+    "id": "selfdev_english_class",
+    "title": "영어 학원",
+    "description": "직장 선배가 말했다. '영어 되면 급여가 다르다.' 지금 영어로 이메일 하나 못 쓴다.\n\n근처에 영어 회화 학원이 있다. 수강료는 한 달 25만원.",
+    "category": "self_development",
+    "rarity": "common",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": [
+      "self_development",
+      "career"
+    ],
+    "cooldown": 40,
+    "choices": [
+      {
+        "text": "등록한다. 투자다.",
+        "effects": {
+          "money": -250000,
+          "intelligence": 2,
+          "reputation": 1
+        },
+        "flags": [
+          "enrolled_english"
+        ],
+        "result_text": "첫 수업에 갔다. 생각보다 수준이 천차만별이었다. 내가 제일 못한 건 아니었다. 계속 다닐 수 있을 것 같다."
+      },
+      {
+        "text": "유튜브로 무료로 배운다.",
+        "effects": {
+          "intelligence": 1,
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "유튜브 채널 하나를 찾았다. 매일 15분씩. 학원보다 느리지만, 돈이 안 든다. 지금 상황에선 이게 맞다."
+      },
+      {
+        "text": "지금 당장은 아니다. 자리 잡고 나서.",
+        "effects": {},
+        "flags": [],
+        "result_text": "나중에 하기로 했다. 언제가 '나중'인지는 모른다. 지금은 다른 게 먼저다."
+      }
+    ]
+  },
+  {
+    "id": "selfdev_coding_course",
+    "title": "코딩 강의",
+    "description": "온라인 강의 사이트에서 쿠폰이 왔다. 파이썬 입문, 원래 49,900원이 1,900원.\n\n요즘 코딩 할 줄 알면 부업 소득이 가능하다는 글을 봤다. 진짜인지 모르겠지만.",
+    "category": "self_development",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 3
+    },
+    "tags": [
+      "self_development",
+      "investment"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "결제한다. 1,900원짜리 투자.",
+        "effects": {
+          "money": -1900,
+          "intelligence": 2
+        },
+        "flags": [
+          "bought_coding_course"
+        ],
+        "result_text": "결제했다. 3강까지 들었다. 재밌다. 완강할 수 있을지는 모르겠지만 — 시작은 했다."
+      },
+      {
+        "text": "결제하고 완강 목표를 세운다.",
+        "effects": {
+          "money": -1900,
+          "intelligence": 3,
+          "mental": 1
+        },
+        "flags": [
+          "bought_coding_course",
+          "committed_to_course"
+        ],
+        "result_text": "결제하고 캘린더에 적었다. '일주일 안에 완강.' 목표가 생기면 행동이 다르다. 5강까지 들었다."
+      },
+      {
+        "text": "어차피 완강 못 할 것 같다. 안 산다.",
+        "effects": {
+          "mental": -1
+        },
+        "flags": [],
+        "result_text": "사지 않았다. 이미 완강 못 한 강의가 몇 개 있다. 그게 현실이다."
+      }
+    ]
+  },
+  {
+    "id": "selfdev_invest_seminar",
+    "title": "재테크 강의",
+    "description": "상철이 링크를 보냈다. 무료 재테크 세미나. '투자 감각 있으면 올 필요도 없지만, 한 번쯤은 들어봐.'\n\n토요일 오후 2시간. 여의도에서 한다.",
+    "category": "self_development",
+    "rarity": "common",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 12
+    },
+    "tags": [
+      "self_development",
+      "investment"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "간다. 모르는 것도 있을 수 있다.",
+        "effects": {
+          "investment_skill": 3,
+          "social_skill": 1
+        },
+        "flags": [
+          "attended_invest_seminar"
+        ],
+        "result_text": "갔다. 내용의 70%는 아는 것이었다. 나머지 30%에서 뭔가 건졌다. 강사가 말한 한 문장이 머릿속에 남았다. 그거 하나로 충분하다."
+      },
+      {
+        "text": "혼자 공부하는 게 더 효율적이다.",
+        "effects": {
+          "investment_skill": 1,
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "대신 그 시간에 책을 읽었다. 아는 것들이었다. 그래도 다시 읽으면 새로운 게 보인다."
+      },
+      {
+        "text": "상철 따라서 간다. 관계도 쌓인다.",
+        "effects": {
+          "investment_skill": 2,
+          "social_skill": 2
+        },
+        "flags": [
+          "attended_invest_seminar"
+        ],
+        "result_text": "상철이 아는 사람이 많았다. 세미나보다 세미나 후 저녁이 더 유익했다. 사람이 정보다."
+      }
+    ]
+  },
+  {
+    "id": "selfdev_language_app",
+    "title": "언어 앱 30일",
+    "description": "스마트폰에 언어 학습 앱이 있다. 한 달 전에 깔았다가 3일 하고 그만뒀다.\n\n오늘 알림이 왔다. '돌아오세요. 30일 연속 달성하면 배지를 드려요.'\n\n배지 같은 건 필요 없지만 — 30일을 한 번도 해본 적이 없다는 게 마음에 걸린다.",
+    "category": "self_development",
+    "rarity": "common",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": [
+      "self_development"
+    ],
+    "cooldown": 28,
+    "choices": [
+      {
+        "text": "30일 연속 목표를 잡는다. 작은 것부터.",
+        "effects": {
+          "intelligence": 2,
+          "mental": 3
+        },
+        "flags": [
+          "completed_30day_habit"
+        ],
+        "result_text": "30일을 했다. 언어 실력이 크게 늘진 않았다. 하지만 매일 뭔가를 한다는 감각 — 그게 달랐다. 다음 달 목표가 생겼다."
+      },
+      {
+        "text": "앱 지운다. 의미 없는 알림이다.",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "삭제했다. 배지 같은 것에 끌리는 내가 싫었다. 진짜 필요하면 다시 깔겠다."
+      },
+      {
+        "text": "그냥 오늘만 한다. 내일은 모른다.",
+        "effects": {
+          "intelligence": 1
+        },
+        "flags": [],
+        "result_text": "오늘 10분 했다. 내일은 모른다. 그것만으로도 어제보다 낫다."
+      }
+    ]
   }
 ]
