@@ -1,5 +1,39 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반19 (시네마틱 누아르 비주얼 오버홀 + ScreenshotQA 검증)
+
+### 시네마틱 누아르 팔레트 전환
+- AI 목업 느낌 원인 분석: SaaS 블루 #5b9cf6 × 26, 영문 대문자 헤더, 평면 배경, 균일한 카드 그리드
+- 해결 방향: "시네마틱 누아르" — 앤틱 골드 강조, 래디얼 그라디언트 배경, 항상 켜진 비네팅, 한국어 헤더
+
+#### MainGame.gd
+- COL_GOLD/COL_GOLD_BRIGHT/COL_GOLD_DIM/COL_INK/COL_TEXT/COL_TEXT_DIM/COL_DANGER 상수 추가
+- 배경: 평면 ColorRect → 래디얼 GradientTexture2D (#19131a→#070509)
+- 다크 오버레이: Color(0.03, 0.022, 0.04, 0.74) 따뜻한 흑갈
+- 제목 강조: "강남드림" → 골드+볼드 폰트
+- 구분선 "│" → 골드 딤 색상
+- 섹션 헤더 "PLAYER"/"LOG" → "─ 인물"/"─ 기록" 한국어+골드+볼드
+- `#5b9cf6` → `#c9a227` 전수 교체 (26건)
+
+#### StoryMode.gd / StartMenu.gd
+- `#5b9cf6` → `#c9a227` 교체 (각 1건, 3건)
+
+#### vignette.gdshader
+- 시네마틱 베이스 비네트 추가: 평상시에도 상시 점등 (따뜻한 흑갈 가장자리)
+- base_edge = smoothstep(0.42, 0.95, dist), alpha 0.5
+
+### ScreenshotQA 실행 및 검증
+- 14장 캡처 완료 (`/tmp/gangnamdream_qa/`)
+- 전체 렌더링 정상 확인 (배경 이미지·비네팅·이벤트 텍스트·모달 UI 모두 표시됨)
+- 위기 비네팅(shot 03): 의도적으로 강한 빨강+어두움 — 정상
+- 도박 씬(shot 01): 누아르 분위기 정상
+- 투자·인맥 모달(shot 02·05): 오버레이 정상
+
+### 검증
+- audit.sh ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-17 후반18 (Steam 데모 품질 벤치마크 — UI 폴리싱 11종)
 
 ### 스팀 데모 품질 분석 (Disco Elysium·Citizen Sleeper·Balatro·Hades)
