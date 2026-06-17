@@ -93,7 +93,7 @@
     "hidden": false,
     "conditions": {
       "flag": "bought_tip_sheet",
-      "min_turn": 4
+      "min_turn": 12
     },
     "tags": [
       "investment",
@@ -502,7 +502,7 @@
     "hidden": false,
     "conditions": {
       "flag": "motivated_by_neighbor",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "social",
