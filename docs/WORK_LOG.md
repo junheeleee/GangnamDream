@@ -1,5 +1,35 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반18 (Steam 데모 품질 벤치마크 — UI 폴리싱 11종)
+
+### 스팀 데모 품질 분석 (Disco Elysium·Citizen Sleeper·Balatro·Hades)
+- 핵심 패턴 정리: 선택 전 결과 힌트 / 한눈에 읽히는 바 / 배경 분위기 신호 / 체력 임박 경보
+
+### MainGame.gd 개선
+1. **선택지 효과 미리보기** (`_choice_effects_preview()`) — Disco Elysium 스타일
+   - stress→mental 병합 로직 통일 (`_show_effects_float`와 동일한 처리)
+   - 각 선택지 버튼 아래 `❤+5 🧠-3 💰+50만` 형식 표시, 스태거 페이드인
+   - 버튼+미리보기를 VBoxContainer(sep=3)로 묶어 시각적 연관 명확화
+2. **스킬 미니바** (`_set_stat_value()`) — 지력/사회성/투자감각/행운/외모/평판 5칸 바 표시
+3. **AP 보충 애니메이션** (`_animate_ap_refill()`) — Citizen Sleeper 주사위 굴림 참고
+   - 각 AP가 0.12초 간격으로 순차 점등 (⚡○○ → ⚡⚡○ → ⚡⚡⚡)
+4. **카테고리 틴트 오버레이** (`_apply_category_tint()`) — Balatro 배경 전환 참고
+   - 재앙/건강=빨강, 도박=골드, 투자=녹색, 사회=보라, 정치=파랑 반투명 오버레이
+5. **활력 임박 펄스** (`_pulse_vital_critical()` / `_pulse_vital_warning()`) — Hades 참고
+   - ≤15: 더블 플래시(0.35초), ≤30: 단일 약한 페이드
+6. **목표 바 시간 압박** (`_goal_time_lbl`) — 남은 개월 수 색상 표시 (12개월=빨강, 24개월=노랑)
+7. **BBCode 색상 효과 표시** — `_show_vignette()` 스탯 변화 초록/빨강/금색으로 구분
+8. **Space/Enter 타이핑 스킵** — `_unhandled_input()`에 `ui_accept` 핸들러 추가
+
+### StoryMode.gd 개선
+9. **선택지 효과 미리보기** (`_choice_effect_preview()`) — MainGame과 동일한 로직
+   - `_SM_STAT_EMOJI` 상수 추가, 선택지 그룹 컨테이너 구조로 변경
+
+### 검증
+- audit.sh ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-17 후반16 (자율 QA 루프 — ArubaGame/표시 버그 2종 수정)
 
 ### 후반15: ArubaGame health_delta 미전달 버그

@@ -16,6 +16,13 @@ const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
 
+const _SM_STAT_EMOJI = {
+	"health": "❤", "mental": "🧠", "money": "💰",
+	"intelligence": "📖", "social_skill": "🤝",
+	"investment_skill": "📈", "luck": "🍀",
+	"appearance": "✨", "reputation": "⭐",
+}
+
 # ── 상태 ──────────────────────────────────────────────────────
 var _queue: Array = []          # 재생할 이벤트 ID 목록
 var _current: Dictionary = {}   # 현재 이벤트
@@ -422,6 +429,37 @@ func _unhandled_input(event: InputEvent):
 		get_viewport().set_input_as_handled()
 
 # ── 선택지 ────────────────────────────────────────────────────
+func _choice_effect_preview(choice: Dictionary) -> String:
+	var eff: Dictionary = choice.get("effects", {})
+	if eff.is_empty():
+		return ""
+	var merged: Dictionary = {}
+	for k in eff:
+		if k == "stress":
+			merged["mental"] = int(merged.get("mental", 0)) - int(eff[k])
+		elif k == "mental":
+			merged["mental"] = int(merged.get("mental", 0)) + int(eff[k])
+		else:
+			merged[k] = eff[k]
+	var priority := ["money", "health", "mental", "intelligence",
+		"social_skill", "investment_skill", "reputation", "luck"]
+	var parts: Array = []
+	for key in priority:
+		if not merged.has(key):
+			continue
+		var val: int = int(merged[key])
+		if val == 0:
+			continue
+		var emoji: String = _SM_STAT_EMOJI.get(key, "")
+		var sign: String = "+" if val > 0 else ""
+		if key == "money":
+			parts.append("%s%s%s" % [emoji, sign, GameState.format_money(float(val))])
+		else:
+			parts.append("%s%s%d" % [emoji, sign, val])
+		if parts.size() >= 4:
+			break
+	return "  ".join(parts)
+
 func _show_choices():
 	var choices: Array = _current.get("choices", [])
 	if choices.is_empty():
@@ -433,11 +471,28 @@ func _show_choices():
 	_choice_box.visible = true
 	for i in range(choices.size()):
 		var ch: Dictionary = choices[i]
+		# 버튼+미리보기를 묶어 그룹 컨테이너에 넣기
+		var group := VBoxContainer.new()
+		group.add_theme_constant_override("separation", 3)
+		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_choice_box.add_child(group)
 		var btn = _make_choice_button(_fmt(str(ch.get("text", "선택"))), i)
-		_choice_box.add_child(btn)
-	# 컨트롤러: 첫 번째 선택지에 포커스 (A 버튼으로 즉시 선택 가능)
+		group.add_child(btn)
+		var preview_str := _choice_effect_preview(ch)
+		if not preview_str.is_empty():
+			var lbl := Label.new()
+			lbl.text = "  " + preview_str
+			lbl.add_theme_font_size_override("font_size", 12)
+			lbl.add_theme_color_override("font_color", Color("#5a6a80"))
+			if _font:
+				lbl.add_theme_font_override("font", _font)
+			lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			group.add_child(lbl)
+	# 컨트롤러: 첫 번째 그룹의 버튼에 포커스 (A 버튼으로 즉시 선택 가능)
 	if _choice_box.get_child_count() > 0:
-		_choice_box.get_child(0).grab_focus()
+		var first_group = _choice_box.get_child(0)
+		if first_group.get_child_count() > 0:
+			first_group.get_child(0).grab_focus()
 
 func _make_choice_button(text: String, idx: int) -> Button:
 	var btn = Button.new()

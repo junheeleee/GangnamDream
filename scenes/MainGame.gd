@@ -31,6 +31,7 @@ var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
 var _vignette_rect: ColorRect = null      # 스트레스/정신력 비네팅 레이어
 var _ambient_overlay: ColorRect = null
+var _category_tint: ColorRect = null  # 이벤트 카테고리 색 틴트
 var _transient_bg_active: bool = false
 var character_portrait: TextureRect
 var _story_container: Control
@@ -97,6 +98,7 @@ var _pending_month_summary: bool = false
 var _goal_bar: ProgressBar
 var _goal_pct_label: Label
 var _goal_money_lbl: Label
+var _goal_time_lbl: Label  # 남은 개월 표시
 
 # ── Pretendard 폰트 (한국어 가독성) ─────────────────────────────
 var _font_regular: FontFile
@@ -239,6 +241,13 @@ func _build_ui():
 	_ambient_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_ambient_overlay)
 
+	# 이벤트 카테고리 틴트 (Balatro 배경색 전환과 같은 역할 — 서브리미널 감정 신호)
+	_category_tint = ColorRect.new()
+	_category_tint.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_category_tint.color = Color(0.0, 0.0, 0.0, 0.0)
+	_category_tint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_category_tint)
+
 	# ── 4. 메인 레이아웃 ──
 	var root = VBoxContainer.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -304,6 +313,38 @@ func _update_ambient_tint():
 		3: target = Color(0.90, 0.60, 0.35, 0.08)   # 저녁 — 오렌지
 	var tw := create_tween()
 	tw.tween_property(_ambient_overlay, "color", target, 1.5).set_trans(Tween.TRANS_SINE)
+
+## 이벤트 카테고리에 따라 전체 화면에 서브리미널 색조 적용 (Balatro 배경 전환 아이디어)
+## 명시적 UI 없이 분위기로 카테고리를 전달 — alpha 매우 낮게 유지해야 함
+func _apply_category_tint(category: String) -> void:
+	if not is_instance_valid(_category_tint):
+		return
+	var target: Color
+	match category:
+		"disasters", "health":
+			target = Color(0.7, 0.05, 0.05, 0.07)   # 빨강 — 위기
+		"gambling":
+			target = Color(0.7, 0.5, 0.0, 0.06)     # 앰버 — 도박 긴장
+		"investment", "finance":
+			target = Color(0.0, 0.5, 0.3, 0.06)     # 녹색 — 투자
+		"social", "relationship", "romance":
+			target = Color(0.4, 0.1, 0.6, 0.06)     # 보라 — 관계
+		"family":
+			target = Color(0.5, 0.3, 0.1, 0.05)     # 웜 브라운 — 가족
+		"politics":
+			target = Color(0.1, 0.1, 0.5, 0.07)     # 딥 블루 — 정치
+		"comedy":
+			target = Color(0.5, 0.5, 0.0, 0.04)     # 옐로 — 코미디
+		_:
+			target = Color(0.0, 0.0, 0.0, 0.0)      # 중립
+	var tw := create_tween()
+	tw.tween_property(_category_tint, "color", target, 0.5).set_trans(Tween.TRANS_SINE)
+
+func _clear_category_tint() -> void:
+	if not is_instance_valid(_category_tint):
+		return
+	var tw := create_tween()
+	tw.tween_property(_category_tint, "color", Color(0.0, 0.0, 0.0, 0.0), 0.6).set_trans(Tween.TRANS_SINE)
 
 func _build_feedback_layer():
 	_feedback_flash = ColorRect.new()
@@ -779,6 +820,11 @@ func _build_goal_bar(parent: Control) -> void:
 	goal_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(goal_lbl)
 
+	_goal_time_lbl = _label("", 10, "#5a6a7a")
+	_goal_time_lbl.custom_minimum_size = Vector2(68, 0)
+	_goal_time_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(_goal_time_lbl)
+
 func _refresh_goal_bar() -> void:
 	if _goal_bar == null or _goal_pct_label == null:
 		return
@@ -840,6 +886,20 @@ func _refresh_goal_bar() -> void:
 		else:
 			milestone_text = "→ 30억!"
 		_goal_money_lbl.text = "💰 %s  %s" % [GameState.format_money(total), milestone_text]
+
+	# 남은 시간 레이블 (시간 압박 가시화)
+	if _goal_time_lbl:
+		var months_left: int = (38 - GameState.age) * 12 - GameState.month + 1
+		months_left = max(0, months_left)
+		var time_color: String
+		if months_left <= 12:
+			time_color = "#ff4444"
+		elif months_left <= 24:
+			time_color = "#f0b429"
+		else:
+			time_color = "#5a6a7a"
+		_goal_time_lbl.text = "⏳ %d개월" % months_left
+		_goal_time_lbl.add_theme_color_override("font_color", Color(time_color))
 
 # ══════════════════════════════════════════════════════════════
 # 튜토리얼 — 첫 런, 첫 AP 화면 진입 시 1회 표시
@@ -1004,6 +1064,7 @@ func _show_toast(message: String, color: Color = Color("#8892a4")):
 
 func _begin_month():
 	GameState.restore_ap()
+	_animate_ap_refill()
 	turn_action_log.clear()
 	prev_prices = GameState.market_prices.duplicate()
 	# ── 월초 전용: 뉴스·시장·크라이시스는 새 달 첫 주(week_of_month==1)에만 ──
@@ -1882,10 +1943,13 @@ func _render_event():
 		child.queue_free()
 	if current_event.is_empty():
 		next_button.disabled = false
+		_clear_category_tint()
 		_render_ap_actions()
 		return
 	_transient_bg_active = false
 	next_button.disabled = true
+	# 카테고리 틴트 적용 (분위기 신호 — Balatro 배경 전환 아이디어)
+	_apply_category_tint(str(current_event.get("category", "")))
 	event_title.text = _fmt(current_event.get("title", "이벤트"))
 	_update_event_bg()
 	_update_portrait()
@@ -1939,20 +2003,30 @@ func _reveal_choices():
 	for i in range(choices.size()):
 		var choice: Dictionary = choices[i]
 		var acc = btn_accents[i % btn_accents.size()]
+		# 버튼+미리보기를 한 그룹 컨테이너에 묶어 시각적 연관 명확화
+		var group := VBoxContainer.new()
+		group.add_theme_constant_override("separation", 3)
+		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		group.modulate.a = 0.0
+		choice_box.add_child(group)
 		var button = _action_button("  %d.  %s" % [i + 1, _fmt(choice.get("text", "선택"))], acc)
 		button.custom_minimum_size = Vector2(0, 44)
-		button.modulate.a = 0.0
 		button.pressed.connect((func(idx): _choose(idx)).bind(i))
-		choice_box.add_child(button)
+		group.add_child(button)
 		if i == 0:
 			_first_choice_btn = button
-		# 구분선 + 버튼 순서대로 페이드인
+		# 효과 미리보기 (Disco Elysium 스타일 — 선택 전 결과 힌트)
+		var preview_str := _choice_effects_preview(choice)
+		if not preview_str.is_empty():
+			var preview_lbl := _label("  " + preview_str, 11, "#5a6a80")
+			group.add_child(preview_lbl)
+		# 그룹 전체 페이드인 (구분선은 첫 그룹 직전)
 		if i == 0:
 			var tw0 := create_tween()
 			tw0.tween_property(sep_row, "modulate:a", 1.0, 0.18)
 		var tw := create_tween()
 		tw.tween_interval(stagger_delay)
-		tw.tween_property(button, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(group, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
 		stagger_delay += 0.10
 	if ControllerHints.is_pad_active():
 		var hint = "🎮  [%s] 선택  [%s] 메뉴  (%s)" % [
@@ -2001,12 +2075,12 @@ func _refresh_all():
 
 	# ── 탑바 바이탈 HUD 갱신 ─────────────────────────
 	_refresh_vitals()
-	stat_labels["intelligence"].text = str(GameState.intelligence)
-	stat_labels["social_skill"].text = str(GameState.social_skill)
-	stat_labels["appearance"].text = str(GameState.appearance)
-	stat_labels["investment_skill"].text = str(GameState.investment_skill)
-	stat_labels["luck"].text = str(GameState.luck)
-	stat_labels["reputation"].text = str(GameState.reputation)
+	_set_stat_value("intelligence",     GameState.intelligence,     false, 90, 100)
+	_set_stat_value("social_skill",     GameState.social_skill,     false, 90, 100)
+	_set_stat_value("appearance",       GameState.appearance,       false, 90, 100)
+	_set_stat_value("investment_skill", GameState.investment_skill, false, 90, 100)
+	_set_stat_value("luck",             GameState.luck,             false, 90, 100)
+	_set_stat_value("reputation",       GameState.reputation,       false, 90, 100)
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
 	var h = GameState.get_housing_info()
 	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), h.get("name","")]
@@ -2030,6 +2104,50 @@ const _STAT_KR = {
 	"appearance": "외모", "reputation": "평판",
 	"money": "₩", "addiction_tendency": "중독도",
 }
+
+const _STAT_EMOJI = {
+	"health": "❤", "mental": "🧠",
+	"intelligence": "📖", "social_skill": "🤝",
+	"investment_skill": "📈", "luck": "🍀",
+	"appearance": "✨", "reputation": "⭐",
+	"money": "💰",
+}
+
+## 선택지 효과 미리보기 한 줄 요약 (Disco Elysium 스타일)
+func _choice_effects_preview(choice: Dictionary) -> String:
+	var eff: Dictionary = choice.get("effects", {})
+	if eff.is_empty():
+		return ""
+	# stress → mental 병합
+	var merged: Dictionary = {}
+	for k in eff:
+		if k == "stress":
+			merged["mental"] = int(merged.get("mental", 0)) - int(eff[k])
+		elif k == "mental":
+			merged["mental"] = int(merged.get("mental", 0)) + int(eff[k])
+		else:
+			merged[k] = eff[k]
+	# 중요 스탯만 표시 (money, health, mental 우선, 나머지 최대 2개)
+	var priority = ["money", "health", "mental", "intelligence", "social_skill",
+		"investment_skill", "reputation", "luck", "appearance"]
+	var parts: Array = []
+	for key in priority:
+		if not merged.has(key):
+			continue
+		var val: int = int(merged[key])
+		if val == 0:
+			continue
+		var emoji: String = _STAT_EMOJI.get(key, "")
+		var sign: String = "+" if val > 0 else ""
+		if key == "money":
+			parts.append("%s%s%s" % [emoji, sign, GameState.format_money(float(val))])
+		else:
+			parts.append("%s%s%d" % [emoji, sign, val])
+		if parts.size() >= 4:
+			break
+	if parts.is_empty():
+		return ""
+	return "  ".join(parts)
 
 func _show_effects_float(effects: Dictionary):
 	# merge "stress" into "mental" for display (stress removed as user-visible stat)
@@ -2242,6 +2360,30 @@ func _make_progress_row(title: String, ratio: float, fill_color: String, value_t
 	fill_holder.add_child(fill)
 	return box
 
+## AP 충전 애니메이션 — Citizen Sleeper의 다이스 등장과 같은 역할
+## 각 AP 핍이 순서대로 깜빡이며 나타나 "새 기회 충전" 감각 전달
+func _animate_ap_refill() -> void:
+	if not top_labels.has("ap"):
+		return
+	var ap_lbl: Label = top_labels["ap"]
+	var max_ap: int = GameState.max_action_points
+	for pip_i in range(max_ap):
+		var tw := create_tween()
+		tw.tween_interval(pip_i * 0.12)
+		tw.tween_callback(func():
+			var filled: int = pip_i + 1
+			ap_lbl.text = "⚡".repeat(filled) + "○".repeat(max(0, max_ap - filled))
+			ap_lbl.modulate = Color("#ffe566")
+		)
+		tw.tween_property(ap_lbl, "modulate", Color.WHITE, 0.15)
+	# 최종 상태 보정
+	var end_tw := create_tween()
+	end_tw.tween_interval(max_ap * 0.12 + 0.2)
+	end_tw.tween_callback(func():
+		ap_lbl.text = "⚡".repeat(max_ap)
+		ap_lbl.modulate = Color.WHITE
+	)
+
 func _refresh_vitals():
 	if not top_labels.has("vital_health"):
 		return
@@ -2258,7 +2400,9 @@ func _refresh_vitals():
 	var hp_lbl = top_labels["vital_health"]
 	hp_lbl.text = "❤ %d %s" % [hp, hp_bar]
 	hp_lbl.add_theme_color_override("font_color", hp_color)
-	if hp <= 30:
+	if hp <= 15:
+		_pulse_vital_critical(hp_lbl)
+	elif hp <= 30:
 		_pulse_vital_warning(hp_lbl)
 	# 정신
 	var mp = GameState.mental
@@ -2273,7 +2417,9 @@ func _refresh_vitals():
 	var mp_lbl = top_labels["vital_mental"]
 	mp_lbl.text = "🧠 %d %s" % [mp, mp_bar]
 	mp_lbl.add_theme_color_override("font_color", mp_color)
-	if mp <= 30:
+	if mp <= 15:
+		_pulse_vital_critical(mp_lbl)
+	elif mp <= 30:
 		_pulse_vital_warning(mp_lbl)
 
 func _pulse_vital_warning(lbl: Label) -> void:
@@ -2283,11 +2429,25 @@ func _pulse_vital_warning(lbl: Label) -> void:
 	tw.tween_property(lbl, "modulate:a", 0.35, 0.4)
 	tw.tween_property(lbl, "modulate:a", 1.0,  0.3)
 
+## 위기 수준 펄스 — alpha + scale 동시 흔들림 (Hades 체력바 임박 플래시 참고)
+func _pulse_vital_critical(lbl: Label) -> void:
+	if not is_instance_valid(lbl):
+		return
+	var tw := create_tween()
+	tw.set_loops(2)
+	tw.tween_property(lbl, "modulate:a", 0.1, 0.2)
+	tw.tween_property(lbl, "modulate:a", 1.0, 0.15)
+
 func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int, danger_thresh: int):
 	var label = stat_labels[key]
-	var show_bar = key in ["health", "mental"]
-	if show_bar:
+	# 건강·정신 = 긴 바(10칸), 스킬류 = 짧은 바(5칸)으로 시각화
+	var skill_stats := ["intelligence", "social_skill", "investment_skill", "luck", "appearance", "reputation"]
+	if key in ["health", "mental"]:
 		label.text = "%d  %s" % [value, _bar_str(value, 100, 10)]
+	elif key in skill_stats:
+		# 스킬 최대값 기준 80 (100 초과 가능하나 바는 80 기준)
+		var bar_max := 80
+		label.text = "%d  %s" % [value, _bar_str(clampi(value, 0, bar_max), bar_max, 5)]
 	else:
 		label.text = str(value)
 	var is_danger: bool
@@ -3791,11 +3951,15 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 		if val == 0:
 			continue
 		var sym: String = str(names.get(k, k))
+		var sign: String = "+" if val > 0 else ""
+		var col: String = "#34d399" if val > 0 else "#ff6b6b"
 		if k == "money":
-			parts.append("%s %s%s" % [sym, ("+" if val > 0 else ""), GameState.format_money(float(val))])
+			col = "#f0b429" if val > 0 else "#ff6b6b"
+			parts.append("[color=%s]%s %s%s[/color]" % [col, sym, sign, GameState.format_money(float(val))])
 		else:
-			parts.append("%s %s%d" % [sym, ("+" if val > 0 else ""), val])
-	_type_text(_fmt(body) + "\n\n" + "    ".join(parts), 50.0)
+			parts.append("[color=%s]%s %s%d[/color]" % [col, sym, sign, val])
+	var parts_line := "    ".join(parts)
+	_type_text(_fmt(body) + "\n\n" + parts_line, 50.0)
 	var btn: Button = _button("확인", color)
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(btn)
@@ -4577,6 +4741,12 @@ func _load_from_slot(slot: int):
 func _unhandled_input(event):
 	if GameState.is_game_over:
 		return
+	# Space/Enter: 타이핑 스킵 (비주얼노벨 표준 — 모달 닫힌 상태에서만)
+	if event.is_action_pressed("ui_accept") and not modal_layer.visible:
+		if _typing_tween and _typing_tween.is_running():
+			_finish_typing()
+			get_viewport().set_input_as_handled()
+			return
 	# R1/RB/R: AP 소진 후 다음 달로 (패드 전용 빠른 진행)
 	if event.is_action_pressed("gd_next_month"):
 		if not modal_layer.visible and GameState.action_points <= 0:

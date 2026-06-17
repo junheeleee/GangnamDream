@@ -9,7 +9,7 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **데모 정비 완료 — QA 계속** |
-| **최근 완료** | **2026-06-17 후반16** — ArubaGame health_delta 미전달 버그·`_show_effects_float`/`_show_vignette` stress+mental 병합 덮어쓰기 버그(858건) 수정 |
+| **최근 완료** | **2026-06-17 후반18** — Steam 데모 품질 벤치마크 (Disco Elysium·Citizen Sleeper·Balatro·Hades) 기반 UI 폴리싱 11종: 선택지 효과 미리보기·스킬 미니바·AP 보충 애니·카테고리 틴트·활력 임박 펄스·타이핑 스킵 등 |
 | **다음 작업** | **스토어 소재 제작** — 스크린샷 캡션/설명문/태그 / 또는 ScreenshotQA 런타임 실행으로 UI 실제 확인 |
 | **마지막 업데이트** | 2026-06-17 |
 
@@ -19,7 +19,32 @@
 
 ## ✅ 이번 세션 완료 목록 (2026-06-17, 컨텍스트 압축 대비)
 
-### 후반16 (최신) — ArubaGame/표시 버그 2종 수정
+### 후반18 (최신) — Steam 데모 품질 벤치마크 UI 폴리싱 11종
+
+#### Disco Elysium 벤치마크 — 선택지 효과 미리보기
+- `_choice_effects_preview()` 신규 함수: effects dict를 stress→mental 변환 후 이모지+부호 형식으로 압축
+- `_reveal_choices()`: 버튼+미리보기 레이블을 VBoxContainer(sep=3)로 묶어 시각적 연관 명확화
+- StoryMode에도 동일 패턴 추가 (`_choice_effect_preview()` + `_SM_STAT_EMOJI` 상수)
+
+#### Citizen Sleeper 벤치마크 — 한눈에 읽히는 스탯
+- `_set_stat_value()` 확장: 스킬류(지력/사회성 등) 5칸 미니바 표시 (max=80 기준)
+- `_animate_ap_refill()`: AP 보충 시 0.12초 간격 순차 점등 (주사위 굴림 연상)
+
+#### Balatro 벤치마크 — 배경 분위기 신호
+- `_category_tint: ColorRect` 오버레이 추가 (MOUSE_FILTER_IGNORE)
+- `_apply_category_tint()`: 이벤트 카테고리별 반투명 컬러 (재앙=빨강, 도박=골드, 투자=녹색 등)
+- `_render_event()` 진입·복귀 시 틴트 적용/해제
+
+#### Hades 벤치마크 — 활력 임박 경보
+- `_pulse_vital_critical()`: ≤15 더블 플래시 (Hades 체력바 임박 플래시 참고)
+- `_pulse_vital_warning()`: ≤30 단일 약한 페이드
+- `_goal_time_lbl`: 남은 개월 ≤12=빨강·≤24=노랑·그외=회색
+
+#### 기타 폴리싱
+- `_show_vignette()` 스탯 효과: BBCode `[color]` 초록/빨강/금색 표시
+- `_unhandled_input()`: `ui_accept`(Space/Enter) → 타이핑 스킵 (VN 표준)
+
+### 후반16 (이전) — ArubaGame/표시 버그 2종 수정
 
 #### ArubaGame health_delta 미전달 버그 (후반15)
 - `ArubaGame.closed` signal에 `health_delta: int` 파라미터 누락 → 결과 화면에 건강 변동 표시되지만 실제 GameState에 미적용
