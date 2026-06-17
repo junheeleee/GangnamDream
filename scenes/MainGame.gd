@@ -2727,10 +2727,10 @@ func _month_narration() -> String:
 		return "통장은 마이너스. 벼랑 끝에서 하루를 버틴다."
 	if GameState.mental <= 30:
 		return "마음이 바닥에 닿았다. 아무것도 하기 싫은 날이 늘어간다."
-	if GameState.mental <= 45:
-		return "마음이 자꾸 가라앉는다. 버티는 것도 힘이 든다."
 	if GameState.mental <= 40:
 		return "몸이 신호를 보내고 있다. 이 속도로는 오래 못 간다."
+	if GameState.mental <= 45:
+		return "마음이 자꾸 가라앉는다. 버티는 것도 힘이 든다."
 	if GameState.mental <= 50:
 		return "어깨가 무겁다. 잠깐의 숨 돌릴 틈도 없다."
 	if GameState.current_job.is_empty() and me > 2:
@@ -3188,7 +3188,7 @@ func _open_cat_people():
 	modal_body.add_child(_label("── 인맥 · 휴식 ──", 12, "#3a3a5a"))
 	_cat_modal_button("🤝 인맥 넓히기  —  사교력+, 평판+ (정신력 소모)", "#8a5a9a", "_ap_network")
 	if GameState.social_skill >= 50:
-		_cat_modal_button("👔 VIP 인맥  —  사교력+3 (사교력 50 해금)", "#5a2a7a", "_ap_vip_network")
+		_cat_modal_button("👔 VIP 인맥  —  사교력+3·평판+2·관계호감+15 (사교력 50 해금)", "#5a2a7a", "_ap_vip_network")
 	_cat_modal_button("🌊 자유시간  —  한강·산책 (정신력 +10)", "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():
