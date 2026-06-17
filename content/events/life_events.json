@@ -388,7 +388,9 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": { "flag": "arc_sangchul_met_seen" },
+    "conditions": {
+      "flag": "arc_sangchul_met_seen"
+    },
     "tags": [
       "gambling",
       "class"
@@ -2898,7 +2900,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "아마 괜찮겠지. 아마도."
+        "result_text": "아마 괜찮겠지. 아마도.\n나중에 후회하게 된다면 — 그것도 하나의 수업이다."
       }
     ]
   },

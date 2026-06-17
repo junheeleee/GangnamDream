@@ -8,15 +8,22 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "chapter_card"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
     "cooldown": 9999,
-    "description": "시작\n\n33세. 2026년.\n\n통장에 50만원이 있다.",
+    "description": "시작\n\n33세. 2026년.\n\n통장에 50만원이 있다.\n아버지의 빚은 다 갚았다. 남은 건 — 이 방과, 이 숫자뿐.\n\n모두가 말했다. 너무 늦었다고.\n그래도 시작한다.",
     "choices": [
       {
         "text": "시작",
         "effects": {},
-        "flags": ["chapter_33_seen"],
+        "flags": [
+          "chapter_33_seen"
+        ],
         "result_text": "2026년이 시작됐다."
       }
     ]
@@ -30,15 +37,22 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "chapter_card"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
     "cooldown": 9999,
-    "description": "확장\n\n34세. 2027년.\n\n내가 모르던 세계의 문이 열린다.",
+    "description": "확장\n\n34세. 2027년.\n\n내가 모르던 세계의 문이 열린다.\n돈이 돈을 부른다는 것, 사람이 기회를 만든다는 것.\n1년 전에는 몰랐다.\n\n이제 안다.",
     "choices": [
       {
         "text": "계속",
         "effects": {},
-        "flags": ["chapter_34_seen"],
+        "flags": [
+          "chapter_34_seen"
+        ],
         "result_text": "2027년이 시작됐다."
       }
     ]
@@ -52,15 +66,22 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "chapter_card"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
     "cooldown": 9999,
-    "description": "무게\n\n35세. 2028년.\n\n선택한 방향의 대가가 청구된다.",
+    "description": "무게\n\n35세. 2028년.\n\n선택한 방향의 대가가 청구된다.\n정석을 택했다면 — 지루함의 무게.\n비정석을 택했다면 — 위험의 무게.\n\n어느 쪽도 가볍지 않다.",
     "choices": [
       {
         "text": "계속",
         "effects": {},
-        "flags": ["chapter_35_seen"],
+        "flags": [
+          "chapter_35_seen"
+        ],
         "result_text": "2028년이 시작됐다."
       }
     ]
@@ -74,15 +95,22 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "chapter_card"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
     "cooldown": 9999,
-    "description": "균열\n\n36세. 2029년.\n\n사람이 가장 큰 변수다.",
+    "description": "균열\n\n36세. 2029년.\n\n사람이 가장 큰 변수다.\n믿었던 사람이 흔든다.\n예상치 못한 사람이 잡는다.\n\n숫자는 예측할 수 있다. 사람은 그렇지 않다.",
     "choices": [
       {
         "text": "계속",
         "effects": {},
-        "flags": ["chapter_36_seen"],
+        "flags": [
+          "chapter_36_seen"
+        ],
         "result_text": "2029년이 시작됐다."
       }
     ]
@@ -96,15 +124,22 @@
     "rarity": "story",
     "weight": 0,
     "hidden": false,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "chapter_card"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
     "cooldown": 9999,
-    "description": "강남\n\n37세. 2030년.\n\n마지막 해다.",
+    "description": "강남\n\n37세. 2030년.\n\n마지막 해다.\n지금 가진 패로, 이제 승부를 건다.\n\n5년 중 마지막 1년.",
     "choices": [
       {
         "text": "계속",
         "effects": {},
-        "flags": ["chapter_37_seen"],
+        "flags": [
+          "chapter_37_seen"
+        ],
         "result_text": "2030년이 시작됐다."
       }
     ]

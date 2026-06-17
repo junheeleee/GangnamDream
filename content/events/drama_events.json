@@ -21,7 +21,7 @@
       {
         "text": "전재산을 넣는다 (최대 500만원)",
         "effects": {},
-        "result_text": "손이 떨렸다. 확인 버튼을 눌렀다.",
+        "result_text": "손이 떨렸다. 확인 버튼을 눌렀다.\n이제 결과가 나올 때까지 아무것도 할 수 없다. 기다리는 것만 남았다.",
         "follow_up_event": "drama_crypto_result_big",
         "flags": [
           "did_crypto_allin"
@@ -30,7 +30,7 @@
       {
         "text": "여윳돈 50만원만 써본다",
         "effects": {},
-        "result_text": "조금만 써보기로 했다.",
+        "result_text": "조금만 써보기로 했다.\n50만원. 잃어도 되는 금액. 이게 어떻게 작동하는지 — 직접 겪어봐야 안다.",
         "follow_up_event": "drama_crypto_result_small",
         "flags": [
           "did_crypto_allin"
