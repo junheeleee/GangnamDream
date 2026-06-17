@@ -3229,7 +3229,7 @@ func _ap_study():
 	if not GameState.spend_ap():
 		return
 	var study_type: int = randi() % 4
-	var tag: String = ["📖 독서", "🏃 운동", "🧘 명상", "📈 투자공부"][study_type]
+	var tag: String = ["📖 독서", "🏃 운동", "🧘 명상", "📊 투자공부"][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {})
@@ -5602,7 +5602,7 @@ func _get_ap_pattern_comment(actions: Array) -> String:
 		var e: String = str(entry)
 		if "🎰" in e or "🏇" in e or "🃏" in e:
 			gambling += 1
-		elif "📚" in e or "📖" in e or "🏃" in e or "🎯" in e or "🖊" in e or "🌊" in e:
+		elif "📚" in e or "📖" in e or "🏃" in e or "🧘" in e or "📊" in e or "🎯" in e or "🖊" in e or "🌊" in e:
 			selfdev += 1
 		elif "🤝" in e:
 			social += 1
