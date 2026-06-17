@@ -124,14 +124,14 @@ func _process(delta: float) -> void:
 	var step: Dictionary = _deal_seq[_deal_idx]
 	if step["side"] == "player":
 		_deal_p_visible.append(step["card"])
-		_show_table_banner("PLAYER CARD", Color("#5b9cf6"), 0.28)
+		_show_table_banner("PLAYER CARD", Color("#d4a020"), 0.28)
 	else:
 		_deal_b_visible.append(step["card"])
 		_show_table_banner("BANKER CARD", Color("#e85d5d"), 0.28)
 	_deal_idx += 1
 	AudioManager.play("casino_card")
 	_render()
-	_screen_flash(Color("#5b9cf6") if step["side"] == "player" else Color("#e85d5d"), 0.06, 0.14)
+	_screen_flash(Color("#d4a020") if step["side"] == "player" else Color("#e85d5d"), 0.06, 0.14)
 
 # ── 베팅 배치 ──────────────────────────────────────────────────
 func _add_bet(type: String) -> void:
@@ -166,7 +166,7 @@ func _deal() -> void:
 	# 슈 리셔플 체크
 	if BAC.shoe_remaining_ratio(_shoe) < SHOE_CUT:
 		_shoe = BAC.new_shoe(_rng)
-		_flash("🔀 슈 리셔플", "#5b9cf6")
+		_flash("🔀 슈 리셔플", "#d4a020")
 
 	GameState.add_money(-float(_total_bet()))
 	_result = BAC.play(_shoe)
@@ -285,7 +285,7 @@ func _finish_result() -> void:
 	GameState.stats_changed.emit()
 	_render()
 	var res_ko := {"player": "PLAYER WINS", "banker": "BANKER WINS", "tie": "TIE"}
-	var res_col := {"player": Color("#5b9cf6"), "banker": Color("#e85d5d"), "tie": Color("#f0b429")}
+	var res_col := {"player": Color("#d4a020"), "banker": Color("#e85d5d"), "tie": Color("#f0b429")}
 	var banner_text: String = str(res_ko.get(res, res))
 	if net_round > 0.0:
 		banner_text += "  +%s" % GameState.format_money(net_round)
@@ -426,7 +426,7 @@ func _render_result_screen() -> void:
 	# 결과 타이틀
 	var res := str(_result.get("result", ""))
 	var res_ko := {"player": "플레이어 승", "banker": "뱅커 승", "tie": "타이!"}
-	var res_col := {"player": "#5b9cf6", "banker": "#e85d5d", "tie": "#f0b429"}
+	var res_col := {"player": "#d4a020", "banker": "#e85d5d", "tie": "#f0b429"}
 	var nat_str := ""
 	if res == "player" and bool(_result.get("player_natural", false)): nat_str = "  [Natural!]"
 	elif res == "banker" and bool(_result.get("banker_natural", false)): nat_str = "  [Natural!]"
@@ -479,7 +479,7 @@ func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
 	var p_lbl := Label.new()
 	p_lbl.text = "플레이어"
 	p_lbl.add_theme_font_size_override("font_size", 13)
-	p_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+	p_lbl.add_theme_color_override("font_color", Color("#d4a020"))
 	p_lbl.custom_minimum_size = Vector2(80, 0)
 	_f(p_lbl, true); p_row.add_child(p_lbl)
 	var p_cards: Array = (_deal_p_visible if partial else _result.get("player", []))
@@ -491,7 +491,7 @@ func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
 		var pv_lbl := Label.new()
 		pv_lbl.text = str(int(_result.get("player_val", 0)))
 		pv_lbl.add_theme_font_size_override("font_size", 22)
-		pv_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+		pv_lbl.add_theme_color_override("font_color", Color("#d4a020"))
 		_f(pv_lbl, true); p_row.add_child(pv_lbl)
 
 	# 뱅커 카드 행
@@ -647,7 +647,7 @@ func _get_bet_for_type(type: String) -> int:
 
 func _bet_status_text() -> String:
 	var parts: Array = []
-	if _bet_p  > 0: parts.append("[color=#5b9cf6]플 %s[/color]" % GameState.format_money(float(_bet_p)))
+	if _bet_p  > 0: parts.append("[color=#d4a020]플 %s[/color]" % GameState.format_money(float(_bet_p)))
 	if _bet_b  > 0: parts.append("[color=#e85d5d]뱅 %s[/color]" % GameState.format_money(float(_bet_b)))
 	if _bet_t  > 0: parts.append("[color=#f0b429]타이 %s[/color]" % GameState.format_money(float(_bet_t)))
 	if _bet_pp > 0: parts.append("[color=#d4a0ff]PP %s[/color]" % GameState.format_money(float(_bet_pp)))

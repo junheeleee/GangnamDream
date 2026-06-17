@@ -200,9 +200,9 @@ func _start_hand() -> void:
 	_phase = Phase.PREFLOP
 	_action_idx = 0  # 플레이어 먼저 (SB acts first preflop in simplified version)
 	_render_table()
-	_show_table_banner("NEW HAND", Color("#5b9cf6"), 0.65)
+	_show_table_banner("NEW HAND", Color("#c9a227"), 0.65)
 	_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.47), 6)
-	_screen_flash(Color("#5b9cf6"), 0.10, 0.22)
+	_screen_flash(Color("#c9a227"), 0.10, 0.22)
 	# 홀 카드 딜 애니메이션 — 카드 2장 순서대로 scale 팝
 	if is_instance_valid(_hole_row):
 		var delay := 0.0
@@ -374,7 +374,7 @@ func _render_table() -> void:
 		var hint := Label.new()
 		hint.text = "현재: %s" % TH.rank_name(hand[0])
 		hint.add_theme_font_size_override("font_size", 11)
-		hint.add_theme_color_override("font_color", Color("#5b9cf6"))
+		hint.add_theme_color_override("font_color", Color("#c9a227"))
 		_f(hint)
 		root.add_child(hint)
 
@@ -642,8 +642,8 @@ func _advance_phase() -> void:
 	var new_cards := 1 if banner in ["TURN", "RIVER"] else 3
 	_render_table()
 	AudioManager.play("tab_open", -4.0)
-	_show_table_banner(banner, Color("#5b9cf6"), 0.62)
-	_screen_flash(Color("#5b9cf6"), 0.09, 0.20)
+	_show_table_banner(banner, Color("#c9a227"), 0.62)
+	_screen_flash(Color("#c9a227"), 0.09, 0.20)
 	# 새로 공개된 카드들 scale 0→1 순차 팝인
 	if is_instance_valid(_community_row):
 		var total: int = _community_row.get_child_count()

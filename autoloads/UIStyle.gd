@@ -22,15 +22,15 @@ const C_TEXT_SECONDARY := "#a0aec0"
 const C_TEXT_MUTED     := "#5a6075"
 const C_TEXT_DISABLED  := "#3a3a50"
 
-const C_ACCENT_BLUE    := "#5b9cf6"
+const C_ACCENT_BLUE    := "#c9a227"   # 앤틱 골드 (포커스/하이라이트)
 const C_ACCENT_GREEN   := "#00c896"
 const C_ACCENT_GOLD    := "#f0b429"
 const C_ACCENT_PURPLE  := "#a78bfa"
 const C_ACCENT_RED     := "#ff4444"
 const C_ACCENT_ORANGE  := "#f97316"
 
-const C_BTN_PRIMARY    := "#1f4f8a"   # 다음 달
-const C_BTN_ACTION     := "#5b9cf6"   # 선택지
+const C_BTN_PRIMARY    := "#2a1e05"   # 다음 달 (어두운 골드)
+const C_BTN_ACTION     := "#3a2c0a"   # 선택지 (골드 다크)
 const C_BTN_DANGER     := "#dc2626"   # 위험
 const C_BTN_DISABLED   := "#1a1a28"
 

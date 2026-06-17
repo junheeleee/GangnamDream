@@ -64,7 +64,7 @@ const PLAYER_HOLLOW = "res://assets/characters/main_character_50s.png"
 
 # ── 인물 표시 정보 (플레이스홀더용 — 이름 + 테마색) ──────────────
 const PERSON_INFO = {
-	"player":   {"name": "{name}",       "color": "#5b9cf6"},
+	"player":   {"name": "{name}",       "color": "#c9a227"},
 	"jiyeon":   {"name": "한지연",        "color": "#e8a0c0"},
 	"daeun":    {"name": "김다은",        "color": "#7ec8a0"},
 	"jaehyuk":  {"name": "최재혁",        "color": "#d08a4a"},

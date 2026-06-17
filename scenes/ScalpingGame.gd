@@ -91,8 +91,8 @@ func _start_game() -> void:
 	set_process(true)
 	_rebuild()
 	AudioManager.play("event_new")
-	_show_trade_banner("MARKET OPEN", Color("#5b9cf6"), 0.60)
-	_screen_flash(Color("#5b9cf6"), 0.10, 0.24)
+	_show_trade_banner("MARKET OPEN", Color("#c9a227"), 0.60)
+	_screen_flash(Color("#c9a227"), 0.10, 0.24)
 
 func _end_game() -> void:
 	set_process(false)
@@ -169,7 +169,7 @@ func _build_ui() -> void:
 	hdr_row.add_child(title)
 	_timer_lbl = Label.new()
 	_timer_lbl.add_theme_font_size_override("font_size", 16)
-	_timer_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+	_timer_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	_f(_timer_lbl, true)
 	hdr_row.add_child(_timer_lbl)
 	var help_btn := _btn("❓", func(): TutorialOverlay.force_show("scalping", self), "#0a0a1a")
@@ -379,7 +379,7 @@ func _refresh_ui() -> void:
 		elif _timer <= 20.0:
 			_timer_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 		else:
-			_timer_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+			_timer_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	if is_instance_valid(_price_lbl):
 		_price_lbl.text = "가격  %.2f" % _price
 	var total_pnl: float = _realized

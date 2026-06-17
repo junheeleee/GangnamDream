@@ -86,7 +86,7 @@ func _deal() -> void:
 		_flash("현금 부족", "#e85d5d"); return
 	if BJ.shoe_remaining_ratio(_shoe) < SHOE_CUT:
 		_shoe = BJ.new_shoe(_rng)
-		_flash("🔀 슈 리셔플", "#5b9cf6")
+		_flash("🔀 슈 리셔플", "#c9a227")
 
 	GameState.add_money(-float(_stake))
 	_dealer = [_shoe.pop_front(), _shoe.pop_front()]
@@ -105,20 +105,20 @@ func _deal() -> void:
 
 	AudioManager.play("casino_card")
 	_render()
-	_show_table_banner("DEAL", Color("#5b9cf6"), 0.48)
+	_show_table_banner("DEAL", Color("#c9a227"), 0.48)
 	if is_instance_valid(_content_root):
 		_content_root.scale = Vector2(0.94, 0.94)
 		var tw := create_tween()
 		tw.tween_property(_content_root, "scale", Vector2(1.0, 1.0), 0.22).set_trans(Tween.TRANS_BACK)
-	_screen_flash(Color("#5b9cf6"), 0.10, 0.22)
+	_screen_flash(Color("#c9a227"), 0.10, 0.22)
 
 # ── 플레이어 액션 ──────────────────────────────────────────────
 func _hit() -> void:
 	var hand := _split_hand()
 	hand.append(_shoe.pop_front())
 	AudioManager.play("casino_card")
-	_show_table_banner("HIT", Color("#5b9cf6"), 0.38)
-	_screen_flash(Color("#5b9cf6"), 0.08, 0.16)
+	_show_table_banner("HIT", Color("#c9a227"), 0.38)
+	_screen_flash(Color("#c9a227"), 0.08, 0.16)
 	if BJ.hand_value(hand) >= 21:
 		_next_or_dealer()
 	else:
@@ -532,7 +532,7 @@ func _render_result() -> void:
 		var pv := BJ.hand_value(hand)
 		p_lbl.text = ("나  %d" if _split.is_empty() else ("핸드%d  %d" % [hi+1, pv])) % pv if _split.is_empty() else ("핸드%d  %d" % [hi+1, pv])
 		p_lbl.add_theme_font_size_override("font_size", 14)
-		p_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+		p_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 		_f(p_lbl, true); p_row.add_child(p_lbl)
 		for c in hand:
 			p_row.add_child(_card_widget(c))

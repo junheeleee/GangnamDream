@@ -313,7 +313,7 @@ func _build_base_ui() -> void:
 	_header_lbl = Label.new()
 	_header_lbl.text = "📋 취업 준비"
 	_header_lbl.add_theme_font_size_override("font_size", 17)
-	_header_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+	_header_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	_header_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hdr.add_child(_header_lbl)
 	_progress_lbl = Label.new()
@@ -504,7 +504,7 @@ func _show_result() -> void:
 	var title_lbl := Label.new()
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_size_override("font_size", 15)
-	title_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+	title_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	title_lbl.text = "자기소개서 완성" if _mode == Mode.RESUME else "모의 면접 종료"
 	_content_vb.add_child(title_lbl)
 

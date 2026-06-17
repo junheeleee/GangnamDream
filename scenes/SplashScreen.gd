@@ -96,7 +96,7 @@ func _build_ui():
 	_sub_lbl = Label.new()
 	_sub_lbl.text = "GANGNAM DREAM"
 	_sub_lbl.add_theme_font_size_override("font_size", 16)
-	_sub_lbl.add_theme_color_override("font_color", Color("#5b9cf6"))
+	_sub_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	_sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_sub_lbl.modulate = Color(1, 1, 1, 0.0)
 	_apply_font(_sub_lbl)
