@@ -2037,6 +2037,8 @@ func _show_effects_float(effects: Dictionary):
 	for k in effects:
 		if k == "stress":
 			merged["mental"] = int(merged.get("mental", 0)) - int(effects[k])
+		elif k == "mental":
+			merged["mental"] = int(merged.get("mental", 0)) + int(effects[k])
 		else:
 			merged[k] = effects[k]
 	var idx = 0
@@ -3780,6 +3782,8 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	for k in eff:
 		if k == "stress":
 			disp["mental"] = int(disp.get("mental", 0)) - int(eff[k])
+		elif k == "mental":
+			disp["mental"] = int(disp.get("mental", 0)) + int(eff[k])
 		else:
 			disp[k] = eff[k]
 	for k in disp:
