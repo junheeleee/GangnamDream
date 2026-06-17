@@ -747,6 +747,51 @@
     ]
   },
   {
+    "id": "late_taxi_driver_00",
+    "title": "기사 아저씨",
+    "background": "gangnam_night",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 4,
+      "max_turn": 60
+    },
+    "tags": [
+      "social",
+      "daily",
+      "wisdom"
+    ],
+    "cooldown": 999,
+    "description": "밤늦게 택시를 탔다.\n기사 아저씨가 룸미러로 한번 보더니 말을 걸었다.\n\"젊네요. 어떤 일 해요?\"\n\n잠시 대화가 이어졌다.\n\"나도 젊었을 때 강남 한번 가보겠다고 했는데.\"\n아저씨는 더 말하지 않았다.\n창밖이 지나갔다.",
+    "choices": [
+      {
+        "text": "\"지금도 늦지 않으셨을 것 같은데요\"  (위로 / 공감)",
+        "result_text": "아저씨가 웃었다. \"그 말 오래만이에요.\"\n{name}은 내리면서 생각했다. 저 말이 나한테도 해당되는지.",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [
+          "heard_driver_story"
+        ]
+      },
+      {
+        "text": "조용히 창밖을 본다.  (침묵 / 성찰)",
+        "result_text": "{name}은 아무 말도 못 했다.\n목적지에 내리면서 그 말이 계속 귓가에 맴돌았다.\n\"강남 한번 가보겠다고 했는데.\"",
+        "effects": {
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": [
+          "heard_driver_story"
+        ]
+      }
+    ]
+  },
+  {
     "id": "letter_to_self_00",
     "title": "과거의 나",
     "background": "goshiwon",

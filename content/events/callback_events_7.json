@@ -137,7 +137,7 @@
     "hidden": false,
     "conditions": {
       "flag": "took_jiyeon_deal",
-      "min_turn": 8
+      "min_turn": 12
     },
     "tags": [
       "jiyeon",

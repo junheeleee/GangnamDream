@@ -297,7 +297,7 @@
     "hidden": false,
     "conditions": {
       "flag": "quit_for_better_job",
-      "min_turn": 6
+      "min_turn": 12
     },
     "tags": [
       "jobs",

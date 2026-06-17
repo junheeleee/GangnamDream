@@ -194,7 +194,9 @@
     "rarity": "common",
     "weight": 0,
     "background": "racetrack_track",
-    "conditions": {},
+    "conditions": {
+      "flag": "racetrack_visited"
+    },
     "tags": [
       "gambling",
       "race"
@@ -220,7 +222,8 @@
         "result_text": "만원치고 괜찮은 구경이었다.\n경주마가 달리는 건 생각보다 웅장했다.\n{name}은 거기서 멈추기로 했다. 오늘은.",
         "follow_up_event": ""
       }
-    ]
+    ],
+    "hidden": true
   },
   {
     "id": "race_big_win",

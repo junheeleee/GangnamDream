@@ -224,7 +224,7 @@
     "hidden": false,
     "conditions": {
       "flag": "mystery_info_reported",
-      "min_turn": 6
+      "min_turn": 12
     },
     "tags": [
       "investment",
