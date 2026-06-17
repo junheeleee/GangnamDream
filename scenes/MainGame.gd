@@ -4988,6 +4988,8 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다."
 		"late_call":
 			return "화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다"
+		"creator_success":
+			return "구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다"
 		_:
 			return "그렇게 5년이 지나갔다"
 

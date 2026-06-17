@@ -69,7 +69,7 @@ const ALL_TITLES := [
 	{"id":"ten_runs_title",     "name":"열 번의 인생",      "cat":"메타", "rare":"uncommon",
 	 "desc":"10번의 런. 이제 이 게임의 패턴이 보이기 시작한다."},
 	{"id":"gangnam_dream_title","name":"강남드림 달성자",   "cat":"메타", "rare":"legendary",
-	 "desc":"총자산 20억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까."},
+	 "desc":"총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까."},
 	{"id":"burnout_survivor",   "name":"번아웃 생존자",     "cat":"메타", "rare":"common",
 	 "desc":"번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다."},
 	{"id":"ordinary_end_title", "name":"평범한 행복",       "cat":"메타", "rare":"uncommon",

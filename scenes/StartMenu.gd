@@ -770,7 +770,7 @@ func _show_content_warning():
 	ok_btn.add_theme_font_size_override("font_size", 14)
 	ok_btn.pressed.connect(func():
 		MetaProgression.data["content_warning_seen"] = true
-		MetaProgression.save()
+		MetaProgression.save_meta()
 		overlay.queue_free()
 		_do_start_run()
 	)
