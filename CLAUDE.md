@@ -9,7 +9,7 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **데모 정비 완료 — QA 대기** |
-| **최근 완료** | **2026-06-17 후반9** — 스트레스→정신력 잔존 UI 참조 전수 수정·`has_job:false`→`no_job:true` 11건·이벤트 float 표시·critical 감지 수정 |
+| **최근 완료** | **2026-06-17 후반10** — 데드코드 비네팅 배열 정리·`_ap_study`/`_ap_network` 풀 연결(40+10씬)·startup/content mental 효과 누락 버그 수정 |
 | **다음 작업** | **스토어 소재 제작** — 스크린샷 캡션/설명문/태그 / 또는 ScreenshotQA 런타임 실행으로 UI 실제 확인 |
 | **마지막 업데이트** | 2026-06-17 |
 
@@ -19,7 +19,25 @@
 
 ## ✅ 이번 세션 완료 목록 (2026-06-17, 컨텍스트 압축 대비)
 
-### 후반9 (최신) — 스트레스 잔존 UI 전수 수정 + has_job 버그 수정
+### 후반10 (최신) — 데드코드 AP 비네팅 연결 + mental 누락 버그 수정
+
+#### AP 비네팅 배열 연결 및 정리
+- `_ap_study`: 4개 고정 씬 → STUDY_READ/EXERCISE/MEDITATE/INVEST_VIGNETTES 40개 씬 (10×4 풀)
+- `_ap_network`: 5개 단순 텍스트 씬 → NETWORK_VIGNETTES 10개 (효과 다양화)
+- SAVE_VIGNETTES / RESUME_VIGNETTES / INTERVIEW_VIGNETTES 데드 상수 삭제
+- 네트워크 버튼 레이블 "사회성 +1" → "사교력+, 평판+ (정신력 소모)"
+
+#### _ap_startup_work / _ap_create_content mental 효과 누락 버그
+- "mental"을 modify_hidden_stat으로 잘못 라우팅 → 효과 무시됨
+- STARTUP_VIGNETTES 4개 항목의 mental 효과 복원
+
+#### 전수 검증 항목
+- 26개 엔딩 ↔ finish_run 호출 100% 매핑 확인
+- 3개 deferred_follow_up 유효
+- opportunity 블록 구조 정상
+- arc_four_months_in 트리거 정상 (t>=15 + flag)
+
+### 후반9 — 스트레스 잔존 UI 전수 수정 + has_job 버그 수정
 
 #### 스트레스→정신력 UI 잔존 참조 일괄 수정
 - MetaProgression PERK_RULES "주거" 보너스: `stress/-1/-4` → `mental/+1/+4` (로그 "스트레스 -1" → "정신력 +1")

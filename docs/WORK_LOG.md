@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반10 (자율 QA 루프 — 데드코드 정리 + mental 누락 버그 + AP 비네팅 연결)
+
+### AP 비네팅 배열 데드코드 정리 및 연결
+- **`_ap_study`**: STUDY_READ/EXERCISE/MEDITATE/INVEST_VIGNETTES 4개 풀 연결 (4개 고정 씬 → 40개 다양한 씬)
+- **`_ap_network`**: NETWORK_VIGNETTES 연결 (5개 단순 텍스트 → 10개 다양한 효과 씬)
+- **SAVE_VIGNETTES / RESUME_VIGNETTES / INTERVIEW_VIGNETTES**: 완전 데드코드 — 삭제
+- 네트워크 버튼 레이블 "사회성 +1" → "사교력+, 평판+ (정신력 소모)"로 실제 효과 반영
+
+### _ap_startup_work / _ap_create_content mental 효과 누락 버그
+- `"mental" or k == "stress" or k == "reputation"` 패턴에서 mental을 modify_hidden_stat으로 잘못 라우팅
+- modify_hidden_stat은 "mental" case 없음 → 효과 무시됨
+- STARTUP_VIGNETTES 10개 항목 중 4개의 mental 효과가 조용히 무시되던 것 수정
+
+### 전수 검증
+- 26개 엔딩 ID ↔ finish_run 호출 100% 매핑 확인
+- 3개 deferred_follow_up 모두 유효한 참조
+- opportunity 블록 구조 정상 확인
+- arc_four_months_in 트리거 정상 (t>=15 + flag 조건)
+- audit.sh ERROR 0 / WARNING 0 / 밴드 통과
+
+---
+
 ## 2026-06-17 후반9 (자율 QA 루프 — 스트레스 잔존 UI 전수 수정 + 이벤트 조건 버그)
 
 ### 스트레스→정신력 UI 잔존 참조 전수 수정

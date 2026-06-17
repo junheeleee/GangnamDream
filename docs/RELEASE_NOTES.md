@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Fixed (2026-06-17) — 자율 정적 QA 4차 (후반10)
+- `_ap_startup_work` / `_ap_create_content`: "mental" 키를 modify_hidden_stat으로 잘못 라우팅 → STARTUP_VIGNETTES 4개 항목 mental 효과 무시되던 버그 수정
+- `_ap_study`: 4개 고정 씬 → 40개 다양한 씬 (STUDY_*_VIGNETTES 4풀 연결)
+- `_ap_network`: NETWORK_VIGNETTES 10개 씬 연결 (사교력·평판·정신력 비용 다양화)
+- SAVE_VIGNETTES / RESUME_VIGNETTES / INTERVIEW_VIGNETTES 데드 상수 삭제
+- 네트워크 버튼 레이블 "사회성 +1" → "사교력+, 평판+ (정신력 소모)" 실제 효과 반영
+
 ### Fixed (2026-06-17) — 자율 정적 QA 3차 (후반9)
 - 스트레스→정신력 전환 잔존 UI 참조 전수 수정: MetaProgression 주거 보너스, `_show_vignette`/`_show_effects_float` merge 처리, 버튼 라벨·로그·힌트 텍스트, ArubaGame/JobHuntMiniGame 결과 화면, StoryMode 튜토리얼
 - 이벤트 선택 시 float 표시 누락: stress 효과가 정신력 float으로 올바르게 표시되도록 merge 처리
