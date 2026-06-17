@@ -30,6 +30,7 @@ var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로�
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
 var _vignette_rect: ColorRect = null      # 스트레스/정신력 비네팅 레이어
+var _ambient_overlay: ColorRect = null
 var _transient_bg_active: bool = false
 var character_portrait: TextureRect
 var _story_container: Control
@@ -231,6 +232,13 @@ func _build_ui():
 	dark_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dark_overlay)
 
+	# 시간대 앰비언트 틴트 (event_bg와 dark_overlay 사이)
+	_ambient_overlay = ColorRect.new()
+	_ambient_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_ambient_overlay.color = Color(1.0, 1.0, 1.0, 0.0)
+	_ambient_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_ambient_overlay)
+
 	# ── 4. 메인 레이아웃 ──
 	var root = VBoxContainer.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -280,6 +288,20 @@ func _update_vignette():
 	var m_norm := clampf(float(GameState.mental) / 70.0, 0.0, 1.0)
 	mat.set_shader_parameter("stress_norm", s_norm)
 	mat.set_shader_parameter("mental_norm", m_norm)
+
+func _update_ambient_tint():
+	if not is_instance_valid(_ambient_overlay):
+		return
+	# turn%4: 0=밤, 1=아침, 2=낮, 3=저녁
+	var phase := GameState.turn % 4
+	var target: Color
+	match phase:
+		0: target = Color(0.55, 0.65, 0.90, 0.09)   # 밤 — 차가운 파랑
+		1: target = Color(1.00, 0.88, 0.70, 0.07)   # 아침 — 따뜻한 앰버
+		2: target = Color(1.00, 1.00, 1.00, 0.00)   # 낮 — 중립 (효과 없음)
+		3: target = Color(0.90, 0.60, 0.35, 0.08)   # 저녁 — 오렌지
+	var tw := create_tween()
+	tw.tween_property(_ambient_overlay, "color", target, 1.5).set_trans(Tween.TRANS_SINE)
 
 func _build_feedback_layer():
 	_feedback_flash = ColorRect.new()
@@ -761,7 +783,12 @@ func _refresh_goal_bar() -> void:
 	const GOAL: float = 3_000_000_000.0
 	var total: float = float(GameState.get_total_asset_value())
 	var pct: float = clampf(total / GOAL * 100.0, 0.0, 100.0)
-	_goal_bar.value = pct
+	if _goal_bar.value == 0.0:
+		_goal_bar.value = pct  # 게임 시작 시 즉시
+	else:
+		var _gb_tw := create_tween()
+		_gb_tw.tween_property(_goal_bar, "value", pct, 0.7) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 	# 진행률에 따라 색 변경
 	var fill_color: Color
@@ -1786,7 +1813,11 @@ func _show_result(result_text: String):
 	event_body.modulate.a = 0.0
 	var fade_tw := create_tween()
 	fade_tw.tween_property(event_body, "modulate:a", 1.0, 0.2).set_trans(Tween.TRANS_SINE)
-	_type_text(_fmt(result_text))
+	var rt_fmt := _fmt(result_text)
+	# 긴장감 있는 결과 텍스트에 wave 적용
+	if rt_fmt.count("...") > 0 and str(pending_result_text).length() < 200:
+		rt_fmt = rt_fmt.replace("...", "[wave amp=3 freq=2]...[/wave]")
+	_type_text(rt_fmt)
 	# 확인 버튼도 타이핑 완료 후 페이드인
 	var confirm_btn = _button("확인", "#1f6feb")
 	confirm_btn.modulate.a = 0.0
@@ -1860,7 +1891,15 @@ func _render_event():
 	event_body.modulate.a = 0.0
 	var fade_tw := create_tween()
 	fade_tw.tween_property(event_body, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_SINE)
-	_type_text(_fmt(current_event.get("description", "")))
+	var desc: String = _fmt(current_event.get("description", ""))
+	var ev_tags: Array = current_event.get("tags", [])
+	# 도박/스트레스/불안 이벤트: "..." → [wave] (긴장감)
+	if ev_tags.has("gambling") or ev_tags.has("stress") or ev_tags.has("anxiety"):
+		desc = desc.replace("...", "[wave amp=3.5 freq=2.5]...[/wave]")
+	# 재앙/건강 이벤트: "..." → [shake] (충격)
+	elif ev_tags.has("disaster") or ev_tags.has("health"):
+		desc = desc.replace("...", "[shake rate=5 level=2]...[/shake]")
+	_type_text(desc)
 	# 타이핑 완료 후 선택지 표시 — 콜백 예약
 	_choice_reveal_pending = true
 	if _typing_tween:
@@ -1929,6 +1968,7 @@ func _refresh_all():
 	if not is_inside_tree():
 		return
 	_update_vignette()
+	_update_ambient_tint()
 	_refresh_goal_bar()
 	top_labels["date"].text = GameState.get_date_string()
 	var total_assets = GameState.get_total_asset_value()
@@ -2039,6 +2079,7 @@ func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 		AudioManager.play("money_big")
 		_screen_flash(Color("#f0b429"), 0.20, 0.42)
 		_pulse_node(top_labels.get("money", null), 1.12, 0.34)
+		_spawn_coin_burst()
 	elif big_loss:
 		AudioManager.play("stat_down")
 		_screen_flash(Color("#d73a49"), 0.24, 0.38)
@@ -2108,6 +2149,30 @@ func _pulse_node(node: Variant, scale_to: float = 1.08, duration: float = 0.28):
 	var tw := create_tween()
 	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func _spawn_coin_burst():
+	var vp := get_viewport_rect().size
+	for i in range(8):
+		var sym := "💰" if randf() > 0.35 else "✨"
+		var col := Color("#f0b429") if sym == "💰" else Color("#ffffff")
+		var lbl := Label.new()
+		lbl.text = sym
+		lbl.add_theme_font_size_override("font_size", 22 + randi() % 10)
+		lbl.add_theme_color_override("font_color", col)
+		var bx := vp.x * randf_range(0.35, 0.75)
+		var by := vp.y * randf_range(0.35, 0.65)
+		lbl.position = Vector2(bx, by)
+		lbl.z_index = 200
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(lbl)
+		var tw := create_tween()
+		var rise := randf_range(-120.0, -60.0)
+		var drift := randf_range(-40.0, 40.0)
+		tw.tween_property(lbl, "position", Vector2(bx + drift, by + rise), 0.9) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.9) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tw.tween_callback(lbl.queue_free)
 
 func _spawn_float(text: String, color: Color, index: int):
 	var lbl = Label.new()
@@ -2537,7 +2602,12 @@ func _render_ap_actions():
 		lines.append("")
 		lines.append("[color=#5b9cf6]💡 이번 달 추천[/color]  %s" % _recommend_action())
 	# 새 주 첫 상황판은 짧게 타이핑 (60cps — 빠르게)
-	_type_text("\n".join(lines), 60.0)
+	var body_text := "\n".join(lines)
+	# 위기 상황 내레이션에 wave 적용 (첫 줄이 이탤릭 내레이션)
+	if GameState.mental <= 45 or GameState.money < 0 or GameState.stress >= 75:
+		body_text = body_text.replace("[i]", "[i][wave amp=2.5 freq=1.8]") \
+							 .replace("[/i]", "[/wave][/i]")
+	_type_text(body_text, 60.0)
 
 	var disabled = (ap <= 0)
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
