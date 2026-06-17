@@ -51,6 +51,9 @@ func _ready() -> void:
 	await _shot_minigame("jeongseon_casino", "08_jeongseon_casino")
 	await _shot_ending("gangnam_dream", "09_ending_gangnam_win")
 	await _shot_ending("bankruptcy", "10_ending_bankruptcy")
+	await _shot_ending("stable_success", "11_ending_stable_success")
+	await _shot_ending("crypto_ghost", "12_ending_crypto_ghost")
+	await _shot_ending("orthodox_pinnacle", "13_ending_orthodox_pinnacle")
 
 	print("SCREENSHOT_QA_DONE dir=%s" % OUT_DIR)
 	get_tree().quit(0)

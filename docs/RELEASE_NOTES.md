@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-06-17) — 엔딩 배경/CG 톤 점검 (스크린샷 QA 전수)
+- gangnam_dream 승리 엔딩의 잘못된 아버지 임종 CG 제거 → gangnam_apartment 배경 정상화
+- stable_success/orthodox_pinnacle: 본문이 "강남은 아니었다"인데 펜트하우스(강남 럭셔리) 배경이던 모순 제거 → 옥상/회식 식당으로 중립화
+- crypto_ghost: 코인 중독 본문에 비 오는 거리 → 트레이딩 화면으로 교체
+- `docs/ENDING_ART.md` 신설: 26개 엔딩 전수 점검 + 신규 이미지/오디오 에셋 필요 목록 표시
+
 ### Changed (2026-06-17) — 스트레스/정신력 단일 스탯 통합
 - 이중 정신 스탯을 `mental` 하나로 통합, `stress` 변수 제거 (적용 계층 리다이렉트로 JSON 미수정)
 - 조건 `max_stress`/`min_stress`는 그대로 작성 가능 — 내부에서 mental 임계값으로 자동 변환
