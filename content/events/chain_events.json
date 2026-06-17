@@ -98,7 +98,7 @@
     "conditions": {
       "flag": "chain_banchan_regular",
       "min_turn": 8,
-      "has_job": false
+      "no_job": true
     },
     "tags": [
       "job",
@@ -191,7 +191,7 @@
     "conditions": {
       "flag": "chain_exec_referral",
       "min_turn": 5,
-      "has_job": false
+      "no_job": true
     },
     "tags": [
       "job",

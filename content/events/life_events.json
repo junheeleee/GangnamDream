@@ -4487,7 +4487,7 @@
     "hidden": false,
     "conditions": {
       "max_money": 1500000,
-      "has_job": false
+      "no_job": true
     },
     "tags": [
       "survival",
@@ -4532,7 +4532,7 @@
     "hidden": false,
     "conditions": {
       "max_money": 800000,
-      "has_job": false
+      "no_job": true
     },
     "tags": [
       "survival",
@@ -4577,7 +4577,7 @@
     "weight": 1.6,
     "hidden": false,
     "conditions": {
-      "has_job": false,
+      "no_job": true,
       "max_turn": 20
     },
     "tags": [
@@ -4624,7 +4624,7 @@
     "weight": 1.2,
     "hidden": false,
     "conditions": {
-      "has_job": false,
+      "no_job": true,
       "max_turn": 18
     },
     "tags": [

@@ -226,7 +226,7 @@
     "weight": 0.9,
     "background": "goshiwon_room",
     "conditions": {
-      "has_job": false
+      "no_job": true
     },
     "tags": ["job", "stress", "risk"],
     "cooldown": 15,
