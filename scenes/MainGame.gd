@@ -1430,10 +1430,10 @@ func _next_arc_id() -> String:
 			and not f.get("arc_job_invest_clash_seen", false):
 		return "arc_job_vs_invest"
 
-	# ── 월급의 한계 — 1년 이상 재직 중반 (턴 28~38) ──
+	# ── 월급의 한계 — 반년 이상 재직 중반 (턴 28~38) ──
 	if t >= 28 and t <= 38 \
 			and not GameState.current_job.is_empty() \
-			and GameState.job_tenure >= 12 \
+			and GameState.job_tenure >= 6 \
 			and not f.get("arc_career_ceiling_seen", false):
 		return "arc_career_ceiling"
 

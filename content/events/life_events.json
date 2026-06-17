@@ -4966,7 +4966,8 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "min_turn": 12
+      "min_turn": 12,
+      "flag": "arc_sangchul_met_seen"
     },
     "tags": [
       "self_development",
