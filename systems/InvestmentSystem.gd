@@ -218,8 +218,7 @@ func _check_margin_calls():
 			GameState.flags["margin_called_happened"] = true
 			GameState.add_log("💥 마진콜! %s 강제청산 — 손실 %s" % [
 				asset.get("name", asset_id), GameState.format_money(loss)], "trade")
-			GameState.modify_hidden_stat("stress", 20)
-			GameState.modify_stat("mental", -10)
+			GameState.modify_stat("mental", -20)
 	for id in to_erase:
 		GameState.portfolio.erase(id)
 
