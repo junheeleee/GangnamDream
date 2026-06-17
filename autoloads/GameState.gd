@@ -681,8 +681,7 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 		var loss_ratio = clampf(float(opp.get("loss_ratio", 1.0)), 0.0, 1.0)
 		var refund = stake * (1.0 - loss_ratio)
 		add_money(refund)
-		modify_stat("mental", -3)
-		modify_stat("mental", -6)
+		modify_stat("mental", -9)
 		result = "lose"
 		if opp.has("lose_flag"):
 			flags[str(opp["lose_flag"])] = true
