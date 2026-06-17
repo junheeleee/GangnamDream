@@ -4660,5 +4660,204 @@
         "result_text": "앱 삭제 확인 버튼을 눌렀다.\n고요해졌다.\n타인의 성공을 보지 않는 것이 패배는 아니다.\n지금 {name}에게 필요한 건 비교가 아니라 집중이었다."
       }
     ]
+  },
+  {
+    "id": "romance_blind_date",
+    "title": "소개팅",
+    "description": "친구가 소개팅 자리를 잡아줬다. 나이, 직업, 외모 — 들은 것만 봐서는 나쁘지 않다.\n\n33살에 소개팅이라는 게 어색하기도 하지만, 어색한 게 기회라는 말도 있다.\n\n어떻게 할 것인가.",
+    "category": "romance",
+    "rarity": "common",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 8
+    },
+    "tags": [
+      "romance",
+      "social"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "나간다. 어떤 사람인지 궁금하다.",
+        "effects": {
+          "social_skill": 1,
+          "mental": 2,
+          "luck": 1
+        },
+        "flags": [
+          "went_sogaeting"
+        ],
+        "result_text": "카페에서 두 시간을 보냈다. 잘 맞는다는 느낌은 없었지만, 오래간만에 남 얘기를 들으며 웃었다. 사람 만나는 게 이렇게 가벼울 수도 있구나."
+      },
+      {
+        "text": "안 나간다. 지금은 그럴 여유가 없다.",
+        "effects": {
+          "mental": -1
+        },
+        "flags": [],
+        "result_text": "거절했다. 친구가 아쉬워했다. 이 결정이 맞는지는 모르겠다. 지금은 다른 게 먼저다."
+      },
+      {
+        "text": "나가되, 기대는 하지 않는다.",
+        "effects": {
+          "social_skill": 2,
+          "mental": 1
+        },
+        "flags": [
+          "went_sogaeting"
+        ],
+        "result_text": "기대 없이 가서 기대 없이 돌아왔다. 그런데 돌아오는 길이 혼자가 아닌 느낌이었다. 이상하게 기분이 좋았다."
+      }
+    ]
+  },
+  {
+    "id": "romance_coworker_tension",
+    "title": "직장 동료",
+    "description": "같은 팀 동료가 자꾸 눈에 들어온다. 점심을 같이 먹다가, 야근을 같이 하다가.\n\n직장 동료와 뭔가가 되는 건 복잡하다는 걸 안다. 그럼에도 불구하고 — 신경이 쓰인다.",
+    "category": "romance",
+    "rarity": "uncommon",
+    "weight": 0.7,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 10
+    },
+    "tags": [
+      "romance",
+      "jobs"
+    ],
+    "cooldown": 25,
+    "choices": [
+      {
+        "text": "감정을 표현해본다.",
+        "effects": {
+          "social_skill": 1,
+          "mental": 3,
+          "reputation": -1,
+          "luck": 1
+        },
+        "flags": [
+          "confessed_coworker"
+        ],
+        "result_text": "말했다. 상대가 당황한 눈으로 봤다. 어색해졌다. 그래도 — 계속 생각하는 것보다는 나았다. 명확한 게 어색한 것보다 낫다."
+      },
+      {
+        "text": "그냥 친하게 지낸다. 직장은 직장이다.",
+        "effects": {
+          "social_skill": 2,
+          "reputation": 1
+        },
+        "flags": [],
+        "result_text": "평상시처럼 대했다. 상대도 그랬다. 이러다 자연스럽게 흘러가겠지. 지금은 이게 맞는 것 같다."
+      },
+      {
+        "text": "거리를 둔다. 일이 복잡해지면 안 된다.",
+        "effects": {
+          "mental": -2,
+          "reputation": 1
+        },
+        "flags": [],
+        "result_text": "살짝 멀어졌다. 상대가 눈치챈 것 같다. 업무 효율은 유지됐다. 이게 맞는 선택이었을 거라고 믿는다."
+      }
+    ]
+  },
+  {
+    "id": "romance_ex_message",
+    "title": "전 연인의 연락",
+    "description": "오랫동안 연락이 없던 전 연인에게서 메시지가 왔다.\n\n'잘 지내?' 세 글자.\n\n그 세 글자 뒤에 뭐가 있는지 — 열 번쯤 읽어봤다.",
+    "category": "romance",
+    "rarity": "uncommon",
+    "weight": 0.6,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 20
+    },
+    "tags": [
+      "romance",
+      "social",
+      "reflection"
+    ],
+    "cooldown": 30,
+    "choices": [
+      {
+        "text": "만나자고 한다.",
+        "effects": {
+          "social_skill": 1,
+          "mental": 1,
+          "luck": 1
+        },
+        "flags": [
+          "met_ex"
+        ],
+        "result_text": "카페에서 한 시간쯤 앉아 있었다. 옛날 이야기를 조금 했다. 끝나고 나서 뭔가 정리된 느낌이 들었다. 나쁘지 않았다."
+      },
+      {
+        "text": "잘 지낸다고 짧게 답하고 더 이상 연락하지 않는다.",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "'응, 잘 지내.' 보냈다. 더 이상 대화는 없었다. 그것으로 충분했다. 이미 끝난 일이다."
+      },
+      {
+        "text": "읽고 무시한다.",
+        "effects": {
+          "mental": -1
+        },
+        "flags": [],
+        "result_text": "읽었다. 답하지 않았다. 잠이 잘 안 왔다. 그래도 괜찮다. 이유가 있어서 끝났다."
+      }
+    ]
+  },
+  {
+    "id": "romance_dating_app",
+    "title": "매칭 앱",
+    "description": "친구의 권유로 매칭 앱을 깔았다.\n\n사진 몇 장과 직업 한 줄. 이걸로 사람을 고른다는 게 어색하지만, 주변도 다 이렇게 만난다고 한다.\n\n프로필을 만들어볼까.",
+    "category": "romance",
+    "rarity": "common",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": [
+      "romance",
+      "social",
+      "modern"
+    ],
+    "cooldown": 24,
+    "choices": [
+      {
+        "text": "진지하게 써본다. 있는 그대로.",
+        "effects": {
+          "social_skill": 1,
+          "mental": 2
+        },
+        "flags": [
+          "tried_dating_app"
+        ],
+        "result_text": "솔직하게 적었다. '33세, 현재 방향 전환 중.' 매칭이 잘 되진 않았지만, 이상하게 자기소개를 적는 과정에서 내가 누군지를 다시 생각하게 됐다."
+      },
+      {
+        "text": "조금 포장해서 쓴다. 다들 그렇게 한다는데.",
+        "effects": {
+          "luck": 1,
+          "mental": -1
+        },
+        "flags": [
+          "tried_dating_app"
+        ],
+        "result_text": "그럴싸하게 만들었다. 매칭이 됐다. 만나기 전부터 피곤했다. 이걸 계속 유지해야 하나."
+      },
+      {
+        "text": "깔았다가 10분 만에 지운다.",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "아직 때가 아닌 것 같았다. 삭제했다. 지금은 다른 게 더 중요하다."
+      }
+    ]
   }
 ]
