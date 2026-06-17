@@ -3277,19 +3277,20 @@ func _ap_side_job():
 		return
 	aruba_game.open()
 
-func _on_aruba_closed(earned: int, stress_delta: int) -> void:
+func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void:
 	var health_before: int = GameState.health
 	GameState.add_money(float(earned))
 	GameState.modify_hidden_stat("stress", stress_delta)
-	GameState.modify_stat("health", -3)  # 기본 알바 피로
+	var total_health_delta := -3 + health_delta
+	GameState.modify_stat("health", total_health_delta)
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
 	GameState.add_log("💼 알바 시프트 수입 %s (건강 %d→%d, 정신력 %+d)" % [
 		GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
 	var mood: String = SIDE_JOB_VIGNETTES[randi() % SIDE_JOB_VIGNETTES.size()]
 	turn_action_log.append("✓ 💼 알바 시프트 — " + mood.substr(0, 22))
 	AudioManager.play("money_gain")
-	_show_effects_float({"money": earned, "health": -3, "mental": -stress_delta})
-	_show_vignette("💼 알바 시프트", mood, {"money": earned, "health": -3, "mental": -stress_delta}, "#dc6a2a")
+	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
+	_show_vignette("💼 알바 시프트", mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
 	_render_ap_actions()
 	_refresh_all()
 

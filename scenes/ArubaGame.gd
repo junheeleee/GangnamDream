@@ -5,7 +5,7 @@ extends Control
 ## 그 외: 상황 카드 선택
 ## MainGame이 overlay로 붙이고 open()으로 표시. AP는 호출 전에 소비.
 
-signal closed(earned: int, stress_delta: int)
+signal closed(earned: int, stress_delta: int, health_delta: int)
 
 enum Mode { CARDS, CONVENIENCE, DELIVERY }
 
@@ -984,7 +984,7 @@ func _show_result() -> void:
 func _on_finish() -> void:
 	MetaProgression.record_minigame_play("aruba")
 	visible = false
-	closed.emit(_earned, _stress_delta)
+	closed.emit(_earned, _stress_delta, _health_delta)
 
 # ── 헬퍼 ─────────────────────────────────────────────────────────
 func _make_btn(text: String, bg_hex: String, font_size: int) -> Button:
