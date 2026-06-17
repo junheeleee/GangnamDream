@@ -479,7 +479,7 @@ func _build_ui() -> void:
 	_spin_btn.add_theme_font_size_override("font_size", 16)
 	action_row.add_child(_spin_btn)
 
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#4a6aaa")
+	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(50, 46)
 	_f(help_btn)
 	action_row.add_child(help_btn)

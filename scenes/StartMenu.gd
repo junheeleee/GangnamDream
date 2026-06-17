@@ -860,7 +860,7 @@ func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: C
 	var lbl2 = Label.new()
 	lbl2.text = sub_line
 	lbl2.add_theme_font_size_override("font_size", 11)
-	lbl2.add_theme_color_override("font_color", Color("#5b7a9a") if enabled else Color("#2a2a3a"))
+	lbl2.add_theme_color_override("font_color", Color("#7a6830") if enabled else Color("#2a2a3a"))
 	vbox.add_child(lbl2)
 
 	if enabled and on_press.is_valid():

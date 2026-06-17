@@ -500,7 +500,7 @@ func _make_choice_button(text: String, idx: int) -> Button:
 	btn.custom_minimum_size = Vector2(0, 52)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var normal = StyleBoxFlat.new()
-	normal.bg_color = Color(0.06, 0.07, 0.12, 0.94)
+	normal.bg_color = Color(0.07, 0.06, 0.04, 0.94)
 	normal.set_border_width_all(0)
 	normal.border_width_left = 3
 	normal.border_color = Color("#c9a227")
@@ -508,10 +508,11 @@ func _make_choice_button(text: String, idx: int) -> Button:
 	normal.content_margin_left = 18
 	normal.content_margin_right = 14
 	var hover = normal.duplicate()
-	hover.bg_color = Color(0.12, 0.15, 0.24, 0.98)
+	hover.bg_color = Color(0.14, 0.11, 0.05, 0.98)
+	hover.border_color = Color("#e8c46a")
 	var focus = normal.duplicate()
-	focus.bg_color = Color(0.14, 0.18, 0.30, 0.98)
-	focus.border_color = Color("#7eb6ff")
+	focus.bg_color = Color(0.18, 0.14, 0.06, 0.98)
+	focus.border_color = Color("#e8c46a")
 	focus.border_width_left = 4
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
@@ -693,7 +694,7 @@ func _show_popup(title: String, body: String):
 	var tl = Label.new()
 	tl.text = title
 	tl.add_theme_font_size_override("font_size", 22)
-	tl.add_theme_color_override("font_color", Color("#7eb6ff"))
+	tl.add_theme_color_override("font_color", Color("#c9a227"))
 	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if _font_bold: tl.add_theme_font_override("font", _font_bold)
 	vb.add_child(tl)

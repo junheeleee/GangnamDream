@@ -114,7 +114,7 @@ func _build_ui() -> void:
 	help_btn.offset_top = 8
 	help_btn.offset_right = -158
 	help_btn.offset_bottom = 38
-	_style_btn(help_btn, "#0a0a1a", "#4a6aaa")
+	_style_btn(help_btn, "#0a0a1a", "#5a4510")
 	help_btn.pressed.connect(func(): TutorialOverlay.force_show("trading", self))
 	add_child(help_btn)
 

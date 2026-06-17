@@ -392,7 +392,7 @@ func _render_betting() -> void:
 	var clear_btn := _make_btn("베팅 초기화", _clear_bets, "#1a1a1a", "#4a4a5a")
 	clear_btn.custom_minimum_size = Vector2(100, 44)
 	action_row.add_child(clear_btn)
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#4a6aaa")
+	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(50, 44)
 	action_row.add_child(help_btn)
 

@@ -165,7 +165,7 @@ func _build_ui() -> void:
 
 	_add_game_card(grid, "🃏", "바카라",
 		"뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~",
-		"#1a1a2e", "#4a4aff", "_launch_baccarat", "baccarat")
+		"#1a0f20", "#7a3a8a", "_launch_baccarat", "baccarat")
 
 	_add_game_card(grid, "🂡", "블랙잭",
 		"기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~",

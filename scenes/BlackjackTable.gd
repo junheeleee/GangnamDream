@@ -373,7 +373,7 @@ func _render_betting() -> void:
 	deal_btn.disabled = GameState.money < float(_stake)
 	_f(deal_btn, true); vb.add_child(deal_btn)
 
-	var help_btn := _make_btn("❓ 규칙", func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#4a6aaa")
+	var help_btn := _make_btn("❓ 규칙", func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(0, 44)
 	vb.add_child(help_btn)
 

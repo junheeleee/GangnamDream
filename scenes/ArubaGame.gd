@@ -700,7 +700,7 @@ func _conv_highlight_selected() -> void:
 		if i == _conv_selected:
 			st.bg_color = Color("#0d2040")
 			st.set_corner_radius_all(6)
-			st.border_color = Color("#3a6aaa")
+			st.border_color = Color("#5a4510")
 			st.set_border_width_all(2)
 		else:
 			st.bg_color = Color("#0d1420")

@@ -10,10 +10,9 @@ const SLOT := preload("res://systems/SlotMachine.gd")
 enum Phase { IDLE, SPINNING, RESULT }
 
 const COLOR_BG       := Color(0.06, 0.04, 0.10, 0.96)
-const COLOR_GOLD     := Color("#f0b429")
+const COLOR_GOLD     := Color("#c9a227")
 const COLOR_GREEN    := Color("#2ecc71")
 const COLOR_RED      := Color("#e74c3c")
-const COLOR_BLUE     := Color("#4a9eff")
 const COLOR_DARK     := Color("#1a1a2e")
 const COLOR_PANEL    := Color(0.08, 0.06, 0.14, 1.0)
 const COLOR_BORDER   := Color(0.20, 0.15, 0.35, 1.0)
@@ -400,7 +399,7 @@ func _build_ui() -> void:
 	_f(_session_lbl)
 	header.add_child(_session_lbl)
 
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("slot", self), "#0a0a1a", "#4a6aaa")
+	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("slot", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(42, 32)
 	header.add_child(help_btn)
 
@@ -488,7 +487,7 @@ func _build_ui() -> void:
 			GameState.format_money(float(s)),
 			func(): _on_stake_select(s),
 			"#1a2a3a" if is_sel else "#0e0e1a",
-			"#4a9eff" if is_sel else "#2a2a3a"
+			"#c9a227" if is_sel else "#2a2a3a"
 		)
 		sb.custom_minimum_size = Vector2(0, 34)
 		sb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -613,7 +612,7 @@ func _refresh_stake_btns() -> void:
 		# 배경/테두리 색 갱신
 		var sty := StyleBoxFlat.new()
 		sty.bg_color     = Color("#1a2a3a") if is_sel else Color("#0e0e1a")
-		sty.border_color = Color("#4a9eff") if is_sel else Color("#2a2a3a")
+		sty.border_color = Color("#c9a227") if is_sel else Color("#2a2a3a")
 		sty.set_border_width_all(1)
 		sty.set_corner_radius_all(6)
 		sty.content_margin_left   = 8
@@ -626,7 +625,7 @@ func _refresh_stake_btns() -> void:
 		btn.add_theme_stylebox_override("hover",   hov)
 		btn.add_theme_stylebox_override("pressed", hov)
 		if is_sel:
-			btn.add_theme_color_override("font_color", COLOR_BLUE)
+			btn.add_theme_color_override("font_color", COLOR_GOLD)
 		else:
 			btn.add_theme_color_override("font_color", Color("#dce4f0"))
 

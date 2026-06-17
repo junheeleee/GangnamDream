@@ -114,7 +114,7 @@ func _build_skeleton() -> void:
 	help.text = "❓"
 	help.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	help.offset_left = -164; help.offset_top = 14; help.offset_right = -128; help.offset_bottom = 46
-	_style(help, "#0a0a1a", "#4a6aaa")
+	_style(help, "#0a0a1a", "#5a4510")
 	help.pressed.connect(func(): TutorialOverlay.force_show("racetrack", self))
 	add_child(help)
 
