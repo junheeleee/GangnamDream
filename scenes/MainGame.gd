@@ -1356,6 +1356,27 @@ func _next_arc_id() -> String:
 	if t >= 15 and not f.get("arc_four_months_seen", false):
 		return "arc_four_months_in"
 
+	# ── t=14~19 공백 채우기 씬 3종 ──────────────────────────────────
+	# 첫 월급날 밤 — 취직 후 첫 월급 수령 시 (t14~17 구간)
+	if t >= 14 and t <= 17 \
+			and not GameState.current_job.is_empty() \
+			and f.get("has_received_paycheck", false) \
+			and not f.get("arc_paycheck_reality_seen", false):
+		return "arc_paycheck_reality"
+	# 첫 투자 손실 — 상철 투자 안내 받고 투자감각이 생긴 플레이어 (t14~18)
+	if t >= 14 and t <= 18 \
+			and f.get("arc_invest_guidance_seen", false) \
+			and GameState.investment_skill >= 5 \
+			and not f.get("arc_invest_first_loss_seen", false):
+		return "arc_invest_first_loss"
+	# 야근 편의점 — 직장 3주 이상, 지연 등장 전 (t16~19)
+	if t >= 16 and t <= 19 \
+			and not GameState.current_job.is_empty() \
+			and GameState.job_tenure >= 3 \
+			and not f.get("arc_office_routine_seen", false):
+		return "arc_office_routine"
+	# ─────────────────────────────────────────────────────────────────
+
 	if t >= 20 and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_sangchul_03_seen", false) \
 			and GameState.get_total_asset_value() >= 1_000_000:
