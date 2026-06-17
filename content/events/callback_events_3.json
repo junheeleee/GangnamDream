@@ -23,7 +23,7 @@
         "effects": {
           "intelligence": 3,
           "investment_skill": 2,
-          "stress": 5
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -33,7 +33,7 @@
         "text": "또 올인한다",
         "result_text": "칩을 전부 밀었다. 이번엔 틀림없을 거라고 생각했다.",
         "effects": {
-          "stress": 15
+          "mental": -15
         },
         "flags": [],
         "follow_up_event": "",
@@ -86,8 +86,7 @@
         "effects": {
           "money": 500000,
           "health": -5,
-          "stress": 5,
-          "mental": -5
+          "mental": -10
         },
         "flags": [
           "cafe_burned_recovered"
@@ -99,8 +98,7 @@
         "text": "부모님께 연락한다",
         "effects": {
           "money": 1000000,
-          "mental": -15,
-          "stress": 10
+          "mental": -25
         },
         "flags": [],
         "follow_up_event": "",
@@ -360,7 +358,7 @@
         "text": "또 넣는다",
         "result_text": "지갑을 열었다. 이번이 마지막이라고, 이번만이라고 생각했다.",
         "effects": {
-          "stress": 12
+          "mental": -12
         },
         "flags": [],
         "follow_up_event": "",
@@ -409,8 +407,7 @@
       {
         "text": "차단한다",
         "effects": {
-          "mental": 5,
-          "stress": -5
+          "mental": 10
         },
         "flags": [
           "hyeonsu_blocked"
@@ -442,8 +439,8 @@
       {
         "text": "증거를 정리해놓는다",
         "effects": {
-          "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "mental": -5
         },
         "flags": [
           "theft_documented"
@@ -454,8 +451,7 @@
       {
         "text": "신경 쓰지 않는다. 이미 나온 일",
         "effects": {
-          "stress": 3,
-          "mental": -3
+          "mental": -6
         },
         "flags": [],
         "follow_up_event": "",
@@ -498,7 +494,7 @@
       {
         "text": "\"지금은 좀 바빠서요\" 정중히 거절",
         "effects": {
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -529,7 +525,7 @@
         "text": "조기 상환 계획을 세운다",
         "effects": {
           "intelligence": 2,
-          "stress": -3
+          "mental": 3
         },
         "flags": [
           "loan_payoff_planned"
@@ -540,8 +536,7 @@
       {
         "text": "그냥 이자만 낸다. 지금은 여력이 없다",
         "effects": {
-          "stress": 3,
-          "mental": -3
+          "mental": -6
         },
         "flags": [],
         "follow_up_event": "",
@@ -571,8 +566,7 @@
       {
         "text": "\"어머니, 죄송해요. 제가 갚을게요\"",
         "effects": {
-          "mental": -10,
-          "stress": 5,
+          "mental": -15,
           "social_skill": 1
         },
         "flags": [
@@ -584,8 +578,7 @@
       {
         "text": "\"...감사해요. 나중에 꼭 드릴게요\"",
         "effects": {
-          "mental": -5,
-          "stress": 3
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -615,8 +608,7 @@
       {
         "text": "\"괜찮아요 아버지. 당연한 거죠\"",
         "effects": {
-          "mental": 15,
-          "stress": -8
+          "mental": 23
         },
         "flags": [
           "parent_bond_deepened"
@@ -627,8 +619,7 @@
       {
         "text": "전화를 건다",
         "effects": {
-          "mental": 12,
-          "stress": -5,
+          "mental": 17,
           "social_skill": 1
         },
         "flags": [
@@ -661,8 +652,7 @@
       {
         "text": "\"네. 알고 있어요 아버지\"",
         "effects": {
-          "mental": 12,
-          "stress": -8
+          "mental": 20
         },
         "flags": [
           "father_closeness_deepened"
@@ -673,8 +663,7 @@
       {
         "text": "답장을 안 한다 — 너무 뭉클해서",
         "effects": {
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
         "flags": [],
         "follow_up_event": "",
@@ -717,8 +706,7 @@
       {
         "text": "\"이젠 그냥 목표가 됐어요. 아버지 생각은 안 해요\"",
         "effects": {
-          "mental": -3,
-          "stress": -2
+          "mental": -1
         },
         "flags": [],
         "follow_up_event": "",

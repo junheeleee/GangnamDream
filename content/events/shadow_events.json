@@ -8,27 +8,45 @@
     "weight": 1.0,
     "hidden": false,
     "conditions": {},
-    "tags": ["shadow", "debt", "pressure"],
+    "tags": [
+      "shadow",
+      "debt",
+      "pressure"
+    ],
     "cooldown": 20,
     "choices": [
       {
         "text": "모르는 사람이라고 끊는다",
-        "effects": { "stress": 8, "mental": -5 },
-        "flags": ["shadow_loan_ignored"],
+        "effects": {
+          "mental": -13
+        },
+        "flags": [
+          "shadow_loan_ignored"
+        ],
         "result_text": "끊었지만 다시 온다. 같은 번호, 같은 목소리. 블록해도 다른 번호로 온다. 무언가가 이 사람에게 내 번호를 알려줬다."
       },
       {
         "text": "어디서 연락처를 알았냐고 묻는다",
-        "effects": { "stress": 5, "intelligence": 1 },
-        "flags": ["shadow_loan_questioned"],
+        "effects": {
+          "intelligence": 1,
+          "mental": -5
+        },
+        "flags": [
+          "shadow_loan_questioned"
+        ],
         "deferred_follow_up": "shadow_loan_answer",
         "deferred_delay": 4,
         "result_text": "\"아는 사람이 알려줬죠.\" 그게 누군지 안 말해준다. 4주 후 다시 오겠다고 한다. 그때까지 생각해두라고."
       },
       {
         "text": "일단 만나자고 한다",
-        "effects": { "stress": 12, "money": -200000 },
-        "flags": ["shadow_loan_met"],
+        "effects": {
+          "money": -200000,
+          "mental": -12
+        },
+        "flags": [
+          "shadow_loan_met"
+        ],
         "result_text": "카페에서 만난 남자는 단정했다. 종이 한 장을 밀었다. 서명 날짜가 내 필체처럼 보이지만 기억이 없다. 20만원을 내고 자리를 피했다."
       }
     ]
@@ -41,18 +59,30 @@
     "rarity": "uncommon",
     "weight": 0.0,
     "hidden": true,
-    "conditions": { "flag": "shadow_loan_questioned" },
-    "tags": ["shadow", "callback"],
+    "conditions": {
+      "flag": "shadow_loan_questioned"
+    },
+    "tags": [
+      "shadow",
+      "callback"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "모른다고 잡아뗀다",
-        "effects": { "stress": 5, "reputation": -2 },
+        "effects": {
+          "reputation": -2,
+          "mental": -5
+        },
         "result_text": "상대는 조용히 웃었다. \"그쪽도 모르면 저도 할 수 없죠.\" 끊겼다. 그 이름에게 연락할 수가 없다."
       },
       {
         "text": "그 사람에게 직접 연락한다",
-        "effects": { "stress": -5, "social_skill": 1, "money": -300000 },
+        "effects": {
+          "social_skill": 1,
+          "money": -300000,
+          "mental": 5
+        },
         "result_text": "\"나도 어쩔 수 없었어. 미안해.\" 결국 30만원 건네고 정리했다. 관계는 남았지만 어색해졌다."
       }
     ]
@@ -65,28 +95,50 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": { "min_reputation": 3 },
-    "tags": ["shadow", "reputation", "social"],
+    "conditions": {
+      "min_reputation": 3
+    },
+    "tags": [
+      "shadow",
+      "reputation",
+      "social"
+    ],
     "cooldown": 15,
     "choices": [
       {
         "text": "무시한다. 신경 쓸 여유가 없다",
-        "effects": { "reputation": -3, "stress": 3 },
-        "flags": ["shadow_snitch_ignored"],
+        "effects": {
+          "reputation": -3,
+          "mental": -3
+        },
+        "flags": [
+          "shadow_snitch_ignored"
+        ],
         "result_text": "2주 뒤 면접 자리에서 면접관이 묘하게 대했다. 합격 연락은 오지 않았다. 소문은 이미 퍼졌다."
       },
       {
         "text": "출처를 추적한다",
-        "effects": { "stress": 6, "intelligence": 1 },
-        "flags": ["shadow_snitch_tracked"],
+        "effects": {
+          "intelligence": 1,
+          "mental": -6
+        },
+        "flags": [
+          "shadow_snitch_tracked"
+        ],
         "deferred_follow_up": "shadow_snitch_found",
         "deferred_delay": 5,
         "result_text": "공통 지인들을 한 명씩 물어봤다. 누군가가 흘렸다는 건 확실한데, 5주는 더 걸릴 것 같다."
       },
       {
         "text": "직접 소문을 역이용한다",
-        "effects": { "reputation": 2, "social_skill": 2, "stress": 4 },
-        "flags": ["shadow_snitch_spun"],
+        "effects": {
+          "reputation": 2,
+          "social_skill": 2,
+          "mental": -4
+        },
+        "flags": [
+          "shadow_snitch_spun"
+        ],
         "result_text": "\"소문 들었어? 내가 요즘 큰 일 준비 중이라 적들이 생겼나봐.\" 웃으면서 말하니 오히려 믿어줬다. 허풍인지 배포인지."
       }
     ]
@@ -99,23 +151,39 @@
     "rarity": "uncommon",
     "weight": 0.0,
     "hidden": true,
-    "conditions": { "flag": "shadow_snitch_tracked" },
-    "tags": ["shadow", "callback", "relationship"],
+    "conditions": {
+      "flag": "shadow_snitch_tracked"
+    },
+    "tags": [
+      "shadow",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "직접 따진다",
-        "effects": { "stress": -8, "reputation": 1, "social_skill": -1 },
+        "effects": {
+          "reputation": 1,
+          "social_skill": -1,
+          "mental": 8
+        },
         "result_text": "얼굴이 빨개졌다. 부정했다가 인정했다. 이유는 시기였다. 관계는 끝났지만 이상하게 속은 시원했다."
       },
       {
         "text": "아무 말 않고 멀어진다",
-        "effects": { "stress": 3, "mental": -3 },
+        "effects": {
+          "mental": -6
+        },
         "result_text": "그쪽도 느꼈는지 연락이 줄었다. 이런 식으로 사람이 정리된다는 걸 다시 배웠다."
       },
       {
         "text": "모른 척 계속 만난다",
-        "effects": { "social_skill": 2, "stress": 5, "intelligence": 1 },
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 1,
+          "mental": -5
+        },
         "result_text": "알면서 모른 척하는 건 생각보다 힘들다. 하지만 그 사람이 가진 인맥은 아직 필요했다."
       }
     ]
@@ -128,27 +196,47 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": { "min_turn": 10 },
-    "tags": ["shadow", "startup", "promise"],
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": [
+      "shadow",
+      "startup",
+      "promise"
+    ],
     "cooldown": 18,
     "choices": [
       {
         "text": "솔직하게 사정이 바뀌었다고 말한다",
-        "effects": { "reputation": -1, "stress": -4, "mental": 3 },
+        "effects": {
+          "reputation": -1,
+          "mental": 7
+        },
         "result_text": "\"그래, 괜찮아.\" 말은 그렇게 했지만 더 이상 연락이 없다. 솔직함의 대가는 항상 조용한 단절이다."
       },
       {
         "text": "지금 상황이 안 된다고 시간을 번다",
-        "effects": { "stress": 4 },
-        "flags": ["shadow_promise_delayed"],
+        "effects": {
+          "mental": -4
+        },
+        "flags": [
+          "shadow_promise_delayed"
+        ],
         "deferred_follow_up": "shadow_promise_again",
         "deferred_delay": 7,
         "result_text": "\"알겠어, 기다릴게.\" 7주 뒤 다시 연락이 올 것이다. 그때까지 뭔가 결정해야 한다."
       },
       {
         "text": "같이 해보자고 한다",
-        "effects": { "stress": 8, "intelligence": 2, "social_skill": 1, "money": -500000 },
-        "flags": ["startup_collab_joined"],
+        "effects": {
+          "intelligence": 2,
+          "social_skill": 1,
+          "money": -500000,
+          "mental": -8
+        },
+        "flags": [
+          "startup_collab_joined"
+        ],
         "result_text": "주말에 카페에서 만났다. 아이디어는 있었다. 실행은 막막했다. 50만원을 초기 비용으로 나눠 넣었다. 시작이다."
       }
     ]
@@ -161,19 +249,34 @@
     "rarity": "uncommon",
     "weight": 0.0,
     "hidden": true,
-    "conditions": { "flag": "shadow_promise_delayed" },
-    "tags": ["shadow", "callback", "startup"],
+    "conditions": {
+      "flag": "shadow_promise_delayed"
+    },
+    "tags": [
+      "shadow",
+      "callback",
+      "startup"
+    ],
     "cooldown": 99,
     "choices": [
       {
         "text": "이제는 진짜라고 한다",
-        "effects": { "stress": 6, "intelligence": 2, "money": -300000 },
-        "flags": ["startup_collab_joined"],
+        "effects": {
+          "intelligence": 2,
+          "money": -300000,
+          "mental": -6
+        },
+        "flags": [
+          "startup_collab_joined"
+        ],
         "result_text": "두 번째로 약속했다. 이번엔 계좌까지 봤다. 30만원이 나갔다. 진짜 시작인지, 또 다른 유예인지 아직 모른다."
       },
       {
         "text": "솔직하게 못 하겠다고 말한다",
-        "effects": { "reputation": -2, "stress": -6, "mental": 4 },
+        "effects": {
+          "reputation": -2,
+          "mental": 10
+        },
         "result_text": "\"그래.\" 한마디였다. 긴 침묵 뒤에 끊겼다. 가벼운 말이 어떻게 남을 묶는지 이번에 배웠다."
       }
     ]

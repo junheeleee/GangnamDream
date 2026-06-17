@@ -23,8 +23,7 @@
         "text": "감정을 추스르고 묵묵히 한다.  (인내 / 자존감 소모)",
         "result_text": "{name}은 그날 야근을 했다.\n결국 일이 보상해줄 거라고 믿었다. 아직은.",
         "effects": {
-          "stress": 8,
-          "mental": -4,
+          "mental": -12,
           "reputation": 1
         }
       },
@@ -32,8 +31,7 @@
         "text": "면담을 신청한다. 기준을 묻겠다.  (주체성 / 갈등 리스크)",
         "result_text": "팀장은 \"성과가 좋았는데 아쉽다\" 했다. 기준은 말하지 않았다.\n{name}은 그 자리에서 알았다 — 무엇을 해도 불투명하다는 것을.",
         "effects": {
-          "stress": 5,
-          "mental": 2,
+          "mental": -3,
           "social_skill": 1
         }
       },
@@ -41,8 +39,7 @@
         "text": "조용히 이직을 알아본다.  (탈출 / 불확실성)",
         "result_text": "{name}은 그날 저녁 이력서를 꺼냈다.\n분노보다는 결심이 앞섰다 — 이곳이 전부가 아니라고.",
         "effects": {
-          "stress": 4,
-          "mental": 3
+          "mental": -1
         },
         "flags": [
           "considering_job_change"
@@ -73,8 +70,7 @@
         "text": "합류한다. 기회는 잡아야 한다.  (도전 / 불확실성)",
         "result_text": "{name}은 합류하기로 했다.\n작은 사무실, 작은 팀, 큰 꿈.\n잘 될지 모른다 — 하지만 이 선택을 후회하지는 않을 것 같았다.",
         "effects": {
-          "stress": 8,
-          "mental": 4,
+          "mental": -4,
           "intelligence": 2,
           "social_skill": 1
         },
@@ -86,8 +82,7 @@
         "text": "거절한다. 지금은 내 기반이 먼저다.  (안정 / 기회 포기)",
         "result_text": "재현은 아쉬워했지만 이해했다. \"언제든 생각 바뀌면 말해.\"\n{name}은 자기 길을 걷기로 했다.\n재현의 스타트업이 어떻게 됐는지는 — 나중에 알게 될 것이다.",
         "effects": {
-          "mental": -1,
-          "stress": -2
+          "mental": 1
         }
       },
       {
@@ -125,8 +120,7 @@
         "result_text": "카페에서 HR 담당자를 만났다.\n실제로 나쁜 조건이 아니었다. 이직할지 말지는 — 아직 모른다.\n하지만 시장에서 {name}의 가치를 확인했다.",
         "effects": {
           "intelligence": 1,
-          "mental": 2,
-          "stress": 2
+          "mental": 0
         },
         "flags": [
           "headhunted"
@@ -165,16 +159,14 @@
         "text": "그냥 잊는다. 몰랐던 걸로 한다.  (평화 / 자존감)",
         "result_text": "{name}은 명세서 창을 닫았다.\n잊으려고 했다. 잊히지 않았다.\n그날 퇴근길이 조금 더 길었다.",
         "effects": {
-          "mental": -4,
-          "stress": 5
+          "mental": -9
         }
       },
       {
         "text": "연봉 협상을 요청한다. 공식적으로.  (주체성 / 리스크)",
         "result_text": "{name}은 인사팀에 면담을 신청했다.\n\"연봉 조정을 검토해주셨으면 합니다.\"\n결과는 한 달 후 — 기다리는 동안 마음이 복잡했다.",
         "effects": {
-          "stress": 6,
-          "mental": 2,
+          "mental": -4,
           "social_skill": 1
         },
         "flags": [
@@ -185,8 +177,7 @@
         "text": "동료에게 슬쩍 물어본다.  (정보 수집 / 관계 어색함 리스크)",
         "result_text": "동료는 처음엔 어색해했지만 — 결국 털어놨다.\n입사할 때 조금 더 세게 협상했다고.\n{name}은 그 간단한 사실이 이렇게 오래 따라올 줄 몰랐다.",
         "effects": {
-          "mental": -2,
-          "stress": 4,
+          "mental": -6,
           "social_skill": 1
         }
       }
@@ -215,8 +206,7 @@
         "text": "간다. 돈만이 전부는 아니다.  (의미 / 목표 포기)",
         "result_text": "{name}은 입사했다.\n돈은 빠듯했다. 하지만 월요일 아침이 달랐다 — 일어나고 싶었다.",
         "effects": {
-          "mental": 8,
-          "stress": -4,
+          "mental": 12,
           "reputation": 3,
           "money": -200000
         }
@@ -232,8 +222,7 @@
         "text": "파트타임·자문 형태로 참여한다.  (절충 / 양쪽 유지)",
         "result_text": "주말마다 봉사하고 자문 역할을 맡았다.\n에너지는 분산됐다. 하지만 포기하지 않아도 됐다.",
         "effects": {
-          "mental": 3,
-          "stress": 3,
+          "mental": 0,
           "social_skill": 1
         }
       }
@@ -263,9 +252,8 @@
         "result_text": "일주일 동안 고생했다. 세 번 수정했다.\n30만 원이 들어왔을 때 — 지금까지 받은 돈 중 가장 뿌듯했다.",
         "effects": {
           "money": 300000,
-          "mental": 6,
-          "intelligence": 2,
-          "stress": 4
+          "mental": 2,
+          "intelligence": 2
         },
         "flags": [
           "freelance_started"
@@ -305,8 +293,7 @@
         "result_text": "{name}은 A파 자리에 앉았다.\n차장은 조금 서운한 눈빛이었다.\n조직에서 한 방향을 선택하면 — 나머지 방향이 닫힌다.",
         "effects": {
           "reputation": 1,
-          "stress": 4,
-          "mental": -2
+          "mental": -6
         }
       },
       {
@@ -314,16 +301,15 @@
         "result_text": "{name}은 B파 자리에 앉았다.\n차장이 기뻐했다. 팀장은 다음 날 조금 냉랭했다.\n옳은 선택이 조직 안에서 늘 유리한 선택은 아니다.",
         "effects": {
           "reputation": 2,
-          "stress": 5,
-          "mental": 1
+          "mental": -4
         }
       },
       {
         "text": "양쪽 다 안 간다. 혼자 먹는다.  (독립 / 고립)",
         "result_text": "\"오늘 일이 있어서요\" 하고 혼자 편의점에서 먹었다.\n양쪽에서 조금씩 밀려나는 느낌이었다.\n하지만 편했다.",
         "effects": {
-          "stress": -1,
-          "social_skill": -1
+          "social_skill": -1,
+          "mental": 1
         }
       }
     ]
@@ -353,8 +339,7 @@
         "text": "그냥 버텨본다. 충동적인 결정은 않는다.  (인내 / 소진)",
         "result_text": "다음날 출근했다.\n아무것도 달라진 게 없었다. 그냥 또 하루가 지나갔다.",
         "effects": {
-          "stress": 4,
-          "mental": -3,
+          "mental": -7,
           "reputation": 1
         }
       },
@@ -362,8 +347,7 @@
         "text": "일단 이직 준비를 시작한다. 감정이 아닌 계획으로.  (계획적 퇴직 / 이중 부담)",
         "result_text": "{name}은 이력서를 꺼냈다. 오늘의 감정은 오늘 쓰고 — 계획은 냉정하게.\n출구를 만드는 것만으로도 숨통이 좀 트였다.",
         "effects": {
-          "stress": -2,
-          "mental": 3,
+          "mental": 5,
           "intelligence": 1
         },
         "flags": [
@@ -375,8 +359,7 @@
         "result_text": "{name}은 반차를 냈다.\n아무데도 가지 않고 낮에 집에서 혼자 있었다.\n그게 전부였다. 그런데 — 많이 필요한 시간이었다.",
         "effects": {
           "health": 4,
-          "mental": 5,
-          "stress": -6,
+          "mental": 11,
           "reputation": -1
         }
       }
@@ -406,16 +389,15 @@
         "text": "새 팀장에게 잘 보이려고 노력한다.  (적응 / 자존심)",
         "result_text": "{name}은 새 팀장 밑에서 다시 시작했다.\n적응하는 데 시간이 걸렸다. 팀장 스타일이 달랐다.\n그래도 버텼다.",
         "effects": {
-          "stress": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "mental": -5
         }
       },
       {
         "text": "나도 다음 차례일 수 있다 — 움직이기로 한다.  (경계심 / 행동)",
         "result_text": "{name}은 이력서를 업데이트했다.\n좋은 사람들도 이렇게 나가는 곳이라면 — 내 계획이 먼저다.",
         "effects": {
-          "mental": 2,
-          "stress": 3,
+          "mental": -1,
           "intelligence": 1
         },
         "flags": [
@@ -451,8 +433,7 @@
         "result_text": "{name}은 인사팀에 서면으로 상황을 기록했다.\n조직이 불편해졌다. 그래도 기록은 남았다.\n다음엔 이 이름이 지워지지 않을 것이다.",
         "effects": {
           "reputation": 3,
-          "stress": 9,
-          "mental": 5
+          "mental": -4
         },
         "flags": [
           "formal_complaint_filed"
@@ -462,8 +443,7 @@
         "text": "그냥 사직서를 낸다.  (탈출 / 경력 단절)",
         "result_text": "{name}은 사직서를 냈다.\n팀장은 \"왜 갑자기\"라고 했다.\n'{name}이 압니다, 왜인지' — 말하지 않았지만 눈빛은 말했다.",
         "effects": {
-          "mental": 4,
-          "stress": -5
+          "mental": 9
         },
         "flags": [
           "quit_after_theft"

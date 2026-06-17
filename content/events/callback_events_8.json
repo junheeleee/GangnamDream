@@ -74,8 +74,7 @@
       {
         "text": "그때 그냥 넣을걸",
         "effects": {
-          "mental": -8,
-          "stress": 5
+          "mental": -13
         },
         "flags": [],
         "follow_up_event": "",
@@ -105,9 +104,8 @@
       {
         "text": "털어놓는다",
         "effects": {
-          "mental": 15,
-          "reputation": 1,
-          "stress": -10
+          "mental": 25,
+          "reputation": 1
         },
         "flags": [
           "cafe_guilt_resolved"
@@ -201,8 +199,7 @@
       {
         "text": "이번엔 건너뛴다. 아직 회복이 안 됐다",
         "effects": {
-          "mental": 3,
-          "stress": -3
+          "mental": 6
         },
         "flags": [],
         "follow_up_event": "",
@@ -324,8 +321,7 @@
       {
         "text": "이번엔 다르다. 바로 들어간다",
         "effects": {
-          "stress": 8,
-          "mental": -5
+          "mental": -13
         },
         "flags": [],
         "follow_up_event": "",
@@ -355,8 +351,7 @@
       {
         "text": "경마장 앱을 지운다",
         "effects": {
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "flags": [
           "racetrack_quit"
@@ -367,8 +362,7 @@
       {
         "text": "다음 주말에 다시 가서 만회한다",
         "effects": {
-          "mental": -10,
-          "stress": 8,
+          "mental": -18,
           "money": -500000
         },
         "flags": [],
@@ -399,8 +393,7 @@
       {
         "text": "안 간다. 이유 설명 없이",
         "effects": {
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "flags": [],
         "follow_up_event": "",
@@ -409,8 +402,7 @@
       {
         "text": "그냥 구경만 하는 거니까 간다",
         "effects": {
-          "stress": 5,
-          "mental": -3
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -490,8 +482,8 @@
       {
         "text": "더 좋은 팁 제공자를 찾는다",
         "effects": {
-          "stress": 5,
-          "money": -300000
+          "money": -300000,
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -534,7 +526,7 @@
       {
         "text": "아직 때가 아닌 것 같다",
         "effects": {
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -606,8 +598,7 @@
         "text": "선정됐다",
         "effects": {
           "money": 2400000,
-          "mental": 12,
-          "stress": -8
+          "mental": 20
         },
         "flags": [
           "housing_subsidy_received"

@@ -11,14 +11,17 @@
       "flag": "father_apology_made",
       "min_turn": 3
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "반갑게 받는다",
         "effects": {
-          "mental": 12,
-          "stress": -5
+          "mental": 17
         },
         "flags": [],
         "follow_up_event": "",
@@ -47,7 +50,11 @@
       "flag": "father_story_heard",
       "min_turn": 4
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -84,14 +91,17 @@
       "flag": "went_home_for_father",
       "min_turn": 4
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "다음엔 더 자주 가겠다고 결심한다",
         "effects": {
-          "mental": 12,
-          "stress": -5
+          "mental": 17
         },
         "flags": [],
         "follow_up_event": "",
@@ -120,14 +130,17 @@
       "flag": "delayed_visiting_dad",
       "min_turn": 4
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "전화드린다",
         "effects": {
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "flags": [],
         "follow_up_event": "",
@@ -156,14 +169,17 @@
       "flag": "sent_money_instead",
       "min_turn": 3
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "곧 직접 가겠다고 답한다",
         "effects": {
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "flags": [],
         "follow_up_event": "",
@@ -192,14 +208,17 @@
       "flag": "told_dad_okay",
       "min_turn": 4
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "이번엔 솔직하게 말한다",
         "effects": {
-          "mental": 12,
-          "stress": -8
+          "mental": 20
         },
         "flags": [],
         "follow_up_event": "",
@@ -228,14 +247,18 @@
       "flag": "saw_father_medical",
       "min_turn": 4
     },
-    "tags": ["family", "callback", "father", "health"],
+    "tags": [
+      "family",
+      "callback",
+      "father",
+      "health"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "아버지와 같이 결과를 확인한다",
         "effects": {
-          "mental": 10,
-          "stress": -5,
+          "mental": 15,
           "intelligence": 2
         },
         "flags": [],
@@ -265,15 +288,18 @@
       "flag": "mlm_debt_closed",
       "min_turn": 3
     },
-    "tags": ["finance", "callback", "mlm"],
+    "tags": [
+      "finance",
+      "callback",
+      "mlm"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "\"고마워. 오래 기다려줘서.\"",
         "effects": {
-          "mental": 12,
-          "reputation": 3,
-          "stress": -8
+          "mental": 20,
+          "reputation": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -282,8 +308,7 @@
       {
         "text": "\"응, 이제 됐어.\"",
         "effects": {
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "flags": [],
         "follow_up_event": "",
@@ -303,7 +328,11 @@
       "flag": "mlm_refused",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "mlm"],
+    "tags": [
+      "social",
+      "callback",
+      "mlm"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -339,15 +368,18 @@
       "flag": "addiction_boundary_held",
       "min_turn": 4
     },
-    "tags": ["health", "callback", "addiction"],
+    "tags": [
+      "health",
+      "callback",
+      "addiction"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "이번에도 선을 지킨다",
         "effects": {
-          "mental": 10,
-          "health": 3,
-          "stress": -5
+          "mental": 15,
+          "health": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -356,11 +388,12 @@
       {
         "text": "이번 한 번쯤은 괜찮다",
         "effects": {
-          "mental": -5,
-          "health": -3,
-          "stress": 5
+          "mental": -10,
+          "health": -3
         },
-        "flags": ["addiction_relapsed"],
+        "flags": [
+          "addiction_relapsed"
+        ],
         "follow_up_event": "",
         "result_text": "한 번이 됐다.\n\"한 번\"은 항상 그 말로 시작했다.\n지켰던 것이 아깝게 됐다."
       }
@@ -378,7 +411,11 @@
       "flag": "addiction_recovering",
       "min_turn": 4
     },
-    "tags": ["health", "callback", "addiction"],
+    "tags": [
+      "health",
+      "callback",
+      "addiction"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -394,8 +431,7 @@
       {
         "text": "아직 멀었다는 생각이 든다",
         "effects": {
-          "mental": 5,
-          "stress": 3
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -415,17 +451,21 @@
       "flag": "health_ignored_twice",
       "min_turn": 3
     },
-    "tags": ["health", "callback"],
+    "tags": [
+      "health",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "지금 바로 예약한다",
         "effects": {
           "health": 5,
-          "stress": -5,
-          "mental": 5
+          "mental": 10
         },
-        "flags": ["health_treated"],
+        "flags": [
+          "health_treated"
+        ],
         "follow_up_event": "",
         "result_text": "예약했다.\n의사가 \"왜 이제 오셨어요\"라고 했다.\n두 번 미뤘던 것이 — 결과를 더 키웠다.\n세 번은 없었다."
       },
@@ -433,7 +473,7 @@
         "text": "조금만 더 버텨본다",
         "effects": {
           "health": -8,
-          "stress": 8
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -453,7 +493,11 @@
       "flag": "mlm_friend_recovered",
       "min_turn": 5
     },
-    "tags": ["social", "callback", "mlm"],
+    "tags": [
+      "social",
+      "callback",
+      "mlm"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -490,7 +534,11 @@
       "flag": "jeonse_insurance_saved",
       "min_turn": 6
     },
-    "tags": ["finance", "callback", "housing"],
+    "tags": [
+      "finance",
+      "callback",
+      "housing"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -527,15 +575,18 @@
       "flag": "jeonse_planning_move",
       "min_turn": 4
     },
-    "tags": ["finance", "callback", "housing"],
+    "tags": [
+      "finance",
+      "callback",
+      "housing"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "강남쪽 조금 더 가까운 곳으로 간다",
         "effects": {
           "money": -2000000,
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "flags": [],
         "follow_up_event": "",
@@ -545,7 +596,7 @@
         "text": "지금은 돈을 아끼는 게 맞다",
         "effects": {
           "money": 1000000,
-          "stress": 3
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",

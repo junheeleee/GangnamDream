@@ -30,8 +30,7 @@
           "daeun_first_kind"
         ],
         "effects": {
-          "mental": 6,
-          "stress": 2
+          "mental": 4
         },
         "cast_effects": {
           "daeun": {
@@ -91,9 +90,8 @@
           "arc_daeun_regular_seen"
         ],
         "effects": {
-          "mental": 7,
-          "money": -30000,
-          "stress": -4
+          "mental": 11,
+          "money": -30000
         },
         "cast_effects": {
           "daeun": {
@@ -110,8 +108,7 @@
           "arc_daeun_regular_seen"
         ],
         "effects": {
-          "mental": -2,
-          "stress": -1
+          "mental": -1
         },
         "cast_effects": {
           "daeun": {
@@ -124,7 +121,7 @@
         "result_text": "그 말이 입 밖으로 나왔다. 처음으로, 이 사람 앞에서.",
         "follow_up_event": "arc_daeun_02b_dream",
         "effects": {
-          "stress": 3
+          "mental": -3
         },
         "cast_effects": {
           "daeun": {
@@ -162,8 +159,7 @@
           "arc_daeun_regular_seen"
         ],
         "effects": {
-          "mental": 9,
-          "stress": -3
+          "mental": 12
         },
         "cast_effects": {
           "daeun": {
@@ -218,8 +214,7 @@
           "arc_daeun_fork_seen"
         ],
         "effects": {
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
         "cast_effects": {
           "daeun": {
@@ -236,8 +231,7 @@
           "arc_daeun_fork_seen"
         ],
         "effects": {
-          "mental": -8,
-          "stress": 4
+          "mental": -12
         },
         "cast_effects": {
           "daeun": {
@@ -272,8 +266,7 @@
       {
         "text": "조용히 옆에 앉아 있는다 — 이 사람을 위해서도 이기고 싶다",
         "effects": {
-          "mental": 12,
-          "stress": -8
+          "mental": 20
         },
         "cast_effects": {
           "daeun": {
@@ -290,8 +283,8 @@
       {
         "text": "일어나 노트북을 연다 — 이 사람 모르게 흔들리면 안 된다",
         "effects": {
-          "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "mental": -5
         },
         "cast_effects": {
           "daeun": {
@@ -329,8 +322,7 @@
       {
         "text": "\"오늘이 좋다\" — 강남을 잠깐 잊는다",
         "effects": {
-          "mental": 10,
-          "stress": -6
+          "mental": 16
         },
         "cast_effects": {
           "daeun": {
@@ -347,8 +339,7 @@
       {
         "text": "\"다음엔 더 좋은 데 데려올게요\" — 오늘이 부족하다는 생각",
         "effects": {
-          "mental": 5,
-          "stress": 2,
+          "mental": 3,
           "intelligence": 2
         },
         "cast_effects": {
@@ -387,8 +378,7 @@
       {
         "text": "\"같이 가는 거예요. 당신이랑 같이 가는 강남이어야 의미가 있어요\"",
         "effects": {
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "cast_effects": {
           "daeun": {
@@ -405,8 +395,8 @@
       {
         "text": "\"강남 가면 더 잘해줄 수 있어요. 지금은 좀 참아요\"",
         "effects": {
-          "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "mental": -5
         },
         "cast_effects": {
           "daeun": {
@@ -423,8 +413,7 @@
       {
         "text": "\"솔직히 모르겠어요. 그것도 생각해봐야 할 것 같아요\"",
         "effects": {
-          "mental": -3,
-          "stress": 3
+          "mental": -6
         },
         "cast_effects": {
           "daeun": {
@@ -463,8 +452,7 @@
       {
         "text": "보낸다 — 안부 정도는 괜찮다",
         "effects": {
-          "mental": -4,
-          "stress": 4
+          "mental": -8
         },
         "cast_effects": {
           "daeun": {
@@ -480,8 +468,7 @@
       {
         "text": "보내지 않는다 — 다시 그녀 삶에 들어가는 건 옳지 않다",
         "effects": {
-          "mental": -6,
-          "stress": -2,
+          "mental": -4,
           "intelligence": 2
         },
         "flags": [
@@ -514,8 +501,7 @@
       {
         "text": "좋아요를 눌렀다 — 잘 지내. 나도 잘 지낼게",
         "effects": {
-          "mental": -5,
-          "stress": 3
+          "mental": -8
         },
         "cast_effects": {
           "daeun": {
@@ -531,8 +517,7 @@
       {
         "text": "그냥 넘겼다 — 보지 않은 척하는 게 낫다",
         "effects": {
-          "mental": -8,
-          "stress": 5
+          "mental": -13
         },
         "flags": [
           "arc_daeun_ghost_seen"

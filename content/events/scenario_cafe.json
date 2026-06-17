@@ -27,7 +27,7 @@
           "cafe_scenario_seen"
         ],
         "effects": {
-          "stress": 2
+          "mental": -2
         }
       },
       {
@@ -46,8 +46,7 @@
           "cafe_left_early"
         ],
         "effects": {
-          "stress": -3,
-          "mental": 1
+          "mental": 4
         }
       }
     ]
@@ -77,7 +76,7 @@
         "result_text": "분양가, 평형, 연락처. 빨간 도장이 찍힌 숫자들이 눈에 들어왔다.",
         "follow_up_event": "cafe_peek_01",
         "effects": {
-          "stress": 6
+          "mental": -6
         }
       },
       {
@@ -129,8 +128,7 @@
           "cafe_stole_lead"
         ],
         "effects": {
-          "stress": 8,
-          "mental": -3
+          "mental": -11
         }
       }
     ]
@@ -294,8 +292,7 @@
           "cafe_humiliated"
         ],
         "effects": {
-          "stress": 12,
-          "mental": -6,
+          "mental": -18,
           "intelligence": 2
         }
       }
@@ -361,8 +358,7 @@
           "cafe_kindness"
         ],
         "effects": {
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         }
       },
       {

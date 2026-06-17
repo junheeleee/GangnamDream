@@ -21,8 +21,7 @@
       {
         "text": "마무리됐다고 생각한다",
         "effects": {
-          "mental": 10,
-          "stress": -8
+          "mental": 18
         },
         "flags": [],
         "follow_up_event": "",
@@ -135,8 +134,7 @@
       {
         "text": "\"네, 먹었어요. 아버지는요?\"",
         "effects": {
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
         "flags": [],
         "follow_up_event": "",
@@ -175,8 +173,7 @@
       {
         "text": "\"저도요. 곧 갈게요.\"",
         "effects": {
-          "mental": 15,
-          "stress": -8
+          "mental": 23
         },
         "flags": [],
         "follow_up_event": "",
@@ -215,8 +212,7 @@
       {
         "text": "기꺼이 오래 이야기한다",
         "effects": {
-          "mental": 12,
-          "stress": -5
+          "mental": 17
         },
         "flags": [],
         "follow_up_event": "",
@@ -255,9 +251,8 @@
       {
         "text": "반갑게 받는다",
         "effects": {
-          "mental": 15,
-          "reputation": 2,
-          "stress": -8
+          "mental": 23,
+          "reputation": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -431,7 +426,7 @@
         "text": "아직 부족하다 — 더 빠르게 올릴 방법을 찾는다",
         "effects": {
           "intelligence": 3,
-          "stress": 3
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -461,9 +456,8 @@
       {
         "text": "계획대로 가고 있다",
         "effects": {
-          "mental": 12,
-          "intelligence": 3,
-          "stress": -5
+          "mental": 17,
+          "intelligence": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -472,8 +466,8 @@
       {
         "text": "계획보다 늦어졌다",
         "effects": {
-          "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -542,8 +536,7 @@
       {
         "text": "가벼워졌다고 느낀다",
         "effects": {
-          "mental": 15,
-          "stress": -10
+          "mental": 25
         },
         "flags": [],
         "follow_up_event": "",
@@ -552,8 +545,7 @@
       {
         "text": "어떻게 될지 불안하다",
         "effects": {
-          "mental": 5,
-          "stress": 3
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "",

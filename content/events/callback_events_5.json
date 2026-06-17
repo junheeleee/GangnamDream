@@ -37,7 +37,7 @@
         "text": "조심스럽다. 일단 어떤 분인지 더 알아본다",
         "effects": {
           "intelligence": 2,
-          "stress": 3
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -70,7 +70,7 @@
         "effects": {
           "intelligence": 3,
           "investment_skill": 2,
-          "stress": 5
+          "mental": -5
         },
         "flags": [
           "shadow_investigated"
@@ -82,8 +82,7 @@
         "text": "소액만 넣어본다",
         "effects": {
           "money": -3000000,
-          "mental": -10,
-          "stress": 15,
+          "mental": -25,
           "intelligence": 3
         },
         "flags": [
@@ -169,9 +168,9 @@
       {
         "text": "전세보증보험 이행청구를 넣는다",
         "effects": {
-          "stress": 15,
           "money": 0,
-          "intelligence": 3
+          "intelligence": 3,
+          "mental": -15
         },
         "flags": [
           "jeonse_insurance_saved"
@@ -182,9 +181,8 @@
       {
         "text": "임차권등기를 치고 법적으로 싸운다",
         "effects": {
-          "stress": 20,
           "money": -2000000,
-          "mental": -10
+          "mental": -30
         },
         "flags": [
           "jeonse_fighting"
@@ -216,9 +214,8 @@
       {
         "text": "내 집 등기를 다시 확인한다",
         "effects": {
-          "mental": 8,
-          "intelligence": 2,
-          "stress": -5
+          "mental": 13,
+          "intelligence": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -259,8 +256,7 @@
         "text": "30만원을 우체통에 익명으로 넣는다",
         "effects": {
           "money": -300000,
-          "mental": 15,
-          "stress": -8
+          "mental": 23
         },
         "flags": [
           "wallet_guilt_resolved"
@@ -271,8 +267,7 @@
       {
         "text": "모른 척한다",
         "effects": {
-          "mental": -10,
-          "stress": 5
+          "mental": -15
         },
         "flags": [],
         "follow_up_event": "",
@@ -355,8 +350,8 @@
         "text": "물타기한다",
         "result_text": "백만 원을 더 넣었다. 평균 단가가 낮아졌다. 회복은 이제 시간문제라고 믿었다.",
         "effects": {
-          "stress": 8,
-          "money": -1000000
+          "money": -1000000,
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -395,8 +390,7 @@
       {
         "text": "\"아직 가고 있어\"",
         "effects": {
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "flags": [],
         "follow_up_event": "",
@@ -475,9 +469,8 @@
       {
         "text": "다른 동력을 찾는다. 분노 말고",
         "effects": {
-          "mental": 10,
-          "health": 3,
-          "stress": -8
+          "mental": 18,
+          "health": 3
         },
         "flags": [
           "envy_fuel_shifted"
@@ -488,8 +481,7 @@
       {
         "text": "이 피곤함도 과정이다. 계속 간다",
         "effects": {
-          "mental": -3,
-          "stress": 5,
+          "mental": -8,
           "health": -3
         },
         "flags": [],
@@ -520,9 +512,8 @@
       {
         "text": "\"그래, 말해줘서 고마워. 밥이나 먹자\"",
         "effects": {
-          "mental": 8,
-          "social_skill": 2,
-          "stress": -5
+          "mental": 13,
+          "social_skill": 2
         },
         "flags": [
           "friendship_deepened"
@@ -564,8 +555,7 @@
         "text": "이체하고 전화드린다",
         "effects": {
           "money": -3000000,
-          "mental": 15,
-          "stress": -8
+          "mental": 23
         },
         "flags": [
           "parents_debt_repaid"
@@ -576,7 +566,7 @@
       {
         "text": "좀 더 모이면 한꺼번에 갚는다",
         "effects": {
-          "stress": 3
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -606,8 +596,7 @@
       {
         "text": "솔직하게 다 말한다",
         "effects": {
-          "stress": 20,
-          "mental": 5,
+          "mental": -15,
           "reputation": 1
         },
         "flags": [
@@ -619,8 +608,8 @@
       {
         "text": "변호사를 먼저 선임한다",
         "effects": {
-          "stress": 15,
-          "money": -2000000
+          "money": -2000000,
+          "mental": -15
         },
         "flags": [],
         "follow_up_event": "",
@@ -650,8 +639,7 @@
       {
         "text": "끝까지 듣는다",
         "effects": {
-          "mental": 12,
-          "stress": -6,
+          "mental": 18,
           "social_skill": 1
         },
         "flags": [
@@ -663,8 +651,7 @@
       {
         "text": "\"아버지도 고생 많으셨네요\"",
         "effects": {
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "flags": [],
         "follow_up_event": "",
@@ -694,8 +681,7 @@
       {
         "text": "아버지께 직접 전화한다",
         "effects": {
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
         "flags": [
           "father_health_checked"
@@ -750,7 +736,7 @@
       {
         "text": "거절한다. 지금은 다른 데 집중하고 싶다",
         "effects": {
-          "stress": -3
+          "mental": 3
         },
         "flags": [],
         "follow_up_event": "",

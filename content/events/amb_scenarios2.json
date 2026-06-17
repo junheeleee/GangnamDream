@@ -48,8 +48,7 @@
         ],
         "effects": {
           "intelligence": 2,
-          "stress": 6,
-          "mental": -2
+          "mental": -8
         },
         "cast_effects": {
           "hyunsu": {
@@ -62,7 +61,7 @@
         "result_text": "현수의 표정이 굳었다. \"형은 항상 그래요\"라는 말이 날아왔다.",
         "follow_up_event": "amb_coin_warn",
         "effects": {
-          "stress": 4
+          "mental": -4
         }
       }
     ]
@@ -93,8 +92,7 @@
           "coin_warned_friend"
         ],
         "effects": {
-          "stress": 6,
-          "mental": 3
+          "mental": -3
         },
         "cast_effects": {
           "hyunsu": {
@@ -109,8 +107,7 @@
           "coin_let_go"
         ],
         "effects": {
-          "stress": -2,
-          "mental": -4
+          "mental": -2
         },
         "cast_effects": {
           "hyunsu": {
@@ -145,7 +142,7 @@
         "follow_up_event": "amb_holiday_home",
         "effects": {
           "money": -150000,
-          "stress": 7
+          "mental": -7
         },
         "cast_effects": {
           "father": {
@@ -161,8 +158,7 @@
         ],
         "effects": {
           "money": 0,
-          "stress": -3,
-          "mental": -5
+          "mental": -2
         },
         "cast_effects": {
           "father": {
@@ -178,8 +174,7 @@
         ],
         "effects": {
           "money": -80000,
-          "mental": 5,
-          "stress": -2
+          "mental": 7
         },
         "cast_effects": {
           "father": {
@@ -215,8 +210,7 @@
           "holiday_endured"
         ],
         "effects": {
-          "stress": 8,
-          "mental": -2
+          "mental": -10
         },
         "cast_effects": {
           "father": {
@@ -231,8 +225,7 @@
           "holiday_snapped"
         ],
         "effects": {
-          "stress": -4,
-          "mental": 3
+          "mental": 7
         },
         "cast_effects": {
           "father": {

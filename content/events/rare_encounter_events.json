@@ -68,8 +68,7 @@
         "text": "반갑게 인사하고 같이 기다린다",
         "effects": {
           "social_skill": 3,
-          "stress": -5,
-          "mental": 4,
+          "mental": 9,
           "reputation": 2
         },
         "flags": [],
@@ -79,8 +78,8 @@
       {
         "text": "가볍게 목례만 하고 각자 준비한다",
         "effects": {
-          "stress": -3,
-          "intelligence": 1
+          "intelligence": 1,
+          "mental": 3
         },
         "flags": [],
         "result_text": "면접은 각자였다.\n{name}이 먼저 불려 들어갔다. 잘 봤다.\n\n나오면서 보니 동창 자리가 비어 있었다.\n붙었는지 모른다. 연락처는 없다.",
@@ -111,8 +110,7 @@
         "text": "그냥 듣는다",
         "effects": {
           "intelligence": 3,
-          "mental": 5,
-          "stress": -4
+          "mental": 9
         },
         "flags": [],
         "result_text": "남자는 20분을 얘기했다.\n직장 잘리고 치킨집 차렸다가 망하고, 다시 작은 물류 일 시작한 얘기.\n\"근데 그게 다 내 얘기잖아. 남 얘기처럼 하게 됐어. 그게 되면 다 된 거야.\"\n\n남자가 나갔다. {name}은 그 말을 한동안 생각했다.",
@@ -122,9 +120,8 @@
         "text": "\"어떻게 버티셨어요?\" 진짜로 묻는다",
         "effects": {
           "intelligence": 4,
-          "mental": 7,
-          "social_skill": 2,
-          "stress": -5
+          "mental": 12,
+          "social_skill": 2
         },
         "flags": [
           "heard_drunk_wisdom"
@@ -156,8 +153,7 @@
       {
         "text": "받는다",
         "effects": {
-          "mental": 6,
-          "stress": -8,
+          "mental": 14,
           "luck": 3,
           "reputation": 2
         },
@@ -170,8 +166,7 @@
       {
         "text": "모르는 번호라 안 받는다",
         "effects": {
-          "stress": 5,
-          "mental": -3
+          "mental": -8
         },
         "flags": [],
         "result_text": "부재중 알림이 남았다.\n다시 전화했을 때 이미 다른 지원자에게 연락이 됐다고 했다.\n\n{name}은 그 번호를 저장했다.\n다음엔 모르는 번호도 받기로 했다.",
@@ -212,8 +207,7 @@
         "text": "현금만 꺼내고 지갑은 놔둔다",
         "effects": {
           "money": 150000,
-          "mental": -8,
-          "stress": 6,
+          "mental": -14,
           "luck": -3
         },
         "flags": [],
@@ -243,8 +237,7 @@
       {
         "text": "\"감사합니다. 계좌 알려주시면 바로 드릴게요\"",
         "effects": {
-          "mental": 8,
-          "stress": -6,
+          "mental": 14,
           "social_skill": 2,
           "reputation": 3
         },
@@ -257,8 +250,7 @@
       {
         "text": "\"괜찮습니다\" 하고 물건을 내려놓는다",
         "effects": {
-          "stress": 8,
-          "mental": -4
+          "mental": -12
         },
         "flags": [
           "stranger_help_declined"
@@ -290,8 +282,7 @@
       {
         "text": "\"어떤 포지션인가요?\" 듣는다",
         "effects": {
-          "mental": 7,
-          "stress": -5,
+          "mental": 12,
           "reputation": 3,
           "luck": 2
         },
@@ -304,9 +295,8 @@
       {
         "text": "정중히 거절한다. 원하는 포지션이 따로 있다",
         "effects": {
-          "mental": 3,
-          "intelligence": 2,
-          "stress": -2
+          "mental": 5,
+          "intelligence": 2
         },
         "flags": [],
         "result_text": "\"감사합니다만, 다른 방향을 보고 있습니다.\"\n\n면접관이 고개를 끄덕였다. 명함을 한 장 줬다.\n\"언제든 생각 바뀌면 연락해요.\"\n\n{name}은 명함을 지갑에 넣었다.",
@@ -349,8 +339,8 @@
       {
         "text": "\"그냥 정리 중이에요\" 간단히 답한다",
         "effects": {
-          "stress": -2,
-          "money": 30000
+          "money": 30000,
+          "mental": 2
         },
         "flags": [],
         "result_text": "남자가 웃으며 갔다.\n3만원이 생겼다.\n\n별거 아닌 거래였다. 그냥 거래였다.",
@@ -381,9 +371,8 @@
         "text": "사장님께 바로 연락한다",
         "effects": {
           "reputation": 10,
-          "mental": 7,
-          "luck": 4,
-          "stress": -5
+          "mental": 12,
+          "luck": 4
         },
         "flags": [
           "honest_found_money"
@@ -395,8 +384,7 @@
         "text": "모른 척 들고 나온다",
         "effects": {
           "money": 500000,
-          "mental": -12,
-          "stress": 10,
+          "mental": -22,
           "reputation": -5,
           "luck": -3
         },
@@ -431,8 +419,7 @@
       {
         "text": "수락한다. 오늘 사직서 낸다",
         "effects": {
-          "stress": -15,
-          "mental": 8,
+          "mental": 23,
           "reputation": 2
         },
         "flags": [
@@ -444,8 +431,7 @@
       {
         "text": "\"일주일만 시간을 주세요\" 하고 현 직장 먼저 정리한다",
         "effects": {
-          "stress": -8,
-          "mental": 5,
+          "mental": 13,
           "intelligence": 2,
           "reputation": 4
         },
@@ -475,8 +461,7 @@
       {
         "text": "진심으로 축하한다",
         "effects": {
-          "mental": 10,
-          "stress": -6,
+          "mental": 16,
           "luck": 2
         },
         "flags": [
@@ -488,8 +473,7 @@
       {
         "text": "\"나도 곧 나가야지\" 혼자 생각한다",
         "effects": {
-          "mental": 6,
-          "stress": -4,
+          "mental": 10,
           "intelligence": 2
         },
         "flags": [
@@ -523,7 +507,7 @@
         "effects": {
           "money": -5000,
           "luck": 2,
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "rare_lottery_result",
@@ -533,7 +517,7 @@
         "text": "안 산다. 확률의 문제다",
         "effects": {
           "intelligence": 1,
-          "stress": -1
+          "mental": 1
         },
         "flags": [],
         "result_text": "복권을 내려놨다.\n기댓값으로 보면 항상 지는 게임이다.\n\n5,000원으로 삼각김밥을 샀다. 배가 불렀다.\n이게 더 확실한 수익이었다.",
@@ -561,8 +545,7 @@
         "effects": {
           "money": 50000,
           "luck": 3,
-          "mental": 4,
-          "stress": -3
+          "mental": 7
         },
         "flags": [
           "won_lottery_small"

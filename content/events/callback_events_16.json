@@ -238,8 +238,8 @@
       {
         "text": "회복할 방법을 찾는다",
         "effects": {
-          "stress": 8,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -301,9 +301,8 @@
       {
         "text": "지금이라도 솔직하게 말한다",
         "effects": {
-          "stress": 10,
           "reputation": -3,
-          "mental": 5,
+          "mental": -5,
           "intelligence": 3
         },
         "flags": [],
@@ -313,9 +312,8 @@
       {
         "text": "계속 부인한다",
         "effects": {
-          "stress": 15,
           "reputation": -5,
-          "mental": -10
+          "mental": -25
         },
         "flags": [],
         "follow_up_event": "",
@@ -437,8 +435,8 @@
       {
         "text": "이번엔 그냥 감으로 간다",
         "effects": {
-          "stress": 5,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -478,7 +476,7 @@
       {
         "text": "일단 내용은 봐본다",
         "effects": {
-          "stress": 3
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -518,8 +516,8 @@
       {
         "text": "이번엔 다르다고 생각한다",
         "effects": {
-          "stress": 5,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -559,8 +557,8 @@
       {
         "text": "좋은 소식이면 더 들고 가는 게 낫겠다",
         "effects": {
-          "stress": 5,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",

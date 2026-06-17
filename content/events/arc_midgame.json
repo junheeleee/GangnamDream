@@ -22,8 +22,7 @@
       {
         "text": "\"그럼. 안 되면 어쩔 건데.\" — 확신 있게",
         "effects": {
-          "mental": 2,
-          "stress": 2
+          "mental": 0
         },
         "flags": [
           "arc_hyunsu_night_seen"
@@ -46,7 +45,7 @@
         "text": "\"너는 될 것 같아?\" — 되물어본다",
         "effects": {
           "intelligence": 1,
-          "stress": -2
+          "mental": 2
         },
         "flags": [
           "arc_hyunsu_night_seen"
@@ -79,8 +78,7 @@
         "text": "\"더 크게 베팅해야 한다.\" — 속도를 올린다",
         "effects": {
           "investment_skill": 1,
-          "stress": 5,
-          "mental": -2
+          "mental": -7
         },
         "flags": [
           "arc_midpoint_reckoning_seen",
@@ -91,8 +89,7 @@
       {
         "text": "\"지금 방식이 맞다. 흔들리지 않는다.\" — 버틴다",
         "effects": {
-          "mental": 5,
-          "stress": -3
+          "mental": 8
         },
         "flags": [
           "arc_midpoint_reckoning_seen",
@@ -104,7 +101,7 @@
         "text": "\"전략을 다시 짜야 한다.\" — 멈추고 생각한다",
         "effects": {
           "intelligence": 2,
-          "stress": 2
+          "mental": -2
         },
         "flags": [
           "arc_midpoint_reckoning_seen",
@@ -138,7 +135,7 @@
         "text": "\"힘드시겠다.\" — 조용히 공감한다",
         "effects": {
           "social_skill": 1,
-          "stress": -2
+          "mental": 2
         },
         "flags": [
           "arc_sangchul_offguard_seen"
@@ -169,7 +166,7 @@
       {
         "text": "\"아드님은 뭘 하고 싶은 거래요?\" — 자식 얘기로 넘어간다",
         "effects": {
-          "stress": -1
+          "mental": 1
         },
         "flags": [
           "arc_sangchul_offguard_seen"
@@ -206,9 +203,8 @@
       {
         "text": "\"죄송합니다. 정신 차리겠습니다.\" — 직장을 잡는다",
         "effects": {
-          "stress": -3,
           "reputation": 1,
-          "mental": -2
+          "mental": 1
         },
         "flags": [
           "arc_job_invest_clash_seen",
@@ -220,8 +216,8 @@
         "text": "솔직하게 털어놓는다 — \"개인적으로 공부하는 게 있어서요\"",
         "effects": {
           "social_skill": 1,
-          "stress": 4,
-          "reputation": 1
+          "reputation": 1,
+          "mental": -4
         },
         "flags": [
           "arc_job_invest_clash_seen",
@@ -232,8 +228,7 @@
       {
         "text": "\"좀 피곤했었어요. 조심하겠습니다.\" — 넘어간다",
         "effects": {
-          "stress": 5,
-          "mental": -3
+          "mental": -8
         },
         "flags": [
           "arc_job_invest_clash_seen"
@@ -267,8 +262,7 @@
         "text": "반갑게 다가간다 — \"야, 오랜만이다\"",
         "effects": {
           "social_skill": 1,
-          "stress": 5,
-          "mental": -3
+          "mental": -8
         },
         "flags": [
           "arc_social_comparison_seen",
@@ -279,8 +273,7 @@
       {
         "text": "못 본 척한다 — 구석 자리를 찾는다",
         "effects": {
-          "mental": -5,
-          "stress": 3
+          "mental": -8
         },
         "flags": [
           "arc_social_comparison_seen",
@@ -326,8 +319,7 @@
       {
         "text": "아무에게도 말 안 한다. 혼자 편의점 가서 비싼 거 산다",
         "effects": {
-          "mental": 8,
-          "stress": -4,
+          "mental": 12,
           "money": -15000
         },
         "flags": [
@@ -338,8 +330,7 @@
       {
         "text": "아버지에게 전화한다",
         "effects": {
-          "mental": 10,
-          "stress": -3
+          "mental": 13
         },
         "flags": [
           "arc_first_real_win_seen",
@@ -459,8 +450,7 @@
       {
         "text": "\"그래도 직장은 지킨다\" — 안정의 기반으로 쓴다",
         "effects": {
-          "mental": 3,
-          "stress": -4,
+          "mental": 7,
           "money": 500000
         },
         "flags": [
@@ -473,8 +463,8 @@
         "text": "\"더 크게 움직여야 한다\" — 이직이나 다른 길을 생각한다",
         "effects": {
           "investment_skill": 1,
-          "stress": 6,
-          "intelligence": 1
+          "intelligence": 1,
+          "mental": -6
         },
         "flags": [
           "arc_career_ceiling_seen",
@@ -486,8 +476,7 @@
         "text": "\"처음부터 알고 있었다\" — 받아들인다",
         "effects": {
           "intelligence": 2,
-          "mental": 3,
-          "stress": -2
+          "mental": 5
         },
         "flags": [
           "arc_career_ceiling_seen"
@@ -519,8 +508,7 @@
       {
         "text": "\"감사했습니다.\" — 짧게 인사하고 나온다",
         "effects": {
-          "mental": 5,
-          "stress": -2
+          "mental": 7
         },
         "flags": [
           "arc_goshiwon_goodbye_seen"
@@ -547,8 +535,7 @@
       {
         "text": "복도 끝에서 잠깐 멈춘다. 여기서 보낸 시간을 생각한다",
         "effects": {
-          "mental": 8,
-          "stress": -4
+          "mental": 12
         },
         "flags": [
           "arc_goshiwon_goodbye_seen",
@@ -581,8 +568,7 @@
       {
         "text": "\"강남 가면 제일 먼저 연락할게요.\" — 말하려다 참는다",
         "effects": {
-          "mental": 3,
-          "stress": -2
+          "mental": 5
         },
         "flags": [
           "arc_father_quiet_call_seen"
@@ -646,8 +632,7 @@
         "text": "\"마지막 기회에 크게 간다.\" — 남은 걸 건다",
         "effects": {
           "investment_skill": 2,
-          "stress": 7,
-          "mental": -2
+          "mental": -9
         },
         "flags": [
           "arc_late_game_push_seen",
@@ -658,8 +643,7 @@
       {
         "text": "\"지금까지 한 것만으로도 괜찮다.\" — 받아들인다",
         "effects": {
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "flags": [
           "arc_late_game_push_seen",
@@ -670,8 +654,7 @@
       {
         "text": "결론 내지 않는다. 다음 달을 산다",
         "effects": {
-          "mental": 3,
-          "stress": -2
+          "mental": 5
         },
         "flags": [
           "arc_late_game_push_seen"
@@ -703,8 +686,7 @@
       {
         "text": "\"그래도 네가 한 5년은 어디 안 가.\" — 위로한다",
         "effects": {
-          "mental": 2,
-          "stress": 2
+          "mental": 0
         },
         "flags": [
           "arc_hyunsu_exam_fail_seen"
@@ -715,7 +697,7 @@
         "text": "\"다음엔 어떻게 할 거야?\" — 현실적으로 묻는다",
         "effects": {
           "intelligence": 1,
-          "stress": 3
+          "mental": -3
         },
         "flags": [
           "arc_hyunsu_exam_fail_seen",
@@ -771,8 +753,7 @@
       {
         "text": "\"여기가 정말 내 목표인지 모르겠다.\" — 솔직해진다",
         "effects": {
-          "mental": 6,
-          "stress": -4
+          "mental": 10
         },
         "flags": [
           "arc_gangnam_visit_alone_seen",
@@ -815,7 +796,7 @@
       {
         "text": "\"야 재혁아, 요즘 어때?\" — 먼저 연락해본다",
         "effects": {
-          "stress": 6
+          "mental": -6
         },
         "flags": [
           "arc_jaehyuk_wait_seen",
@@ -826,8 +807,7 @@
       {
         "text": "정산일까지 기다린다. 당연히 연락이 올 것이다",
         "effects": {
-          "stress": 9,
-          "mental": -4
+          "mental": -13
         },
         "flags": [
           "arc_jaehyuk_wait_seen"
@@ -837,8 +817,7 @@
       {
         "text": "일부만이라도 돌려달라고 연락한다",
         "effects": {
-          "stress": 4,
-          "mental": -2
+          "mental": -6
         },
         "flags": [
           "arc_jaehyuk_wait_seen",
@@ -871,7 +850,7 @@
       {
         "text": "그냥 지나쳤다",
         "effects": {
-          "stress": -1
+          "mental": 1
         },
         "flags": [
           "arc_hyunsu_drift_seen",
@@ -899,8 +878,7 @@
       {
         "text": "라면 하나 끓여서 현수 방 앞에 뒀다",
         "effects": {
-          "mental": -3,
-          "stress": -2
+          "mental": -1
         },
         "flags": [
           "arc_hyunsu_drift_seen",
@@ -939,8 +917,7 @@
         "text": "다시 계획표를 폈다 — 숫자로 돌아간다",
         "effects": {
           "intelligence": 1,
-          "stress": 3,
-          "mental": -2
+          "mental": -5
         },
         "flags": [
           "arc_goal_vertigo_seen",
@@ -951,8 +928,7 @@
       {
         "text": "그냥 자려고 누웠다",
         "effects": {
-          "mental": 5,
-          "stress": -3
+          "mental": 8
         },
         "flags": [
           "arc_goal_vertigo_seen",
@@ -964,8 +940,7 @@
         "text": "바람 쐬러 나갔다. 한강까지 걸었다",
         "effects": {
           "health": 3,
-          "mental": 4,
-          "stress": -5
+          "mental": 9
         },
         "flags": [
           "arc_goal_vertigo_seen",
@@ -998,8 +973,7 @@
       {
         "text": "창문을 열었다 — 바깥 소리라도",
         "effects": {
-          "mental": 3,
-          "stress": -2
+          "mental": 5
         },
         "flags": [
           "arc_housing_new_life_seen"
@@ -1009,8 +983,7 @@
       {
         "text": "고시원이 생각났다 — 이상한 감정이다",
         "effects": {
-          "mental": 2,
-          "stress": -3
+          "mental": 5
         },
         "flags": [
           "arc_housing_new_life_seen",
@@ -1022,7 +995,7 @@
         "text": "제일 먼저 책상을 폈다 — 일하자",
         "effects": {
           "intelligence": 1,
-          "stress": 1
+          "mental": -1
         },
         "flags": [
           "arc_housing_new_life_seen"
@@ -1054,8 +1027,7 @@
       {
         "text": "아버지한테 전화했다 — 그냥 목소리나 들으려고",
         "effects": {
-          "mental": 5,
-          "stress": -3
+          "mental": 8
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1072,8 +1044,7 @@
         "text": "아무한테도 말 안 했다 — 혼자 간직하기로",
         "effects": {
           "intelligence": 1,
-          "mental": -3,
-          "stress": 2
+          "mental": -5
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1084,8 +1055,7 @@
       {
         "text": "편의점에서 혼자 캔맥주를 마셨다 — 자축",
         "effects": {
-          "mental": 3,
-          "stress": -4,
+          "mental": 7,
           "health": -1
         },
         "flags": [
@@ -1119,8 +1089,7 @@
       {
         "text": "\"죄송합니다\" — 예의 바르게 마무리했다",
         "effects": {
-          "stress": -8,
-          "mental": 3,
+          "mental": 11,
           "reputation": 1
         },
         "flags": [
@@ -1132,8 +1101,7 @@
       {
         "text": "\"제가 지금 할 일이 생겼어요\" — 담담하게",
         "effects": {
-          "stress": -6,
-          "mental": 5,
+          "mental": 11,
           "investment_skill": 1
         },
         "flags": [
@@ -1145,9 +1113,8 @@
       {
         "text": "아무 말 없이 도장만 찍었다",
         "effects": {
-          "stress": -5,
           "reputation": -1,
-          "mental": 2
+          "mental": 7
         },
         "flags": [
           "arc_quit_job_seen",
@@ -1180,8 +1147,7 @@
       {
         "text": "아버지한테 직접 전화했다",
         "effects": {
-          "mental": -2,
-          "stress": 3
+          "mental": -5
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1197,8 +1163,7 @@
       {
         "text": "어머니한테 \"알겠어요\" 하고 넘겼다",
         "effects": {
-          "stress": 2,
-          "mental": -3
+          "mental": -5
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1209,8 +1174,7 @@
       {
         "text": "주말에 내려가겠다고 했다",
         "effects": {
-          "mental": 3,
-          "stress": -2,
+          "mental": 5,
           "money": -50000
         },
         "flags": [
@@ -1250,8 +1214,7 @@
         "text": "더 가야 한다 — 계획을 짰다",
         "effects": {
           "intelligence": 2,
-          "stress": 4,
-          "mental": -2
+          "mental": -6
         },
         "flags": [
           "arc_almost_there_seen",
@@ -1262,8 +1225,7 @@
       {
         "text": "오늘은 쉬기로 했다",
         "effects": {
-          "mental": 6,
-          "stress": -5,
+          "mental": 11,
           "health": 2
         },
         "flags": [
@@ -1274,8 +1236,7 @@
       {
         "text": "30억이 더 멀어 보였다",
         "effects": {
-          "mental": -4,
-          "stress": 5
+          "mental": -9
         },
         "flags": [
           "arc_almost_there_seen",
@@ -1308,8 +1269,7 @@
       {
         "text": "그냥 계산했다 — 지나간 일이다",
         "effects": {
-          "mental": -2,
-          "stress": -1
+          "mental": -1
         },
         "flags": [
           "arc_daeun_trace_seen"
@@ -1319,8 +1279,7 @@
       {
         "text": "잠깐 그 자리에서 서 있었다",
         "effects": {
-          "mental": -4,
-          "stress": 2
+          "mental": -6
         },
         "flags": [
           "arc_daeun_trace_seen",
@@ -1331,8 +1290,7 @@
       {
         "text": "다은한테 메시지를 썼다 — 지우고 안 보냈다",
         "effects": {
-          "mental": -5,
-          "stress": 3
+          "mental": -8
         },
         "flags": [
           "arc_daeun_trace_seen",
@@ -1365,8 +1323,7 @@
       {
         "text": "그 아파트를 다시 올려다봤다",
         "effects": {
-          "mental": 6,
-          "stress": -3
+          "mental": 9
         },
         "flags": [
           "arc_final_stretch_seen",
@@ -1378,8 +1335,7 @@
         "text": "길을 걸으면서 숫자를 계산했다",
         "effects": {
           "intelligence": 2,
-          "stress": 3,
-          "mental": -1
+          "mental": -4
         },
         "flags": [
           "arc_final_stretch_seen",
@@ -1390,8 +1346,7 @@
       {
         "text": "두렵다는 걸 처음으로 인정했다",
         "effects": {
-          "mental": 5,
-          "stress": -2
+          "mental": 7
         },
         "flags": [
           "arc_final_stretch_seen",
@@ -1424,8 +1379,7 @@
       {
         "text": "그냥 넘어갔다 — 아직은 말하기 어렵다",
         "effects": {
-          "stress": 2,
-          "mental": -2
+          "mental": -4
         },
         "flags": [
           "arc_daeun_money_gap_seen"
@@ -1440,8 +1394,7 @@
       {
         "text": "\"나 요즘 투자 좀 되고 있어\" — 조금 말했다",
         "effects": {
-          "stress": -2,
-          "mental": 3
+          "mental": 5
         },
         "flags": [
           "arc_daeun_money_gap_seen",
@@ -1457,8 +1410,7 @@
       {
         "text": "다 말하기로 했다 — 이 사람은 믿을 수 있다",
         "effects": {
-          "stress": -5,
-          "mental": 5,
+          "mental": 10,
           "social_skill": 1
         },
         "flags": [
@@ -1531,7 +1483,7 @@
         "text": "\"그 집 얼마짜리였어요?\" — 투자 얘기로 틀었다",
         "effects": {
           "investment_skill": 1,
-          "stress": -2
+          "mental": 2
         },
         "flags": [
           "arc_sangchul_human_seen",
@@ -1570,8 +1522,7 @@
         "text": "다시 계획을 잡기 시작했다",
         "effects": {
           "intelligence": 2,
-          "mental": -3,
-          "stress": 5
+          "mental": -8
         },
         "flags": [
           "arc_after_scam_seen",
@@ -1582,8 +1533,7 @@
       {
         "text": "현수한테 연락했다",
         "effects": {
-          "mental": 4,
-          "stress": -4
+          "mental": 8
         },
         "flags": [
           "arc_after_scam_seen",
@@ -1599,8 +1549,7 @@
       {
         "text": "하루 종일 아무것도 안 했다",
         "effects": {
-          "mental": 5,
-          "stress": -5,
+          "mental": 10,
           "health": -2
         },
         "flags": [
@@ -1634,8 +1583,7 @@
       {
         "text": "그래도 이게 지금 최선이다 — 버텼다",
         "effects": {
-          "mental": 2,
-          "stress": -3,
+          "mental": 5,
           "reputation": 1
         },
         "flags": [
@@ -1647,9 +1595,8 @@
       {
         "text": "일 자체는 괜찮았다",
         "effects": {
-          "mental": 3,
-          "intelligence": 1,
-          "stress": -2
+          "mental": 5,
+          "intelligence": 1
         },
         "flags": [
           "arc_first_job_week_seen",
@@ -1660,8 +1607,7 @@
       {
         "text": "이게 맞나 싶었다 — 회의감",
         "effects": {
-          "mental": -4,
-          "stress": 4,
+          "mental": -8,
           "investment_skill": 1
         },
         "flags": [
@@ -1708,8 +1654,7 @@
       {
         "text": "현수한테 \"자라\" 하고 잤다",
         "effects": {
-          "mental": 3,
-          "stress": -3
+          "mental": 6
         },
         "flags": [
           "arc_night_routine_seen",
@@ -1725,8 +1670,7 @@
       {
         "text": "차트 대신 맥주 한 캔 했다",
         "effects": {
-          "mental": 4,
-          "stress": -4,
+          "mental": 8,
           "health": -1
         },
         "flags": [
@@ -1760,8 +1704,7 @@
       {
         "text": "17억짜리를 찜했다 — 이게 목표다",
         "effects": {
-          "mental": 5,
-          "stress": -2
+          "mental": 7
         },
         "flags": [
           "arc_gangnam_real_estate_seen",
@@ -1772,8 +1715,7 @@
       {
         "text": "앱을 닫았다 — 아직 현실이 아니다",
         "effects": {
-          "mental": -2,
-          "stress": 2
+          "mental": -4
         },
         "flags": [
           "arc_gangnam_real_estate_seen"
@@ -1783,8 +1725,7 @@
       {
         "text": "25억짜리를 봤다 — 한 번 제대로 가려면",
         "effects": {
-          "mental": 3,
-          "stress": 4,
+          "mental": -1,
           "investment_skill": 1
         },
         "flags": [
@@ -1818,8 +1759,7 @@
       {
         "text": "\"그래도 간다\" — 다시 걷기 시작한다",
         "effects": {
-          "mental": 5,
-          "stress": -3
+          "mental": 8
         },
         "flags": [
           "arc_four_months_seen",
@@ -1831,8 +1771,7 @@
       {
         "text": "\"다른 방법이 있어야 한다\" — 지름길을 생각한다",
         "effects": {
-          "mental": 2,
-          "stress": 3,
+          "mental": -1,
           "intelligence": 1
         },
         "flags": [
@@ -1845,8 +1784,7 @@
       {
         "text": "그냥 오래 서 있는다",
         "effects": {
-          "mental": 8,
-          "stress": -6
+          "mental": 14
         },
         "flags": [
           "arc_four_months_seen"

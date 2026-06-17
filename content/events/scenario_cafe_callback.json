@@ -24,7 +24,7 @@
         "result_text": "신호음이 세 번 울렸다. 심장이 따라 뛰었다.",
         "follow_up_event": "cafe_cb_stole_call",
         "effects": {
-          "stress": 5
+          "mental": -5
         },
         "flags": [
           "cafe_callback_seen"
@@ -38,8 +38,7 @@
           "cafe_callback_seen"
         ],
         "effects": {
-          "mental": 7,
-          "stress": -4
+          "mental": 11
         }
       }
     ]
@@ -82,7 +81,7 @@
         ],
         "effects": {
           "intelligence": 2,
-          "stress": -2
+          "mental": 2
         }
       }
     ]
@@ -285,7 +284,7 @@
           "stake_ratio": 0.55,
           "success_rate": 0.28,
           "win_multiplier": 1.7,
-          "loss_ratio": 0.50,
+          "loss_ratio": 0.5,
           "luck_factor": 0.0018,
           "skill_gain": 6,
           "win_flag": "cafe_honest_win",
@@ -347,8 +346,7 @@
           "cafe_callback_seen"
         ],
         "effects": {
-          "stress": 4,
-          "mental": -2
+          "mental": -6
         }
       }
     ]

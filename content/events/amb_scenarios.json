@@ -25,7 +25,7 @@
         "follow_up_event": "amb_jeonse_check",
         "effects": {
           "money": -1000,
-          "stress": 8
+          "mental": -8
         }
       },
       {
@@ -35,8 +35,7 @@
           "jeonse_ignored"
         ],
         "effects": {
-          "stress": -3,
-          "mental": -5
+          "mental": -2
         }
       },
       {
@@ -44,8 +43,8 @@
         "result_text": "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다.",
         "follow_up_event": "amb_jeonse_confront",
         "effects": {
-          "stress": 10,
-          "social_skill": 1
+          "social_skill": 1,
+          "mental": -10
         }
       }
     ]
@@ -77,8 +76,7 @@
         ],
         "effects": {
           "money": -300000,
-          "stress": -10,
-          "mental": 6
+          "mental": 16
         }
       },
       {
@@ -88,8 +86,7 @@
           "jeonse_uninsured_gamble"
         ],
         "effects": {
-          "stress": 7,
-          "mental": -3
+          "mental": -10
         }
       }
     ]
@@ -121,8 +118,7 @@
         ],
         "effects": {
           "money": -150000,
-          "stress": 4,
-          "mental": 3
+          "mental": -1
         }
       },
       {
@@ -133,8 +129,7 @@
         ],
         "effects": {
           "money": 0,
-          "mental": -4,
-          "stress": 3
+          "mental": -7
         }
       }
     ]
@@ -167,7 +162,7 @@
           "reputation": 3,
           "social_skill": 2,
           "health": -8,
-          "stress": -2
+          "mental": 2
         }
       },
       {
@@ -178,9 +173,9 @@
         ],
         "effects": {
           "health": 5,
-          "stress": 3,
           "reputation": -4,
-          "social_skill": -1
+          "social_skill": -1,
+          "mental": -3
         }
       },
       {
@@ -188,8 +183,7 @@
         "result_text": "화장실 칸에 앉아 10분을 버텼다. 밖에서 \"걔 어디 갔어?\" 하는 소리가 들렸다.",
         "follow_up_event": "amb_hoesik_dodge",
         "effects": {
-          "stress": 5,
-          "mental": -1
+          "mental": -6
         }
       }
     ]
@@ -221,8 +215,8 @@
         ],
         "effects": {
           "health": -5,
-          "stress": 6,
-          "reputation": 1
+          "reputation": 1,
+          "mental": -6
         }
       },
       {
@@ -266,8 +260,8 @@
         ],
         "effects": {
           "social_skill": 2,
-          "stress": 4,
-          "health": 2
+          "health": 2,
+          "mental": -4
         }
       },
       {
@@ -279,7 +273,7 @@
         "effects": {
           "health": -5,
           "reputation": 1,
-          "stress": 3
+          "mental": -3
         }
       }
     ]

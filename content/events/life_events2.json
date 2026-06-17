@@ -22,8 +22,7 @@
         "text": "그냥 넘긴다. 각자의 삶이다.  (수용 / 무감각)",
         "result_text": "{name}은 폰을 엎어두고 잠을 청했다.\n각자의 속도가 있다 — 알면서도 새벽이 길었다.",
         "effects": {
-          "mental": -2,
-          "stress": 2
+          "mental": -4
         }
       },
       {
@@ -38,8 +37,7 @@
         "text": "앱을 지운다. 당분간.  (자기보호 / 고립)",
         "result_text": "{name}은 앱 아이콘을 길게 누르고 삭제를 눌렀다.\n한결 홀가분했다. 연락이 끊기는 것도 있겠지만 — 지금은 그게 낫다.",
         "effects": {
-          "mental": 3,
-          "stress": -2,
+          "mental": 5,
           "social_skill": -1
         }
       }
@@ -127,8 +125,7 @@
         "text": "멈춰서 기다린다. 그칠 때까지.  (여유 / 시간)",
         "result_text": "{name}은 처마 밑에서 비를 구경했다.\n잠깐, 일상이 멈추는 느낌. 쫓기는 게 없는 시간 — 사실 오랜만이었다.\n비는 한 시간 만에 그쳤다.",
         "effects": {
-          "mental": 2,
-          "stress": -1
+          "mental": 3
         }
       }
     ]
@@ -158,16 +155,14 @@
         "effects": {
           "money": -50000,
           "social_skill": 2,
-          "mental": 1,
-          "stress": 3
+          "mental": -2
         }
       },
       {
         "text": "조용히 불참 처리한다.  (절약 / 관계 소원)",
         "result_text": "\"일정이 있어서\" 한 줄 남기고 창을 닫았다.\n다음 날 몇몇이 \"어디 가냐\" 물었다. 적당히 둘러댔다.\n안 간 게 후련했다 — 동시에 조금 씁쓸했다.",
         "effects": {
-          "mental": -1,
-          "stress": -1,
+          "mental": 0,
           "social_skill": -1
         }
       },
@@ -177,7 +172,7 @@
         "effects": {
           "money": -50000,
           "social_skill": 1,
-          "stress": 1
+          "mental": -1
         }
       }
     ]
@@ -206,7 +201,7 @@
         "result_text": "{name}은 알겠다고 했다.\n이사 비용, 새 보증금 — 어차피 올리는 게 나았다.\n매달 15만 원. 그만큼 더 벌어야 한다.",
         "effects": {
           "money": -150000,
-          "stress": 4
+          "mental": -4
         }
       },
       {
@@ -214,8 +209,8 @@
         "result_text": "{name}은 조심스럽게 \"10만 원은 어렵고, 5만 원은 어떨까요\" 꺼냈다.\n집주인이 잠시 침묵하더니 — \"그럼 7만 원으로 합시다.\"\n어색해졌지만 덜 올렸다.",
         "effects": {
           "money": -70000,
-          "stress": 2,
-          "social_skill": 1
+          "social_skill": 1,
+          "mental": -2
         }
       },
       {
@@ -223,8 +218,7 @@
         "result_text": "이사를 결심했다. 3주 동안 매물을 뒤졌다.\n결국 비슷한 돈에 좀 더 멀고 좀 더 좁은 방을 찾았다.\n이사비가 더 들었다. 그래도 내 선택이었다.",
         "effects": {
           "money": -400000,
-          "stress": 6,
-          "mental": 2
+          "mental": -4
         }
       }
     ]
@@ -253,15 +247,14 @@
         "result_text": "계약서에 도장을 찍었다.\n들어가는 날 짐이 생각보다 별로 없었다. 빈 방이 조금 커 보였다.\n내 방이다.",
         "effects": {
           "money": -500000,
-          "mental": 4,
-          "stress": -2
+          "mental": 6
         }
       },
       {
         "text": "더 찾아본다. 서두를 필요 없다.  (기다림 / 기회비용)",
         "result_text": "{name}은 중개소에 \"좀 더 생각해보겠습니다\" 했다.\n며칠 뒤 그 방은 다른 사람이 계약했다.\n마음에 안 들면서도 사라지니 아쉬웠다.",
         "effects": {
-          "stress": 2
+          "mental": -2
         }
       }
     ]
@@ -290,8 +283,7 @@
         "result_text": "{name}은 그날부터 저녁 산책을 시작했다. 야식을 줄였다.\n드라마틱한 변화는 없었다. 그냥 조금씩 — 몸이 달라지는 게 느껴졌다.",
         "effects": {
           "health": 6,
-          "mental": 3,
-          "stress": -2
+          "mental": 5
         }
       },
       {
@@ -299,7 +291,7 @@
         "result_text": "결과지를 서랍에 넣었다.\n다음 검진 때 같은 말을 들었다.",
         "effects": {
           "health": -3,
-          "stress": 2
+          "mental": -2
         }
       },
       {
@@ -359,8 +351,7 @@
         "result_text": "{name}은 오랫동안 미뤄왔던 것을 샀다. 대단한 건 아니었다.\n하지만 내 돈으로 산 첫 번째 물건 — 그건 달랐다.",
         "effects": {
           "money": -100000,
-          "mental": 5,
-          "stress": -3
+          "mental": 8
         }
       }
     ]
@@ -389,8 +380,8 @@
         "text": "나도 이직을 진지하게 알아본다.  (기회탐색 / 불확실성)",
         "result_text": "{name}은 그날 밤 링크드인에 접속했다.\n눈에 띄는 공고 두 개. 덮어두지 않고 지원서를 썼다.\n뭔가를 선택한다는 것 — 생각보다 긴장됐다.",
         "effects": {
-          "stress": 3,
-          "intelligence": 1
+          "intelligence": 1,
+          "mental": -3
         },
         "flags": [
           "considering_job_change"
@@ -576,8 +567,7 @@
         "text": "잠깐 서서 듣는다.  (여유 / 시간)",
         "result_text": "두 곡을 들었다. 두 번째 곡이 끝났을 때 박수가 났다. {name}도 쳤다.\n어디서 왔는지 모르는 낯선 사람의 노래가 — 오늘 가장 좋은 순간이었다.",
         "effects": {
-          "mental": 3,
-          "stress": -2
+          "mental": 5
         }
       },
       {
@@ -619,7 +609,7 @@
         "result_text": "{name}은 폰을 내려놓고 누웠다.\n잠은 쉽게 안 왔다. 그래도 억지로 눈을 감았다.\n내일이 또 온다.",
         "effects": {
           "health": 1,
-          "stress": 1
+          "mental": -1
         }
       },
       {
@@ -634,8 +624,7 @@
         "text": "좋아하는 걸 한다. 설거지, 운동, 뭐든.  (자기 관리 / 활력)",
         "result_text": "{name}은 미뤄두었던 청소를 했다.\n방이 깔끔해지니 기분이 나아졌다. 작은 통제감이었다.",
         "effects": {
-          "mental": 3,
-          "stress": -2,
+          "mental": 5,
           "health": 1
         }
       }
@@ -716,8 +705,7 @@
         "result_text": "{name}은 좋아하는 카페에서 커피 한 잔을 주문했다.\n사소한 보상이었다. 그게 맞다고 생각했다.",
         "effects": {
           "money": -5000,
-          "mental": 4,
-          "stress": -2
+          "mental": 6
         }
       }
     ]
@@ -781,8 +769,7 @@
         "text": "지금도 늦지 않았다고 생각한다.  (결의 / 동기부여)",
         "result_text": "{name}은 목록에 하나를 더 썼다: '38살까지 강남에 입성한다.'\n낡은 노트가 다시 살아났다.",
         "effects": {
-          "mental": 6,
-          "stress": -3,
+          "mental": 9,
           "intelligence": 1
         }
       },
@@ -797,9 +784,8 @@
         "text": "목록 하나를 지금 당장 한다.  (실행력 / 작은 용기)",
         "result_text": "오래 미뤄왔던 것 — 지금 할 수 있는 것 중 하나를 했다.\n대단한 건 아니었다. 하지만 그 한 가지를 움직인 것만으로도 달랐다.",
         "effects": {
-          "mental": 5,
-          "intelligence": 1,
-          "stress": -2
+          "mental": 7,
+          "intelligence": 1
         }
       }
     ]

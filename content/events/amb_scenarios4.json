@@ -23,8 +23,8 @@
         "result_text": "경찰서에서 접수증을 받아 나왔다. 돌아오는 길이 이상하게 가벼웠다.",
         "follow_up_event": "amb_wallet_return",
         "effects": {
-          "stress": 3,
-          "reputation": 2
+          "reputation": 2,
+          "mental": -3
         }
       },
       {
@@ -36,8 +36,7 @@
         ],
         "effects": {
           "money": 300000,
-          "mental": -6,
-          "stress": 4
+          "mental": -10
         }
       },
       {
@@ -47,8 +46,7 @@
           "wallet_ignored"
         ],
         "effects": {
-          "mental": -1,
-          "stress": 1
+          "mental": -2
         }
       }
     ]
@@ -125,8 +123,8 @@
           "jobswitch_took"
         ],
         "effects": {
-          "stress": 7,
-          "social_skill": 1
+          "social_skill": 1,
+          "mental": -7
         }
       },
       {
@@ -136,8 +134,7 @@
           "jobswitch_declined"
         ],
         "effects": {
-          "stress": -3,
-          "mental": -3
+          "mental": 0
         }
       },
       {
@@ -148,8 +145,7 @@
         ],
         "effects": {
           "intelligence": 2,
-          "stress": 3,
-          "mental": -2
+          "mental": -5
         }
       }
     ]
@@ -181,9 +177,9 @@
         ],
         "effects": {
           "health": -10,
-          "stress": 8,
           "investment_skill": 3,
-          "reputation": 3
+          "reputation": 3,
+          "mental": -8
         }
       },
       {
@@ -194,9 +190,8 @@
         ],
         "effects": {
           "health": 2,
-          "stress": 2,
           "reputation": -1,
-          "mental": 2
+          "mental": 0
         }
       }
     ]

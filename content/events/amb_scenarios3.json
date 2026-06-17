@@ -24,8 +24,8 @@
         "result_text": "카페에서 두 시간을 보냈다. 화이트보드 그림과 \"수익구조\"라는 단어가 반복됐다.",
         "follow_up_event": "amb_mlm_meet",
         "effects": {
-          "stress": 4,
-          "money": -10000
+          "money": -10000,
+          "mental": -4
         }
       },
       {
@@ -35,9 +35,8 @@
           "mlm_refused"
         ],
         "effects": {
-          "mental": 3,
-          "social_skill": -1,
-          "stress": -2
+          "mental": 5,
+          "social_skill": -1
         }
       }
     ]
@@ -68,8 +67,7 @@
           "mlm_escaped"
         ],
         "effects": {
-          "mental": 4,
-          "stress": 8,
+          "mental": -4,
           "social_skill": 1
         }
       },
@@ -82,8 +80,7 @@
         ],
         "effects": {
           "money": -3000000,
-          "stress": 12,
-          "mental": -8
+          "mental": -20
         }
       }
     ]
@@ -117,7 +114,7 @@
         "effects": {
           "money": -200000,
           "health": 12,
-          "stress": -6
+          "mental": 6
         }
       },
       {
@@ -129,7 +126,7 @@
         "effects": {
           "money": 0,
           "health": -10,
-          "stress": 4
+          "mental": -4
         }
       }
     ]
@@ -164,8 +161,7 @@
         "effects": {
           "money": -1500000,
           "health": -8,
-          "stress": 10,
-          "mental": 4
+          "mental": -6
         }
       },
       {
@@ -175,8 +171,7 @@
           "credit_damaged"
         ],
         "effects": {
-          "stress": 8,
-          "mental": -6,
+          "mental": -14,
           "investment_skill": -1
         }
       },
@@ -188,8 +183,7 @@
         ],
         "effects": {
           "money": 3000000,
-          "mental": -7,
-          "stress": -4
+          "mental": -3
         },
         "cast_effects": {
           "father": {

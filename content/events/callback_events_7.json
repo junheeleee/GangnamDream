@@ -34,7 +34,7 @@
       {
         "text": "\"지금은 좀 어렵습니다\" 미룬다",
         "effects": {
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -149,9 +149,9 @@
       {
         "text": "지연에게 직접 따진다",
         "effects": {
-          "stress": 8,
           "social_skill": 2,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -162,7 +162,7 @@
         "effects": {
           "intelligence": 4,
           "investment_skill": 3,
-          "stress": 5
+          "mental": -5
         },
         "flags": [
           "read_contract_closely"
@@ -204,7 +204,7 @@
       {
         "text": "인사만 하고 자리를 피한다",
         "effects": {
-          "stress": -3
+          "mental": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -244,7 +244,7 @@
       {
         "text": "\"잘 되고 있어요\"라고만 한다",
         "effects": {
-          "stress": 5
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -606,9 +606,8 @@
       {
         "text": "\"그래? 좋게 들려야 할 텐데\"",
         "effects": {
-          "mental": 10,
-          "reputation": 3,
-          "stress": 3
+          "mental": 7,
+          "reputation": 3
         },
         "flags": [],
         "follow_up_event": "",

@@ -63,8 +63,7 @@
       {
         "text": "일단 구경만 한다",
         "effects": {
-          "stress": -5,
-          "mental": 3,
+          "mental": 8,
           "luck": 1
         },
         "flags": [
@@ -77,8 +76,8 @@
         "text": "단승 한 장 사본다 (5,000원)",
         "effects": {
           "money": -5000,
-          "stress": -3,
-          "luck": 2
+          "luck": 2,
+          "mental": 3
         },
         "flags": [
           "racetrack_visited",
@@ -91,8 +90,8 @@
         "text": "주변 아저씨한테 어떻게 보는지 물어본다",
         "effects": {
           "social_skill": 1,
-          "stress": -4,
-          "luck": 1
+          "luck": 1,
+          "mental": 4
         },
         "flags": [
           "racetrack_visited",
@@ -136,7 +135,7 @@
         "text": "안 산다. 내 감으로 간다",
         "effects": {
           "luck": 1,
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "result_text": "내 감으로 11번을 찍었다. 꼴찌였다.\n족보 아저씨 생각이 났다. 사지 말길 잘한 건지 모르겠다.",
@@ -167,7 +166,7 @@
         "effects": {
           "money": -10000,
           "luck": 1,
-          "stress": -3
+          "mental": 3
         },
         "flags": [],
         "follow_up_event": "race_number_three_result",
@@ -177,7 +176,7 @@
         "text": "무시하고 내가 직접 전적 본다",
         "effects": {
           "intelligence": 1,
-          "stress": -2
+          "mental": 2
         },
         "flags": [
           "racetrack_self_analysis"
@@ -205,8 +204,7 @@
       {
         "text": "마권을 구긴다",
         "effects": {
-          "stress": 4,
-          "mental": -2
+          "mental": -6
         },
         "flags": [],
         "result_text": "5위.\n\n만원짜리 한 장이 종이 한 장이 됐다.\n아저씨를 찾았다. 이미 다른 사람에게 다른 번호를 팔고 있었다.\n\n{name}은 계단을 내려오면서 다음 경주 시간을 확인했다.\n그게 문제였다.",
@@ -215,8 +213,7 @@
       {
         "text": "그냥 웃는다. 원래 도박이 이런 거지",
         "effects": {
-          "stress": 2,
-          "mental": 3,
+          "mental": 1,
           "luck": 1
         },
         "flags": [],
@@ -248,8 +245,7 @@
         "text": "환급받고 바로 나간다",
         "effects": {
           "money": 90000,
-          "stress": -8,
-          "mental": 5,
+          "mental": 13,
           "luck": -1
         },
         "flags": [
@@ -262,8 +258,7 @@
         "text": "이 기세로 한 경주 더 간다",
         "effects": {
           "money": -50000,
-          "stress": 6,
-          "mental": -4,
+          "mental": -10,
           "luck": -2
         },
         "flags": [
@@ -298,8 +293,8 @@
         "text": "먼저 웃으며 인사한다",
         "effects": {
           "social_skill": 2,
-          "stress": -3,
-          "reputation": 1
+          "reputation": 1,
+          "mental": 3
         },
         "flags": [],
         "result_text": "\"어, 여기도 오세요?\"\n그 사람도 웃었다. 어색하게.\n\"가끔요.\"\n\n둘 다 말을 더 하지 않았다. 각자 다른 창구로 갔다.\n월요일에는 아무 일도 없었던 것처럼 됐다.\n그게 서로에게 편했다.",
@@ -308,8 +303,7 @@
       {
         "text": "못 본 척 다른 쪽으로 간다",
         "effects": {
-          "stress": 3,
-          "mental": -2
+          "mental": -5
         },
         "flags": [],
         "result_text": "등을 돌렸다.\n동료도 모른 척했다. 아마 봤을 거다.\n\n월요일 아침 눈이 마주쳤다.\n둘 다 평소처럼 인사했다.\n\n서울에는 이런 약속이 있다. 주말에 본 건 안 본 거다.",
@@ -339,8 +333,7 @@
       {
         "text": "다음 주엔 더 잘 준비해서 온다",
         "effects": {
-          "stress": 5,
-          "mental": -3,
+          "mental": -8,
           "luck": -1
         },
         "flags": [
@@ -352,8 +345,7 @@
       {
         "text": "그냥 오늘로 끝낸다",
         "effects": {
-          "stress": -3,
-          "mental": 4,
+          "mental": 7,
           "luck": 1
         },
         "flags": [],
@@ -385,8 +377,7 @@
       {
         "text": "한 달 쉰다. 패턴이 위험하다",
         "effects": {
-          "mental": 8,
-          "stress": -5,
+          "mental": 13,
           "luck": 2,
           "intelligence": 2
         },
@@ -400,8 +391,7 @@
         "text": "만회할 수 있다. 이번 주는 진짜 준비했다",
         "effects": {
           "money": -80000,
-          "stress": 8,
-          "mental": -5,
+          "mental": -13,
           "luck": -1
         },
         "flags": [
@@ -421,19 +411,34 @@
     "weight": 1.0,
     "background": "racetrack_betting",
     "portrait": "tip_seller",
-    "conditions": { "flag": "racetrack_guide_met" },
-    "tags": ["gambling", "race", "social"],
+    "conditions": {
+      "flag": "racetrack_guide_met"
+    },
+    "tags": [
+      "gambling",
+      "race",
+      "social"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "진지하게 배운다 — 기호부터 외운다",
-        "effects": { "intelligence": 2, "investment_skill": 1, "stress": -2 },
-        "flags": ["race_studied_form"],
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 1,
+          "mental": 2
+        },
+        "flags": [
+          "race_studied_form"
+        ],
         "result_text": "한 시간 동안 경마신문을 읽었다.\n\n3연단, 단승, 연승, 복승, 쌍승 — 베팅 방식만 여섯 가지였다.\n기수 승률, 조교사 기록, 주로별 특성.\n\n이걸 다 보는 사람들이 있다는 게 신기했다.\n'읽는다'는 게 무슨 말인지 조금 알 것 같았다."
       },
       {
         "text": "그냥 느낌대로 베팅한다",
-        "effects": { "luck": 2, "money": -15000 },
+        "effects": {
+          "luck": 2,
+          "money": -15000
+        },
         "flags": [],
         "result_text": "7번 말을 골랐다. 이름이 마음에 들었다.\n\n졌다.\n\n아저씨가 말했다. \"느낌이 맞을 때도 있어. 근데 느낌은 누적이야.\"\n무슨 말인지 알 것 같기도 하고 모를 것 같기도 했다."
       }

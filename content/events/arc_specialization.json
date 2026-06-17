@@ -74,7 +74,7 @@
         "effects": {
           "investment_skill": 10,
           "intelligence": 6,
-          "stress": -5
+          "mental": 5
         },
         "flags": [
           "spec_quant",
@@ -87,7 +87,7 @@
         "effects": {
           "luck": 8,
           "investment_skill": 5,
-          "stress": 8
+          "mental": -8
         },
         "flags": [
           "spec_speculator",
@@ -173,7 +173,7 @@
           "work_performance": 15,
           "reputation": 8,
           "intelligence": 4,
-          "stress": -4
+          "mental": 4
         },
         "route": "orthodox",
         "flags": [
@@ -185,9 +185,8 @@
       {
         "text": "하지만 혼자였다는 것도 안다 — 이 외로움도 내 선택이다",
         "effects": {
-          "mental": 10,
-          "work_performance": 8,
-          "stress": -6
+          "mental": 16,
+          "work_performance": 8
         },
         "flags": [
           "arc_spec_elite_result_seen"
@@ -222,7 +221,7 @@
         "effects": {
           "social_skill": 8,
           "reputation": 12,
-          "stress": 3
+          "mental": -3
         },
         "route": "unorthodox",
         "flags": [
@@ -234,9 +233,8 @@
       {
         "text": "그 동료 일이 마음에 걸린다 — 이 방식이 맞는가",
         "effects": {
-          "mental": 8,
-          "intelligence": 5,
-          "stress": -4
+          "mental": 12,
+          "intelligence": 5
         },
         "flags": [
           "arc_spec_climber_result_seen"
@@ -271,8 +269,8 @@
         "effects": {
           "investment_skill": 10,
           "intelligence": 5,
-          "stress": -5,
-          "money": 800000
+          "money": 800000,
+          "mental": 5
         },
         "flags": [
           "arc_spec_quant_result_seen",
@@ -285,7 +283,7 @@
         "effects": {
           "intelligence": 5,
           "investment_skill": 4,
-          "stress": -3
+          "mental": 3
         },
         "flags": [
           "arc_spec_quant_result_seen"
@@ -320,8 +318,8 @@
         "effects": {
           "investment_skill": 8,
           "luck": 3,
-          "stress": -8,
-          "money": 1500000
+          "money": 1500000,
+          "mental": 8
         },
         "route": "unorthodox",
         "flags": [
@@ -334,8 +332,8 @@
         "text": "더 간다 — 아직 천장이 아니다",
         "effects": {
           "investment_skill": 4,
-          "stress": 10,
-          "luck": -1
+          "luck": -1,
+          "mental": -10
         },
         "route": "unorthodox",
         "flags": [
@@ -372,8 +370,7 @@
         "effects": {
           "intelligence": 6,
           "social_skill": 3,
-          "mental": 12,
-          "stress": -5
+          "mental": 17
         },
         "flags": [
           "arc_spec_tech_result_seen",
@@ -422,7 +419,7 @@
           "social_skill": 8,
           "reputation": 10,
           "luck": 4,
-          "stress": 2
+          "mental": -2
         },
         "flags": [
           "arc_spec_social_result_seen",
@@ -434,8 +431,7 @@
         "text": "잠깐 멈추고 생각한다 — 이게 다 진심인가",
         "effects": {
           "intelligence": 5,
-          "mental": 6,
-          "stress": -4
+          "mental": 10
         },
         "flags": [
           "arc_spec_social_result_seen"

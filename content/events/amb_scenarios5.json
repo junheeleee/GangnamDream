@@ -31,7 +31,7 @@
           "social_skill": 2,
           "reputation": 2,
           "health": -4,
-          "stress": 3
+          "mental": -3
         }
       },
       {
@@ -41,9 +41,8 @@
           "wallet_job_declined"
         ],
         "effects": {
-          "mental": 3,
-          "reputation": 1,
-          "stress": -2
+          "mental": 5,
+          "reputation": 1
         }
       }
     ]
@@ -76,8 +75,7 @@
         ],
         "effects": {
           "money": -5000000,
-          "mental": 6,
-          "stress": 8
+          "mental": -2
         },
         "cast_effects": {
           "father": {
@@ -93,8 +91,7 @@
         ],
         "effects": {
           "money": 0,
-          "mental": -12,
-          "stress": 10
+          "mental": -22
         },
         "cast_effects": {
           "father": {
@@ -110,8 +107,7 @@
         ],
         "effects": {
           "money": 0,
-          "stress": 12,
-          "mental": 2
+          "mental": -10
         },
         "cast_effects": {
           "father": {

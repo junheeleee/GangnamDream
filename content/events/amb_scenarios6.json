@@ -25,8 +25,7 @@
           "guarantee_refused"
         ],
         "effects": {
-          "mental": -4,
-          "stress": 5,
+          "mental": -9,
           "social_skill": 1
         }
       },
@@ -37,8 +36,7 @@
           "guarantee_signed"
         ],
         "effects": {
-          "stress": 10,
-          "mental": 2
+          "mental": -8
         }
       },
       {
@@ -49,8 +47,7 @@
         ],
         "effects": {
           "money": -300000,
-          "stress": 3,
-          "mental": 1
+          "mental": -2
         }
       }
     ]
@@ -82,8 +79,7 @@
           "credit_swallowed"
         ],
         "effects": {
-          "stress": 9,
-          "mental": -4,
+          "mental": -13,
           "reputation": 1
         }
       },
@@ -92,8 +88,8 @@
         "result_text": "부장을 복도에서 붙잡았다. \"그 자료, 제가 만든 거 아시죠\"라고 말했다.",
         "follow_up_event": "amb_credit_confront",
         "effects": {
-          "stress": 7,
-          "social_skill": 1
+          "social_skill": 1,
+          "mental": -7
         }
       },
       {
@@ -104,8 +100,7 @@
         ],
         "effects": {
           "reputation": 4,
-          "stress": 8,
-          "mental": 2
+          "mental": -6
         }
       }
     ]
@@ -137,8 +132,7 @@
         ],
         "effects": {
           "reputation": 2,
-          "stress": 4,
-          "mental": 4
+          "mental": 0
         }
       },
       {
@@ -148,8 +142,7 @@
           "credit_backed_down"
         ],
         "effects": {
-          "stress": 5,
-          "mental": -3,
+          "mental": -8,
           "social_skill": 1
         }
       }

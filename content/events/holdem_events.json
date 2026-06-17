@@ -7,19 +7,27 @@
     "rarity": "uncommon",
     "weight": 1.2,
     "background": "holdem_club",
-    "conditions": { "flag": "entered_network" },
-    "tags": ["gambling", "holdem", "social"],
+    "conditions": {
+      "flag": "entered_network"
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "social"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "로우 스테이크 테이블에 앉는다",
         "effects": {
           "money": -20000,
-          "stress": -5,
           "social_skill": 1,
-          "luck": 1
+          "luck": 1,
+          "mental": 5
         },
-        "flags": ["holdem_visited"],
+        "flags": [
+          "holdem_visited"
+        ],
         "result_text": "2시간에 2만원 손실.\n근데 두 번 블러핑에 성공했고, 한 번은 큰 팟을 땄다가 다시 잃었다.\n\n계단 올라오면서 생각했다. 이거 공부할 게 있는 게임이구나.",
         "follow_up_event": ""
       },
@@ -27,9 +35,11 @@
         "text": "구경만 한다",
         "effects": {
           "intelligence": 1,
-          "stress": -3
+          "mental": 3
         },
-        "flags": ["holdem_visited"],
+        "flags": [
+          "holdem_visited"
+        ],
         "result_text": "한 시간 서서 봤다.\n잘하는 사람들은 패를 안 봤다. 사람을 봤다.\n그 차이가 뭔지 아직 모른다.",
         "follow_up_event": ""
       }
@@ -46,16 +56,20 @@
     "conditions": {
       "flag": "holdem_visited"
     },
-    "tags": ["gambling", "holdem", "social_skill"],
+    "tags": [
+      "gambling",
+      "holdem",
+      "social_skill"
+    ],
     "cooldown": 8,
     "choices": [
       {
         "text": "콜한다 — 저 눈빛은 블러프다",
         "effects": {
           "money": 35000,
-          "stress": -4,
           "social_skill": 2,
-          "luck": 1
+          "luck": 1,
+          "mental": 4
         },
         "flags": [],
         "result_text": "맞았다.\n상대가 패를 뒤집었을 때 테이블이 조용해졌다.\n\n{name}은 칩을 끌어오면서 아무 말도 안 했다.\n표정 관리도 포커의 일부였다.",
@@ -64,9 +78,8 @@
       {
         "text": "폴드한다 — 확신이 없다",
         "effects": {
-          "mental": 2,
-          "intelligence": 1,
-          "stress": -2
+          "mental": 4,
+          "intelligence": 1
         },
         "flags": [],
         "result_text": "폴드하자 상대가 패를 보여줬다. 블러프였다.\n\n아깝지 않았다. 확신 없이 돈 넣는 게 더 나쁘다.\n이걸 배우는 데 그게 수업료였다.",
@@ -86,15 +99,18 @@
       "flag": "holdem_visited",
       "min_luck": 30
     },
-    "tags": ["gambling", "holdem", "stress"],
+    "tags": [
+      "gambling",
+      "holdem",
+      "stress"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "그냥 수긍한다. 포커는 원래 이렇다",
         "effects": {
           "money": -50000,
-          "mental": 4,
-          "stress": 3,
+          "mental": 1,
           "intelligence": 2
         },
         "flags": [],
@@ -105,11 +121,12 @@
         "text": "틸트 상태로 다음 판에 무리하게 올인한다",
         "effects": {
           "money": -100000,
-          "stress": 12,
-          "mental": -6,
+          "mental": -18,
           "luck": -2
         },
-        "flags": ["holdem_tilted"],
+        "flags": [
+          "holdem_tilted"
+        ],
         "result_text": "감정으로 판단했다. 결과는 예정돼 있었다.\n\n15만원을 잃고 나왔다.\n계단 위 강남 거리. 차갑고 밝았다.\n\n원칙이 무너지는 게 항상 이렇게 빠르다.",
         "follow_up_event": ""
       }
@@ -127,30 +144,37 @@
       "flag": "holdem_visited",
       "min_turn": 6
     },
-    "tags": ["gambling", "holdem", "social"],
+    "tags": [
+      "gambling",
+      "holdem",
+      "social"
+    ],
     "cooldown": 15,
     "choices": [
       {
         "text": "단골 혜택 받으며 계속 온다",
         "effects": {
           "money": -10000,
-          "stress": -6,
           "social_skill": 2,
-          "luck": 1
+          "luck": 1,
+          "mental": 6
         },
-        "flags": ["holdem_regular"],
+        "flags": [
+          "holdem_regular"
+        ],
         "result_text": "자리비 30% 할인. 6,000원.\n테이블 사람들도 낯이 익어졌다.\n\n여기 오면 직장도 나이도 없다. 패 앞에서는 다 같다.\n그게 이상하게 편했다.",
         "follow_up_event": ""
       },
       {
         "text": "\"단골\"이 된 게 좋은 신호가 아닌 것 같아 발을 뺀다",
         "effects": {
-          "mental": 6,
-          "stress": -4,
+          "mental": 10,
           "luck": 2,
           "intelligence": 2
         },
-        "flags": ["holdem_quit"],
+        "flags": [
+          "holdem_quit"
+        ],
         "result_text": "\"오늘은 그냥 가볼게요.\"\n계단을 올라왔다.\n\n강남 밤거리. 사람들이 지나갔다.\n\n딱히 잘한 것도 없는데 기분이 괜찮았다.\n안 하는 것도 선택이었다.",
         "follow_up_event": ""
       }
@@ -168,27 +192,30 @@
       "flag": "holdem_visited",
       "min_luck": 50
     },
-    "tags": ["gambling", "holdem"],
+    "tags": [
+      "gambling",
+      "holdem"
+    ],
     "cooldown": 15,
     "choices": [
       {
         "text": "콜한다",
         "effects": {
           "money": 120000,
-          "stress": -8,
-          "mental": 6,
+          "mental": 14,
           "luck": -1
         },
-        "flags": ["holdem_big_win"],
+        "flags": [
+          "holdem_big_win"
+        ],
         "result_text": "이겼다.\n\n테이블에서 탄성이 나왔다. 상대가 패를 뒤집고 자리에서 일어났다.\n\n{name}은 칩을 정리하면서 손이 약간 떨리는 걸 느꼈다.\n이 느낌을 다시 원하게 될까봐 걱정됐다.",
         "follow_up_event": ""
       },
       {
         "text": "폴드한다. 이건 내 판이 아니다",
         "effects": {
-          "mental": 5,
-          "intelligence": 3,
-          "stress": -3
+          "mental": 8,
+          "intelligence": 3
         },
         "flags": [],
         "result_text": "칩을 내려놨다.\n\n상대가 패를 보여줬다. 졌을 거였다.\n\n묘하게 기뻤다. 잃을 걸 안 잃은 것도 이기는 거니까.",
@@ -204,19 +231,34 @@
     "rarity": "uncommon",
     "weight": 0.9,
     "background": "holdem_club",
-    "conditions": { "flag": "holdem_visited" },
-    "tags": ["gambling", "holdem", "social"],
+    "conditions": {
+      "flag": "holdem_visited"
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "social"
+    ],
     "cooldown": 10,
     "choices": [
       {
         "text": "\"얼마 안 됐어요. 배우는 중이에요.\"",
-        "effects": { "social_skill": 2, "intelligence": 2, "stress": -3 },
-        "flags": ["holdem_mentor_met"],
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 2,
+          "mental": 3
+        },
+        "flags": [
+          "holdem_mentor_met"
+        ],
         "result_text": "노인이 고개를 끄덕였다.\n\"포커는 패를 이기는 게임이 아니야. 사람을 이기는 게임이야.\"\n\n자판기 커피를 한 모금 마셨다.\n\"진짜 블러프는 손이 떨리지 않는 거야. 마음이 흔들리지 않는 거고.\"\n\n짧은 대화였는데, 뭔가 달랐다."
       },
       {
         "text": "그냥 다음 게임에 집중한다",
-        "effects": { "luck": 1, "stress": -2 },
+        "effects": {
+          "luck": 1,
+          "mental": 2
+        },
         "flags": [],
         "result_text": "커피를 마시고 자리로 돌아왔다.\n패가 들어올 때마다 느끼는 감각이 조금씩 달라지고 있었다.\n아직 언어로 설명은 못 하는 그 감각."
       }
@@ -230,20 +272,34 @@
     "rarity": "uncommon",
     "weight": 0.8,
     "background": "holdem_club",
-    "conditions": { "flag": "holdem_regular" },
-    "tags": ["gambling", "holdem", "stress"],
+    "conditions": {
+      "flag": "holdem_regular"
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "stress"
+    ],
     "cooldown": 12,
     "choices": [
       {
         "text": "조용히 자리를 뜬다",
-        "effects": { "mental": 5, "stress": -4, "intelligence": 2 },
+        "effects": {
+          "mental": 9,
+          "intelligence": 2
+        },
         "flags": [],
         "result_text": "칩을 정리하고 일어났다.\n딜러가 \"수고하셨어요\" 했다.\n\n계단을 올라오며 생각했다.\n오늘 잘못한 판 두 개가 보였다.\n그게 보인다는 건, 배우고 있다는 거다."
       },
       {
         "text": "\"한 판만 더\" — 분위기를 바꿔본다",
-        "effects": { "money": -40000, "stress": 8, "mental": -4 },
-        "flags": ["holdem_tilted"],
+        "effects": {
+          "money": -40000,
+          "mental": -12
+        },
+        "flags": [
+          "holdem_tilted"
+        ],
         "result_text": "한 판 더 했다.\n지금 상태에서 잘 될 리 없었다.\n\n4만원을 더 잃고 나왔다.\n\n총 손실을 계산하며 계단을 내려왔다 — 아니, 올라왔다.\n엘리베이터 문이 닫혔다."
       }
     ]

@@ -8,7 +8,12 @@
     "weight": 0.1,
     "background": "gangnam_day",
     "conditions": {},
-    "tags": ["investment", "rare", "opportunity", "risk"],
+    "tags": [
+      "investment",
+      "rare",
+      "opportunity",
+      "risk"
+    ],
     "cooldown": 40,
     "choices": [
       {
@@ -23,10 +28,12 @@
       {
         "text": "무시하고 지나간다",
         "effects": {
-          "stress": -2,
-          "intelligence": 1
+          "intelligence": 1,
+          "mental": 2
         },
-        "flags": ["ignored_mystery_info"],
+        "flags": [
+          "ignored_mystery_info"
+        ],
         "result_text": "지나쳤다. 남자가 뒤에서 아무 말도 안 했다.\n\n3블록쯤 걸었을 때 한 번 돌아봤다.\n이미 없었다.\n\n그게 뭐였는지는 영원히 모른다.",
         "follow_up_event": ""
       }
@@ -41,16 +48,22 @@
     "weight": 0,
     "background": "gangnam_day",
     "conditions": {},
-    "tags": ["investment", "rare", "risk"],
+    "tags": [
+      "investment",
+      "rare",
+      "risk"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "50만원 낸다",
         "effects": {
           "money": -500000,
-          "stress": 5
+          "mental": -5
         },
-        "flags": ["mystery_info_bought"],
+        "flags": [
+          "mystery_info_bought"
+        ],
         "result_text": "봉투를 받았다. 지명과 필지 번호들이 빼곡히 적혀 있었다.\n\n남자는 봉투를 건넨 뒤 뒤도 안 돌아보고 걸어갔다.\n\n{name}은 봉투를 가방에 넣었다. 3개월 뒤에 답이 나온다.",
         "follow_up_event": ""
       },
@@ -58,8 +71,8 @@
         "text": "역시 사기같다. 안 산다",
         "effects": {
           "intelligence": 2,
-          "stress": -2,
-          "luck": 1
+          "luck": 1,
+          "mental": 2
         },
         "flags": [],
         "result_text": "\"생각해보겠습니다.\" 하고 돌아섰다.\n\n남자는 말리지 않았다.\n\n집에 와서 마포구 재개발 뉴스를 검색했다.\n아직 아무것도 없었다.",
@@ -79,7 +92,11 @@
       "flag": "mystery_info_bought",
       "min_turn": 12
     },
-    "tags": ["investment", "rare", "windfall"],
+    "tags": [
+      "investment",
+      "rare",
+      "windfall"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -90,7 +107,10 @@
           "reputation": 4,
           "luck": -1
         },
-        "flags": ["mystery_info_paid_off", "mystery_info_resolved"],
+        "flags": [
+          "mystery_info_paid_off",
+          "mystery_info_resolved"
+        ],
         "result_text": "발표 당일 해당 지역 호가가 30% 올랐다.\n\n{name}은 8백만원을 챙겼다. 원금 대비 16배.\n\n그 남자가 누군지는 여전히 모른다.\n다시 만날 수 있을지도 모른다.\n서울에는 그런 사람들이 있다.",
         "follow_up_event": ""
       },
@@ -101,7 +121,9 @@
           "investment_skill": 2,
           "mental": 5
         },
-        "flags": ["mystery_info_resolved"],
+        "flags": [
+          "mystery_info_resolved"
+        ],
         "result_text": "정보는 맞았다. 하지만 지분 투자를 실행하지 못했다.\n\n맞는 정보를 갖고도 수익을 못 내는 게 투자의 두 번째 함정이었다.\n첫 번째는 틀린 정보를 믿는 것.\n두 번째는 맞는 정보를 쓸 타이밍을 놓치는 것.\n\n수업료 50만원이었다.",
         "follow_up_event": ""
       }
@@ -120,28 +142,36 @@
       "min_turn": 12,
       "no_flag": "mystery_info_resolved"
     },
-    "tags": ["investment", "rare", "stress"],
+    "tags": [
+      "investment",
+      "rare",
+      "stress"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "그냥 수업료라고 생각한다",
         "effects": {
           "intelligence": 4,
-          "stress": 5,
-          "mental": -3
+          "mental": -8
         },
-        "flags": ["mystery_info_resolved", "mystery_info_scammed"],
+        "flags": [
+          "mystery_info_resolved",
+          "mystery_info_scammed"
+        ],
         "result_text": "50만원.\n\n비싼 교훈이다. 그래도 교훈은 교훈이다.\n\n불법 내부 정보를 산 것도 잘못이었다. 그 남자도 그걸 알고 찾아왔을 거다.\n당하는 게 아니라 같이 한 거였다.\n\n그 생각이 제일 씁쓸했다.",
         "follow_up_event": ""
       },
       {
         "text": "그 남자를 신고한다",
         "effects": {
-          "stress": 8,
-          "mental": -5,
+          "mental": -13,
           "reputation": 2
         },
-        "flags": ["mystery_info_resolved", "mystery_info_reported"],
+        "flags": [
+          "mystery_info_resolved",
+          "mystery_info_reported"
+        ],
         "result_text": "경찰서에 갔다. 진술서를 썼다.\n\n하지만 남자의 인상착의만으로는 추적이 어렵다고 했다.\n비슷한 피해 사례가 여럿 있다고.\n\n50만원 돌려받을 가능성은 낮았다.\n그래도 말은 했다. 그게 할 수 있는 전부였다.",
         "follow_up_event": ""
       }
@@ -156,7 +186,12 @@
     "weight": 0.25,
     "background": "pojangmacha",
     "conditions": {},
-    "tags": ["social", "rare", "opportunity", "night"],
+    "tags": [
+      "social",
+      "rare",
+      "opportunity",
+      "night"
+    ],
     "cooldown": 25,
     "choices": [
       {
@@ -165,14 +200,16 @@
           "social_skill": 2,
           "mental": 3
         },
-        "flags": ["has_bankrupt_ceo_card"],
+        "flags": [
+          "has_bankrupt_ceo_card"
+        ],
         "result_text": "남자는 소주 두 잔을 더 마시고 먼저 일어났다.\n\n\"내가 10년 동안 배운 거 다 쏟아줄 수 있어. 돈은 없지만.\"\n\n명함을 지갑에 넣었다. 전화를 걸게 될지 모른다.",
         "follow_up_event": ""
       },
       {
         "text": "받지 않는다. 술에 취한 말이다",
         "effects": {
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "result_text": "남자가 더 술을 마셨다. {name}도 마셨다.\n\n마지막에 남자가 먼저 일어났다. 명함은 테이블에 남았다.\n\n{name}은 그걸 두고 나왔다.",
@@ -193,7 +230,11 @@
       "flag": "has_bankrupt_ceo_card",
       "min_turn": 20
     },
-    "tags": ["social", "opportunity", "rare"],
+    "tags": [
+      "social",
+      "opportunity",
+      "rare"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -204,7 +245,10 @@
           "reputation": 5,
           "mental": 5
         },
-        "flags": ["met_bankrupt_ceo", "bankrupt_ceo_mentor"],
+        "flags": [
+          "met_bankrupt_ceo",
+          "bankrupt_ceo_mentor"
+        ],
         "result_text": "카페에서 3시간을 얘기했다.\n\n그 사람은 10년 동안 배운 것들 — 거래처 협상, 직원 관리, 투자자 미팅, 그리고 왜 망했는지 — 다 털어놨다.\n\n\"망한 사람한테 배우는 게 제일 싸요. 성공한 사람은 진짜를 안 알려줘.\"\n\n이게 그 50만원보다 더 비싼 정보였다.",
         "follow_up_event": ""
       },
@@ -228,15 +272,19 @@
     "conditions": {
       "no_job": true
     },
-    "tags": ["job", "stress", "risk"],
+    "tags": [
+      "job",
+      "stress",
+      "risk"
+    ],
     "cooldown": 15,
     "choices": [
       {
         "text": "745로 정직하게 쓴다",
         "effects": {
           "reputation": 3,
-          "stress": -3,
-          "intelligence": 1
+          "intelligence": 1,
+          "mental": 3
         },
         "flags": [],
         "result_text": "745로 냈다.\n\n면접까지 갔다. 면접관이 토익 점수를 보더니 \"좀 낮네요\" 했다.\n{name}은 \"준비 중입니다\"라고 답했다.\n\n붙었는지 안 붙었는지는 모른다. 하지만 거짓말을 안 했다.",
@@ -245,10 +293,12 @@
       {
         "text": "900으로 쓴다. 들키면 그때 생각한다",
         "effects": {
-          "stress": 6,
-          "reputation": -1
+          "reputation": -1,
+          "mental": -6
         },
-        "flags": ["resume_lied_toeic"],
+        "flags": [
+          "resume_lied_toeic"
+        ],
         "result_text": "제출했다.\n\n서류는 통과했다. 면접도 잡혔다.\n\n면접 전날, 혹시 증빙을 요청하지 않을까 하는 생각이 왔다.\n밤새 그 생각이 떠나지 않았다.",
         "follow_up_event": ""
       }
@@ -267,29 +317,35 @@
       "has_job": true,
       "min_turn": 16
     },
-    "tags": ["job", "stress", "risk"],
+    "tags": [
+      "job",
+      "stress",
+      "risk"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "솔직하게 말하고 사과한다",
         "effects": {
-          "stress": 15,
           "reputation": -8,
-          "mental": -5
+          "mental": -20
         },
-        "flags": ["resume_lie_confessed"],
+        "flags": [
+          "resume_lie_confessed"
+        ],
         "result_text": "인사팀장 앞에서 고개를 숙였다.\n\"지원 당시 점수가 낮아서 기재를 잘못했습니다.\"\n\n권고사직 처리가 됐다.\n\n짐을 챙기면서 동료들 눈을 마주치기 어려웠다.\n서울에서 이렇게 빨리 다시 시작하게 될 줄은 몰랐다.",
         "follow_up_event": ""
       },
       {
         "text": "성적표를 위조해서 낸다",
         "effects": {
-          "stress": 20,
-          "mental": -10,
+          "mental": -30,
           "reputation": -15,
           "luck": -4
         },
-        "flags": ["resume_lie_doubled_down"],
+        "flags": [
+          "resume_lie_doubled_down"
+        ],
         "result_text": "온라인에서 찾은 방법으로 파일을 수정했다.\n\n제출했다. 통과됐다.\n\n그날 저녁 술을 마셨다. 취하지 않았다.\n이제 이 일을 알고 있는 사람이 하나 더 생겼다.\n바로 {name} 자신.",
         "follow_up_event": ""
       }
@@ -306,15 +362,22 @@
     "conditions": {
       "has_job": true
     },
-    "tags": ["job", "rare", "risk", "office"],
+    "tags": [
+      "job",
+      "rare",
+      "risk",
+      "office"
+    ],
     "cooldown": 20,
     "choices": [
       {
         "text": "꽂아본다",
         "effects": {
-          "stress": 3
+          "mental": -3
         },
-        "flags": ["opened_mystery_usb"],
+        "flags": [
+          "opened_mystery_usb"
+        ],
         "result_text": "회사 로고 없는 폴더 하나.\n\n파일들이 열렸다. 엑셀 파일. 숫자들.\n\n보면 안 될 것 같았다. 이미 봤다.\n거래처 리스트, 납품 단가, 계약 조건.\n경쟁사가 원하는 정보였다.\n\n{name}은 USB를 뺐다.",
         "follow_up_event": ""
       },
@@ -322,8 +385,7 @@
         "text": "총무팀에 갖다준다",
         "effects": {
           "reputation": 5,
-          "stress": -2,
-          "mental": 3
+          "mental": 5
         },
         "flags": [],
         "result_text": "총무팀이 고마워했다.\n\"아, 이거 지난달에 없어진 거예요. 감사합니다.\"\n\n별거 아닌 일이었다. 근데 그 사람이 다음 달 {name}을 팀 회식에 챙겼다.\n서울에서 평판은 이런 데서 쌓인다.",
@@ -344,7 +406,11 @@
       "has_job": true,
       "min_turn": 1
     },
-    "tags": ["job", "rare", "risk"],
+    "tags": [
+      "job",
+      "rare",
+      "risk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -354,15 +420,16 @@
           "intelligence": 3,
           "social_skill": 2
         },
-        "flags": ["usb_reported_to_company"],
+        "flags": [
+          "usb_reported_to_company"
+        ],
         "result_text": "팀장이 조용히 들었다.\n\"어떻게 알았어요?\"\n\"탕비실에서 줍긴 했는데 파일이 열려 있었어요.\"\n\n사실이었다.\n\n팀장은 법무팀에 넘겼다. {name}에게 구체적인 결과를 알려주진 않았다.\n하지만 그 달 말 팀장이 말했다. \"수고했어요, 진짜로.\"",
         "follow_up_event": ""
       },
       {
         "text": "그냥 잊는다. 내 일이 아니다",
         "effects": {
-          "stress": -3,
-          "mental": 2
+          "mental": 5
         },
         "flags": [],
         "result_text": "USB는 서랍에 넣고 잊었다.\n\n두 달 뒤, 그 경쟁사가 뉴스에 나왔다.\n영업비밀 유출 혐의.\n\n{name}은 그 기사를 읽고 서랍을 열었다. USB가 있었다.\n그냥 버렸다.",
@@ -379,24 +446,28 @@
     "weight": 0.7,
     "background": "goshiwon_room",
     "conditions": {},
-    "tags": ["social", "rare"],
+    "tags": [
+      "social",
+      "rare"
+    ],
     "cooldown": 20,
     "choices": [
       {
         "text": "답장한다",
         "effects": {
           "social_skill": 1,
-          "stress": -2
+          "mental": 2
         },
-        "flags": ["replied_old_contact"],
+        "flags": [
+          "replied_old_contact"
+        ],
         "result_text": "\"어, 기억해. 잘 지냈어?\"\n\n한 달에 한두 번 연락이 됐다.\n그 사람은 인테리어 회사를 차리고 있었다.\n\n별 거 없는 일상 얘기. 근데 이상하게 가끔 보고 싶었다.\n서울에서 오래된 연락처가 하나 더 살아났다.",
         "follow_up_event": ""
       },
       {
         "text": "읽씹한다. 갑자기 왜",
         "effects": {
-          "stress": -1,
-          "mental": -1
+          "mental": 0
         },
         "flags": [],
         "result_text": "읽었다. 안 답했다.\n\n그 사람이 다시 연락하지 않았다.\n\n일주일 뒤 그 번호가 SNS에서 어떤 회사를 공동창업했다는 소식으로 보였다.\n{name}은 그 게시물을 좋아요 없이 닫았다.",

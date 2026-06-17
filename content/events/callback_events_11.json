@@ -74,8 +74,8 @@
       {
         "text": "잘 됐으니 큰 베팅으로 올린다",
         "effects": {
-          "stress": 8,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -114,7 +114,7 @@
       {
         "text": "좀 더 지켜본다",
         "effects": {
-          "stress": 2
+          "mental": -2
         },
         "flags": [],
         "follow_up_event": "",
@@ -195,8 +195,7 @@
       {
         "text": "그냥 재미있었다",
         "effects": {
-          "stress": -2,
-          "mental": 3
+          "mental": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -432,8 +431,7 @@
         "text": "호전됐다 — 관리를 계속한다",
         "effects": {
           "health": 8,
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "flags": [
           "health_managed"
@@ -445,7 +443,7 @@
         "text": "아직 완전하지 않다 — 더 관리해야 한다",
         "effects": {
           "health": 3,
-          "stress": 3
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -486,8 +484,7 @@
       {
         "text": "아직 멀다. 그냥 닫는다",
         "effects": {
-          "mental": -3,
-          "stress": 3
+          "mental": -6
         },
         "flags": [],
         "follow_up_event": "",
@@ -517,8 +514,7 @@
       {
         "text": "나도 이 방에서 나갈 날을 생각한다",
         "effects": {
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
         "flags": [],
         "follow_up_event": "",
@@ -598,8 +594,7 @@
         "text": "아직 늦지 않았다. 돌려준다",
         "effects": {
           "money": -300000,
-          "mental": 12,
-          "stress": -5
+          "mental": 17
         },
         "flags": [
           "envelope_returned_late"

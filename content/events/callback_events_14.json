@@ -11,7 +11,11 @@
       "flag": "usb_reported_to_company",
       "min_turn": 4
     },
-    "tags": ["jobs", "callback", "ethics"],
+    "tags": [
+      "jobs",
+      "callback",
+      "ethics"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -48,7 +52,11 @@
       "flag": "stayed_clean",
       "min_turn": 5
     },
-    "tags": ["jobs", "callback", "ethics"],
+    "tags": [
+      "jobs",
+      "callback",
+      "ethics"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -85,14 +93,17 @@
       "flag": "was_compromised",
       "min_turn": 4
     },
-    "tags": ["jobs", "callback", "ethics"],
+    "tags": [
+      "jobs",
+      "callback",
+      "ethics"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "수습하려 한다",
         "effects": {
-          "stress": 10,
-          "mental": -5,
+          "mental": -15,
           "reputation": -2
         },
         "flags": [],
@@ -102,8 +113,7 @@
       {
         "text": "인정하고 바로잡으려 한다",
         "effects": {
-          "stress": 5,
-          "mental": 5,
+          "mental": 0,
           "reputation": -1,
           "intelligence": 3
         },
@@ -125,7 +135,11 @@
       "flag": "formal_complaint_filed",
       "min_turn": 5
     },
-    "tags": ["social", "callback", "ethics"],
+    "tags": [
+      "social",
+      "callback",
+      "ethics"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -153,7 +167,11 @@
       "flag": "holdem_regular",
       "min_turn": 5
     },
-    "tags": ["gambling", "callback", "holdem"],
+    "tags": [
+      "gambling",
+      "callback",
+      "holdem"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -189,7 +207,11 @@
       "flag": "holdem_rule_made",
       "min_turn": 3
     },
-    "tags": ["gambling", "callback", "holdem"],
+    "tags": [
+      "gambling",
+      "callback",
+      "holdem"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -205,8 +227,7 @@
       {
         "text": "한 번쯤은 괜찮겠지",
         "effects": {
-          "mental": -5,
-          "stress": 5
+          "mental": -10
         },
         "flags": [],
         "follow_up_event": "",
@@ -226,7 +247,11 @@
       "flag": "holdem_knew_limit",
       "min_turn": 3
     },
-    "tags": ["gambling", "callback", "holdem"],
+    "tags": [
+      "gambling",
+      "callback",
+      "holdem"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -262,7 +287,11 @@
       "flag": "lotto_5th_prize",
       "min_turn": 3
     },
-    "tags": ["gambling", "callback", "lotto"],
+    "tags": [
+      "gambling",
+      "callback",
+      "lotto"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -278,8 +307,7 @@
       {
         "text": "이번엔 더 살까",
         "effects": {
-          "stress": 3,
-          "mental": -2
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -299,7 +327,11 @@
       "flag": "won_lottery_small",
       "min_turn": 4
     },
-    "tags": ["gambling", "callback", "lotto"],
+    "tags": [
+      "gambling",
+      "callback",
+      "lotto"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -335,7 +367,11 @@
       "flag": "received_orthodox_award",
       "min_turn": 4
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -371,7 +407,11 @@
       "flag": "bankrupt_ceo_mentor",
       "min_turn": 5
     },
-    "tags": ["social", "callback", "mentor"],
+    "tags": [
+      "social",
+      "callback",
+      "mentor"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -408,7 +448,11 @@
       "flag": "mindset_founder",
       "min_turn": 5
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -445,14 +489,16 @@
       "flag": "tried_to_withdraw",
       "min_turn": 4
     },
-    "tags": ["social", "callback"],
+    "tags": [
+      "social",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "빠져나왔다 — 잘 됐다",
         "effects": {
-          "mental": 10,
-          "stress": -8
+          "mental": 18
         },
         "flags": [],
         "follow_up_event": "",
@@ -461,8 +507,7 @@
       {
         "text": "완전히 빠져나오진 못했다",
         "effects": {
-          "stress": 5,
-          "mental": -3
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -482,7 +527,11 @@
       "flag": "joined_victims",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "legal"],
+    "tags": [
+      "social",
+      "callback",
+      "legal"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -499,8 +548,7 @@
       {
         "text": "에너지가 많이 든다. 거리를 둔다",
         "effects": {
-          "mental": 5,
-          "stress": -3
+          "mental": 8
         },
         "flags": [],
         "follow_up_event": "",
@@ -520,14 +568,17 @@
       "flag": "underground_network_member",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "ethics"],
+    "tags": [
+      "social",
+      "callback",
+      "ethics"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "요청을 거절하고 나간다",
         "effects": {
-          "stress": 15,
-          "mental": -5,
+          "mental": -20,
           "reputation": -3
         },
         "flags": [],
@@ -537,9 +588,9 @@
       {
         "text": "이번 한 번만 한다",
         "effects": {
-          "stress": 8,
           "money": 500000,
-          "reputation": -5
+          "reputation": -5,
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",

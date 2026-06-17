@@ -22,8 +22,7 @@
         "text": "건다",
         "result_text": "칩을 전부 밀었다. 이제 되돌릴 수 없었다.",
         "effects": {
-          "stress": 20,
-          "mental": -5
+          "mental": -25
         },
         "flags": [],
         "follow_up_event": "",
@@ -41,8 +40,7 @@
       {
         "text": "지금까지 쌓은 것만으로 간다",
         "effects": {
-          "mental": 5,
-          "stress": -5,
+          "mental": 10,
           "intelligence": 2
         },
         "flags": [
@@ -75,8 +73,7 @@
       {
         "text": "지금 이 숫자로, 간다",
         "effects": {
-          "mental": 15,
-          "stress": -10,
+          "mental": 25,
           "intelligence": 2
         },
         "flags": [
@@ -89,7 +86,7 @@
         "text": "한 번만 더 — 마지막이니까",
         "result_text": "마지막이라는 말을 몇 번이나 했었는지 기억이 안 났다.",
         "effects": {
-          "stress": 10
+          "mental": -10
         },
         "flags": [],
         "follow_up_event": "",
@@ -128,8 +125,7 @@
       {
         "text": "폰을 본다",
         "effects": {
-          "mental": 10,
-          "stress": -8
+          "mental": 18
         },
         "flags": [
           "final_reflective_chose_people"
@@ -140,9 +136,8 @@
       {
         "text": "폰을 주머니에 넣고 강을 본다",
         "effects": {
-          "mental": 8,
-          "intelligence": 2,
-          "stress": -5
+          "mental": 13,
+          "intelligence": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -185,8 +180,7 @@
       {
         "text": "다음엔 이긴다",
         "effects": {
-          "stress": 3,
-          "mental": -5
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -217,8 +211,7 @@
         "text": "간다",
         "result_text": "강남 어딘가의 빌딩 지하였다. 테이블에 모인 얼굴들이 모두 낯설었다.",
         "effects": {
-          "stress": 15,
-          "mental": -5
+          "mental": -20
         },
         "flags": [],
         "follow_up_event": "",
@@ -321,8 +314,7 @@
       {
         "text": "\"솔직히 모르겠어요. 힘은 해요.\"",
         "effects": {
-          "mental": -5,
-          "stress": 5,
+          "mental": -10,
           "health": -3
         },
         "flags": [],
@@ -439,7 +431,7 @@
         "text": "신용 회복에 집중하기로 한다",
         "effects": {
           "intelligence": 3,
-          "stress": -3
+          "mental": 3
         },
         "flags": [
           "credit_recovery_started"
@@ -451,8 +443,8 @@
         "text": "2금융권이라도 알아본다",
         "effects": {
           "money": 10000000,
-          "stress": 8,
-          "intelligence": -1
+          "intelligence": -1,
+          "mental": -8
         },
         "flags": [
           "credit_second_tier_loan"
@@ -485,8 +477,7 @@
         "text": "별말 없이 받아들인다",
         "effects": {
           "reputation": 3,
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "flags": [
           "credit_recognized"
@@ -531,9 +522,8 @@
       {
         "text": "이 변화를 기록해둔다",
         "effects": {
-          "mental": 10,
-          "health": 5,
-          "stress": -8
+          "mental": 18,
+          "health": 5
         },
         "flags": [
           "addiction_recovering"
@@ -575,9 +565,8 @@
       {
         "text": "\"나 지금 끊고 있어. 말도 꺼내지 마.\"",
         "effects": {
-          "mental": 10,
-          "health": 3,
-          "stress": -3
+          "mental": 13,
+          "health": 3
         },
         "flags": [
           "addiction_boundary_held"
@@ -588,9 +577,8 @@
       {
         "text": "딱 한 번만",
         "effects": {
-          "mental": -15,
-          "health": -5,
-          "stress": 10
+          "mental": -25,
+          "health": -5
         },
         "flags": [
           "addiction_relapsed"
@@ -623,9 +611,8 @@
       {
         "text": "일어난다",
         "effects": {
-          "mental": 8,
-          "health": 2,
-          "stress": -5
+          "mental": 13,
+          "health": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -634,7 +621,7 @@
       {
         "text": "10분만 더 눕는다",
         "effects": {
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -666,8 +653,7 @@
         "text": "식비라도 드리고 온다",
         "effects": {
           "money": -200000,
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
         "flags": [
           "family_gave_money"
@@ -678,8 +664,7 @@
       {
         "text": "그냥 밥을 같이 먹는다",
         "effects": {
-          "mental": 8,
-          "stress": -3
+          "mental": 11
         },
         "flags": [],
         "follow_up_event": "",
@@ -721,8 +706,7 @@
       {
         "text": "어쩔 수 없다. 다음 기회를 찾는다",
         "effects": {
-          "stress": 5,
-          "mental": -5
+          "mental": -10
         },
         "flags": [],
         "follow_up_event": "",
@@ -753,8 +737,7 @@
         "text": "결과를 듣는다",
         "effects": {
           "reputation": 4,
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "flags": [
           "lie_forgiven"
@@ -787,8 +770,7 @@
         "text": "모든 걸 인정한다",
         "effects": {
           "reputation": -5,
-          "mental": -10,
-          "stress": 15
+          "mental": -25
         },
         "flags": [
           "lie_full_confession"
@@ -800,8 +782,7 @@
         "text": "끝까지 우긴다",
         "effects": {
           "reputation": -8,
-          "mental": -15,
-          "stress": 20
+          "mental": -35
         },
         "flags": [],
         "follow_up_event": "",

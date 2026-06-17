@@ -27,8 +27,7 @@
       {
         "text": "인상을 받아들이고 다른 지출을 줄인다",
         "effects": {
-          "stress": 9,
-          "mental": -6,
+          "mental": -15,
           "intelligence": 1
         },
         "result_text": "구독 서비스 두 개를 해지했다.\n합산 4만 8천원.\n월세 인상분을 다른 곳에서 메꿨다."
@@ -76,8 +75,7 @@
       {
         "text": "모른 척 창을 닫는다",
         "effects": {
-          "stress": -4,
-          "mental": -1
+          "mental": 3
         },
         "result_text": "유혹을 외면했지만 불안감은 쉽게 가시지 않는다. 마음이 흔들리는 밤이다."
       },
@@ -125,8 +123,7 @@
       {
         "text": "일단 지켜본다",
         "effects": {
-          "stress": 10,
-          "mental": 6
+          "mental": -4
         },
         "result_text": "화면을 닫았다.\n두 시간 후에 다시 열었다.\n시장은 위아래로 흔들렸다가 제자리였다."
       },
@@ -173,8 +170,7 @@
       {
         "text": "테마주를 외면한다",
         "effects": {
-          "stress": -5,
-          "mental": -4
+          "mental": 1
         },
         "result_text": "묻지마 투자의 위험을 알기에 손을 대지 않았다. 소외감은 크지만 후회는 없다."
       },
@@ -195,8 +191,8 @@
         "text": "차트만 보다가 아무것도 안 한다",
         "effects": {
           "health": -2,
-          "stress": -3,
-          "money": 0
+          "money": 0,
+          "mental": 3
         },
         "result_text": "기회를 놓쳤는지도 모른다. 하지만 잃지 않은 것만으로 오늘은 충분하다."
       }
@@ -223,15 +219,14 @@
         "text": "냉정하게 현황을 파악한다",
         "effects": {
           "money": 380000,
-          "stress": 2
+          "mental": -2
         },
         "result_text": "소문인지 사실인지부터 따져봤다. 감정 전에 팩트를 챙기는 습관이 중요하다."
       },
       {
         "text": "불안해서 아무것도 못 한다",
         "effects": {
-          "stress": 9,
-          "mental": 6
+          "mental": -3
         },
         "result_text": "머릿속에 온갖 최악의 시나리오가 그려진다. 오늘 밤은 길 것 같다."
       },
@@ -281,8 +276,7 @@
       {
         "text": "당황해서 그냥 새 폰을 산다",
         "effects": {
-          "stress": 8,
-          "mental": 3
+          "mental": -5
         },
         "result_text": "충동적으로 매장을 찾아갔다. 화면이 박살 난 것보다 통장이 더 아프다."
       },
@@ -330,8 +324,7 @@
       {
         "text": "잠깐 들여다본다",
         "effects": {
-          "stress": 9,
-          "mental": -3,
+          "mental": -12,
           "addiction_tendency": 8
         },
         "result_text": "링크를 눌렀다.\n회원가입 창이 떴다.\n뒤로 가기를 눌렀다. 이번은 구경만 했다."
@@ -381,7 +374,6 @@
       {
         "text": "최솟값만 내고 나머지는 투자에 쓴다",
         "effects": {
-          "stress": 0,
           "mental": -2
         },
         "result_text": "최솟값을 이체했다.\n나머지를 투자 계좌로 옮겼다.\n이자가 붙기 시작했다. 카드값 이자가."
@@ -430,8 +422,7 @@
       {
         "text": "알림을 끄고 일단 둔다",
         "effects": {
-          "stress": -8,
-          "mental": 0
+          "mental": 8
         },
         "result_text": "알림 설정에 들어갔다.\n껐다.\n이자가 하루에 얼마인지 계산하지 않기로 했다."
       },
@@ -452,8 +443,8 @@
         "text": "마이너스를 늘려서 투자 자금으로 쓴다",
         "effects": {
           "health": -2,
-          "stress": -3,
-          "money": 0
+          "money": 0,
+          "mental": 3
         },
         "result_text": "한도까지 뺐다.\n투자 계좌로 옮겼다.\n이자율과 기대 수익률을 다시 계산했다. 아슬아슬했다."
       }
@@ -488,8 +479,7 @@
       {
         "text": "공포 매도 구간에서 분할 매수를 시작한다",
         "effects": {
-          "stress": 8,
-          "mental": 2
+          "mental": -6
         },
         "result_text": "3분의 1을 샀다.\n다음날 2% 더 빠졌다.\n추가로 3분의 1을 더 샀다. 분할의 이유였다."
       },
@@ -536,8 +526,7 @@
       {
         "text": "쓸데없는 논쟁에 휘말린다",
         "effects": {
-          "stress": 8,
-          "mental": -5,
+          "mental": -13,
           "social_skill": -1
         },
         "result_text": "SNS에서 논쟁을 시작했다. 에너지를 다 써버리고 아무것도 얻지 못했다."
@@ -559,8 +548,8 @@
         "text": "지원금 이슈 자체를 무시한다",
         "effects": {
           "health": -2,
-          "stress": -3,
-          "money": 0
+          "money": 0,
+          "mental": 3
         },
         "result_text": "어차피 나와는 상관없는 이야기라고 생각했다. 무관심이 가장 편한 선택이었다."
       }
@@ -594,8 +583,7 @@
       {
         "text": "마음이 흔들려 주변을 돌아본다",
         "effects": {
-          "stress": 11,
-          "mental": 2,
+          "mental": -9,
           "addiction_tendency": 5
         },
         "result_text": "주변 사람들의 성공담에 흔들렸다. 비교는 가장 위험한 투자 심리다."
@@ -621,8 +609,8 @@
         "text": "귀를 막고 그 자리를 떠난다",
         "effects": {
           "health": -2,
-          "stress": -3,
-          "money": 0
+          "money": 0,
+          "mental": 3
         },
         "result_text": "듣지 않기로 했다. 유혹으로부터 멀어지는 것도 용기다."
       }
@@ -657,8 +645,7 @@
       {
         "text": "나도 따라서 소액을 산다",
         "effects": {
-          "stress": -1,
-          "mental": 2
+          "mental": 3
         },
         "result_text": "인증샷에 자극받아 똑같이 매수 버튼을 눌렀다. 군중 심리는 막기 어렵다."
       },
@@ -752,8 +739,8 @@
         "text": "지금 리밸런싱한다 — 수익을 나누어 안전하게",
         "effects": {
           "money": 300000,
-          "stress": -3,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "mental": 3
         },
         "result_text": "비중이 커진 종목을 일부 매도해 포트폴리오를 다시 고르게 맞췄다. 수익을 지키는 것도 투자의 한 부분임을 다시 배웠다."
       },
@@ -761,7 +748,7 @@
         "text": "더 들고 간다 — 상승장 초입일 수 있다",
         "effects": {
           "investment_skill": 2,
-          "stress": 4
+          "mental": -4
         },
         "result_text": "욕심과 확신 사이에서 버티기로 했다. 잠을 설치는 밤이 이어지겠지만, 이것도 투자자의 몫이다."
       },
@@ -813,7 +800,7 @@
         "text": "정보 출처를 직접 확인한다",
         "effects": {
           "intelligence": 2,
-          "stress": -2
+          "mental": 2
         },
         "result_text": "공시를 찾아봤지만 아무런 근거가 없었다. 사실 확인 습관이 이번에도 지갑을 지켰다."
       }
@@ -842,16 +829,15 @@
         "text": "시장 열리자마자 전량 매도한다",
         "effects": {
           "money": -200000,
-          "stress": 5,
-          "mental": -3
+          "mental": -8
         },
         "result_text": "9시 정각, 체결창이 빨갛게 물들었다. 손실을 확정하면서도 더 잃지 않았다는 안도감이 묘하게 뒤섞였다."
       },
       {
         "text": "버틴다 — 장기 투자자는 밤을 타지 않는다",
         "effects": {
-          "stress": 8,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "mental": -8
         },
         "result_text": "화면을 닫고 억지로 눈을 감았다. 일주일 뒤 시장은 반쯤 회복했고, {name}의 심장은 단단해져 있었다."
       },
@@ -896,8 +882,7 @@
         "text": "오늘 외식비로 쓴다 — 소확행",
         "effects": {
           "money": 50000,
-          "mental": 6,
-          "stress": -3
+          "mental": 9
         },
         "result_text": "배당금으로 삼겹살을 먹었다. 주식이 사준 고기 맛은 역시 달랐다."
       }
@@ -926,8 +911,8 @@
         "text": "지금 손절한다 — 더 늦기 전에",
         "effects": {
           "money": -300000,
-          "stress": -5,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "mental": 5
         },
         "result_text": "손가락이 떨렸지만 매도 버튼을 눌렀다. 손실을 인정하는 순간은 고통스럽지만, 이게 투자자로 성장하는 방법이다."
       },
@@ -936,15 +921,14 @@
         "effects": {
           "money": -200000,
           "investment_skill": 1,
-          "stress": 5
+          "mental": -5
         },
         "result_text": "추가 매수로 평균 단가를 낮췄다. 맞을 수도 있고 더 깊이 빠질 수도 있다 — 지금은 기다리는 수밖에 없다."
       },
       {
         "text": "그냥 놔둔다 — 어차피 모른다",
         "effects": {
-          "stress": 3,
-          "mental": -2
+          "mental": -5
         },
         "result_text": "앱을 삭제하고 싶었지만 그냥 닫았다. 눈 감는다고 손실이 사라지진 않는다."
       }
@@ -1017,7 +1001,7 @@
       {
         "text": "원래 하던 방식을 고수한다 — 이미 알고 있는 것이 편하다",
         "effects": {
-          "stress": -2
+          "mental": 2
         },
         "result_text": "영상창을 닫고 원래 쓰던 종목 리스트를 열었다. 변화 없는 익숙함이 오늘 밤은 더 편했다."
       }
@@ -1046,8 +1030,8 @@
         "text": "부동산 비중을 줄인다 — 안전이 먼저",
         "effects": {
           "money": 200000,
-          "stress": -3,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "mental": 3
         },
         "result_text": "리츠 일부를 매도해 현금 비중을 높였다. 버블이 터지든 안 터지든, 마음이 먼저 편해졌다."
       },
@@ -1056,14 +1040,14 @@
         "effects": {
           "money": -400000,
           "investment_skill": 3,
-          "stress": 5
+          "mental": -5
         },
         "result_text": "뉴스 경고를 역발상의 신호로 받아들이고 추가 매수했다. 틀릴 수도 있지만, 이것이 {name}이 선택한 길이다."
       },
       {
         "text": "일단 관망한다 — 정보를 더 모은다",
         "effects": {
-          "stress": 2
+          "mental": -2
         },
         "result_text": "섣불리 움직이지 않기로 했다. 불확실할 때 아무것도 안 하는 것도 전략이라는 걸 되새겼다."
       }
@@ -1091,7 +1075,7 @@
         "text": "방어적 자산으로 갈아탄다",
         "effects": {
           "investment_skill": 3,
-          "stress": -3
+          "mental": 3
         },
         "result_text": "성장주를 줄이고 채권과 배당주로 포트폴리오를 재편했다. 시장이 두려워할 때 준비하는 자가 살아남는다."
       },
@@ -1100,7 +1084,7 @@
         "effects": {
           "investment_skill": 4,
           "luck": 2,
-          "stress": 4
+          "mental": -4
         },
         "result_text": "모두가 팔 때 사는 전략을 택했다. 역사는 공포 매수자에게 손을 들어준 적이 많았다."
       }
@@ -1128,8 +1112,7 @@
         "text": "원칙 투자자가 되기로 결심한다",
         "effects": {
           "investment_skill": 6,
-          "mental": 5,
-          "stress": -5
+          "mental": 10
         },
         "result_text": "주식 앱의 알림을 절반쯤 껐다. 매일 보던 차트 대신 사업 보고서를 열기 시작했다. 투자가 처음으로 즐거워졌다."
       },
@@ -1213,7 +1196,7 @@
         "effects": {
           "money": -200000,
           "intelligence": 3,
-          "stress": -4
+          "mental": 4
         },
         "result_text": "상담료 20만 원이 나갔지만 절세 전략까지 챙겼다. 전문가의 조언은 항상 그 값어치를 한다."
       },
@@ -1222,7 +1205,7 @@
         "effects": {
           "intelligence": 4,
           "investment_skill": 2,
-          "stress": 3
+          "mental": -3
         },
         "result_text": "국세청 유튜브와 블로그를 뒤지며 직접 신고서를 작성했다. 머리는 아팠지만 이제 세금이 두렵지 않다."
       }
@@ -1251,8 +1234,7 @@
         "text": "자동 이체를 설정하고 잊어버린다",
         "effects": {
           "investment_skill": 4,
-          "mental": 5,
-          "stress": -4
+          "mental": 9
         },
         "result_text": "6개월 뒤 확인해보니 수익률은 평범했지만 잔고는 착실히 쌓여 있었다. 꾸준함은 결코 배신하지 않는다."
       },
@@ -1260,7 +1242,7 @@
         "text": "타이밍 보고 넣겠다 — 지금은 아닌 것 같다",
         "effects": {
           "investment_skill": 1,
-          "stress": 2
+          "mental": -2
         },
         "result_text": "완벽한 타이밍을 기다리는 동안 세 달이 지났다. 결국 그 타이밍은 오지 않았다."
       }
@@ -1299,8 +1281,7 @@
         "text": "관망한다 — 광풍은 언제나 끝이 있다",
         "effects": {
           "investment_skill": 4,
-          "stress": -4,
-          "mental": 5
+          "mental": 9
         },
         "result_text": "두 달 뒤 코인 시장이 42% 빠졌을 때 동창의 카카오 상태 메시지가 조용해졌다.\n{name}은 아무 말도 안 했다.\n때로 가장 좋은 투자는 안 하는 것이다.",
         "route": "orthodox"
@@ -1340,7 +1321,7 @@
         "effects": {
           "investment_skill": 6,
           "intelligence": 3,
-          "stress": 3
+          "mental": -3
         },
         "result_text": "한 달 동안 해외 투자의 모든 것을 파고들었다. 복잡했지만 이제는 글로벌 시장이 내 운동장처럼 느껴진다."
       },
@@ -1355,7 +1336,7 @@
       {
         "text": "너무 복잡하다 — 국내 주식에 집중한다",
         "effects": {
-          "stress": -3
+          "mental": 3
         },
         "result_text": "아는 시장에서 잘하는 게 먼저라고 판단했다. 내가 이해하는 범위 안에서 투자하는 것도 전략이다."
       }
@@ -1391,8 +1372,7 @@
       {
         "text": "잘했다 — 잃지 않은 것만으로 자축한다",
         "effects": {
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "result_text": "시장 평균보다 낮아도, 원금을 지키며 1년을 버텼다는 게 이미 대단한 일이다. 내일의 {name}은 오늘보다 강하다."
       },
@@ -1400,7 +1380,7 @@
         "text": "실망스럽다 — 처음부터 다시 배운다",
         "effects": {
           "investment_skill": 3,
-          "stress": 4
+          "mental": -4
         },
         "result_text": "모든 걸 지우고 기초부터 다시 쌓기로 했다. 부끄럽지 않다, 늦은 각성이 빠른 포기보다 낫다."
       }
@@ -1428,7 +1408,7 @@
         "effects": {
           "investment_skill": 4,
           "money": -200000,
-          "stress": -4
+          "mental": 4
         },
         "flags": [
           "started_etf"
@@ -1452,8 +1432,8 @@
         "text": "ETF보다 개별 종목이 더 재밌다",
         "effects": {
           "investment_skill": 2,
-          "stress": 4,
-          "luck": 1
+          "luck": 1,
+          "mental": -4
         },
         "flags": [],
         "follow_up_event": "",
@@ -1493,8 +1473,7 @@
       {
         "text": "오늘은 이 돈으로 맛있는 걸 먹는다",
         "effects": {
-          "mental": 4,
-          "stress": -3,
+          "mental": 7,
           "money": 43200
         },
         "flags": [],
@@ -1535,8 +1514,8 @@
       {
         "text": "안전하게 채권이나 예금으로 옮긴다",
         "effects": {
-          "stress": -4,
-          "money": 100000
+          "money": 100000,
+          "mental": 4
         },
         "route": "orthodox",
         "flags": [],
@@ -1546,8 +1525,8 @@
       {
         "text": "그냥 유지한다. 정부 발표는 믿지 않는다",
         "effects": {
-          "stress": 3,
-          "luck": 1
+          "luck": 1,
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -1578,7 +1557,7 @@
         "effects": {
           "investment_skill": 3,
           "money": 400000,
-          "stress": -3
+          "mental": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -1588,9 +1567,9 @@
         "text": "분위기에 편승해서 추가 매수한다",
         "effects": {
           "money": -400000,
-          "stress": 5,
           "investment_skill": 1,
-          "luck": -1
+          "luck": -1,
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -1600,7 +1579,7 @@
         "text": "아무것도 하지 않는다. 내 계획대로 간다",
         "effects": {
           "investment_skill": 2,
-          "stress": -2
+          "mental": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -1630,7 +1609,7 @@
         "text": "원래 비중으로 리밸런싱한다",
         "effects": {
           "investment_skill": 3,
-          "stress": -3
+          "mental": 3
         },
         "route": "orthodox",
         "flags": [],
@@ -1641,8 +1620,8 @@
         "text": "오르는 종목을 계속 유지한다",
         "effects": {
           "investment_skill": 1,
-          "stress": 3,
-          "luck": 1
+          "luck": 1,
+          "mental": -3
         },
         "route": "unorthodox",
         "flags": [],
@@ -1678,7 +1657,7 @@
           "reputation": 10,
           "intelligence": 4,
           "social_skill": 3,
-          "stress": -4
+          "mental": 4
         },
         "route": "orthodox",
         "result_text": "검증된 사람이 검증된 루트를 소개해줬다.\n화려하지 않지만 안전하고 합법적인 기회.\n정도를 걷는다는 건, 이런 인맥이 쌓인다는 거다.\n잃지 않는 것도 이기는 방법이라는 걸 다시 확인했다."
@@ -1686,8 +1665,7 @@
       {
         "text": "지금은 바쁘다고 거절한다",
         "effects": {
-          "mental": 2,
-          "stress": -4
+          "mental": 6
         },
         "result_text": "거절했다. 그래도 그 사람은 섭섭해하지 않았다.\n정도를 걸어온 사람에게는 그런 여유도 허락된다.\n기회는 또 온다. 원칙이 있는 사람한텐."
       }
@@ -1720,7 +1698,7 @@
           "investment_skill": 8,
           "intelligence": 5,
           "reputation": 6,
-          "stress": -5
+          "mental": 5
         },
         "route": "orthodox",
         "flags": [
@@ -1763,8 +1741,8 @@
         "text": "그 정보를 살려 포지션을 잡는다",
         "effects": {
           "investment_skill": 4,
-          "stress": 6,
-          "luck": 2
+          "luck": 2,
+          "mental": -6
         },
         "route": "unorthodox",
         "flags": [
@@ -1776,7 +1754,7 @@
         "text": "무시한다 — 루머는 루머다",
         "effects": {
           "intelligence": 3,
-          "stress": -3
+          "mental": 3
         },
         "result_text": "그냥 마셨다. 좋은 소주였다.\n정보라는 이름의 잡음은 시장에 넘쳐흐른다.\n버릴 줄 아는 것도 기술이다."
       },
@@ -1785,7 +1763,7 @@
         "effects": {
           "intelligence": 5,
           "investment_skill": 2,
-          "stress": 2
+          "mental": -2
         },
         "flags": [
           "investigating_gray_contact"
@@ -1820,8 +1798,7 @@
         "effects": {
           "investment_skill": 10,
           "intelligence": 5,
-          "mental": -6,
-          "stress": 8
+          "mental": -14
         },
         "route": "unorthodox",
         "flags": [
@@ -1832,8 +1809,7 @@
       {
         "text": "여기서 더 깊이 들어가진 않는다",
         "effects": {
-          "mental": 6,
-          "stress": -5,
+          "mental": 11,
           "intelligence": 3
         },
         "route": "orthodox",
@@ -1864,8 +1840,8 @@
       {
         "text": "크게 넣는다 — 이번 기회가 아니면 언제",
         "effects": {
-          "stress": 8,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "mental": -8
         },
         "opportunity": {
           "stake_ratio": 0.6,
@@ -1880,8 +1856,8 @@
       {
         "text": "소액만 넣는다 — 분산이 원칙이다",
         "effects": {
-          "stress": 3,
-          "intelligence": 1
+          "intelligence": 1,
+          "mental": -3
         },
         "opportunity": {
           "stake_ratio": 0.25,
@@ -1896,8 +1872,7 @@
       {
         "text": "공모주는 도박이다 — 패스",
         "effects": {
-          "mental": 3,
-          "stress": -2,
+          "mental": 5,
           "intelligence": 2
         },
         "result_text": "공모주는 결국 타이밍 게임이다.\n확신이 없으면 안 하는 게 낫다.\n{name}은 화면을 껐다. 다음 기회를 기다린다."
@@ -1926,8 +1901,8 @@
       {
         "text": "전부 건다 — 강남 가는 마지막 기회일 수 있다",
         "effects": {
-          "stress": 15,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "mental": -15
         },
         "opportunity": {
           "stake_ratio": 0.65,
@@ -1945,8 +1920,8 @@
       {
         "text": "부분만 넣는다 — 위험을 분산한다",
         "effects": {
-          "stress": 7,
-          "intelligence": 2
+          "intelligence": 2,
+          "mental": -7
         },
         "opportunity": {
           "stake_ratio": 0.3,
@@ -1964,8 +1939,7 @@
       {
         "text": "내부 정보는 위험하다 — 거절한다",
         "effects": {
-          "mental": 5,
-          "stress": -5,
+          "mental": 10,
           "intelligence": 3,
           "reputation": 2
         },
@@ -2003,7 +1977,7 @@
       {
         "text": "상철의 안목을 믿고 크게 들어간다",
         "effects": {
-          "stress": 6
+          "mental": -6
         },
         "opportunity": {
           "stake_ratio": 0.4,
@@ -2020,7 +1994,7 @@
       {
         "text": "소액만 걸어본다",
         "effects": {
-          "stress": 3
+          "mental": -3
         },
         "opportunity": {
           "stake_ratio": 0.12,
@@ -2072,8 +2046,7 @@
         "text": "조언대로 위험 비중을 점검한다",
         "effects": {
           "investment_skill": 3,
-          "mental": 2,
-          "stress": -3
+          "mental": 5
         },
         "flags": [
           "heeded_sangchul_warning"
@@ -2083,8 +2056,8 @@
       {
         "text": "「이번엔 다르다」 — 내 판단대로 간다",
         "effects": {
-          "stress": 4,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "mental": -4
         },
         "result_text": "「그 말, 세 번의 폭락 전에 다 들었던 말이다.」\n임상철은 더 말리지 않았다. 「네 돈이니까.」"
       }
@@ -2113,8 +2086,8 @@
         "text": "더 사야겠다 — 이게 맞는 방향이다",
         "effects": {
           "investment_skill": 2,
-          "stress": -3,
-          "intelligence": 1
+          "intelligence": 1,
+          "mental": 3
         },
         "flags": [
           "first_invest_win"
@@ -2125,7 +2098,7 @@
         "text": "일단 팔아서 확정짓는다 — 손에 쥐어야 내 돈",
         "effects": {
           "intelligence": 1,
-          "stress": -2
+          "mental": 2
         },
         "flags": [
           "first_invest_win"
@@ -2156,8 +2129,7 @@
       {
         "text": "버텼다 — 이건 장기 게임이다",
         "effects": {
-          "mental": -5,
-          "stress": 5,
+          "mental": -10,
           "investment_skill": 2
         },
         "flags": [
@@ -2168,8 +2140,7 @@
       {
         "text": "팔았다 — 더 잃기 전에",
         "effects": {
-          "stress": -4,
-          "mental": 3,
+          "mental": 7,
           "intelligence": 1
         },
         "flags": [
@@ -2203,8 +2174,8 @@
         "text": "일부만 레버리지로 — 30% 정도는 괜찮겠지",
         "effects": {
           "investment_skill": 2,
-          "stress": 4,
-          "luck": -1
+          "luck": -1,
+          "mental": -4
         },
         "result_text": "30%를 3배 레버리지에 넣었다.\n그건 사실상 전체 포트의 90%를 한 방향에 거는 것과 같았다."
       },
@@ -2212,8 +2183,8 @@
         "text": "안 한다 — 댓글에 손실 얘기는 없다",
         "effects": {
           "intelligence": 2,
-          "stress": -2,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "mental": 2
         },
         "result_text": "영상을 껐다.\n그 영상의 제목은 '280%'였지만, 같은 기간 손실자 비율은 화면에 없었다."
       }
@@ -2242,16 +2213,15 @@
         "text": "공포를 이용한다 — 분할 매수 기회",
         "effects": {
           "investment_skill": 3,
-          "stress": 8,
-          "intelligence": 2
+          "intelligence": 2,
+          "mental": -8
         },
         "result_text": "공포에 살 수 있었다.\n2개월 뒤 시장은 50% 반등했고, 그 포지션은 두 배가 됐다."
       },
       {
         "text": "전량 매도 — 원금은 지켜야 한다",
         "effects": {
-          "stress": -6,
-          "mental": 5,
+          "mental": 11,
           "investment_skill": 1
         },
         "result_text": "팔았다. 손실을 확정했다.\n그 뒤로 한동안 시장을 보지 않았다."
@@ -2259,8 +2229,7 @@
       {
         "text": "아무것도 안 한다 — 흔들리지 않는다",
         "effects": {
-          "mental": -3,
-          "stress": 6,
+          "mental": -9,
           "investment_skill": 2
         },
         "result_text": "버텼다. 그게 전부였다.\n버티는 것도 전략이라는 걸, 그때 처음 알았다."
@@ -2291,7 +2260,7 @@
         "effects": {
           "money": 234000,
           "investment_skill": 2,
-          "stress": -2
+          "mental": 2
         },
         "result_text": "234,000원을 다시 투자했다.\n작은 눈덩이가 굴러가기 시작했다."
       },
@@ -2299,8 +2268,7 @@
         "text": "생활비로 쓴다 — 지금은 빠듯하다",
         "effects": {
           "money": 234000,
-          "stress": -5,
-          "mental": 3
+          "mental": 8
         },
         "result_text": "234,000원으로 맛있는 걸 먹었다.\n이달은 조금 덜 빠듯했다."
       }
@@ -2328,9 +2296,8 @@
       {
         "text": "오늘 밤 매매하지 않는다 — 감정적 결정은 독",
         "effects": {
-          "mental": 2,
-          "intelligence": 1,
-          "stress": -3
+          "mental": 5,
+          "intelligence": 1
         },
         "result_text": "노트북을 닫았다.\n새벽 감정으로 내린 결정은 항상 후회했다."
       },
@@ -2338,8 +2305,8 @@
         "text": "매수한다 — 하락한 채로 아침을 맞을 수 없다",
         "effects": {
           "investment_skill": 1,
-          "stress": 5,
-          "health": -3
+          "health": -3,
+          "mental": -5
         },
         "result_text": "샀다. 그리고 새벽 4시에 잠들었다.\n다음날 -3%. 피로와 손실이 함께 쌓였다."
       }
@@ -2368,15 +2335,14 @@
         "effects": {
           "intelligence": 2,
           "investment_skill": 2,
-          "stress": 3
+          "mental": -3
         },
         "result_text": "레버리지, 전세, 갭투자.\n단어들을 외우기 시작했다."
       },
       {
         "text": "TV를 껐다 — 지금 내 현실과 관계없는 숫자다",
         "effects": {
-          "mental": 3,
-          "stress": -4
+          "mental": 7
         },
         "result_text": "껐다.\n강남 집값이 오르든 말든, 오늘 할 일은 오늘 해야 했다."
       }

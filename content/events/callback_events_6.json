@@ -107,9 +107,8 @@
       {
         "text": "\"잘 지내요. 밥 한 번 먹어요\"",
         "effects": {
-          "mental": 10,
-          "social_skill": 2,
-          "stress": -5
+          "mental": 15,
+          "social_skill": 2
         },
         "flags": [
           "daeun_date_set"
@@ -190,9 +189,8 @@
       {
         "text": "같이 앉는다",
         "effects": {
-          "mental": 12,
-          "social_skill": 2,
-          "stress": -8
+          "mental": 20,
+          "social_skill": 2
         },
         "flags": [
           "daeun_reconnected"
@@ -275,9 +273,8 @@
       {
         "text": "일이 잘 맞는다. 계속 다닌다",
         "effects": {
-          "mental": 10,
-          "reputation": 2,
-          "stress": -5
+          "mental": 15,
+          "reputation": 2
         },
         "flags": [
           "wallet_job_settled"
@@ -289,7 +286,7 @@
         "text": "잘 안 맞는다. 다른 걸 알아본다",
         "effects": {
           "intelligence": 3,
-          "stress": 5
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -360,9 +357,8 @@
       {
         "text": "이번엔 명확하게 말한다",
         "effects": {
-          "mental": 10,
-          "reputation": 2,
-          "stress": 5
+          "mental": 5,
+          "reputation": 2
         },
         "flags": [
           "credit_asserted"
@@ -373,8 +369,7 @@
       {
         "text": "또 그냥 넘긴다",
         "effects": {
-          "mental": -8,
-          "stress": 3
+          "mental": -11
         },
         "flags": [],
         "follow_up_event": "",
@@ -405,8 +400,7 @@
       {
         "text": "미팅에 들어가서 정면으로 받는다",
         "effects": {
-          "stress": 10,
-          "mental": 5,
+          "mental": -5,
           "reputation": 1
         },
         "flags": [],
@@ -416,9 +410,9 @@
       {
         "text": "먼저 팀장에게 사과한다",
         "effects": {
-          "stress": -5,
           "reputation": -1,
-          "social_skill": 1
+          "social_skill": 1,
+          "mental": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -448,8 +442,7 @@
       {
         "text": "\"잘됐다\" 좋아요를 누른다",
         "effects": {
-          "mental": 8,
-          "stress": -5
+          "mental": 13
         },
         "flags": [],
         "follow_up_event": "",
@@ -490,8 +483,8 @@
         "text": "억지로 일어나서 간다",
         "effects": {
           "health": -5,
-          "stress": 5,
-          "reputation": 1
+          "reputation": 1,
+          "mental": -5
         },
         "flags": [],
         "follow_up_event": "",
@@ -501,7 +494,7 @@
         "text": "반차를 낸다",
         "effects": {
           "health": -2,
-          "stress": -3
+          "mental": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -533,7 +526,7 @@
         "text": "직접 물어본다. \"내가 뭐 불편하게 한 거 있어?\"",
         "effects": {
           "social_skill": 2,
-          "stress": -3
+          "mental": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -575,7 +568,7 @@
         "effects": {
           "reputation": -1,
           "social_skill": 2,
-          "stress": -3
+          "mental": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -584,8 +577,8 @@
       {
         "text": "\"몸이 좀 안 좋았어요\"라고 말한다",
         "effects": {
-          "stress": -5,
-          "reputation": -1
+          "reputation": -1,
+          "mental": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -616,8 +609,7 @@
         "text": "이번 주 내려간다",
         "effects": {
           "money": -50000,
-          "mental": 15,
-          "stress": -10
+          "mental": 25
         },
         "flags": [
           "visited_father_going_soon"
@@ -628,8 +620,7 @@
       {
         "text": "다음 달에 가기로 한다",
         "effects": {
-          "stress": 3,
-          "mental": -5
+          "mental": -8
         },
         "flags": [],
         "follow_up_event": "",
@@ -659,8 +650,7 @@
       {
         "text": "오래 통화한다",
         "effects": {
-          "mental": 15,
-          "stress": -10,
+          "mental": 25,
           "social_skill": 1
         },
         "flags": [
@@ -672,8 +662,7 @@
       {
         "text": "\"아버지, 저 지금 좀 바빠요. 나중에 전화할게요\"",
         "effects": {
-          "mental": -5,
-          "stress": -2
+          "mental": -3
         },
         "flags": [],
         "follow_up_event": "",

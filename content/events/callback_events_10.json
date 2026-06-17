@@ -11,7 +11,11 @@
       "flag": "jiyeon_got_angry",
       "min_turn": 6
     },
-    "tags": ["jiyeon", "callback", "relationship"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -20,7 +24,9 @@
           "mental": 10,
           "social_skill": 3
         },
-        "flags": ["jiyeon_apology_made"],
+        "flags": [
+          "jiyeon_apology_made"
+        ],
         "follow_up_event": "",
         "result_text": "\"그날 제가 과했어요. 죄송합니다.\"\n지연이 잠깐 있다가 \"...저도 잘못한 게 있었어요\"라고 했다.\n화를 먼저 낸 사람이 먼저 사과하는 것. 어렵지만 맞는 방향이었다."
       },
@@ -48,7 +54,11 @@
       "flag": "jiyeon_walked_away",
       "min_turn": 8
     },
-    "tags": ["jiyeon", "callback", "relationship"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -84,7 +94,11 @@
       "flag": "confronted_jiyeon",
       "min_turn": 5
     },
-    "tags": ["jiyeon", "callback", "relationship"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -94,7 +108,9 @@
           "intelligence": 3,
           "social_skill": 2
         },
-        "flags": ["jiyeon_opens_up"],
+        "flags": [
+          "jiyeon_opens_up"
+        ],
         "follow_up_event": "",
         "result_text": "지연이 자신의 실수를 인정했다.\n\"그때 말할 수 있어서 잘 하셨어요\"라고도 했다.\n할 말을 하는 것이 — 관계를 끊는 게 아니라 다음 단계로 가는 거였다."
       },
@@ -121,7 +137,11 @@
       "flag": "jiyeon_came_clean",
       "min_turn": 6
     },
-    "tags": ["jiyeon", "callback", "relationship"],
+    "tags": [
+      "jiyeon",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -130,7 +150,9 @@
           "mental": 10,
           "social_skill": 2
         },
-        "flags": ["jiyeon_trust_built"],
+        "flags": [
+          "jiyeon_trust_built"
+        ],
         "follow_up_event": "",
         "result_text": "지연이 \"저도 한 가지 말할 게 있어요\"라고 했다.\n솔직함이 솔직함을 불렀다.\n그 대화가 한 시간 더 이어졌다."
       },
@@ -157,17 +179,22 @@
       "flag": "daeun_first_date",
       "min_turn": 4
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "\"돼요. 어디로?\"",
         "effects": {
-          "mental": 10,
-          "social_skill": 2,
-          "stress": -5
+          "mental": 15,
+          "social_skill": 2
         },
-        "flags": ["daeun_second_date"],
+        "flags": [
+          "daeun_second_date"
+        ],
         "follow_up_event": "",
         "result_text": "다은이 장소를 보내왔다.\n처음보다 편했다.\n두 번째가 되니까 — 첫 번째가 어떤 사람인지 확인한 거였다는 게 보였다."
       },
@@ -194,7 +221,11 @@
       "flag": "daeun_declined_date",
       "min_turn": 6
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -230,7 +261,11 @@
       "flag": "daeun_first_kind",
       "min_turn": 8
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -239,7 +274,9 @@
           "mental": 12,
           "social_skill": 2
         },
-        "flags": ["daeun_bond_deepened"],
+        "flags": [
+          "daeun_bond_deepened"
+        ],
         "follow_up_event": "",
         "result_text": "다은이 \"그때 많이 힘들었어요. 근데 그 말 덕분에 버텼어요\"라고 했다.\n밥 먹다가 조용해졌다.\n작은 친절이 그렇게 오래 남는다는 걸 몰랐다."
       },
@@ -266,15 +303,18 @@
       "flag": "daeun_texted_her",
       "min_turn": 4
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "바로 답장한다",
         "effects": {
-          "mental": 10,
-          "social_skill": 2,
-          "stress": -5
+          "mental": 15,
+          "social_skill": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -303,14 +343,17 @@
       "flag": "rushed_to_father",
       "min_turn": 3
     },
-    "tags": ["father", "callback", "family"],
+    "tags": [
+      "father",
+      "callback",
+      "family"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "더 자주 가기로 한다",
         "effects": {
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
         "flags": [],
         "follow_up_event": "",
@@ -319,8 +362,7 @@
       {
         "text": "그래도 자주 가는 건 부담이다",
         "effects": {
-          "mental": 5,
-          "stress": -2
+          "mental": 7
         },
         "flags": [],
         "follow_up_event": "",
@@ -340,24 +382,28 @@
       "flag": "skipped_father_hospital",
       "min_turn": 5
     },
-    "tags": ["father", "callback", "family"],
+    "tags": [
+      "father",
+      "callback",
+      "family"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "아버지께 직접 전화드린다",
         "effects": {
-          "mental": 10,
-          "stress": -5
+          "mental": 15
         },
-        "flags": ["father_apology_made"],
+        "flags": [
+          "father_apology_made"
+        ],
         "follow_up_event": "",
         "result_text": "\"아버지, 그날 못 가서 죄송해요.\"\n아버지가 \"됐어, 바빴겠지\"라고 하셨다.\n'됐어'가 됐다는 게 아니라는 걸 알았다.\n다음엔 가야 한다."
       },
       {
         "text": "다음에 꼭 가는 걸로 한다",
         "effects": {
-          "stress": 3,
-          "mental": -3
+          "mental": -6
         },
         "flags": [],
         "follow_up_event": "",
@@ -377,17 +423,22 @@
       "flag": "visited_father_hospital",
       "min_turn": 3
     },
-    "tags": ["father", "callback", "family"],
+    "tags": [
+      "father",
+      "callback",
+      "family"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "다음 검진 일정을 직접 잡아드린다",
         "effects": {
-          "mental": 12,
-          "money": -30000,
-          "stress": -5
+          "mental": 17,
+          "money": -30000
         },
-        "flags": ["father_appointment_set"],
+        "flags": [
+          "father_appointment_set"
+        ],
         "follow_up_event": "",
         "result_text": "석 달 뒤 예약을 잡았다.\n아버지가 \"네가 뭘\" 하셨지만 좋아하셨다.\n데려가는 것보다 챙기는 게 먼저였다."
       },
@@ -415,7 +466,11 @@
       "min_turn": 4,
       "has_job": true
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -453,7 +508,11 @@
       "flag": "has_certification",
       "min_turn": 6
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -492,7 +551,11 @@
       "min_turn": 4,
       "has_job": true
     },
-    "tags": ["jobs", "callback", "career"],
+    "tags": [
+      "jobs",
+      "callback",
+      "career"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -500,9 +563,11 @@
         "effects": {
           "intelligence": 3,
           "social_skill": 2,
-          "stress": 3
+          "mental": -3
         },
-        "flags": ["headhunting_explored"],
+        "flags": [
+          "headhunting_explored"
+        ],
         "follow_up_event": "",
         "result_text": "만났다.\n조건이 좋았다.\n이직 결정은 숫자만으로 하는 게 아니었지만 — 선택지가 생겼다는 것 자체가 자산이었다."
       },
@@ -529,16 +594,21 @@
       "flag": "mlm_debt_repaid",
       "min_turn": 6
     },
-    "tags": ["finance", "callback", "milestone"],
+    "tags": [
+      "finance",
+      "callback",
+      "milestone"
+    ],
     "cooldown": 999,
     "choices": [
       {
         "text": "이날을 기록해둔다",
         "effects": {
-          "mental": 15,
-          "stress": -10
+          "mental": 25
         },
-        "flags": ["mlm_debt_closed"],
+        "flags": [
+          "mlm_debt_closed"
+        ],
         "follow_up_event": "",
         "result_text": "날짜와 함께 적었다.\n'오늘로 끝났다.'\n빌린 사람 이름도, 이유도 안 썼다.\n그냥 — 끝났다."
       },
@@ -565,7 +635,11 @@
       "flag": "holiday_endured",
       "min_turn": 4
     },
-    "tags": ["family", "callback", "holiday"],
+    "tags": [
+      "family",
+      "callback",
+      "holiday"
+    ],
     "cooldown": 999,
     "choices": [
       {

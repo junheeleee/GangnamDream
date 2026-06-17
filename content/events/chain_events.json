@@ -21,9 +21,8 @@
       {
         "text": "\"그때 정말 감사했습니다\" 제대로 인사한다",
         "effects": {
-          "mental": 6,
-          "social_skill": 2,
-          "stress": -4
+          "mental": 10,
+          "social_skill": 2
         },
         "flags": [
           "chain_banchan_regular"
@@ -34,8 +33,7 @@
       {
         "text": "어색해서 가볍게 목례만 하고 지나간다",
         "effects": {
-          "mental": 2,
-          "stress": 2
+          "mental": 0
         },
         "flags": [],
         "result_text": "고개를 숙이고 걸음을 빨리했다.\n\n뒤에서 여자가 뭐라고 더 말했는데 못 들은 척했다.\n\n몇 걸음 가다가 후회했다.\n고마운 사람한테 고맙다고 말할 기회는 자주 안 온다.\n다음에 오면 들러야지. 그 다음은 없을 수도 있는데.",
@@ -65,8 +63,7 @@
       {
         "text": "이번엔 받는다",
         "effects": {
-          "mental": 8,
-          "stress": -5,
+          "mental": 13,
           "social_skill": 2
         },
         "flags": [
@@ -78,8 +75,7 @@
       {
         "text": "\"마음만 받겠습니다\" 또 거절한다",
         "effects": {
-          "mental": -2,
-          "stress": 3
+          "mental": -5
         },
         "flags": [],
         "result_text": "여자가 한숨을 쉬었다.\n\"총각, 그거 알아? 받는 것도 연습이야.\"\n\n반찬통을 거두며 그녀가 말했다.\n\"줄 줄만 알고 받을 줄 모르는 사람은 — 나중에 꼭 혼자가 돼.\"\n\n골목을 나오는데 그 말이 계속 따라왔다.",
@@ -113,8 +109,7 @@
         "effects": {
           "social_skill": 3,
           "reputation": 5,
-          "mental": 6,
-          "stress": -5
+          "mental": 11
         },
         "flags": [
           "chain_banchan_job_lead"
@@ -170,8 +165,7 @@
       {
         "text": "적당히 둘러댄다. 처지를 다 보이긴 싫다",
         "effects": {
-          "mental": 2,
-          "stress": 2,
+          "mental": 0,
           "social_skill": 1
         },
         "flags": [],
@@ -204,8 +198,7 @@
         "text": "지갑 얘기를 그대로 한다",
         "effects": {
           "reputation": 6,
-          "mental": 7,
-          "stress": -5,
+          "mental": 12,
           "social_skill": 2
         },
         "flags": [
@@ -217,8 +210,7 @@
       {
         "text": "\"개인적인 인연입니다\" 라고만 한다",
         "effects": {
-          "stress": 5,
-          "mental": -2
+          "mental": -7
         },
         "flags": [],
         "result_text": "면접관이 고개를 끄덕였다. 더 묻지 않았다.\n\n결과는 불합격이었다.\n\n나중에 전무에게서 문자가 왔다.\n'지갑 얘기 왜 안 했어요? 그게 본인 최고 스펙인데.'\n\n{name}은 답장을 한참 못 썼다.\n숨길 필요 없는 걸 숨기는 버릇 — 6년의 빚이 남긴 거였다.",
@@ -265,8 +257,7 @@
       {
         "text": "\"마음만 받을게요\" 정중히 사양한다",
         "effects": {
-          "mental": 3,
-          "stress": -2
+          "mental": 5
         },
         "flags": [],
         "result_text": "\"알바가 있어서요. 감사합니다.\"\n\n그가 고개를 끄덕이고 명함을 두고 갔다.\n\n음료수 박스는 사장님 몰래 창고에 뒀다가 야간 근무 때마다 하나씩 마셨다.\n\n마지막 캔을 딸 때쯤 명함 생각이 났다.\n어디 뒀는지 기억이 안 났다.",
@@ -298,8 +289,7 @@
         "text": "받아들인다. 현장에서 배운다",
         "effects": {
           "money": 500000,
-          "mental": 8,
-          "stress": -6,
+          "mental": 14,
           "social_skill": 3,
           "reputation": 4
         },
@@ -346,8 +336,7 @@
         "text": "전화해서 돌려준다. 사례는 안 받는다",
         "effects": {
           "money": -500000,
-          "mental": 12,
-          "stress": -10,
+          "mental": 22,
           "reputation": 3,
           "luck": 3
         },
@@ -360,8 +349,7 @@
       {
         "text": "못 본 척한다. 이미 늦었다",
         "effects": {
-          "mental": -10,
-          "stress": 12,
+          "mental": -22,
           "luck": -3
         },
         "flags": [
@@ -396,9 +384,8 @@
         "text": "짐 나르는 걸 돕는다",
         "effects": {
           "health": -2,
-          "mental": 6,
-          "social_skill": 2,
-          "stress": -3
+          "mental": 9,
+          "social_skill": 2
         },
         "flags": [
           "chain_neighbor_friend"
@@ -442,8 +429,7 @@
         "text": "바로 신청한다",
         "effects": {
           "money": 1200000,
-          "mental": 7,
-          "stress": -8
+          "mental": 15
         },
         "flags": [
           "chain_housing_subsidy"
@@ -454,8 +440,7 @@
       {
         "text": "나중에 하려다 마감을 놓친다",
         "effects": {
-          "stress": 6,
-          "mental": -4,
+          "mental": -10,
           "intelligence": 2
         },
         "flags": [],
@@ -488,10 +473,9 @@
       {
         "text": "\"여긴 새벽엔 다 그냥 사람이에요\"",
         "effects": {
-          "mental": 8,
+          "mental": 13,
           "social_skill": 3,
-          "reputation": 4,
-          "stress": -5
+          "reputation": 4
         },
         "flags": [
           "chain_celeb_regular"
@@ -535,9 +519,8 @@
       {
         "text": "끼어든다. \"그 사람 사기꾼이에요\"",
         "effects": {
-          "mental": 8,
+          "mental": 2,
           "reputation": 5,
-          "stress": 6,
           "social_skill": 2
         },
         "flags": [
@@ -549,8 +532,7 @@
       {
         "text": "지나친다. 내 일 아니다",
         "effects": {
-          "stress": 7,
-          "mental": -5
+          "mental": -12
         },
         "flags": [],
         "result_text": "걸음을 늦추지 않았다.\n\n골목 끝에서 한 번 돌아봤다.\n대학생이 지갑을 꺼내고 있었다.\n\n그날 밤 잠자리에서 그 장면이 반복 재생됐다.\n\n사기당한 건 내 잘못이 아니었다.\n근데 오늘 침묵한 건 — 그건 선택이었다.",
