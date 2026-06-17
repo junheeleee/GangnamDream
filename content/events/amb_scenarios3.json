@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "설명이라도 들어보러 나간다  (지푸라기 / 함정·시간)",
-        "result_text": "",
+        "result_text": "카페에서 두 시간을 보냈다. 화이트보드 그림과 \"수익구조\"라는 단어가 반복됐다.",
         "follow_up_event": "amb_mlm_meet",
         "effects": {
           "stress": 4,

@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "전화를 건다",
-        "result_text": "",
+        "result_text": "신호음이 세 번 울렸다. 심장이 따라 뛰었다.",
         "follow_up_event": "cafe_cb_stole_call",
         "effects": {
           "stress": 5
@@ -66,12 +66,12 @@
     "choices": [
       {
         "text": "먼저 알아본다 — 등기·시세부터 확인",
-        "result_text": "",
+        "result_text": "공인중개사 두 곳에 전화했다. 숫자를 교차 확인했다.",
         "follow_up_event": "cafe_cb_stole_verify"
       },
       {
         "text": "직감을 믿고 지른다 — 있는 돈 전부",
-        "result_text": "",
+        "result_text": "통화 중에 이체를 눌렀다. 직감은 때로 유일한 증거가 된다.",
         "follow_up_event": "cafe_cb_stole_allin"
       },
       {
@@ -109,7 +109,7 @@
     "choices": [
       {
         "text": "거품을 빼고, 신중하게 들어간다",
-        "result_text": "",
+        "result_text": "김 부장에게 등기를 내밀었다. \"2천은 거품이잖아요.\" 그가 눈을 피했다.",
         "follow_up_event": "cafe_cb_stole_smart"
       },
       {
@@ -230,7 +230,7 @@
     "choices": [
       {
         "text": "\"준비됐습니다. 듣고 싶습니다\"",
-        "result_text": "",
+        "result_text": "그쪽에서 날짜와 장소를 불렀다. {name}은 바로 메모했다.",
         "follow_up_event": "cafe_cb_honest_in",
         "flags": [
           "cafe_callback_seen"

@@ -20,6 +20,7 @@
     "choices": [
       {
         "text": "건다",
+        "result_text": "칩을 전부 밀었다. 이제 되돌릴 수 없었다.",
         "effects": {
           "stress": 20,
           "mental": -5
@@ -86,6 +87,7 @@
       },
       {
         "text": "한 번만 더 — 마지막이니까",
+        "result_text": "마지막이라는 말을 몇 번이나 했었는지 기억이 안 났다.",
         "effects": {
           "stress": 10
         },
@@ -213,6 +215,7 @@
     "choices": [
       {
         "text": "간다",
+        "result_text": "강남 어딘가의 빌딩 지하였다. 테이블에 모인 얼굴들이 모두 낯설었다.",
         "effects": {
           "stress": 15,
           "mental": -5

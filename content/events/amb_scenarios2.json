@@ -59,7 +59,7 @@
       },
       {
         "text": "현수를 말린다 — \"너 그거 위험해\"  (우정 / 충돌)",
-        "result_text": "",
+        "result_text": "현수의 표정이 굳었다. \"형은 항상 그래요\"라는 말이 날아왔다.",
         "follow_up_event": "amb_coin_warn",
         "effects": {
           "stress": 4
@@ -141,7 +141,7 @@
     "choices": [
       {
         "text": "내려간다 — 그래도 가족이다  (관계 / 돈·스트레스)",
-        "result_text": "",
+        "result_text": "고속버스 터미널은 귀성객으로 가득했다. 집에 도착하니 아버지가 현관 앞에 서 있었다.",
         "follow_up_event": "amb_holiday_home",
         "effects": {
           "money": -150000,

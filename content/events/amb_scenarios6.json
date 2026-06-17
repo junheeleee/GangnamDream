@@ -89,7 +89,7 @@
       },
       {
         "text": "회의 후, 부장에게 정중히 따진다  (자존심·인정 / 미운털)",
-        "result_text": "",
+        "result_text": "부장을 복도에서 붙잡았다. \"그 자료, 제가 만든 거 아시죠\"라고 말했다.",
         "follow_up_event": "amb_credit_confront",
         "effects": {
           "stress": 7,

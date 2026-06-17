@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "당장 등기부등본부터 뗀다  (발급비·시간)",
-        "result_text": "",
+        "result_text": "동사무소 발급기에서 서류를 뽑았다. 빽빽한 근저당 내역이 눈에 들어왔다.",
         "follow_up_event": "amb_jeonse_check",
         "effects": {
           "money": -1000,
@@ -41,7 +41,7 @@
       },
       {
         "text": "집주인에게 전화해 따져 묻는다  (스트레스)",
-        "result_text": "",
+        "result_text": "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다.",
         "follow_up_event": "amb_jeonse_confront",
         "effects": {
           "stress": 10,
@@ -161,7 +161,7 @@
     "choices": [
       {
         "text": "끝까지 받아 마신다  (관계·평판 / 건강·정신)",
-        "result_text": "",
+        "result_text": "잔을 끝까지 비웠다. 부장이 크게 웃으며 어깨를 두드렸다.",
         "follow_up_event": "amb_hoesik_drink",
         "effects": {
           "reputation": 3,
@@ -185,7 +185,7 @@
       },
       {
         "text": "취한 척, 화장실에서 시간을 끈다  (절충 / 들킬 위험)",
-        "result_text": "",
+        "result_text": "화장실 칸에 앉아 10분을 버텼다. 밖에서 \"걔 어디 갔어?\" 하는 소리가 들렸다.",
         "follow_up_event": "amb_hoesik_dodge",
         "effects": {
           "stress": 5,
