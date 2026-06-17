@@ -2014,5 +2014,165 @@
         "result_text": "20만원을 더 넣었다. 평균 단가가 낮아졌다. 맞는 판단인지는 모르겠다. 이제 팔기가 더 어려워졌다."
       }
     ]
+  },
+  {
+    "id": "arc_year_one_mark",
+    "title": "1년",
+    "description": "계획을 세운 지 꼭 1년이 지났다.\n\n고시원 창문 너머로 같은 골목이 보인다. 사람들은 여전히 바쁘게 지나간다. 달라진 건 통장 숫자뿐인 것 같다. 그런데 — 통장 숫자가 달라졌다는 건, 내가 달라지고 있다는 뜻이기도 하다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["reflection", "milestone"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "1년치 기록을 정리한다. 내가 얼마나 왔는지 숫자로 확인한다.",
+        "effects": { "mental": 4, "intelligence": 1 },
+        "flags": ["arc_year_one_mark_seen", "keeps_records"],
+        "result_text": "공책에 적어 내려갔다. 수입, 지출, 투자, 실패. 숫자는 거짓말을 하지 않는다. 나는 분명히 앞으로 나아가고 있었다."
+      },
+      {
+        "text": "그냥 넘어간다. 기념일 따위를 세는 게 사치다.",
+        "effects": { "mental": -1 },
+        "flags": ["arc_year_one_mark_seen"],
+        "result_text": "그냥 자정을 넘겼다. 아무 것도 하지 않았다. 그것도 선택이다."
+      },
+      {
+        "text": "더 세게 밀어붙여야 한다. 1년은 워밍업이었다.",
+        "effects": { "mental": -2, "investment_skill": 1, "luck": 1 },
+        "flags": ["arc_year_one_mark_seen", "grind_mentality"],
+        "result_text": "핸드폰을 들었다. 공부할 것, 알아볼 것, 움직여야 할 것. 목록이 길어졌다. 좋은 신호다."
+      }
+    ]
+  },
+  {
+    "id": "arc_year_two_pressure",
+    "title": "2년째 가을",
+    "description": "고등학교 동창 민기에게서 청첩장이 왔다.\n\n아파트 사진도 단톡방에 올라온다. '드디어 내 집 마련!' 좋아요를 누르다가 멈췄다. 나는 아직 월세를 낸다. 비교하지 않으려 했는데, 가을이 되면 어딘가 자꾸 비교하게 된다.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["comparison", "social", "reflection"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "축하해준다, 진심으로. 나는 나만의 길에 있다.",
+        "effects": { "social_skill": 2, "mental": 2, "reputation": 1 },
+        "flags": ["arc_year_two_pressure_seen", "congratulated_friend"],
+        "result_text": "'민기야 진짜 축하해.' 문자를 보냈다. 답장이 금방 왔다. 사람이 좋으면 어떤 소식이든 반갑다. 내 길은 내가 간다."
+      },
+      {
+        "text": "읽고 덮어둔다. 내 상황이 부끄러운 건 아니다.",
+        "effects": { "mental": -2 },
+        "flags": ["arc_year_two_pressure_seen"],
+        "result_text": "알림창을 닫았다. 뭔가 복잡한 기분이 남았다. 틀리지 않았다는 걸 알면서도 쉽지 않은 감정이 있다."
+      },
+      {
+        "text": "SNS를 끊는다. 비교는 집중력의 독이다.",
+        "effects": { "mental": 5, "intelligence": 1 },
+        "flags": ["arc_year_two_pressure_seen", "cut_sns"],
+        "result_text": "앱을 삭제했다. 처음 며칠은 손이 갔다. 2주가 지나자 집중하는 시간이 길어졌다. 세상이 더 단순해진 느낌."
+      }
+    ]
+  },
+  {
+    "id": "arc_year_three_crossroads",
+    "title": "36세의 갈림길",
+    "description": "3년이 지났다.\n\n37세가 되기 전, 한 번쯤은 스스로에게 물어봐야 할 것 같다. 지금 이 길이 맞는가. 마감까지 2년이 채 안 남았다. 이 질문을 피하면 — 나중엔 더 무겁게 돌아온다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["identity", "crossroads", "milestone"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "계속 간다. 멈추면 여기까지가 전부다.",
+        "effects": { "mental": -3, "luck": 2, "investment_skill": 1 },
+        "flags": ["arc_year_three_crossroads_seen", "never_stop"],
+        "result_text": "선택이라기보다 관성이었다. 하지만 관성도 힘이다. 멈추지 않으면 언젠간 닿는다."
+      },
+      {
+        "text": "지금이라도 안정적인 길로 방향을 튼다.",
+        "effects": { "mental": 4, "reputation": 2 },
+        "flags": ["arc_year_three_crossroads_seen", "pivoted_to_safe"],
+        "result_text": "이게 포기인지 성장인지는 모르겠다. 하지만 더 이상 무너지고 싶지 않다. 이것도 삶이다."
+      },
+      {
+        "text": "지금 손에 쥔 패로 최선을 다한다. 남은 패는 없다.",
+        "effects": { "mental": 3, "luck": 1 },
+        "flags": ["arc_year_three_crossroads_seen", "plays_hand"],
+        "result_text": "있는 것들을 다시 정리했다. 돈, 관계, 기술, 경험. 뭔가 남아 있었다. 아직은 충분하다."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_year_start",
+    "title": "마지막 1년",
+    "description": "이제 1년이 남았다.\n\n37세. 내년 이맘때가 마감이다. 지금 내 손에 쥔 패로, 뭘 할 수 있을까. 이 질문이 이렇게 구체적으로 느껴진 적이 없었다.",
+    "category": "social",
+    "rarity": "rare",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["countdown", "final", "milestone"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "모든 걸 건다. 마지막 기회다.",
+        "effects": { "luck": 3, "mental": -4 },
+        "flags": ["arc_final_year_start_seen", "final_year_all_in"],
+        "result_text": "남은 카드를 전부 꺼냈다. 두렵지 않다고 하면 거짓말이다. 그래도 건다. 이게 내가 선택한 드라마다."
+      },
+      {
+        "text": "지금 가진 걸 지킨다. 안전하게 착지한다.",
+        "effects": { "mental": 5, "reputation": 2 },
+        "flags": ["arc_final_year_start_seen", "final_year_conservative"],
+        "result_text": "욕심을 줄였다. 잃지 않는 것도 전략이다. 마지막 1년, 흔들리지 않기로 했다."
+      },
+      {
+        "text": "아직 뭔가 남아있을 것 같다. 조금 더 기다린다.",
+        "effects": { "luck": 1, "mental": 2 },
+        "flags": ["arc_final_year_start_seen", "final_year_waiting"],
+        "result_text": "서두르지 않았다. 1년은 길다. 기회는 오는 법이다 — 아직은 그렇게 믿고 싶다."
+      }
+    ]
+  },
+  {
+    "id": "arc_endgame_sixmonths",
+    "title": "6개월",
+    "description": "남은 시간이 24주다.\n\n강남까지 얼마가 부족한지는 이제 알고 있다. 어떻게 끝낼 것인가. 드라마는 마지막 씬에서 결정된다.",
+    "category": "social",
+    "rarity": "legendary",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {},
+    "tags": ["endgame", "final", "countdown"],
+    "cooldown": 999,
+    "choices": [
+      {
+        "text": "마지막 베팅 — 전부 건다. 드라마는 여기서 갈린다.",
+        "effects": { "luck": 4, "mental": -6 },
+        "flags": ["arc_endgame_sixmonths_seen", "final_gamble_taken"],
+        "result_text": "손이 떨렸다. 클릭했다. 이제 결과를 기다리는 일만 남았다."
+      },
+      {
+        "text": "현실적으로 마무리한다. 이 자산으로 최선의 결말을 만든다.",
+        "effects": { "mental": 6, "reputation": 2 },
+        "flags": ["arc_endgame_sixmonths_seen", "realistic_finish"],
+        "result_text": "숫자를 다시 계산했다. 30억이 아니어도 괜찮을 수 있다. 지금까지 온 이 길 자체가 강남이었는지도 모른다."
+      },
+      {
+        "text": "지금 이 순간이 이미 드라마다. 어떻게 끝나든 후회 없다.",
+        "effects": { "mental": 9, "luck": 1 },
+        "flags": ["arc_endgame_sixmonths_seen", "drama_accepted"],
+        "result_text": "전화를 껐다. 창문을 열었다. 서울 밤바람이 들어왔다. 5년 전 고시원 창문 너머 골목보다 조금 더 높은 곳에 있었다."
+      }
+    ]
   }
 ]

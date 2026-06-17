@@ -1652,6 +1652,20 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_later_echo_seen", false):
 		return "arc_daeun_later_echo"
 
+	# ══ 8구간: 연도 마커 — 5년의 흐름을 체감하는 무조건 씬 ══
+	# t=52 = 13개월차(1년 1개월), t=96 = 24개월차(2년), t=148 = 37개월차(3년 1개월)
+	# t=192 = 48개월차(4년), t=220 = 55개월차(4년 7개월 = 마지막 6개월)
+	if t >= 52 and t <= 68 and not f.get("arc_year_one_mark_seen", false):
+		return "arc_year_one_mark"
+	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
+		return "arc_year_two_pressure"
+	if t >= 148 and t <= 165 and not f.get("arc_year_three_crossroads_seen", false):
+		return "arc_year_three_crossroads"
+	if t >= 192 and t <= 215 and not f.get("arc_final_year_start_seen", false):
+		return "arc_final_year_start"
+	if t >= 220 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
+		return "arc_endgame_sixmonths"
+
 	return ""
 
 ## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.
