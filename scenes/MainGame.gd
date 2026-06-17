@@ -1783,8 +1783,9 @@ func _choose(index):
 	_play_choice_feedback(effects, selected_choice)
 
 	# 충격 이벤트 감지: 건강·정신 -15 이상 손실 또는 100만원 이상 갑작스러운 손실
+	var effective_mental_delta = int(effects.get("mental", 0)) - int(effects.get("stress", 0))
 	var is_critical = (int(effects.get("health", 0)) <= -15
-		or int(effects.get("mental", 0)) <= -15
+		or effective_mental_delta <= -15
 		or int(effects.get("money", 0)) <= -1_000_000)
 	if is_critical:
 		GameState.flags["just_critical_event"] = true
@@ -2031,9 +2032,16 @@ const _STAT_KR = {
 }
 
 func _show_effects_float(effects: Dictionary):
+	# merge "stress" into "mental" for display (stress removed as user-visible stat)
+	var merged: Dictionary = {}
+	for k in effects:
+		if k == "stress":
+			merged["mental"] = int(merged.get("mental", 0)) - int(effects[k])
+		else:
+			merged[k] = effects[k]
 	var idx = 0
-	for key in effects:
-		var val = int(effects[key])
+	for key in merged:
+		var val = int(merged[key])
 		if val == 0 or key not in _STAT_KR:
 			continue
 		var label_kr = _STAT_KR[key]
@@ -2043,7 +2051,6 @@ func _show_effects_float(effects: Dictionary):
 			text = "%s%s" % [sign, GameState.format_money(float(val))]
 		else:
 			text = "%s%d %s" % [sign, val, label_kr]
-		# 색상: 좋은 변화=초록, 나쁜 변화=빨강
 		var is_good: bool
 		if key == "addiction_tendency":
 			is_good = val < 0
