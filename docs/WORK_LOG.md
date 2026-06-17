@@ -1,5 +1,38 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반24 (자율 QA 심화 — follow_up 이벤트 은닉 + 카테고리 필드 119종 보완)
+
+### 자율 QA 루프 — 심화 감사 완료
+
+#### follow_up 전용 이벤트 hidden=true 처리
+- weight=0이지만 hidden=false·conditions={} 인 이벤트 3종 추가 수정
+  - race_tip_seller_02: hidden=true (race_tip_seller_01의 follow_up 전용)
+  - butterfly_mystery_info_details: hidden=true (butterfly_gangnam_encounter의 follow_up 전용)
+  - rare_lottery_result: hidden=true (rare_convenience_lottery의 follow_up 전용)
+- EventManager._effective_weight()는 max(0.01, weight) → weight=0도 0.01 가중치로 풀 노출 가능
+  이 패턴의 모든 위반 0건으로 완전 소거
+
+#### BGM 엔딩 분류 수정
+- lonely_rich (A), late_call (B) → BGMPlayer good 목록에 추가 (good 엔딩 BGM)
+- MainGame._ending_cast_epilogue good 목록에도 late_call 추가
+- 나머지 A/B 엔딩 분류 이상 없음 (empty_house/jaehyuk_way는 의도적 bad BGM — 테마상 적절)
+
+#### 콜백 이벤트 category 필드 119종 보완
+- callback_events_18~26.json의 모든 이벤트에 category 누락 → 틴트 효과 미적용 버그
+- 이벤트 ID·태그 기반 자동 추론: relationship/family/jobs/gambling/investment/social 분류
+- 0건 누락 → 완전 보완
+
+#### 전수 감사 항목 (신규)
+- follow_up_event 대상 중 랜덤 풀 노출 가능 이벤트: 0건
+- 모든 follow_up 대상 ID 존재 확인: 0건 dangling
+- follow_up 순환 참조 확인: 0건
+- 캐스트 effects PID 유효성: 모두 cast_stages.json 등록됨
+- MetaProgression 17개 플래그 모두 설정됨 확인
+- deferred_follow_up 대상 존재 + hidden 확인: 0건 이상
+- 26개 엔딩 + finish_run() 1:1 완전 대응 확인 (재검증)
+- _next_arc_id 98개 _seen 플래그 모두 이벤트에서 설정됨 확인
+- 마일스톤 이벤트 ID 11개 모두 JSON 존재 확인
+
 ## 2026-06-17 후반23 (자율 QA 계속 — 고아 플래그·쿨다운 버그·경마 숨김 수정)
 
 ### 자율 QA 루프 계속 — 추가 버그 수정
