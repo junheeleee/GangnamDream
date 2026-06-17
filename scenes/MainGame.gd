@@ -5247,7 +5247,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement",
 		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
 		"creator_success", "with_daeun", "jiyeon_man",
-		"early_retirement", "balanced_life",
+		"early_retirement", "balanced_life", "late_call",
 	]
 	var bad := ending_id in ["burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral"]
 	var lines: Array = []

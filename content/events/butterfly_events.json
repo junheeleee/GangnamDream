@@ -46,6 +46,7 @@
     "category": "investment",
     "rarity": "legendary",
     "weight": 0,
+    "hidden": true,
     "background": "gangnam_day",
     "conditions": {},
     "tags": [

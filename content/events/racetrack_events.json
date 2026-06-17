@@ -109,6 +109,7 @@
     "category": "gambling",
     "rarity": "uncommon",
     "weight": 0,
+    "hidden": true,
     "background": "racetrack_betting",
     "portrait": "tip_seller",
     "conditions": {},
