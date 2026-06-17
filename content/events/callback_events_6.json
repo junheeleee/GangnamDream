@@ -263,7 +263,7 @@
     "hidden": false,
     "conditions": {
       "flag": "wallet_job_taken",
-      "min_turn": 6
+      "min_turn": 26
     },
     "tags": [
       "wallet",
