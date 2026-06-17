@@ -899,7 +899,7 @@
     "hidden": false,
     "conditions": {
       "flag": "startup_grind",
-      "min_turn": 14
+      "min_turn": 48
     },
     "tags": [
       "startup",
@@ -948,7 +948,7 @@
     "hidden": false,
     "conditions": {
       "flag": "startup_balanced",
-      "min_turn": 14
+      "min_turn": 48
     },
     "tags": [
       "startup",
@@ -992,7 +992,7 @@
     "hidden": false,
     "conditions": {
       "flag": "startup_going_solo",
-      "min_turn": 10
+      "min_turn": 24
     },
     "tags": [
       "startup",

@@ -11,7 +11,11 @@
       "flag": "cafe_stole_gambled",
       "min_turn": 8
     },
-    "tags": ["cafe", "callback", "investment"],
+    "tags": [
+      "cafe",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -50,7 +54,11 @@
       "flag": "cafe_stole_walked",
       "min_turn": 6
     },
-    "tags": ["cafe", "callback", "investment"],
+    "tags": [
+      "cafe",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -87,7 +95,11 @@
       "flag": "cafe_stole_redeemed",
       "min_turn": 10
     },
-    "tags": ["cafe", "callback", "redemption"],
+    "tags": [
+      "cafe",
+      "callback",
+      "redemption"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -97,7 +109,9 @@
           "reputation": 1,
           "stress": -10
         },
-        "flags": ["cafe_guilt_resolved"],
+        "flags": [
+          "cafe_guilt_resolved"
+        ],
         "follow_up_event": "",
         "result_text": "\"그때 카페에서 들은 거 — 죄송합니다.\"\n상대가 잠깐 있다가 \"...이미 다 아는 거예요. 그냥 조심하세요\"라고 했다.\n무거운 게 내려갔다.\n속죄는 말로 시작한다."
       },
@@ -122,9 +136,13 @@
     "hidden": false,
     "conditions": {
       "flag": "cafe_honest_patient",
-      "min_turn": 12
+      "min_turn": 48
     },
-    "tags": ["cafe", "callback", "investment"],
+    "tags": [
+      "cafe",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -134,7 +152,9 @@
           "investment_skill": 3,
           "mental": 10
         },
-        "flags": ["cafe_patient_paid_off"],
+        "flags": [
+          "cafe_patient_paid_off"
+        ],
         "follow_up_event": "",
         "result_text": "그때 기다린 게 — 정보가 아니라 방법을 기다린 것이었다.\n수익이 났다.\n같은 결과인데 이번 건 떳떳했다."
       },
@@ -161,7 +181,11 @@
       "flag": "cafe_honest_loss",
       "min_turn": 8
     },
-    "tags": ["cafe", "callback", "investment"],
+    "tags": [
+      "cafe",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -198,7 +222,11 @@
       "flag": "cafe_smart_loss",
       "min_turn": 8
     },
-    "tags": ["cafe", "callback", "investment"],
+    "tags": [
+      "cafe",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -207,7 +235,9 @@
           "investment_skill": 4,
           "intelligence": 3
         },
-        "flags": ["investment_analysis_habit"],
+        "flags": [
+          "investment_analysis_habit"
+        ],
         "follow_up_event": "",
         "result_text": "세 가지 실수가 보였다.\n'영리하다'고 느끼는 순간이 가장 위험하다는 것도.\n이 노트가 다음 판의 기준이 됐다."
       },
@@ -234,7 +264,11 @@
       "flag": "cafe_overheard_only",
       "min_turn": 10
     },
-    "tags": ["cafe", "callback", "social"],
+    "tags": [
+      "cafe",
+      "callback",
+      "social"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -270,7 +304,11 @@
       "flag": "cafe_learned_humility",
       "min_turn": 8
     },
-    "tags": ["cafe", "callback", "investment"],
+    "tags": [
+      "cafe",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -307,7 +345,11 @@
       "flag": "racetrack_chased_loss",
       "min_turn": 3
     },
-    "tags": ["racetrack", "callback", "gambling"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -316,7 +358,9 @@
           "mental": 8,
           "stress": -5
         },
-        "flags": ["racetrack_quit"],
+        "flags": [
+          "racetrack_quit"
+        ],
         "follow_up_event": "",
         "result_text": "앱을 지웠다.\n손실 추격은 — 멈추는 게 늦을수록 비싸진다.\n오늘이 그나마 가장 빠른 날이었다."
       },
@@ -345,7 +389,11 @@
       "flag": "racetrack_paused",
       "min_turn": 4
     },
-    "tags": ["racetrack", "callback", "gambling"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -382,7 +430,11 @@
       "flag": "racetrack_self_analysis",
       "min_turn": 6
     },
-    "tags": ["racetrack", "callback", "investment"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -418,7 +470,11 @@
       "flag": "racetrack_asked_tip",
       "min_turn": 4
     },
-    "tags": ["racetrack", "callback", "gambling"],
+    "tags": [
+      "racetrack",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -455,7 +511,11 @@
       "flag": "chain_banchan_job_lead",
       "min_turn": 8
     },
-    "tags": ["chain", "jobs", "callback"],
+    "tags": [
+      "chain",
+      "jobs",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -465,7 +525,9 @@
           "luck": 2,
           "mental": 5
         },
-        "flags": ["chain_job_followed_up"],
+        "flags": [
+          "chain_job_followed_up"
+        ],
         "follow_up_event": "",
         "result_text": "아들이 받았다.\n\"어머니한테 들었어요. 한 번 오실래요?\"\n반찬집 아주머니가 연결해준 자리.\n가장 뜻밖의 곳에서 길이 났다."
       },
@@ -490,9 +552,13 @@
     "hidden": false,
     "conditions": {
       "flag": "chain_warned_victim",
-      "min_turn": 6
+      "min_turn": 24
     },
-    "tags": ["chain", "callback", "social"],
+    "tags": [
+      "chain",
+      "callback",
+      "social"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -527,9 +593,13 @@
     "hidden": false,
     "conditions": {
       "flag": "chain_housing_subsidy",
-      "min_turn": 6
+      "min_turn": 16
     },
-    "tags": ["chain", "callback", "housing"],
+    "tags": [
+      "chain",
+      "callback",
+      "housing"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -539,7 +609,9 @@
           "mental": 12,
           "stress": -8
         },
-        "flags": ["housing_subsidy_received"],
+        "flags": [
+          "housing_subsidy_received"
+        ],
         "follow_up_event": "",
         "result_text": "월 20만원 지원, 12개월.\n총 240만원.\n신청하지 않았으면 없었을 돈이다.\n세상에 있는 걸 쓰는 것도 실력이다."
       },
@@ -567,7 +639,11 @@
       "flag": "chain_celeb_regular",
       "min_turn": 8
     },
-    "tags": ["chain", "callback", "network"],
+    "tags": [
+      "chain",
+      "callback",
+      "network"
+    ],
     "cooldown": 999,
     "choices": [
       {

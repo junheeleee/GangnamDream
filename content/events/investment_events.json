@@ -1371,7 +1371,7 @@
     "hidden": false,
     "conditions": {
       "has_portfolio": true,
-      "min_turn": 12
+      "min_turn": 48
     },
     "tags": [
       "investment",

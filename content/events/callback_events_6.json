@@ -11,7 +11,11 @@
       "flag": "sangchul_tip_win",
       "min_turn": 8
     },
-    "tags": ["sangchul", "callback", "investment"],
+    "tags": [
+      "sangchul",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -21,7 +25,9 @@
           "social_skill": 2,
           "investment_skill": 2
         },
-        "flags": ["sangchul_trust_deepened"],
+        "flags": [
+          "sangchul_trust_deepened"
+        ],
         "follow_up_event": "",
         "result_text": "상철이 \"이번엔 내가 한 턱 낼게\" 했다.\n고기 먹으면서 다음 투자 얘기가 나왔다.\n한 번의 팁이 신뢰로 바뀌고 있었다."
       },
@@ -49,7 +55,11 @@
       "flag": "sangchul_tip_lose",
       "min_turn": 6
     },
-    "tags": ["sangchul", "callback", "investment"],
+    "tags": [
+      "sangchul",
+      "callback",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -87,7 +97,11 @@
       "flag": "daeun_supportive",
       "min_turn": 8
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -97,7 +111,9 @@
           "social_skill": 2,
           "stress": -5
         },
-        "flags": ["daeun_date_set"],
+        "flags": [
+          "daeun_date_set"
+        ],
         "follow_up_event": "",
         "result_text": "다은이 '좋아요'라고 바로 답장했다.\n그때 옆에 있어준 게 여기까지 왔다.\n좋은 일은 이렇게 돌아오기도 한다."
       },
@@ -124,7 +140,11 @@
       "flag": "daeun_guarded",
       "min_turn": 10
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -160,7 +180,11 @@
       "flag": "daeun_understood",
       "min_turn": 10
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -170,7 +194,9 @@
           "social_skill": 2,
           "stress": -8
         },
-        "flags": ["daeun_reconnected"],
+        "flags": [
+          "daeun_reconnected"
+        ],
         "follow_up_event": "",
         "result_text": "한 시간을 얘기했다.\n다은이 '그때 솔직하게 말해줘서 고마웠어요'라고 했다.\n이해받았던 기억이 — 다시 이 자리를 만들었다."
       },
@@ -197,7 +223,11 @@
       "flag": "daeun_deflected",
       "min_turn": 12
     },
-    "tags": ["daeun", "callback", "relationship"],
+    "tags": [
+      "daeun",
+      "callback",
+      "relationship"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -206,7 +236,9 @@
           "mental": 8,
           "social_skill": 2
         },
-        "flags": ["daeun_honest"],
+        "flags": [
+          "daeun_honest"
+        ],
         "follow_up_event": "",
         "result_text": "다은이 잠시 있다가 \"그럼 다행이에요\" 했다.\n솔직하게 말하는 데 오래 걸렸다.\n그래도 늦지 않았을 수도 있다."
       },
@@ -233,7 +265,11 @@
       "flag": "wallet_job_taken",
       "min_turn": 6
     },
-    "tags": ["wallet", "jobs", "callback"],
+    "tags": [
+      "wallet",
+      "jobs",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -243,7 +279,9 @@
           "reputation": 2,
           "stress": -5
         },
-        "flags": ["wallet_job_settled"],
+        "flags": [
+          "wallet_job_settled"
+        ],
         "follow_up_event": "",
         "result_text": "작은 회사였지만 사람이 좋았다.\n대표가 '오래 같이 하고 싶다'고 했다.\n지갑 하나가 여기까지 이어졌다.\n좋은 일은 이렇게 돌아오기도 한다."
       },
@@ -271,7 +309,11 @@
       "flag": "wallet_job_declined",
       "min_turn": 4
     },
-    "tags": ["wallet", "jobs", "callback"],
+    "tags": [
+      "wallet",
+      "jobs",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -308,7 +350,11 @@
       "min_turn": 6,
       "has_job": true
     },
-    "tags": ["jobs", "callback", "workplace"],
+    "tags": [
+      "jobs",
+      "callback",
+      "workplace"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -318,7 +364,9 @@
           "reputation": 2,
           "stress": 5
         },
-        "flags": ["credit_asserted"],
+        "flags": [
+          "credit_asserted"
+        ],
         "follow_up_event": "",
         "result_text": "\"팀장님, 이번 자료는 제가 만든 거라 이름을 같이 넣어주시면 감사하겠습니다.\"\n팀장이 잠깐 굳었다가 \"...그래, 알겠어\" 했다.\n한 번 물러서면 계속 물러서게 된다는 걸 알게 됐다."
       },
@@ -347,7 +395,11 @@
       "min_turn": 4,
       "has_job": true
     },
-    "tags": ["jobs", "callback", "workplace"],
+    "tags": [
+      "jobs",
+      "callback",
+      "workplace"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -386,7 +438,11 @@
       "flag": "coin_let_go",
       "min_turn": 6
     },
-    "tags": ["hyeonsu", "callback", "gambling"],
+    "tags": [
+      "hyeonsu",
+      "callback",
+      "gambling"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -423,7 +479,11 @@
       "min_turn": 3,
       "has_job": true
     },
-    "tags": ["hoesik", "health", "callback"],
+    "tags": [
+      "hoesik",
+      "health",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -462,7 +522,11 @@
       "min_turn": 2,
       "has_job": true
     },
-    "tags": ["hoesik", "callback", "workplace"],
+    "tags": [
+      "hoesik",
+      "callback",
+      "workplace"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -499,7 +563,11 @@
       "min_turn": 3,
       "has_job": true
     },
-    "tags": ["hoesik", "callback", "workplace"],
+    "tags": [
+      "hoesik",
+      "callback",
+      "workplace"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -537,7 +605,11 @@
       "flag": "father_going_soon",
       "min_turn": 4
     },
-    "tags": ["father", "callback", "family"],
+    "tags": [
+      "father",
+      "callback",
+      "family"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -547,7 +619,9 @@
           "mental": 15,
           "stress": -10
         },
-        "flags": ["visited_father_going_soon"],
+        "flags": [
+          "visited_father_going_soon"
+        ],
         "follow_up_event": "",
         "result_text": "아버지가 현관에서 기다리고 계셨다.\n밥을 두 그릇 먹었다.\n돌아오는 버스에서 한참을 아무것도 못 했다.\n자주 오는 게 맞다. 그게 맞다."
       },
@@ -573,9 +647,13 @@
     "hidden": false,
     "conditions": {
       "flag": "father_reconciled_started",
-      "min_turn": 8
+      "min_turn": 32
     },
-    "tags": ["father", "callback", "family"],
+    "tags": [
+      "father",
+      "callback",
+      "family"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -585,7 +663,9 @@
           "stress": -10,
           "social_skill": 1
         },
-        "flags": ["father_reconciliation_deepened"],
+        "flags": [
+          "father_reconciliation_deepened"
+        ],
         "follow_up_event": "",
         "result_text": "40분 통화했다.\n아무 내용 없이.\n아버지가 먼저 끊으셨다. '잘 자라.'\n화해는 이런 식으로 완성된다.\n특별한 순간 없이."
       },

@@ -9,7 +9,7 @@
     "hidden": false,
     "conditions": {
       "flag": "redev_bet_taken",
-      "min_turn": 8
+      "min_turn": 24
     },
     "tags": [
       "investment",
@@ -50,7 +50,7 @@
     "hidden": false,
     "conditions": {
       "flag": "quant_vindicated",
-      "min_turn": 10
+      "min_turn": 48
     },
     "tags": [
       "investment",
@@ -214,7 +214,7 @@
     "hidden": false,
     "conditions": {
       "flag": "startup_joined",
-      "min_turn": 8
+      "min_turn": 24
     },
     "tags": [
       "jobs",
@@ -339,7 +339,7 @@
     "hidden": false,
     "conditions": {
       "flag": "junk_sale_connection",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "social",
@@ -463,7 +463,7 @@
     "hidden": false,
     "conditions": {
       "flag": "visited_gangnam_open_house",
-      "min_turn": 6
+      "min_turn": 48
     },
     "tags": [
       "investment",

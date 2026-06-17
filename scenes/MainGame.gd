@@ -1663,7 +1663,7 @@ func _next_arc_id() -> String:
 		return "arc_year_three_crossroads"
 	if t >= 192 and t <= 215 and not f.get("arc_final_year_start_seen", false):
 		return "arc_final_year_start"
-	if t >= 220 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
+	if t >= 216 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
 		return "arc_endgame_sixmonths"
 
 	return ""

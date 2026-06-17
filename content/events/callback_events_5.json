@@ -204,7 +204,7 @@
     "hidden": false,
     "conditions": {
       "flag": "checked_registry",
-      "min_turn": 5
+      "min_turn": 20
     },
     "tags": [
       "jeonse",
@@ -424,7 +424,7 @@
     "hidden": false,
     "conditions": {
       "flag": "deleted_sns",
-      "min_turn": 10
+      "min_turn": 40
     },
     "tags": [
       "sns",
@@ -463,7 +463,7 @@
     "hidden": false,
     "conditions": {
       "flag": "envy_fuel",
-      "min_turn": 10
+      "min_turn": 40
     },
     "tags": [
       "sns",
@@ -508,7 +508,7 @@
     "hidden": false,
     "conditions": {
       "flag": "came_clean_to_friend",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "friendship",
@@ -551,7 +551,7 @@
     "hidden": false,
     "conditions": {
       "flag": "borrowed_from_parents",
-      "min_turn": 10
+      "min_turn": 40
     },
     "tags": [
       "parent",
@@ -594,7 +594,7 @@
     "hidden": false,
     "conditions": {
       "flag": "escaped_dirty_money",
-      "min_turn": 5
+      "min_turn": 20
     },
     "tags": [
       "temptation",
@@ -638,7 +638,7 @@
     "hidden": false,
     "conditions": {
       "flag": "heard_father_young_story",
-      "min_turn": 10
+      "min_turn": 24
     },
     "tags": [
       "father",

@@ -296,7 +296,7 @@
     "hidden": false,
     "conditions": {
       "flag": "jobswitch_took",
-      "min_turn": 8
+      "min_turn": 24
     },
     "tags": [
       "jobswitch",
@@ -341,7 +341,7 @@
     "hidden": false,
     "conditions": {
       "flag": "jobswitch_declined",
-      "min_turn": 5
+      "min_turn": 20
     },
     "tags": [
       "jobswitch",
@@ -652,7 +652,7 @@
     "hidden": false,
     "conditions": {
       "flag": "saw_parents_bankbook",
-      "min_turn": 8
+      "min_turn": 32
     },
     "tags": [
       "family",

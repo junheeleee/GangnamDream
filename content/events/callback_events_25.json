@@ -157,7 +157,7 @@
     "description": "마지막 단계에서 공격적인 전략을 선택한 지 두 달.\n크게 베팅했다.\n오늘 그 결과가 나왔다.",
     "conditions": {
       "flag": "final_sprint_aggressive",
-      "min_turn": 10
+      "min_turn": 208
     },
     "choices": [
       {
@@ -176,7 +176,7 @@
     "description": "마지막 단계에서 지키는 전략을 선택한 지 두 달.\n쌓아온 것을 지키는 것이 우선이었다.\n오늘 그 전략이 어떻게 됐는지 봤다.",
     "conditions": {
       "flag": "final_sprint_defensive",
-      "min_turn": 10
+      "min_turn": 208
     },
     "choices": [
       {
@@ -195,7 +195,7 @@
     "description": "마지막 단계에서 지나온 길을 돌아보기로 한 지 두 달.\n숫자보다 의미를 생각했다.\n오늘 5년을 돌아봤다.",
     "conditions": {
       "flag": "final_sprint_reflective",
-      "min_turn": 10
+      "min_turn": 208
     },
     "choices": [
       {

@@ -96,7 +96,7 @@
     "hidden": false,
     "conditions": {
       "flag": "etf_study_mode",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "investment",
@@ -345,7 +345,7 @@
     "hidden": false,
     "conditions": {
       "flag": "hit_rock_bottom",
-      "min_turn": 8
+      "min_turn": 32
     },
     "tags": [
       "mental",
@@ -387,7 +387,7 @@
     "hidden": false,
     "conditions": {
       "flag": "honest_at_reunion",
-      "min_turn": 6
+      "min_turn": 24
     },
     "tags": [
       "social",
@@ -427,7 +427,7 @@
     "hidden": false,
     "conditions": {
       "flag": "saw_senior_farewell",
-      "min_turn": 8
+      "min_turn": 48
     },
     "tags": [
       "jobs",
@@ -552,7 +552,7 @@
     "hidden": false,
     "conditions": {
       "flag": "questioned_orthodox_path",
-      "min_turn": 12
+      "min_turn": 48
     },
     "tags": [
       "jobs",
@@ -594,7 +594,7 @@
     "hidden": false,
     "conditions": {
       "flag": "network_compounding",
-      "min_turn": 12
+      "min_turn": 48
     },
     "tags": [
       "network",

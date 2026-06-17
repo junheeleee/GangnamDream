@@ -430,7 +430,7 @@
     "hidden": false,
     "conditions": {
       "flag": "quit_after_theft",
-      "min_turn": 3
+      "min_turn": 12
     },
     "tags": [
       "quit",
@@ -516,7 +516,7 @@
     "hidden": false,
     "conditions": {
       "flag": "parent_took_loan",
-      "min_turn": 12
+      "min_turn": 48
     },
     "tags": [
       "parent",
@@ -559,7 +559,7 @@
     "hidden": false,
     "conditions": {
       "flag": "parent_refused",
-      "min_turn": 8
+      "min_turn": 32
     },
     "tags": [
       "parent",
@@ -603,7 +603,7 @@
     "hidden": false,
     "conditions": {
       "flag": "parent_paid_full",
-      "min_turn": 6
+      "min_turn": 20
     },
     "tags": [
       "parent",

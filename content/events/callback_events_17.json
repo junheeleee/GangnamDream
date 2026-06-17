@@ -11,7 +11,11 @@
       "flag": "jaehyuk_publicly_exposed",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jaehyuk"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jaehyuk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -48,7 +52,11 @@
       "flag": "jaehyuk_standoff_won",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jaehyuk"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jaehyuk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -85,7 +93,11 @@
       "flag": "jaehyuk_testified",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jaehyuk"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jaehyuk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -113,7 +125,11 @@
       "flag": "father_warm_moment",
       "min_turn": 3
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -149,7 +165,11 @@
       "flag": "father_reconciliation_deepened",
       "min_turn": 6
     },
-    "tags": ["family", "callback", "father"],
+    "tags": [
+      "family",
+      "callback",
+      "father"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -185,7 +205,11 @@
       "flag": "parent_bond_deepened",
       "min_turn": 5
     },
-    "tags": ["family", "callback", "parents"],
+    "tags": [
+      "family",
+      "callback",
+      "parents"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -221,7 +245,11 @@
       "flag": "parents_debt_repaid",
       "min_turn": 4
     },
-    "tags": ["family", "callback", "parents"],
+    "tags": [
+      "family",
+      "callback",
+      "parents"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -258,7 +286,11 @@
       "flag": "sangchul_deal_regret",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "sangchul"],
+    "tags": [
+      "social",
+      "callback",
+      "sangchul"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -294,7 +326,11 @@
       "flag": "sangchul_deeper_trust",
       "min_turn": 6
     },
-    "tags": ["social", "callback", "sangchul"],
+    "tags": [
+      "social",
+      "callback",
+      "sangchul"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -332,7 +368,11 @@
       "flag": "chain_exec_hired",
       "min_turn": 4
     },
-    "tags": ["jobs", "callback", "network"],
+    "tags": [
+      "jobs",
+      "callback",
+      "network"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -370,7 +410,11 @@
       "flag": "credit_recovery_started",
       "min_turn": 5
     },
-    "tags": ["finance", "callback", "credit"],
+    "tags": [
+      "finance",
+      "callback",
+      "credit"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -405,9 +449,13 @@
     "hidden": false,
     "conditions": {
       "flag": "loan_payoff_planned",
-      "min_turn": 8
+      "min_turn": 24
     },
-    "tags": ["finance", "callback", "debt"],
+    "tags": [
+      "finance",
+      "callback",
+      "debt"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -445,7 +493,10 @@
       "flag": "lie_forgiven",
       "min_turn": 4
     },
-    "tags": ["social", "callback"],
+    "tags": [
+      "social",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -482,7 +533,10 @@
       "flag": "lie_full_confession",
       "min_turn": 3
     },
-    "tags": ["social", "callback"],
+    "tags": [
+      "social",
+      "callback"
+    ],
     "cooldown": 999,
     "choices": [
       {
