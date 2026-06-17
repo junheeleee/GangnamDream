@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqa1screenshotqa01"]
+
+[ext_resource type="Script" path="res://tools/ScreenshotQA.gd" id="1_qa"]
+
+[node name="ScreenshotQA" type="Node"]
+script = ExtResource("1_qa")

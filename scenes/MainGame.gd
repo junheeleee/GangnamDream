@@ -282,9 +282,13 @@ func _update_vignette():
 	if not is_instance_valid(_vignette_rect) or not (_vignette_rect.material is ShaderMaterial):
 		return
 	var mat := _vignette_rect.material as ShaderMaterial
-	# 정신력 낮을수록 효과 강해짐 (70 이하부터 시작)
+	# 정신력 낮을수록 어두운(파란) 가장자리 강해짐 (70 이하부터)
 	var m_norm := clampf(float(GameState.mental) / 70.0, 0.0, 1.0)
-	mat.set_shader_parameter("stress_norm", 0.0)
+	# 빨간 가장자리 = 신체 위기. 건강 35 이하 또는 정신력 20 이하(붕괴 직전)에서 점등.
+	var health_danger := clampf((35.0 - float(GameState.health)) / 35.0, 0.0, 1.0)
+	var mental_danger := clampf((20.0 - float(GameState.mental)) / 20.0, 0.0, 1.0)
+	var s_norm := maxf(health_danger, mental_danger)
+	mat.set_shader_parameter("stress_norm", s_norm)
 	mat.set_shader_parameter("mental_norm", m_norm)
 
 func _update_ambient_tint():
@@ -891,7 +895,7 @@ func _show_tutorial() -> void:
 	modal_body.add_child(_wrap_label("⚠  주의사항", 15, "#fca5a5"))
 	modal_body.add_child(_wrap_label(
 		"• 건강 / 정신력이 0이 되면 게임 오버\n"
-		+ "• 스트레스가 쌓이면 건강·정신이 깎입니다\n"
+		+ "• 무리한 선택·서울살이 압박은 정신력을 깎는다 — 휴식으로 회복\n"
 		+ "• 빚이 −1억 원을 넘으면 파산 엔딩", 13, "#c8d0df"))
 	modal_body.add_child(_goal_sep())
 
@@ -3176,7 +3180,7 @@ func _open_cat_people():
 
 func _open_cat_life():
 	_open_modal("🏠 생활")
-	modal_body.add_child(_wrap_label("주거는 삶의 질이다. 더 나은 곳으로 갈수록 스트레스가 준다.", 13, "#7a8496"))
+	modal_body.add_child(_wrap_label("주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.", 13, "#7a8496"))
 	if GameState.can_upgrade_housing():
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
