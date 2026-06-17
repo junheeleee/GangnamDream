@@ -1,5 +1,32 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반16 (자율 QA 루프 — ArubaGame/표시 버그 2종 수정)
+
+### 후반15: ArubaGame health_delta 미전달 버그
+- `ArubaGame.closed` signal에 `health_delta: int` 파라미터 누락
+- 결과 화면에 건강 변동 표시되지만 실제 GameState에 미적용 상태였음
+- DELIVERY 배달 건수×1, CARDS 선택지 health 효과 → 이제 실제 적용
+- `_on_aruba_closed`: `total_health_delta = -3 + health_delta`로 기본+변동 합산
+
+### 후반16: stress+mental 병합 덮어쓰기 표시 버그 (858개 이벤트 영향)
+- `_show_effects_float`, `_show_vignette`: effects dict에서 "stress"가 "mental"보다 앞에 오면
+  stress→mental 변환값이 "mental" 키 처리 시 덮어씌워지던 표시 버그
+- 실제 GameState 적용은 apply_effects에서 독립 처리라 정상이었으나 화면 표시가 틀렸음
+- 예: `{"stress":-3,"mental":1}` → 정신 +1 표시 (수정 후: 정신 +4)
+- 두 함수 모두 "mental" 키를 누산 방식으로 변경
+
+### 전수 검증 항목
+- endings.json 26개 모두 background 커버리지 확인 (JSON 필드 또는 ending_bg_map)
+- deferred_follow_up 3개 모두 유효 확인
+- has_job:false 조건 완전 제거 확인
+- news_templates 79개 / assets 18개 / jobs 15개 필수 필드 확인
+- EventManager max_stress/min_stress 변환 로직 정상 확인
+- 전 미니게임 stress/mental 라우팅 확인 (ArubaGame/HoldemClub/ScalpingGame/JobHunt/Casino)
+- 챕터카드 5종 flags set/read 교차 확인
+- audit.sh ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-17 후반10 (자율 QA 루프 — 데드코드 정리 + mental 누락 버그 + AP 비네팅 연결)
 
 ### AP 비네팅 배열 데드코드 정리 및 연결
