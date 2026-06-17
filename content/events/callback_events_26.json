@@ -17,7 +17,8 @@
         "result_text": "이번엔 다를 수도 있다고 생각했다.\n그 생각—이 또 당할 수 있는 구조를 만든다.\n사기는 항상 \"이번엔 다르다\"는 말로 온다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_mystery_info_resolved_echo",
@@ -37,7 +38,8 @@
         "result_text": "생각했다.\n이번 경험을 기준으로 삼았다.\n경험—이 다음 선택의 기준이 된다는 것이 그 가치다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_resume_lie_doubled_down_echo",
@@ -57,7 +59,8 @@
         "result_text": "솔직하게 말했다.\n예상보다 반응이 크지 않았다.\n거짓말—은 실제보다 폭로에 대한 두려움이 더 크다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_resume_lied_toeic_echo",
@@ -77,6 +80,7 @@
         "result_text": "부족함을 인정했다.\n그리고 채우기로 했다.\n거짓말을 한 출발—이라도 진짜가 되기로 하는 것이 가능하다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   }
 ]

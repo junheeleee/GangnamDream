@@ -17,7 +17,8 @@
         "result_text": "근황을 나눴다.\n사장님이 또 도움이 될 게 있으면 말하라고 했다.\n인연은 한 번으로 끝나지 않는다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "jobs"
   },
   {
     "id": "callback_chain_banchan_regular_echo",
@@ -37,7 +38,8 @@
         "result_text": "바쁘게 샀다.\n사장님이 \"바쁜가봐\"라고 웃으며 챙겨줬다.\n단골—이라는 건 바쁠 때도 챙겨주는 관계다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_chain_interior_gig_echo",
@@ -57,7 +59,8 @@
         "result_text": "조건을 협상했다.\n경험이 쌓이면—무조건 받아들이지 않아도 된다.\n첫 번째와 두 번째의 차이—가 협상력이다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_chain_interior_manager_echo",
@@ -77,7 +80,8 @@
         "result_text": "확인을 받았다.\n판단이 틀리는 것보다 확인하는 게 낫다고 생각했다.\n하지만 매번 확인받는 것—이 관리자의 성장을 막는다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_chain_neighbor_friend_echo",
@@ -97,7 +101,8 @@
         "result_text": "지켜봤다.\n다음에 기회가 되면 말을 걸어야겠다고 생각했다.\n가까운 사이일수록—지켜보는 것보다 말 한마디가 쉽다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "relationship"
   },
   {
     "id": "callback_chain_warned_victim_echo",
@@ -117,7 +122,8 @@
         "result_text": "다행이라고 했다.\n그 사람도 다행이라고 했다.\n말 한마디가 이 대화를 만들었다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_political_candidate_echo",
@@ -137,7 +143,8 @@
         "result_text": "전략을 다시 짰다.\n정치는 원칙만으로는 안 된다.\n원칙을 지키면서 전략을 바꾸는 것—이 정치의 어려움이다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_political_winner_echo",
@@ -157,7 +164,8 @@
         "result_text": "현실을 파악했다.\n약속과 현실 사이의 간극—이 정치를 어렵게 만든다.\n파악하지 않고 행동하면 실수한다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_final_sprint_aggressive_echo",
@@ -177,7 +185,8 @@
         "result_text": "일부를 방어로 전환했다.\n공격만 해서는 살아남지 못한다.\n공격과 방어의 균형—이 마지막 단계의 기술이다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_final_sprint_defensive_echo",
@@ -197,7 +206,8 @@
         "result_text": "여지를 봤다.\n방어 전략이라도—기회는 온다.\n지키면서 기회를 보는 것—이 방어의 진짜 의미다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_final_sprint_reflective_echo",
@@ -217,7 +227,8 @@
         "result_text": "아직 끝나지 않았다.\n돌아보는 것—이 멈추는 게 아니다.\n돌아보면서도 앞으로 갈 수 있다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_parent_took_loan_echo",
@@ -237,7 +248,8 @@
         "result_text": "솔직하게 말했다.\n부모님이 \"미안하다\"고 했다.\n솔직함—이 부담을 나눠주는 방법이다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_parent_paid_full_echo",
@@ -257,7 +269,8 @@
         "result_text": "뭔 일인지 물었다.\n\"그냥 전화했다\"고 했다.\n그냥 전화할 수 있게 됐다—는 것이 변한 것이었다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_guarantee_compromise_echo",
@@ -277,7 +290,8 @@
         "result_text": "불완전했다.\n하지만 불완전한 해결—이 해결 없음보다 낫다.\n완전한 해결을 기다리다가 아무것도 못하는 것—이 더 나쁜 선택이다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   },
   {
     "id": "callback_mystery_info_paid_off_echo",
@@ -297,6 +311,7 @@
         "result_text": "검증했다.\n정보의 출처를 확인했다.\n한 번 통한 경험—이 무조건 믿게 만들지 않으면 진짜 배움이 된다."
       }
     ],
-    "cooldown": 999
+    "cooldown": 999,
+    "category": "social"
   }
 ]
