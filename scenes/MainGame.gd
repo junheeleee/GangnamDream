@@ -1171,6 +1171,10 @@ func _next_arc_id() -> String:
 	var t = GameState.turn
 	var f = GameState.flags
 
+	# 랜덤 sangchul_meet이 arc보다 먼저 발동한 경우 arc 플래그 동기화
+	if f.get("sangchul_met", false) and not f.get("arc_sangchul_met_seen", false):
+		GameState.flags["arc_sangchul_met_seen"] = true
+
 	# ══ 챕터 전환 카드 — 연도(나이) 넘어가는 첫 턴 ══════════
 	# 챕터 1: 프롤로그 직후 1회
 	if f.get("prologue_done", false) and not f.get("chapter_33_seen", false):
