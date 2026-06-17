@@ -9,7 +9,7 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **데모 정비 완료 — 스토어 소재 준비 중** |
-| **최근 완료** | **2026-06-17 후반20** — 자율 QA: 캘린더 잔존 버그 3종(arc_midpoint_reckoning 시간 텍스트·arc_career_ceiling job_tenure 불가능 조건·arc_late_game_push 잘못된 잔여시간) + selfdev_invest_seminar 조건 누락 수정. arc/milestone 전수 교차검증 완료 |
+| **최근 완료** | **2026-06-17 후반21** — 자율 QA: 캘린더 시대 콜백 타이밍 버그 40종 수정(콜백 min_turn 월→주 변환) + 내러티브 품질 5건(story_three_year 나이 오탈자, hidden 이벤트 직업 조건, chain_scammer_again 등) |
 | **다음 작업** | **Steam 스토어 소재** — 설명문·태그·캡슐·스크린샷 캡션 초안 (19일 이후 이미지 작업) |
 | **마지막 업데이트** | 2026-06-17 |
 

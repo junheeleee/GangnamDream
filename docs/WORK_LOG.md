@@ -1,5 +1,35 @@
 # Gangnam Dream Work Log
 
+## 2026-06-17 후반21 (자율 QA — 캘린더 콜백 타이밍 대규모 수정 + 내러티브 품질 개선)
+
+### 자율 QA 루프 — 캘린더 시대 타이밍 버그 전수 수정
+
+#### 콜백 이벤트 40종 min_turn 월→주 변환 (11개 파일)
+- 패턴: "N개월이 됐다" 텍스트를 가진 콜백이 min_turn=N(구 월 단위)으로 남아있던 버그
+- 예시: "1년이 됐다" 콜백 → min_turn 12→48, "6개월이 됐다" → 8→24, "10개월이 됐다" → 10→40
+- 대상: callback_events_2/3/4/5/6/7/8/9/11/17.json, investment_events.json
+- chapter_break_turn15: min_turn 15→60 ("서울에 온 지 15개월" 문구 정합)
+- arc_endgame_sixmonths: 트리거 t>=220→t>=216 ("남은 시간 24주" 문구, 240-220=20주 불일치)
+
+#### 최종 스프린트 콜백 3종 타이밍 수정
+- callback_final_sprint_aggressive/defensive/reflective_echo: min_turn 10→208
+- 원본 이벤트(final_stretch_check) t=200~216에 발동, 콜백은 "두 달 후" 서술 → min_turn=208 필요
+
+#### 내러티브 품질 수정 5건
+- story_three_year: "스물셋" → "서른여섯" (3년차=36세, 구버전 주인공 나이 잔재)
+- callback_wallet_job_taken_result: min_turn 6→26 ("입사 3개월째" 문구에 맞춰 12주 여유)
+- chain_scammer_again: min_turn 2→12 ("3개월 전 {name}의 표정" 문구와 정합)
+- hidden_011 (링크드인): has_job=true 추가 ("지금 회사보다 좋은 건지" 현재 직장 전제)
+- hidden_016 (회의실): has_job=true 추가 (사무실 배경 이벤트)
+
+#### 품질 확인 항목
+- 2217개 선택지 모두 result_text 있음 (빈 값 0건)
+- drama_events, shadow_events, chain_events, rare_encounter_events 전수 확인
+- family 59개, comedy 14개, jobs 94개 이벤트 카테고리별 검토 완료
+- audit.sh: ERROR 0, WARNING 0, 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-17 후반20 (자율 QA — 캘린더 잔존 버그 수정 + 전수 교차검증)
 
 ### 자율 QA 루프
