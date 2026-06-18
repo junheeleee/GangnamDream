@@ -1110,6 +1110,31 @@ func check_game_over():
 	if addiction_tendency >= 90:
 		finish_run("crypto_ghost"); return
 
+	# ══ NG+ 전용 엔딩 — MetaProgression 조건 필요 ══════════
+	var _mp_meta = MetaProgression.data
+
+	# full_circle: 상철 진실 알고 시작, 30억, 아버지 생존, 상철 청산 or 정면돌파
+	if _mp_meta.get("sangchul_truth_ever_known", false) \
+			and total_now >= 3_000_000_000.0 \
+			and flags.get("father_reconciled", false) \
+			and not flags.get("father_passed", false) \
+			and (flags.get("ng_confronted_sangchul_early", false) or flags.get("sangchul_reported", false)):
+		finish_run("full_circle"); return
+
+	# second_love: 다은 경험 후 재도전, 다은과 함께 + 자산 10억
+	if _mp_meta.get("daeun_ending_ever_seen", false) \
+			and flags.get("ng_committed_to_daeun", false) \
+			and flags.get("arc_daeun_04b_seen", false) \
+			and total_now >= 1_000_000_000.0:
+		finish_run("second_love"); return
+
+	# guardian: 아버지 잃은 경험 후 재도전, 아버지 우선으로 지킴
+	if _mp_meta.get("father_passed_ever", false) \
+			and flags.get("ng_father_priority", false) \
+			and flags.get("father_reconciled", false) \
+			and not flags.get("father_passed", false):
+		finish_run("guardian"); return
+
 	# ── 강남 입성 = 자산 30억 달성 = 즉시 성공 엔딩 ──────
 	# 30억으로 강남 아파트를 매매한다. 게임의 최종 목표.
 	if total_now >= 3_000_000_000:
@@ -1121,9 +1146,6 @@ func check_game_over():
 		# 어떤 사람이 되어 입성했는가로 엔딩 분기
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
-		# 아버지가 이미 별세 → 보여줄 사람이 없는 집 (관계 여부 무관)
-		if flags.get("father_passed", false):
-			finish_run("empty_house"); return
 		if relationships.is_empty() and not has_any_close_relationship():
 			# 아버지와도 화해 못 했으면 진짜 아무도 없는 집
 			if not flags.get("father_reconciled", false):
@@ -1178,11 +1200,7 @@ func check_game_over():
 		if route_orthodox >= 20 and total < 300_000_000:
 			finish_run("orthodox_hollow"); return
 		# 아버지 화해
-		# 상철 신고 — 의리의 결말 (정의 선택, 강남 포기)
-		if flags.get("sangchul_reported", false) and not flags.get("father_passed", false):
-			finish_run("sangchul_reckoning"); return
-		# 아버지 화해 (아버지 생존 시에만 KTX 씬이 의미 있다)
-		if flags.get("father_reconciled", false) and not flags.get("father_passed", false):
+		if flags.get("father_reconciled", false):
 			finish_run("late_call"); return           # 늦은 전화 (화해)
 		finish_run("ordinary_life")                   # 평범한 결말
 

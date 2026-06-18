@@ -1297,6 +1297,24 @@ func _next_arc_id() -> String:
 			and not f.get("racetrack_mentor_done", false):
 		return "racetrack_mentor_meet"
 
+	# ══ NG+ 전용 아크 — MetaProgression 조건 체크 (2구간 첫 만남 교체) ══
+	var _mp = MetaProgression.meta
+	# 임상철 첫 만남 교체 (NG+: 상철 진실 알고 시작)
+	if t >= 10 and _mp.get("sangchul_truth_ever_known", false) \
+			and not f.get("arc_sangchul_ng_seen", false) \
+			and not f.get("arc_sangchul_met_seen", false):
+		return "arc_sangchul_ng_meet"
+	# 다은 첫 만남 교체 (NG+: 다은 엔딩 경험)
+	if t >= 9 and _mp.get("daeun_ending_ever_seen", false) \
+			and not f.get("arc_daeun_ng_seen", false) \
+			and not f.get("arc_daeun_met", false):
+		return "arc_daeun_ng_meet"
+	# 아버지 첫 전화 교체 (NG+: 아버지 잃은 경험)
+	if t >= 11 and _mp.get("father_passed_ever", false) \
+			and not f.get("arc_father_ng_seen", false) \
+			and not f.get("arc_father_01_seen", false):
+		return "arc_father_ng_call"
+
 	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
 		return "arc_sangchul_01_meet"
@@ -5051,6 +5069,9 @@ func _show_ending(ending_id):
 		"balanced_life":      BG_ROOFTOP_DAY,
 		"with_daeun":         BG_ROOFTOP_DAY,
 		"jiyeon_man":         BG_GANGNAM_ST,
+		"full_circle":        BG_PENTHOUSE,
+		"second_love":        BG_GANGNAM_NIGHT,
+		"guardian":           BG_DEFAULT,
 	}
 	var ending_cg_path := _get_ending_cg_path(ending)
 	var bg_path := ending_cg_path
@@ -5074,8 +5095,8 @@ func _show_ending(ending_id):
 
 	_open_modal("🏁 엔딩")
 	var grade = ending.get("grade", "?")
-	var grade_colors = {"S": "#f0b429", "A": "#34d399", "B": "#c9a227", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
-	var grade_emojis = {"S": "🏆", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
+	var grade_colors = {"S+": "#ffd700", "S": "#f0b429", "A+": "#7ee8a2", "A": "#34d399", "B": "#c9a227", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
+	var grade_emojis = {"S+": "🌠", "S": "🏆", "A+": "🌟", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
 	var grade_color = grade_colors.get(grade, "#ffffff")
 	var grade_emoji = grade_emojis.get(grade, "")
 	# 등급 헤더 행
@@ -5274,6 +5295,12 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "강남은 포기했다. 대신 아버지를 빚에서 해방시켰다."
 		"creator_success":
 			return "구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다"
+		"full_circle":
+			return "임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다."
+		"second_love":
+			return "다은과 함께 강남에 왔다. 이번엔 혼자가 아니었다."
+		"guardian":
+			return "강남은 아직 없었다. 하지만 아버지가 살아있었다."
 		_:
 			return "그렇게 5년이 지나갔다"
 
@@ -5287,6 +5314,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
 		"creator_success", "with_daeun", "jiyeon_man",
 		"early_retirement", "balanced_life", "late_call", "sangchul_reckoning",
+		"full_circle", "second_love", "guardian",
 	]
 	var bad := ending_id in ["burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral"]
 	var lines: Array = []
@@ -5452,6 +5480,16 @@ func _ending_next_run_hints(parent: Control):
 
 	if total < 1_000_000_000.0 and GameState.investment_skill < 50:
 		hints.append("📈  투자 기술을 먼저 키웠다면 결과가 달랐을까요?")
+
+	# NG+ 힌트 — 1회차에서 특정 경험을 하면 2회차 암시
+	var rc = MetaProgression.data.get("runs_completed", 0)
+	if rc == 0:
+		if f.get("sangchul_truth_known", false) or f.get("father_confession_heard", false):
+			hints.append("✨  다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...")
+		if f.get("father_passed", false):
+			hints.append("✨  다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...")
+		if f.get("daeun_let_her_go", false):
+			hints.append("✨  다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...")
 
 	if hints.is_empty():
 		return

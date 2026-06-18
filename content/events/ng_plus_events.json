@@ -1,0 +1,101 @@
+[
+  {
+    "id": "arc_sangchul_ng_meet",
+    "title": "두 번째 첫 만남",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "cafe",
+    "portrait": "sangchul_normal",
+    "conditions": { "min_turn": 9999 },
+    "cooldown": 9999,
+    "description": "민준은 임상철을 이미 안다. 아버지를 망하게 한 빚의 소개인. 지난번 런에서 그가 어떤 사람인지를 알았다. 이번엔 그 지식을 다르게 쓸 수 있다. 카페 창가 자리에서 임상철이 명함을 내밀며 웃는다. 민준은 그 웃음 뒤에 뭐가 있는지 안다.",
+    "choices": [
+      {
+        "text": "(모른 척 앉았다. 이 사람이 필요하다.)",
+        "effects": { "mental": -8 },
+        "flags": ["arc_sangchul_ng_seen", "arc_sangchul_met_seen", "ng_playing_sangchul"],
+        "cast_effects": {
+          "sangchul": { "stage": "acquaintance", "affinity": 5 }
+        },
+        "result_text": "민준은 아무것도 모르는 척 명함을 받았다. 이름을 아는 사람을 처음 보는 것처럼 대한다는 게 이렇게 소모적인 일인 줄 몰랐다. 하지만 이 사람은 네트워크의 열쇠다."
+      },
+      {
+        "text": "\"혹시 제 아버지 아시나요? 창원 김씨요.\"",
+        "effects": { "mental": -5, "reputation": 3 },
+        "flags": ["arc_sangchul_ng_seen", "arc_sangchul_met_seen", "ng_confronted_sangchul_early", "sangchul_truth_known"],
+        "cast_effects": {
+          "sangchul": { "stage": "exposed" }
+        },
+        "result_text": "임상철의 표정이 굳었다. 잠깐의 침묵 뒤에 그는 천천히 명함을 도로 집었다. 이제 이 관계는 다른 방향으로 흘러갈 것이다. 두려움보다 이상하게 홀가분한 느낌이 먼저 왔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_ng_meet",
+    "title": "이번엔 다르게",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "convenience_night",
+    "portrait": "daeun_normal",
+    "conditions": { "min_turn": 9999 },
+    "cooldown": 9999,
+    "description": "편의점에서 다은을 또 만났다. 지난번에는 무심코 지나쳤지만 이번에는 그 끝을 안다. 그때 어떻게 됐는지, 그리고 어떻게 됐을 수 있었는지를 안다. 지난번과 같은 실수를 반복하지 않으려면 지금 결정해야 한다.",
+    "choices": [
+      {
+        "text": "(이번엔 처음부터 진심으로 대했다)",
+        "effects": { "mental": 3 },
+        "flags": ["arc_daeun_ng_seen", "arc_daeun_met", "ng_committed_to_daeun"],
+        "cast_effects": {
+          "daeun": { "affinity": 10, "stage": "warm" }
+        },
+        "result_text": "민준은 이번엔 바쁜 척하지 않았다. 다은이 놀란 것 같았다. 처음 보는 사람한테 이렇게 진지하게 구는 사람은 흔치 않으니까. 하지만 민준은 이 시작이 얼마나 중요한지를 안다."
+      },
+      {
+        "text": "(지난번처럼 그냥 지나쳤다)",
+        "effects": {},
+        "flags": ["arc_daeun_ng_seen", "arc_daeun_met"],
+        "cast_effects": {
+          "daeun": { "affinity": 3 }
+        },
+        "result_text": "민준은 또 그냥 지나쳤다. 문이 닫히고 나서야 그 선택이 얼마나 무거운 건지 다시 느꼈다. 두 번 다 이러면 안 되는 사람이 있다는 걸 알면서도."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_ng_call",
+    "title": "이번엔 먼저",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "conditions": { "min_turn": 9999 },
+    "cooldown": 9999,
+    "description": "아버지한테서 전화가 왔다. 지난번에도 이 전화를 받았다. 그때 바빠서 짧게 끊었다. 그 뒤로 어떻게 됐는지도 안다. 아버지가 병원에 혼자 입원하던 날, 민준은 서울에서 투자 앱을 들여다보고 있었다.",
+    "choices": [
+      {
+        "text": "\"아버지, 저 이번 주말에 내려갈게요\"",
+        "effects": { "mental": 5 },
+        "flags": ["arc_father_ng_seen", "arc_father_01_seen", "ng_father_priority"],
+        "cast_effects": {
+          "father": { "affinity": 15, "stage": "close" }
+        },
+        "result_text": "수화기 너머 아버지가 잠깐 침묵했다. '그래... 오너라.' 짧은 말이었지만 목소리가 달랐다. 민준은 내려가기로 결정한 순간 뭔가가 제자리를 찾은 느낌이 들었다."
+      },
+      {
+        "text": "(바빠서 짧게 끊었다)",
+        "effects": {},
+        "flags": ["arc_father_ng_seen", "arc_father_01_seen"],
+        "cast_effects": {
+          "father": { "affinity": 3 }
+        },
+        "result_text": "2분짜리 통화였다. 끊고 나서 폰을 내려놨다. 지난번에도 이랬다. 이번에도 똑같이 했다. 뭔가 바꿔야 한다는 걸 알면서도 바꾸지 못한 것들이 있다."
+      }
+    ]
+  }
+]

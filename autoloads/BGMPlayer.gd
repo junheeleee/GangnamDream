@@ -69,6 +69,7 @@ func on_ending(ending_id: String):
 		"creator_success", "with_daeun", "jiyeon_man",
 		"early_retirement", "balanced_life",
 		"lonely_rich", "late_call",
+		"full_circle", "second_love", "guardian",
 	]
 	_crossfade_to("ending_good" if ending_id in good else "ending_bad")
 

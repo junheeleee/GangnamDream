@@ -3,6 +3,9 @@ extends Node
 const META_SAVE_PATH = "user://gangnam_dream_meta.json"
 
 var data: Dictionary = {}
+# NG+ 메타 플래그 접근용 alias (data와 동일 객체)
+var meta: Dictionary :
+	get: return data
 # 이번 런에서 새로 해금된 항목 (ending 화면에 표시용)
 var _new_this_run: Dictionary = {"achievements": []}
 
@@ -322,6 +325,20 @@ func record_run(summary):
 	if history.size() > 50:
 		history.pop_front()
 	data["run_history"] = history
+
+	# ── NG+ 영구 메타 플래그 저장 ──────────────────────────────
+	# 런 종료 시점의 GameState.flags 스냅샷에서 NG+ 조건 플래그를 meta에 누적 저장
+	var rf = GameState.flags
+	# 임상철 진실을 알았는가 (아버지 빚 관련)
+	if rf.get("sangchul_truth_known", false) or rf.get("father_confession_heard", false):
+		data["sangchul_truth_ever_known"] = true
+	# 아버지가 별세했는가
+	if rf.get("father_passed", false):
+		data["father_passed_ever"] = true
+	# 다은 엔딩을 경험했는가 (선택하거나 놓쳤거나)
+	if rf.get("daeun_chose_her", false) or rf.get("daeun_let_her_go", false):
+		data["daeun_ending_ever_seen"] = true
+
 	_check_progression_unlocks(summary)
 	save_meta()
 
