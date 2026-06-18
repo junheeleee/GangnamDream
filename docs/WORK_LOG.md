@@ -1,5 +1,39 @@
 # Gangnam Dream Work Log
 
+## 2026-06-18 후반27 (자율 QA 4차 — 심층 무결성 전수 감사)
+
+### 선택지 안내 텍스트 '스트레스' → '정신력-' 3건 수정
+- `amb_jeonse_00[2]`, `amb_holiday_00[0]`, `reunion_rsvp_00[0]`
+- 스탯 통합 후 선택지 괄호 힌트에 삭제된 "스트레스" 표기 잔재
+- 실제 effects는 이미 `mental` 키 사용 중 — 표시 불일치만 수정
+
+### 전수 심층 감사 항목 (모두 통과)
+
+| 체크 항목 | 결과 |
+|---|---|
+| 끊긴 follow_up 참조 | 0 |
+| 유효하지 않은 cast_effects PID | 0 |
+| 유효하지 않은 cast_effects 값 키 | 0 |
+| 유효하지 않은 cast stage 전환 | 0 |
+| 잘못된 relationship_effects 형식 | 0 |
+| 매핑 누락 portrait ID (25종) | 0 |
+| 매핑 누락 background ID (27종) | 0 |
+| 누락 arc 이벤트 ID (106종) | 0 |
+| 누락 milestone/chapter_card ID (5종) | 0 |
+| 고아 플래그 (코드 설정분 포함) | 0 |
+| 미구현 condition 키 | 0 |
+| 랜덤 풀 노출 arc 이벤트 | 0 |
+| has_job:false 잔재 | 0 |
+| 이중발동 위험 follow_up 타겟 | 0 (cooldown:9999 보호) |
+| modify_hidden_stat("stress") 미리디렉트 | 0 |
+
+### 검증 내용 요약
+- 959개 이벤트 cast/relationship/follow_up 교차 검증 완료
+- 11개 "고아 플래그" — 실제로는 `_resolve_opportunity()` win_flag/lose_flag 및 GameState.gd 직접 대입으로 정상 설정
+- hyunsu cast_effects 21개 — stage 전환 없이 affinity/met/flags만 사용 (cast_stages 단일 stage와 일치)
+- `class_reunion_lie_exposed`: follow_up 체인 AND 랜덤 풀 양쪽 노출 가능하나 cooldown:9999로 이중 발동 방지
+- audit.sh: ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
 ## 2026-06-17 후반26 (자율 QA 3차 — relationship_effects 형식 버그 + 최종 9종 체크)
 
 ### relationship_effects dict 형식 버그 16종 수정
