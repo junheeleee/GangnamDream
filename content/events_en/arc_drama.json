@@ -1,0 +1,317 @@
+[
+  {
+    "id": "arc_father_06_confession",
+    "title": "Father's Secret",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "father", "sangchul", "revelation"],
+    "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 15,
+    "description": "After the hospital visit, Dad started calling more often.\nShort calls. How's the weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. About that debt. It was... Park Sang-jin.\"\n\nMinjun had never heard that name before.\n\n\"Someone from the Gangnam real estate scene introduced us. A man named Lim. He seemed decent at first... He said Park Sang-jin was someone you could trust.\"\n\nMinjun set down the cup he'd been holding.",
+    "choices": [
+      {
+        "text": "\"That man named Lim — do you happen to know his full name?\"",
+        "effects": {
+          "mental": -10
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8
+          }
+        },
+        "flags": [
+          "arc_father_06_seen",
+          "father_confession_heard",
+          "sangchul_truth_known"
+        ],
+        "result_text": "\"Lim... Sang-chul, I think he said. Why?\"\n\nMinjun couldn't answer.\n\nLim. Sang. Chul.\n\nThe broker who ruined his father five years ago. That man is Minjun's mentor right now. The one who sits across from him at the same café, teaching him how to read charts.\n\nThe hand holding the phone went cold."
+      },
+      {
+        "text": "\"Do you know where he is now?\"",
+        "effects": {
+          "mental": -8
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [
+          "arc_father_06_seen",
+          "father_confession_heard",
+          "sangchul_truth_known"
+        ],
+        "result_text": "\"No idea. Somewhere in Gangnam, I suppose.\"\n\nMinjun knows.\n\nNot just somewhere in Gangnam — Lim Sang-chul still sits at the same table in the same café. Teaching Minjun how to trade charts.\n\nDad doesn't know. He has no idea that man has walked right into the middle of his son's life."
+      },
+      {
+        "text": "(He couldn't say a word)",
+        "effects": {
+          "mental": -14
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 10
+          }
+        },
+        "flags": [
+          "arc_father_06_seen",
+          "father_confession_heard",
+          "sangchul_truth_known"
+        ],
+        "result_text": "After a long silence, Dad spoke again.\n\"I just... felt like I had to tell you. I'm sorry, son.\"\n\nMinjun couldn't even say \"it's okay.\" He ended the call.\nAnd sat alone in his room.\n\nLim Sang-chul."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_confrontation",
+    "title": "The Question",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "confrontation"],
+    "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 10,
+    "description": "For a month, Minjun did nothing.\nHe still met Sang-chul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sang-chul. Do you know a man named Park Sang-jin?\"",
+    "choices": [
+      {
+        "text": "Waited for Sang-chul's reaction",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_confronted"
+        ],
+        "follow_up_event": "arc_sangchul_reckoning",
+        "result_text": "Sang-chul's hand stopped.\n\nHe didn't deny it. He didn't pretend to be surprised.\nHe just — went quiet for a moment.\n\n\"...How did you find out?\"",
+        "foreshadow": "He'd called it a partnership. The thought that he might someday call it something else flickered briefly, then passed."
+      },
+      {
+        "text": "\"Forget it.\" (He took it back)",
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_truth_buried"
+        ],
+        "result_text": "Something shifted in Sang-chul's eyes.\n\nHe probably already knew what Minjun knew.\n\nMinjun finished his coffee and stood up first. He still needs what this man knows. That's all this is.\n\nSang-chul said nothing."
+      },
+      {
+        "text": "(He got up and left)",
+        "effects": {
+          "mental": -3,
+          "reputation": -2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_quietly_distanced"
+        ],
+        "result_text": "Minjun stood and walked out of the café without a word.\n\nSang-chul called his name from behind. He didn't turn around.\n\nThat relationship ended that day. With no dramatic scene."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_reckoning",
+    "title": "I'm Sorry",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "father", "moral"],
+    "cooldown": 9999,
+    "description": "After a long silence, Sang-chul spoke.\n\n\"I knew he was your father. From the beginning.\"\n\nMinjun didn't respond.\n\n\"When Park Sang-jin called and made the introduction... I just did him a favor. I didn't know it would go this far.\"\n\nA beat of silence.\n\nSang-chul said,\n\"I'm sorry.\"",
+    "choices": [
+      {
+        "text": "\"I'm going to report you.\"",
+        "effects": {
+          "mental": 15,
+          "reputation": -10
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "cut_off"
+          }
+        },
+        "flags": [
+          "arc_sangchul_reckoning_seen",
+          "sangchul_reported",
+          "sangchul_cut_ties"
+        ],
+        "result_text": "Sang-chul nodded quietly.\n\"Yeah. That's the right call.\"\n\nMinjun stood up. The network was gone. Everything Sang-chul knew was out of reach. Gangnam felt farther away.\n\nAnd yet — for the first time, he could picture his father's face clearly."
+      },
+      {
+        "text": "\"That's all I needed to hear.\" (He let it go)",
+        "effects": {
+          "mental": 8
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained",
+            "affinity": -10
+          }
+        },
+        "flags": [
+          "arc_sangchul_reckoning_seen",
+          "sangchul_forgiven"
+        ],
+        "result_text": "Sang-chul lifted his head and looked at Minjun.\n\"Thank you.\"\n\nThe words felt off. Thanking someone who was apologizing.\n\nBut maybe — maybe this is the right way. Not tearing everything apart and scrubbing it clean. Just letting it be."
+      },
+      {
+        "text": "\"I'm only here because of you.\" (He chose to use it)",
+        "effects": {
+          "mental": -10,
+          "investment_skill": 5
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_reckoning_seen",
+          "sangchul_leveraged",
+          "crossed_line"
+        ],
+        "result_text": "Sang-chul paused.\n\"...You're going to use this.\"\n\nMinjun smiled. It came out wrong.\n\nThis man destroyed his father. But without this man's network, Gangnam was impossible. So — this guilt was an asset too.\n\nIt was Jae-hyuk's move. Now Minjun was making it."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror",
+    "title": "The Same Question",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jaehyuk", "moral", "father"],
+    "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 10,
+    "description": "A message from Jae-hyuk.\n\nIt had been a while. Contact had been sparse since the scam arc.\n\n\"Minjun. I've got an investment deal going — can you co-sign for me? Just this once.\"\n\nMinjun set his phone down and stared out the window.\n\nA guarantor.\n\nThat's what ruined his father.",
+    "choices": [
+      {
+        "text": "\"No.\" (He refused, flat)",
+        "effects": {
+          "mental": -8
+        },
+        "flags": [
+          "arc_jaehyuk_mirror_seen",
+          "refused_jaehyuk_guarantee"
+        ],
+        "result_text": "A pause.\nJae-hyuk replied: \"Okay.\" That was it.\n\nMinjun set his phone on the table and thought about his father.\nHis father must have had a moment like this. The moment he couldn't say no.\n\nMinjun said no today. He still doesn't know if it was right. He just did it."
+      },
+      {
+        "text": "\"How much are we talking?\" (He decided to hear it out)",
+        "effects": {
+          "mental": -15
+        },
+        "flags": [
+          "arc_jaehyuk_mirror_seen",
+          "vouched_jaehyuk_guarantee",
+          "crossed_line"
+        ],
+        "result_text": "Jae-hyuk explained. As Minjun listened, something felt off.\n\nWas this guy hiding something again? Or — was this actually a solid deal this time?\n\nMinjun signed the guarantee.\n\nThat's probably what his father thought too. \"This time it'll be fine.\"",
+        "foreshadow": "Maybe his approach wasn't wrong. Gangnam needs people like this, he told himself."
+      },
+      {
+        "text": "(He closed the message and pretended not to have seen it)",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [
+          "arc_jaehyuk_mirror_seen",
+          "blocked_jaehyuk_guarantee"
+        ],
+        "result_text": "Minjun closed the message and opened another app.\n\nPractical choice. He didn't want to be tangled up with Jae-hyuk anymore.\n\nBut on the day his father agreed to be a guarantor, that man probably reached out exactly like this.\n\nMinjun put his phone in the drawer."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing",
+    "title": "Three Times Absent",
+    "background": "hospital",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "father", "death"],
+    "cooldown": 9999,
+    "description": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.",
+    "choices": [
+      {
+        "text": "(He took the KTX. Knowing he was already too late.)",
+        "effects": {
+          "mental": -40
+        },
+        "cast_effects": {
+          "father": {
+            "stage": "passed"
+          }
+        },
+        "flags": [
+          "arc_father_passing_seen",
+          "father_passed",
+          "tried_to_go_to_father"
+        ],
+        "result_text": "When he arrived at Changwon Station, Dad was already gone.\n\nThe nurse said \"about an hour ago.\"\n\nMinjun sat down beside the hospital bed. He stayed for a long time. There was nothing left.\n\nHe'd come to Seoul to show his father something.\nThat reason had left first."
+      },
+      {
+        "text": "(He hung up. There was a deal he had to close right now.)",
+        "effects": {
+          "mental": -25,
+          "money": 5000000
+        },
+        "cast_effects": {
+          "father": {
+            "stage": "passed"
+          }
+        },
+        "flags": [
+          "arc_father_passing_seen",
+          "father_passed",
+          "chose_money_over_father"
+        ],
+        "result_text": "He made five million won on that deal.\n\nThe next morning, the call came again. Dad had passed away the night before.\n\nMinjun set down his phone and looked at his bank balance.\n\nThe number had gone up."
+      }
+    ]
+  }
+]
