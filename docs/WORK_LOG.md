@@ -1,5 +1,43 @@
 # Gangnam Dream Work Log
 
+## 2026-06-18 후반30 — NG+ 엔딩 시스템 전체 구현
+
+### 설계
+- 1회차에서 도달 불가, 2회차 이후만 가능한 엔딩 3종
+- MetaProgression에 영구 플래그 3종 누적 저장 (런 간 기억)
+- 2회차에서 핵심 인물 첫 만남 씬이 교체되는 분기 이벤트 3종
+
+### MetaProgression.gd 수정
+- `meta` 프로퍼티 alias 추가 (`data`와 동일 객체, 외부 접근 편의)
+- `record_run()`에 NG+ 플래그 누적: `sangchul_truth_ever_known` / `father_passed_ever` / `daeun_ending_ever_seen`
+
+### ng_plus_events.json 신규 생성 (3종)
+- `arc_sangchul_ng_meet`: 두 번째 첫 만남 — 모른 척(ng_playing_sangchul) vs 즉시 대면(ng_confronted_sangchul_early)
+- `arc_daeun_ng_meet`: 이번엔 다르게 — 처음부터 진심(ng_committed_to_daeun) vs 그냥 지나침
+- `arc_father_ng_call`: 이번엔 먼저 — 주말에 내려감(ng_father_priority) vs 짧게 끊음
+
+### endings.json 수정 — 3종 추가 (총 30 엔딩)
+- `full_circle` (S+): 상철 청산 + 30억 + 아버지 생존
+- `second_love` (A+): 다은과 함께 + 10억+
+- `guardian` (A+): 아버지 지킴 + 화해
+
+### GameState.gd 수정
+- `check_game_over()` 최우선 NG+ 분기 3종 추가 (기존 30억 체크 앞)
+
+### MainGame.gd 수정
+- `_next_arc_id()`: NG+ 라우팅 블록 삽입 (2구간 첫 만남 앞)
+- `_show_ending()`: grade_colors/emojis에 S+/A+ 추가, ending_bg_map 3종 추가
+- `_ending_run_summary()`: NG+ 엔딩 3종 요약 추가
+- `_ending_cast_epilogue()`: good 목록에 NG+ 3종 추가
+- `_ending_next_run_hints()`: 1회차 플래그 기반 2회차 암시 힌트 3종
+
+### DataRegistry.gd / BGMPlayer.gd 수정
+- ng_plus_events.json 등록
+- BGMPlayer good endings에 NG+ 3종 추가
+
+### 검증
+- ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
 ## 2026-06-18 후반29 — 풀 플레이스루 시뮬레이션 + 중반전 공백 수정
 
 ### 플레이스루 시뮬레이션 결과
