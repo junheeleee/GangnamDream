@@ -11,7 +11,10 @@
     "conditions": {
       "min_turn": 3
     },
-    "tags": ["social", "ripple"],
+    "tags": [
+      "social",
+      "ripple"
+    ],
     "cooldown": 9,
     "description": "Scrolling Instagram before sleep.\nCollege classmate — promoted to team lead. Old friend — engagement announcement. Elementary school kid who sat behind you — launched a business.\nNumbers accumulate. Likes, congratulations, 'so inspiring's.\n{name} turns off the screen and stares at the ceiling.",
     "choices": [
@@ -54,7 +57,10 @@
     "conditions": {
       "max_money": 800000
     },
-    "tags": ["health", "daily"],
+    "tags": [
+      "health",
+      "daily"
+    ],
     "cooldown": 7,
     "description": "1 a.m. Hungry.\nOpen the fridge — half a bag of frozen dumplings, gochujang, two old eggs.\nSomewhere along the way, {name} stopped doing proper grocery runs.\nNot sure if this counts as frugality or giving up.",
     "choices": [
@@ -94,7 +100,10 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {},
-    "tags": ["daily", "comedy"],
+    "tags": [
+      "daily",
+      "comedy"
+    ],
     "cooldown": 7,
     "description": "The forecast said clear.\nStep out of the subway exit — and it's pouring.\nUmbrella at home. Important documents in the bag.\n{name} stands under the overhang, watching other people walk past with umbrellas.",
     "choices": [
@@ -136,7 +145,10 @@
     "conditions": {
       "min_turn": 6
     },
-    "tags": ["social", "tradeoff"],
+    "tags": [
+      "social",
+      "tradeoff"
+    ],
     "cooldown": 15,
     "description": "A notification from the high school group chat.\n\"Reunion — third Saturday next month. Restaurant in Gangnam. ₩50,000 per person.\"\n\nHow do you explain your situation to these people right now?\nSkip and it's weird. Go and it's comparisons.",
     "choices": [
@@ -182,7 +194,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["finance", "tradeoff"],
+    "tags": [
+      "finance",
+      "tradeoff"
+    ],
     "cooldown": 20,
     "description": "A call from the landlord.\n\"Prices have gone up everywhere, so I'll need to raise the rent at renewal.\nJust ₩150,000 more. Everywhere's the same.\"\n\n₩150,000. More than the monthly electric bill.\nMoving costs money too — and cheap options have dried up.",
     "choices": [
@@ -226,7 +241,10 @@
     "conditions": {
       "min_money": 5000000
     },
-    "tags": ["finance", "daily"],
+    "tags": [
+      "finance",
+      "daily"
+    ],
     "cooldown": 12,
     "description": "Three apartments today.\nFirst — bathroom next to the kitchen. Second — no natural light. Third — decent conditions, but for that price in that neighborhood, the money could go elsewhere.\n\nThe agent said, \"You won't find better at this price range.\"\n{name} stood in each empty room, trying to picture living there.",
     "choices": [
@@ -260,7 +278,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["health", "tradeoff"],
+    "tags": [
+      "health",
+      "tradeoff"
+    ],
     "cooldown": 20,
     "description": "The national health checkup results came back.\nMost things: normal. One item — marked 'borderline.'\nThe doctor said, \"Nothing urgent yet, but you need to change your lifestyle.\nSleep, diet, exercise.\"\n\n{name} knows. Just hasn't been doing any of it.",
     "choices": [
@@ -305,7 +326,10 @@
       "has_job": true,
       "min_turn": 4
     },
-    "tags": ["jobs", "milestone"],
+    "tags": [
+      "jobs",
+      "milestone"
+    ],
     "cooldown": 999,
     "description": "The deposit came through.\nStaring at the number — it didn't feel real.\nPeople say you're supposed to take your parents out for a meal on your first paycheck.\n{name} looked at the account screen for a long time.",
     "choices": [
@@ -354,7 +378,10 @@
       "has_job": true,
       "min_turn": 8
     },
-    "tags": ["jobs", "social"],
+    "tags": [
+      "jobs",
+      "social"
+    ],
     "cooldown": 15,
     "description": "A senior colleague announced they're leaving. 40% salary increase at a new company.\nFarewell dinner — everyone drank. Genuinely happy for them.\n\n{name} watched the colleague's retreating figure and thought:\nWhen is my turn? Or — do I choose to stay?",
     "choices": [
@@ -365,7 +392,9 @@
           "stress": 3,
           "intelligence": 1
         },
-        "flags": ["considering_job_change"]
+        "flags": [
+          "considering_job_change"
+        ]
       },
       {
         "text": "Stay focused on the current role. The time will come.  (stability / inertia)",
@@ -389,7 +418,10 @@
       "has_job": true,
       "min_turn": 3
     },
-    "tags": ["jobs", "health"],
+    "tags": [
+      "jobs",
+      "health"
+    ],
     "cooldown": 6,
     "description": "Late again. 8 p.m.\nNeed to eat. Open the delivery app — delivery fee stares back.\nChicken: ₩20,000 + ₩4,000 delivery fee. Cup ramen from downstairs: ₩1,200.\n\n{name} sits with phone in hand.",
     "choices": [
@@ -422,7 +454,10 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {},
-    "tags": ["social", "daily"],
+    "tags": [
+      "social",
+      "daily"
+    ],
     "cooldown": 10,
     "description": "Dropped everything on the subway.\nDocuments, coins scattered.\n\nThe person standing next to {name} — without a word, bent down and started picking things up.\nCouldn't make eye contact properly. Said 'thank you' — they were already walking away.",
     "choices": [
@@ -453,7 +488,10 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {},
-    "tags": ["daily", "study"],
+    "tags": [
+      "daily",
+      "study"
+    ],
     "cooldown": 6,
     "description": "Public library reading room.\nFound a seat. Computer hum, pages turning, someone's keyboard clicks.\nEveryone here is heading somewhere.\n{name} opened a notebook.",
     "choices": [
@@ -492,7 +530,10 @@
     "weight": 1.3,
     "hidden": false,
     "conditions": {},
-    "tags": ["study", "milestone"],
+    "tags": [
+      "study",
+      "milestone"
+    ],
     "cooldown": 12,
     "description": "A book picked up at a secondhand store.\nOpened it without much thought — and stopped at one page.\nA sentence that saw straight through {name}'s current situation.\n\nRead it cover to cover, right there.",
     "choices": [
@@ -524,7 +565,10 @@
     "weight": 1.4,
     "hidden": false,
     "conditions": {},
-    "tags": ["daily", "comedy"],
+    "tags": [
+      "daily",
+      "comedy"
+    ],
     "cooldown": 8,
     "description": "A busker in the subway corridor.\nOne guitar, one mic, small speaker on a cardboard box.\nThe music was better than expected.\nPeople mostly walked past. Some stopped.",
     "choices": [
@@ -563,7 +607,10 @@
     "conditions": {
       "has_job": true
     },
-    "tags": ["health", "daily"],
+    "tags": [
+      "health",
+      "daily"
+    ],
     "cooldown": 5,
     "description": "The weekend is ending.\nWork tomorrow.\nNothing actually bad happened — but there's a tightness in the chest.\n{name} learned the name for this feeling later: the Sunday blues.",
     "choices": [
@@ -606,7 +653,10 @@
     "conditions": {
       "min_turn": 15
     },
-    "tags": ["social", "family"],
+    "tags": [
+      "social",
+      "family"
+    ],
     "cooldown": 20,
     "description": "A KakaoTalk message from a friend.\nBaby photo. Newborn.\n\"This is my daughter. Isn't she beautiful?\"\n\n{name} stared at the screen for a long moment.\nWhat does it feel like to become someone's parent at this age?",
     "choices": [
@@ -647,7 +697,10 @@
     "conditions": {
       "min_turn": 5
     },
-    "tags": ["milestone", "daily"],
+    "tags": [
+      "milestone",
+      "daily"
+    ],
     "cooldown": 8,
     "description": "Nothing major.\nA phone call put off for too long, a form that needed filing, a task left unfinished.\n{name} got it done today.\n\nNo one knows. But — a quiet satisfaction.",
     "choices": [
@@ -681,7 +734,10 @@
     "conditions": {
       "min_turn": 12
     },
-    "tags": ["finance", "daily"],
+    "tags": [
+      "finance",
+      "daily"
+    ],
     "cooldown": 18,
     "description": "Walking through a familiar neighborhood.\nThe old pojangmacha is gone — an interior design shop in its place.\nThe gopchang joint became a craft burger bar.\nA real estate agency window shows new listings — prices higher than a few months ago.\n\nRedevelopment, people are saying. Where did the original residents go?",
     "choices": [
@@ -714,7 +770,10 @@
     "conditions": {
       "min_turn": 20
     },
-    "tags": ["milestone", "hidden"],
+    "tags": [
+      "milestone",
+      "hidden"
+    ],
     "cooldown": 999,
     "description": "A notebook surfaced while tidying up.\nSeems to be from second year of university.\n\"By the time I'm 30, I want to be this kind of person\" — a list.\n\n{name} read it line by line.\nSome were done. Some still weren't. And some — {name} had no idea when they were given up.",
     "choices": [
@@ -742,6 +801,51 @@
           "intelligence": 1,
           "stress": -2
         }
+      }
+    ]
+  },
+  {
+    "id": "late_taxi_driver_00",
+    "title": "The Driver",
+    "background": "gangnam_night",
+    "portrait": "player_tired",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 4,
+      "max_turn": 60
+    },
+    "tags": [
+      "social",
+      "daily",
+      "wisdom"
+    ],
+    "cooldown": 999,
+    "description": "I caught a taxi late at night.\nThe driver glanced at me in the rearview mirror and struck up a conversation.\n\"You're young. What kind of work do you do?\"\n\nThe talk went on for a while.\n\"Back when I was young, I said I'd make it to Gangnam someday too.\"\nThe driver said no more.\nThe city slid by outside the window.",
+    "choices": [
+      {
+        "text": "\"I don't think it's too late for you, even now\"  (comfort / empathy)",
+        "result_text": "The driver smiled. \"Haven't heard that in a long time.\"\nGetting out, {name} wondered whether those words applied to me, too.",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [
+          "heard_driver_story"
+        ]
+      },
+      {
+        "text": "Quietly look out the window.  (silence / reflection)",
+        "result_text": "{name} couldn't say a word.\nGetting out at the destination, the line kept echoing in my ears.\n\"I said I'd make it to Gangnam someday.\"",
+        "effects": {
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": [
+          "heard_driver_story"
+        ]
       }
     ]
   }

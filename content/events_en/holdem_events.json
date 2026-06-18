@@ -73,5 +73,86 @@
         "result_text": "Put the chips down.\n\nOpponent showed the cards. Would have lost.\n\nStrangely satisfied. Not losing what you would have lost — that's winning too."
       }
     ]
+  },
+  {
+    "id": "holdem_strategy_talk",
+    "title": "The Poker Philosopher",
+    "description": "Break time.\n\nWhile getting coffee from the vending machine, I caught the eye of the old man next to me.\n\nIn his sixties. A man who never once flinched at the table.\n\n\"How long's it been for you?\" he asked first.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "background": "holdem_club",
+    "conditions": {
+      "flag": "holdem_visited"
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "social"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "\"Not long. I'm still learning.\"",
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 2,
+          "mental": 3
+        },
+        "flags": [
+          "holdem_mentor_met"
+        ],
+        "result_text": "The old man nodded.\n\"Poker isn't a game of beating the cards. It's a game of beating people.\"\n\nHe took a sip of vending-machine coffee.\n\"A real bluff is when your hands don't shake. When your heart doesn't waver.\"\n\nIt was a short conversation, but something felt different."
+      },
+      {
+        "text": "Just focus on the next hand",
+        "effects": {
+          "luck": 1,
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "I drank my coffee and went back to my seat.\nThe feeling I got each time a hand came in was shifting, little by little.\nA feeling I still couldn't put into words."
+      }
+    ]
+  },
+  {
+    "id": "holdem_losing_streak",
+    "title": "Five in a Row",
+    "description": "I lost five hands in a row today.\n\nStatistically, it's possible. You can lose five straight even with an 80% edge.\n\nBut right now it didn't feel like {name} was running on statistics.\n\nSomething about today felt off.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "background": "holdem_club",
+    "conditions": {
+      "flag": "holdem_regular"
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "stress"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Quietly leave my seat",
+        "effects": {
+          "mental": 9,
+          "intelligence": 2
+        },
+        "flags": [],
+        "result_text": "I gathered my chips and stood up.\nThe dealer said, \"Thanks for playing.\"\n\nClimbing the stairs, I thought:\nI could see two hands I'd played wrong today.\nBeing able to see them means I'm learning."
+      },
+      {
+        "text": "\"One more hand\" — try to change the momentum",
+        "effects": {
+          "money": -40000,
+          "mental": -12
+        },
+        "flags": [
+          "holdem_tilted"
+        ],
+        "result_text": "I played one more.\nThere was no way it would go well in this state.\n\nI lost another 40,000 won and walked out.\n\nI tallied the total loss as I came down the stairs — no, up them.\nThe elevator doors closed."
+      }
+    ]
   }
 ]
