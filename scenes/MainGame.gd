@@ -5334,6 +5334,8 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 			lines.append("🏢  임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.")
 		else:
 			lines.append("🏢  임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.")
+	elif ss == "cut_off":
+		lines.append("🏢  임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.")
 	elif ss == "strained":
 		lines.append("🏢  임상철 사장과는 그 일 이후 연락이 끊겼다.")
 	elif ss != "unknown":

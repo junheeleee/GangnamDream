@@ -32,7 +32,7 @@
 ```
 서울 고시원에서 강남 아파트까지. 통장 50만원, 남은 시간 5년.
 직장·투자·창업·도박 — 매달의 선택이 쌓여 당신만의 인생이 된다.
-26가지 엔딩, 950여 개 이벤트. 정석대로 살 것인가, 아닌가.
+27가지 엔딩, 950여 개 이벤트. 정석대로 살 것인가, 아닌가.
 ```
 
 ### 영어 (로컬라이징 후 적용)
@@ -40,7 +40,7 @@
 From a 5㎡ gosiwon room to a Gangnam apartment.
 ₩500,000 in the bank. 5 years on the clock.
 Every choice shapes who you become — and whether you make it.
-26 endings. 950+ events. Orthodox or unorthodox. Your call.
+27 endings. 950+ events. Orthodox or unorthodox. Your call.
 ```
 
 ---
@@ -83,10 +83,10 @@ Every choice shapes who you become — and whether you make it.
 </ul>
 
 <br>
-<h2>25가지 엔딩</h2>
+<h2>27가지 엔딩</h2>
 
 <p>강남드림 달성부터 번아웃, 파산, 고독한 부자, 여의도 정치인까지.<br>
-26가지 결말. 정답은 없다. 다만 — 당신의 선택이 있었을 뿐이다.</p>
+27가지 결말. 정답은 없다. 다만 — 당신의 선택이 있었을 뿐이다.</p>
 
 <ul>
 <li>🏆 S급: 강남드림 (30억 달성)</li>
