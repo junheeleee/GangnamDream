@@ -1,5 +1,42 @@
 # Gangnam Dream Work Log
 
+## 2026-06-18 후반28 — 스토리 전면 개편: 임상철 반전 + 아버지 비극 아크
+
+### 핵심 반전 설계 및 구현
+- **중심 아이디어**: 임상철이 아버지를 망하게 한 박상진의 소개인이었다
+- 첫 만남("아버지한테 보여드리고 싶어서요")에서 상철은 처음부터 알고 있었음
+- 이 반전이 모든 상철 씬을 소급해서 재해석하게 만듦
+
+### 신규 파일: content/events/arc_drama.json (5개 아크 이벤트)
+- `arc_father_06_confession` (t≥56): 아버지 고백 — "임가라고" → 민준 내부 충격 (mental -8~14), 세 가지 반응
+- `arc_sangchul_confrontation` (t≥60): 진실 알게 된 후 대면/묻어두기/이탈 3분기
+- `arc_sangchul_reckoning` (follow_up): 상철 "미안하다" → 신고(sangchul_reported)/용서/역이용
+- `arc_jaehyuk_mirror` (t≥60): 재혁 보증 요청 = 아버지 실수 반복, mental -5~15
+- `arc_father_passing` (t≥64): 세 번의 부재 끝 아버지 별세, mental -25~40
+
+### content/endings.json — sangchul_reckoning [B] 추가
+- "강남은 없었다. 근데 그 전화 한 통이 6년의 빚보다 더 무거운 걸 내려놓게 해줬다."
+- 총 엔딩 27종으로 증가
+
+### content/meta/cast_stages.json — 신규 스테이지
+- father: `"passed"` 추가
+- sangchul: `"exposed"`, `"cut_off"` 추가
+
+### autoloads/GameState.gd — finish_run() 분기 수정
+- `father_passed` → 30억 달성 시 empty_house (보여줄 사람 없는 집)
+- `sangchul_reported` + 아버지 생존 → sangchul_reckoning 엔딩
+- `father_passed` 시 late_call 차단 (타임리밋)
+
+### scenes/MainGame.gd — _next_arc_id() 연결 4종 추가
+- arc_father_passing (t≥64, 병원 알고도 미방문)
+- arc_father_06_confession (t≥56, 방문+05+sangchul_03)
+- arc_sangchul_confrontation (t≥60, sangchul_truth_known)
+- arc_jaehyuk_mirror (t≥60, aftermath_seen)
+- arc_father_04_visit에 father_passed 가드 추가
+
+### 감사 결과
+- ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
 ## 2026-06-18 후반27 (자율 QA 4차 — 심층 무결성 전수 감사)
 
 ### 선택지 안내 텍스트 '스트레스' → '정신력-' 3건 수정
