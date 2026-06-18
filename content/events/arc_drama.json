@@ -1,0 +1,309 @@
+[
+  {
+    "id": "arc_father_06_confession",
+    "title": "아버지의 비밀",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "father", "sangchul", "revelation"],
+    "cooldown": 9999,
+    "description": "병원 방문 이후 아버지의 전화가 늘었다.\n짧은 통화들. 날씨 이야기, 밥은 먹었냐는 이야기.\n\n오늘은 달랐다.\n아버지가 천천히 말했다.\n\"민준아. 그 빚 말이야. 그게... 박상진이야.\"\n\n처음 듣는 이름이었다.\n\n\"강남 쪽에서 부동산 하는 분이 소개해줬어. 임가라고. 처음엔 좋은 분 같았는데... 그 분이 박상진을 믿을 만한 사람이라고 해서.\"\n\n민준은 들고 있던 컵을 천천히 내려놓았다.",
+    "choices": [
+      {
+        "text": "\"그 임가 분 성함이 혹시...\"",
+        "effects": {
+          "mental": -10
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8
+          }
+        },
+        "flags": [
+          "arc_father_06_seen",
+          "father_confession_heard",
+          "sangchul_truth_known"
+        ],
+        "result_text": "\"임씨라고... 상철이라고 했던 것 같은데. 왜?\"\n\n민준은 대답하지 못했다.\n\n임. 상. 철.\n\n5년 전 아버지를 망하게 한 소개인. 그 사람이 지금 민준의 멘토다. 같은 카페, 같은 자리에서 투자를 가르쳐주는 그 사람이.\n\n전화기를 든 손이 굳었다."
+      },
+      {
+        "text": "\"그 분이 지금 어디 있는지 알아요?\"",
+        "effects": {
+          "mental": -8
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [
+          "arc_father_06_seen",
+          "father_confession_heard",
+          "sangchul_truth_known"
+        ],
+        "result_text": "\"모른다. 강남 쪽 어딘가겠지.\"\n\n민준은 안다.\n\n강남은커녕 — 임상철은 지금도 같은 카페에서 같은 자리에 앉아 있다. 민준에게 차트를 가르쳐주면서.\n\n아버지는 모른다. 그 사람이 아들 인생 한가운데 들어와 있다는 걸."
+      },
+      {
+        "text": "(아무 말도 못 했다)",
+        "effects": {
+          "mental": -14
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 10
+          }
+        },
+        "flags": [
+          "arc_father_06_seen",
+          "father_confession_heard",
+          "sangchul_truth_known"
+        ],
+        "result_text": "아버지가 한참 기다렸다가 말했다.\n\"그냥... 이제는 말해야 할 것 같아서. 미안하다, 아들.\"\n\n민준은 \"아니에요\"도 못 하고 전화를 끊었다.\n그리고 방 안에 혼자 앉았다.\n\n임상철."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_confrontation",
+    "title": "질문",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "confrontation"],
+    "cooldown": 9999,
+    "description": "한 달 동안 민준은 아무것도 하지 않았다.\n임상철을 만나도 평소처럼 이야기했다. 차트, 시장, 다음 달 전략.\n\n그러다 오늘, 더 이상 못 하겠다는 생각이 들었다.\n\n커피를 마시다가 민준이 컵을 내려놓으며 말했다.\n\"상철 씨. 박상진 아세요?\"",
+    "choices": [
+      {
+        "text": "임상철의 반응을 기다렸다",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_confronted"
+        ],
+        "follow_up_event": "arc_sangchul_reckoning",
+        "result_text": "임상철이 손을 멈췄다.\n\n부정하지 않았다. 놀란 척도 하지 않았다.\n그냥 — 잠깐 조용했다.\n\n\"...어떻게 알았어?\""
+      },
+      {
+        "text": "\"됐어요, 잊어버려요.\" (말을 거뒀다)",
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_truth_buried"
+        ],
+        "result_text": "임상철의 눈에서 뭔가가 바뀌었다.\n\n민준이 뭘 아는지 그는 이미 눈치챘을 것이다.\n\n민준은 커피를 다 마시고 먼저 일어섰다. 이 사람이 가진 정보가 아직 필요하다. 그게 전부다.\n\n임상철은 아무 말도 하지 않았다."
+      },
+      {
+        "text": "(자리를 떠났다)",
+        "effects": {
+          "mental": -3,
+          "reputation": -2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_confrontation_seen",
+          "sangchul_quietly_distanced"
+        ],
+        "result_text": "민준은 일어서서 아무 말 없이 카페를 나왔다.\n\n임상철이 뒤에서 이름을 불렀다. 돌아보지 않았다.\n\n그 관계는 그날로 끝났다. 아무런 극적인 장면도 없이."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_reckoning",
+    "title": "미안하다",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "father", "moral"],
+    "cooldown": 9999,
+    "description": "임상철이 한참 뒤에 말했다.\n\n\"그 분 아들이야. 처음부터 알았어.\"\n\n민준은 대답하지 않았다.\n\n\"박상진이 연락해서 소개했을 때... 나는 그냥 부탁을 들어준 거야. 그게 이렇게 될 줄 몰랐어.\"\n\n잠시 침묵이 흘렀다.\n\n임상철이 말했다.\n\"미안하다.\"",
+    "choices": [
+      {
+        "text": "\"신고할게요.\"",
+        "effects": {
+          "mental": 15,
+          "reputation": -10
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "cut_off"
+          }
+        },
+        "flags": [
+          "arc_sangchul_reckoning_seen",
+          "sangchul_reported",
+          "sangchul_cut_ties"
+        ],
+        "result_text": "임상철이 조용히 고개를 끄덕였다.\n\"그래. 그게 맞는 것 같다.\"\n\n민준은 자리에서 일어섰다. 네트워크가 끊겼다. 임상철이 가진 정보가 사라졌다. 강남이 멀어졌다.\n\n그런데 이상하게 — 처음으로 아버지 얼굴이 똑바로 떠올랐다."
+      },
+      {
+        "text": "\"그 말 한 마디면 됐어요.\" (받아들였다)",
+        "effects": {
+          "mental": 8
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained",
+            "affinity": -10
+          }
+        },
+        "flags": [
+          "arc_sangchul_reckoning_seen",
+          "sangchul_forgiven"
+        ],
+        "result_text": "임상철이 고개를 들어 민준을 봤다.\n\"고마워.\"\n\n민준은 고맙다는 말이 어색했다. 미안하다는 사람한테 고마워하는 거니까.\n\n그래도 — 어쩌면 이게 맞는 방식인지도 모른다. 다 파헤치고 다 씻어내는 것보다, 그냥 놔두는 것이."
+      },
+      {
+        "text": "\"그 덕분에 내가 여기 있는 거잖아요.\" (역으로 사용하기로 했다)",
+        "effects": {
+          "mental": -10,
+          "investment_skill": 5
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "strained"
+          }
+        },
+        "flags": [
+          "arc_sangchul_reckoning_seen",
+          "sangchul_leveraged",
+          "crossed_line"
+        ],
+        "result_text": "임상철이 잠깐 멈췄다.\n\"...그렇게 쓸 건가.\"\n\n민준은 웃었다. 웃음이 어색했다.\n\n이 사람이 아버지를 망하게 했다. 근데 이 사람의 네트워크가 없으면 강남에 못 간다. 그러니까 — 이 죄책감도 자산이다.\n\n재혁이 쓰던 방식이었다. 지금 민준이 쓰고 있다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_mirror",
+    "title": "같은 질문",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jaehyuk", "moral", "father"],
+    "cooldown": 9999,
+    "description": "재혁에게서 메시지가 왔다.\n\n오랜만이었다. 사기 아크 이후 연락이 드물었다.\n\n\"민준아. 나 지금 투자건 하나 있는데, 보증 한 번만 서줄 수 있어?\"\n\n민준은 폰을 내려놓고 창밖을 봤다.\n\n보증.\n\n아버지가 망한 이유였다.",
+    "choices": [
+      {
+        "text": "\"못 해.\" (단호하게 거절했다)",
+        "effects": {
+          "mental": -8
+        },
+        "flags": [
+          "arc_jaehyuk_mirror_seen",
+          "refused_jaehyuk_guarantee"
+        ],
+        "result_text": "잠시 침묵이 흘렀다.\n재혁이 \"알겠어\"라고 답했다. 그게 끝이었다.\n\n민준은 폰을 테이블에 내려놓고 아버지를 생각했다.\n아버지도 이 순간이 있었을 것이다. 거절하지 못한 순간.\n\n민준은 오늘 거절했다. 그게 옳은 건지 아직 모른다. 그냥 했다."
+      },
+      {
+        "text": "\"얼마짜리야?\" (들어보기로 했다)",
+        "effects": {
+          "mental": -15
+        },
+        "flags": [
+          "arc_jaehyuk_mirror_seen",
+          "vouched_jaehyuk_guarantee",
+          "crossed_line"
+        ],
+        "result_text": "재혁이 설명했다. 민준은 들으면서 이상한 기분이 들었다.\n\n이 사람이 또 뭔가 숨기고 있는 게 아닐까. 아니면 — 이번엔 진짜 괜찮은 딜인가.\n\n민준은 보증을 섰다.\n\n아버지도 이렇게 생각했을 것이다. '이번엔 괜찮겠지.'라고."
+      },
+      {
+        "text": "(읽지 않은 척 메시지를 닫았다)",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [
+          "arc_jaehyuk_mirror_seen",
+          "blocked_jaehyuk_guarantee"
+        ],
+        "result_text": "민준은 메시지를 닫고 다른 앱을 열었다.\n\n현실적인 선택이었다. 재혁과 더 이상 얽히고 싶지 않았다.\n\n근데 아버지가 보증을 서던 날도 이 사람은 이렇게 연락했겠지.\n\n민준은 폰을 서랍에 넣었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_passing",
+    "title": "세 번의 부재",
+    "background": "hospital",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "father", "death"],
+    "cooldown": 9999,
+    "description": "병원에서 전화가 왔다.\n\n아버지가 위독하다고 했다. 당장 내려와야 한다고.\n\n민준은 이 전화를 오늘 처음 받은 게 아니었다.\n\n세 번이었다. 세 번 다 못 내려갔다. 중요한 일이 있어서. 딜이 있어서. 시간이 없어서.\n\n이번 전화는 — 네 번째였다.",
+    "choices": [
+      {
+        "text": "(KTX를 탔다. 늦었다는 걸 알면서도.)",
+        "effects": {
+          "mental": -40
+        },
+        "cast_effects": {
+          "father": {
+            "stage": "passed"
+          }
+        },
+        "flags": [
+          "arc_father_passing_seen",
+          "father_passed",
+          "tried_to_go_to_father"
+        ],
+        "result_text": "창원역에 도착했을 때, 아버지는 이미 없었다.\n\n간호사가 \"한 시간 전에\"라고 했다.\n\n민준은 병실 침대 옆에 앉았다. 한참 있었다. 아무것도 없었다.\n\n아버지한테 보여주고 싶어서 서울에 왔다.\n그 이유가 먼저 떠난 거였다."
+      },
+      {
+        "text": "(전화를 끊었다. 지금 당장 가야 할 딜이 있었다.)",
+        "effects": {
+          "mental": -25,
+          "money": 5000000
+        },
+        "cast_effects": {
+          "father": {
+            "stage": "passed"
+          }
+        },
+        "flags": [
+          "arc_father_passing_seen",
+          "father_passed",
+          "chose_money_over_father"
+        ],
+        "result_text": "그 딜에서 5백만원을 벌었다.\n\n다음 날 아침 다시 전화가 왔다. 아버지가 어젯밤에 돌아가셨다고.\n\n민준은 폰을 내려놓고 통장을 봤다.\n\n숫자는 올라가 있었다."
+      }
+    ]
+  }
+]

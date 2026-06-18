@@ -1121,6 +1121,9 @@ func check_game_over():
 		# 어떤 사람이 되어 입성했는가로 엔딩 분기
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
+		# 아버지가 이미 별세 → 보여줄 사람이 없는 집 (관계 여부 무관)
+		if flags.get("father_passed", false):
+			finish_run("empty_house"); return
 		if relationships.is_empty() and not has_any_close_relationship():
 			# 아버지와도 화해 못 했으면 진짜 아무도 없는 집
 			if not flags.get("father_reconciled", false):
@@ -1175,7 +1178,11 @@ func check_game_over():
 		if route_orthodox >= 20 and total < 300_000_000:
 			finish_run("orthodox_hollow"); return
 		# 아버지 화해
-		if flags.get("father_reconciled", false):
+		# 상철 신고 — 의리의 결말 (정의 선택, 강남 포기)
+		if flags.get("sangchul_reported", false) and not flags.get("father_passed", false):
+			finish_run("sangchul_reckoning"); return
+		# 아버지 화해 (아버지 생존 시에만 KTX 씬이 의미 있다)
+		if flags.get("father_reconciled", false) and not flags.get("father_passed", false):
 			finish_run("late_call"); return           # 늦은 전화 (화해)
 		finish_run("ordinary_life")                   # 평범한 결말
 

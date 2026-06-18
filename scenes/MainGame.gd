@@ -1351,12 +1351,24 @@ func _next_arc_id() -> String:
 	if t >= 35 and f.get("arc_father_02_done", false) \
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
+	# ── 아버지 별세 — 병원 알고도 미방문 (t64 이후 타임아웃) ──
+	if t >= 64 and f.get("arc_father_03_seen", false) \
+			and not f.get("visited_father", false) \
+			and not f.get("father_passed", false):
+		return "arc_father_passing"
 	if t >= 43 and f.get("arc_father_03_seen", false) \
-			and not f.get("visited_father", false):
+			and not f.get("visited_father", false) \
+			and not f.get("father_passed", false):
 		return "arc_father_04_visit"
 	if t >= 52 and f.get("visited_father", false) \
 			and not f.get("arc_father_05_seen", false):
 		return "arc_father_05_after_visit"
+	# ── 아버지 고백 — 빚의 소개인 임상철 (방문 + 상철 아크 이후) ──
+	if t >= 56 and f.get("visited_father", false) \
+			and f.get("arc_father_05_seen", false) \
+			and f.get("arc_sangchul_03_seen", false) \
+			and not f.get("arc_father_06_seen", false):
+		return "arc_father_06_confession"
 
 	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
 	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
@@ -1381,6 +1393,13 @@ func _next_arc_id() -> String:
 			and f.get("arc_sangchul_offguard_seen", false) \
 			and not f.get("arc_sangchul_human_seen", false):
 		return "arc_sangchul_human"
+	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
+	if t >= 60 and f.get("sangchul_truth_known", false) \
+			and not f.get("sangchul_confronted", false) \
+			and not f.get("sangchul_truth_buried", false) \
+			and not f.get("sangchul_quietly_distanced", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false):
+		return "arc_sangchul_confrontation"
 
 	# ── 임상철 관계 심화 ──
 	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
@@ -1652,6 +1671,13 @@ func _next_arc_id() -> String:
 	if t >= 50 and (f.get("arc_jaehyuk_ghost_seen", false) or f.get("arc_jaehyuk_counter_seen", false)) \
 			and not f.get("arc_jaehyuk_aftermath_seen", false):
 		return "arc_jaehyuk_aftermath"
+	# ── 재혁 거울 — 보증 요청, 아버지 실수의 반복 (aftermath 이후) ──
+	if t >= 60 and f.get("arc_jaehyuk_aftermath_seen", false) \
+			and not f.get("refused_jaehyuk_guarantee", false) \
+			and not f.get("vouched_jaehyuk_guarantee", false) \
+			and not f.get("blocked_jaehyuk_guarantee", false) \
+			and not f.get("arc_jaehyuk_mirror_seen", false):
+		return "arc_jaehyuk_mirror"
 	if t >= 55 and (f.get("arc_daeun_04_seen", false) or f.get("arc_daeun_ghost_seen", false)) \
 			and not f.get("arc_daeun_later_echo_seen", false):
 		return "arc_daeun_later_echo"
@@ -5005,6 +5031,7 @@ func _show_ending(ending_id):
 		"orthodox_hollow":    BG_DEFAULT,
 		"ordinary_life":      BG_DEFAULT,
 		"late_call":          BG_DEFAULT,
+		"sangchul_reckoning": BG_DEFAULT,
 		"political_fix":      BG_GANGNAM_NIGHT,
 		"reputation_legend":  BG_GANGNAM_NIGHT,
 		"jaehyuk_way":        BG_GANGNAM_NIGHT,
@@ -5233,6 +5260,8 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다."
 		"late_call":
 			return "화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다"
+		"sangchul_reckoning":
+			return "강남은 포기했다. 대신 아버지를 빚에서 해방시켰다."
 		"creator_success":
 			return "구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다"
 		_:
@@ -5247,7 +5276,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement",
 		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
 		"creator_success", "with_daeun", "jiyeon_man",
-		"early_retirement", "balanced_life", "late_call",
+		"early_retirement", "balanced_life", "late_call", "sangchul_reckoning",
 	]
 	var bad := ending_id in ["burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral"]
 	var lines: Array = []
@@ -5261,6 +5290,8 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 			lines.append("👨‍🦳  다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.")
 		else:
 			lines.append("👨‍🦳  아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.")
+	elif fs == "passed":
+		lines.append("👨‍🦳  아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.")
 	elif fs in ["worried", "health_crisis", "quiet"]:
 		lines.append("👨‍🦳  아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.")
 	else:

@@ -12,7 +12,7 @@
   ],
   "sangchul": [
     "unknown", "acquaintance", "watching", "interested", "mentoring",
-    "trusted", "guardian", "strained"
+    "trusted", "guardian", "strained", "exposed", "cut_off"
   ],
   "jaehyuk": [
     "unknown", "reunited", "opening_up", "guarded", "close_friends",
@@ -21,7 +21,7 @@
   ],
   "father": [
     "unknown", "distant", "worried", "health_crisis", "quiet",
-    "close", "reconciled", "hopeful", "connected"
+    "close", "reconciled", "hopeful", "connected", "passed"
   ],
   "hyunsu": ["unknown"]
 }
