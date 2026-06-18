@@ -86,6 +86,9 @@ const PORTRAIT_NEUTRAL    = "res://assets/characters/main_character_neutral_gosh
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
 var pending_result_text: String = ""
+var _last_chosen_foreshadow: String = ""
+var _choice_countdown_timer: Timer = null
+var _choice_countdown_remaining: int = 0
 var racetrack      # 경마 미니게임 오버레이
 var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
@@ -1955,12 +1958,17 @@ func _on_next_month():
 		_begin_month()
 
 func _choose(index):
+	# 타이머가 돌고 있으면 취소 (수동 선택)
+	if _choice_countdown_timer and is_instance_valid(_choice_countdown_timer):
+		_choice_countdown_timer.queue_free()
+		_choice_countdown_timer = null
 	var choices: Array = current_event.get("choices", [])
 	var selected_choice: Dictionary = {}
 	var result_text = ""
 	var effects: Dictionary = {}
 	if index >= 0 and index < choices.size():
 		selected_choice = choices[index]
+		_last_chosen_foreshadow = str(selected_choice.get("foreshadow", ""))
 		result_text = str(selected_choice.get("result_text", "")).strip_edges()
 		effects = selected_choice.get("effects", {})
 	EventManager.resolve_current_event(index)
@@ -2005,6 +2013,14 @@ func _show_result(result_text: String):
 	if rt_fmt.count("...") > 0 and str(pending_result_text).length() < 200:
 		rt_fmt = rt_fmt.replace("...", "[wave amp=3 freq=2]...[/wave]")
 	_type_text(rt_fmt)
+	# 복선 텍스트 — 타이핑 완료 후 흐릿하게 페이드인
+	var fw := _last_chosen_foreshadow
+	_last_chosen_foreshadow = ""
+	var fw_lbl: Label = null
+	if not fw.is_empty():
+		fw_lbl = _wrap_label("…  " + fw, 11, "#3a4a60")
+		fw_lbl.modulate.a = 0.0
+		choice_box.add_child(fw_lbl)
 	# 확인 버튼도 타이핑 완료 후 페이드인
 	var confirm_btn = _button("확인", "#1f6feb")
 	confirm_btn.modulate.a = 0.0
@@ -2012,10 +2028,17 @@ func _show_result(result_text: String):
 	choice_box.add_child(confirm_btn)
 	if _typing_tween:
 		_typing_tween.tween_callback(func():
+			if fw_lbl:
+				var tw_fw := create_tween()
+				tw_fw.tween_interval(0.4)
+				tw_fw.tween_property(fw_lbl, "modulate:a", 1.0, 0.8).set_trans(Tween.TRANS_SINE)
 			var tw := create_tween()
+			tw.tween_interval(0.2 if fw_lbl else 0.0)
 			tw.tween_property(confirm_btn, "modulate:a", 1.0, 0.22)
 			confirm_btn.call_deferred("grab_focus"))
 	else:
+		if fw_lbl:
+			fw_lbl.modulate.a = 1.0
 		confirm_btn.modulate.a = 1.0
 		confirm_btn.call_deferred("grab_focus")
 	next_button.disabled = true
@@ -2163,6 +2186,50 @@ func _reveal_choices():
 		twh.tween_property(hlbl, "modulate:a", 1.0, 0.18)
 	if _first_choice_btn:
 		_first_choice_btn.call_deferred("grab_focus")
+	# ── 중요 분기 타이머 ──────────────────────────────────────
+	if current_event.get("timed", false):
+		_start_choice_countdown(current_event.get("timer_seconds", 12))
+
+func _start_choice_countdown(secs: int):
+	_choice_countdown_remaining = secs
+	# 타이머 행 (프로그레스바 + 숫자)
+	var timer_row := HBoxContainer.new()
+	timer_row.name = "_timer_row"
+	timer_row.add_theme_constant_override("separation", 8)
+	var pbar := ProgressBar.new()
+	pbar.name = "_countdown_bar"
+	pbar.max_value = float(secs)
+	pbar.value = float(secs)
+	pbar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pbar.custom_minimum_size = Vector2(0, 6)
+	pbar.show_percentage = false
+	timer_row.add_child(pbar)
+	var tlbl := _label("⏱  %d" % secs, 13, "#f97316")
+	tlbl.name = "_countdown_lbl"
+	tlbl.custom_minimum_size = Vector2(44, 0)
+	timer_row.add_child(tlbl)
+	choice_box.add_child(timer_row)
+	# 프로그레스바 트윈
+	var tw := create_tween()
+	tw.tween_property(pbar, "value", 0.0, float(secs)).set_trans(Tween.TRANS_LINEAR)
+	# 초당 레이블 갱신 + 자동 선택 타이머
+	_choice_countdown_timer = Timer.new()
+	_choice_countdown_timer.wait_time = 1.0
+	_choice_countdown_timer.autostart = true
+	add_child(_choice_countdown_timer)
+	_choice_countdown_timer.timeout.connect(func():
+		_choice_countdown_remaining -= 1
+		if is_instance_valid(tlbl):
+			tlbl.text = "⏱  %d" % _choice_countdown_remaining
+			if _choice_countdown_remaining <= 3:
+				tlbl.remove_theme_color_override("font_color")
+				tlbl.add_theme_color_override("font_color", Color("#ff4444"))
+		if _choice_countdown_remaining <= 0:
+			if is_instance_valid(_choice_countdown_timer):
+				_choice_countdown_timer.queue_free()
+				_choice_countdown_timer = null
+			_choose(0)
+	)
 
 func _refresh_all():
 	if not is_inside_tree():

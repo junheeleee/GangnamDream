@@ -392,12 +392,14 @@ CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
 # 이벤트 루트에서 허용되는 키 (스키마)
 EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "hidden", "conditions", "tags", "cooldown", "choices",
-                   "portrait", "background", "cg", "speaker", "one_time", "_file"}
+                   "portrait", "background", "cg", "speaker", "one_time", "_file",
+                   "timed", "timer_seconds"}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
-               "conditions_note", "deferred_follow_up", "deferred_delay"}
+               "conditions_note", "deferred_follow_up", "deferred_delay",
+               "foreshadow"}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""
