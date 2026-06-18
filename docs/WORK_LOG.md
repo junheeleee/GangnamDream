@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-06-18 후반29 — 풀 플레이스루 시뮬레이션 + 중반전 공백 수정
+
+### 플레이스루 시뮬레이션 결과
+- Python 시뮬레이터 작성 (270턴 전체 arc 순서 추적)
+- 발견: arc_father_06_confession이 arc_sangchul_03_seen에 의존 → 자산 1M 미만이면 아버지 고백 씬 차단
+- 발견: t68-t145 구간 7-9개월 무조건 발동 아크 공백
+- 발견: 신규 드라마 아크(arc_father_06_confession, arc_sangchul_confrontation, arc_jaehyuk_mirror) 모두 정상 발동 확인
+
+### 수정 1 — arc_father_06_confession 조건 완화
+- `arc_sangchul_03_seen` → `arc_sangchul_02_seen` (커피 1회면 이름 인식 가능)
+- 효과: 투자 루트 미선택 플레이어도 아버지 고백 씬 접근 가능 (t56+에 발동)
+
+### 수정 2 — 중반전 공백 구간 연도 마커 3종 추가 (arc_midgame.json)
+- `arc_year_one_half` (t68-90, 1년 반): 편의점 캔커피 장면, 1년 반 정산
+- `arc_year_two_half` (t120-140, 2년 반): 2년 반 지침/방향 점검
+- `arc_year_three_half` (t168-188, 3년 반): 수학적 가능/불가능 판단
+- 효과: 최대 공백 12개월 → 7개월로 감소, 총 아크 이벤트 72개
+
+### 최종 시뮬레이션 결과
+- 총 아크 72개 / DB 미존재 0개 / 플레이타임 약 252분(4h 12m)
+- 연도 마커 8종 전부 정상 발동
+- 최대 아크 공백 7개월 (이전 12개월)
+
 ## 2026-06-18 후반28 — 스토리 전면 개편: 임상철 반전 + 아버지 비극 아크
 
 ### 핵심 반전 설계 및 구현

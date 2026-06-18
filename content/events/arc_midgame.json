@@ -2230,5 +2230,121 @@
     ],
     "background": "gangnam_night",
     "portrait": "player_determined"
+  },
+  {
+    "id": "arc_year_two_half",
+    "title": "2년 반",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "서울에 온 지 2년 반.\n\n가끔 고향 뉴스가 뜬다. 창원에서 무슨 행사가 있었다는 식의. 민준은 스크롤을 내린다.\n\n2년 반이면 꽤 긴 시간이다. 그 시간 동안 무엇이 바뀌었는지 — 오늘은 좀 솔직하게 생각해봤다.",
+    "choices": [
+      {
+        "text": "달라진 게 있다. 숫자는 느리지만 방향은 맞다.",
+        "effects": {
+          "mental": 6,
+          "luck": 1
+        },
+        "flags": ["arc_year_two_half_seen"],
+        "result_text": "2년 반 전의 민준이라면 — 지금 이 방, 이 통장, 이 숫자를 보고 뭐라 했을까. 아마 충분하다고 했을 것이다. 그걸로 됐다."
+      },
+      {
+        "text": "솔직히 지쳐있다. 이게 맞는 건지 모르겠다.",
+        "effects": {
+          "mental": -6,
+          "intelligence": 2
+        },
+        "flags": ["arc_year_two_half_seen"],
+        "result_text": "지침을 인정하는 것도 솔직한 거라고 스스로에게 말했다. 지쳐있는 상태로 하는 결정은 틀리기 쉽다. 잠깐 쉬어야 한다."
+      }
+    ]
+  },
+  {
+    "id": "arc_year_three_half",
+    "title": "3년 반",
+    "background": "gangnam_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "남은 시간이 1년 반이다.\n\n민준은 숫자를 다시 폈다. 지금 자산. 목표까지 거리. 남은 달수.\n\n처음으로 — 수학적으로 가능하거나 불가능한 영역이 명확해졌다. 이제 방향이 아니라 속도의 문제였다.",
+    "choices": [
+      {
+        "text": "가능하다. 여기서 페이스를 올린다.",
+        "effects": {
+          "mental": -4,
+          "investment_skill": 2,
+          "luck": 1
+        },
+        "flags": ["arc_year_three_half_seen"],
+        "result_text": "마지막 스퍼트다. 여기서 멈추면 안 된다. 민준은 계획을 다시 짰다."
+      },
+      {
+        "text": "숫자가 어떻든, 여기까지 온 자체로 의미가 있다.",
+        "effects": {
+          "mental": 8
+        },
+        "flags": ["arc_year_three_half_seen"],
+        "result_text": "강남은 집이 아니라 자세의 문제일지도 모른다는 생각이 처음으로 들었다. 도달하든 못하든 — 이 선택들은 민준의 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_year_one_half",
+    "title": "1년 반",
+    "background": "convenience_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "민준이 서울에 온 지 1년 반이 지났다.\n\n33세에 통장 50만원으로 시작했다. 지금은 34세다.\n\n편의점에서 캔커피를 뽑다가 문득 — 아직도 여기 있네, 생각했다. 강남은 아직 멀었다. 근데 고시원에서 나온 건 맞다. 그것만큼은 맞다.\n\n1년 반이라는 숫자가 이상하게 무겁게 느껴졌다.",
+    "choices": [
+      {
+        "text": "생각을 정리했다. 아직 멀었지만 방향은 보인다.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": ["arc_year_one_half_seen"],
+        "result_text": "고시원보다 나은 방. 첫 달보다 나은 통장. 1년 반 전의 민준이 지금을 봤다면 — 절반은 안도했을 것이다."
+      },
+      {
+        "text": "숫자를 정직하게 봤다. 이 페이스면 30억은 못 간다.",
+        "effects": {
+          "mental": -5,
+          "investment_skill": 2
+        },
+        "flags": ["arc_year_one_half_seen"],
+        "result_text": "냉정했다. 지금 페이스로는 안 된다는 걸 안다. 뭔가 한 번은 크게 틀어야 한다. 방식을 바꿔야 한다. 지금 당장은 몰라도."
+      },
+      {
+        "text": "그냥 캔커피를 마셨다. 생각하기 싫었다.",
+        "effects": {
+          "mental": 2
+        },
+        "flags": ["arc_year_one_half_seen"],
+        "result_text": "차갑고 달았다. 편의점 불빛이 밝았다. 그걸로 충분한 날이었다."
+      }
+    ]
   }
 ]

@@ -1363,10 +1363,11 @@ func _next_arc_id() -> String:
 	if t >= 52 and f.get("visited_father", false) \
 			and not f.get("arc_father_05_seen", false):
 		return "arc_father_05_after_visit"
-	# ── 아버지 고백 — 빚의 소개인 임상철 (방문 + 상철 아크 이후) ──
+	# ── 아버지 고백 — 빚의 소개인 임상철 (방문 + 상철 커피 이후면 충분)
+	# arc_sangchul_02_seen: 커피 1회로 임상철 이름 인식 가능 (03 네트워크 불요)
 	if t >= 56 and f.get("visited_father", false) \
 			and f.get("arc_father_05_seen", false) \
-			and f.get("arc_sangchul_03_seen", false) \
+			and f.get("arc_sangchul_02_seen", false) \
 			and not f.get("arc_father_06_seen", false):
 		return "arc_father_06_confession"
 
@@ -1683,12 +1684,21 @@ func _next_arc_id() -> String:
 		return "arc_daeun_later_echo"
 
 	# ══ 8구간: 연도 마커 — 5년의 흐름을 체감하는 무조건 씬 ══
-	# t=52 = 13개월차(1년 1개월), t=96 = 24개월차(2년), t=148 = 37개월차(3년 1개월)
-	# t=192 = 48개월차(4년), t=220 = 55개월차(4년 7개월 = 마지막 6개월)
+	# t=52 = 13개월차(1년 1개월), t=72 = 18개월차(1년 6개월), t=96 = 24개월차(2년)
+	# t=148 = 37개월차(3년 1개월), t=192 = 48개월차(4년), t=220 = 55개월차(마지막 6개월)
 	if t >= 52 and t <= 68 and not f.get("arc_year_one_mark_seen", false):
 		return "arc_year_one_mark"
+	# ── 1년 반 마커 — t68-90 공백 구간 앵커 (무조건) ──
+	if t >= 68 and t <= 90 and not f.get("arc_year_one_half_seen", false):
+		return "arc_year_one_half"
 	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
 		return "arc_year_two_pressure"
+	# ── 2년 반 마커 — t120-140 공백 구간 앵커 (무조건) ──
+	if t >= 120 and t <= 140 and not f.get("arc_year_two_half_seen", false):
+		return "arc_year_two_half"
+	# ── 3년 반 마커 — t168-188 공백 구간 앵커 (무조건) ──
+	if t >= 168 and t <= 188 and not f.get("arc_year_three_half_seen", false):
+		return "arc_year_three_half"
 	if t >= 148 and t <= 165 and not f.get("arc_year_three_crossroads_seen", false):
 		return "arc_year_three_crossroads"
 	if t >= 192 and t <= 215 and not f.get("arc_final_year_start_seen", false):
