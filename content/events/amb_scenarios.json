@@ -39,7 +39,7 @@
         }
       },
       {
-        "text": "집주인에게 전화해 따져 묻는다  (스트레스)",
+        "text": "집주인에게 전화해 따져 묻는다  (정신력-)",
         "result_text": "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다.",
         "follow_up_event": "amb_jeonse_confront",
         "effects": {
