@@ -1,0 +1,147 @@
+[
+  {
+    "id": "chapter_card_33",
+    "title": "Chapter 1",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
+    "cooldown": 9999,
+    "description": "Beginning\n\n33 years old. 2026.\n\nThere's 500,000 won in the bank.\nFather's debt — all paid off. What's left is this room. And this number.\n\nEveryone said it was too late.\nHe starts anyway.",
+    "choices": [
+      {
+        "text": "Begin",
+        "effects": {},
+        "flags": [
+          "chapter_33_seen"
+        ],
+        "result_text": "2026 has begun."
+      }
+    ]
+  },
+  {
+    "id": "chapter_card_34",
+    "title": "Chapter 2",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
+    "cooldown": 9999,
+    "description": "Expansion\n\n34 years old. 2027.\n\nThe doors to a world he never knew begin to open.\nThat money calls money. That people create opportunity.\nA year ago, he didn't know this.\n\nNow he does.",
+    "choices": [
+      {
+        "text": "Continue",
+        "effects": {},
+        "flags": [
+          "chapter_34_seen"
+        ],
+        "result_text": "2027 has begun."
+      }
+    ]
+  },
+  {
+    "id": "chapter_card_35",
+    "title": "Chapter 3",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
+    "cooldown": 9999,
+    "description": "Weight\n\n35 years old. 2028.\n\nThe price of the path he chose comes due.\nIf he played it safe — the weight of monotony.\nIf he went off the beaten path — the weight of risk.\n\nNeither is light.",
+    "choices": [
+      {
+        "text": "Continue",
+        "effects": {},
+        "flags": [
+          "chapter_35_seen"
+        ],
+        "result_text": "2028 has begun."
+      }
+    ]
+  },
+  {
+    "id": "chapter_card_36",
+    "title": "Chapter 4",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
+    "cooldown": 9999,
+    "description": "Fracture\n\n36 years old. 2029.\n\nPeople are the biggest variable.\nSomeone you trusted shakes everything.\nSomeone you didn't expect steadies you.\n\nNumbers can be predicted. People cannot.",
+    "choices": [
+      {
+        "text": "Continue",
+        "effects": {},
+        "flags": [
+          "chapter_36_seen"
+        ],
+        "result_text": "2029 has begun."
+      }
+    ]
+  },
+  {
+    "id": "chapter_card_37",
+    "title": "Chapter 5",
+    "background": "gangnam_night",
+    "portrait": "",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "chapter_card"
+    ],
+    "cooldown": 9999,
+    "description": "Gangnam\n\n37 years old. 2030.\n\nThis is the final year.\nWith the hand he's holding now — it's time to go all in.\n\nThe last of five years.",
+    "choices": [
+      {
+        "text": "Continue",
+        "effects": {},
+        "flags": [
+          "chapter_37_seen"
+        ],
+        "result_text": "2030 has begun."
+      }
+    ]
+  }
+]
