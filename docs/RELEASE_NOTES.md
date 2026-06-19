@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Changed (2026-06-19) — Claude cloud branch merge cleanup
+
+- Fast-forwarded local `main` to Claude cloud branch `origin/claude/game-polish-steam-uh6ldg` (24 commits ahead of `origin/main`).
+- Reapplied and reconciled the Codex visual asset pass on top of the Claude story/English-translation branch: Jeongseon Casino, gym, Han River, Namsan, card-back, and poker-chip updates.
+- Resolved merge conflicts in current-status docs, callback event metadata, release notes, work log, and decisions.
+- Re-generated `docs/BACKGROUND_SEMANTIC_AUDIT.md` after the Claude branch merge. Current semantic REVIEW count: 129.
+- Verified the merged state with `./tools/audit.sh`: ERROR 0 / WARNING 0, balance bands pass, Godot compile clean.
+
 ### Fixed (2026-06-17) — 자율 정적 QA 4차 (후반10)
 - `_ap_startup_work` / `_ap_create_content`: "mental" 키를 modify_hidden_stat으로 잘못 라우팅 → STARTUP_VIGNETTES 4개 항목 mental 효과 무시되던 버그 수정
 - `_ap_study`: 4개 고정 씬 → 40개 다양한 씬 (STUDY_*_VIGNETTES 4풀 연결)
@@ -142,7 +150,7 @@
   - 그 외: 상황 카드 모드 유지
 
 ### Changed (2026-06-15) — 정선 카지노 명칭 확정 + 캐릭터 기반 해금
-- 카지노 명칭 **정선 카지노**로 확정 (강원랜드 상표 회피, 실제 위치 기반 서술어)
+- 카지노 명칭 **정선 카지노**로 확정 (실제 카지노 브랜드/상표 회피, 실제 위치 기반 서술어)
 - 카지노 진입 조건: `casino_club_introduced` 플래그 (상철 arc_03_network → casino_invite 완료 필요)
 - JeongseonCasino 허브 UI: 바카라·블랙잭·슬롯·룰렛·빅휠 단일 버튼으로 통합
 - 주 단위 투자 AP 힌트: "이번 달" → "이번 주" 텍스트 수정
@@ -154,11 +162,36 @@
 - **A-4 금융 용어**: 은행·투자 패널에 `📖 용어` 버튼, 카지노 허브에 `📖 용어 설명` 버튼 (총 18개 용어)
 - **A-5 자산 태그**: 18종 투자 자산 각각에 특성 태그 3개 표시 (`[초저변동] [월배당] [부동산 간접]` 등)
 - **A-6 월말 서사**: 결산 화면에 현재 상태 기반 1줄 내레이션 (무직/첫 출근/중독/마일스톤 등)
+### Added (2026-06-15) — Seoul landmark backgrounds
+
+- Added `assets/backgrounds/hangang_riverside_walk.png`, a 1280x800 Han River blue-hour promenade background for rest, walking, running, romance, and reflective callback scenes.
+- Added `assets/backgrounds/namsan_tower_view.png`, a 1280x800 Namsan Tower night overlook background for future Seoul landmark and aspirational city-view scenes.
+- Registered `ImageRegistry.BACKGROUNDS["hangang_riverside"]` and `["namsan_tower"]`.
+- Routed Han River / Hangang / riverside wording before social, exercise, and generic city fallbacks so Han River running or reflection scenes do not become gym/cafe images.
+- Routed Namsan / N Seoul Tower / Seoul Tower wording to the Namsan background for future event expansion.
+- Explicitly assigned `hangang_riverside` to `hangang_chicken`, `jiyeon_confession`, and `callback_final_sprint_reflective_call`.
+- MainGame routine vignettes now show the Han River background when the vignette text mentions Han River, even if the action category is rest, exercise, or meditation.
+
+### Added (2026-06-15) — Background additions for casino and gym scenes
+
+- Added `assets/backgrounds/casino_interior.png`, a 1280x800 reusable Jeongseon Casino-inspired public casino-floor background for the hub, blackjack, and baccarat.
+- Added `assets/backgrounds/jeongseon_casino_exterior.png`, a 1280x800 Jeongseon Casino-inspired mountain resort exterior from a protagonist eye-level driveway/drop-off view for arrival/departure and post-casino reflection events.
+- Added `assets/backgrounds/jeongseon_casino_entrance.png`, a 1280x800 Jeongseon Casino-inspired casino entrance/lobby threshold background for entry, exit, check-in, and relapse-urge moments.
+- Registered the new background as `ImageRegistry.BACKGROUNDS["casino"]` so future casino scenes/events can call it without hardcoding paths.
+- Registered `ImageRegistry.BACKGROUNDS["jeongseon_casino_exterior"]` and routed Jeongseon Casino wording/tags to the exterior background before generic gambling fallbacks.
+- Registered `ImageRegistry.BACKGROUNDS["jeongseon_casino_entrance"]` and routed Jeongseon Casino entrance/lobby/check-in/relapse wording to the entrance background.
+- Explicitly assigned `jeongseon_casino_exterior` to the loss-bus event and `jeongseon_casino_entrance` to the win-urge and addiction-notice events.
+- The image follows the reusable-background rule and avoids direct news-photo copying: no foreground hands, no readable faces, no logos/text/watermarks, and only distant anonymous silhouettes.
+- Adjusted blackjack/baccarat/hub overlays so the brighter real-casino visual language remains visible under UI.
+- `JeongseonCasino` hub now uses the new casino background under a dark overlay so the casino entry screen has venue presence before opening individual tables.
+- Added `assets/backgrounds/gym_interior.png` and remapped `gym` / `exercise` backgrounds to it, replacing the previous rooftop fallback for fitness scenes.
+- `BlackjackTable` and `BaccaratTable` now use the real `card_back.png` texture for hidden cards and render larger premium card faces with corner rank/suit indexes and centered suit symbols.
+- Rebuilt `card_back.png` and `poker_chip_icon.png` with coordinate-aligned geometry; the poker chip now uses a real-chip blank center with outer white inserts instead of a center suit mark.
 
 ### Added (2026-06-14) — Tutorial system + minigame quality pass 2
 
 - New `TutorialOverlay` (static class, session-based `_seen` dict): single-call `maybe_show()` / `force_show()` API; slides for all 9 mini-games plus a 3-slide main-game onboarding (goal / dashboard / month flow).
-- `GangwonLand` hub: each game card now has a secondary "❓ 규칙" button for on-demand rules.
+- `JeongseonCasino` hub: each game card now has a secondary "❓ 규칙" button for on-demand rules.
 - All game scenes (slot, roulette, bigwheel, baccarat, blackjack, holdem, scalping, trading, racetrack) have an in-game ❓ help button in the header/action row.
 - Main-game onboarding tutorial fires once after the prologue in `_continue_after_story()`.
 - Fixed `AudioManager.play_sfx()` → `play()` bug in `RouletteTable` and `BigWheelGame` (SFX was silently ignored).
@@ -170,7 +203,7 @@
 - `audit.py` passed ERROR 0 / WARNING 0 for all commits.
 
 ### Changed (2026-06-15) — Casino premium presentation pass
-- Merged Claude's Kangwon Land expansion (`origin/main` 50c9130): hub, slots, roulette, big wheel, and scalping candlestick improvements.
+- Merged Claude's Jeongseon Casino expansion (`origin/main` 50c9130): hub, slots, roulette, big wheel, and scalping candlestick improvements.
 - `BlackjackTable` now has central action/result banners for DEAL, HIT, STAND, DOUBLE DOWN, SPLIT, DEALER, WIN, LOSE, and PUSH, plus screen flashes, win pulse, and loss/double-down shake.
 - `BaccaratTable` now has casino-call style banners for bets, NO MORE BETS, PLAYER CARD, BANKER CARD, and round results, plus color flashes and result pulse/shake.
 - Fixed a Godot strict type inference issue in the new `BigWheelGame`.
@@ -180,11 +213,11 @@
 ### Changed (2026-06-15) — Investment minigame presentation pass
 - `ScalpingGame` now draws candle-style bars instead of a simple line-only chart, with current-price labels, BUY/SELL markers, market/action banners, flashes, profit pulses, and loss shake.
 - `TradingFloor` now displays holding average-price lines on the chart and adds buy/sell execution feedback: banners, screen flashes, chart pulse/shake, and profit/loss-aware SFX.
-- The standalone-quality minigame bar now explicitly includes the full Kangwon Land suite: blackjack, baccarat, and future casino games.
+- The standalone-quality minigame bar now explicitly includes the full Jeongseon Casino suite: blackjack, baccarat, and future casino games.
 - `./tools/audit.sh` passed after the pass: ERROR 0 / WARNING 0, Godot compile clean.
 
 ### Fixed (2026-06-15) — Main merge + Blackjack compile stability
-- Merged Claude's latest `origin/main` (`ebfa19e`) containing Kangwon Land baccarat/blackjack, holdem odds/history upgrades, and event context cleanup.
+- Merged Claude's latest `origin/main` (`ebfa19e`) containing Jeongseon Casino baccarat/blackjack, holdem odds/history upgrades, and event context cleanup.
 - Resolved `HoldemClub` conflicts by preserving both the new odds/history UI and the Codex POT/chip-burst/table-banner presentation pass.
 - Fixed Godot 4.6 strict type inference failures in `systems/Blackjack.gd` and `scenes/BlackjackTable.gd` by replacing Variant-derived `:=` inference with explicit types.
 - `./tools/audit.sh` passed after the merge: ERROR 0 / WARNING 0, Godot compile clean.

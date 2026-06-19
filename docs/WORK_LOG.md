@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-19 (Claude cloud 브랜치 병합 정리 + Codex 비주얼 에셋 재적용)
+
+### 병합
+- `origin/claude/game-polish-steam-uh6ldg`가 `origin/main`보다 24커밋 앞서 있고 main 고유 커밋은 0개임을 확인했다.
+- 로컬 미커밋 Codex 작업을 stash로 보존한 뒤, local `main`을 Claude 브랜치 최신 커밋 `1e3cd0e`까지 fast-forward 했다.
+- stash를 재적용하고 충돌을 수동 해결했다.
+
+### 충돌 해결
+- `CLAUDE.md`: 최신 Claude 진행 상태(스토리 전면 개편/스토어 소재 대기)를 유지하고, Codex 비주얼 에셋 재적용 완료를 최근 완료 상태에 반영했다.
+- `content/events/callback_events_4.json`: `callback_final_sprint_reflective_call`의 한강 회고 장면에 `background: "hangang_riverside"`와 `hangang` 태그를 유지했다.
+- `docs/DECISIONS.md`, `docs/RELEASE_NOTES.md`, `docs/WORK_LOG.md`: Claude 후반 작업 기록과 Codex 비주얼/랜드마크/정선 카지노 기록을 모두 보존하되, 실제 카지노 브랜드명·레거시 카지노 식별자 표기를 중립화했다.
+- 기능 변경 없는 `project.godot` 포맷 churn은 되돌렸다.
+
+### 검증
+- `python3 tools/background_semantic_audit.py --markdown docs/BACKGROUND_SEMANTIC_AUDIT.md` 재실행. 최신 콘텐츠 기준 semantic REVIEW 129개.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+
 ## 2026-06-18 후반30 — NG+ 엔딩 시스템 전체 구현
 
 ### 설계
@@ -826,16 +843,72 @@ arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
 ### A-6 월말 서사 로그 강화
 - 월말 결산에 현재 상태 기반 서사 1줄 (`_get_month_narrative()`)
 - 무직 장기/첫 출근/정신력 위험/중독/자산 마일스톤 등 조건별 내레이션
+## 2026-06-15 (정선 카지노 카지노/헬스장 배경 추가)
+
+### 서울 랜드마크 배경
+- `assets/backgrounds/hangang_riverside_walk.png`를 새로 추가했다.
+  - 용도: 한강 산책, 휴식, 러닝, 한지연 한강 고백, 최종 회고 콜백 등 서울 랜드마크가 장면 의미인 이벤트.
+  - 사양: 1280x800 PNG, 한강 산책로·강물·다리·스카이라인·벤치·가로등이 보이는 주인공 눈높이 구도.
+  - 반복 배경 규칙에 맞춰 주연/조연처럼 읽히는 전경 인물, 읽히는 간판, 로고, 워터마크를 배제했다.
+- `assets/backgrounds/namsan_tower_view.png`를 새로 추가했다.
+  - 용도: 남산/서울타워를 직접 말하는 향후 서울 랜드마크·야경·성공/고독 회고 이벤트.
+  - 사양: 1280x800 PNG, 남산타워가 명확히 보이는 야간 전망 산책로 구도.
+- `ImageRegistry.BACKGROUNDS["hangang_riverside"]` / `["namsan_tower"]`를 등록했다.
+- `ImageRegistry.infer_background_id()`와 `tools/background_semantic_audit.py`에 한강/남산 키워드를 추가했다.
+  - 한강 키워드는 social/exercise/gym보다 먼저 처리해, "한강을 달렸다"가 헬스장으로 가는 문제를 막았다.
+  - 남산/서울타워 키워드는 향후 이벤트 추가 시 일반 거리나 강남 야경으로 빠지지 않게 했다.
+- `MainGame._get_bg_for_vignette()`도 한강/남산 키워드를 운동·명상·휴식 분기보다 먼저 본다.
+- `hangang_chicken`, `jiyeon_confession`, `callback_final_sprint_reflective_call`에 `background: "hangang_riverside"`와 `hangang` 태그를 명시했다.
+
+### 이미지 에셋
+- `assets/backgrounds/casino_interior.png`를 새로 추가했다.
+  - 용도: 블랙잭/바카라 공통 카지노 테이블 배경.
+  - 사양: 1280x800 PNG, 실제 정선 카지노 레퍼런스를 반영한 밝은 공용 카지노 플로어. 스테인드글라스풍 천장, 검은 기둥, 빨강/노랑 소용돌이 카펫, 슬롯머신 열, 초록 테이블 게임을 포함한다.
+  - 저작권/상표 리스크를 피하기 위해 보도사진을 그대로 복제하지 않고, 전경 손 없음, 명확한 얼굴 없음, 읽히는 로고/텍스트/워터마크 없음 기준을 유지했다.
+  - 반복 배경 규칙에 맞춰 주연/조연처럼 읽히는 인물은 넣지 않고, 먼 배경의 익명 실루엣만 허용했다.
+- `assets/backgrounds/jeongseon_casino_exterior.png`를 새로 추가했다.
+  - 용도: 정선 카지노 도착/퇴장/귀가 버스/재입장 충동/중독 자각 이벤트용 산속 리조트 외관 배경.
+  - 사양: 1280x800 PNG, 항공뷰가 아니라 주인공이 차량 하차 지점/진입로에서 입구를 바라보는 눈높이 구도. 정선 카지노 레퍼런스의 산속 리조트·청록색 지붕·호텔 타워·입구 캐노피·순환도로 인상을 반영하되, 실제 사진/워터마크/상표/읽히는 간판은 복제하지 않는다.
+- `assets/backgrounds/jeongseon_casino_entrance.png`를 새로 추가했다.
+  - 용도: 정선 카지노 카지노 입구/로비/출입 게이트/서비스 데스크/재입장 충동 이벤트용 문턱 배경.
+  - 사양: 1280x800 PNG, 일반 `CASINO` 사인만 사용하고 실제 로고·브랜드·보도사진 구도·읽히는 안내문은 배제했다.
+- `assets/backgrounds/gym_interior.png`를 새로 추가했다.
+  - 용도: 운동/헬스장/피트니스 이벤트 전용 배경.
+  - 사양: 1280x800 PNG, 러닝머신·스쿼트랙·덤벨랙·케이블 머신이 명확히 보이는 한국 동네 헬스장.
+  - 병원/클리닉으로 오인될 침대·의료장비·의사 이미지를 배제했다.
+- `ImageRegistry.BACKGROUNDS["casino"]`를 등록해 이후 Claude/Codex가 카지노 이벤트/씬에서 경로 하드코딩 없이 호출할 수 있게 했다.
+- `ImageRegistry.BACKGROUNDS["jeongseon_casino_exterior"]`를 등록하고, 정선 카지노 문구/태그가 있는 이벤트를 외관 배경으로 우선 추론하게 했다.
+- `ImageRegistry.BACKGROUNDS["jeongseon_casino_entrance"]`를 등록하고, 정선 카지노 입구/로비/입장/재입장 문구는 입구 배경으로 우선 추론하게 했다.
+- `jeongseon_big_loss_bus`는 외관, `jeongseon_big_win_urge`와 `jeongseon_addiction_notice`는 입구 배경으로 명시했다.
+- `ImageRegistry.BACKGROUNDS["gym"]` / `["exercise"]`를 기존 옥상 임시 배경에서 `gym_interior.png`로 교체했다.
+- `JeongseonCasino.gd` 허브 첫 화면에도 `casino_interior.png`를 깔아, 개별 테이블 진입 전부터 실제 정선 카지노에 가까운 장소감이 보이게 했다.
+- 블랙잭/바카라 배경 오버레이를 조정해 새 카지노 배경이 지나치게 어둡게 죽지 않도록 했다.
+- `BlackjackTable.gd`, `BaccaratTable.gd`의 카드 위젯을 고급화했다.
+  - 기존 40x56 텍스트 라벨 카드에서 54x76 카드 패널로 확대했다.
+  - 앞면은 코너 랭크/무늬, 중앙 대형 무늬, 미세 그림자/라운딩을 갖춘 카드로 렌더링한다.
+  - 뒷면은 이미 교체해둔 `assets/ui/card_back.png` 텍스처를 직접 사용한다.
+- `assets/ui/card_back.png`, `assets/ui/poker_chip_icon.png`를 좌표 기반으로 다시 작성했다.
+  - 카드 뒷면은 레퍼런스처럼 중앙 사각 패턴과 중심 메달리온이 한 축에 놓이도록 재정렬했다.
+  - 포커 칩은 중앙 클럽 심볼을 제거하고, 빈 중앙 원·동심원 링·외곽 흰색 인레이·안쪽 점선 디테일을 같은 중심점에서 그리도록 수정했다.
+
+### 정합성
+- 블랙잭/바카라 씬이 이미 직접 참조하던 `res://assets/backgrounds/casino_interior.png`의 빈 파일 문제를 해소했다.
+- 정선 카지노 사후 이벤트가 일반 도박/투자 폰 배경으로 빠질 수 있던 문제를 외관/입구 배경 명시 연결로 차단했다.
+- 정선 카지노 허브가 평면 패널처럼 보이던 문제를 줄이고, Claude의 튜토리얼/미니게임 연출 패스와 Codex의 배경 에셋 패스를 통합했다.
+- 헬스장/운동 지문이 병원이나 일반 휴식 배경으로 보이는 문제를 줄였다.
+- 카드 앞면은 이미지 생성 대신 코드 렌더링으로 유지해 랭크/무늬 오표기 리스크를 줄였다.
+- 카드/칩 UI는 생성형 이미지가 아니라 기하 좌표 기반 래스터로 관리해 중앙축과 인레이 배치 흔들림을 방지한다.
+- `assets/ASSET_INDEX.md`, `docs/ROADMAP.md`, `docs/RELEASE_NOTES.md`에 반영했다.
 
 ---
 
 ## 2026-06-14 (정선 카지노 리네이밍 + GAME_ANALYSIS.md)
 
 ### 정선 카지노 리네이밍
-- `HangangCasino.gd` → `JeongseonCasino.gd` 파일명 변경
-- 코드 식별자: `hangang_casino` → `jeongseon_casino`, `_open_hangang_casino` → `_open_jeongseon_casino`, `_on_hangang_casino_closed` → `_on_jeongseon_casino_closed`
+- 구 카지노 허브 파일 → `JeongseonCasino.gd` 파일명 변경
+- 코드 식별자: 구 카지노 식별자 → `jeongseon_casino`, 구 open/closed 콜백 → `_open_jeongseon_casino` / `_on_jeongseon_casino_closed`
 - 플래그 전체: `hangang_session_loss/win/first_visit/quit_vow/self_aware` → `jeongseon_*`
-- 이벤트 ID: `hangang_big_loss_bus/big_win_urge/addiction_notice` → `jeongseon_*`
+- 이벤트 ID: `hangang_big_loss_bus/big_win_urge/addiction_notice` → `jeongseon_big_loss_bus/big_win_urge/addiction_notice`
 - 표시 텍스트: MainGame, TutorialOverlay, MetaProgression, life_events.json, EventData.gd 모두 "정선 카지노"로 통일
 - `hangang_chicken` (한강 치맥 이벤트)은 카지노와 무관 — 유지
 
@@ -845,7 +918,7 @@ arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
 
 ---
 
-## 2026-06-14 (스탯 정리 + 강원랜드 사후 이벤트)
+## 2026-06-14 (스탯 정리 + 정선 카지노 사후 이벤트)
 
 ### 스탯 UI 정리
 - `stress` (스트레스)를 플레이어 UI에서 완전히 제거. 내부 메커니즘은 유지.
@@ -855,17 +928,17 @@ arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
   - 어드바이스/내레이션: 스트레스 임계값 기반 → 정신력 임계값 기반으로 전환
   - 내부적으로 stress는 계속 누적되고 매달 정신력에 영향을 줌 (hidden mechanic)
 
-### 강원랜드 사후 이벤트
-- `GangwonLand.open()`: 첫 방문 환영 메시지 + `gangwon_first_visit` 플래그
+### 정선 카지노 사후 이벤트
+- `JeongseonCasino.open()`: 첫 방문 환영 메시지 + `jeongseon_first_visit` 플래그
   세션 시작 시 임시 플래그 초기화
-- `GangwonLand._close()`: 손익 기준 플래그 설정 (손실 50만↑ / 수익 100만↑)
+- `JeongseonCasino._close()`: 손익 기준 플래그 설정 (손실 50만↑ / 수익 100만↑)
   방문마다 addiction_tendency +3
-- `life_events.json`: 강원랜드 사후 이벤트 3종 추가
-  - `gangwon_big_loss_bus` — 귀가 버스 성찰
-  - `gangwon_big_win_urge` — 재방문 충동
-  - `gangwon_addiction_notice` — 중독 자각 (min_addiction 60)
+- `life_events.json`: 정선 카지노 사후 이벤트 3종 추가
+  - `jeongseon_big_loss_bus` — 귀가 버스 성찰
+  - `jeongseon_big_win_urge` — 재방문 충동
+  - `jeongseon_addiction_notice` — 중독 자각 (min_addiction 60)
 
-## 2026-06-14 (강원랜드 카지노 5종 완성)
+## 2026-06-14 (정선 카지노 카지노 5종 완성)
 
 ### 신규 수학 모델 (systems/)
 - `SlotMachine.gd`: 3릴 슬롯 — 5심볼, 32칸 릴스트립, 이론 RTP 90%, 777=200x 잭팟
@@ -876,11 +949,11 @@ arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
 - `SlotMachineGame.gd`: 3릴 애니메이션(0.08s 셔플→1.5s 정지), 베팅/히스토리/잔액, 잭팟 플래시
 - `RouletteTable.gd`: 번호 선택기, 스핀 애니메이션(숫자 빠른 전환→정지), 컬러 원형 히스토리
 - `BigWheelGame.gd`: 54칸 휠 `_draw()` 렌더링, ease-out 회전 애니메이션, 포인터 삼각형
-- `GangwonLand.gd`: 5게임 허브 — 바카라·블랙잭·슬롯·룰렛·빅휠 카드 레이아웃, 하위게임 종료→허브 복귀
+- `JeongseonCasino.gd`: 5게임 허브 — 바카라·블랙잭·슬롯·룰렛·빅휠 카드 레이아웃, 하위게임 종료→허브 복귀
 
 ### MainGame.gd 업데이트
-- 개별 바카라/블랙잭 버튼 2개 → `_open_gangwon_land()` 단일 버튼으로 통합
-- GangwonLand 허브에 5개 하위게임 레퍼런스 주입
+- 개별 바카라/블랙잭 버튼 2개 → `_open_jeongseon_casino()` 단일 버튼으로 통합
+- JeongseonCasino 허브에 5개 하위게임 레퍼런스 주입
 
 ### MetaProgression.gd
 - 슬롯 마스터리 칭호 "잭팟 사냥꾼" (20스핀 이상)
@@ -899,7 +972,7 @@ arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
 - `main_game` 3슬라이드 추가: 목표 설명 / 대시보드 읽는 법 / 한 달 흐름
 - MainGame._continue_after_story()에 maybe_show("main_game") 삽입 (프롤로그 직후 1회)
 
-### GangwonLand 허브 개선
+### JeongseonCasino 허브 개선
 - `_add_game_card()`에 `tutorial_id` 파라미터 추가
 - 각 게임 카드에 '❓ 규칙' 보조 버튼 추가 (force_show 연결)
 
@@ -933,14 +1006,14 @@ arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
   - 매도 전 현재가·평단·비율로 예상 실현손익을 계산해 승패 SFX를 다르게 재생한다.
 
 ### 미니게임 독립 품질 기준 확장
-- 기존 경마·홀덤·투자 기준에 더해, 새로 구현 중인 강원랜드 계열 전체를 독립 게임급 품질 대상으로 포함했다.
+- 기존 경마·홀덤·투자 기준에 더해, 새로 구현 중인 정선 카지노 계열 전체를 독립 게임급 품질 대상으로 포함했다.
 - 현재 포함 대상은 블랙잭, 바카라이며, Claude가 앞으로 추가할 카지노 게임도 같은 기준을 따른다.
-- 강원랜드 게임은 룰 정확도만으로는 부족하다. 카드 딜, 칩 이동, 딜러 콜, 승패 배너, 테이블 사운드, 세션 통계, 재도전 루프까지 갖춰야 한다.
+- 정선 카지노 게임은 룰 정확도만으로는 부족하다. 카드 딜, 칩 이동, 딜러 콜, 승패 배너, 테이블 사운드, 세션 통계, 재도전 루프까지 갖춰야 한다.
 - 유저 기준을 "플래시게임 수준에서 2만원짜리 게임 품질로 올릴 것"으로 재정의했다. 앞으로 미니게임은 단순 모달이 아니라 화면 밀도, 반응성, 사운드, 애니메이션, 세션 UX를 갖춘 제품 레벨로 본다.
 
-### 강원랜드 카지노 프리미엄 연출 1차
+### 정선 카지노 카지노 프리미엄 연출 1차
 - Claude가 push한 `origin/main` 50c9130을 fast-forward로 병합했다.
-  - 포함 내용: 강원랜드 허브, 슬롯머신, 룰렛, 빅휠, 스캘핑 캔들스틱 업그레이드.
+  - 포함 내용: 정선 카지노 허브, 슬롯머신, 룰렛, 빅휠, 스캘핑 캔들스틱 업그레이드.
   - Codex의 스캘핑 손익 배너/플래시 연출은 Claude의 `_trade_history` 구조 위로 병합했다.
 - 새 `BigWheelGame.gd`의 Variant 기반 타입 추론 한 줄을 명시 타입으로 교정해 Godot 4.6 컴파일을 통과시켰다.
 - `BlackjackTable.gd`에 테이블 게임 피드백 레이어를 추가했다.
@@ -954,7 +1027,7 @@ arc_events.json에 추가, _next_arc_id() t8 블록에 트리거 연결:
 
 ### 메인 병합 및 카지노 컴파일 안정화
 - Claude가 push한 `origin/main` ebfa19e를 fast-forward로 병합했다.
-  - 포함 내용: 강원랜드 바카라/블랙잭 신규 구현, 홀덤 팟오즈/핸드히스토리/1-3팟 레이즈, life/drama/relationship 이벤트 정리.
+  - 포함 내용: 정선 카지노 바카라/블랙잭 신규 구현, 홀덤 팟오즈/핸드히스토리/1-3팟 레이즈, life/drama/relationship 이벤트 정리.
 - Codex 로컬 변경과 충돌난 `CLAUDE.md`, `scenes/HoldemClub.gd`를 수동 병합했다.
   - 홀덤은 Claude의 팟오즈/핸드히스토리와 Codex의 POT/칩 버스트/페이즈 배너 연출을 모두 유지한다.
 - 새 블랙잭 코드가 Godot 4.6 엄격 타입 검사에서 실패하던 문제를 수정했다.

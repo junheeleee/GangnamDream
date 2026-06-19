@@ -9,6 +9,7 @@ const COLOR_BG     := Color(0.04, 0.03, 0.08, 0.97)
 const COLOR_HEADER := Color(0.10, 0.08, 0.20, 1.0)
 const COLOR_GOLD   := Color(0.95, 0.80, 0.20, 1.0)
 const COLOR_ACCENT := Color(0.30, 0.20, 0.60, 1.0)
+const CASINO_BG_TEX := preload("res://assets/backgrounds/casino_interior.png")
 
 # 하위 미니게임 씬들 (MainGame이 주입)
 var baccarat_table
@@ -91,9 +92,19 @@ func _refresh_balance() -> void:
 # ── UI 빌드 ──────────────────────────────────────────────────────
 func _build_ui() -> void:
 	# 배경
+	var bg_img := TextureRect.new()
+	bg_img.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg_img.texture = CASINO_BG_TEX
+	bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	bg_img.modulate = Color(0.92, 0.88, 0.96, 1.0)
+	bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg_img)
+
 	var bg := ColorRect.new()
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	bg.color = COLOR_BG
+	bg.color = Color(0.025, 0.02, 0.05, 0.52)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 
 	var root := VBoxContainer.new()

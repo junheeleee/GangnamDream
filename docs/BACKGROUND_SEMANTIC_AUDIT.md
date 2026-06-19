@@ -6,8 +6,8 @@ This report checks whether event text and effective runtime background semantics
 
 ## Summary
 
-- Total findings: 103
-- REVIEW: 103
+- Total findings: 129
+- REVIEW: 129
 
 ## Findings
 
@@ -18,18 +18,28 @@ This report checks whether event text and effective runtime background semantics
 - `[REVIEW] ko:content/events/amb_scenarios4.json::amb_jobswitch_in (베팅) expected=office actual=meeting | start scene signal: office`
 - `[REVIEW] ko:content/events/amb_scenarios7.json::amb_quit_impulse (오늘 하루만 더) expected=subway actual=office | start scene signal: subway`
 - `[REVIEW] ko:content/events/arc_daeun.json::arc_daeun_03b_date (편의점 밖) expected=convenience_night actual=pojangmacha | start scene signal: convenience`
+- `[REVIEW] ko:content/events/arc_drama.json::arc_father_06_confession (아버지의 비밀) expected=hospital actual=goshiwon_room | start scene signal: hospital`
 - `[REVIEW] ko:content/events/arc_events.json::arc_intro_03_sns (새벽 두 시) expected=office actual=goshiwon_room | start scene signal: office`
 - `[REVIEW] ko:content/events/arc_events.json::arc_sangchul_01_meet (왜 강남인가) expected=cafe actual=realestate_office | start scene signal: cafe`
+- `[REVIEW] ko:content/events/arc_events.json::arc_invest_guidance (종잣돈을 굴려라) expected=office actual=goshiwon_room | start scene signal: office`
 - `[REVIEW] ko:content/events/arc_events.json::arc_jiyeon_03b_lunch (그녀의 세계) expected=office actual=cafe | start scene signal: office`
 - `[REVIEW] ko:content/events/arc_events.json::arc_jiyeon_05_epilogue (이후) expected=office actual=cafe | start scene signal: office`
 - `[REVIEW] ko:content/events/arc_events.json::arc_jaehyuk_04a_ghost (연락 두절) expected=cafe actual=goshiwon_room | start scene signal: cafe`
 - `[REVIEW] ko:content/events/arc_events.json::arc_jaehyuk_04b_counter (역으로) expected=office actual=meeting | start scene signal: office`
 - `[REVIEW] ko:content/events/arc_events.json::arc_opp_jiyeon_bunyang (분양권) expected=office actual=gangnam_day | start scene signal: office`
 - `[REVIEW] ko:content/events/arc_events.json::arc_sangchul_02_coffee (두 번째 커피) expected=cafe actual=realestate_office | start scene signal: cafe`
+- `[REVIEW] ko:content/events/arc_events.json::arc_sangchul_casino_invite (카지노 제안) expected=jeongseon_casino_exterior actual=restaurant | start scene signal: jeongseon`
 - `[REVIEW] ko:content/events/arc_events.json::arc_jaehyuk_hyunsu_warning (너무 늦은 연락) expected=cafe actual=convenience_night | start scene signal: cafe`
 - `[REVIEW] ko:content/events/arc_events.json::arc_rescue_job (고시원 주인의 오지랖) expected=convenience_night actual=goshiwon_hallway | start scene signal: convenience`
 - `[REVIEW] ko:content/events/arc_events.json::arc_daeun_later_echo (출발선의 기억) expected=cafe actual=gangnam_night | start scene signal: cafe`
 - `[REVIEW] ko:content/events/arc_events.json::arc_father_02_signal (카톡 하나) expected=hospital actual=goshiwon_room | start scene signal: hospital`
+- `[REVIEW] ko:content/events/arc_midgame.json::arc_midpoint_reckoning (반환점) expected=convenience_night actual=goshiwon_room | start scene signal: convenience`
+- `[REVIEW] ko:content/events/arc_midgame.json::arc_gangnam_visit_alone (처음 혼자 간 강남) expected=cafe actual=gangnam_day | start scene signal: cafe`
+- `[REVIEW] ko:content/events/arc_midgame.json::arc_daeun_trace (다은의 흔적) expected=cafe actual=convenience_night | start scene signal: cafe`
+- `[REVIEW] ko:content/events/arc_midgame.json::arc_gangnam_real_estate (강남 집값) expected=realestate_office actual=gangnam_day | start scene signal: realestate`
+- `[REVIEW] ko:content/events/arc_midgame.json::arc_four_months_in (4개월째) expected=hangang_riverside actual=late_night | start scene signal: hangang`
+- `[REVIEW] ko:content/events/arc_midgame.json::arc_office_routine (야근 후 편의점) expected=office actual=convenience_night | start scene signal: office`
+- `[REVIEW] ko:content/events/arc_midgame.json::arc_year_one_half (1년 반) expected=cafe actual=convenience_night | start scene signal: cafe`
 - `[REVIEW] ko:content/events/arc_specialization.json::arc_spec_career (어떤 직장인이 될 것인가) expected=office actual=cafe | start scene signal: office`
 - `[REVIEW] ko:content/events/butterfly_events.json::butterfly_mystery_info_result_win (3개월 뒤 — 기사가 떴다) expected=realestate_office actual=trading | start scene signal: realestate`
 - `[REVIEW] ko:content/events/butterfly_events.json::butterfly_drunk_investor (포장마차 옆자리) expected=office actual=pojangmacha | start scene signal: office`
@@ -38,6 +48,7 @@ This report checks whether event text and effective runtime background semantics
 - `[REVIEW] ko:content/events/callback_events.json::callback_lied_interview_surfaces (그 거짓말) expected=office actual=pojangmacha | start scene signal: office`
 - `[REVIEW] ko:content/events/callback_events.json::callback_father_promise (그때 그 말) expected=hospital actual=goshiwon_room | start scene signal: hospital`
 - `[REVIEW] ko:content/events/callback_events_11.json::callback_racetrack_chased_win_ending (이긴 날의 끝) expected=subway actual=racetrack_betting | start scene signal: subway`
+- `[REVIEW] ko:content/events/callback_events_27.json::callback_parttime_survived (그때 하지 않았다) expected=convenience_night actual=street | start scene signal: convenience`
 - `[REVIEW] ko:content/events/callback_events_4.json::callback_holdem_tilted_reckoning (틸트의 청구서) expected=subway actual=holdem_club | start scene signal: subway`
 - `[REVIEW] ko:content/events/drama_events.json::drama_housing_lottery (청약 당첨) expected=realestate_office actual=convenience_night | start scene signal: realestate`
 - `[REVIEW] ko:content/events/drama_events.json::drama_apartment_lottery_win (아파트 청약 당첨) expected=realestate_office actual=convenience_night | start scene signal: realestate`
@@ -46,6 +57,7 @@ This report checks whether event text and effective runtime background semantics
 - `[REVIEW] ko:content/events/drama_events2.json::drama_birthday_00 (오늘이 생일이었다) expected=convenience_night actual=goshiwon | start scene signal: convenience`
 - `[REVIEW] ko:content/events/drama_events2.json::drama_summer_heat (폭염 주의보) expected=subway actual=street | start scene signal: subway`
 - `[REVIEW] ko:content/events/hidden_events.json::hidden_007 (정책 발표 속보) expected=library actual=realestate_office | start scene signal: study`
+- `[REVIEW] ko:content/events/holdem_events.json::holdem_strategy_talk (포커 철학자) expected=cafe actual=holdem_club | start scene signal: cafe`
 - `[REVIEW] ko:content/events/investment_events.json::inv_stock_ipo_lottery (공모주 청약) expected=realestate_office actual=convenience_night | start scene signal: realestate`
 - `[REVIEW] ko:content/events/investment_events.json::inv_real_estate_bubble_fear (부동산 버블 공포) expected=cafe actual=realestate_office | start scene signal: cafe`
 - `[REVIEW] ko:content/events/investment_events.json::inv_ipo_hot_tip (공모주 대박 예고) expected=office actual=realestate_office | start scene signal: office`
@@ -53,16 +65,15 @@ This report checks whether event text and effective runtime background semantics
 - `[REVIEW] ko:content/events/life_events.json::jobs_036 (저녁 8시 2분 카톡) expected=subway actual=office | start scene signal: subway`
 - `[REVIEW] ko:content/events/life_events.json::politics_038 (부동산 규제 루머) expected=cafe actual=realestate_office | start scene signal: cafe`
 - `[REVIEW] ko:content/events/life_events.json::gosiwon_bathroom_rush (공용 화장실 피크타임) expected=office actual=goshiwon_room | start scene signal: office`
-- `[REVIEW] ko:content/events/life_events.json::gangnam_coffee (강남 카페 6천원 커피) expected=cafe actual=office | start scene signal: cafe`
-- `[REVIEW] ko:content/events/life_events.json::culture_podcast (출퇴근길 팟캐스트) expected=subway actual=realestate_office | start scene signal: subway`
-- `[REVIEW] ko:content/events/life_events.json::ipo_lottery_opportunity (공모주 청약) expected=realestate_office actual=convenience_night | start scene signal: realestate`
 - `[REVIEW] ko:content/events/life_events.json::sangchul_meet (중년 사내) expected=cafe actual=realestate_office | start scene signal: cafe`
-- `[REVIEW] ko:content/events/life_events.json::job_interview_hell (6년 공백) expected=goshiwon_room actual=office | start scene signal: housing_room`
+- `[REVIEW] ko:content/events/life_events.json::survival_convenience_meal (삼각김밥 두 개) expected=convenience_night actual=street | start scene signal: convenience`
 - `[REVIEW] ko:content/events/life_events2.json::rainy_day_umbrella (우산이 없다) expected=subway actual=street | start scene signal: subway`
 - `[REVIEW] ko:content/events/life_events2.json::health_checkup_00 (건강검진 결과) expected=gym actual=hospital | start scene signal: gym`
 - `[REVIEW] ko:content/events/life_events2.json::overtime_delivery_00 (야근 배달) expected=convenience_night actual=office | start scene signal: convenience`
 - `[REVIEW] ko:content/events/life_events2.json::sunday_night_00 (일요일 밤 열한 시) expected=office actual=goshiwon | start scene signal: office`
 - `[REVIEW] ko:content/events/life_events2.json::neighborhood_regen (동네가 달라졌다) expected=realestate_office actual=street | start scene signal: realestate`
+- `[REVIEW] ko:content/events/ng_plus_events.json::arc_father_ng_call (이번엔 먼저) expected=hospital actual=goshiwon_room | start scene signal: hospital`
+- `[REVIEW] ko:content/events/racetrack_events.json::racetrack_mentor_meet (과천 경마 아저씨) expected=cafe actual=convenience_store | start scene signal: cafe`
 - `[REVIEW] ko:content/events/racetrack_events.json::race_coworker_encounter (아는 얼굴) expected=office actual=racetrack_betting | start scene signal: office`
 - `[REVIEW] ko:content/events/rare_encounter_events.json::rare_drunk_wisdom (취객의 인생 상담) expected=office actual=convenience_night | start scene signal: office`
 - `[REVIEW] ko:content/events/rare_encounter_events.json::rare_junk_sale_mentor (중고 거래) expected=cafe actual=street | start scene signal: cafe`
@@ -70,7 +81,6 @@ This report checks whether event text and effective runtime background semantics
 - `[REVIEW] ko:content/events/relationship_events.json::rel_mentor_coffee (멘토와의 커피) expected=cafe actual=office | start scene signal: cafe`
 - `[REVIEW] ko:content/events/relationship_events.json::rel_blind_date_setup (소개팅 성사) expected=cafe actual=office | start scene signal: cafe`
 - `[REVIEW] ko:content/events/relationship_events.json::rel_business_partner_idea (사업 파트너 제안) expected=cafe actual=office | start scene signal: cafe`
-- `[REVIEW] ko:content/events/relationship_events.json::daeun_meet (새벽 두 시, 편의점) expected=cafe actual=convenience_night | start scene signal: cafe`
 - `[REVIEW] ko:content/events/scenario_cafe.json::cafe_talk_01 (말을 걸다) expected=gym actual=cafe | start scene signal: gym`
 - `[REVIEW] ko:content/events/scenario_cafe_callback.json::cafe_cb_stole_00 (그날 외운 번호) expected=cafe actual=street_rainy | start scene signal: cafe`
 - `[REVIEW] ko:content/events/scenario_cafe_callback.json::cafe_cb_stole_call (통화) expected=cafe actual=street_rainy | start scene signal: cafe`
@@ -87,24 +97,37 @@ This report checks whether event text and effective runtime background semantics
 - `[REVIEW] en:content/events_en/amb_scenarios4.json::amb_jobswitch_in (The Bet) expected=office actual=meeting | start scene signal: office`
 - `[REVIEW] en:content/events_en/amb_scenarios7.json::amb_quit_impulse (Just One More Day) expected=subway actual=office | start scene signal: subway`
 - `[REVIEW] en:content/events_en/arc_daeun.json::arc_daeun_03b_date (Outside the Convenience Store) expected=convenience_night actual=pojangmacha | start scene signal: convenience`
+- `[REVIEW] en:content/events_en/arc_drama.json::arc_father_06_confession (Father's Secret) expected=hospital actual=goshiwon_room | start scene signal: hospital`
 - `[REVIEW] en:content/events_en/arc_events.json::arc_sangchul_01_meet (Why Gangnam?) expected=cafe actual=realestate_office | start scene signal: cafe`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_midpoint_reckoning (The Halfway Mark) expected=convenience_night actual=goshiwon_room | start scene signal: convenience`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_sangchul_offguard (Sangchul Off Guard) expected=office actual=realestate_office | start scene signal: office`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_gangnam_visit_alone (First Time in Gangnam Alone) expected=cafe actual=gangnam_day | start scene signal: cafe`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_daeun_trace (Traces of Daeun) expected=cafe actual=convenience_night | start scene signal: cafe`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_gangnam_real_estate (Gangnam Property Prices) expected=realestate_office actual=gangnam_day | start scene signal: realestate`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_four_months_in (Four Months In) expected=hangang_riverside actual=late_night | start scene signal: hangang`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_office_routine (Convenience Store After Overtime) expected=office actual=convenience_night | start scene signal: office`
+- `[REVIEW] en:content/events_en/arc_midgame.json::arc_year_one_half (One and a Half Years) expected=cafe actual=convenience_night | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/callback_events.json::callback_lied_interview_surfaces (That Lie) expected=office actual=pojangmacha | start scene signal: office`
 - `[REVIEW] en:content/events_en/callback_events.json::callback_father_promise (What You Said That Day) expected=hospital actual=goshiwon_room | start scene signal: hospital`
 - `[REVIEW] en:content/events_en/callback_events_10.json::callback_visited_father_hospital_after (Coming Back from the Hospital) expected=hospital actual=gym | start scene signal: hospital`
 - `[REVIEW] en:content/events_en/callback_events_11.json::callback_racetrack_chased_win_ending (The End of a Winning Day) expected=subway actual=racetrack_betting | start scene signal: subway`
 - `[REVIEW] en:content/events_en/callback_events_11.json::callback_health_treated_followup (Three Months After Treatment) expected=hospital actual=gym | start scene signal: hospital`
 - `[REVIEW] en:content/events_en/callback_events_13.json::callback_jeonse_planning_move_echo (Preparing to Move) expected=office actual=realestate_office | start scene signal: office`
+- `[REVIEW] en:content/events_en/callback_events_27.json::callback_parttime_survived (The Choice He Didn't Make) expected=convenience_night actual=street | start scene signal: convenience`
 - `[REVIEW] en:content/events_en/callback_events_4.json::callback_holdem_tilted_reckoning (The Tilt Invoice) expected=subway actual=holdem_club | start scene signal: subway`
 - `[REVIEW] en:content/events_en/chain_events.json::chain_neighbor_civil_servant (A Text from the District Office) expected=office actual=goshiwon_room | start scene signal: office`
 - `[REVIEW] en:content/events_en/drama_events.json::drama_housing_lottery (Housing Lottery Win) expected=realestate_office actual=convenience_night | start scene signal: realestate`
 - `[REVIEW] en:content/events_en/drama_events2.json::drama_birthday_00 (It Was Today) expected=convenience_night actual=goshiwon | start scene signal: convenience`
 - `[REVIEW] en:content/events_en/drama_events2.json::drama_summer_heat (Heat Advisory) expected=subway actual=street | start scene signal: subway`
+- `[REVIEW] en:content/events_en/holdem_events.json::holdem_strategy_talk (The Poker Philosopher) expected=cafe actual=holdem_club | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/investment_events.json::inv_real_estate_bubble_fear (Real Estate Bubble Fear) expected=cafe actual=realestate_office | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/investment_events.json::inv_redev_zone_tip (Redevelopment Zone Information) expected=office actual=realestate_office | start scene signal: office`
 - `[REVIEW] en:content/events_en/investment_events.json::sangchul_tip_redev (Sangchul's Tip — A Distress Sale) expected=office actual=realestate_office | start scene signal: office`
 - `[REVIEW] en:content/events_en/life_events2.json::rainy_day_umbrella (No Umbrella) expected=subway actual=street | start scene signal: subway`
 - `[REVIEW] en:content/events_en/life_events2.json::health_checkup_00 (The Results) expected=gym actual=hospital | start scene signal: gym`
 - `[REVIEW] en:content/events_en/life_events2.json::neighborhood_regen (The Neighborhood Changed) expected=realestate_office actual=street | start scene signal: realestate`
+- `[REVIEW] en:content/events_en/ng_plus_events.json::arc_father_ng_call (This Time, He Calls First) expected=hospital actual=goshiwon_room | start scene signal: hospital`
+- `[REVIEW] en:content/events_en/racetrack_events.json::racetrack_mentor_meet (The Gwacheon Racing Man) expected=cafe actual=convenience_store | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/scenario_cafe_callback.json::cafe_cb_stole_00 (The Number Memorized That Day) expected=cafe actual=street_rainy | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/scenario_cafe_callback.json::cafe_cb_stole_call (The Call) expected=cafe actual=street_rainy | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/scenario_cafe_callback.json::cafe_cb_stole_verify (Digging In) expected=cafe actual=street_rainy | start scene signal: cafe`
@@ -114,3 +137,6 @@ This report checks whether event text and effective runtime background semantics
 - `[REVIEW] en:content/events_en/scenario_cafe_callback.json::cafe_cb_honest_in (Verified Opportunity) expected=cafe actual=street_rainy | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/scenario_cafe_callback.json::cafe_cb_humiliated_00 (Back at That Café) expected=cafe actual=street_rainy | start scene signal: cafe`
 - `[REVIEW] en:content/events_en/story_events.json::story_prologue_goal (Gangnam) expected=hospital actual=gangnam_day | start scene signal: hospital`
+- `[REVIEW] en:content/events_en/story_events.json::story_first_workday (First Day at Work) expected=subway actual=office | start scene signal: subway`
+- `[REVIEW] en:content/events_en/story_events.json::story_payday_morning (Payday) expected=subway actual=realestate_office | start scene signal: subway`
+- `[REVIEW] en:content/events_en/story_events.json::story_two_year (Two Years) expected=subway actual=gym | start scene signal: subway`

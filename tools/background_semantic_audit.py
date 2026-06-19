@@ -142,6 +142,29 @@ def infer_background_id(ev: Dict, housing: str = "gosiwon") -> str:
         *tag_list,
     ])
 
+    if "jeongseon" in tag_list or "jeongseon_casino" in tag_list or has_any(search, [
+        "정선 카지노", "정선카지노", "jeongseon casino", "casino resort",
+    ]):
+        if has_any(search, [
+            "카지노 입구", "입구", "로비", "서비스 데스크", "출입", "입장",
+            "다시 들어", "발이 안 떨어", "나오면서", "entrance", "lobby", "check-in",
+        ]):
+            return "jeongseon_casino_entrance"
+        return "jeongseon_casino_exterior"
+    if "hangang" in tag_list or has_any(search, [
+        "한강", "한강공원", "한강변", "강변", "여의도공원", "반포대교",
+        "han river", "hangang", "riverside promenade", "river walk",
+    ]):
+        return "hangang_riverside"
+    if "namsan" in tag_list or has_any(search, [
+        "남산", "남산타워", "n서울타워", "서울타워", "n seoul tower",
+        "namsan", "seoul tower",
+    ]):
+        return "namsan_tower"
+    if has_any(search, [
+        "신촌 이면도로", "back-alley in sinchon",
+    ]):
+        return "street"
     if event_id in ("friend_housewarming", "housewarming_alone") or has_any(search, [
         "집들이", "방 안", "방안을", "창문 밖", "옆 건물", "my room",
         "inside the room", "housewarming",
@@ -231,6 +254,16 @@ def infer_background_id(ev: Dict, housing: str = "gosiwon") -> str:
 
 
 SEMANTIC_RULES: List[Tuple[str, str, Sequence[str]]] = [
+    ("jeongseon_entrance", "jeongseon_casino_entrance", (
+        "정선 카지노 카지노 입구", "정선 카지노 입구", "정선 카지노 로비", "카지노 입구",
+        "카지노 로비", "서비스 데스크", "출입 게이트", "카지노에 다시 들어",
+        "다시 들어간다", "발이 안 떨어", "정선 카지노에서 나오면서",
+        "casino entrance", "casino lobby", "casino check-in", "check-in gate",
+    )),
+    ("jeongseon", "jeongseon_casino_exterior", ("정선 카지노", "정선카지노", "jeongseon casino")),
+    ("hangang", "hangang_riverside", ("한강", "한강공원", "한강변", "강변", "han river", "hangang")),
+    ("namsan", "namsan_tower", ("남산", "남산타워", "n서울타워", "서울타워", "namsan", "seoul tower")),
+    ("jiyeon_accident_street", "street", ("신촌 이면도로", "back-alley in sinchon")),
     ("housing_room", "goshiwon_room", ("집들이", "방 안", "방안을", "옆 건물", "창문 밖", "my room", "housewarming")),
     ("gym", "gym", ("헬스장", "운동", "달리기", "러닝", "workout", "gym", "exercise")),
     ("hospital", "hospital", ("병원", "의사", "검진", "응급실", "입원", "퇴원", "hospital", "doctor", "checkup", "clinic")),

@@ -89,6 +89,8 @@ const BACKGROUNDS = {
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
 	"street_rainy":      "res://assets/backgrounds/seoul_rainy_street.png",
 	"pojangmacha":       "res://assets/backgrounds/pojangmacha.png",
+	"hangang_riverside": "res://assets/backgrounds/hangang_riverside_walk.png",
+	"namsan_tower":      "res://assets/backgrounds/namsan_tower_view.png",
 	"rooftop_day":       "res://assets/backgrounds/rooftop_daytime.png",
 	"rooftop_night":     "res://assets/backgrounds/rooftop_night.png",
 	# 직장/사업
@@ -102,8 +104,8 @@ const BACKGROUNDS = {
 	# 특수
 	"hospital":          "res://assets/backgrounds/hospital_corridor.png",
 	"hospital_clinic":   "res://assets/backgrounds/hospital_clinic.png",
-	"gym":               "res://assets/backgrounds/rooftop_daytime.png",
-	"exercise":          "res://assets/backgrounds/rooftop_daytime.png",
+	"gym":               "res://assets/backgrounds/gym_interior.png",
+	"exercise":          "res://assets/backgrounds/gym_interior.png",
 	"military":          "res://assets/backgrounds/military_training_ground.png",
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
@@ -129,6 +131,9 @@ const BACKGROUNDS = {
 	"racetrack_betting": "res://assets/backgrounds/racetrack_betting_hall.png",
 	"racetrack_track":   "res://assets/backgrounds/racetrack_track_view.png",
 	"holdem_club":       "res://assets/backgrounds/holdem_club_interior.png",
+	"casino":            "res://assets/backgrounds/casino_interior.png",
+	"jeongseon_casino_exterior": "res://assets/backgrounds/jeongseon_casino_exterior.png",
+	"jeongseon_casino_entrance": "res://assets/backgrounds/jeongseon_casino_entrance.png",
 	"scalping_room":     "res://assets/backgrounds/scalping_trading_room.png",
 	"aruba_delivery":    "res://assets/backgrounds/aruba_delivery_street.png",
 	"gangnam_station":   "res://assets/backgrounds/gangnam_station_exit.png",
@@ -232,6 +237,29 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 
 	# 구체적인 장소 의미가 broad category보다 항상 먼저다.
 	# 예: "집들이"는 social이어도 카페가 아니라 현재 방, "헬스장"은 health가 아니라 운동 배경.
+	if "jeongseon" in tags or "jeongseon_casino" in tags or _has_any(search, [
+		"정선 카지노", "정선카지노", "jeongseon casino", "casino resort"
+	]):
+		if _has_any(search, [
+			"카지노 입구", "입구", "로비", "서비스 데스크", "출입", "입장",
+			"다시 들어", "발이 안 떨어", "나오면서", "entrance", "lobby", "check-in"
+		]):
+			return "jeongseon_casino_entrance"
+		return "jeongseon_casino_exterior"
+	if "hangang" in tags or _has_any(search, [
+		"한강", "한강공원", "한강변", "강변", "여의도공원", "반포대교",
+		"han river", "hangang", "riverside promenade", "river walk"
+	]):
+		return "hangang_riverside"
+	if "namsan" in tags or _has_any(search, [
+		"남산", "남산타워", "n서울타워", "서울타워", "n seoul tower",
+		"namsan", "seoul tower"
+	]):
+		return "namsan_tower"
+	if _has_any(search, [
+		"신촌 이면도로", "back-alley in sinchon"
+	]):
+		return "street"
 	if event_id in ["friend_housewarming", "housewarming_alone"] or _has_any(search, [
 		"집들이", "방 안", "방안을", "창문 밖", "옆 건물", "my room", "inside the room",
 		"housewarming"

@@ -6,6 +6,7 @@ extends Control
 signal closed
 
 const BJ := preload("res://systems/Blackjack.gd")
+const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
 
 enum Phase { BETTING, PLAYER_TURN, DEALER_TURN, RESULT }
 
@@ -571,12 +572,12 @@ func _build_skeleton() -> void:
 		bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bg_img.texture = load(_BG) as Texture2D
-		bg_img.modulate = Color(1, 1, 1, 0.2)
+		bg_img.modulate = Color(1, 1, 1, 0.48)
 		add_child(bg_img)
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.color = Color("#06090e")
-	bg.color.a = 0.82 if ResourceLoader.exists(_BG) else 1.0
+	bg.color.a = 0.62 if ResourceLoader.exists(_BG) else 1.0
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 
@@ -645,30 +646,73 @@ func _make_vbox(sep: int) -> VBoxContainer:
 	return vb
 
 func _card_widget(card: int, highlight := false) -> Control:
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(40, 56)
+	var root := Control.new()
+	root.custom_minimum_size = Vector2(54, 76)
+
+	var panel := Panel.new()
+	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
-	st.border_color = Color("#f0b429") if highlight else Color("#c0b090")
+	st.border_color = Color("#f0b429") if highlight else Color("#b8aa8a")
 	st.set_border_width_all(2 if highlight else 1)
-	st.set_corner_radius_all(5)
+	st.set_corner_radius_all(7)
+	st.shadow_color = Color(0, 0, 0, 0.35)
+	st.shadow_size = 5
+	st.shadow_offset = Vector2(0, 2)
 	panel.add_theme_stylebox_override("panel", st)
-	var lbl := Label.new()
-	lbl.text = BJ.card_str(card)
-	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
-	lbl.add_theme_font_size_override("font_size", 14)
-	lbl.add_theme_color_override("font_color",
-		Color("#e85d5d") if BJ.is_red(card) else Color("#1a1a2e"))
-	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
-	panel.add_child(lbl)
-	_animate_card_appear(lbl)
-	return panel
+	root.add_child(panel)
+
+	var col := Color("#d73939") if BJ.is_red(card) else Color("#141827")
+	var rank := _card_rank_text(card)
+	var suit := _card_suit_text(card)
+
+	var corner := Label.new()
+	corner.text = rank + "\n" + suit
+	corner.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	corner.offset_left = 5; corner.offset_top = 4
+	corner.offset_right = 24; corner.offset_bottom = 34
+	corner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	corner.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	corner.add_theme_font_size_override("font_size", 11)
+	corner.add_theme_color_override("font_color", col)
+	if _font_bold: corner.add_theme_font_override("font", _font_bold)
+	root.add_child(corner)
+
+	var center := Label.new()
+	center.text = suit
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	center.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	center.add_theme_font_size_override("font_size", 30)
+	center.add_theme_color_override("font_color", col)
+	if _font_bold: center.add_theme_font_override("font", _font_bold)
+	root.add_child(center)
+
+	var bottom := Label.new()
+	bottom.text = rank
+	bottom.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	bottom.offset_left = -25; bottom.offset_top = -21
+	bottom.offset_right = -5; bottom.offset_bottom = -3
+	bottom.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	bottom.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	bottom.add_theme_font_size_override("font_size", 10)
+	bottom.add_theme_color_override("font_color", col.darkened(0.08))
+	if _font_bold: bottom.add_theme_font_override("font", _font_bold)
+	root.add_child(bottom)
+
+	_animate_card_appear(root)
+	return root
 
 func _card_back() -> Control:
+	if CARD_BACK_TEX != null:
+		var tex := TextureRect.new()
+		tex.custom_minimum_size = Vector2(54, 76)
+		tex.texture = CARD_BACK_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		return tex
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(40, 56)
+	panel.custom_minimum_size = Vector2(54, 76)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#12244a"); st.border_color = Color("#2a4a8a")
 	st.set_border_width_all(1); st.set_corner_radius_all(5)
@@ -681,6 +725,14 @@ func _card_back() -> Control:
 	lbl.add_theme_font_size_override("font_size", 20)
 	panel.add_child(lbl)
 	return panel
+
+func _card_rank_text(card: int) -> String:
+	const RANKS := ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+	return RANKS[card % 13]
+
+func _card_suit_text(card: int) -> String:
+	const SUITS := ["♠", "♥", "♦", "♣"]
+	return SUITS[int(card / 13)]
 
 func _make_btn(label: String, cb: Callable, bg: String, border: String) -> Button:
 	var btn := Button.new()
@@ -777,10 +829,10 @@ func _shake_node(node: Node, amount: float = 6.0, count: int = 5) -> void:
 		tw.tween_property(ctrl, "position", base + offset, step_dur)
 	tw.tween_property(ctrl, "position", base, 0.04)
 
-func _animate_card_appear(lbl: Label) -> void:
-	lbl.modulate = Color(1, 1, 1, 0)
+func _animate_card_appear(ctrl: Control) -> void:
+	ctrl.modulate = Color(1, 1, 1, 0)
 	var tw := create_tween()
-	tw.tween_property(lbl, "modulate", Color(1, 1, 1, 1), 0.15)
+	tw.tween_property(ctrl, "modulate", Color(1, 1, 1, 1), 0.15)
 
 func _show_table_banner_bj(text: String, color: Color) -> void:
 	var root_size := size

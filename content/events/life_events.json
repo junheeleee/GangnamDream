@@ -1805,11 +1805,13 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
+    "background": "hangang_riverside",
     "conditions": {},
     "tags": [
       "social",
       "finance",
-      "mental"
+      "mental",
+      "hangang"
     ],
     "cooldown": 5,
     "choices": [
@@ -4218,6 +4220,7 @@
     "title": "귀가 버스",
     "description": "정선 카지노에서 나왔다.\n\n버스를 탔다.\n창문 밖으로 산이 흐른다.\n\n오늘 날린 돈을 머릿속으로 계산한다.\n그 숫자를 계속 다시 센다.\n\n다를 것도 없다. 결국 같은 숫자다.",
     "category": "gambling",
+    "background": "jeongseon_casino_exterior",
     "rarity": "uncommon",
     "weight": 2.0,
     "hidden": false,
@@ -4260,6 +4263,7 @@
     "title": "한 번만 더",
     "description": "오늘 딴 돈이 지갑 안에 있다.\n\n집으로 가는 길인데 발이 안 떨어진다.\n\n오늘 운이 좋았다.\n그리고 운이 좋을 때는 계속 좋은 법이다. — 적어도 지금 이 순간, {name}의 뇌는 그렇게 말하고 있다.",
     "category": "gambling",
+    "background": "jeongseon_casino_entrance",
     "rarity": "uncommon",
     "weight": 2.0,
     "hidden": false,
@@ -4302,6 +4306,7 @@
     "title": "내가 왜 여기 또 있지",
     "description": "정선 카지노에서 나오면서 문득 생각이 들었다.\n\n처음엔 그냥 한 번이었는데.\n\n언제부터인가 정선 카지노 날짜를 머릿속에서 계산하고 있었다.\n버스 시간표를 외웠다.\n\n{name}은 잠시 멈췄다.",
     "category": "gambling",
+    "background": "jeongseon_casino_entrance",
     "rarity": "rare",
     "weight": 1.5,
     "hidden": false,
