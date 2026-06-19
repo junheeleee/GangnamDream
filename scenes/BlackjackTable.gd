@@ -7,6 +7,14 @@ signal closed
 
 const BJ := preload("res://systems/Blackjack.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
+const CHIP_TEX_BY_STAKE := {
+	10_000: preload("res://assets/ui/chips/chip_10k.svg"),
+	50_000: preload("res://assets/ui/chips/chip_50k.svg"),
+	100_000: preload("res://assets/ui/chips/chip_100k.svg"),
+	500_000: preload("res://assets/ui/chips/chip_500k.svg"),
+	1_000_000: preload("res://assets/ui/chips/chip_1m.svg"),
+}
 
 enum Phase { BETTING, PLAYER_TURN, DEALER_TURN, RESULT }
 
@@ -362,8 +370,14 @@ func _render_betting() -> void:
 		var sb := _make_btn(GameState.format_money(float(s)), func(): _set_stake_and_deal(s),
 			"#1a2a1a" if s == _stake else "#0e141a",
 			"#5de89c" if s == _stake else "#2a3a4a")
+		if CHIP_TEX_BY_STAKE.has(s):
+			sb.icon = CHIP_TEX_BY_STAKE[s]
+			sb.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			sb.expand_icon = false
+			sb.add_theme_constant_override("h_separation", 6)
+			sb.add_theme_constant_override("icon_max_width", 22)
 		sb.disabled = not can
-		sb.custom_minimum_size = Vector2(80, 38)
+		sb.custom_minimum_size = Vector2(102, 38)
 		stake_row.add_child(sb)
 
 	vb.add_child(_sep())
@@ -649,18 +663,37 @@ func _card_widget(card: int, highlight := false) -> Control:
 	var root := Control.new()
 	root.custom_minimum_size = Vector2(54, 76)
 
-	var panel := Panel.new()
-	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
-	st.border_color = Color("#f0b429") if highlight else Color("#b8aa8a")
-	st.set_border_width_all(2 if highlight else 1)
-	st.set_corner_radius_all(7)
-	st.shadow_color = Color(0, 0, 0, 0.35)
-	st.shadow_size = 5
-	st.shadow_offset = Vector2(0, 2)
-	panel.add_theme_stylebox_override("panel", st)
-	root.add_child(panel)
+	if CARD_FRONT_TEX != null:
+		var tex := TextureRect.new()
+		tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tex.texture = CARD_FRONT_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		root.add_child(tex)
+	else:
+		var panel := Panel.new()
+		panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
+		st.border_color = Color("#f0b429") if highlight else Color("#b8aa8a")
+		st.set_border_width_all(2 if highlight else 1)
+		st.set_corner_radius_all(7)
+		st.shadow_color = Color(0, 0, 0, 0.35)
+		st.shadow_size = 5
+		st.shadow_offset = Vector2(0, 2)
+		panel.add_theme_stylebox_override("panel", st)
+		root.add_child(panel)
+
+	if highlight:
+		var ring := Panel.new()
+		ring.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var ring_st := StyleBoxFlat.new()
+		ring_st.bg_color = Color(1.0, 0.92, 0.45, 0.12)
+		ring_st.border_color = Color("#f0b429")
+		ring_st.set_border_width_all(2)
+		ring_st.set_corner_radius_all(7)
+		ring.add_theme_stylebox_override("panel", ring_st)
+		root.add_child(ring)
 
 	var col := Color("#d73939") if BJ.is_red(card) else Color("#141827")
 	var rank := _card_rank_text(card)

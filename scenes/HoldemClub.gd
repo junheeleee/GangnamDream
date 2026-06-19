@@ -7,6 +7,7 @@ signal closed
 
 const TH := preload("res://systems/TexasHoldem.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
 const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
 
 const SMALL_BLIND := 5_000
@@ -856,14 +857,37 @@ func _set_msg(text: String) -> void:
 		_msg_lbl.text = text
 
 func _card_label(card: Dictionary, highlight := false) -> Control:
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(44, 60)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
-	st.border_color = Color("#f0b429") if highlight else Color("#c0b090")
-	st.set_border_width_all(1 if not highlight else 2)
-	st.set_corner_radius_all(5)
-	panel.add_theme_stylebox_override("panel", st)
+	var root := Control.new()
+	root.custom_minimum_size = Vector2(44, 60)
+
+	if CARD_FRONT_TEX != null:
+		var tex := TextureRect.new()
+		tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tex.texture = CARD_FRONT_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		root.add_child(tex)
+	else:
+		var panel := Panel.new()
+		panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
+		st.border_color = Color("#f0b429") if highlight else Color("#c0b090")
+		st.set_border_width_all(1 if not highlight else 2)
+		st.set_corner_radius_all(5)
+		panel.add_theme_stylebox_override("panel", st)
+		root.add_child(panel)
+
+	if highlight:
+		var ring := Panel.new()
+		ring.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var ring_st := StyleBoxFlat.new()
+		ring_st.bg_color = Color(1.0, 0.92, 0.45, 0.10)
+		ring_st.border_color = Color("#f0b429")
+		ring_st.set_border_width_all(2)
+		ring_st.set_corner_radius_all(5)
+		ring.add_theme_stylebox_override("panel", ring_st)
+		root.add_child(ring)
 
 	var lbl := Label.new()
 	lbl.text = TH.card_str(card)
@@ -873,8 +897,8 @@ func _card_label(card: Dictionary, highlight := false) -> Control:
 	lbl.add_theme_font_size_override("font_size", 13)
 	lbl.add_theme_color_override("font_color", Color(TH.card_color(card)))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
-	panel.add_child(lbl)
-	return panel
+	root.add_child(lbl)
+	return root
 
 func _card_back() -> Control:
 	# 이미지 카드 뒷면 (로드 실패 시 절차적 패널로 폴백)

@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-06-19 (카드/칩 Texture + 상점 팔레트 패스)
+
+### 추가
+- `assets/ui/card_front_base.svg`를 추가해 블랙잭/바카라/홀덤의 visible card가 같은 카드 제품군처럼 보이도록 통일.
+- `assets/ui/chips/chip_1k.svg`~`chip_1m.svg` denomination 칩 세트를 추가.
+  - 중앙 장식/문양 없이 실제 칩형 인레이, 흰 edge insert, 동심원, 숫자 denomination 중심으로 구성.
+- `ScreenshotQA`에 베팅 전 화면 캡처 2장 추가: `09a_baccarat_betting`, `10a_blackjack_betting`.
+
+### 수정
+- 블랙잭/바카라 stake 버튼에 금액별 칩 Texture를 연결하고 버튼 폭/아이콘 최대 너비를 보정.
+- 블랙잭/바카라/홀덤 카드 앞면을 절차적 패널에서 `card_front_base.svg` + 랭크/무늬 오버레이 구조로 교체.
+- 상점의 보라색 포인트를 생활/경제 UI에 맞는 녹색 계열로 정리.
+- `ScreenshotQA` 시작 메뉴 캡처 후 남는 StartMenu 노드를 재귀적으로 제거해 초반 캡처가 같은 화면으로 고정되는 문제를 수정.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK` (Godot 종료 시 리소스 정리 경고는 남음)
+- `ScreenshotQA`: 23장 재캡처 완료.
+
 ## 2026-06-19 (오디오 P1 + 모달 UI 스킨 4차)
 
 ### 추가

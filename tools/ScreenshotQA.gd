@@ -82,13 +82,35 @@ func _shot_start_menu() -> void:
 	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
 	var menu := packed.instantiate()
 	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
 	await _settle(0.8)
 	if menu.has_method("_dismiss_splash"):
 		menu._dismiss_splash()
 	await _settle(0.6)
 	await _save("00_start_menu")
-	menu.queue_free()
-	await _settle(0.2)
+	_remove_start_menu_nodes()
+	await _settle(0.4)
+
+func _remove_start_menu_nodes() -> void:
+	var targets: Array[Node] = []
+	_collect_start_menu_nodes(get_tree().root, targets)
+	for node in targets:
+		var parent := node.get_parent()
+		if parent != null:
+			parent.remove_child(node)
+		node.queue_free()
+
+func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
+	var script_path := "res://scenes/StartMenu.gd"
+	for child in node.get_children():
+		if child == self:
+			continue
+		var script: Script = child.get_script()
+		var is_start_menu := child.name == "StartMenu" or (script != null and script.resource_path == script_path)
+		if is_start_menu:
+			targets.append(child)
+		else:
+			_collect_start_menu_nodes(child, targets)
 
 func _seed_portfolio() -> void:
 	if not (GameState.portfolio is Dictionary):
@@ -239,11 +261,13 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 	await _settle(0.4)
 	match node_name:
 		"baccarat_table":
+			await _save("09a_baccarat_betting")
 			node._set_stake(10_000)
 			node._add_bet("B")
 			node._deal()
 			await _settle(2.0)
 		"blackjack_table":
+			await _save("10a_blackjack_betting")
 			node._set_stake_and_deal(10_000)
 			await _settle(0.8)
 		"slot_machine_game":

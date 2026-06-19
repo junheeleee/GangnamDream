@@ -314,10 +314,27 @@ Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen 
   - Updated on 2026-06-15 with an axis-aligned black/white geometric pattern: centered inner panel, centered medallion, and symmetric borders.
   - Used by `HoldemClub.gd`, `BlackjackTable.gd`, and `BaccaratTable.gd` for hidden cards.
 
+- `assets/ui/card_front_base.svg`
+  - High-resolution vector playing-card face base: ivory paper, rounded corners, subtle inner guides, no baked rank/suit.
+  - Added on 2026-06-19 so rank/suit labels can be drawn consistently on top of a shared physical card texture.
+  - Used by `HoldemClub.gd`, `BlackjackTable.gd`, and `BaccaratTable.gd` for visible cards.
+
 - `assets/ui/poker_chip_icon.png`
   - Practical 128x128 transparent poker chip icon for pot/chip UI.
   - Updated on 2026-06-15 with a blank center field, concentric rings, outer white inserts, and small inner dash marks matching real casino chips.
   - Used by `HoldemClub.gd` for the central POT display; animated chip bursts are still drawn procedurally.
+
+- `assets/ui/chips/chip_1k.svg`
+- `assets/ui/chips/chip_5k.svg`
+- `assets/ui/chips/chip_10k.svg`
+- `assets/ui/chips/chip_50k.svg`
+- `assets/ui/chips/chip_100k.svg`
+- `assets/ui/chips/chip_500k.svg`
+- `assets/ui/chips/chip_1m.svg`
+  - Denomination chip set for casino stake buttons.
+  - Real-chip layout: colored body, white edge inserts, concentric rings, small inner dash marks, centered numeric value only.
+  - No center ornament/logo/suit mark; this is intentional to avoid the misaligned motif problem from earlier chip attempts.
+  - `chip_10k` through `chip_1m` are wired into Blackjack/Baccarat stake buttons; `chip_1k` and `chip_5k` are reserved for Slot/Roulette/BigWheel betting UI expansion.
 
 ## Style Guardrails
 

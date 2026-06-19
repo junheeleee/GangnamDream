@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Changed (2026-06-19) — Card/chip texture and shop palette pass
+
+- Added a shared `card_front_base.svg` and wired it into visible Blackjack, Baccarat, and Holdem cards with rank/suit overlays.
+- Added denomination chip SVGs from `1K` through `1M`; Blackjack and Baccarat stake buttons now show matching chip icons.
+- Rebalanced the Shop modal/button palette away from purple toward the existing lifestyle/economy green tone.
+- Fixed `ScreenshotQA` cleanup after the StartMenu capture and added betting-state captures for Baccarat and Blackjack. Current screenshot QA output: 23 PNGs.
+
 ### Added (2026-06-19) — Audio P1 ambience and ending stingers
 
 - Added 5 ambience WAV layers for goshiwon room, Seoul rain, Han River, office, and casino floor scenes.

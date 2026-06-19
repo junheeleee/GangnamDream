@@ -492,7 +492,7 @@ func _build_top_bar(parent):
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
 
-	shop_button = _small_button("상점", "#2a1a3a")
+	shop_button = _small_button("상점", "#173329")
 	shop_button.custom_minimum_size = Vector2(58, 36)
 	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	shop_button.pressed.connect(_open_shop)
@@ -3791,7 +3791,7 @@ func _open_cat_life():
 	else:
 		modal_body.add_child(_wrap_label("아직 이사할 현금이 부족하다.", 12, "#5a5a6a"))
 	if GameState.flags.get("has_received_paycheck", false):
-		_cat_modal_button("상점  —  생활용품·자기관리 아이템", "#6a5a8a", "_open_shop")
+		_cat_modal_button("상점  —  생활용품·자기관리 아이템", "#2f7a55", "_open_shop")
 
 func _add_action_section_header(parent: Control, title: String, _bg_hex: String):
 	var lbl = _label("  " + title, 10, "#2e3a4e")
@@ -4957,12 +4957,12 @@ func _open_shop():
 	modal_body.add_child(_modal_section_header(
 		"생활 / 자기관리 아이템",
 		"shop",
-		"#a855f7",
+		"#34d399",
 		"구매한 아이템은 인벤토리에 보관되며 일부는 사용 시 행동력을 소비합니다."))
 	for item in inventory_system.get_shop_items():
 		var price = float(item.get("price", 0))
 		var can_buy = GameState.money >= price
-		var btn_color = "#7c3aed" if can_buy else "#64748b"
+		var btn_color = "#166048" if can_buy else "#334155"
 		var item_name: String = str(item.get("name", ""))
 		var btn: Button = _icon_button("%s  —  %s" % [item_name, GameState.format_money(price)], "shop", btn_color)
 		btn.disabled = not can_buy

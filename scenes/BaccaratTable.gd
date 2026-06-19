@@ -7,6 +7,14 @@ signal closed
 
 const BAC := preload("res://systems/Baccarat.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
+const CHIP_TEX_BY_STAKE := {
+	10_000: preload("res://assets/ui/chips/chip_10k.svg"),
+	50_000: preload("res://assets/ui/chips/chip_50k.svg"),
+	100_000: preload("res://assets/ui/chips/chip_100k.svg"),
+	500_000: preload("res://assets/ui/chips/chip_500k.svg"),
+	1_000_000: preload("res://assets/ui/chips/chip_1m.svg"),
+}
 
 enum Phase { BETTING, DEALING, RESULT }
 
@@ -376,7 +384,13 @@ func _render_betting() -> void:
 			func(): _set_stake(s),
 			"#1a2a1a" if s == _active_stake else "#0e141a",
 			"#5de89c" if s == _active_stake else "#2a3a4a")
-		sb.custom_minimum_size = Vector2(80, 30)
+		if CHIP_TEX_BY_STAKE.has(s):
+			sb.icon = CHIP_TEX_BY_STAKE[s]
+			sb.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			sb.expand_icon = false
+			sb.add_theme_constant_override("h_separation", 6)
+			sb.add_theme_constant_override("icon_max_width", 20)
+		sb.custom_minimum_size = Vector2(102, 32)
 		stake_row.add_child(sb)
 
 	vb.add_child(_sep())
@@ -662,18 +676,26 @@ func _card_widget(card: int) -> Control:
 	var root := Control.new()
 	root.custom_minimum_size = Vector2(54, 76)
 
-	var panel := Panel.new()
-	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#f8f4e8")
-	st.border_color = Color("#b8aa8a")
-	st.set_border_width_all(1)
-	st.set_corner_radius_all(7)
-	st.shadow_color = Color(0, 0, 0, 0.35)
-	st.shadow_size = 5
-	st.shadow_offset = Vector2(0, 2)
-	panel.add_theme_stylebox_override("panel", st)
-	root.add_child(panel)
+	if CARD_FRONT_TEX != null:
+		var tex := TextureRect.new()
+		tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tex.texture = CARD_FRONT_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		root.add_child(tex)
+	else:
+		var panel := Panel.new()
+		panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#f8f4e8")
+		st.border_color = Color("#b8aa8a")
+		st.set_border_width_all(1)
+		st.set_corner_radius_all(7)
+		st.shadow_color = Color(0, 0, 0, 0.35)
+		st.shadow_size = 5
+		st.shadow_offset = Vector2(0, 2)
+		panel.add_theme_stylebox_override("panel", st)
+		root.add_child(panel)
 
 	var col := Color("#d73939") if _card_is_red(card) else Color("#141827")
 	var rank := _card_rank_text(card)

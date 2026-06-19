@@ -172,7 +172,8 @@
     - [x] 슬롯 릴 심볼 텍스트 타일화 및 니어미스 런타임 오류 수정 (2026-06-19)
     - [x] 룰렛 휠/볼 Canvas 드로잉 추가 및 ScreenshotQA 본체 캡처 추가 (2026-06-19)
     - [x] 경마 말/기수 스프라이트 런타임 SmokeRace 검증 경고 제거 (2026-06-19)
-    - [ ] 카드 앞면/칩 denomination을 실제 테이블용 고해상도 Texture로 확장
+    - [x] 카드 앞면/칩 denomination을 실제 테이블용 고해상도 Texture로 확장하고 블랙잭/바카라/홀덤 렌더 경로에 연결 (2026-06-19)
+    - [ ] 칩 denomination Texture를 슬롯/룰렛/빅휠 베팅 버튼까지 확장
   - [x] 오디오 P1 — 장소 ambience 5종, 카지노 플로어 loop, 엔딩 stinger 3종 추가 및 `BGMPlayer` ambience 레이어 연결 (2026-06-19)
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
   - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
