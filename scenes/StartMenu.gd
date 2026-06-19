@@ -67,11 +67,94 @@ const UI_ICON_PATHS := {
 }
 var _ui_icon_cache: Dictionary = {}
 
+const RUN_THEME_TEXT_EN := {
+	"자유런": {
+		"name": "Free Run",
+		"tagline": "A different story every run",
+		"desc": "Two random categories get boosted each run. No restrictions.",
+	},
+	"투자런": {
+		"name": "Investor Run",
+		"tagline": "Money makes money",
+		"desc": "More investment and finance events. Start with +5 investment sense. Ride the market waves.",
+	},
+	"인맥런": {
+		"name": "Network Run",
+		"tagline": "People are capital",
+		"desc": "More social and relationship events. Start with +10 social skill. Connections become money.",
+	},
+	"청렴런": {
+		"name": "Clean Run",
+		"tagline": "No gambling. Skill only.",
+		"desc": "Blocks gambling events. Start with +10 reputation. Reach 3 billion the honest way.",
+	},
+}
+
+const DIFFICULTY_TEXT_EN := {
+	"드라마": {
+		"name": "Drama Mode",
+		"tagline": "Story first",
+		"desc": "Start with KRW 2M / lighter monthly pressure / betting odds +4pp. For players here for the drama.",
+	},
+	"현실": {
+		"name": "Reality Mode",
+		"tagline": "Seoul as intended",
+		"desc": "Default balance. KRW 500K, 5 years, KRW 3B. The intended tension.",
+	},
+	"지옥고": {
+		"name": "Hell Room Mode",
+		"tagline": "Seoul is like this",
+		"desc": "Start with KRW 300K / harsher monthly pressure / betting odds -4pp. From a basement room to Gangnam.",
+	},
+}
+
 func _ready():
 	_build_ui()
 	_build_splash()
 	BGMPlayer.start_menu()
 	SceneTransition.fade_in()
+
+func _tr(ko_text: String, en_text: String) -> String:
+	return LocaleManager.ui(ko_text, en_text)
+
+func _theme_text(theme: Dictionary, key: String) -> String:
+	if LocaleManager.is_english():
+		return str(RUN_THEME_TEXT_EN.get(str(theme.get("id", "")), {}).get(key, theme.get(key, "")))
+	return str(theme.get(key, ""))
+
+func _difficulty_text(did: String, data: Dictionary, key: String) -> String:
+	if LocaleManager.is_english():
+		return str(DIFFICULTY_TEXT_EN.get(did, {}).get(key, data.get(key, "")))
+	return str(data.get(key, ""))
+
+func _slot_title(slot: int) -> String:
+	if slot == 0:
+		return _tr("자동저장", "Autosave")
+	return _tr("슬롯 %d" % slot, "Slot %d" % slot)
+
+func _format_start_money(amount: float) -> String:
+	if LocaleManager.is_english():
+		if abs(amount) >= 1_000_000.0:
+			return "KRW %.1fM" % (amount / 1_000_000.0)
+		if abs(amount) >= 1_000.0:
+			return "KRW %.0fK" % (amount / 1_000.0)
+		return "KRW %.0f" % amount
+	return _format_money(amount)
+
+func _rebuild_language_ui(show_splash: bool = false) -> void:
+	if _splash_prompt_tween and _splash_prompt_tween.is_running():
+		_splash_prompt_tween.kill()
+	_splash_prompt_tween = null
+	_settings_overlay = null
+	for child in get_children():
+		remove_child(child)
+		child.queue_free()
+	await get_tree().process_frame
+	_build_ui()
+	if show_splash:
+		_build_splash()
+	else:
+		_splash_active = false
 
 func _build_splash():
 	_splash_layer = Control.new()
@@ -110,7 +193,7 @@ func _build_splash():
 
 	# 로고
 	var logo = Label.new()
-	logo.text = "강남드림"
+	logo.text = _tr("강남드림", "Gangnam Dream")
 	logo.add_theme_font_size_override("font_size", 80)
 	logo.add_theme_color_override("font_color", Color("#f0b429"))
 	logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -129,7 +212,7 @@ func _build_splash():
 	vbox.add_child(sep)
 
 	var tagline = Label.new()
-	tagline.text = "서울 고시원 50만원에서 강남드림까지"
+	tagline.text = _tr("서울 고시원 50만원에서 강남드림까지", "From KRW 500K in a Seoul goshiwon to Gangnam")
 	tagline.add_theme_font_size_override("font_size", 15)
 	tagline.add_theme_color_override("font_color", Color("#4a5068"))
 	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -140,7 +223,9 @@ func _build_splash():
 	var total_runs = int(meta.get("total_runs", 0))
 	if total_runs > 0:
 		var stats_lbl = Label.new()
-		stats_lbl.text = "누적 %d런  ·  최고 자산 %s" % [total_runs, _format_money(meta.get("best_asset", 0))]
+		stats_lbl.text = _tr(
+			"누적 %d런  ·  최고 자산 %s" % [total_runs, _format_money(meta.get("best_asset", 0))],
+			"%d runs  ·  Best assets %s" % [total_runs, _format_start_money(float(meta.get("best_asset", 0)))])
 		stats_lbl.add_theme_font_size_override("font_size", 12)
 		stats_lbl.add_theme_color_override("font_color", Color("#2e3050"))
 		stats_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -229,15 +314,18 @@ func _build_ui():
 	title_vb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	header_row.add_child(title_vb)
 	var title_lbl = _label("강남드림", 34, "#f0b429", HORIZONTAL_ALIGNMENT_LEFT)
+	title_lbl.text = _tr("강남드림", "Gangnam Dream")
 	title_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	title_lbl.clip_text = false
 	title_vb.add_child(title_lbl)
-	var sub_lbl = _label("한국 인생 시뮬레이션  ·  38세 전에 자산 30억", 10, "#2e3e50", HORIZONTAL_ALIGNMENT_LEFT)
+	var sub_lbl = _label(_tr(
+		"한국 인생 시뮬레이션  ·  38세 전에 자산 30억",
+		"Korean life sim  ·  Build KRW 3B before age 38"), 10, "#2e3e50", HORIZONTAL_ALIGNMENT_LEFT)
 	sub_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	sub_lbl.clip_text = false
 	title_vb.add_child(sub_lbl)
 
-	var settings_btn = _button("설정", "#1a1a28")
+	var settings_btn = _button(_tr("설정", "Settings"), "#1a1a28")
 	settings_btn.custom_minimum_size = Vector2(62, 44)
 	settings_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	settings_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -281,17 +369,20 @@ func _build_ui():
 	story_rtl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	story_rtl.add_theme_font_size_override("normal_font_size", 15)
 	story_rtl.add_theme_color_override("default_color", Color("#6a7888"))
-	story_rtl.text = (
+	story_rtl.text = _tr(
 		"[color=#b0bcd0][b]김민준, 33세.[/b]  아버지의 빚 6년.  이제 통장에 50만원만 남았다.[/color]\n\n"
 		+ "[color=#e8eaf0][b]38살이 되기 전에, 강남에 입성한다.[/b][/color]\n"
-		+ "[color=#6a7888]불가능하다는 걸 안다.  그래서 시작한다.[/color]")
+		+ "[color=#6a7888]불가능하다는 걸 안다.  그래서 시작한다.[/color]",
+		"[color=#b0bcd0][b]Kim Minjun, 33.[/b]  Six years of his father's debt.  Only KRW 500K remains.[/color]\n\n"
+		+ "[color=#e8eaf0][b]Before turning 38, he will enter Gangnam.[/b][/color]\n"
+		+ "[color=#6a7888]He knows it is impossible.  That is why he starts.[/color]")
 	story_panel.add_child(story_rtl)
 	left.add_child(story_panel)
 
 	var sp1 = Control.new(); sp1.custom_minimum_size = Vector2(0, 18); left.add_child(sp1)
 
 	# ── 난이도 (compact 가로 카드) ──
-	var diff_hdr_lbl = _label("난이도", 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
+	var diff_hdr_lbl = _label(_tr("난이도", "Difficulty"), 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
 	diff_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	diff_hdr_lbl.clip_text = false
 	left.add_child(diff_hdr_lbl)
@@ -315,12 +406,14 @@ func _build_ui():
 	var theme_hdr = HBoxContainer.new()
 	theme_hdr.add_theme_constant_override("separation", 8)
 	left.add_child(theme_hdr)
-	var theme_hdr_lbl = _label("런 테마", 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
+	var theme_hdr_lbl = _label(_tr("런 테마", "Run Theme"), 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
 	theme_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	theme_hdr_lbl.clip_text = false
 	theme_hdr_lbl.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	theme_hdr.add_child(theme_hdr_lbl)
-	var theme_hint_lbl = _label("(2회차 이상 추천 — 처음이라면 자유런)", 10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT)
+	var theme_hint_lbl = _label(_tr(
+		"(2회차 이상 추천 — 처음이라면 자유런)",
+		"(Recommended from run 2 — start with Free Run)"), 10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT)
 	theme_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	theme_hint_lbl.clip_text = false
 	theme_hdr.add_child(theme_hint_lbl)
@@ -345,7 +438,7 @@ func _build_ui():
 	left.add_child(spacer)
 
 	# ── 새 게임 시작 버튼 ──
-	var new_game = _button("새 이야기 시작 ›", "#0d2a1a")
+	var new_game = _button(_tr("새 이야기 시작 ›", "Start New Story ›"), "#0d2a1a")
 	var ng_st = StyleBoxFlat.new()
 	ng_st.bg_color = Color("#0d2a1a")
 	ng_st.border_color = Color("#00c896")
@@ -376,7 +469,7 @@ func _build_ui():
 	right.add_theme_constant_override("separation", 10)
 	cols.add_child(right)
 
-	right.add_child(_label("이어하기", 13, "#c9a227", HORIZONTAL_ALIGNMENT_LEFT))
+	right.add_child(_label(_tr("이어하기", "Continue"), 13, "#c9a227", HORIZONTAL_ALIGNMENT_LEFT))
 
 	slot_container = VBoxContainer.new()
 	slot_container.add_theme_constant_override("separation", 8)
@@ -394,10 +487,13 @@ func _build_ui():
 	var unlocked_ach_count: int = MetaProgression.get_unlocked_achievements().size()
 	var total_ach: int = DataRegistry.achievements.size()
 	right.add_child(_label(
-		"누적 %d런  ·  최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
+		_tr(
+			"누적 %d런  ·  최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
+			"%d runs  ·  Best assets %s" % [int(meta.get("total_runs", 0)), _format_start_money(float(meta.get("best_asset", 0)))]),
 		10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT))
 	right.add_child(_label(
-		"업적 %d / %d 해금" % [unlocked_ach_count, total_ach],
+		_tr("업적 %d / %d 해금" % [unlocked_ach_count, total_ach],
+			"Achievements %d / %d" % [unlocked_ach_count, total_ach]),
 		10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT))
 
 # ── 슬롯 목록 빌드 / 새로고침 ─────────────────────────────────
@@ -407,15 +503,20 @@ func _rebuild_slots():
 
 	for slot in range(0, 4):
 		var info = SaveManager.get_save_info(slot)
-		var top_line = "자동저장" if slot == 0 else "슬롯 %d" % slot
+		var top_line = _slot_title(slot)
 		var sub_line = ""
 		if info.get("empty", true):
-			sub_line = "비어 있음"
+			sub_line = _tr("비어 있음", "Empty")
 		else:
-			sub_line = "%d년 %d월  ·  %s" % [
-				info.get("year", 2026), info.get("month", 1),
-				_format_money(info.get("total_assets", 0))
-			]
+			sub_line = _tr(
+				"%d년 %d월  ·  %s" % [
+					info.get("year", 2026), info.get("month", 1),
+					_format_money(info.get("total_assets", 0))
+				],
+				"%d / %02d  ·  %s" % [
+					info.get("year", 2026), info.get("month", 1),
+					_format_start_money(float(info.get("total_assets", 0)))
+				])
 		var enabled = not info.get("empty", true)
 
 		# 슬롯 행: [슬롯 버튼] + [삭제 버튼]
@@ -433,7 +534,7 @@ func _rebuild_slots():
 		# 삭제 버튼 (데이터가 있을 때만 표시)
 		if enabled:
 			var del_btn = Button.new()
-			del_btn.text = "삭제"
+			del_btn.text = _tr("삭제", "Delete")
 			del_btn.custom_minimum_size = Vector2(36, 56)
 			del_btn.flat = false
 			var del_st = StyleBoxFlat.new()
@@ -470,15 +571,20 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 
 	for slot in range(0, 4):
 		var info = SaveManager.get_save_info(slot)
-		var top_line = "자동저장" if slot == 0 else "슬롯 %d" % slot
+		var top_line = _slot_title(slot)
 		var sub_line = ""
 		if info.get("empty", true):
-			sub_line = "비어 있음"
+			sub_line = _tr("비어 있음", "Empty")
 		else:
-			sub_line = "%d년 %d월  ·  %s" % [
-				info.get("year", 2026), info.get("month", 1),
-				_format_money(info.get("total_assets", 0))
-			]
+			sub_line = _tr(
+				"%d년 %d월  ·  %s" % [
+					info.get("year", 2026), info.get("month", 1),
+					_format_money(info.get("total_assets", 0))
+				],
+				"%d / %02d  ·  %s" % [
+					info.get("year", 2026), info.get("month", 1),
+					_format_start_money(float(info.get("total_assets", 0)))
+				])
 		var enabled = not info.get("empty", true)
 
 		var row = HBoxContainer.new()
@@ -495,7 +601,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 		if enabled:
 			var del_btn = Button.new()
 			var is_confirm = (slot == confirm_slot)
-			del_btn.text = "삭제!" if is_confirm else "삭제"
+			del_btn.text = _tr("삭제!", "Delete!") if is_confirm else _tr("삭제", "Delete")
 			del_btn.custom_minimum_size = Vector2(44, 56)
 			var del_st = StyleBoxFlat.new()
 			del_st.bg_color = Color("#5a1a1a") if is_confirm else Color("#2a1010")
@@ -515,7 +621,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 			# 확인 대기 중이면 취소 버튼 추가
 			if is_confirm:
 				var cancel_btn = Button.new()
-				cancel_btn.text = "취소"
+				cancel_btn.text = _tr("취소", "Cancel")
 				cancel_btn.custom_minimum_size = Vector2(44, 56)
 				var cancel_st = StyleBoxFlat.new()
 				cancel_st.bg_color = Color("#1a1a28")
@@ -558,7 +664,7 @@ func _build_theme_cards() -> void:
 			Color("#3dba6a") if is_selected else Color("#324052"), 24)
 		vb.add_child(icon_tex)
 		var name_lbl := Label.new()
-		name_lbl.text = t["name"]
+		name_lbl.text = _theme_text(t, "name")
 		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_lbl.add_theme_font_size_override("font_size", 11)
 		name_lbl.add_theme_color_override("font_color", Color("#b8e8c8") if is_selected else Color("#5a6a7a"))
@@ -622,7 +728,7 @@ func _build_diff_cards() -> void:
 			Color("#f0b429") if is_selected else Color("#324052"), 24)
 		vb.add_child(icon_tex)
 		var name_lbl := Label.new()
-		name_lbl.text = str(d["name"])
+		name_lbl.text = _difficulty_text(did, d, "name")
 		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_lbl.add_theme_font_size_override("font_size", 11)
 		name_lbl.add_theme_color_override("font_color", Color("#f0d8a8") if is_selected else Color("#5a6a7a"))
@@ -660,14 +766,16 @@ func _update_diff_desc() -> void:
 	if not is_instance_valid(_diff_desc_label):
 		return
 	var d: Dictionary = GameState.DIFFICULTY_DATA.get(_selected_diff, {})
-	_diff_desc_label.text = "%s  —  %s" % [str(d.get("tagline", "")), str(d.get("desc", ""))]
+	_diff_desc_label.text = "%s  —  %s" % [
+		_difficulty_text(_selected_diff, d, "tagline"),
+		_difficulty_text(_selected_diff, d, "desc")]
 
 func _update_theme_desc() -> void:
 	if not is_instance_valid(_theme_desc_label):
 		return
 	for t in RUN_THEMES:
 		if t["id"] == _selected_theme:
-			_theme_desc_label.text = "%s  %s" % [t["tagline"], t["diff"]]
+			_theme_desc_label.text = "%s  %s" % [_theme_text(t, "tagline"), t["diff"]]
 			return
 
 # ── 시작 / 로드 ─────────────────────────────────────────────────
@@ -790,7 +898,7 @@ func _show_content_warning():
 func _do_start_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
-	GameState.start_new_game("김민준", "지방_상경", "none", "백수", _selected_theme, _selected_diff)
+	GameState.start_new_game(_tr("김민준", "Kim Minjun"), "지방_상경", "none", "백수", _selected_theme, _selected_diff)
 	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):
@@ -957,7 +1065,7 @@ func _open_settings_popup():
 	panel.add_child(vbox)
 
 	var title = Label.new()
-	title.text = "설정"
+	title.text = _tr("설정", "Settings")
 	title.add_theme_font_size_override("font_size", 16)
 	title.add_theme_color_override("font_color", Color("#e8eaf0"))
 	vbox.add_child(title)
@@ -969,7 +1077,7 @@ func _open_settings_popup():
 	_build_volume_sliders_menu(vbox)
 	_build_language_toggle(vbox)
 
-	var close_btn = _button("닫기", "#1e2a3a")
+	var close_btn = _button(_tr("닫기", "Close"), "#1e2a3a")
 	close_btn.pressed.connect(func(): _settings_overlay.queue_free())
 	vbox.add_child(close_btn)
 
@@ -1004,8 +1112,8 @@ func _build_volume_sliders_menu(parent: Control):
 			on_change.call(v)
 		)
 
-	_make_row.call("🎵 BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
-	_make_row.call("🔊 SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
+	_make_row.call(_tr("BGM", "Music"), AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
+	_make_row.call(_tr("효과음", "SFX"), AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
 	_build_fullscreen_toggle(parent)
 
 func _build_language_toggle(parent: Control):
@@ -1013,7 +1121,7 @@ func _build_language_toggle(parent: Control):
 	row.add_theme_constant_override("separation", 10)
 	parent.add_child(row)
 	var lbl = Label.new()
-	lbl.text = "🌐 언어 / Lang"
+	lbl.text = _tr("언어", "Language")
 	lbl.add_theme_font_size_override("font_size", 13)
 	lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1035,9 +1143,11 @@ func _build_language_toggle(parent: Control):
 		btn.add_theme_color_override("font_color", Color("#e8eaf0") if is_active else Color("#5a6075"))
 		btn.add_theme_font_size_override("font_size", 12)
 		btn.pressed.connect((func(lc):
+			var show_splash := _splash_active
 			LocaleManager.set_language(lc)
 			if is_instance_valid(_settings_overlay):
 				_settings_overlay.queue_free()
+			call_deferred("_rebuild_language_ui", show_splash)
 		).bind(lang_code))
 		row.add_child(btn)
 
@@ -1048,7 +1158,7 @@ func _build_fullscreen_toggle(parent: Control):
 	row.add_theme_constant_override("separation", 10)
 	parent.add_child(row)
 	var lbl = Label.new()
-	lbl.text = "🖥️ 전체화면"
+	lbl.text = _tr("전체화면", "Fullscreen")
 	lbl.add_theme_font_size_override("font_size", 13)
 	lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL

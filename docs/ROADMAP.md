@@ -168,6 +168,7 @@
     - [x] StoryMode 배경 covered scaling 및 상단 VN HUD 텍스트 상태바 정리 (2026-06-19)
     - [x] 정보 패널/행동 모달/세부 카지노 테이블 버튼 이모지·텍스트 버튼 정리 (2026-06-19)
     - [x] 투자/은행/상점/시스템 모달을 SVG/Icon 버튼·섹션 헤더 기반으로 정리하고 ScreenshotQA 보조 모달 3장 추가 (2026-06-19)
+    - [x] 영어 시작 표면 P1 — StartMenu/Splash/OpeningCinematic 영어 문구 연결, `LocaleSurfaceCheck`, ScreenshotQA 영어 시작 화면 추가 (2026-06-20)
   - [~] 미니게임 물체 에셋 P1 — 카드 앞면, 칩 denomination, 룰렛 휠/볼, 슬롯 심볼, 경마 말/기수 스프라이트 확장
     - [x] 슬롯 릴 심볼 텍스트 타일화 및 니어미스 런타임 오류 수정 (2026-06-19)
     - [x] 룰렛 휠/볼 Canvas 드로잉 추가 및 ScreenshotQA 본체 캡처 추가 (2026-06-19)
@@ -176,6 +177,8 @@
     - [ ] 칩 denomination Texture를 슬롯/룰렛/빅휠 베팅 버튼까지 확장
   - [x] 오디오 P1 — 장소 ambience 5종, 카지노 플로어 loop, 엔딩 stinger 3종 추가 및 `BGMPlayer` ambience 레이어 연결 (2026-06-19)
   - [x] BGM 연속성 + 첫 면접 시각 정합성 패스 — 같은 트랙 재시작 방지, 낮 면접실 배경 추가, StoryMode/MainGame 초상화 크기·위치 보정 (2026-06-19)
+  - [x] 엔딩 시각 보상 P1 — 전용 CG가 없는 엔딩도 엔딩별 배경을 와이드 컷신 프리뷰로 표시하고, 전용 CG 우선순위 문서 갱신 (2026-06-20)
+  - [x] 바카라 가독성 패스 — 테이블 배경 불투명 베이스 추가로 뒤 MainGame UI 비침 차단 (2026-06-20)
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
   - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
   - [x] VISUAL_AUDIO P2 배경/CG/키아트 품질 교체

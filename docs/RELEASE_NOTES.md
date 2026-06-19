@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Changed (2026-06-20) — English start surfaces, ending previews, and Baccarat readability
+
+- Localized StartMenu, SplashScreen, and OpeningCinematic player-facing start text for the English language setting.
+- Added `LocaleSurfaceCheck` so English start surfaces are covered by runtime QA.
+- Added a `00b_start_menu_en.png` ScreenshotQA capture. Current screenshot QA output: 25 PNGs.
+- Ending modals now always show a wide visual preview: dedicated CG when available, otherwise the ending-specific background.
+- Made the Baccarat table background opaque enough to prevent MainGame HUD/system panels from showing through behind the casino scene.
+
 ### Changed (2026-06-19) — BGM continuity, interview background, and portrait layout
 
 - Prevented `BGMPlayer.start()` and `start_menu()` from restarting the same already-playing track during event/dashboard transitions.

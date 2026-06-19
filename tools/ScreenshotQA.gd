@@ -11,7 +11,9 @@ var _mg: Node = null
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
-	await _shot_start_menu()
+	await _shot_start_menu("ko", "00_start_menu")
+	await _shot_start_menu("en", "00b_start_menu_en")
+	LocaleManager.language = "ko"
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
 	for c in ["chapter_33_seen","chapter_34_seen","chapter_35_seen","chapter_36_seen","chapter_37_seen"]:
@@ -79,7 +81,8 @@ func _clear_output_dir() -> void:
 		file_name = dir.get_next()
 	dir.list_dir_end()
 
-func _shot_start_menu() -> void:
+func _shot_start_menu(lang: String, shot_name: String) -> void:
+	LocaleManager.language = lang
 	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
 	var menu := packed.instantiate()
 	get_tree().root.add_child.call_deferred(menu)
@@ -88,7 +91,7 @@ func _shot_start_menu() -> void:
 	if menu.has_method("_dismiss_splash"):
 		menu._dismiss_splash()
 	await _settle(0.6)
-	await _save("00_start_menu")
+	await _save(shot_name)
 	if is_instance_valid(menu):
 		var parent := menu.get_parent()
 		if parent != null:

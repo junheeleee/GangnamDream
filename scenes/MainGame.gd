@@ -5448,8 +5448,9 @@ func _show_ending(ending_id):
 	var ending_sep = HSeparator.new()
 	ending_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(ending_sep)
-	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
-		_add_ending_cg_preview(modal_body, ending_cg_path)
+	var ending_art_path := ending_cg_path if ending_cg_path != "" else bg_path
+	if ending_art_path != "" and ResourceLoader.exists(ending_art_path):
+		_add_ending_art_preview(modal_body, ending_art_path, ending_cg_path != "")
 	# ── 드라마틱 한 줄 요약 ──
 	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, "#c8a060"))
 	# ── 엔딩 설명 ──
@@ -5530,11 +5531,14 @@ func _show_ending(ending_id):
 	modal_body.add_child(menu_btn)
 
 func _add_ending_cg_preview(parent: Control, cg_path: String) -> void:
+	_add_ending_art_preview(parent, cg_path, true)
+
+func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = false) -> void:
 	var frame := PanelContainer.new()
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0.02, 0.02, 0.04, 0.94)
-	st.border_color = Color("#2a3450")
+	st.bg_color = Color(0.02, 0.02, 0.04, 0.96)
+	st.border_color = Color("#c9a227") if is_cg else Color("#2a3450")
 	st.set_border_width_all(1)
 	st.set_corner_radius_all(8)
 	st.content_margin_left = 4
@@ -5547,10 +5551,11 @@ func _add_ending_cg_preview(parent: Control, cg_path: String) -> void:
 	var img := TextureRect.new()
 	img.custom_minimum_size = Vector2(0, 360)
 	img.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	img.texture = load(cg_path)
-	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	img.texture = load(art_path)
+	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	img.clip_contents = true
 	frame.add_child(img)
 
 func _get_ending_cg_path(ending: Dictionary) -> String:

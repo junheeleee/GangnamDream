@@ -41,6 +41,45 @@ const CARDS = [
 	},
 ]
 
+const CARDS_EN = [
+	{
+		"text": "2026. Seoul.",
+		"sub": "",
+		"hold": 2.2,
+		"size": 38,
+	},
+	{
+		"text": "The average Gangnam apartment\nhas crossed KRW 3 billion.",
+		"sub": "At minimum wage, saving every won would take 82 years.",
+		"hold": 3.5,
+		"size": 30,
+	},
+	{
+		"text": "Still, people come to Seoul.",
+		"sub": "They unpack in a 1.5-pyeong goshiwon,\nand pay rent alone for the first time.\n\nBecause one day, maybe, they could live over there.",
+		"hold": 4.0,
+		"size": 28,
+	},
+	{
+		"text": "Gangnam Dream.",
+		"sub": "",
+		"hold": 2.8,
+		"size": 52,
+	},
+	{
+		"text": "Time left: 5 years.",
+		"sub": "Bank balance: KRW 500K.\nRent: KRW 650K a month.\n\nTo reach Gangnam — you need KRW 3 billion.",
+		"hold": 4.0,
+		"size": 34,
+	},
+	{
+		"text": "This is your story.",
+		"sub": "",
+		"hold": -1,
+		"size": 32,
+	},
+]
+
 const FADE_IN  := 0.9
 const FADE_OUT := 0.7
 
@@ -116,7 +155,7 @@ func _build_ui():
 
 	# 하단 힌트 ("아무 키나 눌러 시작")
 	_hint_lbl = Label.new()
-	_hint_lbl.text = "아무 키나 눌러 시작"
+	_hint_lbl.text = LocaleManager.ui("아무 키나 눌러 시작", "Press any key to begin")
 	_hint_lbl.add_theme_font_size_override("font_size", 13)
 	_hint_lbl.add_theme_color_override("font_color", Color("#3a4455"))
 	_hint_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -131,7 +170,8 @@ func _build_ui():
 func _play_card(idx: int):
 	_card_index    = idx
 	_waiting_input = false
-	var card = CARDS[idx]
+	var cards := CARDS_EN if LocaleManager.is_english() else CARDS
+	var card = cards[idx]
 
 	_main_lbl.add_theme_font_size_override("font_size", card["size"])
 	_main_lbl.text = card["text"]
@@ -212,7 +252,8 @@ func _skip_to_last():
 	_main_lbl.modulate = Color(1, 1, 1, 0.0)
 	_sub_lbl.modulate  = Color(1, 1, 1, 0.0)
 	_hint_lbl.modulate = Color(1, 1, 1, 0.0)
-	_card_index = CARDS.size() - 1
+	var cards := CARDS_EN if LocaleManager.is_english() else CARDS
+	_card_index = cards.size() - 1
 	_play_card(_card_index)
 
 func _go_to_menu():

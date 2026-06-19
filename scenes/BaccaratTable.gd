@@ -544,7 +544,13 @@ func _set_stake(s: int) -> void:
 
 # ── UI 헬퍼 ───────────────────────────────────────────────────
 func _build_skeleton() -> void:
-	# 배경
+	# 배경 — MainGame HUD/시스템 창이 뒤에서 비치지 않도록 먼저 불투명 베이스를 깐다.
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color("#050810")
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg)
+
 	const _BG = "res://assets/backgrounds/casino_interior.png"
 	if ResourceLoader.exists(_BG):
 		var bg_img := TextureRect.new()
@@ -553,15 +559,13 @@ func _build_skeleton() -> void:
 		bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bg_img.texture = load(_BG) as Texture2D
-		bg_img.modulate = Color(1, 1, 1, 0.48)
+		bg_img.modulate = Color(1, 1, 1, 0.52)
 		add_child(bg_img)
-	var bg := ColorRect.new()
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color("#050810")
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var alpha := 0.58 if ResourceLoader.exists(_BG) else 1.0
-	bg.color.a = alpha
-	add_child(bg)
+	var veil := ColorRect.new()
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	veil.color = Color(0.015, 0.02, 0.035, 0.42 if ResourceLoader.exists(_BG) else 0.0)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
 
 	# HUD (최상단)
 	var hud_panel := Panel.new()

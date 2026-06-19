@@ -1,5 +1,25 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (영어 시작 화면 + 엔딩 컷신 프리뷰 + 바카라 가독성 패스)
+
+### 추가
+- `tools/LocaleSurfaceCheck.tscn`/`.gd`를 추가해 영어 설정 시 StartMenu와 OpeningCinematic 핵심 문구가 영어로 표시되는지 검증.
+- `ScreenshotQA`에 영어 시작 화면 캡처 `00b_start_menu_en.png`를 추가.
+
+### 수정
+- StartMenu의 헤더, 스토리 소개, 난이도 카드, 런 테마 카드, 저장 슬롯, 설정 팝업, 콘텐츠 안내, 시작 버튼을 `LocaleManager` 기준으로 영어/한국어 분기.
+- SplashScreen과 OpeningCinematic을 저장된 언어 설정에 맞춰 영어로 표시하고, 영어 모드에서는 한글 로고 이미지를 숨겨 첫 인상이 한국어로 남지 않게 조정.
+- 엔딩 모달은 전용 CG가 있으면 CG를, 없으면 엔딩별 배경을 와이드 컷신 프리뷰로 표시하도록 변경. 전용 CG가 4장뿐인 현 상태에서도 모든 엔딩이 최소 한 장면으로 마무리된다.
+- 바카라 테이블 배경에 불투명 베이스를 깔아 뒤의 MainGame HUD/시스템창이 비쳐 보이지 않도록 수정.
+- `docs/ENDING_ART.md`에 런타임 엔딩 프리뷰 정책과 전용 CG 우선순위를 갱신.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `LocaleSurfaceCheck`: `LOCALE_SURFACE_CHECK_OK`
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `ScreenshotQA`: 25장 재캡처 완료 (`00b_start_menu_en` 추가, 바카라/엔딩 프리뷰 시각 확인).
+
 ## 2026-06-19 (BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스)
 
 ### 추가
