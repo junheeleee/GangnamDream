@@ -40,6 +40,7 @@ var _races_today: int = 0
 var _world: Dictionary = {}      # 영속 로스터(GameState.flags["horse_world"] 참조)
 var _tip: Dictionary = {}        # 이번 경주 정보상 팁
 var _tip_seen: bool = false      # 이번 경주 팁을 샀는가
+var skip_countdown_for_smoke: bool = false
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -190,7 +191,7 @@ func _refresh_top() -> void:
 	var addic: int = GameState.addiction_tendency
 	var bars: int = clampi(addic / 10, 0, 10)
 	var ac: String = "#5de89c" if addic < 40 else ("#e8c45d" if addic < 70 else "#e85d5d")
-	_hud.text = "💰 현금 [b]%s[/b]      🎰 중독도 [color=%s]%s[/color] %d/100      🧠 안목(지력) %d" % [
+	_hud.text = "현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d" % [
 		GameState.format_money(GameState.money),
 		ac, ("▰".repeat(bars) + "▱".repeat(10 - bars)), addic, GameState.intelligence]
 
@@ -259,8 +260,8 @@ func _render_betting() -> void:
 		rt.custom_minimum_size = Vector2(0, 52)
 		_f(rt); rt.add_theme_font_size_override("normal_font_size", 15)
 		var tag: String = ""
-		if i == tip_target: tag += "  [color=#6cc5ff]🕵 정보상 지목[/color]"
-		if i == vpick: tag += "  [color=#f0c45d]💡저평가[/color]"
+		if i == tip_target: tag += "  [color=#6cc5ff]정보상 지목[/color]"
+		if i == vpick: tag += "  [color=#f0c45d]저평가[/color]"
 		# 선택 배지: 삼쌍승은 착순(①②③), 그 외는 ✓
 		var badge: String = ""
 		if sel:
@@ -364,10 +365,10 @@ func _build_dealer_row(parent) -> void:
 		var b := Button.new()
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		if GameState.money < 3000:
-			b.text = "🕵 정보상에게 듣기  (현금 부족)"
+			b.text = "정보상에게 듣기  (현금 부족)"
 			_style(b, "#1a1620", "#3a2a3a"); b.disabled = true
 		else:
-			b.text = "🕵 정보상에게 듣기   −3,000   (오늘의 한 마리…)"
+			b.text = "정보상에게 듣기   -3,000   (오늘의 한 마리...)"
 			_style(b, "#1c1726", "#5a4a7a")
 			b.pressed.connect(_consult_dealer)
 		parent.add_child(b)
@@ -381,7 +382,7 @@ func _build_dealer_row(parent) -> void:
 	var hint: String = ""
 	if GameState.intelligence < 40:
 		hint = "  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]"
-	rt.text = "[color=#6cc5ff]🕵 “%s”[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s" % [
+	rt.text = "[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s" % [
 		str(_tip.get("claim", "")), _cred_bar(cred), roundi(cred * 100.0), hint]
 	parent.add_child(rt)
 
@@ -481,7 +482,10 @@ func _start_race() -> void:
 	_set_background(BG_TRACK_PATH, 0.50, 0.62)
 	_clear()
 	_render_race()
-	_run_countdown()
+	if skip_countdown_for_smoke:
+		set_process(true)
+	else:
+		_run_countdown()
 
 func _run_countdown() -> void:
 	var overlay := Label.new()
@@ -496,26 +500,29 @@ func _run_countdown() -> void:
 	add_child(overlay)
 	var steps := ["3", "2", "1", "출발!"]
 	var colors := [Color("#e85d5d"), Color("#e8a05d"), Color("#e8e05d"), Color("#5de8a0")]
-	var idx := 0
-	var do_step: Callable
-	do_step = func():
-		if idx >= steps.size():
-			overlay.queue_free()
-			_flash("출발!", "#f0c45d")
-			_screen_flash(Color("#f0c45d"), 0.14, 0.28)
-			_shake_node(_content, 4.0, 0.18)
-			AudioManager.play("event_new")
-			set_process(true)
-			return
-		overlay.text = steps[idx]
-		overlay.add_theme_color_override("font_color", colors[idx])
-		var tw := create_tween()
-		tw.tween_property(overlay, "scale", Vector2(1.3, 1.3), 0.0)
-		tw.tween_property(overlay, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK)
-		idx += 1
-		var delay: float = 0.9 if idx < steps.size() else 0.6
-		get_tree().create_timer(delay).timeout.connect(do_step, CONNECT_ONE_SHOT)
-	do_step.call()
+	_play_countdown_step(overlay, steps, colors, 0)
+
+func _play_countdown_step(overlay: Label, steps: Array, colors: Array, idx: int) -> void:
+	if not is_instance_valid(overlay):
+		return
+	if idx >= steps.size():
+		overlay.queue_free()
+		_flash("출발!", "#f0c45d")
+		_screen_flash(Color("#f0c45d"), 0.14, 0.28)
+		_shake_node(_content, 4.0, 0.18)
+		AudioManager.play("event_new")
+		set_process(true)
+		return
+	overlay.text = str(steps[idx])
+	overlay.add_theme_color_override("font_color", colors[idx])
+	var tw := create_tween()
+	tw.tween_property(overlay, "scale", Vector2(1.3, 1.3), 0.0)
+	tw.tween_property(overlay, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK)
+	var next_idx: int = idx + 1
+	var delay: float = 0.9 if next_idx < steps.size() else 0.6
+	get_tree().create_timer(delay).timeout.connect(
+		func(): _play_countdown_step(overlay, steps, colors, next_idx),
+		CONNECT_ONE_SHOT)
 
 func _render_race() -> void:
 	if _track == null or not is_instance_valid(_track):
@@ -548,12 +555,12 @@ func _update_race_call(delta: float) -> void:
 	var hs: Array = _race["horses"]
 	var leader_name := str(hs[leader].get("name", "선두"))
 	if _race_dur - _race_t <= 0.85:
-		_set_race_msg("🏁 마지막 직선!  %s 버틴다!" % leader_name, "#f0c45d")
+		_set_race_msg("마지막 직선!  %s 버틴다!" % leader_name, "#f0c45d")
 		if is_instance_valid(_msg):
 			_pulse_node(_msg, 1.12, 0.22)
 	elif leader != _last_leader:
 		_last_leader = leader
-		_set_race_msg("🔄 선두 교체 — %s!" % leader_name, COLORS[leader % COLORS.size()])
+		_set_race_msg("선두 교체 — %s!" % leader_name, COLORS[leader % COLORS.size()])
 		if is_instance_valid(_msg):
 			_pulse_node(_msg, 1.08, 0.18)
 
@@ -688,18 +695,18 @@ func _render_result() -> void:
 
 	var title := Label.new()
 	_f(title, true); title.add_theme_font_size_override("font_size", 20)
-	title.text = "🏁 결과"
+	title.text = "결과"
 	title.add_theme_color_override("font_color", Color("#e8eaf0"))
 	box.add_child(title)
 
 	for rank in range(min(_finish.size(), 4)):
 		var h: Dictionary = _finish[rank]
-		var medal: String = ["🥇", "🥈", "🥉", "  "][rank]
+		var medal: String = ["1", "2", "3", "4"][rank]
 		var lbl := Label.new()
 		_f(lbl); lbl.add_theme_font_size_override("font_size", 16)
 		var hidx: int = _race["horses"].find(h)
 		var mine: String = "   ← 내 픽" if hidx in _picks else ""
-		lbl.text = "%s %d착   %s   (배당 %.1f)%s" % [medal, rank + 1, str(h["name"]), float(h["odds"]), mine]
+		lbl.text = "%s위 / %d착   %s   (배당 %.1f)%s" % [medal, rank + 1, str(h["name"]), float(h["odds"]), mine]
 		lbl.add_theme_color_override("font_color", Color("#f0c45d") if rank == 0 else Color("#aab3c5"))
 		box.add_child(lbl)
 
@@ -711,10 +718,10 @@ func _render_result() -> void:
 	_f(res, true); res.add_theme_font_size_override("font_size", 22)
 	if _payout_amt > 0:
 		var profit: float = _payout_amt - _bet_stake
-		res.text = "🎉 적중!  +%s  (배당금 %s)" % [GameState.format_money(profit), GameState.format_money(_payout_amt)]
+		res.text = "적중!  +%s  (배당금 %s)" % [GameState.format_money(profit), GameState.format_money(_payout_amt)]
 		res.add_theme_color_override("font_color", Color("#5de89c"))
 	else:
-		res.text = "💸 꽝.  -%s" % GameState.format_money(_bet_stake)
+		res.text = "꽝.  -%s" % GameState.format_money(_bet_stake)
 		res.add_theme_color_override("font_color", Color("#e85d5d"))
 	box.add_child(res)
 	_pulse_node(res, 1.12, 0.34)
@@ -726,11 +733,11 @@ func _render_result() -> void:
 		var verdict := Label.new()
 		_f(verdict); verdict.add_theme_font_size_override("font_size", 14)
 		if bool(_tip.get("is_true", false)):
-			verdict.text = "🕵 정보상은 진짜였다 — '%s' (지목마 %s)" % [
+			verdict.text = "정보상은 진짜였다 — '%s' (지목마 %s)" % [
 				str(_tip.get("name", "")), "1착 적중" if hit else "이번엔 안 풀림"]
 			verdict.add_theme_color_override("font_color", Color("#6cc5ff"))
 		else:
-			verdict.text = "🕵 정보상은 함정이었다 — '%s'는 작전이었다" % str(_tip.get("name", ""))
+			verdict.text = "정보상은 함정이었다 — '%s'는 작전이었다" % str(_tip.get("name", ""))
 			verdict.add_theme_color_override("font_color", Color("#c47a7a"))
 		box.add_child(verdict)
 
@@ -752,7 +759,7 @@ func _render_result() -> void:
 	again.pressed.connect(_new_race)
 	row.add_child(again)
 	var leave := Button.new()
-	leave.text = "🚪 오늘은 그만, 나간다"
+	leave.text = "오늘은 그만, 나간다"
 	_style(leave, "#10231a", "#2a7a52")
 	leave.pressed.connect(_on_exit)
 	row.add_child(leave)

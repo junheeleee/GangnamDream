@@ -9,10 +9,10 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **플레이어 체감 표면 폴리싱 — UI 스킨 P1 진행 중** |
-| **최근 완료** | **2026-06-19 UI 스킨 P1 2차** — StartMenu 난이도/런 테마 카드를 SVG 아이콘화, TutorialOverlay 중앙 아이콘을 Texture화, ScreenshotQA에 StartMenu/미니게임 본체 캡처 추가, 홀덤/경마 상단 조작 UI 이모지 축소, StoryMode 배경/HUD 1차 정리 |
-| **이전** | **2026-06-19 정리 병합** — Claude cloud 브랜치 `claude/game-polish-steam-uh6ldg` 24커밋을 local main에 fast-forward 병합하고, Codex 비주얼 에셋 패스(정선 카지노 내부/입구/외관, 헬스장, 한강, 남산, 카드/칩 정렬, 배경 라우팅)를 재적용 |
-| **다음 작업** | **UI 스킨/미니게임 물체 에셋화 P1 계속** — 정보 패널/세부 미니게임 버튼의 잔여 이모지 UI 정리 후, 룰렛 휠/볼·슬롯 심볼·경마 말/기수 스프라이트 확장 |
-| **마지막 업데이트** | 2026-06-19 (`audit.sh` OK, `AudioAssetCheck` bgm=7 sfx=25, `CGRuntimeCheck` OK, `ScreenshotQA` 14장 재캡처 완료) |
+| **최근 완료** | **2026-06-19 UI 스킨 P1 3차** — 정보 패널/행동 모달/카지노 세부 테이블 UI 문구 정리, 슬롯 릴 심볼 텍스트 타일화, 룰렛 휠·볼 Canvas 드로잉 추가, 경마 스모크 카운트다운 QA 경고 제거, ScreenshotQA 카지노 본체 4장 추가 |
+| **이전** | **2026-06-19 UI 스킨 P1 2차** — StartMenu 난이도/런 테마 카드를 SVG 아이콘화, TutorialOverlay 중앙 아이콘을 Texture화, ScreenshotQA에 StartMenu/미니게임 본체 캡처 추가, 홀덤/경마 상단 조작 UI 이모지 축소, StoryMode 배경/HUD 1차 정리 |
+| **다음 작업** | **플레이어 체감 폴리싱 P1 계속** — 오디오 P1(장소 ambience/카지노 플로어 loop/엔딩 stinger)와 남은 모달·상점·투자 화면의 Texture/Icon 기반 스킨 확장 |
+| **마지막 업데이트** | 2026-06-19 (`audit.sh` OK, `AudioAssetCheck` bgm=7 sfx=25, `CGRuntimeCheck` OK, `SmokeRace` OK, `ScreenshotQA` 18장 재캡처 완료) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

@@ -455,7 +455,7 @@ func _show_casino_glossary() -> void:
 	overlay.add_child(mc)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "📖 카지노 용어 설명"
+	title_lbl.text = "카지노 용어 설명"
 	title_lbl.add_theme_font_size_override("font_size", 18)
 	title_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 	_f(title_lbl, true)
@@ -488,7 +488,7 @@ func _show_casino_glossary() -> void:
 		_f(def_lbl)
 		term_vbox.add_child(def_lbl)
 
-	var close_btn := _make_btn("← 카지노 허브로", "#1a1a2e")
+	var close_btn := _make_btn("카지노 허브로", "#1a1a2e")
 	close_btn.pressed.connect(func(): overlay.queue_free())
 	vbox.add_child(close_btn)
 

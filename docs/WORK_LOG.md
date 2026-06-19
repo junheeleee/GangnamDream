@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-19 (UI 스킨 P1 3차 + 카지노 본체 물체감 1차)
+
+### 수정
+- MainGame 정보 패널 탭명과 행동 카테고리 모달의 잔여 이모지/프로토타입식 버튼 문구를 정리.
+- 블랙잭/바카라 HUD, 제목, 규칙, 딜/히트/스탠드/다음 라운드 버튼을 텍스트 중심 카지노 테이블 UI 톤으로 정리.
+- 슬롯머신 릴을 플랫폼 이모지 대신 `7`/`BAR`/`CHERRY`/`BELL`/`LEMON` 고정 심볼 타일로 렌더링.
+- 룰렛 화면에 Godot Canvas 기반 휠/볼 드로잉을 추가해 숫자 결과 생성기 느낌을 줄임.
+- 경마 HUD/정보상/결과 화면의 잔여 이모지 문구를 정리.
+- `ScreenshotQA`에 바카라/블랙잭/슬롯/룰렛 본체 캡처 4장을 추가하고, 출력 폴더를 매 실행마다 비우도록 수정.
+- `SmokeRace`가 카운트다운 타이머를 남기지 않도록 스모크 전용 countdown skip 경로를 추가.
+
+### 버그 수정
+- 슬롯 니어미스 판정이 표시용 문자열 `symbols`를 숫자로 비교하던 런타임 오류를 `reels` 숫자 배열 기준으로 수정.
+- RaceTrack 카운트다운의 로컬 재귀 Callable이 헤드리스 스모크에서 null 연결 에러를 내던 문제를 헬퍼 함수로 분리해 수정.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 18장 재캡처 완료 (`09_baccarat_table`~`12_roulette_table` 추가).
+
 ## 2026-06-19 (UI 스킨 P1 2차 + 메뉴/튜토리얼 QA 확장)
 
 ### 수정

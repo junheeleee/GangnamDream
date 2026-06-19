@@ -10,6 +10,7 @@ var _mg: Node = null
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
+	_clear_output_dir()
 	await _shot_start_menu()
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
@@ -51,14 +52,30 @@ func _ready() -> void:
 	await _shot_minigame("holdem_club", "06_holdem_club")
 	await _shot_minigame("racetrack", "07_racetrack")
 	await _shot_minigame("jeongseon_casino", "08_jeongseon_casino")
-	await _shot_ending("gangnam_dream", "09_ending_gangnam_win")
-	await _shot_ending("bankruptcy", "10_ending_bankruptcy")
-	await _shot_ending("stable_success", "11_ending_stable_success")
-	await _shot_ending("crypto_ghost", "12_ending_crypto_ghost")
-	await _shot_ending("orthodox_pinnacle", "13_ending_orthodox_pinnacle")
+	await _shot_casino_table("baccarat_table", "09_baccarat_table")
+	await _shot_casino_table("blackjack_table", "10_blackjack_table")
+	await _shot_casino_table("slot_machine_game", "11_slot_machine")
+	await _shot_casino_table("roulette_table", "12_roulette_table")
+	await _shot_ending("gangnam_dream", "13_ending_gangnam_win")
+	await _shot_ending("bankruptcy", "14_ending_bankruptcy")
+	await _shot_ending("stable_success", "15_ending_stable_success")
+	await _shot_ending("crypto_ghost", "16_ending_crypto_ghost")
+	await _shot_ending("orthodox_pinnacle", "17_ending_orthodox_pinnacle")
 
 	print("SCREENSHOT_QA_DONE dir=%s" % OUT_DIR)
 	get_tree().quit(0)
+
+func _clear_output_dir() -> void:
+	var dir := DirAccess.open(OUT_DIR)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".png"):
+			dir.remove(file_name)
+		file_name = dir.get_next()
+	dir.list_dir_end()
 
 func _shot_start_menu() -> void:
 	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
@@ -187,6 +204,37 @@ func _shot_minigame(node_name: String, shot_name: String) -> void:
 	await _settle(1.0)
 	await _save(shot_name)
 	# 오버레이 숨김 (다음 케이스 방해 방지)
+	if "visible" in node:
+		node.visible = false
+	await _settle(0.3)
+
+func _shot_casino_table(node_name: String, shot_name: String) -> void:
+	GameState.money = 10_000_000.0
+	var node = _mg.get(node_name)
+	if node == null or not node.has_method("open"):
+		print("SKIP %s (no node)" % shot_name)
+		return
+	node.open()
+	await _settle(0.4)
+	match node_name:
+		"baccarat_table":
+			node._set_stake(10_000)
+			node._add_bet("B")
+			node._deal()
+			await _settle(2.0)
+		"blackjack_table":
+			node._set_stake_and_deal(10_000)
+			await _settle(0.8)
+		"slot_machine_game":
+			node._start_spin()
+			await _settle(1.8)
+		"roulette_table":
+			node._select_bet_type(1)
+			node._select_stake(10_000)
+			node._do_bet()
+			node._do_spin()
+			await _settle(1.6)
+	await _save(shot_name)
 	if "visible" in node:
 		node.visible = false
 	await _settle(0.3)

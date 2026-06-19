@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed (2026-06-19) — Casino table UI and object-feel pass
+
+- Cleaned MainGame info-panel tabs and action-category modal copy to reduce prototype/emoji UI feel.
+- Cleaned Blackjack/Baccarat HUDs and primary action buttons into a more restrained casino-table style.
+- Replaced SlotMachine reel emoji glyphs with stable text symbol tiles (`7`, `BAR`, `CHERRY`, `BELL`, `LEMON`) and fixed near-miss detection to use numeric reel ids.
+- Added a Canvas-drawn Roulette wheel and ball so the roulette minigame shows a physical object instead of only changing numbers.
+- Cleaned RaceTrack HUD/dealer/result copy and fixed its countdown callback path for headless smoke QA.
+- Extended `ScreenshotQA` with Baccarat, Blackjack, Slot, and Roulette table captures and now clears stale screenshot PNGs before each run.
+
 ### Changed (2026-06-19) — Start menu and tutorial UI skin pass
 
 - Reworked StartMenu difficulty/theme cards to use unified SVG icons instead of platform emoji glyphs.

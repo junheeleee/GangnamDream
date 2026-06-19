@@ -314,8 +314,8 @@ func _refresh_hud() -> void:
 	var comm_str: String = ""
 	if _commission > 0.0:
 		var hud_comm_col: String = "#f0d020" if _commission >= 100_000.0 else "#e8a05d"
-		comm_str = "   ⚠커미션 [color=%s]%s[/color]" % [hud_comm_col, GameState.format_money(_commission)]
-	_hud_lbl.text = "💰 [b]%s[/b]   |   🎰 %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s" % [
+		comm_str = "   커미션 [color=%s]%s[/color]" % [hud_comm_col, GameState.format_money(_commission)]
+	_hud_lbl.text = "[b]현금 %s[/b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s" % [
 		GameState.format_money(GameState.money), _rounds,
 		_p_wins, _b_wins, _ties,
 		("+%s" % GameState.format_money(_net)) if _net >= 0 else GameState.format_money(_net),
@@ -325,7 +325,7 @@ func _render_betting() -> void:
 	var vb := _make_vbox(12)
 
 	var title := Label.new()
-	title.text = "🎰 바카라"
+	title.text = "바카라"
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -385,7 +385,7 @@ func _render_betting() -> void:
 	var action_row := HBoxContainer.new()
 	action_row.add_theme_constant_override("separation", 10)
 	vb.add_child(action_row)
-	var deal_btn := _make_btn("▶  딜 시작", _deal, "#1a3a1a", "#3de87a")
+	var deal_btn := _make_btn("딜 시작", _deal, "#1a3a1a", "#3de87a")
 	deal_btn.custom_minimum_size = Vector2(0, 44)
 	deal_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	deal_btn.disabled = (_total_bet() == 0)
@@ -393,8 +393,8 @@ func _render_betting() -> void:
 	var clear_btn := _make_btn("베팅 초기화", _clear_bets, "#1a1a1a", "#4a4a5a")
 	clear_btn.custom_minimum_size = Vector2(100, 44)
 	action_row.add_child(clear_btn)
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#5a4510")
-	help_btn.custom_minimum_size = Vector2(50, 44)
+	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#5a4510")
+	help_btn.custom_minimum_size = Vector2(60, 44)
 	action_row.add_child(help_btn)
 
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
@@ -443,7 +443,7 @@ func _render_result_screen() -> void:
 	if bool(_result.get("b_pair", false)): pair_parts.append("뱅커 페어!")
 	if not pair_parts.is_empty():
 		var pair_lbl := Label.new()
-		pair_lbl.text = "🎯 " + "  /  ".join(pair_parts)
+		pair_lbl.text = "  /  ".join(pair_parts)
 		pair_lbl.add_theme_font_size_override("font_size", 14)
 		pair_lbl.add_theme_color_override("font_color", Color("#d4a0ff"))
 		_f(pair_lbl); vb.add_child(pair_lbl)
@@ -451,7 +451,7 @@ func _render_result_screen() -> void:
 	# 커미션 안내
 	if _commission > 0.0:
 		var comm_lbl := Label.new()
-		comm_lbl.text = "⚠ 누적 커미션: %s (나갈 때 정산)" % GameState.format_money(_commission)
+		comm_lbl.text = "누적 커미션: %s (나갈 때 정산)" % GameState.format_money(_commission)
 		comm_lbl.add_theme_font_size_override("font_size", 12)
 		# 10만원 이상이면 노란색으로 강조
 		var comm_color: Color = Color("#f0d020") if _commission >= 100_000.0 else Color("#e8a05d")
@@ -464,7 +464,7 @@ func _render_result_screen() -> void:
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 10)
 	vb.add_child(btn_row)
-	var again_btn := _make_btn("🔥 다음 라운드", _next_round, "#1a2a1a", "#3de87a")
+	var again_btn := _make_btn("다음 라운드", _next_round, "#1a2a1a", "#3de87a")
 	again_btn.custom_minimum_size = Vector2(0, 48)
 	again_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(again_btn, true); btn_row.add_child(again_btn)

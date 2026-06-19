@@ -736,9 +736,9 @@ func _build_info_panel():
 	log_box.add_theme_color_override("default_color", Color("#5a6075"))
 	stat_box.add_child(log_box)
 
-	# ── Tab 1: 📰 시황 ──
+	# ── Tab 1: 시황 ──
 	var news_scroll = ScrollContainer.new()
-	news_scroll.name = "📰 시황"
+	news_scroll.name = "시황"
 	news_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(news_scroll)
 	var news_outer = VBoxContainer.new()
@@ -767,9 +767,9 @@ func _build_info_panel():
 	ticker_rtl.add_theme_color_override("default_color", Color("#8892a4"))
 	news_outer.add_child(ticker_rtl)
 
-	# ── Tab 2: 👥 관계 ──
+	# ── Tab 2: 관계 ──
 	var social_scroll = ScrollContainer.new()
-	social_scroll.name = "👥 관계"
+	social_scroll.name = "관계"
 	social_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(social_scroll)
 	var social_outer = VBoxContainer.new()
@@ -794,9 +794,9 @@ func _build_info_panel():
 	inventory_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	social_outer.add_child(inventory_box)
 
-	# ── Tab 3: 📖 아크 (퀘스트 트래커) ──
+	# ── Tab 3: 아크 (퀘스트 트래커) ──
 	var arc_scroll := ScrollContainer.new()
-	arc_scroll.name = "📖 아크"
+	arc_scroll.name = "아크"
 	arc_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(arc_scroll)
 	var arc_margin := MarginContainer.new()
@@ -3614,11 +3614,11 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 	var sub_color = "#f0b429" if highlight else "#7a8496"
 	if locked:
 		sub_color = "#4a4a58"
-	txt.add_child(_label(("🔒 " + lock_note) if locked else subtitle, 12, sub_color))
+	txt.add_child(_label(("잠금: " + lock_note) if locked else subtitle, 12, sub_color))
 
 	# AP 비용 표시 (생활 카테고리는 AP 무료)
 	if fn != "_open_cat_life":
-		var ap_lbl = _label("⚡", 16, accent if not disabled else "#3a3a48")
+		var ap_lbl = _label("AP", 12, accent if not disabled else "#3a3a48")
 		ap_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		row.add_child(ap_lbl)
 	else:
@@ -3660,13 +3660,13 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 
 func _open_cat_work():
 	var no_job = GameState.current_job.is_empty()
-	_open_modal("💼 일 · 커리어")
+	_open_modal("일 · 커리어")
 	if no_job:
 		modal_body.add_child(_wrap_label("아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.", 13, "#c8a060"))
-		_cat_modal_button("💼 구직활동  —  일자리를 찾아 지원한다", "#dc6a2a", "_ap_job_hunt")
-		_cat_modal_button("🖊 자소서 작성  —  지력 +1~+2, 정신력 변동", "#3a6ea8", "_ap_write_resume")
+		_cat_modal_button("구직활동  —  일자리를 찾아 지원한다", "#dc6a2a", "_ap_job_hunt")
+		_cat_modal_button("자소서 작성  —  지력 +1~+2, 정신력 변동", "#3a6ea8", "_ap_write_resume")
 		if GameState.social_skill >= 20:
-			_cat_modal_button("🎯 모의 면접  —  사회성+1~+2, 운+1 (성과 따라)", "#3a6ea8", "_ap_interview_prep")
+			_cat_modal_button("모의 면접  —  사회성+1~+2, 운+1 (성과 따라)", "#3a6ea8", "_ap_interview_prep")
 	else:
 		var job_name = GameState.current_job.get("name", "직장인")
 		var tenure = GameState.job_tenure
@@ -3679,7 +3679,7 @@ func _open_cat_work():
 			"%s — 월급 %s" % [job_name, GameState.format_money(salary)], 14, "#c8a060"))
 		modal_body.add_child(_label("── 승진 현황 ──", 11, "#3a3a5a"))
 		if promo_count >= max_promo:
-			modal_body.add_child(_wrap_label("✅ 최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.", 13, "#c9a227"))
+			modal_body.add_child(_wrap_label("최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.", 13, "#c9a227"))
 		else:
 			var tenure_row = HBoxContainer.new()
 			tenure_row.add_theme_constant_override("separation", 8)
@@ -3703,9 +3703,9 @@ func _open_cat_work():
 			modal_body.add_child(_wrap_label(
 				"업무 성과  %d / 100  [%s]  (기준: 60+)" % [perf, perf_gate], 12, perf_color))
 			if tenure >= threshold and perf >= 60:
-				modal_body.add_child(_wrap_label("🎯 이번 달 승진 판정 대상!  (35% 확률)", 13, "#f0b429"))
+				modal_body.add_child(_wrap_label("이번 달 승진 판정 대상!  (35% 확률)", 13, "#f0b429"))
 			elif tenure >= threshold:
-				modal_body.add_child(_wrap_label("⚠ 근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", 13, "#f0b429"))
+				modal_body.add_child(_wrap_label("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", 13, "#f0b429"))
 			else:
 				var left = threshold - tenure
 				modal_body.add_child(_wrap_label(
@@ -3717,35 +3717,35 @@ func _open_cat_work():
 					next_jobs.append(str(j.get("name", "")))
 			if not next_jobs.is_empty():
 				modal_body.add_child(_wrap_label(
-					"📈 다음 직급 예시  " + "  /  ".join(next_jobs.slice(0, 3)), 12, "#3a6ea8"))
+					"다음 직급 예시  " + "  /  ".join(next_jobs.slice(0, 3)), 12, "#3a6ea8"))
 		modal_body.add_child(_wrap_label("남는 행동력은 투자·자기계발·관계에 쓰자.", 12, "#3a3a5a"))
 	# 창업/크리에이터 진행 중이면 노출
 	if GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false):
-		_cat_modal_button("🚀 창업 업무  —  내 사업을 키운다", "#6a3a9a", "_ap_startup_work")
+		_cat_modal_button("창업 업무  —  내 사업을 키운다", "#6a3a9a", "_ap_startup_work")
 	if GameState.flags.get("creator_started", false) and not GameState.flags.get("creator_viral", false):
-		_cat_modal_button("🎬 콘텐츠 제작  —  채널을 키운다", "#4a7a3a", "_ap_create_content")
+		_cat_modal_button("콘텐츠 제작  —  채널을 키운다", "#4a7a3a", "_ap_create_content")
 
 func _open_cat_money():
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
 	var no_job = GameState.current_job.is_empty()
-	_open_modal("📈 돈 · 투자")
+	_open_modal("돈 · 투자")
 	modal_body.add_child(_wrap_label("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", 13, "#7a8496"))
 	if GameState.flags.get("arc_invest_guidance_seen", false):
-		_cat_modal_button("📈 투자 집중  —  매수·매도 (투자감각 %d)" % GameState.investment_skill, "#3a8a5a", "_ap_invest")
+		_cat_modal_button("투자 집중  —  매수·매도 (투자감각 %d)" % GameState.investment_skill, "#3a8a5a", "_ap_invest")
 	elif has_paycheck:
-		modal_body.add_child(_wrap_label("🔒 투자는 상철과의 대화 후 가능하다.", 12, "#5a5a6a"))
+		modal_body.add_child(_wrap_label("잠금: 투자는 상철과의 대화 후 가능하다.", 12, "#5a5a6a"))
 	else:
-		modal_body.add_child(_wrap_label("🔒 투자는 첫 월급을 받은 뒤 가능하다.", 12, "#5a5a6a"))
-	var side_label = "💰 단기 알바  —  40만원+ (건강-3, 정신력 변동)" if no_job else "🎨 부업/사이드  —  추가 수입 도전"
+		modal_body.add_child(_wrap_label("잠금: 투자는 첫 월급을 받은 뒤 가능하다.", 12, "#5a5a6a"))
+	var side_label = "단기 알바  —  40만원+ (건강-3, 정신력 변동)" if no_job else "부업/사이드  —  추가 수입 도전"
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
-	_cat_modal_button("💰 저축/절약  —  자금 절약, 정신력 -2", "#3a6ea8", "_ap_save_money")
+	_cat_modal_button("저축/절약  —  자금 절약, 정신력 -2", "#3a6ea8", "_ap_save_money")
 
 func _open_cat_dev():
 	# _ap_study가 이미 세부 모달(독서/운동/명상)을 띄움 → 바로 호출
 	_ap_study()
 
 func _open_cat_people():
-	_open_modal("🤝 사람 · 관계")
+	_open_modal("사람 · 관계")
 	modal_body.add_child(_wrap_label("혼자 강남에 가는 사람은 없다. 곁에 있는 사람을 챙기고, 쉬어간다.", 13, "#7a8496"))
 
 	# ── 내가 실제로 만난 사람들 (cast 기반) ──
@@ -3761,40 +3761,40 @@ func _open_cat_people():
 			var pname: String = str(info.get("name", "인연"))
 			var accent: String = str(info.get("color", "#8a5a9a"))
 			var aff: int = GameState.get_cast_affinity(pid)
-			var verb := "📞 연락하기"
+			var verb := "연락하기"
 			if pid in ["jiyeon", "daeun"]:
-				verb = "☕ 만나기" if aff >= 50 else "💬 안부 묻기"
+				verb = "만나기" if aff >= 50 else "안부 묻기"
 			elif pid == "sangchul":
-				verb = "🍶 한 잔 하기"
+				verb = "한 잔 하기"
 			elif pid == "father":
-				verb = "📞 전화드리기"
+				verb = "전화드리기"
 			elif pid == "jaehyuk":
-				verb = "🍺 만나기"
+				verb = "만나기"
 			var lbl := "%s  ·  %s  —  호감도 %d  (정신 +8, 호감도 +4)" % [verb, pname, aff]
 			_cat_modal_button(lbl, accent, "_ap_contact_person", pid)
 
 	# ── 새로운 사람·휴식 ──
 	modal_body.add_child(_label("── 인맥 · 휴식 ──", 12, "#3a3a5a"))
-	_cat_modal_button("🤝 인맥 넓히기  —  사교력+, 평판+ (정신력 소모)", "#8a5a9a", "_ap_network")
+	_cat_modal_button("인맥 넓히기  —  사교력+, 평판+ (정신력 소모)", "#8a5a9a", "_ap_network")
 	if GameState.social_skill >= 50:
-		_cat_modal_button("👔 VIP 인맥  —  사교력+3·평판+2·관계호감+15 (사교력 50 해금)", "#5a2a7a", "_ap_vip_network")
-	_cat_modal_button("🌊 자유시간  —  한강·산책 (정신력 +10)", "#3a8a9a", "_ap_free_time")
+		_cat_modal_button("VIP 인맥  —  사교력+3·평판+2·관계호감+15 (사교력 50 해금)", "#5a2a7a", "_ap_vip_network")
+	_cat_modal_button("자유시간  —  한강·산책 (정신력 +10)", "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():
-	_open_modal("🏠 생활")
+	_open_modal("생활")
 	modal_body.add_child(_wrap_label("주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.", 13, "#7a8496"))
 	if GameState.can_upgrade_housing():
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
-		var move_label = "🏠 이사  —  %s%s  (월 %s / 보증금 %s)" % [
-			next_info.get("emoji",""), next_info.get("name",""),
+		var move_label = "이사  —  %s  (월 %s / 보증금 %s)" % [
+			next_info.get("name",""),
 			GameState.format_money(float(next_info.get("expense", 0.0))),
 			GameState.format_money(float(next_info.get("deposit", 0.0)))]
 		_cat_modal_button(move_label, "#c8a040", "_ap_move_housing")
 	else:
 		modal_body.add_child(_wrap_label("아직 이사할 현금이 부족하다.", 12, "#5a5a6a"))
 	if GameState.flags.get("has_received_paycheck", false):
-		_cat_modal_button("🛍 상점  —  생활용품·자기관리 아이템", "#6a5a8a", "_open_shop")
+		_cat_modal_button("상점  —  생활용품·자기관리 아이템", "#6a5a8a", "_open_shop")
 
 func _add_action_section_header(parent: Control, title: String, _bg_hex: String):
 	var lbl = _label("  " + title, 10, "#2e3a4e")

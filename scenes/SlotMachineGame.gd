@@ -58,8 +58,10 @@ var _balance_lbl: Label
 var _session_lbl: Label
 var _flash_lbl: Label
 
-# 모든 이모지 (릴 셔플용)
-const _ALL_EMOJIS: Array = ["7️⃣", "🃏", "🍒", "🔔", "🍋"]
+# 슬롯 심볼 표시. 실제 릴 타일처럼 보이도록 이모지 대신 고정 텍스트와 색으로 렌더한다.
+const _ALL_SYMBOLS: Array = [0, 1, 2, 3, 4]
+const _SYMBOL_LABELS: Array = ["7", "BAR", "CHERRY", "BELL", "LEMON"]
+const _SYMBOL_COLORS: Array = ["#ffd84d", "#d8dbe8", "#e85d5d", "#f0b429", "#75d97a"]
 
 # ── 초기화 ─────────────────────────────────────────────────────
 func _ready() -> void:
@@ -96,7 +98,7 @@ func open() -> void:
 	visible = true
 	TutorialOverlay.maybe_show("slot", self)
 	set_process(false)
-	_set_reel_emojis(["🎰", "🎰", "🎰"])
+	_set_reel_symbols([0, 1, 0])
 	_refresh_ui()
 
 func _on_exit() -> void:
@@ -140,40 +142,36 @@ func _process(delta: float) -> void:
 	_spin_elapsed += delta
 	_shuffle_acc  += delta
 
-	# 릴 심볼 스크롤 — SHUFFLE_EVERY마다 각 릴을 _ALL_EMOJIS 순서대로 순환
+	# 릴 심볼 스크롤 — SHUFFLE_EVERY마다 각 릴을 _ALL_SYMBOLS 순서대로 순환
 	if _shuffle_acc >= SHUFFLE_EVERY:
 		_shuffle_acc = 0.0
-		var sz: int = _ALL_EMOJIS.size()
+		var sz: int = _ALL_SYMBOLS.size()
 		for i in range(3):
 			if not _reel_stopped[i]:
 				_reel_scroll_idx[i] = (_reel_scroll_idx[i] + 1) % sz
-				if is_instance_valid(_reel_labels[i]):
-					_reel_labels[i].text = str(_ALL_EMOJIS[_reel_scroll_idx[i]])
+				_set_reel_symbol(i, int(_ALL_SYMBOLS[_reel_scroll_idx[i]]))
 
 	# 릴 1 정지: SPIN_DURATION - 0.6초
 	var stop0_at: float = SPIN_DURATION - REEL_STOP_GAP * 2.0
 	if not _reel_stopped[0] and _spin_elapsed >= stop0_at:
 		_reel_stopped[0] = true
-		var emojis: Array = _pending_result.get("emojis", ["❓", "❓", "❓"])
-		if is_instance_valid(_reel_labels[0]):
-			_reel_labels[0].text = str(emojis[0])
+		var reels0: Array = _pending_result.get("reels", [4, 4, 4])
+		_set_reel_symbol(0, int(reels0[0]))
 		AudioManager.play("casino_reel")
 
 	# 릴 2 정지: SPIN_DURATION - 0.3초
 	var stop1_at: float = SPIN_DURATION - REEL_STOP_GAP
 	if not _reel_stopped[1] and _spin_elapsed >= stop1_at:
 		_reel_stopped[1] = true
-		var emojis: Array = _pending_result.get("emojis", ["❓", "❓", "❓"])
-		if is_instance_valid(_reel_labels[1]):
-			_reel_labels[1].text = str(emojis[1])
+		var reels1: Array = _pending_result.get("reels", [4, 4, 4])
+		_set_reel_symbol(1, int(reels1[1]))
 		AudioManager.play("casino_reel")
 
 	# 릴 3 정지: SPIN_DURATION
 	if not _reel_stopped[2] and _spin_elapsed >= _spin_timer:
 		_reel_stopped[2] = true
-		var emojis: Array = _pending_result.get("emojis", ["❓", "❓", "❓"])
-		if is_instance_valid(_reel_labels[2]):
-			_reel_labels[2].text = str(emojis[2])
+		var reels2: Array = _pending_result.get("reels", [4, 4, 4])
+		_set_reel_symbol(2, int(reels2[2]))
 		AudioManager.play("casino_reel")
 		set_process(false)
 		_finish_spin()
@@ -182,8 +180,8 @@ func _finish_spin() -> void:
 	_phase = Phase.RESULT
 
 	var result: Dictionary = _pending_result
-	var emojis: Array = result.get("emojis", ["❓", "❓", "❓"])
-	_set_reel_emojis(emojis)
+	var reels: Array = result.get("reels", [4, 4, 4])
+	_set_reel_symbols(reels)
 
 	var is_win: bool     = bool(result.get("is_win", false))
 	var multiplier: float = float(result.get("multiplier", 0.0))
@@ -223,32 +221,32 @@ func _finish_spin() -> void:
 
 	# 위 라인 표시 + 당첨 연출
 	if is_win:
-		if win_type == "JACKPOT 🎉":
-			_set_win_line("[color=#ff0][b]🎉🎉 JACKPOT 200배 🎉🎉[/b][/color]")
+		if win_type.begins_with("777"):
+			_set_win_line("[color=#ff0][b]JACKPOT 200배[/b][/color]")
 			_play_jackpot_celebration()
 			AudioManager.play("casino_jackpot")
 		elif multiplier >= 20.0:
-			_set_win_line("[color=#f0b429][b]🌟 %s 🌟[/b][/color]" % win_type)
+			_set_win_line("[color=#f0b429][b]%s[/b][/color]" % win_type)
 			_play_big_win_flash()
 			AudioManager.play("casino_win")
 		else:
-			_set_win_line("[color=#f0b429]✨ %s ✨[/color]" % win_type)
+			_set_win_line("[color=#f0b429]%s[/color]" % win_type)
 			_play_win_flash()
 			AudioManager.play("casino_win")
 	else:
 		# 니어미스 체크: 3개 심볼 중 2개가 같은 높은 가치 심볼이면 "아깝다!" 연출
-		var syms: Array = result.get("symbols", [])
+		var syms: Array = result.get("reels", [])
 		if syms.size() == 3:
 			var near_miss := false
-			if syms[0] == syms[1] and syms[0] <= 2:   # 두 릴이 7 or 바
+			if syms[0] == syms[1] and int(syms[0]) <= 2:   # 두 릴이 7, BAR, CHERRY
 				near_miss = true
-			elif syms[1] == syms[2] and syms[1] <= 2:
+			elif syms[1] == syms[2] and int(syms[1]) <= 2:
 				near_miss = true
-			elif syms[0] == syms[2] and syms[0] <= 2:
+			elif syms[0] == syms[2] and int(syms[0]) <= 2:
 				near_miss = true
 			if near_miss:
 				_set_win_line("[color=#e88a30][b]아깝다! 한 끗 차이...[/b][/color]")
-				_flash_msg("💔 아깝다!", "#e88a30")
+				_flash_msg("아깝다!", "#e88a30")
 				GameState.modify_hidden_stat("addiction_tendency", 1)
 				_play_near_miss_shake()
 				AudioManager.play("casino_lose")
@@ -264,10 +262,21 @@ func _finish_spin() -> void:
 	_phase = Phase.IDLE
 
 # ── 애니메이션 헬퍼 ───────────────────────────────────────────
-func _set_reel_emojis(emojis: Array) -> void:
-	for i in range(mini(emojis.size(), _reel_labels.size())):
-		if is_instance_valid(_reel_labels[i]):
-			_reel_labels[i].text = str(emojis[i])
+func _set_reel_symbols(symbols: Array) -> void:
+	for i in range(mini(symbols.size(), _reel_labels.size())):
+		_set_reel_symbol(i, int(symbols[i]))
+
+func _set_reel_symbol(index: int, symbol: int) -> void:
+	if index < 0 or index >= _reel_labels.size():
+		return
+	if not is_instance_valid(_reel_labels[index]):
+		return
+	var safe: int = clampi(symbol, 0, _SYMBOL_LABELS.size() - 1)
+	var text: String = str(_SYMBOL_LABELS[safe])
+	var lbl: Label = _reel_labels[index]
+	lbl.text = text
+	lbl.add_theme_color_override("font_color", Color(str(_SYMBOL_COLORS[safe])))
+	lbl.add_theme_font_size_override("font_size", 58 if text.length() <= 3 else 32)
 
 func _set_win_line(bbtext: String) -> void:
 	if is_instance_valid(_win_line_lbl):
@@ -385,7 +394,7 @@ func _build_ui() -> void:
 	inner.add_child(header)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "🎰 슬롯머신"
+	title_lbl.text = "슬롯머신"
 	title_lbl.add_theme_font_size_override("font_size", 22)
 	title_lbl.add_theme_color_override("font_color", COLOR_GOLD)
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -399,8 +408,8 @@ func _build_ui() -> void:
 	_f(_session_lbl)
 	header.add_child(_session_lbl)
 
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("slot", self), "#0a0a1a", "#5a4510")
-	help_btn.custom_minimum_size = Vector2(42, 32)
+	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("slot", self), "#0a0a1a", "#5a4510")
+	help_btn.custom_minimum_size = Vector2(58, 32)
 	header.add_child(help_btn)
 
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
@@ -432,10 +441,11 @@ func _build_ui() -> void:
 		_reel_panels.append(panel)
 
 		var reel_lbl := Label.new()
-		reel_lbl.text = "🎰"
+		reel_lbl.text = "7"
 		reel_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		reel_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		reel_lbl.add_theme_font_size_override("font_size", 64)
+		reel_lbl.add_theme_font_size_override("font_size", 58)
+		reel_lbl.add_theme_color_override("font_color", Color("#ffd84d"))
 		reel_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
 		panel.add_child(reel_lbl)
 		_reel_labels.append(reel_lbl)
@@ -505,7 +515,7 @@ func _build_ui() -> void:
 	inner.add_child(max_bet_btn)
 
 	# ── SPIN 버튼 ──────────────────────────────────────────────
-	_spin_btn = _make_btn("🎰  SPIN", _start_spin, "#0d2a15", "#2ecc71")
+	_spin_btn = _make_btn("SPIN", _start_spin, "#0d2a15", "#2ecc71")
 	_spin_btn.custom_minimum_size = Vector2(0, 56)
 	_spin_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_spin_btn.add_theme_font_size_override("font_size", 20)

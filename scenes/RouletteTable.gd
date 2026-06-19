@@ -10,6 +10,10 @@ const ROULETTE := preload("res://systems/Roulette.gd")
 enum Phase { IDLE, SPINNING, RESULT }
 
 const STAKE_OPTIONS := [10_000, 50_000, 100_000, 500_000, 1_000_000]
+const WHEEL_NUMBERS := [
+	0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10,
+	5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
+]
 
 # 스핀 감속 단계 정의: [인터벌(초), 반복횟수]
 # 단계1: 0.05s × 24회 = 1.2초 (빠른 사이클)
@@ -49,6 +53,8 @@ var _display_number: int    = 0
 var _result_number: int     = -1
 var _spin_timer: float      = 0.0 # 현재 단계 인터벌 카운터
 var _sfx_tick_timer: float  = 0.0 # tick SFX 카운터
+var _wheel_angle: float     = 0.0
+var _ball_angle: float      = -PI * 0.5
 
 # UI
 var _font: FontFile
@@ -60,6 +66,7 @@ var _hud_lbl: RichTextLabel
 
 var _number_display_lbl: Label       # 중앙 대형 숫자
 var _number_panel_style: StyleBoxFlat # 숫자 패널 배경 (색상 변경용)
+var _wheel_display: Control          # 룰렛 휠/볼 드로잉
 var _number_picker_grid: GridContainer
 var _history_box: HBoxContainer
 var _bet_info_lbl: Label
@@ -116,6 +123,10 @@ func _process(delta: float) -> void:
 
 	_spin_timer    += delta
 	_sfx_tick_timer += delta
+	_wheel_angle = fmod(_wheel_angle + delta * 1.8, TAU)
+	_ball_angle = fmod(_ball_angle - delta * 10.0, TAU)
+	if is_instance_valid(_wheel_display):
+		_wheel_display.queue_redraw()
 
 	# tick SFX: 0.15초마다
 	if _sfx_tick_timer >= SFX_TICK_INTERVAL:
@@ -237,8 +248,11 @@ func _finish_spin() -> void:
 	_set_bet_btns_alpha(1.0)
 
 	# 당첨 숫자 색상으로 패널 배경 변경 + 폰트 크기 72px 확대 후 복귀
+	_ball_angle = _angle_for_result(result)
 	_update_number_display(result, false)
 	_apply_result_highlight(result)
+	if is_instance_valid(_wheel_display):
+		_wheel_display.queue_redraw()
 
 	_refresh()
 
@@ -250,16 +264,16 @@ func _finish_spin() -> void:
 
 	# 결과 플래시
 	if won:
-		_flash("🎉 당첨!  +" + GameState.format_money(float(wagered) * multiplier), "#3de87a")
+		_flash("당첨!  +" + GameState.format_money(float(wagered) * multiplier), "#3de87a")
 	else:
-		_flash("😢 꽝  결과: %d" % result, "#e85d5d")
+		_flash("꽝  결과: %d" % result, "#e85d5d")
 
 	# 2.2초 후 IDLE 복귀 + 패널 배경 원래 색으로 리셋
 	get_tree().create_timer(2.2).timeout.connect(func():
 		if is_instance_valid(self) and _phase == Phase.RESULT:
 			_phase = Phase.IDLE
 			_reset_number_panel()
-			_number_display_lbl.add_theme_font_size_override("font_size", 60)
+			_number_display_lbl.add_theme_font_size_override("font_size", 46)
 			_refresh())
 
 # ── 당첨 강조 헬퍼 ─────────────────────────────────────────────
@@ -284,18 +298,20 @@ func _apply_result_highlight(n: int) -> void:
 	if _number_panel_style != null:
 		_number_panel_style.bg_color = panel_col
 
-	# 폰트 72px 확대 (0.3초 후 복귀는 IDLE 복귀 시 60px로 리셋)
-	_number_display_lbl.add_theme_font_size_override("font_size", 72)
+	# 폰트 확대 (0.3초 후 복귀는 IDLE 복귀 시 46px로 리셋)
+	_number_display_lbl.add_theme_font_size_override("font_size", 58)
 	_number_display_lbl.add_theme_color_override("font_color", font_col)
 
 	# 0.3초 후 60px로 복귀 (배경은 IDLE 복귀 때까지 유지)
 	get_tree().create_timer(0.3).timeout.connect(func():
 		if is_instance_valid(_number_display_lbl):
-			_number_display_lbl.add_theme_font_size_override("font_size", 60))
+			_number_display_lbl.add_theme_font_size_override("font_size", 46))
 
 func _reset_number_panel() -> void:
 	if _number_panel_style != null:
-		_number_panel_style.bg_color = Color("#0a160a")
+		_number_panel_style.bg_color = Color("#050907")
+	if is_instance_valid(_wheel_display):
+		_wheel_display.queue_redraw()
 
 # ── 베팅 버튼 alpha 일괄 설정 ──────────────────────────────────
 func _set_bet_btns_alpha(alpha: float) -> void:
@@ -303,6 +319,70 @@ func _set_bet_btns_alpha(alpha: float) -> void:
 		var btn = entry["btn"]
 		if is_instance_valid(btn):
 			btn.modulate.a = alpha
+
+# ── 룰렛 휠 드로잉 ─────────────────────────────────────────────
+func _angle_for_result(n: int) -> float:
+	var idx: int = WHEEL_NUMBERS.find(n)
+	if idx < 0:
+		idx = 0
+	return _wheel_angle + ((float(idx) + 0.5) / float(WHEEL_NUMBERS.size())) * TAU
+
+func _draw_roulette_wheel() -> void:
+	if not is_instance_valid(_wheel_display):
+		return
+	var sz: Vector2 = _wheel_display.size
+	if sz.x < 80.0 or sz.y < 80.0:
+		return
+	var center: Vector2 = sz * 0.5
+	var radius: float = minf(sz.x, sz.y) * 0.43
+	var inner_radius: float = radius * 0.48
+	var label_radius: float = radius * 0.78
+	var count: int = WHEEL_NUMBERS.size()
+	var font: Font = _font if _font else ThemeDB.fallback_font
+
+	_wheel_display.draw_circle(center, radius + 10.0, Color("#2a1708"))
+	_wheel_display.draw_circle(center, radius + 6.0, Color("#c58f36"))
+	_wheel_display.draw_circle(center, radius + 1.0, Color("#080d09"))
+
+	for i in range(count):
+		var n: int = int(WHEEL_NUMBERS[i])
+		var a0: float = _wheel_angle + float(i) / float(count) * TAU
+		var a1: float = _wheel_angle + float(i + 1) / float(count) * TAU
+		var mid: float = (a0 + a1) * 0.5
+		var col_str: String = _roulette.number_color(n)
+		var wedge_color: Color
+		match col_str:
+			"red":
+				wedge_color = Color("#8f1515")
+			"black":
+				wedge_color = Color("#101010")
+			_:
+				wedge_color = Color("#087033")
+
+		var points := PackedVector2Array()
+		points.append(center)
+		for step in range(7):
+			var t: float = float(step) / 6.0
+			var a: float = lerpf(a0, a1, t)
+			points.append(center + Vector2(cos(a), sin(a)) * radius)
+		_wheel_display.draw_colored_polygon(points, wedge_color)
+		_wheel_display.draw_line(
+			center + Vector2(cos(a0), sin(a0)) * inner_radius,
+			center + Vector2(cos(a0), sin(a0)) * radius,
+			Color(1, 1, 1, 0.10), 1.0)
+
+		var label_pos: Vector2 = center + Vector2(cos(mid), sin(mid)) * label_radius + Vector2(-9.0, 4.0)
+		_wheel_display.draw_string(font, label_pos, str(n), HORIZONTAL_ALIGNMENT_CENTER, 18.0, 9, Color("#f5f1e8"))
+
+	_wheel_display.draw_circle(center, inner_radius, Color("#050906"))
+	_wheel_display.draw_arc(center, inner_radius, 0.0, TAU, 96, Color("#c58f36"), 2.0)
+	_wheel_display.draw_circle(center, inner_radius * 0.55, Color("#101b12"))
+	_wheel_display.draw_arc(center, radius * 0.72, 0.0, TAU, 128, Color(1, 1, 1, 0.16), 1.0)
+
+	var ball_pos: Vector2 = center + Vector2(cos(_ball_angle), sin(_ball_angle)) * (radius * 0.70)
+	_wheel_display.draw_circle(ball_pos + Vector2(2.0, 2.0), 7.0, Color(0, 0, 0, 0.45))
+	_wheel_display.draw_circle(ball_pos, 6.5, Color("#f4f2e8"))
+	_wheel_display.draw_circle(ball_pos + Vector2(-2.0, -2.0), 2.0, Color(1, 1, 1, 0.9))
 
 # ── UI 빌드 ──────────────────────────────────────────────────
 func _build_ui() -> void:
@@ -356,23 +436,29 @@ func _build_ui() -> void:
 	margin.add_child(_content_root)
 	scroll.add_child(margin)
 
-	# ── 중앙 숫자 디스플레이 ──
+	# ── 중앙 룰렛 휠 / 숫자 디스플레이 ──
 	var num_panel := PanelContainer.new()
-	num_panel.custom_minimum_size = Vector2(0, 100)
+	num_panel.custom_minimum_size = Vector2(0, 220)
 	_number_panel_style = StyleBoxFlat.new()
-	_number_panel_style.bg_color = Color("#0a160a")
+	_number_panel_style.bg_color = Color("#050907")
 	_number_panel_style.border_color = Color("#2a6a2a")
 	_number_panel_style.set_border_width_all(2)
 	_number_panel_style.set_corner_radius_all(12)
 	num_panel.add_theme_stylebox_override("panel", _number_panel_style)
 	_content_root.add_child(num_panel)
 
+	_wheel_display = Control.new()
+	_wheel_display.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_wheel_display.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_wheel_display.draw.connect(_draw_roulette_wheel)
+	num_panel.add_child(_wheel_display)
+
 	_number_display_lbl = Label.new()
 	_number_display_lbl.text = "—"
 	_number_display_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_number_display_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_number_display_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_number_display_lbl.add_theme_font_size_override("font_size", 60)
+	_number_display_lbl.add_theme_font_size_override("font_size", 46)
 	_number_display_lbl.add_theme_color_override("font_color", Color("#27ae60"))
 	if _font_bold:
 		_number_display_lbl.add_theme_font_override("font", _font_bold)
@@ -479,8 +565,8 @@ func _build_ui() -> void:
 	_spin_btn.add_theme_font_size_override("font_size", 16)
 	action_row.add_child(_spin_btn)
 
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#5a4510")
-	help_btn.custom_minimum_size = Vector2(50, 46)
+	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#5a4510")
+	help_btn.custom_minimum_size = Vector2(60, 46)
 	_f(help_btn)
 	action_row.add_child(help_btn)
 
@@ -594,7 +680,7 @@ func _refresh() -> void:
 func _refresh_hud() -> void:
 	var spinning_str: String = "  [스핀 중...]" if _phase == Phase.SPINNING else ""
 	_hud_lbl.text = (
-		"🎡 [b]유럽식 룰렛[/b]   |   💰 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s"
+		"[b]유럽식 룰렛[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s"
 		% [
 			GameState.format_money(GameState.money),
 			_rounds, _wins, _losses,
@@ -694,7 +780,7 @@ func _refresh_bet_info() -> void:
 		_bet_info_lbl.text = "베팅 유형을 선택하세요"
 
 func _refresh_balance() -> void:
-	_balance_lbl.text = "💰 잔액: %s" % GameState.format_money(GameState.money)
+	_balance_lbl.text = "잔액: %s" % GameState.format_money(GameState.money)
 
 func _refresh_spin_btn() -> void:
 	if not is_instance_valid(_spin_btn):
