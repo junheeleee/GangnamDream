@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-19 (UI 스킨 P1 2차 + 메뉴/튜토리얼 QA 확장)
+
+### 수정
+- StartMenu 난이도/런 테마 카드를 이모지 기반에서 SVG 아이콘 기반 카드로 교체.
+- StartMenu 설정/삭제/시작/콘텐츠 안내 버튼 문구를 상업 UI 톤으로 정리.
+- Splash `PRESS ANY KEY` 루프 트윈을 dismiss 시 kill하도록 수정해 ScreenshotQA 경고 제거.
+- TutorialOverlay 중앙 아이콘을 플랫폼 이모지 대신 카드/칩/통일 SVG Texture로 교체.
+- ScreenshotQA에 `00_start_menu.png` 캡처를 추가하고, 미니게임 자동 튜토리얼을 suppress해 홀덤/경마 본체 화면이 QA에 찍히도록 수정.
+- 홀덤/경마 상단 조작 UI의 이모지/물음표 버튼을 텍스트 중심으로 정리.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `ScreenshotQA`: 14장 재캡처 완료 (`00_start_menu.png` 추가, 홀덤 실제 핸드 화면 캡처).
+- 참고: ScreenshotQA 종료 시 Godot resource cleanup 경고가 남지만 exit code는 0이고 모든 캡처는 정상 생성됨.
+
 ## 2026-06-19 (UI 스킨 P1 + 정선 카지노 허브 오브젝트화 1차)
 
 ### 수정

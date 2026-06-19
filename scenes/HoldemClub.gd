@@ -98,7 +98,7 @@ func _show_buyin_screen() -> void:
 	var vb := _content_vbox()
 
 	var title := Label.new()
-	title.text = "🃏 지하 홀덤 클럽"
+	title.text = "지하 홀덤 클럽"
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -159,7 +159,7 @@ func _show_buyin_screen() -> void:
 
 	vb.add_child(_sep())
 
-	var rules_btn := _make_btn("❓  게임 규칙 보기", func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
+	var rules_btn := _make_btn("게임 규칙 보기", func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
 	rules_btn.custom_minimum_size = Vector2(0, 38)
 	vb.add_child(rules_btn)
 
@@ -240,7 +240,7 @@ func _render_table() -> void:
 	if total_hands > 0:
 		winrate_str = "   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]" % [
 			roundi(float(_session_won) / float(total_hands) * 100.0), _session_won, _session_lost]
-	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s" % [
+	hdr.text = "[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s" % [
 		phase_names[_phase], winrate_str]
 	hdr.fit_content = true
 	hdr.scroll_active = false
@@ -737,7 +737,7 @@ func _show_result_screen() -> void:
 	var vb := _content_vbox()
 
 	var title := Label.new()
-	title.text = "🃏 세션 종료"
+	title.text = "세션 종료"
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

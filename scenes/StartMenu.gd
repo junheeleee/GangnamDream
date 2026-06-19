@@ -8,6 +8,7 @@ var _settings_overlay: ColorRect
 
 var _splash_layer: Control
 var _splash_active: bool = true
+var _splash_prompt_tween: Tween = null
 
 # ── 런 테마 선택 ─────────────────────────────────────────────────
 var _selected_theme: String = "자유런"
@@ -22,7 +23,7 @@ var _diff_desc_label: Label
 const RUN_THEMES = [
 	{
 		"id": "자유런",
-		"icon": "🎲",
+		"icon_id": "goal",
 		"name": "자유런",
 		"tagline": "매 판 다른 이야기",
 		"desc": "런마다 랜덤 카테고리 2개 부스트. 아무 제약 없음.",
@@ -30,7 +31,7 @@ const RUN_THEMES = [
 	},
 	{
 		"id": "투자런",
-		"icon": "📈",
+		"icon_id": "invest",
 		"name": "투자런",
 		"tagline": "돈으로 돈을 번다",
 		"desc": "투자·재정 이벤트 집중. 투자감각 +5 시작. 시장 파동에 올라타라.",
@@ -38,7 +39,7 @@ const RUN_THEMES = [
 	},
 	{
 		"id": "인맥런",
-		"icon": "🤝",
+		"icon_id": "relationship",
 		"name": "인맥런",
 		"tagline": "사람이 자본이다",
 		"desc": "사회·관계 이벤트 집중. 사교력 +10 시작. 연결이 돈이 된다.",
@@ -46,13 +47,25 @@ const RUN_THEMES = [
 	},
 	{
 		"id": "청렴런",
-		"icon": "✨",
+		"icon_id": "title",
 		"name": "청렴런",
 		"tagline": "도박 없이, 실력으로만",
 		"desc": "도박 이벤트 완전 차단. 평판 +10 시작. 정직하게 30억.",
 		"diff": "★★★★★",
 	},
 ]
+
+const UI_ICON_PATHS := {
+	"goal": "res://assets/ui/icons/icon_goal.svg",
+	"invest": "res://assets/ui/icons/icon_invest.svg",
+	"relationship": "res://assets/ui/icons/icon_relationship.svg",
+	"title": "res://assets/ui/icons/icon_title.svg",
+	"mental": "res://assets/ui/icons/icon_mental.svg",
+	"housing": "res://assets/ui/icons/icon_housing.svg",
+	"stress": "res://assets/ui/icons/icon_stress.svg",
+	"menu": "res://assets/ui/icons/icon_menu.svg",
+}
+var _ui_icon_cache: Dictionary = {}
 
 func _ready():
 	_build_ui()
@@ -145,10 +158,10 @@ func _build_splash():
 	press_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(press_lbl)
 
-	var tween = create_tween()
-	tween.set_loops()
-	tween.tween_property(press_lbl, "modulate:a", 0.12, 0.75)
-	tween.tween_property(press_lbl, "modulate:a", 1.0, 0.75)
+	_splash_prompt_tween = create_tween()
+	_splash_prompt_tween.set_loops()
+	_splash_prompt_tween.tween_property(press_lbl, "modulate:a", 0.12, 0.75)
+	_splash_prompt_tween.tween_property(press_lbl, "modulate:a", 1.0, 0.75)
 
 func _input(event):
 	if not _splash_active:
@@ -164,6 +177,9 @@ func _input(event):
 
 func _dismiss_splash():
 	_splash_active = false
+	if _splash_prompt_tween and _splash_prompt_tween.is_running():
+		_splash_prompt_tween.kill()
+	_splash_prompt_tween = null
 	AudioManager.play("click")
 	var tween = create_tween()
 	tween.tween_property(_splash_layer, "modulate:a", 0.0, 0.25)
@@ -221,8 +237,8 @@ func _build_ui():
 	sub_lbl.clip_text = false
 	title_vb.add_child(sub_lbl)
 
-	var settings_btn = _button("⚙", "#1a1a28")
-	settings_btn.custom_minimum_size = Vector2(44, 44)
+	var settings_btn = _button("설정", "#1a1a28")
+	settings_btn.custom_minimum_size = Vector2(62, 44)
 	settings_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	settings_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	settings_btn.pressed.connect(_open_settings_popup)
@@ -329,7 +345,7 @@ func _build_ui():
 	left.add_child(spacer)
 
 	# ── 새 게임 시작 버튼 ──
-	var new_game = _button("새 이야기 시작  ▶", "#0d2a1a")
+	var new_game = _button("새 이야기 시작 ›", "#0d2a1a")
 	var ng_st = StyleBoxFlat.new()
 	ng_st.bg_color = Color("#0d2a1a")
 	ng_st.border_color = Color("#00c896")
@@ -417,7 +433,7 @@ func _rebuild_slots():
 		# 삭제 버튼 (데이터가 있을 때만 표시)
 		if enabled:
 			var del_btn = Button.new()
-			del_btn.text = "🗑"
+			del_btn.text = "삭제"
 			del_btn.custom_minimum_size = Vector2(36, 56)
 			del_btn.flat = false
 			var del_st = StyleBoxFlat.new()
@@ -479,7 +495,7 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 		if enabled:
 			var del_btn = Button.new()
 			var is_confirm = (slot == confirm_slot)
-			del_btn.text = "삭제!" if is_confirm else "🗑"
+			del_btn.text = "삭제!" if is_confirm else "삭제"
 			del_btn.custom_minimum_size = Vector2(44, 56)
 			var del_st = StyleBoxFlat.new()
 			del_st.bg_color = Color("#5a1a1a") if is_confirm else Color("#2a1010")
@@ -538,12 +554,9 @@ func _build_theme_cards() -> void:
 		vb.add_theme_constant_override("separation", 3)
 		vb.alignment = BoxContainer.ALIGNMENT_CENTER
 		card.add_child(vb)
-		var icon_lbl := Label.new()
-		icon_lbl.text = t["icon"]
-		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		icon_lbl.add_theme_font_size_override("font_size", 22)
-		icon_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		vb.add_child(icon_lbl)
+		var icon_tex: TextureRect = _menu_icon(str(t.get("icon_id", "goal")),
+			Color("#3dba6a") if is_selected else Color("#324052"), 24)
+		vb.add_child(icon_tex)
 		var name_lbl := Label.new()
 		name_lbl.text = t["name"]
 		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -604,12 +617,10 @@ func _build_diff_cards() -> void:
 		vb.add_theme_constant_override("separation", 3)
 		vb.alignment = BoxContainer.ALIGNMENT_CENTER
 		card.add_child(vb)
-		var icon_lbl := Label.new()
-		icon_lbl.text = str(d["icon"])
-		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		icon_lbl.add_theme_font_size_override("font_size", 22)
-		icon_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		vb.add_child(icon_lbl)
+		var icon_id: String = _difficulty_icon_id(did)
+		var icon_tex: TextureRect = _menu_icon(icon_id,
+			Color("#f0b429") if is_selected else Color("#324052"), 24)
+		vb.add_child(icon_tex)
 		var name_lbl := Label.new()
 		name_lbl.text = str(d["name"])
 		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -695,9 +706,9 @@ func _show_content_warning():
 
 	var title_lbl = Label.new()
 	if LocaleManager.language == "en":
-		title_lbl.text = "⚠  Content Notice"
+		title_lbl.text = "Content Notice"
 	else:
-		title_lbl.text = "⚠  콘텐츠 안내"
+		title_lbl.text = "콘텐츠 안내"
 	title_lbl.add_theme_font_size_override("font_size", 17)
 	title_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -743,7 +754,7 @@ func _show_content_warning():
 	vbox.add_child(btn_row)
 
 	var back_btn = Button.new()
-	back_btn.text = "← 뒤로" if LocaleManager.language != "en" else "← Back"
+	back_btn.text = "뒤로" if LocaleManager.language != "en" else "Back"
 	back_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	back_btn.custom_minimum_size = Vector2(0, 44)
 	var back_st = StyleBoxFlat.new()
@@ -756,7 +767,7 @@ func _show_content_warning():
 	btn_row.add_child(back_btn)
 
 	var ok_btn = Button.new()
-	ok_btn.text = "이해했습니다 →" if LocaleManager.language != "en" else "Understood →"
+	ok_btn.text = "이해했습니다 ›" if LocaleManager.language != "en" else "Understood ›"
 	ok_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ok_btn.custom_minimum_size = Vector2(0, 44)
 	var ok_st = StyleBoxFlat.new()
@@ -830,6 +841,37 @@ func _button(text, color) -> Button:
 	button.add_theme_color_override("font_color", Color("#ffffff"))
 	button.add_theme_font_size_override("font_size", 15)
 	return button
+
+func _menu_icon(icon_id: String, tint: Color, size: int = 24) -> TextureRect:
+	var tex_rect := TextureRect.new()
+	tex_rect.custom_minimum_size = Vector2(size, size)
+	tex_rect.texture = _ui_icon_texture(icon_id)
+	tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tex_rect.modulate = tint
+	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return tex_rect
+
+func _difficulty_icon_id(did: String) -> String:
+	match did:
+		"드라마":
+			return "mental"
+		"지옥고":
+			return "stress"
+		_:
+			return "housing"
+
+func _ui_icon_texture(icon_id: String) -> Texture2D:
+	if _ui_icon_cache.has(icon_id):
+		return _ui_icon_cache[icon_id]
+	var path: String = str(UI_ICON_PATHS.get(icon_id, ""))
+	if path.is_empty() or not ResourceLoader.exists(path):
+		_ui_icon_cache[icon_id] = null
+		return null
+	var res := load(path)
+	var tex: Texture2D = res if res is Texture2D else null
+	_ui_icon_cache[icon_id] = tex
+	return tex
 
 func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: Callable = Callable()) -> Control:
 	var outer = PanelContainer.new()
@@ -915,7 +957,7 @@ func _open_settings_popup():
 	panel.add_child(vbox)
 
 	var title = Label.new()
-	title.text = "⚙️ 설정"
+	title.text = "설정"
 	title.add_theme_font_size_override("font_size", 16)
 	title.add_theme_color_override("font_color", Color("#e8eaf0"))
 	vbox.add_child(title)

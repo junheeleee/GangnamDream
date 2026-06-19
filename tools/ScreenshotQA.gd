@@ -10,6 +10,7 @@ var _mg: Node = null
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
+	await _shot_start_menu()
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
 	for c in ["chapter_33_seen","chapter_34_seen","chapter_35_seen","chapter_36_seen","chapter_37_seen"]:
@@ -24,6 +25,7 @@ func _ready() -> void:
 	GameState.investment_skill = 35
 	GameState.flags["has_received_paycheck"] = true
 	GameState.flags["arc_invest_guidance_seen"] = true
+	_suppress_tutorial_overlays()
 	_seed_portfolio()
 
 	# MainGame._ready 의 _begin_month 가 StoryMode 로 change_scene 하는 것을 막는다:
@@ -58,11 +60,28 @@ func _ready() -> void:
 	print("SCREENSHOT_QA_DONE dir=%s" % OUT_DIR)
 	get_tree().quit(0)
 
+func _shot_start_menu() -> void:
+	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await _settle(0.8)
+	if menu.has_method("_dismiss_splash"):
+		menu._dismiss_splash()
+	await _settle(0.6)
+	await _save("00_start_menu")
+	menu.queue_free()
+	await _settle(0.2)
+
 func _seed_portfolio() -> void:
 	if not (GameState.portfolio is Dictionary):
 		return
 	GameState.portfolio["samsung"] = {"quantity": 30.0, "avg_price": 68000.0}
 	GameState.portfolio["nvidia"] = {"quantity": 2.0, "avg_price": 820000.0}
+
+func _suppress_tutorial_overlays() -> void:
+	for id in ["main_game", "holdem", "racetrack", "baccarat", "blackjack",
+			"slot", "roulette", "bigwheel", "scalping", "trading", "invest"]:
+		TutorialOverlay._seen[id] = true
 
 func _kill_transition() -> void:
 	var st = get_tree().root.get_node_or_null("SceneTransition")
@@ -161,6 +180,10 @@ func _shot_minigame(node_name: String, shot_name: String) -> void:
 		print("SKIP %s (no node)" % shot_name)
 		return
 	node.open()
+	if node_name == "holdem_club" and node.has_method("_start_hand"):
+		await _settle(0.4)
+		node._buy_in = 100_000
+		node._start_hand()
 	await _settle(1.0)
 	await _save(shot_name)
 	# 오버레이 숨김 (다음 케이스 방해 방지)

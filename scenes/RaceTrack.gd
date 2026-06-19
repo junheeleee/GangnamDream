@@ -111,9 +111,9 @@ func _build_skeleton() -> void:
 	add_child(_hud)
 
 	var help := Button.new()
-	help.text = "❓"
+	help.text = "규칙"
 	help.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	help.offset_left = -164; help.offset_top = 14; help.offset_right = -128; help.offset_bottom = 46
+	help.offset_left = -188; help.offset_top = 14; help.offset_right = -128; help.offset_bottom = 46
 	_style(help, "#0a0a1a", "#5a4510")
 	help.pressed.connect(func(): TutorialOverlay.force_show("racetrack", self))
 	add_child(help)
@@ -185,7 +185,7 @@ func _clear() -> void:
 		c.queue_free()
 
 func _refresh_top() -> void:
-	_header.text = "[b]🏇 경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s" % [
+	_header.text = "[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s" % [
 		_races_today, int(_race.get("distance", 0)), str(_race.get("track", ""))]
 	var addic: int = GameState.addiction_tendency
 	var bars: int = clampi(addic / 10, 0, 10)
@@ -737,7 +737,7 @@ func _render_result() -> void:
 	if GameState.addiction_tendency >= 70:
 		var warn := Label.new()
 		_f(warn); warn.add_theme_font_size_override("font_size", 13)
-		warn.text = "⚠ 손이 떨린다. '딱 한 번만 더'가 가장 위험하다. (중독도 %d)" % GameState.addiction_tendency
+		warn.text = "위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)" % GameState.addiction_tendency
 		warn.add_theme_color_override("font_color", Color("#e8a05d"))
 		box.add_child(warn)
 
@@ -747,7 +747,7 @@ func _render_result() -> void:
 	row.add_theme_constant_override("separation", 10)
 	_content.add_child(row)
 	var again := Button.new()
-	again.text = "🔥 다음 경주 (한 번 더)"
+	again.text = "다음 경주"
 	_style(again, "#231016", "#a03a4a")
 	again.pressed.connect(_new_race)
 	row.add_child(again)

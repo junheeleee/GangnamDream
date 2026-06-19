@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Changed (2026-06-19) — Start menu and tutorial UI skin pass
+
+- Reworked StartMenu difficulty/theme cards to use unified SVG icons instead of platform emoji glyphs.
+- Cleaned up StartMenu settings, delete, start, and content-notice button copy.
+- Replaced TutorialOverlay's large slide emoji with card/chip/UI-icon textures.
+- Extended `ScreenshotQA` with a `00_start_menu.png` capture and suppressed automatic tutorial overlays so minigame body screens are visible in QA.
+- Cleaned visible Holdem/RaceTrack rule/header controls to reduce emoji/prototype UI feel.
+
 ### Changed (2026-06-19) — UI skin P1 and casino hub polish
 
 - Reworked the MainGame HUD into icon-backed status chips for date, AP, health, mental, and money.
