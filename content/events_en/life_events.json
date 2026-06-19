@@ -11,7 +11,11 @@
       "min_turn": 6,
       "max_turn": 14
     },
-    "tags": ["family", "story_beat", "father"],
+    "tags": [
+      "family",
+      "story_beat",
+      "father"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -22,7 +26,9 @@
           "health": 5,
           "stress": -10
         },
-        "flags": ["went_home_for_father"],
+        "flags": [
+          "went_home_for_father"
+        ],
         "result_text": "Through the train window, home grew closer.\n\nDad was there on the platform. His shoulders more rounded than {name} remembered.\nAt the reception hall, Dad introduced {name} to everyone nearby as 'my son.'\n\nThe investment window is gone. But somehow — that night, {name} slept well."
       },
       {
@@ -31,7 +37,9 @@
           "stress": 7,
           "mental": -6
         },
-        "flags": ["skipped_father_wedding"],
+        "flags": [
+          "skipped_father_wedding"
+        ],
         "result_text": "Said you'd come next time, definitely.\nDad said 'okay, I know you're busy.'\n\nHung up. Opened the calendar. Three days to the investment deadline.\n\nThe optimal choice."
       }
     ]
@@ -45,7 +53,10 @@
     "weight": 4,
     "hidden": false,
     "conditions": {},
-    "tags": ["social_life", "viral"],
+    "tags": [
+      "social_life",
+      "viral"
+    ],
     "cooldown": 9,
     "choices": [
       {
@@ -92,7 +103,10 @@
     "weight": 4,
     "hidden": false,
     "conditions": {},
-    "tags": ["gambling", "class"],
+    "tags": [
+      "gambling",
+      "class"
+    ],
     "cooldown": 9,
     "choices": [
       {
@@ -130,7 +144,10 @@
     "weight": 4,
     "hidden": false,
     "conditions": {},
-    "tags": ["health", "opportunity"],
+    "tags": [
+      "health",
+      "opportunity"
+    ],
     "cooldown": 6,
     "choices": [
       {
@@ -182,7 +199,10 @@
       "min_turn": 56,
       "max_turn": 59
     },
-    "tags": ["life", "family"],
+    "tags": [
+      "life",
+      "family"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -219,7 +239,11 @@
     "conditions": {
       "min_turn": 6
     },
-    "tags": ["late_night", "social", "work"],
+    "tags": [
+      "late_night",
+      "social",
+      "work"
+    ],
     "cooldown": 8,
     "choices": [
       {
@@ -240,7 +264,9 @@
           "social_skill": 2,
           "stress": -2
         },
-        "flags": ["heard_driver_story"],
+        "flags": [
+          "heard_driver_story"
+        ],
         "follow_up_event": "",
         "result_text": "'Once the kids get through college, things'll pick up,' he said.\n'It's fine now. This job isn't bad.'\nWhether he meant it — impossible to know.\n\nGetting out, {name} added a little more to the tip.\nThe driver said thank you.\n\nHis voice stayed for a while."
       }
@@ -258,7 +284,11 @@
       "min_turn": 10,
       "flag": "father_visited"
     },
-    "tags": ["family", "money", "emotional"],
+    "tags": [
+      "family",
+      "money",
+      "emotional"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -268,7 +298,9 @@
           "intelligence": 3,
           "stress": 5
         },
-        "flags": ["saw_parents_bankbook"],
+        "flags": [
+          "saw_parents_bankbook"
+        ],
         "follow_up_event": "",
         "result_text": "Dad came back. Carried on the conversation as if nothing had happened.\n\nOver dinner {name} tried to erase the number from memory.\nIt wouldn't go.\n\nOn the train back to Seoul, a thought settled in.\nMaybe everything {name} is doing now exists because of that number."
       },
@@ -279,7 +311,9 @@
           "stress": -3,
           "social_skill": 2
         },
-        "flags": ["talked_about_parents_bankbook"],
+        "flags": [
+          "talked_about_parents_bankbook"
+        ],
         "follow_up_event": "",
         "result_text": "'I saw it. I'm sorry.'\n\nDad was quiet for a long time.\n'Hey. It's fine.' That was all.\n\nBut something shifted after those short words.\nNow neither of them had to pretend not to know.\n\n{name} stared out the window the whole ride back."
       }
@@ -294,7 +328,11 @@
     "weight": 6.0,
     "hidden": false,
     "conditions": {},
-    "tags": ["social", "fomo", "housing"],
+    "tags": [
+      "social",
+      "fomo",
+      "housing"
+    ],
     "cooldown": 12,
     "choices": [
       {
@@ -332,7 +370,11 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["social", "work", "fomo"],
+    "tags": [
+      "social",
+      "work",
+      "fomo"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -370,7 +412,11 @@
       "has_job": true,
       "min_job_tier": 2
     },
-    "tags": ["work", "jobs", "milestone"],
+    "tags": [
+      "work",
+      "jobs",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -380,7 +426,9 @@
           "mental": 5,
           "stress": -3
         },
-        "flags": ["got_business_card"],
+        "flags": [
+          "got_business_card"
+        ],
         "follow_up_event": "",
         "result_text": "After the meeting, handed one over.\nThe other person took it naturally, slipped it into their wallet.\n\nA gesture that meant nothing to them.\nIt meant something to {name}.\n\nOn the subway back, opened the wallet and looked at the card again.\nA name, pressed into paper."
       },
@@ -390,7 +438,9 @@
           "mental": 3,
           "intelligence": 2
         },
-        "flags": ["got_business_card"],
+        "flags": [
+          "got_business_card"
+        ],
         "follow_up_event": "",
         "result_text": "Hand trembled slightly when handing the card over in the meeting.\nThe other person didn't notice.\n\nBack home, placed a card on the desk.\nLooked at it for a long time.\n\nWhether this is the beginning, or the middle of a long road — impossible to say.\nBut — made it here."
       }
@@ -405,7 +455,11 @@
     "weight": 5.0,
     "hidden": false,
     "conditions": {},
-    "tags": ["daily_life", "social", "comedy"],
+    "tags": [
+      "daily_life",
+      "social",
+      "comedy"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -443,7 +497,11 @@
     "conditions": {
       "min_turn": 12
     },
-    "tags": ["social", "family", "life"],
+    "tags": [
+      "social",
+      "family",
+      "life"
+    ],
     "cooldown": 15,
     "choices": [
       {
@@ -479,7 +537,11 @@
     "weight": 4.0,
     "hidden": false,
     "conditions": {},
-    "tags": ["daily_life", "night", "food"],
+    "tags": [
+      "daily_life",
+      "night",
+      "food"
+    ],
     "cooldown": 10,
     "choices": [
       {
@@ -516,7 +578,11 @@
     "conditions": {
       "min_turn": 30
     },
-    "tags": ["life", "daily_life", "milestone"],
+    "tags": [
+      "life",
+      "daily_life",
+      "milestone"
+    ],
     "cooldown": 20,
     "choices": [
       {
@@ -553,7 +619,11 @@
     "conditions": {
       "has_job": true
     },
-    "tags": ["finance", "work", "daily_life"],
+    "tags": [
+      "finance",
+      "work",
+      "daily_life"
+    ],
     "cooldown": 4,
     "choices": [
       {
@@ -578,6 +648,4317 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "Went out. Ate well.\nGood. ₩30,000.\nWorth it. A little not worth it.\n\nBoth of those coexisted through the whole meal.\n\nNext month will be better.\nDecided to believe that."
+      }
+    ]
+  },
+  {
+    "id": "gosiwon_neighbor_first_meet",
+    "title": "The Neighbor Next Door",
+    "description": "You ran into them in the hallway.\n\nAround the same age. A brief nod.\nWaiting at the washing machine, the conversation started.\n\n'How long have you been here?'\n\nThis is how most friendships begin in a goshiwon.\nTight space, shared circumstances, accidental timing.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "max_stress": 80,
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "social",
+      "gosiwon",
+      "relationship"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Strike up a comfortable conversation",
+        "effects": {
+          "social_skill": 2,
+          "mental": 7
+        },
+        "relationship_effects": [
+          {
+            "id": "gosiwon_neighbor",
+            "name": "Next-Door Neighbor",
+            "type": "friends",
+            "affection": 45,
+            "trust": 35
+          }
+        ],
+        "result_text": "You learned their name. And that you're in the same boat.\nFor the first time in Seoul, you had someone you knew.\nThe goshiwon felt a little less foreign.",
+        "flags": []
+      },
+      {
+        "text": "Give a brief nod and head back to your room",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "They seemed decent, but you were too tired today.\nYou'd run into them again.",
+        "flags": []
+      }
+    ],
+    "background": "goshiwon_room"
+  },
+  {
+    "id": "neighborhood_cafe_regular",
+    "title": "The Café Regular",
+    "description": "The small café next to the convenience store you visited every day.\n\nToday the staff member spoke to you first.\n'You come in every day. Iced Americano, right?'\n\nSomeone you didn't even know by name had memorized your order.\nIn Seoul, something like this turned out to be unexpectedly comforting.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 2,
+      "max_stress": 85
+    },
+    "tags": [
+      "social",
+      "daily",
+      "relationship"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Warmly keep the conversation going",
+        "effects": {
+          "social_skill": 2,
+          "mental": 9
+        },
+        "relationship_effects": [
+          {
+            "id": "cafe_friend",
+            "name": "Café Regular Friend",
+            "type": "friends",
+            "affection": 40,
+            "trust": 30
+          }
+        ],
+        "result_text": "A conversation that lasted maybe ten minutes.\nYou shared a little about work, Seoul, and dreams.\nYou had a feeling you'd be back tomorrow.",
+        "flags": []
+      },
+      {
+        "text": "Just smile and take your coffee",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "Today you just drank the coffee.\nThat was enough.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "first_month_rent_pressure",
+    "title": "The First Automatic Rent Transfer",
+    "description": "A text arrived about the automatic rent transfer.\n{name}'s bank balance was thin from the start, and Seoul didn't wait for anyone.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.7,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "finance",
+      "rent",
+      "anxiety"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Cut living expenses even further",
+        "effects": {
+          "money": 50000,
+          "mental": -9
+        },
+        "result_text": "You shifted the ratio from convenience store lunches to home-cooked meals. The bank account held on, but your spirit was wearing thin.",
+        "flags": []
+      },
+      {
+        "text": "Look for weekend part-time work",
+        "effects": {
+          "money": 150000,
+          "health": -5,
+          "mental": -8
+        },
+        "result_text": "You hustled through every weekend shift. An extra ₩150,000 came in, but your body was truly hitting its limit.",
+        "flags": []
+      },
+      {
+        "text": "Study investing to find a way out",
+        "effects": {
+          "investment_skill": 5,
+          "mental": -2
+        },
+        "result_text": "Pressured by the rent, you decided to break through by studying investing. Nothing changed right away.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "family_002",
+    "title": "A Call from Your Parents",
+    "description": "Sunday afternoon, 3 PM. 'Mom' lit up on the screen.\n\nYou already knew what was coming as you pressed accept. They'd ask how things were going. You'd say you were fine.\n\n'Are you eating properly?'\n\nOn the desk in your goshiwon room sat a convenience store lunch box. The third one today.\n\n'Yeah, eating well.'",
+    "category": "family",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "family",
+      "risk"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Avoid money talk and just exchange pleasantries",
+        "effects": {
+          "mental": 6
+        },
+        "result_text": "You kept it to small talk. You couldn't bring yourself to say things were hard, but just hearing your mom's voice made things a little better.",
+        "flags": []
+      },
+      {
+        "text": "Open up and admit you're struggling",
+        "effects": {
+          "mental": 5
+        },
+        "result_text": "When you admitted how hard it was, your parents went quiet. Your chest felt lighter, but you felt guilty for worrying them.",
+        "flags": []
+      },
+      {
+        "text": "Talk big and say you'll be making a lot of money soon",
+        "effects": {
+          "mental": -4
+        },
+        "result_text": "You talked a big game about getting rich soon. Only after you hung up did you feel a little ashamed of yourself.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "jobs_003",
+    "title": "A Job Posting Appeared",
+    "description": "A headhunter sent a LinkedIn message. An offer for a position paying 20% more than your current salary. But you'd only just started settling in with your current team.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
+    "tags": [
+      "jobs",
+      "pressure"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Carefully compare the salary and conditions",
+        "effects": {
+          "money": 220000,
+          "mental": 3
+        },
+        "result_text": "You laid everything out in a spreadsheet. The job search prep cost ₩220,000, but your head felt clearer.",
+        "flags": []
+      },
+      {
+        "text": "Reassure yourself that your current job is better",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "You talked yourself into believing the current job was still the better option. The anxiety settled, but an uneasy feeling lingered.",
+        "flags": []
+      },
+      {
+        "text": "Send in your résumé right away",
+        "effects": {
+          "reputation": -4,
+          "investment_skill": -1
+        },
+        "result_text": "You submitted your résumé and your team leader found out. The office atmosphere turned strangely awkward.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "politics_005",
+    "title": "Election Season Thematic Stocks",
+    "description": "As elections drew near, stock app notifications exploded. Group chats went wild over stocks tied to certain candidates. You started wondering whether this was investing or gambling.",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 1.7,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "politics",
+      "viral"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "Study the risks of thematic stocks first",
+        "effects": {
+          "money": 270000,
+          "reputation": 5
+        },
+        "result_text": "You did your homework before diving in. The timing worked and you came out with a profit, and people started talking.",
+        "flags": []
+      },
+      {
+        "text": "Just watch the news and gauge the mood",
+        "effects": {
+          "mental": -8
+        },
+        "result_text": "You spent the whole day refreshing the news. In the end you did nothing and the stress just piled up.",
+        "flags": []
+      },
+      {
+        "text": "Buy a small position for now",
+        "effects": {
+          "reputation": 5,
+          "investment_skill": 1
+        },
+        "result_text": "You bought a small position. Luck was on your side, and people around you started to take notice.",
+        "flags": [
+          "seen_politics_005"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "military_007",
+    "title": "Reserve Training Notice",
+    "description": "A text arrived with a reserve forces training notice.\n\nReceived at 9:12 AM. You were in the middle of a meeting.\n33 years old. It had been over ten years since discharge, yet these texts still came.\n\nYou checked the date. A Friday that week of all weeks. The day before an important deadline.\n\nCaught between the Ministry of National Defense and your company. You weren't even sure if it was right to feel this way.",
+    "category": "military",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 11
+    },
+    "tags": [
+      "military",
+      "class"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Check the date and apply for leave",
+        "effects": {
+          "money": 0,
+          "intelligence": -1
+        },
+        "result_text": "You checked the date and filed the leave request. A hassle, but there was no getting around it.",
+        "flags": []
+      },
+      {
+        "text": "Grumble about it with old army buddies",
+        "effects": {
+          "mental": 4
+        },
+        "result_text": "You vented to your old buddies and the group chat lit up. Your chest felt lighter, but reality stayed exactly the same.",
+        "flags": []
+      },
+      {
+        "text": "Look into ways to defer the training",
+        "effects": {
+          "reputation": 4,
+          "investment_skill": -2
+        },
+        "result_text": "You researched how to defer. It felt a bit underhanded, but you made a note of it just in case.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "disasters_009",
+    "title": "Broken Phone",
+    "description": "You dropped your phone coming down the stairs.\n\nThere was a sound. Glass shattering. It bounced once and landed face-down.\n\nYou picked it up slowly. The screen was cracked like a spiderweb.\n\nRepair estimate: ₩300,000. New device: ₩1,000,000.\nYou couldn't bring yourself to open your banking app. You just stood on the stairs for about three seconds.",
+    "category": "disasters",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "disasters",
+      "class"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Get a cheap replacement from a secondhand site",
+        "effects": {
+          "money": 0,
+          "intelligence": 2
+        },
+        "result_text": "You scoured a used phone site and found a deal. It worked better than expected and oddly cleared your head.",
+        "flags": []
+      },
+      {
+        "text": "Keep using it with the cracked screen and feel miserable",
+        "effects": {
+          "money": 200000,
+          "mental": -6
+        },
+        "result_text": "You kept using it with the cracked screen. Every time you looked at it, your mood sank.",
+        "flags": []
+      },
+      {
+        "text": "Splurge on a brand-new phone on installments",
+        "effects": {
+          "reputation": 5,
+          "investment_skill": 1
+        },
+        "result_text": "You bought the latest phone on installments. The reaction from people around you was good, but you worried about your account balance.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "finance_011",
+    "title": "Housing Lottery Frenzy in the Group Chat",
+    "description": "A housing subscription notice went up in the group chat.\n\nTotal points tallied, estimated competition ratios, odds simulators.\nComments flooded in. 'Should I open a subscription account now?' 'How does the no-home period calculation work?'\n\n{name} didn't even have a subscription account. That fact suddenly stung today.\n\nIt felt like everyone else knew the rules of a game you hadn't even heard of.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "max_mental": 65
+    },
+    "tags": [
+      "finance",
+      "viral"
+    ],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "Calmly verify the subscription conditions",
+        "effects": {
+          "money": 450000,
+          "health": -6
+        },
+        "result_text": "You went through the subscription criteria step by step. It cost ₩450,000, but you confirmed you met the conditions.",
+        "flags": []
+      },
+      {
+        "text": "Get even more confused by the flood of information",
+        "effects": {
+          "mental": -5
+        },
+        "result_text": "There was too much information and it only made things more confusing. You didn't know what to believe and went blank.",
+        "flags": []
+      },
+      {
+        "text": "Just apply without thinking it through",
+        "effects": {
+          "reputation": 2,
+          "investment_skill": 0
+        },
+        "result_text": "You just hit apply. Your attitude was: if it happens, it happens.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "family_013",
+    "title": "Family Medical Bills",
+    "description": "Your parents called. The hospital bill came out higher than expected.\n\nYou heard the amount. You ran the numbers. You quickly calculated the maximum you could pull from your account right now against the remaining expenses for the month.\n\nIt felt strange to be running these calculations. When did your parents' hospital bills become a 'line item'?\n\nThere was no way to calculate the weight of that guilt.",
+    "category": "family",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "min_reputation": 20
+    },
+    "tags": [
+      "family",
+      "anxiety"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "Decide on an amount you can realistically send",
+        "effects": {
+          "money": 310000,
+          "luck": -2
+        },
+        "result_text": "You sent only what you could manage. Your parents said they were fine, but your heart felt heavy.",
+        "flags": []
+      },
+      {
+        "text": "Stew in guilt and lose sleep over it",
+        "effects": {
+          "mental": -4
+        },
+        "result_text": "You stayed up all night with guilt. You did nothing while slowly eating yourself alive.",
+        "flags": []
+      },
+      {
+        "text": "Take out a loan and cover the full amount",
+        "effects": {
+          "reputation": 5,
+          "investment_skill": 4
+        },
+        "result_text": "You took out a loan and covered everything. Your family was grateful, but the next few months were going to be tight.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "jobs_014",
+    "title": "Leaving Early, Are We",
+    "description": "The evening team meeting ended.\n\nEveryone returned to their seats when the team leader called {name} over.\n'You seem to be leaving early lately.'\n\nA quiet voice. Two colleagues behind you stopped in their tracks.\nThree seconds to respond.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 72,
+      "min_job_tier": 2
+    },
+    "tags": [
+      "jobs",
+      "anxiety"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Say you'll wrap up your tasks first",
+        "effects": {
+          "money": 210000,
+          "mental": 8
+        },
+        "result_text": "You reached for a notepad. Bent your head like you were writing something.\nThe team leader walked away. So did the colleagues.\nThe office went quiet as if nothing had happened.",
+        "flags": []
+      },
+      {
+        "text": "Feel wronged, but nod anyway",
+        "effects": {
+          "mental": -6
+        },
+        "result_text": "'Yes, understood.'\nIt took two seconds to get those three words out.\nOn the subway home, those words kept echoing. Leaving early, are we.",
+        "flags": []
+      },
+      {
+        "text": "Say 'I always leave after finishing my work'",
+        "effects": {
+          "reputation": 0,
+          "investment_skill": 2
+        },
+        "result_text": "The team leader paused for a moment.\n'Alright.' That was all.\nYou felt the other colleagues watching. You weren't sure if that was the right call.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "health_019",
+    "title": "Health Checkup Results",
+    "description": "The health checkup results came in. Words like 'borderline value' and 'follow-up monitoring required' caught your eye. Whether this was a real problem or not, you couldn't judge on your own.",
+    "category": "health",
+    "rarity": "rare",
+    "weight": 1.7,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "health",
+      "pressure"
+    ],
+    "cooldown": 48,
+    "choices": [
+      {
+        "text": "Book a consultation with a doctor",
+        "effects": {
+          "money": -50000,
+          "health": 4,
+          "intelligence": 3,
+          "mental": 2
+        },
+        "result_text": "You booked a doctor's consultation. It cost ₩50,000, but it was better than vague anxiety. Knowing is better than not knowing.",
+        "flags": []
+      },
+      {
+        "text": "Put the results sheet in a drawer and forget about it",
+        "effects": {
+          "health": -5,
+          "mental": 4
+        },
+        "result_text": "You put the results in a drawer and forgot about it. Playing ignorant was more comfortable for now.",
+        "flags": []
+      },
+      {
+        "text": "Look up the condition yourself online",
+        "effects": {
+          "mental": -6,
+          "intelligence": -1
+        },
+        "result_text": "You searched for the diagnosis online. It only made you more frightened, and you trembled through the night.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "disasters_020",
+    "title": "Jeonse Scam in the News",
+    "description": "News headline: 'Villa King victims number 127, combined deposits total ₩2.8 billion.'\n\nYou stopped mid-read.\n\nA name surfaced in your memory. The name on the stamp at signing.\nYou suddenly weren't sure whether that was the same name on your current jeonse contract.\n\nFive minutes passed in a state of rational-yet-irrational fear.",
+    "category": "disasters",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": [
+      "disasters",
+      "opportunity"
+    ],
+    "cooldown": 9,
+    "choices": [
+      {
+        "text": "Check the property registry right now",
+        "effects": {
+          "money": 340000,
+          "luck": -2
+        },
+        "result_text": "You opened Government24.\nYou found the landlord's name. There was a mortgage lien.\nThe figure was bigger than you expected. Bigger than your deposit.",
+        "flags": []
+      },
+      {
+        "text": "Tell yourself it can't be your place and turn off the news",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "You turned off the TV.\nTwo days later, a similar story ran again.\n{name} turned off the news that time too.",
+        "flags": []
+      },
+      {
+        "text": "Call the landlord immediately",
+        "effects": {
+          "reputation": -3,
+          "investment_skill": 5
+        },
+        "result_text": "It rang. No answer.\nYou sent a text. No reply.\nYou held your phone in your hand all night.",
+        "flags": [
+          "seen_disasters_020"
+        ]
+      },
+      {
+        "text": "Turn off the news and don't think about it",
+        "effects": {
+          "health": -2,
+          "money": 0,
+          "mental": 3
+        },
+        "result_text": "Next month's maintenance bill arrived.\nSame address. Same landlord's name.\nNothing happened. This time.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "comedy_021",
+    "title": "AI Face-Reading App",
+    "description": "An AI face-reading app was trending on social media. Upload a photo of your face and it tells you your fortune and career aptitude.\n\nYou found it absurd, yet there you were downloading the app anyway.\n\nYou took a photo. Analyzing. Three seconds.\n\nResult: 'Wealth luck: low. Interpersonal relations: medium-high. Caution during job changes.'\n\nYou started to delete it, then read it one more time.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 7
+    },
+    "tags": [
+      "comedy",
+      "viral"
+    ],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "Laugh it off and move on",
+        "effects": {
+          "mental": 5
+        },
+        "result_text": "You looked at it and laughed. The results were so outrageous it was even funnier.\n\nAs you deleted the app, you thought: people don't look at this stuff just for fun.",
+        "flags": []
+      },
+      {
+        "text": "Stare at the results and genuinely reflect",
+        "effects": {
+          "mental": 5
+        },
+        "result_text": "You studied the results seriously. It was ridiculous, but oddly it stayed with you.",
+        "flags": []
+      },
+      {
+        "text": "Eagerly share it with everyone around you",
+        "effects": {
+          "reputation": -2,
+          "social_skill": 3
+        },
+        "result_text": "You shared it and everyone tried it. You became the center of attention, but felt a bit embarrassed about it later.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "family_024",
+    "title": "A Sibling's Request",
+    "description": "A KakaoTalk message from your sibling. 'Hey, could I borrow ₩500,000 for a bit...' You're barely scraping by yourself, but you can't bring yourself to say no to family. You can't tell whether this person is just the kindest soul or the biggest pushover.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "family",
+      "opportunity"
+    ],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "Set a clear limit on what you can give",
+        "effects": {
+          "money": -100000,
+          "mental": -4
+        },
+        "result_text": "You drew a clear line on what you could manage. You lent ₩100,000 and said the rest wasn't possible. Your sibling said they understood.",
+        "flags": []
+      },
+      {
+        "text": "Cave and lend the full amount",
+        "effects": {
+          "money": -500000,
+          "mental": -13
+        },
+        "result_text": "You caved and lent everything. Your account was emptied and you had no idea if you'd ever see it back.",
+        "flags": []
+      },
+      {
+        "text": "Say you'll lend it with interest — and make them promise",
+        "effects": {
+          "money": -200000,
+          "social_skill": 3,
+          "investment_skill": 2
+        },
+        "result_text": "You said you'd lend it with interest and made them promise. Your sibling sulked for a moment but said thanks later.",
+        "flags": []
+      },
+      {
+        "text": "Pretend you didn't see it and delay replying",
+        "effects": {
+          "mental": -6
+        },
+        "result_text": "You kept putting off the reply. Your body felt fine, but a corner of your mind wouldn't let it go.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "jobs_025",
+    "title": "Resignation Vlogs",
+    "description": "1:30 AM.\n\nYouTube recommended a video: 'Quit My Job and Lived in Jeju for a Month.'\nYou clicked. Autoplay kicked in. You clicked again.\n\nThird video. Outside the window it was still dark.\nThe person in the video looked free by any measure.\n\n{name} already knew. That reality wasn't like that.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "anxiety"
+    ],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "Calculate whether you have six months of living expenses",
+        "effects": {
+          "money": 10000,
+          "appearance": 0
+        },
+        "result_text": "You opened a calculator.\nThe number came out. Not enough.\nYou played the video again. This time you watched to the end.",
+        "flags": []
+      },
+      {
+        "text": "Subscribe to the channel and close the tab",
+        "effects": {
+          "mental": -7
+        },
+        "result_text": "You hit subscribe.\nYou closed the tab.\nIn the morning you got up and got ready for work. Same as always.",
+        "flags": []
+      },
+      {
+        "text": "Draft a resignation letter in Notepad",
+        "effects": {
+          "reputation": -2,
+          "investment_skill": 2
+        },
+        "result_text": "You wrote the first line.\n'I wish to resign effective the end of this month.'\nYou read it three times. You closed it without saving.",
+        "flags": [
+          "seen_jobs_025"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "comedy_032",
+    "title": "The Secondhand Haggler",
+    "description": "You listed something on Daangn and a comment appeared.\n\n'Could you do ₩30,000? I'll come pick it up right away.'\n\nYou'd listed it at ₩50,000. Why does this person always offer 60% of the asking price? Is this an unspoken rule? Some law of the Korean secondhand market?\n\n₩30,000. ₩50,000. There was ₩20,000 between them.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "comedy",
+      "viral"
+    ],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "Sell at the offered price",
+        "effects": {
+          "money": 30000,
+          "reputation": 6
+        },
+        "result_text": "You sold at the offered price. ₩30,000 came in and the transaction was clean.",
+        "flags": []
+      },
+      {
+        "text": "Get tired of haggling and just sell",
+        "effects": {
+          "mental": -1
+        },
+        "result_text": "Worn out by the back-and-forth, you just sold it. You felt relieved, but somehow like you'd been shortchanged.",
+        "flags": []
+      },
+      {
+        "text": "Hold firm and name an even higher price",
+        "effects": {
+          "reputation": 5,
+          "investment_skill": 1
+        },
+        "result_text": "You stood your ground and named a higher price. The other person mulled it over seriously and eventually agreed.",
+        "flags": []
+      },
+      {
+        "text": "Just cancel the transaction",
+        "effects": {
+          "health": -2,
+          "money": 0,
+          "mental": 3
+        },
+        "result_text": "You cancelled the transaction. No regrets, but your body felt slightly drained.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "finance_033",
+    "title": "S&P 500 Verification Shots",
+    "description": "A screenshot showed up on the Instagram feed.\n\n'2024 returns: +31% proof~'\nComments: 'Same here!' 'Index funds are the truth' 'Anyone who's late is just dumb'\n\n147 likes.\n\n{name} opened the investing app then closed it.\nOr maybe there was no account yet.\n\nThis feeling that everyone was making money — what was it?",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "max_mental": 65
+    },
+    "tags": [
+      "finance",
+      "viral"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Quietly look into which ETF it was",
+        "effects": {
+          "money": 370000,
+          "intelligence": -4
+        },
+        "result_text": "VOO, SPY, TIGER US S&P500.\nYou saved a comparison chart of expense ratios.\nIt wasn't copying — it was research. Probably.",
+        "flags": []
+      },
+      {
+        "text": "Like the post and close the app",
+        "effects": {
+          "mental": -4
+        },
+        "result_text": "You tapped the heart.\nScrolled to the next post.\nThat one post lingered in your mind for two days.",
+        "flags": []
+      },
+      {
+        "text": "Open a brokerage account right now",
+        "effects": {
+          "reputation": 5,
+          "investment_skill": 3
+        },
+        "result_text": "You downloaded a brokerage app.\nAccount setup took 12 minutes.\nThe hand reaching for the first buy button trembled slightly.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "romance_034",
+    "title": "A Rainy Night at Gangnam Station",
+    "description": "Rain poured on the way home from work. You didn't have an umbrella. You stopped for a moment at the entrance of Gangnam Station. Strangely, on a night like tonight, being alone felt more real than ever.",
+    "category": "romance",
+    "rarity": "rare",
+    "weight": 1.7,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "romance",
+      "anxiety"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Look for somewhere to buy an umbrella first",
+        "effects": {
+          "money": -10000,
+          "mental": 4
+        },
+        "result_text": "You bought a ₩10,000 umbrella at the convenience store. It wasn't a fancy umbrella, but it kept the rain off. Your mood brightened.",
+        "flags": []
+      },
+      {
+        "text": "Get soaked and let the mood wash over you",
+        "effects": {
+          "health": -2,
+          "mental": 0
+        },
+        "result_text": "You let yourself get soaked and leaned into the feeling. The mood was strange, but your body felt clammy.",
+        "flags": []
+      },
+      {
+        "text": "Ask a passerby if you can borrow their umbrella",
+        "effects": {
+          "social_skill": 3,
+          "luck": 1
+        },
+        "result_text": "You asked a stranger to borrow their umbrella. The other person looked uncomfortable and you felt a bit embarrassed.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "family_035",
+    "title": "Lunar New Year Family Gathering",
+    "description": "The first question came the moment you sat down.\n\n'Have you found a job? What about marriage?'\n\nIt was your aunt. You hadn't even eaten yet.\nBeside you, your cousin quietly bowed their head.\nFor a moment, only the sound of the children in the room seemed loud.",
+    "category": "family",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 84
+    },
+    "tags": [
+      "family",
+      "class"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Make up being busy and change the subject",
+        "effects": {
+          "money": 380000,
+          "appearance": -3
+        },
+        "result_text": "'Things have been a bit hectic with a project lately.'\nYour aunt nodded.\nThe next question went to your cousin beside you. Five seconds of reprieve.",
+        "flags": []
+      },
+      {
+        "text": "Grit your teeth and eat the meal",
+        "effects": {
+          "mental": -5
+        },
+        "result_text": "You ladled the soup.\nYou didn't answer.\nThe food didn't go down easily.",
+        "flags": []
+      },
+      {
+        "text": "Say your goodbyes and leave early",
+        "effects": {
+          "reputation": 4,
+          "investment_skill": 3
+        },
+        "result_text": "'I actually have something going on today.'\nYou felt your mother watching.\nYou sighed on the bus. But it was a relief.",
+        "flags": [
+          "seen_family_035"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "jobs_036",
+    "title": "A KakaoTalk at 8:02 PM",
+    "description": "On the subway.\n8:02 PM.\n\nA KakaoTalk from the team leader arrived.\n'Can you do overtime tonight?'\n\nYou had plans. Or maybe you didn't.\nThere was time to reply. Three minutes until the next station.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "satire"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Honestly reply that you have plans tonight",
+        "effects": {
+          "money": 140000,
+          "reputation": 1
+        },
+        "result_text": "'I actually have prior plans tonight.'\nYou sent the reply and put the phone in your pocket.\nNo reply came from the team leader. That bothered you more.",
+        "flags": []
+      },
+      {
+        "text": "Feel guilty and agree to the overtime",
+        "effects": {
+          "mental": -6
+        },
+        "result_text": "'Yes, I'll be there.'\nYou sent a cancellation text for your plans.\nOvertime ended at 11 PM.",
+        "flags": []
+      },
+      {
+        "text": "Reply that you've already left for the day",
+        "effects": {
+          "reputation": 5,
+          "investment_skill": 2
+        },
+        "result_text": "'Ah, I just stepped out.'\nIt was a lie. You were still on the subway.\nA reply came. 'I see. Good work today.'",
+        "flags": []
+      },
+      {
+        "text": "Read it and don't reply",
+        "effects": {
+          "health": -2,
+          "money": 0,
+          "mental": 3
+        },
+        "result_text": "The read receipt appeared.\nYou flipped the phone face-down.\nThe next morning was going to be uncomfortable.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "social_life_037",
+    "title": "The Bill After Drinks",
+    "description": "The drinks were done, and the bill arrived. Everyone glanced at each other. You all had a rough idea of who drank the most tonight, but no one said a word.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social_life",
+      "class"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Split it evenly, Dutch pay",
+        "effects": {
+          "money": 450000,
+          "mental": -1
+        },
+        "result_text": "You split it evenly. ₩450,000 came in and there were no hard feelings.",
+        "flags": []
+      },
+      {
+        "text": "Feel annoyed but pick up the whole tab",
+        "effects": {
+          "money": -300000,
+          "social_skill": 3,
+          "mental": -5
+        },
+        "result_text": "You were annoyed but you covered it. The mood lifted, but your wallet felt lonely.",
+        "flags": []
+      },
+      {
+        "text": "Say you're covering tonight so they'll get next time",
+        "effects": {
+          "reputation": -4,
+          "investment_skill": 4
+        },
+        "result_text": "You said you'd cover this one and they'd get the next. The vibe got slightly chilly.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "politics_038",
+    "title": "Real Estate Regulation Rumor",
+    "description": "Rumors about deregulation were circulating in real estate forums. No official announcement — just hundreds of posts saying 'I heard from an insider...' Should you believe it or not?",
+    "category": "politics",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "politics",
+      "opportunity"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Wait until there's an official announcement",
+        "effects": {
+          "money": 170000,
+          "investment_skill": -3
+        },
+        "result_text": "You waited for the official announcement. ₩170,000 came in, but the wait wore on your nerves.",
+        "flags": []
+      },
+      {
+        "text": "Anxiously keep refreshing the real estate forums all day",
+        "effects": {
+          "mental": -11,
+          "intelligence": 1
+        },
+        "result_text": "You refreshed the real estate forum all day. In the end you accomplished nothing and were completely drained.",
+        "flags": []
+      },
+      {
+        "text": "Trust the rumor and search for distressed listings",
+        "effects": {
+          "reputation": 3,
+          "investment_skill": -2
+        },
+        "result_text": "You trusted the rumor and searched for distressed properties. People around you acknowledged the move, but you had no idea if the call was right.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "gambling_039",
+    "title": "One Big Score and It's All Over",
+    "description": "'One big score and everything's solved.' That line drifted in from somewhere. You knew statistically it made no sense, yet for half a second you were tempted — and that's between you and the universe.",
+    "category": "gambling",
+    "rarity": "legendary",
+    "weight": 0.55,
+    "hidden": false,
+    "conditions": {
+      "min_reputation": 20
+    },
+    "tags": [
+      "gambling",
+      "anxiety"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Coolly look up the statistics",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 3,
+          "mental": 1
+        },
+        "result_text": "You coolly looked up the stats first. Seeing the expected value always in the negative as a hard number, the impulse faded.",
+        "flags": []
+      },
+      {
+        "text": "That line keeps going around in your head",
+        "effects": {
+          "mental": 3,
+          "luck": -1,
+          "addiction_tendency": 3
+        },
+        "result_text": "The line kept circling in your mind. You couldn't shake it for a good while.",
+        "flags": [
+          "gambling_tempted"
+        ]
+      },
+      {
+        "text": "Place a small bet just to see",
+        "effects": {
+          "money": -100000,
+          "addiction_tendency": 5,
+          "mental": -3
+        },
+        "result_text": "You placed a small bet. The outcome was bad and you learned that line was a lie.",
+        "flags": [
+          "gambling_tempted"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "comedy_043",
+    "title": "The Finance YouTuber's Dance",
+    "description": "A YouTube thumbnail appeared: 'How I Bought a Gangnam Apartment in My 30s.'\n\n2.8 million views. 12,000 comments saying 'Thank you for sharing.'\n\nYou clicked. A 6-minute 12-second video. The first 4 minutes 30 seconds were his success story. After that — insurance pitch.\n\n{name} closed the tab. But the words 'Gangnam apartment in your 30s' stayed lodged in your head.\nThat was the video's real purpose.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "comedy",
+      "satire"
+    ],
+    "cooldown": 9,
+    "choices": [
+      {
+        "text": "Turn it off and study with a book instead",
+        "effects": {
+          "money": 130000,
+          "reputation": 4
+        },
+        "result_text": "You turned it off and opened a book. ₩130,000 came in and your focus was sharper.",
+        "flags": []
+      },
+      {
+        "text": "Watch it to the end with a laugh",
+        "effects": {
+          "mental": -1
+        },
+        "result_text": "You laughed your way to the end. The stress relief was real, but an hour had already passed.",
+        "flags": []
+      },
+      {
+        "text": "Subscribe and buy the paid course",
+        "effects": {
+          "reputation": -3,
+          "investment_skill": 1
+        },
+        "result_text": "You subscribed and bought the course. You maybe learned something, but telling people about it later felt a bit embarrassing.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "romance_045",
+    "title": "A Partner's Real Question",
+    "description": "Six months in. Your partner asked: 'Where do you see us going?' Emotionally it was great, but realistically you felt uneasy. Speaking your truth might mean someone getting hurt.",
+    "category": "romance",
+    "rarity": "rare",
+    "weight": 1.7,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "romance",
+      "pressure"
+    ],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "Be honest about your realistic plan",
+        "effects": {
+          "money": 170000,
+          "investment_skill": 6
+        },
+        "result_text": "You laid out a realistic plan honestly. Your partner nodded and grew serious.",
+        "flags": []
+      },
+      {
+        "text": "Say love is enough, that's all that matters",
+        "effects": {
+          "mental": 7
+        },
+        "result_text": "You said love was enough. You got through the moment, but something told you the same question would come again.",
+        "flags": []
+      },
+      {
+        "text": "Promise things will be better than they are now",
+        "effects": {
+          "reputation": 0,
+          "investment_skill": 4
+        },
+        "result_text": "You promised things would get better. Your partner smiled, and it became a promise you'd made to yourself too.",
+        "flags": [
+          "seen_romance_045"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "job_promotion_chance",
+    "title": "Promotion Evaluation Season",
+    "description": "HR announced the quarterly review results. Your name was on the candidate list. Word came through that your supervisor had been keeping an eye on you. How you played this opportunity was going to matter.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "min_turn": 4
+    },
+    "tags": [
+      "job",
+      "career"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Work overtime without complaint and deliver results",
+        "effects": {
+          "health": -3,
+          "reputation": 6,
+          "money": 150000,
+          "monthly_income": 150000,
+          "mental": -8
+        },
+        "result_text": "You pushed through two straight months of overtime and finally got the promotion. Your salary rose and your business card changed, but your body was reaching its limit.",
+        "flags": []
+      },
+      {
+        "text": "Keep performing steadily and wait for the outcome",
+        "effects": {
+          "reputation": 3,
+          "mental": 3
+        },
+        "result_text": "The result was pushed to next quarter. But your supervisor started remembering you as 'the consistent one.'",
+        "flags": []
+      },
+      {
+        "text": "Go directly to your supervisor and show your drive",
+        "effects": {
+          "social_skill": 4,
+          "reputation": 5,
+          "mental": -3
+        },
+        "result_text": "You went directly to your supervisor and showed your motivation. No promotion this round, but the next opportunity was clearly closer.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "job_colleague_conflict",
+    "title": "Conflict with a Colleague",
+    "description": "A colleague on your team presented your idea as their own. The team leader already praised them for it, and you're the only one who knows the truth.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "job",
+      "relationship",
+      "stress"
+    ],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "Quietly let the team leader know the truth",
+        "effects": {
+          "reputation": 5,
+          "social_skill": 2,
+          "mental": -6
+        },
+        "result_text": "You quietly brought it up with the team leader. They read the situation and started giving you more speaking time in meetings. Things got awkward with the colleague, but your standing improved.",
+        "flags": []
+      },
+      {
+        "text": "Hold it in for now and wait for the next opportunity",
+        "effects": {
+          "mental": -9,
+          "intelligence": 2
+        },
+        "result_text": "You swallowed it and moved on. Your chest burned, but you avoided a direct confrontation. You promised yourself next time your name would go first.",
+        "flags": []
+      },
+      {
+        "text": "Confront the colleague directly",
+        "effects": {
+          "social_skill": -1,
+          "reputation": -2,
+          "mental": -1
+        },
+        "result_text": "You confronted them directly. The colleague was thrown off, but the tension spread through the whole team. Your chest felt lighter, but the aftertaste was bitter.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "gosiwon_thin_walls",
+    "title": "Through the Goshiwon Walls",
+    "description": "1 AM. Sobbing from the next room.\nThe walls are so thin you can hear even breathing.\n{name} was like that at first too.",
+    "category": "housing",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "housing",
+      "mental",
+      "empathy"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Knock on the wall and ask if they're okay",
+        "effects": {
+          "social_skill": 3,
+          "mental": 2
+        },
+        "result_text": "You knocked to ask if they were okay, and a moment later came a short 'Yes, thank you.' You didn't know each other's names, but something felt connected.",
+        "flags": []
+      },
+      {
+        "text": "Put in earphones and pretend not to notice",
+        "effects": {
+          "mental": -6
+        },
+        "result_text": "You put in earphones and lay down. The sound was gone, but that person kept coming to mind.",
+        "flags": []
+      },
+      {
+        "text": "Leave a drink from the convenience store at their door",
+        "effects": {
+          "money": -3000,
+          "social_skill": 4,
+          "mental": 4
+        },
+        "result_text": "The next morning there was a thank-you note stuck to the door. No name, but it was there.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "gosiwon_bathroom_rush",
+    "title": "Shared Bathroom Rush Hour",
+    "description": "8 AM. Four people in line for the shared bathroom. You have an interview at 9, and a shower is out of the question.",
+    "category": "housing",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "housing",
+      "stress",
+      "time"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Use just the sink quickly and head out",
+        "effects": {
+          "appearance": -2,
+          "luck": 1,
+          "mental": -4
+        },
+        "result_text": "You couldn't wash your hair, but you made it out somehow. You could only hope the interviewer wouldn't notice.",
+        "flags": []
+      },
+      {
+        "text": "Go to a nearby jjimjilbang to wash up",
+        "effects": {
+          "mental": -8,
+          "health": 1
+        },
+        "result_text": "₩12,000 felt steep, but stepping out freshly clean, your confidence was on a different level.",
+        "flags": []
+      },
+      {
+        "text": "Wait in line",
+        "effects": {
+          "mental": -11
+        },
+        "result_text": "You waited 20 minutes and barely made it. You weren't late for the interview, but your heart was racing the whole time.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "gosiwon_window_light",
+    "title": "A Room With No Window",
+    "description": "You didn't see sunlight today either. There are no windows in the goshiwon. You check your phone to find out if it's morning or evening.",
+    "category": "housing",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "housing",
+      "mental",
+      "isolation"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Go to the Han River for some fresh air",
+        "effects": {
+          "mental": 6,
+          "health": 3,
+          "money": -3000
+        },
+        "result_text": "You sat on a bench along the Han River for thirty minutes. Watching the sun go down, you thought: tomorrow will be a little better.",
+        "flags": []
+      },
+      {
+        "text": "Decide to get used to the dark",
+        "effects": {
+          "mental": -6,
+          "intelligence": 1
+        },
+        "result_text": "You thought you were fine, but after days without going outside, your body felt damp and heavy.",
+        "flags": []
+      },
+      {
+        "text": "Buy a small plant to keep in the room",
+        "effects": {
+          "money": -15000,
+          "mental": 5
+        },
+        "result_text": "You bought a succulent from the plant stand in front of the convenience store. Small and tough — it reminded you of something.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "gosiwon_upgrade_dream",
+    "title": "Dreaming of Moving Out",
+    "description": "You opened a real estate app. A studio in Gwanak-gu for ₩400,000. When your pay goes up, next month, always 'when.' It keeps going.",
+    "category": "housing",
+    "rarity": "common",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {
+      "housing": "gosiwon"
+    },
+    "tags": [
+      "housing",
+      "ambition",
+      "finance"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Open a dedicated savings account for moving costs",
+        "effects": {
+          "mental": 8
+        },
+        "result_text": "You put ₩30,000 into a 'moving fund' account. A start is half the battle, you told yourself.",
+        "flags": []
+      },
+      {
+        "text": "Accept that it's not realistic right now and let it go",
+        "effects": {
+          "mental": -6
+        },
+        "result_text": "You closed the app. Not yet. But when would 'yet' ever arrive?",
+        "flags": []
+      },
+      {
+        "text": "Look into share houses",
+        "effects": {
+          "social_skill": 3,
+          "intelligence": 2
+        },
+        "result_text": "You spent a while reading share house reviews. There's the roommate risk, but it might still beat living alone.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "subway_hell_9",
+    "title": "Line 9 Rush Hour Hell",
+    "description": "Line 9 on the morning commute. You can barely breathe. Someone's bag is digging into your back, sweat and body odors mingling. And this repeats every single day.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.8,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "subway",
+      "stress",
+      "commute"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Get off one stop early and walk",
+        "effects": {
+          "health": 3,
+          "mental": 6
+        },
+        "result_text": "Ten extra minutes of walking, but the air was different. Those ten minutes might be what gets you through the day.",
+        "flags": []
+      },
+      {
+        "text": "Put in earphones and endure it",
+        "effects": {
+          "mental": -3
+        },
+        "result_text": "You maxed out the volume. Your body was in hell, but at least your mind was somewhere else.",
+        "flags": []
+      },
+      {
+        "text": "Grab a taxi",
+        "effects": {
+          "money": -15000,
+          "mental": 9
+        },
+        "result_text": "You muttered 'just this once' and got in. Watching the subway hell recede behind you — half guilt, half relief.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "convenience_store_meal",
+    "title": "Convenience Store Lunch Again",
+    "description": "A ₩4,900 lunch box. One minute thirty seconds in the microwave. This was dinner. You checked the expiration date one more time.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "health",
+      "finance",
+      "daily"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Just make do with this",
+        "effects": {
+          "money": -4900,
+          "health": -2
+        },
+        "result_text": "It didn't taste great, but your stomach was full. Getting used to this taste was the scarier part.",
+        "flags": []
+      },
+      {
+        "text": "Go home and at least boil some ramyeon",
+        "effects": {
+          "money": -1500,
+          "health": -3,
+          "mental": 2
+        },
+        "result_text": "You cooked ramyeon with YouTube playing in the background. Thirty minutes that felt less alone.",
+        "flags": []
+      },
+      {
+        "text": "Treat yourself to a proper meal today",
+        "effects": {
+          "money": -12000,
+          "health": 4,
+          "mental": 8
+        },
+        "result_text": "A bowl at a rice soup place. The broth was hot and salty. But why did you almost tear up?",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "hangang_chicken",
+    "title": "The Han River Chimaek Temptation",
+    "description": "Your friends want to go for chicken and beer at the Han River. This month's living budget is tight — but then again, so is life.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "finance",
+      "mental"
+    ],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "Go — you only live once",
+        "effects": {
+          "money": -35000,
+          "mental": 12,
+          "social_skill": 3
+        },
+        "result_text": "The night view was beautiful. Any thought about the money disappeared after the first piece of chicken.",
+        "flags": []
+      },
+      {
+        "text": "Lie about being sick and skip it",
+        "effects": {
+          "money": 35000,
+          "health": 2,
+          "mental": 1
+        },
+        "result_text": "Staying home alone, FOMO hit hard. You blocked the Instagram stories. But at least you saved the chicken money.",
+        "flags": []
+      },
+      {
+        "text": "Buy convenience store beer and join them",
+        "effects": {
+          "money": -8000,
+          "mental": 5,
+          "social_skill": 2
+        },
+        "result_text": "It was just convenience store beer, but being together made it good. Nobody cared what you were drinking.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "delivery_app_temptation",
+    "title": "Opening the Delivery App",
+    "description": "Exhausted after work, you opened a delivery app. Minimum order: ₩18,000. To eat alone you'd spend over ₩20,000. Plus a ₩3,000 delivery fee.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.6,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "finance",
+      "health",
+      "daily"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Order it — this much counts as self-care",
+        "effects": {
+          "money": -22000,
+          "mental": 5,
+          "health": -2
+        },
+        "result_text": "You waited 30 minutes and ate. It was good. You decided not to look at the card statement.",
+        "flags": []
+      },
+      {
+        "text": "Make something with whatever's in the fridge",
+        "effects": {
+          "health": 3,
+          "intelligence": 2,
+          "money": -3000
+        },
+        "result_text": "Egg fried rice. It was a mess, but you ate it because you made it.",
+        "flags": []
+      },
+      {
+        "text": "Go out and grab something from the convenience store",
+        "effects": {
+          "money": -8000,
+          "health": -1
+        },
+        "result_text": "You didn't want to go out, but you did. The wind was cold. That wasn't so bad either.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "job_interview_eve",
+    "title": "The Night Before the Interview",
+    "description": "Interview tomorrow at 10 AM. Suit ironed, twenty practice questions drafted, lying on your back staring at the ceiling. Sleep won't come.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "no_job": true
+    },
+    "tags": [
+      "job",
+      "anxiety",
+      "stress"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Go over the practice answers one more time",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "mental": -3
+        },
+        "result_text": "You refined your answers until 2 AM. It wasn't perfect, but it was your best. It had to be enough.",
+        "flags": []
+      },
+      {
+        "text": "Try to sleep early by closing your eyes",
+        "effects": {
+          "health": 3,
+          "mental": 3
+        },
+        "result_text": "You forced yourself to lie still. Whether you actually slept or just passed out, morning arrived.",
+        "flags": []
+      },
+      {
+        "text": "Watch YouTube until 4 AM and then sleep",
+        "effects": {
+          "health": -4,
+          "mental": 0
+        },
+        "result_text": "Somehow you need a funny video to fall asleep. Even on interview night.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "job_first_hoesik",
+    "title": "The First Hoesik",
+    "description": "The team leader said 'There's a hoesik tonight — attendance is optional.' Optional, but the atmosphere made it impossible to skip. At a pork belly restaurant with soju going around. You wondered how much to drink to seem natural.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "job",
+      "social",
+      "stress"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Get into it and ride the energy",
+        "effects": {
+          "social_skill": 4,
+          "reputation": 3,
+          "health": -3,
+          "money": -15000
+        },
+        "result_text": "The team leader called you 'a good one.' You have a low tolerance, but you held on. You felt like you'd passed something.",
+        "flags": []
+      },
+      {
+        "text": "Have a drink or two and slip out early",
+        "effects": {
+          "social_skill": 1,
+          "health": 2,
+          "mental": 3
+        },
+        "result_text": "You said 'I'll stay longer next time' and left early. Equal parts guilt and freedom.",
+        "flags": []
+      },
+      {
+        "text": "Make it clear from the start that you don't drink",
+        "effects": {
+          "reputation": -1,
+          "health": 3,
+          "mental": 5
+        },
+        "result_text": "You said you'd quit drinking for health reasons. It was awkward, but nobody pushed.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "selfdev_certification",
+    "title": "Certification Exam: 14 Days Out",
+    "description": "The Information Processing Engineer exam was two weeks away. You bought the book. The shrink wrap was still on. Today was the day to start.",
+    "category": "self_development",
+    "rarity": "common",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "intelligence",
+      "stress",
+      "ambition"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "Study three hours a day starting today",
+        "effects": {
+          "intelligence": 8,
+          "mental": -2
+        },
+        "result_text": "Passed two weeks later. You hadn't realized how good it would feel to actually accomplish something.",
+        "flags": [
+          "has_certification"
+        ]
+      },
+      {
+        "text": "Give up on this one and aim for the next exam",
+        "effects": {
+          "mental": -1
+        },
+        "result_text": "You threw away ₩50,000 in registration fees. You stopped wanting to count how many 'next times' this made.",
+        "flags": []
+      },
+      {
+        "text": "Go all-in on last-minute cramming",
+        "effects": {
+          "intelligence": 4,
+          "health": -4,
+          "mental": -6
+        },
+        "result_text": "Three coffees and an all-nighter. You passed. Whether it was good that this method worked was another question.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "selfdev_book",
+    "title": "One Finance Self-Help Book",
+    "description": "You bought a bestselling personal finance book. ₩20,000. You read half of it. You understood all the ideas, but putting them into practice wasn't happening.",
+    "category": "self_development",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "intelligence",
+      "investment",
+      "finance"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Finish it and draw up an action plan",
+        "effects": {
+          "money": -20000,
+          "intelligence": 5,
+          "investment_skill": 4
+        },
+        "result_text": "You filled the last pages with notes. Knowing and doing are different things, but knowing comes first.",
+        "flags": []
+      },
+      {
+        "text": "Read halfway and close it",
+        "effects": {
+          "money": -20000,
+          "intelligence": 2
+        },
+        "result_text": "It went on the shelf. Every time you saw the cover, you felt a small pang of guilt.",
+        "flags": []
+      },
+      {
+        "text": "Watch the author's YouTube channel instead",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2
+        },
+        "result_text": "A 15-minute video was much easier to absorb. Maybe this was just the modern form of reading.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "selfdev_gym_register",
+    "title": "Gym Membership",
+    "description": "A three-month pass for ₩150,000. The resolve was iron-clad when you signed up. First week: went every day. Second week: three times. Third week…",
+    "category": "self_development",
+    "rarity": "common",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "finance",
+      "stress",
+      "gym"
+    ],
+    "cooldown": 16,
+    "choices": [
+      {
+        "text": "Build a routine and go consistently",
+        "effects": {
+          "money": -150000,
+          "health": 12,
+          "mental": 14,
+          "appearance": 5
+        },
+        "result_text": "Three months, perfect attendance. Your body changed. Your posture shifted before your weight did.",
+        "flags": []
+      },
+      {
+        "text": "Go hard for a while, then trail off",
+        "effects": {
+          "money": -150000,
+          "health": 4
+        },
+        "result_text": "You kept it up for about a month and a half. When the pass expired you felt a little regret. You'd probably go more next time.",
+        "flags": []
+      },
+      {
+        "text": "Substitute with jogging at the park nearby",
+        "effects": {
+          "health": 6,
+          "mental": 8
+        },
+        "result_text": "You started running in the park. It was free, always available, and better than expected.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "social_comparison_peer",
+    "title": "Peers Showing Off Their Salaries",
+    "description": "Friends from your year gathered. Someone brought up 'So what's everyone making these days?' Numbers started flying. Yours was the lowest.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "anxiety",
+      "class",
+      "job"
+    ],
+    "cooldown": 16,
+    "choices": [
+      {
+        "text": "Say it honestly and move on",
+        "effects": {
+          "mental": -4,
+          "social_skill": 3
+        },
+        "result_text": "You said 'Mine's still low.' Somehow it felt like a relief. Hiding it was more exhausting.",
+        "flags": []
+      },
+      {
+        "text": "Mumble something vague",
+        "effects": {
+          "mental": -6,
+          "social_skill": 1
+        },
+        "result_text": "You blurred the number. That line echoed in your head for the rest of the gathering.",
+        "flags": []
+      },
+      {
+        "text": "Reply confidently that you're in a growth phase",
+        "effects": {
+          "mental": 4,
+          "social_skill": 2
+        },
+        "result_text": "Saying 'growth phase' might sound like an excuse — but only if you don't believe it.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "social_alone_lunch",
+    "title": "The Day Eating Alone Felt Normal",
+    "description": "There was no one to eat lunch with. You bought a convenience store lunch box and sat on a park bench. You weren't sure if that was sad or just comfortable.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "mental",
+      "isolation"
+    ],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "Embrace it — this isn't bad",
+        "effects": {
+          "mental": 7
+        },
+        "result_text": "Solo lunch with YouTube. No one to worry about, eating what you want. This wasn't so bad.",
+        "flags": []
+      },
+      {
+        "text": "Decide you'll ask someone to eat with you next time",
+        "effects": {
+          "mental": -6,
+          "intelligence": 1
+        },
+        "result_text": "You worked up the courage to decide. For today, that was enough.",
+        "flags": []
+      },
+      {
+        "text": "The loneliness hits suddenly",
+        "effects": {
+          "mental": -8
+        },
+        "result_text": "You couldn't finish the lunch box. You didn't have an exact name for this feeling.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "health_burnout_signal",
+    "title": "Signs of Burnout",
+    "description": "You didn't want to do anything.\nYou knew you should, you knew you couldn't afford not to.\n{name}'s body just wouldn't move.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "min_stress": 60
+    },
+    "tags": [
+      "mental",
+      "health",
+      "stress",
+      "burnout"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Decide to take the whole day completely off",
+        "effects": {
+          "health": 5,
+          "mental": 18
+        },
+        "result_text": "You did nothing. Turned off YouTube too. The silence felt uncomfortable at first, then peaceful.",
+        "flags": []
+      },
+      {
+        "text": "Push through the to-do list anyway",
+        "effects": {
+          "mental": -6,
+          "health": -3,
+          "intelligence": 2
+        },
+        "result_text": "You forced your way through. The tasks got done, but there was no joy in it. So this is what burning out feels like.",
+        "flags": []
+      },
+      {
+        "text": "Write this feeling down in a journal",
+        "effects": {
+          "mental": 10
+        },
+        "result_text": "For the first time you wrote honestly. 'I'm exhausted.' After writing it down, you felt a little lighter.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "health_insomnia",
+    "title": "A Night of No Sleep",
+    "description": "3 AM. Staring at the ceiling. Tomorrow's tasks were spinning in your head. You closed your eyes, but the thoughts wouldn't stop.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "health",
+      "mental",
+      "stress"
+    ],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "Put down the phone and turn on a meditation app",
+        "effects": {
+          "health": 4,
+          "mental": 9
+        },
+        "result_text": "Ten minutes of breathing meditation. At some point you fell asleep. You felt a little refreshed in the morning.",
+        "flags": []
+      },
+      {
+        "text": "Decide to watch YouTube since sleep isn't happening anyway",
+        "effects": {
+          "health": -4,
+          "mental": -2
+        },
+        "result_text": "The algorithm dragged you to 5 AM. You were in a daze all morning.",
+        "flags": []
+      },
+      {
+        "text": "Drink some warm water and lie back down",
+        "effects": {
+          "health": 2,
+          "mental": 4
+        },
+        "result_text": "You drank warm water like it was a ritual. Whether it actually worked, you couldn't say — but it wasn't bad.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "health_crying_alone",
+    "title": "Tears Came for No Reason",
+    "description": "{name} came home, closed the door, and immediately started crying.\nNothing particularly bad had happened.\nYou must have just been worn out.",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "hidden": false,
+    "conditions": {
+      "min_stress": 50
+    },
+    "tags": [
+      "mental",
+      "stress",
+      "isolation"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Let yourself cry it out",
+        "effects": {
+          "mental": 16
+        },
+        "result_text": "You cried for about ten minutes. You didn't know why, but once it was all out you felt a little lighter.",
+        "flags": []
+      },
+      {
+        "text": "Call someone close to you",
+        "effects": {
+          "mental": 11,
+          "social_skill": 2
+        },
+        "result_text": "'I'm having a rough day.' That one line led to a ten-minute call. You weren't alone.",
+        "flags": []
+      },
+      {
+        "text": "Try to pull yourself together with cold water on your face",
+        "effects": {
+          "mental": 0
+        },
+        "result_text": "You tried to erase the feeling. But feelings don't disappear just because you ignore them.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "finance_negative_balance",
+    "title": "Negative Balance",
+    "description": "Your account was at -₩38,000. The automatic card payment must have gone through. This happened once a month.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "max_money": 1000000
+    },
+    "tags": [
+      "finance",
+      "anxiety",
+      "stress"
+    ],
+    "cooldown": 7,
+    "choices": [
+      {
+        "text": "Download a budgeting app and analyze your spending",
+        "effects": {
+          "intelligence": 4,
+          "mental": 3
+        },
+        "result_text": "Coffee, delivery fees, subscriptions... once you laid it out, you could see what to cut.",
+        "flags": []
+      },
+      {
+        "text": "Resolve to create an emergency fund",
+        "effects": {
+          "mental": 6
+        },
+        "result_text": "You set up a ₩50,000 monthly auto-transfer. Small, but it's a start.",
+        "flags": []
+      },
+      {
+        "text": "Trust that next month will be different",
+        "effects": {
+          "mental": -6
+        },
+        "result_text": "You hoped next month wouldn't be like this. But hoping alone doesn't change anything.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "season_rainy_commute",
+    "title": "Rainy Season Commute",
+    "description": "No forecast, but a downpour. No umbrella. Two hundred meters to the subway. Your dress pants are already soaked.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "daily",
+      "stress",
+      "commute"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Buy a convenience store umbrella",
+        "effects": {
+          "money": -5000,
+          "mental": 4
+        },
+        "result_text": "A ₩5,000 umbrella. You've lost count of how many you've bought over the years. At least you didn't get soaked.",
+        "flags": []
+      },
+      {
+        "text": "Sprint to the subway",
+        "effects": {
+          "health": 2,
+          "appearance": -3,
+          "mental": -4
+        },
+        "result_text": "Half drenched. You air-dried under the office AC all afternoon. That's one way to experience summer.",
+        "flags": []
+      },
+      {
+        "text": "Wait until the rain lets up",
+        "effects": {
+          "intelligence": 1,
+          "mental": 2
+        },
+        "result_text": "Fifteen minutes later, it eased off. Sometimes waiting is the strategy.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "first_job_rejection",
+    "title": "Application Rejected",
+    "description": "An email notification appeared.\n\n'Thank you for your application. After reviewing your documents,\nwe regret to inform you that we will not be moving forward at this time...'\n\nThree days of waiting for this one line.\n{name} turned off the phone screen and stared at the ceiling for a moment.\n\nIt's okay. This might not have been the first rejection anyway.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 3.5,
+    "hidden": false,
+    "conditions": {
+      "no_job": true,
+      "flag": "story_job_unlocked",
+      "max_stress": 75
+    },
+    "tags": [
+      "job",
+      "rejection",
+      "early_game"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Start the next application immediately. Can't stop.",
+        "effects": {
+          "intelligence": 3,
+          "mental": -6
+        },
+        "result_text": "You analyzed why you were rejected and rewrote the résumé.\nEmotions can wait. Next company first.\n{name} hit the apply button again.",
+        "flags": []
+      },
+      {
+        "text": "Take a short break, then get back to it.",
+        "effects": {
+          "mental": 8
+        },
+        "result_text": "A cup of coffee.\nRejection is part of the process.\n{name} decided to accept that today.",
+        "flags": []
+      },
+      {
+        "text": "Run a self-assessment — what was missing?",
+        "effects": {
+          "intelligence": 4,
+          "social_skill": 1,
+          "mental": -2
+        },
+        "result_text": "Qualifications, cover letter, work history...\nYou saw the gaps.\nYou can write it differently next time. {name} grew a little.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "small_unexpected_win",
+    "title": "Today's Small Lucky Break",
+    "description": "Walking down the street, you spotted a ₩50,000 bill.\nAn empty alley.\n\nYou looked around but saw no one who might have dropped it.\nThe first time since moving to Seoul that luck seemed to be on your side.",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_luck": 40,
+      "no_flag": "story_six_months_seen"
+    },
+    "tags": [
+      "luck",
+      "money",
+      "early_game"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Report it to the nearest police box.",
+        "effects": {
+          "reputation": 6,
+          "mental": 11
+        },
+        "result_text": "The officer said, 'People like you still exist, huh.'\nYou didn't keep the money, but you felt lighter.\n{name} liked themselves a little today.",
+        "flags": []
+      },
+      {
+        "text": "If no one claims it in 6 months, it's legally yours. Pocket it for now.",
+        "effects": {
+          "money": 50000,
+          "luck": 2,
+          "mental": 5
+        },
+        "result_text": "You looked away and slipped it into your pocket.\nA flicker of guilt came and went.\n₩50,000. Your first lucky break in Seoul.",
+        "flags": []
+      }
+    ]
+  },
+  {
+    "id": "startup_opportunity",
+    "title": "Startup Co-Founder Offer",
+    "description": "An acquaintance reached out about co-founding a B2B SaaS startup. They say the idea is solid and investor talks are underway. They're offering 20% equity if you come on as co-founder. They need ₩3,000,000 to start.",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "min_money": 5000000,
+      "min_investment_skill": 35,
+      "min_reputation": 30,
+      "min_turn": 12,
+      "no_flag": "startup_founded"
+    },
+    "tags": [
+      "startup",
+      "opportunity",
+      "finance"
+    ],
+    "choices": [
+      {
+        "text": "Join them — come on as co-founder (invest ₩3,000,000)",
+        "effects": {
+          "money": -3000000,
+          "reputation": 5,
+          "investment_skill": 3,
+          "mental": -8
+        },
+        "flags": [
+          "startup_founded"
+        ],
+        "result_text": "You signed the co-founder agreement. ₩3,000,000 left your account, and your business card now reads 'Co-Founder.' Exciting and terrifying at the same time."
+      },
+      {
+        "text": "Decline — the risk is too high right now",
+        "effects": {
+          "mental": 4
+        },
+        "flags": [],
+        "result_text": "You declined politely. Your current situation can't absorb that kind of risk. Another opportunity will come."
+      }
+    ]
+  },
+  {
+    "id": "startup_acquisition_offer",
+    "title": "Startup Acquisition Offer",
+    "description": "The startup you helped build just received an acquisition offer from a major conglomerate. They want to buy your 20% stake for ₩400,000,000, with guaranteed employment for the whole team. Cash out now, or keep growing?",
+    "category": "finance",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "flag": "startup_founded",
+      "min_turn": 96,
+      "no_flag": "startup_exit"
+    },
+    "tags": [
+      "startup",
+      "exit",
+      "finance"
+    ],
+    "choices": [
+      {
+        "text": "Accept — exit now for ₩400,000,000",
+        "effects": {
+          "money": 400000000,
+          "reputation": 20,
+          "mental": 25
+        },
+        "flags": [
+          "startup_exit"
+        ],
+        "result_text": "Your hand trembled slightly as you signed. A moment later, ₩400,000,000 appeared in your account. A startup exit. So this is what it feels like."
+      },
+      {
+        "text": "Decline — there's still potential here",
+        "effects": {
+          "investment_skill": 5,
+          "reputation": 3,
+          "mental": -6
+        },
+        "flags": [],
+        "result_text": "You turned them down. The conglomerate rep looked disappointed. Now you either grow it bigger and sell for more, or you crash and burn."
+      }
+    ]
+  },
+  {
+    "id": "political_recruitment",
+    "title": "Political Recruitment",
+    "description": "A contact who used to work as a parliamentary aide reached out carefully. The party is looking for young talent, they said — would you consider joining as an aide and preparing for the next election? It's out of nowhere, but honestly, it piqued your interest.",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "min_reputation": 55,
+      "min_social_skill": 40,
+      "min_turn": 72,
+      "no_flag": "political_candidate"
+    },
+    "tags": [
+      "politics",
+      "opportunity",
+      "career"
+    ],
+    "choices": [
+      {
+        "text": "Take it seriously — accept the parliamentary aide position",
+        "effects": {
+          "reputation": 10,
+          "social_skill": 5,
+          "mental": -6
+        },
+        "flags": [
+          "political_candidate"
+        ],
+        "result_text": "You received the parliamentary aide appointment. The taste of politics was far more complex and messy than you expected. But you saw possibilities too."
+      },
+      {
+        "text": "Politely decline — politics isn't your path",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "result_text": "You declined with a smile. Someone has to do politics, but it doesn't have to be you."
+      }
+    ]
+  },
+  {
+    "id": "political_election_victory",
+    "title": "Running for Office",
+    "description": "You've spent three years as a parliamentary aide. Everyone keeps saying it's time to step up yourself. Party nomination looks achievable and you've built a support base. But running for office demands money and stamina. Will you run?",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 0.7,
+    "hidden": false,
+    "cooldown": 99,
+    "conditions": {
+      "flag": "political_candidate",
+      "min_reputation": 70,
+      "min_turn": 120,
+      "no_flag": "political_winner"
+    },
+    "tags": [
+      "politics",
+      "election",
+      "career"
+    ],
+    "choices": [
+      {
+        "text": "Declare candidacy — run for National Assembly",
+        "effects": {
+          "money": -10000000,
+          "reputation": 20,
+          "social_skill": 8,
+          "health": -5,
+          "mental": -15
+        },
+        "flags": [
+          "political_winner"
+        ],
+        "result_text": "You won. Your heart nearly stopped watching the election night broadcast. Now the real work begins."
+      },
+      {
+        "text": "Give up this time — the moment hasn't come",
+        "effects": {
+          "mental": -10
+        },
+        "flags": [],
+        "result_text": "You dropped out. You felt sorry for your supporters. Whether there'll be a next chance — unknown. But not now."
+      }
+    ]
+  },
+  {
+    "id": "work_overtime_bomb",
+    "title": "Last-Minute Overtime Notice",
+    "description": "5:55 PM. You were reaching for your coat when the team manager appeared.\n\n'Something urgent just came up. {name}, can you work late tonight?'\n\nPhrased as a question, but the tone allowed no refusal.\nYou had plans waiting outside.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "stress",
+      "workplace"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Stay and work overtime without complaint",
+        "effects": {
+          "mental": -12,
+          "reputation": 1
+        },
+        "flags": [],
+        "result_text": "You finally left in the early morning hours. The manager said 'good work,' but it felt hollow somehow."
+      },
+      {
+        "text": "Honestly say you had a prior commitment",
+        "effects": {
+          "mental": 6,
+          "reputation": -1
+        },
+        "flags": [],
+        "result_text": "You kept your plans. The next morning felt slightly awkward, but it wasn't a bad evening."
+      },
+      {
+        "text": "Make an excuse and slip out",
+        "effects": {
+          "mental": 4,
+          "social_skill": -1,
+          "luck": -1
+        },
+        "flags": [],
+        "result_text": "A bigger favor came back around later. Avoidance was only a temporary fix."
+      }
+    ]
+  },
+  {
+    "id": "jeonse_scam_warning",
+    "title": "Jeonse Fraud Alert",
+    "description": "The news ran it again. This time it was nearby.\n\nReports that dozens of villas in the area were jeonse fraud cases.\nThe landlords had vanished, and the line of tenants who lost their deposits stretched on.\n\n{name} pulled out the rental contract.\nThe lien amounts listed on the title register were unsettling.",
+    "category": "disasters",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": [
+      "disasters",
+      "housing",
+      "finance"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Pull a fresh copy of the title register and check it",
+        "effects": {
+          "intelligence": 2,
+          "money": -3000,
+          "mental": -3
+        },
+        "flags": [
+          "checked_registry"
+        ],
+        "result_text": "Everything was clean. But the real gain was learning how to check in the first place."
+      },
+      {
+        "text": "Sign up for the jeonse deposit guarantee insurance",
+        "effects": {
+          "money": -200000,
+          "mental": 8
+        },
+        "flags": [],
+        "result_text": "The premium felt like a waste, but you slept better. That's what risk management is."
+      },
+      {
+        "text": "Assume it'll be fine and let it go",
+        "effects": {
+          "luck": -1,
+          "mental": -2
+        },
+        "flags": [],
+        "result_text": "Probably fine. Probably.\nIf you end up regretting it — that's one kind of tuition too."
+      }
+    ]
+  },
+  {
+    "id": "floor_noise_war",
+    "title": "Noise Dispute",
+    "description": "11 PM. Thumping from upstairs.\n\nThird week in a row. Knocking on the wall didn't help.\nThe downstairs neighbor came up and knocked on {name}'s door.\n\n'Do you know if there's noise coming from above?'\n\nIn Seoul, once you start a neighbor dispute, it never really ends.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 4
+    },
+    "tags": [
+      "daily_life",
+      "stress",
+      "housing"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Go upstairs and talk to them politely",
+        "effects": {
+          "social_skill": 2,
+          "mental": -7
+        },
+        "flags": [],
+        "result_text": "The upstairs neighbor was apologetic. It got noticeably quieter after that. You're glad you spoke up."
+      },
+      {
+        "text": "File a complaint with the building management",
+        "effects": {
+          "reputation": -1,
+          "mental": -4
+        },
+        "flags": [],
+        "result_text": "It got handled, but things got awkward whenever you passed each other in the hallway."
+      },
+      {
+        "text": "Buy earplugs and just endure it",
+        "effects": {
+          "health": -2,
+          "money": -5000,
+          "mental": -7
+        },
+        "flags": [],
+        "result_text": "Fell asleep with earplugs in. This is what surviving in Seoul looks like."
+      }
+    ]
+  },
+  {
+    "id": "frugal_month_challenge",
+    "title": "Zero-Spend Month Challenge",
+    "description": "A 'zero-spend month challenge' is trending on social media.\n\nNo coffee, no eating out, nothing but essentials.\nTest how much you can save by minimizing all consumption.\n\n{name} looked at the bank balance this month.\nWorth trying.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "finance",
+      "daily_life"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Go all in. No eating out for a full month.",
+        "effects": {
+          "money": 300000,
+          "mental": -12
+        },
+        "flags": [],
+        "result_text": "Thirty days. No restaurants. The savings were real. The willpower cost was also real."
+      },
+      {
+        "text": "Set a moderate goal — cut spending by 50%.",
+        "effects": {
+          "money": 150000,
+          "mental": -4
+        },
+        "flags": [],
+        "result_text": "Cut half the usual spending. Not perfect, but sustainable. Small discipline stacks up."
+      },
+      {
+        "text": "Give up — restricting this much is too stressful.",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "Decided not to. Frugality that kills morale isn't real frugality. Another way will present itself."
+      }
+    ]
+  },
+  {
+    "id": "salary_gap_shock",
+    "title": "Leaked Salary Table",
+    "description": "One accidentally shared file spread through the entire team.\nA salary table, broken down by rank.\n\nA colleague one year younger than {name} was earning 20% more.\nSame hours, same work, different number.\n\nShould you be angry? Did you negotiate badly? Or did they just do it right?",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "finance",
+      "workplace"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Request a salary renegotiation with HR",
+        "effects": {
+          "intelligence": 2,
+          "reputation": 2,
+          "mental": -3
+        },
+        "flags": [],
+        "result_text": "They agreed faster than expected. Nothing changes if you don't ask."
+      },
+      {
+        "text": "Start preparing to switch jobs",
+        "effects": {
+          "intelligence": 3,
+          "mental": -5
+        },
+        "flags": [],
+        "result_text": "Updated the résumé. Confirmed that this company isn't the whole world."
+      },
+      {
+        "text": "Pretend you never saw it",
+        "effects": {
+          "mental": -8
+        },
+        "flags": [],
+        "result_text": "Even playing dumb, your body knew. Performance dropped noticeably the following month."
+      }
+    ]
+  },
+  {
+    "id": "work_chat_typo",
+    "title": "Wrong Chat Room",
+    "description": "You sent a message in a rush.\n\nOnly after sending did you realize.\nIt went to the all-company announcement channel instead of the team chat.\n\n'What's everyone getting for lunch today?' was just sent to all 200 employees.\nRead receipts were climbing past 120.",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "comedy",
+      "workplace"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Quickly post 'So sorry about that!'",
+        "effects": {
+          "social_skill": 1,
+          "mental": -3
+        },
+        "flags": [],
+        "result_text": "Someone replied to the apology: 'I was wondering too.' You were able to laugh about it two days later."
+      },
+      {
+        "text": "Roll with it — respond confidently with 'How about samgyeopsal?'",
+        "effects": {
+          "social_skill": 3,
+          "mental": 5,
+          "reputation": 1
+        },
+        "flags": [],
+        "result_text": "The manager said, 'Oh, that's slick.' You turned a crisis into a moment. Seoul respects that."
+      },
+      {
+        "text": "Stay silent and wait it out",
+        "effects": {
+          "mental": -6
+        },
+        "flags": [],
+        "result_text": "Someone was still chuckling in the hallway the next day. In Seoul, this kind of humiliation becomes small talk material."
+      }
+    ]
+  },
+  {
+    "id": "pay_day_ritual",
+    "title": "Payday Emptiness",
+    "description": "The 25th. Paycheck arrived.\n\nThe balance ticked up with an alert.\n\nBut rent, insurance premiums, phone bill, and credit card payments had already been deducted.\nThe money spent less than 48 hours in the account.\n\n'Is this how I survive a whole month?' The thought crossed your mind.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "finance",
+      "daily_life",
+      "jobs"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Go through every expense one by one",
+        "effects": {
+          "intelligence": 2,
+          "money": 30000,
+          "mental": -2
+        },
+        "flags": [],
+        "result_text": "Cancelled two unnecessary subscription services. Small savings become habits."
+      },
+      {
+        "text": "Accept it — this is just reality",
+        "effects": {
+          "mental": 4
+        },
+        "flags": [],
+        "result_text": "Payday emptiness might just be the rite of passage into adulthood."
+      },
+      {
+        "text": "Resolve to increase income through a side gig or investments",
+        "effects": {
+          "intelligence": 1,
+          "investment_skill": 1,
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "A resolution alone creates direction. Next month might look a little different."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_meet",
+    "title": "A Stranger in a Café",
+    "description": "A café in front of a real estate agency.\n\nThe man in his fifties at the next table hung up his call and muttered to himself.\n'Still don't know that market.'\n\nYour eyes met. He smiled and asked.\n'Where do you live? How much are you paying for rent these days?'\n\nHe said his name was Im Sangchul. The name meant nothing, but his eyes were interesting.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "no_flag": "sangchul_met",
+      "min_turn": 4
+    },
+    "tags": [
+      "relationship",
+      "social",
+      "early_game"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Tell him your situation honestly.",
+        "effects": {
+          "social_skill": 2,
+          "reputation": 2,
+          "mental": 3
+        },
+        "flags": [
+          "sangchul_met"
+        ],
+        "result_text": "Sangchul nodded and handed over his card.\n'You look like someone trying to become something. Let's grab coffee sometime.'"
+      },
+      {
+        "text": "Give a vague answer and leave.",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "Something unusual about that man. You found out later — he was well known in Gangnam real estate circles."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_amb_call",
+    "title": "Sangchul's Call",
+    "description": "You thought it was an unknown number. It was Im Sangchul.\n\n'I was passing by and thought of you. Doing alright?'\n\nNo real reason for the call. Just checking in.\nBefore hanging up, he added one thing.\n\n'The mood in that neighborhood lately feels off. Just keep it in mind.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_met"
+    },
+    "tags": [
+      "relationship",
+      "social",
+      "investment"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Ask him for more details about that neighborhood",
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 2,
+          "social_skill": 1
+        },
+        "flags": [],
+        "result_text": "Sangchul smiled and shared a few more things.\n'I like that you're here to learn. That's the most important thing.'"
+      },
+      {
+        "text": "Just say thanks and hang up",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "Someone in this city was thinking of you.\nThat alone made the day feel strangely solid."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_amb_lunch",
+    "title": "A Bowl of Gukbap",
+    "description": "Sangchul said he'd buy lunch.\n\nNot somewhere expensive. A gukbap place in the market alley.\n\n'I've eaten lunch here for thirty years. What I've made in real estate has nothing to do with where I eat lunch.'\n\nHe poured kimchi broth into his gukbap and said,\n'The more you deal with money, the more you can't let money own you.'",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_met"
+    },
+    "tags": [
+      "relationship",
+      "social",
+      "investment"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Sit with those words",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2,
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "That bowl of gukbap stuck with you longer than any lecture.\nChase money, but don't let money chase you."
+      },
+      {
+        "text": "Smile and say, 'I still need to get to Gangnam though.'",
+        "effects": {
+          "mental": 4,
+          "reputation": 1
+        },
+        "flags": [],
+        "result_text": "Sangchul let out a hearty laugh.\n'Right, that's the spirit. Just don't forget what I said.'"
+      }
+    ]
+  },
+  {
+    "id": "final_stretch_check",
+    "title": "Time Left",
+    "description": "You looked at the calendar.\n\nLess than a year left until you turn 38.\n\nYou thought back to yourself when you first came up to Seoul, five years ago.\nThe now you imagined back then, versus the now that's actually here.\n\nWhat will you do with the time left?\nActually — what will you not do?",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 180
+    },
+    "tags": [
+      "milestone",
+      "reflection",
+      "late_game"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Go all out until the end. No regrets.",
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 2,
+          "mental": -5
+        },
+        "flags": [],
+        "result_text": "Last year. You've come this far, so you're going to see it through.\nYour heart beat fast. Not a bad feeling."
+      },
+      {
+        "text": "Focus on protecting what you've built",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "Not losing is also a strategy.\nYou decided to spend the final year reinforcing what you've accumulated."
+      },
+      {
+        "text": "You're starting to think Gangnam isn't everything",
+        "effects": {
+          "mental": 8,
+          "intelligence": 1
+        },
+        "flags": [],
+        "result_text": "There are things you can only see after running five years.\nWhere the finish line is — maybe you're the one who gets to decide that."
+      }
+    ]
+  },
+  {
+    "id": "lottery_last_change",
+    "title": "Last ₩1,000",
+    "description": "Your account balance is at the bottom again.\nBy the convenience store register, one lotto ticket for ₩1,000.\n\nExactly ₩1,000 left in change.\n\n{name} thought for a moment. Odds of 1 in 8,145,060.\nYou don't need to do the math. It's an impossible number.\n\nAnd yet, strangely, your hand reached for it.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "gambling",
+      "finance",
+      "daily_life"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Buy it — just this once. (−₩1,000)",
+        "effects": {
+          "money": -1000,
+          "luck": 1,
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "Quick pick. Just wait until Saturday.\nThe cheapest dream in life."
+      },
+      {
+        "text": "Don't buy it — the odds are absurd",
+        "effects": {
+          "intelligence": 1,
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "You put the ₩1,000 back in your pocket.\nA grown-up decision. Not a painless one either.\nJust... that."
+      }
+    ]
+  },
+  {
+    "id": "lottery_result",
+    "title": "Saturday Night, 9 PM",
+    "description": "Saturday night, 9 PM. You opened the lotto app.\nChecked the numbers.\n\n...3 matches. 5th prize. ₩5,000.\n\nAt first you laughed. Then it was just absurd.\nThen funny again.\n\n₩5,000. A ₩1,000 investment, 5x return.\nROI of 400%.\n\n{name} couldn't tell anyone that night.\nToo ridiculous.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "gambling",
+      "comedy",
+      "finance"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Get some chicken tomorrow. (+₩4,000 net profit)",
+        "effects": {
+          "money": 5000,
+          "mental": 8
+        },
+        "flags": [],
+        "result_text": "₩4,000 net profit. Tax-free.\nThe most modest victory in this city.\nThat chicken tasted unusually good."
+      }
+    ]
+  },
+  {
+    "id": "chapter_break_turn15",
+    "title": "15 Months in Seoul",
+    "description": "Fifteen months since you came to Seoul.\n\nToday a hometown friend posted on social media.\n'Finally got the apartment lottery! Moving in two years' — 147 likes.\n\n{name} closed the screen. Opened it again. Closed it again.\n\nThe distance left to Gangnam was a number you knew.\nToday, for the first time, that number felt real.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 56,
+      "max_turn": 72,
+      "no_flag": "chapter_break_turn15_seen"
+    },
+    "tags": [
+      "milestone",
+      "reflection",
+      "social"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Leave a congratulations comment. Genuinely.",
+        "effects": {
+          "social_skill": 1,
+          "mental": -3,
+          "reputation": 1
+        },
+        "flags": [
+          "chapter_break_turn15_seen"
+        ],
+        "result_text": "You left a congrats comment. It was genuine. Half of it.\n\nYou looked up what floor plan they were getting. Not sure what you were hoping to find.\nYou closed the window and opened your budget spreadsheet. Start with what you can do now."
+      },
+      {
+        "text": "Close the app. You move at your own pace.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "chapter_break_turn15_seen"
+        ],
+        "result_text": "You closed the app.\n\nSomeone else's pace can't become yours. {name} knew that.\nStill, you stared at the ceiling a long time that night."
+      },
+      {
+        "text": "Start researching the apartment lottery system.",
+        "effects": {
+          "intelligence": 3,
+          "mental": 1
+        },
+        "flags": [
+          "chapter_break_turn15_seen"
+        ],
+        "result_text": "You printed the lottery eligibility scoring sheet. Years without owning property, dependents, savings account payments.\nNumbers filled every line.\nLate to the game, but knowing beats not knowing."
+      }
+    ]
+  },
+  {
+    "id": "chapter_break_turn30",
+    "title": "Halfway",
+    "description": "Thirty months.\n\nHalf of five years has passed.\n\nYou held a cup of coffee and looked out the window. You thought of the goshiwon where you unpacked your bags the day you first arrived in Seoul. What was your goal back then?\n\nYou calculated the gap between your current balance and your target.\n\nHalfway there. Or not even halfway.\nThe remaining thirty months felt shorter than the first thirty.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 116,
+      "max_turn": 132,
+      "no_flag": "chapter_break_turn30_seen"
+    },
+    "tags": [
+      "milestone",
+      "reflection"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Look back on the choices you've made so far.",
+        "effects": {
+          "intelligence": 2,
+          "mental": 4
+        },
+        "flags": [
+          "chapter_break_turn30_seen"
+        ],
+        "result_text": "The good calls. The bad ones.\nThe regrettable choices. The fortunate ones.\n\nAdd them all up and you're here. Save the regrets for tomorrow — today, think about the thirty months left."
+      },
+      {
+        "text": "Change strategy. The current approach isn't working.",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2,
+          "mental": -5
+        },
+        "flags": [
+          "chapter_break_turn30_seen"
+        ],
+        "result_text": "You pulled out a calculator. Current asset growth rate, time remaining, required return.\n\nNumbers don't lie. Something had to change.\nWhat exactly — still unknown."
+      },
+      {
+        "text": "Check whether speed matters less than direction.",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [
+          "chapter_break_turn30_seen"
+        ],
+        "result_text": "Gangnam is still the goal. That much is right.\nBut today was the first time you seriously asked why it had to be Gangnam.\n\nNo answer yet. But having the question itself was something."
+      }
+    ]
+  },
+  {
+    "id": "chapter_break_turn45",
+    "title": "15 Months Left",
+    "description": "Fifteen months left until the date you marked on the calendar.\n\nIt started as sixty months. Now it's fifteen.\n\nNot sure if having less time left is a relief or pressure.\nThey say the closer the deadline, the sharper your focus.\n\n{name} looked out the window. Seoul was busy as ever today.\nWhat about you?",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 176,
+      "max_turn": 192,
+      "no_flag": "chapter_break_turn45_seen"
+    },
+    "tags": [
+      "milestone",
+      "reflection",
+      "late_game"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Make a plan for the final sprint.",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2,
+          "mental": -4
+        },
+        "flags": [
+          "chapter_break_turn45_seen"
+        ],
+        "result_text": "You opened a notebook. Listed everything still doable in fifteen months.\n\nThe list was longer than expected. This many things still undone.\n\nStarting now."
+      },
+      {
+        "text": "Think about what meaning these five years hold, apart from the outcome.",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [
+          "chapter_break_turn45_seen"
+        ],
+        "result_text": "Whether you make it to Gangnam or not.\n\nOver these five years, {name} earned money for the first time, lived alone for the first time, experienced real failure for the first time.\n\nYou think you'll understand what that means later."
+      }
+    ]
+  },
+  {
+    "id": "father_missed_chance",
+    "title": "Father Was Hospitalized",
+    "description": "A call from your mother.\n\nYour father had collapsed, she said. Nothing too serious, but could you come visit?\n\n{name} looked at the calendar. This month was also packed.\nLooked at the account. Still far from the goal.\n\nMother was waiting.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 60
+    },
+    "tags": [
+      "family",
+      "father",
+      "milestone"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Go down. This time, you go.",
+        "effects": {
+          "mental": 12,
+          "health": 2
+        },
+        "flags": [
+          "father_visited"
+        ],
+        "result_text": "The hospital corridor was quiet.\n\nYour father was asleep. He looked smaller than you remembered.\nYour mother said 'You came.' Two words. That was enough.\n\nOn the KTX back to Seoul, for the first time in a long time, your mind went blank."
+      },
+      {
+        "text": "Say you can't make it this time either.",
+        "effects": {
+          "mental": -10
+        },
+        "flags": [],
+        "result_text": "Mother said 'That's alright, if you're busy.'\n\nYou hung up and looked at the monitor. The charts were there. The numbers were there.\n\nWas this the optimal choice this time too?"
+      }
+    ]
+  },
+  {
+    "id": "class_reunion",
+    "title": "School Reunion",
+    "description": "The high school group chat buzzed.\n\nLet's get together. This Saturday in Hongdae.\n\nWhen you got there, everyone had changed a lot.\nSome had jobs, some were married, some had started businesses.\n\n'What are you up to these days?' someone asked.\nEveryone was listening.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "relationship",
+      "milestone"
+    ],
+    "cooldown": 24,
+    "choices": [
+      {
+        "text": "Be honest. Say you're working toward a goal.",
+        "effects": {
+          "social_skill": 2,
+          "mental": 3,
+          "reputation": 2
+        },
+        "flags": [],
+        "result_text": "A brief awkward silence.\n\nThen one person said 'That's impressive — I don't even have goals like that.' Everyone chimed in. Better than expected.\n\nYou told your story. That was it."
+      },
+      {
+        "text": "Say things are going well. Skip the details.",
+        "effects": {
+          "social_skill": 1,
+          "mental": -2
+        },
+        "flags": [],
+        "result_text": "Everyone nodded.\n\nSomeone posted the group photo on Instagram on the way home.\nCaption: 'Good to see everyone doing well.'\n\n{name} hit like."
+      },
+      {
+        "text": "Change the subject. Ask about the others.",
+        "effects": {
+          "social_skill": 3,
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "Everyone got busy talking about themselves.\n\n{name}'s update never came up.\nOn the bus home you stared out the window.\n\nNext time, you want to have something worth saying."
+      }
+    ]
+  },
+  {
+    "id": "class_reunion_lie_exposed",
+    "title": "That Thing You Said",
+    "description": "A text from one of the reunion crowd.\n\n'Hey, you said things were going well back then. Teach me some investing too.'\n\n{name} stared at the screen for a moment, then closed the message.\nThe reunion came to mind.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "social",
+      "relationship"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Come clean. Tell them you're still in the middle of it.",
+        "effects": {
+          "social_skill": 3,
+          "mental": 6
+        },
+        "flags": [],
+        "result_text": "The friend went quiet for a moment.\nThen said, 'I get it. Honestly things aren't going that great for me either.'\n\nYou texted for another hour. First real conversation in a while."
+      },
+      {
+        "text": "Brush it off vaguely.",
+        "effects": {
+          "mental": -5,
+          "social_skill": -1
+        },
+        "flags": [],
+        "result_text": "You were vague. They probably saw through it.\n\nAfter that, it got harder to reach out to them first.\nLies accrue interest in relationships."
+      }
+    ]
+  },
+  {
+    "id": "are_you_happy",
+    "title": "Are You Happy?",
+    "description": "One night, for no particular reason.\n\nThe question came.\n\nAre you happy?",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "reflection",
+      "daily_life",
+      "milestone"
+    ],
+    "cooldown": 20,
+    "choices": [
+      {
+        "text": "Yes.",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [],
+        "result_text": "Yes.\n\nGangnam is still far. The account is still short.\nBut — yes.\n\nYou hoped that answer was genuine.\nIt probably was."
+      },
+      {
+        "text": "I don't know.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "I don't know.\n\nI'm not sure what happiness is. No reference point.\nWill I know once I've hit my goal? Or will I still not know then?\n\nNot knowing was the most honest answer tonight."
+      },
+      {
+        "text": "No.",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "No.\n\nSaying it honestly was strangely freeing.\n\nNot happy. Not yet.\nSo then — when can you be?\n\nHaving that question felt like the beginning of something."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_promotion_mirror",
+    "title": "Promoted",
+    "description": "You made assistant manager.\n\nA cake appeared, applause followed, the team leader reached out to shake hands.\n{name} smiled. This was the moment to be happy.\n\nLater, alone in the bathroom.\nYou looked in the mirror.\n\nAssistant Manager {name}.\nWas this what you wanted?",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "flag": "route_orthodox"
+    },
+    "tags": [
+      "jobs",
+      "milestone",
+      "reflection"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "You're pleased. Next target: manager.",
+        "effects": {
+          "mental": 6,
+          "reputation": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "result_text": "You ate the cake. It was good.\nJotted down the next goal. Manager.\nThe face in the mirror was just the face in the mirror."
+      },
+      {
+        "text": "Pause — is this really what you wanted?",
+        "effects": {
+          "mental": -3,
+          "intelligence": 3
+        },
+        "flags": [],
+        "result_text": "You finished the cake.\nThe question didn't go away.\n\nI don't know. Right now, you're just — an assistant manager."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_overtime_fomo",
+    "title": "Late Night at the Office",
+    "description": "11 PM. Still in the office.\n\nYour phone buzzed. A former colleague who went into investments.\n'Crypto +38%. Got out of work early today, saw the chart and got in. Sweet dreams.'\n\n{name} looked at the monitor.\nHalf the report was still left.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "flag": "route_orthodox"
+    },
+    "tags": [
+      "jobs",
+      "finance",
+      "fomo"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Finish the report. This is your path.",
+        "effects": {
+          "mental": -8,
+          "reputation": 2,
+          "intelligence": 1
+        },
+        "flags": [],
+        "result_text": "You finished the report.\nIt was 1 AM.\nYou didn't reply to your colleague."
+      },
+      {
+        "text": "Reply: 'Nice. I'm still doing overtime.'",
+        "effects": {
+          "mental": -4,
+          "social_skill": 1
+        },
+        "flags": [],
+        "result_text": "You sent the reply.\nThey said 'Hang in there.'\n\nYou looked at the monitor again. Half the report still left."
+      },
+      {
+        "text": "Call it a night. Finish the report in the morning.",
+        "effects": {
+          "mental": 4,
+          "health": 2
+        },
+        "flags": [],
+        "result_text": "You shut the computer off.\nMade a plan to come in early.\nThe night air was cold outside."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_award_ceremony",
+    "title": "Employee of the Month",
+    "description": "You received the outstanding employee award.\n\nYour name was engraved on a plaque. The CEO shook your hand.\nA photo was taken. Applause rang out.\n\nOn the bus home, you took the plaque out of your bag.\n\n{name}'s name.\n\nYou felt nothing.",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "flag": "route_orthodox"
+    },
+    "tags": [
+      "jobs",
+      "milestone",
+      "reflection"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Put the plaque on your desk. You're proud.",
+        "effects": {
+          "reputation": 3,
+          "mental": 4
+        },
+        "flags": [],
+        "result_text": "You put the plaque on the corner of your desk.\nColleagues said 'Impressive.'\n{name} smiled."
+      },
+      {
+        "text": "Come home and put the plaque in a drawer.",
+        "effects": {
+          "mental": -3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "result_text": "Into the drawer.\n\nA plaque with your name on it.\nNot sure if this was the way you imagined making your name — not sure at all."
+      }
+    ]
+  },
+  {
+    "id": "orthodox_senior_farewell",
+    "title": "A Senior's Farewell",
+    "description": "A senior colleague who'd worked there for thirty years retired.\n\nAt the farewell dinner, the senior said,\n'I just... kept showing up, and thirty years went by.'\n\nApplause came. A cake came.\n{name} clapped and thought:\n\n'Just kept showing up, and thirty years went by.'\nWould I end up saying the same thing?",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true,
+      "flag": "route_orthodox"
+    },
+    "tags": [
+      "jobs",
+      "reflection",
+      "milestone"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Lasting thirty years like that is also something to admire.",
+        "effects": {
+          "mental": 4,
+          "social_skill": 2
+        },
+        "flags": [],
+        "result_text": "You told the senior 'I respect that.'\nThey smiled.\n'I just kept going.'\n\n{name} knew: enduring is also a skill."
+      },
+      {
+        "text": "Decide you want a different kind of life.",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "result_text": "Walking home, you typed in your phone notes:\n'What will I say in thirty years?'\n\nNo answer. But having the question might be the start of something."
+      },
+      {
+        "text": "Pour another drink. Tonight, you just drink.",
+        "effects": {
+          "mental": 5,
+          "health": -2
+        },
+        "flags": [],
+        "result_text": "You refilled the soju glass.\nSat next to the senior and just drank.\nDecided not to think tonight."
+      }
+    ]
+  },
+  {
+    "id": "father_health_call",
+    "title": "Father's Voice",
+    "description": "Sunday evening. A call from your father.\n\n'Are you eating properly?'\n\nThat was always the whole of it. But this time there was a longer silence after.\n\nSomething he wanted to say but didn't. His voice was slightly different.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 48
+    },
+    "tags": [
+      "family",
+      "father",
+      "relationship"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "'Dad, how are you feeling? Are you seeing a doctor?'",
+        "effects": {
+          "mental": 5,
+          "health": 1
+        },
+        "flags": [
+          "father_health_checked"
+        ],
+        "result_text": "There was a brief pause.\n'...Nothing major. Just taking blood pressure medication.'\n\nYou sat still after hanging up.\nYour father always said 'nothing major' his whole life."
+      },
+      {
+        "text": "'Yes, eating fine.' Just exchange greetings.",
+        "effects": {
+          "mental": -4
+        },
+        "flags": [],
+        "result_text": "Ten minutes of chatting, then hung up.\n\nLater, word came from an aunt. Your father had been seeing a doctor lately.\nYou could have heard it straight from him."
+      }
+    ]
+  },
+  {
+    "id": "father_first_visit",
+    "title": "Going Home",
+    "description": "You went home for the first time in a long while.\n\nFather's house was unchanged. The floral calendar over the refrigerator, the photo frames beside the TV.\n\nYour father had cooked. Doenjang jjigae and grilled mackerel.\n\n'Is it good?' he asked.\n'Yes.' You meant it.",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_visited"
+    },
+    "tags": [
+      "family",
+      "father",
+      "relationship"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Spend a long time talking. Even bring up the scam.",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2
+        },
+        "flags": [
+          "father_talked"
+        ],
+        "result_text": "Your father waved his hand at first.\nThen slowly said, 'I was greedy. That's on me.'\n\nThose words stayed with you.\nYour father never blamed others. Not once in his life."
+      },
+      {
+        "text": "Eat and head back quickly. Work has piled up.",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [],
+        "result_text": "On the KTX racing back to Seoul, you thought:\n\nNext time, you'd stay longer.\nBut you didn't know when that next time would be."
+      }
+    ]
+  },
+  {
+    "id": "father_reconcile",
+    "title": "Father's Words",
+    "description": "After finishing the doenjang jjigae, your father brought it up for the first time.\n\n'I was being greedy. Wanting a Gangnam apartment — that was my greed.'\n\nA long silence.\n\n'But you... you're doing well. Better than I did.'",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_talked"
+    },
+    "tags": [
+      "family",
+      "father",
+      "milestone"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "'You did well, Dad. It wasn't greed.' You say it.",
+        "effects": {
+          "mental": 12,
+          "health": 3
+        },
+        "flags": [
+          "father_reconciled"
+        ],
+        "result_text": "Your father looked out the window.\n\nAfter a long pause he said, '...Thank you for saying that.'\n\nThat was all. Your father was never a man of many words.\nBut that was enough."
+      },
+      {
+        "text": "Say nothing. Just sit beside him.",
+        "effects": {
+          "mental": 8
+        },
+        "flags": [
+          "father_reconciled"
+        ],
+        "result_text": "Your father said nothing either.\n\nThe two of you sat there for a while.\nYou could see the neighborhood outside the window. The one your father lived in his whole life.\n\nEven if you make it to Gangnam someday, you think you'll remember the smell of this house."
+      }
+    ]
+  },
+  {
+    "id": "jeongseon_big_loss_bus",
+    "title": "The Bus Home",
+    "description": "You walked out of the Jeongseon casino.\n\nYou got on the bus.\nMountains blur past the window.\n\nYou calculate in your head what you lost today.\nYou keep recounting the same number.\n\nDoesn't matter how many times. It's always the same number.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "jeongseon_visited"
+    },
+    "tags": [
+      "gambling",
+      "reflection",
+      "loss"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "It was entertainment money. Just call it fun.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "You settled on that conclusion.\n\nYou half believed it.\nNot completely.\n\n{name} didn't take out the phone all the way to the terminal."
+      },
+      {
+        "text": "Never going back. For real this time.",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "result_text": "Hard to say how long that resolve will last.\n\nBut in this moment, it was sincere.\n\nThe bus pulled away. {name} closed his eyes.\nSleep wouldn't come all the way over the mountains."
+      }
+    ]
+  },
+  {
+    "id": "jeongseon_big_win_urge",
+    "title": "One More Round",
+    "description": "The money you won today is in your wallet.\n\nYou're on the way home but your feet won't move.\n\nYou were lucky today.\nAnd when you're lucky, the luck keeps going. — At least right now, {name}'s brain is saying exactly that.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "jeongseon_visited"
+    },
+    "tags": [
+      "gambling",
+      "addiction",
+      "temptation"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Go back in. Today's your day.",
+        "effects": {
+          "money": -200000,
+          "mental": -8,
+          "luck": -2
+        },
+        "flags": [],
+        "result_text": "You went back in.\n\nThe second session was different.\n\nYou left with barely anything in your pocket.\nThe casino always works this way. It never sends you home at your best moment."
+      },
+      {
+        "text": "Quit while you're ahead. Go home.",
+        "effects": {
+          "mental": 6,
+          "intelligence": 2
+        },
+        "flags": [],
+        "result_text": "You turned around.\n\nNot an easy decision.\n\n{name} today — at least on this one call — made the right move.\nThe walk home felt lighter."
+      }
+    ]
+  },
+  {
+    "id": "jeongseon_addiction_notice",
+    "title": "Why Am I Here Again?",
+    "description": "Walking out of the Jeongseon casino, a thought struck you.\n\nIt was just going to be once.\n\nAt some point, you'd started calculating Jeongseon casino dates in your head.\nYou'd memorized the bus schedule.\n\n{name} paused for a moment.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "jeongseon_visited"
+    },
+    "tags": [
+      "gambling",
+      "addiction",
+      "warning"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Put some distance between you and it. No visits for a month.",
+        "effects": {
+          "mental": 5,
+          "intelligence": 3
+        },
+        "flags": [
+          "gambling_distance"
+        ],
+        "result_text": "You made the decision.\n\nNothing grand. Just one month.\n\nOne month was enough to create distance.\nHow hard that would be — you still didn't know."
+      },
+      {
+        "text": "It's still under control. I can stop whenever I want.",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [],
+        "result_text": "That's what you said.\n\nTo yourself.\n\nOne of the most common symptoms of addiction is the conviction that you're fine — {name} doesn't know that yet."
+      }
+    ]
+  },
+  {
+    "id": "survival_rent_due",
+    "title": "Rent Day",
+    "description": "The calendar app showed 'Rent' again.\n\n₩520,000 for the goshiwon. At least electricity and water are included, small comfort.\nYou opened the account. The balance stared back.\n\nYou know you have to pay. But what's left after is the problem.\n\nWhat if the landlady quietly knocks — you were holding your breath inside the room.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 1
+    },
+    "tags": [
+      "finance",
+      "housing",
+      "survival"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Transfer immediately (₩520,000)",
+        "effects": {
+          "money": -520000,
+          "mental": 4
+        },
+        "flags": [],
+        "result_text": "Transfer complete. The balance dropped visibly.\nRelief that you survived another month, and dread at having to do it again — both arrived at once.\nThe room was quiet."
+      },
+      {
+        "text": "Hold on this month — ask the landlady to wait a few days",
+        "effects": {
+          "mental": -8,
+          "reputation": -2
+        },
+        "flags": [],
+        "result_text": "The landlady said 'Well, what can you do,' but her expression said otherwise.\nYou started avoiding her eyes whenever you crossed paths in the hallway.\nThe thing poor people lose most is their dignity."
+      }
+    ]
+  },
+  {
+    "id": "survival_convenience_meal",
+    "title": "Two Triangle Kimbap",
+    "description": "Today's meal was handled at the convenience store.\n\nTwo triangle kimbap, ₩2,400 total.\nYou ate standing by the refrigerator — not because there was nowhere to sit, but because sitting felt more pathetic somehow.\n\nThe part-time worker at the register seemed younger than {name}.\nThe thought flashed through your mind: that kid is earning a paycheck right now.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "no_job": true
+    },
+    "tags": [
+      "daily_life",
+      "survival",
+      "finance"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Another day survived. That's enough.",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "Walking back to the goshiwon under the streetlights.\nHalf-full stomach, half-empty heart.\nMaybe a job call comes tomorrow."
+      },
+      {
+        "text": "Go into the nearby gukbap place — spend ₩5,000 and eat properly",
+        "effects": {
+          "money": -5000,
+          "mental": 8,
+          "health": 2
+        },
+        "flags": [],
+        "result_text": "One spoonful of hot broth and you almost cried.\nYou felt human again after eating.\nYou didn't know ₩5,000 could mean this much."
+      }
+    ]
+  },
+  {
+    "id": "survival_job_portal_night",
+    "title": "Job Board All-Nighter",
+    "description": "11 PM. Alternating between Jobkorea and Saramin, hitting refresh.\n\n'3+ years experience preferred' — where's a fresh grad supposed to get 3 years?\n'Age no barrier' — then why is there a birth year field?\n'Self-starter required' — what does that even mean?\n\nOpened 27 listings. Closed them.\nApplied to 2.\n\nOnly the monitor's glow filled the room.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "no_job": true
+    },
+    "tags": [
+      "jobs",
+      "survival",
+      "daily_life"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Spray and pray — apply to everything in sight",
+        "effects": {
+          "intelligence": 1,
+          "mental": -4
+        },
+        "flags": [],
+        "result_text": "Applied to 15 listings. Copy-paste cover letters, just changed the company name.\nNot a bad strategy. It's a numbers game.\nResults usually come back about two weeks later."
+      },
+      {
+        "text": "Focus on one and polish the cover letter",
+        "effects": {
+          "intelligence": 3,
+          "mental": -6
+        },
+        "flags": [],
+        "result_text": "You worked on one cover letter until 2 AM.\nThe quality went up. Your eyes felt like they were falling out.\nYou hit submit and lay down."
+      }
+    ]
+  },
+  {
+    "id": "survival_friend_sns",
+    "title": "Friend's First Day at Work",
+    "description": "Scrolling, a photo from a college classmate appeared.\n\n'First day as a new employee! Starting with excitement :)'\n\nIn the photo, they were in a dress shirt, photographed in front of a station.\nComments read 'You worked hard,' 'Finally!' 'Buy me dinner lol' in a row.\n\n{name} didn't leave a comment. Didn't even hit like.\nJust turned the phone face down.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 2.0,
+    "hidden": false,
+    "conditions": {
+      "no_job": true
+    },
+    "tags": [
+      "social",
+      "survival",
+      "jobs"
+    ],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "Leave a congratulations comment — no comparisons",
+        "effects": {
+          "social_skill": 1,
+          "mental": -5
+        },
+        "flags": [],
+        "result_text": "'Congrats! You'll do great.' You left it.\nIt wasn't 0% genuine.\nBut posting it made you feel emptier."
+      },
+      {
+        "text": "Delete the social media app — block the comparison",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "result_text": "You pressed the delete confirmation.\nQuiet settled in.\nNot looking at other people's success isn't defeat.\n{name} right now needed focus, not comparison."
+      }
+    ]
+  },
+  {
+    "id": "romance_blind_date",
+    "title": "Blind Date",
+    "description": "A friend set up a blind date. Age, job, looks — from what you've heard, not bad.\n\nBeing set up at 33 feels a bit awkward, but there's a saying that awkward is opportunity.\n\nWhat will you do?",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "romance",
+      "social",
+      "relationship"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Go. Curious to see what kind of person they are.",
+        "effects": {
+          "social_skill": 2,
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "You spent two hours at a café. No strong spark, but you laughed listening to someone else's life for the first time in ages. Meeting people can be this light."
+      },
+      {
+        "text": "Don't go. You don't have the bandwidth for this right now.",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "You declined. Your friend was disappointed. Whether this was the right call — unclear. Something else comes first right now."
+      },
+      {
+        "text": "Go, but without any expectations.",
+        "effects": {
+          "social_skill": 1,
+          "mental": 6
+        },
+        "flags": [],
+        "result_text": "Went without expectations, came back without expectations. But the walk home didn't feel like walking alone. Strangely, the mood was good."
+      }
+    ]
+  },
+  {
+    "id": "romance_coworker_tension",
+    "title": "Coworker Tension",
+    "description": "A coworker on your team keeps catching your eye. Over lunches together, over late nights.\n\nYou know that something with a coworker gets complicated. Even so — you can't stop noticing.",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "romance",
+      "jobs",
+      "relationship"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Try expressing your feelings.",
+        "effects": {
+          "social_skill": 2,
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "You said it. They looked startled. Things got awkward. But — it beat thinking about it constantly. Clarity beats awkwardness."
+      },
+      {
+        "text": "Just stay friends. Work is work.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "You acted normal. They did too. Things will probably flow naturally from here. This feels right for now."
+      },
+      {
+        "text": "Create some distance. Can't let work get complicated.",
+        "effects": {
+          "mental": 2,
+          "intelligence": 1
+        },
+        "flags": [],
+        "result_text": "You pulled back a little. They seemed to notice. Work efficiency held. You choose to believe this was the right call."
+      }
+    ]
+  },
+  {
+    "id": "romance_ex_message",
+    "title": "Ex's Message",
+    "description": "A message from a former partner you haven't heard from in a long time.\n\n'Doing okay?' Three words.\n\nYou've read those three words about ten times, trying to figure out what's behind them.",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "romance",
+      "relationship",
+      "reflection"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Suggest meeting up.",
+        "effects": {
+          "social_skill": 2,
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "You sat in a café for about an hour. Talked about old times a little. Coming out felt like something had been resolved. Not bad."
+      },
+      {
+        "text": "Reply briefly that you're well, then nothing more.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "'Yeah, doing fine.' You sent it. No more conversation. That was enough. It's already over."
+      },
+      {
+        "text": "Read it and leave it.",
+        "effects": {
+          "mental": -3
+        },
+        "flags": [],
+        "result_text": "You read it. Didn't reply. Didn't sleep well. Still okay. It ended for a reason."
+      }
+    ]
+  },
+  {
+    "id": "romance_dating_app",
+    "title": "Dating App",
+    "description": "A friend convinced you to download a matching app.\n\nA few photos and one line about your job. Picking people from this feels strange, but apparently everyone meets this way now.\n\nWant to make a profile?",
+    "category": "relationship",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "romance",
+      "social",
+      "daily_life"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Write it seriously. Exactly as you are.",
+        "effects": {
+          "intelligence": 2,
+          "mental": 4
+        },
+        "flags": [],
+        "result_text": "You wrote it honestly. '33, currently navigating a life pivot.' Matches were sparse, but strangely, writing a self-introduction made you rethink who you are."
+      },
+      {
+        "text": "Polish it a bit. Everyone does that, they say.",
+        "effects": {
+          "social_skill": 1,
+          "mental": -3
+        },
+        "flags": [],
+        "result_text": "Made it sound good. Got a match. Already tired before meeting them. Do I have to keep up this version of myself?"
+      },
+      {
+        "text": "Download it, then delete it ten minutes later.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "Doesn't seem like the right moment. Deleted. Something else is more important right now."
+      }
+    ]
+  },
+  {
+    "id": "selfdev_english_class",
+    "title": "English Lessons",
+    "description": "A senior at work said it: 'Your pay is different if your English is good.' Right now you can't even write a basic email in English.\n\nThere's a conversation school nearby. ₩250,000 a month.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "selfdev",
+      "jobs",
+      "finance"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Enroll. It's an investment.",
+        "effects": {
+          "money": -250000,
+          "intelligence": 3,
+          "social_skill": 1
+        },
+        "flags": [],
+        "result_text": "You went to the first class. The levels varied wildly. You weren't the worst. You think you can keep going."
+      },
+      {
+        "text": "Learn from YouTube for free.",
+        "effects": {
+          "intelligence": 2,
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "Found a YouTube channel. Fifteen minutes a day. Slower than a school, but free. Right for your situation now."
+      },
+      {
+        "text": "Not now. Once you're settled.",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "Decided later. When exactly 'later' is — unclear. Something else comes first now."
+      }
+    ]
+  },
+  {
+    "id": "selfdev_coding_course",
+    "title": "Coding Course",
+    "description": "A coupon arrived from an online learning site. Python intro, originally ₩49,900 on sale for ₩1,900.\n\nYou read somewhere that knowing how to code these days can generate side income. Not sure if it's true.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "selfdev",
+      "finance",
+      "daily_life"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Buy it. ₩1,900 investment.",
+        "effects": {
+          "money": -1900,
+          "intelligence": 2,
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "Paid. Got through 3 sessions. It's interesting. Not sure if you'll finish it — but you started."
+      },
+      {
+        "text": "Buy it and set a goal to complete it all.",
+        "effects": {
+          "money": -1900,
+          "intelligence": 4,
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "Paid and blocked it in the calendar. 'Complete in one week.' Goals change how you act. Got through 5 sessions."
+      },
+      {
+        "text": "You'll probably never finish it anyway. Don't buy.",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [],
+        "result_text": "Didn't buy. There are already a few courses you've never finished. That's the reality."
+      }
+    ]
+  },
+  {
+    "id": "selfdev_invest_seminar",
+    "title": "Investment Seminar",
+    "description": "Sangchul sent a link. Free personal finance seminar. 'If you already have investment instincts you don't need it, but might be worth going once.'\n\nSaturday afternoon, two hours. In Yeouido.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "selfdev",
+      "finance",
+      "investment"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Go. There might be something you don't know.",
+        "effects": {
+          "intelligence": 3,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "result_text": "You went. 70% was stuff you already knew. Something in the other 30% was worth keeping. One sentence from the presenter stuck with you. That's enough."
+      },
+      {
+        "text": "Self-study is more efficient.",
+        "effects": {
+          "intelligence": 2
+        },
+        "flags": [],
+        "result_text": "You spent that time reading instead. Things you already knew. Still, re-reading shows you new things."
+      },
+      {
+        "text": "Follow Sangchul there. The connections matter too.",
+        "effects": {
+          "social_skill": 3,
+          "investment_skill": 2,
+          "reputation": 2
+        },
+        "flags": [],
+        "result_text": "Sangchul knew a lot of people there. The dinner after the seminar was more valuable than the seminar itself. People are information."
+      }
+    ]
+  },
+  {
+    "id": "selfdev_language_app",
+    "title": "Language App — 30 Days",
+    "description": "There's a language learning app on your phone. You installed it a month ago, did it for three days, and stopped.\n\nA notification came today. 'Come back. Earn a badge for 30 consecutive days.'\n\nYou don't need the badge — but you've never once hit 30 days in a row, and that bothers you.",
+    "category": "daily_life",
+    "rarity": "common",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {},
+    "tags": [
+      "selfdev",
+      "daily_life"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Set a goal of 30 consecutive days. Start small.",
+        "effects": {
+          "intelligence": 3,
+          "mental": 5
+        },
+        "flags": [],
+        "result_text": "You did 30 days. Your language skills didn't leap forward. But the feeling of doing something every single day — that was different. Next month's goal formed itself."
+      },
+      {
+        "text": "Delete the app. Pointless notifications.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [],
+        "result_text": "Deleted. You didn't like being pulled in by badge rewards. If you really need it, you'll re-download."
+      },
+      {
+        "text": "Just do it today. Tomorrow is unknown.",
+        "effects": {
+          "intelligence": 1,
+          "mental": 2
+        },
+        "flags": [],
+        "result_text": "Did 10 minutes today. Tomorrow is unknown. Still, that's better than yesterday."
       }
     ]
   }
