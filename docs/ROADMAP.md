@@ -175,6 +175,7 @@
     - [x] 카드 앞면/칩 denomination을 실제 테이블용 고해상도 Texture로 확장하고 블랙잭/바카라/홀덤 렌더 경로에 연결 (2026-06-19)
     - [ ] 칩 denomination Texture를 슬롯/룰렛/빅휠 베팅 버튼까지 확장
   - [x] 오디오 P1 — 장소 ambience 5종, 카지노 플로어 loop, 엔딩 stinger 3종 추가 및 `BGMPlayer` ambience 레이어 연결 (2026-06-19)
+  - [x] BGM 연속성 + 첫 면접 시각 정합성 패스 — 같은 트랙 재시작 방지, 낮 면접실 배경 추가, StoryMode/MainGame 초상화 크기·위치 보정 (2026-06-19)
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
   - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
   - [x] VISUAL_AUDIO P2 배경/CG/키아트 품질 교체

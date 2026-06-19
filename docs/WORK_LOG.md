@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-19 (BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스)
+
+### 추가
+- `assets/backgrounds/office_interview_day.png`를 추가해 첫 면접/면접관/인터뷰 이벤트가 야근용 밤 사무실 배경을 쓰지 않도록 분리.
+- `tools/BGMContinuityCheck.tscn`/`.gd`를 추가해 같은 BGM 컨텍스트 재진입 시 재생 위치가 0초로 리셋되지 않는지 검증.
+- `ScreenshotQA`에 첫 면접 스토리 캡처 `00a_story_interview.png`를 추가.
+
+### 수정
+- `BGMPlayer.start()`/`start_menu()`가 이미 같은 트랙을 재생 중이면 다시 `play()`하지 않고 유지하도록 변경.
+- 이벤트 종료 후 메인으로 돌아올 때 idle ambience를 복구하고, StoryMode 이벤트 렌더 시 장소 ambience를 갱신.
+- `ImageRegistry`에 `office_interview_day`를 등록하고, 면접 키워드/태그가 일반 office보다 먼저 낮 면접실로 추론되도록 정리.
+- `arc_intro_01_meal`, 희귀 면접 이벤트 2종, exec interview 체인 이벤트의 배경을 `office_interview_day`로 명시.
+- MainGame 좌측 초상화 패널과 StoryMode 우측 초상화 프레임을 키워 인물이 더 VN식으로 존재감 있게 보이도록 조정.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `BGMContinuityCheck`: `BGM_CONTINUITY_OK`
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 24장 재캡처 완료 (`00a_story_interview` 추가).
+
 ## 2026-06-19 (카드/칩 Texture + 상점 팔레트 패스)
 
 ### 추가

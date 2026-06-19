@@ -51,12 +51,14 @@ func _make_player() -> AudioStreamPlayer:
 
 func start():
 	volume = AudioManager.bgm_volume
-	_switch_to(_pick_track(), true)
+	_is_ending = false
+	_play_or_keep(_pick_track())
 	update_idle_ambience()
 
 func start_menu():
 	volume = AudioManager.bgm_volume
-	_switch_to("menu", true)
+	_is_ending = false
+	_play_or_keep("menu")
 	clear_ambience()
 
 func stop():
@@ -64,6 +66,8 @@ func stop():
 	_player_b.stop()
 	if _ambience_player:
 		_ambience_player.stop()
+	_current_key = ""
+	_current_ambience_key = ""
 
 func apply_volume(v: float):
 	volume = clampf(v, 0.0, 1.0)
@@ -169,11 +173,24 @@ func _pick_track() -> String:
 
 # ── 크로스페이드 ──────────────────────────────────────────────
 func _switch_to(key: String, immediate: bool = false):
+	if key == _current_key and _player_a.playing:
+		_player_a.volume_db = _db(volume)
+		return
 	_current_key = key
 	var stream = _load_track(key)
 	_player_a.stream    = stream
 	_player_a.volume_db = _db(volume)
 	_player_a.play()
+
+func _play_or_keep(key: String) -> void:
+	if key == _current_key and (_player_a.playing or _player_b.playing):
+		if _player_a.playing:
+			_player_a.volume_db = _db(volume)
+		return
+	if _current_key != "" and _player_a.playing:
+		_crossfade_to(key)
+	else:
+		_switch_to(key, true)
 
 func _crossfade_to(key: String):
 	if key == _current_key:

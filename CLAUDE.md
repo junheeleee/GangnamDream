@@ -9,10 +9,10 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **플레이어 체감 표면 폴리싱 — 오디오 P1 완료 / UI 스킨 P1 진행 중** |
-| **최근 완료** | **2026-06-19 카드/칩 Texture + 상점 팔레트 패스** — `card_front_base.svg`, 칩 denomination SVG 7종 추가, 블랙잭/바카라/홀덤 visible card Texture 연결, 블랙잭/바카라 stake 칩 버튼 연결, 상점 녹색 팔레트 정리, ScreenshotQA 베팅 화면 2장 추가 |
-| **이전** | **2026-06-19 오디오 P1 + 모달 UI 스킨 4차** — 장소 ambience 5종, 카지노 플로어 loop, 엔딩 stinger 3종 생성·연결, BGMPlayer ambience 레이어 추가, 투자/은행/상점/시스템 모달 SVG/Icon 버튼·섹션 헤더 정리, ScreenshotQA 보조 모달 3장 추가 |
+| **최근 완료** | **2026-06-19 BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스** — 이벤트/대시보드 재진입 시 같은 BGM 재시작 방지, 낮 면접실 배경 `office_interview_day.png` 추가·연결, MainGame/StoryMode 초상화 크기·위치 보정, `BGMContinuityCheck` 추가 |
+| **이전** | **2026-06-19 카드/칩 Texture + 상점 팔레트 패스** — `card_front_base.svg`, 칩 denomination SVG 7종 추가, 블랙잭/바카라/홀덤 visible card Texture 연결, 블랙잭/바카라 stake 칩 버튼 연결, 상점 녹색 팔레트 정리, ScreenshotQA 베팅 화면 2장 추가 |
 | **다음 작업** | **플레이어 체감 폴리싱 P1 계속** — 칩 denomination Texture를 슬롯/룰렛/빅휠 베팅 버튼까지 확장하고, 카지노 미니게임 테이블 프레임·피드백 P2 정리 |
-| **마지막 업데이트** | 2026-06-19 (`audit.sh` OK, `AudioAssetCheck` bgm=7 ambience=5 sfx=28, `CGRuntimeCheck` OK, `SmokeRace` OK, `ScreenshotQA` 23장 재캡처 완료) |
+| **마지막 업데이트** | 2026-06-19 (`audit.sh` OK, `BGMContinuityCheck` OK, `AudioAssetCheck` bgm=7 ambience=5 sfx=28, `CGRuntimeCheck` OK, `SmokeRace` OK, `ScreenshotQA` 24장 재캡처 완료) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

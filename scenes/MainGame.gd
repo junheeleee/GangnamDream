@@ -505,9 +505,9 @@ func _build_top_bar(parent):
 	row.add_child(title_btn2)
 
 func _build_portrait_panel(parent):
-	# 왼쪽 고정 초상화 패널 (180px 너비, 전체 높이)
+	# 왼쪽 고정 초상화 패널
 	var panel = _panel("#0d0d14", "#1a1a28")
-	panel.custom_minimum_size = Vector2(180, 0)
+	panel.custom_minimum_size = Vector2(196, 0)
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	parent.add_child(panel)
 
@@ -517,11 +517,12 @@ func _build_portrait_panel(parent):
 
 	# 초상화 — 고정 높이
 	character_portrait = TextureRect.new()
-	character_portrait.custom_minimum_size = Vector2(0, 210)
+	character_portrait.custom_minimum_size = Vector2(0, 248)
 	character_portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	character_portrait.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	character_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	character_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	character_portrait.clip_contents = true
 	if ResourceLoader.exists(PORTRAIT_NEUTRAL):
 		character_portrait.texture = load(PORTRAIT_NEUTRAL)
 	vbox.add_child(character_portrait)

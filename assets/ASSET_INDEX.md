@@ -5,6 +5,7 @@ Updated on 2026-06-09 for full anime / Korean manhwa VN art direction.
 Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, cast readability, and family-home regeneration.
 Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Steam key art pass.
 Updated on 2026-06-15 for Jeongseon Casino interior/entrance/exterior backgrounds, dedicated gym background, and Seoul landmark backgrounds.
+Updated on 2026-06-19 for daytime office interview background separation and BGM/portrait presentation QA.
 
 ## Use These Assets
 
@@ -155,6 +156,11 @@ Updated on 2026-06-15 for Jeongseon Casino interior/entrance/exterior background
 
 - `assets/backgrounds/office_desk.png`
   - Late-night office desk background for overtime, salary, promotion, startup, and burnout events.
+
+- `assets/backgrounds/office_interview_day.png`
+  - Daytime small-company interview room background for first interview, interviewer, and job-entry events.
+  - Use instead of `office_desk.png` whenever the text is about a formal interview rather than overtime or late-night work.
+  - Status: approved for first in-game QA. 1280x800, reusable person-free Korean office interview room, no readable signs/logos.
 
 - `assets/backgrounds/convenience_store_night.png`
   - Midnight Korean convenience store interior.

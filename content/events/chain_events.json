@@ -181,7 +181,7 @@
     "category": "jobs",
     "rarity": "rare",
     "weight": 1.0,
-    "background": "office",
+    "background": "office_interview_day",
     "conditions": {
       "flag": "chain_exec_referral",
       "min_turn": 5,

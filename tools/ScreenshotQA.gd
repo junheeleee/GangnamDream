@@ -28,6 +28,7 @@ func _ready() -> void:
 	GameState.flags["arc_invest_guidance_seen"] = true
 	_suppress_tutorial_overlays()
 	_seed_portfolio()
+	await _shot_story_event("arc_intro_01_meal", "00a_story_interview")
 
 	# MainGame._ready 의 _begin_month 가 StoryMode 로 change_scene 하는 것을 막는다:
 	# returning_from_story=true 로 진입점을 우회하고, 직후 전환 트윈을 매 프레임 죽인다.
@@ -88,6 +89,11 @@ func _shot_start_menu() -> void:
 		menu._dismiss_splash()
 	await _settle(0.6)
 	await _save("00_start_menu")
+	if is_instance_valid(menu):
+		var parent := menu.get_parent()
+		if parent != null:
+			parent.remove_child(menu)
+		menu.free()
 	_remove_start_menu_nodes()
 	await _settle(0.4)
 
@@ -98,7 +104,7 @@ func _remove_start_menu_nodes() -> void:
 		var parent := node.get_parent()
 		if parent != null:
 			parent.remove_child(node)
-		node.queue_free()
+		node.free()
 
 func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 	var script_path := "res://scenes/StartMenu.gd"
@@ -111,6 +117,37 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 			targets.append(child)
 		else:
 			_collect_start_menu_nodes(child, targets)
+
+func _shot_story_event(event_id: String, shot_name: String) -> void:
+	GameState.pending_story_queue = [event_id]
+	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	await _settle(1.1)
+	await _save(shot_name)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.3)
+
+func _remove_nodes_by_script(script_path: String) -> void:
+	var targets: Array[Node] = []
+	_collect_nodes_by_script(get_tree().root, script_path, targets)
+	for node in targets:
+		var parent := node.get_parent()
+		if parent != null:
+			parent.remove_child(node)
+		node.free()
+
+func _collect_nodes_by_script(node: Node, script_path: String, targets: Array[Node]) -> void:
+	for child in node.get_children():
+		if child == self:
+			continue
+		var script: Script = child.get_script()
+		if script != null and script.resource_path == script_path:
+			targets.append(child)
+		else:
+			_collect_nodes_by_script(child, script_path, targets)
 
 func _seed_portfolio() -> void:
 	if not (GameState.portfolio is Dictionary):
@@ -134,10 +171,23 @@ func _settle(t: float = 0.6) -> void:
 
 func _save(shot_name: String) -> void:
 	await _settle(0.3)
-	var img: Image = get_viewport().get_texture().get_image()
+	RenderingServer.force_draw()
+	await get_tree().process_frame
+	var viewport_texture := get_viewport().get_texture()
+	if viewport_texture == null:
+		_fail("Viewport texture is unavailable. Run ScreenshotQA with a real rendering driver.")
+		return
+	var img: Image = viewport_texture.get_image()
+	if img == null or img.is_empty():
+		_fail("Viewport image is empty. Run ScreenshotQA with a real rendering driver.")
+		return
 	var path := "%s/%s.png" % [OUT_DIR, shot_name]
 	img.save_png(path)
 	print("SHOT %s" % path)
+
+func _fail(msg: String) -> void:
+	push_error("SCREENSHOT_QA_FAIL " + msg)
+	get_tree().quit(1)
 
 func _force_event(ev: Dictionary) -> void:
 	_mg.current_event = ev

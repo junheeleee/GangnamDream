@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Changed (2026-06-19) — BGM continuity, interview background, and portrait layout
+
+- Prevented `BGMPlayer.start()` and `start_menu()` from restarting the same already-playing track during event/dashboard transitions.
+- Added `office_interview_day.png` and routed interview-tagged events to a daytime interview office instead of the late-night office background.
+- Enlarged and repositioned MainGame and StoryMode portraits so character presentation feels closer to a VN scene than a small floating thumbnail.
+- Added `BGMContinuityCheck` and an interview-story capture to `ScreenshotQA`. Current screenshot QA output: 24 PNGs.
+
 ### Changed (2026-06-19) — Card/chip texture and shop palette pass
 
 - Added a shared `card_front_base.svg` and wired it into visible Blackjack, Baccarat, and Holdem cards with rank/suit overlays.

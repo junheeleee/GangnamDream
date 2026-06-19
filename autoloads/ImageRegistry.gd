@@ -95,6 +95,7 @@ const BACKGROUNDS = {
 	"rooftop_night":     "res://assets/backgrounds/rooftop_night.png",
 	# 직장/사업
 	"office":            "res://assets/backgrounds/office_desk.png",
+	"office_interview_day": "res://assets/backgrounds/office_interview_day.png",
 	"realestate_office": "res://assets/backgrounds/realestate_office.png",
 	"meeting":           "res://assets/backgrounds/investment_meeting.png",
 	# 강남
@@ -306,8 +307,10 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 		"도서관", "열람실", "스터디카페", "독서", "책을", "library", "reading room", "study cafe"
 	]):
 		return "library"
+	if "interview" in tags or _has_any(search, ["면접", "면접관", "interview", "interviewer"]):
+		return "office_interview_day"
 	if "job" in tags or "work" in tags or "office" in tags or category == "jobs" \
-			or _has_any(search, ["사무실", "회사", "직장", "면접", "office", "interview"]):
+			or _has_any(search, ["사무실", "회사", "직장", "office"]):
 		return "office"
 	if "commute" in tags or "subway" in tags or _has_any(search, ["지하철", "subway"]):
 		return "subway"

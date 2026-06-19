@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgmcontinuitycheck01"]
+
+[ext_resource type="Script" path="res://tools/BGMContinuityCheck.gd" id="1_bgm"]
+
+[node name="BGMContinuityCheck" type="Node"]
+script = ExtResource("1_bgm")
