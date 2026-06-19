@@ -116,7 +116,7 @@ func _build_splash():
 	vbox.add_child(sep)
 
 	var tagline = Label.new()
-	tagline.text = "서울 고시원 100만원에서 강남드림까지"
+	tagline.text = "서울 고시원 50만원에서 강남드림까지"
 	tagline.add_theme_font_size_override("font_size", 15)
 	tagline.add_theme_color_override("font_color", Color("#4a5068"))
 	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

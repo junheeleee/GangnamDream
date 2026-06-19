@@ -1,5 +1,44 @@
 # Gangnam Dream Work Log
 
+## 2026-06-19 (UI 스킨 P1 + 정선 카지노 허브 오브젝트화 1차)
+
+### 수정
+- MainGame 상단 HUD를 텍스트/이모지 나열에서 SVG 아이콘 기반 상태칩으로 교체.
+- MainGame 직접 행동 목록을 단순 텍스트 버튼에서 아이콘, 제목, 보조 설명, AP/무료 배지가 있는 액션 카드로 교체.
+- 첫 시작 안내 모달을 긴 문서형 튜토리얼에서 4개 규칙 카드 + 시작 버튼 구조로 축소.
+- 정선 카지노 허브에서 이모지 게임 아이콘을 제거하고 `card_back.png`/`poker_chip_icon.png` 기반 오브젝트 프레임으로 교체.
+- 정선 카지노 허브 헤더/하단 안내 여백 보정, 입장 버튼 casino SFX 연결, 허브 open 페이드인 추가.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `ScreenshotQA`: 13장 재캡처 후 MainGame/정선 카지노 허브 시각 확인.
+
+## 2026-06-19 (플레이어 체감 표면 QA + 동적 연출 1차)
+
+### 런타임 QA
+- 실제 Godot 렌더러로 `tools/ScreenshotQA.tscn` 실행. 캡처 위치: `/tmp/gangnamdream_qa/`.
+- `tools/VisualCropQA.tscn` 통과: 배경/초상화 crop QA 15장 정상.
+- `tools/AudioAssetCheck.tscn` 최초 실패 확인: 카지노 전용 SFX 8개가 코드에 연결돼 있으나 실제 wav 파일이 없었음.
+- `tools/CGRuntimeCheck.tscn` 최초 실패 확인: `gangnam_dream` 승리 엔딩에 과거 병실 CG를 기대하던 낡은 QA 로직.
+
+### 수정
+- `docs/PLAYER_FACING_POLISH_AUDIT.md` 추가: UI/UX, 이미지 에셋, 오디오 에셋, 미니게임 표면, Godot motion 계획을 플레이어 체감 기준으로 정리.
+- 카지노 SFX 8종 생성 및 import:
+  - `sfx_casino_card`, `sfx_casino_bet`, `sfx_casino_coin`, `sfx_casino_spin`
+  - `sfx_casino_reel`, `sfx_casino_win`, `sfx_casino_lose`, `sfx_casino_jackpot`
+- 빨간 위기 비네팅을 실제 위급 상태 전용으로 축소: 건강 25 이하 또는 정신력 15 이하에서만 강하게 점등.
+- 대시보드/행동 비네팅 진입 시 category tint와 feedback flash를 즉시 해제하도록 수정.
+- MainGame 배경을 `STRETCH_KEEP_ASPECT_COVERED`로 전환하고 미세한 배경 드리프트를 추가.
+- `CGRuntimeCheck` 수정: 엔딩 CG 함수와 preview는 synthetic ending으로 검증하고, `gangnam_dream`은 병실 CG를 쓰지 않는 것을 확인.
+- StartMenu 레거시 문구 `100만원` → `50만원` 수정.
+
+### 검증
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `ScreenshotQA`: 13장 재캡처 완료.
+
 ## 2026-06-19 (Claude cloud 브랜치 병합 정리 + Codex 비주얼 에셋 재적용)
 
 ### 병합

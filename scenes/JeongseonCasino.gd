@@ -10,6 +10,8 @@ const COLOR_HEADER := Color(0.10, 0.08, 0.20, 1.0)
 const COLOR_GOLD   := Color(0.95, 0.80, 0.20, 1.0)
 const COLOR_ACCENT := Color(0.30, 0.20, 0.60, 1.0)
 const CASINO_BG_TEX := preload("res://assets/backgrounds/casino_interior.png")
+const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
 
 # 하위 미니게임 씬들 (MainGame이 주입)
 var baccarat_table
@@ -51,6 +53,10 @@ func _f(n: Control, bold: bool = false) -> void:
 
 func open() -> void:
 	visible = true
+	modulate.a = 0.0
+	var tw := create_tween()
+	tw.tween_property(self, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_SINE)
+	AudioManager.play("open_modal")
 	_entry_balance = GameState.money
 	# 이번 세션 임시 플래그 초기화 (새 방문 시 리셋)
 	GameState.flags["jeongseon_session_loss"] = false
@@ -122,7 +128,7 @@ func _build_ui() -> void:
 	header.add_child(hrow)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "🎰  정선 카지노"
+	title_lbl.text = "정선 카지노"
 	title_lbl.add_theme_font_size_override("font_size", 24)
 	title_lbl.add_theme_color_override("font_color", COLOR_GOLD)
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -174,32 +180,37 @@ func _build_ui() -> void:
 	gm.add_child(grid)
 	root.add_child(gm)
 
-	_add_game_card(grid, "🃏", "바카라",
+	_add_game_card(grid, "cards", "바카라",
 		"뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~",
-		"#1a0f20", "#7a3a8a", "_launch_baccarat", "baccarat")
+		"#1a0f20", "#7a3a8a", "_launch_baccarat", "baccarat", "B")
 
-	_add_game_card(grid, "🂡", "블랙잭",
+	_add_game_card(grid, "cards", "블랙잭",
 		"기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~",
-		"#1a2e1a", "#4aff4a", "_launch_blackjack", "blackjack")
+		"#1a2e1a", "#4aff4a", "_launch_blackjack", "blackjack", "21")
 
-	_add_game_card(grid, "🎰", "슬롯머신",
+	_add_game_card(grid, "chip", "슬롯머신",
 		"777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%",
-		"#2e1a1a", "#ff4a4a", "_launch_slot", "slot")
+		"#2e1a1a", "#ff4a4a", "_launch_slot", "slot", "777")
 
-	_add_game_card(grid, "🎡", "룰렛",
+	_add_game_card(grid, "chip", "룰렛",
 		"유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%",
-		"#1a2e2a", "#4affcc", "_launch_roulette", "roulette")
+		"#1a2e2a", "#4affcc", "_launch_roulette", "roulette", "0-36")
 
-	_add_game_card(grid, "🎯", "빅휠",
+	_add_game_card(grid, "chip", "빅휠",
 		"바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임",
-		"#2e2a1a", "#ffcc4a", "_launch_bigwheel", "bigwheel")
+		"#2e2a1a", "#ffcc4a", "_launch_bigwheel", "bigwheel", "x45")
 
 	# ── 안내 + 용어 버튼 ──
 	var bottom_row := HBoxContainer.new()
 	bottom_row.add_theme_constant_override("separation", 12)
-	root.add_child(bottom_row)
+	var bottom_margin := MarginContainer.new()
+	bottom_margin.add_theme_constant_override("margin_left", 24)
+	bottom_margin.add_theme_constant_override("margin_right", 24)
+	bottom_margin.add_theme_constant_override("margin_bottom", 12)
+	bottom_margin.add_child(bottom_row)
+	root.add_child(bottom_margin)
 	var tip_lbl := Label.new()
-	tip_lbl.text = "⚠ 도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요."
+	tip_lbl.text = "도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요."
 	tip_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	tip_lbl.add_theme_font_size_override("font_size", 11)
 	tip_lbl.add_theme_color_override("font_color", Color(0.5, 0.4, 0.4))
@@ -207,14 +218,14 @@ func _build_ui() -> void:
 	tip_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_f(tip_lbl)
 	bottom_row.add_child(tip_lbl)
-	var gloss_btn := _make_btn("📖 용어 설명", "#1a1a2a")
+	var gloss_btn := _make_btn("용어 설명", "#1a1a2a")
 	gloss_btn.custom_minimum_size = Vector2(100, 32)
 	gloss_btn.pressed.connect(_show_casino_glossary)
 	bottom_row.add_child(gloss_btn)
 
-func _add_game_card(parent: Control, icon: String, name_kr: String,
+func _add_game_card(parent: Control, icon_kind: String, name_kr: String,
 		desc: String, bg_hex: String, accent_hex: String, fn: String,
-		tutorial_id: String = "") -> void:
+		tutorial_id: String = "", mark: String = "") -> void:
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.custom_minimum_size = Vector2(0, 150)
@@ -242,11 +253,35 @@ func _add_game_card(parent: Control, icon: String, name_kr: String,
 	mc.add_child(vbox)
 	panel.add_child(mc)
 
-	var icon_lbl := Label.new()
-	icon_lbl.text = icon
-	icon_lbl.add_theme_font_size_override("font_size", 36)
-	icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(icon_lbl)
+	var art_frame := PanelContainer.new()
+	art_frame.custom_minimum_size = Vector2(0, 48)
+	var art_st := StyleBoxFlat.new()
+	art_st.bg_color = Color(0, 0, 0, 0.18)
+	art_st.border_color = Color.html(accent_hex).darkened(0.2)
+	art_st.set_border_width_all(1)
+	art_st.set_corner_radius_all(6)
+	art_frame.add_theme_stylebox_override("panel", art_st)
+	vbox.add_child(art_frame)
+
+	var art_row := HBoxContainer.new()
+	art_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	art_row.add_theme_constant_override("separation", 8)
+	art_frame.add_child(art_row)
+
+	var art_tex := TextureRect.new()
+	art_tex.custom_minimum_size = Vector2(42, 42)
+	art_tex.texture = CARD_BACK_TEX if icon_kind == "cards" else CHIP_TEX
+	art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art_tex.modulate = Color(1, 1, 1, 0.92)
+	art_row.add_child(art_tex)
+
+	var mark_lbl := Label.new()
+	mark_lbl.text = mark
+	mark_lbl.add_theme_font_size_override("font_size", 18)
+	mark_lbl.add_theme_color_override("font_color", Color.html(accent_hex))
+	_f(mark_lbl, true)
+	art_row.add_child(mark_lbl)
 
 	var title_l := Label.new()
 	title_l.text = name_kr
@@ -271,7 +306,7 @@ func _add_game_card(parent: Control, icon: String, name_kr: String,
 
 	if tutorial_id != "":
 		var help_btn := Button.new()
-		help_btn.text = "❓ 규칙"
+		help_btn.text = "규칙"
 		help_btn.add_theme_font_size_override("font_size", 11)
 		var hbs := StyleBoxFlat.new()
 		hbs.bg_color = Color(0.0, 0.0, 0.0, 0.0)
@@ -289,11 +324,14 @@ func _add_game_card(parent: Control, icon: String, name_kr: String,
 		help_btn.custom_minimum_size = Vector2(70, 0)
 		_f(help_btn)
 		var tid := tutorial_id
-		help_btn.pressed.connect(func(): TutorialOverlay.force_show(tid, self))
+		help_btn.pressed.connect(func():
+			AudioManager.play("click")
+			TutorialOverlay.force_show(tid, self)
+		)
 		btn_row.add_child(help_btn)
 
 	var btn := Button.new()
-	btn.text = "▶  입장"
+	btn.text = "입장"
 	btn.add_theme_font_size_override("font_size", 13)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bs := StyleBoxFlat.new()
@@ -305,7 +343,10 @@ func _add_game_card(parent: Control, icon: String, name_kr: String,
 	btn.add_theme_stylebox_override("normal", bs)
 	btn.add_theme_color_override("font_color", Color(0.05, 0.05, 0.05))
 	_f(btn, true)
-	btn.pressed.connect(func(): self.call(fn))
+	btn.pressed.connect(func():
+		AudioManager.play("casino_bet")
+		self.call(fn)
+	)
 	btn_row.add_child(btn)
 
 # ── 게임 런처 ─────────────────────────────────────────────────
@@ -364,6 +405,10 @@ func _make_panel(col: Color) -> PanelContainer:
 	var p := PanelContainer.new()
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = col
+	sb.content_margin_left = 24
+	sb.content_margin_right = 24
+	sb.content_margin_top = 0
+	sb.content_margin_bottom = 0
 	p.add_theme_stylebox_override("panel", sb)
 	return p
 
@@ -376,7 +421,18 @@ func _make_btn(text: String, hex: String) -> Button:
 	sb.corner_radius_top_right    = 4
 	sb.corner_radius_bottom_left  = 4
 	sb.corner_radius_bottom_right = 4
+	var hover := sb.duplicate()
+	hover.bg_color = Color.html(hex).lightened(0.14)
+	var pressed := sb.duplicate()
+	pressed.bg_color = Color.html(hex).darkened(0.12)
+	var focus := sb.duplicate()
+	focus.border_color = COLOR_GOLD
+	focus.set_border_width_all(2)
 	b.add_theme_stylebox_override("normal", sb)
+	b.add_theme_stylebox_override("hover", hover)
+	b.add_theme_stylebox_override("pressed", pressed)
+	b.add_theme_stylebox_override("focus", focus)
+	b.pressed.connect(func(): AudioManager.play("click"))
 	_f(b)
 	return b
 

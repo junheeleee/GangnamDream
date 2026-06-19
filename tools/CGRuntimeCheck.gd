@@ -51,10 +51,14 @@ func _check_ending_cg() -> void:
 
 	var main_script: GDScript = load("res://scenes/MainGame.gd") as GDScript
 	var main: Node = main_script.new()
-	var ending: Dictionary = EndingSystem.get_ending("gangnam_dream")
-	var actual_path := str(main.call("_get_ending_cg_path", ending))
+	var actual_path := str(main.call("_get_ending_cg_path", {"cg": "cg_ending_father"}))
 	if actual_path != expected_path:
-		_failures.append("MainGame ending cg path mismatch: expected %s, got %s" % [expected_path, actual_path])
+		_failures.append("MainGame synthetic ending cg path mismatch: expected %s, got %s" % [expected_path, actual_path])
+
+	var gangnam_ending: Dictionary = EndingSystem.get_ending("gangnam_dream")
+	var gangnam_path := str(main.call("_get_ending_cg_path", gangnam_ending))
+	if gangnam_path != "":
+		_failures.append("gangnam_dream should not reuse hospital father CG; got %s" % gangnam_path)
 
 	var preview_parent := VBoxContainer.new()
 	add_child(preview_parent)

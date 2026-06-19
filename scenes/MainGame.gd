@@ -26,12 +26,14 @@ var shop_button: Button
 var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var _feedback_flash: ColorRect
+var _feedback_flash_tween: Tween = null
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
 var _vignette_rect: ColorRect = null      # 스트레스/정신력 비네팅 레이어
 var _ambient_overlay: ColorRect = null
 var _category_tint: ColorRect = null  # 이벤트 카테고리 색 틴트
+var _event_bg_motion_tween: Tween = null
 var _transient_bg_active: bool = false
 var character_portrait: TextureRect
 var _story_container: Control
@@ -39,6 +41,7 @@ var info_panel: Control
 var info_tabs: TabContainer
 var player_name_label: Label
 var title_label: Label
+var _ui_icon_cache: Dictionary = {}
 
 # ── 시네마틱 누아르 팔레트 ────────────────────────────────────────
 # SaaS 프라이머리 블루(#c9a227)를 버리고 골드를 주강조색으로. '돈·욕망·강남 밤'.
@@ -82,6 +85,26 @@ const BG_PC_BANG        = "res://assets/backgrounds/pc_bang_interior.png"
 const BG_GANGNAM_ST     = "res://assets/backgrounds/gangnam_station_exit.png"
 
 const PORTRAIT_NEUTRAL    = "res://assets/characters/main_character_neutral_goshiwon.png"
+
+const UI_ICON_PATHS := {
+	"ap": "res://assets/ui/icons/icon_ap.svg",
+	"money": "res://assets/ui/icons/icon_money.svg",
+	"goal": "res://assets/ui/icons/icon_goal.svg",
+	"health": "res://assets/ui/icons/icon_health.svg",
+	"mental": "res://assets/ui/icons/icon_mental.svg",
+	"job": "res://assets/ui/icons/icon_job.svg",
+	"study": "res://assets/ui/icons/icon_study.svg",
+	"rest": "res://assets/ui/icons/icon_rest.svg",
+	"invest": "res://assets/ui/icons/icon_invest.svg",
+	"market": "res://assets/ui/icons/icon_scalping.svg",
+	"racetrack": "res://assets/ui/icons/icon_racetrack.svg",
+	"holdem": "res://assets/ui/icons/icon_holdem.svg",
+	"scalping": "res://assets/ui/icons/icon_scalping.svg",
+	"casino": "res://assets/ui/poker_chip_icon.png",
+	"life": "res://assets/ui/icons/icon_housing.svg",
+	"shop": "res://assets/ui/icons/icon_shop.svg",
+	"next": "res://assets/ui/icons/icon_next_month.svg",
+}
 
 var current_event: Dictionary = {}
 var prev_prices: Dictionary = {}
@@ -247,7 +270,7 @@ func _build_ui():
 	# ── 2. 전체화면 배경 이미지 (이벤트별로 전환됨) ──
 	event_bg = TextureRect.new()
 	event_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	event_bg.stretch_mode = TextureRect.STRETCH_SCALE
+	event_bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	event_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	event_bg.modulate = Color(1, 1, 1, 0.0)   # 크로스페이드가 페이드인 처리
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -306,6 +329,7 @@ func _build_vignette_layer():
 	_vignette_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_vignette_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_vignette_rect.z_index = 80
+	_vignette_rect.visible = false
 	var vshader_res = load("res://assets/shaders/vignette.gdshader")
 	if vshader_res:
 		var mat := ShaderMaterial.new()
@@ -317,11 +341,18 @@ func _update_vignette():
 	if not is_instance_valid(_vignette_rect) or not (_vignette_rect.material is ShaderMaterial):
 		return
 	var mat := _vignette_rect.material as ShaderMaterial
+	var show_mental_edge: bool = GameState.mental <= 45
+	var show_crisis_edge: bool = GameState.health <= 25 or GameState.mental <= 15
+	_vignette_rect.visible = show_mental_edge or show_crisis_edge
+	if not _vignette_rect.visible:
+		mat.set_shader_parameter("stress_norm", 0.0)
+		mat.set_shader_parameter("mental_norm", 1.0)
+		return
 	# 정신력 낮을수록 어두운(파란) 가장자리 강해짐 (70 이하부터)
 	var m_norm := clampf(float(GameState.mental) / 70.0, 0.0, 1.0)
-	# 빨간 가장자리 = 신체 위기. 건강 35 이하 또는 정신력 20 이하(붕괴 직전)에서 점등.
-	var health_danger := clampf((35.0 - float(GameState.health)) / 35.0, 0.0, 1.0)
-	var mental_danger := clampf((20.0 - float(GameState.mental)) / 20.0, 0.0, 1.0)
+	# 빨간 가장자리 = 진짜 위급 상태 전용. 일반 피로/긴장에는 켜지지 않는다.
+	var health_danger := clampf((25.0 - float(GameState.health)) / 25.0, 0.0, 1.0)
+	var mental_danger := clampf((15.0 - float(GameState.mental)) / 15.0, 0.0, 1.0)
 	var s_norm := maxf(health_danger, mental_danger)
 	mat.set_shader_parameter("stress_norm", s_norm)
 	mat.set_shader_parameter("mental_norm", m_norm)
@@ -347,18 +378,20 @@ func _apply_category_tint(category: String) -> void:
 		return
 	var target: Color
 	match category:
-		"disasters", "health":
-			target = Color(0.7, 0.05, 0.05, 0.07)   # 빨강 — 위기
+		"disasters":
+			target = Color(0.7, 0.05, 0.05, 0.045)  # 빨강 — 재앙 전용, 낮은 알파
+		"health":
+			target = Color(0.7, 0.28, 0.05, 0.035)  # 앰버 — 건강 이슈, 위기 비네팅과 분리
 		"gambling":
-			target = Color(0.7, 0.5, 0.0, 0.06)     # 앰버 — 도박 긴장
+			target = Color(0.7, 0.5, 0.0, 0.035)    # 앰버 — 도박 긴장
 		"investment", "finance":
-			target = Color(0.0, 0.5, 0.3, 0.06)     # 녹색 — 투자
+			target = Color(0.0, 0.5, 0.3, 0.035)    # 녹색 — 투자
 		"social", "relationship", "romance":
-			target = Color(0.4, 0.1, 0.6, 0.06)     # 보라 — 관계
+			target = Color(0.4, 0.1, 0.6, 0.035)    # 보라 — 관계
 		"family":
-			target = Color(0.5, 0.3, 0.1, 0.05)     # 웜 브라운 — 가족
+			target = Color(0.5, 0.3, 0.1, 0.030)    # 웜 브라운 — 가족
 		"politics":
-			target = Color(0.1, 0.1, 0.5, 0.07)     # 딥 블루 — 정치
+			target = Color(0.1, 0.1, 0.5, 0.040)    # 딥 블루 — 정치
 		"comedy":
 			target = Color(0.5, 0.5, 0.0, 0.04)     # 옐로 — 코미디
 		_:
@@ -366,8 +399,11 @@ func _apply_category_tint(category: String) -> void:
 	var tw := create_tween()
 	tw.tween_property(_category_tint, "color", target, 0.5).set_trans(Tween.TRANS_SINE)
 
-func _clear_category_tint() -> void:
+func _clear_category_tint(immediate: bool = false) -> void:
 	if not is_instance_valid(_category_tint):
+		return
+	if immediate:
+		_category_tint.color = Color(0.0, 0.0, 0.0, 0.0)
 		return
 	var tw := create_tween()
 	tw.tween_property(_category_tint, "color", Color(0.0, 0.0, 0.0, 0.0), 0.6).set_trans(Tween.TRANS_SINE)
@@ -377,70 +413,65 @@ func _build_feedback_layer():
 	_feedback_flash.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_feedback_flash.color = Color(1, 1, 1, 1)
 	_feedback_flash.modulate = Color(1, 1, 1, 0.0)
+	_feedback_flash.visible = false
 	_feedback_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_feedback_flash.z_index = 90
 	add_child(_feedback_flash)
 
+func _clear_feedback_flash() -> void:
+	if not is_instance_valid(_feedback_flash):
+		return
+	if _feedback_flash_tween and _feedback_flash_tween.is_running():
+		_feedback_flash_tween.kill()
+	_feedback_flash_tween = null
+	_feedback_flash.modulate = Color(1, 1, 1, 0.0)
+	_feedback_flash.visible = false
+
 func _build_top_bar(parent):
 	var panel = _panel("#0d0d14", "#1a1a28")
-	panel.custom_minimum_size = Vector2(0, 48)
+	panel.custom_minimum_size = Vector2(0, 54)
 	parent.add_child(panel)
 	var row = HBoxContainer.new()
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	row.add_theme_constant_override("separation", 14)
+	row.add_theme_constant_override("separation", 8)
 	panel.add_child(row)
 
 	var title = _label("강남드림", 18, COL_GOLD)
-	title.custom_minimum_size = Vector2(88, 0)
+	title.custom_minimum_size = Vector2(96, 0)
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	if _font_bold:
 		title.add_theme_font_override("font", _font_bold)
 	row.add_child(title)
 
-	row.add_child(_label("│", 13, COL_GOLD_DIM))
-
-	var date_lbl = _label("", 13, "#8892a4")
+	var date_lbl = _hud_chip(row, "", "#8892a4", 116, false)
 	top_labels["date"] = date_lbl
-	row.add_child(date_lbl)
 
-	var ap_lbl = _label("", 15, "#f0b429")
-	ap_lbl.custom_minimum_size = Vector2(90, 0)
+	var ap_lbl = _hud_chip(row, "ap", "#f0b429", 78, false)
 	top_labels["ap"] = ap_lbl
-	row.add_child(ap_lbl)
-
-	row.add_child(_label("│", 13, "#2a2a3a"))
 
 	# ── 바이탈 HUD: 건강 / 정신 ──────────────────
 	var vitals_row = HBoxContainer.new()
-	vitals_row.add_theme_constant_override("separation", 10)
+	vitals_row.add_theme_constant_override("separation", 6)
 	row.add_child(vitals_row)
 
-	var hp_lbl = _label("", 13, "#34d399")
-	hp_lbl.custom_minimum_size = Vector2(70, 0)
+	var hp_lbl = _hud_chip(vitals_row, "health", "#34d399", 82, false)
 	top_labels["vital_health"] = hp_lbl
-	vitals_row.add_child(hp_lbl)
 
-	var mp_lbl = _label("", 13, "#93c5fd")
-	mp_lbl.custom_minimum_size = Vector2(80, 0)
+	var mp_lbl = _hud_chip(vitals_row, "mental", "#93c5fd", 82, false)
 	top_labels["vital_mental"] = mp_lbl
-	vitals_row.add_child(mp_lbl)
 
-	row.add_child(_label("│", 13, "#2a2a3a"))
-
-	var money_lbl = _label("", 15, "#00c896")
-	money_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	money_lbl.clip_text = false
+	var money_lbl = _hud_chip(row, "money", "#00c896", 180, true)
 	top_labels["money"] = money_lbl
-	row.add_child(money_lbl)
 
-	var info_btn = _small_button("📋 정보", "#1e2a3a")
-	info_btn.custom_minimum_size = Vector2(82, 36)
+	var info_btn = _small_button("정보", "#1e2a3a")
+	info_btn.custom_minimum_size = Vector2(64, 36)
 	info_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	info_btn.pressed.connect(_toggle_info_panel)
 	row.add_child(info_btn)
 
-	var save_btn = _small_button("💾", "#1e2a3a")
-	save_btn.custom_minimum_size = Vector2(40, 36)
+	var save_btn = _small_button("저장", "#1e2a3a")
+	save_btn.custom_minimum_size = Vector2(56, 36)
 	save_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	save_btn.pressed.connect(Callable(self, "_on_save_pressed"))
 	row.add_child(save_btn)
@@ -451,23 +482,20 @@ func _build_top_bar(parent):
 	menu_btn.pressed.connect(_open_system_menu)
 	row.add_child(menu_btn)
 
-	var sep2 = _label("│", 13, "#2a2a3a")
-	row.add_child(sep2)
-
-	next_button = _button("다음 주 ▶", "#1a3a5a")
-	next_button.custom_minimum_size = Vector2(110, 36)
+	next_button = _button("다음 주 ›", "#1a3a5a")
+	next_button.custom_minimum_size = Vector2(104, 36)
 	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
 
-	shop_button = _small_button("🛍", "#2a1a3a")
-	shop_button.custom_minimum_size = Vector2(40, 36)
+	shop_button = _small_button("상점", "#2a1a3a")
+	shop_button.custom_minimum_size = Vector2(58, 36)
 	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	shop_button.pressed.connect(_open_shop)
 	row.add_child(shop_button)
 
-	var title_btn2 = _small_button("🏆", "#1a2a1a")
-	title_btn2.custom_minimum_size = Vector2(40, 36)
+	var title_btn2 = _small_button("칭호", "#1a2a1a")
+	title_btn2.custom_minimum_size = Vector2(58, 36)
 	title_btn2.size_flags_horizontal = Control.SIZE_SHRINK_END
 	title_btn2.pressed.connect(_open_title_collection)
 	row.add_child(title_btn2)
@@ -811,7 +839,7 @@ func _build_goal_bar(parent: Control) -> void:
 	row.custom_minimum_size = Vector2(0, 18)
 	row_panel.add_child(row)
 
-	_goal_money_lbl = _label("💰 50만", 11, "#9aa4b8")
+	_goal_money_lbl = _label("자산 50만", 11, "#9aa4b8")
 	_goal_money_lbl.custom_minimum_size = Vector2(148, 0)
 	row.add_child(_goal_money_lbl)
 
@@ -849,7 +877,7 @@ func _build_goal_bar(parent: Control) -> void:
 	_goal_pct_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	row.add_child(_goal_pct_label)
 
-	var goal_lbl = _label("🏙 30억", 11, "#f0b429")
+	var goal_lbl = _label("목표 30억", 11, "#f0b429")
 	goal_lbl.custom_minimum_size = Vector2(56, 0)
 	goal_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(goal_lbl)
@@ -919,7 +947,7 @@ func _refresh_goal_bar() -> void:
 			milestone_text = "→ 20억"
 		else:
 			milestone_text = "→ 30억!"
-		_goal_money_lbl.text = "💰 %s  %s" % [GameState.format_money(total), milestone_text]
+		_goal_money_lbl.text = "%s  %s" % [GameState.format_money(total), milestone_text]
 
 	# 남은 시간 레이블 (시간 압박 가시화)
 	if _goal_time_lbl:
@@ -932,7 +960,7 @@ func _refresh_goal_bar() -> void:
 			time_color = "#f0b429"
 		else:
 			time_color = "#5a6a7a"
-		_goal_time_lbl.text = "⏳ %d개월" % months_left
+		_goal_time_lbl.text = "%d개월" % months_left
 		_goal_time_lbl.add_theme_color_override("font_color", Color(time_color))
 
 # ══════════════════════════════════════════════════════════════
@@ -948,64 +976,35 @@ func _maybe_show_tutorial() -> void:
 	_show_tutorial()
 
 func _show_tutorial() -> void:
-	_open_modal("🗺 강남드림 — 시작 안내")
+	_open_modal("강남드림 — 시작 안내")
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(580, 560)
+		modal_panel.custom_minimum_size = Vector2(580, 430)
 		modal_panel.offset_left = -290
 		modal_panel.offset_right  = 290
-		modal_panel.offset_top    = -280
-		modal_panel.offset_bottom = 280
+		modal_panel.offset_top    = -215
+		modal_panel.offset_bottom = 215
 	if modal_scroll:
-		modal_scroll.custom_minimum_size = Vector2(0, 430)
+		modal_scroll.custom_minimum_size = Vector2(0, 300)
 
-	# ── 목표 ──
-	modal_body.add_child(_wrap_label("🎯  목표", 15, "#f0b429"))
+	var intro_lbl := _wrap_label(
+		"33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.",
+		14, "#d8deea")
+	if _font_bold:
+		intro_lbl.add_theme_font_override("font", _font_bold)
+	modal_body.add_child(intro_lbl)
+	modal_body.add_child(_tutorial_card("goal", "목표", "자산 30억. 시간은 60개월뿐입니다.", "#f0b429"))
+	modal_body.add_child(_tutorial_card("ap", "행동", "매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.", "#5b9cf6"))
+	modal_body.add_child(_tutorial_card("invest", "방향", "안정 루트는 느리지만 버팁니다. 속도 루트는 빠르지만 한 번에 무너질 수 있습니다.", "#00c896"))
+	modal_body.add_child(_tutorial_card("health", "위험", "건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.", "#ff6b6b"))
 	modal_body.add_child(_wrap_label(
-		"38세(5년) 안에 자산 30억 원 → 강남 입성\n지금 당신은 33세, 통장 50만 원.", 13, "#c8d0df"))
-	modal_body.add_child(_goal_sep())
-
-	# ── 매달 진행 ──
-	modal_body.add_child(_wrap_label("📅  매달 진행 방식", 15, "#c9a227"))
-	modal_body.add_child(_wrap_label(
-		"① 이달의 이벤트가 화면에 펼쳐집니다\n"
-		+ "② ⚡ AP(행동력)로 추가 행동을 선택\n"
-		+ "   (구직 · 투자 · 자기계발 · 휴식 · 미니게임)\n"
-		+ "③ [다음 주 ▶] 버튼으로 넘어갑니다", 13, "#c8d0df"))
-	modal_body.add_child(_goal_sep())
-
-	# ── 선택이 쌓이면 삶이 된다 ──
-	modal_body.add_child(_wrap_label("⚖  선택이 쌓이면 삶이 된다", 15, "#a78bfa"))
-	modal_body.add_child(_wrap_label(
-		"매달 어떤 행동을 반복하느냐가 당신이 어떤 사람인지를 결정합니다.\n\n"
-		+ "💼 안정을 쌓으면  —  취업·승진·저축·자기계발이 길이 됩니다\n"
-		+ "   사회가 원하는 방식. 느리지만 무너지지 않는다.\n\n"
-		+ "📈 속도를 쌓으면  —  투자·레버리지·사업·도박이 길이 됩니다\n"
-		+ "   내가 원하는 방식. 빠르지만 한 번에 무너진다.\n\n"
-		+ "둘 다 강남에 갈 수 있고, 둘 다 망할 수 있다.\n"
-		+ "쌓인 선택에 따라 다른 이벤트와 다른 엔딩이 열립니다.", 12, "#c8d0df"))
-	modal_body.add_child(_goal_sep())
-
-	# ── 주의사항 ──
-	modal_body.add_child(_wrap_label("⚠  주의사항", 15, "#fca5a5"))
-	modal_body.add_child(_wrap_label(
-		"• 건강 / 정신력이 0이 되면 게임 오버\n"
-		+ "• 무리한 선택·서울살이 압박은 정신력을 깎는다 — 휴식으로 회복\n"
-		+ "• 빚이 −1억 원을 넘으면 파산 엔딩", 13, "#c8d0df"))
-	modal_body.add_child(_goal_sep())
-
-	# ── 첫 달 추천 ──
-	modal_body.add_child(_wrap_label("💡  첫 달 추천", 15, "#34d399"))
-	modal_body.add_child(_wrap_label(
-		"1. 💼 구직활동  →  수입 0원에서 탈출 (필수)\n"
-		+ "2. AP 남으면 📚 자기계발로 스탯 올리기\n"
-		+ "3. 정신력 주의! 🌊 휴식으로 회복\n"
-		+ "4. 첫 월급 후 📈 투자·🛍 상점이 열립니다", 13, "#c8d0df"))
+		"첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.",
+		13, "#c9a227"))
 
 	# ── 확인 버튼 ──
 	var sep = HSeparator.new()
 	sep.modulate = Color("#2a2a3a")
 	modal_body.add_child(sep)
-	var confirm_btn: Button = _button("알겠습니다!  시작할게요  ▶", "#0d2a1a")
+	var confirm_btn: Button = _button("시작하기 ›", "#0d2a1a")
 	confirm_btn.add_theme_color_override("font_color", Color("#00c896"))
 	var conf_st = StyleBoxFlat.new()
 	conf_st.bg_color = Color("#0d2a1a")
@@ -1022,6 +1021,44 @@ func _goal_sep() -> HSeparator:
 	var s = HSeparator.new()
 	s.modulate = Color("#1e1e2e")
 	return s
+
+func _tutorial_card(icon_id: String, title: String, body: String, accent: String) -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#101018")
+	st.border_color = Color(accent, 0.35)
+	st.border_width_left = 3
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 9
+	st.content_margin_bottom = 9
+	panel.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	panel.add_child(row)
+
+	var icon := TextureRect.new()
+	icon.custom_minimum_size = Vector2(26, 26)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture = _ui_icon_texture(icon_id)
+	icon.modulate = Color(accent)
+	row.add_child(icon)
+
+	var col := VBoxContainer.new()
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	col.add_theme_constant_override("separation", 2)
+	row.add_child(col)
+
+	var title_lbl := _label(title, 14, "#e8eaf0")
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	col.add_child(title_lbl)
+	col.add_child(_wrap_label(body, 12, "#aab3c5"))
+	return panel
 
 func _build_bottom_bar(parent):
 	pass  # 다음 달/상점/도감은 상단 바로 이동됨
@@ -2242,12 +2279,12 @@ func _refresh_all():
 	var cash_str = GameState.format_money(GameState.money)
 	var asset_str = GameState.format_money(total_assets)
 	if abs(total_assets - GameState.money) > 10000:
-		top_labels["money"].text = "💰 %s  │  📊 %s" % [cash_str, asset_str]
+		top_labels["money"].text = "현금 %s  |  자산 %s" % [cash_str, asset_str]
 	else:
-		top_labels["money"].text = "💰 %s" % cash_str
+		top_labels["money"].text = "현금 %s" % cash_str
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
-	top_labels["ap"].text = "⚡".repeat(ap) + "○".repeat(max(0, GameState.max_action_points - ap))
+	top_labels["ap"].text = "%d/%d" % [ap, GameState.max_action_points]
 	# 초상화 하단 플레이어 정보 (이벤트 중 인물 표시 시에는 건드리지 않음)
 	var showing_character = not current_event.is_empty() and str(current_event.get("portrait", "")) != ""
 	if not showing_character:
@@ -2421,15 +2458,18 @@ func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3):
 	if not is_instance_valid(_feedback_flash):
 		return
+	if _feedback_flash_tween and _feedback_flash_tween.is_running():
+		_feedback_flash_tween.kill()
 	_feedback_flash.color = Color(color.r, color.g, color.b, 1.0)
 	_feedback_flash.modulate = Color(1, 1, 1, 0.0)
 	_feedback_flash.visible = true
-	var tw := create_tween()
-	tw.tween_property(_feedback_flash, "modulate:a", alpha, duration * 0.22)
-	tw.tween_property(_feedback_flash, "modulate:a", 0.0, duration * 0.78)
-	tw.tween_callback(func():
+	_feedback_flash_tween = create_tween()
+	_feedback_flash_tween.tween_property(_feedback_flash, "modulate:a", alpha, duration * 0.22)
+	_feedback_flash_tween.tween_property(_feedback_flash, "modulate:a", 0.0, duration * 0.78)
+	_feedback_flash_tween.tween_callback(func():
 		if is_instance_valid(_feedback_flash):
 			_feedback_flash.visible = false
+		_feedback_flash_tween = null
 	)
 
 func _full_screen_shake(amount: float = 10.0, duration: float = 0.45):
@@ -2563,7 +2603,7 @@ func _animate_ap_refill() -> void:
 		tw.tween_interval(pip_i * 0.12)
 		tw.tween_callback(func():
 			var filled: int = pip_i + 1
-			ap_lbl.text = "⚡".repeat(filled) + "○".repeat(max(0, max_ap - filled))
+			ap_lbl.text = "%d/%d" % [filled, max_ap]
 			ap_lbl.modulate = Color("#ffe566")
 		)
 		tw.tween_property(ap_lbl, "modulate", Color.WHITE, 0.15)
@@ -2571,7 +2611,7 @@ func _animate_ap_refill() -> void:
 	var end_tw := create_tween()
 	end_tw.tween_interval(max_ap * 0.12 + 0.2)
 	end_tw.tween_callback(func():
-		ap_lbl.text = "⚡".repeat(max_ap)
+		ap_lbl.text = "%d/%d" % [max_ap, max_ap]
 		ap_lbl.modulate = Color.WHITE
 	)
 
@@ -2589,7 +2629,7 @@ func _refresh_vitals():
 	else:
 		hp_color = Color("#34d399")
 	var hp_lbl = top_labels["vital_health"]
-	hp_lbl.text = "❤ %d %s" % [hp, hp_bar]
+	hp_lbl.text = "%d %s" % [hp, hp_bar]
 	hp_lbl.add_theme_color_override("font_color", hp_color)
 	if hp <= 15:
 		_pulse_vital_critical(hp_lbl)
@@ -2606,7 +2646,7 @@ func _refresh_vitals():
 	else:
 		mp_color = Color("#93c5fd")
 	var mp_lbl = top_labels["vital_mental"]
-	mp_lbl.text = "🧠 %d %s" % [mp, mp_bar]
+	mp_lbl.text = "%d %s" % [mp, mp_bar]
 	mp_lbl.add_theme_color_override("font_color", mp_color)
 	if mp <= 15:
 		_pulse_vital_critical(mp_lbl)
@@ -2917,6 +2957,11 @@ func _render_log():
 	log_box.text = "\n".join(lines)
 
 func _render_ap_actions():
+	_transient_bg_active = false
+	_clear_category_tint(true)
+	_clear_feedback_flash()
+	_update_vignette()
+	_update_event_bg()
 	for child in choice_box.get_children():
 		child.queue_free()
 	var ap = GameState.action_points
@@ -2983,7 +3028,7 @@ func _render_ap_actions():
 
 	# ── 행동력 소진 시 다음 달 버튼 강조 ──────────────
 	if disabled:
-		next_button.text = "▶▶ 다음 주로!"
+		next_button.text = "다음 주로 ›"
 		var btn_style = StyleBoxFlat.new()
 		btn_style.bg_color = Color("#0a2a1a")
 		btn_style.border_color = Color("#00c896")
@@ -2997,7 +3042,7 @@ func _render_ap_actions():
 		next_button.add_theme_color_override("font_color", Color("#00c896"))
 		next_button.call_deferred("grab_focus")
 	else:
-		next_button.text = "다음 주 ▶"
+		next_button.text = "다음 주 ›"
 		next_button.remove_theme_stylebox_override("normal")
 		next_button.remove_theme_color_override("font_color")
 
@@ -3046,7 +3091,7 @@ func _render_ap_actions():
 
 	# ── 상점 버튼 (상단 바) ───────────────────────────────
 	if shop_button:
-		shop_button.text = "🛍 상점" if has_paycheck else "🛍 상점 🔒"
+		shop_button.text = "상점" if has_paycheck else "상점 잠김"
 		shop_button.disabled = not has_paycheck
 
 ## 상황 기반 이번 달 추천 행동 (경고 없을 때만 표시)
@@ -3245,33 +3290,33 @@ func _render_essential_actions(ap: int):
 	var no_job: bool = GameState.current_job.is_empty()
 	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
 	if no_job:
-		_essential_btn("💼 구직활동  —  일자리를 찾는다", "#dc6a2a", "_ap_job_hunt", disabled)
+		_essential_btn("구직활동", "일자리를 찾아 수입 0원에서 벗어난다", "job", "#dc6a2a", "_ap_job_hunt", disabled)
 	if GameState.flags.get("arc_invest_guidance_seen", false):
-		_essential_btn("📈 투자  —  매수·매도", "#3a8a5a", "_ap_invest", disabled)
+		_essential_btn("투자", "매수·매도와 포트폴리오 조정", "invest", "#3a8a5a", "_ap_invest", disabled)
 		if GameState.investment_skill >= 50:
-			_essential_btn("🔭 시장 분석  —  무료: 다음 달 시장 방향 예측", "#1e3a5f", "_ap_market_analysis", false)
+			_essential_btn("시장 분석", "다음 달 시장 방향을 무료로 예측한다", "market", "#1e3a5f", "_ap_market_analysis", false, true)
 	elif has_paycheck:
-		choice_box.add_child(_label("📈 투자 — 잠금 해제 조건 미달성 (상철과의 대화 필요)", 12, "#4a5a72"))
-	_essential_btn("📚 자기계발  —  공부·운동 (그날그날 다른 결과)", "#5a6ea8", "_ap_selfdev", disabled)
+		_essential_locked("투자", "상철과의 대화 이후 열림", "invest", "#3a8a5a")
+	_essential_btn("자기계발", "공부·운동으로 스탯을 올린다", "study", "#5a6ea8", "_ap_selfdev", disabled)
 	if GameState.intelligence >= 30:
-		_essential_btn("📖 심화 독서  —  지력 +8 (지력 30 해금)", "#3a4e8a", "_ap_deep_study", disabled)
-	_essential_btn("🌊 휴식  —  숨을 고른다 (그날그날 다른 장면)", "#3a8a9a", "_ap_free_time", disabled)
+		_essential_btn("심화 독서", "지력 +8. 지력 30 이상 전용 행동", "study", "#3a4e8a", "_ap_deep_study", disabled)
+	_essential_btn("휴식", "숨을 고르고 정신력을 회복한다", "rest", "#3a8a9a", "_ap_free_time", disabled)
 	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
 	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
 		var rt_badge: String = _mastery_badge("racetrack")
-		_essential_btn("🏇 경마장  —  폼 읽고 베팅 (한탕! 중독 주의)" + rt_badge, "#9a5a3a", "_open_racetrack", disabled)
+		_essential_btn("경마장%s" % rt_badge, "폼을 읽고 베팅한다. 중독 주의", "racetrack", "#9a5a3a", "_open_racetrack", disabled)
 	# 홀덤: 상철 네트워크로 입성(entered_network)
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
 		var hm_badge: String = _mastery_badge("holdem")
-		_essential_btn("🃏 지하 홀덤 클럽  —  인맥 있는 사람만 (중독 주의)" + hm_badge, "#2a1a4a", "_open_holdem", disabled)
+		_essential_btn("지하 홀덤 클럽%s" % hm_badge, "인맥 있는 사람만 들어가는 고위험 테이블", "holdem", "#6d4bd4", "_open_holdem", disabled)
 	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
 	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
 		var sc_badge: String = _mastery_badge("scalping")
-		_essential_btn("⚡ 스캘핑 트레이딩  —  60초 실시간 매매 (중독 주의)" + sc_badge, "#1a2a3a", "_open_scalping", disabled)
+		_essential_btn("스캘핑 트레이딩%s" % sc_badge, "60초 실시간 매매. 빠르고 위험하다", "scalping", "#1a5f7a", "_open_scalping", disabled)
 	# 정선 카지노: 상철의 초대를 수락(casino_club_introduced)한 경우만
 	if GameState.flags.get("casino_club_introduced", false):
-		_essential_btn("🎰 정선 카지노  —  바카라·블랙잭·슬롯·룰렛·빅휠", "#1a1030", "_open_jeongseon_casino", disabled)
-	_essential_btn("🏠 생활  —  이사·상점 (시간 무관)", "#9a8a5a", "_open_cat_life", false)
+		_essential_btn("정선 카지노", "바카라·블랙잭·슬롯·룰렛·빅휠", "casino", "#7b3fd1", "_open_jeongseon_casino", disabled)
+	_essential_btn("생활", "이사·상점. 시간 소모 없음", "life", "#9a8a5a", "_open_cat_life", false, true)
 
 func _mastery_badge(game_id: String) -> String:
 	var grade: int = MetaProgression.get_mastery(game_id)
@@ -3279,14 +3324,200 @@ func _mastery_badge(game_id: String) -> String:
 	var labels := ["", " ★숙련", " ★★고급", " ★★★마스터"]
 	return labels[grade]
 
-func _essential_btn(text: String, accent: String, fn: String, disabled: bool):
-	var btn: Button = _action_button(text, accent if not disabled else "#2a2a38")
-	btn.custom_minimum_size = Vector2(0, 34)
-	btn.disabled = disabled
+func _essential_btn(title: String, subtitle: String, icon_id: String, accent: String,
+		fn: String, disabled: bool, free_action: bool = false):
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "")
 	if not disabled:
 		var fn_name: String = fn
-		btn.pressed.connect(func(): self.call(fn_name))
+		btn.pressed.connect(func():
+			AudioManager.play("click")
+			self.call(fn_name)
+		)
 	choice_box.add_child(btn)
+
+func _essential_locked(title: String, subtitle: String, icon_id: String, accent: String) -> void:
+	choice_box.add_child(_make_essential_action_card(title, subtitle, icon_id, accent, true, false, "잠금"))
+
+func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
+		accent: String, disabled: bool, free_action: bool, forced_badge: String) -> Button:
+	var btn := Button.new()
+	btn.text = ""
+	btn.custom_minimum_size = Vector2(0, 62)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.disabled = disabled
+	btn.focus_mode = Control.FOCUS_ALL
+
+	var accent_color := Color(accent if not disabled else "#343446")
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#101018") if not disabled else Color("#0b0b10")
+	normal.border_color = accent_color.darkened(0.12)
+	normal.border_width_left = 3
+	normal.set_border_width(SIDE_TOP, 1)
+	normal.set_border_width(SIDE_RIGHT, 1)
+	normal.set_border_width(SIDE_BOTTOM, 1)
+	normal.set_corner_radius_all(6)
+	normal.content_margin_left = 0
+	normal.content_margin_right = 0
+	normal.content_margin_top = 0
+	normal.content_margin_bottom = 0
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#171723")
+	hover.border_color = accent_color.lightened(0.25)
+	var pressed_style := normal.duplicate()
+	pressed_style.bg_color = Color("#0a0a10")
+	var focus_style := normal.duplicate()
+	focus_style.border_color = Color(COL_GOLD_BRIGHT)
+	focus_style.set_border_width_all(2)
+	var disabled_style := normal.duplicate()
+	disabled_style.bg_color = Color("#0a0a0f")
+	disabled_style.border_color = Color("#252535")
+	btn.add_theme_stylebox_override("normal", normal)
+	btn.add_theme_stylebox_override("hover", hover)
+	btn.add_theme_stylebox_override("pressed", pressed_style)
+	btn.add_theme_stylebox_override("focus", focus_style)
+	btn.add_theme_stylebox_override("disabled", disabled_style)
+
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_theme_constant_override("margin_left", 12)
+	margin.add_theme_constant_override("margin_right", 12)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	btn.add_child(margin)
+
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 12)
+	margin.add_child(row)
+
+	var icon_box := PanelContainer.new()
+	icon_box.custom_minimum_size = Vector2(42, 42)
+	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var icon_style := StyleBoxFlat.new()
+	icon_style.bg_color = Color(accent, 0.16 if not disabled else 0.06)
+	icon_style.border_color = accent_color
+	icon_style.set_border_width_all(1)
+	icon_style.set_corner_radius_all(6)
+	icon_box.add_theme_stylebox_override("panel", icon_style)
+	row.add_child(icon_box)
+
+	var icon_tex := TextureRect.new()
+	icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon_tex.custom_minimum_size = Vector2(34, 34)
+	icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_tex.texture = _ui_icon_texture(icon_id)
+	icon_tex.modulate = Color(accent, 0.95 if not disabled else 0.35)
+	icon_box.add_child(icon_tex)
+
+	var text_col := VBoxContainer.new()
+	text_col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_col.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	text_col.add_theme_constant_override("separation", 2)
+	row.add_child(text_col)
+
+	var title_lbl := _label(title, 15, "#e8eaf0" if not disabled else "#5f6372")
+	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	text_col.add_child(title_lbl)
+
+	var sub_lbl := _label(subtitle, 12, "#9aa4b8" if not disabled else "#484c5c")
+	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	text_col.add_child(sub_lbl)
+
+	var badge_text := forced_badge
+	if badge_text.is_empty():
+		badge_text = "무료" if free_action else "AP 1"
+	var badge := PanelContainer.new()
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.custom_minimum_size = Vector2(54, 26)
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var badge_style := StyleBoxFlat.new()
+	badge_style.bg_color = Color("#13131d") if not disabled else Color("#0e0e14")
+	badge_style.border_color = Color("#2e3446") if not free_action else Color("#3d6f59")
+	if forced_badge == "잠금":
+		badge_style.border_color = Color("#3a3a48")
+	badge_style.set_border_width_all(1)
+	badge_style.set_corner_radius_all(5)
+	badge_style.content_margin_left = 8
+	badge_style.content_margin_right = 8
+	badge_style.content_margin_top = 4
+	badge_style.content_margin_bottom = 4
+	badge.add_theme_stylebox_override("panel", badge_style)
+	row.add_child(badge)
+
+	var badge_lbl := _label(badge_text, 11, "#a7f3d0" if free_action and not disabled else "#aab3c5")
+	if forced_badge == "잠금":
+		badge_lbl.add_theme_color_override("font_color", Color("#6d7282"))
+	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_child(badge_lbl)
+
+	var arrow_lbl := _label("›", 24, accent if not disabled else "#303040")
+	arrow_lbl.custom_minimum_size = Vector2(14, 0)
+	arrow_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	arrow_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(arrow_lbl)
+	return btn
+
+func _hud_chip(parent: Control, icon_id: String, accent: String,
+		min_width: int, expand: bool) -> Label:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(min_width, 36)
+	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL if expand else Control.SIZE_SHRINK_BEGIN
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0f1018")
+	st.border_color = Color(accent, 0.30)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 9
+	st.content_margin_right = 9
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	panel.add_theme_stylebox_override("panel", st)
+	parent.add_child(panel)
+
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 6)
+	panel.add_child(row)
+
+	if not icon_id.is_empty():
+		var tex := TextureRect.new()
+		tex.custom_minimum_size = Vector2(18, 18)
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tex.texture = _ui_icon_texture(icon_id)
+		tex.modulate = Color(accent)
+		tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(tex)
+
+	var lbl := _label("", 13, "#d8deea")
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lbl.clip_text = false
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(lbl)
+	return lbl
+
+func _ui_icon_texture(icon_id: String) -> Texture2D:
+	if _ui_icon_cache.has(icon_id):
+		return _ui_icon_cache[icon_id]
+	var path: String = str(UI_ICON_PATHS.get(icon_id, ""))
+	if path.is_empty() or not ResourceLoader.exists(path):
+		_ui_icon_cache[icon_id] = null
+		return null
+	var res := load(path)
+	var tex: Texture2D = res if res is Texture2D else null
+	_ui_icon_cache[icon_id] = tex
+	return tex
 
 ## 5개 카테고리 행동 카드 렌더링 (구버전 — 상황 카드로 대체됨)
 func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_unlocked: bool, warn_body: bool):
@@ -4123,6 +4354,8 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	for child in choice_box.get_children():
 		child.queue_free()
 	_transient_bg_active = true
+	_clear_category_tint(true)
+	_clear_feedback_flash()
 	_apply_event_bg_path(_get_bg_for_vignette(title, body, eff))
 	event_title.text = title
 	var parts: PackedStringArray = PackedStringArray()
@@ -6399,14 +6632,33 @@ func _apply_event_bg_path(new_path: String):
 		event_bg.modulate = Color(1, 1, 1, 0.0)
 		var tw := create_tween()
 		tw.tween_property(event_bg, "modulate:a", 0.25, 0.3)
+		tw.tween_callback(_start_event_bg_motion)
 	else:
 		var tw := create_tween()
 		tw.tween_property(event_bg, "modulate:a", 0.0, 0.15)
 		tw.tween_callback(func():
 			event_bg.texture = new_tex
+			_start_event_bg_motion()
 			var tw2 := create_tween()
 			tw2.tween_property(event_bg, "modulate:a", 0.25, 0.25)
 		)
+
+func _start_event_bg_motion() -> void:
+	if not is_instance_valid(event_bg):
+		return
+	if _event_bg_motion_tween and _event_bg_motion_tween.is_running():
+		_event_bg_motion_tween.kill()
+	var vp := get_viewport_rect().size
+	event_bg.pivot_offset = vp * 0.5
+	event_bg.scale = Vector2(1.012, 1.012)
+	event_bg.position = Vector2.ZERO
+	var dir := Vector2(randf_range(-1.0, 1.0), randf_range(-0.35, 0.35)).normalized()
+	if dir.length() < 0.1:
+		dir = Vector2(1.0, 0.0)
+	_event_bg_motion_tween = create_tween()
+	_event_bg_motion_tween.set_loops()
+	_event_bg_motion_tween.tween_property(event_bg, "position", dir * 8.0, 9.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_event_bg_motion_tween.tween_property(event_bg, "position", -dir * 8.0, 9.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _get_bg_for_event(ev: Dictionary) -> String:
 	var bg_id := ImageRegistry.infer_background_id(ev, GameState.housing)

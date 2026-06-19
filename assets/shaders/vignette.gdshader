@@ -13,12 +13,12 @@ void fragment() {
 	float base_edge = smoothstep(0.42, 0.95, dist);
 	vec4 base_col = vec4(0.02, 0.015, 0.025, base_edge * 0.5);
 
-	// 스트레스 — 빨간 가장자리 (스트레스 높을수록 진해짐)
-	float stress_edge = smoothstep(0.25, 0.72, dist) * stress_norm;
+	// 위급 상태 — 빨간 가장자리. 평상시 긴장 연출과 분리해 바깥쪽에서만 약하게 켠다.
+	float stress_edge = smoothstep(0.38, 0.86, dist) * stress_norm;
 	// 정신력 — 검은 가장자리 + 약간 파란빛 (낮을수록 진해짐)
 	float mental_edge = smoothstep(0.20, 0.68, dist) * (1.0 - mental_norm);
 
-	vec4 stress_col = vec4(0.75, 0.02, 0.02, stress_edge * 0.62);
+	vec4 stress_col = vec4(0.75, 0.02, 0.02, stress_edge * 0.38);
 	vec4 mental_col = vec4(0.01, 0.01, 0.08, mental_edge * 0.68);
 
 	COLOR = clamp(base_col + stress_col + mental_col, vec4(0.0), vec4(1.0));

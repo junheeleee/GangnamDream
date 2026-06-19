@@ -329,6 +329,43 @@ def render_sfx() -> None:
     sfx["sfx_success.wav"] = chord_sfx([note("C4"), note("E4"), note("G4"), note("C5"), note("E5")], 0.82, 0.13)
     sfx["sfx_buy.wav"] = mix(chord_sfx([note("A4"), note("C5")], 0.16, 0.11), sweep(500, 650, 0.12, 0.04))
     sfx["sfx_sell.wav"] = mix(chord_sfx([note("C5"), note("A4")], 0.16, 0.11, up=False), sweep(640, 430, 0.13, 0.05))
+
+    # Casino table/action layer. These must exist as real files; otherwise the
+    # runtime falls back to synthetic beeps, which makes the minigames feel mockup-like.
+    sfx["sfx_casino_card.wav"] = mix(
+        noise(0.085, 0.030, "white", -0.18),
+        sweep(1450, 760, 0.080, 0.075),
+    )
+    sfx["sfx_casino_bet.wav"] = mix(
+        pluck(note("C5"), 0.090, 0.16, -0.12),
+        pluck(note("G4"), 0.100, 0.13, 0.10),
+        noise(0.075, 0.018, "dark"),
+    )
+    sfx["sfx_casino_coin.wav"] = mix(
+        pluck(note("E6"), 0.110, 0.13, -0.10),
+        pluck(note("B5"), 0.130, 0.10, 0.12),
+    )
+    sfx["sfx_casino_spin.wav"] = mix(
+        sweep(220, 860, 0.42, 0.105),
+        noise(0.42, 0.022, "dark"),
+    )
+    sfx["sfx_casino_reel.wav"] = mix(
+        sweep(720, 510, 0.055, 0.10),
+        noise(0.055, 0.018, "white"),
+    )
+    sfx["sfx_casino_win.wav"] = mix(
+        chord_sfx([note("E5"), note("G5"), note("B5"), note("E6")], 0.42, 0.13),
+        pluck(note("B6"), 0.30, 0.08, 0.18),
+    )
+    sfx["sfx_casino_lose.wav"] = mix(
+        chord_sfx([note("C4"), note("G3")], 0.36, 0.14, up=False),
+        sweep(260, 120, 0.36, 0.080),
+    )
+    sfx["sfx_casino_jackpot.wav"] = mix(
+        chord_sfx([note("C5"), note("E5"), note("G5"), note("C6"), note("E6")], 0.90, 0.16),
+        pluck(note("G6"), 0.55, 0.12, -0.22),
+        pluck(note("C7"), 0.65, 0.12, 0.22),
+    )
     for filename, data in sfx.items():
         write_sfx(AUDIO_DIR / filename, data)
 

@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+### Changed (2026-06-19) — UI skin P1 and casino hub polish
+
+- Reworked the MainGame HUD into icon-backed status chips for date, AP, health, mental, and money.
+- Replaced the main direct-action text buttons with action cards containing a unified icon, title, short description, and AP/free badge.
+- Rebuilt the first-run tutorial modal as compact rule cards instead of a long document-style instruction panel.
+- Updated the Jeongseon Casino hub to use existing card-back and poker-chip UI textures instead of emoji game icons, added open fade-in, and connected casino entry buttons to casino SFX.
+
+### Added (2026-06-19) — Player-facing polish QA and first dynamic pass
+
+- Added `docs/PLAYER_FACING_POLISH_AUDIT.md`, a runtime-based audit of UI/UX, image assets, audio assets, minigame surface quality, and Godot motion priorities.
+- Added 8 real casino SFX files for existing runtime keys: card, bet, coin, spin, reel, win, lose, and jackpot. `AudioAssetCheck` now passes with `bgm=7 sfx=25`.
+- Added subtle MainGame background drift and switched the event background TextureRect to covered mode to reduce static web-page feel.
+
+### Fixed (2026-06-19) — Red crisis effect and QA correction
+
+- Reduced red crisis vignette intensity and limited it to true danger thresholds: health <= 25 or mental <= 15.
+- Main dashboard/action vignette rendering now immediately clears lingering category tint and feedback flash, preventing non-crisis screens from staying red.
+- Updated `CGRuntimeCheck` so it verifies ending CG plumbing without incorrectly requiring the removed hospital-father CG on the `gangnam_dream` victory ending.
+- Fixed StartMenu legacy tagline from "100만원" to the current canon "50만원".
+
 ### Changed (2026-06-19) — Claude cloud branch merge cleanup
 
 - Fast-forwarded local `main` to Claude cloud branch `origin/claude/game-polish-steam-uh6ldg` (24 commits ahead of `origin/main`).

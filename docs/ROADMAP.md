@@ -158,6 +158,14 @@
   - [x] 반복 보조 NPC 투명 포트레이트 교체 패스 — 고시원 원장/팀장/성준/정보상 등 (2026-06-12)
   - [x] 전체 배경 이미지 2차 정합성 감사 — 가족사진/경제수준/방 구조/인물 포함 여부 기준 (2026-06-12)
   - [x] 배경 실패컷 재생성 — convenience / Gangnam day-night-station / penthouse / late_night_room (2026-06-12)
+  - [x] 플레이어 체감 표면 QA 1차 — ScreenshotQA/AudioAssetCheck/CGRuntimeCheck 실행, 카지노 SFX 8종 추가, 위기 비네팅 축소, `PLAYER_FACING_POLISH_AUDIT.md` 작성 (2026-06-19)
+  - [~] UI 스킨 P1 — 이모지 기반 HUD/버튼을 SVG/Texture 기반 Godot Theme로 교체
+    - [x] MainGame 상단 HUD 상태칩화 및 직접 행동 액션 카드화 (2026-06-19)
+    - [x] 첫 시작 안내 모달을 문서형 안내에서 규칙 카드형 모달로 축소 (2026-06-19)
+    - [x] 정선 카지노 허브 이모지 아이콘 제거, 카드/칩 Texture 기반 게임 카드 적용 (2026-06-19)
+    - [ ] StartMenu/StoryMode/정보 패널/튜토리얼 오버레이 이모지·텍스트 버튼 정리
+  - [ ] 미니게임 물체 에셋 P1 — 카드 앞면, 칩 denomination, 룰렛 휠/볼, 슬롯 심볼, 경마 말/기수 스프라이트 확장
+  - [ ] 오디오 P1 — 장소 ambience, 카지노 플로어 loop, 엔딩 stinger 3종 추가
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
   - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
   - [x] VISUAL_AUDIO P2 배경/CG/키아트 품질 교체
