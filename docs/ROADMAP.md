@@ -167,12 +167,13 @@
     - [x] TutorialOverlay 중앙 아이콘 Texture화 및 ScreenshotQA StartMenu/미니게임 본체 캡처 추가 (2026-06-19)
     - [x] StoryMode 배경 covered scaling 및 상단 VN HUD 텍스트 상태바 정리 (2026-06-19)
     - [x] 정보 패널/행동 모달/세부 카지노 테이블 버튼 이모지·텍스트 버튼 정리 (2026-06-19)
+    - [x] 투자/은행/상점/시스템 모달을 SVG/Icon 버튼·섹션 헤더 기반으로 정리하고 ScreenshotQA 보조 모달 3장 추가 (2026-06-19)
   - [~] 미니게임 물체 에셋 P1 — 카드 앞면, 칩 denomination, 룰렛 휠/볼, 슬롯 심볼, 경마 말/기수 스프라이트 확장
     - [x] 슬롯 릴 심볼 텍스트 타일화 및 니어미스 런타임 오류 수정 (2026-06-19)
     - [x] 룰렛 휠/볼 Canvas 드로잉 추가 및 ScreenshotQA 본체 캡처 추가 (2026-06-19)
     - [x] 경마 말/기수 스프라이트 런타임 SmokeRace 검증 경고 제거 (2026-06-19)
     - [ ] 카드 앞면/칩 denomination을 실제 테이블용 고해상도 Texture로 확장
-  - [ ] 오디오 P1 — 장소 ambience, 카지노 플로어 loop, 엔딩 stinger 3종 추가
+  - [x] 오디오 P1 — 장소 ambience 5종, 카지노 플로어 loop, 엔딩 stinger 3종 추가 및 `BGMPlayer` ambience 레이어 연결 (2026-06-19)
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
   - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
   - [x] VISUAL_AUDIO P2 배경/CG/키아트 품질 교체

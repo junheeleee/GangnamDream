@@ -46,6 +46,7 @@ func _ready() -> void:
 
 	await _shot_event_gambling()
 	await _shot_investment()
+	await _shot_support_modals()
 	await _shot_crisis_vignette()
 	await _shot_ap_actions()
 	await _shot_people()
@@ -144,6 +145,26 @@ func _shot_investment() -> void:
 		await _save("02_investment_portfolio_chart")
 		_close_modal()
 		await _settle(0.4)
+
+func _shot_support_modals() -> void:
+	if _mg.has_method("_open_bank"):
+		_mg._open_bank()
+		await _settle(0.7)
+		await _save("02a_bank_modal")
+		_close_modal()
+		await _settle(0.3)
+	if _mg.has_method("_open_shop"):
+		_mg._open_shop()
+		await _settle(0.7)
+		await _save("02b_shop_modal")
+		_close_modal()
+		await _settle(0.3)
+	if _mg.has_method("_open_system_menu"):
+		_mg._open_system_menu()
+		await _settle(0.7)
+		await _save("02c_system_menu")
+		_close_modal()
+		await _settle(0.3)
 
 func _shot_crisis_vignette() -> void:
 	GameState.mental = 9

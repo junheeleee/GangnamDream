@@ -1,5 +1,5 @@
 extends Node
-## BGMPlayer — 게임 상태에 따라 7트랙 자동 전환
+## BGMPlayer — 게임 상태에 따라 BGM과 낮은 ambience 레이어 자동 전환
 ## assets/audio의 Ogg Vorbis 트랙 우선 재생, 없으면 프로시저럴 폴백
 
 # ── 트랙 정의 ─────────────────────────────────────────────────
@@ -13,6 +13,14 @@ const TRACKS = {
 	"ending_bad":  "res://assets/audio/bgm_ending.ogg",
 }
 
+const AMBIENCE_TRACKS = {
+	"room":    "res://assets/audio/amb_goshiwon_room.wav",
+	"rain":    "res://assets/audio/amb_seoul_rain.wav",
+	"hangang": "res://assets/audio/amb_hangang_riverside.wav",
+	"office":  "res://assets/audio/amb_office_room.wav",
+	"casino":  "res://assets/audio/amb_casino_floor.wav",
+}
+
 # ── 상태 ──────────────────────────────────────────────────────
 var volume: float       = 0.25
 var _current_key: String = ""
@@ -20,14 +28,19 @@ var _is_ending: bool    = false
 
 var _player_a: AudioStreamPlayer  # 현재 재생
 var _player_b: AudioStreamPlayer  # 크로스페이드 대상
+var _ambience_player: AudioStreamPlayer
+var _ambience_tween: Tween
 var _procedural_stream: AudioStreamWAV  # 폴백 스트림 (1회 생성)
+var _current_ambience_key: String = ""
 
 const _FADE_TIME = 2.5  # 크로스페이드 초
+const _AMBIENCE_VOLUME = 0.18
 
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready():
 	_player_a = _make_player()
 	_player_b = _make_player()
+	_ambience_player = _make_player()
 	_procedural_stream = _bake_procedural()
 
 func _make_player() -> AudioStreamPlayer:
@@ -39,18 +52,25 @@ func _make_player() -> AudioStreamPlayer:
 func start():
 	volume = AudioManager.bgm_volume
 	_switch_to(_pick_track(), true)
+	update_idle_ambience()
 
 func start_menu():
 	volume = AudioManager.bgm_volume
 	_switch_to("menu", true)
+	clear_ambience()
 
 func stop():
 	_player_a.stop()
 	_player_b.stop()
+	if _ambience_player:
+		_ambience_player.stop()
 
 func apply_volume(v: float):
 	volume = clampf(v, 0.0, 1.0)
 	_player_a.volume_db = _db(volume)
+	_player_b.volume_db = _db(0.0 if not _player_b.playing else volume)
+	if _ambience_player and _ambience_player.playing:
+		_ambience_player.volume_db = _db(volume * _AMBIENCE_VOLUME)
 
 # ── 매월 상태 체크 ─────────────────────────────────────────────
 func update_context():
@@ -62,6 +82,7 @@ func update_context():
 
 func on_ending(ending_id: String):
 	_is_ending = true
+	clear_ambience()
 	var good = [
 		"gangnam_dream", "stable_success", "investment_master",
 		"startup_exit", "reputation_legend", "healthy_retirement", "political_fix",
@@ -72,6 +93,65 @@ func on_ending(ending_id: String):
 		"full_circle", "second_love", "guardian",
 	]
 	_crossfade_to("ending_good" if ending_id in good else "ending_bad")
+
+func update_idle_ambience() -> void:
+	if _is_ending:
+		clear_ambience()
+		return
+	match str(GameState.housing):
+		"gangnam", "apartment":
+			set_ambience("rain")
+		"villa", "oneroom":
+			set_ambience("room")
+		_:
+			set_ambience("room")
+
+func update_event_ambience(ev: Dictionary) -> void:
+	if _is_ending:
+		clear_ambience()
+		return
+	set_ambience(_pick_ambience(ev))
+
+func set_ambience(key: String) -> void:
+	if key == _current_ambience_key:
+		return
+	_current_ambience_key = key
+	if _ambience_tween and _ambience_tween.is_running():
+		_ambience_tween.kill()
+	if key == "" or not AMBIENCE_TRACKS.has(key):
+		if _ambience_player and _ambience_player.playing:
+			_ambience_tween = create_tween()
+			_ambience_tween.tween_property(_ambience_player, "volume_db", -80.0, 0.45)
+			_ambience_tween.tween_callback(_ambience_player.stop)
+		return
+	var stream := _load_ambience(key)
+	if stream == null:
+		return
+	_ambience_player.stream = stream
+	_ambience_player.volume_db = -80.0
+	_ambience_player.play()
+	_ambience_tween = create_tween()
+	_ambience_tween.tween_property(_ambience_player, "volume_db", _db(volume * _AMBIENCE_VOLUME), 0.65)
+
+func clear_ambience() -> void:
+	set_ambience("")
+
+func _pick_ambience(ev: Dictionary) -> String:
+	var tags: Array = ev.get("tags", [])
+	var bg_id := str(ev.get("background", "")).to_lower()
+	var category := str(ev.get("category", "")).to_lower()
+	var hay: String = (str(ev.get("title", "")) + " " + str(ev.get("description", ""))).to_lower()
+	if "casino" in tags or "jeongseon" in tags or "jeongseon_casino" in tags \
+			or "casino" in bg_id or "카지노" in hay or "바카라" in hay or "블랙잭" in hay:
+		return "casino"
+	if "hangang" in tags or "hangang" in bg_id or "한강" in hay:
+		return "hangang"
+	if "office" in tags or "work" in tags or "jobs" in tags or category == "jobs" \
+			or "office" in bg_id or "회사" in hay or "사무실" in hay:
+		return "office"
+	if "rain" in tags or "night" in tags or "street_rainy" in bg_id or "비" in hay or "빗" in hay:
+		return "rain"
+	return "room"
 
 # ── 트랙 선택 로직 ─────────────────────────────────────────────
 func _pick_track() -> String:
@@ -130,6 +210,18 @@ func _load_track(key: String) -> AudioStream:
 		return load(path)
 	# 파일 없으면 프로시저럴 폴백
 	return _procedural_stream
+
+func _load_ambience(key: String) -> AudioStream:
+	var path = AMBIENCE_TRACKS.get(key, "")
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	var stream = load(path)
+	if stream is AudioStreamWAV:
+		stream = stream.duplicate()
+		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		stream.loop_begin = 0
+		stream.loop_end = int(round((stream as AudioStreamWAV).get_length() * float((stream as AudioStreamWAV).mix_rate)))
+	return stream
 
 func _db(v: float) -> float:
 	return -80.0 if v < 0.001 else 20.0 * log(v) / log(10.0)

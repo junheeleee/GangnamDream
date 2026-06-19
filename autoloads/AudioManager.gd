@@ -9,6 +9,8 @@ var sfx_enabled: bool    = true
 var _pool: Array[AudioStreamPlayer] = []
 const _POOL_SIZE = 8
 var _sounds: Dictionary = {}
+var _last_ending_stinger_id: String = ""
+var _last_ending_stinger_ms: int = 0
 
 # wav 파일 → AudioManager key 매핑
 const _SFX_FILES = {
@@ -38,6 +40,9 @@ const _SFX_FILES = {
 	"casino_card":  "res://assets/audio/sfx_casino_card.wav",
 	"casino_jackpot": "res://assets/audio/sfx_casino_jackpot.wav",
 	"casino_reel":  "res://assets/audio/sfx_casino_reel.wav",
+	"ending_stinger_good": "res://assets/audio/sfx_ending_stinger_good.wav",
+	"ending_stinger_bad": "res://assets/audio/sfx_ending_stinger_bad.wav",
+	"ending_stinger_legend": "res://assets/audio/sfx_ending_stinger_legend.wav",
 }
 
 func _ready():
@@ -87,6 +92,9 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 		"casino_card":  return _tone(880, 0.06, [1.0, 0.6, 0.0])
 		"casino_jackpot": return _chord([523, 659, 784, 1047, 1319], 0.80, [0.0, 0.3, 0.8, 1.0, 0.8, 0.4, 0.0])
 		"casino_reel":  return _tone(494, 0.04, [1.0, 0.0])
+		"ending_stinger_good": return _chord([523, 659, 784, 1047], 1.10, [0.0, 0.4, 1.0, 0.6, 0.0])
+		"ending_stinger_bad": return _tone(92, 1.25, [0.0, 0.7, 1.0, 0.4, 0.0])
+		"ending_stinger_legend": return _chord([523, 659, 784, 1047, 1319], 1.55, [0.0, 0.3, 1.0, 0.8, 0.45, 0.0])
 	return _tone(440, 0.1, [1.0, 0.0])
 
 func load_settings():
@@ -118,9 +126,25 @@ func _on_turn_advanced(_turn: int):
 	play("month")
 
 func _on_game_over(ending: String):
-	var good = ["gangnam_dream", "stable_success", "investment_master",
-				"startup_exit", "reputation_legend", "healthy_retirement", "political_fix"]
-	play("success" if ending in good else "game_over")
+	play_ending_stinger(ending)
+
+func play_ending_stinger(ending_id: String) -> void:
+	var now := Time.get_ticks_msec()
+	if ending_id == _last_ending_stinger_id and now - _last_ending_stinger_ms < 2000:
+		return
+	_last_ending_stinger_id = ending_id
+	_last_ending_stinger_ms = now
+	var ending: Dictionary = DataRegistry.get_ending(ending_id)
+	var grade := str(ending.get("grade", ""))
+	if ending_id in ["instant_legend", "gangnam_dream", "orthodox_pinnacle", "unorthodox_legend"] \
+			or grade in ["?", "S+", "S"]:
+		play("ending_stinger_legend")
+		return
+	var good = ["stable_success", "investment_master",
+				"startup_exit", "reputation_legend", "healthy_retirement", "political_fix",
+				"creator_success", "with_daeun", "jiyeon_man", "balanced_life",
+				"early_retirement", "full_circle", "second_love", "guardian"]
+	play("ending_stinger_good" if ending_id in good or grade in ["A+", "A", "B"] else "ending_stinger_bad")
 
 # ── 재생 ─────────────────────────────────────────────────────
 func play(sound_id: String, volume_mod: float = 0.0):

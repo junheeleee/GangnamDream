@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-19 (오디오 P1 + 모달 UI 스킨 4차)
+
+### 추가
+- 장소 ambience 5종과 엔딩 stinger 3종을 로컬 생성·import.
+  - `amb_goshiwon_room`, `amb_seoul_rain`, `amb_hangang_riverside`, `amb_office_room`, `amb_casino_floor`
+  - `sfx_ending_stinger_good`, `sfx_ending_stinger_bad`, `sfx_ending_stinger_legend`
+- `BGMPlayer`에 BGM과 별개로 낮은 ambience 레이어를 추가하고 이벤트/주거/카지노 진입 상황에 따라 자동 전환.
+- `AudioManager` 엔딩 stinger 분류를 엔딩 grade/ID 기준으로 연결.
+- `ScreenshotQA`에 투자 주변 보조 모달 3장 추가: `02a_bank_modal`, `02b_shop_modal`, `02c_system_menu`.
+
+### 수정
+- 투자/은행/상점/시스템 모달에 SVG/Icon 기반 버튼과 섹션 헤더를 적용해 게시판형 텍스트 버튼 느낌을 줄임.
+- 큰 모달 제목의 잔여 이모지 접두어를 제거해 헤더 톤을 통일.
+- `AudioAssetCheck`가 BGM/SFX뿐 아니라 ambience 파일도 검증하도록 확장.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 21장 재캡처 완료.
+
 ## 2026-06-19 (UI 스킨 P1 3차 + 카지노 본체 물체감 1차)
 
 ### 수정

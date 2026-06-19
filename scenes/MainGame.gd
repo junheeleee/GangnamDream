@@ -96,6 +96,7 @@ const UI_ICON_PATHS := {
 	"study": "res://assets/ui/icons/icon_study.svg",
 	"rest": "res://assets/ui/icons/icon_rest.svg",
 	"invest": "res://assets/ui/icons/icon_invest.svg",
+	"leverage": "res://assets/ui/icons/icon_leverage.svg",
 	"market": "res://assets/ui/icons/icon_scalping.svg",
 	"racetrack": "res://assets/ui/icons/icon_racetrack.svg",
 	"holdem": "res://assets/ui/icons/icon_holdem.svg",
@@ -103,6 +104,9 @@ const UI_ICON_PATHS := {
 	"casino": "res://assets/ui/poker_chip_icon.png",
 	"life": "res://assets/ui/icons/icon_housing.svg",
 	"shop": "res://assets/ui/icons/icon_shop.svg",
+	"info": "res://assets/ui/icons/icon_info.svg",
+	"save": "res://assets/ui/icons/icon_save.svg",
+	"menu": "res://assets/ui/icons/icon_menu.svg",
 	"next": "res://assets/ui/icons/icon_next_month.svg",
 }
 
@@ -2128,6 +2132,7 @@ func _render_event():
 	if current_event.is_empty():
 		next_button.disabled = false
 		_clear_category_tint()
+		BGMPlayer.update_idle_ambience()
 		_render_ap_actions()
 		return
 	_transient_bg_active = false
@@ -2136,6 +2141,7 @@ func _render_event():
 	_apply_category_tint(str(current_event.get("category", "")))
 	event_title.text = _fmt(current_event.get("title", "이벤트"))
 	_update_event_bg()
+	BGMPlayer.update_event_ambience(current_event)
 	_update_portrait()
 	# 이벤트 패널 페이드인
 	event_body.modulate.a = 0.0
@@ -4154,19 +4160,25 @@ const CONTENT_VIGNETTES := [
 
 ## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
 func _open_bank():
-	_open_modal("🏦 은행")
+	_open_modal("은행")
+	modal_body.add_child(_modal_section_header(
+		"대출 / 상환",
+		"money",
+		"#f0b429",
+		"빚은 도구다. 다만 이자는 매달, 반드시, 먼저 나간다."))
 	var bank_header_row := HBoxContainer.new()
 	bank_header_row.add_theme_constant_override("separation", 8)
 	modal_body.add_child(bank_header_row)
 	var bank_desc_lbl := Label.new()
-	bank_desc_lbl.text = "빚은 도구다. 다만 이자는 매달, 반드시, 먼저 나간다."
+	bank_desc_lbl.text = "행동력 소비 없음 — 대출은 즉시 현금, 상환은 즉시 부채 감소."
 	bank_desc_lbl.add_theme_font_size_override("font_size", 12)
 	bank_desc_lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	bank_desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bank_desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	bank_header_row.add_child(bank_desc_lbl)
-	var bank_gloss_btn = _small_button("📖 용어", "#2a3a5a")
-	bank_gloss_btn.pressed.connect(func(): _open_glossary("🏦 금융 용어", "bank"))
+	var bank_gloss_btn := _icon_small_button("용어", "info", "#2a3a5a")
+	bank_gloss_btn.custom_minimum_size = Vector2(78, 32)
+	bank_gloss_btn.pressed.connect(func(): _open_glossary("금융 용어", "bank"))
 	bank_header_row.add_child(bank_gloss_btn)
 	var net: float = GameState.get_total_asset_value()
 	modal_body.add_child(_label("현금 %s   |   순자산 %s" % [
@@ -4178,7 +4190,7 @@ func _open_bank():
 	modal_body.add_child(_label("신용등급  %d등급 (%s)  — 점수 %d/100" % [grade, grade_label, GameState.get_credit_score()], 15, grade_color))
 	modal_body.add_child(_wrap_label("직장·근속·소득·자산이 등급을 올리고, 부채 비율과 잔고 바닥 이력이 깎습니다.\n금리는 변동금리 — 등급이 떨어지면 보유한 빚의 이자도 같이 오릅니다.", 11, "#6a7486"))
 	if net < 0:
-		modal_body.add_child(_wrap_label("⚠ 순자산 마이너스 — -1억이면 파산, -2억이면 빚의 소용돌이입니다.", 12, "#ff4444"))
+		modal_body.add_child(_wrap_label("위험: 순자산 마이너스 — -1억이면 파산, -2억이면 빚의 소용돌이입니다.", 12, "#ff4444"))
 	for product in GameState.LOAN_PRODUCTS:
 		var info: Dictionary = GameState.LOAN_PRODUCTS[product]
 		var owed: float = float(GameState.loans.get(product, 0.0))
@@ -4187,8 +4199,8 @@ func _open_bank():
 		var sep := HSeparator.new()
 		sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(sep)
-		modal_body.add_child(_label("%s %s — 월 이자 %.2f%% (연 %.1f%%)" % [
-			info["emoji"], info["name"], rate * 100.0, rate * 1200.0], 15, "#e2e8f0"))
+		modal_body.add_child(_label("%s — 월 이자 %.2f%% (연 %.1f%%)" % [
+			info["name"], rate * 100.0, rate * 1200.0], 15, "#e2e8f0"))
 		if limit <= 0.0:
 			if GameState.monthly_income <= 0:
 				modal_body.add_child(_wrap_label("  직장(소득)이 있어야 신용대출이 가능합니다.", 12, "#6a7486"))
@@ -4225,7 +4237,7 @@ func _open_bank():
 			var r2 = _small_button("전액 상환", "#1e3a5f")
 			r2.pressed.connect(_bank_repay.bind(product, owed))
 			rrow.add_child(r2)
-	var back_btn = _button("← 투자 화면으로", "#1a1a28")
+	var back_btn := _icon_button("투자 화면으로", "invest", "#1a1a28")
 	back_btn.pressed.connect(_open_investments)
 	modal_body.add_child(back_btn)
 
@@ -4287,11 +4299,13 @@ func _on_scalping_closed():
 func _open_jeongseon_casino():
 	if not GameState.spend_ap():
 		return
+	BGMPlayer.set_ambience("casino")
 	jeongseon_casino.open()
 
 func _on_jeongseon_casino_closed():
 	turn_action_log.append("✓ 🎰 정선 카지노")
 	GameState.add_log("🎰 정선 카지노를 나왔다.", "event")
+	BGMPlayer.update_idle_ambience()
 	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
@@ -4556,17 +4570,21 @@ func _ap_market_analysis():
 	var cycle = str(GameState.market_context.get("cycle", "neutral"))
 	var fg = int(GameState.market_context.get("fear_greed", 50))
 	var crash_risk = float(GameState.market_context.get("crash_risk", 0.05))
-	_open_modal("🔭 시장 분석")
-	modal_body.add_child(_wrap_label("[행동력 소비 없음 — 이 행동은 무료입니다]", 12, "#00c896"))
+	_open_modal("시장 분석")
+	modal_body.add_child(_modal_section_header(
+		"시장 리포트",
+		"market",
+		"#38bdf8",
+		"행동력 소비 없음 — 현재 시장 국면과 다음 달 리스크를 확인합니다."))
 	var sep = HSeparator.new(); sep.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep)
-	modal_body.add_child(_label("📊 현재 시장 상황", 16, "#e8eaf0"))
-	var cycle_kr = {"bull": "🟢 상승장", "bear": "🔴 하락장", "neutral": "⚪ 횡보"}.get(cycle, cycle)
+	modal_body.add_child(_label("현재 시장 상황", 16, "#e8eaf0"))
+	var cycle_kr = {"bull": "상승장", "bear": "하락장", "neutral": "횡보"}.get(cycle, cycle)
 	modal_body.add_child(_wrap_label("시장 국면: %s  |  공포/탐욕: %d/100  |  폭락 위험도: %.0f%%" % [cycle_kr, fg, crash_risk * 100.0], 14, "#f0b429"))
 	var sep2 = HSeparator.new(); sep2.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep2)
-	modal_body.add_child(_label("🔭 다음 달 예측", 15, "#c9a227"))
+	modal_body.add_child(_label("다음 달 예측", 15, "#c9a227"))
 	modal_body.add_child(_wrap_label(forecast, 15, "#e8eaf0"))
 	if crash_risk > 0.08:
-		modal_body.add_child(_wrap_label("⚠ 폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.", 13, "#ff4444"))
+		modal_body.add_child(_wrap_label("폭락 경보: 레버리지 포지션 청산 검토. 현금 비중을 높이세요.", 13, "#ff4444"))
 	var ok_btn = _button("확인", "#1e3a5f")
 	ok_btn.pressed.connect(_close_modal)
 	modal_body.add_child(ok_btn)
@@ -4579,12 +4597,14 @@ func _ap_leverage_invest():
 	_open_leverage_investments()
 
 func _open_leverage_investments():
-	_open_modal("⚡ 레버리지 투자")
+	_open_modal("레버리지 투자")
 	var ap_now = GameState.action_points
-	modal_body.add_child(_wrap_label(
-		"⚠ 고위험! 같은 자금으로 2배 포지션. 수익도 2배, 손실도 2배.\n    포지션 가치가 원금의 35% 이하 하락 시 강제 청산됩니다.",
-		13, "#ef4444"))
-	modal_body.add_child(_wrap_label("⚡ 행동력 %d/%d — 매수 실행 시 1 소비" % [ap_now, GameState.max_action_points],
+	modal_body.add_child(_modal_section_header(
+		"2배 포지션",
+		"leverage",
+		"#ef4444",
+		"고위험 거래. 수익도 2배, 손실도 2배. 포지션 가치가 원금의 35% 이하로 하락하면 강제 청산됩니다."))
+	modal_body.add_child(_wrap_label("행동력 %d/%d — 매수 실행 시 1 소비" % [ap_now, GameState.max_action_points],
 		12, "#00c896" if ap_now > 0 else "#ff4444"))
 	var sep = HSeparator.new(); sep.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep)
 	for row in investment_system.get_asset_rows():
@@ -4596,19 +4616,19 @@ func _open_leverage_investments():
 		if hist.size() >= 2:
 			last_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
 		var leveraged = GameState.portfolio.get(asset_id, {}).get("leveraged_amount", 0.0) > 0
-		var lev_tag = " [⚡레버리지]" if leveraged else ""
+		var lev_tag = " [레버리지]" if leveraged else ""
 		modal_body.add_child(_label("%s  %s  %s%s" % [row["name"], GameState.format_money(price), sparkline, lev_tag], 14, last_color))
 		var buy_row = HBoxContainer.new()
 		buy_row.add_theme_constant_override("separation", 6)
 		for amount in [200_000, 500_000, 1_000_000]:
 			var can_afford = GameState.money >= float(amount)
-			var btn = _small_button("⚡%s×2" % GameState.format_money(amount), "#7f1d1d" if can_afford else "#64748b")
+			var btn: Button = _small_button("%s x2" % GameState.format_money(amount), "#7f1d1d" if can_afford else "#64748b")
 			btn.disabled = not can_afford
 			btn.pressed.connect(Callable(self, "_on_leverage_buy").bind(asset_id, float(amount)))
 			buy_row.add_child(btn)
 		modal_body.add_child(buy_row)
 		var sep2 = HSeparator.new(); sep2.add_theme_color_override("color", Color("#252535")); modal_body.add_child(sep2)
-	var back_lev = _button("← 투자 화면으로", "#1a1a28")
+	var back_lev := _icon_button("투자 화면으로", "invest", "#1a1a28")
 	back_lev.pressed.connect(_open_investments)
 	modal_body.add_child(back_lev)
 
@@ -4654,7 +4674,7 @@ func _ap_vip_network():
 	_refresh_all()
 
 func _open_jobs():
-	_open_modal("💼 직업 선택")
+	_open_modal("직업 선택")
 	if GameState.current_job.is_empty():
 		var mood: String = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
 		modal_body.add_child(_wrap_label("「 %s 」" % mood, 12, "#4a5a72"))
@@ -4732,13 +4752,18 @@ func _open_jobs():
 			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#5a6075"))
 
 func _open_investments():
-	_open_modal("📈 투자 / 매수·매도")
+	_open_modal("투자 / 매수·매도")
+	modal_body.add_child(_modal_section_header(
+		"포트폴리오",
+		"invest",
+		"#34d399",
+		"조회는 무료, 실제 매수·매도 실행 시 행동력 1을 소비합니다."))
 	# 행동력 안내: 조회는 무료, 거래 시 소비
 	var ap_now = GameState.action_points
 	var ap_hint_color = "#00c896" if ap_now > 0 else "#ff4444"
-	var ap_hint_text = "⚡ 행동력 %d/%d — 매수·매도 실행 시 1 소비 (조회는 무료)" % [ap_now, GameState.max_action_points]
+	var ap_hint_text = "행동력 %d/%d — 매수·매도 실행 시 1 소비" % [ap_now, GameState.max_action_points]
 	if ap_now <= 0:
-		ap_hint_text = "⚡ 행동력 없음 — 이번 주 거래 불가. 다음 주에 다시 오세요."
+		ap_hint_text = "행동력 없음 — 이번 주 거래 불가. 다음 주에 다시 오세요."
 	var inv_hint_row := HBoxContainer.new()
 	inv_hint_row.add_theme_constant_override("separation", 8)
 	modal_body.add_child(inv_hint_row)
@@ -4749,27 +4774,28 @@ func _open_investments():
 	inv_hint_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inv_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	inv_hint_row.add_child(inv_hint_lbl)
-	var inv_gloss_btn := _small_button("📖 용어", "#2a3a5a")
-	inv_gloss_btn.pressed.connect(func(): _open_glossary("📈 투자 용어", "invest"))
+	var inv_gloss_btn := _icon_small_button("용어", "info", "#2a3a5a")
+	inv_gloss_btn.custom_minimum_size = Vector2(78, 32)
+	inv_gloss_btn.pressed.connect(func(): _open_glossary("투자 용어", "invest"))
 	inv_hint_row.add_child(inv_gloss_btn)
 	# 은행 — 대출/상환 (재무 거래라 행동력 무소비)
-	var bank_btn = _button("🏦 은행 — 대출/상환", "#1a2438")
+	var bank_btn := _icon_button("은행 — 대출/상환", "money", "#1a2438")
 	bank_btn.pressed.connect(_open_bank)
 	modal_body.add_child(bank_btn)
 	if GameState.get_loan_total() > 0:
-		modal_body.add_child(_wrap_label("🏦 대출 원금 %s — 매달 이자가 먼저 나갑니다" % GameState.format_money(GameState.get_loan_total()), 12, "#f59e0b"))
+		modal_body.add_child(_wrap_label("대출 원금 %s — 매달 이자가 먼저 나갑니다" % GameState.format_money(GameState.get_loan_total()), 12, "#f59e0b"))
 	# 첫 방문 투자 가이드
 	if not GameState.flags.get("investment_first_visited", false):
 		GameState.flags["investment_first_visited"] = true
-		modal_body.add_child(_wrap_label("📖  투자 첫 방문 — 이것만 알면 됩니다", 14, "#f0b429"))
+		modal_body.add_child(_modal_section_header("투자 첫 방문", "info", "#f0b429", "처음엔 낮은 리스크 자산에 소액부터 진입하세요."))
 		modal_body.add_child(_wrap_label(
 			"① 시장은 사이클로 움직입니다\n"
-			+ "   상승장(🟢) → 버블(🫧) → 폭락(🔴) → 침체 → 회복 → 반복\n"
+			+ "   상승장 → 버블 → 폭락 → 침체 → 회복 → 반복\n"
 			+ "   '공포/탐욕' 지수가 낮을 때 사고, 높을 때 파는 게 원칙입니다.\n\n"
 			+ "② 레버리지는 수익도 2배, 손실도 2배\n"
 			+ "   원금의 35% 이하로 떨어지면 강제 청산됩니다. 입문자는 조심.\n\n"
 			+ "③ 투자감각이 높을수록 수수료가 낮아집니다\n"
-			+ "   📚 자기계발 → 투자 공부로 감각을 키우세요.\n\n"
+			+ "   자기계발 → 투자 공부로 감각을 키우세요.\n\n"
 			+ "처음엔 리스크 낮은 자산에 소액(10~20만원)부터 시작하세요.",
 			12, "#8892a4"))
 		var guide_sep0 = HSeparator.new()
@@ -4777,7 +4803,7 @@ func _open_investments():
 		modal_body.add_child(guide_sep0)
 	elif GameState.investment_skill < 25:
 		modal_body.add_child(_wrap_label(
-			"💡 투자 입문  투자감각이 낮을수록 거래 수수료가 높아집니다.\n    리스크 ●●○○○ 이하 자산부터 소액(10만원)으로 시작해보세요.",
+			"투자 입문: 투자감각이 낮을수록 거래 수수료가 높습니다.\n    리스크 ●●○○○ 이하 자산부터 소액(10만원)으로 시작해보세요.",
 			13, "#f0b429"))
 		var guide_sep = HSeparator.new()
 		guide_sep.add_theme_color_override("color", Color("#252535"))
@@ -4785,11 +4811,11 @@ func _open_investments():
 	# 시장 분위기 표시
 	var fg = int(GameState.market_context.get("fear_greed", 50))
 	var cycle = str(GameState.market_context.get("cycle", "neutral"))
-	var cycle_kr = {"bull": "🟢 상승장", "bear": "🔴 하락장", "neutral": "⚪ 횡보"}.get(cycle, cycle)
+	var cycle_kr = {"bull": "상승장", "bear": "하락장", "neutral": "횡보"}.get(cycle, cycle)
 	var fg_color = "#ff4444" if fg < 30 else ("#00c896" if fg > 70 else "#f0b429")
 	var filled = int(float(fg) / 10.0)
 	var gauge = "█".repeat(filled) + "░".repeat(10 - filled)
-	modal_body.add_child(_label("📊 시장 분위기 — %s  |  공포/탐욕: %d  [%s]" % [cycle_kr, fg, gauge], 14, fg_color))
+	modal_body.add_child(_label("시장 분위기 — %s  |  공포/탐욕: %d  [%s]" % [cycle_kr, fg, gauge], 14, fg_color))
 	var sep_top = HSeparator.new()
 	sep_top.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep_top)
@@ -4807,7 +4833,7 @@ func _open_investments():
 		var overall_pct = (total_now - total_cost) / max(total_cost, 0.01) * 100.0
 		var port_color  = "#00c896" if overall_pct >= 0 else "#ff4444"
 		modal_body.add_child(_wrap_label(
-			"💼 포트폴리오  원금 %s → 현재 %s  (수익률 %+.1f%%)" % [
+			"포트폴리오  원금 %s → 현재 %s  (수익률 %+.1f%%)" % [
 				GameState.format_money(total_cost),
 				GameState.format_money(total_now),
 				overall_pct,
@@ -4927,22 +4953,27 @@ func _open_investments():
 		modal_body.add_child(sep)
 	# ── 레버리지 투자 진입 (투자감각 30 이상 해금) ──
 	if GameState.investment_skill >= 30:
-		var lev_btn = _button("⚡ 레버리지 투자  —  2배 포지션 고수익·고위험", "#7f1d1d")
+		var lev_btn := _icon_button("레버리지 투자 — 2배 포지션 고수익·고위험", "leverage", "#7f1d1d")
 		lev_btn.pressed.connect(_open_leverage_investments)
 		modal_body.add_child(lev_btn)
 	else:
 		modal_body.add_child(_wrap_label(
-			"🔒 레버리지 투자 — 투자감각 30 달성 시 해금 (현재 %d)" % GameState.investment_skill,
+			"잠금: 레버리지 투자 — 투자감각 30 달성 시 해금 (현재 %d)" % GameState.investment_skill,
 			12, "#4a5a72"))
 
 func _open_shop():
-	_open_modal("🛍 상점")
+	_open_modal("상점")
+	modal_body.add_child(_modal_section_header(
+		"생활 / 자기관리 아이템",
+		"shop",
+		"#a855f7",
+		"구매한 아이템은 인벤토리에 보관되며 일부는 사용 시 행동력을 소비합니다."))
 	for item in inventory_system.get_shop_items():
 		var price = float(item.get("price", 0))
 		var can_buy = GameState.money >= price
 		var btn_color = "#7c3aed" if can_buy else "#64748b"
-		var icon = item.get("icon", "")
-		var btn = _button("%s %s  —  %s" % [icon, item.get("name", ""), GameState.format_money(price)], btn_color)
+		var item_name: String = str(item.get("name", ""))
+		var btn: Button = _icon_button("%s  —  %s" % [item_name, GameState.format_money(price)], "shop", btn_color)
 		btn.disabled = not can_buy
 		btn.pressed.connect(Callable(self, "_on_shop_item").bind(item.get("id", "")))
 		modal_body.add_child(btn)
@@ -5040,7 +5071,12 @@ func _on_use_item(item_id):
 		_show_toast("⚡ " + str(result.get("message", "사용 불가")), Color("#ff4444"))
 
 func _open_system_menu():
-	_open_modal("≡ 시스템")
+	_open_modal("시스템")
+	modal_body.add_child(_modal_section_header(
+		"설정 / 저장",
+		"menu",
+		"#60a5fa",
+		"오디오, 화면, 세이브 슬롯을 관리합니다."))
 
 	_build_volume_sliders(modal_body)
 	_build_fullscreen_toggle(modal_body)
@@ -5050,18 +5086,18 @@ func _open_system_menu():
 	sep.modulate = Color("#2a2a3a")
 	modal_body.add_child(sep)
 
-	var menu_btn2 = _button("🏠  메인 메뉴로", "#1e3a5f")
+	var menu_btn2 := _icon_button("메인 메뉴로", "menu", "#1e3a5f")
 	menu_btn2.pressed.connect(_go_to_menu)
 	modal_body.add_child(menu_btn2)
 
-	var quit_btn = _button("🚪  게임 종료", "#5a1a1a")
+	var quit_btn := _icon_button("게임 종료", "menu", "#5a1a1a")
 	quit_btn.pressed.connect(func():
 		SaveManager.autosave()
 		get_tree().quit()
 	)
 	modal_body.add_child(quit_btn)
 
-	var cancel_btn = _button("✕  취소", "#2a2a3a")
+	var cancel_btn = _button("취소", "#2a2a3a")
 	cancel_btn.pressed.connect(_close_modal)
 	modal_body.add_child(cancel_btn)
 
@@ -5094,8 +5130,8 @@ func _build_volume_sliders(parent: Control):
 		row.add_child(pct)
 		slider.value_changed.connect(func(v): pct.text = "%d%%" % int(v * 100))
 
-	_make_row.call("🎵 BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
-	_make_row.call("🔊 SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
+	_make_row.call("BGM", AudioManager.bgm_volume, func(v): AudioManager.set_bgm_volume(v))
+	_make_row.call("SFX", AudioManager.master_volume, func(v): AudioManager.set_sfx_volume(v))
 
 func _build_fullscreen_toggle(parent: Control):
 	if OS.has_feature("web"):
@@ -5104,7 +5140,7 @@ func _build_fullscreen_toggle(parent: Control):
 	row.add_theme_constant_override("separation", 10)
 	parent.add_child(row)
 	var lbl = Label.new()
-	lbl.text = "🖥️ 전체화면"
+	lbl.text = "전체화면"
 	lbl.add_theme_font_size_override("font_size", 13)
 	lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -5123,7 +5159,7 @@ func _build_save_load_section(parent: Control):
 	var sep = HSeparator.new()
 	sep.modulate = Color("#2a2a3a")
 	parent.add_child(sep)
-	var header = _label("💾 저장 / 불러오기", 12, "#5a6075")
+	var header = _label("저장 / 불러오기", 12, "#5a6075")
 	parent.add_child(header)
 	for slot in range(1, 4):
 		var info = SaveManager.get_save_info(slot)
@@ -5254,6 +5290,7 @@ func _close_modal():
 
 func _show_demo_ending():
 	BGMPlayer.on_ending("stable_success")
+	AudioManager.play_ending_stinger("stable_success")
 	var f = GameState.flags
 	var total_assets = GameState.money + GameState.get_total_asset_value()
 
@@ -5292,7 +5329,7 @@ func _show_demo_ending():
 	elif total_assets < 0:
 		story_lines.append("통장이 마이너스다. 6개월이 이랬다.")
 
-	_open_modal("🎬 강남드림 — 6개월의 기록")
+	_open_modal("강남드림 — 6개월의 기록")
 	modal_body.add_child(_label("— 1막 종료 —", 14, "#f0b429"))
 
 	var date_str = GameState.get_date_string()
@@ -5348,6 +5385,7 @@ func _show_demo_ending():
 
 func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
+	AudioManager.play_ending_stinger(ending_id)
 	var ending: Dictionary = EndingSystem.get_ending(ending_id)
 	# ── 엔딩별 배경 전환 ──────────────────────────────────────
 	var ending_bg_map = {
@@ -5399,7 +5437,7 @@ func _show_ending(ending_id):
 				tw2.tween_property(event_bg, "modulate:a", bg_alpha, 0.5)
 			)
 
-	_open_modal("🏁 엔딩")
+	_open_modal("엔딩")
 	var grade = ending.get("grade", "?")
 	var grade_colors = {"S+": "#ffd700", "S": "#f0b429", "A+": "#7ee8a2", "A": "#34d399", "B": "#c9a227", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
 	var grade_emojis = {"S+": "🌠", "S": "🏆", "A+": "🌟", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
@@ -5934,7 +5972,7 @@ func _ending_milestones(parent: Control):
 
 func _show_month_summary(snap: Dictionary):
 	_pending_month_summary = true
-	_open_modal("📊 %s 결산" % snap["date"])
+	_open_modal("%s 결산" % snap["date"])
 	# 결산: 스크롤바만 숨김 (넘치면 마우스 휠로 접근)
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
@@ -6133,7 +6171,7 @@ func _check_addiction_warnings():
 
 
 func _show_addiction_warning_popup():
-	_open_modal("🚨 경고")
+	_open_modal("경고")
 	modal_body.add_child(_wrap_label(
 		"당신은 지금 문제가 생기고 있습니다.\n\n도박 의존도가 위험 수위에 달했습니다. 매달 정신력이 추가로 감소하고, 상태가 악화되면 되돌리기 어렵습니다.\n\n지금 멈출 수 있습니다.", 14, "#ff6b6b"))
 	var ok_btn = _button("확인했습니다", "#7a1a1a")
@@ -6412,6 +6450,15 @@ func _button(text, color) -> Button:
 	button.pressed.connect(func(): AudioManager.play("click"))
 	return button
 
+func _icon_button(text: String, icon_id: String, color: String) -> Button:
+	var button: Button = _button(text, color)
+	button.icon = _ui_icon_texture(icon_id)
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.expand_icon = false
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.add_theme_constant_override("h_separation", 10)
+	return button
+
 func _action_button(text: String, accent_color: String) -> Button:
 	var button = Button.new()
 	button.text = text
@@ -6467,6 +6514,54 @@ func _small_button(text, color) -> Button:
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	return button
+
+func _icon_small_button(text: String, icon_id: String, color: String) -> Button:
+	var button: Button = _small_button(text, color)
+	button.icon = _ui_icon_texture(icon_id)
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.expand_icon = false
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.add_theme_constant_override("h_separation", 8)
+	return button
+
+func _modal_section_header(title: String, icon_id: String, accent: String, subtitle: String = "") -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(accent, 0.10)
+	style.border_color = Color(accent, 0.45)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	panel.add_theme_stylebox_override("panel", style)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	panel.add_child(row)
+
+	var icon := TextureRect.new()
+	icon.custom_minimum_size = Vector2(28, 28)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture = _ui_icon_texture(icon_id)
+	icon.modulate = Color(accent)
+	row.add_child(icon)
+
+	var col := VBoxContainer.new()
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	col.add_theme_constant_override("separation", 2)
+	row.add_child(col)
+
+	var title_lbl := _label(title, 15, "#e8eaf0")
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	col.add_child(title_lbl)
+	if not subtitle.is_empty():
+		col.add_child(_wrap_label(subtitle, 12, "#8f9ab0"))
+	return panel
 
 func _stat_name(key):
 	return {
@@ -6764,7 +6859,7 @@ func _check_title_unlocks():
 		GameState.add_log("🏆 칭호 해금: %s" % t.get("name", ""), "system")
 
 func _open_title_collection():
-	_open_modal("🏆 칭호 도감")
+	_open_modal("칭호 도감")
 	if modal_panel:
 		modal_panel.custom_minimum_size = Vector2(680, 600)
 		modal_panel.offset_left  = -340
@@ -6855,7 +6950,7 @@ const GLOSSARY_INVEST := [
 ]
 
 func _open_glossary(title: String, category: String):
-	_open_modal("📖 " + title)
+	_open_modal(title)
 	var terms := GLOSSARY_BANK if category == "bank" else GLOSSARY_INVEST
 	for pair in terms:
 		var term_row := VBoxContainer.new()

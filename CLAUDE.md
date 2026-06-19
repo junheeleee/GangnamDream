@@ -8,11 +8,11 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **플레이어 체감 표면 폴리싱 — UI 스킨 P1 진행 중** |
-| **최근 완료** | **2026-06-19 UI 스킨 P1 3차** — 정보 패널/행동 모달/카지노 세부 테이블 UI 문구 정리, 슬롯 릴 심볼 텍스트 타일화, 룰렛 휠·볼 Canvas 드로잉 추가, 경마 스모크 카운트다운 QA 경고 제거, ScreenshotQA 카지노 본체 4장 추가 |
-| **이전** | **2026-06-19 UI 스킨 P1 2차** — StartMenu 난이도/런 테마 카드를 SVG 아이콘화, TutorialOverlay 중앙 아이콘을 Texture화, ScreenshotQA에 StartMenu/미니게임 본체 캡처 추가, 홀덤/경마 상단 조작 UI 이모지 축소, StoryMode 배경/HUD 1차 정리 |
-| **다음 작업** | **플레이어 체감 폴리싱 P1 계속** — 오디오 P1(장소 ambience/카지노 플로어 loop/엔딩 stinger)와 남은 모달·상점·투자 화면의 Texture/Icon 기반 스킨 확장 |
-| **마지막 업데이트** | 2026-06-19 (`audit.sh` OK, `AudioAssetCheck` bgm=7 sfx=25, `CGRuntimeCheck` OK, `SmokeRace` OK, `ScreenshotQA` 18장 재캡처 완료) |
+| **단계** | **플레이어 체감 표면 폴리싱 — 오디오 P1 완료 / UI 스킨 P1 진행 중** |
+| **최근 완료** | **2026-06-19 오디오 P1 + 모달 UI 스킨 4차** — 장소 ambience 5종, 카지노 플로어 loop, 엔딩 stinger 3종 생성·연결, BGMPlayer ambience 레이어 추가, 투자/은행/상점/시스템 모달 SVG/Icon 버튼·섹션 헤더 정리, ScreenshotQA 보조 모달 3장 추가 |
+| **이전** | **2026-06-19 UI 스킨 P1 3차** — 정보 패널/행동 모달/카지노 세부 테이블 UI 문구 정리, 슬롯 릴 심볼 텍스트 타일화, 룰렛 휠·볼 Canvas 드로잉 추가, 경마 스모크 카운트다운 QA 경고 제거, ScreenshotQA 카지노 본체 4장 추가 |
+| **다음 작업** | **플레이어 체감 폴리싱 P1 계속** — 상점 팔레트/버튼 톤을 전체 UI 컬러 토큰에 맞추고, 카드 앞면·칩 denomination 고해상도 Texture 확장 |
+| **마지막 업데이트** | 2026-06-19 (`audit.sh` OK, `AudioAssetCheck` bgm=7 ambience=5 sfx=28, `CGRuntimeCheck` OK, `SmokeRace` OK, `ScreenshotQA` 21장 재캡처 완료) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Added (2026-06-19) — Audio P1 ambience and ending stingers
+
+- Added 5 ambience WAV layers for goshiwon room, Seoul rain, Han River, office, and casino floor scenes.
+- Added 3 ending stingers for good, bad, and legendary endings, selected by ending grade/id.
+- Added a separate low-volume ambience layer in `BGMPlayer` so location audio can change independently from the main BGM.
+- Extended `AudioAssetCheck` to validate ambience files. It now passes with `bgm=7 ambience=5 sfx=28`.
+
+### Changed (2026-06-19) — Investment/shop/system modal UI skin pass
+
+- Reworked Investment, Bank, Shop, and System modals with icon-backed section headers and SVG/icon-backed CTA buttons.
+- Removed emoji prefixes from major modal titles for a more consistent commercial UI tone.
+- Extended `ScreenshotQA` with Bank, Shop, and System modal captures. Current screenshot QA output: 21 PNGs.
+
 ### Changed (2026-06-19) — Casino table UI and object-feel pass
 
 - Cleaned MainGame info-panel tabs and action-category modal copy to reduce prototype/emoji UI feel.
