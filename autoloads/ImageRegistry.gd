@@ -148,6 +148,9 @@ const CG = {
 	"cg_jiyeon_crash":   "res://assets/cg/jiyeon_crash.png",
 	"cg_jaehyuk_reveal": "res://assets/cg/jaehyuk_reveal.png",
 	"cg_ending_father":  "res://assets/cg/ending_father.png",
+	"cg_ending_gangnam_dream": "res://assets/cg/ending_gangnam_dream.png",
+	"cg_ending_empty_house":   "res://assets/cg/ending_empty_house.png",
+	"cg_ending_crypto_ghost":  "res://assets/cg/ending_crypto_ghost.png",
 }
 
 # ── 조회 API ──────────────────────────────────────────────────

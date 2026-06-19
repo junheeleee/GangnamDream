@@ -3,6 +3,8 @@
 > 2026-06-17 스크린샷 QA로 26개 엔딩의 배경·CG 매핑을 전수 점검.
 > 2026-06-20 엔딩 화면 런타임을 보강해, 전용 CG가 없는 엔딩도 엔딩별 배경을
 > 모달 내부 와이드 컷신 프리뷰로 표시한다.
+> 2026-06-20 전용 엔딩 CG P1 3종(`gangnam_dream`, `empty_house`, `crypto_ghost`)을
+> 제작·연결했다.
 > **원칙: 애매한 엔딩에 있는 에셋을 억지로 끼우지 않는다.** 톤이 안 맞으면
 > 모순되지 않는 중립 배경으로 임시 처리하고, 여기에 "신규 에셋 필요"로 표시한다.
 > 나중에 전용 이미지/오디오 소스를 만들어 넣을 때 이 문서를 기준으로 한다.
@@ -46,14 +48,15 @@
 |---|---|---|
 | stable_success (B) | penthouse → **rooftop_day** | 본문 "10억·강남은 아니었지만 흔들리지 않는 삶". 펜트하우스는 강남 럭셔리를 주장해 모순 → 차분한 옥상으로 중립화. 🆕 **"강남 아닌 중산층 안정 — 소박하지만 단단한 집/거실"** 전용 배경이 있으면 더 정확 |
 | orthodox_pinnacle (A) | penthouse → **restaurant** | 본문 "2억·강남은 아니었다" + "팀 회식 자리" → 회식 식당(텍스트 근거). 펜트하우스 모순 제거. 🆕 **"정석파의 소박한 자부심 — 회식/사무실"** 전용 컷이 있으면 격상 |
-| crypto_ghost (F) | seoul_rainy → **trading_room** | 본문 "코인 차트 중독·호가창" → 트레이딩 화면(더 정확). 🆕 **"중독으로 황폐해진 방 + 차트 불빛"** 전용 CG가 이상적 |
+| crypto_ghost (F) | seoul_rainy → **trading_room** | 본문 "코인 차트 중독·호가창" → 트레이딩 화면(더 정확). 2026-06-20 전용 CG 추가 완료 |
 
 ---
 
 ## CG(클로즈업 일러스트) 현황
 
-현재 보유 CG는 4종뿐: `start`(시작 고시원), `jiyeon_crash`(접촉사고),
-`jaehyuk_reveal`(재혁 폭로), `ending_father`(아버지 병실).
+현재 보유 CG는 7종: `start`(시작 고시원), `jiyeon_crash`(접촉사고),
+`jaehyuk_reveal`(재혁 폭로), `ending_father`(아버지 병실),
+`ending_gangnam_dream`, `ending_empty_house`, `ending_crypto_ghost`.
 
 ### 런타임 표시 정책
 - 전용 `cg`가 있는 엔딩은 해당 CG를 배경과 모달 내부 와이드 프리뷰에 모두 사용한다.
@@ -69,15 +72,19 @@
 - **`ending_father.png`(아버지 병실, 손잡는 임종)** — 현재 어느 엔딩에도 안 쓰임.
   향후 **"아버지 임종/병실 화해" 엔딩**을 만들면 거기에 배치. 지금은 억지로 끼우지 않음.
 
+### ✅ 2026-06-20 입고 완료
+| 엔딩 | CG | 장면 |
+|---|---|---|
+| gangnam_dream | `cg_ending_gangnam_dream` | 강남 아파트 거실, 민준과 아버지가 나란히 야경을 보는 성공·화해 장면 |
+| empty_house | `cg_ending_empty_house` | 같은 강남 성공 공간이지만 민준 혼자, 사용되지 않은 두 번째 컵과 꺼진 온기 |
+| crypto_ghost | `cg_ending_crypto_ghost` | 좁고 어두운 방, 추상 차트광에 갇힌 민준과 거래 중독의 결말 |
+
 ### 🆕 엔딩 전용 CG가 있으면 임팩트가 큰 후보 (현재는 배경만)
 > 모든 엔딩에 CG가 필요한 건 아니다. 아래는 "한 장의 그림"이 결말의 감정을
 > 크게 끌어올릴 만한 엔딩들 — 신규 일러스트 제작 시 우선순위.
 
 | 우선 | 엔딩 | 그렸으면 하는 장면 |
 |---|---|---|
-| ★★★ | gangnam_dream | 큰 창 거실에서 도시를 내려다보는 뒷모습 + 초인종 (승리의 정점) |
-| ★★★ | empty_house | 같은 거실, 그러나 빈 식탁·꺼진 불 (이룬 자의 공허) |
-| ★★★ | crypto_ghost | 어두운 방, 얼굴을 파랗게 물들이는 차트와 꺼지지 않는 거래소 화면 |
 | ★★☆ | with_daeun | 외곽 빌라 주방, 둘이 라면 끓이는 장면 (편의점 회상과 대비) |
 | ★★☆ | late_call | KTX 창가, 폰을 든 손과 흐르는 빗방울 (이미 배경은 적합) |
 | ★★☆ | mental_break / burnout | 병실 천장을 보는 1인칭/측면 (강남 야경과 대비) |
@@ -99,7 +106,9 @@
 
 - [ ] stable_success 전용 배경(중산층 안정) → 제작 후 `endings.json` background 교체
 - [ ] orthodox_pinnacle 전용 컷 → 제작 후 교체
-- [ ] crypto_ghost 전용 CG(황폐한 방+차트) → `cg` 필드 추가
+- [x] gangnam_dream 전용 CG → `cg_ending_gangnam_dream` 연결
+- [x] empty_house 전용 CG → `cg_ending_empty_house` 연결
+- [x] crypto_ghost 전용 CG(황폐한 방+차트) → `cg_ending_crypto_ghost` 연결
 - [ ] 아버지 임종/화해 엔딩 신설 시 `ending_father.png` 배치
-- [ ] 승리/실패/씁쓸 엔딩 전용 CG (위 표 ★★★~★★☆)
+- [ ] 추가 승리/실패/씁쓸 엔딩 전용 CG (위 표 ★★☆~★☆☆)
 - [ ] 엔딩 전용 BGM 스팅 3결

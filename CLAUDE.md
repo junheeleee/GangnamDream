@@ -9,10 +9,10 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **플레이어 체감 표면 폴리싱 — 오디오 P1 완료 / UI 스킨 P1 진행 중** |
-| **최근 완료** | **2026-06-20 영어 시작 화면 + 엔딩 컷신 프리뷰 + 바카라 가독성 패스** — StartMenu/Splash/OpeningCinematic 영어 표면 연결, `LocaleSurfaceCheck` 추가, 모든 엔딩에 CG/배경 와이드 프리뷰 표시, 바카라 뒤 메인 UI 비침 차단, ScreenshotQA 영어 시작 화면 추가 |
+| **최근 완료** | **2026-06-20 전용 엔딩 CG P1 + 영어 시작 화면 + 바카라 가독성 패스** — `gangnam_dream`/`empty_house`/`crypto_ghost` 전용 CG 생성·연결, StartMenu/Splash/OpeningCinematic 영어 표면 연결, 모든 엔딩 와이드 프리뷰, 바카라 뒤 메인 UI 비침 차단 |
 | **이전** | **2026-06-19 BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스** — 이벤트/대시보드 재진입 시 같은 BGM 재시작 방지, 낮 면접실 배경 `office_interview_day.png` 추가·연결, MainGame/StoryMode 초상화 크기·위치 보정, `BGMContinuityCheck` 추가 |
-| **다음 작업** | **전용 엔딩 CG P1 + 미니게임 폴리싱 계속** — `docs/ENDING_ART.md` 우선순위대로 gangnam_dream/empty_house/crypto_ghost 등 전용 CG 생성·연결, 이후 칩 denomination Texture를 슬롯/룰렛/빅휠 베팅 버튼까지 확장 |
-| **마지막 업데이트** | 2026-06-20 (`audit.sh` OK, `LocaleSurfaceCheck` OK, `AudioAssetCheck` bgm=7 ambience=5 sfx=28, `CGRuntimeCheck` OK, `ScreenshotQA` 25장 재캡처 완료) |
+| **다음 작업** | **미니게임 폴리싱 계속** — 칩 denomination Texture를 슬롯/룰렛/빅휠 베팅 버튼까지 확장하고, 카지노/경마/홀덤의 사운드·타격감 QA를 이어간다 |
+| **마지막 업데이트** | 2026-06-20 (`audit.sh` OK, `LocaleSurfaceCheck` OK, `AudioAssetCheck` bgm=7 ambience=5 sfx=28, `CGRuntimeCheck` OK, `VisualCropQA` OK, `ScreenshotQA` 26장 재캡처 완료) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

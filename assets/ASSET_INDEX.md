@@ -6,6 +6,7 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Steam key art pass.
 Updated on 2026-06-15 for Jeongseon Casino interior/entrance/exterior backgrounds, dedicated gym background, and Seoul landmark backgrounds.
 Updated on 2026-06-19 for daytime office interview background separation and BGM/portrait presentation QA.
+Updated on 2026-06-20 for dedicated P1 ending CGs: Gangnam Dream, Empty House, and Crypto Ghost.
 
 ## Use These Assets
 
@@ -296,6 +297,19 @@ Updated on 2026-06-19 for daytime office interview background separation and BGM
 
 - `assets/cg/ending_father.png`
   - Father ending CG: Kim Minjun gently holding his weakened father's hand in a quiet hospital room.
+  - Currently reserved for a future father hospital/last reconciliation ending, not the Gangnam Dream victory ending.
+
+- `assets/cg/ending_gangnam_dream.png`
+  - S-rank Gangnam Dream ending CG: late-30s Kim Minjun and his older working-class father quietly facing the Gangnam night skyline together.
+  - Use only for `gangnam_dream`; this is a specific success/reconciliation scene, not a generic apartment background.
+
+- `assets/cg/ending_empty_house.png`
+  - Empty House ending CG: the same Gangnam success space, but with Minjun alone, a dark table, unused second cup, and cold city light.
+  - Use only for `empty_house`; it should read as success without anyone left to show it to.
+
+- `assets/cg/ending_crypto_ghost.png`
+  - Crypto Ghost ending CG: cramped late-night trading den, abstract chart light, phone in hand, cluttered desk, and exhausted Minjun.
+  - Use only for `crypto_ghost`; charts must stay abstract with no readable exchange text or real crypto logos.
 
 - `assets/cg/jaehyuk_reveal.png`
   - Jaehyuk route reveal CG: private meeting room, moral line-crossing moment.

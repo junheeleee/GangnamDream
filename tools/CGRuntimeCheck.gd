@@ -44,34 +44,48 @@ func _check_story_mode_cg() -> void:
 	story.queue_free()
 
 func _check_ending_cg() -> void:
-	var expected_path := ImageRegistry.get_cg("cg_ending_father")
-	if expected_path == "":
+	var synthetic_path := ImageRegistry.get_cg("cg_ending_father")
+	if synthetic_path == "":
 		_failures.append("missing cg_ending_father")
 		return
 
 	var main_script: GDScript = load("res://scenes/MainGame.gd") as GDScript
 	var main: Node = main_script.new()
 	var actual_path := str(main.call("_get_ending_cg_path", {"cg": "cg_ending_father"}))
-	if actual_path != expected_path:
-		_failures.append("MainGame synthetic ending cg path mismatch: expected %s, got %s" % [expected_path, actual_path])
+	if actual_path != synthetic_path:
+		_failures.append("MainGame synthetic ending cg path mismatch: expected %s, got %s" % [synthetic_path, actual_path])
 
-	var gangnam_ending: Dictionary = EndingSystem.get_ending("gangnam_dream")
-	var gangnam_path := str(main.call("_get_ending_cg_path", gangnam_ending))
-	if gangnam_path != "":
-		_failures.append("gangnam_dream should not reuse hospital father CG; got %s" % gangnam_path)
+	_check_ending_cg_path(main, "gangnam_dream", "cg_ending_gangnam_dream")
+	_check_ending_cg_path(main, "empty_house", "cg_ending_empty_house")
+	_check_ending_cg_path(main, "crypto_ghost", "cg_ending_crypto_ghost")
 
 	var preview_parent := VBoxContainer.new()
 	add_child(preview_parent)
-	main.call("_add_ending_cg_preview", preview_parent, expected_path)
+	main.call("_add_ending_cg_preview", preview_parent, synthetic_path)
 	await get_tree().process_frame
 	await get_tree().process_frame
 
-	if not _has_texture_rect_with_path(preview_parent, expected_path):
+	if not _has_texture_rect_with_path(preview_parent, synthetic_path):
 		_failures.append("MainGame ending modal did not include cg preview TextureRect")
 
 	remove_child(preview_parent)
 	preview_parent.queue_free()
 	main.queue_free()
+
+func _check_ending_cg_path(main: Node, ending_id: String, cg_id: String) -> void:
+	var expected_path := ImageRegistry.get_cg(cg_id)
+	if expected_path == "":
+		_failures.append("missing %s" % cg_id)
+		return
+
+	var ending: Dictionary = EndingSystem.get_ending(ending_id)
+	if ending.is_empty():
+		_failures.append("missing ending: %s" % ending_id)
+		return
+
+	var actual_path := str(main.call("_get_ending_cg_path", ending))
+	if actual_path != expected_path:
+		_failures.append("%s cg mismatch: expected %s, got %s" % [ending_id, expected_path, actual_path])
 
 func _has_texture_rect_with_path(node: Node, path: String) -> bool:
 	if node is TextureRect:

@@ -61,6 +61,7 @@ func _ready() -> void:
 	await _shot_casino_table("slot_machine_game", "11_slot_machine")
 	await _shot_casino_table("roulette_table", "12_roulette_table")
 	await _shot_ending("gangnam_dream", "13_ending_gangnam_win")
+	await _shot_ending("empty_house", "13a_ending_empty_house")
 	await _shot_ending("bankruptcy", "14_ending_bankruptcy")
 	await _shot_ending("stable_success", "15_ending_stable_success")
 	await _shot_ending("crypto_ghost", "16_ending_crypto_ghost")

@@ -178,6 +178,7 @@
   - [x] 오디오 P1 — 장소 ambience 5종, 카지노 플로어 loop, 엔딩 stinger 3종 추가 및 `BGMPlayer` ambience 레이어 연결 (2026-06-19)
   - [x] BGM 연속성 + 첫 면접 시각 정합성 패스 — 같은 트랙 재시작 방지, 낮 면접실 배경 추가, StoryMode/MainGame 초상화 크기·위치 보정 (2026-06-19)
   - [x] 엔딩 시각 보상 P1 — 전용 CG가 없는 엔딩도 엔딩별 배경을 와이드 컷신 프리뷰로 표시하고, 전용 CG 우선순위 문서 갱신 (2026-06-20)
+  - [x] 전용 엔딩 CG P1 — gangnam_dream / empty_house / crypto_ghost 3종 CG 생성·연결 및 QA 케이스 추가 (2026-06-20)
   - [x] 바카라 가독성 패스 — 테이블 배경 불투명 베이스 추가로 뒤 MainGame UI 비침 차단 (2026-06-20)
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)
   - [x] VISUAL_AUDIO P1 CG 런타임 표시 연결 QA — 이벤트/엔딩 `cg` 키가 실제 StoryMode/Ending 화면에 표시되는지 확인 (2026-06-12)
