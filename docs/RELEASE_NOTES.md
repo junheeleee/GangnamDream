@@ -9,6 +9,7 @@
 - Replaced TutorialOverlay's large slide emoji with card/chip/UI-icon textures.
 - Extended `ScreenshotQA` with a `00_start_menu.png` capture and suppressed automatic tutorial overlays so minigame body screens are visible in QA.
 - Cleaned visible Holdem/RaceTrack rule/header controls to reduce emoji/prototype UI feel.
+- Switched StoryMode backgrounds to covered scaling and replaced the top VN HUD emoji string with a text status bar.
 
 ### Changed (2026-06-19) — UI skin P1 and casino hub polish
 

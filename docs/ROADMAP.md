@@ -165,7 +165,8 @@
     - [x] 정선 카지노 허브 이모지 아이콘 제거, 카드/칩 Texture 기반 게임 카드 적용 (2026-06-19)
     - [x] StartMenu 난이도/런 테마 카드 SVG 아이콘화 및 시작/설정/삭제 버튼 문구 정리 (2026-06-19)
     - [x] TutorialOverlay 중앙 아이콘 Texture화 및 ScreenshotQA StartMenu/미니게임 본체 캡처 추가 (2026-06-19)
-    - [ ] StoryMode/정보 패널/세부 미니게임 버튼 이모지·텍스트 버튼 정리
+    - [x] StoryMode 배경 covered scaling 및 상단 VN HUD 텍스트 상태바 정리 (2026-06-19)
+    - [ ] 정보 패널/세부 미니게임 버튼 이모지·텍스트 버튼 정리
   - [ ] 미니게임 물체 에셋 P1 — 카드 앞면, 칩 denomination, 룰렛 휠/볼, 슬롯 심볼, 경마 말/기수 스프라이트 확장
   - [ ] 오디오 P1 — 장소 ambience, 카지노 플로어 loop, 엔딩 stinger 3종 추가
   - [x] VISUAL_AUDIO P1 잔여 교체 대상(주인공/핵심 배경) 인게임 크롭 QA (2026-06-12)

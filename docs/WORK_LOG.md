@@ -9,6 +9,7 @@
 - TutorialOverlay 중앙 아이콘을 플랫폼 이모지 대신 카드/칩/통일 SVG Texture로 교체.
 - ScreenshotQA에 `00_start_menu.png` 캡처를 추가하고, 미니게임 자동 튜토리얼을 suppress해 홀덤/경마 본체 화면이 QA에 찍히도록 수정.
 - 홀덤/경마 상단 조작 UI의 이모지/물음표 버튼을 텍스트 중심으로 정리.
+- StoryMode 배경을 `STRETCH_KEEP_ASPECT_COVERED`로 전환하고 상단 HUD를 텍스트 상태바로 정리.
 
 ### 검증
 - `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.

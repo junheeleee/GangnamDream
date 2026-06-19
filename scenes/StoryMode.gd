@@ -80,7 +80,7 @@ func _build_ui():
 	# 1. 배경 이미지 (이벤트별 전환)
 	_bg_img = TextureRect.new()
 	_bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+	_bg_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_bg_img)
@@ -267,7 +267,7 @@ func _refresh_hud():
 	var assets: float = GameState.get_total_asset_value()
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var yrs_left: int = max(0, 38 - GameState.age)
-	_hud_label.text = "🎯 %s / 30억 (%d%%)      💰 %s      ❤%d  🧠%d      ⏳ %d년" % [
+	_hud_label.text = "자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d년" % [
 		GameState.format_money(assets), pct,
 		GameState.format_money(GameState.money),
 		GameState.health, GameState.mental, yrs_left]
