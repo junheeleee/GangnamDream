@@ -779,4 +779,4 @@ func _finish_all():
 	SceneTransition.go(ret)
 
 func _fmt(s: String) -> String:
-	return s.replace("{name}", GameState.player_name)
+	return GameState.format_event_text(s)

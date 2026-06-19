@@ -2090,16 +2090,7 @@ func _on_result_confirmed():
 	_render_event()
 
 func _fmt(text: String) -> String:
-	# 이벤트 텍스트 안의 플레이스홀더를 실제 값으로 치환
-	var job_name = GameState.current_job.get("name", "무직")
-	var housing_info = GameState.get_housing_info()
-	return text \
-		.replace("{name}", GameState.player_name) \
-		.replace("{job}", job_name) \
-		.replace("{housing}", housing_info.get("name", "고시원")) \
-		.replace("{month}", str(GameState.month)) \
-		.replace("{year}", str(GameState.year)) \
-		.replace("{money}", GameState.format_money(GameState.money))
+	return GameState.format_event_text(text)
 
 # ── 타이핑 효과 ──────────────────────────────────────────────
 func _type_text(formatted_text: String, cps: float = 38.0) -> void:
