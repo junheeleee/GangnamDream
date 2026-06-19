@@ -2198,5 +2198,1061 @@
         "result_text": "Gratitude only takes a moment.\n{name} was already linking these gains to the next plan.\nNot Jiyeon's world, but his own.\nThat, he thought, was the real entry into Gangnam."
       }
     ]
+  },
+  {
+    "id": "arc_opp_jiyeon_lose",
+    "title": "Pre-Sale Cancelled",
+    "background": "gangnam_night",
+    "portrait": "jiyeon_cold",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
+    "cooldown": 9999,
+    "description": "A text arrived saying the pre-sale had been cancelled.\n\nJiyeon called directly.\n\"I'm sorry. I didn't know either.\"\n\nThere was something genuine in her voice. Maybe.\n\nThe deposit was gone.\nJiyeon's world didn't always win.\n\n{name} stared at the ceiling. For a long time.",
+    "choices": [
+      {
+        "text": "\"It's okay — not your fault\"",
+        "effects": {
+          "mental": -18
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 3
+          }
+        },
+        "flags": [
+          "arc_opp_jiyeon_result_seen"
+        ],
+        "result_text": "\"It's fine.\" The words came out easy enough.\nHonestly, it wasn't fine.\nBut {name} didn't want to fall apart in front of her.\nGangnam felt further away. But the pride held."
+      },
+      {
+        "text": "\"Trusting Jiyeon was a mistake\"",
+        "effects": {
+          "mental": -27,
+          "intelligence": 3
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": -15,
+            "stage": "disillusioned"
+          }
+        },
+        "flags": [
+          "arc_opp_jiyeon_result_seen"
+        ],
+        "route": "orthodox",
+        "result_text": "\"I shouldn't have trusted you.\"\nSaid it. Hung up.\nMaybe Jiyeon's world had only ever looked glamorous from the outside.\n{name} saw her differently now."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_01_call",
+    "title": "The Call",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "father"
+    ],
+    "cooldown": 9999,
+    "description": "Every Sunday evening. Called Dad.\nA habit kept since high school.\n\nThe line rang. Once. Twice. Three times. Four.\nDad picked up.\n\"...Yeah.\"\n\nThat was how it started. {name} had nothing to say either.\nSix years ago — after the call about the debt from a bad loan guarantee,\nDad stopped reaching out first.\nShamefaced, maybe. Sorry, maybe. Both, maybe.\n\nThe factory layoff. The apartment lost.\nNeither of them brought those up. But both knew.\n\n\"Did you... eat?\"\nDad's first words.",
+    "choices": [
+      {
+        "text": "\"Yeah. You too?\"",
+        "effects": {
+          "mental": 1
+        },
+        "cast_effects": {
+          "father": {
+            "met": true,
+            "affinity": 5
+          }
+        },
+        "flags": [
+          "arc_father_01_seen"
+        ],
+        "result_text": "\"Ate.\"\n\nA long silence. {name} hung up first.\nSpent thirty seconds after the call trying to think of what to say.\n\nWhy nothing ever comes out during the call.\nMaybe because just hearing the voice already says everything."
+      },
+      {
+        "text": "\"Yeah. Dad, I think things are going to work out.\"",
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "father": {
+            "met": true,
+            "affinity": 8,
+            "flags": [
+              "told_dad_okay"
+            ]
+          }
+        },
+        "flags": [
+          "arc_father_01_seen",
+          "told_dad_okay"
+        ],
+        "result_text": "\"...Yeah?\"\nDad's voice shifted slightly. In that one short word.\n\nAfter hanging up, {name} thought:\nThere's still so much left to show him. And time isn't endless."
+      },
+      {
+        "text": "Just ask how he is and hang up quickly",
+        "effects": {
+          "mental": -6
+        },
+        "cast_effects": {
+          "father": {
+            "met": true,
+            "affinity": 2
+          }
+        },
+        "flags": [
+          "arc_father_01_seen"
+        ],
+        "result_text": "Call duration: 23 seconds.\n\"How are you.\" \"Fine.\" \"Okay, hang up then.\"\n\n{name} put the phone down and stared at the ceiling.\nToo many things that couldn't fit into 23 seconds."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_02_signal",
+    "title": "One Message",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "father"
+    ],
+    "cooldown": 9999,
+    "description": "A KakaoTalk from an unknown number.\n\n\"Minjun? This is Mrs. Choi, the neighbor from Changwon.\nI got your number from your father.\nHe seems to be going to the hospital these days.\nNot sure if it's serious, but I thought I should let his son know.\"\n\n{name} read the screen twice.\nCalled Dad. The line rang. No answer.\nFive minutes later a text came.\n\"I'm fine, don't worry about it.\"",
+    "choices": [
+      {
+        "text": "Reply that you'll come down next week",
+        "effects": {
+          "mental": -2,
+          "money": -50000
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 10,
+            "stage": "worried"
+          }
+        },
+        "flags": [
+          "arc_father_02_done",
+          "father_going_soon"
+        ],
+        "result_text": "Dad didn't reply.\nThat wasn't a no, and {name} knew it.\nSearched for train tickets. KTX Changwon-Jungang, two and a half hours.\nSome things come before money — learned that this time."
+      },
+      {
+        "text": "Call to check — can't be that serious",
+        "effects": {
+          "mental": -4
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 4
+          }
+        },
+        "flags": [
+          "arc_father_02_done"
+        ],
+        "result_text": "Called again. He answered this time.\n\"I'm fine. Just a regular check-up. Nothing major.\"\nFirm. {name} didn't press further.\nWanted to believe he was fine.\nThe difference between believing and wanting to believe — couldn't tell them apart yet."
+      },
+      {
+        "text": "Can't afford to go down right now — once things settle",
+        "effects": {
+          "mental": -13
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 1
+          }
+        },
+        "flags": [
+          "arc_father_02_done",
+          "delayed_visiting_dad"
+        ],
+        "result_text": "Pulled up train tickets. Then closed the tab.\nNot yet. A little more money first, then go down.\nJust a little more.\n\nHow much was \"a little\" — {name} didn't really know."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_03_hospital",
+    "title": "Mom's Call",
+    "background": "hospital",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "father",
+      "crisis"
+    ],
+    "cooldown": 9999,
+    "description": "Mom called. She hadn't been in touch in a long time.\n\n\"Minjun.\"\n\nJust the voice was enough to know.\n\nDad had collapsed. A cerebrovascular episode. Changwon Sungsim Hospital ER.\nStabilized now. Conscious, talking.\n\n\"Should only need a few days in hospital. No surgery.\nBut going forward he has to be careful.\nThe doctor said... if he doesn't manage it properly, it could happen again anytime.\"\n\n{name}'s hands trembled briefly.",
+    "choices": [
+      {
+        "text": "Go down right now",
+        "effects": {
+          "mental": -15,
+          "money": -80000
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 15,
+            "stage": "health_crisis"
+          }
+        },
+        "flags": [
+          "arc_father_03_seen",
+          "rushed_to_father"
+        ],
+        "result_text": "Booked the first KTX to Changwon. 5 a.m. from Seoul Station.\nOn the train, tried to picture Dad's face.\nStarted calculating when the last time was —\nStopped. Too long ago."
+      },
+      {
+        "text": "Say you'll go down within the week",
+        "effects": {
+          "mental": -11
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8,
+            "stage": "health_crisis"
+          }
+        },
+        "flags": [
+          "arc_father_03_seen"
+        ],
+        "result_text": "\"I'll come on the weekend.\"\nMom went quiet for a moment.\n\"Yeah. I called because I thought your dad would worry a lot.\"\nSomething buried under those words.\n{name} hung up, then thought about how far away the weekend felt."
+      },
+      {
+        "text": "Send money — too busy with things here",
+        "effects": {
+          "mental": -15,
+          "money": -300000
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": -5
+          }
+        },
+        "flags": [
+          "arc_father_03_seen",
+          "sent_money_instead"
+        ],
+        "result_text": "Transferred the money. For hospital expenses.\nMom said \"Thank you.\"\nDad would ask whose money it was.\n{name} decided not to think about what Mom would say."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_04_visit",
+    "title": "Changwon",
+    "background": "hospital",
+    "portrait": "father_weak",
+    "cg": "cg_ending_father",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "father"
+    ],
+    "cooldown": 9999,
+    "description": "Changwon Sungsim Hospital. Room 301.\n\nThe hallway smelled of disinfectant. Different air from Seoul.\nAsked the nurse for Dad's room number.\n\nOpened the door.\nDad was sitting up in bed, looking out the window.\nChangwon sky. Low buildings. Factory smokestacks.\n\nThin hands. Hands that had gripped factory floors his whole life.\nShoulders more hunched. Hair more white.\n\n{name} paused at the doorway.\nDad turned around without a sound. Eyes met.\n\nA long silence passed.\n\nDad spoke. \"...Minjun.\"\nThen another pause.\n\"I'm sorry.\"",
+    "choices": [
+      {
+        "text": "\"It's not your fault, Dad.\" — first time saying those words",
+        "effects": {
+          "mental": 23
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 25,
+            "stage": "reconciled"
+          }
+        },
+        "flags": [
+          "visited_father",
+          "father_reconciled_started"
+        ],
+        "result_text": "Six years of unsaid words.\n\nDad's eyes reddened. He took {name}'s hand.\nThe hands hardened from factory work. They were trembling.\n\nNeither of them spoke for a long time.\nIt was enough. That silence felt comfortable for the first time.\n\nOn the KTX back to Seoul, {name} watched out the window for a long time."
+      },
+      {
+        "text": "\"When I make it to Gangnam, you're the first person I'll bring.\"",
+        "effects": {
+          "mental": 15
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 18,
+            "stage": "hopeful"
+          }
+        },
+        "flags": [
+          "visited_father",
+          "promised_father_gangnam"
+        ],
+        "result_text": "Dad smiled faintly.\n\"...Okay. I believe you.\"\n\nFactory smokestacks through the window. Where Dad spent his whole life.\n{name} made a silent promise. No matter what."
+      },
+      {
+        "text": "Can't say anything — just sit beside him",
+        "effects": {
+          "mental": 3
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 12,
+            "stage": "quiet"
+          }
+        },
+        "flags": [
+          "visited_father"
+        ],
+        "result_text": "There was so much to say, and none of it came out.\nJust sat down beside him. Dad didn't speak either.\n\nTwo hours like that.\nLater, {name} would understand that was the best way."
+      }
+    ]
+  },
+  {
+    "id": "arc_father_05_after_visit",
+    "title": "After That",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "father"
+    ],
+    "cooldown": 9999,
+    "description": "After coming back from Changwon, the calls with Dad changed.\n\nStill not many words.\nBut now there was something more after \"did you eat.\"\n\nToday Dad called first.\nNot Sunday evening. Wednesday afternoon.\n\n\"Minjun. How's the weather in Seoul?\"",
+    "choices": [
+      {
+        "text": "\"Cold here. Cold there too, right?\" — just talk about small things",
+        "effects": {
+          "mental": 18,
+          "health": 3
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 15,
+            "stage": "connected"
+          }
+        },
+        "flags": [
+          "arc_father_05_seen",
+          "father_reconciled"
+        ],
+        "result_text": "Fifteen minutes of weather, the neighborhood, nothing in particular.\n\nAfter hanging up, {name} was smiling.\n\nNot a word about Gangnam.\nBut today that felt better. Because Dad called first."
+      },
+      {
+        "text": "\"I'm doing well lately, Dad. Don't worry.\"",
+        "effects": {
+          "mental": 11
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 10,
+            "stage": "connected"
+          }
+        },
+        "flags": [
+          "arc_father_05_seen",
+          "father_reconciled"
+        ],
+        "result_text": "Dad's voice sounded warm.\n\n\"I'm doing fine too. And so are you.\"\nA brief silence.\n\"...Yeah. Me too.\"\n\nThat was all. But the feeling after the call was different today."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_01b_real_face",
+    "title": "Hey, Actually Me Too...",
+    "background": "pojangmacha",
+    "portrait": "jaehyuk_shadow",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk"
+    ],
+    "cooldown": 9999,
+    "description": "The second meeting at the pojangmacha went late.\n\nJaehyuk poured another round of soju.\nHis eyes were hazier than usual.\n\n\"Hey {name}. I... actually, I got burned too, back then.\"\n\n{name} put down the chopsticks.\n\n\"A senior I knew talked to me about an investment. Said it was a great opportunity. You know how rough things were for me at the time. So I put money in. And then...\"\n\nJaehyuk trails off.\n\n\"The strange thing is, later that senior asked if I wanted to become one of the operators. Said I'd be good at it. Looking back, it's funny.\"\n\nHe laughs bitterly.\n\nSeems like he's about to say more — takes a sip instead. That's all for tonight.",
+    "choices": [
+      {
+        "text": "\"So what happened?\" — listen comfortably",
+        "effects": {
+          "mental": 4,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": 8,
+            "stage": "opening_up"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_01b_seen",
+          "jaehyuk_heard_his_story"
+        ],
+        "result_text": "Jaehyuk laughed. 'Ah, that's ancient history. Things are fine now, right?'\nHe changed the subject. {name} didn't push.\nBut those words kept nagging. So what happened, exactly."
+      },
+      {
+        "text": "\"Being an operator... you still doing that now?\" — ask directly",
+        "effects": {
+          "intelligence": 5,
+          "mental": -3
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -4,
+            "stage": "guarded",
+            "flags": [
+              "caught_offguard"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_01b_seen",
+          "jaehyuk_01b_pressed"
+        ],
+        "result_text": "Jaehyuk's eyes hardened for a moment.\n'...What are you talking about. That's all in the past.'\nHe smiled and offered more to drink.\n{name} accepted the glass, and didn't forget that brief flash in his eyes."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_02b_favor",
+    "title": "No-Strings Help",
+    "background": "cafe",
+    "portrait": "jaehyuk_friendly",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk"
+    ],
+    "cooldown": 9999,
+    "description": "Met at a cafe. Jaehyuk said he had good news.\n\nIt wasn't about investments.\n\n\"Hey, I know this guy who's an HR team leader at a mid-size company — send him your resume. I already mentioned you.\"\n\n{name} paused.\n\n\"Why are you doing this for me?\"\n\nJaehyuk smiled. \"Come on, what are we to each other? You think I forgot how good you were to me in the army? I haven't.\"\n\nHe held out a business card with a contact on it.\n\nNeeds thinking through. Is this genuine goodwill — or a way to pull {name} in deeper?",
+    "choices": [
+      {
+        "text": "\"Thanks. You're a real friend.\" — accept the offer",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": 10,
+            "stage": "close_friends"
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_02b_seen",
+          "felt_jaehyuk_kindness"
+        ],
+        "result_text": "Took the card. Plan to reach out.\nJaehyuk really did have a good side.\nWhat {name} didn't know then — that would make what came later hurt more."
+      },
+      {
+        "text": "\"Jaehyuk, honestly — why are you so good to me?\" — probe the motive",
+        "effects": {
+          "intelligence": 4,
+          "mental": -4
+        },
+        "cast_effects": {
+          "jaehyuk": {
+            "affinity": -6,
+            "stage": "uncomfortable",
+            "flags": [
+              "confronted_motive"
+            ]
+          }
+        },
+        "flags": [
+          "arc_jaehyuk_02b_seen",
+          "jaehyuk_02b_questioned"
+        ],
+        "result_text": "A flash of hurt crossed Jaehyuk's face.\n'...You think I'm doing this for something? That hurts.'\n{name} hovered somewhere between guilt and suspicion.\nTook the card. Never called."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_04c_stand_up",
+    "title": "Back from Zero",
+    "background": "late_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk"
+    ],
+    "cooldown": 9999,
+    "description": "A month since getting scammed.\n\nSat and calculated the amount lost.\nCalculated it again. The number didn't change.\n\n{name} took out a notebook.\n\nWhat was in the account when first coming to this city?\nAlmost nothing, back then too. And somehow it worked out.\n\nThe difference between now and then —\nMeeting someone like Choi Jaehyuk.\nAnd now knowing why those words sounded so sweet.\n\n{name} started writing.",
+    "choices": [
+      {
+        "text": "Write down what was learned, not what was lost — turn this into money",
+        "effects": {
+          "intelligence": 8,
+          "investment_skill": 4,
+          "mental": 11
+        },
+        "flags": [
+          "arc_jaehyuk_standup_seen",
+          "jaehyuk_stood_up"
+        ],
+        "result_text": "Wrote down everything Jaehyuk had said.\nHow he'd played on emotions. Which words had made the heart waver.\nThis was expensive tuition. But if tuition was paid, something had to be learned.\n{name} closed the notebook and turned the computer back on."
+      },
+      {
+        "text": "Get up early tomorrow morning — start over from the basics",
+        "effects": {
+          "health": 5,
+          "mental": 12,
+          "reputation": 2
+        },
+        "flags": [
+          "arc_jaehyuk_standup_seen",
+          "jaehyuk_stood_up"
+        ],
+        "result_text": "Set the alarm for 6 a.m.\nNo grand plan. Just: get up in the morning, eat, do something.\nThat was all. That was where it started.\nThought of Jaehyuk for a moment — then opened the notebook."
+      }
+    ]
+  },
+  {
+    "id": "arc_gosiwon_wall",
+    "title": "Thin Wall",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
+    "cooldown": 9999,
+    "description": "3 a.m. Can't sleep.\n\nA sound from the next room. At first thought it was a TV — no. Someone crying. Muffled. Through a single sheet of plasterboard.\n\nEveryone here is getting through the night for their own reasons.",
+    "choices": [
+      {
+        "text": "Put in earplugs — not my business",
+        "effects": {
+          "mental": 0
+        },
+        "flags": [
+          "arc_gosiwon_wall_seen"
+        ],
+        "result_text": "The sound disappeared. Or rather, became inaudible. Something inside went quiet too. Whether that's self-protection or just going numb — couldn't tell."
+      },
+      {
+        "text": "Knock once on the wall — asking if they're okay",
+        "effects": {
+          "social_skill": 1,
+          "mental": 5
+        },
+        "flags": [
+          "arc_gosiwon_wall_seen",
+          "knocked_on_wall"
+        ],
+        "result_text": "The sound stopped. A brief silence. Then a low, small voice. \"Yes.\"\n\nThat was enough. A conversation through a wall, with someone whose name and face are unknown."
+      },
+      {
+        "text": "Stare at the ceiling too — get through the night together",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [
+          "arc_gosiwon_wall_seen"
+        ],
+        "result_text": "How many people here are sleeping comfortably? That thought felt strangely comforting. Not alone — in the strangest possible way."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_invest_first_chart",
+    "title": "First Day on the App",
+    "background": "investment_phone",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "route_invest"
+    ],
+    "cooldown": 9999,
+    "description": "Desk in the gosiwon. Opened a stock brokerage account for the first time.\n\nCharts going up and down. Red, blue. All of it is someone's money. And from now on, {name}'s money goes in here too.\n\nNot scared — more like: this is real now.",
+    "choices": [
+      {
+        "text": "Put in ₩10,000 — have to feel it to understand it",
+        "effects": {
+          "investment_skill": 1,
+          "money": -10000,
+          "mental": 2
+        },
+        "flags": [
+          "arc_ch1_invest_chart_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "₩10,000. A small number — but now this chart is {name}'s.\nUp feels good, down feels scary. That's what to learn first."
+      },
+      {
+        "text": "Read a book first — understand it before going in",
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 1,
+          "mental": 1
+        },
+        "flags": [
+          "arc_ch1_invest_chart_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Account created. No money in yet.\nBetter to know what it is before jumping in."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_career_first_spec",
+    "title": "First Line of the Cover Letter",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "route_career"
+    ],
+    "cooldown": 9999,
+    "description": "Laptop screen. Cover letter question 1.\n\n\"Please describe your motivation for applying.\"\n\nThe cursor has been blinking for a minute. Age 33. No work history. Three-year gap. How does this get written? Honest means rejected; polished means it doesn't sound like me.",
+    "choices": [
+      {
+        "text": "Write honestly — explain the gap",
+        "effects": {
+          "social_skill": 1,
+          "reputation": 1,
+          "mental": 2
+        },
+        "flags": [
+          "arc_ch1_career_spec_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Wrote it. The reason for the three years. Reading it back, it looks bleak.\nBut it's me. Starting from here."
+      },
+      {
+        "text": "Dress it up — make it sound good",
+        "effects": {
+          "intelligence": 1,
+          "social_skill": 1,
+          "mental": -3
+        },
+        "flags": [
+          "arc_ch1_career_spec_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Came out polished. It's all true, but not all of it.\nIf the interview asks about this, it has to hold up. That's part of the prep too."
+      },
+      {
+        "text": "Just submit — speed over perfection",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_ch1_career_spec_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Sent.\nDoesn't have to be perfect. Submitting is better than not."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_startup_first_idea",
+    "title": "Idea Notebook",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "route_startup"
+    ],
+    "cooldown": 9999,
+    "description": "Gosiwon bed. Smartphone notes app.\n\nThoughts that had been in {name}'s head since before coming to Seoul. Writing them out now, they look small. But if not written down, they'll disappear.\n\nStuck on the very first line.",
+    "choices": [
+      {
+        "text": "Search it right now — see if it already exists",
+        "effects": {
+          "intelligence": 2,
+          "mental": 1
+        },
+        "flags": [
+          "arc_ch1_startup_idea_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Something similar already existed. Felt disappointed — then: I can do it better.\nExecution beats first-mover advantage."
+      },
+      {
+        "text": "Just write everything down — judge later",
+        "effects": {
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_ch1_startup_idea_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Fourteen ideas. Some ridiculous, some might be something.\nNot sorting them yet. Ideas need volume first."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_theme_network_first",
+    "title": "First Meetup",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "theme_network"
+    ],
+    "cooldown": 9999,
+    "description": "Cafe. First meeting of a finance study group found online.\n\nEveryone had jobs. {name} didn't. Got handed business cards. Had nothing to hand back — just saved their numbers.\n\nWalking home, a strange feeling. Is this what networking is?",
+    "choices": [
+      {
+        "text": "Saved their contacts — might be useful later",
+        "effects": {
+          "social_skill": 2,
+          "reputation": 1,
+          "mental": 1
+        },
+        "flags": [
+          "arc_ch1_network_first_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Saved. Names, jobs, interests. One-sided for now — but relationships are made by whoever remembers first."
+      },
+      {
+        "text": "Felt uneasy walking home — what was I trying to get here?",
+        "effects": {
+          "mental": -1,
+          "intelligence": 2
+        },
+        "flags": [
+          "arc_ch1_network_first_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "They call it networking — but gathering without purpose is just acquaintances.\nNext time, decide what to give and what to get before going."
+      }
+    ]
+  },
+  {
+    "id": "arc_ch1_theme_invest_deep",
+    "title": "Three Hours of Charts",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "ch1",
+      "theme_invest"
+    ],
+    "cooldown": 9999,
+    "description": "Gosiwon room. 2 a.m.\n\nTechnical indicators, moving averages, trading volume. Watched three YouTube lectures. Starting to see something, maybe — or maybe not yet.\n\n2 a.m.",
+    "choices": [
+      {
+        "text": "Keep watching — something's about to click",
+        "effects": {
+          "investment_skill": 2,
+          "health": -3,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_ch1_invest_deep_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "4 a.m. Eyes aching.\nBut now MACD makes sense. Can feel understanding accumulating."
+      },
+      {
+        "text": "Sleep — fresh mind tomorrow",
+        "effects": {
+          "mental": 4,
+          "health": 2
+        },
+        "flags": [
+          "arc_ch1_invest_deep_seen"
+        ],
+        "follow_up_event": "",
+        "result_text": "Closed the laptop.\nStudying needs to be consistent. One hour tomorrow beats pulling an all-nighter tonight."
+      }
+    ]
+  },
+  {
+    "id": "arc_money_check_low",
+    "title": "Account Balance",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal",
+      "money_check"
+    ],
+    "cooldown": 9999,
+    "description": "A month passed.\n\nOpened the mobile banking app. Gosiwon rent, phone bill, transport, food. Transaction after transaction draining out.\n\nBalance: {money}.\n\nKnew it mentally — but seeing it in numbers was different.",
+    "choices": [
+      {
+        "text": "Listed out expenses — where can I cut?",
+        "effects": {
+          "intelligence": 1,
+          "mental": -2
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "budget_planned"
+        ],
+        "result_text": "Broke it down by category. The only thing cuttable was food. Convenience store lunch box, ₩2,800. Two meals a day: ₩160,000 a month. Knowing the numbers made it less frightening somehow."
+      },
+      {
+        "text": "Closed the app — check it later",
+        "effects": {
+          "mental": -2
+        },
+        "flags": [
+          "arc_money_check_seen"
+        ],
+        "result_text": "If you don't look it doesn't exist. Knew that wasn't true. The screen went dark, and {name}'s reflection looked back."
+      },
+      {
+        "text": "Looked for part-time work right away",
+        "effects": {
+          "luck": 1,
+          "social_skill": 1,
+          "mental": -1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "considered_parttime"
+        ],
+        "result_text": "Opened the job app. Convenience store, warehouse, gas station. ₩9,860/hr. Eight hours a day: ₩2.1M a month. Do it or not — decided to think again tomorrow."
+      }
+    ]
+  },
+  {
+    "id": "arc_money_check_mid",
+    "title": "Little by Little",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal",
+      "money_check"
+    ],
+    "cooldown": 9999,
+    "description": "A month passed.\n\nOpened the mobile banking app. Things went out, yes — but for the first time, more came in.\n\nBalance: {money}.\n\nNot a big number. Not something to brag about. But {name} stared at the screen for a while. First time the account had grown instead of shrunk.",
+    "choices": [
+      {
+        "text": "Took a screenshot — keeping a record",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [
+          "arc_money_check_seen"
+        ],
+        "result_text": "Saved to the photo album. When this number looks laughably small someday, will look back at it then. Keeping the starting point."
+      },
+      {
+        "text": "Wrote down next month's goal",
+        "effects": {
+          "intelligence": 1,
+          "investment_skill": 1,
+          "mental": -1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "set_monthly_goal"
+        ],
+        "result_text": "Opened a notes app. Next month's target balance. Wrote one number. What had been vague had a concrete box for the first time."
+      },
+      {
+        "text": "Thought: this is nothing — still so far",
+        "effects": {
+          "mental": -3,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "stayed_hungry"
+        ],
+        "result_text": "0.0-something percent of ₩3 billion. Can't get comfortable with this. {name} closed the app. Satisfaction was a luxury — not yet."
+      }
+    ]
+  },
+  {
+    "id": "arc_money_check_high",
+    "title": "This Is Actually Working",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal",
+      "money_check"
+    ],
+    "cooldown": 9999,
+    "description": "A month passed.\n\nOpened the mobile banking app. And looked again.\n\nBalance: {money}.\n\nA month ago it was ₩500,000. {name} traced the number with a finger. Counted the digits three times. Correct.\n\nScared. Happy, but scared. Because it's unclear if this is skill or luck.",
+    "choices": [
+      {
+        "text": "This is luck — don't get carried away",
+        "effects": {
+          "intelligence": 2,
+          "mental": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "stayed_grounded"
+        ],
+        "result_text": "Know that getting excited is when you lose. Mistaking one lucky break for skill is dangerous next time. {name} stayed calm and thought through the next move."
+      },
+      {
+        "text": "Have to go bigger — this is the moment",
+        "effects": {
+          "investment_skill": 1,
+          "mental": -1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "early_greed"
+        ],
+        "result_text": "Not riding this momentum would be stupid. {name}'s pulse quickened. More, bigger. The thought wouldn't leave. Whether that was a good sign or bad — unknown yet."
+      },
+      {
+        "text": "Decided not to tell anyone",
+        "effects": {
+          "mental": 2,
+          "intelligence": 1
+        },
+        "flags": [
+          "arc_money_check_seen",
+          "kept_quiet_money"
+        ],
+        "result_text": "The moment you talk about money it gets complicated. Family, friends — not yet. {name} put the phone face down. A secret only {name} knows."
+      }
+    ]
   }
 ]
