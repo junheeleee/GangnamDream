@@ -4,6 +4,7 @@ Generated on 2026-05-22 for Claude/Godot integration.
 Updated on 2026-06-09 for full anime / Korean manhwa VN art direction.
 Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, cast readability, and family-home regeneration.
 Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Steam key art pass.
+Updated on 2026-06-15 for Jeongseon Casino interior/entrance/exterior backgrounds, dedicated gym background, and Seoul landmark backgrounds.
 
 ## Use These Assets
 
@@ -142,6 +143,16 @@ Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Ste
 - `assets/backgrounds/seoul_subway.png`
   - Late-night transit background for commute, loneliness, job, and fatigue events.
 
+- `assets/backgrounds/hangang_riverside_walk.png`
+  - Han River evening promenade background for Seoul rest, walking, running, romance, and reflective callback events.
+  - Use for `hangang_riverside` inferred backgrounds and explicit `hangang` tags.
+  - Status: approved for first in-game QA. 1280x800, blue-hour river, bridge, skyline, benches, lamps, only distant anonymous silhouettes, no readable signs/logos.
+
+- `assets/backgrounds/namsan_tower_view.png`
+  - Namsan Tower night overlook background for aspirational Seoul, reflective city-view, and future landmark events.
+  - Use for `namsan_tower` inferred backgrounds and explicit `namsan` tags.
+  - Status: approved for first in-game QA. 1280x800, clear tower landmark, Seoul city lights, overlook path, no readable signs/logos or foreground character.
+
 - `assets/backgrounds/office_desk.png`
   - Late-night office desk background for overtime, salary, promotion, startup, and burnout events.
 
@@ -178,6 +189,11 @@ Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Ste
   - Quiet Korean hospital corridor at night.
   - Use for health, hospital, crisis, and disaster events.
 
+- `assets/backgrounds/gym_interior.png`
+  - Korean neighborhood gym interior for exercise, workout, and health-improvement events.
+  - Use for `gym` / `exercise` inferred backgrounds so fitness scenes do not fall back to hospital or generic rooftop imagery.
+  - Status: approved for first in-game QA. 1280x800, clear exercise equipment, no medical props, no clear faces.
+
 - `assets/backgrounds/rooftop_daytime.png`
   - Old Seoul villa rooftop in overcast daytime.
   - Use for politics, romance, break, reflection, and rare turning-point events.
@@ -209,6 +225,21 @@ Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Ste
   - Underground Korean holdem club background.
   - Use for HoldemClub minigame and gambling events.
   - Status: P2 regenerated with readable holdem table/cards/chips, distant faceless patrons, and no foreground hands.
+
+- `assets/backgrounds/casino_interior.png`
+  - Shared Jeongseon Casino-inspired public casino floor background for the hub, blackjack, and baccarat tables.
+  - Use for reusable casino minigame screens that need a general table-game room rather than the holdem club.
+  - Status: approved for first in-game QA. 1280x800, bright stained-glass ceiling panels, black columns, red/yellow swirl carpet, slot rows, green table games, faceless distant silhouettes only, no foreground hands, no readable text/logos.
+
+- `assets/backgrounds/jeongseon_casino_exterior.png`
+  - Jeongseon Casino-inspired mountain resort exterior background from a protagonist eye-level driveway/drop-off view.
+  - Use for Jeongseon Casino arrival/departure, bus, relapse, and addiction-reflection events outside the casino floor.
+  - Status: approved for first in-game QA. 1280x800, mountain valley resort complex with teal roofs, hotel towers, entrance canopy, driveway, no aerial/drone view, no readable signage/logos/watermarks.
+
+- `assets/backgrounds/jeongseon_casino_entrance.png`
+  - Jeongseon Casino-inspired casino entrance/lobby threshold background.
+  - Use for entry, exit, service desk, ID/check-in, and "one more time" relapse-urge events at the casino doorway.
+  - Status: approved for first in-game QA. 1280x800, generic readable `CASINO` sign only, lobby gate/service desk, distant anonymous figures, no real logos/brand signage/watermarks.
 
 - `assets/backgrounds/scalping_trading_room.png`
   - Multi-monitor stock scalping setup.
@@ -277,14 +308,16 @@ Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Ste
 
 Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen Run-like icon motifs. Gangnam Dream should stay grounded: Korean webtoon, lo-fi realism, social survival, Seoul anxiety.
 
-### Draft / Hold
+### UI Assets
 - `assets/ui/card_back.png`
-  - Practical 256x358 poker card back design for future HoldemClub image-backed UI.
-  - `HoldemClub.gd` currently draws card UI in code, so this file is not wired into gameplay.
+  - Practical 256x358 poker card back design for hidden/deck cards.
+  - Updated on 2026-06-15 with an axis-aligned black/white geometric pattern: centered inner panel, centered medallion, and symmetric borders.
+  - Used by `HoldemClub.gd`, `BlackjackTable.gd`, and `BaccaratTable.gd` for hidden cards.
 
 - `assets/ui/poker_chip_icon.png`
-  - Practical 128x128 transparent poker chip icon for future HoldemClub image-backed UI.
-  - `HoldemClub.gd` currently draws chip/bet UI in code, so this file is not wired into gameplay.
+  - Practical 128x128 transparent poker chip icon for pot/chip UI.
+  - Updated on 2026-06-15 with a blank center field, concentric rings, outer white inserts, and small inner dash marks matching real casino chips.
+  - Used by `HoldemClub.gd` for the central POT display; animated chip bursts are still drawn procedurally.
 
 ## Style Guardrails
 

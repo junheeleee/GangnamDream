@@ -1751,6 +1751,7 @@
     "rarity": "rare",
     "weight": 0.0,
     "hidden": true,
+    "background": "street",
     "conditions": {
       "min_turn": 9999,
       "max_turn": 14,
@@ -1758,7 +1759,8 @@
     },
     "tags": [
       "romance",
-      "jiyeon"
+      "jiyeon",
+      "street"
     ],
     "cooldown": 99,
     "choices": [
@@ -1985,6 +1987,7 @@
     "rarity": "rare",
     "weight": 0.0,
     "hidden": true,
+    "background": "hangang_riverside",
     "conditions": {
       "flag": "jiyeon_crisis_done",
       "min_turn": 9999,
@@ -1993,7 +1996,8 @@
     },
     "tags": [
       "romance",
-      "jiyeon"
+      "jiyeon",
+      "hangang"
     ],
     "cooldown": 99,
     "choices": [

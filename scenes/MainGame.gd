@@ -4160,7 +4160,13 @@ func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> Strin
 	var lower_title := title.to_lower()
 	var lower_body := body.to_lower()
 	var bg_id := ""
-	if lower_title.find("운동") >= 0 or lower_body.find("헬스장") >= 0 \
+	if lower_body.find("한강") >= 0 or lower_body.find("hangang") >= 0 \
+			or lower_body.find("han river") >= 0:
+		bg_id = "hangang_riverside"
+	elif lower_body.find("남산") >= 0 or lower_body.find("namsan") >= 0 \
+			or lower_body.find("seoul tower") >= 0:
+		bg_id = "namsan_tower"
+	elif lower_title.find("운동") >= 0 or lower_body.find("헬스장") >= 0 \
 			or lower_body.find("운동") >= 0 or lower_body.find("running") >= 0 \
 			or lower_body.find("gym") >= 0:
 		bg_id = "gym"

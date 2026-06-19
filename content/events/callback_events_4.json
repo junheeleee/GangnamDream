@@ -111,6 +111,7 @@
     "rarity": "rare",
     "weight": 0.9,
     "hidden": false,
+    "background": "hangang_riverside",
     "conditions": {
       "flag": "final_sprint_reflective",
       "min_turn": 208
@@ -118,7 +119,8 @@
     "tags": [
       "final",
       "callback",
-      "reflection"
+      "reflection",
+      "hangang"
     ],
     "cooldown": 999,
     "choices": [
