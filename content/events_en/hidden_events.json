@@ -11,7 +11,11 @@
       "min_luck": 70,
       "min_appearance": 60
     },
-    "tags": ["hidden", "legendary", "class_jump"],
+    "tags": [
+      "hidden",
+      "legendary",
+      "class_jump"
+    ],
     "cooldown": 7,
     "choices": [
       {
@@ -35,7 +39,9 @@
           "luck": 2
         },
         "result_text": "Held out the card.\n\nHe took it. Looked once. Put it in his pocket.\nSeemed about to say something. Didn't.\n\nFloor 18. Doors opened.\n\nThat was it.\n\nWhere that card is now — wonders sometimes.\nThrown away, or passed to someone, or just — forgotten.",
-        "flags": ["chaebol_contact"]
+        "flags": [
+          "chaebol_contact"
+        ]
       },
       {
         "text": "Pretend not to notice. Different worlds anyway.",
@@ -57,7 +63,11 @@
     "weight": 0.55,
     "hidden": true,
     "conditions": {},
-    "tags": ["health", "class", "hidden"],
+    "tags": [
+      "health",
+      "class",
+      "hidden"
+    ],
     "cooldown": 5,
     "choices": [
       {
@@ -97,7 +107,11 @@
     "conditions": {
       "min_turn": 20
     },
-    "tags": ["housing", "gangnam", "milestone"],
+    "tags": [
+      "housing",
+      "gangnam",
+      "milestone"
+    ],
     "cooldown": 9999,
     "choices": [
       {
@@ -108,7 +122,9 @@
           "stress": 3,
           "investment_skill": 3
         },
-        "flags": ["visited_gangnam_open_house"],
+        "flags": [
+          "visited_gangnam_open_house"
+        ],
         "follow_up_event": "",
         "result_text": "'What's the maximum loan I could get?'\n\nThe staff ran the numbers. Income basis, asset basis, rates.\n\n{name} wrote it down.\nA cold, clear look at the distance between those numbers and where {name} stands now.\n\nTook a brochure on the way out.\nPut it in a desk drawer.\n\nHad a feeling it would be opened again."
       },
@@ -119,9 +135,909 @@
           "mental": -8,
           "stress": 5
         },
-        "flags": ["visited_gangnam_open_house"],
+        "flags": [
+          "visited_gangnam_open_house"
+        ],
         "follow_up_event": "",
         "result_text": "Walked out.\n\nHeading toward the subway, {name} kept thinking about the living room just left behind.\nThat floor. That window. That height.\n\n₩1,850,000,000 came out of the building attached.\n\nGot on the subway.\nSat down. Closed eyes.\n\nThe feeling of standing in that room stayed for a long time.\nThe soles of the feet still seemed to remember the floor."
+      }
+    ]
+  },
+  {
+    "id": "hidden_002",
+    "title": "Two A.M., the Heart",
+    "description": "I woke from sleep.\n\nMy chest was pounding.\nNot in a steady rhythm.\n\nI had three coffees yesterday. I haven't been sleeping well lately.\nOr is something else going on?\n\nIt was two in the morning.",
+    "category": "health",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "health",
+      "risk",
+      "hidden"
+    ],
+    "cooldown": 5,
+    "choices": [
+      {
+        "text": "Book a hospital appointment for tomorrow",
+        "effects": {
+          "money": 180000,
+          "appearance": -1
+        },
+        "result_text": "I found an internal medicine clinic in the app.\nBooked it. 10 a.m., the day after tomorrow.\nThat night, at least, I think I slept a little better."
+      },
+      {
+        "text": "Brush it off as nothing and lie back down",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "I pulled the blanket up.\nClosed my eyes.\nThe pounding stopped twenty minutes later."
+      },
+      {
+        "text": "Search whether I should go to the ER",
+        "effects": {
+          "reputation": 7,
+          "investment_skill": 0
+        },
+        "result_text": "I searched 'heart palpitations ER guidelines.'\nRead through the symptom checklist.\nNone of it applied. Still, I stayed awake for thirty minutes."
+      }
+    ]
+  },
+  {
+    "id": "hidden_003",
+    "title": "A Night of Service Memories",
+    "description": "When life grinds you down, military memories suddenly surface. A senior's face, night guard duty, the hours I endured for no reason. I still don't know whether it made me who I am now, or just wore me down.",
+    "category": "military",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "military",
+      "anxiety",
+      "hidden"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Pick out only the good memories and look back with gratitude",
+        "effects": {
+          "money": 330000,
+          "luck": 3
+        },
+        "result_text": "I thought of what I learned rather than what was hard. How you edit your memories can change your future."
+      },
+      {
+        "text": "Pour the bottled-up feelings into a journal",
+        "effects": {
+          "mental": -5
+        },
+        "result_text": "I picked up a pen at dawn. The feelings I poured out went quiet on the paper."
+      },
+      {
+        "text": "Call an old comrade and talk about those days",
+        "effects": {
+          "reputation": 4,
+          "investment_skill": 3
+        },
+        "result_text": "I called a comrade I hadn't spoken to in ages. Knowing someone shares the same memories was a comfort."
+      }
+    ]
+  },
+  {
+    "id": "hidden_004",
+    "title": "Spiderweb Screen",
+    "description": "I slipped on the third step of the stairs.\n\nMy phone hit the floor.\nThere was a sound.\n\nI picked it up. The screen was a spiderweb.\nThere was an important call coming today.\nOr there might have been.",
+    "category": "disasters",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "disasters",
+      "satire",
+      "hidden"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Head straight to a repair shop",
+        "effects": {
+          "money": 230000,
+          "luck": 5
+        },
+        "result_text": "I went to a nearby repair shop.\n120,000 won.\nWaited an hour. Good as new."
+      },
+      {
+        "text": "Tape it up and just keep using it",
+        "effects": {
+          "mental": -9,
+          "luck": 1
+        },
+        "result_text": "I found some clear tape.\nStuck it on.\nA shard of glass caught the tip of my finger."
+      },
+      {
+        "text": "Swap the device through a secondhand deal",
+        "effects": {
+          "reputation": -4,
+          "investment_skill": 4
+        },
+        "result_text": "I posted it on a used-goods app.\nGot a reply within thirty minutes.\nSold it for 70,000 and bought a used phone for 100,000."
+      },
+      {
+        "text": "Check whether insurance covers it",
+        "effects": {
+          "health": -2,
+          "money": 0,
+          "mental": 3
+        },
+        "result_text": "I opened the carrier's app.\nTurns out I was insured.\nDeductible: 30,000 won. Insurance I didn't even remember having."
+      }
+    ]
+  },
+  {
+    "id": "hidden_005",
+    "title": "Five Resignation Vlogs",
+    "description": "It was a stranger's channel.\nThe algorithm caught it for me at dawn.\n\nI watched one. Autoplay kicked in. I watched another.\nBy the fifth video I checked the subscriber count. 81,000.\n\nThere was even an ad-revenue receipt video.\n{name} has no subscribers.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "jobs",
+      "risk",
+      "hidden"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Subscribe and close the window",
+        "effects": {
+          "money": 340000,
+          "social_skill": 7
+        },
+        "result_text": "I hit the subscribe button.\nThe algorithm served up even more videos.\nClosing the window took another twenty minutes."
+      },
+      {
+        "text": "Leave one line of encouragement in the comments",
+        "effects": {
+          "mental": 4
+        },
+        "result_text": "'Enjoyed watching this.'\nAfter posting it, I looked at my own profile.\nZero subscribers. No uploaded videos."
+      },
+      {
+        "text": "Close the window and sleep",
+        "effects": {
+          "reputation": 2,
+          "investment_skill": 2
+        },
+        "result_text": "Turned it off.\nLay down.\nTomorrow's alarm was set for 6:30.",
+        "flags": [
+          "seen_hidden_005"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hidden_007",
+    "title": "Breaking Policy Announcement",
+    "description": "A news alert went off. The government announced new finance and real estate policies. I can't tell whether to move before the market reacts, or whether a rash decision will sink me.",
+    "category": "politics",
+    "rarity": "rare",
+    "weight": 1.7,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 11
+    },
+    "tags": [
+      "politics",
+      "opportunity",
+      "hidden"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Analyze the announcement and adjust related assets",
+        "effects": {
+          "money": 70000,
+          "luck": -2
+        },
+        "result_text": "I read the policy text carefully and reworked my portfolio. Reading the news fast is the skill of staying ahead of the market."
+      },
+      {
+        "text": "Tune it out and carry on as usual",
+        "effects": {
+          "mental": -2
+        },
+        "result_text": "Figuring it wouldn't change anything for me anyway, I ignored it. Whether it was an opportunity, I'll find out later."
+      },
+      {
+        "text": "Dive boldly into the policy-beneficiary stocks",
+        "effects": {
+          "reputation": 4,
+          "investment_skill": 6
+        },
+        "result_text": "I read the policy direction and bet boldly. The key is moving before the news breaks."
+      }
+    ]
+  },
+  {
+    "id": "hidden_008",
+    "title": "Unsaved Number",
+    "description": "An unknown number rang.\nThree times.\nI hung up.\n\nIt came again.\n\nFive seconds of not knowing whether it was spam.",
+    "category": "military",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "military",
+      "anxiety",
+      "hidden"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Answer it",
+        "effects": {
+          "money": 280000,
+          "investment_skill": 7
+        },
+        "result_text": "I answered.\nIt was a college classmate. Five years since we last spoke.\nThey said 'let's grab a meal.' Unexpected."
+      },
+      {
+        "text": "Hang up first and search the number",
+        "effects": {
+          "mental": -2
+        },
+        "result_text": "The search returned 'carrier customer service.'\nIt wasn't. I sent a text. 'Who is this?' An old acquaintance."
+      },
+      {
+        "text": "Don't answer; confirm by text",
+        "effects": {
+          "reputation": -4,
+          "investment_skill": 4
+        },
+        "result_text": "I sent 'Sorry, who's this?'\nNo reply.\nThe next day I saw a 'beware of voice phishing' article."
+      },
+      {
+        "text": "Refuse to answer to the end",
+        "effects": {
+          "health": -2,
+          "money": 0,
+          "mental": 3
+        },
+        "result_text": "I didn't answer.\nBlocked the number.\nLater I learned it had been a college friend's number."
+      }
+    ]
+  },
+  {
+    "id": "hidden_009",
+    "title": "AI Face-Reading App",
+    "description": "A link popped up in the group chat.\n'AI reads your face, everyone try it.'\n\nFriends started posting their results.\nEntrepreneur face. Artist face. Office-worker face.\n\n{name} uploaded a photo too.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "comedy",
+      "satire",
+      "hidden"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Like the result and save it",
+        "effects": {
+          "money": 340000,
+          "investment_skill": 4
+        },
+        "result_text": "Result: entrepreneur face.\nI took a screenshot.\nI don't believe it, but it felt good."
+      },
+      {
+        "text": "Hate the result and do it again",
+        "effects": {
+          "mental": 8
+        },
+        "result_text": "It came back office-worker face.\nI retook the photo.\nThe third try was office-worker face too."
+      },
+      {
+        "text": "Share the result in the group chat",
+        "effects": {
+          "reputation": 0,
+          "investment_skill": 6
+        },
+        "result_text": "I posted it.\nFriends reacted. 'Yep, that's spot on.'\nThe group chat buzzed for ten minutes."
+      }
+    ]
+  },
+  {
+    "id": "hidden_010",
+    "title": "Haggling on 'No Haggling'",
+    "description": "An item I'd listed on the secondhand market.\nI clearly wrote it in the last line of the description.\n'No haggling, please.'\n\nA message came.\n'Could you maybe knock it down to 30,000? ^^'\n\nThey must have read it.",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "comedy",
+      "satire",
+      "hidden"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Politely say the price stands",
+        "effects": {
+          "money": 200000,
+          "reputation": -3
+        },
+        "result_text": "'Sorry, the price isn't negotiable.'\nSent.\nTwo hours later, someone showed up willing to pay full price."
+      },
+      {
+        "text": "Get annoyed and refuse the deal",
+        "effects": {
+          "mental": 5
+        },
+        "result_text": "I replied, 'You saw the read receipt, right?'\nThey left a bad review.\nOne star."
+      },
+      {
+        "text": "Counter-haggle in turn",
+        "effects": {
+          "reputation": 4,
+          "investment_skill": -2
+        },
+        "result_text": "'30,000 is too low, but add 20,000 and I'll cover shipping.'\nThey accepted.\nNot a bad outcome.",
+        "flags": [
+          "seen_hidden_010"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hidden_011",
+    "title": "LinkedIn Message",
+    "description": "A LinkedIn notification.\n\n'Hello, I'm reaching out after seeing {name}'s profile. Our company is looking for someone like you.'\n\nAn HR rep from a company I didn't know.\nNo salary info.\nNo way to tell if it was better or worse than my current job.",
+    "category": "disasters",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {
+      "max_mental": 65,
+      "has_job": true
+    },
+    "tags": [
+      "disasters",
+      "viral",
+      "hidden"
+    ],
+    "cooldown": 8,
+    "choices": [
+      {
+        "text": "Research the company first",
+        "effects": {
+          "money": 420000,
+          "luck": -3
+        },
+        "result_text": "I searched the company name.\nA two-year-old startup. Thirty employees.\nReviews were mixed. I read them once more."
+      },
+      {
+        "text": "Reply that I'm interested",
+        "effects": {
+          "mental": -9
+        },
+        "result_text": "'Hello, could I hear more details?'\nSent.\nThe next day a video interview offer came."
+      },
+      {
+        "text": "Ignore it and close",
+        "effects": {
+          "reputation": 2,
+          "investment_skill": 5
+        },
+        "result_text": "Turned off the notification.\nClosed LinkedIn.\nThe next day a text came from the same number."
+      }
+    ]
+  },
+  {
+    "id": "hidden_012",
+    "title": "A Forgotten Bankbook",
+    "description": "While tidying up my banking apps, I found it.\n\nAn account I'd opened long ago.\nBalance: 47,200 won.\n\nI couldn't even remember the last time I'd looked at it.\nMaybe it had been even longer.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "finance",
+      "pressure",
+      "hidden"
+    ],
+    "cooldown": 9,
+    "choices": [
+      {
+        "text": "Transfer it to the investment account",
+        "effects": {
+          "money": 70000,
+          "investment_skill": -6
+        },
+        "result_text": "Transferred.\n47,200 won joined the investment account.\nEven small money has its place."
+      },
+      {
+        "text": "Spend it on dinner tonight",
+        "effects": {
+          "mental": -4
+        },
+        "result_text": "I went to a barbecue place.\nAlone, but it didn't matter.\nAte 47,200 won's worth. For the first time in a while, I was full."
+      },
+      {
+        "text": "Just leave it",
+        "effects": {
+          "reputation": 1,
+          "investment_skill": 3
+        },
+        "result_text": "Closed the app.\nDecided to forget it.\nIf I find it again next time, I'll think about it then."
+      },
+      {
+        "text": "Decide not to touch it for now",
+        "effects": {
+          "health": -2,
+          "money": 0,
+          "mental": 3
+        },
+        "result_text": "Opened the bankbook, then closed it.\nThe 47,200 won will stay where it is.\nTomorrow's {name} can decide."
+      }
+    ]
+  },
+  {
+    "id": "hidden_013",
+    "title": "Ex-Boss on the Subway",
+    "description": "Subway Line 4.\nThe doors opened.\n\nI saw who came in.\nIt was my old team lead.\n\nThey saw me too.\nOur eyes met.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {
+      "min_reputation": 20
+    },
+    "tags": [
+      "social_life",
+      "opportunity",
+      "hidden"
+    ],
+    "cooldown": 6,
+    "choices": [
+      {
+        "text": "Greet them first",
+        "effects": {
+          "money": 120000,
+          "health": 6
+        },
+        "result_text": "'Hello.'\nThe team lead came closer.\n'How've you been lately?' The conversation lasted three stops."
+      },
+      {
+        "text": "Move to another car",
+        "effects": {
+          "mental": 4
+        },
+        "result_text": "I slipped into the next car before the doors closed.\nAvoided the awkwardness.\nI think they saw."
+      },
+      {
+        "text": "Pretend to be on my phone and ignore them",
+        "effects": {
+          "reputation": 1,
+          "investment_skill": 1
+        },
+        "result_text": "I lowered my head.\nThe screen was off.\nThey got off at the next station."
+      }
+    ]
+  },
+  {
+    "id": "hidden_014",
+    "title": "Card Statement",
+    "description": "The statement arrived.\n\n87,000 won more than I expected.\nI went through the items one by one.\n\nTwo subscriptions. No memory of signing up.\nThree online purchases. I remembered buying only one.\n\nThe other two, {name} couldn't recall.",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 72
+    },
+    "tags": [
+      "finance",
+      "satire",
+      "hidden"
+    ],
+    "cooldown": 4,
+    "choices": [
+      {
+        "text": "Check each item and cancel everything",
+        "effects": {
+          "money": 370000,
+          "investment_skill": 0
+        },
+        "result_text": "I found the subscription services.\nCanceled both.\n23,000 won saved per month. 276,000 a year."
+      },
+      {
+        "text": "Keep only what I need and clear out the rest",
+        "effects": {
+          "mental": -2
+        },
+        "result_text": "One I was using.\nOne I'd forgotten.\nI canceled only the one I'd forgotten."
+      },
+      {
+        "text": "Just pay it this month",
+        "effects": {
+          "reputation": -1,
+          "investment_skill": 3
+        },
+        "result_text": "Paid it.\nDecided to sort it out next month.\nWhen next month's statement came, the same items were there."
+      }
+    ]
+  },
+  {
+    "id": "hidden_015",
+    "title": "Mail from the Military Manpower Administration",
+    "description": "An envelope from the Military Manpower Administration was stuck in the mailbox. A white envelope with a red stamp. My heart sank before I even opened it. I knew it was the kind of mail you can't ignore.",
+    "category": "military",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "military",
+      "pressure",
+      "hidden"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Read it carefully and respond properly",
+        "effects": {
+          "money": 250000,
+          "health": 5
+        },
+        "result_text": "I opened the envelope and read it line by line. Better to know and handle it than to let it slide unaware."
+      },
+      {
+        "text": "Put off opening it and miss the deadline",
+        "effects": {
+          "mental": 7
+        },
+        "result_text": "I kept saying 'I'll open it later' and missed the deadline. I learned you can't ignore mail from the MMA."
+      },
+      {
+        "text": "Look into legal exceptions",
+        "effects": {
+          "reputation": 6,
+          "investment_skill": 0
+        },
+        "result_text": "Every rule has exceptions. You have to read the rules to defend your rights.",
+        "flags": [
+          "seen_hidden_015"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hidden_016",
+    "title": "The Meeting Room Door Closed",
+    "description": "Right after lunch.\n\nThe team lead's voice was low.\n'Got a minute?'\n\nWe walked down the hall together.\nNot a word.\nThe meeting room door closed.\n\nThose thirty seconds felt strangely long.",
+    "category": "jobs",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {
+      "has_job": true
+    },
+    "tags": [
+      "jobs",
+      "class",
+      "hidden"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Listen calmly and ask how to improve",
+        "effects": {
+          "social_skill": 3,
+          "intelligence": 2,
+          "mental": 2
+        },
+        "result_text": "I listened.\nIt was about performance targets.\nI asked, 'What would you suggest I do?' It turned into a conversation."
+      },
+      {
+        "text": "Swallow it inside and nod along",
+        "effects": {
+          "mental": -7,
+          "intelligence": 2
+        },
+        "result_text": "I nodded.\nManaged my expression.\nLeft the meeting room and went to the bathroom."
+      },
+      {
+        "text": "Push back and state my own view",
+        "effects": {
+          "reputation": -3,
+          "social_skill": -2,
+          "mental": -1
+        },
+        "result_text": "I started with, 'From my side, that part...'\nThe team lead's face hardened.\nIt turned into a ten-minute argument."
+      },
+      {
+        "text": "Step away to collect my emotions",
+        "effects": {
+          "mental": 6
+        },
+        "result_text": "I needed some air.\nWent down the stairwell.\nCame back up five minutes later."
+      }
+    ]
+  },
+  {
+    "id": "hidden_017",
+    "title": "In Front of Domino's at Gangnam Station",
+    "description": "In front of the Domino's at Gangnam Station.\n\nA neatly dressed person approached.\n'Excuse me, do you have a moment?'\n\nThey held out a business card.\n'Would you hear out our business pitch? It'll only take ten minutes.'",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "comedy",
+      "risk",
+      "hidden"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "Decline politely",
+        "effects": {
+          "money": -50000,
+          "luck": 2
+        },
+        "result_text": "'No thank you.'\nI bowed my head and walked past.\nBehind me I heard them start in on the next person."
+      },
+      {
+        "text": "Listen for just ten minutes",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "We went to a nearby cafe.\nThe business model came out.\nWhen the pitch crossed the fifteen-minute mark, I stood up."
+      },
+      {
+        "text": "Film it and post it on SNS",
+        "effects": {
+          "reputation": 1,
+          "investment_skill": 0
+        },
+        "result_text": "I quietly turned on the camera.\nPosted it.\nA comment read, 'Got got by them too.'"
+      }
+    ]
+  },
+  {
+    "id": "hidden_018",
+    "title": "Real Estate Regulation Rumor",
+    "description": "The real estate community was on fire.\n\n'100% sure there's an announcement this Friday'\n'If it's deregulation, buy now'\n'If it's tighter rules, time to sell'\n\nThe source: a 'friend of a friend.' That friend every community has.\n\n{name}'s portfolio had real-estate-related holdings.",
+    "category": "politics",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "politics",
+      "viral",
+      "hidden"
+    ],
+    "cooldown": 16,
+    "choices": [
+      {
+        "text": "Check the rumor's source first",
+        "effects": {
+          "intelligence": 3,
+          "social_skill": 2,
+          "investment_skill": 1
+        },
+        "result_text": "I searched for articles.\nNo official announcement was scheduled.\nThe community post got edited. 'Some say it's been canceled.'"
+      },
+      {
+        "text": "Bet on deregulation and buy",
+        "effects": {
+          "money": -100000,
+          "mental": -8
+        },
+        "result_text": "I bought in.\nFriday came with no announcement at all.\nMonday's market was flat."
+      },
+      {
+        "text": "Trim my holdings just in case",
+        "effects": {
+          "money": -200000,
+          "investment_skill": 4,
+          "luck": 2
+        },
+        "result_text": "I sold off a portion.\nFriday, deregulation was announced.\nThe part I sold rose by exactly that much."
+      }
+    ]
+  },
+  {
+    "id": "hidden_019",
+    "title": "Instagram Comparison Hell",
+    "description": "I opened Instagram before bed. A friend posted vacation photos abroad. Another, housewarming photos. Another, news of a promotion. The more I scrolled, the shabbier my own feed looked.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "social_life",
+      "pressure",
+      "hidden"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Close the app and focus on my own goals",
+        "effects": {
+          "mental": 8
+        },
+        "result_text": "I stopped scrolling and got to work. Comparison feeds on energy and grows."
+      },
+      {
+        "text": "Wear myself down, blaming myself again and again",
+        "effects": {
+          "mental": -9,
+          "intelligence": 1
+        },
+        "result_text": "The more I looked at the feed, the smaller I felt. I knew it, and still couldn't stop."
+      },
+      {
+        "text": "Analyze the popular accounts' strategies and copy them",
+        "effects": {
+          "reputation": 2,
+          "social_skill": 3,
+          "intelligence": 2
+        },
+        "result_text": "I turned jealousy into analysis. I'm learning to use envy as motivation."
+      }
+    ]
+  },
+  {
+    "id": "hidden_020",
+    "title": "Friend's Phone Screen: +64%",
+    "description": "A dinner out.\n\nA friend held out their phone screen.\n+64%.\n\n'I bought it last month.'\n\nThis friend never used to invest.\n{name} set down the beer glass.",
+    "category": "social",
+    "rarity": "common",
+    "weight": 8,
+    "hidden": true,
+    "conditions": {},
+    "tags": [
+      "social_life",
+      "anxiety",
+      "hidden"
+    ],
+    "cooldown": 3,
+    "choices": [
+      {
+        "text": "Ask how they bought in",
+        "effects": {
+          "money": 450000,
+          "health": 5
+        },
+        "result_text": "'What is it?'\nThe friend explained.\n{name} nodded along, then pulled out a notepad."
+      },
+      {
+        "text": "Congratulate them sincerely",
+        "effects": {
+          "mental": 7
+        },
+        "result_text": "'Man, that's huge.'\nWe toasted.\nOn the way home I searched the name of that stock."
+      },
+      {
+        "text": "Drink more beer",
+        "effects": {
+          "reputation": 7,
+          "investment_skill": -2
+        },
+        "result_text": "Took a sip.\nChanged the subject.\nDecided tonight would just be a drinking night.",
+        "flags": [
+          "seen_hidden_020"
+        ]
+      },
+      {
+        "text": "Copy them and buy in right now",
+        "effects": {
+          "health": -2,
+          "money": 0,
+          "mental": 3
+        },
+        "result_text": "Opened the app.\nFound the stock.\nBought. The friend said, 'Hey, don't do that.'"
+      }
+    ]
+  },
+  {
+    "id": "hidden_screen_time",
+    "title": "Weekly Usage Time",
+    "description": "A notification popped up on my phone.\n\n'Your weekly screen time report'\n\n{name} tapped it.\n\nDaily average: 5 hours 14 minutes.\n\nIt broke it down by category.\nYouTube. Stock app. Real estate app. News.\nAnd — search history.\n\n'Average price of a Gangnam apartment'\n'Average net worth at 33'\n'Minimum monthly living cost in Seoul'\n\nThe phone knew what {name} wanted.\nIn numbers.",
+    "category": "daily_life",
+    "rarity": "uncommon",
+    "weight": 3.0,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 5
+    },
+    "tags": [
+      "daily_life",
+      "comedy",
+      "social"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "Decide to cut back. There's time to spend elsewhere.",
+        "effects": {
+          "intelligence": 4,
+          "mental": 8
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "I set an app limit. One hour a day.\n\nThree days later I removed the limit.\n\nStill, just learning something about myself meant something.\nSeeing what I want laid out in numbers was strangely honest."
+      },
+      {
+        "text": "Just let it slide. Everyone probably lives like this.",
+        "effects": {
+          "intelligence": 1,
+          "mental": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "Let it slide.\n\nAnd five minutes later, opened YouTube.\n'Average net worth in your 30s is 100 million? Here's the reality.'\n\nThe algorithm is always a step ahead."
+      }
+    ]
+  },
+  {
+    "id": "hidden_bull_market_fomo",
+    "title": "The Whole Country Is Buying Stocks",
+    "description": "The group chat came alive.\n\nPeople who were usually quiet suddenly had a lot to say.\nEveryone was posting profit screenshots.\n\n'Made 3% yesterday'\n'I really hit it big this time'\n'Hey, why aren't you in yet?'\n\nI looked at the KOSPI chart. It kept rising.\nThe news said 'retail investors at an all-time high.'\n\nThat feeling that if you don't ride this wave, you'll be the only one left behind.\nExactly that feeling.",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 2.5,
+    "hidden": false,
+    "conditions": {
+      "min_turn": 6
+    },
+    "tags": [
+      "investment",
+      "finance",
+      "fomo",
+      "social"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "Decide to ride it. The chance is now.",
+        "effects": {
+          "money": -300000,
+          "investment_skill": 3,
+          "luck": -1,
+          "mental": -5
+        },
+        "flags": [
+          "fomo_invested"
+        ],
+        "follow_up_event": "",
+        "result_text": "I put in 3 million won.\n\nThe first two days it rose. I thought I'd called it right.\nThe next week a correction came.\n\nThe group chat went quiet.\nNobody posts screenshots of their losses.\n\nFOMO runs both ways.\nThe fear of buying in and the fear of falling weighed the same."
+      },
+      {
+        "text": "Just watch. This could be the top.",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 2,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "I watched.\n\nThree weeks later the chart turned down.\nThe group chat went quiet.\n\nMaybe I did the right thing. Maybe not.\nHad it risen, I'd have said, 'I should've gotten in after all.'\n\nWhatever you choose, there's room for regret.\nThat was investing."
       }
     ]
   }
