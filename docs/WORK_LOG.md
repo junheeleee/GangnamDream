@@ -1,5 +1,33 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (스토리/게임성/흥행 콘텐츠 확장 — 역할 분담: Claude=내용)
+
+> 역할 분담 확정: 코덱스 = 외형(이미지/오디오/이펙트/UI·UX/카지노). Claude = 스토리·개연성·재미·밸런스·공략성·게임성·흥행·이스터에그·분석요소.
+
+### P0 — 이스터에그 발견형 6종 (easter_eggs.json 신규)
+- egg_gosiwon_sage(고시원 30개월+ 수행), egg_triangle_kimbap(극빈 생존 코미디), egg_4am_clarity(정신력18↓ 바닥 자각·회복보상), egg_honest_paradox(정석18+ 자산1억미만 사회비평), egg_gambling_mirror(중독 자각 경고), egg_quiet_rich(20억인데 고시원).
+- hidden+rarity 확률 발동 (legendary 0.4% / rare 1.2%, 운 보정). EN 번역 완료.
+
+### P1 — 분석요소 강화
+- `GameState.get_playstyle_label()`: 9종 분류(승부사/롤러코스터/관계형/원칙주의자/개척자/소진형/생존형/탐험가/균형형).
+- `peak_asset` 추적(check_game_over+finish_run, serialize 포함). 엔딩화면 "최고자산 중 N% 지킴".
+- `finish_run` 요약 확장: route, events_seen, peak_asset, playstyle.
+- 엔딩 도감: `MetaProgression.discovered_endings` 영구 누적(run_history 50캡과 무관) + `get_ending_collection_progress()` + 엔딩화면 "📖 N/29 발견" + 신규시 ✨NEW.
+
+### P3 — 흥행 시그니처 4종 (viral_events.json 신규)
+- 갓생(기존 0개 갭): godsaeng_start(3지선다)/godsaeng_paradox(번아웃 역설).
+- geojibang_chat(거지방 지출검열 문화), leading_room_joined(리딩방 회비 사기 폭로).
+
+### 추가 (직전 세션 연속)
+- 엔딩직전 분기씬 3종(arc_pre_ending.json, t>=234): 마지막 한 걸음/다섯 번째 겨울/마지막 통화.
+- F·C급 엔딩 텍스트 200→400자+ 확장, arc_jaehyuk·arc_father 루트 변형.
+- docs/CONTENT_ROADMAP.md 신규(P0~P4 우선순위).
+
+### 검증
+- 총 이벤트 1024개. Godot v4.6.2 헤드리스 프로젝트 임포트 클린(스크립트 에러 0).
+- `tools/audit.py` ERROR 0 / WARNING 0. 밸런스 밴드 전부 통과(불변).
+
+
 ## 2026-06-20 (글쓰기 밀도·아크 완성도 강화 — Metacritic 90 목표)
 
 ### 신규 콘텐츠 (35개)
