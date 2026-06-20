@@ -11,11 +11,18 @@
     "conditions": {
       "cast_stage": {
         "person": "daeun",
-        "in": ["warm", "close", "interest"]
+        "in": [
+          "warm",
+          "close",
+          "interest"
+        ]
       },
       "min_turn": 10
     },
-    "tags": ["relationship", "ripple"],
+    "tags": [
+      "relationship",
+      "ripple"
+    ],
     "cooldown": 20,
     "description": "A notification.\nDaeun.\n\"Hey, how have you been lately?\"\n\nShe's never reached out first.\n{name} looked at the screen for a moment, then started typing.",
     "choices": [
@@ -59,7 +66,10 @@
       "min_turn": 12,
       "flag": "arc_intro_hyunsu_seen"
     },
-    "tags": ["relationship", "tradeoff"],
+    "tags": [
+      "relationship",
+      "tradeoff"
+    ],
     "cooldown": 25,
     "description": "Over drinks at the pojangmacha, Hyunsu brought it up.\n\"Hyung, could you lend me ₩1,000,000 for a month? I need it fast.\"\n\nClose like brothers. Had to ask why.\n\"There's an investment deal — I don't want to miss the timing.\"",
     "choices": [
@@ -118,11 +128,19 @@
     "conditions": {
       "cast_stage": {
         "person": "sangchul",
-        "in": ["acquaintance", "trusted", "mentoring", "guardian"]
+        "in": [
+          "acquaintance",
+          "trusted",
+          "mentoring",
+          "guardian"
+        ]
       },
       "min_turn": 14
     },
-    "tags": ["relationship", "ripple"],
+    "tags": [
+      "relationship",
+      "ripple"
+    ],
     "cooldown": 20,
     "description": "Coffee stretching into a long conversation.\nSangchul brought up an old story.\nEarly thirties — he'd been trying to build everything fast, exactly like {name} now.\n\n\"The last thing I figured out — direction matters more than speed.\"",
     "choices": [
@@ -161,7 +179,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["family", "ripple"],
+    "tags": [
+      "family",
+      "ripple"
+    ],
     "cooldown": 20,
     "description": "Eating together, just the two of them, for the first time in a while.\nBoth quiet.\nFather glanced at {name} a few times over the rice, then looked away.\n\nLooked like something almost said.",
     "choices": [
@@ -197,9 +218,12 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "min_turn": 18
+      "min_turn": 72
     },
-    "tags": ["family", "hidden"],
+    "tags": [
+      "family",
+      "hidden"
+    ],
     "cooldown": 40,
     "description": "Mom brought up something from a long time ago.\nWhen she was young — there was something she wanted to do.\nCould have been a career. She let it go when she got married.\n\n\"No regrets. But sometimes I wonder. What if I'd gone that way?\"",
     "choices": [
@@ -243,7 +267,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["relationship", "social"],
+    "tags": [
+      "relationship",
+      "social"
+    ],
     "cooldown": 15,
     "description": "Friend called suddenly, asked to meet at the pojangmacha.\nBroke up. Three years.\n\n{name} poured drinks and listened. Didn't need to say much.",
     "choices": [
@@ -276,9 +303,12 @@
     "weight": 0.9,
     "hidden": false,
     "conditions": {
-      "min_turn": 16
+      "min_turn": 64
     },
-    "tags": ["relationship", "tradeoff"],
+    "tags": [
+      "relationship",
+      "tradeoff"
+    ],
     "cooldown": 30,
     "description": "A KakaoTalk from someone contact had been lost with.\nAn ex.\n\"Hey. Long time.\"\n\nWhy now. {name} looked at the screen.\nRespond well? Honestly?",
     "choices": [
@@ -318,13 +348,19 @@
     "weight": 1.2,
     "hidden": false,
     "conditions": {
-      "min_turn": 20,
+      "min_turn": 80,
       "cast_stage": {
         "person": "sangchul",
-        "in": ["mentoring", "guardian"]
+        "in": [
+          "mentoring",
+          "guardian"
+        ]
       }
     },
-    "tags": ["relationship", "milestone"],
+    "tags": [
+      "relationship",
+      "milestone"
+    ],
     "cooldown": 30,
     "description": "Sangchul spoke slowly today.\n\"When you get old, what's left is relationships. Money's fine — but there's nowhere to spend it alone.\"\n\n{name} said nothing. Just listened.",
     "choices": [
@@ -369,7 +405,10 @@
       "has_job": true,
       "min_turn": 10
     },
-    "tags": ["relationship", "tradeoff"],
+    "tags": [
+      "relationship",
+      "tradeoff"
+    ],
     "cooldown": 20,
     "description": "Coming out of the bathroom — two colleagues talking.\nShouldn't have heard it.\nPersonnel information. The kind that directly affects {name}.",
     "choices": [
@@ -413,7 +452,10 @@
     "conditions": {
       "min_turn": 12
     },
-    "tags": ["relationship", "social"],
+    "tags": [
+      "relationship",
+      "social"
+    ],
     "cooldown": 20,
     "description": "Found them on social media by accident.\nSame neighborhood, growing up — competed at everything.\nNow: executive at a major conglomerate.\n\nDoes that person still remember those years?",
     "choices": [

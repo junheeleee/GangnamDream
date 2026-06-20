@@ -10,7 +10,7 @@
     "hidden": false,
     "conditions": {
       "min_turn": 4,
-      "has_job": false
+      "no_job": true
     },
     "tags": [
       "scenario",

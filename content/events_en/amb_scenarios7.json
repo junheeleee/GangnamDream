@@ -12,7 +12,10 @@
       "has_job": true,
       "min_turn": 14
     },
-    "tags": ["scenario", "tradeoff"],
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
     "cooldown": 30,
     "description": "The promotion list came out.\n{name}'s name wasn't on it. A junior hire who joined last year got promoted first.\nThe direct manager said, \"Not many spots this cycle — I'll make sure to take care of you next year.\"\n\n{name} has heard that line twice before.",
     "choices": [
@@ -41,7 +44,9 @@
           "stress": 4,
           "mental": 3
         },
-        "flags": ["considering_job_change"]
+        "flags": [
+          "considering_job_change"
+        ]
       }
     ]
   },
@@ -57,7 +62,10 @@
     "conditions": {
       "min_turn": 12
     },
-    "tags": ["scenario", "tradeoff"],
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
     "cooldown": 30,
     "description": "College classmate Jaehyun tracked {name} down.\n\"I'm building something and need one more co-founder. You're exactly who I want.\"\n10% equity, stock options, modest salary for now.\n\nJaehyun has conviction. The idea isn't bad.\nBut success rates aren't written anywhere.",
     "choices": [
@@ -70,7 +78,9 @@
           "intelligence": 2,
           "social_skill": 1
         },
-        "flags": ["startup_joined"]
+        "flags": [
+          "startup_joined"
+        ]
       },
       {
         "text": "Decline. Need to build my own foundation first.  (stability / path not taken)",
@@ -103,7 +113,10 @@
       "has_job": true,
       "min_turn": 10
     },
-    "tags": ["scenario", "tradeoff"],
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
     "cooldown": 20,
     "description": "A message arrived on LinkedIn.\n\"I came across your profile and believe you'd be an excellent fit for a current opening.\"\n\nBenefits look good. Salary 15% above current.\nPresent job is familiar — that one is unknown.",
     "choices": [
@@ -115,7 +128,9 @@
           "mental": 2,
           "stress": 2
         },
-        "flags": ["headhunted"]
+        "flags": [
+          "headhunted"
+        ]
       },
       {
         "text": "Politely decline. Current role is the right fit.  (stability / path closed)",
@@ -139,7 +154,10 @@
       "has_job": true,
       "min_turn": 8
     },
-    "tags": ["scenario", "tradeoff"],
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
     "cooldown": 25,
     "description": "A colleague's pay stub opened on the wrong screen during work.\nSame tenure. Same title.\n₩2,000,000 more than {name}.\n\nThey pull the same hours. Same overtime.\nThe number, seen by accident, refuses to leave.",
     "choices": [
@@ -159,7 +177,9 @@
           "mental": 2,
           "social_skill": 1
         },
-        "flags": ["salary_negotiation_started"]
+        "flags": [
+          "salary_negotiation_started"
+        ]
       },
       {
         "text": "Ask the colleague quietly.  (information / awkwardness risk)",
@@ -184,7 +204,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["scenario", "tradeoff"],
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
     "cooldown": 30,
     "description": "An environmental NGO reached out.\nMust have seen the volunteer work — there's a full-time offer.\n30% lower salary than now.\nBut the work would connect to something real.\n\nGangnam gets farther. Meaning gets closer.",
     "choices": [
@@ -228,7 +251,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["scenario", "tradeoff"],
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
     "cooldown": 20,
     "description": "Someone saw the work posted on social media and reached out.\n\"Could you do something similar for me? Budget is around ₩300,000.\"\n\nFirst time. No contract framework, no clear process.\nBut every first job is somebody's first job.",
     "choices": [
@@ -241,7 +267,9 @@
           "intelligence": 2,
           "stress": 4
         },
-        "flags": ["freelance_started"]
+        "flags": [
+          "freelance_started"
+        ]
       },
       {
         "text": "Wait until more prepared.  (perfectionism / opportunity lost)",
@@ -265,7 +293,10 @@
       "has_job": true,
       "min_turn": 12
     },
-    "tags": ["scenario", "tradeoff"],
+    "tags": [
+      "scenario",
+      "tradeoff"
+    ],
     "cooldown": 25,
     "description": "An invisible line has appeared in the team.\nTeam Lead A's camp vs. Senior Manager B's camp.\nSeparate lunches, separate positions.\n\nBoth have texted {name} to join them for lunch.\nWhere you sit may determine next month's performance review.",
     "choices": [
@@ -311,7 +342,10 @@
       "min_turn": 10,
       "min_stress": 60
     },
-    "tags": ["scenario", "health"],
+    "tags": [
+      "scenario",
+      "health"
+    ],
     "cooldown": 15,
     "description": "On the subway home.\nThree times today. Swallowed it three times.\nThe manager's comment, the pointless overtime, the work nobody noticed.\n\n\"What if I just sent a text tomorrow and didn't show up?\"\nThis isn't the first time that thought has appeared.",
     "choices": [
@@ -332,7 +366,9 @@
           "mental": 3,
           "intelligence": 1
         },
-        "flags": ["quit_planned"]
+        "flags": [
+          "quit_planned"
+        ]
       },
       {
         "text": "Take a half-day. Need to stop.  (self-care / reputation risk)",
@@ -359,7 +395,10 @@
       "has_job": true,
       "min_turn": 15
     },
-    "tags": ["scenario", "social"],
+    "tags": [
+      "scenario",
+      "social"
+    ],
     "cooldown": 30,
     "description": "Sudden.\nThe manager who had looked out for {name} — on the restructuring list.\nPacked up quietly on the last day.\n\"You've got what it takes. Good luck.\" And gone.\n\nWhen the people you lean on disappear — the organization looks different.",
     "choices": [
@@ -379,7 +418,9 @@
           "stress": 3,
           "intelligence": 1
         },
-        "flags": ["considering_job_change"]
+        "flags": [
+          "considering_job_change"
+        ]
       }
     ]
   },
@@ -395,9 +436,13 @@
     "conditions": {
       "has_job": true,
       "flag": "credit_swallowed",
-      "min_turn": 18
+      "min_turn": 72
     },
-    "tags": ["scenario", "tradeoff", "ripple"],
+    "tags": [
+      "scenario",
+      "tradeoff",
+      "ripple"
+    ],
     "cooldown": 40,
     "description": "It happened again.\nDifferent meeting, different report.\n{name}'s idea in the manager's mouth, delivered to senior leadership.\n\nFirst time: swallowed it.\nSecond time — staying quiet is also a choice.",
     "choices": [
@@ -409,7 +454,9 @@
           "stress": 9,
           "mental": 5
         },
-        "flags": ["formal_complaint_filed"]
+        "flags": [
+          "formal_complaint_filed"
+        ]
       },
       {
         "text": "Hand in the resignation.  (exit / career gap)",
@@ -418,7 +465,9 @@
           "mental": 4,
           "stress": -5
         },
-        "flags": ["quit_after_theft"]
+        "flags": [
+          "quit_after_theft"
+        ]
       }
     ]
   }

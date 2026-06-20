@@ -531,6 +531,41 @@ def check_cast_stages():
                     check(pid, s, "%s:%d" % (rel(f), ln_no))
 
 # ══════════════════════════════════════════════════════════════
+# 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가
+#    KR 원본과 다를 경우 WARNING. (수동 번역 시 조건 불일치 회귀 방지)
+# ══════════════════════════════════════════════════════════════
+def check_en_conditions():
+    """EN overlay 파일이 KR 조건을 실제로 덮어씌우는 경우만 검출한다.
+    EN에 "conditions" 키 자체가 없으면 KR 조건이 그대로 유지돼 안전하므로 무시."""
+    kr_dir = os.path.join(ROOT, "content", "events")
+    en_dir = os.path.join(ROOT, "content", "events_en")
+    if not os.path.isdir(en_dir):
+        return
+
+    for en_path in glob.glob(os.path.join(en_dir, "*.json")):
+        fname = os.path.basename(en_path)
+        kr_path = os.path.join(kr_dir, fname)
+        if not os.path.exists(kr_path):
+            continue
+        try:
+            kr_list = json.load(open(kr_path, encoding="utf-8"))
+            en_list = json.load(open(en_path, encoding="utf-8"))
+        except Exception:
+            continue
+        kr_map = {e["id"]: e for e in kr_list if isinstance(e, dict) and "id" in e}
+        en_map = {e["id"]: e for e in en_list if isinstance(e, dict) and "id" in e}
+        for eid, en_ev in en_map.items():
+            if eid not in kr_map:
+                continue
+            if "conditions" not in en_ev:
+                continue  # EN에 조건 키 없음 → KR 조건 유지, 안전
+            kr_cond = kr_map[eid].get("conditions", {})
+            en_cond = en_ev["conditions"]
+            if kr_cond != en_cond:
+                warn('EN/KR 조건 불일치 [%s] %s\n    KR: %s\n    EN: %s'
+                     % (fname, eid, kr_cond, en_cond))
+
+# ══════════════════════════════════════════════════════════════
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)
     check_gdscript()
@@ -540,6 +575,7 @@ def main():
     check_serialize()
     check_event_keys()
     check_cast_stages()
+    check_en_conditions()
 
     if errors:
         print("\n" + C.R + C.BOLD + "● ERROR (%d)" % len(errors) + C.Z)

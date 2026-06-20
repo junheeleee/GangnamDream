@@ -71,8 +71,8 @@
     "conditions": {
       "flag": "daeun_date_done",
       "no_flag": "daeun_ended",
-      "min_turn": 28,
-      "max_turn": 52
+      "min_turn": 112,
+      "max_turn": 208
     },
     "tags": [
       "romance",
@@ -237,7 +237,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "social",
       "relationship",
@@ -285,7 +287,7 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_relationship": true
     },
     "tags": [
       "jobs",
@@ -332,7 +334,7 @@
     "weight": 2.5,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_relationship": true
     },
     "tags": [
       "jobs",
@@ -388,7 +390,9 @@
     "rarity": "common",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "family",
       "social",
@@ -434,7 +438,9 @@
     "rarity": "common",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "social",
       "comparison",
@@ -478,7 +484,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 11,
+      "has_relationship": true
+    },
     "tags": [
       "family",
       "finance",
@@ -523,7 +532,9 @@
     "rarity": "common",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "social",
       "finance",
@@ -577,7 +588,7 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_relationship": true
     },
     "tags": [
       "jobs",
@@ -623,7 +634,9 @@
     "rarity": "common",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "social",
       "finance",
@@ -679,7 +692,10 @@
     "rarity": "common",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 72,
+      "has_relationship": true
+    },
     "tags": [
       "family",
       "relationship",
@@ -722,7 +738,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "family",
       "jobs",
@@ -776,7 +794,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "romance",
       "relationship",
@@ -820,7 +840,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "romance",
       "relationship",
@@ -872,7 +894,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "min_reputation": 20,
+      "has_relationship": true
     },
     "tags": [
       "jobs",
@@ -917,7 +940,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "romance",
       "relationship",
@@ -960,7 +985,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true,
+      "has_job": true
+    },
     "tags": [
       "relationship",
       "jobs",
@@ -997,6 +1025,7 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
+      "has_relationship": true,
       "has_job": true
     },
     "tags": [
@@ -1045,7 +1074,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "romance",
       "relationship",
@@ -1089,7 +1120,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "relationship",
       "social",
@@ -1133,7 +1166,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "family",
       "relationship",
@@ -1177,7 +1212,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "romance",
       "relationship",
@@ -1222,6 +1259,7 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
+      "has_relationship": true,
       "has_job": true
     },
     "tags": [
@@ -1269,7 +1307,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "romance",
       "relationship",
@@ -1313,7 +1353,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true,
+      "min_turn": 6
+    },
     "tags": [
       "relationship",
       "finance",
@@ -1359,7 +1402,9 @@
     "rarity": "common",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true
+    },
     "tags": [
       "social",
       "comparison",
@@ -1404,7 +1449,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true,
+      "min_turn": 6
+    },
     "tags": [
       "relationship",
       "jobs",
@@ -1450,7 +1498,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true,
+      "min_money": 1000000
+    },
     "tags": [
       "family",
       "finance",
@@ -1495,6 +1546,7 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
+      "has_relationship": true,
       "has_job": true
     },
     "tags": [
@@ -1543,7 +1595,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true,
+      "min_reputation": 15
+    },
     "tags": [
       "social",
       "jobs",
@@ -1588,7 +1643,10 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_relationship": true,
+      "min_stress": 50
+    },
     "tags": [
       "relationship",
       "daily_life",
@@ -1624,7 +1682,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 5
+    },
     "tags": [
       "social",
       "finance",
@@ -1670,7 +1730,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 10
+    },
     "tags": [
       "relationship",
       "reflection",
@@ -1715,7 +1777,9 @@
     "rarity": "common",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 3
+    },
     "tags": [
       "family",
       "relationship",
@@ -1759,7 +1823,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 2
+    },
     "tags": [
       "social",
       "finance",
@@ -1805,7 +1871,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 8
+    },
     "tags": [
       "romance",
       "relationship",
@@ -1850,7 +1918,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_met"
+      "flag": "jiyeon_met",
+      "min_turn": 9999,
+      "max_turn": 20,
+      "no_flag": "jiyeon_coffee_done"
     },
     "tags": [
       "romance",
@@ -1889,7 +1960,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_coffee_done"
+      "flag": "jiyeon_coffee_done",
+      "no_flag": "jiyeon_date_done",
+      "min_turn": 9999,
+      "max_turn": 30
     },
     "tags": [
       "romance",
@@ -1929,7 +2003,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_coffee_done"
+      "flag": "jiyeon_date_done",
+      "min_turn": 9999,
+      "max_turn": 48,
+      "no_flag": "jiyeon_crisis_done"
     },
     "tags": [
       "romance",
@@ -1969,7 +2046,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_coffee_done"
+      "flag": "jiyeon_crisis_done",
+      "min_turn": 9999,
+      "max_turn": 55,
+      "no_flag": "jiyeon_ended"
     },
     "tags": [
       "romance",
@@ -2009,7 +2089,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "sangchul_met"
+      "flag": "sangchul_lunch_done",
+      "min_turn": 80,
+      "max_turn": 160,
+      "no_flag": "sangchul_why_done"
     },
     "tags": [
       "relationship",
@@ -2049,7 +2132,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "sangchul_met"
+      "flag": "sangchul_why_done",
+      "min_turn": 120,
+      "max_turn": 200,
+      "no_flag": "sangchul_past_done"
     },
     "tags": [
       "relationship",
@@ -2088,7 +2174,10 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "daeun_met"
+      "flag": "daeun_met",
+      "min_turn": 6,
+      "max_turn": 22,
+      "no_flag": "daeun_talked"
     },
     "tags": [
       "romance",
@@ -2127,7 +2216,10 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "daeun_talked"
+      "flag": "daeun_talked",
+      "min_turn": 12,
+      "max_turn": 30,
+      "no_flag": "daeun_shared"
     },
     "tags": [
       "romance",
@@ -2166,7 +2258,10 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "daeun_shared"
+      "flag": "daeun_shared",
+      "no_flag": "daeun_date_done",
+      "min_turn": 72,
+      "max_turn": 160
     },
     "tags": [
       "romance",
@@ -2205,7 +2300,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_coffee_done"
+      "flag": "jiyeon_together",
+      "min_turn": 136,
+      "max_turn": 216,
+      "no_flag": "jiyeon_world_faced"
     },
     "tags": [
       "romance",
@@ -2243,7 +2341,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_coffee_done"
+      "flag": "jiyeon_world_faced",
+      "min_turn": 152,
+      "max_turn": 224,
+      "no_flag": "jiyeon_mother_met"
     },
     "tags": [
       "romance",
@@ -2282,7 +2383,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "jiyeon_coffee_done"
+      "flag": "jiyeon_together",
+      "min_assets": 2000000000,
+      "min_turn": 180,
+      "no_flag": "jiyeon_gangnam_called"
     },
     "tags": [
       "romance",
@@ -2320,7 +2424,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "sangchul_met"
+      "flag": "sangchul_past_done",
+      "min_turn": 144,
+      "max_turn": 216,
+      "no_flag": "sangchul_opportunity_done"
     },
     "tags": [
       "relationship",
@@ -2363,7 +2470,10 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "flag": "sangchul_met"
+      "flag": "sangchul_opportunity_done",
+      "min_turn": 176,
+      "max_turn": 232,
+      "no_flag": "sangchul_farewell_done"
     },
     "tags": [
       "relationship",

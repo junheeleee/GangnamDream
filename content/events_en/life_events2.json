@@ -768,7 +768,7 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "min_turn": 20
+      "min_turn": 80
     },
     "tags": [
       "milestone",

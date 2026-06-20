@@ -11,7 +11,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["family", "social"],
+    "tags": [
+      "family",
+      "social"
+    ],
     "cooldown": 10,
     "description": "Phone call. Mom.\n\"Eating well? Sleeping okay?\" A few exchanges — then it came.\n\"All your friends are getting married. When is it your turn?\"\n\n{name} held the phone slightly away from the ear.",
     "choices": [
@@ -58,7 +61,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["family", "social"],
+    "tags": [
+      "family",
+      "social"
+    ],
     "cooldown": 20,
     "description": "Sibling got a job.\nGood company, good terms.\nParents overjoyed.\n\n{name} was genuinely happy — about 70%.\nThe other 30%: shame at the comparison happening inside.",
     "choices": [
@@ -92,7 +98,10 @@
     "conditions": {
       "min_turn": 6
     },
-    "tags": ["family", "social"],
+    "tags": [
+      "family",
+      "social"
+    ],
     "cooldown": 15,
     "description": "Family gathering.\nA cousin was showing photos of a new car. \"Things have been going pretty well.\"\nAunt looked at {name}. \"How are things with you lately?\"\n\nEveryone turned. Steam rose from the food.",
     "choices": [
@@ -135,7 +144,10 @@
       "min_turn": 1,
       "max_turn": 3
     },
-    "tags": ["milestone", "daily"],
+    "tags": [
+      "milestone",
+      "daily"
+    ],
     "cooldown": 999,
     "description": "A new year.\n{name} took out a notebook and started writing goals.\nHalfway through — some of these were last year's goals too.\n\nCrossed them out. Started again.",
     "choices": [
@@ -175,7 +187,10 @@
     "conditions": {
       "min_turn": 3
     },
-    "tags": ["daily", "milestone"],
+    "tags": [
+      "daily",
+      "milestone"
+    ],
     "cooldown": 30,
     "description": "Today was the birthday.\nMom sent a KakaoTalk message. A couple of others.\n{name} bought a convenience store cake — one ₩600 candle pressed in.\n\nNot a bad day. Just quiet.",
     "choices": [
@@ -210,7 +225,10 @@
     "conditions": {
       "min_turn": 8
     },
-    "tags": ["social", "daily"],
+    "tags": [
+      "social",
+      "daily"
+    ],
     "cooldown": 12,
     "description": "A senior colleague set up a blind date (소개팅).\nSitting across the café table — first impression: not bad.\nJobs, hobbies, family — the usual circuit.\n\nAt some point {name} realized: not sure how to explain the current situation.",
     "choices": [
@@ -251,7 +269,10 @@
     "conditions": {
       "min_turn": 5
     },
-    "tags": ["social", "daily"],
+    "tags": [
+      "social",
+      "daily"
+    ],
     "cooldown": 15,
     "description": "A face in the 'People You May Know' section.\nAn ex.\nLooking good. Travel photos, smiling photos.\n\n{name} lingered on the profile, then closed it.",
     "choices": [
@@ -293,7 +314,10 @@
       "has_job": true,
       "min_turn": 6
     },
-    "tags": ["finance", "jobs"],
+    "tags": [
+      "finance",
+      "jobs"
+    ],
     "cooldown": 20,
     "description": "Year-end tax settlement (연말정산) time.\nReceipts, medical expenses, education, donations.\n{name} stopped midway through the paperwork.\nLooks like a refund is possible. How much — only submitting will tell.",
     "choices": [
@@ -324,8 +348,13 @@
     "rarity": "common",
     "weight": 1.6,
     "hidden": false,
-    "conditions": {},
-    "tags": ["daily", "social"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "daily",
+      "social"
+    ],
     "cooldown": 8,
     "description": "1 a.m.\nThumping from upstairs. Third time tonight.\nCan't concentrate. Can't sleep.",
     "choices": [
@@ -363,8 +392,13 @@
     "rarity": "common",
     "weight": 1.7,
     "hidden": false,
-    "conditions": {},
-    "tags": ["daily", "social"],
+    "conditions": {
+      "min_turn": 1
+    },
+    "tags": [
+      "daily",
+      "social"
+    ],
     "cooldown": 6,
     "description": "2 a.m. convenience store.\nBoiling cup ramen — someone else was eating alone at another table.\nNeither of them spoke.\nA little rain outside the window.\n\nThe quiet of the early morning shared with a stranger — not bad.",
     "choices": [
@@ -397,7 +431,10 @@
     "conditions": {
       "min_turn": 15
     },
-    "tags": ["daily", "hidden"],
+    "tags": [
+      "daily",
+      "hidden"
+    ],
     "cooldown": 20,
     "description": "It came up while packing.\nA diary from five years ago.\nWhat the {name} from back then was worried about. What they wanted.\n\nSome of it overlapped with now. Some of it had changed.",
     "choices": [
@@ -431,7 +468,10 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["family", "daily"],
+    "tags": [
+      "family",
+      "daily"
+    ],
     "cooldown": 20,
     "description": "Mom said she wanted to come up with some side dishes.\nThree hours to clean the place.\nOpened the windows.\nWorried the room would look too small.",
     "choices": [
@@ -466,8 +506,13 @@
     "rarity": "common",
     "weight": 1.4,
     "hidden": false,
-    "conditions": {},
-    "tags": ["comedy", "daily"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "comedy",
+      "daily"
+    ],
     "cooldown": 15,
     "description": "Lights out, suddenly.\nFlashlight on the phone.\nLooked outside — whole block dark.\n\nDeadline was tomorrow.",
     "choices": [
@@ -498,8 +543,13 @@
     "rarity": "common",
     "weight": 1.6,
     "hidden": false,
-    "conditions": {},
-    "tags": ["health", "daily"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "health",
+      "daily"
+    ],
     "cooldown": 8,
     "description": "38°C.\nSubway was air-conditioned. Transfer corridors were saunas.\n{name}'s room had no AC.\nOne fan. One bag of ice.",
     "choices": [
@@ -539,8 +589,13 @@
     "rarity": "common",
     "weight": 1.6,
     "hidden": false,
-    "conditions": {},
-    "tags": ["health", "daily"],
+    "conditions": {
+      "min_turn": 2
+    },
+    "tags": [
+      "health",
+      "daily"
+    ],
     "cooldown": 8,
     "description": "Minus 15°C.\nGloves nowhere to be found.\nThe commute wind cut at the face.\n\nAnywhere warm felt like a luxury.",
     "choices": [

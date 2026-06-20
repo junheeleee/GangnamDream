@@ -102,7 +102,9 @@
     "rarity": "uncommon",
     "weight": 4,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "flag": "arc_sangchul_met_seen"
+    },
     "tags": [
       "gambling",
       "class"
@@ -196,8 +198,8 @@
     "weight": 5.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 56,
-      "max_turn": 59
+      "min_turn": 224,
+      "max_turn": 236
     },
     "tags": [
       "life",
@@ -3366,7 +3368,8 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_job": true,
+      "min_turn": 6
     },
     "tags": [
       "jobs",
@@ -3460,7 +3463,8 @@
     "weight": 2.5,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_job": true,
+      "min_turn": 2
     },
     "tags": [
       "finance",
@@ -3508,8 +3512,9 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "no_flag": "sangchul_met",
-      "min_turn": 4
+      "min_turn": 3,
+      "max_turn": 12,
+      "no_flag": "sangchul_met"
     },
     "tags": [
       "relationship",
@@ -3549,7 +3554,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "sangchul_met"
+      "flag": "sangchul_met",
+      "min_turn": 10
     },
     "tags": [
       "relationship",
@@ -3587,7 +3593,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "sangchul_met"
+      "flag": "sangchul_call_done",
+      "min_turn": 64
     },
     "tags": [
       "relationship",
@@ -3626,7 +3633,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "min_turn": 180
+      "min_turn": 200,
+      "max_turn": 216
     },
     "tags": [
       "milestone",
@@ -3672,7 +3680,10 @@
     "rarity": "uncommon",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "max_money": 3000000,
+      "min_turn": 2
+    },
     "tags": [
       "gambling",
       "finance",
@@ -3709,7 +3720,9 @@
     "rarity": "uncommon",
     "weight": 2.0,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "flag": "bought_lotto"
+    },
     "tags": [
       "gambling",
       "comedy",
@@ -3737,9 +3750,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "min_turn": 56,
-      "max_turn": 72,
-      "no_flag": "chapter_break_turn15_seen"
+      "min_turn": 60,
+      "max_turn": 68
     },
     "tags": [
       "milestone",
@@ -3792,9 +3804,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "min_turn": 116,
-      "max_turn": 132,
-      "no_flag": "chapter_break_turn30_seen"
+      "min_turn": 120,
+      "max_turn": 128
     },
     "tags": [
       "milestone",
@@ -3847,9 +3858,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "min_turn": 176,
-      "max_turn": 192,
-      "no_flag": "chapter_break_turn45_seen"
+      "min_turn": 180,
+      "max_turn": 188
     },
     "tags": [
       "milestone",
@@ -3891,7 +3901,9 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "min_turn": 60
+      "min_turn": 160,
+      "max_turn": 220,
+      "flag": "skipped_father_wedding"
     },
     "tags": [
       "family",
@@ -3929,7 +3941,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 80,
+      "max_turn": 152
+    },
     "tags": [
       "social",
       "relationship",
@@ -3975,7 +3990,10 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 100,
+      "flag": "lied_at_reunion"
+    },
     "tags": [
       "social",
       "relationship"
@@ -4010,7 +4028,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 200
+    },
     "tags": [
       "reflection",
       "daily_life",
@@ -4233,7 +4253,9 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "min_turn": 48
+      "min_turn": 100,
+      "max_turn": 180,
+      "no_flag": "father_health_known"
     },
     "tags": [
       "family",
@@ -4272,7 +4294,10 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "father_visited"
+      "flag": "father_health_known",
+      "min_turn": 120,
+      "max_turn": 208,
+      "no_flag": "father_visited"
     },
     "tags": [
       "family",
@@ -4311,7 +4336,10 @@
     "weight": 1.0,
     "hidden": false,
     "conditions": {
-      "flag": "father_talked"
+      "flag": "talked_about_scam",
+      "min_turn": 136,
+      "max_turn": 232,
+      "no_flag": "father_reconciled"
     },
     "tags": [
       "family",
@@ -4468,7 +4496,8 @@
     "weight": 2.5,
     "hidden": false,
     "conditions": {
-      "min_turn": 1
+      "max_money": 1500000,
+      "no_job": true
     },
     "tags": [
       "finance",
@@ -4506,6 +4535,7 @@
     "weight": 2.5,
     "hidden": false,
     "conditions": {
+      "max_money": 800000,
       "no_job": true
     },
     "tags": [
@@ -4544,7 +4574,8 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
-      "no_job": true
+      "no_job": true,
+      "max_turn": 20
     },
     "tags": [
       "jobs",
@@ -4582,7 +4613,8 @@
     "weight": 2.0,
     "hidden": false,
     "conditions": {
-      "no_job": true
+      "no_job": true,
+      "max_turn": 18
     },
     "tags": [
       "social",
@@ -4619,7 +4651,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 8
+    },
     "tags": [
       "romance",
       "social",
@@ -4664,7 +4698,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "has_job": true
+      "has_job": true,
+      "min_turn": 10
     },
     "tags": [
       "romance",
@@ -4709,7 +4744,9 @@
     "rarity": "uncommon",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 20
+    },
     "tags": [
       "romance",
       "relationship",
@@ -4752,7 +4789,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 5
+    },
     "tags": [
       "romance",
       "social",
@@ -4796,7 +4835,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 5
+    },
     "tags": [
       "selfdev",
       "jobs",
@@ -4841,7 +4882,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 3
+    },
     "tags": [
       "selfdev",
       "finance",
@@ -4887,7 +4930,10 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 12,
+      "flag": "arc_sangchul_met_seen"
+    },
     "tags": [
       "selfdev",
       "finance",
@@ -4932,7 +4978,9 @@
     "rarity": "common",
     "weight": 1.5,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "min_turn": 8
+    },
     "tags": [
       "selfdev",
       "daily_life"

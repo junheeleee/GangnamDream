@@ -105,7 +105,7 @@
     "weight": 2.0,
     "hidden": true,
     "conditions": {
-      "min_turn": 20
+      "min_turn": 80
     },
     "tags": [
       "housing",
