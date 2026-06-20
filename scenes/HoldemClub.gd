@@ -49,10 +49,13 @@ var _pot_lbl: Label
 var _community_row: HBoxContainer
 var _hole_row: HBoxContainer
 var _opp_rows: Array = []
+var _opp_card_rows: Array = []
+var _table_surface: Control
 var _msg_lbl: RichTextLabel
 var _action_panel: Control
 var _stack_lbl: Label
 var _flash_layer: ColorRect
+var _last_winner_idx: int = -99   # -99=미정, -1=플레이어, 0/1=AI
 var _last_phase_banner := ""
 var _font: FontFile
 var _font_bold: FontFile
@@ -193,6 +196,7 @@ func _start_hand() -> void:
 	_player_bet = 0
 	_opp_bets = [0, 0]
 	_max_bet = 0
+	_last_winner_idx = -99
 
 	# 포스트 블라인드 (플레이어=SB, opp0=BB)
 	_post_blind(0, SMALL_BLIND, true)   # 플레이어 SB
@@ -230,6 +234,7 @@ func _post_blind(who: int, amount: int, is_player: bool) -> void:
 func _render_table() -> void:
 	_clear_content()
 	_opp_rows = []
+	_opp_card_rows = []
 	var root := _content_vbox()
 
 	# 헤더 + 세션 통계
@@ -280,94 +285,7 @@ func _render_table() -> void:
 	pot_box.add_child(_pot_lbl)
 
 	root.add_child(_sep())
-
-	# AI 상대들
-	for i in range(2):
-		var o = _opp[i]
-		var opp_row := HBoxContainer.new()
-		opp_row.add_theme_constant_override("separation", 8)
-		root.add_child(opp_row)
-		_opp_rows.append(opp_row)
-
-		var name_lbl := Label.new()
-		name_lbl.text = "[X] %s" % o["name"] if o["folded"] else o["name"]
-		name_lbl.add_theme_font_size_override("font_size", 12)
-		name_lbl.add_theme_color_override("font_color", Color("#5a5a5a") if o["folded"] else Color("#a0b0c0"))
-		name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_f(name_lbl)
-		opp_row.add_child(name_lbl)
-
-		# 카드 (쇼다운 때만 공개)
-		var card_row := HBoxContainer.new()
-		card_row.add_theme_constant_override("separation", 4)
-		opp_row.add_child(card_row)
-		if _phase == Phase.SHOWDOWN and not o["folded"]:
-			for c in o["hole"]:
-				card_row.add_child(_card_label(c))
-		else:
-			for _j in range(2):
-				card_row.add_child(_card_back())
-
-		var stack_lbl := Label.new()
-		stack_lbl.text = _fmt(o["stack"])
-		stack_lbl.add_theme_font_size_override("font_size", 12)
-		stack_lbl.add_theme_color_override("font_color", Color("#6a8a6a"))
-		stack_lbl.custom_minimum_size = Vector2(80, 0)
-		stack_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		_f(stack_lbl)
-		opp_row.add_child(stack_lbl)
-
-	root.add_child(_sep())
-
-	# 커뮤니티 카드
-	var community_box := VBoxContainer.new()
-	community_box.add_theme_constant_override("separation", 4)
-	root.add_child(community_box)
-	var comm_lbl := Label.new()
-	comm_lbl.text = "커뮤니티"
-	comm_lbl.add_theme_font_size_override("font_size", 10)
-	comm_lbl.add_theme_color_override("font_color", Color("#4a5a6a"))
-	_f(comm_lbl)
-	community_box.add_child(comm_lbl)
-	var comm_row := HBoxContainer.new()
-	comm_row.add_theme_constant_override("separation", 6)
-	community_box.add_child(comm_row)
-	_community_row = comm_row
-	for c in _community:
-		comm_row.add_child(_card_label(c))
-	for _j in range(5 - _community.size()):
-		comm_row.add_child(_card_placeholder())
-
-	root.add_child(_sep())
-
-	# 내 카드 + 스택
-	var my_box := HBoxContainer.new()
-	my_box.add_theme_constant_override("separation", 10)
-	root.add_child(my_box)
-	var my_lbl := Label.new()
-	my_lbl.text = "내 패"
-	my_lbl.add_theme_font_size_override("font_size", 10)
-	my_lbl.add_theme_color_override("font_color", Color("#4a5a6a"))
-	my_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_f(my_lbl)
-	my_box.add_child(my_lbl)
-	var my_card_row := HBoxContainer.new()
-	my_card_row.add_theme_constant_override("separation", 6)
-	my_box.add_child(my_card_row)
-	_hole_row = my_card_row
-	for c in _hole:
-		my_card_row.add_child(_card_label(c, true))
-	var my_spacer := Control.new()
-	my_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	my_box.add_child(my_spacer)
-	var my_stack := Label.new()
-	my_stack.text = "STACK  %s" % _fmt(_player_stack)
-	my_stack.add_theme_font_size_override("font_size", 13)
-	my_stack.add_theme_color_override("font_color", Color("#a0c8a0"))
-	my_stack.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_f(my_stack, true)
-	my_box.add_child(my_stack)
-	_stack_lbl = my_stack
+	_build_table_surface(root)
 
 	# 핸드 힌트 (현재 베스트 핸드)
 	if not _community.is_empty() and not _player_folded:
@@ -394,6 +312,226 @@ func _render_table() -> void:
 	_action_panel = HBoxContainer.new()
 	_action_panel.add_theme_constant_override("separation", 8)
 	root.add_child(_action_panel)
+
+func _build_table_surface(parent: VBoxContainer) -> void:
+	var table := Control.new()
+	table.custom_minimum_size = Vector2(0, 360)
+	table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	table.draw.connect(func(): _draw_holdem_surface(table))
+	parent.add_child(table)
+	_table_surface = table
+
+	_build_holdem_seat(table, 0, _opp[0]["name"], _opp[0]["hole"], int(_opp[0]["stack"]),
+			int(_opp_bets[0]), bool(_opp[0]["folded"]), _phase == Phase.SHOWDOWN and not bool(_opp[0]["folded"]),
+			0.06, 0.07, 0.34, 0.37)
+	_build_holdem_seat(table, 1, _opp[1]["name"], _opp[1]["hole"], int(_opp[1]["stack"]),
+			int(_opp_bets[1]), bool(_opp[1]["folded"]), _phase == Phase.SHOWDOWN and not bool(_opp[1]["folded"]),
+			0.66, 0.07, 0.94, 0.37)
+
+	var pot_center := VBoxContainer.new()
+	pot_center.alignment = BoxContainer.ALIGNMENT_CENTER
+	pot_center.anchor_left = 0.42
+	pot_center.anchor_top = 0.28
+	pot_center.anchor_right = 0.58
+	pot_center.anchor_bottom = 0.48
+	pot_center.offset_left = 0
+	pot_center.offset_top = 0
+	pot_center.offset_right = 0
+	pot_center.offset_bottom = 0
+	table.add_child(pot_center)
+
+	var pot_title := Label.new()
+	pot_title.text = "POT"
+	pot_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pot_title.add_theme_font_size_override("font_size", 10)
+	pot_title.add_theme_color_override("font_color", Color("#8b7650"))
+	_f(pot_title, true)
+	pot_center.add_child(pot_title)
+
+	var pot_amount := Label.new()
+	pot_amount.text = _fmt(_pot)
+	pot_amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pot_amount.add_theme_font_size_override("font_size", 17)
+	pot_amount.add_theme_color_override("font_color", Color("#f0b429"))
+	_f(pot_amount, true)
+	pot_center.add_child(pot_amount)
+
+	var comm_box := VBoxContainer.new()
+	comm_box.add_theme_constant_override("separation", 5)
+	comm_box.anchor_left = 0.29
+	comm_box.anchor_top = 0.48
+	comm_box.anchor_right = 0.71
+	comm_box.anchor_bottom = 0.72
+	comm_box.offset_left = 0
+	comm_box.offset_top = 0
+	comm_box.offset_right = 0
+	comm_box.offset_bottom = 0
+	table.add_child(comm_box)
+
+	var comm_lbl := Label.new()
+	comm_lbl.text = "BOARD"
+	comm_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	comm_lbl.add_theme_font_size_override("font_size", 10)
+	comm_lbl.add_theme_color_override("font_color", Color("#7d8ea0"))
+	_f(comm_lbl, true)
+	comm_box.add_child(comm_lbl)
+
+	var comm_row := HBoxContainer.new()
+	comm_row.add_theme_constant_override("separation", 7)
+	comm_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	comm_box.add_child(comm_row)
+	_community_row = comm_row
+	for c in _community:
+		comm_row.add_child(_card_label(c))
+	for _j in range(5 - _community.size()):
+		comm_row.add_child(_card_placeholder())
+
+	_build_holdem_seat(table, -1, "김민준", _hole, _player_stack, _player_bet, _player_folded,
+			true, 0.36, 0.72, 0.64, 0.98)
+	table.queue_redraw()
+
+func _build_holdem_seat(parent: Control, seat_idx: int, title: String, cards: Array, stack: int, bet: int,
+		folded: bool, reveal_cards: bool, left: float, top: float, right: float, bottom: float) -> void:
+	var panel := PanelContainer.new()
+	panel.anchor_left = left
+	panel.anchor_top = top
+	panel.anchor_right = right
+	panel.anchor_bottom = bottom
+	panel.offset_left = 0
+	panel.offset_top = 0
+	panel.offset_right = 0
+	panel.offset_bottom = 0
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(panel)
+
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.01, 0.015, 0.02, 0.58)
+	st.border_color = Color("#f0b429") if _last_winner_idx == seat_idx else Color(0.38, 0.48, 0.58, 0.34)
+	st.set_border_width_all(2 if _last_winner_idx == seat_idx else 1)
+	st.set_corner_radius_all(8)
+	panel.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 5)
+	panel.add_child(box)
+
+	var title_lbl := Label.new()
+	title_lbl.text = ("FOLDED  " if folded else "") + title
+	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_lbl.add_theme_font_size_override("font_size", 12)
+	title_lbl.add_theme_color_override("font_color", Color("#5a5a5a") if folded else Color("#d7dde8"))
+	_f(title_lbl, true)
+	box.add_child(title_lbl)
+
+	var card_row := HBoxContainer.new()
+	card_row.add_theme_constant_override("separation", 5)
+	card_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.add_child(card_row)
+	if seat_idx == -1:
+		_hole_row = card_row
+	else:
+		_opp_rows.append(panel)
+		_opp_card_rows.append(card_row)
+
+	if cards.is_empty():
+		for _j in range(2):
+			card_row.add_child(_card_placeholder())
+	else:
+		for c in cards:
+			card_row.add_child(_card_label(c, seat_idx == -1) if reveal_cards else _card_back())
+
+	var stack_lbl := Label.new()
+	stack_lbl.text = "STACK %s" % _fmt(stack)
+	if bet > 0:
+		stack_lbl.text += "   BET %s" % _fmt(bet)
+	stack_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	stack_lbl.add_theme_font_size_override("font_size", 11)
+	stack_lbl.add_theme_color_override("font_color", Color("#92c98c") if not folded else Color("#4c5a4c"))
+	_f(stack_lbl)
+	box.add_child(stack_lbl)
+	if seat_idx == -1:
+		_stack_lbl = stack_lbl
+
+func _draw_holdem_surface(ctrl: Control) -> void:
+	var sz := ctrl.size
+	if sz.x <= 8.0 or sz.y <= 8.0:
+		return
+
+	var center := Vector2(sz.x * 0.5, sz.y * 0.53)
+	var radius := minf((sz.x - 80.0) / 2.15, (sz.y - 48.0) / 1.35)
+	radius = maxf(radius, 120.0)
+
+	# 테이블 그림자/레일/펠트. 배경 사진을 가리지 않으면서도 실제 앉은 공간처럼 보이게 한다.
+	ctrl.draw_set_transform(center + Vector2(0, 12), 0.0, Vector2(1.72, 0.70))
+	ctrl.draw_circle(Vector2.ZERO, radius + 14.0, Color(0, 0, 0, 0.42))
+	ctrl.draw_set_transform(center, 0.0, Vector2(1.74, 0.72))
+	ctrl.draw_circle(Vector2.ZERO, radius + 12.0, Color("#1b0e07"))
+	ctrl.draw_circle(Vector2.ZERO, radius + 4.0, Color("#6b3b16"))
+	ctrl.draw_circle(Vector2.ZERO, radius - 8.0, Color("#062719"))
+	ctrl.draw_circle(Vector2.ZERO, radius - 34.0, Color("#083521"))
+	ctrl.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+	var rail_col := Color(0.92, 0.74, 0.36, 0.18)
+	ctrl.draw_line(Vector2(sz.x * 0.18, sz.y * 0.50), Vector2(sz.x * 0.82, sz.y * 0.50), rail_col, 1.0)
+	ctrl.draw_line(Vector2(sz.x * 0.50, sz.y * 0.24), Vector2(sz.x * 0.50, sz.y * 0.80), rail_col, 1.0)
+
+	var pot_pos := Vector2(sz.x * 0.50, sz.y * 0.37)
+	_draw_chip_stack(ctrl, pot_pos, max(_pot, BIG_BLIND), 0.95)
+	if _phase == Phase.SHOWDOWN:
+		ctrl.draw_circle(pot_pos, 44.0, Color(1.0, 0.80, 0.25, 0.08))
+		ctrl.draw_circle(pot_pos, 62.0, Color(1.0, 0.80, 0.25, 0.04))
+
+	var opp0_pos := Vector2(sz.x * 0.20, sz.y * 0.23)
+	var opp1_pos := Vector2(sz.x * 0.80, sz.y * 0.23)
+	var player_pos := Vector2(sz.x * 0.50, sz.y * 0.86)
+	_draw_bet_trail(ctrl, opp0_pos, pot_pos, int(_opp_bets[0]), Color("#5d9ce8"))
+	_draw_bet_trail(ctrl, opp1_pos, pot_pos, int(_opp_bets[1]), Color("#e85d8c"))
+	_draw_bet_trail(ctrl, player_pos, pot_pos, _player_bet, Color("#f0b429"))
+
+	_draw_seat_silhouette(ctrl, opp0_pos, not bool(_opp[0]["folded"]), _last_winner_idx == 0, Color("#5d9ce8"))
+	_draw_seat_silhouette(ctrl, opp1_pos, not bool(_opp[1]["folded"]), _last_winner_idx == 1, Color("#e85d8c"))
+	_draw_seat_silhouette(ctrl, player_pos, not _player_folded, _last_winner_idx == -1, Color("#f0b429"))
+
+func _draw_seat_silhouette(ctrl: Control, pos: Vector2, active: bool, winner: bool, accent: Color) -> void:
+	var alpha := 0.34 if active else 0.13
+	if winner:
+		ctrl.draw_circle(pos, 48.0, Color(accent.r, accent.g, accent.b, 0.16))
+		ctrl.draw_circle(pos, 66.0, Color(accent.r, accent.g, accent.b, 0.06))
+	var body_col := Color(0.0, 0.0, 0.0, alpha)
+	ctrl.draw_circle(pos + Vector2(0, -20), 13.0, body_col)
+	ctrl.draw_rect(Rect2(pos + Vector2(-24, -6), Vector2(48, 34)), body_col, true)
+	ctrl.draw_line(pos + Vector2(-34, 8), pos + Vector2(-56, 22), body_col, 5.0)
+	ctrl.draw_line(pos + Vector2(34, 8), pos + Vector2(56, 22), body_col, 5.0)
+	if active:
+		ctrl.draw_circle(pos + Vector2(0, -20), 14.5, Color(accent.r, accent.g, accent.b, 0.15))
+
+func _draw_chip_stack(ctrl: Control, center: Vector2, amount: int, alpha: float = 1.0) -> void:
+	var count := clampi(int(ceil(float(amount) / float(BIG_BLIND))), 3, 12)
+	var colors := [Color("#d73a49"), Color("#2f6fe4"), Color("#28a36a"), Color("#f0b429"), Color("#e8eaf0")]
+	for i in range(count):
+		var col: Color = colors[i % colors.size()]
+		col.a = alpha
+		var x := center.x + float((i % 4) - 1.5) * 15.0
+		var y := center.y + float(i / 4) * -6.0
+		var p := Vector2(x, y)
+		ctrl.draw_circle(p + Vector2(0, 2), 10.0, Color(0, 0, 0, 0.30 * alpha))
+		ctrl.draw_circle(p, 10.0, col)
+		ctrl.draw_circle(p, 5.8, Color(0.02, 0.025, 0.03, 0.45 * alpha))
+		ctrl.draw_circle(p, 8.8, Color(1, 1, 1, 0.22 * alpha))
+
+func _draw_bet_trail(ctrl: Control, from_pos: Vector2, to_pos: Vector2, amount: int, color: Color) -> void:
+	if amount <= 0:
+		return
+	var line_col := Color(color.r, color.g, color.b, 0.22)
+	ctrl.draw_line(from_pos, to_pos, line_col, 2.0)
+	var chips := clampi(int(ceil(float(amount) / float(BIG_BLIND))), 1, 5)
+	for i in range(chips):
+		var t := float(i + 1) / float(chips + 1)
+		var p := from_pos.lerp(to_pos, t)
+		var chip_col := color
+		chip_col.a = 0.80
+		ctrl.draw_circle(p, 7.0, chip_col)
+		ctrl.draw_circle(p, 3.6, Color(0.02, 0.025, 0.03, 0.45))
 
 # ── 행동 순서 처리 ─────────────────────────────────────────────────
 func _process_action_turn() -> void:
@@ -677,6 +815,7 @@ func _do_showdown() -> void:
 			if best_hand.is_empty() or opp_hand > best_hand:
 				best_hand = opp_hand
 				winner_idx = i
+	_last_winner_idx = winner_idx
 
 	# 팟 분배
 	var msg_parts: Array = []
@@ -719,6 +858,18 @@ func _do_showdown() -> void:
 	_pulse_node(_msg_lbl, 1.08, 0.30)
 	_pulse_node(_community_row, 1.05, 0.28)
 	_pulse_node(_hole_row, 1.07, 0.30)
+	_pulse_node(_table_surface, 1.015, 0.34)
+	var reveal_delay := 0.0
+	for row in _opp_card_rows:
+		if not is_instance_valid(row):
+			continue
+		for card in row.get_children():
+			card.scale = Vector2(0.08, 1.0)
+			var tw := create_tween()
+			tw.tween_interval(reveal_delay)
+			tw.tween_property(card, "scale", Vector2(1.08, 1.08), 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			tw.tween_property(card, "scale", Vector2(1.0, 1.0), 0.10)
+			reveal_delay += 0.08
 	_show_showdown_buttons()
 
 func _show_showdown_buttons() -> void:

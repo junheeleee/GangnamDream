@@ -12,9 +12,9 @@
 | **최근 완료** | **2026-06-20** — (1) **이스터에그 8종**(easter_eggs.json): 고시원도사/삼각김밥/새벽4시/정직함의값/거울속도박꾼/조용한부자 + 회귀자각 2종(데자뷔 2회+/베테랑회귀 4회+, GameState NG+ 플래그). (2) **분석요소 완료**: get_playstyle_label() 9종 + peak_asset 추적 + 엔딩화면 진단/"정점대비 N%지킴" + 엔딩도감(discovered_endings 영구누적, 엔딩화면·시작화면 "📖 N/29"). (3) **흥행 시그니처 6종**(viral_events.json): 갓생2/거지방/리딩방/주식빚투(반대매매)/배달N잡. (4) **P2 개연성 감사**: jobs_004/010·subway_hell_9 has_job 게이팅, mother_seoul_visit 등 housing 게이팅, EN/KR 조건 동기화. (5) 엔딩직전 분기씬 3종(arc_pre_ending.json). (6) F/C급 엔딩 확장, arc_jaehyuk/father 루트 변형. (7) docs/CONTENT_ROADMAP.md(P0~P4). 총 이벤트 1032개. Godot 헤드리스 임포트 클린, audit ERROR 0/WARNING 0. |
 | **이전** | **2026-06-20** — Codex 외형 패스(카지노 테이블/다이사이/슬롯) + 글쓰기 밀도 강화(StoryMode 루트 변주, 현수 아크, 34세 씬, audit #8) |
 | **추가 완료** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크: gambling_rock_bottom(바닥80+, 단도박모임/아버지고백/더깊이) + 회복 3종(금단→재발유혹→동그라미30개) + 기존 금단선택지를 in_recovery_started로 연결 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급, crypto_ghost 대척점)**. 엔딩 30개, 이벤트 1036개. ※카지노 미니게임 메커니즘 미변경(서사만). |
-| **Codex 추가 완료** | **2026-06-20 (외형)** — 빅휠 원판을 54칸 분산 슬롯 쇼휠로 수정. 경마 질주 화면에 주로/레일/출발 게이트/결승 게이트/라이브 순위판, 큰 말·기수 실루엣, 말발굽 SFX, 결과 `PHOTO FINISH` 패널 추가. `ScreenshotQA` `07a_racetrack_race`, `07b_racetrack_result`, `12a_bigwheel` 확인. |
+| **Codex 추가 완료** | **2026-06-20 (외형)** — 빅휠 원판을 54칸 분산 슬롯 쇼휠로 수정. 경마 질주 화면에 주로/레일/출발 게이트/결승 게이트/라이브 순위판, 큰 말·기수 실루엣, 말발굽 SFX, 결과 `PHOTO FINISH` 패널 추가. 홀덤 화면을 실제 오벌 테이블 구조로 재배치하고 좌우 상대 좌석/중앙 팟 칩/보드 카드/내 좌석/쇼다운 승자 강조/카드 공개 애니메이션 추가. `ScreenshotQA` `06_holdem_club`, `06a_holdem_showdown`, `07a_racetrack_race`, `07b_racetrack_result`, `12a_bigwheel` 확인. |
 | **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — P2 2차(인물 stage vs 대사 톤); P3 3차(오마카세 플렉스/비혼·욜로); P4 공략성 힌트(마일스톤 다음단계 안내); NG+ 구원 서사(beat_addiction_ever 활용). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — 서사/밸런스만 가능.** |
-| **마지막 업데이트** | 2026-06-20 (`audit.sh` ERROR 0/WARNING 0, ScreenshotQA 재캡처 OK: 경마 질주/결과 연출 및 빅휠 분산 슬롯 외형 확인) |
+| **마지막 업데이트** | 2026-06-20 (`audit.sh` ERROR 0/WARNING 0, ScreenshotQA 재캡처 OK: 홀덤 테이블/쇼다운, 경마 질주/결과 연출, 빅휠 분산 슬롯 외형 확인) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
