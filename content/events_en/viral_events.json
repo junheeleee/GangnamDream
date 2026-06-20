@@ -1,0 +1,66 @@
+[
+  {
+    "id": "godsaeng_start",
+    "title": "The Godsaeng Challenge",
+    "description": "The SNS feed is all about 'godsaeng' — the god-tier life.\n\n5 AM wake-ups, miracle mornings, dawn workouts, English study, 30 minutes of reading.\nHashtags #godsaeng #miraclemorning #selfimprovement flood the timeline.\n\nThe people in the proof shots all look radiant.\n{name} was watching that feed at 1 AM.\n\nEnvious, and strangely anxious.\nShould I be living like that too.",
+    "choices": [
+      {
+        "text": "Start the godsaeng tomorrow. Alarm set for 5 AM.",
+        "result_text": "He set the alarm for 5 AM.\n\nDay one went fine. Day two too. From day three it crumbled.\n\nBut hey, three days was something.\nGodsaeng is a test every single day. {name} just set the alarm again.\n\nMaybe even the radiant ones were secretly repeating these same three days, over and over."
+      },
+      {
+        "text": "Forget other people's godsaeng — live at my own pace",
+        "result_text": "{name} put the phone down.\n\nWhether others get up at 5 AM or not, his life runs on his own schedule.\nGodsaeng, too, is just another pressure when measured against others.\n\nThinking that, his mind eased.\n{name} was moving at his own speed — but still, one step at a time."
+      },
+      {
+        "text": "Make a godsaeng proof account. Showing off might motivate me.",
+        "result_text": "He made a godsaeng account on Instagram.\n\nDawn workout proof, book covers, today's resolutions.\nFollowers grew bit by bit. Likes came in.\n\nBut at some point, he got confused — was he getting up to work out, or to take the proof shot.\n\nThe distance between the shown life and the lived life — kept growing."
+      }
+    ]
+  },
+  {
+    "id": "godsaeng_paradox",
+    "title": "The Godsaeng Paradox",
+    "description": "Two months into the godsaeng life.\n\nDawn wake-ups, workouts, study, reading, side projects.\nThe to-do list was perfect. Keeping all of it, 24 hours wasn't enough.\n\nThen one day {name} realized, blankly:\n\nEven his rest time was spent watching 'self-improvement content.'\nPlaying felt guilty. Sitting still felt like falling behind.\n\nTrying to live the god-life, his whole life became an assignment.",
+    "choices": [
+      {
+        "text": "Do nothing for a whole day. Real rest.",
+        "result_text": "One Sunday, {name} did nothing.\n\nAlarm off, to-do list unopened, just lying down.\nAt first it was anxious. The time felt wasted.\n\nBut by afternoon, his head was strangely clear.\n\nResting was part of the god-life too. He learned that after two months.\nHe'd hit the brakes right before burnout."
+      },
+      {
+        "text": "Just grind more efficiently. Optimize the system.",
+        "result_text": "{name} packed the schedule tighter.\n\nAudiobooks during commutes, lectures during meals, reviews before bed.\nFilled every gap. Efficiency rose.\n\nBut his body started sending signals.\nEye twitches, indigestion, waking at dawn.\n\nGodsaeng and burnout were one sheet of paper apart.\n{name} was walking that razor's edge."
+      }
+    ]
+  },
+  {
+    "id": "geojibang_chat",
+    "title": "The Broke Room",
+    "description": "A friend sent a KakaoTalk open chat link.\n\n'The Broke Room.' 100 anonymous people gathered to police each other's spending.\n\nSomeone posts 'Spent 4,500 won at Starbucks' and\n'Hey, that's 90 cups of instant coffee at home!' floods the comments.\n\nFunny, but — strangely helpful.\n{name} posted his spending for the day too.\n\n'Convenience store lunchbox, 4,800 won.'\n\nThree seconds later, the notifications started.",
+    "choices": [
+      {
+        "text": "Settle into the Broke Room. Get policed daily.",
+        "result_text": "'Buy rice with that lunchbox money and cook at home!'\n'4,800 won is six packs of ramyeon, get it together!'\n\nLaughing turned into genuine reflection.\n\nFrom that day, {name} pictured the Broke Room before buying anything.\nThe nagging of 100 anonymous people auto-played in his head.\n\nStrangely, his monthly spending dropped.\nHe never knew shame could turn into money."
+      },
+      {
+        "text": "Laugh once and leave. Don't want stress from this.",
+        "result_text": "{name} read a few posts, burst out laughing, and quietly left.\n\nSaving is good, but he didn't want to live feeling guilty over one 4,800-won lunchbox.\n\nBeing frugal and being squeezed are different.\n{name} wanted to hold that line.\n\nStill, the Broke Room memes crossed his mind sometimes, and he laughed alone."
+      }
+    ]
+  },
+  {
+    "id": "leading_room_joined",
+    "title": "The Truth About Pump Rooms",
+    "description": "He finally joined a stock pump room.\n\n'300% returns guaranteed' 'Free pick revealed today only.'\nThe room had 500 people. Profit screenshots posted by the minute.\n\nThe 'Leader' called a stock. Buy recommendation.\nThe room cheered. 'We trust you, Leader!'\n\n{name} hovered his finger over the buy button.\n\nBut suddenly — are all those profit proofs real.\nIf they're all true, why is the Leader charging membership fees.",
+    "choices": [
+      {
+        "text": "Buy the called stock. Everyone's winning, I can't be left out.",
+        "result_text": "He bought the Leader's pick.\n\nThe first few days it rose. {name} posted a proof shot too. 'Thank you, Leader!'\n\nThen one day, the stock crashed.\nThe Leader said 'cutting losses is strategy too' and called the next pick.\nThe room cheered again.\n\nOnly then did he see it. What the Leader earned wasn't the stocks — it was the fees.\nAnd that nobody ever posts their losses."
+      },
+      {
+        "text": "Leave the room. Nobody teaches strangers how to make free money.",
+        "result_text": "{name} lifted his finger off the buy button.\nAnd left the room.\n\nReal experts make money quietly with their own cash.\nThey don't charge fees to call stocks for strangers.\n\nMore than 500 profit proofs, that one simple logic protected {name}.\n\nDays later, that room made the news as a scam.\n{name} didn't read the article to the end. He already knew."
+      }
+    ]
+  }
+]

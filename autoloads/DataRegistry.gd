@@ -6,6 +6,7 @@ const EVENT_PATHS = [
 	"res://content/events/arc_hyunsu.json",
 	"res://content/events/arc_pre_ending.json",
 	"res://content/events/easter_eggs.json",
+	"res://content/events/viral_events.json",
 	"res://content/events/arc_drama.json",
 	"res://content/events/arc_midgame.json",
 	"res://content/events/ng_plus_events.json",

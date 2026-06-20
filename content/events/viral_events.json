@@ -1,0 +1,165 @@
+[
+  {
+    "id": "godsaeng_start",
+    "title": "갓생 챌린지",
+    "category": "self_development",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "portrait": "player_normal",
+    "background": "late_night",
+    "conditions": {
+      "min_turn": 12,
+      "min_mental": 35
+    },
+    "tags": ["self_dev", "trend", "viral"],
+    "cooldown": 20,
+    "description": "SNS 피드가 온통 '갓생'이다.\n\n새벽 5시 기상, 미라클모닝, 아침 운동, 영어 공부, 독서 30분.\n해시태그 #갓생 #미라클모닝 #자기계발이 타임라인을 도배한다.\n\n인증샷 속 사람들은 다 빛나 보인다.\n{name}은 새벽 1시에 그 피드를 보고 있었다.\n\n부럽기도 하고, 묘하게 초조하기도 했다.\n나도 저렇게 살아야 하나.",
+    "choices": [
+      {
+        "text": "내일부터 갓생 시작. 5시에 알람 맞춘다.",
+        "effects": {
+          "intelligence": 2,
+          "mental": -2,
+          "health": -1
+        },
+        "flags": ["started_godsaeng"],
+        "result_text": "알람을 새벽 5시에 맞췄다.\n\n첫날은 됐다. 둘째 날도. 셋째 날부터 무너졌다.\n\n근데 사흘이라도 해본 게 어디냐 싶었다.\n갓생은 매일이 시험이다. {name}은 일단 다시 알람을 맞췄다.\n\n빛나 보이는 그 사람들도, 사실 매일 이 사흘을 반복하는 건지도 몰랐다."
+      },
+      {
+        "text": "남의 갓생 말고 내 페이스대로 산다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": ["rejected_godsaeng_pressure"],
+        "result_text": "{name}은 핸드폰을 내려놨다.\n\n남이 새벽 5시에 일어나든 말든, 내 인생은 내 시간표가 있다.\n갓생도 결국 남과 비교하면 또 다른 압박일 뿐이다.\n\n그렇게 생각하니 마음이 편해졌다.\n{name}은 자기만의 속도로, 그래도 한 걸음씩은 가고 있었다."
+      },
+      {
+        "text": "갓생 인증 계정을 판다. 보여주기라도 하면 동기부여 되겠지.",
+        "effects": {
+          "social_skill": 2,
+          "mental": -1,
+          "reputation": 1
+        },
+        "flags": ["started_godsaeng", "godsaeng_for_show"],
+        "result_text": "인스타에 갓생 계정을 만들었다.\n\n새벽 운동 인증, 책 표지 사진, 오늘의 다짐.\n팔로워가 조금씩 늘었다. 좋아요가 달렸다.\n\n근데 어느 순간, 운동을 하려고 일어나는 건지\n인증샷을 찍으려고 일어나는 건지 헷갈리기 시작했다.\n\n보여주는 삶과 사는 삶의 거리 — 그게 점점 멀어지고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "godsaeng_paradox",
+    "title": "갓생의 역설",
+    "category": "self_development",
+    "rarity": "rare",
+    "weight": 0.8,
+    "hidden": false,
+    "portrait": "player_tired",
+    "background": "late_night",
+    "conditions": {
+      "flag": "started_godsaeng",
+      "min_turn": 20
+    },
+    "tags": ["self_dev", "trend"],
+    "cooldown": 9999,
+    "description": "갓생을 산 지 두 달째.\n\n새벽 기상, 운동, 공부, 독서, 사이드 프로젝트.\n할 일 목록은 완벽했다. 다 지키면 하루가 24시간으로 모자랐다.\n\n그런데 어느 날 {name}은 멍하니 깨달았다.\n\n쉬는 시간조차 '자기계발 콘텐츠'를 보고 있었다.\n노는 것도 죄책감이 들었다. 가만히 있으면 뒤처지는 것 같았다.\n\n갓생을 살려다, 삶이 통째로 과제가 됐다.",
+    "choices": [
+      {
+        "text": "하루는 아무것도 안 하기로 한다. 진짜 휴식.",
+        "effects": {
+          "mental": 10,
+          "health": 4,
+          "intelligence": -1
+        },
+        "flags": ["godsaeng_paradox_seen", "learned_to_rest"],
+        "result_text": "일요일 하루, {name}은 아무것도 안 했다.\n\n알람도 끄고, 할 일 목록도 안 보고, 그냥 누워 있었다.\n처음엔 불안했다. 시간이 아까웠다.\n\n근데 오후가 되니 이상하게 머리가 맑아졌다.\n\n쉬는 것도 갓생의 일부였다. 그걸 두 달 만에 알았다.\n번아웃 직전에 브레이크를 밟은 셈이었다."
+      },
+      {
+        "text": "더 효율적으로 갈아 넣으면 된다. 시스템을 최적화한다.",
+        "effects": {
+          "intelligence": 3,
+          "mental": -6,
+          "health": -3
+        },
+        "flags": ["godsaeng_paradox_seen", "godsaeng_overdrive"],
+        "result_text": "{name}은 시간표를 더 빡빡하게 짰다.\n\n이동 시간엔 오디오북, 식사 중엔 강의, 자기 전엔 회고.\n빈틈을 다 메웠다. 효율은 올라갔다.\n\n근데 몸이 신호를 보내기 시작했다.\n눈 밑 떨림, 소화불량, 자다 깨는 새벽.\n\n갓생과 번아웃은 종이 한 장 차이였다.\n{name}은 그 종이 위를 아슬아슬하게 걷고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "geojibang_chat",
+    "title": "거지방",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "portrait": "player_normal",
+    "background": "late_night",
+    "conditions": {
+      "min_turn": 10
+    },
+    "tags": ["trend", "comedy", "finance"],
+    "cooldown": 18,
+    "description": "친구가 카톡 오픈채팅 링크를 보냈다.\n\n'거지방'. 익명 100명이 모여 서로의 지출을 검열하는 방이었다.\n\n누가 '스타벅스 4,500원 썼어요' 하면\n'야 그 돈이면 집에서 믹스커피 90잔이야!' 하고 댓글이 폭주한다.\n\n웃기면서도 — 묘하게 도움이 됐다.\n{name}도 오늘 쓴 돈을 올려봤다.\n\n'편의점 도시락 4,800원.'\n\n3초 만에 알림이 울리기 시작했다.",
+    "choices": [
+      {
+        "text": "거지방에 정착한다. 매일 지출을 검열받는다.",
+        "effects": {
+          "money": 50000,
+          "mental": 2,
+          "social_skill": 1
+        },
+        "flags": ["joined_geojibang"],
+        "result_text": "'도시락 살 돈으로 쌀 사서 밥 해먹으세요!'\n'4,800원이면 라면 6개입니다 정신차리세요!'\n\n웃다가 진지하게 반성하게 됐다.\n\n그날부터 {name}은 뭘 사기 전에 거지방을 떠올렸다.\n익명 100명의 잔소리가 머릿속에 자동 재생됐다.\n\n신기하게 한 달 지출이 줄었다.\n부끄러움이 이렇게 돈이 될 줄은 몰랐다."
+      },
+      {
+        "text": "한 번 웃고 방을 나간다. 이런 걸로 스트레스받기 싫다.",
+        "effects": {
+          "mental": 3
+        },
+        "flags": ["left_geojibang"],
+        "result_text": "{name}은 몇 개 글을 보고 빵 터졌다가, 조용히 나갔다.\n\n절약도 좋지만, 4,800원 도시락 하나에 죄책감 느끼면서 살고 싶진 않았다.\n\n아끼는 것과 쪼들리는 건 다르다.\n{name}은 그 선을 지키고 싶었다.\n\n그래도 거지방 짤은 가끔 생각나서 혼자 웃었다."
+      }
+    ]
+  },
+  {
+    "id": "leading_room_joined",
+    "title": "리딩방의 진실",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "portrait": "player_shocked",
+    "background": "investment_phone",
+    "conditions": {
+      "min_turn": 18,
+      "min_investment_skill": 8
+    },
+    "tags": ["trend", "investment", "warning"],
+    "cooldown": 24,
+    "description": "결국 리딩방에 들어갔다.\n\n'수익률 300% 보장' '오늘만 무료 종목 공개'.\n방에는 500명이 있었다. 수익 인증 스크린샷이 분 단위로 올라온다.\n\n'리더님' 이 종목을 찍어줬다. 매수 추천.\n방 사람들이 환호한다. '리더님 믿습니다!'\n\n{name}은 손가락을 매수 버튼 위에 올렸다.\n\n근데 문득 — 저 수익 인증들이 전부 진짜일까.\n저게 다 맞으면, 리더는 왜 회비를 받고 있을까.",
+    "choices": [
+      {
+        "text": "찍어준 종목을 산다. 다들 버는데 나만 빠질 순 없다.",
+        "effects": {
+          "money": -1500000,
+          "investment_skill": -2,
+          "mental": -5,
+          "addiction_tendency": 8
+        },
+        "flags": ["followed_leading_room"],
+        "result_text": "리더가 찍은 종목을 샀다.\n\n처음 며칠은 올랐다. {name}도 인증샷을 올렸다. '리더님 감사합니다!'\n\n그러다 어느 날, 종목이 급락했다.\n리더는 '손절도 전략입니다'라며 다음 종목을 찍었다.\n방 사람들은 또 환호했다.\n\n그제야 보였다. 리더가 버는 건 종목이 아니라 회비였다.\n그리고 손실 인증은 아무도 안 올린다는 것도."
+      },
+      {
+        "text": "방을 나온다. 공짜로 돈 버는 법을 알려주는 사람은 없다.",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 3,
+          "intelligence": 2
+        },
+        "flags": ["left_leading_room", "learned_invest_wisdom"],
+        "result_text": "{name}은 매수 버튼에서 손가락을 뗐다.\n그리고 방을 나왔다.\n\n진짜 고수는 자기 돈으로 조용히 번다.\n남한테 회비 받고 종목 찍어주지 않는다.\n\n수익 인증 500개보다, 그 단순한 논리 하나가 {name}을 지켰다.\n\n며칠 뒤, 그 방이 사기로 뉴스에 나왔다.\n{name}은 기사를 끝까지 읽지 않았다. 안 봐도 알았으니까."
+      }
+    ]
+  }
+]
