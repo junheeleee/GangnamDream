@@ -827,10 +827,7 @@ func _show_content_warning():
 	panel.add_child(vbox)
 
 	var title_lbl = Label.new()
-	if LocaleManager.language == "en":
-		title_lbl.text = "Content Notice"
-	else:
-		title_lbl.text = "콘텐츠 안내"
+	title_lbl.text = _tr("콘텐츠 안내", "Content Notice")
 	title_lbl.add_theme_font_size_override("font_size", 17)
 	title_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

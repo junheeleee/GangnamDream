@@ -6,6 +6,39 @@ signal load_completed(success: bool, slot: int)
 const SAVE_VERSION = 3
 const SLOT_COUNT = 3
 const AUTOSAVE_SLOT = 0
+const SETTINGS_PATH = "user://gangnam_dream_settings.json"
+
+# ── 환경설정 (언어 등) — 슬롯 세이브와 분리된 영구 설정 ──────────
+var _settings: Dictionary = {}
+var _settings_loaded: bool = false
+
+func _load_settings() -> void:
+	if _settings_loaded:
+		return
+	_settings_loaded = true
+	if not FileAccess.file_exists(SETTINGS_PATH):
+		return
+	var f = FileAccess.open(SETTINGS_PATH, FileAccess.READ)
+	if f == null:
+		return
+	var txt = f.get_as_text()
+	f.close()
+	var parsed = JSON.parse_string(txt)
+	if parsed is Dictionary:
+		_settings = parsed
+
+func get_setting(key: String, default_value = null):
+	_load_settings()
+	return _settings.get(key, default_value)
+
+func set_setting(key: String, value) -> void:
+	_load_settings()
+	_settings[key] = value
+	var f = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
+	if f == null:
+		return
+	f.store_string(JSON.stringify(_settings))
+	f.close()
 
 func save_game(slot):
 	var state = GameState.serialize()
