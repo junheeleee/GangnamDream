@@ -21,7 +21,7 @@ const TOTAL_SLOTS: int      = 54
 const SPIN_DURATION: float  = 3.0          # 총 스핀 시간(초)
 const SPIN_SPEED_INIT: float = TAU * 4.0   # 초기 각속도 (라디안/초)
 const HISTORY_MAX: int      = 8
-const WHEEL_RADIUS: float   = 130.0
+const WHEEL_RADIUS: float   = 165.0
 
 # 세그먼트 슬롯/레이블/배당/색상 (BigWheel 미러)
 const SEG_SLOTS: Array   = [24, 15, 7, 4, 2, 2]
@@ -325,9 +325,26 @@ func _build_ui() -> void:
 	# 배경
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color(0.06, 0.04, 0.02, 1.0)
+	bg.color = Color("#090502")
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+
+	const _BG_PATH := "res://assets/backgrounds/casino_interior.png"
+	if ResourceLoader.exists(_BG_PATH):
+		var bg_img := TextureRect.new()
+		bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+		bg_img.texture = load(_BG_PATH) as Texture2D
+		bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+		bg_img.modulate = Color(1, 1, 1, 0.28)
+		bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(bg_img)
+
+	var veil := ColorRect.new()
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	veil.color = Color(0.035, 0.016, 0.0, 0.66)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
 
 	# HUD 상단 바
 	var hud_panel := Panel.new()
@@ -360,13 +377,33 @@ func _build_ui() -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
 
+	var center_wrap := CenterContainer.new()
+	center_wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	center_wrap.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.add_child(center_wrap)
+
+	var machine_panel := PanelContainer.new()
+	machine_panel.custom_minimum_size = Vector2(1120, 0)
+	machine_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	machine_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var machine_sty := StyleBoxFlat.new()
+	machine_sty.bg_color = Color("#130903")
+	machine_sty.border_color = Color("#f39c12")
+	machine_sty.set_border_width_all(3)
+	machine_sty.set_corner_radius_all(20)
+	machine_sty.shadow_color = Color(0, 0, 0, 0.55)
+	machine_sty.shadow_size = 16
+	machine_sty.shadow_offset = Vector2(0, 8)
+	machine_panel.add_theme_stylebox_override("panel", machine_sty)
+	center_wrap.add_child(machine_panel)
+
 	var outer := MarginContainer.new()
 	outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	outer.add_theme_constant_override("margin_left", 20)
 	outer.add_theme_constant_override("margin_right", 20)
 	outer.add_theme_constant_override("margin_top", 10)
 	outer.add_theme_constant_override("margin_bottom", 10)
-	scroll.add_child(outer)
+	machine_panel.add_child(outer)
 
 	var root_vbox := VBoxContainer.new()
 	root_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -375,7 +412,7 @@ func _build_ui() -> void:
 
 	# ── 휠 그리기 영역 ──
 	_wheel_ctrl = Control.new()
-	_wheel_ctrl.custom_minimum_size = Vector2(0, 300)
+	_wheel_ctrl.custom_minimum_size = Vector2(0, 390)
 	_wheel_ctrl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_wheel_ctrl.draw.connect(_on_wheel_draw)
 	root_vbox.add_child(_wheel_ctrl)

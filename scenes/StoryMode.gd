@@ -347,11 +347,11 @@ func _render_current():
 	# 루트·상태별 대체 description: description_orthodox / description_unorthodox /
 	# description_low_mental / description_long_gosiwon 우선 적용
 	var desc_raw: String = str(_current.get("description", ""))
-	var ortho: int  = int(GameState.get("route_orthodox", 0))
-	var unorth: int = int(GameState.get("route_unorthodox", 0))
-	var mental: int = int(GameState.get("mental", 60))
-	var housing: String = str(GameState.get("housing", "gosiwon"))
-	var housing_months: int = int(GameState.get("housing_months", 0))
+	var ortho: int  = int(GameState.route_orthodox)
+	var unorth: int = int(GameState.route_unorthodox)
+	var mental: int = int(GameState.mental)
+	var housing: String = str(GameState.housing)
+	var housing_months: int = int(GameState.housing_months.get(housing, 0))
 	if mental <= 20 and _current.has("description_low_mental"):
 		desc_raw = str(_current["description_low_mental"])
 	elif housing == "gosiwon" and housing_months >= 6 and _current.has("description_long_gosiwon"):

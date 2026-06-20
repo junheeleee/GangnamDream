@@ -397,9 +397,26 @@ func _build_ui() -> void:
 	# 배경
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color(0.04, 0.06, 0.04, 1.0)
+	bg.color = Color("#030805")
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+
+	const _BG_PATH := "res://assets/backgrounds/casino_interior.png"
+	if ResourceLoader.exists(_BG_PATH):
+		var bg_img := TextureRect.new()
+		bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+		bg_img.texture = load(_BG_PATH) as Texture2D
+		bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+		bg_img.modulate = Color(1, 1, 1, 0.30)
+		bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(bg_img)
+
+	var veil := ColorRect.new()
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	veil.color = Color(0.0, 0.035, 0.015, 0.62)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
 
 	# HUD 상단 바
 	var hud_panel := Panel.new()
@@ -432,6 +449,26 @@ func _build_ui() -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
 
+	var center_wrap := CenterContainer.new()
+	center_wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	center_wrap.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.add_child(center_wrap)
+
+	var table_panel := PanelContainer.new()
+	table_panel.custom_minimum_size = Vector2(1120, 0)
+	table_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	table_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var table_sty := StyleBoxFlat.new()
+	table_sty.bg_color = Color("#03160a")
+	table_sty.border_color = Color("#c58f36")
+	table_sty.set_border_width_all(3)
+	table_sty.set_corner_radius_all(18)
+	table_sty.shadow_color = Color(0, 0, 0, 0.55)
+	table_sty.shadow_size = 16
+	table_sty.shadow_offset = Vector2(0, 8)
+	table_panel.add_theme_stylebox_override("panel", table_sty)
+	center_wrap.add_child(table_panel)
+
 	_content_root = VBoxContainer.new()
 	_content_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_content_root.add_theme_constant_override("separation", 10)
@@ -442,16 +479,19 @@ func _build_ui() -> void:
 	margin.add_theme_constant_override("margin_top", 12)
 	margin.add_theme_constant_override("margin_bottom", 12)
 	margin.add_child(_content_root)
-	scroll.add_child(margin)
+	table_panel.add_child(margin)
 
 	# ── 중앙 룰렛 휠 / 숫자 디스플레이 ──
 	var num_panel := PanelContainer.new()
-	num_panel.custom_minimum_size = Vector2(0, 220)
+	num_panel.custom_minimum_size = Vector2(0, 330)
 	_number_panel_style = StyleBoxFlat.new()
 	_number_panel_style.bg_color = Color("#050907")
-	_number_panel_style.border_color = Color("#2a6a2a")
-	_number_panel_style.set_border_width_all(2)
-	_number_panel_style.set_corner_radius_all(12)
+	_number_panel_style.border_color = Color("#2d7d3f")
+	_number_panel_style.set_border_width_all(3)
+	_number_panel_style.set_corner_radius_all(16)
+	_number_panel_style.shadow_color = Color(0, 0, 0, 0.35)
+	_number_panel_style.shadow_size = 8
+	_number_panel_style.shadow_offset = Vector2(0, 3)
 	num_panel.add_theme_stylebox_override("panel", _number_panel_style)
 	_content_root.add_child(num_panel)
 

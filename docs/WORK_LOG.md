@@ -1,5 +1,16 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (외형 담당 분리 + 룰렛/빅휠 카지노 프레임 패스)
+
+### 수정
+- `scenes/StoryMode.gd`: 클로드 최신 메인 병합 후 발생한 `GameState.get("...", default)` Godot Object 호출 문법 오류를 직접 프로퍼티 접근으로 수정. `housing_months`는 현재 주거 ID 기준 딕셔너리 조회로 정리.
+- `scenes/RouletteTable.gd`: 카지노 내부 배경/암막/중앙 펠트 테이블 프레임을 추가하고, 룰렛 휠 패널 높이를 키워 검은 보드 위 UI가 아니라 실제 카지노 테이블처럼 보이도록 조정.
+- `scenes/BigWheelGame.gd`: 카지노 내부 배경/암막/중앙 기기 프레임을 추가하고, 빅휠 반지름과 휠 영역 높이를 키워 작은 UI 아이콘 느낌을 줄임.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA`: 30장 재캡처 완료. `12_roulette_table`, `12a_bigwheel` 직접 확인.
+
 ## 2026-06-20 (3~5년차 아크 + 챕터 카드 시네마틱 + 10개 영역 게임 분석)
 
 ### 추가
