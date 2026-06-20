@@ -109,7 +109,7 @@ func _on_exit() -> void:
 	# 커미션 정산
 	if _commission > 0.0:
 		GameState.add_money(-_commission)
-		GameState.add_log("🎰 바카라 커미션 정산 -%s" % GameState.format_money(_commission), "money")
+		GameState.add_log("바카라 커미션 정산 -%s" % GameState.format_money(_commission), "money")
 	MetaProgression.record_minigame_play("baccarat")
 	set_process(false)
 	visible = false
@@ -285,7 +285,7 @@ func _finish_result() -> void:
 		_road.pop_front()
 	_start_road_fade()
 
-	GameState.add_log("🎰 바카라 %s%s %s" % [
+	GameState.add_log("바카라 %s%s %s" % [
 		res, " 내추럴" if (res == "player" and bool(_result.get("player_natural", false))) or
 			(res == "banker" and bool(_result.get("banker_natural", false))) else "",
 		("+%s" % GameState.format_money(net_round)) if net_round >= 0 else

@@ -7,6 +7,7 @@
 - `ScreenshotQA`에 영어 시작 화면 캡처 `00b_start_menu_en.png`를 추가.
 - 엔딩 전용 CG P1 3종 추가: `assets/cg/ending_gangnam_dream.png`, `assets/cg/ending_empty_house.png`, `assets/cg/ending_crypto_ghost.png`.
 - `ScreenshotQA`에 빅휠 본체 캡처 `12a_bigwheel.png`를 추가.
+- `ScreenshotQA`에 홀덤 쇼다운 `06a_holdem_showdown`, 경마 베팅/질주/결과 `07_racetrack_betting`, `07a_racetrack_race`, `07b_racetrack_result` 캡처를 추가해 미니게임 핵심 상태를 자동 검수.
 
 ### 수정
 - StartMenu의 헤더, 스토리 소개, 난이도 카드, 런 테마 카드, 저장 슬롯, 설정 팝업, 콘텐츠 안내, 시작 버튼을 `LocaleManager` 기준으로 영어/한국어 분기.
@@ -19,13 +20,16 @@
 - 슬롯/룰렛/빅휠 베팅 금액 버튼에 `assets/ui/chips/*` denomination 칩 SVG를 연결해 블랙잭/바카라와 같은 카지노 UI 언어로 통일.
 - 룰렛은 베팅 금액 선택 후 버튼 하이라이트가 즉시 갱신되도록 스테이크 버튼 참조/refresh 경로를 추가.
 - 빅휠은 남아 있던 이모지성 HUD/버튼/조커 표기를 `현금`, `SPIN`, `규칙`, `JOKER` 텍스트로 정리.
+- 홀덤/경마/블랙잭 배경에 불투명 베이스를 먼저 깔고, 슬롯/룰렛/빅휠 루트 배경 alpha를 1.0으로 고정해 MainGame 대시보드가 미니게임 뒤에 비쳐 보이던 문제를 차단.
+- 홀덤 visible UI(`STACK`, 승패 메시지)와 블랙잭/바카라/슬롯 로그·배너의 카지노 이모지 텍스트를 제거해 카드/칩 에셋 중심의 톤으로 통일.
 
 ### 검증
 - `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
 - `LocaleSurfaceCheck`: `LOCALE_SURFACE_CHECK_OK`
 - `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
 - `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
-- `ScreenshotQA`: 27장 재캡처 완료 (`00b_start_menu_en`, `12a_bigwheel`, `13a_ending_empty_house` 추가, 슬롯/룰렛/빅휠 칩 버튼 시각 확인).
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 30장 재캡처 완료 (`06a_holdem_showdown`, `07a_racetrack_race`, `07b_racetrack_result` 추가, 미니게임 뒤 화면 비침 차단 확인).
 
 ## 2026-06-19 (BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스)
 

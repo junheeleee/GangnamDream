@@ -9,7 +9,7 @@ const SLOT := preload("res://systems/SlotMachine.gd")
 
 enum Phase { IDLE, SPINNING, RESULT }
 
-const COLOR_BG       := Color(0.06, 0.04, 0.10, 0.96)
+const COLOR_BG       := Color(0.06, 0.04, 0.10, 1.0)
 const COLOR_GOLD     := Color("#c9a227")
 const COLOR_GREEN    := Color("#2ecc71")
 const COLOR_RED      := Color("#e74c3c")
@@ -218,9 +218,9 @@ func _finish_spin() -> void:
 	# 로그
 	var log_str: String
 	if is_win:
-		log_str = "🎰 슬롯 %s +%s" % [win_type, GameState.format_money(float(gain))]
+		log_str = "슬롯 %s +%s" % [win_type, GameState.format_money(float(gain))]
 	else:
-		log_str = "🎰 슬롯 꽝 -%s" % GameState.format_money(float(_active_stake))
+		log_str = "슬롯 꽝 -%s" % GameState.format_money(float(_active_stake))
 	GameState.add_log(log_str, "money")
 	GameState.stats_changed.emit()
 

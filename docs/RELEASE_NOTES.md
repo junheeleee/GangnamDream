@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed (2026-06-20) — Fullscreen minigame surface polish
+
+- Added opaque fullscreen bases to Holdem, RaceTrack, Blackjack, Slot, Roulette, and BigWheel so the MainGame dashboard no longer bleeds through behind minigame overlays.
+- Cleaned visible casino emoji text from Holdem/Blackjack and related casino logs, leaning on card/chip assets instead of emoji glyphs.
+- Extended `ScreenshotQA` with Holdem showdown plus RaceTrack betting/race/result captures. Current screenshot QA output: 30 PNGs.
+
 ### Changed (2026-06-20) — Slot/Roulette/BigWheel chip buttons
 
 - Wired denomination chip SVGs into Slot, Roulette, and BigWheel stake buttons, including the lower `1K`/`5K` slot stakes.

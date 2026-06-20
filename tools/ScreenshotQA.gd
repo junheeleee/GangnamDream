@@ -53,8 +53,8 @@ func _ready() -> void:
 	await _shot_crisis_vignette()
 	await _shot_ap_actions()
 	await _shot_people()
-	await _shot_minigame("holdem_club", "06_holdem_club")
-	await _shot_minigame("racetrack", "07_racetrack")
+	await _shot_holdem_club()
+	await _shot_racetrack()
 	await _shot_minigame("jeongseon_casino", "08_jeongseon_casino")
 	await _shot_casino_table("baccarat_table", "09_baccarat_table")
 	await _shot_casino_table("blackjack_table", "10_blackjack_table")
@@ -302,6 +302,51 @@ func _shot_minigame(node_name: String, shot_name: String) -> void:
 	await _settle(1.0)
 	await _save(shot_name)
 	# 오버레이 숨김 (다음 케이스 방해 방지)
+	if "visible" in node:
+		node.visible = false
+	await _settle(0.3)
+
+func _shot_holdem_club() -> void:
+	GameState.flags["entered_network"] = true
+	GameState.money = 5_000_000.0
+	var node = _mg.get("holdem_club")
+	if node == null or not node.has_method("open"):
+		print("SKIP 06_holdem_club (no node)")
+		return
+	node.open()
+	await _settle(0.4)
+	node._buy_in = 100_000
+	node._start_hand()
+	await _settle(1.0)
+	await _save("06_holdem_club")
+	while node._community.size() < 5 and node._deck.size() > 0:
+		node._community.append(node._deck.pop_back())
+	node._do_showdown()
+	await _settle(1.0)
+	await _save("06a_holdem_showdown")
+	if "visible" in node:
+		node.visible = false
+	await _settle(0.3)
+
+func _shot_racetrack() -> void:
+	GameState.flags["entered_network"] = true
+	GameState.money = 5_000_000.0
+	var node = _mg.get("racetrack")
+	if node == null or not node.has_method("open"):
+		print("SKIP 07_racetrack (no node)")
+		return
+	node.open()
+	await _settle(0.8)
+	await _save("07_racetrack_betting")
+	node.skip_countdown_for_smoke = true
+	node._bet_type = 1
+	node._picks = [0]
+	node._place_bet(10_000.0)
+	await _settle(1.2)
+	await _save("07a_racetrack_race")
+	await _settle(4.2)
+	await _save("07b_racetrack_result")
+	node.skip_countdown_for_smoke = false
 	if "visible" in node:
 		node.visible = false
 	await _settle(0.3)

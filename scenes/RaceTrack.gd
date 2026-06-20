@@ -81,6 +81,13 @@ func _f(lbl, bold := false) -> void:
 
 # ── 골격 ──────────────────────────────────────────────────────
 func _build_skeleton() -> void:
+	# 풀스크린 미니게임은 뒤의 월간 대시보드가 비치지 않도록 불투명 베이스를 먼저 깐다.
+	var base_bg := ColorRect.new()
+	base_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base_bg.color = Color("#07090d")
+	base_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(base_bg)
+
 	# 배경 이미지 (이미지 있으면 표시, 없으면 단색)
 	_bg_img = TextureRect.new()
 	_bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)

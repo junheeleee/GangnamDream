@@ -235,7 +235,7 @@ func _resolve_hand() -> void:
 			_pushes += 1
 		elif pj:
 			gain = float(actual_stake) * (1.0 + BJ_PAYOUT)
-			label = "🎉 블랙잭! +%s" % GameState.format_money(gain - float(actual_stake))
+			label = "BLACKJACK  +%s" % GameState.format_money(gain - float(actual_stake))
 			_wins += 1
 			got_blackjack = true
 		elif dealer_bj:
@@ -283,11 +283,11 @@ func _resolve_hand() -> void:
 	else:
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
-	GameState.add_log("🃏 블랙잭 %s" % desc, "money")
+	GameState.add_log("블랙잭 %s" % desc, "money")
 	GameState.stats_changed.emit()
 	_render()
 	if got_blackjack:
-		_show_table_banner_bj("🎉 블랙잭!", Color("#f0b429"))
+		_show_table_banner_bj("BLACKJACK", Color("#f0b429"))
 		_screen_flash(Color("#f0b429"), 0.22, 0.44)
 		_pulse_node(_content_root, 1.04, 0.32)
 	elif got_bust:
@@ -579,6 +579,11 @@ func _render_result() -> void:
 # ── UI 헬퍼 ───────────────────────────────────────────────────
 func _build_skeleton() -> void:
 	const _BG = "res://assets/backgrounds/casino_interior.png"
+	var base_bg := ColorRect.new()
+	base_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base_bg.color = Color("#06090e")
+	base_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(base_bg)
 	if ResourceLoader.exists(_BG):
 		var bg_img := TextureRect.new()
 		bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)

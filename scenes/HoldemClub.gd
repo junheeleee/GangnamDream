@@ -361,7 +361,7 @@ func _render_table() -> void:
 	my_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	my_box.add_child(my_spacer)
 	var my_stack := Label.new()
-	my_stack.text = "🪙 %s" % _fmt(_player_stack)
+	my_stack.text = "STACK  %s" % _fmt(_player_stack)
 	my_stack.add_theme_font_size_override("font_size", 13)
 	my_stack.add_theme_color_override("font_color", Color("#a0c8a0"))
 	my_stack.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -687,7 +687,7 @@ func _do_showdown() -> void:
 		hand_net = _pot
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
 		_session_won += 1
-		msg_parts.append("🎉 %s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
+		msg_parts.append("%s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play("money_big" if _pot >= 1_000_000 else "money_gain")
 		_screen_flash(Color("#f0b429"), 0.22, 0.42)
@@ -697,7 +697,7 @@ func _do_showdown() -> void:
 		hand_net = -_pot
 		_net_session -= _pot if _hands_played == 1 else 0
 		_session_lost += 1
-		msg_parts.append("😔 %s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
+		msg_parts.append("%s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 		AudioManager.play("money_loss")
 		_screen_flash(Color("#d73a49"), 0.22, 0.38)
@@ -755,7 +755,7 @@ func _show_result_screen() -> void:
 
 	var net := _player_stack - _buy_in
 	var net_lbl := Label.new()
-	net_lbl.text = ("%s +%s" % ["💰", _fmt(net)]) if net >= 0 else ("💸 %s" % _fmt(net))
+	net_lbl.text = ("WIN  +%s" % _fmt(net)) if net >= 0 else ("LOSS  %s" % _fmt(net))
 	net_lbl.add_theme_font_size_override("font_size", 22)
 	net_lbl.add_theme_color_override("font_color", Color("#5de89c") if net >= 0 else Color("#e85d5d"))
 	net_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -768,12 +768,12 @@ func _show_result_screen() -> void:
 	# GameState 반영
 	GameState.money += float(_player_stack - _buy_in)
 	if net > 0:
-		GameState.add_log("🃏 홀덤 클럽에서 %s 땄다." % _fmt(net), "money")
+		GameState.add_log("홀덤 클럽에서 %s 땄다." % _fmt(net), "money")
 		GameState.modify_hidden_stat("gambling_tendency", 5)
 		if GameState.addiction_tendency < 50:
 			GameState.modify_hidden_stat("addiction_tendency", 3)
 	else:
-		GameState.add_log("🃏 홀덤 클럽에서 %s 잃었다." % _fmt(-net), "money")
+		GameState.add_log("홀덤 클럽에서 %s 잃었다." % _fmt(-net), "money")
 		GameState.modify_hidden_stat("stress", 5)
 		if net < -200_000:
 			GameState.modify_hidden_stat("addiction_tendency", 4)
@@ -798,6 +798,11 @@ var _content_root: Control
 func _build_ui() -> void:
 	# 배경 이미지 (이미지 있으면 위에, 없으면 단색만)
 	const _BG_HOLDEM = "res://assets/backgrounds/holdem_club_interior.png"
+	var base_bg := ColorRect.new()
+	base_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base_bg.color = Color("#070a0e")
+	base_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(base_bg)
 	if ResourceLoader.exists(_BG_HOLDEM):
 		var bg_img := TextureRect.new()
 		bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
