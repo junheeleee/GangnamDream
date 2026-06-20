@@ -62,5 +62,35 @@
         "result_text": "{name} lifted his finger off the buy button.\nAnd left the room.\n\nReal experts make money quietly with their own cash.\nThey don't charge fees to call stocks for strangers.\n\nMore than 500 profit proofs, that one simple logic protected {name}.\n\nDays later, that room made the news as a scam.\n{name} didn't read the article to the end. He already knew."
       }
     ]
+  },
+  {
+    "id": "debt_invest_margin_call",
+    "title": "Margin Call D-1",
+    "description": "2 AM. The HTS screen is red.\n\nStocks bought on margin loan are near the daily limit-down for the second day.\nA notification popped up in the brokerage app.\n\n'Insufficient collateral. Additional deposit or forced liquidation scheduled (D-1).'\n\nForced liquidation. The moment the market opens tomorrow, the brokerage will dump {name}'s stocks.\nAt market price. For a pittance.\n\n{name} checked the account. There was no money for an additional deposit.\nThe greed bought on borrowed money was returning with the weight of what was borrowed.",
+    "choices": [
+      {
+        "text": "Scrape together money to hold it — selling here ends everything",
+        "result_text": "Card loans, emergency cash, everything he could pull together.\n\nHe barely met the collateral. The liquidation was stopped.\n\nBut stopping it wasn't the end.\nIf the price keeps falling, he has to stop it again. And again. And again.\n\nOnly then did {name} understand.\nLeverage isn't something you hold off — it's something you escape.\nLate, but next time he'd remember."
+      },
+      {
+        "text": "Accept the liquidation — cutting losses is skill too",
+        "result_text": "{name} didn't make the deposit.\n\nThe next morning, the stocks were force-liquidated at market price.\nThe loss was big. His account staggered.\n\nBut strangely, his mind felt lighter.\nHe'd stopped pouring water into a bottomless jar.\n\nThe first lesson of leverage — what you bought with debt was never yours.\nAn expensive lesson, but he ended it in one stroke."
+      }
+    ]
+  },
+  {
+    "id": "gig_delivery_night",
+    "title": "The Second Job at Night",
+    "description": "The salary alone doesn't add up.\n\n{name} registered as a delivery app rider.\nDay job by day, deliveries by night. Everyone lives like this these days, they said.\n\nFirst call. One fried chicken, 1.2km, 3,200 won delivery fee.\nHe put on the helmet and headed into the night streets.\n\nRaindrops began to fall.\nThe next call appeared on the phone mount screen.",
+    "choices": [
+      {
+        "text": "Ride even in the rain — there's a rain surcharge",
+        "result_text": "Rainy days have more calls, and surcharges.\nThat much more dangerous, that much more earned.\n\n{name} rode until 1 AM.\nWet clothes, frozen hands, 48,000 won logged in the account.\n\nHis body felt like it would break, but the numbers were honest.\nFilling it this way is how the day-job salary stays whole.\n\nGangnam, somewhere in this rain, was getting one call closer."
+      },
+      {
+        "text": "Call it a night — an accident in the rain costs more",
+        "result_text": "{name} took off the helmet.\n\nSlip on a wet road for 3,200 won, and the hospital bill is 300,000.\nThe math didn't add up.\n\nNot pushing too hard was a strategy too.\nFor someone whose body is the asset, protecting the body was money itself.\n\n{name} bought a warm convenience store coffee and walked home.\nToday's earnings: 30,000 won. But not a scratch on him."
+      }
+    ]
   }
 ]

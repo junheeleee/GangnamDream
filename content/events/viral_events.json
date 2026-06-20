@@ -12,7 +12,11 @@
       "min_turn": 12,
       "min_mental": 35
     },
-    "tags": ["self_dev", "trend", "viral"],
+    "tags": [
+      "self_dev",
+      "trend",
+      "viral"
+    ],
     "cooldown": 20,
     "description": "SNS 피드가 온통 '갓생'이다.\n\n새벽 5시 기상, 미라클모닝, 아침 운동, 영어 공부, 독서 30분.\n해시태그 #갓생 #미라클모닝 #자기계발이 타임라인을 도배한다.\n\n인증샷 속 사람들은 다 빛나 보인다.\n{name}은 새벽 1시에 그 피드를 보고 있었다.\n\n부럽기도 하고, 묘하게 초조하기도 했다.\n나도 저렇게 살아야 하나.",
     "choices": [
@@ -23,7 +27,9 @@
           "mental": -2,
           "health": -1
         },
-        "flags": ["started_godsaeng"],
+        "flags": [
+          "started_godsaeng"
+        ],
         "result_text": "알람을 새벽 5시에 맞췄다.\n\n첫날은 됐다. 둘째 날도. 셋째 날부터 무너졌다.\n\n근데 사흘이라도 해본 게 어디냐 싶었다.\n갓생은 매일이 시험이다. {name}은 일단 다시 알람을 맞췄다.\n\n빛나 보이는 그 사람들도, 사실 매일 이 사흘을 반복하는 건지도 몰랐다."
       },
       {
@@ -32,7 +38,9 @@
           "mental": 5,
           "intelligence": 1
         },
-        "flags": ["rejected_godsaeng_pressure"],
+        "flags": [
+          "rejected_godsaeng_pressure"
+        ],
         "result_text": "{name}은 핸드폰을 내려놨다.\n\n남이 새벽 5시에 일어나든 말든, 내 인생은 내 시간표가 있다.\n갓생도 결국 남과 비교하면 또 다른 압박일 뿐이다.\n\n그렇게 생각하니 마음이 편해졌다.\n{name}은 자기만의 속도로, 그래도 한 걸음씩은 가고 있었다."
       },
       {
@@ -42,7 +50,10 @@
           "mental": -1,
           "reputation": 1
         },
-        "flags": ["started_godsaeng", "godsaeng_for_show"],
+        "flags": [
+          "started_godsaeng",
+          "godsaeng_for_show"
+        ],
         "result_text": "인스타에 갓생 계정을 만들었다.\n\n새벽 운동 인증, 책 표지 사진, 오늘의 다짐.\n팔로워가 조금씩 늘었다. 좋아요가 달렸다.\n\n근데 어느 순간, 운동을 하려고 일어나는 건지\n인증샷을 찍으려고 일어나는 건지 헷갈리기 시작했다.\n\n보여주는 삶과 사는 삶의 거리 — 그게 점점 멀어지고 있었다."
       }
     ]
@@ -60,7 +71,10 @@
       "flag": "started_godsaeng",
       "min_turn": 20
     },
-    "tags": ["self_dev", "trend"],
+    "tags": [
+      "self_dev",
+      "trend"
+    ],
     "cooldown": 9999,
     "description": "갓생을 산 지 두 달째.\n\n새벽 기상, 운동, 공부, 독서, 사이드 프로젝트.\n할 일 목록은 완벽했다. 다 지키면 하루가 24시간으로 모자랐다.\n\n그런데 어느 날 {name}은 멍하니 깨달았다.\n\n쉬는 시간조차 '자기계발 콘텐츠'를 보고 있었다.\n노는 것도 죄책감이 들었다. 가만히 있으면 뒤처지는 것 같았다.\n\n갓생을 살려다, 삶이 통째로 과제가 됐다.",
     "choices": [
@@ -71,7 +85,10 @@
           "health": 4,
           "intelligence": -1
         },
-        "flags": ["godsaeng_paradox_seen", "learned_to_rest"],
+        "flags": [
+          "godsaeng_paradox_seen",
+          "learned_to_rest"
+        ],
         "result_text": "일요일 하루, {name}은 아무것도 안 했다.\n\n알람도 끄고, 할 일 목록도 안 보고, 그냥 누워 있었다.\n처음엔 불안했다. 시간이 아까웠다.\n\n근데 오후가 되니 이상하게 머리가 맑아졌다.\n\n쉬는 것도 갓생의 일부였다. 그걸 두 달 만에 알았다.\n번아웃 직전에 브레이크를 밟은 셈이었다."
       },
       {
@@ -81,7 +98,10 @@
           "mental": -6,
           "health": -3
         },
-        "flags": ["godsaeng_paradox_seen", "godsaeng_overdrive"],
+        "flags": [
+          "godsaeng_paradox_seen",
+          "godsaeng_overdrive"
+        ],
         "result_text": "{name}은 시간표를 더 빡빡하게 짰다.\n\n이동 시간엔 오디오북, 식사 중엔 강의, 자기 전엔 회고.\n빈틈을 다 메웠다. 효율은 올라갔다.\n\n근데 몸이 신호를 보내기 시작했다.\n눈 밑 떨림, 소화불량, 자다 깨는 새벽.\n\n갓생과 번아웃은 종이 한 장 차이였다.\n{name}은 그 종이 위를 아슬아슬하게 걷고 있었다."
       }
     ]
@@ -98,7 +118,11 @@
     "conditions": {
       "min_turn": 10
     },
-    "tags": ["trend", "comedy", "finance"],
+    "tags": [
+      "trend",
+      "comedy",
+      "finance"
+    ],
     "cooldown": 18,
     "description": "친구가 카톡 오픈채팅 링크를 보냈다.\n\n'거지방'. 익명 100명이 모여 서로의 지출을 검열하는 방이었다.\n\n누가 '스타벅스 4,500원 썼어요' 하면\n'야 그 돈이면 집에서 믹스커피 90잔이야!' 하고 댓글이 폭주한다.\n\n웃기면서도 — 묘하게 도움이 됐다.\n{name}도 오늘 쓴 돈을 올려봤다.\n\n'편의점 도시락 4,800원.'\n\n3초 만에 알림이 울리기 시작했다.",
     "choices": [
@@ -109,7 +133,9 @@
           "mental": 2,
           "social_skill": 1
         },
-        "flags": ["joined_geojibang"],
+        "flags": [
+          "joined_geojibang"
+        ],
         "result_text": "'도시락 살 돈으로 쌀 사서 밥 해먹으세요!'\n'4,800원이면 라면 6개입니다 정신차리세요!'\n\n웃다가 진지하게 반성하게 됐다.\n\n그날부터 {name}은 뭘 사기 전에 거지방을 떠올렸다.\n익명 100명의 잔소리가 머릿속에 자동 재생됐다.\n\n신기하게 한 달 지출이 줄었다.\n부끄러움이 이렇게 돈이 될 줄은 몰랐다."
       },
       {
@@ -117,7 +143,9 @@
         "effects": {
           "mental": 3
         },
-        "flags": ["left_geojibang"],
+        "flags": [
+          "left_geojibang"
+        ],
         "result_text": "{name}은 몇 개 글을 보고 빵 터졌다가, 조용히 나갔다.\n\n절약도 좋지만, 4,800원 도시락 하나에 죄책감 느끼면서 살고 싶진 않았다.\n\n아끼는 것과 쪼들리는 건 다르다.\n{name}은 그 선을 지키고 싶었다.\n\n그래도 거지방 짤은 가끔 생각나서 혼자 웃었다."
       }
     ]
@@ -135,7 +163,11 @@
       "min_turn": 18,
       "min_investment_skill": 8
     },
-    "tags": ["trend", "investment", "warning"],
+    "tags": [
+      "trend",
+      "investment",
+      "warning"
+    ],
     "cooldown": 24,
     "description": "결국 리딩방에 들어갔다.\n\n'수익률 300% 보장' '오늘만 무료 종목 공개'.\n방에는 500명이 있었다. 수익 인증 스크린샷이 분 단위로 올라온다.\n\n'리더님' 이 종목을 찍어줬다. 매수 추천.\n방 사람들이 환호한다. '리더님 믿습니다!'\n\n{name}은 손가락을 매수 버튼 위에 올렸다.\n\n근데 문득 — 저 수익 인증들이 전부 진짜일까.\n저게 다 맞으면, 리더는 왜 회비를 받고 있을까.",
     "choices": [
@@ -147,7 +179,9 @@
           "mental": -5,
           "addiction_tendency": 8
         },
-        "flags": ["followed_leading_room"],
+        "flags": [
+          "followed_leading_room"
+        ],
         "result_text": "리더가 찍은 종목을 샀다.\n\n처음 며칠은 올랐다. {name}도 인증샷을 올렸다. '리더님 감사합니다!'\n\n그러다 어느 날, 종목이 급락했다.\n리더는 '손절도 전략입니다'라며 다음 종목을 찍었다.\n방 사람들은 또 환호했다.\n\n그제야 보였다. 리더가 버는 건 종목이 아니라 회비였다.\n그리고 손실 인증은 아무도 안 올린다는 것도."
       },
       {
@@ -157,8 +191,111 @@
           "mental": 3,
           "intelligence": 2
         },
-        "flags": ["left_leading_room", "learned_invest_wisdom"],
+        "flags": [
+          "left_leading_room",
+          "learned_invest_wisdom"
+        ],
         "result_text": "{name}은 매수 버튼에서 손가락을 뗐다.\n그리고 방을 나왔다.\n\n진짜 고수는 자기 돈으로 조용히 번다.\n남한테 회비 받고 종목 찍어주지 않는다.\n\n수익 인증 500개보다, 그 단순한 논리 하나가 {name}을 지켰다.\n\n며칠 뒤, 그 방이 사기로 뉴스에 나왔다.\n{name}은 기사를 끝까지 읽지 않았다. 안 봐도 알았으니까."
+      }
+    ]
+  },
+  {
+    "id": "debt_invest_margin_call",
+    "title": "반대매매 D-1",
+    "category": "investment",
+    "rarity": "rare",
+    "weight": 0.9,
+    "hidden": false,
+    "portrait": "player_shocked",
+    "background": "investment_phone",
+    "conditions": {
+      "has_portfolio": true,
+      "min_turn": 20,
+      "min_investment_skill": 12
+    },
+    "tags": [
+      "trend",
+      "investment",
+      "warning",
+      "leverage"
+    ],
+    "cooldown": 30,
+    "description": "새벽 두 시. HTS 화면이 빨갛다.\n\n신용융자로 산 주식이 이틀째 하한가 근처다.\n증권사 앱에 알림이 떴다.\n\n'담보 부족. 추가 입금 또는 반대매매 예정 (D-1).'\n\n반대매매. 내일 장 시작과 동시에, 증권사가 {name}의 주식을 강제로 팔아버린다.\n시장가로. 헐값에.\n\n{name}은 계좌를 봤다. 추가 입금할 돈은 없었다.\n빌려서 산 욕심이, 빌린 만큼의 무게로 돌아오고 있었다.",
+    "choices": [
+      {
+        "text": "어떻게든 돈을 구해 막는다 — 여기서 팔면 끝이다",
+        "effects": {
+          "money": -3000000,
+          "mental": -8,
+          "health": -3,
+          "addiction_tendency": 5
+        },
+        "flags": [
+          "fought_margin_call"
+        ],
+        "result_text": "카드론, 비상금, 끌어모을 수 있는 건 다 끌어모았다.\n\n간신히 담보를 맞췄다. 반대매매는 막았다.\n\n근데 막은 게 끝이 아니었다.\n주가가 계속 떨어지면, 또 막아야 한다. 또, 또.\n\n{name}은 그제야 알았다.\n레버리지는 막는 게 아니라 — 빠져나오는 거였다.\n늦었지만, 다음엔 기억할 것이다."
+      },
+      {
+        "text": "반대매매를 받아들인다 — 손절도 실력이다",
+        "effects": {
+          "money": -1500000,
+          "mental": 3,
+          "investment_skill": 4,
+          "intelligence": 2
+        },
+        "flags": [
+          "accepted_margin_call",
+          "learned_invest_wisdom"
+        ],
+        "result_text": "{name}은 추가 입금을 안 했다.\n\n다음 날 아침, 주식은 시장가로 강제 청산됐다.\n손실은 컸다. 통장이 휘청였다.\n\n근데 이상하게 마음은 가벼웠다.\n밑 빠진 독에 물을 붓는 걸 멈춘 거니까.\n\n레버리지의 첫 번째 교훈 — 빚으로 산 건 내 게 아니다.\n비싼 수업이었지만, 한 번에 끝냈다."
+      }
+    ]
+  },
+  {
+    "id": "gig_delivery_night",
+    "title": "밤의 두 번째 일",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "portrait": "player_tired",
+    "background": "convenience_night",
+    "conditions": {
+      "max_money": 3000000,
+      "min_turn": 14
+    },
+    "tags": [
+      "trend",
+      "survival",
+      "gig"
+    ],
+    "cooldown": 16,
+    "description": "월급만으로는 계산이 안 맞는다.\n\n{name}은 배달 앱 라이더 등록을 했다.\n낮엔 본업, 밤엔 배달. 요즘 다들 그렇게 산다고 했다.\n\n첫 콜. 치킨 한 마리, 1.2km, 배달료 3,200원.\n헬멧을 쓰고 밤거리로 나갔다.\n\n빗방울이 떨어지기 시작했다.\n폰 거치대 화면에 다음 콜이 떴다.",
+    "choices": [
+      {
+        "text": "비 와도 뛴다 — 우천 할증이 붙는다",
+        "effects": {
+          "money": 180000,
+          "health": -6,
+          "mental": -3
+        },
+        "flags": [
+          "gig_grinder"
+        ],
+        "result_text": "비 오는 날은 콜이 많고, 할증이 붙는다.\n그만큼 위험하고, 그만큼 번다.\n\n{name}은 새벽 한 시까지 뛰었다.\n젖은 옷, 시린 손, 통장에 찍힌 4만 8천원.\n\n몸은 부서질 것 같았지만, 숫자는 정직했다.\n이렇게라도 메워야, 본업 월급이 온전히 남는다.\n\n강남은 이 빗속 어딘가에서, 한 콜씩 가까워지고 있었다."
+      },
+      {
+        "text": "오늘은 접는다 — 비 오는 날 사고 나면 더 손해다",
+        "effects": {
+          "money": 30000,
+          "health": -1,
+          "mental": 2,
+          "intelligence": 1
+        },
+        "flags": [
+          "gig_cautious"
+        ],
+        "result_text": "{name}은 헬멧을 벗었다.\n\n3,200원 벌자고 빗길에 미끄러지면, 병원비가 30만원이다.\n계산이 안 맞았다.\n\n무리하지 않는 것도 전략이었다.\n몸이 자산인 사람에게는, 몸을 지키는 게 곧 돈이었다.\n\n{name}은 따뜻한 편의점 커피 하나를 사 들고 집으로 걸었다.\n오늘 번 건 3만원. 그래도 다친 데는 없었다."
       }
     ]
   }

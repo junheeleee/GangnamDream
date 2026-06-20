@@ -48,7 +48,8 @@
 - [x] **갓생/자기계발** (기존 0개 → 갭 해소): godsaeng_start(3지선다)/godsaeng_paradox(번아웃 역설)
 - [x] **거지방** geojibang_chat: 카톡 익명 지출 검열 문화 (frugal_month_challenge와 차별 — 사회/코미디)
 - [x] **리딩방 심화** leading_room_joined: gambling_006(광고)의 후속 — 실제 가입 후 회비 사기 구조 폭로
-- [ ] 2차: 오마카세/스몰럭셔리 플렉스 압박, 의대광풍, N잡 번아웃
+- [x] 2차: 주식 빚투/반대매매(debt_invest_margin_call — 기존 0개 갭, 레버리지 시스템 보완), 플랫폼노동/배달(gig_delivery_night — 청년 N잡 생존 현실)
+- [ ] 3차 후보: 오마카세 플렉스 압박(기존 4개), 비혼/욜로 성찰(기존 0개)
 
 ### P4 — 공략성 (전략 가독성)
 숨은 경로를 발견 가능하게.
