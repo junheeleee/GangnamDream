@@ -24,8 +24,15 @@
 - geojibang_chat(거지방 지출검열), leading_room_joined(리딩방 회비사기).
 - debt_invest_margin_call(주식 빚투 반대매매 D-1), gig_delivery_night(배달 N잡 생존).
 
+### P5 도박 중독 서사 아크 (카지노 서사 영역 허용 후, 미니게임 메커니즘 미변경)
+- gambling_rock_bottom (중독80+): 진짜 바닥 클라이맥스 — 단도박모임/아버지고백/더깊이(crypto_ghost 직전 분기).
+- 회복 3종: recovery_first_week(금단)→recovery_relapse_test(재발유혹 분기)→recovery_one_month_clean(동그라미30개 구원).
+- 기존 금단선택지(deleted_gambling_apps/tried_to_quit_gambling)를 in_recovery_started로 회복 아크에 연결.
+- beat_addiction 업적 + MetaProgression.beat_addiction_ever 영구 플래그.
+- 구원 엔딩 gambling_recovery(B급): "강남 못 갔어도 자신을 잃지 않았다". 엔딩 30개(finish_run 30:30 매핑).
+
 ### 검증
-- 총 이벤트 1032개. Godot v4.6.2 헤드리스 프로젝트 임포트 클린.
+- 총 이벤트 1036개. Godot v4.6.2 헤드리스 프로젝트 임포트 클린.
 - audit.py ERROR 0 / WARNING 0. 밸런스 밴드 불변.
 
 
