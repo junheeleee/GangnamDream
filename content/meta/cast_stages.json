@@ -23,5 +23,8 @@
     "unknown", "distant", "worried", "health_crisis", "quiet",
     "close", "reconciled", "hopeful", "connected", "passed"
   ],
-  "hyunsu": ["unknown"]
+  "hyunsu": [
+    "unknown", "neighbor", "study_partner", "friend",
+    "exam_done", "passed", "failed", "pivoted", "drifted", "reconnected"
+  ]
 }

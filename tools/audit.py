@@ -393,7 +393,9 @@ CAST_EFFECT_KEYS = {"affinity", "stage", "met", "flags"}
 EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "hidden", "conditions", "tags", "cooldown", "choices",
                    "portrait", "background", "cg", "speaker", "one_time", "_file",
-                   "timed", "timer_seconds"}
+                   "timed", "timer_seconds",
+                   "description_orthodox", "description_unorthodox",
+                   "description_low_mental", "description_long_gosiwon"}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",

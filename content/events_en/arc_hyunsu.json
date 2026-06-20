@@ -1,0 +1,88 @@
+[
+  {
+    "id": "hyunsu_study_together",
+    "title": "The Guy Who Studies Too",
+    "description": "He ran into Hyunsu again in the shared kitchen.\n\nRamen again. 2 AM again.\n\n\"You prepping for something, too?\"\n\nFour years into the Grade 9 civil service exam. This year was his last shot, he said.\nHis face was exhausted but not surrendered.",
+    "choices": [
+      {
+        "text": "Encourage him",
+        "result_text": "\"You'll get it this year.\"\n\nHyunsu smiled. A real one.\n\"You'll be fine too, hyung.\"\n\n{name} held onto that longer than expected."
+      },
+      {
+        "text": "\"Four years is a long time\"",
+        "result_text": "\"Yeah. But quitting now feels like I'd regret it longer.\"\n\n{name} understood that.\n\nChoosing a different path versus staying on this one — you only know which was right later."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_exam_day",
+    "title": "Exam Day",
+    "description": "Hyunsu left at 5 AM.\n\n{name} half-woke to the sound of the door, then closed his eyes again.\n\nToday was the exam. Grade 9 administrative track.",
+    "choices": [
+      {
+        "text": "Ask how it went later",
+        "result_text": "Hyunsu came back in the evening.\n\"How'd it go?\"\n\nHe paused before answering.\n\"I think it went okay. Maybe.\"\n\nMaybe. That one word carried a lot."
+      },
+      {
+        "text": "Say nothing — better not to press",
+        "result_text": "Hyunsu came back quietly.\n{name} caught his eye in the hallway and asked without words.\nHyunsu gave a small nod. A signal that said: I'm okay."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_result_pass",
+    "title": "Hyunsu Passed",
+    "description": "Hyunsu knocked on his door.\n\n\"Hyung, I passed.\"\n\nHe said it quietly. No shouting, no celebration.\nFour years of weight in his voice.",
+    "choices": [
+      {
+        "text": "Congratulate him",
+        "result_text": "\"Seriously? That's great.\"\n\nHyunsu smiled — the first real smile {name} had seen from him.\n\n{name} felt good about it. Like it was his own.\n\nWhen someone else's success feels like yours — that's what a real connection is."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_result_fail",
+    "title": "Hyunsu Didn't Pass",
+    "description": "Hyunsu came back late that night.\n\nHe didn't say anything. {name} could tell from the way he moved.\n\nThe results were out.",
+    "choices": [
+      {
+        "text": "Sit with him for a while",
+        "result_text": "They sat in the shared kitchen without speaking.\n\nNo ramen this time.\n\nSometimes being present is the only thing you can offer.\n{name} didn't have any words. Neither did Hyunsu.\n\nThey sat until past midnight."
+      },
+      {
+        "text": "Give him space",
+        "result_text": "{name} went back to his room.\n\nSome things need to be processed alone.\nHe knew that.\n\nThe wall between the rooms was thin. Neither of them slept well that night."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_pivot",
+    "title": "Hyunsu's New Direction",
+    "description": "Hyunsu said he was leaving the goshiwon.\n\n\"I'm done with the exam.\"\n\nFive years, he said. He'd given it five years.\n\nHe'd found a job opening — a small logistics company, starting from the bottom.",
+    "choices": [
+      {
+        "text": "\"That takes guts\"",
+        "result_text": "\"I'm scared,\" Hyunsu said simply.\n\n\"But staying scared of the same thing forever is scarier.\"\n\n{name} watched him pack.\n\nSomeone choosing a new direction — and meaning it — looked like this."
+      },
+      {
+        "text": "\"You'll figure it out\"",
+        "result_text": "\"Thanks for saying that, hyung.\"\n\nHyunsu shook his hand at the door.\n\nThe goshiwon felt quieter after he left.\n\nSometimes the people who pass through briefly leave more than the ones who stay."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_reunion_later",
+    "title": "Running Into Hyunsu Again",
+    "description": "He ran into Hyunsu on the street.\n\nHe'd changed — better posture, a work badge clipped to his bag.\n\n\"Hyung. Long time.\"\n\nHe was a team lead now. Three people under him.",
+    "choices": [
+      {
+        "text": "\"You made it\"",
+        "result_text": "\"Still a long way to go,\" Hyunsu said.\n\nBut his eyes said something different.\n\n{name} thought about the goshiwon kitchen. The 2 AM ramen. The exam score he never mentioned again.\n\nPeople get there on their own timetable.\nSometimes you just get to watch."
+      },
+      {
+        "text": "\"Grab a coffee sometime\"",
+        "result_text": "They exchanged numbers.\n\nMaybe they'd follow up, maybe not.\n\n{name} didn't think that mattered much.\n\nThe fact that Hyunsu was standing there, solid, doing something real — that was enough."
+      }
+    ]
+  }
+]

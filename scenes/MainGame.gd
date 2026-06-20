@@ -1598,10 +1598,30 @@ func _next_arc_id() -> String:
 			and not f.get("arc_gangnam_visit_alone_seen", false):
 		return "arc_gangnam_visit_alone"
 
+	# ── 현수 — 같이 공부하는 사람 (턴 12~18, 첫 만남 이후) ──
+	if t >= 12 and t <= 18 \
+			and f.get("arc_intro_hyunsu_seen", false) \
+			and not f.get("hyunsu_study_together_seen", false):
+		return "hyunsu_study_together"
+
 	# ── 현수 — 밤 라면 대화 (턴 20+, 만남 이후) ──
 	if t >= 20 and f.get("arc_intro_hyunsu_seen", false) \
 			and not f.get("arc_hyunsu_night_seen", false):
 		return "arc_hyunsu_night_talk"
+
+	# ── 현수 — 시험 날 (턴 22~28, 밤 대화 이후) ──
+	if t >= 22 and t <= 28 \
+			and f.get("arc_hyunsu_night_seen", false) \
+			and not f.get("hyunsu_exam_day_seen", false):
+		return "hyunsu_exam_day"
+
+	# ── 현수 — 시험 결과 (불합격이 기본 스토리, 합격은 hyunsu_encouraged 선택 시) ──
+	if f.get("hyunsu_exam_day_seen", false) \
+			and not f.get("hyunsu_passed", false) \
+			and not f.get("hyunsu_failed", false):
+		if f.get("hyunsu_encouraged", false):
+			return "hyunsu_result_pass"
+		return "hyunsu_result_fail"
 
 	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
@@ -1761,6 +1781,17 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_later_echo_seen", false):
 		return "arc_daeun_later_echo"
 
+	# ── 현수 — 새 길 (턴 35~50, 불합격 이후) ──
+	if t >= 35 and t <= 50 \
+			and f.get("hyunsu_failed", false) \
+			and not f.get("hyunsu_pivoted", false):
+		return "hyunsu_pivot"
+	# ── 현수 — 나중에 다시 만난 날 (턴 70+, 피벗 이후) ──
+	if t >= 70 \
+			and f.get("hyunsu_pivoted", false) \
+			and not f.get("hyunsu_reconnected", false):
+		return "hyunsu_reunion_later"
+
 	# ══ 8구간: 연도 마커 + 챕터 내부 씬 — 5년의 흐름을 체감하는 무조건 씬 ══
 	# t=52 = 13개월차(1년 1개월), t=72 = 18개월차(1년 6개월), t=96 = 24개월차(2년)
 	# t=148 = 37개월차(3년 1개월), t=192 = 48개월차(4년), t=220 = 55개월차(마지막 6개월)
@@ -1769,6 +1800,16 @@ func _next_arc_id() -> String:
 	# ── 1년 반 마커 — t68-90 공백 구간 앵커 (무조건) ──
 	if t >= 68 and t <= 90 and not f.get("arc_year_one_half_seen", false):
 		return "arc_year_one_half"
+	# ── 34세 루틴의 덫 (t62-76) ──
+	if t >= 62 and t <= 76 and not f.get("arc_34_routine_trap_seen", false):
+		return "arc_34_routine_trap"
+	# ── 34세 부모님 서울 방문 (t77-88) ──
+	if t >= 77 and t <= 88 and not f.get("arc_34_parents_visit_seen", false):
+		return "arc_34_parents_visit"
+	# ── 34세 서울 2년째 자각 (t89-96) ──
+	if t >= 89 and t <= 96 and not f.get("arc_34_two_years_in_seen", false):
+		return "arc_34_two_years_in"
+
 	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
 		return "arc_year_two_pressure"
 	# ── 35세 생일 (t100-112) ──

@@ -1,0 +1,204 @@
+[
+  {
+    "id": "hyunsu_study_together",
+    "title": "같이 공부하는 사람",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "conditions": {
+      "flag": "arc_intro_hyunsu_seen"
+    },
+    "cooldown": 10,
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "고시원 주방에서 현수를 또 만났다.\n\n이번에도 라면이었다. 새벽 두 시.\n\n\"형은 뭐 해요? 원서 준비해요?\"\n\n9급 공시 4년째라고 했다. 올해가 마지막이라고.\n표정은 지쳤지만 포기한 것 같진 않았다.",
+    "choices": [
+      {
+        "text": "응원한다",
+        "effects": {
+          "social_skill": 1,
+          "mental": 1
+        },
+        "flags": [
+          "hyunsu_encouraged",
+          "hyunsu_study_together_seen"
+        ],
+        "result_text": "\"올해는 될 거야.\"\n\n현수가 씩 웃었다. 진짜 웃음 같았다.\n\"형도 잘 될 거예요.\"\n\n{name}은 그 말이 생각보다 오래 남았다."
+      },
+      {
+        "text": "4년이면 오래됐다고 한다",
+        "effects": {
+          "social_skill": 1
+        },
+        "flags": [
+          "hyunsu_talked_candidly",
+          "hyunsu_study_together_seen"
+        ],
+        "result_text": "\"오래됐죠. 근데 지금 그만두면 더 오래 후회할 것 같아서요.\"\n\n{name}은 그 말을 이해했다.\n다른 길로 가는 것과 이 길을 계속 가는 것 — 어느 쪽이 맞는지는 나중에 안다."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_exam_day",
+    "title": "시험 날",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "arc_intro_hyunsu_seen",
+      "min_turn": 20
+    },
+    "cooldown": 9999,
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "현수가 새벽 다섯 시에 나갔다.\n\n{name}은 문 소리에 잠깐 깼다가 다시 눈을 감았다.\n\n오늘이 시험 날이었다. 9급 행정직.",
+    "choices": [
+      {
+        "text": "나중에 결과를 물어본다",
+        "effects": {
+          "social_skill": 1
+        },
+        "flags": [
+          "hyunsu_exam_day_seen"
+        ],
+        "result_text": "저녁에 현수가 돌아왔다.\n\"어땠어?\"\n\n현수는 잠깐 멈췄다가 대답했다.\n\"잘 본 것 같아요. 아마도.\"\n\n아마도. 그 단어가 많은 걸 담고 있었다."
+      },
+      {
+        "text": "아무 말 안 한다 — 건드리지 않는 게 낫다",
+        "effects": {},
+        "flags": [
+          "hyunsu_exam_day_seen"
+        ],
+        "result_text": "현수는 저녁에 조용히 들어왔다.\n{name}은 마주쳤을 때 눈빛으로만 물었다.\n현수는 고개를 살짝 끄덕였다. 괜찮다는 신호였다."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_result_pass",
+    "title": "현수, 붙었다",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "hyunsu_exam_day_seen"
+    },
+    "cooldown": 9999,
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "현수가 문을 두드렸다.\n\n\"형, 붙었어요.\"\n\n조용히 말했다. 소리를 지르거나 하지 않았다.\n4년의 무게가 느껴지는 목소리였다.",
+    "choices": [
+      {
+        "text": "축하한다",
+        "effects": {
+          "mental": 3,
+          "social_skill": 1
+        },
+        "flags": [
+          "hyunsu_passed",
+          "hyunsu_relationship_close"
+        ],
+        "result_text": "\"야, 진짜? 잘됐다.\"\n\n현수가 웃었다. 그때 처음으로 환하게 웃는 걸 봤다.\n\n{name}은 자기 일처럼 기분이 좋았다.\n남의 성공이 기쁠 때 — 그게 진짜 관계라는 신호인지도 모른다."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_result_fail",
+    "title": "현수, 떨어졌다",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "hyunsu_exam_day_seen",
+      "no_flag": "hyunsu_passed"
+    },
+    "cooldown": 9999,
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "현수가 사흘째 방에만 있었다.\n\n밥 먹는 소리가 안 들렸다.\n\n{name}은 문 앞에 섰다. 두드려야 하나.",
+    "choices": [
+      {
+        "text": "문을 두드린다",
+        "effects": {
+          "social_skill": 2,
+          "mental": 1
+        },
+        "flags": [
+          "hyunsu_failed",
+          "hyunsu_comforted"
+        ],
+        "result_text": "한참 후에 문이 열렸다.\n\n현수 눈이 부었다.\n\n말을 많이 하지 않았다. 편의점에서 음료 두 개 사다 줬다.\n그걸로 충분했다. 때로는 그게 전부다."
+      },
+      {
+        "text": "건드리지 않는다 — 혼자 있고 싶을 것 같다",
+        "effects": {
+          "intelligence": 1
+        },
+        "flags": [
+          "hyunsu_failed"
+        ],
+        "result_text": "나흘째 되던 날 현수가 나왔다.\n\n아무 말 없이 세수를 했다.\n{name}과 눈이 마주쳤다. 현수가 작게 고개를 끄덕였다.\n\n괜찮다는 건지, 아직 모르겠다는 건지."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_pivot",
+    "title": "현수, 다른 길",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "hyunsu_failed",
+      "min_turn": 30
+    },
+    "cooldown": 9999,
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "현수가 이사한다고 했다.\n\n공시를 그만두고 취업 준비를 한다고.\n전공이 회계학이었다. 회계사 공부를 다시 시작한다고.\n\n\"더 멀지도 않고 더 가깝지도 않아요. 그냥 다른 길이에요.\"\n\n{name}은 그 말을 오래 생각했다.",
+    "choices": [
+      {
+        "text": "잘될 거라고 한다",
+        "effects": {
+          "social_skill": 1,
+          "mental": 2
+        },
+        "flags": [
+          "hyunsu_pivoted"
+        ],
+        "result_text": "\"잘 될 거야.\"\n\n현수가 웃었다. 이번엔 좀 더 단단한 웃음이었다.\n\n다른 길을 선택하는 것과 포기하는 것은 다르다.\n{name}은 그걸 현수한테서 배웠다."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_reunion_later",
+    "title": "현수에게서 연락이 왔다",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "hyunsu_pivoted",
+      "min_turn": 60
+    },
+    "cooldown": 9999,
+    "portrait": "hyunsu",
+    "background": "street",
+    "description": "카톡이 왔다. 현수였다.\n\n\"형, 저 회계법인 취직했어요.\"\n\n사진이 왔다. 정장. 명함.\n\n{name}은 사진을 한참 봤다.",
+    "choices": [
+      {
+        "text": "축하 메시지를 보낸다",
+        "effects": {
+          "mental": 4,
+          "social_skill": 1
+        },
+        "flags": [
+          "hyunsu_reconnected"
+        ],
+        "result_text": "\"야 진짜? 잘됐다!!\"\n\n\"형 덕분이에요. 그때 문 두드려줘서.\"\n\n{name}은 폰을 내려놓았다.\n\n서울에서 5년. 이런 연락이 오는 날도 있다."
+      }
+    ]
+  }
+]

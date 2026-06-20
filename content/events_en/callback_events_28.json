@@ -1,0 +1,47 @@
+[
+  {
+    "id": "mother_call_compare",
+    "title": "Mom's Comparison",
+    "description": "Mom called.\n\nAfter asking how he was eating, she said a friend's son had just passed the state exam.\n\nAnother had gotten a position at a major company.\n\nShe wasn't trying to be cruel. She just didn't know how to say she was worried about him.",
+    "choices": [
+      {
+        "text": "\"I'm working on my own thing\"",
+        "result_text": "\"I know, I know,\" Mom said quickly.\n\n\"I just worry.\"\n\n{name} said he understood.\n\nHe hung up and sat quietly for a moment.\n\nShe would always see the distance between where he was and where she imagined he should be. He'd accepted that."
+      },
+      {
+        "text": "Just let her talk",
+        "result_text": "Mom talked for another ten minutes.\n\nSo-and-so's son, such-and-such's daughter.\n\n{name} listened.\n\nWhen she finally asked again if he was eating properly, he said yes.\n\n\"Alright then. Stay healthy.\"\n\nShe just wanted to hear his voice."
+      }
+    ]
+  },
+  {
+    "id": "mother_seoul_visit",
+    "title": "Mom Comes to Seoul",
+    "description": "Mom came to Seoul unannounced.\n\nShe said she happened to be passing through. But the bus ride was three hours each way.\n\nShe brought a bag of side dishes from home.",
+    "choices": [
+      {
+        "text": "Have a meal together",
+        "result_text": "They found a small restaurant nearby.\n\nMom watched {name} eat.\n\nShe didn't say much. She'd refill his water before it was half empty.\n\nAt the end she said, \"You look tired.\"\n\n{name} said he was fine.\n\nShe held his hand for a moment before she left."
+      },
+      {
+        "text": "\"Mom, you didn't have to come all this way\"",
+        "result_text": "\"I was nearby,\" Mom said.\n\nBoth of them knew it wasn't true.\n\nShe handed over the side dishes and scanned his face like she was looking for something.\n\n{name} wondered what she saw.\n\nHe walked her back to the bus stop."
+      }
+    ]
+  },
+  {
+    "id": "mother_reconcile_moment",
+    "title": "A Moment with Mom",
+    "description": "Walking along the Han River with Mom.\n\nShe'd asked to see the river.\n\nThey walked slowly. She said, \"It's big.\"\n\n{name} thought about all the times he'd come here alone to think.",
+    "choices": [
+      {
+        "text": "Tell her honestly how things are going",
+        "result_text": "It wasn't everything. But more than he'd said before.\n\nMom listened without interrupting.\n\nWhen he finished, she said: \"I knew you weren't doing it the easy way.\"\n\nThat was all. But her hand found his arm for a moment.\n\nSomething loosened between them."
+      },
+      {
+        "text": "Just walk together quietly",
+        "result_text": "They didn't say much.\n\nThe river was loud enough on its own.\n\n{name} didn't need to explain. Mom didn't push.\n\nSome things don't need words. They just need the time."
+      }
+    ]
+  }
+]

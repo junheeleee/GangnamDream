@@ -1,0 +1,112 @@
+[
+  {
+    "id": "mother_call_compare",
+    "title": "어머니 전화",
+    "category": "family",
+    "rarity": "common",
+    "weight": 0.8,
+    "conditions": {
+      "min_turn": 8
+    },
+    "cooldown": 12,
+    "portrait": "mother",
+    "background": "late_night",
+    "description": "어머니한테서 전화가 왔다.\n\n\"밥은 먹냐. 잘 자냐.\"\n\n그리고 잠깐의 침묵 후에,\n\"수원 정 씨 딸 있잖아. 공무원 됐대. 결혼도 한다더라.\"\n\n{name}은 정 씨 딸을 모른다. 아마 어머니도 잘 모를 것이다.",
+    "choices": [
+      {
+        "text": "\"그래요, 잘됐네요\"",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "\"그래, 잘됐지.\"\n어머니 목소리가 조금 멀어졌다.\n\n\"...잘 지내야 해.\"\n\n{name}은 전화를 끊고 천장을 봤다.\n어머니가 걱정한다는 건 안다. 표현 방식이 그럴 뿐."
+      },
+      {
+        "text": "\"저도 잘 되고 있어요\"",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        },
+        "result_text": "\"그래?\" 어머니 목소리가 조금 밝아졌다.\n\n\"뭘 하는 건데?\"\n\n설명했다. 길게. 어머니가 끝까지 들었다.\n\"그래, 열심히 해라.\"\n\n그 한 마디가 생각보다 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "mother_seoul_visit",
+    "title": "어머니가 서울에 왔다",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "arc_34_parents_visited",
+      "min_turn": 30
+    },
+    "cooldown": 9999,
+    "portrait": "mother",
+    "background": "goshiwon_room",
+    "description": "어머니가 혼자 서울에 왔다.\n\n아버지는 일이 있다고 했다. 어머니만 왔다.\n\n고시원 방을 다시 봤다. 저번과 같았다. 달라진 건 없었다.\n\n어머니가 청소를 시작했다. 아무 말 없이.",
+    "choices": [
+      {
+        "text": "같이 청소한다",
+        "effects": {
+          "mental": 5,
+          "health": 2
+        },
+        "flags": [
+          "mother_visited_alone"
+        ],
+        "result_text": "두 시간 동안 청소했다.\n\n거의 말이 없었다.\n\n끝나고 어머니가 뭔가를 남겨두고 갔다.\n반찬이었다. 냉장고에 넣으라고.\n\n{name}은 한참 그 반찬통을 봤다."
+      },
+      {
+        "text": "밖에 나가서 밥을 먹자고 한다",
+        "effects": {
+          "mental": 3,
+          "money": -40000
+        },
+        "flags": [
+          "mother_visited_alone"
+        ],
+        "result_text": "삼겹살집. 어머니는 고기를 구워줬다.\n\n\"맛있게 먹어라.\"\n\n{name}은 먹었다. 오랜만에 집밥 같은 게 먹고 싶었는데\n삼겹살이 그것과 가까운 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "mother_reconcile_moment",
+    "title": "어머니와 한 마디",
+    "category": "family",
+    "rarity": "rare",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "mother_visited_alone",
+      "min_turn": 100
+    },
+    "cooldown": 9999,
+    "portrait": "mother",
+    "background": "hangang_riverside",
+    "description": "전화를 받았다. 어머니.\n\n\"아들, 나 요즘 꿈에 니가 자꾸 나오더라.\"\n\n이런 말을 처음 했다.\n\n{name}은 잠깐 멈췄다.",
+    "choices": [
+      {
+        "text": "\"엄마, 나 잘 하고 있어\"",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [
+          "mother_reconciled"
+        ],
+        "result_text": "어머니가 조용했다.\n\n\"그래, 믿는다.\"\n\n그 한 마디.\n\n{name}은 전화를 끊고 나서 눈이 조금 따가웠다.\n피곤해서일 것이다."
+      },
+      {
+        "text": "\"엄마도 잘 지내?\"",
+        "effects": {
+          "mental": 4
+        },
+        "flags": [
+          "mother_reconnected"
+        ],
+        "result_text": "\"나야 뭐, 그럭저럭.\"\n\n어머니 목소리가 평소보다 부드러웠다.\n\n오래 통화했다. 별 내용은 없었다.\n근데 필요한 통화였다."
+      }
+    ]
+  }
+]

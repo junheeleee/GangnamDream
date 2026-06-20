@@ -716,6 +716,10 @@ func apply_effects(effects):
 				flags.erase(str(value))
 			"action_points":
 				action_points = clamp(action_points + int(value), 0, max_action_points + 2)
+			"route_orthodox":
+				route_orthodox = maxi(0, route_orthodox + int(value))
+			"route_unorthodox":
+				route_unorthodox = maxi(0, route_unorthodox + int(value))
 	stats_changed.emit()
 
 func apply_relationship_effect(effect):

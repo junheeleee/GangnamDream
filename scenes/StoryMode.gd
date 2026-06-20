@@ -344,7 +344,23 @@ func _render_current():
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
 
 	# 본문 문단 분할 (\n\n 기준)
-	var desc = _fmt(str(_current.get("description", "")))
+	# 루트·상태별 대체 description: description_orthodox / description_unorthodox /
+	# description_low_mental / description_long_gosiwon 우선 적용
+	var desc_raw: String = str(_current.get("description", ""))
+	var ortho: int  = int(GameState.get("route_orthodox", 0))
+	var unorth: int = int(GameState.get("route_unorthodox", 0))
+	var mental: int = int(GameState.get("mental", 60))
+	var housing: String = str(GameState.get("housing", "gosiwon"))
+	var housing_months: int = int(GameState.get("housing_months", 0))
+	if mental <= 20 and _current.has("description_low_mental"):
+		desc_raw = str(_current["description_low_mental"])
+	elif housing == "gosiwon" and housing_months >= 6 and _current.has("description_long_gosiwon"):
+		desc_raw = str(_current["description_long_gosiwon"])
+	elif ortho > unorth + 15 and _current.has("description_orthodox"):
+		desc_raw = str(_current["description_orthodox"])
+	elif unorth > ortho + 15 and _current.has("description_unorthodox"):
+		desc_raw = str(_current["description_unorthodox"])
+	var desc = _fmt(desc_raw)
 	_paragraphs = []
 	for para in desc.split("\n\n"):
 		var p = str(para).strip_edges()

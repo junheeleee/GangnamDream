@@ -4911,5 +4911,569 @@
         "result_text": "오늘 10분 했다. 내일은 모른다. 그것만으로도 어제보다 낫다."
       }
     ]
+  },
+  {
+    "id": "health_sleep_debt",
+    "title": "수면 부채",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.2,
+    "conditions": {},
+    "cooldown": 6,
+    "description": "밤새 뭔가를 했다. 잠을 못 잤다.\n\n아침에 일어나니 머리가 무거웠다.\n이 느낌이 3일째 계속되고 있었다.",
+    "choices": [
+      {
+        "text": "오늘은 무조건 일찍 잔다",
+        "effects": {
+          "health": 4,
+          "mental": 3
+        },
+        "result_text": "7시간. 오랜만이었다.\n다음 날 머리가 달랐다. 이게 정상 상태였구나."
+      },
+      {
+        "text": "커피로 버틴다 — 할 게 있다",
+        "effects": {
+          "health": -4,
+          "mental": -2,
+          "intelligence": 1
+        },
+        "result_text": "커피 두 잔. 버텼다. 일은 됐다.\n하지만 몸은 기억하고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "health_exercise_choice",
+    "title": "운동할까 말까",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.0,
+    "conditions": {},
+    "cooldown": 5,
+    "description": "헬스장 앞까지 왔다.\n\n들어갈까 말까. 피곤했다.\n근데 이 핑계로 안 간 게 이번이 몇 번째인지 모르겠다.",
+    "choices": [
+      {
+        "text": "들어간다",
+        "effects": {
+          "health": 5,
+          "mental": 4
+        },
+        "result_text": "30분. 처음 10분이 제일 힘들었다.\n나오면서 생각했다 — 역시 오길 잘했다."
+      },
+      {
+        "text": "오늘은 쉰다",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "집에 왔다. 누웠다.\n다음번엔 간다고 생각했다. 항상 그랬다."
+      }
+    ]
+  },
+  {
+    "id": "health_meal_skip",
+    "title": "또 끼니를 건너뛰었다",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.1,
+    "conditions": {},
+    "cooldown": 4,
+    "description": "바빠서 밥을 못 먹었다.\n\n아니 정확히는, 안 먹은 거다. 귀찮았다.\n배가 고팠다. 근데 뭔가를 먹으러 나가기가 귀찮았다.\n\n이 달만 이미 세 번 이상이었다.",
+    "choices": [
+      {
+        "text": "나가서 뭔가 먹는다",
+        "effects": {
+          "health": 3,
+          "money": -8000
+        },
+        "result_text": "편의점 삼각김밥과 우유. 8천 원.\n먹고 나니 좀 살 것 같았다."
+      },
+      {
+        "text": "그냥 잔다",
+        "effects": {
+          "health": -3,
+          "mental": -2
+        },
+        "result_text": "내일 아침에 먹기로 했다.\n몸이 조금 더 가벼워진 것 같기도 하고, 아닌 것 같기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "health_back_pain",
+    "title": "허리",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "conditions": {},
+    "cooldown": 8,
+    "description": "허리가 아팠다.\n\n처음엔 좀 이상하다 싶었는데 이제 아침마다 뻣뻣했다.\n고시원 침대 매트리스가 문제인가. 자세가 문제인가. 나이가 문제인가.\n\n33살인데.",
+    "choices": [
+      {
+        "text": "병원에 간다",
+        "effects": {
+          "health": 8,
+          "money": -50000
+        },
+        "result_text": "정형외과. 엑스레이. 5만 원.\n근육 긴장이라고 했다. 스트레칭하라고 했다.\n5만 원짜리 조언이었지만 마음이 놓였다."
+      },
+      {
+        "text": "그냥 참는다 — 바빠서",
+        "effects": {
+          "health": -5
+        },
+        "result_text": "참았다.\n다음 달에는 더 나빠져 있었다."
+      },
+      {
+        "text": "스트레칭이라도 한다",
+        "effects": {
+          "health": 3
+        },
+        "result_text": "유튜브에서 허리 스트레칭을 찾아봤다.\n10분. 조금 나아진 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "health_cold",
+    "title": "감기",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.2,
+    "conditions": {},
+    "cooldown": 6,
+    "description": "목이 간질간질하더니 콧물이 났다.\n\n감기였다.\n\n아프면 안 되는 타이밍이었다. 언제나 그랬다.",
+    "choices": [
+      {
+        "text": "약 사고 푹 쉰다",
+        "effects": {
+          "health": 6,
+          "mental": 2,
+          "money": -15000
+        },
+        "result_text": "종합감기약. 하루 쉬었다.\n다음 날 70%는 회복됐다. 일찍 잡길 잘했다."
+      },
+      {
+        "text": "버티면서 계속한다",
+        "effects": {
+          "health": -8,
+          "mental": -3
+        },
+        "result_text": "버텼다. 일주일이 걸렸다.\n그 사이 더 많은 게 무너졌다."
+      }
+    ]
+  },
+  {
+    "id": "health_checkup_reminder",
+    "title": "검진 문자",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.7,
+    "conditions": {},
+    "cooldown": 12,
+    "description": "국가건강검진 안내 문자가 왔다.\n\n올해 대상자였다. 무료.\n\n{name}은 문자를 봤다가 넘겼다. 귀찮았다.\n근데 마지막으로 검진 받은 게 언제였는지 기억이 안 났다.",
+    "choices": [
+      {
+        "text": "예약한다",
+        "effects": {
+          "health": 12,
+          "mental": 3
+        },
+        "result_text": "병원 예약. 혈액검사. 흉부 엑스레이.\n이상 없음이라는 말을 들었을 때 생각보다 안도가 컸다.\n몸 걱정을 안 하고 있었다고 생각했는데, 사실 하고 있었던 것 같다."
+      },
+      {
+        "text": "나중에",
+        "effects": {},
+        "result_text": "나중에라고 생각했다.\n나중에는 올 것이다. 언제인지는 모른다."
+      }
+    ]
+  },
+  {
+    "id": "health_eye_strain",
+    "title": "눈이 빠질 것 같다",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.0,
+    "conditions": {},
+    "cooldown": 5,
+    "description": "폰을 오래 봤더니 눈이 따가웠다.\n\n스크린 타임 알림이 떴다. 하루 7시간 48분.\n\n어쩌다 이렇게 됐나. 딱히 뭘 한 것도 없는데.",
+    "choices": [
+      {
+        "text": "오늘은 폰을 빨리 끈다",
+        "effects": {
+          "health": 3,
+          "mental": 4
+        },
+        "result_text": "밤 열 시에 폰을 끄고 책을 읽었다.\n처음 10분은 손이 폰을 찾았다.\n30분 후엔 그냥 읽고 있었다."
+      },
+      {
+        "text": "조금 더 한다",
+        "effects": {
+          "health": -3,
+          "mental": -2
+        },
+        "result_text": "한다고 했지만 딱히 유익한 건 없었다.\n자려고 누웠는데 눈이 계속 깜빡였다."
+      }
+    ]
+  },
+  {
+    "id": "health_tension_headache",
+    "title": "편두통",
+    "category": "health",
+    "rarity": "common",
+    "weight": 1.1,
+    "conditions": {
+      "max_mental": 50
+    },
+    "cooldown": 6,
+    "description": "머리 한쪽이 지끈거렸다.\n\n스트레스성 편두통. 한 달에 한두 번은 온다.\n\n{name}은 진통제 위치를 알았다. 가방 안쪽 주머니.",
+    "choices": [
+      {
+        "text": "약 먹고 잠깐 눕는다",
+        "effects": {
+          "health": 4,
+          "mental": 2
+        },
+        "result_text": "20분 누웠다. 일어났더니 좀 나아졌다.\n몸이 쉬라고 말하는 방식이었다."
+      },
+      {
+        "text": "그냥 버틴다",
+        "effects": {
+          "health": -4,
+          "mental": -3
+        },
+        "result_text": "버텼다. 두 시간 후에 더 심해졌다."
+      }
+    ]
+  },
+  {
+    "id": "health_diet_choice",
+    "title": "뭘 먹을까",
+    "category": "health",
+    "rarity": "common",
+    "weight": 0.9,
+    "conditions": {},
+    "cooldown": 5,
+    "description": "점심 시간. {name}은 밖에 나왔다.\n\n왼쪽엔 국밥 7,000원. 오른쪽엔 편의점 도시락 4,500원.\n직진하면 24시 치킨 반반 17,000원.\n\n서울에서 밥 한 끼가 이렇게 복잡할 줄 몰랐다.",
+    "choices": [
+      {
+        "text": "국밥 — 몸을 챙긴다",
+        "effects": {
+          "health": 4,
+          "mental": 2,
+          "money": -7000
+        },
+        "result_text": "뜨거운 국밥 한 그릇.\n몸이 좀 따뜻해졌다. 7,000원의 가치가 있었다."
+      },
+      {
+        "text": "편의점 도시락 — 아끼자",
+        "effects": {
+          "health": -1,
+          "money": -4500
+        },
+        "result_text": "4,500원. 먹었다. 허전했다.\n배는 차는데 만족은 없는 식사."
+      }
+    ]
+  },
+  {
+    "id": "health_mental_burnout_signal",
+    "title": "신호",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "conditions": {
+      "max_mental": 40
+    },
+    "cooldown": 8,
+    "description": "아무것도 하기 싫은 날이었다.\n\n해야 하는 건 있었다. 근데 몸이 안 움직였다.\n이불 밖이 너무 멀었다.\n\n{name}은 생각했다 — 이게 번아웃인가.",
+    "choices": [
+      {
+        "text": "오늘 하루는 쉰다 — 진짜로",
+        "effects": {
+          "mental": 8,
+          "health": 3
+        },
+        "result_text": "이불 속에서 하루를 보냈다.\n죄책감이 들었다가, 좀 지나니 괜찮아졌다.\n내일은 다를 것 같았다."
+      },
+      {
+        "text": "억지로 일어난다",
+        "effects": {
+          "mental": -4,
+          "intelligence": 1
+        },
+        "result_text": "일어났다. 뭔가를 했다.\n몸은 움직였지만 머리가 없었다.\n효율이 반도 안 됐다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_lunch_menu",
+    "title": "점심 메뉴 결정 20분",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.3,
+    "conditions": {
+      "has_job": true
+    },
+    "cooldown": 5,
+    "description": "\"오늘 뭐 먹을까요?\"\n\n이 질문이 나온 지 20분이 됐다.\n\n치킨? 어제 먹었다. 국밥? 질렸다. 파스타? 누가 비싸다고 했다.\n중국집? 탕수육 소스 찍먹 부먹으로 10분이 날아갈 것 같았다.\n\n{name}은 배가 고팠다. 점심 시간은 줄어들고 있었다.",
+    "choices": [
+      {
+        "text": "아무 데나 정해버린다",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        },
+        "result_text": "\"저 편의점 가겠습니다.\"\n5분 만에 먹었다. 회의 시간 안에 왔다.\n리더십이란 결국 결정하는 것이다."
+      },
+      {
+        "text": "계속 의논한다",
+        "effects": {
+          "mental": -1
+        },
+        "result_text": "결국 국밥집에서 밥 먹고 5분 지각했다.\n팀장이 봤다. 팀장도 늦었기 때문에 아무 말 없었다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_elevator_awkward",
+    "title": "엘리베이터 2층",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.2,
+    "conditions": {
+      "has_job": true
+    },
+    "cooldown": 6,
+    "description": "엘리베이터에 혼자 탔다.\n\n2층 버튼을 눌렀다.\n\n문이 닫히는 순간 계단으로 갔으면 빨랐을 거란 걸 깨달았다.\n이미 닫혔다.\n\n{name}은 앞을 봤다. 숫자가 1에서 2로 바뀌는 걸 기다렸다.",
+    "choices": [
+      {
+        "text": "그냥 탄다 — 이미 탔으니까",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "2층. 문이 열렸다.\n아무도 없었다. 다행이었다."
+      },
+      {
+        "text": "다음엔 계단을 쓴다 (다짐)",
+        "effects": {
+          "health": 1
+        },
+        "result_text": "다짐했다.\n다음 날도 엘리베이터를 탔다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_office_printer",
+    "title": "프린터와의 전쟁",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.1,
+    "conditions": {
+      "has_job": true
+    },
+    "cooldown": 6,
+    "description": "프린터가 안 됐다.\n\n전원 켜짐. 연결됨. 근데 안 됨.\n\n껐다 켰다. 드라이버 재설치. USB로 연결. 와이파이로 다시.\n30분이 지났다.\n\n옆 자리 대리가 왔다. 버튼 하나 눌렀다. 됐다.",
+    "choices": [
+      {
+        "text": "감사합니다 (진심으로)",
+        "effects": {
+          "social_skill": 1,
+          "mental": 1
+        },
+        "result_text": "대리가 씩 웃고 갔다.\n{name}은 그 버튼을 메모해뒀다."
+      },
+      {
+        "text": "왜 되는 거죠 (진심으로)",
+        "effects": {
+          "intelligence": 1
+        },
+        "result_text": "\"그냥요.\" 대리가 갔다.\n{name}은 10분 더 고민했다. 여전히 모르겠다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_convenience_1plus1",
+    "title": "1+1의 함정",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.4,
+    "conditions": {},
+    "cooldown": 4,
+    "description": "편의점에 갔다.\n\n삼각김밥 하나 사러 들어갔는데\n1+1 행사를 발견했다.\n\n과자. 음료. 아이스크림. 컵라면.\n\n계산대에 서니 5개를 들고 있었다.\n원래 3,500원인데 11,000원이 찍혔다.",
+    "choices": [
+      {
+        "text": "그냥 다 산다 — 1+1은 거부할 수 없다",
+        "effects": {
+          "mental": 3,
+          "money": -11000
+        },
+        "result_text": "사야 한다. 1+1은 사야 한다.\n집에 와서 냉장고를 열었다. 이미 같은 게 두 개 있었다."
+      },
+      {
+        "text": "원래 살 것만 산다",
+        "effects": {
+          "money": -3500,
+          "mental": -1
+        },
+        "result_text": "3,500원만 냈다.\n나오면서 1+1이 계속 생각났다.\n잘한 건지 모르겠다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_subway_seat",
+    "title": "빈자리",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.2,
+    "conditions": {},
+    "cooldown": 5,
+    "description": "지하철에 빈자리가 있었다.\n\n{name}과 옆 사람이 동시에 봤다.\n\n0.5초의 눈빛 교환.",
+    "choices": [
+      {
+        "text": "앉는다",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "앉았다. 상대방도 그 옆에 앉았다.\n둘 다 폰을 꺼냈다. 서울."
+      },
+      {
+        "text": "양보한다",
+        "effects": {
+          "social_skill": 1,
+          "mental": 1
+        },
+        "result_text": "손짓했다. 상대방이 앉았다. 고개를 끄덕였다.\n{name}은 손잡이를 잡고 섰다.\n나쁘지 않은 기분이었다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_group_chat",
+    "title": "단체 카톡",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.3,
+    "conditions": {
+      "has_job": true
+    },
+    "cooldown": 5,
+    "description": "회사 단체 카톡방에 메시지가 200개 쌓였다.\n\n점심 시간에 확인해보니 팀장이 아침 9시에 올린 공지 하나에 대한 반응들이었다.\n\n\"감사합니다\" \"확인했습니다\" \"알겠습니다\"\n\n198개.\n\n{name}은 자기도 보내야 하는지 생각했다.",
+    "choices": [
+      {
+        "text": "\"확인했습니다\" 보낸다",
+        "effects": {
+          "social_skill": 1
+        },
+        "result_text": "보냈다. 199번째 확인했습니다였다.\n팀장이 이모티콘으로 답했다."
+      },
+      {
+        "text": "안 보낸다 — 이미 200개잖아",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "안 보냈다.\n아무도 몰랐다. 아마도."
+      }
+    ]
+  },
+  {
+    "id": "comedy_cafe_seat_war",
+    "title": "카페 자리 전쟁",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.1,
+    "conditions": {},
+    "cooldown": 5,
+    "description": "카페에 들어갔다.\n\n자리가 없었다. 15개 테이블 중 12개에 사람이 없고 짐만 있었다.\n\n짐들은 주인을 기다리고 있었다.\n아마도.",
+    "choices": [
+      {
+        "text": "짐 있는 자리 옆에 앉아서 기다린다",
+        "effects": {
+          "mental": -1,
+          "intelligence": 1
+        },
+        "result_text": "30분 기다렸다. 주인이 왔다. 화장실 다녀왔다고 했다.\n30분짜리 화장실이었다."
+      },
+      {
+        "text": "다른 카페로 간다",
+        "effects": {
+          "money": -1000
+        },
+        "result_text": "다른 카페로 갔다. 거기도 비슷했다.\n하지만 창가 자리를 잡았다. 잘했다고 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_wrong_floor",
+    "title": "잘못 내렸다",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.0,
+    "conditions": {},
+    "cooldown": 7,
+    "description": "지하철에서 졸다가 잘못 내렸다.\n\n눈을 떴을 때 문이 닫히고 있었다.\n\n역 이름이 달랐다. 두 정거장 지나쳤다.",
+    "choices": [
+      {
+        "text": "웃으면서 다음 열차 기다린다",
+        "effects": {
+          "mental": 2
+        },
+        "result_text": "6분 기다렸다. 별거 아니었다.\n이런 날도 있다."
+      },
+      {
+        "text": "자신에게 화가 난다",
+        "effects": {
+          "mental": -2
+        },
+        "result_text": "6분을 손해봤다고 생각했다.\n나중에 그 6분이 생각나진 않았다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_autocorrect",
+    "title": "자동완성의 배신",
+    "category": "comedy",
+    "rarity": "common",
+    "weight": 1.2,
+    "conditions": {},
+    "cooldown": 6,
+    "description": "카톡을 보내고 나서 다시 봤다.\n\n\"내일 미팅 가능하신가요\"가\n\"내일 마팅 가능하신가요\"로 보내졌다.\n\n상대방이 이미 읽었다.",
+    "choices": [
+      {
+        "text": "바로 정정 메시지를 보낸다",
+        "effects": {
+          "social_skill": 1
+        },
+        "result_text": "\"*미팅이요 ㅠ\"\n상대방이 ㅋㅋ 하고 답했다.\n인간적으로 보였을 수도 있다."
+      },
+      {
+        "text": "그냥 넘어간다 — 맥락상 안다",
+        "effects": {
+          "mental": 1
+        },
+        "result_text": "아무 말 안 했다.\n상대방도 아무 말 안 했다.\n미팅은 잡혔다."
+      }
+    ]
+  },
+  {
+    "id": "comedy_umchinah",
+    "title": "엄친아의 등장",
+    "category": "comedy",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "conditions": {},
+    "cooldown": 8,
+    "description": "어머니한테서 전화가 왔다.\n\n\"옆집 민수 알지? 이번에 대기업 붙었대. 결혼도 한다더라.\"\n\n{name}은 민수를 기억했다. 고3 때 반에서 꼴등이었다.\n\n\"그래요, 잘됐네요.\"\n\n어머니는 잠깐 멈췄다.",
+    "choices": [
+      {
+        "text": "\"나도 잘 되고 있어요\"",
+        "effects": {
+          "mental": 1,
+          "social_skill": 1
+        },
+        "result_text": "\"그래, 그래야지.\"\n어머니가 전화를 끊었다.\n{name}은 뭔가 잘 되고 있는 건지 생각해봤다."
+      },
+      {
+        "text": "\"...네\" (침묵)",
+        "effects": {
+          "mental": -2
+        },
+        "result_text": "전화를 끊었다.\n민수가 꼴등이었던 게 맞나 다시 생각해봤다. 맞는 것 같았다.\n근데 지금은 관계없다."
+      }
+    ]
   }
 ]

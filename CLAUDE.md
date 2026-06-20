@@ -8,11 +8,11 @@
 
 | 항목 | 내용 |
 |---|---|
-| **단계** | **영문 번역 100% + 넥스트 페스트 미니게임/엔딩 표면 폴리싱 — 미니게임 사운드/타격감 QA + 캡슐 아트 대기** |
-| **최근 완료** | **2026-06-20** — (1) Codex 12개 커밋 병합: 미니게임 풀스크린 + 칩 UI + 전용 엔딩 CG 3종 + 오디오 P1(앰비언스5/엔딩 스팅거3/카지노 SFX8) + BGM 연속성 수정 + 면접 배경 + 초상화 레이아웃. (2) 영문 번역 100%: life_events(111), relationship_events(53) 포함 978/970 이벤트. (3) 미니게임 진입 시 MainGame HUD/월 표시 숨김, 바카라 중앙 풀스크린 배치, 전용 CG 없는 엔딩 배경 fallback 금지, 엔딩 `{name}` 치환, 슬롯/홀덤/스캘핑 자산 반영 `GameState.add_money()` 통일. (4) 경마/홀덤/카지노 결과 사운드·컨트롤러 진동을 `AudioManager.play_casino_result()`로 통일하고, Steam 후보 스크린샷 8장 export 툴 추가. |
-| **이전** | **2026-06-19** — 비주얼 에셋(정선 카지노/헬스장/한강/남산/카드/칩) + 배경 라우팅 재적용 |
-| **다음 작업** | **넥스트 페스트용 체감 QA 계속** — 엔딩 A급 이상 컷신 추가 후보 선정·제작, 스토어 후보 8장 중 약한 컷 교체, 경마/홀덤/카지노 화면 흔들림/플래시 과잉 여부를 실제 플레이 화면 기준으로 조정 |
-| **마지막 업데이트** | 2026-06-20 (`audit.sh` OK, `AudioAssetCheck` OK, `StoreScreenshotExport` OK count=8; ScreenshotQA 기존 30장 기반) |
+| **단계** | **Metacritic 90 목표 — 글쓰기 밀도·아크 완성도 강화 진행 중** |
+| **최근 완료** | **2026-06-20** — (1) StoryMode 루트 기반 텍스트 변주 시스템: low_mental/long_gosiwon/orthodox/unorthodox 상황별 description_* 변형 표시. (2) 아크 8개 (arc_intro 4종 + sangchul/invest/jiyeon/father) 김민준 목소리 강화 + 대사 변주 추가. (3) audit.py EN/KR 조건 패리티 검사 #8 추가 + 98건 수정. (4) 신규 콘텐츠: 34세 씬 3개(arc_midgame), 건강×10+코미디×10(life_events), 현수 아크 6개(arc_hyunsu.json), 어머니 이벤트 3개(callback_events_28.json) + 전체 EN 번역. (5) GameState.apply_effects에 route_orthodox/route_unorthodox 키 추가. (6) cast_stages.json 현수 단계 확장 (10개). audit ERROR 0 / WARNING 0. |
+| **이전** | **2026-06-20** — Codex 12개 커밋 병합: 미니게임 풀스크린/칩UI/전용엔딩CG/오디오P1/BGM연속성/면접배경/초상화레이아웃 + 영문 번역 100% |
+| **다음 작업** | **아크 글쓰기 계속** — arc_jaehyuk 시리즈 / arc_father_02-03 / arc_midgame 35~37세 씬 강화; 엔딩 전 씬(pre-ending) 1~2개; F급 엔딩 번아웃/정신붕괴/파산 차별화 |
+| **마지막 업데이트** | 2026-06-20 |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

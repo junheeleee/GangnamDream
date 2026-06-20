@@ -2382,28 +2382,53 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "milestone"
+    ],
     "cooldown": 9999,
     "description": "Thirty-five.\n\nStarted at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight — an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from dad: \"Happy birthday. You eating okay?\"\n\n{name} held the phone for a moment.",
     "choices": [
       {
         "text": "Replied \"Thank you\" and opened the planner",
-        "effects": { "intelligence": 1, "mental": -2 },
-        "flags": ["arc_35_birthday_seen", "birthday_back_to_work"],
+        "effects": {
+          "intelligence": 1,
+          "mental": -2
+        },
+        "flags": [
+          "arc_35_birthday_seen",
+          "birthday_back_to_work"
+        ],
         "result_text": "Thirty-five is just a number. Three years to thirty-eight. The plan exists. {name} rewrote tomorrow's task list."
       },
       {
         "text": "Decided today would just be a birthday",
-        "effects": { "mental": 8 },
-        "flags": ["arc_35_birthday_seen", "birthday_rest_taken"],
+        "effects": {
+          "mental": 8
+        },
+        "flags": [
+          "arc_35_birthday_seen",
+          "birthday_rest_taken"
+        ],
         "result_text": "Closed the planner. Needed one day as {name}, not as the person chasing 3 billion. For once, that felt allowed."
       },
       {
         "text": "Called dad",
-        "effects": { "mental": 4 },
-        "flags": ["arc_35_birthday_seen"],
-        "cast_effects": { "father": { "affinity": 3 } },
+        "effects": {
+          "mental": 4
+        },
+        "flags": [
+          "arc_35_birthday_seen"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 3
+          }
+        },
         "result_text": "\"Getting along okay?\" Dad asked. Said yes. It wasn't a lie.\n\nHis voice sounded a little older. That stayed with {name}."
       }
     ]
@@ -2417,27 +2442,49 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
     "cooldown": 9999,
     "description": "Saturday morning.\n\nNothing scheduled.\n\nLiving in Seoul for over two years now, and having no one to spend the weekend with has become something like normal. It's not that there's no one to contact — it's that contact just stopped happening.\n\n{name} made a cup of coffee and looked out the window. Seoul looked busy, even on weekends.",
     "choices": [
       {
         "text": "Reached out. To anyone.",
-        "effects": { "social_skill": 1, "mental": 5 },
-        "flags": ["arc_35_alone_seen", "reached_out_35"],
+        "effects": {
+          "social_skill": 1,
+          "mental": 5
+        },
+        "flags": [
+          "arc_35_alone_seen",
+          "reached_out_35"
+        ],
         "result_text": "Got through to someone. Short call. Nothing much said. Still — hearing a voice changed something."
       },
       {
         "text": "Went out alone. Walked to the Han River.",
-        "effects": { "health": 3, "mental": 4 },
-        "flags": ["arc_35_alone_seen", "walked_alone_35"],
+        "effects": {
+          "health": 3,
+          "mental": 4
+        },
+        "flags": [
+          "arc_35_alone_seen",
+          "walked_alone_35"
+        ],
         "result_text": "Four hours of walking. Sat on a bench by the river for a while. Seoul is wide, even when you walk it alone. Strangely, didn't feel lonely."
       },
       {
         "text": "Just stayed. This is me too.",
-        "effects": { "mental": 2 },
-        "flags": ["arc_35_alone_seen"],
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "arc_35_alone_seen"
+        ],
         "result_text": "Did nothing. At first it felt like guilt. Then something like peace. Hard to say when being alone became comfortable."
       }
     ]
@@ -2451,27 +2498,52 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
     "cooldown": 9999,
     "description": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.",
     "choices": [
       {
         "text": "This routine is building me. Keeping it.",
-        "effects": { "intelligence": 1, "health": -2, "mental": -3 },
-        "flags": ["arc_35_habit_check_seen", "maintained_routine"],
+        "effects": {
+          "intelligence": 1,
+          "health": -2,
+          "mental": -3
+        },
+        "flags": [
+          "arc_35_habit_check_seen",
+          "maintained_routine"
+        ],
         "result_text": "Consistency is the result. Wobbling means losing. {name} rewrote tomorrow's schedule."
       },
       {
         "text": "Going to change one thing. A routine can become a trap.",
-        "effects": { "intelligence": 2, "mental": 4 },
-        "flags": ["arc_35_habit_check_seen", "changed_routine"],
+        "effects": {
+          "intelligence": 2,
+          "mental": 4
+        },
+        "flags": [
+          "arc_35_habit_check_seen",
+          "changed_routine"
+        ],
         "result_text": "Cut an hour from the chart-watching time. An empty slot appeared. Strangely, things felt sharper. The routine had started to become the point."
       },
       {
         "text": "Started exercising again. Need to use the body.",
-        "effects": { "health": 5, "mental": 3 },
-        "flags": ["arc_35_habit_check_seen", "restarted_exercise"],
+        "effects": {
+          "health": 5,
+          "mental": 3
+        },
+        "flags": [
+          "arc_35_habit_check_seen",
+          "restarted_exercise"
+        ],
         "result_text": "Dug out the running shoes after half a year. Three kilometers on the first day and nearly died. Still — the feeling wasn't bad. Something was coming back."
       }
     ]
@@ -2485,27 +2557,51 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
     "cooldown": 9999,
     "description": "Three years have passed.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining: twenty-five months.\n\nCan that gap be closed in twenty-five months?\n\nThe number came out. {name} stared at the screen and said nothing. At the current pace — no. Something had to change.\n\nThen remembered having the exact same thought three years ago.",
     "choices": [
       {
         "text": "Need to move faster. Everything so far was a warm-up.",
-        "effects": { "investment_skill": 1, "mental": -5 },
-        "flags": ["arc_36_reality_check_seen", "year3_doubled_down"],
+        "effects": {
+          "investment_skill": 1,
+          "mental": -5
+        },
+        "flags": [
+          "arc_36_reality_check_seen",
+          "year3_doubled_down"
+        ],
         "result_text": "Fear was there. But fear means there's still something to lose. {name} rebuilt the plan. Bigger."
       },
       {
         "text": "Keeping the current pace. Rushing leads to mistakes.",
-        "effects": { "mental": 6, "luck": 1 },
-        "flags": ["arc_36_reality_check_seen", "year3_steady_path"],
+        "effects": {
+          "mental": 6,
+          "luck": 1
+        },
+        "flags": [
+          "arc_36_reality_check_seen",
+          "year3_steady_path"
+        ],
         "result_text": "Impatient people make the first mistakes. If the direction is right — time handles the rest. {name} closed the calculator."
       },
       {
         "text": "For the first time, completely shaken about whether this path is right.",
-        "effects": { "mental": -8, "intelligence": 2 },
-        "flags": ["arc_36_reality_check_seen", "year3_questioned_path"],
+        "effects": {
+          "mental": -8,
+          "intelligence": 2
+        },
+        "flags": [
+          "arc_36_reality_check_seen",
+          "year3_questioned_path"
+        ],
         "result_text": "Being shaken might not be bad. Self-awareness can redirect. The confusion lasted a while. Took a few days before sitting back down."
       }
     ]
@@ -2519,27 +2615,53 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "health"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "health"
+    ],
     "cooldown": 9999,
     "description": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.",
     "choices": [
       {
         "text": "Went to the doctor. Need to know.",
-        "effects": { "health": 5, "mental": -2, "money": -50000 },
-        "flags": ["arc_36_body_signal_seen", "went_to_hospital"],
+        "effects": {
+          "health": 5,
+          "mental": -2,
+          "money": -50000
+        },
+        "flags": [
+          "arc_36_body_signal_seen",
+          "went_to_hospital"
+        ],
         "result_text": "Health screening results came back. Nothing serious. The doctor said, \"You should exercise.\" That sentence felt oddly heavy."
       },
       {
         "text": "Decided to start eating properly, at least.",
-        "effects": { "health": 3, "mental": 3, "money": -30000 },
-        "flags": ["arc_36_body_signal_seen", "improved_diet"],
+        "effects": {
+          "health": 3,
+          "mental": 3,
+          "money": -30000
+        },
+        "flags": [
+          "arc_36_body_signal_seen",
+          "improved_diet"
+        ],
         "result_text": "Went to a proper restaurant instead of grabbing triangle kimbap. There was warm soup. Something about it — eyes got a little hot. Hadn't had food like this in a long time."
       },
       {
         "text": "Can't stop now. Will rest later.",
-        "effects": { "health": -5, "mental": -3 },
-        "flags": ["arc_36_body_signal_seen", "ignored_body"],
+        "effects": {
+          "health": -5,
+          "mental": -3
+        },
+        "flags": [
+          "arc_36_body_signal_seen",
+          "ignored_body"
+        ],
         "result_text": "Had another coffee. The body seemed to be saying something — but there was work to do right now. Will rest later. Thought it once more."
       }
     ]
@@ -2553,27 +2675,49 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
     "cooldown": 9999,
     "description": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of my own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.",
     "choices": [
       {
         "text": "Pulled out the original reason. Not to forget.",
-        "effects": { "mental": 5, "investment_skill": 1 },
-        "flags": ["arc_36_night_doubt_seen", "reaffirmed_motive"],
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [
+          "arc_36_night_doubt_seen",
+          "reaffirmed_motive"
+        ],
         "result_text": "Father. Six years. Brought that memory back. Couldn't tell if it was anger or resolve — but got back up. That was enough."
       },
       {
         "text": "Don't know. Decided to think about it tomorrow.",
-        "effects": { "mental": 3 },
-        "flags": ["arc_36_night_doubt_seen", "deferred_question"],
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "arc_36_night_doubt_seen",
+          "deferred_question"
+        ],
         "result_text": "Figured tomorrow would feel different. Fine. Went to sleep."
       },
       {
         "text": "For the first time, opened the door to: maybe three billion isn't required.",
-        "effects": { "mental": 8 },
-        "flags": ["arc_36_night_doubt_seen", "opened_other_door"],
+        "effects": {
+          "mental": 8
+        },
+        "flags": [
+          "arc_36_night_doubt_seen",
+          "opened_other_door"
+        ],
         "result_text": "Expected that thought to be terrifying. But strangely — it felt a little lighter. Maybe the goal wasn't three billion in the account. Maybe it was a three-billion kind of life."
       }
     ]
@@ -2587,27 +2731,50 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "milestone"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "milestone"
+    ],
     "cooldown": 9999,
     "description": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.",
     "choices": [
       {
         "text": "Getting this far is already different. Going to the end.",
-        "effects": { "mental": 4, "luck": 2 },
-        "flags": ["arc_37_reckoning_seen", "final_year_resolve"],
+        "effects": {
+          "mental": 4,
+          "luck": 2
+        },
+        "flags": [
+          "arc_37_reckoning_seen",
+          "final_year_resolve"
+        ],
         "result_text": "500,000 won at thirty-three. Here now. Whatever the number — this trajectory is mine. Last year. Just live it."
       },
       {
         "text": "Being cold about it. At this pace, the ending is visible.",
-        "effects": { "intelligence": 2, "mental": -3 },
-        "flags": ["arc_37_reckoning_seen", "final_year_realistic"],
+        "effects": {
+          "intelligence": 2,
+          "mental": -3
+        },
+        "flags": [
+          "arc_37_reckoning_seen",
+          "final_year_realistic"
+        ],
         "result_text": "Numbers don't lie. Whatever the result — knowing the truth and living the final chapter beats not knowing. {name} adjusted the plan one more time."
       },
       {
         "text": "Not drawing conclusions. Have to see the end to know.",
-        "effects": { "mental": 6 },
-        "flags": ["arc_37_reckoning_seen", "final_year_open"],
+        "effects": {
+          "mental": 6
+        },
+        "flags": [
+          "arc_37_reckoning_seen",
+          "final_year_open"
+        ],
         "result_text": "Closed the calculator. Have to see the end to know. That's what four years taught."
       }
     ]
@@ -2621,27 +2788,52 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
     "cooldown": 9999,
     "description": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.",
     "choices": [
       {
         "text": "This is the last flame. Burning harder.",
-        "effects": { "investment_skill": 2, "health": -3, "mental": -5 },
-        "flags": ["arc_37_burn_or_light_seen", "final_burn"],
+        "effects": {
+          "investment_skill": 2,
+          "health": -3,
+          "mental": -5
+        },
+        "flags": [
+          "arc_37_burn_or_light_seen",
+          "final_burn"
+        ],
         "result_text": "Cut sleep. Simplified meals. Can rest when this is over. There's no stopping in a final sprint."
       },
       {
         "text": "Admitted the exhaustion. Need to rest a little.",
-        "effects": { "mental": 9, "health": 3 },
-        "flags": ["arc_37_burn_or_light_seen", "rested_finally"],
+        "effects": {
+          "mental": 9,
+          "health": 3
+        },
+        "flags": [
+          "arc_37_burn_or_light_seen",
+          "rested_finally"
+        ],
         "result_text": "Cleared a whole day. Did nothing. Guilt at first. Then — something came back. Rest was strategy too."
       },
       {
         "text": "Sat down to figure out what this feeling actually is.",
-        "effects": { "intelligence": 1, "mental": 4 },
-        "flags": ["arc_37_burn_or_light_seen", "reflected_on_state"],
+        "effects": {
+          "intelligence": 1,
+          "mental": 4
+        },
+        "flags": [
+          "arc_37_burn_or_light_seen",
+          "reflected_on_state"
+        ],
         "result_text": "The difference between burnout and clarity seems to be: do you still remember what this is for? {name} remembered. Why it started. That was enough."
       }
     ]
@@ -2655,29 +2847,105 @@
     "rarity": "story",
     "weight": 0,
     "hidden": true,
-    "conditions": { "min_turn": 9999 },
-    "tags": ["story", "arc", "internal"],
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "internal"
+    ],
     "cooldown": 9999,
     "description": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.",
     "choices": [
       {
         "text": "Going to the end. No regrets.",
-        "effects": { "mental": 6, "luck": 2 },
-        "flags": ["arc_37_ending_peace_seen", "no_regrets"],
+        "effects": {
+          "mental": 6,
+          "luck": 2
+        },
+        "flags": [
+          "arc_37_ending_peace_seen",
+          "no_regrets"
+        ],
         "result_text": "The steps felt lighter. So much lighter than the first time walking this street, five years ago. Something had changed. It wasn't only the assets."
       },
       {
         "text": "Understood that this is already a drama.",
-        "effects": { "mental": 10 },
-        "flags": ["arc_37_ending_peace_seen", "drama_realized"],
+        "effects": {
+          "mental": 10
+        },
+        "flags": [
+          "arc_37_ending_peace_seen",
+          "drama_realized"
+        ],
         "result_text": "Not the result — the process is the drama. From 500,000 won at thirty-three, to here. It was already a story. {name} smiled for the first time walking this street."
       },
       {
         "text": "Felt like calling dad soon.",
-        "effects": { "mental": 5 },
-        "flags": ["arc_37_ending_peace_seen", "thought_of_father_end"],
-        "cast_effects": { "father": { "affinity": 2 } },
+        "effects": {
+          "mental": 5
+        },
+        "flags": [
+          "arc_37_ending_peace_seen",
+          "thought_of_father_end"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 2
+          }
+        },
         "result_text": "Not yet. Will call when this is done. Don't know what to say. But it felt like he'd just listen."
+      }
+    ]
+  },
+  {
+    "id": "arc_34_routine_trap",
+    "title": "The Routine Trap",
+    "description": "One day, {name} realized he'd been doing the same things every day.\n\nSame wake-up time. Same route. Same lunch spot. Same desk.\n\nWas this discipline — or had he just stopped thinking?",
+    "description_orthodox": "Same wake-up time. Same route. Same desk.\n\nEvery day felt like the last.\n\n{name} called it discipline. But somewhere, he wondered if habit had swallowed intention.",
+    "description_unorthodox": "He'd tried everything once. Now he was doing the same things every day.\n\nRoutine had crept in. Not through failure — through repetition.\n\n{name} noticed it like someone noticing they'd been holding their breath.",
+    "choices": [
+      {
+        "text": "Break the pattern — try something different today",
+        "result_text": "{name} deliberately changed one thing.\n\nIt wasn't dramatic. Just a different route, a different cafe.\n\nBut the day felt different. Slightly more awake.\n\nSometimes a small disruption is all it takes to remember you're choosing this."
+      },
+      {
+        "text": "Stay the course — consistency is the point",
+        "result_text": "{name} stayed with the routine.\n\nNot because he couldn't change, but because he'd chosen this pattern for a reason.\n\nDiscipline means doing it even when it feels like nothing.\n\nEspecially then."
+      }
+    ]
+  },
+  {
+    "id": "arc_34_parents_visit",
+    "title": "Mom and Dad Come to Seoul",
+    "description": "Dad said he was coming to Seoul. With Mom.\n\nIt had been a while.\n\n{name} looked around the goshiwon room. Four and a half square meters. A desk, a bed, a tiny TV he never used.",
+    "description_low_mental": "Dad was coming to Seoul. With Mom.\n\n{name} stared at the goshiwon room.\n\nFour and a half square meters. He used to think he could manage anything. Right now he wasn't sure he could manage this.",
+    "choices": [
+      {
+        "text": "Show them where you really live",
+        "result_text": "Mom stood in the doorway and didn't say anything for a moment.\n\nThen: \"It's small, but it's tidy.\"\n\nDad looked at the desk, the notebooks, the marked-up printouts. Didn't say anything.\n\nOn the way out, he quietly slipped {name} some money. {name} gave it back. They went back and forth twice.\n\n{name} kept it."
+      },
+      {
+        "text": "Meet them at a cafe near the station — easier that way",
+        "result_text": "Mom ordered an Americano. Dad ordered sikhye.\n\nThey sat at a window seat. Mom kept checking {name}'s face. Dad pretended to watch the street.\n\n\"You eating properly?\"\n\"Yeah.\"\n\"Working hard?\"\n\"Yeah.\"\n\nThree hours. The bill came to 42,000 won. Dad insisted on paying.\n\n{name} let him."
+      }
+    ]
+  },
+  {
+    "id": "arc_34_two_years_in",
+    "title": "Two Years In",
+    "description": "Two years in Seoul.\n\nHe knew the subway lines by heart. Which convenience stores were cheaper. Which gukbap shops stayed open past midnight.\n\nHe'd learned things. But was he closer to the goal?",
+    "description_orthodox": "Two years.\n\nThe track record was real — consistent work, money accumulating. But the gap between where he was and where he needed to be was still enormous.\n\n{name} recalculated. Quietly, without telling anyone.",
+    "description_unorthodox": "Two years.\n\nHe'd taken angles others wouldn't. Some had paid off. Some hadn't.\n\nThe city was starting to feel familiar. Not conquered — familiar.\n\n{name} wasn't sure if that was progress or just adaptation.",
+    "choices": [
+      {
+        "text": "Double down — the next three years have to count more",
+        "result_text": "{name} restructured his targets.\n\nNot vague ambitions — concrete numbers by specific ages.\n\nThe goal was the same. The urgency was new.\n\nThree years left. He couldn't afford to keep learning things the hard way."
+      },
+      {
+        "text": "Trust the process — two years of foundation means something",
+        "result_text": "{name} thought about everything that had changed in two years.\n\nThe knowledge. The contacts. The scar tissue from mistakes.\n\nNone of it showed on the surface. But it was all there.\n\nThe foundation was real. The next phase would use it."
       }
     ]
   }
