@@ -8,6 +8,7 @@ const EVENT_PATHS = [
 	"res://content/events/easter_eggs.json",
 	"res://content/events/viral_events.json",
 	"res://content/events/arc_addiction_recovery.json",
+	"res://content/events/social_independence.json",
 	"res://content/events/arc_drama.json",
 	"res://content/events/arc_midgame.json",
 	"res://content/events/ng_plus_events.json",

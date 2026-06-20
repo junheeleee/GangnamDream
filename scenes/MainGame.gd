@@ -3200,21 +3200,59 @@ func _recommend_action() -> String:
 	var no_job: bool = GameState.current_job.is_empty()
 	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
 	var inv_skill: int = int(GameState.investment_skill)
+	var social: int = int(GameState.social_skill)
 	var total: float = float(GameState.get_total_asset_value())
 	var intel: int = int(GameState.intelligence)
+	var housing: String = GameState.housing
+	var f = GameState.flags
+	var me: int = (GameState.age - 33) * 12 + GameState.month
 
+	# ── 위기 우선 ──
 	if no_job:
-		return "💼 구직활동  →  수입 0원 탈출이 1순위"
+		if intel >= 35:
+			return "💼 구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터" % intel
+		return "💼 구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저"
 	if GameState.mental <= 50:
-		return "🌊 휴식  →  정신력 %d. 쉬는 것도 전략" % GameState.mental
+		return "🌊 휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략" % GameState.mental
 	if not has_paycheck:
-		return "💼 구직활동  →  첫 월급 수령 전까지 투자 불가"
+		return "💼 일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다"
+
+	# ── 주거 업그레이드 힌트 ──
+	if housing == "gosiwon" and total >= 8_000_000:
+		return "🏠 이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)" % GameState.format_money(total)
+	if housing == "oneroom" and total >= 40_000_000:
+		return "🏡 이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다" % GameState.format_money(total)
+	if housing == "villa" and total >= 130_000_000:
+		return "🏢 이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다" % GameState.format_money(total)
+
+	# ── 투자감각 미성숙 ──
+	if inv_skill < 10 and total >= 3_000_000:
+		return "📚 자기계발(투자)  →  투자감각 %d. 공부 AP로 투자 지식을 먼저 쌓으세요" % inv_skill
+
+	# ── 인맥 미개척 ──
+	if social < 15 and not f.get("entered_network", false) and me >= 10:
+		return "🤝 사교력  →  상철 네트워크(사교 AP)가 투자·직업·이벤트 경로를 엽니다"
+
+	# ── 투자 준비 완료 ──
 	if total > 10_000_000 and inv_skill >= 15:
-		return "📈 투자  →  자산 %s, 투자감각 %d — 포트폴리오를 넓혀보세요" % [GameState.format_money(float(total)), inv_skill]
+		if not f.get("arc_invest_guidance_seen", false):
+			return "📈 투자  →  투자감각 %d, 자산 %s — 상철에게 투자 가이드를 받아보세요" % [inv_skill, GameState.format_money(total)]
+		return "📈 투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다" % GameState.format_money(total)
+
+	# ── 지력 부족 ──
 	if intel < 40:
-		return "📚 자기계발  →  지력 %d. 공부하면 더 좋은 직장·이벤트가 열립니다" % intel
+		return "📚 자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다" % intel
+
+	# ── 후반 마무리 힌트 ──
+	if me >= 48:
+		var remaining: int = maxi(0, (38 - GameState.age) * 12 - GameState.month + 1)
+		if total < 1_000_000_000:
+			return "⏰ 남은 %d개월  →  투자 레버리지나 고수익 루트가 필요한 시점입니다" % remaining
+		if total < 3_000_000_000:
+			return "🏙 남은 %d개월  →  30억까지 %s. 지금 루트를 유지하면 보입니다" % [remaining, GameState.format_money(3_000_000_000.0 - total)]
+
 	if total < 1_000_000:
-		return "💼 구직활동  →  자산 %s. 수입부터 늘려야 합니다" % GameState.format_money(float(total))
+		return "💼 구직활동  →  자산 %s. 수입부터 늘려야 합니다" % GameState.format_money(total)
 	return "📚 자기계발 또는 📈 투자  →  꾸준히 스탯과 자산을 키우세요"
 
 ## 매달 분위기 내레이션 한 줄 (계절 + 상태 + 아크 플래그 + 턴 기반)
@@ -6760,23 +6798,27 @@ func _random_topic(news):
 
 # ── 다음 마일스톤 힌트 ────────────────────────────────
 func _next_milestone_hint(total: float) -> String:
+	# [target, label, strategy_hint]
 	var milestones: Array = [
-		[8_000_000.0,     "🏠 원룸 이사 구간 (현금 800만)"],
-		[20_000_000.0,    "종잣돈 2천만 — 투자 시작점"],
-		[40_000_000.0,    "🏡 빌라 전세 구간 (현금 4천만)"],
-		[100_000_000.0,   "자산 1억 — 종잣돈 완성"],
-		[130_000_000.0,   "🏢 아파트 전세 구간 (현금 1.3억)"],
-		[500_000_000.0,   "자산 5억 — 길이 보인다"],
-		[1_000_000_000.0, "자산 10억 — 강남이 멀지 않다"],
-		[2_000_000_000.0, "자산 20억 — 마지막 고비"],
-		[3_000_000_000.0, "🏙 자산 30억 = 강남드림 달성!"],
+		[8_000_000.0,     "🏠 원룸 이사 구간",        "→ 주거 AP에서 이사 가능. 정신력 보너스"],
+		[20_000_000.0,    "종잣돈 2천만",              "→ 투자 계좌 개설 & 주식·코인 시작 가능"],
+		[40_000_000.0,    "🏡 빌라 전세 구간",        "→ 주거 AP에서 빌라 전세 선택 가능"],
+		[100_000_000.0,   "자산 1억",                 "→ 레버리지 투자 & 고급 이벤트 해금"],
+		[130_000_000.0,   "🏢 아파트 전세 구간",      "→ 아파트 입주 시 평판·투자감각 보너스"],
+		[500_000_000.0,   "자산 5억",                 "→ 고수익 투자 루트 본격 가동 구간"],
+		[1_000_000_000.0, "자산 10억",                "→ 강남 오픈하우스 이벤트 + 엘리트 인맥"],
+		[2_000_000_000.0, "자산 20억",                "→ 마지막 10억 — 레버리지 or 집중 투자"],
+		[3_000_000_000.0, "🏙 자산 30억 = 강남드림!", ""],
 	]
 	for m in milestones:
 		var target: float = float(m[0])
 		if total < target:
 			var needed = target - total
 			var pct: int = int(total / target * 100.0)
-			return "🎯  %s  까지  %s 남음  [%d%%]" % [str(m[1]), GameState.format_money(needed), pct]
+			var hint: String = str(m[2])
+			if hint.is_empty():
+				return "🎯  %s  까지  %s 남음  [%d%%]" % [str(m[1]), GameState.format_money(needed), pct]
+			return "🎯  %s  까지  %s  [%d%%]  [color=#7a9ab0]%s[/color]" % [str(m[1]), GameState.format_money(needed), pct, hint]
 	return ""
 
 func _months_to_goal_estimate() -> String:
