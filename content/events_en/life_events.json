@@ -4054,7 +4054,8 @@
     "hidden": false,
     "conditions": {
       "has_job": true,
-      "flag": "route_orthodox"
+      "min_route_orthodox": 8,
+      "min_job_tier": 3
     },
     "tags": [
       "jobs",
@@ -4094,7 +4095,8 @@
     "hidden": false,
     "conditions": {
       "has_job": true,
-      "flag": "route_orthodox"
+      "min_route_orthodox": 5,
+      "min_turn": 10
     },
     "tags": [
       "jobs",
@@ -4143,7 +4145,8 @@
     "hidden": false,
     "conditions": {
       "has_job": true,
-      "flag": "route_orthodox"
+      "min_route_orthodox": 12,
+      "min_turn": 80
     },
     "tags": [
       "jobs",
@@ -4182,7 +4185,8 @@
     "hidden": false,
     "conditions": {
       "has_job": true,
-      "flag": "route_orthodox"
+      "min_route_orthodox": 10,
+      "min_turn": 100
     },
     "tags": [
       "jobs",
@@ -4348,7 +4352,7 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "jeongseon_visited"
+      "flag": "jeongseon_session_loss"
     },
     "tags": [
       "gambling",
@@ -4385,7 +4389,7 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "jeongseon_visited"
+      "flag": "jeongseon_session_win"
     },
     "tags": [
       "gambling",
@@ -4424,7 +4428,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "flag": "jeongseon_visited"
+      "min_addiction": 60,
+      "flag": "jeongseon_first_visit"
     },
     "tags": [
       "gambling",

@@ -1758,7 +1758,7 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_later_echo_seen", false):
 		return "arc_daeun_later_echo"
 
-	# ══ 8구간: 연도 마커 — 5년의 흐름을 체감하는 무조건 씬 ══
+	# ══ 8구간: 연도 마커 + 챕터 내부 씬 — 5년의 흐름을 체감하는 무조건 씬 ══
 	# t=52 = 13개월차(1년 1개월), t=72 = 18개월차(1년 6개월), t=96 = 24개월차(2년)
 	# t=148 = 37개월차(3년 1개월), t=192 = 48개월차(4년), t=220 = 55개월차(마지막 6개월)
 	if t >= 52 and t <= 68 and not f.get("arc_year_one_mark_seen", false):
@@ -1768,16 +1768,43 @@ func _next_arc_id() -> String:
 		return "arc_year_one_half"
 	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
 		return "arc_year_two_pressure"
+	# ── 35세 생일 (t100-112) ──
+	if t >= 100 and t <= 112 and not f.get("arc_35_birthday_seen", false):
+		return "arc_35_birthday"
 	# ── 2년 반 마커 — t120-140 공백 구간 앵커 (무조건) ──
 	if t >= 120 and t <= 140 and not f.get("arc_year_two_half_seen", false):
 		return "arc_year_two_half"
+	# ── 35세 고독 (t116-128) ──
+	if t >= 116 and t <= 128 and not f.get("arc_35_alone_seen", false):
+		return "arc_35_alone"
+	# ── 35세 루틴 점검 (t138-148) ──
+	if t >= 138 and t <= 148 and not f.get("arc_35_habit_check_seen", false):
+		return "arc_35_habit_check"
+	# ── 36세 현실 점검 (t145-158) ──
+	if t >= 145 and t <= 158 and not f.get("arc_36_reality_check_seen", false):
+		return "arc_36_reality_check"
+	if t >= 148 and t <= 165 and not f.get("arc_year_three_crossroads_seen", false):
+		return "arc_year_three_crossroads"
+	# ── 36세 몸 신호 (t163-172) ──
+	if t >= 163 and t <= 172 and not f.get("arc_36_body_signal_seen", false):
+		return "arc_36_body_signal"
 	# ── 3년 반 마커 — t168-188 공백 구간 앵커 (무조건) ──
 	if t >= 168 and t <= 188 and not f.get("arc_year_three_half_seen", false):
 		return "arc_year_three_half"
-	if t >= 148 and t <= 165 and not f.get("arc_year_three_crossroads_seen", false):
-		return "arc_year_three_crossroads"
+	# ── 36세 새벽 의심 (t176-190) ──
+	if t >= 176 and t <= 190 and not f.get("arc_36_night_doubt_seen", false):
+		return "arc_36_night_doubt"
+	# ── 37세 마지막 정산 (t193-208) ──
+	if t >= 193 and t <= 208 and not f.get("arc_37_reckoning_seen", false):
+		return "arc_37_reckoning"
 	if t >= 192 and t <= 215 and not f.get("arc_final_year_start_seen", false):
 		return "arc_final_year_start"
+	# ── 37세 번아웃 vs 불꽃 (t210-220) ──
+	if t >= 210 and t <= 220 and not f.get("arc_37_burn_or_light_seen", false):
+		return "arc_37_burn_or_light"
+	# ── 37세 마지막 평화 (t222-236) ──
+	if t >= 222 and t <= 236 and not f.get("arc_37_ending_peace_seen", false):
+		return "arc_37_ending_peace"
 	if t >= 216 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
 		return "arc_endgame_sixmonths"
 

@@ -2372,5 +2372,313 @@
         "result_text": "Cold and sweet. The convenience store lights were bright. That was enough for today."
       }
     ]
+  },
+  {
+    "id": "arc_35_birthday",
+    "title": "Thirty-Five",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "Thirty-five.\n\nStarted at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight — an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from dad: \"Happy birthday. You eating okay?\"\n\n{name} held the phone for a moment.",
+    "choices": [
+      {
+        "text": "Replied \"Thank you\" and opened the planner",
+        "effects": { "intelligence": 1, "mental": -2 },
+        "flags": ["arc_35_birthday_seen", "birthday_back_to_work"],
+        "result_text": "Thirty-five is just a number. Three years to thirty-eight. The plan exists. {name} rewrote tomorrow's task list."
+      },
+      {
+        "text": "Decided today would just be a birthday",
+        "effects": { "mental": 8 },
+        "flags": ["arc_35_birthday_seen", "birthday_rest_taken"],
+        "result_text": "Closed the planner. Needed one day as {name}, not as the person chasing 3 billion. For once, that felt allowed."
+      },
+      {
+        "text": "Called dad",
+        "effects": { "mental": 4 },
+        "flags": ["arc_35_birthday_seen"],
+        "cast_effects": { "father": { "affinity": 3 } },
+        "result_text": "\"Getting along okay?\" Dad asked. Said yes. It wasn't a lie.\n\nHis voice sounded a little older. That stayed with {name}."
+      }
+    ]
+  },
+  {
+    "id": "arc_35_alone",
+    "title": "Saturday Morning",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "Saturday morning.\n\nNothing scheduled.\n\nLiving in Seoul for over two years now, and having no one to spend the weekend with has become something like normal. It's not that there's no one to contact — it's that contact just stopped happening.\n\n{name} made a cup of coffee and looked out the window. Seoul looked busy, even on weekends.",
+    "choices": [
+      {
+        "text": "Reached out. To anyone.",
+        "effects": { "social_skill": 1, "mental": 5 },
+        "flags": ["arc_35_alone_seen", "reached_out_35"],
+        "result_text": "Got through to someone. Short call. Nothing much said. Still — hearing a voice changed something."
+      },
+      {
+        "text": "Went out alone. Walked to the Han River.",
+        "effects": { "health": 3, "mental": 4 },
+        "flags": ["arc_35_alone_seen", "walked_alone_35"],
+        "result_text": "Four hours of walking. Sat on a bench by the river for a while. Seoul is wide, even when you walk it alone. Strangely, didn't feel lonely."
+      },
+      {
+        "text": "Just stayed. This is me too.",
+        "effects": { "mental": 2 },
+        "flags": ["arc_35_alone_seen"],
+        "result_text": "Did nothing. At first it felt like guilt. Then something like peace. Hard to say when being alone became comfortable."
+      }
+    ]
+  },
+  {
+    "id": "arc_35_habit_check",
+    "title": "This Is My Routine",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.",
+    "choices": [
+      {
+        "text": "This routine is building me. Keeping it.",
+        "effects": { "intelligence": 1, "health": -2, "mental": -3 },
+        "flags": ["arc_35_habit_check_seen", "maintained_routine"],
+        "result_text": "Consistency is the result. Wobbling means losing. {name} rewrote tomorrow's schedule."
+      },
+      {
+        "text": "Going to change one thing. A routine can become a trap.",
+        "effects": { "intelligence": 2, "mental": 4 },
+        "flags": ["arc_35_habit_check_seen", "changed_routine"],
+        "result_text": "Cut an hour from the chart-watching time. An empty slot appeared. Strangely, things felt sharper. The routine had started to become the point."
+      },
+      {
+        "text": "Started exercising again. Need to use the body.",
+        "effects": { "health": 5, "mental": 3 },
+        "flags": ["arc_35_habit_check_seen", "restarted_exercise"],
+        "result_text": "Dug out the running shoes after half a year. Three kilometers on the first day and nearly died. Still — the feeling wasn't bad. Something was coming back."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_reality_check",
+    "title": "Three Years, Calculated",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "Three years have passed.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining: twenty-five months.\n\nCan that gap be closed in twenty-five months?\n\nThe number came out. {name} stared at the screen and said nothing. At the current pace — no. Something had to change.\n\nThen remembered having the exact same thought three years ago.",
+    "choices": [
+      {
+        "text": "Need to move faster. Everything so far was a warm-up.",
+        "effects": { "investment_skill": 1, "mental": -5 },
+        "flags": ["arc_36_reality_check_seen", "year3_doubled_down"],
+        "result_text": "Fear was there. But fear means there's still something to lose. {name} rebuilt the plan. Bigger."
+      },
+      {
+        "text": "Keeping the current pace. Rushing leads to mistakes.",
+        "effects": { "mental": 6, "luck": 1 },
+        "flags": ["arc_36_reality_check_seen", "year3_steady_path"],
+        "result_text": "Impatient people make the first mistakes. If the direction is right — time handles the rest. {name} closed the calculator."
+      },
+      {
+        "text": "For the first time, completely shaken about whether this path is right.",
+        "effects": { "mental": -8, "intelligence": 2 },
+        "flags": ["arc_36_reality_check_seen", "year3_questioned_path"],
+        "result_text": "Being shaken might not be bad. Self-awareness can redirect. The confusion lasted a while. Took a few days before sitting back down."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_body_signal",
+    "title": "The Body Speaks",
+    "background": "street_rainy",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "health"],
+    "cooldown": 9999,
+    "description": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.",
+    "choices": [
+      {
+        "text": "Went to the doctor. Need to know.",
+        "effects": { "health": 5, "mental": -2, "money": -50000 },
+        "flags": ["arc_36_body_signal_seen", "went_to_hospital"],
+        "result_text": "Health screening results came back. Nothing serious. The doctor said, \"You should exercise.\" That sentence felt oddly heavy."
+      },
+      {
+        "text": "Decided to start eating properly, at least.",
+        "effects": { "health": 3, "mental": 3, "money": -30000 },
+        "flags": ["arc_36_body_signal_seen", "improved_diet"],
+        "result_text": "Went to a proper restaurant instead of grabbing triangle kimbap. There was warm soup. Something about it — eyes got a little hot. Hadn't had food like this in a long time."
+      },
+      {
+        "text": "Can't stop now. Will rest later.",
+        "effects": { "health": -5, "mental": -3 },
+        "flags": ["arc_36_body_signal_seen", "ignored_body"],
+        "result_text": "Had another coffee. The body seemed to be saying something — but there was work to do right now. Will rest later. Thought it once more."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_night_doubt",
+    "title": "3 AM",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of my own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.",
+    "choices": [
+      {
+        "text": "Pulled out the original reason. Not to forget.",
+        "effects": { "mental": 5, "investment_skill": 1 },
+        "flags": ["arc_36_night_doubt_seen", "reaffirmed_motive"],
+        "result_text": "Father. Six years. Brought that memory back. Couldn't tell if it was anger or resolve — but got back up. That was enough."
+      },
+      {
+        "text": "Don't know. Decided to think about it tomorrow.",
+        "effects": { "mental": 3 },
+        "flags": ["arc_36_night_doubt_seen", "deferred_question"],
+        "result_text": "Figured tomorrow would feel different. Fine. Went to sleep."
+      },
+      {
+        "text": "For the first time, opened the door to: maybe three billion isn't required.",
+        "effects": { "mental": 8 },
+        "flags": ["arc_36_night_doubt_seen", "opened_other_door"],
+        "result_text": "Expected that thought to be terrifying. But strangely — it felt a little lighter. Maybe the goal wasn't three billion in the account. Maybe it was a three-billion kind of life."
+      }
+    ]
+  },
+  {
+    "id": "arc_37_reckoning",
+    "title": "Final Accounting",
+    "background": "late_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.",
+    "choices": [
+      {
+        "text": "Getting this far is already different. Going to the end.",
+        "effects": { "mental": 4, "luck": 2 },
+        "flags": ["arc_37_reckoning_seen", "final_year_resolve"],
+        "result_text": "500,000 won at thirty-three. Here now. Whatever the number — this trajectory is mine. Last year. Just live it."
+      },
+      {
+        "text": "Being cold about it. At this pace, the ending is visible.",
+        "effects": { "intelligence": 2, "mental": -3 },
+        "flags": ["arc_37_reckoning_seen", "final_year_realistic"],
+        "result_text": "Numbers don't lie. Whatever the result — knowing the truth and living the final chapter beats not knowing. {name} adjusted the plan one more time."
+      },
+      {
+        "text": "Not drawing conclusions. Have to see the end to know.",
+        "effects": { "mental": 6 },
+        "flags": ["arc_37_reckoning_seen", "final_year_open"],
+        "result_text": "Closed the calculator. Have to see the end to know. That's what four years taught."
+      }
+    ]
+  },
+  {
+    "id": "arc_37_burn_or_light",
+    "title": "Ember or Ash",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.",
+    "choices": [
+      {
+        "text": "This is the last flame. Burning harder.",
+        "effects": { "investment_skill": 2, "health": -3, "mental": -5 },
+        "flags": ["arc_37_burn_or_light_seen", "final_burn"],
+        "result_text": "Cut sleep. Simplified meals. Can rest when this is over. There's no stopping in a final sprint."
+      },
+      {
+        "text": "Admitted the exhaustion. Need to rest a little.",
+        "effects": { "mental": 9, "health": 3 },
+        "flags": ["arc_37_burn_or_light_seen", "rested_finally"],
+        "result_text": "Cleared a whole day. Did nothing. Guilt at first. Then — something came back. Rest was strategy too."
+      },
+      {
+        "text": "Sat down to figure out what this feeling actually is.",
+        "effects": { "intelligence": 1, "mental": 4 },
+        "flags": ["arc_37_burn_or_light_seen", "reflected_on_state"],
+        "result_text": "The difference between burnout and clarity seems to be: do you still remember what this is for? {name} remembered. Why it started. That was enough."
+      }
+    ]
+  },
+  {
+    "id": "arc_37_ending_peace",
+    "title": "Whatever the End",
+    "background": "gangnam_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.",
+    "choices": [
+      {
+        "text": "Going to the end. No regrets.",
+        "effects": { "mental": 6, "luck": 2 },
+        "flags": ["arc_37_ending_peace_seen", "no_regrets"],
+        "result_text": "The steps felt lighter. So much lighter than the first time walking this street, five years ago. Something had changed. It wasn't only the assets."
+      },
+      {
+        "text": "Understood that this is already a drama.",
+        "effects": { "mental": 10 },
+        "flags": ["arc_37_ending_peace_seen", "drama_realized"],
+        "result_text": "Not the result — the process is the drama. From 500,000 won at thirty-three, to here. It was already a story. {name} smiled for the first time walking this street."
+      },
+      {
+        "text": "Felt like calling dad soon.",
+        "effects": { "mental": 5 },
+        "flags": ["arc_37_ending_peace_seen", "thought_of_father_end"],
+        "cast_effects": { "father": { "affinity": 2 } },
+        "result_text": "Not yet. Will call when this is done. Don't know what to say. But it felt like he'd just listen."
+      }
+    ]
   }
 ]

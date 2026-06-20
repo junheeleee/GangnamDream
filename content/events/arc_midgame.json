@@ -2346,5 +2346,313 @@
         "result_text": "차갑고 달았다. 편의점 불빛이 밝았다. 그걸로 충분한 날이었다."
       }
     ]
+  },
+  {
+    "id": "arc_35_birthday",
+    "title": "서른다섯",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "서른다섯이 됐다.\n\n33세에 시작했다. 2년이 지났다는 뜻이다.\n\n한국에서 35세. 주변이 달라져 있어야 하는 나이처럼 느껴진다. 취업, 결혼, 집. 이 세 가지가 없는 35세는 — 그냥 뒤처진 사람처럼 불리기 쉽다.\n\n아버지한테서 문자가 왔다. \"생일 축하한다. 밥은 먹었냐.\"\n\n{name}은 핸드폰을 잠시 쥐고 있었다.",
+    "choices": [
+      {
+        "text": "감사합니다 답장하고 계획표를 꺼냈다",
+        "effects": { "intelligence": 1, "mental": -2 },
+        "flags": ["arc_35_birthday_seen", "birthday_back_to_work"],
+        "result_text": "35세는 숫자다. 38세까지 3년. 계획은 있다. {name}은 내일 할 일 목록을 다시 썼다."
+      },
+      {
+        "text": "오늘 하루는 그냥 생일로 보내기로 했다",
+        "effects": { "mental": 8 },
+        "flags": ["arc_35_birthday_seen", "birthday_rest_taken"],
+        "result_text": "계획표를 덮었다. 30억 추격자 말고 그냥 {name}으로서의 하루가 필요했다. 오랜만에 그게 허락됐다."
+      },
+      {
+        "text": "아버지한테 전화했다",
+        "effects": { "mental": 4 },
+        "flags": ["arc_35_birthday_seen"],
+        "cast_effects": { "father": { "affinity": 3 } },
+        "result_text": "\"잘 지내지?\" 아버지가 물었다. 잘 지낸다고 했다. 거짓말은 아니었다.\n\n목소리가 조금 늙어 있었다. 그게 신경 쓰였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_35_alone",
+    "title": "주말 오전",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "토요일 오전.\n\n아무 일정이 없었다.\n\n2년 넘게 서울에 살면서, 주말에 함께 있는 사람이 없다는 게 어느 순간부터 당연해졌다. 연락할 수 있는 사람이 없는 게 아니라, 연락을 안 하게 됐다는 게 더 정확하다.\n\n커피를 한 잔 내리고 창밖을 봤다. 서울은 주말에도 바빠 보였다.",
+    "choices": [
+      {
+        "text": "먼저 연락해봤다. 아무한테나",
+        "effects": { "social_skill": 1, "mental": 5 },
+        "flags": ["arc_35_alone_seen", "reached_out_35"],
+        "result_text": "한 명한테 연락이 됐다. 짧게 통화했다. 별 내용 없었다. 그래도 됐다. 목소리를 들으면 뭔가 달라졌다."
+      },
+      {
+        "text": "혼자 나가서 걸었다. 한강까지",
+        "effects": { "health": 3, "mental": 4 },
+        "flags": ["arc_35_alone_seen", "walked_alone_35"],
+        "result_text": "4시간을 걸었다. 한강 벤치에 잠깐 앉았다. 서울은 혼자 걸어도 넓었다. 이상하게 외롭지 않았다."
+      },
+      {
+        "text": "그냥 혼자 있었다. 이것도 나다",
+        "effects": { "mental": 2 },
+        "flags": ["arc_35_alone_seen"],
+        "result_text": "아무것도 안 했다. 그게 처음에는 죄책감이 됐다가, 나중에는 평화가 됐다. 혼자가 익숙해진 게 언제부터였는지 모르겠다."
+      }
+    ]
+  },
+  {
+    "id": "arc_35_habit_check",
+    "title": "이게 내 루틴이다",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "새벽 12시.\n\n오늘도 같은 패턴이었다. 아침 — 차트 확인. 낮 — 일 또는 공부. 저녁 — 뉴스. 밤 — 계획 조정. 새벽 — 정리 후 취침.\n\n2년 넘게 이 루틴이다. 어느 순간부터 이 루틴이 '내가 선택한 것'인지 '몸에 밴 것'인지 구분이 안 됐다.\n\n좋은 건지 나쁜 건지도 모르겠다. 그냥 이게 {name}이다.",
+    "choices": [
+      {
+        "text": "이 루틴이 나를 만든다. 계속한다",
+        "effects": { "intelligence": 1, "health": -2, "mental": -3 },
+        "flags": ["arc_35_habit_check_seen", "maintained_routine"],
+        "result_text": "지속이 결과다. 흔들리면 진다. {name}은 내일 일정을 다시 짰다."
+      },
+      {
+        "text": "뭔가 하나를 바꿔보기로 했다. 루틴이 함정이 될 수 있다",
+        "effects": { "intelligence": 2, "mental": 4 },
+        "flags": ["arc_35_habit_check_seen", "changed_routine"],
+        "result_text": "차트 보는 시간을 한 시간 줄였다. 비는 시간이 생겼다. 이상하게 더 선명해졌다. 루틴이 목적이 됐던 것 같았다."
+      },
+      {
+        "text": "운동을 다시 시작했다. 몸을 써야 한다",
+        "effects": { "health": 5, "mental": 3 },
+        "flags": ["arc_35_habit_check_seen", "restarted_exercise"],
+        "result_text": "반 년 만에 러닝화를 꺼냈다. 첫날 3킬로 뛰다 죽는 줄 알았다. 그래도 기분은 나쁘지 않았다. 몸이 조금 돌아오는 것 같았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_reality_check",
+    "title": "3년의 계산",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "3년이 지났다.\n\n계산기를 꺼냈다. 지금 총자산. 목표까지 거리. 남은 시간.\n\n25개월 안에 이 거리를 메울 수 있는지.\n\n숫자가 나왔다. {name}은 화면을 보면서 아무 말도 안 했다. 지금 속도로는 안 된다. 뭔가 달라져야 했다.\n\n3년 전에도 똑같이 생각했었다는 걸 기억했다.",
+    "choices": [
+      {
+        "text": "더 빠르게 움직여야 한다. 지금까지가 워밍업이었다",
+        "effects": { "investment_skill": 1, "mental": -5 },
+        "flags": ["arc_36_reality_check_seen", "year3_doubled_down"],
+        "result_text": "겁이 났다. 하지만 겁이 난다는 건 아직 뭔가 잃을 게 있다는 뜻이다. {name}은 계획을 다시 짰다. 더 크게."
+      },
+      {
+        "text": "지금 가는 속도로 간다. 조급해지면 무너진다",
+        "effects": { "mental": 6, "luck": 1 },
+        "flags": ["arc_36_reality_check_seen", "year3_steady_path"],
+        "result_text": "급한 사람이 먼저 실수한다. 지금 방향이 맞다면 — 시간이 해결한다. {name}은 계산기를 덮었다."
+      },
+      {
+        "text": "내 방식이 맞는지 처음으로 완전히 흔들렸다",
+        "effects": { "mental": -8, "intelligence": 2 },
+        "flags": ["arc_36_reality_check_seen", "year3_questioned_path"],
+        "result_text": "흔들리는 게 나쁜 건 아닌 것 같았다. 자각은 방향을 바꿀 수 있다. 며칠 후에야 다시 앉을 수 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_body_signal",
+    "title": "몸이 말한다",
+    "background": "street_rainy",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "health"],
+    "cooldown": 9999,
+    "description": "계단을 오르다 숨이 찼다.\n\n전에는 없던 일이다. 3층도 아니고 2층이었다.\n\n돌이켜보면 — 식사는 편의점. 수면은 새벽 2시. 운동은 2년 전에 멈췄다. 36세라는 나이가 그렇게 만든 건지, 아니면 3년의 이 생활이 만든 건지.\n\n몸이 말을 하고 있었다. 처음으로 들리는 것 같았다.",
+    "choices": [
+      {
+        "text": "병원에 갔다. 뭔가 알아야 한다",
+        "effects": { "health": 5, "mental": -2, "money": -50000 },
+        "flags": ["arc_36_body_signal_seen", "went_to_hospital"],
+        "result_text": "건강검진 결과가 나왔다. 특별한 이상은 없었다. 의사가 \"운동 좀 하세요\"라고 했다. 그 말이 이상하게 무거웠다."
+      },
+      {
+        "text": "일단 밥부터 제대로 먹기로 했다",
+        "effects": { "health": 3, "mental": 3, "money": -30000 },
+        "flags": ["arc_36_body_signal_seen", "improved_diet"],
+        "result_text": "편의점 삼각김밥 대신 백반집에 갔다. 따뜻한 국이 있었다. 이게 뭐라고 — 눈이 좀 뜨거워졌다. 이런 걸 한동안 못 먹었다."
+      },
+      {
+        "text": "지금은 멈출 수 없다. 나중에 쉬면 된다",
+        "effects": { "health": -5, "mental": -3 },
+        "flags": ["arc_36_body_signal_seen", "ignored_body"],
+        "result_text": "커피를 한 잔 더 마셨다. 몸이 뭔가 말하는 것 같았지만 — 지금 할 게 있었다. 나중에 쉬면 된다고, 한 번 더 생각했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_night_doubt",
+    "title": "새벽 3시",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "새벽 3시. 잠이 안 왔다.\n\n이상한 생각이 들었다. 강남에 꼭 가야 하나.\n\n처음에는 분명 이유가 있었다. 아버지 보증 사기. 6년. 그 빚을 갚고 나서 — 이제 내 걸 쌓아야 한다고. 30억이 그 상징이었다.\n\n지금은 30억이 그냥 숫자처럼 보일 때가 있다. 이게 지침인지, 성숙인지, 포기인지 — 구분이 안 됐다.",
+    "choices": [
+      {
+        "text": "원래 이유를 다시 꺼냈다. 잊지 않기 위해",
+        "effects": { "mental": 5, "investment_skill": 1 },
+        "flags": ["arc_36_night_doubt_seen", "reaffirmed_motive"],
+        "result_text": "아버지. 6년. 그 기억을 다시 꺼냈다. 분노인지 각오인지 구분이 안 됐지만 — 다시 일어나졌다. 그걸로 충분했다."
+      },
+      {
+        "text": "모르겠다. 내일 생각하기로 했다",
+        "effects": { "mental": 3 },
+        "flags": ["arc_36_night_doubt_seen", "deferred_question"],
+        "result_text": "내일이 되면 달라질 것 같았다. 됐다. 일단 잤다."
+      },
+      {
+        "text": "30억이 아니어도 된다는 가능성을 처음으로 열었다",
+        "effects": { "mental": 8 },
+        "flags": ["arc_36_night_doubt_seen", "opened_other_door"],
+        "result_text": "그 생각이 두려울 줄 알았다. 근데 이상하게 — 조금 편해졌다. 30억짜리 통장이 목표인 게 아니라 30억짜리 삶이 목표였던 건지도 모른다."
+      }
+    ]
+  },
+  {
+    "id": "arc_37_reckoning",
+    "title": "마지막 정산",
+    "background": "late_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "milestone"],
+    "cooldown": 9999,
+    "description": "37세.\n\n계산기를 꺼냈다. 지금 자산. 목표까지 거리. 남은 시간.\n\n4년이 지났다. 이 숫자가 아직도 내 것인지 — 처음으로 또렷하게 물을 수 있었다.\n\n이 시점에서 어디 있느냐. 그게 마지막 1년의 온도를 결정한다.",
+    "choices": [
+      {
+        "text": "여기까지 온 것 자체가 이미 다르다. 마지막까지 간다",
+        "effects": { "mental": 4, "luck": 2 },
+        "flags": ["arc_37_reckoning_seen", "final_year_resolve"],
+        "result_text": "33세 50만원이었다. 지금 여기다. 숫자가 뭐가 됐든 — 이 궤적은 내 것이다. 마지막 1년, 그냥 산다."
+      },
+      {
+        "text": "냉정하게 봤다. 지금 이 속도로는 결말이 보인다",
+        "effects": { "intelligence": 2, "mental": -3 },
+        "flags": ["arc_37_reckoning_seen", "final_year_realistic"],
+        "result_text": "숫자는 거짓말을 안 한다. 이 결과가 어떻든 — 모르는 것보다 아는 채로 마지막을 사는 게 낫다. {name}은 계획을 한 번 더 조정했다."
+      },
+      {
+        "text": "결론을 내리지 않기로 했다. 끝에 가봐야 안다",
+        "effects": { "mental": 6 },
+        "flags": ["arc_37_reckoning_seen", "final_year_open"],
+        "result_text": "계산기를 덮었다. 끝에 가봐야 안다. 이게 4년 동안 배운 거다."
+      }
+    ]
+  },
+  {
+    "id": "arc_37_burn_or_light",
+    "title": "불씨냐 재냐",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "요즘 뭔가 이상하다.\n\n집중이 안 되는 게 아니라 — 전과 다른 종류의 집중이다. 이 판이 어떻게 끝날지 알 것 같은 느낌. 두렵다기보다 그냥 알 것 같은.\n\n마지막이 보일 때 생기는 게 번아웃인지 최후의 집중인지 — {name}은 아직 모른다.",
+    "choices": [
+      {
+        "text": "마지막 불꽃이다. 지금 더 태운다",
+        "effects": { "investment_skill": 2, "health": -3, "mental": -5 },
+        "flags": ["arc_37_burn_or_light_seen", "final_burn"],
+        "result_text": "잠을 줄였다. 식사를 간소화했다. 이 기간이 지나면 쉬면 된다. 마지막 스퍼트에서 멈추는 건 없다."
+      },
+      {
+        "text": "지쳐있다는 걸 인정했다. 조금 쉬어야 한다",
+        "effects": { "mental": 9, "health": 3 },
+        "flags": ["arc_37_burn_or_light_seen", "rested_finally"],
+        "result_text": "하루를 비웠다. 아무것도 안 했다. 처음에는 죄책감이 들었다. 나중에는 — 뭔가 돌아오는 게 있었다. 쉬는 것도 전략이었다."
+      },
+      {
+        "text": "이 느낌이 뭔지 파악하려고 앉아서 생각했다",
+        "effects": { "intelligence": 1, "mental": 4 },
+        "flags": ["arc_37_burn_or_light_seen", "reflected_on_state"],
+        "result_text": "번아웃과 집중의 차이는 — 뭘 위해서인지 기억하는가 아닌가인 것 같았다. {name}은 다시 기억했다. 왜 시작했는지. 그 기억이 충분했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_37_ending_peace",
+    "title": "어떻게 끝나든",
+    "background": "gangnam_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": { "min_turn": 9999 },
+    "tags": ["story", "arc", "internal"],
+    "cooldown": 9999,
+    "description": "강남대로를 걸었다.\n\n저 아파트들이 실제로 보였다. 5년 전에도 봤던 풍경이다.\n\n이제 3개월이 남았다. 30억이 됐든 안 됐든 — 이 길의 끝이 보였다. 그게 이상하게 두렵지 않았다.\n\n어떻게 끝나든 — 이 5년은 나의 것이다.",
+    "choices": [
+      {
+        "text": "끝까지 간다. 후회 없이",
+        "effects": { "mental": 6, "luck": 2 },
+        "flags": ["arc_37_ending_peace_seen", "no_regrets"],
+        "result_text": "발걸음이 가벼워졌다. 5년 전 처음 이 거리를 걸었을 때보다 훨씬 가벼웠다. 뭔가 달라진 게 있었다. 그게 자산만은 아니었다."
+      },
+      {
+        "text": "지금 이게 이미 드라마라는 걸 알았다",
+        "effects": { "mental": 10 },
+        "flags": ["arc_37_ending_peace_seen", "drama_realized"],
+        "result_text": "결과가 아니라 과정이 드라마라는 걸. 33세 통장 50만원부터 여기까지. 이게 이미 이야기였다. {name}은 처음으로 웃으면서 걸었다."
+      },
+      {
+        "text": "아버지한테 곧 전화할 것 같다",
+        "effects": { "mental": 5 },
+        "flags": ["arc_37_ending_peace_seen", "thought_of_father_end"],
+        "cast_effects": { "father": { "affinity": 2 } },
+        "result_text": "지금은 아직 아니다. 끝나고 나면 전화할 것이다. 뭐라고 할지는 모르겠다. 그냥 들어줄 것 같았다."
+      }
+    ]
   }
 ]
