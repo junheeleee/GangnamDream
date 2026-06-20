@@ -49,6 +49,9 @@ var _continue_hint: Label
 var _choice_box: VBoxContainer
 var _toast_layer: VBoxContainer
 var _hud_label: Label   # 얇은 상단 HUD — 자산/돈/컨디션/시간
+var _text_panel: Panel           # 하단 텍스트 박스 (챕터 카드 시 숨김)
+var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
+var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -166,6 +169,7 @@ func _build_ui():
 	panel_style.set_corner_radius_all(10)
 	text_panel.add_theme_stylebox_override("panel", panel_style)
 	add_child(text_panel)
+	_text_panel = text_panel  # 챕터 카드 시 숨기기 위해 참조 보관
 
 	# 제목 (이벤트 타이틀, 작게) — 박스 좌상단 고정
 	_title_lbl = Label.new()
@@ -296,6 +300,20 @@ func _render_current():
 	for c in _choice_box.get_children():
 		c.queue_free()
 
+	# 챕터 카드 오버레이 정리 + 일반 UI 복원
+	_is_chapter_card = false
+	if _chapter_overlay != null and is_instance_valid(_chapter_overlay):
+		_chapter_overlay.queue_free()
+		_chapter_overlay = null
+	if _text_panel != null:
+		_text_panel.visible = true
+
+	# 챕터 카드 전용 시네마틱 연출
+	if str(_current.get("id", "")).begins_with("chapter_card_"):
+		_is_chapter_card = true
+		_render_chapter_card_cinematic()
+		return
+
 	var cg_path := ""
 	var cg_id := str(_current.get("cg", ""))
 	if cg_id != "":
@@ -395,6 +413,10 @@ func _process(delta):
 # ── 입력: 클릭하여 진행 ───────────────────────────────────────
 func _on_advance():
 	if _transitioning or _showing_choices:
+		return
+	# 챕터 카드 모드 — 클릭하면 첫 번째 선택지 자동 적용 후 진행
+	if _is_chapter_card:
+		_chapter_card_advance()
 		return
 	# 타이핑 중이면 즉시 완성
 	if _typing:
@@ -580,6 +602,131 @@ func _after_result():
 	_pending_follow_up = ""
 	# EventManager가 중복으로 쌓아둔 follow_up은 비워준다 (apply_choice 경유 안 함)
 	_load_next_event()
+
+func _chapter_card_advance():
+	AudioManager.play("choice_made")
+	var choices: Array = _current.get("choices", [])
+	if choices.size() > 0:
+		GameState.apply_choice(_current, choices[0])
+	_load_next_event()
+
+func _render_chapter_card_cinematic():
+	# 배경: 순수 검은색
+	_bg_img.texture = null
+	_bg_dim.color = Color(0.0, 0.0, 0.02, 0.98)
+	# 일반 UI 숨김
+	_portrait_frame.visible = false
+	_name_panel.visible = false
+	_text_panel.visible = false
+	_continue_hint.visible = false
+	BGMPlayer.update_event_ambience(_current)
+
+	# 오버레이 컨테이너
+	var ov := Control.new()
+	ov.set_anchors_preset(Control.PRESET_FULL_RECT)
+	ov.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(ov)
+	_chapter_overlay = ov
+
+	# 중앙 VBox
+	var vbox := VBoxContainer.new()
+	vbox.set_anchors_preset(Control.PRESET_CENTER)
+	vbox.anchor_left = 0.12
+	vbox.anchor_right = 0.88
+	vbox.anchor_top = 0.22
+	vbox.anchor_bottom = 0.78
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.add_theme_constant_override("separation", 28)
+	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ov.add_child(vbox)
+
+	# ① 챕터 번호 — 골드, 작게
+	var num_lbl := Label.new()
+	num_lbl.text = _fmt(str(_current.get("title", "")))
+	num_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	num_lbl.add_theme_font_size_override("font_size", 15)
+	num_lbl.add_theme_color_override("font_color", Color("#c9a227"))
+	num_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_apply_font(num_lbl)
+	num_lbl.modulate.a = 0.0
+	vbox.add_child(num_lbl)
+
+	# ② 구분선 (골드)
+	var sep := HSeparator.new()
+	var sep_style := StyleBoxFlat.new()
+	sep_style.bg_color = Color("#c9a227", 0.35)
+	sep_style.set_content_margin_all(0)
+	sep.add_theme_stylebox_override("separator", sep_style)
+	sep.custom_minimum_size.y = 1
+	sep.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sep.modulate.a = 0.0
+	vbox.add_child(sep)
+
+	# ③ 본문 파싱 — 첫 줄 = 부제(크게), 나머지 = 설명(작게)
+	var desc: String = _fmt(str(_current.get("description", "")))
+	var all_lines: PackedStringArray = desc.split("\n")
+	var subtitle: String = all_lines[0].strip_edges() if all_lines.size() > 0 else ""
+	var body_parts: Array = []
+	for i in range(1, all_lines.size()):
+		var l: String = all_lines[i].strip_edges()
+		if l != "":
+			body_parts.append(l)
+	var body_text: String = "\n".join(body_parts)
+
+	# 부제 레이블 (크게, 흰색)
+	var sub_lbl := Label.new()
+	sub_lbl.text = subtitle
+	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	sub_lbl.add_theme_font_size_override("font_size", 52)
+	sub_lbl.add_theme_color_override("font_color", Color("#eef0f5"))
+	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_apply_font(sub_lbl, true)
+	sub_lbl.modulate.a = 0.0
+	vbox.add_child(sub_lbl)
+
+	# 설명 레이블 (작게, 회색)
+	var desc_lbl: RichTextLabel = null
+	if body_text != "":
+		desc_lbl = RichTextLabel.new()
+		desc_lbl.bbcode_enabled = true
+		desc_lbl.fit_content = true
+		desc_lbl.scroll_active = false
+		desc_lbl.text = "[center]" + body_text + "[/center]"
+		desc_lbl.add_theme_font_size_override("normal_font_size", 19)
+		desc_lbl.add_theme_color_override("default_color", Color("#6a7890"))
+		if _font:
+			desc_lbl.add_theme_font_override("normal_font", _font)
+		desc_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		desc_lbl.modulate.a = 0.0
+		vbox.add_child(desc_lbl)
+
+	# 클릭 힌트 — 하단 고정
+	var hint := Label.new()
+	hint.text = "▼  클릭하여 계속"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.add_theme_font_size_override("font_size", 13)
+	hint.add_theme_color_override("font_color", Color("#3a4460"))
+	_apply_font(hint)
+	hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	hint.offset_bottom = -32
+	hint.offset_top = -64
+	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hint.modulate.a = 0.0
+	ov.add_child(hint)
+
+	# 순차 페이드인 애니메이션
+	var tw := create_tween()
+	tw.tween_interval(0.15)
+	tw.tween_property(num_lbl, "modulate:a", 1.0, 0.55).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(sep, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_SINE)
+	tw.tween_interval(0.1)
+	tw.tween_property(sub_lbl, "modulate:a", 1.0, 0.75).set_trans(Tween.TRANS_SINE)
+	if desc_lbl != null:
+		tw.tween_interval(0.3)
+		tw.tween_property(desc_lbl, "modulate:a", 1.0, 0.6).set_trans(Tween.TRANS_SINE)
+	tw.tween_interval(0.5)
+	tw.tween_property(hint, "modulate:a", 0.55, 0.4).set_trans(Tween.TRANS_SINE)
 
 # ── 스탯 변화 노출 ────────────────────────────────────────────
 func _snapshot_stats() -> Dictionary:
