@@ -298,7 +298,7 @@ func _build_ui() -> void:
 	dice_panel.add_child(dice_margin)
 
 	_dice_ctrl = Control.new()
-	_dice_ctrl.custom_minimum_size = Vector2(480, 112)
+	_dice_ctrl.custom_minimum_size = Vector2(480, 120)
 	_dice_ctrl.draw.connect(_draw_dice)
 	dice_v.add_child(_dice_ctrl)
 
@@ -572,12 +572,26 @@ func _draw_dice() -> void:
 	var total_w := dice_size * 3.0 + gap * 2.0
 	var x := (_dice_ctrl.size.x - total_w) * 0.5
 	var y := (_dice_ctrl.size.y - dice_size) * 0.5
+	var tray_rect := Rect2(Vector2(x - 30.0, y - 20.0), Vector2(total_w + 60.0, dice_size + 40.0))
+	_dice_ctrl.draw_rect(Rect2(tray_rect.position + Vector2(0.0, 7.0), tray_rect.size), Color(0, 0, 0, 0.35), true)
+	_dice_ctrl.draw_rect(tray_rect, Color("#07110f"), true)
+	_dice_ctrl.draw_rect(tray_rect, Color("#31413d"), false, 2.0)
+
+	var dome_center := tray_rect.get_center()
+	_dice_ctrl.draw_set_transform(dome_center, 0.0, Vector2(1.75, 0.72))
+	_dice_ctrl.draw_circle(Vector2.ZERO, 74.0, Color(0.78, 0.92, 1.0, 0.10))
+	_dice_ctrl.draw_arc(Vector2.ZERO, 74.0, PI * 1.06, PI * 1.94, 48, Color(0.95, 1.0, 1.0, 0.32), 2.0)
+	_dice_ctrl.draw_arc(Vector2.ZERO, 53.0, PI * 1.12, PI * 1.70, 32, Color(1.0, 1.0, 1.0, 0.20), 2.0)
+	_dice_ctrl.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
 	for i in range(3):
 		_draw_single_die(Vector2(x + float(i) * (dice_size + gap), y), dice_size, int(_dice[i]))
 
 func _draw_single_die(pos: Vector2, size: float, value: int) -> void:
 	var rect := Rect2(pos, Vector2(size, size))
+	_dice_ctrl.draw_rect(Rect2(pos + Vector2(4.0, 5.0), Vector2(size, size)), Color(0, 0, 0, 0.30), true)
 	_dice_ctrl.draw_rect(rect, Color("#f2f4f8"), true)
+	_dice_ctrl.draw_rect(Rect2(pos + Vector2(5.0, 5.0), Vector2(size - 10.0, size - 10.0)), Color("#ffffff"), false, 1.0)
 	_dice_ctrl.draw_rect(rect, Color("#9aa3b7"), false, 3.0)
 	var pip_color := Color("#101722")
 	var r := size * 0.055

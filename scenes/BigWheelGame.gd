@@ -407,12 +407,47 @@ func _build_ui() -> void:
 
 	var root_vbox := VBoxContainer.new()
 	root_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	root_vbox.add_theme_constant_override("separation", 10)
+	root_vbox.add_theme_constant_override("separation", 8)
 	outer.add_child(root_vbox)
+
+	var lamp_row := HBoxContainer.new()
+	lamp_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	lamp_row.add_theme_constant_override("separation", 7)
+	root_vbox.add_child(lamp_row)
+	for i in range(23):
+		var lamp := Panel.new()
+		lamp.custom_minimum_size = Vector2(15, 6)
+		var lamp_st := StyleBoxFlat.new()
+		var lit := i % 4 != 1
+		lamp_st.bg_color = Color("#ffd84d") if lit else Color("#4a2a08")
+		lamp_st.border_color = Color("#fff0a8") if lit else Color("#7a4a12")
+		lamp_st.set_border_width_all(1)
+		lamp_st.set_corner_radius_all(4)
+		lamp.add_theme_stylebox_override("panel", lamp_st)
+		lamp_row.add_child(lamp)
+
+	var marquee := PanelContainer.new()
+	var marquee_st := StyleBoxFlat.new()
+	marquee_st.bg_color = Color("#2a0a05")
+	marquee_st.border_color = Color("#f39c12")
+	marquee_st.set_border_width_all(3)
+	marquee_st.set_corner_radius_all(16)
+	marquee_st.content_margin_top = 5
+	marquee_st.content_margin_bottom = 5
+	marquee.add_theme_stylebox_override("panel", marquee_st)
+	root_vbox.add_child(marquee)
+
+	var marquee_lbl := Label.new()
+	marquee_lbl.text = "BIG WHEEL"
+	marquee_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	marquee_lbl.add_theme_font_size_override("font_size", 25)
+	marquee_lbl.add_theme_color_override("font_color", Color("#ffd84d"))
+	_f(marquee_lbl, true)
+	marquee.add_child(marquee_lbl)
 
 	# ── 휠 그리기 영역 ──
 	_wheel_ctrl = Control.new()
-	_wheel_ctrl.custom_minimum_size = Vector2(0, 390)
+	_wheel_ctrl.custom_minimum_size = Vector2(0, 330)
 	_wheel_ctrl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_wheel_ctrl.draw.connect(_on_wheel_draw)
 	root_vbox.add_child(_wheel_ctrl)
@@ -538,6 +573,16 @@ func _on_wheel_draw() -> void:
 	var f: Font = _font if _font else ThemeDB.fallback_font
 	var seg_start_slot: int = 0
 
+	_wheel_ctrl.draw_circle(Vector2(cx, cy + 8.0), r + 26.0, Color(0, 0, 0, 0.42))
+	_wheel_ctrl.draw_circle(Vector2(cx, cy), r + 25.0, Color("#241006"))
+	_wheel_ctrl.draw_arc(Vector2(cx, cy), r + 25.0, 0.0, TAU, 128, Color("#f39c12"), 4.5)
+	_wheel_ctrl.draw_arc(Vector2(cx, cy), r + 17.0, 0.0, TAU, 128, Color("#7a4f1a"), 5.0)
+	for pin in range(18):
+		var a_pin: float = float(pin) / 18.0 * TAU
+		var p_pin := Vector2(cx + cos(a_pin) * (r + 20.0), cy + sin(a_pin) * (r + 20.0))
+		_wheel_ctrl.draw_circle(p_pin, 3.0, Color("#ffe08a"))
+		_wheel_ctrl.draw_circle(p_pin, 1.3, Color("#7a4a12"))
+
 	for seg in range(6):
 		var seg_count: int   = int(SEG_SLOTS[seg])
 		var col_hex: String  = str(SEG_COLORS[seg])
@@ -589,21 +634,32 @@ func _on_wheel_draw() -> void:
 		seg_start_slot += seg_count
 
 	# 외곽 테두리
-	_wheel_ctrl.draw_arc(Vector2(cx, cy), r, 0.0, TAU, 64, Color("#8a6a3a"), 3.0)
+	_wheel_ctrl.draw_arc(Vector2(cx, cy), r, 0.0, TAU, 96, Color("#2a1207"), 5.0)
+	_wheel_ctrl.draw_arc(Vector2(cx, cy), r + 2.0, 0.0, TAU, 96, Color("#d19a3f"), 3.0)
+	_wheel_ctrl.draw_arc(Vector2(cx, cy), r * 0.72, 0.0, TAU, 96, Color(1, 1, 1, 0.16), 1.0)
 
 	# 허브 (중심)
-	_wheel_ctrl.draw_circle(Vector2(cx, cy), 16.0, Color("#0a0804"))
-	_wheel_ctrl.draw_arc(Vector2(cx, cy), 16.0, 0.0, TAU, 32, Color("#f39c12"), 2.0)
+	_wheel_ctrl.draw_circle(Vector2(cx, cy), 22.0, Color("#0a0804"))
+	_wheel_ctrl.draw_arc(Vector2(cx, cy), 22.0, 0.0, TAU, 48, Color("#f39c12"), 3.0)
+	_wheel_ctrl.draw_circle(Vector2(cx, cy), 8.0, Color("#f0b429"))
 
 	# 포인터 (위쪽 삼각형) — _pointer_scale로 pulse 크기 적용
 	var ps: float  = _pointer_scale
-	var base_w: float = 10.0 * ps
-	var base_h: float = 18.0 * ps
-	var pt_tip := Vector2(cx, cy - r - 4.0 * ps)
-	var pt_l   := Vector2(cx - base_w, cy - r + base_h - 4.0 * ps)
-	var pt_r   := Vector2(cx + base_w, cy - r + base_h - 4.0 * ps)
+	var mount_y := cy - r - 36.0
+	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 24.0, mount_y), Vector2(48.0, 22.0)), Color("#1a0c05"), true)
+	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 24.0, mount_y), Vector2(48.0, 22.0)), Color("#f39c12"), false, 2.0)
+	var base_w: float = 13.0 * ps
+	var base_h: float = 24.0 * ps
+	var pt_tip := Vector2(cx, cy - r - 5.0 * ps)
+	var pt_l   := Vector2(cx - base_w, cy - r - base_h - 1.0 * ps)
+	var pt_r   := Vector2(cx + base_w, cy - r - base_h - 1.0 * ps)
 	_wheel_ctrl.draw_colored_polygon(PackedVector2Array([pt_tip, pt_l, pt_r]), Color("#e74c3c"))
 	_wheel_ctrl.draw_polyline(PackedVector2Array([pt_tip, pt_l, pt_r, pt_tip]), Color(1, 1, 1, 0.7), 1.5 * ps)
+
+	var stand_top := cy + r + 12.0
+	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 16.0, stand_top), Vector2(32.0, 34.0)), Color("#170b05"), true)
+	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 16.0, stand_top), Vector2(32.0, 34.0)), Color("#7a4f1a"), false, 2.0)
+	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 92.0, stand_top + 34.0), Vector2(184.0, 10.0)), Color("#2a1407"), true)
 
 	# 스핀 중 / 결과 텍스트
 	if _phase == Phase.SPINNING:

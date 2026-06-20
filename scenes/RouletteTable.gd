@@ -168,6 +168,7 @@ func _select_bet_type(t: int) -> void:
 	_refresh()
 
 func _select_number(n: int) -> void:
+	_bet_type = 0
 	_chosen_number = n
 	AudioManager.play("casino_bet")
 	_refresh()
@@ -342,12 +343,15 @@ func _draw_roulette_wheel() -> void:
 	if sz.x < 80.0 or sz.y < 80.0:
 		return
 	var center: Vector2 = sz * 0.5
-	var radius: float = minf(sz.x, sz.y) * 0.43
+	var radius: float = minf(sz.x, sz.y) * 0.41
 	var inner_radius: float = radius * 0.48
 	var label_radius: float = radius * 0.78
 	var count: int = WHEEL_NUMBERS.size()
 	var font: Font = _font if _font else ThemeDB.fallback_font
 
+	_wheel_display.draw_circle(center + Vector2(0, 7), radius + 18.0, Color(0, 0, 0, 0.35))
+	_wheel_display.draw_circle(center, radius + 18.0, Color("#1d0f06"))
+	_wheel_display.draw_arc(center, radius + 18.0, 0.0, TAU, 160, Color("#7a4b19"), 4.0)
 	_wheel_display.draw_circle(center, radius + 10.0, Color("#2a1708"))
 	_wheel_display.draw_circle(center, radius + 6.0, Color("#c58f36"))
 	_wheel_display.draw_circle(center, radius + 1.0, Color("#080d09"))
@@ -384,8 +388,11 @@ func _draw_roulette_wheel() -> void:
 
 	_wheel_display.draw_circle(center, inner_radius, Color("#050906"))
 	_wheel_display.draw_arc(center, inner_radius, 0.0, TAU, 96, Color("#c58f36"), 2.0)
-	_wheel_display.draw_circle(center, inner_radius * 0.55, Color("#101b12"))
+	_wheel_display.draw_circle(center, inner_radius * 0.62, Color("#132314"))
+	_wheel_display.draw_arc(center, inner_radius * 0.62, 0.0, TAU, 96, Color("#d5a544"), 2.0)
+	_wheel_display.draw_circle(center, inner_radius * 0.42, Color("#101b12"))
 	_wheel_display.draw_arc(center, radius * 0.72, 0.0, TAU, 128, Color(1, 1, 1, 0.16), 1.0)
+	_wheel_display.draw_arc(center, radius + 1.0, 0.0, TAU, 160, Color(1, 1, 1, 0.18), 1.0)
 
 	var ball_pos: Vector2 = center + Vector2(cos(_ball_angle), sin(_ball_angle)) * (radius * 0.70)
 	_wheel_display.draw_circle(ball_pos + Vector2(2.0, 2.0), 7.0, Color(0, 0, 0, 0.45))
@@ -471,19 +478,19 @@ func _build_ui() -> void:
 
 	_content_root = VBoxContainer.new()
 	_content_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_content_root.add_theme_constant_override("separation", 10)
+	_content_root.add_theme_constant_override("separation", 6)
 	var margin := MarginContainer.new()
 	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	margin.add_theme_constant_override("margin_left", 24)
-	margin.add_theme_constant_override("margin_right", 24)
-	margin.add_theme_constant_override("margin_top", 12)
-	margin.add_theme_constant_override("margin_bottom", 12)
+	margin.add_theme_constant_override("margin_left", 22)
+	margin.add_theme_constant_override("margin_right", 22)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
 	margin.add_child(_content_root)
 	table_panel.add_child(margin)
 
 	# ── 중앙 룰렛 휠 / 숫자 디스플레이 ──
 	var num_panel := PanelContainer.new()
-	num_panel.custom_minimum_size = Vector2(0, 330)
+	num_panel.custom_minimum_size = Vector2(0, 218)
 	_number_panel_style = StyleBoxFlat.new()
 	_number_panel_style.bg_color = Color("#050907")
 	_number_panel_style.border_color = Color("#2d7d3f")
@@ -524,6 +531,47 @@ func _build_ui() -> void:
 	_history_box.add_theme_constant_override("separation", 4)
 	_content_root.add_child(_history_box)
 
+	# ── 숫자 베팅 매트 ──
+	var number_mat := PanelContainer.new()
+	var mat_st := StyleBoxFlat.new()
+	mat_st.bg_color = Color("#06200d")
+	mat_st.border_color = Color("#2d7d3f")
+	mat_st.set_border_width_all(2)
+	mat_st.set_corner_radius_all(10)
+	mat_st.content_margin_left = 10
+	mat_st.content_margin_right = 10
+	mat_st.content_margin_top = 5
+	mat_st.content_margin_bottom = 5
+	number_mat.add_theme_stylebox_override("panel", mat_st)
+	_content_root.add_child(number_mat)
+
+	var number_mat_v := VBoxContainer.new()
+	number_mat_v.add_theme_constant_override("separation", 4)
+	number_mat.add_child(number_mat_v)
+
+	var number_mat_lbl := Label.new()
+	number_mat_lbl.text = "숫자 베팅 매트"
+	number_mat_lbl.add_theme_font_size_override("font_size", 9)
+	number_mat_lbl.add_theme_color_override("font_color", Color("#8aba8a"))
+	_f(number_mat_lbl)
+	number_mat_v.add_child(number_mat_lbl)
+
+	_number_picker_grid = GridContainer.new()
+	_number_picker_grid.columns = 13
+	_number_picker_grid.add_theme_constant_override("h_separation", 2)
+	_number_picker_grid.add_theme_constant_override("v_separation", 2)
+	number_mat_v.add_child(_number_picker_grid)
+
+	var b0 := _make_number_btn(0)
+	_number_picker_grid.add_child(b0)
+	for n in range(1, 37):
+		var bn := _make_number_btn(n)
+		_number_picker_grid.add_child(bn)
+	for _p in range(2):
+		var spacer := Control.new()
+		spacer.custom_minimum_size = Vector2(30, 21)
+		_number_picker_grid.add_child(spacer)
+
 	# ── 베팅 타입 버튼 (2행) ──
 	var bet_lbl := Label.new()
 	bet_lbl.text = "베팅 유형 선택"
@@ -551,27 +599,6 @@ func _build_ui() -> void:
 	_build_bet_btn(row2, "1묶음 1-12\n(2:1)",  7)
 	_build_bet_btn(row2, "2묶음 13-24\n(2:1)", 8)
 	_build_bet_btn(row2, "3묶음 25-36\n(2:1)", 9)
-
-	# ── 숫자 선택 그리드 ──
-	_number_picker_grid = GridContainer.new()
-	_number_picker_grid.columns = 10
-	_number_picker_grid.add_theme_constant_override("h_separation", 3)
-	_number_picker_grid.add_theme_constant_override("v_separation", 3)
-	_number_picker_grid.visible = false
-	_content_root.add_child(_number_picker_grid)
-
-	# 0번
-	var b0 := _make_number_btn(0)
-	_number_picker_grid.add_child(b0)
-	# 1~36
-	for n in range(1, 37):
-		var bn := _make_number_btn(n)
-		_number_picker_grid.add_child(bn)
-	# 빈 칸 3개 (총 37개 → 4행×10열 = 40 – 37 = 3 패딩)
-	for _p in range(3):
-		var spacer := Control.new()
-		spacer.custom_minimum_size = Vector2(32, 28)
-		_number_picker_grid.add_child(spacer)
 
 	# ── 스테이크 버튼 ──
 	var stake_lbl := Label.new()
@@ -603,26 +630,26 @@ func _build_ui() -> void:
 	_content_root.add_child(action_row)
 
 	var bet_action_btn := _make_btn("BET", _do_bet, "#1a2e0a", "#f39c12")
-	bet_action_btn.custom_minimum_size = Vector2(0, 46)
+	bet_action_btn.custom_minimum_size = Vector2(0, 42)
 	bet_action_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if _font_bold: bet_action_btn.add_theme_font_override("font", _font_bold)
 	bet_action_btn.add_theme_font_size_override("font_size", 16)
 	action_row.add_child(bet_action_btn)
 
 	_spin_btn = _make_btn("SPIN", _do_spin, "#0a2a0a", "#27ae60")
-	_spin_btn.custom_minimum_size = Vector2(0, 46)
+	_spin_btn.custom_minimum_size = Vector2(0, 42)
 	_spin_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if _font_bold: _spin_btn.add_theme_font_override("font", _font_bold)
 	_spin_btn.add_theme_font_size_override("font_size", 16)
 	action_row.add_child(_spin_btn)
 
 	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#5a4510")
-	help_btn.custom_minimum_size = Vector2(60, 46)
+	help_btn.custom_minimum_size = Vector2(60, 42)
 	_f(help_btn)
 	action_row.add_child(help_btn)
 
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
-	exit_btn.custom_minimum_size = Vector2(90, 46)
+	exit_btn.custom_minimum_size = Vector2(90, 42)
 	_f(exit_btn)
 	action_row.add_child(exit_btn)
 
@@ -659,10 +686,10 @@ func _build_bet_btn(parent: HBoxContainer, label_text: String, t: int) -> void:
 	var btn := Button.new()
 	btn.text = label_text
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn.custom_minimum_size = Vector2(0, 52)
+	btn.custom_minimum_size = Vector2(0, 38)
 	_style_bet_btn(btn, t == _bet_type)
 	_f(btn)
-	btn.add_theme_font_size_override("font_size", 12)
+	btn.add_theme_font_size_override("font_size", 11)
 	btn.pressed.connect(func(): _select_bet_type(t))
 	_bet_btn_refs.append({"btn": btn, "type": t})
 	parent.add_child(btn)
@@ -693,7 +720,7 @@ func _make_number_btn(n: int) -> Button:
 		_:       bg = "#0a3a1a"
 	var btn := Button.new()
 	btn.text = str(n)
-	btn.custom_minimum_size = Vector2(32, 28)
+	btn.custom_minimum_size = Vector2(30, 21)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg)
 	st.set_corner_radius_all(4)
@@ -713,7 +740,7 @@ func _make_number_btn(n: int) -> Button:
 		"black": txt_col = "#d0d0d0"
 		_:       txt_col = "#2ecc71"
 	btn.add_theme_color_override("font_color", Color(txt_col))
-	btn.add_theme_font_size_override("font_size", 11)
+	btn.add_theme_font_size_override("font_size", 9)
 	if _font: btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(func(): _select_number(n))
 	return btn
@@ -801,8 +828,7 @@ func _refresh_stake_btns() -> void:
 		btn.add_theme_color_override("font_color", Color("#f0b429") if selected else Color("#c8d8c8"))
 
 func _refresh_number_picker() -> void:
-	# 결과 확인 시엔 항상 그리드 표시 (어떤 숫자에 공이 떨어졌는지 시각화)
-	_number_picker_grid.visible = (_bet_type == 0 or _phase == Phase.RESULT)
+	_number_picker_grid.visible = true
 	var idx: int = 0
 	for child in _number_picker_grid.get_children():
 		if child is Button:
