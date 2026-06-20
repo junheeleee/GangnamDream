@@ -8,7 +8,9 @@
     "hidden": true,
     "background": "cafe",
     "portrait": "sangchul_normal",
-    "conditions": { "min_turn": 9999 },
+    "conditions": {
+      "min_turn": 9999
+    },
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
@@ -16,20 +18,39 @@
     "choices": [
       {
         "text": "(모른 척 앉았다. 이 사람이 필요하다.)",
-        "effects": { "mental": -8 },
-        "flags": ["arc_sangchul_ng_seen", "arc_sangchul_met_seen", "ng_playing_sangchul"],
+        "effects": {
+          "mental": -8
+        },
+        "flags": [
+          "arc_sangchul_ng_seen",
+          "arc_sangchul_met_seen",
+          "ng_playing_sangchul"
+        ],
         "cast_effects": {
-          "sangchul": { "stage": "acquaintance", "affinity": 5 }
+          "sangchul": {
+            "stage": "acquaintance",
+            "affinity": 5
+          }
         },
         "result_text": "민준은 아무것도 모르는 척 명함을 받았다. 이름을 아는 사람을 처음 보는 것처럼 대한다는 게 이렇게 소모적인 일인 줄 몰랐다. 하지만 이 사람은 네트워크의 열쇠다.",
         "foreshadow": "이 사람이 필요하다는 것과, 이 사람이 어떤 사람인지 아는 것은 — 함께 살 수 있다. 그렇게 믿기로 했다."
       },
       {
         "text": "\"혹시 제 아버지 아시나요? 창원 김씨요.\"",
-        "effects": { "mental": -5, "reputation": 3 },
-        "flags": ["arc_sangchul_ng_seen", "arc_sangchul_met_seen", "ng_confronted_sangchul_early", "sangchul_truth_known"],
+        "effects": {
+          "mental": -5,
+          "reputation": 3
+        },
+        "flags": [
+          "arc_sangchul_ng_seen",
+          "arc_sangchul_met_seen",
+          "ng_confronted_sangchul_early",
+          "sangchul_truth_known"
+        ],
         "cast_effects": {
-          "sangchul": { "stage": "exposed" }
+          "sangchul": {
+            "stage": "exposed"
+          }
         },
         "result_text": "임상철의 표정이 굳었다. 잠깐의 침묵 뒤에 그는 천천히 명함을 도로 집었다. 이제 이 관계는 다른 방향으로 흘러갈 것이다. 두려움보다 이상하게 홀가분한 느낌이 먼저 왔다."
       }
@@ -44,25 +65,41 @@
     "hidden": true,
     "background": "convenience_night",
     "portrait": "daeun_normal",
-    "conditions": { "min_turn": 9999 },
+    "conditions": {
+      "min_turn": 9999
+    },
     "cooldown": 9999,
     "description": "편의점에서 다은을 또 만났다. 지난번에는 무심코 지나쳤지만 이번에는 그 끝을 안다. 그때 어떻게 됐는지, 그리고 어떻게 됐을 수 있었는지를 안다. 지난번과 같은 실수를 반복하지 않으려면 지금 결정해야 한다.",
     "choices": [
       {
         "text": "(이번엔 처음부터 진심으로 대했다)",
-        "effects": { "mental": 3 },
-        "flags": ["arc_daeun_ng_seen", "arc_daeun_met", "ng_committed_to_daeun"],
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "arc_daeun_ng_seen",
+          "arc_daeun_met",
+          "ng_committed_to_daeun"
+        ],
         "cast_effects": {
-          "daeun": { "affinity": 10, "stage": "warm" }
+          "daeun": {
+            "affinity": 10,
+            "stage": "warm"
+          }
         },
         "result_text": "민준은 이번엔 바쁜 척하지 않았다. 다은이 놀란 것 같았다. 처음 보는 사람한테 이렇게 진지하게 구는 사람은 흔치 않으니까. 하지만 민준은 이 시작이 얼마나 중요한지를 안다."
       },
       {
         "text": "(지난번처럼 그냥 지나쳤다)",
         "effects": {},
-        "flags": ["arc_daeun_ng_seen", "arc_daeun_met"],
+        "flags": [
+          "arc_daeun_ng_seen",
+          "arc_daeun_met"
+        ],
         "cast_effects": {
-          "daeun": { "affinity": 3 }
+          "daeun": {
+            "affinity": 3
+          }
         },
         "result_text": "민준은 또 그냥 지나쳤다. 문이 닫히고 나서야 그 선택이 얼마나 무거운 건지 다시 느꼈다. 두 번 다 이러면 안 되는 사람이 있다는 걸 알면서도."
       }
@@ -77,7 +114,9 @@
     "hidden": true,
     "background": "goshiwon_room",
     "portrait": "player_normal",
-    "conditions": { "min_turn": 9999 },
+    "conditions": {
+      "min_turn": 9999
+    },
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 12,
@@ -85,22 +124,107 @@
     "choices": [
       {
         "text": "\"아버지, 저 이번 주말에 내려갈게요\"",
-        "effects": { "mental": 5 },
-        "flags": ["arc_father_ng_seen", "arc_father_01_seen", "ng_father_priority"],
+        "effects": {
+          "mental": 5
+        },
+        "flags": [
+          "arc_father_ng_seen",
+          "arc_father_01_seen",
+          "ng_father_priority"
+        ],
         "cast_effects": {
-          "father": { "affinity": 15, "stage": "close" }
+          "father": {
+            "affinity": 15,
+            "stage": "close"
+          }
         },
         "result_text": "수화기 너머 아버지가 잠깐 침묵했다. '그래... 오너라.' 짧은 말이었지만 목소리가 달랐다. 민준은 내려가기로 결정한 순간 뭔가가 제자리를 찾은 느낌이 들었다."
       },
       {
         "text": "(바빠서 짧게 끊었다)",
         "effects": {},
-        "flags": ["arc_father_ng_seen", "arc_father_01_seen"],
+        "flags": [
+          "arc_father_ng_seen",
+          "arc_father_01_seen"
+        ],
         "cast_effects": {
-          "father": { "affinity": 3 }
+          "father": {
+            "affinity": 3
+          }
         },
         "result_text": "2분짜리 통화였다. 끊고 나서 폰을 내려놨다. 지난번에도 이랬다. 이번에도 똑같이 했다. 뭔가 바꿔야 한다는 걸 알면서도 바꾸지 못한 것들이 있다.",
         "foreshadow": "두 번 다 이렇게 했다."
+      }
+    ]
+  },
+  {
+    "id": "ng_gambling_premonition",
+    "title": "아는 느낌",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "jeongseon_casino_entrance",
+    "portrait": "player_shocked",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "description": "임상철이 카지노 입구 앞에 섰다. 안에서 슬롯머신 소리가 들렸다.\n\"한 번 경험해봐야 알지.\" 그가 웃으며 문을 열었다.\n\n그 순간 이상한 기시감이 왔다. 현기증처럼 — 이 소리, 이 냄새, 이 느낌을 안다.\n다 잃어본 느낌을 이미 안다.",
+    "choices": [
+      {
+        "text": "(들어가지 않는다. 이미 알고 있다)",
+        "effects": {
+          "mental": -5,
+          "intelligence": 3
+        },
+        "flags": [
+          "ng_gambling_refused",
+          "gambling_tempted"
+        ],
+        "result_text": "민준은 문 앞에서 멈췄다. 아무 설명 없이. 임상철이 돌아봤다. 뭔가 이해할 수 없다는 얼굴이었다.\n\n\"나중에.\" 그것만 말했다.\n\n이게 처음이 아니라는 걸, 지금은 설명할 방법이 없었다."
+      },
+      {
+        "text": "(그래도 따라 들어간다. 이번엔 다르게 할 수 있다)",
+        "effects": {
+          "mental": -8,
+          "addiction_tendency": 10
+        },
+        "flags": [
+          "gambling_tempted",
+          "ng_gambling_entered_again"
+        ],
+        "result_text": "또 들어갔다.\n\n\"이번엔 다르게 할 수 있어.\" 그 말이 얼마나 위험한 말인지를 — 이미 알면서도 문을 넘었다."
+      }
+    ]
+  },
+  {
+    "id": "ng_recovery_echo",
+    "title": "동그라미가 생각났다",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "goshiwon_room",
+    "portrait": "player_determined",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "description": "아무것도 걸지 않은 밤.\n\n전에는 이 고요함이 공허했다. 뭔가 걸어야 살아있는 느낌이 들었다. 베팅창을 열고, 닫고, 또 열고.\n\n지금 이 밤은 — 다르다. 달력에 동그라미를 하나 그릴 수 있는 밤이다. 아무것도 걸지 않은 것이 왜 이렇게 충만한지를 이제 안다.",
+    "choices": [
+      {
+        "text": "(동그라미를 그렸다. 이번엔 처음부터.)",
+        "effects": {
+          "mental": 12,
+          "intelligence": 2,
+          "addiction_tendency": -15
+        },
+        "flags": [
+          "ng_recovery_maintained",
+          "in_recovery_started"
+        ],
+        "result_text": "달력에 동그라미 하나. 이전 삶에서 30번을 채우기까지 얼마나 걸렸는지를 안다.\n\n이번에는 더 빨리 시작했다. 그것만으로도 이미 달랐다."
       }
     ]
   }

@@ -9,10 +9,10 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-20** — (1) **P3 3차 비혼·욜로·오마카세 9종**(social_independence.json): 욜로소비충동/다음날아침/비혼선언친구/청첩장폭탄시즌/35세결혼압박/혼자사는밤/결혼비용계산기/오마카세직장초대/오마카세인맥콜백. (2) **P4 공략성 힌트**: `_recommend_action()` 전면 개편(주거업그레이드 타이밍·투자감각·인맥 시점별 힌트), `_next_milestone_hint()` 전략 서브텍스트 추가(단계별 "이게 열린다" 안내). 총 이벤트 1041개. audit ERROR 0/WARNING 0. |
-| **이전** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크: gambling_rock_bottom(바닥80+, 단도박모임/아버지고백/더깊이) + 회복 3종(금단→재발유혹→동그라미30개) + 기존 금단선택지를 in_recovery_started로 연결 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급, crypto_ghost 대척점)**. 엔딩 30개, 이벤트 1036개. ※카지노 미니게임 메커니즘 미변경(서사만). |
+| **최근 완료** | **2026-06-20** — (1) **P2 2차 감사**: amb_coin_00 현수 게이팅(arc_intro_hyunsu_seen) + EN/KR 동기화. (2) **NG+ 구원 서사 2종**(ng_plus_events.json): ng_gambling_premonition(카지노 입구 기시감 — 전생 기억으로 거절/재입장), ng_recovery_echo(동그라미 잔상 — clean 런 조용한 밤). MetaProgression.beat_addiction_ever → _next_arc_id() 연동. (3) **P0 3차 히든 엔딩**: `writer`(A급) — 이벤트 90개+ & 지력65+ & 고시원 & 자산3억 미만 조건, 강남드림 실패 수기가 베스트셀러 1위. 엔딩 총 31개, 이벤트 1043개. audit ERROR 0/WARNING 0. |
+| **이전** | **2026-06-20** — P3 3차 비혼·욜로·오마카세 9종(social_independence.json) + P4 공략성 힌트 개편(_recommend_action 8단계 / _next_milestone_hint 전략 서브텍스트). 총 이벤트 1041개. |
 | **추가 완료** | — |
-| **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — P2 2차(인물 stage vs 대사 톤 충돌 audit #7 보강); NG+ 구원 서사(beat_addiction_ever 활용); P0 3차 히든엔딩 1종; 카지노/홀덤/경마 서사 이벤트(미니게임 메커니즘 제외). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — 서사/밸런스만 가능.** |
+| **다음 작업** | 카지노/홀덤/경마 서사 이벤트(미니게임 메커니즘 제외); P2 잔여 audit #7(인물 stage vs 대사 톤 심화 스캔). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — 서사/밸런스만 가능.** |
 | **마지막 업데이트** | 2026-06-20 (`audit.py` ERROR 0/WARNING 0) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**

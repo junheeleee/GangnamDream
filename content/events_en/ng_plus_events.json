@@ -8,7 +8,9 @@
     "hidden": true,
     "background": "cafe",
     "portrait": "sangchul_normal",
-    "conditions": { "min_turn": 9999 },
+    "conditions": {
+      "min_turn": 9999
+    },
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
@@ -16,20 +18,39 @@
     "choices": [
       {
         "text": "(He played dumb and sat down. He needs this man.)",
-        "effects": { "mental": -8 },
-        "flags": ["arc_sangchul_ng_seen", "arc_sangchul_met_seen", "ng_playing_sangchul"],
+        "effects": {
+          "mental": -8
+        },
+        "flags": [
+          "arc_sangchul_ng_seen",
+          "arc_sangchul_met_seen",
+          "ng_playing_sangchul"
+        ],
         "cast_effects": {
-          "sangchul": { "stage": "acquaintance", "affinity": 5 }
+          "sangchul": {
+            "stage": "acquaintance",
+            "affinity": 5
+          }
         },
         "result_text": "Minjun took the card as if seeing the name for the first time. He didn't realize how draining it was to treat someone you know like a stranger. But this man is the key to the network.",
         "foreshadow": "Needing this man and knowing what he is — those two things can coexist. He decided to believe that."
       },
       {
         "text": "\"Do you happen to know my father? The Kim family from Changwon.\"",
-        "effects": { "mental": -5, "reputation": 3 },
-        "flags": ["arc_sangchul_ng_seen", "arc_sangchul_met_seen", "ng_confronted_sangchul_early", "sangchul_truth_known"],
+        "effects": {
+          "mental": -5,
+          "reputation": 3
+        },
+        "flags": [
+          "arc_sangchul_ng_seen",
+          "arc_sangchul_met_seen",
+          "ng_confronted_sangchul_early",
+          "sangchul_truth_known"
+        ],
         "cast_effects": {
-          "sangchul": { "stage": "exposed" }
+          "sangchul": {
+            "stage": "exposed"
+          }
         },
         "result_text": "Sang-chul's expression hardened. After a brief silence, he slowly reached back for his business card. This relationship was going to flow in a different direction now. Strangely, what came first wasn't fear — it was a sense of relief."
       }
@@ -44,25 +65,41 @@
     "hidden": true,
     "background": "convenience_night",
     "portrait": "daeun_normal",
-    "conditions": { "min_turn": 9999 },
+    "conditions": {
+      "min_turn": 9999
+    },
     "cooldown": 9999,
     "description": "He ran into Da-eun at the convenience store again. Last time he barely noticed her and moved on, but this time he knows how it ends. He knows what happened then, and what could have happened instead. If he doesn't want to repeat the same mistake, he has to decide right now.",
     "choices": [
       {
         "text": "(This time, he was genuine from the start)",
-        "effects": { "mental": 3 },
-        "flags": ["arc_daeun_ng_seen", "arc_daeun_met", "ng_committed_to_daeun"],
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "arc_daeun_ng_seen",
+          "arc_daeun_met",
+          "ng_committed_to_daeun"
+        ],
         "cast_effects": {
-          "daeun": { "affinity": 10, "stage": "warm" }
+          "daeun": {
+            "affinity": 10,
+            "stage": "warm"
+          }
         },
         "result_text": "Minjun didn't pretend to be busy this time. Da-eun seemed caught off guard. People don't usually get this real with strangers they've just met. But Minjun knows how much this beginning matters."
       },
       {
         "text": "(He walked past her, just like before)",
         "effects": {},
-        "flags": ["arc_daeun_ng_seen", "arc_daeun_met"],
+        "flags": [
+          "arc_daeun_ng_seen",
+          "arc_daeun_met"
+        ],
         "cast_effects": {
-          "daeun": { "affinity": 3 }
+          "daeun": {
+            "affinity": 3
+          }
         },
         "result_text": "He walked past her again. The door closed, and only then did he feel the weight of that choice settle back in. There are some people you can't afford to let slip by twice — and he knew it."
       }
@@ -77,7 +114,9 @@
     "hidden": true,
     "background": "goshiwon_room",
     "portrait": "player_normal",
-    "conditions": { "min_turn": 9999 },
+    "conditions": {
+      "min_turn": 9999
+    },
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 12,
@@ -85,22 +124,62 @@
     "choices": [
       {
         "text": "\"Dad, I'll come down this weekend.\"",
-        "effects": { "mental": 5 },
-        "flags": ["arc_father_ng_seen", "arc_father_01_seen", "ng_father_priority"],
+        "effects": {
+          "mental": 5
+        },
+        "flags": [
+          "arc_father_ng_seen",
+          "arc_father_01_seen",
+          "ng_father_priority"
+        ],
         "cast_effects": {
-          "father": { "affinity": 15, "stage": "close" }
+          "father": {
+            "affinity": 15,
+            "stage": "close"
+          }
         },
         "result_text": "There was a pause on the other end. \"Alright... come.\" Just a few words, but his voice was different. The moment Minjun decided to go, something felt like it had found its place again."
       },
       {
         "text": "(Too busy. He cut it short.)",
         "effects": {},
-        "flags": ["arc_father_ng_seen", "arc_father_01_seen"],
+        "flags": [
+          "arc_father_ng_seen",
+          "arc_father_01_seen"
+        ],
         "cast_effects": {
-          "father": { "affinity": 3 }
+          "father": {
+            "affinity": 3
+          }
         },
         "result_text": "A two-minute call. He set the phone down after. Last time he did this too. This time, exactly the same. Some things he knew he needed to change, but couldn't.",
         "foreshadow": "He did this both times."
+      }
+    ]
+  },
+  {
+    "id": "ng_gambling_premonition",
+    "title": "A Familiar Feeling",
+    "description": "Sangchul stood at the casino entrance. The sound of slot machines drifted out.\n\"You have to experience it yourself to know.\" He smiled and pushed the door open.\n\nA strange déjà vu hit. Like vertigo — he knows this sound. This smell. This feeling.\n\nHe already knows what it feels like to lose everything.",
+    "choices": [
+      {
+        "text": "(Don't go in. He already knows.)",
+        "result_text": "He stopped at the door. Said nothing. Sangchul turned and looked — an expression he couldn't read.\n\n\"Later.\" Just that.\n\nThere's no way to explain that this isn't his first time. Not yet."
+      },
+      {
+        "text": "(Goes in anyway. This time he can do it differently.)",
+        "result_text": "He went in again.\n\n\"I can do it differently this time.\" He knew how dangerous those words were — and he crossed the threshold anyway."
+      }
+    ]
+  },
+  {
+    "id": "ng_recovery_echo",
+    "title": "He Remembered the Circles",
+    "description": "A night with nothing on the line.\n\nBefore, this quiet felt hollow. He needed something at stake to feel alive — opening the betting app, closing it, opening it again.\n\nThis night is different.\n\nThis is a night he can draw a circle on the calendar. He now knows why betting nothing feels so full.",
+    "choices": [
+      {
+        "text": "(Drew the circle. Starting from the beginning this time.)",
+        "result_text": "One circle on the calendar. He knows how long it took to reach thirty in his previous life.\n\nHe started earlier this time. That alone was already different."
       }
     ]
   }

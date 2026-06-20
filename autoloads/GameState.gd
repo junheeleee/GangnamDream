@@ -1274,6 +1274,12 @@ func check_game_over():
 		# 아버지 화해
 		if flags.get("father_reconciled", false):
 			finish_run("late_call"); return           # 늦은 전화 (화해)
+		# 기록자 — 강남드림 실패 수기가 소설이 됐다
+		# 조건: 이벤트 90개 이상 경험(탐험가 성향) + 지력 65+ + 고시원 + 자산 3억 미만
+		# 실패의 기록이 가장 많은 사람에게 닿는 아이러니한 A 엔딩
+		if events_seen >= 90 and intelligence >= 65 \
+				and housing == "gosiwon" and total < 300_000_000:
+			finish_run("writer"); return
 		finish_run("ordinary_life")                   # 평범한 결말
 
 func finish_run(ending_id):

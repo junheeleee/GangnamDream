@@ -1379,6 +1379,17 @@ func _next_arc_id() -> String:
 			and not f.get("arc_father_ng_seen", false) \
 			and not f.get("arc_father_01_seen", false):
 		return "arc_father_ng_call"
+	# 도박 중독 회귀 구원 서사 (NG+: 전생에서 중독 극복 경험)
+	# 카지노 첫 입장 장면 교체 — 몸이 기억하는 공포
+	if t >= 14 and _mp.get("beat_addiction_ever", false) \
+			and f.get("arc_sangchul_met_seen", false) \
+			and not f.get("gambling_tempted", false):
+		return "ng_gambling_premonition"
+	# 회복 잔상 — 중독에 빠지지 않은 clean 런에서, 고시원 조용한 밤 씬
+	if t >= 30 and _mp.get("beat_addiction_ever", false) \
+			and f.get("ng_gambling_refused", false) \
+			and not f.get("ng_recovery_maintained", false):
+		return "ng_recovery_echo"
 
 	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
@@ -5797,6 +5808,12 @@ func _ending_run_summary(ending_id: String) -> String:
 			return "다은과 함께 강남에 왔다. 이번엔 혼자가 아니었다."
 		"guardian":
 			return "강남은 아직 없었다. 하지만 아버지가 살아있었다."
+		"gambling_recovery":
+			return "도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리."
+		"writer":
+			return "강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다."
+		"ng_gambling_premonition":
+			return "도박의 문 앞에서 멈췄다. 전생의 기억이 발을 붙잡았다."
 		_:
 			return "그렇게 5년이 지나갔다"
 
@@ -5811,6 +5828,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		"creator_success", "with_daeun", "jiyeon_man",
 		"early_retirement", "balanced_life", "late_call", "sangchul_reckoning",
 		"full_circle", "second_love", "guardian", "gambling_recovery",
+		"writer",
 	]
 	var bad := ending_id in ["burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral"]
 	var lines: Array = []
