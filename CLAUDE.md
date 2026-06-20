@@ -9,9 +9,9 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-20** — (1) **이스터에그 6종**(easter_eggs.json): 고시원도사/삼각김밥/새벽4시/정직함의값/거울속도박꾼/조용한부자(20억인데고시원) — 발견형 확률 발동. (2) **분석요소**: GameState.get_playstyle_label() 9종 분류 + peak_asset 추적 + 엔딩화면 플레이스타일 진단/"정점 대비 N% 지킴". (3) **엔딩 도감**: MetaProgression.discovered_endings 영구 누적 + 엔딩화면 "📖 N/29 발견" 컴플리션 후크. (4) **흥행 시그니처 4종**(viral_events.json): 갓생(0개갭해소)/거지방/리딩방. (5) 엔딩직전 분기씬 3종(arc_pre_ending.json, t>=234 궤적별). (6) F/C급 엔딩 확장(200→400자+), arc_jaehyuk/father 루트 변형. (7) docs/CONTENT_ROADMAP.md 신규(P0~P4). 총 이벤트 1024개. Godot 헤드리스 임포트 클린, audit ERROR 0/WARNING 0. |
-| **이전** | **2026-06-20** — Codex 외형 패스(카지노 테이블/다이사이/슬롯 캐비닛) + 글쓰기 밀도 강화(StoryMode 루트 변주, 현수 아크 6개, 34세 씬, audit #8) |
-| **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — P2 개연성 감사(직업/거주 상태 vs 이벤트 묘사 충돌); P3 2차(오마카세 플렉스/의대광풍/N잡 번아웃); P0 2차 이스터에그(미니게임 마스터/회귀 자각); 엔딩 도감 시작화면 노출. **카지노/이미지/오디오/UI는 Codex 영역 — 건드리지 말 것.** |
+| **최근 완료** | **2026-06-20** — (1) **이스터에그 8종**(easter_eggs.json): 고시원도사/삼각김밥/새벽4시/정직함의값/거울속도박꾼/조용한부자 + 회귀자각 2종(데자뷔 2회+/베테랑회귀 4회+, GameState NG+ 플래그). (2) **분석요소 완료**: get_playstyle_label() 9종 + peak_asset 추적 + 엔딩화면 진단/"정점대비 N%지킴" + 엔딩도감(discovered_endings 영구누적, 엔딩화면·시작화면 "📖 N/29"). (3) **흥행 시그니처 6종**(viral_events.json): 갓생2/거지방/리딩방/주식빚투(반대매매)/배달N잡. (4) **P2 개연성 감사**: jobs_004/010·subway_hell_9 has_job 게이팅, mother_seoul_visit 등 housing 게이팅, EN/KR 조건 동기화. (5) 엔딩직전 분기씬 3종(arc_pre_ending.json). (6) F/C급 엔딩 확장, arc_jaehyuk/father 루트 변형. (7) docs/CONTENT_ROADMAP.md(P0~P4). 총 이벤트 1032개. Godot 헤드리스 임포트 클린, audit ERROR 0/WARNING 0. |
+| **이전** | **2026-06-20** — Codex 외형 패스(카지노 테이블/다이사이/슬롯) + 글쓰기 밀도 강화(StoryMode 루트 변주, 현수 아크, 34세 씬, audit #8) |
+| **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — P2 2차(인물 stage vs 대사 톤, audit #7 보강); P3 3차(오마카세 플렉스/비혼·욜로); P4 공략성 힌트(마일스톤 다음단계 미묘한 안내); 히든 엔딩 1종. **카지노/이미지/오디오/UI는 Codex 영역 — 건드리지 말 것.** |
 | **마지막 업데이트** | 2026-06-20 (`audit.py` ERROR 0/WARNING 0, Godot 헤드리스 프로젝트 임포트 클린) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**

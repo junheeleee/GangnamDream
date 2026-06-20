@@ -1,5 +1,34 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (P0~P3 콘텐츠 확장 2차 — 이스터에그/분석/흥행/개연성)
+
+> 역할 분담: Codex=외형(이미지/오디오/이펙트/UI·UX/카지노). Claude=내용. CONTENT_ROADMAP.md 우선순위대로 진행.
+
+### P0 이스터에그 (총 8종, easter_eggs.json)
+- 1차 6종: 고시원도사/삼각김밥/새벽4시/정직함의값/거울속도박꾼/조용한부자.
+- 2차 2종 회귀자각: egg_deja_vu(2회+ 데자뷔)/egg_veteran_return(4회+ 베테랑). GameState.start_new_game에 total_runs 기반 is_repeat_run/is_veteran_run 플래그 추가.
+
+### P1 분석요소 (완료)
+- get_playstyle_label() 9종 분류 + peak_asset 추적(serialize 포함).
+- 엔딩화면: 플레이스타일 진단 + "정점대비 N% 지킴".
+- 엔딩 도감: MetaProgression.discovered_endings 영구누적 + get_ending_collection_progress(). 엔딩화면 "📖 N/29 발견"(+✨NEW) + 시작화면 스플래시 노출.
+
+### P2 개연성 감사 (1차)
+- 스크립트 스캔으로 직업/거주 상태 vs 묘사 충돌 탐지.
+- jobs_004/jobs_010(팀장 야근/면담)·subway_hell_9(출근길) → has_job:true.
+- mother_seoul_visit/rel_family_visit_seoul(좁은 방 보여주기) → housing:gosiwon; rel_sns_compare/family_002 텍스트 완화.
+- EN/KR 조건 동기화 4건. 역방향·점원 전제 false positive 확인.
+
+### P3 흥행 시그니처 (총 6종, viral_events.json)
+- 갓생(기존0): godsaeng_start(3지선다)/godsaeng_paradox(번아웃 역설).
+- geojibang_chat(거지방 지출검열), leading_room_joined(리딩방 회비사기).
+- debt_invest_margin_call(주식 빚투 반대매매 D-1), gig_delivery_night(배달 N잡 생존).
+
+### 검증
+- 총 이벤트 1032개. Godot v4.6.2 헤드리스 프로젝트 임포트 클린.
+- audit.py ERROR 0 / WARNING 0. 밸런스 밴드 불변.
+
+
 ## 2026-06-20 (스토리/게임성/흥행 콘텐츠 확장 — 역할 분담: Claude=내용)
 
 > 역할 분담 확정: 코덱스 = 외형(이미지/오디오/이펙트/UI·UX/카지노). Claude = 스토리·개연성·재미·밸런스·공략성·게임성·흥행·이스터에그·분석요소.
