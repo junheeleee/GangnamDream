@@ -94,6 +94,8 @@ const ALL_TITLES := [
 	 "desc":"룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다."},
 	{"id":"bigwheel_master_title","name":"바늘의 눈",     "cat":"미니게임", "rare":"uncommon",
 	 "desc":"빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다."},
+	{"id":"daisai_master_title","name":"주사위의 밤",      "cat":"미니게임", "rare":"uncommon",
+	 "desc":"다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."},
 	# ── 전문화 ──
 	{"id":"spec_elite_title",   "name":"엘리트의 길",       "cat":"성향", "rare":"uncommon",
 	 "desc":"엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까."},
@@ -253,6 +255,7 @@ func _check_title_condition(tid: String) -> bool:
 		"slot_master_title":       return int(data.get("mg_plays_slot", 0)) >= 20
 		"roulette_master_title":   return int(data.get("mg_plays_roulette", 0)) >= 15
 		"bigwheel_master_title":   return int(data.get("mg_plays_bigwheel", 0)) >= 15
+		"daisai_master_title":     return int(data.get("mg_plays_daisai", 0)) >= 15
 		# ── 전문화 칭호 ──
 		"spec_elite_title":   return GameState.flags.get("spec_elite", false)
 		"spec_quant_title":   return GameState.flags.get("spec_quant", false)

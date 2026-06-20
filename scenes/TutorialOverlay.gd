@@ -160,6 +160,24 @@ static func _get_slides(game_id: String) -> Array:
 					+ "   가장 자주 이길 수 있어요![/color]"
 				)
 			}]
+		"daisai":
+			return [{
+				"icon": "🎲",
+				"title": "다이사이 — 기본 규칙",
+				"body": (
+					"세 개의 주사위를 굴려 결과에 베팅하는 게임이에요.\n\n"
+					+ "[b]BIG[/b]  합계 11~17  → [b]1배[/b] 수익\n"
+					+ "[b]SMALL[/b]  합계 4~10  → [b]1배[/b] 수익\n"
+					+ "단, [color=#ff5555][b]트리플[/b][/color]이 나오면 BIG/SMALL은 패배!\n\n"
+					+ "[b]싱글[/b]  선택 숫자가 나온 개수만큼 수익\n"
+					+ "[b]페어[/b]  같은 숫자 2개 이상 → [b]8배[/b]\n"
+					+ "[b]ANY TRIPLE[/b]  아무 트리플 → [b]24배[/b]\n"
+					+ "[b]특정 트리플[/b]  예: 333 정확히 → [b]150배[/b]\n"
+					+ "[b]합계 베팅[/b]  4~17 합계를 정확히 맞추면 6~60배\n\n"
+					+ "[color=#aaffaa]💡 처음이라면 BIG/SMALL로 흐름을 보고,\n"
+					+ "   대박을 노릴 때만 트리플이나 합계에 소액 베팅하세요.[/color]"
+				)
+			}]
 		"scalping":
 			return [{
 				"icon": "⚡",

@@ -61,6 +61,7 @@ func _ready() -> void:
 	await _shot_casino_table("slot_machine_game", "11_slot_machine")
 	await _shot_casino_table("roulette_table", "12_roulette_table")
 	await _shot_casino_table("big_wheel_game", "12a_bigwheel")
+	await _shot_casino_table("dai_sai_table", "12b_daisai_table")
 	await _shot_ending("gangnam_dream", "13_ending_gangnam_win")
 	await _shot_ending("empty_house", "13a_ending_empty_house")
 	await _shot_ending("bankruptcy", "14_ending_bankruptcy")
@@ -162,7 +163,7 @@ func _seed_portfolio() -> void:
 
 func _suppress_tutorial_overlays() -> void:
 	for id in ["main_game", "holdem", "racetrack", "baccarat", "blackjack",
-			"slot", "roulette", "bigwheel", "scalping", "trading", "invest"]:
+			"slot", "roulette", "bigwheel", "daisai", "scalping", "trading", "invest"]:
 		TutorialOverlay._seen[id] = true
 
 func _kill_transition() -> void:
@@ -384,6 +385,11 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._select_stake(10_000)
 			node._do_spin()
 			await _settle(1.8)
+		"dai_sai_table":
+			node._select_bet(0, -1)
+			node._select_stake(10_000)
+			node._do_roll()
+			await _settle(1.7)
 	await _save(shot_name)
 	if "visible" in node:
 		node.visible = false

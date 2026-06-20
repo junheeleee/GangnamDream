@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (다이사이 카지노 미니게임 추가)
+
+### 추가
+- `systems/DaiSai.gd`: 다이사이/식보 수학 모델 추가. 빅/스몰, 홀짝, 싱글, 페어, ANY TRIPLE, 특정 트리플, 합계 4~17 베팅의 순배당 계산을 GameState와 분리된 순수 모델로 구현.
+- `scenes/DaiSaiTable.gd`: 정선 카지노 내부 배경 위 중앙 테이블형 다이사이 미니게임 추가. Godot 드로잉 주사위, 롤 애니메이션, 베팅 버튼 하이라이트, 결과 히스토리, 칩 SVG 베팅 단위, 승패 사운드/진동 연동 포함.
+- `JeongseonCasino.gd`: 허브에 6번째 게임 카드 `다이사이` 추가 및 용어 설명 보강.
+- `TutorialOverlay.gd`: 다이사이 첫 진입 튜토리얼 추가.
+- `MetaProgression.gd`: 다이사이 15라운드 칭호 `주사위의 밤` 추가.
+- `ScreenshotQA.gd`: `12b_daisai_table.png` 자동 캡처 및 튜토리얼 억제 목록에 `daisai` 추가.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA`: 31장 재캡처 완료. `08_jeongseon_casino`, `12b_daisai_table` 직접 확인.
+
 ## 2026-06-20 (외형 담당 분리 + 룰렛/빅휠 카지노 프레임 패스)
 
 ### 수정

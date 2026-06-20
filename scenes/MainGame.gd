@@ -129,6 +129,7 @@ var blackjack_table  # 정선 카지노 블랙잭 오버레이
 var slot_machine_game  # 정선 카지노 슬롯머신 오버레이
 var roulette_table     # 정선 카지노 룰렛 오버레이
 var big_wheel_game     # 정선 카지노 빅휠 오버레이
+var dai_sai_table      # 정선 카지노 다이사이 오버레이
 var jeongseon_casino     # 정선 카지노 허브 오버레이
 # 상황 카드 시스템 — 매 턴 뽑은 상황들 + 이번 턴 처리한 상황 id
 var month_situations: Array = []
@@ -196,6 +197,9 @@ func _ready():
 	# 정선 카지노 빅휠 오버레이
 	big_wheel_game = load("res://scenes/BigWheelGame.gd").new()
 	add_child(big_wheel_game)
+	# 정선 카지노 다이사이 오버레이
+	dai_sai_table = load("res://scenes/DaiSaiTable.gd").new()
+	add_child(dai_sai_table)
 	# 정선 카지노 허브 — 모든 카지노 게임 진입점
 	jeongseon_casino = load("res://scenes/JeongseonCasino.gd").new()
 	jeongseon_casino.baccarat_table   = baccarat_table
@@ -203,6 +207,7 @@ func _ready():
 	jeongseon_casino.slot_machine_game = slot_machine_game
 	jeongseon_casino.roulette_table   = roulette_table
 	jeongseon_casino.big_wheel_game   = big_wheel_game
+	jeongseon_casino.dai_sai_table    = dai_sai_table
 	add_child(jeongseon_casino)
 	jeongseon_casino.closed.connect(_on_jeongseon_casino_closed)
 	if GameState.action_log.is_empty():
@@ -3396,7 +3401,7 @@ func _render_essential_actions(ap: int):
 		_essential_btn("스캘핑 트레이딩%s" % sc_badge, "60초 실시간 매매. 빠르고 위험하다", "scalping", "#1a5f7a", "_open_scalping", disabled)
 	# 정선 카지노: 상철의 초대를 수락(casino_club_introduced)한 경우만
 	if GameState.flags.get("casino_club_introduced", false):
-		_essential_btn("정선 카지노", "바카라·블랙잭·슬롯·룰렛·빅휠", "casino", "#7b3fd1", "_open_jeongseon_casino", disabled)
+		_essential_btn("정선 카지노", "바카라·블랙잭·다이사이 등", "casino", "#7b3fd1", "_open_jeongseon_casino", disabled)
 	_essential_btn("생활", "이사·상점. 시간 소모 없음", "life", "#9a8a5a", "_open_cat_life", false, true)
 
 func _mastery_badge(game_id: String) -> String:

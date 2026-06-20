@@ -1,6 +1,6 @@
 extends Control
 ## JeongseonCasino — 정선 카지노 허브 씬.
-## 5개 카지노 게임(바카라·블랙잭·슬롯·룰렛·빅휠)을 한 장소에서 진입.
+## 6개 카지노 게임(바카라·블랙잭·슬롯·룰렛·빅휠·다이사이)을 한 장소에서 진입.
 ## MainGame이 overlay로 붙이고 open()으로 호출. 닫으면 closed 시그널.
 
 signal closed
@@ -19,6 +19,7 @@ var blackjack_table
 var slot_machine_game
 var roulette_table
 var big_wheel_game
+var dai_sai_table
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -195,6 +196,10 @@ func _build_ui() -> void:
 	_add_game_card(grid, "chip", "룰렛",
 		"유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%",
 		"#1a2e2a", "#4affcc", "_launch_roulette", "roulette", "0-36")
+
+	_add_game_card(grid, "chip", "다이사이",
+		"주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1",
+		"#1f1a2e", "#b78cff", "_launch_daisai", "daisai", "3D6")
 
 	_add_game_card(grid, "chip", "빅휠",
 		"바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임",
@@ -395,6 +400,15 @@ func _launch_bigwheel() -> void:
 	if not big_wheel_game.closed.is_connected(_on_sub_game_closed):
 		big_wheel_game.closed.connect(_on_sub_game_closed)
 
+func _launch_daisai() -> void:
+	if not dai_sai_table:
+		_msg_lbl.text = "다이사이 테이블을 불러올 수 없습니다."
+		return
+	visible = false
+	dai_sai_table.open()
+	if not dai_sai_table.closed.is_connected(_on_sub_game_closed):
+		dai_sai_table.closed.connect(_on_sub_game_closed)
+
 func _on_sub_game_closed() -> void:
 	# 하위 게임이 닫히면 허브로 복귀
 	visible = true
@@ -468,6 +482,8 @@ func _show_casino_glossary() -> void:
 		["내추럴 (바카라)", "처음 두 장의 합이 8 또는 9인 경우. 추가 카드 없이 즉시 결판. 뱅커·플레이어 모두 내추럴이면 무승부."],
 		["커미션 (바카라)", "뱅커 승리 시 카지노가 가져가는 수수료, 통상 5%. 뱅커 배당률이 0.95:1인 이유."],
 		["더블다운 (블랙잭)", "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리."],
+		["다이사이", "세 개의 주사위 결과에 거는 카지노 게임. 빅/스몰은 이해하기 쉽지만, 트리플이나 합계 베팅은 배당이 큰 만큼 확률이 낮다."],
+		["빅/스몰 (다이사이)", "주사위 합계 11~17은 빅, 4~10은 스몰. 단, 세 주사위가 모두 같은 트리플이면 빅/스몰은 패배 처리된다."],
 		["마틴게일", "질 때마다 배팅액을 2배로 늘리는 전략. 이론상 한 번 이기면 원금 회복. 자금이 바닥나거나 한도에 걸리면 전액 손실."],
 	]
 	for pair in TERMS:
