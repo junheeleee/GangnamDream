@@ -1,0 +1,232 @@
+[
+  {
+    "id": "egg_gosiwon_sage",
+    "title": "고시원 도사",
+    "category": "comedy",
+    "rarity": "legendary",
+    "weight": 3,
+    "hidden": true,
+    "portrait": "player_normal",
+    "background": "goshiwon_room",
+    "conditions": {
+      "housing": "gosiwon",
+      "min_housing_months": 30,
+      "min_turn": 120
+    },
+    "tags": ["hidden", "legendary", "easter_egg"],
+    "cooldown": 9999,
+    "description": "고시원에 산 지 30개월이 넘었다.\n\n{name}은 이제 이 좁은 방의 모든 것을 안다.\n어느 벽이 옆방 코 고는 소리를 가장 잘 통과시키는지.\n공용 주방 냉장고에서 누구 반찬이 제일 오래 안 상하는지.\n샤워실 3번 칸 수압이 새벽 두 시에 가장 세다는 것.\n\n이쯤 되면 이건 거주가 아니라 수행이다.\n\n{name}은 문득 거울을 봤다. 도사 같은 표정의 남자가 거기 있었다.",
+    "choices": [
+      {
+        "text": "30개월의 노하우를 노트에 정리한다",
+        "effects": {
+          "intelligence": 3,
+          "mental": 5,
+          "luck": 2
+        },
+        "flags": ["egg_gosiwon_sage_seen"],
+        "result_text": "'고시원 생존 백서'라고 제목을 붙였다.\n\n절약의 기술, 소음 차단의 철학, 최소 비용 영양학.\n쓰다 보니 한 권이 됐다.\n\n이걸로 강남을 갈 순 없겠지만 —\n적어도 {name}은 이 바닥에서만큼은 누구보다 강했다.\n\n바닥을 완전히 아는 사람은, 떨어질 걸 두려워하지 않는다."
+      },
+      {
+        "text": "이제 그만 여기서 나가고 싶다",
+        "effects": {
+          "mental": -2,
+          "luck": 1
+        },
+        "flags": ["egg_gosiwon_sage_seen", "wants_out_of_gosiwon"],
+        "result_text": "30개월. 너무 오래 있었다.\n\n도사가 되고 싶어서 된 게 아니었다.\n나가야 한다. 어떻게든.\n\n{name}은 그날 밤 처음으로, 진지하게 이사 비용을 계산하기 시작했다.\n수행은 끝났다. 이제 하산할 때다."
+      }
+    ]
+  },
+  {
+    "id": "egg_triangle_kimbap",
+    "title": "삼각김밥 연대기",
+    "category": "comedy",
+    "rarity": "rare",
+    "weight": 3,
+    "hidden": true,
+    "portrait": "player_tired",
+    "background": "convenience_night",
+    "conditions": {
+      "max_money": 800000,
+      "min_turn": 40
+    },
+    "tags": ["hidden", "easter_egg"],
+    "cooldown": 9999,
+    "description": "편의점 삼각김밥 코너 앞.\n\n{name}은 진열대를 보다가 깨달았다.\n전주비빔, 참치마요, 스팸, 김치볶음밥 — 모든 맛을 외우고 있었다.\n어느 편의점 브랜드의 어느 삼각김밥이 밥알이 더 차진지까지.\n\n통장 잔고를 봤다. 80만원 아래.\n\n5년 전에도, 지금도, 저녁은 삼각김밥이다.\n변한 게 있다면 — 이제 데우지 않고도 먹을 수 있다는 것.",
+    "choices": [
+      {
+        "text": "오늘은 두 개 산다. 사치다.",
+        "effects": {
+          "mental": 4,
+          "health": 1,
+          "money": -2000
+        },
+        "flags": ["egg_triangle_kimbap_seen"],
+        "result_text": "참치마요 하나, 스팸 하나.\n\n계산대에서 2,400원.\n\n{name}은 두 개를 들고 나오며 이상하게 부자가 된 기분이었다.\n\n행복의 기준이 이렇게 낮아진 게 슬픈 건지, 다행인 건지.\n둘 다인 것 같았다.\n\n그래도 오늘 저녁은 두 개다."
+      },
+      {
+        "text": "참는다. 한 개면 충분하다.",
+        "effects": {
+          "mental": -1,
+          "luck": 2
+        },
+        "flags": ["egg_triangle_kimbap_seen", "extreme_frugal"],
+        "result_text": "하나만 집었다.\n\n1,200원. 그거면 됐다.\n\n{name}은 계산하면서 생각했다.\n이 절약이 강남으로 가는 길인지, 아니면 그냥 가난에 익숙해지는 건지.\n\n구분이 안 갈 때가 제일 위험하다는 걸, {name}은 알고 있었다.\n그래도 오늘은 하나다."
+      }
+    ]
+  },
+  {
+    "id": "egg_4am_clarity",
+    "title": "새벽 4시",
+    "category": "health",
+    "rarity": "rare",
+    "weight": 4,
+    "hidden": true,
+    "portrait": "player_tired",
+    "background": "late_night",
+    "conditions": {
+      "max_mental": 18,
+      "min_turn": 30
+    },
+    "tags": ["hidden", "easter_egg"],
+    "cooldown": 9999,
+    "description": "새벽 4시. 잠이 안 온다.\n\n천장을 본다. 금이 간 자리가 사람 옆얼굴 같다.\n매일 보다 보니 친해졌다.\n\n이 시간엔 모든 게 또렷하다.\n낮에는 안 보이던 것들이 새벽 4시에는 다 보인다.\n내가 얼마나 멀리 왔는지, 얼마나 못 왔는지.\n\n{name}은 일어나 앉았다.\n이 바닥에서, 가장 정직한 시간이었다.",
+    "choices": [
+      {
+        "text": "지금 느끼는 걸 그냥 인정한다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 1
+        },
+        "flags": ["egg_4am_clarity_seen"],
+        "result_text": "힘들다고, 소리 내서 말해봤다.\n\n아무도 없는 방에서, 작게.\n\"…힘들다.\"\n\n이상하게, 그 말을 입 밖으로 내뱉고 나니 조금 가벼워졌다.\n\n괜찮은 척하는 것보다, 안 괜찮다고 인정하는 게 더 용기였다.\n\n새벽 4시 반. {name}은 다시 누웠다. 이번엔 잠이 왔다."
+      },
+      {
+        "text": "물 한 잔 마시고 계획을 다시 적는다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 2,
+          "health": -1
+        },
+        "flags": ["egg_4am_clarity_seen"],
+        "result_text": "정수기에서 물을 받아 마셨다.\n\n노트를 폈다. 새벽 4시의 계획은 낮의 계획과 다르다.\n더 솔직하고, 더 단순하다.\n\n'무리하지 말 것. 살아남을 것. 그다음을 생각할 것.'\n\n세 줄을 적고 노트를 덮었다.\n창밖이 아주 천천히 밝아오고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "egg_honest_paradox",
+    "title": "정직함의 값",
+    "category": "finance",
+    "rarity": "legendary",
+    "weight": 4,
+    "hidden": true,
+    "portrait": "player_normal",
+    "background": "late_night",
+    "conditions": {
+      "min_route_orthodox": 18,
+      "max_assets": 100000000,
+      "min_turn": 150
+    },
+    "tags": ["hidden", "legendary", "easter_egg", "social_critique"],
+    "cooldown": 9999,
+    "description": "{name}은 한 번도 편법을 쓰지 않았다.\n\n야근을 빠지지 않았고, 세금을 정직하게 냈고, 위험한 투자에 손대지 않았다.\n사회가 '바르게 살라'고 한 그대로 살았다.\n\n그런데 통장은 1억을 못 넘었다.\n\n같은 시기에 시작한 누구는 코인으로, 누구는 부동산 갭투자로, 누구는 부모 도움으로 강남에 갔다.\n\n{name}은 계산기를 들여다봤다.\n정직함의 값은 — 도대체 얼마일까.",
+    "choices": [
+      {
+        "text": "그래도 내 방식이 틀리지 않았다",
+        "effects": {
+          "mental": 8,
+          "reputation": 5,
+          "route_orthodox": 1
+        },
+        "flags": ["egg_honest_paradox_seen"],
+        "result_text": "{name}은 계산기를 내려놨다.\n\n남들이 더 빨리 갔을 수 있다. 더 많이 가졌을 수 있다.\n근데 {name}은 밤에 잠을 잘 잔다.\n누구한테 빚진 것도, 누구를 속인 것도 없다.\n\n그게 1억보다 싼 건지 비싼 건지는 — 죽을 때 알게 될 것이다.\n\n적어도 지금은, 부끄럽지 않았다."
+      },
+      {
+        "text": "한 번쯤은 다르게 해볼까, 처음으로 흔들린다",
+        "effects": {
+          "mental": -3,
+          "investment_skill": 2,
+          "route_unorthodox": 1
+        },
+        "flags": ["egg_honest_paradox_seen", "orthodox_wavered"],
+        "result_text": "처음으로, {name}은 다른 길을 진지하게 생각했다.\n\n정석만으로는 안 되는 게임이라면 —\n규칙을 좀 바꿔야 하는 걸까.\n\n그 생각이 무섭기도 하고, 이상하게 후련하기도 했다.\n\n아직 아무것도 안 했다. 근데 마음 한구석의 빗장이 풀렸다.\n이게 시작인지 타락인지는, 아직 모른다."
+      }
+    ]
+  },
+  {
+    "id": "egg_gambling_mirror",
+    "title": "거울 속 도박꾼",
+    "category": "gambling",
+    "rarity": "legendary",
+    "weight": 5,
+    "hidden": true,
+    "portrait": "player_shocked",
+    "background": "late_night",
+    "conditions": {
+      "min_addiction": 55,
+      "min_gambling": 45
+    },
+    "tags": ["hidden", "legendary", "easter_egg", "warning"],
+    "cooldown": 9999,
+    "description": "화장실 거울 앞에 섰다.\n\n눈이 충혈돼 있었다.\n어제도, 그제도 잠을 설쳤다. 차트 때문에, 베팅 때문에, 다음 판 때문에.\n\n거울 속 남자가 {name}을 봤다.\n5년 전 강남을 꿈꾸던 그 눈빛이 아니었다.\n뭔가에 쫓기는 눈빛이었다.\n\n언제부터 강남이 아니라 '다음 판'이 목표가 됐을까.\n\n거울 속 남자는 대답하지 않았다.",
+    "choices": [
+      {
+        "text": "지금 멈춘다. 도박 앱을 전부 지운다.",
+        "effects": {
+          "mental": 8,
+          "addiction_tendency": -25
+        },
+        "flags": ["egg_gambling_mirror_seen", "tried_to_quit_gambling"],
+        "result_text": "핸드폰을 꺼냈다.\n\n도박 앱, 베팅 사이트 북마크, 차트 알림 — 하나씩 지웠다.\n손이 떨렸다. 지우면서도 다시 깔고 싶었다.\n\n그게 중독이라는 증거였다.\n\n{name}은 핸드폰을 멀리 던져놓고 이불을 뒤집어썼다.\n오늘 하루만. 일단 오늘 하루만 참아보기로 했다.\n\n시작은 늘 '오늘 하루만'이다. 끊는 것도 마찬가지였다."
+      },
+      {
+        "text": "거울에서 눈을 돌린다. 아직은 괜찮다.",
+        "effects": {
+          "mental": -5,
+          "addiction_tendency": 5
+        },
+        "flags": ["egg_gambling_mirror_seen", "ignored_gambling_warning"],
+        "result_text": "{name}은 거울에서 눈을 돌렸다.\n\n'아직 괜찮아. 한 번만 더 따면 손 뗀다.'\n\n그 '한 번만 더'를 몇 번이나 했는지는 세지 않기로 했다.\n세면 무서우니까.\n\n거울 속 남자도 같이 눈을 돌렸다.\n둘 다, 보고 싶지 않은 걸 본 밤이었다."
+      }
+    ]
+  },
+  {
+    "id": "egg_quiet_rich",
+    "title": "조용한 부자",
+    "category": "finance",
+    "rarity": "legendary",
+    "weight": 4,
+    "hidden": true,
+    "portrait": "player_normal",
+    "background": "goshiwon_room",
+    "conditions": {
+      "min_assets": 2000000000,
+      "housing": "gosiwon"
+    },
+    "tags": ["hidden", "legendary", "easter_egg"],
+    "cooldown": 9999,
+    "description": "통장과 포트폴리오를 합치면 20억이 넘는다.\n\n그런데 {name}은 아직 고시원에 산다.\n\n월세 30만원. 4.5제곱미터. 공용 화장실.\n\n돈이 없어서가 아니다. 나갈 수 있다. 언제든.\n근데 안 나간다.\n\n20억을 가진 남자가, 새벽에 공용 주방에서 컵라면을 끓인다.\n옆방 공시생이 그 모습을 보고 인사한다.\n\"형도 라면이네요.\"\n\n{name}은 웃었다. 그래, 형도 라면이다.",
+    "choices": [
+      {
+        "text": "이게 내 방식이다. 숫자는 숫자일 뿐.",
+        "effects": {
+          "mental": 10,
+          "intelligence": 2,
+          "reputation": 3
+        },
+        "flags": ["egg_quiet_rich_seen"],
+        "result_text": "{name}은 라면을 후루룩 먹었다.\n\n20억이 통장에 있어도 라면 맛은 똑같았다.\n오히려 더 맛있는 것 같기도 했다. 마음이 편하니까.\n\n돈은 목표가 아니라 자유였다.\n나가야 할 때 나갈 자유, 안 나가도 될 자유.\n\n{name}은 지금 그 자유를 즐기는 중이었다.\n강남은 — 가고 싶을 때 가면 된다. 급할 거 없다."
+      },
+      {
+        "text": "이제 진짜 나갈 때가 됐다. 강남으로.",
+        "effects": {
+          "mental": 5,
+          "luck": 3
+        },
+        "flags": ["egg_quiet_rich_seen", "ready_for_gangnam"],
+        "result_text": "라면 국물을 마지막까지 마셨다.\n\n20억. 이제 충분하다.\n고시원에서 부린 고집도 여기까지면 됐다.\n\n{name}은 부동산 앱을 열었다.\n강남 아파트 매물을 처음으로, 진지하게 봤다.\n\n5년 전 화면 속에서만 보던 그 숫자들이 —\n이제 살 수 있는 가격이 됐다.\n\n옆방 공시생에게 마지막으로 라면 하나를 끓여줬다."
+      }
+    ]
+  }
+]

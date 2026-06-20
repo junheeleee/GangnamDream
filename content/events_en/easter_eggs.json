@@ -1,0 +1,92 @@
+[
+  {
+    "id": "egg_gosiwon_sage",
+    "title": "The Goshiwon Sage",
+    "description": "Over 30 months living in the goshiwon now.\n\n{name} knows everything about this tiny room.\nWhich wall best transmits the neighbor's snoring.\nWhose side dishes last longest in the shared fridge.\nThat shower stall #3 has the strongest water pressure at 2 AM.\n\nAt this point it isn't housing — it's ascetic training.\n\n{name} happened to look in the mirror. A man with a sage's expression was there.",
+    "choices": [
+      {
+        "text": "Compile 30 months of know-how into a notebook",
+        "result_text": "He titled it 'The Goshiwon Survival Codex.'\n\nThe art of frugality, the philosophy of soundproofing, minimum-cost nutrition.\nWriting it out, it became a whole book.\n\nThis wouldn't get him to Gangnam — but at least, in this trench, {name} was stronger than anyone.\n\nSomeone who knows the bottom completely doesn't fear falling."
+      },
+      {
+        "text": "I want out of here now",
+        "result_text": "Thirty months. Too long.\n\nHe didn't become a sage by choice.\nHe has to leave. Somehow.\n\nThat night, for the first time, {name} seriously started calculating moving costs.\nThe training was over. Time to descend the mountain."
+      }
+    ]
+  },
+  {
+    "id": "egg_triangle_kimbap",
+    "title": "The Triangle Kimbap Chronicles",
+    "description": "In front of the triangle kimbap shelf at the convenience store.\n\n{name} looked at the display and realized:\nHe'd memorized every flavor — bibimbap, tuna mayo, spam, kimchi fried rice.\nEven which brand's kimbap had stickier rice.\n\nHe checked his balance. Under 800,000 won.\n\nFive years ago, and now, dinner is triangle kimbap.\nThe only thing that changed — he can eat it without heating now.",
+    "choices": [
+      {
+        "text": "Buy two today. A luxury.",
+        "result_text": "One tuna mayo, one spam.\n\n2,400 won at the register.\n\n{name} walked out holding two, strangely feeling rich.\n\nWhether it's sad or fortunate that the bar for happiness dropped this low — felt like both.\n\nStill, tonight's dinner is two."
+      },
+      {
+        "text": "Hold back. One is enough.",
+        "result_text": "He grabbed just one.\n\n1,200 won. That was enough.\n\nPaying, {name} thought:\nIs this thrift the road to Gangnam, or just getting used to being poor.\n\nWhen you can't tell the difference is the most dangerous time — {name} knew that.\nStill, tonight it's one."
+      }
+    ]
+  },
+  {
+    "id": "egg_4am_clarity",
+    "title": "4 AM",
+    "description": "4 AM. Can't sleep.\n\nStaring at the ceiling. A crack shaped like a person's profile.\nSeeing it every day, they've become friends.\n\nEverything is sharp at this hour.\nThings invisible by day are all visible at 4 AM.\nHow far he's come, how far he hasn't.\n\n{name} sat up.\nIn this trench, it was the most honest hour.",
+    "choices": [
+      {
+        "text": "Just acknowledge what you feel right now",
+        "result_text": "He said it out loud — that it's hard.\n\nIn the empty room, quietly.\n\"...This is hard.\"\n\nStrangely, getting the words out made it a little lighter.\n\nAdmitting you're not okay took more courage than pretending you were.\n\n4:30 AM. {name} lay back down. This time, sleep came."
+      },
+      {
+        "text": "Drink some water and rewrite the plan",
+        "result_text": "He drank a cup from the dispenser.\n\nOpened the notebook. A 4 AM plan is different from a daytime plan.\nMore honest, more simple.\n\n'Don't overdo it. Survive. Then think about what's next.'\n\nThree lines, and he closed the notebook.\nOutside, the window was brightening, very slowly."
+      }
+    ]
+  },
+  {
+    "id": "egg_honest_paradox",
+    "title": "The Price of Honesty",
+    "description": "{name} never once cut a corner.\n\nNever skipped overtime, paid taxes honestly, never touched risky investments.\nLived exactly as society said to — 'live right.'\n\nAnd his account never crossed 100 million won.\n\nMeanwhile someone who started the same time made it to Gangnam through crypto, another through real estate gap-investing, another through parents' help.\n\n{name} stared at the calculator.\nThe price of honesty — how much, exactly.",
+    "choices": [
+      {
+        "text": "Still, my way wasn't wrong",
+        "result_text": "{name} set the calculator down.\n\nOthers may have gone faster. Held more.\nBut {name} sleeps well at night.\nDoesn't owe anyone, didn't deceive anyone.\n\nWhether that's cheaper or dearer than 100 million — he'll know when he dies.\n\nAt least for now, he wasn't ashamed."
+      },
+      {
+        "text": "Maybe try it differently, just once — wavering for the first time",
+        "result_text": "For the first time, {name} seriously considered another path.\n\nIf it's a game the orthodox way can't win —\nmaybe the rules need bending.\n\nThe thought was frightening, and strangely freeing.\n\nHe hadn't done anything yet. But a latch somewhere in his heart had come loose.\nWhether this is a beginning or a fall, he doesn't yet know."
+      }
+    ]
+  },
+  {
+    "id": "egg_gambling_mirror",
+    "title": "The Gambler in the Mirror",
+    "description": "He stood in front of the bathroom mirror.\n\nHis eyes were bloodshot.\nHe'd slept badly yesterday, the day before — because of charts, bets, the next hand.\n\nThe man in the mirror looked at {name}.\nNot the gaze that dreamed of Gangnam five years ago.\nA gaze chased by something.\n\nWhen did the goal become 'the next hand' instead of Gangnam.\n\nThe man in the mirror didn't answer.",
+    "choices": [
+      {
+        "text": "Stop now. Delete every gambling app.",
+        "result_text": "He took out his phone.\n\nGambling apps, betting site bookmarks, chart alerts — deleted one by one.\nHis hands shook. Even deleting, he wanted to reinstall.\n\nThat was the proof it was addiction.\n\n{name} threw the phone far away and pulled the blanket over his head.\nJust today. He'd try to endure just today.\n\nIt always starts with 'just today.' Quitting was the same."
+      },
+      {
+        "text": "Look away from the mirror. It's still fine.",
+        "result_text": "{name} looked away from the mirror.\n\n'It's still fine. One more win and I'm out.'\n\nHe decided not to count how many times he'd said 'just one more.'\nCounting would be terrifying.\n\nThe man in the mirror looked away too.\nBoth of them, a night of seeing what they didn't want to see."
+      }
+    ]
+  },
+  {
+    "id": "egg_quiet_rich",
+    "title": "The Quiet Rich",
+    "description": "Account and portfolio combined, it's over 2 billion won.\n\nAnd yet {name} still lives in the goshiwon.\n\nRent 300,000 won. 4.5 square meters. Shared bathroom.\n\nNot for lack of money. He can leave. Anytime.\nBut he doesn't.\n\nA man with 2 billion won boils a cup ramen in the shared kitchen at dawn.\nThe next-room exam-prepper sees him and greets:\n\"You're having ramen too, hyung?\"\n\n{name} smiled. Yeah, hyung's having ramen too.",
+    "choices": [
+      {
+        "text": "This is my way. Numbers are just numbers.",
+        "result_text": "{name} slurped the ramen.\n\nWith 2 billion in the bank, ramen tasted the same.\nMaybe even better — his mind was at ease.\n\nMoney wasn't a goal but freedom.\nFreedom to leave when he must, freedom to stay if he wants.\n\n{name} was enjoying that freedom now.\nGangnam — he can go when he wants to. No rush."
+      },
+      {
+        "text": "Now it's really time to leave. For Gangnam.",
+        "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThose numbers he'd only seen on screen five years ago —\nwere now a price he could pay.\n\nHe cooked one last ramen for the next-room exam-prepper."
+      }
+    ]
+  }
+]
