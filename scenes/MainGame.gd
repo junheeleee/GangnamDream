@@ -811,9 +811,9 @@ func _build_info_panel():
 	inventory_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inv_margin.add_child(inventory_box)
 
-	# ── Tab 4: 아크 (퀘스트 트래커) ──
+	# ── Tab 4: 스토리 (퀘스트 트래커) ──
 	var arc_scroll := ScrollContainer.new()
-	arc_scroll.name = "아크"
+	arc_scroll.name = "스토리"
 	arc_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(arc_scroll)
 	var arc_margin := MarginContainer.new()
