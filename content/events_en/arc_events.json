@@ -648,7 +648,7 @@
       "jaehyuk"
     ],
     "cooldown": 9999,
-    "description": "A KakaoTalk message.\n'Hey {name}! It's me, Jaehyuk. Choi Jaehyuk from the army. You remember, right? I'm in Seoul — let's catch up.'\n\nHis profile photo: him standing in front of a foreign car.\nTwenty-two, same barracks. Three years close, then lost touch after discharge.\n\nJaehyuk at the pojangmacha was different.\nGood clothes, expensive watch, confident face.\n'You haven't changed at all! Here, let me pour you one.'\nHe pays. No hesitation when the card comes out.",
+    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Three years close, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\"You haven't changed at all! Let's drink.\"",
     "choices": [
       {
         "text": "Glad to see him — an old friend after a long time.",
@@ -690,7 +690,9 @@
         ],
         "result_text": "Clinked glasses and smiled — but something sat uneasily.\nSomeone who contacts you after ten years is doing this well.\nWhy now, why me.\n{name} pushed that thought away. It's an old friend."
       }
-    ]
+    ],
+    "description_orthodox": "KakaoTalk. Choi Jaehyuk. Army.\n\nTen years.\n\nThe Jaehyuk at the pojangmacha used a foreign car as his profile photo.\nGood clothes. Expensive watch. The kind of confidence that fills a room.\n\n{name} smiled warmly and quietly calculated.\nWhat had this person been doing for ten years since discharge.\nWhy this call, why now.",
+    "description_unorthodox": "KakaoTalk. Jaehyuk. Ten years.\n\nForeign car profile. Expensive watch. Paid for three rounds at the pojangmacha.\n\nMaybe he's just a military buddy who did well.\nOr maybe he wants something.\n\n{name} accepted the drink. Too early to tell."
   },
   {
     "id": "arc_jaehyuk_02_bond",
@@ -776,7 +778,7 @@
   },
   {
     "id": "arc_jaehyuk_03_pitch",
-    "title": "Last Chance",
+    "title": "The Offer",
     "background": "meeting",
     "portrait": "jaehyuk_charisma",
     "category": "story",
@@ -792,7 +794,7 @@
       "jaehyuk"
     ],
     "cooldown": 9999,
-    "description": "Jaehyuk called with a serious tone. A hotel lounge.\n\n'{name}, this is just between us.\nSomething big is coming in. Triple your principal. But there's only a slot until this week.'\n\nHe leans in.\n'You want Gangnam, right. How long will you get there on a salary? This is the shortcut.\nTrust me, yeah? Are we strangers? We lived and died together.'\n\nThe account balance comes to mind. Gangnam comes to mind.\nAnd then Father comes to mind.\n\nDecision. Now.",
+    "description": "Jaehyuk called a meeting. Hotel lounge.\n\n\"I'll be straight with you. {name}, this is just for you.\nSomething big came in. Triple the principal. But the window closes this week.\"\n\nHe leans forward. Voice drops.\n\n\"You want Gangnam, right? How long will that take on a salary? At our age, there's no answer in a paycheck.\nYou trust me, right? We lived and died together in there.\"\n\nTriple the principal. This week only.\nBoth sentences landed at the same time.",
     "choices": [
       {
         "text": "Put in everything — trust Jaehyuk.",
@@ -860,11 +862,13 @@
         "route": "orthodox",
         "result_text": "'Let me think about it.' {name} left.\nWent home and started searching.\nThe investment product Jaehyuk mentioned. The company name. Similar fraud cases.\n\nResults started appearing one by one.\nA cold feeling ran down the spine."
       }
-    ]
+    ],
+    "description_orthodox": "Hotel lounge. Jaehyuk's expression turned serious.\n\nTriple the principal. This week only.\n\n{name} analyzed the structure of those two sentences.\nIf 'triple' is the hook, 'this week only' is the device that kills thinking time.\nTextbook pattern.\n\nJaehyuk said: \"We lived and died together in there.\"\n\nBecause that sentence was true — knowing he should be more careful — {name} wavered anyway.",
+    "description_unorthodox": "Hotel lounge. Jaehyuk leaned across the table.\n\n'Triple the principal.'\n\nEvery approach {name} had tried — stocks, investment, racetrack — none of them came close to that number.\n\n'This week only.'\n\nThe pressure feeling. Not sure if Jaehyuk created it or {name} did.\n\"We lived and died together in there.\"\n\nThat line was the trigger."
   },
   {
     "id": "arc_jaehyuk_04a_ghost",
-    "title": "Gone",
+    "title": "Ghost",
     "background": "goshiwon_room",
     "portrait": "player_shocked",
     "cg": "cg_jaehyuk_reveal",
@@ -882,7 +886,7 @@
       "crisis"
     ],
     "cooldown": 9999,
-    "description": "Settlement day. Tried to reach Jaehyuk.\n\nNo 'Read' receipt.\nPhone rings and rings, then drops.\nKakaoTalk profile photo: gone.\n\nThree days for unease to become certainty.\n\nSearched the company name Jaehyuk had mentioned.\nA victim support café comes up.\nDecades of posts on the board. The same name. Choi Jaehyuk.\n\n{name} wasn't alone.\n'We lived and died together' —\nthe most expensive lie ever told.",
+    "description": "Settlement day. {name} reached out to Jaehyuk.\n\nNo 'Read' receipt.\nPhone rings and rings, then cuts.\nKakaoTalk profile picture: gone.\n\nThree days for unease to become certainty.\n\n{name} searched the company Jaehyuk mentioned.\n'Investment fraud victims group' forum comes up.\nTens of posts. Same name. Choi Jaehyuk.\n\n{name} wasn't alone.\nThe line 'we lived and died together' —\nthe line that made him wire the money —\nfloated up between the victim testimonies on the screen.",
     "choices": [
       {
         "text": "Fall apart — can't do anything for a while.",
@@ -2509,7 +2513,7 @@
           "visited_father",
           "father_reconciled_started"
         ],
-        "result_text": "Six years of unsaid words.\n\nDad's eyes reddened. He took {name}'s hand.\nThe hands hardened from factory work. They were trembling.\n\nNeither of them spoke for a long time.\nIt was enough. That silence felt comfortable for the first time.\n\nOn the KTX back to Seoul, {name} watched out the window for a long time."
+        "result_text": "The room was quiet.\n\n{name} sat in the chair beside the bed.\nFather looked toward the window. Changwon sky. Low buildings.\n\nNo words.\n\"Did you eat?\" \"I ate.\" \"When do you get out?\" \"Next week probably.\" \"I see.\"\n\nThis is what father and son conversation looks like.\nFor six years, while paying off the debt in Seoul, {name} never once asked.\nWhy he'd signed the guarantee. Whether he regretted it. Whether he'd wanted to say thank you.\n\n{name} thought: I'll ask later.\nBut how much 'later' is left — no one knows."
       },
       {
         "text": "\"When I make it to Gangnam, you're the first person I'll bring.\"",
@@ -2526,7 +2530,7 @@
           "visited_father",
           "promised_father_gangnam"
         ],
-        "result_text": "Dad smiled faintly.\n\"...Okay. I believe you.\"\n\nFactory smokestacks through the window. Where Dad spent his whole life.\n{name} made a silent promise. No matter what."
+        "result_text": "Father said \"I'm sorry.\"\n\n{name} didn't know what to say.\n'It's okay' is a lie. Six years of repayment.\n'I'm sorry too' doesn't fit. There was nothing to be sorry for.\n\nSo he just stayed.\n\nFather's thin hand. Bent shoulders.\nThe hand that gripped factory floors for a lifetime lay on top of the blanket.\n\n{name} placed his hand over his father's.\nWithout words.\n\nOutside, the Changwon sun began to set."
       },
       {
         "text": "Can't say anything — just sit beside him",
