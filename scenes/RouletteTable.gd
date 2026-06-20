@@ -342,12 +342,13 @@ func _draw_roulette_wheel() -> void:
 	var sz: Vector2 = _wheel_display.size
 	if sz.x < 80.0 or sz.y < 80.0:
 		return
-	var center: Vector2 = sz * 0.5
-	var radius: float = minf(sz.x, sz.y) * 0.41
+	var font: Font = _font if _font else ThemeDB.fallback_font
+	_draw_roulette_top_table(sz, font)
+	var center: Vector2 = Vector2(sz.x * 0.5, sz.y * 0.54)
+	var radius: float = minf(sz.x, sz.y) * 0.44
 	var inner_radius: float = radius * 0.48
 	var label_radius: float = radius * 0.78
 	var count: int = WHEEL_NUMBERS.size()
-	var font: Font = _font if _font else ThemeDB.fallback_font
 
 	_wheel_display.draw_circle(center + Vector2(0, 7), radius + 18.0, Color(0, 0, 0, 0.35))
 	_wheel_display.draw_circle(center, radius + 18.0, Color("#1d0f06"))
@@ -378,6 +379,12 @@ func _draw_roulette_wheel() -> void:
 			var a: float = lerpf(a0, a1, t)
 			points.append(center + Vector2(cos(a), sin(a)) * radius)
 		_wheel_display.draw_colored_polygon(points, wedge_color)
+		if _phase == Phase.RESULT and n == _last_result:
+			_wheel_display.draw_colored_polygon(points, Color(1.0, 0.86, 0.18, 0.36))
+			_wheel_display.draw_line(
+				center + Vector2(cos(mid), sin(mid)) * inner_radius,
+				center + Vector2(cos(mid), sin(mid)) * (radius + 10.0),
+				Color("#fff0a8"), 3.0)
 		_wheel_display.draw_line(
 			center + Vector2(cos(a0), sin(a0)) * inner_radius,
 			center + Vector2(cos(a0), sin(a0)) * radius,
@@ -393,11 +400,113 @@ func _draw_roulette_wheel() -> void:
 	_wheel_display.draw_circle(center, inner_radius * 0.42, Color("#101b12"))
 	_wheel_display.draw_arc(center, radius * 0.72, 0.0, TAU, 128, Color(1, 1, 1, 0.16), 1.0)
 	_wheel_display.draw_arc(center, radius + 1.0, 0.0, TAU, 160, Color(1, 1, 1, 0.18), 1.0)
+	_wheel_display.draw_circle(center, 17.0, Color(0, 0, 0, 0.42))
 
 	var ball_pos: Vector2 = center + Vector2(cos(_ball_angle), sin(_ball_angle)) * (radius * 0.70)
+	if _phase == Phase.SPINNING:
+		for i in range(1, 7):
+			var trail_a := _ball_angle + float(i) * 0.11
+			var trail_pos := center + Vector2(cos(trail_a), sin(trail_a)) * (radius * 0.70)
+			_wheel_display.draw_circle(trail_pos, 5.5 - float(i) * 0.45, Color(1, 1, 1, 0.20 - float(i) * 0.025))
 	_wheel_display.draw_circle(ball_pos + Vector2(2.0, 2.0), 7.0, Color(0, 0, 0, 0.45))
 	_wheel_display.draw_circle(ball_pos, 6.5, Color("#f4f2e8"))
 	_wheel_display.draw_circle(ball_pos + Vector2(-2.0, -2.0), 2.0, Color(1, 1, 1, 0.9))
+
+	var pointer := PackedVector2Array([
+		center + Vector2(0.0, -radius - 25.0),
+		center + Vector2(-12.0, -radius - 5.0),
+		center + Vector2(12.0, -radius - 5.0),
+	])
+	_wheel_display.draw_colored_polygon(pointer, Color("#f0b429"))
+
+func _draw_roulette_top_table(sz: Vector2, font: Font) -> void:
+	_wheel_display.draw_rect(Rect2(Vector2.ZERO, sz), Color("#031109"), true)
+	var felt := Rect2(Vector2(18.0, 14.0), sz - Vector2(36.0, 28.0))
+	_wheel_display.draw_rect(felt, Color("#062312"), true)
+	_wheel_display.draw_rect(felt, Color("#2ecc71"), false, 3.0)
+	_wheel_display.draw_line(Vector2(sz.x * 0.31, felt.position.y + 18.0), Vector2(sz.x * 0.31, felt.end.y - 18.0), Color(1, 1, 1, 0.06), 1.0)
+	_wheel_display.draw_line(Vector2(sz.x * 0.69, felt.position.y + 18.0), Vector2(sz.x * 0.69, felt.end.y - 18.0), Color(1, 1, 1, 0.06), 1.0)
+
+	var left_panel := Rect2(Vector2(46.0, 38.0), Vector2(250.0, 146.0))
+	var right_panel := Rect2(Vector2(sz.x - 296.0, 38.0), Vector2(250.0, 146.0))
+	_draw_table_info_panel(left_panel, "BET PLACED", _selected_bet_label(), _stake_label(), Color("#f0b429"), font)
+	var result_title := "SPINNING" if _phase == Phase.SPINNING else ("LAST NUMBER" if _last_result >= 0 else "RESULT")
+	var result_body := str(_display_number) if _phase == Phase.SPINNING else (str(_last_result) if _last_result >= 0 else "—")
+	var result_sub := "NO MORE BETS" if _phase == Phase.SPINNING else ("PLACE YOUR BETS" if _phase == Phase.IDLE else "PAYOUT")
+	_draw_table_info_panel(right_panel, result_title, result_body, result_sub, _number_color_draw(_display_number if _phase == Phase.SPINNING else _last_result), font)
+
+	var dealer_pos := Vector2(sz.x * 0.22, sz.y * 0.72)
+	_wheel_display.draw_circle(dealer_pos + Vector2(0, -22), 15.0, Color(0, 0, 0, 0.30))
+	_wheel_display.draw_rect(Rect2(dealer_pos + Vector2(-34, -6), Vector2(68, 42)), Color(0, 0, 0, 0.24), true)
+	_wheel_display.draw_line(dealer_pos + Vector2(18, 5), Vector2(sz.x * 0.40, sz.y * 0.64), Color(0, 0, 0, 0.22), 6.0)
+	_wheel_display.draw_string(font, dealer_pos + Vector2(-44, 56), "CROUPIER", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 1, 1, 0.24))
+
+	var chip_pos := Vector2(sz.x * 0.82, sz.y * 0.83)
+	_draw_table_chip_stack(chip_pos, _bet_amount if _bet_amount > 0 else _stake, font)
+
+func _draw_table_info_panel(rect: Rect2, title: String, body: String, sub: String, accent: Color, font: Font) -> void:
+	_wheel_display.draw_rect(Rect2(rect.position + Vector2(0, 5), rect.size), Color(0, 0, 0, 0.26), true)
+	_wheel_display.draw_rect(rect, Color(0.015, 0.025, 0.018, 0.82), true)
+	_wheel_display.draw_rect(rect, Color(accent.r, accent.g, accent.b, 0.65), false, 1.5)
+	_wheel_display.draw_string(font, rect.position + Vector2(16.0, 24.0), title,
+		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 32.0, 11, Color(0.78, 0.86, 0.74, 0.70))
+	_wheel_display.draw_string(font, rect.position + Vector2(16.0, 72.0), body,
+		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 32.0, 28, accent)
+	_wheel_display.draw_string(font, rect.position + Vector2(16.0, 118.0), sub,
+		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 32.0, 12, Color(0.86, 0.92, 0.82, 0.72))
+
+func _draw_table_chip_stack(pos: Vector2, amount: int, font: Font) -> void:
+	var chip_count := clampi(int(ceil(float(maxi(amount, 1)) / 50000.0)), 2, 8)
+	var cols := [Color("#d73a49"), Color("#2f6fe4"), Color("#28a36a"), Color("#7e4cd8"), Color("#f0b429")]
+	for i in range(chip_count):
+		var p := pos + Vector2(float(i % 4) * 17.0 - 28.0, -float(i / 4) * 7.0)
+		var col: Color = cols[i % cols.size()]
+		_wheel_display.draw_circle(p + Vector2(0, 2), 11.0, Color(0, 0, 0, 0.30))
+		_wheel_display.draw_circle(p, 11.0, col)
+		_wheel_display.draw_circle(p, 6.2, Color(0.02, 0.025, 0.03, 0.42))
+		_wheel_display.draw_circle(p, 9.0, Color(1, 1, 1, 0.18))
+
+func _selected_bet_label() -> String:
+	if _bet_type < 0:
+		return "선택 전"
+	match _bet_type:
+		0:
+			return "숫자 %d" % _chosen_number
+		1:
+			return "빨강"
+		2:
+			return "검정"
+		3:
+			return "홀수"
+		4:
+			return "짝수"
+		5:
+			return "낮음 1-18"
+		6:
+			return "높음 19-36"
+		7:
+			return "1묶음 1-12"
+		8:
+			return "2묶음 13-24"
+		9:
+			return "3묶음 25-36"
+	return "선택 전"
+
+func _stake_label() -> String:
+	if _bet_amount > 0:
+		return "ON TABLE  %s" % GameState.format_money(float(_bet_amount))
+	return "READY  %s" % GameState.format_money(float(_stake))
+
+func _number_color_draw(n: int) -> Color:
+	if n < 0:
+		return Color("#f0b429")
+	match _roulette.number_color(n):
+		"red":
+			return Color("#ff5d5d")
+		"black":
+			return Color("#d8dbe8")
+		_:
+			return Color("#2ecc71")
 
 # ── UI 빌드 ──────────────────────────────────────────────────
 func _build_ui() -> void:
@@ -562,15 +671,15 @@ func _build_ui() -> void:
 	_number_picker_grid.add_theme_constant_override("v_separation", 2)
 	number_mat_v.add_child(_number_picker_grid)
 
-	var b0 := _make_number_btn(0)
-	_number_picker_grid.add_child(b0)
-	for n in range(1, 37):
-		var bn := _make_number_btn(n)
-		_number_picker_grid.add_child(bn)
-	for _p in range(2):
+	_number_picker_grid.add_child(_make_number_btn(0))
+	for n in range(3, 37, 3):
+		_number_picker_grid.add_child(_make_number_btn(n))
+	for row_start in [2, 1]:
 		var spacer := Control.new()
-		spacer.custom_minimum_size = Vector2(30, 21)
+		spacer.custom_minimum_size = Vector2(42, 24)
 		_number_picker_grid.add_child(spacer)
+		for n in range(row_start, 37, 3):
+			_number_picker_grid.add_child(_make_number_btn(n))
 
 	# ── 베팅 타입 버튼 (2행) ──
 	var bet_lbl := Label.new()
@@ -720,7 +829,8 @@ func _make_number_btn(n: int) -> Button:
 		_:       bg = "#0a3a1a"
 	var btn := Button.new()
 	btn.text = str(n)
-	btn.custom_minimum_size = Vector2(30, 21)
+	btn.custom_minimum_size = Vector2(42, 24)
+	btn.set_meta("roulette_number", n)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg)
 	st.set_corner_radius_all(4)
@@ -755,6 +865,8 @@ func _refresh() -> void:
 	_refresh_bet_info()
 	_refresh_balance()
 	_refresh_spin_btn()
+	if is_instance_valid(_wheel_display):
+		_wheel_display.queue_redraw()
 
 func _refresh_hud() -> void:
 	var spinning_str: String = "  [스핀 중...]" if _phase == Phase.SPINNING else ""
@@ -829,10 +941,12 @@ func _refresh_stake_btns() -> void:
 
 func _refresh_number_picker() -> void:
 	_number_picker_grid.visible = true
-	var idx: int = 0
 	for child in _number_picker_grid.get_children():
 		if child is Button:
-			var n: int = idx
+			var btn := child as Button
+			if not btn.has_meta("roulette_number"):
+				continue
+			var n: int = int(btn.get_meta("roulette_number"))
 			var col_str: String = _roulette.number_color(n)
 			var bg: String
 			match col_str:
@@ -855,12 +969,11 @@ func _refresh_number_picker() -> void:
 			st.content_margin_top = 2; st.content_margin_bottom = 2
 			var hov := st.duplicate() as StyleBoxFlat
 			hov.bg_color = Color(bg).lightened(0.2)
-			child.add_theme_stylebox_override("normal", st)
-			child.add_theme_stylebox_override("hover", hov)
-			child.add_theme_stylebox_override("pressed", hov)
+			btn.add_theme_stylebox_override("normal", st)
+			btn.add_theme_stylebox_override("hover", hov)
+			btn.add_theme_stylebox_override("pressed", hov)
 			if is_result:
-				child.add_theme_color_override("font_color", Color.WHITE)
-			idx += 1
+				btn.add_theme_color_override("font_color", Color.WHITE)
 
 func _refresh_bet_info() -> void:
 	if _bet_amount > 0:
