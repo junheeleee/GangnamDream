@@ -612,7 +612,7 @@ func _draw_track() -> void:
 	var hs: Array = _race["horses"]
 	var n: int = hs.size()
 	var pad_l: float = 126.0
-	var pad_r: float = 78.0
+	var pad_r: float = 390.0  # 우측 라이브 순위판 영역을 주로 밖에 확보한다.
 	var fin_x: float = sz.x - pad_r
 	var lane_h: float = (sz.y - 20.0) / float(n)
 	var f := ThemeDB.fallback_font
@@ -654,7 +654,7 @@ func _draw_track() -> void:
 					HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#ffe14d"))
 		_track.draw_string(f, Vector2(26.0, lane_y - 10.0), str(h["name"]),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col)
-	_draw_live_board(hs, f, sz)
+	_draw_live_board(hs, f, sz, fin_x)
 
 func _draw_racecourse_base(track_rect: Rect2, pad_l: float, fin_x: float, sz: Vector2, f: Font) -> void:
 	_track.draw_rect(Rect2(track_rect.position + Vector2(0.0, 8.0), track_rect.size), Color(0, 0, 0, 0.28), true)
@@ -713,14 +713,15 @@ func _draw_saddle_number(dst: Rect2, num: int, lane_color: Color, f: Font) -> vo
 	_track.draw_string(f, cloth.position + Vector2(cloth.size.x * 0.30, cloth.size.y * 0.78), str(num),
 		HORIZONTAL_ALIGNMENT_LEFT, -1, int(maxf(8.0, hsz * 0.16)), Color.WHITE)
 
-func _draw_live_board(hs: Array, f: Font, sz: Vector2) -> void:
+func _draw_live_board(hs: Array, f: Font, sz: Vector2, fin_x: float) -> void:
 	var order: Array = []
 	for i in range(hs.size()):
 		order.append(i)
 	order.sort_custom(func(a, b):
 		return _display_progress(hs[int(a)], int(a)) > _display_progress(hs[int(b)], int(b))
 	)
-	var board := Rect2(Vector2(sz.x - 330.0, 18.0), Vector2(290.0, 104.0))
+	var board_x := maxf(fin_x + 72.0, sz.x - 318.0)
+	var board := Rect2(Vector2(board_x, 18.0), Vector2(278.0, 104.0))
 	_track.draw_rect(Rect2(board.position + Vector2(0, 5), board.size), Color(0, 0, 0, 0.30), true)
 	_track.draw_rect(board, Color(0.02, 0.025, 0.035, 0.70), true)
 	_track.draw_rect(board, Color("#f0c45d"), false, 1.0)

@@ -331,9 +331,9 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 	var pot_center := VBoxContainer.new()
 	pot_center.alignment = BoxContainer.ALIGNMENT_CENTER
 	pot_center.anchor_left = 0.42
-	pot_center.anchor_top = 0.28
+	pot_center.anchor_top = 0.35
 	pot_center.anchor_right = 0.58
-	pot_center.anchor_bottom = 0.48
+	pot_center.anchor_bottom = 0.49
 	pot_center.offset_left = 0
 	pot_center.offset_top = 0
 	pot_center.offset_right = 0
@@ -475,7 +475,7 @@ func _draw_holdem_surface(ctrl: Control) -> void:
 	ctrl.draw_line(Vector2(sz.x * 0.18, sz.y * 0.50), Vector2(sz.x * 0.82, sz.y * 0.50), rail_col, 1.0)
 	ctrl.draw_line(Vector2(sz.x * 0.50, sz.y * 0.24), Vector2(sz.x * 0.50, sz.y * 0.80), rail_col, 1.0)
 
-	var pot_pos := Vector2(sz.x * 0.50, sz.y * 0.37)
+	var pot_pos := Vector2(sz.x * 0.50, sz.y * 0.29)
 	_draw_chip_stack(ctrl, pot_pos, max(_pot, BIG_BLIND), 0.95)
 	if _phase == Phase.SHOWDOWN:
 		ctrl.draw_circle(pot_pos, 44.0, Color(1.0, 0.80, 0.25, 0.08))
@@ -484,9 +484,9 @@ func _draw_holdem_surface(ctrl: Control) -> void:
 	var opp0_pos := Vector2(sz.x * 0.20, sz.y * 0.23)
 	var opp1_pos := Vector2(sz.x * 0.80, sz.y * 0.23)
 	var player_pos := Vector2(sz.x * 0.50, sz.y * 0.86)
-	_draw_bet_trail(ctrl, opp0_pos, pot_pos, int(_opp_bets[0]), Color("#5d9ce8"))
-	_draw_bet_trail(ctrl, opp1_pos, pot_pos, int(_opp_bets[1]), Color("#e85d8c"))
-	_draw_bet_trail(ctrl, player_pos, pot_pos, _player_bet, Color("#f0b429"))
+	_draw_bet_stack(ctrl, Vector2(sz.x * 0.36, sz.y * 0.39), int(_opp_bets[0]), Color("#5d9ce8"))
+	_draw_bet_stack(ctrl, Vector2(sz.x * 0.64, sz.y * 0.39), int(_opp_bets[1]), Color("#e85d8c"))
+	_draw_bet_stack(ctrl, Vector2(sz.x * 0.50, sz.y * 0.66), _player_bet, Color("#f0b429"))
 
 	_draw_seat_silhouette(ctrl, opp0_pos, not bool(_opp[0]["folded"]), _last_winner_idx == 0, Color("#5d9ce8"))
 	_draw_seat_silhouette(ctrl, opp1_pos, not bool(_opp[1]["folded"]), _last_winner_idx == 1, Color("#e85d8c"))
@@ -519,19 +519,20 @@ func _draw_chip_stack(ctrl: Control, center: Vector2, amount: int, alpha: float 
 		ctrl.draw_circle(p, 5.8, Color(0.02, 0.025, 0.03, 0.45 * alpha))
 		ctrl.draw_circle(p, 8.8, Color(1, 1, 1, 0.22 * alpha))
 
-func _draw_bet_trail(ctrl: Control, from_pos: Vector2, to_pos: Vector2, amount: int, color: Color) -> void:
+func _draw_bet_stack(ctrl: Control, pos: Vector2, amount: int, color: Color) -> void:
 	if amount <= 0:
 		return
-	var line_col := Color(color.r, color.g, color.b, 0.22)
-	ctrl.draw_line(from_pos, to_pos, line_col, 2.0)
 	var chips := clampi(int(ceil(float(amount) / float(BIG_BLIND))), 1, 5)
 	for i in range(chips):
-		var t := float(i + 1) / float(chips + 1)
-		var p := from_pos.lerp(to_pos, t)
+		var p := pos + Vector2(float(i % 3) * 10.0 - 10.0, -float(i / 3) * 5.0)
 		var chip_col := color
 		chip_col.a = 0.80
+		ctrl.draw_circle(p + Vector2(0, 1.5), 7.0, Color(0, 0, 0, 0.25))
 		ctrl.draw_circle(p, 7.0, chip_col)
 		ctrl.draw_circle(p, 3.6, Color(0.02, 0.025, 0.03, 0.45))
+	var f := ThemeDB.fallback_font
+	ctrl.draw_string(f, pos + Vector2(-24.0, 24.0), _fmt(amount),
+		HORIZONTAL_ALIGNMENT_CENTER, 48.0, 10, Color(0.86, 0.90, 0.80, 0.78))
 
 # ── 행동 순서 처리 ─────────────────────────────────────────────────
 func _process_action_turn() -> void:

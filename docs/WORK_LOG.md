@@ -1,5 +1,16 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (홀덤/경마 시야 가림 핫픽스)
+
+### 수정
+- `scenes/HoldemClub.gd`: 홀덤 베팅 칩을 팟까지 선으로 연결하던 연출 제거. 각 좌석 앞 테이블 위에 독립 칩 스택으로 표시되도록 변경.
+- 중앙 팟 칩과 `POT` 금액 텍스트가 겹치지 않도록 팟 칩 위치와 금액 표시 위치를 분리.
+- `scenes/RaceTrack.gd`: 경마 라이브 순위판을 주로 내부가 아니라 결승선 오른쪽 사이드 영역으로 이동. 1번 레인 말이 순위판에 가려지지 않도록 트랙 오른쪽 패딩 확보.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA`: `06_holdem_club`, `07a_racetrack_race` 직접 확인. 홀덤 칩선 제거 및 경마 1번 레인 가림 해소.
+
 ## 2026-06-20 (슬롯머신 기기형 릴 연출 강화)
 
 ### 수정
