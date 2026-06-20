@@ -1,11 +1,12 @@
 # Gangnam Dream Work Log
 
-## 2026-06-20 (영어 시작 화면 + 엔딩 컷신 프리뷰 + 전용 엔딩 CG + 바카라 가독성 패스)
+## 2026-06-20 (영어 시작 화면 + 엔딩 CG + 카지노 칩 UI + 바카라 가독성 패스)
 
 ### 추가
 - `tools/LocaleSurfaceCheck.tscn`/`.gd`를 추가해 영어 설정 시 StartMenu와 OpeningCinematic 핵심 문구가 영어로 표시되는지 검증.
 - `ScreenshotQA`에 영어 시작 화면 캡처 `00b_start_menu_en.png`를 추가.
 - 엔딩 전용 CG P1 3종 추가: `assets/cg/ending_gangnam_dream.png`, `assets/cg/ending_empty_house.png`, `assets/cg/ending_crypto_ghost.png`.
+- `ScreenshotQA`에 빅휠 본체 캡처 `12a_bigwheel.png`를 추가.
 
 ### 수정
 - StartMenu의 헤더, 스토리 소개, 난이도 카드, 런 테마 카드, 저장 슬롯, 설정 팝업, 콘텐츠 안내, 시작 버튼을 `LocaleManager` 기준으로 영어/한국어 분기.
@@ -15,13 +16,16 @@
 - 바카라 테이블 배경에 불투명 베이스를 깔아 뒤의 MainGame HUD/시스템창이 비쳐 보이지 않도록 수정.
 - `docs/ENDING_ART.md`에 런타임 엔딩 프리뷰 정책과 전용 CG 우선순위를 갱신.
 - `CGRuntimeCheck`/`VisualCropQA`/`ScreenshotQA`에 신규 엔딩 CG 검수 케이스를 추가.
+- 슬롯/룰렛/빅휠 베팅 금액 버튼에 `assets/ui/chips/*` denomination 칩 SVG를 연결해 블랙잭/바카라와 같은 카지노 UI 언어로 통일.
+- 룰렛은 베팅 금액 선택 후 버튼 하이라이트가 즉시 갱신되도록 스테이크 버튼 참조/refresh 경로를 추가.
+- 빅휠은 남아 있던 이모지성 HUD/버튼/조커 표기를 `현금`, `SPIN`, `규칙`, `JOKER` 텍스트로 정리.
 
 ### 검증
 - `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
 - `LocaleSurfaceCheck`: `LOCALE_SURFACE_CHECK_OK`
 - `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
 - `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
-- `ScreenshotQA`: 26장 재캡처 완료 (`00b_start_menu_en`, `13a_ending_empty_house` 추가, 바카라/엔딩 프리뷰 시각 확인).
+- `ScreenshotQA`: 27장 재캡처 완료 (`00b_start_menu_en`, `12a_bigwheel`, `13a_ending_empty_house` 추가, 슬롯/룰렛/빅휠 칩 버튼 시각 확인).
 
 ## 2026-06-19 (BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스)
 

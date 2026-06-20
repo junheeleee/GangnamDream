@@ -60,6 +60,7 @@ func _ready() -> void:
 	await _shot_casino_table("blackjack_table", "10_blackjack_table")
 	await _shot_casino_table("slot_machine_game", "11_slot_machine")
 	await _shot_casino_table("roulette_table", "12_roulette_table")
+	await _shot_casino_table("big_wheel_game", "12a_bigwheel")
 	await _shot_ending("gangnam_dream", "13_ending_gangnam_win")
 	await _shot_ending("empty_house", "13a_ending_empty_house")
 	await _shot_ending("bankruptcy", "14_ending_bankruptcy")
@@ -333,6 +334,11 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._do_bet()
 			node._do_spin()
 			await _settle(1.6)
+		"big_wheel_game":
+			node._select_segment(0)
+			node._select_stake(10_000)
+			node._do_spin()
+			await _settle(1.8)
 	await _save(shot_name)
 	if "visible" in node:
 		node.visible = false

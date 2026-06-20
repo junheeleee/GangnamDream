@@ -2,17 +2,23 @@
 
 ## Unreleased
 
+### Changed (2026-06-20) — Slot/Roulette/BigWheel chip buttons
+
+- Wired denomination chip SVGs into Slot, Roulette, and BigWheel stake buttons, including the lower `1K`/`5K` slot stakes.
+- Fixed Roulette stake selection styling so the selected amount visibly updates after changing stake.
+- Replaced remaining BigWheel emoji/glyph UI labels with stable text labels (`SPIN`, `규칙`, `JOKER`, `현금`) and added `12a_bigwheel.png` to ScreenshotQA. Current screenshot QA output: 27 PNGs.
+
 ### Added (2026-06-20) — Dedicated ending CG P1
 
 - Added dedicated 1280x800 ending CGs for `gangnam_dream`, `empty_house`, and `crypto_ghost`.
 - Wired those endings to `cg_ending_gangnam_dream`, `cg_ending_empty_house`, and `cg_ending_crypto_ghost` so the finale uses story-specific art instead of generic background previews.
-- Extended `CGRuntimeCheck`, `VisualCropQA`, and `ScreenshotQA` coverage for the new ending CGs. Current screenshot QA output: 26 PNGs.
+- Extended `CGRuntimeCheck`, `VisualCropQA`, and `ScreenshotQA` coverage for the new ending CGs.
 
 ### Changed (2026-06-20) — English start surfaces, ending previews, and Baccarat readability
 
 - Localized StartMenu, SplashScreen, and OpeningCinematic player-facing start text for the English language setting.
 - Added `LocaleSurfaceCheck` so English start surfaces are covered by runtime QA.
-- Added a `00b_start_menu_en.png` ScreenshotQA capture. Current screenshot QA output: 26 PNGs.
+- Added a `00b_start_menu_en.png` ScreenshotQA capture.
 - Ending modals now always show a wide visual preview: dedicated CG when available, otherwise the ending-specific background.
 - Made the Baccarat table background opaque enough to prevent MainGame HUD/system panels from showing through behind the casino scene.
 

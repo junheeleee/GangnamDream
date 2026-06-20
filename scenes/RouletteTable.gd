@@ -10,6 +10,13 @@ const ROULETTE := preload("res://systems/Roulette.gd")
 enum Phase { IDLE, SPINNING, RESULT }
 
 const STAKE_OPTIONS := [10_000, 50_000, 100_000, 500_000, 1_000_000]
+const CHIP_TEX_BY_STAKE := {
+	10_000: preload("res://assets/ui/chips/chip_10k.svg"),
+	50_000: preload("res://assets/ui/chips/chip_50k.svg"),
+	100_000: preload("res://assets/ui/chips/chip_100k.svg"),
+	500_000: preload("res://assets/ui/chips/chip_500k.svg"),
+	1_000_000: preload("res://assets/ui/chips/chip_1m.svg"),
+}
 const WHEEL_NUMBERS := [
 	0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10,
 	5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
@@ -73,6 +80,7 @@ var _bet_info_lbl: Label
 var _balance_lbl: Label
 var _spin_btn: Button
 var _bet_btn_refs: Array = []        # 10개 베팅 타입 버튼
+var _stake_btns: Array = []          # Array of {btn, amount}
 
 # ── 초기화 ────────────────────────────────────────────────────
 func _ready() -> void:
@@ -536,14 +544,17 @@ func _build_ui() -> void:
 	var stake_row := HBoxContainer.new()
 	stake_row.add_theme_constant_override("separation", 5)
 	_content_root.add_child(stake_row)
+	_stake_btns.clear()
 	for s in STAKE_OPTIONS:
 		var captured_s: int = s
 		var sb := _make_btn(GameState.format_money(float(s)),
 			func(): _select_stake(captured_s),
 			"#1a2e1a" if s == _stake else "#0e140e",
 			"#3de87a" if s == _stake else "#2a3a2a")
-		sb.custom_minimum_size = Vector2(80, 32)
+		_apply_chip_icon(sb, captured_s, 20)
+		sb.custom_minimum_size = Vector2(94, 34)
 		_f(sb)
+		_stake_btns.append({"btn": sb, "amount": captured_s})
 		stake_row.add_child(sb)
 
 	# ── 액션 버튼 ──
@@ -672,6 +683,7 @@ func _refresh() -> void:
 	_refresh_hud()
 	_refresh_history()
 	_refresh_bet_btns()
+	_refresh_stake_btns()
 	_refresh_number_picker()
 	_refresh_bet_info()
 	_refresh_balance()
@@ -724,6 +736,29 @@ func _refresh_bet_btns() -> void:
 		var t: int      = entry["type"]
 		if is_instance_valid(btn):
 			_style_bet_btn(btn, t == _bet_type)
+
+func _refresh_stake_btns() -> void:
+	for entry in _stake_btns:
+		var btn: Button = entry["btn"]
+		var amount: int = entry["amount"]
+		if not is_instance_valid(btn):
+			continue
+		var selected := (amount == _stake)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#1a2e1a") if selected else Color("#0e140e")
+		st.border_color = Color("#3de87a") if selected else Color("#2a3a2a")
+		st.set_border_width_all(2 if selected else 1)
+		st.set_corner_radius_all(6)
+		st.content_margin_left = 8
+		st.content_margin_right = 8
+		st.content_margin_top = 6
+		st.content_margin_bottom = 6
+		var hov := st.duplicate() as StyleBoxFlat
+		hov.bg_color = st.bg_color.lightened(0.12)
+		btn.add_theme_stylebox_override("normal", st)
+		btn.add_theme_stylebox_override("hover", hov)
+		btn.add_theme_stylebox_override("pressed", hov)
+		btn.add_theme_color_override("font_color", Color("#f0b429") if selected else Color("#c8d8c8"))
 
 func _refresh_number_picker() -> void:
 	# 결과 확인 시엔 항상 그리드 표시 (어떤 숫자에 공이 떨어졌는지 시각화)
@@ -829,6 +864,15 @@ func _update_number_display(n: int, cycling: bool) -> void:
 		_number_display_lbl.modulate = Color.WHITE
 
 # ── UI 헬퍼 ──────────────────────────────────────────────────
+func _apply_chip_icon(btn: Button, stake: int, max_width: int) -> void:
+	if not CHIP_TEX_BY_STAKE.has(stake):
+		return
+	btn.icon = CHIP_TEX_BY_STAKE[stake]
+	btn.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.expand_icon = false
+	btn.add_theme_constant_override("h_separation", 6)
+	btn.add_theme_constant_override("icon_max_width", max_width)
+
 func _make_btn(label_text: String, cb: Callable, bg: String, border: String) -> Button:
 	var btn := Button.new()
 	btn.text = label_text

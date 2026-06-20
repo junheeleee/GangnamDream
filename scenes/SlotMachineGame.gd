@@ -18,6 +18,13 @@ const COLOR_PANEL    := Color(0.08, 0.06, 0.14, 1.0)
 const COLOR_BORDER   := Color(0.20, 0.15, 0.35, 1.0)
 
 const STAKE_OPTIONS: Array = [1_000, 5_000, 10_000, 50_000, 100_000]
+const CHIP_TEX_BY_STAKE := {
+	1_000: preload("res://assets/ui/chips/chip_1k.svg"),
+	5_000: preload("res://assets/ui/chips/chip_5k.svg"),
+	10_000: preload("res://assets/ui/chips/chip_10k.svg"),
+	50_000: preload("res://assets/ui/chips/chip_50k.svg"),
+	100_000: preload("res://assets/ui/chips/chip_100k.svg"),
+}
 
 const SPIN_DURATION  := 1.5   # 릴 애니메이션 총 시간(초)
 const SHUFFLE_EVERY  := 0.05  # 릴 심볼 셔플 간격(초) — 빠른 스크롤 느낌
@@ -492,13 +499,15 @@ func _build_ui() -> void:
 	_stake_btns = []
 
 	for s in STAKE_OPTIONS:
+		var captured_s: int = int(s)
 		var is_sel: bool = (s == _active_stake)
 		var sb := _make_btn(
 			GameState.format_money(float(s)),
-			func(): _on_stake_select(s),
+			func(): _on_stake_select(captured_s),
 			"#1a2a3a" if is_sel else "#0e0e1a",
 			"#c9a227" if is_sel else "#2a2a3a"
 		)
+		_apply_chip_icon(sb, captured_s, 18)
 		sb.custom_minimum_size = Vector2(0, 34)
 		sb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_stake_btns.append(sb)
@@ -686,9 +695,19 @@ func _refresh_history() -> void:
 # ── 베팅 선택 ─────────────────────────────────────────────────
 func _on_stake_select(s: int) -> void:
 	_active_stake = s
+	AudioManager.play("casino_coin")
 	_refresh_stake_btns()
 
 # ── UI 헬퍼 ───────────────────────────────────────────────────
+func _apply_chip_icon(btn: Button, stake: int, max_width: int) -> void:
+	if not CHIP_TEX_BY_STAKE.has(stake):
+		return
+	btn.icon = CHIP_TEX_BY_STAKE[stake]
+	btn.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.expand_icon = false
+	btn.add_theme_constant_override("h_separation", 5)
+	btn.add_theme_constant_override("icon_max_width", max_width)
+
 func _make_btn(lbl: String, cb: Callable, bg: String, border: String) -> Button:
 	var btn := Button.new()
 	btn.text = lbl

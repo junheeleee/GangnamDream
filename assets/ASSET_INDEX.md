@@ -6,7 +6,7 @@ Updated on 2026-06-12 for core-cast transparent portraits, missing backgrounds, 
 Updated on 2026-06-13 for P2 public venue ambient-silhouette backgrounds and Steam key art pass.
 Updated on 2026-06-15 for Jeongseon Casino interior/entrance/exterior backgrounds, dedicated gym background, and Seoul landmark backgrounds.
 Updated on 2026-06-19 for daytime office interview background separation and BGM/portrait presentation QA.
-Updated on 2026-06-20 for dedicated P1 ending CGs: Gangnam Dream, Empty House, and Crypto Ghost.
+Updated on 2026-06-20 for dedicated P1 ending CGs and Slot/Roulette/BigWheel chip-button wiring.
 
 ## Use These Assets
 
@@ -354,7 +354,7 @@ Avoid earlier generated images that include orbit rings, sci-fi nodes, or Lumen 
   - Denomination chip set for casino stake buttons.
   - Real-chip layout: colored body, white edge inserts, concentric rings, small inner dash marks, centered numeric value only.
   - No center ornament/logo/suit mark; this is intentional to avoid the misaligned motif problem from earlier chip attempts.
-  - `chip_10k` through `chip_1m` are wired into Blackjack/Baccarat stake buttons; `chip_1k` and `chip_5k` are reserved for Slot/Roulette/BigWheel betting UI expansion.
+  - Wired into Blackjack, Baccarat, Slot, Roulette, and BigWheel stake buttons. Slot uses the lower `chip_1k`/`chip_5k` denominations.
 
 ## Style Guardrails
 
