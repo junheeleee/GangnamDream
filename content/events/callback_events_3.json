@@ -564,7 +564,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "\"어머니, 죄송해요. 제가 갚을게요\"",
+        "text": "\"어머니... 친척분들께 제가 다시 갚아드릴게요\"",
         "effects": {
           "mental": -15,
           "social_skill": 1

@@ -918,7 +918,7 @@
   {
     "id": "callback_startup_balanced_dividend",
     "title": "스타트업 배당",
-    "description": "균형 잡힌 페이스로 일한 지 1년.\n서비스가 흑자로 돌아섰다.\n공동창업자가 말했다. \"이번 분기 배당 700만원. 네 지분 몫이야.\"",
+    "description": "균형 잡힌 페이스로 일한 지 1년.\n서비스가 흑자로 돌아섰다.\n공동창업자가 말했다. \"이번 분기 배당 700만원. 네 지분 몫이야.\"\n\n{name}은 잠시 멈췄다. 다시 넣을까, 챙길까.",
     "category": "finance",
     "rarity": "uncommon",
     "weight": 1.0,
