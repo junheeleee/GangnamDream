@@ -55,11 +55,16 @@ var _font: FontFile
 var _font_bold: FontFile
 
 var _reel_labels: Array   = []   # Array[Label] — 3개
+var _reel_top_labels: Array = []
+var _reel_bottom_labels: Array = []
+var _reel_faces: Array = []
 var _reel_panels: Array   = []   # Array[PanelContainer] — 3개
 var _win_line_lbl: RichTextLabel
 var _win_flash: ColorRect
 var _spin_btn: Button
 var _stake_btns: Array    = []   # Array[Button]
+var _lamp_nodes: Array = []
+var _cabinet_overlay: Control
 var _history_row: HBoxContainer
 var _balance_lbl: Label
 var _session_lbl: Label
@@ -113,6 +118,9 @@ func open() -> void:
 	_set_reel_symbols([0, 1, 0])
 	_set_win_line("")
 	_refresh_ui()
+	_refresh_cabinet_lights()
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
 
 func _on_exit() -> void:
 	set_process(false)
@@ -145,6 +153,9 @@ func _start_spin() -> void:
 	_set_win_line("")
 	_refresh_session_lbl()
 	_refresh_balance_lbl()
+	_refresh_cabinet_lights()
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
 
 	AudioManager.play("casino_spin")
 
@@ -163,6 +174,7 @@ func _process(delta: float) -> void:
 			if not _reel_stopped[i]:
 				_reel_scroll_idx[i] = (_reel_scroll_idx[i] + 1) % sz
 				_set_reel_symbol(i, int(_ALL_SYMBOLS[_reel_scroll_idx[i]]))
+		_refresh_cabinet_lights()
 
 	# 릴 1 정지: SPIN_DURATION - 0.6초
 	var stop0_at: float = SPIN_DURATION - REEL_STOP_GAP * 2.0
@@ -171,6 +183,7 @@ func _process(delta: float) -> void:
 		var reels0: Array = _pending_result.get("reels", [4, 4, 4])
 		_set_reel_symbol(0, int(reels0[0]))
 		AudioManager.play("casino_reel")
+		_bump_reel(0)
 
 	# 릴 2 정지: SPIN_DURATION - 0.3초
 	var stop1_at: float = SPIN_DURATION - REEL_STOP_GAP
@@ -179,6 +192,7 @@ func _process(delta: float) -> void:
 		var reels1: Array = _pending_result.get("reels", [4, 4, 4])
 		_set_reel_symbol(1, int(reels1[1]))
 		AudioManager.play("casino_reel")
+		_bump_reel(1)
 
 	# 릴 3 정지: SPIN_DURATION
 	if not _reel_stopped[2] and _spin_elapsed >= _spin_timer:
@@ -186,6 +200,7 @@ func _process(delta: float) -> void:
 		var reels2: Array = _pending_result.get("reels", [4, 4, 4])
 		_set_reel_symbol(2, int(reels2[2]))
 		AudioManager.play("casino_reel")
+		_bump_reel(2)
 		set_process(false)
 		_finish_spin()
 
@@ -271,9 +286,12 @@ func _finish_spin() -> void:
 			_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
 			AudioManager.play("casino_lose")
 
+	_phase = Phase.IDLE
 	_spin_btn.disabled = false
 	_refresh_ui()
-	_phase = Phase.IDLE
+	_refresh_cabinet_lights()
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
 
 # ── 애니메이션 헬퍼 ───────────────────────────────────────────
 func _set_reel_symbols(symbols: Array) -> void:
@@ -286,11 +304,34 @@ func _set_reel_symbol(index: int, symbol: int) -> void:
 	if not is_instance_valid(_reel_labels[index]):
 		return
 	var safe: int = clampi(symbol, 0, _SYMBOL_LABELS.size() - 1)
+	var prev: int = (safe + _SYMBOL_LABELS.size() - 1) % _SYMBOL_LABELS.size()
+	var next: int = (safe + 1) % _SYMBOL_LABELS.size()
+	var spinning: bool = _phase == Phase.SPINNING and index < _reel_stopped.size() and not bool(_reel_stopped[index])
+	_apply_symbol_to_label(_reel_labels[index], safe, true, spinning)
+	if index < _reel_top_labels.size():
+		_apply_symbol_to_label(_reel_top_labels[index], prev, false, spinning)
+	if index < _reel_bottom_labels.size():
+		_apply_symbol_to_label(_reel_bottom_labels[index], next, false, spinning)
+	if index < _reel_faces.size() and is_instance_valid(_reel_faces[index]):
+		_reel_faces[index].queue_redraw()
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
+
+func _apply_symbol_to_label(lbl: Label, symbol: int, is_center: bool, spinning: bool) -> void:
+	if not is_instance_valid(lbl):
+		return
+	var safe: int = clampi(symbol, 0, _SYMBOL_LABELS.size() - 1)
 	var text: String = str(_SYMBOL_LABELS[safe])
-	var lbl: Label = _reel_labels[index]
 	lbl.text = text
-	lbl.add_theme_color_override("font_color", Color(str(_SYMBOL_COLORS[safe])))
-	lbl.add_theme_font_size_override("font_size", 56 if text.length() <= 3 else 31)
+	var col := Color(str(_SYMBOL_COLORS[safe]))
+	if not is_center:
+		col.a = 0.34 if spinning else 0.22
+	else:
+		col.a = 0.90 if spinning else 1.0
+	lbl.add_theme_color_override("font_color", col)
+	var center_size := 54 if text.length() <= 3 else 30
+	lbl.add_theme_font_size_override("font_size", center_size if is_center else 18)
+	lbl.modulate = Color(1, 1, 1, 0.92 if is_center else 0.65)
 
 func _set_win_line(bbtext: String) -> void:
 	if is_instance_valid(_win_line_lbl):
@@ -336,7 +377,8 @@ func _play_jackpot_celebration() -> void:
 		tw.tween_property(_win_flash, "modulate:a", 0.0,  0.5)
 	tw.tween_callback(func(): _win_flash.visible = false)
 	# 릴 패널 골드 테두리 강조
-	for panel in _reel_panels:
+	for raw_panel in _reel_panels:
+		var panel := raw_panel as PanelContainer
 		if is_instance_valid(panel):
 			var sty: StyleBoxFlat = panel.get_theme_stylebox("panel") as StyleBoxFlat
 			if sty:
@@ -356,7 +398,8 @@ func _play_near_miss_shake() -> void:
 	# 결과 영역(릴 패널들의 부모 행)을 ±4px 좌우로 6번 흔들기
 	# _reel_panels[0]의 부모 컨테이너(reel_row)를 직접 참조할 수 없으므로
 	# 각 릴 패널을 개별적으로 흔든다
-	for panel in _reel_panels:
+	for raw_panel in _reel_panels:
+		var panel := raw_panel as PanelContainer
 		if not is_instance_valid(panel):
 			continue
 		var origin: Vector2 = panel.position
@@ -367,6 +410,88 @@ func _play_near_miss_shake() -> void:
 			tw.tween_property(panel, "position:x", origin.x + 4.0, 0.05)
 			tw.tween_property(panel, "position:x", origin.x - 4.0, 0.05)
 		tw.tween_property(panel, "position:x", origin.x, 0.05)
+
+func _bump_reel(index: int) -> void:
+	if index < 0 or index >= _reel_panels.size():
+		return
+	var panel := _reel_panels[index] as PanelContainer
+	if not is_instance_valid(panel):
+		return
+	var base: Vector2 = panel.position
+	var tw := create_tween()
+	tw.tween_property(panel, "position:y", base.y + 5.0, 0.045)
+	tw.tween_property(panel, "position:y", base.y - 2.0, 0.055)
+	tw.tween_property(panel, "position:y", base.y, 0.055)
+
+func _refresh_cabinet_lights() -> void:
+	if _lamp_nodes.is_empty():
+		return
+	var active_idx := int(floor(_spin_elapsed * 18.0)) if _phase == Phase.SPINNING else -1
+	for i in range(_lamp_nodes.size()):
+		var lamp := _lamp_nodes[i] as Panel
+		if not is_instance_valid(lamp):
+			continue
+		var hot := false
+		if _phase == Phase.SPINNING:
+			hot = (i + active_idx) % 4 != 1
+		else:
+			hot = i % 3 != 1
+		var lamp_sty := StyleBoxFlat.new()
+		lamp_sty.bg_color = Color("#ffd84d") if hot else Color("#3a2109")
+		lamp_sty.border_color = Color("#fff0a8") if hot else Color("#6a4218")
+		lamp_sty.set_border_width_all(1)
+		lamp_sty.set_corner_radius_all(5)
+		lamp.add_theme_stylebox_override("panel", lamp_sty)
+
+func _draw_reel_face(face: Control) -> void:
+	var sz := face.size
+	if sz.x <= 2.0 or sz.y <= 2.0:
+		return
+	face.draw_rect(Rect2(Vector2.ZERO, sz), Color("#f8f0d8"), true)
+	face.draw_rect(Rect2(Vector2(0, 0), Vector2(sz.x, sz.y * 0.26)), Color(0, 0, 0, 0.18), true)
+	face.draw_rect(Rect2(Vector2(0, sz.y * 0.74), Vector2(sz.x, sz.y * 0.26)), Color(0, 0, 0, 0.20), true)
+	face.draw_rect(Rect2(Vector2(0, sz.y * 0.39), Vector2(sz.x, sz.y * 0.22)), Color(1, 1, 1, 0.14), true)
+	face.draw_line(Vector2(0, sz.y * 0.50), Vector2(sz.x, sz.y * 0.50), Color("#d83f3f"), 2.0)
+	face.draw_line(Vector2(1, 0), Vector2(1, sz.y), Color(0, 0, 0, 0.22), 2.0)
+	face.draw_line(Vector2(sz.x - 1, 0), Vector2(sz.x - 1, sz.y), Color(0, 0, 0, 0.22), 2.0)
+	for x in [sz.x * 0.18, sz.x * 0.82]:
+		face.draw_line(Vector2(x, 6), Vector2(x, sz.y - 6), Color(0, 0, 0, 0.06), 1.0)
+	if _phase == Phase.SPINNING:
+		face.draw_rect(Rect2(Vector2(0, 0), sz), Color(1.0, 0.95, 0.55, 0.04), true)
+
+func _draw_cabinet_overlay(ctrl: Control) -> void:
+	var sz := ctrl.size
+	if sz.x <= 8.0 or sz.y <= 8.0:
+		return
+	var side_col := Color("#48103b")
+	var chrome := Color(0.84, 0.76, 0.55, 0.55)
+	ctrl.draw_rect(Rect2(Vector2(8, 30), Vector2(14, sz.y - 64)), side_col.darkened(0.2), true)
+	ctrl.draw_rect(Rect2(Vector2(sz.x - 22, 30), Vector2(14, sz.y - 64)), side_col.darkened(0.2), true)
+	ctrl.draw_line(Vector2(22, 44), Vector2(22, sz.y - 52), chrome, 2.0)
+	ctrl.draw_line(Vector2(sz.x - 22, 44), Vector2(sz.x - 22, sz.y - 52), chrome, 2.0)
+	for p in [Vector2(28, 44), Vector2(sz.x - 28, 44), Vector2(28, sz.y - 56), Vector2(sz.x - 28, sz.y - 56)]:
+		ctrl.draw_circle(p, 4.0, Color("#d8dbe8"))
+		ctrl.draw_circle(p, 1.8, Color("#2a2e38"))
+
+	var lever_base := Vector2(sz.x - 10.0, sz.y * 0.42)
+	var pulled := _phase == Phase.SPINNING
+	var handle := lever_base + (Vector2(54, 42) if pulled else Vector2(48, -36))
+	ctrl.draw_circle(lever_base, 17.0, Color("#11121a"))
+	ctrl.draw_circle(lever_base, 11.0, Color("#d0c6a0"))
+	ctrl.draw_line(lever_base, handle, Color("#d0c6a0"), 8.0)
+	ctrl.draw_line(lever_base, handle, Color(1, 1, 1, 0.24), 2.0)
+	ctrl.draw_circle(handle, 18.0, Color("#d83f3f") if pulled else Color("#f0b429"))
+	ctrl.draw_circle(handle + Vector2(-5, -6), 5.5, Color(1, 1, 1, 0.32))
+
+	var tray_rect := Rect2(Vector2(78, sz.y - 34), Vector2(sz.x - 156, 18))
+	ctrl.draw_rect(tray_rect, Color("#050609"), true)
+	ctrl.draw_rect(tray_rect, Color("#3a4250"), false, 2.0)
+	if _last_win_amount > 0:
+		for i in range(8):
+			var px := tray_rect.position.x + 42.0 + float(i) * 34.0
+			var py := tray_rect.position.y + 9.0 + sin(float(i)) * 2.0
+			ctrl.draw_circle(Vector2(px, py), 8.0, Color("#f0b429"))
+			ctrl.draw_circle(Vector2(px, py), 4.0, Color("#604414"))
 
 # ── UI 빌드 ───────────────────────────────────────────────────
 func _build_ui() -> void:
@@ -443,21 +568,24 @@ func _build_ui() -> void:
 	inner.add_theme_constant_override("separation", 7)
 	margin.add_child(inner)
 
+	_cabinet_overlay = Control.new()
+	_cabinet_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_cabinet_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cabinet_overlay.z_index = 20
+	_cabinet_overlay.draw.connect(func(): _draw_cabinet_overlay(_cabinet_overlay))
+	cabinet.add_child(_cabinet_overlay)
+
 	var lamp_row := HBoxContainer.new()
 	lamp_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	lamp_row.add_theme_constant_override("separation", 8)
 	inner.add_child(lamp_row)
+	_lamp_nodes = []
 	for i in range(15):
 		var lamp := Panel.new()
 		lamp.custom_minimum_size = Vector2(16, 7)
-		var lamp_sty := StyleBoxFlat.new()
-		var active := i % 3 != 1
-		lamp_sty.bg_color = Color("#ffd84d") if active else Color("#4a2f12")
-		lamp_sty.border_color = Color("#fff0a8") if active else Color("#8a5a1f")
-		lamp_sty.set_border_width_all(1)
-		lamp_sty.set_corner_radius_all(5)
-		lamp.add_theme_stylebox_override("panel", lamp_sty)
 		lamp_row.add_child(lamp)
+		_lamp_nodes.append(lamp)
+	_refresh_cabinet_lights()
 
 	var marquee := PanelContainer.new()
 	var marquee_sty := StyleBoxFlat.new()
@@ -575,33 +703,73 @@ func _build_ui() -> void:
 	reel_window.add_child(reel_row)
 
 	_reel_labels = []
+	_reel_top_labels = []
+	_reel_bottom_labels = []
+	_reel_faces = []
 	_reel_panels = []
 
 	for i in range(3):
 		var panel := PanelContainer.new()
-		panel.custom_minimum_size = Vector2(188, 112)
+		panel.custom_minimum_size = Vector2(188, 124)
 		panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var sty := StyleBoxFlat.new()
-		sty.bg_color = Color("#f7f0d8")
+		sty.bg_color = Color("#08060c")
 		sty.border_color = Color("#24142f")
-		sty.set_border_width_all(4)
+		sty.set_border_width_all(5)
 		sty.set_corner_radius_all(12)
 		sty.shadow_color = Color(0, 0, 0, 0.35)
 		sty.shadow_size = 8
 		sty.shadow_offset = Vector2(0, 3)
+		sty.content_margin_left = 7
+		sty.content_margin_right = 7
+		sty.content_margin_top = 7
+		sty.content_margin_bottom = 7
 		panel.add_theme_stylebox_override("panel", sty)
 		reel_row.add_child(panel)
 		_reel_panels.append(panel)
+
+		var face := Control.new()
+		face.custom_minimum_size = Vector2(176, 110)
+		face.clip_contents = true
+		face.draw.connect(func(): _draw_reel_face(face))
+		panel.add_child(face)
+		_reel_faces.append(face)
+
+		var top_lbl := Label.new()
+		top_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		top_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		top_lbl.anchor_left = 0.0
+		top_lbl.anchor_top = 0.02
+		top_lbl.anchor_right = 1.0
+		top_lbl.anchor_bottom = 0.28
+		_f(top_lbl, true)
+		face.add_child(top_lbl)
+		_reel_top_labels.append(top_lbl)
 
 		var reel_lbl := Label.new()
 		reel_lbl.text = "7"
 		reel_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		reel_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		reel_lbl.add_theme_font_size_override("font_size", 72)
+		reel_lbl.anchor_left = 0.0
+		reel_lbl.anchor_top = 0.26
+		reel_lbl.anchor_right = 1.0
+		reel_lbl.anchor_bottom = 0.74
+		reel_lbl.add_theme_font_size_override("font_size", 54)
 		reel_lbl.add_theme_color_override("font_color", Color("#ffd84d"))
-		reel_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
-		panel.add_child(reel_lbl)
+		_f(reel_lbl, true)
+		face.add_child(reel_lbl)
 		_reel_labels.append(reel_lbl)
+
+		var bottom_lbl := Label.new()
+		bottom_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		bottom_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		bottom_lbl.anchor_left = 0.0
+		bottom_lbl.anchor_top = 0.72
+		bottom_lbl.anchor_right = 1.0
+		bottom_lbl.anchor_bottom = 0.98
+		_f(bottom_lbl, true)
+		face.add_child(bottom_lbl)
+		_reel_bottom_labels.append(bottom_lbl)
 
 	var payline_bar := Panel.new()
 	payline_bar.custom_minimum_size = Vector2(0, 4)
@@ -757,6 +925,7 @@ func _build_ui() -> void:
 	deck_inner.add_child(_balance_lbl)
 
 	var tray := PanelContainer.new()
+	tray.z_index = 25
 	var tray_sty := StyleBoxFlat.new()
 	tray_sty.bg_color = Color("#050609")
 	tray_sty.border_color = Color("#242a34")
