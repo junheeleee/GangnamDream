@@ -1604,7 +1604,8 @@
         },
         "flags": [
           "addiction_paused",
-          "deleted_gambling_apps"
+          "deleted_gambling_apps",
+          "in_recovery_started"
         ],
         "result_text": "손이 조금 떨렸다. 지우는 게 이렇게 힘들 줄은 몰랐다.\n하지만 누군가 그랬다 — 멈출 수 있는 사람이 강한 사람이라고.\n지금의 {name}은, 멈췄다."
       },

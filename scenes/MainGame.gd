@@ -5600,6 +5600,7 @@ func _show_ending(ending_id):
 			"reputation_legend": "평판 전설",
 			"five_lives":        "다섯 번의 인생",
 			"ten_lives":         "열 번의 인생",
+			"beat_addiction":    "동그라미 서른 개 (중독 회복)",
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)

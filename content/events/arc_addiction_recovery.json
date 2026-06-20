@@ -1,0 +1,159 @@
+[
+  {
+    "id": "gambling_rock_bottom",
+    "title": "바닥",
+    "category": "gambling",
+    "rarity": "legendary",
+    "weight": 6,
+    "hidden": false,
+    "portrait": "player_shocked",
+    "background": "late_night",
+    "conditions": {
+      "min_addiction": 80,
+      "no_flag": "hit_rock_bottom"
+    },
+    "tags": ["gambling", "addiction", "climax", "warning"],
+    "cooldown": 9999,
+    "description": "새벽. {name}은 텅 빈 계좌 화면을 보고 있었다.\n\n이번엔 빌린 돈까지 날렸다.\n갚을 길이 막막한 숫자가 화면에 떠 있었다.\n\n몸이 떨렸다. 추워서가 아니었다.\n\n다음 베팅을 생각하는 자신을 발견하고 — {name}은 소름이 끼쳤다.\n이 와중에도 만회할 한 판을 계산하고 있었다.\n\n이게 바닥이었다.\n더 떨어질 데가 없는, 진짜 바닥.\n\n여기서 두 갈래 길이 있었다. 손을 내밀거나, 더 깊이 파거나.",
+    "choices": [
+      {
+        "text": "도움을 청한다 — 단도박 모임에 전화를 건다",
+        "effects": {
+          "mental": 6,
+          "addiction_tendency": -20
+        },
+        "flags": ["hit_rock_bottom", "sought_help", "in_recovery_started"],
+        "result_text": "떨리는 손으로 단도박 모임 번호를 눌렀다.\n\n낯선 목소리가 받았다. \"네, 여기 있습니다. 천천히 말씀하세요.\"\n\n{name}은 한참 말을 못 했다.\n그러다 겨우 한 마디. \"…도박을, 끊고 싶어요.\"\n\n전화기 너머에서 조용한 대답이 왔다.\n\"잘하셨어요. 그 한 마디가 제일 어렵습니다.\"\n\n바닥을 쳤다는 건, 이제 올라갈 일만 남았다는 뜻이기도 했다.\n적어도 {name}은 그렇게 믿기로 했다."
+      },
+      {
+        "text": "아버지에게 모든 걸 털어놓는다",
+        "effects": {
+          "mental": 4,
+          "addiction_tendency": -18,
+          "reputation": -5
+        },
+        "flags": ["hit_rock_bottom", "told_family_addiction", "in_recovery_started"],
+        "result_text": "아버지에게 전화했다. 새벽 네 시였다.\n\n다 말했다. 도박, 빚, 망가진 통장, 망가진 자신.\n말하면서 울었다. 어른이 되고 처음이었다.\n\n아버지는 한참 말이 없었다.\n그러다 낮게 말했다.\n\"…집에 와라. 한 번 와.\"\n\n혼내지 않았다. 그게 더 아팠다.\n6년 전 아버지의 빚을 갚던 아들이, 이제 아버지에게 빚을 고백하고 있었다.\n끝이 아니라, 다시 시작이어야 했다."
+      },
+      {
+        "text": "한 판만 더 — 이걸로 다 만회한다",
+        "effects": {
+          "mental": -8,
+          "addiction_tendency": 8,
+          "money": -500000
+        },
+        "flags": ["hit_rock_bottom", "chose_deeper"],
+        "result_text": "{name}은 도움을 청하지 않았다.\n\n'딱 한 판만. 이번엔 느낌이 좋아.'\n\n남은 돈을 긁어모아 걸었다.\n\n결과는 — 굳이 적지 않겠다.\n바닥인 줄 알았던 곳 아래에, 또 바닥이 있었다.\n\n중독은 그렇게, 바닥을 계속 갱신한다.\n{name}은 그 사실을 가장 비싼 방식으로 배우고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "recovery_first_week",
+    "title": "끊은 첫 주",
+    "category": "health",
+    "rarity": "rare",
+    "weight": 5,
+    "hidden": false,
+    "portrait": "player_tired",
+    "background": "goshiwon_room",
+    "conditions": {
+      "flag": "in_recovery_started",
+      "no_flag": "recovery_week_passed"
+    },
+    "tags": ["addiction", "recovery"],
+    "cooldown": 9999,
+    "description": "도박을 끊은 지 일주일.\n\n생각보다 훨씬 힘들었다.\n손이 자꾸 폰으로 갔다. 지운 앱을 다시 깔고 싶었다.\n밤이 제일 위험했다. 베팅하던 시간이 되면 몸이 먼저 반응했다.\n\n금단이라는 게 이런 거였다.\n술이나 담배만 그런 게 아니었다.\n\n{name}은 손을 주머니에 넣고 꾹 참았다.\n일주일. 겨우 일주일. 근데 그 일주일이 1년 같았다.",
+    "choices": [
+      {
+        "text": "하루하루 버틴다 — 달력에 동그라미를 친다",
+        "effects": {
+          "mental": 7,
+          "addiction_tendency": -12,
+          "intelligence": 1
+        },
+        "flags": ["recovery_week_passed", "recovery_holding"],
+        "result_text": "{name}은 달력을 샀다.\n\n도박 안 한 날마다 동그라미를 쳤다.\n하나, 둘, 셋… 동그라미가 늘었다.\n\n별거 아닌 것 같은데, 그 동그라미들이 이상하게 힘이 됐다.\n끊는 건 거창한 결심이 아니라, 오늘 하루 동그라미 하나였다.\n\n내일도 하나 더. 그거면 됐다."
+      },
+      {
+        "text": "몸을 굴린다 — 새벽마다 뛰러 나간다",
+        "effects": {
+          "mental": 5,
+          "health": 6,
+          "addiction_tendency": -10
+        },
+        "flags": ["recovery_week_passed", "recovery_holding"],
+        "result_text": "베팅하고 싶을 때마다 {name}은 운동화를 신었다.\n\n새벽 한강을 뛰었다. 숨이 차고 다리가 아팠다.\n근데 그 고통은 정직했다. 도박의 고통과 달랐다.\n\n땀을 흘리고 돌아오면, 베팅 생각이 조금 옅어졌다.\n\n중독을 다른 것으로 덮는 게 완벽한 해결은 아니었지만 —\n적어도 오늘 밤은 폰을 켜지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "recovery_relapse_test",
+    "title": "다시, 그 유혹",
+    "category": "gambling",
+    "rarity": "rare",
+    "weight": 5,
+    "hidden": false,
+    "portrait": "player_normal",
+    "background": "investment_phone",
+    "conditions": {
+      "flag": "recovery_holding",
+      "min_turn": 6,
+      "no_flag": "relapse_tested"
+    },
+    "tags": ["addiction", "recovery", "test"],
+    "cooldown": 9999,
+    "description": "끊은 지 한 달쯤.\n\n좀 괜찮아졌다 싶을 때, 그게 왔다.\n\n옛날 베팅 친구한테서 연락이 왔다.\n\"형, 이번에 진짜 확실한 거 있어. 딱 한 번만 같이 가자.\"\n\n{name}의 심장이 빨라졌다. 그 느낌이 다시 살아났다.\n'한 번쯤은… 이제 통제할 수 있잖아.'\n\n끊은 사람에게 가장 위험한 말은,\n'이제 조절할 수 있다'는 말이었다.\n\n손가락이 답장 위에서 멈췄다.",
+    "choices": [
+      {
+        "text": "거절한다 — '미안, 나 이제 안 해'",
+        "effects": {
+          "mental": 10,
+          "addiction_tendency": -15,
+          "intelligence": 2
+        },
+        "flags": ["relapse_tested", "recovery_proven"],
+        "result_text": "{name}은 답장을 보냈다.\n\n'미안. 나 이제 안 해. 너도 적당히 해라.'\n\n보내고 나서 한참 폰을 봤다.\n심장은 여전히 뛰었지만 — 이번엔 이겼다.\n\n끊는 건 한 번의 결심이 아니라, 매번의 선택이었다.\n오늘, {name}은 그 선택에서 이겼다.\n\n한 번 이기면, 다음엔 조금 더 쉬워진다.\n그렇게 믿고, 폰을 내려놓았다."
+      },
+      {
+        "text": "딱 한 번만 — '통제할 수 있어'",
+        "effects": {
+          "mental": -10,
+          "addiction_tendency": 25,
+          "money": -2000000
+        },
+        "flags": ["relapse_tested", "relapsed"],
+        "result_text": "'딱 한 번만.'\n\n{name}은 그 자리에 나갔다.\n그리고 한 번이 아니었다.\n\n한 달 동안 친 동그라미가, 하룻밤에 다 지워졌다.\n금단의 일주일도, 새벽의 달리기도, 다 헛것이 됐다.\n\n중독은 기다린다. 끊은 사람이 '이제 됐다'고 방심하는 그 순간을.\n\n{name}은 무너진 자리에서 다시 시작해야 했다.\n이번엔 더 무거운 마음으로."
+      }
+    ]
+  },
+  {
+    "id": "recovery_one_month_clean",
+    "title": "동그라미 서른 개",
+    "category": "health",
+    "rarity": "legendary",
+    "weight": 6,
+    "hidden": false,
+    "portrait": "player_normal",
+    "background": "late_night",
+    "conditions": {
+      "flag": "recovery_proven",
+      "no_flag": "beat_addiction"
+    },
+    "tags": ["addiction", "recovery", "redemption"],
+    "cooldown": 9999,
+    "description": "달력을 봤다.\n\n동그라미가 서른 개를 넘었다.\n도박 없이 보낸 날들이, 한 달을 넘어 두 달로 가고 있었다.\n\n{name}은 그 동그라미들을 한참 봤다.\n\n잃은 돈은 돌아오지 않는다. 그건 사실이다.\n근데 잃을 뻔한 것 — 자신, 가족, 남은 인생 — 그건 되찾았다.\n\n도박은 {name}에게 가장 비싼 수업이었다.\n수업료는 아팠지만, 졸업은 했다.\n\n이제 강남은, 베팅이 아니라 다른 방식으로 가야 했다.",
+    "choices": [
+      {
+        "text": "이 경험을 발판으로 삼는다",
+        "effects": {
+          "mental": 15,
+          "addiction_tendency": -30,
+          "intelligence": 3,
+          "reputation": 5
+        },
+        "flags": ["beat_addiction", "recovery_complete"],
+        "result_text": "{name}은 달력을 책상 앞에 붙였다.\n\n매일 그 동그라미들을 보면서 다짐했다.\n다시는, 그 바닥으로 돌아가지 않겠다고.\n\n중독을 이겨낸 사람은 약한 사람이 아니다.\n바닥을 보고도 다시 올라온, 가장 강한 사람이다.\n\n남은 시간 동안, {name}은 정직하게 갈 것이다.\n느려도, 확실하게.\n\n동그라미는 계속 늘어날 것이다. 매일 하나씩."
+      }
+    ]
+  }
+]

@@ -58,5 +58,13 @@
 
 ---
 
+### P5 — 도박 중독 서사 아크 (신규, 카지노 서사 영역 허용 후) ✅ 완료
+기존 경고 사다리(50→60→65→70)만 있고 바닥·회복이 없던 갭 해소.
+- [x] gambling_rock_bottom (중독80+): 진짜 바닥 클라이맥스 — 단도박모임/아버지고백/더깊이(crypto_ghost 직전 분기점)
+- [x] 회복 아크 3종: recovery_first_week(금단 첫 주)→recovery_relapse_test(재발 유혹, 거절/재발 분기)→recovery_one_month_clean(동그라미 30개 구원)
+- [x] 기존 금단 선택지(deleted_gambling_apps/tried_to_quit_gambling)를 in_recovery_started로 회복 아크에 연결
+- [x] beat_addiction 업적 + MetaProgression 영구 플래그(beat_addiction_ever) — 향후 NG+ 구원 서사 토대
+
 ## 작업 로그
 - 2026-06-20: 로드맵 작성. P0 1차 배치 착수.
+- 2026-06-20: P0~P3 + P5(중독 회복 아크) 완료. 총 이벤트 1036개.

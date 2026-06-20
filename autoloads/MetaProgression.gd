@@ -350,6 +350,10 @@ func record_run(summary):
 	# 다은 엔딩을 경험했는가 (선택하거나 놓쳤거나)
 	if rf.get("daeun_chose_her", false) or rf.get("daeun_let_her_go", false):
 		data["daeun_ending_ever_seen"] = true
+	# 도박 중독을 이겨냈는가 (회복 아크 완주) — 향후 NG+ 구원 서사 토대
+	if rf.get("beat_addiction", false):
+		data["beat_addiction_ever"] = true
+		unlock_achievement("beat_addiction")
 
 	_check_progression_unlocks(summary)
 	save_meta()

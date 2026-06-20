@@ -218,7 +218,8 @@
         },
         "flags": [
           "egg_gambling_mirror_seen",
-          "tried_to_quit_gambling"
+          "tried_to_quit_gambling",
+          "in_recovery_started"
         ],
         "result_text": "핸드폰을 꺼냈다.\n\n도박 앱, 베팅 사이트 북마크, 차트 알림 — 하나씩 지웠다.\n손이 떨렸다. 지우면서도 다시 깔고 싶었다.\n\n그게 중독이라는 증거였다.\n\n{name}은 핸드폰을 멀리 던져놓고 이불을 뒤집어썼다.\n오늘 하루만. 일단 오늘 하루만 참아보기로 했다.\n\n시작은 늘 '오늘 하루만'이다. 끊는 것도 마찬가지였다."
       },
