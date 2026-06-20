@@ -333,7 +333,7 @@ func _render_betting() -> void:
 	bet_rt.bbcode_enabled = true; bet_rt.fit_content = true; bet_rt.scroll_active = false
 	bet_rt.custom_minimum_size = Vector2(0, 26)
 	_f(bet_rt); bet_rt.add_theme_font_size_override("normal_font_size", 14)
-	bet_rt.text = _bet_status_text()
+	bet_rt.text = "[center]%s[/center]" % _bet_status_text()
 	vb.add_child(bet_rt)
 
 	vb.add_child(_sep())
@@ -584,7 +584,6 @@ func _build_skeleton() -> void:
 	_content_root = Control.new()
 	_content_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_content_root.offset_top = 50
-	_content_root.offset_right = -164
 	_content_root.offset_bottom = -10
 	add_child(_content_root)
 
