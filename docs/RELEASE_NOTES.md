@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Changed (2026-06-20) — Next Fest minigame/ending immersion pass
+
+- Hid the MainGame HUD/root UI while fullscreen minigames are active, so month/date panels no longer remain visible behind casino, racetrack, holdem, scalping, aruba, or job-hunt overlays.
+- Re-centered Baccarat into a fullscreen table layout instead of a top-left scroll surface.
+- Ending modals now show a cutscene preview only when a dedicated ending CG exists; generic background fallback previews were removed to avoid story/art mismatches.
+- Routed ending text through the same formatter as events so `{name}`/`{money}` placeholders do not leak into final ending copy.
+- Standardized Slot, Holdem, and Scalping money changes through `GameState.add_money()` so real asset changes also emit HUD/stat refresh signals.
+
 ### Changed (2026-06-20) — Fullscreen minigame surface polish
 
 - Added opaque fullscreen bases to Holdem, RaceTrack, Blackjack, Slot, Roulette, and BigWheel so the MainGame dashboard no longer bleeds through behind minigame overlays.

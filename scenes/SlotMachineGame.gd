@@ -122,7 +122,7 @@ func _start_spin() -> void:
 		return
 
 	# 베팅 즉시 차감
-	GameState.money -= _active_stake
+	GameState.add_money(-float(_active_stake))
 
 	_phase = Phase.SPINNING
 	_spin_elapsed = 0.0
@@ -197,7 +197,7 @@ func _finish_spin() -> void:
 	var gain: int = 0
 	if is_win and multiplier > 0.0:
 		gain = int(float(_active_stake) * multiplier)
-		GameState.money += gain
+		GameState.add_money(float(gain))
 
 	var net_round: int = gain - _active_stake
 	_net += net_round

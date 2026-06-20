@@ -766,7 +766,7 @@ func _show_result_screen() -> void:
 	vb.add_child(_sep())
 
 	# GameState 반영
-	GameState.money += float(_player_stack - _buy_in)
+	GameState.add_money(float(_player_stack - _buy_in))
 	if net > 0:
 		GameState.add_log("홀덤 클럽에서 %s 땄다." % _fmt(net), "money")
 		GameState.modify_hidden_stat("gambling_tendency", 5)

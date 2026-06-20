@@ -565,7 +565,7 @@ func _on_sell() -> void:
 
 # ── 결과 적용 ─────────────────────────────────────────────────────
 func _apply_result() -> void:
-	GameState.money += _realized
+	GameState.add_money(_realized)
 	if _realized > 0:
 		GameState.add_log("⚡ 스캘핑으로 %s 벌었다. (%d회 거래)" % [_fmt(_realized), _trades], "money")
 		GameState.modify_stat("investment_skill", 1)

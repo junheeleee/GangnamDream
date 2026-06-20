@@ -35,6 +35,8 @@ var _ambient_overlay: ColorRect = null
 var _category_tint: ColorRect = null  # 이벤트 카테고리 색 틴트
 var _event_bg_motion_tween: Tween = null
 var _transient_bg_active: bool = false
+var _main_ui_root: Control = null
+var _minigame_overlay_active: bool = false
 var character_portrait: TextureRect
 var _story_container: Control
 var info_panel: Control
@@ -303,6 +305,7 @@ func _build_ui():
 
 	# ── 4. 메인 레이아웃 ──
 	var root = VBoxContainer.new()
+	_main_ui_root = root
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.add_theme_constant_override("separation", 0)
 	add_child(root)
@@ -3898,9 +3901,11 @@ func _ap_job_hunt():
 func _ap_side_job():
 	if not GameState.spend_ap():
 		return
+	_enter_minigame_overlay(aruba_game)
 	aruba_game.open()
 
 func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void:
+	_exit_minigame_overlay()
 	var health_before: int = GameState.health
 	GameState.add_money(float(earned))
 	GameState.modify_hidden_stat("stress", stress_delta)
@@ -4296,9 +4301,11 @@ func _bank_repay(product: String, amount: float):
 func _open_racetrack():
 	if not GameState.spend_ap():
 		return
+	_enter_minigame_overlay(racetrack)
 	racetrack.open()
 
 func _on_racetrack_closed():
+	_exit_minigame_overlay()
 	turn_action_log.append("✓ 🏇 경마장")
 	GameState.add_log("🏇 경마장에 다녀왔다.", "event")
 	_check_addiction_warnings()
@@ -4308,9 +4315,11 @@ func _on_racetrack_closed():
 func _open_holdem():
 	if not GameState.spend_ap():
 		return
+	_enter_minigame_overlay(holdem_club)
 	holdem_club.open()
 
 func _on_holdem_closed():
+	_exit_minigame_overlay()
 	turn_action_log.append("✓ 🃏 홀덤 클럽")
 	GameState.add_log("🃏 지하 홀덤 클럽을 나왔다.", "event")
 	_check_addiction_warnings()
@@ -4321,9 +4330,11 @@ func _on_holdem_closed():
 func _open_scalping():
 	if not GameState.spend_ap():
 		return
+	_enter_minigame_overlay(scalping_game)
 	scalping_game.open()
 
 func _on_scalping_closed():
+	_exit_minigame_overlay()
 	turn_action_log.append("✓ ⚡ 스캘핑 트레이딩")
 	GameState.add_log("⚡ 스캘핑 트레이딩 세션을 마쳤다.", "event")
 	_check_addiction_warnings()
@@ -4333,10 +4344,12 @@ func _on_scalping_closed():
 func _open_jeongseon_casino():
 	if not GameState.spend_ap():
 		return
+	_enter_minigame_overlay(jeongseon_casino)
 	BGMPlayer.set_ambience("casino")
 	jeongseon_casino.open()
 
 func _on_jeongseon_casino_closed():
+	_exit_minigame_overlay()
 	turn_action_log.append("✓ 🎰 정선 카지노")
 	GameState.add_log("🎰 정선 카지노를 나왔다.", "event")
 	BGMPlayer.update_idle_ambience()
@@ -4347,9 +4360,11 @@ func _on_jeongseon_casino_closed():
 func _open_baccarat():
 	if not GameState.spend_ap():
 		return
+	_enter_minigame_overlay(baccarat_table)
 	baccarat_table.open()
 
 func _on_baccarat_closed():
+	_exit_minigame_overlay()
 	turn_action_log.append("✓ 🎰 바카라")
 	GameState.add_log("🎰 정선 카지노 바카라 테이블을 나왔다.", "event")
 	_check_addiction_warnings()
@@ -4359,14 +4374,40 @@ func _on_baccarat_closed():
 func _open_blackjack():
 	if not GameState.spend_ap():
 		return
+	_enter_minigame_overlay(blackjack_table)
 	blackjack_table.open()
 
 func _on_blackjack_closed():
+	_exit_minigame_overlay()
 	turn_action_log.append("✓ 🃏 블랙잭")
 	GameState.add_log("🃏 정선 카지노 블랙잭 테이블을 나왔다.", "event")
 	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()
+
+func _enter_minigame_overlay(overlay: Node = null) -> void:
+	_minigame_overlay_active = true
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = false
+	if is_instance_valid(info_panel):
+		info_panel.visible = false
+	if is_instance_valid(modal_layer):
+		modal_layer.visible = false
+		modal_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if is_instance_valid(_vignette_rect):
+		_vignette_rect.visible = false
+	if is_instance_valid(_feedback_flash):
+		_feedback_flash.visible = false
+	if overlay is CanvasItem:
+		(overlay as CanvasItem).move_to_front()
+
+func _exit_minigame_overlay() -> void:
+	if not _minigame_overlay_active:
+		return
+	_minigame_overlay_active = false
+	if is_instance_valid(_main_ui_root):
+		_main_ui_root.visible = true
+	_update_vignette()
 
 func _ap_selfdev():
 	_ap_vignette("📚 자기계발", SELFDEV_VIGNETTES, "#5a6ea8")
@@ -4521,15 +4562,18 @@ func _ap_write_resume():
 	if not GameState.spend_ap():
 		return
 	turn_action_log.append("✓ 🖊 자소서 작성 — 미니게임 시작")
+	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
 
 func _ap_interview_prep():
 	if not GameState.spend_ap():
 		return
 	turn_action_log.append("✓ 🎯 모의 면접 — 미니게임 시작")
+	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
 
 func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
+	_exit_minigame_overlay()
 	# quality: 0=재작성필요, 1=무난, 2=양호, 3=우수
 	var is_resume: bool = job_hunt_game.current_mode == 0  # Mode.RESUME
 	GameState.modify_hidden_stat("stress", stress_delta)
@@ -5421,54 +5465,23 @@ func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
 	AudioManager.play_ending_stinger(ending_id)
 	var ending: Dictionary = EndingSystem.get_ending(ending_id)
-	# ── 엔딩별 배경 전환 ──────────────────────────────────────
-	var ending_bg_map = {
-		"gangnam_dream":      BG_PENTHOUSE,
-		"instant_legend":     BG_PENTHOUSE,
-		"lonely_rich":        BG_PENTHOUSE,
-		"empty_house":        BG_PENTHOUSE,
-		"investment_master":  BG_PENTHOUSE,
-		"startup_exit":       BG_PENTHOUSE,
-		"creator_success":    BG_PENTHOUSE,
-		"burnout":            BG_BURNOUT,
-		"mental_break":       BG_BURNOUT,
-		"bankruptcy":         BG_DEFAULT,
-		"debt_spiral":        BG_DEFAULT,
-		"orthodox_hollow":    BG_DEFAULT,
-		"ordinary_life":      BG_DEFAULT,
-		"late_call":          BG_DEFAULT,
-		"sangchul_reckoning": BG_DEFAULT,
-		"political_fix":      BG_GANGNAM_NIGHT,
-		"reputation_legend":  BG_GANGNAM_NIGHT,
-		"jaehyuk_way":        BG_GANGNAM_NIGHT,
-		"unorthodox_legend":  BG_GANGNAM_NIGHT,
-		"healthy_retirement": BG_ROOFTOP_DAY,
-		"early_retirement":   BG_ROOFTOP_DAY,
-		"balanced_life":      BG_ROOFTOP_DAY,
-		"with_daeun":         BG_ROOFTOP_DAY,
-		"jiyeon_man":         BG_GANGNAM_ST,
-		"full_circle":        BG_PENTHOUSE,
-		"second_love":        BG_GANGNAM_NIGHT,
-		"guardian":           BG_DEFAULT,
-	}
 	var ending_cg_path := _get_ending_cg_path(ending)
 	var bg_path := ending_cg_path
-	var bg_alpha := 0.50 if ending_cg_path != "" else 0.35
-	if bg_path == "":
-		var bg_id := str(ending.get("background", ""))
-		if bg_id != "":
-			bg_path = ImageRegistry.get_background(bg_id)
-	if bg_path == "":
-		bg_path = str(ending_bg_map.get(ending_id, BG_DEFAULT))
 	if event_bg:
-		var tex = load(bg_path)
+		var tex = load(bg_path) if bg_path != "" and ResourceLoader.exists(bg_path) else null
 		if tex:
 			var tw_end := create_tween()
 			tw_end.tween_property(event_bg, "modulate:a", 0.0, 0.3)
 			tw_end.tween_callback(func():
 				event_bg.texture = tex
 				var tw2 := create_tween()
-				tw2.tween_property(event_bg, "modulate:a", bg_alpha, 0.5)
+				tw2.tween_property(event_bg, "modulate:a", 0.50, 0.5)
+			)
+		else:
+			var tw_clear := create_tween()
+			tw_clear.tween_property(event_bg, "modulate:a", 0.0, 0.3)
+			tw_clear.tween_callback(func():
+				event_bg.texture = null
 			)
 
 	_open_modal("엔딩")
@@ -5485,18 +5498,17 @@ func _show_ending(ending_id):
 	var ending_text_col = VBoxContainer.new()
 	ending_text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ending_row.add_child(ending_text_col)
-	ending_text_col.add_child(_label(ending.get("title", "엔딩"), 24, "#f0b429"))
+	ending_text_col.add_child(_label(_fmt(str(ending.get("title", "엔딩"))), 24, "#f0b429"))
 	ending_text_col.add_child(_label("등급  %s" % grade, 16, grade_color))
 	var ending_sep = HSeparator.new()
 	ending_sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(ending_sep)
-	var ending_art_path := ending_cg_path if ending_cg_path != "" else bg_path
-	if ending_art_path != "" and ResourceLoader.exists(ending_art_path):
-		_add_ending_art_preview(modal_body, ending_art_path, ending_cg_path != "")
+	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
+		_add_ending_art_preview(modal_body, ending_cg_path, true)
 	# ── 드라마틱 한 줄 요약 ──
 	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, "#c8a060"))
 	# ── 엔딩 설명 ──
-	modal_body.add_child(_wrap_label(ending.get("description", ""), 13, "#6a7486"))
+	modal_body.add_child(_wrap_label(_fmt(str(ending.get("description", ""))), 13, "#6a7486"))
 	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
 	_ending_cast_epilogue(modal_body, ending_id)
 	# ── 스탯 그리드 ──

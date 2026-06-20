@@ -342,6 +342,7 @@ func _render_betting() -> void:
 	# 베팅 현황
 	var bet_rt := RichTextLabel.new()
 	bet_rt.bbcode_enabled = true; bet_rt.fit_content = true; bet_rt.scroll_active = false
+	bet_rt.custom_minimum_size = Vector2(0, 26)
 	_f(bet_rt); bet_rt.add_theme_font_size_override("normal_font_size", 14)
 	bet_rt.text = _bet_status_text()
 	vb.add_child(bet_rt)
@@ -489,6 +490,7 @@ func _render_result_screen() -> void:
 func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
 	# 플레이어 카드 행
 	var p_row := HBoxContainer.new()
+	p_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	p_row.add_theme_constant_override("separation", 8)
 	parent.add_child(p_row)
 	var p_lbl := Label.new()
@@ -511,6 +513,7 @@ func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
 
 	# 뱅커 카드 행
 	var b_row := HBoxContainer.new()
+	b_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	b_row.add_theme_constant_override("separation", 8)
 	parent.add_child(b_row)
 	var b_lbl := Label.new()
@@ -589,17 +592,12 @@ func _build_skeleton() -> void:
 	_road_ctrl.draw.connect(_draw_road)
 	add_child(_road_ctrl)
 
-	# 메인 컨텐츠 (스크롤)
-	var scroll := ScrollContainer.new()
-	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
-	scroll.offset_top = 50; scroll.offset_right = -164; scroll.offset_bottom = -10
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	add_child(scroll)
-
 	_content_root = Control.new()
-	_content_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_content_root.set_anchors_preset(Control.PRESET_FULL_RECT)
-	scroll.add_child(_content_root)
+	_content_root.offset_top = 50
+	_content_root.offset_right = -164
+	_content_root.offset_bottom = -10
+	add_child(_content_root)
 
 	# 메시지 플래시
 	_msg_lbl = Label.new()
@@ -624,17 +622,18 @@ func _clear_content() -> void:
 		c.queue_free()
 
 func _make_vbox(sep: int) -> VBoxContainer:
-	var margin := MarginContainer.new()
-	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	margin.add_theme_constant_override("margin_left", 22)
-	margin.add_theme_constant_override("margin_right", 22)
-	margin.add_theme_constant_override("margin_top", 16)
-	margin.add_theme_constant_override("margin_bottom", 16)
-	_content_root.add_child(margin)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.offset_left = 20
+	center.offset_top = 14
+	center.offset_right = -20
+	center.offset_bottom = -14
+	_content_root.add_child(center)
 	var vb := VBoxContainer.new()
+	vb.custom_minimum_size = Vector2(840, 0)
+	vb.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	vb.add_theme_constant_override("separation", sep)
-	margin.add_child(vb)
+	center.add_child(vb)
 	return vb
 
 func _add_bet_btn(parent: HBoxContainer, header: String, label: String, type: String,
