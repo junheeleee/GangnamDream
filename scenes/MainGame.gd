@@ -5580,6 +5580,7 @@ func _show_ending(ending_id):
 	modal_body.add_child(_wrap_label(_ending_percentile_line(), 13, "#c9a227"))
 	_ending_route_bar(modal_body)
 	_ending_milestones(modal_body)
+	_ending_playstyle(modal_body)
 	# ── 이번 런 새 해금 표시 ──────────────────────────
 	var new_unlocks = MetaProgression.get_new_unlocks()
 	var new_ach: Array    = new_unlocks.get("achievements", [])
@@ -6081,6 +6082,22 @@ func _ending_milestones(parent: Control):
 	parent.add_child(_label("이번 런 발자취", 12, "#5a6075"))
 	for m in milestones:
 		parent.add_child(_wrap_label("  · %s" % m, 12, "#7a8496"))
+
+func _ending_playstyle(parent: Control):
+	# 플레이 스타일 한 줄 진단 (분석요소) — "어떻게 살았는가"의 거울
+	var ps_sep = HSeparator.new()
+	ps_sep.add_theme_color_override("color", Color("#252535"))
+	parent.add_child(ps_sep)
+	parent.add_child(_label("플레이 스타일 진단", 12, "#5a6075"))
+	parent.add_child(_wrap_label("  %s" % GameState.get_playstyle_label(), 14, "#c8a060"))
+	# 정점 대비 결말 — 정점에서 얼마나 지켰는가
+	var peak: float = float(GameState.peak_asset)
+	var final_total: float = GameState.get_total_asset_value()
+	if peak >= 100_000_000.0 and final_total < peak * 0.9:
+		var kept_pct: int = int(round(clampf(final_total / peak, 0.0, 1.0) * 100.0))
+		parent.add_child(_wrap_label(
+			"  최고 자산 %s 중 결말에 %d%% 지킴" % [GameState.format_money(peak), kept_pct],
+			12, "#7a8496"))
 
 func _show_month_summary(snap: Dictionary):
 	_pending_month_summary = true

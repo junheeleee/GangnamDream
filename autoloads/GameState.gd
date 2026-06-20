@@ -155,6 +155,7 @@ var action_log: Array = []
 var flags: Dictionary = {}
 var deferred_events: Array = []  # [{event_id, trigger_turn}] — N턴 후 자동 발동 이벤트
 var events_seen: int = 0   # 이번 런에서 플레이어가 실제 선택한 이벤트 수
+var peak_asset: float = 0.0   # 이번 런 최고 자산 (분석요소 — 정점 대비 결말 비교)
 var run_theme_categories: Array = []
 var run_theme: String = "자유런"
 var market_prices: Dictionary = {}
@@ -218,6 +219,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	flags = {}
 	deferred_events = []
 	events_seen = 0
+	peak_asset = 0.0
 	run_theme_categories = []
 	run_theme = "자유런"
 	market_prices = {}
@@ -857,6 +859,33 @@ func get_route_identity() -> String:
 func get_route_label() -> String:
 	return "%s  (정석 %d / 비정석 %d)" % [get_route_identity(), route_orthodox, route_unorthodox]
 
+# ── 플레이 스타일 진단 (분석요소) ──────────────────────────────
+# 런 종료 시 플레이어의 행동 패턴을 한 줄로 분류. 도달 자산이 아니라
+# "어떻게 살았는가"를 비춰주는 거울. 리플레이 동기 부여.
+func get_playstyle_label() -> String:
+	var total: float = float(get_total_asset_value())
+	var gamble: int = int(gambling_tendency)
+	var addict: int = int(addiction_tendency)
+	var diff: int = route_orthodox - route_unorthodox
+	# 우선순위: 극단 패턴부터
+	if addict >= 60 or gamble >= 60:
+		return "🎰 승부사 — 한 방에 모든 걸 건 사람"
+	if peak_asset >= 1_000_000_000 and total < peak_asset * 0.4:
+		return "📉 롤러코스터 — 정점에서 미끄러진 사람"
+	if has_any_close_relationship() and reputation >= 60:
+		return "🤝 관계형 — 사람으로 버틴 사람"
+	if diff >= 12:
+		return "📘 원칙주의자 — 규칙대로 끝까지 간 사람"
+	if diff <= -12:
+		return "🔥 개척자 — 남들 안 가는 길로 간 사람"
+	if health <= 35 or mental <= 35:
+		return "🥀 소진형 — 자신을 갈아 넣은 사람"
+	if housing == "gosiwon" and turn >= 120:
+		return "🪨 생존형 — 바닥에서 끝까지 버틴 사람"
+	if events_seen >= 80:
+		return "🧭 탐험가 — 모든 문을 열어본 사람"
+	return "⚖️ 균형형 — 중심을 잃지 않은 사람"
+
 # ── 성향 시스템 ────────────────────────────────────────────────
 func add_tendency(kind: String, amount: int = 1):
 	if not tendency.has(kind):
@@ -1112,6 +1141,8 @@ func check_game_over():
 		return
 	# 자산 마일스톤 플래그 자동 추적 (이벤트 조건용)
 	var total_now = get_total_asset_value()
+	if total_now > peak_asset:
+		peak_asset = total_now
 	if total_now >= 100_000_000 and not flags.get("asset_100m_reached", false):
 		flags["asset_100m_reached"] = true
 		add_log("💰 자산 1억 돌파 — 종잣돈이 생겼다.", "money")
@@ -1236,14 +1267,22 @@ func check_game_over():
 
 func finish_run(ending_id):
 	is_game_over = true
+	var _final_total = get_total_asset_value()
+	if _final_total > peak_asset:
+		peak_asset = _final_total
 	MetaProgression.record_run({
 		"ending_id": ending_id,
 		"turn": turn,
 		"age": age,
-		"total_assets": get_total_asset_value(),
+		"total_assets": _final_total,
 		"trait": "",
 		"run_theme": run_theme,
 		"tendency_realized": tendency_realized,
+		"route_orthodox": route_orthodox,
+		"route_unorthodox": route_unorthodox,
+		"events_seen": events_seen,
+		"peak_asset": peak_asset,
+		"playstyle": get_playstyle_label(),
 	})
 	game_over.emit(ending_id)
 
@@ -1303,6 +1342,7 @@ func serialize():
 		"unlocked_stat_thresholds": unlocked_stat_thresholds,
 		"difficulty": difficulty,
 		"events_seen": events_seen,
+		"peak_asset": peak_asset,
 	}
 
 func load_from_dict(data):
