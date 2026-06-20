@@ -28,6 +28,11 @@ const SEG_SLOTS: Array   = [24, 15, 7, 4, 2, 2]
 const SEG_LABELS: Array  = ["1", "2", "5", "10", "20", "J"]
 const SEG_PAYOUTS: Array = [1.0, 2.0, 5.0, 10.0, 20.0, 45.0]
 const SEG_COLORS: Array  = ["#e74c3c", "#3498db", "#2ecc71", "#f39c12", "#9b59b6", "#f1c40f"]
+const BIG_WHEEL_SLOT_LAYOUT: Array = [
+	0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 5, 0, 1, 0,
+	2, 0, 3, 1, 0, 4, 0, 1, 2, 0, 1, 0, 5, 1, 0, 2, 0, 3,
+	1, 0, 1, 0, 2, 0, 4, 1, 0, 3, 1, 0, 2, 0, 1, 0, 1, 0
+]
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _rng := RandomNumberGenerator.new()
@@ -36,6 +41,7 @@ var _phase: int         = Phase.IDLE
 var _bet_segment: int   = -1
 var _stake: int         = 50_000
 var _result_seg: int    = -1
+var _result_slot: int   = -1
 var _history: Array     = []   # Array of int (segment index)
 
 var _rounds: int = 0
@@ -101,6 +107,7 @@ func open() -> void:
 	_phase               = Phase.IDLE
 	_bet_segment         = -1
 	_result_seg          = -1
+	_result_slot         = -1
 	_wheel_angle         = 0.0
 	_spin_elapsed        = 0.0
 	_flash_timer         = 0.0
@@ -200,21 +207,18 @@ func _do_spin() -> void:
 	_refresh()
 
 func _compute_target(seg: int) -> float:
-	# 포인터는 위쪽(-PI/2). 목표 세그먼트 중앙이 포인터 아래 오도록.
+	# 포인터는 위쪽(-PI/2). 섞어 배치한 실제 슬롯 중 하나의 중앙이 포인터 아래 오도록.
 	var slot_angle: float = TAU / float(TOTAL_SLOTS)
-	var seg_start: int = 0
-	for i in range(seg):
-		seg_start += int(SEG_SLOTS[i])
-	var seg_count: int = int(SEG_SLOTS[seg])
-	# 세그먼트 내 임의 슬롯 선택 (자연스러운 느낌)
-	var rand_offset: int = _rng.randi_range(0, seg_count - 1)
-	var result_slot: int = seg_start + rand_offset
-	# 이 슬롯이 -PI/2에 오게 하는 최종 wheel_angle.
-	# 슬롯 i의 각도 = wheel_angle + i * slot_angle
-	# 포인터(위 = -PI/2) → wheel_angle + result_slot * slot_angle = -PI/2 (mod TAU)
-	# wheel_angle = -PI/2 - result_slot * slot_angle
-	# SPIN_ROTATIONS바퀴(= 5) 추가하여 긴 회전 연출
-	var final_pos: float = -PI / 2.0 - float(result_slot) * slot_angle
+	var matching_slots: Array = []
+	for slot_idx in range(BIG_WHEEL_SLOT_LAYOUT.size()):
+		if int(BIG_WHEEL_SLOT_LAYOUT[slot_idx]) == seg:
+			matching_slots.append(slot_idx)
+	if matching_slots.is_empty():
+		_result_slot = 0
+	else:
+		_result_slot = int(matching_slots[_rng.randi_range(0, matching_slots.size() - 1)])
+	# 슬롯 중앙: wheel_angle + (slot + 0.5) * slot_angle = -PI/2.
+	var final_pos: float = -PI / 2.0 - (float(_result_slot) + 0.5) * slot_angle
 	return final_pos - TAU * 5.0   # 음수 = 시계방향
 
 func _finish_spin() -> void:
@@ -571,7 +575,6 @@ func _on_wheel_draw() -> void:
 
 	var slot_angle: float = TAU / float(TOTAL_SLOTS)
 	var f: Font = _font if _font else ThemeDB.fallback_font
-	var seg_start_slot: int = 0
 
 	_wheel_ctrl.draw_circle(Vector2(cx, cy + 8.0), r + 26.0, Color(0, 0, 0, 0.42))
 	_wheel_ctrl.draw_circle(Vector2(cx, cy), r + 25.0, Color("#241006"))
@@ -583,55 +586,45 @@ func _on_wheel_draw() -> void:
 		_wheel_ctrl.draw_circle(p_pin, 3.0, Color("#ffe08a"))
 		_wheel_ctrl.draw_circle(p_pin, 1.3, Color("#7a4a12"))
 
-	for seg in range(6):
-		var seg_count: int   = int(SEG_SLOTS[seg])
+	for slot_idx in range(BIG_WHEEL_SLOT_LAYOUT.size()):
+		var seg: int = int(BIG_WHEEL_SLOT_LAYOUT[slot_idx])
 		var col_hex: String  = str(SEG_COLORS[seg])
 		var seg_col: Color   = Color(col_hex)
 		var lbl_str: String  = str(SEG_LABELS[seg])
 
-		# 결과 세그먼트 플래시
-		var is_result: bool = (_phase == Phase.RESULT and seg == _result_seg and _result_seg >= 0)
+		var is_result: bool = (_phase == Phase.RESULT and slot_idx == _result_slot and _result_slot >= 0)
 		if is_result and _flash_winner_active:
 			seg_col = seg_col.lightened(0.45 * _flash_winner_bright)
 		elif is_result and _flash_timer > 0.0:
 			seg_col = seg_col.lightened(0.45)
+		elif slot_idx % 2 == 1:
+			seg_col = seg_col.darkened(0.08)
 
-		# 슬롯별 부채꼴 그리기
-		for slot_i in range(seg_count):
-			var a0: float = _wheel_angle + float(seg_start_slot + slot_i) * slot_angle
-			var a1: float = a0 + slot_angle
-			var steps: int = 4
-			var points := PackedVector2Array()
-			points.append(Vector2(cx, cy))
-			for step in range(steps + 1):
-				var a: float = lerp(a0, a1, float(step) / float(steps))
-				points.append(Vector2(cx + cos(a) * r, cy + sin(a) * r))
-			_wheel_ctrl.draw_colored_polygon(points, seg_col)
+		var a0: float = _wheel_angle + float(slot_idx) * slot_angle
+		var a1: float = a0 + slot_angle
+		var mid_a: float = (a0 + a1) * 0.5
+		var points := PackedVector2Array()
+		points.append(Vector2(cx, cy))
+		for step in range(5):
+			var a: float = lerp(a0, a1, float(step) / 4.0)
+			points.append(Vector2(cx + cos(a) * r, cy + sin(a) * r))
+		_wheel_ctrl.draw_colored_polygon(points, seg_col)
 
-		# 당첨 세그먼트 — 외곽 하이라이트 아크
 		if is_result:
-			var arc_a0: float = _wheel_angle + float(seg_start_slot) * slot_angle
-			var arc_a1: float = _wheel_angle + float(seg_start_slot + seg_count) * slot_angle
-			_wheel_ctrl.draw_arc(Vector2(cx, cy), r * 0.96, arc_a0, arc_a1, 16, Color(1.0, 1.0, 1.0, 0.85), 3.5)
+			_wheel_ctrl.draw_arc(Vector2(cx, cy), r * 0.97, a0, a1, 6, Color(1.0, 1.0, 1.0, 0.90), 4.0)
 
-		# 세그먼트 구분선
-		var div_a: float = _wheel_angle + float(seg_start_slot) * slot_angle
-		var lx: float    = cx + cos(div_a) * r
-		var ly: float    = cy + sin(div_a) * r
-		_wheel_ctrl.draw_line(Vector2(cx, cy), Vector2(lx, ly), Color(0.05, 0.05, 0.05, 0.85), 2.0)
+		var lx: float = cx + cos(a0) * r
+		var ly: float = cy + sin(a0) * r
+		_wheel_ctrl.draw_line(Vector2(cx, cy), Vector2(lx, ly), Color(0.05, 0.05, 0.05, 0.70), 1.4)
 
-		# 세그먼트 레이블 (중앙)
-		var mid_slot_f: float = float(seg_start_slot) + float(seg_count) * 0.5
-		var mid_a: float = _wheel_angle + mid_slot_f * slot_angle
-		var lr: float    = r * 0.68
-		var lx2: float   = cx + cos(mid_a) * lr
-		var ly2: float   = cy + sin(mid_a) * lr
-		var fs: int      = 12 if lbl_str.length() <= 2 else 9
+		var lr: float = r * 0.72
+		var lx2: float = cx + cos(mid_a) * lr
+		var ly2: float = cy + sin(mid_a) * lr
+		var fs: int = 10 if lbl_str.length() <= 2 else 8
+		var label_col: Color = Color("#2a1207") if seg in [3, 5] else Color.WHITE
 		_wheel_ctrl.draw_string(f,
 			Vector2(lx2 - float(fs) * float(lbl_str.length()) * 0.28, ly2 + float(fs) * 0.4),
-			lbl_str, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color.WHITE)
-
-		seg_start_slot += seg_count
+			lbl_str, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, label_col)
 
 	# 외곽 테두리
 	_wheel_ctrl.draw_arc(Vector2(cx, cy), r, 0.0, TAU, 96, Color("#2a1207"), 5.0)

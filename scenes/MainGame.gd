@@ -1859,7 +1859,7 @@ func _next_arc_id() -> String:
 
 	# ── 엔딩 직전 씬 (t>=234, 궤적별 분기) — 진짜 마지막 감정 비트 ──
 	if t >= 234:
-		var _asset := GameState.get_total_asset_value()
+		var _asset: float = float(GameState.get_total_asset_value())
 		# 강남 코앞 — 마지막 한 걸음
 		if _asset >= 2_500_000_000.0 and not f.get("arc_pre_ending_summit_seen", false):
 			return "arc_pre_ending_summit"

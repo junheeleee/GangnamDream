@@ -1,5 +1,16 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (빅휠 슬롯 분산 배치 수정)
+
+### 수정
+- `scenes/BigWheelGame.gd`: 빅휠 원판을 배당별 큰 덩어리 파이차트에서 54칸 실제 쇼휠형 분산 슬롯으로 변경. `1/2/5/10/20/JOKER`를 사이사이에 섞되 기존 확률 카운트(24/15/7/4/2/2)는 유지.
+- 스핀 목표 계산도 섞인 슬롯 배열을 기준으로 바꿔, 결과 세그먼트와 실제 포인터가 멈추는 칸이 어긋나지 않도록 수정.
+- pulled main의 `MainGame.gd` 타입 추론 컴파일 오류(`_asset :=`)를 `float` 명시로 수정.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA`: `12a_bigwheel` 직접 확인. 배당 칸 분산 표시 및 화면 내 정상 배치 확인.
+
 ## 2026-06-20 (P0~P3 콘텐츠 확장 2차 — 이스터에그/분석/흥행/개연성)
 
 > 역할 분담: Codex=외형(이미지/오디오/이펙트/UI·UX/카지노). Claude=내용. CONTENT_ROADMAP.md 우선순위대로 진행.
