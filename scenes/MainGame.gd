@@ -1857,6 +1857,21 @@ func _next_arc_id() -> String:
 	if t >= 216 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
 		return "arc_endgame_sixmonths"
 
+	# ── 엔딩 직전 씬 (t>=234, 궤적별 분기) — 진짜 마지막 감정 비트 ──
+	if t >= 234:
+		var _asset := GameState.get_total_asset_value()
+		# 강남 코앞 — 마지막 한 걸음
+		if _asset >= 2_500_000_000.0 and not f.get("arc_pre_ending_summit_seen", false):
+			return "arc_pre_ending_summit"
+		# 강남 못 감 — 다섯 번째 겨울
+		if _asset < 300_000_000.0 and not f.get("arc_pre_ending_winter_seen", false):
+			return "arc_pre_ending_winter"
+		# 아버지와 화해한 경우 — 마지막 통화 (중간 궤적 커버)
+		if f.get("father_reconciled", false) \
+				and not f.get("father_passed", false) \
+				and not f.get("arc_pre_ending_father_call_seen", false):
+			return "arc_pre_ending_father_call"
+
 	return ""
 
 ## 마일스톤 스토리 이벤트 — 조건 맞으면 ID 반환 (없으면 ""). StoryMode로 재생.
