@@ -794,12 +794,24 @@ func _build_info_panel():
 	relationship_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	social_outer.add_child(relationship_box)
 
+	# ── Tab 3: 소지품 ──
+	var inv_scroll = ScrollContainer.new()
+	inv_scroll.name = "소지품"
+	inv_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	tabs.add_child(inv_scroll)
+	var inv_margin = MarginContainer.new()
+	inv_margin.add_theme_constant_override("margin_left", 14)
+	inv_margin.add_theme_constant_override("margin_right", 14)
+	inv_margin.add_theme_constant_override("margin_top", 10)
+	inv_margin.add_theme_constant_override("margin_bottom", 10)
+	inv_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inv_scroll.add_child(inv_margin)
 	inventory_box = VBoxContainer.new()
 	inventory_box.add_theme_constant_override("separation", 4)
 	inventory_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	social_outer.add_child(inventory_box)
+	inv_margin.add_child(inventory_box)
 
-	# ── Tab 3: 아크 (퀘스트 트래커) ──
+	# ── Tab 4: 아크 (퀘스트 트래커) ──
 	var arc_scroll := ScrollContainer.new()
 	arc_scroll.name = "아크"
 	arc_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
