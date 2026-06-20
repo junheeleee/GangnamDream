@@ -244,6 +244,12 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	_apply_run_theme(chosen_theme)
 	_apply_title_perks()
 	_init_market_prices()
+	# NG+ 자각 이스터에그 표식 — 반복 플레이어 보상 (회귀 데자뷔)
+	var _prev_runs: int = int(MetaProgression.data.get("total_runs", 0))
+	if _prev_runs >= 1:
+		flags["is_repeat_run"] = true
+	if _prev_runs >= 4:
+		flags["is_veteran_run"] = true
 	add_log("새 런 시작: %s / 출발점: %s" % [chosen_route, starting_profile], "system")
 	stats_changed.emit()
 	run_started.emit()

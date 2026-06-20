@@ -13,7 +13,11 @@
       "min_housing_months": 30,
       "min_turn": 120
     },
-    "tags": ["hidden", "legendary", "easter_egg"],
+    "tags": [
+      "hidden",
+      "legendary",
+      "easter_egg"
+    ],
     "cooldown": 9999,
     "description": "고시원에 산 지 30개월이 넘었다.\n\n{name}은 이제 이 좁은 방의 모든 것을 안다.\n어느 벽이 옆방 코 고는 소리를 가장 잘 통과시키는지.\n공용 주방 냉장고에서 누구 반찬이 제일 오래 안 상하는지.\n샤워실 3번 칸 수압이 새벽 두 시에 가장 세다는 것.\n\n이쯤 되면 이건 거주가 아니라 수행이다.\n\n{name}은 문득 거울을 봤다. 도사 같은 표정의 남자가 거기 있었다.",
     "choices": [
@@ -24,7 +28,9 @@
           "mental": 5,
           "luck": 2
         },
-        "flags": ["egg_gosiwon_sage_seen"],
+        "flags": [
+          "egg_gosiwon_sage_seen"
+        ],
         "result_text": "'고시원 생존 백서'라고 제목을 붙였다.\n\n절약의 기술, 소음 차단의 철학, 최소 비용 영양학.\n쓰다 보니 한 권이 됐다.\n\n이걸로 강남을 갈 순 없겠지만 —\n적어도 {name}은 이 바닥에서만큼은 누구보다 강했다.\n\n바닥을 완전히 아는 사람은, 떨어질 걸 두려워하지 않는다."
       },
       {
@@ -33,7 +39,10 @@
           "mental": -2,
           "luck": 1
         },
-        "flags": ["egg_gosiwon_sage_seen", "wants_out_of_gosiwon"],
+        "flags": [
+          "egg_gosiwon_sage_seen",
+          "wants_out_of_gosiwon"
+        ],
         "result_text": "30개월. 너무 오래 있었다.\n\n도사가 되고 싶어서 된 게 아니었다.\n나가야 한다. 어떻게든.\n\n{name}은 그날 밤 처음으로, 진지하게 이사 비용을 계산하기 시작했다.\n수행은 끝났다. 이제 하산할 때다."
       }
     ]
@@ -51,7 +60,10 @@
       "max_money": 800000,
       "min_turn": 40
     },
-    "tags": ["hidden", "easter_egg"],
+    "tags": [
+      "hidden",
+      "easter_egg"
+    ],
     "cooldown": 9999,
     "description": "편의점 삼각김밥 코너 앞.\n\n{name}은 진열대를 보다가 깨달았다.\n전주비빔, 참치마요, 스팸, 김치볶음밥 — 모든 맛을 외우고 있었다.\n어느 편의점 브랜드의 어느 삼각김밥이 밥알이 더 차진지까지.\n\n통장 잔고를 봤다. 80만원 아래.\n\n5년 전에도, 지금도, 저녁은 삼각김밥이다.\n변한 게 있다면 — 이제 데우지 않고도 먹을 수 있다는 것.",
     "choices": [
@@ -62,7 +74,9 @@
           "health": 1,
           "money": -2000
         },
-        "flags": ["egg_triangle_kimbap_seen"],
+        "flags": [
+          "egg_triangle_kimbap_seen"
+        ],
         "result_text": "참치마요 하나, 스팸 하나.\n\n계산대에서 2,400원.\n\n{name}은 두 개를 들고 나오며 이상하게 부자가 된 기분이었다.\n\n행복의 기준이 이렇게 낮아진 게 슬픈 건지, 다행인 건지.\n둘 다인 것 같았다.\n\n그래도 오늘 저녁은 두 개다."
       },
       {
@@ -71,7 +85,10 @@
           "mental": -1,
           "luck": 2
         },
-        "flags": ["egg_triangle_kimbap_seen", "extreme_frugal"],
+        "flags": [
+          "egg_triangle_kimbap_seen",
+          "extreme_frugal"
+        ],
         "result_text": "하나만 집었다.\n\n1,200원. 그거면 됐다.\n\n{name}은 계산하면서 생각했다.\n이 절약이 강남으로 가는 길인지, 아니면 그냥 가난에 익숙해지는 건지.\n\n구분이 안 갈 때가 제일 위험하다는 걸, {name}은 알고 있었다.\n그래도 오늘은 하나다."
       }
     ]
@@ -89,7 +106,10 @@
       "max_mental": 18,
       "min_turn": 30
     },
-    "tags": ["hidden", "easter_egg"],
+    "tags": [
+      "hidden",
+      "easter_egg"
+    ],
     "cooldown": 9999,
     "description": "새벽 4시. 잠이 안 온다.\n\n천장을 본다. 금이 간 자리가 사람 옆얼굴 같다.\n매일 보다 보니 친해졌다.\n\n이 시간엔 모든 게 또렷하다.\n낮에는 안 보이던 것들이 새벽 4시에는 다 보인다.\n내가 얼마나 멀리 왔는지, 얼마나 못 왔는지.\n\n{name}은 일어나 앉았다.\n이 바닥에서, 가장 정직한 시간이었다.",
     "choices": [
@@ -99,7 +119,9 @@
           "mental": 10,
           "intelligence": 1
         },
-        "flags": ["egg_4am_clarity_seen"],
+        "flags": [
+          "egg_4am_clarity_seen"
+        ],
         "result_text": "힘들다고, 소리 내서 말해봤다.\n\n아무도 없는 방에서, 작게.\n\"…힘들다.\"\n\n이상하게, 그 말을 입 밖으로 내뱉고 나니 조금 가벼워졌다.\n\n괜찮은 척하는 것보다, 안 괜찮다고 인정하는 게 더 용기였다.\n\n새벽 4시 반. {name}은 다시 누웠다. 이번엔 잠이 왔다."
       },
       {
@@ -109,7 +131,9 @@
           "intelligence": 2,
           "health": -1
         },
-        "flags": ["egg_4am_clarity_seen"],
+        "flags": [
+          "egg_4am_clarity_seen"
+        ],
         "result_text": "정수기에서 물을 받아 마셨다.\n\n노트를 폈다. 새벽 4시의 계획은 낮의 계획과 다르다.\n더 솔직하고, 더 단순하다.\n\n'무리하지 말 것. 살아남을 것. 그다음을 생각할 것.'\n\n세 줄을 적고 노트를 덮었다.\n창밖이 아주 천천히 밝아오고 있었다."
       }
     ]
@@ -128,7 +152,12 @@
       "max_assets": 100000000,
       "min_turn": 150
     },
-    "tags": ["hidden", "legendary", "easter_egg", "social_critique"],
+    "tags": [
+      "hidden",
+      "legendary",
+      "easter_egg",
+      "social_critique"
+    ],
     "cooldown": 9999,
     "description": "{name}은 한 번도 편법을 쓰지 않았다.\n\n야근을 빠지지 않았고, 세금을 정직하게 냈고, 위험한 투자에 손대지 않았다.\n사회가 '바르게 살라'고 한 그대로 살았다.\n\n그런데 통장은 1억을 못 넘었다.\n\n같은 시기에 시작한 누구는 코인으로, 누구는 부동산 갭투자로, 누구는 부모 도움으로 강남에 갔다.\n\n{name}은 계산기를 들여다봤다.\n정직함의 값은 — 도대체 얼마일까.",
     "choices": [
@@ -139,7 +168,9 @@
           "reputation": 5,
           "route_orthodox": 1
         },
-        "flags": ["egg_honest_paradox_seen"],
+        "flags": [
+          "egg_honest_paradox_seen"
+        ],
         "result_text": "{name}은 계산기를 내려놨다.\n\n남들이 더 빨리 갔을 수 있다. 더 많이 가졌을 수 있다.\n근데 {name}은 밤에 잠을 잘 잔다.\n누구한테 빚진 것도, 누구를 속인 것도 없다.\n\n그게 1억보다 싼 건지 비싼 건지는 — 죽을 때 알게 될 것이다.\n\n적어도 지금은, 부끄럽지 않았다."
       },
       {
@@ -149,7 +180,10 @@
           "investment_skill": 2,
           "route_unorthodox": 1
         },
-        "flags": ["egg_honest_paradox_seen", "orthodox_wavered"],
+        "flags": [
+          "egg_honest_paradox_seen",
+          "orthodox_wavered"
+        ],
         "result_text": "처음으로, {name}은 다른 길을 진지하게 생각했다.\n\n정석만으로는 안 되는 게임이라면 —\n규칙을 좀 바꿔야 하는 걸까.\n\n그 생각이 무섭기도 하고, 이상하게 후련하기도 했다.\n\n아직 아무것도 안 했다. 근데 마음 한구석의 빗장이 풀렸다.\n이게 시작인지 타락인지는, 아직 모른다."
       }
     ]
@@ -167,7 +201,12 @@
       "min_addiction": 55,
       "min_gambling": 45
     },
-    "tags": ["hidden", "legendary", "easter_egg", "warning"],
+    "tags": [
+      "hidden",
+      "legendary",
+      "easter_egg",
+      "warning"
+    ],
     "cooldown": 9999,
     "description": "화장실 거울 앞에 섰다.\n\n눈이 충혈돼 있었다.\n어제도, 그제도 잠을 설쳤다. 차트 때문에, 베팅 때문에, 다음 판 때문에.\n\n거울 속 남자가 {name}을 봤다.\n5년 전 강남을 꿈꾸던 그 눈빛이 아니었다.\n뭔가에 쫓기는 눈빛이었다.\n\n언제부터 강남이 아니라 '다음 판'이 목표가 됐을까.\n\n거울 속 남자는 대답하지 않았다.",
     "choices": [
@@ -177,7 +216,10 @@
           "mental": 8,
           "addiction_tendency": -25
         },
-        "flags": ["egg_gambling_mirror_seen", "tried_to_quit_gambling"],
+        "flags": [
+          "egg_gambling_mirror_seen",
+          "tried_to_quit_gambling"
+        ],
         "result_text": "핸드폰을 꺼냈다.\n\n도박 앱, 베팅 사이트 북마크, 차트 알림 — 하나씩 지웠다.\n손이 떨렸다. 지우면서도 다시 깔고 싶었다.\n\n그게 중독이라는 증거였다.\n\n{name}은 핸드폰을 멀리 던져놓고 이불을 뒤집어썼다.\n오늘 하루만. 일단 오늘 하루만 참아보기로 했다.\n\n시작은 늘 '오늘 하루만'이다. 끊는 것도 마찬가지였다."
       },
       {
@@ -186,7 +228,10 @@
           "mental": -5,
           "addiction_tendency": 5
         },
-        "flags": ["egg_gambling_mirror_seen", "ignored_gambling_warning"],
+        "flags": [
+          "egg_gambling_mirror_seen",
+          "ignored_gambling_warning"
+        ],
         "result_text": "{name}은 거울에서 눈을 돌렸다.\n\n'아직 괜찮아. 한 번만 더 따면 손 뗀다.'\n\n그 '한 번만 더'를 몇 번이나 했는지는 세지 않기로 했다.\n세면 무서우니까.\n\n거울 속 남자도 같이 눈을 돌렸다.\n둘 다, 보고 싶지 않은 걸 본 밤이었다."
       }
     ]
@@ -204,7 +249,11 @@
       "min_assets": 2000000000,
       "housing": "gosiwon"
     },
-    "tags": ["hidden", "legendary", "easter_egg"],
+    "tags": [
+      "hidden",
+      "legendary",
+      "easter_egg"
+    ],
     "cooldown": 9999,
     "description": "통장과 포트폴리오를 합치면 20억이 넘는다.\n\n그런데 {name}은 아직 고시원에 산다.\n\n월세 30만원. 4.5제곱미터. 공용 화장실.\n\n돈이 없어서가 아니다. 나갈 수 있다. 언제든.\n근데 안 나간다.\n\n20억을 가진 남자가, 새벽에 공용 주방에서 컵라면을 끓인다.\n옆방 공시생이 그 모습을 보고 인사한다.\n\"형도 라면이네요.\"\n\n{name}은 웃었다. 그래, 형도 라면이다.",
     "choices": [
@@ -215,7 +264,9 @@
           "intelligence": 2,
           "reputation": 3
         },
-        "flags": ["egg_quiet_rich_seen"],
+        "flags": [
+          "egg_quiet_rich_seen"
+        ],
         "result_text": "{name}은 라면을 후루룩 먹었다.\n\n20억이 통장에 있어도 라면 맛은 똑같았다.\n오히려 더 맛있는 것 같기도 했다. 마음이 편하니까.\n\n돈은 목표가 아니라 자유였다.\n나가야 할 때 나갈 자유, 안 나가도 될 자유.\n\n{name}은 지금 그 자유를 즐기는 중이었다.\n강남은 — 가고 싶을 때 가면 된다. 급할 거 없다."
       },
       {
@@ -224,8 +275,109 @@
           "mental": 5,
           "luck": 3
         },
-        "flags": ["egg_quiet_rich_seen", "ready_for_gangnam"],
+        "flags": [
+          "egg_quiet_rich_seen",
+          "ready_for_gangnam"
+        ],
         "result_text": "라면 국물을 마지막까지 마셨다.\n\n20억. 이제 충분하다.\n고시원에서 부린 고집도 여기까지면 됐다.\n\n{name}은 부동산 앱을 열었다.\n강남 아파트 매물을 처음으로, 진지하게 봤다.\n\n5년 전 화면 속에서만 보던 그 숫자들이 —\n이제 살 수 있는 가격이 됐다.\n\n옆방 공시생에게 마지막으로 라면 하나를 끓여줬다."
+      }
+    ]
+  },
+  {
+    "id": "egg_deja_vu",
+    "title": "데자뷔",
+    "category": "comedy",
+    "rarity": "legendary",
+    "weight": 4,
+    "hidden": true,
+    "portrait": "player_normal",
+    "background": "goshiwon_room",
+    "conditions": {
+      "flag": "is_repeat_run",
+      "min_turn": 8,
+      "max_turn": 40
+    },
+    "tags": [
+      "hidden",
+      "legendary",
+      "easter_egg",
+      "meta"
+    ],
+    "cooldown": 9999,
+    "description": "고시원 방. 평범한 밤이었다.\n\n그런데 {name}은 문득 멈췄다.\n\n이 장면을 — 전에 본 적이 있는 것 같았다.\n이 천장의 금, 이 시간의 공기, 이 막막함.\n분명 처음 겪는 일인데, 몸이 먼저 기억하는 느낌.\n\n앞으로 무슨 일이 일어날지, 어렴풋이 알 것 같았다.\n누구를 만나고, 어디서 흔들리고, 무엇을 후회할지.\n\n착각이겠지. {name}은 고개를 저었다.\n근데 그 익숙함은 쉽게 가시지 않았다.",
+    "choices": [
+      {
+        "text": "이번엔 다르게 해보자 — 직감을 믿는다",
+        "effects": {
+          "intelligence": 3,
+          "luck": 4,
+          "mental": 3
+        },
+        "flags": [
+          "egg_deja_vu_seen",
+          "trusting_instinct"
+        ],
+        "result_text": "{name}은 그 이상한 익숙함을 거부하지 않고, 오히려 따랐다.\n\n'전에도 이랬다면, 이번엔 다르게.'\n\n근거는 없었다. 근데 그 직감이 묘하게 또렷했다.\n마치 이 길을 이미 한 번 걸어본 사람처럼.\n\n어쩌면 누군가는, 같은 인생을 몇 번이고 다시 사는지도 모른다.\n더 나은 결말을 찾아서."
+      },
+      {
+        "text": "그냥 기분 탓이다 — 잊고 잔다",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "egg_deja_vu_seen"
+        ],
+        "result_text": "{name}은 이불을 덮었다.\n\n데자뷔. 뇌가 가끔 일으키는 착각.\n과학적으로 설명되는 현상이라고 어디서 읽었다.\n\n그렇게 생각하니 마음이 편해졌다.\n\n근데 잠들기 직전, 아주 잠깐 —\n'이 밤도 전에 이렇게 끝났던 것 같은데' 하는 생각이 스쳤다.\n그리고 {name}은 잠들었다. 늘 그랬던 것처럼."
+      }
+    ]
+  },
+  {
+    "id": "egg_veteran_return",
+    "title": "몇 번째인지 모를",
+    "category": "comedy",
+    "rarity": "legendary",
+    "weight": 5,
+    "hidden": true,
+    "portrait": "player_tired",
+    "background": "late_night",
+    "conditions": {
+      "flag": "is_veteran_run",
+      "min_turn": 5,
+      "max_turn": 30
+    },
+    "tags": [
+      "hidden",
+      "legendary",
+      "easter_egg",
+      "meta"
+    ],
+    "cooldown": 9999,
+    "description": "또 33세. 또 고시원. 또 통장 50만원.\n\n{name}은 이 출발점을 너무 잘 알았다.\n어떻게 시작하든, 결국 같은 갈림길들이 온다는 것도.\n\n상철의 제안, 재혁의 전화, 지연의 세계, 아버지의 병.\n다 안다. 어디서 흔들리는지, 어디서 무너지는지.\n\n근데 안다고 해서 — 다르게 살 수 있는 건 아니었다.\n알면서도 같은 실수를 반복하는 게,\n어쩌면 인간이라는 것의 정의인지도 몰랐다.\n\n{name}은 길게 숨을 내쉬었다. 자, 이번엔.",
+    "choices": [
+      {
+        "text": "이번엔 진짜 다르게 산다 — 아는 걸 전부 쓴다",
+        "effects": {
+          "intelligence": 5,
+          "investment_skill": 3,
+          "mental": 5,
+          "luck": 3
+        },
+        "flags": [
+          "egg_veteran_return_seen",
+          "playing_with_knowledge"
+        ],
+        "result_text": "{name}은 지난 인생들에서 배운 걸 전부 떠올렸다.\n\n어떤 제안이 함정인지, 어떤 기회가 진짜인지.\n실패의 지도가 머릿속에 있었다.\n\n이번엔 그 지도를 들고 걷는다.\n\n그래도 결말은 모른다. 인생은 외운다고 풀리는 시험이 아니니까.\n근데 적어도 같은 함정에 두 번 빠지진 않을 것이다.\n그것만으로도, 이번 생은 조금 나을지 모른다."
+      },
+      {
+        "text": "알아도 어차피 똑같다 — 그냥 흘러가게 둔다",
+        "effects": {
+          "mental": -3,
+          "intelligence": 2
+        },
+        "flags": [
+          "egg_veteran_return_seen"
+        ],
+        "result_text": "{name}은 쓴웃음을 지었다.\n\n안다고 달라지나. 결국 같은 곳에서 흔들리고, 같은 걸 후회한다.\n그게 사람이다.\n\n근데 이상하게, 그 체념이 절망은 아니었다.\n\n몇 번을 다시 살아도 비슷하게 산다는 건 —\n어쩌면 이 삶이 이미 {name}에게 맞는 삶이라는 뜻일 수도 있었다.\n받아들이는 것도, 하나의 결말이었다."
       }
     ]
   }

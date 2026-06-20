@@ -88,5 +88,35 @@
         "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThose numbers he'd only seen on screen five years ago —\nwere now a price he could pay.\n\nHe cooked one last ramen for the next-room exam-prepper."
       }
     ]
+  },
+  {
+    "id": "egg_deja_vu",
+    "title": "Déjà Vu",
+    "description": "The goshiwon room. An ordinary night.\n\nThen {name} suddenly froze.\n\nThis scene — he felt like he'd seen it before.\nThe crack in this ceiling, the air of this hour, this hopelessness.\nClearly a first time, yet his body remembered first.\n\nHe felt he vaguely knew what would happen next.\nWho he'd meet, where he'd waver, what he'd regret.\n\nMust be his imagination. {name} shook his head.\nBut the familiarity didn't fade easily.",
+    "choices": [
+      {
+        "text": "Do it differently this time — trust the instinct",
+        "result_text": "{name} didn't reject the strange familiarity — he followed it.\n\n'If it was like this before, then differently this time.'\n\nThere was no basis. But the instinct was strangely clear.\nLike someone who'd already walked this path once.\n\nMaybe someone lives the same life over and over.\nSearching for a better ending."
+      },
+      {
+        "text": "It's just a feeling — forget it and sleep",
+        "result_text": "{name} pulled up the blanket.\n\nDéjà vu. A trick the brain sometimes plays.\nHe'd read somewhere it was a scientifically explained phenomenon.\n\nThinking that, his mind eased.\n\nBut right before sleep, just for a moment —\n'I feel like this night ended this way before too' crossed his mind.\nAnd {name} fell asleep. Like he always had."
+      }
+    ]
+  },
+  {
+    "id": "egg_veteran_return",
+    "title": "Lost Count of Which Time",
+    "description": "33 again. The goshiwon again. 500,000 won in the account again.\n\n{name} knew this starting point too well.\nAnd that however he starts, the same crossroads always come.\n\nSangchul's offer, Jaehyuk's call, Jiyeon's world, Father's illness.\nHe knows it all. Where he wavers, where he collapses.\n\nBut knowing didn't mean he could live differently.\nRepeating the same mistakes while knowing them —\nmaybe that was the very definition of being human.\n\n{name} let out a long breath. Alright, this time.",
+    "choices": [
+      {
+        "text": "Live truly differently this time — use everything I know",
+        "result_text": "{name} recalled everything learned from past lives.\n\nWhich offers were traps, which chances were real.\nThe map of failures was in his head.\n\nThis time he walks with that map in hand.\n\nStill, the ending is unknown. Life isn't a test you pass by memorizing.\nBut at least he won't fall in the same trap twice.\nThat alone — maybe this life will be a little better."
+      },
+      {
+        "text": "Knowing changes nothing — just let it flow",
+        "result_text": "{name} gave a bitter smile.\n\nDoes knowing change anything. In the end you waver at the same place, regret the same things.\nThat's human.\n\nBut strangely, that resignation wasn't despair.\n\nThat living again and again turns out similar —\nmaybe it meant this life already fit {name}.\nAcceptance, too, was a kind of ending."
+      }
+    ]
   }
 ]
