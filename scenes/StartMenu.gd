@@ -231,6 +231,20 @@ func _build_splash():
 		stats_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		vbox.add_child(stats_lbl)
 
+		# 엔딩 도감 진행도 — 컴플리션 후크 (메뉴에서 바로 보이게)
+		var coll: Dictionary = MetaProgression.get_ending_collection_progress()
+		var coll_found: int = int(coll.get("found", 0))
+		var coll_total: int = int(coll.get("total", 0))
+		if coll_total > 0:
+			var coll_lbl = Label.new()
+			coll_lbl.text = _tr(
+				"📖 엔딩 도감  %d / %d 발견" % [coll_found, coll_total],
+				"📖 Endings  %d / %d discovered" % [coll_found, coll_total])
+			coll_lbl.add_theme_font_size_override("font_size", 12)
+			coll_lbl.add_theme_color_override("font_color", Color("#3a3a20") if coll_found < coll_total else Color("#7a5a10"))
+			coll_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			vbox.add_child(coll_lbl)
+
 	var spacer = Control.new()
 	spacer.custom_minimum_size = Vector2(0, 52)
 	vbox.add_child(spacer)
