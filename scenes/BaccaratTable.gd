@@ -252,24 +252,13 @@ func _finish_result() -> void:
 
 	# 도박 성향 + SFX
 	var is_win := net_round > 0
+	var has_pair_win: bool = (bool(_result.get("p_pair", false)) and _bet_pp > 0) or (bool(_result.get("b_pair", false)) and _bet_bp > 0)
 	if is_win:
 		GameState.modify_hidden_stat("gambling_tendency", 2)
-		match res:
-			"player":
-				AudioManager.play("casino_win")
-			"banker":
-				AudioManager.play("casino_win")
-			"tie":
-				AudioManager.play("casino_jackpot")
-			_:
-				AudioManager.play("casino_win")
+		AudioManager.play_casino_result(net_round, float(_total_bet()), res == "tie" or has_pair_win)
 	else:
 		GameState.modify_hidden_stat("addiction_tendency", 2)
-		AudioManager.play("casino_lose")
-
-	# 페어 당첨 SFX
-	if (_result.get("p_pair", false) and _bet_pp > 0) or (_result.get("b_pair", false) and _bet_bp > 0):
-		AudioManager.play("casino_jackpot")
+		AudioManager.play_casino_result(net_round, float(_total_bet()))
 
 	# 내추럴 배너
 	var player_natural: bool = bool(_result.get("player_natural", false))

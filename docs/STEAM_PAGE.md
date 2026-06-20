@@ -229,6 +229,7 @@ Every choice shapes who you become — and whether you make it.
 
 ### 출시 1개월 전
 - [ ] 프레스 킷 준비 (screenshots + GIF + one-sheet)
+- [ ] `ScreenshotQA` 실행 후 `StoreScreenshotExport`로 1280×720 Steam 후보 8장 생성 (`/tmp/gangnamdream_store_screenshots`)
 - [ ] VN 전문 유튜버 / 틱톡커 10명에게 프레스 코드 발송
 - [ ] 리뷰 코드 10-20개 준비 (출시 당일 리뷰 점수 시딩)
 - [ ] Steam 자체 "Visual Novel Fest" 타이밍 확인 (보통 3월)

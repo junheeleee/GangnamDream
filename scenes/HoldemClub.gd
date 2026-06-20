@@ -689,7 +689,7 @@ func _do_showdown() -> void:
 		_session_won += 1
 		msg_parts.append("%s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
-		AudioManager.play("money_big" if _pot >= 1_000_000 else "money_gain")
+		AudioManager.play_casino_result(float(_pot), maxf(float(_buy_in), 1.0), _pot >= 1_000_000)
 		_screen_flash(Color("#f0b429"), 0.22, 0.42)
 	else:
 		# AI 승
@@ -699,7 +699,7 @@ func _do_showdown() -> void:
 		_session_lost += 1
 		msg_parts.append("%s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
 		GameState.modify_hidden_stat("addiction_tendency", 2)
-		AudioManager.play("money_loss")
+		AudioManager.play_casino_result(-float(_pot), maxf(float(_buy_in), 1.0))
 		_screen_flash(Color("#d73a49"), 0.22, 0.38)
 		_shake_node(_content_root, 8.0, 0.28)
 

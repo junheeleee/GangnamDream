@@ -157,6 +157,32 @@ func play(sound_id: String, volume_mod: float = 0.0):
 			p.play()
 			return
 
+func play_casino_result(net_amount: float, stake: float = 0.0, force_jackpot: bool = false) -> void:
+	var stake_abs: float = maxf(absf(stake), 1.0)
+	if force_jackpot or net_amount >= maxf(stake_abs * 10.0, 1_000_000.0):
+		play("casino_jackpot")
+		pulse_gamepad(0.35, 0.90, 0.24)
+	elif net_amount > 0.0:
+		play("casino_win")
+		pulse_gamepad(0.18, 0.45, 0.14)
+	elif net_amount < 0.0:
+		play("casino_lose")
+		pulse_gamepad(0.32, 0.25, 0.18)
+	else:
+		play("casino_card", -4.0)
+		pulse_gamepad(0.08, 0.08, 0.08)
+
+func pulse_gamepad(weak: float, strong: float, duration: float = 0.12) -> void:
+	if duration <= 0.0:
+		return
+	for device in Input.get_connected_joypads():
+		Input.start_joy_vibration(
+			int(device),
+			clampf(weak, 0.0, 1.0),
+			clampf(strong, 0.0, 1.0),
+			duration
+		)
+
 func _vol_db() -> float:
 	if master_volume <= 0.0: return -80.0
 	return lerp(-20.0, 0.0, master_volume)

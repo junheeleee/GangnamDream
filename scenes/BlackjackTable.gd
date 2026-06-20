@@ -272,15 +272,16 @@ func _resolve_hand() -> void:
 		_hand_history.pop_front()
 
 	if got_blackjack:
-		AudioManager.play("casino_jackpot")
+		AudioManager.play_casino_result(net_round, float(_stake), true)
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	elif net_round > 0:
-		AudioManager.play("casino_win")
+		AudioManager.play_casino_result(net_round, float(_stake))
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	elif got_bust or net_round < 0:
-		AudioManager.play("casino_lose")
+		AudioManager.play_casino_result(net_round, float(_stake))
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 	else:
+		AudioManager.play_casino_result(0.0, float(_stake))
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	GameState.add_log("블랙잭 %s" % desc, "money")

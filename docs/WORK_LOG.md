@@ -19,6 +19,7 @@
 ### 추가
 - `tools/LocaleSurfaceCheck.tscn`/`.gd`를 추가해 영어 설정 시 StartMenu와 OpeningCinematic 핵심 문구가 영어로 표시되는지 검증.
 - `ScreenshotQA`에 영어 시작 화면 캡처 `00b_start_menu_en.png`를 추가.
+- `tools/StoreScreenshotExport.tscn`/`.gd`를 추가해 `/tmp/gangnamdream_qa`의 QA 캡처에서 Steam 스토어 후보 8장을 1280×720으로 자동 추출하고 `manifest.md`/`manifest.json`을 생성.
 - 엔딩 전용 CG P1 3종 추가: `assets/cg/ending_gangnam_dream.png`, `assets/cg/ending_empty_house.png`, `assets/cg/ending_crypto_ghost.png`.
 - `ScreenshotQA`에 빅휠 본체 캡처 `12a_bigwheel.png`를 추가.
 - `ScreenshotQA`에 홀덤 쇼다운 `06a_holdem_showdown`, 경마 베팅/질주/결과 `07_racetrack_betting`, `07a_racetrack_race`, `07b_racetrack_result` 캡처를 추가해 미니게임 핵심 상태를 자동 검수.
@@ -26,8 +27,13 @@
 ### 수정
 - StartMenu의 헤더, 스토리 소개, 난이도 카드, 런 테마 카드, 저장 슬롯, 설정 팝업, 콘텐츠 안내, 시작 버튼을 `LocaleManager` 기준으로 영어/한국어 분기.
 - SplashScreen과 OpeningCinematic을 저장된 언어 설정에 맞춰 영어로 표시하고, 영어 모드에서는 한글 로고 이미지를 숨겨 첫 인상이 한국어로 남지 않게 조정.
-- 엔딩 모달은 전용 CG가 있으면 CG를, 없으면 엔딩별 배경을 와이드 컷신 프리뷰로 표시하도록 변경. 전용 CG 7장과 배경 fallback으로 모든 엔딩이 최소 한 장면으로 마무리된다.
+- 엔딩 모달은 전용 CG가 있을 때만 와이드 컷신 프리뷰를 표시하도록 변경. 전용 CG가 없는 엔딩에는 잘못 맞춘 배경 fallback을 금지해 정합성 없는 이미지 노출을 막는다.
 - `gangnam_dream`, `empty_house`, `crypto_ghost` 엔딩에 전용 `cg` 필드를 연결해 배경 프리뷰가 아니라 엔딩별 컷신으로 마무리되게 변경.
+- 엔딩 설명도 이벤트 텍스트와 같은 포맷터를 통과시켜 `{name}`, `{money}`, `{assets}` 같은 플레이스홀더가 그대로 보이지 않도록 수정.
+- 미니게임 진입 시 MainGame 루트 UI, 정보 패널, 모달 레이어, 비네팅/플래시를 숨기고 미니게임 노드를 앞으로 올려 `2026년 1월` 같은 배경 HUD가 카지노/경마/홀덤 뒤에 남지 않도록 수정.
+- 바카라 테이블 레이아웃을 스크롤 컨테이너 좌상단 배치에서 중앙 고정 폭 풀스크린 배치로 변경하고, 카드 행과 베팅 상태를 중앙 정렬.
+- 슬롯머신, 홀덤, 스캘핑 결과 반영을 직접 `GameState.money +=/-=` 대신 `GameState.add_money()`로 통일해 실제 자산과 HUD 갱신 신호가 같이 흐르도록 수정.
+- `AudioManager.play_casino_result()`를 추가해 경마/홀덤/바카라/블랙잭/룰렛/빅휠의 승패·대박 결과 사운드와 컨트롤러 진동 피드백을 손익 규모 기준으로 통일.
 - 바카라 테이블 배경에 불투명 베이스를 깔아 뒤의 MainGame HUD/시스템창이 비쳐 보이지 않도록 수정.
 - `docs/ENDING_ART.md`에 런타임 엔딩 프리뷰 정책과 전용 CG 우선순위를 갱신.
 - `CGRuntimeCheck`/`VisualCropQA`/`ScreenshotQA`에 신규 엔딩 CG 검수 케이스를 추가.
@@ -43,7 +49,8 @@
 - `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
 - `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
 - `SmokeRace`: `SMOKE_ALL_OK`
-- `ScreenshotQA`: 30장 재캡처 완료 (`06a_holdem_showdown`, `07a_racetrack_race`, `07b_racetrack_result` 추가, 미니게임 뒤 화면 비침 차단 확인).
+- `ScreenshotQA`: 30장 재캡처 완료. `09a_baccarat_betting`, `09_baccarat_table`, `08_jeongseon_casino`, `13_ending_gangnam_win`, `15_ending_stable_success`, `17_ending_orthodox_pinnacle` 직접 확인.
+- `StoreScreenshotExport`: `STORE_SCREENSHOT_EXPORT_OK dir=/tmp/gangnamdream_store_screenshots count=8`
 
 ## 2026-06-19 (BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스)
 

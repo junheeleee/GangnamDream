@@ -132,16 +132,19 @@
 
 ## 스크린샷 가이드 (6~8장, ScreenshotQA 기준)
 
+Steam 업로드용 후보는 `tools/ScreenshotQA.tscn` 실행 후 `tools/StoreScreenshotExport.tscn`으로 생성한다.
+출력 위치: `/tmp/gangnamdream_store_screenshots`
+
 | # | 캡처 소스 | 장면 / 캡션 | 노리는 인상 |
 |---|---|---|---|
-| 1 | `01_event_gambling_wave` | 도박장 뒷골목 — 전재산을 건 선택의 순간 | 긴장·몰입 |
-| 2 | `02_investment_portfolio_chart` | 삼성·엔비디아 포트폴리오 + 수익 차트 | 시스템 깊이 |
-| 3 | `03_crisis_vignette` | 붕괴 직전 — 빨간 비네팅, 텅 빈 통장 | 드라마 |
-| 4 | `05_people_relationships` | 인맥 패널 — 상철·다은·지연과의 관계 수치 | 캐릭터 관계 |
-| 5 | `09_ending_gangnam_win` | 강남드림 엔딩 달성 | 성취·보상 |
-| 6 | `10_ending_bankruptcy` | 파산 엔딩 — "모든 것을 잃었다" | 대비·리플레이 유도 |
-| 7 | `06_holdem_club` | 홀덤 클럽 미니게임 | 미니게임 다양성 |
-| 8 | `04_ap_actions_dashboard` | 대시보드 — 행동력 배분 선택 | 게임 루프 설명 |
+| 1 | `01_story_hook.png` | 첫 면접/첫 목표 — 5년·50만원·30억의 출발점 | 즉각적 스테이크 |
+| 2 | `02_event_choice.png` | 도박장 뒷골목 — 전재산을 건 선택의 순간 | 긴장·몰입 |
+| 3 | `03_life_dashboard.png` | 대시보드 — 행동력 배분 선택 | 게임 루프 설명 |
+| 4 | `04_investment_portfolio.png` | 포트폴리오 + 수익 차트 | 시스템 깊이 |
+| 5 | `05_relationship_arcs.png` | 인맥/아크 패널 — 관계 수치와 진행도 | 캐릭터 관계 |
+| 6 | `06_holdem_showdown.png` | 홀덤 클럽 쇼다운 | 미니게임 다양성 |
+| 7 | `07_ending_gangnam.png` | 강남드림 S급 엔딩 달성 | 성취·보상 |
+| 8 | `08_ending_bankruptcy.png` | 파산 엔딩 | 대비·리플레이 유도 |
 
 ### 캡션 텍스트 (영문 병기)
 

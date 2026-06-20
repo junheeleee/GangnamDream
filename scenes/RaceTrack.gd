@@ -678,12 +678,12 @@ func _finish_race() -> void:
 	if payout > 0:
 		GameState.add_money(payout)
 		var profit := payout - _bet_stake
-		AudioManager.play("money_big" if profit >= 500_000.0 else "money_gain")
+		AudioManager.play_casino_result(profit, float(_bet_stake), profit >= float(_bet_stake) * 10.0)
 		_screen_flash(Color("#f0b429"), 0.22, 0.44)
 		_shake_node(_content, 5.0, 0.22)
 		_last_lost = false
 	else:
-		AudioManager.play("money_loss")
+		AudioManager.play_casino_result(-float(_bet_stake), float(_bet_stake))
 		_screen_flash(Color("#d73a49"), 0.22, 0.38)
 		_shake_node(_content, 10.0, 0.30)
 		_last_lost = true

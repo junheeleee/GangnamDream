@@ -228,15 +228,12 @@ func _finish_spin() -> void:
 		GameState.add_money(float(wagered + gain))
 		_net  += float(gain)
 		_wins += 1
-		if payout >= 45.0:
-			AudioManager.play("casino_jackpot")
-		else:
-			AudioManager.play("casino_win")
+		AudioManager.play_casino_result(float(gain), float(wagered), payout >= 45.0)
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 	else:
 		_net    -= float(wagered)
 		_losses += 1
-		AudioManager.play("casino_lose")
+		AudioManager.play_casino_result(-float(wagered), float(wagered))
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
 	_rounds += 1

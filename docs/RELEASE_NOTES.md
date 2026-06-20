@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Added (2026-06-20) — Store screenshot export pass
+
+- Added `tools/StoreScreenshotExport.tscn`/`.gd` to crop 8 selected `ScreenshotQA` outputs into 1280×720 Steam screenshot candidates under `/tmp/gangnamdream_store_screenshots`.
+- The exporter also writes Korean/English captions to `manifest.md` and `manifest.json`.
+
+### Changed (2026-06-20) — Casino result feedback unification
+
+- Added `AudioManager.play_casino_result()` so racetrack, holdem, baccarat, blackjack, roulette, and big wheel share the same win/loss/jackpot sound thresholds.
+- Added optional gamepad vibration pulses for casino result feedback where a controller is connected.
+
 ### Changed (2026-06-20) — Next Fest minigame/ending immersion pass
 
 - Hid the MainGame HUD/root UI while fullscreen minigames are active, so month/date panels no longer remain visible behind casino, racetrack, holdem, scalping, aruba, or job-hunt overlays.
