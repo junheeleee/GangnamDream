@@ -3837,7 +3837,9 @@ func _ap_study():
 	var tag: String = ["📖 독서", "🏃 운동", "🧘 명상", "📊 투자공부"][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var v: Dictionary = pool[randi() % pool.size()]
-	var eff: Dictionary = v.get("e", {})
+	var eff: Dictionary = v.get("e", {}).duplicate()
+	if study_type == 1:
+		eff["appearance"] = eff.get("appearance", 0) + 1
 	for k in eff:
 		var val: int = int(eff[k])
 		if k == "money":
@@ -3918,7 +3920,8 @@ func _ap_network():
 	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
 	GameState.add_tendency("career", 1)
 	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
-	var eff: Dictionary = v.get("e", {})
+	var eff: Dictionary = v.get("e", {}).duplicate()
+	eff["reputation"] = eff.get("reputation", 0) + 1
 	for k in eff:
 		var val: int = int(eff[k])
 		if k == "money":
