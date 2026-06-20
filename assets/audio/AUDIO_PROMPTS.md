@@ -1,6 +1,6 @@
-# 강남드림 — 오디오 에셋 가이드 (v3)
+# 강남드림 — 오디오 에셋 가이드 (v4)
 
-Updated: 2026-06-13 — VISUAL_AUDIO P3 local generated audio pass complete.
+Updated: 2026-06-19 — Audio P1 ambience + ending stinger pass complete.
 
 ## 파일 구조
 
@@ -17,6 +17,12 @@ assets/audio/
 │   ├── bgm_crisis.ogg      ← 위기 BGM (건강/정신 30 이하)
 │   ├── bgm_victory.ogg     ← 마일스톤 달성 BGM (8초, 자동 복귀)
 │   └── bgm_ending.ogg      ← 엔딩 BGM
+├── Ambience (BGM 아래 낮게 깔리는 장소 레이어)
+│   ├── amb_goshiwon_room.wav      ← 고시원/원룸 방 공기, 형광등/도시 저음
+│   ├── amb_seoul_rain.wav         ← 비 오는 서울 거리/강남 야경
+│   ├── amb_hangang_riverside.wav  ← 한강 산책/바람/수면감
+│   ├── amb_office_room.wav        ← 사무실/회사 장면
+│   └── amb_casino_floor.wav       ← 정선 카지노 플로어 루프
 └── SFX
     ├── sfx_click.wav       ← 버튼 클릭
     ├── sfx_close.wav       ← 모달 닫기
@@ -34,7 +40,10 @@ assets/audio/
     ├── sfx_choice_made.wav ← 선택지 결정
     ├── sfx_housing_up.wav  ← 이사
     ├── sfx_game_over.wav   ← 게임오버
-    └── sfx_success.wav     ← 성공/강남드림 달성
+    ├── sfx_success.wav     ← 성공/강남드림 달성
+    ├── sfx_ending_stinger_good.wav   ← 일반 성공/긍정 엔딩
+    ├── sfx_ending_stinger_bad.wav    ← 실패/파산/번아웃 엔딩
+    └── sfx_ending_stinger_legend.wav ← S/S+/전설급 엔딩
 ```
 
 ## BGM 자동 전환 로직
@@ -235,12 +244,13 @@ SFX `.ogg`는 Loop 체크 해제.
 
 현재 production SFX는 `.wav`이며 Loop 체크 해제 상태를 유지한다.
 
-## 현재 production 생성 방식 (2026-06-13)
+## 현재 production 생성 방식 (2026-06-19)
 
 외부 음악 생성 서비스 없이 `tools/generate_audio_assets.py`로 deterministic local synthesis를 수행했다.
 
 - BGM: `.ogg`, stereo 44100 Hz, Ogg Vorbis
 - SFX: `.wav`, mono 44100 Hz
+- Ambience/stinger P1: `tools/generate_audio_p1_assets.py`, `.wav`, mono 44100 Hz
 - 검증: `res://tools/AudioAssetCheck.tscn`
 - 상세 QA: `docs/AUDIO_QA.md`
 

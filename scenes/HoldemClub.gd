@@ -7,6 +7,7 @@ signal closed
 
 const TH := preload("res://systems/TexasHoldem.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
 const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
 
 const SMALL_BLIND := 5_000
@@ -98,7 +99,7 @@ func _show_buyin_screen() -> void:
 	var vb := _content_vbox()
 
 	var title := Label.new()
-	title.text = "🃏 지하 홀덤 클럽"
+	title.text = "지하 홀덤 클럽"
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -159,7 +160,7 @@ func _show_buyin_screen() -> void:
 
 	vb.add_child(_sep())
 
-	var rules_btn := _make_btn("❓  게임 규칙 보기", func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
+	var rules_btn := _make_btn("게임 규칙 보기", func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
 	rules_btn.custom_minimum_size = Vector2(0, 38)
 	vb.add_child(rules_btn)
 
@@ -240,7 +241,7 @@ func _render_table() -> void:
 	if total_hands > 0:
 		winrate_str = "   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]" % [
 			roundi(float(_session_won) / float(total_hands) * 100.0), _session_won, _session_lost]
-	hdr.text = "[b][color=#f0b429]🃏 지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s" % [
+	hdr.text = "[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s" % [
 		phase_names[_phase], winrate_str]
 	hdr.fit_content = true
 	hdr.scroll_active = false
@@ -360,7 +361,7 @@ func _render_table() -> void:
 	my_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	my_box.add_child(my_spacer)
 	var my_stack := Label.new()
-	my_stack.text = "🪙 %s" % _fmt(_player_stack)
+	my_stack.text = "STACK  %s" % _fmt(_player_stack)
 	my_stack.add_theme_font_size_override("font_size", 13)
 	my_stack.add_theme_color_override("font_color", Color("#a0c8a0"))
 	my_stack.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -686,7 +687,7 @@ func _do_showdown() -> void:
 		hand_net = _pot
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
 		_session_won += 1
-		msg_parts.append("🎉 %s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
+		msg_parts.append("%s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play("money_big" if _pot >= 1_000_000 else "money_gain")
 		_screen_flash(Color("#f0b429"), 0.22, 0.42)
@@ -696,7 +697,7 @@ func _do_showdown() -> void:
 		hand_net = -_pot
 		_net_session -= _pot if _hands_played == 1 else 0
 		_session_lost += 1
-		msg_parts.append("😔 %s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
+		msg_parts.append("%s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 		AudioManager.play("money_loss")
 		_screen_flash(Color("#d73a49"), 0.22, 0.38)
@@ -737,7 +738,7 @@ func _show_result_screen() -> void:
 	var vb := _content_vbox()
 
 	var title := Label.new()
-	title.text = "🃏 세션 종료"
+	title.text = "세션 종료"
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -754,7 +755,7 @@ func _show_result_screen() -> void:
 
 	var net := _player_stack - _buy_in
 	var net_lbl := Label.new()
-	net_lbl.text = ("%s +%s" % ["💰", _fmt(net)]) if net >= 0 else ("💸 %s" % _fmt(net))
+	net_lbl.text = ("WIN  +%s" % _fmt(net)) if net >= 0 else ("LOSS  %s" % _fmt(net))
 	net_lbl.add_theme_font_size_override("font_size", 22)
 	net_lbl.add_theme_color_override("font_color", Color("#5de89c") if net >= 0 else Color("#e85d5d"))
 	net_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -767,12 +768,12 @@ func _show_result_screen() -> void:
 	# GameState 반영
 	GameState.money += float(_player_stack - _buy_in)
 	if net > 0:
-		GameState.add_log("🃏 홀덤 클럽에서 %s 땄다." % _fmt(net), "money")
+		GameState.add_log("홀덤 클럽에서 %s 땄다." % _fmt(net), "money")
 		GameState.modify_hidden_stat("gambling_tendency", 5)
 		if GameState.addiction_tendency < 50:
 			GameState.modify_hidden_stat("addiction_tendency", 3)
 	else:
-		GameState.add_log("🃏 홀덤 클럽에서 %s 잃었다." % _fmt(-net), "money")
+		GameState.add_log("홀덤 클럽에서 %s 잃었다." % _fmt(-net), "money")
 		GameState.modify_hidden_stat("stress", 5)
 		if net < -200_000:
 			GameState.modify_hidden_stat("addiction_tendency", 4)
@@ -797,6 +798,11 @@ var _content_root: Control
 func _build_ui() -> void:
 	# 배경 이미지 (이미지 있으면 위에, 없으면 단색만)
 	const _BG_HOLDEM = "res://assets/backgrounds/holdem_club_interior.png"
+	var base_bg := ColorRect.new()
+	base_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base_bg.color = Color("#070a0e")
+	base_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(base_bg)
 	if ResourceLoader.exists(_BG_HOLDEM):
 		var bg_img := TextureRect.new()
 		bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -856,14 +862,37 @@ func _set_msg(text: String) -> void:
 		_msg_lbl.text = text
 
 func _card_label(card: Dictionary, highlight := false) -> Control:
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(44, 60)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
-	st.border_color = Color("#f0b429") if highlight else Color("#c0b090")
-	st.set_border_width_all(1 if not highlight else 2)
-	st.set_corner_radius_all(5)
-	panel.add_theme_stylebox_override("panel", st)
+	var root := Control.new()
+	root.custom_minimum_size = Vector2(44, 60)
+
+	if CARD_FRONT_TEX != null:
+		var tex := TextureRect.new()
+		tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tex.texture = CARD_FRONT_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		root.add_child(tex)
+	else:
+		var panel := Panel.new()
+		panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
+		st.border_color = Color("#f0b429") if highlight else Color("#c0b090")
+		st.set_border_width_all(1 if not highlight else 2)
+		st.set_corner_radius_all(5)
+		panel.add_theme_stylebox_override("panel", st)
+		root.add_child(panel)
+
+	if highlight:
+		var ring := Panel.new()
+		ring.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var ring_st := StyleBoxFlat.new()
+		ring_st.bg_color = Color(1.0, 0.92, 0.45, 0.10)
+		ring_st.border_color = Color("#f0b429")
+		ring_st.set_border_width_all(2)
+		ring_st.set_corner_radius_all(5)
+		ring.add_theme_stylebox_override("panel", ring_st)
+		root.add_child(ring)
 
 	var lbl := Label.new()
 	lbl.text = TH.card_str(card)
@@ -873,8 +902,8 @@ func _card_label(card: Dictionary, highlight := false) -> Control:
 	lbl.add_theme_font_size_override("font_size", 13)
 	lbl.add_theme_color_override("font_color", Color(TH.card_color(card)))
 	if _font_bold: lbl.add_theme_font_override("font", _font_bold)
-	panel.add_child(lbl)
-	return panel
+	root.add_child(lbl)
+	return root
 
 func _card_back() -> Control:
 	# 이미지 카드 뒷면 (로드 실패 시 절차적 패널로 폴백)

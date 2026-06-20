@@ -1,6 +1,6 @@
 # Gangnam Dream Audio QA
 
-Updated: 2026-06-13
+Updated: 2026-06-19
 
 ## Scope
 
@@ -14,8 +14,9 @@ Updated: 2026-06-13
 VISUAL_AUDIO P3 audio replacement is complete for the current runtime surface.
 
 - 7 BGM tracks regenerated as Ogg Vorbis, stereo, 44100 Hz.
-- 17 SFX regenerated as mono 44100 Hz WAV.
+- 25 SFX regenerated as mono 44100 Hz WAV.
 - Previously silent runtime SFX calls are now mapped: `buy`, `sell`, `tab_open`.
+- Casino runtime SFX calls are now backed by real wav files: `casino_win`, `casino_lose`, `casino_bet`, `casino_coin`, `casino_spin`, `casino_card`, `casino_jackpot`, `casino_reel`.
 - `tools/AudioAssetCheck.tscn` verifies all BGM/SFX paths resolve to `AudioStream` and scans source code for unmapped `AudioManager.play("...")` keys.
 - BGM import loop settings are on for menu/goshiwon/main/apartment/crisis/ending and off for victory.
 
@@ -52,6 +53,14 @@ VISUAL_AUDIO P3 audio replacement is complete for the current runtime surface.
 | `sfx_housing_up.wav` | `housing_up` | 0.550s | Housing upgrade |
 | `sfx_game_over.wav` | `game_over` | 0.950s | Bad ending/game over |
 | `sfx_success.wav` | `success` | 0.820s | Strong success/Gangnam Dream |
+| `sfx_casino_card.wav` | `casino_card` | 0.085s | Card deal/flip |
+| `sfx_casino_bet.wav` | `casino_bet` | 0.100s | Bet commit/chip push |
+| `sfx_casino_coin.wav` | `casino_coin` | 0.130s | Single chip/coin ping |
+| `sfx_casino_spin.wav` | `casino_spin` | 0.420s | Wheel/reel spin start |
+| `sfx_casino_reel.wav` | `casino_reel` | 0.055s | Slot reel tick |
+| `sfx_casino_win.wav` | `casino_win` | 0.420s | Casino round win |
+| `sfx_casino_lose.wav` | `casino_lose` | 0.360s | Casino round loss |
+| `sfx_casino_jackpot.wav` | `casino_jackpot` | 0.900s | Jackpot/large win |
 
 ## Generation
 
@@ -73,5 +82,5 @@ PYTHONPATH=/tmp/gangnam_audio_deps python tools/generate_audio_assets.py
 Latest result:
 
 ```text
-AUDIO_ASSET_CHECK_OK bgm=7 sfx=17
+AUDIO_ASSET_CHECK_OK bgm=7 sfx=25
 ```

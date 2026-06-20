@@ -144,6 +144,27 @@ func _run() -> void:
 			"title": "CG / 아버지 병실",
 			"body": "손을 잡는 감정 초점이 화면 중앙에서 유지되는지 확인한다."
 		},
+		{
+			"mode": "cg",
+			"name": "cg_05_ending_gangnam_dream",
+			"background": "res://assets/cg/ending_gangnam_dream.png",
+			"title": "CG / 강남드림 엔딩",
+			"body": "민준과 아버지가 강남 야경을 함께 보는 성공·화해 장면이 잘리지 않는지 확인한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_06_ending_empty_house",
+			"background": "res://assets/cg/ending_empty_house.png",
+			"title": "CG / 빈 집 엔딩",
+			"body": "같은 강남 성공 공간이지만 혼자 남은 공허함과 탁자 소품이 읽혀야 한다."
+		},
+		{
+			"mode": "cg",
+			"name": "cg_07_ending_crypto_ghost",
+			"background": "res://assets/cg/ending_crypto_ghost.png",
+			"title": "CG / 코인 망령 엔딩",
+			"body": "차트광·좁은 방·중독 감정이 보이되 UI 텍스트나 브랜드로 오해될 요소가 없어야 한다."
+		},
 	]
 
 	for item in cases:

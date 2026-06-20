@@ -6,6 +6,17 @@ class_name TutorialOverlay
 
 signal dismissed
 
+const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
+const UI_ICON_PATHS := {
+	"goal": "res://assets/ui/icons/icon_goal.svg",
+	"ap": "res://assets/ui/icons/icon_ap.svg",
+	"health": "res://assets/ui/icons/icon_health.svg",
+	"invest": "res://assets/ui/icons/icon_invest.svg",
+	"scalping": "res://assets/ui/icons/icon_scalping.svg",
+	"racetrack": "res://assets/ui/icons/icon_racetrack.svg",
+}
+
 # ── 세션 추적 (정적 — 앱 실행 중 유지) ──────────────────────────
 static var _seen: Dictionary = {}
 
@@ -278,8 +289,9 @@ var _font_bold: FontFile
 var _body_lbl: RichTextLabel
 var _page_lbl: Label
 var _next_btn: Button
-var _icon_lbl: Label
+var _icon_tex: TextureRect
 var _title_lbl: Label
+var _ui_icon_cache: Dictionary = {}
 
 func _ready() -> void:
 	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
@@ -327,11 +339,23 @@ func _build_ui() -> void:
 	vbox.add_theme_constant_override("separation", 12)
 	card.add_child(vbox)
 
-	# 아이콘
-	_icon_lbl = Label.new()
-	_icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_icon_lbl.add_theme_font_size_override("font_size", 52)
-	vbox.add_child(_icon_lbl)
+	# 아이콘 — 플랫폼 이모지 대신 통일된 UI texture 사용
+	var icon_frame := PanelContainer.new()
+	icon_frame.custom_minimum_size = Vector2(0, 58)
+	var icon_frame_st := StyleBoxFlat.new()
+	icon_frame_st.bg_color = Color(0, 0, 0, 0.0)
+	icon_frame_st.content_margin_top = 0
+	icon_frame_st.content_margin_bottom = 0
+	icon_frame.add_theme_stylebox_override("panel", icon_frame_st)
+	vbox.add_child(icon_frame)
+	var icon_center := CenterContainer.new()
+	icon_frame.add_child(icon_center)
+	_icon_tex = TextureRect.new()
+	_icon_tex.custom_minimum_size = Vector2(52, 52)
+	_icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon_center.add_child(_icon_tex)
 
 	# 제목
 	_title_lbl = Label.new()
@@ -395,7 +419,7 @@ func _show_slide(idx: int) -> void:
 		_dismiss()
 		return
 	var slide: Dictionary = _slides[idx]
-	_icon_lbl.text  = str(slide.get("icon", ""))
+	_set_slide_icon(slide)
 	_title_lbl.text = str(slide.get("title", ""))
 	_body_lbl.text  = str(slide.get("body", ""))
 
@@ -406,9 +430,56 @@ func _show_slide(idx: int) -> void:
 		_page_lbl.text = ""
 
 	if idx < total - 1:
-		_next_btn.text = "다음  ▶"
+		_next_btn.text = "다음 ›"
 	else:
-		_next_btn.text = "✅  이해했어요!"
+		_next_btn.text = "이해했어요"
+
+func _set_slide_icon(slide: Dictionary) -> void:
+	if not is_instance_valid(_icon_tex):
+		return
+	var icon_id := _icon_id_for_slide(slide)
+	if icon_id == "card":
+		_icon_tex.texture = CARD_BACK_TEX
+		_icon_tex.modulate = Color.WHITE
+	elif icon_id == "chip":
+		_icon_tex.texture = CHIP_TEX
+		_icon_tex.modulate = Color.WHITE
+	else:
+		_icon_tex.texture = _ui_icon_texture(icon_id)
+		_icon_tex.modulate = Color("#c9a227")
+
+func _icon_id_for_slide(slide: Dictionary) -> String:
+	match _game_id:
+		"baccarat", "blackjack", "holdem":
+			return "card"
+		"slot", "roulette", "bigwheel":
+			return "chip"
+		"racetrack":
+			return "racetrack"
+		"scalping":
+			return "scalping"
+		"trading", "invest":
+			return "invest"
+	var title := str(slide.get("title", ""))
+	if title.contains("대시보드"):
+		return "health"
+	if title.contains("흐름"):
+		return "ap"
+	if title.contains("선택"):
+		return "invest"
+	return "goal"
+
+func _ui_icon_texture(icon_id: String) -> Texture2D:
+	if _ui_icon_cache.has(icon_id):
+		return _ui_icon_cache[icon_id]
+	var path: String = str(UI_ICON_PATHS.get(icon_id, ""))
+	if path.is_empty() or not ResourceLoader.exists(path):
+		_ui_icon_cache[icon_id] = null
+		return null
+	var res := load(path)
+	var tex: Texture2D = res if res is Texture2D else null
+	_ui_icon_cache[icon_id] = tex
+	return tex
 
 func _on_next() -> void:
 	_slide_idx += 1

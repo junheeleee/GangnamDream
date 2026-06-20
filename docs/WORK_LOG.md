@@ -1,6 +1,181 @@
 # Gangnam Dream Work Log
 
-## 2026-06-19 — 영문 번역 100% 완료 + main 병합 (Codex 비주얼 에셋)
+## 2026-06-20 (영어 시작 화면 + 엔딩 CG + 카지노 칩 UI + 바카라 가독성 패스)
+
+### 추가
+- `tools/LocaleSurfaceCheck.tscn`/`.gd`를 추가해 영어 설정 시 StartMenu와 OpeningCinematic 핵심 문구가 영어로 표시되는지 검증.
+- `ScreenshotQA`에 영어 시작 화면 캡처 `00b_start_menu_en.png`를 추가.
+- 엔딩 전용 CG P1 3종 추가: `assets/cg/ending_gangnam_dream.png`, `assets/cg/ending_empty_house.png`, `assets/cg/ending_crypto_ghost.png`.
+- `ScreenshotQA`에 빅휠 본체 캡처 `12a_bigwheel.png`를 추가.
+- `ScreenshotQA`에 홀덤 쇼다운 `06a_holdem_showdown`, 경마 베팅/질주/결과 `07_racetrack_betting`, `07a_racetrack_race`, `07b_racetrack_result` 캡처를 추가해 미니게임 핵심 상태를 자동 검수.
+
+### 수정
+- StartMenu의 헤더, 스토리 소개, 난이도 카드, 런 테마 카드, 저장 슬롯, 설정 팝업, 콘텐츠 안내, 시작 버튼을 `LocaleManager` 기준으로 영어/한국어 분기.
+- SplashScreen과 OpeningCinematic을 저장된 언어 설정에 맞춰 영어로 표시하고, 영어 모드에서는 한글 로고 이미지를 숨겨 첫 인상이 한국어로 남지 않게 조정.
+- 엔딩 모달은 전용 CG가 있으면 CG를, 없으면 엔딩별 배경을 와이드 컷신 프리뷰로 표시하도록 변경. 전용 CG 7장과 배경 fallback으로 모든 엔딩이 최소 한 장면으로 마무리된다.
+- `gangnam_dream`, `empty_house`, `crypto_ghost` 엔딩에 전용 `cg` 필드를 연결해 배경 프리뷰가 아니라 엔딩별 컷신으로 마무리되게 변경.
+- 바카라 테이블 배경에 불투명 베이스를 깔아 뒤의 MainGame HUD/시스템창이 비쳐 보이지 않도록 수정.
+- `docs/ENDING_ART.md`에 런타임 엔딩 프리뷰 정책과 전용 CG 우선순위를 갱신.
+- `CGRuntimeCheck`/`VisualCropQA`/`ScreenshotQA`에 신규 엔딩 CG 검수 케이스를 추가.
+- 슬롯/룰렛/빅휠 베팅 금액 버튼에 `assets/ui/chips/*` denomination 칩 SVG를 연결해 블랙잭/바카라와 같은 카지노 UI 언어로 통일.
+- 룰렛은 베팅 금액 선택 후 버튼 하이라이트가 즉시 갱신되도록 스테이크 버튼 참조/refresh 경로를 추가.
+- 빅휠은 남아 있던 이모지성 HUD/버튼/조커 표기를 `현금`, `SPIN`, `규칙`, `JOKER` 텍스트로 정리.
+- 홀덤/경마/블랙잭 배경에 불투명 베이스를 먼저 깔고, 슬롯/룰렛/빅휠 루트 배경 alpha를 1.0으로 고정해 MainGame 대시보드가 미니게임 뒤에 비쳐 보이던 문제를 차단.
+- 홀덤 visible UI(`STACK`, 승패 메시지)와 블랙잭/바카라/슬롯 로그·배너의 카지노 이모지 텍스트를 제거해 카드/칩 에셋 중심의 톤으로 통일.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `LocaleSurfaceCheck`: `LOCALE_SURFACE_CHECK_OK`
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 30장 재캡처 완료 (`06a_holdem_showdown`, `07a_racetrack_race`, `07b_racetrack_result` 추가, 미니게임 뒤 화면 비침 차단 확인).
+
+## 2026-06-19 (BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스)
+
+### 추가
+- `assets/backgrounds/office_interview_day.png`를 추가해 첫 면접/면접관/인터뷰 이벤트가 야근용 밤 사무실 배경을 쓰지 않도록 분리.
+- `tools/BGMContinuityCheck.tscn`/`.gd`를 추가해 같은 BGM 컨텍스트 재진입 시 재생 위치가 0초로 리셋되지 않는지 검증.
+- `ScreenshotQA`에 첫 면접 스토리 캡처 `00a_story_interview.png`를 추가.
+
+### 수정
+- `BGMPlayer.start()`/`start_menu()`가 이미 같은 트랙을 재생 중이면 다시 `play()`하지 않고 유지하도록 변경.
+- 이벤트 종료 후 메인으로 돌아올 때 idle ambience를 복구하고, StoryMode 이벤트 렌더 시 장소 ambience를 갱신.
+- `ImageRegistry`에 `office_interview_day`를 등록하고, 면접 키워드/태그가 일반 office보다 먼저 낮 면접실로 추론되도록 정리.
+- `arc_intro_01_meal`, 희귀 면접 이벤트 2종, exec interview 체인 이벤트의 배경을 `office_interview_day`로 명시.
+- MainGame 좌측 초상화 패널과 StoryMode 우측 초상화 프레임을 키워 인물이 더 VN식으로 존재감 있게 보이도록 조정.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `BGMContinuityCheck`: `BGM_CONTINUITY_OK`
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 24장 재캡처 완료 (`00a_story_interview` 추가).
+
+## 2026-06-19 (카드/칩 Texture + 상점 팔레트 패스)
+
+### 추가
+- `assets/ui/card_front_base.svg`를 추가해 블랙잭/바카라/홀덤의 visible card가 같은 카드 제품군처럼 보이도록 통일.
+- `assets/ui/chips/chip_1k.svg`~`chip_1m.svg` denomination 칩 세트를 추가.
+  - 중앙 장식/문양 없이 실제 칩형 인레이, 흰 edge insert, 동심원, 숫자 denomination 중심으로 구성.
+- `ScreenshotQA`에 베팅 전 화면 캡처 2장 추가: `09a_baccarat_betting`, `10a_blackjack_betting`.
+
+### 수정
+- 블랙잭/바카라 stake 버튼에 금액별 칩 Texture를 연결하고 버튼 폭/아이콘 최대 너비를 보정.
+- 블랙잭/바카라/홀덤 카드 앞면을 절차적 패널에서 `card_front_base.svg` + 랭크/무늬 오버레이 구조로 교체.
+- 상점의 보라색 포인트를 생활/경제 UI에 맞는 녹색 계열로 정리.
+- `ScreenshotQA` 시작 메뉴 캡처 후 남는 StartMenu 노드를 재귀적으로 제거해 초반 캡처가 같은 화면으로 고정되는 문제를 수정.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK` (Godot 종료 시 리소스 정리 경고는 남음)
+- `ScreenshotQA`: 23장 재캡처 완료.
+
+## 2026-06-19 (오디오 P1 + 모달 UI 스킨 4차)
+
+### 추가
+- 장소 ambience 5종과 엔딩 stinger 3종을 로컬 생성·import.
+  - `amb_goshiwon_room`, `amb_seoul_rain`, `amb_hangang_riverside`, `amb_office_room`, `amb_casino_floor`
+  - `sfx_ending_stinger_good`, `sfx_ending_stinger_bad`, `sfx_ending_stinger_legend`
+- `BGMPlayer`에 BGM과 별개로 낮은 ambience 레이어를 추가하고 이벤트/주거/카지노 진입 상황에 따라 자동 전환.
+- `AudioManager` 엔딩 stinger 분류를 엔딩 grade/ID 기준으로 연결.
+- `ScreenshotQA`에 투자 주변 보조 모달 3장 추가: `02a_bank_modal`, `02b_shop_modal`, `02c_system_menu`.
+
+### 수정
+- 투자/은행/상점/시스템 모달에 SVG/Icon 기반 버튼과 섹션 헤더를 적용해 게시판형 텍스트 버튼 느낌을 줄임.
+- 큰 모달 제목의 잔여 이모지 접두어를 제거해 헤더 톤을 통일.
+- `AudioAssetCheck`가 BGM/SFX뿐 아니라 ambience 파일도 검증하도록 확장.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 21장 재캡처 완료.
+
+## 2026-06-19 (UI 스킨 P1 3차 + 카지노 본체 물체감 1차)
+
+### 수정
+- MainGame 정보 패널 탭명과 행동 카테고리 모달의 잔여 이모지/프로토타입식 버튼 문구를 정리.
+- 블랙잭/바카라 HUD, 제목, 규칙, 딜/히트/스탠드/다음 라운드 버튼을 텍스트 중심 카지노 테이블 UI 톤으로 정리.
+- 슬롯머신 릴을 플랫폼 이모지 대신 `7`/`BAR`/`CHERRY`/`BELL`/`LEMON` 고정 심볼 타일로 렌더링.
+- 룰렛 화면에 Godot Canvas 기반 휠/볼 드로잉을 추가해 숫자 결과 생성기 느낌을 줄임.
+- 경마 HUD/정보상/결과 화면의 잔여 이모지 문구를 정리.
+- `ScreenshotQA`에 바카라/블랙잭/슬롯/룰렛 본체 캡처 4장을 추가하고, 출력 폴더를 매 실행마다 비우도록 수정.
+- `SmokeRace`가 카운트다운 타이머를 남기지 않도록 스모크 전용 countdown skip 경로를 추가.
+
+### 버그 수정
+- 슬롯 니어미스 판정이 표시용 문자열 `symbols`를 숫자로 비교하던 런타임 오류를 `reels` 숫자 배열 기준으로 수정.
+- RaceTrack 카운트다운의 로컬 재귀 Callable이 헤드리스 스모크에서 null 연결 에러를 내던 문제를 헬퍼 함수로 분리해 수정.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `SmokeRace`: `SMOKE_ALL_OK`
+- `ScreenshotQA`: 18장 재캡처 완료 (`09_baccarat_table`~`12_roulette_table` 추가).
+
+## 2026-06-19 (UI 스킨 P1 2차 + 메뉴/튜토리얼 QA 확장)
+
+### 수정
+- StartMenu 난이도/런 테마 카드를 이모지 기반에서 SVG 아이콘 기반 카드로 교체.
+- StartMenu 설정/삭제/시작/콘텐츠 안내 버튼 문구를 상업 UI 톤으로 정리.
+- Splash `PRESS ANY KEY` 루프 트윈을 dismiss 시 kill하도록 수정해 ScreenshotQA 경고 제거.
+- TutorialOverlay 중앙 아이콘을 플랫폼 이모지 대신 카드/칩/통일 SVG Texture로 교체.
+- ScreenshotQA에 `00_start_menu.png` 캡처를 추가하고, 미니게임 자동 튜토리얼을 suppress해 홀덤/경마 본체 화면이 QA에 찍히도록 수정.
+- 홀덤/경마 상단 조작 UI의 이모지/물음표 버튼을 텍스트 중심으로 정리.
+- StoryMode 배경을 `STRETCH_KEEP_ASPECT_COVERED`로 전환하고 상단 HUD를 텍스트 상태바로 정리.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `ScreenshotQA`: 14장 재캡처 완료 (`00_start_menu.png` 추가, 홀덤 실제 핸드 화면 캡처).
+- 참고: ScreenshotQA 종료 시 Godot resource cleanup 경고가 남지만 exit code는 0이고 모든 캡처는 정상 생성됨.
+
+## 2026-06-19 (UI 스킨 P1 + 정선 카지노 허브 오브젝트화 1차)
+
+### 수정
+- MainGame 상단 HUD를 텍스트/이모지 나열에서 SVG 아이콘 기반 상태칩으로 교체.
+- MainGame 직접 행동 목록을 단순 텍스트 버튼에서 아이콘, 제목, 보조 설명, AP/무료 배지가 있는 액션 카드로 교체.
+- 첫 시작 안내 모달을 긴 문서형 튜토리얼에서 4개 규칙 카드 + 시작 버튼 구조로 축소.
+- 정선 카지노 허브에서 이모지 게임 아이콘을 제거하고 `card_back.png`/`poker_chip_icon.png` 기반 오브젝트 프레임으로 교체.
+- 정선 카지노 허브 헤더/하단 안내 여백 보정, 입장 버튼 casino SFX 연결, 허브 open 페이드인 추가.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `ScreenshotQA`: 13장 재캡처 후 MainGame/정선 카지노 허브 시각 확인.
+
+## 2026-06-19 (플레이어 체감 표면 QA + 동적 연출 1차)
+
+### 런타임 QA
+- 실제 Godot 렌더러로 `tools/ScreenshotQA.tscn` 실행. 캡처 위치: `/tmp/gangnamdream_qa/`.
+- `tools/VisualCropQA.tscn` 통과: 배경/초상화 crop QA 15장 정상.
+- `tools/AudioAssetCheck.tscn` 최초 실패 확인: 카지노 전용 SFX 8개가 코드에 연결돼 있으나 실제 wav 파일이 없었음.
+- `tools/CGRuntimeCheck.tscn` 최초 실패 확인: `gangnam_dream` 승리 엔딩에 과거 병실 CG를 기대하던 낡은 QA 로직.
+
+### 수정
+- `docs/PLAYER_FACING_POLISH_AUDIT.md` 추가: UI/UX, 이미지 에셋, 오디오 에셋, 미니게임 표면, Godot motion 계획을 플레이어 체감 기준으로 정리.
+- 카지노 SFX 8종 생성 및 import:
+  - `sfx_casino_card`, `sfx_casino_bet`, `sfx_casino_coin`, `sfx_casino_spin`
+  - `sfx_casino_reel`, `sfx_casino_win`, `sfx_casino_lose`, `sfx_casino_jackpot`
+- 빨간 위기 비네팅을 실제 위급 상태 전용으로 축소: 건강 25 이하 또는 정신력 15 이하에서만 강하게 점등.
+- 대시보드/행동 비네팅 진입 시 category tint와 feedback flash를 즉시 해제하도록 수정.
+- MainGame 배경을 `STRETCH_KEEP_ASPECT_COVERED`로 전환하고 미세한 배경 드리프트를 추가.
+- `CGRuntimeCheck` 수정: 엔딩 CG 함수와 preview는 synthetic ending으로 검증하고, `gangnam_dream`은 병실 CG를 쓰지 않는 것을 확인.
+- StartMenu 레거시 문구 `100만원` → `50만원` 수정.
+
+### 검증
+- `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 sfx=25`
+- `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
+- `ScreenshotQA`: 13장 재캡처 완료.
+
+## 2026-06-19 (Claude cloud 브랜치 병합 정리 + Codex 비주얼 에셋 재적용)
 
 ### 영문 번역 완료
 - `life_events.json`: 62→111개 (49개 신규 번역)

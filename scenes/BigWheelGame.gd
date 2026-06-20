@@ -10,6 +10,13 @@ const BIG_WHEEL := preload("res://systems/BigWheel.gd")
 enum Phase { IDLE, SPINNING, RESULT }
 
 const STAKE_OPTIONS: Array  = [10_000, 50_000, 100_000, 500_000, 1_000_000]
+const CHIP_TEX_BY_STAKE := {
+	10_000: preload("res://assets/ui/chips/chip_10k.svg"),
+	50_000: preload("res://assets/ui/chips/chip_50k.svg"),
+	100_000: preload("res://assets/ui/chips/chip_100k.svg"),
+	500_000: preload("res://assets/ui/chips/chip_500k.svg"),
+	1_000_000: preload("res://assets/ui/chips/chip_1m.svg"),
+}
 const TOTAL_SLOTS: int      = 54
 const SPIN_DURATION: float  = 3.0          # 총 스핀 시간(초)
 const SPIN_SPEED_INIT: float = TAU * 4.0   # 초기 각속도 (라디안/초)
@@ -18,7 +25,7 @@ const WHEEL_RADIUS: float   = 130.0
 
 # 세그먼트 슬롯/레이블/배당/색상 (BigWheel 미러)
 const SEG_SLOTS: Array   = [24, 15, 7, 4, 2, 2]
-const SEG_LABELS: Array  = ["1", "2", "5", "10", "20", "🃏"]
+const SEG_LABELS: Array  = ["1", "2", "5", "10", "20", "J"]
 const SEG_PAYOUTS: Array = [1.0, 2.0, 5.0, 10.0, 20.0, 45.0]
 const SEG_COLORS: Array  = ["#e74c3c", "#3498db", "#2ecc71", "#f39c12", "#9b59b6", "#f1c40f"]
 
@@ -255,11 +262,11 @@ func _finish_spin() -> void:
 		# 카운트업 애니메이션 (0.6초)
 		_count_label_ref = _msg_lbl
 		_msg_lbl.add_theme_color_override("font_color", Color("#3de87a"))
-		_msg_lbl.text = "🎉 당첨!  %s배   +%s" % [SEG_LABELS[seg], "0원"]
+		_msg_lbl.text = "당첨!  %s배   +%s" % [_segment_display_label(seg), "0원"]
 		_msg_lbl.visible = true
 		_animate_winnings(win_amount, _msg_lbl)
 	else:
-		_flash_msg("😢 꽝   결과: %s" % SEG_LABELS[seg], "#e85d5d")
+		_flash_msg("꽝   결과: %s" % _segment_display_label(seg), "#e85d5d")
 
 	get_tree().create_timer(2.4).timeout.connect(func():
 		if is_instance_valid(self) and _phase == Phase.RESULT:
@@ -312,8 +319,8 @@ func _animate_winnings(final: int, label: Label) -> void:
 func _update_count_label(val: int) -> void:
 	if is_instance_valid(_count_label_ref):
 		var seg: int = _result_seg
-		var lbl_str: String = str(SEG_LABELS[seg]) if seg >= 0 else ""
-		_count_label_ref.text = "🎉 당첨!  %s배   +%s" % [
+		var lbl_str: String = _segment_display_label(seg)
+		_count_label_ref.text = "당첨!  %s배   +%s" % [
 			lbl_str, GameState.format_money(float(val))]
 
 # ── UI 빌드 ──────────────────────────────────────────────────
@@ -321,7 +328,7 @@ func _build_ui() -> void:
 	# 배경
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color(0.06, 0.04, 0.02, 0.96)
+	bg.color = Color(0.06, 0.04, 0.02, 1.0)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 
@@ -392,7 +399,11 @@ func _build_ui() -> void:
 		var lbl_str: String  = str(SEG_LABELS[i])
 		var pay_val: float   = float(SEG_PAYOUTS[i])
 		var slots_n: int     = int(SEG_SLOTS[i])
-		var btn_text: String = "%s배당\n(%.0f:1)\n%d칸" % [lbl_str, pay_val, slots_n]
+		var btn_text: String
+		if i == 5:
+			btn_text = "JOKER\n(%.0f:1)\n%d칸" % [pay_val, slots_n]
+		else:
+			btn_text = "%s배당\n(%.0f:1)\n%d칸" % [lbl_str, pay_val, slots_n]
 		var btn := _make_seg_btn(btn_text, i)
 		_seg_btns.append(btn)
 		seg_row.add_child(btn)
@@ -418,7 +429,8 @@ func _build_ui() -> void:
 			"#2a1a0a" if selected_now else "#100a04",
 			"#f39c12" if selected_now else "#2a1a08"
 		)
-		sb.custom_minimum_size = Vector2(80, 32)
+		_apply_chip_icon(sb, captured_s, 20)
+		sb.custom_minimum_size = Vector2(94, 34)
 		_f(sb)
 		_stake_btns.append({"btn": sb, "amount": s})
 		stake_row.add_child(sb)
@@ -428,15 +440,15 @@ func _build_ui() -> void:
 	action_row.add_theme_constant_override("separation", 8)
 	root_vbox.add_child(action_row)
 
-	_spin_btn = _make_btn("🎡  SPIN", _do_spin, "#0a2a0a", "#27ae60")
+	_spin_btn = _make_btn("SPIN", _do_spin, "#0a2a0a", "#27ae60")
 	_spin_btn.custom_minimum_size = Vector2(0, 50)
 	_spin_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if _font_bold: _spin_btn.add_theme_font_override("font", _font_bold)
 	_spin_btn.add_theme_font_size_override("font_size", 18)
 	action_row.add_child(_spin_btn)
 
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("bigwheel", self), "#0a0a1a", "#5a4510")
-	help_btn.custom_minimum_size = Vector2(50, 50)
+	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("bigwheel", self), "#0a0a1a", "#5a4510")
+	help_btn.custom_minimum_size = Vector2(64, 50)
 	_f(help_btn)
 	action_row.add_child(help_btn)
 
@@ -583,7 +595,7 @@ func _refresh_hud() -> void:
 	if _phase == Phase.SPINNING:
 		phase_str = "   [color=#f0b429]스핀 중...[/color]"
 	_hud_lbl.text = (
-		"🎡 [b]빅휠[/b]   |   💰 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s"
+		"[b]빅휠[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s"
 		% [
 			GameState.format_money(GameState.money),
 			_rounds, _wins, _losses,
@@ -701,12 +713,28 @@ func _refresh_history() -> void:
 
 func _refresh_balance() -> void:
 	if is_instance_valid(_balance_lbl):
-		_balance_lbl.text = "💰 잔액: %s   |   베팅: %s" % [
+		_balance_lbl.text = "잔액: %s   |   베팅: %s" % [
 			GameState.format_money(GameState.money),
 			GameState.format_money(float(_stake))
 		]
 
 # ── UI 헬퍼 ──────────────────────────────────────────────────
+func _segment_display_label(seg: int) -> String:
+	if seg == 5:
+		return "JOKER"
+	if seg >= 0 and seg < SEG_LABELS.size():
+		return str(SEG_LABELS[seg])
+	return "?"
+
+func _apply_chip_icon(btn: Button, stake: int, max_width: int) -> void:
+	if not CHIP_TEX_BY_STAKE.has(stake):
+		return
+	btn.icon = CHIP_TEX_BY_STAKE[stake]
+	btn.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.expand_icon = false
+	btn.add_theme_constant_override("h_separation", 6)
+	btn.add_theme_constant_override("icon_max_width", max_width)
+
 func _make_seg_btn(label_text: String, seg: int) -> Button:
 	var col_hex: String  = str(SEG_COLORS[seg])
 	var seg_col: Color   = Color(col_hex)

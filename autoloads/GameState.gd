@@ -583,10 +583,13 @@ func apply_choice(event, choice):
 	event_log.append({
 		"turn": turn,
 		"event_id": event.get("id", ""),
-		"choice": choice.get("text", ""),
-		"result": choice.get("result_text", ""),
+		"choice": format_event_text(str(choice.get("text", ""))),
+		"result": format_event_text(str(choice.get("result_text", ""))),
 	})
-	add_log("%s: %s" % [event.get("title", "이벤트"), choice.get("result_text", choice.get("text", ""))], "event")
+	add_log("%s: %s" % [
+		format_event_text(str(event.get("title", "이벤트"))),
+		format_event_text(str(choice.get("result_text", choice.get("text", "")))),
+	], "event")
 
 # ── 스토리 인물 관계 조작 ─────────────────────────────────────────
 func _ensure_cast(person_id: String):
@@ -971,6 +974,29 @@ func format_money(amount):
 	if abs_amount >= 10_000:
 		return "%s%.0f만원" % [sign, abs_amount / 10_000.0]
 	return "%s%.0f원" % [sign, abs_amount]
+
+func format_event_text(text: String) -> String:
+	var job_name: String = str(current_job.get("name", "무직"))
+	var housing_info: Dictionary = get_housing_info()
+	var total_assets: float = get_total_asset_value()
+	var loan_total: float = get_loan_total()
+	return text \
+		.replace("{name}", player_name) \
+		.replace("{job}", job_name) \
+		.replace("{housing}", str(housing_info.get("name", "고시원"))) \
+		.replace("{month}", str(month)) \
+		.replace("{year}", str(year)) \
+		.replace("{week}", str(week_of_month)) \
+		.replace("{turn}", str(turn)) \
+		.replace("{money}", format_money(money)) \
+		.replace("{cash}", format_money(money)) \
+		.replace("{assets}", format_money(total_assets)) \
+		.replace("{total_assets}", format_money(total_assets)) \
+		.replace("{net_worth}", format_money(total_assets)) \
+		.replace("{income}", format_money(monthly_income)) \
+		.replace("{expense}", format_money(fixed_expense)) \
+		.replace("{debt}", format_money(loan_total)) \
+		.replace("{loan}", format_money(loan_total))
 
 func get_total_asset_value():
 	var total = money

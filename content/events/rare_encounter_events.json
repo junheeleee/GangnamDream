@@ -53,7 +53,7 @@
     "category": "jobs",
     "rarity": "rare",
     "weight": 0.3,
-    "background": "office",
+    "background": "office_interview_day",
     "conditions": {
       "no_job": true
     },
@@ -267,7 +267,7 @@
     "category": "jobs",
     "rarity": "rare",
     "weight": 0.3,
-    "background": "office",
+    "background": "office_interview_day",
     "conditions": {
       "no_job": true,
       "min_intelligence": 40

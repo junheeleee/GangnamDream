@@ -2,6 +2,97 @@
 
 ## Unreleased
 
+### Changed (2026-06-20) — Fullscreen minigame surface polish
+
+- Added opaque fullscreen bases to Holdem, RaceTrack, Blackjack, Slot, Roulette, and BigWheel so the MainGame dashboard no longer bleeds through behind minigame overlays.
+- Cleaned visible casino emoji text from Holdem/Blackjack and related casino logs, leaning on card/chip assets instead of emoji glyphs.
+- Extended `ScreenshotQA` with Holdem showdown plus RaceTrack betting/race/result captures. Current screenshot QA output: 30 PNGs.
+
+### Changed (2026-06-20) — Slot/Roulette/BigWheel chip buttons
+
+- Wired denomination chip SVGs into Slot, Roulette, and BigWheel stake buttons, including the lower `1K`/`5K` slot stakes.
+- Fixed Roulette stake selection styling so the selected amount visibly updates after changing stake.
+- Replaced remaining BigWheel emoji/glyph UI labels with stable text labels (`SPIN`, `규칙`, `JOKER`, `현금`) and added `12a_bigwheel.png` to ScreenshotQA. Current screenshot QA output: 27 PNGs.
+
+### Added (2026-06-20) — Dedicated ending CG P1
+
+- Added dedicated 1280x800 ending CGs for `gangnam_dream`, `empty_house`, and `crypto_ghost`.
+- Wired those endings to `cg_ending_gangnam_dream`, `cg_ending_empty_house`, and `cg_ending_crypto_ghost` so the finale uses story-specific art instead of generic background previews.
+- Extended `CGRuntimeCheck`, `VisualCropQA`, and `ScreenshotQA` coverage for the new ending CGs.
+
+### Changed (2026-06-20) — English start surfaces, ending previews, and Baccarat readability
+
+- Localized StartMenu, SplashScreen, and OpeningCinematic player-facing start text for the English language setting.
+- Added `LocaleSurfaceCheck` so English start surfaces are covered by runtime QA.
+- Added a `00b_start_menu_en.png` ScreenshotQA capture.
+- Ending modals now always show a wide visual preview: dedicated CG when available, otherwise the ending-specific background.
+- Made the Baccarat table background opaque enough to prevent MainGame HUD/system panels from showing through behind the casino scene.
+
+### Changed (2026-06-19) — BGM continuity, interview background, and portrait layout
+
+- Prevented `BGMPlayer.start()` and `start_menu()` from restarting the same already-playing track during event/dashboard transitions.
+- Added `office_interview_day.png` and routed interview-tagged events to a daytime interview office instead of the late-night office background.
+- Enlarged and repositioned MainGame and StoryMode portraits so character presentation feels closer to a VN scene than a small floating thumbnail.
+- Added `BGMContinuityCheck` and an interview-story capture to `ScreenshotQA`. Current screenshot QA output: 24 PNGs.
+
+### Changed (2026-06-19) — Card/chip texture and shop palette pass
+
+- Added a shared `card_front_base.svg` and wired it into visible Blackjack, Baccarat, and Holdem cards with rank/suit overlays.
+- Added denomination chip SVGs from `1K` through `1M`; Blackjack and Baccarat stake buttons now show matching chip icons.
+- Rebalanced the Shop modal/button palette away from purple toward the existing lifestyle/economy green tone.
+- Fixed `ScreenshotQA` cleanup after the StartMenu capture and added betting-state captures for Baccarat and Blackjack. Current screenshot QA output: 23 PNGs.
+
+### Added (2026-06-19) — Audio P1 ambience and ending stingers
+
+- Added 5 ambience WAV layers for goshiwon room, Seoul rain, Han River, office, and casino floor scenes.
+- Added 3 ending stingers for good, bad, and legendary endings, selected by ending grade/id.
+- Added a separate low-volume ambience layer in `BGMPlayer` so location audio can change independently from the main BGM.
+- Extended `AudioAssetCheck` to validate ambience files. It now passes with `bgm=7 ambience=5 sfx=28`.
+
+### Changed (2026-06-19) — Investment/shop/system modal UI skin pass
+
+- Reworked Investment, Bank, Shop, and System modals with icon-backed section headers and SVG/icon-backed CTA buttons.
+- Removed emoji prefixes from major modal titles for a more consistent commercial UI tone.
+- Extended `ScreenshotQA` with Bank, Shop, and System modal captures. Current screenshot QA output: 21 PNGs.
+
+### Changed (2026-06-19) — Casino table UI and object-feel pass
+
+- Cleaned MainGame info-panel tabs and action-category modal copy to reduce prototype/emoji UI feel.
+- Cleaned Blackjack/Baccarat HUDs and primary action buttons into a more restrained casino-table style.
+- Replaced SlotMachine reel emoji glyphs with stable text symbol tiles (`7`, `BAR`, `CHERRY`, `BELL`, `LEMON`) and fixed near-miss detection to use numeric reel ids.
+- Added a Canvas-drawn Roulette wheel and ball so the roulette minigame shows a physical object instead of only changing numbers.
+- Cleaned RaceTrack HUD/dealer/result copy and fixed its countdown callback path for headless smoke QA.
+- Extended `ScreenshotQA` with Baccarat, Blackjack, Slot, and Roulette table captures and now clears stale screenshot PNGs before each run.
+
+### Changed (2026-06-19) — Start menu and tutorial UI skin pass
+
+- Reworked StartMenu difficulty/theme cards to use unified SVG icons instead of platform emoji glyphs.
+- Cleaned up StartMenu settings, delete, start, and content-notice button copy.
+- Replaced TutorialOverlay's large slide emoji with card/chip/UI-icon textures.
+- Extended `ScreenshotQA` with a `00_start_menu.png` capture and suppressed automatic tutorial overlays so minigame body screens are visible in QA.
+- Cleaned visible Holdem/RaceTrack rule/header controls to reduce emoji/prototype UI feel.
+- Switched StoryMode backgrounds to covered scaling and replaced the top VN HUD emoji string with a text status bar.
+
+### Changed (2026-06-19) — UI skin P1 and casino hub polish
+
+- Reworked the MainGame HUD into icon-backed status chips for date, AP, health, mental, and money.
+- Replaced the main direct-action text buttons with action cards containing a unified icon, title, short description, and AP/free badge.
+- Rebuilt the first-run tutorial modal as compact rule cards instead of a long document-style instruction panel.
+- Updated the Jeongseon Casino hub to use existing card-back and poker-chip UI textures instead of emoji game icons, added open fade-in, and connected casino entry buttons to casino SFX.
+
+### Added (2026-06-19) — Player-facing polish QA and first dynamic pass
+
+- Added `docs/PLAYER_FACING_POLISH_AUDIT.md`, a runtime-based audit of UI/UX, image assets, audio assets, minigame surface quality, and Godot motion priorities.
+- Added 8 real casino SFX files for existing runtime keys: card, bet, coin, spin, reel, win, lose, and jackpot. `AudioAssetCheck` now passes with `bgm=7 sfx=25`.
+- Added subtle MainGame background drift and switched the event background TextureRect to covered mode to reduce static web-page feel.
+
+### Fixed (2026-06-19) — Red crisis effect and QA correction
+
+- Reduced red crisis vignette intensity and limited it to true danger thresholds: health <= 25 or mental <= 15.
+- Main dashboard/action vignette rendering now immediately clears lingering category tint and feedback flash, preventing non-crisis screens from staying red.
+- Updated `CGRuntimeCheck` so it verifies ending CG plumbing without incorrectly requiring the removed hospital-father CG on the `gangnam_dream` victory ending.
+- Fixed StartMenu legacy tagline from "100만원" to the current canon "50만원".
+
 ### Changed (2026-06-19) — Claude cloud branch merge cleanup
 
 - Fast-forwarded local `main` to Claude cloud branch `origin/claude/game-polish-steam-uh6ldg` (24 commits ahead of `origin/main`).

@@ -2,7 +2,7 @@
   {
     "id": "arc_intro_01_meal",
     "title": "첫 면접",
-    "background": "office",
+    "background": "office_interview_day",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",

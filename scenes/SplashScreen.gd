@@ -77,14 +77,18 @@ func _build_ui():
 	_logo_img.custom_minimum_size = Vector2(380, 190)
 	_logo_img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_logo_img.modulate = Color(1, 1, 1, 0.0)
-	var logo_tex = load("res://assets/logos/gangnam_dream_logo_concept.png")
-	if logo_tex:
-		_logo_img.texture = logo_tex
+	if LocaleManager.is_english():
+		_logo_img.visible = false
+		_logo_img.custom_minimum_size = Vector2(0, 6)
+	else:
+		var logo_tex = load("res://assets/logos/gangnam_dream_logo_concept.png")
+		if logo_tex:
+			_logo_img.texture = logo_tex
 	vbox.add_child(_logo_img)
 
 	# ── 한글 타이틀 ──
 	_title_lbl = Label.new()
-	_title_lbl.text = "강남드림"
+	_title_lbl.text = LocaleManager.ui("강남드림", "Gangnam Dream")
 	_title_lbl.add_theme_font_size_override("font_size", 64)
 	_title_lbl.add_theme_color_override("font_color", Color("#f0f4ff"))
 	_title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -94,7 +98,7 @@ func _build_ui():
 
 	# ── 영문 부제 ──
 	_sub_lbl = Label.new()
-	_sub_lbl.text = "GANGNAM DREAM"
+	_sub_lbl.text = LocaleManager.ui("GANGNAM DREAM", "KOREAN LIFE ROGUELIKE")
 	_sub_lbl.add_theme_font_size_override("font_size", 16)
 	_sub_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	_sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -112,7 +116,7 @@ func _build_ui():
 
 	# ── 태그라인 ──
 	_tagline_lbl = Label.new()
-	_tagline_lbl.text = "서울에서 살아남아라"
+	_tagline_lbl.text = LocaleManager.ui("서울에서 살아남아라", "Survive Seoul")
 	_tagline_lbl.add_theme_font_size_override("font_size", 19)
 	_tagline_lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	_tagline_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -122,7 +126,7 @@ func _build_ui():
 
 	# ── 배경 설명 ──
 	_context_lbl = Label.new()
-	_context_lbl.text = "― 2030년대 서울, 당신의 이야기 ―"
+	_context_lbl.text = LocaleManager.ui("― 2030년대 서울, 당신의 이야기 ―", "― Seoul in the 2030s. Your story. ―")
 	_context_lbl.add_theme_font_size_override("font_size", 13)
 	_context_lbl.add_theme_color_override("font_color", Color("#3d4a5e"))
 	_context_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

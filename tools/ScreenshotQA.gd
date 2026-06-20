@@ -10,6 +10,10 @@ var _mg: Node = null
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
+	_clear_output_dir()
+	await _shot_start_menu("ko", "00_start_menu")
+	await _shot_start_menu("en", "00b_start_menu_en")
+	LocaleManager.language = "ko"
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
 	for c in ["chapter_33_seen","chapter_34_seen","chapter_35_seen","chapter_36_seen","chapter_37_seen"]:
@@ -24,7 +28,9 @@ func _ready() -> void:
 	GameState.investment_skill = 35
 	GameState.flags["has_received_paycheck"] = true
 	GameState.flags["arc_invest_guidance_seen"] = true
+	_suppress_tutorial_overlays()
 	_seed_portfolio()
+	await _shot_story_event("arc_intro_01_meal", "00a_story_interview")
 
 	# MainGame._ready 의 _begin_month 가 StoryMode 로 change_scene 하는 것을 막는다:
 	# returning_from_story=true 로 진입점을 우회하고, 직후 전환 트윈을 매 프레임 죽인다.
@@ -43,26 +49,121 @@ func _ready() -> void:
 
 	await _shot_event_gambling()
 	await _shot_investment()
+	await _shot_support_modals()
 	await _shot_crisis_vignette()
 	await _shot_ap_actions()
 	await _shot_people()
-	await _shot_minigame("holdem_club", "06_holdem_club")
-	await _shot_minigame("racetrack", "07_racetrack")
+	await _shot_holdem_club()
+	await _shot_racetrack()
 	await _shot_minigame("jeongseon_casino", "08_jeongseon_casino")
-	await _shot_ending("gangnam_dream", "09_ending_gangnam_win")
-	await _shot_ending("bankruptcy", "10_ending_bankruptcy")
-	await _shot_ending("stable_success", "11_ending_stable_success")
-	await _shot_ending("crypto_ghost", "12_ending_crypto_ghost")
-	await _shot_ending("orthodox_pinnacle", "13_ending_orthodox_pinnacle")
+	await _shot_casino_table("baccarat_table", "09_baccarat_table")
+	await _shot_casino_table("blackjack_table", "10_blackjack_table")
+	await _shot_casino_table("slot_machine_game", "11_slot_machine")
+	await _shot_casino_table("roulette_table", "12_roulette_table")
+	await _shot_casino_table("big_wheel_game", "12a_bigwheel")
+	await _shot_ending("gangnam_dream", "13_ending_gangnam_win")
+	await _shot_ending("empty_house", "13a_ending_empty_house")
+	await _shot_ending("bankruptcy", "14_ending_bankruptcy")
+	await _shot_ending("stable_success", "15_ending_stable_success")
+	await _shot_ending("crypto_ghost", "16_ending_crypto_ghost")
+	await _shot_ending("orthodox_pinnacle", "17_ending_orthodox_pinnacle")
 
 	print("SCREENSHOT_QA_DONE dir=%s" % OUT_DIR)
 	get_tree().quit(0)
+
+func _clear_output_dir() -> void:
+	var dir := DirAccess.open(OUT_DIR)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".png"):
+			dir.remove(file_name)
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
+func _shot_start_menu(lang: String, shot_name: String) -> void:
+	LocaleManager.language = lang
+	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	await _settle(0.8)
+	if menu.has_method("_dismiss_splash"):
+		menu._dismiss_splash()
+	await _settle(0.6)
+	await _save(shot_name)
+	if is_instance_valid(menu):
+		var parent := menu.get_parent()
+		if parent != null:
+			parent.remove_child(menu)
+		menu.free()
+	_remove_start_menu_nodes()
+	await _settle(0.4)
+
+func _remove_start_menu_nodes() -> void:
+	var targets: Array[Node] = []
+	_collect_start_menu_nodes(get_tree().root, targets)
+	for node in targets:
+		var parent := node.get_parent()
+		if parent != null:
+			parent.remove_child(node)
+		node.free()
+
+func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
+	var script_path := "res://scenes/StartMenu.gd"
+	for child in node.get_children():
+		if child == self:
+			continue
+		var script: Script = child.get_script()
+		var is_start_menu := child.name == "StartMenu" or (script != null and script.resource_path == script_path)
+		if is_start_menu:
+			targets.append(child)
+		else:
+			_collect_start_menu_nodes(child, targets)
+
+func _shot_story_event(event_id: String, shot_name: String) -> void:
+	GameState.pending_story_queue = [event_id]
+	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
+	var story := packed.instantiate()
+	get_tree().root.add_child.call_deferred(story)
+	await get_tree().process_frame
+	await _settle(1.1)
+	await _save(shot_name)
+	_remove_nodes_by_script("res://scenes/StoryMode.gd")
+	GameState.pending_story_queue.clear()
+	await _settle(0.3)
+
+func _remove_nodes_by_script(script_path: String) -> void:
+	var targets: Array[Node] = []
+	_collect_nodes_by_script(get_tree().root, script_path, targets)
+	for node in targets:
+		var parent := node.get_parent()
+		if parent != null:
+			parent.remove_child(node)
+		node.free()
+
+func _collect_nodes_by_script(node: Node, script_path: String, targets: Array[Node]) -> void:
+	for child in node.get_children():
+		if child == self:
+			continue
+		var script: Script = child.get_script()
+		if script != null and script.resource_path == script_path:
+			targets.append(child)
+		else:
+			_collect_nodes_by_script(child, script_path, targets)
 
 func _seed_portfolio() -> void:
 	if not (GameState.portfolio is Dictionary):
 		return
 	GameState.portfolio["samsung"] = {"quantity": 30.0, "avg_price": 68000.0}
 	GameState.portfolio["nvidia"] = {"quantity": 2.0, "avg_price": 820000.0}
+
+func _suppress_tutorial_overlays() -> void:
+	for id in ["main_game", "holdem", "racetrack", "baccarat", "blackjack",
+			"slot", "roulette", "bigwheel", "scalping", "trading", "invest"]:
+		TutorialOverlay._seen[id] = true
 
 func _kill_transition() -> void:
 	var st = get_tree().root.get_node_or_null("SceneTransition")
@@ -75,10 +176,23 @@ func _settle(t: float = 0.6) -> void:
 
 func _save(shot_name: String) -> void:
 	await _settle(0.3)
-	var img: Image = get_viewport().get_texture().get_image()
+	RenderingServer.force_draw()
+	await get_tree().process_frame
+	var viewport_texture := get_viewport().get_texture()
+	if viewport_texture == null:
+		_fail("Viewport texture is unavailable. Run ScreenshotQA with a real rendering driver.")
+		return
+	var img: Image = viewport_texture.get_image()
+	if img == null or img.is_empty():
+		_fail("Viewport image is empty. Run ScreenshotQA with a real rendering driver.")
+		return
 	var path := "%s/%s.png" % [OUT_DIR, shot_name]
 	img.save_png(path)
 	print("SHOT %s" % path)
+
+func _fail(msg: String) -> void:
+	push_error("SCREENSHOT_QA_FAIL " + msg)
+	get_tree().quit(1)
 
 func _force_event(ev: Dictionary) -> void:
 	_mg.current_event = ev
@@ -108,6 +222,26 @@ func _shot_investment() -> void:
 		await _save("02_investment_portfolio_chart")
 		_close_modal()
 		await _settle(0.4)
+
+func _shot_support_modals() -> void:
+	if _mg.has_method("_open_bank"):
+		_mg._open_bank()
+		await _settle(0.7)
+		await _save("02a_bank_modal")
+		_close_modal()
+		await _settle(0.3)
+	if _mg.has_method("_open_shop"):
+		_mg._open_shop()
+		await _settle(0.7)
+		await _save("02b_shop_modal")
+		_close_modal()
+		await _settle(0.3)
+	if _mg.has_method("_open_system_menu"):
+		_mg._open_system_menu()
+		await _settle(0.7)
+		await _save("02c_system_menu")
+		_close_modal()
+		await _settle(0.3)
 
 func _shot_crisis_vignette() -> void:
 	GameState.mental = 9
@@ -161,9 +295,96 @@ func _shot_minigame(node_name: String, shot_name: String) -> void:
 		print("SKIP %s (no node)" % shot_name)
 		return
 	node.open()
+	if node_name == "holdem_club" and node.has_method("_start_hand"):
+		await _settle(0.4)
+		node._buy_in = 100_000
+		node._start_hand()
 	await _settle(1.0)
 	await _save(shot_name)
 	# 오버레이 숨김 (다음 케이스 방해 방지)
+	if "visible" in node:
+		node.visible = false
+	await _settle(0.3)
+
+func _shot_holdem_club() -> void:
+	GameState.flags["entered_network"] = true
+	GameState.money = 5_000_000.0
+	var node = _mg.get("holdem_club")
+	if node == null or not node.has_method("open"):
+		print("SKIP 06_holdem_club (no node)")
+		return
+	node.open()
+	await _settle(0.4)
+	node._buy_in = 100_000
+	node._start_hand()
+	await _settle(1.0)
+	await _save("06_holdem_club")
+	while node._community.size() < 5 and node._deck.size() > 0:
+		node._community.append(node._deck.pop_back())
+	node._do_showdown()
+	await _settle(1.0)
+	await _save("06a_holdem_showdown")
+	if "visible" in node:
+		node.visible = false
+	await _settle(0.3)
+
+func _shot_racetrack() -> void:
+	GameState.flags["entered_network"] = true
+	GameState.money = 5_000_000.0
+	var node = _mg.get("racetrack")
+	if node == null or not node.has_method("open"):
+		print("SKIP 07_racetrack (no node)")
+		return
+	node.open()
+	await _settle(0.8)
+	await _save("07_racetrack_betting")
+	node.skip_countdown_for_smoke = true
+	node._bet_type = 1
+	node._picks = [0]
+	node._place_bet(10_000.0)
+	await _settle(1.2)
+	await _save("07a_racetrack_race")
+	await _settle(4.2)
+	await _save("07b_racetrack_result")
+	node.skip_countdown_for_smoke = false
+	if "visible" in node:
+		node.visible = false
+	await _settle(0.3)
+
+func _shot_casino_table(node_name: String, shot_name: String) -> void:
+	GameState.money = 10_000_000.0
+	var node = _mg.get(node_name)
+	if node == null or not node.has_method("open"):
+		print("SKIP %s (no node)" % shot_name)
+		return
+	node.open()
+	await _settle(0.4)
+	match node_name:
+		"baccarat_table":
+			await _save("09a_baccarat_betting")
+			node._set_stake(10_000)
+			node._add_bet("B")
+			node._deal()
+			await _settle(2.0)
+		"blackjack_table":
+			await _save("10a_blackjack_betting")
+			node._set_stake_and_deal(10_000)
+			await _settle(0.8)
+		"slot_machine_game":
+			node._start_spin()
+			await _settle(1.8)
+		"roulette_table":
+			node._select_bet_type(1)
+			node._select_stake(10_000)
+			node._do_bet()
+			node._do_spin()
+			await _settle(1.6)
+		"big_wheel_game":
+			node._select_segment(0)
+			node._select_stake(10_000)
+			node._do_spin()
+			await _settle(1.8)
+	await _save(shot_name)
 	if "visible" in node:
 		node.visible = false
 	await _settle(0.3)

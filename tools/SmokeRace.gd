@@ -6,6 +6,7 @@ func _ready() -> void:
 	if not (GameState.flags is Dictionary): GameState.flags = {}
 	var rt = load("res://scenes/RaceTrack.gd").new()
 	add_child(rt)
+	rt.skip_countdown_for_smoke = true
 	rt.open()
 	print("SMOKE open/betting OK")
 	rt._consult_dealer()
@@ -32,4 +33,6 @@ func _ready() -> void:
 	for r in roster: starts += int(r["starts"])
 	print("SMOKE 전적누적 총출주=", starts, " (>0이어야)")
 	print("SMOKE_ALL_OK")
+	rt.queue_free()
+	await get_tree().process_frame
 	get_tree().quit(0)

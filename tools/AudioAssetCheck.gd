@@ -8,10 +8,12 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	_check_bgm()
+	_check_ambience()
 	_check_sfx()
 	_check_used_sfx_keys()
 	if _failures.is_empty():
-		print("AUDIO_ASSET_CHECK_OK bgm=%d sfx=%d" % [BGMPlayer.TRACKS.size(), AudioManager._SFX_FILES.size()])
+		print("AUDIO_ASSET_CHECK_OK bgm=%d ambience=%d sfx=%d" % [
+			BGMPlayer.TRACKS.size(), BGMPlayer.AMBIENCE_TRACKS.size(), AudioManager._SFX_FILES.size()])
 		get_tree().quit(0)
 	else:
 		for failure in _failures:
@@ -21,6 +23,10 @@ func _ready() -> void:
 func _check_bgm() -> void:
 	for key in BGMPlayer.TRACKS:
 		_check_audio_stream("BGM:%s" % key, str(BGMPlayer.TRACKS[key]))
+
+func _check_ambience() -> void:
+	for key in BGMPlayer.AMBIENCE_TRACKS:
+		_check_audio_stream("AMBIENCE:%s" % key, str(BGMPlayer.AMBIENCE_TRACKS[key]))
 
 func _check_sfx() -> void:
 	for key in AudioManager._SFX_FILES:

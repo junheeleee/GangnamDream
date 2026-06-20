@@ -7,6 +7,14 @@ signal closed
 
 const BAC := preload("res://systems/Baccarat.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
+const CHIP_TEX_BY_STAKE := {
+	10_000: preload("res://assets/ui/chips/chip_10k.svg"),
+	50_000: preload("res://assets/ui/chips/chip_50k.svg"),
+	100_000: preload("res://assets/ui/chips/chip_100k.svg"),
+	500_000: preload("res://assets/ui/chips/chip_500k.svg"),
+	1_000_000: preload("res://assets/ui/chips/chip_1m.svg"),
+}
 
 enum Phase { BETTING, DEALING, RESULT }
 
@@ -101,7 +109,7 @@ func _on_exit() -> void:
 	# 커미션 정산
 	if _commission > 0.0:
 		GameState.add_money(-_commission)
-		GameState.add_log("🎰 바카라 커미션 정산 -%s" % GameState.format_money(_commission), "money")
+		GameState.add_log("바카라 커미션 정산 -%s" % GameState.format_money(_commission), "money")
 	MetaProgression.record_minigame_play("baccarat")
 	set_process(false)
 	visible = false
@@ -277,7 +285,7 @@ func _finish_result() -> void:
 		_road.pop_front()
 	_start_road_fade()
 
-	GameState.add_log("🎰 바카라 %s%s %s" % [
+	GameState.add_log("바카라 %s%s %s" % [
 		res, " 내추럴" if (res == "player" and bool(_result.get("player_natural", false))) or
 			(res == "banker" and bool(_result.get("banker_natural", false))) else "",
 		("+%s" % GameState.format_money(net_round)) if net_round >= 0 else
@@ -314,8 +322,8 @@ func _refresh_hud() -> void:
 	var comm_str: String = ""
 	if _commission > 0.0:
 		var hud_comm_col: String = "#f0d020" if _commission >= 100_000.0 else "#e8a05d"
-		comm_str = "   ⚠커미션 [color=%s]%s[/color]" % [hud_comm_col, GameState.format_money(_commission)]
-	_hud_lbl.text = "💰 [b]%s[/b]   |   🎰 %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s" % [
+		comm_str = "   커미션 [color=%s]%s[/color]" % [hud_comm_col, GameState.format_money(_commission)]
+	_hud_lbl.text = "[b]현금 %s[/b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s" % [
 		GameState.format_money(GameState.money), _rounds,
 		_p_wins, _b_wins, _ties,
 		("+%s" % GameState.format_money(_net)) if _net >= 0 else GameState.format_money(_net),
@@ -325,7 +333,7 @@ func _render_betting() -> void:
 	var vb := _make_vbox(12)
 
 	var title := Label.new()
-	title.text = "🎰 바카라"
+	title.text = "바카라"
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -376,7 +384,13 @@ func _render_betting() -> void:
 			func(): _set_stake(s),
 			"#1a2a1a" if s == _active_stake else "#0e141a",
 			"#5de89c" if s == _active_stake else "#2a3a4a")
-		sb.custom_minimum_size = Vector2(80, 30)
+		if CHIP_TEX_BY_STAKE.has(s):
+			sb.icon = CHIP_TEX_BY_STAKE[s]
+			sb.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			sb.expand_icon = false
+			sb.add_theme_constant_override("h_separation", 6)
+			sb.add_theme_constant_override("icon_max_width", 20)
+		sb.custom_minimum_size = Vector2(102, 32)
 		stake_row.add_child(sb)
 
 	vb.add_child(_sep())
@@ -385,7 +399,7 @@ func _render_betting() -> void:
 	var action_row := HBoxContainer.new()
 	action_row.add_theme_constant_override("separation", 10)
 	vb.add_child(action_row)
-	var deal_btn := _make_btn("▶  딜 시작", _deal, "#1a3a1a", "#3de87a")
+	var deal_btn := _make_btn("딜 시작", _deal, "#1a3a1a", "#3de87a")
 	deal_btn.custom_minimum_size = Vector2(0, 44)
 	deal_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	deal_btn.disabled = (_total_bet() == 0)
@@ -393,8 +407,8 @@ func _render_betting() -> void:
 	var clear_btn := _make_btn("베팅 초기화", _clear_bets, "#1a1a1a", "#4a4a5a")
 	clear_btn.custom_minimum_size = Vector2(100, 44)
 	action_row.add_child(clear_btn)
-	var help_btn := _make_btn("❓", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#5a4510")
-	help_btn.custom_minimum_size = Vector2(50, 44)
+	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#5a4510")
+	help_btn.custom_minimum_size = Vector2(60, 44)
 	action_row.add_child(help_btn)
 
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
@@ -443,7 +457,7 @@ func _render_result_screen() -> void:
 	if bool(_result.get("b_pair", false)): pair_parts.append("뱅커 페어!")
 	if not pair_parts.is_empty():
 		var pair_lbl := Label.new()
-		pair_lbl.text = "🎯 " + "  /  ".join(pair_parts)
+		pair_lbl.text = "  /  ".join(pair_parts)
 		pair_lbl.add_theme_font_size_override("font_size", 14)
 		pair_lbl.add_theme_color_override("font_color", Color("#d4a0ff"))
 		_f(pair_lbl); vb.add_child(pair_lbl)
@@ -451,7 +465,7 @@ func _render_result_screen() -> void:
 	# 커미션 안내
 	if _commission > 0.0:
 		var comm_lbl := Label.new()
-		comm_lbl.text = "⚠ 누적 커미션: %s (나갈 때 정산)" % GameState.format_money(_commission)
+		comm_lbl.text = "누적 커미션: %s (나갈 때 정산)" % GameState.format_money(_commission)
 		comm_lbl.add_theme_font_size_override("font_size", 12)
 		# 10만원 이상이면 노란색으로 강조
 		var comm_color: Color = Color("#f0d020") if _commission >= 100_000.0 else Color("#e8a05d")
@@ -464,7 +478,7 @@ func _render_result_screen() -> void:
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 10)
 	vb.add_child(btn_row)
-	var again_btn := _make_btn("🔥 다음 라운드", _next_round, "#1a2a1a", "#3de87a")
+	var again_btn := _make_btn("다음 라운드", _next_round, "#1a2a1a", "#3de87a")
 	again_btn.custom_minimum_size = Vector2(0, 48)
 	again_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(again_btn, true); btn_row.add_child(again_btn)
@@ -530,7 +544,13 @@ func _set_stake(s: int) -> void:
 
 # ── UI 헬퍼 ───────────────────────────────────────────────────
 func _build_skeleton() -> void:
-	# 배경
+	# 배경 — MainGame HUD/시스템 창이 뒤에서 비치지 않도록 먼저 불투명 베이스를 깐다.
+	var bg := ColorRect.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color("#050810")
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg)
+
 	const _BG = "res://assets/backgrounds/casino_interior.png"
 	if ResourceLoader.exists(_BG):
 		var bg_img := TextureRect.new()
@@ -539,15 +559,13 @@ func _build_skeleton() -> void:
 		bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bg_img.texture = load(_BG) as Texture2D
-		bg_img.modulate = Color(1, 1, 1, 0.48)
+		bg_img.modulate = Color(1, 1, 1, 0.52)
 		add_child(bg_img)
-	var bg := ColorRect.new()
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color("#050810")
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var alpha := 0.58 if ResourceLoader.exists(_BG) else 1.0
-	bg.color.a = alpha
-	add_child(bg)
+	var veil := ColorRect.new()
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	veil.color = Color(0.015, 0.02, 0.035, 0.42 if ResourceLoader.exists(_BG) else 0.0)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
 
 	# HUD (최상단)
 	var hud_panel := Panel.new()
@@ -662,18 +680,26 @@ func _card_widget(card: int) -> Control:
 	var root := Control.new()
 	root.custom_minimum_size = Vector2(54, 76)
 
-	var panel := Panel.new()
-	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#f8f4e8")
-	st.border_color = Color("#b8aa8a")
-	st.set_border_width_all(1)
-	st.set_corner_radius_all(7)
-	st.shadow_color = Color(0, 0, 0, 0.35)
-	st.shadow_size = 5
-	st.shadow_offset = Vector2(0, 2)
-	panel.add_theme_stylebox_override("panel", st)
-	root.add_child(panel)
+	if CARD_FRONT_TEX != null:
+		var tex := TextureRect.new()
+		tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tex.texture = CARD_FRONT_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		root.add_child(tex)
+	else:
+		var panel := Panel.new()
+		panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#f8f4e8")
+		st.border_color = Color("#b8aa8a")
+		st.set_border_width_all(1)
+		st.set_corner_radius_all(7)
+		st.shadow_color = Color(0, 0, 0, 0.35)
+		st.shadow_size = 5
+		st.shadow_offset = Vector2(0, 2)
+		panel.add_theme_stylebox_override("panel", st)
+		root.add_child(panel)
 
 	var col := Color("#d73939") if _card_is_red(card) else Color("#141827")
 	var rank := _card_rank_text(card)

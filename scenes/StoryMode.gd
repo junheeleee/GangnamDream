@@ -80,7 +80,7 @@ func _build_ui():
 	# 1. 배경 이미지 (이벤트별 전환)
 	_bg_img = TextureRect.new()
 	_bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+	_bg_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_bg_img)
@@ -103,10 +103,10 @@ func _build_ui():
 	# 4. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
 	_portrait_frame = PanelContainer.new()
 	_portrait_frame.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_portrait_frame.offset_left = -316
-	_portrait_frame.offset_right = -48
-	_portrait_frame.offset_top = -726
-	_portrait_frame.offset_bottom = -256
+	_portrait_frame.offset_left = -430
+	_portrait_frame.offset_right = -28
+	_portrait_frame.offset_top = -690
+	_portrait_frame.offset_bottom = -40
 	_portrait_frame.clip_contents = true
 	_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait_frame.modulate = Color(1, 1, 1, 0)
@@ -121,7 +121,7 @@ func _build_ui():
 	add_child(_portrait_frame)
 
 	_portrait = TextureRect.new()
-	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait_frame.add_child(_portrait)
@@ -267,7 +267,7 @@ func _refresh_hud():
 	var assets: float = GameState.get_total_asset_value()
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var yrs_left: int = max(0, 38 - GameState.age)
-	_hud_label.text = "🎯 %s / 30억 (%d%%)      💰 %s      ❤%d  🧠%d      ⏳ %d년" % [
+	_hud_label.text = "자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d년" % [
 		GameState.format_money(assets), pct,
 		GameState.format_money(GameState.money),
 		GameState.health, GameState.mental, yrs_left]
@@ -315,6 +315,7 @@ func _render_current():
 			var bp = ImageRegistry.get_background(bg_id)
 			if bp != "" and ResourceLoader.exists(bp):
 				_bg_img.texture = load(bp)
+	BGMPlayer.update_event_ambience(_current)
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
 	var pid = str(_current.get("portrait", ""))
@@ -769,6 +770,7 @@ func _finish_all():
 		return
 	_transitioning = true
 	EventManager.current_event = {}
+	BGMPlayer.update_idle_ambience()
 	# MainGame이 '달을 다시 시작하지 않도록' 복귀 플래그 설정
 	GameState.returning_from_story = true
 	# 복귀 대상 (기본: MainGame)
@@ -779,4 +781,4 @@ func _finish_all():
 	SceneTransition.go(ret)
 
 func _fmt(s: String) -> String:
-	return s.replace("{name}", GameState.player_name)
+	return GameState.format_event_text(s)

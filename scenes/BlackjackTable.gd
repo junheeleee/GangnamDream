@@ -7,6 +7,14 @@ signal closed
 
 const BJ := preload("res://systems/Blackjack.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
+const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
+const CHIP_TEX_BY_STAKE := {
+	10_000: preload("res://assets/ui/chips/chip_10k.svg"),
+	50_000: preload("res://assets/ui/chips/chip_50k.svg"),
+	100_000: preload("res://assets/ui/chips/chip_100k.svg"),
+	500_000: preload("res://assets/ui/chips/chip_500k.svg"),
+	1_000_000: preload("res://assets/ui/chips/chip_1m.svg"),
+}
 
 enum Phase { BETTING, PLAYER_TURN, DEALER_TURN, RESULT }
 
@@ -227,7 +235,7 @@ func _resolve_hand() -> void:
 			_pushes += 1
 		elif pj:
 			gain = float(actual_stake) * (1.0 + BJ_PAYOUT)
-			label = "🎉 블랙잭! +%s" % GameState.format_money(gain - float(actual_stake))
+			label = "BLACKJACK  +%s" % GameState.format_money(gain - float(actual_stake))
 			_wins += 1
 			got_blackjack = true
 		elif dealer_bj:
@@ -275,11 +283,11 @@ func _resolve_hand() -> void:
 	else:
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
-	GameState.add_log("🃏 블랙잭 %s" % desc, "money")
+	GameState.add_log("블랙잭 %s" % desc, "money")
 	GameState.stats_changed.emit()
 	_render()
 	if got_blackjack:
-		_show_table_banner_bj("🎉 블랙잭!", Color("#f0b429"))
+		_show_table_banner_bj("BLACKJACK", Color("#f0b429"))
 		_screen_flash(Color("#f0b429"), 0.22, 0.44)
 		_pulse_node(_content_root, 1.04, 0.32)
 	elif got_bust:
@@ -313,7 +321,7 @@ func _refresh_hud() -> void:
 	var wr: String = ""
 	if total_h > 0:
 		wr = "  승률 %d%% (%dW/%dL/%dP)" % [roundi(float(_wins)/float(total_h)*100), _wins, _losses, _pushes]
-	_hud_lbl.text = "💰 [b]%s[/b]   |   🃏 블랙잭%s   손익 [b]%s[/b]" % [
+	_hud_lbl.text = "[b]현금 %s[/b]   |   블랙잭%s   손익 [b]%s[/b]" % [
 		GameState.format_money(GameState.money), wr,
 		("+%s" % GameState.format_money(_net)) if _net >= 0 else GameState.format_money(_net)]
 
@@ -321,7 +329,7 @@ func _render_betting() -> void:
 	var vb := _make_vbox(12)
 
 	var title := Label.new()
-	title.text = "🃏 블랙잭"
+	title.text = "블랙잭"
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -362,19 +370,25 @@ func _render_betting() -> void:
 		var sb := _make_btn(GameState.format_money(float(s)), func(): _set_stake_and_deal(s),
 			"#1a2a1a" if s == _stake else "#0e141a",
 			"#5de89c" if s == _stake else "#2a3a4a")
+		if CHIP_TEX_BY_STAKE.has(s):
+			sb.icon = CHIP_TEX_BY_STAKE[s]
+			sb.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			sb.expand_icon = false
+			sb.add_theme_constant_override("h_separation", 6)
+			sb.add_theme_constant_override("icon_max_width", 22)
 		sb.disabled = not can
-		sb.custom_minimum_size = Vector2(80, 38)
+		sb.custom_minimum_size = Vector2(102, 38)
 		stake_row.add_child(sb)
 
 	vb.add_child(_sep())
 
-	var deal_btn := _make_btn("▶  딜 (베팅: %s)" % GameState.format_money(float(_stake)),
+	var deal_btn := _make_btn("딜 시작  |  베팅 %s" % GameState.format_money(float(_stake)),
 		func(): _set_stake_and_deal(_stake), "#1a3a1a", "#3de87a")
 	deal_btn.custom_minimum_size = Vector2(0, 48)
 	deal_btn.disabled = GameState.money < float(_stake)
 	_f(deal_btn, true); vb.add_child(deal_btn)
 
-	var help_btn := _make_btn("❓ 규칙", func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#5a4510")
+	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(0, 44)
 	vb.add_child(help_btn)
 
@@ -438,7 +452,7 @@ func _render_game() -> void:
 		p_row.add_theme_constant_override("separation", 8)
 		vb.add_child(p_row)
 		var p_lbl := Label.new()
-		p_lbl.text = ("👤 나" if _split.is_empty() else ("핸드%d" % (hi + 1))) + (" ◀" if is_active and _phase == Phase.PLAYER_TURN else "")
+		p_lbl.text = ("나" if _split.is_empty() else ("핸드%d" % (hi + 1))) + ("  선택" if is_active and _phase == Phase.PLAYER_TURN else "")
 		p_lbl.add_theme_font_size_override("font_size", 13)
 		p_lbl.add_theme_color_override("font_color", Color("#f0b429") if is_active else Color("#5a6a7a"))
 		p_lbl.custom_minimum_size = Vector2(70, 0)
@@ -463,7 +477,7 @@ func _render_game() -> void:
 		var hint_rt := RichTextLabel.new()
 		hint_rt.bbcode_enabled = true; hint_rt.fit_content = true; hint_rt.scroll_active = false
 		_f(hint_rt); hint_rt.add_theme_font_size_override("normal_font_size", 13)
-		hint_rt.text = "💡 기본전략: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~0.5%%)[/color]" % [hc, hs]
+		hint_rt.text = "기본전략: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~0.5%%)[/color]" % [hc, hs]
 		vb.add_child(hint_rt)
 
 	vb.add_child(_sep())
@@ -474,17 +488,17 @@ func _render_game() -> void:
 		btn_row.add_theme_constant_override("separation", 8)
 		vb.add_child(btn_row)
 
-		var hit_btn := _make_btn("🃏 히트", _hit, "#1a2a3a", "#3a7abf")
+		var hit_btn := _make_btn("히트", _hit, "#1a2a3a", "#3a7abf")
 		hit_btn.custom_minimum_size = Vector2(80, 40)
 		btn_row.add_child(hit_btn)
 
-		var stand_btn := _make_btn("✋ 스탠드", _stand, "#1a3a1a", "#3a9a3a")
+		var stand_btn := _make_btn("스탠드", _stand, "#1a3a1a", "#3a9a3a")
 		stand_btn.custom_minimum_size = Vector2(80, 40)
 		btn_row.add_child(stand_btn)
 
 		# 더블다운: 첫 두 장이고 현금 있을 때
 		var can_dbl: bool = cur_hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
-		var dbl_btn := _make_btn("✖2 더블", _double_down, "#2a2a0a", "#9a9a2a")
+		var dbl_btn := _make_btn("더블 x2", _double_down, "#2a2a0a", "#9a9a2a")
 		dbl_btn.custom_minimum_size = Vector2(80, 40)
 		dbl_btn.disabled = not can_dbl
 		btn_row.add_child(dbl_btn)
@@ -496,7 +510,7 @@ func _render_game() -> void:
 			var v0: int = int(_player[0]) % 13
 			var v1: int = int(_player[1]) % 13
 			can_split = (mini(v0+1,10) == mini(v1+1,10)) or (v0 >= 9 and v1 >= 9)
-		var split_btn := _make_btn("⑈ 스플릿", _do_split, "#2a0a2a", "#8a3a8a")
+		var split_btn := _make_btn("스플릿", _do_split, "#2a0a2a", "#8a3a8a")
 		split_btn.custom_minimum_size = Vector2(80, 40)
 		split_btn.disabled = not can_split
 		btn_row.add_child(split_btn)
@@ -553,7 +567,7 @@ func _render_result() -> void:
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 10)
 	vb.add_child(btn_row)
-	var again_btn := _make_btn("🔥 다음 핸드", func():
+	var again_btn := _make_btn("다음 핸드", func():
 		_phase = Phase.BETTING; _render(), "#1a3a1a", "#3de87a")
 	again_btn.custom_minimum_size = Vector2(0, 48)
 	again_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -565,6 +579,11 @@ func _render_result() -> void:
 # ── UI 헬퍼 ───────────────────────────────────────────────────
 func _build_skeleton() -> void:
 	const _BG = "res://assets/backgrounds/casino_interior.png"
+	var base_bg := ColorRect.new()
+	base_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	base_bg.color = Color("#06090e")
+	base_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(base_bg)
 	if ResourceLoader.exists(_BG):
 		var bg_img := TextureRect.new()
 		bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -649,18 +668,37 @@ func _card_widget(card: int, highlight := false) -> Control:
 	var root := Control.new()
 	root.custom_minimum_size = Vector2(54, 76)
 
-	var panel := Panel.new()
-	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
-	st.border_color = Color("#f0b429") if highlight else Color("#b8aa8a")
-	st.set_border_width_all(2 if highlight else 1)
-	st.set_corner_radius_all(7)
-	st.shadow_color = Color(0, 0, 0, 0.35)
-	st.shadow_size = 5
-	st.shadow_offset = Vector2(0, 2)
-	panel.add_theme_stylebox_override("panel", st)
-	root.add_child(panel)
+	if CARD_FRONT_TEX != null:
+		var tex := TextureRect.new()
+		tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tex.texture = CARD_FRONT_TEX
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		root.add_child(tex)
+	else:
+		var panel := Panel.new()
+		panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#f8f4e8") if not highlight else Color("#fff8e0")
+		st.border_color = Color("#f0b429") if highlight else Color("#b8aa8a")
+		st.set_border_width_all(2 if highlight else 1)
+		st.set_corner_radius_all(7)
+		st.shadow_color = Color(0, 0, 0, 0.35)
+		st.shadow_size = 5
+		st.shadow_offset = Vector2(0, 2)
+		panel.add_theme_stylebox_override("panel", st)
+		root.add_child(panel)
+
+	if highlight:
+		var ring := Panel.new()
+		ring.set_anchors_preset(Control.PRESET_FULL_RECT)
+		var ring_st := StyleBoxFlat.new()
+		ring_st.bg_color = Color(1.0, 0.92, 0.45, 0.12)
+		ring_st.border_color = Color("#f0b429")
+		ring_st.set_border_width_all(2)
+		ring_st.set_corner_radius_all(7)
+		ring.add_theme_stylebox_override("panel", ring_st)
+		root.add_child(ring)
 
 	var col := Color("#d73939") if BJ.is_red(card) else Color("#141827")
 	var rank := _card_rank_text(card)
