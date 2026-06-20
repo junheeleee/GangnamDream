@@ -797,7 +797,7 @@
   {
     "id": "family_002",
     "title": "A Call from Your Parents",
-    "description": "Sunday afternoon, 3 PM. 'Mom' lit up on the screen.\n\nYou already knew what was coming as you pressed accept. They'd ask how things were going. You'd say you were fine.\n\n'Are you eating properly?'\n\nOn the desk in your goshiwon room sat a convenience store lunch box. The third one today.\n\n'Yeah, eating well.'",
+    "description": "Sunday afternoon, 3 PM. 'Mom' lit up on the screen.\n\nYou already knew what was coming as you pressed accept. They'd ask how things were going. You'd say you were fine.\n\n'Are you eating properly?'\n\nOn the desk in your room sat a convenience store lunch box. The third one today.\n\n'Yeah, eating well.'",
     "category": "family",
     "rarity": "common",
     "weight": 8,
@@ -2168,7 +2168,9 @@
     "rarity": "common",
     "weight": 1.8,
     "hidden": false,
-    "conditions": {},
+    "conditions": {
+      "has_job": true
+    },
     "tags": [
       "social",
       "subway",

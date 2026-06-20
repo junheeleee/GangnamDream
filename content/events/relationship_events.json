@@ -92,7 +92,8 @@
     "weight": 0.55,
     "hidden": false,
     "conditions": {
-      "has_relationship": true
+      "has_relationship": true,
+      "has_job": true
     },
     "tags": [
       "jobs",
@@ -324,7 +325,8 @@
     "weight": 8,
     "hidden": false,
     "conditions": {
-      "has_relationship": true
+      "has_relationship": true,
+      "has_job": true
     },
     "tags": [
       "jobs",
@@ -912,7 +914,8 @@
     "weight": 2.5,
     "hidden": false,
     "conditions": {
-      "has_relationship": true
+      "has_relationship": true,
+      "housing": "gosiwon"
     },
     "tags": [
       "family",
@@ -1175,7 +1178,7 @@
   {
     "id": "rel_sns_compare",
     "title": "SNS 비교 지옥",
-    "description": "자려고 누웠는데 습관적으로 인스타그램을 열었다. 고등학교 동창이 발리 여행 사진을 올렸다. 대학 친구는 이직 성공 소식을 올렸고, 중학교 동창은 결혼식 사진을 올렸다. {name}은 오늘도 고시원 천장을 보고 있다. 폰을 내려놓을 수가 없다.",
+    "description": "자려고 누웠는데 습관적으로 인스타그램을 열었다. 고등학교 동창이 발리 여행 사진을 올렸다. 대학 친구는 이직 성공 소식을 올렸고, 중학교 동창은 결혼식 사진을 올렸다. {name}은 오늘도 {housing} 천장을 보고 있다. 폰을 내려놓을 수가 없다.",
     "category": "social",
     "rarity": "common",
     "weight": 2.5,

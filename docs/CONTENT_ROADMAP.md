@@ -35,11 +35,13 @@
 - [x] 엔딩 도감 — discovered_endings 영구 누적 + 엔딩 화면 "📖 N/29 발견" 컴플리션 후크
 - [ ] 메타/시작화면에도 엔딩 도감 표시 (현재는 엔딩 화면만)
 
-### P2 — 개연성·일관성 감사 (foundational quality)
-1014 이벤트 규모 → 서사 모순 점검.
-- [ ] 직업 상태 vs 이벤트 묘사 충돌 (점원/무직/대기업 등)
-- [ ] 거주 상태 vs 이벤트 배경 충돌 (고시원/원룸/강남)
-- [ ] 인물 stage vs 대사 톤 충돌 (audit #7 보강)
+### P2 — 개연성·일관성 감사 (foundational quality) ✅ 1차 완료
+1024 이벤트 규모 → 서사 모순 점검. 스크립트 스캔 + 수동 검증.
+- [x] 직업 상태 vs 묘사 충돌: jobs_004/jobs_010(팀장 야근/면담 — 무직에도 발동) + subway_hell_9(출근길 지옥철) → `has_job:true` 게이팅. (점원 전제 2건은 친구/현수 얘기로 false positive 확인)
+- [x] 거주 상태 vs 묘사 충돌: mother_seoul_visit/rel_family_visit_seoul(부모께 좁은 방 보여주기 — 핵심) → `housing:gosiwon`; rel_sns_compare/family_002(보편 감정) → 고시원 텍스트 완화 (천장/방 책상)
+- [x] 무직·강남거주 전제 역방향 스캔: 0건 (정상 게이팅)
+- [x] EN/KR 조건 동기화 (audit #8): 변경 4건 EN 오버레이 갱신
+- [ ] 인물 stage vs 대사 톤 충돌 (차후 audit #7 보강)
 
 ### P3 — 흥행 시그니처 이벤트 (viral moments) 🔨 진행 중
 한국 사회 특수성 기반 "공유하고 싶은" 순간. (명절/전세사기/영끌은 기존 충실 — 중복 회피)

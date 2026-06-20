@@ -39,7 +39,8 @@
     "hidden": true,
     "conditions": {
       "flag": "arc_34_parents_visited",
-      "min_turn": 30
+      "min_turn": 30,
+      "housing": "gosiwon"
     },
     "cooldown": 9999,
     "portrait": "mother",

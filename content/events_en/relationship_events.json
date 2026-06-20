@@ -334,7 +334,8 @@
     "weight": 2.5,
     "hidden": false,
     "conditions": {
-      "has_relationship": true
+      "has_relationship": true,
+      "has_job": true
     },
     "tags": [
       "jobs",
@@ -588,7 +589,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "has_relationship": true
+      "has_relationship": true,
+      "has_job": true
     },
     "tags": [
       "jobs",
@@ -1167,7 +1169,8 @@
     "weight": 1.5,
     "hidden": false,
     "conditions": {
-      "has_relationship": true
+      "has_relationship": true,
+      "housing": "gosiwon"
     },
     "tags": [
       "family",
@@ -1397,7 +1400,7 @@
   {
     "id": "rel_sns_compare",
     "title": "SNS Comparison Spiral",
-    "description": "You lay down to sleep and out of habit opened Instagram. A high school classmate posted vacation photos from Bali. A college friend announced a successful job switch. A middle school classmate posted wedding photos. {name} is staring at the goshiwon ceiling again tonight. You can't put the phone down.",
+    "description": "You lay down to sleep and out of habit opened Instagram. A high school classmate posted vacation photos from Bali. A college friend announced a successful job switch. A middle school classmate posted wedding photos. {name} is staring at the ceiling again tonight. You can't put the phone down.",
     "category": "social",
     "rarity": "common",
     "weight": 2.0,
