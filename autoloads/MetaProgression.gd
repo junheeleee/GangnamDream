@@ -329,6 +329,15 @@ func record_run(summary):
 		history.pop_front()
 	data["run_history"] = history
 
+	# ── 엔딩 도감 — 발견한 엔딩 영구 누적 (run_history 50캡과 무관하게 보존) ──
+	var eid = str(summary.get("ending_id", ""))
+	if eid != "":
+		var discovered: Array = data.get("discovered_endings", [])
+		if not discovered.has(eid):
+			discovered.append(eid)
+			data["discovered_endings"] = discovered
+			_new_this_run["new_ending"] = eid
+
 	# ── NG+ 영구 메타 플래그 저장 ──────────────────────────────
 	# 런 종료 시점의 GameState.flags 스냅샷에서 NG+ 조건 플래그를 meta에 누적 저장
 	var rf = GameState.flags
@@ -347,6 +356,22 @@ func record_run(summary):
 
 func get_unlocked_achievements() -> Array:
 	return data.get("achievements", [])
+
+# ── 엔딩 도감 (분석요소 — 컴플리션 후크) ──────────────────────
+func get_discovered_endings() -> Array:
+	return data.get("discovered_endings", [])
+
+func has_discovered_ending(ending_id: String) -> bool:
+	return get_discovered_endings().has(ending_id)
+
+# 전체 엔딩 수 대비 발견 수. 숨겨진(?) 엔딩은 발견 전까지 카운트에서 가린다.
+func get_ending_collection_progress() -> Dictionary:
+	var total := DataRegistry.endings.size()
+	var found := 0
+	for e in DataRegistry.endings:
+		if get_discovered_endings().has(str(e.get("id", ""))):
+			found += 1
+	return {"found": found, "total": total}
 
 func is_achievement_unlocked(achievement_id: String) -> bool:
 	return data.get("achievements", []).has(achievement_id)

@@ -6090,6 +6090,16 @@ func _ending_playstyle(parent: Control):
 	parent.add_child(ps_sep)
 	parent.add_child(_label("플레이 스타일 진단", 12, "#5a6075"))
 	parent.add_child(_wrap_label("  %s" % GameState.get_playstyle_label(), 14, "#c8a060"))
+	# 엔딩 도감 진행도 — 컴플리션 후크
+	var coll: Dictionary = MetaProgression.get_ending_collection_progress()
+	var coll_found: int = int(coll.get("found", 0))
+	var coll_total: int = int(coll.get("total", 0))
+	if coll_total > 0:
+		var is_new: bool = (MetaProgression.get_new_unlocks().get("new_ending", "") != "")
+		var coll_text: String = "  📖 엔딩 도감  %d / %d 발견" % [coll_found, coll_total]
+		if is_new:
+			coll_text += "   ✨ NEW"
+		parent.add_child(_wrap_label(coll_text, 13, "#c9a227" if is_new else "#7a8496"))
 	# 정점 대비 결말 — 정점에서 얼마나 지켰는가
 	var peak: float = float(GameState.peak_asset)
 	var final_total: float = GameState.get_total_asset_value()
