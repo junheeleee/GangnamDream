@@ -9,10 +9,10 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 글쓰기 밀도·아크 완성도 강화 진행 중** |
-| **최근 완료** | **2026-06-20** — (1) StoryMode 루트 기반 텍스트 변주 시스템: low_mental/long_gosiwon/orthodox/unorthodox 상황별 description_* 변형 표시. (2) 아크 8개 (arc_intro 4종 + sangchul/invest/jiyeon/father) 김민준 목소리 강화 + 대사 변주 추가. (3) audit.py EN/KR 조건 패리티 검사 #8 추가 + 98건 수정. (4) 신규 콘텐츠: 34세 씬 3개(arc_midgame), 건강×10+코미디×10(life_events), 현수 아크 6개(arc_hyunsu.json), 어머니 이벤트 3개(callback_events_28.json) + 전체 EN 번역. (5) GameState.apply_effects에 route_orthodox/route_unorthodox 키 추가. (6) cast_stages.json 현수 단계 확장 (10개). (7) Codex 외형 패스: StoryMode `GameState.get(..., default)` 컴파일 오류 수정, 룰렛/빅휠/블랙잭을 카지노 배경+중앙 테이블/기기 프레임으로 재배치. (8) 정선 카지노 신규 미니게임 다이사이 추가: 순수 룰 모델, 중앙 테이블 UI, 튜토리얼, 메타 칭호, ScreenshotQA 캡처 연동. audit ERROR 0 / WARNING 0. |
+| **최근 완료** | **2026-06-20** — (1) StoryMode 루트 기반 텍스트 변주 시스템: low_mental/long_gosiwon/orthodox/unorthodox 상황별 description_* 변형 표시. (2) 아크 8개 (arc_intro 4종 + sangchul/invest/jiyeon/father) 김민준 목소리 강화 + 대사 변주 추가. (3) audit.py EN/KR 조건 패리티 검사 #8 추가 + 98건 수정. (4) 신규 콘텐츠: 34세 씬 3개(arc_midgame), 건강×10+코미디×10(life_events), 현수 아크 6개(arc_hyunsu.json), 어머니 이벤트 3개(callback_events_28.json) + 전체 EN 번역. (5) GameState.apply_effects에 route_orthodox/route_unorthodox 키 추가. (6) cast_stages.json 현수 단계 확장 (10개). (7) Codex 외형 패스: StoryMode `GameState.get(..., default)` 컴파일 오류 수정, 룰렛/빅휠/블랙잭을 카지노 배경+중앙 테이블/기기 프레임으로 재배치. (8) 정선 카지노 신규 미니게임 다이사이 추가: 순수 룰 모델, 중앙 테이블 UI, 튜토리얼, 메타 칭호, ScreenshotQA 캡처 연동. (9) Codex 추가 외형 패스: 슬롯머신 캐비닛화, 바카라 펠트 테이블 중앙 정렬/카드 확대. audit ERROR 0 / WARNING 0. |
 | **이전** | **2026-06-20** — Codex 12개 커밋 병합: 미니게임 풀스크린/칩UI/전용엔딩CG/오디오P1/BGM연속성/면접배경/초상화레이아웃 + 영문 번역 100% |
 | **다음 작업** | **아크 글쓰기 계속** — arc_jaehyuk 시리즈 / arc_father_02-03 / arc_midgame 35~37세 씬 강화; 엔딩 전 씬(pre-ending) 1~2개; F급 엔딩 번아웃/정신붕괴/파산 차별화 |
-| **마지막 업데이트** | 2026-06-20 (`audit.sh` OK, ScreenshotQA 재캡처 OK: 룰렛/빅휠/블랙잭/다이사이 외형 확인) |
+| **마지막 업데이트** | 2026-06-20 (`audit.sh` OK, ScreenshotQA 재캡처 OK: 룰렛/빅휠/블랙잭/다이사이/슬롯/바카라 외형 확인) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

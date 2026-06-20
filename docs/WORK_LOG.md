@@ -1,5 +1,15 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (슬롯머신 캐비닛화 + 바카라 테이블 중앙 정렬)
+
+### 수정
+- `scenes/SlotMachineGame.gd`: 슬롯 화면을 단순 UI 패널에서 실제 슬롯머신 캐비닛처럼 보이도록 재구성. 상단 램프, `LUCKY 7` 마키, CREDIT/BET/WIN 디지털 미터, 간이 페이테이블, 금색 릴 프레임, 페이라인 바, 물리 버튼형 `MAX BET`/`BET ONE`/`SPIN`, 하단 payout tray를 추가.
+- `scenes/BaccaratTable.gd`: 바카라 베팅/딜링 화면을 중앙 펠트 테이블 패널 안에 고정 배치. 오른쪽 로드맵 여백 때문에 테이블이 왼쪽으로 밀려 보이던 offset을 제거하고, 카드 크기를 키워 테이블 위 플레이 감각을 강화.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA`: `09a_baccarat_betting`, `09_baccarat_table`, `11_slot_machine` 직접 확인. 바카라 테이블 중앙 정렬 및 슬롯 화면 스크롤/클리핑 없음.
+
 ## 2026-06-20 (다이사이 카지노 미니게임 추가)
 
 ### 추가

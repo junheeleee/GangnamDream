@@ -617,11 +617,31 @@ func _make_vbox(sep: int) -> VBoxContainer:
 	center.offset_right = -20
 	center.offset_bottom = -14
 	_content_root.add_child(center)
+
+	var table_panel := PanelContainer.new()
+	table_panel.custom_minimum_size = Vector2(920, 0)
+	table_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	table_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var table_st := StyleBoxFlat.new()
+	table_st.bg_color = Color("#062214")
+	table_st.border_color = Color("#c49a38")
+	table_st.set_border_width_all(3)
+	table_st.set_corner_radius_all(24)
+	table_st.content_margin_left = 20
+	table_st.content_margin_right = 20
+	table_st.content_margin_top = 18
+	table_st.content_margin_bottom = 18
+	table_st.shadow_color = Color(0, 0, 0, 0.55)
+	table_st.shadow_size = 18
+	table_st.shadow_offset = Vector2(0, 8)
+	table_panel.add_theme_stylebox_override("panel", table_st)
+	center.add_child(table_panel)
+
 	var vb := VBoxContainer.new()
-	vb.custom_minimum_size = Vector2(840, 0)
-	vb.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	vb.custom_minimum_size = Vector2(860, 0)
+	vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vb.add_theme_constant_override("separation", sep)
-	center.add_child(vb)
+	table_panel.add_child(vb)
 	return vb
 
 func _add_bet_btn(parent: HBoxContainer, header: String, label: String, type: String,
@@ -665,7 +685,7 @@ func _bet_status_text() -> String:
 
 func _card_widget(card: int) -> Control:
 	var root := Control.new()
-	root.custom_minimum_size = Vector2(54, 76)
+	root.custom_minimum_size = Vector2(66, 92)
 
 	if CARD_FRONT_TEX != null:
 		var tex := TextureRect.new()
@@ -696,10 +716,10 @@ func _card_widget(card: int) -> Control:
 	corner.text = rank + "\n" + suit
 	corner.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	corner.offset_left = 5; corner.offset_top = 4
-	corner.offset_right = 24; corner.offset_bottom = 34
+	corner.offset_right = 28; corner.offset_bottom = 38
 	corner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	corner.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	corner.add_theme_font_size_override("font_size", 11)
+	corner.add_theme_font_size_override("font_size", 12)
 	corner.add_theme_color_override("font_color", col)
 	if _font_bold: corner.add_theme_font_override("font", _font_bold)
 	root.add_child(corner)
@@ -709,7 +729,7 @@ func _card_widget(card: int) -> Control:
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	center.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	center.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	center.add_theme_font_size_override("font_size", 30)
+	center.add_theme_font_size_override("font_size", 34)
 	center.add_theme_color_override("font_color", col)
 	if _font_bold: center.add_theme_font_override("font", _font_bold)
 	root.add_child(center)
@@ -717,11 +737,11 @@ func _card_widget(card: int) -> Control:
 	var bottom := Label.new()
 	bottom.text = rank
 	bottom.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	bottom.offset_left = -25; bottom.offset_top = -21
-	bottom.offset_right = -5; bottom.offset_bottom = -3
+	bottom.offset_left = -28; bottom.offset_top = -24
+	bottom.offset_right = -6; bottom.offset_bottom = -4
 	bottom.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bottom.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	bottom.add_theme_font_size_override("font_size", 10)
+	bottom.add_theme_font_size_override("font_size", 11)
 	bottom.add_theme_color_override("font_color", col.darkened(0.08))
 	if _font_bold: bottom.add_theme_font_override("font", _font_bold)
 	root.add_child(bottom)
@@ -737,13 +757,13 @@ func _animate_card_appear(node: Control) -> void:
 func _card_back() -> Control:
 	if CARD_BACK_TEX != null:
 		var tex := TextureRect.new()
-		tex.custom_minimum_size = Vector2(54, 76)
+		tex.custom_minimum_size = Vector2(66, 92)
 		tex.texture = CARD_BACK_TEX
 		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		return tex
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(54, 76)
+	panel.custom_minimum_size = Vector2(66, 92)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#12244a")
 	st.border_color = Color("#2a4a8a")
