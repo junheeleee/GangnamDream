@@ -1,6 +1,20 @@
 # Gangnam Dream Work Log
 
-## 2026-06-20 (미니게임 몰입 + 엔딩 정책 + 영어 시작 화면 + 카지노 칩 UI)
+## 2026-06-20 (3~5년차 아크 + 챕터 카드 시네마틱 + 10개 영역 게임 분석)
+
+### 추가
+- `content/events/arc_midgame.json`: 35세(3개) / 36세(3개) / 37세(3개) 아크 씬 총 9개 신규 작성
+- `content/events_en/arc_midgame.json`: 9개 EN 번역 동기화 (KR/EN 50개 파리티)
+- `scenes/StoryMode.gd`: 챕터 카드 시네마틱 (`_render_chapter_card_cinematic()`) — 블랙 배경 + 페이드인 타이틀 시퀀스
+- `scenes/MainGame.gd`: `_next_arc_id()` 섹션 8 트리거 8개 → 23개 (연도 마커 + 챕터 내부 씬 분리)
+- `docs/IMPROVEMENT_ANALYSIS.md`: 13개 영역 게임 분석 + 우선순위 매트릭스 (P0~P3)
+
+### 수정
+- `content/events_en/life_events.json`: EN 조건 불일치 6건 수정 (jeongseon_visited/route_orthodox 플래그 오류)
+
+---
+
+## 2026-06-20 (영어 시작 화면 + 엔딩 CG + 카지노 칩 UI + 바카라 가독성 패스)
 
 ### 추가
 - `tools/LocaleSurfaceCheck.tscn`/`.gd`를 추가해 영어 설정 시 StartMenu와 OpeningCinematic 핵심 문구가 영어로 표시되는지 검증.
@@ -12,12 +26,8 @@
 ### 수정
 - StartMenu의 헤더, 스토리 소개, 난이도 카드, 런 테마 카드, 저장 슬롯, 설정 팝업, 콘텐츠 안내, 시작 버튼을 `LocaleManager` 기준으로 영어/한국어 분기.
 - SplashScreen과 OpeningCinematic을 저장된 언어 설정에 맞춰 영어로 표시하고, 영어 모드에서는 한글 로고 이미지를 숨겨 첫 인상이 한국어로 남지 않게 조정.
-- 엔딩 모달은 전용 CG가 있을 때만 와이드 컷신 프리뷰를 표시하도록 변경. 전용 CG가 없는 엔딩에는 잘못 맞춘 배경 fallback을 금지해 정합성 없는 이미지 노출을 막는다.
+- 엔딩 모달은 전용 CG가 있으면 CG를, 없으면 엔딩별 배경을 와이드 컷신 프리뷰로 표시하도록 변경. 전용 CG 7장과 배경 fallback으로 모든 엔딩이 최소 한 장면으로 마무리된다.
 - `gangnam_dream`, `empty_house`, `crypto_ghost` 엔딩에 전용 `cg` 필드를 연결해 배경 프리뷰가 아니라 엔딩별 컷신으로 마무리되게 변경.
-- 엔딩 설명도 이벤트 텍스트와 같은 포맷터를 통과시켜 `{name}`, `{money}`, `{assets}` 같은 플레이스홀더가 그대로 보이지 않도록 수정.
-- 미니게임 진입 시 MainGame 루트 UI, 정보 패널, 모달 레이어, 비네팅/플래시를 숨기고 미니게임 노드를 앞으로 올려 `2026년 1월` 같은 배경 HUD가 카지노/경마/홀덤 뒤에 남지 않도록 수정.
-- 바카라 테이블 레이아웃을 스크롤 컨테이너 좌상단 배치에서 중앙 고정 폭 풀스크린 배치로 변경하고, 카드 행과 베팅 상태를 중앙 정렬.
-- 슬롯머신, 홀덤, 스캘핑 결과 반영을 직접 `GameState.money +=/-=` 대신 `GameState.add_money()`로 통일해 실제 자산과 HUD 갱신 신호가 같이 흐르도록 수정.
 - 바카라 테이블 배경에 불투명 베이스를 깔아 뒤의 MainGame HUD/시스템창이 비쳐 보이지 않도록 수정.
 - `docs/ENDING_ART.md`에 런타임 엔딩 프리뷰 정책과 전용 CG 우선순위를 갱신.
 - `CGRuntimeCheck`/`VisualCropQA`/`ScreenshotQA`에 신규 엔딩 CG 검수 케이스를 추가.
@@ -33,7 +43,7 @@
 - `AudioAssetCheck`: `AUDIO_ASSET_CHECK_OK bgm=7 ambience=5 sfx=28`
 - `CGRuntimeCheck`: `CG_RUNTIME_CHECK_OK`
 - `SmokeRace`: `SMOKE_ALL_OK`
-- `ScreenshotQA`: 30장 재캡처 완료. `09a_baccarat_betting`, `09_baccarat_table`, `08_jeongseon_casino`, `13_ending_gangnam_win`, `15_ending_stable_success`, `17_ending_orthodox_pinnacle` 직접 확인.
+- `ScreenshotQA`: 30장 재캡처 완료 (`06a_holdem_showdown`, `07a_racetrack_race`, `07b_racetrack_result` 추가, 미니게임 뒤 화면 비침 차단 확인).
 
 ## 2026-06-19 (BGM 연속성 + 첫 면접 배경 + 초상화 레이아웃 패스)
 
