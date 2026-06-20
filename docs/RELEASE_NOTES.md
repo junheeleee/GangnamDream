@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Added (2026-06-20) — 글쓰기 밀도·아크 완성도 강화 (Metacritic 90 목표)
+
+- 신규 이벤트 35개: 34세 씬 3개, 건강 10개, 코미디 10개, 현수 아크 6개(`arc_hyunsu.json`), 어머니 이벤트 3개(`callback_events_28.json`), 엔딩 직전 분기 씬 3개(`arc_pre_ending.json`).
+- 엔딩 직전 궤적별 분기 시스템: 종료 ~6주 전(t>=234) 자산/관계 궤적에 따라 마지막 감정 비트 분기 (강남 코앞/못 감 인정/아버지와의 마지막 통화).
+- StoryMode 루트·상태별 텍스트 변주: `description_orthodox/unorthodox/low_mental/long_gosiwon` 우선 렌더링.
+- 현수 캐릭터 단계 확장 (cast_stages.json 1→10개).
+
+### Changed (2026-06-20) — 엔딩·아크 글쓰기 강화
+
+- F/C급 엔딩 텍스트 확장 (burnout/mental_break/bankruptcy/ordinary_life): 200자→400자+, 구체 장면 추가.
+- arc_jaehyuk(재회/피치/잠적) 및 arc_father(병원 방문/신호/입원)에 루트 변형과 묘사 강화.
+- `GameState.apply_effects()` route_orthodox/route_unorthodox 키 지원.
+- audit.py: EN/KR 조건 패리티 검사 추가 (98건 수정).
+
 ### Added (2026-06-20) — Store screenshot export pass
 
 - Added `tools/StoreScreenshotExport.tscn`/`.gd` to crop 8 selected `ScreenshotQA` outputs into 1280×720 Steam screenshot candidates under `/tmp/gangnamdream_store_screenshots`.

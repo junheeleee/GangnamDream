@@ -1,5 +1,32 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (글쓰기 밀도·아크 완성도 강화 — Metacritic 90 목표)
+
+### 신규 콘텐츠 (35개)
+- **34세 독립 씬 3개** (`arc_midgame.json`): 루틴의 덫(t62-76)/부모님 서울 방문(t77-88)/2년째 자각(t89-96). orthodox·unorthodox·low_mental 변형 포함.
+- **건강 이벤트 10개 + 코미디 이벤트 10개** (`life_events.json`): 수면 빚·운동·식사거름·요통 등 / 점심 메뉴·엘리베이터 침묵·프린터·1+1 등.
+- **현수 아크 6개** (`arc_hyunsu.json` 신규): 같이 공부→시험날→합격/불합격→새 길→나중에 재회. cast_stages.json 현수 단계 1→10개 확장.
+- **어머니 이벤트 3개** (`callback_events_28.json` 신규): 비교 전화/서울 방문/한강 화해.
+- **엔딩 직전 궤적별 분기 씬 3개** (`arc_pre_ending.json` 신규, t>=234): 마지막 한 걸음(자산 2.5억↑)/다섯 번째 겨울(3억↓)/마지막이 될지 모르는 통화(아버지 화해).
+
+### 글쓰기 강화
+- **F/C급 엔딩 텍스트 확장** (endings.json): burnout/mental_break/bankruptcy/ordinary_life 200자→400자+. 응급실·정신과 진료실·추심 전화·편의점 500원 등 구체 장면.
+- **arc_jaehyuk 3개** (01_reunion/03_pitch/04a_ghost): orthodox/unorthodox 변형 + 조종 구조 분석 묘사.
+- **arc_father_04_visit**: "미안하다" 반응 무언의 장면 강화.
+- **arc_father_02_signal/03_hospital**: low_mental/orthodox/unorthodox 변형 추가.
+
+### 시스템
+- `StoryMode._render_current()`: 루트·상태별 description_* 변형 렌더링 시스템.
+- `GameState.apply_effects()`: route_orthodox/route_unorthodox 키 지원.
+- `DataRegistry`: arc_hyunsu/arc_pre_ending/callback_events_28 등록.
+- `MainGame._next_arc_id()`: 현수 아크 체인 + arc_34 + pre-ending 트리거.
+- `audit.py`: EN/KR 조건 패리티 검사 #8 추가 (98건 수정), description_* 루트키 화이트리스트.
+
+### 검증
+- `tools/audit.py`: ERROR 0 / WARNING 0.
+- 전체 신규/수정 콘텐츠 EN 번역 완료.
+
+
 ## 2026-06-20 (룰렛/빅휠/다이사이 카지노 물체감 패스)
 
 ### 수정
