@@ -365,6 +365,7 @@ func _render_betting() -> void:
 
 	var stake_row := HBoxContainer.new()
 	stake_row.add_theme_constant_override("separation", 8)
+	stake_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vb.add_child(stake_row)
 	for s in STAKE_OPTIONS:
 		var can: bool = GameState.money >= float(s)
@@ -412,6 +413,7 @@ func _render_game() -> void:
 	# 딜러 영역
 	var d_row := HBoxContainer.new()
 	d_row.add_theme_constant_override("separation", 8)
+	d_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vb.add_child(d_row)
 	var d_lbl := Label.new()
 	d_lbl.text = "딜러"
@@ -451,6 +453,7 @@ func _render_game() -> void:
 		var is_active := (hi == 0 and not _split_active) or (hi == 1 and _split_active) or _split.is_empty()
 		var p_row := HBoxContainer.new()
 		p_row.add_theme_constant_override("separation", 8)
+		p_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		vb.add_child(p_row)
 		var p_lbl := Label.new()
 		p_lbl.text = ("나" if _split.is_empty() else ("핸드%d" % (hi + 1))) + ("  선택" if is_active and _phase == Phase.PLAYER_TURN else "")
@@ -487,6 +490,7 @@ func _render_game() -> void:
 	if _phase == Phase.PLAYER_TURN:
 		var btn_row := HBoxContainer.new()
 		btn_row.add_theme_constant_override("separation", 8)
+		btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		vb.add_child(btn_row)
 
 		var hit_btn := _make_btn("히트", _hit, "#1a2a3a", "#3a7abf")
@@ -526,6 +530,7 @@ func _render_result() -> void:
 	# 딜러 핸드 공개
 	var d_row := HBoxContainer.new()
 	d_row.add_theme_constant_override("separation", 8)
+	d_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vb.add_child(d_row)
 	var d_lbl := Label.new()
 	d_lbl.text = "딜러  %d" % BJ.hand_value(_dealer)
@@ -543,6 +548,7 @@ func _render_result() -> void:
 		if hand.is_empty(): continue
 		var p_row := HBoxContainer.new()
 		p_row.add_theme_constant_override("separation", 8)
+		p_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		vb.add_child(p_row)
 		var p_lbl := Label.new()
 		var pv := BJ.hand_value(hand)
@@ -567,6 +573,7 @@ func _render_result() -> void:
 
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 10)
+	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vb.add_child(btn_row)
 	var again_btn := _make_btn("다음 핸드", func():
 		_phase = Phase.BETTING; _render(), "#1a3a1a", "#3de87a")
@@ -620,9 +627,10 @@ func _build_skeleton() -> void:
 	scroll.offset_top = 50; scroll.offset_bottom = -10
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
-	_content_root = Control.new()
+
+	_content_root = CenterContainer.new()
 	_content_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_content_root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_content_root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.add_child(_content_root)
 
 	_msg_lbl = RichTextLabel.new()
@@ -652,14 +660,28 @@ func _clear_content() -> void:
 		c.queue_free()
 
 func _make_vbox(sep: int) -> VBoxContainer:
+	var table := PanelContainer.new()
+	table.custom_minimum_size = Vector2(1080, 0)
+	table.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	table.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var table_sty := StyleBoxFlat.new()
+	table_sty.bg_color = Color("#041609")
+	table_sty.border_color = Color("#c58f36")
+	table_sty.set_border_width_all(3)
+	table_sty.set_corner_radius_all(18)
+	table_sty.shadow_color = Color(0, 0, 0, 0.55)
+	table_sty.shadow_size = 16
+	table_sty.shadow_offset = Vector2(0, 8)
+	table.add_theme_stylebox_override("panel", table_sty)
+	_content_root.add_child(table)
+
 	var m := MarginContainer.new()
-	m.set_anchors_preset(Control.PRESET_FULL_RECT)
 	m.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	m.add_theme_constant_override("margin_left", 24)
 	m.add_theme_constant_override("margin_right", 24)
-	m.add_theme_constant_override("margin_top", 16)
-	m.add_theme_constant_override("margin_bottom", 16)
-	_content_root.add_child(m)
+	m.add_theme_constant_override("margin_top", 22)
+	m.add_theme_constant_override("margin_bottom", 22)
+	table.add_child(m)
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", sep)
 	m.add_child(vb)
@@ -667,7 +689,7 @@ func _make_vbox(sep: int) -> VBoxContainer:
 
 func _card_widget(card: int, highlight := false) -> Control:
 	var root := Control.new()
-	root.custom_minimum_size = Vector2(54, 76)
+	root.custom_minimum_size = Vector2(72, 100)
 
 	if CARD_FRONT_TEX != null:
 		var tex := TextureRect.new()
@@ -708,11 +730,11 @@ func _card_widget(card: int, highlight := false) -> Control:
 	var corner := Label.new()
 	corner.text = rank + "\n" + suit
 	corner.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	corner.offset_left = 5; corner.offset_top = 4
-	corner.offset_right = 24; corner.offset_bottom = 34
+	corner.offset_left = 7; corner.offset_top = 5
+	corner.offset_right = 32; corner.offset_bottom = 42
 	corner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	corner.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	corner.add_theme_font_size_override("font_size", 11)
+	corner.add_theme_font_size_override("font_size", 13)
 	corner.add_theme_color_override("font_color", col)
 	if _font_bold: corner.add_theme_font_override("font", _font_bold)
 	root.add_child(corner)
@@ -722,7 +744,7 @@ func _card_widget(card: int, highlight := false) -> Control:
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	center.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	center.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	center.add_theme_font_size_override("font_size", 30)
+	center.add_theme_font_size_override("font_size", 38)
 	center.add_theme_color_override("font_color", col)
 	if _font_bold: center.add_theme_font_override("font", _font_bold)
 	root.add_child(center)
@@ -730,11 +752,11 @@ func _card_widget(card: int, highlight := false) -> Control:
 	var bottom := Label.new()
 	bottom.text = rank
 	bottom.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	bottom.offset_left = -25; bottom.offset_top = -21
-	bottom.offset_right = -5; bottom.offset_bottom = -3
+	bottom.offset_left = -32; bottom.offset_top = -26
+	bottom.offset_right = -7; bottom.offset_bottom = -4
 	bottom.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bottom.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	bottom.add_theme_font_size_override("font_size", 10)
+	bottom.add_theme_font_size_override("font_size", 12)
 	bottom.add_theme_color_override("font_color", col.darkened(0.08))
 	if _font_bold: bottom.add_theme_font_override("font", _font_bold)
 	root.add_child(bottom)
@@ -745,13 +767,13 @@ func _card_widget(card: int, highlight := false) -> Control:
 func _card_back() -> Control:
 	if CARD_BACK_TEX != null:
 		var tex := TextureRect.new()
-		tex.custom_minimum_size = Vector2(54, 76)
+		tex.custom_minimum_size = Vector2(72, 100)
 		tex.texture = CARD_BACK_TEX
 		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		return tex
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(54, 76)
+	panel.custom_minimum_size = Vector2(72, 100)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#12244a"); st.border_color = Color("#2a4a8a")
 	st.set_border_width_all(1); st.set_corner_radius_all(5)
