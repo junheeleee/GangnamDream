@@ -35,6 +35,8 @@ var _race_t: float = 0.0
 var _race_dur: float = 0.0
 var _last_leader: int = -1
 var _race_call_t: float = 0.0
+var _hoof_sfx_t: float = 0.0
+var _final_stretch_sfx_played: bool = false
 var _last_lost: bool = false     # 직전 베팅 패배(추격 베팅 감지)
 var _races_today: int = 0
 var _world: Dictionary = {}      # 영속 로스터(GameState.flags["horse_world"] 참조)
@@ -485,6 +487,8 @@ func _start_race() -> void:
 		_race_dur = max(_race_dur, float(h.get("_ftime", base)))
 	_race_t = 0.0
 	_race_call_t = 0.0
+	_hoof_sfx_t = 0.0
+	_final_stretch_sfx_played = false
 	_last_leader = -1
 	_set_background(BG_TRACK_PATH, 0.50, 0.62)
 	_clear()
@@ -544,6 +548,7 @@ func _process(delta: float) -> void:
 	if _phase != Phase.RACE:
 		return
 	_race_t += delta
+	_update_race_sfx(delta)
 	if is_instance_valid(_track):
 		_track.queue_redraw()
 	_update_race_call(delta)
@@ -563,6 +568,10 @@ func _update_race_call(delta: float) -> void:
 	var leader_name := str(hs[leader].get("name", "선두"))
 	if _race_dur - _race_t <= 0.85:
 		_set_race_msg("마지막 직선!  %s 버틴다!" % leader_name, "#f0c45d")
+		if not _final_stretch_sfx_played:
+			_final_stretch_sfx_played = true
+			AudioManager.play("event_new", -2.0)
+			_shake_node(_content, 3.0, 0.16)
 		if is_instance_valid(_msg):
 			_pulse_node(_msg, 1.12, 0.22)
 	elif leader != _last_leader:
@@ -570,6 +579,14 @@ func _update_race_call(delta: float) -> void:
 		_set_race_msg("선두 교체 — %s!" % leader_name, COLORS[leader % COLORS.size()])
 		if is_instance_valid(_msg):
 			_pulse_node(_msg, 1.08, 0.18)
+
+func _update_race_sfx(delta: float) -> void:
+	_hoof_sfx_t += delta
+	var phase_prog := clampf(_race_t / maxf(_race_dur, 0.1), 0.0, 1.0)
+	var interval := lerpf(0.17, 0.08, phase_prog)
+	if _hoof_sfx_t >= interval:
+		_hoof_sfx_t = 0.0
+		AudioManager.play("casino_reel", -7.0)
 
 func _current_display_leader() -> int:
 	if not _race.has("horses"):
@@ -594,36 +611,39 @@ func _draw_track() -> void:
 	if sz.x < 40 or sz.y < 40: return
 	var hs: Array = _race["horses"]
 	var n: int = hs.size()
-	var pad_l: float = 30.0
-	var pad_r: float = 70.0
+	var pad_l: float = 126.0
+	var pad_r: float = 78.0
 	var fin_x: float = sz.x - pad_r
 	var lane_h: float = (sz.y - 20.0) / float(n)
 	var f := ThemeDB.fallback_font
+	var track_rect := Rect2(Vector2(pad_l - 24.0, 8.0), Vector2(fin_x - pad_l + 54.0, sz.y - 18.0))
+	_draw_racecourse_base(track_rect, pad_l, fin_x, sz, f)
 	# 결승선
-	_track.draw_line(Vector2(fin_x, 6), Vector2(fin_x, sz.y - 6), Color("#e0e0e0"), 2.0)
-	for k in range(0, int(sz.y), 14):
-		_track.draw_rect(Rect2(fin_x - 3, float(k), 6, 7), Color(1,1,1,0.5) if (k/14)%2==0 else Color(0,0,0,0))
+	_draw_finish_gate(fin_x, sz, f)
+	_draw_start_gate(pad_l, sz, lane_h)
 	for i in range(n):
 		var h: Dictionary = hs[i]
 		var y: float = 14.0 + lane_h * float(i) + lane_h * 0.5
 		# 레인
 		var lane_y := y + lane_h * 0.45
-		var lane_color := Color(0.18, 0.09, 0.04, 0.22 if i % 2 == 0 else 0.15)
-		_track.draw_rect(Rect2(pad_l, lane_y - lane_h * 0.28, fin_x - pad_l, lane_h * 0.56), lane_color)
-		_track.draw_line(Vector2(pad_l, lane_y), Vector2(fin_x, lane_y), Color(1,1,1,0.08), 1.0)
+		var lane_color := Color(0.45, 0.27, 0.13, 0.30 if i % 2 == 0 else 0.22)
+		_track.draw_rect(Rect2(pad_l, lane_y - lane_h * 0.31, fin_x - pad_l, lane_h * 0.62), lane_color)
+		_track.draw_line(Vector2(pad_l, lane_y), Vector2(fin_x, lane_y), Color(1,1,1,0.12), 1.0)
 		var prog: float = _display_progress(h, i)
 		var x: float = pad_l + (fin_x - pad_l) * prog
 		var col := Color(COLORS[i % COLORS.size()])
 		# 말: 질주 실루엣(레인별 프레임 오프셋으로 애니) + 레인색 새들 마커
 		#     텍스처 없으면 색 원으로 폴백
 		if HORSE_TEX != null:
-			var hsz: float = clampf(lane_h * 1.35, 28.0, 48.0)
+			var hsz: float = clampf(lane_h * 1.55, 44.0, 68.0)
 			var frame: int = (int(_race_t * 14.0) + i) % 8
 			var src := Rect2(float(frame) * 128.0, 0.0, 128.0, 128.0)
 			var dst := Rect2(x - hsz * 0.5, lane_y - hsz, hsz, hsz)
 			_draw_speed_fx(Vector2(x, lane_y), hsz, col, prog)
-			_track.draw_texture_rect_region(HORSE_TEX, dst, src)
+			_track.draw_texture_rect_region(HORSE_TEX, dst.grow(2.0), src, Color(col.r, col.g, col.b, 0.45))
+			_track.draw_texture_rect_region(HORSE_TEX, dst, src, Color(0.02, 0.018, 0.015, 0.96))
 			_draw_jockey(dst, col, i)
+			_draw_saddle_number(dst, i + 1, col, f)
 		else:
 			_track.draw_circle(Vector2(x, y), 9.0, col)
 		var ppos: int = _picks.find(i)
@@ -632,8 +652,88 @@ func _draw_track() -> void:
 			if BET_ORDERED[_bet_type]:
 				_track.draw_string(f, Vector2(x + 14, y + 5), PICK_BADGE[ppos],
 					HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#ffe14d"))
-		_track.draw_string(f, Vector2(pad_l - 2, y - 12), str(h["name"]),
+		_track.draw_string(f, Vector2(26.0, lane_y - 10.0), str(h["name"]),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col)
+	_draw_live_board(hs, f, sz)
+
+func _draw_racecourse_base(track_rect: Rect2, pad_l: float, fin_x: float, sz: Vector2, f: Font) -> void:
+	_track.draw_rect(Rect2(track_rect.position + Vector2(0.0, 8.0), track_rect.size), Color(0, 0, 0, 0.28), true)
+	_track.draw_rect(track_rect, Color(0.30, 0.19, 0.10, 0.42), true)
+	_track.draw_rect(track_rect, Color(0.82, 0.62, 0.36, 0.23), false, 2.0)
+	for marker in [0.25, 0.50, 0.75]:
+		var mx := lerpf(pad_l, fin_x, float(marker))
+		_track.draw_line(Vector2(mx, track_rect.position.y + 6.0), Vector2(mx, track_rect.end.y - 6.0), Color(1, 1, 1, 0.08), 1.0)
+		_track.draw_string(f, Vector2(mx - 16.0, track_rect.position.y + 18.0), "%d%%" % int(marker * 100.0),
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 1, 1, 0.18))
+
+	var rail_top := track_rect.position.y + 12.0
+	var rail_bottom := track_rect.end.y - 12.0
+	for y in [rail_top, rail_bottom]:
+		_track.draw_line(Vector2(pad_l - 8.0, y), Vector2(fin_x + 10.0, y), Color(0.92, 0.86, 0.72, 0.44), 3.0)
+		_track.draw_line(Vector2(pad_l - 8.0, y + 4.0), Vector2(fin_x + 10.0, y + 4.0), Color(0.05, 0.04, 0.03, 0.28), 1.0)
+	for post_i in range(18):
+		var px := lerpf(pad_l - 8.0, fin_x + 10.0, float(post_i) / 17.0)
+		_track.draw_line(Vector2(px, rail_top - 5.0), Vector2(px, rail_top + 8.0), Color(0.86, 0.76, 0.58, 0.30), 1.0)
+		_track.draw_line(Vector2(px, rail_bottom - 8.0), Vector2(px, rail_bottom + 5.0), Color(0.86, 0.76, 0.58, 0.30), 1.0)
+
+	var grandstand := Rect2(Vector2(0.0, sz.y - 92.0), Vector2(sz.x, 92.0))
+	_track.draw_rect(grandstand, Color(0.02, 0.025, 0.035, 0.36), true)
+	for i in range(24):
+		var px := float(i) / 23.0 * sz.x
+		var head_y := sz.y - 70.0 + sin(float(i) * 1.7) * 10.0
+		_track.draw_circle(Vector2(px, head_y), 3.0, Color(0, 0, 0, 0.42))
+		_track.draw_line(Vector2(px, head_y + 3.0), Vector2(px + randf_range(-4.0, 4.0), head_y + 18.0), Color(0, 0, 0, 0.32), 1.0)
+
+func _draw_start_gate(pad_l: float, sz: Vector2, lane_h: float) -> void:
+	var gate_x := pad_l - 24.0
+	_track.draw_rect(Rect2(Vector2(gate_x - 7.0, 18.0), Vector2(14.0, sz.y - 54.0)), Color("#111820"), true)
+	_track.draw_rect(Rect2(Vector2(gate_x - 7.0, 18.0), Vector2(14.0, sz.y - 54.0)), Color(0.70, 0.78, 0.86, 0.28), false, 1.0)
+	for i in range(int(maxf(1.0, floor((sz.y - 48.0) / lane_h)))):
+		var y := 22.0 + lane_h * float(i)
+		_track.draw_rect(Rect2(Vector2(gate_x - 14.0, y), Vector2(28.0, 16.0)), Color(0.10, 0.16, 0.20, 0.72), true)
+		_track.draw_line(Vector2(gate_x - 14.0, y + 8.0), Vector2(gate_x + 14.0, y + 8.0), Color(0.80, 0.90, 1.0, 0.18), 1.0)
+
+func _draw_finish_gate(fin_x: float, sz: Vector2, f: Font) -> void:
+	_track.draw_line(Vector2(fin_x, 8.0), Vector2(fin_x, sz.y - 10.0), Color("#f0f0f0"), 3.0)
+	for k in range(0, int(sz.y), 12):
+		var tile_col := Color(1, 1, 1, 0.70) if (k / 12) % 2 == 0 else Color(0.02, 0.02, 0.02, 0.62)
+		_track.draw_rect(Rect2(fin_x - 5.0, float(k), 10.0, 6.0), tile_col, true)
+	_track.draw_rect(Rect2(Vector2(fin_x - 44.0, 10.0), Vector2(88.0, 22.0)), Color("#0a0d12"), true)
+	_track.draw_rect(Rect2(Vector2(fin_x - 44.0, 10.0), Vector2(88.0, 22.0)), Color("#f0c45d"), false, 1.0)
+	_track.draw_string(f, Vector2(fin_x - 29.0, 26.0), "FINISH", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#f0c45d"))
+
+func _draw_saddle_number(dst: Rect2, num: int, lane_color: Color, f: Font) -> void:
+	var hsz := dst.size.x
+	var cloth := Rect2(
+		Vector2(dst.position.x + hsz * 0.39, dst.position.y + hsz * 0.48),
+		Vector2(hsz * 0.28, hsz * 0.18)
+	)
+	_track.draw_rect(cloth, lane_color.darkened(0.12), true)
+	_track.draw_rect(cloth, Color(1, 1, 1, 0.65), false, 1.0)
+	_track.draw_string(f, cloth.position + Vector2(cloth.size.x * 0.30, cloth.size.y * 0.78), str(num),
+		HORIZONTAL_ALIGNMENT_LEFT, -1, int(maxf(8.0, hsz * 0.16)), Color.WHITE)
+
+func _draw_live_board(hs: Array, f: Font, sz: Vector2) -> void:
+	var order: Array = []
+	for i in range(hs.size()):
+		order.append(i)
+	order.sort_custom(func(a, b):
+		return _display_progress(hs[int(a)], int(a)) > _display_progress(hs[int(b)], int(b))
+	)
+	var board := Rect2(Vector2(sz.x - 330.0, 18.0), Vector2(290.0, 104.0))
+	_track.draw_rect(Rect2(board.position + Vector2(0, 5), board.size), Color(0, 0, 0, 0.30), true)
+	_track.draw_rect(board, Color(0.02, 0.025, 0.035, 0.70), true)
+	_track.draw_rect(board, Color("#f0c45d"), false, 1.0)
+	_track.draw_string(f, board.position + Vector2(14.0, 22.0), "LIVE ORDER",
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#f0c45d"))
+	for rank in range(min(3, order.size())):
+		var idx := int(order[rank])
+		var h: Dictionary = hs[idx]
+		var col := Color(COLORS[idx % COLORS.size()])
+		var y := board.position.y + 45.0 + float(rank) * 20.0
+		_track.draw_circle(Vector2(board.position.x + 18.0, y - 5.0), 4.0, col)
+		_track.draw_string(f, Vector2(board.position.x + 30.0, y), "%d  %s" % [rank + 1, str(h["name"])],
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#dce4f0"))
 
 func _display_progress(h: Dictionary, index: int) -> float:
 	var ft: float = float(h.get("_ftime", _race_dur))
@@ -669,6 +769,8 @@ func _draw_jockey(dst: Rect2, lane_color: Color, index: int) -> void:
 
 func _finish_race() -> void:
 	_phase = Phase.RESULT
+	if is_instance_valid(_msg):
+		_msg.visible = false
 	var payout: float = 0.0
 	match _bet_type:
 		BetType.PLACE: payout = HR.payout_place(_race, _picks[0], _bet_stake, _finish)
@@ -716,6 +818,11 @@ func _render_result() -> void:
 		lbl.text = "%s위 / %d착   %s   (배당 %.1f)%s" % [medal, rank + 1, str(h["name"]), float(h["odds"]), mine]
 		lbl.add_theme_color_override("font_color", Color("#f0c45d") if rank == 0 else Color("#aab3c5"))
 		box.add_child(lbl)
+
+	var photo := Control.new()
+	photo.custom_minimum_size = Vector2(0, 168)
+	photo.draw.connect(func(): _draw_finish_photo(photo))
+	box.add_child(photo)
 
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
@@ -770,6 +877,43 @@ func _render_result() -> void:
 	_style(leave, "#10231a", "#2a7a52")
 	leave.pressed.connect(_on_exit)
 	row.add_child(leave)
+
+func _draw_finish_photo(ctrl: Control) -> void:
+	var sz := ctrl.size
+	if sz.x < 60.0 or sz.y < 60.0:
+		return
+	var f := ThemeDB.fallback_font
+	var rect := Rect2(Vector2(0.0, 8.0), Vector2(sz.x, sz.y - 16.0))
+	ctrl.draw_rect(Rect2(rect.position + Vector2(0.0, 5.0), rect.size), Color(0, 0, 0, 0.28), true)
+	ctrl.draw_rect(rect, Color(0.025, 0.030, 0.040, 0.72), true)
+	ctrl.draw_rect(rect, Color("#f0c45d"), false, 1.0)
+	ctrl.draw_string(f, rect.position + Vector2(16.0, 24.0), "PHOTO FINISH",
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#f0c45d"))
+	var finish_x := rect.end.x - 110.0
+	ctrl.draw_line(Vector2(finish_x, rect.position.y + 28.0), Vector2(finish_x, rect.end.y - 12.0), Color("#ffffff"), 2.0)
+	for k in range(0, int(rect.size.y - 40.0), 10):
+		var tile := Color(1, 1, 1, 0.68) if (k / 10) % 2 == 0 else Color(0, 0, 0, 0.62)
+		ctrl.draw_rect(Rect2(Vector2(finish_x - 4.0, rect.position.y + 30.0 + float(k)), Vector2(8.0, 5.0)), tile, true)
+	for rank in range(min(3, _finish.size())):
+		var h: Dictionary = _finish[rank]
+		var hidx: int = _race["horses"].find(h)
+		var col := Color(COLORS[hidx % COLORS.size()])
+		var y := rect.position.y + 58.0 + float(rank) * 34.0
+		var x := finish_x - float(rank) * 52.0 - 32.0
+		ctrl.draw_line(Vector2(rect.position.x + 28.0, y + 14.0), Vector2(rect.end.x - 28.0, y + 14.0), Color(1, 1, 1, 0.08), 1.0)
+		ctrl.draw_circle(Vector2(x - 20.0, y + 8.0), 9.0, Color(col.r, col.g, col.b, 0.22))
+		if HORSE_TEX != null:
+			var src := Rect2(0.0, 0.0, 128.0, 128.0)
+			var dst := Rect2(Vector2(x - 26.0, y - 12.0), Vector2(54.0, 54.0))
+			ctrl.draw_texture_rect_region(HORSE_TEX, dst.grow(2.0), src, Color(col.r, col.g, col.b, 0.45))
+			ctrl.draw_texture_rect_region(HORSE_TEX, dst, src, Color(0.02, 0.018, 0.015, 0.96))
+		else:
+			ctrl.draw_circle(Vector2(x, y + 8.0), 9.0, col)
+		ctrl.draw_rect(Rect2(Vector2(x - 8.0, y + 10.0), Vector2(20.0, 14.0)), col.darkened(0.08), true)
+		ctrl.draw_string(f, Vector2(x - 2.0, y + 22.0), str(rank + 1),
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
+		ctrl.draw_string(f, Vector2(rect.position.x + 58.0, y + 17.0), "%d위  %s" % [rank + 1, str(h["name"])],
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#dce4f0"))
 
 # ── 유틸 ──────────────────────────────────────────────────────
 func _flash(msg: String, color: String) -> void:

@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-06-20 (경마 미니게임 질주 연출 강화)
+
+### 수정
+- `scenes/RaceTrack.gd`: 경마 질주 화면에 주로 패널, 레일, 거리 마커, 출발 게이트, 결승 게이트, 체크무늬 결승선, 라이브 순위판을 추가.
+- 말/기수 실루엣 크기를 키우고 색상 아웃라인, 새들 번호판, 속도선/흙먼지 연출을 보강해 말이 배경에 묻히지 않도록 개선.
+- 레이스 중 말발굽 느낌의 반복 SFX(`casino_reel` 저볼륨)와 마지막 직선 진입 SFX/흔들림을 추가.
+- 결과 화면에서 레이스 중 콜 메시지가 남던 문제를 제거하고, `PHOTO FINISH` 패널을 추가해 1~3착 결승선 통과 장면을 시각화.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA`: `07_racetrack_betting`, `07a_racetrack_race`, `07b_racetrack_result` 직접 확인. 질주/결과 화면 정상 배치.
+
 ## 2026-06-20 (빅휠 슬롯 분산 배치 수정)
 
 ### 수정
