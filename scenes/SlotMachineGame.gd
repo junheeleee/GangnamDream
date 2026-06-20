@@ -106,6 +106,7 @@ func open() -> void:
 	TutorialOverlay.maybe_show("slot", self)
 	set_process(false)
 	_set_reel_symbols([0, 1, 0])
+	_set_win_line("")
 	_refresh_ui()
 
 func _on_exit() -> void:
@@ -283,11 +284,14 @@ func _set_reel_symbol(index: int, symbol: int) -> void:
 	var lbl: Label = _reel_labels[index]
 	lbl.text = text
 	lbl.add_theme_color_override("font_color", Color(str(_SYMBOL_COLORS[safe])))
-	lbl.add_theme_font_size_override("font_size", 58 if text.length() <= 3 else 32)
+	lbl.add_theme_font_size_override("font_size", 72 if text.length() <= 3 else 38)
 
 func _set_win_line(bbtext: String) -> void:
 	if is_instance_valid(_win_line_lbl):
-		_win_line_lbl.text = bbtext
+		if bbtext.strip_edges().is_empty():
+			_win_line_lbl.text = "[center][color=#64567a]PAYLINE[/color][/center]"
+		else:
+			_win_line_lbl.text = "[center]%s[/center]" % bbtext
 
 func _play_win_flash() -> void:
 	if not is_instance_valid(_win_flash):
@@ -363,11 +367,28 @@ func _build_ui() -> void:
 	# ── 배경 오버레이
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = COLOR_BG
+	bg.color = Color("#05040a")
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 
-	# ── 중앙 컨테이너 (최대 폭 560px, 세로 스크롤 가능)
+	const _BG_PATH := "res://assets/backgrounds/casino_interior.png"
+	if ResourceLoader.exists(_BG_PATH):
+		var bg_img := TextureRect.new()
+		bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+		bg_img.texture = load(_BG_PATH) as Texture2D
+		bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg_img.stretch_mode = TextureRect.STRETCH_SCALE
+		bg_img.modulate = Color(1, 1, 1, 0.35)
+		bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(bg_img)
+
+	var floor_veil := ColorRect.new()
+	floor_veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	floor_veil.color = Color(0.02, 0.01, 0.035, 0.58)
+	floor_veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(floor_veil)
+
+	# ── 중앙 슬롯머신 캐비닛
 	var scroll := ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -380,8 +401,29 @@ func _build_ui() -> void:
 
 	var main_box := VBoxContainer.new()
 	main_box.custom_minimum_size = Vector2(520, 0)
+	main_box.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	main_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	main_box.add_theme_constant_override("separation", 14)
 	center_wrap.add_child(main_box)
+
+	var cabinet := PanelContainer.new()
+	cabinet.custom_minimum_size = Vector2(680, 0)
+	cabinet.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	cabinet.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var cabinet_sty := StyleBoxFlat.new()
+	cabinet_sty.bg_color = Color("#14071f")
+	cabinet_sty.border_color = Color("#c9a227")
+	cabinet_sty.set_border_width_all(4)
+	cabinet_sty.set_corner_radius_all(26)
+	cabinet_sty.content_margin_left = 0
+	cabinet_sty.content_margin_right = 0
+	cabinet_sty.content_margin_top = 0
+	cabinet_sty.content_margin_bottom = 0
+	cabinet_sty.shadow_color = Color(0, 0, 0, 0.55)
+	cabinet_sty.shadow_size = 18
+	cabinet_sty.shadow_offset = Vector2(0, 8)
+	cabinet.add_theme_stylebox_override("panel", cabinet_sty)
+	main_box.add_child(cabinet)
 
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left",   20)
@@ -389,11 +431,44 @@ func _build_ui() -> void:
 	margin.add_theme_constant_override("margin_top",    18)
 	margin.add_theme_constant_override("margin_bottom", 24)
 	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	main_box.add_child(margin)
+	cabinet.add_child(margin)
 
 	var inner := VBoxContainer.new()
 	inner.add_theme_constant_override("separation", 14)
 	margin.add_child(inner)
+
+	var marquee := PanelContainer.new()
+	var marquee_sty := StyleBoxFlat.new()
+	marquee_sty.bg_color = Color("#2a0718")
+	marquee_sty.border_color = Color("#f0b429")
+	marquee_sty.set_border_width_all(2)
+	marquee_sty.set_corner_radius_all(18)
+	marquee_sty.content_margin_left = 18
+	marquee_sty.content_margin_right = 18
+	marquee_sty.content_margin_top = 10
+	marquee_sty.content_margin_bottom = 10
+	marquee.add_theme_stylebox_override("panel", marquee_sty)
+	inner.add_child(marquee)
+
+	var marquee_vb := VBoxContainer.new()
+	marquee_vb.add_theme_constant_override("separation", 2)
+	marquee.add_child(marquee_vb)
+
+	var marquee_lbl := Label.new()
+	marquee_lbl.text = "LUCKY 7"
+	marquee_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	marquee_lbl.add_theme_font_size_override("font_size", 36)
+	marquee_lbl.add_theme_color_override("font_color", Color("#ffd84d"))
+	_f(marquee_lbl, true)
+	marquee_vb.add_child(marquee_lbl)
+
+	var subtitle_lbl := Label.new()
+	subtitle_lbl.text = "JEONGSEON SLOT MACHINE"
+	subtitle_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	subtitle_lbl.add_theme_font_size_override("font_size", 11)
+	subtitle_lbl.add_theme_color_override("font_color", Color("#d58a45"))
+	_f(subtitle_lbl)
+	marquee_vb.add_child(subtitle_lbl)
 
 	# ── 헤더 ──────────────────────────────────────────────────
 	var header := HBoxContainer.new()
@@ -401,8 +476,8 @@ func _build_ui() -> void:
 	inner.add_child(header)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "슬롯머신"
-	title_lbl.add_theme_font_size_override("font_size", 22)
+	title_lbl.text = "정선 슬롯"
+	title_lbl.add_theme_font_size_override("font_size", 18)
 	title_lbl.add_theme_color_override("font_color", COLOR_GOLD)
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(title_lbl, true)
@@ -423,26 +498,42 @@ func _build_ui() -> void:
 	exit_btn.custom_minimum_size = Vector2(80, 32)
 	header.add_child(exit_btn)
 
-	inner.add_child(_sep())
-
 	# ── 릴 디스플레이 ─────────────────────────────────────────
+	var reel_window := PanelContainer.new()
+	reel_window.custom_minimum_size = Vector2(0, 188)
+	reel_window.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var reel_window_sty := StyleBoxFlat.new()
+	reel_window_sty.bg_color = Color("#05070c")
+	reel_window_sty.border_color = Color("#563d93")
+	reel_window_sty.set_border_width_all(3)
+	reel_window_sty.set_corner_radius_all(16)
+	reel_window_sty.content_margin_left = 16
+	reel_window_sty.content_margin_right = 16
+	reel_window_sty.content_margin_top = 16
+	reel_window_sty.content_margin_bottom = 16
+	reel_window.add_theme_stylebox_override("panel", reel_window_sty)
+	inner.add_child(reel_window)
+
 	var reel_row := HBoxContainer.new()
 	reel_row.add_theme_constant_override("separation", 12)
 	reel_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	inner.add_child(reel_row)
+	reel_window.add_child(reel_row)
 
 	_reel_labels = []
 	_reel_panels = []
 
 	for i in range(3):
 		var panel := PanelContainer.new()
-		panel.custom_minimum_size = Vector2(120, 120)
+		panel.custom_minimum_size = Vector2(174, 148)
 		panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var sty := StyleBoxFlat.new()
-		sty.bg_color          = Color(0.10, 0.07, 0.18, 1.0)
-		sty.border_color      = COLOR_BORDER
-		sty.set_border_width_all(2)
-		sty.set_corner_radius_all(10)
+		sty.bg_color = Color("#f7f0d8")
+		sty.border_color = Color("#2a1a39")
+		sty.set_border_width_all(3)
+		sty.set_corner_radius_all(12)
+		sty.shadow_color = Color(0, 0, 0, 0.35)
+		sty.shadow_size = 8
+		sty.shadow_offset = Vector2(0, 3)
 		panel.add_theme_stylebox_override("panel", sty)
 		reel_row.add_child(panel)
 		_reel_panels.append(panel)
@@ -451,7 +542,7 @@ func _build_ui() -> void:
 		reel_lbl.text = "7"
 		reel_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		reel_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		reel_lbl.add_theme_font_size_override("font_size", 58)
+		reel_lbl.add_theme_font_size_override("font_size", 72)
 		reel_lbl.add_theme_color_override("font_color", Color("#ffd84d"))
 		reel_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
 		panel.add_child(reel_lbl)
@@ -473,7 +564,7 @@ func _build_ui() -> void:
 	_win_line_lbl.bbcode_enabled  = true
 	_win_line_lbl.fit_content     = true
 	_win_line_lbl.scroll_active   = false
-	_win_line_lbl.custom_minimum_size = Vector2(0, 28)
+	_win_line_lbl.custom_minimum_size = Vector2(320, 30)
 	_win_line_lbl.add_theme_font_size_override("normal_font_size", 18)
 	_win_line_lbl.add_theme_color_override("default_color", Color("#5a5a7a"))
 	_f(_win_line_lbl, true)
@@ -483,7 +574,22 @@ func _build_ui() -> void:
 	wl_center.add_child(_win_line_lbl)
 	inner.add_child(wl_center)
 
-	inner.add_child(_sep())
+	var control_deck := PanelContainer.new()
+	var deck_sty := StyleBoxFlat.new()
+	deck_sty.bg_color = Color("#0b0f18")
+	deck_sty.border_color = Color("#332346")
+	deck_sty.set_border_width_all(2)
+	deck_sty.set_corner_radius_all(16)
+	deck_sty.content_margin_left = 14
+	deck_sty.content_margin_right = 14
+	deck_sty.content_margin_top = 12
+	deck_sty.content_margin_bottom = 12
+	control_deck.add_theme_stylebox_override("panel", deck_sty)
+	inner.add_child(control_deck)
+
+	var deck_inner := VBoxContainer.new()
+	deck_inner.add_theme_constant_override("separation", 10)
+	control_deck.add_child(deck_inner)
 
 	# ── 베팅 단위 선택 ─────────────────────────────────────────
 	var stake_header := Label.new()
@@ -491,11 +597,11 @@ func _build_ui() -> void:
 	stake_header.add_theme_font_size_override("font_size", 12)
 	stake_header.add_theme_color_override("font_color", Color("#6a7a8a"))
 	_f(stake_header)
-	inner.add_child(stake_header)
+	deck_inner.add_child(stake_header)
 
 	var stake_row := HBoxContainer.new()
 	stake_row.add_theme_constant_override("separation", 6)
-	inner.add_child(stake_row)
+	deck_inner.add_child(stake_row)
 	_stake_btns = []
 
 	for s in STAKE_OPTIONS:
@@ -521,7 +627,7 @@ func _build_ui() -> void:
 	max_bet_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	max_bet_btn.add_theme_font_size_override("font_size", 11)
 	_f(max_bet_btn, true)
-	inner.add_child(max_bet_btn)
+	deck_inner.add_child(max_bet_btn)
 
 	# ── SPIN 버튼 ──────────────────────────────────────────────
 	_spin_btn = _make_btn("SPIN", _start_spin, "#0d2a15", "#2ecc71")
@@ -552,9 +658,9 @@ func _build_ui() -> void:
 	_spin_btn.add_theme_stylebox_override("focus",    spin_foc)
 	_spin_btn.add_theme_color_override("font_color", COLOR_GREEN)
 	_spin_btn.add_theme_color_override("font_disabled_color", Color("#2a3a2a"))
-	inner.add_child(_spin_btn)
+	deck_inner.add_child(_spin_btn)
 
-	inner.add_child(_sep())
+	deck_inner.add_child(_sep())
 
 	# ── 히스토리 (최근 5판) ────────────────────────────────────
 	var hist_header := Label.new()
@@ -562,13 +668,13 @@ func _build_ui() -> void:
 	hist_header.add_theme_font_size_override("font_size", 11)
 	hist_header.add_theme_color_override("font_color", Color("#4a5a6a"))
 	_f(hist_header)
-	inner.add_child(hist_header)
+	deck_inner.add_child(hist_header)
 
 	_history_row = HBoxContainer.new()
 	_history_row.add_theme_constant_override("separation", 6)
-	inner.add_child(_history_row)
+	deck_inner.add_child(_history_row)
 
-	inner.add_child(_sep())
+	deck_inner.add_child(_sep())
 
 	# ── 잔액 표시 ──────────────────────────────────────────────
 	_balance_lbl = Label.new()
@@ -576,7 +682,7 @@ func _build_ui() -> void:
 	_balance_lbl.add_theme_color_override("font_color", Color("#c0cce0"))
 	_balance_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_f(_balance_lbl, true)
-	inner.add_child(_balance_lbl)
+	deck_inner.add_child(_balance_lbl)
 
 	# ── 플래시 메시지 ───────────────────────────────────────────
 	_flash_lbl = Label.new()
