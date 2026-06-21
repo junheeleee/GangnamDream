@@ -5113,23 +5113,9 @@ func _open_investments():
 		GameState.flags["investment_first_visited"] = true
 		modal_body.add_child(_modal_section_header(_tr("투자 첫 방문", "First Visit"), "info", "#f0b429", _tr("처음엔 낮은 리스크 자산에 소액부터 진입하세요.", "Start with small amounts in low-risk assets.")))
 		modal_body.add_child(_wrap_label(
-			_tr("① 시장은 사이클로 움직입니다\n"
-			+ "   상승장 → 버블 → 폭락 → 침체 → 회복 → 반복\n"
-			+ "   '공포/탐욕' 지수가 낮을 때 사고, 높을 때 파는 게 원칙입니다.\n\n"
-			+ "② 레버리지는 수익도 2배, 손실도 2배\n"
-			+ "   원금의 35% 이하로 떨어지면 강제 청산됩니다. 입문자는 조심.\n\n"
-			+ "③ 투자감각이 높을수록 수수료가 낮아집니다\n"
-			+ "   자기계발 → 투자 공부로 감각을 키우세요.\n\n"
-			+ "처음엔 리스크 낮은 자산에 소액(10~20만원)부터 시작하세요.",
-			"① Markets move in cycles\n"
-			+ "   Bull → Bubble → Crash → Slump → Recovery → repeat\n"
-			+ "   The rule: buy when 'Fear/Greed' is low, sell when it's high.\n\n"
-			+ "② Leverage doubles gains and losses\n"
-			+ "   Force-liquidated if it drops below 35% of principal. Beginners beware.\n\n"
-			+ "③ Higher investing sense means lower fees\n"
-			+ "   Self-Dev → study investing to build your sense.\n\n"
-			+ "At first, start small (₩100k–200k) in low-risk assets."),
-			12, "#8892a4"))
+			_tr("핵심만 기억하세요: 공포가 낮을 때 분할 매수, 탐욕이 높을 때 일부 매도.\n레버리지는 수익과 손실이 모두 2배라 입문자는 피하는 편이 안전합니다.\n처음엔 리스크 ●●○○○ 이하 자산에 10~20만원 단위로 작게 시작하세요.",
+			"Remember the basics: scale in when Fear is low, trim positions when Greed is high.\nLeverage doubles both gains and losses, so beginners should avoid it.\nStart small, ₩100k-200k at a time, in assets rated risk ●●○○○ or lower."),
+			14, "#a7b0c2"))
 		var guide_sep0 = HSeparator.new()
 		guide_sep0.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(guide_sep0)
@@ -5216,65 +5202,13 @@ func _open_investments():
 		port_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(port_sep)
 
+	modal_body.add_child(_modal_section_header(
+		_tr("거래 가능 자산", "Tradable Assets"),
+		"market",
+		"#5b9cf6",
+		_tr("각 자산 카드에서 추세를 보고 바로 매수·매도하세요.", "Read each asset card, then buy or sell directly.")))
 	for row in investment_system.get_asset_rows():
-		var asset_id = row["id"]
-		var price = float(row["price"])
-		var risk_str = _tr("리스크 %d/5", "Risk %d/5") % int(row.get("risk_level", 1))
-		var hist: Array = GameState.price_history.get(asset_id, [])
-		var sparkline = _price_sparkline(hist)
-		var last_color = "#8892a4"
-		if hist.size() >= 2:
-			last_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
-		# ─ 자산 헤더 ─
-		modal_body.add_child(_label(
-			_tr("%s  (%s)  현재가 %s", "%s  (%s)  price %s") % [row["name"], risk_str, GameState.format_money(price)],
-			14, last_color))
-		# ─ A-5: 자산 특성 태그 ─
-		var asset_tags: Array = row.get("tags", [])
-		if not asset_tags.is_empty():
-			var tag_str = "  ".join(asset_tags.map(func(t): return "[%s]" % t))
-			modal_body.add_child(_wrap_label(tag_str, 11, "#4a5a72"))
-		# ─ 스파크라인 + 변동률 ─
-		var hist_parts: Array = [sparkline]
-		if hist.size() >= 2:
-			var d1 = (float(hist[-1]) - float(hist[-2])) / max(float(hist[-2]), 0.01) * 100.0
-			hist_parts.append(_tr("1개월 %+.1f%%", "1mo %+.1f%%") % d1)
-		if hist.size() >= 4:
-			var d3 = (float(hist[-1]) - float(hist[hist.size() - 4])) / max(float(hist[hist.size() - 4]), 0.01) * 100.0
-			hist_parts.append(_tr("3개월 %+.1f%%", "3mo %+.1f%%") % d3)
-		if hist.size() >= 12:
-			var d12 = (float(hist[-1]) - float(hist[0])) / max(float(hist[0]), 0.01) * 100.0
-			hist_parts.append(_tr("12개월 %+.1f%%", "12mo %+.1f%%") % d12)
-		modal_body.add_child(_wrap_label(
-			"  " + "  |  ".join(hist_parts),
-			12, last_color if hist.size() >= 2 else "#3a3a5a"))
-		var buy_row = HBoxContainer.new()
-		buy_row.add_theme_constant_override("separation", 6)
-		for amount in [100_000, 500_000, 1_000_000]:
-			var can_afford = GameState.money >= amount
-			var btn_color = "#00c896" if can_afford else "#64748b"
-			var buy_btn = _small_button("+%s" % GameState.format_money(amount), btn_color)
-			buy_btn.disabled = not can_afford
-			buy_btn.pressed.connect(Callable(self, "_on_buy_asset").bind(asset_id, amount))
-			buy_row.add_child(buy_btn)
-		modal_body.add_child(buy_row)
-		if GameState.portfolio.has(asset_id):
-			var holding: Dictionary = GameState.portfolio[asset_id]
-			var owned_val = float(holding.get("quantity", 0.0)) * price
-			var avg_price = float(holding.get("avg_price", price))
-			var profit_pct = (price - avg_price) / max(avg_price, 0.01) * 100.0
-			var profit_color = "#00c896" if profit_pct >= 0 else "#ff4444"
-			modal_body.add_child(_label(_tr("  보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%", "  Holdings %s  |  Avg %s  |  Return %+.1f%%") % [GameState.format_money(owned_val), GameState.format_money(avg_price), profit_pct], 12, profit_color))
-			var sell_row = HBoxContainer.new()
-			sell_row.add_theme_constant_override("separation", 6)
-			for sell_info in [["25%", 0.25], ["50%", 0.5], [_tr("전량", "All"), 1.0]]:
-				var sell_btn = _small_button(_tr("매도 %s", "Sell %s") % sell_info[0], "#ff4444")
-				sell_btn.pressed.connect(Callable(self, "_on_sell_asset").bind(asset_id, sell_info[1]))
-				sell_row.add_child(sell_btn)
-			modal_body.add_child(sell_row)
-		var sep = HSeparator.new()
-		sep.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(sep)
+		modal_body.add_child(_build_investment_asset_card(row))
 	# ── 레버리지 투자 진입 (투자감각 30 이상 해금) ──
 	if GameState.investment_skill >= 30:
 		var lev_btn := _icon_button(_tr("레버리지 투자 — 2배 포지션 고수익·고위험", "Leverage Investing — 2x position, high reward·high risk"), "leverage", "#7f1d1d")
@@ -5285,6 +5219,118 @@ func _open_investments():
 			_tr("잠금: 레버리지 투자 — 투자감각 30 달성 시 해금 (현재 %d)", "Locked: Leverage Investing — unlocks at Investing 30 (current %d)") % GameState.investment_skill,
 			12, "#4a5a72"))
 
+func _build_investment_asset_card(row: Dictionary) -> Control:
+	var asset_id: String = str(row.get("id", ""))
+	var price: float = float(row.get("price", 0.0))
+	var risk_level: int = int(row.get("risk_level", 1))
+	var risk_str: String = _tr("리스크 %d/5", "Risk %d/5") % risk_level
+	var hist: Array = GameState.price_history.get(asset_id, [])
+	var sparkline: String = _price_sparkline(hist)
+	var trend_color: String = "#8892a4"
+	if hist.size() >= 2:
+		trend_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b1116")
+	st.border_color = Color(trend_color)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	panel.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 8)
+	panel.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
+	box.add_child(header)
+
+	var name_lbl: Label = _label(str(row.get("name", asset_id)), 16, "#e8eaf0")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(name_lbl)
+
+	var risk_color: String = "#94a3b8"
+	if risk_level >= 4:
+		risk_color = "#ff7070"
+	elif risk_level <= 2:
+		risk_color = "#34d399"
+	var risk_lbl := _label(risk_str, 13, risk_color)
+	risk_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	risk_lbl.custom_minimum_size = Vector2(94, 0)
+	header.add_child(risk_lbl)
+
+	var price_lbl := _label(GameState.format_money(price), 15, trend_color)
+	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	price_lbl.custom_minimum_size = Vector2(132, 0)
+	if _font_bold:
+		price_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(price_lbl)
+
+	var asset_tags: Array = row.get("tags", [])
+	if not asset_tags.is_empty():
+		var tag_str: String = "  ".join(asset_tags.map(func(t): return "[%s]" % t))
+		box.add_child(_wrap_label(tag_str, 13, "#6b7c96"))
+
+	var hist_parts: Array = []
+	if hist.size() < 2:
+		hist_parts.append(_tr("가격 기록 축적 중", "Price history building"))
+	else:
+		hist_parts.append(sparkline)
+		var d1: float = (float(hist[-1]) - float(hist[-2])) / max(float(hist[-2]), 0.01) * 100.0
+		hist_parts.append(_tr("1개월 %+.1f%%", "1mo %+.1f%%") % d1)
+	if hist.size() >= 4:
+		var d3: float = (float(hist[-1]) - float(hist[hist.size() - 4])) / max(float(hist[hist.size() - 4]), 0.01) * 100.0
+		hist_parts.append(_tr("3개월 %+.1f%%", "3mo %+.1f%%") % d3)
+	if hist.size() >= 12:
+		var d12: float = (float(hist[-1]) - float(hist[0])) / max(float(hist[0]), 0.01) * 100.0
+		hist_parts.append(_tr("12개월 %+.1f%%", "12mo %+.1f%%") % d12)
+	box.add_child(_wrap_label("  |  ".join(hist_parts), 14, trend_color if hist.size() >= 2 else "#64748b"))
+
+	var buy_row := HBoxContainer.new()
+	buy_row.add_theme_constant_override("separation", 8)
+	box.add_child(buy_row)
+	for amount in [100_000, 500_000, 1_000_000]:
+		var can_afford: bool = GameState.money >= amount
+		var btn_color: String = "#00c896" if can_afford else "#64748b"
+		var buy_btn := _small_button(_tr("매수 %s", "Buy %s") % GameState.format_money(float(amount)), btn_color)
+		buy_btn.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
+		buy_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		buy_btn.disabled = not can_afford
+		buy_btn.pressed.connect(Callable(self, "_on_buy_asset").bind(asset_id, amount))
+		buy_row.add_child(buy_btn)
+
+	if GameState.portfolio.has(asset_id):
+		var holding: Dictionary = GameState.portfolio[asset_id]
+		var owned_val: float = float(holding.get("quantity", 0.0)) * price
+		var avg_price: float = float(holding.get("avg_price", price))
+		var profit_pct: float = (price - avg_price) / max(avg_price, 0.01) * 100.0
+		var profit_color: String = "#00c896" if profit_pct >= 0.0 else "#ff4444"
+		box.add_child(_wrap_label(
+			_tr("보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%", "Holdings %s  |  Avg %s  |  Return %+.1f%%")
+			% [GameState.format_money(owned_val), GameState.format_money(avg_price), profit_pct],
+			14, profit_color))
+		var sell_row := HBoxContainer.new()
+		sell_row.add_theme_constant_override("separation", 8)
+		box.add_child(sell_row)
+		for sell_info in [["25%", 0.25], ["50%", 0.5], [_tr("전량", "All"), 1.0]]:
+			var sell_btn: Button = _small_button(_tr("매도 %s", "Sell %s") % sell_info[0], "#ff4444")
+			sell_btn.custom_minimum_size = Vector2(0, UI_MIN_SMALL_BUTTON_HEIGHT)
+			sell_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			sell_btn.pressed.connect(Callable(self, "_on_sell_asset").bind(asset_id, sell_info[1]))
+			sell_row.add_child(sell_btn)
+
+	return panel
+
 func _open_shop():
 	_open_modal(_tr("상점", "Shop"))
 	modal_body.add_child(_modal_section_header(
@@ -5293,30 +5339,74 @@ func _open_shop():
 		"#34d399",
 		_tr("구매한 아이템은 인벤토리에 보관되며 일부는 사용 시 행동력을 소비합니다.", "Purchased items go to your inventory; some cost AP to use.")))
 	for item in inventory_system.get_shop_items():
-		var price = float(item.get("price", 0))
-		var can_buy = GameState.money >= price
-		var btn_color = "#166048" if can_buy else "#334155"
-		var item_name: String = str(item.get("name", ""))
-		var btn: Button = _icon_button("%s  —  %s" % [item_name, GameState.format_money(price)], "shop", btn_color)
-		btn.disabled = not can_buy
-		btn.pressed.connect(Callable(self, "_on_shop_item").bind(item.get("id", "")))
-		modal_body.add_child(btn)
-		# 효과 요약 표시
-		var effect_parts: Array = []
-		for k in item.get("effects", {}):
-			var v = int(item["effects"][k])
-			var sign = "+" if v >= 0 else ""
-			effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
-		for k in item.get("passive_effects", {}):
-			var v = int(item["passive_effects"][k])
-			var sign = "+" if v >= 0 else ""
-			effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign, v])
-		var one_time = bool(item.get("one_time", true))
-		var use_type = _tr("사용 시 소모", "Consumed on use") if one_time else _tr("보유 지속 효과", "Passive while held")
-		if not effect_parts.is_empty():
-			modal_body.add_child(_wrap_label("  ▸ %s  [%s]" % [", ".join(effect_parts), use_type], 12, "#00c896"))
-		if not item.get("description", "").is_empty():
-			modal_body.add_child(_wrap_label("  %s" % item.get("description", ""), 12, "#5a6075"))
+		modal_body.add_child(_build_shop_item_card(item))
+
+func _build_shop_item_card(item: Dictionary) -> Control:
+	var price: float = float(item.get("price", 0.0))
+	var can_buy: bool = GameState.money >= price
+	var accent: String = "#34d399" if can_buy else "#64748b"
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b1116")
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	panel.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 8)
+	panel.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
+	box.add_child(header)
+
+	var item_name: String = str(item.get("name", ""))
+	var name_lbl := _label(item_name, 16, "#e8eaf0")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(name_lbl)
+
+	var price_lbl := _label(GameState.format_money(price), 15, "#f0b429" if can_buy else "#94a3b8")
+	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	price_lbl.custom_minimum_size = Vector2(110, 0)
+	if _font_bold:
+		price_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(price_lbl)
+
+	var effect_parts: Array = []
+	for k in item.get("effects", {}):
+		var v: int = int(item["effects"][k])
+		var sign: String = "+" if v >= 0 else ""
+		effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
+	for k in item.get("passive_effects", {}):
+		var v2: int = int(item["passive_effects"][k])
+		var sign2: String = "+" if v2 >= 0 else ""
+		effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
+	var one_time: bool = bool(item.get("one_time", true))
+	var use_type: String = _tr("사용 시 소모", "Consumed on use") if one_time else _tr("보유 지속 효과", "Passive while held")
+	if not effect_parts.is_empty():
+		box.add_child(_wrap_label("%s  [%s]" % [", ".join(effect_parts), use_type], 14, "#00c896" if can_buy else "#94a3b8"))
+	if not item.get("description", "").is_empty():
+		box.add_child(_wrap_label(str(item.get("description", "")), 14, "#7f8ea3"))
+
+	var buy_btn := _small_button(_tr("구매", "Buy"), "#166048" if can_buy else "#334155")
+	buy_btn.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
+	buy_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buy_btn.disabled = not can_buy
+	buy_btn.pressed.connect(Callable(self, "_on_shop_item").bind(item.get("id", "")))
+	box.add_child(buy_btn)
+
+	return panel
 
 func _on_save_pressed():
 	SaveManager.save_game(1)
@@ -5584,15 +5674,21 @@ func _open_modal(title):
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 		modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		modal_scroll.custom_minimum_size = Vector2(0, 420)
+		modal_scroll.custom_minimum_size = Vector2(0, 468)
+		modal_scroll.scroll_vertical = 0
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(640, 560)
-		modal_panel.offset_left   = -320
-		modal_panel.offset_right  =  320
-		modal_panel.offset_top    = -280
-		modal_panel.offset_bottom =  280
+		modal_panel.custom_minimum_size = Vector2(760, 610)
+		modal_panel.offset_left   = -380
+		modal_panel.offset_right  =  380
+		modal_panel.offset_top    = -305
+		modal_panel.offset_bottom =  305
 	AudioManager.play("open_modal")
+	call_deferred("_reset_modal_scroll")
 	call_deferred("_focus_first_in_modal_body")
+
+func _reset_modal_scroll() -> void:
+	if is_instance_valid(modal_scroll):
+		modal_scroll.scroll_vertical = 0
 
 func _focus_first_in_modal_body():
 	for child in modal_body.get_children():

@@ -256,6 +256,12 @@ func _shot_investment() -> void:
 		_mg._open_investments()
 		await _settle(0.8)
 		await _save("02_investment_portfolio_chart")
+		var scroll: ScrollContainer = _mg.get("modal_scroll") as ScrollContainer
+		if is_instance_valid(scroll):
+			var bar: VScrollBar = scroll.get_v_scroll_bar()
+			scroll.scroll_vertical = int(bar.max_value * 0.62)
+			await _settle(0.4)
+			await _save("02d_investment_asset_cards")
 		_close_modal()
 		await _settle(0.4)
 

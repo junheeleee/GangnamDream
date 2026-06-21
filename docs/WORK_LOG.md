@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-22 (PC/Steam Deck Readability Pass 2)
+
+### 수정
+- `scenes/RouletteTable.gd`: 숫자 베팅 매트 버튼을 58×34/13px 기준으로 확대하고, 베팅 타입/스테이크/SPIN/BET 버튼에 3px 금색 포커스 링을 추가. 스팀덱/패드 조작 시 현재 선택 위치가 더 명확하게 보이도록 개선.
+- 룰렛 휠 상단에 `PLACE YOUR BETS` / `SPINNING · NO MORE BETS` / `WINNING POCKET` 상태 배지를 추가해 작은 HUD 텍스트에 의존하지 않게 수정.
+- `scenes/MainGame.gd`: 투자 첫 방문 가이드를 긴 설명문에서 핵심 3줄 안내로 압축.
+- 투자 자산 목록을 텍스트 줄+버튼 나열에서 자산 카드 구조로 전환. 자산명, 리스크, 가격, 가격 기록 상태, 매수/매도 버튼이 한 덩어리로 읽히도록 개선.
+- 상점 아이템 목록도 카드형으로 전환. 아이템명, 가격, 효과, 설명, 구매 버튼을 같은 패널에 묶어 웹 게시판식 목록 느낌을 줄임.
+- `_open_modal()`이 기존 스크롤 위치를 물고 다음 모달을 중간부터 여는 문제를 수정. 모달 기본 크기도 760×610, 스크롤 영역 468px 기준으로 복원.
+- `tools/ScreenshotQA.gd`: 투자 자산 카드 하단 스크롤 캡처(`02d_investment_asset_cards`)를 추가해 촘촘한 거래 UI를 자동 QA에 포함.
+
+### 검증
+- 전체 `ScreenshotQA` 실행 완료. `02_investment_portfolio_chart`, `02d_investment_asset_cards`, `02b_shop_modal`, `02c_system_menu`, `12_roulette_spin`, `12_roulette_table` 직접 확인.
+- 1280×800 기준 상점 모달이 항상 맨 위에서 열리고, 투자/상점 카드와 룰렛 숫자 매트의 텍스트·버튼 겹침 없음.
+
 ## 2026-06-22 (PC/Steam Deck Readability Pass 1)
 
 ### 수정
