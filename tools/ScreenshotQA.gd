@@ -415,6 +415,8 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._do_bet()
 			node._do_spin()
 			await _settle(1.6)
+			await _save("12_roulette_spin")
+			await _settle(1.7)
 		"big_wheel_game":
 			node._select_segment(0)
 			node._select_stake(10_000)

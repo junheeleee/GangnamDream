@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (룰렛 칩/결과 콜아웃 정리)
+
+### 수정
+- `scenes/RouletteTable.gd`: 상단 테이블 위 임시 원형 칩 스택을 기존 denomination SVG(`chip_*.svg`) 기반 스택으로 교체.
+- 베팅 칩 위치를 오른쪽 결과 패널에서 분리해 왼쪽 베팅 패널과 휠 사이 펠트 공간에 배치. `NO MORE BETS`/`WINNING POCKET` 텍스트와 칩이 겹치지 않게 수정.
+- 결과 확정 시 공 주변에 포켓 안착 링을 그리고, 오른쪽 패널에 winning pocket 번호 마커를 추가.
+- 룰렛 결과 표시 중에는 방금 올린 베팅 칩이 테이블에 남아 보이도록 `_bet_amount` 리셋 타이밍을 결과 연출 이후로 이동.
+- `tools/ScreenshotQA.gd`: 룰렛 QA를 스핀 중(`12_roulette_spin`)과 결과 후(`12_roulette_table`) 두 상태로 분리 캡처.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA --qa=casino`: `12_roulette_spin`, `12_roulette_table` 직접 확인. 칩/결과 패널/공/숫자 매트 겹침 없음.
+
 ## 2026-06-21 (다이사이 테이블 고급화)
 
 ### 수정
