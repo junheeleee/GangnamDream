@@ -1044,6 +1044,77 @@ func get_total_asset_value():
 		total += float(holding.get("quantity", 0.0)) * float(market_prices.get(asset_id, holding.get("avg_price", 0.0)))
 	return total - get_loan_total()
 
+## ── 경제 런 궤적/페이스 — 척추(경제 런)의 심장 ──────────────────
+## 30억까지 얼마나 왔고, "우승 궤적" 대비 앞서/뒤처져 있는가.
+## 매주 "안전 vs 한 방" 결정을 살리는 압박 신호. (UI 가시화는 별도)
+##
+## 절대 needed_cagr(50만→30억)는 시작부터 ~470%/년이라 거의 항상 포화 →
+## 변별력이 없다. 그래서 상태는 *현실적 우승 궤적 벤치마크* 대비로 잡는다:
+##   - 시드 단계(0~24개월): 시작자금 → 8천만(종잣돈) 선형
+##   - 성장 단계(24~60개월): 8천만 → 30억 지수 성장 (후반 가속 = 베팅/복리)
+## ratio = 현재자산 / 벤치마크. 중앙값 런(~2억 종착)은 'behind', 우승 런은 'on_track'으로 갈리도록 보정.
+## 반환: { target, current, progress_pct, months_elapsed, months_left,
+##         benchmark, ratio, needed_cagr(참고용), status, via }
+const GANGNAM_TARGET := 3_000_000_000.0
+const PACE_SEED := 80_000_000.0       # 종잣돈 기준 (24개월 목표)
+const PACE_SEED_MONTH := 24.0
+const PACE_START := 500_000.0
+func get_run_pace() -> Dictionary:
+	var current := get_total_asset_value()
+	var me: int = max(1, (age - 33) * 12 + month)          # 경과 개월 (시작=1)
+	var months_left: int = max(0, (38 - age) * 12 - month + 1)
+	var years_left := float(months_left) / 12.0
+
+	# 우승 궤적 벤치마크
+	var benchmark := 0.0
+	if me <= int(PACE_SEED_MONTH):
+		var t := float(me - 1) / max(1.0, PACE_SEED_MONTH - 1.0)   # 0..1
+		benchmark = PACE_START + (PACE_SEED - PACE_START) * t
+	else:
+		var t2 := float(me - PACE_SEED_MONTH) / max(1.0, 60.0 - PACE_SEED_MONTH)  # 0..1
+		benchmark = PACE_SEED * pow(GANGNAM_TARGET / PACE_SEED, clampf(t2, 0.0, 1.0))
+	benchmark = max(benchmark, PACE_START)
+	var ratio := current / benchmark
+
+	# 참고용 절대 수익률 (표시/디버그)
+	var needed_cagr := -1.0
+	if current > 0.0 and years_left > 0.0 and current < GANGNAM_TARGET:
+		needed_cagr = pow(GANGNAM_TARGET / current, 1.0 / years_left) - 1.0
+
+	var status := "danger"
+	if current >= GANGNAM_TARGET:
+		status = "achieved"
+	elif current <= 0.0:
+		status = "danger"            # 빚더미 — 기적이 필요
+	elif ratio >= 1.3:
+		status = "ahead"
+	elif ratio >= 0.7:
+		status = "on_track"          # 우승 궤적 위
+	elif ratio >= 0.35:
+		status = "behind"            # 공격적 운용/레버리지 필요
+	elif ratio >= 0.12:
+		status = "long_shot"         # 큰 베팅·운이 필요
+	else:
+		status = "danger"
+
+	var via := "balanced"
+	if route_orthodox - route_unorthodox >= 6:
+		via = "orthodox"
+	elif route_unorthodox - route_orthodox >= 6:
+		via = "unorthodox"
+	return {
+		"target": GANGNAM_TARGET,
+		"current": current,
+		"progress_pct": current / GANGNAM_TARGET * 100.0,
+		"months_elapsed": me,
+		"months_left": months_left,
+		"benchmark": benchmark,
+		"ratio": ratio,
+		"needed_cagr": needed_cagr,
+		"status": status,
+		"via": via,
+	}
+
 # ── 신용등급 — 자산·직장·부채가 대출의 조건을 정한다 ──────────────
 ## 신용점수 1~100. 고용·근속·소득·순자산이 올리고, 부채 비율·신용 사건이 깎는다.
 func get_credit_score() -> int:
@@ -1075,12 +1146,17 @@ func get_credit_grade_label() -> String:
 	return "위험"
 
 ## 변동금리 — 매달 현재 등급으로 이자를 계산한다.
+## 한국 법정 최고금리(연 20%, 2021.7~) 초과 금지 — 월 환산 상한으로 클램프.
+const LEGAL_MAX_MONTHLY_RATE := 0.0153   # (1+0.0153)^12 ≈ 1.200 → 연 ~20%
 func get_loan_rate(product: String) -> float:
 	var g := get_credit_grade()
+	var r := 0.02
 	match product:
-		"bank":   return 0.004 + float(g - 1) * 0.0008   # 1등급 월 0.4% ~ 7등급 0.88%
-		"second": return 0.012 + float(g) * 0.0008       # 1등급 월 1.28% ~ 10등급 2.0%
-	return 0.02
+		# 1금융 은행 신용대출: 1등급 월 0.4%(연 ~4.9%) ~ 7등급 월 0.88%(연 ~11.1%)
+		"bank":   r = 0.004 + float(g - 1) * 0.0008
+		# 2금융 저축은행: 1등급 월 ~1.10%(연 ~14%) ~ 저신용 법정상한(연 ~20%)
+		"second": r = 0.011 + float(g - 1) * 0.0005
+	return minf(r, LEGAL_MAX_MONTHLY_RATE)   # 법정 최고금리 초과 차단
 
 # ── 대출 조작 ─────────────────────────────────────────────────────
 func get_loan_total() -> float:
