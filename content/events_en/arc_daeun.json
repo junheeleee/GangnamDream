@@ -537,5 +537,50 @@
         }
       }
     ]
+  },
+  {
+    "id": "arc_daeun_05_together",
+    "title": "The Winter Room",
+    "description": "Daeun's things started appearing in the fridge.\nA few eggs. Spinach. Tofu.\n\n{name} was staring at an investment screen when she reached over and touched the frame of his glasses.\n\"Your eyes are going to give out.\" That had become something they just said.\n\nSomewhere along the way, her being here stopped feeling strange.\nWhether that was good, or just habit — he wasn't sure.",
+    "choices": [
+      {
+        "text": "Decide to cook together tonight",
+        "result_text": "The tofu stew came out too salty. Daeun said {name} put in too much. {name} said it was hers.\nThey both knew the truth.\n\nIf he could hold the small things steady for this person —\nmaybe the run toward ₩3 billion wouldn't come apart either."
+      },
+      {
+        "text": "\"I still can't give you much yet — is that okay?\"",
+        "result_text": "After a long pause, Daeun said: \"This is already something.\"\n\n{name} was grateful. And burdened.\nHolding both at the same time, he turned back to the screen.\n\nHe couldn't stop. Not if he wanted her to be able to look at him."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_05_breaking",
+    "title": "The End of Waiting",
+    "description": "A message from Daeun.\n\"Can we talk for a bit?\"\n\nA side table at a pojangmacha. Two shots of soju.\n\n\"I've been thinking about it for a long time. It's not that you're a bad person —\nbut I have my own life too. I don't want waiting to become my life.\"\n\n{name} had things to say. Things he should have said.\nIt felt too late for them now.",
+    "choices": [
+      {
+        "text": "\"I'm sorry. You're right.\" Accept it.",
+        "result_text": "She stood up. \"I hope things work out for you. I mean that.\"\nIt sounded like the truth. That made it worse.\n\n{name} sat there for a long time after she left.\nThe words 'just wait a little longer' — this was where they led."
+      },
+      {
+        "text": "\"Even now — I can change.\" Try to hold on.",
+        "result_text": "She looked at {name} for a moment.\n\"It's not about you changing. I chose to wait too. I'm just tired of it.\"\n\nThat was the more honest answer.\n{name} couldn't find a word to say."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_05_uncertain",
+    "title": "The In-Between Distance",
+    "description": "They'd been seeing each other less.\nNo clear starting point for when.\nNo plans made. No avoidance either.\nJust — both getting busy.\n\nToday he ran into her on the street.\n\"Oh, hey.\" A long silence after that.\nThis had become their default.\n\nThey never officially ended things, so things never ended.\nThey never tried to continue, so things never continued.",
+    "choices": [
+      {
+        "text": "\"Where does this leave us?\" Ask her directly.",
+        "result_text": "She thought for a while. Then: \"...I don't know. Me neither.\"\n\nBoth of them not knowing — that was itself a kind of answer.\nAfter that day, neither reached out. That was the answer too."
+      },
+      {
+        "text": "\"You doing okay?\" Let it pass.",
+        "result_text": "\"Yeah, doing fine.\"\nAnd they each went their separate way.\n\nHe didn't look back. More accurately — he didn't have the nerve to.\nThe silence from that night of 'I'm not sure' —\nit ended like this."
+      }
+    ]
   }
 ]

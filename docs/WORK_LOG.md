@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (arc_daeun / arc_hyunsu 후속 완결 — 4종)
+
+### 수정
+- `content/events/arc_daeun.json` — 3종 추가 (arc_daeun_04b_future 이후 분기 완결):
+  - `arc_daeun_05_together` (daeun_committed 경로, t≥50) — 같이 가기로 한 뒤 일상 씬
+  - `arc_daeun_05_breaking` (daeun_deferred 경로, t≥50) — "나중에" 말의 결말, 이별
+  - `arc_daeun_05_uncertain` (daeun_uncertain 경로, t≥50) — 어중간한 거리의 자연 소멸
+- `content/events/arc_hyunsu.json` — 1종 추가 (hyunsu_result_pass 이후 미완성 경로 완결):
+  - `hyunsu_pass_news` (hyunsu_passed 경로, t≥80) — 합격 후 발령, 고시원 떠나는 씬
+- `scenes/MainGame.gd` `_next_arc_id()` — 트리거 4개 추가 (t≥50 daeun 3종, t≥80 hyunsu 1종)
+- `content/events_en/arc_daeun.json` / `arc_hyunsu.json` — EN 오버레이 동시 추가
+- 총 이벤트: 1091 → 1095개, EN 누락 0, audit ERROR 0/WARNING 0
+
+### 의도
+- arc_daeun_04b_future의 세 선택지(committed/deferred/uncertain)가 각각 결말 씬 없이 끊겨 있던 내러티브 공백 해소
+- hyunsu_result_pass 이후 합격 경로에 발령 씬 없어 pass 루트가 불완전했던 문제 해소
+- cast_stages.json 기존 stage만 사용 (신규 stage 없음)
+
 ## 2026-06-21 (P3 7차 직장인 일상 서사 6종 + 정체성 콜백 3종)
 
 ### 수정

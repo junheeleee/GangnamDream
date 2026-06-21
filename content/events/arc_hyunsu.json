@@ -200,5 +200,37 @@
         "result_text": "\"야 진짜? 잘됐다!!\"\n\n\"형 덕분이에요. 그때 문 두드려줘서.\"\n\n{name}은 폰을 내려놓았다.\n\n서울에서 5년. 이런 연락이 오는 날도 있다."
       }
     ]
+  },
+  {
+    "id": "hyunsu_pass_news",
+    "title": "현수, 발령났다",
+    "category": "relationship",
+    "rarity": "rare",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "hyunsu_passed",
+      "min_turn": 80
+    },
+    "cooldown": 9999,
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "현수가 짐을 싸고 있었다.\n\n\"형, 저 발령났어요. 다음 주에 가야 해서요.\"\n\n경기도 어딘가 군청이었다. 4년 만에 고시원을 나가는 것이다.\n\n두 박스. 공시 교재. 달력.\n이 방에서의 시간이 박스 두 개에 담겼다.",
+    "choices": [
+      {
+        "text": "밥 한번 사준다",
+        "effects": { "mental": 5, "social_skill": 1, "money": -30000 },
+        "cast_effects": { "hyunsu": { "affinity": 10, "stage": "passed" } },
+        "flags": ["hyunsu_pass_news_seen", "hyunsu_departure_meal"],
+        "result_text": "근처 순대국밥집. 현수가 많이 먹었다.\n\n\"형은 언제 여기 나가요?\"\n\"...글쎄.\"\n\n현수는 그냥 웃었다. 그 웃음이 오래 남았다.\n같은 출발선이었는데 — 한 명이 먼저 나갔다."
+      },
+      {
+        "text": "잘 됐다고, 인사한다",
+        "effects": { "mental": 3 },
+        "cast_effects": { "hyunsu": { "affinity": 5, "stage": "passed" } },
+        "flags": ["hyunsu_pass_news_seen"],
+        "result_text": "\"잘됐다. 거기서도 잘 해.\"\n\"감사합니다, 형.\"\n\n다음 날 방이 비어 있었다.\n라면 냄비가 없어진 공용 주방이,\n이상하게 넓어 보였다."
+      }
+    ]
   }
 ]

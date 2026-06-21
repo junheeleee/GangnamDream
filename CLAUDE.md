@@ -9,12 +9,12 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-21 (6차)** — **P3 8차 우정·외로움 서사 6종** (`friendship_events.json` 신규) + **직장 콜백 3종** (`callback_events_31.json` 신규, EN 동기화) + **밸런스 audit #8 통과**: friend_group_chat_silent(단톡 침묵), friend_wedding_stranger(결혼식 피로연 낯선 얼굴), friend_drunk_midnight_call(새벽 2시 술취한 전화), friend_mutual_drift(반년만에 어색함), friend_success_gap(친구 50억 투자유치), friend_last_bachelor(마지막 독신 둘). 콜백: credit_theft_again(또 가로챔/이직 분기), salary_negotiation_result(재협상 결과), job_change_outcome(이직 여부 회수). 이벤트 1091개. 밴드 전부 통과. |
-| **이전** | **2026-06-21 (5차)** — **P3 7차 직장인 일상 서사 6종** (`work_events.json`) + **정체성 콜백 3종** (`callback_events_30.json`): 성과가로채기/번아웃/헤드헌터/동기연봉/혼밥/연말면담. 콜백: midnight_echo/vision_midcheck/gangnam_standard_held. 이벤트 1082개. |
-| **이전2** | **2026-06-21 (4차)** — **P3 6차 자아 정체성 5종** (`identity_events.json`) + **불안 콜백 4종** (`callback_events_29.json`). 이벤트 1073개. |
+| **최근 완료** | **2026-06-21 (7차)** — **arc_daeun / arc_hyunsu 후속 완결 4종**: arc_daeun_05_together(committed 일상), arc_daeun_05_breaking(deferred 이별), arc_daeun_05_uncertain(uncertain 자연소멸), hyunsu_pass_news(합격 발령 고시원 이별). MainGame.gd 트리거 4개 추가. EN 오버레이 동기화. 이벤트 1095개. audit ERROR 0/WARNING 0. 밴드 전부 통과. |
+| **이전** | **2026-06-21 (6차)** — **P3 8차 우정·외로움 서사 6종** (`friendship_events.json` 신규) + **직장 콜백 3종** (`callback_events_31.json` 신규, EN 동기화). 이벤트 1091개. 밴드 전부 통과. |
+| **이전2** | **2026-06-21 (5차)** — **P3 7차 직장인 일상 서사 6종** (`work_events.json`) + **정체성 콜백 3종** (`callback_events_30.json`). 이벤트 1082개. |
 | **Codex 추가 완료** | **2026-06-20~21 (외형)** — 빅휠 54칸 슬롯 쇼휠, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH), 홀덤 오벌 테이블 재배치, 슬롯머신 캐비닛 보강, 룰렛 테이블 베팅/딜러/칩/포켓 하이라이트. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
-| **다음 작업** | **arc_daeun / arc_hyunsu 후속** (중반에서 끊긴 두 캐릭터 아크 완결) 또는 **직장/이직 루트 전용 엔딩 보강** (현재 엔딩 31개 중 직장인 루트 약함); 우정 이벤트 콜백 체인(reached_out_to_friend·accepted_friends_growth·celebrated_friends_success 플래그). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-21 (P3 8차 우정·외로움 6종 + 직장콜백 3종 + 밸런스 audit #8 통과. 이벤트 1091개, EN 누락 0, audit ERROR 0/WARNING 0) |
+| **다음 작업** | **직장/이직 루트 전용 엔딩 보강** (현재 엔딩 31개 중 직장인 루트 약함); **우정 이벤트 콜백 체인** (reached_out_to_friend·accepted_friends_growth·celebrated_friends_success 플래그); **다은 05 이후 에필로그** (arc_daeun_later_echo t≥55 기존 씬과 연계). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-21 (arc_daeun·hyunsu 후속 4종 + MainGame 트리거 4개 + EN 동기화. 이벤트 1095개, EN 누락 0, audit ERROR 0/WARNING 0) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

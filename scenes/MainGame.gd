@@ -1452,6 +1452,18 @@ func _next_arc_id() -> String:
 			and f.get("arc_daeun_ghost_seen", false) \
 			and not f.get("arc_daeun_regret_seen", false):
 		return "arc_daeun_regret_draft"
+	# ── 다은 05 — 함께 가는 경로 (committed 이후 일상) ──
+	if t >= 50 and f.get("daeun_committed", false) \
+			and not f.get("arc_daeun_05_together_seen", false):
+		return "arc_daeun_05_together"
+	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
+	if t >= 50 and f.get("daeun_deferred", false) \
+			and not f.get("arc_daeun_05_breaking_seen", false):
+		return "arc_daeun_05_breaking"
+	# ── 다은 05 — 모르겠다 한 뒤 자연 소멸 ──
+	if t >= 50 and f.get("daeun_uncertain", false) \
+			and not f.get("arc_daeun_05_uncertain_seen", false):
+		return "arc_daeun_05_uncertain"
 
 	# ── 아버지 아크 — 병환과 화해 (런 전체에 걸쳐 진행) ──
 	if t >= 11 and not f.get("arc_father_01_seen", false):
@@ -1660,6 +1672,10 @@ func _next_arc_id() -> String:
 		if f.get("hyunsu_encouraged", false):
 			return "hyunsu_result_pass"
 		return "hyunsu_result_fail"
+	# ── 현수 — 합격 후 발령 소식 ──
+	if t >= 80 and f.get("hyunsu_passed", false) \
+			and not f.get("hyunsu_pass_news_seen", false):
+		return "hyunsu_pass_news"
 
 	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
