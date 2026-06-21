@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kx_open_chat",
+    "title": "The Open Chatroom",
+    "description": "KakaoTalk Open Chat: 'Seoul 20s-30s Money Study Group.'\nJoined anonymously.\n\nThe chat window doesn't stop scrolling.\nReal estate, stocks, crypto, apartment lottery applications.",
+    "choices": [
+      {
+        "text": "Lurk and gather intel",
+        "result_text": "Lurked for a few days. Learned market prices, picked up the jargon.\n\nOpen chats are Korea's information density in raw form.\nThe gap between those who knew first and those who didn't — it compounds."
+      },
+      {
+        "text": "Post a question",
+        "result_text": "'What should I do first with ₩200K/month?' I posted.\nReplies came fast. Over ten of them. All different.\n\nNo right answer — but knowing other people are sweating the same thing helped."
+      }
+    ]
+  },
+  {
+    "id": "kx_viral_meme",
+    "title": "This Meme Is About Me",
+    "description": "A meme is going around on X (Twitter).\n'33, unemployed, ₩500K in the bank, when does Gangnam happen'\n\nOver 60,000 retweets.\nThe replies are full of 'this is literally me.'",
+    "choices": [
+      {
+        "text": "Retweet it — deeply relatable",
+        "result_text": "Retweeted it. Added 'this is literally me.'\n\nOver 200 likes. Strangers pressed 'me too.'\nI thought I was alone in this. We were all in the same place."
+      },
+      {
+        "text": "Laugh and move on — a meme isn't reality",
+        "result_text": "Laughed. Put the phone down.\n\nI relate — but opening social media for comfort just pulls you deeper in.\nDopamine is too cheap these days."
+      }
+    ]
+  },
+  {
+    "id": "kx_mukbang",
+    "title": "Mukbang at 1 AM",
+    "description": "1 AM — hungry, out of money.\nOpened YouTube. The algorithm recommends mukbang.\n\nA YouTuber eating four bowls of black bean noodles.\nJust the thumbnail makes your mouth water.",
+    "choices": [
+      {
+        "text": "Put on mukbang and eat cup ramen",
+        "result_text": "Poured hot water into the cup ramen with mukbang running in the background. Weirdly fitting.\n\nSome say Korea's mukbang culture was born to ease the loneliness of eating alone.\nCup ramen at 1 AM was enough for tonight."
+      },
+      {
+        "text": "Turn it off and sleep — just makes you hungrier",
+        "result_text": "Turned it off and closed my eyes.\n\nStill hungry. At least I'm not hungrier.\nRestraint is something you practice in small things first."
+      }
+    ]
+  },
+  {
+    "id": "kx_kakao_emoticon",
+    "title": "KakaoTalk Emoticons",
+    "description": "Someone sends an emoticon mid-conversation.\nA dancing bear.\n\nKakao emoticons replace text in Korean conversation.\nSad, happy, comforting — this one bear handles it all.",
+    "choices": [
+      {
+        "text": "Buy one and reply in kind",
+        "result_text": "Bought a ₩2,200 emoticon. A waving cat.\n\n'Haha, cute,' they replied.\nIn this country, relationships are maintained less by words, more by emoticons — I keep learning this."
+      },
+      {
+        "text": "Reply with text instead",
+        "result_text": "Sent 'haha same' in text.\n\nThe vibe was slightly different. Text has no warmth.\nA ₩2,200 gap makes a temperature difference in relationships. Weird and also accurate."
+      }
+    ]
+  },
+  {
+    "id": "kx_naver_cafe",
+    "title": "Naver Café: Real Estate Study",
+    "description": "Naver Café: 'Real Estate Study Group.'\n470,000 members.\n\nOne post, 200 replies.\nGangnam apartment prices, lottery win stories, property inspection logs...\n\nThis is the actual hub of Korean real estate information.",
+    "choices": [
+      {
+        "text": "Start reading it regularly",
+        "result_text": "Started reading 30 minutes a day.\n\nThree months later, I was using 'location value,' 'school zone,' 'subway proximity' without thinking.\nKnowledge accumulates as fast as you're willing to read."
+      },
+      {
+        "text": "Skim it and close the tab — this isn't my world yet",
+        "result_text": "₩1 billion, ₩2 billion, ₩3 billion...\n\nThe numbers were too large to feel real.\nThe longer I stared, the more a sense of deprivation set in. Closed the tab."
+      }
+    ]
+  }
+]

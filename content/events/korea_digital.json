@@ -1,0 +1,132 @@
+[
+  {
+    "id": "kx_open_chat",
+    "title": "오픈채팅방",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 20,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "digital", "social"],
+    "description": "카카오 오픈채팅 '서울 2030 재테크 모임'.\n익명으로 들어왔다.\n\n채팅창이 쉬지 않고 올라온다.\n부동산, 주식, 코인, 그리고 아파트 청약.",
+    "choices": [
+      {
+        "text": "정보를 모으면서 눈팅한다",
+        "effects": { "mental": 2, "intelligence": 1 },
+        "result_text": "며칠 눈팅했다. 시세도 배우고, 용어도 익혔다.\n\n오픈채팅은 한국 정보의 밀도다.\n여기서 먼저 아는 것과 모르는 것의 차이가 나중에 커진다."
+      },
+      {
+        "text": "질문 하나 올려본다",
+        "effects": { "mental": 3, "social_skill": 1 },
+        "result_text": "\"월 200으로 뭘 먼저 해야 할까요?\" 올렸다.\n답이 빠르게 달렸다. 10개가 넘었다. 전부 달랐다.\n\n정답은 없지만, 고민하는 사람들이 있다는 게 위안이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "kx_viral_meme",
+    "title": "이 밈이 내 얘기라고",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 18,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "digital"],
+    "description": "트위터(X)에 밈이 돌고 있다.\n「33세 백수, 통장 50만원, 강남은 언제쯤」\n\n리트윗 수가 6만을 넘었다.\n댓글창에 '나야 나'가 가득하다.",
+    "choices": [
+      {
+        "text": "리트윗한다 — 공감이다",
+        "effects": { "mental": 4 },
+        "result_text": "리트윗했다. \"이거 내 얘기\" 한 줄 달았다.\n\n좋아요가 200개 넘게 달렸다. 모르는 사람들이 '나도'를 눌렀다.\n혼자인 줄 알았는데, 다들 같은 곳에 있었다."
+      },
+      {
+        "text": "웃고 넘어간다 — 밈이 현실은 아니니까",
+        "effects": { "mental": 2 },
+        "result_text": "웃었다. 그리고 폰을 내려놨다.\n\n공감 가지만, 위로받으러 SNS 열면 더 빠져든다.\n요즘 도파민이 너무 싸다."
+      }
+    ]
+  },
+  {
+    "id": "kx_mukbang",
+    "title": "먹방 유튜브",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 16,
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "digital"],
+    "description": "새벽 1시, 배는 고프고 돈은 없다.\n유튜브를 열었더니 알고리즘이 먹방을 추천한다.\n\n1인분 짜장면을 네 그릇째 먹는 유튜버.\n섬네일만 봐도 침이 고인다.",
+    "choices": [
+      {
+        "text": "먹방 틀고 컵라면 먹는다",
+        "effects": { "money": -1200, "mental": 3, "health": -1 },
+        "result_text": "먹방 BGM에 컵라면 물 부었다. 이상하게 잘 맞았다.\n\n한국 먹방 문화는 혼밥의 외로움을 달래기 위해 탄생했다는 말이 있다.\n새벽 1시의 라면이, 오늘은 충분했다."
+      },
+      {
+        "text": "먹방 끄고 잔다 — 괜히 더 배고프다",
+        "effects": { "mental": 2, "health": 1 },
+        "result_text": "끄고 눈을 감았다.\n\n배가 고픈 건 마찬가지지만, 적어도 더 고프지는 않다.\n절제는 작은 것에서 연습한다."
+      }
+    ]
+  },
+  {
+    "id": "kx_kakao_emoticon",
+    "title": "카카오 이모티콘",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 20,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "digital", "social"],
+    "description": "카톡 대화 중에 상대방이 이모티콘을 보냈다.\n춤추는 곰 하나.\n\n한국 카카오 이모티콘은 텍스트를 대신한다.\n슬프다, 기쁘다, 위로한다 — 전부 이 곰이 해결한다.",
+    "choices": [
+      {
+        "text": "이모티콘 하나 사서 답장한다",
+        "effects": { "money": -2000, "mental": 4, "social_skill": 1 },
+        "result_text": "2,200원짜리 이모티콘 샀다. 손을 흔드는 고양이.\n\n상대방이 \"ㅋㅋㅋ 귀엽다\" 답했다.\n이 나라에서 관계는 텍스트보다 이모티콘으로 유지된다는 걸, 점점 알게 된다."
+      },
+      {
+        "text": "텍스트로 답한다",
+        "effects": { "mental": 1 },
+        "result_text": "\"ㅋㅋ 나도\" 텍스트로 보냈다.\n\n분위기가 살짝 달랐다. 텍스트는 온도가 없다.\n2,200원 차이가 관계의 온도를 만든다는 게 이상하기도, 맞기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "kx_naver_cafe",
+    "title": "네이버 카페",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "min_turn": 6 },
+    "cooldown": 24,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "digital", "finance"],
+    "description": "네이버 카페 '부동산 스터디'.\n가입 인원 47만 명.\n\n글 하나에 댓글이 200개.\n강남 아파트 시세, 청약 당첨 후기, 임장 일지...\n\n이게 한국 부동산 정보의 실제 허브다.",
+    "choices": [
+      {
+        "text": "정기적으로 읽기 시작한다",
+        "effects": { "mental": 2, "intelligence": 2 },
+        "result_text": "하루 30분씩 읽기 시작했다.\n\n3개월 후, 입지, 학군, 역세권이라는 단어를 자연스럽게 쓰고 있었다.\n정보는 읽는 시간만큼 쌓인다."
+      },
+      {
+        "text": "글만 훑고 나온다 — 나와 상관없는 세상",
+        "effects": { "mental": -1 },
+        "result_text": "10억, 20억, 30억...\n\n숫자들이 너무 커서 현실감이 없었다.\n자꾸 보면 박탈감이 생겨서, 탭을 닫았다."
+      }
+    ]
+  }
+]
