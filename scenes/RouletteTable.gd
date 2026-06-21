@@ -23,6 +23,7 @@ const WHEEL_NUMBERS := [
 ]
 const WHEEL_CENTER_Y_RATIO := 0.54
 const CENTER_NUMBER_BOX := Vector2(96.0, 72.0)
+const NUMBER_BUTTON_SIZE := Vector2(58.0, 34.0)
 
 # 스핀 감속 단계 정의: [인터벌(초), 반복횟수]
 # 단계1: 0.05s × 24회 = 1.2초 (빠른 사이클)
@@ -77,6 +78,7 @@ var _number_display_lbl: Label       # 중앙 대형 숫자
 var _number_panel_style: StyleBoxFlat # 숫자 패널 배경 (색상 변경용)
 var _wheel_layer: Control            # 휠 내부 자유 배치 레이어
 var _wheel_display: Control          # 룰렛 휠/볼 드로잉
+var _phase_badge_lbl: Label
 var _number_picker_grid: GridContainer
 var _history_box: HBoxContainer
 var _bet_info_lbl: Label
@@ -253,7 +255,6 @@ func _finish_spin() -> void:
 	GameState.stats_changed.emit()
 
 	_phase      = Phase.RESULT
-	_bet_amount = 0
 	set_process(false)
 
 	# 베팅 버튼 alpha 복원
@@ -284,6 +285,7 @@ func _finish_spin() -> void:
 	get_tree().create_timer(2.2).timeout.connect(func():
 		if is_instance_valid(self) and _phase == Phase.RESULT:
 			_phase = Phase.IDLE
+			_bet_amount = 0
 			_reset_number_panel()
 			_number_display_lbl.add_theme_font_size_override("font_size", 46)
 			_refresh())
@@ -426,6 +428,9 @@ func _draw_roulette_wheel() -> void:
 	_wheel_display.draw_circle(ball_pos + Vector2(2.0, 2.0), 7.0, Color(0, 0, 0, 0.45))
 	_wheel_display.draw_circle(ball_pos, 6.5, Color("#f4f2e8"))
 	_wheel_display.draw_circle(ball_pos + Vector2(-2.0, -2.0), 2.0, Color(1, 1, 1, 0.9))
+	if _phase == Phase.RESULT and _last_result >= 0:
+		_wheel_display.draw_arc(ball_pos, 13.0, 0.0, TAU, 48, Color("#f0b429"), 2.2)
+		_wheel_display.draw_arc(ball_pos, 18.0, -0.4, TAU * 0.72, 40, Color(1.0, 0.86, 0.24, 0.35), 2.0)
 
 	var pointer := PackedVector2Array([
 		center + Vector2(0.0, -radius - 25.0),
@@ -447,17 +452,16 @@ func _draw_roulette_top_table(sz: Vector2, font: Font) -> void:
 	_draw_table_info_panel(left_panel, "BET PLACED", _selected_bet_label(), _stake_label(), Color("#f0b429"), font)
 	var result_title := "SPINNING" if _phase == Phase.SPINNING else ("LAST NUMBER" if _last_result >= 0 else "RESULT")
 	var result_body := str(_display_number) if _phase == Phase.SPINNING else (str(_last_result) if _last_result >= 0 else "—")
-	var result_sub := "NO MORE BETS" if _phase == Phase.SPINNING else ("PLACE YOUR BETS" if _phase == Phase.IDLE else "PAYOUT")
+	var result_sub := "NO MORE BETS" if _phase == Phase.SPINNING else ("PLACE YOUR BETS" if _phase == Phase.IDLE else "WINNING POCKET")
 	_draw_table_info_panel(right_panel, result_title, result_body, result_sub, _number_color_draw(_display_number if _phase == Phase.SPINNING else _last_result), font)
+	if _phase == Phase.RESULT and _last_result >= 0:
+		_draw_winning_pocket_marker(right_panel, _last_result, font)
 
 	var dealer_pos := Vector2(sz.x * 0.22, sz.y * 0.72)
 	_wheel_display.draw_circle(dealer_pos + Vector2(0, -22), 15.0, Color(0, 0, 0, 0.30))
 	_wheel_display.draw_rect(Rect2(dealer_pos + Vector2(-34, -6), Vector2(68, 42)), Color(0, 0, 0, 0.24), true)
 	_wheel_display.draw_line(dealer_pos + Vector2(18, 5), Vector2(sz.x * 0.40, sz.y * 0.64), Color(0, 0, 0, 0.22), 6.0)
 	_wheel_display.draw_string(font, dealer_pos + Vector2(-44, 56), "CROUPIER", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 1, 1, 0.24))
-
-	var chip_pos := Vector2(sz.x * 0.82, sz.y * 0.83)
-	_draw_table_chip_stack(chip_pos, _bet_amount if _bet_amount > 0 else _stake, font)
 
 func _draw_table_info_panel(rect: Rect2, title: String, body: String, sub: String, accent: Color, font: Font) -> void:
 	_wheel_display.draw_rect(Rect2(rect.position + Vector2(0, 5), rect.size), Color(0, 0, 0, 0.26), true)
@@ -470,16 +474,15 @@ func _draw_table_info_panel(rect: Rect2, title: String, body: String, sub: Strin
 	_wheel_display.draw_string(font, rect.position + Vector2(16.0, 118.0), sub,
 		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 32.0, 12, Color(0.86, 0.92, 0.82, 0.72))
 
-func _draw_table_chip_stack(pos: Vector2, amount: int, font: Font) -> void:
-	var chip_count := clampi(int(ceil(float(maxi(amount, 1)) / 50000.0)), 2, 8)
-	var cols := [Color("#d73a49"), Color("#2f6fe4"), Color("#28a36a"), Color("#7e4cd8"), Color("#f0b429")]
-	for i in range(chip_count):
-		var p := pos + Vector2(float(i % 4) * 17.0 - 28.0, -float(i / 4) * 7.0)
-		var col: Color = cols[i % cols.size()]
-		_wheel_display.draw_circle(p + Vector2(0, 2), 11.0, Color(0, 0, 0, 0.30))
-		_wheel_display.draw_circle(p, 11.0, col)
-		_wheel_display.draw_circle(p, 6.2, Color(0.02, 0.025, 0.03, 0.42))
-		_wheel_display.draw_circle(p, 9.0, Color(1, 1, 1, 0.18))
+func _draw_winning_pocket_marker(rect: Rect2, n: int, font: Font) -> void:
+	var accent: Color = _number_color_draw(n)
+	var center := rect.position + Vector2(rect.size.x - 48.0, 82.0)
+	_wheel_display.draw_circle(center + Vector2(0, 3), 24.0, Color(0, 0, 0, 0.34))
+	_wheel_display.draw_circle(center, 24.0, Color("#050807"))
+	_wheel_display.draw_circle(center, 19.0, accent.darkened(0.35))
+	_wheel_display.draw_arc(center, 23.0, 0.0, TAU, 64, Color("#f7e3a1"), 2.2)
+	_wheel_display.draw_string(font, center + Vector2(-18.0, 7.0), str(n),
+		HORIZONTAL_ALIGNMENT_CENTER, 36.0, 18, Color("#fff7db"))
 
 func _selected_bet_label() -> String:
 	if _bet_type < 0:
@@ -652,6 +655,22 @@ func _build_ui() -> void:
 	_wheel_layer.add_child(_number_display_lbl)
 	_sync_number_display_layout.call_deferred()
 
+	_phase_badge_lbl = Label.new()
+	_phase_badge_lbl.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_phase_badge_lbl.offset_left = 330
+	_phase_badge_lbl.offset_right = -330
+	_phase_badge_lbl.offset_top = 14
+	_phase_badge_lbl.offset_bottom = 46
+	_phase_badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_phase_badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_phase_badge_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_phase_badge_lbl.add_theme_font_size_override("font_size", 18)
+	_phase_badge_lbl.add_theme_constant_override("outline_size", 5)
+	_phase_badge_lbl.add_theme_color_override("font_outline_color", Color("#030805"))
+	if _font_bold:
+		_phase_badge_lbl.add_theme_font_override("font", _font_bold)
+	_wheel_layer.add_child(_phase_badge_lbl)
+
 	# ── 히스토리 스트립 ──
 	var hist_label := Label.new()
 	hist_label.text = "최근 결과"
@@ -671,10 +690,10 @@ func _build_ui() -> void:
 	mat_st.border_color = Color("#2d7d3f")
 	mat_st.set_border_width_all(2)
 	mat_st.set_corner_radius_all(10)
-	mat_st.content_margin_left = 10
-	mat_st.content_margin_right = 10
-	mat_st.content_margin_top = 5
-	mat_st.content_margin_bottom = 5
+	mat_st.content_margin_left = 12
+	mat_st.content_margin_right = 12
+	mat_st.content_margin_top = 6
+	mat_st.content_margin_bottom = 8
 	number_mat.add_theme_stylebox_override("panel", mat_st)
 	_content_root.add_child(number_mat)
 
@@ -683,24 +702,29 @@ func _build_ui() -> void:
 	number_mat.add_child(number_mat_v)
 
 	var number_mat_lbl := Label.new()
-	number_mat_lbl.text = "숫자 베팅 매트"
-	number_mat_lbl.add_theme_font_size_override("font_size", 9)
+	number_mat_lbl.text = "숫자 베팅 매트  |  단일 숫자는 바로 선택"
+	number_mat_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	number_mat_lbl.add_theme_font_size_override("font_size", 12)
 	number_mat_lbl.add_theme_color_override("font_color", Color("#8aba8a"))
 	_f(number_mat_lbl)
 	number_mat_v.add_child(number_mat_lbl)
 
+	var number_grid_wrap := CenterContainer.new()
+	number_grid_wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	number_mat_v.add_child(number_grid_wrap)
+
 	_number_picker_grid = GridContainer.new()
 	_number_picker_grid.columns = 13
-	_number_picker_grid.add_theme_constant_override("h_separation", 2)
-	_number_picker_grid.add_theme_constant_override("v_separation", 2)
-	number_mat_v.add_child(_number_picker_grid)
+	_number_picker_grid.add_theme_constant_override("h_separation", 3)
+	_number_picker_grid.add_theme_constant_override("v_separation", 3)
+	number_grid_wrap.add_child(_number_picker_grid)
 
 	_number_picker_grid.add_child(_make_number_btn(0))
 	for n in range(3, 37, 3):
 		_number_picker_grid.add_child(_make_number_btn(n))
 	for row_start in [2, 1]:
 		var spacer := Control.new()
-		spacer.custom_minimum_size = Vector2(42, 24)
+		spacer.custom_minimum_size = NUMBER_BUTTON_SIZE
 		_number_picker_grid.add_child(spacer)
 		for n in range(row_start, 37, 3):
 			_number_picker_grid.add_child(_make_number_btn(n))
@@ -751,8 +775,8 @@ func _build_ui() -> void:
 			func(): _select_stake(captured_s),
 			"#1a2e1a" if s == _stake else "#0e140e",
 			"#3de87a" if s == _stake else "#2a3a2a")
-		_apply_chip_icon(sb, captured_s, 20)
-		sb.custom_minimum_size = Vector2(94, 34)
+		_apply_chip_icon(sb, captured_s, 22)
+		sb.custom_minimum_size = Vector2(94, 42)
 		_f(sb)
 		_stake_btns.append({"btn": sb, "amount": captured_s})
 		stake_row.add_child(sb)
@@ -763,26 +787,26 @@ func _build_ui() -> void:
 	_content_root.add_child(action_row)
 
 	var bet_action_btn := _make_btn("BET", _do_bet, "#1a2e0a", "#f39c12")
-	bet_action_btn.custom_minimum_size = Vector2(0, 42)
+	bet_action_btn.custom_minimum_size = Vector2(0, 48)
 	bet_action_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if _font_bold: bet_action_btn.add_theme_font_override("font", _font_bold)
 	bet_action_btn.add_theme_font_size_override("font_size", 16)
 	action_row.add_child(bet_action_btn)
 
 	_spin_btn = _make_btn("SPIN", _do_spin, "#0a2a0a", "#27ae60")
-	_spin_btn.custom_minimum_size = Vector2(0, 42)
+	_spin_btn.custom_minimum_size = Vector2(0, 48)
 	_spin_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if _font_bold: _spin_btn.add_theme_font_override("font", _font_bold)
 	_spin_btn.add_theme_font_size_override("font_size", 16)
 	action_row.add_child(_spin_btn)
 
 	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#5a4510")
-	help_btn.custom_minimum_size = Vector2(60, 42)
+	help_btn.custom_minimum_size = Vector2(70, 48)
 	_f(help_btn)
 	action_row.add_child(help_btn)
 
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
-	exit_btn.custom_minimum_size = Vector2(90, 42)
+	exit_btn.custom_minimum_size = Vector2(96, 48)
 	_f(exit_btn)
 	action_row.add_child(exit_btn)
 
@@ -819,10 +843,10 @@ func _build_bet_btn(parent: HBoxContainer, label_text: String, t: int) -> void:
 	var btn := Button.new()
 	btn.text = label_text
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn.custom_minimum_size = Vector2(0, 38)
+	btn.custom_minimum_size = Vector2(0, 46)
 	_style_bet_btn(btn, t == _bet_type)
 	_f(btn)
-	btn.add_theme_font_size_override("font_size", 11)
+	btn.add_theme_font_size_override("font_size", 12)
 	btn.pressed.connect(func(): _select_bet_type(t))
 	_bet_btn_refs.append({"btn": btn, "type": t})
 	parent.add_child(btn)
@@ -839,10 +863,16 @@ func _style_bet_btn(btn: Button, selected: bool) -> void:
 	st.content_margin_top = 6; st.content_margin_bottom = 6
 	var hov := st.duplicate() as StyleBoxFlat
 	hov.bg_color = Color(bg_col).lightened(0.12)
+	var focus := st.duplicate() as StyleBoxFlat
+	focus.bg_color = Color(bg_col).lightened(0.08)
+	focus.border_color = Color("#f7e3a1")
+	focus.set_border_width_all(3)
 	btn.add_theme_stylebox_override("normal", st)
 	btn.add_theme_stylebox_override("hover", hov)
 	btn.add_theme_stylebox_override("pressed", hov)
+	btn.add_theme_stylebox_override("focus", focus)
 	btn.add_theme_color_override("font_color", Color("#f39c12") if selected else Color("#9aba9a"))
+	btn.focus_mode = Control.FOCUS_ALL
 
 func _make_number_btn(n: int) -> Button:
 	var col_str: String = _roulette.number_color(n)
@@ -853,28 +883,33 @@ func _make_number_btn(n: int) -> Button:
 		_:       bg = "#0a3a1a"
 	var btn := Button.new()
 	btn.text = str(n)
-	btn.custom_minimum_size = Vector2(42, 24)
+	btn.custom_minimum_size = NUMBER_BUTTON_SIZE
+	btn.focus_mode = Control.FOCUS_ALL
 	btn.set_meta("roulette_number", n)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg)
-	st.set_corner_radius_all(4)
-	st.content_margin_left = 2; st.content_margin_right = 2
-	st.content_margin_top = 2; st.content_margin_bottom = 2
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 4; st.content_margin_right = 4
+	st.content_margin_top = 4; st.content_margin_bottom = 4
 	var sel_brd: bool = (_bet_type == 0 and _chosen_number == n)
 	st.border_color = Color("#f39c12") if sel_brd else Color("#2a2a2a")
-	st.set_border_width_all(2 if sel_brd else 1)
+	st.set_border_width_all(3 if sel_brd else 1)
 	var hov := st.duplicate() as StyleBoxFlat
 	hov.bg_color = Color(bg).lightened(0.2)
+	var focus := st.duplicate() as StyleBoxFlat
+	focus.border_color = Color("#f7e3a1")
+	focus.set_border_width_all(3)
 	btn.add_theme_stylebox_override("normal", st)
 	btn.add_theme_stylebox_override("hover", hov)
 	btn.add_theme_stylebox_override("pressed", hov)
+	btn.add_theme_stylebox_override("focus", focus)
 	var txt_col: String
 	match col_str:
 		"red":   txt_col = "#ff6b6b"
 		"black": txt_col = "#d0d0d0"
 		_:       txt_col = "#2ecc71"
 	btn.add_theme_color_override("font_color", Color(txt_col))
-	btn.add_theme_font_size_override("font_size", 9)
+	btn.add_theme_font_size_override("font_size", 13)
 	if _font: btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(func(): _select_number(n))
 	return btn
@@ -889,11 +924,12 @@ func _refresh() -> void:
 	_refresh_bet_info()
 	_refresh_balance()
 	_refresh_spin_btn()
+	_refresh_phase_badge()
 	if is_instance_valid(_wheel_display):
 		_wheel_display.queue_redraw()
 
 func _refresh_hud() -> void:
-	var spinning_str: String = "  [스핀 중...]" if _phase == Phase.SPINNING else ""
+	var spinning_str: String = "  [color=#f0b429][b]스핀 중[/b][/color]" if _phase == Phase.SPINNING else ""
 	_hud_lbl.text = (
 		"[b]유럽식 룰렛[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s"
 		% [
@@ -958,9 +994,14 @@ func _refresh_stake_btns() -> void:
 		st.content_margin_bottom = 6
 		var hov := st.duplicate() as StyleBoxFlat
 		hov.bg_color = st.bg_color.lightened(0.12)
+		var focus := st.duplicate() as StyleBoxFlat
+		focus.bg_color = st.bg_color.lightened(0.08)
+		focus.border_color = Color("#f7e3a1")
+		focus.set_border_width_all(3)
 		btn.add_theme_stylebox_override("normal", st)
 		btn.add_theme_stylebox_override("hover", hov)
 		btn.add_theme_stylebox_override("pressed", hov)
+		btn.add_theme_stylebox_override("focus", focus)
 		btn.add_theme_color_override("font_color", Color("#f0b429") if selected else Color("#c8d8c8"))
 
 func _refresh_number_picker() -> void:
@@ -987,15 +1028,19 @@ func _refresh_number_picker() -> void:
 			else:
 				st.bg_color = Color(bg)
 				st.border_color = Color("#f39c12") if sel else Color("#2a2a2a")
-				st.set_border_width_all(2 if sel else 1)
-			st.set_corner_radius_all(4)
-			st.content_margin_left = 2; st.content_margin_right = 2
-			st.content_margin_top = 2; st.content_margin_bottom = 2
+				st.set_border_width_all(3 if sel else 1)
+			st.set_corner_radius_all(6)
+			st.content_margin_left = 4; st.content_margin_right = 4
+			st.content_margin_top = 4; st.content_margin_bottom = 4
 			var hov := st.duplicate() as StyleBoxFlat
 			hov.bg_color = Color(bg).lightened(0.2)
+			var focus := st.duplicate() as StyleBoxFlat
+			focus.border_color = Color("#f7e3a1")
+			focus.set_border_width_all(3)
 			btn.add_theme_stylebox_override("normal", st)
 			btn.add_theme_stylebox_override("hover", hov)
 			btn.add_theme_stylebox_override("pressed", hov)
+			btn.add_theme_stylebox_override("focus", focus)
 			if is_result:
 				btn.add_theme_color_override("font_color", Color.WHITE)
 
@@ -1038,15 +1083,36 @@ func _refresh_spin_btn() -> void:
 	st.content_margin_top = 8; st.content_margin_bottom = 8
 	var hov := st.duplicate() as StyleBoxFlat
 	hov.bg_color = Color("#0a3a0a").lightened(0.15)
+	var focus := st.duplicate() as StyleBoxFlat
+	focus.border_color = Color("#f7e3a1")
+	focus.set_border_width_all(3)
 	_spin_btn.add_theme_stylebox_override("normal", st)
 	_spin_btn.add_theme_stylebox_override("hover", hov)
 	_spin_btn.add_theme_stylebox_override("pressed", hov)
+	_spin_btn.add_theme_stylebox_override("focus", focus)
 	var dis := StyleBoxFlat.new()
 	dis.bg_color = Color("#0e140e"); dis.border_color = Color("#1a2a1a")
 	dis.set_border_width_all(1); dis.set_corner_radius_all(6)
 	dis.content_margin_left = 12; dis.content_margin_right = 12
 	dis.content_margin_top = 8; dis.content_margin_bottom = 8
 	_spin_btn.add_theme_stylebox_override("disabled", dis)
+
+func _refresh_phase_badge() -> void:
+	if not is_instance_valid(_phase_badge_lbl):
+		return
+	match _phase:
+		Phase.SPINNING:
+			_phase_badge_lbl.text = "SPINNING  /  NO MORE BETS"
+			_phase_badge_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+			_phase_badge_lbl.visible = true
+		Phase.RESULT:
+			_phase_badge_lbl.text = "WINNING POCKET  %d" % _last_result if _last_result >= 0 else "RESULT"
+			_phase_badge_lbl.add_theme_color_override("font_color", Color("#f7e3a1"))
+			_phase_badge_lbl.visible = true
+		_:
+			_phase_badge_lbl.text = "PLACE YOUR BETS"
+			_phase_badge_lbl.add_theme_color_override("font_color", Color(0.74, 0.86, 0.70, 0.72))
+			_phase_badge_lbl.visible = true
 
 # 스핀 중 숫자 디스플레이 업데이트
 func _update_number_display(n: int, cycling: bool) -> void:
@@ -1080,6 +1146,7 @@ func _make_btn(label_text: String, cb: Callable, bg: String, border: String) -> 
 	var btn := Button.new()
 	btn.text = label_text
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_ALL
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg)
 	st.border_color = Color(border)
@@ -1098,6 +1165,11 @@ func _make_btn(label_text: String, cb: Callable, bg: String, border: String) -> 
 	btn.add_theme_stylebox_override("hover", hov)
 	btn.add_theme_stylebox_override("pressed", hov)
 	btn.add_theme_stylebox_override("disabled", dis)
+	var focus := st.duplicate() as StyleBoxFlat
+	focus.bg_color = Color(bg).lightened(0.08)
+	focus.border_color = Color("#f7e3a1")
+	focus.set_border_width_all(3)
+	btn.add_theme_stylebox_override("focus", focus)
 	btn.add_theme_color_override("font_color", Color("#dce4f0"))
 	btn.add_theme_color_override("font_disabled_color", Color("#3a3a48"))
 	btn.add_theme_font_size_override("font_size", 14)

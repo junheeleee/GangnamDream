@@ -55,6 +55,12 @@ const COL_INK_RAISED := "#15101a"   # 살짝 뜬 패널
 const COL_TEXT       := "#d8d2c4"   # 본문 — 따뜻한 아이보리 (순백 회색 X)
 const COL_TEXT_DIM   := "#7a7263"   # 흐린 본문 — 세피아 회색
 const COL_DANGER     := "#c0392b"   # 위험 — 딥레드
+const UI_MIN_BODY_FONT := 14
+const UI_MIN_BUTTON_FONT := 15
+const UI_MIN_BUTTON_HEIGHT := 46
+const UI_MIN_SMALL_BUTTON_HEIGHT := 38
+const UI_FOCUS_BORDER := 3
+const UI_INFO_PANEL_WIDTH := 400
 
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
@@ -103,7 +109,7 @@ const UI_ICON_PATHS := {
 	"racetrack": "res://assets/ui/icons/icon_racetrack.svg",
 	"holdem": "res://assets/ui/icons/icon_holdem.svg",
 	"scalping": "res://assets/ui/icons/icon_scalping.svg",
-	"casino": "res://assets/ui/poker_chip_icon.png",
+	"casino": "res://assets/ui/chips/chip_10k.svg",
 	"life": "res://assets/ui/icons/icon_housing.svg",
 	"shop": "res://assets/ui/icons/icon_shop.svg",
 	"info": "res://assets/ui/icons/icon_info.svg",
@@ -451,12 +457,12 @@ func _clear_feedback_flash() -> void:
 
 func _build_top_bar(parent):
 	var panel = _panel("#0d0d14", "#1a1a28")
-	panel.custom_minimum_size = Vector2(0, 54)
+	panel.custom_minimum_size = Vector2(0, 58)
 	parent.add_child(panel)
 	var row = HBoxContainer.new()
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	row.add_theme_constant_override("separation", 8)
+	row.add_theme_constant_override("separation", 6)
 	panel.add_child(row)
 
 	var title = _label(_tr("강남드림", "Gangnam Dream"), 18, COL_GOLD)
@@ -483,41 +489,47 @@ func _build_top_bar(parent):
 	var mp_lbl = _hud_chip(vitals_row, "mental", "#93c5fd", 82, false)
 	top_labels["vital_mental"] = mp_lbl
 
-	var money_lbl = _hud_chip(row, "money", "#00c896", 180, true)
+	var money_lbl = _hud_chip(row, "money", "#00c896", 180, false)
 	top_labels["money"] = money_lbl
 
 	var info_btn = _small_button(_tr("정보", "Info"), "#1e2a3a")
-	info_btn.custom_minimum_size = Vector2(64, 36)
+	info_btn.custom_minimum_size = Vector2(64, 40)
+	info_btn.add_theme_font_size_override("font_size", 14)
 	info_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	info_btn.pressed.connect(_toggle_info_panel)
 	row.add_child(info_btn)
 
 	var save_btn = _small_button(_tr("저장", "Save"), "#1e2a3a")
-	save_btn.custom_minimum_size = Vector2(56, 36)
+	save_btn.custom_minimum_size = Vector2(60, 40)
+	save_btn.add_theme_font_size_override("font_size", 14)
 	save_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	save_btn.pressed.connect(Callable(self, "_on_save_pressed"))
 	row.add_child(save_btn)
 
 	var menu_btn = _small_button("≡", "#1e2a3a")
-	menu_btn.custom_minimum_size = Vector2(40, 36)
+	menu_btn.custom_minimum_size = Vector2(42, 40)
+	menu_btn.add_theme_font_size_override("font_size", 14)
 	menu_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	menu_btn.pressed.connect(_open_system_menu)
 	row.add_child(menu_btn)
 
 	next_button = _button(_tr("다음 주 ›", "Next Week ›"), "#1a3a5a")
-	next_button.custom_minimum_size = Vector2(104, 36)
+	next_button.custom_minimum_size = Vector2(100, 40)
+	next_button.add_theme_font_size_override("font_size", 14)
 	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
 
 	shop_button = _small_button(_tr("상점", "Shop"), "#173329")
-	shop_button.custom_minimum_size = Vector2(58, 36)
+	shop_button.custom_minimum_size = Vector2(60, 40)
+	shop_button.add_theme_font_size_override("font_size", 14)
 	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	shop_button.pressed.connect(_open_shop)
 	row.add_child(shop_button)
 
 	var title_btn2 = _small_button(_tr("칭호", "Title"), "#1a2a1a")
-	title_btn2.custom_minimum_size = Vector2(58, 36)
+	title_btn2.custom_minimum_size = Vector2(60, 40)
+	title_btn2.add_theme_font_size_override("font_size", 14)
 	title_btn2.size_flags_horizontal = Control.SIZE_SHRINK_END
 	title_btn2.pressed.connect(_open_title_collection)
 	row.add_child(title_btn2)
@@ -614,13 +626,13 @@ func _build_story_panel(parent):
 	choice_scroll.add_child(choice_box)
 
 func _build_info_panel():
-	# ── 우측 슬라이드 통합 정보 패널 (340px, 기본 숨김) ──
+	# ── 우측 슬라이드 통합 정보 패널 ──
 	info_panel = PanelContainer.new()
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.05, 0.08, 0.97)
-	style.border_color = Color("#252535")
+	style.bg_color = Color(0.045, 0.045, 0.07, 0.985)
+	style.border_color = Color("#303448")
 	style.set_border_width_all(0)
-	style.border_width_left = 1
+	style.border_width_left = 2
 	style.content_margin_left = 0
 	style.content_margin_right = 0
 	style.content_margin_top = 0
@@ -630,7 +642,7 @@ func _build_info_panel():
 	info_panel.set_anchor(SIDE_TOP, 0.0)
 	info_panel.set_anchor(SIDE_RIGHT, 1.0)
 	info_panel.set_anchor(SIDE_BOTTOM, 1.0)
-	info_panel.offset_left = -340
+	info_panel.offset_left = -UI_INFO_PANEL_WIDTH
 	info_panel.offset_top = 48
 	info_panel.offset_right = 0
 	info_panel.offset_bottom = 0
@@ -644,24 +656,26 @@ func _build_info_panel():
 
 	# 헤더: 패널 타이틀 + 닫기(X) 버튼
 	var panel_header = HBoxContainer.new()
-	panel_header.custom_minimum_size = Vector2(0, 36)
+	panel_header.custom_minimum_size = Vector2(0, 46)
 	var ph_style = StyleBoxFlat.new()
 	ph_style.bg_color = Color("#0a0a12")
 	ph_style.border_color = Color("#1e1e2a")
 	ph_style.border_width_bottom = 1
-	ph_style.content_margin_left = 10
-	ph_style.content_margin_right = 6
-	ph_style.content_margin_top = 4
-	ph_style.content_margin_bottom = 4
+	ph_style.content_margin_left = 14
+	ph_style.content_margin_right = 8
+	ph_style.content_margin_top = 7
+	ph_style.content_margin_bottom = 7
 	panel_header.add_theme_stylebox_override("panel", ph_style)
 	panel_vbox.add_child(panel_header)
 
-	var panel_title = _label(_tr("📋 정보", "📋 Info"), 13, "#8892a4")
+	var panel_title = _label(_tr("정보 패널", "Info Panel"), 16, "#d8d2c4")
+	if _font_bold:
+		panel_title.add_theme_font_override("font", _font_bold)
 	panel_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel_header.add_child(panel_title)
 
-	var panel_close = _small_button("✕", "#2a2a3a")
-	panel_close.custom_minimum_size = Vector2(32, 28)
+	var panel_close = _small_button("X", "#2a2a3a")
+	panel_close.custom_minimum_size = Vector2(42, 34)
 	panel_close.pressed.connect(_toggle_info_panel)
 	panel_header.add_child(panel_close)
 
@@ -674,18 +688,18 @@ func _build_info_panel():
 	tab_sel.bg_color = Color("#13131f")
 	tab_sel.border_color = Color("#c9a227")
 	tab_sel.border_width_bottom = 2
-	tab_sel.content_margin_left = 10
-	tab_sel.content_margin_right = 10
-	tab_sel.content_margin_top = 6
-	tab_sel.content_margin_bottom = 6
+	tab_sel.content_margin_left = 12
+	tab_sel.content_margin_right = 12
+	tab_sel.content_margin_top = 8
+	tab_sel.content_margin_bottom = 8
 	var tab_unsel = StyleBoxFlat.new()
 	tab_unsel.bg_color = Color("#0a0a12")
 	tab_unsel.border_color = Color("#1e1e2a")
 	tab_unsel.set_border_width_all(0)
-	tab_unsel.content_margin_left = 10
-	tab_unsel.content_margin_right = 10
-	tab_unsel.content_margin_top = 6
-	tab_unsel.content_margin_bottom = 6
+	tab_unsel.content_margin_left = 12
+	tab_unsel.content_margin_right = 12
+	tab_unsel.content_margin_top = 8
+	tab_unsel.content_margin_bottom = 8
 	var tab_panel_style = StyleBoxFlat.new()
 	tab_panel_style.bg_color = Color("#0c0c14")
 	tab_panel_style.set_border_width_all(0)
@@ -694,23 +708,23 @@ func _build_info_panel():
 	tabs.add_theme_stylebox_override("panel", tab_panel_style)
 	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
 	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
-	tabs.add_theme_font_size_override("font_size", 13)
+	tabs.add_theme_font_size_override("font_size", 14)
 	tabs.tab_changed.connect(func(idx): GameState.flags["_last_info_tab"] = idx)
 	panel_vbox.add_child(tabs)
 
 	# ── Tab 0: 📊 스탯 ──
 	var stat_scroll = ScrollContainer.new()
-	stat_scroll.name = _tr("📊 스탯", "📊 Stats")
+	stat_scroll.name = _tr("스탯", "Stats")
 	stat_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(stat_scroll)
 	var stat_box = VBoxContainer.new()
 	stat_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	stat_box.add_theme_constant_override("separation", 5)
+	stat_box.add_theme_constant_override("separation", 8)
 	var stat_margin = MarginContainer.new()
-	stat_margin.add_theme_constant_override("margin_left", 14)
-	stat_margin.add_theme_constant_override("margin_right", 14)
-	stat_margin.add_theme_constant_override("margin_top", 10)
-	stat_margin.add_theme_constant_override("margin_bottom", 10)
+	stat_margin.add_theme_constant_override("margin_left", 16)
+	stat_margin.add_theme_constant_override("margin_right", 16)
+	stat_margin.add_theme_constant_override("margin_top", 12)
+	stat_margin.add_theme_constant_override("margin_bottom", 12)
 	stat_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stat_margin.add_child(stat_box)
 	stat_scroll.add_child(stat_margin)
@@ -719,12 +733,12 @@ func _build_info_panel():
 	var bg_row = HBoxContainer.new()
 	bg_row.add_theme_constant_override("separation", 6)
 	stat_box.add_child(bg_row)
-	var bg_lbl = _label(_tr("배경", "Origin"), 10, "#5a6075")
-	bg_lbl.custom_minimum_size = Vector2(28, 0)
+	var bg_lbl = _label(_tr("배경", "Origin"), 13, "#7a8496")
+	bg_lbl.custom_minimum_size = Vector2(46, 0)
 	bg_row.add_child(bg_lbl)
 	var bg_map = {"지방_상경": _tr("지방 상경", "Came from the provinces"), "명문대_중퇴": _tr("명문대 중퇴", "Elite school dropout"), "금수저": _tr("금수저", "Born wealthy")}
 	var bg_name = bg_map.get(GameState.player_background, GameState.player_background)
-	var bg_val = _label(bg_name, 10, "#a0aec0")
+	var bg_val = _label(bg_name, 14, "#c8d0df")
 	bg_val.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bg_row.add_child(bg_val)
 
@@ -732,30 +746,30 @@ func _build_info_panel():
 	sep_line.modulate = Color("#2a2a3a")
 	stat_box.add_child(sep_line)
 
-	var player_hdr := _label(_tr("─ 인물", "─ Profile"), 12, COL_GOLD)
+	var player_hdr := _label(_tr("인물", "Profile"), 14, COL_GOLD)
 	if _font_bold:
 		player_hdr.add_theme_font_override("font", _font_bold)
 	stat_box.add_child(player_hdr)
 	for key in ["housing", "job", "health", "mental", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
 		var stat_row = HBoxContainer.new()
 		stat_box.add_child(stat_row)
-		var name_label = _label(_stat_name(key), 12, "#5a6075")
-		name_label.custom_minimum_size = Vector2(70, 0)
+		var name_label = _label(_stat_name(key), 14, "#7a8496")
+		name_label.custom_minimum_size = Vector2(92, 0)
 		stat_row.add_child(name_label)
-		var value = _label("", 12, "#e8eaf0")
+		var value = _label("", 14, "#e8eaf0")
 		value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		stat_labels[key] = value
 		stat_row.add_child(value)
 
-	var log_hdr := _label(_tr("─ 기록", "─ Log"), 12, COL_GOLD)
+	var log_hdr := _label(_tr("기록", "Log"), 14, COL_GOLD)
 	if _font_bold:
 		log_hdr.add_theme_font_override("font", _font_bold)
 	stat_box.add_child(log_hdr)
 	log_box = RichTextLabel.new()
 	log_box.bbcode_enabled = true
 	log_box.fit_content = true
-	log_box.add_theme_font_size_override("normal_font_size", 11)
+	log_box.add_theme_font_size_override("normal_font_size", 13)
 	log_box.add_theme_color_override("default_color", Color("#5a6075"))
 	stat_box.add_child(log_box)
 
@@ -766,18 +780,18 @@ func _build_info_panel():
 	tabs.add_child(news_scroll)
 	var news_outer = VBoxContainer.new()
 	news_outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	news_outer.add_theme_constant_override("separation", 6)
+	news_outer.add_theme_constant_override("separation", 8)
 	var news_margin = MarginContainer.new()
-	news_margin.add_theme_constant_override("margin_left", 14)
-	news_margin.add_theme_constant_override("margin_right", 14)
-	news_margin.add_theme_constant_override("margin_top", 10)
-	news_margin.add_theme_constant_override("margin_bottom", 10)
+	news_margin.add_theme_constant_override("margin_left", 16)
+	news_margin.add_theme_constant_override("margin_right", 16)
+	news_margin.add_theme_constant_override("margin_top", 12)
+	news_margin.add_theme_constant_override("margin_bottom", 12)
 	news_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	news_margin.add_child(news_outer)
 	news_scroll.add_child(news_margin)
 
 	news_box = VBoxContainer.new()
-	news_box.add_theme_constant_override("separation", 4)
+	news_box.add_theme_constant_override("separation", 8)
 	news_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	news_outer.add_child(news_box)
 
@@ -786,7 +800,7 @@ func _build_info_panel():
 	ticker_rtl.fit_content = true
 	ticker_rtl.scroll_active = false
 	ticker_rtl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ticker_rtl.add_theme_font_size_override("normal_font_size", 12)
+	ticker_rtl.add_theme_font_size_override("normal_font_size", 13)
 	ticker_rtl.add_theme_color_override("default_color", Color("#8892a4"))
 	news_outer.add_child(ticker_rtl)
 
@@ -797,18 +811,18 @@ func _build_info_panel():
 	tabs.add_child(social_scroll)
 	var social_outer = VBoxContainer.new()
 	social_outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	social_outer.add_theme_constant_override("separation", 6)
+	social_outer.add_theme_constant_override("separation", 8)
 	var social_margin = MarginContainer.new()
-	social_margin.add_theme_constant_override("margin_left", 14)
-	social_margin.add_theme_constant_override("margin_right", 14)
-	social_margin.add_theme_constant_override("margin_top", 10)
-	social_margin.add_theme_constant_override("margin_bottom", 10)
+	social_margin.add_theme_constant_override("margin_left", 16)
+	social_margin.add_theme_constant_override("margin_right", 16)
+	social_margin.add_theme_constant_override("margin_top", 12)
+	social_margin.add_theme_constant_override("margin_bottom", 12)
 	social_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	social_margin.add_child(social_outer)
 	social_scroll.add_child(social_margin)
 
 	relationship_box = VBoxContainer.new()
-	relationship_box.add_theme_constant_override("separation", 4)
+	relationship_box.add_theme_constant_override("separation", 8)
 	relationship_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	social_outer.add_child(relationship_box)
 
@@ -818,14 +832,14 @@ func _build_info_panel():
 	inv_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(inv_scroll)
 	var inv_margin = MarginContainer.new()
-	inv_margin.add_theme_constant_override("margin_left", 14)
-	inv_margin.add_theme_constant_override("margin_right", 14)
-	inv_margin.add_theme_constant_override("margin_top", 10)
-	inv_margin.add_theme_constant_override("margin_bottom", 10)
+	inv_margin.add_theme_constant_override("margin_left", 16)
+	inv_margin.add_theme_constant_override("margin_right", 16)
+	inv_margin.add_theme_constant_override("margin_top", 12)
+	inv_margin.add_theme_constant_override("margin_bottom", 12)
 	inv_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inv_scroll.add_child(inv_margin)
 	inventory_box = VBoxContainer.new()
-	inventory_box.add_theme_constant_override("separation", 4)
+	inventory_box.add_theme_constant_override("separation", 8)
 	inventory_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inv_margin.add_child(inventory_box)
 
@@ -835,14 +849,14 @@ func _build_info_panel():
 	arc_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(arc_scroll)
 	var arc_margin := MarginContainer.new()
-	arc_margin.add_theme_constant_override("margin_left", 14)
-	arc_margin.add_theme_constant_override("margin_right", 14)
-	arc_margin.add_theme_constant_override("margin_top", 10)
-	arc_margin.add_theme_constant_override("margin_bottom", 10)
+	arc_margin.add_theme_constant_override("margin_left", 16)
+	arc_margin.add_theme_constant_override("margin_right", 16)
+	arc_margin.add_theme_constant_override("margin_top", 12)
+	arc_margin.add_theme_constant_override("margin_bottom", 12)
 	arc_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	arc_scroll.add_child(arc_margin)
 	arc_box = VBoxContainer.new()
-	arc_box.add_theme_constant_override("separation", 5)
+	arc_box.add_theme_constant_override("separation", 8)
 	arc_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	arc_margin.add_child(arc_box)
 
@@ -1109,17 +1123,17 @@ func _build_modal():
 	add_child(modal_layer)
 
 	modal_panel = _panel("#13131a", "#252535")
-	modal_panel.custom_minimum_size = Vector2(640, 560)
+	modal_panel.custom_minimum_size = Vector2(760, 610)
 	modal_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	# 명시적 anchor로 화면 정중앙 고정
 	modal_panel.anchor_left   = 0.5
 	modal_panel.anchor_right  = 0.5
 	modal_panel.anchor_top    = 0.5
 	modal_panel.anchor_bottom = 0.5
-	modal_panel.offset_left   = -320
-	modal_panel.offset_right  =  320
-	modal_panel.offset_top    = -280
-	modal_panel.offset_bottom =  280
+	modal_panel.offset_left   = -380
+	modal_panel.offset_right  =  380
+	modal_panel.offset_top    = -305
+	modal_panel.offset_bottom =  305
 	modal_layer.add_child(modal_panel)
 	var panel = modal_panel
 
@@ -1130,11 +1144,11 @@ func _build_modal():
 	# Header row with title + close button
 	var header = HBoxContainer.new()
 	outer.add_child(header)
-	modal_title_label = _label("", 22, "#e8eaf0")
+	modal_title_label = _label("", 24, "#e8eaf0")
 	modal_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(modal_title_label)
 	var close_x = _small_button("✕", "#da3633")
-	close_x.custom_minimum_size = Vector2(36, 36)
+	close_x.custom_minimum_size = Vector2(44, 42)
 	close_x.size_flags_horizontal = Control.SIZE_SHRINK_END
 	close_x.pressed.connect(_close_modal)
 	header.add_child(close_x)
@@ -1142,12 +1156,12 @@ func _build_modal():
 	# Scrollable content area
 	modal_scroll = ScrollContainer.new()
 	modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	modal_scroll.custom_minimum_size = Vector2(0, 420)
+	modal_scroll.custom_minimum_size = Vector2(0, 468)
 	outer.add_child(modal_scroll)
 
 	modal_body = VBoxContainer.new()
 	modal_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	modal_body.add_theme_constant_override("separation", 8)
+	modal_body.add_theme_constant_override("separation", 10)
 	modal_scroll.add_child(modal_body)
 
 func _build_toast_layer():
@@ -2860,31 +2874,50 @@ func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int
 func _render_news():
 	for child in news_box.get_children():
 		child.queue_free()
-	news_box.add_child(_label("▸ BREAKING NEWS", 14, "#f97316"))
+	news_box.add_child(_info_section_title(_tr("시장 뉴스", "Market News"), "#f97316"))
 	var items = GameState.news_log.slice(max(0, GameState.news_log.size() - 4))
+	if items.is_empty():
+		news_box.add_child(_info_empty_card(_tr("아직 들어온 뉴스가 없습니다.", "No news yet."), "#64748b"))
 	for news in items:
 		var text = str(news.get("headline", "")).format({"topic": _random_topic(news)})
 		var misleading = bool(news.get("misleading", false))
 		var effect: Dictionary = news.get("market_effect", news.get("market_effects", {}))
 		var power = float(effect.get("power", 0.0))
 		var color = "#8892a4"
-		var prefix = ""
+		var label_text = _tr("중립", "Neutral")
 		if misleading:
 			color = "#5a6075"
-			prefix = _tr("⚠ [루머] ", "⚠ [RUMOR] ")
+			label_text = _tr("루머", "Rumor")
 		elif power >= 0.04:
 			color = "#00c896"
-			prefix = "📈 "
+			label_text = _tr("강한 호재", "Strong Up")
 		elif power >= 0.01:
 			color = "#6ee7b7"
-			prefix = "▲ "
+			label_text = _tr("호재", "Up")
 		elif power <= -0.04:
 			color = "#ff6b6b"
-			prefix = "📉 "
+			label_text = _tr("강한 악재", "Strong Down")
 		elif power <= -0.01:
 			color = "#fca5a5"
-			prefix = "▼ "
-		news_box.add_child(_wrap_label(prefix + text, 13, color))
+			label_text = _tr("악재", "Down")
+		var card: PanelContainer = _info_card(color, "#0b0f16")
+		var box: VBoxContainer = VBoxContainer.new()
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 5)
+		card.add_child(box)
+		var row: HBoxContainer = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		box.add_child(row)
+		var tag: Label = _label(label_text, 13, color)
+		if _font_bold:
+			tag.add_theme_font_override("font", _font_bold)
+		tag.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(tag)
+		var impact: Label = _label("%+.1f%%" % (power * 100.0), 13, color)
+		impact.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		row.add_child(impact)
+		box.add_child(_wrap_label(text, 14, "#c8d0df"))
+		news_box.add_child(card)
 
 func _render_sidebars():
 	# ── 시세 패널: RichTextLabel 단일 업데이트 ──
@@ -2920,52 +2953,87 @@ func _render_sidebars():
 		ticker_rtl.append_text("\n".join(lines))
 
 	_clear_box(relationship_box)
-	relationship_box.add_child(_label("▸ RELATIONSHIPS", 14, "#d8b4fe"))
+	relationship_box.add_child(_info_section_title(_tr("내 사람들", "Relationships"), "#d8b4fe"))
 	if GameState.relationships.is_empty():
-		relationship_box.add_child(_label(_tr("아직 중요한 인연이 없다.", "No important relationships yet."), 12, "#5a6075"))
+		relationship_box.add_child(_info_empty_card(_tr("아직 중요한 인연이 없습니다. 관계 행동이나 스토리 진행으로 인물이 기록됩니다.", "No important relationships yet. People appear here through relationship actions or story progress."), "#64748b"))
 	for rel in GameState.relationships:
 		var affection = int(rel.get("affection", 40))
 		var trust = int(rel.get("trust", 40))
 		var type_str = str(rel.get("type", "friends"))
-		var type_kr = {
-			"romantic": _tr("연인", "Partner"), "mentor": _tr("멘토", "Mentor"),
-			"business": _tr("비즈니스", "Business"), "family": _tr("가족", "Family"),
-			"friends": _tr("친구", "Friend")}.get(type_str, _tr("인연", "Bond"))
+		var type_kr: String = _relationship_type_label(type_str)
+		var accent: String = _relationship_type_color(type_str)
 		var affinity = relationship_system.get_affinity_label(affection)
-		relationship_box.add_child(_label("%s  [%s]  %s (%d/%d)" % [rel.get("name", "?"), type_kr, affinity, affection, trust], 12, "#8892a4"))
-		# 관계 효과 힌트
+		var card: PanelContainer = _info_card(accent, "#0d1018")
+		var box: VBoxContainer = VBoxContainer.new()
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 8)
+		card.add_child(box)
+		var title_row: HBoxContainer = HBoxContainer.new()
+		title_row.add_theme_constant_override("separation", 8)
+		box.add_child(title_row)
+		var name_lbl: Label = _label(str(rel.get("name", "?")), 16, "#e8eaf0")
+		if _font_bold:
+			name_lbl.add_theme_font_override("font", _font_bold)
+		name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		title_row.add_child(name_lbl)
+		var type_lbl: Label = _label(type_kr, 13, accent)
+		type_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		title_row.add_child(type_lbl)
+		box.add_child(_wrap_label(str(affinity), 13, "#a8b3c7"))
+		box.add_child(_info_value_bar(_tr("호감도", "Affinity"), affection, 100, accent))
+		box.add_child(_info_value_bar(_tr("신뢰", "Trust"), trust, 100, "#93c5fd"))
 		if affection >= 45:
 			var effect_hint = _rel_effect_hint(type_str, affection, trust)
 			if not effect_hint.is_empty():
-				relationship_box.add_child(_wrap_label("  ▸ " + effect_hint, 11, "#64748b"))
+				box.add_child(_wrap_label(effect_hint, 13, "#8f9ab0"))
+		relationship_box.add_child(card)
 
 	_clear_box(inventory_box)
-	inventory_box.add_child(_label("▸ INVENTORY", 14, "#fbbf24"))
+	inventory_box.add_child(_info_section_title(_tr("소지품", "Inventory"), "#fbbf24"))
 	if GameState.inventory.is_empty():
-		inventory_box.add_child(_label(_tr("비어 있음", "Empty"), 12, "#5a6075"))
+		inventory_box.add_child(_info_empty_card(_tr("비어 있습니다. 상점에서 회복·성장 아이템을 구매할 수 있습니다.", "Empty. Buy recovery and growth items from the shop."), "#64748b"))
 	for item in GameState.inventory:
-		var item_row = HBoxContainer.new()
-		item_row.add_theme_constant_override("separation", 6)
-		var item_label = _label("%s %s x%d" % [item.get("icon", ""), item.get("name", _tr("아이템", "Item")), item.get("quantity", 1)], 12, "#8892a4")
+		var item_card: PanelContainer = _info_card("#fbbf24", "#0d1018")
+		var item_box: VBoxContainer = VBoxContainer.new()
+		item_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		item_box.add_theme_constant_override("separation", 8)
+		item_card.add_child(item_box)
+		var item_row: HBoxContainer = HBoxContainer.new()
+		item_row.add_theme_constant_override("separation", 8)
+		item_box.add_child(item_row)
+		var item_label: Label = _label("%s x%d" % [item.get("name", _tr("아이템", "Item")), item.get("quantity", 1)], 15, "#e8eaf0")
+		if _font_bold:
+			item_label.add_theme_font_override("font", _font_bold)
 		item_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		item_row.add_child(item_label)
 		var has_immediate = not item.get("effects", {}).is_empty()
+		var effect_parts: Array = []
+		for k in item.get("effects", {}):
+			var v: int = int(item["effects"][k])
+			var sign: String = "+" if v >= 0 else ""
+			effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
+		for k in item.get("passive_effects", {}):
+			var v2: int = int(item["passive_effects"][k])
+			var sign2: String = "+" if v2 >= 0 else ""
+			effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
+		if not effect_parts.is_empty():
+			item_box.add_child(_wrap_label(", ".join(effect_parts), 13, "#fbbf24"))
 		if has_immediate:
 			var use_btn = _small_button(_tr("사용 ⚡1", "Use ⚡1"), "#0f766e")
 			if GameState.action_points <= 0:
 				use_btn.disabled = true
 			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
-			item_row.add_child(use_btn)
+			item_box.add_child(use_btn)
 		else:
-			item_row.add_child(_label(_tr("자동 활성", "Auto-active"), 11, "#3a7a4a"))
-		inventory_box.add_child(item_row)
+			item_box.add_child(_wrap_label(_tr("자동 활성", "Auto-active"), 13, "#34d399"))
+		inventory_box.add_child(item_card)
 
 	_refresh_arc_box()
 
 func _refresh_arc_box() -> void:
 	if not is_instance_valid(arc_box): return
 	_clear_box(arc_box)
-	arc_box.add_child(_label(_tr("▸ 진행 중인 아크", "▸ Active Arcs"), 14, "#86e4c0"))
+	arc_box.add_child(_info_section_title(_tr("스토리 아크", "Story Arcs"), "#86e4c0"))
 	var f: Dictionary = GameState.flags
 	var t: int = GameState.turn
 
@@ -3070,27 +3138,52 @@ func _refresh_arc_box() -> void:
 		any_active = true
 		var done_all: bool = bool(arc.get("done", false))
 		var hdr_color: String = "#5a6a6a" if done_all else "#86e4c0"
-		var name_str: String = "%s %s%s" % [str(arc["icon"]), str(arc["name"]), "  ✓" if done_all else ""]
-		arc_box.add_child(_label(name_str, 13, hdr_color))
 		var stages: Array = arc.get("stages", [])
+		var done_count: int = 0
+		for stage in stages:
+			if bool(stage.get("done", false)):
+				done_count += 1
+		var card: PanelContainer = _info_card(hdr_color, "#0d1018")
+		var box: VBoxContainer = VBoxContainer.new()
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 8)
+		card.add_child(box)
+		var header: HBoxContainer = HBoxContainer.new()
+		header.add_theme_constant_override("separation", 8)
+		box.add_child(header)
+		var name_lbl: Label = _label(str(arc["name"]), 15, "#e8eaf0" if not done_all else "#94a3b8")
+		if _font_bold:
+			name_lbl.add_theme_font_override("font", _font_bold)
+		name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		header.add_child(name_lbl)
+		var status_lbl: Label = _label(_tr("완료", "Done") if done_all else "%d/%d" % [done_count, stages.size()], 13, hdr_color)
+		status_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		header.add_child(status_lbl)
+		var progress_text: String = "■".repeat(done_count) + "□".repeat(maxi(stages.size() - done_count, 0))
+		box.add_child(_label(progress_text, 14, hdr_color))
 		for stage in stages:
 			var done: bool = bool(stage.get("done", false))
-			var prefix: String = "  ■" if done else "  □"
+			var prefix: String = _tr("완료", "Done") if done else _tr("대기", "Pending")
 			var color: String = "#4a5a4a" if done else "#8ab4a0"
-			arc_box.add_child(_label("%s %s" % [prefix, str(stage["label"])], 11, color))
+			box.add_child(_wrap_label("%s  %s" % [prefix, str(stage["label"])], 13, color))
 		var hint: String = str(arc.get("hint", ""))
 		if not hint.is_empty() and not done_all:
-			arc_box.add_child(_wrap_label("  ↳ " + hint, 10, "#3a5a4a"))
+			box.add_child(_wrap_label(hint, 13, "#5fa080"))
+		arc_box.add_child(card)
 
 	if not any_active:
-		arc_box.add_child(_label(_tr("아직 발동된 아크가 없다. 이야기가 흘러가면 여기에 기록된다.", "No arcs yet. As the story unfolds, they will be tracked here."), 11, "#3a4a3a"))
+		arc_box.add_child(_info_empty_card(_tr("아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.", "No arcs yet. As the story unfolds, they will be tracked here."), "#64748b"))
 
 	# 런 테마 표시
-	arc_box.add_child(_label("", 6, "#0a0a10"))
-	arc_box.add_child(_label(_tr("▸ 런 정보", "▸ Run Info"), 12, "#5a7a9a"))
+	arc_box.add_child(_info_section_title(_tr("런 정보", "Run Info"), "#5a9ac8"))
 	var theme_id: String = GameState.run_theme
-	arc_box.add_child(_label(_tr("테마: %s", "Theme: %s") % theme_id, 11, "#4a6a8a"))
-	arc_box.add_child(_label(_tr("투자감각: %d  / 사교력: %d", "Investing: %d  / Social: %d") % [GameState.investment_skill, GameState.social_skill], 11, "#3a5a6a"))
+	var run_card: PanelContainer = _info_card("#5a9ac8", "#0d1018")
+	var run_box: VBoxContainer = VBoxContainer.new()
+	run_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	run_box.add_theme_constant_override("separation", 6)
+	run_card.add_child(run_box)
+	run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % theme_id, 14, "#8fb6d8"))
+	run_box.add_child(_wrap_label(_tr("투자감각 %d  /  사교력 %d", "Investing %d  /  Social %d") % [GameState.investment_skill, GameState.social_skill], 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
 	for gid in ["holdem", "racetrack", "scalping", "aruba"]:
@@ -3098,7 +3191,8 @@ func _refresh_arc_box() -> void:
 		if grade > 0:
 			mg_line += "%s:%s  " % [gid, MetaProgression.get_mastery_label(gid)]
 	if not mg_line.is_empty():
-		arc_box.add_child(_label(_tr("미니게임: ", "Minigame: ") + mg_line.strip_edges(), 10, "#3a5a4a"))
+		run_box.add_child(_wrap_label(_tr("미니게임: ", "Minigame: ") + mg_line.strip_edges(), 13, "#5fa080"))
+	arc_box.add_child(run_card)
 
 func _render_log():
 	var lines: Array = []
@@ -3672,7 +3766,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 func _hud_chip(parent: Control, icon_id: String, accent: String,
 		min_width: int, expand: bool) -> Label:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(min_width, 36)
+	panel.custom_minimum_size = Vector2(min_width, 40)
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL if expand else Control.SIZE_SHRINK_BEGIN
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -3703,7 +3797,7 @@ func _hud_chip(parent: Control, icon_id: String, accent: String,
 		tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(tex)
 
-	var lbl := _label("", 13, "#d8deea")
+	var lbl := _label("", 14, "#d8deea")
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	lbl.clip_text = false
@@ -4103,7 +4197,7 @@ func _ap_save_money():
 	GameState.add_money(float(saved))
 	GameState.modify_hidden_stat("stress", 2)
 	GameState.add_tendency("career", 1)
-	var _sv := _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
+	var _sv: Dictionary = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
 	var scene: String = str(_sv.get("et" if LocaleManager.is_english() else "t", _sv.get("t", "")))
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
 	_show_vignette(_tr("💰 절약", "💰 Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
@@ -5001,6 +5095,98 @@ func _open_jobs():
 		if not job.get("description", "").is_empty():
 			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#5a6075"))
 
+func _build_investment_market_board() -> Control:
+	var fg: int = int(GameState.market_context.get("fear_greed", 50))
+	var cycle: String = str(GameState.market_context.get("cycle", "neutral"))
+	var cycle_map: Dictionary = {"bull": _tr("상승장", "Bull Market"), "bear": _tr("하락장", "Bear Market"), "neutral": _tr("횡보장", "Sideways")}
+	var cycle_label: String = str(cycle_map.get(cycle, cycle))
+	var accent: String = "#ff4444" if fg < 30 else ("#00c896" if fg > 70 else "#f0b429")
+	var crash_risk: float = float(GameState.market_context.get("crash_risk", 0.05))
+
+	var total_cost: float = 0.0
+	var total_now: float = 0.0
+	for aid in GameState.portfolio:
+		var holding: Dictionary = GameState.portfolio[aid]
+		var qty: float = float(holding.get("quantity", 0.0))
+		var avg_price: float = float(holding.get("avg_price", 0.0))
+		var now_price: float = float(GameState.market_prices.get(aid, avg_price))
+		total_cost += qty * avg_price
+		total_now += qty * now_price
+	var return_pct: float = (total_now - total_cost) / maxf(total_cost, 0.01) * 100.0
+	var has_position: bool = total_now > 0.0
+	var return_color: String = "#00c896" if return_pct >= 0.0 else "#ff4444"
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#07100e")
+	st.bg_color.a = 0.92
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	panel.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	panel.add_child(row)
+
+	var regime := VBoxContainer.new()
+	regime.custom_minimum_size = Vector2(150, 0)
+	regime.add_theme_constant_override("separation", 3)
+	row.add_child(regime)
+	regime.add_child(_label("MARKET BOARD", 10, "#7f8ea3"))
+	var cycle_lbl := _label(cycle_label, 21, accent)
+	if _font_bold:
+		cycle_lbl.add_theme_font_override("font", _font_bold)
+	regime.add_child(cycle_lbl)
+	regime.add_child(_label(_tr("크래시 리스크 %.0f%%", "Crash risk %.0f%%") % (crash_risk * 100.0), 12, "#a8b3c7"))
+
+	var gauge := Control.new()
+	gauge.custom_minimum_size = Vector2(210, 68)
+	gauge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var gauge_color := Color(accent)
+	gauge.draw.connect(func():
+		var sz := gauge.size
+		if sz.x < 40.0:
+			return
+		var f := ThemeDB.fallback_font
+		var track := Rect2(Vector2(0.0, 32.0), Vector2(sz.x, 14.0))
+		gauge.draw_string(f, Vector2(0.0, 14.0), _tr("공포", "FEAR"), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#8e98ad"))
+		gauge.draw_string(f, Vector2(sz.x - 46.0, 14.0), _tr("탐욕", "GREED"), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#8e98ad"))
+		gauge.draw_rect(Rect2(track.position + Vector2(0.0, 3.0), track.size), Color(0, 0, 0, 0.32), true)
+		gauge.draw_rect(track, Color("#111827"), true)
+		var fill_w := track.size.x * clampf(float(fg) / 100.0, 0.0, 1.0)
+		gauge.draw_rect(Rect2(track.position, Vector2(fill_w, track.size.y)), gauge_color, true)
+		for i in range(11):
+			var x := track.position.x + track.size.x * float(i) / 10.0
+			gauge.draw_line(Vector2(x, track.position.y - 3.0), Vector2(x, track.end.y + 3.0), Color(1, 1, 1, 0.10), 1.0)
+		var needle_x := track.position.x + fill_w
+		gauge.draw_line(Vector2(needle_x, track.position.y - 8.0), Vector2(needle_x, track.end.y + 8.0), Color("#ffffff"), 2.0)
+		gauge.draw_string(f, Vector2(maxf(0.0, needle_x - 14.0), track.end.y + 16.0), "%d" % fg, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#e8eaf0"))
+	)
+	row.add_child(gauge)
+
+	var portfolio := VBoxContainer.new()
+	portfolio.custom_minimum_size = Vector2(170, 0)
+	portfolio.add_theme_constant_override("separation", 3)
+	row.add_child(portfolio)
+	portfolio.add_child(_label(_tr("내 계좌", "ACCOUNT"), 10, "#7f8ea3"))
+	portfolio.add_child(_label(_tr("현금 %s", "Cash %s") % GameState.format_money(GameState.money), 13, "#cbd5e1"))
+	if has_position:
+		portfolio.add_child(_label(_tr("평가 %s", "Value %s") % GameState.format_money(total_now), 13, "#cbd5e1"))
+		var ret_lbl := _label(_tr("수익률 %+.1f%%", "Return %+.1f%%") % return_pct, 18, return_color)
+		if _font_bold:
+			ret_lbl.add_theme_font_override("font", _font_bold)
+		portfolio.add_child(ret_lbl)
+	else:
+		portfolio.add_child(_label(_tr("보유 자산 없음", "No positions"), 13, "#94a3b8"))
+		portfolio.add_child(_label(_tr("소액 분산부터", "Start diversified"), 13, "#f0b429"))
+	return panel
+
 func _open_investments():
 	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"))
 	modal_body.add_child(_modal_section_header(
@@ -5028,6 +5214,7 @@ func _open_investments():
 	inv_gloss_btn.custom_minimum_size = Vector2(78, 32)
 	inv_gloss_btn.pressed.connect(func(): _open_glossary(_tr("투자 용어", "Investing Terms"), "invest"))
 	inv_hint_row.add_child(inv_gloss_btn)
+	modal_body.add_child(_build_investment_market_board())
 	# 은행 — 대출/상환 (재무 거래라 행동력 무소비)
 	var bank_btn := _icon_button(_tr("은행 — 대출/상환", "Bank — Loan/Repay"), "money", "#1a2438")
 	bank_btn.pressed.connect(_open_bank)
@@ -5039,23 +5226,9 @@ func _open_investments():
 		GameState.flags["investment_first_visited"] = true
 		modal_body.add_child(_modal_section_header(_tr("투자 첫 방문", "First Visit"), "info", "#f0b429", _tr("처음엔 낮은 리스크 자산에 소액부터 진입하세요.", "Start with small amounts in low-risk assets.")))
 		modal_body.add_child(_wrap_label(
-			_tr("① 시장은 사이클로 움직입니다\n"
-			+ "   상승장 → 버블 → 폭락 → 침체 → 회복 → 반복\n"
-			+ "   '공포/탐욕' 지수가 낮을 때 사고, 높을 때 파는 게 원칙입니다.\n\n"
-			+ "② 레버리지는 수익도 2배, 손실도 2배\n"
-			+ "   원금의 35% 이하로 떨어지면 강제 청산됩니다. 입문자는 조심.\n\n"
-			+ "③ 투자감각이 높을수록 수수료가 낮아집니다\n"
-			+ "   자기계발 → 투자 공부로 감각을 키우세요.\n\n"
-			+ "처음엔 리스크 낮은 자산에 소액(10~20만원)부터 시작하세요.",
-			"① Markets move in cycles\n"
-			+ "   Bull → Bubble → Crash → Slump → Recovery → repeat\n"
-			+ "   The rule: buy when 'Fear/Greed' is low, sell when it's high.\n\n"
-			+ "② Leverage doubles gains and losses\n"
-			+ "   Force-liquidated if it drops below 35% of principal. Beginners beware.\n\n"
-			+ "③ Higher investing sense means lower fees\n"
-			+ "   Self-Dev → study investing to build your sense.\n\n"
-			+ "At first, start small (₩100k–200k) in low-risk assets."),
-			12, "#8892a4"))
+			_tr("핵심만 기억하세요: 공포가 낮을 때 분할 매수, 탐욕이 높을 때 일부 매도.\n레버리지는 수익과 손실이 모두 2배라 입문자는 피하는 편이 안전합니다.\n처음엔 리스크 ●●○○○ 이하 자산에 10~20만원 단위로 작게 시작하세요.",
+			"Remember the basics: scale in when Fear is low, trim positions when Greed is high.\nLeverage doubles both gains and losses, so beginners should avoid it.\nStart small, ₩100k-200k at a time, in assets rated risk ●●○○○ or lower."),
+			14, "#a7b0c2"))
 		var guide_sep0 = HSeparator.new()
 		guide_sep0.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(guide_sep0)
@@ -5066,14 +5239,6 @@ func _open_investments():
 		var guide_sep = HSeparator.new()
 		guide_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(guide_sep)
-	# 시장 분위기 표시
-	var fg = int(GameState.market_context.get("fear_greed", 50))
-	var cycle = str(GameState.market_context.get("cycle", "neutral"))
-	var cycle_kr = {"bull": _tr("상승장", "Bull"), "bear": _tr("하락장", "Bear"), "neutral": _tr("횡보", "Flat")}.get(cycle, cycle)
-	var fg_color = "#ff4444" if fg < 30 else ("#00c896" if fg > 70 else "#f0b429")
-	var filled = int(float(fg) / 10.0)
-	var gauge = "█".repeat(filled) + "░".repeat(10 - filled)
-	modal_body.add_child(_label(_tr("시장 분위기 — %s  |  공포/탐욕: %d  [%s]", "Market Mood — %s  |  Fear/Greed: %d  [%s]") % [cycle_kr, fg, gauge], 14, fg_color))
 	var sep_top = HSeparator.new()
 	sep_top.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep_top)
@@ -5150,65 +5315,13 @@ func _open_investments():
 		port_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(port_sep)
 
+	modal_body.add_child(_modal_section_header(
+		_tr("거래 가능 자산", "Tradable Assets"),
+		"market",
+		"#5b9cf6",
+		_tr("각 자산 카드에서 추세를 보고 바로 매수·매도하세요.", "Read each asset card, then buy or sell directly.")))
 	for row in investment_system.get_asset_rows():
-		var asset_id = row["id"]
-		var price = float(row["price"])
-		var risk_str = _tr("리스크 %d/5", "Risk %d/5") % int(row.get("risk_level", 1))
-		var hist: Array = GameState.price_history.get(asset_id, [])
-		var sparkline = _price_sparkline(hist)
-		var last_color = "#8892a4"
-		if hist.size() >= 2:
-			last_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
-		# ─ 자산 헤더 ─
-		modal_body.add_child(_label(
-			_tr("%s  (%s)  현재가 %s", "%s  (%s)  price %s") % [row["name"], risk_str, GameState.format_money(price)],
-			14, last_color))
-		# ─ A-5: 자산 특성 태그 ─
-		var asset_tags: Array = row.get("tags", [])
-		if not asset_tags.is_empty():
-			var tag_str = "  ".join(asset_tags.map(func(t): return "[%s]" % t))
-			modal_body.add_child(_wrap_label(tag_str, 11, "#4a5a72"))
-		# ─ 스파크라인 + 변동률 ─
-		var hist_parts: Array = [sparkline]
-		if hist.size() >= 2:
-			var d1 = (float(hist[-1]) - float(hist[-2])) / max(float(hist[-2]), 0.01) * 100.0
-			hist_parts.append(_tr("1개월 %+.1f%%", "1mo %+.1f%%") % d1)
-		if hist.size() >= 4:
-			var d3 = (float(hist[-1]) - float(hist[hist.size() - 4])) / max(float(hist[hist.size() - 4]), 0.01) * 100.0
-			hist_parts.append(_tr("3개월 %+.1f%%", "3mo %+.1f%%") % d3)
-		if hist.size() >= 12:
-			var d12 = (float(hist[-1]) - float(hist[0])) / max(float(hist[0]), 0.01) * 100.0
-			hist_parts.append(_tr("12개월 %+.1f%%", "12mo %+.1f%%") % d12)
-		modal_body.add_child(_wrap_label(
-			"  " + "  |  ".join(hist_parts),
-			12, last_color if hist.size() >= 2 else "#3a3a5a"))
-		var buy_row = HBoxContainer.new()
-		buy_row.add_theme_constant_override("separation", 6)
-		for amount in [100_000, 500_000, 1_000_000]:
-			var can_afford = GameState.money >= amount
-			var btn_color = "#00c896" if can_afford else "#64748b"
-			var buy_btn = _small_button("+%s" % GameState.format_money(amount), btn_color)
-			buy_btn.disabled = not can_afford
-			buy_btn.pressed.connect(Callable(self, "_on_buy_asset").bind(asset_id, amount))
-			buy_row.add_child(buy_btn)
-		modal_body.add_child(buy_row)
-		if GameState.portfolio.has(asset_id):
-			var holding: Dictionary = GameState.portfolio[asset_id]
-			var owned_val = float(holding.get("quantity", 0.0)) * price
-			var avg_price = float(holding.get("avg_price", price))
-			var profit_pct = (price - avg_price) / max(avg_price, 0.01) * 100.0
-			var profit_color = "#00c896" if profit_pct >= 0 else "#ff4444"
-			modal_body.add_child(_label(_tr("  보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%", "  Holdings %s  |  Avg %s  |  Return %+.1f%%") % [GameState.format_money(owned_val), GameState.format_money(avg_price), profit_pct], 12, profit_color))
-			var sell_row = HBoxContainer.new()
-			sell_row.add_theme_constant_override("separation", 6)
-			for sell_info in [["25%", 0.25], ["50%", 0.5], [_tr("전량", "All"), 1.0]]:
-				var sell_btn = _small_button(_tr("매도 %s", "Sell %s") % sell_info[0], "#ff4444")
-				sell_btn.pressed.connect(Callable(self, "_on_sell_asset").bind(asset_id, sell_info[1]))
-				sell_row.add_child(sell_btn)
-			modal_body.add_child(sell_row)
-		var sep = HSeparator.new()
-		sep.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(sep)
+		modal_body.add_child(_build_investment_asset_card(row))
 	# ── 레버리지 투자 진입 (투자감각 30 이상 해금) ──
 	if GameState.investment_skill >= 30:
 		var lev_btn := _icon_button(_tr("레버리지 투자 — 2배 포지션 고수익·고위험", "Leverage Investing — 2x position, high reward·high risk"), "leverage", "#7f1d1d")
@@ -5219,6 +5332,118 @@ func _open_investments():
 			_tr("잠금: 레버리지 투자 — 투자감각 30 달성 시 해금 (현재 %d)", "Locked: Leverage Investing — unlocks at Investing 30 (current %d)") % GameState.investment_skill,
 			12, "#4a5a72"))
 
+func _build_investment_asset_card(row: Dictionary) -> Control:
+	var asset_id: String = str(row.get("id", ""))
+	var price: float = float(row.get("price", 0.0))
+	var risk_level: int = int(row.get("risk_level", 1))
+	var risk_str: String = _tr("리스크 %d/5", "Risk %d/5") % risk_level
+	var hist: Array = GameState.price_history.get(asset_id, [])
+	var sparkline: String = _price_sparkline(hist)
+	var trend_color: String = "#8892a4"
+	if hist.size() >= 2:
+		trend_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b1116")
+	st.border_color = Color(trend_color)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	panel.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 8)
+	panel.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
+	box.add_child(header)
+
+	var name_lbl: Label = _label(str(row.get("name", asset_id)), 16, "#e8eaf0")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(name_lbl)
+
+	var risk_color: String = "#94a3b8"
+	if risk_level >= 4:
+		risk_color = "#ff7070"
+	elif risk_level <= 2:
+		risk_color = "#34d399"
+	var risk_lbl := _label(risk_str, 13, risk_color)
+	risk_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	risk_lbl.custom_minimum_size = Vector2(94, 0)
+	header.add_child(risk_lbl)
+
+	var price_lbl := _label(GameState.format_money(price), 15, trend_color)
+	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	price_lbl.custom_minimum_size = Vector2(132, 0)
+	if _font_bold:
+		price_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(price_lbl)
+
+	var asset_tags: Array = row.get("tags", [])
+	if not asset_tags.is_empty():
+		var tag_str: String = "  ".join(asset_tags.map(func(t): return "[%s]" % t))
+		box.add_child(_wrap_label(tag_str, 13, "#6b7c96"))
+
+	var hist_parts: Array = []
+	if hist.size() < 2:
+		hist_parts.append(_tr("가격 기록 축적 중", "Price history building"))
+	else:
+		hist_parts.append(sparkline)
+		var d1: float = (float(hist[-1]) - float(hist[-2])) / max(float(hist[-2]), 0.01) * 100.0
+		hist_parts.append(_tr("1개월 %+.1f%%", "1mo %+.1f%%") % d1)
+	if hist.size() >= 4:
+		var d3: float = (float(hist[-1]) - float(hist[hist.size() - 4])) / max(float(hist[hist.size() - 4]), 0.01) * 100.0
+		hist_parts.append(_tr("3개월 %+.1f%%", "3mo %+.1f%%") % d3)
+	if hist.size() >= 12:
+		var d12: float = (float(hist[-1]) - float(hist[0])) / max(float(hist[0]), 0.01) * 100.0
+		hist_parts.append(_tr("12개월 %+.1f%%", "12mo %+.1f%%") % d12)
+	box.add_child(_wrap_label("  |  ".join(hist_parts), 14, trend_color if hist.size() >= 2 else "#64748b"))
+
+	var buy_row := HBoxContainer.new()
+	buy_row.add_theme_constant_override("separation", 8)
+	box.add_child(buy_row)
+	for amount in [100_000, 500_000, 1_000_000]:
+		var can_afford: bool = GameState.money >= amount
+		var btn_color: String = "#00c896" if can_afford else "#64748b"
+		var buy_btn := _small_button(_tr("매수 %s", "Buy %s") % GameState.format_money(float(amount)), btn_color)
+		buy_btn.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
+		buy_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		buy_btn.disabled = not can_afford
+		buy_btn.pressed.connect(Callable(self, "_on_buy_asset").bind(asset_id, amount))
+		buy_row.add_child(buy_btn)
+
+	if GameState.portfolio.has(asset_id):
+		var holding: Dictionary = GameState.portfolio[asset_id]
+		var owned_val: float = float(holding.get("quantity", 0.0)) * price
+		var avg_price: float = float(holding.get("avg_price", price))
+		var profit_pct: float = (price - avg_price) / max(avg_price, 0.01) * 100.0
+		var profit_color: String = "#00c896" if profit_pct >= 0.0 else "#ff4444"
+		box.add_child(_wrap_label(
+			_tr("보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%", "Holdings %s  |  Avg %s  |  Return %+.1f%%")
+			% [GameState.format_money(owned_val), GameState.format_money(avg_price), profit_pct],
+			14, profit_color))
+		var sell_row := HBoxContainer.new()
+		sell_row.add_theme_constant_override("separation", 8)
+		box.add_child(sell_row)
+		for sell_info in [["25%", 0.25], ["50%", 0.5], [_tr("전량", "All"), 1.0]]:
+			var sell_btn: Button = _small_button(_tr("매도 %s", "Sell %s") % sell_info[0], "#ff4444")
+			sell_btn.custom_minimum_size = Vector2(0, UI_MIN_SMALL_BUTTON_HEIGHT)
+			sell_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			sell_btn.pressed.connect(Callable(self, "_on_sell_asset").bind(asset_id, sell_info[1]))
+			sell_row.add_child(sell_btn)
+
+	return panel
+
 func _open_shop():
 	_open_modal(_tr("상점", "Shop"))
 	modal_body.add_child(_modal_section_header(
@@ -5227,30 +5452,74 @@ func _open_shop():
 		"#34d399",
 		_tr("구매한 아이템은 인벤토리에 보관되며 일부는 사용 시 행동력을 소비합니다.", "Purchased items go to your inventory; some cost AP to use.")))
 	for item in inventory_system.get_shop_items():
-		var price = float(item.get("price", 0))
-		var can_buy = GameState.money >= price
-		var btn_color = "#166048" if can_buy else "#334155"
-		var item_name: String = str(item.get("name", ""))
-		var btn: Button = _icon_button("%s  —  %s" % [item_name, GameState.format_money(price)], "shop", btn_color)
-		btn.disabled = not can_buy
-		btn.pressed.connect(Callable(self, "_on_shop_item").bind(item.get("id", "")))
-		modal_body.add_child(btn)
-		# 효과 요약 표시
-		var effect_parts: Array = []
-		for k in item.get("effects", {}):
-			var v = int(item["effects"][k])
-			var sign = "+" if v >= 0 else ""
-			effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
-		for k in item.get("passive_effects", {}):
-			var v = int(item["passive_effects"][k])
-			var sign = "+" if v >= 0 else ""
-			effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign, v])
-		var one_time = bool(item.get("one_time", true))
-		var use_type = _tr("사용 시 소모", "Consumed on use") if one_time else _tr("보유 지속 효과", "Passive while held")
-		if not effect_parts.is_empty():
-			modal_body.add_child(_wrap_label("  ▸ %s  [%s]" % [", ".join(effect_parts), use_type], 12, "#00c896"))
-		if not item.get("description", "").is_empty():
-			modal_body.add_child(_wrap_label("  %s" % item.get("description", ""), 12, "#5a6075"))
+		modal_body.add_child(_build_shop_item_card(item))
+
+func _build_shop_item_card(item: Dictionary) -> Control:
+	var price: float = float(item.get("price", 0.0))
+	var can_buy: bool = GameState.money >= price
+	var accent: String = "#34d399" if can_buy else "#64748b"
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b1116")
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	panel.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 8)
+	panel.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
+	box.add_child(header)
+
+	var item_name: String = str(item.get("name", ""))
+	var name_lbl := _label(item_name, 16, "#e8eaf0")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(name_lbl)
+
+	var price_lbl := _label(GameState.format_money(price), 15, "#f0b429" if can_buy else "#94a3b8")
+	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	price_lbl.custom_minimum_size = Vector2(110, 0)
+	if _font_bold:
+		price_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(price_lbl)
+
+	var effect_parts: Array = []
+	for k in item.get("effects", {}):
+		var v: int = int(item["effects"][k])
+		var sign: String = "+" if v >= 0 else ""
+		effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
+	for k in item.get("passive_effects", {}):
+		var v2: int = int(item["passive_effects"][k])
+		var sign2: String = "+" if v2 >= 0 else ""
+		effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
+	var one_time: bool = bool(item.get("one_time", true))
+	var use_type: String = _tr("사용 시 소모", "Consumed on use") if one_time else _tr("보유 지속 효과", "Passive while held")
+	if not effect_parts.is_empty():
+		box.add_child(_wrap_label("%s  [%s]" % [", ".join(effect_parts), use_type], 14, "#00c896" if can_buy else "#94a3b8"))
+	if not item.get("description", "").is_empty():
+		box.add_child(_wrap_label(str(item.get("description", "")), 14, "#7f8ea3"))
+
+	var buy_btn := _small_button(_tr("구매", "Buy"), "#166048" if can_buy else "#334155")
+	buy_btn.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
+	buy_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buy_btn.disabled = not can_buy
+	buy_btn.pressed.connect(Callable(self, "_on_shop_item").bind(item.get("id", "")))
+	box.add_child(buy_btn)
+
+	return panel
 
 func _on_save_pressed():
 	SaveManager.save_game(1)
@@ -5518,15 +5787,21 @@ func _open_modal(title):
 	if modal_scroll:
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 		modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		modal_scroll.custom_minimum_size = Vector2(0, 420)
+		modal_scroll.custom_minimum_size = Vector2(0, 468)
+		modal_scroll.scroll_vertical = 0
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(640, 560)
-		modal_panel.offset_left   = -320
-		modal_panel.offset_right  =  320
-		modal_panel.offset_top    = -280
-		modal_panel.offset_bottom =  280
+		modal_panel.custom_minimum_size = Vector2(760, 610)
+		modal_panel.offset_left   = -380
+		modal_panel.offset_right  =  380
+		modal_panel.offset_top    = -305
+		modal_panel.offset_bottom =  305
 	AudioManager.play("open_modal")
+	call_deferred("_reset_modal_scroll")
 	call_deferred("_focus_first_in_modal_body")
+
+func _reset_modal_scroll() -> void:
+	if is_instance_valid(modal_scroll):
+		modal_scroll.scroll_vertical = 0
 
 func _focus_first_in_modal_body():
 	for child in modal_body.get_children():
@@ -6688,12 +6963,84 @@ func _panel(bg, border):
 	panel.add_theme_stylebox_override("panel", style)
 	return panel
 
+func _info_card(accent: String, bg: String = "#0b1018") -> PanelContainer:
+	var panel: PanelContainer = PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style: StyleBoxFlat = StyleBoxFlat.new()
+	style.bg_color = Color(bg)
+	style.border_color = Color(accent)
+	style.set_border_width_all(1)
+	style.border_width_left = 4
+	style.set_corner_radius_all(7)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	style.content_margin_top = 11
+	style.content_margin_bottom = 11
+	panel.add_theme_stylebox_override("panel", style)
+	return panel
+
+func _info_section_title(text: String, color: String) -> Label:
+	var lbl: Label = _label(text, 15, color)
+	if _font_bold:
+		lbl.add_theme_font_override("font", _font_bold)
+	return lbl
+
+func _info_empty_card(text: String, accent: String = "#64748b") -> Control:
+	var card: PanelContainer = _info_card(accent, "#0b0f16")
+	card.add_child(_wrap_label(text, 14, "#8f9ab0"))
+	return card
+
+func _info_value_bar(label_text: String, value: int, max_value: int, color: String) -> Control:
+	var box: VBoxContainer = VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 4)
+	var top: HBoxContainer = HBoxContainer.new()
+	top.add_theme_constant_override("separation", 8)
+	box.add_child(top)
+	var lbl: Label = _label(label_text, 13, "#8f9ab0")
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(lbl)
+	var val: Label = _label("%d/%d" % [value, max_value], 13, color)
+	val.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	top.add_child(val)
+	var bar_lbl: Label = _label(_bar_str(value, max_value, 12), 13, color)
+	bar_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(bar_lbl)
+	return box
+
+func _relationship_type_label(type_str: String) -> String:
+	return {
+		"romantic": _tr("연인", "Partner"),
+		"mentor": _tr("멘토", "Mentor"),
+		"business": _tr("비즈니스", "Business"),
+		"family": _tr("가족", "Family"),
+		"friends": _tr("친구", "Friend"),
+	}.get(type_str, _tr("인연", "Bond"))
+
+func _relationship_type_color(type_str: String) -> String:
+	return {
+		"romantic": "#e8a0c0",
+		"mentor": "#5b9cf6",
+		"business": "#34d399",
+		"family": "#f0b429",
+		"friends": "#a78bfa",
+	}.get(type_str, "#94a3b8")
+
+func _readable_font_size(size: int) -> int:
+	if size <= 6:
+		return size
+	if size <= 10:
+		return 12
+	if size <= 12:
+		return UI_MIN_BODY_FONT
+	return size
+
 func _label(text, size, color) -> Label:
 	var label = Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	label.clip_text = true
-	label.add_theme_font_size_override("font_size", size)
+	label.add_theme_font_size_override("font_size", _readable_font_size(int(size)))
 	label.add_theme_color_override("font_color", Color(color))
 	if _font_regular:
 		label.add_theme_font_override("font", _font_regular)
@@ -6709,11 +7056,15 @@ func _wrap_label(text, size, color) -> Label:
 func _button(text, color) -> Button:
 	var button = Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(0, 42)
+	button.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color(color)
 	normal.set_corner_radius_all(5)
+	normal.content_margin_left = 16
+	normal.content_margin_right = 16
+	normal.content_margin_top = 10
+	normal.content_margin_bottom = 10
 	var hover = normal.duplicate()
 	hover.bg_color = Color(color).lightened(0.14)
 	var pressed_style = normal.duplicate()
@@ -6724,10 +7075,10 @@ func _button(text, color) -> Button:
 	button.add_theme_color_override("font_color", Color("#ffffff"))
 	if _font_bold:
 		button.add_theme_font_override("font", _font_bold)
-	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	var focus_st = normal.duplicate()
 	focus_st.border_color = Color("#f0b429")
-	focus_st.set_border_width_all(2)
+	focus_st.set_border_width_all(UI_FOCUS_BORDER)
 	button.add_theme_stylebox_override("focus", focus_st)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	return button
@@ -6744,32 +7095,34 @@ func _icon_button(text: String, icon_id: String, color: String) -> Button:
 func _action_button(text: String, accent_color: String) -> Button:
 	var button = Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(0, 40)
+	button.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color("#111118")
 	normal.border_color = Color(accent_color)
-	normal.border_width_left = 3
+	normal.border_width_left = 4
 	normal.set_corner_radius_all(4)
-	normal.content_margin_left = 14
-	normal.content_margin_right = 10
+	normal.content_margin_left = 16
+	normal.content_margin_right = 14
+	normal.content_margin_top = 9
+	normal.content_margin_bottom = 9
 	var hover = normal.duplicate()
 	hover.bg_color = Color("#1c1c2a")
 	var pressed_style = normal.duplicate()
 	pressed_style.bg_color = Color("#0d0d16")
 	var focus_action = hover.duplicate()
 	focus_action.border_color = Color("#f0b429")
-	focus_action.border_width_left = 4
-	focus_action.border_width_top = 1
-	focus_action.border_width_right = 1
-	focus_action.border_width_bottom = 1
+	focus_action.border_width_left = 5
+	focus_action.border_width_top = UI_FOCUS_BORDER
+	focus_action.border_width_right = UI_FOCUS_BORDER
+	focus_action.border_width_bottom = UI_FOCUS_BORDER
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed_style)
 	button.add_theme_stylebox_override("focus", focus_action)
 	button.add_theme_color_override("font_color", Color("#c8d0e0"))
-	button.add_theme_font_size_override("font_size", 14)
+	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	button.pressed.connect(func(): AudioManager.play("click"))
@@ -6778,21 +7131,25 @@ func _action_button(text: String, accent_color: String) -> Button:
 func _small_button(text, color) -> Button:
 	var button = Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(0, 32)
+	button.custom_minimum_size = Vector2(0, UI_MIN_SMALL_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color(color)
 	normal.set_corner_radius_all(4)
+	normal.content_margin_left = 10
+	normal.content_margin_right = 10
+	normal.content_margin_top = 7
+	normal.content_margin_bottom = 7
 	var hover = normal.duplicate()
 	hover.bg_color = Color(color).lightened(0.15)
 	var focus_sm = normal.duplicate()
 	focus_sm.border_color = Color("#f0b429")
-	focus_sm.set_border_width_all(2)
+	focus_sm.set_border_width_all(UI_FOCUS_BORDER)
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("focus", focus_sm)
 	button.add_theme_color_override("font_color", Color("#ffffff"))
-	button.add_theme_font_size_override("font_size", 13)
+	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	return button
@@ -6814,18 +7171,18 @@ func _modal_section_header(title: String, icon_id: String, accent: String, subti
 	style.border_color = Color(accent, 0.45)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(6)
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
+	style.content_margin_left = 14
+	style.content_margin_right = 14
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
 	panel.add_theme_stylebox_override("panel", style)
 
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 12)
 	panel.add_child(row)
 
 	var icon := TextureRect.new()
-	icon.custom_minimum_size = Vector2(28, 28)
+	icon.custom_minimum_size = Vector2(32, 32)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.texture = _ui_icon_texture(icon_id)
@@ -6837,12 +7194,12 @@ func _modal_section_header(title: String, icon_id: String, accent: String, subti
 	col.add_theme_constant_override("separation", 2)
 	row.add_child(col)
 
-	var title_lbl := _label(title, 15, "#e8eaf0")
+	var title_lbl := _label(title, 17, "#e8eaf0")
 	if _font_bold:
 		title_lbl.add_theme_font_override("font", _font_bold)
 	col.add_child(title_lbl)
 	if not subtitle.is_empty():
-		col.add_child(_wrap_label(subtitle, 12, "#8f9ab0"))
+		col.add_child(_wrap_label(subtitle, 14, "#8f9ab0"))
 	return panel
 
 func _stat_name(key):

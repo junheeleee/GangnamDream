@@ -797,49 +797,133 @@ func _finish_race() -> void:
 var _payout_amt: float = 0.0
 
 func _render_result() -> void:
+	var won := _payout_amt > 0.0
+	var net: float = _payout_amt - _bet_stake if won else -_bet_stake
+	var result_col := Color("#5de89c") if net >= 0.0 else Color("#e85d5d")
+
+	var panel := PanelContainer.new()
+	panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	panel.offset_left = 72; panel.offset_top = 8; panel.offset_right = -72; panel.offset_bottom = 542
+	panel.add_theme_stylebox_override("panel", _result_style("#070b10", "#d8ad4d", 0.88, 2, 8))
+	_content.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 22)
+	margin.add_theme_constant_override("margin_top", 18)
+	margin.add_theme_constant_override("margin_right", 22)
+	margin.add_theme_constant_override("margin_bottom", 18)
+	panel.add_child(margin)
+
 	var box := VBoxContainer.new()
-	box.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	box.offset_left = 24; box.offset_top = 8; box.offset_right = -24
-	box.add_theme_constant_override("separation", 8)
-	_content.add_child(box)
+	box.add_theme_constant_override("separation", 12)
+	margin.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(header)
+
+	var title_box := VBoxContainer.new()
+	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_box.add_theme_constant_override("separation", 2)
+	header.add_child(title_box)
 
 	var title := Label.new()
-	_f(title, true); title.add_theme_font_size_override("font_size", 20)
-	title.text = "결과"
-	title.add_theme_color_override("font_color", Color("#e8eaf0"))
-	box.add_child(title)
+	_f(title, true); title.add_theme_font_size_override("font_size", 24)
+	title.text = "경주 결과"
+	title.add_theme_color_override("font_color", Color("#f7e6b2"))
+	title_box.add_child(title)
+
+	var subtitle := Label.new()
+	_f(subtitle); subtitle.add_theme_font_size_override("font_size", 12)
+	subtitle.text = "PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s" % [BET_NAMES[_bet_type], GameState.format_money(_bet_stake)]
+	subtitle.add_theme_color_override("font_color", Color("#8e98ad"))
+	title_box.add_child(subtitle)
+
+	var stamp := Label.new()
+	_f(stamp, true); stamp.add_theme_font_size_override("font_size", 24)
+	stamp.text = "적중" if won else "미적중"
+	stamp.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	stamp.add_theme_color_override("font_color", result_col)
+	stamp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(stamp)
+	_pulse_node(stamp, 1.08, 0.32)
+
+	var body := HBoxContainer.new()
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation", 14)
+	box.add_child(body)
+
+	var order_panel := PanelContainer.new()
+	order_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	order_panel.add_theme_stylebox_override("panel", _result_style("#101722", "#2e3a52", 0.92, 1, 6))
+	body.add_child(order_panel)
+
+	var order_margin := MarginContainer.new()
+	order_margin.add_theme_constant_override("margin_left", 14)
+	order_margin.add_theme_constant_override("margin_top", 12)
+	order_margin.add_theme_constant_override("margin_right", 14)
+	order_margin.add_theme_constant_override("margin_bottom", 12)
+	order_panel.add_child(order_margin)
+
+	var order_box := VBoxContainer.new()
+	order_box.add_theme_constant_override("separation", 7)
+	order_margin.add_child(order_box)
+
+	var order_title := Label.new()
+	_f(order_title, true); order_title.add_theme_font_size_override("font_size", 15)
+	order_title.text = "착순 보드"
+	order_title.add_theme_color_override("font_color", Color("#e8eaf0"))
+	order_box.add_child(order_title)
 
 	for rank in range(min(_finish.size(), 4)):
-		var h: Dictionary = _finish[rank]
-		var medal: String = ["1", "2", "3", "4"][rank]
-		var lbl := Label.new()
-		_f(lbl); lbl.add_theme_font_size_override("font_size", 16)
-		var hidx: int = _race["horses"].find(h)
-		var mine: String = "   ← 내 픽" if hidx in _picks else ""
-		lbl.text = "%s위 / %d착   %s   (배당 %.1f)%s" % [medal, rank + 1, str(h["name"]), float(h["odds"]), mine]
-		lbl.add_theme_color_override("font_color", Color("#f0c45d") if rank == 0 else Color("#aab3c5"))
-		box.add_child(lbl)
+		order_box.add_child(_make_result_row(rank))
+
+	var ticket_panel := PanelContainer.new()
+	ticket_panel.custom_minimum_size = Vector2(330, 0)
+	ticket_panel.add_theme_stylebox_override("panel", _result_style("#12100b", "#d8ad4d", 0.92, 1, 6))
+	body.add_child(ticket_panel)
+
+	var ticket_margin := MarginContainer.new()
+	ticket_margin.add_theme_constant_override("margin_left", 18)
+	ticket_margin.add_theme_constant_override("margin_top", 14)
+	ticket_margin.add_theme_constant_override("margin_right", 18)
+	ticket_margin.add_theme_constant_override("margin_bottom", 14)
+	ticket_panel.add_child(ticket_margin)
+
+	var ticket := VBoxContainer.new()
+	ticket.add_theme_constant_override("separation", 8)
+	ticket_margin.add_child(ticket)
+
+	var ticket_title := Label.new()
+	_f(ticket_title, true); ticket_title.add_theme_font_size_override("font_size", 16)
+	ticket_title.text = "내 베팅 정산표"
+	ticket_title.add_theme_color_override("font_color", Color("#f7e6b2"))
+	ticket.add_child(ticket_title)
+
+	var pick_lbl := Label.new()
+	_f(pick_lbl); pick_lbl.add_theme_font_size_override("font_size", 13)
+	pick_lbl.text = _pick_summary_text()
+	pick_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	pick_lbl.add_theme_color_override("font_color", Color("#cfd8e6"))
+	ticket.add_child(pick_lbl)
+
+	var stake_lbl := Label.new()
+	_f(stake_lbl); stake_lbl.add_theme_font_size_override("font_size", 13)
+	stake_lbl.text = "베팅금  %s   ·   배당금  %s" % [GameState.format_money(_bet_stake), GameState.format_money(_payout_amt)]
+	stake_lbl.add_theme_color_override("font_color", Color("#9aa4b8"))
+	ticket.add_child(stake_lbl)
+
+	var net_lbl := Label.new()
+	_f(net_lbl, true); net_lbl.add_theme_font_size_override("font_size", 26)
+	net_lbl.text = "손익  %s" % _signed_money(net)
+	net_lbl.add_theme_color_override("font_color", result_col)
+	ticket.add_child(net_lbl)
+	_pulse_node(net_lbl, 1.10, 0.34)
 
 	var photo := Control.new()
-	photo.custom_minimum_size = Vector2(0, 168)
+	photo.custom_minimum_size = Vector2(0, 178)
 	photo.draw.connect(func(): _draw_finish_photo(photo))
 	box.add_child(photo)
-
-	var sep := HSeparator.new()
-	sep.add_theme_color_override("color", Color("#252535"))
-	box.add_child(sep)
-
-	var res := Label.new()
-	_f(res, true); res.add_theme_font_size_override("font_size", 22)
-	if _payout_amt > 0:
-		var profit: float = _payout_amt - _bet_stake
-		res.text = "적중!  +%s  (배당금 %s)" % [GameState.format_money(profit), GameState.format_money(_payout_amt)]
-		res.add_theme_color_override("font_color", Color("#5de89c"))
-	else:
-		res.text = "꽝.  -%s" % GameState.format_money(_bet_stake)
-		res.add_theme_color_override("font_color", Color("#e85d5d"))
-	box.add_child(res)
-	_pulse_node(res, 1.12, 0.34)
 
 	# 정보상 팁을 샀다면 진위 공개 — 다음엔 안목을 믿을지 학습
 	if _tip_seen:
@@ -870,14 +954,79 @@ func _render_result() -> void:
 	_content.add_child(row)
 	var again := Button.new()
 	again.text = "다음 경주"
+	again.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style(again, "#231016", "#a03a4a")
 	again.pressed.connect(_new_race)
 	row.add_child(again)
 	var leave := Button.new()
 	leave.text = "오늘은 그만, 나간다"
+	leave.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style(leave, "#10231a", "#2a7a52")
 	leave.pressed.connect(_on_exit)
 	row.add_child(leave)
+
+func _make_result_row(rank: int) -> Control:
+	var h: Dictionary = _finish[rank]
+	var hidx: int = _race["horses"].find(h)
+	var row_panel := PanelContainer.new()
+	var is_winner := rank == 0
+	var is_pick := hidx in _picks
+	var border := "#d8ad4d" if is_winner else ("#ffe14d" if is_pick else "#273246")
+	row_panel.add_theme_stylebox_override("panel", _result_style("#0b111a", border, 0.78, 1, 5))
+	row_panel.custom_minimum_size = Vector2(0, 42)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_bottom", 6)
+	row_panel.add_child(margin)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	margin.add_child(row)
+
+	var badge := Label.new()
+	_f(badge, true); badge.add_theme_font_size_override("font_size", 16)
+	badge.text = "%d" % (rank + 1)
+	badge.custom_minimum_size = Vector2(28, 0)
+	badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge.add_theme_color_override("font_color", Color("#f7e6b2") if is_winner else Color("#b9c3d6"))
+	row.add_child(badge)
+
+	var name := Label.new()
+	_f(name, true); name.add_theme_font_size_override("font_size", 15)
+	name.text = str(h["name"])
+	name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name.add_theme_color_override("font_color", Color(COLORS[hidx % COLORS.size()]).lightened(0.18))
+	row.add_child(name)
+
+	var odds := Label.new()
+	_f(odds); odds.add_theme_font_size_override("font_size", 13)
+	odds.text = "×%.1f%s" % [float(h["odds"]), "  MY PICK" if is_pick else ""]
+	odds.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	odds.add_theme_color_override("font_color", Color("#ffe14d") if is_pick else Color("#8e98ad"))
+	row.add_child(odds)
+	return row_panel
+
+func _pick_summary_text() -> String:
+	if not _race.has("horses"):
+		return "선택 없음"
+	var hs: Array = _race["horses"]
+	var parts := PackedStringArray()
+	for i in range(_picks.size()):
+		var idx := int(_picks[i])
+		if idx < 0 or idx >= hs.size():
+			continue
+		var prefix := "%d순위 " % (i + 1) if BET_ORDERED[_bet_type] else ""
+		parts.append("%s%s" % [prefix, str(hs[idx]["name"])])
+	var joiner := "  →  " if BET_ORDERED[_bet_type] else "  +  "
+	return "%s  ·  %s" % [BET_NAMES[_bet_type], joiner.join(parts)]
+
+func _signed_money(amount: float) -> String:
+	if amount >= 0.0:
+		return "+%s" % GameState.format_money(amount)
+	return "-%s" % GameState.format_money(abs(amount))
 
 func _draw_finish_photo(ctrl: Control) -> void:
 	var sz := ctrl.size
@@ -915,6 +1064,15 @@ func _draw_finish_photo(ctrl: Control) -> void:
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
 		ctrl.draw_string(f, Vector2(rect.position.x + 58.0, y + 17.0), "%d위  %s" % [rank + 1, str(h["name"])],
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#dce4f0"))
+
+func _result_style(bg: String, border: String, alpha: float, border_width: int, radius: int) -> StyleBoxFlat:
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(bg)
+	st.bg_color.a = alpha
+	st.border_color = Color(border)
+	st.set_border_width_all(border_width)
+	st.set_corner_radius_all(radius)
+	return st
 
 # ── 유틸 ──────────────────────────────────────────────────────
 func _flash(msg: String, color: String) -> void:

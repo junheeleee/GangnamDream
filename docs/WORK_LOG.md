@@ -169,6 +169,187 @@
 - 한국 사회 특유의 30대 불안 서사 추가: 결혼 압박, 출산 비용, 연금 불신, 부모 노환, 50대 명퇴 공포
 - 플레이어의 30억 목표에 "왜"를 복층으로 부여 (단순 부자 욕심 → 자녀·부모·노후를 위한 절박함)
 - 플렉스 서사(P3 4차)와 대비되는 불안/현실 서사 레이어 추가
+## 2026-06-22 (PC/Steam Deck Readability Pass 3)
+
+### 수정
+- `scenes/MainGame.gd`: 우측 정보 패널 폭을 400px로 확대하고 헤더/탭/스탯 글자 크기와 여백을 상향.
+- 정보 패널 탭명에서 장식 이모지를 제거하고, 패널 헤더를 `정보 패널` 기준으로 정리.
+- 시황 탭 뉴스 항목을 루머/호재/악재 태그가 있는 카드형 UI로 변경.
+- 관계 탭을 인물 카드 UI로 변경. 인물명, 관계 타입, 호감도/신뢰 바, 관계 효과 힌트를 한 카드에 묶어 표시.
+- 소지품 탭을 아이템 카드 UI로 변경. 아이템명, 수량, 효과, 사용/자동 활성 상태를 한 카드에 묶어 표시.
+- 스토리 탭을 아크 진행 카드 UI로 변경. 아크별 진행률, 단계 완료 상태, 힌트, 런 정보를 카드로 표시.
+- `tools/ScreenshotQA.gd`: 우측 정보 패널 탭별 캡처(`04b_info_stats`~`04f_info_story`)를 추가하고, 관계/소지품/아크 QA용 상태를 시드하도록 보강.
+
+### 검증
+- 전체 `ScreenshotQA` 실행 완료. `04b_info_stats`, `04c_info_market`, `04d_info_relations`, `04e_info_items`, `04f_info_story` 직접 확인.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗, 밸런스 밴드 전부 통과.
+
+## 2026-06-22 (PC/Steam Deck Readability Pass 2)
+
+### 수정
+- `scenes/RouletteTable.gd`: 숫자 베팅 매트 버튼을 58×34/13px 기준으로 확대하고, 베팅 타입/스테이크/SPIN/BET 버튼에 3px 금색 포커스 링을 추가. 스팀덱/패드 조작 시 현재 선택 위치가 더 명확하게 보이도록 개선.
+- 룰렛 휠 상단에 `PLACE YOUR BETS` / `SPINNING · NO MORE BETS` / `WINNING POCKET` 상태 배지를 추가해 작은 HUD 텍스트에 의존하지 않게 수정.
+- `scenes/MainGame.gd`: 투자 첫 방문 가이드를 긴 설명문에서 핵심 3줄 안내로 압축.
+- 투자 자산 목록을 텍스트 줄+버튼 나열에서 자산 카드 구조로 전환. 자산명, 리스크, 가격, 가격 기록 상태, 매수/매도 버튼이 한 덩어리로 읽히도록 개선.
+- 상점 아이템 목록도 카드형으로 전환. 아이템명, 가격, 효과, 설명, 구매 버튼을 같은 패널에 묶어 웹 게시판식 목록 느낌을 줄임.
+- `_open_modal()`이 기존 스크롤 위치를 물고 다음 모달을 중간부터 여는 문제를 수정. 모달 기본 크기도 760×610, 스크롤 영역 468px 기준으로 복원.
+- `tools/ScreenshotQA.gd`: 투자 자산 카드 하단 스크롤 캡처(`02d_investment_asset_cards`)를 추가해 촘촘한 거래 UI를 자동 QA에 포함.
+
+### 검증
+- 전체 `ScreenshotQA` 실행 완료. `02_investment_portfolio_chart`, `02d_investment_asset_cards`, `02b_shop_modal`, `02c_system_menu`, `12_roulette_spin`, `12_roulette_table` 직접 확인.
+- 1280×800 기준 상점 모달이 항상 맨 위에서 열리고, 투자/상점 카드와 룰렛 숫자 매트의 텍스트·버튼 겹침 없음.
+
+## 2026-06-22 (PC/Steam Deck Readability Pass 1)
+
+### 수정
+- `scenes/MainGame.gd`: PC 기본 UI도 Steam Deck/콘솔 기준으로 읽히도록 공통 가독성 상수(`UI_MIN_BODY_FONT`, `UI_MIN_BUTTON_FONT`, `UI_MIN_BUTTON_HEIGHT`, `UI_MIN_SMALL_BUTTON_HEIGHT`, `UI_FOCUS_BORDER`) 추가.
+- `_label()`, `_button()`, `_action_button()`, `_small_button()`, `_modal_section_header()`의 최소 폰트/버튼 높이/포커스 테두리를 상향해 작은 웹앱 UI 느낌을 줄임.
+- 기본 모달 크기를 `640x560`에서 `760x610`으로 확대하고 스크롤 영역/섹션 간격을 넓혀 투자·상점·관계·시스템 메뉴의 읽기 피로를 줄임.
+- 상단 HUD는 버튼이 커진 뒤 1280x800에서 `칭호`가 잘리는 문제를 확인하고, HUD 전용 압축 폭/폰트 규칙으로 재조정.
+
+### 검증
+- 전체 `ScreenshotQA` 2회 실행 완료. `04_ap_actions_dashboard`, `01_event_gambling_wave`, `02_investment_portfolio_chart`, `02b_shop_modal`, `02c_system_menu`, `05_people_relationships`, `08_jeongseon_casino` 직접 확인.
+- 1280x800 기준 상단바 잘림 해소, 주요 모달/선택지/카지노 허브 겹침 없음.
+
+## 2026-06-21 (투자 모달 시장 보드 추가)
+
+### 수정
+- `scenes/MainGame.gd`: 투자/매수·매도 모달 상단에 `MARKET BOARD` 패널 추가.
+- 현재 장세, 공포/탐욕 게이지, 크래시 리스크, 현금, 포트폴리오 평가액, 수익률을 한 화면에 요약해 투자 화면이 단순 목록이 아니라 시장 판단 UI처럼 보이게 개선.
+- 기존 텍스트형 시장 분위기 줄은 제거해 정보 중복을 줄이고, 첫 방문 가이드 전에 핵심 상태가 먼저 보이도록 재배치.
+
+### 검증
+- 전체 `ScreenshotQA` 실행 완료. `02_investment_portfolio_chart` 직접 확인: 시장 보드, 은행 버튼, 첫 방문 안내가 겹치지 않고 첫 화면 안에서 정상 표시됨.
+
+## 2026-06-21 (홀덤 쇼다운 판정 연출 강화)
+
+### 수정
+- `scenes/HoldemClub.gd`: 쇼다운 시 중앙 판정 패널을 추가해 승자, 승리 핸드, POT 정산, 손익을 즉시 읽히게 개선.
+- 쇼다운 상태에서 POT에서 승자 좌석으로 이어지는 칩 흐름 라인을 그려, 누가 팟을 가져갔는지 시각적으로 드러나게 수정.
+- 새 핸드 시작 시 쇼다운 판정 상태를 초기화해 이전 판정 패널이 다음 판에 잔류하지 않도록 정리.
+
+### 검증
+- 전체 `ScreenshotQA` 실행 완료. `06a_holdem_showdown` 직접 확인: 판정 패널, 카드, 좌석, 하단 버튼 겹침 없음.
+
+## 2026-06-21 (경마 결과 화면 정산 보드화)
+
+### 수정
+- `scenes/RaceTrack.gd`: 경마 결과 화면을 단순 텍스트 목록에서 중앙 결과 보드 형태로 재구성.
+- 착순 보드, 내 베팅 정산표, 베팅금/배당금/손익, PHOTO FINISH 패널을 한 화면에 묶어 경주가 끝났을 때 실제 정산 화면처럼 읽히게 개선.
+- 다음 경주/나가기 버튼을 하단 가로 확장 버튼으로 정리해 결과 패널과 조작부가 분리되어 보이도록 수정.
+
+### 검증
+- 전체 `ScreenshotQA` 실행 완료. `07b_racetrack_result` 직접 확인: 착순 보드, 내 베팅 정산표, 포토피니시, 하단 버튼 겹침 없음.
+
+## 2026-06-21 (카지노 미니게임 외형 폴리싱 2차)
+
+### 수정
+- `scenes/RouletteTable.gd`: 숫자 베팅 매트 내부의 0~36 그리드를 `CenterContainer`로 감싸 매트 중앙에 오도록 수정. 오른쪽 빈 공간이 몰려 보이던 문제 해소.
+- `scenes/SlotMachineGame.gd`: 슬롯 당첨 시 하단 `PAYOUT TRAY`에 당첨 금액과 코인 잔상 연출을 표시. 직접 `casino_win/lose/jackpot` 호출을 `AudioManager.play_casino_result()` 중심으로 정리해 승패 사운드/진동 톤을 다른 카지노 게임과 맞춤.
+- `scenes/BigWheelGame.gd`: 휠 오른쪽에 `READY/SPINNING/WINNER` 상태 플레이트를 추가. 잘 안 보이던 작은 `스핀 중...` 바닥 텍스트를 제거하고 `NO MORE BETS`를 큰 상태판으로 표시.
+- `scenes/JeongseonCasino.gd`: 허브 게임 카드에 그림자, 어두운 아트 프레임, 게임 타입 라벨(`TABLE GAME`, `MACHINE`, `WHEEL`, `DICE TABLE`), 버튼 테두리/호버 스타일을 추가해 웹 메뉴 느낌을 줄임.
+- `tools/ScreenshotQA.gd`: 슬롯 QA 결과를 체리 2개 당첨으로 고정해 payout tray를 안정적으로 검수. 빅휠 QA도 스핀 중(`12a_bigwheel_spin`)과 결과 후(`12a_bigwheel`) 두 상태로 분리.
+
+### 검증
+- `ScreenshotQA --qa=casino`: `08_jeongseon_casino`, `11_slot_machine`, `12_roulette_spin`, `12_roulette_table`, `12a_bigwheel_spin`, `12a_bigwheel` 직접 확인. 룰렛 매트 중앙 정렬, 슬롯 트레이, 빅휠 상태판, 허브 카드 겹침 없음.
+
+## 2026-06-21 (룰렛 부유 칩 제거)
+
+### 수정
+- `scenes/RouletteTable.gd`: 상단 룰렛 휠 옆에 떠 있던 베팅 칩 스택을 제거. 실제 룰렛 베팅존이 아닌 위치에 칩이 놓여 플레이어에게 오브젝트 의미가 애매하게 보이던 문제를 정리.
+- 베팅 상태는 왼쪽 `BET PLACED` 패널의 `ON TABLE` 텍스트, 하단 선택 금액 버튼, 선택된 베팅 타입 버튼으로만 표현하도록 단순화.
+
+### 검증
+- `ScreenshotQA --qa=casino`: `12_roulette_spin`, `12_roulette_table` 직접 확인. 상단 테이블의 부유 칩 제거 확인.
+
+## 2026-06-21 (룰렛 칩/결과 콜아웃 정리)
+
+### 수정
+- `scenes/RouletteTable.gd`: 상단 테이블 위 임시 원형 칩 스택을 기존 denomination SVG(`chip_*.svg`) 기반 스택으로 교체.
+- 베팅 칩 위치를 오른쪽 결과 패널에서 분리해 왼쪽 베팅 패널과 휠 사이 펠트 공간에 배치. `NO MORE BETS`/`WINNING POCKET` 텍스트와 칩이 겹치지 않게 수정.
+- 결과 확정 시 공 주변에 포켓 안착 링을 그리고, 오른쪽 패널에 winning pocket 번호 마커를 추가.
+- 룰렛 결과 표시 중에는 방금 올린 베팅 칩이 테이블에 남아 보이도록 `_bet_amount` 리셋 타이밍을 결과 연출 이후로 이동.
+- `tools/ScreenshotQA.gd`: 룰렛 QA를 스핀 중(`12_roulette_spin`)과 결과 후(`12_roulette_table`) 두 상태로 분리 캡처.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot compile clean.
+- `ScreenshotQA --qa=casino`: `12_roulette_spin`, `12_roulette_table` 직접 확인. 칩/결과 패널/공/숫자 매트 겹침 없음.
+
+## 2026-06-21 (다이사이 테이블 고급화)
+
+### 수정
+- `scenes/DaiSaiTable.gd`: 상단 주사위 영역에 실제 테이블 소품처럼 보이는 주사위 컵, 브라스 트레이, 유리 돔 하이라이트, 롤링 모션 라인을 추가.
+- 결과/안내 패널 상단에 `SELECTED BET` 콜 패널을 추가해 현재 선택한 베팅, 배당, 베팅 칩, 금액을 한눈에 보이게 수정.
+- 콜 패널의 베팅 칩은 기존 denomination SVG(`chip_*.svg`)를 사용해 다른 카지노 게임과 시각 언어를 맞춤.
+- 다이사이 주사위 레이아웃을 주사위 컵+트레이 중심으로 재배치해 단순 보드판 UI 느낌을 줄임.
+
+### 검증
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino`: `12b_daisai_table` 직접 확인. 주사위 컵/칩/콜 패널/베팅 버튼 겹침 없음.
+
+## 2026-06-21 (카지노 카드 배치 정렬 핫픽스)
+
+### 수정
+- `scenes/BaccaratTable.gd`: 바카라 결과 카드 시작점을 하드코딩 좌표에서 PLAYER/BANKER 박스 중앙 기준으로 계산하도록 변경. 실제 카드 수가 2장/3장일 때도 묶음이 박스 중앙에 오도록 수정.
+- 바카라 결과 점수 배지도 각 박스 내부 오른쪽으로 이동해 카드/점수/테두리 위치 관계를 정리.
+- `scenes/BlackjackTable.gd`: 딜러/플레이어 카드 시작점을 핸드 박스 중앙 기준으로 계산하도록 변경.
+- 블랙잭 플레이어 칩 스택과 `ON TABLE` 텍스트를 카드 영역 왼쪽으로 분리해 카드와 겹치지 않게 수정.
+- 블랙잭 베팅 화면의 과도하게 큰 반원 아크를 제거하고, 베팅 원 안에는 선택 금액에 맞는 denomination 칩 SVG를 표시하도록 수정.
+- 블랙잭 칩 스택 드로잉을 임시 원형 구슬 형태에서 실제 칩 SVG 기반의 작은 스택으로 교체.
+
+### 검증
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=casino`: `09_baccarat_table`, `10a_blackjack_betting`, `10_blackjack_table` 직접 확인. 카드가 하단 테두리나 칩 스택과 겹치지 않고, 블랙잭 베팅 화면의 이상한 반원 아크 제거 확인.
+
+## 2026-06-21 (ScreenshotQA 카지노 전용 모드 추가)
+
+### 수정
+- `tools/ScreenshotQA.gd`: `--qa=casino` 실행 인자를 추가해 카지노 허브/바카라/블랙잭/슬롯/룰렛/빅휠/다이사이 캡처만 빠르게 찍을 수 있게 분리.
+- 전체 QA 경로의 중복 카지노 캡처 호출을 `_shot_casino_suite()`로 묶어 유지보수성을 개선.
+- 카지노 전용 모드에서도 MainGame 부팅, 튜토리얼 억제, StoryMode 전환 차단을 동일하게 적용해 실제 미니게임 화면만 안정적으로 캡처.
+
+### 사용법
+- `/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino`
+
+### 검증
+- `CompileCheck` 통과.
+- 카지노 전용 QA 실행 확인: `08_jeongseon_casino`, `09a/09`, `10a/10`, `11`, `12`, `12a`, `12b` 총 9장 생성.
+
+## 2026-06-21 (슬롯머신 릴 심볼 드로잉 고도화)
+
+### 수정
+- `scenes/SlotMachineGame.gd`: 슬롯 릴 중앙 표시를 텍스트 라벨 교체 방식에서 코드 드로잉 심볼 타일 방식으로 변경.
+- 릴 유리창 안에 상/중/하 심볼 스트립, 타일 경계, 유리 하이라이트, 세로 가이드, 스핀 중 모션 라인을 추가해 실제 슬롯머신 릴이 움직이는 느낌을 강화.
+- `7/BAR/CHERRY/BELL/LEMON`을 각각 전용 드로잉 심볼로 표시하고, 기존 라벨 자식은 숨겨 레이아웃 텍스트가 릴 위에 떠 보이지 않게 정리.
+- 레몬 심볼은 노란 과일형 바디와 내부 라벨을 추가해 단순 막대처럼 보이던 문제를 줄임.
+
+### 검증
+- `CompileCheck` 통과.
+- `ScreenshotQA`: `11_slot_machine` 직접 확인. 릴 심볼/페이라인/버튼/레버/트레이 겹침 없음.
+
+## 2026-06-21 (바카라/블랙잭 테이블 연출 강화)
+
+### 수정
+- `scenes/BaccaratTable.gd`: 베팅 단계에 PLAYER/TIE/BANKER/PAIR 실제 펠트 베팅존, 선택 금액 칩 스택, 사이드 베팅 스트립을 추가.
+- 바카라 딜/결과 화면을 단순 카드 행에서 좌우 PLAYER/BANKER 카드존이 있는 테이블 화면으로 재구성. 결과 단계에서는 실제로 없는 세 번째 카드를 뒤집힌 카드로 표시하지 않도록 수정.
+- `scenes/BlackjackTable.gd`: 베팅 단계에 블랙잭 반원 테이블, 베팅 서클, 칩 스택, 카드 슈, 딜러 실루엣을 추가.
+- 블랙잭 플레이/결과 화면을 딜러존/플레이어존/베팅칩이 한 화면에 들어오는 테이블형 UI로 변경. 딜러 홀카드, 기본전략 힌트, 액션 버튼은 유지.
+- `tools/ScreenshotQA.gd`: 바카라 QA 캡처 대기 시간을 늘려 6장 딜 상황에서도 결과 화면을 안정적으로 찍도록 조정.
+
+### 검증
+- `CompileCheck` 통과.
+- `ScreenshotQA`: `09a_baccarat_betting`, `09_baccarat_table`, `10a_blackjack_betting`, `10_blackjack_table` 직접 확인. 카드/칩/테이블 영역의 큰 겹침 없음.
+
+## 2026-06-21 (정선 카지노 허브 게임 카드 아트 개선)
+
+### 수정
+- `scenes/JeongseonCasino.gd`: 카지노 허브 게임 카드 상단의 공용 `card_back.png`/`poker_chip_icon.png` 텍스처 표시를 제거하고, 바카라/블랙잭/슬롯/룰렛/다이사이/빅휠별 미니 테이블/기기 아트를 코드 드로잉으로 표시.
+- `scenes/MainGame.gd`, `scenes/TutorialOverlay.gd`, `scenes/HoldemClub.gd`: 결함 이력이 있는 `assets/ui/poker_chip_icon.png` 런타임 참조를 제거하고, 정렬된 denomination 칩 SVG(`chip_10k.svg`)로 교체.
+- `docs/ASSET_QA.md`: `poker_chip_icon.png`를 legacy/deprecated로 명시하고 active runtime에서는 `assets/ui/chips/chip_*.svg` 또는 코드 드로잉을 쓰도록 기록.
+
+### 의도
+- 카지노 첫 화면이 동일 카드/칩 아이콘 반복으로 보이던 문제를 줄이고, 각 미니게임이 서로 다른 실제 테이블/기기처럼 읽히게 함.
+- 중앙 문양/배치 문제가 있던 구형 칩 PNG가 다시 플레이어 화면에 노출되지 않도록 차단.
 
 ## 2026-06-21 (출시용 에셋 제작 파이프라인 정립)
 

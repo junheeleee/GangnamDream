@@ -49,6 +49,7 @@ var _pending_result: Dictionary = {}
 # 순차 릴 정지 상태
 var _reel_stopped: Array = [false, false, false]   # 각 릴 정지 여부
 var _reel_scroll_idx: Array = [0, 0, 0]            # 각 릴의 현재 심볼 순환 인덱스
+var _reel_current_symbols: Array = [0, 1, 0]       # 각 릴 중앙 페이라인 심볼
 
 # ── UI 참조 ────────────────────────────────────────────────────
 var _font: FontFile
@@ -72,7 +73,10 @@ var _credit_meter_lbl: Label
 var _bet_meter_lbl: Label
 var _win_meter_lbl: Label
 var _flash_lbl: Label
+var _payout_tray_lbl: Label
 var _last_win_amount: int = 0
+var _payout_anim: float = 0.0
+var _payout_coin_count: int = 0
 
 # 슬롯 심볼 표시. 실제 릴 타일처럼 보이도록 이모지 대신 고정 텍스트와 색으로 렌더한다.
 const _ALL_SYMBOLS: Array = [0, 1, 2, 3, 4]
@@ -110,6 +114,8 @@ func open() -> void:
 	_rounds = 0
 	_net = 0
 	_last_win_amount = 0
+	_payout_anim = 0.0
+	_payout_coin_count = 0
 	_last_results = []
 	_phase = Phase.IDLE
 	visible = true
@@ -253,16 +259,21 @@ func _finish_spin() -> void:
 		if win_type.begins_with("777"):
 			_set_win_line("[color=#ff0][b]JACKPOT 200배[/b][/color]")
 			_play_jackpot_celebration()
-			AudioManager.play("casino_jackpot")
+			_play_payout_tray(gain, multiplier)
+			AudioManager.play_casino_result(float(net_round), float(_active_stake), true)
 		elif multiplier >= 20.0:
 			_set_win_line("[color=#f0b429][b]%s[/b][/color]" % win_type)
 			_play_big_win_flash()
-			AudioManager.play("casino_win")
+			_play_payout_tray(gain, multiplier)
+			AudioManager.play_casino_result(float(net_round), float(_active_stake), true)
 		else:
 			_set_win_line("[color=#f0b429]%s[/color]" % win_type)
 			_play_win_flash()
-			AudioManager.play("casino_win")
+			_play_payout_tray(gain, multiplier)
+			AudioManager.play_casino_result(float(net_round), float(_active_stake))
 	else:
+		_payout_coin_count = 0
+		_payout_anim = 0.0
 		# 니어미스 체크: 3개 심볼 중 2개가 같은 높은 가치 심볼이면 "아깝다!" 연출
 		var syms: Array = result.get("reels", [])
 		if syms.size() == 3:
@@ -278,13 +289,13 @@ func _finish_spin() -> void:
 				_flash_msg("아깝다!", "#e88a30")
 				GameState.modify_hidden_stat("addiction_tendency", 1)
 				_play_near_miss_shake()
-				AudioManager.play("casino_lose")
+				AudioManager.play_casino_result(float(net_round), float(_active_stake))
 			else:
 				_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
-				AudioManager.play("casino_lose")
+				AudioManager.play_casino_result(float(net_round), float(_active_stake))
 		else:
 			_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
-			AudioManager.play("casino_lose")
+			AudioManager.play_casino_result(float(net_round), float(_active_stake))
 
 	_phase = Phase.IDLE
 	_spin_btn.disabled = false
@@ -304,6 +315,8 @@ func _set_reel_symbol(index: int, symbol: int) -> void:
 	if not is_instance_valid(_reel_labels[index]):
 		return
 	var safe: int = clampi(symbol, 0, _SYMBOL_LABELS.size() - 1)
+	if index < _reel_current_symbols.size():
+		_reel_current_symbols[index] = safe
 	var prev: int = (safe + _SYMBOL_LABELS.size() - 1) % _SYMBOL_LABELS.size()
 	var next: int = (safe + 1) % _SYMBOL_LABELS.size()
 	var spinning: bool = _phase == Phase.SPINNING and index < _reel_stopped.size() and not bool(_reel_stopped[index])
@@ -392,6 +405,28 @@ func _play_jackpot_celebration() -> void:
 						sty.border_color = COLOR_BORDER
 						sty.set_border_width_all(1))
 
+func _play_payout_tray(amount: int, multiplier: float) -> void:
+	if amount <= 0:
+		return
+	_payout_coin_count = clampi(int(ceil(multiplier * 0.7)) + 5, 7, 26)
+	_payout_anim = 0.0
+	_refresh_payout_tray_lbl()
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
+	var tw := create_tween()
+	tw.tween_method(_set_payout_anim, 0.0, 1.0, 0.58).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(1.1)
+	tw.tween_method(_set_payout_anim, 1.0, 0.35, 0.42).set_trans(Tween.TRANS_SINE)
+	for i in range(mini(_payout_coin_count, 8)):
+		get_tree().create_timer(0.08 + float(i) * 0.055).timeout.connect(func():
+			if is_instance_valid(self):
+				AudioManager.play("casino_coin", -5.0))
+
+func _set_payout_anim(value: float) -> void:
+	_payout_anim = value
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
+
 func _play_near_miss_shake() -> void:
 	if _reel_panels.is_empty():
 		return
@@ -443,21 +478,139 @@ func _refresh_cabinet_lights() -> void:
 		lamp_sty.set_corner_radius_all(5)
 		lamp.add_theme_stylebox_override("panel", lamp_sty)
 
+func _fade(hex: String, alpha: float) -> Color:
+	var c := Color(hex)
+	c.a *= alpha
+	return c
+
 func _draw_reel_face(face: Control) -> void:
 	var sz := face.size
 	if sz.x <= 2.0 or sz.y <= 2.0:
 		return
-	face.draw_rect(Rect2(Vector2.ZERO, sz), Color("#f8f0d8"), true)
-	face.draw_rect(Rect2(Vector2(0, 0), Vector2(sz.x, sz.y * 0.26)), Color(0, 0, 0, 0.18), true)
-	face.draw_rect(Rect2(Vector2(0, sz.y * 0.74), Vector2(sz.x, sz.y * 0.26)), Color(0, 0, 0, 0.20), true)
-	face.draw_rect(Rect2(Vector2(0, sz.y * 0.39), Vector2(sz.x, sz.y * 0.22)), Color(1, 1, 1, 0.14), true)
-	face.draw_line(Vector2(0, sz.y * 0.50), Vector2(sz.x, sz.y * 0.50), Color("#d83f3f"), 2.0)
-	face.draw_line(Vector2(1, 0), Vector2(1, sz.y), Color(0, 0, 0, 0.22), 2.0)
-	face.draw_line(Vector2(sz.x - 1, 0), Vector2(sz.x - 1, sz.y), Color(0, 0, 0, 0.22), 2.0)
-	for x in [sz.x * 0.18, sz.x * 0.82]:
-		face.draw_line(Vector2(x, 6), Vector2(x, sz.y - 6), Color(0, 0, 0, 0.06), 1.0)
-	if _phase == Phase.SPINNING:
-		face.draw_rect(Rect2(Vector2(0, 0), sz), Color(1.0, 0.95, 0.55, 0.04), true)
+	var reel_idx: int = int(face.get_meta("reel_index", 0))
+	var safe: int = 0
+	if reel_idx >= 0 and reel_idx < _reel_current_symbols.size():
+		safe = clampi(int(_reel_current_symbols[reel_idx]), 0, _SYMBOL_LABELS.size() - 1)
+	var spinning: bool = _phase == Phase.SPINNING and reel_idx < _reel_stopped.size() and not bool(_reel_stopped[reel_idx])
+	var tile_h: float = sz.y * 0.40
+	var strip_offset: float = 0.0
+	if spinning:
+		strip_offset = fmod(_spin_elapsed * (260.0 + float(reel_idx) * 58.0), tile_h) - tile_h * 0.5
+
+	face.draw_rect(Rect2(Vector2.ZERO, sz), Color("#101015"), true)
+	face.draw_rect(Rect2(Vector2(7, 4), Vector2(sz.x - 14, sz.y - 8)), Color("#efe7d3"), true)
+	face.draw_rect(Rect2(Vector2(7, 4), Vector2(sz.x - 14, sz.y - 8)), Color("#a89a76"), false, 2.0)
+	for x in [sz.x * 0.18, sz.x * 0.50, sz.x * 0.82]:
+		face.draw_line(Vector2(x, 8), Vector2(x, sz.y - 8), Color(0, 0, 0, 0.06), 1.0)
+
+	for step in range(-3, 4):
+		var symbol_idx: int = (safe + step + _SYMBOL_LABELS.size()) % _SYMBOL_LABELS.size()
+		var y: float = sz.y * 0.5 - tile_h * 0.5 + float(step) * tile_h + strip_offset
+		var tile := Rect2(Vector2(12, y), Vector2(sz.x - 24, tile_h - 4.0))
+		if tile.end.y < 0.0 or tile.position.y > sz.y:
+			continue
+		var dist: float = abs((tile.position.y + tile.size.y * 0.5) - sz.y * 0.5)
+		var is_center: bool = dist < tile_h * 0.48
+		var alpha: float = 1.0 if is_center else 0.36
+		if spinning:
+			alpha = 0.72 if is_center else 0.24
+		_draw_reel_symbol_tile(face, tile, symbol_idx, alpha, is_center)
+
+	if spinning:
+		for i in range(6):
+			var yy: float = fmod(_spin_elapsed * 420.0 + float(i) * 23.0, sz.y)
+			face.draw_line(Vector2(12, yy), Vector2(sz.x - 12, yy + 5.0), Color(1, 1, 1, 0.08), 2.0)
+
+	face.draw_rect(Rect2(Vector2(8, 0), Vector2(sz.x - 16, sz.y * 0.20)), Color(0, 0, 0, 0.24), true)
+	face.draw_rect(Rect2(Vector2(8, sz.y * 0.80), Vector2(sz.x - 16, sz.y * 0.20)), Color(0, 0, 0, 0.30), true)
+	face.draw_rect(Rect2(Vector2(8, sz.y * 0.34), Vector2(sz.x - 16, sz.y * 0.32)), Color(1, 1, 1, 0.12), true)
+	face.draw_line(Vector2(4, sz.y * 0.50), Vector2(sz.x - 4, sz.y * 0.50), _fade("#d83f3f", 0.62), 1.5)
+	face.draw_line(Vector2(4, sz.y * 0.50 - 7), Vector2(sz.x - 4, sz.y * 0.50 - 7), _fade("#d83f3f", 0.16), 1.0)
+	face.draw_line(Vector2(4, sz.y * 0.50 + 7), Vector2(sz.x - 4, sz.y * 0.50 + 7), _fade("#d83f3f", 0.16), 1.0)
+	face.draw_line(Vector2(2, 0), Vector2(2, sz.y), Color(0, 0, 0, 0.28), 2.0)
+	face.draw_line(Vector2(sz.x - 2, 0), Vector2(sz.x - 2, sz.y), Color(0, 0, 0, 0.28), 2.0)
+
+func _draw_reel_symbol_tile(ctrl: Control, rect: Rect2, symbol: int, alpha: float, is_center: bool) -> void:
+	var tile_bg := Color("#f9f1d8")
+	tile_bg.a = alpha
+	ctrl.draw_rect(rect, tile_bg, true)
+	ctrl.draw_rect(rect, Color(0, 0, 0, 0.12 * alpha), false, 1.0)
+	var inset := Rect2(rect.position + Vector2(5, 4), rect.size - Vector2(10, 8))
+	if is_center:
+		ctrl.draw_rect(inset, Color(1, 1, 1, 0.16), false, 2.0)
+	_draw_slot_symbol(ctrl, inset, symbol, alpha, is_center)
+
+func _draw_slot_symbol(ctrl: Control, rect: Rect2, symbol: int, alpha: float, is_center: bool) -> void:
+	var font: FontFile = _font_bold if _font_bold else _font
+	var center := rect.position + rect.size * 0.5
+	var size_big: int = 50 if is_center else 22
+	var size_mid: int = 34 if is_center else 16
+	match symbol:
+		0:
+			var col := Color("#ffd84d")
+			col.a = alpha
+			ctrl.draw_string(font, Vector2(rect.position.x, rect.position.y + rect.size.y * 0.74), "7",
+				HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, size_big, col)
+			ctrl.draw_string(font, Vector2(rect.position.x + 2, rect.position.y + rect.size.y * 0.74 + 2), "7",
+				HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, size_big, Color(0, 0, 0, 0.16 * alpha))
+		1:
+			var bar_rect := Rect2(rect.position + Vector2(rect.size.x * 0.16, rect.size.y * 0.25), Vector2(rect.size.x * 0.68, rect.size.y * 0.46))
+			ctrl.draw_rect(bar_rect, Color(0.03, 0.03, 0.04, 0.88 * alpha), true)
+			ctrl.draw_rect(bar_rect, _fade("#d8dbe8", 0.76 * alpha), false, 1.5)
+			ctrl.draw_string(font, Vector2(bar_rect.position.x, bar_rect.position.y + bar_rect.size.y * 0.70), "BAR",
+				HORIZONTAL_ALIGNMENT_CENTER, bar_rect.size.x, size_mid, _fade("#d8dbe8", alpha))
+		2:
+			var red := Color("#e85d5d")
+			red.a = alpha
+			var green := Color("#75d97a")
+			green.a = alpha
+			var fruit_r: float = 15.0 if is_center else 6.0
+			ctrl.draw_line(center + Vector2(-7, -9), center + Vector2(4, -26 if is_center else -13), green, 2.0)
+			ctrl.draw_line(center + Vector2(7, -9), center + Vector2(4, -26 if is_center else -13), green, 2.0)
+			ctrl.draw_circle(center + Vector2(-10, 6), fruit_r, red)
+			ctrl.draw_circle(center + Vector2(10, 6), fruit_r, red)
+			ctrl.draw_circle(center + Vector2(-14, 0), 4.0 if is_center else 1.8, Color(1, 1, 1, 0.22 * alpha))
+		3:
+			var gold := Color("#f0b429")
+			gold.a = alpha
+			var dark := Color("#72520d")
+			dark.a = alpha
+			var bell_pts := PackedVector2Array([
+				center + Vector2(-24, 16),
+				center + Vector2(24, 16),
+				center + Vector2(17, -11),
+				center + Vector2(8, -24),
+				center + Vector2(-8, -24),
+				center + Vector2(-17, -11),
+			])
+			if not is_center:
+				bell_pts = PackedVector2Array([
+					center + Vector2(-10, 7),
+					center + Vector2(10, 7),
+					center + Vector2(7, -5),
+					center + Vector2(3, -10),
+					center + Vector2(-3, -10),
+					center + Vector2(-7, -5),
+				])
+			ctrl.draw_polygon(bell_pts, PackedColorArray([gold]))
+			ctrl.draw_circle(center + Vector2(0, 18 if is_center else 8), 5.0 if is_center else 2.2, dark)
+			ctrl.draw_line(center + Vector2(-16, 15), center + Vector2(16, 15), _fade("#fff0a8", 0.38 * alpha), 1.0)
+		_:
+			var lemon := Color("#d8e853")
+			lemon.a = alpha
+			var lemon_dark := Color("#6b7d1f")
+			lemon_dark.a = alpha
+			var w: float = 82.0 if is_center else 30.0
+			var h: float = 34.0 if is_center else 14.0
+			var body := Rect2(center - Vector2(w * 0.5, h * 0.5), Vector2(w, h))
+			ctrl.draw_rect(body, lemon, true)
+			ctrl.draw_circle(body.position + Vector2(0, h * 0.5), h * 0.5, lemon)
+			ctrl.draw_circle(body.position + Vector2(w, h * 0.5), h * 0.5, lemon)
+			ctrl.draw_rect(body, Color(1, 1, 1, 0.18 * alpha), false, 1.0)
+			ctrl.draw_line(center + Vector2(-w * 0.34, -h * 0.10), center + Vector2(w * 0.34, -h * 0.10), lemon_dark, 1.3)
+			ctrl.draw_line(center + Vector2(-w * 0.25, h * 0.13), center + Vector2(w * 0.25, h * 0.13), Color(1, 1, 1, 0.24 * alpha), 1.0)
+			ctrl.draw_string(font, Vector2(body.position.x, body.position.y + h * 0.68), "LEMON",
+				HORIZONTAL_ALIGNMENT_CENTER, body.size.x, 12 if is_center else 6, lemon_dark)
 
 func _draw_cabinet_overlay(ctrl: Control) -> void:
 	var sz := ctrl.size
@@ -486,6 +639,22 @@ func _draw_cabinet_overlay(ctrl: Control) -> void:
 	var tray_rect := Rect2(Vector2(78, sz.y - 34), Vector2(sz.x - 156, 18))
 	ctrl.draw_rect(tray_rect, Color("#050609"), true)
 	ctrl.draw_rect(tray_rect, Color("#3a4250"), false, 2.0)
+	if _payout_anim > 0.01 and _payout_coin_count > 0:
+		for i in range(_payout_coin_count):
+			var delay: float = float(i) * 0.028
+			var t: float = clampf((_payout_anim - delay) * 1.24, 0.0, 1.0)
+			if t <= 0.0:
+				continue
+			var end := Vector2(
+				tray_rect.position.x + 32.0 + fmod(float(i) * 37.0, tray_rect.size.x - 64.0),
+				tray_rect.position.y + 9.0 + sin(float(i) * 0.74) * 3.0
+			)
+			var p := end + Vector2(sin(float(i) * 0.81) * (1.0 - t) * 18.0, -6.0 * (1.0 - t))
+			var alpha: float = clampf(0.22 + t, 0.0, 1.0)
+			var r: float = lerpf(3.0, 7.0, t)
+			ctrl.draw_circle(p + Vector2(0, 2), r, Color(0, 0, 0, 0.28 * alpha))
+			ctrl.draw_circle(p, r, _fade("#f0b429", alpha))
+			ctrl.draw_circle(p, r * 0.45, _fade("#68480d", alpha))
 	if _last_win_amount > 0:
 		for i in range(8):
 			var px := tray_rect.position.x + 42.0 + float(i) * 34.0
@@ -731,11 +900,13 @@ func _build_ui() -> void:
 		var face := Control.new()
 		face.custom_minimum_size = Vector2(176, 110)
 		face.clip_contents = true
+		face.set_meta("reel_index", i)
 		face.draw.connect(func(): _draw_reel_face(face))
 		panel.add_child(face)
 		_reel_faces.append(face)
 
 		var top_lbl := Label.new()
+		top_lbl.visible = false
 		top_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		top_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		top_lbl.anchor_left = 0.0
@@ -747,6 +918,7 @@ func _build_ui() -> void:
 		_reel_top_labels.append(top_lbl)
 
 		var reel_lbl := Label.new()
+		reel_lbl.visible = false
 		reel_lbl.text = "7"
 		reel_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		reel_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
@@ -761,6 +933,7 @@ func _build_ui() -> void:
 		_reel_labels.append(reel_lbl)
 
 		var bottom_lbl := Label.new()
+		bottom_lbl.visible = false
 		bottom_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		bottom_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		bottom_lbl.anchor_left = 0.0
@@ -942,6 +1115,7 @@ func _build_ui() -> void:
 	tray_lbl.add_theme_color_override("font_color", Color("#596270"))
 	_f(tray_lbl, true)
 	tray.add_child(tray_lbl)
+	_payout_tray_lbl = tray_lbl
 
 	# ── 플래시 메시지 ───────────────────────────────────────────
 	_flash_lbl = Label.new()
@@ -963,6 +1137,7 @@ func _refresh_ui() -> void:
 	_refresh_stake_btns()
 	_refresh_history()
 	_refresh_balance_lbl()
+	_refresh_payout_tray_lbl()
 
 func _refresh_session_lbl() -> void:
 	if not is_instance_valid(_session_lbl):
@@ -992,6 +1167,16 @@ func _refresh_meters() -> void:
 		_bet_meter_lbl.text = "BET\n%s" % GameState.format_money(float(_active_stake))
 	if is_instance_valid(_win_meter_lbl):
 		_win_meter_lbl.text = "WIN\n%s" % GameState.format_money(float(_last_win_amount))
+
+func _refresh_payout_tray_lbl() -> void:
+	if not is_instance_valid(_payout_tray_lbl):
+		return
+	if _last_win_amount > 0:
+		_payout_tray_lbl.text = "PAYOUT TRAY   +%s" % GameState.format_money(float(_last_win_amount))
+		_payout_tray_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+	else:
+		_payout_tray_lbl.text = "PAYOUT TRAY"
+		_payout_tray_lbl.add_theme_color_override("font_color", Color("#596270"))
 
 func _refresh_stake_btns() -> void:
 	if _stake_btns.size() != STAKE_OPTIONS.size():

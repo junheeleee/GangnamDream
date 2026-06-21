@@ -2,18 +2,71 @@ extends Node
 ## ScreenshotQA — 실제 렌더러로 MainGame UI를 캡처해 폴리싱 연출을 눈으로 검증.
 ## 실행: xvfb-run -a godot --display-driver x11 --rendering-driver opengl3 \
 ##         --resolution 1280x800 res://tools/ScreenshotQA.tscn
+## 카지노만 빠르게 확인:
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
 const OUT_DIR := "/tmp/gangnamdream_qa"
+const QA_SCOPE_CASINO := "casino"
 var _mg: Node = null
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
+	var scope: String = _qa_scope()
+	if scope == QA_SCOPE_CASINO:
+		LocaleManager.language = "ko"
+		_prepare_main_game_state()
+		await _boot_main_game()
+		await _shot_casino_suite()
+		print("SCREENSHOT_QA_DONE scope=casino dir=%s" % OUT_DIR)
+		get_tree().quit(0)
+		return
+
 	await _shot_start_menu("ko", "00_start_menu")
 	await _shot_start_menu("en", "00b_start_menu_en")
 	LocaleManager.language = "ko"
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _shot_story_event("arc_intro_01_meal", "00a_story_interview")
+
+	await _boot_main_game()
+
+	await _shot_event_gambling()
+	await _shot_investment()
+	await _shot_support_modals()
+	await _shot_crisis_vignette()
+	await _shot_ap_actions()
+	await _shot_info_panel_tabs()
+	await _shot_people()
+	await _shot_holdem_club()
+	await _shot_racetrack()
+	await _shot_casino_suite()
+	await _shot_ending("gangnam_dream", "13_ending_gangnam_win")
+	await _shot_ending("empty_house", "13a_ending_empty_house")
+	await _shot_ending("bankruptcy", "14_ending_bankruptcy")
+	await _shot_ending("stable_success", "15_ending_stable_success")
+	await _shot_ending("crypto_ghost", "16_ending_crypto_ghost")
+	await _shot_ending("orthodox_pinnacle", "17_ending_orthodox_pinnacle")
+
+	print("SCREENSHOT_QA_DONE dir=%s" % OUT_DIR)
+	get_tree().quit(0)
+
+func _qa_scope() -> String:
+	var args: Array[String] = []
+	for raw in OS.get_cmdline_user_args():
+		args.append(str(raw))
+	for raw in OS.get_cmdline_args():
+		args.append(str(raw))
+	for raw in args:
+		var arg := raw.strip_edges().to_lower()
+		if arg in ["casino", "casino-only", "--casino", "--casino-only",
+				"qa=casino", "--qa=casino", "scope=casino", "--scope=casino"]:
+			return QA_SCOPE_CASINO
+	return "full"
+
+func _prepare_main_game_state() -> void:
 	GameState.start_new_game()
 	GameState.flags["prologue_done"] = true
 	for c in ["chapter_33_seen","chapter_34_seen","chapter_35_seen","chapter_36_seen","chapter_37_seen"]:
@@ -29,9 +82,8 @@ func _ready() -> void:
 	GameState.flags["has_received_paycheck"] = true
 	GameState.flags["arc_invest_guidance_seen"] = true
 	_suppress_tutorial_overlays()
-	_seed_portfolio()
-	await _shot_story_event("arc_intro_01_meal", "00a_story_interview")
 
+func _boot_main_game() -> void:
 	# MainGame._ready 의 _begin_month 가 StoryMode 로 change_scene 하는 것을 막는다:
 	# returning_from_story=true 로 진입점을 우회하고, 직후 전환 트윈을 매 프레임 죽인다.
 	GameState.returning_from_story = true
@@ -47,14 +99,7 @@ func _ready() -> void:
 	await get_tree().create_timer(0.5).timeout
 	_kill_transition()
 
-	await _shot_event_gambling()
-	await _shot_investment()
-	await _shot_support_modals()
-	await _shot_crisis_vignette()
-	await _shot_ap_actions()
-	await _shot_people()
-	await _shot_holdem_club()
-	await _shot_racetrack()
+func _shot_casino_suite() -> void:
 	await _shot_minigame("jeongseon_casino", "08_jeongseon_casino")
 	await _shot_casino_table("baccarat_table", "09_baccarat_table")
 	await _shot_casino_table("blackjack_table", "10_blackjack_table")
@@ -62,15 +107,6 @@ func _ready() -> void:
 	await _shot_casino_table("roulette_table", "12_roulette_table")
 	await _shot_casino_table("big_wheel_game", "12a_bigwheel")
 	await _shot_casino_table("dai_sai_table", "12b_daisai_table")
-	await _shot_ending("gangnam_dream", "13_ending_gangnam_win")
-	await _shot_ending("empty_house", "13a_ending_empty_house")
-	await _shot_ending("bankruptcy", "14_ending_bankruptcy")
-	await _shot_ending("stable_success", "15_ending_stable_success")
-	await _shot_ending("crypto_ghost", "16_ending_crypto_ghost")
-	await _shot_ending("orthodox_pinnacle", "17_ending_orthodox_pinnacle")
-
-	print("SCREENSHOT_QA_DONE dir=%s" % OUT_DIR)
-	get_tree().quit(0)
 
 func _clear_output_dir() -> void:
 	var dir := DirAccess.open(OUT_DIR)
@@ -221,6 +257,12 @@ func _shot_investment() -> void:
 		_mg._open_investments()
 		await _settle(0.8)
 		await _save("02_investment_portfolio_chart")
+		var scroll: ScrollContainer = _mg.get("modal_scroll") as ScrollContainer
+		if is_instance_valid(scroll):
+			var bar: VScrollBar = scroll.get_v_scroll_bar()
+			scroll.scroll_vertical = int(bar.max_value * 0.62)
+			await _settle(0.4)
+			await _save("02d_investment_asset_cards")
 		_close_modal()
 		await _settle(0.4)
 
@@ -270,6 +312,50 @@ func _shot_ap_actions() -> void:
 		_mg._render_ap_actions()
 	await _settle(0.8)
 	await _save("04_ap_actions_dashboard")
+
+func _shot_info_panel_tabs() -> void:
+	_seed_info_panel_state()
+	if _mg.has_method("_render_sidebars"):
+		_mg._render_sidebars()
+	if _mg.has_method("_toggle_info_panel"):
+		_mg._toggle_info_panel()
+	await _settle(0.5)
+	await _save("04b_info_stats")
+	var tabs: TabContainer = _mg.get("info_tabs") as TabContainer
+	if is_instance_valid(tabs):
+		var shots := {
+			1: "04c_info_market",
+			2: "04d_info_relations",
+			3: "04e_info_items",
+			4: "04f_info_story",
+		}
+		for idx in shots.keys():
+			tabs.current_tab = int(idx)
+			GameState.flags["_last_info_tab"] = int(idx)
+			await _settle(0.35)
+			await _save(str(shots[idx]))
+	if _mg.has_method("_toggle_info_panel"):
+		_mg._toggle_info_panel()
+	await _settle(0.3)
+
+func _seed_info_panel_state() -> void:
+	GameState.relationships = [
+		{"id": "father", "name": "아버지", "type": "family", "affection": 62, "trust": 58},
+		{"id": "sangchul", "name": "임상철", "type": "mentor", "affection": 56, "trust": 45},
+		{"id": "daeun", "name": "김다은", "type": "friends", "affection": 48, "trust": 36},
+	]
+	GameState.inventory.clear()
+	GameState.add_item("item_vitamins", 1)
+	GameState.add_item("item_meditation_app", 1)
+	GameState.flags["arc_intro_hyunsu_seen"] = true
+	GameState.flags["arc_sangchul_met_seen"] = true
+	GameState.flags["arc_invest_guidance_seen"] = true
+	GameState.flags["arc_sangchul_02_seen"] = true
+	GameState.flags["arc_father_01_seen"] = true
+	GameState.flags["arc_father_02_done"] = true
+	GameState.flags["met_daeun"] = true
+	GameState.flags["arc_daeun_01_seen"] = true
+	GameState.run_theme = "steady_climb"
 
 func _close_modal() -> void:
 	for m in ["_close_modal","_close_overlay","_dismiss_modal"]:
@@ -366,13 +452,21 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._set_stake(10_000)
 			node._add_bet("B")
 			node._deal()
-			await _settle(2.0)
+			await _settle(3.2)
 		"blackjack_table":
 			await _save("10a_blackjack_betting")
 			node._set_stake_and_deal(10_000)
 			await _settle(0.8)
 		"slot_machine_game":
 			node._start_spin()
+			node._pending_result = {
+				"reels": [2, 2, 4],
+				"multiplier": 3.0,
+				"is_win": true,
+				"win_type": "체리 2개",
+				"symbols": ["CHERRY", "CHERRY", "LEMON"],
+				"emojis": ["", "", ""],
+			}
 			await _settle(1.8)
 		"roulette_table":
 			node._select_bet_type(1)
@@ -380,11 +474,17 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._do_bet()
 			node._do_spin()
 			await _settle(1.6)
+			await _save("12_roulette_spin")
+			await _settle(1.7)
 		"big_wheel_game":
 			node._select_segment(0)
 			node._select_stake(10_000)
 			node._do_spin()
+			node._result_seg = 0
+			node._target_angle = node._compute_target(0)
 			await _settle(1.8)
+			await _save("12a_bigwheel_spin")
+			await _settle(1.7)
 		"dai_sai_table":
 			node._select_bet(0, -1)
 			node._select_stake(10_000)

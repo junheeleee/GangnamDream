@@ -8,7 +8,7 @@ signal closed
 const TH := preload("res://systems/TexasHoldem.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
 const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
-const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
+const CHIP_TEX := preload("res://assets/ui/chips/chip_10k.svg")
 
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000
@@ -57,6 +57,9 @@ var _stack_lbl: Label
 var _flash_layer: ColorRect
 var _last_winner_idx: int = -99   # -99=미정, -1=플레이어, 0/1=AI
 var _last_phase_banner := ""
+var _showdown_title := ""
+var _showdown_detail := ""
+var _showdown_net: int = 0
 var _font: FontFile
 var _font_bold: FontFile
 
@@ -197,6 +200,9 @@ func _start_hand() -> void:
 	_opp_bets = [0, 0]
 	_max_bet = 0
 	_last_winner_idx = -99
+	_showdown_title = ""
+	_showdown_detail = ""
+	_showdown_net = 0
 
 	# 포스트 블라인드 (플레이어=SB, opp0=BB)
 	_post_blind(0, SMALL_BLIND, true)   # 플레이어 SB
@@ -388,7 +394,79 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 
 	_build_holdem_seat(table, -1, "김민준", _hole, _player_stack, _player_bet, _player_folded,
 			true, 0.36, 0.72, 0.64, 0.98)
+	_add_showdown_panel(table)
 	table.queue_redraw()
+
+func _add_showdown_panel(parent: Control) -> void:
+	if _phase != Phase.SHOWDOWN or _showdown_title.is_empty():
+		return
+	var panel := PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.anchor_left = 0.31
+	panel.anchor_top = 0.02
+	panel.anchor_right = 0.69
+	panel.anchor_bottom = 0.22
+	panel.offset_left = 0
+	panel.offset_top = 0
+	panel.offset_right = 0
+	panel.offset_bottom = 0
+	panel.z_index = 5
+	panel.add_theme_stylebox_override("panel", _holdem_panel_style(
+			"#07090d",
+			"#f0b429" if _showdown_net >= 0 else "#d73a49",
+			0.88,
+			2,
+			8))
+	parent.add_child(panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 16)
+	margin.add_theme_constant_override("margin_top", 10)
+	margin.add_theme_constant_override("margin_right", 16)
+	margin.add_theme_constant_override("margin_bottom", 10)
+	panel.add_child(margin)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	margin.add_child(row)
+
+	var text_box := VBoxContainer.new()
+	text_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_box.add_theme_constant_override("separation", 1)
+	row.add_child(text_box)
+
+	var kicker := Label.new()
+	kicker.text = "SHOWDOWN"
+	kicker.add_theme_font_size_override("font_size", 10)
+	kicker.add_theme_color_override("font_color", Color("#8e98ad"))
+	_f(kicker, true)
+	text_box.add_child(kicker)
+
+	var title := Label.new()
+	title.text = _showdown_title
+	title.add_theme_font_size_override("font_size", 18)
+	title.add_theme_color_override("font_color", Color("#f7e6b2") if _showdown_net >= 0 else Color("#ff8b8b"))
+	_f(title, true)
+	text_box.add_child(title)
+
+	var detail := Label.new()
+	detail.text = _showdown_detail
+	detail.add_theme_font_size_override("font_size", 12)
+	detail.add_theme_color_override("font_color", Color("#c7d0dd"))
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_f(detail)
+	text_box.add_child(detail)
+
+	var net := Label.new()
+	net.text = _signed_fmt(_showdown_net)
+	net.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	net.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	net.custom_minimum_size = Vector2(90, 0)
+	net.add_theme_font_size_override("font_size", 24)
+	net.add_theme_color_override("font_color", Color("#5de89c") if _showdown_net >= 0 else Color("#e85d5d"))
+	_f(net, true)
+	row.add_child(net)
+	_pulse_node(panel, 1.04, 0.32)
 
 func _build_holdem_seat(parent: Control, seat_idx: int, title: String, cards: Array, stack: int, bet: int,
 		folded: bool, reveal_cards: bool, left: float, top: float, right: float, bottom: float) -> void:
@@ -484,6 +562,20 @@ func _draw_holdem_surface(ctrl: Control) -> void:
 	var opp0_pos := Vector2(sz.x * 0.20, sz.y * 0.23)
 	var opp1_pos := Vector2(sz.x * 0.80, sz.y * 0.23)
 	var player_pos := Vector2(sz.x * 0.50, sz.y * 0.86)
+	if _phase == Phase.SHOWDOWN and _last_winner_idx != -99:
+		var target := player_pos
+		var win_col := Color("#f0b429")
+		if _last_winner_idx == 0:
+			target = opp0_pos
+			win_col = Color("#5d9ce8")
+		elif _last_winner_idx == 1:
+			target = opp1_pos
+			win_col = Color("#e85d8c")
+		ctrl.draw_line(pot_pos, target, Color(win_col.r, win_col.g, win_col.b, 0.32), 5.0)
+		ctrl.draw_line(pot_pos, target, Color(1.0, 0.86, 0.42, 0.18), 2.0)
+		for i in range(4):
+			var p := pot_pos.lerp(target, (float(i) + 1.0) / 5.0)
+			ctrl.draw_circle(p, 4.0, Color(win_col.r, win_col.g, win_col.b, 0.50))
 	_draw_bet_stack(ctrl, Vector2(sz.x * 0.36, sz.y * 0.39), int(_opp_bets[0]), Color("#5d9ce8"))
 	_draw_bet_stack(ctrl, Vector2(sz.x * 0.64, sz.y * 0.39), int(_opp_bets[1]), Color("#e85d8c"))
 	_draw_bet_stack(ctrl, Vector2(sz.x * 0.50, sz.y * 0.66), _player_bet, Color("#f0b429"))
@@ -821,6 +913,7 @@ func _do_showdown() -> void:
 	# 팟 분배
 	var msg_parts: Array = []
 	var hand_net: int = 0
+	var winner_name := "김민준" if winner_idx == -1 else str(_opp[winner_idx]["name"])
 	if winner_idx == -1:
 		# 플레이어 승
 		_player_stack += _pot
@@ -845,6 +938,9 @@ func _do_showdown() -> void:
 
 	# 핸드 히스토리 기록
 	var hand_rank_name: String = TH.rank_name(best_hand[0]) if not best_hand.is_empty() else "?"
+	_showdown_title = "%s 승리" % winner_name
+	_showdown_detail = "%s · POT %s 정산" % [hand_rank_name, _fmt(_pot)]
+	_showdown_net = hand_net
 	_hand_history.append({
 		"won": winner_idx == -1,
 		"net": hand_net,
@@ -1126,6 +1222,20 @@ func _fmt(amount) -> String:
 	if abs(a) >= 100_000_000: return "%.1f억" % (float(a) / 100_000_000.0)
 	if abs(a) >= 10_000:      return "%d만" % (a / 10_000)
 	return "%d원" % a
+
+func _signed_fmt(amount: int) -> String:
+	if amount >= 0:
+		return "+%s" % _fmt(amount)
+	return "-%s" % _fmt(abs(amount))
+
+func _holdem_panel_style(bg: String, border: String, alpha: float, border_width: int, radius: int) -> StyleBoxFlat:
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(bg)
+	st.bg_color.a = alpha
+	st.border_color = Color(border)
+	st.set_border_width_all(border_width)
+	st.set_corner_radius_all(radius)
+	return st
 
 func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
 	if not is_instance_valid(_flash_layer):

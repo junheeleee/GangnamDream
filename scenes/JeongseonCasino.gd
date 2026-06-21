@@ -10,8 +10,6 @@ const COLOR_HEADER := Color(0.10, 0.08, 0.20, 1.0)
 const COLOR_GOLD   := Color(0.95, 0.80, 0.20, 1.0)
 const COLOR_ACCENT := Color(0.30, 0.20, 0.60, 1.0)
 const CASINO_BG_TEX := preload("res://assets/backgrounds/casino_interior.png")
-const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
-const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
 
 # 하위 미니게임 씬들 (MainGame이 주입)
 var baccarat_table
@@ -228,7 +226,7 @@ func _build_ui() -> void:
 	gloss_btn.pressed.connect(_show_casino_glossary)
 	bottom_row.add_child(gloss_btn)
 
-func _add_game_card(parent: Control, icon_kind: String, name_kr: String,
+func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 		desc: String, bg_hex: String, accent_hex: String, fn: String,
 		tutorial_id: String = "", mark: String = "") -> void:
 	var panel := PanelContainer.new()
@@ -245,11 +243,14 @@ func _add_game_card(parent: Control, icon_kind: String, name_kr: String,
 	ps.corner_radius_top_right    = 8
 	ps.corner_radius_bottom_left  = 8
 	ps.corner_radius_bottom_right = 8
+	ps.shadow_color = Color(0, 0, 0, 0.38)
+	ps.shadow_size = 10
+	ps.shadow_offset = Vector2(0, 4)
 	panel.add_theme_stylebox_override("panel", ps)
 	parent.add_child(panel)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 4)
+	vbox.add_theme_constant_override("separation", 3)
 	var mc := MarginContainer.new()
 	mc.add_theme_constant_override("margin_left", 14)
 	mc.add_theme_constant_override("margin_right", 14)
@@ -261,32 +262,15 @@ func _add_game_card(parent: Control, icon_kind: String, name_kr: String,
 	var art_frame := PanelContainer.new()
 	art_frame.custom_minimum_size = Vector2(0, 48)
 	var art_st := StyleBoxFlat.new()
-	art_st.bg_color = Color(0, 0, 0, 0.18)
+	art_st.bg_color = Color(0, 0, 0, 0.32)
 	art_st.border_color = Color.html(accent_hex).darkened(0.2)
 	art_st.set_border_width_all(1)
 	art_st.set_corner_radius_all(6)
 	art_frame.add_theme_stylebox_override("panel", art_st)
 	vbox.add_child(art_frame)
 
-	var art_row := HBoxContainer.new()
-	art_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	art_row.add_theme_constant_override("separation", 8)
-	art_frame.add_child(art_row)
-
-	var art_tex := TextureRect.new()
-	art_tex.custom_minimum_size = Vector2(42, 42)
-	art_tex.texture = CARD_BACK_TEX if icon_kind == "cards" else CHIP_TEX
-	art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	art_tex.modulate = Color(1, 1, 1, 0.92)
-	art_row.add_child(art_tex)
-
-	var mark_lbl := Label.new()
-	mark_lbl.text = mark
-	mark_lbl.add_theme_font_size_override("font_size", 18)
-	mark_lbl.add_theme_color_override("font_color", Color.html(accent_hex))
-	_f(mark_lbl, true)
-	art_row.add_child(mark_lbl)
+	var art := _make_game_card_art(tutorial_id, mark, Color.html(accent_hex))
+	art_frame.add_child(art)
 
 	var title_l := Label.new()
 	title_l.text = name_kr
@@ -295,6 +279,14 @@ func _add_game_card(parent: Control, icon_kind: String, name_kr: String,
 	title_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_f(title_l, true)
 	vbox.add_child(title_l)
+
+	var type_l := Label.new()
+	type_l.text = _game_card_type(tutorial_id)
+	type_l.add_theme_font_size_override("font_size", 9)
+	type_l.add_theme_color_override("font_color", Color.html(accent_hex).lightened(0.20))
+	type_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_f(type_l, true)
+	vbox.add_child(type_l)
 
 	var desc_l := Label.new()
 	desc_l.text = desc
@@ -340,12 +332,18 @@ func _add_game_card(parent: Control, icon_kind: String, name_kr: String,
 	btn.add_theme_font_size_override("font_size", 13)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bs := StyleBoxFlat.new()
-	bs.bg_color = Color.html(accent_hex)
+	bs.bg_color = Color.html(accent_hex).darkened(0.05)
+	bs.border_color = Color(1, 1, 1, 0.26)
+	bs.set_border_width_all(1)
 	bs.corner_radius_top_left     = 4
 	bs.corner_radius_top_right    = 4
 	bs.corner_radius_bottom_left  = 4
 	bs.corner_radius_bottom_right = 4
 	btn.add_theme_stylebox_override("normal", bs)
+	var bsh := bs.duplicate() as StyleBoxFlat
+	bsh.bg_color = Color.html(accent_hex).lightened(0.10)
+	btn.add_theme_stylebox_override("hover", bsh)
+	btn.add_theme_stylebox_override("pressed", bsh)
 	btn.add_theme_color_override("font_color", Color(0.05, 0.05, 0.05))
 	_f(btn, true)
 	btn.pressed.connect(func():
@@ -353,6 +351,182 @@ func _add_game_card(parent: Control, icon_kind: String, name_kr: String,
 		self.call(fn)
 	)
 	btn_row.add_child(btn)
+
+func _game_card_type(game_id: String) -> String:
+	match game_id:
+		"baccarat", "blackjack":
+			return "TABLE GAME"
+		"slot":
+			return "MACHINE"
+		"roulette", "bigwheel":
+			return "WHEEL"
+		"daisai":
+			return "DICE TABLE"
+		_:
+			return "CASINO"
+
+func _make_game_card_art(game_id: String, mark: String, accent: Color) -> Control:
+	var art := Control.new()
+	art.custom_minimum_size = Vector2(0, 56)
+	art.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	art.draw.connect(func(): _draw_game_card_art(art, game_id, mark, accent))
+	return art
+
+func _draw_game_card_art(ctrl: Control, game_id: String, mark: String, accent: Color) -> void:
+	var sz: Vector2 = ctrl.size
+	if sz.x <= 4.0 or sz.y <= 4.0:
+		return
+	var font: Font = _font_bold if _font_bold else ThemeDB.fallback_font
+	ctrl.draw_rect(Rect2(Vector2.ZERO, sz), Color(0.0, 0.0, 0.0, 0.10), true)
+	ctrl.draw_line(Vector2(10.0, sz.y - 7.0), Vector2(sz.x - 10.0, sz.y - 7.0), Color(accent.r, accent.g, accent.b, 0.18), 1.0)
+	match game_id:
+		"baccarat":
+			_draw_baccarat_art(ctrl, sz, font, accent)
+		"blackjack":
+			_draw_blackjack_art(ctrl, sz, font, accent)
+		"slot":
+			_draw_slot_art(ctrl, sz, font, accent)
+		"roulette":
+			_draw_roulette_art(ctrl, sz, font, accent)
+		"daisai":
+			_draw_daisai_art(ctrl, sz, font, accent)
+		"bigwheel":
+			_draw_bigwheel_art(ctrl, sz, font, accent)
+		_:
+			ctrl.draw_string(font, Vector2(sz.x * 0.5 - 16.0, sz.y * 0.58), mark,
+				HORIZONTAL_ALIGNMENT_CENTER, 32.0, 18, accent)
+
+func _draw_baccarat_art(ctrl: Control, sz: Vector2, font: Font, accent: Color) -> void:
+	var table := Rect2(Vector2(18.0, 10.0), Vector2(sz.x - 36.0, sz.y - 18.0))
+	ctrl.draw_rect(table, Color("#061e12"), true)
+	ctrl.draw_rect(table, Color(accent.r, accent.g, accent.b, 0.45), false, 1.2)
+	ctrl.draw_string(font, Vector2(table.position.x + 14.0, table.position.y + 18.0), "PLAYER",
+		HORIZONTAL_ALIGNMENT_LEFT, 80.0, 8, Color(1, 1, 1, 0.36))
+	ctrl.draw_string(font, Vector2(table.end.x - 84.0, table.position.y + 18.0), "BANKER",
+		HORIZONTAL_ALIGNMENT_LEFT, 80.0, 8, Color(1, 1, 1, 0.36))
+	_draw_mini_card(ctrl, Vector2(sz.x * 0.38, 19.0), false, "8", Color("#f3f6fb"))
+	_draw_mini_card(ctrl, Vector2(sz.x * 0.46, 17.0), true, "", accent)
+	_draw_mini_card(ctrl, Vector2(sz.x * 0.56, 17.0), true, "", accent)
+	_draw_mini_card(ctrl, Vector2(sz.x * 0.64, 19.0), false, "9", Color("#f3f6fb"))
+	_draw_mini_chip(ctrl, Vector2(sz.x * 0.50, sz.y - 17.0), Color("#d33a35"))
+
+func _draw_blackjack_art(ctrl: Control, sz: Vector2, font: Font, accent: Color) -> void:
+	var table := Rect2(Vector2(18.0, 10.0), Vector2(sz.x - 36.0, sz.y - 18.0))
+	ctrl.draw_rect(table, Color("#082513"), true)
+	ctrl.draw_rect(table, Color(accent.r, accent.g, accent.b, 0.55), false, 1.4)
+	ctrl.draw_line(table.position + Vector2(18.0, table.size.y - 8.0), table.end - Vector2(18.0, 8.0), Color(1, 1, 1, 0.14), 1.0)
+	_draw_mini_card(ctrl, Vector2(sz.x * 0.40, 14.0), false, "A", Color("#f3f6fb"))
+	_draw_mini_card(ctrl, Vector2(sz.x * 0.50, 18.0), false, "K", Color("#f3f6fb"))
+	ctrl.draw_string(font, Vector2(sz.x * 0.62, 34.0), "21",
+		HORIZONTAL_ALIGNMENT_LEFT, 60.0, 22, Color("#e8f6e8"))
+	_draw_mini_chip(ctrl, Vector2(sz.x * 0.32, sz.y - 17.0), Color("#1e63d7"))
+
+func _draw_slot_art(ctrl: Control, sz: Vector2, font: Font, accent: Color) -> void:
+	var cab := Rect2(Vector2(sz.x * 0.24, 7.0), Vector2(sz.x * 0.52, sz.y - 12.0))
+	ctrl.draw_rect(Rect2(cab.position + Vector2(0, 4), cab.size), Color(0, 0, 0, 0.35), true)
+	ctrl.draw_rect(cab, Color("#210b0b"), true)
+	ctrl.draw_rect(cab, Color(accent.r, accent.g, accent.b, 0.75), false, 2.0)
+	var reel_w: float = cab.size.x / 3.0 - 6.0
+	for i in range(3):
+		var r := Rect2(cab.position + Vector2(7.0 + float(i) * (reel_w + 2.0), 12.0), Vector2(reel_w, 28.0))
+		ctrl.draw_rect(r, Color("#f6f0df"), true)
+		ctrl.draw_rect(r, Color("#351313"), false, 1.0)
+		ctrl.draw_string(font, r.position + Vector2(0, 21.0), "7",
+			HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 20, accent)
+	ctrl.draw_circle(Vector2(cab.end.x + 13.0, cab.position.y + 14.0), 5.0, Color("#ffcf4f"))
+	ctrl.draw_line(Vector2(cab.end.x + 13.0, cab.position.y + 18.0), Vector2(cab.end.x + 13.0, cab.position.y + 42.0), Color("#ddd6c5"), 2.0)
+
+func _draw_roulette_art(ctrl: Control, sz: Vector2, font: Font, accent: Color) -> void:
+	var center := Vector2(sz.x * 0.44, sz.y * 0.52)
+	var radius: float = minf(sz.x, sz.y) * 0.38
+	var colors := [Color("#087033"), Color("#951b1b"), Color("#111111")]
+	for i in range(18):
+		var a0: float = -PI * 0.5 + float(i) / 18.0 * TAU
+		var a1: float = -PI * 0.5 + float(i + 1) / 18.0 * TAU
+		var points := PackedVector2Array([center])
+		for s in range(5):
+			var a: float = lerpf(a0, a1, float(s) / 4.0)
+			points.append(center + Vector2(cos(a), sin(a)) * radius)
+		ctrl.draw_colored_polygon(points, colors[i % colors.size()])
+	ctrl.draw_arc(center, radius, 0.0, TAU, 48, Color("#d1a34b"), 3.0)
+	ctrl.draw_circle(center, radius * 0.38, Color("#071009"))
+	ctrl.draw_circle(center, 7.0, accent)
+	ctrl.draw_circle(center + Vector2(radius * 0.46, -radius * 0.32), 4.0, Color("#f5f2e8"))
+	ctrl.draw_string(font, Vector2(sz.x * 0.62, sz.y * 0.58), "0-36",
+		HORIZONTAL_ALIGNMENT_LEFT, 70.0, 16, Color("#e8f6f6"))
+
+func _draw_daisai_art(ctrl: Control, sz: Vector2, font: Font, accent: Color) -> void:
+	var tray := Rect2(Vector2(sz.x * 0.22, 9.0), Vector2(sz.x * 0.56, sz.y - 16.0))
+	ctrl.draw_rect(Rect2(tray.position + Vector2(0, 4), tray.size), Color(0, 0, 0, 0.32), true)
+	ctrl.draw_rect(tray, Color("#0a1110"), true)
+	ctrl.draw_rect(tray, Color(accent.r, accent.g, accent.b, 0.66), false, 1.5)
+	_draw_mini_die(ctrl, Vector2(sz.x * 0.34, 18.0), 22.0, 3)
+	_draw_mini_die(ctrl, Vector2(sz.x * 0.47, 15.0), 22.0, 5)
+	_draw_mini_die(ctrl, Vector2(sz.x * 0.60, 18.0), 22.0, 6)
+	ctrl.draw_string(font, Vector2(sz.x * 0.72, 33.0), "BIG",
+		HORIZONTAL_ALIGNMENT_LEFT, 48.0, 13, accent)
+
+func _draw_bigwheel_art(ctrl: Control, sz: Vector2, font: Font, accent: Color) -> void:
+	var center := Vector2(sz.x * 0.45, sz.y * 0.54)
+	var radius: float = minf(sz.x, sz.y) * 0.39
+	var cols := [Color("#e0a32d"), Color("#173f7a"), Color("#7b1f1f"), Color("#1d6b45"), Color("#3c245d")]
+	for i in range(16):
+		var a0: float = float(i) / 16.0 * TAU
+		var a1: float = float(i + 1) / 16.0 * TAU
+		var points := PackedVector2Array([center])
+		for s in range(5):
+			var a: float = lerpf(a0, a1, float(s) / 4.0)
+			points.append(center + Vector2(cos(a), sin(a)) * radius)
+		ctrl.draw_colored_polygon(points, cols[i % cols.size()])
+	ctrl.draw_arc(center, radius, 0.0, TAU, 48, Color("#f0b429"), 3.0)
+	ctrl.draw_circle(center, 8.0, Color("#0a0804"))
+	var pointer := PackedVector2Array([
+		center + Vector2(0.0, -radius - 7.0),
+		center + Vector2(-8.0, -radius + 8.0),
+		center + Vector2(8.0, -radius + 8.0),
+	])
+	ctrl.draw_colored_polygon(pointer, Color("#e74c3c"))
+	ctrl.draw_string(font, Vector2(sz.x * 0.64, 34.0), "x45",
+		HORIZONTAL_ALIGNMENT_LEFT, 60.0, 16, Color("#fff1b8"))
+
+func _draw_mini_card(ctrl: Control, pos: Vector2, back: bool, label: String, accent: Color) -> void:
+	var rect := Rect2(pos, Vector2(24.0, 34.0))
+	ctrl.draw_rect(Rect2(rect.position + Vector2(2, 2), rect.size), Color(0, 0, 0, 0.28), true)
+	ctrl.draw_rect(rect, Color("#13213a") if back else Color("#f4f0e8"), true)
+	ctrl.draw_rect(rect, Color("#d8caa8") if back else Color("#d5c8b8"), false, 1.2)
+	if back:
+		ctrl.draw_line(rect.position + Vector2(5, 7), rect.end - Vector2(5, 7), Color(1, 1, 1, 0.24), 1.0)
+		ctrl.draw_line(Vector2(rect.end.x - 5, rect.position.y + 7), Vector2(rect.position.x + 5, rect.end.y - 7), Color(1, 1, 1, 0.24), 1.0)
+	else:
+		var font: Font = _font_bold if _font_bold else ThemeDB.fallback_font
+		ctrl.draw_string(font, rect.position + Vector2(0, 23), label,
+			HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 16, Color("#1a1a22"))
+		ctrl.draw_circle(rect.position + Vector2(rect.size.x * 0.5, rect.size.y - 7.0), 2.0, accent)
+
+func _draw_mini_chip(ctrl: Control, center: Vector2, col: Color) -> void:
+	ctrl.draw_circle(center + Vector2(0, 2), 9.0, Color(0, 0, 0, 0.25))
+	ctrl.draw_circle(center, 9.0, col)
+	ctrl.draw_arc(center, 7.0, 0.0, TAU, 24, Color("#f7f2df"), 2.0)
+	ctrl.draw_circle(center, 4.0, col.darkened(0.18))
+
+func _draw_mini_die(ctrl: Control, pos: Vector2, size: float, value: int) -> void:
+	var rect := Rect2(pos, Vector2(size, size))
+	ctrl.draw_rect(Rect2(rect.position + Vector2(2, 3), rect.size), Color(0, 0, 0, 0.26), true)
+	ctrl.draw_rect(rect, Color("#f1f3f8"), true)
+	ctrl.draw_rect(rect, Color("#a9b1c2"), false, 1.4)
+	var pip := Color("#171923")
+	var spots := {
+		1: [Vector2(0.5, 0.5)],
+		2: [Vector2(0.28, 0.28), Vector2(0.72, 0.72)],
+		3: [Vector2(0.28, 0.28), Vector2(0.5, 0.5), Vector2(0.72, 0.72)],
+		4: [Vector2(0.28, 0.28), Vector2(0.72, 0.28), Vector2(0.28, 0.72), Vector2(0.72, 0.72)],
+		5: [Vector2(0.28, 0.28), Vector2(0.72, 0.28), Vector2(0.5, 0.5), Vector2(0.28, 0.72), Vector2(0.72, 0.72)],
+		6: [Vector2(0.28, 0.24), Vector2(0.72, 0.24), Vector2(0.28, 0.5), Vector2(0.72, 0.5), Vector2(0.28, 0.76), Vector2(0.72, 0.76)]
+	}
+	for rel in spots.get(value, []):
+		var rel_pos: Vector2 = rel
+		ctrl.draw_circle(rect.position + Vector2(rel_pos.x * size, rel_pos.y * size), size * 0.07, pip)
 
 # ── 게임 런처 ─────────────────────────────────────────────────
 func _launch_baccarat() -> void:

@@ -7,7 +7,7 @@ class_name TutorialOverlay
 signal dismissed
 
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
-const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
+const CHIP_TEX := preload("res://assets/ui/chips/chip_10k.svg")
 const UI_ICON_PATHS := {
 	"goal": "res://assets/ui/icons/icon_goal.svg",
 	"ap": "res://assets/ui/icons/icon_ap.svg",
