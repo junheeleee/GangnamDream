@@ -21,6 +21,8 @@ const WHEEL_NUMBERS := [
 	0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10,
 	5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
 ]
+const WHEEL_CENTER_Y_RATIO := 0.54
+const CENTER_NUMBER_BOX := Vector2(96.0, 72.0)
 
 # 스핀 감속 단계 정의: [인터벌(초), 반복횟수]
 # 단계1: 0.05s × 24회 = 1.2초 (빠른 사이클)
@@ -73,6 +75,7 @@ var _hud_lbl: RichTextLabel
 
 var _number_display_lbl: Label       # 중앙 대형 숫자
 var _number_panel_style: StyleBoxFlat # 숫자 패널 배경 (색상 변경용)
+var _wheel_layer: Control            # 휠 내부 자유 배치 레이어
 var _wheel_display: Control          # 룰렛 휠/볼 드로잉
 var _number_picker_grid: GridContainer
 var _history_box: HBoxContainer
@@ -336,6 +339,18 @@ func _angle_for_result(n: int) -> float:
 		idx = 0
 	return _wheel_angle + ((float(idx) + 0.5) / float(WHEEL_NUMBERS.size())) * TAU
 
+func _roulette_wheel_center(sz: Vector2) -> Vector2:
+	return Vector2(sz.x * 0.5, sz.y * WHEEL_CENTER_Y_RATIO)
+
+func _sync_number_display_layout() -> void:
+	if not is_instance_valid(_number_display_lbl) or not is_instance_valid(_wheel_display):
+		return
+	var center: Vector2 = _roulette_wheel_center(_wheel_display.size)
+	var box_size: Vector2 = CENTER_NUMBER_BOX
+	_number_display_lbl.position = center - box_size * 0.5
+	_number_display_lbl.size = box_size
+	_number_display_lbl.pivot_offset = box_size * 0.5
+
 func _draw_roulette_wheel() -> void:
 	if not is_instance_valid(_wheel_display):
 		return
@@ -344,7 +359,7 @@ func _draw_roulette_wheel() -> void:
 		return
 	var font: Font = _font if _font else ThemeDB.fallback_font
 	_draw_roulette_top_table(sz, font)
-	var center: Vector2 = Vector2(sz.x * 0.5, sz.y * 0.54)
+	var center: Vector2 = _roulette_wheel_center(sz)
 	var radius: float = minf(sz.x, sz.y) * 0.44
 	var inner_radius: float = radius * 0.48
 	var label_radius: float = radius * 0.78
@@ -611,22 +626,31 @@ func _build_ui() -> void:
 	num_panel.add_theme_stylebox_override("panel", _number_panel_style)
 	_content_root.add_child(num_panel)
 
+	_wheel_layer = Control.new()
+	_wheel_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_wheel_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	num_panel.add_child(_wheel_layer)
+
 	_wheel_display = Control.new()
 	_wheel_display.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_wheel_display.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_wheel_display.draw.connect(_draw_roulette_wheel)
-	num_panel.add_child(_wheel_display)
+	_wheel_display.resized.connect(_sync_number_display_layout)
+	_wheel_layer.add_child(_wheel_display)
 
 	_number_display_lbl = Label.new()
 	_number_display_lbl.text = "—"
 	_number_display_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_number_display_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_number_display_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_number_display_lbl.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_number_display_lbl.custom_minimum_size = CENTER_NUMBER_BOX
+	_number_display_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_number_display_lbl.add_theme_font_size_override("font_size", 46)
 	_number_display_lbl.add_theme_color_override("font_color", Color("#27ae60"))
 	if _font_bold:
 		_number_display_lbl.add_theme_font_override("font", _font_bold)
-	num_panel.add_child(_number_display_lbl)
+	_wheel_layer.add_child(_number_display_lbl)
+	_sync_number_display_layout.call_deferred()
 
 	# ── 히스토리 스트립 ──
 	var hist_label := Label.new()
