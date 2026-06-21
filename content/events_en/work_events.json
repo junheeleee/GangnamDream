@@ -1,0 +1,108 @@
+[
+  {
+    "id": "work_credit_stolen",
+    "title": "My Work in the Manager's Report",
+    "description": "The team lead presented. The analysis Minjun had built through overtime last month — reworded, repackaged, presented to the executives.\n\nAfterward the executive said, \"Good work on that analysis, Manager Kim.\"\n\nThe team lead smiled. Didn't look at Minjun.",
+    "choices": [
+      {
+        "text": "Let it go for now. Start leaving evidence.",
+        "result_text": "He stayed quiet. Raising this would make him the problem. He knew that.\n\nInstead he decided: every piece of work gets a date and his name stamped in it from here on. Not twice."
+      },
+      {
+        "text": "Brought it up with the team lead directly.",
+        "result_text": "A private conversation in the meeting room. The team lead said, \"I know your contribution.\"\n\nNothing changed. But next time, caution would be there. That was enough."
+      },
+      {
+        "text": "(Said nothing. Just went home. Bitter.)",
+        "result_text": "Opened a beer when he got home.\n\nHe knew this was what companies were like. Knowing it and still feeling bitter meant he'd still expected something."
+      }
+    ]
+  },
+  {
+    "id": "work_burnout_monday",
+    "title": "Monday Felt Different",
+    "description": "Monday morning subway. Before, it was just tedious. Now it's different.\n\nHis body feels heavy. Nothing comes to mind. He knows what he has to do when he gets there — but he doesn't want to. Not mildly doesn't want to. Really doesn't.\n\nIs this burnout?",
+    "choices": [
+      {
+        "text": "It's a burnout signal. Need to adjust.",
+        "result_text": "30-minute lunch walk. Cut the overtime. Small adjustments.\n\nNothing changed immediately, but recognizing the signal was different. Running until collapse and consciously slowing down are different things."
+      },
+      {
+        "text": "Push through. Can't afford to stop now.",
+        "result_text": "He gritted his teeth. Just until this quarter.\n\nHe didn't realize that thought had now stretched across three quarters."
+      }
+    ]
+  },
+  {
+    "id": "work_headhunter_call",
+    "title": "The Headhunter's Call",
+    "description": "Unknown number. \"Hello, this is ○○ Executive Search.\"\n\n15% salary increase. Similar industry. A name-brand company.\n\n\"Would you be open to a conversation?\"",
+    "choices": [
+      {
+        "text": "\"Let's meet.\" (explore the possibility)",
+        "result_text": "He listened over coffee.\n\nThe conditions weren't bad. Not a decision to leave — but knowing the option existed carried its own weight."
+      },
+      {
+        "text": "\"I'm good for now.\" (stay put)",
+        "result_text": "He hung up. There's still work to do here.\n\nBut after he hung up, he paused. Why am I still here? Choosing to stay when you have options is different from staying without any."
+      },
+      {
+        "text": "\"Can you tell me more about the role?\" (just gather intel)",
+        "result_text": "He asked about the company, the team, the culture.\n\nNo plans to move yet — but knowing what he's worth on the open market wasn't a bad thing."
+      }
+    ]
+  },
+  {
+    "id": "work_peer_salary_slip",
+    "title": "His Peer's Salary",
+    "description": "At lunch, a colleague let it slip. Their annual salary from the recent review. 12% more than Minjun's.\n\nSame entry year. Same grade. An awkward silence followed.\n\n\"Oh, sorry,\" they said. But the number was already out.",
+    "choices": [
+      {
+        "text": "Formally request a salary renegotiation with HR.",
+        "result_text": "He booked an HR meeting. Prepared market data and a performance summary.\n\nWhatever the outcome — asking and not asking are two completely different ways of becoming who you are."
+      },
+      {
+        "text": "Say nothing. Work harder instead.",
+        "result_text": "He said nothing. Didn't want to make it weird.\n\nInstead he decided: results in the second half. Prove it in numbers, not words."
+      },
+      {
+        "text": "Asked honestly. \"So what would fair look like for me?\"",
+        "result_text": "His colleague was caught off guard — but ended up being candid. Which manager to be visible to, which projects actually matter for reviews.\n\nInformation gained. Bitter, but useful. Another lesson on how to move inside a company."
+      }
+    ]
+  },
+  {
+    "id": "work_lunch_alone",
+    "title": "Solo Lunch",
+    "description": "He missed the window when the team headed out.\n\nHe sat alone in the corner of the cafeteria with his phone. Stock charts.\n\nHe wasn't sure if this was comfortable or just what things had become.",
+    "choices": [
+      {
+        "text": "Alone is fine. This time is more productive.",
+        "result_text": "He spent thirty minutes reading industry news. Better than office gossip.\n\nIt wasn't avoidance — it was choosing how to use his time. He decided to see it that way."
+      },
+      {
+        "text": "Next time I'll ask first.",
+        "result_text": "Eating alone, he admitted it: a little lonely.\n\nBeing alone at work had become habit, not choice. Tomorrow he'd try asking first. \"Want to grab lunch?\""
+      }
+    ]
+  },
+  {
+    "id": "work_year_review",
+    "title": "End-of-Year Review",
+    "description": "Year-end review. The team lead looked at the paper and said,\n\n\"This year's overall: B+. S-grade might be a stretch... probably something to build toward next year.\"\n\nB+. Good, but not the best. That phrase.",
+    "choices": [
+      {
+        "text": "\"What would I need to do differently to reach S next year?\"",
+        "result_text": "The team lead gave specific answers. Presentation skills, stakeholder management, data-driven reports.\n\nHe didn't walk out with a B+ — he walked out with a roadmap to S. Same meeting, different outcome."
+      },
+      {
+        "text": "(Didn't agree with it. Just left.)",
+        "result_text": "\"Understood.\" He walked out.\n\nA year's worth of grind. B+. He had a feeling next year would sound the same. Was S even possible here?"
+      },
+      {
+        "text": "B+ isn't enough. Time to seriously look at other options.",
+        "result_text": "He got home and opened his resume file. Needed updating.\n\nThe time here wasn't wasted. He'd treat it as a launchpad for the next jump."
+      }
+    ]
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "callback_midnight_echo",
+    "title": "Still True in Daylight",
+    "description": "At 3 AM it felt right.\n\nIn the office during the day, in front of the manager, eating alone at lunch — does that conviction hold?\n\nTime to check.",
+    "choices": [
+      {
+        "text": "Yes. I think the same thing in daylight.",
+        "result_text": "The midnight resolve was still there in the afternoon sun.\n\nThat mattered. Not just brave in the dark — the same person when it's bright."
+      },
+      {
+        "text": "Honestly, there are moments when it wavers.",
+        "result_text": "He admitted it. The weight of the daytime sometimes diluted the 3 AM conviction.\n\nBut recognizing it was itself the effort not to waver. You can't hold what you can't see."
+      }
+    ]
+  },
+  {
+    "id": "callback_vision_midcheck",
+    "title": "Checking the 43-Year-Old Vision",
+    "description": "He pulled out the old notebook in a corner cafe. The version of himself at 43.\n\nHe reread what he'd written back then. Is the current him heading that direction?\n\nAn honest comparison.",
+    "choices": [
+      {
+        "text": "Direction's right. Just a matter of speed.",
+        "result_text": "If the direction is right, speed can be adjusted.\n\nOne sentence he'd written then caught his eye again. The Minjun of today could have written it. That was enough of a midpoint check."
+      },
+      {
+        "text": "The direction has shifted. Time to revise.",
+        "result_text": "He revised it. A vision isn't fixed.\n\nThe 43 he imagined then and the 43 he imagines now are different. More concrete. More honest. Strangely, more real."
+      }
+    ]
+  },
+  {
+    "id": "callback_gangnam_standard_held",
+    "title": "Does the Standard Still Hold",
+    "description": "He'd decided: Gangnam is a benchmark. Wherever he can live at that level is fine.\n\nNow, from a gosiwon room — or a small studio — he should check whether that conviction is still standing.\n\nIs it still true?",
+    "choices": [
+      {
+        "text": "Still true. I'm the standard, not the address.",
+        "result_text": "The small room made that thought sharper.\n\nThe standard doesn't start when he moves to Gangnam. It starts now, here, in how he spends this day. That's already the beginning."
+      },
+      {
+        "text": "Honestly, I do want the address itself sometimes.",
+        "result_text": "Desire being specific isn't a problem.\n\nWhether benchmark or destination, the direction is the same. Language matters less than movement."
+      }
+    ]
+  }
+]

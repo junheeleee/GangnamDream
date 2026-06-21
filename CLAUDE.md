@@ -9,12 +9,12 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-21 (4차)** — **P3 6차 자아 정체성 서사 5종** (`identity_events.json` 신규) + **불안 콜백 체인 4종** (`callback_events_29.json` 신규, EN 동기화): identity_midnight_question(새벽 3시/최선 확인), identity_old_notebook(대학 꿈 노트), identity_gangnam_why(강남이 목표인 이유 재정의), identity_10year_vision(43세 나를 그리기), identity_define_success(성공의 정의). 콜백: child_cost_grind(3억2천 아는 사람), pension_self_fund(연금 없다 생각하고 10%), parent_first_money(첫 용돈), own_path_confirmed(돌잔치 다녀와서 흔들리지 않음). 이벤트 1073개. audit ERROR 0/WARNING 0, EN 누락 0. |
-| **이전** | **2026-06-21 (3차)** — **P3 5차 자녀·노후 불안 서사 6종** (`anxiety_events.json` 신규, EN 동기화): anxiety_friend_baby(친구 임신/비교불안), anxiety_marriage_pressure(명절 결혼 압박 3선택지), anxiety_child_cost_calc(육아비용 3억2천 계산), anxiety_pension_crisis(연금고갈 뉴스), anxiety_parents_aging(아버지 무릎/노환 3선택지), anxiety_early_retirement_witness(53세 명퇴 목격). 이벤트 1064개. audit ERROR 0/WARNING 0, EN 누락 0, 밸런스 밴드 전부 통과. |
-| **이전2** | **2026-06-21 (2차)** — (1) **EN 오버레이 100% 커버리지**: life_events.json 누락 20종(건강 10·코미디 10) EN 동기화 → 전체 1058 이벤트 EN 누락 0. (2) **P3 4차 사회비교·플렉스 6종**(social_independence.json, EN 동기화). (3) **도박 follow-up 체인**: casino_chip_exchange(넉넉 환전)→casino_no_clocks. |
+| **최근 완료** | **2026-06-21 (5차)** — **P3 7차 직장인 일상 서사 6종** (`work_events.json` 신규) + **정체성 콜백 3종** (`callback_events_30.json` 신규, EN 동기화): work_credit_stolen(성과 가로채기 3선택지), work_burnout_monday(번아웃 신호), work_headhunter_call(헤드헌터 3선택지), work_peer_salary_slip(동기 연봉 3선택지), work_lunch_alone(혼밥), work_year_review(연말 성과면담 3선택지). 콜백: midnight_echo(새벽 확신 낮 검증), vision_midcheck(43세 비전 중간점검), gangnam_standard_held(강남 기준 내면화). 이벤트 1082개. audit ERROR 0/WARNING 0, EN 누락 0. |
+| **이전** | **2026-06-21 (4차)** — **P3 6차 자아 정체성 5종** (`identity_events.json`) + **불안 콜백 4종** (`callback_events_29.json`): identity_midnight_question/old_notebook/gangnam_why/10year_vision/define_success. 콜백: child_cost_grind/pension_self_fund/parent_first_money/own_path_confirmed. 이벤트 1073개. |
+| **이전2** | **2026-06-21 (3차)** — **P3 5차 자녀·노후 불안 서사 6종** (`anxiety_events.json`): 친구임신/결혼압박/육아비용/연금고갈/부모노환/명퇴목격. 이벤트 1064개. audit ERROR 0/WARNING 0, EN 누락 0. |
 | **Codex 추가 완료** | **2026-06-20~21 (외형)** — 빅휠 54칸 슬롯 쇼휠, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH), 홀덤 오벌 테이블 재배치, 슬롯머신 캐비닛 보강, 룰렛 테이블 베팅/딜러/칩/포켓 하이라이트. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
-| **다음 작업** | **P3 7차(직장인 일상 서사 — 회사 정치/번아웃/이직 고민)** 또는 **밸런스 audit #8** (신규 anxiety/identity 이벤트 mental 누적 영향 재검증); identity_events 콜백(midnight_conviction·long_vision_set·gangnam_redefined 플래그) 체인 확장. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-21 (P3 6차 자아 정체성 5종 + 불안 콜백 4종. 이벤트 1073개, EN 누락 0, audit ERROR 0/WARNING 0) |
+| **다음 작업** | **P3 8차(우정·외로움 서사 — 친구들이 멀어지는 이야기)** 또는 **work_events 콜백 체인** (endured_credit_theft·negotiated_salary·job_change_trigger 플래그 활용); **밸런스 audit #8**(1082개 이벤트 mental 누적 영향 재검증). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-21 (P3 7차 직장인 서사 6종 + 정체성 콜백 3종. 이벤트 1082개, EN 누락 0, audit ERROR 0/WARNING 0) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

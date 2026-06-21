@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (P3 7차 직장인 일상 서사 6종 + 정체성 콜백 3종)
+
+### 수정
+- `content/events/work_events.json` 신규 — 직장인 일상 서사 6종:
+  - `work_credit_stolen` (t≥20, has_job) — 성과 가로채기 3선택지 (참기/직접대응/그냥퇴근)
+  - `work_burnout_monday` (t≥24, has_job) — 번아웃 신호 인식 vs 무시
+  - `work_headhunter_call` (t≥28, has_job) — 헤드헌터 연락 3선택지 (탐색/거절/정보수집)
+  - `work_peer_salary_slip` (t≥16, has_job) — 동기 연봉 공개 3선택지 (재협상/침묵/정보취합)
+  - `work_lunch_alone` (t≥12, has_job) — 혼밥: 생산적 시간 vs 외로움 인정
+  - `work_year_review` (t≥32, has_job) — 연말 B+ 성과면담 3선택지
+- `content/events/callback_events_30.json` 신규 — 정체성 플래그 콜백 3종:
+  - `callback_midnight_echo` ← `midnight_conviction` (t≥28) — 낮에도 유효한가
+  - `callback_vision_midcheck` ← `long_vision_set` (t≥52) — 43세 비전 중간점검
+  - `callback_gangnam_standard_held` ← `gangnam_redefined` (t≥44) — 기준 내면화 확인
+- EN 오버레이 동시 추가, DataRegistry 등록
+- 총 이벤트: 1073 → 1082개, EN 누락 0, audit ERROR 0/WARNING 0
+
+### 의도
+- 직장인 루트 플레이어의 현실 밀도 강화: 회사 정치/번아웃/이직 딜레마는 30대 직장인이 매일 만나는 문제
+- 정체성 씬(P3 6차)에서 심은 플래그들의 서사 완결: 확신이 낮에도 유효한지, 비전이 현실에서 버텨주는지 회수
+
 ## 2026-06-21 (P3 6차 자아 정체성 5종 + 불안 콜백 4종)
 
 ### 수정

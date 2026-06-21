@@ -1,0 +1,89 @@
+[
+  {
+    "id": "callback_midnight_echo",
+    "title": "낮에도 유효한가",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 28,
+      "flag": "midnight_conviction"
+    },
+    "cooldown": 9999,
+    "background": "office",
+    "portrait": "player_normal",
+    "description": "새벽 3시엔 맞다고 생각했다.\n\n낮의 회사에서, 팀장 앞에서, 점심 혼자 먹으면서도 — 그 확신이 유지되는지 물어봐야 할 타이밍이 됐다.\n\n여전히 맞다고 생각하는가.",
+    "choices": [
+      {
+        "text": "맞다. 낮에도 그 생각은 같다.",
+        "effects": { "mental": 5 },
+        "flags": ["daytime_conviction"],
+        "result_text": "새벽의 결심이 낮에도 살아있었다.\n\n그게 증명됐다는 게 중요했다. 어두울 때만 용감한 게 아니라, 밝을 때도 같은 사람인 것."
+      },
+      {
+        "text": "솔직히 흔들릴 때가 있다.",
+        "effects": { "mental": -2, "intelligence": 1 },
+        "result_text": "인정했다. 낮의 현실이 새벽의 각오를 희석시킬 때가 있었다.\n\n하지만 그걸 인식하는 것 자체가 흔들리지 않으려는 노력이었다. 모르면 지나치고, 알면 잡는다."
+      }
+    ]
+  },
+  {
+    "id": "callback_vision_midcheck",
+    "title": "43세 비전 중간 점검",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 52,
+      "flag": "long_vision_set"
+    },
+    "cooldown": 9999,
+    "background": "cafe",
+    "portrait": "player_normal",
+    "description": "카페 구석에서 예전에 썼던 노트를 꺼냈다. 43세의 나.\n\n그때 적은 것들을 다시 읽었다. 지금의 나는 그 방향으로 가고 있는가.\n\n솔직하게 대조해봤다.",
+    "choices": [
+      {
+        "text": "방향은 맞다. 속도가 문제일 뿐.",
+        "effects": { "mental": 4, "investment_skill": 1 },
+        "result_text": "방향이 맞다면 속도는 조정할 수 있다.\n\n그때 쓴 문장 하나가 다시 눈에 들어왔다. 지금의 민준이 그 문장을 쓸 수 있었다. 그것만으로도 충분한 중간 점검이었다."
+      },
+      {
+        "text": "방향이 바뀌었다. 수정이 필요하다.",
+        "effects": { "mental": -2, "intelligence": 2 },
+        "flags": ["vision_revised"],
+        "result_text": "수정했다. 비전은 고정된 게 아니었다.\n\n그때의 43세와 지금 생각하는 43세는 다르다. 더 구체적이고, 더 현실적이고, 이상하게도 더 진짜 같은 그림이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_gangnam_standard_held",
+    "title": "그 기준, 지금도 유효한가",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 44,
+      "flag": "gangnam_redefined"
+    },
+    "cooldown": 9999,
+    "background": "street",
+    "portrait": "player_normal",
+    "description": "강남은 기준이라고 생각했다. 어디서든 그 수준으로 살 수 있으면 된다고.\n\n지금, 고시원 방에서, 혹은 작은 원룸에서 — 그 기준이 흔들리지 않는지 물어봐야 할 타이밍이다.\n\n지금도 그 말이 유효한가.",
+    "choices": [
+      {
+        "text": "유효하다. 장소가 아니라 내가 기준이다.",
+        "effects": { "mental": 5 },
+        "flags": ["standard_internalized"],
+        "result_text": "작은 방에서 그 생각이 더 선명해졌다.\n\n강남에 살아야 기준이 되는 게 아니라, 지금 여기서 그 기준으로 살아가고 있다는 것. 그게 이미 시작이었다."
+      },
+      {
+        "text": "솔직히, 강남 자체가 목표라는 생각도 든다.",
+        "effects": { "mental": -1, "reputation": 1 },
+        "result_text": "욕망이 구체적인 건 나쁜 게 아니었다.\n\n기준이 됐든 목표가 됐든, 그 방향을 보고 달리는 건 같다. 언어보다 방향이 중요했다."
+      }
+    ]
+  }
+]
