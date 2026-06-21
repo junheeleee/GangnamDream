@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Fixed (2026-06-21) — 품질 버그 일제 수정 (도달불가 엔딩 / 고아 플래그 / EN 오버레이)
+
+- **도달 불가 엔딩 `sangchul_reckoning`(청산, B) 완전 연결**: finish_run 트리거·endings.json 엔트리·BGM 등록이 모두 빠져 있어 도달 불가였음. 임상철 신고(`sangchul_reported`) + 아버지 생존 루트로 도달하도록 수정. 엔딩 34개.
+- **임상철 용서/역이용 분기 콜백 2종** (`callback_events_33.json`): arc_sangchul_reckoning의 forgiven/leveraged 분기가 후속 없이 끊겨 있던 것을 회수.
+- **아버지 별세 엔딩 에필로그 분기화**: 돈을 택한 경로(`chose_money_over_father`)와 늦게라도 간 경로(`tried_to_go_to_father`)가 같은 한 줄로 처리되던 것을 구분. **어머니 화해 에필로그 줄** 추가.
+- **EN 오버레이 버그 34종 수정**: 영어 결과창이 공백으로 뜨던 빈 result_text 28개 번역, 옛 KR을 번역해 내용이 어긋나던 stale 오버레이 3건 재번역(hyunsu_pivot/hyunsu_reunion_later/arc_jiyeon_03_offer), EN 설명에 한글이 남아 있던 3건 번역. 영어 플레이 일관성 확보.
+
 ### Added (2026-06-21) — 직장/이직 루트 전용 엔딩 + arc_daeun·hyunsu 후속 완결
 
 - 신규 엔딩 `career_climber` (갈아탄 사다리, A): 38세 종료 + 직장 유지 + (이직 성공 `job_changed_success` or 최고 직급 `max_job_tier>=4`) + 자산 1억+. 그동안 5억/10억 대박을 못 친 성실한 이직·승진 플레이어가 `ordinary_life`(C)로 떨어지던 약점 보강. `check_game_over()` 분기 + BGM good 분류 + run summary + cast epilogue 등록. 엔딩 32개.

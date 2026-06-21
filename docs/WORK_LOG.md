@@ -1,5 +1,42 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (품질 버그 일제 수정 — 도달불가 엔딩/고아 플래그/EN 오버레이)
+
+> **방향 결정 (유저):** ①버그 잡기 + 아크 구멍 메우기 → ②게임 전반 다이어트 → ③후킹 → ④재미 검증. "결국 다 해야 한다." 이번 세션은 ① 집중.
+
+### 1. 도달 불가 엔딩 `sangchul_reckoning` 완전 연결
+- 증상: 에필로그(`_ending_run_summary`/`_ending_cast_epilogue`)는 있는데 **finish_run 트리거 없음 + endings.json 엔트리 없음 + BGM good 목록 누락** → 절대 도달 불가
+- `autoloads/GameState.gd check_game_over()`: `sangchul_reported`(임상철 신고) + 아버지 생존 시 발동 (age≥38, 30억 미달자). gambling_recovery 뒤, reputation_legend 앞에 배치
+- `content/endings.json`: "청산" 엔트리 추가 (grade B, cafe 배경) — 강남 포기하고 아버지를 빚에서 해방시킨 도덕적 엔딩, late_call의 형제
+- `autoloads/BGMPlayer.gd`: good 목록에 추가
+- 엔딩 33→34개. finish_run ↔ endings.json 양방향 100% 매칭 재확인
+
+### 2. 임상철 용서/역이용 분기 콜백 (`callback_events_33.json`, KR+EN)
+- arc_sangchul_reckoning 3분기 중 신고(reported)만 회수돼 있었음 → 용서(forgiven)/역이용(leveraged) 2분기는 플래그만 set, 후속 無
+- `callback_sangchul_forgiven_echo` (flag: sangchul_forgiven, t≥76): 용서가 진짜 평화였나 회피였나 — 다시 만남/거리 둠
+- `callback_sangchul_leveraged_cost` (flag: sangchul_leveraged, t≥76): 죄책감을 자산으로 쓰는 대가, 거울 속 재혁의 얼굴 — 계속 씀/관계 끊음
+- DataRegistry EVENT_PATHS 등록
+
+### 3. 아버지 별세 에필로그 분기화 + 어머니 에필로그 (고아 플래그 4개 회수)
+- `scenes/MainGame.gd _ending_cast_epilogue()`:
+  - `fs == "passed"` 한 줄 고정 → `chose_money_over_father`(딜 택함, 오르는 통장의 아이러니) / `tried_to_go_to_father`(늦게라도 감) 분기
+  - 어머니 줄 신규 추가 (`mother_reconciled`/`mother_reconnected` 회수, good/bad 분기)
+
+### 4. EN 오버레이 버그 일제 수정 (전수 QA)
+- 전수 스캔으로 발견: 선택지 개수 불일치/빈 필드/한글 잔존
+- **빈 result_text 28개**: EN 오버레이 choice의 `result_text: ""`가 인덱스 병합에서 KR을 덮어써 영어 결과창 공백 → 28개 전부 KR에서 번역
+- **stale 오버레이 3건**: 옛 KR 버전 번역이 남아 병합 시 프랑켄슈타인(EN 설명=옛 이야기 + KR 선택지=새 이야기):
+  - hyunsu_pivot, hyunsu_reunion_later: 현재 KR로 전면 재번역
+  - arc_jiyeon_03_offer: 오역된 선택지2 수정 + 누락된 선택지3 추가 (KR 3개 / EN 2개 → 3번째가 한국어로 노출되던 버그)
+- **한글 잔존 EN 설명 3건**: drama_housing_lottery, drama_sogeuting_00, drama_tax_return_00 번역
+- EN 오버레이 QA: 구조 문제 0 / 한글 잔존 0
+
+### 검증
+- audit.sh ERROR 0 / WARNING 0, 밸런스 밴드 전부 통과
+- 이벤트 1101→1103개, 엔딩 34개
+
+---
+
 ## 2026-06-21 (arc_daeun_later_echo 범용 확장 + career_burnout 엔딩 — 엔딩 33개)
 
 ### 수정
