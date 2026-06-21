@@ -1279,6 +1279,11 @@ func check_game_over():
 		# 아버지 화해
 		if flags.get("father_reconciled", false):
 			finish_run("late_call"); return           # 늦은 전화 (화해)
+		# 버텨온 것들 (직장 유지 + 번아웃 경험 or 이직 시도 — 낮은 자산의 직장인 결산)
+		# career_climber(A)는 위에서 1억+ 잡음 → 여기 오면 1억 미만의 직장인
+		if not current_job.is_empty() \
+				and (flags.get("burnout_acknowledged", false) or flags.get("job_change_trigger", false)):
+			finish_run("career_burnout"); return
 		# 기록자 — 강남드림 실패 수기가 소설이 됐다
 		# 조건: 이벤트 90개 이상 경험(탐험가 성향) + 지력 65+ + 고시원 + 자산 3억 미만
 		# 실패의 기록이 가장 많은 사람에게 닿는 아이러니한 A 엔딩

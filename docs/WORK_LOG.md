@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (arc_daeun_later_echo 범용 확장 + career_burnout 엔딩 — 엔딩 33개)
+
+### 수정
+- `content/events/arc_events.json` `arc_daeun_later_echo` — 다은 경로 범용화:
+  - 기존: [daeun_together_path] / [daeun_let_her_go] 전용 선택지 문구
+  - 변경: "아직 함께다 — 이 길 끝에도 그녀가 있다" / "각자의 방향으로 갔다 — 그래도 시작은 그녀였다"
+  - description 업데이트: "이 길을 걷는 동안 다은이 옆에 있었거나, 어느 지점에서 각자의 방향으로 갔거나"
+  - committed/deferred/uncertain 세 신규 경로를 자연스럽게 커버
+  - EN 오버레이 동기화
+- `content/endings.json` — 신규 엔딩 `career_burnout` (버텨온 것들, grade B):
+  - 38세 + 직장 유지 + (번아웃_acknowledged or 이직_trigger) + 자산 1억 미만
+  - career_climber(A)의 bittersweet 짝: 이직·번아웃을 겪었지만 자산 대박은 못 친 직장인 서사
+  - 퇴근 버스 씬. "버텨온 것들이 있다. 숫자에는 안 잡히는 것들."
+- `autoloads/GameState.gd` — check_game_over late_call 이후, writer 직전에 career_burnout 분기 추가
+- BGM good 목록 + _ending_run_summary + _ending_cast_epilogue(good) 등록
+- 엔딩 32 → 33개. audit ERROR 0/WARNING 0. 밴드 통과.
+
 ## 2026-06-21 (우정 이벤트 콜백 체인 4종 — callback_events_32)
 
 ### 수정

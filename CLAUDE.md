@@ -9,12 +9,13 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-21 (9차)** — **우정 이벤트 콜백 체인 4종** (`callback_events_32.json`): reached_out_echo/friends_world_echo/startup_friend_update/drift_accepted_now. 4개 우정 플래그 모두 회수. EN 동기화. 이벤트 1099개. audit ERROR 0/WARNING 0. |
+| **최근 완료** | **2026-06-21 (10차)** — **arc_daeun_later_echo 범용 확장** (committed/deferred/uncertain 신규 경로 커버, EN 동기화) + **career_burnout 엔딩**(버텨온 것들, B): 38세+직장+번아웃or이직시도+1억미만. career_climber(A) bittersweet 짝. 엔딩 33개. audit ERROR 0/WARNING 0. 밴드 통과. |
+| **이전** | **2026-06-21 (9차)** — **우정 이벤트 콜백 체인 4종** (`callback_events_32.json`): reached_out_echo/friends_world_echo/startup_friend_update/drift_accepted_now. 4개 우정 플래그 모두 회수. EN 동기화. 이벤트 1099개. |
 | **이전** | **2026-06-21 (8차)** — **직장/이직 루트 전용 엔딩 `career_climber`(갈아탄 사다리, A)**: 38세+직장유지+(이직성공 or 최고직급)+1억. check_game_over 분기 + BGM/run summary/cast epilogue 등록. 엔딩 32개. |
 | **이전2** | **2026-06-21 (7차)** — **arc_daeun / arc_hyunsu 후속 완결 4종**: arc_daeun_05_together/breaking/uncertain, hyunsu_pass_news. MainGame 트리거 4개. EN 동기화. 이벤트 1095개. |
 | **Codex 추가 완료** | **2026-06-20~21 (외형)** — 빅휠 54칸 슬롯 쇼휠, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH), 홀덤 오벌 테이블 재배치, 슬롯머신 캐비닛 보강, 룰렛 테이블 베팅/딜러/칩/포켓 하이라이트. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
-| **다음 작업** | **다은 05 이후 에필로그** (arc_daeun_later_echo t≥55를 신규 committed/breaking/uncertain 결말과 연계); **직장 루트 bittersweet 변형** (career_climber 짝, 자산 낮은 번아웃 이직러 전용 결말); 추가 소재 필요 시 P3 콘텐츠 계속. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-21 (career_climber 엔딩 + check_game_over 분기 + 지원 시스템 등록. 엔딩 32개, audit ERROR 0/WARNING 0, 밴드 통과) |
+| **다음 작업** | **추가 소재 P3 계속** — 아버지 아크 후반 감정씬 보강, 또는 임상철/재혁 아크 에필로그 연계; 또는 신규 amb 서사 배치. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-21 (arc_daeun_later_echo 범용화 + career_burnout 엔딩. 엔딩 33개, audit ERROR 0/WARNING 0, 밴드 통과) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

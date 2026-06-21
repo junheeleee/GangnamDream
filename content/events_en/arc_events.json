@@ -2003,10 +2003,10 @@
       "daeun"
     ],
     "cooldown": 9999,
-    "description": "Gangnam had drawn close.\n\nThrough all this walking, {name} had either kept someone at his side — or failed to.\n\nHe thought of Daeun.\nThat hand sliding a coffee across the convenience-store counter.\nThe words she'd said: \"You did well today too.\"\n\nWhere she'd be on the day he reached Gangnam — {name} couldn't know.\nBut just remembering that beginning\nseemed to make the reason he'd come this far come clear.",
+    "description": "Gangnam had drawn close.\n\nThrough this whole journey, Daeun had been at his side — or at some point they'd each gone a different way.\n\nThat hand sliding a coffee across the convenience-store counter.\nThe words she'd said: \"You did well today too.\"\n\nEntering the final stretch, he thought of her.\nHowever things had gone — the fact that she was there at the starting line doesn't change.",
     "choices": [
       {
-        "text": "Daeun is at the end of this road — to reach Gangnam together  [daeun_together_path]",
+        "text": "She's still here — at the end of this road too",
         "effects": {
           "mental": 25,
           "luck": 3
@@ -2015,10 +2015,10 @@
           "arc_daeun_later_echo_seen",
           "daeun_reason_confirmed"
         ],
-        "result_text": "He sent Daeun a single text.\n\"Almost there. Just like we promised.\"\nA reply came. \"I'm waiting too.\"\n\n{name} slipped the phone into his pocket and started walking again.\nThis was the last stretch now."
+        "result_text": "He sent Daeun a text.\n\"Almost there.\"\nA reply came. \"I'm right here.\"\n\n{name} slipped the phone into his pocket and kept walking.\nThis Gangnam dream wasn't being run alone. That was the clearest thing right now."
       },
       {
-        "text": "Because I let her go, I made it this far  [daeun_let_her_go]",
+        "text": "We went our separate ways — but she was the beginning",
         "effects": {
           "mental": 14,
           "intelligence": 4
@@ -2026,7 +2026,7 @@
         "flags": [
           "arc_daeun_later_echo_seen"
         ],
-        "result_text": "Daeun is living well back home.\nAnd {name} is one step short of Gangnam.\n\nThe two of them had chosen different directions,\nbut both seemed to have drawn closer to happiness, each in their own way.\n{name} thought that was enough. For now."
+        "result_text": "Daeun is living her life, in her own way.\n{name} made it this far, in his.\n\nTogether or not —\nthe fact that she was at the starting line isn't something that gets erased.\n\nHe held onto that as he walked toward the final stretch."
       }
     ]
   },
