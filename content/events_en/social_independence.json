@@ -1,0 +1,165 @@
+[
+  {
+    "id": "yolo_spend_moment",
+    "title": "Is This What I Work For?",
+    "description": "A brutal month is finally over. Overtime, transit cards, packed lunches — that's not what he's working toward.\n\nStanding outside a convenience store, he checked his phone. Right below the incoming deposit alert: a concert ticket link. His favorite artist. ₩150,000.\n\n\"Is it okay to spend this much?\"",
+    "choices": [
+      {
+        "text": "Buy the ticket. Money isn't earned to just sit there.",
+        "result_text": "Purchase complete. His balance dipped, but for the first time in a while, he had something to look forward to.\n\nThat night at the venue, he screamed himself hoarse.\n\nThis is what it feels like to be alive."
+      },
+      {
+        "text": "Hold back. Every ₩150K matters on the road to ₩3 billion.",
+        "result_text": "He closed the ticket page.\n\nA mix of pride and emptiness arrived at once. He knows this is the right call — but sometimes, that's the saddest part."
+      },
+      {
+        "text": "Find a cheaper ₩50K option. YOLO can still compromise.",
+        "result_text": "Standing seats on the second floor, far from the stage — but the music was the same.\n\nYou don't always get what you want without giving something up. But you don't always have to give everything up either."
+      }
+    ]
+  },
+  {
+    "id": "yolo_morning_after",
+    "title": "The Morning After",
+    "description": "The day after the concert. He checked his phone.\n\nBalance notification. Last night's ₩150,000, rendered in cold digits.\n\nHis throat was raw and his heart was light — until he looked at his bank account. A little heavier now.\n\nIs this the aftertaste of YOLO?",
+    "choices": [
+      {
+        "text": "It's fine. Memories are assets too.",
+        "result_text": "Not a rationalization — a conclusion.\n\nSometimes you have to live like this to keep going. The lyrics he screamed last night are still ringing in his ears."
+      },
+      {
+        "text": "Never again. Focus on the goal.",
+        "result_text": "He chose regret. A rigorous lesson learned.\n\nBut that night — he can't erase it."
+      }
+    ]
+  },
+  {
+    "id": "bihon_friend_talk",
+    "title": "The Friend Who Said No",
+    "description": "Jisoo sipped her coffee and said it plainly.\n\"I've decided not to get married. For real. Official announcement.\"\n\nShe'd said it before, but this time the tone was different. The look in her eyes was different — relief and freedom, all at once.\n\n\"What about you? Do you want to get married?\"",
+    "choices": [
+      {
+        "text": "\"Honestly, I'm not sure. Money comes first right now.\"",
+        "result_text": "He said it honestly. Jisoo laughed. \"That's the most real answer.\"\n\nDifferent choices, no judgment. The kind of conversation that stays with you."
+      },
+      {
+        "text": "\"I'm kind of envious. That must not have been an easy decision.\"",
+        "result_text": "He was genuinely envious. The face of someone who has chosen clearly.\n\nJisoo said, \"I'm rooting for you no matter what you pick.\"\n\nThe coffee felt warmer than usual today."
+      },
+      {
+        "text": "\"But won't you regret it someday?\"",
+        "result_text": "Jisoo's expression flickered before she smiled.\n\"Every time I hear that, I want to ask — what about the people who get married and regret it?\"\n\nFair point. Having your choices questioned is always uncomfortable."
+      }
+    ]
+  },
+  {
+    "id": "wedding_invitation_flood",
+    "title": "Wedding Season Blitz",
+    "description": "First week of October. KakaoTalk notifications started before dawn.\n\nThree wedding invitations. Middle school friend, college classmate, work colleague. All in the same month.\n\nThree envelopes. Minimum ₩50,000 each, and that's for casual acquaintances.\n\n₩150,000 is about to blow away like autumn leaves.",
+    "choices": [
+      {
+        "text": "Attend all three. Relationships are partly maintained by money.",
+        "result_text": "He went to all three. The buffets were good, the dresses were beautiful, and his wallet got lighter.\n\nAt this age, 'gift money economics' is its own social system."
+      },
+      {
+        "text": "Go to the close one, send cash to the others.",
+        "result_text": "He picked carefully. In person for one real friend — ₩25,000 by bank transfer for the other two.\n\nSomewhat guilty, but somewhat less guilty about his bank account."
+      },
+      {
+        "text": "Too broke right now — apologize and skip them.",
+        "result_text": "\"Sorry, I can't make it — money's tight.\" Sent.\n\nAn awkward silence. But honesty is better. Some relationships might shake — but ones held together only by pretense aren't that solid to begin with."
+      }
+    ]
+  },
+  {
+    "id": "marriage_pressure_35",
+    "title": "The Question at 35",
+    "description": "A call from his mother. \"When are you going to get married?\"\n\nThis question doesn't come only on holidays anymore. At least once a month now. The number 35 seems to have started some kind of countdown in his parents' minds.\n\n\"I know someone I could set you up with. Just one meeting.\"",
+    "choices": [
+      {
+        "text": "\"Now is the time to make money. Marriage comes later.\" — firm.",
+        "result_text": "He said it firmly. His mother went quiet for a moment, then said \"okay.\"\n\nHe knows it'll come up again next call, but today, this is enough."
+      },
+      {
+        "text": "\"I'll go meet them\" — agrees to the blind date.",
+        "result_text": "He went. The other person also seemed to have been pushed out the door by their parents.\n\nThey exchanged polite pleasantries over coffee and parted. Awkward and a little sad. No text followed."
+      },
+      {
+        "text": "\"Mom, I'm struggling right now. Less marriage talk, more encouragement please.\"",
+        "result_text": "For the first time, he said it out loud.\n\nHis mother paused, surprised, then: \"You're right. I'm sorry. You're doing well.\"\n\nSometimes a direct hit is the answer. He felt a little lighter after hanging up."
+      }
+    ]
+  },
+  {
+    "id": "solo_life_discovery",
+    "title": "What You Find Living Alone",
+    "description": "Sunday night, 11 PM. Eating alone.\n\nHe turned on YouTube, then turned it off. Silence.\n\nThis stillness — at first lonely — has become comfortable at some point. Nobody critiques how fast he eats. Nobody fights him for the remote.\n\nThis freedom is bigger than the loneliness. At least tonight.",
+    "choices": [
+      {
+        "text": "Embrace the freedom. Alone is enough.",
+        "result_text": "Tonight's quiet felt like a gift.\n\nWhether he marries or not — this time is entirely his.\nThese nights are what shape him."
+      },
+      {
+        "text": "Still lonely though. Wish someone was here.",
+        "result_text": "He admitted it honestly. Lonely is lonely.\n\nThis loneliness can also be a compass — pointing toward what he truly wants."
+      },
+      {
+        "text": "Call family or a friend.",
+        "result_text": "\"Hey, what's up?\" — that familiar voice.\n\nThey talked for twenty minutes about nothing much. After hanging up, the room felt a little less quiet."
+      }
+    ]
+  },
+  {
+    "id": "bihon_economics_cold",
+    "title": "The Wedding Cost Calculator",
+    "description": "Out of boredom, he ran the numbers on marriage costs.\n\nVenue: ₩15M. Honeymoon: ₩3M. Deposit on a place together: ₩100M+. Rings and gifts: ₩3M. First birthday party: ₩2M. Monthly allowance to both sets of parents for 5 years: ₩36M.\n\nTotal: ₩160M minimum.\n\nWhat if he just... invested that instead?",
+    "choices": [
+      {
+        "text": "Staying single is the rational economic choice — cold conclusion.",
+        "result_text": "Numbers don't lie. Marriage is not just an emotional decision — it's a financial one.\n\nThe fact that he ran these numbers felt a little bleak, but looking away doesn't change the math."
+      },
+      {
+        "text": "The value of a shared life can't be calculated in money.",
+        "result_text": "He closed the calculator.\n\nLife isn't all about ROI. There's something beyond the numbers. He decided to think a little more tonight about what that something is."
+      },
+      {
+        "text": "This should be shared. Friends need to see this.",
+        "result_text": "He posted it in the group chat. \"Calculated wedding costs btw.\"\n\nComments exploded. Half: \"Right, it really costs that much.\" Other half: \"Still gotta do it though.\"\n\nThis is our generation's marriage discourse."
+      }
+    ]
+  },
+  {
+    "id": "omakase_peer_invite",
+    "title": "Anyone for Omakase?",
+    "description": "A message in the team chat:\n\"Got a reservation this Friday for omakase. One seat left. ₩128,000 per person. Anyone in?\"\n\nCho Yongmin, associate. Word is he got a big raise after his last job change.\n\nOne by one, teammates start replying: \"Me!\" \"Count me in.\"",
+    "choices": [
+      {
+        "text": "Go. These moments become professional connections.",
+        "result_text": "He went. The food was extraordinary. Over the chef's tasting course explanation, he had his first real conversation with Cho.\n\nThese nights build relationships at work. He knows that.\n\nBut ₩128,000 is ₩128,000."
+      },
+      {
+        "text": "\"Maybe next time\" — politely bow out.",
+        "result_text": "He didn't go. ₩128K was half his food budget this month.\n\nWatching his colleagues leave on Friday, all excited. A slight outsider feeling — but his account balance survived."
+      },
+      {
+        "text": "\"I've never been to omakase — can I ask what kind of food it is?\"",
+        "result_text": "He admitted he didn't know. Cho actually seemed delighted to explain.\n\nHe didn't go this time, but now he knows what it is. Hiding ignorance costs more in the long run."
+      }
+    ]
+  },
+  {
+    "id": "omakase_network_payoff",
+    "title": "The Omakase Return",
+    "description": "A Slack DM from Cho Yongmin:\n\"That side project we talked about at omakase — want to do it together?\"\n\nThat seat created this. The ₩128,000 looks different now.",
+    "choices": [
+      {
+        "text": "Join in. I know why this opportunity came.",
+        "result_text": "He joined. The project was small — but he got a foot in the door of Cho's network.\n\nThe ₩200K income was secondary. Networks are assets."
+      },
+      {
+        "text": "No bandwidth right now. Politely decline.",
+        "result_text": "He declined politely. Cho said \"next time.\"\n\n₩128,000 stayed as just a meal. The ROI math stings a little."
+      }
+    ]
+  }
+]

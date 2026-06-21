@@ -207,7 +207,7 @@ func _build_ui():
 	_continue_hint.offset_top = -28
 	_continue_hint.offset_right = -16
 	_continue_hint.offset_bottom = -8
-	_continue_hint.text = "▼  클릭하여 계속"
+	_continue_hint.text = _tr("▼  클릭하여 계속", "▼  Click to continue")
 	_continue_hint.add_theme_font_size_override("font_size", 12)
 	_continue_hint.add_theme_color_override("font_color", Color("#4a5468"))
 	_continue_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -271,7 +271,7 @@ func _refresh_hud():
 	var assets: float = GameState.get_total_asset_value()
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var yrs_left: int = max(0, 38 - GameState.age)
-	_hud_label.text = "자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d년" % [
+	_hud_label.text = _tr("자산 %s / 30억 (%d%%)      현금 %s      건강 %d  정신 %d      남은 %d년", "Assets %s / 3B (%d%%)      Cash %s      Health %d  Mental %d      %d yrs left") % [
 		GameState.format_money(assets), pct,
 		GameState.format_money(GameState.money),
 		GameState.health, GameState.mental, yrs_left]
@@ -421,8 +421,8 @@ func _process(delta):
 	if _type_pos >= _type_full.length():
 		_type_pos = _type_full.length()
 		_typing = false
-		_continue_hint.text = "[%s] 또는 클릭" % ControllerHints.south() \
-				if ControllerHints.is_pad_active() else "▼  클릭하여 계속"
+		_continue_hint.text = _tr("[%s] 또는 클릭", "[%s] or click") % ControllerHints.south() \
+				if ControllerHints.is_pad_active() else _tr("▼  클릭하여 계속", "▼  Click to continue")
 		_continue_hint.visible = true
 	_body_lbl.text = _type_full.substr(0, _type_pos)
 
@@ -515,7 +515,7 @@ func _show_choices():
 		group.add_theme_constant_override("separation", 3)
 		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_choice_box.add_child(group)
-		var btn = _make_choice_button(_fmt(str(ch.get("text", "선택"))), i)
+		var btn = _make_choice_button(_fmt(str(ch.get("text", _tr("선택", "Choose")))), i)
 		group.add_child(btn)
 		var preview_str := _choice_effect_preview(ch)
 		if not preview_str.is_empty():
@@ -719,7 +719,7 @@ func _render_chapter_card_cinematic():
 
 	# 클릭 힌트 — 하단 고정
 	var hint := Label.new()
-	hint.text = "▼  클릭하여 계속"
+	hint.text = _tr("▼  클릭하여 계속", "▼  Click to continue")
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_font_size_override("font_size", 13)
 	hint.add_theme_color_override("font_color", Color("#3a4460"))
@@ -771,6 +771,28 @@ const CAST_NAME = {
 	"father": "아버지", "jiyeon": "한지연", "daeun": "김다은",
 	"jaehyuk": "최재혁", "sangchul": "임상철", "hyunsu": "현수",
 }
+# 스탯/인물 영어 이름 (영어 모드 토스트용)
+const STAT_NAME_EN = {
+	"money": "Money", "health": "Health", "mental": "Mental",
+	"intelligence": "Intelligence", "social_skill": "Social",
+	"investment_skill": "Investing", "luck": "Luck",
+}
+const CAST_NAME_EN = {
+	"father": "Father", "jiyeon": "Han Jiyeon", "daeun": "Kim Daeun",
+	"jaehyuk": "Choi Jaehyuk", "sangchul": "Lim Sangchul", "hyunsu": "Hyunsu",
+}
+
+## 스탯 표시 이름 — 현재 언어에 맞게
+func _stat_display_name(key: String, ko_name: String) -> String:
+	if LocaleManager.language == "en":
+		return str(STAT_NAME_EN.get(key, key))
+	return ko_name
+
+## 인물 표시 이름 — 현재 언어에 맞게
+func _cast_display_name(pid: String) -> String:
+	if LocaleManager.language == "en":
+		return str(CAST_NAME_EN.get(pid, pid))
+	return str(CAST_NAME.get(pid, pid))
 
 func _show_change_toasts(before: Dictionary):
 	for key in before:
@@ -779,11 +801,12 @@ func _show_change_toasts(before: Dictionary):
 		if abs(diff) < 0.01:
 			continue
 		var info = STAT_INFO.get(key, {"icon": "·", "name": key})
+		var disp_name = _stat_display_name(key, str(info["name"]))
 		var txt = ""
 		if key == "money":
-			txt = "%s %s  %s%s" % [info["icon"], info["name"], "+" if diff > 0 else "-", GameState.format_money(abs(diff))]
+			txt = "%s %s  %s%s" % [info["icon"], disp_name, "+" if diff > 0 else "-", GameState.format_money(abs(diff))]
 		else:
-			txt = "%s %s  %s%d" % [info["icon"], info["name"], "+" if diff > 0 else "", int(diff)]
+			txt = "%s %s  %s%d" % [info["icon"], disp_name, "+" if diff > 0 else "", int(diff)]
 		# 스트레스는 +가 나쁨
 		var good = diff > 0
 		if key == "stress":
@@ -797,9 +820,9 @@ func _show_cast_toasts(before: Dictionary):
 		var diff = now - int(before[pid])
 		if diff == 0:
 			continue
-		var nm = CAST_NAME.get(pid, pid)
-		var arrow = "▲ 가까워짐" if diff > 0 else "▼ 멀어짐"
-		var txt = "❤ %s 호감도 %s%d  (%s)" % [nm, "+" if diff > 0 else "", diff, arrow]
+		var nm = _cast_display_name(pid)
+		var arrow = _tr("▲ 가까워짐", "▲ closer") if diff > 0 else _tr("▼ 멀어짐", "▼ distant")
+		var txt = _tr("❤ %s 호감도 %s%d  (%s)", "❤ %s affinity %s%d  (%s)") % [nm, "+" if diff > 0 else "", diff, arrow]
 		_spawn_toast(txt, Color("#e8a0c0") if diff > 0 else Color("#ff6b6b"))
 
 ## 첫 변화에 1회만 안내 팝업. GameState.flags로 중복 방지.
@@ -813,8 +836,9 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 	if stat_changed and not GameState.flags.get("tut_stat_shown", false):
 		GameState.flags["tut_stat_shown"] = true
 		_show_popup(
-			"📊  능력치와 자원",
-			"선택에는 대가가 따른다.\n\n돈, 건강, 정신력 — 모든 선택이 이 수치들을 움직인다.\n오른쪽 위에 뜨는 변화를 눈여겨봐라.\n\n무엇을 얻고 무엇을 잃을지, 늘 저울질해야 한다.")
+			_tr("📊  능력치와 자원", "📊  Stats & Resources"),
+			_tr("선택에는 대가가 따른다.\n\n돈, 건강, 정신력 — 모든 선택이 이 수치들을 움직인다.\n오른쪽 위에 뜨는 변화를 눈여겨봐라.\n\n무엇을 얻고 무엇을 잃을지, 늘 저울질해야 한다.",
+				"Every choice has a cost.\n\nMoney, health, mental — each choice moves these numbers.\nWatch the changes that pop up in the top right.\n\nAlways weigh what you gain against what you lose."))
 		return
 	# 인물 관계 첫 변화
 	var cast_changed = false
@@ -825,8 +849,9 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 	if cast_changed and not GameState.flags.get("tut_cast_shown", false):
 		GameState.flags["tut_cast_shown"] = true
 		_show_popup(
-			"❤  호감도 — 사람과의 인연",
-			"방금 '아버지 호감도'가 변했다.\n\n호감도는 그 사람과 얼마나 가까운지를 나타낸다.\n네 말과 선택이 호감도를 올리거나 내린다.\n\n쌓인 호감도는 언젠가 위기에서 너를 구하거나,\n결정적 기회가 되어 돌아온다.\n\n혼자 강남에 가는 사람은 없다.")
+			_tr("❤  호감도 — 사람과의 인연", "❤  Affinity — Bonds With People"),
+			_tr("방금 '아버지 호감도'가 변했다.\n\n호감도는 그 사람과 얼마나 가까운지를 나타낸다.\n네 말과 선택이 호감도를 올리거나 내린다.\n\n쌓인 호감도는 언젠가 위기에서 너를 구하거나,\n결정적 기회가 되어 돌아온다.\n\n혼자 강남에 가는 사람은 없다.",
+				"Your father's affinity just changed.\n\nAffinity shows how close you are to someone.\nYour words and choices raise or lower it.\n\nThe affinity you build can save you in a crisis someday,\nor return as a decisive opportunity.\n\nNo one reaches Gangnam alone."))
 
 ## 화면 중앙 안내 팝업 (클릭하면 닫힘)
 func _show_popup(title: String, body: String):
@@ -873,7 +898,7 @@ func _show_popup(title: String, body: String):
 	vb.add_child(bl)
 
 	var hint = Label.new()
-	hint.text = "[A] 또는 클릭하여 닫기" if ControllerHints.is_pad_active() else "클릭하여 닫기"
+	hint.text = _tr("[A] 또는 클릭하여 닫기", "[A] or click to close") if ControllerHints.is_pad_active() else _tr("클릭하여 닫기", "Click to close")
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", Color("#5a6478"))
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -945,3 +970,7 @@ func _finish_all():
 
 func _fmt(s: String) -> String:
 	return GameState.format_event_text(s)
+
+## UI 문자열 번역 헬퍼
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
