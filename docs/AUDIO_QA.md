@@ -2,6 +2,8 @@
 
 Updated: 2026-06-19
 
+Production gate: audio assets must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md` before they are treated as Steam-demo-ready. This includes commercial-use provenance, loop/tail cleanup, mix balance, runtime key mapping, and live-play fatigue checks.
+
 ## Scope
 
 - BGM assets under `assets/audio/bgm_*.ogg`

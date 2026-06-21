@@ -1,5 +1,16 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (출시용 에셋 제작 파이프라인 정립)
+
+### 수정
+- `docs/PRODUCTION_ASSET_PIPELINE.md` 신규 추가. raw AI 이미지/오디오가 아니라 상용 출시 가능한 리소스로 승격하기 위한 Gate 0~4(정본 확인, 스펙 고정, 제작/보정, Godot 통합, 플레이어 관점 QA)를 정의.
+- 에셋 등급(C/B/A/S), 외부 이미지/오디오 툴 사용 원칙, 라이선스 금지/허용 기준, P0~P3 우선순위, 외부 제작 요청 템플릿을 문서화.
+- `docs/ASSETS_BRIEF.md`, `assets/VISUAL_AUDIO_UPGRADE_BRIEF.md`, `docs/ASSET_QA.md`, `docs/AUDIO_QA.md`가 새 production pipeline을 참조하도록 연결.
+
+### 의도
+- 앞으로 이미지/오디오를 "예쁜 생성물" 기준이 아니라 "게임 스토리와 상업 출시 정합성을 통과한 리소스" 기준으로 관리.
+- Claude가 스토리/이벤트를 확장해도 Codex 외형 작업이 캐릭터/배경/CG/오디오 레이어 분리를 유지하도록 기준 고정.
+
 ## 2026-06-20 (룰렛 테이블 연출 강화)
 
 ### 수정

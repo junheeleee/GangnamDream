@@ -1,6 +1,8 @@
 # 강남드림 — Complete Asset Brief for Codex
 # 이 파일 하나가 전체 에셋 제작의 단일 소스다. 기존 assets/ 폴더의 IMAGE_PROMPTS.md / CODEX_IMAGE_REQUEST.md / IMAGE_GENERATION_TASK.md는 무시하고 이 파일을 따른다.
 
+> 상용 출시용 이미지/오디오 제작은 먼저 `docs/PRODUCTION_ASSET_PIPELINE.md`의 등급/Gate/라이선스/QA 기준을 따른다. 이 문서는 개별 에셋 내용과 프롬프트를 정의하고, production pipeline 문서는 산출물이 출시 자격을 얻는 과정을 정의한다.
+
 ---
 
 ## Step 0 — 작업 전 필독 파일

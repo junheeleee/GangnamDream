@@ -2,6 +2,8 @@
 
 Updated: 2026-06-13
 
+Production gate: new and regenerated visual assets must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md` before they are treated as Steam-demo-ready assets. This QA file records current asset status; the production pipeline defines the acceptance process.
+
 ## Scope
 
 - Visual pass over current generated PNG assets.
