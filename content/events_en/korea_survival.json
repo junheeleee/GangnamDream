@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kx_subway_hell",
+    "title": "Line 9 Hell Train",
+    "description": "Rush-hour express on Line 9.\nCrammed between bodies, my feet lift slightly off the floor.\n\n\"The next station is...\" Nobody can get off, and more pile on.\nMy bag is crushed, no free hand for my phone.",
+    "choices": [
+      {
+        "text": "Endure it — this is part of the commute too",
+        "result_text": "By the time I reached the office I was already drained.\n\nIf a foreign friend filmed this, they'd say 'unbelievable' —\nbut to a Korean office worker it's just Tuesday. A day's energy spent before work even starts."
+      },
+      {
+        "text": "Let one train go and take the next",
+        "result_text": "Let one train pass. The next was packed too, but a little better.\n\nDecided to be two minutes late rather than be crushed.\nSometimes those two minutes save the whole day's sanity."
+      }
+    ]
+  },
+  {
+    "id": "kx_ddareungi",
+    "title": "A Lap on a Ttareungi",
+    "description": "Ttareungi, Seoul's public bike share.\nScan the QR in the app, a thousand won an hour. Pull a bike from the rack.\n\nThe weather's good. Push the pedals and the wind picks up.",
+    "choices": [
+      {
+        "text": "Ride the Han River bike path",
+        "result_text": "Rode along the Han River. Wind, glittering water, shade under the bridges.\n\nNo freedom like it for a thousand won.\nWhile I'm pedaling, even the 3 billion and the deadline fall behind me."
+      },
+      {
+        "text": "Commute by bike to save the bus fare",
+        "result_text": "Biked to work. Saved the fare and got some exercise.\n\nBroke a little sweat, but better than subway hell.\nSmall savings and small freshness like this balance out a grinding day."
+      }
+    ]
+  },
+  {
+    "id": "kx_jumin_center",
+    "title": "At the Community Center",
+    "description": "At the dong community center to register my address.\nTake a number and wait. Resident registration, fixed-date stamp, move-in report...\n\nThe document terms might as well be a foreign language.\nThe clerk kindly walks me through each one.",
+    "choices": [
+      {
+        "text": "Handle it all properly — including the fixed-date stamp",
+        "result_text": "Filed the move-in report and got the fixed-date stamp.\nIt's the first step to protecting a jeonse deposit — skip it and you can get burned later, I learned.\n\nLearned one more grown-up task. Surviving in Seoul is the sum of paperwork like this."
+      },
+      {
+        "text": "Do the essentials quickly and leave",
+        "result_text": "Just filed the move-in report; I'll get the fixed-date stamp another time.\n\nKnowing full well 'another time' is dangerous. But today I was worn out from waiting on a number."
+      }
+    ]
+  },
+  {
+    "id": "kx_parcel_locker",
+    "title": "The Parcel Locker",
+    "description": "The package I ordered yesterday is already in the parcel locker.\nPunch in the code from the text and a compartment clicks open.\n\nKorean delivery is fast. Ordered last night, here this morning.",
+    "choices": [
+      {
+        "text": "Open the package — a small thrill",
+        "result_text": "Even for some mundane daily necessity, there's that little thrill of opening a package.\n\nFast delivery is one of the things foreign friends are most amazed by in Korea.\n'How does it come next day?' Well — that's just Korea."
+      },
+      {
+        "text": "Don't like it — free return",
+        "result_text": "Wrong size, so I requested a return. Free return, picked up at the door.\n\nWhen even returns are this easy, you keep buying.\nConvenience always has its eye on your wallet — I shouldn't forget that."
+      }
+    ]
+  },
+  {
+    "id": "kx_recycling",
+    "title": "Recycling Night",
+    "description": "Sunday night, recycling.\nPlastic, cans, paper, vinyl, styrofoam, food waste...\n\nPeel the labels, rinse, sort.\nThe very thing foreigners new to Korea say confuses them most.",
+    "choices": [
+      {
+        "text": "Sort it all carefully, by the rules",
+        "result_text": "Peeled the PET-bottle labels, rinsed them, put them out separately.\nThe lady next door said 'well done' as she passed.\n\nMaybe this small order is part of what keeps Korea running.\nAn invisible promise — everyone keeps it, so you do too."
+      },
+      {
+        "text": "Bundle it loosely and head back in",
+        "result_text": "Too tired, so I bundled it loosely.\nThe building guard probably re-sorted it the next day.\n\nFelt a little guilty. I know there's convenience that runs on someone else's labor."
+      }
+    ]
+  }
+]
