@@ -1243,6 +1243,11 @@ func check_game_over():
 		# 이 런의 진짜 서사가 '회복'이었던 사람에게 주는 구원 엔딩.
 		if flags.get("beat_addiction", false):
 			finish_run("gambling_recovery"); return
+		# 임상철 청산 — 신고로 아버지를 빚에서 해방시킨 사람.
+		# 강남(30억)은 위에서 이미 분기 → 여기 오는 건 강남을 포기하고 진실을 택한 사람.
+		# 이 런의 진짜 결말이 '아버지'였던 사람에게 닿는 도덕적 B 엔딩 (late_call 형제).
+		if flags.get("sangchul_reported", false) and not flags.get("father_passed", false):
+			finish_run("sangchul_reckoning"); return
 		# 평판 전설 (평판 80+)
 		if reputation >= 80:
 			finish_run("reputation_legend"); return

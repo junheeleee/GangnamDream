@@ -93,7 +93,7 @@ func on_ending(ending_id: String):
 		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
 		"creator_success", "with_daeun", "jiyeon_man",
 		"early_retirement", "balanced_life",
-		"lonely_rich", "late_call",
+		"lonely_rich", "late_call", "sangchul_reckoning",
 		"full_circle", "second_love", "guardian",
 		"gambling_recovery", "writer", "career_climber", "career_burnout",
 	]
