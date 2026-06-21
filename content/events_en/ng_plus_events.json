@@ -182,5 +182,35 @@
         "result_text": "One circle on the calendar. He knows how long it took to reach thirty in his previous life.\n\nHe started earlier this time. That alone was already different."
       }
     ]
+  },
+  {
+    "id": "ng_recovery_mentor_moment",
+    "title": "A Back He's Seen Somewhere",
+    "description": "Outside the convenience store. A man stared only at his phone over a cup of instant noodles.\n\nA betting screen. A face lit by the glow. His hands trembled faintly.\n\n{name} knows that back. Knows it far too well.\nSome dawn in a past life, the same face was in the mirror.\n\nHe could pretend not to see and walk on. It's someone else's business.\nBut {name} knows where that road ends.",
+    "choices": [
+      {
+        "text": "Sit beside him and speak — \"Hard to quit, isn't it.\"",
+        "result_text": "The man flinched. {name} pulled two vending-machine coffees and held one out.\n\nHe didn't talk long. Just told his own story. The dawn he hit bottom, the gamblers' anonymous number, the circles on the calendar.\n\nThe man listened a while, then put his phone in his pocket. \"…I'll give that meeting a try.\"\n\nThere's something only the saved can do. Reaching out a hand to the next person."
+      },
+      {
+        "text": "Walk past quietly — my own road comes first",
+        "result_text": "{name} just walked past. Wondered if he even had the right to step into another's life.\n\nBut turning the corner, that back kept weighing on him.\nIt felt like turning away from his own past self one more time.\n\nSome debts remain not as money, but as a hand never offered."
+      }
+    ]
+  },
+  {
+    "id": "ng_recovery_discipline",
+    "title": "Same Hands, Somewhere Else",
+    "description": "The hand that used to draw circles on the calendar.\nThat hand that filled in one each day, same time, same spot.\n\nThis time, {name} was using that hand to keep a household ledger.\n\nThe discipline of quitting an addiction didn't vanish — it moved elsewhere.\nTen thousand won saved every day. A portfolio review once a week. The same repetition, the same patience.\n\nWhat he learned at the steepest price in a past life had become his greatest weapon in this one.",
+    "choices": [
+      {
+        "text": "Pour that discipline into building assets",
+        "result_text": "What gambling taught him wasn't the 'one big hit' — it was compounding. Only now did {name} understand.\n\nLike the circles he drew one a day, the money stacked little by little each month began to curve upward.\n\nSlow. Boring. And — it never once collapsed.\nThe patience of someone who quit was the strongest asset of all before the market."
+      },
+      {
+        "text": "Grow impatient — he wants to win it back fast",
+        "result_text": "The patience that drew those circles sometimes leaked out as impatience.\n\n'At this pace, when do I ever reach Gangnam?' Every time that thought came, it was dangerous.\n\n{name} closed the phone. Impatience itself was the voice of an old friend calling the quitter back.\nSlowly. He had to go slowly."
+      }
+    ]
   }
 ]

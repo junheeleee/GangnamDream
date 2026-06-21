@@ -227,5 +227,88 @@
         "result_text": "달력에 동그라미 하나. 이전 삶에서 30번을 채우기까지 얼마나 걸렸는지를 안다.\n\n이번에는 더 빨리 시작했다. 그것만으로도 이미 달랐다."
       }
     ]
+  },
+  {
+    "id": "ng_recovery_mentor_moment",
+    "title": "어디서 본 뒷모습",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "convenience_night",
+    "portrait": "player_determined",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "description": "편의점 앞. 한 남자가 컵라면 앞에서 휴대폰만 보고 있었다.\n\n베팅창. 화면 불빛에 비친 얼굴. 손이 미세하게 떨렸다.\n\n{name}은 그 뒷모습을 안다. 너무 잘 안다.\n전생의 어느 새벽, 거울 속에 똑같은 얼굴이 있었다.\n\n모른 척 지나칠 수도 있었다. 남의 일이니까.\n하지만 {name}은 그 길의 끝을 안다.",
+    "choices": [
+      {
+        "text": "옆에 앉아 말을 건다 — \"그거, 끊기 힘들죠\"",
+        "effects": {
+          "mental": 10,
+          "social_skill": 2,
+          "reputation": 3,
+          "addiction_tendency": -8
+        },
+        "flags": [
+          "ng_recovery_mentor_seen",
+          "ng_paid_it_forward"
+        ],
+        "result_text": "남자가 흠칫 놀랐다. {name}은 자판기 커피 두 개를 뽑아 하나를 내밀었다.\n\n오래 말하지 않았다. 그냥 자기 얘기를 했다. 바닥을 쳤던 새벽, 단도박 모임 전화번호, 달력의 동그라미.\n\n남자는 한참 듣다가 폰을 주머니에 넣었다. \"…한 번 가볼게요, 그 모임.\"\n\n구원받은 사람만이 할 수 있는 일이 있다. 다음 사람의 손을 잡아주는 것."
+      },
+      {
+        "text": "조용히 지나친다 — 내 길이 우선이다",
+        "effects": {
+          "mental": -4
+        },
+        "flags": [
+          "ng_recovery_mentor_seen"
+        ],
+        "result_text": "{name}은 그냥 지나쳤다. 남의 인생에 끼어들 자격이 있나 싶었다.\n\n근데 모퉁이를 돌면서 자꾸 그 뒷모습이 밟혔다.\n전생의 자신을 한 번 더 외면한 기분이었다.\n\n어떤 빚은 돈이 아니라, 못 내민 손으로 남는다."
+      }
+    ]
+  },
+  {
+    "id": "ng_recovery_discipline",
+    "title": "같은 손, 다른 곳에",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "investment_phone",
+    "portrait": "player_determined",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "description": "달력에 동그라미를 그리던 손.\n매일 같은 시간, 같은 자리에 하나씩 채우던 그 손.\n\n{name}은 그 손으로 이번엔 가계부를 적고 있었다.\n\n중독을 끊은 규율은, 사라지지 않고 다른 데로 옮겨갔다.\n매일 만원씩 적금. 매주 한 번 포트폴리오 점검. 같은 반복, 같은 인내.\n\n전생에서 가장 비싸게 배운 게, 이번 생에서 가장 큰 무기가 되어 있었다.",
+    "choices": [
+      {
+        "text": "그 규율을 자산에 쏟는다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2,
+          "mental": 8,
+          "money": 200000
+        },
+        "flags": [
+          "ng_recovery_discipline_seen",
+          "ng_discipline_to_wealth"
+        ],
+        "result_text": "도박이 가르쳐 준 건 '한 방'이 아니라 '복리'였다. {name}은 그제야 알았다.\n\n매일 하나씩 그리던 동그라미처럼, 매달 조금씩 쌓인 돈이 곡선을 그리기 시작했다.\n\n느렸다. 지루했다. 그리고 — 한 번도 무너지지 않았다.\n끊은 사람의 인내심은, 시장 앞에서 가장 강한 자산이었다."
+      },
+      {
+        "text": "조급해진다 — 빨리 만회하고 싶다",
+        "effects": {
+          "mental": -6,
+          "addiction_tendency": 5
+        },
+        "flags": [
+          "ng_recovery_discipline_seen"
+        ],
+        "result_text": "동그라미를 그리던 인내가, 가끔은 조급함으로 새어 나왔다.\n\n'이 속도로 언제 강남을 가지.' 그 생각이 들 때마다 위험했다.\n\n{name}은 폰을 덮었다. 조급함이야말로, 끊은 사람을 다시 부르는 옛 친구의 목소리였다.\n천천히. 천천히 가야 했다."
+      }
+    ]
   }
 ]

@@ -555,7 +555,7 @@
         "cast_effects": {
           "jiyeon": {
             "affinity": 15,
-            "stage": "connected"
+            "stage": "interest"
           }
         },
         "result_text": "카페에 마주 앉았다. 그녀는 6,500원짜리 라떼를, {name}은 가장 싼 아메리카노를.\n\n한지연은 말이 많았다. 유학 얘기, 아버지 회사 얘기, 답답한 집안 얘기.\n{name}은 거의 듣기만 했다.\n\n\"그쪽은요? 무슨 일 하세요?\"\n\"...이것저것이요.\"\n그녀는 더 묻지 않았다. 대신 웃었다.\n\"다음에 또 봐요. 이번엔 제가 아니라 그쪽이 사는 걸로.\"\n다음이 있다는 듯이."
@@ -803,7 +803,7 @@
         "cast_effects": {
           "jaehyuk": {
             "affinity": 10,
-            "stage": "trusted",
+            "stage": "close_friends",
             "flags": [
               "showed_interest"
             ]
@@ -823,7 +823,7 @@
         "cast_effects": {
           "jaehyuk": {
             "affinity": 4,
-            "stage": "trusted",
+            "stage": "guarded",
             "flags": [
               "hesitant"
             ]
@@ -843,7 +843,7 @@
         "cast_effects": {
           "jaehyuk": {
             "affinity": 2,
-            "stage": "trusted",
+            "stage": "suspect",
             "flags": [
               "doubting"
             ]
@@ -2722,7 +2722,7 @@
         "cast_effects": {
           "jaehyuk": {
             "affinity": 10,
-            "stage": "close_friends"
+            "stage": "trusted"
           }
         },
         "flags": [

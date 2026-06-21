@@ -1,0 +1,322 @@
+[
+  {
+    "id": "casino_chip_exchange",
+    "title": "칩으로 바꾸는 순간",
+    "description": "정선 카지노 환전 창구.\n\n{name}은 현금을 내밀었다. 직원이 세더니 칩을 밀어줬다.\n\n초록색, 검정색, 보라색. 무게가 있었다.\n\n이상했다. 방금까지 돈이었던 게, 손에 쥐니 장난감 같았다.\n5만원이 칩 한 개. 그 칩이 5만원이라는 실감이 — 안 났다.\n\n그게 이 게임의 첫 번째 속임수라는 걸, {name}은 나중에 알게 된다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "background": "casino",
+    "portrait": "player_normal",
+    "conditions": {
+      "flag": "casino_club_introduced"
+    },
+    "tags": [
+      "gambling",
+      "casino"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "딱 정한 만큼만 바꾼다",
+        "effects": {
+          "intelligence": 2,
+          "mental": 3
+        },
+        "flags": [
+          "casino_set_limit"
+        ],
+        "result_text": "10만원어치만 바꿨다. 지갑은 차에 두고 왔다.\n\n칩 두 개. 이게 오늘의 전부다.\n잃으면 끝, 따면 일어선다. 규칙을 미리 정해두니 마음이 가벼웠다.\n\n칩이 가벼워 보일수록, 한도를 정하는 사람이 이긴다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "넉넉하게 바꿔둔다 — 모자라면 김이 새니까",
+        "effects": {
+          "money": -300000,
+          "mental": -4,
+          "addiction_tendency": 6
+        },
+        "flags": [
+          "casino_chips_loaded"
+        ],
+        "result_text": "30만원어치 칩을 받았다. 묵직했다.\n\n넉넉해야 마음 편히 친다고 생각했다.\n근데 그 '넉넉함'이 곧 기준이 됐다. 30만원은 어느새 '오늘 쓸 돈'이 되어 있었다.\n\n많이 바꿀수록 많이 잃는 구조라는 걸, 환전 창구에선 아무도 말해주지 않았다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "casino_no_clocks",
+    "title": "시계가 없는 방",
+    "description": "한참 친 것 같은데 시간을 모르겠다.\n\n{name}은 벽을 둘러봤다. 시계가 없었다.\n창문도 없었다. 바깥이 낮인지 밤인지 알 수 없었다.\n\n조명은 늘 같은 밝기. 공기도 늘 같은 온도.\n웨이터가 음료를 가져다줬다. 공짜였다.\n\n여기서는 시간이 흐르지 않는 척, 모두가 합의하고 있었다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "background": "casino",
+    "portrait": "player_tired",
+    "conditions": {
+      "flag": "casino_club_introduced"
+    },
+    "tags": [
+      "gambling",
+      "casino",
+      "night"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "폰으로 시간을 확인하고 일어선다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2,
+          "health": 2
+        },
+        "flags": [],
+        "result_text": "새벽 4시 17분.\n\n{name}은 칩을 정리하고 일어났다. 다리가 저렸다. 여섯 시간을 앉아 있었던 거다.\n\n밖으로 나오자 찬 공기가 얼굴을 때렸다. 산속의 새벽.\n그 추위가 반가웠다. 시간이 다시 흐르기 시작했다.\n\n시계가 없는 방을 제 발로 나오는 것 — 그것도 실력이었다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "한 게임만 더 — 끊을 타이밍은 따고 났을 때",
+        "effects": {
+          "mental": -10,
+          "health": -4,
+          "addiction_tendency": 10
+        },
+        "flags": [
+          "casino_lost_track"
+        ],
+        "result_text": "'딴 걸로 끝내야지.' 그렇게 한 시간이 더 갔다.\n\n그리고 또 한 시간. 따면 더 하고 싶고, 잃으면 만회하고 싶었다.\n끊을 타이밍은 영원히 오지 않는 구조였다.\n\n정신을 차렸을 땐 음료 잔이 다섯 개 쌓여 있었다.\n시계가 없는 방은, 나가는 문도 잘 안 보이게 만든다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "casino_comp_offer",
+    "title": "무료 숙박권",
+    "description": "지배인처럼 보이는 사람이 다가왔다.\n\n\"고객님, 오늘 많이 즐기셨네요. 호텔 룸 하나 잡아드릴까요? 조식까지 무료로.\"\n\n정중했다. 친절했다. 마치 {name}을 귀빈처럼 대했다.\n\n순간 기분이 좋았다가 — {name}은 멈칫했다.\n\n공짜 방을 주는 건, 내일도 여기 있으라는 뜻이었다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.7,
+    "background": "casino",
+    "portrait": "player_normal",
+    "conditions": {
+      "flag": "casino_club_introduced",
+      "min_turn": 6
+    },
+    "tags": [
+      "gambling",
+      "casino"
+    ],
+    "cooldown": 14,
+    "choices": [
+      {
+        "text": "\"아뇨, 막차 타고 올라갈게요\" — 거절한다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3,
+          "luck": 1
+        },
+        "flags": [
+          "casino_declined_comp"
+        ],
+        "result_text": "\"감사한데, 가봐야 해서요.\"\n\n지배인이 명함을 건넸다. \"언제든 연락 주세요.\" 웃으며.\n\n{name}은 버스 터미널로 걸었다. 막차는 빠듯했다.\n\n공짜로 주는 데에는 다 이유가 있었다. 그 이유의 반대쪽으로 걷는 게 — 오늘의 승리였다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "\"그럼 하룻밤만…\" — 호의를 받는다",
+        "effects": {
+          "mental": -6,
+          "addiction_tendency": 12
+        },
+        "flags": [
+          "casino_accepted_comp"
+        ],
+        "result_text": "방은 좋았다. 전망도 좋았다.\n\n근데 잠이 안 왔다. 천장을 보며 다음 날 테이블을 생각하고 있었다.\n\n아침에 조식을 먹고, 자연스럽게 다시 칩을 바꿨다.\n공짜 방의 진짜 가격은, 체크아웃할 때 통장에 찍혔다.\n\n세상에 공짜는 없다. 카지노는 특히 더.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "holdem_all_in_stranger",
+    "title": "낯선 사람의 올인",
+    "description": "옆 테이블에서 소리가 났다.\n\n30대 후반쯤 되는 남자가 칩을 전부 밀었다. 올인.\n손이 떨리고 있었다. 아까부터 잃고 있던 사람이었다.\n\n상대가 콜했다. 패가 까였다.\n\n남자가 졌다. 한참 카드를 보다가, 천천히 일어섰다.\n아무 말도 안 했다. 그냥 점퍼를 챙겨 계단을 올라갔다.\n\n{name}은 그 뒷모습을 봤다. 익숙한 뒷모습이었다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "background": "holdem_club",
+    "portrait": "player_normal",
+    "conditions": {
+      "flag": "holdem_visited"
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "warning"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "오늘은 여기까지 한다 — 저게 내 미래일 수 있다",
+        "effects": {
+          "mental": 9,
+          "intelligence": 2,
+          "luck": 1
+        },
+        "flags": [
+          "holdem_saw_warning"
+        ],
+        "result_text": "{name}은 남은 칩을 현금으로 바꿨다.\n\n그 남자의 떨리던 손이 자꾸 떠올랐다. 1년 뒤, 5년 뒤의 자신일 수도 있었다.\n\n계단을 올라오면서 결심했다. 여기는 '실력으로 이기는 곳'처럼 보이지만,\n결국 마지막에 일어서는 사람이 이기는 곳이라고.\n\n오늘은 일어섰다. 그거면 충분했다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "남 일이다 — 나는 저렇게 안 한다",
+        "effects": {
+          "mental": -3,
+          "addiction_tendency": 6
+        },
+        "flags": [],
+        "result_text": "{name}은 카드로 시선을 돌렸다. 저 사람은 자제력이 없었던 거고, 나는 다르다고 생각했다.\n\n다음 판에 집중했다. 자신은 통제할 수 있다고 믿었다.\n\n'나는 다르다.' 계단을 올라간 그 남자도, 처음엔 그렇게 생각했을 거다.\n그 사실은, 그날 밤엔 떠오르지 않았다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "holdem_skill_transfers",
+    "title": "테이블에서 배운 것",
+    "description": "회사 협상 자리. 아니면 면접. 아니면 거래처 미팅.\n\n어디든, 맞은편 사람의 표정을 읽고 있는 자신을 발견했다.\n\n저 사람은 지금 강한 패를 들고 센 척하는 건가, 약한 패로 블러프하는 건가.\n말보다 손을, 손보다 눈을 봤다.\n\n홀덤 테이블에서 익힌 감각이었다.\n\n{name}은 문득 생각했다. 이 능력을, 다른 데 썼으면 어땠을까.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "background": "office",
+    "portrait": "player_normal",
+    "conditions": {
+      "flag": "holdem_regular"
+    },
+    "tags": [
+      "gambling",
+      "holdem",
+      "growth"
+    ],
+    "cooldown": 12,
+    "choices": [
+      {
+        "text": "그 감각을 일에 쓴다 — 테이블은 줄인다",
+        "effects": {
+          "social_skill": 2,
+          "intelligence": 2,
+          "reputation": 2,
+          "mental": 4,
+          "addiction_tendency": -8
+        },
+        "flags": [
+          "holdem_skill_pivoted"
+        ],
+        "result_text": "{name}은 협상에서 한 번 더 침착해졌다.\n\n상대가 먼저 패를 까게 만드는 법. 내 패를 안 들키는 법.\n그건 테이블에서 비싼 수업료를 내고 배운 거였다.\n\n이제 그 수업료를, 테이블 밖에서 회수하기로 했다.\n홀덤장에 가는 횟수가 줄었다. 대신 통장이 늘었다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "역시 테이블이 제일 정직하다 — 더 자주 간다",
+        "effects": {
+          "mental": -2,
+          "addiction_tendency": 10
+        },
+        "flags": [],
+        "result_text": "회사보다 테이블이 편했다. 거기선 잘하면 바로 칩이 들어왔다.\n\n노력과 보상이 즉각적인 그 구조에 {name}은 점점 길들여졌다.\n\n현실은 느리고, 테이블은 빨랐다.\n그 속도 차이가, 사람을 천천히 망가뜨리는 방식이라는 걸 — 아직은 몰랐다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "race_mentor_truth",
+    "title": "아저씨의 진짜 이야기",
+    "description": "과천. 경마 아저씨가 오늘은 술이 약간 들어가 있었다.\n\n\"내가 왕년에 말이야.\" 그가 웃었다. 근데 눈은 안 웃었다.\n\n\"집 한 채 있었어. 안양에. 애도 둘이고.\"\n\n{name}은 가만히 들었다.\n\n\"여기 20년이야. 처음엔 나도 재미로 왔지. 근데 따는 날이 있었거든. 그 날의 기분을 못 잊어. 그게 문제야.\"\n\n그가 경마신문을 접었다. \"형은 적당히 해. 나처럼 되지 말고.\"",
+    "category": "gambling",
+    "rarity": "rare",
+    "weight": 0.7,
+    "background": "racetrack_betting",
+    "portrait": "tip_seller",
+    "conditions": {
+      "flag": "racetrack_guide_met"
+    },
+    "tags": [
+      "gambling",
+      "race",
+      "warning",
+      "social"
+    ],
+    "cooldown": 15,
+    "choices": [
+      {
+        "text": "\"형, 오늘은 같이 나가요\" — 함께 자리를 뜬다",
+        "effects": {
+          "mental": 8,
+          "social_skill": 2,
+          "luck": 2,
+          "addiction_tendency": -10
+        },
+        "flags": [
+          "race_mentor_truth_heard"
+        ],
+        "result_text": "{name}은 아저씨를 끌고 나왔다. 둘이 국밥집에 갔다.\n\n아저씨는 오랜만에 베팅 안 하고 집에 간다고 했다.\n\"고맙다, 형.\" 그가 어색하게 웃었다.\n\n돌아오는 길, {name}은 생각했다. 저 사람의 20년 전이 나일 수도 있었다.\n그 이야기를 들었다는 것만으로도, 오늘은 헛걸음이 아니었다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "안타깝지만 — 그래도 오늘은 경주를 본다",
+        "effects": {
+          "money": -30000,
+          "mental": -5,
+          "addiction_tendency": 6
+        },
+        "flags": [],
+        "result_text": "아저씨 이야기는 슬펐다. 하지만 {name}은 오늘 마권을 샀다.\n\n'나는 저 정도는 아니니까.' 그 거리감이 위안이 됐다.\n\n3만원을 잃고 막차를 탔다.\n창밖을 보다가, 아저씨의 \"나처럼 되지 마\"가 다시 들렸다.\n그 말은 미래에서 보내온 경고 같았다. 안 들은 척했다.",
+        "follow_up_event": ""
+      }
+    ]
+  },
+  {
+    "id": "race_last_bettor",
+    "title": "마지막 경주, 마지막 사람들",
+    "description": "그날의 마지막 경주.\n\n베팅창 앞이 유독 붐볐다. {name}은 줄에 섰다.\n\n앞 사람이 만원짜리를 세고 있었다. 손이 떨렸다. 지폐가 몇 장 안 남아 있었다.\n뒤 사람은 혼잣말을 했다. \"이번엔 진짜… 이번엔 돼야 하는데.\"\n\n마지막 경주에는, 오늘 잃은 걸 만회하려는 사람들만 남는다.\n\n{name}도 그 줄의 한 명이었다.",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.8,
+    "background": "racetrack_betting",
+    "portrait": "player_normal",
+    "conditions": {
+      "flag": "racetrack_visited"
+    },
+    "tags": [
+      "gambling",
+      "race",
+      "stress"
+    ],
+    "cooldown": 10,
+    "choices": [
+      {
+        "text": "줄에서 빠져나온다 — 이 줄의 끝을 안다",
+        "effects": {
+          "mental": 9,
+          "intelligence": 2,
+          "luck": 1
+        },
+        "flags": [
+          "race_left_last_line"
+        ],
+        "result_text": "{name}은 줄에서 나왔다.\n\n저 줄에 선 사람들의 얼굴이 다 비슷했다. 절박하고, 피곤하고, 한 방을 믿는 얼굴.\n그 얼굴이 자신과 닮아서 무서웠다.\n\n베팅 안 하고 역으로 걸었다. 막차는 한산했다.\n만회하지 않은 채로 집에 가는 것. 그게 만회보다 어려운 일이었다.",
+        "follow_up_event": ""
+      },
+      {
+        "text": "마지막이니까 크게 건다 — 만회의 기회",
+        "effects": {
+          "money": -60000,
+          "mental": -12,
+          "addiction_tendency": 12
+        },
+        "flags": [
+          "race_chased_final"
+        ],
+        "result_text": "{name}은 오늘 잃은 걸 다 걸었다. 마지막이니까.\n\n말들이 달렸다. 끝까지 봤다. 아니었다.\n\n베팅창 앞은 어느새 텅 비어 있었다. 다들 비슷한 표정으로 흩어졌다.\n\n막차에서 통장을 봤다. 만회하려다 두 배로 잃은 하루.\n'마지막 경주'라는 말은, 늘 마지막이 아니어서 위험했다.",
+        "follow_up_event": ""
+      }
+    ]
+  }
+]

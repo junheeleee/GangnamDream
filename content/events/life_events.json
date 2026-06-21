@@ -4105,7 +4105,7 @@
         "cast_effects": {
           "father": {
             "affinity": 40,
-            "stage": "close"
+            "stage": "reconciled"
           }
         },
         "follow_up_event": "",
@@ -4122,7 +4122,7 @@
         "cast_effects": {
           "father": {
             "affinity": 30,
-            "stage": "close"
+            "stage": "reconciled"
           }
         },
         "follow_up_event": "",

@@ -9,12 +9,12 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-21** — (1) **영어 번역 완성**: SaveManager 설정 영속화(get/set_setting) + LocaleManager 부팅 복원·이름 동기화 버그 수정 + MainGame.gd/StoryMode.gd 전수 `_tr()` 래핑(액션버튼·비네팅 90+25+5종·데모엔딩·칭호도감). 영어 모드에서 UI 전체 영어 출력. (2) **P2 2차 감사**: amb_coin_00 현수 게이팅(arc_intro_hyunsu_seen) + EN/KR 동기화. (3) **NG+ 구원 서사 2종**(ng_plus_events.json): ng_gambling_premonition, ng_recovery_echo. (4) **P0 3차 히든 엔딩** `writer`(A급) — 강남드림 실패 수기가 베스트셀러 1위. 엔딩 31개, 이벤트 1043개. audit ERROR 0/WARNING 0. |
-| **이전** | **2026-06-20** — (1) **이스터에그 8종**(easter_eggs.json) + 회귀자각 2종. (2) **분석요소**: get_playstyle_label() 9종 + peak_asset + 엔딩도감(discovered_endings). (3) **흥행 시그니처 6종**(viral_events.json). (4) **P2 개연성 감사**. (5) P3 3차 비혼·욜로·오마카세 9종 + P4 공략성 힌트 개편. |
+| **최근 완료** | **2026-06-21** — (1) **도박 서사 이벤트 7종**(gambling_narrative.json, EN 동기화): 카지노(칩 환전 착시/시계 없는 방/공짜 숙박 컴프) 3종, 홀덤(낯선 사람 올인 경고/스킬 전이→일·자산) 2종, 경마(아저씨의 진짜 추락 이야기/마지막 경주의 사람들) 2종. **미니게임 메커니즘 미변경 — 순수 서사 선택지만**. DataRegistry 등록. (2) **NG+ 구원 서사 확장 2종**: ng_recovery_mentor_moment(pay it forward — 전생에 중독 이긴 자가 다음 사람 손잡기), ng_recovery_discipline(끊은 규율→복리/자산 전이). _next_arc_id 트리거 연동(t20/t34). (3) **P2 audit #7(stage vs 대사 톤)**: jaehyuk 02_bond 거리두기 선택지가 trusted로 잘못 점프 → close_friends/guarded/suspect 분기, 02b_favor 호의수락→trusted로 사다리 단조화. jiyeon 03_offer 커피 한 잔 connected→interest. father_reconcile close→reconciled(전용 stage 연결). 이벤트 1052개. audit ERROR 0/WARNING 0. |
+| **이전** | **2026-06-21** — **영어 번역 완성**: SaveManager 설정 영속화 + LocaleManager 부팅 복원·이름 동기화 버그 수정 + MainGame.gd/StoryMode.gd 전수 `_tr()` 래핑(액션버튼·비네팅 90+25+5종·데모엔딩·칭호도감). + P0 3차 히든 엔딩 `writer`(A급). 엔딩 31개. + 이스터에그 8종·분석요소·흥행 시그니처 6종·NG+ 구원 서사 2종(premonition/echo). |
 | **추가 완료** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크 + 회복 3종 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급)**. ※카지노 미니게임 메커니즘 미변경(서사만). |
 | **Codex 추가 완료** | **2026-06-20~21 (외형)** — 빅휠 54칸 슬롯 쇼휠, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH), 홀덤 오벌 테이블 재배치, 슬롯머신 캐비닛 보강, 룰렛 테이블 베팅/딜러/칩/포켓 하이라이트. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
-| **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — 카지노/홀덤/경마 서사 이벤트(미니게임 메커니즘 제외); P2 잔여 audit #7(인물 stage vs 대사 톤 심화 스캔). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-21 (i18n 영어 번역 완성 + main 병합. `audit.py` ERROR 0/WARNING 0, Godot 헤드리스 임포트 클린) |
+| **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — P3 4차(사회적 비교/플렉스 서사 확장); 신규 도박 서사에 follow-up 체인 연결 검토; 잔여 EN 오버레이 커버리지 점검(신규 KR 이벤트 EN 동기화 누락 스캔). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-21 (도박 서사 7종 + NG+ 구원 2종 + P2 stage/톤 감사. `audit.py` ERROR 0/WARNING 0, Godot 헤드리스 임포트 클린) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

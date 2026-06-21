@@ -1397,11 +1397,21 @@ func _next_arc_id() -> String:
 			and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("gambling_tempted", false):
 		return "ng_gambling_premonition"
+	# 회복 멘토 — 전생에서 중독을 이긴 사람이 다음 사람의 손을 잡는다 (pay it forward)
+	if t >= 20 and _mp.get("beat_addiction_ever", false) \
+			and f.get("ng_gambling_refused", false) \
+			and not f.get("ng_recovery_mentor_seen", false):
+		return "ng_recovery_mentor_moment"
 	# 회복 잔상 — 중독에 빠지지 않은 clean 런에서, 고시원 조용한 밤 씬
 	if t >= 30 and _mp.get("beat_addiction_ever", false) \
 			and f.get("ng_gambling_refused", false) \
 			and not f.get("ng_recovery_maintained", false):
 		return "ng_recovery_echo"
+	# 규율 전이 — 끊은 사람의 인내심이 자산으로 옮겨가는 씬
+	if t >= 34 and _mp.get("beat_addiction_ever", false) \
+			and f.get("ng_recovery_mentor_seen", false) \
+			and not f.get("ng_recovery_discipline_seen", false):
+		return "ng_recovery_discipline"
 
 	# ══ 2구간: 멘토/세계 확장 (턴 9-16) ════════════════
 	if t >= 10 and not f.get("arc_sangchul_met_seen", false):
