@@ -1,0 +1,104 @@
+[
+  {
+    "id": "callback_sangchul_forgiven_echo",
+    "title": "용서한 다음 날들",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 76,
+      "flag": "sangchul_forgiven"
+    },
+    "cooldown": 9999,
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "description": "임상철에게 \"그 말 한 마디면 됐어요\"라고 한 뒤로 몇 달이 지났다.\n\n관계는 끊지 않았다. 그렇다고 예전 같지도 않았다.\n어색한 거리를 둔 채, 가끔 카페에서 마주쳤다.\n\n오늘 그가 짧은 메시지를 보냈다.\n\"커피 한 잔 할 시간 있나.\"\n\n민준은 화면을 한참 봤다.\n그때 용서한 건 진짜 마음이 풀려서였을까, 아니면 그냥 마주 보기 싫어서였을까.",
+    "choices": [
+      {
+        "text": "나간다 — 용서한 건 진심이었다",
+        "effects": {
+          "mental": 9,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 8
+          }
+        },
+        "flags": [
+          "callback_sangchul_forgiven_echo_seen",
+          "sangchul_peace_real"
+        ],
+        "result_text": "두 사람은 별 얘기 안 했다. 시장 얘기, 날씨 얘기.\n\n근데 끝나고 나오는데 가슴이 가벼웠다.\n\n아버지를 망하게 한 사람을 용서하는 건 — 그 사람을 위한 게 아니었다.\n그 무게를 계속 들고 다니지 않기로 한, 민준 자신을 위한 거였다.\n\n그걸 이제야 알았다."
+      },
+      {
+        "text": "답하지 않는다 — 용서했지만 잊은 건 아니다",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2
+        },
+        "flags": [
+          "callback_sangchul_forgiven_echo_seen",
+          "sangchul_forgiven_not_forgotten"
+        ],
+        "result_text": "민준은 메시지를 읽고, 답하지 않았다.\n\n용서한다고 했고, 그건 거짓말이 아니었다.\n그렇다고 다시 마주 앉아 커피를 마실 만큼은 아니었다.\n\n용서와 화해는 다른 거였다.\n그 둘 사이 어딘가에 서 있는 것도, 틀린 자리는 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_leveraged_cost",
+    "title": "이자",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 76,
+      "flag": "sangchul_leveraged"
+    },
+    "cooldown": 9999,
+    "background": "cafe",
+    "portrait": "player_determined",
+    "description": "\"그 덕분에 내가 여기 있는 거잖아요.\"\n\n그렇게 말한 뒤로, 민준은 임상철의 죄책감을 자산처럼 썼다.\n정보를 받았고, 자리를 소개받았고, 거절당하지 않았다.\n\n효과는 있었다. 통장 숫자가 그걸 증명했다.\n\n그런데 오늘 거울을 보다가 멈췄다.\n언젠가 최재혁의 눈빛에서 봤던 게, 거기 있었다.\n\n쓰는 사람의 얼굴.",
+    "choices": [
+      {
+        "text": "이게 강남으로 가는 길이다 — 계속 쓴다",
+        "effects": {
+          "investment_skill": 4,
+          "mental": -8
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": -4
+          }
+        },
+        "flags": [
+          "callback_sangchul_leveraged_cost_seen",
+          "sangchul_used_fully",
+          "crossed_line"
+        ],
+        "result_text": "민준은 거울에서 눈을 뗐다.\n\n감상에 빠질 시간이 없었다. 남은 시간은 정해져 있고, 사다리는 한 칸씩 밟아야 한다.\n\n임상철의 죄책감은 아직 쓸 만했다.\n\n아버지가 알면 뭐라고 할까 — 그 생각은, 통장을 보면 잠깐 사라졌다."
+      },
+      {
+        "text": "이렇게까지 되긴 싫다 — 관계를 끊는다",
+        "effects": {
+          "mental": 12,
+          "investment_skill": -2,
+          "reputation": -3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "stage": "cut_off",
+            "affinity": -10
+          }
+        },
+        "flags": [
+          "callback_sangchul_leveraged_cost_seen",
+          "sangchul_leverage_stopped"
+        ],
+        "result_text": "민준은 임상철에게 마지막으로 전화했다.\n\"앞으로 연락 안 할게요. 그동안 받은 건, 받은 거고요.\"\n\n네트워크가 끊겼다. 정보도 끊겼다. 강남이 조금 더 멀어졌을 것이다.\n\n근데 거울 속 얼굴이, 다시 민준 자신의 얼굴로 돌아왔다.\n\n재혁처럼은 되지 않기로 했다. 그거 하나는 지켰다."
+      }
+    ]
+  }
+]
