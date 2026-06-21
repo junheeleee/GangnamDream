@@ -38,6 +38,7 @@ func _ready() -> void:
 	await _shot_support_modals()
 	await _shot_crisis_vignette()
 	await _shot_ap_actions()
+	await _shot_info_panel_tabs()
 	await _shot_people()
 	await _shot_holdem_club()
 	await _shot_racetrack()
@@ -311,6 +312,50 @@ func _shot_ap_actions() -> void:
 		_mg._render_ap_actions()
 	await _settle(0.8)
 	await _save("04_ap_actions_dashboard")
+
+func _shot_info_panel_tabs() -> void:
+	_seed_info_panel_state()
+	if _mg.has_method("_render_sidebars"):
+		_mg._render_sidebars()
+	if _mg.has_method("_toggle_info_panel"):
+		_mg._toggle_info_panel()
+	await _settle(0.5)
+	await _save("04b_info_stats")
+	var tabs: TabContainer = _mg.get("info_tabs") as TabContainer
+	if is_instance_valid(tabs):
+		var shots := {
+			1: "04c_info_market",
+			2: "04d_info_relations",
+			3: "04e_info_items",
+			4: "04f_info_story",
+		}
+		for idx in shots.keys():
+			tabs.current_tab = int(idx)
+			GameState.flags["_last_info_tab"] = int(idx)
+			await _settle(0.35)
+			await _save(str(shots[idx]))
+	if _mg.has_method("_toggle_info_panel"):
+		_mg._toggle_info_panel()
+	await _settle(0.3)
+
+func _seed_info_panel_state() -> void:
+	GameState.relationships = [
+		{"id": "father", "name": "아버지", "type": "family", "affection": 62, "trust": 58},
+		{"id": "sangchul", "name": "임상철", "type": "mentor", "affection": 56, "trust": 45},
+		{"id": "daeun", "name": "김다은", "type": "friends", "affection": 48, "trust": 36},
+	]
+	GameState.inventory.clear()
+	GameState.add_item("item_vitamins", 1)
+	GameState.add_item("item_meditation_app", 1)
+	GameState.flags["arc_intro_hyunsu_seen"] = true
+	GameState.flags["arc_sangchul_met_seen"] = true
+	GameState.flags["arc_invest_guidance_seen"] = true
+	GameState.flags["arc_sangchul_02_seen"] = true
+	GameState.flags["arc_father_01_seen"] = true
+	GameState.flags["arc_father_02_done"] = true
+	GameState.flags["met_daeun"] = true
+	GameState.flags["arc_daeun_01_seen"] = true
+	GameState.run_theme = "steady_climb"
 
 func _close_modal() -> void:
 	for m in ["_close_modal","_close_overlay","_dismiss_modal"]:

@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-22 (PC/Steam Deck Readability Pass 3)
+
+### 수정
+- `scenes/MainGame.gd`: 우측 정보 패널 폭을 400px로 확대하고 헤더/탭/스탯 글자 크기와 여백을 상향.
+- 정보 패널 탭명에서 장식 이모지를 제거하고, 패널 헤더를 `정보 패널` 기준으로 정리.
+- 시황 탭 뉴스 항목을 루머/호재/악재 태그가 있는 카드형 UI로 변경.
+- 관계 탭을 인물 카드 UI로 변경. 인물명, 관계 타입, 호감도/신뢰 바, 관계 효과 힌트를 한 카드에 묶어 표시.
+- 소지품 탭을 아이템 카드 UI로 변경. 아이템명, 수량, 효과, 사용/자동 활성 상태를 한 카드에 묶어 표시.
+- 스토리 탭을 아크 진행 카드 UI로 변경. 아크별 진행률, 단계 완료 상태, 힌트, 런 정보를 카드로 표시.
+- `tools/ScreenshotQA.gd`: 우측 정보 패널 탭별 캡처(`04b_info_stats`~`04f_info_story`)를 추가하고, 관계/소지품/아크 QA용 상태를 시드하도록 보강.
+
+### 검증
+- 전체 `ScreenshotQA` 실행 완료. `04b_info_stats`, `04c_info_market`, `04d_info_relations`, `04e_info_items`, `04f_info_story` 직접 확인.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗, 밸런스 밴드 전부 통과.
+
 ## 2026-06-22 (PC/Steam Deck Readability Pass 2)
 
 ### 수정

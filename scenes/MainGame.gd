@@ -60,6 +60,7 @@ const UI_MIN_BUTTON_FONT := 15
 const UI_MIN_BUTTON_HEIGHT := 46
 const UI_MIN_SMALL_BUTTON_HEIGHT := 38
 const UI_FOCUS_BORDER := 3
+const UI_INFO_PANEL_WIDTH := 400
 
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
@@ -625,13 +626,13 @@ func _build_story_panel(parent):
 	choice_scroll.add_child(choice_box)
 
 func _build_info_panel():
-	# ── 우측 슬라이드 통합 정보 패널 (340px, 기본 숨김) ──
+	# ── 우측 슬라이드 통합 정보 패널 ──
 	info_panel = PanelContainer.new()
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.05, 0.08, 0.97)
-	style.border_color = Color("#252535")
+	style.bg_color = Color(0.045, 0.045, 0.07, 0.985)
+	style.border_color = Color("#303448")
 	style.set_border_width_all(0)
-	style.border_width_left = 1
+	style.border_width_left = 2
 	style.content_margin_left = 0
 	style.content_margin_right = 0
 	style.content_margin_top = 0
@@ -641,7 +642,7 @@ func _build_info_panel():
 	info_panel.set_anchor(SIDE_TOP, 0.0)
 	info_panel.set_anchor(SIDE_RIGHT, 1.0)
 	info_panel.set_anchor(SIDE_BOTTOM, 1.0)
-	info_panel.offset_left = -340
+	info_panel.offset_left = -UI_INFO_PANEL_WIDTH
 	info_panel.offset_top = 48
 	info_panel.offset_right = 0
 	info_panel.offset_bottom = 0
@@ -655,24 +656,26 @@ func _build_info_panel():
 
 	# 헤더: 패널 타이틀 + 닫기(X) 버튼
 	var panel_header = HBoxContainer.new()
-	panel_header.custom_minimum_size = Vector2(0, 36)
+	panel_header.custom_minimum_size = Vector2(0, 46)
 	var ph_style = StyleBoxFlat.new()
 	ph_style.bg_color = Color("#0a0a12")
 	ph_style.border_color = Color("#1e1e2a")
 	ph_style.border_width_bottom = 1
-	ph_style.content_margin_left = 10
-	ph_style.content_margin_right = 6
-	ph_style.content_margin_top = 4
-	ph_style.content_margin_bottom = 4
+	ph_style.content_margin_left = 14
+	ph_style.content_margin_right = 8
+	ph_style.content_margin_top = 7
+	ph_style.content_margin_bottom = 7
 	panel_header.add_theme_stylebox_override("panel", ph_style)
 	panel_vbox.add_child(panel_header)
 
-	var panel_title = _label(_tr("📋 정보", "📋 Info"), 13, "#8892a4")
+	var panel_title = _label(_tr("정보 패널", "Info Panel"), 16, "#d8d2c4")
+	if _font_bold:
+		panel_title.add_theme_font_override("font", _font_bold)
 	panel_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel_header.add_child(panel_title)
 
-	var panel_close = _small_button("✕", "#2a2a3a")
-	panel_close.custom_minimum_size = Vector2(32, 28)
+	var panel_close = _small_button("X", "#2a2a3a")
+	panel_close.custom_minimum_size = Vector2(42, 34)
 	panel_close.pressed.connect(_toggle_info_panel)
 	panel_header.add_child(panel_close)
 
@@ -685,18 +688,18 @@ func _build_info_panel():
 	tab_sel.bg_color = Color("#13131f")
 	tab_sel.border_color = Color("#c9a227")
 	tab_sel.border_width_bottom = 2
-	tab_sel.content_margin_left = 10
-	tab_sel.content_margin_right = 10
-	tab_sel.content_margin_top = 6
-	tab_sel.content_margin_bottom = 6
+	tab_sel.content_margin_left = 12
+	tab_sel.content_margin_right = 12
+	tab_sel.content_margin_top = 8
+	tab_sel.content_margin_bottom = 8
 	var tab_unsel = StyleBoxFlat.new()
 	tab_unsel.bg_color = Color("#0a0a12")
 	tab_unsel.border_color = Color("#1e1e2a")
 	tab_unsel.set_border_width_all(0)
-	tab_unsel.content_margin_left = 10
-	tab_unsel.content_margin_right = 10
-	tab_unsel.content_margin_top = 6
-	tab_unsel.content_margin_bottom = 6
+	tab_unsel.content_margin_left = 12
+	tab_unsel.content_margin_right = 12
+	tab_unsel.content_margin_top = 8
+	tab_unsel.content_margin_bottom = 8
 	var tab_panel_style = StyleBoxFlat.new()
 	tab_panel_style.bg_color = Color("#0c0c14")
 	tab_panel_style.set_border_width_all(0)
@@ -705,23 +708,23 @@ func _build_info_panel():
 	tabs.add_theme_stylebox_override("panel", tab_panel_style)
 	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
 	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
-	tabs.add_theme_font_size_override("font_size", 13)
+	tabs.add_theme_font_size_override("font_size", 14)
 	tabs.tab_changed.connect(func(idx): GameState.flags["_last_info_tab"] = idx)
 	panel_vbox.add_child(tabs)
 
 	# ── Tab 0: 📊 스탯 ──
 	var stat_scroll = ScrollContainer.new()
-	stat_scroll.name = _tr("📊 스탯", "📊 Stats")
+	stat_scroll.name = _tr("스탯", "Stats")
 	stat_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(stat_scroll)
 	var stat_box = VBoxContainer.new()
 	stat_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	stat_box.add_theme_constant_override("separation", 5)
+	stat_box.add_theme_constant_override("separation", 8)
 	var stat_margin = MarginContainer.new()
-	stat_margin.add_theme_constant_override("margin_left", 14)
-	stat_margin.add_theme_constant_override("margin_right", 14)
-	stat_margin.add_theme_constant_override("margin_top", 10)
-	stat_margin.add_theme_constant_override("margin_bottom", 10)
+	stat_margin.add_theme_constant_override("margin_left", 16)
+	stat_margin.add_theme_constant_override("margin_right", 16)
+	stat_margin.add_theme_constant_override("margin_top", 12)
+	stat_margin.add_theme_constant_override("margin_bottom", 12)
 	stat_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stat_margin.add_child(stat_box)
 	stat_scroll.add_child(stat_margin)
@@ -730,12 +733,12 @@ func _build_info_panel():
 	var bg_row = HBoxContainer.new()
 	bg_row.add_theme_constant_override("separation", 6)
 	stat_box.add_child(bg_row)
-	var bg_lbl = _label(_tr("배경", "Origin"), 10, "#5a6075")
-	bg_lbl.custom_minimum_size = Vector2(28, 0)
+	var bg_lbl = _label(_tr("배경", "Origin"), 13, "#7a8496")
+	bg_lbl.custom_minimum_size = Vector2(46, 0)
 	bg_row.add_child(bg_lbl)
 	var bg_map = {"지방_상경": _tr("지방 상경", "Came from the provinces"), "명문대_중퇴": _tr("명문대 중퇴", "Elite school dropout"), "금수저": _tr("금수저", "Born wealthy")}
 	var bg_name = bg_map.get(GameState.player_background, GameState.player_background)
-	var bg_val = _label(bg_name, 10, "#a0aec0")
+	var bg_val = _label(bg_name, 14, "#c8d0df")
 	bg_val.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bg_row.add_child(bg_val)
 
@@ -743,30 +746,30 @@ func _build_info_panel():
 	sep_line.modulate = Color("#2a2a3a")
 	stat_box.add_child(sep_line)
 
-	var player_hdr := _label(_tr("─ 인물", "─ Profile"), 12, COL_GOLD)
+	var player_hdr := _label(_tr("인물", "Profile"), 14, COL_GOLD)
 	if _font_bold:
 		player_hdr.add_theme_font_override("font", _font_bold)
 	stat_box.add_child(player_hdr)
 	for key in ["housing", "job", "health", "mental", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
 		var stat_row = HBoxContainer.new()
 		stat_box.add_child(stat_row)
-		var name_label = _label(_stat_name(key), 12, "#5a6075")
-		name_label.custom_minimum_size = Vector2(70, 0)
+		var name_label = _label(_stat_name(key), 14, "#7a8496")
+		name_label.custom_minimum_size = Vector2(92, 0)
 		stat_row.add_child(name_label)
-		var value = _label("", 12, "#e8eaf0")
+		var value = _label("", 14, "#e8eaf0")
 		value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		stat_labels[key] = value
 		stat_row.add_child(value)
 
-	var log_hdr := _label(_tr("─ 기록", "─ Log"), 12, COL_GOLD)
+	var log_hdr := _label(_tr("기록", "Log"), 14, COL_GOLD)
 	if _font_bold:
 		log_hdr.add_theme_font_override("font", _font_bold)
 	stat_box.add_child(log_hdr)
 	log_box = RichTextLabel.new()
 	log_box.bbcode_enabled = true
 	log_box.fit_content = true
-	log_box.add_theme_font_size_override("normal_font_size", 11)
+	log_box.add_theme_font_size_override("normal_font_size", 13)
 	log_box.add_theme_color_override("default_color", Color("#5a6075"))
 	stat_box.add_child(log_box)
 
@@ -777,18 +780,18 @@ func _build_info_panel():
 	tabs.add_child(news_scroll)
 	var news_outer = VBoxContainer.new()
 	news_outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	news_outer.add_theme_constant_override("separation", 6)
+	news_outer.add_theme_constant_override("separation", 8)
 	var news_margin = MarginContainer.new()
-	news_margin.add_theme_constant_override("margin_left", 14)
-	news_margin.add_theme_constant_override("margin_right", 14)
-	news_margin.add_theme_constant_override("margin_top", 10)
-	news_margin.add_theme_constant_override("margin_bottom", 10)
+	news_margin.add_theme_constant_override("margin_left", 16)
+	news_margin.add_theme_constant_override("margin_right", 16)
+	news_margin.add_theme_constant_override("margin_top", 12)
+	news_margin.add_theme_constant_override("margin_bottom", 12)
 	news_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	news_margin.add_child(news_outer)
 	news_scroll.add_child(news_margin)
 
 	news_box = VBoxContainer.new()
-	news_box.add_theme_constant_override("separation", 4)
+	news_box.add_theme_constant_override("separation", 8)
 	news_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	news_outer.add_child(news_box)
 
@@ -797,7 +800,7 @@ func _build_info_panel():
 	ticker_rtl.fit_content = true
 	ticker_rtl.scroll_active = false
 	ticker_rtl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ticker_rtl.add_theme_font_size_override("normal_font_size", 12)
+	ticker_rtl.add_theme_font_size_override("normal_font_size", 13)
 	ticker_rtl.add_theme_color_override("default_color", Color("#8892a4"))
 	news_outer.add_child(ticker_rtl)
 
@@ -808,18 +811,18 @@ func _build_info_panel():
 	tabs.add_child(social_scroll)
 	var social_outer = VBoxContainer.new()
 	social_outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	social_outer.add_theme_constant_override("separation", 6)
+	social_outer.add_theme_constant_override("separation", 8)
 	var social_margin = MarginContainer.new()
-	social_margin.add_theme_constant_override("margin_left", 14)
-	social_margin.add_theme_constant_override("margin_right", 14)
-	social_margin.add_theme_constant_override("margin_top", 10)
-	social_margin.add_theme_constant_override("margin_bottom", 10)
+	social_margin.add_theme_constant_override("margin_left", 16)
+	social_margin.add_theme_constant_override("margin_right", 16)
+	social_margin.add_theme_constant_override("margin_top", 12)
+	social_margin.add_theme_constant_override("margin_bottom", 12)
 	social_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	social_margin.add_child(social_outer)
 	social_scroll.add_child(social_margin)
 
 	relationship_box = VBoxContainer.new()
-	relationship_box.add_theme_constant_override("separation", 4)
+	relationship_box.add_theme_constant_override("separation", 8)
 	relationship_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	social_outer.add_child(relationship_box)
 
@@ -829,14 +832,14 @@ func _build_info_panel():
 	inv_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(inv_scroll)
 	var inv_margin = MarginContainer.new()
-	inv_margin.add_theme_constant_override("margin_left", 14)
-	inv_margin.add_theme_constant_override("margin_right", 14)
-	inv_margin.add_theme_constant_override("margin_top", 10)
-	inv_margin.add_theme_constant_override("margin_bottom", 10)
+	inv_margin.add_theme_constant_override("margin_left", 16)
+	inv_margin.add_theme_constant_override("margin_right", 16)
+	inv_margin.add_theme_constant_override("margin_top", 12)
+	inv_margin.add_theme_constant_override("margin_bottom", 12)
 	inv_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inv_scroll.add_child(inv_margin)
 	inventory_box = VBoxContainer.new()
-	inventory_box.add_theme_constant_override("separation", 4)
+	inventory_box.add_theme_constant_override("separation", 8)
 	inventory_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inv_margin.add_child(inventory_box)
 
@@ -846,14 +849,14 @@ func _build_info_panel():
 	arc_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	tabs.add_child(arc_scroll)
 	var arc_margin := MarginContainer.new()
-	arc_margin.add_theme_constant_override("margin_left", 14)
-	arc_margin.add_theme_constant_override("margin_right", 14)
-	arc_margin.add_theme_constant_override("margin_top", 10)
-	arc_margin.add_theme_constant_override("margin_bottom", 10)
+	arc_margin.add_theme_constant_override("margin_left", 16)
+	arc_margin.add_theme_constant_override("margin_right", 16)
+	arc_margin.add_theme_constant_override("margin_top", 12)
+	arc_margin.add_theme_constant_override("margin_bottom", 12)
 	arc_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	arc_scroll.add_child(arc_margin)
 	arc_box = VBoxContainer.new()
-	arc_box.add_theme_constant_override("separation", 5)
+	arc_box.add_theme_constant_override("separation", 8)
 	arc_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	arc_margin.add_child(arc_box)
 
@@ -2841,31 +2844,50 @@ func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int
 func _render_news():
 	for child in news_box.get_children():
 		child.queue_free()
-	news_box.add_child(_label("▸ BREAKING NEWS", 14, "#f97316"))
+	news_box.add_child(_info_section_title(_tr("시장 뉴스", "Market News"), "#f97316"))
 	var items = GameState.news_log.slice(max(0, GameState.news_log.size() - 4))
+	if items.is_empty():
+		news_box.add_child(_info_empty_card(_tr("아직 들어온 뉴스가 없습니다.", "No news yet."), "#64748b"))
 	for news in items:
 		var text = str(news.get("headline", "")).format({"topic": _random_topic(news)})
 		var misleading = bool(news.get("misleading", false))
 		var effect: Dictionary = news.get("market_effect", news.get("market_effects", {}))
 		var power = float(effect.get("power", 0.0))
 		var color = "#8892a4"
-		var prefix = ""
+		var label_text = _tr("중립", "Neutral")
 		if misleading:
 			color = "#5a6075"
-			prefix = _tr("⚠ [루머] ", "⚠ [RUMOR] ")
+			label_text = _tr("루머", "Rumor")
 		elif power >= 0.04:
 			color = "#00c896"
-			prefix = "📈 "
+			label_text = _tr("강한 호재", "Strong Up")
 		elif power >= 0.01:
 			color = "#6ee7b7"
-			prefix = "▲ "
+			label_text = _tr("호재", "Up")
 		elif power <= -0.04:
 			color = "#ff6b6b"
-			prefix = "📉 "
+			label_text = _tr("강한 악재", "Strong Down")
 		elif power <= -0.01:
 			color = "#fca5a5"
-			prefix = "▼ "
-		news_box.add_child(_wrap_label(prefix + text, 13, color))
+			label_text = _tr("악재", "Down")
+		var card: PanelContainer = _info_card(color, "#0b0f16")
+		var box: VBoxContainer = VBoxContainer.new()
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 5)
+		card.add_child(box)
+		var row: HBoxContainer = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		box.add_child(row)
+		var tag: Label = _label(label_text, 13, color)
+		if _font_bold:
+			tag.add_theme_font_override("font", _font_bold)
+		tag.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(tag)
+		var impact: Label = _label("%+.1f%%" % (power * 100.0), 13, color)
+		impact.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		row.add_child(impact)
+		box.add_child(_wrap_label(text, 14, "#c8d0df"))
+		news_box.add_child(card)
 
 func _render_sidebars():
 	# ── 시세 패널: RichTextLabel 단일 업데이트 ──
@@ -2901,52 +2923,87 @@ func _render_sidebars():
 		ticker_rtl.append_text("\n".join(lines))
 
 	_clear_box(relationship_box)
-	relationship_box.add_child(_label("▸ RELATIONSHIPS", 14, "#d8b4fe"))
+	relationship_box.add_child(_info_section_title(_tr("내 사람들", "Relationships"), "#d8b4fe"))
 	if GameState.relationships.is_empty():
-		relationship_box.add_child(_label(_tr("아직 중요한 인연이 없다.", "No important relationships yet."), 12, "#5a6075"))
+		relationship_box.add_child(_info_empty_card(_tr("아직 중요한 인연이 없습니다. 관계 행동이나 스토리 진행으로 인물이 기록됩니다.", "No important relationships yet. People appear here through relationship actions or story progress."), "#64748b"))
 	for rel in GameState.relationships:
 		var affection = int(rel.get("affection", 40))
 		var trust = int(rel.get("trust", 40))
 		var type_str = str(rel.get("type", "friends"))
-		var type_kr = {
-			"romantic": _tr("연인", "Partner"), "mentor": _tr("멘토", "Mentor"),
-			"business": _tr("비즈니스", "Business"), "family": _tr("가족", "Family"),
-			"friends": _tr("친구", "Friend")}.get(type_str, _tr("인연", "Bond"))
+		var type_kr: String = _relationship_type_label(type_str)
+		var accent: String = _relationship_type_color(type_str)
 		var affinity = relationship_system.get_affinity_label(affection)
-		relationship_box.add_child(_label("%s  [%s]  %s (%d/%d)" % [rel.get("name", "?"), type_kr, affinity, affection, trust], 12, "#8892a4"))
-		# 관계 효과 힌트
+		var card: PanelContainer = _info_card(accent, "#0d1018")
+		var box: VBoxContainer = VBoxContainer.new()
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 8)
+		card.add_child(box)
+		var title_row: HBoxContainer = HBoxContainer.new()
+		title_row.add_theme_constant_override("separation", 8)
+		box.add_child(title_row)
+		var name_lbl: Label = _label(str(rel.get("name", "?")), 16, "#e8eaf0")
+		if _font_bold:
+			name_lbl.add_theme_font_override("font", _font_bold)
+		name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		title_row.add_child(name_lbl)
+		var type_lbl: Label = _label(type_kr, 13, accent)
+		type_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		title_row.add_child(type_lbl)
+		box.add_child(_wrap_label(str(affinity), 13, "#a8b3c7"))
+		box.add_child(_info_value_bar(_tr("호감도", "Affinity"), affection, 100, accent))
+		box.add_child(_info_value_bar(_tr("신뢰", "Trust"), trust, 100, "#93c5fd"))
 		if affection >= 45:
 			var effect_hint = _rel_effect_hint(type_str, affection, trust)
 			if not effect_hint.is_empty():
-				relationship_box.add_child(_wrap_label("  ▸ " + effect_hint, 11, "#64748b"))
+				box.add_child(_wrap_label(effect_hint, 13, "#8f9ab0"))
+		relationship_box.add_child(card)
 
 	_clear_box(inventory_box)
-	inventory_box.add_child(_label("▸ INVENTORY", 14, "#fbbf24"))
+	inventory_box.add_child(_info_section_title(_tr("소지품", "Inventory"), "#fbbf24"))
 	if GameState.inventory.is_empty():
-		inventory_box.add_child(_label(_tr("비어 있음", "Empty"), 12, "#5a6075"))
+		inventory_box.add_child(_info_empty_card(_tr("비어 있습니다. 상점에서 회복·성장 아이템을 구매할 수 있습니다.", "Empty. Buy recovery and growth items from the shop."), "#64748b"))
 	for item in GameState.inventory:
-		var item_row = HBoxContainer.new()
-		item_row.add_theme_constant_override("separation", 6)
-		var item_label = _label("%s %s x%d" % [item.get("icon", ""), item.get("name", _tr("아이템", "Item")), item.get("quantity", 1)], 12, "#8892a4")
+		var item_card: PanelContainer = _info_card("#fbbf24", "#0d1018")
+		var item_box: VBoxContainer = VBoxContainer.new()
+		item_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		item_box.add_theme_constant_override("separation", 8)
+		item_card.add_child(item_box)
+		var item_row: HBoxContainer = HBoxContainer.new()
+		item_row.add_theme_constant_override("separation", 8)
+		item_box.add_child(item_row)
+		var item_label: Label = _label("%s x%d" % [item.get("name", _tr("아이템", "Item")), item.get("quantity", 1)], 15, "#e8eaf0")
+		if _font_bold:
+			item_label.add_theme_font_override("font", _font_bold)
 		item_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		item_row.add_child(item_label)
 		var has_immediate = not item.get("effects", {}).is_empty()
+		var effect_parts: Array = []
+		for k in item.get("effects", {}):
+			var v: int = int(item["effects"][k])
+			var sign: String = "+" if v >= 0 else ""
+			effect_parts.append("%s %s%d" % [_stat_name(k), sign, v])
+		for k in item.get("passive_effects", {}):
+			var v2: int = int(item["passive_effects"][k])
+			var sign2: String = "+" if v2 >= 0 else ""
+			effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
+		if not effect_parts.is_empty():
+			item_box.add_child(_wrap_label(", ".join(effect_parts), 13, "#fbbf24"))
 		if has_immediate:
 			var use_btn = _small_button(_tr("사용 ⚡1", "Use ⚡1"), "#0f766e")
 			if GameState.action_points <= 0:
 				use_btn.disabled = true
 			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
-			item_row.add_child(use_btn)
+			item_box.add_child(use_btn)
 		else:
-			item_row.add_child(_label(_tr("자동 활성", "Auto-active"), 11, "#3a7a4a"))
-		inventory_box.add_child(item_row)
+			item_box.add_child(_wrap_label(_tr("자동 활성", "Auto-active"), 13, "#34d399"))
+		inventory_box.add_child(item_card)
 
 	_refresh_arc_box()
 
 func _refresh_arc_box() -> void:
 	if not is_instance_valid(arc_box): return
 	_clear_box(arc_box)
-	arc_box.add_child(_label(_tr("▸ 진행 중인 아크", "▸ Active Arcs"), 14, "#86e4c0"))
+	arc_box.add_child(_info_section_title(_tr("스토리 아크", "Story Arcs"), "#86e4c0"))
 	var f: Dictionary = GameState.flags
 	var t: int = GameState.turn
 
@@ -3051,27 +3108,52 @@ func _refresh_arc_box() -> void:
 		any_active = true
 		var done_all: bool = bool(arc.get("done", false))
 		var hdr_color: String = "#5a6a6a" if done_all else "#86e4c0"
-		var name_str: String = "%s %s%s" % [str(arc["icon"]), str(arc["name"]), "  ✓" if done_all else ""]
-		arc_box.add_child(_label(name_str, 13, hdr_color))
 		var stages: Array = arc.get("stages", [])
+		var done_count: int = 0
+		for stage in stages:
+			if bool(stage.get("done", false)):
+				done_count += 1
+		var card: PanelContainer = _info_card(hdr_color, "#0d1018")
+		var box: VBoxContainer = VBoxContainer.new()
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 8)
+		card.add_child(box)
+		var header: HBoxContainer = HBoxContainer.new()
+		header.add_theme_constant_override("separation", 8)
+		box.add_child(header)
+		var name_lbl: Label = _label(str(arc["name"]), 15, "#e8eaf0" if not done_all else "#94a3b8")
+		if _font_bold:
+			name_lbl.add_theme_font_override("font", _font_bold)
+		name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		header.add_child(name_lbl)
+		var status_lbl: Label = _label(_tr("완료", "Done") if done_all else "%d/%d" % [done_count, stages.size()], 13, hdr_color)
+		status_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		header.add_child(status_lbl)
+		var progress_text: String = "■".repeat(done_count) + "□".repeat(maxi(stages.size() - done_count, 0))
+		box.add_child(_label(progress_text, 14, hdr_color))
 		for stage in stages:
 			var done: bool = bool(stage.get("done", false))
-			var prefix: String = "  ■" if done else "  □"
+			var prefix: String = _tr("완료", "Done") if done else _tr("대기", "Pending")
 			var color: String = "#4a5a4a" if done else "#8ab4a0"
-			arc_box.add_child(_label("%s %s" % [prefix, str(stage["label"])], 11, color))
+			box.add_child(_wrap_label("%s  %s" % [prefix, str(stage["label"])], 13, color))
 		var hint: String = str(arc.get("hint", ""))
 		if not hint.is_empty() and not done_all:
-			arc_box.add_child(_wrap_label("  ↳ " + hint, 10, "#3a5a4a"))
+			box.add_child(_wrap_label(hint, 13, "#5fa080"))
+		arc_box.add_child(card)
 
 	if not any_active:
-		arc_box.add_child(_label(_tr("아직 발동된 아크가 없다. 이야기가 흘러가면 여기에 기록된다.", "No arcs yet. As the story unfolds, they will be tracked here."), 11, "#3a4a3a"))
+		arc_box.add_child(_info_empty_card(_tr("아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.", "No arcs yet. As the story unfolds, they will be tracked here."), "#64748b"))
 
 	# 런 테마 표시
-	arc_box.add_child(_label("", 6, "#0a0a10"))
-	arc_box.add_child(_label(_tr("▸ 런 정보", "▸ Run Info"), 12, "#5a7a9a"))
+	arc_box.add_child(_info_section_title(_tr("런 정보", "Run Info"), "#5a9ac8"))
 	var theme_id: String = GameState.run_theme
-	arc_box.add_child(_label(_tr("테마: %s", "Theme: %s") % theme_id, 11, "#4a6a8a"))
-	arc_box.add_child(_label(_tr("투자감각: %d  / 사교력: %d", "Investing: %d  / Social: %d") % [GameState.investment_skill, GameState.social_skill], 11, "#3a5a6a"))
+	var run_card: PanelContainer = _info_card("#5a9ac8", "#0d1018")
+	var run_box: VBoxContainer = VBoxContainer.new()
+	run_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	run_box.add_theme_constant_override("separation", 6)
+	run_card.add_child(run_box)
+	run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % theme_id, 14, "#8fb6d8"))
+	run_box.add_child(_wrap_label(_tr("투자감각 %d  /  사교력 %d", "Investing %d  /  Social %d") % [GameState.investment_skill, GameState.social_skill], 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
 	for gid in ["holdem", "racetrack", "scalping", "aruba"]:
@@ -3079,7 +3161,8 @@ func _refresh_arc_box() -> void:
 		if grade > 0:
 			mg_line += "%s:%s  " % [gid, MetaProgression.get_mastery_label(gid)]
 	if not mg_line.is_empty():
-		arc_box.add_child(_label(_tr("미니게임: ", "Minigame: ") + mg_line.strip_edges(), 10, "#3a5a4a"))
+		run_box.add_child(_wrap_label(_tr("미니게임: ", "Minigame: ") + mg_line.strip_edges(), 13, "#5fa080"))
+	arc_box.add_child(run_card)
 
 func _render_log():
 	var lines: Array = []
@@ -6833,6 +6916,69 @@ func _panel(bg, border):
 	style.content_margin_bottom = 10
 	panel.add_theme_stylebox_override("panel", style)
 	return panel
+
+func _info_card(accent: String, bg: String = "#0b1018") -> PanelContainer:
+	var panel: PanelContainer = PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style: StyleBoxFlat = StyleBoxFlat.new()
+	style.bg_color = Color(bg)
+	style.border_color = Color(accent)
+	style.set_border_width_all(1)
+	style.border_width_left = 4
+	style.set_corner_radius_all(7)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	style.content_margin_top = 11
+	style.content_margin_bottom = 11
+	panel.add_theme_stylebox_override("panel", style)
+	return panel
+
+func _info_section_title(text: String, color: String) -> Label:
+	var lbl: Label = _label(text, 15, color)
+	if _font_bold:
+		lbl.add_theme_font_override("font", _font_bold)
+	return lbl
+
+func _info_empty_card(text: String, accent: String = "#64748b") -> Control:
+	var card: PanelContainer = _info_card(accent, "#0b0f16")
+	card.add_child(_wrap_label(text, 14, "#8f9ab0"))
+	return card
+
+func _info_value_bar(label_text: String, value: int, max_value: int, color: String) -> Control:
+	var box: VBoxContainer = VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 4)
+	var top: HBoxContainer = HBoxContainer.new()
+	top.add_theme_constant_override("separation", 8)
+	box.add_child(top)
+	var lbl: Label = _label(label_text, 13, "#8f9ab0")
+	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(lbl)
+	var val: Label = _label("%d/%d" % [value, max_value], 13, color)
+	val.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	top.add_child(val)
+	var bar_lbl: Label = _label(_bar_str(value, max_value, 12), 13, color)
+	bar_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(bar_lbl)
+	return box
+
+func _relationship_type_label(type_str: String) -> String:
+	return {
+		"romantic": _tr("연인", "Partner"),
+		"mentor": _tr("멘토", "Mentor"),
+		"business": _tr("비즈니스", "Business"),
+		"family": _tr("가족", "Family"),
+		"friends": _tr("친구", "Friend"),
+	}.get(type_str, _tr("인연", "Bond"))
+
+func _relationship_type_color(type_str: String) -> String:
+	return {
+		"romantic": "#e8a0c0",
+		"mentor": "#5b9cf6",
+		"business": "#34d399",
+		"family": "#f0b429",
+		"friends": "#a78bfa",
+	}.get(type_str, "#94a3b8")
 
 func _readable_font_size(size: int) -> int:
 	if size <= 6:
