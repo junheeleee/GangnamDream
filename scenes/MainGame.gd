@@ -4971,6 +4971,98 @@ func _open_jobs():
 		if not job.get("description", "").is_empty():
 			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#5a6075"))
 
+func _build_investment_market_board() -> Control:
+	var fg: int = int(GameState.market_context.get("fear_greed", 50))
+	var cycle: String = str(GameState.market_context.get("cycle", "neutral"))
+	var cycle_map: Dictionary = {"bull": _tr("상승장", "Bull Market"), "bear": _tr("하락장", "Bear Market"), "neutral": _tr("횡보장", "Sideways")}
+	var cycle_label: String = str(cycle_map.get(cycle, cycle))
+	var accent: String = "#ff4444" if fg < 30 else ("#00c896" if fg > 70 else "#f0b429")
+	var crash_risk: float = float(GameState.market_context.get("crash_risk", 0.05))
+
+	var total_cost: float = 0.0
+	var total_now: float = 0.0
+	for aid in GameState.portfolio:
+		var holding: Dictionary = GameState.portfolio[aid]
+		var qty: float = float(holding.get("quantity", 0.0))
+		var avg_price: float = float(holding.get("avg_price", 0.0))
+		var now_price: float = float(GameState.market_prices.get(aid, avg_price))
+		total_cost += qty * avg_price
+		total_now += qty * now_price
+	var return_pct: float = (total_now - total_cost) / maxf(total_cost, 0.01) * 100.0
+	var has_position: bool = total_now > 0.0
+	var return_color: String = "#00c896" if return_pct >= 0.0 else "#ff4444"
+
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#07100e")
+	st.bg_color.a = 0.92
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	panel.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	panel.add_child(row)
+
+	var regime := VBoxContainer.new()
+	regime.custom_minimum_size = Vector2(150, 0)
+	regime.add_theme_constant_override("separation", 3)
+	row.add_child(regime)
+	regime.add_child(_label("MARKET BOARD", 10, "#7f8ea3"))
+	var cycle_lbl := _label(cycle_label, 21, accent)
+	if _font_bold:
+		cycle_lbl.add_theme_font_override("font", _font_bold)
+	regime.add_child(cycle_lbl)
+	regime.add_child(_label(_tr("크래시 리스크 %.0f%%", "Crash risk %.0f%%") % (crash_risk * 100.0), 12, "#a8b3c7"))
+
+	var gauge := Control.new()
+	gauge.custom_minimum_size = Vector2(210, 68)
+	gauge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var gauge_color := Color(accent)
+	gauge.draw.connect(func():
+		var sz := gauge.size
+		if sz.x < 40.0:
+			return
+		var f := ThemeDB.fallback_font
+		var track := Rect2(Vector2(0.0, 32.0), Vector2(sz.x, 14.0))
+		gauge.draw_string(f, Vector2(0.0, 14.0), _tr("공포", "FEAR"), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#8e98ad"))
+		gauge.draw_string(f, Vector2(sz.x - 46.0, 14.0), _tr("탐욕", "GREED"), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#8e98ad"))
+		gauge.draw_rect(Rect2(track.position + Vector2(0.0, 3.0), track.size), Color(0, 0, 0, 0.32), true)
+		gauge.draw_rect(track, Color("#111827"), true)
+		var fill_w := track.size.x * clampf(float(fg) / 100.0, 0.0, 1.0)
+		gauge.draw_rect(Rect2(track.position, Vector2(fill_w, track.size.y)), gauge_color, true)
+		for i in range(11):
+			var x := track.position.x + track.size.x * float(i) / 10.0
+			gauge.draw_line(Vector2(x, track.position.y - 3.0), Vector2(x, track.end.y + 3.0), Color(1, 1, 1, 0.10), 1.0)
+		var needle_x := track.position.x + fill_w
+		gauge.draw_line(Vector2(needle_x, track.position.y - 8.0), Vector2(needle_x, track.end.y + 8.0), Color("#ffffff"), 2.0)
+		gauge.draw_string(f, Vector2(maxf(0.0, needle_x - 14.0), track.end.y + 16.0), "%d" % fg, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#e8eaf0"))
+	)
+	row.add_child(gauge)
+
+	var portfolio := VBoxContainer.new()
+	portfolio.custom_minimum_size = Vector2(170, 0)
+	portfolio.add_theme_constant_override("separation", 3)
+	row.add_child(portfolio)
+	portfolio.add_child(_label(_tr("내 계좌", "ACCOUNT"), 10, "#7f8ea3"))
+	portfolio.add_child(_label(_tr("현금 %s", "Cash %s") % GameState.format_money(GameState.money), 13, "#cbd5e1"))
+	if has_position:
+		portfolio.add_child(_label(_tr("평가 %s", "Value %s") % GameState.format_money(total_now), 13, "#cbd5e1"))
+		var ret_lbl := _label(_tr("수익률 %+.1f%%", "Return %+.1f%%") % return_pct, 18, return_color)
+		if _font_bold:
+			ret_lbl.add_theme_font_override("font", _font_bold)
+		portfolio.add_child(ret_lbl)
+	else:
+		portfolio.add_child(_label(_tr("보유 자산 없음", "No positions"), 13, "#94a3b8"))
+		portfolio.add_child(_label(_tr("소액 분산부터", "Start diversified"), 13, "#f0b429"))
+	return panel
+
 func _open_investments():
 	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"))
 	modal_body.add_child(_modal_section_header(
@@ -4998,6 +5090,7 @@ func _open_investments():
 	inv_gloss_btn.custom_minimum_size = Vector2(78, 32)
 	inv_gloss_btn.pressed.connect(func(): _open_glossary(_tr("투자 용어", "Investing Terms"), "invest"))
 	inv_hint_row.add_child(inv_gloss_btn)
+	modal_body.add_child(_build_investment_market_board())
 	# 은행 — 대출/상환 (재무 거래라 행동력 무소비)
 	var bank_btn := _icon_button(_tr("은행 — 대출/상환", "Bank — Loan/Repay"), "money", "#1a2438")
 	bank_btn.pressed.connect(_open_bank)
@@ -5036,14 +5129,6 @@ func _open_investments():
 		var guide_sep = HSeparator.new()
 		guide_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(guide_sep)
-	# 시장 분위기 표시
-	var fg = int(GameState.market_context.get("fear_greed", 50))
-	var cycle = str(GameState.market_context.get("cycle", "neutral"))
-	var cycle_kr = {"bull": _tr("상승장", "Bull"), "bear": _tr("하락장", "Bear"), "neutral": _tr("횡보", "Flat")}.get(cycle, cycle)
-	var fg_color = "#ff4444" if fg < 30 else ("#00c896" if fg > 70 else "#f0b429")
-	var filled = int(float(fg) / 10.0)
-	var gauge = "█".repeat(filled) + "░".repeat(10 - filled)
-	modal_body.add_child(_label(_tr("시장 분위기 — %s  |  공포/탐욕: %d  [%s]", "Market Mood — %s  |  Fear/Greed: %d  [%s]") % [cycle_kr, fg, gauge], 14, fg_color))
 	var sep_top = HSeparator.new()
 	sep_top.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep_top)
