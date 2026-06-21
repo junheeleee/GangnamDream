@@ -8,7 +8,7 @@ signal closed
 const TH := preload("res://systems/TexasHoldem.gd")
 const CARD_BACK_TEX := preload("res://assets/ui/card_back.png")
 const CARD_FRONT_TEX := preload("res://assets/ui/card_front_base.svg")
-const CHIP_TEX := preload("res://assets/ui/poker_chip_icon.png")
+const CHIP_TEX := preload("res://assets/ui/chips/chip_10k.svg")
 
 const SMALL_BLIND := 5_000
 const BIG_BLIND   := 10_000

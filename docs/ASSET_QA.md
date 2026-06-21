@@ -137,6 +137,7 @@ Live-screen semantic routing QA found and fixed a separate class of issue: valid
 
 - `assets/ui/poker_chip_icon.png` (128x128, RGBA, transparent bg) — REVERTED, needs regen
   - Was briefly wired into the HoldemClub header, but the source art is defective: the center club (♣) emblem is off-center (shifted down-left) relative to the chip rings. Can't be fixed by cropping. Removed from the UI until a chip with a centered emblem is regenerated.
+  - 2026-06-21: removed from active runtime surfaces again. Jeongseon Casino hub now draws game-specific mini art procedurally, and MainGame/TutorialOverlay/Holdem pot icon use the centered denomination chip SVG set instead.
 
 - `assets/ui/horse_silhouette.png` (1024x128, RGBA, 8 transparent black gallop frames)
   - Wired into `RaceTrack._draw_track()` via `draw_texture_rect_region`. Per-lane frame offset animates the gallop; a lane-colored saddle dot preserves horse identity (silhouettes are pure black, so `modulate` tint is impossible). Procedural color circle kept as fallback.
@@ -157,7 +158,7 @@ These are not referenced by `ImageRegistry` or direct GDScript image paths at th
 - `assets/characters/npc_coworker.png`
 - `assets/ui/card_back.png`
 - `assets/ui/horse_silhouette.png`
-- `assets/ui/poker_chip_icon.png`
+- `assets/ui/poker_chip_icon.png` — legacy/deprecated. Active runtime code should use `assets/ui/chips/chip_*.svg` or code-drawn casino art instead.
 
 Steam key art is store material and is intentionally not referenced by game code. The other unused old backgrounds should either be deleted, archived, or deliberately wired into `ImageRegistry` after style/regeneration review.
 

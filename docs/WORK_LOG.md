@@ -1,5 +1,16 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (정선 카지노 허브 게임 카드 아트 개선)
+
+### 수정
+- `scenes/JeongseonCasino.gd`: 카지노 허브 게임 카드 상단의 공용 `card_back.png`/`poker_chip_icon.png` 텍스처 표시를 제거하고, 바카라/블랙잭/슬롯/룰렛/다이사이/빅휠별 미니 테이블/기기 아트를 코드 드로잉으로 표시.
+- `scenes/MainGame.gd`, `scenes/TutorialOverlay.gd`, `scenes/HoldemClub.gd`: 결함 이력이 있는 `assets/ui/poker_chip_icon.png` 런타임 참조를 제거하고, 정렬된 denomination 칩 SVG(`chip_10k.svg`)로 교체.
+- `docs/ASSET_QA.md`: `poker_chip_icon.png`를 legacy/deprecated로 명시하고 active runtime에서는 `assets/ui/chips/chip_*.svg` 또는 코드 드로잉을 쓰도록 기록.
+
+### 의도
+- 카지노 첫 화면이 동일 카드/칩 아이콘 반복으로 보이던 문제를 줄이고, 각 미니게임이 서로 다른 실제 테이블/기기처럼 읽히게 함.
+- 중앙 문양/배치 문제가 있던 구형 칩 PNG가 다시 플레이어 화면에 노출되지 않도록 차단.
+
 ## 2026-06-21 (출시용 에셋 제작 파이프라인 정립)
 
 ### 수정

@@ -103,7 +103,7 @@ const UI_ICON_PATHS := {
 	"racetrack": "res://assets/ui/icons/icon_racetrack.svg",
 	"holdem": "res://assets/ui/icons/icon_holdem.svg",
 	"scalping": "res://assets/ui/icons/icon_scalping.svg",
-	"casino": "res://assets/ui/poker_chip_icon.png",
+	"casino": "res://assets/ui/chips/chip_10k.svg",
 	"life": "res://assets/ui/icons/icon_housing.svg",
 	"shop": "res://assets/ui/icons/icon_shop.svg",
 	"info": "res://assets/ui/icons/icon_info.svg",
@@ -4073,7 +4073,7 @@ func _ap_save_money():
 	GameState.add_money(float(saved))
 	GameState.modify_hidden_stat("stress", 2)
 	GameState.add_tendency("career", 1)
-	var _sv := _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
+	var _sv: Dictionary = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
 	var scene: String = str(_sv.get("et" if LocaleManager.is_english() else "t", _sv.get("t", "")))
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
 	_show_vignette(_tr("💰 절약", "💰 Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
