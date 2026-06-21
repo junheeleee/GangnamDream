@@ -183,6 +183,17 @@
     ]
   },
   {
+    "id": "arc_chapter1_close",
+    "title": "The First Week",
+    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu left, you stood in the shared kitchen for a while.\n\nInterview. Calculator. Instagram. Ramen.\nNone of this feels unfamiliar anymore — and it's only been a week.\n\nBack in the room, you open the notebook. First line:\n'₩3,000,000,000. Five years.'\n\nNothing below it. No plan yet.\n\nBut — tonight, there's one thing you didn't have yesterday.\nSomewhere in this goshiwon, on the other side of a thin wall:\nsomeone who's looking at the same ceiling.",
+    "choices": [
+      {
+        "text": "Close the notebook. That's enough for today.",
+        "result_text": "Turned off the light.\n\nIn the dark, {name} thought: this moment is the starting line.\nNothing yet. Which means — everything is still possible."
+      }
+    ]
+  },
+  {
     "id": "arc_sangchul_01_meet",
     "title": "Why Gangnam?",
     "background": "realestate_office",

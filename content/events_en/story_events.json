@@ -79,7 +79,7 @@
     "title": "Gangnam",
     "background": "gangnam_day",
     "portrait": "player_normal",
-    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time was left, nobody knew.\n\n{name} writes a number in the notebook.\n₩3,000,000,000. Five years.\nHe knows it's impossible. That's exactly why — he starts.",
+    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time is left — nobody knows.\n\n{name} does the math.\nAt minimum wage, saving every single won without spending a cent:\n82 years.\n\nHe's 33. He doesn't have 82 years.\nHe has 5.\n\n{name} writes a number in the notebook anyway.\n₩3,000,000,000. Five years.\nThe math says impossible.\nThat's exactly why — he starts.",
     "category": "story",
     "rarity": "story",
     "weight": 0,

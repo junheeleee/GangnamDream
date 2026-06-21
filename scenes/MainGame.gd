@@ -1294,6 +1294,10 @@ func _next_arc_id() -> String:
 		return "cafe_00"
 	if t >= 7 and not f.get("arc_intro_hyunsu_seen", false):
 		return "arc_intro_04_hyunsu"
+	# ★ 챕터1 클로즈 (턴 8) — 첫 주의 모든 씬이 끝난 뒤 잠깐의 반성. 데모 종료 포인트.
+	if t >= 8 and f.get("arc_intro_hyunsu_seen", false) \
+			and not f.get("chapter1_closed", false):
+		return "arc_chapter1_close"
 	# ★ 카페의 장기 파장 (턴 13) — 턴 6 선택이 되돌아온다. 위쳐3식 장기 결과.
 	if t >= 13 and not f.get("cafe_callback_seen", false):
 		if f.get("cafe_stole_lead", false):

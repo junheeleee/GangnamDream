@@ -34,6 +34,12 @@ const CARDS = [
 		"size": 34,
 	},
 	{
+		"text": "어떤 선택이 강남을 만드는지,\n아무도 가르쳐준 적 없다.",
+		"sub": "당신이 직접 알아내야 한다.",
+		"hold": 3.0,
+		"size": 26,
+	},
+	{
 		"text": "이것은, 당신의 이야기다.",
 		"sub": "",
 		"hold": -1,
@@ -71,6 +77,12 @@ const CARDS_EN = [
 		"sub": "Bank balance: KRW 500K.\nRent: KRW 650K a month.\n\nTo reach Gangnam — you need KRW 3 billion.",
 		"hold": 4.0,
 		"size": 34,
+	},
+	{
+		"text": "No one teaches you\nwhich choices get you there.",
+		"sub": "You have to figure it out yourself.",
+		"hold": 3.0,
+		"size": 26,
 	},
 	{
 		"text": "This is your story.",
