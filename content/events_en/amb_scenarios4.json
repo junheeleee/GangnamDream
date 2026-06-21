@@ -20,7 +20,7 @@
     "choices": [
       {
         "text": "Take it to the police.  (clear conscience + reputation / time + no cash)",
-        "result_text": "",
+        "result_text": "I walked out of the police station with a receipt. The way back felt strangely light.",
         "follow_up_event": "amb_wallet_return",
         "effects": {
           "stress": 3,
@@ -119,7 +119,7 @@
     "choices": [
       {
         "text": "Take the leap. Leave stability behind.  (higher pay + opportunity / risk + stability)",
-        "result_text": "",
+        "result_text": "I held out my resignation letter. The team lead was silent for a moment, then just said, \"Understood.\"",
         "follow_up_event": "amb_jobswitch_in",
         "flags": [
           "jobswitch_took"

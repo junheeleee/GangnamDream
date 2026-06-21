@@ -60,7 +60,7 @@
       },
       {
         "text": "Try to stop Hyunsu. \"That's dangerous.\"  (friendship / conflict)",
-        "result_text": "",
+        "result_text": "Hyunsu's face hardened. \"You're always like this, hyung,\" he shot back.",
         "follow_up_event": "amb_coin_warn",
         "effects": {
           "stress": 4
@@ -142,7 +142,7 @@
     "choices": [
       {
         "text": "Go. Family is family.  (relationships / money + stress)",
-        "result_text": "",
+        "result_text": "The express bus terminal was packed with people heading home for the holiday. When I arrived, Father was standing at the front door.",
         "follow_up_event": "amb_holiday_home",
         "effects": {
           "money": -150000,

@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Make the call.",
-        "result_text": "",
+        "result_text": "It rang three times. My heart pounded along with it.",
         "follow_up_event": "cafe_cb_stole_call",
         "effects": {
           "stress": 5
@@ -66,12 +66,12 @@
     "choices": [
       {
         "text": "Check first — verify the registry and market rate.",
-        "result_text": "",
+        "result_text": "I called two licensed brokers. I cross-checked the figures.",
         "follow_up_event": "cafe_cb_stole_verify"
       },
       {
         "text": "Trust the gut. Go all in. Everything.",
-        "result_text": "",
+        "result_text": "I hit transfer mid-call. Sometimes a gut feeling is the only evidence you get.",
         "follow_up_event": "cafe_cb_stole_allin"
       },
       {
@@ -109,7 +109,7 @@
     "choices": [
       {
         "text": "Strip the foam. Enter carefully.",
-        "result_text": "",
+        "result_text": "I held the registry out to Manager Kim. \"Twenty million of this is just air.\" He looked away.",
         "follow_up_event": "cafe_cb_stole_smart"
       },
       {
@@ -230,7 +230,7 @@
     "choices": [
       {
         "text": "\"I'm prepared. I'd like to hear.\"",
-        "result_text": "",
+        "result_text": "They named a date and a place. {name} noted it down at once.",
         "follow_up_event": "cafe_cb_honest_in",
         "flags": [
           "cafe_callback_seen"
@@ -285,7 +285,7 @@
           "stake_ratio": 0.55,
           "success_rate": 0.28,
           "win_multiplier": 1.7,
-          "loss_ratio": 0.50,
+          "loss_ratio": 0.5,
           "luck_factor": 0.0018,
           "skill_gain": 6,
           "win_flag": "cafe_honest_win",

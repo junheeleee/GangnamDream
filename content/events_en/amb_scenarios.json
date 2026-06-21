@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Pull the registry right now.  (fee + time)",
-        "result_text": "",
+        "result_text": "I pulled the documents from the machine at the district office. A dense list of mortgage liens jumped out at me.",
         "follow_up_event": "amb_jeonse_check",
         "effects": {
           "money": -1000,
@@ -41,7 +41,7 @@
       },
       {
         "text": "Call the landlord. Confront them directly.  (stress)",
-        "result_text": "",
+        "result_text": "It rang three times. The landlord cut me short — \"There's no problem at all.\"",
         "follow_up_event": "amb_jeonse_confront",
         "effects": {
           "stress": 10,
@@ -161,7 +161,7 @@
     "choices": [
       {
         "text": "Drink to the end.  (rapport + reputation / health + mental)",
-        "result_text": "",
+        "result_text": "I drained the glass to the bottom. The manager laughed loudly and clapped me on the shoulder.",
         "follow_up_event": "amb_hoesik_drink",
         "effects": {
           "reputation": 3,
@@ -185,7 +185,7 @@
       },
       {
         "text": "Fake being drunk. Kill time in the bathroom.  (compromise / risk of being caught)",
-        "result_text": "",
+        "result_text": "I held out ten minutes in the bathroom stall. From outside I heard, \"Where'd that kid go?\"",
         "follow_up_event": "amb_hoesik_dodge",
         "effects": {
           "stress": 5,

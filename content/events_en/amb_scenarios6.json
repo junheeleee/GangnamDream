@@ -89,7 +89,7 @@
       },
       {
         "text": "Take it up with the manager, quietly, after the meeting.  (self-respect + recognition / bad blood)",
-        "result_text": "",
+        "result_text": "I caught the manager in the hallway. \"You know that report was mine,\" I said.",
         "follow_up_event": "amb_credit_confront",
         "effects": {
           "stress": 7,

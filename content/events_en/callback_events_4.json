@@ -6,7 +6,7 @@
     "choices": [
       {
         "text": "Go for it",
-        "result_text": ""
+        "result_text": "I pushed all my chips in. There was no turning back now."
       },
       {
         "text": "Go with what you've built",
@@ -25,7 +25,7 @@
       },
       {
         "text": "One more — since it's the end",
-        "result_text": ""
+        "result_text": "I couldn't remember how many times I'd called it the last time."
       }
     ]
   },
@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "Go",
-        "result_text": ""
+        "result_text": "It was a basement in some building in Gangnam. Every face gathered at the table was a stranger's."
       },
       {
         "text": "Decline. That's not my level.",

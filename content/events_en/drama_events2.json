@@ -230,7 +230,7 @@
       "daily"
     ],
     "cooldown": 12,
-    "description": "A senior colleague set up a blind date (소개팅).\nSitting across the café table — first impression: not bad.\nJobs, hobbies, family — the usual circuit.\n\nAt some point {name} realized: not sure how to explain the current situation.",
+    "description": "A senior set me up on a blind date.\nThe person sitting across the cafe table — not a bad first impression.\nTalk of jobs, hobbies, family went back and forth.\n\nAt some point, {name} didn't know how to explain his current situation.",
     "choices": [
       {
         "text": "Be honest. \"I'm somewhere in the middle of it all.\"  (honesty / impression risk)",
@@ -319,7 +319,7 @@
       "jobs"
     ],
     "cooldown": 20,
-    "description": "Year-end tax settlement (연말정산) time.\nReceipts, medical expenses, education, donations.\n{name} stopped midway through the paperwork.\nLooks like a refund is possible. How much — only submitting will tell.",
+    "description": "Year-end tax settlement season.\nReceipts, medical bills, education costs, donations.\n{name} stopped while gathering the paperwork.\nLooks like a refund is coming. How much — only doing it will tell.",
     "choices": [
       {
         "text": "Go through it carefully. Good exercise too.  (tax savings / time)",

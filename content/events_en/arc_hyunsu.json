@@ -58,30 +58,22 @@
   {
     "id": "hyunsu_pivot",
     "title": "Hyunsu's New Direction",
-    "description": "Hyunsu said he was leaving the goshiwon.\n\n\"I'm done with the exam.\"\n\nFive years, he said. He'd given it five years.\n\nHe'd found a job opening — a small logistics company, starting from the bottom.",
+    "description": "Hyunsu said he was moving out.\n\nHe was quitting the civil service exam to prepare for a job.\nHis major had been accounting. He was going to start studying for the CPA again.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time.",
     "choices": [
       {
-        "text": "\"That takes guts\"",
-        "result_text": "\"I'm scared,\" Hyunsu said simply.\n\n\"But staying scared of the same thing forever is scarier.\"\n\n{name} watched him pack.\n\nSomeone choosing a new direction — and meaning it — looked like this."
-      },
-      {
-        "text": "\"You'll figure it out\"",
-        "result_text": "\"Thanks for saying that, hyung.\"\n\nHyunsu shook his hand at the door.\n\nThe goshiwon felt quieter after he left.\n\nSometimes the people who pass through briefly leave more than the ones who stay."
+        "text": "Tell him it'll work out",
+        "result_text": "\"You'll do great.\"\n\nHyunsu smiled. A firmer smile this time.\n\nChoosing a different road and giving up are not the same thing.\n{name} learned that from Hyunsu."
       }
     ]
   },
   {
     "id": "hyunsu_reunion_later",
     "title": "Running Into Hyunsu Again",
-    "description": "He ran into Hyunsu on the street.\n\nHe'd changed — better posture, a work badge clipped to his bag.\n\n\"Hyung. Long time.\"\n\nHe was a team lead now. Three people under him.",
+    "description": "A KakaoTalk message. It was Hyunsu.\n\n\"Hyung, I got hired at an accounting firm.\"\n\nA photo came through. A suit. A business card.\n\n{name} looked at the photo for a long while.",
     "choices": [
       {
-        "text": "\"You made it\"",
-        "result_text": "\"Still a long way to go,\" Hyunsu said.\n\nBut his eyes said something different.\n\n{name} thought about the goshiwon kitchen. The 2 AM ramen. The exam score he never mentioned again.\n\nPeople get there on their own timetable.\nSometimes you just get to watch."
-      },
-      {
-        "text": "\"Grab a coffee sometime\"",
-        "result_text": "They exchanged numbers.\n\nMaybe they'd follow up, maybe not.\n\n{name} didn't think that mattered much.\n\nThe fact that Hyunsu was standing there, solid, doing something real — that was enough."
+        "text": "Send a message of congratulations",
+        "result_text": "\"Wait, for real? That's amazing!!\"\n\n\"It's thanks to you, hyung. For knocking on my door back then.\"\n\n{name} set the phone down.\n\nFive years in Seoul. Some days, a message like this arrives."
       }
     ]
   },

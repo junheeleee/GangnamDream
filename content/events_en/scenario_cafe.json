@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Keep listening. Quietly.",
-        "result_text": "",
+        "result_text": "He didn't notice. The numbers lodged themselves one by one in {name}'s head.",
         "follow_up_event": "cafe_listen_01",
         "flags": [
           "cafe_scenario_seen"
@@ -32,7 +32,7 @@
       },
       {
         "text": "Tune it out. Focus on the resume.",
-        "result_text": "",
+        "result_text": "I filled in the blanks on my resume. But the voices at the next table kept catching my ear.",
         "follow_up_event": "cafe_mind_01",
         "flags": [
           "cafe_scenario_seen"
@@ -74,7 +74,7 @@
     "choices": [
       {
         "text": "Flip the folder open. Just a peek.",
-        "result_text": "",
+        "result_text": "Sale prices, floor areas, contact numbers. Figures stamped in red caught my eye.",
         "follow_up_event": "cafe_peek_01",
         "effects": {
           "stress": 6
@@ -82,7 +82,7 @@
       },
       {
         "text": "Wait for him to come back. Say something.",
-        "result_text": "",
+        "result_text": "I sat and waited for him to come back. My heart beat a little faster.",
         "follow_up_event": "cafe_talk_01"
       },
       {
@@ -119,7 +119,7 @@
     "choices": [
       {
         "text": "Be honest. Apologize. \"Sorry — I was just very interested.\"",
-        "result_text": "",
+        "result_text": "I lowered my head. He was quiet for a moment. An unexpected expression crossed his face.",
         "follow_up_event": "cafe_caught_honest"
       },
       {
@@ -191,12 +191,12 @@
     "choices": [
       {
         "text": "Honest. \"I'm unemployed. I want to learn.\"",
-        "result_text": "",
+        "result_text": "When I finished, his gaze changed. He looked me up and down again.",
         "follow_up_event": "cafe_humble"
       },
       {
         "text": "Play it up. \"I do a bit of this kind of work myself.\"",
-        "result_text": "",
+        "result_text": "He nodded. His eyes seemed to see right through me.",
         "follow_up_event": "cafe_bluff_01"
       }
     ]
@@ -257,12 +257,12 @@
     "choices": [
       {
         "text": "Bluff through it. Throw out a number.",
-        "result_text": "",
+        "result_text": "\"About 200 million or so...\" My words tangled. He must have sensed it.",
         "follow_up_event": "cafe_bluff_caught"
       },
       {
         "text": "Cave. \"...I don't actually know. I'm sorry.\"",
-        "result_text": "",
+        "result_text": "I couldn't lift my head. But strangely, after a moment, he smiled.",
         "follow_up_event": "cafe_bluff_recover"
       }
     ]

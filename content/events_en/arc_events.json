@@ -456,43 +456,19 @@
       "jiyeon"
     ],
     "cooldown": 9999,
-    "description": "A few days later. Coming out after the shift — her car is parked in front.\n\nHan Jiyeon steps out. This time she came with a purpose.\n\n'Let me buy you one coffee. If not that, then a meal.\nI can't stop thinking about it. You were the one in the wrong spot, and you left without taking anything.'\n\nSeems genuine. But {name} knows.\nThey come from different worlds. A cup of coffee is fine — but what comes after is a distance too wide to close.",
+    "description": "A few days later. Coming out after my shift, that car is parked in front of the convenience store.\n\nHan Jiyeon steps out. This time it looks like she came determined.\n\n\"Just let me buy you one coffee. If not that, then a meal.\nIt's been weighing on me. That day was my fault, and you walked away without taking anything.\"\n\nShe seems to mean it.",
     "choices": [
       {
-        "text": "Decline — 'Please don't worry about it. I'm really fine.'",
-        "effects": {
-          "mental": 3,
-          "stress": -2
-        },
-        "flags": [
-          "arc_jiyeon_offer_seen",
-          "jiyeon_refused_coffee"
-        ],
-        "cast_effects": {
-          "jiyeon": {
-            "affinity": 6,
-            "stage": "intrigued"
-          }
-        },
-        "result_text": "{name} shakes the head and walks toward the subway.\n\nJiyeon doesn't follow. Instead, from behind:\n'Why do you keep running away?'\n\n{name} doesn't stop. But those words follow.\n— Running? Is this running?\nJiyeon found herself more curious about {name} than ever."
+        "text": "Decline — \"Don't worry about it. I'm really fine.\"",
+        "result_text": "{name} shakes his head and walks toward the subway station.\n\nJiyeon doesn't follow. Instead, she calls out behind him.\n\"Why do you keep running away?\"\n\n{name} doesn't stop. But the words keep following him.\n— Running? Is this running away?\nThat day, Jiyeon grew more curious about the person called {name}."
       },
       {
-        "text": "Accept — just the coffee. Once.",
-        "effects": {
-          "social_skill": 3,
-          "mental": 2
-        },
-        "flags": [
-          "arc_jiyeon_offer_seen",
-          "jiyeon_had_coffee"
-        ],
-        "cast_effects": {
-          "jiyeon": {
-            "affinity": 15,
-            "stage": "connected"
-          }
-        },
-        "result_text": "Sat across from her.\nA café that felt expensive just sitting in it. ₩7,000 Americano.\n\n'I wanted to hear about the gap on your résumé.'\nShe'd looked {name} up. Somehow.\n\n{name} thought about how much to say.\nThis person — what did she actually want?"
+        "text": "Accept the coffee — just once",
+        "result_text": "They sat across from each other at a cafe. She had a ₩6,500 latte; {name}, the cheapest americano.\n\nJiyeon talked a lot. About studying abroad, her father's company, her stifling family.\n{name} mostly just listened.\n\n\"And you? What do you do?\"\n\"...A bit of this and that.\"\nShe didn't press further. She just smiled.\n\"Let's meet again. Next time you're buying, not me.\"\nAs if there would be a next time."
+      },
+      {
+        "text": "Be honest — \"The worlds we live in are too different.\"",
+        "result_text": "For the first time, {name} spoke honestly.\n\"Do you know how many months of my rent your car is worth? Buying one coffee is nothing to you, but to me it isn't.\"\n\nJiyeon was quiet for a while.\n\"...So that's why you just left that day?\"\n\"Yes.\"\n\"But you know what.\" She looked {name} straight in the eye.\n\"I've never met someone like that. Which makes me want to know you more.\"\nThat look shook {name}."
       }
     ]
   },

@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Go and at least hear it out.  (desperation / trap + time)",
-        "result_text": "",
+        "result_text": "I spent two hours at the cafe. Whiteboard diagrams and the words \"profit structure\" kept repeating.",
         "follow_up_event": "amb_mlm_meet",
         "effects": {
           "stress": 4,
