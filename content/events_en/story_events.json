@@ -62,8 +62,7 @@
       {
         "text": "\"I'm busy. I'll call you back.\" Click.",
         "effects": {
-          "stress": 3,
-          "mental": -2
+          "mental": -5
         },
         "cast_effects": {
           "father": {
@@ -97,8 +96,7 @@
       {
         "text": "Close the notebook. Stand up.",
         "effects": {
-          "mental": 6,
-          "stress": -3
+          "mental": 9
         },
         "follow_up_event": "story_prologue_meal",
         "result_text": "The goal is set.\nNo plan yet. Not enough money, connections, or time.\nBut — stop moving and it's over. {name} laced up his shoes."
@@ -137,8 +135,7 @@
         "text": "Skip it. Save every won.",
         "effects": {
           "health": -5,
-          "stress": 4,
-          "mental": -2
+          "mental": -6
         },
         "follow_up_event": "story_pressure",
         "result_text": "You walk out empty-handed.\nYour stomach growled, but the account held.\n\n[Every choice shifts your resources — save money, take the physical hit. Balance is everything.]"

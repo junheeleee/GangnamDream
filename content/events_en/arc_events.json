@@ -21,26 +21,10 @@
     "choices": [
       {
         "text": "Tell the truth — 'There were family circumstances.'",
-        "effects": {
-          "mental": 4,
-          "stress": 3,
-          "social_skill": 2
-        },
-        "flags": [
-          "arc_intro_meal_seen"
-        ],
         "result_text": "The interviewer looked at {name} for a moment. Didn't probe further.\nSomething in her eyes — understanding. Or resignation.\n'...I see. You seem like someone who works hard.'\n\nWalking down the stairs, {name} thought:\nWhether it leads to a job or not — that was the truth.\nAnd that was the only pride {name} had left right now."
       },
       {
         "text": "Gloss over it — 'I was preparing to start a business.'",
-        "effects": {
-          "intelligence": 2,
-          "stress": 5
-        },
-        "flags": [
-          "arc_intro_meal_seen",
-          "lied_interview"
-        ],
         "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected."
       }
     ]
@@ -67,40 +51,14 @@
     "choices": [
       {
         "text": "Start by saving aggressively — every won counts. [Saver mindset]",
-        "effects": {
-          "stress": 4,
-          "investment_skill": 2
-        },
-        "flags": [
-          "arc_intro_dad_seen",
-          "mindset_saver"
-        ],
         "result_text": "Big money starts from small money.\n{name} finished the shift and kept scanning job apps. Side work, temp work, two jobs.\n\nSeed money. That's the first gate.\nThe number 125 years kept drifting in front of the eyes."
       },
       {
         "text": "Start studying investing — money has to make money. [Investor mindset]",
-        "effects": {
-          "intelligence": 3,
-          "investment_skill": 4,
-          "stress": 2
-        },
-        "flags": [
-          "arc_intro_dad_seen",
-          "mindset_investor"
-        ],
         "result_text": "YouTube, books, finance forums.\nAfter the night shift ended, {name} went to the library.\n\nIf salary won't work, money has to work instead.\nCompound interest. Leverage. Assets. {name} read those words seriously for the first time."
       },
       {
         "text": "Someday, my own business. Start writing down ideas. [Founder mindset]",
-        "effects": {
-          "intelligence": 2,
-          "luck": 3,
-          "stress": 3
-        },
-        "flags": [
-          "arc_intro_dad_seen",
-          "mindset_founder"
-        ],
         "result_text": "Behind the register, {name} wrote something in a notebook.\nGaps. Demand. Supply. What nobody else was doing.\n\nIdeas alone are nothing yet.\nBut people who write nothing down never begin."
       }
     ]
