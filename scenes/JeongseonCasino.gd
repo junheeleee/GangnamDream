@@ -243,11 +243,14 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 	ps.corner_radius_top_right    = 8
 	ps.corner_radius_bottom_left  = 8
 	ps.corner_radius_bottom_right = 8
+	ps.shadow_color = Color(0, 0, 0, 0.38)
+	ps.shadow_size = 10
+	ps.shadow_offset = Vector2(0, 4)
 	panel.add_theme_stylebox_override("panel", ps)
 	parent.add_child(panel)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 4)
+	vbox.add_theme_constant_override("separation", 3)
 	var mc := MarginContainer.new()
 	mc.add_theme_constant_override("margin_left", 14)
 	mc.add_theme_constant_override("margin_right", 14)
@@ -259,7 +262,7 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 	var art_frame := PanelContainer.new()
 	art_frame.custom_minimum_size = Vector2(0, 48)
 	var art_st := StyleBoxFlat.new()
-	art_st.bg_color = Color(0, 0, 0, 0.18)
+	art_st.bg_color = Color(0, 0, 0, 0.32)
 	art_st.border_color = Color.html(accent_hex).darkened(0.2)
 	art_st.set_border_width_all(1)
 	art_st.set_corner_radius_all(6)
@@ -276,6 +279,14 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 	title_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_f(title_l, true)
 	vbox.add_child(title_l)
+
+	var type_l := Label.new()
+	type_l.text = _game_card_type(tutorial_id)
+	type_l.add_theme_font_size_override("font_size", 9)
+	type_l.add_theme_color_override("font_color", Color.html(accent_hex).lightened(0.20))
+	type_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_f(type_l, true)
+	vbox.add_child(type_l)
 
 	var desc_l := Label.new()
 	desc_l.text = desc
@@ -321,12 +332,18 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 	btn.add_theme_font_size_override("font_size", 13)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bs := StyleBoxFlat.new()
-	bs.bg_color = Color.html(accent_hex)
+	bs.bg_color = Color.html(accent_hex).darkened(0.05)
+	bs.border_color = Color(1, 1, 1, 0.26)
+	bs.set_border_width_all(1)
 	bs.corner_radius_top_left     = 4
 	bs.corner_radius_top_right    = 4
 	bs.corner_radius_bottom_left  = 4
 	bs.corner_radius_bottom_right = 4
 	btn.add_theme_stylebox_override("normal", bs)
+	var bsh := bs.duplicate() as StyleBoxFlat
+	bsh.bg_color = Color.html(accent_hex).lightened(0.10)
+	btn.add_theme_stylebox_override("hover", bsh)
+	btn.add_theme_stylebox_override("pressed", bsh)
 	btn.add_theme_color_override("font_color", Color(0.05, 0.05, 0.05))
 	_f(btn, true)
 	btn.pressed.connect(func():
@@ -334,6 +351,19 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 		self.call(fn)
 	)
 	btn_row.add_child(btn)
+
+func _game_card_type(game_id: String) -> String:
+	match game_id:
+		"baccarat", "blackjack":
+			return "TABLE GAME"
+		"slot":
+			return "MACHINE"
+		"roulette", "bigwheel":
+			return "WHEEL"
+		"daisai":
+			return "DICE TABLE"
+		_:
+			return "CASINO"
 
 func _make_game_card_art(game_id: String, mark: String, accent: Color) -> Control:
 	var art := Control.new()

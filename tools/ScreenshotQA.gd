@@ -408,6 +408,14 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			await _settle(0.8)
 		"slot_machine_game":
 			node._start_spin()
+			node._pending_result = {
+				"reels": [2, 2, 4],
+				"multiplier": 3.0,
+				"is_win": true,
+				"win_type": "체리 2개",
+				"symbols": ["CHERRY", "CHERRY", "LEMON"],
+				"emojis": ["", "", ""],
+			}
 			await _settle(1.8)
 		"roulette_table":
 			node._select_bet_type(1)
@@ -421,7 +429,11 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._select_segment(0)
 			node._select_stake(10_000)
 			node._do_spin()
+			node._result_seg = 0
+			node._target_angle = node._compute_target(0)
 			await _settle(1.8)
+			await _save("12a_bigwheel_spin")
+			await _settle(1.7)
 		"dai_sai_table":
 			node._select_bet(0, -1)
 			node._select_stake(10_000)

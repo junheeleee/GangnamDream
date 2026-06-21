@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (카지노 미니게임 외형 폴리싱 2차)
+
+### 수정
+- `scenes/RouletteTable.gd`: 숫자 베팅 매트 내부의 0~36 그리드를 `CenterContainer`로 감싸 매트 중앙에 오도록 수정. 오른쪽 빈 공간이 몰려 보이던 문제 해소.
+- `scenes/SlotMachineGame.gd`: 슬롯 당첨 시 하단 `PAYOUT TRAY`에 당첨 금액과 코인 잔상 연출을 표시. 직접 `casino_win/lose/jackpot` 호출을 `AudioManager.play_casino_result()` 중심으로 정리해 승패 사운드/진동 톤을 다른 카지노 게임과 맞춤.
+- `scenes/BigWheelGame.gd`: 휠 오른쪽에 `READY/SPINNING/WINNER` 상태 플레이트를 추가. 잘 안 보이던 작은 `스핀 중...` 바닥 텍스트를 제거하고 `NO MORE BETS`를 큰 상태판으로 표시.
+- `scenes/JeongseonCasino.gd`: 허브 게임 카드에 그림자, 어두운 아트 프레임, 게임 타입 라벨(`TABLE GAME`, `MACHINE`, `WHEEL`, `DICE TABLE`), 버튼 테두리/호버 스타일을 추가해 웹 메뉴 느낌을 줄임.
+- `tools/ScreenshotQA.gd`: 슬롯 QA 결과를 체리 2개 당첨으로 고정해 payout tray를 안정적으로 검수. 빅휠 QA도 스핀 중(`12a_bigwheel_spin`)과 결과 후(`12a_bigwheel`) 두 상태로 분리.
+
+### 검증
+- `ScreenshotQA --qa=casino`: `08_jeongseon_casino`, `11_slot_machine`, `12_roulette_spin`, `12_roulette_table`, `12a_bigwheel_spin`, `12a_bigwheel` 직접 확인. 룰렛 매트 중앙 정렬, 슬롯 트레이, 빅휠 상태판, 허브 카드 겹침 없음.
+
 ## 2026-06-21 (룰렛 부유 칩 제거)
 
 ### 수정

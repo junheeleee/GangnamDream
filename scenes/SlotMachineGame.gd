@@ -73,7 +73,10 @@ var _credit_meter_lbl: Label
 var _bet_meter_lbl: Label
 var _win_meter_lbl: Label
 var _flash_lbl: Label
+var _payout_tray_lbl: Label
 var _last_win_amount: int = 0
+var _payout_anim: float = 0.0
+var _payout_coin_count: int = 0
 
 # 슬롯 심볼 표시. 실제 릴 타일처럼 보이도록 이모지 대신 고정 텍스트와 색으로 렌더한다.
 const _ALL_SYMBOLS: Array = [0, 1, 2, 3, 4]
@@ -111,6 +114,8 @@ func open() -> void:
 	_rounds = 0
 	_net = 0
 	_last_win_amount = 0
+	_payout_anim = 0.0
+	_payout_coin_count = 0
 	_last_results = []
 	_phase = Phase.IDLE
 	visible = true
@@ -254,16 +259,21 @@ func _finish_spin() -> void:
 		if win_type.begins_with("777"):
 			_set_win_line("[color=#ff0][b]JACKPOT 200배[/b][/color]")
 			_play_jackpot_celebration()
-			AudioManager.play("casino_jackpot")
+			_play_payout_tray(gain, multiplier)
+			AudioManager.play_casino_result(float(net_round), float(_active_stake), true)
 		elif multiplier >= 20.0:
 			_set_win_line("[color=#f0b429][b]%s[/b][/color]" % win_type)
 			_play_big_win_flash()
-			AudioManager.play("casino_win")
+			_play_payout_tray(gain, multiplier)
+			AudioManager.play_casino_result(float(net_round), float(_active_stake), true)
 		else:
 			_set_win_line("[color=#f0b429]%s[/color]" % win_type)
 			_play_win_flash()
-			AudioManager.play("casino_win")
+			_play_payout_tray(gain, multiplier)
+			AudioManager.play_casino_result(float(net_round), float(_active_stake))
 	else:
+		_payout_coin_count = 0
+		_payout_anim = 0.0
 		# 니어미스 체크: 3개 심볼 중 2개가 같은 높은 가치 심볼이면 "아깝다!" 연출
 		var syms: Array = result.get("reels", [])
 		if syms.size() == 3:
@@ -279,13 +289,13 @@ func _finish_spin() -> void:
 				_flash_msg("아깝다!", "#e88a30")
 				GameState.modify_hidden_stat("addiction_tendency", 1)
 				_play_near_miss_shake()
-				AudioManager.play("casino_lose")
+				AudioManager.play_casino_result(float(net_round), float(_active_stake))
 			else:
 				_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
-				AudioManager.play("casino_lose")
+				AudioManager.play_casino_result(float(net_round), float(_active_stake))
 		else:
 			_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
-			AudioManager.play("casino_lose")
+			AudioManager.play_casino_result(float(net_round), float(_active_stake))
 
 	_phase = Phase.IDLE
 	_spin_btn.disabled = false
@@ -394,6 +404,28 @@ func _play_jackpot_celebration() -> void:
 					if is_instance_valid(panel):
 						sty.border_color = COLOR_BORDER
 						sty.set_border_width_all(1))
+
+func _play_payout_tray(amount: int, multiplier: float) -> void:
+	if amount <= 0:
+		return
+	_payout_coin_count = clampi(int(ceil(multiplier * 0.7)) + 5, 7, 26)
+	_payout_anim = 0.0
+	_refresh_payout_tray_lbl()
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
+	var tw := create_tween()
+	tw.tween_method(_set_payout_anim, 0.0, 1.0, 0.58).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_interval(1.1)
+	tw.tween_method(_set_payout_anim, 1.0, 0.35, 0.42).set_trans(Tween.TRANS_SINE)
+	for i in range(mini(_payout_coin_count, 8)):
+		get_tree().create_timer(0.08 + float(i) * 0.055).timeout.connect(func():
+			if is_instance_valid(self):
+				AudioManager.play("casino_coin", -5.0))
+
+func _set_payout_anim(value: float) -> void:
+	_payout_anim = value
+	if is_instance_valid(_cabinet_overlay):
+		_cabinet_overlay.queue_redraw()
 
 func _play_near_miss_shake() -> void:
 	if _reel_panels.is_empty():
@@ -607,6 +639,22 @@ func _draw_cabinet_overlay(ctrl: Control) -> void:
 	var tray_rect := Rect2(Vector2(78, sz.y - 34), Vector2(sz.x - 156, 18))
 	ctrl.draw_rect(tray_rect, Color("#050609"), true)
 	ctrl.draw_rect(tray_rect, Color("#3a4250"), false, 2.0)
+	if _payout_anim > 0.01 and _payout_coin_count > 0:
+		for i in range(_payout_coin_count):
+			var delay: float = float(i) * 0.028
+			var t: float = clampf((_payout_anim - delay) * 1.24, 0.0, 1.0)
+			if t <= 0.0:
+				continue
+			var end := Vector2(
+				tray_rect.position.x + 32.0 + fmod(float(i) * 37.0, tray_rect.size.x - 64.0),
+				tray_rect.position.y + 9.0 + sin(float(i) * 0.74) * 3.0
+			)
+			var p := end + Vector2(sin(float(i) * 0.81) * (1.0 - t) * 18.0, -6.0 * (1.0 - t))
+			var alpha: float = clampf(0.22 + t, 0.0, 1.0)
+			var r: float = lerpf(3.0, 7.0, t)
+			ctrl.draw_circle(p + Vector2(0, 2), r, Color(0, 0, 0, 0.28 * alpha))
+			ctrl.draw_circle(p, r, _fade("#f0b429", alpha))
+			ctrl.draw_circle(p, r * 0.45, _fade("#68480d", alpha))
 	if _last_win_amount > 0:
 		for i in range(8):
 			var px := tray_rect.position.x + 42.0 + float(i) * 34.0
@@ -1067,6 +1115,7 @@ func _build_ui() -> void:
 	tray_lbl.add_theme_color_override("font_color", Color("#596270"))
 	_f(tray_lbl, true)
 	tray.add_child(tray_lbl)
+	_payout_tray_lbl = tray_lbl
 
 	# ── 플래시 메시지 ───────────────────────────────────────────
 	_flash_lbl = Label.new()
@@ -1088,6 +1137,7 @@ func _refresh_ui() -> void:
 	_refresh_stake_btns()
 	_refresh_history()
 	_refresh_balance_lbl()
+	_refresh_payout_tray_lbl()
 
 func _refresh_session_lbl() -> void:
 	if not is_instance_valid(_session_lbl):
@@ -1117,6 +1167,16 @@ func _refresh_meters() -> void:
 		_bet_meter_lbl.text = "BET\n%s" % GameState.format_money(float(_active_stake))
 	if is_instance_valid(_win_meter_lbl):
 		_win_meter_lbl.text = "WIN\n%s" % GameState.format_money(float(_last_win_amount))
+
+func _refresh_payout_tray_lbl() -> void:
+	if not is_instance_valid(_payout_tray_lbl):
+		return
+	if _last_win_amount > 0:
+		_payout_tray_lbl.text = "PAYOUT TRAY   +%s" % GameState.format_money(float(_last_win_amount))
+		_payout_tray_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+	else:
+		_payout_tray_lbl.text = "PAYOUT TRAY"
+		_payout_tray_lbl.add_theme_color_override("font_color", Color("#596270"))
 
 func _refresh_stake_btns() -> void:
 	if _stake_btns.size() != STAKE_OPTIONS.size():

@@ -685,16 +685,21 @@ func _build_ui() -> void:
 
 	var number_mat_lbl := Label.new()
 	number_mat_lbl.text = "숫자 베팅 매트"
+	number_mat_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	number_mat_lbl.add_theme_font_size_override("font_size", 9)
 	number_mat_lbl.add_theme_color_override("font_color", Color("#8aba8a"))
 	_f(number_mat_lbl)
 	number_mat_v.add_child(number_mat_lbl)
 
+	var number_grid_wrap := CenterContainer.new()
+	number_grid_wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	number_mat_v.add_child(number_grid_wrap)
+
 	_number_picker_grid = GridContainer.new()
 	_number_picker_grid.columns = 13
 	_number_picker_grid.add_theme_constant_override("h_separation", 2)
 	_number_picker_grid.add_theme_constant_override("v_separation", 2)
-	number_mat_v.add_child(_number_picker_grid)
+	number_grid_wrap.add_child(_number_picker_grid)
 
 	_number_picker_grid.add_child(_make_number_btn(0))
 	for n in range(3, 37, 3):

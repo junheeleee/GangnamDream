@@ -654,15 +654,41 @@ func _on_wheel_draw() -> void:
 	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 16.0, stand_top), Vector2(32.0, 34.0)), Color("#7a4f1a"), false, 2.0)
 	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 92.0, stand_top + 34.0), Vector2(184.0, 10.0)), Color("#2a1407"), true)
 
-	# 스핀 중 / 결과 텍스트
-	if _phase == Phase.SPINNING:
-		_wheel_ctrl.draw_string(f, Vector2(cx - 35.0, cy + r + 22.0),
-			"스핀 중...", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#f0b429"))
-	elif _phase == Phase.RESULT and _result_seg >= 0:
+	# 결과 텍스트
+	if _phase == Phase.RESULT and _result_seg >= 0:
 		var rl: String  = str(SEG_LABELS[_result_seg])
 		var rc: Color   = Color(str(SEG_COLORS[_result_seg]))
 		_wheel_ctrl.draw_string(f, Vector2(cx - 28.0, cy + r + 22.0),
 			"결과: %s" % rl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, rc)
+
+	_draw_result_plate(Vector2(cx + r + 58.0, cy - 72.0), f)
+
+func _draw_result_plate(pos: Vector2, font: Font) -> void:
+	if not is_instance_valid(_wheel_ctrl):
+		return
+	var rect := Rect2(pos, Vector2(190.0, 112.0))
+	var accent := Color("#f39c12")
+	var title := "READY"
+	var body := "PLACE BET"
+	var sub := "SELECT A WEDGE"
+	if _phase == Phase.SPINNING:
+		title = "SPINNING"
+		body = "NO MORE"
+		sub = "BETS"
+	elif _phase == Phase.RESULT and _result_seg >= 0:
+		accent = Color(str(SEG_COLORS[_result_seg]))
+		title = "WINNER"
+		body = "%s x" % _segment_display_label(_result_seg)
+		sub = "%.0f:1  /  %d칸" % [float(SEG_PAYOUTS[_result_seg]), int(SEG_SLOTS[_result_seg])]
+	_wheel_ctrl.draw_rect(Rect2(rect.position + Vector2(0, 5), rect.size), Color(0, 0, 0, 0.30), true)
+	_wheel_ctrl.draw_rect(rect, Color(0.045, 0.020, 0.010, 0.86), true)
+	_wheel_ctrl.draw_rect(rect, Color(accent.r, accent.g, accent.b, 0.78), false, 2.0)
+	_wheel_ctrl.draw_string(font, rect.position + Vector2(15.0, 25.0), title,
+		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 30.0, 12, Color(1.0, 0.88, 0.55, 0.70))
+	_wheel_ctrl.draw_string(font, rect.position + Vector2(15.0, 67.0), body,
+		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 30.0, 31, accent)
+	_wheel_ctrl.draw_string(font, rect.position + Vector2(15.0, 97.0), sub,
+		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 30.0, 12, Color(0.95, 0.88, 0.70, 0.72))
 
 # ── 리프레시 ──────────────────────────────────────────────────
 func _refresh() -> void:
