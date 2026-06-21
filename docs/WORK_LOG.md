@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (ScreenshotQA 카지노 전용 모드 추가)
+
+### 수정
+- `tools/ScreenshotQA.gd`: `--qa=casino` 실행 인자를 추가해 카지노 허브/바카라/블랙잭/슬롯/룰렛/빅휠/다이사이 캡처만 빠르게 찍을 수 있게 분리.
+- 전체 QA 경로의 중복 카지노 캡처 호출을 `_shot_casino_suite()`로 묶어 유지보수성을 개선.
+- 카지노 전용 모드에서도 MainGame 부팅, 튜토리얼 억제, StoryMode 전환 차단을 동일하게 적용해 실제 미니게임 화면만 안정적으로 캡처.
+
+### 사용법
+- `/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino`
+
+### 검증
+- `CompileCheck` 통과.
+- 카지노 전용 QA 실행 확인: `08_jeongseon_casino`, `09a/09`, `10a/10`, `11`, `12`, `12a`, `12b` 총 9장 생성.
+
 ## 2026-06-21 (슬롯머신 릴 심볼 드로잉 고도화)
 
 ### 수정
