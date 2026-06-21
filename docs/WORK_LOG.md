@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (바카라/블랙잭 테이블 연출 강화)
+
+### 수정
+- `scenes/BaccaratTable.gd`: 베팅 단계에 PLAYER/TIE/BANKER/PAIR 실제 펠트 베팅존, 선택 금액 칩 스택, 사이드 베팅 스트립을 추가.
+- 바카라 딜/결과 화면을 단순 카드 행에서 좌우 PLAYER/BANKER 카드존이 있는 테이블 화면으로 재구성. 결과 단계에서는 실제로 없는 세 번째 카드를 뒤집힌 카드로 표시하지 않도록 수정.
+- `scenes/BlackjackTable.gd`: 베팅 단계에 블랙잭 반원 테이블, 베팅 서클, 칩 스택, 카드 슈, 딜러 실루엣을 추가.
+- 블랙잭 플레이/결과 화면을 딜러존/플레이어존/베팅칩이 한 화면에 들어오는 테이블형 UI로 변경. 딜러 홀카드, 기본전략 힌트, 액션 버튼은 유지.
+- `tools/ScreenshotQA.gd`: 바카라 QA 캡처 대기 시간을 늘려 6장 딜 상황에서도 결과 화면을 안정적으로 찍도록 조정.
+
+### 검증
+- `CompileCheck` 통과.
+- `ScreenshotQA`: `09a_baccarat_betting`, `09_baccarat_table`, `10a_blackjack_betting`, `10_blackjack_table` 직접 확인. 카드/칩/테이블 영역의 큰 겹침 없음.
+
 ## 2026-06-21 (정선 카지노 허브 게임 카드 아트 개선)
 
 ### 수정

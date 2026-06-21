@@ -366,7 +366,7 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._set_stake(10_000)
 			node._add_bet("B")
 			node._deal()
-			await _settle(2.0)
+			await _settle(3.2)
 		"blackjack_table":
 			await _save("10a_blackjack_betting")
 			node._set_stake_and_deal(10_000)

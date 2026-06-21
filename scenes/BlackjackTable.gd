@@ -343,6 +343,8 @@ func _render_betting() -> void:
 	rules.text = "블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공"
 	vb.add_child(rules)
 
+	_add_blackjack_betting_mat(vb)
+
 	# 핸드 히스토리
 	if not _hand_history.is_empty():
 		var hist := RichTextLabel.new()
@@ -410,66 +412,7 @@ func _render_game() -> void:
 	if _split_active: phase_ko = "스플릿 핸드 1 플레이 중"
 	elif not _split.is_empty() and _phase == Phase.PLAYER_TURN: phase_ko = "스플릿 핸드 2 플레이 중"
 
-	# 딜러 영역
-	var d_row := HBoxContainer.new()
-	d_row.add_theme_constant_override("separation", 8)
-	d_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	vb.add_child(d_row)
-	var d_lbl := Label.new()
-	d_lbl.text = "딜러"
-	d_lbl.add_theme_font_size_override("font_size", 13)
-	d_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
-	d_lbl.custom_minimum_size = Vector2(56, 0)
-	_f(d_lbl, true); d_row.add_child(d_lbl)
-	# 딜러: 플레이어 차례엔 첫 카드 공개, 두 번째 뒤집기
-	var show_all := (_phase != Phase.PLAYER_TURN)
-	d_row.add_child(_card_widget(_dealer[0]))
-	if _dealer.size() > 1:
-		if show_all:
-			for i in range(1, _dealer.size()):
-				d_row.add_child(_card_widget(_dealer[i]))
-		else:
-			d_row.add_child(_card_back())
-	if show_all:
-		var dv_lbl := Label.new()
-		dv_lbl.text = str(BJ.hand_value(_dealer))
-		dv_lbl.add_theme_font_size_override("font_size", 20)
-		dv_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
-		_f(dv_lbl, true); d_row.add_child(dv_lbl)
-	else:
-		var du_lbl := Label.new()
-		var dv0 := BJ.hand_value([_dealer[0]])
-		du_lbl.text = str(dv0) + " + ?"
-		du_lbl.add_theme_font_size_override("font_size", 14)
-		du_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
-		_f(du_lbl); d_row.add_child(du_lbl)
-
-	vb.add_child(_sep())
-
-	# 플레이어 핸드
-	for hi in range(2):
-		var hand: Array = _player if hi == 0 else _split
-		if hand.is_empty(): continue
-		var is_active := (hi == 0 and not _split_active) or (hi == 1 and _split_active) or _split.is_empty()
-		var p_row := HBoxContainer.new()
-		p_row.add_theme_constant_override("separation", 8)
-		p_row.alignment = BoxContainer.ALIGNMENT_CENTER
-		vb.add_child(p_row)
-		var p_lbl := Label.new()
-		p_lbl.text = ("나" if _split.is_empty() else ("핸드%d" % (hi + 1))) + ("  선택" if is_active and _phase == Phase.PLAYER_TURN else "")
-		p_lbl.add_theme_font_size_override("font_size", 13)
-		p_lbl.add_theme_color_override("font_color", Color("#f0b429") if is_active else Color("#5a6a7a"))
-		p_lbl.custom_minimum_size = Vector2(70, 0)
-		_f(p_lbl, true); p_row.add_child(p_lbl)
-		for c in hand:
-			p_row.add_child(_card_widget(c, is_active))
-		var pv_lbl := Label.new()
-		var pv := BJ.hand_value(hand)
-		pv_lbl.text = str(pv) + (" [소프트]" if BJ.is_soft(hand) else "") + (" [버스트!]" if pv > 21 else "")
-		pv_lbl.add_theme_font_size_override("font_size", 18)
-		var pvc := Color("#5de89c") if pv <= 21 else Color("#e85d5d")
-		pv_lbl.add_theme_color_override("font_color", pvc)
-		_f(pv_lbl, true); p_row.add_child(pv_lbl)
+	_add_blackjack_table_display(vb, _phase != Phase.PLAYER_TURN)
 
 	# 기본전략 힌트
 	if _phase == Phase.PLAYER_TURN and _dealer.size() >= 1:
@@ -527,38 +470,7 @@ func _render_game() -> void:
 func _render_result() -> void:
 	var vb := _make_vbox(14)
 
-	# 딜러 핸드 공개
-	var d_row := HBoxContainer.new()
-	d_row.add_theme_constant_override("separation", 8)
-	d_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	vb.add_child(d_row)
-	var d_lbl := Label.new()
-	d_lbl.text = "딜러  %d" % BJ.hand_value(_dealer)
-	d_lbl.add_theme_font_size_override("font_size", 14)
-	d_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
-	_f(d_lbl, true); d_row.add_child(d_lbl)
-	for c in _dealer:
-		d_row.add_child(_card_widget(c))
-
-	vb.add_child(_sep())
-
-	# 플레이어 핸드(들)
-	for hi in range(2):
-		var hand: Array = _player if hi == 0 else _split
-		if hand.is_empty(): continue
-		var p_row := HBoxContainer.new()
-		p_row.add_theme_constant_override("separation", 8)
-		p_row.alignment = BoxContainer.ALIGNMENT_CENTER
-		vb.add_child(p_row)
-		var p_lbl := Label.new()
-		var pv := BJ.hand_value(hand)
-		p_lbl.text = ("나  %d" if _split.is_empty() else ("핸드%d  %d" % [hi+1, pv])) % pv if _split.is_empty() else ("핸드%d  %d" % [hi+1, pv])
-		p_lbl.add_theme_font_size_override("font_size", 14)
-		p_lbl.add_theme_color_override("font_color", Color("#c9a227"))
-		_f(p_lbl, true); p_row.add_child(p_lbl)
-		for c in hand:
-			p_row.add_child(_card_widget(c))
-
+	_add_blackjack_table_display(vb, true)
 	vb.add_child(_sep())
 
 	# 손익
@@ -583,6 +495,155 @@ func _render_result() -> void:
 	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(90, 48)
 	btn_row.add_child(exit_btn)
+
+func _add_blackjack_betting_mat(parent: VBoxContainer) -> void:
+	var mat := Control.new()
+	mat.custom_minimum_size = Vector2(1000, 174)
+	mat.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mat.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mat.draw.connect(func(): _draw_blackjack_betting_mat(mat))
+	parent.add_child(mat)
+
+func _draw_blackjack_betting_mat(ctrl: Control) -> void:
+	var sz: Vector2 = ctrl.size
+	var font: Font = _font if _font else ThemeDB.fallback_font
+	var bold: Font = _font_bold if _font_bold else font
+	var felt := Rect2(Vector2(10, 8), sz - Vector2(20, 16))
+	ctrl.draw_rect(Rect2(felt.position + Vector2(0, 6), felt.size), Color(0, 0, 0, 0.35), true)
+	ctrl.draw_rect(felt, Color("#052512"), true)
+	ctrl.draw_rect(felt, Color("#c58f36"), false, 2.0)
+	var arc_r: float = minf(sz.x * 0.22, 190.0)
+	var center := Vector2(sz.x * 0.5, felt.end.y + arc_r * 0.36)
+	ctrl.draw_arc(center, arc_r, PI * 1.16, PI * 1.84, 64, Color("#f0d28a"), 2.0)
+	ctrl.draw_string(bold, Vector2(sz.x * 0.5 - 110, 38), "BLACKJACK PAYS 3 TO 2",
+		HORIZONTAL_ALIGNMENT_CENTER, 220, 15, Color("#f0d28a"))
+	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 140, 62), "Dealer hits soft 17 · Double · Split · Basic strategy",
+		HORIZONTAL_ALIGNMENT_CENTER, 280, 10, Color(1, 1, 1, 0.40))
+	var bet_center := Vector2(sz.x * 0.5, 118)
+	ctrl.draw_arc(bet_center, 52.0, 0.0, TAU, 48, Color("#f0b429"), 2.0)
+	ctrl.draw_string(bold, bet_center + Vector2(-58, 6), "BET  " + GameState.format_money(float(_stake)),
+		HORIZONTAL_ALIGNMENT_CENTER, 116, 14, Color("#f0b429"))
+	_draw_bj_chip_stack(ctrl, bet_center + Vector2(-76, 0), Color("#d33a35"))
+	_draw_shoe_box(ctrl, Rect2(Vector2(sz.x - 152, 35), Vector2(92, 76)), font)
+	_draw_dealer_silhouette(ctrl, Vector2(92, 76))
+
+func _add_blackjack_table_display(parent: VBoxContainer, show_dealer_all: bool) -> void:
+	var table := Control.new()
+	table.custom_minimum_size = Vector2(1000, 340)
+	table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	table.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	table.draw.connect(func(): _draw_blackjack_table(table, show_dealer_all))
+	parent.add_child(table)
+
+	var dealer_cards: Array = _dealer
+	var dealer_start := Vector2(392, 48)
+	if dealer_cards.size() > 0:
+		_place_bj_cards(table, dealer_cards, dealer_start, show_dealer_all, false)
+		var dealer_value: int = BJ.hand_value(dealer_cards) if show_dealer_all else BJ.hand_value([dealer_cards[0]])
+		var dealer_text := str(dealer_value) if show_dealer_all else (str(dealer_value) + " + ?")
+		_add_bj_score_badge(table, Vector2(690, 76), dealer_text, Color("#e85d5d"))
+
+	if _split.is_empty():
+		_place_bj_cards(table, _player, Vector2(382, 210), true, _phase == Phase.PLAYER_TURN)
+		_add_bj_score_badge(table, Vector2(690, 238), _bj_score_text(_player), _score_color(_player))
+	else:
+		_place_bj_cards(table, _player, Vector2(210, 210), true, _phase == Phase.PLAYER_TURN and not _split_active)
+		_add_bj_score_badge(table, Vector2(472, 238), _bj_score_text(_player), _score_color(_player))
+		_place_bj_cards(table, _split, Vector2(570, 210), true, _phase == Phase.PLAYER_TURN and _split_active)
+		_add_bj_score_badge(table, Vector2(832, 238), _bj_score_text(_split), _score_color(_split))
+
+func _draw_blackjack_table(ctrl: Control, show_dealer_all: bool) -> void:
+	var sz: Vector2 = ctrl.size
+	var font: Font = _font if _font else ThemeDB.fallback_font
+	var bold: Font = _font_bold if _font_bold else font
+	var felt := Rect2(Vector2(10, 8), sz - Vector2(20, 16))
+	ctrl.draw_rect(Rect2(felt.position + Vector2(0, 7), felt.size), Color(0, 0, 0, 0.38), true)
+	ctrl.draw_rect(felt, Color("#041d0d"), true)
+	ctrl.draw_rect(felt, Color("#c58f36"), false, 2.2)
+	var dealer_rect := Rect2(Vector2(74, 32), Vector2(sz.x - 148, 126))
+	var player_rect := Rect2(Vector2(74, 188), Vector2(sz.x - 148, 126))
+	ctrl.draw_rect(dealer_rect, Color(0, 0, 0, 0.16), true)
+	ctrl.draw_rect(dealer_rect, Color("#e85d5d"), false, 1.4)
+	ctrl.draw_rect(player_rect, Color(0, 0, 0, 0.16), true)
+	ctrl.draw_rect(player_rect, Color("#f0b429"), false, 1.8)
+	ctrl.draw_string(bold, dealer_rect.position + Vector2(20, 24), "DEALER",
+		HORIZONTAL_ALIGNMENT_LEFT, 160, 15, Color("#ff9c9c"))
+	ctrl.draw_string(bold, player_rect.position + Vector2(20, 24), "PLAYER",
+		HORIZONTAL_ALIGNMENT_LEFT, 160, 15, Color("#ffe48a"))
+	var phase_text := "DEALER REVEAL" if show_dealer_all else "PLAYER ACTION"
+	ctrl.draw_string(bold, Vector2(sz.x * 0.5 - 96, 180), phase_text,
+		HORIZONTAL_ALIGNMENT_CENTER, 192, 13, Color(1, 1, 1, 0.36))
+	_draw_bj_chip_stack(ctrl, Vector2(sz.x * 0.5 - 160, 288), Color("#d33a35"))
+	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 126, 294), "ON TABLE  " + GameState.format_money(float(_stake + _split_stake + (_stake if _dbl_down else 0))),
+		HORIZONTAL_ALIGNMENT_LEFT, 240, 11, Color(1, 1, 1, 0.42))
+	_draw_shoe_box(ctrl, Rect2(Vector2(sz.x - 150, 52), Vector2(80, 64)), font)
+
+func _place_bj_cards(parent: Control, cards: Array, start: Vector2, show_all: bool, highlight: bool) -> void:
+	for i in range(cards.size()):
+		var card_ctrl: Control
+		if i == 1 and not show_all:
+			card_ctrl = _card_back()
+		else:
+			card_ctrl = _card_widget(int(cards[i]), highlight)
+		_place_bj_child(parent, card_ctrl, start + Vector2(float(i) * 78.0, 0))
+
+func _place_bj_child(parent: Control, child: Control, pos: Vector2) -> void:
+	child.position = pos
+	child.size = child.custom_minimum_size
+	parent.add_child(child)
+
+func _add_bj_score_badge(parent: Control, pos: Vector2, text: String, col: Color) -> void:
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.position = pos
+	lbl.size = Vector2(92, 44)
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 22)
+	lbl.add_theme_color_override("font_color", col.lightened(0.24))
+	_f(lbl, true)
+	parent.add_child(lbl)
+
+func _bj_score_text(hand: Array) -> String:
+	if hand.is_empty():
+		return "-"
+	var value: int = BJ.hand_value(hand)
+	var text := str(value)
+	if BJ.is_soft(hand):
+		text += " soft"
+	if value > 21:
+		text += " BUST"
+	return text
+
+func _score_color(hand: Array) -> Color:
+	var value: int = BJ.hand_value(hand)
+	if value > 21:
+		return Color("#e85d5d")
+	if value == 21:
+		return Color("#f0b429")
+	return Color("#5de89c")
+
+func _draw_bj_chip_stack(ctrl: Control, center: Vector2, col: Color) -> void:
+	for i in range(4):
+		var p := center + Vector2(float(i) * 9.0, -float(i) * 3.0)
+		ctrl.draw_circle(p + Vector2(0, 2), 10.0, Color(0, 0, 0, 0.30))
+		ctrl.draw_circle(p, 10.0, col)
+		ctrl.draw_arc(p, 7.0, 0.0, TAU, 24, Color("#f7f2df"), 2.0)
+		ctrl.draw_circle(p, 4.0, col.darkened(0.20))
+
+func _draw_shoe_box(ctrl: Control, rect: Rect2, font: Font) -> void:
+	ctrl.draw_rect(Rect2(rect.position + Vector2(0, 4), rect.size), Color(0, 0, 0, 0.28), true)
+	ctrl.draw_rect(rect, Color("#171b25"), true)
+	ctrl.draw_rect(rect, Color("#566070"), false, 1.2)
+	for i in range(4):
+		ctrl.draw_line(rect.position + Vector2(12 + i * 14, 12), rect.position + Vector2(22 + i * 14, rect.size.y - 10), Color(1, 1, 1, 0.20), 1.0)
+	ctrl.draw_string(font, rect.position + Vector2(0, rect.size.y - 8), "SHOE",
+		HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 9, Color(1, 1, 1, 0.38))
+
+func _draw_dealer_silhouette(ctrl: Control, pos: Vector2) -> void:
+	ctrl.draw_circle(pos + Vector2(0, -12), 14.0, Color(0, 0, 0, 0.24))
+	ctrl.draw_rect(Rect2(pos + Vector2(-30, 5), Vector2(60, 34)), Color(0, 0, 0, 0.20), true)
+	ctrl.draw_line(pos + Vector2(20, 14), pos + Vector2(96, 52), Color(0, 0, 0, 0.20), 5.0)
 
 # ── UI 헬퍼 ───────────────────────────────────────────────────
 func _build_skeleton() -> void:

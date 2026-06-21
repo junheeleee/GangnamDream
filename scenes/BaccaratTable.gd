@@ -336,6 +336,8 @@ func _render_betting() -> void:
 	bet_rt.text = "[center]%s[/center]" % _bet_status_text()
 	vb.add_child(bet_rt)
 
+	_add_baccarat_betting_mat(vb)
+
 	vb.add_child(_sep())
 
 	# 메인 베팅 버튼 (Player / Banker / Tie)
@@ -476,52 +478,133 @@ func _render_result_screen() -> void:
 	exit_btn.custom_minimum_size = Vector2(100, 48)
 	btn_row.add_child(exit_btn)
 
-func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
-	# 플레이어 카드 행
-	var p_row := HBoxContainer.new()
-	p_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	p_row.add_theme_constant_override("separation", 8)
-	parent.add_child(p_row)
-	var p_lbl := Label.new()
-	p_lbl.text = "플레이어"
-	p_lbl.add_theme_font_size_override("font_size", 13)
-	p_lbl.add_theme_color_override("font_color", Color("#d4a020"))
-	p_lbl.custom_minimum_size = Vector2(80, 0)
-	_f(p_lbl, true); p_row.add_child(p_lbl)
-	var p_cards: Array = (_deal_p_visible if partial else _result.get("player", []))
-	for c in p_cards:
-		p_row.add_child(_card_widget(c))
-	for _j in range(3 - p_cards.size()):
-		p_row.add_child(_card_back())
-	if not partial:
-		var pv_lbl := Label.new()
-		pv_lbl.text = str(int(_result.get("player_val", 0)))
-		pv_lbl.add_theme_font_size_override("font_size", 22)
-		pv_lbl.add_theme_color_override("font_color", Color("#d4a020"))
-		_f(pv_lbl, true); p_row.add_child(pv_lbl)
+func _add_baccarat_betting_mat(parent: VBoxContainer) -> void:
+	var mat := Control.new()
+	mat.custom_minimum_size = Vector2(860, 162)
+	mat.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mat.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mat.draw.connect(func(): _draw_baccarat_betting_mat(mat))
+	parent.add_child(mat)
 
-	# 뱅커 카드 행
-	var b_row := HBoxContainer.new()
-	b_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	b_row.add_theme_constant_override("separation", 8)
-	parent.add_child(b_row)
-	var b_lbl := Label.new()
-	b_lbl.text = "뱅커"
-	b_lbl.add_theme_font_size_override("font_size", 13)
-	b_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
-	b_lbl.custom_minimum_size = Vector2(80, 0)
-	_f(b_lbl, true); b_row.add_child(b_lbl)
+func _draw_baccarat_betting_mat(ctrl: Control) -> void:
+	var sz: Vector2 = ctrl.size
+	var font: Font = _font if _font else ThemeDB.fallback_font
+	var bold: Font = _font_bold if _font_bold else font
+	var felt := Rect2(Vector2(8, 8), sz - Vector2(16, 16))
+	ctrl.draw_rect(Rect2(felt.position + Vector2(0, 5), felt.size), Color(0, 0, 0, 0.34), true)
+	ctrl.draw_rect(felt, Color("#052615"), true)
+	ctrl.draw_rect(felt, Color("#d2a341"), false, 2.0)
+	ctrl.draw_line(Vector2(sz.x * 0.5, felt.position.y + 14), Vector2(sz.x * 0.5, felt.end.y - 14), Color(1, 1, 1, 0.08), 1.0)
+	var player_zone := Rect2(Vector2(34, 34), Vector2(250, 86))
+	var tie_zone := Rect2(Vector2((sz.x - 172.0) * 0.5, 24), Vector2(172, 98))
+	var banker_zone := Rect2(Vector2(sz.x - 284, 34), Vector2(250, 86))
+	_draw_bet_zone(ctrl, player_zone, "PLAYER", _bet_p, Color("#3a7abf"), font, bold)
+	_draw_bet_zone(ctrl, tie_zone, "TIE  8:1", _bet_t, Color("#3abf5a"), font, bold)
+	_draw_bet_zone(ctrl, banker_zone, "BANKER", _bet_b, Color("#bf3a3a"), font, bold)
+	var pp_zone := Rect2(Vector2(48, 126), Vector2(236, 24))
+	var bp_zone := Rect2(Vector2(sz.x - 284, 126), Vector2(236, 24))
+	_draw_side_bet_strip(ctrl, pp_zone, "PLAYER PAIR 11:1", _bet_pp, Color("#b478ff"), font)
+	_draw_side_bet_strip(ctrl, bp_zone, "BANKER PAIR 11:1", _bet_bp, Color("#d47898"), font)
+	ctrl.draw_string(bold, Vector2(sz.x * 0.5 - 54, 145), "NO COMMISSION ON TABLE UNTIL BANKER WINS",
+		HORIZONTAL_ALIGNMENT_CENTER, 108, 8, Color(1, 1, 1, 0.26))
+
+func _draw_bet_zone(ctrl: Control, rect: Rect2, label: String, amount: int, col: Color, font: Font, bold: Font) -> void:
+	ctrl.draw_rect(rect, Color(0.0, 0.0, 0.0, 0.18), true)
+	ctrl.draw_rect(rect, Color(col.r, col.g, col.b, 0.55 if amount > 0 else 0.34), false, 2.0 if amount > 0 else 1.0)
+	ctrl.draw_string(bold, rect.position + Vector2(0, 28), label,
+		HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 18, col.lightened(0.34))
+	var amount_text: String = GameState.format_money(float(amount)) if amount > 0 else "베팅 없음"
+	ctrl.draw_string(font, rect.position + Vector2(0, 57), amount_text,
+		HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 12, Color("#dce4f0") if amount > 0 else Color(1, 1, 1, 0.30))
+	if amount > 0:
+		_draw_chip_stack(ctrl, rect.position + Vector2(rect.size.x * 0.5, rect.size.y + 4.0), col)
+
+func _draw_side_bet_strip(ctrl: Control, rect: Rect2, label: String, amount: int, col: Color, font: Font) -> void:
+	ctrl.draw_rect(rect, Color(0, 0, 0, 0.20), true)
+	ctrl.draw_rect(rect, Color(col.r, col.g, col.b, 0.52 if amount > 0 else 0.28), false, 1.0)
+	var text := label
+	if amount > 0:
+		text += "  " + GameState.format_money(float(amount))
+	ctrl.draw_string(font, rect.position + Vector2(8, 16), text,
+		HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 16, 10, col.lightened(0.36))
+
+func _draw_chip_stack(ctrl: Control, center: Vector2, col: Color) -> void:
+	for i in range(3):
+		var p := center + Vector2(float(i - 1) * 14.0, -float(i) * 3.0)
+		ctrl.draw_circle(p + Vector2(0, 2), 10.0, Color(0, 0, 0, 0.34))
+		ctrl.draw_circle(p, 10.0, col)
+		ctrl.draw_arc(p, 7.2, 0.0, TAU, 24, Color("#f7f2df"), 2.0)
+		ctrl.draw_circle(p, 4.0, col.darkened(0.22))
+
+func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
+	var table := Control.new()
+	table.custom_minimum_size = Vector2(860, 260)
+	table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	table.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	table.draw.connect(func(): _draw_baccarat_table(table, partial))
+	parent.add_child(table)
+
+	var p_cards: Array = (_deal_p_visible if partial else _result.get("player", []))
 	var b_cards: Array = (_deal_b_visible if partial else _result.get("banker", []))
-	for c in b_cards:
-		b_row.add_child(_card_widget(c))
-	for _k in range(3 - b_cards.size()):
-		b_row.add_child(_card_back())
+	_place_baccarat_cards(table, p_cards, Vector2(166, 120), partial)
+	_place_baccarat_cards(table, b_cards, Vector2(524, 120), partial)
 	if not partial:
-		var bv_lbl := Label.new()
-		bv_lbl.text = str(int(_result.get("banker_val", 0)))
-		bv_lbl.add_theme_font_size_override("font_size", 22)
-		bv_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
-		_f(bv_lbl, true); b_row.add_child(bv_lbl)
+		_add_score_badge(table, Vector2(402, 142), int(_result.get("player_val", 0)), Color("#d4a020"))
+		_add_score_badge(table, Vector2(774, 142), int(_result.get("banker_val", 0)), Color("#e85d5d"))
+
+func _draw_baccarat_table(ctrl: Control, partial: bool) -> void:
+	var sz: Vector2 = ctrl.size
+	var font: Font = _font if _font else ThemeDB.fallback_font
+	var bold: Font = _font_bold if _font_bold else font
+	var felt := Rect2(Vector2(8, 8), sz - Vector2(16, 16))
+	ctrl.draw_rect(Rect2(felt.position + Vector2(0, 7), felt.size), Color(0, 0, 0, 0.38), true)
+	ctrl.draw_rect(felt, Color("#042413"), true)
+	ctrl.draw_rect(felt, Color("#c49a38"), false, 2.2)
+	ctrl.draw_line(Vector2(sz.x * 0.5, felt.position.y + 22), Vector2(sz.x * 0.5, felt.end.y - 22), Color(1, 1, 1, 0.08), 1.0)
+	var player_rect := Rect2(Vector2(48, 48), Vector2(342, 156))
+	var banker_rect := Rect2(Vector2(sz.x - 390, 48), Vector2(342, 156))
+	ctrl.draw_rect(player_rect, Color("#0a1d2e"), true)
+	ctrl.draw_rect(player_rect, Color("#3a7abf"), false, 2.0)
+	ctrl.draw_rect(banker_rect, Color("#2c0d0d"), true)
+	ctrl.draw_rect(banker_rect, Color("#bf3a3a"), false, 2.0)
+	ctrl.draw_string(bold, player_rect.position + Vector2(18, 29), "PLAYER",
+		HORIZONTAL_ALIGNMENT_LEFT, 180, 15, Color("#8fc7ff"))
+	ctrl.draw_string(bold, banker_rect.position + Vector2(18, 29), "BANKER",
+		HORIZONTAL_ALIGNMENT_LEFT, 180, 15, Color("#ff9a9a"))
+	var status: String = "DEALING" if partial else str(_result.get("result", "")).to_upper()
+	ctrl.draw_string(bold, Vector2(sz.x * 0.5 - 86, 36), status,
+		HORIZONTAL_ALIGNMENT_CENTER, 172, 16, Color("#f0b429"))
+	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 68, 224), "PLAYER 1:1   BANKER 0.95:1   TIE 8:1",
+		HORIZONTAL_ALIGNMENT_CENTER, 136, 10, Color(1, 1, 1, 0.34))
+
+func _place_baccarat_cards(parent: Control, cards: Array, start: Vector2, fill_placeholders: bool) -> void:
+	var visible_cards: int = mini(cards.size(), 3)
+	for i in range(visible_cards):
+		var card_ctrl := _card_widget(int(cards[i]))
+		_place_table_child(parent, card_ctrl, start + Vector2(float(i) * 74.0, 0))
+	if not fill_placeholders:
+		return
+	for i in range(visible_cards, 3):
+		var back := _card_back()
+		back.modulate = Color(1, 1, 1, 0.42)
+		_place_table_child(parent, back, start + Vector2(float(i) * 74.0, 0))
+
+func _add_score_badge(parent: Control, pos: Vector2, value: int, col: Color) -> void:
+	var lbl := Label.new()
+	lbl.text = str(value)
+	lbl.position = pos
+	lbl.size = Vector2(46, 46)
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 26)
+	lbl.add_theme_color_override("font_color", col.lightened(0.28))
+	_f(lbl, true)
+	parent.add_child(lbl)
+
+func _place_table_child(parent: Control, child: Control, pos: Vector2) -> void:
+	child.position = pos
+	child.size = child.custom_minimum_size
+	parent.add_child(child)
 
 func _next_round() -> void:
 	_reset_bets()
