@@ -1,0 +1,106 @@
+[
+  {
+    "id": "kx_kpop_ticketing",
+    "title": "피켓팅 전쟁",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 7 },
+    "cooldown": 26,
+    "background": "goshiwon_room",
+    "portrait": "player_determined",
+    "tags": ["korea", "culture", "kpop", "leisure"],
+    "description": "최애 그룹 콘서트 티켓 오픈 날.\n정각 8시, 광클 준비. 서버 시간 동기화, 결제정보 미리 저장, 손가락 풀기.\n\n이 5년의 발버둥 중에, 이 3분만큼은 다른 걸 위해 쓴다.\n3, 2, 1 — 새로고침.",
+    "choices": [
+      {
+        "text": "광클 끝에 한 자리 잡는다 — 3층 구석이라도",
+        "effects": { "money": -132000, "mental": 13 },
+        "result_text": "대기열 2만 번대에서 기적처럼 한 자리.\n3층 끝이면 어떤가, 같은 공기를 마시는데.\n\n손이 떨렸다. 통장은 가벼워졌지만 마음은 꽉 찼다.\n강남은 멀어도, 오늘 잡은 이 한 자리는 진짜 내 것이다."
+      },
+      {
+        "text": "광탈 — 5초 만에 전석 매진",
+        "effects": { "mental": -5 },
+        "result_text": "'죄송합니다. 매진되었습니다.' 5초 만에.\n암표는 정가의 세 배. 안 산다. 안 산다. ...안 사기로 했다.\n\n분하지만, 분할 줄 아는 무언가가 있다는 게\n이 팍팍한 5년에 위로이기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "kx_kpop_concert",
+    "title": "응원봉의 바다",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "min_turn": 9 },
+    "cooldown": 30,
+    "background": "gangnam_night",
+    "portrait": "player_happy",
+    "tags": ["korea", "culture", "kpop", "leisure"],
+    "description": "드디어 콘서트장.\n불이 꺼지고 응원봉이 일제히 켜지자, 객석이 별바다가 된다.\n\n떼창, 슬로건, 앙코르.\n3시간이 3분 같았다.",
+    "choices": [
+      {
+        "text": "목이 쉬도록 떼창한다",
+        "effects": { "mental": 14, "health": -2 },
+        "result_text": "처음 보는 옆 사람과 같은 가사를 외쳤다.\n끝나고 나오는 길, 목은 다 쉬었는데 얼굴이 풀려 있었다.\n\n5년 중에 이런 밤도 있어야 한다.\n돈으로 못 사는 게 아니라, 돈 주고 사는 게 맞는 것도 있다."
+      },
+      {
+        "text": "영상으로 남긴다 — 평생 볼 거니까",
+        "effects": { "mental": 9 },
+        "result_text": "폰 너머로 봤다. 끝나고 보니 절반은 흔들려서 못 쓴다.\n\n그래도 괜찮다. 흔들린 그 영상에도 그날의 내가 있다.\n언젠가 강남에 가도, 이 밤은 이 밤대로 남을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "kx_photocard",
+    "title": "포카 교환",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "min_turn": 6 },
+    "cooldown": 24,
+    "background": "cafe",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "kpop", "leisure"],
+    "description": "앨범을 사면 랜덤 포토카드 한 장.\n또 최애가 안 나왔다.\n\nSNS에 '양도/교환' 글을 올리고, 카페에서 처음 보는 팬을 만난다.\n전부 모르는 사이인데, 최애 이름 하나로 통한다.",
+    "choices": [
+      {
+        "text": "정가로 매너 있게 교환한다",
+        "effects": { "money": -3000, "mental": 7, "social_skill": 1 },
+        "result_text": "처음 본 사이인데 최애 얘기로 30분이 갔다.\n\n덕질은 국경도 나이도 넘는다. 외국 팬과도 이렇게 만난다더라.\n팍팍한 와중에, 같은 걸 좋아하는 사람을 만나는 건 그 자체로 숨통이었다."
+      },
+      {
+        "text": "웃돈을 주고 최애 포카를 산다",
+        "effects": { "money": -25000, "mental": 6 },
+        "result_text": "프리미엄이 붙은 포카. 비싸지만, 갖고 싶은 건 갖고 싶은 거다.\n\n지갑에 넣고 보니 흐뭇했다.\n작은 사치 하나가 일주일을 버티게 한다는 걸, 이젠 안다."
+      }
+    ]
+  },
+  {
+    "id": "kx_kdrama_binge",
+    "title": "정주행 밤샘",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 5 },
+    "cooldown": 22,
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "kdrama", "leisure"],
+    "description": "화제의 새 드라마 16부작.\n\"딱 한 편만\" 했는데 어느새 새벽 4시.\n\n다음 화 자동재생 5초 카운트.\n끄려던 손가락이, 멈춘다.",
+    "choices": [
+      {
+        "text": "끝까지 정주행한다 — 내일이고 뭐고",
+        "effects": { "mental": 8, "health": -3 },
+        "result_text": "해 뜰 때 마지막 화. 눈은 퉁퉁 부었고 마음은 꽉 찼다.\n\n명대사를 캡처해 단톡방에 뿌렸다.\n이 좁은 고시원 방이, 드라마 속 세상으로 잠깐 넓어졌다."
+      },
+      {
+        "text": "두 편만 보고 잔다 — 이성을 붙잡고",
+        "effects": { "mental": 4 },
+        "result_text": "두 편에서 멈췄다. 자제력에 스스로 놀랐다.\n\n불을 끄고 누웠는데 다음 화가 궁금해 잠이 안 왔다.\n그래도 내일의 나를 위해 참았다. 이런 작은 절제가, 어쩌면 5년을 만든다."
+      }
+    ]
+  }
+]

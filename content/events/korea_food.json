@@ -1,0 +1,132 @@
+[
+  {
+    "id": "kx_street_food",
+    "title": "겨울 붕어빵",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": { "min_turn": 5 },
+    "cooldown": 20,
+    "background": "street",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "food"],
+    "description": "퇴근길, 골목 모퉁이 붕어빵 노점.\n천 원에 세 마리. 호호 불며 받아 든 종이봉투가 손을 데운다.\n\n요즘은 붕어빵 파는 곳을 알려주는 앱까지 있다.\n— 겨울 한국의 길거리는 냄새부터 다르다.",
+    "choices": [
+      {
+        "text": "붕어빵에 어묵 국물까지 — 추위를 녹인다",
+        "effects": { "money": -2000, "mental": 6, "health": 1 },
+        "result_text": "팥 붕어빵 머리부터 먹을지 꼬리부터 먹을지, 그 시답잖은 고민이 좋았다.\n어묵 국물은 공짜. 종이컵을 두 손으로 감쌌다.\n\n천 원의 온기. 강남은 멀어도, 오늘 이 골목은 따뜻했다."
+      },
+      {
+        "text": "한 봉지 사서 방에서 혼자 먹는다",
+        "effects": { "money": -1000, "mental": 4 },
+        "result_text": "식어버린 붕어빵을 고시원 방에서 먹었다.\n눅눅해도 단맛은 그대로였다.\n\n혼자 먹는 붕어빵에도 위로가 있다는 걸, 서울 와서 배웠다."
+      }
+    ]
+  },
+  {
+    "id": "kx_tteokbokki",
+    "title": "분식집의 위로",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.4,
+    "hidden": false,
+    "conditions": { "min_turn": 5 },
+    "cooldown": 20,
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "food"],
+    "description": "기분이 가라앉은 날엔 분식집.\n떡볶이, 순대, 튀김, 그리고 김말이.\n\n매운 국물에 튀김을 적셔 먹는 순간만큼은\n통장도 강남도 잠깐 잊힌다.",
+    "choices": [
+      {
+        "text": "떡볶이에 순대·튀김까지 푸짐하게",
+        "effects": { "money": -9000, "mental": 7, "health": -1 },
+        "result_text": "매워서 콧물 나고, 매워서 또 먹고.\n튀김을 떡볶이 국물에 푹 적셨다. 이 조합은 누가 발명했든 천재다.\n\n9천 원에 이만한 위로가 또 없다. 한국의 솔푸드."
+      },
+      {
+        "text": "기본 떡볶이 1인분만",
+        "effects": { "money": -4000, "mental": 5 },
+        "result_text": "1인분이라 좀 멋쩍었지만, 아주머니가 떡을 더 얹어줬다.\n\"많이 먹어요, 총각.\"\n그 한마디에 떡볶이보다 마음이 더 데워졌다."
+      }
+    ]
+  },
+  {
+    "id": "kx_malatang_tanghulu",
+    "title": "마라탕에 탕후루",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 8 },
+    "cooldown": 24,
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "food", "trend"],
+    "description": "요즘 거리는 온통 마라탕과 탕후루.\n재료를 직접 골라 담고, 맵기 단계를 정한다.\n\n중국에서 왔지만 한국식으로 변형돼 유행이 됐다.\n유행은 빠르게 왔다 빠르게 간다 — 그게 또 한국이다.",
+    "choices": [
+      {
+        "text": "마라탕 맵게, 후식으로 탕후루까지",
+        "effects": { "money": -13000, "mental": 6, "health": -2 },
+        "result_text": "2단계 맵기에 도전했다가 입에 불이 났다.\n탕후루의 단맛으로 겨우 진화했다. 맵고 달고, 정신없는 조합.\n\n유행 한번 따라가 봤다. 다음 달이면 또 다른 게 유행하겠지만."
+      },
+      {
+        "text": "유행은 됐고 그냥 김밥천국 간다",
+        "effects": { "money": -5000, "mental": 4 },
+        "result_text": "결국 익숙한 김밥천국. 라면에 김밥 한 줄.\n\n유행은 빠르게 지나가지만, 분식집 라면은 10년째 그 자리다.\n변하지 않는 게 주는 안정감도 있다."
+      }
+    ]
+  },
+  {
+    "id": "kx_delivery_app",
+    "title": "배달앱 앞에서",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 5 },
+    "cooldown": 18,
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "food"],
+    "description": "야근 후 텅 빈 고시원 방.\n배달앱을 켠다. 최소주문 1만 5천, 배달비 3천 5백.\n\n장바구니에 담았다 뺐다를 반복한다.\n별점 4.8과 4.6 사이에서, 또 한참 고민한다.",
+    "choices": [
+      {
+        "text": "에라 모르겠다, 시킨다 — 오늘 고생했으니까",
+        "effects": { "money": -19000, "mental": 7, "health": -1 },
+        "result_text": "30분 뒤 문 앞에 도착한 치킨.\n혼자 먹는데도 '문 앞에 두고 가주세요'를 누르는 게 한국식.\n\n배달비가 아깝다가도, 따뜻한 한 끼 앞에선 다 잊힌다.\n오늘 하루를 버틴 나에게 주는 만 9천 원짜리 상."
+      },
+      {
+        "text": "배달비가 아까워 편의점으로 간다",
+        "effects": { "money": -5000, "mental": 3 },
+        "result_text": "결국 앱을 껐다. 편의점 도시락에 컵라면.\n\n배달비 3천 5백 원을 아낀 게 뿌듯하면서도 좀 서글펐다.\n이 작은 계산들이 모여 강남으로 가는 거라고, 스스로를 다독였다."
+      }
+    ]
+  },
+  {
+    "id": "kx_gogi_buffet",
+    "title": "고기 무한리필",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "min_turn": 8 },
+    "cooldown": 26,
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "food"],
+    "description": "1인 1만 5천 원 고기 무한리필.\n불판 위에 삼겹살이 지글거린다.\n\n'본전은 뽑아야 한다'는 한국인의 본능이 깨어난다.\n상추에 고기, 마늘, 쌈장 — 한입 가득.",
+    "choices": [
+      {
+        "text": "본전 이상으로 먹는다 — 위장의 한계까지",
+        "effects": { "money": -15000, "mental": 8, "health": -2 },
+        "result_text": "다섯 접시째. 더 이상 무리라는 걸 알면서도 한 점 더.\n\n배는 터질 것 같고 마음은 든든했다.\n오랜만에 '배부르게 먹었다'는 포만감. 이런 날도 가끔은 있어야 한다."
+      },
+      {
+        "text": "적당히 먹고 일찍 일어난다",
+        "effects": { "money": -15000, "mental": 5 },
+        "result_text": "두 접시에서 멈췄다. 본전 생각에 좀 아쉬웠지만 속은 편했다.\n\n무한리필 앞에서 절제하는 것도 능력이다.\n과식도, 과욕도, 결국 다음 날 내가 치르니까."
+      }
+    ]
+  }
+]

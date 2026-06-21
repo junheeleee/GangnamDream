@@ -1,0 +1,62 @@
+[
+  {
+    "id": "kx_kpop_ticketing",
+    "title": "The Ticketing War",
+    "description": "Ticket-open day for your favorite group's concert.\n8:00 PM sharp, ready to click. Server clock synced, payment info saved, fingers stretched.\n\nOf all the scrabbling in these five years, these three minutes are spent on something else.\n3, 2, 1 — refresh.",
+    "choices": [
+      {
+        "text": "Click like mad and grab a seat — even a back corner of the 3rd floor",
+        "result_text": "Number 20,000-something in the queue, and somehow — one seat.\nThird-floor corner, who cares, you breathe the same air.\n\nMy hands shook. My account got lighter, my chest got fuller.\nGangnam may be far, but this one seat I grabbed today is truly mine."
+      },
+      {
+        "text": "Wiped out — sold out in five seconds",
+        "result_text": "'Sorry. Sold out.' In five seconds.\nScalpers want triple. I won't buy. I won't. ...I decided not to.\n\nIt stings, but knowing what's worth getting angry over —\nthat was its own comfort in these grinding five years."
+      }
+    ]
+  },
+  {
+    "id": "kx_kpop_concert",
+    "title": "A Sea of Lightsticks",
+    "description": "The concert hall, at last.\nThe lights cut out, every lightstick flicks on at once, and the crowd becomes a sea of stars.\n\nFan chants, slogans, an encore.\nThree hours felt like three minutes.",
+    "choices": [
+      {
+        "text": "Sing the chants till my voice gives out",
+        "result_text": "I shouted the same lyrics as a stranger beside me.\nWalking out, my voice was wrecked but my face was loose with joy.\n\nThere have to be nights like this in five years.\nSome things money can't buy — and some things are exactly worth paying for."
+      },
+      {
+        "text": "Film it — I'll watch it forever",
+        "result_text": "Watched it through my phone. Half the footage came out too shaky to use.\n\nStill fine. Even in that shaky video, that night's me is there.\nEven if I reach Gangnam someday, this night will stay its own thing."
+      }
+    ]
+  },
+  {
+    "id": "kx_photocard",
+    "title": "Trading Photocards",
+    "description": "Buy an album, get one random photocard.\nGot the wrong member again.\n\nI post a 'trade/sell' notice online and meet a fan I've never seen at a cafe.\nTotal strangers, connected by a single idol's name.",
+    "choices": [
+      {
+        "text": "Trade at face value, politely",
+        "result_text": "Total stranger, and we talked idols for thirty minutes.\n\nFandom crosses borders and ages. They say you meet foreign fans like this too.\nIn the middle of the grind, meeting someone who loves the same thing was its own breath of air."
+      },
+      {
+        "text": "Pay a premium for the card I want",
+        "result_text": "A card with a markup. Expensive, but you want what you want.\n\nTucked it in my wallet and felt quietly pleased.\nI know now — one small indulgence can carry you through a whole week."
+      }
+    ]
+  },
+  {
+    "id": "kx_kdrama_binge",
+    "title": "An All-Nighter Binge",
+    "description": "The new drama everyone's talking about — sixteen episodes.\n\"Just one episode,\" and suddenly it's 4 AM.\n\nThe next episode auto-plays in five seconds.\nThe finger reaching to turn it off — stops.",
+    "choices": [
+      {
+        "text": "Binge to the end — work tomorrow be damned",
+        "result_text": "The last episode as the sun came up. Eyes puffy, heart full.\n\nScreenshotted the best lines and dropped them in the group chat.\nThis cramped goshiwon room widened, for a while, into the world of the drama."
+      },
+      {
+        "text": "Stop after two and sleep — holding onto reason",
+        "result_text": "Stopped at two episodes. Surprised myself with the restraint.\n\nLights off, lying down, too curious about the next one to sleep.\nStill, I held back for tomorrow's me. Maybe small restraints like this are what make five years."
+      }
+    ]
+  }
+]

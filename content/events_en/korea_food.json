@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kx_street_food",
+    "title": "Winter Bungeoppang",
+    "description": "On the way home, a bungeoppang cart on the corner — fish-shaped pastries filled with red bean.\nThree for a thousand won. The paper bag warms my hands as I blow on them.\n\nThese days there's even an app that maps where they're being sold.\n— Korea's winter streets smell different.",
+    "choices": [
+      {
+        "text": "Bungeoppang plus free fish-cake broth — thaw out the cold",
+        "result_text": "Head first or tail first — that silly little dilemma felt good.\nThe fish-cake broth is free. I cupped the paper cup in both hands.\n\nA thousand won of warmth. Gangnam's far, but this alley was warm tonight."
+      },
+      {
+        "text": "Buy a bag and eat alone in my room",
+        "result_text": "Ate the cooled bungeoppang in my goshiwon room.\nSoggy, but the sweetness held.\n\nThat there's comfort even in bungeoppang eaten alone — that's something I learned in Seoul."
+      }
+    ]
+  },
+  {
+    "id": "kx_tteokbokki",
+    "title": "Comfort at the Bunsik Shop",
+    "description": "On a low day, a bunsik (snack) shop.\nTteokbokki, sundae, fried things, and gimmari.\n\nFor the moment I'm dipping fried squid into the spicy sauce,\neven my bank balance and Gangnam slip my mind.",
+    "choices": [
+      {
+        "text": "Go big — tteokbokki with sundae and fritters",
+        "result_text": "Spicy enough to make my nose run, spicy enough to keep eating.\nDunked the fritters deep in the tteokbokki sauce. Whoever invented that combo is a genius.\n\nNine thousand won buys no better comfort. Korea's soul food."
+      },
+      {
+        "text": "Just one order of plain tteokbokki",
+        "result_text": "A solo order felt a little sheepish, but the lady piled on extra rice cakes.\n\"Eat up, young man.\"\nThat one line warmed me more than the tteokbokki did."
+      }
+    ]
+  },
+  {
+    "id": "kx_malatang_tanghulu",
+    "title": "Malatang and Tanghulu",
+    "description": "Lately the streets are all malatang and tanghulu.\nYou pick your own ingredients into a bowl and choose your spice level.\n\nThey came from China but got Koreanized into a craze.\nTrends arrive fast and leave fast — that, too, is Korea.",
+    "choices": [
+      {
+        "text": "Malatang spicy, tanghulu for dessert",
+        "result_text": "Tried spice level 2 and set my mouth on fire.\nThe candied tanghulu barely put it out. Spicy then sweet, a chaotic combo.\n\nFollowed the trend once. Next month it'll be something else, sure."
+      },
+      {
+        "text": "Skip the trend, just hit Gimbap Heaven",
+        "result_text": "Ended up at the familiar Gimbap Heaven. Ramyeon and a roll of gimbap.\n\nTrends pass fast, but the bunsik-shop ramyeon has been in the same spot for ten years.\nThere's a steadiness in things that don't change."
+      }
+    ]
+  },
+  {
+    "id": "kx_delivery_app",
+    "title": "Facing the Delivery App",
+    "description": "After overtime, an empty goshiwon room.\nI open the delivery app. Minimum order 15,000, delivery fee 3,500.\n\nI add to cart, remove, add again.\nBetween 4.8 stars and 4.6, I deliberate for ages.",
+    "choices": [
+      {
+        "text": "Forget it, order it — I earned it today",
+        "result_text": "Chicken at the door thirty minutes later.\nEating alone, I still tap 'leave it at the door' — that's the Korean way.\n\nThe fee stings, but in front of a warm meal it's forgotten.\nA 19,000-won reward to myself for surviving the day."
+      },
+      {
+        "text": "The fee feels wasteful — head to the convenience store",
+        "result_text": "Closed the app in the end. A convenience-store lunchbox and cup ramyeon.\n\nSaving the 3,500-won fee felt satisfying and a little sad at once.\nThese small calculations add up to Gangnam, I told myself."
+      }
+    ]
+  },
+  {
+    "id": "kx_gogi_buffet",
+    "title": "All-You-Can-Eat Meat",
+    "description": "Fifteen thousand won a head, all-you-can-eat barbecue.\nSamgyeopsal sizzles on the grill.\n\nThe Korean instinct to 'get your money's worth' kicks in.\nLettuce, meat, garlic, ssamjang — a full wrap in one bite.",
+    "choices": [
+      {
+        "text": "Eat past your money's worth — to the stomach's limit",
+        "result_text": "Fifth plate. I know it's too much, and reach for one more piece.\n\nMy belly's about to burst, my heart's content.\nThe fullness of 'eating my fill' for once. There have to be days like this too."
+      },
+      {
+        "text": "Eat a reasonable amount and leave early",
+        "result_text": "Stopped at two plates. A little wistful about the 'value,' but my stomach was at ease.\n\nRestraint in front of a buffet is a skill too.\nOvereating and overreaching — I'm the one who pays for both the next day."
+      }
+    ]
+  }
+]
