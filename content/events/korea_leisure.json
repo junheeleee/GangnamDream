@@ -1,0 +1,111 @@
+[
+  {
+    "id": "kx_jjimjilbang",
+    "title": "찜질방의 밤",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 7 },
+    "cooldown": 24,
+    "background": "gym",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "leisure"],
+    "description": "갈 곳 없는 주말 밤, 찜질방.\n입장 9천 원에 하룻밤. 양머리 수건 접는 법을 배웠다.\n\n맥반석 계란을 이마에 탁 깨서 까먹고, 식혜 한 캔.\n불가마에 들어가니 5년 치 피로가 땀으로 빠지는 것 같았다.",
+    "choices": [
+      {
+        "text": "수면실 바닥에서 자고 간다 — 모텔보다 싸니까",
+        "effects": { "money": -9000, "mental": 8, "health": 3 },
+        "result_text": "수면실 바닥에서 칼잠. 옆 아저씨 코골이가 BGM이었다.\n\n외국 친구가 보면 '여기서 잔다고?' 하겠지만,\n한국인에겐 이게 그냥 가성비다. 모텔보다 싸고 사우나보다 따뜻하다."
+      },
+      {
+        "text": "계란에 식혜만 즐기고 몸만 녹이고 간다",
+        "effects": { "money": -12000, "mental": 6 },
+        "result_text": "맥반석 계란 두 개에 식혜. 불가마-냉탕-불가마.\n\n이 조합을 발명한 사람에게 상을 줘야 한다.\n땀을 빼고 나오니 머리가 맑았다. 9천 원어치 명상이었다."
+      }
+    ]
+  },
+  {
+    "id": "kx_manhwa_cafe",
+    "title": "만화카페에서 하루",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 7 },
+    "cooldown": 24,
+    "background": "cafe",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "leisure"],
+    "description": "비 오는 일요일, 만화카페.\n시간당 2천 원에 라면·음료 무제한, 푹신한 빈백.\n\n읽고 싶던 만화를 스무 권 쌓아두고 파묻혔다.\n바깥세상이 잠깐 사라졌다.",
+    "choices": [
+      {
+        "text": "종일 눌러앉아 정주행한다",
+        "effects": { "money": -8000, "mental": 8, "health": -1 },
+        "result_text": "라면 한 그릇 끓여 먹고, 만화 스무 권을 다 봤다.\n\n해가 진 줄도 몰랐다. 목이 뻐근했지만 마음은 가벼웠다.\n이천 원짜리 도피처치고 완벽했다."
+      },
+      {
+        "text": "한두 권 보고 라면만 먹고 나온다",
+        "effects": { "money": -4000, "mental": 4 },
+        "result_text": "두 권쯤 보다가 라면을 끓였다.\n만화카페 라면은 왜 더 맛있는지.\n비가 그칠 때쯤 일어섰다."
+      }
+    ]
+  },
+  {
+    "id": "kx_arcade",
+    "title": "오락실 한 판",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 6 },
+    "cooldown": 22,
+    "background": "gangnam_station",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "leisure"],
+    "description": "번화가 오락실.\n펌프(댄스 발판), 농구 게임, 그리고 인생네컷 부스.\n\n동전 교환기에 천 원을 넣자 100원짜리가 쏟아진다.\n— 오랜만이다, 이 소리.",
+    "choices": [
+      {
+        "text": "펌프 한 곡 밟는다 — 땀 좀 빼자",
+        "effects": { "money": -1000, "mental": 6, "health": 2 },
+        "result_text": "발판을 밟다 보니 금세 숨이 찼다. 옆 고수가 흘끔 봤다.\n\n못해도 재밌었다. 이게 한국식 리듬게임.\n오백 원으로 헬스장 한 타임 효과를 봤다."
+      },
+      {
+        "text": "인생네컷을 찍는다 — 혼자라도",
+        "effects": { "money": -4000, "mental": 5 },
+        "result_text": "혼자 네 컷 찍는 게 처음엔 뻘쭘했다.\n근데 보정 빨에 결국 웃었다.\n\n한 장 뽑아 지갑에 넣었다. 오늘의 나, 생각보다 괜찮네."
+      },
+      {
+        "text": "동전만 바꿔보고 구경하다 나온다",
+        "effects": { "mental": 1 },
+        "result_text": "바꾼 동전을 도로 지폐로 바꿔 나왔다.\n구경만으로도 시끌벅적한 게 좋았다. 공짜 구경."
+      }
+    ]
+  },
+  {
+    "id": "kx_room_escape",
+    "title": "방탈출 카페",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "min_turn": 9 },
+    "cooldown": 28,
+    "background": "street",
+    "portrait": "player_determined",
+    "tags": ["korea", "culture", "leisure"],
+    "description": "지인들과 방탈출 카페.\n1인 2만 원, 제한시간 60분. 자물쇠, 암호, 자외선 펜.\n\n문이 잠기고 타이머가 빨갛게 줄어들기 시작한다.\n\"단서는 다 방 안에 있습니다.\"",
+    "choices": [
+      {
+        "text": "끝까지 머리를 쥐어짠다",
+        "effects": { "money": -20000, "mental": 9, "intelligence": 1, "social_skill": 1 },
+        "result_text": "5분 남기고 마지막 자물쇠가 '딸깍' 열렸다.\n다 같이 소리를 질렀다. 탈출 사진 찍고 하이파이브.\n\n비싼데 또 하고 싶다. 이게 방탈출의 마성이다."
+      },
+      {
+        "text": "힌트 다 쓰고 겨우 나온다",
+        "effects": { "money": -20000, "mental": 5, "social_skill": 1 },
+        "result_text": "힌트를 다섯 번 받고서야 탈출. 직원이 웃으며 '아쉬웠어요' 한다.\n\n실패에 가까운 성공이었지만, 같이 머리 맞댄 한 시간이 즐거웠다.\n혼자였으면 절대 못 했을 경험."
+      }
+    ]
+  }
+]

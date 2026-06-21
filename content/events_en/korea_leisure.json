@@ -1,0 +1,66 @@
+[
+  {
+    "id": "kx_jjimjilbang",
+    "title": "A Night at the Jjimjilbang",
+    "description": "A weekend night with nowhere to go, so — a jjimjilbang (Korean bathhouse-sauna).\nNine thousand won for the whole night. I learned to fold the towel into a 'sheep-head' hat.\n\nCracked a baked egg on my forehead, washed it down with sweet rice sikhye.\nIn the kiln room, five years of fatigue seemed to sweat right out of me.",
+    "choices": [
+      {
+        "text": "Sleep on the floor of the rest hall — cheaper than a motel",
+        "result_text": "Slept curled up on the heated floor. The snoring uncle next to me was the BGM.\n\nA foreign friend would gasp, 'You sleep HERE?' —\nbut to a Korean this is just good value. Cheaper than a motel, warmer than a spa."
+      },
+      {
+        "text": "Just enjoy the eggs and sikhye and thaw out",
+        "result_text": "Two baked eggs and a sikhye. Kiln room, cold pool, kiln room again.\n\nWhoever invented this combo deserves a medal.\nWalked out with my head clear — nine thousand won of meditation."
+      }
+    ]
+  },
+  {
+    "id": "kx_manhwa_cafe",
+    "title": "A Day at the Manhwa Cafe",
+    "description": "A rainy Sunday, a manhwa (comics) cafe.\nTwo thousand won an hour, unlimited ramyeon and drinks, a deep beanbag.\n\nI piled up twenty volumes I'd wanted to read and sank in.\nThe outside world disappeared for a while.",
+    "choices": [
+      {
+        "text": "Camp out all day and binge the whole series",
+        "result_text": "Cooked a bowl of ramyeon and read all twenty volumes.\n\nDidn't even notice the sun set. My neck was stiff but my heart was light.\nFor a two-thousand-won-an-hour hideout, it was perfect."
+      },
+      {
+        "text": "Read a couple, eat ramyeon, head out",
+        "result_text": "Read two volumes, then made ramyeon.\nWhy does manhwa-cafe ramyeon taste better?\nGot up around when the rain let up."
+      }
+    ]
+  },
+  {
+    "id": "kx_arcade",
+    "title": "One Round at the Arcade",
+    "description": "An arcade in the busy district.\nPump It Up (dance pads), a basketball game, and a photo-booth.\n\nFeed a thousand won into the coin machine and 100-won coins pour out.\n— Been a while since I heard that sound.",
+    "choices": [
+      {
+        "text": "Stomp out one song on the dance pad — work up a sweat",
+        "result_text": "A few steps in and I was already winded. A pro at the next machine glanced over.\n\nBad at it, still fun. This is Korean rhythm-gaming.\nGot a gym session's worth of cardio for 500 won."
+      },
+      {
+        "text": "Take photo-booth shots — even solo",
+        "result_text": "Taking four-cut photos alone felt awkward at first.\nBut the beauty filter got a laugh out of me.\n\nPrinted one for my wallet. Today's me — better than I thought."
+      },
+      {
+        "text": "Just swap coins, look around, and leave",
+        "result_text": "Swapped the coins back into bills and walked out.\nEven just watching the noise and lights felt good. Free entertainment."
+      }
+    ]
+  },
+  {
+    "id": "kx_room_escape",
+    "title": "The Escape Room Cafe",
+    "description": "An escape-room cafe with some acquaintances.\nTwenty thousand won each, sixty-minute limit. Padlocks, ciphers, a UV pen.\n\nThe door locks and the timer starts ticking down in red.\n\"All the clues are inside the room.\"",
+    "choices": [
+      {
+        "text": "Rack our brains to the very end",
+        "result_text": "With five minutes left, the final padlock clicked open.\nWe all yelled. Group photo, high-fives.\n\nExpensive, and I want to do it again. That's the spell of escape rooms."
+      },
+      {
+        "text": "Burn all the hints and barely make it out",
+        "result_text": "Got five hints before escaping. The staffer smiled, 'So close.'\n\nA success that felt like a failure — but the hour of heads-together was a blast.\nNever could have done it alone."
+      }
+    ]
+  }
+]
