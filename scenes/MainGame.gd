@@ -2841,7 +2841,7 @@ func _render_news():
 		var prefix = ""
 		if misleading:
 			color = "#5a6075"
-			prefix = "⚠ [루머] "
+			prefix = _tr("⚠ [루머] ", "⚠ [RUMOR] ")
 		elif power >= 0.04:
 			color = "#00c896"
 			prefix = "📈 "
@@ -4013,7 +4013,8 @@ func _ap_study():
 		else:
 			GameState.modify_stat(k, val)
 	GameState.add_tendency("career", 1)
-	var flavor: String = str(v.get("t", ""))
+	var _st_key := "et" if LocaleManager.is_english() else "t"
+	var flavor: String = str(v.get(_st_key, v.get("t", "")))
 	GameState.add_log(tag + " — " + flavor, "event")
 	_show_vignette(_tr("📚 자기계발", "📚 Self-Dev"), flavor, eff, "#5a6ea8")
 	turn_action_log.append("✓ " + tag + " — " + flavor.substr(0, 20))
@@ -4048,7 +4049,8 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	GameState.add_tendency("found", 1)   # 알바·부업 = 창업형 기질
 	GameState.add_log(_tr("💼 알바 시프트 수입 %s (건강 %d→%d, 정신력 %+d)", "💼 Gig shift income %s (Health %d→%d, Mental %+d)") % [
 		GameState.format_money(float(earned)), health_before, GameState.health, -stress_delta], "job")
-	var mood: String = SIDE_JOB_VIGNETTES[randi() % SIDE_JOB_VIGNETTES.size()]
+	var _sj_v: Dictionary = SIDE_JOB_VIGNETTES[randi() % SIDE_JOB_VIGNETTES.size()]
+	var mood: String = str(_sj_v.get("et" if LocaleManager.is_english() else "t", _sj_v.get("t", "")))
 	turn_action_log.append(_tr("✓ 💼 알바 시프트 — ", "✓ 💼 Gig shift — ") + mood.substr(0, 22))
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
@@ -4057,11 +4059,11 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	_refresh_all()
 
 const _SAVE_SCENES = [
-	"편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.",
-	"구독 서비스를 정리했다. 쓰지도 않는 것들이 매달 빠져나가고 있었다.",
-	"걸어서 한 시간. 교통비 2,800원이 아깝다는 생각을 세 번 했다.",
-	"커피 대신 편의점 아메리카노. 맛은 다르지만 잔액은 같아진다.",
-	"외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.",
+	{"t":"편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.", "et":"Cooked at home instead of a convenience store lunch box. Made it through the day on 2,000 won of ingredients."},
+	{"t":"구독 서비스를 정리했다. 쓰지도 않는 것들이 매달 빠져나가고 있었다.", "et":"Cleared out subscriptions. Things I didn't even use had been going out every month."},
+	{"t":"걸어서 한 시간. 교통비 2,800원이 아깝다는 생각을 세 번 했다.", "et":"Walked for an hour. Thought three times about whether 2,800 won in transit fare was worth it."},
+	{"t":"커피 대신 편의점 아메리카노. 맛은 다르지만 잔액은 같아진다.", "et":"Convenience store americano instead of coffee. Different taste, but the balance ends up the same."},
+	{"t":"외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.", "et":"Resisted eating out. Rummaged through the fridge. Two eggs and old kimchi."},
 ]
 
 func _ap_save_money():
@@ -4071,7 +4073,8 @@ func _ap_save_money():
 	GameState.add_money(float(saved))
 	GameState.modify_hidden_stat("stress", 2)
 	GameState.add_tendency("career", 1)
-	var scene: String = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
+	var _sv := _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
+	var scene: String = str(_sv.get("et" if LocaleManager.is_english() else "t", _sv.get("t", "")))
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
 	_show_vignette(_tr("💰 절약", "💰 Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
 		{"money": saved, "stress": 2}, "#4a7a5a")
@@ -4096,7 +4099,8 @@ func _ap_network():
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	var flavor: String = str(v.get("t", ""))
+	var _nt_key := "et" if LocaleManager.is_english() else "t"
+	var flavor: String = str(v.get(_nt_key, v.get("t", "")))
 	GameState.add_log(_tr("🤝 인맥 — ", "🤝 Network — ") + flavor, "relationship")
 	turn_action_log.append(_tr("✓ 🤝 인맥 넓히기 — ", "✓ 🤝 Networking — ") + flavor.substr(0, 20))
 	GameState.stats_changed.emit()
@@ -4190,145 +4194,145 @@ func _contact_flavor(person_id: String, aff: int) -> String:
 # ── 변주되는 루틴 미니 장면 ──────────────────────────────────────
 # 같은 행동도 매번 다른 짧은 장면(좋은 일·헛탕·소소한 행운)이 나온다.
 const REST_VIGNETTES := [
-	{"t":"한강을 걸었다. 강물이 도시의 소음을 잠시 데려갔다.", "e":{"mental":11,"stress":-9}},
-	{"t":"알람 없이 푹 잤다. 며칠 만에 몸이 깃털처럼 가벼웠다.", "e":{"health":6,"mental":7,"stress":-7}},
-	{"t":"종일 누워 유튜브만 봤다. 쉰 건지 시간을 버린 건지 모르겠다.", "e":{"mental":4,"stress":-2}},
-	{"t":"쉬려고 누웠는데, 통장 잔고 생각에 도무지 잠이 안 왔다.", "e":{"mental":2,"stress":-1}},
-	{"t":"동네 포장마차에서 혼술. 쓸쓸했지만, 따뜻했다.", "e":{"mental":6,"stress":-5,"money":-12000}},
-	{"t":"공원 벤치에서 멍하니 사람들을 봤다. 다들 어딘가로 바쁘다.", "e":{"mental":5,"stress":-4}},
-	{"t":"낮잠을 자다 강남 아파트에서 쫓겨나는 꿈을 꿨다. 식은땀.", "e":{"mental":3,"stress":-2}},
-	{"t":"목욕탕에서 때를 밀었다. 묵은 피로가 조금 벗겨졌다.", "e":{"health":4,"mental":5,"stress":-6,"money":-9000}},
-	{"t":"길에서 꼬깃한 만원짜리를 주웠다. 오늘은 운이 좋다.", "e":{"mental":6,"stress":-5,"money":50000,"luck":1}},
-	{"t":"쉬는 날인데 자꾸 일·돈 생각이 났다. 제대로 못 쉬었다.", "e":{"mental":3,"stress":-2}},
+	{"t":"한강을 걸었다. 강물이 도시의 소음을 잠시 데려갔다.", "et":"Walked along the Han River. For a moment, the water carried the city's noise away.", "e":{"mental":11,"stress":-9}},
+	{"t":"알람 없이 푹 잤다. 며칠 만에 몸이 깃털처럼 가벼웠다.", "et":"Slept without an alarm. After days, the body felt light as a feather.", "e":{"health":6,"mental":7,"stress":-7}},
+	{"t":"종일 누워 유튜브만 봤다. 쉰 건지 시간을 버린 건지 모르겠다.", "et":"Lay in bed watching YouTube all day. Not sure if it was rest or wasted time.", "e":{"mental":4,"stress":-2}},
+	{"t":"쉬려고 누웠는데, 통장 잔고 생각에 도무지 잠이 안 왔다.", "et":"Lay down to rest, but couldn't sleep — kept thinking about the bank balance.", "e":{"mental":2,"stress":-1}},
+	{"t":"동네 포장마차에서 혼술. 쓸쓸했지만, 따뜻했다.", "et":"Drinking alone at the neighborhood pojangmacha. Lonely, but warm.", "e":{"mental":6,"stress":-5,"money":-12000}},
+	{"t":"공원 벤치에서 멍하니 사람들을 봤다. 다들 어딘가로 바쁘다.", "et":"Sat on a park bench watching people drift by. Everyone seems busy going somewhere.", "e":{"mental":5,"stress":-4}},
+	{"t":"낮잠을 자다 강남 아파트에서 쫓겨나는 꿈을 꿨다. 식은땀.", "et":"Dozed off and dreamed of being evicted from a Gangnam apartment. Woke in a cold sweat.", "e":{"mental":3,"stress":-2}},
+	{"t":"목욕탕에서 때를 밀었다. 묵은 피로가 조금 벗겨졌다.", "et":"Went to the bathhouse to scrub off the grime. Some of the accumulated fatigue peeled away too.", "e":{"health":4,"mental":5,"stress":-6,"money":-9000}},
+	{"t":"길에서 꼬깃한 만원짜리를 주웠다. 오늘은 운이 좋다.", "et":"Found a crumpled ten-thousand won bill on the street. Today's a lucky day.", "e":{"mental":6,"stress":-5,"money":50000,"luck":1}},
+	{"t":"쉬는 날인데 자꾸 일·돈 생각이 났다. 제대로 못 쉬었다.", "et":"Even on a day off, kept thinking about work and money. Couldn't truly rest.", "e":{"mental":3,"stress":-2}},
 ]
 const SELFDEV_VIGNETTES := [
-	{"t":"읽던 책의 한 구절이 오래 남았다. \"버티는 것도 재능이다.\"", "e":{"intelligence":3,"mental":2}},
-	{"t":"집중이 안 됐다. 같은 페이지만 세 번 읽다 덮었다.", "e":{"intelligence":1,"stress":2}},
-	{"t":"투자 강의에서 무릎을 쳤다. 숫자 너머가 보이기 시작한다.", "e":{"investment_skill":3,"intelligence":1}},
-	{"t":"운동을 했다. 땀이 머릿속 잡념까지 같이 씻어냈다.", "e":{"health":5,"stress":-4}},
-	{"t":"명상 앱을 켰는데 5분 만에 잠들었다. 그래도 개운했다.", "e":{"health":2,"mental":3,"stress":-2}},
-	{"t":"강의를 듣다 문득, 내가 뭘 위해 이러나 싶었다.", "e":{"intelligence":2,"mental":-2}},
-	{"t":"자격증 인강을 결제했다. 작심삼일이 될지, 발판이 될지.", "e":{"intelligence":2,"money":-30000,"investment_skill":1}},
-	{"t":"운동하다 거울 속 야윈 몸을 봤다. 그래도 조금은 가뿐해졌다.", "e":{"health":4,"mental":-1,"stress":-2}},
-	{"t":"도서관에서 부동산 책을 팠다. 용어가 조금씩 눈에 익는다.", "e":{"investment_skill":2,"intelligence":1}},
-	{"t":"새벽에 영어 단어를 외웠다. 쓸 일이 있을지는, 일단 모른다.", "e":{"intelligence":2,"stress":1}},
+	{"t":"읽던 책의 한 구절이 오래 남았다. \"버티는 것도 재능이다.\"", "et":"A line from the book lingered. \"Enduring is also a talent.\"", "e":{"intelligence":3,"mental":2}},
+	{"t":"집중이 안 됐다. 같은 페이지만 세 번 읽다 덮었다.", "et":"Couldn't focus. Read the same page three times and gave up.", "e":{"intelligence":1,"stress":2}},
+	{"t":"투자 강의에서 무릎을 쳤다. 숫자 너머가 보이기 시작한다.", "et":"Had an 'aha' moment in an investing lecture. Starting to see beyond the numbers.", "e":{"investment_skill":3,"intelligence":1}},
+	{"t":"운동을 했다. 땀이 머릿속 잡념까지 같이 씻어냈다.", "et":"Worked out. The sweat washed away the mental clutter too.", "e":{"health":5,"stress":-4}},
+	{"t":"명상 앱을 켰는데 5분 만에 잠들었다. 그래도 개운했다.", "et":"Opened a meditation app and fell asleep in five minutes. Still felt refreshed.", "e":{"health":2,"mental":3,"stress":-2}},
+	{"t":"강의를 듣다 문득, 내가 뭘 위해 이러나 싶었다.", "et":"Mid-lecture, suddenly wondered: what's all this even for?", "e":{"intelligence":2,"mental":-2}},
+	{"t":"자격증 인강을 결제했다. 작심삼일이 될지, 발판이 될지.", "et":"Paid for a certification course online. Will it last three days, or become a stepping stone?", "e":{"intelligence":2,"money":-30000,"investment_skill":1}},
+	{"t":"운동하다 거울 속 야윈 몸을 봤다. 그래도 조금은 가뿐해졌다.", "et":"Caught a glimpse of a thin body in the gym mirror. Still, felt a little lighter.", "e":{"health":4,"mental":-1,"stress":-2}},
+	{"t":"도서관에서 부동산 책을 팠다. 용어가 조금씩 눈에 익는다.", "et":"Dug into a real estate book at the library. The terminology is slowly becoming familiar.", "e":{"investment_skill":2,"intelligence":1}},
+	{"t":"새벽에 영어 단어를 외웠다. 쓸 일이 있을지는, 일단 모른다.", "et":"Memorized English vocabulary at dawn. Whether it'll ever come in handy, who knows.", "e":{"intelligence":2,"stress":1}},
 ]
 
 const STUDY_READ_VIGNETTES := [
-	{"t":"도서관에서 마감 직전까지 앉아 있었다. 창이 어두워질 때쯤 뭔가 연결이 됐다.", "e":{"intelligence":5,"stress":1}},
-	{"t":"중고 서점에서 3,000원짜리 책을 집었다. 밑줄을 다섯 군데 그었다. 이걸로 됐다.", "e":{"intelligence":4}},
-	{"t":"공부 카페에서 네 시간. 집중이 안 됐는데 그냥 있었다. 어느 순간 됐다.", "e":{"intelligence":3,"stress":2}},
-	{"t":"유튜브 알고리즘이 뜻밖의 강의를 추천했다. 한 시간 반을 멈추지 않고 봤다.", "e":{"intelligence":5,"mental":2}},
-	{"t":"전자책 앱으로 지하철에서 서서 읽었다. 눈이 아팠지만 멈추지 않았다.", "e":{"intelligence":4,"health":-1}},
-	{"t":"좋아하던 작가 신간이 도서관에 있었다. 기분 좋은 날이었다.", "e":{"intelligence":3,"mental":4}},
-	{"t":"읽다가 잠들었다. 일어나서 다시 폈다. 두 번 읽은 페이지가 더 잘 들어왔다.", "e":{"intelligence":3,"health":1}},
-	{"t":"오늘은 진짜 집중이 안 됐다. 그래도 앉아있는 것 자체가 훈련이다.", "e":{"intelligence":2,"stress":3}},
-	{"t":"책 한 구절이 내 얘기 같아서 접어뒀다. 나중에 다시 볼 것 같다.", "e":{"intelligence":4,"mental":3}},
-	{"t":"열람실. 옆 사람도 열심히 뭔가를 읽고 있었다. 덩달아 집중이 됐다.", "e":{"intelligence":4,"stress":-2}},
+	{"t":"도서관에서 마감 직전까지 앉아 있었다. 창이 어두워질 때쯤 뭔가 연결이 됐다.", "et":"Sat at the library until closing. By the time the windows darkened, something clicked.", "e":{"intelligence":5,"stress":1}},
+	{"t":"중고 서점에서 3,000원짜리 책을 집었다. 밑줄을 다섯 군데 그었다. 이걸로 됐다.", "et":"Picked up a 3,000-won book at a used bookstore. Made five underlines. That was enough.", "e":{"intelligence":4}},
+	{"t":"공부 카페에서 네 시간. 집중이 안 됐는데 그냥 있었다. 어느 순간 됐다.", "et":"Four hours at a study café. Couldn't concentrate, but stayed put. At some point it clicked.", "e":{"intelligence":3,"stress":2}},
+	{"t":"유튜브 알고리즘이 뜻밖의 강의를 추천했다. 한 시간 반을 멈추지 않고 봤다.", "et":"The YouTube algorithm recommended an unexpected lecture. Watched an hour and a half without stopping.", "e":{"intelligence":5,"mental":2}},
+	{"t":"전자책 앱으로 지하철에서 서서 읽었다. 눈이 아팠지만 멈추지 않았다.", "et":"Read an e-book standing on the subway. Eyes ached, but couldn't stop.", "e":{"intelligence":4,"health":-1}},
+	{"t":"좋아하던 작가 신간이 도서관에 있었다. 기분 좋은 날이었다.", "et":"Found a new release by a favorite author at the library. Good day.", "e":{"intelligence":3,"mental":4}},
+	{"t":"읽다가 잠들었다. 일어나서 다시 폈다. 두 번 읽은 페이지가 더 잘 들어왔다.", "et":"Fell asleep reading, woke up and opened it again. The page I read twice stuck better.", "e":{"intelligence":3,"health":1}},
+	{"t":"오늘은 진짜 집중이 안 됐다. 그래도 앉아있는 것 자체가 훈련이다.", "et":"Genuinely couldn't focus today. But sitting there is itself training.", "e":{"intelligence":2,"stress":3}},
+	{"t":"책 한 구절이 내 얘기 같아서 접어뒀다. 나중에 다시 볼 것 같다.", "et":"Folded a page where a line felt like my own story. Will come back to it.", "e":{"intelligence":4,"mental":3}},
+	{"t":"열람실. 옆 사람도 열심히 뭔가를 읽고 있었다. 덩달아 집중이 됐다.", "et":"Reading room. The person next to me was reading intently too. Focused without even trying.", "e":{"intelligence":4,"stress":-2}},
 ]
 
 const STUDY_EXERCISE_VIGNETTES := [
-	{"t":"한강을 달렸다. 처음 2km는 힘들었다. 그 다음부터는 생각이 없어졌다.", "e":{"health":10,"stress":-7}},
-	{"t":"헬스장. 오늘치를 다 채웠다. 샤워하고 나왔을 때 세상이 조금 달라 보였다.", "e":{"health":12,"stress":-6,"mental":2}},
-	{"t":"공원을 뛰었다. 할머니가 옆에서 걷고 있었다. 나도 저 나이까지 이러고 싶다.", "e":{"health":9,"stress":-5,"mental":3}},
-	{"t":"어젯밤 술이 남아서 쉬엄쉬엄했다. 그래도 안 하는 것보다 낫다.", "e":{"health":6,"stress":-4}},
-	{"t":"줄넘기 500개. 땀이 통 빠졌다. 한강 바람이 차게 식혔다.", "e":{"health":11,"stress":-8}},
-	{"t":"오늘은 몸이 안 좋아서 가볍게만 했다. 그래도 나왔다는 게 중요하다.", "e":{"health":7,"stress":-3}},
-	{"t":"PT 선생님이 자세를 고쳐줬다. 같은 무게인데 훨씬 힘들어졌다.", "e":{"health":10,"stress":-5,"intelligence":1}},
-	{"t":"근처 공원 벤치 사이를 달렸다. 서울도 이렇게 보면 좁지 않다.", "e":{"health":9,"stress":-6,"mental":2}},
-	{"t":"헬스장 가는 게 귀찮았는데 막상 하니까 잘 했다. 항상 그렇다.", "e":{"health":11,"stress":-7}},
-	{"t":"운동하다 거울 속 자신을 봤다. 조금은 나아지고 있다.", "e":{"health":10,"stress":-6}},
+	{"t":"한강을 달렸다. 처음 2km는 힘들었다. 그 다음부터는 생각이 없어졌다.", "et":"Ran along the Han River. The first 2km was hard. After that, thoughts disappeared.", "e":{"health":10,"stress":-7}},
+	{"t":"헬스장. 오늘치를 다 채웠다. 샤워하고 나왔을 때 세상이 조금 달라 보였다.", "et":"Gym. Hit the day's quota. When I stepped out of the shower, the world looked a little different.", "e":{"health":12,"stress":-6,"mental":2}},
+	{"t":"공원을 뛰었다. 할머니가 옆에서 걷고 있었다. 나도 저 나이까지 이러고 싶다.", "et":"Jogged in the park. An elderly woman was walking beside me. I want to still be doing this at her age.", "e":{"health":9,"stress":-5,"mental":3}},
+	{"t":"어젯밤 술이 남아서 쉬엄쉬엄했다. 그래도 안 하는 것보다 낫다.", "et":"Still a bit hungover from last night, so took it easy. Still better than nothing.", "e":{"health":6,"stress":-4}},
+	{"t":"줄넘기 500개. 땀이 통 빠졌다. 한강 바람이 차게 식혔다.", "et":"500 jump ropes. Sweated hard. The Han River breeze cooled it all down.", "e":{"health":11,"stress":-8}},
+	{"t":"오늘은 몸이 안 좋아서 가볍게만 했다. 그래도 나왔다는 게 중요하다.", "et":"Body wasn't feeling great today, kept it light. But the fact I showed up matters.", "e":{"health":7,"stress":-3}},
+	{"t":"PT 선생님이 자세를 고쳐줬다. 같은 무게인데 훨씬 힘들어졌다.", "et":"The trainer corrected my form. Same weight, but now it's much harder.", "e":{"health":10,"stress":-5,"intelligence":1}},
+	{"t":"근처 공원 벤치 사이를 달렸다. 서울도 이렇게 보면 좁지 않다.", "et":"Ran between park benches nearby. Seoul doesn't feel so cramped from this angle.", "e":{"health":9,"stress":-6,"mental":2}},
+	{"t":"헬스장 가는 게 귀찮았는데 막상 하니까 잘 했다. 항상 그렇다.", "et":"Dreaded going to the gym, but once started, glad I went. Always the same story.", "e":{"health":11,"stress":-7}},
+	{"t":"운동하다 거울 속 자신을 봤다. 조금은 나아지고 있다.", "et":"Caught a glimpse of myself in the mirror mid-workout. Getting a little better.", "e":{"health":10,"stress":-6}},
 ]
 
 const STUDY_MEDITATE_VIGNETTES := [
-	{"t":"한강 벤치에서 눈을 감았다. 오리 우는 소리가 들렸다. 30분이 5분처럼 지나갔다.", "e":{"mental":11,"stress":-9}},
-	{"t":"명상 앱을 따라했다. 숨을 세다가 잠들었다. 그래도 일어나니 개운했다.", "e":{"mental":9,"stress":-7,"health":2}},
-	{"t":"아무것도 안 했다. 천장만 봤다. 그게 오늘은 필요했다.", "e":{"mental":10,"stress":-8}},
-	{"t":"공원 벤치. 나뭇잎이 흔들리는 걸 아무 생각 없이 봤다. 귀가 트였다.", "e":{"mental":12,"stress":-9}},
-	{"t":"일기를 썼다. 쓰다 보니 내가 무섭다고 느낀 게 뭔지 알았다.", "e":{"mental":10,"stress":-6,"intelligence":2}},
-	{"t":"음악 없이 걸었다. 서울 소리가 잘 들렸다. 나쁘지 않았다.", "e":{"mental":8,"stress":-7}},
-	{"t":"방 불을 끄고 그냥 누워 있었다. 잡념이 먼저 왔다가 나중에 떠났다.", "e":{"mental":10,"stress":-8}},
-	{"t":"찜질방에서 두 시간. 아무것도 안 하는 게 이렇게 비싼 일이었나.", "e":{"mental":11,"stress":-9,"health":3,"money":-12000}},
-	{"t":"숨을 10번 깊게 쉬었다. 단순한데, 해보면 다르다.", "e":{"mental":9,"stress":-8}},
-	{"t":"머릿속을 비우려고 했는데 오히려 정리가 됐다. 결정이 하나 났다.", "e":{"mental":12,"stress":-7,"intelligence":2}},
+	{"t":"한강 벤치에서 눈을 감았다. 오리 우는 소리가 들렸다. 30분이 5분처럼 지나갔다.", "et":"Closed my eyes on a Han River bench. Could hear ducks. Thirty minutes passed like five.", "e":{"mental":11,"stress":-9}},
+	{"t":"명상 앱을 따라했다. 숨을 세다가 잠들었다. 그래도 일어나니 개운했다.", "et":"Followed a meditation app. Started counting breaths and fell asleep. Still felt refreshed after.", "e":{"mental":9,"stress":-7,"health":2}},
+	{"t":"아무것도 안 했다. 천장만 봤다. 그게 오늘은 필요했다.", "et":"Did nothing. Just stared at the ceiling. That's what I needed today.", "e":{"mental":10,"stress":-8}},
+	{"t":"공원 벤치. 나뭇잎이 흔들리는 걸 아무 생각 없이 봤다. 귀가 트였다.", "et":"Park bench. Watched leaves swaying without thinking. Ears seemed to clear.", "e":{"mental":12,"stress":-9}},
+	{"t":"일기를 썼다. 쓰다 보니 내가 무섭다고 느낀 게 뭔지 알았다.", "et":"Kept a journal. Figured out what I was afraid of by the time I finished writing.", "e":{"mental":10,"stress":-6,"intelligence":2}},
+	{"t":"음악 없이 걸었다. 서울 소리가 잘 들렸다. 나쁘지 않았다.", "et":"Walked without music. Seoul's sounds came through clearly. Not bad.", "e":{"mental":8,"stress":-7}},
+	{"t":"방 불을 끄고 그냥 누워 있었다. 잡념이 먼저 왔다가 나중에 떠났다.", "et":"Turned off the lights and just lay there. Stray thoughts came first, then left.", "e":{"mental":10,"stress":-8}},
+	{"t":"찜질방에서 두 시간. 아무것도 안 하는 게 이렇게 비싼 일이었나.", "et":"Two hours at the jjimjilbang. So this is what 'doing nothing' actually costs.", "e":{"mental":11,"stress":-9,"health":3,"money":-12000}},
+	{"t":"숨을 10번 깊게 쉬었다. 단순한데, 해보면 다르다.", "et":"Took ten deep breaths. Simple, but different when you actually do it.", "e":{"mental":9,"stress":-8}},
+	{"t":"머릿속을 비우려고 했는데 오히려 정리가 됐다. 결정이 하나 났다.", "et":"Tried to clear my head, ended up organizing my thoughts instead. Made one decision.", "e":{"mental":12,"stress":-7,"intelligence":2}},
 ]
 
 const STUDY_INVEST_VIGNETTES := [
-	{"t":"유튜브 투자 채널 두 개를 봤다. 의견이 정반대였다. 그래서 더 생각하게 됐다.", "e":{"investment_skill":3,"intelligence":1}},
-	{"t":"PER, PBR, ROE. 단어가 점점 친숙해지고 있다. 그게 진짜 공부다.", "e":{"investment_skill":4,"intelligence":1}},
-	{"t":"증권사 리포트를 처음부터 끝까지 읽었다. 반밖에 이해 못 했지만 반은 됐다.", "e":{"investment_skill":3,"intelligence":2}},
-	{"t":"차트를 봤다. 패턴이 보이기 시작한다. 아직 가설 수준이지만.", "e":{"investment_skill":3}},
-	{"t":"경제 뉴스를 읽었다. 숫자가 이야기로 보이기 시작한다.", "e":{"investment_skill":3,"intelligence":1}},
-	{"t":"커뮤니티에서 고수들 글을 읽었다. 아는 만큼 보인다는 말이 이런 거구나.", "e":{"investment_skill":4,"mental":1}},
-	{"t":"시뮬레이션 계좌로 연습했다. 실제 돈이 아니었는데도 두근거렸다.", "e":{"investment_skill":4,"stress":2}},
-	{"t":"재무제표 기초 강의를 봤다. 숫자에 이야기가 있다는 걸 처음 알았다.", "e":{"investment_skill":3,"intelligence":2}},
-	{"t":"투자 책을 반쯤 읽다가 덮었다. 그래도 남은 게 있다.", "e":{"investment_skill":2,"intelligence":1}},
-	{"t":"오늘 배운 것 하나: 모르는 걸 모른다고 아는 것도 실력이다.", "e":{"investment_skill":3,"intelligence":1}},
+	{"t":"유튜브 투자 채널 두 개를 봤다. 의견이 정반대였다. 그래서 더 생각하게 됐다.", "et":"Watched two YouTube investing channels. They had opposite opinions. Made me think more.", "e":{"investment_skill":3,"intelligence":1}},
+	{"t":"PER, PBR, ROE. 단어가 점점 친숙해지고 있다. 그게 진짜 공부다.", "et":"PER, PBR, ROE. The terms are getting more familiar. That's the real education.", "e":{"investment_skill":4,"intelligence":1}},
+	{"t":"증권사 리포트를 처음부터 끝까지 읽었다. 반밖에 이해 못 했지만 반은 됐다.", "et":"Read a brokerage report cover to cover. Understood half. That counts.", "e":{"investment_skill":3,"intelligence":2}},
+	{"t":"차트를 봤다. 패턴이 보이기 시작한다. 아직 가설 수준이지만.", "et":"Studied charts. Starting to see patterns. Still hypothetical, but.", "e":{"investment_skill":3}},
+	{"t":"경제 뉴스를 읽었다. 숫자가 이야기로 보이기 시작한다.", "et":"Read the economic news. Numbers are starting to look like stories.", "e":{"investment_skill":3,"intelligence":1}},
+	{"t":"커뮤니티에서 고수들 글을 읽었다. 아는 만큼 보인다는 말이 이런 거구나.", "et":"Read expert posts in investing forums. So this is what 'you see as much as you know' means.", "e":{"investment_skill":4,"mental":1}},
+	{"t":"시뮬레이션 계좌로 연습했다. 실제 돈이 아니었는데도 두근거렸다.", "et":"Practiced with a simulation account. Heart was pounding even though it wasn't real money.", "e":{"investment_skill":4,"stress":2}},
+	{"t":"재무제표 기초 강의를 봤다. 숫자에 이야기가 있다는 걸 처음 알았다.", "et":"Watched a financial statement basics lecture. First time realizing numbers have stories.", "e":{"investment_skill":3,"intelligence":2}},
+	{"t":"투자 책을 반쯤 읽다가 덮었다. 그래도 남은 게 있다.", "et":"Got halfway through an investing book and put it down. Something still stayed.", "e":{"investment_skill":2,"intelligence":1}},
+	{"t":"오늘 배운 것 하나: 모르는 걸 모른다고 아는 것도 실력이다.", "et":"One thing learned today: knowing what you don't know is also skill.", "e":{"investment_skill":3,"intelligence":1}},
 ]
 
 const NETWORK_VIGNETTES := [
-	{"t":"업계 세미나. 명함을 세 개 받았다. 두 개는 언젠가 쓸 것 같다.", "e":{"social_skill":1,"reputation":1,"stress":2}},
-	{"t":"단톡방에 글을 올렸다. 답이 두 개 달렸다. 그 중 한 명이 실제로 도움이 됐다.", "e":{"social_skill":1,"reputation":1,"intelligence":1,"stress":1}},
-	{"t":"전 직장 선배에게 커피를 샀다. 근황을 들었다. 정보가 됐다.", "e":{"social_skill":1,"reputation":2,"stress":2,"money":-6000}},
-	{"t":"링크드인 프로필을 업데이트했다. 누군가 봐주길 바라는 마음으로.", "e":{"social_skill":1,"reputation":1,"stress":1}},
-	{"t":"스터디 모임에 나갔다. 말 잘하는 사람을 봤다. 나도 저렇게 말하고 싶다.", "e":{"social_skill":2,"intelligence":1,"stress":2}},
-	{"t":"선배 소개로 낯선 사람을 만났다. 어색했지만 끝날 때쯤엔 편했다.", "e":{"social_skill":1,"reputation":1,"stress":3}},
-	{"t":"오늘 만난 사람이 한 말이 머릿속에 남는다. 그게 인맥의 진짜 가치다.", "e":{"social_skill":1,"reputation":1,"intelligence":2,"stress":1}},
-	{"t":"네트워킹 행사. 명함 교환하다가 내 명함이 없다는 걸 알았다.", "e":{"social_skill":1,"reputation":1,"stress":4}},
-	{"t":"커피챗을 했다. 상대방이 먼저 연락하겠다고 했다. 그게 진짜인지는 모른다.", "e":{"social_skill":1,"reputation":1,"stress":2}},
-	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "e":{"social_skill":1,"stress":1}},
+	{"t":"업계 세미나. 명함을 세 개 받았다. 두 개는 언젠가 쓸 것 같다.", "et":"Industry seminar. Received three business cards. Two of them might actually be useful someday.", "e":{"social_skill":1,"reputation":1,"stress":2}},
+	{"t":"단톡방에 글을 올렸다. 답이 두 개 달렸다. 그 중 한 명이 실제로 도움이 됐다.", "et":"Posted in a group chat. Two replies came in. One of them actually helped.", "e":{"social_skill":1,"reputation":1,"intelligence":1,"stress":1}},
+	{"t":"전 직장 선배에게 커피를 샀다. 근황을 들었다. 정보가 됐다.", "et":"Bought coffee for a former senior colleague. Heard their news. It turned into useful information.", "e":{"social_skill":1,"reputation":2,"stress":2,"money":-6000}},
+	{"t":"링크드인 프로필을 업데이트했다. 누군가 봐주길 바라는 마음으로.", "et":"Updated the LinkedIn profile. Hoping someone will notice.", "e":{"social_skill":1,"reputation":1,"stress":1}},
+	{"t":"스터디 모임에 나갔다. 말 잘하는 사람을 봤다. 나도 저렇게 말하고 싶다.", "et":"Attended a study group. Saw someone who spoke really well. I want to speak like that.", "e":{"social_skill":2,"intelligence":1,"stress":2}},
+	{"t":"선배 소개로 낯선 사람을 만났다. 어색했지만 끝날 때쯤엔 편했다.", "et":"Met a stranger through a senior's introduction. Awkward at first, comfortable by the end.", "e":{"social_skill":1,"reputation":1,"stress":3}},
+	{"t":"오늘 만난 사람이 한 말이 머릿속에 남는다. 그게 인맥의 진짜 가치다.", "et":"Something the person I met today said is still in my head. That's the real value of connections.", "e":{"social_skill":1,"reputation":1,"intelligence":2,"stress":1}},
+	{"t":"네트워킹 행사. 명함 교환하다가 내 명함이 없다는 걸 알았다.", "et":"Networking event. Started exchanging cards and realized I didn't have any.", "e":{"social_skill":1,"reputation":1,"stress":4}},
+	{"t":"커피챗을 했다. 상대방이 먼저 연락하겠다고 했다. 그게 진짜인지는 모른다.", "et":"Had a coffee chat. They said they'd reach out first. Not sure if that was real.", "e":{"social_skill":1,"reputation":1,"stress":2}},
+	{"t":"약속을 잡고 나갔다가 그 사람이 취소했다. 뭐 어때. 일단 나오긴 했다.", "et":"Made plans and headed out, but they cancelled. Whatever. I made it out.", "e":{"social_skill":1,"stress":1}},
 ]
 
 const JOB_HUNT_VIGNETTES := [
-	"원하는 자리는 없었다. 원할 수 있는 자리를 찾기 시작했다.",
-	"지원 자격: 경력 3년 이상. 33세 신입은 없나.",
-	"스펙 조건을 읽었다. 하나씩 체크했다. 마지막 줄에서 멈췄다.",
-	"오늘도 공고를 훑었다. 열두 개. 그 중 지원할 수 있는 건 셋.",
-	"합격 문자 소리를 미리 상상했다. 기다리는 게 에너지 든다.",
-	"JD를 읽다가 '우리 팀은 함께 성장합니다'라는 문구를 봤다. 뭔가 마음에 걸렸다.",
-	"이력서를 첨부했다. 제출 버튼을 눌렀다. 답장이 올지는 모른다.",
-	"이 회사 문화가 좋다고 들었다. 연봉은 낮다. 고민할 시간이 없다.",
-	"공고 하나를 저장해뒀다. 마감이 내일이다. 오늘 지원한다.",
-	"강남은 아직 멀지만, 일단 취직부터. 그게 첫 번째 계단이다.",
+	{"t":"원하는 자리는 없었다. 원할 수 있는 자리를 찾기 시작했다.", "et":"There were no positions I wanted. Started looking for positions I could want."},
+	{"t":"지원 자격: 경력 3년 이상. 33세 신입은 없나.", "et":"Requirements: 3+ years experience. Is there really no entry-level for a 33-year-old?"},
+	{"t":"스펙 조건을 읽었다. 하나씩 체크했다. 마지막 줄에서 멈췄다.", "et":"Read the qualifications. Checked them one by one. Stopped at the last line."},
+	{"t":"오늘도 공고를 훑었다. 열두 개. 그 중 지원할 수 있는 건 셋.", "et":"Scrolled through postings again today. Twelve of them. Three were actually options."},
+	{"t":"합격 문자 소리를 미리 상상했다. 기다리는 게 에너지 든다.", "et":"Pre-imagined the sound of an acceptance text. Waiting takes energy."},
+	{"t":"JD를 읽다가 '우리 팀은 함께 성장합니다'라는 문구를 봤다. 뭔가 마음에 걸렸다.", "et":"Read a JD and saw 'our team grows together.' Something about it felt off."},
+	{"t":"이력서를 첨부했다. 제출 버튼을 눌렀다. 답장이 올지는 모른다.", "et":"Attached the resume. Hit submit. Whether a reply comes is anyone's guess."},
+	{"t":"이 회사 문화가 좋다고 들었다. 연봉은 낮다. 고민할 시간이 없다.", "et":"Heard the culture here was good. The salary is low. No time to think about it."},
+	{"t":"공고 하나를 저장해뒀다. 마감이 내일이다. 오늘 지원한다.", "et":"Saved one posting. Deadline is tomorrow. Applying today."},
+	{"t":"강남은 아직 멀지만, 일단 취직부터. 그게 첫 번째 계단이다.", "et":"Gangnam is still far, but first — get a job. That's the first step."},
 ]
 
 const SIDE_JOB_VIGNETTES := [
-	"편의점 야간. 새벽 세 시, 손님이 없었다. 그 시간이 가장 길었다.",
-	"배달을 돌았다. 비가 왔다. 우비가 없었다.",
-	"투잡이라는 말을 쓰기엔 부끄러운 금액이었다. 그래도 통장에 찍혔다.",
-	"대리운전을 했다. 손님이 취해 있었다. 내가 더 멀쩡해 보였다.",
-	"카페 알바 마감 청소. 커피 찌꺼기를 치우면서 내일을 생각했다.",
-	"주문이 폭발하는 금요일 저녁. 손이 빨라졌다. 몸이 기억하는 것들.",
-	"시급을 시간으로 나눴다. 안 나눴으면 더 좋았을 것 같다.",
-	"알바 끝나고 지하철을 탔다. 신발 바닥이 뜨거웠다.",
-	"30대 초반에 이러고 있다는 생각. 잠깐 했다. 지운다. 지금은 이게 맞다.",
-	"작은 금액이지만, 내가 번 돈이다. 그 느낌은 크다.",
+	{"t":"편의점 야간. 새벽 세 시, 손님이 없었다. 그 시간이 가장 길었다.", "et":"Late-night convenience store shift. No customers at 3 AM. That hour felt the longest."},
+	{"t":"배달을 돌았다. 비가 왔다. 우비가 없었다.", "et":"Did delivery runs. It rained. No raincoat."},
+	{"t":"투잡이라는 말을 쓰기엔 부끄러운 금액이었다. 그래도 통장에 찍혔다.", "et":"Too embarrassing to call it a second job for that amount. Still, it showed up in the account."},
+	{"t":"대리운전을 했다. 손님이 취해 있었다. 내가 더 멀쩡해 보였다.", "et":"Did a designated driving shift. The passenger was drunk. I looked more composed."},
+	{"t":"카페 알바 마감 청소. 커피 찌꺼기를 치우면서 내일을 생각했다.", "et":"Closing cleanup at the café part-time. Thought about tomorrow while scrubbing out coffee grounds."},
+	{"t":"주문이 폭발하는 금요일 저녁. 손이 빨라졌다. 몸이 기억하는 것들.", "et":"Orders exploding on Friday evening. Hands got faster. Things the body remembers."},
+	{"t":"시급을 시간으로 나눴다. 안 나눴으면 더 좋았을 것 같다.", "et":"Divided the hourly wage by hours. Wish I hadn't."},
+	{"t":"알바 끝나고 지하철을 탔다. 신발 바닥이 뜨거웠다.", "et":"Took the subway home after the part-time shift. Soles of my shoes were hot."},
+	{"t":"30대 초반에 이러고 있다는 생각. 잠깐 했다. 지운다. 지금은 이게 맞다.", "et":"The thought of doing this in my early thirties. Had it for a moment. Erased it. This is right for now."},
+	{"t":"작은 금액이지만, 내가 번 돈이다. 그 느낌은 크다.", "et":"Small amount, but money I earned myself. That feeling is big."},
 ]
 
 const STARTUP_VIGNETTES := [
-	{"t":"MVP를 만들었다. 아무도 안 쓰는 것 같지만, 이게 시작이다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
-	{"t":"피치덱을 고쳤다. 열두 번째다. 이번엔 좀 나은 것 같다.", "e":{"reputation":2,"intelligence":2,"stress":5}},
-	{"t":"아이디어를 노트에 적었다. 밤 세 시였다. 틀릴 수도 있다. 일단 적었다.", "e":{"reputation":2,"intelligence":1,"stress":4}},
-	{"t":"공동창업자 없이 혼자 다 하고 있다. 그게 맞는 건지 모르겠다.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
-	{"t":"첫 유저가 생겼다. 지인이었지만, 그래도 유저다.", "e":{"reputation":3,"mental":3,"stress":3}},
-	{"t":"경쟁사를 조사했다. 이미 잘 하고 있었다. 더 잘 하면 된다.", "e":{"reputation":2,"intelligence":2,"stress":5}},
-	{"t":"투자자 미팅 자료를 만들었다. 내 꿈을 슬라이드에 넣는 게 쑥스러웠다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
-	{"t":"세 달째다. 수익은 없다. 가능성은 있다. 그 차이로 버티고 있다.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
-	{"t":"세무사에게 전화를 했다. 사업자 등록 얘기를 들었다. 실감이 났다.", "e":{"reputation":2,"intelligence":2,"stress":4}},
-	{"t":"오늘 한 일이 3개월 뒤 어떤 결과를 낼지 모른다. 그래도 했다.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+	{"t":"MVP를 만들었다. 아무도 안 쓰는 것 같지만, 이게 시작이다.", "et":"Built an MVP. Seems like no one is using it, but this is the beginning.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+	{"t":"피치덱을 고쳤다. 열두 번째다. 이번엔 좀 나은 것 같다.", "et":"Revised the pitch deck. Twelfth time. This one feels a bit better.", "e":{"reputation":2,"intelligence":2,"stress":5}},
+	{"t":"아이디어를 노트에 적었다. 밤 세 시였다. 틀릴 수도 있다. 일단 적었다.", "et":"Wrote an idea in a notebook. It was 3 AM. Could be wrong. Wrote it anyway.", "e":{"reputation":2,"intelligence":1,"stress":4}},
+	{"t":"공동창업자 없이 혼자 다 하고 있다. 그게 맞는 건지 모르겠다.", "et":"Running everything alone without a co-founder. Not sure if that's right.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
+	{"t":"첫 유저가 생겼다. 지인이었지만, 그래도 유저다.", "et":"Got the first user. It was someone I knew, but still — a user.", "e":{"reputation":3,"mental":3,"stress":3}},
+	{"t":"경쟁사를 조사했다. 이미 잘 하고 있었다. 더 잘 하면 된다.", "et":"Researched the competition. They're already doing well. I'll just do better.", "e":{"reputation":2,"intelligence":2,"stress":5}},
+	{"t":"투자자 미팅 자료를 만들었다. 내 꿈을 슬라이드에 넣는 게 쑥스러웠다.", "et":"Made investor meeting materials. Felt a bit embarrassed putting my dream into slides.", "e":{"reputation":2,"intelligence":1,"stress":5}},
+	{"t":"세 달째다. 수익은 없다. 가능성은 있다. 그 차이로 버티고 있다.", "et":"Three months in. No revenue. Still possible. That gap is what I'm living on.", "e":{"reputation":2,"intelligence":1,"stress":6,"mental":-2}},
+	{"t":"세무사에게 전화를 했다. 사업자 등록 얘기를 들었다. 실감이 났다.", "et":"Called an accountant. Got briefed on business registration. It felt real.", "e":{"reputation":2,"intelligence":2,"stress":4}},
+	{"t":"오늘 한 일이 3개월 뒤 어떤 결과를 낼지 모른다. 그래도 했다.", "et":"No idea what today's work will produce in three months. Did it anyway.", "e":{"reputation":2,"intelligence":1,"stress":5}},
 ]
 
 const CONTENT_VIGNETTES := [
-	{"t":"영상을 올렸다. 조회수 17. 그 중 10개는 내가 새로고침했다.", "e":{"reputation":1,"mental":5,"luck":1}},
-	{"t":"섬네일을 다섯 번 바꿨다. 올리고 나서 또 바꾸고 싶었다.", "e":{"reputation":1,"mental":4,"stress":2}},
-	{"t":"구독자가 한 명 늘었다. 누군지는 모른다. 오늘은 그게 충분했다.", "e":{"reputation":2,"mental":6,"luck":1}},
-	{"t":"댓글이 하나 달렸다. '좋아요'. 그게 오늘 하루를 버티게 했다.", "e":{"reputation":2,"mental":7}},
-	{"t":"오늘 편집이 생각보다 잘 됐다. 뿌듯한데 아무도 모른다.", "e":{"reputation":1,"mental":5}},
-	{"t":"알고리즘이 잠깐 봐줬다. 조회수가 튀었다가 다시 내려갔다.", "e":{"reputation":2,"mental":5,"luck":1}},
-	{"t":"콘텐츠를 만들면서 내가 뭘 생각하는지 알게 됐다. 부산물이 주인공이 되기도 한다.", "e":{"reputation":1,"mental":6,"intelligence":1}},
-	{"t":"썸네일, 제목, 태그. 세 개 다 틀렸을 수도 있다. 올렸다.", "e":{"reputation":1,"mental":4,"stress":2}},
-	{"t":"예전 영상에 갑자기 조회수가 붙었다. 이유를 모르겠다. 그냥 기쁘다.", "e":{"reputation":2,"mental":6,"luck":2}},
-	{"t":"영상을 찍으면서 말이 꼬였다. 열다섯 번 다시 찍었다. 됐다.", "e":{"reputation":1,"mental":5,"stress":3}},
+	{"t":"영상을 올렸다. 조회수 17. 그 중 10개는 내가 새로고침했다.", "et":"Posted the video. 17 views. Ten of those were me refreshing.", "e":{"reputation":1,"mental":5,"luck":1}},
+	{"t":"섬네일을 다섯 번 바꿨다. 올리고 나서 또 바꾸고 싶었다.", "et":"Changed the thumbnail five times. Wanted to change it again after posting.", "e":{"reputation":1,"mental":4,"stress":2}},
+	{"t":"구독자가 한 명 늘었다. 누군지는 모른다. 오늘은 그게 충분했다.", "et":"One new subscriber. Don't know who. That was enough for today.", "e":{"reputation":2,"mental":6,"luck":1}},
+	{"t":"댓글이 하나 달렸다. '좋아요'. 그게 오늘 하루를 버티게 했다.", "et":"One comment came in: 'Like.' That carried me through the rest of the day.", "e":{"reputation":2,"mental":7}},
+	{"t":"오늘 편집이 생각보다 잘 됐다. 뿌듯한데 아무도 모른다.", "et":"Today's edit came out better than expected. Proud, but no one knows.", "e":{"reputation":1,"mental":5}},
+	{"t":"알고리즘이 잠깐 봐줬다. 조회수가 튀었다가 다시 내려갔다.", "et":"The algorithm glanced at it briefly. Views jumped, then fell back.", "e":{"reputation":2,"mental":5,"luck":1}},
+	{"t":"콘텐츠를 만들면서 내가 뭘 생각하는지 알게 됐다. 부산물이 주인공이 되기도 한다.", "et":"Making content helped me figure out what I actually think. The byproduct becomes the main thing.", "e":{"reputation":1,"mental":6,"intelligence":1}},
+	{"t":"썸네일, 제목, 태그. 세 개 다 틀렸을 수도 있다. 올렸다.", "et":"Thumbnail, title, tags. Could have gotten all three wrong. Posted it anyway.", "e":{"reputation":1,"mental":4,"stress":2}},
+	{"t":"예전 영상에 갑자기 조회수가 붙었다. 이유를 모르겠다. 그냥 기쁘다.", "et":"An old video suddenly got views. No idea why. Just happy.", "e":{"reputation":2,"mental":6,"luck":2}},
+	{"t":"영상을 찍으면서 말이 꼬였다. 열다섯 번 다시 찍었다. 됐다.", "et":"Kept stumbling over words while filming. Took fifteen retakes. Got it.", "e":{"reputation":1,"mental":5,"stress":3}},
 ]
 
 ## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
@@ -4567,7 +4571,8 @@ func _ap_vignette(title: String, pool: Array, color: String):
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	var flavor: String = str(v.get("t", ""))
+	var t_key := "et" if LocaleManager.is_english() else "t"
+	var flavor: String = str(v.get(t_key, v.get("t", "")))
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
 	GameState.add_log(title + " — " + flavor, "event")
 	GameState.stats_changed.emit()
@@ -4607,7 +4612,7 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 			parts.append("[color=%s]%s %s%d[/color]" % [col, sym, sign, val])
 	var parts_line := "    ".join(parts)
 	_type_text(_fmt(body) + "\n\n" + parts_line, 50.0)
-	var btn: Button = _button("확인", color)
+	var btn: Button = _button(_tr("확인", "OK"), color)
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(btn)
 	next_button.disabled = true
@@ -4659,7 +4664,8 @@ func _ap_startup_work():
 		else:
 			GameState.modify_stat(k, val)
 	GameState.add_tendency("found", 1)
-	var flavor: String = str(v.get("t", ""))
+	var _su_key := "et" if LocaleManager.is_english() else "t"
+	var flavor: String = str(v.get(_su_key, v.get("t", "")))
 	turn_action_log.append("✓ " + _tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor.substr(0, 22))
 	GameState.add_log(_tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor, "event")
 	GameState.stats_changed.emit()
@@ -4683,7 +4689,8 @@ func _ap_create_content():
 		var content_income = float(randi_range(50_000, 200_000))
 		GameState.add_money(content_income)
 		extra_eff["money"] = int(content_income)
-	var flavor: String = str(v.get("t", ""))
+	var _cc_key := "et" if LocaleManager.is_english() else "t"
+	var flavor: String = str(v.get(_cc_key, v.get("t", "")))
 	turn_action_log.append("✓ " + _tr("🎬 콘텐츠 제작", "🎬 Create Content") + " — " + flavor.substr(0, 22))
 	GameState.add_log(_tr("🎬 콘텐츠 제작", "🎬 Create Content") + " — " + flavor, "event")
 	GameState.stats_changed.emit()
@@ -4888,7 +4895,8 @@ func _ap_vip_network():
 func _open_jobs():
 	_open_modal(_tr("직업 선택", "Choose a Job"))
 	if GameState.current_job.is_empty():
-		var mood: String = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
+		var _jh_v: Dictionary = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
+		var mood: String = str(_jh_v.get("et" if LocaleManager.is_english() else "t", _jh_v.get("t", "")))
 		modal_body.add_child(_wrap_label("「 %s 」" % mood, 12, "#4a5a72"))
 	var current_job_id = GameState.current_job.get("id", "")
 	# 경력 경로 안내
@@ -5395,19 +5403,19 @@ func _build_save_load_section(parent: Control):
 		if _font_regular:
 			info_lbl.add_theme_font_override("font", _font_regular)
 		if info.get("empty", true):
-			info_lbl.text = "빈 슬롯"
+			info_lbl.text = _tr("빈 슬롯", "Empty slot")
 			info_lbl.add_theme_color_override("font_color", Color("#3a3a5a"))
 		else:
-			info_lbl.text = "%d년 %d월  %s" % [
+			info_lbl.text = _tr("%d년 %d월  %s", "Year %d Month %d  %s") % [
 				info.get("year", 0), info.get("month", 0),
 				GameState.format_money(float(info.get("total_assets", 0)))]
 			info_lbl.add_theme_color_override("font_color", Color("#7a8496"))
 		row.add_child(info_lbl)
-		var save_btn = _small_button("저장", "#3a5a8a")
+		var save_btn = _small_button(_tr("저장", "Save"), "#3a5a8a")
 		save_btn.custom_minimum_size = Vector2(52, 32)
 		save_btn.pressed.connect(_save_to_slot.bind(slot))
 		row.add_child(save_btn)
-		var load_btn = _small_button("불러오기", "#2a5a3a" if not info.get("empty", true) else "#242430")
+		var load_btn = _small_button(_tr("불러오기", "Load"), "#2a5a3a" if not info.get("empty", true) else "#242430")
 		load_btn.custom_minimum_size = Vector2(72, 32)
 		if info.get("empty", true):
 			load_btn.disabled = true
@@ -5418,7 +5426,7 @@ func _build_save_load_section(parent: Control):
 func _save_to_slot(slot: int):
 	SaveManager.save_game(slot)
 	_close_modal()
-	_show_toast("💾 슬롯 %d에 저장했습니다" % slot, Color("#c9a227"))
+	_show_toast(_tr("💾 슬롯 %d에 저장했습니다", "💾 Saved to slot %d") % slot, Color("#c9a227"))
 
 func _load_from_slot(slot: int):
 	SaveManager.load_game(slot)
@@ -5518,50 +5526,50 @@ func _show_demo_ending():
 	var story_lines: Array = []
 	# 도덕적 선택
 	if f.get("kept_clean_hands", false):
-		story_lines.append("대포통장 제안을 거절했다. 손은 깨끗하다.")
+		story_lines.append(_tr("대포통장 제안을 거절했다. 손은 깨끗하다.", "Turned down the burner account offer. Hands are clean."))
 	elif f.get("lent_account", false):
-		story_lines.append("선을 한 번 넘었다. 그 200만원은 아직도 기억한다.")
+		story_lines.append(_tr("선을 한 번 넘었다. 그 200만원은 아직도 기억한다.", "Crossed a line once. Still remember that 2M won."))
 	# 직업
 	if GameState.current_job.is_empty():
-		story_lines.append("직장은 아직 없다. 그게 지금 가장 큰 과제다.")
+		story_lines.append(_tr("직장은 아직 없다. 그게 지금 가장 큰 과제다.", "Still no job. That's the biggest challenge right now."))
 	else:
-		story_lines.append("%s에 다니고 있다." % GameState.current_job.get("name", "직장"))
+		story_lines.append(_tr("%s에 다니고 있다.", "Working at %s.") % GameState.current_job.get("name", _tr("직장", "work")))
 	# 인물 관계
 	if f.get("arc_sangchul_met_seen", false):
 		if f.get("arc_sangchul_casino_seen", false):
-			story_lines.append("임상철 씨의 정선 카지노 제안을 받았다.")
+			story_lines.append(_tr("임상철 씨의 정선 카지노 제안을 받았다.", "Got Sangchul's invitation to Jeongseon Casino."))
 		elif f.get("arc_sangchul_02_seen", false):
-			story_lines.append("임상철 씨와 커피를 마셨다. 그가 보는 세계가 조금 보이기 시작했다.")
+			story_lines.append(_tr("임상철 씨와 커피를 마셨다. 그가 보는 세계가 조금 보이기 시작했다.", "Had coffee with Sangchul. His world is starting to come into focus."))
 		else:
-			story_lines.append("임상철이라는 사람을 만났다. 뭔가 다른 세계의 사람 같았다.")
+			story_lines.append(_tr("임상철이라는 사람을 만났다. 뭔가 다른 세계의 사람 같았다.", "Met someone named Sangchul. Felt like a man from another world."))
 	if f.get("arc_daeun_met", false):
-		story_lines.append("편의점 다은 씨와 조금씩 안면을 트고 있다.")
+		story_lines.append(_tr("편의점 다은 씨와 조금씩 안면을 트고 있다.", "Getting to know Daeun from the convenience store."))
 	if f.get("arc_jiyeon_crash_seen", false):
-		story_lines.append("한지연 씨를 우연히 만났다. 그날 이후 머릿속에 남아있다.")
+		story_lines.append(_tr("한지연 씨를 우연히 만났다. 그날 이후 머릿속에 남아있다.", "Ran into Jiyeon by chance. She's been on my mind ever since."))
 	if f.get("arc_jaehyuk_reunion_seen", false):
-		story_lines.append("군대 동기 재혁을 만났다. 좋은 건지 나쁜 건지 모르겠다.")
+		story_lines.append(_tr("군대 동기 재혁을 만났다. 좋은 건지 나쁜 건지 모르겠다.", "Ran into Jaehyuk from the army. Hard to say if that's good or bad."))
 	# 도박
 	if f.get("racetrack_guide_met", false):
-		story_lines.append("경마장 아저씨를 따라 과천까지 갔다왔다.")
+		story_lines.append(_tr("경마장 아저씨를 따라 과천까지 갔다왔다.", "Followed the racetrack man all the way to Gwacheon."))
 	# 자산
 	if total_assets >= 10_000_000:
-		story_lines.append("총자산 %s. 작은 숫자지만 민준에게는 처음이다." % GameState.format_money(total_assets))
+		story_lines.append(_tr("총자산 %s. 작은 숫자지만 민준에게는 처음이다.", "Total assets %s. Small, but a first for Minjun.") % GameState.format_money(total_assets))
 	elif total_assets < 0:
-		story_lines.append("통장이 마이너스다. 6개월이 이랬다.")
+		story_lines.append(_tr("통장이 마이너스다. 6개월이 이랬다.", "Account is in the red. That's what six months looked like."))
 
-	_open_modal("강남드림 — 6개월의 기록")
-	modal_body.add_child(_label("— 1막 종료 —", 14, "#f0b429"))
+	_open_modal(_tr("강남드림 — 6개월의 기록", "Gangnam Dream — A 6-Month Record"))
+	modal_body.add_child(_label(_tr("— 1막 종료 —", "— Act 1 End —"), 14, "#f0b429"))
 
 	var date_str = GameState.get_date_string()
 	modal_body.add_child(_wrap_label(
-		"%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다." % date_str, 14, "#c8d0df"))
+		_tr("%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다.", "%s. Minjun is still 33. Four and a half years left.") % date_str, 14, "#c8d0df"))
 
 	var sep1 = HSeparator.new()
 	sep1.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep1)
 
 	# 개인화 스토리 요약
-	modal_body.add_child(_label("📖 지난 6개월", 14, "#c9a227"))
+	modal_body.add_child(_label(_tr("📖 지난 6개월", "📖 Past 6 Months"), 14, "#c9a227"))
 	for line in story_lines:
 		modal_body.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
 
@@ -5570,11 +5578,11 @@ func _show_demo_ending():
 	modal_body.add_child(sep2)
 
 	# 자산 성적표
-	modal_body.add_child(_label("📊 6개월 성적표", 14, "#c9a227"))
+	modal_body.add_child(_label(_tr("📊 6개월 성적표", "📊 6-Month Report"), 14, "#c9a227"))
 	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
-	modal_body.add_child(_wrap_label("총자산  %s" % GameState.format_money(total_assets), 16, asset_color))
+	modal_body.add_child(_wrap_label(_tr("총자산  %s", "Total Assets  %s") % GameState.format_money(total_assets), 16, asset_color))
 	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label("강남드림 30억까지  %.3f%%  달성" % progress_pct, 12, "#c9a227"))
+	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Gangnam Dream 3B goal  %.3f%%  reached") % progress_pct, 12, "#c9a227"))
 
 	var sep3 = HSeparator.new()
 	sep3.add_theme_color_override("color", Color("#252535"))
@@ -5583,23 +5591,23 @@ func _show_demo_ending():
 	# 풀버전 티저
 	var teaser_lines: Array = []
 	if f.get("arc_sangchul_casino_seen", false):
-		teaser_lines.append("정선 카지노 — 임상철과 함께 테이블에 앉게 된다면?")
+		teaser_lines.append(_tr("정선 카지노 — 임상철과 함께 테이블에 앉게 된다면?", "Jeongseon Casino — what if you sit at the table with Sangchul?"))
 	if f.get("arc_jiyeon_crash_seen", false):
-		teaser_lines.append("한지연 — 그녀의 제안, 받을 것인가 말 것인가.")
+		teaser_lines.append(_tr("한지연 — 그녀의 제안, 받을 것인가 말 것인가.", "Jiyeon — her offer. Accept or refuse?"))
 	if f.get("arc_jaehyuk_reunion_seen", false):
-		teaser_lines.append("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.")
-	teaser_lines.append("강남 입성까지 남은 거리: %s" % GameState.format_money(3_000_000_000.0 - total_assets))
-	modal_body.add_child(_label("▶ 풀버전에서 계속됩니다", 14, "#c8a060"))
+		teaser_lines.append(_tr("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.", "Jaehyuk — the real face behind his business proposal."))
+	teaser_lines.append(_tr("강남 입성까지 남은 거리: %s", "Distance to Gangnam: %s") % GameState.format_money(3_000_000_000.0 - total_assets))
+	modal_body.add_child(_label(_tr("▶ 풀버전에서 계속됩니다", "▶ Continues in the full version"), 14, "#c8a060"))
 	for tl in teaser_lines:
 		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
 
 	var sep4 = HSeparator.new()
 	sep4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep4)
-	var restart_btn = _button("처음부터 다시  ▶", "#0e3a2a")
+	var restart_btn = _button(_tr("처음부터 다시  ▶", "Start Over  ▶"), "#0e3a2a")
 	restart_btn.pressed.connect(_restart_run)
 	modal_body.add_child(restart_btn)
-	var menu_btn = _button("메인 메뉴로", "#1a1a28")
+	var menu_btn = _button(_tr("메인 메뉴로", "Main Menu"), "#1a1a28")
 	menu_btn.pressed.connect(_go_to_menu)
 	modal_body.add_child(menu_btn)
 
@@ -6850,15 +6858,15 @@ func _random_topic(news):
 func _next_milestone_hint(total: float) -> String:
 	# [target, label, strategy_hint]
 	var milestones: Array = [
-		[8_000_000.0,     "🏠 원룸 이사 구간",        "→ 주거 AP에서 이사 가능. 정신력 보너스"],
-		[20_000_000.0,    "종잣돈 2천만",              "→ 투자 계좌 개설 & 주식·코인 시작 가능"],
-		[40_000_000.0,    "🏡 빌라 전세 구간",        "→ 주거 AP에서 빌라 전세 선택 가능"],
-		[100_000_000.0,   "자산 1억",                 "→ 레버리지 투자 & 고급 이벤트 해금"],
-		[130_000_000.0,   "🏢 아파트 전세 구간",      "→ 아파트 입주 시 평판·투자감각 보너스"],
-		[500_000_000.0,   "자산 5억",                 "→ 고수익 투자 루트 본격 가동 구간"],
-		[1_000_000_000.0, "자산 10억",                "→ 강남 오픈하우스 이벤트 + 엘리트 인맥"],
-		[2_000_000_000.0, "자산 20억",                "→ 마지막 10억 — 레버리지 or 집중 투자"],
-		[3_000_000_000.0, "🏙 자산 30억 = 강남드림!", ""],
+		[8_000_000.0,     _tr("🏠 원룸 이사 구간", "🏠 One-room move range"),        _tr("→ 주거 AP에서 이사 가능. 정신력 보너스", "→ Move via Housing AP. Mental bonus")],
+		[20_000_000.0,    _tr("종잣돈 2천만", "₩20M seed money"),              _tr("→ 투자 계좌 개설 & 주식·코인 시작 가능", "→ Open an investment account & start stocks/crypto")],
+		[40_000_000.0,    _tr("🏡 빌라 전세 구간", "🏡 Villa jeonse range"),        _tr("→ 주거 AP에서 빌라 전세 선택 가능", "→ Choose villa jeonse via Housing AP")],
+		[100_000_000.0,   _tr("자산 1억", "₩100M assets"),                 _tr("→ 레버리지 투자 & 고급 이벤트 해금", "→ Unlock leverage investing & advanced events")],
+		[130_000_000.0,   _tr("🏢 아파트 전세 구간", "🏢 Apartment jeonse range"),      _tr("→ 아파트 입주 시 평판·투자감각 보너스", "→ Reputation & Investing bonus on moving in")],
+		[500_000_000.0,   _tr("자산 5억", "₩500M assets"),                 _tr("→ 고수익 투자 루트 본격 가동 구간", "→ Time to run high-yield investment routes in earnest")],
+		[1_000_000_000.0, _tr("자산 10억", "₩1B assets"),                "→ " + _tr("강남 오픈하우스 이벤트 + 엘리트 인맥", "Gangnam open-house event + elite connections")],
+		[2_000_000_000.0, _tr("자산 20억", "₩2B assets"),                _tr("→ 마지막 10억 — 레버리지 or 집중 투자", "→ The last ₩1B — leverage or concentrated investing")],
+		[3_000_000_000.0, _tr("🏙 자산 30억 = 강남드림!", "🏙 ₩3B assets = Gangnam Dream!"), ""],
 	]
 	for m in milestones:
 		var target: float = float(m[0])
@@ -6867,8 +6875,8 @@ func _next_milestone_hint(total: float) -> String:
 			var pct: int = int(total / target * 100.0)
 			var hint: String = str(m[2])
 			if hint.is_empty():
-				return "🎯  %s  까지  %s 남음  [%d%%]" % [str(m[1]), GameState.format_money(needed), pct]
-			return "🎯  %s  까지  %s  [%d%%]  [color=#7a9ab0]%s[/color]" % [str(m[1]), GameState.format_money(needed), pct, hint]
+				return _tr("🎯  %s  까지  %s 남음  [%d%%]", "🎯  %s  —  %s to go  [%d%%]") % [str(m[1]), GameState.format_money(needed), pct]
+			return _tr("🎯  %s  까지  %s  [%d%%]  [color=#7a9ab0]%s[/color]", "🎯  %s  —  %s  [%d%%]  [color=#7a9ab0]%s[/color]") % [str(m[1]), GameState.format_money(needed), pct, hint]
 	return ""
 
 func _months_to_goal_estimate() -> String:
@@ -7019,7 +7027,7 @@ func _show_character_portrait(portrait_id: String):
 	if player_name_label and not info.is_empty():
 		player_name_label.text = str(info.get("name", ""))
 	if title_label:
-		title_label.text = "이번 이야기"
+		title_label.text = _tr("이번 이야기", "This Episode")
 
 func _show_player_portrait():
 	var portrait_path = _get_portrait_path()
@@ -7087,11 +7095,11 @@ func _check_title_unlocks():
 	var rare_colors = {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
 	for t in newly:
 		var color = rare_colors.get(t.get("rare", "common"), "#8892a4")
-		_show_toast("🏆 칭호 해금! 「%s」" % t.get("name", ""), Color(color))
-		GameState.add_log("🏆 칭호 해금: %s" % t.get("name", ""), "system")
+		_show_toast(_tr("🏆 칭호 해금! 「%s」", "🏆 Title Unlocked! 「%s」") % t.get("name", ""), Color(color))
+		GameState.add_log(_tr("🏆 칭호 해금: %s", "🏆 Title Unlocked: %s") % t.get("name", ""), "system")
 
 func _open_title_collection():
-	_open_modal("칭호 도감")
+	_open_modal(_tr("칭호 도감", "Title Collection"))
 	if modal_panel:
 		modal_panel.custom_minimum_size = Vector2(680, 600)
 		modal_panel.offset_left  = -340
@@ -7102,15 +7110,16 @@ func _open_title_collection():
 	var unlocked = MetaProgression.get_unlocked_titles()
 	var total = MetaProgression.ALL_TITLES.size()
 	modal_body.add_child(_wrap_label(
-		"해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다." % [unlocked.size(), total],
+		_tr("해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다.", "Unlocked %d / %d  —  More titles appear with each playthrough.") % [unlocked.size(), total],
 		13, "#8892a4"))
 
 	# 칭호 보유 보너스 (다음 런 시작 시 적용)
 	var perk_bonus: Dictionary = MetaProgression.get_run_start_bonus()
 	if not perk_bonus.is_empty():
-		var stat_kr = {
-			"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
-			"luck": "운", "mental": "정신력", "money": "자금",
+		var stat_display: Dictionary = {
+			"investment_skill": _tr("투자감각", "Invest Skill"), "intelligence": _tr("지력", "Intelligence"),
+			"social_skill": _tr("사교력", "Social"), "luck": _tr("운", "Luck"),
+			"mental": _tr("정신력", "Mental"), "money": _tr("자금", "Money"),
 		}
 		var perk_parts: PackedStringArray = PackedStringArray()
 		for stat in perk_bonus:
@@ -7118,16 +7127,24 @@ func _open_title_collection():
 			if amount == 0:
 				continue
 			if str(stat) == "money":
-				perk_parts.append("자금 +%s" % GameState.format_money(float(amount)))
+				perk_parts.append(_tr("자금 +%s", "Money +%s") % GameState.format_money(float(amount)))
 			else:
-				perk_parts.append("%s %+d" % [stat_kr.get(str(stat), str(stat)), amount])
+				perk_parts.append("%s %+d" % [stat_display.get(str(stat), str(stat)), amount])
 		if not perk_parts.is_empty():
 			modal_body.add_child(_wrap_label(
-				"🎁 다음 런 시작 보너스:  " + " · ".join(perk_parts), 12, "#f0b429"))
+				_tr("🎁 다음 런 시작 보너스:  ", "🎁 Next Run Start Bonus:  ") + " · ".join(perk_parts), 12, "#f0b429"))
 
 	var rare_colors = {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
-	var rare_labels = {"common": "일반", "uncommon": "희귀", "rare": "레어", "legendary": "전설"}
-
+	var rare_labels = {
+		"common": _tr("일반", "Common"), "uncommon": _tr("희귀", "Uncommon"),
+		"rare": _tr("레어", "Rare"), "legendary": _tr("전설", "Legendary")
+	}
+	var cat_names: Dictionary = {
+		"주거": _tr("주거", "Housing"), "직업": _tr("직업", "Career"), "투자": _tr("투자", "Investment"),
+		"성향": _tr("성향", "Tendencies"), "관계": _tr("관계", "Relationships"), "생활": _tr("생활", "Lifestyle"),
+		"자산": _tr("자산", "Assets"), "메타": _tr("메타", "Meta"), "미니게임": _tr("미니게임", "Mini-Games"),
+		"이야기": _tr("이야기", "Story"),
+	}
 	for cat in ["주거", "직업", "투자", "성향", "관계", "생활", "자산", "메타", "미니게임", "이야기"]:
 		var cat_titles: Array = []
 		for t in MetaProgression.ALL_TITLES:
@@ -7138,7 +7155,7 @@ func _open_title_collection():
 		var sep = HSeparator.new()
 		sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(sep)
-		modal_body.add_child(_label("── %s ──" % cat, 12, "#5a6075"))
+		modal_body.add_child(_label("── %s ──" % cat_names.get(cat, cat), 12, "#5a6075"))
 		for t in cat_titles:
 			var tid: String = t["id"]
 			var is_unlocked: bool = unlocked.has(tid)
@@ -7158,7 +7175,7 @@ func _open_title_collection():
 	var sep_end = HSeparator.new()
 	sep_end.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep_end)
-	var close_btn = _button("닫기", "#2a2a3a")
+	var close_btn = _button(_tr("닫기", "Close"), "#2a2a3a")
 	close_btn.pressed.connect(_close_modal)
 	modal_body.add_child(close_btn)
 
@@ -7199,6 +7216,6 @@ func _open_glossary(title: String, category: String):
 		var sep := HSeparator.new()
 		sep.add_theme_color_override("color", Color("#1e1e2e"))
 		modal_body.add_child(sep)
-	var back_btn := _button("← 돌아가기", "#1a1a28")
+	var back_btn := _button(_tr("← 돌아가기", "← Back"), "#1a1a28")
 	back_btn.pressed.connect(_close_modal)
 	modal_body.add_child(back_btn)
