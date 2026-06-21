@@ -6,21 +6,34 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 20,
     "background": "street",
     "portrait": "player_tired",
-    "tags": ["korea", "culture", "survival", "health"],
+    "tags": [
+      "korea",
+      "culture",
+      "survival",
+      "health"
+    ],
     "description": "며칠째 목이 아프다.\n동네 이비인후과. 접수하고 10분 기다렸다.\n\n진료 3분, 처방전 받고 바로 옆 약국.\n한국 의료는 빠르다. 그리고 싸다.",
     "choices": [
       {
         "text": "처방약 타고 약국에서 추가 비타민도 산다",
-        "effects": { "money": -18000, "health": 5 },
+        "effects": {
+          "money": -18000,
+          "health": 5
+        },
         "result_text": "약값 4,800원. 진료비 4,500원. 비타민 8,000원.\n\n외국 친구가 들으면 믿지 않을 가격이다.\n건강보험이 이걸 가능하게 한다. 당연한 것처럼 쓰고 있지만."
       },
       {
         "text": "약만 타서 나온다 — 비용 최소화",
-        "effects": { "money": -9300, "health": 3 },
+        "effects": {
+          "money": -9300,
+          "health": 3
+        },
         "result_text": "진료비 4,500원, 약값 4,800원. 합계 9,300원.\n\n이 나라에서 아프면 바로 병원에 가야 한다는 걸 배웠다.\n참으면 더 비싸진다."
       }
     ]
@@ -32,21 +45,35 @@
     "rarity": "uncommon",
     "weight": 1.1,
     "hidden": false,
-    "conditions": { "has_job": true, "min_turn": 8 },
+    "conditions": {
+      "has_job": true,
+      "min_turn": 5
+    },
     "cooldown": 48,
     "background": "realestate_office",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "finance", "survival"],
+    "tags": [
+      "korea",
+      "culture",
+      "finance",
+      "survival"
+    ],
     "description": "1월, 회사에서 연말정산 서류 제출 요청이 왔다.\n국세청 홈택스, 공제 항목들이 잔뜩 뜬다.\n\n의료비, 교육비, 카드 사용액, 월세...\n이 공제를 얼마나 잘 챙기느냐에 따라 환급이 달라진다.",
     "choices": [
       {
         "text": "꼼꼼히 공제 항목을 챙긴다",
-        "effects": { "money": 150000, "mental": 4, "intelligence": 1 },
+        "effects": {
+          "money": 150000,
+          "mental": 4,
+          "intelligence": 1
+        },
         "result_text": "월세 세액공제, 카드 소득공제, 의료비까지.\n15만 원 환급 예정.\n\n국가가 돌려주는 돈이다. 귀찮아서 안 챙기면 그냥 사라진다.\n이 시스템을 알고 쓰는 사람이 더 많이 남긴다."
       },
       {
         "text": "회사가 알아서 해주는 줄 알고 기본만 낸다",
-        "effects": { "mental": -1 },
+        "effects": {
+          "mental": -1
+        },
         "result_text": "기본 서류만 냈다. 환급 예정액: 0원.\n\n나중에 알게 됐다. 월세 세액공제만 챙겼어도 수십만 원 돌아왔다고.\n다음 해엔 꼭 제대로 챙기기로 했다."
       }
     ]
@@ -58,21 +85,35 @@
     "rarity": "common",
     "weight": 1.0,
     "hidden": false,
-    "conditions": { "no_job": true, "min_turn": 4 },
+    "conditions": {
+      "no_job": true,
+      "min_turn": 4
+    },
     "cooldown": 32,
     "background": "goshiwon_room",
     "portrait": "player_tired",
-    "tags": ["korea", "culture", "finance", "survival"],
+    "tags": [
+      "korea",
+      "culture",
+      "finance",
+      "survival"
+    ],
     "description": "카카오페이 알림: 건강보험료 고지서 도착.\n지역가입자. 소득도 없는데 매월 빠져나간다.\n\n직장 다닐 때는 회사가 절반 냈는데,\n백수가 되니 전부 내가 낸다.",
     "choices": [
       {
         "text": "납부 기한 내에 낸다",
-        "effects": { "money": -89000, "mental": 1 },
+        "effects": {
+          "money": -89000,
+          "mental": 1
+        },
         "result_text": "89,000원. 클릭 한 번에 나갔다.\n\n건강보험이 있으니까 병원을 싸게 갈 수 있는 거다.\n알고 있다. 그래도 백수에게 9만 원은 크다."
       },
       {
         "text": "분할납부 신청을 알아본다",
-        "effects": { "mental": 2, "intelligence": 1 },
+        "effects": {
+          "mental": 2,
+          "intelligence": 1
+        },
         "result_text": "건강보험공단 앱을 켰다. 분할납부 신청 가능 확인.\n3회로 나눠 낼 수 있다.\n\n이 신청서 하나가 한 달 숨통을 열어줬다.\n제도는 아는 만큼 쓸 수 있다."
       }
     ]
@@ -84,21 +125,36 @@
     "rarity": "rare",
     "weight": 0.8,
     "hidden": false,
-    "conditions": { "min_money": 50000000, "min_turn": 20 },
+    "conditions": {
+      "min_money": 50000000,
+      "min_turn": 20
+    },
     "cooldown": 60,
     "background": "realestate_office",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "finance", "survival", "housing"],
+    "tags": [
+      "korea",
+      "culture",
+      "finance",
+      "survival",
+      "housing"
+    ],
     "description": "부동산 중개소에 앉아 있다.\n전세 계약서.\n\n전세는 한국에만 있는 제도다.\n집값의 60~80%를 보증금으로 맡기면, 월세 없이 산다.\n\n외국 친구들은 이 구조를 이해하는 데 한참 걸린다.",
     "choices": [
       {
         "text": "확정일자와 전세권 설정까지 꼼꼼히",
-        "effects": { "money": -5000, "mental": 5, "intelligence": 2 },
+        "effects": {
+          "money": -5000,
+          "mental": 5,
+          "intelligence": 2
+        },
         "result_text": "등기부 떼서 선순위 확인하고, 확정일자 받고, 전세권 설정까지.\n공인중개사가 \"잘 아시네요\" 했다.\n\n임차인이 스스로 지키지 않으면 날아가는 돈이다.\n한국 전세 제도는 아는 자가 살아남는다."
       },
       {
         "text": "공인중개사 믿고 계약한다",
-        "effects": { "mental": 3 },
+        "effects": {
+          "mental": 3
+        },
         "result_text": "중개사가 알아서 해줬다. 서류에 사인했다.\n\n나중에 확인해보니 확정일자는 따로 주민센터 가서 받아야 했다.\n다행히 늦지 않았다. 전세 사기는 남 얘기가 아니었다."
       }
     ]
@@ -110,22 +166,38 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": { "no_job": true, "min_turn": 4 },
+    "conditions": {
+      "no_job": true,
+      "min_turn": 4
+    },
     "cooldown": 24,
     "background": "convenience_store",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "survival", "work"],
+    "tags": [
+      "korea",
+      "culture",
+      "survival",
+      "work"
+    ],
     "description": "편의점 알바 공고. 시급 9,860원.\n최저임금이다. 4대보험 적용, 주휴수당 포함 시 실질 시급은 조금 더 높다.\n\n편의점 점장이 이력서를 훑어봤다.\n\"지금 다른 알바 하고 있어요?\" 첫 질문이었다.",
     "choices": [
       {
         "text": "알바 자리를 잡는다",
-        "effects": { "money": 800000, "mental": 3, "health": -2 },
-        "flags": ["worked_convenience"],
+        "effects": {
+          "money": 800000,
+          "mental": 3,
+          "health": -2
+        },
+        "flags": [
+          "worked_convenience"
+        ],
         "result_text": "채용됐다. 새벽 6시~오전 11시 시프트.\n\n처음 본 새벽 서울이었다. 출근길 직장인들, 등교하는 학생들.\n한국 편의점은 24시간 사회의 毛細管이다. 그 끝에서 일했다."
       },
       {
         "text": "더 나은 자리를 찾아본다",
-        "effects": { "mental": 1 },
+        "effects": {
+          "mental": 1
+        },
         "result_text": "고민하다가 거절했다.\n\n시급만으로는 숨만 쉬는 수준이다. 뭔가 더 쌓이는 일을 찾아야 한다.\n근데 아직 없다. 그 사이에 통장이 준다."
       }
     ]

@@ -6,21 +6,34 @@
     "rarity": "uncommon",
     "weight": 1.2,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 28,
     "background": "cafe",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "fortune"],
+    "tags": [
+      "korea",
+      "culture",
+      "fortune"
+    ],
     "description": "홍대 골목 사주카페.\n\"생년월일시 주세요.\" 선생님이 노트북을 연다.\n\n미신이라고 생각하면서도 왔다.\n취업도 안 되고, 투자도 안 되고, 뭔가에 기대고 싶어서.",
     "choices": [
       {
         "text": "제대로 풀어달라고 한다 — 재물운, 직업운",
-        "effects": { "money": -50000, "mental": 5, "intelligence": 1 },
+        "effects": {
+          "money": -50000,
+          "mental": 5,
+          "intelligence": 1
+        },
         "result_text": "\"올해는 재물이 들어오는 방향인데, 본인이 잡을 준비가 돼 있어야 해요.\"\n\n5만 원짜리 말이지만, 이상하게 마음이 가벼워졌다.\n사주의 힘인지, 돈 쓴 김에 믿어보기로 한 건지 — 구분이 안 됐다."
       },
       {
         "text": "보고 나서 \"참고만 할게요\" 하고 나온다",
-        "effects": { "money": -30000, "mental": 3 },
+        "effects": {
+          "money": -30000,
+          "mental": 3
+        },
         "result_text": "\"2년 안에 큰 변화가 생길 수 있어요.\" 선생님이 말했다.\n\n'그야 당연한 소리지.' 속으로 생각했지만, 나오면서 발걸음이 조금 가벼웠다.\n틀려도 믿고 싶을 때가 있다."
       }
     ]
@@ -32,21 +45,31 @@
     "rarity": "common",
     "weight": 1.1,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 22,
     "background": "cafe",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "fortune"],
+    "tags": [
+      "korea",
+      "culture",
+      "fortune"
+    ],
     "description": "친구가 타로 앱을 켰다.\n\"오늘의 카드 뽑아봐.\" 반쯤 장난으로.\n\n'황제' 카드가 나왔다.\n리더십, 결단력, 물질적 성공의 상징이라 한다.",
     "choices": [
       {
         "text": "좋은 징조라고 믿기로 한다",
-        "effects": { "mental": 5 },
+        "effects": {
+          "mental": 5
+        },
         "result_text": "믿어봤다. 아무리 생각해도 손해가 없었다.\n\n자기 암시가 됐다. 오늘 하루, 평소보다 조금 더 자신 있게 행동했다.\n타로가 맞는지 틀리는지보다, 그날의 내 태도가 달랐다."
       },
       {
         "text": "\"그냥 앱이잖아\" 하고 넘긴다",
-        "effects": { "mental": 1 },
+        "effects": {
+          "mental": 1
+        },
         "result_text": "\"황제라니.\" 웃고 앱을 껐다.\n\n근데 왜 계속 생각나지. 황제.\n의미를 부여하지 않으려 해도, 사람은 패턴을 찾는다."
       }
     ]
@@ -58,21 +81,32 @@
     "rarity": "uncommon",
     "weight": 1.1,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
-    "cooldown": 36,
+    "conditions": {
+      "min_turn": 1
+    },
+    "cooldown": 48,
     "background": "goshiwon_room",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "fortune"],
+    "tags": [
+      "korea",
+      "culture",
+      "fortune"
+    ],
     "description": "1월, 포털 메인에 신년 운세가 떴다.\n무료. 생년만 넣으면 된다.\n\n클릭하지 않으려 했는데, 손이 먼저 갔다.\n뭔가를 기대하고 있는 나를 발견했다.",
     "choices": [
       {
         "text": "올 한 해 운세를 읽는다",
-        "effects": { "mental": 4 },
+        "effects": {
+          "mental": 4
+        },
         "result_text": "\"이해는 변화의 해. 적극적으로 행동하면 기회가 온다.\"\n\n어차피 좋은 말 위주다. 알면서도 저장했다.\n한국 사람들이 매년 1월에 이걸 보는 이유를 조금 알 것 같다."
       },
       {
         "text": "창을 닫는다 — 내 손으로 만들 거다",
-        "effects": { "mental": 2, "intelligence": 1 },
+        "effects": {
+          "mental": 2,
+          "intelligence": 1
+        },
         "result_text": "창을 닫았다.\n\n운세에 기대는 시간에 실행 하나 더 하는 게 낫다고 생각했다.\n근데 솔직히 말하면, 좀 두려워서 안 본 것일 수도 있다."
       }
     ]
