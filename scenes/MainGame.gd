@@ -5913,11 +5913,23 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		else:
 			lines.append(_tr("👨‍🦳  아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "👨‍🦳  I call Father twice a month now. Not long, but never broken off."))
 	elif fs == "passed":
-		lines.append(_tr("👨‍🦳  아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.", "👨‍🦳  After Father passed, I went down to Changwon once. I sat for a long time in an empty room."))
+		if GameState.flags.get("chose_money_over_father", false):
+			lines.append(_tr("👨‍🦳  아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.", "👨‍🦳  The night Father passed, I closed a deal. The number in my account went up — and every time I see it, I see the version of me who didn't board the train to Changwon."))
+		elif GameState.flags.get("tried_to_go_to_father", false):
+			lines.append(_tr("👨‍🦳  마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.", "👨‍🦳  I caught the last train but was an hour too late. Still, I've chosen to believe the time spent in that empty hospital room was better than not going at all."))
+		else:
+			lines.append(_tr("👨‍🦳  아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.", "👨‍🦳  After Father passed, I went down to Changwon once. I sat for a long time in an empty room."))
 	elif fs in ["worried", "health_crisis", "quiet"]:
 		lines.append(_tr("👨‍🦳  아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.", "👨‍🦳  Many nights I dialed Father's number and stopped. Next time, next time — and five years passed."))
 	else:
 		lines.append(_tr("👨‍🦳  창원에는 끝내 한 번도 내려가지 못했다.", "👨‍🦳  I never once made it down to Changwon."))
+
+	# 어머니 — 아버지 곁의 또 한 사람 (화해했을 때만 한 줄)
+	if GameState.flags.get("mother_reconciled", false) or GameState.flags.get("mother_reconnected", false):
+		if good:
+			lines.append(_tr("👩  어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.", "👩  Mother said, 「Your father would have loved to see this.」 The words don't sting anymore."))
+		else:
+			lines.append(_tr("👩  어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.", "👩  Mother and I have long calls now. Nothing much to them. But I know they're the calls I needed."))
 
 	# 한지연 — 세계가 다른 사람과 어디까지 갔는가
 	var js := GameState.get_cast_stage("jiyeon")
