@@ -539,18 +539,39 @@ func _draw_chip_stack(ctrl: Control, center: Vector2, col: Color) -> void:
 func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
 	var table := Control.new()
 	table.custom_minimum_size = Vector2(860, 260)
-	table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	table.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	table.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	table.draw.connect(func(): _draw_baccarat_table(table, partial))
 	parent.add_child(table)
 
 	var p_cards: Array = (_deal_p_visible if partial else _result.get("player", []))
 	var b_cards: Array = (_deal_b_visible if partial else _result.get("banker", []))
-	_place_baccarat_cards(table, p_cards, Vector2(166, 120), partial)
-	_place_baccarat_cards(table, b_cards, Vector2(524, 120), partial)
+	var player_rect := _baccarat_player_rect(860.0)
+	var banker_rect := _baccarat_banker_rect(860.0)
+	_place_baccarat_cards(table, p_cards, _baccarat_card_start(player_rect, p_cards.size(), partial), partial)
+	_place_baccarat_cards(table, b_cards, _baccarat_card_start(banker_rect, b_cards.size(), partial), partial)
 	if not partial:
-		_add_score_badge(table, Vector2(402, 142), int(_result.get("player_val", 0)), Color("#d4a020"))
-		_add_score_badge(table, Vector2(774, 142), int(_result.get("banker_val", 0)), Color("#e85d5d"))
+		_add_score_badge(table, _baccarat_score_pos(player_rect), int(_result.get("player_val", 0)), Color("#d4a020"))
+		_add_score_badge(table, _baccarat_score_pos(banker_rect), int(_result.get("banker_val", 0)), Color("#e85d5d"))
+
+func _baccarat_player_rect(_table_w: float) -> Rect2:
+	return Rect2(Vector2(48, 48), Vector2(342, 156))
+
+func _baccarat_banker_rect(table_w: float) -> Rect2:
+	return Rect2(Vector2(table_w - 390.0, 48), Vector2(342, 156))
+
+func _baccarat_card_start(rect: Rect2, card_count: int, fill_placeholders: bool) -> Vector2:
+	var count: int = 3 if fill_placeholders else clampi(card_count, 1, 3)
+	var card_size := Vector2(66, 92)
+	var gap: float = 8.0
+	var block_w: float = card_size.x * float(count) + gap * float(maxi(count - 1, 0))
+	return Vector2(
+		rect.position.x + (rect.size.x - block_w) * 0.5,
+		rect.position.y + (rect.size.y - card_size.y) * 0.5 + 2.0
+	)
+
+func _baccarat_score_pos(rect: Rect2) -> Vector2:
+	return rect.position + Vector2(rect.size.x - 58.0, rect.size.y * 0.5 - 23.0)
 
 func _draw_baccarat_table(ctrl: Control, partial: bool) -> void:
 	var sz: Vector2 = ctrl.size
@@ -561,8 +582,8 @@ func _draw_baccarat_table(ctrl: Control, partial: bool) -> void:
 	ctrl.draw_rect(felt, Color("#042413"), true)
 	ctrl.draw_rect(felt, Color("#c49a38"), false, 2.2)
 	ctrl.draw_line(Vector2(sz.x * 0.5, felt.position.y + 22), Vector2(sz.x * 0.5, felt.end.y - 22), Color(1, 1, 1, 0.08), 1.0)
-	var player_rect := Rect2(Vector2(48, 48), Vector2(342, 156))
-	var banker_rect := Rect2(Vector2(sz.x - 390, 48), Vector2(342, 156))
+	var player_rect := _baccarat_player_rect(sz.x)
+	var banker_rect := _baccarat_banker_rect(sz.x)
 	ctrl.draw_rect(player_rect, Color("#0a1d2e"), true)
 	ctrl.draw_rect(player_rect, Color("#3a7abf"), false, 2.0)
 	ctrl.draw_rect(banker_rect, Color("#2c0d0d"), true)

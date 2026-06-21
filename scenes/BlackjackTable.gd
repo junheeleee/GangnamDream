@@ -512,18 +512,16 @@ func _draw_blackjack_betting_mat(ctrl: Control) -> void:
 	ctrl.draw_rect(Rect2(felt.position + Vector2(0, 6), felt.size), Color(0, 0, 0, 0.35), true)
 	ctrl.draw_rect(felt, Color("#052512"), true)
 	ctrl.draw_rect(felt, Color("#c58f36"), false, 2.0)
-	var arc_r: float = minf(sz.x * 0.22, 190.0)
-	var center := Vector2(sz.x * 0.5, felt.end.y + arc_r * 0.36)
-	ctrl.draw_arc(center, arc_r, PI * 1.16, PI * 1.84, 64, Color("#f0d28a"), 2.0)
 	ctrl.draw_string(bold, Vector2(sz.x * 0.5 - 110, 38), "BLACKJACK PAYS 3 TO 2",
 		HORIZONTAL_ALIGNMENT_CENTER, 220, 15, Color("#f0d28a"))
 	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 140, 62), "Dealer hits soft 17 · Double · Split · Basic strategy",
 		HORIZONTAL_ALIGNMENT_CENTER, 280, 10, Color(1, 1, 1, 0.40))
 	var bet_center := Vector2(sz.x * 0.5, 118)
-	ctrl.draw_arc(bet_center, 52.0, 0.0, TAU, 48, Color("#f0b429"), 2.0)
-	ctrl.draw_string(bold, bet_center + Vector2(-58, 6), "BET  " + GameState.format_money(float(_stake)),
+	ctrl.draw_arc(bet_center, 48.0, 0.0, TAU, 48, Color("#f0b429"), 2.0)
+	ctrl.draw_arc(bet_center, 36.0, 0.0, TAU, 48, Color(1, 1, 1, 0.10), 1.0)
+	_draw_bj_chip_stack(ctrl, bet_center + Vector2(0, -18), _bj_chip_color(_stake), _stake, 30.0)
+	ctrl.draw_string(bold, bet_center + Vector2(-58, 18), "BET  " + GameState.format_money(float(_stake)),
 		HORIZONTAL_ALIGNMENT_CENTER, 116, 14, Color("#f0b429"))
-	_draw_bj_chip_stack(ctrl, bet_center + Vector2(-76, 0), Color("#d33a35"))
 	_draw_shoe_box(ctrl, Rect2(Vector2(sz.x - 152, 35), Vector2(92, 76)), font)
 	_draw_dealer_silhouette(ctrl, Vector2(92, 76))
 
@@ -536,21 +534,26 @@ func _add_blackjack_table_display(parent: VBoxContainer, show_dealer_all: bool) 
 	parent.add_child(table)
 
 	var dealer_cards: Array = _dealer
-	var dealer_start := Vector2(392, 48)
+	var table_w: float = 1000.0
+	var dealer_rect := Rect2(Vector2(74, 32), Vector2(table_w - 148.0, 126))
+	var player_rect := Rect2(Vector2(74, 188), Vector2(table_w - 148.0, 126))
+	var dealer_start := _bj_card_start(dealer_rect, dealer_cards.size())
 	if dealer_cards.size() > 0:
 		_place_bj_cards(table, dealer_cards, dealer_start, show_dealer_all, false)
 		var dealer_value: int = BJ.hand_value(dealer_cards) if show_dealer_all else BJ.hand_value([dealer_cards[0]])
 		var dealer_text := str(dealer_value) if show_dealer_all else (str(dealer_value) + " + ?")
-		_add_bj_score_badge(table, Vector2(690, 76), dealer_text, Color("#e85d5d"))
+		_add_bj_score_badge(table, _bj_score_pos(dealer_rect), dealer_text, Color("#e85d5d"))
 
 	if _split.is_empty():
-		_place_bj_cards(table, _player, Vector2(382, 210), true, _phase == Phase.PLAYER_TURN)
-		_add_bj_score_badge(table, Vector2(690, 238), _bj_score_text(_player), _score_color(_player))
+		_place_bj_cards(table, _player, _bj_card_start(player_rect, _player.size()), true, _phase == Phase.PLAYER_TURN)
+		_add_bj_score_badge(table, _bj_score_pos(player_rect), _bj_score_text(_player), _score_color(_player))
 	else:
-		_place_bj_cards(table, _player, Vector2(210, 210), true, _phase == Phase.PLAYER_TURN and not _split_active)
-		_add_bj_score_badge(table, Vector2(472, 238), _bj_score_text(_player), _score_color(_player))
-		_place_bj_cards(table, _split, Vector2(570, 210), true, _phase == Phase.PLAYER_TURN and _split_active)
-		_add_bj_score_badge(table, Vector2(832, 238), _bj_score_text(_split), _score_color(_split))
+		var left_rect := Rect2(player_rect.position, Vector2(player_rect.size.x * 0.5, player_rect.size.y))
+		var right_rect := Rect2(player_rect.position + Vector2(player_rect.size.x * 0.5, 0), Vector2(player_rect.size.x * 0.5, player_rect.size.y))
+		_place_bj_cards(table, _player, _bj_card_start(left_rect, _player.size()), true, _phase == Phase.PLAYER_TURN and not _split_active)
+		_add_bj_score_badge(table, _bj_score_pos(left_rect), _bj_score_text(_player), _score_color(_player))
+		_place_bj_cards(table, _split, _bj_card_start(right_rect, _split.size()), true, _phase == Phase.PLAYER_TURN and _split_active)
+		_add_bj_score_badge(table, _bj_score_pos(right_rect), _bj_score_text(_split), _score_color(_split))
 
 func _draw_blackjack_table(ctrl: Control, show_dealer_all: bool) -> void:
 	var sz: Vector2 = ctrl.size
@@ -573,10 +576,24 @@ func _draw_blackjack_table(ctrl: Control, show_dealer_all: bool) -> void:
 	var phase_text := "DEALER REVEAL" if show_dealer_all else "PLAYER ACTION"
 	ctrl.draw_string(bold, Vector2(sz.x * 0.5 - 96, 180), phase_text,
 		HORIZONTAL_ALIGNMENT_CENTER, 192, 13, Color(1, 1, 1, 0.36))
-	_draw_bj_chip_stack(ctrl, Vector2(sz.x * 0.5 - 160, 288), Color("#d33a35"))
-	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 126, 294), "ON TABLE  " + GameState.format_money(float(_stake + _split_stake + (_stake if _dbl_down else 0))),
+	var chip_center := player_rect.position + Vector2(132, 96)
+	_draw_bj_chip_stack(ctrl, chip_center, _bj_chip_color(_stake), _stake, 28.0)
+	ctrl.draw_string(font, chip_center + Vector2(34, 7), "ON TABLE  " + GameState.format_money(float(_stake + _split_stake + (_stake if _dbl_down else 0))),
 		HORIZONTAL_ALIGNMENT_LEFT, 240, 11, Color(1, 1, 1, 0.42))
 	_draw_shoe_box(ctrl, Rect2(Vector2(sz.x - 150, 52), Vector2(80, 64)), font)
+
+func _bj_card_start(rect: Rect2, card_count: int) -> Vector2:
+	var count: int = clampi(card_count, 1, 6)
+	var card_size := Vector2(72, 100)
+	var gap: float = 6.0
+	var block_w: float = card_size.x * float(count) + gap * float(maxi(count - 1, 0))
+	return Vector2(
+		rect.position.x + (rect.size.x - block_w) * 0.5,
+		rect.position.y + (rect.size.y - card_size.y) * 0.5
+	)
+
+func _bj_score_pos(rect: Rect2) -> Vector2:
+	return rect.position + Vector2(rect.size.x - 238.0, rect.size.y * 0.5 - 22.0)
 
 func _place_bj_cards(parent: Control, cards: Array, start: Vector2, show_all: bool, highlight: bool) -> void:
 	for i in range(cards.size()):
@@ -623,13 +640,36 @@ func _score_color(hand: Array) -> Color:
 		return Color("#f0b429")
 	return Color("#5de89c")
 
-func _draw_bj_chip_stack(ctrl: Control, center: Vector2, col: Color) -> void:
-	for i in range(4):
-		var p := center + Vector2(float(i) * 9.0, -float(i) * 3.0)
-		ctrl.draw_circle(p + Vector2(0, 2), 10.0, Color(0, 0, 0, 0.30))
-		ctrl.draw_circle(p, 10.0, col)
-		ctrl.draw_arc(p, 7.0, 0.0, TAU, 24, Color("#f7f2df"), 2.0)
-		ctrl.draw_circle(p, 4.0, col.darkened(0.20))
+func _bj_chip_color(stake: int) -> Color:
+	match stake:
+		10_000:
+			return Color("#d33a35")
+		50_000:
+			return Color("#2f65d9")
+		100_000:
+			return Color("#23a66f")
+		500_000:
+			return Color("#7a4fd9")
+		1_000_000:
+			return Color("#d9a12f")
+		_:
+			return Color("#d33a35")
+
+func _draw_bj_chip_stack(ctrl: Control, center: Vector2, col: Color, stake: int = 0, chip_size: float = 30.0) -> void:
+	var raw_tex = CHIP_TEX_BY_STAKE.get(stake, null)
+	if raw_tex is Texture2D:
+		var tex := raw_tex as Texture2D
+		for i in range(3):
+			var pos := center + Vector2(float(i) * 2.0, -float(i) * 4.0) - Vector2(chip_size * 0.5, chip_size * 0.5)
+			ctrl.draw_texture_rect(tex, Rect2(pos + Vector2(0, 2), Vector2(chip_size, chip_size)), false, Color(0, 0, 0, 0.20))
+			ctrl.draw_texture_rect(tex, Rect2(pos, Vector2(chip_size, chip_size)), false)
+		return
+	for i in range(3):
+		var p := center + Vector2(float(i) * 2.0, -float(i) * 4.0)
+		ctrl.draw_circle(p + Vector2(0, 2), chip_size * 0.32, Color(0, 0, 0, 0.30))
+		ctrl.draw_circle(p, chip_size * 0.32, col)
+		ctrl.draw_arc(p, chip_size * 0.23, 0.0, TAU, 24, Color("#f7f2df"), 2.0)
+		ctrl.draw_circle(p, chip_size * 0.13, col.darkened(0.20))
 
 func _draw_shoe_box(ctrl: Control, rect: Rect2, font: Font) -> void:
 	ctrl.draw_rect(Rect2(rect.position + Vector2(0, 4), rect.size), Color(0, 0, 0, 0.28), true)
