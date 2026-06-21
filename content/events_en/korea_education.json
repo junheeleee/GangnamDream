@@ -1,0 +1,62 @@
+[
+  {
+    "id": "kx_hagwon",
+    "title": "Hagwon Street",
+    "description": "10 PM — the hagwon district in Daechi-dong.\nMiddle and high school students pour out of cram schools.\n\nMath, English, science, essay writing...\nParents in this neighborhood reportedly spend a third of their Gangnam mortgage payments on education.",
+    "choices": [
+      {
+        "text": "Even as an adult, you think: I should be learning something",
+        "result_text": "No money for hagwon. Decided to start with YouTube.\n\nSeoul has the highest density of learning opportunities in Korea.\nKnowing how to find the right content is a skill in itself."
+      },
+      {
+        "text": "Wonder what kind of adults these kids will become",
+        "result_text": "How many of those kids will end up living the life they actually want?\n\nI'm chasing Gangnam too — I'm also a product of that same competition.\nKorean education and Korean real estate share the same root."
+      }
+    ]
+  },
+  {
+    "id": "kx_suneung_day",
+    "title": "College Entrance Exam Day",
+    "description": "Third Thursday of November.\nFighter jets pause their flights. The stock market opened an hour late.\n\nThe entire nation pressed pause\nfor one exam taken by eighteen-year-olds.",
+    "choices": [
+      {
+        "text": "Send a good-luck message to anyone you know taking it",
+        "result_text": "Sent 'do well' to my younger cousin.\n\nI remembered my own exam day. I can still conjure the smell of that morning.\nEvery Korean has a memory of this day."
+      },
+      {
+        "text": "Don't think about the noise — get your own work done",
+        "result_text": "Suneung is Suneung, my work is my work.\n\nBut somewhere out there, someone is filling in answer bubbles right now.\nThought about that, and wanted to be a little more diligent myself."
+      }
+    ]
+  },
+  {
+    "id": "kx_gosi_study",
+    "title": "The Exam Preppers",
+    "description": "Same goshiwon — the person next door is studying for a government exam.\nTheir light never goes off, even at 3 AM.\n\nAdministrative exam, bar exam, public service exam.\nSome people hold on here for years.",
+    "choices": [
+      {
+        "text": "Say something — a sense of solidarity in shared circumstances",
+        "result_text": "'Hope it goes well for you.' Brief exchange in the hallway.\n'Thanks. You too.' Came back.\n\nWe don't know each other's names. Still — the warmest exchange in this goshiwon hallway."
+      },
+      {
+        "text": "Walk past without disturbing them",
+        "result_text": "Passed the lit room without stopping.\n\nHow many years has that light been on?\nHave I ever thrown myself into something that completely?"
+      }
+    ]
+  },
+  {
+    "id": "kx_english_academy",
+    "title": "First Day at English Class",
+    "description": "Enrolled in an English academy to build credentials.\nMost students are office workers. Class starts at 7:30 PM.\n\nThe teacher asks everyone to introduce themselves.\n'My name is... I am... working at...'",
+    "choices": [
+      {
+        "text": "Commit to going for three months",
+        "result_text": "Signed up for three months. ₩300,000.\n\nEmbarrassing at first. After a month, words started coming.\nLanguage starts improving the moment you stop being embarrassed."
+      },
+      {
+        "text": "Do it yourself with an app — the tuition isn't worth it",
+        "result_text": "Installed Duolingo. Free.\n\nTen minutes a day became a habit. Slow, but consistent.\nSome things can be done for free."
+      }
+    ]
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "kx_chuseok_traffic",
+    "title": "Chuseok: The Journey Home",
+    "description": "Eve of the Chuseok holiday.\nHighway estimated travel time: 6 hours (normally 3).\nKTX tickets sold out three months ago.\n\nGo home, or stay?",
+    "choices": [
+      {
+        "text": "Go no matter what — holidays are holidays",
+        "result_text": "Six hours by intercity bus. Made it.\n\nMother was waiting in front of the jesa table.\nThe relief when the long journey ends makes the bus fare irrelevant."
+      },
+      {
+        "text": "Stay in Seoul this time — give them a call",
+        "result_text": "'I can't make it this time.' I called.\n'I know, you're busy.' Her voice.\n\nThe loneliness of spending a Korean holiday alone in Seoul — it's hard to put into words."
+      }
+    ]
+  },
+  {
+    "id": "kx_seollal_sebae",
+    "title": "New Year's Bow Money",
+    "description": "Seollal morning — the new year's bow.\nYou bow to the elders. Sebae money comes back.\n\nBut the older you get, this ritual gets complicated.\n'Did you find work yet?' 'When are you getting married?'",
+    "choices": [
+      {
+        "text": "Holiday nagging is part of the relationship — deflect with a smile",
+        "result_text": "'I'm working hard.' Smiled it off.\n\n₩100,000 in sebae money went into the wallet.\nThe lecture and the money always come together. That's Korean holidays."
+      },
+      {
+        "text": "Tell them honestly where things stand",
+        "result_text": "'Still job hunting, but I'm preparing.'\n\nThe relative listened more seriously than expected.\nSometimes being honest beats hiding it."
+      }
+    ]
+  },
+  {
+    "id": "kx_holiday_alone",
+    "title": "Holidays Alone",
+    "description": "Holiday weekend — Seoul empties out.\nOver half the convenience stores are closed.\n\nNot a single sound from the goshiwon hallway.\nEveryone went home.",
+    "choices": [
+      {
+        "text": "Accept it as time to yourself",
+        "result_text": "Walked through a Seoul with no one in it.\n\nThe riverside was empty. Han River bridges in the distance.\nOnce a year, this city breathes."
+      },
+      {
+        "text": "Reach out to a friend who also stayed — grab a meal",
+        "result_text": "Two friends who couldn't go home gathered.\nBought convenience store lunch boxes and ate in the park.\n\nEven a holiday without a hometown becomes a holiday when there are people."
+      }
+    ]
+  }
+]

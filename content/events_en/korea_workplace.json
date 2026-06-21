@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kx_hoesik",
+    "title": "Company Dinner",
+    "description": "The team leader sent a group chat message:\n'Team dinner tonight! Please try to make it :)'\n\nNo question mark. A request that's hard to refuse.\nSamgyeopsal restaurant, second round at noraebang, third round at a pojangmacha.",
+    "choices": [
+      {
+        "text": "Stay until the end — go with the team flow",
+        "result_text": "Past midnight. Had drinks, sang karaoke.\n\nCame home with a heavy body — but the team leader clapped me on the shoulder. 'Good work tonight.'\nIn Korean workplaces, trust sometimes gets built exactly this way."
+      },
+      {
+        "text": "Just the first round — slip out early",
+        "result_text": "'I have something early tomorrow.' Left after the samgyeopsal.\n\nThe team leader said 'go ahead.' Hard to read the expression.\nHow to take that look — still not sure."
+      }
+    ]
+  },
+  {
+    "id": "kx_yageun",
+    "title": "Working Late",
+    "description": "7 PM. Past quitting time.\nThe team leader is still at their desk.\n\nYou read the room. The unspoken rule of Korean offices:\nif the boss is still there, leaving first is hard.",
+    "choices": [
+      {
+        "text": "Outlast them — leave after the team leader",
+        "result_text": "10 PM — the team leader finally got up. Left after.\n\nGot back to the goshiwon close to midnight.\nTonight's overtime wasn't about work. It was about reading the room."
+      },
+      {
+        "text": "Work's done — leave on time",
+        "result_text": "'I'll head out now.' And left.\n\nFelt eyes on my back — but it faded as I walked.\nMy time is mine to keep. That takes practice too."
+      }
+    ]
+  },
+  {
+    "id": "kx_kkondae",
+    "title": "The Old Guard",
+    "description": "The team leader said it again.\n'Back when I was your age...'\n\nKorea's seniority-based workplace culture.\nSeniority doesn't always mean being right —\nbut pushing back isn't easy.",
+    "choices": [
+      {
+        "text": "'You're absolutely right' — let it wash over you",
+        "result_text": "Agreed along. The team leader looked satisfied.\n\nI thought differently — but I held it back today.\nWhether this is pragmatism or surrender — I still don't know where the line is."
+      },
+      {
+        "text": "Politely say what you actually think",
+        "result_text": "'My thinking is a bit different — here's why...' Carefully.\n\nThe team leader paused. 'Hmm, that's worth considering.'\nBetter than expected. Courage takes practice."
+      }
+    ]
+  },
+  {
+    "id": "kx_office_politics",
+    "title": "Office Politics",
+    "description": "Factions have formed in the team.\nThe team leader's camp and the deputy leader's camp.\n\nWho you eat lunch with signals your allegiance.\nHaving to think about this on top of everything else — exhausting.",
+    "choices": [
+      {
+        "text": "Stay neutral — keep both sides at arm's length",
+        "result_text": "Team leader's side today, deputy's side tomorrow.\n\nBest I can do for now.\nSomeday I'll have to pick a side — but that's a problem for then."
+      },
+      {
+        "text": "Decide to get out of this dynamic through performance",
+        "result_text": "Chose not to spend energy on the faction war.\n\nFocused on results instead. Strong work survives any faction.\nThat wasn't wrong — at least for now."
+      }
+    ]
+  },
+  {
+    "id": "kx_salary_negotiation",
+    "title": "Salary Negotiation",
+    "description": "Annual review season.\nHR has scheduled a one-on-one.\n\nMost Korean workers don't negotiate their salary.\nThe culture of 'take what's given' runs deep.",
+    "choices": [
+      {
+        "text": "Come prepared with data and ask for a raise",
+        "result_text": "'Based on last year's performance metrics and market rates, I'd like to request a 15% increase.'\n\nHR looked caught off guard. Settled at 7%.\nNothing changes if you don't ask."
+      },
+      {
+        "text": "'I leave it to you' — accept the company's decision",
+        "result_text": "3% increase. The company's call.\n\nFine. But I also know I can't keep doing this.\nI'll prepare properly next year."
+      }
+    ]
+  }
+]

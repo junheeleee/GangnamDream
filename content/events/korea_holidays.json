@@ -1,0 +1,80 @@
+[
+  {
+    "id": "kx_chuseok_traffic",
+    "title": "추석 귀성길",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 40,
+    "background": "subway",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "holiday", "family"],
+    "description": "추석 연휴 전날.\n고속도로 예상 소요 시간: 6시간 (평소 3시간).\n KTX는 3개월 전에 매진이었다.\n\n가야 하나, 말아야 하나.",
+    "choices": [
+      {
+        "text": "무조건 내려간다 — 명절은 명절이니까",
+        "effects": { "money": -80000, "mental": 3 },
+        "result_text": "시외버스 타고 6시간 걸려 내려갔다.\n\n어머니가 차례상 앞에서 기다리고 있었다.\n긴 여정이 끝났을 때의 그 위로는, 버스비 가치를 따지지 않게 한다."
+      },
+      {
+        "text": "이번엔 서울에 있는다 — 연락은 드린다",
+        "effects": { "mental": -2 },
+        "result_text": "\"이번엔 못 내려가요.\" 전화했다.\n\"그래, 바쁘면 어쩌겠냐.\" 어머니의 목소리.\n\n명절 혼자 보내는 서울의 쓸쓸함은, 설명하기 어렵다."
+      }
+    ]
+  },
+  {
+    "id": "kx_seollal_sebae",
+    "title": "설날 세뱃돈",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 40,
+    "background": "street",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "holiday", "family"],
+    "description": "설날 아침, 세배.\n어른들께 절을 올린다. 세뱃돈이 돌아온다.\n\n그런데 나이가 들수록 이 의례는 복잡해진다.\n\"취직은 했니?\" \"결혼은 언제?\"",
+    "choices": [
+      {
+        "text": "명절 잔소리도 관계의 일부다 — 받아넘긴다",
+        "effects": { "money": 100000, "mental": 2 },
+        "result_text": "\"열심히 하고 있어요.\" 웃으며 넘겼다.\n\n세뱃돈 10만 원이 지갑에 들어왔다.\n잔소리와 용돈은 항상 같이 온다. 이것도 한국 명절이다."
+      },
+      {
+        "text": "솔직하게 현황을 말한다",
+        "effects": { "mental": 3, "social_skill": 1 },
+        "result_text": "\"아직 취업은 못 했지만 준비하고 있어요.\"\n\n예상보다 친척이 진지하게 들어줬다.\n숨기는 것보다 말하는 게 나을 때가 있다."
+      }
+    ]
+  },
+  {
+    "id": "kx_holiday_alone",
+    "title": "혼자 보내는 명절",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "min_turn": 8 },
+    "cooldown": 36,
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "holiday"],
+    "description": "명절 연휴, 서울은 텅 비었다.\n편의점도 반 이상이 문을 닫았다.\n\n고시원 복도의 발소리가 하나도 들리지 않는다.\n다들 내려간 것이다.",
+    "choices": [
+      {
+        "text": "혼자만의 시간으로 받아들인다",
+        "effects": { "mental": 4, "intelligence": 1 },
+        "result_text": "아무도 없는 서울을 걸었다.\n\n강변이 비어있었다. 한강 다리가 멀리 보였다.\n1년에 한 번, 이 도시가 숨 쉬는 날이다."
+      },
+      {
+        "text": "동향 친구에게 연락한다 — 같이 밥이라도",
+        "effects": { "mental": 6, "social_skill": 1 },
+        "result_text": "같이 못 내려간 친구 둘이 모였다.\n편의점 도시락을 사서 공원에서 먹었다.\n\n고향이 없는 명절도, 사람이 있으면 명절이 된다."
+      }
+    ]
+  }
+]
