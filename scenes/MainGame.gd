@@ -55,6 +55,11 @@ const COL_INK_RAISED := "#15101a"   # 살짝 뜬 패널
 const COL_TEXT       := "#d8d2c4"   # 본문 — 따뜻한 아이보리 (순백 회색 X)
 const COL_TEXT_DIM   := "#7a7263"   # 흐린 본문 — 세피아 회색
 const COL_DANGER     := "#c0392b"   # 위험 — 딥레드
+const UI_MIN_BODY_FONT := 14
+const UI_MIN_BUTTON_FONT := 15
+const UI_MIN_BUTTON_HEIGHT := 46
+const UI_MIN_SMALL_BUTTON_HEIGHT := 38
+const UI_FOCUS_BORDER := 3
 
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
@@ -451,12 +456,12 @@ func _clear_feedback_flash() -> void:
 
 func _build_top_bar(parent):
 	var panel = _panel("#0d0d14", "#1a1a28")
-	panel.custom_minimum_size = Vector2(0, 54)
+	panel.custom_minimum_size = Vector2(0, 58)
 	parent.add_child(panel)
 	var row = HBoxContainer.new()
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	row.add_theme_constant_override("separation", 8)
+	row.add_theme_constant_override("separation", 6)
 	panel.add_child(row)
 
 	var title = _label(_tr("강남드림", "Gangnam Dream"), 18, COL_GOLD)
@@ -483,41 +488,47 @@ func _build_top_bar(parent):
 	var mp_lbl = _hud_chip(vitals_row, "mental", "#93c5fd", 82, false)
 	top_labels["vital_mental"] = mp_lbl
 
-	var money_lbl = _hud_chip(row, "money", "#00c896", 180, true)
+	var money_lbl = _hud_chip(row, "money", "#00c896", 180, false)
 	top_labels["money"] = money_lbl
 
 	var info_btn = _small_button(_tr("정보", "Info"), "#1e2a3a")
-	info_btn.custom_minimum_size = Vector2(64, 36)
+	info_btn.custom_minimum_size = Vector2(64, 40)
+	info_btn.add_theme_font_size_override("font_size", 14)
 	info_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	info_btn.pressed.connect(_toggle_info_panel)
 	row.add_child(info_btn)
 
 	var save_btn = _small_button(_tr("저장", "Save"), "#1e2a3a")
-	save_btn.custom_minimum_size = Vector2(56, 36)
+	save_btn.custom_minimum_size = Vector2(60, 40)
+	save_btn.add_theme_font_size_override("font_size", 14)
 	save_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	save_btn.pressed.connect(Callable(self, "_on_save_pressed"))
 	row.add_child(save_btn)
 
 	var menu_btn = _small_button("≡", "#1e2a3a")
-	menu_btn.custom_minimum_size = Vector2(40, 36)
+	menu_btn.custom_minimum_size = Vector2(42, 40)
+	menu_btn.add_theme_font_size_override("font_size", 14)
 	menu_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	menu_btn.pressed.connect(_open_system_menu)
 	row.add_child(menu_btn)
 
 	next_button = _button(_tr("다음 주 ›", "Next Week ›"), "#1a3a5a")
-	next_button.custom_minimum_size = Vector2(104, 36)
+	next_button.custom_minimum_size = Vector2(100, 40)
+	next_button.add_theme_font_size_override("font_size", 14)
 	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
 
 	shop_button = _small_button(_tr("상점", "Shop"), "#173329")
-	shop_button.custom_minimum_size = Vector2(58, 36)
+	shop_button.custom_minimum_size = Vector2(60, 40)
+	shop_button.add_theme_font_size_override("font_size", 14)
 	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	shop_button.pressed.connect(_open_shop)
 	row.add_child(shop_button)
 
 	var title_btn2 = _small_button(_tr("칭호", "Title"), "#1a2a1a")
-	title_btn2.custom_minimum_size = Vector2(58, 36)
+	title_btn2.custom_minimum_size = Vector2(60, 40)
+	title_btn2.add_theme_font_size_override("font_size", 14)
 	title_btn2.size_flags_horizontal = Control.SIZE_SHRINK_END
 	title_btn2.pressed.connect(_open_title_collection)
 	row.add_child(title_btn2)
@@ -1109,17 +1120,17 @@ func _build_modal():
 	add_child(modal_layer)
 
 	modal_panel = _panel("#13131a", "#252535")
-	modal_panel.custom_minimum_size = Vector2(640, 560)
+	modal_panel.custom_minimum_size = Vector2(760, 610)
 	modal_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	# 명시적 anchor로 화면 정중앙 고정
 	modal_panel.anchor_left   = 0.5
 	modal_panel.anchor_right  = 0.5
 	modal_panel.anchor_top    = 0.5
 	modal_panel.anchor_bottom = 0.5
-	modal_panel.offset_left   = -320
-	modal_panel.offset_right  =  320
-	modal_panel.offset_top    = -280
-	modal_panel.offset_bottom =  280
+	modal_panel.offset_left   = -380
+	modal_panel.offset_right  =  380
+	modal_panel.offset_top    = -305
+	modal_panel.offset_bottom =  305
 	modal_layer.add_child(modal_panel)
 	var panel = modal_panel
 
@@ -1130,11 +1141,11 @@ func _build_modal():
 	# Header row with title + close button
 	var header = HBoxContainer.new()
 	outer.add_child(header)
-	modal_title_label = _label("", 22, "#e8eaf0")
+	modal_title_label = _label("", 24, "#e8eaf0")
 	modal_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(modal_title_label)
 	var close_x = _small_button("✕", "#da3633")
-	close_x.custom_minimum_size = Vector2(36, 36)
+	close_x.custom_minimum_size = Vector2(44, 42)
 	close_x.size_flags_horizontal = Control.SIZE_SHRINK_END
 	close_x.pressed.connect(_close_modal)
 	header.add_child(close_x)
@@ -1142,12 +1153,12 @@ func _build_modal():
 	# Scrollable content area
 	modal_scroll = ScrollContainer.new()
 	modal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	modal_scroll.custom_minimum_size = Vector2(0, 420)
+	modal_scroll.custom_minimum_size = Vector2(0, 468)
 	outer.add_child(modal_scroll)
 
 	modal_body = VBoxContainer.new()
 	modal_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	modal_body.add_theme_constant_override("separation", 8)
+	modal_body.add_theme_constant_override("separation", 10)
 	modal_scroll.add_child(modal_body)
 
 func _build_toast_layer():
@@ -3642,7 +3653,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 func _hud_chip(parent: Control, icon_id: String, accent: String,
 		min_width: int, expand: bool) -> Label:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(min_width, 36)
+	panel.custom_minimum_size = Vector2(min_width, 40)
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL if expand else Control.SIZE_SHRINK_BEGIN
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -3673,7 +3684,7 @@ func _hud_chip(parent: Control, icon_id: String, accent: String,
 		tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(tex)
 
-	var lbl := _label("", 13, "#d8deea")
+	var lbl := _label("", 14, "#d8deea")
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	lbl.clip_text = false
@@ -6727,12 +6738,21 @@ func _panel(bg, border):
 	panel.add_theme_stylebox_override("panel", style)
 	return panel
 
+func _readable_font_size(size: int) -> int:
+	if size <= 6:
+		return size
+	if size <= 10:
+		return 12
+	if size <= 12:
+		return UI_MIN_BODY_FONT
+	return size
+
 func _label(text, size, color) -> Label:
 	var label = Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	label.clip_text = true
-	label.add_theme_font_size_override("font_size", size)
+	label.add_theme_font_size_override("font_size", _readable_font_size(int(size)))
 	label.add_theme_color_override("font_color", Color(color))
 	if _font_regular:
 		label.add_theme_font_override("font", _font_regular)
@@ -6748,11 +6768,15 @@ func _wrap_label(text, size, color) -> Label:
 func _button(text, color) -> Button:
 	var button = Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(0, 42)
+	button.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color(color)
 	normal.set_corner_radius_all(5)
+	normal.content_margin_left = 16
+	normal.content_margin_right = 16
+	normal.content_margin_top = 10
+	normal.content_margin_bottom = 10
 	var hover = normal.duplicate()
 	hover.bg_color = Color(color).lightened(0.14)
 	var pressed_style = normal.duplicate()
@@ -6763,10 +6787,10 @@ func _button(text, color) -> Button:
 	button.add_theme_color_override("font_color", Color("#ffffff"))
 	if _font_bold:
 		button.add_theme_font_override("font", _font_bold)
-	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	var focus_st = normal.duplicate()
 	focus_st.border_color = Color("#f0b429")
-	focus_st.set_border_width_all(2)
+	focus_st.set_border_width_all(UI_FOCUS_BORDER)
 	button.add_theme_stylebox_override("focus", focus_st)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	return button
@@ -6783,32 +6807,34 @@ func _icon_button(text: String, icon_id: String, color: String) -> Button:
 func _action_button(text: String, accent_color: String) -> Button:
 	var button = Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(0, 40)
+	button.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color("#111118")
 	normal.border_color = Color(accent_color)
-	normal.border_width_left = 3
+	normal.border_width_left = 4
 	normal.set_corner_radius_all(4)
-	normal.content_margin_left = 14
-	normal.content_margin_right = 10
+	normal.content_margin_left = 16
+	normal.content_margin_right = 14
+	normal.content_margin_top = 9
+	normal.content_margin_bottom = 9
 	var hover = normal.duplicate()
 	hover.bg_color = Color("#1c1c2a")
 	var pressed_style = normal.duplicate()
 	pressed_style.bg_color = Color("#0d0d16")
 	var focus_action = hover.duplicate()
 	focus_action.border_color = Color("#f0b429")
-	focus_action.border_width_left = 4
-	focus_action.border_width_top = 1
-	focus_action.border_width_right = 1
-	focus_action.border_width_bottom = 1
+	focus_action.border_width_left = 5
+	focus_action.border_width_top = UI_FOCUS_BORDER
+	focus_action.border_width_right = UI_FOCUS_BORDER
+	focus_action.border_width_bottom = UI_FOCUS_BORDER
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed_style)
 	button.add_theme_stylebox_override("focus", focus_action)
 	button.add_theme_color_override("font_color", Color("#c8d0e0"))
-	button.add_theme_font_size_override("font_size", 14)
+	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	button.pressed.connect(func(): AudioManager.play("click"))
@@ -6817,21 +6843,25 @@ func _action_button(text: String, accent_color: String) -> Button:
 func _small_button(text, color) -> Button:
 	var button = Button.new()
 	button.text = text
-	button.custom_minimum_size = Vector2(0, 32)
+	button.custom_minimum_size = Vector2(0, UI_MIN_SMALL_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color(color)
 	normal.set_corner_radius_all(4)
+	normal.content_margin_left = 10
+	normal.content_margin_right = 10
+	normal.content_margin_top = 7
+	normal.content_margin_bottom = 7
 	var hover = normal.duplicate()
 	hover.bg_color = Color(color).lightened(0.15)
 	var focus_sm = normal.duplicate()
 	focus_sm.border_color = Color("#f0b429")
-	focus_sm.set_border_width_all(2)
+	focus_sm.set_border_width_all(UI_FOCUS_BORDER)
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("focus", focus_sm)
 	button.add_theme_color_override("font_color", Color("#ffffff"))
-	button.add_theme_font_size_override("font_size", 13)
+	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	return button
@@ -6853,18 +6883,18 @@ func _modal_section_header(title: String, icon_id: String, accent: String, subti
 	style.border_color = Color(accent, 0.45)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(6)
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
+	style.content_margin_left = 14
+	style.content_margin_right = 14
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
 	panel.add_theme_stylebox_override("panel", style)
 
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 12)
 	panel.add_child(row)
 
 	var icon := TextureRect.new()
-	icon.custom_minimum_size = Vector2(28, 28)
+	icon.custom_minimum_size = Vector2(32, 32)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.texture = _ui_icon_texture(icon_id)
@@ -6876,12 +6906,12 @@ func _modal_section_header(title: String, icon_id: String, accent: String, subti
 	col.add_theme_constant_override("separation", 2)
 	row.add_child(col)
 
-	var title_lbl := _label(title, 15, "#e8eaf0")
+	var title_lbl := _label(title, 17, "#e8eaf0")
 	if _font_bold:
 		title_lbl.add_theme_font_override("font", _font_bold)
 	col.add_child(title_lbl)
 	if not subtitle.is_empty():
-		col.add_child(_wrap_label(subtitle, 12, "#8f9ab0"))
+		col.add_child(_wrap_label(subtitle, 14, "#8f9ab0"))
 	return panel
 
 func _stat_name(key):

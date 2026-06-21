@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-06-22 (PC/Steam Deck Readability Pass 1)
+
+### 수정
+- `scenes/MainGame.gd`: PC 기본 UI도 Steam Deck/콘솔 기준으로 읽히도록 공통 가독성 상수(`UI_MIN_BODY_FONT`, `UI_MIN_BUTTON_FONT`, `UI_MIN_BUTTON_HEIGHT`, `UI_MIN_SMALL_BUTTON_HEIGHT`, `UI_FOCUS_BORDER`) 추가.
+- `_label()`, `_button()`, `_action_button()`, `_small_button()`, `_modal_section_header()`의 최소 폰트/버튼 높이/포커스 테두리를 상향해 작은 웹앱 UI 느낌을 줄임.
+- 기본 모달 크기를 `640x560`에서 `760x610`으로 확대하고 스크롤 영역/섹션 간격을 넓혀 투자·상점·관계·시스템 메뉴의 읽기 피로를 줄임.
+- 상단 HUD는 버튼이 커진 뒤 1280x800에서 `칭호`가 잘리는 문제를 확인하고, HUD 전용 압축 폭/폰트 규칙으로 재조정.
+
+### 검증
+- 전체 `ScreenshotQA` 2회 실행 완료. `04_ap_actions_dashboard`, `01_event_gambling_wave`, `02_investment_portfolio_chart`, `02b_shop_modal`, `02c_system_menu`, `05_people_relationships`, `08_jeongseon_casino` 직접 확인.
+- 1280x800 기준 상단바 잘림 해소, 주요 모달/선택지/카지노 허브 겹침 없음.
+
 ## 2026-06-21 (투자 모달 시장 보드 추가)
 
 ### 수정
