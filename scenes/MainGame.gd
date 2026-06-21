@@ -5878,6 +5878,8 @@ func _ending_run_summary(ending_id: String) -> String:
 			return _tr("도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.", "He climbed up from the bottom of gambling. Thirty circles on the calendar. A win harder than Gangnam.")
 		"writer":
 			return _tr("강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다.", "A story that never reached Gangnam reached the most people of all.")
+		"career_climber":
+			return _tr("한자리에 머물지 않았다. 더 나은 사다리로 계속 갈아탔다.", "He never stayed put. He kept switching to a better ladder.")
 		"ng_gambling_premonition":
 			return _tr("도박의 문 앞에서 멈췄다. 전생의 기억이 발을 붙잡았다.", "He stopped at the gambling door. A memory from a past life held his feet.")
 		_:
@@ -5894,7 +5896,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		"creator_success", "with_daeun", "jiyeon_man",
 		"early_retirement", "balanced_life", "late_call", "sangchul_reckoning",
 		"full_circle", "second_love", "guardian", "gambling_recovery",
-		"writer",
+		"writer", "career_climber",
 	]
 	var bad := ending_id in ["burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral"]
 	var lines: Array = []

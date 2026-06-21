@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (직장/이직 루트 전용 엔딩 보강 — career_climber)
+
+### 수정
+- `content/endings.json` — 신규 엔딩 `career_climber` (갈아탄 사다리, grade A) 추가:
+  - 5년간 명함을 3번 갈아탄 이직·승진 서사. 연봉 협상·헤드헌터·사표의 날들.
+  - "한자리에서 버티는 것만 끈기인가" 라는 질문을 던지는 직장인 루트 전용 결말.
+- `autoloads/GameState.gd` `check_game_over()` — 38세 종료 분기에 트리거 추가:
+  - `not current_job.is_empty() and total >= 100_000_000 and (job_changed_success or max_job_tier>=4)`
+  - reputation_legend 다음, orthodox_pinnacle 앞에 배치 (자산 대박 미달 직장인 catch)
+- `autoloads/BGMPlayer.gd` — good 엔딩 목록에 career_climber 추가
+- `scenes/MainGame.gd` — `_ending_run_summary` / `_ending_cast_epilogue`(good)에 career_climber 등록
+- 엔딩 32개. audit ERROR 0/WARNING 0. 밸런스 밴드 전부 통과.
+
+### 의도
+- 성실히 이직·승진해 tier 4에 도달했으나 5억/10억 자산 대박은 못 친 플레이어가
+  `ordinary_life`(C, "그냥 사람")로 떨어지던 약점 해소. 직장 루트에 A급 보상 결말 부여.
+- work_events(job_change_trigger)→callback_events_31(job_changed_success) 체인이 비로소 엔딩으로 회수됨.
+
 ## 2026-06-21 (arc_daeun / arc_hyunsu 후속 완결 — 4종)
 
 ### 수정

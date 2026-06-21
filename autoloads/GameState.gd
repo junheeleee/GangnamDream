@@ -1246,6 +1246,11 @@ func check_game_over():
 		# 평판 전설 (평판 80+)
 		if reputation >= 80:
 			finish_run("reputation_legend"); return
+		# 갈아탄 사다리 (이직/커리어 성장 — 직장 유지 + 이직 성공 or 최고 직급 + 1억+)
+		# 30억/10억/5억 대박은 위에서 이미 분기 → 여기 오는 건 "직장으로 착실히 올라온" 사람.
+		if not current_job.is_empty() and total >= 100_000_000 \
+				and (flags.get("job_changed_success", false) or int(flags.get("max_job_tier", 0)) >= 4):
+			finish_run("career_climber"); return
 		# 정석의 정점 (1B+, 정석 압도)
 		if total >= 1_000_000_000 and route_orthodox - route_unorthodox >= 15:
 			finish_run("orthodox_pinnacle"); return

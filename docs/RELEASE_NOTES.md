@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added (2026-06-21) — 직장/이직 루트 전용 엔딩 + arc_daeun·hyunsu 후속 완결
+
+- 신규 엔딩 `career_climber` (갈아탄 사다리, A): 38세 종료 + 직장 유지 + (이직 성공 `job_changed_success` or 최고 직급 `max_job_tier>=4`) + 자산 1억+. 그동안 5억/10억 대박을 못 친 성실한 이직·승진 플레이어가 `ordinary_life`(C)로 떨어지던 약점 보강. `check_game_over()` 분기 + BGM good 분류 + run summary + cast epilogue 등록. 엔딩 32개.
+- arc_daeun 후속 3종 (committed/deferred/uncertain 경로 완결), arc_hyunsu `hyunsu_pass_news` 1종. MainGame 트리거 4개. EN 동기화. 총 이벤트 1095개.
+
 ### Added (2026-06-21) — P3 7차: 직장인 일상 서사 6종 + 정체성 콜백 3종
 
 - `work_events.json` 신규 (6종): 성과 가로채기, 번아웃 신호, 헤드헌터 연락, 동기 연봉 공개, 혼밥, 연말 성과면담. `callback_events_30.json` 신규 (3종): 새벽 확신 낮 검증, 43세 비전 중간점검, 강남 기준 내면화. EN 오버레이 동시. 총 이벤트 1082개.
