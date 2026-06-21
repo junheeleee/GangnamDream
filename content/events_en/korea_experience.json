@@ -1,0 +1,93 @@
+[
+  {
+    "id": "kx_coin_noraebang",
+    "title": "A Thousand Won of Comfort",
+    "description": "The last train is gone. A coin noraebang in a back alley.\nA thousand won for four songs. Inside the booth, it's just me.\n\nA sticky vinyl couch, one tambourine, and the number for a ballad I know by heart.\nToday weighed a lot.",
+    "choices": [
+      {
+        "text": "Sing my lungs out — let the next booth hear it",
+        "result_text": "Punched in two more songs. The screen flashed 88 points, and a burst of canned applause played to an empty room.\n\nI think I finally understand why so many people cry in noraebang booths.\nThe week felt a little lighter."
+      },
+      {
+        "text": "Hit record — to listen to later",
+        "result_text": "Saved the file. I'll cringe when I play it back at home.\n\nBut I wanted to leave today's version of me somewhere.\nA thousand-won time capsule."
+      },
+      {
+        "text": "Sing one song and leave",
+        "result_text": "Just one. I didn't have the energy for more.\nStill, I walked out of the alley lighter than I walked in."
+      }
+    ]
+  },
+  {
+    "id": "kx_pc_bang",
+    "title": "PC Bang Ramyeon",
+    "description": "A rainy afternoon. Nowhere to go, so I ducked into a PC bang.\nFifteen hundred won an hour. The part-timer assigns me a seat number.\n\nThe smell of someone's instant ramyeon drifts over the monitor from the next seat.\n— Why does PC bang ramyeon taste better?",
+    "choices": [
+      {
+        "text": "Order ramyeon, play a round — take it easy today",
+        "result_text": "Ramyeon with an egg cracked in, and one round of a game. One round became three.\n\nHalf guilt, half bliss.\nStill, on a rainy day there's no better hideout than a PC bang."
+      },
+      {
+        "text": "Skip the game, just look things up",
+        "result_text": "Used the high-res monitor to dig through job postings and property prices.\nFaster internet than home — worth the fifteen hundred won."
+      },
+      {
+        "text": "Just breathe in the smell and leave",
+        "result_text": "In the end I didn't go in. I had to save even fifteen hundred won.\nWalked off into the rain with only the smell of ramyeon to keep."
+      }
+    ]
+  },
+  {
+    "id": "kx_claw_machine",
+    "title": "The Claw Machine Trap",
+    "description": "A claw machine corner by the subway exit.\nPopular character plushies piled behind the glass. A thousand won a try.\n\n\"Two tries and I've got it, surely.\"\nThe moment that thought hits — it's already a trap.",
+    "choices": [
+      {
+        "text": "Just one try",
+        "result_text": "The claw grabbed the plushie's head, then dropped it right before the chute.\n\n\"That thing's rigged.\" I knew it, and it still stung.\nStill, walking away after only a thousand won — that's a win."
+      },
+      {
+        "text": "Until it drops — my pride kicked in",
+        "result_text": "Spent almost ten thousand won. The plushie finally came out.\n\nExcept now it's a ten-thousand-won plushie, not a thousand-won one.\nPride is always expensive. Can't chase Gangnam like this."
+      },
+      {
+        "text": "Just take a photo and move on",
+        "result_text": "Snapped a shot of my reflection in the glass with the plushies behind it.\nDidn't buy the plushie, but I got a post out of it. That's the real win."
+      }
+    ]
+  },
+  {
+    "id": "kx_namsan_tower",
+    "title": "Seoul, Seen From Namsan",
+    "description": "Splurged and went up Namsan. Took the stairs instead of the cable car.\nThe observation-deck railing is crammed with lovers' padlocks.\n\nSeoul spreads out endlessly below.\nSomewhere in all those lights — is Gangnam.",
+    "choices": [
+      {
+        "text": "Hang a padlock — with a wish written on it",
+        "result_text": "'Gangnam within five years. Kim Minjun.'\nI wrote it knowing how corny it was.\n\nThe 'click' of the lock closing felt strangely solid.\nEvery one of those other padlock owners had their own Gangnam too, I bet."
+      },
+      {
+        "text": "Just look at the city for a long while",
+        "result_text": "It hit me that not one of those countless lights was my room.\n\nAnd yet — that someday one of those Gangnam lights would be mine,\ntonight I decided to just believe it. Believing is free."
+      }
+    ]
+  },
+  {
+    "id": "kx_hangang_chimaek",
+    "title": "Ramyeon and Chimaek by the Han River",
+    "description": "The weather broke. I grabbed a picnic mat and headed to the Han River.\nThere's a long line at the convenience-store instant-ramyeon machine.\n\nThe mat next to mine has delivery chicken spread out.\nThe river glitters. The cheapest luxury in Seoul.",
+    "choices": [
+      {
+        "text": "Delivery chicken and beer — just for today",
+        "result_text": "A whole fried chicken on the mat, a can of beer.\nHan River chimaek. Nothing special, and somehow everything.\n\nOne piece of chicken and five years slipped my mind for a moment.\nI started wondering how I'd ever explain this to a foreign friend, and laughed."
+      },
+      {
+        "text": "Convenience-store ramyeon and a canned beer — best value",
+        "result_text": "Four thousand won of happiness from the ramyeon machine.\nThe river breeze blew across the broth.\n\nIt'd be a lie to say I didn't envy the chicken mat next door —\nbut tonight the Han River was fair to everyone."
+      },
+      {
+        "text": "Just watch the river and head home",
+        "result_text": "Sat for an hour without buying a thing.\nThe river was free.\n\nThe most expensive comfort was, today, the cheapest."
+      }
+    ]
+  }
+]

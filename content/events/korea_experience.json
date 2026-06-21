@@ -1,0 +1,152 @@
+[
+  {
+    "id": "kx_coin_noraebang",
+    "title": "천 원의 위로",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 6 },
+    "cooldown": 22,
+    "background": "gangnam_night",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "leisure"],
+    "description": "막차가 끊긴 밤, 골목 코인노래방.\n천 원에 네 곡. 부스 안은 혼자다.\n\n끈적한 소파, 탬버린 하나, 그리고 익숙한 발라드 번호.\n오늘 하루가 무거웠다.",
+    "choices": [
+      {
+        "text": "목청껏 부른다 — 옆 부스가 듣든 말든",
+        "effects": { "money": -2000, "mental": 9, "health": -1 },
+        "result_text": "두 곡을 더 넣었다. 화면에 88점이 떴고, 아무도 없는데 박수 효과음이 울렸다.\n\n노래방에서 우는 사람이 왜 그렇게 많은지, 오늘은 좀 알 것 같았다.\n일주일이 조금 가벼워졌다."
+      },
+      {
+        "text": "녹음 버튼을 누른다 — 나중에 들으려고",
+        "effects": { "money": -1000, "mental": 6 },
+        "result_text": "녹음 파일을 저장했다. 집에 가서 들으면 손발이 오그라들겠지만.\n\n그래도 오늘의 나를 어딘가 남겨두고 싶었다.\n천 원짜리 타임캡슐."
+      },
+      {
+        "text": "한 곡만 부르고 나온다",
+        "effects": { "money": -1000, "mental": 4 },
+        "result_text": "딱 한 곡. 더 부를 기운도 없었다.\n그래도 골목을 나오는 발걸음이 들어갈 때보단 가벼웠다."
+      }
+    ]
+  },
+  {
+    "id": "kx_pc_bang",
+    "title": "피방 라면",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 6 },
+    "cooldown": 22,
+    "background": "pc_bang",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "leisure"],
+    "description": "비 오는 오후, 갈 데가 없어 PC방에 들어갔다.\n시간당 천오백 원. 알바생이 자리 번호를 찍어준다.\n\n옆자리에서 누군가 시킨 컵라면 냄새가 모니터를 타고 넘어온다.\n— 피방 라면은 왜 더 맛있을까.",
+    "choices": [
+      {
+        "text": "라면 시키고 한 판 — 오늘은 쉬자",
+        "effects": { "money": -4500, "mental": 8, "health": -2 },
+        "result_text": "계란까지 풀어 끓인 라면에 게임 한 판. 한 판이 세 판이 됐다.\n\n죄책감 반, 행복 반.\n그래도 비 오는 날 피방만 한 도피처가 없다는 건 사실이었다."
+      },
+      {
+        "text": "게임은 됐고 자료 검색만 한다",
+        "effects": { "money": -1500, "mental": 2, "intelligence": 1 },
+        "result_text": "고화질 모니터로 채용 공고와 부동산 시세를 뒤졌다.\n집보다 빠른 인터넷, 천오백 원어치는 했다."
+      },
+      {
+        "text": "냄새만 맡고 나온다",
+        "effects": { "mental": 1 },
+        "result_text": "결국 들어가지 않았다. 천오백 원도 아껴야 했다.\n빗속을 걸으며 라면 냄새만 기억에 담았다."
+      }
+    ]
+  },
+  {
+    "id": "kx_claw_machine",
+    "title": "뽑기의 함정",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 6 },
+    "cooldown": 24,
+    "background": "gangnam_station",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "leisure"],
+    "description": "지하철역 출구 인형뽑기 코너.\n유리 안에 인기 캐릭터 인형이 쌓여 있다. 한 번에 천 원.\n\n\"두 번이면 뽑을 것 같은데\"\n그 생각이 드는 순간, 이미 함정이다.",
+    "choices": [
+      {
+        "text": "딱 한 번만",
+        "effects": { "money": -1000, "mental": 2 },
+        "result_text": "집게가 인형 머리를 잡았다가, 출구 직전에 툭 놓쳤다.\n\n\"저거 설계된 거야.\" 알면서도 분했다.\n그래도 천 원으로 끝낸 게 어디냐며 돌아섰다."
+      },
+      {
+        "text": "뽑힐 때까지 — 오기가 생겼다",
+        "effects": { "money": -9000, "mental": 3, "health": -1 },
+        "result_text": "만 원 가까이 썼다. 인형은 결국 나왔다.\n\n근데 이건 천 원짜리 인형이 아니라 만 원짜리 인형이 됐다.\n오기는 늘 비싸다. 강남도 이런 식이면 안 되는데."
+      },
+      {
+        "text": "사진만 찍고 지나간다",
+        "effects": { "mental": 2 },
+        "result_text": "유리에 비친 내 얼굴이랑 인형을 같이 찍었다.\n인형은 안 샀지만 SNS에 올릴 짤은 건졌다. 이게 이득이다."
+      }
+    ]
+  },
+  {
+    "id": "kx_namsan_tower",
+    "title": "남산에서 본 서울",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 10 },
+    "cooldown": 30,
+    "background": "namsan_tower",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "leisure", "landmark"],
+    "description": "큰맘 먹고 남산에 올랐다. 케이블카 대신 계단으로.\n전망대 난간엔 연인들의 자물쇠가 빼곡하다.\n\n발밑으로 서울이 끝없이 펼쳐진다.\n저 불빛 어딘가가 — 강남이다.",
+    "choices": [
+      {
+        "text": "자물쇠 하나를 건다 — 소원을 적어서",
+        "effects": { "money": -10000, "mental": 7 },
+        "result_text": "'5년 안에 강남. 김민준.'\n유치한 걸 알면서도 적었다.\n\n자물쇠를 채우는 '철컥' 소리가 이상하게 단단했다.\n저 수많은 자물쇠 주인들도, 다 각자의 강남이 있었겠지."
+      },
+      {
+        "text": "그냥 도시를 오래 본다",
+        "effects": { "mental": 5 },
+        "result_text": "저 수많은 불빛 중에 내 방 하나 없다는 게 실감 났다.\n\n그래도 — 언젠가 저 강남 불빛 하나가 내 것이 될 거라고,\n오늘 밤은 그냥 믿어보기로 했다. 믿는 건 공짜니까."
+      }
+    ]
+  },
+  {
+    "id": "kx_hangang_chimaek",
+    "title": "한강 라면과 치맥",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 8 },
+    "cooldown": 24,
+    "background": "hangang_riverside",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "leisure", "landmark"],
+    "description": "날이 풀렸다. 돗자리 하나 들고 한강에 나왔다.\n편의점 즉석 라면 기계 앞에 줄이 길다.\n\n옆 돗자리는 배달 치킨을 시켜 펼쳐 놓았다.\n강 위로 윤슬이 반짝인다. 서울에서 가장 싼 호사.",
+    "choices": [
+      {
+        "text": "배달 치킨에 맥주 — 오늘만큼은",
+        "effects": { "money": -25000, "mental": 10, "health": -2 },
+        "result_text": "돗자리에 펼친 후라이드 한 마리, 캔맥주.\n한강 치맥. 별거 아닌데 별거였다.\n\n치킨 한 조각에 5년이 잠깐 잊혔다.\n이 맛을 외국 친구한테 어떻게 설명하지, 하다가 웃었다."
+      },
+      {
+        "text": "편의점 라면에 캔맥주 — 이게 가성비지",
+        "effects": { "money": -6000, "mental": 7 },
+        "result_text": "라면 기계에서 뽑은 사천 원짜리 행복.\n강바람이 국물 위로 불었다.\n\n치킨 시킨 옆 돗자리가 부럽지 않았다고 하면 거짓말이지만 —\n그래도 오늘 밤 한강은 모두에게 공평했다."
+      },
+      {
+        "text": "그냥 강만 보다가 간다",
+        "effects": { "mental": 4 },
+        "result_text": "아무것도 안 사고 한 시간을 앉아 있었다.\n강은 공짜였다.\n\n가장 비싼 위로가, 오늘은 가장 쌌다."
+      }
+    ]
+  }
+]

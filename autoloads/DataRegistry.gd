@@ -39,6 +39,7 @@ const EVENT_PATHS = [
 	"res://content/events/anxiety_events.json",
 	"res://content/events/identity_events.json",
 	"res://content/events/work_events.json",
+	"res://content/events/korea_experience.json",
 	"res://content/events/friendship_events.json",
 	"res://content/events/rare_encounter_events.json",
 	"res://content/events/butterfly_events.json",
