@@ -30,19 +30,19 @@
   },
   {
     "id": "callback_vision_midcheck",
-    "title": "43세 비전 중간 점검",
+    "title": "5년 중간, 방향 점검",
     "category": "finance",
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": true,
     "conditions": {
-      "min_turn": 52,
+      "min_turn": 100,
       "flag": "long_vision_set"
     },
     "cooldown": 9999,
     "background": "cafe",
     "portrait": "player_normal",
-    "description": "카페 구석에서 예전에 썼던 노트를 꺼냈다. 43세의 나.\n\n그때 적은 것들을 다시 읽었다. 지금의 나는 그 방향으로 가고 있는가.\n\n솔직하게 대조해봤다.",
+    "description": "카페 구석에서 예전에 썼던 노트를 꺼냈다. 38세, 30억. 그 방향.\n\n5년 중 대략 절반쯤 왔다. 그때 적은 것들을 다시 읽었다. 지금의 나는 그 방향으로 가고 있는가.\n\n솔직하게 대조해봤다.",
     "choices": [
       {
         "text": "방향은 맞다. 속도가 문제일 뿐.",
@@ -50,10 +50,10 @@
         "result_text": "방향이 맞다면 속도는 조정할 수 있다.\n\n그때 쓴 문장 하나가 다시 눈에 들어왔다. 지금의 민준이 그 문장을 쓸 수 있었다. 그것만으로도 충분한 중간 점검이었다."
       },
       {
-        "text": "방향이 바뀌었다. 수정이 필요하다.",
+        "text": "방향이 흔들렸다. 다시 잡아야 한다.",
         "effects": { "mental": -2, "intelligence": 2 },
         "flags": ["vision_revised"],
-        "result_text": "수정했다. 비전은 고정된 게 아니었다.\n\n그때의 43세와 지금 생각하는 43세는 다르다. 더 구체적이고, 더 현실적이고, 이상하게도 더 진짜 같은 그림이 됐다."
+        "result_text": "수정했다. 비전은 고정된 게 아니었다.\n\n절반쯤 왔을 때 방향을 다시 잡는 것. 늦은 게 아니라, 남은 절반을 다르게 쓸 수 있다는 뜻이었다."
       }
     ]
   },

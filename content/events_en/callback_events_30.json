@@ -16,16 +16,16 @@
   },
   {
     "id": "callback_vision_midcheck",
-    "title": "Checking the 43-Year-Old Vision",
-    "description": "He pulled out the old notebook in a corner cafe. The version of himself at 43.\n\nHe reread what he'd written back then. Is the current him heading that direction?\n\nAn honest comparison.",
+    "title": "Halfway Check",
+    "description": "He found the old notebook in a corner cafe. Age 38. 3 billion won. That direction.\n\nRoughly halfway through the five years now. He reread what he'd written. Is the current him still heading that way?\n\nAn honest comparison.",
     "choices": [
       {
         "text": "Direction's right. Just a matter of speed.",
         "result_text": "If the direction is right, speed can be adjusted.\n\nOne sentence he'd written then caught his eye again. The Minjun of today could have written it. That was enough of a midpoint check."
       },
       {
-        "text": "The direction has shifted. Time to revise.",
-        "result_text": "He revised it. A vision isn't fixed.\n\nThe 43 he imagined then and the 43 he imagines now are different. More concrete. More honest. Strangely, more real."
+        "text": "The direction has drifted. Time to recalibrate.",
+        "result_text": "He revised it. A plan isn't fixed.\n\nAdjusting halfway through isn't being late — it means the second half gets spent differently."
       }
     ]
   },

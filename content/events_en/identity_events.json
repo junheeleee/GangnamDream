@@ -46,16 +46,16 @@
   },
   {
     "id": "identity_10year_vision",
-    "title": "Me at 43",
-    "description": "He paused his pen over a cafe notebook.\n\nFive years to 38. So where does 43 find him?\nPlanning the next target from Gangnam? Or still in the middle of another battle?\n\nThe picture wouldn't form.",
+    "title": "After 38",
+    "description": "He paused his pen over a cafe notebook.\n\nFive years to 38. If he clears 3 billion — then what?\nSetting the next goal from Gangnam? Or was that supposed to be the finish line?\n\nThe picture beyond it wouldn't form.",
     "choices": [
       {
-        "text": "He wrote down where he wants to be at 43. (mapped it out)",
-        "result_text": "A few lines. Rough, but better than nothing.\n\nWhen you can see five years ahead, today changes. People with direction and people without it spend the same hour very differently."
+        "text": "He wrote out what comes after 38. Not an ending — a checkpoint.",
+        "result_text": "A few lines. Rough, but better than nothing.\n\nWhen you can see past the finish line, the run changes. The moment Gangnam became a waypoint instead of a destination, the road he was on looked different."
       },
       {
         "text": "After 38, he'll figure it out. Right now comes first.",
-        "result_text": "He closed the notebook. Staying present is also a strategy.\n\nHe wasn't going to lose 33 chasing 43."
+        "result_text": "He closed the notebook. Staying present is also a strategy.\n\nNo point planning the transfer at a station he hasn't reached yet. Better to just stay on the train he's already riding."
       }
     ]
   },
