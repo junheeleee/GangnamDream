@@ -461,9 +461,6 @@ func _draw_roulette_top_table(sz: Vector2, font: Font) -> void:
 	_wheel_display.draw_line(dealer_pos + Vector2(18, 5), Vector2(sz.x * 0.40, sz.y * 0.64), Color(0, 0, 0, 0.22), 6.0)
 	_wheel_display.draw_string(font, dealer_pos + Vector2(-44, 56), "CROUPIER", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 1, 1, 0.24))
 
-	var chip_pos := Vector2(sz.x * 0.40, sz.y * 0.76)
-	_draw_table_chip_stack(chip_pos, _bet_amount if _bet_amount > 0 else _stake, font)
-
 func _draw_table_info_panel(rect: Rect2, title: String, body: String, sub: String, accent: Color, font: Font) -> void:
 	_wheel_display.draw_rect(Rect2(rect.position + Vector2(0, 5), rect.size), Color(0, 0, 0, 0.26), true)
 	_wheel_display.draw_rect(rect, Color(0.015, 0.025, 0.018, 0.82), true)
@@ -484,42 +481,6 @@ func _draw_winning_pocket_marker(rect: Rect2, n: int, font: Font) -> void:
 	_wheel_display.draw_arc(center, 23.0, 0.0, TAU, 64, Color("#f7e3a1"), 2.2)
 	_wheel_display.draw_string(font, center + Vector2(-18.0, 7.0), str(n),
 		HORIZONTAL_ALIGNMENT_CENTER, 36.0, 18, Color("#fff7db"))
-
-func _chip_color(stake: int) -> Color:
-	match stake:
-		10_000:
-			return Color("#d33a35")
-		50_000:
-			return Color("#2f65d9")
-		100_000:
-			return Color("#23a66f")
-		500_000:
-			return Color("#7a4fd9")
-		1_000_000:
-			return Color("#d9a12f")
-		_:
-			return Color("#d33a35")
-
-func _draw_table_chip_stack(pos: Vector2, stake: int, font: Font) -> void:
-	var raw_tex: Variant = CHIP_TEX_BY_STAKE.get(stake, null)
-	var chip_size := 34.0
-	if raw_tex is Texture2D:
-		var tex := raw_tex as Texture2D
-		for i in range(4):
-			var chip_pos := pos + Vector2(float(i) * 2.2 - 12.0, -float(i) * 4.0)
-			var dst := Rect2(chip_pos - Vector2(chip_size * 0.5, chip_size * 0.5), Vector2(chip_size, chip_size))
-			_wheel_display.draw_texture_rect(tex, Rect2(dst.position + Vector2(0, 2), dst.size), false, Color(0, 0, 0, 0.22))
-			_wheel_display.draw_texture_rect(tex, dst, false)
-	else:
-		var col := _chip_color(stake)
-		for i in range(4):
-			var fallback_pos := pos + Vector2(float(i) * 2.2 - 12.0, -float(i) * 4.0)
-			_wheel_display.draw_circle(fallback_pos + Vector2(0, 2), chip_size * 0.33, Color(0, 0, 0, 0.30))
-			_wheel_display.draw_circle(fallback_pos, chip_size * 0.33, col)
-			_wheel_display.draw_arc(fallback_pos, chip_size * 0.24, 0.0, TAU, 28, Color("#f7f2df"), 2.0)
-			_wheel_display.draw_circle(fallback_pos, chip_size * 0.13, col.darkened(0.20))
-	_wheel_display.draw_string(font, pos + Vector2(-66.0, 25.0), GameState.format_money(float(stake)),
-		HORIZONTAL_ALIGNMENT_CENTER, 122.0, 11, Color("#f8e7b0"))
 
 func _selected_bet_label() -> String:
 	if _bet_type < 0:
