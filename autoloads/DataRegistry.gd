@@ -46,6 +46,8 @@ const EVENT_PATHS = [
 	"res://content/events/korea_survival.json",
 	"res://content/events/korea_climate.json",
 	"res://content/events/korea_geopolitics.json",
+	"res://content/events/korea_fortune.json",
+	"res://content/events/korea_admin.json",
 	"res://content/events/friendship_events.json",
 	"res://content/events/rare_encounter_events.json",
 	"res://content/events/butterfly_events.json",

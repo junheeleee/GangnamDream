@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kx_hospital_visit",
+    "title": "The Local Clinic",
+    "description": "Sore throat for a few days.\nENT clinic down the street. Checked in, waited ten minutes.\n\nThree-minute consultation, prescription in hand, straight to the pharmacy next door.\nKorean healthcare is fast. And cheap.",
+    "choices": [
+      {
+        "text": "Fill the prescription and grab some vitamins while you're there",
+        "result_text": "Pharmacy: ₩4,800. Consultation: ₩4,500. Vitamins: ₩8,000.\n\nForeign friends wouldn't believe these prices.\nNational health insurance makes it possible. I use it like it's nothing — but it isn't."
+      },
+      {
+        "text": "Just get the prescription — minimize cost",
+        "result_text": "Consultation ₩4,500, meds ₩4,800 — ₩9,300 total.\n\nLearned something: in this country, go to the clinic immediately when you're sick.\nWaiting it out costs more."
+      }
+    ]
+  },
+  {
+    "id": "kx_tax_refund",
+    "title": "Year-End Tax Settlement",
+    "description": "January — the company sends a request for year-end tax settlement documents.\nNTS Hometax opens with a long list of deduction categories.\n\nMedical expenses, tuition, card spending, monthly rent...\nHow much you get back depends on how carefully you claim them.",
+    "choices": [
+      {
+        "text": "Claim every deduction carefully",
+        "result_text": "Monthly rent tax credit, card income deduction, medical expenses — all of it.\nRefund estimate: ₩150,000.\n\nMoney the government owes you. If you're too lazy to claim it, it just disappears.\nPeople who know this system keep more."
+      },
+      {
+        "text": "Assume the company handles it — submit the basics",
+        "result_text": "Just filed the basics. Refund estimate: ₩0.\n\nFound out later — just claiming the rent credit would have gotten back hundreds of thousands.\nNext year, I'll do it properly."
+      }
+    ]
+  },
+  {
+    "id": "kx_health_insurance",
+    "title": "Health Insurance Bill",
+    "description": "KakaoPay notification: health insurance bill arrived.\nLocally insured (not through employer). No income, but it pulls out every month.\n\nWhen I had a job, the company covered half.\nNow I'm unemployed — I pay all of it.",
+    "choices": [
+      {
+        "text": "Pay before the due date",
+        "result_text": "₩89,000. One click and it's gone.\n\nThe insurance is why clinic visits are cheap.\nI know that. Still — ₩89,000 is a lot when you're not earning."
+      },
+      {
+        "text": "Look into an installment payment plan",
+        "result_text": "Opened the health insurance app. Installment payment: available.\nCan split into three payments.\n\nThat one application bought a month of breathing room.\nThe system gives you as much as you know to ask for."
+      }
+    ]
+  },
+  {
+    "id": "kx_real_estate_jeonse",
+    "title": "Jeonse Contract",
+    "description": "Sitting at the real estate office.\nA jeonse contract.\n\nJeonse only exists in Korea.\nPay 60–80% of the property value as a deposit — and live there rent-free.\n\nForeign friends take a while to understand how that works.",
+    "choices": [
+      {
+        "text": "Get the fixed-date stamp and register the lease — cover all bases",
+        "result_text": "Pulled the registry, checked for prior claims, got the fixed-date stamp, registered the leasehold.\nThe agent said 'you really know your stuff.'\n\nIf the tenant doesn't protect themselves, this money can vanish.\nIn Korea's jeonse system, knowledge is survival."
+      },
+      {
+        "text": "Trust the agent and sign",
+        "result_text": "The agent handled it. I signed the documents.\n\nChecked afterward — the fixed-date stamp required a separate trip to the community center.\nLuckily caught it in time. Jeonse fraud isn't just something that happens to other people."
+      }
+    ]
+  },
+  {
+    "id": "kx_convenience_store_job",
+    "title": "Convenience Store Interview",
+    "description": "Part-time job posting. ₩9,860/hr — minimum wage.\nIncludes four major insurances plus weekly holiday pay, so the effective rate is a little higher.\n\nThe store manager skimmed my resume.\n'Are you currently working any other part-time jobs?' First question.",
+    "choices": [
+      {
+        "text": "Take the job",
+        "result_text": "Hired. 6 AM to 11 AM shift.\n\nFirst time I'd seen Seoul at dawn. Office workers heading out, students heading to school.\nThe convenience store is the capillary of Korea's 24-hour society. I worked at the very end of it."
+      },
+      {
+        "text": "Hold out for something better",
+        "result_text": "Thought about it, then said no.\n\nOn this hourly rate, I'd barely breathe. I need something that builds toward something.\nI don't have that yet. And while I look, the bank account shrinks."
+      }
+    ]
+  }
+]

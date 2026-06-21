@@ -1,0 +1,47 @@
+[
+  {
+    "id": "kx_saju_cafe",
+    "title": "The Saju Café",
+    "description": "A saju (四柱) fortune-reading café in Hongdae.\n\"Give me your birth year, month, day, and time.\" The reader opens their laptop.\n\nI think it's superstition. And yet I came.\nNo job, no investment gains — I just needed something to lean on.",
+    "choices": [
+      {
+        "text": "Ask for the full reading — money, career",
+        "result_text": "'Your wealth direction is favorable this year — but you have to be ready to receive it.'\n\nFifty thousand won's worth of words. Somehow I felt lighter walking out.\nWas it the saju working, or just deciding to believe because I'd already paid? Hard to tell."
+      },
+      {
+        "text": "Listen politely, leave saying 'I'll keep it in mind'",
+        "result_text": "'A big change could come within two years,' the reader said.\n\n'Of course it could,' I thought — but my step was a little lighter walking out.\nSometimes you want to believe even when you know it might not be true."
+      }
+    ]
+  },
+  {
+    "id": "kx_tarot",
+    "title": "Tarot",
+    "description": "A friend pulls up a tarot app.\n\"Draw your card for today.\" Half joking.\n\nThe Emperor card comes up.\nSymbol of leadership, decisiveness, material success — so it says.",
+    "choices": [
+      {
+        "text": "Take it as a good sign — decide to believe it",
+        "result_text": "Decided to believe it. No downside I could think of.\n\nBecame a kind of self-suggestion. I moved through the day a little more confidently than usual.\nWhether the tarot was right or wrong mattered less than the way I showed up."
+      },
+      {
+        "text": "'It's just an app' — scroll past",
+        "result_text": "'The Emperor, huh.' I laughed and closed the app.\n\nBut why does it keep coming back to me. The Emperor.\nEven when you try not to read meaning into things — people can't stop looking for patterns."
+      }
+    ]
+  },
+  {
+    "id": "kx_yearly_fortune",
+    "title": "New Year's Fortune",
+    "description": "January — the portal homepage has a new-year fortune reading.\nFree. Just enter your birth year.\n\nI didn't mean to click it. My hand moved first.\nI noticed I was hoping for something.",
+    "choices": [
+      {
+        "text": "Read this year's fortune",
+        "result_text": "'This year is one of change. Act boldly and opportunity will find you.'\n\nAlways skewed positive, I know. I saved it anyway.\nI think I understand a little why Koreans check this every January."
+      },
+      {
+        "text": "Close the tab — I'll make my own fortune",
+        "result_text": "Closed it.\n\nBetter to spend that time on one more action than reading fortune predictions, I thought.\nThough honestly — part of it might have been that I was afraid to read it."
+      }
+    ]
+  }
+]
