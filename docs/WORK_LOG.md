@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (우정 이벤트 콜백 체인 4종 — callback_events_32)
+
+### 수정
+- `content/events/callback_events_32.json` 신규 — 우정 플래그 회수 콜백 4종:
+  - `callback_reached_out_echo` ← `reached_out_to_friend` (t≥32): "야, 밥 먹자" 이후 실제 어떻게 됐나 — 지속된 관계 vs 한 번의 의무
+  - `callback_friends_world_echo` ← `accepted_friends_growth` (t≥40): 친구 결혼식 낯선 얼굴 수용 이후, 오히려 더 가까워지는 씬
+  - `callback_startup_friend_update` ← `celebrated_friends_success` (t≥48): 시리즈 A 친구 이후 소식 — 시리즈 B 성공 or 런웨이 부족
+  - `callback_drift_accepted_now` ← `accepted_friendship_change` (t≥52): 반년만에 만남 수용 이후 다음 만남이 훨씬 자연스러워진 씬
+- `content/events_en/callback_events_32.json` — EN 오버레이 동시 추가
+- `autoloads/DataRegistry.gd` — 등록
+- 총 이벤트: 1095 → 1099개. audit ERROR 0/WARNING 0.
+
+### 의도
+- friendship_events.json에서 설정한 4개 플래그(reached_out_to_friend / accepted_friends_growth / celebrated_friends_success / accepted_friendship_change)가 회수 이벤트 없이 끊겨 있던 서사 공백 해소
+- "먼저 연락하면 뭔가 달라진다"는 선택이 실제 게임 내에서 결실을 보도록
+
 ## 2026-06-21 (직장/이직 루트 전용 엔딩 보강 — career_climber)
 
 ### 수정

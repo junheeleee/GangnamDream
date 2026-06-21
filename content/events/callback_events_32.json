@@ -1,0 +1,117 @@
+[
+  {
+    "id": "callback_reached_out_echo",
+    "title": "그 연락 이후",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 32,
+      "flag": "reached_out_to_friend"
+    },
+    "cooldown": 9999,
+    "background": "pojangmacha",
+    "portrait": "player_normal",
+    "description": "\"야, 밥 한번 먹자\"고 먼저 연락한 뒤로 몇 달이 지났다.\n\n그 한 번이 어떻게 됐는지 — 지금 생각해보면, 이후가 더 중요했다.\n\n처음 연락했을 때의 어색함이 돌파구가 됐는지,\n아니면 한 번 의무처럼 만나고 다시 잠잠해졌는지.",
+    "choices": [
+      {
+        "text": "그 이후로 더 자주 보게 됐다",
+        "effects": { "mental": 7, "social_skill": 1 },
+        "flags": ["friendship_renewed"],
+        "result_text": "먼저 연락하는 게 별 거 아닌 것 같았는데, 그게 분기점이었다.\n\n상대도 연락을 기다리고 있었던 것 같았다. 단톡이 다시 울리기 시작했다.\n\n어색해서 한 연락 하나가, 결국 이쪽이 먼저였어야 했다는 걸 알게 했다."
+      },
+      {
+        "text": "한 번 만나고 또 잠잠해졌다",
+        "effects": { "mental": -2 },
+        "result_text": "\"다음엔 또 보자.\" 헤어지면서 했던 말.\n\n그 '다음'은 아직 오지 않았다.\n\n먼저 연락했다는 것 자체는 잘한 일이었다. 그 이후가 어떻게 됐든."
+      }
+    ]
+  },
+  {
+    "id": "callback_friends_world_echo",
+    "title": "친구의 세계, 그 후",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 40,
+      "flag": "accepted_friends_growth"
+    },
+    "cooldown": 9999,
+    "background": "street",
+    "portrait": "player_normal",
+    "description": "결혼식 피로연에서 모르는 얼굴들을 보며 — 친구가 자기 세계를 잘 살고 있다는 걸 인정했다.\n\n그 이후로 그 친구와 이상하게 더 가까워진 느낌이 든다.\n뭔가 하나가 풀린 것 같은.\n\n오늘 그 친구에게서 연락이 왔다.",
+    "choices": [
+      {
+        "text": "만났다. 그 모르는 얼굴들 이야기도 했다",
+        "effects": { "mental": 8, "social_skill": 1 },
+        "flags": ["friendship_deepened_after_wedding"],
+        "result_text": "\"결혼식 때 네 친구들 진짜 많더라.\"\n\"응, 너는 어때? 요즘.\"\n\n그 질문이 예전보다 자연스러웠다.\n\n친구의 세계가 넓어진 걸 진심으로 좋다고 받아들인 순간부터,\n{name}도 그 세계의 일부가 됐다."
+      },
+      {
+        "text": "답장만 했다. 아직 만나진 못 했다",
+        "effects": { "mental": 3 },
+        "result_text": "\"언제 봐야지.\" 그 말이 여전히 문자에 있다.\n\n아직 날짜는 안 잡혔다. 근데 연락이 오간다는 것 자체가 달라진 것이었다.\n\n천천히 가도 되는 관계도 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_friend_update",
+    "title": "50억 그 후",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 48,
+      "flag": "celebrated_friends_success"
+    },
+    "cooldown": 9999,
+    "background": "street",
+    "portrait": "player_normal",
+    "description": "시리즈 A 50억을 유치했던 대학 동기.\n진심으로 축하했던 그 친구.\n\n그 이후로 어떻게 됐나 궁금해서 뉴스를 찾아봤다.\n스타트업 업계 소식이 나왔다.",
+    "choices": [
+      {
+        "text": "잘 되고 있더라 — 시리즈 B까지 갔다",
+        "effects": { "mental": 3, "intelligence": 1 },
+        "result_text": "시리즈 B 120억.\n\n또 기사가 났다. 이번에도 복잡한 마음이 없었다면 거짓말이다.\n근데 이번엔 조금 다른 감정도 있었다.\n\n\"나도 언젠가\"가 아니라, \"다른 방식으로라도\"라는 생각.\n친구의 성공에서, 이젠 자기 방향을 본다."
+      },
+      {
+        "text": "어렵다는 소식이더라 — 런웨이가 부족하다고",
+        "effects": { "mental": -2, "intelligence": 1 },
+        "result_text": "스타트업이 다 잘 되는 건 아니었다.\n\n연락해야 하나 잠깐 생각했다. 결국 보냈다. \"형, 요즘 어때?\"\n잠깐 뒤 답장이 왔다. \"힘들다. 근데 해볼 만 해.\"\n\n진심으로 축하했던 사람에게, 힘들 때도 연락이 된다."
+      }
+    ]
+  },
+  {
+    "id": "callback_drift_accepted_now",
+    "title": "달라진 것과 달라지지 않은 것",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 52,
+      "flag": "accepted_friendship_change"
+    },
+    "cooldown": 9999,
+    "background": "pojangmacha",
+    "portrait": "player_normal",
+    "description": "반년 만에 만났던 그 친구와, 오늘 또 만났다.\n이번엔 훨씬 금방 잡힌 약속이었다.\n\n어색함이 풀리는 데 한 시간 걸렸던 그때와 달리,\n오늘은 앉자마자 말이 됐다.",
+    "choices": [
+      {
+        "text": "달라진 것과 달라지지 않은 것을 자연스럽게 나눴다",
+        "effects": { "mental": 9, "social_skill": 1 },
+        "flags": ["friendship_found_new_rhythm"],
+        "result_text": "\"야, 요즘 뭐 재밌어?\"\n그 질문이 자연스럽게 나왔다.\n\n공통점이 없어도 대화가 됐다. 어쩌면 그게 원래 친구란 거였던 것 같다.\n달라진 것들을 나눌 수 있는 사람.\n\n어색함이 우정의 소멸 신호가 아니라는 걸 이제 안다."
+      },
+      {
+        "text": "크게 달라진 건 없었다 — 만남 자체가 됐다",
+        "effects": { "mental": 5 },
+        "result_text": "\"요즘은?\" \"뭐, 그냥.\" \"나도.\"\n\n말이 많지 않았는데 불편하지 않았다.\n\n어떤 관계는 내용보다 형식이 중요한 것 같기도 하다.\n만난다는 사실 자체가 이미 뭔가를 말해주는 것처럼."
+      }
+    ]
+  }
+]

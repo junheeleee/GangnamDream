@@ -1,0 +1,62 @@
+[
+  {
+    "id": "callback_reached_out_echo",
+    "title": "After That Reach",
+    "description": "Months have passed since he texted first. \"Hey, let's grab a meal.\"\n\nThe question now is what that message turned into. Whether the first awkward reach was the start of something — or just an obligation both sides checked off.",
+    "choices": [
+      {
+        "text": "They started meeting more often after that",
+        "result_text": "Reaching out first seemed small. Turned out to be the turning point.\n\nThe other person had been waiting for someone to go first too. The group chat started buzzing again.\n\nThat one awkward message was the thing that needed to happen. He just had to be the one who went first."
+      },
+      {
+        "text": "One meal. Then quiet again.",
+        "result_text": "\"Let's do this again soon.\" That's what they said when they parted.\n\nThe \"soon\" still hasn't come.\n\nBut reaching out in the first place was the right call, regardless of what came after."
+      }
+    ]
+  },
+  {
+    "id": "callback_friends_world_echo",
+    "title": "His World, Revisited",
+    "description": "At the wedding reception, seeing a table of strangers — he accepted that his friend had built a whole world without him. And meant it.\n\nSomething about that shifted things. They've felt closer since, in a way that's hard to explain.\n\nToday his friend reached out.",
+    "choices": [
+      {
+        "text": "They met up. Even talked about the strangers at the wedding.",
+        "result_text": "\"You had so many people at your wedding.\"\n\"Yeah. How have you been?\"\n\nThat question came easier than before.\n\nThe moment he genuinely accepted his friend's world expanding — he became part of it."
+      },
+      {
+        "text": "Just texted back. Haven't met yet.",
+        "result_text": "\"We should catch up properly.\" That text is still sitting there.\n\nNo date set yet. But they're in contact — and that's already different from before.\n\nSome relationships are fine at a slow pace."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_friend_update",
+    "title": "The Series A, Revisited",
+    "description": "The university friend who closed a ₩5 billion Series A.\nThe one he genuinely congratulated.\n\nCurious how things went, he looked it up.\nSomething came up in the news.",
+    "choices": [
+      {
+        "text": "Doing well — closed a Series B",
+        "result_text": "Series B. ₩12 billion.\n\nAnother article. Complicated feelings? Sure — he'd be lying if he said no.\nBut something else was there too this time.\n\nNot 'someday me too' — more like 'in my own way too.'\nHis friend's success now shows him his own direction, not just the gap."
+      },
+      {
+        "text": "Struggling — runway's running thin",
+        "result_text": "Not every startup makes it.\n\nHe hesitated. Would 'you okay?' feel weird to send?\n\nHe sent it anyway. \"Hey, how's it going?\"\nA short reply: \"It's rough. But still fighting.\"\n\nWhen you've celebrated someone genuinely, they pick up when things get hard too."
+      }
+    ]
+  },
+  {
+    "id": "callback_drift_accepted_now",
+    "title": "What Changed and What Didn't",
+    "description": "The friend he'd seen for the first time in six months — he saw again today.\nThe plans came together much faster this time.\n\nLast time it took an hour to shake the awkwardness. Today they were talking the moment they sat down.",
+    "choices": [
+      {
+        "text": "They talked through what had changed and what hadn't",
+        "result_text": "\"What are you actually into these days?\"\nThat question came naturally.\n\nNo shared interests required — the conversation still worked. Maybe that's always what friendship was: someone you can hand the changed parts of yourself to.\n\nHe knows now: awkwardness isn't the death of a friendship. Just a gap that needed crossing."
+      },
+      {
+        "text": "Nothing much changed — but the meeting itself was enough",
+        "result_text": "\"How've you been?\" \"Fine, you?\" \"Same.\"\n\nNot a lot of words. But comfortable ones.\n\nSome relationships are more about form than content, maybe. The fact of meeting saying more than whatever gets said."
+      }
+    ]
+  }
+]
