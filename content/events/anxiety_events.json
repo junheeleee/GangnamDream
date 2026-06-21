@@ -1,0 +1,186 @@
+[
+  {
+    "id": "anxiety_friend_baby",
+    "title": "축하해야 할 소식",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "conditions": {
+      "min_turn": 20
+    },
+    "cooldown": 40,
+    "background": "cafe",
+    "portrait": "player_normal",
+    "description": "고등학교 친구에게서 카톡이 왔다.\n「야 나 임신했어. 다음 달에 돌잔치 아니고… 아 그 전에 결혼식 먼저. 하하.」\n\n축하 이모티콘을 보내면서 민준은 잠깐 멈췄다.\n같은 나이다. 서른셋. 그 친구는 이미 다음 챕터로 넘어가고 있다.",
+    "choices": [
+      {
+        "text": "진심으로 축하한다. 내 길이 있다.",
+        "effects": { "mental": 3, "social_skill": 1 },
+        "flags": ["accepted_different_path"],
+        "result_text": "「진짜 축하해. 잘 될 거야.」\n\n전화를 끊고 나서, 묘하게 마음이 가벼웠다. 다른 사람의 행복이 내 실패가 아니라는 걸 알면서도, 그걸 실제로 느끼는 건 달랐다."
+      },
+      {
+        "text": "축하하긴 했는데... 뭔가 조급해졌다",
+        "effects": { "mental": -5 },
+        "flags": ["comparison_anxiety_triggered"],
+        "result_text": "이모티콘 몇 개 보내고 카톡창을 닫았다.\n\n서른셋. 대체 나는 뭘 하고 있나. 잠깐 그런 생각이 지나갔다. 지워야 할 생각이었지만, 쉽게 안 지워졌다."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_marriage_pressure",
+    "title": "명절의 그 질문",
+    "category": "family",
+    "rarity": "common",
+    "weight": 1.5,
+    "conditions": {
+      "min_turn": 12
+    },
+    "cooldown": 24,
+    "background": "dad_house",
+    "portrait": "player_normal",
+    "description": "명절 연휴. 친척 어른들이 모인 자리.\n\n\"민준아, 나이가 몇인데 아직 혼자야? 이제 결혼 생각 좀 해야지.\"\n옆에 앉은 사촌 형은 슬그머니 눈길을 피했다.\n\n이 자리에서 뭔가 말해야 한다.",
+    "choices": [
+      {
+        "text": "\"열심히 준비 중이에요. 기반 잡으면 할게요.\"",
+        "effects": { "mental": -3, "reputation": 1 },
+        "result_text": "어른들이 고개를 끄덕였다. \"그래, 기반이 중요하지.\"\n\n무난하게 넘어갔다. 하지만 집으로 돌아오는 차 안에서 '기반'이라는 단어가 계속 머릿속을 맴돌았다. 그게 얼마나 걸릴지, 아무도 모른다."
+      },
+      {
+        "text": "\"저는 지금 다른 목표가 있어요.\" (단호하게)",
+        "effects": { "mental": 2, "reputation": -2 },
+        "flags": ["asserted_own_timeline"],
+        "result_text": "잠깐 정적이 흘렀다. 어른들은 어색하게 화제를 돌렸다.\n\n괜히 긁어 부스럼을 만든 건가 싶었지만, 한편으로는 홀가분했다. 내 삶의 일정표는 내가 정한다."
+      },
+      {
+        "text": "(말없이 밥만 먹는다)",
+        "effects": { "mental": -6 },
+        "result_text": "어른들은 더 몰아붙였다. \"왜 말이 없어? 남자가 말을 해야지.\"\n\n그냥 음식에만 집중했다. 어떤 말도 정답이 없는 자리라는 걸 알고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_child_cost_calc",
+    "title": "육아비용 계산기",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "conditions": {
+      "min_turn": 30
+    },
+    "cooldown": 32,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "description": "뉴스 기사를 보다가 손이 멈췄다.\n「자녀 1인당 양육비 평균 3억 2천만 원」\n\n민준은 잠깐 계산기를 켰다. 대학까지 보내면 월 얼마가 드나. 사교육까지 더하면.\n\n숫자가 쌓일수록 가슴 한쪽이 무거워졌다.",
+    "choices": [
+      {
+        "text": "이 숫자가 내가 강남을 목표로 하는 이유다",
+        "effects": { "mental": -2, "investment_skill": 1 },
+        "flags": ["child_cost_motivated"],
+        "result_text": "3억 2천. 그냥 나를 위한 돈이 아니다.\n\n언젠가 아이를 키우려면, 지금 이 싸움에서 지면 안 된다. 두렵지만, 동시에 목표가 선명해지는 기분이었다."
+      },
+      {
+        "text": "아이는 안 낳는 게 맞는 것 같다",
+        "effects": { "mental": -4 },
+        "flags": ["childfree_leaning"],
+        "result_text": "이 나라에서 아이를 키운다는 게 무슨 의미인지, 숫자가 증명해주고 있었다.\n\n\"낳지 않겠다\"는 말은 포기가 아니라 선택일 수도 있다. 그렇게 생각하기로 했다."
+      },
+      {
+        "text": "(계산기를 닫는다. 지금은 생각하고 싶지 않다.)",
+        "effects": { "mental": -1 },
+        "result_text": "계산기를 닫았다. 지금 당장 풀 수 있는 문제가 아니다.\n\n하지만 그 숫자는 브라우저를 닫은 뒤에도 어딘가에 남아있었다."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_pension_crisis",
+    "title": "연금 고갈, 2055년",
+    "category": "finance",
+    "rarity": "common",
+    "weight": 1.3,
+    "conditions": {
+      "min_turn": 8
+    },
+    "cooldown": 36,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "description": "뉴스 헤드라인이 눈에 들어왔다.\n「국민연금 2055년 완전 고갈 전망... 지금 서른 세대는 한 푼도 못 받을 수도」\n\n2055년. 민준이 예순다섯 살이 되는 해다.\n\n그냥 지나치기엔 숫자가 너무 구체적이었다.",
+    "choices": [
+      {
+        "text": "국가가 해결하겠지. 지금 내 일에 집중한다.",
+        "effects": { "mental": 1 },
+        "result_text": "정치인들이 알아서 해결하겠지. 그렇게 생각하기로 했다.\n\n하지만 \"국민연금 믿지 말고 스스로 준비하라\"는 말이 오래전부터 들려오고 있었다는 것도 알고 있었다."
+      },
+      {
+        "text": "스스로 노후 자금을 만들어야 한다. 더 절박해졌다.",
+        "effects": { "mental": -3, "investment_skill": 1 },
+        "flags": ["pension_anxiety_awakened"],
+        "result_text": "30년 뒤까지 스스로 버텨야 한다면, 지금 쌓는 자산의 의미가 달라진다.\n\n불안이 커졌지만, 동시에 방향이 생겼다. 기댈 곳이 없다는 건, 내가 직접 만들어야 한다는 뜻이기도 하다."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_parents_aging",
+    "title": "아버지의 무릎",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "conditions": {
+      "min_turn": 24
+    },
+    "cooldown": 48,
+    "background": "dad_house",
+    "portrait": "player_normal",
+    "description": "오랜만에 집에 내려갔다. 현관에서 맞이한 아버지가 계단을 내려오다 잠깐 멈칫했다.\n\n\"무릎이 좀 그래서. 요즘.\"\n\n아버지가 언제부터 계단에서 저런 표정을 지었는지, 민준은 몰랐다.",
+    "choices": [
+      {
+        "text": "\"아버지, 병원 한번 같이 가요.\"",
+        "effects": { "mental": -2, "health": 1 },
+        "flags": ["proactive_parent_care"],
+        "cast_effects": {
+          "father": { "affinity": 8 }
+        },
+        "result_text": "아버지가 손을 내저었다. \"괜찮아, 괜찮아.\" 그래도 병원 예약을 잡았다.\n\n집으로 돌아오는 버스에서, 아버지가 늙고 있다는 걸 처음으로 실감했다. 손을 놓기 전에 해야 할 것들이 있었다."
+      },
+      {
+        "text": "\"... 무리하지 마세요.\" (그게 전부였다)",
+        "effects": { "mental": -5 },
+        "result_text": "더 할 말을 찾지 못했다. 아버지는 \"괜찮다\"고 했고, 민준은 그 말을 믿기로 했다.\n\n서울로 올라오는 버스 안에서, 그 장면이 자꾸 머릿속에 떠올랐다. 다음엔 더 자주 내려와야겠다고 생각했다."
+      },
+      {
+        "text": "(부모님 노후 비용을 처음으로 검색해봤다)",
+        "effects": { "mental": -3, "intelligence": 1 },
+        "flags": ["parent_care_researched"],
+        "result_text": "검색창에 「부모님 노후자금 준비」를 쳤다. 숫자들이 쏟아졌다.\n\n월 200만 원. 요양원 비용. 간병인 비용. 민준이 30억을 모아야 하는 이유에 하나가 더 추가됐다."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_early_retirement_witness",
+    "title": "53세의 퇴직 통보",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "conditions": {
+      "min_turn": 36,
+      "has_job": true
+    },
+    "cooldown": 48,
+    "background": "office",
+    "portrait": "player_normal",
+    "description": "팀 선배가 회사를 떠났다. 53세. 명예퇴직 권고였다.\n\n인사팀에서는 '자발적 퇴직'이라고 했지만, 사무실 사람들은 다 알고 있었다.\n\n선배가 마지막으로 자리를 정리하던 뒷모습이 계속 머릿속에 남았다. 그 나이면 아직 아이들 대학도 안 끝났을 텐데.",
+    "choices": [
+      {
+        "text": "이게 직장인의 현실이다. 더 빨리 탈출해야 한다.",
+        "effects": { "mental": -4, "investment_skill": 1 },
+        "flags": ["corporate_escape_urgent"],
+        "result_text": "선배를 보낸 자리를 보면서 마음이 굳어졌다.\n\n20년 다닌 사람도 저렇게 끝난다. 직장은 안전망이 아니다. 민준은 오늘 퇴근하고 포트폴리오를 다시 열어봤다."
+      },
+      {
+        "text": "(선배에게 따로 문자를 보냈다. \"수고하셨습니다.\")",
+        "effects": { "mental": -2, "social_skill": 1 },
+        "result_text": "선배는 한참 뒤에 답장을 보내왔다. \"고마워. 잘 지내.\"\n\n그 두 마디가 묘하게 마음에 걸렸다. 잘 지낼 수 있을까. 53세에, 빈손으로."
+      }
+    ]
+  }
+]

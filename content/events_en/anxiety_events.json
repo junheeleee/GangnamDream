@@ -1,0 +1,104 @@
+[
+  {
+    "id": "anxiety_friend_baby",
+    "title": "The Text He Didn't Expect",
+    "description": "A KakaoTalk message from a high school friend.\n\"Hey, I'm pregnant. Wedding first, then baby shower next month. Haha.\"\n\nMinjun sent a congratulations emoji and paused.\nSame age. Thirty-three. That friend is already moving into the next chapter.",
+    "choices": [
+      {
+        "text": "Genuinely happy for her. I have my own path.",
+        "result_text": "\"Congrats, seriously. You'll be great.\"\n\nAfter hanging up, he felt strangely lighter. He knew other people's happiness wasn't his failure — but feeling it was something different."
+      },
+      {
+        "text": "He congratulated her, but felt a creeping urgency",
+        "result_text": "He sent a few emojis and closed the chat.\n\nThirty-three. What am I even doing. The thought passed through him. He tried to let it go. It didn't leave easily."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_marriage_pressure",
+    "title": "That Question at Every Holiday",
+    "description": "A family gathering during the holiday. All the relatives crammed into one room.\n\n\"Minjun, how old are you now and still alone? You need to think about marriage.\"\nThe cousin sitting next to him quietly looked away.\n\nHe has to say something.",
+    "choices": [
+      {
+        "text": "\"I'm working on it. Once I get stable, I will.\"",
+        "result_text": "The relatives nodded. \"Right, stability is important.\"\n\nHe got through it smoothly. But on the ride home, the word 'stable' kept echoing. How long that would take — nobody knew."
+      },
+      {
+        "text": "\"I have different goals right now.\" (firmly)",
+        "result_text": "A brief silence followed. The elders awkwardly changed the subject.\n\nHe wondered if he'd stirred up unnecessary drama — but he also felt lighter. His life's timeline was his to set."
+      },
+      {
+        "text": "(Says nothing. Just keeps eating.)",
+        "result_text": "They pushed harder. \"Why so quiet? Speak up.\"\n\nHe just focused on the food. He knew there was no right answer in that room."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_child_cost_calc",
+    "title": "The Parenting Cost Calculator",
+    "description": "He stopped mid-scroll at a news article.\n\"Average cost to raise one child: 320 million won.\"\n\nMinjun opened a calculator. Tuition through university. Private lessons on top.\n\nAs the numbers stacked up, something in his chest grew heavy.",
+    "choices": [
+      {
+        "text": "This is why I'm fighting for Gangnam.",
+        "result_text": "320 million. This isn't just money for himself.\n\nIf he ever wants to raise a child, he can't afford to lose this fight now. Frightening — but oddly clarifying."
+      },
+      {
+        "text": "Maybe I shouldn't have kids.",
+        "result_text": "The numbers made it clear what raising a child in this country costs.\n\n\"Choosing not to\" doesn't have to mean giving up. He decided to believe that."
+      },
+      {
+        "text": "(Closes the calculator. Not today.)",
+        "result_text": "He closed it. This isn't a problem he can solve right now.\n\nBut those numbers stayed somewhere in the back of his mind, even after he closed the tab."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_pension_crisis",
+    "title": "Pension Depleted: 2055",
+    "description": "A news headline caught his eye.\n\"National pension projected to run dry by 2055 — today's 30s may receive nothing.\"\n\n2055. The year Minjun turns sixty-five.\n\nThe number was too specific to scroll past.",
+    "choices": [
+      {
+        "text": "The government will figure it out. Focus on now.",
+        "result_text": "Politicians will handle it. He decided to believe that.\n\nBut the phrase \"don't rely on national pension, prepare yourself\" had been in the air for years — and he knew it."
+      },
+      {
+        "text": "I have to build my own retirement. Even more urgent now.",
+        "result_text": "If he has to sustain himself for thirty years on his own, the assets he builds now carry a different weight.\n\nThe anxiety grew — but so did the direction. No safety net means building one himself."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_parents_aging",
+    "title": "Dad's Knee",
+    "description": "He visited home after a long stretch. His father paused halfway down the steps to meet him at the door.\n\n\"My knee's been a bit... you know. Lately.\"\n\nMinjun didn't know when his father started making that expression on the stairs.",
+    "choices": [
+      {
+        "text": "\"Dad, let's go to the doctor together.\"",
+        "result_text": "His father waved it off. \"I'm fine, I'm fine.\" He booked the appointment anyway.\n\nOn the bus back to Seoul, it hit him — his father was getting older. There were things to do before it was too late to do them."
+      },
+      {
+        "text": "\"...Please take it easy.\" (That was all he could say.)",
+        "result_text": "He couldn't find more words. His father said he was fine, and Minjun chose to believe it.\n\nOn the bus home, that image of the staircase kept surfacing. He should come back more often."
+      },
+      {
+        "text": "(He searched 'parents' retirement planning' for the first time.)",
+        "result_text": "He typed \"how to prepare for parents' retirement\" into the search bar. Numbers flooded the screen.\n\n200,000 won a month. Nursing home costs. Home aide fees. Another reason added to why he needs 3 billion."
+      }
+    ]
+  },
+  {
+    "id": "anxiety_early_retirement_witness",
+    "title": "The Retirement Notice at 53",
+    "description": "A senior colleague left the company. Fifty-three. \"Voluntary early retirement\" — HR's phrasing.\n\nEveryone in the office knew what it actually meant.\n\nThe image of him clearing his desk stayed with Minjun. His kids probably haven't even finished university yet.",
+    "choices": [
+      {
+        "text": "This is the reality of working for someone else. I need to get out faster.",
+        "result_text": "Watching that empty desk harden something in him.\n\nTwenty years of service and that's how it ends. A job isn't a safety net. That evening, Minjun opened his portfolio."
+      },
+      {
+        "text": "(He texted the colleague separately. \"Thank you for everything.\")",
+        "result_text": "A reply came a long while later. \"Thanks. Take care.\"\n\nTwo words that lingered. Take care. At fifty-three. With nothing lined up."
+      }
+    ]
+  }
+]

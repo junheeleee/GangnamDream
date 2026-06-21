@@ -1,5 +1,25 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (P3 5차 자녀·노후 불안 서사 6종)
+
+### 수정
+- `content/events/anxiety_events.json` 신규 — 자녀/노후 불안 6종:
+  - `anxiety_friend_baby` (t≥20) — 친구 임신 소식, 비교 불안
+  - `anxiety_marriage_pressure` (t≥12) — 명절 결혼 압박 3선택지
+  - `anxiety_child_cost_calc` (t≥30) — 육아비용 3억 2천 계산 3선택지
+  - `anxiety_pension_crisis` (t≥8) — 국민연금 2055년 고갈 뉴스
+  - `anxiety_parents_aging` (t≥24) — 아버지 무릎 3선택지 (부모 노환 시작)
+  - `anxiety_early_retirement_witness` (t≥36, has_job) — 53세 명퇴 목격
+- `content/events_en/anxiety_events.json` 신규 — EN 오버레이 6종 동기화
+- `autoloads/DataRegistry.gd` — `anxiety_events.json` 등록
+- `audit.py` ERROR 0 / WARNING 0, balance 밴드 전부 통과
+- 총 이벤트: 1058 → 1064개, EN 누락 0
+
+### 의도
+- 한국 사회 특유의 30대 불안 서사 추가: 결혼 압박, 출산 비용, 연금 불신, 부모 노환, 50대 명퇴 공포
+- 플레이어의 30억 목표에 "왜"를 복층으로 부여 (단순 부자 욕심 → 자녀·부모·노후를 위한 절박함)
+- 플렉스 서사(P3 4차)와 대비되는 불안/현실 서사 레이어 추가
+
 ## 2026-06-21 (출시용 에셋 제작 파이프라인 정립)
 
 ### 수정

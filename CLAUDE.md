@@ -9,13 +9,12 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-21 (2차)** — (1) **EN 오버레이 100% 커버리지**: life_events.json 누락 20종(건강 10·코미디 10) EN 동기화 → 전체 1058 이벤트 EN 누락 0. (2) **P3 4차 사회비교·플렉스 6종**(social_independence.json, EN 동기화): flex_sns_envy(남의 하이라이트/SNS 디톡스), flex_luxury_first(첫 명품 유혹), flex_imported_car(외제차 키 부러움), flex_hotel_staycation(호캉스), flex_golf_invite(골프 인맥 vs 비용), flex_frugal_identity(가난이 아니라 모으는 중·역제안). (3) **도박 서사 follow-up 체인**: casino_chip_exchange(넉넉 환전)→casino_no_clocks 인세션 인과 연결. 이벤트 1058개. audit ERROR 0/WARNING 0, EN 누락 0. |
-| **이전** | **2026-06-21 (1차)** — (1) **도박 서사 7종**(gambling_narrative.json): 카지노 3·홀덤 2·경마 2. 미니게임 메커니즘 미변경. (2) **NG+ 구원 확장 2종**: ng_recovery_mentor_moment·ng_recovery_discipline(_next_arc_id t20/t34). (3) **P2 audit #7(stage vs 톤)**: jaehyuk 02_bond 분기·02b_favor 단조화, jiyeon 03_offer connected→interest, father_reconcile close→reconciled. |
-| **이전2** | **2026-06-21** — **영어 번역 완성**: SaveManager 설정 영속화 + LocaleManager 부팅 복원·이름 동기화 버그 수정 + MainGame.gd/StoryMode.gd 전수 `_tr()` 래핑. + P0 3차 히든 엔딩 `writer`(A급). 엔딩 31개. + 이스터에그 8종·분석요소·흥행 시그니처 6종·NG+ 구원 서사 2종(premonition/echo). |
-| **추가 완료** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크 + 회복 3종 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급)**. ※카지노 미니게임 메커니즘 미변경(서사만). |
+| **최근 완료** | **2026-06-21 (3차)** — **P3 5차 자녀·노후 불안 서사 6종** (`anxiety_events.json` 신규, EN 동기화): anxiety_friend_baby(친구 임신/비교불안), anxiety_marriage_pressure(명절 결혼 압박 3선택지), anxiety_child_cost_calc(육아비용 3억2천 계산), anxiety_pension_crisis(연금고갈 뉴스), anxiety_parents_aging(아버지 무릎/노환 3선택지), anxiety_early_retirement_witness(53세 명퇴 목격). 이벤트 1064개. audit ERROR 0/WARNING 0, EN 누락 0, 밸런스 밴드 전부 통과. |
+| **이전** | **2026-06-21 (2차)** — (1) **EN 오버레이 100% 커버리지**: life_events.json 누락 20종(건강 10·코미디 10) EN 동기화 → 전체 1058 이벤트 EN 누락 0. (2) **P3 4차 사회비교·플렉스 6종**(social_independence.json, EN 동기화): flex_sns_envy(남의 하이라이트/SNS 디톡스), flex_luxury_first(첫 명품 유혹), flex_imported_car(외제차 키 부러움), flex_hotel_staycation(호캉스), flex_golf_invite(골프 인맥 vs 비용), flex_frugal_identity(가난이 아니라 모으는 중·역제안). (3) **도박 서사 follow-up 체인**: casino_chip_exchange(넉넉 환전)→casino_no_clocks 인세션 인과 연결. |
+| **이전2** | **2026-06-21 (1차)** — (1) **도박 서사 7종**(gambling_narrative.json): 카지노 3·홀덤 2·경마 2. 미니게임 메커니즘 미변경. (2) **NG+ 구원 확장 2종**: ng_recovery_mentor_moment·ng_recovery_discipline(_next_arc_id t20/t34). (3) **P2 audit #7(stage vs 톤)**: jaehyuk 02_bond 분기·02b_favor 단조화, jiyeon 03_offer connected→interest, father_reconcile close→reconciled. |
 | **Codex 추가 완료** | **2026-06-20~21 (외형)** — 빅휠 54칸 슬롯 쇼휠, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH), 홀덤 오벌 테이블 재배치, 슬롯머신 캐비닛 보강, 룰렛 테이블 베팅/딜러/칩/포켓 하이라이트. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
-| **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — P3 5차(자녀/노후 불안 서사) 또는 P2 audit #8(밸런스 회귀 — 신규 도박/플렉스 이벤트의 addiction_tendency 누적 영향 시뮬); 신규 플렉스 이벤트 follow-up/콜백 체인 검토. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-21 (EN 100% 커버리지 + P3 4차 플렉스 6종 + 도박 follow-up 체인. `audit.py` ERROR 0/WARNING 0, EN 누락 0, Godot 임포트 클린) |
+| **다음 작업** | **P3 6차(자아 정체성·30대 위기 서사)** 또는 **P2 audit #8(밸런스 회귀 — 신규 도박/플렉스/불안 이벤트의 mental 누적 영향 시뮬)**; anxiety/flex 이벤트 follow-up/콜백 체인 검토 (child_cost_motivated·pension_anxiety_awakened·parent_care_researched 플래그 활용). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-21 (P3 5차 불안 서사 6종 + DataRegistry 등록 + EN 동기화. 이벤트 1064개, EN 누락 0, audit ERROR 0/WARNING 0) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
