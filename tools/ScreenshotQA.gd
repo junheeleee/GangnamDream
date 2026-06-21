@@ -26,6 +26,7 @@ func _ready() -> void:
 
 	await _shot_start_menu("ko", "00_start_menu")
 	await _shot_start_menu("en", "00b_start_menu_en")
+	await _shot_english_main_flow()
 	LocaleManager.language = "ko"
 	_prepare_main_game_state()
 	_seed_portfolio()
@@ -38,6 +39,7 @@ func _ready() -> void:
 	await _shot_support_modals()
 	await _shot_crisis_vignette()
 	await _shot_ap_actions()
+	await _shot_action_category_modals()
 	await _shot_info_panel_tabs()
 	await _shot_people()
 	await _shot_holdem_club()
@@ -75,12 +77,14 @@ func _prepare_main_game_state() -> void:
 	GameState.turn = 14
 	GameState.money = 3_500_000.0
 	GameState.monthly_income = 2_240_000.0
-	GameState.current_job = {"name":"사무직","base_salary":2_240_000.0,"tier":2}
+	GameState.player_name = LocaleManager.DEFAULT_NAME_EN if LocaleManager.is_english() else LocaleManager.DEFAULT_NAME_KO
+	GameState.current_job = {"name":("Office Worker" if LocaleManager.is_english() else "사무직"),"base_salary":2_240_000.0,"tier":2}
 	GameState.health = 62
 	GameState.mental = 58
 	GameState.investment_skill = 35
 	GameState.flags["has_received_paycheck"] = true
 	GameState.flags["arc_invest_guidance_seen"] = true
+	_seed_cast_state()
 	_suppress_tutorial_overlays()
 
 func _boot_main_game() -> void:
@@ -313,8 +317,54 @@ func _shot_ap_actions() -> void:
 	await _settle(0.8)
 	await _save("04_ap_actions_dashboard")
 
+func _shot_english_main_flow() -> void:
+	LocaleManager.language = "en"
+	_prepare_main_game_state()
+	_seed_portfolio()
+	_seed_info_panel_state("en")
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	await _settle(0.8)
+	await _save("00c_en_ap_actions")
+	await _shot_action_category_modal("_open_cat_money", "00d_en_money_modal")
+	await _shot_action_category_modal("_open_cat_people", "00e_en_people_modal")
+	if _mg.has_method("_render_sidebars"):
+		_mg._render_sidebars()
+	if _mg.has_method("_toggle_info_panel"):
+		_mg._toggle_info_panel()
+	await _settle(0.5)
+	await _save("00f_en_info_stats")
+	var tabs: TabContainer = _mg.get("info_tabs") as TabContainer
+	if is_instance_valid(tabs):
+		tabs.current_tab = 2
+		GameState.flags["_last_info_tab"] = 2
+		await _settle(0.35)
+		await _save("00g_en_info_relations")
+	if _mg.has_method("_toggle_info_panel"):
+		_mg._toggle_info_panel()
+	_remove_nodes_by_script("res://scenes/MainGame.gd")
+	_mg = null
+	await _settle(0.4)
+
+func _shot_action_category_modals() -> void:
+	await _shot_action_category_modal("_open_cat_money", "04g_action_money_modal")
+	await _shot_action_category_modal("_open_cat_people", "04h_action_people_modal")
+	await _shot_action_category_modal("_open_cat_life", "04i_action_life_modal")
+
+func _shot_action_category_modal(method_name: String, shot_name: String) -> void:
+	if not is_instance_valid(_mg) or not _mg.has_method(method_name):
+		print("SKIP %s (no %s)" % [shot_name, method_name])
+		return
+	_mg.call(method_name)
+	await _settle(0.7)
+	await _save(shot_name)
+	_close_modal()
+	await _settle(0.3)
+
 func _shot_info_panel_tabs() -> void:
-	_seed_info_panel_state()
+	_seed_info_panel_state("ko")
 	if _mg.has_method("_render_sidebars"):
 		_mg._render_sidebars()
 	if _mg.has_method("_toggle_info_panel"):
@@ -338,12 +388,19 @@ func _shot_info_panel_tabs() -> void:
 		_mg._toggle_info_panel()
 	await _settle(0.3)
 
-func _seed_info_panel_state() -> void:
-	GameState.relationships = [
-		{"id": "father", "name": "아버지", "type": "family", "affection": 62, "trust": 58},
-		{"id": "sangchul", "name": "임상철", "type": "mentor", "affection": 56, "trust": 45},
-		{"id": "daeun", "name": "김다은", "type": "friends", "affection": 48, "trust": 36},
-	]
+func _seed_info_panel_state(lang: String = "ko") -> void:
+	if lang == "en":
+		GameState.relationships = [
+			{"id": "father", "name": "Father", "type": "family", "affection": 62, "trust": 58},
+			{"id": "sangchul", "name": "Lim Sangchul", "type": "mentor", "affection": 56, "trust": 45},
+			{"id": "daeun", "name": "Kim Daeun", "type": "friends", "affection": 48, "trust": 36},
+		]
+	else:
+		GameState.relationships = [
+			{"id": "father", "name": "아버지", "type": "family", "affection": 62, "trust": 58},
+			{"id": "sangchul", "name": "임상철", "type": "mentor", "affection": 56, "trust": 45},
+			{"id": "daeun", "name": "김다은", "type": "friends", "affection": 48, "trust": 36},
+		]
 	GameState.inventory.clear()
 	GameState.add_item("item_vitamins", 1)
 	GameState.add_item("item_meditation_app", 1)
@@ -356,6 +413,16 @@ func _seed_info_panel_state() -> void:
 	GameState.flags["met_daeun"] = true
 	GameState.flags["arc_daeun_01_seen"] = true
 	GameState.run_theme = "steady_climb"
+
+func _seed_cast_state() -> void:
+	for data in [
+		["father", 62],
+		["sangchul", 56],
+		["jiyeon", 44],
+		["daeun", 48],
+		["jaehyuk", 38],
+	]:
+		GameState.apply_cast_effect(str(data[0]), {"met": true, "affinity": int(data[1])})
 
 func _close_modal() -> void:
 	for m in ["_close_modal","_close_overlay","_dismiss_modal"]:

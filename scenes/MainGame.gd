@@ -110,6 +110,7 @@ const UI_ICON_PATHS := {
 	"holdem": "res://assets/ui/icons/icon_holdem.svg",
 	"scalping": "res://assets/ui/icons/icon_scalping.svg",
 	"casino": "res://assets/ui/chips/chip_10k.svg",
+	"people": "res://assets/ui/icons/icon_relationship.svg",
 	"life": "res://assets/ui/icons/icon_housing.svg",
 	"shop": "res://assets/ui/icons/icon_shop.svg",
 	"info": "res://assets/ui/icons/icon_info.svg",
@@ -466,16 +467,17 @@ func _build_top_bar(parent):
 	panel.add_child(row)
 
 	var title = _label(_tr("강남드림", "Gangnam Dream"), 18, COL_GOLD)
-	title.custom_minimum_size = Vector2(96, 0)
+	title.custom_minimum_size = Vector2(132, 0)
+	title.clip_text = false
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	if _font_bold:
 		title.add_theme_font_override("font", _font_bold)
 	row.add_child(title)
 
-	var date_lbl = _hud_chip(row, "", "#8892a4", 116, false)
+	var date_lbl = _hud_chip(row, "", "#8892a4", 108, false)
 	top_labels["date"] = date_lbl
 
-	var ap_lbl = _hud_chip(row, "ap", "#f0b429", 78, false)
+	var ap_lbl = _hud_chip(row, "ap", "#f0b429", 74, false)
 	top_labels["ap"] = ap_lbl
 
 	# ── 바이탈 HUD: 건강 / 정신 ──────────────────
@@ -483,24 +485,24 @@ func _build_top_bar(parent):
 	vitals_row.add_theme_constant_override("separation", 6)
 	row.add_child(vitals_row)
 
-	var hp_lbl = _hud_chip(vitals_row, "health", "#34d399", 82, false)
+	var hp_lbl = _hud_chip(vitals_row, "health", "#34d399", 78, false)
 	top_labels["vital_health"] = hp_lbl
 
-	var mp_lbl = _hud_chip(vitals_row, "mental", "#93c5fd", 82, false)
+	var mp_lbl = _hud_chip(vitals_row, "mental", "#93c5fd", 78, false)
 	top_labels["vital_mental"] = mp_lbl
 
 	var money_lbl = _hud_chip(row, "money", "#00c896", 180, false)
 	top_labels["money"] = money_lbl
 
 	var info_btn = _small_button(_tr("정보", "Info"), "#1e2a3a")
-	info_btn.custom_minimum_size = Vector2(64, 40)
+	info_btn.custom_minimum_size = Vector2(58, 40)
 	info_btn.add_theme_font_size_override("font_size", 14)
 	info_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	info_btn.pressed.connect(_toggle_info_panel)
 	row.add_child(info_btn)
 
 	var save_btn = _small_button(_tr("저장", "Save"), "#1e2a3a")
-	save_btn.custom_minimum_size = Vector2(60, 40)
+	save_btn.custom_minimum_size = Vector2(58, 40)
 	save_btn.add_theme_font_size_override("font_size", 14)
 	save_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	save_btn.pressed.connect(Callable(self, "_on_save_pressed"))
@@ -514,21 +516,21 @@ func _build_top_bar(parent):
 	row.add_child(menu_btn)
 
 	next_button = _button(_tr("다음 주 ›", "Next Week ›"), "#1a3a5a")
-	next_button.custom_minimum_size = Vector2(100, 40)
+	next_button.custom_minimum_size = Vector2(96, 40)
 	next_button.add_theme_font_size_override("font_size", 14)
 	next_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
 
 	shop_button = _small_button(_tr("상점", "Shop"), "#173329")
-	shop_button.custom_minimum_size = Vector2(60, 40)
+	shop_button.custom_minimum_size = Vector2(56, 40)
 	shop_button.add_theme_font_size_override("font_size", 14)
 	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	shop_button.pressed.connect(_open_shop)
 	row.add_child(shop_button)
 
 	var title_btn2 = _small_button(_tr("칭호", "Title"), "#1a2a1a")
-	title_btn2.custom_minimum_size = Vector2(60, 40)
+	title_btn2.custom_minimum_size = Vector2(56, 40)
 	title_btn2.add_theme_font_size_override("font_size", 14)
 	title_btn2.size_flags_horizontal = Control.SIZE_SHRINK_END
 	title_btn2.pressed.connect(_open_title_collection)
@@ -927,7 +929,7 @@ func _build_goal_bar(parent: Control) -> void:
 	row.add_child(_goal_pct_label)
 
 	var goal_lbl = _label(_tr("목표 30억", "Goal ₩3B"), 11, "#f0b429")
-	goal_lbl.custom_minimum_size = Vector2(56, 0)
+	goal_lbl.custom_minimum_size = Vector2(76, 0)
 	goal_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(goal_lbl)
 
@@ -2446,10 +2448,12 @@ func _refresh_all():
 	var total_assets = GameState.get_total_asset_value()
 	var cash_str = GameState.format_money(GameState.money)
 	var asset_str = GameState.format_money(total_assets)
-	if abs(total_assets - GameState.money) > 10000:
+	if LocaleManager.is_english() and abs(total_assets - GameState.money) > 10000:
+		top_labels["money"].text = "%s  |  %s" % [cash_str, asset_str]
+	elif abs(total_assets - GameState.money) > 10000:
 		top_labels["money"].text = _tr("현금 %s  |  자산 %s", "Cash %s  |  Assets %s") % [cash_str, asset_str]
 	else:
-		top_labels["money"].text = _tr("현금 %s", "Cash %s") % cash_str
+		top_labels["money"].text = cash_str if LocaleManager.is_english() else (_tr("현금 %s", "Cash %s") % cash_str)
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
 	top_labels["ap"].text = "%d/%d" % [ap, GameState.max_action_points]
@@ -2479,7 +2483,7 @@ func _refresh_all():
 	_set_stat_value("reputation",       GameState.reputation,       false, 90, 100)
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
 	var h = GameState.get_housing_info()
-	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), h.get("name","")]
+	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), GameState.get_housing_name(GameState.housing)]
 
 	# 배경 + 초상화 업데이트
 	_update_event_bg()
@@ -3242,7 +3246,10 @@ func _render_ap_actions():
 		lines.append("──────────────────")
 	var net_sign = "+" if net >= 0 else ""
 	var net_flag = _tr("  [color=#ff7070]← 매달 적자 주의![/color]", "  [color=#ff7070]← Monthly deficit warning![/color]") if net < 0 else ""
-	lines.append(_tr("이번 달 수입·지출  [b]%s%s[/b]%s", "This month income·expense  [b]%s%s[/b]%s") % [net_sign, GameState.format_money(net), net_flag])
+	if LocaleManager.is_english():
+		lines.append("Monthly net  %s%s%s" % [net_sign, GameState.format_money(net), net_flag])
+	else:
+		lines.append("이번 달 수입·지출  [b]%s%s[/b]%s" % [net_sign, GameState.format_money(net), net_flag])
 	var ms_hint = _next_milestone_hint(total)
 	if not ms_hint.is_empty():
 		lines.append(ms_hint)
@@ -3930,24 +3937,21 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 # 카테고리 모달 — 세부 행동을 묶어서 보여줌. 기존 _ap_* 재사용.
 # ══════════════════════════════════════════════════════════
 func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
-	var btn = _button(label, "#15151f")
-	var st = StyleBoxFlat.new()
-	st.bg_color = Color("#15151f")
-	st.border_color = Color(accent)
-	st.border_width_left = 3
-	st.set_corner_radius_all(5)
-	st.content_margin_left = 16
-	st.content_margin_right = 12
-	st.content_margin_top = 10
-	st.content_margin_bottom = 10
-	var hov = st.duplicate(); hov.bg_color = Color("#20202e")
-	btn.add_theme_stylebox_override("normal", st)
-	btn.add_theme_stylebox_override("hover", hov)
-	btn.add_theme_stylebox_override("pressed", st)
-	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	var split := _split_action_label(label)
+	var free_action := fn in ["_open_shop", "_ap_move_housing"]
+	var btn := _make_essential_action_card(
+		str(split.get("title", label)),
+		str(split.get("subtitle", "")),
+		_cat_modal_icon(fn),
+		accent,
+		false,
+		free_action,
+		"")
+	btn.custom_minimum_size = Vector2(0, 74)
 	var fn_name := fn
 	var fn_arg = arg
 	btn.pressed.connect(func():
+		AudioManager.play("click")
 		_close_modal()
 		if fn_arg == null:
 			self.call(fn_name)
@@ -3955,6 +3959,40 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 			self.call(fn_name, fn_arg)
 	)
 	modal_body.add_child(btn)
+
+func _split_action_label(label: String) -> Dictionary:
+	var clean := label.strip_edges()
+	var dash_idx := clean.find("  —  ")
+	if dash_idx < 0:
+		dash_idx = clean.find(" — ")
+	if dash_idx < 0:
+		dash_idx = clean.find("—")
+	if dash_idx < 0:
+		return {"title": clean, "subtitle": ""}
+	var title := clean.substr(0, dash_idx).strip_edges()
+	var subtitle := clean.substr(dash_idx + 1).strip_edges()
+	while subtitle.begins_with("—") or subtitle.begins_with("-"):
+		subtitle = subtitle.substr(1).strip_edges()
+	return {"title": title, "subtitle": subtitle}
+
+func _cat_modal_icon(fn: String) -> String:
+	match fn:
+		"_ap_job_hunt", "_ap_write_resume", "_ap_interview_prep", "_ap_startup_work", "_ap_create_content":
+			return "job"
+		"_ap_invest":
+			return "invest"
+		"_ap_side_job", "_ap_save_money":
+			return "money"
+		"_ap_network", "_ap_vip_network", "_ap_contact_person":
+			return "people"
+		"_ap_free_time":
+			return "rest"
+		"_ap_move_housing":
+			return "life"
+		"_open_shop":
+			return "shop"
+		_:
+			return "ap"
 
 func _open_cat_work():
 	var no_job = GameState.current_job.is_empty()
@@ -4055,7 +4093,7 @@ func _open_cat_people():
 	if not met_ids.is_empty():
 		modal_body.add_child(_label(_tr("── 내 사람들 ──", "── My People ──"), 12, "#3a3a5a"))
 		for pid in met_ids:
-			var info: Dictionary = ImageRegistry.PERSON_INFO.get(pid, {})
+			var info: Dictionary = ImageRegistry.get_person_info(pid)
 			var pname: String = str(info.get("name", _tr("인연", "Connection")))
 			var accent: String = str(info.get("color", "#8a5a9a"))
 			var aff: int = GameState.get_cast_affinity(pid)
@@ -4085,7 +4123,7 @@ func _open_cat_life():
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
 		var move_label = _tr("이사  —  %s  (월 %s / 보증금 %s)", "Move  —  %s  (mo %s / deposit %s)") % [
-			next_info.get("name",""),
+			GameState.get_housing_name(next_id),
 			GameState.format_money(float(next_info.get("expense", 0.0))),
 			GameState.format_money(float(next_info.get("deposit", 0.0)))]
 		_cat_modal_button(move_label, "#c8a040", "_ap_move_housing")
@@ -4236,7 +4274,7 @@ func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
 		return
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
-	var pname: String = str(info.get("name", _tr("인연", "Connection")))
+	var pname: String = str(ImageRegistry.get_person_info(person_id).get("name", info.get("name", _tr("인연", "Connection"))))
 	var accent: String = str(info.get("color", "#db2777"))
 	var mental_before = GameState.mental
 	GameState.modify_stat("mental", 5)
@@ -4883,7 +4921,7 @@ func _ap_move_housing():
 	var result = GameState.upgrade_housing()
 	if result["success"]:
 		var info = result["housing"]
-		var housing_name = info.get("name", _tr("새 집", "new place"))
+		var housing_name = GameState.get_housing_name(GameState.housing)
 		var expense = GameState.format_money(float(info.get("expense", 0.0)))
 		turn_action_log.append(_tr("✓ 🏠 이사 → %s (월 %s)", "✓ 🏠 Moved → %s (monthly %s)") % [housing_name, expense])
 		AudioManager.play("housing_up")
@@ -7467,30 +7505,29 @@ func _get_portrait_path() -> String:
 
 func _get_month_advice() -> String:
 	if GameState.health <= 40:
-		return "⚠ 건강 %d — 위험합니다. 당장 [운동]을 하세요. 건강이 0이 되면 '과로 엔딩'으로 종료됩니다." % GameState.health
+		return _tr("⚠ 건강 %d — 위험합니다. 당장 [운동]을 하세요. 건강이 0이 되면 '과로 엔딩'으로 종료됩니다.", "⚠ Health %d — danger zone. Exercise now. If Health reaches 0, you hit the overwork ending.") % GameState.health
 	if GameState.mental <= 40:
-		return "⚠ 정신력 %d — 위험합니다. [명상]으로 회복하세요. 0이 되면 '정신 붕괴 엔딩'입니다." % GameState.mental
+		return _tr("⚠ 정신력 %d — 위험합니다. [명상]으로 회복하세요. 0이 되면 '정신 붕괴 엔딩'입니다.", "⚠ Mental %d — danger zone. Recover with meditation. If it reaches 0, you hit the breakdown ending.") % GameState.mental
 	if GameState.mental <= 55:
-		return "정신력 %d — 피로가 쌓이고 있습니다. [명상]으로 회복하세요." % GameState.mental
+		return _tr("정신력 %d — 피로가 쌓이고 있습니다. [명상]으로 회복하세요.", "Mental %d — fatigue is building. Use meditation to recover.") % GameState.mental
 	if GameState.money < 500_000:
-		return "💸 잔고 %s — 위험 수위입니다. 알바나 투자로 당장 수입을 늘리세요." % GameState.format_money(GameState.money)
+		return _tr("💸 잔고 %s — 위험 수위입니다. 알바나 투자로 당장 수입을 늘리세요.", "💸 Balance %s — danger zone. Raise income through gigs or investing.") % GameState.format_money(GameState.money)
 	if GameState.current_job.is_empty():
-		return "직업이 없으면 매달 수입이 0원입니다. 생활비만큼 계속 줄어들어요. [구직활동]을 최우선으로 하세요."
+		return _tr("직업이 없으면 매달 수입이 0원입니다. 생활비만큼 계속 줄어들어요. [구직활동]을 최우선으로 하세요.", "Without a job, monthly income is zero. Living costs will keep draining you. Prioritize Job Hunt.")
 	if GameState.money < 0:
-		return "잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 1억원을 넘으면 파산 엔딩입니다." % GameState.format_money(GameState.money)
+		return _tr("잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 1억원을 넘으면 파산 엔딩입니다.", "Your balance is negative (%s). Cover it with gigs or investment gains. Debt over ₩100M triggers bankruptcy.") % GameState.format_money(GameState.money)
 	if GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
 		var next_id = str(GameState.get_housing_info().get("next", ""))
-		var next_info = GameState.HOUSING_DATA.get(next_id, {})
-		return "🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 정신력 패시브가 개선돼요!" % [
-			next_info.get("name", "원룸"), GameState.format_money(GameState.money)]
+		return _tr("🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 정신력 패시브가 개선돼요!", "🏠 You can afford to move to a %s (cash %s). Moving improves your passive Mental pressure.") % [
+			GameState.get_housing_name(next_id), GameState.format_money(GameState.money)]
 	if GameState.investment_skill < 20 and GameState.get_total_asset_value() > 2_000_000.0 and GameState.turn > 4:
-		return "투자감각이 아직 낮습니다 (%d). [재테크 공부]로 올리면 투자 수익률이 올라갑니다." % GameState.investment_skill
+		return _tr("투자감각이 아직 낮습니다 (%d). [재테크 공부]로 올리면 투자 수익률이 올라갑니다.", "Your investing sense is still low (%d). Study finance to improve investment returns.") % GameState.investment_skill
 	if not GameState.current_job.is_empty():
 		var tenure = GameState.job_tenure
 		var promo_count = int(GameState.current_job.get("promotion_count", 0))
 		var max_promo = int(GameState.current_job.get("max_promotions", 3))
 		if tenure >= 5 and promo_count < max_promo and GameState.work_performance >= 55:
-			return "근속 %d개월, 업무 성과 %d입니다. 승진 기회가 다가오고 있어요. 꾸준히 유지하세요." % [tenure, GameState.work_performance]
+			return _tr("근속 %d개월, 업무 성과 %d입니다. 승진 기회가 다가오고 있어요. 꾸준히 유지하세요.", "Tenure %d months, performance %d. Promotion chances are approaching. Stay consistent.") % [tenure, GameState.work_performance]
 	return ""
 
 func _check_title_unlocks():
