@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kx_fine_dust",
+    "title": "Fine Dust Warning",
+    "description": "Today's fine dust index: Very Bad.\nThe sky says so before the app notification even arrives. A grey haze.\n\nChina's yellow dust mixed with domestic exhaust, they say —\nbut who's really to blame is always a debate.",
+    "choices": [
+      {
+        "text": "KF94 mask on — go out as planned",
+        "result_text": "Masked up and headed out. Stuffy breath, fogged glasses.\n\nIn this country, the mask is already a seasonal accessory.\nDelivery riders, parcel workers — everyone's in KF94."
+      },
+      {
+        "text": "Work from home — don't step outside at all",
+        "result_text": "Drew the curtains and spent the day indoors.\n\nGrey sky outside, quiet inside. Not bad at all.\nKorea's weather sometimes gives you a legitimate excuse to stay in."
+      }
+    ]
+  },
+  {
+    "id": "kx_spring_cherry",
+    "title": "Cherry Blossom Week",
+    "description": "First week of April — the cherry blossoms explode.\nYeouido embankment, Seokchon Lake, Gyeongbokgung stone walls.\n\nThe petals last a week.\nAll of Seoul descends on that one week.",
+    "choices": [
+      {
+        "text": "Push through the crowds to see them",
+        "result_text": "Shoulder to shoulder with strangers — but the pink was worth it.\n\nA petal landed on my shoulder. I took a photo.\nFor that one week, the whole slog of Seoul spring becomes bearable."
+      },
+      {
+        "text": "Just look at them in photos",
+        "result_text": "Saw it on Instagram. Yeouido was all pink.\n\nI'll go in person next year. I said the same thing last year.\nSomewhere along the way, cherry blossoms became a 'next time' kind of season."
+      }
+    ]
+  },
+  {
+    "id": "kx_monsoon",
+    "title": "Monsoon Season",
+    "description": "July — the monsoon starts.\nIt's been raining for days. Looks like it'll stop. Then it rains more.\n\nConvenience store umbrellas are sold out.\nThe goshiwon hallway smells of wet umbrellas.",
+    "choices": [
+      {
+        "text": "Use the monsoon — catch up on studying indoors",
+        "result_text": "Not going out weather anyway. Opened a book.\n\nThe rain became white noise. I concentrated.\nDays you hold the line in — they put you ahead on the sunny ones."
+      },
+      {
+        "text": "Just YouTube the whole day",
+        "result_text": "Picked up my phone, put it down. Picked it up again.\n\nThe monsoon doesn't drain your body — it drains your morale.\nA few days without a single ray of sunlight and something sinks, for no clear reason."
+      }
+    ]
+  },
+  {
+    "id": "kx_heatwave",
+    "title": "Heat Wave",
+    "description": "August — feels like 40°C.\nA notice is posted at the subway station: the AC is broken.\n\nAsphalt heat outside, humidity inside.\nThe goshiwon room's AC has been making noise with no cold air since last night.",
+    "choices": [
+      {
+        "text": "Refuge in a café — buy air conditioning with a coffee",
+        "result_text": "A wave of cold hit as I opened the café door. I stood in it for a moment.\n\nIced Americano, two hours. Six thousand won for AC.\nBut today, that was the whole plan — and it was enough."
+      },
+      {
+        "text": "Public cooling shelter — the community center",
+        "result_text": "The dong community center's cooling shelter. Elderly residents had claimed the good seats.\n\nI sat quietly in a corner. Got a paper cup of iced barley tea.\nFree air conditioning. I didn't know this service existed."
+      }
+    ]
+  },
+  {
+    "id": "kx_cold_snap",
+    "title": "Cold Snap",
+    "description": "Minus 17°C. The weather service has issued an extreme cold warning.\nThe asphalt underfoot is frozen. Breath comes out white.\n\nA Siberian air mass came down, they say.\nKorea's winter doesn't explain itself — it just arrives.",
+    "choices": [
+      {
+        "text": "Spend the day at the jjimjilbang",
+        "result_text": "Dipped my feet into the hot water and felt my whole body thaw.\n\nLay there in the sauna suit eating a steamed egg.\nOne of Seoul's survival secrets: 12,000 won buys you warmth, a shower, and somewhere to sleep."
+      },
+      {
+        "text": "Survive on hobbang and fish cake at the convenience store",
+        "result_text": "Stood in front of the convenience store's warming case for a while.\nOne steamed bun, one fish cake stick. Breath mixing with steam.\n\nIn a cold snap, the convenience store is a refuge.\nEven with no money, you can stand somewhere warm for a moment."
+      }
+    ]
+  }
+]

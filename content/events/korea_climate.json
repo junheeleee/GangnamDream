@@ -1,0 +1,132 @@
+[
+  {
+    "id": "kx_fine_dust",
+    "title": "미세먼지 주의보",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 20,
+    "background": "street",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "climate", "survival"],
+    "description": "오늘의 미세먼지 수치: 매우 나쁨.\n앱 알림이 뜨기도 전에 하늘이 먼저 말해준다. 뿌옇다.\n\n중국발 황사에 국내 배기가스가 섞인다는데,\n어느 쪽 탓인지는 언제나 논쟁 중이다.",
+    "choices": [
+      {
+        "text": "KF94 마스크 쓰고 예정대로 나간다",
+        "effects": { "money": -3000, "health": -1, "mental": 2 },
+        "result_text": "마스크 쓰고 나섰다. 숨은 답답하고 안경에 김은 서렸지만.\n\n이 나라에서 마스크는 이미 계절 소품이 됐다.\n택배 기사도, 배달 라이더도, 전부 KF94."
+      },
+      {
+        "text": "오늘은 재택 — 외출 자체를 안 한다",
+        "effects": { "mental": 4, "health": 1 },
+        "result_text": "커튼 치고 하루를 방 안에서 보냈다.\n\n창밖은 뿌옇고 방 안은 조용했다. 이 정도면 나쁘지 않다.\n한국 날씨는 때로 밖에 나가지 않을 핑계를 준다."
+      }
+    ]
+  },
+  {
+    "id": "kx_spring_cherry",
+    "title": "벚꽃 한 철",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.3,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 40,
+    "background": "hangang_riverside",
+    "portrait": "player_normal",
+    "tags": ["korea", "culture", "climate", "leisure"],
+    "description": "4월 첫째 주, 벚꽃이 폭발했다.\n여의도 둑방, 석촌호수, 경복궁 돌담길.\n\n꽃이 지기까지는 일주일.\n서울 전체가 이 일주일에 몰려든다.",
+    "choices": [
+      {
+        "text": "인파를 뚫고 벚꽃 구경 간다",
+        "effects": { "mental": 8, "health": 1 },
+        "result_text": "사람 어깨가 닿을 만큼 붐볐지만, 분홍빛은 그 이상이었다.\n\n꽃잎이 어깨에 내려앉았다. 사진을 찍었다.\n이 일주일 때문에, 서울의 봄이 버텨진다."
+      },
+      {
+        "text": "사진으로만 보고 만다",
+        "effects": { "mental": 3 },
+        "result_text": "인스타에서 봤다. 여의도가 핑크빛이었다.\n\n다음엔 직접 가야지. 그 다음 해에도 같은 생각을 했다.\n어느 순간부터 벚꽃은 '다음에'의 계절이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "kx_monsoon",
+    "title": "장마",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 28,
+    "background": "street",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "climate"],
+    "description": "7월, 장마가 시작됐다.\n며칠 째 비가 온다. 그칠 것 같다가, 더 온다.\n\n편의점 우산은 다 팔렸다.\n고시원 복도에서 젖은 우산 냄새가 난다.",
+    "choices": [
+      {
+        "text": "장마를 역이용 — 집에서 밀린 공부",
+        "effects": { "mental": 3, "intelligence": 1 },
+        "result_text": "어차피 나갈 날씨도 아니었다. 책 폈다.\n\n비 소리가 백색소음이 됐다. 집중이 됐다.\n이런 날에 잘 버티면, 맑은 날에 앞서간다는 기분."
+      },
+      {
+        "text": "그냥 하루 종일 유튜브",
+        "effects": { "mental": 1 },
+        "result_text": "침대에서 폰을 들었다 놨다 반복했다.\n\n장마는 몸이 아니라 멘탈을 갉아먹는다.\n햇빛 한 줄기 없이 며칠이 지나면, 이유 없이 가라앉는다."
+      }
+    ]
+  },
+  {
+    "id": "kx_heatwave",
+    "title": "폭염 경보",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 24,
+    "background": "street",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "climate", "survival"],
+    "description": "8월, 체감온도 40도.\n지하철역 에어컨이 고장 났다는 공지가 붙었다.\n\n밖은 아스팔트 열기, 안은 습기.\n고시원 방 에어컨은 어젯밤부터 소음만 낸다.",
+    "choices": [
+      {
+        "text": "카페에서 냉방 피신 — 에어컨 값으로 커피 산다",
+        "effects": { "money": -6000, "mental": 5 },
+        "result_text": "카페 문을 열자 냉기가 쏟아졌다. 그 느낌이 좋아서 잠깐 멈췄다.\n\n아이스 아메리카노 한 잔에 두 시간.\n6천 원짜리 냉방이지만, 오늘은 그게 전부였다."
+      },
+      {
+        "text": "공공 냉방 쉼터로 간다 — 동 주민센터",
+        "effects": { "mental": 4, "health": 1 },
+        "result_text": "주민센터 냉방 쉼터. 어르신들이 먼저 자리를 잡고 있었다.\n\n조용히 한쪽 구석에 앉았다. 아이스 보리차 한 컵을 받았다.\n무료 냉방. 이런 제도가 있다는 걸 처음 알았다."
+      }
+    ]
+  },
+  {
+    "id": "kx_cold_snap",
+    "title": "한파",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": { "min_turn": 4 },
+    "cooldown": 24,
+    "background": "street",
+    "portrait": "player_tired",
+    "tags": ["korea", "culture", "climate", "survival"],
+    "description": "영하 17도. 기상청이 한파 특보를 발령했다.\n발이 닿는 아스팔트가 얼어 있다. 숨이 하얗게 퍼진다.\n\n시베리아 기단이 내려왔다고 한다.\n한국의 겨울은 설명 없이, 그냥 온다.",
+    "choices": [
+      {
+        "text": "찜질방에서 하루 버티기",
+        "effects": { "money": -12000, "mental": 7, "health": 2 },
+        "result_text": "온수 탕에 발을 담그자 온몸이 녹았다.\n\n찜질복 입고 계란 하나 까먹으며 누워 있었다.\n서울 생존의 비밀 중 하나다. 1만 2천 원에 온기, 샤워, 잠자리."
+      },
+      {
+        "text": "편의점 호빵·어묵으로 버틴다",
+        "effects": { "money": -3000, "mental": 4, "health": 1 },
+        "result_text": "편의점 온장고 앞에 한참 섰다.\n호빵 하나, 어묵 한 꼬치. 입김이 섞였다.\n\n한파 속 편의점은 피신처다.\n돈 없어도, 따뜻한 데 잠깐 설 수 있는 곳."
+      }
+    ]
+  }
+]

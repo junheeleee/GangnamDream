@@ -1,0 +1,77 @@
+[
+  {
+    "id": "kx_civil_defense_siren",
+    "title": "Civil Defense Siren",
+    "description": "2 PM — a siren suddenly goes off.\nCivil defense drill. Twice a year, this siren briefly pauses all of Seoul.\n\nOne of the first things that shocks foreigners.\nFor Koreans: 'oh, this again.'",
+    "choices": [
+      {
+        "text": "Follow the drill — look for the shelter signs",
+        "result_text": "Walked toward the subway station. Yellow shelter signs.\n\nI knew it was a drill, but my body moved before my mind did.\nThe things you rehearse in peacetime are what save you when it counts."
+      },
+      {
+        "text": "It's just a drill — keep drinking my coffee",
+        "result_text": "Everyone in the café stayed put. I did too.\n\nThe siren stopped and Seoul started moving again. Five minutes.\nIn this country, a crisis is a one-sip pause in your coffee."
+      }
+    ]
+  },
+  {
+    "id": "kx_friend_military",
+    "title": "A Friend Enlists",
+    "description": "A KakaoTalk message from a friend:\n\"I enlist next month. Might not be able to reach me for 2 years.\"\n\nFor Korean men, military service is not a choice.\n18 months to 2 years — it gets written into the timeline toward Gangnam.",
+    "choices": [
+      {
+        "text": "Promise a discharge gift: 'I'll buy dinner when you're out'",
+        "result_text": "'Samgyeopsal's on me when you get out.' I sent it.\n'If you're living in Gangnam by then, let's eat there.' He sent back.\n\nThat joke warmed me. There's someone who can picture two years from now with me."
+      },
+      {
+        "text": "Just 'take care' — keep it short",
+        "result_text": "'Take care.' Three words.\n\nShould have said more, maybe. But I didn't know what.\nI still don't know what to say to a friend heading to the army."
+      }
+    ]
+  },
+  {
+    "id": "kx_reserve_duty",
+    "title": "Reserve Duty Notice",
+    "description": "A text arrives:\n'Reserve Forces Training Notice. Date: [Month] [Day] 09:00. No-show fine: 1,500,000 KRW.'\n\nIt doesn't end at discharge. Eight more years of reserve duty.\nBlocked off on the calendar. Another day lost.",
+    "choices": [
+      {
+        "text": "Clear the schedule and go dutifully",
+        "result_text": "Up early, training grounds. Camo cream on, whole day gone.\n\nSomething strangely comfortable about being with fellow reservists. Like slipping out of the world for a day.\nStood there and told myself: back to society tomorrow, back to working hard."
+      },
+      {
+        "text": "Look up grounds for exemption",
+        "result_text": "Searched the exemption criteria list. Overseas residence, illness, sole breadwinner...\n\nNot applicable. I have to go either way.\nBut checking the options is my way. If you don't look, you get blindsided."
+      }
+    ]
+  },
+  {
+    "id": "kx_north_korea_news",
+    "title": "North Korea in the News",
+    "description": "Breaking news alert: 'North Korea fires missile — falls into East Sea.'\n\nSeoul is quiet. The stock market dips for a moment, then recovers.\nForeign friends send KakaoTalk messages: 'Are you okay?'",
+    "choices": [
+      {
+        "text": "Reply: 'Yeah, I'm fine — this just happens here'",
+        "result_text": "'Don't worry, this happens all the time here.' Sent.\n\nTrue. For Koreans, North Korea news is like weather news.\nIt exists — but it doesn't change today's plans."
+      },
+      {
+        "text": "Check the market movement — geopolitical risk",
+        "result_text": "KOSPI dropped 0.4%, then recovered. Brief foreign sell-off.\n\nGeopolitical risk is a structural discount on Korean stocks, I once read.\nMeans nothing to my bank account today — but it's knowledge I'll use someday."
+      }
+    ]
+  },
+  {
+    "id": "kx_us_korea_news",
+    "title": "Korea-US Relations",
+    "description": "US election results are in.\nKorean media pivots instantly to the Korea-US alliance and defense cost-sharing.\nThe won-dollar exchange rate starts to move.",
+    "choices": [
+      {
+        "text": "Watch the exchange rate — USD deposits cross my mind",
+        "result_text": "When the dollar rises, Korean won assets weaken in relative terms.\nConversely, if you hold USD deposits, this could be your moment.\n\nNo money to act on it, but I understand the structure now.\nUnderstanding comes first. Execution comes later."
+      },
+      {
+        "text": "Focus on my own life — can't change superpower politics",
+        "result_text": "Turned off the news.\n\nKorea-US relations, exchange rates — things I can't change.\nDecided to focus on what I can change. Got back to today's task."
+      }
+    ]
+  }
+]
