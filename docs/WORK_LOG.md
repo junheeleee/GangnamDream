@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-06-21 (P3 6차 자아 정체성 5종 + 불안 콜백 4종)
+
+### 수정
+- `content/events/identity_events.json` 신규 — 자아 정체성·30대 위기 서사 5종:
+  - `identity_midnight_question` (t≥8) — 새벽 3시 천장, "이게 맞는 건가"
+  - `identity_old_notebook` (t≥16) — 대학 꿈 적힌 노트 발견
+  - `identity_gangnam_why` (t≥20) — 왜 강남인지 스스로에게 묻기 (재정의 분기)
+  - `identity_10year_vision` (t≥32) — 43세의 나를 그려보기 vs 지금이 먼저
+  - `identity_define_success` (t≥40) — 성공의 정의: 숫자 vs 모르겠다
+- `content/events/callback_events_29.json` 신규 — 불안 플래그 콜백 4종:
+  - `callback_child_cost_grind` ← `child_cost_motivated` (t≥50)
+  - `callback_pension_self_fund` ← `pension_anxiety_awakened` (t≥40)
+  - `callback_parent_first_money` ← `parent_care_researched` (t≥60)
+  - `callback_own_path_confirmed` ← `accepted_different_path` (t≥48)
+- `content/events_en/identity_events.json`, `content/events_en/callback_events_29.json` 신규 EN 동기화
+- `autoloads/DataRegistry.gd` — identity_events.json, callback_events_29.json 등록
+- 총 이벤트: 1064 → 1073개, EN 누락 0, audit ERROR 0/WARNING 0
+
+### 의도
+- 30대 위기 서사 레이어 추가: 불안(P3 5차)이 "뭔가 두렵다" → 정체성(P3 6차)이 "나는 누구인가"로 심화
+- 불안 이벤트가 설정한 플래그(child_cost_motivated 등)의 서사 완결을 위한 콜백 체인 연결
+- 플레이어가 30억 목표를 "왜" 갖고 있는지 다층적으로 확인하는 씬 설계
+
 ## 2026-06-21 (P3 5차 자녀·노후 불안 서사 6종)
 
 ### 수정

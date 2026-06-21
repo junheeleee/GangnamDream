@@ -1,0 +1,111 @@
+[
+  {
+    "id": "callback_child_cost_grind",
+    "title": "3억 2천을 아는 사람",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 50,
+      "flag": "child_cost_motivated"
+    },
+    "cooldown": 9999,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "description": "이달도 갈아넣었다. 야근, 절약, 포트폴리오 점검.\n\n언젠가 아이를 키우려면 3억 2천이 든다는 걸 처음 알았던 날이 기억난다.\n\n그 숫자를 아는 사람과 모르는 사람은 같은 하루를 다르게 산다.",
+    "choices": [
+      {
+        "text": "아직 멀었지만, 가고 있다.",
+        "effects": { "mental": 5, "investment_skill": 1 },
+        "result_text": "숫자를 알면 흔들리지 않는다. 막연한 불안이 아니라 구체적인 목표가 된 순간부터, 포기라는 선택지가 사라졌다.\n\n오늘도 그렇게 한 발 더 갔다."
+      }
+    ]
+  },
+  {
+    "id": "callback_pension_self_fund",
+    "title": "연금은 없다고 생각하고",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 40,
+      "flag": "pension_anxiety_awakened"
+    },
+    "cooldown": 9999,
+    "background": "trading",
+    "portrait": "player_normal",
+    "description": "월급이 들어왔다. 이번 달도 10%를 따로 빼뒀다.\n\n「국민연금은 없다고 생각하고 움직여라.」 — 그렇게 정한 날을 기억한다.\n\n작은 금액이었지만, 그게 쌓이면 달라진다는 걸 이제는 알고 있다.",
+    "choices": [
+      {
+        "text": "이 습관이 나를 바꾼다.",
+        "effects": { "mental": 4, "money": -200000 },
+        "flags": ["pension_self_saving"],
+        "result_text": "복리는 숫자만 쌓는 게 아니라 습관도 쌓는다.\n\n처음엔 10만 원이었다. 이번 달은 20만 원이 됐다. 국가가 해주지 않을 노후를, 매달 조금씩 스스로 만들고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_first_money",
+    "title": "처음으로 드린 용돈",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 60,
+      "flag": "parent_care_researched",
+      "min_money": 500000
+    },
+    "cooldown": 9999,
+    "background": "dad_house",
+    "portrait": "player_normal",
+    "description": "처음으로 부모님 계좌에 돈을 보냈다. 소액이었다.\n\n아버지한테서 전화가 왔다. \"야, 이거 왜 보냈어.\"\n\n목소리가 갈라졌다.",
+    "choices": [
+      {
+        "text": "\"당연한 거예요.\" (그냥 그렇게 말했다)",
+        "effects": { "mental": 7, "money": -300000 },
+        "flags": ["sent_parents_money"],
+        "cast_effects": {
+          "father": { "affinity": 12 }
+        },
+        "result_text": "전화를 끊고 나서 잠깐 멍했다.\n\n당연한 게 아니라는 걸 둘 다 알고 있었다. 하지만 그렇게 말하는 게 맞았다. 이게 시작이었다."
+      },
+      {
+        "text": "(통장을 보다가 다음 달로 미뤘다. 아직은)",
+        "effects": { "mental": -2 },
+        "result_text": "다음 달에. 그렇게 생각했다.\n\n숫자가 더 커지면 드릴 수 있을 것 같았다. 하지만 부모님이 기다릴 수 있는 시간이 얼마나 되는지는 몰랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_own_path_confirmed",
+    "title": "흔들리지 않았다",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 48,
+      "flag": "accepted_different_path"
+    },
+    "cooldown": 9999,
+    "background": "street",
+    "portrait": "player_normal",
+    "description": "친구 돌잔치에 다녀왔다. 아기가 귀여웠다. 친구 부부가 행복해 보였다.\n\n그 길이 부러웠을까?\n\n집으로 오는 지하철 안에서 솔직하게 물어봤다.",
+    "choices": [
+      {
+        "text": "아니었다. 내 길이 있다는 걸 다시 확인했다.",
+        "effects": { "mental": 6, "social_skill": 1 },
+        "flags": ["own_path_solidified"],
+        "result_text": "부러운 게 아니었다. 좋아 보이는 것과 내가 원하는 것은 달랐다.\n\n그걸 구분할 수 있게 된 것. 흔들리지 않은 것. 그게 지난 시간이 준 선물이었다."
+      },
+      {
+        "text": "사실 조금은 부러웠다. 인정한다.",
+        "effects": { "mental": -2 },
+        "result_text": "솔직하게 인정했다. 부러운 감정이 드는 게 잘못된 건 아니었다.\n\n하지만 그것과 '그 길을 가고 싶다'는 것 사이에 거리가 있다는 것도 알고 있었다. 민준은 자기 길을 걷고 있었다."
+      }
+    ]
+  }
+]

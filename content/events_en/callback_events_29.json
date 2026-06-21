@@ -1,0 +1,54 @@
+[
+  {
+    "id": "callback_child_cost_grind",
+    "title": "Someone Who Knows the Number",
+    "description": "Another month ground through. Overtime, cutting costs, checking the portfolio.\n\nHe still remembers the day he first learned it costs 320 million to raise a child.\n\nSomeone who knows that number and someone who doesn't — they move through the same day differently.",
+    "choices": [
+      {
+        "text": "Still far away. But I'm moving.",
+        "result_text": "When you know the number, you don't waver. Once vague anxiety sharpened into a concrete goal — quitting stopped being an option.\n\nToday was one more step."
+      }
+    ]
+  },
+  {
+    "id": "callback_pension_self_fund",
+    "title": "Act Like the Pension Doesn't Exist",
+    "description": "Paycheck came in. He pulled out 10% again this month.\n\n\"Treat the national pension as nonexistent and plan from there.\" He remembers the day he decided that.\n\nA small amount. But he knows now that stacking it changes things.",
+    "choices": [
+      {
+        "text": "This habit is changing me.",
+        "result_text": "Compound interest doesn't just stack numbers — it stacks habits.\n\nIt started at 100,000 won. This month it was 200,000. He was quietly building, month by month, the retirement the government won't give him."
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_first_money",
+    "title": "The First Money He Sent Them",
+    "description": "He transferred money to his parents' account for the first time. A small amount.\n\nHis father called. \"Hey, what's this for?\"\n\nHis voice cracked slightly.",
+    "choices": [
+      {
+        "text": "\"It's the obvious thing to do.\" (That's all he said.)",
+        "result_text": "After hanging up, he sat still for a moment.\n\nThey both knew it wasn't obvious. But that was the right thing to say. This was just the beginning."
+      },
+      {
+        "text": "(He looked at the balance and pushed it to next month. Not yet.)",
+        "result_text": "Next month. That's what he told himself.\n\nHe figured he'd send more when the number was bigger. But he didn't know how much waiting time his parents had left."
+      }
+    ]
+  },
+  {
+    "id": "callback_own_path_confirmed",
+    "title": "He Didn't Waver",
+    "description": "He went to his friend's baby's first birthday. The baby was cute. The couple looked happy.\n\nWas he envious of that life?\n\nOn the subway home, he asked himself honestly.",
+    "choices": [
+      {
+        "text": "No. This confirmed that I have my own path.",
+        "result_text": "Not envy. What looks good and what he wants — those turned out to be different things.\n\nBeing able to tell the difference. Not being shaken. That was what the time had given him."
+      },
+      {
+        "text": "Honestly, a little. I'll admit it.",
+        "result_text": "He admitted it honestly. Feeling a twinge of envy wasn't wrong.\n\nBut there was distance between that feeling and 'I want that life.' Minjun was still on his own road."
+      }
+    ]
+  }
+]

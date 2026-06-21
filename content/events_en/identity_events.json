@@ -1,0 +1,77 @@
+[
+  {
+    "id": "identity_midnight_question",
+    "title": "The Question at 3 AM",
+    "description": "Ceiling of the gosiwon. 3 AM. The fan whirring.\n\nHe did something today. Worked on a resume, checked stocks, ran an errand. But he can't quite say what.\n\n\"Is this right?\"",
+    "choices": [
+      {
+        "text": "It is. This is the best I can do right now.",
+        "result_text": "It wasn't a question with an answer. But he decided to answer it that way.\n\nThe fact that he was asking this at 3 AM, staring at the ceiling — that itself was proof he was doing something."
+      },
+      {
+        "text": "I don't know. I should just sleep.",
+        "result_text": "He turned off the light. Questions without answers are better left to morning.\n\nMaybe that was an answer too."
+      }
+    ]
+  },
+  {
+    "id": "identity_old_notebook",
+    "title": "The Old Notebook",
+    "description": "Sorting through boxes, he found a notebook from his first year of university.\n\n\"Build a company with my name on it within 10 years. Change the world by 30.\"\n\nThe handwriting back then was bolder than now.",
+    "choices": [
+      {
+        "text": "That version of me wasn't wrong. Just the direction shifted.",
+        "result_text": "He closed the notebook. Didn't throw it out.\n\nChanging the world might be quieter and slower than he thought back then. Past-him wasn't wrong — just didn't know yet."
+      },
+      {
+        "text": "That version of me didn't know. How the world actually works.",
+        "result_text": "He slipped the notebook back into the box. That old handwriting felt lonely.\n\nNot knowing isn't a crime. But he envied that ignorance."
+      }
+    ]
+  },
+  {
+    "id": "identity_gangnam_why",
+    "title": "Why Gangnam",
+    "description": "Someone asked, \"Why Gangnam?\"\n\nSimple question. He stalled.\nBecause it's expensive? Because arriving there means succeeding? Just because that's the dream?\n\nHe couldn't find the words.",
+    "choices": [
+      {
+        "text": "\"Gangnam is a benchmark. Wherever I can live at that level.\"",
+        "result_text": "It made sense as he said it.\n\nIt's not about living in Gangnam — it's about becoming someone who can. Not about changing the number, but about becoming someone who can make that number."
+      },
+      {
+        "text": "\"I want to live in Gangnam. That's the goal.\"",
+        "result_text": "An honest answer.\n\nCalling a desire a desire, without embarrassment. That alone made something feel clearer."
+      }
+    ]
+  },
+  {
+    "id": "identity_10year_vision",
+    "title": "Me at 43",
+    "description": "He paused his pen over a cafe notebook.\n\nFive years to 38. So where does 43 find him?\nPlanning the next target from Gangnam? Or still in the middle of another battle?\n\nThe picture wouldn't form.",
+    "choices": [
+      {
+        "text": "He wrote down where he wants to be at 43. (mapped it out)",
+        "result_text": "A few lines. Rough, but better than nothing.\n\nWhen you can see five years ahead, today changes. People with direction and people without it spend the same hour very differently."
+      },
+      {
+        "text": "After 38, he'll figure it out. Right now comes first.",
+        "result_text": "He closed the notebook. Staying present is also a strategy.\n\nHe wasn't going to lose 33 chasing 43."
+      }
+    ]
+  },
+  {
+    "id": "identity_define_success",
+    "title": "Defining Success",
+    "description": "A KakaoTalk from an army buddy. Made executive. Photos: nice car, wide office.\n\nHe sent \"Congrats\" and put the phone down.\n\nFor a moment, he thought about it. What does success mean to me?",
+    "choices": [
+      {
+        "text": "3 billion. Gangnam. I have a number.",
+        "result_text": "A concrete number beats an abstract ideal.\n\nHe might not know what 'executive' means for himself, but he knows what 3 billion means. The account balance will prove it."
+      },
+      {
+        "text": "Honestly, I'm not sure. Not yet.",
+        "result_text": "Not knowing was the answer.\n\nTrying to define success by watching someone else's — that was the wrong starting point. He'd get to 3 billion first and ask again then."
+      }
+    ]
+  }
+]
