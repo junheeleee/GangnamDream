@@ -40,7 +40,7 @@
           "casino_chips_loaded"
         ],
         "result_text": "30만원어치 칩을 받았다. 묵직했다.\n\n넉넉해야 마음 편히 친다고 생각했다.\n근데 그 '넉넉함'이 곧 기준이 됐다. 30만원은 어느새 '오늘 쓸 돈'이 되어 있었다.\n\n많이 바꿀수록 많이 잃는 구조라는 걸, 환전 창구에선 아무도 말해주지 않았다.",
-        "follow_up_event": ""
+        "follow_up_event": "casino_no_clocks"
       }
     ]
   },

@@ -5016,5 +5016,309 @@
         "result_text": "Did 10 minutes today. Tomorrow is unknown. Still, that's better than yesterday."
       }
     ]
+  },
+  {
+    "id": "health_sleep_debt",
+    "title": "Sleep Debt",
+    "description": "Was up all night doing something. Couldn't sleep.\n\nWoke up with a heavy head.\nThis has been going on for three days now.",
+    "choices": [
+      {
+        "result_text": "Seven hours. First time in a while.\nNext day my head felt different. So this was the normal state.",
+        "text": "Tonight I sleep early, no excuses"
+      },
+      {
+        "result_text": "Two coffees. Pushed through. The work got done.\nBut the body remembered.",
+        "text": "Push through on coffee — I have things to do"
+      }
+    ]
+  },
+  {
+    "id": "health_exercise_choice",
+    "title": "To Work Out or Not",
+    "description": "Made it all the way to the gym door.\n\nGo in or not. I was tired.\nBut I've lost count of how many times I've used that excuse to skip.",
+    "choices": [
+      {
+        "result_text": "Thirty minutes. The first ten were the hardest.\nOn the way out I thought — yeah, glad I came.",
+        "text": "Go in"
+      },
+      {
+        "result_text": "Came home. Lay down.\nFigured I'd go next time. Always did.",
+        "text": "Rest today"
+      }
+    ]
+  },
+  {
+    "id": "health_meal_skip",
+    "title": "Skipped a Meal Again",
+    "description": "Too busy to eat.\n\nOr more precisely, chose not to. Couldn't be bothered.\nI was hungry. But going out to get something felt like too much.\n\nThird time this month already.",
+    "choices": [
+      {
+        "result_text": "A convenience-store rice ball and milk. 8,000 won.\nFelt human again after eating.",
+        "text": "Go out and eat something"
+      },
+      {
+        "result_text": "Decided to eat in the morning instead.\nMaybe my body felt a little lighter, maybe not.",
+        "text": "Just sleep"
+      }
+    ]
+  },
+  {
+    "id": "health_back_pain",
+    "title": "Lower Back",
+    "description": "My lower back hurt.\n\nThought it was odd at first, but now it's stiff every morning.\nThe goshiwon mattress? My posture? My age?\n\nI'm thirty-three.",
+    "choices": [
+      {
+        "result_text": "Orthopedics. X-ray. 50,000 won.\nMuscle tension, they said. Stretch more, they said.\n50,000-won advice, but it put my mind at ease.",
+        "text": "Go to the hospital"
+      },
+      {
+        "result_text": "Endured it. Too busy.\nBy next month it had gotten worse.",
+        "text": "Just endure it — too busy"
+      },
+      {
+        "result_text": "Looked up back stretches on YouTube.\nTen minutes. Felt a little better.",
+        "text": "At least stretch"
+      }
+    ]
+  },
+  {
+    "id": "health_cold",
+    "title": "A Cold",
+    "description": "A tickle in my throat, then a runny nose.\n\nA cold.\n\nBad timing to get sick. It always was.",
+    "choices": [
+      {
+        "result_text": "Cold medicine. Rested a day.\nNext day I was 70% recovered. Glad I caught it early.",
+        "text": "Buy medicine and rest up"
+      },
+      {
+        "result_text": "Pushed through. It took a week.\nMore things fell apart in the meantime.",
+        "text": "Push through and keep going"
+      }
+    ]
+  },
+  {
+    "id": "health_checkup_reminder",
+    "title": "Checkup Notice",
+    "description": "A text about the national health checkup arrived.\n\nI was eligible this year. Free.\n\n{name} saw the text and swiped it away. Too much hassle.\nBut I couldn't remember the last time I got checked.",
+    "choices": [
+      {
+        "result_text": "Booked the hospital. Blood test. Chest X-ray.\nWhen they said 'all clear,' the relief was bigger than expected.\nThought I wasn't worried about my health — turns out I was.",
+        "text": "Make an appointment"
+      },
+      {
+        "result_text": "Thought, later.\nLater will come. When, I don't know.",
+        "text": "Later"
+      }
+    ]
+  },
+  {
+    "id": "health_eye_strain",
+    "title": "My Eyes Are Killing Me",
+    "description": "Stared at my phone too long and my eyes stung.\n\nA screen-time alert popped up. 7 hours 48 minutes today.\n\nHow did it come to this. I didn't even really do anything.",
+    "choices": [
+      {
+        "result_text": "Turned the phone off at ten and read a book.\nThe first ten minutes my hand kept reaching for the phone.\nThirty minutes later I was just reading.",
+        "text": "Turn the phone off early tonight"
+      },
+      {
+        "result_text": "Said I'd do a little more, but nothing useful came of it.\nLay down to sleep and my eyes kept blinking.",
+        "text": "Do a little more"
+      }
+    ]
+  },
+  {
+    "id": "health_tension_headache",
+    "title": "Migraine",
+    "description": "One side of my head throbbed.\n\nA stress migraine. Comes once or twice a month.\n\n{name} knew where the painkillers were. Inner pocket of the bag.",
+    "choices": [
+      {
+        "result_text": "Lay down for twenty minutes. Felt better when I got up.\nIt was the body's way of telling me to rest.",
+        "text": "Take medicine and lie down a bit"
+      },
+      {
+        "result_text": "Just endured it. Two hours later it got worse.",
+        "text": "Just endure it"
+      }
+    ]
+  },
+  {
+    "id": "health_diet_choice",
+    "title": "What to Eat",
+    "description": "Lunchtime. {name} stepped outside.\n\nLeft: gukbap, 7,000 won. Right: convenience-store lunchbox, 4,500 won.\nStraight ahead: 24-hour half-and-half chicken, 17,000 won.\n\nNever thought one meal in Seoul could be this complicated.",
+    "choices": [
+      {
+        "result_text": "A hot bowl of gukbap.\nWarmed me up. Worth the 7,000 won.",
+        "text": "Gukbap — take care of myself"
+      },
+      {
+        "result_text": "4,500 won. Ate it. Felt empty.\nA meal that fills the stomach but not much else.",
+        "text": "Convenience-store lunchbox — save money"
+      }
+    ]
+  },
+  {
+    "id": "health_mental_burnout_signal",
+    "title": "A Signal",
+    "description": "One of those days I didn't want to do anything.\n\nThere were things to do. But my body wouldn't move.\nOutside the blanket felt too far.\n\n{name} thought — is this burnout?",
+    "choices": [
+      {
+        "result_text": "Spent the whole day under the blanket.\nGuilt at first, then after a while it was okay.\nTomorrow felt like it'd be different.",
+        "text": "Take the day off — for real"
+      },
+      {
+        "result_text": "Forced myself up. Did something.\nThe body moved but the head was gone.\nEfficiency was under half.",
+        "text": "Force myself up"
+      }
+    ]
+  },
+  {
+    "id": "comedy_lunch_menu",
+    "title": "20 Minutes to Decide Lunch",
+    "description": "\"What should we eat today?\"\n\nIt's been twenty minutes since that question.\n\nChicken? Had it yesterday. Gukbap? Sick of it. Pasta? Someone said it's pricey.\nChinese? The dip-or-pour tangsuyu debate alone would eat ten minutes.\n\n{name} was hungry. Lunch break was shrinking.",
+    "choices": [
+      {
+        "result_text": "\"I'm going to the convenience store.\"\nDone in five minutes. Back before the meeting.\nLeadership, in the end, is making a decision.",
+        "text": "Just pick somewhere and be done"
+      },
+      {
+        "result_text": "Ended up at the gukbap place and was five minutes late.\nThe team lead saw. Said nothing, because he was late too.",
+        "text": "Keep debating"
+      }
+    ]
+  },
+  {
+    "id": "comedy_elevator_awkward",
+    "title": "Elevator to the 2nd Floor",
+    "description": "Got on the elevator alone.\n\nPressed the button for the 2nd floor.\n\nThe moment the doors closed, I realized the stairs would've been faster.\nToo late.\n\n{name} faced forward. Waited for the number to change from 1 to 2.",
+    "choices": [
+      {
+        "result_text": "2nd floor. Doors opened.\nNo one there. A relief.",
+        "text": "Just ride it — already on"
+      },
+      {
+        "result_text": "Made a vow.\nTook the elevator again the next day.",
+        "text": "Use the stairs next time (a vow)"
+      }
+    ]
+  },
+  {
+    "id": "comedy_office_printer",
+    "title": "War With the Printer",
+    "description": "The printer wouldn't work.\n\nPower on. Connected. But not working.\n\nOff and on. Reinstalled the driver. Connected by USB. Reconnected by Wi-Fi.\nThirty minutes passed.\n\nThe assistant manager next to me came over. Pressed one button. It worked.",
+    "choices": [
+      {
+        "result_text": "The assistant manager grinned and left.\n{name} made a note of that button.",
+        "text": "Thank you (sincerely)"
+      },
+      {
+        "result_text": "\"Just because.\" The assistant manager left.\n{name} pondered ten more minutes. Still no idea.",
+        "text": "How does it work (sincerely)"
+      }
+    ]
+  },
+  {
+    "id": "comedy_convenience_1plus1",
+    "title": "The 1+1 Trap",
+    "description": "Went to the convenience store.\n\nWent in for one rice ball,\nthen found a buy-one-get-one sale.\n\nSnacks. Drinks. Ice cream. Cup ramen.\n\nAt the register I was holding five things.\nOriginally 3,500 won, but it rang up 11,000.",
+    "choices": [
+      {
+        "result_text": "Have to buy it. 1+1 must be bought.\nGot home, opened the fridge. Already had two of the same thing.",
+        "text": "Buy it all — 1+1 cannot be refused"
+      },
+      {
+        "result_text": "Paid just the 3,500 won.\nKept thinking about the 1+1 on the way out.\nNot sure if I did the right thing.",
+        "text": "Buy only what I came for"
+      }
+    ]
+  },
+  {
+    "id": "comedy_subway_seat",
+    "title": "The Empty Seat",
+    "description": "There was an empty seat on the subway.\n\n{name} and the person beside me spotted it at the same time.\n\nA half-second exchange of glances.",
+    "choices": [
+      {
+        "result_text": "Sat down. The other person sat right next to me.\nBoth pulled out our phones. Seoul.",
+        "text": "Sit down"
+      },
+      {
+        "result_text": "Gestured. The other person sat, gave a nod.\n{name} grabbed a strap and stood.\nNot a bad feeling.",
+        "text": "Give it up"
+      }
+    ]
+  },
+  {
+    "id": "comedy_group_chat",
+    "title": "The Group Chat",
+    "description": "200 messages had piled up in the company group chat.\n\nChecked at lunch — they were all reactions to one notice the team lead posted at 9 AM.\n\n\"Thank you\" \"Noted\" \"Understood\"\n\n198 of them.\n\n{name} wondered if he had to send one too.",
+    "choices": [
+      {
+        "result_text": "Sent it. The 199th 'Noted.'\nThe team lead replied with an emoji.",
+        "text": "Send 'Noted'"
+      },
+      {
+        "result_text": "Didn't send it. There's already 200.\nNo one noticed. Probably.",
+        "text": "Don't send — it's already 200"
+      }
+    ]
+  },
+  {
+    "id": "comedy_cafe_seat_war",
+    "title": "Café Seat Wars",
+    "description": "Walked into a café.\n\nNo seats. Of the 15 tables, 12 had no people — just belongings.\n\nThe belongings were waiting for their owners.\nProbably.",
+    "choices": [
+      {
+        "result_text": "Waited 30 minutes by a table with stuff on it. The owner came back. Said they'd gone to the bathroom.\nA 30-minute bathroom break.",
+        "text": "Wait beside a table with belongings"
+      },
+      {
+        "result_text": "Went to another café. Same situation there.\nBut I snagged a window seat. Felt like a win.",
+        "text": "Go to another café"
+      }
+    ]
+  },
+  {
+    "id": "comedy_wrong_floor",
+    "title": "Got Off at the Wrong Stop",
+    "description": "Dozed off on the subway and got off at the wrong stop.\n\nWhen I opened my eyes, the doors were closing.\n\nThe station name was different. Two stops past mine.",
+    "choices": [
+      {
+        "result_text": "Waited six minutes for the next train, smiling. No big deal.\nSome days are like this.",
+        "text": "Smile and wait for the next train"
+      },
+      {
+        "result_text": "Got angry at myself. Figured I'd lost six minutes.\nLater, I never once thought about those six minutes again.",
+        "text": "Get angry at myself"
+      }
+    ]
+  },
+  {
+    "id": "comedy_autocorrect",
+    "title": "Betrayed by Autocorrect",
+    "description": "Sent a text, then looked again.\n\n\"Are you free for a meeting tomorrow\"\nwent out as \"Are you free for a meating tomorrow.\"\n\nThe other person had already read it.",
+    "choices": [
+      {
+        "result_text": "\"*meeting, sorry ㅠ\"\nThe other person replied 'lol.'\nMight have come across as human.",
+        "text": "Send a correction right away"
+      },
+      {
+        "result_text": "Said nothing.\nThe other person said nothing either.\nThe meeting got scheduled.",
+        "text": "Let it go — context makes it clear"
+      }
+    ]
+  },
+  {
+    "id": "comedy_umchinah",
+    "title": "Enter the Golden Boy",
+    "description": "Mom called.\n\n\"You know Minsu next door? He got into a big company. Getting married too, I hear.\"\n\n{name} remembered Minsu. Dead last in class senior year.\n\n\"That's great, good for him.\"\n\nMom paused for a moment.",
+    "choices": [
+      {
+        "result_text": "\"I'm doing fine too.\"\n\"Right, of course you are.\"\nMom hung up.\n{name} wondered if something was, in fact, going fine.",
+        "text": "\"I'm doing fine too\""
+      },
+      {
+        "result_text": "\"...Yeah.\" (Silence)\nHung up.\nWondered again if Minsu really was last in class. Seemed right.\nBut it didn't matter now.",
+        "text": "\"...Yeah\" (silence)"
+      }
+    ]
   }
 ]

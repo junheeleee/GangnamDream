@@ -161,5 +161,95 @@
         "result_text": "He declined politely. Cho said \"next time.\"\n\n₩128,000 stayed as just a meal. The ROI math stings a little."
       }
     ]
+  },
+  {
+    "id": "flex_sns_envy",
+    "title": "Other People's Highlights",
+    "description": "Opened Instagram absentmindedly before bed.\n\nA classmate was in Bali. A junior bought a new car. Someone at an omakase, someone getting engaged.\n\n{name} swiped through it all under the goshiwon ceiling.\n\nEveryone else seemed to have arrived somewhere. Everyone but me.\nBut I knew — that's their highlight reel, and this is my behind-the-scenes.",
+    "choices": [
+      {
+        "text": "Delete the app — comparison is a thief",
+        "result_text": "Deleted Instagram.\n\nThe first few days my hand kept reaching for the empty spot. After a week, sleep came faster.\n\nNot seeing other people's highlights made my own behind-the-scenes feel less shabby.\nQuitting comparison was the biggest savings that cost nothing."
+      },
+      {
+        "text": "Keep watching — maybe envy is motivation",
+        "result_text": "Scrolled the feed till 2 AM.\n\n'I should get there too.' That resolve was brief, and what remained was emptiness.\n\nComparison pretends to be motivation, then eats your drive instead.\nThe next morning, {name} was more tired."
+      }
+    ]
+  },
+  {
+    "id": "flex_luxury_first",
+    "title": "The First Luxury Temptation",
+    "description": "Department store, first floor. Through the glass, a wallet sat under a spotlight.\n\n800,000 won. More than {name}'s monthly fixed costs.\n\nThe clerk held the door open. \"Come take a look.\"\n\nHolding that, for a moment, would feel like becoming someone else.\nThat 'moment' was the price: 800,000 won.",
+    "choices": [
+      {
+        "text": "Buy it — my first reward to myself",
+        "result_text": "Swiped the card. The shopping bag was heavy.\n\nFor a few days it felt good every time I held it. After a month, it was just a wallet.\n\nLuxury's utility peaks at the moment of purchase and drops after.\nStill, maybe once, you can buy yourself that moment."
+      },
+      {
+        "text": "Just take a photo and leave — not yet",
+        "result_text": "\"I'll come back.\" Walked out of the store.\n\nRiding the escalator down, the wallet kept coming to mind.\nBut the fact that 800,000 won was still in my account outweighed the regret.\n\nMaybe real luxury is the number you keep by not buying what you wanted."
+      }
+    ]
+  },
+  {
+    "id": "flex_imported_car",
+    "title": "Foreign Car Keys",
+    "description": "A friend I hadn't seen in a while plopped his car keys on the table.\n\nA German logo. Couldn't tell if he placed it to be seen, or out of habit.\n\n\"It's a lease, just a lease. No big deal.\" He said it without being asked.\n\n{name} sipped his coffee and smiled. That 'no big deal' was a big deal.",
+    "choices": [
+      {
+        "text": "Congratulate him sincerely — I have my own pace",
+        "result_text": "\"Good for you. Enjoy it.\" He meant it.\n\nThere was some envy. But he also knew that car's monthly lease cost more than his own rent.\n\nNot being shaken by others' speed — that was the muscle he'd need most on the way to Gangnam.\nHe congratulated his friend and walked his own road."
+      },
+      {
+        "text": "It stings — what am I even doing",
+        "result_text": "On the subway home, those car keys kept flickering in his mind.\n\n'When will I…' The thought chased its own tail.\n\nImpatience rose. He wanted to swing for the fences.\nComparison is dangerous because it becomes fuel for bad decisions."
+      }
+    ]
+  },
+  {
+    "id": "flex_hotel_staycation",
+    "title": "Staycation Season",
+    "description": "Summer. The feed was all hotel pools.\n\nDeluxe room at a 5-star hotel, one night, 350,000 won. Breakfast included. Captioned 'a gift to myself.'\n\n{name} looked at those photos while waiting his turn for the goshiwon's shared shower.\n\nJust one night. The price of a trip to another world.",
+    "choices": [
+      {
+        "text": "Go for one night — sometimes you need to breathe",
+        "result_text": "Check-in. A plush bed, big windows, a clean tub.\n\nFor one night, {name} was a different person.\n\nWhen he returned to the goshiwon the next day, the room looked smaller.\nWhether that experience becomes motivation or poison is decided after you come back."
+      },
+      {
+        "text": "There's no tub at home… so just sleep",
+        "result_text": "350,000 won was a month of food.\n\n{name} washed up in the shared shower, turned on the fan, and lay down.\n\nInstead of a staycation, he looked at his bank balance. Strangely, it was a comfort.\nSpending a different summer from everyone else was also a choice."
+      }
+    ]
+  },
+  {
+    "id": "flex_golf_invite",
+    "title": "Do You Play Golf?",
+    "description": "The department head asked in passing.\n\n\"Kim, you play golf? We're doing a round with a client this weekend.\"\n\nGolf. Hundreds just to start. Two or three hundred thousand per round.\n\nBut he'd heard things get decided on that course.\nBetween connections that cost money and pride that doesn't.",
+    "choices": [
+      {
+        "text": "Join in — some things you only see from that table",
+        "result_text": "Played clumsily with rented clubs. The ball kept slicing.\n\nBut over the five hours of 18 holes, conversations he'd never normally hear went around.\nWho's moving where, which deals are coming up.\n\nGolf wasn't a sport, it was a meeting. A pricey ticket, but inside, he saw why."
+      },
+      {
+        "text": "Sit it out — that table isn't my game",
+        "result_text": "\"I've got no talent for golf, honestly.\" He waved it off with a smile.\n\nHe'll never know what was discussed on that course over the weekend.\n\nNot stepping into the world of connections bought with money — could be a regret, could be a relief.\n{name} decided to go his own way. For now."
+      }
+    ]
+  },
+  {
+    "id": "flex_frugal_identity",
+    "title": "Not Poor, Just Saving",
+    "description": "A gathering with friends. Everyone ordered pricey snacks and whiskey.\n\n{name} held out with one cheap beer.\n\n\"Why are you such a cheapskate?\" someone said, laughing.\n\nThe old him would've bristled. But today was different.\nHe wasn't poor — he was saving. And now he knew it himself.",
+    "choices": [
+      {
+        "text": "Say it proudly — \"I have a goal\"",
+        "result_text": "\"I'm saving up. I've got a goal.\" {name} said it with a smile.\n\nThe table went quiet for a moment. Someone looked sheepish, someone looked envious.\n\nThat night he learned frugality isn't shameful — it's proof you have a direction.\nIt was the night he chose to trust his own numbers over others' eyes."
+      },
+      {
+        "text": "Just laugh it off — no need to explain",
+        "result_text": "\"Ha, yeah.\" {name} didn't bother explaining.\n\nHe felt no need to. As long as he knew why he was doing this, that was enough.\n\nSlowly finishing his one beer, he thought of the difference he'd keep in his account.\nQuiet conviction was the sturdiest conviction of all."
+      }
+    ]
   }
 ]
