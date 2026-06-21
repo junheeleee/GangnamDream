@@ -1,0 +1,87 @@
+[
+  {
+    "id": "callback_jeonse_protected_safe",
+    "title": "The Registry Saved Me",
+    "description": "I remembered being careful when I signed the jeonse contract.\nThen news came: the landlord filed for bankruptcy.\n\nJeonse fraud warnings have been all over the news. But I have the stamp.",
+    "choices": [
+      {
+        "text": "Gather the 확정일자 documents and respond",
+        "result_text": "Fixed-date stamp. Leasehold registration. The paperwork I filed that day protected everything.\n\nRecognized as a priority creditor in the foreclosure proceedings. Full deposit returned.\nI was grateful to the version of myself who paid attention."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_scam_narrow",
+    "title": "Jeonse Fraud — Too Close",
+    "description": "A text message: the landlord has filed for bankruptcy.\nI should have gotten the 확정일자 (fixed-date stamp) at the community center back then.\n\nJeonse fraud is no longer something that happens to other people.",
+    "choices": [
+      {
+        "text": "Contact the Legal Aid Corporation and fight for what you can recover",
+        "result_text": "Went to the Legal Aid Corporation. No fixed-date stamp means I'm a junior creditor.\n\n₩500,000 lost in the end — a partial recovery.\n[One document. One trip to the community center. That's what it cost to protect ₩50M in deposit money. In Korea, jeonse fraud has cost thousands of people their life savings. The 확정일자 stamp — ₩600 to file, takes 10 minutes — is the only protection.]\nNow I know it in my bones."
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_payoff",
+    "title": "What the Dinner Left Behind",
+    "description": "The team leader called me over.\n'Are you interested in leading the new project next quarter?'\n\nWas it because I stayed until the end at that dinner? Or because of the actual work?\nMaybe both.",
+    "choices": [
+      {
+        "text": "Say yes",
+        "result_text": "'I'll do it.'\n\nDid this opportunity come from the company dinner, or from my results?\nIn Korean workplaces, these two things are woven together."
+      },
+      {
+        "text": "Say you'd rather wait until you're more ready",
+        "result_text": "'I'd like to take it on when I'm a bit more prepared.' Said it clearly.\n\nThe team leader nodded. Opportunities come to people who save them for the right moment too.\nDecided to prepare for the next one."
+      }
+    ]
+  },
+  {
+    "id": "callback_kkondae_respect",
+    "title": "What the Kkondae Said Back",
+    "description": "The team leader pulled me aside after hours.\n\n'Oh no,' I thought. 'Here it comes.'",
+    "choices": [
+      {
+        "text": "Listen",
+        "result_text": "'What you said back then — I thought about it. You were right. Everyone else just lets it go these days.'\n\nNot what I expected.\nSaying what you actually think can move even a kkondae — sometimes."
+      }
+    ]
+  },
+  {
+    "id": "callback_overtime_burnout",
+    "title": "The Weight of Accumulated Overtime",
+    "description": "Eye-contact overtime has piled up.\nThe body starts sending signals.\n\nStiff neck, blurry screen. On Sunday nights, a tight chest at the thought of going in.",
+    "choices": [
+      {
+        "text": "Decide to start drawing the line",
+        "result_text": "'From now on, I leave when the work is done.' Decided internally.\n\n[눈치야근 (nunchi yageun): overtime performed not because there's actual work, but because no one wants to be seen leaving before the boss. A distinctly Korean workplace phenomenon — the cost isn't just time, it's accumulated health damage.]\nThe body won against the office. The line is mine to draw."
+      },
+      {
+        "text": "Push through a little longer",
+        "result_text": "Just a little more. Just a little more.\n\nThe 'little mores' piled up until the body protested. Indigestion. Sleepless nights.\nEndurance has limits. I'd already passed mine by some distance."
+      }
+    ]
+  },
+  {
+    "id": "callback_tax_windfall",
+    "title": "Tax Refund Arrives",
+    "description": "Hometax notification: refund amount confirmed.\n\nThe careful deduction work paid off.",
+    "choices": [
+      {
+        "text": "Put the refund into savings",
+        "result_text": "₩150,000 deposited.\n\nMoney the government owed me. The difference between knowing the system and not.\nPeople who work this every year keep a little more — every year."
+      }
+    ]
+  },
+  {
+    "id": "callback_recycling_neighbor",
+    "title": "Small Trust in the Goshiwon",
+    "description": "The woman next door stopped me in the hallway.\n\n'You've been so good with the recycling lately. Thank you.'\nI'd barely noticed her. Turns out she noticed me.",
+    "choices": [
+      {
+        "text": "Exchange a proper greeting",
+        "result_text": "We learned each other's names.\n\nI have a neighbor in the goshiwon now. Small trust built from something small.\n[Recycling rules in Korea are strict and specific: separate plastic, cans, paper, styrofoam, glass, food waste — each with its own designated bin and day. Rinsing bottles, removing labels — it's genuinely complex. But everyone does it, because the social pressure to comply is real. The unwritten compact that makes this country's density work.]"
+      }
+    ]
+  }
+]

@@ -1,8 +1,8 @@
 [
   {
     "id": "kx_hoesik",
-    "title": "Company Dinner",
-    "description": "The team leader sent a group chat message:\n'Team dinner tonight! Please try to make it :)'\n\nNo question mark. A request that's hard to refuse.\nSamgyeopsal restaurant, second round at noraebang, third round at a pojangmacha.",
+    "title": "Company Dinner (회식)",
+    "description": "The team leader sent a group chat message:\n'Team dinner tonight! Please try to make it :)'\n\n[회식 (Hoesik): mandatory-in-spirit company group dining. It's not just dinner — it's a loyalty ritual. Leaving early signals disengagement. Staying until the end, drinking even if you don't want to, means you're 'one of us.' In Korean corporate culture, the after-hours bond often matters more than desk performance.]\n\nNo question mark. A request that's nearly impossible to refuse.\nSamgyeopsal restaurant, second round at noraebang (karaoke room), third round at a pojangmacha (outdoor tent bar).",
     "choices": [
       {
         "text": "Stay until the end — go with the team flow",
@@ -31,8 +31,8 @@
   },
   {
     "id": "kx_kkondae",
-    "title": "The Old Guard",
-    "description": "The team leader said it again.\n'Back when I was your age...'\n\nKorea's seniority-based workplace culture.\nSeniority doesn't always mean being right —\nbut pushing back isn't easy.",
+    "title": "Kkondae (꼰대)",
+    "description": "The team leader said it again.\n'Back when I was your age...'\n\n[꼰대 (Kkondae): a Korean term for someone — usually older — who imposes their experience and values on juniors as absolute truths. Not just any old-timer: specifically someone who refuses to accept that times have changed, and uses seniority to shut down new ideas. The word has become a cultural shorthand for Korea's generational workplace tension.]\n\nSeniority doesn't always mean being right — but pushing back isn't easy.",
     "choices": [
       {
         "text": "'You're absolutely right' — let it wash over you",

@@ -120,11 +120,13 @@
       {
         "text": "규칙대로 꼼꼼히 분류한다",
         "effects": { "mental": 3, "reputation": 1 },
+        "flags": ["recycling_diligent"],
         "result_text": "페트병 라벨을 떼고 헹궈서 따로 배출했다.\n옆집 아주머니가 '잘하네' 한마디 하고 갔다.\n\n이 사소한 질서가 한국을 굴리는 힘인지도 모른다.\n남들 다 지키니까 나도 지키게 되는, 보이지 않는 약속."
       },
       {
         "text": "대충 묶어 버리고 들어간다",
         "effects": { "mental": 1, "reputation": -1 },
+        "flags": ["recycling_lazy"],
         "result_text": "피곤해서 대충 묶어 버렸다.\n경비 아저씨가 다음 날 다시 분류했을 거다.\n\n좀 미안했다. 누군가의 수고로 굴러가는 편리함이 있다는 걸, 안다."
       }
     ]

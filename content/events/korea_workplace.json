@@ -16,11 +16,13 @@
       {
         "text": "끝까지 간다 — 팀 분위기에 맞춘다",
         "effects": { "mental": -2, "health": -2, "social_skill": 2, "reputation": 1 },
+        "flags": ["hoesik_loyal"],
         "result_text": "자정이 넘었다. 술도 마셨고, 노래도 했다.\n\n집에 오니 몸이 무거웠지만 팀장이 어깨를 쳤다. \"어이, 잘했어.\"\n한국 직장에서의 신뢰는 이런 데서 쌓이기도 한다."
       },
       {
         "text": "1차까지만 — 일찍 빠진다",
         "effects": { "mental": 2, "health": 1 },
+        "flags": ["hoesik_left_early"],
         "result_text": "\"내일 일이 있어서요.\" 1차 삼겹살에서 나왔다.\n\n팀장이 \"그래, 먼저 가.\" 했다. 표정은 읽기 어려웠다.\n이 눈치를 어떻게 받아들일지는, 아직 모르겠다."
       }
     ]
@@ -42,11 +44,13 @@
       {
         "text": "버티다 팀장보다 늦게 나간다",
         "effects": { "mental": -3, "health": -1, "reputation": 1 },
+        "flags": ["overtime_boundary_lost"],
         "result_text": "밤 10시, 팀장이 먼저 일어났다. 그 다음에 나왔다.\n\n고시원에 돌아오니 12시가 다 됐다.\n오늘의 야근은 업무 때문이 아니라 눈치 때문이었다."
       },
       {
         "text": "할 일 끝냈으면 정시 퇴근한다",
         "effects": { "mental": 3, "health": 1 },
+        "flags": ["overtime_boundary_set"],
         "result_text": "\"먼저 들어가겠습니다.\" 하고 나왔다.\n\n등 뒤가 따가운 것 같았지만, 걷다 보니 괜찮아졌다.\n내 시간은 내가 지킨다. 이것도 연습이 필요하다."
       }
     ]
@@ -68,11 +72,13 @@
       {
         "text": "\"맞는 말씀이에요\" 하고 흘려듣는다",
         "effects": { "mental": -1, "reputation": 1 },
+        "flags": ["kkondae_yielded"],
         "result_text": "맞장구쳤다. 팀장이 흡족해했다.\n\n내 생각은 달랐지만, 오늘은 아꼈다.\n이게 처세인지 굴복인지 — 경계가 어디인지 아직 모른다."
       },
       {
         "text": "정중하게 내 생각을 말한다",
         "effects": { "mental": 4, "social_skill": 1 },
+        "flags": ["challenged_kkondae"],
         "result_text": "\"저는 이렇게 생각해서요...\" 조심스럽게 말했다.\n\n팀장이 잠깐 멈췄다. \"음, 그것도 생각해볼 수 있겠네.\"\n예상보다 괜찮았다. 용기는 연습이 필요하다."
       }
     ]

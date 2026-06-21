@@ -32,7 +32,7 @@
   {
     "id": "kx_reserve_duty",
     "title": "Reserve Duty Notice",
-    "description": "A text arrives:\n'Reserve Forces Training Notice. Date: [Month] [Day] 09:00. No-show fine: 1,500,000 KRW.'\n\nIt doesn't end at discharge. Eight more years of reserve duty.\nBlocked off on the calendar. Another day lost.",
+    "description": "A text arrives:\n'Reserve Forces Training Notice. Date: [Month] [Day] 09:00. No-show fine: ₩1,500,000.'\n\n[Military reserve duty: all Korean men serve 18–21 months of active duty, then remain in the reserve for 8 more years after discharge. Once a year (sometimes more), they're called back for drills. Miss one without an approved reason: ₩1.5M fine. It's not optional, and it lands on your schedule whether you're planning a job interview or a business pitch.]\n\nAnother day blocked off. Another reminder that some things in Korea aren't negotiable.",
     "choices": [
       {
         "text": "Clear the schedule and go dutifully",
