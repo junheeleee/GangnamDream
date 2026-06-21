@@ -43,6 +43,7 @@ var _font_bold: FontFile
 
 var _hud_lbl: RichTextLabel
 var _dice_ctrl: Control
+var _call_ctrl: Control
 var _msg_lbl: Label
 var _balance_lbl: Label
 var _roll_btn: Button
@@ -316,12 +317,18 @@ func _build_ui() -> void:
 	stage_row.add_child(info_panel)
 
 	var info_v := VBoxContainer.new()
-	info_v.add_theme_constant_override("separation", 8)
+	info_v.add_theme_constant_override("separation", 7)
 	var info_margin := MarginContainer.new()
 	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
 		info_margin.add_theme_constant_override(side, 12)
 	info_margin.add_child(info_v)
 	info_panel.add_child(info_margin)
+
+	_call_ctrl = Control.new()
+	_call_ctrl.custom_minimum_size = Vector2(0, 58)
+	_call_ctrl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_call_ctrl.draw.connect(_draw_call_panel)
+	info_v.add_child(_call_ctrl)
 
 	_msg_lbl = Label.new()
 	_msg_lbl.text = "BIG, SMALL 또는 원하는 조합에 베팅하세요."
@@ -497,6 +504,11 @@ func _panel_style(bg: Color, border: Color, border_w: int, radius: int) -> Style
 	sb.content_margin_bottom = 8
 	return sb
 
+func _alpha(hex: String, a: float) -> Color:
+	var c := Color(hex)
+	c.a = a
+	return c
+
 func _refresh() -> void:
 	if _hud_lbl:
 		var net_color := "#3de87a" if _net >= 0 else "#e85d5d"
@@ -525,6 +537,79 @@ func _refresh() -> void:
 	_refresh_history()
 	if is_instance_valid(_dice_ctrl):
 		_dice_ctrl.queue_redraw()
+	if is_instance_valid(_call_ctrl):
+		_call_ctrl.queue_redraw()
+
+func _draw_call_panel() -> void:
+	if not is_instance_valid(_call_ctrl):
+		return
+	var sz := _call_ctrl.size
+	if sz.x <= 8.0 or sz.y <= 8.0:
+		return
+	var font: Font = _font if _font else ThemeDB.fallback_font
+	var bold: Font = _font_bold if _font_bold else font
+	var rect := Rect2(Vector2(6, 4), sz - Vector2(12, 8))
+	_call_ctrl.draw_rect(Rect2(rect.position + Vector2(0, 4), rect.size), Color(0, 0, 0, 0.28), true)
+	_call_ctrl.draw_rect(rect, Color("#07120f"), true)
+	_call_ctrl.draw_rect(rect, Color("#2fc776"), false, 1.2)
+	_call_ctrl.draw_string(font, rect.position + Vector2(14, 17), "SELECTED BET",
+		HORIZONTAL_ALIGNMENT_LEFT, 120, 9, Color(1, 1, 1, 0.42))
+	_call_ctrl.draw_string(bold, rect.position + Vector2(14, 42), DAI_SAI.label_for_bet(_bet_type, _selected),
+		HORIZONTAL_ALIGNMENT_LEFT, 190, 19, Color("#f2c45f"))
+	_draw_daisai_chip(_call_ctrl, rect.position + Vector2(rect.size.x - 142, rect.size.y * 0.5), _stake, 34.0)
+	_call_ctrl.draw_string(bold, rect.position + Vector2(rect.size.x - 112, 38), GameState.format_money(float(_stake)),
+		HORIZONTAL_ALIGNMENT_LEFT, 100, 14, Color("#d8f7dc"))
+	var payout_text := _payout_text()
+	_call_ctrl.draw_string(font, rect.position + Vector2(rect.size.x * 0.50 - 92, 22), payout_text,
+		HORIZONTAL_ALIGNMENT_CENTER, 184, 12, Color(1, 1, 1, 0.48))
+
+func _payout_text() -> String:
+	match _bet_type:
+		DAI_SAI.BET_BIG, DAI_SAI.BET_SMALL, DAI_SAI.BET_ODD, DAI_SAI.BET_EVEN:
+			return "PAYS 1:1"
+		DAI_SAI.BET_SINGLE:
+			return "PAYS 1~3:1"
+		DAI_SAI.BET_PAIR:
+			return "PAYS 8:1"
+		DAI_SAI.BET_ANY_TRIPLE:
+			return "PAYS 24:1"
+		DAI_SAI.BET_SPECIFIC_TRIPLE:
+			return "PAYS 150:1"
+		DAI_SAI.BET_TOTAL:
+			return "PAYS %d:1" % int(DAI_SAI.TOTAL_PAYOUTS.get(_selected, 0.0))
+	return "SELECT BET"
+
+func _chip_color(stake: int) -> Color:
+	match stake:
+		10_000:
+			return Color("#d33a35")
+		50_000:
+			return Color("#2f65d9")
+		100_000:
+			return Color("#23a66f")
+		500_000:
+			return Color("#7a4fd9")
+		1_000_000:
+			return Color("#d9a12f")
+		_:
+			return Color("#d33a35")
+
+func _draw_daisai_chip(ctrl: Control, center: Vector2, stake: int, size: float) -> void:
+	var raw_tex = CHIP_TEX_BY_STAKE.get(stake, null)
+	if raw_tex is Texture2D:
+		var tex := raw_tex as Texture2D
+		for i in range(3):
+			var pos := center + Vector2(float(i) * 2.0, -float(i) * 3.0) - Vector2(size * 0.5, size * 0.5)
+			ctrl.draw_texture_rect(tex, Rect2(pos + Vector2(0, 2), Vector2(size, size)), false, Color(0, 0, 0, 0.20))
+			ctrl.draw_texture_rect(tex, Rect2(pos, Vector2(size, size)), false)
+		return
+	var col := _chip_color(stake)
+	for i in range(3):
+		var p := center + Vector2(float(i) * 2.0, -float(i) * 3.0)
+		ctrl.draw_circle(p + Vector2(0, 2), size * 0.34, Color(0, 0, 0, 0.30))
+		ctrl.draw_circle(p, size * 0.34, col)
+		ctrl.draw_arc(p, size * 0.24, 0.0, TAU, 24, Color("#f7f2df"), 2.0)
+		ctrl.draw_circle(p, size * 0.13, col.darkened(0.20))
 
 func _update_bet_buttons() -> void:
 	for entry in _bet_btns:
@@ -567,15 +652,21 @@ func _refresh_history() -> void:
 func _draw_dice() -> void:
 	if not is_instance_valid(_dice_ctrl):
 		return
-	var dice_size := 78.0
-	var gap := 24.0
+	var dice_size := 70.0
+	var gap := 18.0
 	var total_w := dice_size * 3.0 + gap * 2.0
-	var x := (_dice_ctrl.size.x - total_w) * 0.5
+	var layout_w := 112.0 + total_w
+	var start_x := (_dice_ctrl.size.x - layout_w) * 0.5
+	var cup_center := Vector2(start_x + 50.0, _dice_ctrl.size.y * 0.5 + 4.0)
+	var x := start_x + 112.0
 	var y := (_dice_ctrl.size.y - dice_size) * 0.5
-	var tray_rect := Rect2(Vector2(x - 30.0, y - 20.0), Vector2(total_w + 60.0, dice_size + 40.0))
+	var tray_rect := Rect2(Vector2(start_x - 20.0, y - 20.0), Vector2(layout_w + 44.0, dice_size + 40.0))
 	_dice_ctrl.draw_rect(Rect2(tray_rect.position + Vector2(0.0, 7.0), tray_rect.size), Color(0, 0, 0, 0.35), true)
 	_dice_ctrl.draw_rect(tray_rect, Color("#07110f"), true)
-	_dice_ctrl.draw_rect(tray_rect, Color("#31413d"), false, 2.0)
+	_dice_ctrl.draw_rect(tray_rect, Color("#c49a38"), false, 2.0)
+	_dice_ctrl.draw_string(_font if _font else ThemeDB.fallback_font,
+		tray_rect.position + Vector2(16, tray_rect.size.y - 10), "SHAKER",
+		HORIZONTAL_ALIGNMENT_LEFT, 80, 9, Color(1, 1, 1, 0.28))
 
 	var dome_center := tray_rect.get_center()
 	_dice_ctrl.draw_set_transform(dome_center, 0.0, Vector2(1.75, 0.72))
@@ -584,8 +675,45 @@ func _draw_dice() -> void:
 	_dice_ctrl.draw_arc(Vector2.ZERO, 53.0, PI * 1.12, PI * 1.70, 32, Color(1.0, 1.0, 1.0, 0.20), 2.0)
 	_dice_ctrl.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
+	_draw_dice_cup(cup_center, _phase == Phase.ROLLING)
+	if _phase == Phase.ROLLING:
+		_draw_roll_motion(Vector2(x + total_w * 0.5, y + dice_size * 0.5), total_w)
+
 	for i in range(3):
 		_draw_single_die(Vector2(x + float(i) * (dice_size + gap), y), dice_size, int(_dice[i]))
+
+func _draw_dice_cup(center: Vector2, rolling: bool) -> void:
+	var rot := -0.18 if rolling else -0.06
+	_dice_ctrl.draw_set_transform(center, rot, Vector2.ONE)
+	var body := PackedVector2Array([
+		Vector2(-30, -28),
+		Vector2(30, -28),
+		Vector2(23, 32),
+		Vector2(-23, 32),
+	])
+	_dice_ctrl.draw_polygon(body, PackedColorArray([Color("#40101b")]))
+	_dice_ctrl.draw_polygon(PackedVector2Array([
+		Vector2(-24, -20),
+		Vector2(24, -20),
+		Vector2(19, 24),
+		Vector2(-19, 24),
+	]), PackedColorArray([Color("#8b2035")]))
+	_dice_ctrl.draw_rect(Rect2(Vector2(-28, 22), Vector2(56, 10)), Color("#221014"), true)
+	_dice_ctrl.draw_line(Vector2(-25, -10), Vector2(20, -18), Color(1, 1, 1, 0.20), 2.0)
+	_dice_ctrl.draw_line(Vector2(-18, 4), Vector2(16, -2), Color(0, 0, 0, 0.20), 2.0)
+	_dice_ctrl.draw_set_transform(center + Vector2(0, -29), rot, Vector2(1.0, 0.32))
+	_dice_ctrl.draw_circle(Vector2.ZERO, 31.0, Color("#160910"))
+	_dice_ctrl.draw_arc(Vector2.ZERO, 31.0, 0.0, TAU, 40, Color("#c49a38"), 2.0)
+	_dice_ctrl.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+func _draw_roll_motion(center: Vector2, width: float) -> void:
+	for i in range(6):
+		var off := float(i) * 18.0 - 54.0
+		var alpha := 0.18 - float(i % 3) * 0.03
+		_dice_ctrl.draw_line(center + Vector2(-width * 0.35 + off, -22.0),
+			center + Vector2(width * 0.12 + off, -32.0), Color(1, 1, 1, alpha), 2.0)
+		_dice_ctrl.draw_line(center + Vector2(-width * 0.20 + off, 28.0),
+			center + Vector2(width * 0.20 + off, 17.0), _alpha("#f2c45f", alpha), 2.0)
 
 func _draw_single_die(pos: Vector2, size: float, value: int) -> void:
 	var rect := Rect2(pos, Vector2(size, size))
