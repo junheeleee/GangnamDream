@@ -9,12 +9,12 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-21 (5차)** — **P3 7차 직장인 일상 서사 6종** (`work_events.json` 신규) + **정체성 콜백 3종** (`callback_events_30.json` 신규, EN 동기화): work_credit_stolen(성과 가로채기 3선택지), work_burnout_monday(번아웃 신호), work_headhunter_call(헤드헌터 3선택지), work_peer_salary_slip(동기 연봉 3선택지), work_lunch_alone(혼밥), work_year_review(연말 성과면담 3선택지). 콜백: midnight_echo(새벽 확신 낮 검증), vision_midcheck(43세 비전 중간점검), gangnam_standard_held(강남 기준 내면화). 이벤트 1082개. audit ERROR 0/WARNING 0, EN 누락 0. |
-| **이전** | **2026-06-21 (4차)** — **P3 6차 자아 정체성 5종** (`identity_events.json`) + **불안 콜백 4종** (`callback_events_29.json`): identity_midnight_question/old_notebook/gangnam_why/10year_vision/define_success. 콜백: child_cost_grind/pension_self_fund/parent_first_money/own_path_confirmed. 이벤트 1073개. |
-| **이전2** | **2026-06-21 (3차)** — **P3 5차 자녀·노후 불안 서사 6종** (`anxiety_events.json`): 친구임신/결혼압박/육아비용/연금고갈/부모노환/명퇴목격. 이벤트 1064개. audit ERROR 0/WARNING 0, EN 누락 0. |
+| **최근 완료** | **2026-06-21 (6차)** — **P3 8차 우정·외로움 서사 6종** (`friendship_events.json` 신규) + **직장 콜백 3종** (`callback_events_31.json` 신규, EN 동기화) + **밸런스 audit #8 통과**: friend_group_chat_silent(단톡 침묵), friend_wedding_stranger(결혼식 피로연 낯선 얼굴), friend_drunk_midnight_call(새벽 2시 술취한 전화), friend_mutual_drift(반년만에 어색함), friend_success_gap(친구 50억 투자유치), friend_last_bachelor(마지막 독신 둘). 콜백: credit_theft_again(또 가로챔/이직 분기), salary_negotiation_result(재협상 결과), job_change_outcome(이직 여부 회수). 이벤트 1091개. 밴드 전부 통과. |
+| **이전** | **2026-06-21 (5차)** — **P3 7차 직장인 일상 서사 6종** (`work_events.json`) + **정체성 콜백 3종** (`callback_events_30.json`): 성과가로채기/번아웃/헤드헌터/동기연봉/혼밥/연말면담. 콜백: midnight_echo/vision_midcheck/gangnam_standard_held. 이벤트 1082개. |
+| **이전2** | **2026-06-21 (4차)** — **P3 6차 자아 정체성 5종** (`identity_events.json`) + **불안 콜백 4종** (`callback_events_29.json`). 이벤트 1073개. |
 | **Codex 추가 완료** | **2026-06-20~21 (외형)** — 빅휠 54칸 슬롯 쇼휠, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH), 홀덤 오벌 테이블 재배치, 슬롯머신 캐비닛 보강, 룰렛 테이블 베팅/딜러/칩/포켓 하이라이트. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
-| **다음 작업** | **P3 8차(우정·외로움 서사 — 친구들이 멀어지는 이야기)** 또는 **work_events 콜백 체인** (endured_credit_theft·negotiated_salary·job_change_trigger 플래그 활용); **밸런스 audit #8**(1082개 이벤트 mental 누적 영향 재검증). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-21 (P3 7차 직장인 서사 6종 + 정체성 콜백 3종. 이벤트 1082개, EN 누락 0, audit ERROR 0/WARNING 0) |
+| **다음 작업** | **arc_daeun / arc_hyunsu 후속** (중반에서 끊긴 두 캐릭터 아크 완결) 또는 **직장/이직 루트 전용 엔딩 보강** (현재 엔딩 31개 중 직장인 루트 약함); 우정 이벤트 콜백 체인(reached_out_to_friend·accepted_friends_growth·celebrated_friends_success 플래그). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-21 (P3 8차 우정·외로움 6종 + 직장콜백 3종 + 밸런스 audit #8 통과. 이벤트 1091개, EN 누락 0, audit ERROR 0/WARNING 0) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

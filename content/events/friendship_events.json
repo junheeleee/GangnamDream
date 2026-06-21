@@ -1,0 +1,162 @@
+[
+  {
+    "id": "friend_group_chat_silent",
+    "title": "조용해진 단톡",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.4,
+    "conditions": {
+      "min_turn": 16
+    },
+    "cooldown": 40,
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "description": "단톡방 알림이 울렸다. 마지막 메시지가 언제였나 봤더니, 3주 전 부고 공지였다.\n\n한때 매일 울리던 단톡이었다. 사진, 밈, 쓸데없는 농담들. 이제 경조사 때만 열린다.\n\n누가 먼저 조용해진 건지는 기억이 없다.",
+    "choices": [
+      {
+        "text": "직접 연락해봤다. \"야, 밥 한번 먹자.\"",
+        "effects": { "mental": 2, "social_skill": 1 },
+        "flags": ["reached_out_to_friend"],
+        "result_text": "답장이 왔다. \"좋지, 언제?\" 그 이후로 날짜를 맞추는 데 2주가 걸렸다.\n\n만났을 때 어색하지 않았다. 오래 안 봤어도 그게 우리 사이였다. 단톡이 조용한 게 문제가 아니었다."
+      },
+      {
+        "text": "그냥 뒀다. 다들 바쁜 거다.",
+        "effects": { "mental": -3 },
+        "result_text": "알림을 끄고 폰을 내려놨다. 다들 바쁜 거 안다.\n\n그런데 그 침묵이, 이상하게 오래 남았다."
+      }
+    ]
+  },
+  {
+    "id": "friend_wedding_stranger",
+    "title": "결혼식 피로연",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "conditions": {
+      "min_turn": 20
+    },
+    "cooldown": 48,
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "description": "친구 결혼식. 피로연 테이블에 앉았다.\n\n신랑 측 테이블엔 모르는 얼굴들이 가득했다. 회사 동료, 새 친구들, 처가 쪽 친척.\n\n친구에게 나 모르는 세계가 생겼다는 걸 처음 실감했다. 이상하게 반가우면서 낯설었다.",
+    "choices": [
+      {
+        "text": "좋은 거다. 친구가 잘 살고 있다는 거니까.",
+        "effects": { "mental": 3 },
+        "flags": ["accepted_friends_growth"],
+        "result_text": "축사 때 친구 눈이 빨개졌다. 그 옆에 처음 보는 사람들이 같이 울고 있었다.\n\n그들도 친구를 아끼는 사람들이었다. 친구의 세계가 넓어진 것, 그게 맞는 일이었다."
+      },
+      {
+        "text": "나는 저 테이블 사람 중 누군가에 가려진 것 같다.",
+        "effects": { "mental": -4 },
+        "result_text": "축하한다고 했다. 진심이었다.\n\n돌아오는 길에 조금 멍했다. 친구가 멀어진 게 아니라, 내가 그 자리를 채워주지 못한 것 같기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "friend_drunk_midnight_call",
+    "title": "새벽 2시 전화",
+    "category": "social",
+    "rarity": "common",
+    "weight": 1.3,
+    "conditions": {
+      "min_turn": 8
+    },
+    "cooldown": 36,
+    "background": "late_night",
+    "portrait": "player_normal",
+    "description": "새벽 2시. 군대 동기에게서 전화가 왔다. 술 취한 목소리.\n\n\"야, 기억나? 그때 우리 그 술집에서...\" 예전 얘기만 한다.\n\n지금 어떻게 사는지, 요즘 뭐가 힘든지 — 그런 얘기는 하나도 없었다.",
+    "choices": [
+      {
+        "text": "같이 옛날 얘기 한참 했다.",
+        "effects": { "mental": 4 },
+        "result_text": "새벽 3시까지 통화했다. 웃고 떠들었다.\n\n끊고 나서 생각했다. 이게 우정이기도 하다. 현재가 아니라 과거로 연결된 사람들. 그것도 나쁘지 않았다."
+      },
+      {
+        "text": "\"야, 요즘은 어때?\" 지금 얘기를 꺼냈다.",
+        "effects": { "mental": 1, "social_skill": 1 },
+        "result_text": "잠깐 침묵이 흘렀다. 그리고 친구가 천천히 말했다. 회사 얘기, 요즘 힘든 것들.\n\n예전 얘기로 시작했는데 지금 얘기가 됐다. 그게 더 좋은 통화였다."
+      }
+    ]
+  },
+  {
+    "id": "friend_mutual_drift",
+    "title": "반년 만에",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "conditions": {
+      "min_turn": 28
+    },
+    "cooldown": 48,
+    "background": "pojangmacha",
+    "portrait": "player_normal",
+    "description": "반년 만에 친구를 만났다. 포장마차.\n\n어색했다. 공통 화제를 찾으려 했는데, 요즘 뭘 하냐는 질문이 막혔다. 서로의 일상이 너무 달라져 있었다.\n\n예전엔 말하지 않아도 아는 게 많았는데.",
+    "choices": [
+      {
+        "text": "이게 자연스러운 거다. 달라진 걸 나눠가는 것.",
+        "effects": { "mental": 2, "social_skill": 1 },
+        "flags": ["accepted_friendship_change"],
+        "result_text": "술 한 잔 더 시키면서 말했다. \"야, 그래서 요즘 뭐 재밌어?\"\n\n어색함이 풀리는 데 한 시간쯤 걸렸다. 공통점이 없어도 대화는 됐다. 친구란 게 원래 그런 것 같기도 했다."
+      },
+      {
+        "text": "더 자주 봐야겠다. 이러면 안 된다.",
+        "effects": { "mental": -2 },
+        "result_text": "헤어지면서 \"다음엔 더 자주 보자\" 했다.\n\n집에 와서 달력을 봤다. 다음에 가능한 날이 한 달 뒤였다. 그 한 달이 또 반년이 될 것 같은 예감이 들었다."
+      }
+    ]
+  },
+  {
+    "id": "friend_success_gap",
+    "title": "50억 투자 유치",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "conditions": {
+      "min_turn": 24
+    },
+    "cooldown": 48,
+    "background": "street",
+    "portrait": "player_normal",
+    "description": "뉴스 기사에 친구 이름이 나왔다.\n\n「스타트업 ○○, 시리즈 A 50억 투자 유치」\n\n대학 동기다. 같이 막걸리 마시면서 \"언젠가 창업하자\"고 했던 친구. 그게 그냥 술자리 얘기가 아니었나 보다.",
+    "choices": [
+      {
+        "text": "연락해서 진심으로 축하했다.",
+        "effects": { "mental": 3, "social_skill": 1 },
+        "flags": ["celebrated_friends_success"],
+        "result_text": "친구가 \"야, 나중에 밥 사\" 하고 웃었다.\n\n전화를 끊고 나서, 복잡한 감정이 없었다면 거짓말이다. 하지만 진심이기도 했다. 그 두 가지가 동시에 있을 수 있다는 걸 알았다."
+      },
+      {
+        "text": "축하 문자를 보냈다. 복잡한 감정은 인정한다.",
+        "effects": { "mental": -3, "intelligence": 1 },
+        "result_text": "\"대박이다, 진짜 대단해\" 보냈다. 진심이었는데 왜 찜찜한 건지.\n\n내가 뭘 하고 있는지 다시 보게 됐다. 친구의 성공이 내 게이지를 건드렸다. 그게 나쁜 게 아니라, 아직 덜 됐다는 신호였다."
+      }
+    ]
+  },
+  {
+    "id": "friend_last_bachelor",
+    "title": "마지막 독신 둘",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "conditions": {
+      "min_turn": 40
+    },
+    "cooldown": 48,
+    "background": "pojangmacha",
+    "portrait": "player_normal",
+    "description": "친구 모임에서 결혼 안 한 사람이 민준이랑 한 명 남았다.\n\n둘이 포장마차에 남아서 소주를 더 시켰다. \"우리 둘이 끝까지 이러고 있는 거 아니야?\" 웃으면서 했는데, 농담이 아니었다.\n\n같은 처지인 것 같지만, 방향이 달랐다.",
+    "choices": [
+      {
+        "text": "\"이 자리가 좋다. 지금 이게 나쁘지 않아.\"",
+        "effects": { "mental": 5 },
+        "result_text": "친구도 잔을 들었다. \"그래, 뭐.\"\n\n정답 없는 얘기를 정답 없이 끝냈다. 이게 남은 자들의 방식이었다."
+      },
+      {
+        "text": "\"우리도 언젠간 멀어지겠지.\" (솔직하게)",
+        "effects": { "mental": -2, "social_skill": 1 },
+        "result_text": "친구가 잠깐 멈췄다. \"왜 그런 말 해.\"\n\n그러면서도 끄덕였다. 둘 다 알고 있는 얘기였다. 말하지 않는 것과, 말한 것 사이 어딘가에서 술잔이 한 번 더 부딪혔다."
+      }
+    ]
+  }
+]

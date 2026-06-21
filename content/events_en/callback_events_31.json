@@ -1,0 +1,47 @@
+[
+  {
+    "id": "callback_credit_theft_again",
+    "title": "They Did It Again",
+    "description": "Again.\n\nMore blatant this time. In the executive meeting, the team lead described Minjun's proposal as 'a team-wide idea.'\n\nWhen he held back before, he'd decided to keep evidence. The question now is whether this is the moment to use it.",
+    "choices": [
+      {
+        "text": "Organized the evidence and brought it to HR.",
+        "result_text": "Dates, emails, draft files. It was all there.\n\nThe HR meeting was uncomfortable. But Minjun was calmer in that room than the team lead. Having evidence does that."
+      },
+      {
+        "text": "This is the exit signal. Time to leave.",
+        "result_text": "He opened his resume instead of an HR complaint form.\n\nEven if he won the fight in this company, it would cost him. Better to spend that energy somewhere else."
+      }
+    ]
+  },
+  {
+    "id": "callback_salary_negotiation_result",
+    "title": "The Negotiation Result",
+    "description": "The salary renegotiation result came in.\n\nHR called. He prepared to hear the number.\n\nHow much of what he asked for didn't matter as much as the fact that he'd asked.",
+    "choices": [
+      {
+        "text": "It went up. The ask worked.",
+        "result_text": "About 70% of what he'd requested. Not a full win.\n\nBut if he hadn't asked, it would've been zero. He learned negotiation was possible here. That was the more important information."
+      },
+      {
+        "text": "It didn't go up. But he'd asked.",
+        "result_text": "\"Timing makes it difficult right now.\" That was the line.\n\nFrustrating. But better than never having asked. Next time, this number becomes the floor at a different company."
+      }
+    ]
+  },
+  {
+    "id": "callback_job_change_outcome",
+    "title": "Did He Switch?",
+    "description": "There was a moment he decided to leave.\n\nHe's not sure how long ago that was now. He updated his resume. Applied places. Did interviews.\n\nIs he sitting somewhere new, or still in the same chair?",
+    "choices": [
+      {
+        "text": "He switched. First month at the new place.",
+        "result_text": "Unfamiliar office. Unfamiliar faces. Awkward — but a different kind of awkward.\n\nThe moment of deciding to leave and actually leaving felt different. Considerably more solid."
+      },
+      {
+        "text": "He didn't. Still here.",
+        "result_text": "Not without reasons. Conditions weren't right. Timing felt off.\n\nBut honestly — he was scared. Admitting that felt like the thing that would change the next decision."
+      }
+    ]
+  }
+]

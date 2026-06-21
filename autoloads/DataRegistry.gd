@@ -39,6 +39,7 @@ const EVENT_PATHS = [
 	"res://content/events/anxiety_events.json",
 	"res://content/events/identity_events.json",
 	"res://content/events/work_events.json",
+	"res://content/events/friendship_events.json",
 	"res://content/events/rare_encounter_events.json",
 	"res://content/events/butterfly_events.json",
 	"res://content/events/chain_events.json",
@@ -72,6 +73,7 @@ const EVENT_PATHS = [
 	"res://content/events/callback_events_28.json",
 	"res://content/events/callback_events_29.json",
 	"res://content/events/callback_events_30.json",
+	"res://content/events/callback_events_31.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "friend_group_chat_silent",
+    "title": "The Group Chat Gone Quiet",
+    "description": "A notification from the group chat. He checked when the last message was — a condolence announcement three weeks ago.\n\nThis used to ping every day. Photos, memes, pointless jokes. Now it only opens for funerals and weddings.\n\nHe can't remember who went quiet first.",
+    "choices": [
+      {
+        "text": "Reached out directly. \"Hey, let's grab a meal.\"",
+        "result_text": "A reply came. \"Sure, when?\" Then two weeks of schedule juggling.\n\nWhen they met, it wasn't awkward. Long gaps and all, that was just how they were. The quiet chat wasn't the problem."
+      },
+      {
+        "text": "Left it. Everyone's busy.",
+        "result_text": "He muted the notification and put the phone down. He understood — everyone's busy.\n\nBut that silence stayed with him longer than it should have."
+      }
+    ]
+  },
+  {
+    "id": "friend_wedding_stranger",
+    "title": "The Reception Table",
+    "description": "A friend's wedding. He sat down at the reception.\n\nThe groom's side was full of unfamiliar faces. Work colleagues, new friends, the bride's relatives.\n\nIt hit him for the first time — his friend had built a whole world he knew nothing about. Strange feeling: warm and foreign at once.",
+    "choices": [
+      {
+        "text": "That's a good thing. Means he's living well.",
+        "result_text": "During the toast, his friend's eyes went red. People Minjun had never met were crying alongside him.\n\nThey cared about his friend too. The world getting bigger — that was the right thing."
+      },
+      {
+        "text": "I feel like I got edged out by whoever's at that table.",
+        "result_text": "He said congratulations. He meant it.\n\nOn the way home he felt a little blank. Maybe it wasn't that his friend had drifted — maybe he just hadn't held up his end."
+      }
+    ]
+  },
+  {
+    "id": "friend_drunk_midnight_call",
+    "title": "2 AM Call",
+    "description": "2 AM. A call from an army buddy. Drunk voice.\n\n\"Hey, remember when we...\" Just old stories.\n\nNothing about now. No 'how are you doing,' no 'things have been rough lately.'",
+    "choices": [
+      {
+        "text": "Went along with it. Talked about old times.",
+        "result_text": "Still on the phone at 3 AM. Laughing.\n\nAfterward he thought: this is also friendship. People connected through the past, not the present. That's not nothing."
+      },
+      {
+        "text": "\"Hey, how are things now?\" Steered to the present.",
+        "result_text": "A short pause. Then his friend started talking. About work, about what's been hard lately.\n\nStarted as nostalgia, ended as the real thing. That was the better call."
+      }
+    ]
+  },
+  {
+    "id": "friend_mutual_drift",
+    "title": "Six Months Later",
+    "description": "He met a friend for the first time in six months. A pojangmacha.\n\nAwkward. He tried to find common ground but stalled on 'so what are you up to lately?' Their daily lives had diverged too much.\n\nBefore, there was so much they just knew without asking.",
+    "choices": [
+      {
+        "text": "This is natural. You share what's changed, not what's the same.",
+        "result_text": "He ordered another round and said, \"So what are you actually enjoying these days?\"\n\nTook about an hour for the awkwardness to lift. You can have a conversation without common ground. Maybe that's always been what friendship was."
+      },
+      {
+        "text": "We need to meet more. This isn't okay.",
+        "result_text": "\"Next time more often,\" he said as they parted.\n\nHe checked his calendar at home. Next available day: a month out. He had a feeling that month would turn into six again."
+      }
+    ]
+  },
+  {
+    "id": "friend_success_gap",
+    "title": "50 Billion Series A",
+    "description": "His friend's name appeared in a news article.\n\n\"Startup ○○ closes 5 billion won Series A.\"\n\nA university friend. The one he used to drink makgeolli with, saying \"we should start a company someday.\" Apparently that wasn't just drunk talk.",
+    "choices": [
+      {
+        "text": "Called and genuinely congratulated him.",
+        "result_text": "His friend laughed — \"Buy me dinner sometime.\"\n\nAfter hanging up, he'd be lying if he said it wasn't complicated. But it was also genuine. He learned those two things can exist at the same time."
+      },
+      {
+        "text": "Texted congratulations. Acknowledged the complicated feeling.",
+        "result_text": "\"That's insane, seriously incredible.\" He sent it. Meant it. Still felt something.\n\nHis friend's success recalibrated something in him. Not in a bad way — more like a signal that he wasn't done yet."
+      }
+    ]
+  },
+  {
+    "id": "friend_last_bachelor",
+    "title": "The Last Two",
+    "description": "Among the friend group, only Minjun and one other friend are still unmarried.\n\nThey stayed behind at the pojangmacha and ordered more soju. \"We're going to be like this forever, aren't we?\" Said with a laugh — but not really a joke.\n\nSame situation on the surface. Different directions underneath.",
+    "choices": [
+      {
+        "text": "\"I'm good here. Right now isn't bad.\"",
+        "result_text": "His friend raised his glass. \"Yeah. Whatever.\"\n\nThey ended an unanswerable conversation without answering it. That was how the remaining ones did it."
+      },
+      {
+        "text": "\"We'll probably drift apart too, eventually.\" (honest)",
+        "result_text": "His friend paused. \"Why'd you say that.\"\n\nBut he nodded. They both already knew. Between the unsaid and the said, their glasses clinked one more time."
+      }
+    ]
+  }
+]
