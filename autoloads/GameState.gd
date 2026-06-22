@@ -716,10 +716,18 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 	# 돈이 부족하면 가진 만큼만 (마이너스 베팅 방지)
 	stake = min(stake, max(0.0, money)) if opp.has("stake_ratio") else stake
 
-	# 성공 확률 = 기본 + luck 보정 + 난이도 보정
+	# 성공 확률 = 기본 + luck 보정 + 난이도 보정 + 멘토(임상철) affinity 보정
 	var rate: float = float(opp.get("success_rate", 0.5))
-	rate += float(luck) * float(opp.get("luck_factor", 0.0015))
+	rate += float(luck) * float(opp.get("luck_factor", 0.002))
 	rate += float(get_difficulty_data().get("opp_bonus", 0.0))
+	# 임상철 affinity 보정: 관계가 깊을수록 기회 성공률 상승
+	var sangchul_aff: int = get_cast_affinity("sangchul")
+	if sangchul_aff >= 35:
+		rate += 0.15
+	elif sangchul_aff >= 25:
+		rate += 0.10
+	elif sangchul_aff >= 15:
+		rate += 0.05
 	rate = clampf(rate, 0.02, 0.98)
 
 	# 베팅금 차감

@@ -344,4 +344,26 @@ func _effective_weight(event):
 	# (옛 로그라이크 이벤트보다 훨씬 자주 등장 → 일방적 선택지 비중 자연 감소)
 	if tags.has("tradeoff"):
 		weight *= 4.5
+	# cast 친밀도 기반 이벤트 큐레이션: 관계 깊이에 따라 관련 이벤트 부스트
+	var ev_cat := str(event.get("category", ""))
+	var sangchul_aff: int = GameState.get_cast_affinity("sangchul")
+	var daeun_aff: int = GameState.get_cast_affinity("daeun")
+	var jiyeon_aff: int = GameState.get_cast_affinity("jiyeon")
+	if sangchul_aff >= 15 and (ev_cat == "investment" or tags.has("investment") or tags.has("network")):
+		weight *= 1.0 + min(float(sangchul_aff - 15) / 60.0, 0.25)
+	if daeun_aff >= 12 and (ev_cat == "relationship" or ev_cat == "romance" or tags.has("romance")):
+		weight *= 1.0 + min(float(daeun_aff - 12) / 60.0, 0.25)
+	if jiyeon_aff >= 12 and (tags.has("romance") or tags.has("jiyeon")):
+		weight *= 1.0 + min(float(jiyeon_aff - 12) / 60.0, 0.25)
+	# 직업 카테고리 기반 큐레이션: 직장인 = 직장 이벤트 더 자주
+	if not GameState.current_job.is_empty():
+		var job_cat := str(GameState.current_job.get("category", ""))
+		if job_cat != "" and (ev_cat == "jobs" or tags.has(job_cat)):
+			weight *= 1.2
+	# 뉴스 → 삶 직접 영향: 경제 공포 시 실직/주거 이벤트 상승
+	var fg: int = int(GameState.market_context.get("fear_greed", 50))
+	if fg < 25 and (ev_cat == "jobs" or tags.has("layoff") or tags.has("unemployment")):
+		weight *= 1.4
+	if fg < 20 and (ev_cat == "disasters" or tags.has("housing") or tags.has("jeonse")):
+		weight *= 1.3
 	return max(0.01, weight)

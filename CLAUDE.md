@@ -9,8 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-22** — **Phase 3 배선: inert 이벤트 106개 전수 연결**: callback_events_19~26 (8파일, ~107이벤트, ~214선택지) 모든 선택지에 effects/cast_effects 추가. audit inert_events 106→0, debt_baseline.json 래칫 0으로 조임. ERROR 0/WARNING 0. |
-| **이전** | **2026-06-22** — **5년 서사 구조 재편**: ①신규 인물 2명(박재원 Year 3, 이민서 Year 4) + ②다은/임상철/지연/아버지 Year 3-5 재등장 아크 14이벤트. ③_next_arc_id() 9구간 블록 추가. ④한지연 타이밍 현실화. audit ERROR 0/WARNING 0. |
+| **최근 완료** | **2026-06-22** — **Phase 4 write_only_flags 46개 콜백 연결**: callback_events_35~42 (8파일 KR+EN) — intro arc/father arc/상철+다은/재원+민서/3~5년차/midgame/현수/드라마+회복 플래그. 중복 ID 4건 수정(35,36에서 기존 14,19,13 파일과 충돌 제거), cast_flag 조건 타입 수정(37), portrait 수정(35). write_only_flags 387→373, debt_baseline.json 래칫 조임. ERROR 0/WARNING 0. |
+| **이전** | **2026-06-22** — **Phase 3 유기성 배선 완료**: ①EventManager._effective_weight() cast 큐레이션(상철↑투자, 다은/지연↑관계) + 직업카테고리 1.2x + fear_greed<25→실직이벤트 1.4x + fear_greed<20→주거이벤트 1.3x. ②GameState._resolve_opportunity() 상철affinity→기회성공률+5/+10/+15% + luck_factor ↑. ③JobSystem appearance→취업시업무능력보정, 승진→social_skill+1. ④이벤트 jeonse/housing 태그 보강 3건. |
 | **추가 완료** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크 + 회복 3종 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급)**. ※카지노 미니게임 메커니즘 미변경(서사만). |
 | **Codex 추가 완료** | **2026-06-20~22 (외형)** — PC/Steam Deck 공통 Readability Pass 1~3(전역 폰트·버튼·모달·포커스 기준 상향, 모달 760×610/스크롤 리셋, 룰렛 숫자 매트 58×34 확대·상태 배지, 투자 자산/상점 아이템 카드화, 우측 정보 패널 400px 확대 및 관계·소지품·스토리 카드화, AP 세부 모달 카드화), 영어판 표면 QA 강화(`ScreenshotQA` 영어 메인 HUD/행동 모달/정보 패널 캡처 추가, 영어 로고/날짜/금액/주거명/인물명/로그/관계 단계 라벨 정리), 빅휠 54칸 슬롯 쇼휠·상태 플레이트, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH)과 결과 정산 보드, 홀덤 오벌 테이블 재배치와 쇼다운 판정 패널·팟 이동 라인, 투자 모달 MARKET BOARD(장세·공포/탐욕·리스크·계좌 요약), 슬롯머신 캐비닛·릴 심볼 코드 드로잉·payout tray 코인 연출 보강, 다이사이 주사위 컵·콜 패널 보강, 룰렛 테이블 베팅/딜러/포켓 하이라이트·중앙 숫자 위치 핫픽스, 룰렛 부유 칩 제거·숫자 매트 중앙 정렬·winning pocket 콜아웃·스핀/결과 QA 분리. 정선 카지노 허브 게임 카드 상단을 바카라/블랙잭/슬롯/룰렛/다이사이/빅휠별 코드 드로잉 미니 아트로 교체하고 카드 그림자/타입 라벨/버튼 스타일을 보강. 구형 `poker_chip_icon.png` 런타임 참조를 제거해 centered denomination chip SVG로 대체. 바카라/블랙잭 베팅·딜·결과 화면을 펠트 테이블/베팅존/카드존/칩 스택 중심 UI로 재구성. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
 | **이전 (15차)** | **2026-06-21 (15차)** — **Steam 후킹 강화 (오프닝 훅 5종)**: ①KR 수학 오류 수정: "30억÷200만=1,250개월=104년" → "1,500개월=125년" (arc_intro_02 4개 변형 모두). ②EN prologue_goal: "최저시급으로 82년 — 그가 가진 건 5년뿐이다" 연결 (오프닝 시네마틱 통계와 개인 선택 순간 연결). ③OpeningCinematic 7번째 카드 추가: "어떤 선택이 강남을 만드는지, 아무도 가르쳐준 적 없다." (게임 정체성 훅). ④arc_chapter1_close 신규 아크: t=8 현수 라면 씬 후 챕터1 클로즈/데모 종료 포인트 (EN 오버레이 포함). audit ERROR 0/WARNING 0, 밴드 통과. |
@@ -18,8 +18,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 5씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8, 현수 라면 씬 이후). 플레이타임 약 20~30분. Steam 위시리스트 CTA 삽입 포인트 = arc_chapter1_close 이후. |
-| **다음 작업** | **Phase 3 잔여** — 시스템 유기성 배선: ①_effective_weight()에 cast/직업 반영 ②cast→경제결과(멘토 affinity→opportunity 성공률) ③news→삶(해고/부동산→직업불안/주거압박) ④죽은 스탯 부활(appearance→면접, luck 계수 상향). write_only_flags 387개 콜백 연결은 의도된 플래그(서사 완료 마커)와 진짜 dead flag를 구분 후 Phase 2에서 처리. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-22 (Claude: inert 이벤트 106→0 전수 배선 완료 + debt_baseline 래칫 0으로 조임) |
+| **다음 작업** | **Phase 4 계속** — ①write_only_flags 373개 중 추가 연결 가능 dead flag 탐색 (상위 우선순위: arc_specialization.json / arc_daeun.json의 미연결 플래그). ②밸런스 재검토: 승진 social_skill+1이 사회성 상한에 영향하는지 확인. ③Steam 데모 QA 플레이스루 (arc_chapter1_close 도달 확인). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역. Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-22 (Claude: Phase 4 진행 — write_only_flags 387→373, callback_events_35~42 KR+EN 완성) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

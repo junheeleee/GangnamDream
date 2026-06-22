@@ -26,7 +26,13 @@ func apply_for_job(job_id):
 	if GameState.flags.get("interview_practiced", false):
 		prep_bonus += 7
 		GameState.flags.erase("interview_practiced")
-	GameState.work_performance = clamp(GameState.work_performance + prep_bonus, 0, 100)
+	# 외모 보정: 첫인상이 좋으면 업무 스타트 유리
+	var appear_bonus := 0
+	if GameState.appearance >= 80:
+		appear_bonus = 10
+	elif GameState.appearance >= 60:
+		appear_bonus = 5
+	GameState.work_performance = clamp(GameState.work_performance + prep_bonus + appear_bonus, 0, 100)
 	# 최고 직업 티어 갱신 — 다음 티어 잠금 해제에 사용
 	var job_tier: int = int(job.get("tier", 1))
 	if job_tier > int(GameState.flags.get("max_job_tier", 0)):
@@ -93,6 +99,8 @@ func _promote(job):
 		GameState.current_job.get("base_salary", 0.0))) + bonus
 	GameState.add_money(bonus * 2.0)
 	GameState.modify_hidden_stat("reputation", 6)
+	# 승진 = 직장 내 관계망 확장 → 사회성 직접 반영
+	GameState.modify_stat("social_skill", 1)
 	GameState.job_tenure = 0
 	var promo_count = int(GameState.current_job.get("promotion_count", 0)) + 1
 	if not GameState.current_job.is_empty():

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "callback_father_confession_echo",
+    "title": "What You Know Now",
+    "description": "Sang-chul poured tea.\n\nSame as any other day. Charts, market, next month's strategy.\n\n{name} took the cup and thought:\nThis man — he's the one who introduced the scammer to Dad.\n\nSitting here knowing that.",
+    "choices": [
+      {
+        "text": "Learn everything this person can teach — then decide",
+        "result_text": "Took notes. Watched the charts.\n\nA man's knowledge and his crime can be separated. At least for now. At least while it's useful.\n\nApologized to Dad in some private part of the mind. Kept going."
+      },
+      {
+        "text": "This situation feels wrong and it won't let go",
+        "result_text": "Hand paused mid-cup.\n\nSitting with the man who brought the ruin into his father's life. Calling it a lesson.\nWhether this is survival or compromise — left early today."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_truth_buried_echo",
+    "title": "What Was Left Unsaid",
+    "description": "'Forget it.'\n\nSaid that and took it back. Sang-chul didn't bring it up again.\nNeither did {name}.\n\nAn agreement without words. Something buried.",
+    "choices": [
+      {
+        "text": "This relationship still has value — keep going",
+        "result_text": "What he knows is still needed.\nWhen the goal outweighs the truth, this choice is possible.\n\nWhether it was right — Gangnam will answer that. Or won't."
+      },
+      {
+        "text": "Carrying this is heavier than expected",
+        "result_text": "It should feel lighter — buried.\nInstead it's the opposite.\n\nThat unfinished moment at the café table — 'how did you find out?' left unanswered — is still alive.\nHow to close it remains unknown."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_quietly_distanced_echo",
+    "title": "He Called Your Name",
+    "description": "He called out as {name} left the café.\nDidn't turn around.\n\nThat voice still carries.\n\nWorked without him since then.\nWithout a mentor. Without a network.",
+    "choices": [
+      {
+        "text": "That was the right call — still believe it",
+        "result_text": "Harder without a guide. But more earned.\n\nWhat Sang-chul taught is still in the toolkit. Even without him.\nLearning where the line was — that's what standing alone requires."
+      },
+      {
+        "text": "Sometimes that connection is missed",
+        "result_text": "His knowledge was useful. His network still comes to mind.\n\nBut not turning around was right.\nThe voice calling from behind — that's why the door didn't open again."
+      }
+    ]
+  },
+  {
+    "id": "callback_tried_to_go_father_echo",
+    "title": "One Hour Before",
+    "description": "'One hour before.'\n\nThat sentence shows up in dreams.\n\nThe empty hospital bed. Don't remember if it was still warm.\n\nToday, mid-work — the train window came back. Rice fields passing in the dark.",
+    "choices": [
+      {
+        "text": "Going is still a comfort",
+        "result_text": "Late. But went.\n\nWhat that choice means exactly — unclear.\nBut not going would have been worse. That's clear.\n\nWanted to prove something to Dad. That reason is still alive."
+      },
+      {
+        "text": "Still think about that one hour",
+        "result_text": "One earlier train.\n\nThat thought hasn't fully left.\n\nBut went. Arrived. Sat by the empty bed.\nThat's what was possible. That was all."
+      }
+    ]
+  },
+  {
+    "id": "callback_chose_money_father_echo",
+    "title": "The Number and the Date",
+    "description": "The account number grew.\n\nSince that day, every time it goes up, there's a pause.\n\n'The number had gone up.'\n\nThat was everything, that day.",
+    "choices": [
+      {
+        "text": "This money has to pay something back",
+        "result_text": "Can't be paid back. Not with money.\n\nBut watching these numbers grow — the belief that doing better is the repayment is what keeps this moving forward.\n\nWanted to prove something to Dad. That reason has to stay alive."
+      },
+      {
+        "text": "This money doesn't fix what it didn't fix",
+        "result_text": "Knew it from the start.\n\nMade ₩5M that day. Understood the weight of the choice.\n\nWhat that money is worth — still no answer."
+      }
+    ]
+  },
+  {
+    "id": "callback_recovery_complete_echo",
+    "title": "The Calendar",
+    "description": "The calendar was full of circles.\n\nStill on the wall. Couldn't take it down.\n\nA gambling ad appeared on screen today. Scrolled past it.\nThe hand wasn't the same hand it used to be.",
+    "choices": [
+      {
+        "text": "That calendar still gives something",
+        "result_text": "Someone who beat an addiction isn't someone who never fell.\nThey're someone who climbed back up after seeing the bottom.\n\nOne circle. Then another. That's what built this.\nLeaving it on the wall was right."
+      },
+      {
+        "text": "Still tested sometimes",
+        "result_text": "Quitting wasn't one decision. It was a choice made every time.\n\nMade it today. Closed the ad.\n\nChoices keep stacking. Like circles on a calendar."
+      }
+    ]
+  }
+]

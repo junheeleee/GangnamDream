@@ -756,6 +756,8 @@
     },
     "tags": [
       "disasters",
+      "jeonse",
+      "housing",
       "opportunity"
     ],
     "cooldown": 9,
@@ -4363,6 +4365,7 @@
     "tags": [
       "survival",
       "finance",
+      "housing",
       "stress"
     ],
     "cooldown": 4,

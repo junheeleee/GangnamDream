@@ -1,0 +1,77 @@
+[
+  {
+    "id": "callback_truth_echo",
+    "title": "The Interview Remembered",
+    "description": "My second interview at a different company.\n\nOne of the interviewers leaned forward.\n'You said something in a previous interview that caught our attention — can you elaborate?'\n\nSomething I'd said in a prior application had made it into a reference. I'd told the truth that day.",
+    "choices": [
+      {
+        "text": "Explain consistently — the same answer as before",
+        "result_text": "It matched. The interviewer nodded.\n\nTelling the truth doesn't mean the answer has to be polished. It means the answer is the same every time it gets checked.\nThe only story you never have to remember is the one you didn't make up."
+      },
+      {
+        "text": "Try to soften it — the truth might come off wrong now",
+        "result_text": "The interviewer frowned slightly.\n\nThat divergence — even a small one — was enough to raise a question.\nIt was a small thing. But trust is often built or broken in small things."
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_echo",
+    "title": "The Interview Caught Up",
+    "description": "At the team dinner, a coworker mentioned something casual.\n\n'Your résumé said you did X — that's interesting.'\n\n{name} went still.\nThat wasn't something they'd done. It was something they'd said in an interview.",
+    "choices": [
+      {
+        "text": "Acknowledge it — come clean",
+        "result_text": "Harder than expected. But it actually went better than expected.\n\nThere's a version of the lie that stays buried forever. This wasn't that version.\nOwning it sooner hurt less than being found out later."
+      },
+      {
+        "text": "Deflect — find a way to change the subject",
+        "result_text": "Got past it. This time.\n\nBut that conversation left a small crack. Trust that gets quietly repaired is still cracked.\nThe lie is still there. Now someone else is close enough to notice."
+      }
+    ]
+  },
+  {
+    "id": "callback_mindset_saver_echo",
+    "title": "The Day the Pattern Broke",
+    "description": "The savings account hit a number {name} had only thought of as hypothetical.\n\nStanding at the bank terminal, staring at the figure.\n\nThis started from choosing not to spend ₩7,000 on delivery. Repeatedly.",
+    "choices": [
+      {
+        "text": "Leave it in — keep going",
+        "result_text": "The money stayed where it was.\n\nSaving isn't just numbers. It's proof that you can commit to something without immediate reward.\nThat discipline will transfer to every decision from here."
+      },
+      {
+        "text": "A little reward — earned this",
+        "result_text": "Spent some of it. Felt good.\n\nThere's a version of saving that becomes self-punishment. That's not sustainable either.\nJust don't let 'reward' become the habit that was given up."
+      }
+    ]
+  },
+  {
+    "id": "callback_mindset_investor_echo",
+    "title": "The Chart That Mattered",
+    "description": "The first real position. Not practice, not theory.\n\nWatched the price move.\n\n{name} felt something that wasn't in any book about investing.\nThe gap between knowing and doing.",
+    "choices": [
+      {
+        "text": "Let it run — trust the analysis",
+        "result_text": "Didn't touch it. Checked it less.\n\nThe hardest part isn't buying or selling. It's the waiting in between.\nInvesting patience turned out to be a skill too."
+      },
+      {
+        "text": "Take the small profit now — better than watching it reverse",
+        "result_text": "Sold early. It went higher afterward.\n\nClassic. But the lesson isn't 'hold forever.' It's 'know your reason.'\nThe real mistake was not having a plan before buying."
+      }
+    ]
+  },
+  {
+    "id": "callback_envy_fuel_echo",
+    "title": "Running on the Wrong Fuel",
+    "description": "Running on envy had worked. Until it didn't.\n\nToday at the investment screen, {name} caught themselves not seeing opportunity — just seeing what other people had.\n\nEnvy had been the engine. But at some point, all it burned was the driver.",
+    "choices": [
+      {
+        "text": "Acknowledge the shift — find a different reason",
+        "result_text": "'I started this because I wanted to prove something. That's not enough anymore.'\n\nReasons that come from fear run out. Reasons that come from vision don't.\nThis was harder to articulate. But it lasted longer."
+      },
+      {
+        "text": "Push through — the results don't care about the motivation",
+        "result_text": "True. The market doesn't care why you make a good trade.\n\nBut the body does. And the mind does. And the people around you eventually notice.\nThe results kept coming. The cost kept accumulating."
+      }
+    ]
+  }
+]

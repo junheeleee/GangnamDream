@@ -1,0 +1,92 @@
+[
+  {
+    "id": "callback_investment_lesson_echo",
+    "title": "Start Small",
+    "description": "First real money in.\n\nSmall amount. 'Lose-and-learn money,' like Sang-chul had said.\n\nThe chart turned red.\n\n'Start small. Losing is how the market comes into focus.'\nThe voice came back.",
+    "choices": [
+      {
+        "text": "Hold — don't panic sell",
+        "result_text": "Held for three days. It recovered — barely into the green.\n\nThe profit was nothing. The lesson was everything: how it rises, how it falls, how the hand trembles.\nThat's what Sang-chul meant."
+      },
+      {
+        "text": "Got greedy — added more, lost more",
+        "result_text": "'Small' was heard but the hands didn't listen.\n\nLost it. Tuition paid the expensive way.\nReal school always does."
+      }
+    ]
+  },
+  {
+    "id": "callback_knows_dad_reason_echo",
+    "title": "Why You Started",
+    "description": "A hard stretch. Late at night.\n\nSang-chul called. Opened with small talk, then:\n\n'You said you wanted to prove something to your father. That still true?'",
+    "choices": [
+      {
+        "text": "\"Yes. That hasn't changed.\"",
+        "result_text": "Sang-chul was quiet, then said:\n'Then you've got it. People who know their reason don't quit when they're tired.'\n\nAfter hanging up, {name} sat with the phone for a while.\nThis man still had a reason to check in. That was still worth something."
+      },
+      {
+        "text": "\"Honestly — I'm not sure anymore.\"",
+        "result_text": "Sang-chul waited, then said:\n'That's honest. The ones who say they're sure when they aren't — those are the dangerous ones.'\n\n'Take your time. Don't lose what you said at the beginning.'\n\nNeither hot nor cold. It just landed."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_daily_life_echo",
+    "title": "Salty Again",
+    "description": "Dae-un came over again.\n\nOpened the fridge, said 'no eggs,' went out — came back with tofu.\n\n'Where are the eggs?'\n'I don't know. The tofu just ended up in my hand.' She laughed.\n\nThis had become the routine. Wrong ingredients and all.",
+    "choices": [
+      {
+        "text": "Cook together tonight — that's enough for today",
+        "result_text": "Salty again. Dae-un blamed {name}. {name} blamed Dae-un.\nBoth were lying. Both laughed.\n\nThe ₩3 billion could wait until tomorrow."
+      },
+      {
+        "text": "After she's asleep — keep working",
+        "result_text": "The screen lit up the room. Dae-un's breathing was steady.\n\n{name} looked at charts, numbers, tomorrow's plan.\nWhether keeping her in this room was fair — unknown. Went on anyway."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_breakup_accepted_echo",
+    "title": "\"I Hope You Do Well\"",
+    "description": "Weeks after the breakup.\n\nPassed the pojangmacha today.\n\nHer last words at that table came back.\n'I hope you do well. Really.'\n\nKnowing it was genuine made it stay longer.",
+    "choices": [
+      {
+        "text": "Use that as fuel — do well, as she said",
+        "result_text": "It would be easy to resent it. Easy to dwell.\n\nBut if she meant it — then doing well was the right response.\nSomething like paying it back."
+      },
+      {
+        "text": "Still can't walk past that pojangmacha easily",
+        "result_text": "Took a different route.\n\nWeakness or still being human — either way.\nThis distance will become familiar eventually. Just not yet."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_breakup_begged_echo",
+    "title": "\"I Can Change\"",
+    "description": "'I can change right now.'\n\nSaid it that night. It comes back sometimes.\n\nHer answer stays longer:\n'You changing isn't the problem. I chose to wait — and waiting wore me out.'\n\nThere was nothing to counter.",
+    "choices": [
+      {
+        "text": "That was true — and I'm actually changing",
+        "result_text": "Said it to keep someone. But it stuck.\n\nNow, when no one's watching, {name} is living it differently.\nThat's the residue of those words."
+      },
+      {
+        "text": "Honestly — not that much has changed",
+        "result_text": "True. People don't shift that fast.\n\nAt least now {name} knows the difference between meaning it and performing it.\nThat's accurate. It's not comfort. But it's accurate."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_let_drift_echo",
+    "title": "She's Doing Fine",
+    "description": "Convenience store. Part-timer mentioned something offhand.\n\n'You know Dae-un? She used to work here. Said she's at a café now.'\n\n{name} paused.\n\n'Yeah. I know her.'\n\n'She's doing well, apparently.'",
+    "choices": [
+      {
+        "text": "Think about reaching out — later",
+        "result_text": "Didn't do it right then.\n\nBut knowing she's doing well — something loosened.\n'How are you?' had been the last thing said. Now it was almost true."
+      },
+      {
+        "text": "Just say 'glad to hear it' and pay",
+        "result_text": "Paid and left.\n\nGlad to hear it. Genuinely.\nThe connection had ended with 'take care' — at least it was honest now."
+      }
+    ]
+  }
+]
