@@ -238,8 +238,8 @@ static func _get_slides(game_id: String) -> Array:
 			return [
 				{
 					"icon": "🏙",
-					"title": _en ? "Gangnam Dream — Your Goal" : "강남드림 — 게임 목표",
-					"body": _en ? (
+					"title": "Gangnam Dream — Your Goal" if _en else "강남드림 — 게임 목표",
+					"body": (
 						"You are [b]Kim Minjun, 33, unemployed[/b].\n"
 						+ "Your bank account holds [b]₩500,000[/b]. That's it.\n\n"
 						+ "One goal —\n"
@@ -247,7 +247,7 @@ static func _get_slides(game_id: String) -> Array:
 						+ "Every week (= 1 turn), spend [b]Action Points (AP)[/b]\nto work, invest, gamble, build relationships.\n\n"
 						+ "[color=#aaffaa]💡 The game ends when you turn 38 (240 turns).\n"
 						+ "   1 month = 4 weeks = 4 turns. 5 years = 240 turns.[/color]"
-					) : (
+						) if _en else (
 						"당신은 [b]김민준, 33세, 백수[/b].\n"
 						+ "통장에 [b]50만원[/b]이 전부예요.\n\n"
 						+ "목표는 딱 하나 —\n"
@@ -260,8 +260,8 @@ static func _get_slides(game_id: String) -> Array:
 				},
 				{
 					"icon": "📊",
-					"title": _en ? "Reading the Dashboard" : "대시보드 읽는 법",
-					"body": _en ? (
+					"title": "Reading the Dashboard" if _en else "대시보드 읽는 법",
+					"body": (
 						"Watch the [b]stat bar at the top[/b] at all times:\n\n"
 						+ "  💰 [b]Assets[/b] — cash + portfolio total\n"
 						+ "  ❤ [b]Health[/b] — hits 0: hospitalization or worse\n"
@@ -269,7 +269,7 @@ static func _get_slides(game_id: String) -> Array:
 						+ "Both drain automatically each month.\nUnemployed? They drain faster.\n\n"
 						+ "[color=#aaffaa]💡 Your first week: use [b]Job Search[/b]\n"
 						+ "   to find work before anything else.[/color]"
-					) : (
+						) if _en else (
 						"[b]상단 스탯 바[/b]를 항상 확인하세요:\n\n"
 						+ "  💰 [b]자산[/b] — 현금 + 포트폴리오 총합\n"
 						+ "  ❤ [b]건강[/b] — 0이 되면 입원 or 사망\n"
@@ -282,8 +282,8 @@ static func _get_slides(game_id: String) -> Array:
 				},
 				{
 					"icon": "⚡",
-					"title": _en ? "The Weekly Loop" : "한 주의 흐름",
-					"body": _en ? (
+					"title": "The Weekly Loop" if _en else "한 주의 흐름",
+					"body": (
 						"Each week goes like this:\n\n"
 						+ "1️⃣  [b]This Week[/b] — read the news and events\n"
 						+ "2️⃣  [b]Choose[/b] — spend AP to respond\n"
@@ -293,7 +293,7 @@ static func _get_slides(game_id: String) -> Array:
 						+ "  🃏 Hold'em  🏇 Races  👥 Network  and more\n\n"
 						+ "[color=#aaffaa]💡 Unused AP carries over — but\n"
 						+ "   wasting turns makes the goal much harder.[/color]"
-					) : (
+						) if _en else (
 						"매주 이렇게 진행돼요:\n\n"
 						+ "1️⃣  [b]이번 주 상황[/b] — 뉴스·이벤트 확인\n"
 						+ "2️⃣  [b]선택[/b] — 행동 포인트(AP)를 써서 반응\n"
@@ -307,8 +307,8 @@ static func _get_slides(game_id: String) -> Array:
 				},
 				{
 					"icon": "⚖",
-					"title": _en ? "Choices Become a Life" : "선택이 쌓이면 삶이 된다",
-					"body": _en ? (
+					"title": "Choices Become a Life" if _en else "선택이 쌓이면 삶이 된다",
+					"body": (
 						"What you do week after week\ndetermines [b]who you become[/b].\n\n"
 						+ "[color=#a78bfa]💼 Build stability[/color]\n"
 						+ "  Jobs, promotions, savings, self-improvement.\n"
@@ -318,7 +318,7 @@ static func _get_slides(game_id: String) -> Array:
 						+ "  Fast — but one bad break ends it all.\n\n"
 						+ "[color=#aaffaa]Both paths can reach Gangnam. Both can fail.[/color]\n"
 						+ "Your pattern of choices unlocks [b]different events\nand different endings[/b]."
-					) : (
+						) if _en else (
 						"매주 어떤 행동을 반복하느냐가\n"
 						+ "당신이 [b]어떤 사람인지[/b]를 결정합니다.\n\n"
 						+ "[color=#a78bfa]💼 안정을 쌓으면[/color]\n"

@@ -107,6 +107,7 @@ var housing_months: Dictionary = {}
 # 죽은 트레이트 시스템을 대체: 선택이 아니라 행동이 정체성을 만든다.
 const TENDENCY_KINDS := ["career", "invest", "found"]
 const TENDENCY_NAMES := {"career": "직장형", "invest": "투자형", "found": "창업형"}
+const TENDENCY_NAMES_EN := {"career": "Career", "invest": "Investor", "found": "Founder"}
 const TENDENCY_DESC := {
 	"career": "성실하게 쌓아 올린다. 월급과 승진, 신용이 무기다.",
 	"invest": "돈이 돈을 벌게 한다. 시장을 읽고 베팅한다.",
@@ -250,7 +251,10 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 		flags["is_repeat_run"] = true
 	if _prev_runs >= 4:
 		flags["is_veteran_run"] = true
-	add_log("새 런 시작: %s / 출발점: %s" % [chosen_route, starting_profile], "system")
+	add_log(LocaleManager.ui("새 런 시작: %s / 출발점: %s", "New run: %s / Start: %s") % [
+		_localized_route_label(chosen_route),
+		_localized_profile_label(starting_profile)
+	], "system")
 	stats_changed.emit()
 	run_started.emit()
 
@@ -263,6 +267,10 @@ func _apply_title_perks():
 	var stat_kr = {
 		"investment_skill": "투자감각", "intelligence": "지력", "social_skill": "사교력",
 		"luck": "운", "mental": "정신력", "money": "자금",
+	}
+	var stat_en = {
+		"investment_skill": "Investing", "intelligence": "Intelligence", "social_skill": "Social",
+		"luck": "Luck", "mental": "Mental", "money": "Funds",
 	}
 	for stat in bonus:
 		var amount = int(bonus[stat])
@@ -277,11 +285,34 @@ func _apply_title_perks():
 			"luck":             luck += amount
 			"mental":           mental = clampi(mental + amount, 0, 100)
 		if str(stat) == "money":
-			parts.append("자금 +%s" % format_money(float(amount)))
+			parts.append(LocaleManager.ui("자금 +%s", "Funds +%s") % format_money(float(amount)))
 		else:
-			parts.append("%s %+d" % [stat_kr.get(str(stat), str(stat)), amount])
+			var stat_label: String = str((stat_en if LocaleManager.is_english() else stat_kr).get(str(stat), str(stat)))
+			parts.append("%s %+d" % [stat_label, amount])
 	if not parts.is_empty():
-		add_log("🏆 칭호 보너스: %s  (수집한 칭호가 힘이 된다)" % " · ".join(parts), "system")
+		add_log(LocaleManager.ui(
+			"🏆 칭호 보너스: %s  (수집한 칭호가 힘이 된다)",
+			"🏆 Title bonus: %s  (collected titles give you strength)"
+		) % " · ".join(parts), "system")
+
+func _localized_route_label(route: String) -> String:
+	if not LocaleManager.is_english():
+		return route
+	var labels := {
+		"직장형": "Career",
+		"투자형": "Investor",
+		"창업형": "Founder",
+		"none": "Default",
+	}
+	return str(labels.get(route, route))
+
+func _localized_profile_label(profile: String) -> String:
+	if not LocaleManager.is_english():
+		return profile
+	var labels := {
+		"백수": "Unemployed",
+	}
+	return str(labels.get(profile, profile))
 
 func _apply_background_bonus(bg: String):
 	pass  # legacy — 신규 런은 _apply_route_bonus 사용
@@ -375,9 +406,17 @@ func _roll_run_theme():
 		"investment": "투자", "jobs": "직장", "social": "인간관계",
 		"health": "건강", "relationship": "연애", "gambling": "도박", "finance": "재정"
 	}
+	if LocaleManager.is_english():
+		label_map = {
+			"investment": "Investing", "jobs": "Jobs", "social": "Social",
+			"health": "Health", "relationship": "Relationships", "gambling": "Gambling", "finance": "Finance"
+		}
 	var a = label_map.get(pool[0], pool[0])
 	var b = label_map.get(pool[1], pool[1])
-	add_log("🎲 이번 런 테마: [%s + %s] — 관련 이벤트가 더 자주 등장합니다." % [a, b], "system")
+	add_log(LocaleManager.ui(
+		"🎲 이번 런 테마: [%s + %s] — 관련 이벤트가 더 자주 등장합니다.",
+		"🎲 Run Theme: [%s + %s] — related events will appear more often."
+	) % [a, b], "system")
 
 func _apply_run_theme(theme: String) -> void:
 	run_theme = theme
@@ -388,18 +427,18 @@ func _apply_run_theme(theme: String) -> void:
 			run_theme_categories = ["investment", "finance"]
 			investment_skill += 5
 			flags["theme_invest_run"] = true
-			add_log("📈 [투자런] 시작 — 투자·재정 이벤트가 집중 등장합니다. 투자감각 +5.", "system")
+			add_log(LocaleManager.ui("📈 [투자런] 시작 — 투자·재정 이벤트가 집중 등장합니다. 투자감각 +5.", "📈 [Investment Run] begins — investment and finance events appear more often. Investing +5."), "system")
 		"인맥런":
 			run_theme_categories = ["social", "relationship"]
 			social_skill += 10
 			flags["theme_network_run"] = true
-			add_log("🤝 [인맥런] 시작 — 사회·관계 이벤트가 집중 등장합니다. 사교력 +10.", "system")
+			add_log(LocaleManager.ui("🤝 [인맥런] 시작 — 사회·관계 이벤트가 집중 등장합니다. 사교력 +10.", "🤝 [Network Run] begins — social and relationship events appear more often. Social +10."), "system")
 		"청렴런":
 			run_theme_categories = ["jobs", "health"]
 			reputation += 10
 			flags["theme_clean_run"] = true
 			flags["no_gambling"] = true   # EventManager가 gambling 카테고리 이벤트 차단
-			add_log("✨ [청렴런] 시작 — 도박 이벤트 없음. 평판 +10. 정직하게만 30억.", "system")
+			add_log(LocaleManager.ui("✨ [청렴런] 시작 — 도박 이벤트 없음. 평판 +10. 정직하게만 30억.", "✨ [Clean Run] begins — no gambling events. Reputation +10. Reach ₩3B honestly."), "system")
 		_:
 			_roll_run_theme()
 
@@ -429,6 +468,19 @@ func get_housing_expense() -> float:
 
 func get_housing_info() -> Dictionary:
 	return HOUSING_DATA.get(housing, HOUSING_DATA["gosiwon"])
+
+func get_housing_name(housing_id: String = "") -> String:
+	var id := housing if housing_id.is_empty() else housing_id
+	if LocaleManager.is_english():
+		var names_en := {
+			"gosiwon": "goshiwon",
+			"oneroom": "one-room studio",
+			"villa": "villa jeonse",
+			"apartment": "apartment jeonse",
+			"gangnam": "Gangnam apartment",
+		}
+		return str(names_en.get(id, id))
+	return str(HOUSING_DATA.get(id, HOUSING_DATA["gosiwon"]).get("name", id))
 
 func can_upgrade_housing() -> bool:
 	var info = get_housing_info()
@@ -818,31 +870,31 @@ func restore_ap():
 	stats_changed.emit()
 
 func get_current_title() -> String:
-	if mental <= 20: return "벼랑 끝의 청년"
-	if mental <= 12: return "번아웃 직전"
-	if get_total_asset_value() < -50_000_000: return "파산 위기자"
+	if mental <= 12: return LocaleManager.ui("번아웃 직전", "Near Burnout")
+	if mental <= 20: return LocaleManager.ui("벼랑 끝의 청년", "On the Edge")
+	if get_total_asset_value() < -50_000_000: return LocaleManager.ui("파산 위기자", "Bankruptcy Risk")
 	var total = get_total_asset_value()
-	if total >= 3_000_000_000: return "강남드림 달성자"
-	if total >= 500_000_000: return "신흥 자산가"
-	if total >= 100_000_000: return "중산층 진입"
+	if total >= 3_000_000_000: return LocaleManager.ui("강남드림 달성자", "Gangnam Dreamer")
+	if total >= 500_000_000: return LocaleManager.ui("신흥 자산가", "Emerging Wealth")
+	if total >= 100_000_000: return LocaleManager.ui("중산층 진입", "Middle Class")
 	# 비정석 특수 상태
-	if flags.get("creator_viral", false): return "크리에이터"
-	if flags.get("startup_exit", false): return "스타트업 엑시터"
-	if flags.get("startup_launched", false): return "창업가"
-	if flags.get("creator_monetized", false): return "유튜버"
-	if flags.get("creator_started", false): return "콘텐츠 크리에이터"
+	if flags.get("creator_viral", false): return LocaleManager.ui("크리에이터", "Creator")
+	if flags.get("startup_exit", false): return LocaleManager.ui("스타트업 엑시터", "Startup Exiter")
+	if flags.get("startup_launched", false): return LocaleManager.ui("창업가", "Founder")
+	if flags.get("creator_monetized", false): return LocaleManager.ui("유튜버", "YouTuber")
+	if flags.get("creator_started", false): return LocaleManager.ui("콘텐츠 크리에이터", "Content Creator")
 	var diff = route_orthodox - route_unorthodox
-	if diff >= 18: return "엘리트 코스"
-	if diff >= 8: return "착실한 청년"
-	if diff <= -18: return "위험한 몽상가"
-	if diff <= -8: return "이단아"
-	if route_orthodox >= 10 and route_unorthodox >= 10: return "내 방식대로"
-	if get_total_asset_value() >= 3_000_000_000: return "강남 입성자"
-	if housing == "apartment" and job_tenure >= 12: return "안정적인 직장인"
-	if current_job.is_empty() and turn >= 8 and (flags.get("resume_polished", false) or flags.get("mindset_investor", false) or flags.get("mindset_saver", false)): return "취업 준비생"
-	if housing == "gosiwon" and turn >= 18: return "고시원 장기거주자"
-	if turn <= 4: return "서울 상경 초보"
-	return "서울 생존자"
+	if diff >= 18: return LocaleManager.ui("엘리트 코스", "Elite Track")
+	if diff >= 8: return LocaleManager.ui("착실한 청년", "Diligent Striver")
+	if diff <= -18: return LocaleManager.ui("위험한 몽상가", "Dangerous Dreamer")
+	if diff <= -8: return LocaleManager.ui("이단아", "Outlier")
+	if route_orthodox >= 10 and route_unorthodox >= 10: return LocaleManager.ui("내 방식대로", "My Own Way")
+	if get_total_asset_value() >= 3_000_000_000: return LocaleManager.ui("강남 입성자", "Gangnam Resident")
+	if housing == "apartment" and job_tenure >= 12: return LocaleManager.ui("안정적인 직장인", "Stable Worker")
+	if current_job.is_empty() and turn >= 8 and (flags.get("resume_polished", false) or flags.get("mindset_investor", false) or flags.get("mindset_saver", false)): return LocaleManager.ui("취업 준비생", "Job Seeker")
+	if housing == "gosiwon" and turn >= 18: return LocaleManager.ui("고시원 장기거주자", "Long-Term Goshiwon Tenant")
+	if turn <= 4: return LocaleManager.ui("서울 상경 초보", "Seoul Newcomer")
+	return LocaleManager.ui("서울 생존자", "Seoul Survivor")
 
 func add_route_point(route_type: String, focus_label: String = ""):
 	if route_type == "orthodox":
@@ -911,6 +963,8 @@ func get_dominant_tendency() -> String:
 	return best if best_v > 0 else ""
 
 func tendency_name(kind: String) -> String:
+	if LocaleManager.is_english():
+		return str(TENDENCY_NAMES_EN.get(kind, ""))
 	return str(TENDENCY_NAMES.get(kind, ""))
 
 ## 현재 성향 라벨 (자각했으면 확정, 아니면 '~ 기질')
@@ -919,8 +973,8 @@ func get_tendency_label() -> String:
 		return tendency_name(tendency_realized)
 	var dom := get_dominant_tendency()
 	if dom.is_empty():
-		return "아직 모르는 길"
-	return tendency_name(dom) + " 기질"
+		return LocaleManager.ui("아직 모르는 길", "Unknown Path")
+	return tendency_name(dom) + LocaleManager.ui(" 기질", " Leaning")
 
 ## 자각 판정: 1위가 임계점 넘고 2위와 격차 충분 + 아직 미자각 → 자각한 kind 반환(없으면 "")
 func check_tendency_realization() -> String:
@@ -1001,6 +1055,8 @@ func add_log(message, log_type):
 	log_added.emit(entry)
 
 func get_date_string():
+	if LocaleManager.is_english():
+		return "%04d-%02d W%d" % [year, month, week_of_month]
 	return "%d년 %d월 %d주차" % [year, month, week_of_month]
 
 func format_money(amount):
@@ -1008,6 +1064,14 @@ func format_money(amount):
 	if amount < 0:
 		sign = "-"
 	var abs_amount = abs(amount)
+	if LocaleManager.is_english():
+		if abs_amount >= 1_000_000_000:
+			return "%s₩%.1fB" % [sign, abs_amount / 1_000_000_000.0]
+		if abs_amount >= 1_000_000:
+			return "%s₩%.1fM" % [sign, abs_amount / 1_000_000.0]
+		if abs_amount >= 1_000:
+			return "%s₩%.0fK" % [sign, abs_amount / 1_000.0]
+		return "%s₩%.0f" % [sign, abs_amount]
 	if abs_amount >= 100_000_000:
 		return "%s%.1f억원" % [sign, abs_amount / 100_000_000.0]
 	if abs_amount >= 10_000:
@@ -1016,13 +1080,12 @@ func format_money(amount):
 
 func format_event_text(text: String) -> String:
 	var job_name: String = str(current_job.get("name", "무직"))
-	var housing_info: Dictionary = get_housing_info()
 	var total_assets: float = get_total_asset_value()
 	var loan_total: float = get_loan_total()
 	return text \
 		.replace("{name}", player_name) \
 		.replace("{job}", job_name) \
-		.replace("{housing}", str(housing_info.get("name", "고시원"))) \
+		.replace("{housing}", get_housing_name(housing)) \
 		.replace("{month}", str(month)) \
 		.replace("{year}", str(year)) \
 		.replace("{week}", str(week_of_month)) \
@@ -1060,28 +1123,28 @@ const PACE_SEED := 80_000_000.0       # 종잣돈 기준 (24개월 목표)
 const PACE_SEED_MONTH := 24.0
 const PACE_START := 500_000.0
 func get_run_pace() -> Dictionary:
-	var current := get_total_asset_value()
+	var current: float = get_total_asset_value()
 	var me: int = max(1, (age - 33) * 12 + month)          # 경과 개월 (시작=1)
 	var months_left: int = max(0, (38 - age) * 12 - month + 1)
-	var years_left := float(months_left) / 12.0
+	var years_left: float = float(months_left) / 12.0
 
 	# 우승 궤적 벤치마크
-	var benchmark := 0.0
+	var benchmark: float = 0.0
 	if me <= int(PACE_SEED_MONTH):
-		var t := float(me - 1) / max(1.0, PACE_SEED_MONTH - 1.0)   # 0..1
+		var t: float = float(me - 1) / max(1.0, PACE_SEED_MONTH - 1.0)   # 0..1
 		benchmark = PACE_START + (PACE_SEED - PACE_START) * t
 	else:
-		var t2 := float(me - PACE_SEED_MONTH) / max(1.0, 60.0 - PACE_SEED_MONTH)  # 0..1
+		var t2: float = float(me - PACE_SEED_MONTH) / max(1.0, 60.0 - PACE_SEED_MONTH)  # 0..1
 		benchmark = PACE_SEED * pow(GANGNAM_TARGET / PACE_SEED, clampf(t2, 0.0, 1.0))
 	benchmark = max(benchmark, PACE_START)
-	var ratio := current / benchmark
+	var ratio: float = current / benchmark
 
 	# 참고용 절대 수익률 (표시/디버그)
-	var needed_cagr := -1.0
+	var needed_cagr: float = -1.0
 	if current > 0.0 and years_left > 0.0 and current < GANGNAM_TARGET:
 		needed_cagr = pow(GANGNAM_TARGET / current, 1.0 / years_left) - 1.0
 
-	var status := "danger"
+	var status: String = "danger"
 	if current >= GANGNAM_TARGET:
 		status = "achieved"
 	elif current <= 0.0:

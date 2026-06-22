@@ -85,6 +85,20 @@ const PERSON_INFO = {
 	"minseo":   {"name": "이민서",        "color": "#9a8a7a"},
 }
 
+const PERSON_NAMES_EN = {
+	"player": "{name}",
+	"jiyeon": "Han Jiyeon",
+	"daeun": "Kim Daeun",
+	"jaehyuk": "Choi Jaehyuk",
+	"father": "Father",
+	"sangchul": "Lim Sangchul",
+	"goshiwon_owner": "Goshiwon Manager",
+	"hyunsu": "Kang Hyunsu",
+	"seongjun": "Park Seongjun",
+	"mother": "Mother",
+	"boss": "Team Lead",
+}
+
 # ── 배경 이미지 ────────────────────────────────────────────────
 const BACKGROUNDS = {
 	# 고시원/생활권
@@ -398,8 +412,13 @@ func get_person_info(portrait_id: String) -> Dictionary:
 	for key in PERSON_INFO:
 		if portrait_id == key or portrait_id.begins_with(key + "_"):
 			var info = PERSON_INFO[key].duplicate()
+			if LocaleManager.is_english() and PERSON_NAMES_EN.has(key):
+				info["name"] = PERSON_NAMES_EN[key]
 			# {name} 치환
 			if info.get("name", "") == "{name}":
-				info["name"] = GameState.player_name
+				var pname := str(GameState.player_name)
+				if LocaleManager.is_english() and pname == LocaleManager.DEFAULT_NAME_KO:
+					pname = LocaleManager.DEFAULT_NAME_EN
+				info["name"] = pname
 			return info
 	return {}

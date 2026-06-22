@@ -38,11 +38,11 @@ func add_relationship(rel_data):
 	relationship_added.emit(rel_data)
 
 func get_affinity_label(value):
-	if value >= 85: return "운명 공동체"
-	if value >= 65: return "가까운 사이"
-	if value >= 45: return "느슨한 인연"
-	if value >= 25: return "불안한 관계"
-	return "멀어진 관계"
+	if value >= 85: return LocaleManager.ui("운명 공동체", "Fate-bound")
+	if value >= 65: return LocaleManager.ui("가까운 사이", "Close")
+	if value >= 45: return LocaleManager.ui("느슨한 인연", "Loose Bond")
+	if value >= 25: return LocaleManager.ui("불안한 관계", "Unsteady")
+	return LocaleManager.ui("멀어진 관계", "Distant")
 
 func _apply_passive(rel):
 	var affection = int(rel.get("affection", 40))

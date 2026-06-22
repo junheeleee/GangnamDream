@@ -27,6 +27,26 @@
 - audit ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
 - 이벤트 신규 14개 (총 1057개)
 
+### 5. 다은 with_daeun 엔딩 버그 픽스
+- 다은 아크 최종 stage는 `committed`인데 엔딩 판정이 `["lover","together"]`만 봐서, 가장 헌신적으로 키운 플레이어가 오히려 with_daeun 엔딩을 놓치던 버그. `committed` 추가로 회수 (GameState.gd:1313).
+
+---
+
+## 2026-06-22 (Codex: English Surface + AP Modal Polish)
+
+### 수정
+- `scenes/MainGame.gd`: AP 세부 카테고리 모달 버튼을 기존 긴 텍스트 버튼에서 아이콘/제목/보조설명/AP 배지를 갖춘 카드형 버튼으로 전환. 메인 행동 카드와 같은 시각 언어를 사용하도록 정리.
+- 영어 모드 탑바에서 `Gangnam Dream` 로고와 `Title` 버튼이 1280x800에서 잘리던 문제 수정. 영어 탑바 금액 표기는 `₩3.5M | ₩7.3M` 형태로 압축.
+- 영어 모드의 날짜, 금액, 주거명, 인물명, 칭호/성향, 월 조언 문구가 한국어 표면으로 남는 문제를 보정.
+- `autoloads/GameState.gd`, `systems/RelationshipSystem.gd`, `systems/InvestmentSystem.gd`: 새 런/런 테마/칭호 보너스/시장 국면/관계 단계 로그를 영어 모드에서 영어로 남기도록 수정.
+- `tools/ScreenshotQA.gd`: 영어 메인 HUD, 영어 돈/관계 모달, 영어 정보 패널 Stats/Relations 캡처를 전체 QA 루틴에 추가.
+- 리베이스 후 원격 변경에서 드러난 Godot 4.6 파서 오류 보정: `GameState.get_run_pace()` 타입 명시, `TutorialOverlay` JS식 삼항 연산자 제거.
+
+### 검증
+- 전체 `ScreenshotQA` 반복 실행 완료. `00c_en_ap_actions`, `00d_en_money_modal`, `00e_en_people_modal`, `00f_en_info_stats`, `00g_en_info_relations` 직접 확인.
+- 1280x800 기준 영어 로고/탑바 버튼/목표 라벨 잘림 없음. 영어 정보 패널의 주요 로그와 관계 단계 라벨 영어 표시 확인.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗, 밸런스 밴드 전부 통과.
+
 ---
 
 ## 2026-06-21 (품질 버그 일제 수정 — 도달불가 엔딩/고아 플래그/EN 오버레이)

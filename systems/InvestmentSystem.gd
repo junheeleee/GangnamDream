@@ -107,7 +107,7 @@ func _roll_cycle():
 		cycle = "bull"
 	GameState.market_context["cycle"] = cycle
 	GameState.market_context["crash_risk"] = clampf(0.02 + max(0.0, float(fear_greed - 70)) / 450.0, 0.02, 0.98)
-	GameState.add_log("시장 국면 전환: %s" % cycle, "market")
+	GameState.add_log(LocaleManager.ui("시장 국면 전환: %s", "Market cycle shifted: %s") % cycle, "market")
 
 func _update_asset(asset, news_items):
 	var id = str(asset.get("id", ""))
