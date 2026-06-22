@@ -1,0 +1,516 @@
+[
+  {
+    "id": "callback_midpoint_replan_echo",
+    "title": "전략을 다시 짠 그 밤",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "midpoint_replan",
+      "min_turn": 50
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "5년의 절반, 반환점에서 {name}은 '전략을 다시 짜야 한다'며 멈추고 생각했었다.\n\n그때 다시 짠 전략이 지금까지 이어졌다.\n\n오늘 또 점검할 시점이 왔다.",
+    "choices": [
+      {
+        "text": "그때 멈춰서 다시 짠 게 옳았다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "관성대로 달리는 것보다, 멈춰서 방향을 다시 보는 게 더 빠를 때가 있다.\n\n반환점의 재정비가 후반의 흐름을 만들었다.\n{name}은 멈출 줄 아는 것도 전략이라는 걸 안다."
+      },
+      {
+        "text": "이번에도 한 번 멈추고 점검한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "정기적으로 멈춰 점검하는 습관.\n\n그게 {name}을 큰 실수에서 여러 번 구했다.\n달리던 속도가 아까워도, 점검의 시간은 늘 본전 이상이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_double_down_10b_echo",
+    "title": "10억에서 더 가기로 한 것",
+    "background": "late_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "double_down_at_10b",
+      "min_turn": 44
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "자산 10억을 넘던 날, {name}은 '더 가야 한다'며 쉬는 대신 계획을 짰었다.\n\n10억이면 누군가에겐 끝이지만, {name}에겐 통과점이었다.\n\n오늘 그날의 결심이 떠올랐다.",
+    "choices": [
+      {
+        "text": "10억에서 멈추지 않은 게 맞았다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "10억에 만족했다면 거기서 멈췄을 것이다.\n\n목표를 30억으로 잡았기에, 10억은 자축이 아니라 점검 지점이었다.\n{name}은 그 시선의 높이가 결국 거리를 만든다는 걸 안다."
+      },
+      {
+        "text": "그래도 가끔은 멈춰서 숨을 쉰다",
+        "effects": {
+          "mental": 5,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "달리기만 하면 결국 지친다.\n\n10억에서 안 쉰 건 옳았지만, 늘 그럴 순 없다.\n{name}은 전진과 회복 사이의 리듬을 찾아가고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_ten_b_anxiety_echo",
+    "title": "30억이 더 멀어 보인 날",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "ten_b_anxiety",
+      "min_turn": 44
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "자산 10억을 넘던 날, {name}은 기뻐하기보다 '30억이 더 멀어 보인다'며 불안해했었다.\n\n10억이라는 큰 숫자 앞에서도, 목표는 까마득했다.\n\n오늘 또 그 거리감이 밀려왔다.",
+    "choices": [
+      {
+        "text": "거리는 멀어도 — 한 걸음씩이 답이다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "10억까지 온 것도 한 걸음씩이었다.\n\n남은 거리도 결국 같은 방식이다. 멀어 보이는 건 시야 탓이지, 못 간다는 뜻이 아니다.\n{name}은 발밑을 다시 봤다. 거기서부터다."
+      },
+      {
+        "text": "불안을 동력으로 — 더 정교하게 간다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "불안은 없애는 게 아니라 쓰는 것이다.\n\n그 거리감이 {name}을 더 치밀하게 만들었다.\n막연한 두려움을 구체적인 계획으로 바꾸면, 그게 곧 전진이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deflected_echo",
+    "title": "투자 얘기로 틀어버린 것",
+    "background": "restaurant",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_deflected",
+      "min_turn": 52
+    },
+    "tags": ["callback", "sangchul", "story"],
+    "cooldown": 999,
+    "description": "임상철이 자기 인생 얘기를 꺼냈을 때, {name}은 '그 집 얼마짜리였어요?'라며 투자 얘기로 틀어버렸었다.\n\n그때 깊은 대화를 피한 게 가끔 떠오른다.\n\n오늘 다시 임상철과 마주 앉았다.",
+    "choices": [
+      {
+        "text": "이번엔 그의 이야기를 들어본다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지난번에 틀어버린 대화를, 이번엔 끝까지 들었다.\n\n임상철은 의외로 많은 걸 털어놨다.\n관계는 정보 교환만으로 깊어지지 않는다는 걸 {name}은 뒤늦게 알았다."
+      },
+      {
+        "text": "나는 거래 관계가 편하다 — 선을 지킨다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 관계가 깊어야 하는 건 아니다.\n\n{name}은 임상철과 적당한 거리를 유지하기로 했다.\n그게 차가운 건지 현명한 건지는, 나중에 알게 될 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_relaxed_at_night_echo",
+    "title": "차트 대신 맥주 한 캔",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "relaxed_at_night",
+      "min_turn": 40
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "고시원 시절 어느 밤, {name}은 차트를 보는 대신 맥주 한 캔으로 하루를 마무리했었다.\n\n그렇게 숨 돌린 밤들도 필요했다.\n\n오늘도 머리가 무거운 밤이다.",
+    "choices": [
+      {
+        "text": "오늘도 잠깐 — 나를 쉬게 한다",
+        "effects": {
+          "mental": 6,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "쉬지 않고 달리는 게 미덕은 아니다.\n\n그 맥주 한 캔의 밤들이 {name}을 끝까지 가게 했다.\n자신을 쉬게 할 줄 아는 것도, 오래 가는 사람의 조건이었다."
+      },
+      {
+        "text": "잠깐 쉬고 — 다시 책상 앞에 앉는다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "쉼은 멈춤이 아니라 재충전이다.\n\n{name}은 짧게 숨을 돌리고, 다시 자기 자리로 돌아왔다.\n그 리듬을 아는 게, 번아웃 없이 가는 비결이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_slept_early_echo",
+    "title": "현수한테 자라 하고 잔 밤",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "slept_early",
+      "min_turn": 40
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "고시원 시절 어느 밤, {name}은 무리하지 않고 현수한테 '자라' 하고 일찍 잤었다.\n\n그렇게 서로 챙기던 밤들.\n\n오늘 문득 그 시절의 공기가 떠올랐다.",
+    "choices": [
+      {
+        "text": "그때 서로 챙긴 게 — 견디는 힘이었다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자였다면 더 빨리 지쳤을 것이다.\n\n옆방에서 같이 버티는 사람이 있다는 것만으로도 밤이 덜 길었다.\n{name}은 그 시절의 작은 챙김들이 그리웠다."
+      },
+      {
+        "text": "그 시절을 지나 — 나는 좀 더 단단해졌다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "서로 기대던 시절을 지나, 이제는 혼자서도 선다.\n\n하지만 그때 받은 온기가 지금의 단단함 안에 녹아 있다.\n{name}은 그 시절에 빚진 게 많다는 걸 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_aimed_higher_echo",
+    "title": "25억짜리를 본 것",
+    "background": "gangnam_day",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "aimed_higher",
+      "min_turn": 58
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "자산 25억을 넘던 날, {name}은 17억짜리 대신 25억짜리를 봤었다. '한 번 제대로 가려면.'\n\n그 야심이 가끔 떠오른다.\n\n오늘 다시 그 매물을 열어봤다.",
+    "choices": [
+      {
+        "text": "기왕이면 제대로 — 더 높은 목표를 향한다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "목표를 낮추면 거기까지만 간다.\n\n더 높이 본 만큼, {name}은 더 멀리 갈 동력을 얻었다.\n야심은 무모함과 다르다 — 계산이 받쳐주면 그건 비전이었다."
+      },
+      {
+        "text": "욕심을 점검한다 — 무리는 아닌지",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "더 높은 목표가 늘 옳은 건 아니다.\n\n{name}은 25억이 야심인지 욕심인지 차갑게 따져봤다.\n감당할 수 있는 목표와 자신을 망가뜨리는 목표는 종이 한 장 차이였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_demo_resolved_echo",
+    "title": "그래도 간다고 했던 것",
+    "background": "late_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "demo_resolved",
+      "min_turn": 34
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "서울살이 넉 달째, 한강 다리 위에서 정체감에 빠졌을 때 {name}은 '그래도 간다'며 다시 걷기 시작했었다.\n\n그 한 걸음이 여기까지 왔다.\n\n오늘 또 비슷한 정체의 순간이다.",
+    "choices": [
+      {
+        "text": "그때처럼 — 멈춰도 다시 걷는다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "정체는 끝이 아니라 잠깐의 멈춤이다.\n\n넉 달째 그 다리 위에서 다시 걸은 것처럼, 오늘도 다시 걷기로 했다.\n{name}은 멈췄다 다시 가는 게 포기보다 강하다는 걸 안다."
+      },
+      {
+        "text": "이번엔 방법을 바꿔서 다시 간다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "같은 방법으로 안 되면 방법을 바꾼다.\n\n{name}은 무작정 버티는 대신, 길을 다시 그렸다.\n'그래도 간다'에는 '어떻게'가 따라붙어야 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_demo_shortcut_echo",
+    "title": "지름길을 생각한 것",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "demo_seeking_shortcut",
+      "min_turn": 34
+    },
+    "tags": ["callback", "story", "risk"],
+    "cooldown": 999,
+    "description": "서울살이 넉 달째, 정체감에 빠졌을 때 {name}은 '다른 방법이 있어야 한다'며 지름길을 생각했었다.\n\n그 유혹은 지금도 가끔 찾아온다.\n\n오늘 또 '더 빠른 길'이 머릿속을 스쳤다.",
+    "choices": [
+      {
+        "text": "지름길의 유혹을 안다 — 그래서 더 경계한다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "빠른 길은 대개 함정이 있다.\n\n그때 지름길을 찾던 마음이, 사기나 도박으로 이어질 수도 있었다.\n{name}은 그 유혹을 알기에, 매번 한 박자 늦춰 생각했다."
+      },
+      {
+        "text": "정당한 지름길은 찾되 — 원칙은 지킨다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "효율을 높이는 것과 원칙을 어기는 건 다르다.\n\n{name}은 더 똑똑한 길은 찾되, 넘지 말아야 할 선은 지켰다.\n진짜 지름길은, 무너지지 않고 가는 길이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_admitted_fear_echo",
+    "title": "두렵다고 처음 인정한 것",
+    "background": "gangnam_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "admitted_fear",
+      "min_turn": 56
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "마지막 스퍼트에 들어섰을 때, {name}은 처음으로 '두렵다'는 걸 인정했었다.\n\n다 와서 무너질까 봐. 여기까지 온 게 물거품이 될까 봐.\n\n오늘도 그 두려움이 곁에 있다.",
+    "choices": [
+      {
+        "text": "두려움을 인정한 게 — 오히려 힘이 됐다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "두려움을 부정하면 더 커진다. 인정하면 다룰 수 있다.\n\n그때 솔직하게 인정한 덕에, {name}은 그 두려움에 잡아먹히지 않았다.\n용기는 두려움이 없는 게 아니라, 두려워도 가는 것이었다."
+      },
+      {
+        "text": "두려워도 — 여기까지 온 나를 믿는다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "여기까지 온 건 운이 아니었다.\n\n수많은 선택과 버팀의 결과였다. 그 자신을 {name}은 믿기로 했다.\n두려움 위에 신뢰를 쌓는 것. 그게 마지막 구간을 가는 법이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_calculated_final_push_echo",
+    "title": "걸으면서 숫자를 계산한 것",
+    "background": "gangnam_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "calculated_final_push",
+      "min_turn": 56
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "마지막 스퍼트에 들어섰을 때, {name}은 길을 걸으면서 남은 숫자를 계산했었다.\n\n감정이 아니라 숫자로 거리를 쟀다.\n\n오늘 또 머릿속으로 계산기를 두드린다.",
+    "choices": [
+      {
+        "text": "숫자로 보면 — 막연한 게 명확해진다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "막연한 '아직 멀었다'를 구체적인 숫자로 바꾸면, 두려움이 계획이 된다.\n\n{name}은 감정 대신 계산을 택했다.\n남은 거리가 보이면, 어떻게 갈지도 보였다."
+      },
+      {
+        "text": "숫자 너머 — 왜 가는지도 잊지 않는다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "숫자만 보면 길을 잃는다.\n\n{name}은 계산을 하면서도, 이 길을 왜 걷는지를 함께 떠올렸다.\n목적지와 이유가 같이 있어야, 마지막까지 흔들리지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_almost_messaged_daeun_echo",
+    "title": "썼다가 안 보낸 메시지",
+    "background": "convenience_night",
+    "portrait": "player_sad",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "almost_messaged_daeun",
+      "min_turn": 60
+    },
+    "tags": ["callback", "daeun", "story"],
+    "cooldown": 999,
+    "description": "다은을 떠나보낸 뒤, 그녀의 흔적을 마주친 어느 밤. {name}은 다은한테 메시지를 썼다가 지우고 안 보냈었다.\n\n그 보내지 못한 메시지가 가끔 떠오른다.\n\n오늘 다시 그 대화창을 열었다.",
+    "choices": [
+      {
+        "text": "이번에도 — 보내지 않는다. 지나간 일이다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "보내지 않은 메시지에도 의미가 있다.\n\n할 말이 있었지만, 하지 않는 게 서로를 위한 거였다.\n{name}은 대화창을 닫았다. 어떤 마음은 보내지 않음으로써 정리된다."
+      },
+      {
+        "text": "안부 한 줄 정도는 — 담담하게 보낸다",
+        "effects": {
+          "mental": 4,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "잘 지내냐는 한 줄을 보냈다.\n\n답이 올지는 모른다. 하지만 묻어두기만 하는 것보다 나았다.\n{name}은 미련이 아니라 매듭으로, 그 한 줄을 보냈다."
+      }
+    ]
+  },
+  {
+    "id": "callback_lingered_for_daeun_echo",
+    "title": "그 자리에 서 있던 것",
+    "background": "convenience_night",
+    "portrait": "player_sad",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "lingered_for_daeun",
+      "min_turn": 60
+    },
+    "tags": ["callback", "daeun", "story"],
+    "cooldown": 999,
+    "description": "다은을 떠나보낸 뒤, 그녀의 흔적을 마주친 어느 밤. {name}은 잠깐 그 자리에 가만히 서 있었다.\n\n그 멈춤의 순간이 가끔 떠오른다.\n\n오늘 비슷한 곳을 지나며, 또 발이 멈췄다.",
+    "choices": [
+      {
+        "text": "그 마음을 인정하고 — 다시 걷는다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그리움을 부정하지 않고, 잠깐 머무는 것.\n\n그러고 나면 다시 걸을 수 있었다.\n{name}은 멈춰 선 그 순간을 후회하지 않았다. 그것도 작별의 일부였다."
+      },
+      {
+        "text": "이젠 그 자리에 오래 머물지 않는다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "예전엔 한참 서 있었다. 지금은 조금 보고 지나간다.\n\n시간이 그 자리의 무게를 덜어줬다.\n{name}은 떠나보낸 것이 정말 떠나갔음을, 담담하게 받아들였다."
+      }
+    ]
+  }
+]
