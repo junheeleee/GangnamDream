@@ -1,0 +1,197 @@
+[
+  {
+    "id": "callback_sought_help_echo",
+    "title": "Asking for Help",
+    "description": "The night they hit bottom, {name} didn't endure alone but called a gambling-recovery group.\n\nThe courage of that call comes back sometimes.\n\nToday another shaky moment came.",
+    "choices": [
+      {
+        "text": "Asking for help — was the strongest choice",
+        "result_text": "Trying to win alone wasn't strength. Reaching out was the real courage.\n\nThat one call turned {name} onto a different road.\nAddiction was overcome not by willpower but by connection."
+      },
+      {
+        "text": "Whenever shaken — I dial that number again",
+        "result_text": "Recovery wasn't one resolution but a choice made each time.\n\n{name} isn't ashamed to ask for help whenever shaken.\nAs long as they can dial again, they won't collapse again."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_family_addiction_echo",
+    "title": "Telling Dad Everything",
+    "description": "When they hit bottom, {name} told Dad everything — that they'd fallen into gambling.\n\nThe weight of that confession comes back sometimes.\n\nToday Dad carefully brought up that day.",
+    "choices": [
+      {
+        "text": "\"Glad I told you then. Hiding it would've broken me more.\"",
+        "result_text": "Dad was quiet for a long time.\n'...Thank you for telling me. For not carrying it alone.'\n\nThat confession, made despite the shame, kept them from sinking alone.\nShowing weakness to family was, in fact, the start of recovery."
+      },
+      {
+        "text": "\"Because you knew — I could hold on.\"",
+        "result_text": "'That's what family is for.'\n\nHidden alone, they'd have sunk deeper.\n{name} knows having someone to share weakness with was recovery's greatest resource."
+      }
+    ]
+  },
+  {
+    "id": "callback_chose_deeper_echo",
+    "title": "Saying Just One More Hand",
+    "description": "When they hit bottom, {name} went deeper, saying 'just one more hand, I'll recoup it all.'\n\nThey know that choice's result.\n\nToday the temptation to recoup beckons again.",
+    "choices": [
+      {
+        "text": "Going deeper then — made me see bottom. Never again",
+        "result_text": "'Just one more hand' was the most dangerous lie.\n\n{name} knows how far that recoup-desire dragged them.\nBut having seen bottom, they could also climb back up."
+      },
+      {
+        "text": "That bottom — became the reason to stop",
+        "result_text": "Falling deeper that day, paradoxically, stopped {name}.\n\nSome people only change direction after hitting bottom.\nThat worst choice also became the last gamble."
+      }
+    ]
+  },
+  {
+    "id": "callback_chaebol_connection_echo",
+    "title": "Handing Over That Card",
+    "description": "To an influential person met by chance, {name} actively handed over a card and made their pitch.\n\nThat bold moment comes back sometimes.\n\nToday came a moment of hesitating whether to seize a chance.",
+    "choices": [
+      {
+        "text": "Approaching boldly then — opened a door",
+        "result_text": "Opportunity extends its hand only to those who approach.\n\nHad they hesitated, that connection would have passed by.\n{name} knows the nerve to step up sometimes matters more than skill."
+      },
+      {
+        "text": "Connections — only matter atop my own ability",
+        "result_text": "Handing over a card was just a start; what fills the rest is skill.\n\nRather than lean on connections, {name} focused on becoming someone worth investing in.\nConnection is a bridge, but crossing it took your own feet."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_apartment_echo",
+    "title": "Putting Down the Deposit",
+    "description": "At a moment of big decision, {name} put down a deposit and signed for a home.\n\nThat trembling moment comes back sometimes.\n\nToday they look back on that decision.",
+    "choices": [
+      {
+        "text": "That decision — became a foothold for assets",
+        "result_text": "The hand signing trembled, but that one decision made a big flow.\n\n{name} knows the choice made after hesitation was right.\nSometimes there are moments you must decide even without perfect certainty."
+      },
+      {
+        "text": "The bigger the decision — the more careful the vetting",
+        "result_text": "The decision was good, but so was the risk.\n\n{name} learned that big decisions demand more thorough vetting.\nThe difference between boldness and recklessness lay in the depth of vetting."
+      }
+    ]
+  },
+  {
+    "id": "callback_overtime_boundary_echo",
+    "title": "Choosing to Leave on Time",
+    "description": "Faced with overtime culture, {name} drew a line — 'if the work's done, I leave on time.'\n\nThat boundary comes back sometimes.\n\nToday there's the pressure of face-saving overtime again.",
+    "choices": [
+      {
+        "text": "That boundary — protected my time",
+        "result_text": "Only with time after work was there time for one's own goal.\n\n{name} spent the time saved by leaving on time studying investing.\nDrawing a boundary wasn't laziness, but a declaration of priorities."
+      },
+      {
+        "text": "Over face-saving — I prove it with results",
+        "result_text": "The work was producing results, not sitting long.\n\n{name} decided to speak with results over hours at the desk.\nTo leave on time with a clear conscience, the work had to be truly done."
+      }
+    ]
+  },
+  {
+    "id": "callback_kkondae_yielded_echo",
+    "title": "Letting It Slide",
+    "description": "Faced with a condescending boss's lecture, {name} let it slide with 'you're right.'\n\nThat tact comes back sometimes.\n\nToday they face a similar lecture.",
+    "choices": [
+      {
+        "text": "Saving energy — was wise",
+        "result_text": "No need to take up every fight.\n\n{name} knows how to tell what to let slide from what to confront.\nSpending energy arguing with someone who won't change was a loss."
+      },
+      {
+        "text": "Let it slide — but take the usable bits",
+        "result_text": "Even a kkondae's nagging sometimes mixes in real experience.\n\n{name} let the form slide but picked out the usable content.\nYou may dislike the person, but no need to throw out their experience too."
+      }
+    ]
+  },
+  {
+    "id": "callback_impressed_jiyeon_mother_echo",
+    "title": "Speaking Plainly and Proudly",
+    "description": "Before Ji-yeon's mother, {name} spoke plainly and proudly, without dressing things up.\n\nThat confidence comes back sometimes.\n\nToday they stand in another place of being judged.",
+    "choices": [
+      {
+        "text": "Honesty — was the strongest weapon",
+        "result_text": "Unadorned sincerity moved people more than any packaging.\n\n{name} knows showing yourself as you are works.\nConfidence came not from having much, but from believing in yourself."
+      },
+      {
+        "text": "Even now — I don't dress myself up",
+        "result_text": "Packaging gets exposed in the end; honesty leaves trust.\n\n{name} decided not to inflate themselves even when judged.\nBeing recognized as your true self was the longest-lasting recognition."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_cut_ties_echo",
+    "title": "Saying I'll Report You",
+    "description": "When they learned Sang-chul's truth, {name} cut ties, saying 'I'll report you.'\n\nThat resolute choice comes back sometimes.\n\nToday the weight of that decision lingers.",
+    "choices": [
+      {
+        "text": "I did the right thing — chose conscience over gain",
+        "result_text": "Sang-chul's network and information were vast, but he was the man who ruined Dad.\n\n{name} doesn't regret choosing conscience over gain.\nSome bridges must be burned to protect yourself."
+      },
+      {
+        "text": "Cutting him off — I came this far on my own",
+        "result_text": "The road without a mentor or network was harder, but cleaner.\n\n{name} knows they rose on their own without Sang-chul.\nGoing far on your own strength beat going fast on borrowed power."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_mentor_met_echo",
+    "title": "Saying I'm Still Learning",
+    "description": "Before a holdem master, {name} said humbly, 'It's only been a while, I'm still learning.'\n\nThat humility comes back sometimes.\n\nToday came another chance to learn from someone.",
+    "choices": [
+      {
+        "text": "A learning posture — made for fast growth",
+        "result_text": "One who tries to learn grows faster than one who pretends to know.\n\n{name} knows that humility was a shortcut to skill.\nThe key was using that learning somewhere other than gambling."
+      },
+      {
+        "text": "Use that instinct — somewhere other than gambling",
+        "result_text": "The ability to read odds and calculate expected value was more useful off the table.\n\n{name} moved that instinct to investing and judgment.\nThe same ability, applied differently, parted lives."
+      }
+    ]
+  },
+  {
+    "id": "callback_got_alternate_offer_echo",
+    "title": "Hearing Out the Other Position",
+    "description": "When another path opened in an interview, {name} heard it out — 'What's the position?'\n\nThat open attitude comes back sometimes.\n\nToday they face an unexpected offer again.",
+    "choices": [
+      {
+        "text": "Hearing it out — widened my options",
+        "result_text": "Just listening before closing the door increases your options.\n\n{name} built the flexibility to consider even unexpected offers.\nA path not in the plan was sometimes the better path."
+      },
+      {
+        "text": "Listen — but check if it fits my direction",
+        "result_text": "Not every offer is good. It has to fit my direction.\n\n{name} stays open but filters by their own standards.\nWidening options and being swayed were different things."
+      }
+    ]
+  },
+  {
+    "id": "callback_contacted_jaehyuk_early_echo",
+    "title": "Reaching Out to Jae-hyuk First",
+    "description": "After being scammed, {name} reached out first — 'Jae-hyuk, how've you been?'\n\nThat complicated feeling comes back sometimes.\n\nToday they think about how to settle that matter.",
+    "choices": [
+      {
+        "text": "Reaching out first — was to find closure",
+        "result_text": "Carrying hatred takes energy too.\n\n{name} wanted to somehow tie off that relationship.\nNot forgiveness, but closure — that was for themselves."
+      },
+      {
+        "text": "Now — I'm no longer bound by that matter",
+        "result_text": "Tie your heart to the past and you lose the strength to go forward.\n\n{name} left the Jae-hyuk matter in the past and set their gaze ahead.\nLeave the losses as losses, take the lessons — and move on."
+      }
+    ]
+  },
+  {
+    "id": "callback_congratulated_friend_echo",
+    "title": "Congratulating Sincerely",
+    "description": "At a thriving friend's news, {name} said, 'congratulations sincerely — I'm on my own path.'\n\nThat mature heart comes back sometimes.\n\nToday they hear another's good news.",
+    "choices": [
+      {
+        "text": "I can now rejoice at others' success — without envy",
+        "result_text": "Only one who accepts that another's success isn't their failure can congratulate sincerely.\n\n{name} knows that ease comes from conviction in one's own path.\nRejoicing without envy was the sturdiest self-esteem."
+      },
+      {
+        "text": "My path too — I walk it quietly",
+        "result_text": "Congratulate sincerely, but my pace stays unshaken.\n\n{name} walked their own road without being swayed by others' speed.\nKnowing each has their own timetable was the way to be free of comparison."
+      }
+    ]
+  }
+]
