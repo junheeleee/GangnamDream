@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_accepted_job_grind_echo",
+    "title": "The First Week I Endured",
+    "description": "During the first week on the job, {name} held on — 'this is the best option right now.'\n\nThat first week feels distant.\n\nAt the end of a similarly hard day today, that earlier self came to mind.",
+    "choices": [
+      {
+        "text": "Enduring then became the foundation now",
+        "result_text": "'Best option' can sound shabby. But those shabby best-options stacked into a path.\n\nBecause the first week was endured, there was a second week, and so on to here.\n{name} acknowledged that persistence anew."
+      },
+      {
+        "text": "Now I do more than just endure",
+        "result_text": "The enduring phase is past.\n\n{name} no longer merely holds on — they design what's next.\nThe first-week self would have been amazed at how far the view had widened."
+      }
+    ]
+  },
+  {
+    "id": "callback_enjoyed_work_echo",
+    "title": "The Work Itself Was Fine",
+    "description": "During the first week, {name} unexpectedly felt 'the work itself was fine.'\n\nThat feeling resurfaces sometimes.\n\nA moment of unexpected satisfaction in work they'd seen only as a means to money.",
+    "choices": [
+      {
+        "text": "Finding meaning in work isn't bad either",
+        "result_text": "See every hour only as a means to Gangnam and five years is too long.\n\nIf you can find small reward in the work itself, the road hurts less.\n{name} was finding a balance between means and process."
+      },
+      {
+        "text": "Still, the goal is elsewhere — don't forget",
+        "result_text": "Even if the work is good, this isn't the destination.\n\n{name} decided not to settle into satisfaction.\nWhat you enjoy and where you must go can differ — they remembered that coldly."
+      }
+    ]
+  },
+  {
+    "id": "callback_doubted_job_echo",
+    "title": "The First Week I Doubted",
+    "description": "During the first week, {name} was plagued by doubt — 'is this right?'\n\nHas the doubt vanished, or just grown familiar?\n\nToday the question surfaced again.",
+    "choices": [
+      {
+        "text": "Doubting yet continuing was the answer",
+        "result_text": "Doubt wasn't something to erase but to carry.\n\nHad they quit then, there'd be no foundation now.\n{name} acknowledged the self who stepped forward even within doubt."
+      },
+      {
+        "text": "Re-examine whether that doubt was right",
+        "result_text": "Neither ignoring doubt nor being swept by it is the answer.\n\n{name} turned the doubt into data and checked it.\nFinding answers by numbers, not emotion — that first week taught it."
+      }
+    ]
+  },
+  {
+    "id": "callback_invest_mindset_echo",
+    "title": "First Paycheck, Opening the App",
+    "description": "The day of the first paycheck, instead of celebrating, {name} immediately opened the investing app. 'This money can't just sit in the account.'\n\nThat instinct built the current momentum.\n\nMoney came in again today.",
+    "choices": [
+      {
+        "text": "That mindset — make money work",
+        "result_text": "Knew from the first payday that salary alone can't reach Gangnam.\n\nMoney making money. {name} grasped it early, started early.\nThat one month's head start becomes a large gap five years out."
+      },
+      {
+        "text": "Now I watch risk over speed",
+        "result_text": "At first, believed rolling it all was the answer.\n\nNow knows not losing matters as much as gaining.\n{name}'s investing had matured from offense to balance."
+      }
+    ]
+  },
+  {
+    "id": "callback_reconsidering_job_echo",
+    "title": "When the Overtime Piled Up",
+    "description": "As overtime accumulated, {name} thought, 'this job isn't my answer — find another direction.'\n\nThe result of that thought is the present.\n\nThat judgment came to mind today.",
+    "choices": [
+      {
+        "text": "Doubting the direction was right — I've changed paths",
+        "result_text": "A career filled by overtime has a ceiling.\n\nSeeing that limit early, {name} prepared another path.\nChanging direction wasn't giving up — it was strategy."
+      },
+      {
+        "text": "The job's still a safety net — watch the balance",
+        "result_text": "Sought another direction, but didn't carelessly toss the net underfoot.\n\n{name} planned what's next from atop the foundation of a job.\nTaking risk and being reckless are different."
+      }
+    ]
+  },
+  {
+    "id": "callback_cut_loss_first_echo",
+    "title": "The First Stop-Loss",
+    "description": "Facing the first investment loss, {name} cut it — 'better to get out before losing more.'\n\nThe sting of that first stop-loss.\n\nToday they stood at a similar fork.",
+    "choices": [
+      {
+        "text": "A stop-loss isn't defeat — it's discipline",
+        "result_text": "Most people hold on trying not to lose, and lose more.\n\nThe discipline learned at the first stop-loss saved {name} several times.\nKnowing when to cut was a surviving investor's first condition."
+      },
+      {
+        "text": "This time, set the stop-loss line in advance",
+        "result_text": "Cut by emotion and you're always late.\n\n{name} drew the exit line before entering.\nThe first stop-loss's pain was tuition that built a principle."
+      }
+    ]
+  },
+  {
+    "id": "callback_held_through_loss_echo",
+    "title": "The First Loss I Held Through",
+    "description": "Facing the first investment loss, {name} held on — 'like Sang-chul said, the market always comes back.'\n\nHow did holding turn out?\n\nToday paper losses glow red again.",
+    "choices": [
+      {
+        "text": "Holding on principle was right — don't waver",
+        "result_text": "Not selling in fear.\n\nThat simple principle was learned in the body at the first loss.\n{name} watched the red numbers, and this time the hands didn't shake."
+      },
+      {
+        "text": "Holding and stubbornness differ — recheck the basis",
+        "result_text": "Holding blindly is gambling.\n\n{name} first re-examined whether the original reason for buying still held.\nIf the basis lives, hold; if it's broken, cut. That was the difference."
+      }
+    ]
+  },
+  {
+    "id": "callback_averaged_down_echo",
+    "title": "The First Loss I Averaged Down",
+    "description": "Facing the first investment loss, {name} averaged down — 'buy more to lower the cost basis.'\n\nWas that choice medicine or poison?\n\nToday the same temptation rises before a losing position.",
+    "choices": [
+      {
+        "text": "Averaging down needs conviction — be careful",
+        "result_text": "Only with conviction it'll rise does averaging down become medicine.\n\n{name} learned then that averaging down without basis only grows the loss.\nThis time, they re-examined the fundamentals first."
+      },
+      {
+        "text": "This time, choose the stop-loss over averaging down",
+        "result_text": "Catch a falling knife and you only cut your hand.\n\n{name} knows the sweet temptation of averaging down. So they guarded against it more.\nThat earlier lesson made a different choice today."
+      }
+    ]
+  },
+  {
+    "id": "callback_stayed_up_studying_echo",
+    "title": "The Night I Studied Till 2 a.m.",
+    "description": "In the goshiwon days, even after Hyun-su went to sleep, {name} studied until 2 a.m.\n\nThose dawns stacked into the present.\n\nTonight too, sitting at the desk late.",
+    "choices": [
+      {
+        "text": "Those dawns weren't wasted",
+        "result_text": "A light left on while others slept.\n\nThose hours built an invisible gap.\n{name} knows they owe a lot to the dawn self."
+      },
+      {
+        "text": "Cut the reckless all-nighters now — watch efficiency",
+        "result_text": "All-nighters powered by desperation were needed, but can't last forever.\n\n{name} began to value quality of time over quantity.\nTo go long, you learn to warm rather than burn."
+      }
+    ]
+  },
+  {
+    "id": "callback_keeps_records_echo",
+    "title": "The Day I Organized a Year's Records",
+    "description": "In the first year in Seoul, {name} organized a year of records to 'confirm in numbers how far I'd come.'\n\nThat habit continued.\n\nToday they opened those records again.",
+    "choices": [
+      {
+        "text": "Records steady me when I waver",
+        "result_text": "Emotion lies that 'nothing has changed,' but records don't lie.\n\nThe numbers compared to a year ago gave {name} objective comfort.\nSeeing how far you've come shows how much farther to go."
+      },
+      {
+        "text": "Beyond records — design the next year",
+        "result_text": "Didn't stop at writing down the road traveled.\n\n{name} used that data to plan the next year's strategy.\nRecords were both a summary of the past and a map of the future."
+      }
+    ]
+  },
+  {
+    "id": "callback_grind_mentality_echo",
+    "title": "Year One Was the Warm-up",
+    "description": "In the first year in Seoul, {name} vowed, 'year one was the warm-up — push harder.'\n\nThat ferocity carried all the way here.\n\nThat vow came to mind today.",
+    "choices": [
+      {
+        "text": "That ferocity dragged me this far",
+        "result_text": "Even the year called a warm-up was a full sprint to someone.\n\nPushing that hard produced a speed unlike others'.\n{name} didn't regret the ferocity."
+      },
+      {
+        "text": "Ferocity alone won't last — pace it sustainably",
+        "result_text": "Early explosive drive was needed. But five years isn't a sprint.\n\n{name} converted ferocity into a sustainable pace.\nGoing all the way belongs not to the fastest but to those who don't stop."
+      }
+    ]
+  },
+  {
+    "id": "callback_kept_job_as_base_echo",
+    "title": "Using the Job as a Base",
+    "description": "Feeling the career ceiling, {name} decided 'I'll keep the job' and use it as a base of stability.\n\nThe result of that choice is the present.\n\nToday they look back on that judgment.",
+    "choices": [
+      {
+        "text": "Stable cash flow made the risk-taking possible",
+        "result_text": "With a salary coming in monthly, they could avoid overreaching in investing.\n\nA challenge with a safety net differs from one without.\n{name} jumped farther using the job as a springboard."
+      },
+      {
+        "text": "Now I look past the job — to the next stage",
+        "result_text": "Even a job used as a base must one day be graduated from.\n\n{name} didn't forget the job was a tool, not a purpose.\nOnce sturdy enough, the time comes to move to the next stage."
+      }
+    ]
+  },
+  {
+    "id": "callback_career_pivot_intent_echo",
+    "title": "Wanting to Move Bigger",
+    "description": "Feeling the career ceiling, {name} thought 'I have to move bigger' and considered switching jobs or another path.\n\nDid that resolve become action?\n\nThat ambition came to mind today.",
+    "choices": [
+      {
+        "text": "That resolve set me in motion",
+        "result_text": "Didn't stop at admitting the limit — aimed past it.\n\nHad they settled into the present, they'd have stayed at the ceiling.\n{name} felt the resolve to draw a bigger picture had been right."
+      },
+      {
+        "text": "Move big but not recklessly — calculate",
+        "result_text": "Ambition is good, but ambition without calculation is gambling.\n\n{name} balanced 'bigger' against 'smarter.'\nThe bigger the move, the more firmly you must watch your footing."
+      }
+    ]
+  },
+  {
+    "id": "callback_recommitted_to_job_echo",
+    "title": "Promising to Get It Together",
+    "description": "When job and investing clashed, {name} held the job for now, telling the boss 'I'm sorry, I'll get it together.'\n\nThey think of that choice sometimes.\n\nToday the boss said in passing, 'Doing good work lately.'",
+    "choices": [
+      {
+        "text": "\"Glad I steadied myself back then.\"",
+        "result_text": "Had they lost the job to investing distraction, even the safety net would have collapsed.\n\nHolding the job then was the choice that kept the balance.\n{name} learned to catch both rabbits that day."
+      },
+      {
+        "text": "Inwardly — no longer bound to the job alone",
+        "result_text": "A loyal employee on the surface, a person heading toward their own goal underneath.\n\n{name} ran that dual track more skillfully now.\nKeep the job — but don't mortgage your life to it."
+      }
+    ]
+  }
+]
