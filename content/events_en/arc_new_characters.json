@@ -1,0 +1,96 @@
+[
+  {
+    "id": "arc_jaewon_01_meet",
+    "title": "New Neighbor",
+    "description": "Two years in the goshiwon.\n\nA stranger washing dishes in the shared kitchen. He'd moved into room 203 that day — boxes still half-unpacked.\n\n\"Oh, hi. I just moved in today. Room 203, Park Jaewon.\"\n\n26 years old. Up from Busan. First job. Same age {name} was when he first walked into this building.\n\n{name} knows what that look means now. The one of someone who just arrived in Seoul for the first time.",
+    "choices": [
+      {
+        "text": "\"Welcome. This room gets cold — did you bring thick blankets?\" — look out for him",
+        "result_text": "Jaewon smiled with relief. \"Oh, really? I only packed a thin one...\"\n\nTwo years ago, that was {name}'s face."
+      },
+      {
+        "text": "\"Take care.\" — short greeting, back to the room",
+        "result_text": "Each went to their own room. That's how people live in goshiwons.\n\nStill — {name} glanced back once. The kid crouched in front of his boxes."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaewon_02_advice",
+    "title": "Two Years Ahead",
+    "description": "Jaewon knocked on the door.\n\n\"Hey, got a minute?\"\n\nSat and talked. ₩1.75M a month, ₩650K in rent. Didn't realize Seoul was this tight, he said. Feels like he needs to do something but doesn't know what.\n\n\"How did you start? You've been here a while, right?\"\n\n{name} thought back two years. ₩500K in the bank. ₩3B target. First year — nothing.",
+    "choices": [
+      {
+        "text": "\"I was the same. Start by setting aside 20% of your paycheck — no exceptions.\" — honest advice",
+        "result_text": "Jaewon wrote it down. He hadn't had anyone to tell him this.\n\n{name} wondered what would have happened if someone had said this two years ago. But — some things you only learn by doing."
+      },
+      {
+        "text": "\"I still don't know much myself. Everyone's different.\" — keep the boundary",
+        "result_text": "Jaewon looked a little deflated. {name} thought about it on the way out.\n\nWhich advice helps, which gets in the way — still not sure. So said nothing."
+      },
+      {
+        "text": "Tell him everything — ₩3B, the five-year plan",
+        "result_text": "Jaewon's eyes went wide. \"...For real?\"\n\nSomeone taking the ₩3B goal seriously. It had been a while."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaewon_03_farewell",
+    "title": "Each to Their Own Door",
+    "description": "Boxes in the hallway.\n\nJaewon said he was moving to a studio apartment. Been a year. Got some breathing room and wanted more space.\n\n\"I learned a lot from you. I want to do what you're doing — you think I can?\"\n\n{name} thought back to walking this hallway for the first time two years ago. Knew nothing then.",
+    "choices": [
+      {
+        "text": "\"You can. But — it takes longer than you think.\" — honest",
+        "result_text": "Jaewon nodded, his expression serious.\n\nWatched him carry the boxes down the stairs. Remembered Hyunsu leaving. The people who passed through this place — they're all gradually moving on."
+      },
+      {
+        "text": "\"Good luck.\" — short cheer",
+        "result_text": "Jaewon smiled and lifted his boxes. The next day, room 203's light was out.\n\nJust {name} left."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaewon_04_reunion",
+    "title": "Five Years Later",
+    "description": "KakaoTalk notification.\n\nPark Jaewon. The kid from room 203.\n\n\"Hyung!! I saved ₩50M!! I kept doing what you showed me and it worked ㅠㅠ\"\n\nA photo. His savings account screen. ₩52M.\n\n{name} stared at the screen for a while. That kid who arrived crouched in front of his boxes.",
+    "choices": [
+      {
+        "text": "\"Well done. Keep going.\" — short reply",
+        "result_text": "\"Thank you hyung!!!\" Three emoji.\n\nLeaving something behind for someone in Seoul — maybe this is what that looks like."
+      },
+      {
+        "text": "\"Let's grab a meal.\" — meet up",
+        "result_text": "A neighborhood sundae gukbap place. Jaewon had changed. In a good way.\n\n\"How much are you at now, hyung?\" Jaewon asked. {name} smiled. \"...A little more.\"\n\nEach racing toward their own number."
+      }
+    ]
+  },
+  {
+    "id": "arc_minseo_01_meet",
+    "title": "Someone Who Got There First",
+    "description": "An investment seminar. The presenter stepped up.\n\n\"Hi, I'm Lee Minseo. I started in a Gangnam jeonse apartment [rented deposit-only] at 35, and now I own the place outright. I'm 38.\"\n\n[Jeonse (전세): Korea's unique deposit-only rental system. Instead of monthly rent, you pay a large lump-sum (often ₩100M-500M+) that sits with the landlord. No monthly payments. At lease end, you get the full deposit back. It's how many Koreans 'step into' expensive areas without buying.]\n\nStarted at 35. Goal reached at 38. Three years.\n\n{name} ran the numbers. That timeline is almost identical to his.",
+    "choices": [
+      {
+        "text": "Get her business card after the talk — want to ask how",
+        "result_text": "Lee Minseo smiled and handed over her card.\n\nA handshake with someone who owns a Gangnam apartment. Slightly unreal. And — she was once standing where {name} is standing."
+      },
+      {
+        "text": "Just listened and left — no nerve to approach",
+        "result_text": "On the way home, her words kept running through his head.\n\nNot 'it can be done' — but 'she already did it.' That stayed longer than expected."
+      }
+    ]
+  },
+  {
+    "id": "arc_minseo_02_real",
+    "title": "Beyond Gangnam",
+    "description": "Ran into Lee Minseo at a café near the seminar venue. Different face than on stage.\n\n\"Oh — you were at the seminar, weren't you?\"\n\nCoffee together. She said things she didn't say at the talk.\n\n\"Honestly — I got more exhausted after buying the apartment. There's the mortgage. Kids' tutoring costs. And even though the price went up, I can't sell — I live there.\"\n\nGot Gangnam — and Gangnam got her.",
+    "choices": [
+      {
+        "text": "\"But you achieved the goal.\" — see the positive",
+        "result_text": "Lee Minseo smiled briefly. \"Yes. I did achieve it.\"\n\nBut that smile was different somehow. {name} wanted to understand the difference. Probably have to get there to know."
+      },
+      {
+        "text": "\"Is there something I'm not seeing? Tell me honestly.\" — ask directly",
+        "result_text": "She thought for a moment, then said:\n\"When you have a goal — you have to be ready for when the goal disappears. That's the hardest part.\"\n\nIt took {name} a while to understand what that meant."
+      }
+    ]
+  }
+]

@@ -1520,12 +1520,11 @@ func _next_arc_id() -> String:
 	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
 	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
 		return "arc_jiyeon_01_crash"
-	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 20:
+	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 26:
 		return "arc_jiyeon_02_store"
-	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 21:
+	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 36:
 		return "arc_jiyeon_03_offer"
-	# 데모 6개월(24턴) 안에 지연 점심(스캘핑 해금) 가능하도록 턴 조건 축소 (원래 t>=27)
-	if t >= 22 and f.get("arc_jiyeon_offer_seen", false) \
+	if t >= 40 and f.get("arc_jiyeon_offer_seen", false) \
 			and not f.get("arc_jiyeon_03b_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_jiyeon_03b_lunch"
@@ -1588,7 +1587,7 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_casino_seen", false):
 		return "arc_sangchul_casino_invite"
 	# ── 임상철×지연 교차점 — 두 세계의 충돌 ──
-	if t >= 35 and f.get("arc_jiyeon_offer_seen", false) \
+	if t >= 48 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
@@ -1814,13 +1813,13 @@ func _next_arc_id() -> String:
 			and (f.get("jiyeon_deal_won", false) or f.get("jiyeon_deal_lost", false)):
 		return "arc_opp_jiyeon_win" if f.get("jiyeon_deal_won", false) else "arc_opp_jiyeon_lose"
 	# ── 지연의 고백 — 제안 이후, 임상철 경고 이후 ──
-	if t >= 44 and f.get("arc_jiyeon_offer_seen", false) \
+	if t >= 56 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_jiyeon_reveal_seen", false) \
 			and not f.get("arc_jiyeon_truth_seen", false):
 		if f.get("warned_about_jiyeon", false):
 			return "arc_jiyeon_truth_warned"
 		return "arc_jiyeon_truth_moment"
-	if t >= 50 and f.get("arc_jiyeon_truth_seen", false) \
+	if t >= 64 and f.get("arc_jiyeon_truth_seen", false) \
 			and not f.get("arc_jiyeon_epilogue_seen", false):
 		return "arc_jiyeon_05_epilogue"
 
@@ -1923,6 +1922,65 @@ func _next_arc_id() -> String:
 		return "arc_37_ending_peace"
 	if t >= 216 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
 		return "arc_endgame_sixmonths"
+
+	# ══ 9구간: Year 3-5 인물 재등장 ══════════════════════════════
+	# 박재원 (고시원 후배) — Year 3 신규 인물
+	if t >= 96 and not f.get("arc_jaewon_01_seen", false):
+		return "arc_jaewon_01_meet"
+	if t >= 108 and f.get("arc_jaewon_01_seen", false) \
+			and not f.get("arc_jaewon_02_seen", false):
+		return "arc_jaewon_02_advice"
+	if t >= 140 and f.get("arc_jaewon_02_seen", false) \
+			and not f.get("arc_jaewon_03_seen", false):
+		return "arc_jaewon_03_farewell"
+	if t >= 193 and f.get("arc_jaewon_03_seen", false) \
+			and not f.get("arc_jaewon_reunion_seen", false):
+		return "arc_jaewon_04_reunion"
+	# 임상철 Year 3 — 신문 기사 (대면 이후)
+	if t >= 100 and f.get("arc_sangchul_confrontation_seen", false) \
+			and not f.get("arc_sangchul_year3_seen", false):
+		return "arc_sangchul_year3"
+	# 한지연 Year 3 — 재연락 (에필로그 이후)
+	if t >= 100 and f.get("arc_jiyeon_epilogue_seen", false) \
+			and not f.get("arc_jiyeon_year3_seen", false):
+		return "arc_jiyeon_year3"
+	# 김다은 Year 3 — 함께 2주년 (함께 궤적)
+	if t >= 100 and (f.get("daeun_committed", false) or f.get("daeun_together_path", false)) \
+			and not f.get("arc_daeun_year3_together_seen", false):
+		return "arc_daeun_year3_together"
+	# 김다은 Year 3 — 결혼 소식 (이별 궤적)
+	if t >= 100 and (f.get("daeun_let_her_go", false) or f.get("daeun_breakup_accepted", false)) \
+			and f.get("arc_daeun_ghost_seen", false) \
+			and not f.get("arc_daeun_year3_apart_seen", false):
+		return "arc_daeun_year3_apart"
+	# 이민서 — Year 4 신규 인물
+	if t >= 145 and not f.get("arc_minseo_01_seen", false):
+		return "arc_minseo_01_meet"
+	if t >= 160 and f.get("arc_minseo_01_seen", false) \
+			and not f.get("arc_minseo_02_seen", false):
+		return "arc_minseo_02_real"
+	# 김다은 Year 4 — 강남 취직 (함께 궤적)
+	if t >= 145 and f.get("arc_daeun_year3_together_seen", false) \
+			and not f.get("arc_daeun_year4_together_seen", false):
+		return "arc_daeun_year4_together"
+	# 아버지 기일
+	if t >= 150 and f.get("father_passed", false) \
+			and not f.get("arc_father_legacy_seen", false):
+		return "arc_father_legacy"
+	# 아버지 임종 — 약 복용 이후, 고백 들은 이후
+	if t >= 150 and f.get("arc_father_medication_seen", false) \
+			and f.get("father_confession_heard", false) \
+			and not f.get("arc_father_passing_seen", false) \
+			and not f.get("father_passed", false):
+		return "arc_father_passing"
+	# 김다은 Year 5 — 30억 전날 밤 (함께 궤적)
+	if t >= 193 and f.get("arc_daeun_year4_together_seen", false) \
+			and not f.get("arc_daeun_year5_seen", false):
+		return "arc_daeun_year5_ending"
+	# 김다은 Year 5 — 강남대로에서 혼자 (이별 궤적)
+	if t >= 193 and f.get("arc_daeun_year3_apart_seen", false) \
+			and not f.get("arc_daeun_year5_apart_seen", false):
+		return "arc_daeun_year5_apart"
 
 	# ── 엔딩 직전 씬 (t>=234, 궤적별 분기) — 진짜 마지막 감정 비트 ──
 	if t >= 234:
@@ -3082,13 +3140,13 @@ func _refresh_arc_box() -> void:
 			"active": f.get("arc_jiyeon_crash_seen", false),
 			"done": f.get("arc_jiyeon_truth_seen", false) or f.get("arc_jiyeon_epilogue_seen", false),
 			"stages": [
-				{"label": _tr("접촉 (17개월차+)", "Contact (month 17+)"), "done": f.get("arc_jiyeon_crash_seen", false)},
-				{"label": _tr("재회 (20개월차+)", "Reunion (month 20+)"), "done": f.get("arc_jiyeon_store_seen", false)},
-				{"label": _tr("연결 (21개월차+)", "Connection (month 21+)"), "done": f.get("arc_jiyeon_offer_seen", false)},
-				{"label": _tr("그녀의 세계 (22개월차+)", "Her World (month 22+)"), "done": f.get("arc_jiyeon_03b_seen", false)},
+				{"label": _tr("접촉 (5개월차+)", "Contact (month 5+)"), "done": f.get("arc_jiyeon_crash_seen", false)},
+				{"label": _tr("재회 (7개월차+)", "Reunion (month 7+)"), "done": f.get("arc_jiyeon_store_seen", false)},
+				{"label": _tr("연결 (9개월차+)", "Connection (month 9+)"), "done": f.get("arc_jiyeon_offer_seen", false)},
+				{"label": _tr("그녀의 세계 (10개월차+)", "Her World (month 10+)"), "done": f.get("arc_jiyeon_03b_seen", false)},
 				{"label": _tr("진실", "Truth"), "done": f.get("arc_jiyeon_truth_seen", false)},
 			],
-			"hint": _tr("17개월차(1년5개월) 이후 자동 등장", "Auto-appears after month 17 (1y5m)") if not f.get("arc_jiyeon_crash_seen", false) else "",
+			"hint": _tr("5개월차 이후 자동 등장", "Auto-appears after month 5") if not f.get("arc_jiyeon_crash_seen", false) else "",
 		},
 		{
 			"name": _tr("아버지", "Father"),

@@ -1,0 +1,81 @@
+[
+  {
+    "id": "arc_daeun_year3_together",
+    "title": "Two Years",
+    "description": "Two years together.\n\nDaeun glanced at the calendar and said, \"Today's exactly two years since we first met.\"\n\nTriangle kimbap 1+1. Convenience store counter. Two years ago.\n\nSo much has changed since then — Gangnam still far, the bank balance shifted, the weight of Seoul unchanged — and this person is beside him.\n\n\"...Are we okay like this?\" Daeun said something she seemed almost not to say.",
+    "choices": [
+      {
+        "text": "\"We're fine. We're going together, right?\" — with certainty",
+        "result_text": "Daeun looked at {name} for a long moment. \"I know. I just wanted to check sometimes.\"\n\nThat was straightforward. Proof this relationship still holds."
+      },
+      {
+        "text": "\"Two whole years. I can't believe it either.\" — honest",
+        "result_text": "Daeun laughed. \"Same.\"\n\nSo this is how two years pass. Moving along in a way that's not bad at all."
+      },
+      {
+        "text": "\"Honestly — I'm struggling a lot lately.\" — first time admitting it",
+        "result_text": "Daeun listened quietly. The ₩3B, the time.\n\n\"I know. I just... want to struggle with you.\"\n\nThat was oddly comforting."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_year3_apart",
+    "title": "Wedding Photo",
+    "description": "SNS notification.\n\nA post from Daeun's friend. A wedding venue in Busan. Among the guests — Daeun. At the bride's table. In a wedding dress.\n\n{name} stopped scrolling.\n\nDaeun got married.\n\nThe person who handed over triangle kimbap from behind the convenience store counter. Now in a different life.",
+    "choices": [
+      {
+        "text": "Liked it. Genuinely glad for her.",
+        "result_text": "Liked the photo. Closed the app.\n\nGlad. Really. That thought came quickly this time. Two years have passed. Changed that much, at least."
+      },
+      {
+        "text": "Closed the screen. Better not to see it.",
+        "result_text": "Scrolled past. Next post was a crypto ad.\n\nLife went on. {name} had to keep going too. Just — stopped for a moment."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_year4_together",
+    "title": "She Got There First",
+    "description": "A message from Daeun.\n\n\"I got the job! It's a small company in Gangnam-gu.\"\n\n{name} smiled briefly.\n\nThe one who ended up working in Gangnam first wasn't {name} — it was Daeun. Four years of racing and she's already there.\n\nThat fact sat strangely heavy.",
+    "choices": [
+      {
+        "text": "\"That's great. Let's find a café there sometime.\" — celebrate together",
+        "result_text": "\"It's a promise.\" Daeun said.\n\nSaid lightly, landed heavily. Gangnam becoming a promise instead of a goal. That came sooner than expected."
+      },
+      {
+        "text": "(First thought: she's going to get there before me)",
+        "result_text": "{name} said nothing. Daeun seemed to notice something.\n\nStrange feeling. Said he'd take her there — and she's already going. Not bad, but — oddly complicated."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_year5_ending",
+    "title": "The Night Before ₩3B",
+    "description": "The number is almost there.\n\nDaeun made dinner. Egg roll. {name} had mentioned once that he liked it.\n\n\"Something feels different tonight.\" Daeun said.\n\n{name} didn't answer. Tomorrow will tell.\n\nFive years in this dinner.",
+    "choices": [
+      {
+        "text": "\"We got there together.\" — said it for the first time",
+        "result_text": "Daeun paused, then said, \"I didn't do anything though.\"\n{name} shook his head. \"No. I didn't give up because you were here.\"\n\nThe two of them sat for a long time. The egg roll went cold."
+      },
+      {
+        "text": "Ate without words. Tomorrow's soon enough.",
+        "result_text": "The egg roll was warm. Daeun was quiet too.\n\nMaybe it was nights like this that got him all the way here. A night that needed no words."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_year5_apart",
+    "title": "Separate Arrivals",
+    "description": "Gangnam-daero.\n\nIf Daeun were here — what would she say? That thought comes out of nowhere.\n\nThe person who stood behind a convenience store counter five years ago. Somewhere out there doing fine now. Married — {name} knows that.\n\n{name} looked up at the apartment.",
+    "choices": [
+      {
+        "text": "Each got there. Glad she's okay.",
+        "result_text": "{name} didn't dwell on it long.\n\nEveryone has their own destination. He went this way, she went that way. They don't have to overlap. Just — hope she's well."
+      },
+      {
+        "text": "Thought about reaching out for a second, then didn't.",
+        "result_text": "Didn't reach out.\n\nContacting her on the day you make it feels like bragging. Didn't feel right.\n\nJust stood there alone."
+      }
+    ]
+  }
+]

@@ -51,6 +51,12 @@ const PORTRAITS = {
 
 	# 경마장 정보상
 	"tip_seller":         "res://assets/characters/npc_tip_seller.png",
+
+	# 신규 인물 (Year 3-5)
+	"jaewon":             "res://assets/characters/npc_jaewon.png",
+	"jaewon_normal":      "res://assets/characters/npc_jaewon.png",
+	"minseo":             "res://assets/characters/npc_minseo.png",
+	"minseo_normal":      "res://assets/characters/npc_minseo.png",
 }
 
 const PLAYER_UNEMPLOYED = "res://assets/characters/main_character_unemployed.png"
@@ -75,6 +81,8 @@ const PERSON_INFO = {
 	"seongjun": {"name": "박성준",        "color": "#6a9ab0"},
 	"mother":   {"name": "어머니",        "color": "#b09a9a"},
 	"boss":     {"name": "팀장",          "color": "#9a6a6a"},
+	"jaewon":   {"name": "박재원",        "color": "#7a9a8a"},
+	"minseo":   {"name": "이민서",        "color": "#9a8a7a"},
 }
 
 # ── 배경 이미지 ────────────────────────────────────────────────

@@ -26,5 +26,11 @@
   "hyunsu": [
     "unknown", "neighbor", "study_partner", "friend",
     "exam_done", "passed", "failed", "pivoted", "drifted", "reconnected"
+  ],
+  "jaewon": [
+    "unknown", "met", "talked", "departed", "reconnected"
+  ],
+  "minseo": [
+    "unknown", "met", "real_talk"
   ]
 }
