@@ -328,7 +328,10 @@
 10. **죽은 cast-stage 분기** — 코드/조건이 비교하는 cast stage인데 어떤 이벤트도 그 stage를
    set 안 하는 도달 불가 분기 (← 다은 with_daeun 엔딩이 committed를 안 보던 버그의 거울상.
    엔딩이 읽는 stage를 set하는 이벤트가 사라지면 조용히 죽는 분기를 잡는다)
-11. **Godot 헤드리스 파싱** (로컬 Godot 필요 — 없으면 CI가 수행)
+11. **구조 부채 래칫** — write-only 플래그(set만 되고 조건/코드 참조 0) + inert 이벤트(선택지
+   2개+인데 전 선택지 효과 동일) 수를 `tools/debt_baseline.json`에 고정. 초과하면 ERROR
+   (← 난개발이 다시 자라지 못하게. 정리로 수가 줄면 baseline 낮춰 톱니 조임)
+12. **Godot 헤드리스 파싱** (로컬 Godot 필요 — 없으면 CI가 수행)
 
 ERROR 0 이면 통과. **새 함수·이벤트·인물·플래그·stage 추가 후 반드시 돌릴 것.**
 푸시하면 GitHub Actions(`.github/workflows/ci.yml`)가 같은 감사 + Godot 컴파일/SimRun을 돌린다.

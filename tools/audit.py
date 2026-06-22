@@ -649,6 +649,98 @@ def check_dead_cast_branches():
                         % (rel(p), e.get("id", "?"), pid, s))
 
 # ══════════════════════════════════════════════════════════════
+# 11) 구조 부채 래칫 — write-only 플래그 / inert 이벤트 수를 baseline에
+#     고정하고, 늘어나면 ERROR. (난개발이 다시 자라지 못하게 하는 톱니.
+#     Phase 2 정리로 수가 줄면 baseline을 낮춰 톱니를 조인다.)
+#     baseline: tools/debt_baseline.json
+# ══════════════════════════════════════════════════════════════
+def _gather_game_flags():
+    """(set되는 플래그, 참조되는 플래그).
+    write-only 오탐(정상 배선된 플래그를 죽었다고 잘못 잡는 것)을 막기 위해
+    참조 판정을 넓게 잡는다: JSON 조건(flag/no_flag) + GD 코드의 모든 문자열
+    리터럴(f.get/match/배열 등 간접 읽기까지 포함)."""
+    game_sets, reads = set(), set()
+    # 게임플레이 플래그는 이벤트 파일에서만 set/조건읽기 된다 (설정 JSON 제외 — 오탐 방지)
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for ev in evs:
+            if not isinstance(ev, dict):
+                continue
+            gr_json = {}
+            _walk_event_flags(ev, game_sets, gr_json, set(), {}, "x")
+            reads |= set(gr_json.keys())
+    LIT = re.compile(r'"([A-Za-z0-9_]+)"')
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            text = open(f, encoding="utf-8").read()
+            for line in text.splitlines():
+                if "audit-ignore" in line:
+                    continue
+                for m in FLAG_SET_GD.finditer(line):
+                    game_sets.add(m.group(1))
+            # 코드 내 모든 문자열 리터럴을 '참조'로 간주 (보수적 — 오탐 방지)
+            reads |= set(LIT.findall(text))
+    return game_sets, reads
+
+def _choice_is_inert(ch):
+    if isinstance(ch.get("effects"), dict) and ch["effects"]:
+        return False
+    if ch.get("flags"):
+        return False
+    if ch.get("follow_up_event") or ch.get("deferred_follow_up"):
+        return False
+    if isinstance(ch.get("cast_effects"), dict) and ch["cast_effects"]:
+        return False
+    if isinstance(ch.get("opportunity"), dict) and ch["opportunity"]:
+        return False
+    return True
+
+def check_structural_debt():
+    # 1) write-only 플래그: set되지만 코드/조건 어디서도 안 읽힘
+    game_sets, reads = _gather_game_flags()
+    write_only = sorted(f for f in game_sets if f not in reads)
+    # 2) inert 이벤트: 선택지 2개+인데 전 선택지가 기계적 영향 0
+    inert = []
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for ev in evs:
+            if not isinstance(ev, dict):
+                continue
+            chs = ev.get("choices", []) or []
+            if len(chs) >= 2 and all(_choice_is_inert(c) for c in chs):
+                inert.append(ev.get("id", "?"))
+    metrics = {"write_only_flags": len(write_only), "inert_events": len(inert)}
+
+    bp = os.path.join(ROOT, "tools", "debt_baseline.json")
+    baseline = {}
+    if os.path.exists(bp):
+        try:
+            baseline = json.load(open(bp, encoding="utf-8"))
+        except Exception:
+            baseline = {}
+
+    print(C.B + "● 구조 부채 래칫" + C.Z)
+    for k, cur in metrics.items():
+        base = baseline.get(k)
+        if base is None:
+            print("  %s: %d  (baseline 미설정 — tools/debt_baseline.json 생성 필요)" % (k, cur))
+        elif cur > base:
+            err('구조 부채 증가: %s %d→%d. 새로 추가한 항목을 배선(읽기/효과)하거나 제거할 것 '
+                '(의도된 증가면 tools/debt_baseline.json 갱신)' % (k, base, cur))
+            print("  %s%s: %d (baseline %d) ▲%s" % (C.R, k, cur, base, C.Z))
+        elif cur < base:
+            print("  %s%s: %d (baseline %d) ▼ — baseline 낮춰 톱니를 조이세요%s"
+                  % (C.G, k, cur, base, C.Z))
+        else:
+            print("  %s: %d (baseline 유지)" % (k, cur))
+
+# ══════════════════════════════════════════════════════════════
 # 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가
 #    KR 원본과 다를 경우 WARNING. (수동 번역 시 조건 불일치 회귀 방지)
 # ══════════════════════════════════════════════════════════════
@@ -695,6 +787,7 @@ def main():
     check_cast_stages()
     check_dead_arc_events()
     check_dead_cast_branches()
+    check_structural_debt()
     check_en_conditions()
 
     if errors:
