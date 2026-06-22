@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-06-22 (Phase 3 배선: inert 이벤트 106개 전수 effect 연결)
+
+### callback_events_19~26 wiring 완료
+- 8개 파일 (~107 이벤트, ~214 선택지) 모든 선택지에 effects/cast_effects 추가
+- 이전까지 게임 상태에 아무 흔적도 없던 "가짜 분기(inert)" 해소
+- 선택 패턴: 따뜻/적극→mental +3~+6 + 카테고리별 스탯; 소극/위험→mental -4~+2 (도박 재발: money 페널티)
+- 관계 이벤트: cast_effects (daeun, father, jiyeon, jaehyuk affinity ±2~±8)
+- audit inert_events: 106 → 0. debt_baseline.json inert 래칫 0으로 조임 (이후 추가 시 즉시 ERROR)
+- ERROR 0 / WARNING 0
+
+---
+
 ## 2026-06-22 (5년 서사 구조 재편 — Year 3-5 인물 재등장 아크 + 지연 타이밍)
 
 ### 1. 신규 인물 2명 추가 (arc_new_characters.json)
