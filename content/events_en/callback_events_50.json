@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_casino_set_limit_echo",
+    "title": "Exchanging Only What I'd Decided",
+    "description": "{name} once exchanged 'only the amount decided' in chips at the casino.\n\nThat line of restraint comes back sometimes.\n\nToday the temptation of one big bet crosses the mind.",
+    "choices": [
+      {
+        "text": "Setting a line — was the only way out",
+        "result_text": "The one thing that kept reason at the table was the line set in advance.\n\nThat line kept {name} out of the abyss.\nOnly what you can afford to lose — that was the survivor's rule."
+      },
+      {
+        "text": "Now I know — better not to cross even that line",
+        "result_text": "Setting a line is good, but not stepping in at all was safer.\n\n{name} knows the nature of that temptation.\n₩3 billion was elsewhere, not at the gambling table."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_chips_loaded_echo",
+    "title": "Loading Up on Chips",
+    "description": "{name} once loaded up on casino chips, thinking 'running short kills the mood.'\n\nThey know the danger of that choice now.\n\nA similar situation comes to mind today.",
+    "choices": [
+      {
+        "text": "That was risky — now I set tight limits",
+        "result_text": "Plenty of chips led straight to plenty of losses.\n\n{name} learned the more chips in front of you, the harder to quit.\nNeeding an empty pocket to walk away was gambling's cruel truth."
+      },
+      {
+        "text": "Better yet — don't sit at that table at all",
+        "result_text": "It wasn't about how many chips to exchange.\n\n{name} knows sitting at that table is itself the risk.\nThe best restraint was not entering the room of temptation."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_lost_track_echo",
+    "title": "Losing Track of Time",
+    "description": "In a clockless casino, {name} repeated 'just one more game' and lost track of time.\n\nThat dazed stretch comes back sometimes.\n\nToday the 'just once more' temptation returns.",
+    "choices": [
+      {
+        "text": "The time to quit — isn't after winning",
+        "result_text": "'I'll stop when I win' was a trap. Winning makes you want more.\n\n{name} learned to quit by a set time.\nStopping by the clock, not the result — that was the only rule that worked."
+      },
+      {
+        "text": "That dazed time scared me — never again",
+        "result_text": "Losing the sense of time chilled {name}.\n\nThey learned in the body that addiction begins like that.\nAs long as they remember that chill, they won't linger long in that room again."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_declined_comp_echo",
+    "title": "Choosing the Last Train",
+    "description": "When the casino offered a free night's stay, {name} declined — 'I'll catch the last train home.'\n\nThat refusal comes back sometimes.\n\nToday they face another temptation disguised as kindness.",
+    "choices": [
+      {
+        "text": "Free favors — always have a price",
+        "result_text": "A free night was meant to keep you longer.\n\n{name} read the favor's intent.\nThat last-train night saved them from a bigger loss."
+      },
+      {
+        "text": "Leaving that place — was the hardest victory",
+        "result_text": "The hardest thing in gambling is leaving.\n\nDeclining the favor and catching the last train, {name} truly won.\nOnly those who can leave that place win elsewhere."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_accepted_comp_echo",
+    "title": "Accepting the Free Night",
+    "description": "When the casino offered a free night's stay, {name} accepted — 'just one night, then.'\n\nThey know how that night went.\n\nToday a similar temptation beckons.",
+    "choices": [
+      {
+        "text": "I learned then — free favors were bait",
+        "result_text": "The night they stayed longer, they lost more.\n\n{name} learned the casino's favors were strategy, not kindness.\nThe real price of what looks free is always billed later."
+      },
+      {
+        "text": "Now — even when offered, I take the last train",
+        "result_text": "That regret changed {name}.\n\nNow, however good the offer, they leave at the set time.\nRestraint learned from a mistake prevented the same mistake."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_saw_warning_echo",
+    "title": "That Could Be My Future, I Said",
+    "description": "Watching someone go all-in and collapse at the holdem table, {name} left, thinking 'that could be my future.'\n\nThat warning comes back sometimes.\n\nToday there's a temptation as the pot grows.",
+    "choices": [
+      {
+        "text": "From another's fall — I learned my brake",
+        "result_text": "You can learn from another's collapse without collapsing yourself.\n\nThat scene became the brake in {name}'s mind.\nA warning only matters if it comes before it's too late."
+      },
+      {
+        "text": "Leaving that seat — was the real skill",
+        "result_text": "Leaving while winning is the hardest thing.\n\n{name} did that hard thing.\nMore than reading hands well, knowing when to leave was the greater skill."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_skill_pivoted_echo",
+    "title": "Using That Instinct at Work",
+    "description": "{name} once decided to use the instincts honed in holdem for work and investing, not gambling. 'Cut down on the table.'\n\nThat pivot comes back sometimes.\n\nToday they consider where to apply that instinct.",
+    "choices": [
+      {
+        "text": "Use the sense for odds and bets — in investing",
+        "result_text": "Calculating expected value, avoiding overbetting, knowing when to cut losses.\n\nThat holdem instinct shone in investing.\nThe same ability, applied differently, parted lives."
+      },
+      {
+        "text": "Use the eye for risk — in business judgment",
+        "result_text": "The gambling sense for risk was, in fact, useful in every decision.\n\n{name} applied that eye to life's judgments, not gambling.\nAn ability that nearly became addiction turned into an asset."
+      }
+    ]
+  },
+  {
+    "id": "callback_race_mentor_truth_echo",
+    "title": "Hyung, Let's Leave Together Today",
+    "description": "At the racetrack, {name} extended a hand to a tip-sheet seller who couldn't pull himself out — 'Hyung, let's leave together today' — and they left.\n\nThat moment of reaching out comes back sometimes.\n\nThat hyung came to mind today.",
+    "choices": [
+      {
+        "text": "Pulling someone out — saved me too",
+        "result_text": "Trying to pull another out, {name} stepped out of that line themselves.\n\nGambling is a swamp you fall into and can't leave alone, but a hand makes it different.\nThe hand offered that day saved them both."
+      },
+      {
+        "text": "I wonder how that hyung is — I hope he's okay",
+        "result_text": "Word stopped after they left together.\n\n{name} hoped that hyung had escaped that line for good.\nA compassion known only to those who've seen the same swamp lingered in a corner of the heart."
+      }
+    ]
+  },
+  {
+    "id": "callback_race_left_last_line_echo",
+    "title": "Leaving the Last Line",
+    "description": "In the final race, {name} stepped out of the line chasing a comeback — 'I know how this line ends.'\n\nThat moment of leaving comes back sometimes.\n\nToday there's the 'one last time' temptation.",
+    "choices": [
+      {
+        "text": "That line's end — was always a deeper pit",
+        "result_text": "The last bet chasing a comeback was usually the start of a bigger loss.\n\n{name} knows where that line ends.\nKnowing how to leave was what everyone in that line couldn't do."
+      },
+      {
+        "text": "I learned to let losses stay losses",
+        "result_text": "The urge to recoup ruins people.\n\n{name} learned to accept the loss and walk away.\nThe moment they let go of getting even, their foot finally came free of the swamp."
+      }
+    ]
+  },
+  {
+    "id": "callback_race_chased_final_echo",
+    "title": "Betting Big Because It Was the Last",
+    "description": "In the final race, {name} bet big, calling it 'a chance to recoup.'\n\nThey know that bet's result.\n\nToday the temptation to 'recoup in one shot' returns.",
+    "choices": [
+      {
+        "text": "I learned then — comeback bets were always a deeper hole",
+        "result_text": "That big 'last' bet only widened the hole.\n\n{name} learned to the bone that the recoup temptation is the most dangerous.\nThe urge to fill it in one shot ultimately collapsed everything."
+      },
+      {
+        "text": "That loss — became the reason I quit gambling",
+        "result_text": "The day of the big loss, paradoxically, made {name} stop.\n\nSome people have to see the bottom before they can climb.\nThat bet was the worst, but it also became a turning point."
+      }
+    ]
+  },
+  {
+    "id": "callback_went_sogaeting_echo",
+    "title": "Going to That Blind Date",
+    "description": "{name} once went to a blind date, 'curious what kind of person they'd be.'\n\nThat meeting comes back sometimes.\n\nToday came a moment of wondering whether to meet someone.",
+    "choices": [
+      {
+        "text": "Staying open to meeting — is part of life too",
+        "result_text": "Close yourself to people while absorbed in a goal, and even arriving leaves an empty side.\n\n{name} decided not to lose an open heart toward meeting.\nConnection comes from outside the planner."
+      },
+      {
+        "text": "For now — the goal comes before people",
+        "result_text": "No room to say yes to every meeting.\n\n{name} decided to focus on their path for now.\nWhen the time comes, the person you're meant to meet, you'll meet — no searching needed."
+      }
+    ]
+  },
+  {
+    "id": "callback_confessed_coworker_echo",
+    "title": "Expressing How I Felt",
+    "description": "{name} once expressed feelings to a coworker.\n\nThat courage — or recklessness — comes back sometimes.\n\nToday came another moment of hesitating whether to express feelings.",
+    "choices": [
+      {
+        "text": "No regret expressing it — better than burying it",
+        "result_text": "Whatever the result, saying it beat regret.\n\nBuried feelings end up as lingering attachment.\n{name} felt a self who can express beats a self who shuts it away."
+      },
+      {
+        "text": "Should've picked the time and place — learn discretion",
+        "result_text": "Between people working in the same space, expression carries weight.\n\n{name} learned the balance between honesty and discretion.\nSaying how you feel and knowing when to say it were different skills."
+      }
+    ]
+  },
+  {
+    "id": "callback_met_ex_echo",
+    "title": "Asking to Meet Again",
+    "description": "{name} once replied 'let's meet' to an ex's message.\n\nThat meeting comes back sometimes.\n\nToday thoughts of a past connection drift by.",
+    "choices": [
+      {
+        "text": "Glad I met them — I needed closure",
+        "result_text": "What they learned by meeting again was that the connection had truly passed.\n\nSome knots only come undone face to face.\n{name} could lay the lingering feelings to rest through that meeting."
+      },
+      {
+        "text": "The past is the past — look forward",
+        "result_text": "Spend too long looking back and you lose the strength to go forward.\n\n{name} made that meeting the last, and set their gaze ahead.\nRecall the past sometimes, but don't live there."
+      }
+    ]
+  },
+  {
+    "id": "callback_tried_dating_app_echo",
+    "title": "Trying a Dating App",
+    "description": "{name} once tried a dating app.\n\nThat attempt comes back sometimes.\n\nToday, between loneliness and the wish to connect, that time came to mind.",
+    "choices": [
+      {
+        "text": "The attempt itself — was proof I wasn't closed off",
+        "result_text": "Whatever the result, reaching for connection mattered.\n\n{name} acknowledged the self who reached out not to be isolated.\nEven amid the busyness, not closing the door toward people."
+      },
+      {
+        "text": "Over apps — I'll wait for a natural connection",
+        "result_text": "A connection that comes in the flow felt easier than one anxiously sought.\n\n{name} deleted the app and decided to focus on their life for now.\nConnection is needed, but it didn't have to be forced."
+      }
+    ]
+  }
+]

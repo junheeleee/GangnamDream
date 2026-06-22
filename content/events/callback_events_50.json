@@ -1,0 +1,540 @@
+[
+  {
+    "id": "callback_casino_set_limit_echo",
+    "title": "딱 정한 만큼만 바꾼 것",
+    "background": "casino",
+    "portrait": "player_normal",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "casino_set_limit",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 카지노에서 '딱 정한 만큼만' 칩을 바꿨었다.\n\n그 절제의 선이 가끔 떠오른다.\n\n오늘 또 한 방의 유혹이 머릿속을 스친다.",
+    "choices": [
+      {
+        "text": "선을 정하는 게 — 빠져나오는 유일한 방법이었다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "도박판에서 이성을 지키는 건 단 하나, 미리 정한 선이었다.\n\n그 선이 {name}을 나락에서 지켰다.\n잃어도 되는 만큼만 — 그게 살아남는 사람의 규칙이었다."
+      },
+      {
+        "text": "이젠 — 그 선조차 안 넘는 게 낫다는 걸 안다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "선을 정하는 것도 좋지만, 아예 발을 안 들이는 게 더 안전했다.\n\n{name}은 그 유혹의 본질을 안다.\n30억은 도박판이 아니라 다른 곳에 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_chips_loaded_echo",
+    "title": "넉넉하게 바꿔둔 것",
+    "background": "casino",
+    "portrait": "player_tired",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "casino_chips_loaded",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story", "risk"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '모자라면 김이 새니까'라며 카지노 칩을 넉넉하게 바꿔뒀었다.\n\n그 선택의 위험을 이제 안다.\n\n오늘 또 비슷한 상황이 떠오른다.",
+    "choices": [
+      {
+        "text": "그때 위험했다 — 이젠 한도를 빡빡하게 잡는다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "넉넉한 칩은 곧 넉넉한 손실로 이어졌다.\n\n눈앞에 칩이 많을수록 끊기 어렵다는 걸 {name}은 배웠다.\n주머니가 비어야 발이 떨어지는 게, 도박의 잔인한 진실이었다."
+      },
+      {
+        "text": "아예 — 그 테이블에 안 앉는 게 답이다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "칩을 얼마 바꾸느냐의 문제가 아니었다.\n\n{name}은 그 자리에 앉는 것 자체가 위험이라는 걸 안다.\n최고의 절제는, 유혹의 방에 들어가지 않는 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_lost_track_echo",
+    "title": "시간을 놓친 것",
+    "background": "casino",
+    "portrait": "player_tired",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "casino_lost_track",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story", "risk"],
+    "cooldown": 999,
+    "description": "시계 없는 카지노에서, {name}은 '한 게임만 더'를 반복하다 시간을 놓쳤었다.\n\n그 멍해진 시간이 가끔 떠오른다.\n\n오늘 또 '한 번만 더'의 유혹이 찾아온다.",
+    "choices": [
+      {
+        "text": "끊을 타이밍은 — 따고 났을 때가 아니다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'따면 그만둔다'는 말은 함정이었다. 따면 더 하고 싶어지니까.\n\n{name}은 시간을 정해놓고 끊는 법을 배웠다.\n결과가 아니라 시계로 멈추는 것. 그게 유일하게 통하는 규칙이었다."
+      },
+      {
+        "text": "그 멍한 시간이 무서웠다 — 다신 그러지 않는다",
+        "effects": {
+          "mental": 6,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "시간 감각을 잃는 그 느낌이 {name}을 오싹하게 했다.\n\n중독은 그렇게 시작된다는 걸, 몸으로 알았다.\n그 서늘함을 기억하는 한, 다시 그 방에 오래 머물지 않을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_declined_comp_echo",
+    "title": "막차를 택한 것",
+    "background": "casino",
+    "portrait": "player_determined",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "casino_declined_comp",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story"],
+    "cooldown": 999,
+    "description": "카지노가 하룻밤 숙박을 제안했을 때, {name}은 '막차 타고 올라갈게요'라며 거절했었다.\n\n그 거절이 가끔 떠오른다.\n\n오늘 또 호의를 가장한 유혹 앞에 섰다.",
+    "choices": [
+      {
+        "text": "공짜 호의엔 — 늘 대가가 있다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "하룻밤 재워주는 건 더 오래 머물게 하려는 거였다.\n\n{name}은 그 호의의 속셈을 읽었다.\n막차를 택한 그 밤이, 더 큰 손실로부터 자신을 건졌다."
+      },
+      {
+        "text": "그 자리를 떠난 게 — 가장 어려운 승리였다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "도박에서 가장 어려운 건 떠나는 것이다.\n\n호의를 거절하고 막차에 오른 그 순간, {name}은 진짜로 이긴 거였다.\n그 자리를 떠날 줄 아는 사람만이, 다른 곳에서 이긴다."
+      }
+    ]
+  },
+  {
+    "id": "callback_casino_accepted_comp_echo",
+    "title": "하룻밤 호의를 받은 것",
+    "background": "casino",
+    "portrait": "player_tired",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "casino_accepted_comp",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story", "risk"],
+    "cooldown": 999,
+    "description": "카지노가 하룻밤 숙박을 제안했을 때, {name}은 '그럼 하룻밤만…'이라며 호의를 받았었다.\n\n그 하룻밤이 어떻게 흘러갔는지 안다.\n\n오늘 또 비슷한 유혹이 손짓한다.",
+    "choices": [
+      {
+        "text": "그때 알았다 — 공짜 호의는 미끼였다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "하룻밤 더 머문 그날, 결국 더 잃었다.\n\n{name}은 카지노의 호의가 친절이 아니라 전략임을 배웠다.\n공짜로 보이는 것의 진짜 가격은, 늘 나중에 청구됐다."
+      },
+      {
+        "text": "이젠 — 호의가 와도 막차를 탄다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그때의 후회가 {name}을 바꿔놨다.\n\n이제는 아무리 좋은 제안이 와도, 정한 시간에 자리를 뜬다.\n실수에서 배운 절제가, 같은 실수를 막았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_saw_warning_echo",
+    "title": "저게 내 미래일 수 있다던 것",
+    "background": "holdem_club",
+    "portrait": "player_normal",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holdem_saw_warning",
+      "min_turn": 32
+    },
+    "tags": ["callback", "gambling", "story"],
+    "cooldown": 999,
+    "description": "홀덤 테이블에서 누군가 올인하고 무너지는 걸 보며, {name}은 '저게 내 미래일 수 있다'며 자리를 떴었다.\n\n그 경고가 가끔 떠오른다.\n\n오늘 또 판이 커지는 유혹이 있다.",
+    "choices": [
+      {
+        "text": "남의 추락에서 — 내 브레이크를 배웠다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "직접 무너지지 않고도, 남의 추락에서 배울 수 있었다.\n\n그 장면이 {name}의 마음속 브레이크가 됐다.\n경고는 늘 늦기 전에 와야 의미가 있었다."
+      },
+      {
+        "text": "그 자리를 뜬 게 — 진짜 실력이었다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이길 때 떠나는 게 가장 어렵다.\n\n{name}은 그 어려운 걸 해냈다.\n패를 잘 읽는 것보다, 자리를 뜰 줄 아는 게 더 큰 실력이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_skill_pivoted_echo",
+    "title": "그 감각을 일에 쓴 것",
+    "background": "office",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "holdem_skill_pivoted",
+      "min_turn": 32
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 홀덤에서 익힌 감각을 도박이 아니라 일과 투자에 쓰기로 했었다. '테이블은 줄인다.'\n\n그 전환이 가끔 떠오른다.\n\n오늘 또 그 감각을 어디에 쓸지 생각한다.",
+    "choices": [
+      {
+        "text": "확률과 베팅의 감각을 — 투자에 쓴다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기댓값을 계산하고, 무리한 베팅을 피하고, 손절할 줄 아는 것.\n\n홀덤에서 배운 그 감각이 투자에서 빛을 발했다.\n같은 능력도, 어디에 쓰느냐가 인생을 갈랐다."
+      },
+      {
+        "text": "리스크를 읽는 눈을 — 사업적 판단에 쓴다",
+        "effects": {
+          "intelligence": 2,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "도박판의 위험 감각은, 사실 모든 의사결정에 쓸모가 있었다.\n\n{name}은 그 눈을 도박이 아니라 인생의 판단에 썼다.\n중독될 뻔한 능력이, 자산이 되는 순간이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_race_mentor_truth_echo",
+    "title": "형, 오늘은 같이 나가요",
+    "background": "racetrack_betting",
+    "portrait": "tip_seller",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "race_mentor_truth_heard",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story"],
+    "cooldown": 999,
+    "description": "경마장에서, {name}은 빠져나오지 못하는 정보지 장수에게 '형, 오늘은 같이 나가요'라며 함께 자리를 떴었다.\n\n그 손을 내민 순간이 가끔 떠오른다.\n\n오늘 그 형 생각이 났다.",
+    "choices": [
+      {
+        "text": "누군가를 데리고 나온 게 — 나도 구한 거였다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남을 끌어내려다, {name} 자신도 그 줄에서 빠져나왔다.\n\n도박은 혼자 빠지고 혼자 못 나오는 늪이지만, 누군가의 손이 있으면 다르다.\n그날 내민 손이, 두 사람 다 건졌다."
+      },
+      {
+        "text": "그 형은 어떻게 됐을까 — 안부가 궁금하다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "함께 나온 뒤로 소식은 끊겼다.\n\n{name}은 그 형이 그 줄에서 영영 벗어났기를 바랐다.\n같은 늪을 본 사람들끼리만 아는 연민이, 마음 한구석에 남았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_race_left_last_line_echo",
+    "title": "마지막 줄에서 빠져나온 것",
+    "background": "racetrack_betting",
+    "portrait": "player_determined",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "race_left_last_line",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story"],
+    "cooldown": 999,
+    "description": "마지막 경주, 만회를 노리는 줄에서 {name}은 '이 줄의 끝을 안다'며 빠져나왔었다.\n\n그 줄을 떠난 순간이 가끔 떠오른다.\n\n오늘 또 '마지막 한 번'의 유혹이 있다.",
+    "choices": [
+      {
+        "text": "그 줄의 끝은 — 늘 더 깊은 나락이었다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "만회를 노리는 마지막 베팅은, 대개 더 큰 손실의 시작이었다.\n\n{name}은 그 줄의 끝이 어딘지 안다.\n빠져나올 줄 아는 게, 그 줄에 선 모두가 못 하는 거였다."
+      },
+      {
+        "text": "잃은 건 잃은 대로 두는 법을 — 배웠다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "만회하려는 마음이 사람을 망친다.\n\n{name}은 잃은 걸 받아들이고 떠나는 법을 배웠다.\n본전 생각을 버리는 그 순간, 비로소 늪에서 발이 빠졌다."
+      }
+    ]
+  },
+  {
+    "id": "callback_race_chased_final_echo",
+    "title": "마지막이니까 크게 건 것",
+    "background": "racetrack_betting",
+    "portrait": "player_tired",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "race_chased_final",
+      "min_turn": 30
+    },
+    "tags": ["callback", "gambling", "story", "risk"],
+    "cooldown": 999,
+    "description": "마지막 경주, {name}은 '만회의 기회'라며 크게 걸었었다.\n\n그 베팅의 결과를 안다.\n\n오늘 또 '한 방에 만회'의 유혹이 찾아온다.",
+    "choices": [
+      {
+        "text": "그때 배웠다 — 만회 베팅은 늘 더 깊은 구멍이었다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "마지막이라며 크게 건 그 베팅이, 구멍을 더 키웠다.\n\n{name}은 만회의 유혹이 가장 위험하다는 걸 뼈저리게 배웠다.\n한 방으로 메우려는 마음이, 결국 모든 걸 무너뜨렸다."
+      },
+      {
+        "text": "그 손실이 — 도박을 끊는 계기가 됐다",
+        "effects": {
+          "mental": 6,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "크게 잃은 그날이, 역설적으로 {name}을 멈추게 했다.\n\n바닥을 봐야 올라올 수 있는 사람도 있다.\n그 베팅은 최악이었지만, 그게 전환점이 되기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_went_sogaeting_echo",
+    "title": "그 소개팅에 나간 것",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "went_sogaeting",
+      "min_turn": 28
+    },
+    "tags": ["callback", "romance", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '어떤 사람인지 궁금하다'며 소개팅에 나갔었다.\n\n그 만남이 가끔 떠오른다.\n\n오늘 또 누군가를 만날지 고민하는 순간이 왔다.",
+    "choices": [
+      {
+        "text": "만남에 열려 있는 것도 — 삶의 일부다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "목표에 몰두하느라 사람을 닫아버리면, 도착해도 곁이 비어 있다.\n\n{name}은 만남에 열린 마음을 잃지 않기로 했다.\n인연은 계획표 밖에서 오는 거였다."
+      },
+      {
+        "text": "지금은 — 사람보다 목표가 먼저다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 만남에 응할 여유는 없다.\n\n{name}은 지금은 자기 길에 집중하기로 했다.\n때가 되면, 굳이 찾지 않아도 만날 사람은 만나게 된다."
+      }
+    ]
+  },
+  {
+    "id": "callback_confessed_coworker_echo",
+    "title": "감정을 표현해본 것",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "confessed_coworker",
+      "min_turn": 30
+    },
+    "tags": ["callback", "romance", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 직장 동료에게 감정을 표현해봤었다.\n\n그 용기 혹은 무모함이 가끔 떠오른다.\n\n오늘 또 마음을 표현할지 망설이는 순간이 왔다.",
+    "choices": [
+      {
+        "text": "표현한 건 후회 없다 — 마음을 묵히는 것보단 낫다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결과가 어떻든, 마음을 말한 건 후회보다 나았다.\n\n묵혀둔 감정은 결국 미련으로 남는다.\n{name}은 표현할 줄 아는 자신이, 닫아두는 자신보다 낫다고 느꼈다."
+      },
+      {
+        "text": "때와 장소는 가렸어야 했나 — 신중함도 배운다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "같은 공간에서 일하는 사이엔, 표현에도 무게가 따른다.\n\n{name}은 솔직함과 신중함 사이의 균형을 배웠다.\n마음을 말하는 것과, 말할 때를 아는 건 다른 능력이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_met_ex_echo",
+    "title": "다시 만나자고 한 것",
+    "background": "cafe",
+    "portrait": "player_sad",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "met_ex",
+      "min_turn": 40
+    },
+    "tags": ["callback", "romance", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 옛 연인의 연락에 '만나자'고 했었다.\n\n그 만남이 가끔 떠오른다.\n\n오늘 또 지나간 인연에 대한 생각이 스친다.",
+    "choices": [
+      {
+        "text": "만나보길 잘했다 — 매듭이 필요했으니까",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다시 만나서 안 것은, 그 인연이 정말 지나갔다는 사실이었다.\n\n어떤 매듭은 직접 마주해야 풀린다.\n{name}은 그 만남으로 미련을 정리할 수 있었다."
+      },
+      {
+        "text": "지난 건 지난 거다 — 앞을 본다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "돌아보는 시간이 길어지면, 앞으로 갈 힘이 준다.\n\n{name}은 그 만남을 마지막으로, 시선을 앞에 두기로 했다.\n과거는 가끔 떠올리되, 거기 살지는 않기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_tried_dating_app_echo",
+    "title": "소개팅 앱을 써본 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "tried_dating_app",
+      "min_turn": 24
+    },
+    "tags": ["callback", "romance", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 소개팅 앱을 써봤었다.\n\n그 시도가 가끔 떠오른다.\n\n오늘 또 외로움과 연결 욕구 사이에서, 그때가 생각났다.",
+    "choices": [
+      {
+        "text": "시도해본 것 자체가 — 닫혀 있지 않다는 증거였다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결과가 어떻든, 연결을 시도했다는 게 중요했다.\n\n{name}은 고립되지 않으려 손을 뻗은 자신을 인정했다.\n바쁜 와중에도 사람을 향한 문을 닫지 않은 것."
+      },
+      {
+        "text": "앱보다 — 자연스러운 인연을 기다리기로 한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조급하게 찾는 인연보다, 흐름 속에서 오는 인연이 편했다.\n\n{name}은 앱을 지우고, 지금은 자기 삶에 집중하기로 했다.\n연결은 필요하지만, 억지로 만들 필요는 없었다."
+      }
+    ]
+  }
+]
