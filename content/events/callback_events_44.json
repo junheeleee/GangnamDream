@@ -1,0 +1,585 @@
+[
+  {
+    "id": "callback_goal_grounded_echo",
+    "title": "또 한강까지 걸었다",
+    "background": "hangang_riverside",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "goal_grounded",
+      "min_turn": 52
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "30억의 무게에 눌렸던 그 밤, {name}은 계획표도 폰도 덮고 바람 쐬러 나가 한강까지 걸었었다.\n\n오늘 또 머리가 복잡해서, 발이 저절로 같은 길로 향했다.\n\n강물은 그때처럼 무심하게 흐르고 있었다.",
+    "choices": [
+      {
+        "text": "그날처럼 — 걷다 보면 정리된다",
+        "effects": {
+          "mental": 6,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "숫자에서 벗어나 몸을 움직이는 것.\n\n그게 머리를 비우는 {name}만의 방법이 됐다.\n돌아오는 길엔 늘 조금 가벼워져 있었다. 오늘도 그랬다."
+      },
+      {
+        "text": "강을 보며 다시 마음을 다잡는다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "강은 서두르지 않고도 결국 바다에 닿는다.\n\n{name}은 난간에 기대 한참 강을 봤다.\n조급함을 내려놓는 법을, 이 강이 매번 가르쳐줬다."
+      }
+    ]
+  },
+  {
+    "id": "callback_missed_gosiwon_echo",
+    "title": "이상한 그리움",
+    "background": "apartment",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "missed_gosiwon",
+      "min_turn": 50
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "고시원을 탈출하고 새 집 첫날 밤, {name}은 이상하게도 그 좁은 방이 생각났었다.\n\n더 넓고 깨끗한 곳에 와서도 가끔 그랬다.\n\n오늘 밤도 문득 그 방의 천장이 떠올랐다.",
+    "choices": [
+      {
+        "text": "그리운 건 방이 아니라 그때의 나였다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그리운 건 좁은 방이 아니라, 아무것도 없어도 꿈만은 컸던 그때의 자신이었다.\n\n{name}은 지금도 그 마음을 잃지 않았는지 스스로에게 물었다.\n넓어진 건 방만은 아니어야 했다."
+      },
+      {
+        "text": "이젠 돌아갈 일 없다 — 앞만 본다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그리움은 그리움으로 두기로 했다.\n\n그 방은 지나온 정거장이지 종착지가 아니다.\n{name}은 창밖을 한 번 보고, 다시 책상으로 돌아왔다."
+      }
+    ]
+  },
+  {
+    "id": "callback_kept_milestone_secret_echo",
+    "title": "혼자 간직한 숫자",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "kept_milestone_secret",
+      "min_turn": 40
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "자산 1억을 처음 넘던 날, {name}은 아무한테도 말하지 않고 혼자 간직하기로 했었다.\n\n그 뒤로도 좋은 일은 대체로 혼자 알았다.\n\n오늘 또 통장을 보며, 말할 사람을 잠깐 떠올렸다.",
+    "choices": [
+      {
+        "text": "혼자 아는 게 편하다 — 이게 내 방식이다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "떠벌리지 않는 성취.\n\n남이 알아주는 게 목적이 아니었으니까, 혼자 아는 걸로 충분했다.\n{name}은 조용히 통장을 닫았다. 자기만의 만족이 거기 있었다."
+      },
+      {
+        "text": "이번엔 누군가와 나누고 싶다",
+        "effects": {
+          "mental": 4,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자 간직하는 것도 좋지만, 가끔은 기쁨도 나눠야 가벼워진다.\n\n{name}은 연락처를 한참 봤다.\n혼자 견디는 데 익숙해진 만큼, 나누는 것도 연습이 필요했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_daeun_investing_echo",
+    "title": "조금만 말했던 것",
+    "background": "cafe",
+    "portrait": "daeun_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "told_daeun_investing",
+      "min_turn": 48
+    },
+    "tags": ["callback", "daeun", "romance", "story"],
+    "cooldown": 999,
+    "description": "다은에게 '나 요즘 투자 좀 되고 있어'라고, 딱 거기까지만 말했던 날.\n\n오늘 다은이 슬쩍 물었다.\n\n\"너 그때 투자 얘기 했었잖아. 요즘은 좀 어때? ...아니다, 말하기 싫으면 안 해도 돼.\"",
+    "choices": [
+      {
+        "text": "이번엔 조금 더 솔직하게 말한다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지난번보다 한 발 더 말했다.\n\n다은이 진지하게 들어줬다.\n\"말해줘서 고마워. 네 세계가 조금 보여서 좋아.\"\n조금씩 열어가는 것도 관계의 속도였다."
+      },
+      {
+        "text": "아직은 여기까지만 — 천천히 가기로 한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"응, 천천히 말해도 돼.\"\n\n다은은 재촉하지 않았다.\n전부 보여주지 않아도 곁에 있어 주는 사람. {name}은 그게 고마웠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_showed_room_parents_echo",
+    "title": "그때 방을 보여드린 것",
+    "background": "dad_house",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "showed_room_to_parents",
+      "min_turn": 104
+    },
+    "tags": ["callback", "father", "story", "family"],
+    "cooldown": 999,
+    "description": "부모님이 서울에 올라오셨던 날, {name}은 좁은 방을 그대로 보여드렸었다. 숨길 게 없다고.\n\n오늘 아버지가 그날을 꺼내셨다.\n\n\"그때 네 방, 작긴 했어도 — 깨끗하더라. 나는 그게 더 마음 아팠어.\"",
+    "choices": [
+      {
+        "text": "\"부끄럽지 않았어요. 거기서 시작한 거니까.\"",
+        "effects": {
+          "mental": 7
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 6
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지가 한참 말이 없으셨다.\n\n\"...그래. 부끄러울 거 하나도 없어.\"\n\n좁은 방을 숨기지 않았던 그 선택이, 부모님께 아들의 진짜 모습을 보여드린 것이었다."
+      },
+      {
+        "text": "\"이제 더 나은 데로 옮겼어요. 한번 오세요.\"",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그래? ...그거 보러 가야겠네.\"\n\n아버지 목소리에 옅은 자랑이 섞였다.\n그때 그 방을 보여드렸기에, 지금의 변화가 더 분명히 전해졌다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hid_room_parents_echo",
+    "title": "그때 방을 안 보여드린 것",
+    "background": "dad_house",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hid_room_from_parents",
+      "min_turn": 104
+    },
+    "tags": ["callback", "father", "story", "family"],
+    "cooldown": 999,
+    "description": "부모님이 올라오셨던 날, {name}은 방 근처 식당에서 밥만 사드리고 방은 안 보여드렸었다.\n\n오늘 어머니가 슬쩍 말씀하셨다.\n\n\"민준아, 그때 네 방 한번 보고 싶었는데. 엄마는 다 알면서도 모른 척했어.\"",
+    "choices": [
+      {
+        "text": "\"그땐 보여드리기가... 죄송해요.\"",
+        "effects": {
+          "mental": 4,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"죄송할 거 없어. 엄마도 네 마음 알아.\"\n\n숨기고 싶었던 건 방이 아니라, 아직 아무것도 못 이룬 자신이었다.\n{name}은 이제 그걸 인정할 수 있었다."
+      },
+      {
+        "text": "\"이젠 보여드릴 수 있어요. 좋은 데로 옮겼거든요.\"",
+        "effects": {
+          "mental": 6
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"...그래. 보고 싶다.\"\n\n그때 못 보여드린 방 대신, 이제는 떳떳한 공간이 생겼다.\n숨겼던 시절이 있었기에, 지금이 더 값졌다."
+      }
+    ]
+  },
+  {
+    "id": "callback_birthday_rest_echo",
+    "title": "그 생일, 쉬기로 했던 것",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "birthday_rest_taken",
+      "min_turn": 126
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "35세 생일, {name}은 그날 하루만은 계획표를 덮고 그냥 생일로 보내기로 했었다.\n\n그 하루를 가끔 떠올린다.\n\n쉬어도 무너지지 않았다. 오히려 다음 날이 더 가벼웠다.",
+    "choices": [
+      {
+        "text": "그날의 선택은 옳았다 — 쉼도 전략이다",
+        "effects": {
+          "mental": 6,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "쉬지 않고 달리기만 하면 결국 어딘가 부러진다.\n\n그 생일 하루의 쉼이, 5년을 완주하는 데 필요한 정비였다는 걸 {name}은 안다.\n가끔은 멈춰야 더 멀리 간다."
+      },
+      {
+        "text": "이제는 더 자주 쉬어줘야 한다는 걸 안다",
+        "effects": {
+          "mental": 5,
+          "health": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 하루가 죄책감이 아니라 회복이었다.\n\n{name}은 자신을 너무 몰아붙이지 않기로 했다.\n끝까지 가려면 몸과 마음을 아껴 써야 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_birthday_work_echo",
+    "title": "그 생일, 다시 일했던 것",
+    "background": "late_night",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "birthday_back_to_work",
+      "min_turn": 126
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "35세 생일, {name}은 축하 메시지에 짧게 답하고 다시 계획표를 꺼냈었다.\n\n생일에도 멈추지 않은 그날.\n\n오늘 문득 그게 떠올랐다. 그렇게까지 했어야 했나, 아니면 그래서 여기 왔나.",
+    "choices": [
+      {
+        "text": "그래서 여기 왔다 — 후회 없다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남들이 쉴 때 한 걸음 더 간 날들.\n\n그게 쌓여서 지금의 격차를 만들었다.\n{name}은 그 생일의 자신에게 작게 고마워했다."
+      },
+      {
+        "text": "다음 생일엔 하루쯤 쉬어도 된다",
+        "effects": {
+          "mental": 5,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그날의 절박함은 필요했다. 하지만 매번 그럴 필요는 없다.\n\n{name}은 이제 조금 다르게 살아도 된다는 걸 안다.\n증명할 게 줄어든 만큼, 자신을 덜 몰아붙여도 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_reached_out_35_echo",
+    "title": "그때 먼저 연락했던 것",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "reached_out_35",
+      "min_turn": 144
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "35세, 사무치게 외롭던 그 시기에 {name}은 누구에게라도 먼저 연락해봤었다.\n\n그 용기가 가끔 생각난다.\n\n오늘 또 비슷하게 적적한 날, 폰을 들었다.",
+    "choices": [
+      {
+        "text": "그때처럼 — 먼저 손을 내민다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "외로움은 가만히 있으면 깊어진다.\n\n먼저 연락하는 그 작은 용기가 {name}을 여러 번 건졌다.\n오늘도 누군가에게 안부를 물었다. 답장이 오자 방이 조금 덜 추웠다."
+      },
+      {
+        "text": "이번엔 혼자여도 괜찮다 — 단단해졌다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그때는 누구라도 필요했다. 지금은 혼자여도 견딜 만하다.\n\n외로움을 견디는 힘이 조금 늘었다.\n{name}은 폰을 내려놓고, 혼자만의 시간을 그냥 흘려보냈다."
+      }
+    ]
+  },
+  {
+    "id": "callback_walked_alone_35_echo",
+    "title": "그때 혼자 걸었던 것",
+    "background": "hangang_riverside",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "walked_alone_35",
+      "min_turn": 144
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "35세, 외롭던 그 시기에 {name}은 누굴 부르지 않고 혼자 한강까지 걸었었다.\n\n혼자 걷는 법을 그때 배웠다.\n\n오늘도 마음이 가라앉아, 같은 강가에 섰다.",
+    "choices": [
+      {
+        "text": "혼자 걷는 시간도 나를 채운다",
+        "effects": {
+          "mental": 6,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자라는 게 늘 외로움인 건 아니다.\n\n자기 자신과 걷는 시간이, {name}을 더 또렷하게 만들었다.\n강바람을 맞으며, 오늘의 자신과 조용히 화해했다."
+      },
+      {
+        "text": "이젠 같이 걸을 사람을 생각한다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자 걷는 데 익숙해졌지만, 가끔은 옆에 누가 있었으면 했다.\n\n{name}은 강을 보며, 끝나고 나면 누구와 이 길을 걸을지 잠깐 그려봤다.\n혼자 단단해지는 것과 같이 걷는 건 모순이 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_went_hospital_echo",
+    "title": "그때 병원에 갔던 것",
+    "background": "hospital",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "went_to_hospital",
+      "min_turn": 186
+    },
+    "tags": ["callback", "health", "story"],
+    "cooldown": 999,
+    "description": "36세, 몸이 신호를 보냈을 때 {name}은 일을 미루고 병원에 갔었다. 뭔가 알아야 한다고.\n\n그 선택을 잘했다고 생각한다.\n\n오늘 또 몸이 무겁다. 마지막 스퍼트 구간이다.",
+    "choices": [
+      {
+        "text": "그때처럼 — 몸부터 챙긴다",
+        "effects": {
+          "mental": 5,
+          "health": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결승선을 코앞에 두고 쓰러지면 아무 의미 없다.\n\n그때 병원에 간 게 {name}을 지켰듯, 오늘도 몸을 먼저 챙기기로 했다.\n건강이 있어야 강남도 있다."
+      },
+      {
+        "text": "검사 결과를 믿고 — 무리하지 않게 페이스 조절",
+        "effects": {
+          "mental": 5,
+          "health": 2,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그때 받은 검사 덕에 자기 몸 상태를 안다.\n\n{name}은 무작정 달리는 대신, 지속 가능한 속도를 찾았다.\n끝까지 가는 건 빠른 사람이 아니라 멈추지 않는 사람이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_ignored_body_echo",
+    "title": "그때 몸을 미뤘던 것",
+    "background": "street_rainy",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "ignored_body",
+      "min_turn": 186
+    },
+    "tags": ["callback", "health", "story", "risk"],
+    "cooldown": 999,
+    "description": "36세, 몸이 신호를 보냈을 때 {name}은 '지금은 멈출 수 없다, 나중에 쉬면 된다'며 넘겼었다.\n\n그 '나중'이 지금이다.\n\n몸이 다시, 더 크게 신호를 보내고 있다.",
+    "choices": [
+      {
+        "text": "이번엔 미루지 않는다 — 병원에 간다",
+        "effects": {
+          "mental": 4,
+          "health": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그때 미룬 대가가 지금 더 큰 신호로 돌아왔다.\n\n{name}은 이번엔 미루지 않았다.\n몸은 빚처럼, 미루면 이자가 붙는다는 걸 배웠다."
+      },
+      {
+        "text": "조금만 더 — 끝나면 제대로 쉰다",
+        "effects": {
+          "mental": 2,
+          "health": -3,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "또 미뤘다. 결승선이 보이니까.\n\n근데 그때도 '조금만 더'였다.\n{name}은 알면서도 같은 선택을 했다. 몸이 버텨주기만을 바라면서."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_drift_talked_echo",
+    "title": "그때 물어봐준 것",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hyunsu_drift_talked",
+      "min_turn": 56
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "현수가 방황하던 시기, {name}은 그냥 지나치지 않고 \"요즘 뭐 해?\"라고 물어봤었다.\n\n오늘 현수에게서 연락이 왔다.\n\n\"형, 그때 나 진짜 바닥이었는데. 형이 물어봐줘서 — 누가 날 보고 있구나 싶었어요.\"",
+    "choices": [
+      {
+        "text": "\"별거 아니었는데. 잘 버텼다, 너.\"",
+        "effects": {
+          "mental": 6,
+          "social_skill": 2
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"형 덕분이에요, 진짜.\"\n\n별거 아닌 한마디가 누군가에겐 밧줄이 된다.\n{name}은 그때 그냥 지나치지 않은 자신이 다행이었다."
+      },
+      {
+        "text": "\"나도 그때 누가 물어봐줬으면 했거든.\"",
+        "effects": {
+          "mental": 5
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"...형도 그랬구나.\"\n\n받지 못한 걸 남에게 주는 사람들이 있다.\n{name}은 자기가 그런 사람이 됐다는 걸, 현수의 말로 알았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cut_sns_echo",
+    "title": "그때 SNS를 끊은 것",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "cut_sns",
+      "min_turn": 130
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "서울살이 2년째, 잘나가는 친구들 소식에 흔들리던 {name}은 'SNS를 끊는다. 비교는 집중력의 독이다'라고 결정했었다.\n\n그 뒤로 피드를 보지 않았다.\n\n오늘 우연히 누군가의 근황을 전해 들었다. 예전 같으면 흔들렸을 소식이었다.",
+    "choices": [
+      {
+        "text": "이젠 흔들리지 않는다 — 내 페이스가 있다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남의 속도를 안 보니, 내 속도가 보였다.\n\nSNS를 끊은 게 도피가 아니라 집중을 위한 선택이었다는 걸 {name}은 이제 안다.\n비교 없는 자리에서, 자기 길이 더 또렷했다."
+      },
+      {
+        "text": "가끔은 세상 소식이 궁금하다 — 그래도 안 본다",
+        "effects": {
+          "mental": 4,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "궁금함은 있었다. 하지만 그 대가가 무엇인지도 안다.\n\n{name}은 잠깐 망설이다 폰을 내려놨다.\n끝나고 나면, 그때 다시 세상과 연결돼도 늦지 않았다."
+      }
+    ]
+  }
+]

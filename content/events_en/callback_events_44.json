@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_goal_grounded_echo",
+    "title": "Walked to the Han River Again",
+    "description": "On the night the weight of ₩3 billion pressed down, {name} closed the plan and the phone and walked all the way to the Han River for air.\n\nToday, head full again, their feet found the same path on their own.\n\nThe river flowed on, indifferent as ever.",
+    "choices": [
+      {
+        "text": "Like that day — walking sorts it out",
+        "result_text": "Stepping away from the numbers and moving the body.\n\nThat became {name}'s way of clearing the head.\nThe walk back always felt a little lighter. Today too."
+      },
+      {
+        "text": "Watch the river, steady the heart again",
+        "result_text": "The river reaches the sea without rushing.\n\n{name} leaned on the railing and watched it a long while.\nHow to set down urgency — this river taught it every time."
+      }
+    ]
+  },
+  {
+    "id": "callback_missed_gosiwon_echo",
+    "title": "A Strange Longing",
+    "description": "The first night in the new place after escaping the goshiwon, {name} strangely missed that tiny room.\n\nEven in somewhere wider and cleaner, it happened sometimes.\n\nTonight, too, that room's ceiling came back to mind.",
+    "choices": [
+      {
+        "text": "What I miss isn't the room — it's who I was then",
+        "result_text": "What was missed wasn't the narrow room, but the self who had nothing yet dreamed big.\n\n{name} asked whether that heart was still intact.\nThe room wasn't the only thing that should have grown."
+      },
+      {
+        "text": "No going back now — eyes forward",
+        "result_text": "Let the longing stay a longing.\n\nThat room was a station passed, not a destination.\n{name} glanced out the window once, then turned back to the desk."
+      }
+    ]
+  },
+  {
+    "id": "callback_kept_milestone_secret_echo",
+    "title": "A Number Kept to Myself",
+    "description": "The day {name} first crossed ₩100 million, they decided to keep it to themselves and tell no one.\n\nGood things were mostly known alone after that.\n\nToday, looking at the account again, they briefly pictured someone to tell.",
+    "choices": [
+      {
+        "text": "Knowing alone is comfortable — it's my way",
+        "result_text": "Achievement without announcement.\n\nSince others' recognition wasn't the point, knowing it alone was enough.\n{name} quietly closed the account. A private satisfaction lived there."
+      },
+      {
+        "text": "This time, I want to share it with someone",
+        "result_text": "Keeping it private is fine, but joy gets lighter when shared.\n\n{name} looked at the contacts list for a while.\nAs practiced as they'd become at enduring alone, sharing took practice too."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_daeun_investing_echo",
+    "title": "Saying Just a Little",
+    "description": "The day {name} told Dae-un only 'investing's been going okay lately' — and stopped there.\n\nToday Dae-un asked, lightly.\n\n'You mentioned investing back then. How's it going now? ...Never mind, you don't have to say if you don't want to.'",
+    "choices": [
+      {
+        "text": "Be a little more honest this time",
+        "result_text": "Said one step more than last time.\n\nDae-un listened seriously.\n'Thanks for telling me. I like getting a glimpse of your world.'\nOpening up gradually was a relationship's pace too."
+      },
+      {
+        "text": "Just this far for now — take it slow",
+        "result_text": "'Yeah, you can tell me slowly.'\n\nDae-un didn't push.\nSomeone who stays close without needing to see everything. {name} was grateful for that."
+      }
+    ]
+  },
+  {
+    "id": "callback_showed_room_parents_echo",
+    "title": "Showing Them the Room",
+    "description": "The day {name}'s parents came to Seoul, {name} showed them the tiny room as it was. Nothing to hide.\n\nToday Dad brought up that day.\n\n'That room of yours — small, but clean. That's what hurt me more, actually.'",
+    "choices": [
+      {
+        "text": "\"I wasn't ashamed. That's where I started.\"",
+        "result_text": "Dad was quiet for a long time.\n\n'...Right. Nothing to be ashamed of.'\n\nThe choice not to hide that narrow room had shown his parents who their son really was."
+      },
+      {
+        "text": "\"I've moved somewhere better now. Come see it.\"",
+        "result_text": "'Yeah? ...I'll have to go see it.'\n\nA faint pride mixed into Dad's voice.\nBecause that room had been shown then, the change now landed more clearly."
+      }
+    ]
+  },
+  {
+    "id": "callback_hid_room_parents_echo",
+    "title": "Not Showing Them the Room",
+    "description": "The day {name}'s parents came up, {name} only bought them a meal at a place nearby and didn't show them the room.\n\nToday Mom mentioned it quietly.\n\n'Minjun-ah, I wanted to see your room back then. I knew everything but pretended not to.'",
+    "choices": [
+      {
+        "text": "\"I couldn't show it then... I'm sorry.\"",
+        "result_text": "'Nothing to be sorry for. I understood.'\n\nWhat {name} wanted to hide wasn't the room, but a self who'd achieved nothing yet.\n{name} could admit that now."
+      },
+      {
+        "text": "\"I can show you now. I've moved somewhere better.\"",
+        "result_text": "'...Yeah. I'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of.\nBecause there'd been years of hiding, the present was worth more."
+      }
+    ]
+  },
+  {
+    "id": "callback_birthday_rest_echo",
+    "title": "The Birthday I Rested",
+    "description": "On {name}'s 35th birthday, they closed the plan for that one day and just spent it as a birthday.\n\nThey think of that day sometimes.\n\nResting didn't break anything. If anything, the next day was lighter.",
+    "choices": [
+      {
+        "text": "That choice was right — rest is a strategy too",
+        "result_text": "Run without stopping and something eventually snaps.\n\n{name} knows that one day of birthday rest was maintenance the five-year run required.\nSometimes you go farther by stopping."
+      },
+      {
+        "text": "I know now I need to rest more often",
+        "result_text": "That day was recovery, not guilt.\n\n{name} decided not to push so hard.\nTo go all the way, body and mind had to be spent sparingly."
+      }
+    ]
+  },
+  {
+    "id": "callback_birthday_work_echo",
+    "title": "The Birthday I Worked",
+    "description": "On {name}'s 35th birthday, they replied briefly to the messages and pulled the plan back out.\n\nThe day they didn't stop, even on a birthday.\n\nIt came to mind today. Did I have to go that far — or is that why I'm here?",
+    "choices": [
+      {
+        "text": "That's why I'm here — no regrets",
+        "result_text": "The days I went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
+      },
+      {
+        "text": "Next birthday, a day off is allowed",
+        "result_text": "That day's desperation was necessary. But not every time.\n\n{name} knows now that living a little differently is allowed.\nWith less to prove, there was less need to push so hard."
+      }
+    ]
+  },
+  {
+    "id": "callback_reached_out_35_echo",
+    "title": "Reaching Out First",
+    "description": "At 35, in that piercingly lonely stretch, {name} reached out first to anyone at all.\n\nThat courage comes to mind sometimes.\n\nToday, on another similarly hollow day, they picked up the phone.",
+    "choices": [
+      {
+        "text": "Like that time — extend a hand first",
+        "result_text": "Loneliness deepens if you sit still.\n\nThat small courage to reach out first saved {name} more than once.\nToday too, they checked in on someone. When a reply came, the room felt less cold."
+      },
+      {
+        "text": "This time alone is fine — I've grown sturdier",
+        "result_text": "Back then, anyone would do. Now, alone is bearable.\n\nThe strength to endure loneliness had grown a little.\n{name} set down the phone and let the solitary time simply pass."
+      }
+    ]
+  },
+  {
+    "id": "callback_walked_alone_35_echo",
+    "title": "Walking Alone",
+    "description": "At 35, in that lonely stretch, {name} didn't call anyone and walked alone to the Han River.\n\nThey learned to walk alone then.\n\nToday, mood sinking again, they stood at the same riverside.",
+    "choices": [
+      {
+        "text": "Time walking alone fills me too",
+        "result_text": "Being alone isn't always loneliness.\n\nTime spent walking with oneself made {name} clearer.\nIn the river wind, they quietly made peace with today's self."
+      },
+      {
+        "text": "Now I think of someone to walk with",
+        "result_text": "Grown used to walking alone, but sometimes wished someone were beside them.\n\nWatching the river, {name} briefly pictured who they'd walk this path with once it was over.\nGrowing sturdy alone and walking together weren't a contradiction."
+      }
+    ]
+  },
+  {
+    "id": "callback_went_hospital_echo",
+    "title": "Going to the Hospital",
+    "description": "At 36, when the body sent signals, {name} put work aside and went to the hospital. Had to know.\n\nThey think it was the right call.\n\nToday the body is heavy again. This is the final stretch.",
+    "choices": [
+      {
+        "text": "Like that time — body first",
+        "result_text": "Collapsing right at the finish line means nothing.\n\nAs going to the hospital protected {name} then, they chose the body first today too.\nNo health, no Gangnam."
+      },
+      {
+        "text": "Trust the test results — pace it, no overreach",
+        "result_text": "Thanks to that checkup, {name} knows their own condition.\n\nInstead of running blindly, they found a sustainable speed.\nGoing all the way belongs not to the fast but to those who don't stop."
+      }
+    ]
+  },
+  {
+    "id": "callback_ignored_body_echo",
+    "title": "Putting the Body Off",
+    "description": "At 36, when the body sent signals, {name} brushed it off — 'can't stop now, I'll rest later.'\n\nThat 'later' is now.\n\nThe body is signaling again, louder this time.",
+    "choices": [
+      {
+        "text": "Not putting it off this time — go to the hospital",
+        "result_text": "The price of putting it off came back as a bigger signal.\n\nThis time {name} didn't delay.\nLearned the body is like debt — put it off and the interest compounds."
+      },
+      {
+        "text": "Just a little more — rest properly when it's over",
+        "result_text": "Put it off again. Because the finish line is in sight.\n\nBut it was 'just a little more' that time too.\n{name} made the same choice knowingly, just hoping the body would hold."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_drift_talked_echo",
+    "title": "For Asking",
+    "description": "While Hyun-su was drifting, {name} didn't just pass by — they asked, 'What are you up to these days?'\n\nToday Hyun-su reached out.\n\n'Hyung, I was really at rock bottom then. You asking — it made me feel like someone was watching out for me.'",
+    "choices": [
+      {
+        "text": "\"It was nothing. You held on well.\"",
+        "result_text": "'It was all thanks to you, really.'\n\nA nothing word becomes a rope for someone.\n{name} was glad they hadn't just walked past that time."
+      },
+      {
+        "text": "\"I wished someone would've asked me back then too.\"",
+        "result_text": "'...So you went through that too, hyung.'\n\nThere are people who give what they never received.\n{name} learned, from Hyun-su's words, that they'd become one of them."
+      }
+    ]
+  },
+  {
+    "id": "callback_cut_sns_echo",
+    "title": "Cutting SNS Off",
+    "description": "In the second year in Seoul, shaken by news of friends doing well, {name} decided: 'Cut SNS. Comparison is poison for focus.'\n\nThey hadn't looked at the feed since.\n\nToday they happened to hear someone's update — the kind of news that once would have rattled them.",
+    "choices": [
+      {
+        "text": "No longer shaken — I have my own pace",
+        "result_text": "Not watching others' speed, they could see their own.\n\n{name} knows now that cutting SNS was a choice for focus, not escape.\nFrom a place free of comparison, their own path was clearer."
+      },
+      {
+        "text": "Sometimes I'm curious — but I still don't look",
+        "result_text": "There was curiosity. But {name} knows its cost too.\n\nAfter a brief hesitation, they set the phone down.\nOnce it's all over, reconnecting with the world then wouldn't be too late."
+      }
+    ]
+  }
+]

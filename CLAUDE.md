@@ -9,8 +9,9 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-22** — **Phase 4 arc_midgame 핵심 감정비트 14개 콜백 연결**: callback_events_43 (KR+EN) — told_father_win/said_bye_to_hyunsu/remembered_goshiwon/gangnam_vow_made/gangnam_doubt/goal_reaffirmed/goal_questioned/called_dad_milestone/solo_celebration/told_daeun_everything/shared_with_sangchul/restarted_after_scam/looked_up_apartment/picked_gangnam_target. **콜백 선택지에 새 플래그 0개 = 트레드밀 방지**(순수 stat+서사 페이백). 밸런스 검토: 승진 social_skill+1 = modify_stat() 경유 → 100 클램프 안전 확인. write_only_flags 373→359. ERROR 0/WARNING 0. |
-| **이전** | **2026-06-22** — **Phase 4 write_only_flags 46개 콜백 연결**: callback_events_35~42 (8파일 KR+EN) — intro arc/father arc/상철+다은/재원+민서/3~5년차/midgame/현수/드라마+회복. 중복 ID 4건 수정, cast_flag 조건 타입 수정(37), portrait 수정(35). write_only_flags 387→373. |
+| **최근 완료** | **2026-06-22** — **Phase 4 arc_midgame 노화/시간흐름 감정선 14개 콜백 연결**: callback_events_44 (KR+EN) — goal_grounded/missed_gosiwon/kept_milestone_secret/told_daeun_investing/showed·hid_room_to_parents/birthday_rest·work/reached_out·walked_alone_35/went_hospital·ignored_body/hyunsu_drift_talked/cut_sns. 35·36세 노화 아크 + 부모 방문 + 2년차 비교 등 후기 감정선 회수. 콜백 선택지 새 플래그 0개(트레드밀 방지). write_only_flags 359→345. ERROR 0/WARNING 0. |
+| **이전** | **2026-06-22** — **Phase 4 arc_midgame 핵심 감정비트 14개 콜백 연결**: callback_events_43 (KR+EN) — told_father_win/said_bye_to_hyunsu/gangnam_vow 등. 콜백 선택지 새 플래그 0개. 밸런스: 승진 social_skill+1=modify_stat() 100클램프 확인. write_only_flags 373→359. |
+| **이전** | **2026-06-22** — **Phase 4 write_only_flags 46개 콜백 연결**: callback_events_35~42 (8파일 KR+EN). 중복 ID 4건 수정, cast_flag 조건 타입 수정(37). write_only_flags 387→373. |
 | **이전** | **2026-06-22** — **Phase 3 유기성 배선 완료**: EventManager._effective_weight() cast 큐레이션 + 직업카테고리 + fear_greed 연동, GameState._resolve_opportunity() 상철affinity 성공률 보너스, JobSystem appearance→업무능력/승진→social_skill+1, jeonse/housing 태그 3건. |
 | **추가 완료** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크 + 회복 3종 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급)**. ※카지노 미니게임 메커니즘 미변경(서사만). |
 | **Codex 추가 완료** | **2026-06-20~22 (외형)** — PC/Steam Deck 공통 Readability Pass 1~3(전역 폰트·버튼·모달·포커스 기준 상향, 모달 760×610/스크롤 리셋, 룰렛 숫자 매트 58×34 확대·상태 배지, 투자 자산/상점 아이템 카드화, 우측 정보 패널 400px 확대 및 관계·소지품·스토리 카드화, AP 세부 모달 카드화), 영어판 표면 QA 강화(`ScreenshotQA` 영어 메인 HUD/행동 모달/정보 패널 캡처 추가, 영어 로고/날짜/금액/주거명/인물명/로그/관계 단계 라벨 정리), 빅휠 54칸 슬롯 쇼휠·상태 플레이트, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH)과 결과 정산 보드, 홀덤 오벌 테이블 재배치와 쇼다운 판정 패널·팟 이동 라인, 투자 모달 MARKET BOARD(장세·공포/탐욕·리스크·계좌 요약), 슬롯머신 캐비닛·릴 심볼 코드 드로잉·payout tray 코인 연출 보강, 다이사이 주사위 컵·콜 패널 보강, 룰렛 테이블 베팅/딜러/포켓 하이라이트·중앙 숫자 위치 핫픽스, 룰렛 부유 칩 제거·숫자 매트 중앙 정렬·winning pocket 콜아웃·스핀/결과 QA 분리. 정선 카지노 허브 게임 카드 상단을 바카라/블랙잭/슬롯/룰렛/다이사이/빅휠별 코드 드로잉 미니 아트로 교체하고 카드 그림자/타입 라벨/버튼 스타일을 보강. 구형 `poker_chip_icon.png` 런타임 참조를 제거해 centered denomination chip SVG로 대체. 바카라/블랙잭 베팅·딜·결과 화면을 펠트 테이블/베팅존/카드존/칩 스택 중심 UI로 재구성. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
@@ -20,7 +21,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 5씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8, 현수 라면 씬 이후). 플레이타임 약 20~30분. Steam 위시리스트 CTA 삽입 포인트 = arc_chapter1_close 이후. |
 | **다음 작업** | **Phase 4 계속** — ①arc_midgame 잔여 write-only(year1~3/35~37세 birthday/habit 등 ~70개) 중 추가 핵심 비트 선별 연결, 또는 social_independence.json(23개)/easter_eggs(16)/viral_events(15) 검토. ②Steam 데모 QA 플레이스루 (arc_chapter1_close 도달 확인). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-22 (Claude: Phase 4 진행 — write_only_flags 387→359, callback_events_35~43 KR+EN 완성, 밸런스 social_skill 클램프 확인) |
+| **마지막 업데이트** | 2026-06-22 (Claude: Phase 4 진행 — write_only_flags 387→345, callback_events_35~44 KR+EN 완성, 밸런스 social_skill 클램프 확인) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
