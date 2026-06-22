@@ -4726,33 +4726,8 @@ func _on_jeongseon_casino_closed():
 	_refresh_all()
 	_render_ap_actions()
 
-func _open_baccarat():
-	if not GameState.spend_ap():
-		return
-	_enter_minigame_overlay(baccarat_table)
-	baccarat_table.open()
-
-func _on_baccarat_closed():
-	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 🎰 바카라", "✓ 🎰 Baccarat"))
-	GameState.add_log(_tr("🎰 정선 카지노 바카라 테이블을 나왔다.", "🎰 Left the Jeongseon Casino baccarat table."), "event")
-	_check_addiction_warnings()
-	_refresh_all()
-	_render_ap_actions()
-
-func _open_blackjack():
-	if not GameState.spend_ap():
-		return
-	_enter_minigame_overlay(blackjack_table)
-	blackjack_table.open()
-
-func _on_blackjack_closed():
-	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 🃏 블랙잭", "✓ 🃏 Blackjack"))
-	GameState.add_log(_tr("🃏 정선 카지노 블랙잭 테이블을 나왔다.", "🃏 Left the Jeongseon Casino blackjack table."), "event")
-	_check_addiction_warnings()
-	_refresh_all()
-	_render_ap_actions()
+# (구형 _open_baccarat/_open_blackjack + 핸들러 제거 — 정선 카지노 허브의
+#  _launch_*로 일원화됨. baccarat_table/blackjack_table 노드는 허브가 사용.)
 
 func _enter_minigame_overlay(overlay: Node = null) -> void:
 	_minigame_overlay_active = true
@@ -5040,11 +5015,8 @@ func _ap_market_analysis():
 	modal_body.add_child(ok_btn)
 	GameState.add_log(_tr("🔭 시장 분석 — %s", "🔭 Market Analysis — %s") % forecast, "market")
 
-func _ap_leverage_invest():
-	if GameState.action_points <= 0:
-		_show_toast(_tr("⚡ 행동력이 없습니다", "⚡ No Action Points"), Color("#ff4444"))
-		return
-	_open_leverage_investments()
+# (_ap_leverage_invest 데드 래퍼 제거 — 호출처 0. 레버리지는 _open_investments가
+#  _open_leverage_investments를 직접 연결해 진입함.)
 
 func _open_leverage_investments():
 	_open_modal(_tr("레버리지 투자", "Leverage Investing"))
