@@ -11,7 +11,11 @@
       "flag": "jiyeon_apology_made",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -47,7 +51,12 @@
       "flag": "jiyeon_mentor_track",
       "min_turn": 6
     },
-    "tags": ["relationship", "callback", "jiyeon", "network"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon",
+      "network"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -85,7 +94,11 @@
       "flag": "jiyeon_trust_built",
       "min_turn": 8
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -123,7 +136,11 @@
       "flag": "jiyeon_opens_up",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -160,7 +177,12 @@
       "flag": "jiyeon_referral_met",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jiyeon", "network"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon",
+      "network"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -186,81 +208,6 @@
     ]
   },
   {
-    "id": "callback_jiyeon_respects_player_echo",
-    "title": "지연이 존중할 때",
-    "description": "지연이 나를 진심으로 존중하게 됐다고 느꼈던 게 한 달 전이다.\n오늘 지연이 중요한 결정 앞에서 — 의견을 물어왔다.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_respects_player",
-      "min_turn": 5
-    },
-    "tags": ["relationship", "callback", "jiyeon"],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "솔직하게 의견을 말한다",
-        "effects": {
-          "mental": 12,
-          "intelligence": 4,
-          "social_skill": 3
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "솔직하게 말했다.\n지연이 \"그 말이 제일 필요했던 것 같아요.\"라고 했다.\n존중은 — 의견을 묻는 것으로 나타난다."
-      },
-      {
-        "text": "판단은 지연이 하는 것이라고 한다",
-        "effects": {
-          "mental": 8,
-          "social_skill": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "\"지연 씨가 더 잘 알잖아요.\"라고 했다.\n지연이 \"...그렇긴 한데 그냥 들어보고 싶었어요.\"라고 했다.\n의견을 묻는 것은 답을 원하는 게 아니라 — 함께 생각하고 싶다는 뜻이었다."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_declined_coffee_result",
-    "title": "커피 자리를 거절했을 때",
-    "description": "지연의 커피 자리를 거절했던 게 두 달 전이다.\n사업 이야기가 섞인 자리였다.\n오늘 지연이 그때와 비슷한 자리를 다시 제안했다.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_declined_coffee",
-      "min_turn": 4
-    },
-    "tags": ["relationship", "callback", "jiyeon"],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "이번엔 간다",
-        "effects": {
-          "mental": 8,
-          "intelligence": 2,
-          "social_skill": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "갔다.\n사업 이야기가 없었다.\n그냥 커피였다.\n거절했던 것이 상황을 바꿨는지 — 아니면 원래 그런 자리였는지 알 수 없었다.\n어쨌든 좋았다."
-      },
-      {
-        "text": "또 거절한다",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "또 거절했다.\n지연이 \"알겠어요.\"라고 했다.\n두 번 거절하면 — 상대는 더 이상 묻지 않는다.\n그게 어떤 신호인지는 알고 있었다."
-      }
-    ]
-  },
-  {
     "id": "callback_jiyeon_deflected_business_echo",
     "title": "사업 이야기를 피했을 때",
     "description": "지연의 사업 이야기를 흘려넘겼던 게 두 달 전이다.\n오늘 지연이 다시 그 이야기를 꺼냈다.\n이번엔 직접적으로.",
@@ -272,7 +219,11 @@
       "flag": "jiyeon_deflected_business",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -297,79 +248,6 @@
     ]
   },
   {
-    "id": "callback_jiyeon_honest_late_echo",
-    "title": "늦은 솔직함",
-    "description": "늦게라도 지연에게 솔직하게 말했던 게 두 달 전이다.\n이미 상황이 많이 지나간 뒤였다.\n오늘 지연이 그날을 언급했다.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_honest_late",
-      "min_turn": 4
-    },
-    "tags": ["relationship", "callback", "jiyeon"],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "\"늦어서 미안했어요\"",
-        "effects": {
-          "mental": 10,
-          "social_skill": 3
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "\"늦었지만 말해줬잖아요.\"라고 지연이 했다.\n늦은 솔직함이 — 안 한 것과는 달랐다.\n늦어도 한 것이 맞았다."
-      },
-      {
-        "text": "\"그때 더 빨리 말했어야 했는데\"",
-        "effects": {
-          "mental": 5,
-          "intelligence": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "지연이 \"그래도 말해줬잖아요.\"라고 했다.\n후회보다 — 그래도 했다는 것이 더 컸다."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_met_again_echo",
-    "title": "다시 만났을 때",
-    "description": "한동안 못 봤던 지연을 다시 만났던 게 한 달 전이다.\n오늘 지연에게서 문자가 왔다.\n'그때 만나서 좋았어요.'",
-    "category": "relationship",
-    "rarity": "common",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_met_again",
-      "min_turn": 3
-    },
-    "tags": ["relationship", "callback", "jiyeon"],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "\"저도요. 또 봐요.\"",
-        "effects": {
-          "mental": 8,
-          "social_skill": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "\"저도 좋았어요. 또 봐요.\"라고 했다.\n짧은 문자가 다음 만남을 약속했다.\n좋은 재회 뒤에는 — 다음이 생겼다."
-      },
-      {
-        "text": "이모티콘만 보낸다",
-        "effects": {
-          "mental": 5
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "이모티콘으로 답했다.\n지연도 이모티콘으로 답했다.\n말로 하는 것과 — 이모티콘으로 하는 것 사이엔 차이가 있었다."
-      }
-    ]
-  },
-  {
     "id": "callback_jiyeon_mother_direct_echo",
     "title": "지연 어머니와 직접",
     "description": "지연 어머니와 직접 이야기를 나눴던 게 두 달 전이다.\n오늘 지연이 그 이야기를 꺼냈다.\n'어머니가 민준 씨 칭찬하시더라고요.'",
@@ -381,7 +259,11 @@
       "flag": "jiyeon_mother_direct",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -418,7 +300,11 @@
       "flag": "jiyeon_gratitude_returned",
       "min_turn": 6
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -455,7 +341,11 @@
       "flag": "daeun_bond_deepened",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "daeun"],
+    "tags": [
+      "relationship",
+      "callback",
+      "daeun"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -492,7 +382,11 @@
       "flag": "daeun_second_date",
       "min_turn": 3
     },
-    "tags": ["relationship", "callback", "daeun"],
+    "tags": [
+      "relationship",
+      "callback",
+      "daeun"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -528,7 +422,11 @@
       "flag": "daeun_honest",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "daeun"],
+    "tags": [
+      "relationship",
+      "callback",
+      "daeun"
+    ],
     "cooldown": 999,
     "choices": [
       {

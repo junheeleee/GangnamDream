@@ -11,7 +11,11 @@
       "flag": "jiyeon_accepted",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -47,7 +51,11 @@
       "flag": "jiyeon_refused_coffee",
       "min_turn": 3
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -83,7 +91,11 @@
       "flag": "jiyeon_prioritized_goal",
       "min_turn": 5
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -120,7 +132,11 @@
       "flag": "jiyeon_honest_world",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -146,42 +162,6 @@
     ]
   },
   {
-    "id": "callback_jiyeon_was_honest_echo",
-    "title": "지연에게 솔직했던 날",
-    "description": "지연에게 솔직하게 말했던 게 한 달 전이다.\n쉽지 않았다.\n오늘 지연이 문자를 보냈다.\n'그때 솔직하게 말해줘서 고마워요.'",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_was_honest",
-      "min_turn": 3
-    },
-    "tags": ["relationship", "callback", "jiyeon"],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "\"저도 쉽지 않았어요\"",
-        "effects": {
-          "mental": 10,
-          "social_skill": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "지연이 \"알아요. 그래서 더 감사해요.\"라고 했다.\n솔직함은 쉬워서 하는 게 아니었다.\n어려워서 하는 것이 더 남는다."
-      },
-      {
-        "text": "\"당연한 거죠\"",
-        "effects": {
-          "mental": 5
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "\"당연한 거예요.\"라고 했다.\n지연이 \"...그렇게 생각하는 사람이 많지 않아요.\"라고 했다.\n당연한 것을 당연하게 하는 게 — 흔하지 않았다."
-      }
-    ]
-  },
-  {
     "id": "callback_daeun_kept_distance_echo",
     "title": "거리를 둔 뒤",
     "description": "다은과 거리를 두기로 했던 게 두 달 전이다.\n오늘 다은을 멀리서 봤다.\n아무 말도 하지 않고 지나쳤다.",
@@ -193,7 +173,11 @@
       "flag": "daeun_kept_distance",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "daeun"],
+    "tags": [
+      "relationship",
+      "callback",
+      "daeun"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -230,7 +214,11 @@
       "flag": "daeun_saw_her_ok",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "daeun"],
+    "tags": [
+      "relationship",
+      "callback",
+      "daeun"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -266,7 +254,11 @@
       "flag": "daeun_uncertain",
       "min_turn": 5
     },
-    "tags": ["relationship", "callback", "daeun"],
+    "tags": [
+      "relationship",
+      "callback",
+      "daeun"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -303,7 +295,11 @@
       "flag": "jaehyuk_heard_his_story",
       "min_turn": 4
     },
-    "tags": ["relationship", "callback", "jaehyuk"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jaehyuk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -340,7 +336,11 @@
       "flag": "jaehyuk_01b_pressed",
       "min_turn": 3
     },
-    "tags": ["relationship", "callback", "jaehyuk"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jaehyuk"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -376,7 +376,12 @@
       "flag": "sangchul_invited",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "sangchul", "network"],
+    "tags": [
+      "social",
+      "callback",
+      "sangchul",
+      "network"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -413,7 +418,11 @@
       "flag": "heeded_sangchul_warning",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "sangchul"],
+    "tags": [
+      "social",
+      "callback",
+      "sangchul"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -450,7 +459,11 @@
       "flag": "dismissed_sangchul_warning",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "sangchul"],
+    "tags": [
+      "social",
+      "callback",
+      "sangchul"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -487,7 +500,12 @@
       "flag": "took_sangchul_tip",
       "min_turn": 4
     },
-    "tags": ["social", "callback", "sangchul", "investment"],
+    "tags": [
+      "social",
+      "callback",
+      "sangchul",
+      "investment"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -525,7 +543,11 @@
       "flag": "jiyeon_forgave_complexity",
       "min_turn": 5
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {
@@ -561,7 +583,11 @@
       "flag": "jiyeon_acknowledged",
       "min_turn": 3
     },
-    "tags": ["relationship", "callback", "jiyeon"],
+    "tags": [
+      "relationship",
+      "callback",
+      "jiyeon"
+    ],
     "cooldown": 999,
     "choices": [
       {

@@ -19,7 +19,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 5씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8, 현수 라면 씬 이후). 플레이타임 약 20~30분. Steam 위시리스트 CTA 삽입 포인트 = arc_chapter1_close 이후. |
 | **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — 카지노/홀덤/경마 서사 이벤트(미니게임 메커니즘 제외); 시스템 유기성 배선(_effective_weight에 cast/직업, cast→경제결과, news→삶, 죽은 스탯 appearance/luck); P2 잔여 audit #7(인물 stage vs 대사 톤 심화 스캔). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-22 (Claude: 5년 서사 재편 14이벤트 + 다은 with_daeun 엔딩 committed stage 버그 픽스 / Codex: English Surface + AP Modal Polish) |
+| **마지막 업데이트** | 2026-06-22 (Claude: 5년 서사 재편 14이벤트 + 다은 with_daeun committed 버그 픽스 + **audit 하드닝**: 죽은아크/죽은cast분기 체크 2종 영구 추가 → 옛 지연 레거시 아크 16개(이벤트5+콜백11) 검출·제거 / Codex: English Surface + AP Modal Polish) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
@@ -322,7 +322,13 @@
    **새 stage 추가 시 이 파일에 먼저 선언할 것**)
 8. **밸런스 회귀 밴드** — balance_check.py가 핵심 정책 시뮬로 30억 도달률·실패율 밴드 검증
    (← 경제 파라미터 변경의 의도치 않은 파급. 의도된 변경이면 BALANCE.md 기록 + 밴드 갱신)
-9. **Godot 헤드리스 파싱** (로컬 Godot 필요 — 없으면 CI가 수행)
+9. **죽은 아크 이벤트** — `min_turn>=9999`(트리거 전용)인데 코드/follow_up 어디서도
+   호출 안 되는 이벤트 (← 구버전 아크가 신버전으로 교체되며 안 지워진 잔재 / `_next_arc_id`
+   트리거 누락. 2026-06-22 도입 시점에 옛 지연 아크 16개 일괄 검출·제거)
+10. **죽은 cast-stage 분기** — 코드/조건이 비교하는 cast stage인데 어떤 이벤트도 그 stage를
+   set 안 하는 도달 불가 분기 (← 다은 with_daeun 엔딩이 committed를 안 보던 버그의 거울상.
+   엔딩이 읽는 stage를 set하는 이벤트가 사라지면 조용히 죽는 분기를 잡는다)
+11. **Godot 헤드리스 파싱** (로컬 Godot 필요 — 없으면 CI가 수행)
 
 ERROR 0 이면 통과. **새 함수·이벤트·인물·플래그·stage 추가 후 반드시 돌릴 것.**
 푸시하면 GitHub Actions(`.github/workflows/ci.yml`)가 같은 감사 + Godot 컴파일/SimRun을 돌린다.

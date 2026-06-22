@@ -75,21 +75,6 @@
     ]
   },
   {
-    "id": "callback_jiyeon_ended_echo",
-    "title": "After Things Ended with Jiyeon",
-    "description": "Two months since things fully ended with Jiyeon.\nYou thought of her sometimes.\nToday you passed by a place connected to her.",
-    "choices": [
-      {
-        "text": "Keep walking",
-        "result_text": "You kept walking.\nYou didn't stop.\nAccepting what you ended as truly over also takes time."
-      },
-      {
-        "text": "Stop for a moment",
-        "result_text": "You stopped for a moment.\nThen walked on.\nLonging and regret are two different things.\nWhat you felt just now was longing."
-      }
-    ]
-  },
-  {
     "id": "callback_jiyeon_gangnam_called_echo",
     "title": "After Jiyeon Called from Gangnam",
     "description": "Two months since Jiyeon reached out to you from Gangnam first.\nThat message had stayed with you.\nToday another message came from her.",

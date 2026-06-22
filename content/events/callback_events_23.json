@@ -105,27 +105,6 @@
     "category": "relationship"
   },
   {
-    "id": "callback_jiyeon_ended_echo",
-    "title": "지연과의 관계가 끝난 뒤",
-    "description": "지연과 완전히 끝난 지 두 달.\n가끔 생각이 났다.\n오늘 우연히 지연과 연결된 장소를 지나쳤다.",
-    "conditions": {
-      "flag": "jiyeon_ended",
-      "min_turn": 8
-    },
-    "choices": [
-      {
-        "text": "그냥 지나치다",
-        "result_text": "지나쳤다.\n멈추지 않았다.\n끝낸 것—을 끝난 것으로 받아들이는 것도 시간이 필요하다."
-      },
-      {
-        "text": "잠깐 멈추다",
-        "result_text": "잠깐 멈췄다.\n그리고 걸어갔다.\n그리움과 후회—이 두 개는 다른 것이다.\n지금 느낀 건 그리움이었다."
-      }
-    ],
-    "cooldown": 999,
-    "category": "relationship"
-  },
-  {
     "id": "callback_jiyeon_gangnam_called_echo",
     "title": "지연이 강남에서 연락해온 뒤",
     "description": "지연이 강남에서 먼저 연락해온 지 두 달.\n그 연락이 가끔 떠올랐다.\n오늘 지연에게서 또 연락이 왔다.",

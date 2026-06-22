@@ -75,36 +75,6 @@
     ]
   },
   {
-    "id": "callback_jiyeon_respects_player_echo",
-    "title": "When Jiyeon Respects You",
-    "description": "A month since you felt Jiyeon had come to genuinely respect you.\nToday, facing an important decision, she asked for your opinion.",
-    "choices": [
-      {
-        "text": "Give your honest opinion",
-        "result_text": "You gave it straight.\nJiyeon said 'That was exactly what I needed to hear.'\nRespect shows up as asking for opinions."
-      },
-      {
-        "text": "Say it's Jiyeon's call to make",
-        "result_text": "'You know this better than I do,' you said.\nJiyeon replied '...True, but I just wanted to hear it.'\nAsking for an opinion isn't looking for an answer — it's wanting to think together."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_declined_coffee_result",
-    "title": "After Turning Down the Coffee",
-    "description": "Two months since you turned down Jiyeon's invitation — the one mixed with business talk.\nToday Jiyeon proposed a similar get-together again.",
-    "choices": [
-      {
-        "text": "Go this time",
-        "result_text": "You went.\nNo business talk.\nJust coffee.\nWhether the refusal had changed it or this was always what it was — impossible to know.\nEither way, it was good."
-      },
-      {
-        "text": "Decline again",
-        "result_text": "You declined again.\nJiyeon said 'I see.'\nTurning someone down twice — they stop asking a third time.\nWhat kind of signal that sent — you already knew."
-      }
-    ]
-  },
-  {
     "id": "callback_jiyeon_deflected_business_echo",
     "title": "After Deflecting the Business Talk",
     "description": "Two months since you brushed off Jiyeon's business pitch.\nToday she brought it up again.\nThis time, directly.",
@@ -116,36 +86,6 @@
       {
         "text": "Deflect it gently again",
         "result_text": "You slid past it again.\nJiyeon's expression shifted for a moment.\nShe said 'I see.'\nDeflecting twice — the other side takes that as the answer."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_honest_late_echo",
-    "title": "Late Honesty",
-    "description": "Two months since you finally came clean with Jiyeon — late as it was.\nA lot had already passed by then.\nToday Jiyeon brought up that day.",
-    "choices": [
-      {
-        "text": "\"I'm sorry it took so long.\"",
-        "result_text": "'You still said it, late as it was,' Jiyeon said.\nLate honesty — was different from none at all.\nLate was still the right call."
-      },
-      {
-        "text": "\"I should have said it sooner.\"",
-        "result_text": "Jiyeon said 'But you did say it.'\nThe regret of being late — was smaller than the fact that it happened."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_met_again_echo",
-    "title": "Seeing Each Other Again",
-    "description": "A month since you ran into Jiyeon after a long gap.\nToday a message from her:\n'It was good seeing you.'",
-    "choices": [
-      {
-        "text": "\"Same here. Let's meet again.\"",
-        "result_text": "'Me too. See you again,' you said.\nA short message became a next meeting.\nAfter a good reunion — there's a next one."
-      },
-      {
-        "text": "Just send an emoji",
-        "result_text": "You sent an emoji.\nShe sent one back.\nThere was a gap between words and an emoji — even when they meant the same thing."
       }
     ]
   },

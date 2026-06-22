@@ -60,21 +60,6 @@
     ]
   },
   {
-    "id": "callback_jiyeon_pretended_found_out",
-    "title": "Han Jiyeon's Text",
-    "description": "A text from Han Jiyeon.\n'That day I told you about the goshiwon... I think I knew all along.\nWhy did you do that?'",
-    "choices": [
-      {
-        "text": "Be honest — apologize",
-        "result_text": "'I'm sorry. That was just how I'd learned to survive in your world.'\nA brief silence. Then a reply.\n'...That's enough.'\nStrangely, this felt better."
-      },
-      {
-        "text": "Make excuses",
-        "result_text": "'It wasn't entirely wrong either.'\nThe 'read' tick sat there for a long time.\nThe next day — no reply."
-      }
-    ]
-  },
-  {
     "id": "callback_jiyeon_honest_referral",
     "title": "Han Jiyeon's Introduction",
     "description": "A message from Han Jiyeon.\n'I know a tax accountant who manages personal portfolios.\nWant to meet them? I thought you'd click.'",
@@ -101,21 +86,6 @@
       {
         "text": "This is Jiyeon's choice to make",
         "result_text": "'Jiyeon should decide that. I'm not going to interfere.'\nHer mother paused, then hung up.\nYou didn't tell Jiyeon."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_ended_gangnam_encounter",
-    "title": "In Gangnam",
-    "description": "You came to a Gangnam apartment open house.\nA familiar silhouette in the hallway.\nIt's Han Jiyeon. With a man. Talking to what looks like a real estate agent.\nYou didn't expect to meet here.",
-    "choices": [
-      {
-        "text": "Greet her first",
-        "result_text": "Jiyeon looked slightly surprised when your eyes met.\n'...You came to look too?'\n'Yeah. Finally.'\nShe smiled. 'Good.' It sounded genuine."
-      },
-      {
-        "text": "Eyes meet — but walk past without acknowledging",
-        "result_text": "You walked past.\nJiyeon made the same choice, apparently — no words.\nYou made it to Gangnam. There was someone you once knew here.\nThat was enough."
       }
     ]
   },

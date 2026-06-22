@@ -30,6 +30,13 @@
 ### 5. 다은 with_daeun 엔딩 버그 픽스
 - 다은 아크 최종 stage는 `committed`인데 엔딩 판정이 `["lover","together"]`만 봐서, 가장 헌신적으로 키운 플레이어가 오히려 with_daeun 엔딩을 놓치던 버그. `committed` 추가로 회수 (GameState.gd:1313).
 
+### 6. audit 하드닝 — 죽은 코드 자동 검출 체크 2종 영구 추가
+- **배경**: 유저 지적 "난개발로 컨텐츠가 유기적으로 안 돌고 죽은 코드가 너무 많다." 한 개씩 손으로 찾는 대신, 죽은 코드 클래스를 CI가 자동으로 잡도록 audit.py 하드닝.
+- **체크 #9 죽은 아크 이벤트**: `min_turn>=9999`(트리거 전용)인데 코드/follow_up 어디서도 호출 안 되는 이벤트 = 영원히 안 뜨는 죽은 콘텐츠 (구버전 잔재 / 트리거 누락).
+- **체크 #10 죽은 cast-stage 분기**: 코드/조건이 비교하는 cast stage인데 어떤 이벤트도 set 안 하는 도달 불가 분기 (다은 committed 버그의 거울상).
+- **검출·제거**: 두 체크가 **옛 지연(jiyeon) 레거시 아크 전체**를 적발 — `arc_jiyeon_*` 신버전으로 교체됐는데 안 지워진 잔재. 레거시 이벤트 5개(jiyeon_meet/coffee/date/crisis/confession) + 거기에만 매달린 콜백 11개 = **16개(KR+EN) 제거**. jiyeon 엔딩 체크의 죽은 `"lover"` stage도 제거(→`honest_together`만).
+- 두 체크 음성 테스트로 회귀 검출 동작 확인. audit ERROR 0 / WARNING 0 / 밴드 통과.
+
 ---
 
 ## 2026-06-22 (Codex: English Surface + AP Modal Polish)

@@ -533,6 +533,122 @@ def check_cast_stages():
                     check(pid, s, "%s:%d" % (rel(f), ln_no))
 
 # ══════════════════════════════════════════════════════════════
+# 9) 죽은 아크 이벤트 — 트리거 전용(min_turn>=9999)인데 코드/follow_up
+#    어디서도 호출 안 되는 이벤트. 작성됐지만 영원히 안 뜨는 죽은 콘텐츠.
+#    (← 난개발로 구버전 아크가 신버전으로 교체되며 안 지워진 잔재)
+# ══════════════════════════════════════════════════════════════
+def check_dead_arc_events():
+    # GD 코드 전체 텍스트 (id 문자열 참조 탐색용)
+    code = ""
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            code += open(f, encoding="utf-8").read()
+    # follow_up 타깃 수집 (KR 이벤트)
+    follow_targets = set()
+    trigger_only = []   # (id, file)
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            for key in ("follow_up", "follow_up_event", "deferred_follow_up"):
+                v = e.get(key)
+                if isinstance(v, str) and v:
+                    follow_targets.add(v)
+            for ch in e.get("choices", []) or []:
+                for key in ("follow_up_event", "deferred_follow_up"):
+                    v = ch.get(key)
+                    if isinstance(v, str) and v:
+                        follow_targets.add(v)
+            cond = e.get("conditions", {}) or {}
+            mt = cond.get("min_turn", 0)
+            if isinstance(mt, (int, float)) and mt >= 9999:
+                trigger_only.append((e.get("id"), p))
+    for eid, p in trigger_only:
+        if not eid:
+            continue
+        if ('"%s"' % eid) in code or eid in follow_targets:
+            continue
+        err('%s [%s] 트리거 전용(min_turn>=9999)인데 코드/follow_up 어디서도 호출 안 됨 '
+            '— 영원히 안 뜨는 죽은 아크 (구버전 잔재거나 _next_arc_id 트리거 누락)'
+            % (rel(p), eid))
+
+# ══════════════════════════════════════════════════════════════
+# 10) 죽은 cast-stage 분기 — 코드/조건이 비교하는 cast stage인데
+#     어떤 이벤트도 그 stage를 set하지 않는 경우. 도달 불가 분기.
+#     (← 다은 with_daeun 엔딩이 committed를 안 보던 버그의 거울상:
+#      엔딩이 lover를 보는데 lover를 set하는 이벤트가 사라진 경우)
+# ══════════════════════════════════════════════════════════════
+def check_dead_cast_branches():
+    # set 소스 ① 이벤트 cast_effects.stage
+    set_pairs = set()
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            srcs = [e.get("cast_effects", {})] + \
+                   [c.get("cast_effects", {}) for c in e.get("choices", []) or []]
+            for ce in srcs:
+                if isinstance(ce, dict):
+                    for pid, pe in ce.items():
+                        if isinstance(pe, dict) and "stage" in pe:
+                            set_pairs.add((str(pid), str(pe["stage"])))
+    # set 소스 ② GameState.gd 초기/리셋 stage 리터럴 ("father":{"stage":"distant"} 등)
+    gs = os.path.join(ROOT, "autoloads", "GameState.gd")
+    casts_seen = set(pid for pid, _ in set_pairs)
+    if os.path.exists(gs):
+        gtext = open(gs, encoding="utf-8").read()
+        for pid, st in re.findall(r'"([a-z_]+)"\s*:\s*\{\s*"stage"\s*:\s*"([a-z_]+)"', gtext):
+            set_pairs.add((pid, st)); casts_seen.add(pid)
+    # 모든 인물의 초기 unknown 은 reset 경로에서 항상 set됨
+    for pid in casts_seen:
+        set_pairs.add((pid, "unknown"))
+
+    # read 소스 ① GD: get_cast_stage("pid") ... "stage"
+    GD_STAGE = re.compile(r'get_cast_stage\(\s*"([a-z_]+)"\s*\)')
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            for ln_no, line in enumerate(open(f, encoding="utf-8").read().splitlines(), 1):
+                if "audit-ignore" in line:
+                    continue
+                m = GD_STAGE.search(line)
+                if not m:
+                    continue
+                pid = m.group(1)
+                for s in re.findall(r'"([a-z_]+)"', line[m.end():]):
+                    if (pid, s) not in set_pairs:
+                        err('%s:%d  get_cast_stage("%s") 가 "%s" 와 비교하지만 이 stage를 '
+                            'set하는 이벤트가 없음 — 도달 불가 죽은 분기'
+                            % (rel(f), ln_no, pid, s))
+    # read 소스 ② conditions.cast_stage (is/in/not)
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            cs = e.get("conditions", {}).get("cast_stage", {})
+            if not (isinstance(cs, dict) and cs.get("person")):
+                continue
+            pid = str(cs["person"])
+            vals = ([cs["is"]] if "is" in cs else []) + list(cs.get("in", []))
+            # "not" 비교는 set 안 돼도 의미가 없을 뿐 도달성과 무관하므로 제외
+            for s in vals:
+                if (pid, str(s)) not in set_pairs:
+                    err('%s [%s] conditions.cast_stage 가 %s="%s" 를 요구하지만 이 stage를 '
+                        'set하는 이벤트가 없음 — 절대 발동 안 됨'
+                        % (rel(p), e.get("id", "?"), pid, s))
+
+# ══════════════════════════════════════════════════════════════
 # 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가
 #    KR 원본과 다를 경우 WARNING. (수동 번역 시 조건 불일치 회귀 방지)
 # ══════════════════════════════════════════════════════════════
@@ -577,6 +693,8 @@ def main():
     check_serialize()
     check_event_keys()
     check_cast_stages()
+    check_dead_arc_events()
+    check_dead_cast_branches()
     check_en_conditions()
 
     if errors:

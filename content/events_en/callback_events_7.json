@@ -1,20 +1,5 @@
 [
   {
-    "id": "callback_jiyeon_took_number_next",
-    "title": "Jiyeon Reaches Out",
-    "description": "Jiyeon's number you'd taken that day.\nYou'd saved it but never texted.\nToday she reached out first.\n'Hello. This is Lee Jiyeon — we exchanged cards. Could we meet?'",
-    "choices": [
-      {
-        "text": "Meet her",
-        "result_text": "Gangnam café.\nShe was direct.\n\"I have a proposal I'd like to share. Would you hear me out?\"\nTaking the number — brought this table."
-      },
-      {
-        "text": "\"A bit hard right now\" — put it off",
-        "result_text": "'I'll be in touch later.'\nJiyeon said 'Whenever you're ready.'\nThe door wasn't closed."
-      }
-    ]
-  },
-  {
     "id": "callback_jiyeon_had_coffee_echo",
     "title": "After That Conversation",
     "description": "That afternoon you had coffee with Jiyeon was a month ago.\nToday facing an investment decision, something she said came back.\n\"In this market, people are the asset.\"",
@@ -86,36 +71,6 @@
       {
         "text": "Just say \"It's going well.\"",
         "result_text": "Short answer.\nJiyeon said '...Alright.'\nAs long as that money exists, this relationship won't be simple."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_stood_ground_result",
-    "title": "What Jiyeon Saw",
-    "description": "The day you didn't back down in front of Jiyeon.\nToday a short message from her.\n'Not many people can talk to me like that.'",
-    "choices": [
-      {
-        "text": "\"I will keep talking to you like that.\"",
-        "result_text": "Jiyeon said 'I'll hold you to that.'\nIn this world, the ones who keep their lines — earn trust.\nJiyeon knew that."
-      },
-      {
-        "text": "\"Thank you.\" Short reply.",
-        "result_text": "'Thank you.'\nJiyeon read it and didn't reply further.\nSometimes fewer words are enough."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_left_first_closure",
-    "title": "That Back",
-    "description": "The day you left first.\nToday you passed near the same place.\nYou remembered Jiyeon starting to say something and then stopping.",
-    "choices": [
-      {
-        "text": "Reach out to Jiyeon",
-        "result_text": "'I should have checked in after that day.'\nJiyeon said 'At least you did now.'\nLate contact is still better than none."
-      },
-      {
-        "text": "Keep walking. It's in the past.",
-        "result_text": "You kept walking.\nWhat she'd started to say will remain unknown.\nSome things just pass."
       }
     ]
   },
