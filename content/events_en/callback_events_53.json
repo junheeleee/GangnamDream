@@ -1,0 +1,197 @@
+[
+  {
+    "id": "callback_daeun_honest_together_echo",
+    "title": "Asking If It Was Okay with Nothing to Offer",
+    "description": "The day they decided to be together, {name} asked Dae-un honestly, 'I have nothing to offer yet — is that okay?'\n\nThat honest confession comes back sometimes.\n\nToday Dae-un brought up that day.",
+    "choices": [
+      {
+        "text": "\"Glad I was honest back then.\"",
+        "result_text": "'You said you had nothing to offer — but the honesty was the biggest thing.'\n\nA relationship begun without pretense stayed sturdy even when shaken.\n{name} knows the honesty of that starting point protected them both."
+      },
+      {
+        "text": "\"Now — I've become someone who can offer a little.\"",
+        "result_text": "'I had enough back then too.'\n\nThey were empty-handed then, but the heart was real.\n{name} can now add a little means to that heart, bit by bit."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_asked_finally_echo",
+    "title": "Asking Where We're Going",
+    "description": "When things were uncertain, {name} asked Dae-un first, 'Where are we going with this?'\n\nThat courageous question comes back sometimes.\n\nToday they think about the two of them's future again.",
+    "choices": [
+      {
+        "text": "Asking then — set our direction",
+        "result_text": "Asking directly rather than enduring the ambiguity.\n\nThat question pulled the relationship out of vagueness.\n{name} felt that moment of facing it instead of avoiding was right."
+      },
+      {
+        "text": "Even now — I don't put off saying what matters",
+        "result_text": "Don't ask and there's no answer.\n\n{name} decided, as learned then, not to put off what matters.\nThat question taught that relationships grow on clarity."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_year3_stable_echo",
+    "title": "We're Going Together, We Said",
+    "description": "A few years in, {name} and Dae-un steadied each other — 'we're going together.'\n\nThat promise of companionship comes back sometimes.\n\nToday is the end of another day endured together.",
+    "choices": [
+      {
+        "text": "Because we're together — I could come this far",
+        "result_text": "Alone, it was a road that would have broken them several times.\n\nWith someone walking beside, {name} found the strength to go all the way.\nLove wasn't a burden, but sharing the same weight."
+      },
+      {
+        "text": "I want to see the end of this road — together",
+        "result_text": "The closer the arrival, the clearer the scenery seen together.\n\n{name} went further wanting to see that end with Dae-un.\nArriving alone and arriving together — the same place, yet different."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_talked_candidly_echo",
+    "title": "Saying Four Years Is a Long Time",
+    "description": "While studying together, {name} shared candid feelings with Hyun-su — 'four years is a long time.'\n\nThat sincere talk comes back sometimes.\n\nThoughts of Hyun-su came today.",
+    "choices": [
+      {
+        "text": "That candid talk — brought us close",
+        "result_text": "A conversation showing your insides without pretense deepens a relationship.\n\n{name} and Hyun-su became real friends that way.\nEven in a tiny goshiwon, honesty was a bridge between people."
+      },
+      {
+        "text": "Grateful — to who we were back then",
+        "result_text": "In a bleak time, listening to each other's hearts was great comfort.\n\n{name} felt grateful to those two.\nMemories of enduring together in the same place were a lasting asset."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_relationship_close_echo",
+    "title": "Celebrating Hyun-su's Pass",
+    "description": "When Hyun-su passed, {name} celebrated genuinely.\n\nThat moment of joy comes back sometimes.\n\nToday Hyun-su checked in.",
+    "choices": [
+      {
+        "text": "\"Your passing — felt like my own.\"",
+        "result_text": "'You congratulated me first, hyung. I won't forget that.'\n\nBeing able to rejoice at another's success without envy.\n{name} knows that's proof of a truly close bond."
+      },
+      {
+        "text": "\"We're both — doing well our own ways.\"",
+        "result_text": "'Right, hyung. Us in our own ways.'\n\nA bond that roots for each other even on different paths.\nStarting in the same goshiwon, each going well in their own way."
+      }
+    ]
+  },
+  {
+    "id": "callback_past_self_accepted_echo",
+    "title": "My Past Self Wasn't Wrong, I Said",
+    "description": "Looking at an old notebook, {name} accepted, 'my past self wasn't wrong — only the direction changed.'\n\nThat reconciliation comes back sometimes.\n\nToday they look back on past choices again.",
+    "choices": [
+      {
+        "text": "Every choice I made — built the present me",
+        "result_text": "Regretted choices and proud ones are all part of me.\n\n{name} accepted their past self instead of condemning it.\nOnly one reconciled with themselves could walk forward lightly."
+      },
+      {
+        "text": "Only the direction changed — same now",
+        "result_text": "Not wrong, just different.\n\n{name} sees the present change the same way.\nConstantly adjusting direction wasn't error, but proof of being alive."
+      }
+    ]
+  },
+  {
+    "id": "callback_success_undefined_echo",
+    "title": "Saying I Don't Know What Success Is",
+    "description": "Asked what success is, {name} answered, 'honestly I don't know yet.'\n\nThat honest not-knowing comes back sometimes.\n\nToday they think again about 'what am I heading toward.'",
+    "choices": [
+      {
+        "text": "Now I know a little — success isn't just a number",
+        "result_text": "₩3 billion is a goal, but it wasn't the whole of success.\n\n{name} knows a life unchased, a life with people beside you, is part of success too.\nTime spent carrying the question slowly built an answer."
+      },
+      {
+        "text": "Still haven't defined it — and that's okay",
+        "result_text": "Not having defined success doesn't mean being lost.\n\n{name} walked well even without a fixed answer.\nSome questions you carry for life, and that was okay too."
+      }
+    ]
+  },
+  {
+    "id": "callback_job_seeking_echo",
+    "title": "Starting the Job Search",
+    "description": "Shocked by the salary gap, {name} started preparing to switch jobs.\n\nThat resolve comes back sometimes.\n\nToday they review the direction of their career again.",
+    "choices": [
+      {
+        "text": "Moving then — prevented stagnation",
+        "result_text": "Shocked by reality and sitting still, they'd have stayed there.\n\n{name} turned that shock into action.\nNot stopping at admitting the gap, they moved to close it."
+      },
+      {
+        "text": "Prepare steadily — without rushing",
+        "result_text": "A job switch should be the result of preparation, not impulse.\n\n{name} chose steady preparation over haste.\nMove but not recklessly — that balance led to a better place."
+      }
+    ]
+  },
+  {
+    "id": "callback_parents_bankbook_echo",
+    "title": "Deciding to Be Honest",
+    "description": "When {name} learned the secret of the parents' bankbook, they decided 'to be honest when Dad comes back.'\n\nThat resolve comes back sometimes.\n\nToday they sit across from Dad again.",
+    "choices": [
+      {
+        "text": "Choosing honesty then — protected the relationship",
+        "result_text": "Hiding it might have been easier. But honesty kept the trust.\n\n{name} knows honesty is needed most among family.\nA buried secret would have ultimately made a greater distance."
+      },
+      {
+        "text": "Decide to carry the family's burden — together",
+        "result_text": "Knowing the parents' situation, they couldn't pretend not to.\n\n{name} decided not to let them carry that burden alone.\nOne reason for heading to Gangnam was, in the end, those people."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeongseon_quit_vow_echo",
+    "title": "The Vow Never to Return",
+    "description": "After a big loss in Jeongseon, boarding the bus, {name} vowed, 'never again, for real.'\n\nWas that vow kept?\n\nToday gambling's temptation beckons from afar.",
+    "choices": [
+      {
+        "text": "I kept — that vow",
+        "result_text": "The vow made on the bus, {name} kept.\n\nA vow isn't spoken but kept daily.\nThat last bus from Jeongseon was the starting line of a different life."
+      },
+      {
+        "text": "When shaken — I recall that bus",
+        "result_text": "Temptation never fully vanishes. But it became manageable.\n\nWhenever shaken, {name} recalls the self on that bus.\nThe memory of seeing the bottom held them back from that road again."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeongseon_self_aware_echo",
+    "title": "Deciding to Keep Distance",
+    "description": "Feeling the warning of addiction, {name} decided 'to keep some distance, not to go for a month.'\n\nThat self-awareness comes back sometimes.\n\nToday they sense that temptation's signal again.",
+    "choices": [
+      {
+        "text": "Keeping distance myself — protected me",
+        "result_text": "Addiction wasn't an inability to quit, but an inability to keep distance.\n\n{name} sensed the danger early and stopped themselves.\nThe ability to see one's state objectively was the most powerful brake."
+      },
+      {
+        "text": "That sense of awareness — I still use",
+        "result_text": "The antenna that catches danger signals saved {name} several times.\n\nNot just gambling — the same sense worked before reckless investing or overwork.\nThe power to monitor oneself was a survival skill that worked anywhere."
+      }
+    ]
+  },
+  {
+    "id": "callback_enrolled_english_echo",
+    "title": "Enrolling in the English Class",
+    "description": "{name} once enrolled in an English class, calling it 'an investment.'\n\nThat resolve to learn comes back sometimes.\n\nToday they stand at a self-development fork.",
+    "choices": [
+      {
+        "text": "Investing in myself — was the surest investment",
+        "result_text": "Stocks rise and fall, but what's learned doesn't vanish.\n\n{name} knows investing in their own capacity was the safest asset.\nThe market may betray you, but skill doesn't."
+      },
+      {
+        "text": "Check if I enrolled and never did it",
+        "result_text": "Enrolling is payment, not willpower.\n\n{name} honestly reviewed whether they'd finished what they started.\nReal investment wasn't the enrollment fee, but the time steadily put in."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_coding_course_echo",
+    "title": "Buying the Coding Course",
+    "description": "{name} once bought a coding course, calling it 'a ₩1,900 investment.'\n\nThat small start comes back sometimes.\n\nToday they consider learning a new skill.",
+    "choices": [
+      {
+        "text": "Starting even small — opened possibilities",
+        "result_text": "Where a ₩1,900 start would lead, no one knew.\n\n{name} knows the value of a small beginning.\nBig change always started with one trivial-looking payment."
+      },
+      {
+        "text": "Now — focus on actually using what I learned",
+        "result_text": "Listening to a course and using it are different.\n\n{name} decided to connect input to output rather than just pile up input.\nLearning became an asset only when used."
+      }
+    ]
+  }
+]

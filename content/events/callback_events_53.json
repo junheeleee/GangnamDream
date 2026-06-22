@@ -1,0 +1,562 @@
+[
+  {
+    "id": "callback_daeun_honest_together_echo",
+    "title": "해줄 게 없는데 괜찮냐던 것",
+    "background": "goshiwon_room",
+    "portrait": "daeun_smile",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_honest_together",
+      "min_turn": 50
+    },
+    "tags": ["callback", "daeun", "romance", "story"],
+    "cooldown": 999,
+    "description": "다은과 함께하기로 한 날, {name}은 '내가 아직 해줄 수 있는 게 없는데 — 그래도 괜찮아?'라고 솔직하게 물었었다.\n\n그 솔직한 고백이 가끔 떠오른다.\n\n오늘 다은이 그날을 꺼냈다.",
+    "choices": [
+      {
+        "text": "\"그때 솔직하게 말하길 잘했어.\"",
+        "effects": {
+          "mental": 7
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 6
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"해줄 게 없다고 했지만 — 솔직함이 제일 큰 거였어.\"\n\n포장하지 않고 시작한 관계라, 흔들려도 단단했다.\n{name}은 그 출발점의 정직함이 둘을 지켰다는 걸 안다."
+      },
+      {
+        "text": "\"이젠 — 조금은 해줄 수 있는 사람이 됐어.\"",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"난 그때도 충분했는데.\"\n\n그때는 빈손이었지만, 마음만은 진짜였다.\n{name}은 이제 그 마음에 조금씩 형편을 더해갈 수 있게 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_asked_finally_echo",
+    "title": "우리 어떻게 할 거냐고 물은 것",
+    "background": "street",
+    "portrait": "daeun_normal",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_asked_finally",
+      "min_turn": 50
+    },
+    "tags": ["callback", "daeun", "romance", "story"],
+    "cooldown": 999,
+    "description": "관계가 불확실하던 시기, {name}은 다은에게 '우리 어떻게 할 거예요?'라고 먼저 물었었다.\n\n그 용기 낸 질문이 가끔 떠오른다.\n\n오늘 또 둘의 미래를 생각한다.",
+    "choices": [
+      {
+        "text": "그때 물어본 게 — 둘의 방향을 정했다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "애매함을 견디기보다 직접 물은 것.\n\n그 질문이 둘의 관계를 모호함에서 끄집어냈다.\n{name}은 회피하지 않고 마주한 그 순간이 옳았다고 느꼈다."
+      },
+      {
+        "text": "지금도 — 중요한 건 미루지 않고 말한다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "묻지 않으면 답도 없다.\n\n{name}은 그때 배운 대로, 중요한 건 미루지 않고 말하기로 했다.\n관계는 명확함 위에서 자란다는 걸, 그 질문이 가르쳐줬다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_year3_stable_echo",
+    "title": "같이 가는 거라던 것",
+    "background": "apartment",
+    "portrait": "daeun_smile",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_year3_stable",
+      "min_turn": 145
+    },
+    "tags": ["callback", "daeun", "romance", "story"],
+    "cooldown": 999,
+    "description": "함께한 지 몇 년, {name}과 다은은 '같이 가는 거잖아요'라며 서로를 다잡았었다.\n\n그 동행의 약속이 가끔 떠오른다.\n\n오늘 또 둘이 함께 견디는 하루의 끝이다.",
+    "choices": [
+      {
+        "text": "함께라서 — 여기까지 올 수 있었다",
+        "effects": {
+          "mental": 7
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 6
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자였다면 몇 번은 무너졌을 길이었다.\n\n곁에서 같이 걸어준 사람이 있어, {name}은 끝까지 갈 힘을 냈다.\n사랑은 짐이 아니라, 같은 무게를 나눠 드는 거였다."
+      },
+      {
+        "text": "이 길의 끝을 — 함께 보고 싶다",
+        "effects": {
+          "mental": 6,
+          "investment_skill": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "도착이 가까워질수록, 함께 본 풍경이 더 선명해진다.\n\n{name}은 그 끝을 다은과 함께 보겠다는 마음으로 더 갔다.\n혼자 도착하는 것과 함께 도착하는 건, 같은 곳이어도 달랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_talked_candidly_echo",
+    "title": "4년이면 오래됐다던 말",
+    "background": "goshiwon_room",
+    "portrait": "hyunsu",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hyunsu_talked_candidly",
+      "min_turn": 40
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "현수와 함께 공부하던 시기, {name}은 '4년이면 오래됐다'며 솔직한 속내를 나눴었다.\n\n그 진솔한 대화가 가끔 떠오른다.\n\n오늘 또 현수 생각이 났다.",
+    "choices": [
+      {
+        "text": "솔직하게 나눈 그 대화가 — 우릴 가깝게 했다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "포장 없이 속을 보여준 대화는, 관계를 깊게 만든다.\n\n{name}과 현수는 그렇게 진짜 친구가 됐다.\n좁은 고시원에서도, 솔직함은 사람을 잇는 다리였다."
+      },
+      {
+        "text": "그 시절의 우리에게 — 고맙다",
+        "effects": {
+          "mental": 6
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "막막하던 시절, 서로의 속내를 들어준 게 큰 위로였다.\n\n{name}은 그때의 두 사람에게 고마움을 느꼈다.\n같은 자리에서 같이 버틴 기억은, 오래 남는 자산이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_relationship_close_echo",
+    "title": "현수의 합격을 축하한 것",
+    "background": "goshiwon_room",
+    "portrait": "hyunsu",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hyunsu_relationship_close",
+      "min_turn": 50
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "현수가 합격했을 때, {name}은 진심으로 축하해줬었다.\n\n그 순간의 기쁨이 가끔 떠오른다.\n\n오늘 현수에게서 안부가 왔다.",
+    "choices": [
+      {
+        "text": "\"네 합격이 — 내 일처럼 기뻤어.\"",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"형이 제일 먼저 축하해줬잖아요. 그거 안 잊어요.\"\n\n남의 성공을 질투 없이 기뻐할 수 있다는 것.\n{name}은 그게 진짜 가까운 사이의 증거라는 걸 안다."
+      },
+      {
+        "text": "\"우리 둘 다 — 각자 잘 가고 있다.\"",
+        "effects": {
+          "mental": 6
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"맞아요 형. 우린 우리대로.\"\n\n다른 길을 가도 서로를 응원하는 사이.\n같은 고시원에서 시작해, 각자의 방식으로 잘 가고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_past_self_accepted_echo",
+    "title": "그때의 나는 틀리지 않았다던 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "past_self_accepted",
+      "min_turn": 40
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "옛 수첩을 보며, {name}은 '그때의 나는 틀리지 않았다, 방향만 달라진 것뿐'이라고 받아들였었다.\n\n그 화해의 순간이 가끔 떠오른다.\n\n오늘 또 과거의 선택을 돌아본다.",
+    "choices": [
+      {
+        "text": "지나온 모든 선택이 — 지금의 나를 만들었다",
+        "effects": {
+          "mental": 7,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "후회되는 선택도, 자랑스러운 선택도 모두 나의 일부다.\n\n{name}은 과거의 자신을 단죄하지 않고 받아들였다.\n자기 자신과 화해한 사람만이, 앞으로 가볍게 걸을 수 있었다."
+      },
+      {
+        "text": "방향이 달라진 것뿐 — 지금도 그렇다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "틀린 게 아니라 달라진 것.\n\n{name}은 지금의 변화도 같은 눈으로 본다.\n끊임없이 방향을 조정하는 게, 틀림이 아니라 살아있다는 증거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_success_undefined_echo",
+    "title": "성공이 뭔지 모르겠다던 것",
+    "background": "pojangmacha",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "success_undefined",
+      "min_turn": 60
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "성공이 뭐냐는 질문에, {name}은 '솔직히 잘 모르겠다, 아직'이라고 답했었다.\n\n그 솔직한 모름이 가끔 떠오른다.\n\n오늘 또 '나는 무엇을 향해 가나'를 생각한다.",
+    "choices": [
+      {
+        "text": "이젠 조금 안다 — 성공은 숫자만이 아니다",
+        "effects": {
+          "mental": 7,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "30억은 목표지만, 그게 성공의 전부는 아니었다.\n\n{name}은 쫓기지 않는 삶, 곁에 사람이 있는 삶도 성공의 일부임을 안다.\n질문을 안고 걸어온 시간이, 답을 조금씩 만들어줬다."
+      },
+      {
+        "text": "아직도 정의는 못 했다 — 그래도 괜찮다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "성공의 정의를 못 내렸다는 게, 길을 잃었다는 뜻은 아니다.\n\n{name}은 답을 정하지 않은 채로도 잘 걸어왔다.\n어떤 질문은 평생 안고 가는 거였고, 그것도 괜찮았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_job_seeking_echo",
+    "title": "이직 준비를 시작한 것",
+    "background": "goshiwon_room",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "job_seeking",
+      "min_turn": 26
+    },
+    "tags": ["callback", "job", "story"],
+    "cooldown": 999,
+    "description": "연봉 격차에 충격을 받고, {name}은 이직 준비를 시작했었다.\n\n그 결심이 가끔 떠오른다.\n\n오늘 또 커리어의 방향을 점검한다.",
+    "choices": [
+      {
+        "text": "그때 움직인 게 — 정체를 막았다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현실에 충격받고 가만히 있었다면, 거기 머물렀을 것이다.\n\n{name}은 그 충격을 행동으로 바꿨다.\n격차를 인정하는 데서 멈추지 않고, 그걸 좁히러 움직였다."
+      },
+      {
+        "text": "준비는 꾸준히 — 조급하진 않게 한다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이직은 충동이 아니라 준비의 결과여야 한다.\n\n{name}은 조급함 대신 꾸준한 준비를 택했다.\n움직이되 무모하지 않게 — 그 균형이 더 좋은 자리로 이끌었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_parents_bankbook_echo",
+    "title": "솔직하게 말하기로 한 것",
+    "background": "goshiwon_room",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "talked_about_parents_bankbook",
+      "min_turn": 40
+    },
+    "tags": ["callback", "father", "story", "family"],
+    "cooldown": 999,
+    "description": "부모님 통장의 비밀을 알게 됐을 때, {name}은 '아버지가 돌아오면 솔직하게 말하기로' 했었다.\n\n그 다짐이 가끔 떠오른다.\n\n오늘 또 아버지와 마주 앉는다.",
+    "choices": [
+      {
+        "text": "그때 솔직함을 택한 게 — 관계를 지켰다",
+        "effects": {
+          "mental": 6
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "숨기는 게 더 편했을 수도 있다. 하지만 솔직함이 신뢰를 지켰다.\n\n{name}은 가족 사이일수록 정직이 필요하다는 걸 안다.\n묻어둔 비밀은 결국 더 큰 거리를 만들었을 것이다."
+      },
+      {
+        "text": "가족의 짐을 — 함께 지기로 한다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "부모님의 사정을 안 이상, 모른 척할 수 없었다.\n\n{name}은 그 짐을 혼자 지게 두지 않기로 했다.\n강남을 향하는 이유 중 하나가, 결국 그 사람들이었으니까."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeongseon_quit_vow_echo",
+    "title": "다시는 안 간다던 다짐",
+    "background": "jeongseon_casino_exterior",
+    "portrait": "player_determined",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "jeongseon_quit_vow",
+      "min_turn": 40
+    },
+    "tags": ["callback", "gambling", "story"],
+    "cooldown": 999,
+    "description": "정선에서 크게 잃고 버스에 오르며, {name}은 '다시는 안 간다, 진짜로'라고 다짐했었다.\n\n그 다짐은 지켜졌나.\n\n오늘 또 도박의 유혹이 멀리서 손짓한다.",
+    "choices": [
+      {
+        "text": "그 다짐을 — 지켜왔다",
+        "effects": {
+          "mental": 7,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "버스 안에서 한 다짐을, {name}은 지켜냈다.\n\n다짐은 말하는 게 아니라 매일 지키는 거였다.\n그 정선의 마지막 버스가, 다른 인생의 출발선이었다."
+      },
+      {
+        "text": "흔들릴 때마다 — 그날 버스를 떠올린다",
+        "effects": {
+          "mental": 6,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "유혹은 완전히 사라지지 않는다. 다만 다룰 수 있게 됐다.\n\n{name}은 흔들릴 때마다 그 버스 안의 자신을 떠올린다.\n바닥을 봤던 기억이, 다시 그 길로 안 가게 잡아줬다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jeongseon_self_aware_echo",
+    "title": "거리를 두기로 한 것",
+    "background": "jeongseon_casino_entrance",
+    "portrait": "player_normal",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "jeongseon_self_aware",
+      "min_turn": 40
+    },
+    "tags": ["callback", "gambling", "story"],
+    "cooldown": 999,
+    "description": "중독 경고를 느꼈을 때, {name}은 '좀 거리를 두자, 한 달은 안 가기로' 했었다.\n\n그 자각이 가끔 떠오른다.\n\n오늘 또 그 유혹의 신호를 감지한다.",
+    "choices": [
+      {
+        "text": "스스로 거리를 둔 게 — 자신을 지켰다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "중독은 못 끊는 게 아니라, 거리를 못 두는 거였다.\n\n{name}은 위험을 일찍 자각하고 스스로 멈췄다.\n자기 상태를 객관적으로 보는 능력이, 가장 강력한 브레이크였다."
+      },
+      {
+        "text": "그 자각의 감각을 — 지금도 쓴다",
+        "effects": {
+          "mental": 6,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "위험 신호를 알아채는 그 더듬이가, {name}을 여러 번 구했다.\n\n도박만이 아니라, 무리한 투자나 과로 앞에서도 같은 감각이 작동했다.\n자신을 모니터링하는 힘은, 어디서나 통하는 생존 기술이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_enrolled_english_echo",
+    "title": "영어 수업에 등록한 것",
+    "background": "library",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "enrolled_english",
+      "min_turn": 28
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '투자다'라며 영어 수업에 등록했었다.\n\n그 배움의 결심이 가끔 떠오른다.\n\n오늘 또 자기계발의 갈림길에 섰다.",
+    "choices": [
+      {
+        "text": "자신에 대한 투자가 — 가장 확실한 투자였다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "주식은 오르내려도, 배운 건 사라지지 않는다.\n\n{name}은 자기 역량에 투자한 게 가장 안전한 자산이었음을 안다.\n시장은 배신해도, 실력은 배신하지 않았다."
+      },
+      {
+        "text": "등록만 하고 안 한 건 없는지 — 점검한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "등록은 의지가 아니라 결제일 뿐이다.\n\n{name}은 시작한 걸 끝까지 했는지 솔직하게 돌아봤다.\n진짜 투자는 등록비가 아니라, 꾸준히 들인 시간이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_coding_course_echo",
+    "title": "코딩 강의를 결제한 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "bought_coding_course",
+      "min_turn": 24
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '1,900원짜리 투자'라며 코딩 강의를 결제했었다.\n\n그 작은 시작이 가끔 떠오른다.\n\n오늘 또 새로운 기술을 배울지 고민한다.",
+    "choices": [
+      {
+        "text": "작게라도 시작한 게 — 가능성을 열었다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "1,900원으로 시작한 배움이, 어디로 이어질지는 아무도 몰랐다.\n\n{name}은 작은 시작의 가치를 안다.\n큰 변화는 늘 사소해 보이는 결제 한 번에서 시작됐다."
+      },
+      {
+        "text": "이젠 — 배운 걸 실제로 써먹는 데 집중한다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "강의를 듣는 것과 써먹는 건 다르다.\n\n{name}은 인풋만 쌓지 않고, 아웃풋으로 연결하는 데 집중하기로 했다.\n배움은 쓰일 때 비로소 자산이 됐다."
+      }
+    ]
+  }
+]
