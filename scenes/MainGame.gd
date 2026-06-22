@@ -491,7 +491,7 @@ func _build_top_bar(parent):
 	var mp_lbl = _hud_chip(vitals_row, "mental", "#93c5fd", 78, false)
 	top_labels["vital_mental"] = mp_lbl
 
-	var money_lbl = _hud_chip(row, "money", "#00c896", 180, false)
+	var money_lbl = _hud_chip(row, "money", "#00c896", 210, false)
 	top_labels["money"] = money_lbl
 
 	var info_btn = _small_button(_tr("정보", "Info"), "#1e2a3a")
@@ -890,8 +890,8 @@ func _build_goal_bar(parent: Control) -> void:
 	row.custom_minimum_size = Vector2(0, 18)
 	row_panel.add_child(row)
 
-	_goal_money_lbl = _label(_tr("자산 50만", "Assets ₩500K"), 11, "#9aa4b8")
-	_goal_money_lbl.custom_minimum_size = Vector2(148, 0)
+	_goal_money_lbl = _label(_tr("자산 50만", "Assets KRW 500K"), 11, "#9aa4b8")
+	_goal_money_lbl.custom_minimum_size = Vector2(210, 0)
 	row.add_child(_goal_money_lbl)
 
 	var bar_wrap = PanelContainer.new()
@@ -928,8 +928,8 @@ func _build_goal_bar(parent: Control) -> void:
 	_goal_pct_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	row.add_child(_goal_pct_label)
 
-	var goal_lbl = _label(_tr("목표 30억", "Goal ₩3B"), 11, "#f0b429")
-	goal_lbl.custom_minimum_size = Vector2(76, 0)
+	var goal_lbl = _label(_tr("목표 30억", "Goal KRW 3B"), 11, "#f0b429")
+	goal_lbl.custom_minimum_size = Vector2(92, 0)
 	goal_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(goal_lbl)
 
@@ -989,15 +989,15 @@ func _refresh_goal_bar() -> void:
 	if _goal_money_lbl:
 		var milestone_text: String
 		if total < 100_000_000:
-			milestone_text = _tr("→ 1억", "→ ₩100M")
+			milestone_text = _tr("→ 1억", "→ KRW 100M")
 		elif total < 500_000_000:
-			milestone_text = _tr("→ 5억", "→ ₩500M")
+			milestone_text = _tr("→ 5억", "→ KRW 500M")
 		elif total < 1_000_000_000:
-			milestone_text = _tr("→ 10억", "→ ₩1B")
+			milestone_text = _tr("→ 10억", "→ KRW 1B")
 		elif total < 2_000_000_000:
-			milestone_text = _tr("→ 20억", "→ ₩2B")
+			milestone_text = _tr("→ 20억", "→ KRW 2B")
 		else:
-			milestone_text = _tr("→ 30억!", "→ ₩3B!")
+			milestone_text = _tr("→ 30억!", "→ KRW 3B!")
 		_goal_money_lbl.text = "%s  %s" % [GameState.format_money(total), milestone_text]
 
 	# 남은 시간 레이블 (시간 압박 가시화)
@@ -1038,16 +1038,16 @@ func _show_tutorial() -> void:
 		modal_scroll.custom_minimum_size = Vector2(0, 300)
 
 	var intro_lbl := _wrap_label(
-		_tr("33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.",
-			"Age 33, ₩500K in the bank. Build ₩3B in assets within 5 years and make it to Gangnam."),
-		14, "#d8deea")
+	_tr("33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.",
+		"Age 33, KRW 500K in the bank. Build KRW 3B in assets within 5 years and make it to Gangnam."),
+	14, "#d8deea")
 	if _font_bold:
 		intro_lbl.add_theme_font_override("font", _font_bold)
 	modal_body.add_child(intro_lbl)
-	modal_body.add_child(_tutorial_card("goal", _tr("목표", "Goal"), _tr("자산 30억. 시간은 60개월뿐입니다.", "₩3B in assets. You have only 60 months."), "#f0b429"))
+	modal_body.add_child(_tutorial_card("goal", _tr("목표", "Goal"), _tr("자산 30억. 시간은 60개월뿐입니다.", "KRW 3B in assets. You have only 60 months."), "#f0b429"))
 	modal_body.add_child(_tutorial_card("ap", _tr("행동", "Actions"), _tr("매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.", "Each week, spend AP on Job Hunt, Invest, Self-Dev, Rest, or mini-games."), "#5b9cf6"))
 	modal_body.add_child(_tutorial_card("invest", _tr("방향", "Approach"), _tr("안정 루트는 느리지만 버팁니다. 속도 루트는 빠르지만 한 번에 무너질 수 있습니다.", "The steady route is slow but durable. The fast route is quick but can collapse in one blow."), "#00c896"))
-	modal_body.add_child(_tutorial_card("health", _tr("위험", "Danger"), _tr("건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.", "It's over if Health/Mental hits 0, or if debt exceeds -₩100M."), "#ff6b6b"))
+	modal_body.add_child(_tutorial_card("health", _tr("위험", "Danger"), _tr("건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.", "It's over if Health/Mental hits 0, or if debt exceeds -KRW 100M."), "#ff6b6b"))
 	modal_body.add_child(_wrap_label(
 		_tr("첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.",
 			"Week 1 tip: use Job Hunt to first escape having zero income."),
@@ -2136,7 +2136,7 @@ func _on_next_month():
 		var subsidy_applied = GameState.month <= 1
 		if subsidy_applied:
 			GameState.add_money(300_000.0)
-			GameState.add_log(_tr("초기 정착 지원금 30만원 수령", "Received ₩300,000 initial settlement subsidy"), "system")
+			GameState.add_log(_tr("초기 정착 지원금 30만원 수령", "Received KRW 300,000 initial settlement subsidy"), "system")
 
 		var snap = {
 			"date": GameState.get_date_string(),
@@ -2509,7 +2509,7 @@ const _STAT_EN = {
 	"intelligence": "Intelligence", "social_skill": "Social",
 	"investment_skill": "Investing", "luck": "Luck",
 	"appearance": "Appearance", "reputation": "Reputation",
-	"money": "₩", "addiction_tendency": "Addiction",
+	"money": "KRW", "addiction_tendency": "Addiction",
 }
 
 const _STAT_EMOJI = {
@@ -3065,9 +3065,9 @@ func _refresh_arc_box() -> void:
 				{"label": _tr("첫 만남", "First Meeting"), "done": f.get("arc_sangchul_met_seen", false)},
 				{"label": _tr("투자 조언", "Investment Advice"), "done": f.get("arc_invest_guidance_seen", false)},
 				{"label": _tr("두 번째 커피", "Second Coffee"), "done": f.get("arc_sangchul_02_seen", false)},
-				{"label": _tr("네트워크 입성 (자산 100만+ 필요)", "Join Network (₩1M+ assets needed)"), "done": f.get("arc_sangchul_03_seen", false)},
+				{"label": _tr("네트워크 입성 (자산 100만+ 필요)", "Join Network (KRW 1M+ assets needed)"), "done": f.get("arc_sangchul_03_seen", false)},
 			],
-			"hint": (_tr("자산 100만원 이상이면 다음 단계 진행 가능", "₩1M+ assets unlocks the next step") if f.get("arc_sangchul_02_seen", false) and not f.get("arc_sangchul_03_seen", false) and GameState.get_total_asset_value() < 1_000_000 else _tr("10개월차 이후 자동 만남", "Auto-meeting after month 10")) if not f.get("arc_sangchul_met_seen", false) else "",
+			"hint": (_tr("자산 100만원 이상이면 다음 단계 진행 가능", "KRW 1M+ assets unlocks the next step") if f.get("arc_sangchul_02_seen", false) and not f.get("arc_sangchul_03_seen", false) and GameState.get_total_asset_value() < 1_000_000 else _tr("10개월차 이후 자동 만남", "Auto-meeting after month 10")) if not f.get("arc_sangchul_met_seen", false) else "",
 		},
 		{
 			"name": _tr("강현수 (친구)", "Kang Hyunsu (Friend)"),
@@ -3259,7 +3259,7 @@ func _render_ap_actions():
 	# ── 경고 ──
 	var has_warning := false
 	if GameState.current_job.is_empty():
-		lines.append(_tr("[color=#ff7070]⚠  직업 없음[/color]  — 수입 0원. 구직활동을 먼저 하세요!", "[color=#ff7070]⚠  No job[/color]  — ₩0 income. Do a Job Hunt first!"))
+		lines.append(_tr("[color=#ff7070]⚠  직업 없음[/color]  — 수입 0원. 구직활동을 먼저 하세요!", "[color=#ff7070]⚠  No job[/color]  — KRW 0 income. Do a Job Hunt first!"))
 		has_warning = true
 	if GameState.health <= 45:
 		lines.append(_tr("[color=#ff4444]🚨  건강 %d / 100[/color]  — 위험!", "[color=#ff4444]🚨  Health %d / 100[/color]  — Danger!") % GameState.health)
@@ -3322,14 +3322,14 @@ func _render_ap_actions():
 		hint_text = _tr("👋 이번 달 상황에 반응하거나, 아래 [💼 구직활동]으로 일자리부터 구하세요.", "👋 React to this month's situation, or get a job first via [💼 Job Hunt] below.")
 		hint_color = "#00c896"
 	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
-		hint_text = _tr("⚠ 수입 0원 — 아래 [💼 구직활동]으로 취업하세요!", "⚠ ₩0 income — get a job via [💼 Job Hunt] below!")
+		hint_text = _tr("⚠ 수입 0원 — 아래 [💼 구직활동]으로 취업하세요!", "⚠ KRW 0 income — get a job via [💼 Job Hunt] below!")
 		hint_color = "#ef4444"
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
 		hint_text = _tr("💳 첫 월급 수령 — 이제 [📈 투자]도 가능합니다.", "💳 First paycheck received — [📈 Invest] is now available.")
 		hint_color = "#00c896"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
-		hint_text = _tr("🎯 목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "🎯 Goal: ₩3B assets → enter Gangnam (%d years left)") % max(0, 38 - GameState.age)
+		hint_text = _tr("🎯 목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "🎯 Goal: KRW 3B assets → enter Gangnam (%d years left)") % max(0, 38 - GameState.age)
 		hint_color = "#c9a227"
 
 	if not hint_text.is_empty():
@@ -3375,7 +3375,7 @@ func _recommend_action() -> String:
 	if no_job:
 		if intel >= 35:
 			return _tr("💼 구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터", "💼 Job Hunt  →  Intelligence %d qualifies for office jobs. Start with a resume") % intel
-		return _tr("💼 구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저", "💼 Job Hunt  →  Escaping ₩0 income is priority. Even a part-time job first")
+		return _tr("💼 구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저", "💼 Job Hunt  →  Escaping KRW 0 income is priority. Even a part-time job first")
 	if GameState.mental <= 50:
 		return _tr("🌊 휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략", "🌊 Rest  →  Mental %d. Stopping before burnout is strategy") % GameState.mental
 	if not has_paycheck:
@@ -3413,7 +3413,7 @@ func _recommend_action() -> String:
 		if total < 1_000_000_000:
 			return _tr("⏰ 남은 %d개월  →  투자 레버리지나 고수익 루트가 필요한 시점입니다", "⏰ %d months left  →  Time for investment leverage or a high-yield route") % remaining
 		if total < 3_000_000_000:
-			return _tr("🏙 남은 %d개월  →  30억까지 %s. 지금 루트를 유지하면 보입니다", "🏙 %d months left  →  %s to ₩3B. Stay on course and it's in reach") % [remaining, GameState.format_money(3_000_000_000.0 - total)]
+			return _tr("🏙 남은 %d개월  →  30억까지 %s. 지금 루트를 유지하면 보입니다", "🏙 %d months left  →  %s to KRW 3B. Stay on course and it's in reach") % [remaining, GameState.format_money(3_000_000_000.0 - total)]
 
 	if total < 1_000_000:
 		return _tr("💼 구직활동  →  자산 %s. 수입부터 늘려야 합니다", "💼 Job Hunt  →  Assets %s. You need to grow income first") % GameState.format_money(total)
@@ -3442,7 +3442,7 @@ func _month_narration() -> String:
 	if GameState.current_job.is_empty() and me > 2:
 		if me > 20:
 			return _tr("아직도 직업이 없다. 서울은 기다려주지 않는다.", "Still no job. Seoul doesn't wait for anyone.")
-		return _tr("수입은 0원. 통장은 매일 조금씩 줄어든다.", "Income is ₩0. The bank account shrinks a little each day.")
+		return _tr("수입은 0원. 통장은 매일 조금씩 줄어든다.", "Income is KRW 0. The bank account shrinks a little each day.")
 
 	# ── 아버지 아크 ──────────────────────────────────
 	if f.get("father_reconciled", false) and me >= 35:
@@ -3467,11 +3467,11 @@ func _month_narration() -> String:
 	if total >= 2_500_000_000.0:
 		return _tr("강남이 손에 잡힐 것 같다. 진짜 될 것 같다.", "Gangnam feels within reach. It might actually happen.")
 	if total >= 1_000_000_000.0:
-		return _tr("10억을 넘었다. 이 숫자가 현실인지 아직 믿기지 않는다.", "Passed ₩1B. I still can't believe this number is real.")
+		return _tr("10억을 넘었다. 이 숫자가 현실인지 아직 믿기지 않는다.", "Passed KRW 1B. I still can't believe this number is real.")
 	if total >= 500_000_000.0:
-		return _tr("5억. 서울에서 이 숫자가 이렇게 무거울 줄 몰랐다.", "₩500M. I never knew this number could feel so heavy in Seoul.")
+		return _tr("5억. 서울에서 이 숫자가 이렇게 무거울 줄 몰랐다.", "KRW 500M. I never knew this number could feel so heavy in Seoul.")
 	if total >= 100_000_000.0:
-		return _tr("1억을 넘었다. 작은 것 같지만, 여기서부터가 진짜다.", "Passed ₩100M. It seems small, but the real game starts here.")
+		return _tr("1억을 넘었다. 작은 것 같지만, 여기서부터가 진짜다.", "Passed KRW 100M. It seems small, but the real game starts here.")
 
 	# ── 경과 개월 기반 내레이션 (마일스톤 / 후반 긴장) ────
 	if me >= 60:
@@ -4065,14 +4065,14 @@ func _open_cat_money():
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
 	var no_job = GameState.current_job.is_empty()
 	_open_modal(_tr("돈 · 투자", "Money · Invest"))
-	modal_body.add_child(_wrap_label(_tr("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", "A salary alone won't reach ₩3B. Make money work for you."), 13, "#7a8496"))
+	modal_body.add_child(_wrap_label(_tr("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", "A salary alone won't reach KRW 3B. Make money work for you."), 13, "#7a8496"))
 	if GameState.flags.get("arc_invest_guidance_seen", false):
 		_cat_modal_button(_tr("투자 집중  —  매수·매도 (투자감각 %d)", "Focus on investing  —  buy·sell (Investing %d)") % GameState.investment_skill, "#3a8a5a", "_ap_invest")
 	elif has_paycheck:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 상철과의 대화 후 가능하다.", "Locked: investing unlocks after talking with Sangchul."), 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 첫 월급을 받은 뒤 가능하다.", "Locked: investing unlocks after your first paycheck."), 12, "#5a5a6a"))
-	var side_label = _tr("단기 알바  —  40만원+ (건강-3, 정신력 변동)", "Gig work  —  ₩400K+ (Health -3, Mental varies)") if no_job else _tr("부업/사이드  —  추가 수입 도전", "Side hustle  —  chase extra income")
+	var side_label = _tr("단기 알바  —  40만원+ (건강-3, 정신력 변동)", "Gig work  —  KRW 400K+ (Health -3, Mental varies)") if no_job else _tr("부업/사이드  —  추가 수입 도전", "Side hustle  —  chase extra income")
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
 	_cat_modal_button(_tr("저축/절약  —  자금 절약, 정신력 -2", "Save/cut back  —  save cash, Mental -2"), "#3a6ea8", "_ap_save_money")
 
@@ -5265,14 +5265,14 @@ func _open_investments():
 		modal_body.add_child(_modal_section_header(_tr("투자 첫 방문", "First Visit"), "info", "#f0b429", _tr("처음엔 낮은 리스크 자산에 소액부터 진입하세요.", "Start with small amounts in low-risk assets.")))
 		modal_body.add_child(_wrap_label(
 			_tr("핵심만 기억하세요: 공포가 낮을 때 분할 매수, 탐욕이 높을 때 일부 매도.\n레버리지는 수익과 손실이 모두 2배라 입문자는 피하는 편이 안전합니다.\n처음엔 리스크 ●●○○○ 이하 자산에 10~20만원 단위로 작게 시작하세요.",
-			"Remember the basics: scale in when Fear is low, trim positions when Greed is high.\nLeverage doubles both gains and losses, so beginners should avoid it.\nStart small, ₩100k-200k at a time, in assets rated risk ●●○○○ or lower."),
+			"Remember the basics: scale in when Fear is low, trim positions when Greed is high.\nLeverage doubles both gains and losses, so beginners should avoid it.\nStart small, KRW 100k-200k at a time, in assets rated risk ●●○○○ or lower."),
 			14, "#a7b0c2"))
 		var guide_sep0 = HSeparator.new()
 		guide_sep0.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(guide_sep0)
 	elif GameState.investment_skill < 25:
 		modal_body.add_child(_wrap_label(
-			_tr("투자 입문: 투자감각이 낮을수록 거래 수수료가 높습니다.\n    리스크 ●●○○○ 이하 자산부터 소액(10만원)으로 시작해보세요.", "Investing basics: the lower your investing sense, the higher the fees.\n    Start small (₩100k) with assets rated risk ●●○○○ or below."),
+			_tr("투자 입문: 투자감각이 낮을수록 거래 수수료가 높습니다.\n    리스크 ●●○○○ 이하 자산부터 소액(10만원)으로 시작해보세요.", "Investing basics: the lower your investing sense, the higher the fees.\n    Start small (KRW 100k) with assets rated risk ●●○○○ or below."),
 			13, "#f0b429"))
 		var guide_sep = HSeparator.new()
 		guide_sep.add_theme_color_override("color", Color("#252535"))
@@ -6022,7 +6022,7 @@ func _show_ending(ending_id):
 		modal_body.add_child(unlock_sep)
 		modal_body.add_child(_label(_tr("🔓 이번 런 해금", "🔓 Unlocked This Run"), 15, "#f0b429"))
 		var ach_names = {
-			"first_billion":     _tr("첫 1억 달성", "First ₩100M"),
+			"first_billion":     _tr("첫 1억 달성", "First KRW 100M"),
 			"stable_life":       _tr("안정적인 삶", "A Stable Life"),
 			"gangnam_dream":     _tr("강남드림 달성", "Gangnam Dream Achieved"),
 			"survived_burnout":  _tr("번아웃 생존", "Survived Burnout"),
@@ -6129,13 +6129,13 @@ func _ending_run_summary(ending_id: String) -> String:
 			else:
 				return _tr("5년의 고군분투 끝에 강남드림을 이뤘다", "After five years of struggle, the Gangnam Dream came true.")
 		"instant_legend":
-			return _tr("고시원 백수가 첫 해에 30억을 만들었다 — 아무도 믿지 않을 것이다", "A jobless goshiwon dweller made ₩3B in the first year — no one will believe it.")
+			return _tr("고시원 백수가 첫 해에 30억을 만들었다 — 아무도 믿지 않을 것이다", "A jobless goshiwon dweller made KRW 3B in the first year — no one will believe it.")
 		"burnout":
 			return _tr("강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다.", "He saw a hospital ceiling before the Gangnam skyline. Seoul is that kind of city.")
 		"mental_break":
 			return _tr("가장 강해야 할 때 마음이 제일 먼저 떠났다", "When he needed to be strongest, his mind left first.")
 		"bankruptcy":
-			return _tr("50만원으로 시작해서 -1억으로 끝났다. 레버리지는 양방향이다.", "Started with ₩500K, ended at -₩100M. Leverage cuts both ways.")
+			return _tr("50만원으로 시작해서 -1억으로 끝났다. 레버리지는 양방향이다.", "Started with KRW 500K, ended at -KRW 100M. Leverage cuts both ways.")
 		"stable_success":
 			if is_orthodox:
 				return _tr("강남은 아니었지만 흔들리지 않는 삶을 쌓았다", "Not Gangnam, but he built a life that doesn't waver.")
@@ -6162,11 +6162,11 @@ func _ending_run_summary(ending_id: String) -> String:
 		"reputation_legend":
 			return _tr("자산보다 이름이 먼저 강남에 닿았다", "His name reached Gangnam before his assets did.")
 		"empty_house":
-			return _tr("30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.", "He held ₩3B. But the Gangnam apartment he entered was empty.")
+			return _tr("30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.", "He held KRW 3B. But the Gangnam apartment he entered was empty.")
 		"jaehyuk_way":
 			return _tr("최재혁의 방식으로 강남에 입성했다. 거울을 자주 피하게 됐다.", "He entered Gangnam the Choi Jaehyuk way. He started avoiding mirrors.")
 		"with_daeun":
-			return _tr("30억보다 소중한 것을 알게 됐다. 그게 다은이었다.", "He learned what mattered more than ₩3B. It was Daeun.")
+			return _tr("30억보다 소중한 것을 알게 됐다. 그게 다은이었다.", "He learned what mattered more than KRW 3B. It was Daeun.")
 		"jiyeon_man":
 			return _tr("다른 세계의 사람이 나를 선택했다. 강남은 그렇게 왔다.", "Someone from another world chose me. That's how Gangnam came.")
 		"orthodox_pinnacle":
@@ -6428,8 +6428,8 @@ func _ending_percentile_line() -> String:
 	elif total >= 0.0:             pct = 80
 	else:                          pct = 95
 	if pct <= 1:
-		return _tr("📊 같은 50만원으로 시작한 사람들 중  상위 1%  — 강남드림은 원래 이런 확률이었다.", "📊 Top 1% among those who started with the same ₩500K — the Gangnam Dream was always these odds.")
-	return _tr("📊 같은 50만원으로 시작한 사람들 중  상위 %d%%  — 강남 입성은 상위 1%%의 일이다.", "📊 Top %d%% among those who started with the same ₩500K — entering Gangnam is a top-1%% affair.") % pct
+		return _tr("📊 같은 50만원으로 시작한 사람들 중  상위 1%  — 강남드림은 원래 이런 확률이었다.", "📊 Top 1% among those who started with the same KRW 500K — the Gangnam Dream was always these odds.")
+	return _tr("📊 같은 50만원으로 시작한 사람들 중  상위 %d%%  — 강남 입성은 상위 1%%의 일이다.", "📊 Top %d%% among those who started with the same KRW 500K — entering Gangnam is a top-1%% affair.") % pct
 
 func _ending_stat_grid(parent: Control):
 	var total = GameState.get_total_asset_value()
@@ -6640,7 +6640,7 @@ func _show_month_summary(snap: Dictionary):
 		return cell
 	fin_row1.add_child(_fc.call(_tr("월급 수입", "Salary Income"), GameState.format_money(income), "#00c896"))
 	if bool(snap.get("subsidy", false)):
-		fin_row1.add_child(_fc.call(_tr("지원금", "Subsidy"), _tr("+30만원", "+₩300K"), "#c9a227"))
+		fin_row1.add_child(_fc.call(_tr("지원금", "Subsidy"), _tr("+30만원", "+KRW 300K"), "#c9a227"))
 	fin_row1.add_child(_fc.call(_tr("고정 지출", "Fixed Expense"), "-%s" % GameState.format_money(expense), "#ff6b6b"))
 	fin_row1.add_child(_fc.call(_tr("순이익", "Net Profit"), GameState.format_money(net), net_color))
 
@@ -6704,7 +6704,7 @@ func _show_month_summary(snap: Dictionary):
 	var pct_disp = "%.1f%%" % (pct * 100.0)
 	var bar_color = "#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#c9a227")
 	modal_body.add_child(_make_progress_row(
-		_tr("🎯 강남드림 (30억)", "🎯 Gangnam Dream (₩3B)"), pct, bar_color,
+		_tr("🎯 강남드림 (30억)", "🎯 Gangnam Dream (KRW 3B)"), pct, bar_color,
 		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
 
 	# ── 목표 힌트 ─────────────────────────────────
@@ -6830,15 +6830,15 @@ func _get_month_narrative() -> String:
 
 	# 자산 이정표
 	if assets >= 1_000_000_000.0:
-		return _tr("10억. 그 숫자가 이제 현실로 느껴진다.", "₩1B. That number feels real now.")
+		return _tr("10억. 그 숫자가 이제 현실로 느껴진다.", "KRW 1B. That number feels real now.")
 	if assets >= 500_000_000.0:
-		return _tr("5억. 강남이 조금씩 가까워지는 것 같다.", "₩500M. Gangnam feels a little closer.")
+		return _tr("5억. 강남이 조금씩 가까워지는 것 같다.", "KRW 500M. Gangnam feels a little closer.")
 	if assets >= 100_000_000.0 and not f.get("narrative_100m_noted", false):
 		GameState.flags["narrative_100m_noted"] = true
-		return _tr("1억을 넘었다. 처음 시작했을 때 상상도 못 했던 숫자다.", "Crossed ₩100M. A number I couldn't have imagined when I started.")
+		return _tr("1억을 넘었다. 처음 시작했을 때 상상도 못 했던 숫자다.", "Crossed KRW 100M. A number I couldn't have imagined when I started.")
 	if assets >= 10_000_000.0 and not f.get("narrative_10m_noted", false):
 		GameState.flags["narrative_10m_noted"] = true
-		return _tr("총자산 1천만원. 50만원에서 시작한 게 맞나 싶다.", "Total assets ₩10M. Hard to believe I started with ₩500K.")
+		return _tr("총자산 1천만원. 50만원에서 시작한 게 맞나 싶다.", "Total assets KRW 10M. Hard to believe I started with KRW 500K.")
 
 	# 인물 관계 메아리
 	if f.get("arc_sangchul_02_seen", false) and not f.get("narrative_sangchul_noted", false) and t <= 20:
@@ -6913,12 +6913,12 @@ func _get_ap_pattern_comment(actions: Array) -> String:
 func _check_milestones():
 	var total = GameState.get_total_asset_value()
 	var milestones = [
-		{"id": "10m",  "amount": 10_000_000.0,    "msg": _tr("💰 자산 1천만원 돌파!", "💰 Assets passed ₩10M!"),            "color": "#fbbf24"},
-		{"id": "50m",  "amount": 50_000_000.0,    "msg": _tr("💰 자산 5천만원 돌파!", "💰 Assets passed ₩50M!"),            "color": "#fbbf24"},
-		{"id": "100m", "amount": 100_000_000.0,   "msg": _tr("🏆 자산 1억 돌파! 진짜 시작이다.", "🏆 Assets passed ₩100M! The real start."), "color": "#f0b429"},
-		{"id": "500m", "amount": 500_000_000.0,   "msg": _tr("🔥 자산 5억! 강남이 보인다.", "🔥 Assets ₩500M! Gangnam in sight."),      "color": "#f0b429"},
-		{"id": "1b",   "amount": 1_000_000_000.0, "msg": _tr("⚡ 자산 10억! 절반 왔다.", "⚡ Assets ₩1B! Halfway there."),         "color": "#00c896"},
-		{"id": "2b",   "amount": 2_000_000_000.0, "msg": _tr("💎 자산 20억! 강남드림이 보인다.", "💎 Assets ₩2B! The Gangnam Dream is in sight."), "color": "#00c896"},
+		{"id": "10m",  "amount": 10_000_000.0,    "msg": _tr("💰 자산 1천만원 돌파!", "💰 Assets passed KRW 10M!"),            "color": "#fbbf24"},
+		{"id": "50m",  "amount": 50_000_000.0,    "msg": _tr("💰 자산 5천만원 돌파!", "💰 Assets passed KRW 50M!"),            "color": "#fbbf24"},
+		{"id": "100m", "amount": 100_000_000.0,   "msg": _tr("🏆 자산 1억 돌파! 진짜 시작이다.", "🏆 Assets passed KRW 100M! The real start."), "color": "#f0b429"},
+		{"id": "500m", "amount": 500_000_000.0,   "msg": _tr("🔥 자산 5억! 강남이 보인다.", "🔥 Assets KRW 500M! Gangnam in sight."),      "color": "#f0b429"},
+		{"id": "1b",   "amount": 1_000_000_000.0, "msg": _tr("⚡ 자산 10억! 절반 왔다.", "⚡ Assets KRW 1B! Halfway there."),         "color": "#00c896"},
+		{"id": "2b",   "amount": 2_000_000_000.0, "msg": _tr("💎 자산 20억! 강남드림이 보인다.", "💎 Assets KRW 2B! The Gangnam Dream is in sight."), "color": "#00c896"},
 	]
 	for m in milestones:
 		if total >= m["amount"] and not GameState.milestones_reached.has(m["id"]):
@@ -7300,14 +7300,14 @@ func _next_milestone_hint(total: float) -> String:
 	# [target, label, strategy_hint]
 	var milestones: Array = [
 		[8_000_000.0,     _tr("🏠 원룸 이사 구간", "🏠 One-room move range"),        _tr("→ 주거 AP에서 이사 가능. 정신력 보너스", "→ Move via Housing AP. Mental bonus")],
-		[20_000_000.0,    _tr("종잣돈 2천만", "₩20M seed money"),              _tr("→ 투자 계좌 개설 & 주식·코인 시작 가능", "→ Open an investment account & start stocks/crypto")],
+		[20_000_000.0,    _tr("종잣돈 2천만", "KRW 20M seed money"),              _tr("→ 투자 계좌 개설 & 주식·코인 시작 가능", "→ Open an investment account & start stocks/crypto")],
 		[40_000_000.0,    _tr("🏡 빌라 전세 구간", "🏡 Villa jeonse range"),        _tr("→ 주거 AP에서 빌라 전세 선택 가능", "→ Choose villa jeonse via Housing AP")],
-		[100_000_000.0,   _tr("자산 1억", "₩100M assets"),                 _tr("→ 레버리지 투자 & 고급 이벤트 해금", "→ Unlock leverage investing & advanced events")],
+		[100_000_000.0,   _tr("자산 1억", "KRW 100M assets"),                 _tr("→ 레버리지 투자 & 고급 이벤트 해금", "→ Unlock leverage investing & advanced events")],
 		[130_000_000.0,   _tr("🏢 아파트 전세 구간", "🏢 Apartment jeonse range"),      _tr("→ 아파트 입주 시 평판·투자감각 보너스", "→ Reputation & Investing bonus on moving in")],
-		[500_000_000.0,   _tr("자산 5억", "₩500M assets"),                 _tr("→ 고수익 투자 루트 본격 가동 구간", "→ Time to run high-yield investment routes in earnest")],
-		[1_000_000_000.0, _tr("자산 10억", "₩1B assets"),                "→ " + _tr("강남 오픈하우스 이벤트 + 엘리트 인맥", "Gangnam open-house event + elite connections")],
-		[2_000_000_000.0, _tr("자산 20억", "₩2B assets"),                _tr("→ 마지막 10억 — 레버리지 or 집중 투자", "→ The last ₩1B — leverage or concentrated investing")],
-		[3_000_000_000.0, _tr("🏙 자산 30억 = 강남드림!", "🏙 ₩3B assets = Gangnam Dream!"), ""],
+		[500_000_000.0,   _tr("자산 5억", "KRW 500M assets"),                 _tr("→ 고수익 투자 루트 본격 가동 구간", "→ Time to run high-yield investment routes in earnest")],
+		[1_000_000_000.0, _tr("자산 10억", "KRW 1B assets"),                "→ " + _tr("강남 오픈하우스 이벤트 + 엘리트 인맥", "Gangnam open-house event + elite connections")],
+		[2_000_000_000.0, _tr("자산 20억", "KRW 2B assets"),                _tr("→ 마지막 10억 — 레버리지 or 집중 투자", "→ The last KRW 1B — leverage or concentrated investing")],
+		[3_000_000_000.0, _tr("🏙 자산 30억 = 강남드림!", "🏙 KRW 3B assets = Gangnam Dream!"), ""],
 	]
 	for m in milestones:
 		var target: float = float(m[0])
@@ -7515,7 +7515,7 @@ func _get_month_advice() -> String:
 	if GameState.current_job.is_empty():
 		return _tr("직업이 없으면 매달 수입이 0원입니다. 생활비만큼 계속 줄어들어요. [구직활동]을 최우선으로 하세요.", "Without a job, monthly income is zero. Living costs will keep draining you. Prioritize Job Hunt.")
 	if GameState.money < 0:
-		return _tr("잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 1억원을 넘으면 파산 엔딩입니다.", "Your balance is negative (%s). Cover it with gigs or investment gains. Debt over ₩100M triggers bankruptcy.") % GameState.format_money(GameState.money)
+		return _tr("잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 빚이 1억원을 넘으면 파산 엔딩입니다.", "Your balance is negative (%s). Cover it with gigs or investment gains. Debt over KRW 100M triggers bankruptcy.") % GameState.format_money(GameState.money)
 	if GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		return _tr("🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 정신력 패시브가 개선돼요!", "🏠 You can afford to move to a %s (cash %s). Moving improves your passive Mental pressure.") % [

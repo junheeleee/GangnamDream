@@ -438,7 +438,7 @@ func _apply_run_theme(theme: String) -> void:
 			reputation += 10
 			flags["theme_clean_run"] = true
 			flags["no_gambling"] = true   # EventManager가 gambling 카테고리 이벤트 차단
-			add_log(LocaleManager.ui("✨ [청렴런] 시작 — 도박 이벤트 없음. 평판 +10. 정직하게만 30억.", "✨ [Clean Run] begins — no gambling events. Reputation +10. Reach ₩3B honestly."), "system")
+			add_log(LocaleManager.ui("✨ [청렴런] 시작 — 도박 이벤트 없음. 평판 +10. 정직하게만 30억.", "✨ [Clean Run] begins — no gambling events. Reputation +10. Reach KRW 3B honestly."), "system")
 		_:
 			_roll_run_theme()
 
@@ -1066,12 +1066,12 @@ func format_money(amount):
 	var abs_amount = abs(amount)
 	if LocaleManager.is_english():
 		if abs_amount >= 1_000_000_000:
-			return "%s₩%.1fB" % [sign, abs_amount / 1_000_000_000.0]
+			return "%sKRW %.1fB" % [sign, abs_amount / 1_000_000_000.0]
 		if abs_amount >= 1_000_000:
-			return "%s₩%.1fM" % [sign, abs_amount / 1_000_000.0]
+			return "%sKRW %.1fM" % [sign, abs_amount / 1_000_000.0]
 		if abs_amount >= 1_000:
-			return "%s₩%.0fK" % [sign, abs_amount / 1_000.0]
-		return "%s₩%.0f" % [sign, abs_amount]
+			return "%sKRW %.0fK" % [sign, abs_amount / 1_000.0]
+		return "%sKRW %.0f" % [sign, abs_amount]
 	if abs_amount >= 100_000_000:
 		return "%s%.1f억원" % [sign, abs_amount / 100_000_000.0]
 	if abs_amount >= 10_000:

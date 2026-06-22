@@ -241,9 +241,9 @@ static func _get_slides(game_id: String) -> Array:
 					"title": "Gangnam Dream — Your Goal" if _en else "강남드림 — 게임 목표",
 					"body": (
 						"You are [b]Kim Minjun, 33, unemployed[/b].\n"
-						+ "Your bank account holds [b]₩500,000[/b]. That's it.\n\n"
-						+ "One goal —\n"
-						+ "[color=#f0c040][b]Build ₩3 billion in assets\nwithin 5 years and reach Gangnam.[/b][/color]\n\n"
+							+ "Your bank account holds [b]KRW 500,000[/b]. That's it.\n\n"
+							+ "One goal —\n"
+							+ "[color=#f0c040][b]Build KRW 3 billion in assets\nwithin 5 years and reach Gangnam.[/b][/color]\n\n"
 						+ "Every week (= 1 turn), spend [b]Action Points (AP)[/b]\nto work, invest, gamble, build relationships.\n\n"
 						+ "[color=#aaffaa]💡 The game ends when you turn 38 (240 turns).\n"
 						+ "   1 month = 4 weeks = 4 turns. 5 years = 240 turns.[/color]"
