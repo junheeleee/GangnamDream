@@ -1310,7 +1310,7 @@ func check_game_over():
 	if age >= 38:
 		var total = get_total_asset_value()
 		# 연인 엔딩
-		if get_cast_stage("daeun") in ["lover", "together"]:
+		if get_cast_stage("daeun") in ["lover", "together", "committed"]:
 			finish_run("with_daeun"); return          # 다은과 함께
 		if get_cast_stage("jiyeon") in ["lover", "honest_together"]:
 			finish_run("jiyeon_man"); return          # 한지연의 남자
