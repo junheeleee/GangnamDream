@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added (2026-06-22) — Steam 데모 QA + Steam 위시리스트 CTA
+
+- **Steam 위시리스트 CTA** 데모 종료 화면에 추가 (`_show_demo_ending()`): "♥ Steam 위시리스트에 추가" 버튼, KR/EN 양쪽. URL은 App ID 등록 후 `STEAM_APP_ID` 교체 필요.
+- **Steam 데모 크리티컬 패스 검증**: OpeningCinematic → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) → arc_chapter1_close (t=8) 전 이벤트 존재·유효성 확인.
+- **콜백 트리거 전수 검증**: callback_events_35~54 416개 flag-triggered 콜백 전부 reachable 확인. opportunity.win_flag/lose_flag 경로 포함.
+- **EN 커버리지 100%** 재확인: KR 1369개 이벤트 전부 EN 오버레이 존재.
+- **밸런스 밴드 통과 재확인**: 무직 실패 100% / 직장 실패 0% / 베팅 30억 도달 14.8%.
+
 ### Added (2026-06-22) — 5년 서사 구조 재편: Year 3-5 인물 재등장 아크
 
 - **신규 인물 박재원** (고시원 후배, Year 3): 4이벤트. 33세가 26세에게 서울 생존을 가르쳐 주다 5년 뒤 50M 저축 메시지 받는 아크. `arc_new_characters.json`

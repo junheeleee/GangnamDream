@@ -5985,6 +5985,24 @@ func _show_demo_ending():
 	for tl in teaser_lines:
 		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
 
+	# ── Steam 위시리스트 CTA ───────────────────────────────────
+	var sep_steam = HSeparator.new()
+	sep_steam.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep_steam)
+
+	var wishlist_lbl = _wrap_label(
+		_tr("풀버전 출시 알림을 받으려면 Steam 위시리스트에 추가하세요.",
+			"Add to your Steam Wishlist to get notified when the full version launches."),
+		12, "#8a9ab8")
+	modal_body.add_child(wishlist_lbl)
+
+	# TODO: Replace STEAM_APP_ID with the actual Steam App ID once registered on Steamworks.
+	const STEAM_STORE_URL := "https://store.steampowered.com/app/STEAM_APP_ID/Gangnam_Dream/"
+	var wishlist_btn = _button(
+		_tr("♥  Steam 위시리스트에 추가", "♥  Add to Steam Wishlist"), "#1b4a2e")
+	wishlist_btn.pressed.connect(func(): OS.shell_open(STEAM_STORE_URL))
+	modal_body.add_child(wishlist_btn)
+
 	var sep4 = HSeparator.new()
 	sep4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep4)

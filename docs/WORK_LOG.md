@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-06-22 (Steam 데모 QA + 위시리스트 CTA)
+
+### Steam 데모 크리티컬 패스 검증
+- OpeningCinematic 7카드 → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 → arc_chapter1_close 전 이벤트 확인
+- EN 100% 커버리지 확인 (1369/1369)
+- 밸런스 밴드 전부 통과 재확인
+
+### 콜백 트리거 전수 검증
+- callback_events_35~54 파일 416개 flag-triggered 콜백 전부 reachable
+- opportunity.win_flag/lose_flag 경로까지 포함해 정확하게 검증
+
+### Steam 위시리스트 CTA 추가
+- `_show_demo_ending()` 내 wishlist_btn 추가 (KR: "♥ Steam 위시리스트에 추가" / EN: "♥ Add to Steam Wishlist")
+- `OS.shell_open(STEAM_STORE_URL)` 연결; URL 상수는 TODO 주석으로 App ID 교체 안내
+- audit ERROR 0 / WARNING 0 유지
+
+---
+
 ## 2026-06-22 (Phase 3 배선: inert 이벤트 106개 전수 effect 연결)
 
 ### callback_events_19~26 wiring 완료
