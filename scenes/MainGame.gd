@@ -3662,21 +3662,30 @@ func _render_essential_actions(ap: int):
 	if GameState.intelligence >= 30:
 		_essential_btn(_tr("심화 독서", "Deep Reading"), _tr("지력 +8. 지력 30 이상 전용 행동", "Intelligence +8. Requires 30+ intelligence"), "study", "#3a4e8a", "_ap_deep_study", disabled)
 	_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+	# 도박 회복 잠금: 회복을 시작/완료했고 아직 재발하지 않았으면 도박 입구를 닫는다.
+	# (회복 아크가 메커니즘으로 강제됨 — 재발 서사 경로 시 relapsed 플래그로 다시 열림)
+	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
+			or GameState.flags.get("recovery_holding", false) \
+			or GameState.flags.get("beat_addiction", false)
+	var _gambling_locked: bool = _in_recovery and not GameState.flags.get("relapsed", false)
 	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
 	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
 		var rt_badge: String = _mastery_badge("racetrack")
-		_essential_btn(_tr("경마장", "Racetrack") + rt_badge, _tr("폼을 읽고 베팅한다. 중독 주의", "Read the form and bet. Addiction risk"), "racetrack", "#9a5a3a", "_open_racetrack", disabled)
+		var rt_desc: String = _tr("회복 중 — 다시 들어가지 않기로 했다", "In recovery — chose not to go back") if _gambling_locked else _tr("폼을 읽고 베팅한다. 중독 주의", "Read the form and bet. Addiction risk")
+		_essential_btn(_tr("경마장", "Racetrack") + rt_badge, rt_desc, "racetrack", "#9a5a3a", "_open_racetrack", disabled or _gambling_locked)
 	# 홀덤: 상철 네트워크로 입성(entered_network)
 	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
 		var hm_badge: String = _mastery_badge("holdem")
-		_essential_btn(_tr("지하 홀덤 클럽", "Underground Hold'em") + hm_badge, _tr("인맥 있는 사람만 들어가는 고위험 테이블", "High-stakes table, connections only"), "holdem", "#6d4bd4", "_open_holdem", disabled)
+		var hm_desc: String = _tr("회복 중 — 다시 들어가지 않기로 했다", "In recovery — chose not to go back") if _gambling_locked else _tr("인맥 있는 사람만 들어가는 고위험 테이블", "High-stakes table, connections only")
+		_essential_btn(_tr("지하 홀덤 클럽", "Underground Hold'em") + hm_badge, hm_desc, "holdem", "#6d4bd4", "_open_holdem", disabled or _gambling_locked)
 	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
 	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
 		var sc_badge: String = _mastery_badge("scalping")
 		_essential_btn(_tr("스캘핑 트레이딩", "Scalp Trading") + sc_badge, _tr("60초 실시간 매매. 빠르고 위험하다", "60-second live trading. Fast and risky"), "scalping", "#1a5f7a", "_open_scalping", disabled)
 	# 정선 카지노: 상철의 초대를 수락(casino_club_introduced)한 경우만
 	if GameState.flags.get("casino_club_introduced", false):
-		_essential_btn(_tr("정선 카지노", "Jeongseon Casino"), _tr("바카라·블랙잭·다이사이 등", "Baccarat, blackjack, dai sai, and more"), "casino", "#7b3fd1", "_open_jeongseon_casino", disabled)
+		var cs_desc: String = _tr("회복 중 — 다시 들어가지 않기로 했다", "In recovery — chose not to go back") if _gambling_locked else _tr("바카라·블랙잭·다이사이 등", "Baccarat, blackjack, dai sai, and more")
+		_essential_btn(_tr("정선 카지노", "Jeongseon Casino"), cs_desc, "casino", "#7b3fd1", "_open_jeongseon_casino", disabled or _gambling_locked)
 	_essential_btn(_tr("생활", "Life"), _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost"), "life", "#9a8a5a", "_open_cat_life", false, true)
 
 func _mastery_badge(game_id: String) -> String:
@@ -4232,7 +4241,9 @@ func _ap_study():
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	GameState.add_tendency("career", 1)
+	# 투자공부(type 3)는 invest 성향, 그 외(독서/운동/명상)는 career 성향으로 집계.
+	# (기존엔 전부 career로 보내 invest 성향이 AP 행동에서 한 번도 안 쌓이던 버그)
+	GameState.add_tendency("invest" if study_type == 3 else "career", 1)
 	var _st_key := "et" if LocaleManager.is_english() else "t"
 	var flavor: String = str(v.get(_st_key, v.get("t", "")))
 	GameState.add_log(tag + " — " + flavor, "event")

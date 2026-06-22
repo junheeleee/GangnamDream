@@ -55,11 +55,13 @@
 
 | # | 버그 | 위치 | 영향 |
 |---|---|---|---|
-| B1 | 알바 건강 이중차감 — 표시값보다 항상 -3 더 깎임 | MainGame.gd:4267 + ArubaGame.gd:931 | 표시-적용 불일치 |
-| B2 | item_vip_club 즉시효과 손실 + 무한 익스플로잇 | InventorySystem.gd:28, MainGame.gd:3071/3083 | 1200만원 효과 우연 의존 / rep·social 무한펌핑 |
-| B3 | 회복 아크 완료 후에도 카지노/경마/홀덤 버튼 노출·재입장 | MainGame.gd:3666-3679 | 핵심 구원 서사 무력화 |
-| B4 | invest 성향 AP 0회 + "투자공부"/"인맥"을 career로 오태깅 | MainGame.gd:4235/4310 | 성향 진단·칭호 신뢰도 저하 |
+| B1 | 알바 건강 이중차감 — ArubaGame 결과화면값보다 -3 더 깎임 | MainGame.gd:4267 + ArubaGame.gd:931 | 표시-적용 불일치 (의도 확인 필요 — 보류) |
+| B2 | item_vip_club 즉시효과 손실 + 무한 익스플로잇 | InventorySystem.gd:28, MainGame.gd:3071/3083 | 1200만원 효과 우연 의존 / rep·social 무한펌핑 (혼합형 아이템 설계 필요) |
+| ~~B3~~ | ~~회복 후에도 카지노/경마/홀덤 재입장~~ | ~~MainGame.gd:3666~~ | **✅ 2026-06-22 수정 — 회복 중&미재발 시 입구 잠금** |
+| ~~B4~~ | ~~invest 성향 AP 0회 ("투자공부"→career 오태깅)~~ | ~~MainGame.gd:4235~~ | **✅ 2026-06-22 수정 — 투자공부→invest 집계** |
 | ~~B5~~ | ~~다은 with_daeun committed 누락~~ | ~~GameState.gd:1376~~ | **✅ 2026-06-22 수정됨** |
+
+> B1·B2는 의도/설계 판단이 필요해 보류(B1=−3 기본피로가 의도인가, B2=혼합형 아이템을 어떻게 처리할가). Phase 2에서 결정.
 
 데드코드(기능 영향 없음, 정리 대상): `_ap_leverage_invest`, `get_market_forecast`, `_open_baccarat`/`_open_blackjack`+핸들러 2종.
 
