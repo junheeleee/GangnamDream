@@ -1,0 +1,182 @@
+[
+  {
+    "id": "callback_comparison_anxiety_echo",
+    "title": "The Impatience I Felt",
+    "description": "Hearing a friend's baby news, {name} congratulated them but felt a creeping impatience.\n\nThat impatience comes back sometimes.\n\nToday another's life-milestone news shakes the heart again.",
+    "choices": [
+      {
+        "text": "Others' timetables — aren't mine",
+        "result_text": "Marriage, kids, owning a home — the order and pace differ for everyone.\n\n{name} decided not to lay personal anxiety onto others' milestones.\nImpatience comes from comparison, and comparison has no end."
+      },
+      {
+        "text": "Turn that impatience — into fuel",
+        "result_text": "Rather than ignore the impatience, give it direction.\n\n{name} converted that anxiety into 'one step today.'\nSitting still when shaken shakes you more; moving settled it."
+      }
+    ]
+  },
+  {
+    "id": "callback_asserted_timeline_echo",
+    "title": "Saying I Have My Own Goal",
+    "description": "Under marriage pressure, {name} said firmly, 'I have a different goal right now.'\n\nThat declaration comes back sometimes.\n\nToday the parents' worried questions return.",
+    "choices": [
+      {
+        "text": "Even now — I live at my own pace",
+        "result_text": "Live to others' expectations and it stops being your life.\n\n{name} still keeps that firmness.\nLoving your parents and living on their timetable were different things."
+      },
+      {
+        "text": "Mind their feelings too — say it gently again",
+        "result_text": "Firmness may have hurt the parents sometimes.\n\n{name} decided to keep their path but convey it more warmly.\nKeeping a boundary and being cold were different things."
+      }
+    ]
+  },
+  {
+    "id": "callback_childfree_leaning_echo",
+    "title": "Maybe Not Having Kids, I Said",
+    "description": "After calculating childcare costs, {name} thought 'maybe not having kids is the right call.'\n\nThat cold calculation comes back sometimes.\n\nToday the topic crosses the mind again.",
+    "choices": [
+      {
+        "text": "That was — a rational conclusion for my situation",
+        "result_text": "Not coveting what you can't bear is responsibility too.\n\n{name} knows that calculation was realism, not pessimism.\nBut they left it open — if the situation changes, the conclusion can too."
+      },
+      {
+        "text": "Not a thing to decide by math alone — keep it open",
+        "result_text": "Some decisions don't convert to a spreadsheet.\n\n{name} decided not to nail it down now.\nLet money be the whole of a decision and you might miss what truly matters."
+      }
+    ]
+  },
+  {
+    "id": "callback_proactive_parent_care_echo",
+    "title": "Saying Let's Go to the Hospital Together",
+    "description": "Feeling the parents age, {name} said first, 'Dad, let's go to the hospital together.'\n\nThat extended hand comes back sometimes.\n\nThoughts of the parents came today.",
+    "choices": [
+      {
+        "text": "Looking out first then — reduced regret",
+        "result_text": "Parents don't wait.\n\nGoing to the hospital together then eased later regret.\n{name} knows filial care isn't grand — it's timing."
+      },
+      {
+        "text": "I should check in more — it's not too late",
+        "result_text": "It wasn't a one-time thing.\n\n{name} decided not to put off caring for the parents while chasing the goal.\nOne reason for earning money was, in the end, those people."
+      }
+    ]
+  },
+  {
+    "id": "callback_corporate_escape_echo",
+    "title": "I Have to Escape Faster, I Said",
+    "description": "Watching a senior take early retirement, {name} vowed, 'this is an office worker's reality — I have to escape faster.'\n\nThat urgency comes back sometimes.\n\nToday another moment of feeling the job's limits arrives.",
+    "choices": [
+      {
+        "text": "That urgency — got me preparing another path",
+        "result_text": "A job isn't an eternal safe zone.\n\nSeeing that reality early, {name} paved an exit route in advance.\nAnother's early retirement was, to {name}, both warning and spur."
+      },
+      {
+        "text": "Over urgency — steady preparation is the real escape",
+        "result_text": "Bolting out in a rush can be a fall, not an escape.\n\n{name} turned urgency into preparation rather than impatience.\nReal escape was leaving with somewhere to go already built."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_loan_ignored_echo",
+    "title": "Hanging Up on a Stranger",
+    "description": "To a suspicious loan-pitch call, {name} hung up, saying 'I don't know you.'\n\nThat firmness comes back sometimes.\n\nToday another tempting offer came by phone.",
+    "choices": [
+      {
+        "text": "Like then — filter out the suspicious",
+        "result_text": "The more desperate you are, the easier prey for scammers.\n\n{name} knows to doubt tempting offers once more.\nThat hung-up call may have dodged some trap."
+      },
+      {
+        "text": "Filter — but know how to vet a legitimate chance",
+        "result_text": "Hanging up on everything isn't the answer either.\n\n{name} sharpened the eye to tell suspicious from legitimate.\nDoubt is the baseline, but discernment is the skill."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_loan_met_echo",
+    "title": "Agreeing to Meet",
+    "description": "To a suspicious loan pitch, {name} stepped in — 'let's meet first.'\n\nThat risky choice comes back sometimes.\n\nToday another gray-zone offer appears.",
+    "choices": [
+      {
+        "text": "That was risky — now I don't even step in",
+        "result_text": "Some things are hard to leave the moment you meet.\n\n{name} knows the risk of stepping in out of curiosity.\nSome doors are best not opened at all."
+      },
+      {
+        "text": "Having met them — I know the playbook",
+        "result_text": "Risky, but they saw the playbook firsthand there.\n\n{name} took that as a mirror, vowing never to be caught again.\nBut they also know the same curiosity isn't always harmless."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_snitch_ignored_echo",
+    "title": "Ignoring the Rumor",
+    "description": "When a bad rumor about {name} spread, {name} ignored it — 'no room to care.'\n\nThat indifference comes back sometimes.\n\nToday they seem to be the subject of gossip again.",
+    "choices": [
+      {
+        "text": "Rumors — eventually vanish before results",
+        "result_text": "Respond to every rumor and you get tied down by it.\n\n{name} chose to answer with results, not words.\nGo quietly forward and the rumor tired itself out and faded."
+      },
+      {
+        "text": "Ignore — but correct what needs correcting",
+        "result_text": "You can't ignore every rumor. Some must be set straight.\n\n{name} learned to tell what to let pass from what to address.\nIndifference and neglect were different."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_snitch_spun_echo",
+    "title": "Spinning the Rumor",
+    "description": "When a rumor about {name} spread, {name} spun it to their own advantage.\n\nThat cleverness — or riskiness — comes back sometimes.\n\nA similar situation came today.",
+    "choices": [
+      {
+        "text": "I handled it cleverly then — crisis into chance",
+        "result_text": "Even an unfavorable rumor changes by how you handle it.\n\n{name} honed the sense to flip a crisis then.\nBut they also know such moves don't always work."
+      },
+      {
+        "text": "Now — the straight path lasts longer",
+        "result_text": "Tricks work once or twice, but honesty ultimately builds trust.\n\n{name} knows trust is a longer-lasting asset than cleverness.\nSpinning is fine, but not creating things to spin was better."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_collab_echo",
+    "title": "The Promise to Do It Together",
+    "description": "When an old acquaintance proposed a startup collaboration, {name} said 'let's do it together.'\n\nThat promise comes back sometimes.\n\nToday they consider where that collaboration is headed.",
+    "choices": [
+      {
+        "text": "Doing it together — made possible what I couldn't alone",
+        "result_text": "Go alone and you go fast; go together and you go far.\n\n{name} saw, in that collaboration, a path they couldn't have seen alone.\nGoing with people has risk, but matching possibility too."
+      },
+      {
+        "text": "Collaborate carefully — choose the people",
+        "result_text": "Not every collaboration works. People were everything.\n\n{name} learned that who you partner with decides the result.\nGo together — but not with just anyone."
+      }
+    ]
+  },
+  {
+    "id": "callback_first_invest_win_echo",
+    "title": "The Memory of the First Profit",
+    "description": "The day {name} first saw a profit in investing, their heart raced.\n\nThat first profit comes back sometimes.\n\nToday the account glows blue (in the green) again.",
+    "choices": [
+      {
+        "text": "The first profit's thrill — I can manage it now",
+        "result_text": "At first, intoxicated by profit, they overbet.\n\n{name} is now less swayed by either profit or loss.\nRemember the first thrill but not be ruled by it — that was maturity."
+      },
+      {
+        "text": "That excitement — was the drive to keep investing",
+        "result_text": "The thrill of the first profit became a reason to keep studying.\n\n{name} also knows that thrill is the border between gambling and investing.\nThe same excitement, applied differently, parted fates."
+      }
+    ]
+  },
+  {
+    "id": "callback_first_invest_loss_echo",
+    "title": "The Memory of the First Loss",
+    "description": "The day {name} first took a loss in investing, their stomach hurt.\n\nThat first loss comes back sometimes.\n\nToday the account is stained red again.",
+    "choices": [
+      {
+        "text": "That loss — was the most expensive, best lesson",
+        "result_text": "The sting of the first loss reduced recklessness.\n\n{name} knows those who've never lost are more dangerous.\nThe first loss hurt, but it was the start of real study."
+      },
+      {
+        "text": "Now — even losses shake me less",
+        "result_text": "At first, one loss cost them sleep. Now it's different.\n\n{name} came to accept loss as part of the game.\nNot swinging with every red number — that was the steadiness the first loss gave."
+      }
+    ]
+  }
+]
