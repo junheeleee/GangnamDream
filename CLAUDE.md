@@ -9,11 +9,11 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-22** — **Phase 4 social_independence 플렉스/욜로/비혼 14개 콜백 연결**: callback_events_48 (KR+EN) — yolo_resisted·accepted·regretted/talked_about_bihon/found_solo_peace/sns_detoxed·compared/bought·resisted_luxury/car_envy_resolved·felt/did_staycation/frugal_pride/networked_golf. 소비/과시 vs 절제 정체성 + 비혼/솔로라이프 + SNS 비교 회수. 콜백 선택지 새 플래그 0개. write_only_flags 305→291. ERROR 0/WARNING 0. |
-| **이전** | **2026-06-22** — **Phase 4 arc_midgame 중반 잔여 14개 콜백**: callback_events_47 (KR+EN) — 반환점/10억/막판 두려움/다은 흔적. 37세 엔드게임 아크는 의도된 종결마커로 보존. write_only_flags 318→305. |
-| **이전** | **2026-06-22** — **Phase 4 arc_midgame 현수여정/퇴사/비교 13개** (callback_events_46) + **초반 직업/투자 14개** (callback_events_45). write_only_flags 345→318. |
-| **이전** | **2026-06-22** — **Phase 4 노화/시간흐름 14개** (callback_events_44) + **핵심 감정비트 14개** (callback_events_43). write_only_flags 373→345. |
-| **이전** | **2026-06-22** — **Phase 4 write_only 46개** (callback_events_35~42, intro/father/상철/재원/현수/드라마). write_only_flags 387→373. |
+| **최근 완료** | **2026-06-22** — **Phase 4 viral_events(온라인 금융문화)+selfdev 14개 콜백 연결**: callback_events_49 (KR+EN) — rejected_godsaeng·for_show/learned_to_rest·godsaeng_overdrive/joined·left_geojibang/followed_leading_room·learned_invest_wisdom/fought_margin_call/gig_grinder·cautious/committed_to_course·completed_30day·attended_seminar. 갓생/거지방/리딩방/마진콜/배달 + 자기계발 정체성 회수. 콜백 선택지 새 플래그 0개. write_only_flags 291→277. ERROR 0/WARNING 0. |
+| **이전** | **2026-06-22** — **Phase 4 social_independence 플렉스/욜로/비혼 14개**: callback_events_48 (KR+EN) — 소비/과시 vs 절제 + 비혼/솔로 + SNS 비교. write_only_flags 305→291. |
+| **이전** | **2026-06-22** — **Phase 4 arc_midgame 중반 잔여 14개** (callback_events_47) + **현수/퇴사/비교 13개** (callback_events_46). 37세 엔드게임 아크는 의도된 종결마커로 보존. write_only_flags 331→305. |
+| **이전** | **2026-06-22** — **Phase 4 초반 직업/투자 14개** (callback_events_45) + **노화/시간흐름 14개** (callback_events_44). write_only_flags 359→331. |
+| **이전** | **2026-06-22** — **Phase 4 핵심 감정비트 14개** (callback_events_43) + **write_only 46개** (callback_events_35~42, intro/father/상철/재원/현수/드라마). write_only_flags 387→345. |
 | **이전** | **2026-06-22** — **Phase 4 arc_midgame 핵심 감정비트 14개 콜백**: callback_events_43 (KR+EN) — told_father_win/gangnam_vow 등. 밸런스: 승진 social_skill+1=modify_stat() 100클램프 확인. write_only_flags 373→359. |
 | **이전** | **2026-06-22** — **Phase 4 write_only_flags 46개 콜백 연결**: callback_events_35~42 (8파일 KR+EN). 중복 ID 4건 수정, cast_flag 조건 타입 수정(37). write_only_flags 387→373. |
 | **이전** | **2026-06-22** — **Phase 3 유기성 배선 완료**: EventManager._effective_weight() cast 큐레이션 + 직업카테고리 + fear_greed 연동, GameState._resolve_opportunity() 상철affinity 성공률 보너스, JobSystem appearance→업무능력/승진→social_skill+1, jeonse/housing 태그 3건. |
@@ -25,7 +25,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 5씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8, 현수 라면 씬 이후). 플레이타임 약 20~30분. Steam 위시리스트 CTA 삽입 포인트 = arc_chapter1_close 이후. |
 | **다음 작업** | **Phase 4 계속** — ①arc_midgame 잔여 write-only(year1~3/35~37세 birthday/habit 등 ~70개) 중 추가 핵심 비트 선별 연결, 또는 social_independence.json(23개)/easter_eggs(16)/viral_events(15) 검토. ②Steam 데모 QA 플레이스루 (arc_chapter1_close 도달 확인). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-22 (Claude: Phase 4 진행 — write_only_flags 387→291, callback_events_35~48 KR+EN 완성, 밸런스 social_skill 클램프 확인) |
+| **마지막 업데이트** | 2026-06-22 (Claude: Phase 4 진행 — write_only_flags 387→277, callback_events_35~49 KR+EN 완성, 밸런스 social_skill 클램프 확인) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
