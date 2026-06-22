@@ -9,7 +9,7 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-21** — (1) **영어 번역 완성**: SaveManager 설정 영속화(get/set_setting) + LocaleManager 부팅 복원·이름 동기화 버그 수정 + MainGame.gd/StoryMode.gd 전수 `_tr()` 래핑(액션버튼·비네팅 90+25+5종·데모엔딩·칭호도감). 영어 모드에서 UI 전체 영어 출력. (2) **P2 2차 감사**: amb_coin_00 현수 게이팅(arc_intro_hyunsu_seen) + EN/KR 동기화. (3) **NG+ 구원 서사 2종**(ng_plus_events.json): ng_gambling_premonition, ng_recovery_echo. (4) **P0 3차 히든 엔딩** `writer`(A급) — 강남드림 실패 수기가 베스트셀러 1위. 엔딩 31개, 이벤트 1043개. audit ERROR 0/WARNING 0. |
+| **최근 완료** | **2026-06-22** — **5년 서사 구조 재편**: ①신규 인물 2명(박재원 Year 3, 이민서 Year 4) + ②다은/임상철/지연/아버지 Year 3-5 재등장 아크 14이벤트(arc_new_characters/arc_daeun_extension/arc_year3_drama.json KR+EN). ③_next_arc_id() 9구간 블록 추가. ④한지연 타이밍 현실화(store t26/offer t36/lunch t40/reveal t48/truth t56/epilogue t64). audit ERROR 0/WARNING 0. 이벤트 총 1057개. |
 | **이전** | **2026-06-20** — (1) **이스터에그 8종**(easter_eggs.json) + 회귀자각 2종. (2) **분석요소**: get_playstyle_label() 9종 + peak_asset + 엔딩도감(discovered_endings). (3) **흥행 시그니처 6종**(viral_events.json). (4) **P2 개연성 감사**. (5) P3 3차 비혼·욜로·오마카세 9종 + P4 공략성 힌트 개편. |
 | **추가 완료** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크 + 회복 3종 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급)**. ※카지노 미니게임 메커니즘 미변경(서사만). |
 | **Codex 추가 완료** | **2026-06-20~22 (외형)** — PC/Steam Deck 공통 Readability Pass 1~3(전역 폰트·버튼·모달·포커스 기준 상향, 모달 760×610/스크롤 리셋, 룰렛 숫자 매트 58×34 확대·상태 배지, 투자 자산/상점 아이템 카드화, 우측 정보 패널 400px 확대 및 관계·소지품·스토리 카드화), 빅휠 54칸 슬롯 쇼휠·상태 플레이트, 경마 질주 화면(주로/게이트/순위판/PHOTO FINISH)과 결과 정산 보드, 홀덤 오벌 테이블 재배치와 쇼다운 판정 패널·팟 이동 라인, 투자 모달 MARKET BOARD(장세·공포/탐욕·리스크·계좌 요약), 슬롯머신 캐비닛·릴 심볼 코드 드로잉·payout tray 코인 연출 보강, 다이사이 주사위 컵·콜 패널 보강, 룰렛 테이블 베팅/딜러/포켓 하이라이트·중앙 숫자 위치 핫픽스, 룰렛 부유 칩 제거·숫자 매트 중앙 정렬·winning pocket 콜아웃·스핀/결과 QA 분리. 정선 카지노 허브 게임 카드 상단을 바카라/블랙잭/슬롯/룰렛/다이사이/빅휠별 코드 드로잉 미니 아트로 교체하고 카드 그림자/타입 라벨/버튼 스타일을 보강. 구형 `poker_chip_icon.png` 런타임 참조를 제거해 centered denomination chip SVG로 대체. 바카라/블랙잭 베팅·딜·결과 화면을 펠트 테이블/베팅존/카드존/칩 스택 중심 UI로 재구성. `docs/PRODUCTION_ASSET_PIPELINE.md` 추가로 상용 출시 에셋 Gate 0~4·A/S등급 정립. |
@@ -18,8 +18,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 5씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8, 현수 라면 씬 이후). 플레이타임 약 20~30분. Steam 위시리스트 CTA 삽입 포인트 = arc_chapter1_close 이후. |
-| **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — 카지노/홀덤/경마 서사 이벤트(미니게임 메커니즘 제외); P2 잔여 audit #7(인물 stage vs 대사 톤 심화 스캔). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-22 (PC/Steam Deck 공통 Readability Pass 3: 우측 정보 패널 400px 확대, 패널 헤더/탭/스탯 폰트 상향, 시황 뉴스·관계·소지품·스토리 아크 카드화, `ScreenshotQA`에 정보 패널 탭별 캡처 5종 추가. 전체 ScreenshotQA 및 audit.sh 통과.) |
+| **다음 작업** | 카지노/홀덤/경마 서사 이벤트(미니게임 메커니즘 제외); P2 잔여 audit #7(인물 stage vs 대사 톤 심화 스캔). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역. Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-22 (5년 서사 재편: 박재원·이민서 신규 인물 + 다은/임상철/지연/아버지 Year 3-5 아크 14이벤트 + 지연 타이밍 현실화) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
