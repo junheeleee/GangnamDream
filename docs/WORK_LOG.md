@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (MORAL_TINT 스파인 확장 + White/Black 시뮬 검증)
+
+### 스파인 확장 (57개 선택지 KR+EN tint 저작)
+- arc_daeun.json (12개 이벤트): 갈림길 붙잡음 +9/보냄 -7, 30억전날밤 "같이 이룬 거야" +8 등
+- arc_daeun_extension.json (5개): year3~5 전 씬 tint 배선
+- arc_new_characters.json (6개): 재원 지혜나눔 +7, 솔직털어놓기 +6, 민서 편한칭찬 -2/진실요청 +6
+- arc_year3_drama.json (3개): 상철year3, 지연year3, 아버지 레거시
+- EN 오버레이 57개 자동 동기화
+
+### White/Black 30억 시뮬 검증 (N=3000)
+- 혼합(70% White선택): 15.3% 30억 도달, 승자 평균 tint +54.8
+- 순수 White (착취 거절·수입 -12%): 0.1% 30억 도달 — "가능하되 극악" 설계 의도 확인
+- Black 베팅: 14.8% (기존 밴드 유지)
+
+### 용어 통일
+- 문서 전체 "하양" → White, "검정" → Black
+
+---
+
 ## 2026-06-23 (MORAL_TINT 밴드 전이 비네트)
 
 ### 구현

@@ -32,8 +32,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **★MORAL_TINT 롤아웃 계속 (docs/MORAL_TINT.md §8): ② 스파인 확장 — 다은/지연/재혁/돈·관계 핵심 씬 tint 저작. ③ 하양 30억 극악 난이도 시뮬 검증 + 밴드 임계 튜닝. ④ Codex 시각 연결 대기(신호 구독). ⑤ Steam App ID 교체.** |
-| **마지막 업데이트** | 2026-06-23 (Claude: MORAL_TINT 밴드 전이 비네트 — pending_tint_vignette + _show_moral_beat + 3종 KR+EN + xvfb 검증) |
+| **다음 작업** | **★MORAL_TINT 롤아웃 §4: Codex 시각 연결 대기(moral_tint_norm()/moral_stage() 구독 → 테마 White↔Grey↔Black 보간 + 돈 글로우 반비례). 그 외: Steam App ID 교체.** |
+| **마지막 업데이트** | 2026-06-23 (Claude: MORAL_TINT 스파인 확장 57개 tint + White/Black 30억 시뮬 검증(White 0.1%=극악 확인) + 용어 White/Black 통일) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
