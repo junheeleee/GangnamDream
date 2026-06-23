@@ -19,7 +19,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "솔직하게 대답한다",
+        "text": "솔직하게 답했다",
         "effects": {
           "mental": 8,
           "social_skill": 2
@@ -69,7 +69,7 @@
         "result_text": "\"그때는 여유가 없었어요.\"\n지연이 \"아, 괜찮아요. 저도 갑자기였으니까요.\"라고 했다.\n거절보다 — 그 뒤의 태도가 관계를 결정했다."
       },
       {
-        "text": "자연스럽게 인사만 한다",
+        "text": "인사만 하고 지나쳤다",
         "effects": {
           "mental": 3
         },
@@ -99,7 +99,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "옳은 선택이었다고 생각한다",
+        "text": "그 선택이 맞았다고 생각했다",
         "effects": {
           "mental": 8,
           "intelligence": 3
@@ -181,7 +181,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "이대로가 맞다고 생각한다",
+        "text": "이대로도 괜찮다고 생각했다",
         "effects": {
           "mental": 5,
           "intelligence": 2
@@ -222,7 +222,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "잘 됐다고 생각한다",
+        "text": "잘 됐다고 생각했다",
         "effects": {
           "mental": 8
         },
@@ -262,7 +262,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "불확실한 채로 두기로 한다",
+        "text": "그냥 뒀다",
         "effects": {
           "mental": 5,
           "intelligence": 2

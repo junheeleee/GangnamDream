@@ -12,7 +12,11 @@
       "flag": "jaewon_welcomed",
       "min_turn": 120
     },
-    "tags": ["callback", "jaewon", "story"],
+    "tags": [
+      "callback",
+      "jaewon",
+      "story"
+    ],
     "cooldown": 999,
     "description": "재원에게서 카톡이 왔다.\n\n\"형, 저 한 달 됐어요. 처음 왔을 때 이불 얘기 해줬잖아요.\n그때 그 말 덕분에 진짜로 두꺼운 거 샀어요. 따뜻하게 잘 잤습니다.\"\n\n이런 게 날아오는 날이 있다.",
     "choices": [
@@ -56,7 +60,11 @@
       "flag": "jaewon_knows_goal",
       "min_turn": 120
     },
-    "tags": ["callback", "jaewon", "story"],
+    "tags": [
+      "callback",
+      "jaewon",
+      "story"
+    ],
     "cooldown": 999,
     "description": "재원에게서 카톡이 왔다.\n\n\"형 아직 30억 하고 있어요? ㅋㅋ 갑자기 생각나서.\"\n\n{name}은 잠깐 손이 멈췄다.\n그 이야기를 꺼냈던 밤이 생각났다. 눈이 커지던 재원의 표정.",
     "choices": [
@@ -104,12 +112,16 @@
       "flag": "jaewon_departed",
       "min_turn": 148
     },
-    "tags": ["callback", "jaewon", "story"],
+    "tags": [
+      "callback",
+      "jaewon",
+      "story"
+    ],
     "cooldown": 999,
     "description": "재원이 나간 뒤 203호 불이 꺼진 지 일주일이 됐다.\n\n복도를 지나칠 때마다 저 방이 눈에 들어온다.\n새 입주자가 아직 없다.\n\n{name}은 문 앞에 잠깐 섰다.",
     "choices": [
       {
-        "text": "잘 됐으면 좋겠다고 생각한다",
+        "text": "잘 됐으면 좋겠다고 생각했다",
         "effects": {
           "mental": 4,
           "social_skill": 1
@@ -143,7 +155,11 @@
       "flag": "got_minseo_card",
       "min_turn": 165
     },
-    "tags": ["callback", "minseo", "story"],
+    "tags": [
+      "callback",
+      "minseo",
+      "story"
+    ],
     "cooldown": 999,
     "description": "지갑을 정리하다가 명함이 나왔다.\n\n이민서. 강남에 아파트를 가진 그 사람.\n\n\"어떻게 했는지 알고 싶으면 연락해요.\"\n\n받아놓고 몇 달이 지났다.",
     "choices": [
@@ -158,7 +174,9 @@
             "affinity": 8
           }
         },
-        "flags": ["contacted_minseo"],
+        "flags": [
+          "contacted_minseo"
+        ],
         "follow_up_event": "",
         "result_text": "\"연락 기다렸어요. 언제 한번 봐요.\"\n\n이민서의 답이 빠르게 왔다.\n\n지갑 속에 석 달째 있던 명함이, 드디어 쓰였다."
       },
@@ -187,7 +205,11 @@
       "flag": "minseo_real_talk",
       "min_turn": 184
     },
-    "tags": ["callback", "minseo", "story"],
+    "tags": [
+      "callback",
+      "minseo",
+      "story"
+    ],
     "cooldown": 999,
     "description": "이민서가 했던 말이 요즘 들어 자꾸 떠오른다.\n\n\"목표가 생기면, 목표가 사라질 때를 준비해야 해요.\"\n\n그때는 이해를 못 했다. 30억이 생기면 그게 사라진다는 게 무슨 뜻인지.\n\n요즘은 조금 알 것 같다.",
     "choices": [
@@ -197,7 +219,9 @@
           "mental": 6,
           "intelligence": 2
         },
-        "flags": ["thought_about_after"],
+        "flags": [
+          "thought_about_after"
+        ],
         "follow_up_event": "",
         "result_text": "30억이 생기면 — 그 다음은 뭔가.\n\n이 질문이 이상하게 불편했다.\n지금까지 목표가 원동력이었는데, 그게 없으면 나는 누구인가.\n\n이민서가 왜 그 말을 했는지, 이제는 알 것 같았다."
       },

@@ -12,7 +12,12 @@
       "flag": "father_confession_heard",
       "min_turn": 76
     },
-    "tags": ["callback", "father", "sangchul", "story"],
+    "tags": [
+      "callback",
+      "father",
+      "sangchul",
+      "story"
+    ],
     "cooldown": 999,
     "description": "임상철이 차를 건넸다.\n\n평소와 다를 게 없었다. 차트 이야기. 시장 이야기.\n\n{name}은 받아들면서 생각했다.\n이 사람이 — 아버지의 빚을 만든 소개인이었다.\n\n이걸 안 채로 이 자리에 앉아 있다.",
     "choices": [
@@ -56,7 +61,11 @@
       "flag": "sangchul_truth_buried",
       "min_turn": 84
     },
-    "tags": ["callback", "sangchul", "story"],
+    "tags": [
+      "callback",
+      "sangchul",
+      "story"
+    ],
     "cooldown": 999,
     "description": "\"됐어요, 잊어버려요.\"\n\n그날 했던 그 말이 여전히 속에 있다.\n\n임상철은 그날 이후 아무것도 묻지 않았다.\n{name}도 아무것도 꺼내지 않았다.\n\n그게 합의였다. 뭉개놓은 것.",
     "choices": [
@@ -100,7 +109,11 @@
       "flag": "sangchul_quietly_distanced",
       "min_turn": 84
     },
-    "tags": ["callback", "sangchul", "story"],
+    "tags": [
+      "callback",
+      "sangchul",
+      "story"
+    ],
     "cooldown": 999,
     "description": "임상철이 뒤에서 이름을 불렀다.\n돌아보지 않았다.\n\n그날 카페를 나온 뒤 — 그 목소리가 아직 남아 있다.\n\n한동안 임상철 없이 했다.\n선생도 없이, 네트워크도 없이.",
     "choices": [
@@ -139,7 +152,11 @@
       "flag": "tried_to_go_to_father",
       "min_turn": 116
     },
-    "tags": ["callback", "father", "story"],
+    "tags": [
+      "callback",
+      "father",
+      "story"
+    ],
     "cooldown": 999,
     "description": "\"한 시간 전에.\"\n\n그 말이 가끔 꿈에 나온다.\n\n비어 있던 병실 침대. 아직 따뜻했는지, 차가웠는지 기억이 없다.\n\n오늘 일을 하다가 갑자기 그 기차 창밖이 떠올랐다. 지나가던 논밭.",
     "choices": [
@@ -186,7 +203,11 @@
       "flag": "chose_money_over_father",
       "min_turn": 116
     },
-    "tags": ["callback", "father", "story"],
+    "tags": [
+      "callback",
+      "father",
+      "story"
+    ],
     "cooldown": 999,
     "description": "통장에 숫자가 쌓였다.\n\n그날 이후로 그 숫자가 올라갈 때마다,\n잠깐씩 멈추는 날이 있다.\n\n\"숫자는 올라가 있었다.\"\n\n그게 전부였다, 그날.",
     "choices": [
@@ -196,7 +217,9 @@
           "mental": -5,
           "intelligence": 2
         },
-        "flags": ["father_debt_felt"],
+        "flags": [
+          "father_debt_felt"
+        ],
         "follow_up_event": "",
         "result_text": "갚을 수 없다는 걸 안다. 돈으로 갚을 수 있는 게 아니었다.\n\n근데 이 숫자들이 쌓이는 걸 보면서 — 더 잘 되면 그게 갚는 거라고,\n그렇게 믿어야 앞으로 갈 수 있었다.\n\n아버지한테 보여드리고 싶어서 서울에 왔었는데.\n그 이유가 아직 살아 있어야 한다."
       },
@@ -225,12 +248,16 @@
       "flag": "recovery_complete",
       "min_turn": 100
     },
-    "tags": ["callback", "addiction", "story"],
+    "tags": [
+      "callback",
+      "addiction",
+      "story"
+    ],
     "cooldown": 999,
     "description": "달력에 동그라미가 꽉 찼다.\n\n그 달력이 아직 방에 있다. 버리지 못했다.\n\n오늘 어딘가에서 도박 광고가 떴다. 스크롤을 내렸다.\n손이 전에 같지 않았다.",
     "choices": [
       {
-        "text": "그 달력이 아직 힘이 된다",
+        "text": "그 달력이 아직 힘이 됐다",
         "effects": {
           "mental": 8,
           "intelligence": 1

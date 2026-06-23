@@ -12,7 +12,12 @@
       "flag": "investment_lesson_1",
       "min_turn": 28
     },
-    "tags": ["callback", "sangchul", "investment", "story"],
+    "tags": [
+      "callback",
+      "sangchul",
+      "investment",
+      "story"
+    ],
     "cooldown": 999,
     "description": "처음으로 진짜 돈을 넣었다.\n\n소액이었다. 임상철이 말한 대로 — '잃어도 배울 수 있는 돈'.\n\n차트가 빨갛게 바뀌었다.\n\n\"처음엔 작게 해. 잃으면서 시장이 눈에 들어오기 시작해.\"\n그 목소리가 다시 들렸다.",
     "choices": [
@@ -49,10 +54,18 @@
     "weight": 1.0,
     "hidden": false,
     "conditions": {
-      "cast_flag": {"person": "sangchul", "flag": "knows_dad_reason"},
+      "cast_flag": {
+        "person": "sangchul",
+        "flag": "knows_dad_reason"
+      },
       "min_turn": 80
     },
-    "tags": ["callback", "sangchul", "father", "story"],
+    "tags": [
+      "callback",
+      "sangchul",
+      "father",
+      "story"
+    ],
     "cooldown": 999,
     "description": "지쳐 있던 날 밤.\n\n임상철에게서 전화가 왔다. 별 말 없이 시작했다가,\n\n\"요즘 어때?\"\n\n{name}은 잠깐 말이 막혔다. 솔직하게 말하면 — 힘들었다.\n\n\"처음에 아버지한테 보여드리고 싶다고 했잖아. 그거 아직 맞아?\"",
     "choices": [
@@ -100,7 +113,12 @@
       "flag": "daeun_daily_life",
       "min_turn": 72
     },
-    "tags": ["callback", "daeun", "romance", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "romance",
+      "story"
+    ],
     "cooldown": 999,
     "description": "오늘도 다은이 왔다.\n\n냉장고를 열더니 \"달걀 없다\"고 했다. 사온다고 나갔다가 두부를 들고 왔다.\n\n\"달걀은?\"\n\n\"몰라. 어쩌다 두부가 손에 잡혔어.\" 웃었다.\n\n이게 일상이 됐다. 짠 찌개도, 틀린 재료도.",
     "choices": [
@@ -119,7 +137,7 @@
         "result_text": "잘 됐는지는 모르겠다. 짰다. 또.\n\n다은이 \"이번엔 내가 넣은 거 아냐\" 했다. {name}도 \"나도 아냐\" 했다.\n둘 다 거짓말인데, 둘 다 웃었다.\n\n30억은 내일 생각하자."
       },
       {
-        "text": "다은이 잠든 후 자료를 더 본다",
+        "text": "다은이 잠든 후 자료를 더 봤다",
         "effects": {
           "intelligence": 2,
           "mental": -3
@@ -143,7 +161,11 @@
       "flag": "daeun_breakup_accepted",
       "min_turn": 56
     },
-    "tags": ["callback", "daeun", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
     "cooldown": 999,
     "description": "헤어진 뒤 몇 주가 지났다.\n\n오늘 그 포장마차 앞을 지나쳤다.\n\n다은이 일어서면서 했던 말이 떠올랐다.\n\"잘 됐으면 좋겠어요. 진짜로.\"\n\n그게 진심이었다는 걸 안다.\n그래서 더 오래 남는다.",
     "choices": [
@@ -182,7 +204,11 @@
       "flag": "daeun_breakup_begged",
       "min_turn": 56
     },
-    "tags": ["callback", "daeun", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
     "cooldown": 999,
     "description": "\"지금이라도 나 바뀔 수 있어요.\"\n\n그날 했던 말이 가끔 떠오른다.\n\n다은의 대답이 더 오래 남는다.\n\"당신이 바뀌는 게 문제가 아니에요. 내가 기다리는 걸 선택한 게 지쳤어요.\"\n\n그 말에 내가 할 수 있는 게 없었다.",
     "choices": [
@@ -221,12 +247,16 @@
       "flag": "daeun_let_drift",
       "min_turn": 56
     },
-    "tags": ["callback", "daeun", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
     "cooldown": 999,
     "description": "편의점에서 아르바이트생이 물었다.\n\"혹시 다은씨 아세요? 예전에 여기서 일했다고 했는데.\"\n\n{name}은 잠깐 멈췄다.\n\n\"아, 네. 알아요.\"\n\n\"잘 지내더라고요. 요즘 카페 일한다고.\"",
     "choices": [
       {
-        "text": "나중에 연락해볼까 생각한다",
+        "text": "나중에 연락해볼까 생각했다",
         "effects": {
           "mental": 3
         },

@@ -19,7 +19,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "먼저 사과한다",
+        "text": "먼저 연락했다. \"제가 그날 과했어요\"",
         "effects": {
           "mental": 10,
           "social_skill": 3
@@ -62,7 +62,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "연락해본다",
+        "text": "연락을 넣어봤다",
         "effects": {
           "social_skill": 2,
           "mental": 5
@@ -239,7 +239,7 @@
         "result_text": "다은이 \"아니에요. 때가 아니었겠죠\"라고 했다.\n그 말이 생각보다 따뜻했다.\n괜찮은 사람은 거절을 상처로 안 만든다."
       },
       {
-        "text": "그냥 자연스럽게 인사한다",
+        "text": "웃으면서 \"잘 지내요?\"라고 했다",
         "effects": {
           "mental": 5
         },
@@ -311,7 +311,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "바로 답장한다",
+        "text": "바로 답장했다",
         "effects": {
           "mental": 15,
           "social_skill": 2
@@ -321,7 +321,7 @@
         "result_text": "바로 답장했다.\n그날 저녁 한참을 얘기했다.\n먼저 문자 보낸 게 — 이 대화를 만들었다.\n먼저 하는 사람이 먼저 얻는다."
       },
       {
-        "text": "좀 있다가 답장한다",
+        "text": "잠깐 뒀다가 답장했다",
         "effects": {
           "mental": 7
         },
@@ -351,7 +351,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "더 자주 가기로 한다",
+        "text": "다음엔 더 자주 가기로 했다",
         "effects": {
           "mental": 15
         },

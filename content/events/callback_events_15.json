@@ -60,7 +60,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "제안을 들어본다",
+        "text": "제안을 들었다",
         "effects": {
           "mental": 10,
           "intelligence": 3,
@@ -71,7 +71,7 @@
         "result_text": "들어봤다.\n지연을 통해 온 제안이었다.\n사람이 사람을 데려오는 방식 — 네트워크는 그렇게 작동했다."
       },
       {
-        "text": "우선 지연에게 물어보고 결정한다",
+        "text": "지연에게 먼저 물어봤다",
         "effects": {
           "mental": 8,
           "social_skill": 2
@@ -154,7 +154,7 @@
         "result_text": "들었다.\n지연이 \"민준 씨한테는 말이 잘 되네요.\"라고 했다.\n처음 열린 문이 — 다음 이야기를 부른다."
       },
       {
-        "text": "나도 솔직하게 이야기한다",
+        "text": "나도 솔직하게 말했다",
         "effects": {
           "mental": 12,
           "social_skill": 4
@@ -186,7 +186,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "만남을 이어간다",
+        "text": "다시 만났다",
         "effects": {
           "social_skill": 3,
           "reputation": 2,
@@ -197,7 +197,7 @@
         "result_text": "다시 만났다.\n지연의 소개가 — 지연과 상관없이 이어졌다.\n좋은 소개는 관계 자체가 되었다."
       },
       {
-        "text": "이번엔 바쁘다고 한다",
+        "text": "\"이번엔 좀 바빠서요\"라고 했다",
         "effects": {
           "mental": 3
         },
@@ -227,7 +227,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "이번엔 제대로 들어본다",
+        "text": "이번엔 제대로 들었다",
         "effects": {
           "intelligence": 3,
           "social_skill": 2

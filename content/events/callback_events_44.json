@@ -12,7 +12,10 @@
       "flag": "goal_grounded",
       "min_turn": 52
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "30억의 무게에 눌렸던 그 밤, {name}은 계획표도 폰도 덮고 바람 쐬러 나가 한강까지 걸었었다.\n\n오늘 또 머리가 복잡해서, 발이 저절로 같은 길로 향했다.\n\n강물은 그때처럼 무심하게 흐르고 있었다.",
     "choices": [
@@ -51,7 +54,10 @@
       "flag": "missed_gosiwon",
       "min_turn": 50
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "고시원을 탈출하고 새 집 첫날 밤, {name}은 이상하게도 그 좁은 방이 생각났었다.\n\n더 넓고 깨끗한 곳에 와서도 가끔 그랬다.\n\n오늘 밤도 문득 그 방의 천장이 떠올랐다.",
     "choices": [
@@ -90,7 +96,10 @@
       "flag": "kept_milestone_secret",
       "min_turn": 40
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "자산 1억을 처음 넘던 날, {name}은 아무한테도 말하지 않고 혼자 간직하기로 했었다.\n\n그 뒤로도 좋은 일은 대체로 혼자 알았다.\n\n오늘 또 통장을 보며, 말할 사람을 잠깐 떠올렸다.",
     "choices": [
@@ -128,12 +137,17 @@
       "flag": "told_daeun_investing",
       "min_turn": 48
     },
-    "tags": ["callback", "daeun", "romance", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "romance",
+      "story"
+    ],
     "cooldown": 999,
     "description": "다은에게 '나 요즘 투자 좀 되고 있어'라고, 딱 거기까지만 말했던 날.\n\n오늘 다은이 슬쩍 물었다.\n\n\"너 그때 투자 얘기 했었잖아. 요즘은 좀 어때? ...아니다, 말하기 싫으면 안 해도 돼.\"",
     "choices": [
       {
-        "text": "이번엔 조금 더 솔직하게 말한다",
+        "text": "이번엔 조금 더 솔직하게 말했다",
         "effects": {
           "mental": 6,
           "social_skill": 1
@@ -177,7 +191,12 @@
       "flag": "showed_room_to_parents",
       "min_turn": 104
     },
-    "tags": ["callback", "father", "story", "family"],
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family"
+    ],
     "cooldown": 999,
     "description": "부모님이 서울에 올라오셨던 날, {name}은 좁은 방을 그대로 보여드렸었다. 숨길 게 없다고.\n\n오늘 아버지가 그날을 꺼내셨다.\n\n\"그때 네 방, 작긴 했어도 — 깨끗하더라. 나는 그게 더 마음 아팠어.\"",
     "choices": [
@@ -225,7 +244,12 @@
       "flag": "hid_room_from_parents",
       "min_turn": 104
     },
-    "tags": ["callback", "father", "story", "family"],
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family"
+    ],
     "cooldown": 999,
     "description": "부모님이 올라오셨던 날, {name}은 방 근처 식당에서 밥만 사드리고 방은 안 보여드렸었다.\n\n오늘 어머니가 슬쩍 말씀하셨다.\n\n\"민준아, 그때 네 방 한번 보고 싶었는데. 엄마는 다 알면서도 모른 척했어.\"",
     "choices": [
@@ -273,7 +297,10 @@
       "flag": "birthday_rest_taken",
       "min_turn": 126
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "35세 생일, {name}은 그날 하루만은 계획표를 덮고 그냥 생일로 보내기로 했었다.\n\n그 하루를 가끔 떠올린다.\n\n쉬어도 무너지지 않았다. 오히려 다음 날이 더 가벼웠다.",
     "choices": [
@@ -312,7 +339,10 @@
       "flag": "birthday_back_to_work",
       "min_turn": 126
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "35세 생일, {name}은 축하 메시지에 짧게 답하고 다시 계획표를 꺼냈었다.\n\n생일에도 멈추지 않은 그날.\n\n오늘 문득 그게 떠올랐다. 그렇게까지 했어야 했나, 아니면 그래서 여기 왔나.",
     "choices": [
@@ -327,7 +357,7 @@
         "result_text": "남들이 쉴 때 한 걸음 더 간 날들.\n\n그게 쌓여서 지금의 격차를 만들었다.\n{name}은 그 생일의 자신에게 작게 고마워했다."
       },
       {
-        "text": "다음 생일엔 하루쯤 쉬어도 된다",
+        "text": "다음 생일엔 하루쯤 쉬어도 됐다",
         "effects": {
           "mental": 5,
           "health": 2
@@ -351,7 +381,10 @@
       "flag": "reached_out_35",
       "min_turn": 144
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "35세, 사무치게 외롭던 그 시기에 {name}은 누구에게라도 먼저 연락해봤었다.\n\n그 용기가 가끔 생각난다.\n\n오늘 또 비슷하게 적적한 날, 폰을 들었다.",
     "choices": [
@@ -389,7 +422,10 @@
       "flag": "walked_alone_35",
       "min_turn": 144
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "35세, 외롭던 그 시기에 {name}은 누굴 부르지 않고 혼자 한강까지 걸었었다.\n\n혼자 걷는 법을 그때 배웠다.\n\n오늘도 마음이 가라앉아, 같은 강가에 섰다.",
     "choices": [
@@ -404,7 +440,7 @@
         "result_text": "혼자라는 게 늘 외로움인 건 아니다.\n\n자기 자신과 걷는 시간이, {name}을 더 또렷하게 만들었다.\n강바람을 맞으며, 오늘의 자신과 조용히 화해했다."
       },
       {
-        "text": "이젠 같이 걸을 사람을 생각한다",
+        "text": "이젠 같이 걸을 사람을 생각했다",
         "effects": {
           "mental": 5,
           "social_skill": 1
@@ -428,7 +464,11 @@
       "flag": "went_to_hospital",
       "min_turn": 186
     },
-    "tags": ["callback", "health", "story"],
+    "tags": [
+      "callback",
+      "health",
+      "story"
+    ],
     "cooldown": 999,
     "description": "36세, 몸이 신호를 보냈을 때 {name}은 일을 미루고 병원에 갔었다. 뭔가 알아야 한다고.\n\n그 선택을 잘했다고 생각한다.\n\n오늘 또 몸이 무겁다. 마지막 스퍼트 구간이다.",
     "choices": [
@@ -468,7 +508,12 @@
       "flag": "ignored_body",
       "min_turn": 186
     },
-    "tags": ["callback", "health", "story", "risk"],
+    "tags": [
+      "callback",
+      "health",
+      "story",
+      "risk"
+    ],
     "cooldown": 999,
     "description": "36세, 몸이 신호를 보냈을 때 {name}은 '지금은 멈출 수 없다, 나중에 쉬면 된다'며 넘겼었다.\n\n그 '나중'이 지금이다.\n\n몸이 다시, 더 크게 신호를 보내고 있다.",
     "choices": [
@@ -508,7 +553,11 @@
       "flag": "hyunsu_drift_talked",
       "min_turn": 56
     },
-    "tags": ["callback", "hyunsu", "story"],
+    "tags": [
+      "callback",
+      "hyunsu",
+      "story"
+    ],
     "cooldown": 999,
     "description": "현수가 방황하던 시기, {name}은 그냥 지나치지 않고 \"요즘 뭐 해?\"라고 물어봤었다.\n\n오늘 현수에게서 연락이 왔다.\n\n\"형, 그때 나 진짜 바닥이었는데. 형이 물어봐줘서 — 누가 날 보고 있구나 싶었어요.\"",
     "choices": [
@@ -556,7 +605,10 @@
       "flag": "cut_sns",
       "min_turn": 130
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "서울살이 2년째, 잘나가는 친구들 소식에 흔들리던 {name}은 'SNS를 끊는다. 비교는 집중력의 독이다'라고 결정했었다.\n\n그 뒤로 피드를 보지 않았다.\n\n오늘 우연히 누군가의 근황을 전해 들었다. 예전 같으면 흔들렸을 소식이었다.",
     "choices": [
