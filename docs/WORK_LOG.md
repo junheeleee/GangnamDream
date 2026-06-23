@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (상철 진실 4경로 엔딩 페이오프 완비 + 에필로그 톤 점검)
+
+### gangnam_dream + sangchul_quietly_distanced 변주 (KR+EN)
+- 진실 알고 말없이 떠난 뒤, 그의 사다리 없이 30억 도달
+- "그게 강남까지 길을 몇 배 멀게 만든 걸 안다. 그래도 이 풍경 어디에도 그 손이 닿지 않았다.
+  이건 온전히 내 것이었다. ...적어도 빌리지 않았다."
+
+### 상철 진실 경로별 엔딩 페이오프 — 전 경로 완비
+- used_fully / leveraged → jaehyuk_way (그가 되어 끝남)
+- truth_buried → gangnam_dream 변주 (묻어둔 채 올라옴)
+- forgiven → gangnam_dream 변주 (원망 내려놓음)
+- quietly_distanced → gangnam_dream 변주 (빌리지 않음)
+- reported / cut_ties → sangchul_reckoning (전용 엔딩)
+
+### task② 다른 인물 에필로그 톤 점검 (결론: 추가 수정 불요)
+- 다은/지연: stage가 관계 건강을 정직히 반영 — drift가 affinity↓→stage↓→콜드 라인
+  자동 처리. "착취하면서도 high-stage 유지" 패턴(상철 leverage)이 없음
+- 재혁: 에필로그 이미 플래그 기반(betrayed/reported/partner_in_crime/blackmailed)
+- 결론: 상철 톤버그는 leverage가 관계를 끊지 않고 이어가는 고유 구조 때문 — 확정
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 / 런타임 양언어 로드 확인
+
 ## 2026-06-23 (엔딩 EN 검증 + gangnam_dream 변주 2종 + 에필로그 톤버그)
 
 ### run_summary / cast_epilogue EN 커버리지 검증 (완료)
