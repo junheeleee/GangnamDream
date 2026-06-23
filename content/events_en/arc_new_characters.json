@@ -6,11 +6,17 @@
     "choices": [
       {
         "text": "\"Welcome. This room gets cold — did you bring thick blankets?\" — look out for him",
-        "result_text": "Jaewon smiled with relief. \"Oh, really? I only packed a thin one...\"\n\nTwo years ago, that was {name}'s face."
+        "result_text": "Jaewon smiled with relief. \"Oh, really? I only packed a thin one...\"\n\nTwo years ago, that was {name}'s face.",
+        "effects": {
+          "tint": 5
+        }
       },
       {
         "text": "\"Take care.\" — short greeting, back to the room",
-        "result_text": "Each went to their own room. That's how people live in goshiwons.\n\nStill — {name} glanced back once. The kid crouched in front of his boxes."
+        "result_text": "Each went to their own room. That's how people live in goshiwons.\n\nStill — {name} glanced back once. The kid crouched in front of his boxes.",
+        "effects": {
+          "tint": -1
+        }
       }
     ]
   },
@@ -21,15 +27,24 @@
     "choices": [
       {
         "text": "\"I was the same. Start by setting aside 20% of your paycheck — no exceptions.\" — honest advice",
-        "result_text": "Jaewon wrote it down. He hadn't had anyone to tell him this.\n\n{name} wondered what would have happened if someone had said this two years ago. But — some things you only learn by doing."
+        "result_text": "Jaewon wrote it down. He hadn't had anyone to tell him this.\n\n{name} wondered what would have happened if someone had said this two years ago. But — some things you only learn by doing.",
+        "effects": {
+          "tint": 7
+        }
       },
       {
         "text": "\"I still don't know much myself. Everyone's different.\" — keep the boundary",
-        "result_text": "Jaewon looked a little deflated. {name} thought about it on the way out.\n\nWhich advice helps, which gets in the way — still not sure. So said nothing."
+        "result_text": "Jaewon looked a little deflated. {name} thought about it on the way out.\n\nWhich advice helps, which gets in the way — still not sure. So said nothing.",
+        "effects": {
+          "tint": -2
+        }
       },
       {
         "text": "Tell him everything — ₩3B, the five-year plan",
-        "result_text": "Jaewon's eyes went wide. \"...For real?\"\n\nSomeone taking the ₩3B goal seriously. It had been a while."
+        "result_text": "Jaewon's eyes went wide. \"...For real?\"\n\nSomeone taking the ₩3B goal seriously. It had been a while.",
+        "effects": {
+          "tint": 6
+        }
       }
     ]
   },
@@ -40,11 +55,17 @@
     "choices": [
       {
         "text": "\"You can. But — it takes longer than you think.\" — honest",
-        "result_text": "Jaewon nodded, his expression serious.\n\nWatched him carry the boxes down the stairs. Remembered Hyunsu leaving. The people who passed through this place — they're all gradually moving on."
+        "result_text": "Jaewon nodded, his expression serious.\n\nWatched him carry the boxes down the stairs. Remembered Hyunsu leaving. The people who passed through this place — they're all gradually moving on.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "\"Good luck.\" — short cheer",
-        "result_text": "Jaewon smiled and lifted his boxes. The next day, room 203's light was out.\n\nJust {name} left."
+        "result_text": "Jaewon smiled and lifted his boxes. The next day, room 203's light was out.\n\nJust {name} left.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -55,11 +76,17 @@
     "choices": [
       {
         "text": "\"Well done. Keep going.\" — short reply",
-        "result_text": "\"Thank you hyung!!!\" Three emoji.\n\nLeaving something behind for someone in Seoul — maybe this is what that looks like."
+        "result_text": "\"Thank you hyung!!!\" Three emoji.\n\nLeaving something behind for someone in Seoul — maybe this is what that looks like.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "\"Let's grab a meal.\" — meet up",
-        "result_text": "A neighborhood sundae gukbap place. Jaewon had changed. In a good way.\n\n\"How much are you at now, hyung?\" Jaewon asked. {name} smiled. \"...A little more.\"\n\nEach racing toward their own number."
+        "result_text": "A neighborhood sundae gukbap place. Jaewon had changed. In a good way.\n\n\"How much are you at now, hyung?\" Jaewon asked. {name} smiled. \"...A little more.\"\n\nEach racing toward their own number.",
+        "effects": {
+          "tint": 6
+        }
       }
     ]
   },
@@ -70,11 +97,17 @@
     "choices": [
       {
         "text": "Get her business card after the talk — want to ask how",
-        "result_text": "Lee Minseo smiled and handed over her card.\n\nA handshake with someone who owns a Gangnam apartment. Slightly unreal. And — she was once standing where {name} is standing."
+        "result_text": "Lee Minseo smiled and handed over her card.\n\nA handshake with someone who owns a Gangnam apartment. Slightly unreal. And — she was once standing where {name} is standing.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "Just listened and left — no nerve to approach",
-        "result_text": "On the way home, her words kept running through his head.\n\nNot 'it can be done' — but 'she already did it.' That stayed longer than expected."
+        "result_text": "On the way home, her words kept running through his head.\n\nNot 'it can be done' — but 'she already did it.' That stayed longer than expected.",
+        "effects": {
+          "tint": -1
+        }
       }
     ]
   },
@@ -85,11 +118,17 @@
     "choices": [
       {
         "text": "\"But you achieved the goal.\" — see the positive",
-        "result_text": "Lee Minseo smiled briefly. \"Yes. I did achieve it.\"\n\nBut that smile was different somehow. {name} wanted to understand the difference. Probably have to get there to know."
+        "result_text": "Lee Minseo smiled briefly. \"Yes. I did achieve it.\"\n\nBut that smile was different somehow. {name} wanted to understand the difference. Probably have to get there to know.",
+        "effects": {
+          "tint": -2
+        }
       },
       {
         "text": "\"Is there something I'm not seeing? Tell me honestly.\" — ask directly",
-        "result_text": "She thought for a moment, then said:\n\"When you have a goal — you have to be ready for when the goal disappears. That's the hardest part.\"\n\nIt took {name} a while to understand what that meant."
+        "result_text": "She thought for a moment, then said:\n\"When you have a goal — you have to be ready for when the goal disappears. That's the hardest part.\"\n\nIt took {name} a while to understand what that meant.",
+        "effects": {
+          "tint": 6
+        }
       }
     ]
   }

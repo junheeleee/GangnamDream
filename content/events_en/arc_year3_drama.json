@@ -6,15 +6,24 @@
     "choices": [
       {
         "text": "Just moved past it. That relationship is over.",
-        "result_text": "Closed the article. The connection with Im Sangchul ended at that café.\n\nWho {name} is now — got here without his help, and without his weight."
+        "result_text": "Closed the article. The connection with Im Sangchul ended at that café.\n\nWho {name} is now — got here without his help, and without his weight.",
+        "effects": {
+          "tint": 1
+        }
       },
       {
         "text": "Called his father. He should know about this.",
-        "result_text": "\"Yeah.\" Father said briefly. \"Good.\"\n\nNothing more. A short silence. Something heavy lifted slightly."
+        "result_text": "\"Yeah.\" Father said briefly. \"Good.\"\n\nNothing more. A short silence. Something heavy lifted slightly.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Feeling sorry for him is strange",
-        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously. That's uncomfortable."
+        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously. That's uncomfortable.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   },
@@ -25,11 +34,17 @@
     "choices": [
       {
         "text": "\"I'm doing okay. Nice to hear from you.\" — straightforward",
-        "result_text": "Jiyeon replied. \"Glad to hear it. I've been shifting directions a bit myself. Let's meet sometime.\"\n\nThat was it. This relationship settled into something that exchanges occasional check-ins from the edges of each other's lives."
+        "result_text": "Jiyeon replied. \"Glad to hear it. I've been shifting directions a bit myself. Let's meet sometime.\"\n\nThat was it. This relationship settled into something that exchanges occasional check-ins from the edges of each other's lives.",
+        "effects": {
+          "tint": 1
+        }
       },
       {
         "text": "\"You helped me a lot back then. I think I've found my own way now.\" — honest",
-        "result_text": "Jiyeon said \"Oh really?\" Then: \"What way is that?\"\n\nAnswering that question made the last two years fall into order. Strangely — in the process, Jiyeon said something similar. \"I'm figuring that out too.\""
+        "result_text": "Jiyeon said \"Oh really?\" Then: \"What way is that?\"\n\nAnswering that question made the last two years fall into order. Strangely — in the process, Jiyeon said something similar. \"I'm figuring that out too.\"",
+        "effects": {
+          "tint": 5
+        }
       }
     ]
   },
@@ -40,15 +55,24 @@
     "choices": [
       {
         "text": "\"I'll get there, Father.\" — said it inwardly",
-        "result_text": "The words came out.\n\nNo one heard. Father isn't here. Did it anyway. That's what's possible right now."
+        "result_text": "The words came out.\n\nNo one heard. Father isn't here. Did it anyway. That's what's possible right now.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Wanted to explain the current situation to him",
-        "result_text": "I'm at this point, Father. Still far. But not giving up.\n\n{name} said all of it silently. Every word felt important."
+        "result_text": "I'm at this point, Father. Still far. But not giving up.\n\n{name} said all of it silently. Every word felt important.",
+        "effects": {
+          "tint": 2
+        }
       },
       {
         "text": "Turned on the monitor. Living people have things to do.",
-        "result_text": "The monitor came on. The charts came up.\n\nThe photo was still there. {name} was still there. Living people have things to do."
+        "result_text": "The monitor came on. The charts came up.\n\nThe photo was still there. {name} was still there. Living people have things to do.",
+        "effects": {
+          "tint": -1
+        }
       }
     ]
   }
