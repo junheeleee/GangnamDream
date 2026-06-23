@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (description_if_known 엔딩 변주 실기 렌더 검증)
+
+### xvfb + opengl3 실제 렌더 캡처로 변주 시각 검증
+- 임시 QAVariants.tscn 하니스 작성 → MainGame 부팅 후 _show_ending에 플래그 주입 캡처
+- 9컷 캡처 성공:
+  - KR: gangnam_dream(truth_buried/forgiven/quietly_distanced/base), jaehyuk_way(used_fully),
+        late_call(used_fully/truth_known)
+  - EN: jaehyuk_way(used_fully), late_call(truth_known)
+- 육안 확인:
+  - jaehyuk_way+used_fully: "그를 미워하며 시작해서, 정확히 그가 되어 끝났다" 정상 렌더
+  - late_call+truth_known: "진실을 민준은 안다. 아버지는 모른다... 들뜸을 깨고 싶지 않았다" 정상
+  - EN jaehyuk_way: "He started out hating him, and ended up exactly him." 영어 정상 렌더
+- description_if_known 엔진이 실제 렌더러에서 엔딩 경로 end-to-end 작동 확인
+- 검증 후 임시 하니스 삭제(레포 정리)
+
+### 참고: 테스트 아티팩트
+- EN 캡처에서 HUD 라벨이 KR로 남고 {name}이 "민준"으로 뜬 것은 하니스가 KR로 부팅 후
+  DataRegistry.reload()만 한 한계 — 실제 EN 게임은 전체 EN 부팅. 엔딩 본문 자체는 언어별 정상.
+
 ## 2026-06-23 (late_call 비-강남 엔딩 상철 진실 변주 2종)
 
 ### 배경
