@@ -1543,8 +1543,10 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_offguard_seen", false):
 		return "arc_sangchul_offguard"
 
-	# ── 임상철의 이름 — 밥 한 번 먹고 처음 사람으로 보인 날 (턴 30~42) ──
-	if t >= 30 and t <= 42 \
+	# ── 임상철의 이름 — 밥 한 번 먹고 처음 사람으로 보인 날 (턴 30~52) ──
+	# 상한 52: 네트워크(03) 합류가 늦은(자산<100만 장기) 플레이어도 offguard→human을
+	# 완주해 known_offer(t38~55)에 닿을 수 있도록 윈도우 확장. 일반 케이스는 t30에 발동.
+	if t >= 30 and t <= 52 \
 			and f.get("arc_sangchul_offguard_seen", false) \
 			and not f.get("arc_sangchul_human_seen", false):
 		return "arc_sangchul_human"
