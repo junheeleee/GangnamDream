@@ -3285,16 +3285,16 @@ func _refresh_arc_box() -> void:
 		arc_box.add_child(at_card)
 	# 정리 가능한 생각 (필요 단서 충족)
 	var avail_thoughts: Array = GameState.available_thoughts()
-	for t in avail_thoughts:
-		var tid: String = str(t.get("id", ""))
+	for th in avail_thoughts:
+		var tid: String = str(th.get("id", ""))
 		var t_card: PanelContainer = _info_card("#d4af6a", "#0d1018")
 		var t_box: VBoxContainer = VBoxContainer.new()
 		t_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		t_box.add_theme_constant_override("separation", 6)
 		t_card.add_child(t_box)
-		t_box.add_child(_label("💭 " + str(t.get("title", tid)), 15, "#f0d9a8"))
-		t_box.add_child(_wrap_label(str(t.get("description", "")), 13, "#b8a878"))
-		var turns: int = int(t.get("processing_turns", 1))
+		t_box.add_child(_label("💭 " + str(th.get("title", tid)), 15, "#f0d9a8"))
+		t_box.add_child(_wrap_label(str(th.get("description", "")), 13, "#b8a878"))
+		var turns: int = int(th.get("processing_turns", 1))
 		var start_btn: Button = _small_button(_tr("생각 정리 시작 (%d주)", "Start working it out (%d wk)") % turns, "#5a4a1e")
 		if not GameState.active_thought.is_empty():
 			start_btn.disabled = true
@@ -6159,8 +6159,15 @@ func _show_ending(ending_id):
 		_add_ending_art_preview(modal_body, ending_cg_path, true)
 	# ── 드라마틱 한 줄 요약 ──
 	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, "#c8a060"))
-	# ── 엔딩 설명 ──
-	modal_body.add_child(_wrap_label(_fmt(str(ending.get("description", ""))), 13, "#6a7486"))
+	# ── 엔딩 설명 ── (지식 반응형: 같은 결말도 어떻게 거기 닿았는지 알면 다르게 읽힌다)
+	var ending_desc := str(ending.get("description", ""))
+	var ending_know = ending.get("description_if_known", null)
+	if ending_know is Dictionary:
+		for fl in ending_know.keys():
+			if GameState.flags.get(str(fl), false):
+				ending_desc = str(ending_know[fl])
+				break
+	modal_body.add_child(_wrap_label(_fmt(ending_desc), 13, "#6a7486"))
 	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
 	_ending_cast_epilogue(modal_body, ending_id)
 	# ── 스탯 그리드 ──

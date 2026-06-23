@@ -2282,5 +2282,178 @@
         "result_text": "Neither of you spoke.\n\nLater Sangchul said:\n'Not many people sit with me like this.'\n\nThose words stayed a long time."
       }
     ]
+  },
+  {
+    "id": "daeun_drift_quiet",
+    "title": "Gone Quiet",
+    "description": "When was the last time Dae-eun reached out.\n\nThinking about it — over a month.\nWhether {name} stopped first or she cut back, the line had blurred.\n\nHe opened the chat. The last message was one {name} had sent.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 6,
+    "hidden": false,
+    "conditions": {
+      "max_cast_affinity": {
+        "daeun": 25
+      },
+      "min_turn": 50,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Sent something — short, anything",
+        "effects": {
+          "mental": -3
+        },
+        "result_text": "\"How've you been?\"\nIt felt awkward once it was sent.\nThe read receipt came up much later. No reply."
+      },
+      {
+        "text": "Left it",
+        "effects": {},
+        "result_text": "He closed the window.\nHe'd been busy. Busy then, busy now.\nThat's what he told himself."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_becomes_primary",
+    "title": "Contacts",
+    "description": "He counted who'd reached out this week.\n\nSang-chul — three times.\nDad — one missed call.\nDae-eun — none.\n\n{name} scrolled the screen down.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 5,
+    "hidden": false,
+    "conditions": {
+      "min_cast_affinity": {
+        "sangchul": 70
+      },
+      "max_cast_affinity": {
+        "daeun": 30
+      },
+      "min_turn": 80,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "sangchul",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Scrolled down",
+        "effects": {},
+        "result_text": "Another message came in from Sang-chul.\nThis week's meeting schedule.\n{name} checked the date."
+      }
+    ]
+  },
+  {
+    "id": "daeun_birthday_missed",
+    "title": "The Date",
+    "description": "A social media notification popped up.\n\n'Today is Dae-eun's birthday.'\n\n{name} paused for a moment.\nHe'd known. At some point it had been wiped from his mind.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 5,
+    "hidden": false,
+    "conditions": {
+      "max_cast_affinity": {
+        "daeun": 30
+      },
+      "min_turn": 60,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Reached out, late as it was",
+        "effects": {
+          "mental": -5
+        },
+        "result_text": "\"Happy birthday. Sorry it's late.\"\nThe reply came the next day.\n\"Thanks.\"\nThat was all."
+      },
+      {
+        "text": "Closed the notification",
+        "effects": {},
+        "result_text": "He swiped the notification away.\nA day passed."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_world_absorbed",
+    "title": "The Address Book",
+    "description": "Scrolling his contacts, he stopped.\n\nNames from Sang-chul's network were more than half of them.\n\nHe didn't know when it happened — but somewhere along the way, Sang-chul's people had become {name}'s people.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {
+      "min_cast_affinity": {
+        "sangchul": 80
+      },
+      "min_turn": 100
+    },
+    "tags": [
+      "relationship",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Kept scrolling",
+        "effects": {},
+        "result_text": "People Sang-chul introduced.\nPeople met at Sang-chul's gatherings.\nPeople connected through Sang-chul.\n\n{name} turned the screen off."
+      }
+    ]
+  },
+  {
+    "id": "jiyeon_notices_daeun",
+    "title": "Jiyeon's Question",
+    "description": "Jiyeon set her coffee down and asked.\n\n\"Are you still in touch with Dae-eun these days?\"\n\n{name} hesitated for a moment.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 5,
+    "hidden": false,
+    "conditions": {
+      "min_cast_affinity": {
+        "jiyeon": 35
+      },
+      "max_cast_affinity": {
+        "daeun": 25
+      },
+      "min_turn": 70,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "jiyeon",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"Been busy lately\"",
+        "effects": {},
+        "result_text": "Jiyeon nodded.\nShe didn't ask further.\nThat silence felt like an answer."
+      },
+      {
+        "text": "\"Not really sure these days\"",
+        "effects": {
+          "mental": -4
+        },
+        "result_text": "Jiyeon glanced at him, then picked up her cup.\n\"I see.\"\nThat was all."
+      },
+      {
+        "text": "Changed the subject",
+        "effects": {},
+        "result_text": "He brought up something else.\nJiyeon went along with it.\nBut something felt off."
+      }
+    ]
   }
 ]
