@@ -110,7 +110,8 @@
         "text": "그냥 듣는다",
         "effects": {
           "intelligence": 3,
-          "mental": 9
+          "mental": 9,
+          "tint": 2
         },
         "flags": [],
         "result_text": "남자는 20분을 얘기했다.\n직장 잘리고 치킨집 차렸다가 망하고, 다시 작은 물류 일 시작한 얘기.\n\"근데 그게 다 내 얘기잖아. 남 얘기처럼 하게 됐어. 그게 되면 다 된 거야.\"\n\n남자가 나갔다. {name}은 그 말을 한동안 생각했다.",
@@ -121,7 +122,8 @@
         "effects": {
           "intelligence": 4,
           "mental": 12,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         },
         "flags": [
           "heard_drunk_wisdom"
@@ -195,7 +197,8 @@
         "effects": {
           "reputation": 8,
           "mental": 6,
-          "luck": 4
+          "luck": 4,
+          "tint": 7
         },
         "flags": [
           "returned_wallet"
@@ -208,7 +211,8 @@
         "effects": {
           "money": 150000,
           "mental": -14,
-          "luck": -3
+          "luck": -3,
+          "tint": -5
         },
         "flags": [],
         "result_text": "5만원짜리 세 장이 있었다.\n\n역무원이 지나갔다. {name}은 계단을 내려갔다.\n\n집까지 오는 내내 발걸음이 무거웠다.\n15만원이 생겼는데 아무것도 안 생긴 것 같았다.",
@@ -239,7 +243,8 @@
         "effects": {
           "mental": 14,
           "social_skill": 2,
-          "reputation": 3
+          "reputation": 3,
+          "tint": 4
         },
         "flags": [
           "stranger_helped"
@@ -250,7 +255,8 @@
       {
         "text": "\"괜찮습니다\" 하고 물건을 내려놓는다",
         "effects": {
-          "mental": -12
+          "mental": -12,
+          "tint": 1
         },
         "flags": [
           "stranger_help_declined"
@@ -372,7 +378,8 @@
         "effects": {
           "reputation": 10,
           "mental": 12,
-          "luck": 4
+          "luck": 4,
+          "tint": 6
         },
         "flags": [
           "honest_found_money"
@@ -386,7 +393,8 @@
           "money": 500000,
           "mental": -22,
           "reputation": -5,
-          "luck": -3
+          "luck": -3,
+          "tint": -6
         },
         "flags": [
           "took_found_money"
@@ -462,7 +470,8 @@
         "text": "진심으로 축하한다",
         "effects": {
           "mental": 16,
-          "luck": 2
+          "luck": 2,
+          "tint": 4
         },
         "flags": [
           "congratulated_neighbor"
@@ -474,7 +483,8 @@
         "text": "\"나도 곧 나가야지\" 혼자 생각한다",
         "effects": {
           "mental": 10,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 1
         },
         "flags": [
           "motivated_by_neighbor"
@@ -507,7 +517,8 @@
         "effects": {
           "money": -5000,
           "luck": 2,
-          "mental": 2
+          "mental": 2,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "rare_lottery_result",
@@ -517,7 +528,8 @@
         "text": "안 산다. 확률의 문제다",
         "effects": {
           "intelligence": 1,
-          "mental": 1
+          "mental": 1,
+          "tint": 1
         },
         "flags": [],
         "result_text": "복권을 내려놨다.\n기댓값으로 보면 항상 지는 게임이다.\n\n5,000원으로 삼각김밥을 샀다. 배가 불렀다.\n이게 더 확실한 수익이었다.",

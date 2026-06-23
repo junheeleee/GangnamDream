@@ -24,7 +24,8 @@
         "result_text": "{name}은 그날 야근을 했다.\n결국 일이 보상해줄 거라고 믿었다. 아직은.",
         "effects": {
           "mental": -12,
-          "reputation": 1
+          "reputation": 1,
+          "tint": -1
         }
       },
       {
@@ -32,14 +33,16 @@
         "result_text": "팀장은 \"성과가 좋았는데 아쉽다\" 했다. 기준은 말하지 않았다.\n{name}은 그 자리에서 알았다 — 무엇을 해도 불투명하다는 것을.",
         "effects": {
           "mental": -3,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         }
       },
       {
         "text": "조용히 이직을 알아본다.  (탈출 / 불확실성)",
         "result_text": "{name}은 그날 저녁 이력서를 꺼냈다.\n분노보다는 결심이 앞섰다 — 이곳이 전부가 아니라고.",
         "effects": {
-          "mental": -1
+          "mental": -1,
+          "tint": 2
         },
         "flags": [
           "considering_job_change"
@@ -159,7 +162,8 @@
         "text": "그냥 잊는다. 몰랐던 걸로 한다.  (평화 / 자존감)",
         "result_text": "{name}은 명세서 창을 닫았다.\n잊으려고 했다. 잊히지 않았다.\n그날 퇴근길이 조금 더 길었다.",
         "effects": {
-          "mental": -9
+          "mental": -9,
+          "tint": -2
         }
       },
       {
@@ -167,7 +171,8 @@
         "result_text": "{name}은 인사팀에 면담을 신청했다.\n\"연봉 조정을 검토해주셨으면 합니다.\"\n결과는 한 달 후 — 기다리는 동안 마음이 복잡했다.",
         "effects": {
           "mental": -4,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         },
         "flags": [
           "salary_negotiation_started"
@@ -208,14 +213,16 @@
         "effects": {
           "mental": 12,
           "reputation": 3,
-          "money": -200000
+          "money": -200000,
+          "tint": 6
         }
       },
       {
         "text": "거절한다. 지금 목표가 먼저다.  (목표 유지 / 의미 포기)",
         "result_text": "정중하게 거절했다.\n옳은 선택인지는 — 나중에 알 수 있을 것이다.",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": -2
         }
       },
       {
@@ -223,7 +230,8 @@
         "result_text": "주말마다 봉사하고 자문 역할을 맡았다.\n에너지는 분산됐다. 하지만 포기하지 않아도 됐다.",
         "effects": {
           "mental": 0,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 2
         }
       }
     ]
@@ -293,7 +301,8 @@
         "result_text": "{name}은 A파 자리에 앉았다.\n차장은 조금 서운한 눈빛이었다.\n조직에서 한 방향을 선택하면 — 나머지 방향이 닫힌다.",
         "effects": {
           "reputation": 1,
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         }
       },
       {
@@ -301,7 +310,8 @@
         "result_text": "{name}은 B파 자리에 앉았다.\n차장이 기뻐했다. 팀장은 다음 날 조금 냉랭했다.\n옳은 선택이 조직 안에서 늘 유리한 선택은 아니다.",
         "effects": {
           "reputation": 2,
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         }
       },
       {
@@ -309,7 +319,8 @@
         "result_text": "\"오늘 일이 있어서요\" 하고 혼자 편의점에서 먹었다.\n양쪽에서 조금씩 밀려나는 느낌이었다.\n하지만 편했다.",
         "effects": {
           "social_skill": -1,
-          "mental": 1
+          "mental": 1,
+          "tint": 3
         }
       }
     ]
@@ -340,7 +351,8 @@
         "result_text": "다음날 출근했다.\n아무것도 달라진 게 없었다. 그냥 또 하루가 지나갔다.",
         "effects": {
           "mental": -7,
-          "reputation": 1
+          "reputation": 1,
+          "tint": -1
         }
       },
       {
@@ -348,7 +360,8 @@
         "result_text": "{name}은 이력서를 꺼냈다. 오늘의 감정은 오늘 쓰고 — 계획은 냉정하게.\n출구를 만드는 것만으로도 숨통이 좀 트였다.",
         "effects": {
           "mental": 5,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 2
         },
         "flags": [
           "quit_planned"
@@ -360,7 +373,8 @@
         "effects": {
           "health": 4,
           "mental": 11,
-          "reputation": -1
+          "reputation": -1,
+          "tint": 4
         }
       }
     ]

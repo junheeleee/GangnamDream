@@ -637,7 +637,8 @@
         "effects": {
           "money": 50000,
           "intelligence": 2,
-          "stress": 2
+          "stress": 2,
+          "tint": 1
         },
         "flags": [],
         "follow_up_event": "",
@@ -649,7 +650,8 @@
           "money": -30000,
           "mental": 8,
           "health": 3,
-          "stress": -6
+          "stress": -6,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",

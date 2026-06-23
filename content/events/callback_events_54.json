@@ -24,7 +24,8 @@
         "text": "도움을 청한 게 — 가장 강한 선택이었다",
         "effects": {
           "mental": 7,
-          "health": 1
+          "health": 1,
+          "tint": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -34,7 +35,8 @@
         "text": "흔들릴 때마다 — 다시 그 번호를 누른다",
         "effects": {
           "mental": 6,
-          "health": 1
+          "health": 1,
+          "tint": 4
         },
         "flags": [],
         "follow_up_event": "",
@@ -67,7 +69,8 @@
       {
         "text": "\"그때 말하길 잘했어요. 숨겼으면 더 망가졌을 거예요.\"",
         "effects": {
-          "mental": 7
+          "mental": 7,
+          "tint": 4
         },
         "cast_effects": {
           "father": {
@@ -82,7 +85,8 @@
         "text": "\"아버지가 알아줘서 — 버틸 수 있었어요.\"",
         "effects": {
           "mental": 6,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -121,7 +125,8 @@
         "text": "그때 더 깊이 간 게 — 바닥을 보게 했다. 이젠 안 간다",
         "effects": {
           "mental": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         },
         "flags": [],
         "follow_up_event": "",
@@ -131,7 +136,8 @@
         "text": "그 바닥이 — 멈추는 계기가 됐다",
         "effects": {
           "mental": 6,
-          "health": 1
+          "health": 1,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -377,7 +383,8 @@
         "text": "옳은 일을 한 거다 — 이익보다 양심을 택했다",
         "effects": {
           "mental": 7,
-          "reputation": 3
+          "reputation": 3,
+          "tint": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -387,7 +394,8 @@
         "text": "그를 끊고 — 혼자 힘으로 여기까지 왔다",
         "effects": {
           "mental": 6,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",

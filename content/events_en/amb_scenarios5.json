@@ -31,7 +31,8 @@
           "social_skill": 2,
           "reputation": 2,
           "health": -4,
-          "stress": 3
+          "stress": 3,
+          "tint": 3
         }
       },
       {
@@ -77,7 +78,8 @@
         "effects": {
           "money": -5000000,
           "mental": 6,
-          "stress": 8
+          "stress": 8,
+          "tint": 8
         },
         "cast_effects": {
           "father": {
@@ -94,7 +96,8 @@
         "effects": {
           "money": 0,
           "mental": -12,
-          "stress": 10
+          "stress": 10,
+          "tint": -5
         },
         "cast_effects": {
           "father": {
@@ -111,7 +114,8 @@
         "effects": {
           "money": 0,
           "stress": 12,
-          "mental": 2
+          "mental": 2,
+          "tint": 6
         },
         "cast_effects": {
           "father": {

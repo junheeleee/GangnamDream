@@ -476,7 +476,8 @@
         "text": "그때처럼 — 몸부터 챙긴다",
         "effects": {
           "mental": 5,
-          "health": 4
+          "health": 4,
+          "tint": 4
         },
         "flags": [],
         "follow_up_event": "",
@@ -487,7 +488,8 @@
         "effects": {
           "mental": 5,
           "health": 2,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -521,7 +523,8 @@
         "text": "이번엔 미루지 않는다 — 병원에 간다",
         "effects": {
           "mental": 4,
-          "health": 4
+          "health": 4,
+          "tint": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -532,7 +535,8 @@
         "effects": {
           "mental": 2,
           "health": -3,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "tint": -4
         },
         "flags": [],
         "follow_up_event": "",

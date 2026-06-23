@@ -4258,7 +4258,8 @@
         "effects": {
           "money": 50000,
           "intelligence": 2,
-          "mental": -2
+          "mental": -2,
+          "tint": 1
         },
         "flags": [],
         "follow_up_event": "",
@@ -4269,7 +4270,8 @@
         "effects": {
           "money": -30000,
           "mental": 14,
-          "health": 3
+          "health": 3,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",

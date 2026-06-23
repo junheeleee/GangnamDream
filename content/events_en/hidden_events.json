@@ -121,7 +121,8 @@
           "intelligence": 5,
           "mental": -5,
           "stress": 3,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": 2
         },
         "flags": [
           "visited_gangnam_open_house"
@@ -134,7 +135,8 @@
         "effects": {
           "intelligence": 2,
           "mental": -8,
-          "stress": 5
+          "stress": 5,
+          "tint": 1
         },
         "flags": [
           "visited_gangnam_open_house"
@@ -164,14 +166,16 @@
         "text": "Book a hospital appointment for tomorrow",
         "effects": {
           "money": 180000,
-          "appearance": -1
+          "appearance": -1,
+          "tint": 4
         },
         "result_text": "I found an internal medicine clinic in the app.\nBooked it. 10 a.m., the day after tomorrow.\nThat night, at least, I think I slept a little better."
       },
       {
         "text": "Brush it off as nothing and lie back down",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -3
         },
         "result_text": "I pulled the blanket up.\nClosed my eyes.\nThe pounding stopped twenty minutes later."
       },
@@ -179,7 +183,8 @@
         "text": "Search whether I should go to the ER",
         "effects": {
           "reputation": 7,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": 2
         },
         "result_text": "I searched 'heart palpitations ER guidelines.'\nRead through the symptom checklist.\nNone of it applied. Still, I stayed awake for thirty minutes."
       }
@@ -305,7 +310,8 @@
       {
         "text": "Leave one line of encouragement in the comments",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": 3
         },
         "result_text": "'Enjoyed watching this.'\nAfter posting it, I looked at my own profile.\nZero subscribers. No uploaded videos."
       },
@@ -571,7 +577,8 @@
       {
         "text": "Spend it on dinner tonight",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         },
         "result_text": "I went to a barbecue place.\nAlone, but it didn't matter.\nAte 47,200 won's worth. For the first time in a while, I was full."
       },
@@ -616,14 +623,16 @@
         "text": "Greet them first",
         "effects": {
           "money": 120000,
-          "health": 6
+          "health": 6,
+          "tint": 4
         },
         "result_text": "'Hello.'\nThe team lead came closer.\n'How've you been lately?' The conversation lasted three stops."
       },
       {
         "text": "Move to another car",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": -2
         },
         "result_text": "I slipped into the next car before the doors closed.\nAvoided the awkwardness.\nI think they saw."
       },
@@ -631,7 +640,8 @@
         "text": "Pretend to be on my phone and ignore them",
         "effects": {
           "reputation": 1,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "tint": -1
         },
         "result_text": "I lowered my head.\nThe screen was off.\nThey got off at the next station."
       }
@@ -659,14 +669,16 @@
         "text": "Check each item and cancel everything",
         "effects": {
           "money": 370000,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": 2
         },
         "result_text": "I found the subscription services.\nCanceled both.\n23,000 won saved per month. 276,000 a year."
       },
       {
         "text": "Keep only what I need and clear out the rest",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": 1
         },
         "result_text": "One I was using.\nOne I'd forgotten.\nI canceled only the one I'd forgotten."
       },
@@ -674,7 +686,8 @@
         "text": "Just pay it this month",
         "effects": {
           "reputation": -1,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": -1
         },
         "result_text": "Paid it.\nDecided to sort it out next month.\nWhen next month's statement came, the same items were there."
       }
@@ -747,7 +760,8 @@
         "effects": {
           "social_skill": 3,
           "intelligence": 2,
-          "mental": 2
+          "mental": 2,
+          "tint": 3
         },
         "result_text": "I listened.\nIt was about performance targets.\nI asked, 'What would you suggest I do?' It turned into a conversation."
       },
@@ -755,7 +769,8 @@
         "text": "Swallow it inside and nod along",
         "effects": {
           "mental": -7,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -2
         },
         "result_text": "I nodded.\nManaged my expression.\nLeft the meeting room and went to the bathroom."
       },
@@ -764,14 +779,16 @@
         "effects": {
           "reputation": -3,
           "social_skill": -2,
-          "mental": -1
+          "mental": -1,
+          "tint": 4
         },
         "result_text": "I started with, 'From my side, that part...'\nThe team lead's face hardened.\nIt turned into a ten-minute argument."
       },
       {
         "text": "Step away to collect my emotions",
         "effects": {
-          "mental": 6
+          "mental": 6,
+          "tint": 1
         },
         "result_text": "I needed some air.\nWent down the stairwell.\nCame back up five minutes later."
       }
@@ -797,14 +814,16 @@
         "text": "Decline politely",
         "effects": {
           "money": -50000,
-          "luck": 2
+          "luck": 2,
+          "tint": 2
         },
         "result_text": "'No thank you.'\nI bowed my head and walked past.\nBehind me I heard them start in on the next person."
       },
       {
         "text": "Listen for just ten minutes",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": -1
         },
         "result_text": "We went to a nearby cafe.\nThe business model came out.\nWhen the pitch crossed the fifteen-minute mark, I stood up."
       },
@@ -812,7 +831,8 @@
         "text": "Film it and post it on SNS",
         "effects": {
           "reputation": 1,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": -2
         },
         "result_text": "I quietly turned on the camera.\nPosted it.\nA comment read, 'Got got by them too.'"
       }
@@ -924,7 +944,8 @@
         "text": "Ask how they bought in",
         "effects": {
           "money": 450000,
-          "health": 5
+          "health": 5,
+          "tint": 1
         },
         "result_text": "'What is it?'\nThe friend explained.\n{name} nodded along, then pulled out a notepad."
       },
@@ -951,7 +972,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -4
         },
         "result_text": "Opened the app.\nFound the stock.\nBought. The friend said, 'Hey, don't do that.'"
       }
@@ -979,7 +1001,8 @@
         "text": "Decide to cut back. There's time to spend elsewhere.",
         "effects": {
           "intelligence": 4,
-          "mental": 8
+          "mental": 8,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -989,7 +1012,8 @@
         "text": "Just let it slide. Everyone probably lives like this.",
         "effects": {
           "intelligence": 1,
-          "mental": -2
+          "mental": -2,
+          "tint": -2
         },
         "flags": [],
         "follow_up_event": "",
@@ -1022,7 +1046,8 @@
           "money": -300000,
           "investment_skill": 3,
           "luck": -1,
-          "mental": -5
+          "mental": -5,
+          "tint": -3
         },
         "flags": [
           "fomo_invested"
@@ -1035,7 +1060,8 @@
         "effects": {
           "intelligence": 5,
           "investment_skill": 2,
-          "mental": -3
+          "mental": -3,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",

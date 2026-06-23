@@ -6,11 +6,17 @@
     "choices": [
       {
         "text": "Organized the evidence and brought it to HR.",
-        "result_text": "Dates, emails, draft files. It was all there.\n\nThe HR meeting was uncomfortable. But Minjun was calmer in that room than the team lead. Having evidence does that."
+        "result_text": "Dates, emails, draft files. It was all there.\n\nThe HR meeting was uncomfortable. But Minjun was calmer in that room than the team lead. Having evidence does that.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "This is the exit signal. Time to leave.",
-        "result_text": "He opened his resume instead of an HR complaint form.\n\nEven if he won the fight in this company, it would cost him. Better to spend that energy somewhere else."
+        "result_text": "He opened his resume instead of an HR complaint form.\n\nEven if he won the fight in this company, it would cost him. Better to spend that energy somewhere else.",
+        "effects": {
+          "tint": 2
+        }
       }
     ]
   },

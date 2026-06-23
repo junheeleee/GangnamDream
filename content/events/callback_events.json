@@ -24,7 +24,8 @@
         "effects": {
           "money": -10000000,
           "mental": -26,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 3
         },
         "flags": [
           "guarantee_confronted"
@@ -37,7 +38,8 @@
         "effects": {
           "money": -7000000,
           "mental": -19,
-          "intelligence": 4
+          "intelligence": 4,
+          "tint": 1
         },
         "flags": [
           "guarantee_legal_route"
@@ -150,7 +152,8 @@
         "effects": {
           "money": -8000000,
           "mental": -24,
-          "intelligence": 5
+          "intelligence": 5,
+          "tint": 2
         },
         "flags": [
           "jeonse_partial_recovery"
@@ -163,7 +166,8 @@
         "effects": {
           "money": -12000000,
           "mental": -32,
-          "health": -4
+          "health": -4,
+          "tint": -1
         },
         "flags": [
           "jeonse_chased_landlord"
@@ -198,7 +202,8 @@
         "effects": {
           "money": -1200000,
           "health": 12,
-          "mental": 10
+          "mental": 10,
+          "tint": 5
         },
         "flags": [
           "health_finally_treated"
@@ -211,7 +216,8 @@
         "effects": {
           "money": -300000,
           "health": -8,
-          "mental": -14
+          "mental": -14,
+          "tint": -5
         },
         "flags": [
           "health_ignored_twice"
@@ -247,7 +253,8 @@
         "effects": {
           "mental": -4,
           "reputation": 3,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 7
         },
         "flags": [
           "interview_lie_confessed"
@@ -261,7 +268,8 @@
           "health": -5,
           "intelligence": 5,
           "reputation": 5,
-          "mental": -19
+          "mental": -19,
+          "tint": 1
         },
         "flags": [
           "interview_lie_doubled"
@@ -426,7 +434,8 @@
       {
         "text": "\"갈 거예요. 그 말 지킬 거예요.\"",
         "effects": {
-          "mental": 15
+          "mental": 15,
+          "tint": 3
         },
         "flags": [
           "promise_reaffirmed"
@@ -437,7 +446,8 @@
       {
         "text": "\"아버지. 강남 못 가도 — 모실게요.\"",
         "effects": {
-          "mental": 20
+          "mental": 20,
+          "tint": 7
         },
         "flags": [
           "promise_changed"

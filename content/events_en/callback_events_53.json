@@ -141,11 +141,17 @@
     "choices": [
       {
         "text": "I kept — that vow",
-        "result_text": "The vow made on the bus, {name} kept.\n\nA vow isn't spoken but kept daily.\nThat last bus from Jeongseon was the starting line of a different life."
+        "result_text": "The vow made on the bus, {name} kept.\n\nA vow isn't spoken but kept daily.\nThat last bus from Jeongseon was the starting line of a different life.",
+        "effects": {
+          "tint": 5
+        }
       },
       {
         "text": "When shaken — I recall that bus",
-        "result_text": "Temptation never fully vanishes. But it became manageable.\n\nWhenever shaken, {name} recalls the self on that bus.\nThe memory of seeing the bottom held them back from that road again."
+        "result_text": "Temptation never fully vanishes. But it became manageable.\n\nWhenever shaken, {name} recalls the self on that bus.\nThe memory of seeing the bottom held them back from that road again.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   },
@@ -156,11 +162,17 @@
     "choices": [
       {
         "text": "Keeping distance myself — protected me",
-        "result_text": "Addiction wasn't an inability to quit, but an inability to keep distance.\n\n{name} sensed the danger early and stopped themselves.\nThe ability to see one's state objectively was the most powerful brake."
+        "result_text": "Addiction wasn't an inability to quit, but an inability to keep distance.\n\n{name} sensed the danger early and stopped themselves.\nThe ability to see one's state objectively was the most powerful brake.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "That sense of awareness — I still use",
-        "result_text": "The antenna that catches danger signals saved {name} several times.\n\nNot just gambling — the same sense worked before reckless investing or overwork.\nThe power to monitor oneself was a survival skill that worked anywhere."
+        "result_text": "The antenna that catches danger signals saved {name} several times.\n\nNot just gambling — the same sense worked before reckless investing or overwork.\nThe power to monitor oneself was a survival skill that worked anywhere.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   },

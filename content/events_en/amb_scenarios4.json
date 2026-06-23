@@ -24,7 +24,8 @@
         "follow_up_event": "amb_wallet_return",
         "effects": {
           "stress": 3,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 7
         }
       },
       {
@@ -37,7 +38,8 @@
         "effects": {
           "money": 300000,
           "mental": -6,
-          "stress": 4
+          "stress": 4,
+          "tint": -4
         }
       },
       {
@@ -48,7 +50,8 @@
         ],
         "effects": {
           "mental": -1,
-          "stress": 1
+          "stress": 1,
+          "tint": -2
         }
       }
     ]

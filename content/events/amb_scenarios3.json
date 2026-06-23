@@ -25,7 +25,8 @@
         "follow_up_event": "amb_mlm_meet",
         "effects": {
           "money": -10000,
-          "mental": -4
+          "mental": -4,
+          "tint": -2
         }
       },
       {
@@ -36,7 +37,8 @@
         ],
         "effects": {
           "mental": 5,
-          "social_skill": -1
+          "social_skill": -1,
+          "tint": 3
         }
       }
     ]
@@ -114,7 +116,8 @@
         "effects": {
           "money": -200000,
           "health": 12,
-          "mental": 6
+          "mental": 6,
+          "tint": 5
         }
       },
       {
@@ -126,7 +129,8 @@
         "effects": {
           "money": 0,
           "health": -10,
-          "mental": -4
+          "mental": -4,
+          "tint": -5
         }
       }
     ]
@@ -161,7 +165,8 @@
         "effects": {
           "money": -1500000,
           "health": -8,
-          "mental": -6
+          "mental": -6,
+          "tint": 3
         }
       },
       {
@@ -172,7 +177,8 @@
         ],
         "effects": {
           "mental": -14,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "tint": -3
         }
       },
       {
@@ -183,7 +189,8 @@
         ],
         "effects": {
           "money": 3000000,
-          "mental": -3
+          "mental": -3,
+          "tint": 1
         },
         "cast_effects": {
           "father": {

@@ -413,7 +413,8 @@
         "text": "두려움을 인정한 게 — 오히려 힘이 됐다",
         "effects": {
           "mental": 6,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 4
         },
         "flags": [],
         "follow_up_event": "",
@@ -422,7 +423,8 @@
       {
         "text": "두려워도 — 여기까지 온 나를 믿는다",
         "effects": {
-          "mental": 7
+          "mental": 7,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",

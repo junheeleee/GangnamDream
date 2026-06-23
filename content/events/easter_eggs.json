@@ -26,7 +26,8 @@
         "effects": {
           "intelligence": 3,
           "mental": 5,
-          "luck": 2
+          "luck": 2,
+          "tint": 3
         },
         "flags": [
           "egg_gosiwon_sage_seen"
@@ -37,7 +38,8 @@
         "text": "이제 그만 여기서 나가고 싶다",
         "effects": {
           "mental": -2,
-          "luck": 1
+          "luck": 1,
+          "tint": 1
         },
         "flags": [
           "egg_gosiwon_sage_seen",
@@ -72,7 +74,8 @@
         "effects": {
           "mental": 4,
           "health": 1,
-          "money": -2000
+          "money": -2000,
+          "tint": 3
         },
         "flags": [
           "egg_triangle_kimbap_seen"
@@ -117,7 +120,8 @@
         "text": "지금 느끼는 걸 그냥 인정한다",
         "effects": {
           "mental": 10,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 4
         },
         "flags": [
           "egg_4am_clarity_seen"
@@ -129,7 +133,8 @@
         "effects": {
           "mental": 6,
           "intelligence": 2,
-          "health": -1
+          "health": -1,
+          "tint": 1
         },
         "flags": [
           "egg_4am_clarity_seen"
@@ -166,7 +171,8 @@
         "effects": {
           "mental": 8,
           "reputation": 5,
-          "route_orthodox": 1
+          "route_orthodox": 1,
+          "tint": 6
         },
         "flags": [
           "egg_honest_paradox_seen"
@@ -178,7 +184,8 @@
         "effects": {
           "mental": -3,
           "investment_skill": 2,
-          "route_unorthodox": 1
+          "route_unorthodox": 1,
+          "tint": -3
         },
         "flags": [
           "egg_honest_paradox_seen",
@@ -214,7 +221,8 @@
         "text": "지금 멈춘다. 도박 앱을 전부 지운다.",
         "effects": {
           "mental": 8,
-          "addiction_tendency": -25
+          "addiction_tendency": -25,
+          "tint": 7
         },
         "flags": [
           "egg_gambling_mirror_seen",
@@ -227,7 +235,8 @@
         "text": "거울에서 눈을 돌린다. 아직은 괜찮다.",
         "effects": {
           "mental": -5,
-          "addiction_tendency": 5
+          "addiction_tendency": 5,
+          "tint": -6
         },
         "flags": [
           "egg_gambling_mirror_seen",
@@ -263,7 +272,8 @@
         "effects": {
           "mental": 10,
           "intelligence": 2,
-          "reputation": 3
+          "reputation": 3,
+          "tint": 3
         },
         "flags": [
           "egg_quiet_rich_seen"
@@ -274,7 +284,8 @@
         "text": "이제 진짜 나갈 때가 됐다. 강남으로.",
         "effects": {
           "mental": 5,
-          "luck": 3
+          "luck": 3,
+          "tint": 2
         },
         "flags": [
           "egg_quiet_rich_seen",
@@ -312,7 +323,8 @@
         "effects": {
           "intelligence": 3,
           "luck": 4,
-          "mental": 3
+          "mental": 3,
+          "tint": 2
         },
         "flags": [
           "egg_deja_vu_seen",
@@ -361,7 +373,8 @@
           "intelligence": 5,
           "investment_skill": 3,
           "mental": 5,
-          "luck": 3
+          "luck": 3,
+          "tint": 4
         },
         "flags": [
           "egg_veteran_return_seen",
@@ -373,7 +386,8 @@
         "text": "알아도 어차피 똑같다 — 그냥 흘러가게 둔다",
         "effects": {
           "mental": -3,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -4
         },
         "flags": [
           "egg_veteran_return_seen"

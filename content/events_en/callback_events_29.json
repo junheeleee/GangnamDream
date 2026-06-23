@@ -28,11 +28,17 @@
     "choices": [
       {
         "text": "\"It's the obvious thing to do.\" (That's all he said.)",
-        "result_text": "After hanging up, he sat still for a moment.\n\nThey both knew it wasn't obvious. But that was the right thing to say. This was just the beginning."
+        "result_text": "After hanging up, he sat still for a moment.\n\nThey both knew it wasn't obvious. But that was the right thing to say. This was just the beginning.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "(He looked at the balance and pushed it to next month. Not yet.)",
-        "result_text": "Next month. That's what he told himself.\n\nHe figured he'd send more when the number was bigger. But he didn't know how much waiting time his parents had left."
+        "result_text": "Next month. That's what he told himself.\n\nHe figured he'd send more when the number was bigger. But he didn't know how much waiting time his parents had left.",
+        "effects": {
+          "tint": -2
+        }
       }
     ]
   },

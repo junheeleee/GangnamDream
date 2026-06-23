@@ -466,7 +466,8 @@
         "text": "그 다짐을 — 지켜왔다",
         "effects": {
           "mental": 7,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -476,7 +477,8 @@
         "text": "흔들릴 때마다 — 그날 버스를 떠올린다",
         "effects": {
           "mental": 6,
-          "health": 1
+          "health": 1,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -509,7 +511,8 @@
         "text": "스스로 거리를 둔 게 — 자신을 지켰다",
         "effects": {
           "mental": 6,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 4
         },
         "flags": [],
         "follow_up_event": "",
@@ -519,7 +522,8 @@
         "text": "그 자각의 감각을 — 지금도 쓴다",
         "effects": {
           "mental": 6,
-          "health": 1
+          "health": 1,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",

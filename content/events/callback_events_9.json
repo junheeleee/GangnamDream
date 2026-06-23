@@ -437,7 +437,8 @@
         "text": "이번엔 직접 마지막 인사를 한다",
         "effects": {
           "mental": 8,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -518,7 +519,8 @@
         "text": "이유를 다시 정리한다",
         "effects": {
           "mental": 18,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 4
         },
         "flags": [
           "motive_clarified"
@@ -529,7 +531,8 @@
       {
         "text": "이유가 뭐든 결과가 중요하다",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": -2
         },
         "flags": [],
         "follow_up_event": "",
@@ -560,7 +563,8 @@
         "text": "정도가 맞다. 계속 간다",
         "effects": {
           "mental": 20,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -570,7 +574,8 @@
         "text": "아직도 모르겠다. 더 빠른 방법이 있을 것 같다",
         "effects": {
           "intelligence": 2,
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [],
         "follow_up_event": "",

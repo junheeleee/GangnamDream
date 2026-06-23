@@ -2319,7 +2319,8 @@
         "effects": {
           "investment_skill": 3,
           "intelligence": 2,
-          "luck": 5
+          "luck": 5,
+          "tint": -2
         },
         "flags": [
           "sangchul_opportunity_done",
@@ -2337,7 +2338,8 @@
         "text": "\"그냥 주는 정보는 없다는 거 알아요.\" 묻는다.",
         "effects": {
           "intelligence": 3,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         },
         "flags": [
           "sangchul_opportunity_done"

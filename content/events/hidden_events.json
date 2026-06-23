@@ -70,14 +70,16 @@
         "text": "내일 병원 예약을 잡는다",
         "effects": {
           "money": 180000,
-          "appearance": -1
+          "appearance": -1,
+          "tint": 4
         },
         "result_text": "앱에서 내과를 찾았다.\n예약을 잡았다. 모레 오전 10시.\n그날 밤은 그래도 좀 잘 잔 것 같았다."
       },
       {
         "text": "그냥 대수롭지 않게 여기고 다시 눕는다",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -3
         },
         "result_text": "이불을 끌어당겼다.\n눈을 감았다.\n두근거림은 20분 후에 멈췄다."
       },
@@ -85,7 +87,8 @@
         "text": "응급실에 가야 할지 검색한다",
         "effects": {
           "reputation": 7,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": 2
         },
         "result_text": "'심장 두근거림 응급실 기준'을 검색했다.\n증상 체크리스트를 읽었다.\n해당 사항 없었다. 그래도 30분 동안 깨어 있었다."
       }
@@ -211,7 +214,8 @@
       {
         "text": "댓글에 응원 한 줄을 단다",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": 3
         },
         "result_text": "'잘 보고 갑니다.'\n달고 나서 내 프로필을 봤다.\n구독자 0. 업로드한 영상 없음."
       },
@@ -518,7 +522,8 @@
       {
         "text": "오늘 저녁에 쓰기로 했다",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         },
         "result_text": "고기집에 갔다.\n혼자였지만 상관없었다.\n47,200원치를 먹었다. 오랜만에 배가 불렀다."
       },
@@ -563,14 +568,16 @@
         "text": "\"안녕하세요\"라고 했다",
         "effects": {
           "money": 120000,
-          "health": 6
+          "health": 6,
+          "tint": 4
         },
         "result_text": "'안녕하세요.'\n팀장님이 가까이 왔다.\n'요즘 어떻게 지내요?' 세 정거장 동안 대화가 이어졌다."
       },
       {
         "text": "슬쩍 다음 칸으로 이동했다",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": -2
         },
         "result_text": "문이 닫히기 전에 옆 칸으로 갔다.\n어색함을 피했다.\n그 사람이 봤을 것 같았다."
       },
@@ -578,7 +585,8 @@
         "text": "화면을 내려다봤다",
         "effects": {
           "reputation": 1,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "tint": -1
         },
         "result_text": "고개를 숙였다.\n화면이 꺼져 있었다.\n다음 역에서 그 사람이 내렸다."
       }
@@ -606,14 +614,16 @@
         "text": "항목을 하나씩 확인하고 다 해지한다",
         "effects": {
           "money": 370000,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": 2
         },
         "result_text": "구독 서비스를 찾았다.\n두 개 다 해지했다.\n월 23,000원이 절약됐다. 1년에 27만 6천원."
       },
       {
         "text": "필요한 것만 남기고 나머지를 정리한다",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": 1
         },
         "result_text": "하나는 쓰고 있었다.\n하나는 잊고 있었다.\n잊고 있던 것만 해지했다."
       },
@@ -621,7 +631,8 @@
         "text": "이번 달은 그냥 낸다",
         "effects": {
           "reputation": -1,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": -1
         },
         "result_text": "이체했다.\n다음 달에 정리하기로 했다.\n다음 달 명세서가 왔을 때도 같은 항목이 있었다."
       }
@@ -694,7 +705,8 @@
         "effects": {
           "social_skill": 3,
           "intelligence": 2,
-          "mental": 2
+          "mental": 2,
+          "tint": 3
         },
         "result_text": "들었다.\n실적 목표 이야기였다.\n'어떻게 하면 좋을까요?'라고 물었다. 대화가 됐다."
       },
@@ -702,7 +714,8 @@
         "text": "속으로 삭이며 고개를 끄덕인다",
         "effects": {
           "mental": -7,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -2
         },
         "result_text": "끄덕였다.\n표정을 관리했다.\n회의실을 나와서 화장실로 갔다."
       },
@@ -711,14 +724,16 @@
         "effects": {
           "reputation": -3,
           "social_skill": -2,
-          "mental": -1
+          "mental": -1,
+          "tint": 4
         },
         "result_text": "'그 부분은 제 입장에서는...'이라고 시작했다.\n팀장님 표정이 굳었다.\n10분 논쟁이 됐다."
       },
       {
         "text": "자리를 피해 감정을 정리한다",
         "effects": {
-          "mental": 6
+          "mental": 6,
+          "tint": 1
         },
         "result_text": "바깥 공기가 필요했다.\n계단으로 내려갔다.\n5분 후에 다시 올라갔다."
       }
@@ -744,14 +759,16 @@
         "text": "\"죄송합니다\"라고 하고 걸었다",
         "effects": {
           "money": -50000,
-          "luck": 2
+          "luck": 2,
+          "tint": 2
         },
         "result_text": "'괜찮습니다.'\n고개를 숙이고 지나갔다.\n등 뒤에서 다음 사람에게 말 거는 소리가 들렸다."
       },
       {
         "text": "10분만 들어본다",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": -1
         },
         "result_text": "근처 카페에 갔다.\n사업 모델이 나왔다.\n설명이 15분째로 넘어갔을 때 일어났다."
       },
@@ -759,7 +776,8 @@
         "text": "영상을 찍어 SNS에 올린다",
         "effects": {
           "reputation": 1,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": -2
         },
         "result_text": "슬쩍 카메라를 켰다.\n올렸다.\n댓글에 '나도 당했음'이 달렸다."
       }
@@ -871,7 +889,8 @@
         "text": "\"어떻게 샀어?\"라고 물었다",
         "effects": {
           "money": 450000,
-          "health": 5
+          "health": 5,
+          "tint": 1
         },
         "result_text": "'어떤 거야?'\n친구가 설명했다.\n{name}은 고개를 끄덕이다가 메모를 꺼냈다."
       },
@@ -898,7 +917,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -4
         },
         "result_text": "앱을 열었다.\n종목을 찾았다.\n샀다. 친구가 '야 그러지 마'라고 했다."
       }
@@ -927,7 +947,8 @@
         "effects": {
           "intelligence": 5,
           "mental": -8,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": 2
         },
         "flags": [
           "visited_gangnam_open_house"
@@ -939,7 +960,8 @@
         "text": "그냥 구경만 하고 나온다",
         "effects": {
           "intelligence": 2,
-          "mental": -13
+          "mental": -13,
+          "tint": 1
         },
         "flags": [
           "visited_gangnam_open_house"
@@ -971,7 +993,8 @@
         "text": "사용 시간을 줄이기로 한다. 딴 데 쓸 시간이 있다.",
         "effects": {
           "intelligence": 4,
-          "mental": 8
+          "mental": 8,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -981,7 +1004,8 @@
         "text": "그냥 넘긴다. 다들 이렇게 살겠지.",
         "effects": {
           "intelligence": 1,
-          "mental": -2
+          "mental": -2,
+          "tint": -2
         },
         "flags": [],
         "follow_up_event": "",
@@ -1014,7 +1038,8 @@
           "money": -300000,
           "investment_skill": 3,
           "luck": -1,
-          "mental": -5
+          "mental": -5,
+          "tint": -3
         },
         "flags": [
           "fomo_invested"
@@ -1027,7 +1052,8 @@
         "effects": {
           "intelligence": 5,
           "investment_skill": 2,
-          "mental": -3
+          "mental": -3,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
