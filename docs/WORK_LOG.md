@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (★MORAL_TINT 신규 시스템 — 엔진 코어 + 수직 슬라이스)
+
+### 설계 (docs/MORAL_TINT.md)
+- "가질수록 나를 잃는다. 회색 시작 → 인간성=하양 / 돈=검정. 30억 쥐었을 때 화면 색이 진짜 결말."
+- DE 무관 고유 시스템. 플레이어에겐 숫자 미노출, 오직 테마색으로만.
+- 네 칸 매트릭스(tint×30억)가 기존 엔딩 변주(jaehyuk_way/late_call 2/gangnam_dream 3)와 맞물림
+
+### 엔진 코어 (GameState)
+- `moral_tint: float` −100(검정/돈) ~ 0(회색/시작) ~ +100(하양/인간)
+- `shift_moral_tint(delta)` — clamp + 흉터 상한
+- 흉터(영구): crossed_line→상한 −20(양수 불가), chose_money_over_father→상한 0(하양 불가)
+- `moral_stage()` −2~+2 (이산), `moral_tint_norm()` −1~+1 (Codex 보간)
+- apply_effects에 `tint` 효과 키 추가
+- serialize/load/start_new_game 반영, moral_band_last(전이 비네트용) 추가
+
+### 수직 슬라이스 tint 저작
+- 상철: known_offer(집음 −8/거절 +6), reflex(자기기만 −2/합리화 −5/정직 +4),
+  confrontation(묻음 −3/떠남 +8), reckoning(신고 +8/용서 +5/레버리지 −8), mirror(부정 +2)
+- 아버지 병원: 달려감 +10 / 상철인맥 −6 / 돈만 −4 / 미룸 −2
+
+### 헤드리스 검증 (전부 통과)
+- 누적(−8×3=−24, stage −1), 회복(+10→−14, stage 0), 깊은 검정(−74, stage −2)
+- 흉터: crossed_line+200→−20 상한 / death-ignored+50→0 상한
+- serialize 라운드트립(−33, band_last −1)
+
+### Codex 핸드오프
+- NEW_ASSET_REQUESTS.md에 시각 스펙: moral_tint_norm()/moral_stage() 구독 →
+  테마색 보간 + 돈 글로우 반비례 + stage −2 틀어짐 + 엔딩 팔레트
+
+### audit ERROR 0 / Godot 55개 컴파일 클린 / 게임 동작 무변(값만 쌓임)
+
 ## 2026-06-23 (데모 빌드 export QA — Windows + Linux/Steam Deck)
 
 ### export 환경

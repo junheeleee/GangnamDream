@@ -121,11 +121,12 @@ DE의 "스킬이 말한다"와 무관한 우리 고유 시스템. 추상 메타�
 
 ## 8. 롤아웃
 
-1. **엔진 코어**: moral_tint 필드·shift·stage·tint 키·흉터 훅·serialize·audit (게임 동작 무변, 값만 쌓임)
-2. **수직 슬라이스**: 상철 아크 선택지에 tint 부여 + 밴드 전이 비네트 2종 → 헤드리스로 값 축적 검증
-3. **Codex 시각 연결** (신호 구독)
-4. **스파인 확장**: 아버지·돈·관계 핵심 씬 전체 tint 저작
-5. 밸런스: 하양 30억이 극악인지 시뮬 검증, 밴드 임계 튜닝
+1. ✅ **엔진 코어**: moral_tint 필드·shift·stage·norm·tint 키·흉터 훅·serialize·audit (게임 동작 무변, 값만 쌓임) — 헤드리스 검증 완료
+2. 🔶 **수직 슬라이스**: 상철 known_offer/reflex/confrontation/reckoning/mirror + 아버지 병원 tint 부여 완료. **밴드 전이 비네트는 다음 단계**
+3. ⬜ **밴드 전이 비네트**: 0→−1, −1→−2, 회복 시 짧은 서사 통지 (§6) — StoryMode/턴 흐름에 트리거 훅
+4. ⬜ **Codex 시각 연결**: `moral_tint_norm()`/`moral_stage()` 구독 (스펙 → NEW_ASSET_REQUESTS.md)
+5. ⬜ **스파인 확장**: 다은·지연·재혁·돈·관계 핵심 씬 전체 tint 저작
+6. ⬜ 밸런스: 하양 30억이 극악인지 시뮬 검증, 밴드 임계 튜닝
 
 ---
 
