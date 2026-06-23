@@ -130,6 +130,9 @@
     ],
     "cooldown": 9999,
     "description": "Sangchul's office. We'd stayed late reviewing contract documents.\n\nHe stepped away to take a call. Ten minutes. Fifteen.\n\nWhen he returned, he didn't look like himself. He opened the papers without a word — then suddenly said it.\n\n\"That was my son. He wants to drop out of university.\"\n\nHe said it without being asked. \"I can't tell if he doesn't want to study, or if he just hates everything right now. Honestly, I don't know.\"\n\nHe'd never said anything like this before.",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul came back from the call looking different.\n\n\"That was my son. He wants to drop out.\"\n\nMinjun listened.\nHe used to think bad people only did bad things.\nSang-chul wasn't like that.\nThis worry — it was real.\nAnd that was the hardest part to hold."
+    },
     "choices": [
       {
         "text": "\"That must be hard.\" — quiet empathy",
@@ -1445,6 +1448,9 @@
     ],
     "cooldown": 9999,
     "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nIncheon's outskirts. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul brought up Incheon.\nA father who worked the docks. Night school. Crying alone the first time he bought an apartment.\n\nMinjun listened.\nIf this were a lie — that would have been easier.\nIt wasn't a lie. That made it lonelier.\n\nFrom poverty to Gangnam. Someone who climbed that road by stepping on others was now sitting across from him, telling the story of the young man who cried the day he first owned something."
+    },
     "choices": [
       {
         "text": "\"I started from something similar.\" — shared the connection.",

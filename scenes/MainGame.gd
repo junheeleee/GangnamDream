@@ -1531,6 +1531,13 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_jiyeon_03b_lunch"
 
+	# ── 추론 발견 경로 — 한PD건설 단서로 스스로 진실에 닿는 씬 (지력55+ 또는 비정통 경향) ──
+	if t >= 26 and t <= 50 and f.get("arc_sangchul_03_seen", false) \
+			and (GameState.intelligence >= 55 or GameState.route_unorthodox > 20) \
+			and not f.get("sangchul_truth_known", false) \
+			and not f.get("arc_sangchul_deduction_seen", false):
+		return "arc_sangchul_deduction"
+
 	# ── 임상철 인간적 면 — 아들 전화 이후 빈틈 (네트워크 이벤트 이후) ──
 	if t >= 26 and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_offguard_seen", false):

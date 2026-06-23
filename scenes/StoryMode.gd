@@ -352,7 +352,19 @@ func _render_current():
 	var mental: int = int(GameState.mental)
 	var housing: String = str(GameState.housing)
 	var housing_months: int = int(GameState.housing_months.get(housing, 0))
-	if mental <= 20 and _current.has("description_low_mental"):
+	# 지식 반응형 (DE식 발견): 플레이어가 어떤 진실을 '알게 된' 뒤에는
+	# 같은 장면이 다르게 읽힌다. description_if_known = { 플래그: 대체본문 }.
+	# 가진 진실 중 첫 일치를 최우선 적용 — 아는 것이 이야기를 다시 쓴다.
+	var know_variant: String = ""
+	var know_map = _current.get("description_if_known", null)
+	if know_map is Dictionary:
+		for fl in know_map.keys():
+			if GameState.flags.get(str(fl), false):
+				know_variant = str(know_map[fl])
+				break
+	if know_variant != "":
+		desc_raw = know_variant
+	elif mental <= 20 and _current.has("description_low_mental"):
 		desc_raw = str(_current["description_low_mental"])
 	elif housing == "gosiwon" and housing_months >= 6 and _current.has("description_long_gosiwon"):
 		desc_raw = str(_current["description_long_gosiwon"])

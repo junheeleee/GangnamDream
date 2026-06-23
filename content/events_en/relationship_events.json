@@ -1855,6 +1855,9 @@
     "id": "sangchul_why_gangnam",
     "title": "Sangchul's Question",
     "description": "It was your second meeting at the gukbap place.\n\nSangchul took a sip of broth and asked:\n\n'Do you want to get to Gangnam?'\n'...Yes.'\n'Why?'\n\nThat 'why' landed deeper than expected.",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul asked.\n\"Do you want to get to Gangnam?\"\n\nMinjun knows what this man sees in that question.\nHe walked that same hunger himself — and he knows exactly where it leads.\n\nThe 'why' didn't land deep because it was philosophical.\nIt landed deep because the man asking already knew the answer."
+    },
     "category": "relationship",
     "rarity": "rare",
     "weight": 0.8,
@@ -1898,6 +1901,9 @@
     "id": "sangchul_past",
     "title": "Sangchul Opens Up",
     "description": "It was the second bottle of soju.\n\nSangchul brought up his own story for the first time.\n\n'I lost everything at first too. Tanked a business. My wife left too.'\n\nHe looked at the Gangnam lights outside.\n'You know being there doesn't mean you're happy, right?'\nThen he looked at {name}: 'Still — you have to go to know.'",
+    "description_if_known": {
+      "sangchul_truth_known": "Second bottle of soju.\nSangchul said it. 'I lost everything at first too.'\n\nDad lost everything at first too.\nMinjun looked down at his glass.\n\nHow they each climbed back — those two stories point toward each other at exactly the same point.\n\nSangchul looked at the Gangnam lights. 'Still — you have to go to know.'\nMinjun looked too.\nHe knows he has to go. Just not the same way this man did."
+    },
     "category": "relationship",
     "rarity": "rare",
     "weight": 0.8,

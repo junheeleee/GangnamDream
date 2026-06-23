@@ -285,6 +285,12 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
             p, fl = str(cf.get("person", "")), str(cf.get("flag", ""))
             if p and fl:
                 cast_reads_json.setdefault((p, fl), []).append(where)
+    # description_if_known 키 = 렌더링 엔진이 flags.get()으로 읽는 플래그
+    dik = ev.get("description_if_known", {})
+    if isinstance(dik, dict):
+        for fl in dik.keys():
+            if isinstance(fl, str) and fl:
+                game_reads_json.setdefault(str(fl), []).append(where)
     for ch in ev.get("choices", []):
         for fl in ch.get("flags", []):
             game_sets.add(str(fl))
@@ -395,7 +401,8 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "portrait", "background", "cg", "speaker", "one_time", "_file",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
-                   "description_low_mental", "description_long_gosiwon"}
+                   "description_low_mental", "description_long_gosiwon",
+                   "description_if_known"}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",

@@ -1,5 +1,50 @@
 [
   {
+    "id": "arc_sangchul_deduction",
+    "title": "A Name That Stayed",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "revelation", "discovery"],
+    "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 15,
+    "description": "There was a name Sang-chul had quietly steered away from at the network dinner. \"Han PD Construction.\"\nMinjun filed it away in the back of his mind. Weeks passed.\n\nTonight, he couldn't sleep. He searched the name.\nAn old article. A real estate guarantee scam. A broker who made the introductions. The name was redacted — but the timing, the district, the pattern — it all mirrored what happened to his father.\n\nAnd at the bottom of the article, in the list of related entities: Han PD Construction.\nThe same name Sang-chul's face hadn't changed at all while he deflected.",
+    "choices": [
+      {
+        "text": "Dig deeper — trace Sang-chul's old transactions",
+        "effects": {
+          "mental": -12,
+          "intelligence": 2,
+          "investment_skill": 1
+        },
+        "flags": [
+          "arc_sangchul_deduction_seen",
+          "sangchul_truth_known",
+          "deduced_sangchul_truth"
+        ],
+        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same window. Same neighborhood. Same referral structure.\n\nLim. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who five years ago walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
+      },
+      {
+        "text": "Leave it alone — he can't be sure",
+        "effects": {
+          "mental": -4
+        },
+        "flags": [
+          "arc_sangchul_deduction_seen",
+          "sangchul_clue_noted"
+        ],
+        "result_text": "You can't accuse someone based on one article.\nMinjun closed his laptop.\n\nBut — a suspicion, once caught, doesn't let go easily.\nEvery time he saw Sang-chul now, that name rang somewhere quiet inside him.\n\nHe'd pretend not to know. For now."
+      }
+    ]
+  },
+  {
     "id": "arc_father_06_confession",
     "title": "Father's Secret",
     "background": "goshiwon_room",
@@ -16,6 +61,10 @@
     "timed": true,
     "timer_seconds": 15,
     "description": "After the hospital visit, Dad started calling more often.\nShort calls. How's the weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. About that debt. It was... Park Sang-jin.\"\n\nMinjun had never heard that name before.\n\n\"Someone from the Gangnam real estate scene introduced us. A man named Lim. He seemed decent at first... He said Park Sang-jin was someone you could trust.\"\n\nMinjun set down the cup he'd been holding.",
+    "description_if_known": {
+      "deduced_sangchul_truth": "After the hospital visit, Dad started calling more.\nShort calls. Weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. It was Park Sang-jin. A man named Lim introduced us.\"\n\nMinjun already knew.\nHe'd pieced it together alone — in the small hours, from old articles and registry records.\nLim Sang-chul.\n\nHearing it from his father's mouth was different.\nThe weight he'd been carrying alone — now it belonged to both of them.\n\nMinjun set his cup down slowly.",
+      "sangchul_clue_noted": "After the hospital visit, Dad started calling more.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. A man named Lim from the Gangnam real estate scene introduced us.\"\n\nMinjun remembered.\nThe name that had passed through that dinner. The one he'd filed away and chosen not to dig into.\nNot sure enough. Not yet.\n\nNow he was sure.\nThe night he'd decided to leave it alone — suddenly felt very heavy."
+    },
     "choices": [
       {
         "text": "\"That man named Lim — do you happen to know his full name?\"",
