@@ -378,7 +378,7 @@
       "hyunsu"
     ],
     "cooldown": 9999,
-    "description": "There were boxes in the hallway.\n\nHyunsu's door was open. His stuff was down to half.\n\n\"Hyung, I'm leaving.\" Hyunsu said. \"Since you moved out, I've been thinking a lot.\"\n\nSix years. Six years of the civil service exams.\n\n\"So what are you going to do?\" {name} asked.\n\"I still don't know.\" Hyunsu smiled. \"But this — this isn't it.\"",
+    "description": "There were boxes in the hallway.\n\nHyunsu's door was open. His stuff was down to half.\n\n\"Hyung, I'm leaving.\" Hyunsu said. \"Since you moved out, I've been thinking a lot.\"\n\nFour years. Four years of the civil service exams.\n\n\"So what are you going to do?\" {name} asked.\n\"I still don't know.\" Hyunsu smiled. \"But this — this isn't it.\"",
     "choices": [
       {
         "text": "\"Good for you. Take care.\" — sincere encouragement",
@@ -1447,9 +1447,9 @@
       "sangchul"
     ],
     "cooldown": 9999,
-    "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nIncheon's outskirts. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.",
+    "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nA seaside town in Chungcheong. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.",
     "description_if_known": {
-      "sangchul_truth_known": "Sangchul brought up Incheon.\nA father who worked the docks. Night school. Crying alone the first time he bought an apartment.\n\nMinjun listened.\nIf this were a lie — that would have been easier.\nIt wasn't a lie. That made it lonelier.\n\nFrom poverty to Gangnam. Someone who climbed that road by stepping on others was now sitting across from him, telling the story of the young man who cried the day he first owned something."
+      "sangchul_truth_known": "Sangchul brought up his hometown.\nA father who worked the docks. Night school. Crying alone the first time he bought an apartment.\n\nMinjun listened.\nIf this were a lie — that would have been easier.\nIt wasn't a lie. That made it lonelier.\n\nFrom poverty to Gangnam. Someone who climbed that road by stepping on others was now sitting across from him, telling the story of the young man who cried the day he first owned something."
     },
     "choices": [
       {
@@ -1738,7 +1738,7 @@
           "arc_gangnam_real_estate_seen",
           "aimed_higher"
         ],
-        "result_text": "If it's going to happen once, do it properly. Revised the target from 3 billion to 3.2 billion. Two hundred million more needed. That actually felt more motivating."
+        "result_text": "If it's going to happen once, do it properly. ₩3 billion. He wrote the number down again. The vague goal turned into a line he could almost touch."
       }
     ]
   },

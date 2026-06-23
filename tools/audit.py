@@ -280,6 +280,10 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
             v = cond.get(key)
             if isinstance(v, str) and v:
                 game_reads_json.setdefault(v, []).append(where)
+            elif isinstance(v, list):  # no_flag 배열 지원
+                for fl in v:
+                    if isinstance(fl, str) and fl:
+                        game_reads_json.setdefault(fl, []).append(where)
         cf = cond.get("cast_flag")
         if isinstance(cf, dict):
             p, fl = str(cf.get("person", "")), str(cf.get("flag", ""))

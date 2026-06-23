@@ -4341,7 +4341,10 @@
       "flag": "talked_about_scam",
       "min_turn": 136,
       "max_turn": 232,
-      "no_flag": "father_reconciled"
+      "no_flag": [
+        "father_reconciled",
+        "visited_father"
+      ]
     },
     "tags": [
       "family",

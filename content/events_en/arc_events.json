@@ -1334,7 +1334,7 @@
     "cooldown": 9999,
     "description": "Out checking studio-apartment listings, he passed through that neighborhood and the light on at Sangchul's office caught his eye.\n\nHe wavered a moment over whether to go in, then pushed the door open.\nSangchul welcomed him. \"You came. Want a coffee?\"\n\nHe was unusually talkative today.\nThe story of coming up to Seoul from Chungcheong without a single connection.\nThe day he first set foot in Gangnam.\n\n\"Look at the people who made it into Gangnam. Every one of them had a connection somewhere.\nSomeone opened a door for them. The ones who knocked their way in alone — they're truly rare.\"\n\nAfter a brief silence, Sangchul added,\n\"Once you've got a bit of seed money, there's a place I want to take you. A gathering that meets once a month.\nReal estate, construction, capital. I can show you how Gangnam actually turns.\"",
     "description_if_known": {
-      "sangchul_truth_known": "Sangchul welcomed him. \"You came. Want some coffee?\"\n\nMinjun knows now what moves through this room.\n\nIncheon stories. Gangnam stories. 'Doors get opened by people.'\nAmong the people he'd opened doors for — Dad was one of them.\nMinjun knew what lay behind that door.\n\nHe took the coffee and drank it.\nIt tasted more bitter."
+      "sangchul_truth_known": "Sangchul welcomed him. \"You came. Want some coffee?\"\n\nMinjun knows now what moves through this room.\n\nHometown stories. Gangnam stories. 'Doors get opened by people.'\nAmong the people he'd opened doors for — Dad was one of them.\nMinjun knew what lay behind that door.\n\nHe took the coffee and drank it.\nIt tasted more bitter."
     },
     "choices": [
       {

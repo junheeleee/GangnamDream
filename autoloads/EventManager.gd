@@ -206,7 +206,11 @@ func _check_conditions(conditions):
 			"flag":
 				if not GameState.flags.get(str(req), false): return false
 			"no_flag":
-				if GameState.flags.get(str(req), false): return false
+				# 단일 플래그 또는 배열 지원 (배열이면 하나라도 set이면 제외)
+				if req is Array:
+					for fl in req:
+						if GameState.flags.get(str(fl), false): return false
+				elif GameState.flags.get(str(req), false): return false
 			"min_route_orthodox":
 				if GameState.route_orthodox < int(req): return false
 			"min_route_unorthodox":
