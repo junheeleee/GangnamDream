@@ -4135,9 +4135,9 @@ func _open_cat_work():
 	if no_job:
 		modal_body.add_child(_wrap_label(_tr("아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.", "No job yet. Income is zero. You have to start something."), 13, "#c8a060"))
 		_cat_modal_button(_tr("구직활동  —  일자리를 찾아 지원한다", "Job Hunt  —  find and apply for jobs"), "#dc6a2a", "_ap_job_hunt")
-		_cat_modal_button(_tr("자소서 작성  —  지력 +1~+2, 정신력 변동", "Write cover letter  —  Intelligence +1~+2, Mental varies"), "#3a6ea8", "_ap_write_resume")
+		_cat_modal_button(_tr("자소서 작성  —  지원서를 다듬는다", "Write cover letter  —  refine the application"), "#3a6ea8", "_ap_write_resume")
 		if GameState.social_skill >= 20:
-			_cat_modal_button(_tr("모의 면접  —  사회성+1~+2, 운+1 (성과 따라)", "Mock interview  —  Social +1~+2, Luck +1 (by result)"), "#3a6ea8", "_ap_interview_prep")
+			_cat_modal_button(_tr("모의 면접  —  말하는 연습을 한다", "Mock interview  —  practice speaking"), "#3a6ea8", "_ap_interview_prep")
 	else:
 		var job_name = GameState.current_job.get("name", _tr("직장인", "Office Worker"))
 		var tenure = GameState.job_tenure
@@ -4202,14 +4202,14 @@ func _open_cat_money():
 	_open_modal(_tr("돈 · 투자", "Money · Invest"))
 	modal_body.add_child(_wrap_label(_tr("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", "A salary alone won't reach ₩3B. Make money work for you."), 13, "#7a8496"))
 	if GameState.flags.get("arc_invest_guidance_seen", false):
-		_cat_modal_button(_tr("투자 집중  —  매수·매도 (투자감각 %d)", "Focus on investing  —  buy·sell (Investing %d)") % GameState.investment_skill, "#3a8a5a", "_ap_invest")
+		_cat_modal_button(_tr("투자 집중  —  차트를 들여다본다", "Focus on investing  —  study the charts"), "#3a8a5a", "_ap_invest")
 	elif has_paycheck:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 상철과의 대화 후 가능하다.", "Locked: investing unlocks after talking with Sangchul."), 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 첫 월급을 받은 뒤 가능하다.", "Locked: investing unlocks after your first paycheck."), 12, "#5a5a6a"))
-	var side_label = _tr("단기 알바  —  40만원+ (건강-3, 정신력 변동)", "Gig work  —  ₩400K+ (Health -3, Mental varies)") if no_job else _tr("부업/사이드  —  추가 수입 도전", "Side hustle  —  chase extra income")
+	var side_label = _tr("단기 알바  —  40만원+ 수입", "Gig work  —  ₩400K+ income") if no_job else _tr("부업/사이드  —  추가 수입 도전", "Side hustle  —  chase extra income")
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
-	_cat_modal_button(_tr("저축/절약  —  자금 절약, 정신력 -2", "Save/cut back  —  save cash, Mental -2"), "#3a6ea8", "_ap_save_money")
+	_cat_modal_button(_tr("저축/절약  —  이번 달 지출을 줄인다", "Save/cut back  —  trim this month's spending"), "#3a6ea8", "_ap_save_money")
 
 func _open_cat_dev():
 	# _ap_study가 이미 세부 모달(독서/운동/명상)을 띄움 → 바로 호출
@@ -4241,15 +4241,25 @@ func _open_cat_people():
 				verb = _tr("전화드리기", "Call")
 			elif pid == "jaehyuk":
 				verb = _tr("만나기", "Meet up")
-			var lbl := _tr("%s  ·  %s  —  호감도 %d  (정신 +8, 호감도 +4)", "%s  ·  %s  —  Affinity %d  (Mental +8, Affinity +4)") % [verb, pname, aff]
+			# 수치 대신 관계 온도 표시
+			var warmth: String
+			if aff >= 75:
+				warmth = _tr("가까운 사이", "Close")
+			elif aff >= 45:
+				warmth = _tr("알아가는 중", "Getting to know")
+			elif aff >= 20:
+				warmth = _tr("서먹한 편", "A bit distant")
+			else:
+				warmth = _tr("아직 낯선", "Still a stranger")
+			var lbl := "%s  ·  %s  —  %s" % [verb, pname, warmth]
 			_cat_modal_button(lbl, accent, "_ap_contact_person", pid)
 
 	# ── 새로운 사람·휴식 ──
 	modal_body.add_child(_label(_tr("── 인맥 · 휴식 ──", "── Network · Rest ──"), 12, "#3a3a5a"))
-	_cat_modal_button(_tr("인맥 넓히기  —  사교력+, 평판+ (정신력 소모)", "Network  —  Social+, Reputation+ (costs Mental)"), "#8a5a9a", "_ap_network")
+	_cat_modal_button(_tr("인맥 넓히기  —  모르는 사람들 사이로 섞인다", "Network  —  mix with new people"), "#8a5a9a", "_ap_network")
 	if GameState.social_skill >= 50:
-		_cat_modal_button(_tr("VIP 인맥  —  사교력+3·평판+2·관계호감+15 (사교력 50 해금)", "VIP network  —  Social+3·Reputation+2·Affinity+15 (Social 50 unlock)"), "#5a2a7a", "_ap_vip_network")
-	_cat_modal_button(_tr("자유시간  —  한강·산책 (정신력 +10)", "Free time  —  Han River·walk (Mental +10)"), "#3a8a9a", "_ap_free_time")
+		_cat_modal_button(_tr("VIP 인맥  —  더 높은 곳의 사람들을 만난다", "VIP network  —  meet people from a higher circle"), "#5a2a7a", "_ap_vip_network")
+	_cat_modal_button(_tr("자유시간  —  한강을 걷거나 그냥 쉰다", "Free time  —  walk the Han River or just rest"), "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():
 	_open_modal(_tr("생활", "Living"))
