@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (다은/지연/재혁 아크 reachability 트레이스 — 데드엔드 없음 확정)
+
+### 점검 방법
+- 각 인물 _next_arc_id 트리거의 상한 윈도우(t<=X) 전수 추출
+- 바운드 윈도우는 선행 _seen 플래그가 윈도우 안에 도착 가능한지 trace
+
+### 다은 아크 — 데드엔드 없음
+- 01_meet(t9)→02_regular(t15,affinity≥8)→03_fork(t23,affinity≥12)→
+  03b_date/04_morning/04b_future/ghost/regret/05_* 전부 하한(t>=)만
+- affinity 게이트는 의도된 관계-상태 게이트(저친밀=미심화). 윈도우 데드엔드 아님
+
+### 지연 아크 — 데드엔드 없음
+- 01_crash(t17)→02_store(t26)→03_offer(t36)→03b_lunch(t40) 전부 하한만
+- 03b_lunch는 sangchul_jiyeon_reveal과 either/or (동일 비트 — 정상 분기)
+
+### 재혁 아크 — 바운드 1개(wait t38~41), 코어는 안전
+- reunion(t19)→bond(t32)→pitch(t37)→[wait t38~41]→hyunsu_warning(t39)→ghost(t42)→standup(t44)
+- wait만 상한 윈도우. pitch가 아크 경쟁으로 지연되면 wait 스킵 가능
+- 트레이스: pitch t37/t40 → wait+코어 전부 도달 / pitch t42(심한 지연) → wait 스킵,
+  but ghost→standup 코어 도달 ✓
+- ghost(invested 플래그, 하한만)·standup(ghost_seen, 하한만)은 열린 윈도우 — 항상 도달
+- 결론: wait는 선택적 페이싱 비트(투자 후 불안의 일주일). pitch가 늦으면 그 비트 자체가
+  서사적으로 안 맞음(reveal 임박) → 스킵 허용. 코어 아크 무손상. 수정 불요
+
+### 종합: 4개 인물 아크 중 데드엔드는 상철 known_offer뿐(직전 수정 완료). 나머지 3개 안전.
+
 ## 2026-06-23 (상철 진실 아크 타임라인 reachability 점검 + 데드엔드 수정)
 
 ### 전체 체인 매핑
