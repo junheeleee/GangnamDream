@@ -6245,6 +6245,7 @@ func _show_ending(ending_id):
 			"five_lives":        _tr("다섯 번의 인생", "Five Lives"),
 			"ten_lives":         _tr("열 번의 인생", "Ten Lives"),
 			"beat_addiction":    _tr("동그라미 서른 개 (중독 회복)", "Thirty Circles (Addiction Recovery)"),
+			"white_gangnam":     _tr("사람으로 강남에 (0.1%의 길)", "Human Until Gangnam (The 0.1% Path)"),
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)
@@ -6331,6 +6332,8 @@ func _ending_run_summary(ending_id: String) -> String:
 	var is_orthodox = "정석" in route or "엘리트" in route
 	var is_unorthodox = "아웃사이더" in route or "이단아" in route
 	match ending_id:
+		"gangnam_dream_white":
+			return _tr("아무도 밟지 않고 30억을 달성했다. 이 도시에서 사람으로 남은 강남입성.", "Reached ₩3B without stepping on anyone. Made it to Gangnam — and stayed human.")
 		"gangnam_dream":
 			if is_orthodox:
 				return _tr("착실하게 살아온 청년이 마침내 강남에 입성했다", "A young man who lived diligently finally made it into Gangnam.")
@@ -6421,7 +6424,7 @@ func _ending_run_summary(ending_id: String) -> String:
 ## 각 인물의 최종 stage에 따라 결말 직후의 한 장면을 보여준다.
 func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var good := ending_id in [
-		"gangnam_dream", "stable_success", "investment_master",
+		"gangnam_dream", "gangnam_dream_white", "stable_success", "investment_master",
 		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement",
 		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
 		"creator_success", "with_daeun", "jiyeon_man",

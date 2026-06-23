@@ -1415,6 +1415,9 @@ func check_game_over():
 			if not flags.get("father_reconciled", false):
 				finish_run("empty_house"); return     # 빈 집
 			finish_run("lonely_rich"); return         # 외로운 부자 — 돈만 남음
+		# 진엔딩: White 밴드(tint ≥ +60) 유지한 채로 30억 — 극악 난이도 0.1%
+		if moral_stage() >= 2:
+			finish_run("gangnam_dream_white"); return
 		finish_run("gangnam_dream"); return           # 강남드림 (정상)
 
 	# 특수 성공 엔딩 (강남 외 경로)
