@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (상철 이후 중간 씬 — 알면서도 이용하는 구간)
+
+### 빈 구간 발견
+- deduction 경로는 t26~50에 sangchul_truth_known을 일찍 set
+- 하지만 confrontation은 t60+ — 그 사이 "알면서도 계속 이용하는" 구간이 비어있었음
+- 이게 핵심 메커니즘: "사람이 도구가 되는 순간" — 알고도 멈추지 않는다
+
+### arc_sangchul_known_offer (t38~55, KR+EN)
+- 상철이 진짜 유용한 재개발 정보를 내민다. 플레이어는 그가 누구인지 안다.
+- 종이를 집으면: money +180만, mental -7~-12, used_sangchul_knowingly 플래그
+- "이번엔 됐어요" 거절도 가능하지만, 거절은 이번 한 번뿐이라는 걸 둘 다 안다
+- description_if_known(sangchul_helped_with_father): 빚으로 민 손과 병실 잡아준 손이 같은 손
+
+### arc_sangchul_known_reflex (t50~59, KR+EN)
+- 현수가 후배를 소개하려 하자, 플레이어가 무의식적으로 그 사람을 계산하고 있는 걸 발견
+- "임상철이 자기를 처음 봤을 때 이렇게 봤을 것이다"
+- rationalized_using_people 플래그 ("다들 이렇게 산다 — 편해졌다는 게 가장 무서웠다")
+
+### 페이오프 배선
+- used_sangchul_knowingly → arc_sangchul_confrontation description_if_known
+  (그 사람 돈으로 불린 계좌 — 이 질문을 할 자격이 있는지)
+- rationalized_using_people → arc_sangchul_reckoning description_if_known
+  (상철의 사과가 자기가 했던 합리화와 똑같이 들린다)
+
+### 비대칭 설계
+- deduction 경로: 진실(t26~50) → offer(t38~55) → reflex(t50~59) → confrontation(t60)
+- confession 경로(t56+): 진실 → 대면 직행
+- 스스로 알아챈 자만 그 무게를 더 오래 진다
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 (baseline 유지) / KR+EN 완전 동기화
+
 ## 2026-06-23 (선택지 재작성 + arc_sangchul_mirror + 관계 균열)
 
 ### 선택지 텍스트 219개 전수 인간행동 재작성
