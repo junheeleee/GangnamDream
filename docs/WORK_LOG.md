@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (late_call 비-강남 엔딩 상철 진실 변주 2종)
+
+### 배경
+- 진실(sangchul_truth_known)을 안 플레이어가 30억 미달 시 age>=38 타임리밋 엔딩으로
+- 그중 father_reconciled면 late_call(화해 엔딩) — 상철 진실이 본질적으로 '아버지' 건이라 최적
+
+### late_call description_if_known 2종 (KR+EN)
+- sangchul_used_fully (우선): 그를 끝까지 이용했는데도 강남 미달 — 가장 쓴 결말
+  "팔 건 다 팔았는데 강남은 안 왔다. 남은 건 국밥 한 그릇과, 말할 수 없는 것 하나."
+- sangchul_truth_known (일반): 진실을 아버지 평안 위해 혼자 짊어짐
+  "아버지가 모르는 채로 평안하도록 — 그 진실을 혼자 들기로 했다.
+   어쩌면 이게 강남보다 어려운 일이었는지도."
+
+### 라우팅/우선순위 검증
+- reported → sangchul_reckoning 전용 엔딩으로 분기 → late_call 미도달, 충돌 없음
+- description_if_known 첫 일치: used_fully > truth_known (착취 경로가 더 구체적)
+- crossed_line은 30억 도달 시에만 jaehyuk_way 가로채기 → 미달 leveraged 플레이어는
+  late_call 도달 가능 → used_fully 변주가 정확히 커버
+
+### 런타임 검증: ko(346/389자) en(771/805자) 양언어 정상 로드
+### audit ERROR 0 / WARNING 0 / write_only_flags 211
+
 ## 2026-06-23 (상철 진실 4경로 엔딩 페이오프 완비 + 에필로그 톤 점검)
 
 ### gangnam_dream + sangchul_quietly_distanced 변주 (KR+EN)
