@@ -103,6 +103,10 @@ var tutorial_step = 3
 var route_orthodox: int = 0
 var route_unorthodox: int = 0
 var month_focus: String = ""
+# ── MORAL_TINT — 색으로 보는 자기 파괴 (docs/MORAL_TINT.md) ──
+# −100(새까망/돈) ↔ 0(회색/시작) ↔ +100(새하양/인간). 플레이어에겐 숫자 미노출, 색으로만.
+var moral_tint: float = 0.0
+var moral_band_last: int = 0   # 직전 밴드(−2~+2). 전이 비네트 트리거용
 var housing_months: Dictionary = {}
 
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
@@ -234,6 +238,8 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	unlocked_stat_thresholds = {}
 	route_orthodox = 0
 	route_unorthodox = 0
+	moral_tint = 0.0
+	moral_band_last = 0
 	month_focus = ""
 	housing_months = {}
 	tendency = {"career": 0, "invest": 0, "found": 0}
@@ -798,7 +804,31 @@ func apply_effects(effects):
 				route_orthodox = maxi(0, route_orthodox + int(value))
 			"route_unorthodox":
 				route_unorthodox = maxi(0, route_unorthodox + int(value))
+			"tint":
+				shift_moral_tint(float(value))
 	stats_changed.emit()
+
+# ── MORAL_TINT 엔진 (docs/MORAL_TINT.md) ──
+# 인간성=하양(+) / 돈=검정(−). 누적식. 흉터(crossed_line·죽음 외면)는 상한을 영구 고정.
+func shift_moral_tint(delta: float) -> void:
+	moral_tint = clampf(moral_tint + delta, -100.0, 100.0)
+	# 영구 얼룩 — 상한 고정 (아무리 착하게 굴어도 완전히는 못 돌아온다)
+	if flags.get("crossed_line", false):
+		moral_tint = minf(moral_tint, -20.0)        # 상철 끝까지 이용·재혁의 방식 → 양수 불가
+	elif flags.get("chose_money_over_father", false):
+		moral_tint = minf(moral_tint, 0.0)           # 죽음 외면 → 하양 불가
+
+# −2(새까망) ~ +2(새하양). 이산 효과(틀어짐·돈 글로우)용.
+func moral_stage() -> int:
+	if moral_tint >= 60.0: return 2
+	if moral_tint >= 20.0: return 1
+	if moral_tint <= -60.0: return -2
+	if moral_tint <= -20.0: return -1
+	return 0
+
+# −1.0 ~ +1.0. Codex 테마색 부드러운 보간용.
+func moral_tint_norm() -> float:
+	return clampf(moral_tint / 100.0, -1.0, 1.0)
 
 func apply_relationship_effect(effect):
 	var rel_id = str(effect.get("id", effect.get("type", "unknown")))
@@ -1502,6 +1532,8 @@ func serialize():
 		"tutorial_step": tutorial_step,
 		"route_orthodox": route_orthodox,
 		"route_unorthodox": route_unorthodox,
+		"moral_tint": moral_tint,
+		"moral_band_last": moral_band_last,
 		"tendency": tendency,
 		"tendency_realized": tendency_realized,
 		"month_focus": month_focus,
@@ -1546,6 +1578,7 @@ func load_from_dict(data):
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
 		"route_orthodox", "route_unorthodox", "events_seen",
+		"moral_band_last",
 	]
 	var allowed = serialize().keys()
 	for key in data:

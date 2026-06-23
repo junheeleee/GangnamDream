@@ -2495,7 +2495,8 @@
         "text": "창원행 KTX 첫 차를 예매했다",
         "effects": {
           "mental": -15,
-          "money": -80000
+          "money": -80000,
+          "tint": 10
         },
         "cast_effects": {
           "father": {
@@ -2512,7 +2513,8 @@
       {
         "text": "\"주말에 갈게요.\" (전화를 끊었다)",
         "effects": {
-          "mental": -11
+          "mental": -11,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -2529,7 +2531,8 @@
         "text": "입금했다. 병원비에 보태라고",
         "effects": {
           "mental": -15,
-          "money": -300000
+          "money": -300000,
+          "tint": -4
         },
         "cast_effects": {
           "father": {
@@ -2545,7 +2548,8 @@
       {
         "text": "상철에게 연락했다 — 그가 아는 사람이 있을 것이다",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": -6
         },
         "cast_effects": {
           "father": {

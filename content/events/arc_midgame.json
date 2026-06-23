@@ -1540,7 +1540,8 @@
         "text": "종이를 집었다",
         "effects": {
           "money": 1800000,
-          "mental": -7
+          "mental": -7,
+          "tint": -8
         },
         "flags": [
           "arc_sangchul_known_offer_seen",
@@ -1557,7 +1558,8 @@
         "text": "집었다. 손가락이 잠깐 멈칫했지만",
         "effects": {
           "money": 1800000,
-          "mental": -12
+          "mental": -12,
+          "tint": -8
         },
         "flags": [
           "arc_sangchul_known_offer_seen",
@@ -1573,7 +1575,8 @@
       {
         "text": "\"이번엔 됐어요.\" — 종이를 밀어냈다",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": 6
         },
         "flags": [
           "arc_sangchul_known_offer_seen"
@@ -1610,7 +1613,8 @@
       {
         "text": "그 생각을 밀어냈다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [
           "arc_sangchul_known_reflex_seen"
@@ -1621,7 +1625,8 @@
         "text": "(이게 나쁜 건가? 다들 이렇게 산다)",
         "effects": {
           "mental": -3,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": -5
         },
         "flags": [
           "arc_sangchul_known_reflex_seen",
@@ -1637,7 +1642,8 @@
       {
         "text": "현수에게 솔직하게 말했다",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [
           "arc_sangchul_known_reflex_seen"

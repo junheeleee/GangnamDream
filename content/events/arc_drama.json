@@ -237,7 +237,8 @@
       {
         "text": "\"됐어요, 잊어버려요.\" (말을 거뒀다)",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": -3
         },
         "cast_effects": {
           "sangchul": {
@@ -254,7 +255,8 @@
         "text": "(자리를 떠났다)",
         "effects": {
           "mental": -3,
-          "reputation": -2
+          "reputation": -2,
+          "tint": 8
         },
         "cast_effects": {
           "sangchul": {
@@ -299,7 +301,8 @@
         "text": "\"신고할게요.\"",
         "effects": {
           "mental": 15,
-          "reputation": -10
+          "reputation": -10,
+          "tint": 8
         },
         "cast_effects": {
           "sangchul": {
@@ -316,7 +319,8 @@
       {
         "text": "\"그 말 한 마디면 됐어요.\" (받아들였다)",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "cast_effects": {
           "sangchul": {
@@ -334,7 +338,8 @@
         "text": "\"그 덕분에 내가 여기 있는 거잖아요.\" (역으로 사용하기로 했다)",
         "effects": {
           "mental": -10,
-          "investment_skill": 5
+          "investment_skill": 5,
+          "tint": -8
         },
         "cast_effects": {
           "sangchul": {
@@ -516,7 +521,8 @@
       {
         "text": "(부정하고 싶었다)",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": 2
         },
         "flags": [
           "sangchul_called_you_his_mirror",
