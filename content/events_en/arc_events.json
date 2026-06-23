@@ -2425,6 +2425,26 @@
           "sent_money_instead"
         ],
         "result_text": "Transferred the money. For hospital expenses.\nMom said \"Thank you.\"\nDad would ask whose money it was.\n{name} decided not to think about what Mom would say."
+      },
+      {
+        "text": "Called Sang-chul — he'd know someone",
+        "effects": {
+          "mental": -8
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 3,
+            "stage": "health_crisis"
+          },
+          "sangchul": {
+            "affinity": 10
+          }
+        },
+        "flags": [
+          "arc_father_03_seen",
+          "sangchul_helped_with_father"
+        ],
+        "result_text": "Sang-chul picked up and within minutes had connected a doctor he knew near Changwon.\nFast. No questions.\n\"This is the kind of thing you have to handle,\" was all he said.\n\nDad was moved to a better room.\nMom asked what had happened.\n{name} just said, \"Someone I know helped out.\""
       }
     ]
   },

@@ -12,7 +12,13 @@
       "flag": "formed_whole_picture",
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul", "discovery", "deduction"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "discovery",
+      "deduction"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 15,
@@ -57,7 +63,13 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul", "revelation", "discovery"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "revelation",
+      "discovery"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 15,
@@ -102,7 +114,13 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "father", "sangchul", "revelation"],
+    "tags": [
+      "story",
+      "arc",
+      "father",
+      "sangchul",
+      "revelation"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 15,
@@ -166,6 +184,60 @@
     ]
   },
   {
+    "id": "arc_sangchul_mirror",
+    "title": "Mirror",
+    "background": "pojangmacha",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "Late at night, Sang-chul spoke.\n\n\"Minjun, can I be honest with you?\"\n\n{name} set down his glass.\n\n\"At first I just thought you were someone with drive.\nBut the more I watch you — you're like me.\nYou know how to move fast.\nYou know what you have to let go of.\"\n\n{name} said nothing.\n\n\"I don't mean that as an insult. It's a compliment.\"\n\nThrough the window, Gangnam glittered.",
+    "choices": [
+      {
+        "text": "Raised his glass",
+        "effects": {},
+        "flags": [
+          "sangchul_called_you_his_mirror",
+          "arc_sangchul_mirror_seen"
+        ],
+        "result_text": "They clinked glasses.\nSang-chul smiled.\n{name} spent the whole walk home trying to figure out whether that was a compliment."
+      },
+      {
+        "text": "\"Do I seem that way?\"",
+        "effects": {
+          "mental": -6
+        },
+        "flags": [
+          "sangchul_called_you_his_mirror",
+          "arc_sangchul_mirror_seen"
+        ],
+        "result_text": "Sang-chul looked at him for a moment.\n\"You don't know? Or you're asking even though you do?\"\n\n{name} didn't answer.\nLooked out the window."
+      },
+      {
+        "text": "(He wanted to deny it)",
+        "effects": {
+          "mental": -10
+        },
+        "flags": [
+          "sangchul_called_you_his_mirror",
+          "denied_sangchul_mirror",
+          "arc_sangchul_mirror_seen"
+        ],
+        "result_text": "\"I'm a bit different.\"\nSang-chul nodded.\n\"If that's what you think, then sure.\"\n\n{name} spent all night turning that over in his head."
+      }
+    ]
+  },
+  {
     "id": "arc_sangchul_confrontation",
     "title": "The Question",
     "background": "cafe",
@@ -177,7 +249,12 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul", "confrontation"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "confrontation"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
@@ -229,7 +306,10 @@
         ],
         "result_text": "Minjun stood and walked out of the café without a word.\n\nSang-chul called his name from behind. He didn't turn around.\n\nThat relationship ended that day. With no dramatic scene."
       }
-    ]
+    ],
+    "description_if_known": {
+      "sangchul_helped_with_father": "For a month, Minjun did nothing.\nHe still met Sang-chul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sang-chul. Do you know a man named Park Sang-jin?\"\n\nThe day Sang-chul handled his father's hospital situation came back to him.\nHad that been the moment — when this man became his person."
+    }
   },
   {
     "id": "arc_sangchul_reckoning",
@@ -243,7 +323,13 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul", "father", "moral"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "father",
+      "moral"
+    ],
     "cooldown": 9999,
     "description": "After a long silence, Sang-chul spoke.\n\n\"I knew he was your father. From the beginning.\"\n\nMinjun didn't respond.\n\n\"When Park Sang-jin called and made the introduction... I just did him a favor. I didn't know it would go this far.\"\n\nA beat of silence.\n\nSang-chul said,\n\"I'm sorry.\"",
     "choices": [
@@ -300,7 +386,11 @@
         ],
         "result_text": "Sang-chul paused.\n\"...You're going to use this.\"\n\nMinjun smiled. It came out wrong.\n\nThis man destroyed his father. But without this man's network, Gangnam was impossible. So — this guilt was an asset too.\n\nIt was Jae-hyuk's move. Now Minjun was making it."
       }
-    ]
+    ],
+    "description_if_known": {
+      "sangchul_called_you_his_mirror": "After a long silence, Sang-chul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\n{name} said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nA silence between them.\n\nSang-chul said, \"I'm sorry.\"\n\nWhat he'd said once before — 'you're like me' — came back.\nHow those words sounded now was different.",
+      "denied_sangchul_mirror": "After a long silence, Sang-chul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\n{name} said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nA silence between them.\n\nSang-chul said, \"I'm sorry.\"\n\nHe remembered the night he'd said 'I'm a bit different.'\nAnd Sang-chul nodding: 'if that's what you think, then sure.'\nSitting here now, those words had weight."
+    }
   },
   {
     "id": "arc_jaehyuk_mirror",
@@ -314,7 +404,13 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jaehyuk", "moral", "father"],
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "moral",
+      "father"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
@@ -368,7 +464,12 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "father", "death"],
+    "tags": [
+      "story",
+      "arc",
+      "father",
+      "death"
+    ],
     "cooldown": 9999,
     "description": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.",
     "choices": [
