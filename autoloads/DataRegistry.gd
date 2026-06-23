@@ -98,6 +98,7 @@ const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"
 const ITEMS_PATH = "res://content/items.json"
 const ENDINGS_PATH = "res://content/endings.json"
+const ENDINGS_EN_PATH = "res://content/endings_en.json"
 const NEWS_PATH = "res://content/news_templates.json"
 const META_PATH = "res://content/meta/default_meta.json"
 const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
@@ -146,6 +147,9 @@ func reload():
 	items_by_id = _index_by_id(items)
 	endings = _load_array(ENDINGS_PATH)
 	endings_by_id = _index_by_id(endings)
+	# 영어 엔딩 오버레이 — 같은 id의 텍스트 필드(title/description/condition 등)를 교체
+	if LocaleManager.language == "en":
+		_apply_endings_en_overlay()
 	news_templates = _load_array(NEWS_PATH)
 	default_meta = _load_dict(META_PATH)
 	achievements = _load_array(ACHIEVEMENTS_PATH)
@@ -201,6 +205,22 @@ func _merge_event_overlay(base_event: Dictionary, overlay_event: Dictionary) -> 
 		else:
 			merged[key] = overlay_event[key]
 	return merged
+
+func _apply_endings_en_overlay() -> void:
+	# endings_en.json의 같은 id 엔딩으로 텍스트 필드를 덮어쓴다(없으면 KR 유지).
+	if not ResourceLoader.exists(ENDINGS_EN_PATH) and not FileAccess.file_exists(ENDINGS_EN_PATH):
+		return
+	for ev in _load_array(ENDINGS_EN_PATH):
+		var eid: String = str(ev.get("id", ""))
+		if eid == "" or not endings_by_id.has(eid):
+			continue
+		var merged: Dictionary = (endings_by_id[eid] as Dictionary).duplicate(true)
+		for key in ev.keys():
+			merged[key] = ev[key]
+		var idx = endings.find(endings_by_id[eid])
+		if idx >= 0:
+			endings[idx] = merged
+		endings_by_id[eid] = merged
 
 func _merge_choice_overlay(base_choices: Array, overlay_choices: Array) -> Array:
 	var merged_choices: Array = []
