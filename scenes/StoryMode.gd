@@ -492,8 +492,8 @@ func _choice_effect_preview(choice: Dictionary) -> String:
 			merged["mental"] = int(merged.get("mental", 0)) + int(eff[k])
 		else:
 			merged[k] = eff[k]
-	var priority := ["money", "health", "mental", "intelligence",
-		"social_skill", "investment_skill", "reputation", "luck"]
+	# 즉각적으로 느껴지는 것만 표시 — 관계/스킬/평판은 숨김
+	var priority := ["money", "health", "mental"]
 	var parts: Array = []
 	for key in priority:
 		if not merged.has(key):
