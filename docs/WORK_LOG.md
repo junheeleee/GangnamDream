@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (데모 빌드 export QA — Windows + Linux/Steam Deck)
+
+### export 환경
+- export 템플릿 4.6.2.stable 설치 확인, export_presets.cfg 4종(Win/macOS/Web/Linux) 존재
+
+### Linux / Steam Deck 빌드 (네이티브 타깃)
+- godot --headless --import → --export-release "Linux / Steam Deck"
+- 산출: build/linux/GangnamDream.x86_64 (167MB ELF 64-bit)
+- xvfb 실행 검증: 18초 메인루프 부팅, SCRIPT/Parse/Compile/Load 에러 0
+  (exit 124=timeout 강제종료=정상 구동 중이었음)
+- 패키징된 빌드가 에디터가 아닌 독립 실행에서도 무에러 부팅 확인
+
+### Windows 빌드 (주요 Steam 데스크톱 타깃)
+- --export-release "Windows" → build/windows/GangnamDream.exe (201MB PE32+ x86-64)
+- 패키징 성공(project.binary 저장 완료)
+
+### 비고
+- 빌드 산출물은 .gitignore 처리됨(git check-ignore 확인) — 미커밋, QA 후 삭제
+- 패키지 빌드는 메인씬 baked-in이라 임의 씬 인자 미수용 → 데모 콘텐츠 시각 검증은
+  source ScreenshotQA(동일 코드/데이터)로 기검증분 활용
+- 두 주요 Steam 타깃(Windows 데스크톱 + Linux/Steam Deck) 패키징·실행 모두 통과
+
 ## 2026-06-23 (다은/지연/재혁 아크 reachability 트레이스 — 데드엔드 없음 확정)
 
 ### 점검 방법

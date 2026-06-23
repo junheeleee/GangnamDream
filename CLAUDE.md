@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-23** — **다은/지연/재혁 아크 reachability 트레이스 (데드엔드 없음 확정)**: 세 인물 아크의 상한 윈도우 전수 점검. 다은(affinity 게이트=의도)·지연 전부 하한 트리거만 → 윈도우 데드엔드 없음. 재혁은 wait(t38~41) 1개 바운드뿐인데 pitch 지연 시 스킵 가능하나 코어(ghost→standup, 하한 트리거)는 항상 도달 — 선택적 페이싱 비트라 허용. 결론: 4개 인물 중 데드엔드는 상철 known_offer뿐(직전 수정 완료), 나머지 안전. |
+| **최근 완료** | **2026-06-23** — **데모 빌드 export QA (Windows + Linux/Steam Deck)**: export 템플릿 4.6.2로 ①Linux/Steam Deck 빌드 성공(167MB ELF) → xvfb 실행 18초 메인루프 무에러 부팅 확인(SCRIPT/Parse/Load 에러 0). ②Windows 빌드 성공(201MB PE32+). 두 주요 Steam 타깃 패키징·실행 검증. 빌드 산출물은 .gitignore 처리(미커밋). 데모 콘텐츠 시각 검증은 source ScreenshotQA(동일 코드/데이터)로 기검증. |
+| **이전** | **2026-06-23** — **다은/지연/재혁 아크 reachability 트레이스 (데드엔드 없음 확정)**: 세 인물 아크의 상한 윈도우 전수 점검. 다은(affinity 게이트=의도)·지연 전부 하한 트리거만 → 윈도우 데드엔드 없음. 재혁은 wait(t38~41) 1개 바운드뿐인데 pitch 지연 시 스킵 가능하나 코어(ghost→standup, 하한 트리거)는 항상 도달 — 선택적 페이싱 비트라 허용. 결론: 4개 인물 중 데드엔드는 상철 known_offer뿐(직전 수정 완료), 나머지 안전. |
 | **이전** | **2026-06-23** — **상철 진실 아크 타임라인 reachability 정밀 점검 + 데드엔드 수정**: 전체 체인(01→02→03→deduction→offguard→human→known_offer→reflex→confrontation→reckoning→엔딩) 오프라인 트레이스. 발견: 네트워크 합류 늦은(자산<100만 장기) 추론 플레이어가 human 윈도우(t30~42) 놓쳐 known_offer 영구 스킵되는 데드엔드 → `arc_sangchul_human` 상한 t42→t52 확장으로 해결. 트레이스 검증: 조기/늦은(t40)/매우늦은(t48) 네트워크 전부 offer·reflex·confrontation 도달. t50+ 합류는 deduction 윈도우 닫혀 confession 경로(데드엔드 아님). Godot 컴파일 클린. |
 | **이전** | **2026-06-23** — **description_if_known 엔딩 변주 실기 렌더 검증(xvfb)**: QAVariants 하니스로 실제 opengl3 렌더 캡처 — jaehyuk_way(used_fully)/late_call(used_fully·truth_known)/gangnam_dream(3변주) KR + EN 2컷 전부 변주 본문이 정확히 렌더됨 확인. EN jaehyuk_way "He started out hating him, and ended up exactly him" 영어 정상. description_if_known 엔진 엔딩 경로 end-to-end 검증 완료(이벤트 경로는 기존 검증). 임시 하니스 삭제. |
 | **이전** | **2026-06-23** — **late_call(비-강남) 엔딩에 상철 진실 변주 2종**: 진실을 안 채 강남에 못 닿고 아버지와 화해한 플레이어에게 무게 부여(KR+EN). ①`sangchul_used_fully`: 끝까지 이용했는데도 강남 미달 — "팔 건 다 팔았는데, 남은 건 국밥 한 그릇과 말할 수 없는 것 하나". ②`sangchul_truth_known`(일반): 진실을 아버지 평안 위해 혼자 짊어짐 — "어쩌면 이게 강남보다 어려운 일이었는지도". 우선순위 used_fully>truth_known, reported는 sangchul_reckoning 분기라 충돌 없음. 런타임 양언어 확인. ERROR 0/WARNING 0. |
@@ -29,8 +30,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **① 데모 빌드 export(Web/PC) 후 실플레이 QA — t2~24 크리티컬 패스 실기 확인. ② Steam App ID 등록 후 STEAM_APP_ID 교체. ③ Codex 외형 작업과 병합 충돌 점검. ④ (선택) 다은/지연 drift 이후 회복 경로 — 멀어진 관계를 다시 잇는 씬 검토.** |
-| **마지막 업데이트** | 2026-06-23 (Claude: 다은/지연/재혁 아크 reachability 트레이스 — 데드엔드 없음 확정) |
+| **다음 작업** | **① Steam App ID 등록 후 STEAM_APP_ID 교체(_show_demo_ending 위시리스트 CTA). ② Codex 외형 작업과 병합 충돌 점검. ③ (선택) 다은/지연 drift 이후 회복 경로 — 멀어진 관계를 다시 잇는 씬 검토. ④ (선택) Web export 빌드 검증(브라우저 데모 채널).** |
+| **마지막 업데이트** | 2026-06-23 (Claude: 데모 빌드 export QA — Windows + Linux/Steam Deck 패키징·실행 검증) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
