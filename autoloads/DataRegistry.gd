@@ -101,6 +101,8 @@ const ENDINGS_PATH = "res://content/endings.json"
 const NEWS_PATH = "res://content/news_templates.json"
 const META_PATH = "res://content/meta/default_meta.json"
 const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
+const CLUES_PATH = "res://content/meta/clues.json"
+const THOUGHTS_PATH = "res://content/meta/thoughts.json"
 
 var events: Array = []
 var events_by_id: Dictionary = {}
@@ -116,6 +118,10 @@ var news_templates: Array = []
 var default_meta: Dictionary = {}
 var achievements: Array = []
 var achievements_by_id: Dictionary = {}
+var clues: Array = []
+var clues_by_id: Dictionary = {}
+var thoughts: Array = []
+var thoughts_by_id: Dictionary = {}
 
 func _ready():
 	reload()
@@ -144,6 +150,10 @@ func reload():
 	default_meta = _load_dict(META_PATH)
 	achievements = _load_array(ACHIEVEMENTS_PATH)
 	achievements_by_id = _index_by_id(achievements)
+	clues = _load_array(CLUES_PATH)
+	clues_by_id = _index_by_id(clues)
+	thoughts = _load_array(THOUGHTS_PATH)
+	thoughts_by_id = _index_by_id(thoughts)
 
 func find_event(event_id):
 	return events_by_id.get(event_id, {})
@@ -225,6 +235,12 @@ func get_item(item_id):
 
 func get_ending(ending_id):
 	return endings_by_id.get(ending_id, {})
+
+func get_clue(clue_id):
+	return clues_by_id.get(clue_id, {})
+
+func get_thought(thought_id):
+	return thoughts_by_id.get(thought_id, {})
 
 func _index_by_id(rows):
 	var indexed: Dictionary = {}

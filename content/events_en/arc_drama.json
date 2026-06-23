@@ -1,5 +1,51 @@
 [
   {
+    "id": "hidden_whole_picture",
+    "title": "The Picture He Built Alone",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "formed_whole_picture",
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "discovery", "deduction"],
+    "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 15,
+    "description": "Three nights. A registry record, a line from an article a dozen years old, one remembered scene at a time.\n\nThe name he steered away from — Han PD Construction. The 'Lim' who vouched for Park Sang-jin to his father. The man who came up from a Chungcheong fishing town and reached Gangnam by stepping on people.\n\nThree threads met at one point. Lim Sang-chul.\n\nNo one told him. Minjun built the man out of fragments.\nAnd once he knew, the same seat in the same café looked different.",
+    "choices": [
+      {
+        "text": "Hold the cards — knowing is its own power",
+        "effects": {
+          "intelligence": 1,
+          "investment_skill": 1,
+          "mental": -3
+        },
+        "result_text": "Minjun closed the notebook.\n\nHe wouldn't tear the man down, wouldn't forgive him either. He would simply know.\nHe'd sit at the same table knowing exactly who this man was.\n\nThis time, the one holding the cards was Minjun."
+      },
+      {
+        "text": "See the man again — one day I'll ask him directly",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1
+        },
+        "result_text": "Minjun looked at the Gangnam lights for a long time.\n\nHe wanted to ask. Why did you do it. Knowing, why did you let me in.\n\nNot yet. But the question was inside him now, clear and waiting."
+      },
+      {
+        "text": "Swallow it — Gangnam comes first for now",
+        "effects": {
+          "mental": -5,
+          "intelligence": 1
+        },
+        "result_text": "He wouldn't let on that he knew. He'd set the next meeting like nothing happened.\n\nSomeday this weight would come back around.\nUntil then — Gangnam first.\n\nMinjun turned off the light. Sleep didn't come."
+      }
+    ]
+  },
+  {
     "id": "arc_sangchul_deduction",
     "title": "A Name That Stayed",
     "background": "goshiwon_room",

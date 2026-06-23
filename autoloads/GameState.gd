@@ -8,6 +8,8 @@ signal log_added(entry: Dictionary)
 signal run_started()
 signal stat_threshold_crossed(stat_name: String, threshold: int)
 signal tendency_awakened(kind: String)
+signal clue_added(clue_id: String)
+signal thought_completed(thought_id: String)
 
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
@@ -154,6 +156,10 @@ var news_log: Array = []
 var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
+# 발견 레이어 — 단서/생각정리 (추리·분석의 재미)
+var clues: Array = []              # 획득한 단서 id 목록
+var thoughts_done: Array = []      # 완료한 생각(추론) id 목록
+var active_thought: Dictionary = {}  # {"id": String, "turns_left": int} — 현재 정리 중인 생각 (1슬롯)
 var deferred_events: Array = []  # [{event_id, trigger_turn}] — N턴 후 자동 발동 이벤트
 var events_seen: int = 0   # 이번 런에서 플레이어가 실제 선택한 이벤트 수
 var peak_asset: float = 0.0   # 이번 런 최고 자산 (분석요소 — 정점 대비 결말 비교)
@@ -460,6 +466,7 @@ func advance_calendar() -> bool:
 			month = 1
 			year += 1
 			age += 1
+	_tick_active_thought()
 	turn_advanced.emit(turn)
 	return month_ended
 
@@ -611,6 +618,9 @@ func apply_choice(event, choice):
 		apply_relationship_effect(rel_effect)
 	for investment_effect in choice.get("investment_effects", []):
 		apply_investment_effect(investment_effect)
+	# 발견 레이어 — 선택지가 단서를 줄 수 있다: "clues": ["clue_x"]
+	for clue_id in choice.get("clues", []):
+		add_clue(str(clue_id))
 	for flag_id in choice.get("flags", []):
 		flags[str(flag_id)] = true
 		# 마인드셋 선택(arc_intro_02) → 성향 초기 시드
@@ -1512,6 +1522,9 @@ func serialize():
 		"event_log": event_log,
 		"action_log": action_log,
 		"flags": flags,
+		"clues": clues,
+		"thoughts_done": thoughts_done,
+		"active_thought": active_thought,
 		"deferred_events": deferred_events,
 		"market_prices": market_prices,
 		"price_history": price_history,
@@ -1569,6 +1582,13 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — deferred_events 없으면 빈 배열
 	if typeof(deferred_events) != TYPE_ARRAY:
 		deferred_events = []
+	# 구버전 세이브 호환 — 발견 레이어 필드
+	if typeof(clues) != TYPE_ARRAY:
+		clues = []
+	if typeof(thoughts_done) != TYPE_ARRAY:
+		thoughts_done = []
+	if typeof(active_thought) != TYPE_DICTIONARY:
+		active_thought = {}
 	stats_changed.emit()
 
 ## 그림자 이벤트 — N턴 후 자동 발동 예약
@@ -1586,3 +1606,90 @@ func pop_ready_deferred_events() -> Array:
 			remaining.append(entry)
 	deferred_events = remaining
 	return ready
+
+# ── 발견 레이어: 단서/생각정리 엔진 (추리·분석의 재미) ──────────────
+## 단서 획득 (이미 있으면 무시). 신규면 true.
+func add_clue(clue_id: String) -> bool:
+	if clue_id == "" or clues.has(clue_id):
+		return false
+	clues.append(clue_id)
+	var c: Dictionary = DataRegistry.get_clue(clue_id)
+	var title: String = str(c.get("title", clue_id))
+	add_log(LocaleManager.ui("🔎 단서 발견: %s" % title, "🔎 Clue found: %s" % title), "system")
+	clue_added.emit(clue_id)
+	stats_changed.emit()
+	return true
+
+func has_clue(clue_id: String) -> bool:
+	return clues.has(clue_id)
+
+func is_thought_done(thought_id: String) -> bool:
+	return thoughts_done.has(thought_id)
+
+## 필요한 단서를 모두 모았고, 아직 정리/완료하지 않은 생각 목록
+func available_thoughts() -> Array:
+	var out: Array = []
+	for t in DataRegistry.thoughts:
+		var tid: String = str(t.get("id", ""))
+		if tid == "" or thoughts_done.has(tid):
+			continue
+		if str(active_thought.get("id", "")) == tid:
+			continue
+		var ok: bool = true
+		for req in t.get("required_clues", []):
+			if not clues.has(str(req)):
+				ok = false
+				break
+		if ok:
+			out.append(t)
+	return out
+
+## 생각정리 시작 (1슬롯 — 이미 정리 중이면 실패). 시간이 걸린다 = 기회비용.
+func start_thought(thought_id: String) -> bool:
+	if not active_thought.is_empty():
+		return false
+	if thoughts_done.has(thought_id):
+		return false
+	var t: Dictionary = DataRegistry.get_thought(thought_id)
+	if t.is_empty():
+		return false
+	for req in t.get("required_clues", []):
+		if not clues.has(str(req)):
+			return false
+	var turns: int = max(1, int(t.get("processing_turns", 1)))
+	active_thought = {"id": thought_id, "turns_left": turns}
+	var title: String = str(t.get("title", thought_id))
+	add_log(LocaleManager.ui("💭 생각 정리 시작: %s (%d주)" % [title, turns], "💭 Started working it out: %s (%d weeks)" % [title, turns]), "system")
+	stats_changed.emit()
+	return true
+
+## 매주 호출 (advance_calendar) — 정리 중인 생각 진행, 완료 시 결론 적용
+func _tick_active_thought() -> void:
+	if active_thought.is_empty():
+		return
+	var left: int = int(active_thought.get("turns_left", 0)) - 1
+	if left <= 0:
+		var tid: String = str(active_thought.get("id", ""))
+		active_thought = {}
+		_complete_thought(tid)
+	else:
+		active_thought["turns_left"] = left
+
+func _complete_thought(thought_id: String) -> void:
+	if thought_id == "" or thoughts_done.has(thought_id):
+		return
+	thoughts_done.append(thought_id)
+	var t: Dictionary = DataRegistry.get_thought(thought_id)
+	var oc: Dictionary = t.get("on_complete", {})
+	for fk in oc.get("flags", []):
+		flags[str(fk)] = true
+	var eff = oc.get("effects", {})
+	if eff is Dictionary and not eff.is_empty():
+		apply_effects(eff)
+	var unlock: String = str(oc.get("unlock_event", ""))
+	if unlock != "":
+		add_deferred_event(unlock, 0)
+	var title: String = str(t.get("title", thought_id))
+	add_log(LocaleManager.ui("💡 결론에 도달: %s" % title, "💡 Reached a conclusion: %s" % title), "system")
+	thought_completed.emit(thought_id)
+	stats_changed.emit()

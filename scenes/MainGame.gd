@@ -3099,6 +3099,10 @@ func _render_sidebars():
 
 	_refresh_arc_box()
 
+func _on_start_thought(thought_id: String) -> void:
+	if GameState.start_thought(thought_id):
+		_refresh_arc_box()
+
 func _refresh_arc_box() -> void:
 	if not is_instance_valid(arc_box): return
 	_clear_box(arc_box)
@@ -3242,6 +3246,64 @@ func _refresh_arc_box() -> void:
 
 	if not any_active:
 		arc_box.add_child(_info_empty_card(_tr("아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.", "No arcs yet. As the story unfolds, they will be tracked here."), "#64748b"))
+
+	# ── 단서 / 생각 정리 (추리·분석) ──────────────────────────
+	arc_box.add_child(_info_section_title(_tr("단서 / 생각 정리", "Clues / Deductions"), "#c8a96a"))
+	# 정리 중인 생각
+	if not GameState.active_thought.is_empty():
+		var at_id: String = str(GameState.active_thought.get("id", ""))
+		var at: Dictionary = DataRegistry.get_thought(at_id)
+		var left: int = int(GameState.active_thought.get("turns_left", 0))
+		var at_card: PanelContainer = _info_card("#c8a96a", "#0d1018")
+		var at_box: VBoxContainer = VBoxContainer.new()
+		at_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		at_box.add_theme_constant_override("separation", 6)
+		at_card.add_child(at_box)
+		at_box.add_child(_label(_tr("정리 중: %s", "Working it out: %s") % str(at.get("title", at_id)), 14, "#e8d3a0"))
+		at_box.add_child(_wrap_label(_tr("%d주 남음 — 생각이 무르익는 중", "%d weeks left — still taking shape") % left, 13, "#a89668"))
+		arc_box.add_child(at_card)
+	# 정리 가능한 생각 (필요 단서 충족)
+	var avail_thoughts: Array = GameState.available_thoughts()
+	for t in avail_thoughts:
+		var tid: String = str(t.get("id", ""))
+		var t_card: PanelContainer = _info_card("#d4af6a", "#0d1018")
+		var t_box: VBoxContainer = VBoxContainer.new()
+		t_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		t_box.add_theme_constant_override("separation", 6)
+		t_card.add_child(t_box)
+		t_box.add_child(_label("💭 " + str(t.get("title", tid)), 15, "#f0d9a8"))
+		t_box.add_child(_wrap_label(str(t.get("description", "")), 13, "#b8a878"))
+		var turns: int = int(t.get("processing_turns", 1))
+		var start_btn: Button = _small_button(_tr("생각 정리 시작 (%d주)", "Start working it out (%d wk)") % turns, "#5a4a1e")
+		if not GameState.active_thought.is_empty():
+			start_btn.disabled = true
+		start_btn.pressed.connect(Callable(self, "_on_start_thought").bind(tid))
+		t_box.add_child(start_btn)
+		arc_box.add_child(t_card)
+	# 완료한 생각 (결론)
+	for tid2 in GameState.thoughts_done:
+		var t2: Dictionary = DataRegistry.get_thought(str(tid2))
+		var d_card: PanelContainer = _info_card("#5a6a6a", "#0d1018")
+		var d_box: VBoxContainer = VBoxContainer.new()
+		d_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		d_box.add_theme_constant_override("separation", 4)
+		d_card.add_child(d_box)
+		d_box.add_child(_label(_tr("결론: %s", "Concluded: %s") % str(t2.get("title", tid2)), 13, "#94a3b8"))
+		arc_box.add_child(d_card)
+	# 수집한 단서
+	if GameState.clues.is_empty():
+		arc_box.add_child(_info_empty_card(_tr("아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.", "No clues yet. Fragments accumulate through conversations and choices."), "#64748b"))
+	else:
+		for cid in GameState.clues:
+			var c: Dictionary = DataRegistry.get_clue(str(cid))
+			var c_card: PanelContainer = _info_card("#7a8a5a", "#0d1018")
+			var c_box: VBoxContainer = VBoxContainer.new()
+			c_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			c_box.add_theme_constant_override("separation", 4)
+			c_card.add_child(c_box)
+			c_box.add_child(_label("🔎 " + str(c.get("title", cid)), 14, "#cdd9a8"))
+			c_box.add_child(_wrap_label(str(c.get("text", "")), 12, "#9aa888"))
+			arc_box.add_child(c_card)
 
 	# 런 테마 표시
 	arc_box.add_child(_info_section_title(_tr("런 정보", "Run Info"), "#5a9ac8"))

@@ -295,6 +295,12 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
         for fl in dik.keys():
             if isinstance(fl, str) and fl:
                 game_reads_json.setdefault(str(fl), []).append(where)
+    # 생각정리(thoughts.json) on_complete.flags = 완료 시 set되는 플래그
+    oc = ev.get("on_complete", {})
+    if isinstance(oc, dict):
+        for fl in oc.get("flags", []):
+            if isinstance(fl, str) and fl:
+                game_sets.add(str(fl))
     for ch in ev.get("choices", []):
         for fl in ch.get("flags", []):
             game_sets.add(str(fl))
@@ -412,7 +418,7 @@ CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
-               "foreshadow"}
+               "foreshadow", "clues"}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""
@@ -578,6 +584,16 @@ def check_dead_arc_events():
             mt = cond.get("min_turn", 0)
             if isinstance(mt, (int, float)) and mt >= 9999:
                 trigger_only.append((e.get("id"), p))
+    # 생각정리(thoughts) on_complete.unlock_event 도 정당한 트리거 경로
+    tp = os.path.join(ROOT, "content", "meta", "thoughts.json")
+    if os.path.exists(tp):
+        try:
+            for t in json.load(open(tp, encoding="utf-8")):
+                ue = (t.get("on_complete", {}) or {}).get("unlock_event")
+                if isinstance(ue, str) and ue:
+                    follow_targets.add(ue)
+        except Exception:
+            pass
     for eid, p in trigger_only:
         if not eid:
             continue
@@ -787,6 +803,70 @@ def check_en_conditions():
                      % (fname, eid, kr_cond, en_cond))
 
 # ══════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════
+# 13) 발견 레이어 무결성 — 단서/생각정리(clues.json/thoughts.json)
+#     이벤트가 주는 clue id·생각의 required_clues·unlock_event가
+#     실제로 정의돼 있는지 대조 (← 오타로 조용히 죽는 추론 경로 방지)
+# ══════════════════════════════════════════════════════════════
+def check_clues_thoughts():
+    cp = os.path.join(ROOT, "content", "meta", "clues.json")
+    tp = os.path.join(ROOT, "content", "meta", "thoughts.json")
+    if not os.path.exists(cp) or not os.path.exists(tp):
+        return
+    try:
+        clue_rows = json.load(open(cp, encoding="utf-8"))
+        thought_rows = json.load(open(tp, encoding="utf-8"))
+    except Exception as e:
+        err("clues.json/thoughts.json 파싱 실패: %s" % e)
+        return
+    clue_ids = set()
+    for c in clue_rows:
+        cid = c.get("id", "")
+        if cid in clue_ids:
+            err("clues.json 중복 id: %s" % cid)
+        clue_ids.add(cid)
+    # 이벤트가 주는 clue id가 실제로 존재하는지
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            for ch in e.get("choices", []) or []:
+                for cid in ch.get("clues", []) or []:
+                    if str(cid) not in clue_ids:
+                        err("%s [%s] 없는 단서 id 부여: %s (clues.json에 없음)"
+                            % (rel(p), e.get("id", "?"), cid))
+    # 생각의 required_clues / unlock_event 검증
+    thought_ids = set()
+    for t in thought_rows:
+        tid = t.get("id", "")
+        if tid in thought_ids:
+            err("thoughts.json 중복 id: %s" % tid)
+        thought_ids.add(tid)
+        for req in t.get("required_clues", []) or []:
+            if str(req) not in clue_ids:
+                err("thoughts.json [%s] 없는 required_clue: %s" % (tid, req))
+        ue = (t.get("on_complete", {}) or {}).get("unlock_event")
+        if ue and not DataRegistry_has_event(ue):
+            err("thoughts.json [%s] unlock_event 없는 이벤트: %s" % (tid, ue))
+
+_ALL_EVENT_IDS = None
+def DataRegistry_has_event(eid):
+    global _ALL_EVENT_IDS
+    if _ALL_EVENT_IDS is None:
+        _ALL_EVENT_IDS = set()
+        for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+            try:
+                for e in load_events(p):
+                    if isinstance(e, dict) and e.get("id"):
+                        _ALL_EVENT_IDS.add(e["id"])
+            except Exception:
+                pass
+    return eid in _ALL_EVENT_IDS
+
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)
     check_gdscript()
@@ -800,6 +880,7 @@ def main():
     check_dead_cast_branches()
     check_structural_debt()
     check_en_conditions()
+    check_clues_thoughts()
 
     if errors:
         print("\n" + C.R + C.BOLD + "● ERROR (%d)" % len(errors) + C.Z)
