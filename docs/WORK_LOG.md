@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (drift EN + jaehyuk_way 상철 변주 엔딩 + 파스 에러 수정)
+
+### relationship drift 5종 EN 번역
+- daeun_drift_quiet, sangchul_becomes_primary, daeun_birthday_missed,
+  sangchul_world_absorbed, jiyeon_notices_daeun
+- KR/EN 선택지 수·effects·flags 완전 일치 (EN은 텍스트 오버레이만, 엔진이 KR effects 적용)
+
+### jaehyuk_way 엔딩 상철 변주 (description_if_known)
+- 기존 jaehyuk_way는 "최재혁의 방식" — 일반 포식자 엔딩
+- sangchul_used_fully 플래그 보유 시 상철 전용 변주로 교체
+  - "임상철. 아버지를 빚으로 밀어 넣은 사람. ...그의 죄책감을 자산으로 썼다"
+  - 거울 씬 콜백: "나랑 비슷해요" — "그때는 부정하고 싶었다. 지금은 부정할 게 없었다"
+  - "그를 미워하며 시작해서, 정확히 그가 되어 끝났다"
+- _show_ending()에 지식 반응형 변주 엔진 추가 (StoryMode description_if_known 패턴 미러)
+- 전체 체인 완성:
+  used_sangchul_knowingly(알면서 이용) → callback_sangchul_leveraged_cost(거울)
+  → sangchul_used_fully + crossed_line → 30억 → jaehyuk_way 상철 변주
+
+### 발견: confrontation 이후 t70~90 여파 씬은 이미 완비
+- 5종 터미널 상태 모두 echo 씬 존재(KR+EN): truth_buried(t84)/quietly_distanced(t84)
+  /cut_ties(t90)/forgiven(t76)/leveraged_cost(t76)
+- callback_sangchul_leveraged_cost "쓰는 사람의 얼굴" — 이미 강력한 거울
+
+### var t 셰도잉 파스 에러 수정 (기존 버그)
+- MainGame.gd _refresh_arc_box(): 3132 `var t: int` vs 3288 `for t in ...` 충돌
+- 엄격 파서(--check-only --script)가 검출, 커밋 HEAD에 이미 존재하던 버그
+- 루프 변수 t → th 로 변경
+- Godot 전체 컴파일 55개 스크립트 클린 (audit.sh CompileCheck.tscn)
+
+### audit ERROR 0 / WARNING 0 / 밸런스 밴드 통과 / write_only_flags 211
+
 ## 2026-06-23 (상철 이후 중간 씬 — 알면서도 이용하는 구간)
 
 ### 빈 구간 발견
