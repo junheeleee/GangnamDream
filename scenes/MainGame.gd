@@ -2349,7 +2349,51 @@ func _show_result(result_text: String):
 func _on_result_confirmed():
 	pending_result_text = ""
 	_transient_bg_active = false
+	# MORAL_TINT 밴드 전이 비네트 — 선택의 결과 직후, 조용한 자각 한 장면
+	if not GameState.pending_tint_vignette.is_empty():
+		var v: Dictionary = GameState.pending_tint_vignette
+		GameState.pending_tint_vignette = {}
+		_show_moral_beat(int(v.get("from", 0)), int(v.get("to", 0)))
+		return
 	_render_event()
+
+# 밴드를 넘을 때 터지는 짧은 자각 — 숫자·스탯 표시 없이 본문만. (docs/MORAL_TINT.md §6)
+func _show_moral_beat(from_band: int, to_band: int):
+	for child in choice_box.get_children():
+		child.queue_free()
+	_transient_bg_active = true
+	_clear_category_tint(true)
+	_clear_feedback_flash()
+	var body := _moral_beat_text(from_band, to_band)
+	event_title.text = ""
+	_type_text(_fmt(body), 42.0)
+	var btn: Button = _button(_tr("…", "…"), "#3a3f4a")
+	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
+	choice_box.add_child(btn)
+	next_button.disabled = true
+
+func _moral_beat_text(from_band: int, to_band: int) -> String:
+	# 검정 쪽으로 (잃어감)
+	if to_band < from_band:
+		if to_band <= -2:
+			return _tr(
+				"거울을 봤다.\n5년 전 고시원에서 라면 먹던 얼굴을 떠올리려 했는데 —\n안 떠올랐다.",
+				"I looked in the mirror.\nI tried to picture the face that ate ramen in the goshiwon five years ago —\nit wouldn't come.")
+		if to_band == -1:
+			return _tr(
+				"밥을 먹는데 맛이 안 났다.\n그냥 연료 같았다.",
+				"I was eating, but the food had no taste.\nIt was just fuel.")
+		return _tr(
+			"뭔가, 조금씩 식어가는 느낌이 들었다.\n뭔지는 몰랐다.",
+			"Something felt like it was slowly going cold.\nI couldn't say what.")
+	# 하양 쪽으로 (되찾음 — 불완전)
+	if to_band >= 1:
+		return _tr(
+			"오랜만에 통화 끝에 웃었다.\n웃는 게 어색했다는 걸, 웃고 나서 알았다.",
+			"For once I laughed at the end of a call.\nOnly after did I realize how unfamiliar laughing had become.")
+	return _tr(
+		"오늘은 조금, 사람 같았다.\n그게 얼마 만인지 세지 않기로 했다.",
+		"Today I felt a little more like a person.\nI decided not to count how long it had been.")
 
 func _fmt(text: String) -> String:
 	return GameState.format_event_text(text)

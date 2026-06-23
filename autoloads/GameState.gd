@@ -107,6 +107,7 @@ var month_focus: String = ""
 # −100(새까망/돈) ↔ 0(회색/시작) ↔ +100(새하양/인간). 플레이어에겐 숫자 미노출, 색으로만.
 var moral_tint: float = 0.0
 var moral_band_last: int = 0   # 직전 밴드(−2~+2). 전이 비네트 트리거용
+var pending_tint_vignette: Dictionary = {}  # transient: {"from":int,"to":int} — UI가 표시 후 비움
 var housing_months: Dictionary = {}
 
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
@@ -811,12 +812,21 @@ func apply_effects(effects):
 # ── MORAL_TINT 엔진 (docs/MORAL_TINT.md) ──
 # 인간성=하양(+) / 돈=검정(−). 누적식. 흉터(crossed_line·죽음 외면)는 상한을 영구 고정.
 func shift_moral_tint(delta: float) -> void:
+	var old_band: int = moral_stage()
 	moral_tint = clampf(moral_tint + delta, -100.0, 100.0)
 	# 영구 얼룩 — 상한 고정 (아무리 착하게 굴어도 완전히는 못 돌아온다)
 	if flags.get("crossed_line", false):
 		moral_tint = minf(moral_tint, -20.0)        # 상철 끝까지 이용·재혁의 방식 → 양수 불가
 	elif flags.get("chose_money_over_father", false):
 		moral_tint = minf(moral_tint, 0.0)           # 죽음 외면 → 하양 불가
+	# 밴드 전이 감지 — 넘었으면 비네트 대기열에 기록(표시는 UI가). from은 시작 밴드 유지.
+	var new_band: int = moral_stage()
+	if new_band != old_band:
+		if pending_tint_vignette.is_empty():
+			pending_tint_vignette = {"from": old_band, "to": new_band}
+		else:
+			pending_tint_vignette["to"] = new_band
+		moral_band_last = new_band
 
 # −2(새까망) ~ +2(새하양). 이산 효과(틀어짐·돈 글로우)용.
 func moral_stage() -> int:
