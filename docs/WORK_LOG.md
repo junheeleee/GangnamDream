@@ -1,5 +1,30 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (상철 진실 아크 타임라인 reachability 점검 + 데드엔드 수정)
+
+### 전체 체인 매핑
+- 01_meet(t10)→02_coffee(t14)→03_network(t20,자산≥100만)→deduction(t26~50,지력55/비정통20)
+- offguard(t26)→human(t30~42)
+- known_offer(t38~55,truth+human_seen)→reflex(t50~59)→confrontation(t60)→reckoning→엔딩
+
+### 발견한 데드엔드
+- 네트워크(03) 합류가 늦으면(자산<100만 장기) offguard도 늦어지고
+  human 윈도우(t30~42)를 놓침 → human_seen 미설정 → known_offer 영구 스킵
+- 100만 자산은 보통 일찍 충족되나, 장기 빈곤+추론적격(지력55) 교집합에서 발생
+
+### 수정: arc_sangchul_human 상한 t42→t52
+- 일반 케이스(human t30 발동)는 무영향 — 첫 적격 턴에 발동하므로
+- 늦은 합류(offguard ~t51까지)만 구제
+
+### 오프라인 트레이스 검증 (함수 순서·매 턴 첫 매치 모델)
+- 조기 네트워크(t20): offer(t38)/reflex(t50)/confrontation(t60) 전부 ✓
+- 늦은 네트워크(t40): offer(t44)/reflex/confrontation ✓ (기존 t42캡이면 데드엔드)
+- 매우 늦은(t48): human(t51)/offer(t52)/reflex(t53) — t52 확장이 구제 ✓
+- 추론 안함: offguard→human→mirror, gap 씬 없음 (진실 모름 — 정상)
+- t50+ 합류: deduction 윈도우(t26~50) 닫혀 confession 경로로 (데드엔드 아님)
+
+### Godot 55개 컴파일 클린 / audit ERROR 0 / WARNING 0 / 밴드 통과
+
 ## 2026-06-23 (description_if_known 엔딩 변주 실기 렌더 검증)
 
 ### xvfb + opengl3 실제 렌더 캡처로 변주 시각 검증
