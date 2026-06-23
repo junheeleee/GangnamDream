@@ -164,7 +164,8 @@
         "effects": {
           "money": -60000,
           "mental": 25,
-          "health": 5
+          "health": 5,
+          "tint": 5
         },
         "flags": [
           "went_home_for_father"
@@ -174,7 +175,8 @@
       {
         "text": "다음에 꼭 내려가겠다고 한다.",
         "effects": {
-          "mental": -13
+          "mental": -13,
+          "tint": -3
         },
         "flags": [
           "skipped_father_wedding"
@@ -450,7 +452,8 @@
       {
         "text": "짜증내며 동기들에게 하소연한다",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": -1
         },
         "result_text": "동기들한테 하소연하다 카톡방이 불타올랐다. 속은 시원했는데 현실은 그대로였다.",
         "flags": []
@@ -585,7 +588,8 @@
         "text": "청약 조건을 차분히 확인한다",
         "effects": {
           "money": 450000,
-          "health": -6
+          "health": -6,
+          "tint": 1
         },
         "result_text": "청약 점수부터 차근차근 확인했다. 45만원 들었지만 조건이 맞다는 걸 알았다.",
         "flags": []
@@ -602,7 +606,8 @@
         "text": "무조건 접수부터 해버린다",
         "effects": {
           "reputation": 2,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": -1
         },
         "result_text": "일단 접수부터 눌렀다. 되면 되는 거지, 하는 마음이었다.",
         "flags": []
@@ -630,7 +635,8 @@
         "text": "형편껏 보낼 수 있는 금액을 정한다",
         "effects": {
           "money": 310000,
-          "luck": -2
+          "luck": -2,
+          "tint": 3
         },
         "result_text": "형편껏 보낼 수 있는 금액만 정해서 보냈다. 부모님은 괜찮다 하셨지만 마음이 무거웠다.",
         "flags": []
@@ -638,7 +644,8 @@
       {
         "text": "죄책감에 쩔어 밤잠을 못 잔다",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         },
         "result_text": "죄책감에 밤을 새웠다. 아무것도 안 하면서 스스로를 갉아먹고 있었다.",
         "flags": []
@@ -647,7 +654,8 @@
         "text": "대출 한도를 조회했다",
         "effects": {
           "reputation": 5,
-          "investment_skill": 4
+          "investment_skill": 4,
+          "tint": 4
         },
         "result_text": "대출받아 전액 지원했다. 가족은 고마워했지만 앞으로 몇 달이 빠듯해졌다.",
         "flags": []
@@ -685,7 +693,8 @@
       {
         "text": "억울하지만 고개를 끄덕인다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "result_text": "'네, 알겠습니다.'\n세 글자를 뱉는 데 2초가 걸렸다.\n집에 오는 지하철 안에서 그 두 글자가 계속 울렸다. 빠른 것 같던데.",
         "flags": []
@@ -694,7 +703,8 @@
         "text": "'업무는 다 마치고 나갑니다'라고 말한다",
         "effects": {
           "reputation": 0,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 3
         },
         "result_text": "팀장님이 잠깐 멈췄다.\n'그래요.' 그게 전부였다.\n동료 눈치가 느껴졌다. 잘한 건지 모르겠다.",
         "flags": []
@@ -770,7 +780,8 @@
         "text": "지금 당장 등기부 등본을 확인한다",
         "effects": {
           "money": 340000,
-          "luck": -2
+          "luck": -2,
+          "tint": 2
         },
         "result_text": "정부24에 들어갔다.\n집주인 이름을 찾았다. 근저당이 있었다.\n숫자가 예상보다 컸다. 내 보증금보다 컸다.",
         "flags": []
@@ -778,7 +789,8 @@
       {
         "text": "설마 내 집은 아니겠지 하고 뉴스를 끈다",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -3
         },
         "result_text": "TV를 껐다.\n이틀 후에 비슷한 기사가 또 떴다.\n그때도 {name}은 뉴스를 껐다.",
         "flags": []
@@ -787,7 +799,8 @@
         "text": "집주인에게 바로 전화를 건다",
         "effects": {
           "reputation": -3,
-          "investment_skill": 5
+          "investment_skill": 5,
+          "tint": 3
         },
         "result_text": "신호가 갔다. 안 받았다.\n문자를 보냈다. 답장이 없었다.\n밤새 폰을 손에 쥐고 있었다.",
         "flags": [
@@ -799,7 +812,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -4
         },
         "result_text": "다음 달 관리비 고지서가 왔다.\n여전히 같은 주소. 같은 집주인 이름.\n아무 일도 없었다. 이번만은.",
         "flags": []
@@ -926,7 +940,8 @@
         "text": "생활비 6개월치가 있나 계산해본다",
         "effects": {
           "money": 10000,
-          "appearance": 0
+          "appearance": 0,
+          "tint": 1
         },
         "result_text": "계산기를 켰다.\n숫자가 나왔다. 부족했다.\n영상을 다시 틀었다. 이번엔 끝까지 봤다.",
         "flags": []
@@ -943,7 +958,8 @@
         "text": "사직서 초안을 메모장에 써본다",
         "effects": {
           "reputation": -2,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 2
         },
         "result_text": "첫 줄은 썼다.\n'저는 이달 말로 사직하고자 합니다.'\n세 번 읽었다. 저장하지 않고 닫았다.",
         "flags": [
@@ -1026,7 +1042,8 @@
         "text": "어떤 ETF인지 조용히 찾아본다",
         "effects": {
           "money": 370000,
-          "intelligence": -4
+          "intelligence": -4,
+          "tint": 1
         },
         "result_text": "VOO, SPY, TIGER 미국S&P500.\n보수율 비교표를 저장했다.\n따라하는 건 아니고 일단 공부였다. 아마도.",
         "flags": []
@@ -1043,7 +1060,8 @@
         "text": "지금 바로 계좌를 만든다",
         "effects": {
           "reputation": 5,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": -1
         },
         "result_text": "증권사 앱을 받았다.\n계좌 개설까지 12분 걸렸다.\n첫 매수 버튼을 누르는 손이 약간 떨렸다.",
         "flags": []
@@ -1115,7 +1133,8 @@
         "text": "바쁘다고 둘러대고 화제를 돌린다",
         "effects": {
           "money": 380000,
-          "appearance": -3
+          "appearance": -3,
+          "tint": -1
         },
         "result_text": "'요즘 프로젝트가 좀 있어서요.'\n큰어머니가 고개를 끄덕였다.\n다음 질문은 옆 사촌에게 갔다. 5초의 유예였다.",
         "flags": []
@@ -1132,7 +1151,8 @@
         "text": "인사만 하고 일찍 자리를 뜬다",
         "effects": {
           "reputation": 4,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": 2
         },
         "result_text": "'저 오늘 일이 있어서요.'\n어머니 눈치가 보였다.\n버스 안에서 한숨을 쉬었다. 편하긴 했다.",
         "flags": [
@@ -1162,7 +1182,8 @@
         "text": "오늘 일정이 있다고 솔직하게 답한다",
         "effects": {
           "money": 140000,
-          "reputation": 1
+          "reputation": 1,
+          "tint": 4
         },
         "result_text": "'오늘 저녁에 선약이 있어서요.'\n답장을 보내고 폰을 주머니에 넣었다.\n팀장님 답장은 안 왔다. 그게 더 신경 쓰였다.",
         "flags": []
@@ -1170,7 +1191,8 @@
       {
         "text": "타이핑하다가 잠깐 멈췄다. 그리고 \"네\"라고 보냈다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -3
         },
         "result_text": "'네 가겠습니다.'\n약속 취소 문자를 보냈다.\n야근이 끝난 건 밤 11시였다.",
         "flags": []
@@ -1179,7 +1201,8 @@
         "text": "\"이미 퇴근했어요\"라고 보냈다",
         "effects": {
           "reputation": 5,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 2
         },
         "result_text": "'아 저 지금 막 나왔는데요.'\n거짓말이었다. 아직 지하철 안이었다.\n답장이 왔다. '그래요. 수고해요.'",
         "flags": []
@@ -1189,7 +1212,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -1
         },
         "result_text": "읽음 표시가 켜졌다.\n폰을 뒤집어 놓았다.\n다음날 아침이 불편할 것 같았다.",
         "flags": []
@@ -3497,7 +3521,8 @@
         "text": "지금까지의 선택들을 돌아본다.",
         "effects": {
           "mental": 13,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         },
         "result_text": "잘한 것들, 못한 것들.\n아쉬운 선택들, 다행인 선택들.\n\n다 합산하면 지금 여기다. 후회는 내일 하고, 오늘은 남은 30개월을 생각한다.",
         "flags": []
@@ -3515,7 +3540,8 @@
         "text": "속도보다 방향이 맞는지 확인한다.",
         "effects": {
           "mental": 18,
-          "luck": 2
+          "luck": 2,
+          "tint": 3
         },
         "result_text": "강남이 목표인 건 맞다.\n그런데 왜 강남이어야 하냐는 질문을 오늘 처음 진지하게 해봤다.\n\n답은 아직 없다. 하지만 질문이 생긴 것 자체가 뭔가였다.",
         "flags": []
@@ -3553,7 +3579,8 @@
         "text": "결과보다 과정을 봤을 때, 이 5년이 어떤 의미인지 생각한다.",
         "effects": {
           "mental": 22,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 5
         },
         "result_text": "강남에 가든 못 가든.\n\n이 5년 동안 {name}은 처음으로 자기 돈을 벌었고, 처음으로 혼자 살았고, 처음으로 진짜 실패를 경험했다.\n\n그게 뭔지는 나중에 알 것 같다.",
         "flags": []
@@ -3585,7 +3612,8 @@
         "effects": {
           "money": -80000,
           "mental": 35,
-          "health": 5
+          "health": 5,
+          "tint": 8
         },
         "flags": [
           "visited_father_hospital"
@@ -3597,7 +3625,8 @@
         "text": "\"이번엔 못 가겠어\"라고 했다",
         "effects": {
           "mental": -35,
-          "luck": -3
+          "luck": -3,
+          "tint": -6
         },
         "flags": [
           "skipped_father_hospital"
@@ -3742,7 +3771,8 @@
         "text": "모르겠다.",
         "effects": {
           "mental": 8,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 2
         },
         "flags": [
           "answered_happy_unsure"
@@ -3755,7 +3785,8 @@
         "effects": {
           "mental": 10,
           "intelligence": 5,
-          "luck": 3
+          "luck": 3,
+          "tint": 4
         },
         "flags": [
           "answered_happy_no"
@@ -3790,7 +3821,8 @@
         "effects": {
           "mental": 5,
           "reputation": 3,
-          "money": 300000
+          "money": 300000,
+          "tint": -2
         },
         "flags": [
           "got_promoted_orthodox"
@@ -3802,7 +3834,8 @@
         "text": "잠깐, 내가 원하던 게 이거였는지 생각한다.",
         "effects": {
           "mental": -8,
-          "intelligence": 4
+          "intelligence": 4,
+          "tint": 4
         },
         "flags": [
           "got_promoted_orthodox",
@@ -3837,7 +3870,8 @@
         "effects": {
           "money": 150000,
           "reputation": 2,
-          "mental": -8
+          "mental": -8,
+          "tint": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -3860,7 +3894,8 @@
         "effects": {
           "health": 5,
           "mental": 3,
-          "reputation": -2
+          "reputation": -2,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -3905,7 +3940,8 @@
         "text": "집에 와서 명패를 서랍에 넣는다.",
         "effects": {
           "mental": -9,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 3
         },
         "flags": [
           "received_orthodox_award",
@@ -3941,7 +3977,8 @@
         "effects": {
           "reputation": 3,
           "mental": 2,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 2
         },
         "flags": [
           "saw_senior_farewell"
@@ -3967,7 +4004,8 @@
         "effects": {
           "money": -30000,
           "health": -2,
-          "mental": 10
+          "mental": 10,
+          "tint": -1
         },
         "flags": [
           "saw_senior_farewell"

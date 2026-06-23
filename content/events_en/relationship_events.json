@@ -200,7 +200,8 @@
         "text": "Go even though you don't want to — show your face",
         "effects": {
           "social_skill": 1,
-          "mental": -6
+          "mental": -6,
+          "tint": 1
         },
         "flags": [],
         "result_text": "You forced yourself to go. Questions about your life poured in. On the way home you stared at your phone. No new messages."
@@ -210,7 +211,8 @@
         "effects": {
           "appearance": 2,
           "social_skill": 2,
-          "mental": -4
+          "mental": -4,
+          "tint": -1
         },
         "flags": [],
         "result_text": "It took an hour to get ready. A few heads turned when you walked in. Then came the questions about your life. That was the problem."
@@ -439,7 +441,8 @@
         "text": "Send whatever you can right now",
         "effects": {
           "money": -300000,
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [],
         "result_text": "Transferred ₩300,000. Taken from the investment savings. Mother said 'thank you.' Those two words stayed a long time."
@@ -448,7 +451,8 @@
         "text": "Be honest about your own financial situation",
         "effects": {
           "mental": -4,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": -3
         },
         "flags": [],
         "result_text": "'Mom, I'm also a bit tight right now.'\nSaying it made your throat tighten a little.\nMother said 'Oh, it's okay.' She didn't look okay."
@@ -457,7 +461,8 @@
         "text": "Take out a loan and send it anyway",
         "effects": {
           "money": -1000000,
-          "mental": -5
+          "mental": -5,
+          "tint": 6
         },
         "flags": [],
         "result_text": "Sent ₩1,000,000. Pulled from the overdraft account. Decided not to calculate the interest."
@@ -542,7 +547,8 @@
         "text": "Listen calmly to whatever it is",
         "effects": {
           "mental": 3,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 2
         },
         "flags": [],
         "result_text": "It was a compliment. They said the project results looked good. Why did those thirty seconds in the hallway feel so long?"
@@ -560,7 +566,8 @@
         "text": "Take a breath and prepare for the worst",
         "effects": {
           "intelligence": 2,
-          "mental": -2
+          "mental": -2,
+          "tint": 1
         },
         "flags": [],
         "result_text": "If you're fired, it starts next month. You ran the numbers on how to find the next job. The manager brought up a team transfer for next year."
@@ -751,7 +758,8 @@
         "text": "Send the first message",
         "effects": {
           "social_skill": 2,
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         },
         "flags": [],
         "result_text": "'Yesterday was fun.'\nYou sent it, then turned the phone face down.\nA reply came twenty minutes later."
@@ -768,7 +776,8 @@
         "text": "Send a casual message suggesting plans",
         "effects": {
           "social_skill": 3,
-          "mental": 2
+          "mental": 2,
+          "tint": 2
         },
         "flags": [],
         "result_text": "'Would you happen to be free this weekend?'\nYou immediately regretted sending it.\nThe reply came an hour later. 'That sounds good.'"
@@ -796,7 +805,8 @@
       {
         "text": "Wait a little longer",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 2
         },
         "flags": [],
         "result_text": "You stood there ten more minutes. Water dripping from your hair. At forty minutes a message came. 'Sorry, I don't think I can make it.'"
@@ -805,7 +815,8 @@
         "text": "Call them",
         "effects": {
           "social_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": 1
         },
         "flags": [],
         "result_text": "It rang twice then cut off. You sent a text. You stepped under the convenience store awning."
@@ -821,7 +832,8 @@
       {
         "text": "Stand in the rain right where you are",
         "effects": {
-          "mental": -7
+          "mental": -7,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You didn't move. Five more minutes passed. The hem of your pants was completely soaked. No message came."
@@ -859,7 +871,8 @@
         "text": "Click and watch to the end",
         "effects": {
           "intelligence": 2,
-          "mental": -3
+          "mental": -3,
+          "tint": 2
         },
         "flags": [],
         "result_text": "It was 14 minutes and 47 seconds. The company story came at the seven-minute mark. Your hand hovered over the subscribe button."
@@ -868,7 +881,8 @@
         "text": "Leave an anonymous comment",
         "effects": {
           "social_skill": 1,
-          "mental": 3
+          "mental": 3,
+          "tint": -3
         },
         "flags": [],
         "result_text": "'Rooting for you.' You posted it and checked that it was anonymous. It was. You added one more view."
@@ -896,7 +910,8 @@
       {
         "text": "Turn the phone face down",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 1
         },
         "flags": [],
         "result_text": "You flipped it over. Even face down, you kept thinking about it. An hour later you flipped it again. Still nothing."
@@ -913,7 +928,8 @@
       {
         "text": "Check their profile",
         "effects": {
-          "mental": -3
+          "mental": -3,
+          "tint": -1
         },
         "flags": [],
         "result_text": "You went in. Their profile picture had changed. You didn't know when. That felt stranger than the silence."
@@ -1979,7 +1995,8 @@
         "text": "'Me too. When I'm on night shift, I always get the same sandwich.' You pick it up.",
         "effects": {
           "social_skill": 2,
-          "mental": 5
+          "mental": 5,
+          "tint": 3
         },
         "flags": [
           "daeun_talked"
@@ -1989,7 +2006,8 @@
       {
         "text": "Just ring her up quietly. You're on shift.",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": -1
         },
         "flags": [],
         "result_text": "She said nothing either.\n\nBut she kept coming. Every week at 2 AM."
@@ -2021,7 +2039,8 @@
         "text": "Tell her your story too. The goshiwon, the account, the Gangnam dream.",
         "effects": {
           "social_skill": 3,
-          "mental": 6
+          "mental": 6,
+          "tint": 5
         },
         "flags": [
           "daeun_shared"
@@ -2031,7 +2050,8 @@
       {
         "text": "'Seoul's all like that.' Brush it off lightly.",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": -3
         },
         "flags": [],
         "result_text": "She smiled. 'I suppose so.'\n\nA taxi came. She got in.\n\nYou could have said one more thing."
@@ -2063,7 +2083,8 @@
         "text": "Go. It's been a while since you've gone out in the daytime.",
         "effects": {
           "social_skill": 2,
-          "mental": 8
+          "mental": 8,
+          "tint": 4
         },
         "flags": [
           "daeun_date"
@@ -2073,7 +2094,8 @@
       {
         "text": "'I've been busy lately.' Decline.",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": -3
         },
         "flags": [],
         "result_text": "Daeun replied 'I see, okay.'\n\nAfter that she came to the convenience store once more, then stopped coming."

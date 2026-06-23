@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (자율 사각지대 감사 + MORAL_TINT 4차 확장 63개 + 진엔딩 자산 버그 수정)
+
+### 자율 감사 발견사항 (전수 점검)
+1. **17개 조건 플래그 → 전부 합법** (cafe/coin은 opportunity win_flag/lose_flag, jeongseon은 GDScript, is_repeat_run/housing_moved_once는 GameState, formed_whole_picture는 thoughts.json)
+2. **gangnam_penthouse 배경 ID 버그** — endings.json `full_circle`이 ImageRegistry에 없는 ID 사용 → `gangnam_penthouse` 알리아스 추가 (penthouse_view.png로 매핑)
+3. **아크 체인 전수** — _next_arc_id() 반환 158개 ID 전부 JSON에 존재
+4. **이벤트 조건 모순 0건** — min_money>max_money, 동일 flag/no_flag, min_turn>max_turn 없음
+5. **중복 ID 0건** (KR/EN 오버레이 쌍은 의도된 중복)
+6. **NG+ full_circle 체인 확인** — MetaProgression.sangchul_truth_ever_known + ng_plus_events.json 완전 배선
+7. **thoughts.json 체인 확인** — clue 3종 전부 이벤트 choice flags로 설정됨
+
+### MORAL_TINT 4차 확장 (63개 tint, KR+EN 동기화)
+**1차 배치 (25개)** — 최고가중치 이벤트 14종:
+- life_events: chapter_break_30(반환점 +4/+3), chapter_break_45(5년의미+5), father_wedding_call(아버지전화+5/-3), father_missed_chance(입원+8/-6), are_you_happy(모르겠다+2/아니다+4), orthodox_promotion_mirror(거울+4/-2), orthodox_overtime_fomo(야근+2/-1), orthodox_award_ceremony(서랍+3), orthodox_senior_farewell(선배+2/-1)
+- investment_events: invest_first_win(확정+1/-2), invest_first_loss(버팀+1)
+- relationship_events: daeun_regular(말받기+3/-1), daeun_share(내얘기+5/-3), daeun_feeling(나간다+4/-3)
+
+**2차 배치 (38개)** — weight=8 이벤트 16종:
+- relationship_events: family_007(병원비 대출+6/솔직+4/-3), social_life_001(+1/-1), jobs_010(경청+2), jobs_026(박씨유튜브+2/-3), romance_017(먼저카톡+3/약속+2), romance_020(빗속+4/기다림+2/+1), romance_029(뒤집기+1/-1)
+- life_events: family_013(집안병원비+4/죄책감+2/형편껏+3), jobs_036(야근카톡: 솔직+4/네-3/퇴근+2/-1), disasters_020(전세사기: 확인+2/-3/전화+3/닫는다-4), jobs_014(억울-2/당당+3), finance_033(조용히+1/-1), family_035(일찍자리+2/둘러대기-1), jobs_025(계획+1/사직서+2), finance_011(차분+1/-1), military_007(-1)
+
+### 전체 tint 커버리지
+- **347/3090 선택지 (11.2%)** (이전 284 → 9.2%)
+
+---
+
 ## 2026-06-23 (MORAL_TINT 딥 점검 + 3차 스파인 확장 52개)
 
 ### 자율 점검 발견사항 7종

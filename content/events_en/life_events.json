@@ -24,7 +24,8 @@
           "money": -60000,
           "mental": 15,
           "health": 5,
-          "stress": -10
+          "stress": -10,
+          "tint": 5
         },
         "flags": [
           "went_home_for_father"
@@ -35,7 +36,8 @@
         "text": "Say you'll come next time, for sure.",
         "effects": {
           "stress": 7,
-          "mental": -6
+          "mental": -6,
+          "tint": -3
         },
         "flags": [
           "skipped_father_wedding"
@@ -959,7 +961,8 @@
       {
         "text": "Grumble about it with old army buddies",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": -1
         },
         "result_text": "You vented to your old buddies and the group chat lit up. Your chest felt lighter, but reality stayed exactly the same.",
         "flags": []
@@ -1040,7 +1043,8 @@
         "text": "Calmly verify the subscription conditions",
         "effects": {
           "money": 450000,
-          "health": -6
+          "health": -6,
+          "tint": 1
         },
         "result_text": "You went through the subscription criteria step by step. It cost ₩450,000, but you confirmed you met the conditions.",
         "flags": []
@@ -1057,7 +1061,8 @@
         "text": "Just apply without thinking it through",
         "effects": {
           "reputation": 2,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": -1
         },
         "result_text": "You just hit apply. Your attitude was: if it happens, it happens.",
         "flags": []
@@ -1085,7 +1090,8 @@
         "text": "Decide on an amount you can realistically send",
         "effects": {
           "money": 310000,
-          "luck": -2
+          "luck": -2,
+          "tint": 3
         },
         "result_text": "You sent only what you could manage. Your parents said they were fine, but your heart felt heavy.",
         "flags": []
@@ -1093,7 +1099,8 @@
       {
         "text": "Stew in guilt and lose sleep over it",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         },
         "result_text": "You stayed up all night with guilt. You did nothing while slowly eating yourself alive.",
         "flags": []
@@ -1102,7 +1109,8 @@
         "text": "Take out a loan and cover the full amount",
         "effects": {
           "reputation": 5,
-          "investment_skill": 4
+          "investment_skill": 4,
+          "tint": 4
         },
         "result_text": "You took out a loan and covered everything. Your family was grateful, but the next few months were going to be tight.",
         "flags": []
@@ -1140,7 +1148,8 @@
       {
         "text": "Feel wronged, but nod anyway",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "result_text": "'Yes, understood.'\nIt took two seconds to get those three words out.\nOn the subway home, those words kept echoing. Leaving early, are we.",
         "flags": []
@@ -1149,7 +1158,8 @@
         "text": "Say 'I always leave after finishing my work'",
         "effects": {
           "reputation": 0,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 3
         },
         "result_text": "The team leader paused for a moment.\n'Alright.' That was all.\nYou felt the other colleagues watching. You weren't sure if that was the right call.",
         "flags": []
@@ -1223,7 +1233,8 @@
         "text": "Check the property registry right now",
         "effects": {
           "money": 340000,
-          "luck": -2
+          "luck": -2,
+          "tint": 2
         },
         "result_text": "You opened Government24.\nYou found the landlord's name. There was a mortgage lien.\nThe figure was bigger than you expected. Bigger than your deposit.",
         "flags": []
@@ -1231,7 +1242,8 @@
       {
         "text": "Tell yourself it can't be your place and turn off the news",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -3
         },
         "result_text": "You turned off the TV.\nTwo days later, a similar story ran again.\n{name} turned off the news that time too.",
         "flags": []
@@ -1240,7 +1252,8 @@
         "text": "Call the landlord immediately",
         "effects": {
           "reputation": -3,
-          "investment_skill": 5
+          "investment_skill": 5,
+          "tint": 3
         },
         "result_text": "It rang. No answer.\nYou sent a text. No reply.\nYou held your phone in your hand all night.",
         "flags": [
@@ -1252,7 +1265,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -4
         },
         "result_text": "Next month's maintenance bill arrived.\nSame address. Same landlord's name.\nNothing happened. This time.",
         "flags": []
@@ -1379,7 +1393,8 @@
         "text": "Calculate whether you have six months of living expenses",
         "effects": {
           "money": 10000,
-          "appearance": 0
+          "appearance": 0,
+          "tint": 1
         },
         "result_text": "You opened a calculator.\nThe number came out. Not enough.\nYou played the video again. This time you watched to the end.",
         "flags": []
@@ -1396,7 +1411,8 @@
         "text": "Draft a resignation letter in Notepad",
         "effects": {
           "reputation": -2,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 2
         },
         "result_text": "You wrote the first line.\n'I wish to resign effective the end of this month.'\nYou read it three times. You closed it without saving.",
         "flags": [
@@ -1479,7 +1495,8 @@
         "text": "Quietly look into which ETF it was",
         "effects": {
           "money": 370000,
-          "intelligence": -4
+          "intelligence": -4,
+          "tint": 1
         },
         "result_text": "VOO, SPY, TIGER US S&P500.\nYou saved a comparison chart of expense ratios.\nIt wasn't copying — it was research. Probably.",
         "flags": []
@@ -1496,7 +1513,8 @@
         "text": "Open a brokerage account right now",
         "effects": {
           "reputation": 5,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": -1
         },
         "result_text": "You downloaded a brokerage app.\nAccount setup took 12 minutes.\nThe hand reaching for the first buy button trembled slightly.",
         "flags": []
@@ -1568,7 +1586,8 @@
         "text": "Make up being busy and change the subject",
         "effects": {
           "money": 380000,
-          "appearance": -3
+          "appearance": -3,
+          "tint": -1
         },
         "result_text": "'Things have been a bit hectic with a project lately.'\nYour aunt nodded.\nThe next question went to your cousin beside you. Five seconds of reprieve.",
         "flags": []
@@ -1585,7 +1604,8 @@
         "text": "Say your goodbyes and leave early",
         "effects": {
           "reputation": 4,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": 2
         },
         "result_text": "'I actually have something going on today.'\nYou felt your mother watching.\nYou sighed on the bus. But it was a relief.",
         "flags": [
@@ -1615,7 +1635,8 @@
         "text": "Honestly reply that you have plans tonight",
         "effects": {
           "money": 140000,
-          "reputation": 1
+          "reputation": 1,
+          "tint": 4
         },
         "result_text": "'I actually have prior plans tonight.'\nYou sent the reply and put the phone in your pocket.\nNo reply came from the team leader. That bothered you more.",
         "flags": []
@@ -1623,7 +1644,8 @@
       {
         "text": "Feel guilty and agree to the overtime",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -3
         },
         "result_text": "'Yes, I'll be there.'\nYou sent a cancellation text for your plans.\nOvertime ended at 11 PM.",
         "flags": []
@@ -1632,7 +1654,8 @@
         "text": "Reply that you've already left for the day",
         "effects": {
           "reputation": 5,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 2
         },
         "result_text": "'Ah, I just stepped out.'\nIt was a lie. You were still on the subway.\nA reply came. 'I see. Good work today.'",
         "flags": []
@@ -1642,7 +1665,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -1
         },
         "result_text": "The read receipt appeared.\nYou flipped the phone face-down.\nThe next morning was going to be uncomfortable.",
         "flags": []
@@ -3829,7 +3853,8 @@
         "text": "Look back on the choices you've made so far.",
         "effects": {
           "intelligence": 2,
-          "mental": 4
+          "mental": 4,
+          "tint": 4
         },
         "flags": [
           "chapter_break_turn30_seen"
@@ -3852,7 +3877,8 @@
         "text": "Check whether speed matters less than direction.",
         "effects": {
           "mental": 6,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 3
         },
         "flags": [
           "chapter_break_turn30_seen"
@@ -3895,7 +3921,8 @@
       {
         "text": "Think about what meaning these five years hold, apart from the outcome.",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "flags": [
           "chapter_break_turn45_seen"
@@ -3928,7 +3955,8 @@
         "text": "Go down. This time, you go.",
         "effects": {
           "mental": 12,
-          "health": 2
+          "health": 2,
+          "tint": 8
         },
         "flags": [
           "father_visited"
@@ -3938,7 +3966,8 @@
       {
         "text": "Say you can't make it this time either.",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": -6
         },
         "flags": [],
         "result_text": "Mother said 'That's alright, if you're busy.'\n\nYou hung up and looked at the monitor. The charts were there. The numbers were there.\n\nWas this the optimal choice this time too?"
@@ -4064,7 +4093,8 @@
       {
         "text": "I don't know.",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 2
         },
         "flags": [],
         "result_text": "I don't know.\n\nI'm not sure what happiness is. No reference point.\nWill I know once I've hit my goal? Or will I still not know then?\n\nNot knowing was the most honest answer tonight."
@@ -4072,7 +4102,8 @@
       {
         "text": "No.",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [],
         "result_text": "No.\n\nSaying it honestly was strangely freeing.\n\nNot happy. Not yet.\nSo then — when can you be?\n\nHaving that question felt like the beginning of something."
@@ -4104,7 +4135,8 @@
         "effects": {
           "mental": 6,
           "reputation": 3,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -2
         },
         "flags": [],
         "result_text": "You ate the cake. It was good.\nJotted down the next goal. Manager.\nThe face in the mirror was just the face in the mirror."
@@ -4113,7 +4145,8 @@
         "text": "Pause — is this really what you wanted?",
         "effects": {
           "mental": -3,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You finished the cake.\nThe question didn't go away.\n\nI don't know. Right now, you're just — an assistant manager."
@@ -4145,7 +4178,8 @@
         "effects": {
           "mental": -8,
           "reputation": 2,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 2
         },
         "flags": [],
         "result_text": "You finished the report.\nIt was 1 AM.\nYou didn't reply to your colleague."
@@ -4163,7 +4197,8 @@
         "text": "Call it a night. Finish the report in the morning.",
         "effects": {
           "mental": 4,
-          "health": 2
+          "health": 2,
+          "tint": -1
         },
         "flags": [],
         "result_text": "You shut the computer off.\nMade a plan to come in early.\nThe night air was cold outside."
@@ -4203,7 +4238,8 @@
         "text": "Come home and put the plaque in a drawer.",
         "effects": {
           "mental": -3,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 3
         },
         "flags": [],
         "result_text": "Into the drawer.\n\nA plaque with your name on it.\nNot sure if this was the way you imagined making your name — not sure at all."
@@ -4234,7 +4270,8 @@
         "text": "Lasting thirty years like that is also something to admire.",
         "effects": {
           "mental": 4,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 2
         },
         "flags": [],
         "result_text": "You told the senior 'I respect that.'\nThey smiled.\n'I just kept going.'\n\n{name} knew: enduring is also a skill."
@@ -4252,7 +4289,8 @@
         "text": "Pour another drink. Tonight, you just drink.",
         "effects": {
           "mental": 5,
-          "health": -2
+          "health": -2,
+          "tint": -1
         },
         "flags": [],
         "result_text": "You refilled the soju glass.\nSat next to the senior and just drank.\nDecided not to think tonight."

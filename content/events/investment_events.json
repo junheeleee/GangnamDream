@@ -2087,7 +2087,8 @@
         "effects": {
           "investment_skill": 2,
           "intelligence": 1,
-          "mental": 3
+          "mental": 3,
+          "tint": -2
         },
         "flags": [
           "first_invest_win"
@@ -2098,7 +2099,8 @@
         "text": "일단 팔아서 확정짓는다 — 손에 쥐어야 내 돈",
         "effects": {
           "intelligence": 1,
-          "mental": 2
+          "mental": 2,
+          "tint": 1
         },
         "flags": [
           "first_invest_win"
@@ -2130,7 +2132,8 @@
         "text": "버텼다 — 이건 장기 게임이다",
         "effects": {
           "mental": -10,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 1
         },
         "flags": [
           "first_invest_loss"

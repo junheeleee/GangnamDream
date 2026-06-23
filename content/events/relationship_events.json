@@ -27,7 +27,8 @@
       {
         "text": "가기 싫지만 자리는 지킨다",
         "effects": {
-          "mental": 10
+          "mental": 10,
+          "tint": 1
         },
         "result_text": "억지로 갔다.\n근황 질문이 쏟아졌다.\n집으로 오는 길에 핸드폰을 내려다봤다. 새로운 연락은 없었다."
       },
@@ -35,7 +36,8 @@
         "text": "잘 빼입고 들어섰다",
         "effects": {
           "reputation": 3,
-          "investment_skill": 6
+          "investment_skill": 6,
+          "tint": -1
         },
         "result_text": "준비에 1시간이 걸렸다.\n들어서는 순간 몇 사람이 봤다.\n그 다음이 문제였다. 근황 질문이 먼저였다."
       }
@@ -244,14 +246,16 @@
         "text": "지금 가능한 만큼을 보낸다",
         "effects": {
           "money": 430000,
-          "appearance": -1
+          "appearance": -1,
+          "tint": 4
         },
         "result_text": "30만원을 이체했다.\n투자 적립금에서 뺐다.\n어머니가 '고마워'라고 했다. 두 글자가 오래 남았다."
       },
       {
         "text": "\"지금 저도 빠듯해요\"라고 말했다",
         "effects": {
-          "mental": 0
+          "mental": 0,
+          "tint": -3
         },
         "result_text": "'엄마, 나도 지금 좀 빠듯해.'\n말하고 나니 목이 조금 막혔다.\n어머니가 '아 그래, 괜찮아'라고 했다. 괜찮지 않아 보였다."
       },
@@ -259,7 +263,8 @@
         "text": "대출을 받아서라도 보낸다",
         "effects": {
           "reputation": 2,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "tint": 6
         },
         "result_text": "100만원을 보냈다.\n마이너스 통장에서 뺐다.\n이자 계산을 하지 않기로 했다."
       }
@@ -338,7 +343,8 @@
         "text": "무슨 말이든 침착하게 듣는다",
         "effects": {
           "money": 260000,
-          "health": 6
+          "health": 6,
+          "tint": 2
         },
         "result_text": "칭찬이었다.\n프로젝트 결과를 잘 봤다고 했다.\n복도 걸어오는 그 30초가 왜 그렇게 길었는지."
       },
@@ -354,7 +360,8 @@
         "text": "숨을 고르고 최악을 가정해둔다",
         "effects": {
           "reputation": 1,
-          "investment_skill": 4
+          "investment_skill": 4,
+          "tint": 1
         },
         "result_text": "잘린다면 다음달부터다.\n다음 직장을 어떻게 구하나 계산했다.\n팀장님은 내년 팀 이동 이야기를 꺼냈다.",
         "flags": [
@@ -533,7 +540,8 @@
         "text": "먼저 카톡을 보낸다",
         "effects": {
           "social_skill": 3,
-          "mental": 0
+          "mental": 0,
+          "tint": 3
         },
         "result_text": "'어제 즐거웠어요.'\n보내고 나서 폰을 뒤집어 놓았다.\n20분 후에 답장이 왔다."
       },
@@ -549,7 +557,8 @@
         "effects": {
           "social_skill": 2,
           "luck": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": 2
         },
         "result_text": "'혹시 이번 주말 시간 있으세요?'\n보내고 바로 후회했다.\n답장은 한 시간 만에 왔다. '좋아요.'"
       }
@@ -576,14 +585,16 @@
         "text": "조금만 더 기다린다",
         "effects": {
           "money": 120000,
-          "intelligence": -6
+          "intelligence": -6,
+          "tint": 2
         },
         "result_text": "10분을 더 서 있었다.\n머리카락에서 빗물이 떨어졌다.\n40분째에 연락이 왔다. '미안, 나 못 갈 것 같아.'"
       },
       {
         "text": "전화를 건다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": 1
         },
         "result_text": "신호가 두 번 울리다가 끊겼다.\n문자를 보냈다.\n편의점 처마 밑으로 들어갔다."
       },
@@ -603,7 +614,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "result_text": "움직이지 않았다.\n5분이 더 지났다.\n바지 밑단이 완전히 젖었다. 연락은 오지 않았다."
       }
@@ -638,7 +650,8 @@
       {
         "text": "처음부터 끝까지 봤다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": 2
         },
         "result_text": "14분 47초짜리였다.\n회사 이야기가 7분에 나왔다.\n구독 버튼 위에서 손이 멈췄다."
       },
@@ -646,7 +659,8 @@
         "text": "익명 댓글을 단다",
         "effects": {
           "reputation": 2,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "tint": -3
         },
         "result_text": "'응원합니다.'\n달고 나서 익명인지 확인했다.\n익명이었다. 조회수를 한 번 더 올렸다."
       }
@@ -673,7 +687,8 @@
         "text": "폰을 뒤집어 놓는다",
         "effects": {
           "social_skill": 3,
-          "mental": 3
+          "mental": 3,
+          "tint": 1
         },
         "result_text": "뒤집어 놓았다.\n뒤집어 놓았는데도 신경이 쓰였다.\n1시간 후에 다시 뒤집었다. 여전히 없었다."
       },
@@ -688,7 +703,8 @@
         "text": "프로필 사진을 확인했다. 변한 게 없었다",
         "effects": {
           "reputation": 1,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": -1
         },
         "result_text": "들어갔다.\n프로필 사진이 바뀌어 있었다.\n언제 바꿨는지 몰랐다. 그게 더 이상했다."
       }
@@ -1903,7 +1919,8 @@
         "text": "\"저도요. 야간 알바 오면 항상 같은 샌드위치 먹어요.\" 말을 받는다.",
         "effects": {
           "mental": 6,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         },
         "flags": [
           "daeun_talked"
@@ -1918,7 +1935,9 @@
       },
       {
         "text": "조용히 계산만 해준다. 알바 중이니까.",
-        "effects": {},
+        "effects": {
+          "tint": -1
+        },
         "flags": [
           "daeun_talked"
         ],
@@ -1956,7 +1975,8 @@
         "text": "내 얘기도 한다. 고시원, 통장, 강남드림.",
         "effects": {
           "mental": 10,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 5
         },
         "flags": [
           "daeun_shared",
@@ -1974,7 +1994,8 @@
       {
         "text": "\"서울이 다 그렇죠 뭐.\" 가볍게 넘긴다.",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": -3
         },
         "flags": [
           "daeun_shared"
@@ -2013,7 +2034,8 @@
         "text": "나간다. 오랜만에 낮에 나가는 거다.",
         "effects": {
           "mental": 13,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "flags": [
           "daeun_date_done"
@@ -2030,7 +2052,8 @@
       {
         "text": "\"요즘 바빠서요.\" 거절한다.",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": -3
         },
         "flags": [
           "daeun_date_done",

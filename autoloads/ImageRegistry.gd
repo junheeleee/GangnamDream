@@ -135,6 +135,7 @@ const BACKGROUNDS = {
 	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
 	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
 	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
+	"gangnam_penthouse": "res://assets/backgrounds/penthouse_view.png",
 	"investment":        "res://assets/backgrounds/investment_phone.png",
 	"investment_phone":  "res://assets/backgrounds/investment_phone.png",
 	# Legacy key kept for old event JSON. General investing must stay phone/desk-scale;
