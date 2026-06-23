@@ -1548,6 +1548,14 @@ func _next_arc_id() -> String:
 			and f.get("arc_sangchul_offguard_seen", false) \
 			and not f.get("arc_sangchul_human_seen", false):
 		return "arc_sangchul_human"
+	# ── 임상철 거울 씬 — "당신은 나랑 비슷해요" (진실 발견 전, 관계 깊어진 후) ──
+	if t >= 50 and t <= 90 \
+			and GameState.get_cast_affinity("sangchul") >= 65 \
+			and f.get("arc_sangchul_human_seen", false) \
+			and not f.get("sangchul_truth_known", false) \
+			and not f.get("arc_sangchul_mirror_seen", false):
+		return "arc_sangchul_mirror"
+
 	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
 	if t >= 60 and f.get("sangchul_truth_known", false) \
 			and not f.get("sangchul_confronted", false) \
