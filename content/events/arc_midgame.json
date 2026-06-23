@@ -220,7 +220,8 @@
         "effects": {
           "social_skill": 1,
           "reputation": 1,
-          "mental": -4
+          "mental": -4,
+          "tint": 4
         },
         "flags": [
           "arc_job_invest_clash_seen",
@@ -289,7 +290,8 @@
         "effects": {
           "social_skill": 2,
           "intelligence": 1,
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [
           "arc_social_comparison_seen",
@@ -333,7 +335,8 @@
       {
         "text": "아버지에게 전화한다",
         "effects": {
-          "mental": 13
+          "mental": 13,
+          "tint": 6
         },
         "flags": [
           "arc_first_real_win_seen",
@@ -384,7 +387,8 @@
         "text": "\"잘 됐어. 잘 가.\" — 진심으로 응원한다",
         "effects": {
           "mental": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "flags": [
           "arc_hyunsu_new_path_seen"
@@ -571,7 +575,8 @@
       {
         "text": "\"강남 가면 제일 먼저 연락할게요.\" — 말하려다 참는다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": -1
         },
         "flags": [
           "arc_father_quiet_call_seen"
@@ -586,7 +591,8 @@
       {
         "text": "그냥 끊는다. 특별한 말 없이",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -2
         },
         "flags": [
           "arc_father_quiet_call_seen"
@@ -596,7 +602,8 @@
       {
         "text": "\"아버지, 요즘 어때요?\" — 더 물어본다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 5
         },
         "flags": [
           "arc_father_quiet_call_seen",
@@ -756,7 +763,8 @@
       {
         "text": "\"여기가 정말 내 목표인지 모르겠다.\" — 솔직해진다",
         "effects": {
-          "mental": 10
+          "mental": 10,
+          "tint": 4
         },
         "flags": [
           "arc_gangnam_visit_alone_seen",
@@ -799,7 +807,8 @@
       {
         "text": "\"야 재혁아, 요즘 어때?\" — 먼저 연락해본다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": 3
         },
         "flags": [
           "arc_jaehyuk_wait_seen",
@@ -1030,7 +1039,8 @@
       {
         "text": "아버지한테 전화했다 — 그냥 목소리나 들으려고",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1047,7 +1057,8 @@
         "text": "아무한테도 말 안 했다 — 혼자 간직하기로",
         "effects": {
           "intelligence": 1,
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1150,7 +1161,8 @@
       {
         "text": "아버지한테 직접 전화했다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 5
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1178,7 +1190,8 @@
         "text": "주말에 내려가겠다고 했다",
         "effects": {
           "mental": 5,
-          "money": -50000
+          "money": -50000,
+          "tint": 3
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1349,7 +1362,8 @@
       {
         "text": "두렵다는 걸 처음으로 인정했다",
         "effects": {
-          "mental": 7
+          "mental": 7,
+          "tint": 5
         },
         "flags": [
           "arc_final_stretch_seen",
@@ -1414,7 +1428,8 @@
         "text": "다 말하기로 했다 — 이 사람은 믿을 수 있다",
         "effects": {
           "mental": 10,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 7
         },
         "flags": [
           "arc_daeun_money_gap_seen",
@@ -1687,7 +1702,8 @@
       {
         "text": "현수한테 연락했다",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "flags": [
           "arc_after_scam_seen",
@@ -1913,7 +1929,8 @@
       {
         "text": "\"그래도 간다\" — 다시 걷기 시작한다",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_four_months_seen",
@@ -1926,7 +1943,8 @@
         "text": "\"다른 방법이 있어야 한다\" — 지름길을 생각한다",
         "effects": {
           "mental": -1,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -3
         },
         "flags": [
           "arc_four_months_seen",
@@ -2420,7 +2438,8 @@
         "text": "지침을 인정했다. 잠깐 멈춰야 한다",
         "effects": {
           "mental": -6,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 3
         },
         "flags": [
           "arc_year_two_half_seen"
@@ -2562,7 +2581,8 @@
       {
         "text": "오늘 하루는 그냥 생일로 보내기로 했다",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_35_birthday_seen",
@@ -2573,7 +2593,8 @@
       {
         "text": "아버지한테 전화했다",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": 5
         },
         "flags": [
           "arc_35_birthday_seen"
@@ -2611,7 +2632,8 @@
         "text": "먼저 연락해봤다. 아무한테나",
         "effects": {
           "social_skill": 1,
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [
           "arc_35_alone_seen",
@@ -2738,7 +2760,8 @@
         "text": "계산기를 덮었다. 급한 사람이 먼저 실수한다",
         "effects": {
           "mental": 6,
-          "luck": 1
+          "luck": 1,
+          "tint": 3
         },
         "flags": [
           "arc_36_reality_check_seen",
@@ -3027,7 +3050,8 @@
       {
         "text": "지금 이게 이미 드라마라는 걸 알았다",
         "effects": {
-          "mental": 10
+          "mental": 10,
+          "tint": 3
         },
         "flags": [
           "arc_37_ending_peace_seen",
@@ -3038,7 +3062,8 @@
       {
         "text": "아버지한테 곧 전화할 것 같다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [
           "arc_37_ending_peace_seen",

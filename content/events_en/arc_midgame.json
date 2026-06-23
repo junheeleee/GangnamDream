@@ -220,7 +220,8 @@
         "effects": {
           "social_skill": 1,
           "reputation": 1,
-          "mental": -4
+          "mental": -4,
+          "tint": 4
         },
         "flags": [
           "arc_job_invest_clash_seen",
@@ -289,7 +290,8 @@
         "effects": {
           "social_skill": 2,
           "intelligence": 1,
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [
           "arc_social_comparison_seen",
@@ -333,7 +335,8 @@
       {
         "text": "Call his father.",
         "effects": {
-          "mental": 13
+          "mental": 13,
+          "tint": 6
         },
         "flags": [
           "arc_first_real_win_seen",
@@ -384,7 +387,8 @@
         "text": "\"Good for you. Take care.\" — sincere encouragement",
         "effects": {
           "mental": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "flags": [
           "arc_hyunsu_new_path_seen"
@@ -571,7 +575,8 @@
       {
         "text": "\"When I get to Gangnam, you'll be the first one I call.\" — almost says it, then stops",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": -1
         },
         "flags": [
           "arc_father_quiet_call_seen"
@@ -586,7 +591,8 @@
       {
         "text": "Just hang up. Nothing special.",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -2
         },
         "flags": [
           "arc_father_quiet_call_seen"
@@ -596,7 +602,8 @@
       {
         "text": "\"Dad, how have you been?\" — asks more",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 5
         },
         "flags": [
           "arc_father_quiet_call_seen",
@@ -756,7 +763,8 @@
       {
         "text": "\"I'm not even sure this is what I really want.\" — being honest",
         "effects": {
-          "mental": 10
+          "mental": 10,
+          "tint": 4
         },
         "flags": [
           "arc_gangnam_visit_alone_seen",
@@ -799,7 +807,8 @@
       {
         "text": "\"Hey Jaehyuk, how's everything?\" — reach out first",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": 3
         },
         "flags": [
           "arc_jaehyuk_wait_seen",
@@ -1030,7 +1039,8 @@
       {
         "text": "Called his father — just to hear his voice.",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1047,7 +1057,8 @@
         "text": "Told no one — decided to keep it to himself.",
         "effects": {
           "intelligence": 1,
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1150,7 +1161,8 @@
       {
         "text": "Called his father directly.",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 5
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1178,7 +1190,8 @@
         "text": "Said he'd come down on the weekend.",
         "effects": {
           "mental": 5,
-          "money": -50000
+          "money": -50000,
+          "tint": 3
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1349,7 +1362,8 @@
       {
         "text": "Admitted fear for the first time.",
         "effects": {
-          "mental": 7
+          "mental": 7,
+          "tint": 5
         },
         "flags": [
           "arc_final_stretch_seen",
@@ -1414,7 +1428,8 @@
         "text": "Decided to tell everything — this person can be trusted.",
         "effects": {
           "mental": 10,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 7
         },
         "flags": [
           "arc_daeun_money_gap_seen",
@@ -1531,7 +1546,8 @@
         "text": "Took the sheet",
         "effects": {
           "money": 1800000,
-          "mental": -7
+          "mental": -7,
+          "tint": -8
         },
         "flags": [
           "arc_sangchul_known_offer_seen",
@@ -1548,7 +1564,8 @@
         "text": "Took it. His fingers caught for a second",
         "effects": {
           "money": 1800000,
-          "mental": -12
+          "mental": -12,
+          "tint": -8
         },
         "flags": [
           "arc_sangchul_known_offer_seen",
@@ -1564,7 +1581,8 @@
       {
         "text": "\"Not this time.\" — pushed the sheet back",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": 6
         },
         "flags": [
           "arc_sangchul_known_offer_seen"
@@ -1601,7 +1619,8 @@
       {
         "text": "Pushed the thought away",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [
           "arc_sangchul_known_reflex_seen"
@@ -1612,7 +1631,8 @@
         "text": "(Is this so wrong? Everyone lives like this)",
         "effects": {
           "mental": -3,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": -5
         },
         "flags": [
           "arc_sangchul_known_reflex_seen",
@@ -1628,7 +1648,8 @@
       {
         "text": "Told Hyunsu the truth",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [
           "arc_sangchul_known_reflex_seen"
@@ -1672,7 +1693,8 @@
       {
         "text": "Reached out to Hyunsu.",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "flags": [
           "arc_after_scam_seen",
@@ -1898,7 +1920,8 @@
       {
         "text": "\"Going anyway.\" — starts walking again",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_four_months_seen",
@@ -1911,7 +1934,8 @@
         "text": "\"There has to be another way.\" — looks for a shortcut",
         "effects": {
           "mental": -1,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -3
         },
         "flags": [
           "arc_four_months_seen",
@@ -2405,7 +2429,8 @@
         "text": "Honestly, I'm worn out. Not sure if this is right anymore.",
         "effects": {
           "mental": -6,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 3
         },
         "flags": [
           "arc_year_two_half_seen"
@@ -2547,7 +2572,8 @@
       {
         "text": "Decided today would just be a birthday",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_35_birthday_seen",
@@ -2558,7 +2584,8 @@
       {
         "text": "Called dad",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": 5
         },
         "flags": [
           "arc_35_birthday_seen"
@@ -2596,7 +2623,8 @@
         "text": "Reached out. To anyone.",
         "effects": {
           "social_skill": 1,
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [
           "arc_35_alone_seen",
@@ -2723,7 +2751,8 @@
         "text": "Keeping the current pace. Rushing leads to mistakes.",
         "effects": {
           "mental": 6,
-          "luck": 1
+          "luck": 1,
+          "tint": 3
         },
         "flags": [
           "arc_36_reality_check_seen",
@@ -3012,7 +3041,8 @@
       {
         "text": "Understood that this is already a drama.",
         "effects": {
-          "mental": 10
+          "mental": 10,
+          "tint": 3
         },
         "flags": [
           "arc_37_ending_peace_seen",
@@ -3023,7 +3053,8 @@
       {
         "text": "Felt like calling dad soon.",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [
           "arc_37_ending_peace_seen",

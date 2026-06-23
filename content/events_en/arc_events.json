@@ -21,11 +21,17 @@
     "choices": [
       {
         "text": "Tell the truth — 'There were family circumstances.'",
-        "result_text": "The interviewer looked at {name} for a moment. Didn't probe further.\nSomething in her eyes — understanding. Or resignation.\n'...I see. You seem like someone who works hard.'\n\nWalking down the stairs, {name} thought:\nWhether it leads to a job or not — that was the truth.\nAnd that was the only pride {name} had left right now."
+        "result_text": "The interviewer looked at {name} for a moment. Didn't probe further.\nSomething in her eyes — understanding. Or resignation.\n'...I see. You seem like someone who works hard.'\n\nWalking down the stairs, {name} thought:\nWhether it leads to a job or not — that was the truth.\nAnd that was the only pride {name} had left right now.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Gloss over it — 'I was preparing to start a business.'",
-        "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected."
+        "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected.",
+        "effects": {
+          "tint": -2
+        }
       }
     ]
   },
@@ -217,7 +223,8 @@
         "text": "'I... want to show my father. Just once.'",
         "effects": {
           "mental": 6,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 5
         },
         "cast_effects": {
           "sangchul": {
@@ -257,7 +264,8 @@
         "effects": {
           "mental": 5,
           "stress": -2,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 3
         },
         "cast_effects": {
           "sangchul": {
@@ -523,7 +531,8 @@
         "text": "'You're not weird. That's just being human.' — Accept it.",
         "effects": {
           "mental": 8,
-          "stress": -5
+          "stress": -5,
+          "tint": 5
         },
         "cast_effects": {
           "jiyeon": {
@@ -541,7 +550,8 @@
         "text": "'Jiyeon — Gangnam still comes first for me.' — Draw a clear line.",
         "effects": {
           "intelligence": 3,
-          "stress": 3
+          "stress": 3,
+          "tint": -3
         },
         "cast_effects": {
           "jiyeon": {
@@ -559,7 +569,8 @@
         "text": "'I understand all three reasons.' — No judgment.",
         "effects": {
           "mental": 6,
-          "stress": -2
+          "stress": -2,
+          "tint": 4
         },
         "cast_effects": {
           "jiyeon": {
@@ -745,7 +756,8 @@
         "text": "Put in everything — trust Jaehyuk.",
         "effects": {
           "money": -3000000,
-          "stress": 8
+          "stress": 8,
+          "tint": -5
         },
         "cast_effects": {
           "jaehyuk": {
@@ -768,7 +780,8 @@
         "effects": {
           "money": -1000000,
           "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 2
         },
         "cast_effects": {
           "jaehyuk": {
@@ -1360,7 +1373,8 @@
         "text": "\"Thank you, but for now I want to try under my own power.\"",
         "effects": {
           "intelligence": 4,
-          "mental": 3
+          "mental": 3,
+          "tint": 5
         },
         "cast_effects": {
           "sangchul": {
@@ -1653,7 +1667,8 @@
       {
         "text": "\"Thank you for being honest. Let's figure out a way together.\"",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 6
         },
         "cast_effects": {
           "jiyeon": {
@@ -1671,7 +1686,8 @@
       {
         "text": "\"You used me, didn't you.\" — lay the betrayal out plainly",
         "effects": {
-          "mental": -13
+          "mental": -13,
+          "tint": -2
         },
         "cast_effects": {
           "jiyeon": {
@@ -1690,7 +1706,8 @@
         "text": "\"You lived in your world, and I made my own choice.\"",
         "effects": {
           "mental": 13,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 4
         },
         "cast_effects": {
           "jiyeon": {
@@ -1730,7 +1747,8 @@
       {
         "text": "\"I knew. Even so, thank you for telling me yourself.\"",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "cast_effects": {
           "jiyeon": {
@@ -1749,7 +1767,8 @@
         "text": "\"Thank you for telling me. But — what if you'd been honest from the start?\"",
         "effects": {
           "mental": -5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 2
         },
         "cast_effects": {
           "jiyeon": {
@@ -1768,7 +1787,8 @@
         "text": "\"That's just how people are. Your world had its own ways.\"",
         "effects": {
           "mental": 13,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 3
         },
         "cast_effects": {
           "jiyeon": {
@@ -2232,7 +2252,8 @@
       {
         "text": "\"Yeah. You too?\"",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": 3
         },
         "cast_effects": {
           "father": {
@@ -2268,7 +2289,8 @@
       {
         "text": "Just ask how he is and hang up quickly",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -2307,7 +2329,8 @@
         "text": "Reply that you'll come down next week",
         "effects": {
           "mental": -2,
-          "money": -50000
+          "money": -50000,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -2324,7 +2347,8 @@
       {
         "text": "Call to check — can't be that serious",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 4
         },
         "cast_effects": {
           "father": {
@@ -2339,7 +2363,8 @@
       {
         "text": "Can't afford to go down right now — once things settle",
         "effects": {
-          "mental": -13
+          "mental": -13,
+          "tint": -4
         },
         "cast_effects": {
           "father": {
@@ -2379,7 +2404,8 @@
         "text": "Go down right now",
         "effects": {
           "mental": -15,
-          "money": -80000
+          "money": -80000,
+          "tint": 8
         },
         "cast_effects": {
           "father": {
@@ -2396,7 +2422,8 @@
       {
         "text": "Say you'll go down within the week",
         "effects": {
-          "mental": -11
+          "mental": -11,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -2413,7 +2440,8 @@
         "text": "Send money — too busy with things here",
         "effects": {
           "mental": -15,
-          "money": -300000
+          "money": -300000,
+          "tint": 2
         },
         "cast_effects": {
           "father": {
@@ -2429,7 +2457,8 @@
       {
         "text": "Called Sang-chul — he'd know someone",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": -4
         },
         "cast_effects": {
           "father": {
@@ -2472,7 +2501,8 @@
       {
         "text": "\"It's not your fault, Dad.\" — first time saying those words",
         "effects": {
-          "mental": 23
+          "mental": 23,
+          "tint": 9
         },
         "cast_effects": {
           "father": {
@@ -2489,7 +2519,8 @@
       {
         "text": "\"When I make it to Gangnam, you're the first person I'll bring.\"",
         "effects": {
-          "mental": 15
+          "mental": 15,
+          "tint": 2
         },
         "cast_effects": {
           "father": {
@@ -2506,7 +2537,8 @@
       {
         "text": "Can't say anything — just sit beside him",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "cast_effects": {
           "father": {
@@ -2545,7 +2577,8 @@
         "text": "\"Cold here. Cold there too, right?\" — just talk about small things",
         "effects": {
           "mental": 18,
-          "health": 3
+          "health": 3,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -2562,7 +2595,8 @@
       {
         "text": "\"I'm doing well lately, Dad. Don't worry.\"",
         "effects": {
-          "mental": 11
+          "mental": 11,
+          "tint": 2
         },
         "cast_effects": {
           "father": {
@@ -2877,7 +2911,8 @@
         "effects": {
           "social_skill": 1,
           "reputation": 1,
-          "mental": 2
+          "mental": 2,
+          "tint": 4
         },
         "flags": [
           "arc_ch1_career_spec_seen"
@@ -2890,7 +2925,8 @@
         "effects": {
           "intelligence": 1,
           "social_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": -2
         },
         "flags": [
           "arc_ch1_career_spec_seen"
@@ -2902,7 +2938,8 @@
         "text": "Just submit — speed over perfection",
         "effects": {
           "mental": 5,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 3
         },
         "flags": [
           "arc_ch1_career_spec_seen"

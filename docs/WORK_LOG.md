@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (MORAL_TINT 스파인 확장 2차 — arc_events + arc_midgame)
+
+### 추가 tint 저작 (58개 선택지 KR+EN)
+- arc_events.json (33개): 아버지 아크 전 5씬(call/signal/hospital/visit/after), 재혁 pitch(통장털어 -5/일부만 +2), 지연 epilogue 3선택지, 자소서 정직(3년 이유 그대로 +4), 상철 도움 거절(혼자 하겠다 +5), KTX 즉시 예매 +8
+- arc_midgame.json (25개): 첫 수익 아버지 전화 +6, 외로움→아버지 전화 +5, 약 전달 직접 +5, 35세 생일 아버지 +5, 37세 평화 +4, 다은 솔직 고백 +7, 현수 진심 응원 +4, 더 묻는다 +5, 지침 인정 +3, 소셜 비교 진심 +4
+- EN 오버레이 58개 자동 동기화
+
+### 전체 tint 커버리지
+- 232/3090 선택지 (7.5%)
+- 서사 핵심 파일(arc_drama/daeun/gambling/addiction/hyunsu/pre_ending/year3): 100%
+- audit ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-23 (MORAL_TINT 스파인 확장 + White/Black 시뮬 검증)
 
 ### 스파인 확장 (57개 선택지 KR+EN tint 저작)
