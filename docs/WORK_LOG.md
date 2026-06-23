@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (선택지 재작성 + arc_sangchul_mirror + 관계 균열)
+
+### 선택지 텍스트 219개 전수 인간행동 재작성
+- life_events 50개, relationship_events 30개, investment_events 22개, hidden_events 23개
+- callback_events 26개 파일 94개
+- 패턴: "X한다" 단일동사 → 구체 장면 ("링크를 눌렀다. 소액이었다", "이어폰을 꼈다. 볼륨을 올렸다")
+- 선택지 효과 미리보기 필터: money/health/mental 3종만 표시 — 관계/스킬은 서사로 발견
+
+### arc_sangchul_mirror 신규 이벤트 (KR+EN)
+- t>=50, sangchul_affinity>=65, arc_sangchul_human_seen 조건
+- 상철: "나랑 비슷해요" — 3가지 반응 (건배/질문/"저는 좀 달라요")
+- `sangchul_called_you_his_mirror` / `denied_sangchul_mirror` 플래그 → arc_sangchul_reckoning 반응 분기
+
+### arc_father_03_hospital 4번째 선택지 (KR+EN)
+- "상철에게 연락했다 — 그가 아는 사람이 있을 것이다"
+- `sangchul_helped_with_father` 플래그 → arc_sangchul_confrontation description_if_known 분기
+
+### EN 오버레이 완성
+- arc_sangchul_confrontation/reckoning description_if_known EN 번역 (거울 인식·부정 2경로)
+- arc_father_03_hospital 4번째 선택지 EN
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 (baseline 유지)
+
 ## 2026-06-23 (발견 레이어 — DE식 지식반응형 서사 엔진)
 
 ### description_if_known 엔진 (StoryMode.gd)

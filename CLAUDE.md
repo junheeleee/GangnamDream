@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-23** — **발견 레이어(Discovery Layer)**: ①`description_if_known` 엔진 추가(StoryMode.gd) — {플래그:대체본문} 매핑, 진실을 알면 같은 장면이 다르게 읽힘. ②`arc_sangchul_deduction` 신규 이벤트(KR+EN) — 지력55+/비정통 플레이어가 한PD건설 단서로 자가발견. ③상철 따뜻한 장면 6개(coffee/network/offguard/human/why_gangnam/past) KR+EN `description_if_known` 추가. ④arc_father_06_confession deduced+clue_noted 2경로 대응. ⑤audit.py description_if_known 키 flag-read 인식 추가. ERROR 0/WARNING 0. |
+| **최근 완료** | **2026-06-23** — **선택지 텍스트 전수 재작성 + arc_sangchul_mirror + EN 오버레이**: ①선택지 219개(life/relationship/investment/hidden/callback 26개 파일) 게임동사→인간행동으로 재작성. ②`arc_sangchul_mirror` 이벤트(KR+EN) 추가 — t50~90 상철이 "나랑 비슷해요" 고백 씬, 3가지 반응. ③`arc_father_03_hospital` 4번째 선택지(상철 병원 인맥, `sangchul_helped_with_father` 플래그) KR+EN. ④arc_sangchul_confrontation/reckoning `description_if_known` EN 번역 추가(거울 인식·부정 2경로). ⑤선택지 효과 미리보기를 money/health/mental 3종으로 축소(스킬/관계는 서사로 발견). ERROR 0/WARNING 0. |
+| **이전** | **2026-06-23** — **발견 레이어(Discovery Layer)**: ①`description_if_known` 엔진 추가(StoryMode.gd) — {플래그:대체본문} 매핑, 진실을 알면 같은 장면이 다르게 읽힘. ②`arc_sangchul_deduction` 신규 이벤트(KR+EN) — 지력55+/비정통 플레이어가 한PD건설 단서로 자가발견. ③상철 따뜻한 장면 6개(coffee/network/offguard/human/why_gangnam/past) KR+EN `description_if_known` 추가. ④arc_father_06_confession deduced+clue_noted 2경로 대응. ⑤audit.py description_if_known 키 flag-read 인식 추가. ERROR 0/WARNING 0. |
 | **이전** | **2026-06-22** — **Steam 데모 QA + 위시리스트 CTA**: ①Steam 데모 크리티컬 패스 검증(OpeningCinematic→arc_chapter1_close 전 이벤트 확인). ②callback_events_35~54 416개 flag-triggered 콜백 전수 reachable 확인(opportunity.win_flag/lose_flag 경로 포함). ③EN 커버리지 100% (1369/1369) 재확인. ④밸런스 밴드 전부 통과. ⑤`_show_demo_ending()`에 Steam 위시리스트 CTA 버튼 추가 (KR/EN, App ID TODO 주석). ERROR 0/WARNING 0. |
 | **이전** | **2026-06-22** — **Phase 3 유기성 배선 완료**: EventManager._effective_weight() cast 큐레이션 + 직업카테고리 + fear_greed 연동, GameState._resolve_opportunity() 상철affinity 성공률 보너스, JobSystem appearance→업무능력/승진→social_skill+1, jeonse/housing 태그 3건. + inert 이벤트 106개 전수 연결(callback_19~26). |
 | **추가 완료** | **2026-06-20 (도박 서사)** — 도박 중독 풀아크 + 회복 3종 + beat_addiction 업적 + **구원 엔딩 gambling_recovery(B급)**. ※카지노 미니게임 메커니즘 미변경(서사만). |
@@ -19,8 +20,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **① 상철 이후 장면 추가: 발견 후 태도 변화를 보여주는 중간 씬 (sangchul_truth_known 플래그 이후 t30~59 구간) ② Godot 실제 빌드 후 description_if_known 렌더링 확인 ③ Steam App ID 등록 후 STEAM_APP_ID 교체 ④ write-only 211개 중 37세 엔드게임 이외 추가 연결 검토.** |
-| **마지막 업데이트** | 2026-06-23 (Claude: 발견 레이어 — description_if_known 엔진 + arc_sangchul_deduction + 6개 장면 지식반응형 재독 변형) |
+| **다음 작업** | **① sangchul_truth_known 이후 중간 씬 (t30~59): 상철과 관계의 무게가 쌓이는 장면들 — 사람이 도구가 되는 순간. ② relationship drift 이벤트 KR+EN 감사 (5개 추가 완료, EN 커버리지 재확인). ③ Godot 실제 빌드 후 description_if_known 렌더링 확인. ④ Steam App ID 등록 후 STEAM_APP_ID 교체.** |
+| **마지막 업데이트** | 2026-06-23 (Claude: 선택지 219개 인간행동 재작성 + arc_sangchul_mirror + arc_father_03 4번 선택지 + EN 오버레이 완성) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
