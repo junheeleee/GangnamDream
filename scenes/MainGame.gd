@@ -1556,6 +1556,20 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_mirror_seen", false):
 		return "arc_sangchul_mirror"
 
+	# ── 알면서도 — 진실을 안 채 상철을 계속 이용하는 구간 (대면 전 t38~55) ──
+	# 사람이 도구가 되는 순간: 알고도 멈추지 않는다.
+	if t >= 38 and t <= 55 and f.get("sangchul_truth_known", false) \
+			and f.get("arc_sangchul_human_seen", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and not f.get("arc_sangchul_known_offer_seen", false):
+		return "arc_sangchul_known_offer"
+	# ── 버릇 — 자기가 상철처럼 사람을 계산하는 걸 발견하는 거울 씬 (t50~59) ──
+	if t >= 50 and t <= 59 and f.get("sangchul_truth_known", false) \
+			and f.get("arc_sangchul_known_offer_seen", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and not f.get("arc_sangchul_known_reflex_seen", false):
+		return "arc_sangchul_known_reflex"
+
 	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
 	if t >= 60 and f.get("sangchul_truth_known", false) \
 			and not f.get("sangchul_confronted", false) \

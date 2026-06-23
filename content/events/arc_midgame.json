@@ -1514,6 +1514,139 @@
     ]
   },
   {
+    "id": "arc_sangchul_known_offer",
+    "title": "알면서",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "임상철이 커피를 내려놓으며 말했다.\n\n\"민준 씨한테만 말하는 건데.\"\n\n그가 종이 한 장을 밀었다. 아직 시장에 안 나온 물건. 재개발 확정 직전. 들어가면 — 6개월이면 두 배.\n\n\"나 믿고 한번 들어가 봐. 손해 안 봐.\"\n\n민준은 그 종이를 봤다.\n그리고 이 사람이 누구인지를 — 알고 있었다.\n아버지를 그 빚으로 밀어 넣은 사람.\n\n그런데 지금, 그 손이 내미는 건 진짜 기회였다.",
+    "description_if_known": {
+      "sangchul_helped_with_father": "임상철이 종이 한 장을 밀었다.\n아직 시장에 안 나온 물건. 재개발 확정 직전. 6개월이면 두 배.\n\n\"나 믿고 한번 들어가 봐. 손해 안 봐.\"\n\n민준은 알고 있었다. 이 사람이 누구인지.\n아버지를 빚으로 밀어 넣은 사람.\n그리고 아버지가 쓰러졌을 때, 병실을 잡아준 것도 이 사람.\n\n같은 손이었다. 같은 손이 지금 기회를 내밀고 있었다."
+    },
+    "choices": [
+      {
+        "text": "종이를 집었다",
+        "effects": {
+          "money": 1800000,
+          "mental": -7
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen",
+          "used_sangchul_knowingly"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 6
+          }
+        },
+        "result_text": "종이를 집었다.\n임상철이 만족스럽게 웃었다.\n\n6개월 뒤, 그 말은 맞았다. 계좌가 불었다.\n민준은 그 돈을 보면서, 한 번도 기쁘지 않았다.\n그냥 — 익숙해졌다."
+      },
+      {
+        "text": "집었다. 손가락이 잠깐 멈칫했지만",
+        "effects": {
+          "money": 1800000,
+          "mental": -12
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen",
+          "used_sangchul_knowingly"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 3
+          }
+        },
+        "result_text": "집었다. 손가락이 잠깐 멈칫했지만.\n\n그 멈칫함을 임상철이 봤는지는 모르겠다.\n돈은 들어왔다. 정확히 두 배.\n\n민준은 그날 밤, 아버지에게 전화하지 않았다.\n할 말이 없어서가 아니라 — 할 수 있는 말이 없어서."
+      },
+      {
+        "text": "\"이번엔 됐어요.\" — 종이를 밀어냈다",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": -3
+          }
+        },
+        "result_text": "\"이번엔 됐어요.\"\n임상철이 의아한 얼굴로 종이를 거뒀다. \"왜? 자네답지 않게.\"\n\n민준은 대답하지 않았다.\n거절한 건 이번 한 번뿐이라는 걸, 둘 다 알았다.\n다음 자리에도 민준은 나갈 것이다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_known_reflex",
+    "title": "버릇",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "현수와 카페에 앉아 있었다.\n현수가 후배 하나를 소개하고 싶다고 했다. 일자리를 찾는다고.\n\n민준은 그 후배의 스펙을 들으면서 — 자기도 모르게 계산하고 있었다.\n쓸 만한가. 뭘 뽑아낼 수 있나. 나한테 도움이 되나.\n\n그러다 멈췄다.\n\n언제부터 사람을 이렇게 봤지.\n\n임상철이 자기를 처음 봤을 때, 분명 이렇게 봤을 것이다.\n\"의지 있는 사람\"이라고 했던 그 눈.",
+    "choices": [
+      {
+        "text": "그 생각을 밀어냈다",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen"
+        ],
+        "result_text": "그 생각을 밀어냈다.\n현수에게 \"한번 보자\"고 했다. 진심으로 도와줄 생각으로.\n\n그런데 카페를 나오면서, 계산은 이미 끝나 있었다.\n밀어낸 건 생각이 아니라 — 불편함뿐이었다."
+      },
+      {
+        "text": "(이게 나쁜 건가? 다들 이렇게 산다)",
+        "effects": {
+          "mental": -3,
+          "social_skill": 1
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen",
+          "rationalized_using_people"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 2
+          }
+        },
+        "result_text": "이게 나쁜 건가. 다들 이렇게 산다.\n임상철도 그렇게 컸고, 강남에 있는 사람들 전부 그렇게 한다.\n\n그렇게 생각하니 편해졌다.\n편해졌다는 게 — 가장 무서운 부분이었다."
+      },
+      {
+        "text": "현수에게 솔직하게 말했다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen"
+        ],
+        "result_text": "\"요즘 내가 사람을 좀 이상하게 보는 것 같아.\"\n현수가 웃었다. \"야, 너 원래 안 그랬잖아.\"\n\n원래 안 그랬다.\n그 말이 위로가 아니라, 증거처럼 들렸다.\n뭔가 바뀌었다는."
+      }
+    ]
+  },
+  {
     "id": "arc_after_scam",
     "title": "사기 당한 다음 날",
     "background": "goshiwon_room",

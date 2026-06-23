@@ -1505,6 +1505,139 @@
     ]
   },
   {
+    "id": "arc_sangchul_known_offer",
+    "title": "Knowing",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "Sang-chul set his coffee down and spoke.\n\n\"This is just between us, Minjun.\"\n\nHe slid a single sheet across. A property not on the market yet. Redevelopment about to be confirmed. Get in — and in six months it doubles.\n\n\"Trust me and go in. You won't lose.\"\n\nMinjun looked at the sheet.\nAnd he knew who this man was.\nThe man who pushed his father into that debt.\n\nAnd yet right now, the hand reaching out held a real opportunity.",
+    "description_if_known": {
+      "sangchul_helped_with_father": "Sang-chul slid a single sheet across.\nA property not on the market yet. Redevelopment about to be confirmed. Six months, double.\n\n\"Trust me and go in. You won't lose.\"\n\nMinjun knew who this man was.\nThe man who pushed his father into that debt.\nAnd the man who got the hospital room when his father collapsed.\n\nThe same hand. The same hand was holding out an opportunity now."
+    },
+    "choices": [
+      {
+        "text": "Took the sheet",
+        "effects": {
+          "money": 1800000,
+          "mental": -7
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen",
+          "used_sangchul_knowingly"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 6
+          }
+        },
+        "result_text": "He took the sheet.\nSang-chul smiled, satisfied.\n\nSix months later, he'd been right. The account swelled.\nLooking at the money, Minjun never once felt glad.\nHe'd just — gotten used to it."
+      },
+      {
+        "text": "Took it. His fingers caught for a second",
+        "effects": {
+          "money": 1800000,
+          "mental": -12
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen",
+          "used_sangchul_knowingly"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 3
+          }
+        },
+        "result_text": "He took it. His fingers caught for a second.\n\nWhether Sang-chul noticed that hitch, he couldn't tell.\nThe money came in. Exactly double.\n\nThat night, Minjun didn't call his father.\nNot because he had nothing to say — because there was nothing he could say."
+      },
+      {
+        "text": "\"Not this time.\" — pushed the sheet back",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": -3
+          }
+        },
+        "result_text": "\"Not this time.\"\nSang-chul pulled the sheet back, puzzled. \"Why? Not like you.\"\n\nMinjun didn't answer.\nThey both knew it was only this once.\nHe'd show up to the next table too."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_known_reflex",
+    "title": "The Habit",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "He was sitting in a café with Hyunsu.\nHyunsu wanted to introduce a junior of his. Looking for work.\n\nAs Minjun listened to the kid's résumé — without meaning to, he was calculating.\nIs he useful. What can I extract. Does this help me.\n\nThen he stopped.\n\nWhen did he start seeing people like this.\n\nThe way Sang-chul must have looked at him the first time.\nThat look that called him \"someone with drive.\"",
+    "choices": [
+      {
+        "text": "Pushed the thought away",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen"
+        ],
+        "result_text": "He pushed the thought away.\nTold Hyunsu, \"Sure, let's meet him.\" Meaning to genuinely help.\n\nBut walking out of the café, the calculation was already done.\nWhat he'd pushed away wasn't the thought — only the discomfort."
+      },
+      {
+        "text": "(Is this so wrong? Everyone lives like this)",
+        "effects": {
+          "mental": -3,
+          "social_skill": 1
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen",
+          "rationalized_using_people"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 2
+          }
+        },
+        "result_text": "Is this so wrong. Everyone lives like this.\nSang-chul came up that way, and everyone in Gangnam does it too.\n\nThinking that, it got easier.\nThat it got easier — was the most frightening part."
+      },
+      {
+        "text": "Told Hyunsu the truth",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen"
+        ],
+        "result_text": "\"Lately I think I look at people kind of wrong.\"\nHyunsu laughed. \"Man, you were never like that.\"\n\nHe was never like that.\nThe words landed not as comfort but as evidence.\nThat something had changed."
+      }
+    ]
+  },
+  {
     "id": "arc_after_scam",
     "title": "The Day After the Scam",
     "background": "goshiwon_room",
