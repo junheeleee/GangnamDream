@@ -29,7 +29,8 @@
         "effects": {
           "intelligence": 1,
           "investment_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": 2
         },
         "result_text": "Minjun closed the notebook.\n\nHe wouldn't tear the man down, wouldn't forgive him either. He would simply know.\nHe'd sit at the same table knowing exactly who this man was.\n\nThis time, the one holding the cards was Minjun."
       },
@@ -37,7 +38,8 @@
         "text": "See the man again — one day I'll ask him directly",
         "effects": {
           "mental": 2,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "result_text": "Minjun looked at the Gangnam lights for a long time.\n\nHe wanted to ask. Why did you do it. Knowing, why did you let me in.\n\nNot yet. But the question was inside him now, clear and waiting."
       },
@@ -45,7 +47,8 @@
         "text": "Swallow it — Gangnam comes first for now",
         "effects": {
           "mental": -5,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -3
         },
         "result_text": "He wouldn't let on that he knew. He'd set the next meeting like nothing happened.\n\nSomeday this weight would come back around.\nUntil then — Gangnam first.\n\nMinjun turned off the light. Sleep didn't come."
       }
@@ -80,7 +83,8 @@
         "effects": {
           "mental": -12,
           "intelligence": 2,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "tint": 3
         },
         "flags": [
           "arc_sangchul_deduction_seen",
@@ -92,7 +96,8 @@
       {
         "text": "Leave it alone — he can't be sure",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         },
         "flags": [
           "arc_sangchul_deduction_seen",
@@ -133,7 +138,8 @@
       {
         "text": "\"That man named Lim — do you happen to know his full name?\"",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -150,7 +156,8 @@
       {
         "text": "\"Do you know where he is now?\"",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 3
         },
         "cast_effects": {
           "father": {
@@ -167,7 +174,8 @@
       {
         "text": "(He couldn't say a word)",
         "effects": {
-          "mental": -14
+          "mental": -14,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -205,7 +213,9 @@
     "choices": [
       {
         "text": "Raised his glass",
-        "effects": {},
+        "effects": {
+          "tint": 1
+        },
         "flags": [
           "sangchul_called_you_his_mirror",
           "arc_sangchul_mirror_seen"
@@ -215,7 +225,8 @@
       {
         "text": "\"Do I seem that way?\"",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": 2
         },
         "flags": [
           "sangchul_called_you_his_mirror",
@@ -226,7 +237,8 @@
       {
         "text": "(He wanted to deny it)",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": 2
         },
         "flags": [
           "sangchul_called_you_his_mirror",
@@ -263,7 +275,8 @@
       {
         "text": "Waited for Sang-chul's reaction",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "flags": [
           "arc_sangchul_confrontation_seen",
@@ -276,7 +289,8 @@
       {
         "text": "\"Forget it.\" (He took it back)",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": -3
         },
         "cast_effects": {
           "sangchul": {
@@ -293,7 +307,8 @@
         "text": "(He got up and left)",
         "effects": {
           "mental": -3,
-          "reputation": -2
+          "reputation": -2,
+          "tint": 8
         },
         "cast_effects": {
           "sangchul": {
@@ -338,7 +353,8 @@
         "text": "\"I'm going to report you.\"",
         "effects": {
           "mental": 15,
-          "reputation": -10
+          "reputation": -10,
+          "tint": 8
         },
         "cast_effects": {
           "sangchul": {
@@ -355,7 +371,8 @@
       {
         "text": "\"That's all I needed to hear.\" (He let it go)",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "cast_effects": {
           "sangchul": {
@@ -373,7 +390,8 @@
         "text": "\"I'm only here because of you.\" (He chose to use it)",
         "effects": {
           "mental": -10,
-          "investment_skill": 5
+          "investment_skill": 5,
+          "tint": -8
         },
         "cast_effects": {
           "sangchul": {
@@ -421,7 +439,8 @@
       {
         "text": "\"No.\" (He refused, flat)",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 7
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -432,7 +451,8 @@
       {
         "text": "\"How much are we talking?\" (He decided to hear it out)",
         "effects": {
-          "mental": -15
+          "mental": -15,
+          "tint": -6
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -445,7 +465,8 @@
       {
         "text": "(He closed the message and pretended not to have seen it)",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -478,7 +499,8 @@
       {
         "text": "(He took the KTX. Knowing he was already too late.)",
         "effects": {
-          "mental": -40
+          "mental": -40,
+          "tint": 10
         },
         "cast_effects": {
           "father": {
@@ -496,7 +518,8 @@
         "text": "(He hung up. There was a deal he had to close right now.)",
         "effects": {
           "mental": -25,
-          "money": 5000000
+          "money": 5000000,
+          "tint": -8
         },
         "cast_effects": {
           "father": {

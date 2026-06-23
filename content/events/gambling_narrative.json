@@ -21,7 +21,8 @@
         "text": "딱 정한 만큼만 바꾼다",
         "effects": {
           "intelligence": 2,
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         },
         "flags": [
           "casino_set_limit"
@@ -34,7 +35,8 @@
         "effects": {
           "money": -300000,
           "mental": -4,
-          "addiction_tendency": 6
+          "addiction_tendency": 6,
+          "tint": -2
         },
         "flags": [
           "casino_chips_loaded"
@@ -68,7 +70,8 @@
         "effects": {
           "mental": 8,
           "intelligence": 2,
-          "health": 2
+          "health": 2,
+          "tint": 4
         },
         "flags": [],
         "result_text": "새벽 4시 17분.\n\n{name}은 칩을 정리하고 일어났다. 다리가 저렸다. 여섯 시간을 앉아 있었던 거다.\n\n밖으로 나오자 찬 공기가 얼굴을 때렸다. 산속의 새벽.\n그 추위가 반가웠다. 시간이 다시 흐르기 시작했다.\n\n시계가 없는 방을 제 발로 나오는 것 — 그것도 실력이었다.",
@@ -79,7 +82,8 @@
         "effects": {
           "mental": -10,
           "health": -4,
-          "addiction_tendency": 10
+          "addiction_tendency": 10,
+          "tint": -4
         },
         "flags": [
           "casino_lost_track"
@@ -113,7 +117,8 @@
         "effects": {
           "mental": 10,
           "intelligence": 3,
-          "luck": 1
+          "luck": 1,
+          "tint": 4
         },
         "flags": [
           "casino_declined_comp"
@@ -125,7 +130,8 @@
         "text": "\"그럼 하룻밤만…\" — 호의를 받는다",
         "effects": {
           "mental": -6,
-          "addiction_tendency": 12
+          "addiction_tendency": 12,
+          "tint": -4
         },
         "flags": [
           "casino_accepted_comp"
@@ -159,7 +165,8 @@
         "effects": {
           "mental": 9,
           "intelligence": 2,
-          "luck": 1
+          "luck": 1,
+          "tint": 3
         },
         "flags": [
           "holdem_saw_warning"
@@ -171,7 +178,8 @@
         "text": "남 일이다 — 나는 저렇게 안 한다",
         "effects": {
           "mental": -3,
-          "addiction_tendency": 6
+          "addiction_tendency": 6,
+          "tint": -2
         },
         "flags": [],
         "result_text": "{name}은 카드로 시선을 돌렸다. 저 사람은 자제력이 없었던 거고, 나는 다르다고 생각했다.\n\n다음 판에 집중했다. 자신은 통제할 수 있다고 믿었다.\n\n'나는 다르다.' 계단을 올라간 그 남자도, 처음엔 그렇게 생각했을 거다.\n그 사실은, 그날 밤엔 떠오르지 않았다.",
@@ -205,7 +213,8 @@
           "intelligence": 2,
           "reputation": 2,
           "mental": 4,
-          "addiction_tendency": -8
+          "addiction_tendency": -8,
+          "tint": 4
         },
         "flags": [
           "holdem_skill_pivoted"
@@ -217,7 +226,8 @@
         "text": "역시 테이블이 제일 정직하다 — 더 자주 간다",
         "effects": {
           "mental": -2,
-          "addiction_tendency": 10
+          "addiction_tendency": 10,
+          "tint": -5
         },
         "flags": [],
         "result_text": "회사보다 테이블이 편했다. 거기선 잘하면 바로 칩이 들어왔다.\n\n노력과 보상이 즉각적인 그 구조에 {name}은 점점 길들여졌다.\n\n현실은 느리고, 테이블은 빨랐다.\n그 속도 차이가, 사람을 천천히 망가뜨리는 방식이라는 걸 — 아직은 몰랐다.",
@@ -251,7 +261,8 @@
           "mental": 8,
           "social_skill": 2,
           "luck": 2,
-          "addiction_tendency": -10
+          "addiction_tendency": -10,
+          "tint": 6
         },
         "flags": [
           "race_mentor_truth_heard"
@@ -264,7 +275,8 @@
         "effects": {
           "money": -30000,
           "mental": -5,
-          "addiction_tendency": 6
+          "addiction_tendency": 6,
+          "tint": -3
         },
         "flags": [],
         "result_text": "아저씨 이야기는 슬펐다. 하지만 {name}은 오늘 마권을 샀다.\n\n'나는 저 정도는 아니니까.' 그 거리감이 위안이 됐다.\n\n3만원을 잃고 막차를 탔다.\n창밖을 보다가, 아저씨의 \"나처럼 되지 마\"가 다시 들렸다.\n그 말은 미래에서 보내온 경고 같았다. 안 들은 척했다.",
@@ -296,7 +308,8 @@
         "effects": {
           "mental": 9,
           "intelligence": 2,
-          "luck": 1
+          "luck": 1,
+          "tint": 5
         },
         "flags": [
           "race_left_last_line"
@@ -309,7 +322,8 @@
         "effects": {
           "money": -60000,
           "mental": -12,
-          "addiction_tendency": 12
+          "addiction_tendency": 12,
+          "tint": -6
         },
         "flags": [
           "race_chased_final"

@@ -29,7 +29,8 @@
         "effects": {
           "intelligence": 1,
           "investment_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": 2
         },
         "result_text": "민준은 노트를 덮었다.\n\n무너뜨리지도, 용서하지도 않는다. 다만 안다.\n이 사람이 누구인지 아는 채로, 같은 테이블에 앉는다.\n\n패를 쥔 쪽은, 이번엔 민준이었다."
       },
@@ -37,7 +38,8 @@
         "text": "창밖 불빛을 오래 봤다. 언젠가 직접 묻겠다",
         "effects": {
           "mental": 2,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "result_text": "민준은 창밖 강남 불빛을 오래 봤다.\n\n묻고 싶었다. 왜 그랬느냐고. 알면서 왜 나를 받아줬느냐고.\n\n아직은 아니다. 하지만 그 질문은 이제, 민준 안에 분명히 있었다."
       },
@@ -45,7 +47,8 @@
         "text": "불을 껐다. 지금은 강남이 먼저다",
         "effects": {
           "mental": -5,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -3
         },
         "result_text": "안다는 걸 티 내지 않는다. 아무 일 없던 것처럼 다음 약속을 잡는다.\n\n언젠가 이 무게가 돌아올 것이다.\n그때까지는 — 강남이 먼저다.\n\n민준은 불을 껐다. 잠은 오지 않았다."
       }
@@ -80,7 +83,8 @@
         "effects": {
           "mental": -12,
           "intelligence": 2,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "tint": 3
         },
         "flags": [
           "arc_sangchul_deduction_seen",
@@ -95,7 +99,8 @@
       {
         "text": "노트북을 닫았다. 기사 하나로 사람을 단정할 순 없다",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         },
         "flags": [
           "arc_sangchul_deduction_seen",
@@ -139,7 +144,8 @@
       {
         "text": "\"그 임가 분 성함이 혹시...\"",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -159,7 +165,8 @@
       {
         "text": "\"그 분이 지금 어디 있는지 알아요?\"",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 3
         },
         "cast_effects": {
           "father": {
@@ -179,7 +186,8 @@
       {
         "text": "(아무 말도 못 했다)",
         "effects": {
-          "mental": -14
+          "mental": -14,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -224,7 +232,8 @@
       {
         "text": "임상철의 반응을 기다렸다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "flags": [
           "arc_sangchul_confrontation_seen",
@@ -387,7 +396,8 @@
       {
         "text": "\"못 해.\" (단호하게 거절했다)",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 7
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -398,7 +408,8 @@
       {
         "text": "\"얼마짜리야?\" (들어보기로 했다)",
         "effects": {
-          "mental": -15
+          "mental": -15,
+          "tint": -6
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -411,7 +422,8 @@
       {
         "text": "(읽지 않은 척 메시지를 닫았다)",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -444,7 +456,8 @@
       {
         "text": "(KTX를 탔다. 늦었다는 걸 알면서도.)",
         "effects": {
-          "mental": -40
+          "mental": -40,
+          "tint": 10
         },
         "cast_effects": {
           "father": {
@@ -462,7 +475,8 @@
         "text": "(전화를 끊었다. 지금 당장 가야 할 딜이 있었다.)",
         "effects": {
           "mental": -25,
-          "money": 5000000
+          "money": 5000000,
+          "tint": -8
         },
         "cast_effects": {
           "father": {
@@ -500,7 +514,9 @@
     "choices": [
       {
         "text": "잔을 들었다",
-        "effects": {},
+        "effects": {
+          "tint": 1
+        },
         "flags": [
           "sangchul_called_you_his_mirror",
           "arc_sangchul_mirror_seen"
@@ -510,7 +526,8 @@
       {
         "text": "\"그런 것 같아요?\"",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": 2
         },
         "flags": [
           "sangchul_called_you_his_mirror",

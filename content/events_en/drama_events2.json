@@ -31,7 +31,8 @@
         "result_text": "Mom went quiet for a long moment.\nThen: \"I know it's hard. If there's anything Mom can do, just say.\"\nNearly cried on the walk home.",
         "effects": {
           "mental": 4,
-          "stress": -2
+          "stress": -2,
+          "tint": 3
         },
         "cast_effects": {
           "father": {
@@ -44,7 +45,8 @@
         "result_text": "Mom suddenly lit up. \"What's this person like?\"\n{name} regretted it the moment the words came out.",
         "effects": {
           "stress": 5,
-          "mental": -2
+          "mental": -2,
+          "tint": -3
         }
       }
     ]
@@ -73,7 +75,8 @@
         "result_text": "\"That's amazing, really.\" Said it on the call.\nSibling said: \"Sorry you should be the one settling in first.\"\nThat line was somehow warmer than anything else.",
         "effects": {
           "mental": 2,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         }
       },
       {
@@ -81,7 +84,8 @@
         "result_text": "Sent a \"Happy for you\" and kept away for the day.\nWaited for the feelings to settle before reconnecting.",
         "effects": {
           "mental": -1,
-          "stress": 1
+          "stress": 1,
+          "tint": 0
         }
       }
     ]
@@ -199,7 +203,8 @@
         "result_text": "{name} ate the cake alone.\nNo candles blown, no singing — still here another year.\nThat was enough.",
         "effects": {
           "mental": 3,
-          "stress": -1
+          "stress": -1,
+          "tint": 0
         }
       },
       {
@@ -208,7 +213,8 @@
         "effects": {
           "money": -40000,
           "mental": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 5
         }
       }
     ]
@@ -237,7 +243,8 @@
         "result_text": "A short silence.\nThen: \"I had a period like that too.\"\nThe conversation went deeper.",
         "effects": {
           "mental": 2,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         }
       },
       {
@@ -245,7 +252,8 @@
         "result_text": "\"Freelancing across a few projects\" — not untrue.\nBut this version of things requires upkeep.",
         "effects": {
           "social_skill": 1,
-          "stress": 3
+          "stress": 3,
+          "tint": -2
         }
       },
       {
@@ -280,7 +288,8 @@
         "text": "Move on. Separate lives now.  (acceptance / introspection)",
         "result_text": "Looked away.\nThe face stayed around for a while anyway.",
         "effects": {
-          "mental": -1
+          "mental": -1,
+          "tint": 0
         }
       },
       {
@@ -288,7 +297,8 @@
         "result_text": "Sent it.\nResponse came after a while: \"Doing well. You?\"\nNot a long exchange. Fine though.",
         "effects": {
           "mental": 2,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 2
         }
       },
       {
@@ -406,7 +416,8 @@
         "text": "Eat and leave. Comfortable silence.  (independence / peace)",
         "result_text": "Finished and walked out.\nThe rain had stopped.",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": 0
         }
       },
       {
@@ -414,7 +425,8 @@
         "result_text": "\"Good ramen, right?\" — eye contact for a second.\n\"Yeah. Best late-night option.\"\nShort exchange. No names.\nWarm anyway.",
         "effects": {
           "mental": 3,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 2
         }
       }
     ]
@@ -479,7 +491,8 @@
         "text": "Show it as it is.  (honesty / worry caused)",
         "result_text": "Mom walked around once and said nothing.\nUnpacked the side dishes. \"Are you eating properly?\"\nThat was all. That was enough.",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "cast_effects": {
           "father": {
@@ -492,7 +505,8 @@
         "result_text": "\"Doing well, it's fun.\" Said with conviction.\nMom seemed to believe it — or chose to.",
         "effects": {
           "mental": -1,
-          "stress": 2
+          "stress": 2,
+          "tint": -2
         }
       }
     ]

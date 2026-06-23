@@ -17,7 +17,8 @@
       {
         "text": "아버지한테 전화를 건다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 6
         },
         "flags": [
           "arc_pre_ending_summit_seen"
@@ -28,7 +29,8 @@
         "text": "혼자 강남대로를 천천히 걷는다",
         "effects": {
           "mental": 3,
-          "health": -1
+          "health": -1,
+          "tint": 2
         },
         "flags": [
           "arc_pre_ending_summit_seen"
@@ -55,7 +57,8 @@
         "text": "지난 5년에 뭐가 남았는지 적어본다",
         "effects": {
           "mental": 4,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 4
         },
         "flags": [
           "arc_pre_ending_winter_seen"
@@ -65,7 +68,8 @@
       {
         "text": "그냥 눈을 본다 — 아무것도 정리하지 않는다",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": 1
         },
         "flags": [
           "arc_pre_ending_winter_seen"
@@ -90,7 +94,8 @@
       {
         "text": "\"아버지, 그동안 말 못 했는데 — 괜찮았어요. 다.\"",
         "effects": {
-          "mental": 6
+          "mental": 6,
+          "tint": 8
         },
         "flags": [
           "arc_pre_ending_father_call_seen"
@@ -100,7 +105,8 @@
       {
         "text": "\"무슨 일 있으세요? 목소리가…\"",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         },
         "flags": [
           "arc_pre_ending_father_call_seen"
