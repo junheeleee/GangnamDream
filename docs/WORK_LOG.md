@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (발견 레이어 — DE식 지식반응형 서사 엔진)
+
+### description_if_known 엔진 (StoryMode.gd)
+- `_render_current()`에 `description_if_known` 지원 추가
+- `{플래그: 대체본문}` dict — 플레이어가 해당 플래그를 가지면 장면 설명이 교체됨
+- 최우선 적용 (orthodox/low_mental/gosiwon 변형보다 우선)
+
+### arc_sangchul_deduction — 새 이벤트 (KR+EN)
+- t>=26, 지력55+ 또는 route_unorthodox>20 조건으로 발동
+- 상철이 네트워크에서 돌렸던 이름(한PD건설)을 혼자 추적해 진실 자가발견
+- deduced_sangchul_truth 경로: sangchul_truth_known 획득 (아버지 고백 불필요)
+- sangchul_clue_noted 경로: 알면서 묻어두는 선택 — 이후 아버지 고백에서 더 무거움
+
+### description_if_known 적용 6개 장면 (KR+EN)
+- arc_sangchul_02_coffee: 따뜻한 멘토 장면이 쓴맛으로
+- arc_sangchul_03_network: 모르는 척 앉아 있는 어려움
+- arc_sangchul_offguard: 나쁜 사람도 진짜로 걱정한다는 복잡함
+- arc_sangchul_human: 거짓말이 아니라는 게 더 쓸쓸한 이유
+- sangchul_why_gangnam: 그 '왜'는 답을 몰라서가 아니었다
+- sangchul_past: 두 가난 이야기가 같은 지점에서 서로를 향함
+
+### arc_father_06_confession 2경로 대응
+- deduced_sangchul_truth: 혼자 알고 있던 무게가 이제 둘의 것이 됨
+- sangchul_clue_noted: 묻어둔 날이 갑자기 무거워짐
+
+### audit.py 개선
+- _walk_event_flags: description_if_known 키를 flag-read로 인식
+- audit ERROR 0 / WARNING 0
+
+---
+
 ## 2026-06-22 (Steam 데모 QA + 위시리스트 CTA)
 
 ### Steam 데모 크리티컬 패스 검증

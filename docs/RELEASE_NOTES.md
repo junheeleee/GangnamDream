@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added (2026-06-23) — 발견 레이어: DE식 지식반응형 서사
+
+- **`description_if_known` 엔진** (`StoryMode.gd`): `{플래그: 대체본문}` 매핑 — 플레이어가 진실을 아는 순간부터 같은 장면이 다르게 읽힌다. DE 스타일의 지식반응형 서사 최우선 적용.
+- **`arc_sangchul_deduction`** 신규 이벤트 (KR+EN): 지력55+ 또는 비정통 성향 플레이어가 한PD건설 단서로 임상철의 과거를 자가발견. 아버지 고백 경로와 독립된 두 번째 진실 발견 경로.
+- **6개 상철 장면에 `description_if_known` 추가** (KR+EN): coffee/network/offguard/human/why_gangnam/past — 진실을 알면 따뜻했던 멘토 장면들이 쓸쓸하게 재독됨. 그가 나쁜 사람이라서가 아니라 나쁜 것을 했음에도 진짜이기 때문에.
+- **`arc_father_06_confession`** 2경로 대응: 미리 알고 있을 때(deduced_sangchul_truth) vs 묻어뒀다 확인할 때(sangchul_clue_noted) 각각 다른 감정으로 읽힘.
+- **`audit.py`**: `description_if_known` 키를 flag-read로 인식해 write-only 오탐 방지.
+
 ### Added (2026-06-22) — Steam 데모 QA + Steam 위시리스트 CTA
 
 - **Steam 위시리스트 CTA** 데모 종료 화면에 추가 (`_show_demo_ending()`): "♥ Steam 위시리스트에 추가" 버튼, KR/EN 양쪽. URL은 App ID 등록 후 `STEAM_APP_ID` 교체 필요.
