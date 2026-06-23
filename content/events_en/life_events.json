@@ -115,7 +115,8 @@
         "text": "Scam. Block immediately.",
         "effects": {
           "money": 40000,
-          "stress": -6
+          "stress": -6,
+          "tint": 6
         },
         "result_text": "Called it a scam and blocked. Counted the avoided loss as a win — and somehow ₩40,000 came back around."
       },
@@ -131,7 +132,8 @@
         "text": "Put in a small amount to test it.",
         "effects": {
           "reputation": -3,
-          "investment_skill": 4
+          "investment_skill": 4,
+          "tint": -5
         },
         "result_text": "Threw in a small stake. Learned something. Also something you'd rather not have in the search history."
       }
@@ -820,7 +822,8 @@
       {
         "text": "Open up and admit you're struggling",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 5
         },
         "result_text": "When you admitted how hard it was, your parents went quiet. Your chest felt lighter, but you felt guilty for worrying them.",
         "flags": []
@@ -828,7 +831,8 @@
       {
         "text": "Talk big and say you'll be making a lot of money soon",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": -3
         },
         "result_text": "You talked a big game about getting rich soon. Only after you hung up did you feel a little ashamed of yourself.",
         "flags": []
@@ -1327,7 +1331,8 @@
         "text": "Cave and lend the full amount",
         "effects": {
           "money": -500000,
-          "mental": -13
+          "mental": -13,
+          "tint": -3
         },
         "result_text": "You caved and lent everything. Your account was emptied and you had no idea if you'd ever see it back.",
         "flags": []
@@ -1345,7 +1350,8 @@
       {
         "text": "Pretend you didn't see it and delay replying",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -3
         },
         "result_text": "You kept putting off the reply. Your body felt fine, but a corner of your mind wouldn't let it go.",
         "flags": []
@@ -3203,7 +3209,8 @@
         "text": "Honestly say you had a prior commitment",
         "effects": {
           "mental": 6,
-          "reputation": -1
+          "reputation": -1,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You kept your plans. The next morning felt slightly awkward, but it wasn't a bad evening."
@@ -3213,7 +3220,8 @@
         "effects": {
           "mental": 4,
           "social_skill": -1,
-          "luck": -1
+          "luck": -1,
+          "tint": -3
         },
         "flags": [],
         "result_text": "A bigger favor came back around later. Avoidance was only a temporary fix."
@@ -3530,7 +3538,8 @@
         "effects": {
           "social_skill": 2,
           "reputation": 2,
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [
           "sangchul_met"
@@ -3767,7 +3776,8 @@
         "effects": {
           "social_skill": 1,
           "mental": -3,
-          "reputation": 1
+          "reputation": 1,
+          "tint": 3
         },
         "flags": [
           "chapter_break_turn15_seen"
@@ -3959,7 +3969,8 @@
         "effects": {
           "social_skill": 2,
           "mental": 3,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 4
         },
         "flags": [],
         "result_text": "A brief awkward silence.\n\nThen one person said 'That's impressive — I don't even have goals like that.' Everyone chimed in. Better than expected.\n\nYou told your story. That was it."
@@ -3968,7 +3979,8 @@
         "text": "Say things are going well. Skip the details.",
         "effects": {
           "social_skill": 1,
-          "mental": -2
+          "mental": -2,
+          "tint": -2
         },
         "flags": [],
         "result_text": "Everyone nodded.\n\nSomeone posted the group photo on Instagram on the way home.\nCaption: 'Good to see everyone doing well.'\n\n{name} hit like."
@@ -4006,7 +4018,8 @@
         "text": "Come clean. Tell them you're still in the middle of it.",
         "effects": {
           "social_skill": 3,
-          "mental": 6
+          "mental": 6,
+          "tint": 6
         },
         "flags": [],
         "result_text": "The friend went quiet for a moment.\nThen said, 'I get it. Honestly things aren't going that great for me either.'\n\nYou texted for another hour. First real conversation in a while."
@@ -4270,7 +4283,8 @@
         "text": "'Dad, how are you feeling? Are you seeing a doctor?'",
         "effects": {
           "mental": 5,
-          "health": 1
+          "health": 1,
+          "tint": 5
         },
         "flags": [
           "father_health_checked"
@@ -4280,7 +4294,8 @@
       {
         "text": "'Yes, eating fine.' Just exchange greetings.",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 1
         },
         "flags": [],
         "result_text": "Ten minutes of chatting, then hung up.\n\nLater, word came from an aunt. Your father had been seeing a doctor lately.\nYou could have heard it straight from him."
@@ -4312,7 +4327,8 @@
         "text": "Spend a long time talking. Even bring up the scam.",
         "effects": {
           "mental": 10,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 8
         },
         "flags": [
           "father_talked"
@@ -4322,7 +4338,8 @@
       {
         "text": "Eat and head back quickly. Work has piled up.",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -3
         },
         "flags": [],
         "result_text": "On the KTX racing back to Seoul, you thought:\n\nNext time, you'd stay longer.\nBut you didn't know when that next time would be."

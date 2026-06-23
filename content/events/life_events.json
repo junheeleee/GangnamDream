@@ -209,7 +209,8 @@
       {
         "text": "솔직하게 힘들다고 털어놓는다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 5
         },
         "result_text": "힘들다고 털어놓았더니 부모님 목소리가 조용해졌다. 마음은 가벼워졌지만 걱정을 드린 것 같다.",
         "flags": []
@@ -217,7 +218,8 @@
       {
         "text": "곧 크게 벌겠다고 큰소리친다",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": -3
         },
         "result_text": "곧 큰돈 벌겠다고 큰소리쳤다. 전화를 끊고 나서야 스스로가 좀 창피해졌다.",
         "flags": []
@@ -389,7 +391,8 @@
         "text": "사기라고 판단하고 바로 차단한다",
         "effects": {
           "money": 40000,
-          "mental": 6
+          "mental": 6,
+          "tint": 6
         },
         "result_text": "사기라고 판단하고 바로 차단했다. 속은 셈 치고 넘겼는데 4만원이 돌아왔다.",
         "flags": []
@@ -408,7 +411,8 @@
         "text": "링크를 눌렀다. 소액이었다",
         "effects": {
           "reputation": -3,
-          "investment_skill": 4
+          "investment_skill": 4,
+          "tint": -5
         },
         "result_text": "소액만 넣어봤다. 뭔가 알게 됐지만 주변에 알려지면 안 될 것 같은 찜찜함이 남았다.",
         "flags": [
@@ -874,7 +878,8 @@
         "text": "거절 못하고 전부 빌려준다",
         "effects": {
           "money": -500000,
-          "mental": -13
+          "mental": -13,
+          "tint": -3
         },
         "result_text": "거절 못하고 전부 빌려줬다. 통장이 텅 비었고 돌려받을 수 있을지도 모르겠다.",
         "flags": []
@@ -892,7 +897,8 @@
       {
         "text": "못 들은 척 답장을 미룬다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -3
         },
         "result_text": "답장을 차일피일 미뤘다. 몸은 편했지만 마음 한켠이 계속 걸렸다.",
         "flags": []
@@ -2753,7 +2759,8 @@
         "text": "먼저 잡힌 약속이 있다고 솔직히 말한다",
         "effects": {
           "mental": 6,
-          "reputation": -1
+          "reputation": -1,
+          "tint": 4
         },
         "flags": [],
         "follow_up_event": "",
@@ -2764,7 +2771,8 @@
         "effects": {
           "mental": 4,
           "social_skill": -1,
-          "luck": -1
+          "luck": -1,
+          "tint": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -3104,7 +3112,8 @@
         "text": "자기 상황을 솔직하게 말한다.",
         "effects": {
           "social_skill": 1,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 4
         },
         "flags": [
           "sangchul_met"
@@ -3440,7 +3449,8 @@
         "text": "축하 댓글을 단다. 진심으로.",
         "effects": {
           "mental": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         },
         "result_text": "축하한다고 댓글 달았다. 진심이었다. 반은.\n\n그 친구가 살 아파트 평수가 뭔지 검색해봤다. 뭘 하는 건지 모르겠다.\n창을 닫고 가계부를 열었다. 지금 내가 할 수 있는 것부터.",
         "flags": []
@@ -3621,7 +3631,8 @@
         "effects": {
           "mental": 15,
           "social_skill": 2,
-          "reputation": -1
+          "reputation": -1,
+          "tint": 4
         },
         "flags": [
           "honest_at_reunion"
@@ -3633,7 +3644,8 @@
         "text": "잘 되고 있다고 한다. 세부 사항은 생략.",
         "effects": {
           "mental": -13,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": -2
         },
         "flags": [
           "lied_at_reunion"
@@ -3675,7 +3687,8 @@
         "text": "솔직하게 털어놓는다. 아직 진행 중이라고.",
         "effects": {
           "mental": 13,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 6
         },
         "flags": [
           "came_clean_to_friend"
@@ -3986,7 +3999,8 @@
       {
         "text": "\"아버지, 몸은요? 병원은 다니고 계세요?\"",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": 5
         },
         "flags": [
           "father_health_known",
@@ -4003,7 +4017,8 @@
       {
         "text": "\"네, 잘 먹고 다녀요.\" 안부만 나눈다.",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": 1
         },
         "flags": [
           "father_health_known"
@@ -4042,7 +4057,8 @@
         "text": "아버지와 오래 이야기한다. 사기 얘기도 꺼낸다.",
         "effects": {
           "mental": 13,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 8
         },
         "flags": [
           "father_visited",
@@ -4060,7 +4076,8 @@
       {
         "text": "밥만 먹고 빨리 올라온다. 할 일이 쌓였다.",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -3
         },
         "flags": [
           "father_visited"

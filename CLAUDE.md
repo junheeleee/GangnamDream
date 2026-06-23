@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-23** — **MORAL_TINT 스파인 확장 2차 (arc_events + arc_midgame)**: arc_events.json 33개 tint 부여(아버지 아크 전 씬·재혁 pitch·지연 epilogue·자소서 정직·상철 거절). arc_midgame.json 25개 tint 부여(첫 수익 아버지 전화·외로움·약 전달·37세 평화·다은 솔직 고백·현수 응원). KR+EN 동기화. 전체 232/3090 (7.5%) — 서사 핵심 파일은 100% 완료. audit ERROR 0/WARNING 0/밴드 통과. |
+| **최근 완료** | **2026-06-23** — **MORAL_TINT 딥 점검 + 3차 스파인 확장**: 전체 코드베이스 자율 점검(TODO/inert/EN커버리지/tint공백/baseline 래칫). 52개 tint 부여: life_events(gambling사기차단+6·아버지 방문+8·솔직힘들다+5·야근약속+4), relationship_events(상철아버지사기고백+7·지연솔직+5·다은드리프트 연락+4), scenario_cafe(솔직무직+4/있는척-3·아는척-4/모른다고+5), arc_events 재혁사기대응3씬(경찰+6/협박-5/합류-8). KR+EN 동기화. write_only 211→210 래칫 조임. 전체 284/3090 (9.2%). audit ERROR 0/WARNING 0/밴드 통과. |
+| **이전** | **2026-06-23** — **MORAL_TINT 스파인 확장 2차 (arc_events + arc_midgame)**: arc_events.json 33개 tint 부여(아버지 아크 전 씬·재혁 pitch·지연 epilogue·자소서 정직·상철 거절). arc_midgame.json 25개 tint 부여(첫 수익 아버지 전화·외로움·약 전달·37세 평화·다은 솔직 고백·현수 응원). KR+EN 동기화. 전체 232/3090 (7.5%) — 서사 핵심 파일은 100% 완료. audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-23** — **MORAL_TINT 밴드 전이 비네트**: `shift_moral_tint()`가 밴드 경계(0/±1/±2) 넘으면 `pending_tint_vignette` 기록 → `_on_result_confirmed()` 직후 `_show_moral_beat()` 띄움. 비네트 3종 KR+EN(0→−1 "밥에서 맛이 안 났다"/−1→−2 "거울에서 5년 전 얼굴 못 떠올림"/회복 "오랜만에 웃었다"). 숫자·스탯 없이 순 본문. audit SERIALIZE_EXEMPT 등록. 헤드리스+xvfb 검증 완료. |
 | **이전** | **2026-06-23** — **★MORAL_TINT 신규 시스템 착수 (색으로 보는 자기 파괴)**: 게임 핵심 신규 시스템. "회색 시작 → 인간성=하양 / 돈=검정" 단일 축. `docs/MORAL_TINT.md` 스펙 + 엔진 코어(GameState.moral_tint −100~+100·shift·moral_stage·moral_tint_norm·tint 효과 키·흉터 상한[crossed_line→−20/death-ignored→0]·serialize). 상철+아버지 스파인 tint 수직 슬라이스. 헤드리스 검증(누적·회복·밴드·흉터·라운드트립) 통과. 플레이어 숫자 미노출 — Codex가 moral_tint_norm()/moral_stage() 구독해 칠함(NEW_ASSET_REQUESTS.md 핸드오프). |
 | **이전** | **2026-06-23** — **데모 빌드 export QA (Windows + Linux/Steam Deck)**: export 템플릿 4.6.2로 Linux/Steam Deck(167MB ELF, xvfb 18초 무에러 부팅) + Windows(201MB PE32+) 빌드·실행 검증. 산출물 gitignore. |
@@ -33,8 +34,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **★MORAL_TINT §4: Codex 시각 연결 대기(moral_tint_norm()/moral_stage() 구독 → White↔Grey↔Black 보간 + 돈 글로우 반비례). 남은 tint 여지: arc_midgame.json (추가 moral 씬), life_events/relationship_events 고우선순위 선택지. Steam App ID 교체.** |
-| **마지막 업데이트** | 2026-06-23 (Claude: MORAL_TINT 스파인 확장 2차 — arc_events 33 + arc_midgame 25 = 58개 추가, 전체 232/3090 (7.5%), 서사핵심 파일 100%, audit 통과) |
+| **다음 작업** | **★MORAL_TINT §4: Codex 시각 연결 대기(moral_tint_norm()/moral_stage() 구독 → White↔Grey↔Black 보간 + 돈 글로우 반비례). 남은 tint 여지: callback_events(서사 무게 있는 콜백), 일부 amb_scenarios. Steam App ID 교체.** |
+| **마지막 업데이트** | 2026-06-23 (Claude: MORAL_TINT 딥 점검 3차 — life/relationship/cafe/jaehyuk 52개, 전체 284/3090 (9.2%), write_only 래칫 210, audit 통과) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

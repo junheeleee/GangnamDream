@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (MORAL_TINT 딥 점검 + 3차 스파인 확장 52개)
+
+### 자율 점검 발견사항 7종
+1. `gambling_006[0]` — MORAL_TINT.md §2 직접 명시 "사기 제안 거절 +6" 누락
+2. `father_health_call` / `father_first_visit` — life_events 아버지 씬 tint 없음
+3. `sangchul_why_gangnam[0]` — 아버지 사기 고백 핵심 감정 씬 tint 없음
+4. `cafe_talk_01` / `cafe_bluff_01` — scenario_cafe 인터트 이벤트 (effects: {} 기계적 null + tint 기회)
+5. `arc_jaehyuk_04a/04b/04c` — 재혁 사기 대응 3씬 tint 없음
+6. `write_only_flags` 211 vs baseline 211 — 래칫 조임 기회
+7. EN 오버레이 커버리지: KR 전체 ID 포함 확인 (정상)
+
+### 구현 (52개 tint, KR+EN 동기화)
+- life_events.json (17개): gambling사기차단+6, 아버지 방문+8, 솔직힘들다+5, 야근약속+4, 동창회 솔직+4, 아버지건강전화+5
+- relationship_events.json (20개): 상철 아버지사기고백+7, 지연 솔직+5, 다은 드리프트 연락+4, 명절 약속+4, 멘토 솔직+5
+- scenario_cafe.json (5개): 솔직무직+4/있는척-3, 모른다고+5/아는척-4
+- scenario_cafe_callback.json (2개): 훔친번호 양심 +4, 아직이다 정직 +3
+- arc_events.json (6개): 재혁대응 경찰+6/협박-5/합류(crossed_line)-8
+
+### 구조 부채
+- `debt_baseline.json` write_only_flags 211→210 (톱니 조임)
+
+### 전체 tint 커버리지
+- 284/3090 선택지 (9.2%)
+
+---
+
 ## 2026-06-23 (MORAL_TINT 스파인 확장 2차 — arc_events + arc_midgame)
 
 ### 추가 tint 저작 (58개 선택지 KR+EN)

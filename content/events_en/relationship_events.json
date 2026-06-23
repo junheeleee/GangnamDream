@@ -648,7 +648,8 @@
         "text": "Share your life honestly",
         "effects": {
           "mental": 6,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You talked for a long time. Once the awkwardness faded, the longing was filled."
@@ -694,7 +695,8 @@
         "effects": {
           "intelligence": 2,
           "social_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": 4
         },
         "flags": [],
         "result_text": "It took two hours. You fixed three spots in the cover letter. Your sibling said 'thanks.' You slept well that night."
@@ -941,7 +943,8 @@
         "text": "Open up honestly about your worries",
         "effects": {
           "mental": 8,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 5
         },
         "flags": [],
         "result_text": "As you talked, things you hadn't expected to say came pouring out. The senior nodded and listened before offering any advice. One cup of coffee became an hour of counseling."
@@ -1122,7 +1125,8 @@
         "text": "Show them the reality honestly",
         "effects": {
           "mental": 8,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You walked near the goshiwon together and told them honestly. Your parents went quiet for a long while. Then your father said softly, 'You've been working hard.' You almost cried at those words."
@@ -1639,7 +1643,8 @@
         "effects": {
           "social_skill": 2,
           "intelligence": 3,
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You talked for an hour. The process story was worth more than the money story."
@@ -1686,7 +1691,8 @@
         "text": "'Honestly, I'm not sure' — open up",
         "effects": {
           "mental": 6,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 5
         },
         "flags": [],
         "result_text": "Your mentor nodded. 'Keep living with that question,' they said. It was strangely comforting."
@@ -1704,7 +1710,8 @@
         "effects": {
           "intelligence": 2,
           "social_skill": 3,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 4
         },
         "flags": [],
         "result_text": "Two hours passed. Your mentor made a few introductions. Connections move this way."
@@ -1733,7 +1740,8 @@
         "text": "Talk honestly about what's been difficult lately",
         "effects": {
           "mental": 7,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 5
         },
         "flags": [],
         "result_text": "Your father listened for a long time. There are days when just being listened to, without solutions, is enough."
@@ -1750,7 +1758,8 @@
         "text": "Promise to come visit at the next holiday",
         "effects": {
           "mental": 5,
-          "health": 1
+          "health": 1,
+          "tint": 4
         },
         "flags": [],
         "result_text": "After hanging up you booked the train ticket. You missed home cooking."
@@ -1880,7 +1889,8 @@
         "effects": {
           "social_skill": 2,
           "mental": 6,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 7
         },
         "flags": [
           "sangchul_knows_why"
@@ -1890,7 +1900,8 @@
       {
         "text": "'Just... I want to win in Seoul.'",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": 2
         },
         "flags": [],
         "result_text": "Sangchul nodded.\n'That's a reason too. But.'\n\nHe paused and said: 'When winning is the goal, you feel hollow after you win.'"
@@ -1925,7 +1936,8 @@
         "text": "'I still want to go.' Honestly.",
         "effects": {
           "mental": 7,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         },
         "flags": [
           "sangchul_trust_built"
@@ -2094,7 +2106,8 @@
         "effects": {
           "social_skill": 3,
           "mental": 7,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 5
         },
         "flags": [],
         "result_text": "Saying it out loud, you felt strangely free.\n\nOn the way home Jiyeon said: 'You were impressive tonight.'\n'That's impressive?'\n'First person I've seen in that setting who didn't put on a show.'"
@@ -2102,7 +2115,8 @@
       {
         "text": "Polish it a bit. Have to survive in this world.",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -3
         },
         "flags": [],
         "result_text": "You got through it.\n\nBut in Jiyeon's car she said:\n'It was a bit uncomfortable today, wasn't it?'\nYou couldn't say anything. Jiyeon didn't ask again."
@@ -2263,7 +2277,8 @@
         "text": "'I learned a lot from you.' Say it honestly.",
         "effects": {
           "mental": 8,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         },
         "flags": [
           "sangchul_farewell"
@@ -2274,7 +2289,8 @@
         "text": "'Stay healthy.' You stay there with him.",
         "effects": {
           "mental": 6,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         },
         "flags": [
           "sangchul_farewell"
@@ -2307,13 +2323,16 @@
       {
         "text": "Sent something — short, anything",
         "effects": {
-          "mental": -3
+          "mental": -3,
+          "tint": 4
         },
         "result_text": "\"How've you been?\"\nIt felt awkward once it was sent.\nThe read receipt came up much later. No reply."
       },
       {
         "text": "Left it",
-        "effects": {},
+        "effects": {
+          "tint": -3
+        },
         "result_text": "He closed the window.\nHe'd been busy. Busy then, busy now.\nThat's what he told himself."
       }
     ]
@@ -2374,13 +2393,16 @@
       {
         "text": "Reached out, late as it was",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 3
         },
         "result_text": "\"Happy birthday. Sorry it's late.\"\nThe reply came the next day.\n\"Thanks.\"\nThat was all."
       },
       {
         "text": "Closed the notification",
-        "effects": {},
+        "effects": {
+          "tint": -3
+        },
         "result_text": "He swiped the notification away.\nA day passed."
       }
     ]

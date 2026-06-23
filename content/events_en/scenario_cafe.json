@@ -192,12 +192,18 @@
       {
         "text": "Honest. \"I'm unemployed. I want to learn.\"",
         "result_text": "When I finished, his gaze changed. He looked me up and down again.",
-        "follow_up_event": "cafe_humble"
+        "follow_up_event": "cafe_humble",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Play it up. \"I do a bit of this kind of work myself.\"",
         "result_text": "He nodded. His eyes seemed to see right through me.",
-        "follow_up_event": "cafe_bluff_01"
+        "follow_up_event": "cafe_bluff_01",
+        "effects": {
+          "tint": -3
+        }
       }
     ]
   },
@@ -258,12 +264,18 @@
       {
         "text": "Bluff through it. Throw out a number.",
         "result_text": "\"About 200 million or so...\" My words tangled. He must have sensed it.",
-        "follow_up_event": "cafe_bluff_caught"
+        "follow_up_event": "cafe_bluff_caught",
+        "effects": {
+          "tint": -4
+        }
       },
       {
         "text": "Cave. \"...I don't actually know. I'm sorry.\"",
         "result_text": "I couldn't lift my head. But strangely, after a moment, he smiled.",
-        "follow_up_event": "cafe_bluff_recover"
+        "follow_up_event": "cafe_bluff_recover",
+        "effects": {
+          "tint": 5
+        }
       }
     ]
   },
@@ -362,7 +374,8 @@
         ],
         "effects": {
           "mental": 8,
-          "stress": -5
+          "stress": -5,
+          "tint": 3
         }
       },
       {

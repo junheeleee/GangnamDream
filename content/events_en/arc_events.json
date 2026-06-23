@@ -871,7 +871,8 @@
         "effects": {
           "mental": -8,
           "stress": 12,
-          "intelligence": 4
+          "intelligence": 4,
+          "tint": 5
         },
         "cast_effects": {
           "jaehyuk": {
@@ -913,7 +914,8 @@
         "effects": {
           "mental": 10,
           "stress": -5,
-          "reputation": 8
+          "reputation": 8,
+          "tint": 6
         },
         "cast_effects": {
           "jaehyuk": {
@@ -934,7 +936,8 @@
         "effects": {
           "money": 8000000,
           "mental": -6,
-          "stress": 10
+          "stress": 10,
+          "tint": -5
         },
         "cast_effects": {
           "jaehyuk": {
@@ -956,7 +959,8 @@
           "money": 5000000,
           "mental": -12,
           "stress": 14,
-          "investment_skill": 6
+          "investment_skill": 6,
+          "tint": -8
         },
         "cast_effects": {
           "jaehyuk": {
@@ -2759,7 +2763,8 @@
         "effects": {
           "intelligence": 8,
           "investment_skill": 4,
-          "mental": 11
+          "mental": 11,
+          "tint": 3
         },
         "flags": [
           "arc_jaehyuk_standup_seen",
@@ -2772,7 +2777,8 @@
         "effects": {
           "health": 5,
           "mental": 12,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 4
         },
         "flags": [
           "arc_jaehyuk_standup_seen",

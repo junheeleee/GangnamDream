@@ -48,7 +48,8 @@
         "effects": {
           "mental": 3,
           "stress": -2,
-          "luck": 1
+          "luck": 1,
+          "tint": -2
         },
         "result_text": "Head down, phone out.\n\nHe looked at his phone too.\n90 seconds. Neither said a word.\n\nFloor 18. Doors opened. He walked out.\n\nThe back of his shoes was visible for a moment.\nNot a scuff on them.\n\nSomeone made those shoes.\nThat person is somewhere, building toward something too.\n\nThe elevator doors closed."
       }
@@ -219,7 +220,8 @@
         "text": "Call an old comrade and talk about those days",
         "effects": {
           "reputation": 4,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": 4
         },
         "result_text": "I called a comrade I hadn't spoken to in ages. Knowing someone shares the same memories was a comfort."
       }

@@ -38,7 +38,8 @@
           "cafe_callback_seen"
         ],
         "effects": {
-          "mental": 11
+          "mental": 11,
+          "tint": 4
         }
       }
     ]
@@ -245,7 +246,8 @@
         "effects": {
           "intelligence": 2,
           "reputation": 3,
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         }
       }
     ]
