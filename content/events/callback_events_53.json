@@ -12,7 +12,12 @@
       "flag": "daeun_honest_together",
       "min_turn": 50
     },
-    "tags": ["callback", "daeun", "romance", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "romance",
+      "story"
+    ],
     "cooldown": 999,
     "description": "다은과 함께하기로 한 날, {name}은 '내가 아직 해줄 수 있는 게 없는데 — 그래도 괜찮아?'라고 솔직하게 물었었다.\n\n그 솔직한 고백이 가끔 떠오른다.\n\n오늘 다은이 그날을 꺼냈다.",
     "choices": [
@@ -60,7 +65,12 @@
       "flag": "daeun_asked_finally",
       "min_turn": 50
     },
-    "tags": ["callback", "daeun", "romance", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "romance",
+      "story"
+    ],
     "cooldown": 999,
     "description": "관계가 불확실하던 시기, {name}은 다은에게 '우리 어떻게 할 거예요?'라고 먼저 물었었다.\n\n그 용기 낸 질문이 가끔 떠오른다.\n\n오늘 또 둘의 미래를 생각한다.",
     "choices": [
@@ -92,7 +102,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "묻지 않으면 답도 없다.\n\n{name}은 그때 배운 대로, 중요한 건 미루지 않고 말하기로 했다.\n관계는 명확함 위에서 자란다는 걸, 그 질문이 가르쳐줬다."
+        "result_text": "묻지 않으면 답도 없다.\n\n{name}은 그때 배운 대로, 중요한 건 미루지 않고 말하기로 했다."
       }
     ]
   },
@@ -109,7 +119,12 @@
       "flag": "daeun_year3_stable",
       "min_turn": 145
     },
-    "tags": ["callback", "daeun", "romance", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "romance",
+      "story"
+    ],
     "cooldown": 999,
     "description": "함께한 지 몇 년, {name}과 다은은 '같이 가는 거잖아요'라며 서로를 다잡았었다.\n\n그 동행의 약속이 가끔 떠오른다.\n\n오늘 또 둘이 함께 견디는 하루의 끝이다.",
     "choices": [
@@ -125,7 +140,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "혼자였다면 몇 번은 무너졌을 길이었다.\n\n곁에서 같이 걸어준 사람이 있어, {name}은 끝까지 갈 힘을 냈다.\n사랑은 짐이 아니라, 같은 무게를 나눠 드는 거였다."
+        "result_text": "혼자였다면 몇 번은 무너졌을 길이었다.\n\n곁에서 같이 걸어준 사람이 있어, {name}은 끝까지 갈 힘을 냈다."
       },
       {
         "text": "이 길의 끝을 — 함께 보고 싶다",
@@ -157,7 +172,11 @@
       "flag": "hyunsu_talked_candidly",
       "min_turn": 40
     },
-    "tags": ["callback", "hyunsu", "story"],
+    "tags": [
+      "callback",
+      "hyunsu",
+      "story"
+    ],
     "cooldown": 999,
     "description": "현수와 함께 공부하던 시기, {name}은 '4년이면 오래됐다'며 솔직한 속내를 나눴었다.\n\n그 진솔한 대화가 가끔 떠오른다.\n\n오늘 또 현수 생각이 났다.",
     "choices": [
@@ -205,7 +224,11 @@
       "flag": "hyunsu_relationship_close",
       "min_turn": 50
     },
-    "tags": ["callback", "hyunsu", "story"],
+    "tags": [
+      "callback",
+      "hyunsu",
+      "story"
+    ],
     "cooldown": 999,
     "description": "현수가 합격했을 때, {name}은 진심으로 축하해줬었다.\n\n그 순간의 기쁨이 가끔 떠오른다.\n\n오늘 현수에게서 안부가 왔다.",
     "choices": [
@@ -253,7 +276,10 @@
       "flag": "past_self_accepted",
       "min_turn": 40
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "옛 수첩을 보며, {name}은 '그때의 나는 틀리지 않았다, 방향만 달라진 것뿐'이라고 받아들였었다.\n\n그 화해의 순간이 가끔 떠오른다.\n\n오늘 또 과거의 선택을 돌아본다.",
     "choices": [
@@ -291,7 +317,10 @@
       "flag": "success_undefined",
       "min_turn": 60
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "성공이 뭐냐는 질문에, {name}은 '솔직히 잘 모르겠다, 아직'이라고 답했었다.\n\n그 솔직한 모름이 가끔 떠오른다.\n\n오늘 또 '나는 무엇을 향해 가나'를 생각한다.",
     "choices": [
@@ -329,7 +358,11 @@
       "flag": "job_seeking",
       "min_turn": 26
     },
-    "tags": ["callback", "job", "story"],
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
     "cooldown": 999,
     "description": "연봉 격차에 충격을 받고, {name}은 이직 준비를 시작했었다.\n\n그 결심이 가끔 떠오른다.\n\n오늘 또 커리어의 방향을 점검한다.",
     "choices": [
@@ -368,7 +401,12 @@
       "flag": "talked_about_parents_bankbook",
       "min_turn": 40
     },
-    "tags": ["callback", "father", "story", "family"],
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family"
+    ],
     "cooldown": 999,
     "description": "부모님 통장의 비밀을 알게 됐을 때, {name}은 '아버지가 돌아오면 솔직하게 말하기로' 했었다.\n\n그 다짐이 가끔 떠오른다.\n\n오늘 또 아버지와 마주 앉는다.",
     "choices": [
@@ -416,7 +454,11 @@
       "flag": "jeongseon_quit_vow",
       "min_turn": 40
     },
-    "tags": ["callback", "gambling", "story"],
+    "tags": [
+      "callback",
+      "gambling",
+      "story"
+    ],
     "cooldown": 999,
     "description": "정선에서 크게 잃고 버스에 오르며, {name}은 '다시는 안 간다, 진짜로'라고 다짐했었다.\n\n그 다짐은 지켜졌나.\n\n오늘 또 도박의 유혹이 멀리서 손짓한다.",
     "choices": [
@@ -455,7 +497,11 @@
       "flag": "jeongseon_self_aware",
       "min_turn": 40
     },
-    "tags": ["callback", "gambling", "story"],
+    "tags": [
+      "callback",
+      "gambling",
+      "story"
+    ],
     "cooldown": 999,
     "description": "중독 경고를 느꼈을 때, {name}은 '좀 거리를 두자, 한 달은 안 가기로' 했었다.\n\n그 자각이 가끔 떠오른다.\n\n오늘 또 그 유혹의 신호를 감지한다.",
     "choices": [
@@ -494,7 +540,10 @@
       "flag": "enrolled_english",
       "min_turn": 28
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "한때 {name}은 '투자다'라며 영어 수업에 등록했었다.\n\n그 배움의 결심이 가끔 떠오른다.\n\n오늘 또 자기계발의 갈림길에 섰다.",
     "choices": [
@@ -533,7 +582,10 @@
       "flag": "bought_coding_course",
       "min_turn": 24
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "한때 {name}은 '1,900원짜리 투자'라며 코딩 강의를 결제했었다.\n\n그 작은 시작이 가끔 떠오른다.\n\n오늘 또 새로운 기술을 배울지 고민한다.",
     "choices": [

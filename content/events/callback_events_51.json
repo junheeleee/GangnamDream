@@ -12,7 +12,10 @@
       "flag": "comparison_anxiety_triggered",
       "min_turn": 40
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "친구의 아이 소식을 듣고, {name}은 축하하면서도 뭔가 조급해졌었다.\n\n그 조급함이 가끔 떠오른다.\n\n오늘 또 누군가의 인생 이정표 소식에 마음이 흔들린다.",
     "choices": [
@@ -51,7 +54,11 @@
       "flag": "asserted_own_timeline",
       "min_turn": 32
     },
-    "tags": ["callback", "story", "family"],
+    "tags": [
+      "callback",
+      "story",
+      "family"
+    ],
     "cooldown": 999,
     "description": "결혼 압박 앞에서, {name}은 '저는 지금 다른 목표가 있어요'라고 단호하게 말했었다.\n\n그 선언이 가끔 떠오른다.\n\n오늘 또 부모님의 걱정 어린 질문이 돌아온다.",
     "choices": [
@@ -90,7 +97,10 @@
       "flag": "childfree_leaning",
       "min_turn": 52
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "아이 양육비를 계산해보고, {name}은 '아이는 안 낳는 게 맞는 것 같다'고 생각했었다.\n\n그 냉정한 계산이 가끔 떠오른다.\n\n오늘 또 그 주제가 머릿속을 스친다.",
     "choices": [
@@ -128,7 +138,12 @@
       "flag": "proactive_parent_care",
       "min_turn": 44
     },
-    "tags": ["callback", "father", "story", "family"],
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family"
+    ],
     "cooldown": 999,
     "description": "부모님이 늙어가는 걸 느끼고, {name}은 '아버지, 병원 한번 같이 가요'라고 먼저 말했었다.\n\n그 먼저 내민 손이 가끔 떠오른다.\n\n오늘 또 부모님 생각이 났다.",
     "choices": [
@@ -176,7 +191,11 @@
       "flag": "corporate_escape_urgent",
       "min_turn": 56
     },
-    "tags": ["callback", "job", "story"],
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
     "cooldown": 999,
     "description": "조기 퇴직하는 선배를 보며, {name}은 '이게 직장인의 현실이다, 더 빨리 탈출해야 한다'고 다짐했었다.\n\n그 위기감이 가끔 떠오른다.\n\n오늘 또 직장의 한계를 실감하는 순간이 왔다.",
     "choices": [
@@ -215,7 +234,10 @@
       "flag": "shadow_loan_ignored",
       "min_turn": 30
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "수상한 대출 권유 전화에, {name}은 '모르는 사람'이라며 끊어버렸었다.\n\n그 단호함이 가끔 떠오른다.\n\n오늘 또 솔깃한 제안이 전화로 들어왔다.",
     "choices": [
@@ -254,7 +276,11 @@
       "flag": "shadow_loan_met",
       "min_turn": 30
     },
-    "tags": ["callback", "story", "risk"],
+    "tags": [
+      "callback",
+      "story",
+      "risk"
+    ],
     "cooldown": 999,
     "description": "수상한 대출 권유에, {name}은 '일단 만나자'며 발을 들였었다.\n\n그 위험했던 선택이 가끔 떠오른다.\n\n오늘 또 비슷한 회색지대의 제안이 있다.",
     "choices": [
@@ -293,7 +319,10 @@
       "flag": "shadow_snitch_ignored",
       "min_turn": 30
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "{name}에 관한 안 좋은 소문이 돌았을 때, {name}은 '신경 쓸 여유가 없다'며 무시했었다.\n\n그 무덤덤함이 가끔 떠오른다.\n\n오늘 또 누군가의 입방아에 오른 것 같다.",
     "choices": [
@@ -332,7 +361,10 @@
       "flag": "shadow_snitch_spun",
       "min_turn": 30
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "{name}에 관한 소문이 돌았을 때, {name}은 그 소문을 직접 역이용했었다.\n\n그 영리함 혹은 위험함이 가끔 떠오른다.\n\n오늘 또 비슷한 상황이 왔다.",
     "choices": [
@@ -372,7 +404,10 @@
       "flag": "startup_collab_joined",
       "min_turn": 32
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "옛 지인이 창업 협업을 제안했을 때, {name}은 '같이 해보자'고 했었다.\n\n그 약속이 가끔 떠오른다.\n\n오늘 또 그 협업의 향방을 생각한다.",
     "choices": [
@@ -412,7 +447,11 @@
       "flag": "first_invest_win",
       "min_turn": 22
     },
-    "tags": ["callback", "investment", "story"],
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
     "cooldown": 999,
     "description": "투자에서 처음 수익을 봤던 날, {name}은 심장이 뛰었었다.\n\n그 첫 수익의 기억이 가끔 떠오른다.\n\n오늘 또 계좌에 파란 불이 들어왔다.",
     "choices": [
@@ -451,7 +490,11 @@
       "flag": "first_invest_loss",
       "min_turn": 24
     },
-    "tags": ["callback", "investment", "story"],
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
     "cooldown": 999,
     "description": "투자에서 처음 손실을 봤던 날, {name}은 배가 아팠었다.\n\n그 첫 손실의 기억이 가끔 떠오른다.\n\n오늘 또 계좌가 빨갛게 물들었다.",
     "choices": [
@@ -463,7 +506,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "처음 잃었을 때의 그 쓰라림이, 무모함을 줄여줬다.\n\n{name}은 잃어보지 않은 사람이 더 위험하다는 걸 안다.\n첫 손실은 아팠지만, 그게 진짜 공부의 시작이었다."
+        "result_text": "처음 잃었을 때의 그 쓰라림이, 무모함을 줄여줬다.\n\n{name}은 잃어보지 않은 사람이 더 위험하다는 걸 안다."
       },
       {
         "text": "이젠 손실에도 — 덜 흔들린다",

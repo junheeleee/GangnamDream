@@ -12,7 +12,10 @@
       "flag": "midpoint_replan",
       "min_turn": 50
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "5년의 절반, 반환점에서 {name}은 '전략을 다시 짜야 한다'며 멈추고 생각했었다.\n\n그때 다시 짠 전략이 지금까지 이어졌다.\n\n오늘 또 점검할 시점이 왔다.",
     "choices": [
@@ -51,7 +54,10 @@
       "flag": "double_down_at_10b",
       "min_turn": 44
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "자산 10억을 넘던 날, {name}은 '더 가야 한다'며 쉬는 대신 계획을 짰었다.\n\n10억이면 누군가에겐 끝이지만, {name}에겐 통과점이었다.\n\n오늘 그날의 결심이 떠올랐다.",
     "choices": [
@@ -90,7 +96,10 @@
       "flag": "ten_b_anxiety",
       "min_turn": 44
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "자산 10억을 넘던 날, {name}은 기뻐하기보다 '30억이 더 멀어 보인다'며 불안해했었다.\n\n10억이라는 큰 숫자 앞에서도, 목표는 까마득했다.\n\n오늘 또 그 거리감이 밀려왔다.",
     "choices": [
@@ -129,7 +138,11 @@
       "flag": "sangchul_deflected",
       "min_turn": 52
     },
-    "tags": ["callback", "sangchul", "story"],
+    "tags": [
+      "callback",
+      "sangchul",
+      "story"
+    ],
     "cooldown": 999,
     "description": "임상철이 자기 인생 얘기를 꺼냈을 때, {name}은 '그 집 얼마짜리였어요?'라며 투자 얘기로 틀어버렸었다.\n\n그때 깊은 대화를 피한 게 가끔 떠오른다.\n\n오늘 다시 임상철과 마주 앉았다.",
     "choices": [
@@ -173,7 +186,10 @@
       "flag": "relaxed_at_night",
       "min_turn": 40
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "고시원 시절 어느 밤, {name}은 차트를 보는 대신 맥주 한 캔으로 하루를 마무리했었다.\n\n그렇게 숨 돌린 밤들도 필요했다.\n\n오늘도 머리가 무거운 밤이다.",
     "choices": [
@@ -185,7 +201,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "쉬지 않고 달리는 게 미덕은 아니다.\n\n그 맥주 한 캔의 밤들이 {name}을 끝까지 가게 했다.\n자신을 쉬게 할 줄 아는 것도, 오래 가는 사람의 조건이었다."
+        "result_text": "쉬지 않고 달리는 게 미덕은 아니다.\n\n그 맥주 한 캔의 밤들이 {name}을 끝까지 가게 했다."
       },
       {
         "text": "잠깐 쉬고 — 다시 책상 앞에 앉는다",
@@ -212,7 +228,11 @@
       "flag": "slept_early",
       "min_turn": 40
     },
-    "tags": ["callback", "hyunsu", "story"],
+    "tags": [
+      "callback",
+      "hyunsu",
+      "story"
+    ],
     "cooldown": 999,
     "description": "고시원 시절 어느 밤, {name}은 무리하지 않고 현수한테 '자라' 하고 일찍 잤었다.\n\n그렇게 서로 챙기던 밤들.\n\n오늘 문득 그 시절의 공기가 떠올랐다.",
     "choices": [
@@ -255,7 +275,10 @@
       "flag": "aimed_higher",
       "min_turn": 58
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "자산 25억을 넘던 날, {name}은 17억짜리 대신 25억짜리를 봤었다. '한 번 제대로 가려면.'\n\n그 야심이 가끔 떠오른다.\n\n오늘 다시 그 매물을 열어봤다.",
     "choices": [
@@ -294,7 +317,10 @@
       "flag": "demo_resolved",
       "min_turn": 34
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "서울살이 넉 달째, 한강 다리 위에서 정체감에 빠졌을 때 {name}은 '그래도 간다'며 다시 걷기 시작했었다.\n\n그 한 걸음이 여기까지 왔다.\n\n오늘 또 비슷한 정체의 순간이다.",
     "choices": [
@@ -333,7 +359,11 @@
       "flag": "demo_seeking_shortcut",
       "min_turn": 34
     },
-    "tags": ["callback", "story", "risk"],
+    "tags": [
+      "callback",
+      "story",
+      "risk"
+    ],
     "cooldown": 999,
     "description": "서울살이 넉 달째, 정체감에 빠졌을 때 {name}은 '다른 방법이 있어야 한다'며 지름길을 생각했었다.\n\n그 유혹은 지금도 가끔 찾아온다.\n\n오늘 또 '더 빠른 길'이 머릿속을 스쳤다.",
     "choices": [
@@ -372,7 +402,10 @@
       "flag": "admitted_fear",
       "min_turn": 56
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "마지막 스퍼트에 들어섰을 때, {name}은 처음으로 '두렵다'는 걸 인정했었다.\n\n다 와서 무너질까 봐. 여기까지 온 게 물거품이 될까 봐.\n\n오늘도 그 두려움이 곁에 있다.",
     "choices": [
@@ -410,7 +443,10 @@
       "flag": "calculated_final_push",
       "min_turn": 56
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "마지막 스퍼트에 들어섰을 때, {name}은 길을 걸으면서 남은 숫자를 계산했었다.\n\n감정이 아니라 숫자로 거리를 쟀다.\n\n오늘 또 머릿속으로 계산기를 두드린다.",
     "choices": [
@@ -449,7 +485,11 @@
       "flag": "almost_messaged_daeun",
       "min_turn": 60
     },
-    "tags": ["callback", "daeun", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
     "cooldown": 999,
     "description": "다은을 떠나보낸 뒤, 그녀의 흔적을 마주친 어느 밤. {name}은 다은한테 메시지를 썼다가 지우고 안 보냈었다.\n\n그 보내지 못한 메시지가 가끔 떠오른다.\n\n오늘 다시 그 대화창을 열었다.",
     "choices": [
@@ -488,7 +528,11 @@
       "flag": "lingered_for_daeun",
       "min_turn": 60
     },
-    "tags": ["callback", "daeun", "story"],
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
     "cooldown": 999,
     "description": "다은을 떠나보낸 뒤, 그녀의 흔적을 마주친 어느 밤. {name}은 잠깐 그 자리에 가만히 서 있었다.\n\n그 멈춤의 순간이 가끔 떠오른다.\n\n오늘 비슷한 곳을 지나며, 또 발이 멈췄다.",
     "choices": [

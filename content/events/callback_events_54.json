@@ -12,7 +12,11 @@
       "flag": "sought_help",
       "min_turn": 30
     },
-    "tags": ["callback", "gambling", "story"],
+    "tags": [
+      "callback",
+      "gambling",
+      "story"
+    ],
     "cooldown": 999,
     "description": "바닥을 쳤던 그 밤, {name}은 혼자 버티지 않고 단도박 모임에 전화를 걸었었다.\n\n그 전화를 건 용기가 가끔 떠오른다.\n\n오늘 또 흔들리는 순간이 왔다.",
     "choices": [
@@ -51,7 +55,12 @@
       "flag": "told_family_addiction",
       "min_turn": 30
     },
-    "tags": ["callback", "father", "story", "family"],
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family"
+    ],
     "cooldown": 999,
     "description": "바닥을 쳤던 그때, {name}은 아버지에게 모든 걸 털어놓았었다. 도박에 빠졌었다고.\n\n그 고백의 무게가 가끔 떠오른다.\n\n오늘 아버지가 그날을 조심스레 꺼냈다.",
     "choices": [
@@ -99,7 +108,12 @@
       "flag": "chose_deeper",
       "min_turn": 30
     },
-    "tags": ["callback", "gambling", "story", "risk"],
+    "tags": [
+      "callback",
+      "gambling",
+      "story",
+      "risk"
+    ],
     "cooldown": 999,
     "description": "바닥을 쳤던 그때, {name}은 '한 판만 더, 이걸로 다 만회한다'며 더 깊이 들어갔었다.\n\n그 선택의 결과를 안다.\n\n오늘 또 만회의 유혹이 손짓한다.",
     "choices": [
@@ -138,7 +152,10 @@
       "flag": "chaebol_connection",
       "min_turn": 40
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "우연히 만난 영향력 있는 사람에게, {name}은 적극적으로 명함을 건네며 어필했었다.\n\n그 대담한 순간이 가끔 떠오른다.\n\n오늘 또 기회를 잡을지 망설이는 순간이 왔다.",
     "choices": [
@@ -177,7 +194,10 @@
       "flag": "bought_apartment",
       "min_turn": 50
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "큰 결단의 순간, {name}은 계약금을 내고 집 계약에 도장을 찍었었다.\n\n그 떨리던 순간이 가끔 떠오른다.\n\n오늘 또 그 결단을 돌아본다.",
     "choices": [
@@ -216,7 +236,11 @@
       "flag": "overtime_boundary_set",
       "min_turn": 30
     },
-    "tags": ["callback", "job", "story"],
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
     "cooldown": 999,
     "description": "야근 문화 앞에서, {name}은 '할 일 끝냈으면 정시 퇴근한다'며 선을 그었었다.\n\n그 경계 설정이 가끔 떠오른다.\n\n오늘 또 눈치 야근의 압박이 있다.",
     "choices": [
@@ -255,7 +279,11 @@
       "flag": "kkondae_yielded",
       "min_turn": 30
     },
-    "tags": ["callback", "job", "story"],
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
     "cooldown": 999,
     "description": "꼰대 상사의 설교 앞에서, {name}은 '맞는 말씀이에요' 하고 흘려들었었다.\n\n그 처세가 가끔 떠오른다.\n\n오늘 또 비슷한 설교를 마주한다.",
     "choices": [
@@ -294,7 +322,11 @@
       "flag": "impressed_jiyeon_mother",
       "min_turn": 175
     },
-    "tags": ["callback", "jiyeon", "story"],
+    "tags": [
+      "callback",
+      "jiyeon",
+      "story"
+    ],
     "cooldown": 999,
     "description": "지연의 어머니 앞에서, {name}은 포장하지 않고 당당하게 사실대로 말했었다.\n\n그 당당함이 가끔 떠오른다.\n\n오늘 또 누군가에게 평가받는 자리에 선다.",
     "choices": [
@@ -333,7 +365,11 @@
       "flag": "sangchul_cut_ties",
       "min_turn": 90
     },
-    "tags": ["callback", "sangchul", "story"],
+    "tags": [
+      "callback",
+      "sangchul",
+      "story"
+    ],
     "cooldown": 999,
     "description": "임상철의 진실을 알게 됐을 때, {name}은 '신고하겠다'며 그 관계를 끊어냈었다.\n\n그 단호한 선택이 가끔 떠오른다.\n\n오늘 또 그 결단의 무게가 마음에 남는다.",
     "choices": [
@@ -355,7 +391,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "멘토도 인맥도 없이 가는 길은 더 힘들었지만, 더 떳떳했다.\n\n{name}은 상철 없이 스스로 일어선 자신을 안다.\n빌린 힘으로 빨리 가는 것보다, 내 힘으로 멀리 가는 게 나았다."
+        "result_text": "멘토도 인맥도 없이 가는 길은 더 힘들었지만, 더 떳떳했다.\n\n{name}은 상철 없이 스스로 일어선 자신을 안다."
       }
     ]
   },
@@ -372,7 +408,11 @@
       "flag": "holdem_mentor_met",
       "min_turn": 32
     },
-    "tags": ["callback", "gambling", "story"],
+    "tags": [
+      "callback",
+      "gambling",
+      "story"
+    ],
     "cooldown": 999,
     "description": "홀덤 고수 앞에서, {name}은 '얼마 안 됐어요, 배우는 중'이라며 겸손하게 말했었다.\n\n그 겸손이 가끔 떠오른다.\n\n오늘 또 누군가에게 배울 기회가 왔다.",
     "choices": [
@@ -411,7 +451,11 @@
       "flag": "got_alternate_offer",
       "min_turn": 30
     },
-    "tags": ["callback", "job", "story"],
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
     "cooldown": 999,
     "description": "면접에서 다른 길이 열렸을 때, {name}은 '어떤 포지션인가요?'라며 일단 들어봤었다.\n\n그 열린 태도가 가끔 떠오른다.\n\n오늘 또 예상 밖의 제안 앞에 섰다.",
     "choices": [
@@ -450,7 +494,10 @@
       "flag": "contacted_jaehyuk_early",
       "min_turn": 56
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "사기당한 뒤, {name}은 '재혁아, 요즘 어때?'라며 먼저 연락을 해봤었다.\n\n그 복잡한 마음이 가끔 떠오른다.\n\n오늘 또 그 일을 어떻게 정리할지 생각한다.",
     "choices": [
@@ -488,7 +535,10 @@
       "flag": "congratulated_friend",
       "min_turn": 120
     },
-    "tags": ["callback", "story"],
+    "tags": [
+      "callback",
+      "story"
+    ],
     "cooldown": 999,
     "description": "잘나가는 친구 소식에, {name}은 '진심으로 축하한다, 나는 나만의 길에 있다'고 했었다.\n\n그 성숙한 마음이 가끔 떠오른다.\n\n오늘 또 누군가의 좋은 소식을 듣는다.",
     "choices": [
