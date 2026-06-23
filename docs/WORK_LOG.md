@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (엔딩 EN 번역 인프라 + 34개 엔딩 전체 영어화)
+
+### 발견: 엔딩 전체가 KR 전용
+- content/endings.json은 한국어만 — EN 오버레이 인프라가 아예 없었음
+- 데모(t24 종료)는 미차단이나, 풀 릴리스 전 필수
+
+### content/endings_en.json 신규 (34개 전체)
+- gangnam_dream, empty_house, with_daeun, jiyeon_man, jaehyuk_way, late_call,
+  stable_success, ordinary_life, burnout, mental_break, bankruptcy, crypto_ghost,
+  startup_exit, political_fix, lonely_rich, investment_master, reputation_legend,
+  healthy_retirement, debt_spiral, orthodox_pinnacle, orthodox_hollow, balanced_life,
+  unorthodox_legend, early_retirement, creator_success, instant_legend, full_circle,
+  second_love, guardian, gambling_recovery, career_climber, career_burnout,
+  sangchul_reckoning, writer
+- title + description 번역, jaehyuk_way는 description_if_known(sangchul_used_fully)도
+- {name}/{housing} 플레이스홀더 보존
+- condition은 내부 dev 메타데이터(미렌더링)라 번역 생략
+
+### DataRegistry._apply_endings_en_overlay()
+- events_en 오버레이 패턴 미러
+- ENDINGS_EN_PATH 상수 추가, reload()에서 language=="en"일 때 적용
+- 같은 id의 텍스트 필드를 영어로 덮어씀, 없는 엔딩은 KR 유지(graceful)
+
+### 런타임 검증
+- 임시 TestEndingsEN.tscn로 헤드리스 검증 (오토로드 로드 상태)
+- EN모드: gangnam_dream="Gangnam Dream", jaehyuk_way="Jaehyuk's Way", dik 정상
+- KR모드: gangnam_dream="강남드림" (오버레이 미적용 확인)
+- 검증 후 테스트 파일 삭제
+
+### audit ERROR 0 / WARNING 0 / Godot 55개 컴파일 클린 / 밸런스 밴드 통과
+
 ## 2026-06-23 (drift EN + jaehyuk_way 상철 변주 엔딩 + 파스 에러 수정)
 
 ### relationship drift 5종 EN 번역
