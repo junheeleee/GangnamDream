@@ -6442,9 +6442,15 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	elif ds in ["distant", "wary", "uncertain"]:
 		lines.append(_tr("☕  그 카페 앞을 지날 때면 걸음이 조금 빨라진다.", "☕  When I pass that cafe, my pace quickens a little."))
 
-	# 임상철 — 멘토였는가
+	# 임상철 — 멘토였는가 / 도구였는가
 	var ss := GameState.get_cast_stage("sangchul")
-	if ss in ["trusted", "mentoring", "guardian"]:
+	# 진실을 알고도 그의 죄책감을 끝까지 자산으로 쓴 경우 — 관계 stage가 무엇이든 이 라인이 우선.
+	# (stage 기반 따뜻한 라인이 착취 플레이어에게 잘못 뜨던 톤 버그 차단)
+	if GameState.flags.get("sangchul_used_fully", false):
+		lines.append(_tr("🏢  임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.", "🏢  I still keep in touch with Im Sangchul. I'll use him again if I need to. He knows that, and still picks up the phone."))
+	elif GameState.flags.get("sangchul_leveraged", false):
+		lines.append(_tr("🏢  임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.", "🏢  Im Sangchul's guilt made a good lever. That fact catches in my chest sometimes — just sometimes."))
+	elif ss in ["trusted", "mentoring", "guardian"]:
 		if good:
 			lines.append(_tr("🏢  임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "🏢  Im Sangchul laughed as if it were his own, 「I sure know how to read people.」"))
 		elif bad:

@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (엔딩 EN 검증 + gangnam_dream 변주 2종 + 에필로그 톤버그)
+
+### run_summary / cast_epilogue EN 커버리지 검증 (완료)
+- _ending_run_summary: 34개 엔딩 + ng_gambling_premonition 전수 _tr() + fallback
+- _ending_cast_epilogue: 아버지/어머니/지연/다은/상철/재혁 전 분기 _tr()
+- 누락 없음 — 완전 이중언어 확인
+
+### gangnam_dream description_if_known 2종 (KR+EN)
+- sangchul_truth_buried: "됐어요 잊어버려요"로 진실 묻고 올라온 승리
+  아버지가 "좋구나 아들" — 그는 이 풍경의 절반이 자신을 무너뜨린 사람을 거친 걸 모른다
+  묻어둔 것이 거실에서 같이 야경을 본다
+- sangchul_forgiven: 신고 대신 용서한 경로
+  "용서가 아니라 더 이상 미워할 힘이 없었던 건지도" / "더 이상 누구도 미워하지 않게 됐을 뿐"
+- 라우팅 검증: 둘 다 crossed_line 미설정 → jaehyuk_way 가로채기 없이 gangnam_dream 도달
+- 런타임 검증: ko/en 양 언어 변주 정상 로드
+
+### 인연 에필로그 상철 착취 톤버그 수정 (MainGame.gd)
+- 버그: sangchul stage가 trusted/mentoring이면 착취 플레이어도 따뜻한 라인
+  ("내가 사람 하나는 잘 본다" / "국밥 같이 먹는다")이 떴음
+- 수정: sangchul_used_fully / sangchul_leveraged 플래그를 stage보다 우선 체크
+  - used_fully: "필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다"
+  - leveraged: "그의 죄책감은 좋은 지렛대였다. 그 사실이 가끔 마음에 걸린다"
+- KR+EN, Godot 55개 컴파일 클린
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 / 밸런스 밴드 통과
+
 ## 2026-06-23 (엔딩 EN 번역 인프라 + 34개 엔딩 전체 영어화)
 
 ### 발견: 엔딩 전체가 KR 전용
