@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-23** — **★MORAL_TINT 신규 시스템 착수 (색으로 보는 자기 파괴)**: 게임 핵심 신규 시스템. "회색 시작 → 인간성=하양 / 돈=검정" 단일 축. `docs/MORAL_TINT.md` 스펙 + 엔진 코어(GameState.moral_tint −100~+100·shift·moral_stage·moral_tint_norm·tint 효과 키·흉터 상한[crossed_line→−20/death-ignored→0]·serialize). 상철+아버지 스파인 tint 수직 슬라이스. 헤드리스 검증(누적·회복·밴드·흉터·라운드트립) 통과. 플레이어 숫자 미노출 — Codex가 moral_tint_norm()/moral_stage() 구독해 칠함(NEW_ASSET_REQUESTS.md 핸드오프). |
+| **최근 완료** | **2026-06-23** — **MORAL_TINT 밴드 전이 비네트**: `shift_moral_tint()`가 밴드 경계(0/±1/±2) 넘으면 `pending_tint_vignette` 기록 → `_on_result_confirmed()` 직후 `_show_moral_beat()` 띄움. 비네트 3종 KR+EN(0→−1 "밥에서 맛이 안 났다"/−1→−2 "거울에서 5년 전 얼굴 못 떠올림"/회복 "오랜만에 웃었다"). 숫자·스탯 없이 순 본문. audit SERIALIZE_EXEMPT 등록. 헤드리스+xvfb 검증 완료. |
+| **이전** | **2026-06-23** — **★MORAL_TINT 신규 시스템 착수 (색으로 보는 자기 파괴)**: 게임 핵심 신규 시스템. "회색 시작 → 인간성=하양 / 돈=검정" 단일 축. `docs/MORAL_TINT.md` 스펙 + 엔진 코어(GameState.moral_tint −100~+100·shift·moral_stage·moral_tint_norm·tint 효과 키·흉터 상한[crossed_line→−20/death-ignored→0]·serialize). 상철+아버지 스파인 tint 수직 슬라이스. 헤드리스 검증(누적·회복·밴드·흉터·라운드트립) 통과. 플레이어 숫자 미노출 — Codex가 moral_tint_norm()/moral_stage() 구독해 칠함(NEW_ASSET_REQUESTS.md 핸드오프). |
 | **이전** | **2026-06-23** — **데모 빌드 export QA (Windows + Linux/Steam Deck)**: export 템플릿 4.6.2로 Linux/Steam Deck(167MB ELF, xvfb 18초 무에러 부팅) + Windows(201MB PE32+) 빌드·실행 검증. 산출물 gitignore. |
 | **이전** | **2026-06-23** — **다은/지연/재혁 아크 reachability 트레이스 (데드엔드 없음 확정)**: 세 인물 아크의 상한 윈도우 전수 점검. 다은(affinity 게이트=의도)·지연 전부 하한 트리거만 → 윈도우 데드엔드 없음. 재혁은 wait(t38~41) 1개 바운드뿐인데 pitch 지연 시 스킵 가능하나 코어(ghost→standup, 하한 트리거)는 항상 도달 — 선택적 페이싱 비트라 허용. 결론: 4개 인물 중 데드엔드는 상철 known_offer뿐(직전 수정 완료), 나머지 안전. |
 | **이전** | **2026-06-23** — **상철 진실 아크 타임라인 reachability 정밀 점검 + 데드엔드 수정**: 전체 체인(01→02→03→deduction→offguard→human→known_offer→reflex→confrontation→reckoning→엔딩) 오프라인 트레이스. 발견: 네트워크 합류 늦은(자산<100만 장기) 추론 플레이어가 human 윈도우(t30~42) 놓쳐 known_offer 영구 스킵되는 데드엔드 → `arc_sangchul_human` 상한 t42→t52 확장으로 해결. 트레이스 검증: 조기/늦은(t40)/매우늦은(t48) 네트워크 전부 offer·reflex·confrontation 도달. t50+ 합류는 deduction 윈도우 닫혀 confession 경로(데드엔드 아님). Godot 컴파일 클린. |
@@ -31,8 +32,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **★MORAL_TINT 롤아웃 계속 (docs/MORAL_TINT.md §8): ① 밴드 전이 비네트(0→−1 "밥에서 맛이 안 났다" 등) StoryMode/턴 흐름에 트리거 훅 + 본문 KR+EN. ② 스파인 확장 — 다은/지연/재혁/돈·관계 핵심 씬 tint 저작. ③ 하양 30억 극악 난이도 시뮬 검증 + 밴드 임계 튜닝. ④ Codex 시각 연결 대기(신호 구독). ⑤ Steam App ID 교체.** |
-| **마지막 업데이트** | 2026-06-23 (Claude: MORAL_TINT 엔진 코어 + 상철/아버지 스파인 슬라이스 + 헤드리스 검증) |
+| **다음 작업** | **★MORAL_TINT 롤아웃 계속 (docs/MORAL_TINT.md §8): ② 스파인 확장 — 다은/지연/재혁/돈·관계 핵심 씬 tint 저작. ③ 하양 30억 극악 난이도 시뮬 검증 + 밴드 임계 튜닝. ④ Codex 시각 연결 대기(신호 구독). ⑤ Steam App ID 교체.** |
+| **마지막 업데이트** | 2026-06-23 (Claude: MORAL_TINT 밴드 전이 비네트 — pending_tint_vignette + _show_moral_beat + 3종 KR+EN + xvfb 검증) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

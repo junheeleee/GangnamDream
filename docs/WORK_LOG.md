@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-23 (MORAL_TINT 밴드 전이 비네트)
+
+### 구현
+- `GameState.shift_moral_tint()` — 밴드 경계(0/±1/±2) 넘을 때 `pending_tint_vignette: {from, to}` 기록
+- `MainGame._on_result_confirmed()` — vignette 있으면 `_render_event()` 전에 `_show_moral_beat()` 선점
+- `_show_moral_beat(from, to)` — 조용한 패널, 빈 제목, "…" 확인 버튼, 스탯/숫자 없음
+- `_moral_beat_text()` 비네트 3종 KR+EN:
+  - 0→−1: "밥을 먹는데 맛이 안 났다. 그냥 연료 같았다."
+  - −1→−2: "거울을 봤다. 5년 전 라면 먹던 얼굴이 안 떠올랐다."
+  - 회복(음→양): "오랜만에 통화 끝에 웃었다. 웃는 게 어색했다는 걸, 웃고 나서 알았다."
+- `audit.py SERIALIZE_EXEMPT` — pending_tint_vignette 트랜지언트 등록
+- 헤드리스 밴드 감지 검증 + xvfb 비트 패널 렌더 검증 완료
+
+---
+
 ## 2026-06-23 (★MORAL_TINT 신규 시스템 — 엔진 코어 + 수직 슬라이스)
 
 ### 설계 (docs/MORAL_TINT.md)
