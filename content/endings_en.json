@@ -44,12 +44,18 @@
   {
     "id": "stable_success",
     "title": "Stable Success",
-    "description": "One billion won.\n\nThe day that number first showed up in his account,\n{name} did nothing.\n\nHe just closed the app and lay down to sleep.\n\nSeoul glittered beyond the window.\nGangnam was somewhere in those lights. Out of reach.\nAnd yet — he wasn't afraid.\n\nLease expirations, medical bills, payday texts.\nWhere all that weight used to be, a question settled in for the first time.\n\nHow should I live now.\n\nHe didn't reach three billion. He didn't achieve the Gangnam dream.\nBut waking up without fear —\n\nmaybe that was the real dream all along."
+    "description": "One billion won.\n\nThe day that number first showed up in his account,\n{name} did nothing.\n\nHe just closed the app and lay down to sleep.\n\nSeoul glittered beyond the window.\nGangnam was somewhere in those lights. Out of reach.\nAnd yet — he wasn't afraid.\n\nLease expirations, medical bills, payday texts.\nWhere all that weight used to be, a question settled in for the first time.\n\nHow should I live now.\n\nHe didn't reach three billion. He didn't achieve the Gangnam dream.\nBut waking up without fear —\n\nmaybe that was the real dream all along.",
+    "description_if_known": {
+      "cut_sangchul_network": "The day one billion showed up in his account, {name} did nothing.\nHe just closed the app and lay down to sleep.\n\nThere were opportunities he'd passed on. Money that could have come faster. Deals he chose not to make.\n\nThe day he severed that connection came back to him. After that, things slowed.\nFor a long time it felt like a mistake.\n\nBut this one billion — it's money that never used anyone's guilt as leverage.\nIt came slowly. It's his money.\n\nSeoul glittered beyond the window. He wasn't afraid."
+    }
   },
   {
     "id": "ordinary_life",
     "title": "Just a Person",
-    "description": "He didn't make it to Gangnam.\n\nA villa on the outskirts of Seoul. Rent 580,000 a month.\nOne room with one window, and beyond the window, the wall of the next building.\n\nAn ordinary job. An ordinary today.\nSubway in the morning, subway in the evening, home to wash up and sleep.\n\nSometimes when Gangnam apartment prices come up on the news, he blanks out for a second.\n'If I'd done things differently.' That thought comes too, sometimes.\n\nBut dinner tasted good tonight.\nA cup ramen bought at the convenience store on the way home.\nRain falling outside, and it's his own room.\n\n{name} went to search something on his phone, then just set it down.\n\nIn Seoul, there are far more people who didn't make it to Gangnam than people who did.\n{name} is one of them.\n\nWhether that's failure — he doesn't know.\nWhat's certain is that tonight isn't cold.\nThere are nights when that's enough."
+    "description": "He didn't make it to Gangnam.\n\nA villa on the outskirts of Seoul. Rent 580,000 a month.\nOne room with one window, and beyond the window, the wall of the next building.\n\nAn ordinary job. An ordinary today.\nSubway in the morning, subway in the evening, home to wash up and sleep.\n\nSometimes when Gangnam apartment prices come up on the news, he blanks out for a second.\n'If I'd done things differently.' That thought comes too, sometimes.\n\nBut dinner tasted good tonight.\nA cup ramen bought at the convenience store on the way home.\nRain falling outside, and it's his own room.\n\n{name} went to search something on his phone, then just set it down.\n\nIn Seoul, there are far more people who didn't make it to Gangnam than people who did.\n{name} is one of them.\n\nWhether that's failure — he doesn't know.\nWhat's certain is that tonight isn't cold.\nThere are nights when that's enough.",
+    "description_if_known": {
+      "cut_sangchul_network": "He didn't make it to Gangnam.\n\nA villa on the outskirts of Seoul. Rent 580,000 a month.\nOne room, one window, and beyond it — the wall of the next building.\n\nThere was a door he could have walked through faster. He closed it.\nBecause he knew where that door came from.\n\nSometimes he wonders where he'd be now if he hadn't. Probably somewhere better.\n\nBut that thought doesn't stay long.\nThis room needs no explanation.\n\nThis room feeling a little less bitter — that's because of that choice."
+    }
   },
   {
     "id": "burnout",
@@ -119,7 +125,10 @@
   {
     "id": "balanced_life",
     "title": "My Own Balance",
-    "description": "It was a road neither orthodox nor unorthodox.\n\nHe invested while working at a company,\ndid side gigs while investing,\nrefocused on the company when the side gigs went well.\n\nSome people said you couldn't pin him down.\n\nOn one side, 'should have focused more,'\non the other, 'maybe spread too thin' — there were such moments.\n\nBut {name} was just — that was me.\n\nHe didn't make it to Gangnam.\nDidn't succeed big, didn't fail big.\n\nOne evening, before the account balance,\nhe started thinking about whether today had been fun.\n\nThat was {name}'s way. He lived his own way, and survived."
+    "description": "It was a road neither orthodox nor unorthodox.\n\nHe invested while working at a company,\ndid side gigs while investing,\nrefocused on the company when the side gigs went well.\n\nSome people said you couldn't pin him down.\n\nOn one side, 'should have focused more,'\non the other, 'maybe spread too thin' — there were such moments.\n\nBut {name} was just — that was me.\n\nHe didn't make it to Gangnam.\nDidn't succeed big, didn't fail big.\n\nOne evening, before the account balance,\nhe started thinking about whether today had been fun.\n\nThat was {name}'s way. He lived his own way, and survived.",
+    "description_if_known": {
+      "cut_sangchul_network": "Balance meant — not just how much you bring in, but also what you choose not to bring in.\n\nThere was a connection he walked away from. A faster road, but he knew where it came from.\n\nAfter that, things slowed. Still, he got here.\n\nHe didn't make it to Gangnam.\nBut none of this money has an origin he can't explain.\n\nThat was {name}'s balance."
+    }
   },
   {
     "id": "unorthodox_legend",
