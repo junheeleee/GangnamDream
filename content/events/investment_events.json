@@ -84,7 +84,8 @@
         "effects": {
           "reputation": 3,
           "investment_skill": -1,
-          "addiction_tendency": 15
+          "addiction_tendency": 15,
+          "tint": -3
         },
         "result_text": "모든 걸 걸었다. 운명이 어느 쪽을 선택할지는 아침이 되어야 알 수 있다.",
         "investment_effects": {
@@ -334,7 +335,8 @@
         "effects": {
           "reputation": -2,
           "investment_skill": -1,
-          "addiction_tendency": 10
+          "addiction_tendency": 10,
+          "tint": -1
         },
         "result_text": "1만원을 걸었다.\n결과는 틀렸다.\n1만원짜리 수업료라고 생각하기로 했다.",
         "investment_effects": {
@@ -374,7 +376,8 @@
       {
         "text": "최솟값만 내고 나머지는 투자에 쓴다",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": -2
         },
         "result_text": "최솟값을 이체했다.\n나머지를 투자 계좌로 옮겼다.\n이자가 붙기 시작했다. 카드값 이자가."
       },
@@ -444,7 +447,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -3
         },
         "result_text": "한도까지 뺐다.\n투자 계좌로 옮겼다.\n이자율과 기대 수익률을 다시 계산했다. 아슬아슬했다."
       }
@@ -593,7 +597,8 @@
         "effects": {
           "reputation": -4,
           "investment_skill": 2,
-          "addiction_tendency": 25
+          "addiction_tendency": 25,
+          "tint": -4
         },
         "result_text": "한 방을 믿었다. 결과가 어떻든 이 선택은 오래 기억될 것이다.",
         "flags": [
@@ -785,7 +790,8 @@
         "effects": {
           "money": -100000,
           "luck": 1,
-          "gambling_tendency": 3
+          "gambling_tendency": 3,
+          "tint": -2
         },
         "result_text": "10만 원어치를 샀다. 다음 날 주가는 조용히 하락했고, 단톡방엔 아무도 말이 없었다."
       },
@@ -829,7 +835,8 @@
         "text": "시장 열리자마자 전량 매도한다",
         "effects": {
           "money": -200000,
-          "mental": -8
+          "mental": -8,
+          "tint": -1
         },
         "result_text": "9시 정각, 체결창이 빨갛게 물들었다. 손실을 확정하면서도 더 잃지 않았다는 안도감이 묘하게 뒤섞였다."
       },
@@ -846,7 +853,8 @@
         "effects": {
           "money": -300000,
           "investment_skill": 4,
-          "luck": 2
+          "luck": 2,
+          "tint": -2
         },
         "result_text": "패닉 셀이 쏟아지는 틈에 분할 매수를 걸었다. 틀릴 수도 있었지만, 이 선택이 나중에 전설이 될 수도 있다."
       }
@@ -921,14 +929,16 @@
         "effects": {
           "money": -200000,
           "investment_skill": 1,
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "result_text": "추가 매수로 평균 단가를 낮췄다. 맞을 수도 있고 더 깊이 빠질 수도 있다 — 지금은 기다리는 수밖에 없다."
       },
       {
         "text": "그냥 놔둔다 — 어차피 모른다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "result_text": "앱을 삭제하고 싶었지만 그냥 닫았다. 눈 감는다고 손실이 사라지진 않는다."
       }
@@ -1040,7 +1050,8 @@
         "effects": {
           "money": -400000,
           "investment_skill": 3,
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "result_text": "뉴스 경고를 역발상의 신호로 받아들이고 추가 매수했다. 틀릴 수도 있지만, 이것이 {name}이 선택한 길이다."
       },
@@ -1112,7 +1123,8 @@
         "text": "원칙 투자자가 되기로 결심한다",
         "effects": {
           "investment_skill": 6,
-          "mental": 10
+          "mental": 10,
+          "tint": 2
         },
         "result_text": "주식 앱의 알림을 절반쯤 껐다. 매일 보던 차트 대신 사업 보고서를 열기 시작했다. 투자가 처음으로 즐거워졌다."
       },
@@ -1150,7 +1162,8 @@
         "effects": {
           "money": -500000,
           "luck": 3,
-          "gambling_tendency": 5
+          "gambling_tendency": 5,
+          "tint": -5
         },
         "result_text": "다음 달 실적 발표 후 주가가 20% 올랐다. 돈은 벌었지만 손이 계속 떨렸다. 이 사실을 아무에게도 말할 수 없었다."
       },
@@ -1158,7 +1171,8 @@
         "text": "정중하게 거절한다 — 모른 척한다",
         "effects": {
           "reputation": 3,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         },
         "result_text": "선배에게 '그런 얘기 듣지 않는 게 낫겠어요'라고 조용히 말했다. 선배는 멋쩍게 웃었고, {name}의 양심은 그날 밤 편히 잠들었다."
       },
@@ -1272,7 +1286,8 @@
           "money": -500000,
           "gambling_tendency": 8,
           "addiction_tendency": 10,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "tint": -2
         },
         "result_text": "50만 원을 넣었다. 처음엔 두 배가 됐다.\n그리고 반 토막. 다시 조금 올라와서 -30%에 멈췄다.\n팔아야 하는데, 손에 안 잡혔다.\n코인의 마력은 그거였다. 손절이 불가능하다.",
         "route": "unorthodox"
@@ -1569,7 +1584,8 @@
           "money": -400000,
           "investment_skill": 1,
           "luck": -1,
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [],
         "follow_up_event": "",
@@ -1742,7 +1758,8 @@
         "effects": {
           "investment_skill": 4,
           "luck": 2,
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "route": "unorthodox",
         "flags": [
@@ -1798,7 +1815,8 @@
         "effects": {
           "investment_skill": 10,
           "intelligence": 5,
-          "mental": -14
+          "mental": -14,
+          "tint": -3
         },
         "route": "unorthodox",
         "flags": [
@@ -1902,7 +1920,8 @@
         "text": "전부 건다 — 강남 가는 마지막 기회일 수 있다",
         "effects": {
           "investment_skill": 3,
-          "mental": -15
+          "mental": -15,
+          "tint": -3
         },
         "opportunity": {
           "stake_ratio": 0.65,
@@ -1941,7 +1960,8 @@
         "effects": {
           "mental": 10,
           "intelligence": 3,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 3
         },
         "route": "orthodox",
         "result_text": "내부 정보를 이용한 거래는 법적 위험이 있다.\n솔깃하지만 패스다.\n{name}은 전화를 끊고 창밖을 바라봤다.\n깨끗한 손이 낫다고, 그렇게 믿기로 했다."

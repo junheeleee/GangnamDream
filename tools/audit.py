@@ -380,7 +380,7 @@ def check_flags():
 # 의도적으로 저장하지 않는 transient 변수 (씬 전환용 임시 상태)
 SERIALIZE_EXEMPT = {
     "pending_story_queue", "story_return_scene", "returning_from_story",
-    "pending_tint_vignette",
+    "pending_tint_vignette", "pending_scar_vignette",
 }
 
 def check_serialize():

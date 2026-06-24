@@ -108,6 +108,7 @@ var month_focus: String = ""
 var moral_tint: float = 0.0
 var moral_band_last: int = 0   # 직전 밴드(−2~+2). 전이 비네트 트리거용
 var pending_tint_vignette: Dictionary = {}  # transient: {"from":int,"to":int} — UI가 표시 후 비움
+var pending_scar_vignette: String = ""     # transient: "crossed_line"|"chose_money_over_father" — 첫 설정 시 한 번만
 var housing_months: Dictionary = {}
 
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
@@ -629,12 +630,18 @@ func apply_choice(event, choice):
 	for clue_id in choice.get("clues", []):
 		add_clue(str(clue_id))
 	for flag_id in choice.get("flags", []):
-		flags[str(flag_id)] = true
+		var fid := str(flag_id)
+		var _was_set: bool = flags.get(fid, false)
+		flags[fid] = true
 		# 마인드셋 선택(arc_intro_02) → 성향 초기 시드
-		match str(flag_id):
+		match fid:
 			"mindset_saver":    add_tendency("career", 6)
 			"mindset_investor": add_tendency("invest", 6)
 			"mindset_founder":  add_tendency("found", 6)
+		# 흉터 플래그 최초 설정 → 비네트 대기 + 즉시 tint 상한 적용
+		if not _was_set and fid in ["crossed_line", "chose_money_over_father"]:
+			pending_scar_vignette = fid
+			shift_moral_tint(0.0)  # delta=0, 상한만 즉시 적용
 	# 선택지가 직접 성향 포인트를 줄 수도 있다: "tendency": {"invest": 2}
 	for tk in choice.get("tendency", {}):
 		add_tendency(str(tk), int(choice["tendency"][tk]))

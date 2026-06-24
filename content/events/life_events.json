@@ -516,7 +516,8 @@
         "effects": {
           "health": -3,
           "luck": 1,
-          "mental": -2
+          "mental": -2,
+          "tint": -1
         },
         "result_text": "그냥 버티기로 했다. 몸이 조금씩 망가지고 있다는 건 알았지만, 당장 바꿀 여유가 없었다.",
         "flags": []
@@ -1249,7 +1250,8 @@
         "effects": {
           "money": -300000,
           "social_skill": 3,
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "result_text": "기분은 나빴지만 그냥 쐈다. 분위기는 좋아졌는데 통장이 쓸쓸해졌다.",
         "flags": []
@@ -1804,7 +1806,8 @@
         "text": "그냥 이걸로 때운다",
         "effects": {
           "money": -4900,
-          "health": -2
+          "health": -2,
+          "tint": -1
         },
         "result_text": "맛은 없지만 배는 찬다. 이 맛에 익숙해지는 게 더 무섭다.",
         "flags": []
@@ -2849,7 +2852,8 @@
         "text": "내 집은 괜찮겠지 하고 넘긴다",
         "effects": {
           "luck": -1,
-          "mental": -2
+          "mental": -2,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -3002,7 +3006,8 @@
       {
         "text": "그냥 모른 척 넘긴다",
         "effects": {
-          "mental": -11
+          "mental": -11,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -3093,7 +3098,8 @@
       {
         "text": "그냥 이게 현실이다 받아들인다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -4302,7 +4308,8 @@
         "text": "오락비였던 거야. 그냥 엔터테인먼트.",
         "effects": {
           "mental": -5,
-          "addiction_tendency": 5
+          "addiction_tendency": 5,
+          "tint": -2
         },
         "flags": [],
         "follow_up_event": "",
@@ -4970,7 +4977,8 @@
       {
         "text": "그냥 오늘만 한다. 내일은 모른다.",
         "effects": {
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -1
         },
         "flags": [],
         "result_text": "오늘 10분 했다. 내일은 모른다. 그것만으로도 어제보다 낫다."
@@ -5082,7 +5090,8 @@
       {
         "text": "그냥 참는다 — 바빠서",
         "effects": {
-          "health": -5
+          "health": -5,
+          "tint": -1
         },
         "result_text": "참았다.\n다음 달에는 더 나빠져 있었다."
       },

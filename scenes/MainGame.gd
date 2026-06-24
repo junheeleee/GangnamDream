@@ -2403,6 +2403,12 @@ func _show_result(result_text: String):
 func _on_result_confirmed():
 	pending_result_text = ""
 	_transient_bg_active = false
+	# 흉터 비네트 — 삶의 선을 처음 넘는 순간 (band 전이보다 우선)
+	if not GameState.pending_scar_vignette.is_empty():
+		var scar := GameState.pending_scar_vignette
+		GameState.pending_scar_vignette = ""
+		_show_scar_beat(scar)
+		return
 	# MORAL_TINT 밴드 전이 비네트 — 선택의 결과 직후, 조용한 자각 한 장면
 	if not GameState.pending_tint_vignette.is_empty():
 		var v: Dictionary = GameState.pending_tint_vignette
@@ -2422,6 +2428,32 @@ func _show_moral_beat(from_band: int, to_band: int):
 	event_title.text = ""
 	_type_text(_fmt(body), 42.0)
 	var btn: Button = _button(_tr("…", "…"), "#3a3f4a")
+	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
+	choice_box.add_child(btn)
+	next_button.disabled = true
+
+# 흉터 비네트 — 삶의 선을 처음 넘은 날 밤, 한 장면. 숫자 없음. (docs/MORAL_TINT.md §7)
+func _show_scar_beat(scar_flag: String) -> void:
+	for child in choice_box.get_children():
+		child.queue_free()
+	_transient_bg_active = true
+	_clear_category_tint(true)
+	_clear_feedback_flash()
+	var body: String
+	match scar_flag:
+		"crossed_line":
+			body = _tr(
+				"잠에서 깼다.\n\n뭔가 없어진 것 같은 느낌이었다.\n어제 내린 결정이 생각났다.\n이전으로 돌아갈 수 없다는 것도.",
+				"I woke up.\n\nSomething felt missing.\nI thought of the decision I'd made yesterday.\nAnd of the fact that there was no going back.")
+		"chose_money_over_father":
+			body = _tr(
+				"아버지가 마지막으로 말했던 것을 기억하려 했다.\n\n그런데 기억이 나지 않았다.\n이상하게.",
+				"I tried to remember the last thing my father said.\n\nI couldn't.\nStrangely.")
+		_:
+			body = _tr("...", "...")
+	event_title.text = ""
+	_type_text(_fmt(body), 36.0)
+	var btn: Button = _button(_tr("…", "…"), "#2a2f3a")
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(btn)
 	next_button.disabled = true
