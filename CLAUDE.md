@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-24** — **재혁/지연/아버지/엔딩 서사 무결성 수정 3종**: ①지연 진실 씬이 상철 네트워크 전용으로 잠겨 비상철 플레이어 영구 차단 → t>=70 자연 발견 대체 트리거 추가. ②arc_father_passing t>=64(Y2 초반 7개월 뒤 조기 발화) → t>=100 + arc_father_medication_seen 게이트 추가. ③empty_house 엔딩: father_passed=true인데 lonely_rich로 잘못 라우팅되던 버그 → OR 조건 수정. audit ERROR 0/WARNING 0/밴드 통과/arc_flow_sim ✓. |
+| **최근 완료** | **2026-06-24** — **description_if_known 3종 + 죽은 플래그 연결**: ①`arc_sangchul_casino_invite`에 `sangchul_truth_known` 변주 추가 — 아버지를 망가뜨린 그가 보내는 "편하게 와요" 카지노 문자가 달리 읽힘(KR+EN). ②`arc_father_passing`에 `father_mentally_updated` 변주 추가 — Y3에 아버지와 진짜 대화를 나눈 플레이어만 보는 마지막 인사(KR+EN). ③`father_mentally_updated` write-only 플래그 → 서사 독자로 전환. debt_baseline 210→209. audit ERROR 0/arc_flow_sim ✓. |
+| **이전** | **2026-06-24** — **재혁/지연/아버지/엔딩 서사 무결성 수정 3종**: ①지연 진실 씬이 상철 네트워크 전용으로 잠겨 비상철 플레이어 영구 차단 → t>=70 자연 발견 대체 트리거 추가. ②arc_father_passing t>=64(Y2 초반 7개월 뒤 조기 발화) → t>=100 + arc_father_medication_seen 게이트 추가. ③empty_house 엔딩: father_passed=true인데 lonely_rich로 잘못 라우팅되던 버그 → OR 조건 수정. audit ERROR 0/WARNING 0/밴드 통과/arc_flow_sim ✓. |
 | **이전** | **2026-06-24** — **서사 무결성 수정 5종 (내러티브 QA 후속)**: ①다은 morning 2번 선택지에 `daeun_together_path` 플래그 누락 → 추가(Y3~Y5 아크 계속 불가 데드엔드 수정). ②`arc_daeun_year3_apart` 트리거: `arc_daeun_ghost_seen` 강제가 `daeun_breakup_accepted` 경로를 막던 것 → OR 조건 추가. ③상철 "5년 전 아버지를 무너뜨린" → "몇 년 전" (6년 빚 상환 타임라인과 모순 수정, 2곳). ④Y5 echo 4종(weight/path_cost) "작년" → "2년 전" (Y3→Y5 시간 간격 수정, KR+EN). ⑤`arc_34_two_years_in` 윈도우 t<=96 → t<=100 확장(경쟁 우선순위 아래 starved 방지). audit ERROR 0/WARNING 0/밴드 통과/arc_flow_sim ✓. |
 | **이전** | **2026-06-24** — **연차별 챕터 테마 분배 (17개 신규 이벤트)**: 보장 스토리 비트 집계로 Y2~Y5가 챕터 테마(확장/무게/균열) 미구현임을 발견 → Y3 "무게" 3종(orthodox/unorthodox_weight route 반응형 + path_cost), Y4 "균열" 2종(trust_crack 믿었던 사람이 흔든다 + unexpected_hand 예상치 못한 사람이 잡는다), Y2 "확장" 2종(money_attracts_money + doors_open), Y5 echo 콜백 8종(stance 플래그 페이오프, pay-it-forward 포함). KR+EN 동기화. **결과: Y1=34/Y2=10/Y3=9/Y4=10/Y5=7(+echo8)** — 5막 구조 명확화. write-only 210 유지(echo가 전부 소비), audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-23** — **MORAL_TINT 5차 확장 135개 (콜백/앰비언트/이스터에그/히든/레어)**: callback 23종(father_promise강남못가도모신다+7/lied_interview자백+7/health_collapse+5/-5/lie_echo+6/-5/truth_echo+5/-4)+amb_scenario 14종(parent_hospital+8/-5/wallet_00정직+7/gambling_mirror앱삭제+7/health_00+5/nonprofit_00의미+6)+easter_eggs 8종(gambling_mirror+7/-6/honest_paradox+6/-3/veteran_return+4/-4)+hidden/rare 28종(wallet_executive+7/-5/night_alva_find+6/-6/hidden_016당당히+4/FOMO-3+3). KR+EN 동기화. 전체 **482/3090 (15.6%)**. audit ERROR 0/WARNING 0/밴드 통과. |
@@ -38,7 +39,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **★MORAL_TINT §4: Codex 시각 연결 대기(moral_tint_norm()/moral_stage() 구독 → White↔Grey↔Black 보간 + 돈 글로우 반비례). 남은 tint 여지: 낮은 가중치 이벤트(weight<3) 추가 확장. Steam App ID 교체.** |
-| **마지막 업데이트** | 2026-06-24 (Claude: 재혁/지연/아버지/엔딩 수정 3종 — 지연 진실 비상철 데드엔드/아버지 조기 별세/empty_house 라우팅, audit ERROR 0/arc_flow_sim ✓) |
+| **마지막 업데이트** | 2026-06-24 (Claude: description_if_known 3종 — casino_invite+father_passing 발견 레이어, father_mentally_updated 연결, debt_baseline 210→209, audit ERROR 0/arc_flow_sim ✓) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
