@@ -302,7 +302,8 @@
           }
         },
         "flags": [
-          "arc_daeun_04_seen"
+          "arc_daeun_04_seen",
+          "daeun_together_path"
         ],
         "result_text": "{name}은 노트북을 열었다.\n그녀의 숨소리가 배경음처럼 깔렸다.\n\n다정함과 집착 사이 어딘가를 오가며,\n오늘도 숫자를 채웠다."
       }

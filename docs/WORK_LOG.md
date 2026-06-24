@@ -1,5 +1,42 @@
 # Gangnam Dream Work Log
 
+## 2026-06-24 (서사 무결성 수정 5종 — 내러티브 QA 후속 픽스)
+
+### 수정 내용
+
+#### [HIGH] 다은 아크 데드엔드 2건
+1. `arc_daeun_04_morning` choice 2 ("노트북을 연다")가 `daeun_together_path` 플래그를 설정하지 않아
+   Y3~Y5 연속 아크(`arc_daeun_year3_together`→`year4`→`year5`)가 완전히 잘려나가는 데드엔드 수정.
+   → choice 2 flags에 `daeun_together_path` 추가.
+
+2. `arc_daeun_year3_apart` 트리거가 `arc_daeun_ghost_seen`을 요구했는데,
+   이 플래그는 `daeun_let_her_go` 경로에서만 설정됨.
+   `daeun_breakup_accepted`(명시적 이별) 경로는 ghost 씬 없이도 year3_apart 진입해야 하는데 막혀 있었음.
+   → `(arc_daeun_ghost_seen OR daeun_breakup_accepted)` OR 조건으로 수정.
+
+#### [HIGH] 상철 타임라인 수학적 모순
+`arc_sangchul_deduction` + `arc_father_06_confession` 두 곳에서
+"5년 전 아버지를 무너뜨렸다"고 하는데, 아버지 빚 상환 기간이 6년으로 명시돼 있어 수학적으로 불가능.
+→ "5년 전" → "몇 년 전"으로 수정(2곳, arc_drama.json).
+
+#### [MED] Y5 echo 4종 시간 표현 오류
+Y3(35세) 씬에서 나온 선택에 대한 echo가 Y5(37세)에 발동하면서 "작년에"로 언급.
+Y3→Y5는 2년 간격이므로 "작년"은 사실 오류.
+→ cb_weight_stayed/adjusted + cb_cost_embraced/reclaimed echo 4종:
+   "작년 이맘때" → "2년 전 이맘때", "작년에" → "2년 전," , "1년이 더 지났다" → "2년이 더 지났다"
+   (KR + EN 동기화, content/events/callback_chapter_themes.json + content/events_en/callback_chapter_themes.json)
+
+#### [MED] arc_34_two_years_in 윈도우 starved 방지
+윈도우 t89-96이 높은 우선순위 씬들(two_years_mark 등)에 의해 잘릴 수 있어 발동 불가 가능성.
+→ t89-100으로 상한 확장 (scenes/MainGame.gd).
+
+### 검증
+- audit.sh: ERROR 0, WARNING 0, write_only 210 baseline 유지, 밴드 전부 통과
+- arc_flow_sim.py: 잼 0, 대표 체인 완결 (Path A Y1=47/Y2=24/Y3=12/Y4=12/Y5=9, Path B 유사)
+- JSON 파싱: 전부 valid
+
+---
+
 ## 2026-06-24 (전 구간 무결성 검증 — 턴별 _next_arc_id 시뮬레이터로 2개 주요 경로 정밀 추적)
 
 ### 목적

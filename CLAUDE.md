@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-24** — **연차별 챕터 테마 분배 (17개 신규 이벤트)**: 보장 스토리 비트 집계로 Y2~Y5가 챕터 테마(확장/무게/균열) 미구현임을 발견 → Y3 "무게" 3종(orthodox/unorthodox_weight route 반응형 + path_cost), Y4 "균열" 2종(trust_crack 믿었던 사람이 흔든다 + unexpected_hand 예상치 못한 사람이 잡는다), Y2 "확장" 2종(money_attracts_money + doors_open), Y5 echo 콜백 8종(stance 플래그 페이오프, pay-it-forward 포함). KR+EN 동기화. **결과: Y1=34/Y2=10/Y3=9/Y4=10/Y5=7(+echo8)** — 5막 구조 명확화. write-only 210 유지(echo가 전부 소비), audit ERROR 0/WARNING 0/밴드 통과. |
+| **최근 완료** | **2026-06-24** — **서사 무결성 수정 5종 (내러티브 QA 후속)**: ①다은 morning 2번 선택지에 `daeun_together_path` 플래그 누락 → 추가(Y3~Y5 아크 계속 불가 데드엔드 수정). ②`arc_daeun_year3_apart` 트리거: `arc_daeun_ghost_seen` 강제가 `daeun_breakup_accepted` 경로를 막던 것 → OR 조건 추가. ③상철 "5년 전 아버지를 무너뜨린" → "몇 년 전" (6년 빚 상환 타임라인과 모순 수정, 2곳). ④Y5 echo 4종(weight/path_cost) "작년" → "2년 전" (Y3→Y5 시간 간격 수정, KR+EN). ⑤`arc_34_two_years_in` 윈도우 t<=96 → t<=100 확장(경쟁 우선순위 아래 starved 방지). audit ERROR 0/WARNING 0/밴드 통과/arc_flow_sim ✓. |
+| **이전** | **2026-06-24** — **연차별 챕터 테마 분배 (17개 신규 이벤트)**: 보장 스토리 비트 집계로 Y2~Y5가 챕터 테마(확장/무게/균열) 미구현임을 발견 → Y3 "무게" 3종(orthodox/unorthodox_weight route 반응형 + path_cost), Y4 "균열" 2종(trust_crack 믿었던 사람이 흔든다 + unexpected_hand 예상치 못한 사람이 잡는다), Y2 "확장" 2종(money_attracts_money + doors_open), Y5 echo 콜백 8종(stance 플래그 페이오프, pay-it-forward 포함). KR+EN 동기화. **결과: Y1=34/Y2=10/Y3=9/Y4=10/Y5=7(+echo8)** — 5막 구조 명확화. write-only 210 유지(echo가 전부 소비), audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-23** — **MORAL_TINT 5차 확장 135개 (콜백/앰비언트/이스터에그/히든/레어)**: callback 23종(father_promise강남못가도모신다+7/lied_interview자백+7/health_collapse+5/-5/lie_echo+6/-5/truth_echo+5/-4)+amb_scenario 14종(parent_hospital+8/-5/wallet_00정직+7/gambling_mirror앱삭제+7/health_00+5/nonprofit_00의미+6)+easter_eggs 8종(gambling_mirror+7/-6/honest_paradox+6/-3/veteran_return+4/-4)+hidden/rare 28종(wallet_executive+7/-5/night_alva_find+6/-6/hidden_016당당히+4/FOMO-3+3). KR+EN 동기화. 전체 **482/3090 (15.6%)**. audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-23** — **MORAL_TINT 스파인 확장 2차 (arc_events + arc_midgame)**: arc_events.json 33개 tint 부여(아버지 아크 전 씬·재혁 pitch·지연 epilogue·자소서 정직·상철 거절). arc_midgame.json 25개 tint 부여(첫 수익 아버지 전화·외로움·약 전달·37세 평화·다은 솔직 고백·현수 응원). KR+EN 동기화. 전체 232/3090 (7.5%) — 서사 핵심 파일은 100% 완료. audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-23** — **MORAL_TINT 밴드 전이 비네트**: `shift_moral_tint()`가 밴드 경계(0/±1/±2) 넘으면 `pending_tint_vignette` 기록 → `_on_result_confirmed()` 직후 `_show_moral_beat()` 띄움. 비네트 3종 KR+EN(0→−1 "밥에서 맛이 안 났다"/−1→−2 "거울에서 5년 전 얼굴 못 떠올림"/회복 "오랜만에 웃었다"). 숫자·스탯 없이 순 본문. audit SERIALIZE_EXEMPT 등록. 헤드리스+xvfb 검증 완료. |
@@ -36,7 +37,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **★MORAL_TINT §4: Codex 시각 연결 대기(moral_tint_norm()/moral_stage() 구독 → White↔Grey↔Black 보간 + 돈 글로우 반비례). 남은 tint 여지: 낮은 가중치 이벤트(weight<3) 추가 확장. Steam App ID 교체.** |
-| **마지막 업데이트** | 2026-06-24 (Claude: 연차별 챕터 테마 분배 17개 — Y2 확장/Y3 무게/Y4 균열 보장 씬 신설 + Y5 echo 8종, Y2~Y4 균형 9~10비트, audit 통과) |
+| **마지막 업데이트** | 2026-06-24 (Claude: 서사 무결성 수정 5종 — 다은 아크 데드엔드 2건/상철 타임라인/Y5 echo 시간 표현/Y2 씬 윈도우, audit ERROR 0/arc_flow_sim ✓) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

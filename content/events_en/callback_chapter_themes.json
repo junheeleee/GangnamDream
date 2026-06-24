@@ -2,7 +2,7 @@
   {
     "id": "cb_weight_stayed_echo",
     "title": "The Price of Not Wavering",
-    "description": "The last year.\n\nThis time last year, there was a day {name} nearly cracked under the weight. He pushed his own way through to the end instead.\n\nLooking back now — whether that was right or wrong, the result will decide. But one thing was clear: someone who didn't waver has, at least, nothing to explain to himself.",
+    "description": "The last year.\n\nTwo years ago around this time, there was a day {name} nearly cracked under the weight. He pushed his own way through to the end instead.\n\nLooking back now — whether that was right or wrong, the result will decide. But one thing was clear: someone who didn't waver has, at least, nothing to explain to himself.",
     "choices": [
       {
         "text": "Go my own way to the end",
@@ -17,7 +17,7 @@
   {
     "id": "cb_weight_adjusted_echo",
     "title": "The Price of Turning",
-    "description": "The last year.\n\nLast year, under the weight, {name} changed direction once. The straight-and-narrow type let in some risk; the risk-taker added a safety net.\n\nBack then it felt like wavering, and that was embarrassing. Now he sees — it wasn't wavering, it was adjusting. Not trusting himself too much. That saved something.",
+    "description": "The last year.\n\nTwo years ago, under the weight, {name} changed direction once. The straight-and-narrow type let in some risk; the risk-taker added a safety net.\n\nBack then it felt like wavering, and that was embarrassing. Now he sees — it wasn't wavering, it was adjusting. Not trusting himself too much. That saved something.",
     "choices": [
       {
         "text": "Being flexible is what protected me",
@@ -32,7 +32,7 @@
   {
     "id": "cb_cost_embraced_echo",
     "title": "The Bill He Chose to Pay",
-    "description": "Last year, {name} saw the bill and folded it anyway. He knew the cost going in, he'd said, and he'd see it through.\n\nAnother year has passed. The bill is thicker now. The face in the mirror, the people drifted away, the body put off.\n\nWith the end in sight — the moment comes to ask whether the cost was really worth it.",
+    "description": "Two years ago, {name} saw the bill and folded it anyway. He knew the cost going in, he'd said, and he'd see it through.\n\nTwo years have passed. The bill is thicker now. The face in the mirror, the people drifted away, the body put off.\n\nWith the end in sight — the moment comes to ask whether the cost was really worth it.",
     "choices": [
       {
         "text": "Coming this far means the price is paid",
@@ -47,7 +47,7 @@
   {
     "id": "cb_cost_reclaimed_echo",
     "title": "The Weight of What Was Reclaimed",
-    "description": "Last year, {name} decided to reclaim one of the things lost. The put-off call, the put-off checkup, the put-off person.\n\nThat small decision grew quietly over the year. A reconnected relationship, a body looked after. He chased the goal but never let go of that thread.\n\nStarting the last year now, {name} knows how lucky that was.",
+    "description": "Two years ago, {name} decided to reclaim one of the things lost. The put-off call, the put-off checkup, the put-off person.\n\nThat small decision grew quietly over those two years. A reconnected relationship, a body looked after. He chased the goal but never let go of that thread.\n\nStarting the last year now, {name} knows how lucky that was.",
     "choices": [
       {
         "text": "Keeping balance is what held me up",

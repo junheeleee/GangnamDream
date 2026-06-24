@@ -1917,7 +1917,7 @@ func _next_arc_id() -> String:
 	if t >= 77 and t <= 88 and not f.get("arc_34_parents_visit_seen", false):
 		return "arc_34_parents_visit"
 	# ── 34세 서울 2년째 자각 (t89-96) ──
-	if t >= 89 and t <= 96 and not f.get("arc_34_two_years_in_seen", false):
+	if t >= 89 and t <= 100 and not f.get("arc_34_two_years_in_seen", false):
 		return "arc_34_two_years_in"
 
 	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
@@ -2008,7 +2008,7 @@ func _next_arc_id() -> String:
 		return "arc_daeun_year3_together"
 	# 김다은 Year 3 — 결혼 소식 (이별 궤적)
 	if t >= 100 and (f.get("daeun_let_her_go", false) or f.get("daeun_breakup_accepted", false)) \
-			and f.get("arc_daeun_ghost_seen", false) \
+			and (f.get("arc_daeun_ghost_seen", false) or f.get("daeun_breakup_accepted", false)) \
 			and not f.get("arc_daeun_year3_apart_seen", false):
 		return "arc_daeun_year3_apart"
 	# 이민서 — Year 4 신규 인물

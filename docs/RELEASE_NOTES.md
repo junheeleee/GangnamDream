@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Fixed (2026-06-24) — 서사 무결성 수정 5종
+
+- **[HIGH] 다은 아크 연속성 데드엔드 수정**: `arc_daeun_04_morning` choice 2가 `daeun_together_path`를 설정하지 않아 Y3~Y5 아크 전체가 잘리던 버그 수정.
+- **[HIGH] 다은 이별 경로 Y3 진입 수정**: `arc_daeun_year3_apart` 트리거가 `arc_daeun_ghost_seen`만 수락하고 `daeun_breakup_accepted`를 차단하던 구조 버그 → OR 조건으로 수정.
+- **[HIGH] 상철 타임라인 모순 수정**: `arc_sangchul_deduction` + `arc_father_06_confession` 두 씬에서 "5년 전 아버지를 무너뜨린" → "몇 년 전"으로 수정(6년 빚 상환 타임라인과의 수학적 모순 해소).
+- **[MED] Y5 echo 시간 표현 수정**: Y3(35세) 이벤트에서 발동된 echo 4종(cb_weight_stayed/adjusted, cb_cost_embraced/reclaimed)이 "작년에"를 사용하던 것 → "2년 전"으로 수정 (KR+EN).
+- **[MED] arc_34_two_years_in 윈도우 확장**: t<=96 → t<=100 (높은 우선순위 씬에 의한 starved 방지).
+
 ### Added (2026-06-24) — 연차별 챕터 테마 분배 (17개 신규 이벤트)
 
 - **챕터 테마가 보장 씬으로 전달되도록 5막 구조 명확화**. 기존엔 Y2~Y5가 일반 마커(생일/루틴/연도)뿐이라 챕터 카드가 약속한 테마(확장/무게/균열)가 실제 콘텐츠로 구현돼 있지 않았음.
