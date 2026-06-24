@@ -1989,6 +1989,17 @@ func _next_arc_id() -> String:
 		return "arc_36_reality_check"
 	if t >= 148 and t <= 165 and not f.get("arc_year_three_crossroads_seen", false):
 		return "arc_year_three_crossroads"
+	# ── 아버지 서울 방문 — 야망의 비용 (Y4 초반, 아버지와 연결된 플레이어) ──
+	if t >= 155 and t <= 178 \
+			and f.get("arc_father_01_seen", false) \
+			and not f.get("father_passed", false) \
+			and not f.get("arc_36_father_visit_seen", false):
+		return "arc_36_father_comes_to_seoul"
+	# ── 10억 고독 — 자산 10억 돌파 직후 (Y4 전반) ──
+	if t >= 145 and t <= 185 \
+			and GameState.get_total_asset_value() >= 1_000_000_000.0 \
+			and not f.get("arc_1b_isolation_seen", false):
+		return "arc_1b_isolation"
 	# ── 36세 몸 신호 (t163-172) ──
 	if t >= 163 and t <= 172 and not f.get("arc_36_body_signal_seen", false):
 		return "arc_36_body_signal"
@@ -2106,6 +2117,10 @@ func _next_arc_id() -> String:
 				and not f.get("father_passed", false) \
 				and not f.get("arc_pre_ending_father_call_seen", false):
 			return "arc_pre_ending_father_call"
+
+	# ── 마지막 주 — 38세 7일 전, 궤적 무관 (t237-240) ──
+	if t >= 237 and not f.get("arc_final_week_seen", false):
+		return "arc_final_week"
 
 	return ""
 

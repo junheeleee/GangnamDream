@@ -539,6 +539,63 @@
     ]
   },
   {
+    "id": "arc_36_father_comes_to_seoul",
+    "title": "Father Comes to Seoul",
+    "description": "A message from Father: he's coming to Seoul.\n\n\"I'm not trying to bother you. Just want to see your face for a bit. This weekend.\"\n\nThat weekend. A critical investment timing — a decision that had to be made within days.\n\n{name} set down the phone.\n\nTime to see Father — if he wanted to make it, he could. The question was whether he wanted to.",
+    "choices": [
+      {
+        "text": "Made the time. Ate together.",
+        "result_text": "They had a meal. Sat for a long time.\n\nThe investment timing passed. No gains that week.\nInstead — Father said \"Well done, Minjun\" on his way out.\n\nThat stayed with {name} all week."
+      },
+      {
+        "text": "Said let's meet next time. The timing isn't right.",
+        "result_text": "The investment worked out. Money came in.\n\nFather said \"Alright, let's meet later.\"\n\nThat voice lingered for a moment after the call ended.\n{name} just opened the next chart."
+      },
+      {
+        "text": "Met briefly at the station. Just an hour.",
+        "result_text": "Coffee in Seoul Station's waiting area.\nOne hour.\n\nFather said \"You must be busy.\" {name} said \"No, not really.\"\n\nWatched him get on the subway. Wished they'd stayed a little longer."
+      }
+    ]
+  },
+  {
+    "id": "arc_1b_isolation",
+    "title": "The Weight of ₩1 Billion",
+    "description": "Portfolio and cash combined crossed ₩1B.\n\n{name} looked at the number for a long time.\n\nWanted to tell someone. But — wasn't sure who that number could be shared with.\n\nNot bragging. Just wanting to share that something had changed.\nBut there was no one nearby who would understand what had changed.\n\nThis is what loneliness feels like, {name} thought.",
+    "choices": [
+      {
+        "text": "Just went to sleep. A number only {name} knows.",
+        "result_text": "Turned off the light.\n\n₩1B. A number only {name} knows.\n\nTomorrow the charts open again, and this feeling will disappear.\nNo — not disappear. Somewhere it accumulates."
+      },
+      {
+        "text": "Wanted to call Father. Even if not about the number.",
+        "result_text": "Father picked up.\n\"Oh, Minjun.\"\n\nDidn't say the number. Talked about food, weather.\n\nAfter hanging up, the loneliness of ₩1B felt a little lighter.\nYou don't have to share the number for something to be shared."
+      },
+      {
+        "text": "Strangely lonely that no one would understand this number",
+        "result_text": "Lonely. Honestly.\n\nStill far from Gangnam — a third of the way there.\nBut having come this far without building anyone to celebrate with — that was the shadow this number cast."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_week",
+    "title": "The Last Week",
+    "description": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?",
+    "choices": [
+      {
+        "text": "\"You did well.\" Even if it wasn't enough.",
+        "result_text": "The person from five years ago — didn't know getting this far was possible.\n\nRegardless of whether the goal was reached, getting here was something that person never expected.\n\n\"Good job.\" {name} said it inwardly, to himself.\nNo one heard it. Still needed to be said."
+      },
+      {
+        "text": "\"Is this all?\" Could have done better.",
+        "result_text": "Not wrong. There were moments that could have been seized better.\n\nBut if every one of those moments had been seized — would this be the same person?\n\n{name} didn't know the answer.\nProbably still wouldn't know five more years from now."
+      },
+      {
+        "text": "\"I'm glad you didn't give up here.\"",
+        "result_text": "Five years ago, there were moments of wanting to quit in that goshiwon room.\n\nEvery moment needed a reason. Sometimes there wasn't one. Kept going anyway.\n\n\"I'm glad you didn't give up here.\"\n\nThose words were also something the current {name} needed."
+      }
+    ]
+  },
+  {
     "id": "arc_why_gangnam_real",
     "title": "Why Gangnam",
     "description": "Late night. A milestone number finally crossed.\n\n{name} sat looking at the screen for a while after the notification.\n\nSomewhere in the middle of it all, the question surfaced:\n\"Why was it Gangnam in the first place?\"\n\nBack at the start — what was it that made that the destination?",
