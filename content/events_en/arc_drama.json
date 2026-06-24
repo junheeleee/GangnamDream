@@ -537,5 +537,33 @@
         "result_text": "He made five million won on that deal.\n\nThe next morning, the call came again. Dad had passed away the night before.\n\nMinjun set down his phone and looked at his bank balance.\n\nThe number had gone up."
       }
     ]
+  },
+  {
+    "id": "arc_why_gangnam_real",
+    "title": "Why Gangnam",
+    "description": "Late night. A milestone number finally crossed.\n\n{name} sat looking at the screen for a while after the notification.\n\nSomewhere in the middle of it all, the question surfaced:\n\"Why was it Gangnam in the first place?\"\n\nBack at the start — what was it that made that the destination?",
+    "choices": [
+      {
+        "text": "\"To prove something.\"",
+        "result_text": "To whom — {name} wasn't sure anymore.\nTo the people who wrote him off. To the hometown. Maybe to himself.\n\nSomewhere along the way, the thing to prove had blurred.\nBut the legs had kept walking anyway.",
+        "effects": {
+          "tint": 2
+        }
+      },
+      {
+        "text": "\"I think I wanted to pay back my father's debt — my way.\"",
+        "result_text": "Not the money. Not literally.\n\nThe debt of not being able to do anything then.\nThe debt of watching him collapse and just standing there.\n\n{name} looked at the screen for a long time.\nThis was the real answer. It had been there the whole time.",
+        "effects": {
+          "tint": 6
+        }
+      },
+      {
+        "text": "\"I thought Gangnam would make things different. Now I'm not sure.\"",
+        "result_text": "Different from what? Honestly — didn't know anymore.\n\nThe number on screen meant something. Just not exactly what {name} had imagined it would mean.\n\nMaybe the answer comes when the destination is actually reached.",
+        "effects": {
+          "tint": 3
+        }
+      }
+    ]
   }
 ]

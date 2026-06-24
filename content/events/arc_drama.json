@@ -595,5 +595,68 @@
         "result_text": "화면이 꺼졌다.\n{name}은 눈을 감았다.\n창밖이 계속 달아났다."
       }
     ]
+  },
+  {
+    "id": "arc_why_gangnam_real",
+    "title": "왜 강남인가",
+    "background": "gangnam_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "character", "theme"],
+    "cooldown": 9999,
+    "description": "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경이 보이는 곳에 혼자 서 있었다.\n\n누가 물어봤다.\n아버지였을 수도 있고, 현수였을 수도 있고, 그냥 어디선가 들려온 목소리였을 수도 있다.\n\n\"처음에 왜 강남이었어?\"\n\n3년 가까이 달려온 {name}에게 — 처음 들었던 것과 다른 답이 있었다.",
+    "choices": [
+      {
+        "text": "\"증명하려고. 내가 틀리지 않았다는 걸.\"",
+        "effects": {
+          "mental": 8,
+          "intelligence": 2,
+          "tint": 2
+        },
+        "flags": [
+          "arc_why_gangnam_real_seen",
+          "gangnam_reason_prove"
+        ],
+        "result_text": "그 말이 가장 정직했다.\n누군가에게, 아니면 아무것도 아닌 것에게 — '나는 틀리지 않았다'고 말하고 싶었던 것.\n\n증명하려는 마음이 나쁜 건 아니다.\n다만 {name}은 그 누군가가 누구인지를 아직 정확히 알 수 없었다."
+      },
+      {
+        "text": "\"아버지 빚을, 내 방식으로 갚고 싶었던 것 같다.\"",
+        "effects": {
+          "mental": 15,
+          "health": 3,
+          "tint": 6
+        },
+        "flags": [
+          "arc_why_gangnam_real_seen",
+          "gangnam_reason_father",
+          "father_mentally_updated"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "result_text": "그 말을 속으로 했을 때, 뭔가가 조금 풀렸다.\n\n돈으로 갚는 게 아니었다. 아버지가 세상한테 진 것을, 내가 세상 앞에 다시 서는 것으로 갚고 싶었던 것.\n\n강남이 그 증거였다. 지도 위의 점 하나가 아니라, 그 자리에 서 있는 사람으로."
+      },
+      {
+        "text": "\"강남이면 뭔가 달라질 줄 알았다. 지금은 모르겠다.\"",
+        "effects": {
+          "mental": 10,
+          "intelligence": 3,
+          "tint": 3
+        },
+        "flags": [
+          "arc_why_gangnam_real_seen",
+          "gangnam_reason_uncertain"
+        ],
+        "result_text": "가장 솔직한 말이었다.\n\n처음엔 강남이 '해방'처럼 느껴졌다.\n지금은 그게 뭔지, 정확히 모른다.\n\n모른다는 것을 아는 것. 그게 3년 전보다 나아진 것일 수도 있었다."
+      }
+    ]
   }
 ]

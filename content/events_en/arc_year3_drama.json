@@ -75,5 +75,117 @@
         }
       }
     ]
+  },
+  {
+    "id": "arc_y3_cost_of_knowing",
+    "title": "The Cost of Knowing",
+    "description": "Two months since the last conversation with Im Sangchul.\n\nToday, a real estate consultant {name} met through Sangchul's network sent a message.\nAn independent deal, no direct connection to Sangchul. Good return conditions.\n\n{name} paused when first seeing the name.\nKnew exactly where that contact chain started.\n\nUse it knowing — or cut this whole network loose?",
+    "choices": [
+      {
+        "text": "Use it. This is my network now. His crimes don't transfer to me.",
+        "result_text": "Closed the deal. Money came in.\n\nSangchul's name hovered faintly next to the consultant's — but that's only something {name} knows.",
+        "effects": {
+          "tint": -3
+        }
+      },
+      {
+        "text": "Not doing this deal. If it came from there, it all gets cut.",
+        "result_text": "Declined. Didn't say why.\n\nHanging up, {name} thought of the first day arriving in Seoul.\nThat {name} wouldn't have known what this deal was. Now knows. So cut it.",
+        "effects": {
+          "tint": 4
+        }
+      },
+      {
+        "text": "Do the deal — but this is the last one. The line gets drawn here.",
+        "result_text": "Said \"last one\" silently.\n\nWhether that word was real — the only way to know was when the next similar call came.",
+        "effects": {
+          "tint": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_real_reason",
+    "title": "Not Her Father's Company",
+    "description": "Met up after a long stretch.\n\nOver coffee, Han Jiyeon said:\n\"I've been studying for a real estate agent license.\"\n\n{name} paused.\n\n[공인중개사 (gong-in junggaesa) is a licensed real estate broker certification in Korea — one of the most competitive national exams, comparable to a bar exam in difficulty. Passing rates hover around 25-30%. Her father already owns a real estate firm, so the decision to sit the exam herself is a deliberate act of independence — not career preparation.]\n\nHer father runs a property firm. Her studying for the license herself was unexpected.\n\n\"For your father's business?\"",
+    "choices": [
+      {
+        "text": "\"Is it for your father's company?\" — asked directly",
+        "result_text": "Jiyeon smiled for a moment.\n\"No. I want something that's mine. Something that isn't the real estate boss's daughter.\"\n\nThat landed harder than expected.\n{name} understood the weight of 'mine.'",
+        "effects": {
+          "tint": 2
+        }
+      },
+      {
+        "text": "\"That exam isn't easy, is it?\" — realistic",
+        "result_text": "\"It's hard.\" Jiyeon said. \"That's why I'm doing it.\"\n\nNothing more needed after that.\nDoing something hard knowing it's hard — that's what sincerity looks like.",
+        "effects": {
+          "tint": 1
+        }
+      },
+      {
+        "text": "\"I think you'll do great.\" — kept it light",
+        "result_text": "Jiyeon smiled lightly. \"Thank you.\"\n\nIt was clearly a good thing to say — but after the conversation ended, {name} felt like something was unfinished.\nThe feeling of saying the easy thing instead of the right thing.",
+        "effects": {
+          "tint": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_jiyeon_departure",
+    "title": "Different Directions",
+    "description": "A short text from Han Jiyeon.\n\"I'm heading to Busan. I'm going to open my own office there.\"\n\n{name} read it about three times.\nIt wasn't sudden. She'd said she was studying, said she was finding direction.\nBut 'I'm going' still landed differently.\n\nWhat was the right thing to say?",
+    "choices": [
+      {
+        "text": "\"Take care. Sincerely.\" — let her go",
+        "result_text": "Jiyeon replied. \"Thanks. I'll message when I come back to Seoul.\"\n\nThat was the last text. A sincere goodbye is sometimes the most complete kind.\n{name} locked the screen. Something felt properly finished.",
+        "effects": {
+          "tint": 3
+        }
+      },
+      {
+        "text": "\"You should have done this ages ago.\" — honest",
+        "result_text": "Jiyeon replied after a moment. \"You're right. It's late.\"\nThen another message: \"Still — glad it's now.\"\n\n{name} had a feeling that wasn't only something she was saying to herself.",
+        "effects": {
+          "tint": 4
+        }
+      },
+      {
+        "text": "\"You could stay here, you know.\" — wanted to hold her back",
+        "result_text": "Jiyeon didn't answer.\nA short time later: just \"Thank you.\"\n\nThat message felt like a goodbye. Trying to hold someone back doesn't keep them — it just makes them leave faster.",
+        "effects": {
+          "tint": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_minjun_first_call",
+    "title": "Making the Call First",
+    "description": "Sunday morning.\n\nNo reason. Nothing to do.\n{name} picked up the phone. Put it down. Picked it up again.\n\nThinking back — in almost three years, had almost never reached out first.\nThere was always a contact coming in. {name} was always the one receiving.\n\nToday, decided to call first. No reason at all.",
+    "choices": [
+      {
+        "text": "Called his father. No reason.",
+        "result_text": "Father picked up.\n\"Oh, Minjun?\" His voice was warm with surprise.\n\nNothing special was said. Weather talk, \"Have you eaten?\" talk.\nAfter hanging up, {name} realized:\nThat was the reason. You don't need one.",
+        "effects": {
+          "tint": 6
+        }
+      },
+      {
+        "text": "Called Hyunsu. Haven't heard from him in a while.",
+        "result_text": "Hyunsu picked up. \"Hey? {name}? Been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just studying.\" — \"Same.\" — \"...Want to eat?\" — \"When?\" — \"This week?\"\n\nThat was that. One call made first became a plan a month out.",
+        "effects": {
+          "tint": 4
+        }
+      },
+      {
+        "text": "Pressed the call button. Then hung up. Not yet.",
+        "result_text": "Hung up before it could ring.\n\n{name} wasn't sure why.\nTurned the phone face-down on the desk and looked out the window.\n\nCalling first turned out to be harder than expected.",
+        "effects": {
+          "tint": -1
+        }
+      }
+    ]
   }
 ]

@@ -180,5 +180,263 @@
         "result_text": "모니터가 켜졌다. 차트가 올라왔다.\n\n사진은 그대로 있었다. {name}도 그대로 있었다. 살아있는 사람이 할 일이 있다."
       }
     ]
+  },
+  {
+    "id": "arc_y3_cost_of_knowing",
+    "title": "알면서 사는 값",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul"],
+    "cooldown": 9999,
+    "description": "임상철과 마지막으로 얘기한 날로부터 두 달이 지났다.\n\n오늘 그의 모임에서 알게 된 부동산 컨설턴트에게서 연락이 왔다.\n임상철과는 관계없는 독립적인 딜. 수익률 조건도 괜찮다.\n\n{name}은 그 사람 이름을 처음 봤을 때 잠깐 멈췄다.\n출처가 어디서부터 시작됐는지 알고 있었다.\n\n알면서 쓸 것인가. 아니면 이 망에서 손을 뗄 것인가.",
+    "choices": [
+      {
+        "text": "써야 한다. 내가 쌓은 인맥이다. 그 사람의 죄가 나한테 전가되진 않는다.",
+        "effects": {
+          "money": 2000000,
+          "investment_skill": 2,
+          "tint": -3
+        },
+        "flags": [
+          "arc_y3_cost_of_knowing_seen",
+          "used_sangchul_network_after"
+        ],
+        "result_text": "거래를 성사시켰다. 수익이 들어왔다.\n\n그 컨설턴트 이름 옆에 임상철의 이름이 희미하게 겹쳐 보였지만 — 그건 {name}만 아는 이야기다."
+      },
+      {
+        "text": "이 거래는 안 한다. 거기서 나온 인연이면 다 끊어야 한다.",
+        "effects": {
+          "mental": 8,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y3_cost_of_knowing_seen",
+          "cut_sangchul_network"
+        ],
+        "result_text": "거절했다. 이유는 말하지 않았다.\n\n그 전화를 끊고 나서, 오래 전 서울에 처음 온 날이 생각났다.\n그 때의 {name}이라면 이 거래가 뭔지 몰랐을 것이다. 지금은 안다. 그래서 끊었다."
+      },
+      {
+        "text": "거래는 하되, 이걸 마지막으로 한다. 선은 여기서 긋는다.",
+        "effects": {
+          "money": 1000000,
+          "mental": 3,
+          "tint": 1
+        },
+        "flags": [
+          "arc_y3_cost_of_knowing_seen",
+          "sangchul_network_final_use"
+        ],
+        "result_text": "마지막이라는 말을 속으로 했다.\n\n그 말이 진짜인지 확인할 방법은, 다음 번에 비슷한 연락이 왔을 때만 알 수 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_real_reason",
+    "title": "아버지 회사가 아닌 것",
+    "background": "cafe",
+    "portrait": "jiyeon_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "오랜만에 만났다.\n\n커피를 마시다가 한지연이 말했다.\n\"저 요즘 공인중개사 공부하고 있어요.\"\n\n{name}은 잠깐 멈칫했다.\n아버지가 부동산 회사를 운영하는 그녀가 직접 자격증을 딴다는 게 의외였다.\n\n\"아버지 회사 일 때문에요?\"",
+    "choices": [
+      {
+        "text": "\"아버지 일 때문에요?\" — 솔직하게 물었다",
+        "effects": {
+          "intelligence": 1,
+          "social_skill": 1,
+          "tint": 2
+        },
+        "flags": [
+          "arc_jiyeon_real_reason_seen",
+          "jiyeon_real_talk"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 8
+          }
+        },
+        "result_text": "한지연이 잠깐 웃었다.\n\"아니요. 제 거 하나 갖고 싶어서요. 아버지 회사 딸이 아닌 거.\"\n\n그 말이 예상보다 무거웠다.\n{name}은 '제 거'라는 말의 무게를 알 것 같았다."
+      },
+      {
+        "text": "\"그거 어렵지 않나요?\" — 현실적으로 말했다",
+        "effects": {
+          "intelligence": 1,
+          "tint": 1
+        },
+        "flags": [
+          "arc_jiyeon_real_reason_seen"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 3
+          }
+        },
+        "result_text": "\"어렵죠.\" 지연이 말했다. \"그래서 하는 거예요.\"\n\n그 대답에 더 이상 말이 필요 없었다.\n어렵다는 걸 알면서 하는 것. 그게 진심이라는 뜻이다."
+      },
+      {
+        "text": "\"잘 될 것 같아요.\" — 가볍게 응원했다",
+        "effects": {
+          "social_skill": 1,
+          "tint": -1
+        },
+        "flags": [
+          "arc_jiyeon_real_reason_seen"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 2
+          }
+        },
+        "result_text": "지연이 가볍게 웃었다. \"감사해요.\"\n\n분명 좋은 말이었는데, {name}은 그 대화가 끝나고 나서 뭔가 덜 된 것 같은 기분이 들었다.\n해야 할 말 대신 쉬운 말을 했을 때의 느낌이었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_y3_jiyeon_departure",
+    "title": "각자의 방향",
+    "background": "street",
+    "portrait": "jiyeon_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jiyeon"],
+    "cooldown": 9999,
+    "description": "한지연에게서 짧은 문자가 왔다.\n\"저 부산 내려가요. 거기서 독립 사무소 낼 거예요.\"\n\n{name}은 문자를 세 번쯤 읽었다.\n갑자기는 아니었다. 공부한다고 했고, 방향을 찾는다고 했다.\n그래도 막상 '간다'는 말은 달랐다.\n\n뭐라고 하면 좋을까.",
+    "choices": [
+      {
+        "text": "\"잘 가요. 진심으로.\" — 보내줬다",
+        "effects": {
+          "mental": 5,
+          "tint": 3
+        },
+        "flags": [
+          "arc_y3_jiyeon_departure_seen",
+          "jiyeon_sent_off_well"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 6
+          }
+        },
+        "result_text": "지연이 답했다. \"고마워요. 서울에 오면 연락할게요.\"\n\n그게 마지막 문자였다. 진심이 담긴 작별이 때로는 가장 완전하다.\n{name}은 화면을 잠갔다. 뭔가 제대로 마무리된 느낌이었다."
+      },
+      {
+        "text": "\"그거 진작에 했어야 했네요.\" — 솔직하게 말했다",
+        "effects": {
+          "mental": 7,
+          "social_skill": 1,
+          "tint": 4
+        },
+        "flags": [
+          "arc_y3_jiyeon_departure_seen",
+          "jiyeon_sent_off_well"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 10
+          }
+        },
+        "result_text": "지연이 잠시 후 답했다. \"맞아요. 늦었죠.\"\n그리고 또 문자가 왔다. \"그래도 지금이라서 다행이에요.\"\n\n{name}은 그 말이 지연한테만 하는 말이 아닌 것 같았다."
+      },
+      {
+        "text": "\"여기 있어도 될 텐데요.\" — 솔직히 붙잡고 싶었다",
+        "effects": {
+          "mental": -3,
+          "tint": -1
+        },
+        "flags": [
+          "arc_y3_jiyeon_departure_seen"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": -2
+          }
+        },
+        "result_text": "지연이 답하지 않았다.\n잠시 후 \"감사해요\"라는 짧은 문자만 왔다.\n\n그 말이 작별 인사 같았다. 붙잡으려는 말은 때로 보내지 못하게 하는 것이 아니라 더 빨리 보내버린다."
+      }
+    ]
+  },
+  {
+    "id": "arc_minjun_first_call",
+    "title": "먼저 거는 전화",
+    "background": "apartment_balcony",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "character"],
+    "cooldown": 9999,
+    "description": "일요일 오전.\n\n아무런 이유가 없었다. 할 일이 있는 것도 아니었다.\n{name}은 핸드폰을 들었다가, 내려놨다가, 다시 들었다.\n\n생각해보니 — 지난 3년 가까이, 먼저 연락해본 적이 거의 없었다.\n항상 어딘가서 연락이 왔고, {name}은 받는 쪽이었다.\n\n오늘은 먼저 걸어보기로 했다. 아무 이유 없이.",
+    "choices": [
+      {
+        "text": "아버지한테 전화했다. 이유는 없었다.",
+        "effects": {
+          "mental": 12,
+          "health": 3,
+          "tint": 6
+        },
+        "flags": [
+          "arc_minjun_first_call_seen",
+          "called_father_first"
+        ],
+        "cast_effects": {
+          "father": {
+            "affinity": 8
+          }
+        },
+        "result_text": "아버지가 받으셨다.\n\"어, 민준아?\" 목소리가 반가웠다.\n\n특별한 말은 없었다. 날씨 이야기, 밥 먹었냐는 이야기.\n전화를 끊고 나서야 {name}은 깨달았다.\n그게 이유였다. 이유가 없어도 되는 것."
+      },
+      {
+        "text": "현수한테 전화했다. 한동안 소식을 못 들었다.",
+        "effects": {
+          "mental": 9,
+          "social_skill": 1,
+          "tint": 4
+        },
+        "flags": [
+          "arc_minjun_first_call_seen",
+          "called_hyunsu_first"
+        ],
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 6
+          }
+        },
+        "result_text": "현수가 받았다. \"어? {name}이? 오랜만이다.\"\n\n\"그러게. 뭐 해?\" — \"그냥, 공부.\" — \"나도 그냥.\" — \"...밥이나 먹을까.\" — \"언제?\" — \"이번 주?\"\n\n그렇게 됐다. 먼저 건 전화 하나가 한 달 후의 약속이 됐다."
+      },
+      {
+        "text": "전화 버튼을 눌렀다가 끊었다. 아직은 아닌 것 같았다.",
+        "effects": {
+          "mental": 2,
+          "tint": -1
+        },
+        "flags": [
+          "arc_minjun_first_call_seen"
+        ],
+        "result_text": "신호음이 가기 전에 끊었다.\n\n왜 끊었는지, {name}도 잘 몰랐다.\n핸드폰을 책상 위에 뒤집어 놓고 창밖을 봤다.\n\n먼저 건다는 게 생각보다 어려웠다."
+      }
+    ]
   }
 ]

@@ -1598,6 +1598,12 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_confrontation_seen", false):
 		return "arc_sangchul_confrontation"
 
+	# ── 알면서 사는 값 — 대면/청산 이후 상철 망 사용 결정 (Y2 후반~Y3 초) ──
+	if t >= 65 and t <= 90 \
+			and f.get("arc_sangchul_reckoning_seen", false) \
+			and not f.get("arc_y3_cost_of_knowing_seen", false):
+		return "arc_y3_cost_of_knowing"
+
 	# ── 임상철 관계 심화 ──
 	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
@@ -1960,6 +1966,9 @@ func _next_arc_id() -> String:
 	# ── 35세 고독 (t116-128) ──
 	if t >= 116 and t <= 128 and not f.get("arc_35_alone_seen", false):
 		return "arc_35_alone"
+	# ── 왜 강남인가 — 테마 결정화 (Y3 중반, t115~140) ──
+	if t >= 115 and t <= 140 and not f.get("arc_why_gangnam_real_seen", false):
+		return "arc_why_gangnam_real"
 	# ── 챕터3 "무게" — 선택한 길의 대가 (route 반응형, t108~138) ──
 	if t >= 108 and t <= 138 \
 			and not f.get("arc_35_orthodox_weight_seen", false) \
@@ -2031,6 +2040,20 @@ func _next_arc_id() -> String:
 	if t >= 100 and f.get("arc_jiyeon_epilogue_seen", false) \
 			and not f.get("arc_jiyeon_year3_seen", false):
 		return "arc_jiyeon_year3"
+	# 한지연 진짜 이유 — 독립 자격증 공부 (에필로그 이후, Y2후반~Y3)
+	if t >= 75 and t <= 105 \
+			and f.get("arc_jiyeon_epilogue_seen", false) \
+			and not f.get("arc_jiyeon_real_reason_seen", false):
+		return "arc_jiyeon_real_reason"
+	# 한지연 각자의 방향 — 부산 독립 (진짜 이유 이후, Y3)
+	if t >= 110 and t <= 135 \
+			and f.get("arc_jiyeon_real_reason_seen", false) \
+			and not f.get("arc_y3_jiyeon_departure_seen", false):
+		return "arc_y3_jiyeon_departure"
+	# 먼저 거는 전화 — 민준의 첫 능동적 연락 (Y3후반~Y4초)
+	if t >= 130 and t <= 155 \
+			and not f.get("arc_minjun_first_call_seen", false):
+		return "arc_minjun_first_call"
 	# 김다은 Year 3 — 함께 2주년 (함께 궤적)
 	if t >= 100 and (f.get("daeun_committed", false) or f.get("daeun_together_path", false)) \
 			and not f.get("arc_daeun_year3_together_seen", false):

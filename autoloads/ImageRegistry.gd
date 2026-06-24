@@ -150,6 +150,7 @@ const BACKGROUNDS = {
 	"restaurant":        "res://assets/backgrounds/restaurant_korean.png",
 	"street":            "res://assets/backgrounds/street_seoul_day.png",
 	"apartment":         "res://assets/backgrounds/oneroom_apartment.png",
+	"apartment_balcony": "res://assets/backgrounds/oneroom_apartment.png",
 	"convenience_store": "res://assets/backgrounds/convenience_store_night.png",
 	# 미니게임 전용
 	"racetrack_betting": "res://assets/backgrounds/racetrack_betting_hall.png",
