@@ -207,6 +207,7 @@
         "flags": [
           "hyunsu_reconnected"
         ],
+        "give_items": ["artifact_hyunsu_card"],
         "result_text": "\"야 진짜? 잘됐다!!\"\n\n\"형 덕분이에요. 그때 문 두드려줘서.\"\n\n{name}은 폰을 내려놓았다.\n\n서울에서 5년. 이런 연락이 오는 날도 있다."
       }
     ]

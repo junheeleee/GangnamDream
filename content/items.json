@@ -31,5 +31,38 @@
     "effects": {},
     "passive_effects": {},
     "description": "통화기록 스크린샷으로 저장해뒀다.\n왜 저장했는지 설명하기가 어렵다."
+  },
+  {
+    "id": "artifact_jiyeon_text",
+    "name": "그 아침의 문자",
+    "icon": "💬",
+    "price": 0,
+    "shop": false,
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "그녀가 먼저 보낸 문자였다.\n'저 좀 이상한 사람이죠?'\n이상하지 않다고 답했다."
+  },
+  {
+    "id": "artifact_jaehyuk_photo",
+    "name": "포장마차 셀카",
+    "icon": "📷",
+    "price": 0,
+    "shop": false,
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "다시 만난 밤, 둘이서 찍었다.\n그 다음에 무슨 일이 있었는지와 무관하게,\n그날 밤엔 진짜 오랜 친구였다."
+  },
+  {
+    "id": "artifact_hyunsu_card",
+    "name": "현수의 명함",
+    "icon": "🪪",
+    "price": 0,
+    "shop": false,
+    "one_time": true,
+    "effects": {},
+    "passive_effects": {},
+    "description": "고시 4년 만에.\n정장. 명함. '형 덕분이에요.'\n저장해뒀다."
   }
 ]

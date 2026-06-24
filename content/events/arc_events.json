@@ -712,6 +712,7 @@
           "arc_jiyeon_epilogue_seen",
           "jiyeon_accepted"
         ],
+        "give_items": ["artifact_jiyeon_text"],
         "result_text": "답장을 보냈다.\n잠시 후 그녀의 답장: '민준 씨도 이상한 사람이에요. 그래서 좋아요.'\n{name}은 피식 웃었다. 강남을 가는 이유가 하나 더 생긴 기분이었다."
       },
       {
@@ -749,6 +750,7 @@
           "arc_jiyeon_epilogue_seen",
           "jiyeon_forgave_complexity"
         ],
+        "give_items": ["artifact_jiyeon_text"],
         "result_text": "한지연이 잠깐 조용하더니 말했다. '...그 말이 제일 무섭네요. 왜냐면 감사해서요.'\n강남과 감정과 계산이 섞인 이 관계.\n단순하지 않아서 포기하지 않기로 했다."
       }
     ]
@@ -789,6 +791,7 @@
         "flags": [
           "arc_jaehyuk_reunion_seen"
         ],
+        "give_items": ["artifact_jaehyuk_photo"],
         "result_text": "옛날 군대 얘기로 밤이 깊었다.\n오랜만에 소리 내 웃었다. 힘든 시기에 반가운 얼굴.\n\"자주 보자, {name}아. 내가 연락할게.\"\n재혁은 진심인 것 같았다. 적어도 그날은."
       },
       {
