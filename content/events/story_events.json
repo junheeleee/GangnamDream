@@ -49,7 +49,8 @@
       {
         "text": "\"먹었어요. 아버지도 끼니 거르지 마세요.\"",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 2
         },
         "cast_effects": {
           "father": {
@@ -62,7 +63,8 @@
       {
         "text": "\"바빠요. 나중에 통화해요.\" 짧게 끊는다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "cast_effects": {
           "father": {

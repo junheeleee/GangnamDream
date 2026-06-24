@@ -42,7 +42,8 @@
         "text": "일단 만나자고 한다",
         "effects": {
           "money": -200000,
-          "mental": -12
+          "mental": -12,
+          "tint": -3
         },
         "flags": [
           "shadow_loan_met"
@@ -72,7 +73,8 @@
         "text": "모른다고 잡아뗀다",
         "effects": {
           "reputation": -2,
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "result_text": "상대는 조용히 웃었다. \"그쪽도 모르면 저도 할 수 없죠.\" 끊겼다. 그 이름에게 연락할 수가 없다."
       },
@@ -81,7 +83,8 @@
         "effects": {
           "social_skill": 1,
           "money": -300000,
-          "mental": 5
+          "mental": 5,
+          "tint": 3
         },
         "result_text": "\"나도 어쩔 수 없었어. 미안해.\" 결국 30만원 건네고 정리했다. 관계는 남았지만 어색해졌다."
       }
@@ -166,7 +169,8 @@
         "effects": {
           "reputation": 1,
           "social_skill": -1,
-          "mental": 8
+          "mental": 8,
+          "tint": 4
         },
         "result_text": "얼굴이 빨개졌다. 부정했다가 인정했다. 이유는 시기였다. 관계는 끝났지만 이상하게 속은 시원했다."
       },
@@ -182,7 +186,8 @@
         "effects": {
           "social_skill": 2,
           "intelligence": 1,
-          "mental": -5
+          "mental": -5,
+          "tint": -5
         },
         "result_text": "알면서 모른 척하는 건 생각보다 힘들다. 하지만 그 사람이 가진 인맥은 아직 필요했다."
       }
@@ -210,14 +215,16 @@
         "text": "솔직하게 사정이 바뀌었다고 말한다",
         "effects": {
           "reputation": -1,
-          "mental": 7
+          "mental": 7,
+          "tint": 3
         },
         "result_text": "\"그래, 괜찮아.\" 말은 그렇게 했지만 더 이상 연락이 없다. 솔직함의 대가는 항상 조용한 단절이다."
       },
       {
         "text": "지금 상황이 안 된다고 시간을 번다",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": -3
         },
         "flags": [
           "shadow_promise_delayed"
@@ -275,7 +282,8 @@
         "text": "솔직하게 못 하겠다고 말한다",
         "effects": {
           "reputation": -2,
-          "mental": 10
+          "mental": 10,
+          "tint": 5
         },
         "result_text": "\"그래.\" 한마디였다. 긴 침묵 뒤에 끊겼다. 가벼운 말이 어떻게 남을 묶는지 이번에 배웠다."
       }
