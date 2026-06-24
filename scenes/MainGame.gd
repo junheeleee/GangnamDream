@@ -2065,6 +2065,27 @@ func _next_arc_id() -> String:
 	if t >= 130 and t <= 155 \
 			and not f.get("arc_minjun_first_call_seen", false):
 		return "arc_minjun_first_call"
+	# 한지연 Y4 — 부산 첫 전화 (출발 이후 t>=145)
+	if t >= 145 \
+			and f.get("arc_y3_jiyeon_departure_seen", false) \
+			and not f.get("arc_jiyeon_year4_call_seen", false):
+		return "arc_jiyeon_year4_call"
+	# 한지연 Y4 서울 방문 — 연락 후 + 더 원하거나 honest_together/close 관계
+	if t >= 165 and t <= 192 \
+			and f.get("arc_jiyeon_year4_call_seen", false) \
+			and (f.get("jiyeon_year4_wants_more", false) \
+				or GameState.get_cast_stage("jiyeon") in ["honest_together", "close", "lover"]) \
+			and not f.get("arc_jiyeon_year4_seoul_seen", false):
+		return "arc_jiyeon_year4_seoul"
+	# 한지연 Y5 — 관계에 따라 분기 (귀환 vs 부산 소식)
+	if t >= 193 \
+			and f.get("arc_jiyeon_year4_call_seen", false) \
+			and not f.get("arc_jiyeon_year5_return_seen", false) \
+			and not f.get("arc_jiyeon_year5_news_seen", false):
+		if f.get("jiyeon_lovers_acknowledged", false):
+			return "arc_jiyeon_year5_return"
+		else:
+			return "arc_jiyeon_year5_news"
 	# 김다은 Year 3 — 함께 2주년 (함께 궤적)
 	if t >= 100 and (f.get("daeun_committed", false) or f.get("daeun_together_path", false)) \
 			and not f.get("arc_daeun_year3_together_seen", false):
@@ -3347,6 +3368,9 @@ func _refresh_arc_box() -> void:
 				{"label": _tr("연결 (9개월차+)", "Connection (month 9+)"), "done": f.get("arc_jiyeon_offer_seen", false)},
 				{"label": _tr("그녀의 세계 (10개월차+)", "Her World (month 10+)"), "done": f.get("arc_jiyeon_03b_seen", false)},
 				{"label": _tr("진실", "Truth"), "done": f.get("arc_jiyeon_truth_seen", false)},
+				{"label": _tr("Y4 부산 전화", "Y4 Busan Call"), "done": f.get("arc_jiyeon_year4_call_seen", false)},
+				{"label": _tr("Y4 서울 방문", "Y4 Seoul Visit"), "done": f.get("arc_jiyeon_year4_seoul_seen", false)},
+				{"label": _tr("Y5 마지막", "Y5 Finale"), "done": f.get("arc_jiyeon_year5_return_seen", false) or f.get("arc_jiyeon_year5_news_seen", false)},
 			],
 			"hint": _tr("5개월차 이후 자동 등장", "Auto-appears after month 5") if not f.get("arc_jiyeon_crash_seen", false) else "",
 		},

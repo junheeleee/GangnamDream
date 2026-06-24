@@ -187,5 +187,97 @@
         }
       }
     ]
+  },
+  {
+    "id": "arc_jiyeon_year4_call",
+    "title": "A Call from Busan",
+    "description": "A call from Han Jiyeon.\n\n\"Deal closed. Small villa. Goejeong-dong, Busan.\"\n\nHer voice was different. Not light. First time hearing it since she left.\nA year had passed.\n\nThrough the phone, faint sound of the ocean.",
+    "choices": [
+      {
+        "text": "\"That's great. Genuinely. You made it happen.\"",
+        "result_text": "A brief silence on the other end. Then Jiyeon said: \"It feels more real hearing you say it.\"\n\nBeing someone who could say that to someone who made it — not a bad year.",
+        "effects": {
+          "tint": 2
+        }
+      },
+      {
+        "text": "\"Can I say I've missed you? After this long?\"",
+        "result_text": "Jiyeon laughed on the other end. \"I wanted to hear that.\"\n\nSaid what went unsaid for a year. After hanging up, {name} lay looking at the ceiling for a long time.\n\nThe sound of the ocean was still there.",
+        "effects": {
+          "tint": 3
+        }
+      },
+      {
+        "text": "\"I'm holding on here too. Each in our own direction.\"",
+        "result_text": "Jiyeon said \"Yeah.\" Short.\n\nDifferent directions. The weight of those words when they were first written — still the same.\nTwo different cities. Two different staircases.",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_year4_seoul",
+    "title": "Briefly in Seoul",
+    "description": "Jiyeon came to Seoul. Two-day continuing education for licensed brokers.\n\nNot a Cheongdam café. A neighborhood place nearby.\n\nJiyeon spoke first. \"Seoul feels strangely unfamiliar. It's only been a year.\"\n\nAfter two sips of coffee, she added: \"Having you here makes it feel like Seoul again.\"",
+    "choices": [
+      {
+        "text": "\"Come often then. I'll be waiting.\"",
+        "result_text": "Jiyeon smiled. The face she hadn't seen in a while.\n\n\"When can I come?\" \"Anytime.\"\n\nThey walked after leaving the café. No words — but not awkward. It felt like a lot had already been said.",
+        "effects": {
+          "tint": 3
+        }
+      },
+      {
+        "text": "\"Don't let this dismantle what you built in Busan. That's real, what you made there.\"",
+        "result_text": "Jiyeon was quiet for a while. Then: \"Thank you.\"\n\n\"That's what I wanted to hear. Not to be held back.\"\n\nThe two of them living in different cities didn't feel wrong. Each standing in their own place — that's also a form of relationship.",
+        "effects": {
+          "tint": 4
+        }
+      },
+      {
+        "text": "(Couldn't find words. That was the answer.)",
+        "result_text": "Jiyeon stood up first. \"I should get going.\"\n\nListening to the café door close, {name} looked at his coffee cup.\n\nUnspoken words last longer than the ones you say.",
+        "effects": {}
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_year5_return",
+    "title": "Back to Seoul",
+    "description": "A text from Jiyeon.\n\n\"I've decided to open a Seoul branch. Gangnam. Next month.\"\n\nThen one more line.\n\"I wanted to tell you first.\"\n\n{name} looked at the text for a long time.\nShe's coming back because she grew wide enough in Busan — not because she narrowed.",
+    "choices": [
+      {
+        "text": "\"See you in Gangnam. I'm on my way there too.\"",
+        "result_text": "Jiyeon replied: \"Then I'll see you in Gangnam. For sure.\"\n\nThat became a promise. Neither of them was there yet. But both were heading there.\n\nSeoul looked different somehow.",
+        "effects": {
+          "tint": 3
+        }
+      },
+      {
+        "text": "\"That decision has to be yours. Not because of me.\"",
+        "result_text": "Jiyeon replied after a moment: \"I know. It's my decision. But you're one of the reasons.\"\n\nThat was honest. There's a reason honest is good.",
+        "effects": {
+          "tint": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_year5_news",
+    "title": "Word from Busan",
+    "description": "Word came through a mutual contact.\n\nHan Jiyeon. Doing well in Busan. Has staff now. Made a name in the area.\n\nAnd — she's seeing someone from Busan.\n\n{name} paused.\nWhether that was good news, or something else — the feeling didn't have an exact name.",
+    "choices": [
+      {
+        "text": "\"That's great.\" — said it sincerely",
+        "result_text": "Meant it.\n\nJiyeon is building her own thing in Busan. That was the point. She reached it.\n\nDifferent directions — at first it felt like goodbye. Now it feels like it was the right phrase.",
+        "effects": {
+          "tint": 3
+        }
+      },
+      {
+        "text": "(Nodded. Nothing to say.)",
+        "result_text": "Nodded.\n\nNothing to say. More precisely — there was something that couldn't be said right now, and that was all.\n\n{name} started walking. Seoul was the same as always.",
+        "effects": {}
+      }
+    ]
   }
 ]

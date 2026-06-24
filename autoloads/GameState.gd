@@ -1452,7 +1452,7 @@ func check_game_over():
 		# 연인 엔딩
 		if get_cast_stage("daeun") in ["lover", "together", "committed"]:
 			finish_run("with_daeun"); return          # 다은과 함께
-		if get_cast_stage("jiyeon") in ["honest_together"]:
+		if get_cast_stage("jiyeon") in ["honest_together", "lover"]:
 			finish_run("jiyeon_man"); return          # 한지연의 남자
 		# 도박 중독을 이겨낸 사람 — 강남엔 못 갔어도, 가장 깊은 구덩이에서 올라왔다.
 		# 30억 도달자는 이미 위에서 gangnam_dream 분기 → 여기 오는 건 미달자.

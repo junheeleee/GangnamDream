@@ -22,7 +22,10 @@
   {
     "id": "jiyeon_man",
     "title": "Jiyeon's Man",
-    "description": "He made it to Gangnam. With Han Jiyeon.\n\nA good car, a good house, good people.\nAt her family's place, his father-in-law now calls {name} 'our son-in-law.'\n\nOne night, he stood alone in front of the bathroom mirror.\n\nThe man who rode a bicycle around the goshiwon five years ago.\nThe man who made a triangle kimbap his dinner.\nWhether that man and {name} now are the same person — he doesn't know.\n\nHe lives in Gangnam.\nBut whether this is the Gangnam he wanted,\nor whether he just moved into the Gangnam Jiyeon already lived in —\n\nJiyeon knocks on the bathroom door. \"You up?\"\n\"Yeah.\"\n\nThe door opens. She stands beside him. The two of them reflected in the mirror.\n\n{name} smiled.\nA happy smile, but one with something hollow in it."
+    "description": "He made it to Gangnam. With Han Jiyeon.\n\nA good car, a good house, good people.\nAt her family's place, his father-in-law now calls {name} 'our son-in-law.'\n\nOne night, he stood alone in front of the bathroom mirror.\n\nThe man who rode a bicycle around the goshiwon five years ago.\nThe man who made a triangle kimbap his dinner.\nWhether that man and {name} now are the same person — he doesn't know.\n\nHe lives in Gangnam.\nBut whether this is the Gangnam he wanted,\nor whether he just moved into the Gangnam Jiyeon already lived in —\n\nJiyeon knocks on the bathroom door. \"You up?\"\n\"Yeah.\"\n\nThe door opens. She stands beside him. The two of them reflected in the mirror.\n\n{name} smiled.\nA happy smile, but one with something hollow in it.",
+    "description_if_known": {
+      "jiyeon_gangnam_together": "He made it to Gangnam. With Han Jiyeon.\n\nA good car, a good house, good people. Her father calls {name} 'our son-in-law' now.\n\n\"See you in Gangnam\" — that had been a promise. When neither of them was there yet.\n\nHe stood alone in front of the bathroom mirror one night. The man who rode a bicycle from a goshiwon. The man who ate triangle kimbap for dinner.\nWhether this is the Gangnam he wanted, or whether he entered the Gangnam Jiyeon already lived in — he doesn't know.\n\nJiyeon knocks on the door. \"Sleeping?\"\n\"No.\"\n\nThe door opens. In the mirror: both of them.\n\nThat promise made before they were there — completed right here."
+    }
   },
   {
     "id": "jaehyuk_way",
@@ -127,7 +130,8 @@
     "title": "My Own Balance",
     "description": "It was a road neither orthodox nor unorthodox.\n\nHe invested while working at a company,\ndid side gigs while investing,\nrefocused on the company when the side gigs went well.\n\nSome people said you couldn't pin him down.\n\nOn one side, 'should have focused more,'\non the other, 'maybe spread too thin' — there were such moments.\n\nBut {name} was just — that was me.\n\nHe didn't make it to Gangnam.\nDidn't succeed big, didn't fail big.\n\nOne evening, before the account balance,\nhe started thinking about whether today had been fun.\n\nThat was {name}'s way. He lived his own way, and survived.",
     "description_if_known": {
-      "cut_sangchul_network": "Balance meant — not just how much you bring in, but also what you choose not to bring in.\n\nThere was a connection he walked away from. A faster road, but he knew where it came from.\n\nAfter that, things slowed. Still, he got here.\n\nHe didn't make it to Gangnam.\nBut none of this money has an origin he can't explain.\n\nThat was {name}'s balance."
+      "cut_sangchul_network": "Balance meant — not just how much you bring in, but also what you choose not to bring in.\n\nThere was a connection he walked away from. A faster road, but he knew where it came from.\n\nAfter that, things slowed. Still, he got here.\n\nHe didn't make it to Gangnam.\nBut none of this money has an origin he can't explain.\n\nThat was {name}'s balance.",
+      "jiyeon_beautifully_apart": "Balance meant — not just how much you bring in, but also what you choose not to bring in.\n\nJiyeon will be building her own thing in Busan. \"Different directions\" — at first it felt like goodbye. Now it feels like the right phrase.\n\nNot holding on, but cheering her on. That was one part of {name}'s balance."
     }
   },
   {
