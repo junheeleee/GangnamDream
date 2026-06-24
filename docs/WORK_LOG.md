@@ -1,5 +1,29 @@
 # Gangnam Dream Work Log
 
+## 2026-06-24 (MORAL_TINT 6차 확장 — shadow/chain/butterfly/NG+ 고도덕강도 이벤트 + cut_sangchul_network 엔딩 변주)
+
+### 수정 내용
+
+#### MORAL_TINT 선택지 tint 추가 (34개 선택지)
+- **shadow_events.json** (8개): 사채업자 응대/모른 척/직접고발, 오래된 약속 솔직/시간끌기, 신고 vs 체념 등
+- **work_events.json** (1개): `work_credit_stolen` — 팀장에게 직접 이야기하기 +4
+- **story_events.json** (2개): 프롤로그 아버지 전화 — 챙기는 말 +2 / 짧게 끊기 -2
+- **butterfly_events.json** (5개): 내부정보 거절 +2/구입 -5, 사기 확인 시 신고 +5/바로 투자 -6
+- **chain_events.json** (8개): 임원 식사 솔직 +5/둘러대기 -3, 봉투 돌려줌 +8/못 본 척 -8, 사기꾼 제보 +6/지나침 -5
+- **drama_events.json** (2개): 도박 회복 직후 솔직 고백 +5 / 자리 피함 -2
+- **ng_plus_events.json** (8개): 상철 모른 척(알면서 이용) -6 / 직접 대면 +7, 아버지 전화 주말 방문 +3 / 짧게 끊기 -2, 카지노 거부 +3 / 자기기만으로 재입장 -4, 낯선 도박꾼에게 손 내밀기 +5 / 외면 -3
+
+#### cut_sangchul_network 엔딩 발견 레이어 (endings.json + endings_en.json)
+- `stable_success`, `ordinary_life`, `balanced_life` 3개 엔딩에 `description_if_known["cut_sangchul_network"]` 변주 추가(KR+EN)
+- 상철 네트워크를 스스로 끊은 플레이어가 각 엔딩에서 "그 출처를 설명할 수 없는 돈은 없다"는 자각으로 읽힘
+
+### 결과
+- tint 커버리지 약 610+/3170+ 선택지 (~19-20%)
+- `cut_sangchul_network` 플래그: write-only → 엔딩 3종이 읽어 부채 해소
+- audit ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+---
+
 ## 2026-06-24 (서사 무결성 수정 5종 — 내러티브 QA 후속 픽스)
 
 ### 수정 내용

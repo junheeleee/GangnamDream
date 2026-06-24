@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added (2026-06-24) — MORAL_TINT 6차 확장 + cut_sangchul_network 엔딩 변주
+
+- **NG+ 고도덕강도 이벤트 tint 8종** (`ng_plus_events.json`): 지식을 갖고도 상철을 이용하는 순간 (-6/+7), 아버지 전화 2번째 무시 (-2/+3), 자기기만으로 카지노 재입장 (-4/+3), 도박 중 낯선 사람에게 손 내밀기 (-3/+5). NG+의 핵심은 알면서도 같은 실수를 반복하는 무게 — tint가 그 순간을 반영.
+- **chain_events.json tint 8종**: 임원 식사 면접 정직/거짓 (+5/-3), 봉투 양심 +8/-8 (게임 내 최대값), 사기꾼 제보 +6/-5. 최고도덕강도 씬 tint 완비.
+- **butterfly 내부정보 체인 tint 5종**: 정보 무시 +2, 구입 -5, 사기 확인 후 신고 +5 vs 즉시 투자 -6.
+- **shadow 지하경제 이벤트 tint 8종**: 모른 척/거짓말/외면 -2~-5, 직접 고발/솔직 +3~+5.
+- **cut_sangchul_network 엔딩 발견 레이어** (`endings.json` + `endings_en.json`): `stable_success` / `ordinary_life` / `balanced_life` 세 엔딩에 `description_if_known["cut_sangchul_network"]` 추가. 상철 네트워크를 스스로 끊은 플레이어에게 "설명할 수 없는 출처가 없는 돈"이라는 텍스트 변주.
+
 ### Fixed (2026-06-24) — 서사 무결성 수정 5종
 
 - **[HIGH] 다은 아크 연속성 데드엔드 수정**: `arc_daeun_04_morning` choice 2가 `daeun_together_path`를 설정하지 않아 Y3~Y5 아크 전체가 잘리던 버그 수정.
