@@ -495,6 +495,9 @@
     ],
     "cooldown": 9999,
     "description": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.",
+    "description_if_known": {
+      "father_mentally_updated": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThree times. He hadn't gone down any of them.\n\nBut there had been one real conversation.\n{name} had told him — what he was doing, why he was in Seoul, how he was living.\nDad listened, quiet. Said he hoped things would work out.\n\nThat was the last thing he heard his father say."
+    },
     "choices": [
       {
         "text": "(He took the KTX. Knowing he was already too late.)",

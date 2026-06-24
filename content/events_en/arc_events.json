@@ -1475,6 +1475,9 @@
       "gambling"
     ],
     "cooldown": 9999,
+    "description_if_known": {
+      "sangchul_truth_known": "A text came from Sangchul's number.\n\n\"What about this weekend? A few of us are heading to Jeongseon Casino.\nI've booked a table room, so come on by, take it easy.\"\n\nNow that {name} knew the truth, that phrase — \"take it easy\" — caught.\nYears ago, Dad had probably been told the same thing by someone's introduction.\nCome on in. No pressure. Take it easy.\n\nCasino. Money. Network. The world Sangchul lived in.\n{name} stared at the message for a long time."
+    },
     "choices": [
       {
         "text": "\"I'll come along\" — follow him",
