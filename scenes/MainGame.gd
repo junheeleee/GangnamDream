@@ -6670,12 +6670,25 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 
 	# 박재혁 — 그 제안의 끝
 	var hs := GameState.get_cast_stage("jaehyuk")
+	var hf := GameState.flags
 	if hs == "betrayed":
-		lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone."))
+		if hf.get("jaehyuk_stood_up", false):
+			lines.append(_tr("📱  박재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.", "📱  Betrayed by Park Jaehyuk. Account empty. Rock bottom. Afterward, I wrote down the things he used to say — the only thing left from someone who betrayed me. Started again from there."))
+		elif hf.get("jaehyuk_night_was_real", false):
+			lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone. But I kept the photo from that night. Chose to believe it was real."))
+		else:
+			lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone."))
 	elif hs == "reported":
 		lines.append(_tr("📱  박재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.", "📱  I read that Park Jaehyuk was finally arrested. I felt neither satisfaction nor sorrow."))
 	elif hs in ["partner_in_crime", "blackmailed"]:
 		lines.append(_tr("📱  박재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.", "📱  I never told anyone about Park Jaehyuk. I never will."))
+	elif hs == "trusted":
+		if hf.get("felt_jaehyuk_kindness", false):
+			lines.append(_tr("📱  박재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.", "📱  There was a day Park Jaehyuk handed me his card, no strings attached. I don't know if it was sincere. But I think that gesture, in that moment, was real."))
+		else:
+			lines.append(_tr("📱  박재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.", "📱  Park Jaehyuk and I drifted apart. I still think sometimes about the day he helped without asking anything in return."))
+	elif hs == "opening_up":
+		lines.append(_tr("📱  박재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.", "📱  There was a day Park Jaehyuk told me his story. Said he'd never told anyone. I remember the weight of it."))
 	elif hs in ["suspect", "retreating", "guarded"]:
 		lines.append(_tr("📱  박재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.", "📱  I kept a careful distance from Park Jaehyuk. I think that was right."))
 	elif hs != "unknown":
