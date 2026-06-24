@@ -1,5 +1,34 @@
 # Gangnam Dream Work Log
 
+## 2026-06-24 (연차별 챕터 테마 분배 — 챕터2~4 테마 씬 신설 + Y5 echo 콜백)
+
+### 문제 진단 (연차별 콘텐츠/스토리 분배 점검)
+- `_next_arc_id()` 보장 스토리 비트(턴만으로 게이트, 모든 플레이 공통) 연차별 집계:
+  - **Before**: Y1=34, Y2=8, Y3=6, Y4=8, Y5=7 — Y2~Y5가 일반 마커(생일/루틴/연도)뿐, **챕터 카드 테마(확장/무게/균열)를 직접 구현하는 씬이 없음**.
+- 챕터 카드는 Y2="확장(돈이 돈을, 사람이 기회)", Y3="무게(선택한 길의 대가)", Y4="균열(믿었던 사람이 흔든다)"를 약속하나 실제 콘텐츠가 부재.
+
+### 신규 콘텐츠 (17개 이벤트, KR+EN, 전부 챕터 테마 직결)
+**Y3 "무게" (3종, route 반응형)** — `arc_chapter_themes.json`
+- `arc_35_orthodox_weight`(정석 우세, t108~138): 지루함의 무게. `arc_35_unorthodox_weight`(비정석 우세): 불안의 무게. route 합산 비교로 분기.
+- `arc_35_path_cost`(t124~144): 3년치 잃은 것의 영수증 (무조건).
+
+**Y4 "균열" (2종)** — 챕터4 카드 직결
+- `arc_36_trust_crack`(t150~178): 믿었던 사람이 흔든다 (끊다/이해하다/거리두다).
+- `arc_36_unexpected_hand`(t156~188, trust_crack 이후): 예상치 못한 사람이 잡는다.
+
+**Y2 "확장" (2종)** — 챕터2 카드 직결
+- `arc_34_money_attracts_money`(t54~74): 돈이 돈을 부른다 + 출발선 격차 자각.
+- `arc_34_doors_open`(t74~94): 기회는 사람을 통해 온다.
+
+**Y5 echo 콜백 (8종)** — `callback_chapter_themes.json`, 위 선택의 stance 플래그를 마지막 해에 페이오프
+- 8개 cluster 플래그(stayed_my_path/adjusted_my_path/embraced_cost/reclaimed_cost/crack_hardened/crack_softened/crack_distanced/accepted_grace)를 전부 읽음 → write-only 부채 0.
+- grace echo: 1년 전 받은 손을 이번엔 내가 내미는 pay-it-forward (tint +6).
+
+### 결과
+- **After**: Y1=34, Y2=10, Y3=9, Y4=10, Y5=7(+echo 8). Y2~Y4 균형(9~10), 각 연차가 고유 챕터 테마를 보장 씬으로 전달.
+- 5막 구조 명확화: Y1 시작/도입 → Y2 확장 → Y3 무게 → Y4 균열 → Y5 강남/정산.
+- write-only 플래그 210 유지(echo가 전부 소비), audit ERROR 0/WARNING 0, 밸런스 밴드 통과.
+
 ## 2026-06-23 (자율 사각지대 감사 + MORAL_TINT 4차 확장 63개 + 진엔딩 자산 버그 수정)
 
 ### 자율 감사 발견사항 (전수 점검)

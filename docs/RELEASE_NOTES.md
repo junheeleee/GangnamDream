@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Added (2026-06-24) — 연차별 챕터 테마 분배 (17개 신규 이벤트)
+
+- **챕터 테마가 보장 씬으로 전달되도록 5막 구조 명확화**. 기존엔 Y2~Y5가 일반 마커(생일/루틴/연도)뿐이라 챕터 카드가 약속한 테마(확장/무게/균열)가 실제 콘텐츠로 구현돼 있지 않았음.
+- **Y3 "무게" 3종** (`arc_chapter_themes.json`, KR+EN): `arc_35_orthodox_weight`(정석=지루함의 무게)/`arc_35_unorthodox_weight`(비정석=불안의 무게) route 반응형 분기 + `arc_35_path_cost`(3년치 잃은 것의 영수증).
+- **Y4 "균열" 2종**: `arc_36_trust_crack`(믿었던 사람이 흔든다 — 끊다/이해하다/거리두다) + `arc_36_unexpected_hand`(예상치 못한 사람이 잡는다). 챕터4 카드 직결.
+- **Y2 "확장" 2종**: `arc_34_money_attracts_money`(돈이 돈을 부른다 + 출발선 격차) + `arc_34_doors_open`(기회는 사람을 통해 온다). 챕터2 카드 직결.
+- **Y5 echo 콜백 8종** (`callback_chapter_themes.json`, KR+EN): 위 선택의 stance를 마지막 해에 페이오프. grace echo는 1년 전 받은 손을 이번엔 내가 내미는 pay-it-forward (tint +6). 8개 cluster 플래그를 전부 읽어 write-only 부채 0 유지.
+- **결과**: 보장 스토리 비트 Y1=34 / Y2=10 / Y3=9 / Y4=10 / Y5=7(+echo 8). Y2~Y4 균형(9~10). audit ERROR 0/WARNING 0/밸런스 밴드 통과.
+
 ### Added (2026-06-23) — 발견 레이어: DE식 지식반응형 서사
 
 - **`description_if_known` 엔진** (`StoryMode.gd`): `{플래그: 대체본문}` 매핑 — 플레이어가 진실을 아는 순간부터 같은 장면이 다르게 읽힌다. DE 스타일의 지식반응형 서사 최우선 적용.

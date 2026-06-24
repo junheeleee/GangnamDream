@@ -1,0 +1,122 @@
+[
+  {
+    "id": "cb_weight_stayed_echo",
+    "title": "The Price of Not Wavering",
+    "description": "The last year.\n\nThis time last year, there was a day {name} nearly cracked under the weight. He pushed his own way through to the end instead.\n\nLooking back now — whether that was right or wrong, the result will decide. But one thing was clear: someone who didn't waver has, at least, nothing to explain to himself.",
+    "choices": [
+      {
+        "text": "Go my own way to the end",
+        "result_text": "There's something only those who endured understand. Not pride, exactly — but not regret either. {name} started the last year the same way."
+      },
+      {
+        "text": "Honestly, it scared him a little now",
+        "result_text": "The thought flickered — maybe pushing to the end had just been stubbornness. But it was too far to turn back. {name} let the thought go."
+      }
+    ]
+  },
+  {
+    "id": "cb_weight_adjusted_echo",
+    "title": "The Price of Turning",
+    "description": "The last year.\n\nLast year, under the weight, {name} changed direction once. The straight-and-narrow type let in some risk; the risk-taker added a safety net.\n\nBack then it felt like wavering, and that was embarrassing. Now he sees — it wasn't wavering, it was adjusting. Not trusting himself too much. That saved something.",
+    "choices": [
+      {
+        "text": "Being flexible is what protected me",
+        "result_text": "No telling how it'd have gone, locked onto one road. Knowing when to turn brought {name} this far. If that's a skill, it was a skill."
+      },
+      {
+        "text": "Wondered for a second if he'd have earned more without turning",
+        "result_text": "The road not taken always looks better. {name} knew that. Without turning, he wouldn't have slept. Sleep is an asset too."
+      }
+    ]
+  },
+  {
+    "id": "cb_cost_embraced_echo",
+    "title": "The Bill He Chose to Pay",
+    "description": "Last year, {name} saw the bill and folded it anyway. He knew the cost going in, he'd said, and he'd see it through.\n\nAnother year has passed. The bill is thicker now. The face in the mirror, the people drifted away, the body put off.\n\nWith the end in sight — the moment comes to ask whether the cost was really worth it.",
+    "choices": [
+      {
+        "text": "Coming this far means the price is paid",
+        "result_text": "Regret is a luxury. {name} chose to think so. It's the final stretch. Stop now and everything paid loses its meaning."
+      },
+      {
+        "text": "When it's all over, reclaim what was lost, one by one",
+        "result_text": "Reach the goal or not, there's an after — {name} pictured it for the first time. That the end might not be the end was, somehow, a small comfort."
+      }
+    ]
+  },
+  {
+    "id": "cb_cost_reclaimed_echo",
+    "title": "The Weight of What Was Reclaimed",
+    "description": "Last year, {name} decided to reclaim one of the things lost. The put-off call, the put-off checkup, the put-off person.\n\nThat small decision grew quietly over the year. A reconnected relationship, a body looked after. He chased the goal but never let go of that thread.\n\nStarting the last year now, {name} knows how lucky that was.",
+    "choices": [
+      {
+        "text": "Keeping balance is what held me up",
+        "result_text": "Not betting everything wasn't a weakness — it was strength. {name} knows that now. Those who chase only money arrive alone. {name} wasn't alone."
+      },
+      {
+        "text": "Still, give the last year everything",
+        "result_text": "What needed reclaiming was reclaimed. Now the final sprint. {name} picked up the pace again — without letting the thread go."
+      }
+    ]
+  },
+  {
+    "id": "cb_crack_hardened_echo",
+    "title": "After the Cut",
+    "description": "Last year, {name} cut off a cracked relationship. Not out of resolve — out of exhaustion.\n\nAfter that, the door for letting people in got a little heavier. Safer, and narrower for it. In the last year, counting who was left beside him, {name} paused for a moment.",
+    "choices": [
+      {
+        "text": "Narrow but solid is better",
+        "result_text": "A few proven people was enough. {name} settled it that way. Loneliness is a cost; betrayal is a loss. The cost is better."
+      },
+      {
+        "text": "Maybe open the door again, for just one person",
+        "result_text": "Cutting off was easy; reopening was hard. Still, {name} stared at one contact a long while. Because someone who only ever closes doors ends up alone."
+      }
+    ]
+  },
+  {
+    "id": "cb_crack_softened_echo",
+    "title": "After Choosing to Understand",
+    "description": "Last year, {name} chose not to cut off the cracked relationship, but to understand it — even thinking he might be a sucker for it.\n\nA year on — the person hadn't changed. But {name} had learned how to live without hating them. Maybe he took a loss. Still, his heart was light.",
+    "choices": [
+      {
+        "text": "Living on the side of trusting people is right",
+        "result_text": "Living in suspicion wrecks a person more than being used does. {name} chose to believe that. So what if you take a loss. You sleep well."
+      },
+      {
+        "text": "This time, he drew a line",
+        "result_text": "Understanding and accepting everything are different. {name} knows that boundary now. Trust, but don't hand over everything. The year taught him that too."
+      }
+    ]
+  },
+  {
+    "id": "cb_crack_distanced_echo",
+    "title": "Exactly That Much Distance",
+    "description": "Last year, {name} neither cut off nor held on to the person who'd cracked. He kept exactly that much distance.\n\nThat distance somehow became the default for every relationship. With everyone, just enough. Only as much as won't hurt. In the last year, {name} couldn't tell if that was comfort or loneliness.",
+    "choices": [
+      {
+        "text": "This distance is the adult way",
+        "result_text": "No expectation, no disappointment. {name} survived four years on that formula. It was efficient. Sometimes so efficient it frightened him."
+      },
+      {
+        "text": "With one person, decided to close the gap",
+        "result_text": "No need to keep everyone at arm's length. {name} picked one and stepped closer. He might get hurt. But living only to avoid hurt, you end up with nothing."
+      }
+    ]
+  },
+  {
+    "id": "cb_grace_echo",
+    "title": "The Day to Repay the Hand",
+    "description": "Last year, {name} received a hand from someone unexpected — a hand that caught the exact moment he was about to collapse.\n\nIn the last year, it was reversed. {name} saw someone near him about to fall. A junior, maybe, or an old friend. Just like {name} a year ago.\n\nWhat to do with a hand once received — that, in the end, each person decides.",
+    "choices": [
+      {
+        "text": "Reached out, the way it was reached out to me",
+        "result_text": "\"Don't pay me back — do it for someone else.\" Now it was {name}'s turn for that line. Not a grand help. But it caught someone's falling moment. That was how it went around."
+      },
+      {
+        "text": "It's the last year. Had to look after myself first.",
+        "result_text": "There was no room. {name} pretended not to see and walked on. Not the wrong call. Only — the hand that had caught him a year ago flickered up for a second. That was all."
+      }
+    ]
+  }
+]

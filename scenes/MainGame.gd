@@ -1901,6 +1901,12 @@ func _next_arc_id() -> String:
 	# t=148 = 37개월차(3년 1개월), t=192 = 48개월차(4년), t=220 = 55개월차(마지막 6개월)
 	if t >= 52 and t <= 68 and not f.get("arc_year_one_mark_seen", false):
 		return "arc_year_one_mark"
+	# ── 챕터2 "확장" — 돈이 돈을 부른다 (t54~74) ──
+	if t >= 54 and t <= 74 and not f.get("arc_34_money_attracts_seen", false):
+		return "arc_34_money_attracts_money"
+	# ── 챕터2 "확장" — 문은 사람이 연다 (t74~94) ──
+	if t >= 74 and t <= 94 and not f.get("arc_34_doors_open_seen", false):
+		return "arc_34_doors_open"
 	# ── 1년 반 마커 — t68-90 공백 구간 앵커 (무조건) ──
 	if t >= 68 and t <= 90 and not f.get("arc_year_one_half_seen", false):
 		return "arc_year_one_half"
@@ -1925,6 +1931,18 @@ func _next_arc_id() -> String:
 	# ── 35세 고독 (t116-128) ──
 	if t >= 116 and t <= 128 and not f.get("arc_35_alone_seen", false):
 		return "arc_35_alone"
+	# ── 챕터3 "무게" — 선택한 길의 대가 (route 반응형, t108~138) ──
+	if t >= 108 and t <= 138 \
+			and not f.get("arc_35_orthodox_weight_seen", false) \
+			and not f.get("arc_35_unorthodox_weight_seen", false) \
+			and (GameState.route_orthodox + GameState.route_unorthodox) >= 4:
+		if GameState.route_orthodox >= GameState.route_unorthodox:
+			return "arc_35_orthodox_weight"
+		else:
+			return "arc_35_unorthodox_weight"
+	# ── 챕터3 "무게" — 3년치 잃은 것의 영수증 (무조건, t124~144) ──
+	if t >= 124 and t <= 144 and not f.get("arc_35_path_cost_seen", false):
+		return "arc_35_path_cost"
 	# ── 35세 루틴 점검 (t138-148) ──
 	if t >= 138 and t <= 148 and not f.get("arc_35_habit_check_seen", false):
 		return "arc_35_habit_check"
@@ -1936,6 +1954,13 @@ func _next_arc_id() -> String:
 	# ── 36세 몸 신호 (t163-172) ──
 	if t >= 163 and t <= 172 and not f.get("arc_36_body_signal_seen", false):
 		return "arc_36_body_signal"
+	# ── 챕터4 "균열" — 믿었던 사람이 흔든다 (t150~178) ──
+	if t >= 150 and t <= 178 and not f.get("arc_36_trust_crack_seen", false):
+		return "arc_36_trust_crack"
+	# ── 챕터4 "균열" — 예상치 못한 사람이 잡는다 (흔들린 직후, t156~188) ──
+	if t >= 156 and t <= 188 and f.get("arc_36_trust_crack_seen", false) \
+			and not f.get("arc_36_unexpected_hand_seen", false):
+		return "arc_36_unexpected_hand"
 	# ── 3년 반 마커 — t168-188 공백 구간 앵커 (무조건) ──
 	if t >= 168 and t <= 188 and not f.get("arc_year_three_half_seen", false):
 		return "arc_year_three_half"

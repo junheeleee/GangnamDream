@@ -1,0 +1,242 @@
+[
+  {
+    "id": "cb_weight_stayed_echo",
+    "title": "흔들리지 않은 값",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "flag": "stayed_my_path", "min_turn": 196 },
+    "tags": ["callback", "story", "chapter5", "weight"],
+    "cooldown": 999,
+    "description": "마지막 해다.\n\n작년 이맘때, 무게를 견디다 못해 흔들릴 뻔했던 날이 있었다. 그때 {name}은 자기 방식을 끝까지 밀었다.\n\n지금 와서 보면 — 그 선택이 맞았는지 틀렸는지는 결과가 말해줄 거다. 다만 한 가지는 분명했다. 흔들리지 않은 사람은, 적어도 자기 자신한테 변명할 게 없다.",
+    "choices": [
+      {
+        "text": "끝까지 내 방식대로 간다",
+        "effects": { "mental": 4, "intelligence": 1, "tint": 2 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "버틴 사람만 아는 게 있다. 그게 자랑은 아니어도, 후회는 아니었다. {name}은 마지막 해를 같은 방식으로 시작했다."
+      },
+      {
+        "text": "이제 와서 조금 무섭기도 했다",
+        "effects": { "mental": -2, "intelligence": 2 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "끝까지 밀어붙인 게 고집이었을 수도 있다는 생각이 스쳤다. 그래도 되돌리기엔 너무 멀리 왔다. {name}은 그 생각을 접었다."
+      }
+    ]
+  },
+  {
+    "id": "cb_weight_adjusted_echo",
+    "title": "방향을 튼 값",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "flag": "adjusted_my_path", "min_turn": 196 },
+    "tags": ["callback", "story", "chapter5", "weight"],
+    "cooldown": 999,
+    "description": "마지막 해다.\n\n작년에 {name}은 무게를 견디다 방향을 한 번 틀었다. 정석이던 사람은 위험을 들였고, 위험하던 사람은 안전장치를 달았다.\n\n그때는 흔들린 것 같아 부끄러웠다. 지금 보니 — 그건 흔들린 게 아니라 조정이었다. 자기를 너무 믿지 않은 것. 그게 살린 부분이 있었다.",
+    "choices": [
+      {
+        "text": "유연했던 게 결국 나를 지켰다",
+        "effects": { "mental": 5, "intelligence": 1, "tint": 2 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 길만 고집했으면 어땠을지 모른다. 방향을 틀 줄 안 게 {name}을 여기까지 데려왔다. 그것도 실력이라면 실력이었다."
+      },
+      {
+        "text": "그때 안 틀었으면 더 벌었을까, 잠깐 생각했다",
+        "effects": { "mental": -2, "intelligence": 2 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "가지 않은 길은 항상 더 좋아 보인다. {name}은 그걸 알았다. 안 틀었으면 잠을 못 잤을 거다. 잠도 자산이다."
+      }
+    ]
+  },
+  {
+    "id": "cb_cost_embraced_echo",
+    "title": "치르기로 한 값",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "flag": "embraced_cost", "min_turn": 198 },
+    "tags": ["callback", "story", "chapter5"],
+    "cooldown": 999,
+    "description": "작년에 {name}은 청구서를 보고도 접었다. 대가는 알고 시작했다고, 끝까지 가겠다고.\n\n1년이 더 지났다. 청구서는 더 두꺼워졌다. 거울 속 얼굴, 멀어진 사람들, 미뤄둔 몸.\n\n끝이 보이는 지금 — 그 값이 정말 그만한 가치였는지 묻는 순간이 온다.",
+    "choices": [
+      {
+        "text": "여기까지 왔으면 값은 다 치른 거다",
+        "effects": { "mental": 3, "tint": 1 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "후회는 사치다. {name}은 그렇게 생각하기로 했다. 마지막 구간이다. 지금 멈추면 치른 값이 전부 의미를 잃는다."
+      },
+      {
+        "text": "다 끝나면, 잃은 걸 하나씩 되찾기로 했다",
+        "effects": { "mental": 5, "health": 2, "tint": 3 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "목표에 닿든 못 닿든, 그 다음이 있다는 걸 {name}은 처음으로 떠올렸다. 끝이 끝이 아닐 수도 있다는 게 — 조금 위로가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "cb_cost_reclaimed_echo",
+    "title": "되찾은 것의 무게",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "family",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "flag": "reclaimed_cost", "min_turn": 198 },
+    "tags": ["callback", "story", "chapter5"],
+    "cooldown": 999,
+    "description": "작년에 {name}은 잃은 것 중 하나를 되찾기로 했다. 미룬 전화, 미룬 검진, 미룬 사람.\n\n그 작은 결정이 1년 동안 조용히 자랐다. 다시 이어진 관계, 챙긴 몸. 목표를 향해 달리면서도 그 끈은 놓지 않았다.\n\n마지막 해를 시작하는 지금, {name}은 그게 얼마나 다행이었는지 안다.",
+    "choices": [
+      {
+        "text": "균형을 지킨 게 결국 나를 버티게 했다",
+        "effects": { "mental": 6, "health": 2, "tint": 3 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "전부를 걸지 않은 게 약점이 아니라 힘이었다. {name}은 그걸 이제 안다. 돈만 좇은 사람은 도착해도 혼자다. {name}은 혼자가 아니었다."
+      },
+      {
+        "text": "그래도 마지막 1년은 다시 전력으로",
+        "effects": { "mental": 2, "investment_skill": 1 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "되찾을 건 되찾았다. 이제 마지막 스퍼트다. {name}은 끈을 놓지 않은 채로, 다시 속도를 올렸다."
+      }
+    ]
+  },
+  {
+    "id": "cb_crack_hardened_echo",
+    "title": "끊고 난 자리",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "flag": "crack_hardened", "min_turn": 200 },
+    "tags": ["callback", "story", "chapter5", "crack"],
+    "cooldown": 999,
+    "description": "작년에 {name}은 금 간 관계를 끊었다. 단호해서가 아니라 지쳐서.\n\n그 뒤로 사람을 들이는 문이 조금 더 무거워졌다. 안전해진 만큼 좁아졌다. 마지막 해, 곁에 남은 사람의 수를 세어보다 {name}은 잠깐 멈췄다.",
+    "choices": [
+      {
+        "text": "좁아도 단단한 게 낫다",
+        "effects": { "mental": 2, "intelligence": 1 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "검증된 사람 몇이면 됐다. {name}은 그렇게 정리했다. 외로움은 비용이고, 배신은 손실이다. 비용이 낫다."
+      },
+      {
+        "text": "한 명쯤은, 다시 문을 열어볼까 생각했다",
+        "effects": { "mental": 4, "social_skill": 1, "tint": 3 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "끊는 건 쉬웠는데 다시 여는 건 어려웠다. 그래도 {name}은 연락처 하나를 한참 들여다봤다. 닫기만 하는 사람은 결국 혼자가 된다는 걸 알아서."
+      }
+    ]
+  },
+  {
+    "id": "cb_crack_softened_echo",
+    "title": "이해하기로 한 뒤",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "flag": "crack_softened", "min_turn": 200 },
+    "tags": ["callback", "story", "chapter5", "crack"],
+    "cooldown": 999,
+    "description": "작년에 {name}은 금 간 관계를 끊지 않고 이해하기로 했다. 호구일 수도 있다고 생각하면서도.\n\n1년이 지나 보니 — 그 사람은 변하지 않았다. 하지만 {name}을 미워하지 않고 사는 법은 배웠다. 손해를 봤을 수도 있다. 그런데 마음은 가벼웠다.",
+    "choices": [
+      {
+        "text": "사람을 믿는 쪽으로 사는 게 맞다",
+        "effects": { "mental": 5, "social_skill": 1, "tint": 4 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이용당하는 것보다 의심하며 사는 게 더 사람을 망가뜨린다. {name}은 그렇게 믿기로 했다. 손해 좀 보면 어떤가. 잠은 잘 잔다."
+      },
+      {
+        "text": "이번엔 선을 좀 그었다",
+        "effects": { "mental": 3, "intelligence": 1 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이해하는 것과 다 받아주는 건 다르다. {name}은 이제 그 경계를 안다. 믿되, 전부를 맡기지는 않는다. 그것도 1년이 가르쳐준 거였다."
+      }
+    ]
+  },
+  {
+    "id": "cb_crack_distanced_echo",
+    "title": "딱 그만큼의 거리",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": { "flag": "crack_distanced", "min_turn": 200 },
+    "tags": ["callback", "story", "chapter5", "crack"],
+    "cooldown": 999,
+    "description": "작년에 {name}은 금 간 사람을 끊지도, 붙잡지도 않았다. 딱 그만큼의 거리를 뒀다.\n\n그 거리감이 어느새 모든 관계의 기본값이 됐다. 누구와도 적당히. 다치지 않는 만큼만. 마지막 해, {name}은 문득 그게 편한 건지 외로운 건지 헷갈렸다.",
+    "choices": [
+      {
+        "text": "이 거리감이 어른의 방식이다",
+        "effects": { "mental": 2, "intelligence": 2 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기대가 없으면 실망도 없다. {name}은 그 공식으로 4년을 버텼다. 효율적이었다. 가끔 너무 효율적이라 무서웠다."
+      },
+      {
+        "text": "한 사람한테는, 거리를 좁혀보기로 했다",
+        "effects": { "mental": 5, "social_skill": 1, "tint": 3 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "전부한테 거리를 둘 필요는 없었다. {name}은 한 명을 골라 한 걸음 다가갔다. 다칠 수도 있었다. 그런데 안 다치려고만 살면 아무것도 못 가진다."
+      }
+    ]
+  },
+  {
+    "id": "cb_grace_echo",
+    "title": "받은 손을 갚는 날",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": { "flag": "accepted_grace", "min_turn": 198 },
+    "tags": ["callback", "story", "chapter5", "grace"],
+    "cooldown": 999,
+    "description": "작년에 {name}은 예상치 못한 사람한테서 손을 받았다. 무너지려던 순간을 정확히 받친 손이었다.\n\n마지막 해, 이번엔 반대였다. {name} 주변에 무너지려는 사람이 보였다. 후배일 수도, 옛 친구일 수도 있었다. 1년 전의 {name}처럼.\n\n받은 손을 어떻게 할지는 — 결국 본인이 정한다.",
+    "choices": [
+      {
+        "text": "내가 받은 것처럼, 손을 내밀었다",
+        "effects": { "mental": 6, "social_skill": 1, "tint": 6 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"갚지 말고 다른 사람한테 해.\" 그 말이 이제 {name}의 차례였다. 큰 도움은 아니었다. 그래도 누군가의 무너지던 순간을 받쳤다. 그게 돌고 도는 거였다."
+      },
+      {
+        "text": "마지막 해다. 나부터 챙겨야 했다",
+        "effects": { "mental": -2, "money": 0, "tint": -2 },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "여유가 없었다. {name}은 모른 척 지나쳤다. 틀린 선택은 아니었다. 다만 1년 전 자기를 받쳐준 그 손이 잠깐 떠올랐다. 그뿐이었다."
+      }
+    ]
+  }
+]

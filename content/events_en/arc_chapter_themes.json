@@ -1,0 +1,135 @@
+[
+  {
+    "id": "arc_35_orthodox_weight",
+    "title": "A Day That Feels Stuck",
+    "description": "Three years of playing it straight.\n\nA job, savings, diversified investments. Every month the same amount landed in the same place. Safe. And slow.\n\nToday {name} saw a post: someone made ₩100M in a single month on crypto. A classmate cleared a year of {name}'s savings in one shot flipping a presale apartment right.\n\n{name} saves at the same pace, month after month. It's not the wrong road. But some days the numbers on the screen look like they've stopped moving.\n\nThis was the weight of the orthodox path. Boredom. And the doubt — is this really working?",
+    "choices": [
+      {
+        "text": "Trust the slow road. Slow isn't losing.",
+        "result_text": "People chasing one big hit also lose it in one. {name} had seen that. Slow isn't losing. Moved the same amount into the same place again."
+      },
+      {
+        "text": "Just once, looked at the risky side",
+        "result_text": "Just once. Knowing that's exactly how it starts, {name} opened the chart anyway. Heart sped up a little. Better than boredom. That was the scary part."
+      },
+      {
+        "text": "Admitted the weight, and slept early",
+        "result_text": "Impatience is usually biggest at 3am. {name} turned off the light. Same pace tomorrow. And that's okay — thought it once more before falling asleep."
+      }
+    ]
+  },
+  {
+    "id": "arc_35_unorthodox_weight",
+    "title": "The Chart at 3AM",
+    "description": "Three years off the beaten path.\n\nLeverage, day-trading, the seats nobody else takes. The assets swung wildly. Some months doubled. Some months cut in half.\n\nThe problem wasn't the money — it was the sleep. Eyes open at 3am. Hand reaches for the phone before the brain does, pulls up the chart. Red and the heart drops; blue and sleep won't come either.\n\nThree years ago this felt like freedom. Now {name} knows — one wrong click can undo everything.\n\nThis was the weight of the unorthodox path. Anxiety. And the doubt — am I actually in control of this?",
+    "choices": [
+      {
+        "text": "This is my way. Stop and you lose.",
+        "result_text": "Getting this far came from not stopping. {name} chose to believe that. Looked at the chart again. Decided the shaking hands were just the caffeine."
+      },
+      {
+        "text": "Built a safety net. Won't bet it all.",
+        "result_text": "People who bet everything lose everything. {name} moved a portion somewhere safe. Returns would shrink — but for the first time, slept through the night without waking."
+      },
+      {
+        "text": "Admitted the weight, left the phone in another room",
+        "result_text": "The chart won't run away. {name} left the phone in the living room and shut the bedroom door. The hand felt empty. Still — fell asleep staring at the ceiling for the first time in a while."
+      }
+    ]
+  },
+  {
+    "id": "arc_35_path_cost",
+    "title": "A Three-Year Receipt",
+    "description": "Out of nowhere, {name} added up the last three years.\n\nNot just the money. The losses had stacked up too, like receipts.\n\nThe number of weekend plans turned down. The days a parent's call got cut short. The years a checkup got pushed back. And — the face in the mirror, clearly more worn than three years ago.\n\nComing this far toward the goal was real. But the road had a price tag, and {name} was only now reading the bill.",
+    "choices": [
+      {
+        "text": "Knew the cost going in. See it through.",
+        "result_text": "Nothing's free. {name} knew that starting out. Folded the bill. Stop here and everything paid so far becomes sunk cost."
+      },
+      {
+        "text": "Decided to reclaim one of the things lost",
+        "result_text": "Can't undo it all, but one was possible. {name} made the call that kept getting pushed back. Or booked the checkup. A small thing. And breathing got a little easier."
+      },
+      {
+        "text": "Stared at the bill a long time. No answer came",
+        "result_text": "Couldn't tell if it was right or wrong. Only that pretending not to know was no longer an option. That's usually how awareness starts. Uncomfortably."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_trust_crack",
+    "title": "From the Side You Trusted",
+    "description": "By year four, {name} figured the eye for people had sharpened.\n\nThen someone trusted shook that. Not a big scam. Borrowed money and kept stalling, or quietly walked back what they'd said, or stopped picking up when things got hard.\n\nThe kind of thing you can't prove. That made it hurt more. A big betrayal you can at least get angry at — a small crack just makes you wonder if you're being too sensitive.\n\n{name} recounted the time spent with that person. Trying to find where the crack first ran.",
+    "choices": [
+      {
+        "text": "Cut them off. A crack never seals back.",
+        "result_text": "{name} cleared the number. Not decisive — just tired. Each person cut off made the world a little smaller. Couldn't be helped, though."
+      },
+      {
+        "text": "Tried to understand. They must've had reasons.",
+        "result_text": "People don't usually turn bad on purpose. {name} chose to believe that. Maybe a sucker for it. Still better than living with hatred."
+      },
+      {
+        "text": "Neither hated nor trusted — just kept distance",
+        "result_text": "Didn't cut them off or hold on. Exactly that much distance. {name} caught himself sorting people into tiers. Couldn't tell if it was growing up or wearing down."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_unexpected_hand",
+    "title": "From the Side You Didn't Expect",
+    "description": "It was right around when things were shaking.\n\nSomeone {name} never expected reached out. Maybe someone long out of touch, maybe someone he'd never thought much of.\n\nIt wasn't some grand help. One meal. A casual check-in. A \"you've looked rough lately.\" One piece of information. One introduction.\n\nBut it caught the exact moment {name} was about to collapse. That's when he understood — help usually doesn't come from the people you've marked down for it.",
+    "choices": [
+      {
+        "text": "Said thank you properly. With his whole heart.",
+        "result_text": "Saying \"thank you\" and meaning it is harder than it sounds, and {name} knew that. This time he did it right. The person smiled, a little awkward. That smile stayed for days."
+      },
+      {
+        "text": "Vowed to repay it. Hates owing.",
+        "result_text": "Some people can't stand only receiving. {name} was one. Said he'd pay it back someday. The person said, \"Don't pay me back — do it for someone else.\" {name} remembered that for a long time."
+      },
+      {
+        "text": "Asked why they were helping",
+        "result_text": "\"You did the same for me once.\" {name} couldn't remember it. Something he'd done without thinking had been a steadying hand for someone. And it came back, four years later."
+      }
+    ]
+  },
+  {
+    "id": "arc_34_money_attracts_money",
+    "title": "That Saying About Money",
+    "description": "Year two. What {name} didn't get a year ago was starting to come into focus.\n\nThat saying — money attracts money. At first it sounded like a comfort the rich made up. But putting it to work himself — it was real. With ₩1M versus ₩10M, the same rate of return came back at a completely different weight.\n\nAnd he saw the reverse too. Those with nothing just pay interest until it's over. When the starting lines differ, running at the same speed only widens the gap.\n\n{name} realized both on the same day. Hope and anger had the same shape.",
+    "choices": [
+      {
+        "text": "Understand the system and ride it",
+        "result_text": "Cursing an unfair world and understanding the system to use it are two different things. {name} chose the latter. Anger he'd keep only as fuel."
+      },
+      {
+        "text": "Ride it, but never forget the starting lines differed",
+        "result_text": "If he ever climbed up, he didn't want to become someone who forgot the days of just paying interest at the bottom. {name} wrote the vow down somewhere. Because forgetting was a sure thing."
+      },
+      {
+        "text": "Honestly, the anger was bigger",
+        "result_text": "Why does one person start with ₩10M and another with ₩1M? {name} knew there was no answer and still held the question a long while. Anger was energy too."
+      }
+    ]
+  },
+  {
+    "id": "arc_34_doors_open",
+    "title": "Doors Are Opened by People",
+    "description": "Year two. There was one more thing {name} had learned.\n\nOpportunity doesn't come through job postings. Real opportunity comes through people. Someone introduces someone, you get called to a certain table, some piece of information slips out over drinks.\n\nA year ago, {name} knew no one. So he thought there were no opportunities. The truth was — there'd just been no people standing at the doors.\n\nNow a few doors were coming into view. And there was always someone standing in front of each one.",
+    "choices": [
+      {
+        "text": "Went out to meet people, actively",
+        "result_text": "He was the shy type, but {name} started handing out cards. It was awkward. Still — he now knew a door only opens if you knock."
+      },
+      {
+        "text": "Meet people, but drew a line at using them",
+        "result_text": "Using people as tools for opportunity is easy. {name} decided not to cross that line. Even reaching Gangnam, he didn't want to climb a staircase made of people."
+      },
+      {
+        "text": "Going through people still felt uncomfortable",
+        "result_text": "He wanted to be judged on merit alone. Knowing it was a naive wish. {name} decided to build his skills first. The doors could be knocked on later."
+      }
+    ]
+  }
+]
