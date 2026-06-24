@@ -10,6 +10,8 @@ signal stat_threshold_crossed(stat_name: String, threshold: int)
 signal tendency_awakened(kind: String)
 signal clue_added(clue_id: String)
 signal thought_completed(thought_id: String)
+# Codex 테마색 구독용 — norm(-1~+1) 부드러운 보간, stage(-2~+2) 이산 효과
+signal moral_tint_changed(norm: float, stage: int)
 
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
@@ -271,6 +273,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	], "system")
 	stats_changed.emit()
 	run_started.emit()
+	moral_tint_changed.emit(moral_tint_norm(), moral_stage())  # Codex 초기 시각 상태 설정
 
 ## 해금한 칭호가 다음 런 시작 보너스가 된다 — 수집의 실질 보상
 func _apply_title_perks():
@@ -837,6 +840,7 @@ func shift_moral_tint(delta: float) -> void:
 		else:
 			pending_tint_vignette["to"] = new_band
 		moral_band_last = new_band
+	moral_tint_changed.emit(moral_tint_norm(), moral_stage())
 
 # −2(새까망) ~ +2(새하양). 이산 효과(틀어짐·돈 글로우)용.
 func moral_stage() -> int:

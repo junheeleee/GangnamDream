@@ -65,9 +65,16 @@
 > 상세 스펙: `docs/MORAL_TINT.md`. 게임의 핵심 신규 시스템. **"회색 시작 → 인간성=하양 / 돈=검정"**.
 > 엔진(Claude)은 완료. Codex는 아래 단일 신호 2개만 구독해서 화면을 칠하면 됨.
 
-**구독할 신호 (GameState):**
-- `GameState.moral_tint_norm()` → `−1.0 ~ +1.0` (부드러운 색 보간용)
-- `GameState.moral_stage()` → `−2 ~ +2` (이산 효과 단계용)
+**구독할 신호 (GameState) — 시그널 기반, 폴링 불필요:**
+```gdscript
+GameState.moral_tint_changed.connect(func(norm: float, stage: int):
+    # norm: -1.0(새까망) ~ 0.0(회색) ~ +1.0(새하양) — 색 보간용
+    # stage: -2/-1/0/+1/+2 — 이산 효과 단계용
+    _apply_moral_visuals(norm, stage)
+)
+```
+- **run_started 시에도 발동** — 새 런 시작 시 norm=0.0 / stage=0 초기 상태로 리셋됨
+- 즉시 현재값 읽기: `GameState.moral_tint_norm()`, `GameState.moral_stage()`
 
 **칠할 것:**
 1. **테마색 보간**: norm을 따라 전역 테마/액센트를 **검정(−1) ↔ 회색(0) ↔ 하양(+1)** 으로. 시작은 회색(0).
