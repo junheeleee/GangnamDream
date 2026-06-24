@@ -1,5 +1,33 @@
 # Gangnam Dream Work Log
 
+## 2026-06-24 (다은/지연 로맨스 상호배타 + 지연 Y4-Y5 아크 완성)
+
+### 수정 내용
+
+#### 한지연 Y4-Y5 아크 신규 이벤트 4종
+- `arc_jiyeon_year4_call` (t>=145): Y4 부산 첫 전화 — 3가지 반응, `jiyeon_year4_wants_more` 플래그
+- `arc_jiyeon_year4_seoul` (t165-192, 표준): 서울 방문 — 연인 인정 → `lover`/`jiyeon_lovers_acknowledged`, 아름다운 이별 → `jiyeon_beautifully_apart`, 침묵 → `distant`
+- `arc_jiyeon_year4_seoul_daeun` (t165-192, 다은 갈등): 다은 연인 경로 전용 — 솔직 고백 +5 → `jiyeon_respectfully_distanced`/`respected`, 침묵 -5 → `jiyeon_hidden_feelings`/`close`
+- `arc_jiyeon_year5_return` (Y5, lover 경로): "강남에서 봐요" → `jiyeon_gangnam_together`
+- `arc_jiyeon_year5_news` (Y5, 비연인 경로): 부산 소식 + `description_if_known` 2종(솔직한 작별 / 침묵의 무게)
+
+#### 다은/지연 상호배타 dispatch 분기
+- `_next_arc_id()` t165-192 블록: `daeun_together_path`/`lover`/`together`/`committed` → `arc_jiyeon_year4_seoul_daeun`; 아니면 조건부 `arc_jiyeon_year4_seoul`
+- 최종 엔딩에서 두 로맨스 동시 진행 불가 — 다은 연인 경로 플레이어는 지연에게 솔직해지거나 침묵하는 선택만 가능
+
+#### description_if_known 전환 (write-only→read)
+- `arc_jiyeon_year5_news`: `jiyeon_respectfully_distanced` / `jiyeon_hidden_feelings` 두 플래그 소비 — 갈등 씬 선택이 Y5 소식 반응에 반영
+- KR+EN 동기화
+- write-only 226 baseline 유지 (두 플래그 all read로 전환)
+
+### 결과
+- 지연 아크 Y1→Y5 완전 연결 (Y4-Y5 공백 해소)
+- 다은 연인 경로 ↔ 지연 로맬스 상호배타 보장
+- `jiyeon_man` 엔딩 `lover` stage도 포함 (GameState.gd)
+- audit ERROR 0 / WARNING 0 / 밴드 통과
+
+---
+
 ## 2026-06-24 (MORAL_TINT 6차 확장 — shadow/chain/butterfly/NG+ 고도덕강도 이벤트 + cut_sangchul_network 엔딩 변주)
 
 ### 수정 내용

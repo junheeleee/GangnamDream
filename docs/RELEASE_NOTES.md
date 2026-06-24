@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added (2026-06-24) — 다은/지연 로맨스 상호배타 + 지연 Y4-Y5 아크 완성
+
+- **한지연 Y4-Y5 아크 5개 이벤트**: 부산 첫 전화(Y4) → 서울 방문(Y4, 표준/갈등 2버전) → Y5 귀환(연인 경로) / 부산 소식(비연인 경로). Y3 부산 출발 이후 완전한 공백이었던 Y4-Y5 구간 해소.
+- **다은/지연 상호배타 dispatch**: `_next_arc_id()` t165-192 — 다은 연인 경로(`daeun_together_path`/`lover`/`together`/`committed`)면 `arc_jiyeon_year4_seoul_daeun`(갈등 버전), 아니면 일반 버전. 두 로맨스 동시 진행 불가 보장.
+- **arc_jiyeon_year4_seoul_daeun**: 다은 연인 플레이어 전용 씬 — 지연에게 솔직(`jiyeon_respectfully_distanced`, tint +5) vs 침묵(`jiyeon_hidden_feelings`, tint -5). KR+EN.
+- **arc_jiyeon_year5_news `description_if_known` 2종**: 갈등 씬 선택 결과가 Y5 소식 수신 시 텍스트에 반영. 솔직한 작별→기쁜 소식, 침묵→이름 붙이기 어려운 감정. write-only 플래그 전환, baseline 226 유지.
+- **`jiyeon_man` 엔딩** `lover` stage 포함(기존엔 `honest_together`만).
+
 ### Added (2026-06-24) — MORAL_TINT 6차 확장 + cut_sangchul_network 엔딩 변주
 
 - **NG+ 고도덕강도 이벤트 tint 8종** (`ng_plus_events.json`): 지식을 갖고도 상철을 이용하는 순간 (-6/+7), 아버지 전화 2번째 무시 (-2/+3), 자기기만으로 카지노 재입장 (-4/+3), 도박 중 낯선 사람에게 손 내밀기 (-3/+5). NG+의 핵심은 알면서도 같은 실수를 반복하는 무게 — tint가 그 순간을 반영.
