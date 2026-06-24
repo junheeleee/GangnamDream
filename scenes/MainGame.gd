@@ -1499,8 +1499,9 @@ func _next_arc_id() -> String:
 	if t >= 35 and f.get("arc_father_02_done", false) \
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
-	# ── 아버지 별세 — 병원 알고도 미방문 (t64 이후 타임아웃) ──
-	if t >= 64 and f.get("arc_father_03_seen", false) \
+	# ── 아버지 별세 — 병원 알고도 미방문 (t100 이후, medication 목격 후 타임아웃) ──
+	if t >= 100 and f.get("arc_father_03_seen", false) \
+			and f.get("arc_father_medication_seen", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_passed", false):
 		return "arc_father_passing"
@@ -1845,9 +1846,9 @@ func _next_arc_id() -> String:
 			and not f.get("arc_opp_jiyeon_result_seen", false) \
 			and (f.get("jiyeon_deal_won", false) or f.get("jiyeon_deal_lost", false)):
 		return "arc_opp_jiyeon_win" if f.get("jiyeon_deal_won", false) else "arc_opp_jiyeon_lose"
-	# ── 지연의 고백 — 제안 이후, 임상철 경고 이후 ──
+	# ── 지연의 고백 — 제안 이후, (임상철 경고 이후 OR t>=70 자연 발견) ──
 	if t >= 56 and f.get("arc_jiyeon_offer_seen", false) \
-			and f.get("arc_sangchul_jiyeon_reveal_seen", false) \
+			and (f.get("arc_sangchul_jiyeon_reveal_seen", false) or t >= 70) \
 			and not f.get("arc_jiyeon_truth_seen", false):
 		if f.get("warned_about_jiyeon", false):
 			return "arc_jiyeon_truth_warned"

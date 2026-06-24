@@ -1414,8 +1414,8 @@ func check_game_over():
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
 		if relationships.is_empty() and not has_any_close_relationship():
-			# 아버지와도 화해 못 했으면 진짜 아무도 없는 집
-			if not flags.get("father_reconciled", false):
+			# 아버지도 없거나(별세/미화해) → 진짜 빈 집
+			if not flags.get("father_reconciled", false) or flags.get("father_passed", false):
 				finish_run("empty_house"); return     # 빈 집
 			finish_run("lonely_rich"); return         # 외로운 부자 — 돈만 남음
 		# 진엔딩: White 밴드(tint ≥ +60) 유지한 채로 30억 — 극악 난이도 0.1%
