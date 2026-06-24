@@ -1103,6 +1103,12 @@ func remove_item(item_id, quantity):
 			return true
 	return false
 
+func has_item(item_id: String) -> bool:
+	for owned in inventory:
+		if owned.get("id", "") == item_id and int(owned.get("quantity", 0)) > 0:
+			return true
+	return false
+
 func add_log(message, log_type):
 	var entry = {
 		"turn": turn,

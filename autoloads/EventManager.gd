@@ -262,6 +262,8 @@ func _check_conditions(conditions):
 			"cast_flag":
 				# { "person":"jaehyuk", "flag":"suspected" }
 				if not GameState.cast_has_flag(str(req.get("person","")), str(req.get("flag",""))): return false
+			"has_item":
+				if not GameState.has_item(str(req)): return false
 	return true
 
 func _check_cast_stage(req: Dictionary) -> bool:

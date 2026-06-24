@@ -1500,6 +1500,14 @@ func _next_arc_id() -> String:
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
 	# ── 아버지 별세 — 병원 알고도 미방문 (t100 이후, medication 목격 후 타임아웃) ──
+	# [유물 해금] 통화시간 23초를 가진 채 KTX를 타는 순간 — 별세 직전 전처리
+	if t >= 100 and f.get("arc_father_03_seen", false) \
+			and f.get("arc_father_medication_seen", false) \
+			and not f.get("visited_father", false) \
+			and not f.get("father_passed", false) \
+			and GameState.has_item("artifact_father_call") \
+			and not f.get("arc_father_call_on_ktx_seen", false):
+		return "arc_father_call_on_ktx"
 	if t >= 100 and f.get("arc_father_03_seen", false) \
 			and f.get("arc_father_medication_seen", false) \
 			and not f.get("visited_father", false) \
@@ -1574,6 +1582,15 @@ func _next_arc_id() -> String:
 		return "arc_sangchul_known_reflex"
 
 	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
+	# [유물 해금] 임상철 명함을 가진 채 대면 전날 밤 — 명함과 함께 서는 씬
+	if t >= 60 and f.get("sangchul_truth_known", false) \
+			and not f.get("sangchul_confronted", false) \
+			and not f.get("sangchul_truth_buried", false) \
+			and not f.get("sangchul_quietly_distanced", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and GameState.has_item("artifact_sangchul_card") \
+			and not f.get("arc_sangchul_card_at_confrontation_seen", false):
+		return "arc_sangchul_card_at_confrontation"
 	if t >= 60 and f.get("sangchul_truth_known", false) \
 			and not f.get("sangchul_confronted", false) \
 			and not f.get("sangchul_truth_buried", false) \
@@ -1760,6 +1777,11 @@ func _next_arc_id() -> String:
 	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 42:
 		return "arc_jaehyuk_04b_counter"
 	# ── 사기 당한 후 재기 — ghost 이후, 사후처리 전 ──
+	# [유물 해금] 포장마차 셀카를 가진 채 ghost 발각 직후 — 그날 밤의 진실
+	if t >= 42 and f.get("arc_jaehyuk_ghost_seen", false) \
+			and GameState.has_item("artifact_jaehyuk_photo") \
+			and not f.get("arc_jaehyuk_photo_in_dark_seen", false):
+		return "arc_jaehyuk_photo_in_dark"
 	if t >= 44 and f.get("arc_jaehyuk_ghost_seen", false) \
 			and f.get("jaehyuk_scammed", false) \
 			and not f.get("arc_jaehyuk_standup_seen", false):
@@ -1896,6 +1918,12 @@ func _next_arc_id() -> String:
 			and f.get("hyunsu_pivoted", false) \
 			and not f.get("hyunsu_reconnected", false):
 		return "hyunsu_reunion_later"
+	# [유물 해금] 현수 명함 × 극도로 지친 Y4~Y5 — 연락해도 되는 사람
+	if t >= 145 and f.get("hyunsu_reconnected", false) \
+			and GameState.mental <= 35 \
+			and GameState.has_item("artifact_hyunsu_card") \
+			and not f.get("arc_hyunsu_lifeline_call_seen", false):
+		return "arc_hyunsu_lifeline_call"
 
 	# ══ 8구간: 연도 마커 + 챕터 내부 씬 — 5년의 흐름을 체감하는 무조건 씬 ══
 	# t=52 = 13개월차(1년 1개월), t=72 = 18개월차(1년 6개월), t=96 = 24개월차(2년)
@@ -6547,6 +6575,14 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		lines.append(_tr("📱  박재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.", "📱  I kept a careful distance from Park Jaehyuk. I think that was right."))
 	elif hs != "unknown":
 		lines.append(_tr("📱  박재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.", "📱  Park Jaehyuk reaches out now and then. Whether I answer depends on the day."))
+
+	# 강현수 — 고시원 옆방, 자기 길을 간 사람
+	var hyunsu_stage := GameState.get_cast_stage("hyunsu")
+	if hyunsu_stage in ["passed", "deployed", "friend"] or GameState.flags.get("hyunsu_reconnected", false):
+		if GameState.flags.get("called_hyunsu_for_help", false):
+			lines.append(_tr("🎓  바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.", "🎓  I called Hyunsu when I'd hit bottom. He just listened. A person who could listen without words — that was what I needed."))
+		else:
+			lines.append(_tr("🎓  현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "🎓  Hyunsu became a civil servant. We're both doing all right. No more, no less."))
 
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))

@@ -2881,6 +2881,10 @@
     ],
     "cooldown": 9999,
     "description": "사기 당한 지 한 달이 지났다.\n\n잃은 돈의 액수를 멍하니 계산해봤다.\n다시 계산해봤다. 숫자가 바뀌지 않았다.\n\n{name}은 노트를 꺼냈다.\n\n처음에 이 도시에 왔을 때 통장에 뭐가 있었더라.\n그때도 거의 없었다. 그때도 어떻게든 됐다.\n\n지금이 그때랑 다른 게 있다면 —\n최재혁 같은 사람을 알게 됐다는 것.\n그리고 왜 그 말이 그렇게 달콤하게 들렸는지를, 이제 안다는 것.\n\n{name}은 노트에 뭔가를 적기 시작했다.",
+    "description_if_known": {
+      "jaehyuk_night_was_real": "사기 당한 지 한 달이 지났다.\n\n숫자가 바뀌지 않았다.\n\n그런데 {name}은 그 사진을 지우지 않았다.\n포장마차 앞, 둘이서 찍은 것.\n그날 밤은 그날 밤이었다.\n\n{name}은 노트를 꺼냈다. 그날 밤 이후의 것만 쓰기로 했다.",
+      "deleted_jaehyuk_photo": "사기 당한 지 한 달이 지났다.\n\n숫자가 바뀌지 않았다.\n\n{name}은 사진도 지웠다. 연락처도 지웠다.\n포장마차, 군대 얘기, 그날 밤의 웃음 —\n전부 같이 지웠다.\n\n{name}은 노트를 꺼냈다. 처음부터 다시 썼다."
+    },
     "choices": [
       {
         "text": "재혁이 했던 말들을 노트에 받아 적었다",
@@ -3394,6 +3398,135 @@
         ],
         "follow_up_event": "",
         "result_text": "덮었다.\n공부는 꾸준해야 한다. 오늘 밤새는 것보다 내일 1시간이 낫다."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_card_at_confrontation",
+    "title": "명함, 한 장",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "sangchul", "artifact"],
+    "cooldown": 9999,
+    "description": "대면하기 전날 밤.\n\n주머니를 뒤지다 손에 걸렸다.\n그의 명함. 처음 만난 날 직접 건넨 것.\n뒷면에 직접 쓴 개인 번호.\n\n'이거 줄 사람 없어요. 민준 씨한테만 드리는 거니까.'\n\n{name}은 명함을 뒤집어봤다.\n같은 글씨. 같은 사람. 다른 이야기.",
+    "choices": [
+      {
+        "text": "명함을 그대로 가지고 내일 만나기로 했다",
+        "effects": {
+          "tint": 3,
+          "mental": -5
+        },
+        "flags": [
+          "arc_sangchul_card_at_confrontation_seen",
+          "confronted_with_card"
+        ],
+        "result_text": "버리지 않았다.\n아는 것과 모르는 척하는 것 사이 어딘가에서,\n그 명함을 주머니에 다시 넣었다."
+      },
+      {
+        "text": "명함을 서랍에 넣었다. 가지고 싶지 않았다",
+        "effects": {
+          "tint": -3,
+          "mental": -3
+        },
+        "flags": [
+          "arc_sangchul_card_at_confrontation_seen",
+          "discarded_card_before_confrontation"
+        ],
+        "result_text": "서랍을 닫았다.\n{name}은 내일 아무것도 없이 가기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_photo_in_dark",
+    "title": "그날 밤의 사진",
+    "background": "goshiwon_room",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "jaehyuk", "artifact"],
+    "cooldown": 9999,
+    "description": "밤.\n\n{name}은 폰을 꺼내 갤러리를 열었다.\n\n사진 하나.\n포장마차 앞. 둘이서 찍은 것.\n재혁이 팔을 어깨에 올리고 웃고 있었다.\n\n그날 밤엔 진짜였다.\n사기꾼이어도, 그날 밤 그 웃음만큼은 — 진짜였을 것이다.\n\n아니면 그것도 연습된 것이었을까.",
+    "choices": [
+      {
+        "text": "진짜였다고 믿기로 했다",
+        "effects": {
+          "mental": 8,
+          "tint": 4
+        },
+        "flags": [
+          "arc_jaehyuk_photo_in_dark_seen",
+          "jaehyuk_night_was_real"
+        ],
+        "result_text": "삭제하지 않았다.\n증거 자료 폴더 밖에, 그냥 뒀다.\n그날 밤은 그날 밤이었다."
+      },
+      {
+        "text": "사진을 삭제했다",
+        "effects": {
+          "mental": -5,
+          "tint": -2
+        },
+        "flags": [
+          "arc_jaehyuk_photo_in_dark_seen",
+          "deleted_jaehyuk_photo"
+        ],
+        "result_text": "영구 삭제.\n{name}은 폰을 뒤집어 엎어놨다."
+      }
+    ]
+  },
+  {
+    "id": "arc_hyunsu_lifeline_call",
+    "title": "연락해도 되는 사람",
+    "background": "goshiwon_room",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": ["story", "arc", "hyunsu", "artifact"],
+    "cooldown": 9999,
+    "description": "손에 든 게 없었다.\n\n{name}은 연락처 목록을 위아래로 스크롤했다.\n전화할 수 있는 사람.\n정확히는 — 지금 이 상태로 전화해도 될 사람.\n\n현수의 이름이 있었다.\n\n그 명함. 공시 4년 만에 찍은 정장 사진 한 장.\n'형 덕분이에요.' 그 말.",
+    "choices": [
+      {
+        "text": "전화했다",
+        "effects": {
+          "mental": 20,
+          "social_skill": 1,
+          "tint": 5
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 8
+          }
+        },
+        "flags": [
+          "arc_hyunsu_lifeline_call_seen",
+          "called_hyunsu_for_help"
+        ],
+        "result_text": "\"형, 무슨 일 있어요?\"\n\n별 말 안 했다. 그냥 얘기했다. 요즘 힘들다고.\n현수도 별 말 안 했다. 그냥 들었다.\n\n전화를 끊고 나서, 조금 달라진 것 같았다."
+      },
+      {
+        "text": "전화기를 내려놨다",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [
+          "arc_hyunsu_lifeline_call_seen"
+        ],
+        "result_text": "못 했다.\n아직은 혼자서 해야 할 것 같았다."
       }
     ]
   }

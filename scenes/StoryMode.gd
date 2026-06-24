@@ -362,6 +362,13 @@ func _render_current():
 			if GameState.flags.get(str(fl), false):
 				know_variant = str(know_map[fl])
 				break
+	if know_variant == "":
+		var held_map = _current.get("description_if_held", null)
+		if held_map is Dictionary:
+			for item_id in held_map.keys():
+				if GameState.has_item(str(item_id)):
+					know_variant = str(held_map[item_id])
+					break
 	if know_variant != "":
 		desc_raw = know_variant
 	elif mental <= 20 and _current.has("description_low_mental"):
