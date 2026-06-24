@@ -242,7 +242,10 @@
         },
         "result_text": "계란말이가 따뜻했다. 다은도 조용했다.\n\n이런 밤이 있었기 때문에 거기까지 갔는지도 모른다. 말이 필요 없는 밤이었다."
       }
-    ]
+    ],
+    "description_if_known": {
+      "daeun_year4_close": "숫자가 거의 다 왔다.\n\n다은이 저녁을 차렸다. 계란말이. {name}이 어느 날 좋아한다고 했던 것이었다.\n\n\"오늘 뭔가 느낌이 달라요.\" 다은이 말했다.\n\n{name}은 대답하지 않았다. 내일이면 알 것이다.\n\n4년 전 그 카페 약속이 생각났다. 강남 들어오면 바로 가자고. 내일이면 그 약속을 지킬 수 있다.\n\n5년이 이 저녁에 있었다."
+    }
   },
   {
     "id": "arc_daeun_year5_apart",
@@ -285,6 +288,53 @@
           "arc_daeun_year5_apart_seen"
         ],
         "result_text": "연락하지 않았다.\n\n강남에 도착한 날 연락하는 건 — 자랑 같아서. 그러면 안 될 것 같아서.\n\n그냥 혼자 거기 섰다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_year4_quiet",
+    "title": "오늘의 서울",
+    "category": "story",
+    "rarity": "story",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun"
+    ],
+    "portrait": "player_normal",
+    "background": "street",
+    "description": "다은이 강남 회사에서 일한 지 두 달째다.\n\n\"언제 강남 오는 거예요? 저 근처 카페 알아놨는데.\"\n\n{name}은 웃었다.\n\n5년 가운데 4년이 지났다. 강남은 아직 멀다. 다은은 이미 그 근처에 있다.\n이상하게 — 조급하지 않았다.",
+    "description_if_known": {
+      "jiyeon_respectfully_distanced": "다은이 강남 회사에서 일한 지 두 달째다.\n\n\"언제 강남 오는 거예요? 저 근처 카페 알아놨는데.\"\n\n{name}은 잠깐 멈췄다.\n\n지난달 서울에 온 지연을 만났다. 어렵게 말했다 — 지금 만나는 사람이 있다고.\n그 대화를 다은은 모른다.\n\n그런데 오늘, 다은이 그 말을 할 때 — 그 선택이 잘됐다는 생각이 들었다."
+    },
+    "choices": [
+      {
+        "text": "\"당연하죠. 내가 들어가면 그날 바로.\" — 약속을 확인했다",
+        "effects": {
+          "mental": 3,
+          "tint": 2
+        },
+        "flags": [
+          "arc_daeun_year4_quiet_seen",
+          "daeun_year4_close"
+        ],
+        "result_text": "그 약속이 아직 있다는 게 — 오늘 하루를 다른 온도로 만들었다."
+      },
+      {
+        "text": "\"...그때 얘기해요. 아직 멀어서.\" — 솔직하게 말했다",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [
+          "arc_daeun_year4_quiet_seen"
+        ],
+        "result_text": "솔직한 말이었다. 다은이 고개를 끄덕였다. 기다릴 수 있다는 듯이."
       }
     ]
   }

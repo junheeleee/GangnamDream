@@ -2118,6 +2118,10 @@ func _next_arc_id() -> String:
 			and not f.get("arc_father_passing_seen", false) \
 			and not f.get("father_passed", false):
 		return "arc_father_passing"
+	# 김다은 Y4 후반 — 오늘의 서울 (함께 궤적, 강남 취직 이후 조용한 행복 비트)
+	if t >= 170 and f.get("arc_daeun_year4_together_seen", false) \
+			and not f.get("arc_daeun_year4_quiet_seen", false):
+		return "arc_daeun_year4_quiet"
 	# 김다은 Year 5 — 30억 전날 밤 (함께 궤적)
 	if t >= 193 and f.get("arc_daeun_year4_together_seen", false) \
 			and not f.get("arc_daeun_year5_seen", false):

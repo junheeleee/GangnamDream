@@ -88,7 +88,10 @@
           "tint": 3
         }
       }
-    ]
+    ],
+    "description_if_known": {
+      "daeun_year4_close": "Numbers almost there.\n\nDaeun had made dinner. Rolled omelette. Something {name} had once mentioned liking.\n\n\"Today feels different somehow.\" Daeun said.\n\n{name} said nothing. Tomorrow would show it.\n\nThought of that promise from four years ago — the cafe in Gangnam, when you get there. Tomorrow, that promise could be kept.\n\nFive years lived in this one evening."
+    }
   },
   {
     "id": "arc_daeun_year5_apart",
@@ -108,6 +111,26 @@
         "effects": {
           "tint": 2
         }
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_year4_quiet",
+    "title": "Today's Seoul",
+    "description": "Daeun's been at the Gangnam company for two months.\n\n\"When are you getting to Gangnam? I've already scoped out a cafe nearby.\"\n\n{name} smiled.\n\nFour of five years gone. Still short of Gangnam. Daeun's already close.\nStrangely — no urgency.",
+    "description_if_known": {
+      "jiyeon_respectfully_distanced": "Daeun's been at the Gangnam company for two months.\n\n\"When are you getting to Gangnam? I've already scoped out a cafe nearby.\"\n\n{name} paused.\n\nLast month, Jiyeon had come to Seoul. {name} had said the hard thing — there's someone. Daeun doesn't know about that conversation.\n\nBut today, hearing Daeun say this — it felt like the right choice."
+    },
+    "choices": [
+      {
+        "effects": {
+          "tint": 2
+        },
+        "result_text": "That promise still standing — it gave today a different warmth."
+      },
+      {
+        "effects": {},
+        "result_text": "An honest answer. Daeun nodded. As if willing to wait."
       }
     ]
   }
