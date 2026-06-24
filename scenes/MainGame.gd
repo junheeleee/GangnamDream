@@ -2070,13 +2070,16 @@ func _next_arc_id() -> String:
 			and f.get("arc_y3_jiyeon_departure_seen", false) \
 			and not f.get("arc_jiyeon_year4_call_seen", false):
 		return "arc_jiyeon_year4_call"
-	# 한지연 Y4 서울 방문 — 연락 후 + 더 원하거나 honest_together/close 관계
+	# 한지연 Y4 서울 방문 — 다은 연인 경로면 갈등 버전, 아니면 일반 버전
 	if t >= 165 and t <= 192 \
 			and f.get("arc_jiyeon_year4_call_seen", false) \
-			and (f.get("jiyeon_year4_wants_more", false) \
-				or GameState.get_cast_stage("jiyeon") in ["honest_together", "close", "lover"]) \
 			and not f.get("arc_jiyeon_year4_seoul_seen", false):
-		return "arc_jiyeon_year4_seoul"
+		if f.get("daeun_together_path", false) \
+				or GameState.get_cast_stage("daeun") in ["lover", "together", "committed"]:
+			return "arc_jiyeon_year4_seoul_daeun"
+		elif f.get("jiyeon_year4_wants_more", false) \
+				or GameState.get_cast_stage("jiyeon") in ["honest_together", "close", "lover"]:
+			return "arc_jiyeon_year4_seoul"
 	# 한지연 Y5 — 관계에 따라 분기 (귀환 vs 부산 소식)
 	if t >= 193 \
 			and f.get("arc_jiyeon_year4_call_seen", false) \

@@ -193,7 +193,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
     "cooldown": 9999,
     "description": "임상철과 마지막으로 얘기한 날로부터 두 달이 지났다.\n\n오늘 그의 모임에서 알게 된 부동산 컨설턴트에게서 연락이 왔다.\n임상철과는 관계없는 독립적인 딜. 수익률 조건도 괜찮다.\n\n{name}은 그 사람 이름을 처음 봤을 때 잠깐 멈췄다.\n출처가 어디서부터 시작됐는지 알고 있었다.\n\n알면서 쓸 것인가. 아니면 이 망에서 손을 뗄 것인가.",
     "choices": [
@@ -249,7 +253,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jiyeon"],
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "오랜만에 만났다.\n\n커피를 마시다가 한지연이 말했다.\n\"저 요즘 공인중개사 공부하고 있어요.\"\n\n{name}은 잠깐 멈칫했다.\n아버지가 부동산 회사를 운영하는 그녀가 직접 자격증을 딴다는 게 의외였다.\n\n\"아버지 회사 일 때문에요?\"",
     "choices": [
@@ -317,7 +325,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jiyeon"],
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "한지연에게서 짧은 문자가 왔다.\n\"저 부산 내려가요. 거기서 독립 사무소 낼 거예요.\"\n\n{name}은 문자를 세 번쯤 읽었다.\n갑자기는 아니었다. 공부한다고 했고, 방향을 찾는다고 했다.\n그래도 막상 '간다'는 말은 달랐다.\n\n뭐라고 하면 좋을까.",
     "choices": [
@@ -386,7 +398,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "character"],
+    "tags": [
+      "story",
+      "arc",
+      "character"
+    ],
     "cooldown": 9999,
     "description": "일요일 오전.\n\n아무런 이유가 없었다. 할 일이 있는 것도 아니었다.\n{name}은 핸드폰을 들었다가, 내려놨다가, 다시 들었다.\n\n생각해보니 — 지난 3년 가까이, 먼저 연락해본 적이 거의 없었다.\n항상 어딘가서 연락이 왔고, {name}은 받는 쪽이었다.\n\n오늘은 먼저 걸어보기로 했다. 아무 이유 없이.",
     "choices": [
@@ -451,7 +467,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jiyeon"],
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "한지연에게서 전화가 왔다.\n\n\"계약 성사됐어요. 소형 빌라 매매. 부산 괴정동.\"\n\n목소리가 달랐다. 가볍지 않았다. 떠난 이후 처음으로 목소리를 들었다.\n1년이 됐다.\n\n전화기 너머로 잠깐 바다 소리가 들렸다.",
     "choices": [
@@ -461,7 +481,9 @@
           "mental": 3,
           "tint": 2
         },
-        "flags": ["arc_jiyeon_year4_call_seen"],
+        "flags": [
+          "arc_jiyeon_year4_call_seen"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": 10
@@ -475,7 +497,10 @@
           "mental": 5,
           "tint": 3
         },
-        "flags": ["arc_jiyeon_year4_call_seen", "jiyeon_year4_wants_more"],
+        "flags": [
+          "arc_jiyeon_year4_call_seen",
+          "jiyeon_year4_wants_more"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": 15,
@@ -489,7 +514,9 @@
         "effects": {
           "mental": 1
         },
-        "flags": ["arc_jiyeon_year4_call_seen"],
+        "flags": [
+          "arc_jiyeon_year4_call_seen"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": 5
@@ -511,7 +538,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jiyeon"],
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "지연이 서울에 왔다. 공인중개사 보수교육 이틀짜리.\n\n청담 카페는 아니었다. 여기서 멀지 않은 동네 카페.\n\n지연이 먼저 말했다. \"서울이 이상하게 낯설어요. 1년밖에 안 됐는데.\"\n\n커피를 두 모금 마시더니 덧붙였다. \"당신이 있어서 그나마 서울 같아요.\"",
     "choices": [
@@ -521,7 +552,10 @@
           "mental": 8,
           "tint": 3
         },
-        "flags": ["arc_jiyeon_year4_seoul_seen", "jiyeon_lovers_acknowledged"],
+        "flags": [
+          "arc_jiyeon_year4_seoul_seen",
+          "jiyeon_lovers_acknowledged"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": 20,
@@ -536,7 +570,10 @@
           "mental": 5,
           "tint": 4
         },
-        "flags": ["arc_jiyeon_year4_seoul_seen", "jiyeon_beautifully_apart"],
+        "flags": [
+          "arc_jiyeon_year4_seoul_seen",
+          "jiyeon_beautifully_apart"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": 12
@@ -549,7 +586,9 @@
         "effects": {
           "mental": -4
         },
-        "flags": ["arc_jiyeon_year4_seoul_seen"],
+        "flags": [
+          "arc_jiyeon_year4_seoul_seen"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": -5,
@@ -572,7 +611,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jiyeon"],
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "지연에게서 문자가 왔다.\n\n\"서울 지점 내기로 했어요. 강남구. 다음 달.\"\n\n그리고 한 줄 더.\n\"민준씨한테 먼저 말하고 싶었어요.\"\n\n{name}은 그 문자를 한참 봤다.\n부산에서 1년을 버텨서 넓어졌기 때문에 돌아온다. 좁아진 게 아니라.",
     "choices": [
@@ -582,7 +625,10 @@
           "mental": 10,
           "tint": 3
         },
-        "flags": ["arc_jiyeon_year5_return_seen", "jiyeon_gangnam_together"],
+        "flags": [
+          "arc_jiyeon_year5_return_seen",
+          "jiyeon_gangnam_together"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": 15
@@ -596,7 +642,9 @@
           "mental": 5,
           "tint": 5
         },
-        "flags": ["arc_jiyeon_year5_return_seen"],
+        "flags": [
+          "arc_jiyeon_year5_return_seen"
+        ],
         "cast_effects": {
           "jiyeon": {
             "affinity": 10
@@ -618,7 +666,11 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jiyeon"],
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
     "cooldown": 9999,
     "description": "지인을 통해 소식이 왔다.\n\n한지연 씨. 부산에서 잘 되고 있다고. 사무소 직원도 뽑고, 지역에서 이름도 났다고.\n\n그리고 — 부산 사람을 만난다는 말도 덧붙었다.\n\n{name}은 잠깐 멈췄다.\n그게 다행인지, 아니면 뭔지 — 정확히 이름 붙이기 어려운 감정이었다.",
     "choices": [
@@ -628,7 +680,9 @@
           "mental": 3,
           "tint": 3
         },
-        "flags": ["arc_jiyeon_year5_news_seen"],
+        "flags": [
+          "arc_jiyeon_year5_news_seen"
+        ],
         "result_text": "진심이었다.\n\n지연이 부산에서 자기 것을 쌓고 있다. 그게 목표였다. 그 목표에 닿은 거다.\n\n각자의 방향이라는 말이, 처음엔 작별 같았는데 — 지금은 그게 맞는 말이었던 것 같다."
       },
       {
@@ -636,8 +690,72 @@
         "effects": {
           "mental": -2
         },
-        "flags": ["arc_jiyeon_year5_news_seen"],
+        "flags": [
+          "arc_jiyeon_year5_news_seen"
+        ],
         "result_text": "고개를 끄덕였다.\n\n할 말이 없었다. 정확히는 — 지금 하면 안 되는 말이 있었고, 그게 전부였다.\n\n{name}은 걷기 시작했다. 서울이 평소와 같았다."
+      }
+    ],
+    "description_if_known": {
+      "jiyeon_respectfully_distanced": "지인을 통해 소식이 왔다.\n\n한지연 씨. 부산에서 잘 되고 있다고. 사무소 직원도 뽑고, 지역에서 이름도 났다고.\n\n그리고 — 부산 사람을 만난다는 말도 덧붙었다.\n\n{name}은 잠깐 멈췄다. 그때 서울에서 솔직하게 말했다 — 지금 만나는 사람이 있다고. 그 말 이후로 지연은 달랐다. 더 가볍게 웃었고, 더 쉽게 자기 이야기를 했다.\n\n작별이 제대로 됐기 때문에 — 이 소식이 기쁘게 느껴질 수 있었다.",
+      "jiyeon_hidden_feelings": "지인을 통해 소식이 왔다.\n\n한지연 씨. 부산에서 잘 되고 있다고. 사무소 직원도 뽑고, 지역에서 이름도 났다고.\n\n그리고 — 부산 사람을 만난다는 말도 덧붙었다.\n\n{name}은 잠깐 멈췄다. 그때 서울에서 침묵을 골랐다. 아무것도 말하지 않았다. 그 침묵이 지금 어떤 모양을 하고 있는지 — 정확히 이름 붙이기 어려운 감정이었다."
+    }
+  },
+  {
+    "id": "arc_jiyeon_year4_seoul_daeun",
+    "title": "서울에 잠깐 (두 마음)",
+    "background": "cafe",
+    "portrait": "jiyeon_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon"
+    ],
+    "cooldown": 9999,
+    "description": "지연이 서울에 왔다. 공인중개사 보수교육 이틀짜리.\n\n같은 카페. 지연이 먼저 말했다. \"서울이 이상하게 낯설어요. 1년밖에 안 됐는데.\"\n\n커피를 두 모금 마시더니 덧붙였다. \"당신이 있어서 그나마 서울 같아요.\"\n\n{name}은 잠깐 멈췄다.\n그 말의 무게를 알고 있었다. 그리고 — 이미 다른 사람이 있다는 것도 알고 있었다.",
+    "choices": [
+      {
+        "text": "솔직하게 말했다. \"지금 만나는 사람이 있어요.\"",
+        "effects": {
+          "mental": 5,
+          "tint": 5
+        },
+        "flags": [
+          "arc_jiyeon_year4_seoul_seen",
+          "jiyeon_respectfully_distanced"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 8,
+            "stage": "respected"
+          }
+        },
+        "result_text": "지연이 잠깐 침묵했다. 그러다 웃었다. \"알아요. 그냥 좋은 사람이라는 말이에요.\"\n\n두 사람은 커피를 끝까지 마셨다. 어색하지 않았다.\n\n솔직한 말이 관계를 끊지 않는다는 걸 — 그날 배웠다."
+      },
+      {
+        "text": "(말하지 않았다. 지연이 오해하도록 뒀다.)",
+        "effects": {
+          "mental": -5,
+          "tint": -5
+        },
+        "flags": [
+          "arc_jiyeon_year4_seoul_seen",
+          "jiyeon_hidden_feelings"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 10,
+            "stage": "close"
+          }
+        },
+        "result_text": "말하지 않았다.\n\n지연이 웃으며 일어났다. \"또 봐요.\"\n\n{name}은 그 자리에 앉아 있었다. 솔직하지 않은 것과 거짓말하는 것 사이가 — 이렇게 좁을 줄 몰랐다."
       }
     ]
   }

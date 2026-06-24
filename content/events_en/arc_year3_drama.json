@@ -278,6 +278,31 @@
         "result_text": "Nodded.\n\nNothing to say. More precisely — there was something that couldn't be said right now, and that was all.\n\n{name} started walking. Seoul was the same as always.",
         "effects": {}
       }
+    ],
+    "description_if_known": {
+      "jiyeon_respectfully_distanced": "Word came through a mutual contact.\n\nHan Jiyeon. Doing well in Busan. Has staff now. Made a name in the area.\n\nAnd — she's seeing someone from Busan.\n\n{name} paused. Back in Seoul, they'd been honest — said there was someone. After that, Jiyeon had seemed lighter. Smiled more easily. Talked more freely about herself.\n\nBecause the goodbye was clean — this news could land as something good.",
+      "jiyeon_hidden_feelings": "Word came through a mutual contact.\n\nHan Jiyeon. Doing well in Busan. Has staff now. Made a name in the area.\n\nAnd — she's seeing someone from Busan.\n\n{name} paused. Back in Seoul, they'd chosen silence. Said nothing. What shape that silence had taken by now — the feeling didn't have an exact name."
+    }
+  },
+  {
+    "id": "arc_jiyeon_year4_seoul_daeun",
+    "title": "Briefly in Seoul (Two Hearts)",
+    "description": "Jiyeon came to Seoul. Two-day continuing education for licensed brokers.\n\nThe same café. Jiyeon spoke first. \"Seoul feels strangely unfamiliar. It's only been a year.\"\n\nAfter two sips of coffee, she added: \"Having you here makes it feel like Seoul again.\"\n\n{name} paused.\nKnew the weight of those words. And also — knew there was already someone else.",
+    "choices": [
+      {
+        "text": "Said it honestly. \"I'm seeing someone right now.\"",
+        "result_text": "Jiyeon was quiet for a moment. Then smiled. \"I know. I just mean — you're a good person.\"\n\nThey finished their coffee. It wasn't awkward.\n\nLearned that day — honest words don't break things.",
+        "effects": {
+          "tint": 5
+        }
+      },
+      {
+        "text": "(Said nothing. Let her misread it.)",
+        "result_text": "Said nothing.\n\nJiyeon smiled and stood up. \"See you again.\"\n\n{name} sat there. The gap between 'not being honest' and 'lying' — narrower than expected.",
+        "effects": {
+          "tint": -5
+        }
+      }
     ]
   }
 ]
