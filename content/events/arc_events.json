@@ -250,17 +250,31 @@
       "arc",
       "reflection"
     ],
-    "description": "새벽 두 시.\n\n라면 국물이 식어 있었다.\n현수가 들어간 뒤 한동안 공용 주방에 혼자 서 있었다.\n\n면접, 계산기, 인스타, 라면.\n이 일주일이 벌써 낯설지 않다.\n\n방으로 돌아와 수첩을 폈다. 첫 줄:\n'30억. 5년.'\n\n그 아래 아무것도 없다. 방법은 아직 없다.\n\n그래도 — 오늘은 어제보다 한 가지가 더 생겼다.\n이 고시원에, 같은 처지의 사람 하나.",
+    "description": "새벽 두 시.\n\n라면 국물이 식어 있었다.\n현수가 들어간 뒤 한동안 공용 주방에 혼자 서 있었다.\n\n이 주에 있었던 것들 — 대포통장 문자, 아버지 전화, 임상철이라는 이름, 현수의 라면.\n\n방으로 돌아와 수첩을 폈다. 첫 줄:\n'30억. 5년.'\n\n그 아래 아무것도 없다.\n\n형광등 불빛 아래 고시원 방. 4.5평. 책상 하나, 이불 하나.\n여기서 30억이 나올 수 있는가?\n\n{name}은 그 질문에 아직 답을 못 했다.\n그래도 — 오늘 처음으로 그 질문을 진짜로 했다.",
     "choices": [
       {
         "text": "수첩을 덮는다. 오늘은 이것으로 충분하다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 2
         },
         "flags": [
           "chapter1_closed"
         ],
-        "result_text": "불을 껐다.\n\n어두워진 방에서 {name}은 생각했다 — 지금 이 순간이 출발점이다.\n아직 아무것도 없다. 그래서 모든 것이 가능하다."
+        "result_text": "불을 껐다.\n\n어두운 방에서 30억이라는 숫자가 남았다.\n그 숫자와 지금 이 방 사이의 거리가 — 정확히 앞으로 해야 할 일의 거리다.\n\n{name}은 눈을 감았다. 아직 방법은 없다. 그래도 오늘은 잠들 수 있을 것 같았다."
+      },
+      {
+        "text": "수첩에 한 줄을 더 쓴다. '내일 아침 7시에 일어난다.'",
+        "effects": {
+          "mental": 8,
+          "intelligence": 1,
+          "tint": 3
+        },
+        "flags": [
+          "chapter1_closed",
+          "set_morning_routine"
+        ],
+        "result_text": "내일 아침 7시. 아무것도 없는 첫 줄 아래, 그것만 썼다.\n\n30억은 멀다. 7시는 가깝다.\n지금 할 수 있는 일 중에서 가장 작은 것을 먼저 하기로 했다.\n\n불을 껐다. {name}은 오늘보다 내일이 조금 더 다를 것이라고 생각했다."
       }
     ]
   },
@@ -304,7 +318,9 @@
         "flags": [
           "arc_sangchul_met_seen"
         ],
-        "give_items": ["artifact_sangchul_card"],
+        "give_items": [
+          "artifact_sangchul_card"
+        ],
         "result_text": "처음으로 입 밖에 낸 이유였다.\n임상철은 한참 김민준을 보더니 고개를 끄덕였다.\n\"그 '왜'가 확실하네. 그럼 됐어.\"\n\"흔들릴 때마다 그게 버텨줄 거야. 명함 줄 테니까, 가끔 들러.\"\n낯선 동네에 처음으로 아는 사람이 생겼다."
       },
       {
@@ -323,7 +339,9 @@
         "flags": [
           "arc_sangchul_met_seen"
         ],
-        "give_items": ["artifact_sangchul_card"],
+        "give_items": [
+          "artifact_sangchul_card"
+        ],
         "result_text": "임상철이 피식 웃는다.\n\"그렇게 답하는 사람치고 진짜 가는 사람 못 봤어.\"\n\"강남이 목적이면 못 가. 강남이 수단인 사람만 가더라고.\"\n무슨 뜻인지 그때는 몰랐다. 명함만 받아 나왔다."
       },
       {
@@ -344,7 +362,9 @@
           "arc_sangchul_met_seen",
           "pride_motive"
         ],
-        "give_items": ["artifact_sangchul_card"],
+        "give_items": [
+          "artifact_sangchul_card"
+        ],
         "result_text": "임상철이 커피잔을 내려놨다.\n\"...나도 30년 전에 똑같이 말했어. 충청도서 올라와서.\"\n\"그 오기로 여기까지 왔지. 건물 두 채. 근데 잃은 것도 많아.\"\n\"너는 잃지 마. 갈 거면, 잃지 말고 가.\"\n그 말에는 어떤 무게가 있었다."
       }
     ],
@@ -712,7 +732,9 @@
           "arc_jiyeon_epilogue_seen",
           "jiyeon_accepted"
         ],
-        "give_items": ["artifact_jiyeon_text"],
+        "give_items": [
+          "artifact_jiyeon_text"
+        ],
         "result_text": "답장을 보냈다.\n잠시 후 그녀의 답장: '민준 씨도 이상한 사람이에요. 그래서 좋아요.'\n{name}은 피식 웃었다. 강남을 가는 이유가 하나 더 생긴 기분이었다."
       },
       {
@@ -750,7 +772,9 @@
           "arc_jiyeon_epilogue_seen",
           "jiyeon_forgave_complexity"
         ],
-        "give_items": ["artifact_jiyeon_text"],
+        "give_items": [
+          "artifact_jiyeon_text"
+        ],
         "result_text": "한지연이 잠깐 조용하더니 말했다. '...그 말이 제일 무섭네요. 왜냐면 감사해서요.'\n강남과 감정과 계산이 섞인 이 관계.\n단순하지 않아서 포기하지 않기로 했다."
       }
     ]
@@ -791,7 +815,9 @@
         "flags": [
           "arc_jaehyuk_reunion_seen"
         ],
-        "give_items": ["artifact_jaehyuk_photo"],
+        "give_items": [
+          "artifact_jaehyuk_photo"
+        ],
         "result_text": "옛날 군대 얘기로 밤이 깊었다.\n오랜만에 소리 내 웃었다. 힘든 시기에 반가운 얼굴.\n\"자주 보자, {name}아. 내가 연락할게.\"\n재혁은 진심인 것 같았다. 적어도 그날은."
       },
       {
@@ -1326,7 +1352,8 @@
       {
         "text": "번호를 차단하고 휴대폰을 엎어놨다",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 5
         },
         "flags": [
           "arc_temptation_seen",
@@ -1340,7 +1367,8 @@
         "text": "통장 번호를 보냈다. 한 시간 뒤 200만원이 찍혔다",
         "effects": {
           "money": 2000000,
-          "mental": -16
+          "mental": -16,
+          "tint": -10
         },
         "flags": [
           "arc_temptation_seen",
@@ -2421,7 +2449,9 @@
         "flags": [
           "arc_father_01_seen"
         ],
-        "give_items": ["artifact_father_call"],
+        "give_items": [
+          "artifact_father_call"
+        ],
         "result_text": "통화시간 23초.\n\"잘 있냐.\" \"네.\" \"그래, 끊어라.\"\n\n{name}은 폰을 내려놓고 한동안 천장을 봤다.\n23초 안에 담을 수 없는 것들이 너무 많았다."
       }
     ],
@@ -3413,7 +3443,12 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul", "artifact"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "artifact"
+    ],
     "cooldown": 9999,
     "description": "대면하기 전날 밤.\n\n주머니를 뒤지다 손에 걸렸다.\n그의 명함. 처음 만난 날 직접 건넨 것.\n뒷면에 직접 쓴 개인 번호.\n\n'이거 줄 사람 없어요. 민준 씨한테만 드리는 거니까.'\n\n{name}은 명함을 뒤집어봤다.\n같은 글씨. 같은 사람. 다른 이야기.",
     "choices": [
@@ -3454,7 +3489,12 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jaehyuk", "artifact"],
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "artifact"
+    ],
     "cooldown": 9999,
     "description": "밤.\n\n{name}은 폰을 꺼내 갤러리를 열었다.\n\n사진 하나.\n포장마차 앞. 둘이서 찍은 것.\n재혁이 팔을 어깨에 올리고 웃고 있었다.\n\n그날 밤엔 진짜였다.\n사기꾼이어도, 그날 밤 그 웃음만큼은 — 진짜였을 것이다.\n\n아니면 그것도 연습된 것이었을까.",
     "choices": [
@@ -3496,7 +3536,12 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "hyunsu", "artifact"],
+    "tags": [
+      "story",
+      "arc",
+      "hyunsu",
+      "artifact"
+    ],
     "cooldown": 9999,
     "description": "손에 든 게 없었다.\n\n{name}은 연락처 목록을 위아래로 스크롤했다.\n전화할 수 있는 사람.\n정확히는 — 지금 이 상태로 전화해도 될 사람.\n\n현수의 이름이 있었다.\n\n그 명함. 공시 4년 만에 찍은 정장 사진 한 장.\n'형 덕분이에요.' 그 말.",
     "choices": [

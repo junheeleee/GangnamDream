@@ -191,11 +191,15 @@
   {
     "id": "arc_chapter1_close",
     "title": "The First Week",
-    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu left, you stood in the shared kitchen for a while.\n\nInterview. Calculator. Instagram. Ramen.\nNone of this feels unfamiliar anymore — and it's only been a week.\n\nBack in the room, you open the notebook. First line:\n'₩3,000,000,000. Five years.'\n\nNothing below it. No plan yet.\n\nBut — tonight, there's one thing you didn't have yesterday.\nSomewhere in this goshiwon, on the other side of a thin wall:\nsomeone who's looking at the same ceiling.",
+    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu left, you stood in the shared kitchen alone for a while.\n\nThis past week — the burner account text, father's call, the name Im Sangchul, Hyunsu's ramen.\n\nBack in the room, you open the notebook. First line:\n'₩3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan ₩3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
-        "result_text": "Turned off the light.\n\nIn the dark, {name} thought: this moment is the starting line.\nNothing yet. Which means — everything is still possible."
+        "result_text": "Turned off the light.\n\nIn the dark, the number ₩3,000,000,000 remained.\nThe distance between that number and this room — that's exactly the distance ahead.\n\n{name} closed his eyes. No plan yet. Still — he thought he could sleep tonight."
+      },
+      {
+        "text": "Write one more line: 'Wake up at 7 AM tomorrow.'",
+        "result_text": "7 AM tomorrow. Below the blank nothing of ₩3B, just that.\n\n₩3B is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nTurned off the light. {name} thought tomorrow might be just a little different from today."
       }
     ]
   },
@@ -1219,7 +1223,8 @@
       {
         "text": "Delete it — I won't sink that low",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 5
         },
         "flags": [
           "arc_temptation_seen",
@@ -1233,7 +1238,8 @@
         "text": "Just this once. Lend out the account  (+2,000,000 won)",
         "effects": {
           "money": 2000000,
-          "mental": -16
+          "mental": -16,
+          "tint": -10
         },
         "flags": [
           "arc_temptation_seen",
