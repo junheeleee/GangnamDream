@@ -752,7 +752,7 @@ func _build_info_panel():
 	if _font_bold:
 		player_hdr.add_theme_font_override("font", _font_bold)
 	stat_box.add_child(player_hdr)
-	for key in ["housing", "job", "health", "mental", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
+	for key in ["housing", "job", "health", "mental", "asset"]:
 		var stat_row = HBoxContainer.new()
 		stat_box.add_child(stat_row)
 		var name_label = _label(_stat_name(key), 14, "#7a8496")
@@ -2662,12 +2662,6 @@ func _refresh_all():
 
 	# ── 탑바 바이탈 HUD 갱신 ─────────────────────────
 	_refresh_vitals()
-	_set_stat_value("intelligence",     GameState.intelligence,     false, 90, 100)
-	_set_stat_value("social_skill",     GameState.social_skill,     false, 90, 100)
-	_set_stat_value("appearance",       GameState.appearance,       false, 90, 100)
-	_set_stat_value("investment_skill", GameState.investment_skill, false, 90, 100)
-	_set_stat_value("luck",             GameState.luck,             false, 90, 100)
-	_set_stat_value("reputation",       GameState.reputation,       false, 90, 100)
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
 	var h = GameState.get_housing_info()
 	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), GameState.get_housing_name(GameState.housing)]
@@ -3035,6 +3029,8 @@ func _pulse_vital_critical(lbl: Label) -> void:
 	tw.tween_property(lbl, "modulate:a", 1.0, 0.15)
 
 func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int, danger_thresh: int):
+	if not stat_labels.has(key):
+		return
 	var label = stat_labels[key]
 	# 건강·정신 = 긴 바(10칸), 스킬류 = 짧은 바(5칸)으로 시각화
 	var skill_stats := ["intelligence", "social_skill", "investment_skill", "luck", "appearance", "reputation"]
@@ -3435,7 +3431,9 @@ func _refresh_arc_box() -> void:
 	run_box.add_theme_constant_override("separation", 6)
 	run_card.add_child(run_box)
 	run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % theme_id, 14, "#8fb6d8"))
-	run_box.add_child(_wrap_label(_tr("투자감각 %d  /  사교력 %d", "Investing %d  /  Social %d") % [GameState.investment_skill, GameState.social_skill], 14, "#8fb6d8"))
+	var tendency_lbl := GameState.get_tendency_label()
+	if not tendency_lbl.is_empty():
+		run_box.add_child(_wrap_label(_tr("성향: %s", "Leaning: %s") % tendency_lbl, 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
 	for gid in ["holdem", "racetrack", "scalping", "aruba"]:
@@ -3847,34 +3845,21 @@ func _render_essential_actions(ap: int):
 			_essential_btn(_tr("시장 분석", "Market Analysis"), _tr("다음 달 시장 방향을 무료로 예측한다", "Predict next month's market for free"), "market", "#1e3a5f", "_ap_market_analysis", false, true)
 	elif has_paycheck:
 		_essential_locked(_tr("투자", "Invest"), _tr("상철과의 대화 이후 열림", "Unlocks after talking with Sangchul"), "invest", "#3a8a5a")
-	_essential_btn(_tr("자기계발", "Self-Dev"), _tr("공부·운동으로 스탯을 올린다", "Study and exercise to raise stats"), "study", "#5a6ea8", "_ap_selfdev", disabled)
-	if GameState.intelligence >= 30:
-		_essential_btn(_tr("심화 독서", "Deep Reading"), _tr("지력 +8. 지력 30 이상 전용 행동", "Intelligence +8. Requires 30+ intelligence"), "study", "#3a4e8a", "_ap_deep_study", disabled)
+	_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상 중 한 가지", "One of: reading, exercise, meditation"), "study", "#5a6ea8", "_ap_study", disabled)
 	_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 	# 도박 회복 잠금: 회복을 시작/완료했고 아직 재발하지 않았으면 도박 입구를 닫는다.
-	# (회복 아크가 메커니즘으로 강제됨 — 재발 서사 경로 시 relapsed 플래그로 다시 열림)
 	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
 			or GameState.flags.get("recovery_holding", false) \
 			or GameState.flags.get("beat_addiction", false)
 	var _gambling_locked: bool = _in_recovery and not GameState.flags.get("relapsed", false)
-	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
-	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
-		var rt_badge: String = _mastery_badge("racetrack")
-		var rt_desc: String = _tr("회복 중 — 다시 들어가지 않기로 했다", "In recovery — chose not to go back") if _gambling_locked else _tr("폼을 읽고 베팅한다. 중독 주의", "Read the form and bet. Addiction risk")
-		_essential_btn(_tr("경마장", "Racetrack") + rt_badge, rt_desc, "racetrack", "#9a5a3a", "_open_racetrack", disabled or _gambling_locked)
-	# 홀덤: 상철 네트워크로 입성(entered_network)
-	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
-		var hm_badge: String = _mastery_badge("holdem")
-		var hm_desc: String = _tr("회복 중 — 다시 들어가지 않기로 했다", "In recovery — chose not to go back") if _gambling_locked else _tr("인맥 있는 사람만 들어가는 고위험 테이블", "High-stakes table, connections only")
-		_essential_btn(_tr("지하 홀덤 클럽", "Underground Hold'em") + hm_badge, hm_desc, "holdem", "#6d4bd4", "_open_holdem", disabled or _gambling_locked)
-	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
-	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
-		var sc_badge: String = _mastery_badge("scalping")
-		_essential_btn(_tr("스캘핑 트레이딩", "Scalp Trading") + sc_badge, _tr("60초 실시간 매매. 빠르고 위험하다", "60-second live trading. Fast and risky"), "scalping", "#1a5f7a", "_open_scalping", disabled)
-	# 정선 카지노: 상철의 초대를 수락(casino_club_introduced)한 경우만
-	if GameState.flags.get("casino_club_introduced", false):
-		var cs_desc: String = _tr("회복 중 — 다시 들어가지 않기로 했다", "In recovery — chose not to go back") if _gambling_locked else _tr("바카라·블랙잭·다이사이 등", "Baccarat, blackjack, dai sai, and more")
-		_essential_btn(_tr("정선 카지노", "Jeongseon Casino"), cs_desc, "casino", "#7b3fd1", "_open_jeongseon_casino", disabled or _gambling_locked)
+	# 해금된 도박 장소가 하나라도 있으면 단일 "도박장" 버튼으로 통합
+	var _has_racetrack: bool = GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false)
+	var _has_holdem: bool = GameState.flags.get("entered_network", false) and GameState.money >= 50000
+	var _has_scalping: bool = GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15
+	var _has_casino: bool = GameState.flags.get("casino_club_introduced", false)
+	if _has_racetrack or _has_holdem or _has_scalping or _has_casino:
+		var g_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("열린 장소를 고른다", "Choose from available venues")
+		_essential_btn(_tr("도박장", "Gambling"), g_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked)
 	_essential_btn(_tr("생활", "Life"), _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost"), "life", "#9a8a5a", "_open_cat_life", false, true)
 
 func _mastery_badge(game_id: String) -> String:
@@ -4394,6 +4379,29 @@ func _open_cat_life():
 			GameState.format_money(float(next_info.get("deposit", 0.0)))]
 		_cat_modal_button(move_label, "#c8a040", "_ap_move_housing")
 	# 상점 항목 제거 — 서사 유물로 전환 예정
+
+func _open_cat_gambling():
+	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
+			or GameState.flags.get("recovery_holding", false) \
+			or GameState.flags.get("beat_addiction", false)
+	var locked: bool = _in_recovery and not GameState.flags.get("relapsed", false)
+	_open_modal(_tr("도박장", "Gambling Venues"))
+	if locked:
+		modal_body.add_child(_wrap_label(_tr("회복 중 — 지금은 들어가지 않기로 했다.", "In recovery — you decided not to go back in."), 13, "#7a8496"))
+		return
+	modal_body.add_child(_wrap_label(_tr("높은 수익, 더 높은 위험. 중독에 주의하라.", "High returns, higher risk. Watch for addiction."), 13, "#7a8496"))
+	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
+		var rt_badge: String = _mastery_badge("racetrack")
+		_cat_modal_button(_tr("경마장", "Racetrack") + rt_badge + _tr("  —  폼을 읽고 베팅한다", "  —  read the form and bet"), "#9a5a3a", "_open_racetrack")
+	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
+		var hm_badge: String = _mastery_badge("holdem")
+		_cat_modal_button(_tr("지하 홀덤 클럽", "Underground Hold'em") + hm_badge + _tr("  —  인맥 있는 자만의 고위험 테이블", "  —  high-stakes, connections only"), "#6d4bd4", "_open_holdem")
+	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
+		var sc_badge: String = _mastery_badge("scalping")
+		_cat_modal_button(_tr("스캘핑 트레이딩", "Scalp Trading") + sc_badge + _tr("  —  60초 실시간 매매", "  —  60-second live trading"), "#1a5f7a", "_open_scalping")
+	if GameState.flags.get("casino_club_introduced", false):
+		var cs_badge: String = _mastery_badge("casino")
+		_cat_modal_button(_tr("정선 카지노", "Jeongseon Casino") + cs_badge + _tr("  —  바카라·블랙잭·다이사이 등", "  —  baccarat, blackjack, dai sai"), "#7b3fd1", "_open_jeongseon_casino")
 
 func _add_action_section_header(parent: Control, title: String, _bg_hex: String):
 	var lbl = _label("  " + title, 10, "#2e3a4e")
