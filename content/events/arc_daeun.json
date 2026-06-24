@@ -287,6 +287,7 @@
           "arc_daeun_04_seen",
           "daeun_together_path"
         ],
+        "give_items": ["artifact_daeun_note"],
         "result_text": "{name}은 한참 그 자리에 있었다.\n아무것도 하지 않은 새벽이었는데,\n오늘은 30억이 이상하게 선명하게 보였다.\n\n두렵지 않았다. 같이 가는 게 생겼다."
       },
       {

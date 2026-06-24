@@ -419,7 +419,7 @@ CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
-               "foreshadow", "clues"}
+               "foreshadow", "clues", "give_items"}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""

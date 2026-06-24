@@ -807,6 +807,9 @@ func apply_effects(effects):
 				route_unorthodox = maxi(0, route_unorthodox + int(value))
 			"tint":
 				shift_moral_tint(float(value))
+			"give_items":
+				for item_id in value:
+					add_item(str(item_id), 1)
 	stats_changed.emit()
 
 # ── MORAL_TINT 엔진 (docs/MORAL_TINT.md) ──

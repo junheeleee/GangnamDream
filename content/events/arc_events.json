@@ -304,6 +304,7 @@
         "flags": [
           "arc_sangchul_met_seen"
         ],
+        "give_items": ["artifact_sangchul_card"],
         "result_text": "처음으로 입 밖에 낸 이유였다.\n임상철은 한참 김민준을 보더니 고개를 끄덕였다.\n\"그 '왜'가 확실하네. 그럼 됐어.\"\n\"흔들릴 때마다 그게 버텨줄 거야. 명함 줄 테니까, 가끔 들러.\"\n낯선 동네에 처음으로 아는 사람이 생겼다."
       },
       {
@@ -322,6 +323,7 @@
         "flags": [
           "arc_sangchul_met_seen"
         ],
+        "give_items": ["artifact_sangchul_card"],
         "result_text": "임상철이 피식 웃는다.\n\"그렇게 답하는 사람치고 진짜 가는 사람 못 봤어.\"\n\"강남이 목적이면 못 가. 강남이 수단인 사람만 가더라고.\"\n무슨 뜻인지 그때는 몰랐다. 명함만 받아 나왔다."
       },
       {
@@ -342,6 +344,7 @@
           "arc_sangchul_met_seen",
           "pride_motive"
         ],
+        "give_items": ["artifact_sangchul_card"],
         "result_text": "임상철이 커피잔을 내려놨다.\n\"...나도 30년 전에 똑같이 말했어. 충청도서 올라와서.\"\n\"그 오기로 여기까지 왔지. 건물 두 채. 근데 잃은 것도 많아.\"\n\"너는 잃지 마. 갈 거면, 잃지 말고 가.\"\n그 말에는 어떤 무게가 있었다."
       }
     ],
@@ -2412,6 +2415,7 @@
         "flags": [
           "arc_father_01_seen"
         ],
+        "give_items": ["artifact_father_call"],
         "result_text": "통화시간 23초.\n\"잘 있냐.\" \"네.\" \"그래, 끊어라.\"\n\n{name}은 폰을 내려놓고 한동안 천장을 봤다.\n23초 안에 담을 수 없는 것들이 너무 많았다."
       }
     ],

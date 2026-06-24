@@ -527,7 +527,7 @@ func _build_top_bar(parent):
 	shop_button.add_theme_font_size_override("font_size", 14)
 	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	shop_button.pressed.connect(_open_shop)
-	row.add_child(shop_button)
+	# 상점 버튼 비활성화 — 아이템 시스템은 서사 유물 방향으로 전환 예정 (DECISIONS.md 2026-06-24)
 
 	var title_btn2 = _small_button(_tr("칭호", "Title"), "#1a2a1a")
 	title_btn2.custom_minimum_size = Vector2(56, 40)
@@ -3150,9 +3150,9 @@ func _render_sidebars():
 		relationship_box.add_child(card)
 
 	_clear_box(inventory_box)
-	inventory_box.add_child(_info_section_title(_tr("소지품", "Inventory"), "#fbbf24"))
+	inventory_box.add_child(_info_section_title(_tr("소지품 · 유물", "Keepsakes"), "#fbbf24"))
 	if GameState.inventory.is_empty():
-		inventory_box.add_child(_info_empty_card(_tr("비어 있습니다. 상점에서 회복·성장 아이템을 구매할 수 있습니다.", "Empty. Buy recovery and growth items from the shop."), "#64748b"))
+		inventory_box.add_child(_info_empty_card(_tr("아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.", "Nothing yet.\nThings given or left behind through the story collect here."), "#64748b"))
 	for item in GameState.inventory:
 		var item_card: PanelContainer = _info_card("#fbbf24", "#0d1018")
 		var item_box: VBoxContainer = VBoxContainer.new()
@@ -3573,10 +3573,9 @@ func _render_ap_actions():
 			pad_hint = _tr("🎮  [%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)", "🎮  [%s] Choose  [%s/%s] Tab  [%s] Menu (%s)") % [s, lb, rb, m, ControllerHints.brand_name()]
 		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
 
-	# ── 상점 버튼 (상단 바) ───────────────────────────────
+	# ── 상점 버튼 비활성화 (서사 유물로 전환 예정) ─────────────
 	if shop_button:
-		shop_button.text = _tr("상점", "Shop") if has_paycheck else _tr("상점 잠김", "Shop Locked")
-		shop_button.disabled = not has_paycheck
+		shop_button.disabled = true
 
 ## 상황 기반 이번 달 추천 행동 (경고 없을 때만 표시)
 func _recommend_action() -> String:
@@ -4166,7 +4165,7 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 # ══════════════════════════════════════════════════════════
 func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	var split := _split_action_label(label)
-	var free_action := fn in ["_open_shop", "_ap_move_housing"]
+	var free_action := fn in ["_ap_move_housing"]
 	var btn := _make_essential_action_card(
 		str(split.get("title", label)),
 		str(split.get("subtitle", "")),
@@ -4365,10 +4364,7 @@ func _open_cat_life():
 			GameState.format_money(float(next_info.get("expense", 0.0))),
 			GameState.format_money(float(next_info.get("deposit", 0.0)))]
 		_cat_modal_button(move_label, "#c8a040", "_ap_move_housing")
-	else:
-		modal_body.add_child(_wrap_label(_tr("아직 이사할 현금이 부족하다.", "Not enough cash to move yet."), 12, "#5a5a6a"))
-	if GameState.flags.get("has_received_paycheck", false):
-		_cat_modal_button(_tr("상점  —  생활용품·자기관리 아이템", "Shop  —  daily goods · self-care items"), "#2f7a55", "_open_shop")
+	# 상점 항목 제거 — 서사 유물로 전환 예정
 
 func _add_action_section_header(parent: Control, title: String, _bg_hex: String):
 	var lbl = _label("  " + title, 10, "#2e3a4e")

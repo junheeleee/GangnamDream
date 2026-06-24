@@ -1,282 +1,35 @@
 [
   {
-    "id": "item_lotto",
-    "name": "로또 5장",
-    "icon": "🎫",
-    "price": 25000,
+    "id": "artifact_sangchul_card",
+    "name": "임상철의 명함",
+    "icon": "💳",
+    "price": 0,
+    "shop": false,
     "one_time": true,
-    "effects": { "luck": 1 },
-    "passive_effects": {},
-    "description": "꿈은 25,000원이면 살 수 있다. 당첨은 별개의 문제지만."
-  },
-  {
-    "id": "item_vitamins",
-    "name": "종합 비타민 세트",
-    "icon": "💊",
-    "price": 35000,
-    "one_time": true,
-    "effects": { "health": 6 },
-    "passive_effects": {},
-    "description": "몸이 버텨야 돈도 번다."
-  },
-  {
-    "id": "item_book_invest",
-    "name": "주식 입문 서적",
-    "icon": "📖",
-    "price": 38000,
-    "one_time": true,
-    "effects": { "investment_skill": 5 },
-    "passive_effects": {},
-    "description": "남들이 읽을 때 같이 읽어야 남들만큼은 된다."
-  },
-  {
-    "id": "item_meditation_app",
-    "name": "명상 앱 구독",
-    "icon": "🧘",
-    "price": 11900,
-    "one_time": false,
     "effects": {},
-    "passive_effects": { "mental": 3 },
-    "description": "구독 유지 중 — 매달 자동 적용. 하루 10분, 무너지지 않기 위한 최소한."
+    "passive_effects": {},
+    "description": "처음 만난 날 건넸다.\n뒷면에 개인 번호가 적혀 있었다.\n그게 무엇을 의미하는지는 나중에야 알았다."
   },
   {
-    "id": "item_news_sub",
-    "name": "경제신문 구독",
-    "icon": "📰",
-    "price": 14900,
-    "one_time": false,
+    "id": "artifact_daeun_note",
+    "name": "다은이 남긴 포스트잇",
+    "icon": "📝",
+    "price": 0,
+    "shop": false,
+    "one_time": true,
     "effects": {},
-    "passive_effects": { "investment_skill": 1 },
-    "description": "구독 유지 중 — 매달 자동 적용. 매일 읽으면 매달 감각이 쌓인다."
-  },
-  {
-    "id": "item_study_room",
-    "name": "독서실 이용권 (1개월)",
-    "icon": "🔖",
-    "price": 55000,
-    "one_time": true,
-    "effects": { "intelligence": 5 },
     "passive_effects": {},
-    "description": "환경을 만들면 집중이 따라온다."
+    "description": "나갈 때 냉장고에 붙여뒀다.\n'밥 먹고 다녀.' 세 글자."
   },
   {
-    "id": "item_pojang",
-    "name": "동네 포장마차 한 자리",
-    "icon": "🍺",
-    "price": 58000,
+    "id": "artifact_father_call",
+    "name": "통화시간 23초",
+    "icon": "📱",
+    "price": 0,
+    "shop": false,
     "one_time": true,
-    "effects": { "mental": 6, "social_skill": 2 },
-    "passive_effects": {},
-    "description": "돈 없을 때 속 얘기 꺼낼 수 있는 자리. 그게 가장 비싼 자리다."
-  },
-  {
-    "id": "item_gym",
-    "name": "헬스장 월정액",
-    "icon": "🏋",
-    "price": 59000,
-    "one_time": false,
     "effects": {},
-    "passive_effects": { "health": 2, "mental": 3 },
-    "description": "구독 유지 중 — 매달 자동 적용. 몸을 쓰면 머리가 비워진다."
-  },
-  {
-    "id": "item_online_course",
-    "name": "온라인 재무 강의",
-    "icon": "💻",
-    "price": 89000,
-    "one_time": true,
-    "effects": { "intelligence": 5, "investment_skill": 3 },
     "passive_effects": {},
-    "description": "유튜브로는 알 수 없는 것들이 있다."
-  },
-  {
-    "id": "item_counseling",
-    "name": "심리상담 3회권",
-    "icon": "🛋",
-    "price": 180000,
-    "one_time": true,
-    "effects": { "mental": 22 },
-    "passive_effects": {},
-    "description": "한 번이라도 진짜로 털어놓으면 달라진다."
-  },
-  {
-    "id": "item_realty_tour",
-    "name": "부동산 임장 투어",
-    "icon": "🏘",
-    "price": 290000,
-    "one_time": true,
-    "effects": { "investment_skill": 6, "intelligence": 2 },
-    "passive_effects": {},
-    "description": "실제로 걸어봐야 숫자가 보인다."
-  },
-  {
-    "id": "item_invest_mentor",
-    "name": "투자 1:1 멘토링",
-    "icon": "🎯",
-    "price": 350000,
-    "one_time": true,
-    "effects": { "investment_skill": 8, "intelligence": 3 },
-    "passive_effects": {},
-    "description": "방향이 맞으면 속도가 따라온다. 틀린 방향으로 열심히 하는 건 낭비다."
-  },
-  {
-    "id": "item_coaching",
-    "name": "자기개발 코칭 세션",
-    "icon": "🗣",
-    "price": 450000,
-    "one_time": true,
-    "effects": { "social_skill": 8, "intelligence": 4 },
-    "passive_effects": {},
-    "description": "말하는 방식을 바꾸면 사람이 달리 보인다."
-  },
-  {
-    "id": "item_coin_channel",
-    "name": "코인 유료 정보 채널",
-    "icon": "📡",
-    "price": 490000,
-    "one_time": false,
-    "effects": {},
-    "passive_effects": { "luck": 1, "addiction_tendency": 4 },
-    "description": "구독 유지 중 — 매달 자동 적용. 정보와 중독 사이 어딘가. 손이 점점 빨라진다."
-  },
-  {
-    "id": "item_spa",
-    "name": "럭셔리 스파 패키지",
-    "icon": "♨",
-    "price": 680000,
-    "one_time": true,
-    "effects": { "mental": 35, "health": 5 },
-    "passive_effects": {},
-    "description": "사치처럼 보이지만 쓰러지지 않는 방법 중 하나다."
-  },
-  {
-    "id": "item_health_checkup",
-    "name": "의료 종합검진",
-    "icon": "🏥",
-    "price": 850000,
-    "one_time": true,
-    "effects": { "health": 20, "mental": 3 },
-    "passive_effects": {},
-    "description": "몸이 무너지면 다 무너진다. 한 번쯤은 제대로 봐야 한다."
-  },
-  {
-    "id": "item_financial_consult",
-    "name": "재무설계 전문 상담",
-    "icon": "📋",
-    "price": 980000,
-    "one_time": true,
-    "effects": { "investment_skill": 10, "intelligence": 4 },
-    "passive_effects": {},
-    "description": "100만짜리 그림을 그려야 10억짜리 그림도 보인다."
-  },
-  {
-    "id": "item_stock_camp",
-    "name": "단기 주식 집중 캠프",
-    "icon": "📊",
-    "price": 1200000,
-    "one_time": true,
-    "effects": { "investment_skill": 10, "intelligence": 6 },
-    "passive_effects": {},
-    "description": "3일이 3년을 바꿀 수도 있다."
-  },
-  {
-    "id": "item_realty_vip",
-    "name": "강남 부동산 VIP 임장",
-    "icon": "🏙",
-    "price": 1500000,
-    "one_time": true,
-    "effects": { "investment_skill": 12, "intelligence": 5 },
-    "passive_effects": {},
-    "description": "아는 사람만 들어가는 자리. 거기서 보는 강남과 밖에서 보는 강남은 다르다."
-  },
-  {
-    "id": "item_underground_seminar",
-    "name": "지하 투기 세미나",
-    "icon": "🎲",
-    "price": 1500000,
-    "one_time": true,
-    "effects": { "luck": 5, "investment_skill": 5, "gambling_tendency": 15, "addiction_tendency": 8 },
-    "passive_effects": {},
-    "description": "합법과 불법 사이. 여기서 배운 건 어디서도 안 가르쳐준다. 그 이유도."
-  },
-  {
-    "id": "item_golf",
-    "name": "강남 골프 레슨 (1개월)",
-    "icon": "⛳",
-    "price": 1800000,
-    "one_time": true,
-    "effects": { "social_skill": 10, "reputation": 8, "appearance": 3 },
-    "passive_effects": {},
-    "description": "이 동네 사람들은 아직 골프를 친다. 코스에 오르면 대화가 달라진다."
-  },
-  {
-    "id": "item_restaurant",
-    "name": "고급 레스토랑 접대",
-    "icon": "🍽",
-    "price": 2800000,
-    "one_time": true,
-    "effects": { "social_skill": 10, "reputation": 12 },
-    "passive_effects": {},
-    "description": "사람은 먹으면서 열린다. 음식값이 아니라 관계값이다."
-  },
-  {
-    "id": "item_suit",
-    "name": "고급 정장 맞춤 제작",
-    "icon": "👔",
-    "price": 3500000,
-    "one_time": true,
-    "effects": { "appearance": 10, "reputation": 8, "social_skill": 5 },
-    "passive_effects": {},
-    "description": "옷이 사람을 만들진 않는다. 하지만 첫 5초는 만든다."
-  },
-  {
-    "id": "item_quant",
-    "name": "퀀트 트레이딩 강의",
-    "icon": "🤖",
-    "price": 4500000,
-    "one_time": true,
-    "effects": { "investment_skill": 15, "intelligence": 6 },
-    "passive_effects": {},
-    "description": "사람보다 덜 실수한다는 걸 증명하는 데 4,500,000원이 든다."
-  },
-  {
-    "id": "item_overseas_seminar",
-    "name": "해외 투자 마스터 클래스",
-    "icon": "✈",
-    "price": 5800000,
-    "one_time": true,
-    "effects": { "investment_skill": 15, "intelligence": 8 },
-    "passive_effects": {},
-    "description": "돈을 쓰는 것도 공부다. 580만이 5억을 만드는 법을 배운다."
-  },
-  {
-    "id": "item_watch",
-    "name": "명품 시계",
-    "icon": "⌚",
-    "price": 8500000,
-    "one_time": true,
-    "effects": { "reputation": 20, "appearance": 15 },
-    "passive_effects": {},
-    "description": "강남 사람들은 손목으로 말한다. 이 시계를 차면 그 언어를 배운 셈이다."
-  },
-  {
-    "id": "item_vip_club",
-    "name": "강남 VIP 멤버십 클럽",
-    "icon": "🏛",
-    "price": 12000000,
-    "one_time": false,
-    "effects": { "reputation": 10, "social_skill": 5 },
-    "passive_effects": { "reputation": 3, "social_skill": 1 },
-    "description": "구독 유지 중 — 매달 자동 적용. 돈보다 비싼 건 여기서 만나는 사람들이다."
-  },
-  {
-    "id": "item_swiss_forum",
-    "name": "스위스 투자 포럼 참가",
-    "icon": "🌐",
-    "price": 25000000,
-    "one_time": true,
-    "effects": { "investment_skill": 18, "intelligence": 10, "reputation": 15 },
-    "passive_effects": {},
-    "description": "세계의 돈이 어디로 가는지 직접 본다. 이걸 살 수 있게 됐다면 이미 달라진 것이다."
+    "description": "통화기록 스크린샷으로 저장해뒀다.\n왜 저장했는지 설명하기가 어렵다."
   }
 ]
