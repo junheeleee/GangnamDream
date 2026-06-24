@@ -252,14 +252,16 @@
         "text": "결과를 보고 식습관부터 바꾼다",
         "effects": {
           "money": -50000,
-          "luck": 1
+          "luck": 1,
+          "tint": 3
         },
         "result_text": "수치를 보자마자 냉장고를 정리했다. 건강은 무너지기 전에 지키는 것이다."
       },
       {
         "text": "불안해서 결과지를 서랍에 넣어버린다",
         "effects": {
-          "mental": -12
+          "mental": -12,
+          "tint": -3
         },
         "result_text": "보기 싫어서 서랍에 넣었다. 안 보면 없는 것처럼 느껴지지만 몸은 알고 있다."
       },
@@ -267,7 +269,8 @@
         "text": "검사가 틀렸다며 재검사를 요구한다",
         "effects": {
           "reputation": -4,
-          "investment_skill": -1
+          "investment_skill": -1,
+          "tint": -2
         },
         "result_text": "믿기 싫어서 다른 병원을 찾아갔다. 현실 부정도 하나의 심리 방어 기제다."
       }
