@@ -4006,3 +4006,20 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 - arc_jiyeon_y5_feelings 중복 가드: 부산 귀환 아크(year4_call/year5_return/news) 탄 플레이어 제외
 - honest_together = "깊은 정직 유대(연애 전)"로 의미 유지 → Y2 텍스트/콜백 무수정(리스크 최소)
 - audit ERROR 0/WARNING 0/밴드 통과
+
+## 2026-06-25 (Y1-Y5 전체 정합성 QA + 후속 수정)
+
+### 점검 방식
+4개 영역 병렬 정밀 추적(서브에이전트): 다은 아크 / 지연 아크 / 타임라인·스타베이션 / 기타아크+엔딩.
+
+### 결과: 블로커·데드엔드 없음, 엔딩 우선순위 회귀 없음
+- 엔딩 우선순위: 30억 블록(GameState 1424)이 age>=38 연애 블록(1454)보다 먼저 return → 30억 승자는 gangnam_dream 유지, with_daeun이 가로채지 않음
+- 다은/지연 연애 상호배타 구조적 확정 (moral_stage 분리 + daeun 경로 라우팅)
+- 연말 클로징(t44-48 등)·현수 Y4-Y5·연애 Y5 게이트 전부 도달 가능, 스타베이션 없음
+- age=38은 t241에 도달 → Y5(t193-240) 48턴 완주, t>=200 콘텐츠도 실행됨
+
+### 후속 수정 3건
+- [지연 MAJOR] respected/trust 플레이어 Y4 지연 비트 공백 → year4_seoul 게이트에 respected/trust 추가
+- [다은 MINOR] 우정 finale(together stage)의 엔딩 에필로그 연인 톤 누수 → daeun_romance_started 플래그 게이트
+- [다은 MINOR] cast_stages.json 죽은 stage(dating/committed) 제거
+- audit ERROR 0/WARNING 0/밴드 통과
