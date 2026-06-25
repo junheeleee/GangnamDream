@@ -1282,6 +1282,16 @@ func _next_arc_id() -> String:
 	if _age == 37 and not f.get("chapter_37_seen", false):
 		return "chapter_card_37"
 
+	# ══ 연말 클로징 씬 — 각 연도의 마지막 밤 (5권 구조의 마침표) ══
+	if t >= 44 and t <= 48 and not f.get("arc_year1_close_seen", false):
+		return "arc_year1_close"
+	if t >= 92 and t <= 96 and not f.get("arc_year2_close_seen", false):
+		return "arc_year2_close"
+	if t >= 140 and t <= 144 and not f.get("arc_year3_close_seen", false):
+		return "arc_year3_close"
+	if t >= 188 and t <= 192 and not f.get("arc_year4_close_seen", false):
+		return "arc_year4_close"
+
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
 			and not f.get("arc_goshiwon_goodbye_seen", false):

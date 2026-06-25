@@ -1,0 +1,241 @@
+[
+  {
+    "id": "arc_year1_close",
+    "title": "33세의 마지막 밤",
+    "category": "story",
+    "rarity": "story",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "year_close"
+    ],
+    "portrait": "player_normal",
+    "background": "goshiwon_room",
+    "description": "12월이었다.\n\n고시원 방 천장에 금이 하나 있었다. 이사 온 날부터 있었다. 1년 동안 매일 봤다.\n\n1년 전 이맘때, {name}은 버스에서 내렸다. 짐가방 하나. 통장 50만원.\n\n살아남았다.\n\n그게 다인가, 아니면 지금부터인가.",
+    "description_if_known": {
+      "jaehyuk_scammed": "12월이었다.\n\n재혁이 사라진 해였다. 통장이 빈 해였다. 바닥을 본 해였다.\n\n그래도 — 아직 여기 있다.\n\n고시원 방 천장을 봤다. 금이 하나 있었다. 여전히 같은 자리에.",
+      "entered_network": "12월이었다.\n\n상철 씨 사람들을 알게 된 해였다. 그 세계가 어떻게 돌아가는지 조금 알게 됐다.\n\n앞으로 그게 어떤 의미인지는 — 아직 모른다.\n\n고시원 방 천장을 봤다. 금이 하나 있었다. 이사 온 날부터 있었던.",
+      "hit_rock_bottom": "12월이었다.\n\n바닥을 봤다. 진짜 바닥이 어디인지 알게 된 해였다.\n\n거기서 올라왔다. 완전히는 아니지만 — 올라왔다.\n\n고시원 방 천장을 봤다. 금이 하나 있었다. 여전히 같은 자리에."
+    },
+    "choices": [
+      {
+        "text": "(내년엔 다르게 살아야겠다) — 결심했다",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "arc_year1_close_seen",
+          "year1_resolve"
+        ],
+        "result_text": "눈을 감기 전에, 내년의 {name}이 어떤 사람이어야 하는지 생각했다. 아직 결정 안 됐다. 그게 오히려 다행인지도 모른다."
+      },
+      {
+        "text": "(1년을 버텼다. 그거면 됐다) — 담담했다",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [
+          "arc_year1_close_seen"
+        ],
+        "result_text": "잘 버텼다. 그거면 됐다. 내일은 내일의 일이다."
+      },
+      {
+        "text": "(잘 모르겠다. 그냥 눈을 감았다) — 아무 생각 없이",
+        "effects": {},
+        "flags": [
+          "arc_year1_close_seen",
+          "year1_numb"
+        ],
+        "result_text": "서울의 밤이 고시원 창을 통해 들어왔다. {name}은 그냥 잠들었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_year2_close",
+    "title": "34세의 마지막 밤",
+    "category": "story",
+    "rarity": "story",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "year_close"
+    ],
+    "portrait": "player_normal",
+    "background": "street",
+    "description": "또 12월이었다.\n\n1년 전과 비교하면 — 많은 게 달라졌다. 통장 숫자도, 아는 사람도, 아침에 거울을 보는 느낌도.\n\n달라진 게 전부 좋은 건지는 아직 모르겠다.\n\n그냥 달라졌다.\n\n34세. 벌써 2년이 지났다.",
+    "description_if_known": {
+      "jaehyuk_stood_up": "또 12월이었다.\n\n재혁에게 배신당하고도 다시 일어선 해였다.\n\n그 과정에 한 살이 더 먹었다. 돈도 잃고 사람도 잃었는데, 이상하게 뭔가를 얻은 것 같기도 하다. 정확히 뭔지는 아직 모른다.",
+      "crossed_line": "또 12월이었다.\n\n올해 선을 하나 넘었다.\n\n당시엔 그게 선인지 몰랐다. 지금은 안다. 그리고 — 그 이후로도 잘 살고 있다.\n\n그 사실이 뭔가를 말해주는 것 같아서, 가끔 생각한다.",
+      "chose_money_over_father": "또 12월이었다.\n\n아버지보다 숫자를 택한 순간이 있었다. 그때는 맞는 선택인 줄 알았다.\n\n지금도 그게 틀렸다고 확신하지는 못한다. 다만 — 가끔 그 장면이 떠오른다.",
+      "year1_resolve": "또 12월이었다.\n\n1년 전에 다짐한 게 있었다. 내년의 {name}은 어떤 사람이어야 하는지.\n\n됐는지는 — 솔직히 잘 모르겠다.\n\n달라지긴 했다. 34세. 벌써 2년이 지났다.",
+      "year1_numb": "또 12월이었다.\n\n1년 전엔 아무것도 느끼지 못한 채 잠들었다.\n\n이번엔 — 뭔가 느껴졌다. 정확히 뭔지는 모르겠지만.\n\n그것만으로도 1년 전과 다른 해였다."
+    },
+    "choices": [
+      {
+        "text": "(이 정도면 궤도에 올랐다) — 자신 있게",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "arc_year2_close_seen",
+          "year2_confident"
+        ],
+        "result_text": "3년 차가 시작된다. 이제부터가 진짜다."
+      },
+      {
+        "text": "(뭔가 잃고 얻은 것 같다) — 복잡하게",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [
+          "arc_year2_close_seen",
+          "year2_conflicted"
+        ],
+        "result_text": "득실을 계산하려다가 그만뒀다. 아직 결산하기 이르다."
+      },
+      {
+        "text": "(강남까지 아직 멀다) — 숫자만 봤다",
+        "effects": {},
+        "flags": [
+          "arc_year2_close_seen"
+        ],
+        "result_text": "남은 거리를 다시 계산했다. 3년 남았다."
+      }
+    ]
+  },
+  {
+    "id": "arc_year3_close",
+    "title": "35세의 마지막 밤",
+    "category": "story",
+    "rarity": "story",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "year_close"
+    ],
+    "portrait": "player_normal",
+    "background": "hangang_riverside",
+    "description": "35세의 마지막 밤.\n\n올해는 많은 것을 알게 됐다. 알고 싶지 않았던 것들도.\n\n진실을 알면 달라질 거라고 생각했는데 — 달라지긴 했다. 예상한 방향은 아니었다.\n\n한강이 어두웠다. {name}은 잠시 거기 서 있었다.",
+    "description_if_known": {
+      "father_confession_heard": "35세의 마지막 밤.\n\n아버지가 말했다. 오래 숨겨온 것을.\n\n그 말을 들은 채로 몇 주를 보냈다. 아직 완전히 정리가 안 됐다.\n\n진실이란 게, 알고 나서 더 무거워지는 종류가 있다는 걸 이제 안다.",
+      "sangchul_truth_known": "35세의 마지막 밤.\n\n두 사람의 진실을 알게 된 해였다. 상철의 것과 아버지의 것.\n\n둘 다 무거웠다. 그 무게를 어떻게 들고 가는지 — 아직 배우는 중이다.\n\n한강이 어두웠다. {name}은 잠시 거기 서 있었다.",
+      "arc_y3_jiyeon_departure_seen": "35세의 마지막 밤.\n\n지연이 부산으로 갔다. 말하지 못한 것들이 있었는데, 그냥 기회가 지나갔다.\n\n그게 올해 가장 오래 남은 일이었다.\n\n한강이 어두웠다. {name}은 잠시 거기 서 있었다.",
+      "year2_confident": "35세의 마지막 밤.\n\n2년 차 말에 '이 정도면 궤도에 올랐다'고 했다.\n\n올해가 그 자신감을 시험했다. 아직 궤도인지는 — 모르겠다.\n\n한강이 어두웠다. {name}은 잠시 거기 서 있었다.",
+      "year2_conflicted": "35세의 마지막 밤.\n\n2년 차 말에 뭔가 잃고 얻은 것 같다고 했다. 복잡하게.\n\n3년이 지났다. 여전히 복잡하다. 다만 익숙해졌다.\n\n한강이 어두웠다. {name}은 잠시 거기 서 있었다."
+    },
+    "choices": [
+      {
+        "text": "(알게 됐다. 그래도 계속 간다) — 앞을 봤다",
+        "effects": {
+          "mental": 2,
+          "tint": 1
+        },
+        "flags": [
+          "arc_year3_close_seen",
+          "year3_eyes_open"
+        ],
+        "result_text": "무게를 내려놓지 않기로 했다. 들고 가기로 했다. 그게 더 맞는 것 같았다."
+      },
+      {
+        "text": "(너무 많이 알아버린 것 같다) — 무거웠다",
+        "effects": {
+          "mental": -1
+        },
+        "flags": [
+          "arc_year3_close_seen",
+          "year3_weighted"
+        ],
+        "result_text": "알기 전으로 돌아갈 수는 없다. 그게 진실의 속성이다."
+      },
+      {
+        "text": "(내년엔 그냥 돈만 보고 싶다) — 덮으려 했다",
+        "effects": {
+          "tint": -1
+        },
+        "flags": [
+          "arc_year3_close_seen",
+          "year3_avoidant"
+        ],
+        "result_text": "한강을 등지고 걷기 시작했다. 생각을 끄는 법을 배우고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_year4_close",
+    "title": "36세의 마지막 밤",
+    "category": "story",
+    "rarity": "story",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "year_close"
+    ],
+    "portrait": "player_normal",
+    "background": "rooftop_night",
+    "description": "36세의 마지막 밤.\n\n강남까지 — 이제 1년 남았다. 거리가 느껴진다.\n\n오늘은 이상하게 숫자보다 다른 게 먼저 떠올랐다. 이 4년 동안 만난 사람들. 해온 선택들.\n\n내가 어떤 사람이 됐는지 — 이제는 조금 보인다.",
+    "description_if_known": {
+      "father_passed": "36세의 마지막 밤.\n\n아버지가 없는 첫 해였다.\n\n강남에 가면 제일 먼저 하려고 했던 일이 있었는데 — 이제 그게 불가능하다.\n\n그래서 강남이, 예전과는 다른 의미가 됐다. 뭔지는 아직 모르겠다.",
+      "crossed_line": "36세의 마지막 밤.\n\n선을 넘은 해가 있었다. 그 이후로 조금씩 달라진 느낌이 있었다.\n\n되돌릴 수 없는 건 되돌릴 수 없다. 그걸 받아들이는 데 꽤 오래 걸렸다.\n\n이제는 받아들였다. 그냥 이 사람이 나다.",
+      "year3_avoidant": "36세의 마지막 밤.\n\n작년엔 덮으려 했다. 한강을 등지고 걷기 시작했다.\n\n1년이 더 지났다. 강남까지 1년. 이제 덮을 시간이 없다.\n\n앞으로 달려온 것처럼 보이기를 원했다. 피한 게 아니라.",
+      "year3_weighted": "36세의 마지막 밤.\n\n작년엔 알기 전으로 돌아갈 수 없다고 했다.\n\n1년이 더 지났다. 여전히 돌아갈 수 없다. 다만 조금 더 들고 다니는 법을 알게 됐다.",
+      "year3_eyes_open": "36세의 마지막 밤.\n\n작년엔 무게를 들고 가기로 했다.\n\n그게 맞는 선택이었는지 — 이제 조금 보인다. 강남에 가면 알 수 있을 것 같다.",
+      "sangchul_truth_known": "36세의 마지막 밤.\n\n진실을 알고, 선택을 했고, 그 결과가 쌓였다.\n\n4년치 선택들이 지금의 {name}이다.\n\n옳은지 그른지를 판단하기엔 아직 끝이 안 났다."
+    },
+    "choices": [
+      {
+        "text": "(내년이면 된다) — 마지막 1년을 다졌다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "arc_year4_close_seen",
+          "year4_final_resolve"
+        ],
+        "result_text": "1년. 마지막이다. 이 감각을 기억해두기로 했다."
+      },
+      {
+        "text": "(내가 어떤 사람인지 이제 안다) — 담담하게",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [
+          "arc_year4_close_seen",
+          "year4_self_known"
+        ],
+        "result_text": "강남보다 그게 먼저였다. 내가 누군지 아는 것이. 이제는 안다."
+      },
+      {
+        "text": "(강남에 가면 알겠지) — 미뤘다",
+        "effects": {},
+        "flags": [
+          "arc_year4_close_seen"
+        ],
+        "result_text": "도착하면 알 것이다. 그게 맞다고 생각하기로 했다."
+      }
+    ]
+  }
+]
