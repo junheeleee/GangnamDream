@@ -3912,3 +3912,34 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 - 17개 이벤트: chaebol_contact, approached_shadow_investors, declined_sangchul_deal, jeonse_ignored, checked_registry, wallet_took_cash, wallet_ignored, fomo_invested, declared_dream(turn40), deleted_sns, envy_fuel, came_clean_to_friend, borrowed_from_parents, escaped_dirty_money, heard_father_young_story, asked_father_health, freelance_started
 - audit.sh ERROR 0 / WARNING 20 (기존) 통과
 - 배치 1~5 누적 87개 콜백 이벤트
+
+## 2026-06-25 (5권 구조 연말 클로징 씬 4종)
+
+### 수정 내용
+
+#### 연말 클로징 씬 신규 (arc_year_close.json)
+- `arc_year1_close` (t44-48): "33세의 마지막 밤" — 고시원 천장 금, 1년 생존 반성
+  - description_if_known: jaehyuk_scammed / entered_network / hit_rock_bottom
+  - stance 플래그: year1_resolve / year1_numb
+- `arc_year2_close` (t92-96): "34세의 마지막 밤" — 거리의 밤, 달라진 것들 점검
+  - description_if_known: jaehyuk_stood_up / crossed_line / chose_money_over_father / year1_resolve / year1_numb (cross-year echo)
+  - stance 플래그: year2_confident / year2_conflicted
+- `arc_year3_close` (t140-144): "35세의 마지막 밤" — 한강 어두운 밤, 진실의 무게
+  - description_if_known: father_confession_heard / sangchul_truth_known / arc_y3_jiyeon_departure_seen / year2_confident / year2_conflicted
+  - stance 플래그: year3_eyes_open / year3_weighted / year3_avoidant
+- `arc_year4_close` (t188-192): "36세의 마지막 밤" — 옥상에서 본 도시, 마지막 1년
+  - description_if_known: father_passed / crossed_line / year3_avoidant / year3_weighted / year3_eyes_open / sangchul_truth_known
+  - stance 플래그: year4_final_resolve / year4_self_known
+
+#### gangnam_dream 엔딩 year4 stance 변주 2종
+- year4_final_resolve: "다짐한 것이 현실이 됐다" — 마지막 1년 다짐 페이오프
+- year4_self_known: "그 사람이 강남에 있다" — 자기 인식 페이오프
+
+#### MainGame.gd _next_arc_id()
+- 연말 창구 4개 dispatch 추가 (t44-48 / t92-96 / t140-144 / t188-192)
+
+#### 시스템
+- DataRegistry.gd: arc_year_close.json 등록
+- content/events_en/arc_year_close.json: 전체 EN 오버레이
+- debt_baseline: 228 (endings.json 읽기 미스캔 2건)
+- audit ERROR 0/WARNING 0/밴드 통과

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Added (2026-06-25) — 5권 구조 연말 클로징 씬 4종
+
+- **arc_year_close.json 신규** (4개 이벤트): 각 연도의 마지막 밤을 완결된 한 편의 소설처럼 마무리. Y1(고시원 천장 금) / Y2(거리의 밤) / Y3(한강 어두운 밤) / Y4(옥상 야경).
+- **cross-year echo 체인**: 전년도 선택(year1_resolve/numb → year2, year2_confident/conflicted → year3, year3_eyes_open/weighted/avoidant → year4)이 다음 해 description_if_known으로 연결 — 5년이 연속된 한 사람의 이야기처럼 느껴지게.
+- **gangnam_dream 엔딩 year4 변주 2종**: `year4_final_resolve`("다짐한 것이 현실이 됐다") / `year4_self_known`("그 사람이 강남에 있다").
+- **KR+EN 완전 동기화**, audit ERROR 0/WARNING 0/밴드 통과.
+
 ### Added (2026-06-24) — 다은/지연 로맨스 상호배타 + 지연 Y4-Y5 아크 완성
 
 - **한지연 Y4-Y5 아크 5개 이벤트**: 부산 첫 전화(Y4) → 서울 방문(Y4, 표준/갈등 2버전) → Y5 귀환(연인 경로) / 부산 소식(비연인 경로). Y3 부산 출발 이후 완전한 공백이었던 Y4-Y5 구간 해소.
