@@ -2156,9 +2156,14 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_y5_feelings_seen", false) \
 			and GameState.moral_stage() >= 0:
 		return "arc_daeun_y5_feelings"
+	# 지연 Y5 고백 — 회색 경로 전용. 단, 부산 출발→Y4-Y5 귀환 아크를 탄 플레이어는
+	# 그쪽(year5_return)이 연애를 formalize하므로 중복 방지.
 	if t >= 193 and f.get("arc_jiyeon_03b_seen", false) \
 			and not f.get("jiyeon_romance_started", false) \
 			and not f.get("arc_jiyeon_y5_feelings_seen", false) \
+			and not f.get("arc_jiyeon_year4_call_seen", false) \
+			and not f.get("arc_jiyeon_year5_return_seen", false) \
+			and not f.get("arc_jiyeon_year5_news_seen", false) \
 			and GameState.moral_stage() <= -1:
 		return "arc_jiyeon_y5_feelings"
 	if t >= 193 and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
@@ -6666,12 +6671,12 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 
 	# 한지연 — 세계가 다른 사람과 어디까지 갔는가
 	var js := GameState.get_cast_stage("jiyeon")
-	if js in ["lover", "honest_together"]:
+	if GameState.flags.get("jiyeon_romance_started", false):
 		if bad:
 			lines.append(_tr("💜  다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "💜  Even the day everything collapsed, Jiyeon didn't leave. 「I never came for the money in the first place.」"))
 		else:
 			lines.append(_tr("💜  한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "💜  Jiyeon smiled, 「See, my eye was right.」 That seat beside her is better than Gangnam."))
-	elif js in ["respected", "trust", "close", "connected", "business_partner", "indebted"]:
+	elif js in ["honest_together", "respected", "trust", "close", "connected", "business_partner", "indebted"]:
 		lines.append(_tr("💜  한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.", "💜  I meet Jiyeon for coffee now and then. We remain people who acknowledged each other's worlds."))
 	elif js in ["hurt", "disillusioned", "distant", "rejected_help"]:
 		lines.append(_tr("💜  한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.", "💜  I check Jiyeon's social media sometimes. I don't reach out. We both remember what was said that day."))
