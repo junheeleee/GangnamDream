@@ -1,0 +1,118 @@
+[
+  {
+    "id": "arc_daeun_y5_feelings",
+    "title": "37세의 어느 날",
+    "category": "story",
+    "rarity": "story",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "romance"
+    ],
+    "portrait": "daeun_smile",
+    "background": "cafe",
+    "description": "37세.\n\n다은이 카페를 나서려다 문득 돌아섰다.\n\"저 한 가지 물어봐도 돼요?\"\n\n{name}은 고개를 들었다.\n\n\"강남 가면 저도 거기 있을 수 있어요?\n아니면... 여기까지예요?\"\n\n4년치 말들이 한꺼번에 쏟아질 것 같았다.\n그리고 — 지금이 그 말을 해야 할 때인 것 같았다.",
+    "description_if_known": {
+      "daeun_close_bond": "37세.\n\n다은이 카페를 나서려다 문득 돌아섰다.\n\"저 한 가지 물어봐도 돼요?\"\n\n{name}은 고개를 들었다.\n\n\"강남 가면 저도 거기 있을 수 있어요?\n아니면... 여기까지예요?\"\n\n'같이 버텨요'라고 했던 날이 떠올랐다.\n그때 못 했던 말이 — 이제는 할 수 있을 것 같았다."
+    },
+    "choices": [
+      {
+        "text": "\"같이 가요. 처음부터 그랬어요\" — 4년 동안 하지 못했던 말",
+        "effects": {
+          "mental": 5,
+          "tint": 3
+        },
+        "flags": [
+          "arc_daeun_y5_feelings_seen",
+          "daeun_romance_started"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 20,
+            "stage": "lover"
+          }
+        },
+        "result_text": "그녀가 잠시 말이 없었다. 창밖 서울이 밝았다.\n그러다 조용히 웃으며 말했다. \"...저도요.\"\n4년이 지났다. 이제서야 말이 됐다."
+      },
+      {
+        "text": "\"아직 모르겠어요. 강남 가봐야 알 것 같아요\" — 솔직했다",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [
+          "arc_daeun_y5_feelings_seen",
+          "daeun_romance_blocked"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5,
+            "stage": "close"
+          }
+        },
+        "result_text": "그녀가 고개를 끄덕였다. \"그거면 충분해요. 솔직하게 말해줘서.\"\n두 사람은 거기서 헤어졌다. 대답은 미뤄졌다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_y5_feelings",
+    "title": "두 개의 강남",
+    "category": "story",
+    "rarity": "story",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "romance"
+    ],
+    "portrait": "jiyeon_normal",
+    "background": "gangnam_night",
+    "description": "37세. 강남 근처.\n\n지연이 먼저 연락해왔다.\n\"이번 달에 서울 올라와요. 보고 싶으면 연락해요.\"\n\n그 메시지를 오래 들여다봤다.\n\n지연과의 시간을 생각했다. 처음에는 사고였다. 그다음엔 우연이었다. 어느 순간부터 — 선택이 됐다.\n\n비슷한 이유로 비슷한 곳을 향하고 있다는 걸, 둘 다 알고 있었다.\n\n그 사람을 만나야 할 것 같았다.",
+    "choices": [
+      {
+        "text": "만나러 간다 — \"이쪽도 보고 싶었어요\"",
+        "effects": {
+          "mental": 3,
+          "tint": -2
+        },
+        "flags": [
+          "arc_jiyeon_y5_feelings_seen",
+          "jiyeon_romance_started"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 20,
+            "stage": "lover"
+          }
+        },
+        "result_text": "강남 근처 카페에서 만났다. 그녀가 먼저 웃었다.\n\"둘 다 여기 왔네요.\"\n어떤 길을 걸어왔는지 다 말하지 않아도, 알고 있었다."
+      },
+      {
+        "text": "\"이 정도로 충분해요\" — 연락하지 않는다",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "arc_jiyeon_y5_feelings_seen"
+        ],
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": -3,
+            "stage": "distant"
+          }
+        },
+        "result_text": "답장을 보내지 않았다. 그 세계는 {name}의 것이 아니었다.\n지연은 강남으로 갔고, {name}도 강남을 향하고 있었다. 같은 도시, 다른 길."
+      }
+    ]
+  }
+]

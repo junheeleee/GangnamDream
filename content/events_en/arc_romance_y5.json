@@ -1,0 +1,35 @@
+[
+  {
+    "id": "arc_daeun_y5_feelings",
+    "title": "One Day at 37",
+    "description": "37.\n\nDaeun paused on her way out of the cafe and turned back.\n\"Can I ask you something?\"\n\n{name} looked up.\n\n\"When you get to Gangnam — will I be there too?\nOr... is this as far as we go?\"\n\nFour years' worth of unsaid things were pushing at the door.\nAnd — it felt like now was when they needed to come out.",
+    "description_if_known": {
+      "daeun_close_bond": "37.\n\nDaeun paused on her way out of the cafe and turned back.\n\"Can I ask you something?\"\n\n{name} looked up.\n\n\"When you get to Gangnam — will I be there too?\nOr... is this as far as we go?\"\n\nRemembered saying 'let's hold on together.' That day came back.\nWhat couldn't be said then — it felt like it could be said now."
+    },
+    "choices": [
+      {
+        "text": "\"Together. That's how it always was\" — words unsaid for four years",
+        "result_text": "She was quiet for a moment. Seoul bright outside the window.\nThen she smiled softly. \"...Me too.\"\nFour years. The words finally fit."
+      },
+      {
+        "text": "\"I'm not sure yet. I think I'll know once I get there\" — honest",
+        "result_text": "She nodded. \"That's enough. Thank you for being honest.\"\nThey parted there. The answer was deferred."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_y5_feelings",
+    "title": "Two Gangnams",
+    "description": "37. Near Gangnam.\n\nJiyeon reached out first.\n\"I'm coming up to Seoul this month. Let me know if you want to meet.\"\n\nLooked at that message for a long time.\n\nThought about the time spent with Jiyeon. First it was an accident. Then a coincidence. At some point — it became a choice.\n\nBoth of them knew they were heading toward the same place, for similar reasons.\n\nNeeded to see her.",
+    "choices": [
+      {
+        "text": "Go to meet her — \"I wanted to see you too\"",
+        "result_text": "Met at a cafe near Gangnam. She smiled first.\n\"Both of us made it here.\"\nNeither had to say all of how they got there. They both already knew."
+      },
+      {
+        "text": "\"This is enough for what it was\" — don't reach out",
+        "result_text": "No reply sent. That world wasn't {name}'s to enter.\nJiyeon went to Gangnam. {name} was headed there too. Same city, different roads."
+      }
+    ]
+  }
+]

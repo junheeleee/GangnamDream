@@ -1483,7 +1483,7 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_regret_seen", false):
 		return "arc_daeun_regret_draft"
 	# ── 다은 05 — 함께 가는 경로 (committed 이후 일상) ──
-	if t >= 50 and f.get("daeun_committed", false) \
+	if t >= 50 and f.get("daeun_close_bond", false) \
 			and not f.get("arc_daeun_05_together_seen", false):
 		return "arc_daeun_05_together"
 	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
@@ -2100,7 +2100,7 @@ func _next_arc_id() -> String:
 		else:
 			return "arc_jiyeon_year5_news"
 	# 김다은 Year 3 — 함께 2주년 (함께 궤적)
-	if t >= 100 and (f.get("daeun_committed", false) or f.get("daeun_together_path", false)) \
+	if t >= 100 and (f.get("daeun_close_bond", false) or f.get("daeun_together_path", false)) \
 			and not f.get("arc_daeun_year3_together_seen", false):
 		return "arc_daeun_year3_together"
 	# 김다은 Year 3 — 결혼 소식 (이별 궤적)
@@ -2133,7 +2133,19 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_year4_quiet_seen", false):
 		return "arc_daeun_year4_quiet"
 	# 김다은 Year 5 — 30억 전날 밤 (함께 궤적)
-	if t >= 193 and f.get("arc_daeun_year4_together_seen", false) \
+	# ★ Y5 로맨스 게이트 — moral_tint 경로 기반 첫 고백 (Y5 첫 주부터)
+	if t >= 193 and (f.get("daeun_close_bond", false) or f.get("daeun_together_path", false)) \
+			and not f.get("daeun_romance_started", false) \
+			and not f.get("daeun_romance_blocked", false) \
+			and not f.get("arc_daeun_y5_feelings_seen", false) \
+			and GameState.moral_stage() >= 0:
+		return "arc_daeun_y5_feelings"
+	if t >= 193 and f.get("arc_jiyeon_03b_seen", false) \
+			and not f.get("jiyeon_romance_started", false) \
+			and not f.get("arc_jiyeon_y5_feelings_seen", false) \
+			and GameState.moral_stage() <= -1:
+		return "arc_jiyeon_y5_feelings"
+	if t >= 193 and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
 			and not f.get("arc_daeun_year5_seen", false):
 		return "arc_daeun_year5_ending"
 	# 김다은 Year 5 — 강남대로에서 혼자 (이별 궤적)
@@ -3810,10 +3822,12 @@ func _month_narration() -> String:
 		return _tr("아버지가 편찮으시다는 소식이 마음 한구석에 걸려 있다.", "The news that my father is unwell sits in a corner of my mind.")
 
 	# ── 관계 아크 ──────────────────────────────────
-	if f.get("daeun_together_path", false):
+	if f.get("daeun_romance_started", false):
 		if m in [12, 1, 2]:
 			return _tr("다은이 따뜻한 국을 끓여줬다. 이 겨울은 작년보다 따뜻하다.", "Daeun made me warm soup. This winter is warmer than last year's.")
 		return _tr("다은이 있다. 오늘 그것만으로 충분한 날이었다.", "Daeun is here. Today, that alone was enough.")
+	if f.get("daeun_together_path", false):
+		return _tr("다은이 생각난다. 연락하지 않아도 잘 있는지 알 것 같은 사람.", "Daeun comes to mind. The kind of person you know is doing fine without checking.")
 	if f.get("startup_exit", false):
 		return _tr("한 번은 해냈다. 그게 자신감이 됐다.", "I pulled it off once. That became confidence.")
 	if f.get("creator_viral", false):

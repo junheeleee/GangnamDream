@@ -211,11 +211,11 @@
       "daeun"
     ],
     "cooldown": 9999,
-    "description": "Daeun got a call from home. Her mom's not well — and a stable job has opened up at the local mart.\n\"...I'm thinking of packing up and going back. Seoul is just too much.\"\nShe looks at {name}. An unasked question sitting in her eyes.\n\nIf {name} says the words — let's just live a simple life together — she might stay.\nBut that would mean stepping off the path to ₩3 billion.\nLove and ambition, placed on the same scale.",
+    "description": "Daeun got a call from home. Her mother is unwell, and a stable position opened up at the local market back in her hometown.\n\"...I think I'm going to pack up here and go back. Seoul is just too much.\"\nShe looks at {name}. An unasked question lives in her eyes.\n\nThere's no reason to keep her in Seoul.\nBut answering that question — wasn't easy.",
     "choices": [
       {
-        "text": "\"Don't go. Let's figure this out together.\" Hold on to her  (love·stability / ambition wavers)",
-        "result_text": "For the first time, {name} said something out loud that mattered more than ₩3 billion.\nDaeun's eyes went red. She decided to stay in Seoul.\nGangnam may have moved a little further away. But {name} would no longer be walking that road alone.\nWhether that was weakness or happiness — there would be no answer until the end.",
+        "text": "\"Don't go. Let's hold on here together\" — reach for her",
+        "result_text": "She was quiet for a moment. Then smiled softly.\n\"...Okay. I'll stay a little longer.\"\nShe didn't ask why. {name} didn't explain.",
         "flags": [
           "daeun_chose_her",
           "arc_daeun_fork_seen"
@@ -255,7 +255,7 @@
   },
   {
     "id": "arc_daeun_03b_date",
-    "title": "Outside the Convenience Store",
+    "title": "First Time Out",
     "background": "pojangmacha",
     "portrait": "daeun_smile",
     "category": "story",
@@ -272,7 +272,7 @@
       "romance"
     ],
     "cooldown": 9999,
-    "description": "She asked. \"Want to go somewhere with me today?\"\n\nFirst time — seeing Daeun outside the store.\n\nAfter going back and forth on where to meet, they ended up at a pojangmacha nearby.\nOne shot of soju. One kimchi jeon.\n\nShe was different away from the counter.\nMore relaxed. More laughs.\n\n{name} said it would be nice if they sold triangle kimbap here — she burst out laughing.\nThe real kind.",
+    "description": "She asked: \"Want to go somewhere with me today?\"\n\nFirst time. Daeun outside the convenience store.\n\nThey ended up at a nearby tent bar — pojangmacha.\nOne bottle of soju. One serving of kimchi pancake.\n\nShe was different away from the counter.\nA little more relaxed. A little more laughing.\n\nHe said \"they should sell triangular kimbap here\" and she burst out laughing.\nA real laugh.",
     "choices": [
       {
         "text": "\"Today is enough.\" — Gangnam forgotten for a moment",
@@ -294,8 +294,8 @@
         }
       },
       {
-        "text": "\"Next time I'll take you somewhere better.\" — today feels insufficient",
-        "result_text": "At that, Daeun went quiet for a moment.\n'This right here is already good enough.'\n{name} heard it — and still thought about his bank balance.\nWhen Gangnam comes, things will be better. That's what he told himself.",
+        "text": "\"Next time I'll take you somewhere better\" — today feels like too little",
+        "result_text": "Today was today. Whether it was enough — not really sure.",
         "flags": [
           "arc_daeun_03b_seen"
         ],
@@ -315,7 +315,7 @@
   },
   {
     "id": "arc_daeun_04_morning",
-    "title": "This Morning Becomes a Reason",
+    "title": "The Reason at 3 A.M.",
     "background": "goshiwon_room",
     "portrait": "player_happy",
     "category": "story",
@@ -332,11 +332,11 @@
       "romance"
     ],
     "cooldown": 9999,
-    "description": "Five in the morning.\n\nDaeun is asleep. The blanket has drifted to one side.\nOutside the window, Seoul's lights haven't gone dark. This city never goes dark.\n\n{name} got up quietly. ₩3 billion is still a long way off. Time is always short.\n\nBut this morning — he didn't want to rush.\nWaking up beside this person, for the first time {name} felt close to knowing.\nWhy he's been running.",
+    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\n₩3 billion was still far off. Time was always running short.\n\nBut right now, looking at this message — for the first time, it felt clear.\nWhy he was running.",
     "choices": [
       {
-        "text": "Sit quietly and stay beside her — I want to win for her too",
-        "result_text": "{name} stayed in that spot for a long time.\nNothing happened that morning.\nAnd yet, ₩3 billion felt strangely clear today.\n\nHe wasn't afraid. Now there was someone to go there with.",
+        "text": "Reply: \"Me too. Don't worry\"",
+        "result_text": "A short text exchange. Nothing important. Around 4 A.M. she fell asleep first.\n{name} opened the laptop again. Wanted to win — for this person too.",
         "flags": [
           "arc_daeun_04_seen",
           "daeun_together_path"
@@ -354,8 +354,8 @@
         }
       },
       {
-        "text": "Get up and open the laptop — can't let her see me waver",
-        "result_text": "{name} opened the laptop.\nHer breathing became a kind of background sound.\n\nSomewhere between tenderness and obsession,\nhe filled in the numbers again today.",
+        "text": "Send \"Sleep well\" — then open the laptop",
+        "result_text": "Can't afford to waver. But — why he's running felt a little clearer.",
         "flags": [
           "arc_daeun_04_seen"
         ],
@@ -391,7 +391,7 @@
       "romance"
     ],
     "cooldown": 9999,
-    "description": "Late at night. The sound of {name} tapping away at a calculator woke Daeun.\n\nShe watched for a long moment, then asked quietly.\n\"...I get scared sometimes.\"\n\n{name} looked up. She kept going.\n\"When you get to Gangnam... what happens to me?\nYou were the one who made me stay here.\nBut I don't know if the person who makes it there still wants me.\"\n\nThe words hung in the air for a long time.",
+    "description": "Late. The sound of {name} clicking at a calculator woke Daeun.\n\nShe watched for a long time, then spoke quietly.\n\"...I get anxious sometimes.\"\n\n{name} looked up, and she kept going.\n\"When you get to Gangnam... what happens to me?\nYou're the reason I stayed here,\nbut I don't know if the person who gets there will still want me.\"\n\nThe words hung in the air a long time.\n\n{name} didn't know what to say.\nThere were things that couldn't be said yet — not until the right moment.",
     "choices": [
       {
         "text": "\"We go together. It only means something if you're with me.\"",
@@ -414,7 +414,7 @@
       },
       {
         "text": "\"When I get to Gangnam I'll treat you better. Bear with it for now.\"",
-        "result_text": "Daeun nodded. \"...Okay.\"\nBut that 'okay' felt strangely weightless.\nWatching her turn away,\n{name} felt he'd lost something. He couldn't say exactly what.",
+        "result_text": "She smiled — but that smile was a little sad. {name} knew it too.",
         "flags": [
           "arc_daeun_04b_seen",
           "daeun_deferred"
@@ -433,7 +433,7 @@
       },
       {
         "text": "\"Honestly I don't know. I need to think about that too.\"",
-        "result_text": "After a pause, Daeun said: \"Thank you. For being honest.\"\nThe night was quiet. Close and far at the same time.\nNeither of them had quite learned yet\nthat honesty doesn't always protect what's between people.",
+        "result_text": "Couldn't answer. That silence stayed with him a long time.",
         "flags": [
           "arc_daeun_04b_seen",
           "daeun_uncertain"

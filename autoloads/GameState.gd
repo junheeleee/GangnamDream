@@ -564,8 +564,8 @@ func apply_monthly_pressure():
 		modify_stat("mental", 1)
 		if randf() < 0.18:
 			add_log("📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.", "relationship")
-	if get_cast_stage("jiyeon") in ["honest_together"] \
-			or get_cast_stage("daeun") in ["lover", "together", "committed", "dating"]:
+	if get_cast_stage("jiyeon") in ["honest_together", "lover"] \
+			or get_cast_stage("daeun") in ["lover", "together", "committed", "close"]:
 		modify_stat("mental", 1)
 		if randf() < 0.18:
 			add_log("💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.", "relationship")
