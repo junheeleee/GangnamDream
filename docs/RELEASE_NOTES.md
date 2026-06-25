@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added/Fixed (2026-06-25) — 다은 우정 재프레임 완성 + 현수 Y4-Y5 + Steam App ID
+
+- **다은 Y2-Y5 우정 재프레임**: arc_daeun_05_together(동거 암시 제거), year3_together("안 지 2년"), year4_together(취직), year5_ending(친구 finale + 연애 변주) — 전부 `committed`→`close`. 연애는 Y5 게이트(arc_daeun_y5_feelings)로 단일화.
+- **[FIX] with_daeun 엔딩 오발동**: 우정 플레이어가 year5_ending에서 `together` stage를 얻으면 연애 엔딩이 잘못 발동하던 버그 → `daeun_romance_started` 플래그 기준으로 라우터 변경. 죽은 cast-stage(`committed`/`dating`) 읽기 4곳 제거.
+- **현수 Y4-Y5 아크**: `hyunsu_year4_echo`(t≥150, 안정 vs 야망 거울), `hyunsu_year5_call`(t≥200, crossed_line/father_passed 반응형) 신규. 공무원/회계법인 두 경로 모두 페이오프. KR+EN.
+- **Steam App ID 정리**: `STEAM_APP_ID` 상수화 + 플레이스홀더 시 상점 검색 폴백(깨진 URL 방지).
+- audit ERROR 0/WARNING 0/밴드 통과.
+
 ### Added (2026-06-25) — 로맨스 시스템 재설계 (Y5 게이트)
 
 - **다은 Y1-Y4 재프레임**: 연인 장면들을 우정/미완성 감정으로 전환. arc_daeun_03_fork "같이 버텨봐요"(friend commitment), arc_daeun_04_morning "새벽 메시지 씬"(침대 씬 대체), arc_daeun_04b_future `daeun_committed`→`daeun_close_bond`.

@@ -3967,3 +3967,30 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 - GameState.gd: dating stage 참조 제거 → close/lover
 - DataRegistry: arc_romance_y5.json 등록
 - audit ERROR 0/WARNING 0/밴드 통과
+
+## 2026-06-25 (다은 우정 재프레임 완성 + 현수 Y4-Y5 + Steam App ID)
+
+### 수정 내용
+
+#### 다은 Y2-Y5 우정 재프레임 (연애는 Y5 게이트로 단일화)
+- arc_daeun_05_together: 동거 암시("냉장고에 다은 물건") 제거 → 자주 들르는 깊은 우정. committed→close
+- arc_daeun_year3_together: "같이 지낸 2년"→"안 지 2년", committed→close
+- arc_daeun_year4_together: 강남 취직 씬, 잘못된 "형" 호칭 제거, committed→close
+- arc_daeun_year5_ending: 친구 finale 기본 + description_if_known[daeun_romance_started] 연애 변주
+
+#### 엔딩 라우터 버그 수정 (CRITICAL)
+- with_daeun 엔딩이 cast stage 기준이라, 우정 플레이어가 year5_ending에서 together stage를 얻으면 연애 엔딩 오발동 → daeun_romance_started 플래그 기준으로 변경 (GameState.gd:1457)
+- 죽은 cast-stage 정리: committed/dating 읽기 4곳 제거 (MainGame 2곳, GameState 2곳)
+- Y4 다은/지연 상호배타 체크에 daeun_close_bond 추가
+
+#### 현수 Y4-Y5 아크 공백 해소 (arc_hyunsu.json +2, KR+EN)
+- hyunsu_year4_echo (t≥150, hyunsu_passed OR hyunsu_pivoted): 자리잡은 현수 vs 아직 달리는 나 (안정 vs 야망 거울)
+- hyunsu_year5_call (t≥200): 5년 끝 영상통화, crossed_line/father_passed 반응형
+- MainGame.gd dispatch 2개 (hyunsu_pass_news 뒤)
+
+#### Steam App ID 정리
+- STEAM_APP_ID / STEAM_FALLBACK_URL 클래스 상수화 — 출시 시 1곳만 교체
+- 플레이스홀더면 깨진 /app/STEAM_APP_ID/ 대신 상점 검색 URL로 안전 폴백
+
+#### 검증
+- audit ERROR 0/WARNING 0/밴드 통과, 전 JSON 파싱 OK
