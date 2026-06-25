@@ -3943,3 +3943,27 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 - content/events_en/arc_year_close.json: 전체 EN 오버레이
 - debt_baseline: 228 (endings.json 읽기 미스캔 2건)
 - audit ERROR 0/WARNING 0/밴드 통과
+
+## 2026-06-25 (로맨스 시스템 재설계 — Y5 게이트)
+
+### 수정 내용
+
+#### 다은 아크 Y1-Y4 재프레임 (arc_daeun.json + events_en)
+- arc_daeun_03_fork: "같이 잘 살아봐요" → "같이 버텨봐요" (lover stage → close, 우정 다짐)
+- arc_daeun_03b_date: "데이트" → "처음 나간 날" (dating→warm, 연인 플래그 제거)
+- arc_daeun_04_morning: 침대 옆 장면 → 새벽 3시 메시지 씬 (함께 있음 암시 제거)
+- arc_daeun_04b_future: daeun_committed → daeun_close_bond (사랑 선언→우정 다짐으로)
+
+#### Y5 로맨스 게이트 신규 (arc_romance_y5.json)
+- arc_daeun_y5_feelings (t≥193, daeun_close_bond + moral_stage≥0): 4년 만에 말하는 장면
+- arc_jiyeon_y5_feelings (t≥193, arc_jiyeon_03b_seen + moral_stage≤-1): 두 개의 강남
+
+#### 결혼 변주 (endings.json + endings_en.json)
+- with_daeun [daeun_romance_started]: "편의점 삼각김밥 → 강남 열쇠 옆"
+- jiyeon_man [jiyeon_romance_started]: "두 사람의 강남"
+
+#### 시스템 수정
+- MainGame.gd: Y5 romance dispatch, 내레이션 romance_started 분기
+- GameState.gd: dating stage 참조 제거 → close/lover
+- DataRegistry: arc_romance_y5.json 등록
+- audit ERROR 0/WARNING 0/밴드 통과

@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-25** — **5권 구조 연말 클로징 씬 4종 + cross-year echo 체인**: arc_year1~4_close 신규(Y1 고시원/Y2 거리/Y3 한강/Y4 옥상). stance 플래그(year1~4_*) cross-year 연결. gangnam_dream year4 변주 2종. MainGame dispatch 4개. audit ERROR 0/WARNING 0/밴드 통과. |
+| **최근 완료** | **2026-06-25** — **로맨스 시스템 재설계 (Y5 게이트 + 경로 연동)**: 다은 Y1-Y4 아크 우정 재프레임(lover→close, 침대씬→메시지씬). arc_romance_y5.json 신규 — `arc_daeun_y5_feelings`(moral_stage≥0) / `arc_jiyeon_y5_feelings`(moral_stage≤-1) Y5 첫 고백. with_daeun/jiyeon_man 결혼 변주 추가. audit ERROR 0/WARNING 0/밴드 통과. |
+| **이전** | **2026-06-25** — **5권 구조 연말 클로징 씬 4종 + cross-year echo 체인** |
 | **이전** | **2026-06-24** — **재혁/다은 서사 심화 + MORAL_TINT 확장 7차 + §4 시그널 준비**: ①재혁 엔딩 분기(jaehyuk_way+2변주/gangnam_dream+1/late_call+1) + 에필로그 4종 신규 분기(stood_up/night_real/trusted/opening_up). ②다은 Y4 `arc_daeun_year4_quiet` 신규 씬(지연 갈등 이후 행복 비트) + arc_daeun_year5_ending 카페약속 페이오프. ③weight<3 이벤트 29선택지 tint 부여. ④GameState `moral_tint_changed(norm, stage)` 시그널 추가. audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-24** — **다은/지연 로맨스 상호배타 + 지연 Y4-Y5 아크 완성**: ①지연 Y4-Y5 5개 이벤트(부산 첫 전화/서울 방문 표준·갈등 2버전/Y5 귀환·소식) — Y3 부산 출발 이후 Y4-Y5 공백 해소. ②`_next_arc_id()` 분기: 다은 연인 경로(daeun_together_path/lover/together/committed)→`arc_jiyeon_year4_seoul_daeun`(지연에게 솔직 tint+5 vs 침묵 tint-5), 아니면 일반 서울 방문. ③`arc_jiyeon_year5_news` description_if_known 2종(솔직한 작별↔침묵, KR+EN) — write-only→read 전환, baseline 226 유지. ④jiyeon_man 엔딩 `lover` stage 포함. audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-24** — **MORAL_TINT 6차 확장 (shadow/chain/butterfly/NG+ 고도덕강도) + cut_sangchul_network 엔딩 변주**: ①shadow_events 8종(사채/거짓/고발 -2~-5/+3~+5), work_events 1종(팀장 직접 대화 +4), story_events 2종(프롤로그 아버지 챙기기/짧게 끊기 ±2), butterfly 5종(내부정보 거절+2/구입-5/신고+5/즉시투자-6), chain_events 8종(봉투 +8/-8 게임 최대값, 사기꾼 제보+6/-5, 임원 면접 솔직+5/-3), drama_events 2종(도박 회복 솔직+5/-2). ②NG+ 8종 — 상철 알면서 이용 -6/직접 대면 +7, 아버지 전화 재무시 -2/방문+3, 카지노 재입장 자기기만-4/거부+3, 도박꾼 외면-3/손 내밀기+5. ③endings.json + endings_en.json: stable_success/ordinary_life/balanced_life 3엔딩에 `cut_sangchul_network` description_if_known 추가(KR+EN). write-only→read 전환. audit ERROR 0/WARNING 0/밴드 통과. |
@@ -44,8 +45,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **★로맨스 시스템 재설계 (Y5 집중, 경로 게이팅)**: 다은(orthodox/tint≥0)·지연(unorthodox/tint≤-10) 로맨스를 전부 Y5로 이동. Y1-Y4 연애 씬 제거/우정 전환. 결혼 엔딩 추가. MORAL_TINT §4 Codex 시각 대기. Steam App ID 교체. 현수 Y4-Y5 공백. |
-| **마지막 업데이트** | 2026-06-25 (Claude: 5권 구조 연말 클로징 씬 4종 + cross-year echo 체인, audit ERROR 0/WARNING 0/밴드 통과) |
+| **다음 작업** | **★MORAL_TINT §4 Codex 시각 연결 대기** (시그널 완료). Steam App ID 교체. 현수 Y4-Y5 아크 공백. 다은 `arc_daeun_05_together` 재프레임(연인→친구 재확인). |
+| **마지막 업데이트** | 2026-06-25 (Claude: 로맨스 시스템 재설계 — Y5 게이트·경로 연동·결혼 변주, audit ERROR 0/WARNING 0/밴드 통과) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

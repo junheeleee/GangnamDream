@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Added (2026-06-25) — 로맨스 시스템 재설계 (Y5 게이트)
+
+- **다은 Y1-Y4 재프레임**: 연인 장면들을 우정/미완성 감정으로 전환. arc_daeun_03_fork "같이 버텨봐요"(friend commitment), arc_daeun_04_morning "새벽 메시지 씬"(침대 씬 대체), arc_daeun_04b_future `daeun_committed`→`daeun_close_bond`.
+- **arc_romance_y5.json 신규**: `arc_daeun_y5_feelings`(t≥193, moral_stage≥0) — 37세 카페 4년치 고백. `arc_jiyeon_y5_feelings`(t≥193, moral_stage≤-1) — "두 개의 강남" 회합. 두 로맨스 모두 Y5 첫 개막.
+- **결혼 변주 추가**: `with_daeun[daeun_romance_started]` + `jiyeon_man[jiyeon_romance_started]` — 강남에서 만나는 그 사람.
+- **KR+EN 동기화**, audit ERROR 0/WARNING 0/밴드 통과.
+
 ### Added (2026-06-25) — 5권 구조 연말 클로징 씬 4종
 
 - **arc_year_close.json 신규** (4개 이벤트): 각 연도의 마지막 밤을 완결된 한 편의 소설처럼 마무리. Y1(고시원 천장 금) / Y2(거리의 밤) / Y3(한강 어두운 밤) / Y4(옥상 야경).
