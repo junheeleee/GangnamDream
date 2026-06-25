@@ -559,19 +559,19 @@
   },
   {
     "id": "arc_daeun_05_together",
-    "title": "The Winter Room",
-    "description": "Daeun's things started appearing in the fridge.\nA few eggs. Spinach. Tofu.\n\n{name} was staring at an investment screen when she reached over and touched the frame of his glasses.\n\"Your eyes are going to give out.\" That had become something they just said.\n\nSomewhere along the way, her being here stopped feeling strange.\nWhether that was good, or just habit — he wasn't sure.",
+    "title": "A Rented Room in Winter",
+    "description": "Daeun dropped by often. Always with something in her hands.\nA few eggs. Spinach. Tofu.\n\n{name} would be staring at an investment screen and she'd reach over and touch the frame of his glasses.\n\"Your eyes are going to give out.\" That had become something they just said.\n\nThey weren't a couple. But just friends didn't quite cover it either — there was something more.\nNeither of them put that line into words.\n\nSomewhere along the way, her being here stopped feeling strange.\nWhether that was good, or just habit — he wasn't sure.",
     "choices": [
       {
-        "text": "Decide to cook together tonight",
-        "result_text": "The tofu stew came out too salty. Daeun said {name} put in too much. {name} said it was hers.\nThey both knew the truth.\n\nIf he could hold the small things steady for this person —\nmaybe the run toward ₩3 billion wouldn't come apart either.",
+        "text": "Decide to just cook something together tonight",
+        "result_text": "They dug through the fridge together. Nothing decent to work with — but that kind of evening wasn't bad.",
         "effects": {
           "tint": 4
         }
       },
       {
         "text": "\"I still can't give you much yet — is that okay?\"",
-        "result_text": "After a long pause, Daeun said: \"This is already something.\"\n\n{name} was grateful. And burdened.\nHolding both at the same time, he turned back to the screen.\n\nHe couldn't stop. Not if he wanted her to be able to look at him.",
+        "result_text": "Daeun paused for a moment. \"I'm not asking for that.\"\nThe words were plain. Something still unnamed sat quietly between them.",
         "effects": {
           "tint": 3
         }

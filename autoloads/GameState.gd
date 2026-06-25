@@ -565,7 +565,7 @@ func apply_monthly_pressure():
 		if randf() < 0.18:
 			add_log("📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.", "relationship")
 	if get_cast_stage("jiyeon") in ["honest_together", "lover"] \
-			or get_cast_stage("daeun") in ["lover", "together", "committed", "close"]:
+			or get_cast_stage("daeun") in ["lover", "together", "close"]:
 		modify_stat("mental", 1)
 		if randf() < 0.18:
 			add_log("💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.", "relationship")
@@ -1454,8 +1454,8 @@ func check_game_over():
 	if age >= 38:
 		var total = get_total_asset_value()
 		# 연인 엔딩
-		if get_cast_stage("daeun") in ["lover", "together", "committed"]:
-			finish_run("with_daeun"); return          # 다은과 함께
+		if flags.get("daeun_romance_started", false):
+			finish_run("with_daeun"); return          # 다은과 연인 (Y5 고백)
 		if get_cast_stage("jiyeon") in ["honest_together", "lover"]:
 			finish_run("jiyeon_man"); return          # 한지연의 남자
 		# 도박 중독을 이겨낸 사람 — 강남엔 못 갔어도, 가장 깊은 구덩이에서 올라왔다.

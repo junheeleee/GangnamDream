@@ -207,7 +207,9 @@
         "flags": [
           "hyunsu_reconnected"
         ],
-        "give_items": ["artifact_hyunsu_card"],
+        "give_items": [
+          "artifact_hyunsu_card"
+        ],
         "result_text": "\"야 진짜? 잘됐다!!\"\n\n\"형 덕분이에요. 그때 문 두드려줘서.\"\n\n{name}은 폰을 내려놓았다.\n\n서울에서 5년. 이런 연락이 오는 날도 있다."
       }
     ]
@@ -264,6 +266,95 @@
           "hyunsu_pass_news_seen"
         ],
         "result_text": "\"잘됐다. 거기서도 잘 해.\"\n\"감사합니다, 형.\"\n\n다음 날 방이 비어 있었다.\n라면 냄비가 없어진 공용 주방이,\n이상하게 넓어 보였다."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_year4_echo",
+    "title": "자리잡은 사람",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "hyunsu"
+    ],
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "오랜만에 현수에게서 연락이 왔다.\n\n사진 한 장. 회식 자리에서 현수가 웃고 있다. 양복. 동료들.\n\n\"형, 잘 지내요? 저 이제 좀 자리 잡았어요.\"\n\n{name}은 사진을 한참 봤다.\n\n같은 고시원에서 컵라면 먹던 게 4년 전이다. 현수는 자기 자리를 찾았다. {name}은 아직 — 달리는 중이다.",
+    "description_if_known": {
+      "hyunsu_passed": "오랜만에 현수에게서 연락이 왔다.\n\n사진 한 장. 군청 앞이다. 명찰을 단 현수가 어색하게 웃고 있다.\n\n\"형, 저 이제 주무관이에요. 적응 다 했어요.\"\n\n{name}은 사진을 한참 봤다.\n\n같은 고시원에서 컵라면 먹던 게 4년 전이다. 현수는 먼저 출발선을 넘었다. {name}은 아직 — 달리는 중이다."
+    },
+    "choices": [
+      {
+        "text": "\"솔직히 좀 부럽다\"고 말한다",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "hyunsu_year4_echo_seen"
+        ],
+        "result_text": "\"에이, 형이 왜요.\" 현수가 웃었다.\n\n부러운 건 안정이었다. 끝이 정해진 길. {name}의 길은 아직 끝이 안 보였다. 그래서 더 갈 수밖에 없었다."
+      },
+      {
+        "text": "축하만 하고 — 다시 화면을 본다",
+        "effects": {},
+        "flags": [
+          "hyunsu_year4_echo_seen"
+        ],
+        "result_text": "\"축하해. 진짜 잘됐다.\"\n\n폰을 내려놓고 투자 화면으로 돌아왔다. 부러워할 시간은 없었다. 아직 1년이 남았다."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_year5_call",
+    "title": "5년의 끝에서 온 전화",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "hyunsu"
+    ],
+    "portrait": "hyunsu",
+    "background": "goshiwon_room",
+    "description": "막판이었다. 강남까지 정말 얼마 안 남았다.\n\n현수에게서 전화가 왔다. 영상통화.\n\n\"형! 진짜 오랜만이에요. 어떻게 지내요?\"\n\n화면 속 현수는 편안해 보였다. 자기 삶에 정착한 사람의 얼굴.\n\n{name}은 카메라에 비친 자기 얼굴을 봤다. 5년이 거기 있었다.",
+    "description_if_known": {
+      "crossed_line": "막판이었다. 강남까지 정말 얼마 안 남았다.\n\n현수에게서 전화가 왔다. 영상통화.\n\n\"형! 진짜 오랜만이에요. 어떻게 지내요?\"\n\n현수가 반갑게 웃는데, {name}은 이상하게 화면을 똑바로 보기 어려웠다.\n\n5년 전 같이 컵라면 먹던 그 사람이, 지금의 {name}을 보면 — 뭐라고 할까. 그 생각이 잠깐 스쳤다.",
+      "father_passed": "막판이었다. 강남까지 정말 얼마 안 남았다.\n\n현수에게서 전화가 왔다. 영상통화.\n\n\"형! 진짜 오랜만이에요. 어떻게...\"\n\n현수가 아버지 안부를 물으려다 말을 멈췄다. {name}의 표정을 보고 뭔가 알아챈 것 같았다.\n\n\"...형, 밥은 챙겨 먹어요.\" 그 말만 했다."
+    },
+    "choices": [
+      {
+        "text": "\"네 덕분에 버텼다\"고 — 진심을 말한다",
+        "effects": {
+          "mental": 3
+        },
+        "flags": [
+          "hyunsu_year5_call_seen"
+        ],
+        "result_text": "\"무슨 소리예요, 형이 다 한 거지.\"\n\n아니었다. 같은 고시원에서 같이 버틴 사람이 있었기 때문에, 도중에 접지 않은 거였다. 그 말은 끝내 다 못 했다."
+      },
+      {
+        "text": "\"곧 좋은 소식 있을 거야\" — 웃으며 끊는다",
+        "effects": {
+          "mental": 1
+        },
+        "flags": [
+          "hyunsu_year5_call_seen"
+        ],
+        "result_text": "\"기대할게요, 형!\"\n\n전화를 끊었다. 화면이 어두워지자 방이 조용해졌다. 곧, 정말 곧이었다."
       }
     ]
   }

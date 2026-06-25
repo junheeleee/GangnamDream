@@ -1,5 +1,11 @@
 extends Control
 
+# ── Steam 출시 설정 ───────────────────────────────────────────
+# Steamworks에 앱 등록 후 STEAM_APP_ID를 실제 숫자 ID로 교체하면 위시리스트
+# 버튼이 정식 상점 페이지로 연결된다. 그 전까지는 안전한 폴백(상점 검색)으로 연결.
+const STEAM_APP_ID := "STEAM_APP_ID"  # TODO: Steamworks 등록 후 실제 App ID(숫자)로 교체
+const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam%20Dream"
+
 var investment_system: Node
 var job_system: Node
 var relationship_system: Node
@@ -1761,6 +1767,15 @@ func _next_arc_id() -> String:
 			and not f.get("hyunsu_pass_news_seen", false):
 		return "hyunsu_pass_news"
 
+	# ── 현수 Y4 — 자리잡은 사람 (안정 vs 야망 거울, 합격/피벗 둘 다) ──
+	if t >= 150 and (f.get("hyunsu_passed", false) or f.get("hyunsu_pivoted", false)) \
+			and not f.get("hyunsu_year4_echo_seen", false):
+		return "hyunsu_year4_echo"
+	# ── 현수 Y5 — 5년의 끝에서 온 전화 (moral_tint 반응형) ──
+	if t >= 200 and f.get("hyunsu_year4_echo_seen", false) \
+			and not f.get("hyunsu_year5_call_seen", false):
+		return "hyunsu_year5_call"
+
 	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
 	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
@@ -2085,7 +2100,8 @@ func _next_arc_id() -> String:
 			and f.get("arc_jiyeon_year4_call_seen", false) \
 			and not f.get("arc_jiyeon_year4_seoul_seen", false):
 		if f.get("daeun_together_path", false) \
-				or GameState.get_cast_stage("daeun") in ["lover", "together", "committed"]:
+				or f.get("daeun_close_bond", false) \
+				or GameState.get_cast_stage("daeun") in ["lover", "together"]:
 			return "arc_jiyeon_year4_seoul_daeun"
 		elif f.get("jiyeon_year4_wants_more", false) \
 				or GameState.get_cast_stage("jiyeon") in ["honest_together", "close", "lover"]:
@@ -6325,11 +6341,13 @@ func _show_demo_ending():
 		12, "#8a9ab8")
 	modal_body.add_child(wishlist_lbl)
 
-	# TODO: Replace STEAM_APP_ID with the actual Steam App ID once registered on Steamworks.
-	const STEAM_STORE_URL := "https://store.steampowered.com/app/STEAM_APP_ID/Gangnam_Dream/"
+	# App ID가 아직 플레이스홀더면 깨진 /app/STEAM_APP_ID/ URL 대신 상점 검색으로 폴백.
+	var steam_url := STEAM_FALLBACK_URL
+	if STEAM_APP_ID != "STEAM_APP_ID" and STEAM_APP_ID.is_valid_int():
+		steam_url = "https://store.steampowered.com/app/%s/Gangnam_Dream/" % STEAM_APP_ID
 	var wishlist_btn = _button(
 		_tr("♥  Steam 위시리스트에 추가", "♥  Add to Steam Wishlist"), "#1b4a2e")
-	wishlist_btn.pressed.connect(func(): OS.shell_open(STEAM_STORE_URL))
+	wishlist_btn.pressed.connect(func(): OS.shell_open(steam_url))
 	modal_body.add_child(wishlist_btn)
 
 	var sep4 = HSeparator.new()
@@ -6662,7 +6680,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 
 	# 김다은 — 카페의 그 사람
 	var ds := GameState.get_cast_stage("daeun")
-	if ds in ["lover", "together", "committed", "dating"]:
+	if ds in ["lover", "together"]:
 		if good:
 			lines.append(_tr("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "☕  Daeun said, 「Even in Gangnam, come drink your coffee at my place.」 I agreed."))
 		elif bad:

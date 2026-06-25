@@ -2,11 +2,11 @@
   {
     "id": "arc_daeun_year3_together",
     "title": "Two Years",
-    "description": "Two years together.\n\nDaeun glanced at the calendar and said, \"Today's exactly two years since we first met.\"\n\nTriangle kimbap 1+1. Convenience store counter. Two years ago.\n\nSo much has changed since then — Gangnam still far, the bank balance shifted, the weight of Seoul unchanged — and this person is beside him.\n\n\"...Are we okay like this?\" Daeun said something she seemed almost not to say.",
+    "description": "Two years since {name} met Daeun.\n\nLooking at the calendar, she said, \"It's been exactly two years since we first met.\"\n\nTriangular kimbap, buy-one-get-one. Across the convenience store counter. That was two years ago.\n\nA lot had changed since. Gangnam was still far, the bank balance was different, the weight of Seoul was the same — and this person was still here, beside him.\n\n\"...We're okay like this, right?\" Daeun said the thing she seemed not to be asking.",
     "choices": [
       {
-        "text": "\"We're fine. We're going together, right?\" — with certainty",
-        "result_text": "Daeun looked at {name} for a long moment. \"I know. I just wanted to check sometimes.\"\n\nThat was straightforward. Proof this relationship still holds.",
+        "text": "\"We're okay. It means a lot, you being here.\" — evenly",
+        "result_text": "Daeun looked at {name} for a long moment. \"I know. I just like to check sometimes.\"\n\nThe words were plain. Proof that this thing hadn't started to shake yet.",
         "effects": {
           "tint": 5
         }
@@ -51,10 +51,10 @@
   {
     "id": "arc_daeun_year4_together",
     "title": "She Got There First",
-    "description": "A message from Daeun.\n\n\"I got the job! It's a small company in Gangnam-gu.\"\n\n{name} smiled briefly.\n\nThe one who ended up working in Gangnam first wasn't {name} — it was Daeun. Four years of racing and she's already there.\n\nThat fact sat strangely heavy.",
+    "description": "A message from Daeun.\n\n\"I got a job! A small company over in the Gangnam district.\"\n\n{name} laughed for a second.\n\nThe one who'd be working in Gangnam was Daeun, not {name}. Four years of running — and she got there first.\n\nThat fact, strangely, didn't sit light.",
     "choices": [
       {
-        "text": "\"That's great. Let's find a café there sometime.\" — celebrate together",
+        "text": "\"That's great. When I get there, let's grab a cafe nearby.\" — happy for her",
         "result_text": "\"It's a promise.\" Daeun said.\n\nSaid lightly, landed heavily. Gangnam becoming a promise instead of a goal. That came sooner than expected.",
         "effects": {
           "tint": 5
@@ -72,11 +72,11 @@
   {
     "id": "arc_daeun_year5_ending",
     "title": "The Night Before ₩3B",
-    "description": "The number is almost there.\n\nDaeun made dinner. Egg roll. {name} had mentioned once that he liked it.\n\n\"Something feels different tonight.\" Daeun said.\n\n{name} didn't answer. Tomorrow will tell.\n\nFive years in this dinner.",
+    "description": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette — something {name} once said he liked.\n\nAn old friend. Someone who'd held on in the same city for five years.\n\n\"Something feels different today,\" Daeun said.\n\n{name} didn't answer. Tomorrow he'd know.\n\nFive years were in this dinner.",
     "choices": [
       {
-        "text": "\"We got there together.\" — said it for the first time",
-        "result_text": "Daeun paused, then said, \"I didn't do anything though.\"\n{name} shook his head. \"No. I didn't give up because you were here.\"\n\nThe two of them sat for a long time. The egg roll went cold.",
+        "text": "\"We got here together. Without you I'd have quit halfway.\" — said it for the first time",
+        "result_text": "Daeun stopped, then said, \"I didn't do anything.\"\n{name} shook his head. \"No. You're the reason I didn't give up.\"\n\nThe two of them stayed a long while. The omelette went cold.",
         "effects": {
           "tint": 8
         }
@@ -90,7 +90,8 @@
       }
     ],
     "description_if_known": {
-      "daeun_year4_close": "Numbers almost there.\n\nDaeun had made dinner. Rolled omelette. Something {name} had once mentioned liking.\n\n\"Today feels different somehow.\" Daeun said.\n\n{name} said nothing. Tomorrow would show it.\n\nThought of that promise from four years ago — the cafe in Gangnam, when you get there. Tomorrow, that promise could be kept.\n\nFive years lived in this one evening."
+      "daeun_year4_close": "Numbers almost there.\n\nDaeun had made dinner. Rolled omelette. Something {name} had once mentioned liking.\n\n\"Today feels different somehow.\" Daeun said.\n\n{name} said nothing. Tomorrow would show it.\n\nThought of that promise from four years ago — the cafe in Gangnam, when you get there. Tomorrow, that promise could be kept.\n\nFive years lived in this one evening.",
+      "daeun_romance_started": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette — something {name} once said he liked.\n\nIt had been a few months since the cafe, since 'let's go together.' These dinners had become theirs since then.\n\n\"Something feels different today,\" Daeun said.\n\n{name} didn't answer. Tomorrow he'd know.\n\nFive years were in this dinner."
     }
   },
   {

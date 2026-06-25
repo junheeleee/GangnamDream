@@ -124,5 +124,42 @@
         }
       }
     ]
+  },
+  {
+    "id": "hyunsu_year4_echo",
+    "title": "Someone Who Settled In",
+    "description": "Hyunsu reached out after a long while.\n\nA photo. Hyunsu laughing at a work dinner. A suit. Coworkers.\n\n\"Hyung, you good? I've kind of found my footing now.\"\n\n{name} looked at the photo for a long time.\n\nFour years ago they were eating cup ramen in the same goshiwon. Hyunsu found his place. {name} is still — running.",
+    "description_if_known": {
+      "hyunsu_passed": "Hyunsu reached out after a long while.\n\nA photo. In front of a county office. Hyunsu, name tag on, smiling awkwardly.\n\n\"Hyung, I'm a public officer now. All settled in.\"\n\n{name} looked at the photo for a long time.\n\nFour years ago they were eating cup ramen in the same goshiwon. Hyunsu crossed the starting line first. {name} is still — running."
+    },
+    "choices": [
+      {
+        "text": "Say it honestly — \"I'm a little jealous\"",
+        "result_text": "\"Come on, hyung, why?\" Hyunsu laughed.\n\nWhat he envied was the stability. A road with a fixed end. {name}'s road still had no end in sight. Which left only one option: keep going."
+      },
+      {
+        "text": "Just congratulate him — and turn back to the screen",
+        "result_text": "\"Congrats. Really, that's great.\"\n\nHe set the phone down and went back to the investment screen. No time to envy. One year left."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_year5_call",
+    "title": "A Call at the End of Five Years",
+    "description": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nOn screen Hyunsu looked at ease. The face of someone settled into his own life.\n\n{name} looked at his own face reflected in the camera. Five years were in it.",
+    "description_if_known": {
+      "crossed_line": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nHyunsu was smiling, glad to see him, but {name} found it strangely hard to look straight at the screen.\n\nThe guy he'd eaten cup ramen with five years ago — what would he say if he saw who {name} was now? The thought passed through, briefly.",
+      "father_passed": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever, how have you—\"\n\nHyunsu started to ask after {name}'s father, then stopped. He seemed to catch something in {name}'s expression.\n\n\"...Hyung, make sure you eat.\" That was all he said."
+    },
+    "choices": [
+      {
+        "text": "Say it for real — \"I made it because of you\"",
+        "result_text": "\"What are you talking about, hyung, you did all of it.\"\n\nHe hadn't. It was because someone held on in the same goshiwon that he didn't quit halfway. He never quite got the whole thing out."
+      },
+      {
+        "text": "\"I'll have good news soon\" — hang up with a smile",
+        "result_text": "\"I'll be waiting, hyung!\"\n\nHe ended the call. When the screen went dark the room went quiet. Soon. Really, soon."
+      }
+    ]
   }
 ]
