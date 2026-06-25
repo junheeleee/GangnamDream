@@ -2104,7 +2104,7 @@ func _next_arc_id() -> String:
 				or GameState.get_cast_stage("daeun") in ["lover", "together"]:
 			return "arc_jiyeon_year4_seoul_daeun"
 		elif f.get("jiyeon_year4_wants_more", false) \
-				or GameState.get_cast_stage("jiyeon") in ["honest_together", "close", "lover"]:
+				or GameState.get_cast_stage("jiyeon") in ["honest_together", "close", "lover", "respected", "trust"]:
 			return "arc_jiyeon_year4_seoul"
 	# 한지연 Y5 — 관계에 따라 분기 (귀환 vs 부산 소식)
 	if t >= 193 \
@@ -6685,14 +6685,14 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 
 	# 김다은 — 카페의 그 사람
 	var ds := GameState.get_cast_stage("daeun")
-	if ds in ["lover", "together"]:
+	if GameState.flags.get("daeun_romance_started", false):
 		if good:
 			lines.append(_tr("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "☕  Daeun said, 「Even in Gangnam, come drink your coffee at my place.」 I agreed."))
 		elif bad:
 			lines.append(_tr("☕  통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.", "☕  Even when my bank account was empty, the corner seat at Daeun's cafe was not."))
 		else:
 			lines.append(_tr("☕  다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.", "☕  Daeun's cafe became not just a regular spot, but a place to return to."))
-	elif ds in ["close", "warm", "interest", "acquaintance"]:
+	elif ds in ["together", "close", "warm", "interest", "acquaintance"]:
 		lines.append(_tr("☕  다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.", "☕  I still drop by Daeun's cafe sometimes. There's a drink that comes without ordering."))
 	elif ds in ["distant", "wary", "uncertain"]:
 		lines.append(_tr("☕  그 카페 앞을 지날 때면 걸음이 조금 빨라진다.", "☕  When I pass that cafe, my pace quickens a little."))
