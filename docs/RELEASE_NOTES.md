@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-06-25) — 지연 로맨스 Y5 단일화 정합성
+
+- **[FIX] jiyeon_man 조기 발동**: 엔딩이 cast stage(honest_together Y2/lover Y4) 기준이라 Y5 전 연애 엔딩 발동 가능 → `jiyeon_romance_started` 플래그 게이트로 변경(with_daeun과 동일 패턴). `arc_jiyeon_year5_return`이 실제 연애 formalize(lover+flag), Y4 seoul은 `honest_together`(감정 인정·확정 이연).
+- 에필로그 지연 분기 플래그 게이트, `arc_jiyeon_y5_feelings` 부산 귀환 아크 중복 방지 가드.
+- `honest_together`='연애 전 깊은 유대' 의미 유지 → Y2 텍스트/콜백 무수정(리스크 최소).
+
 ### Added/Fixed (2026-06-25) — 다은 우정 재프레임 완성 + 현수 Y4-Y5 + Steam App ID
 
 - **다은 Y2-Y5 우정 재프레임**: arc_daeun_05_together(동거 암시 제거), year3_together("안 지 2년"), year4_together(취직), year5_ending(친구 finale + 연애 변주) — 전부 `committed`→`close`. 연애는 Y5 게이트(arc_daeun_y5_feelings)로 단일화.

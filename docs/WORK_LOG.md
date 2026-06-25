@@ -3994,3 +3994,15 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 
 #### 검증
 - audit ERROR 0/WARNING 0/밴드 통과, 전 JSON 파싱 OK
+
+## 2026-06-25 (지연 로맨스 Y5 단일화 정합성)
+
+### 수정 내용 (다은 재프레임의 거울 — 지연도 동일 버그 구조)
+- 문제: jiyeon_man 엔딩이 cast stage(honest_together=Y2 t56-64 / lover=Y4) 기준 → Y5 전 연애 엔딩 발동 가능. Y5 return은 아무것도 formalize 안 함.
+- jiyeon_man 라우터: stage → jiyeon_romance_started 플래그 기준 (GameState.gd)
+- arc_jiyeon_year5_return CH0: jiyeon_romance_started + stage lover 부여 (Y5 = 연애 확정 지점)
+- arc_jiyeon_year4_seoul CH0: lover → honest_together (Y4는 감정 인정, 확정은 Y5 이연)
+- _ending_cast_epilogue: 지연 연애 분기 stage→플래그 게이트, honest_together는 비연애 깊은유대 티어로
+- arc_jiyeon_y5_feelings 중복 가드: 부산 귀환 아크(year4_call/year5_return/news) 탄 플레이어 제외
+- honest_together = "깊은 정직 유대(연애 전)"로 의미 유지 → Y2 텍스트/콜백 무수정(리스크 최소)
+- audit ERROR 0/WARNING 0/밴드 통과
