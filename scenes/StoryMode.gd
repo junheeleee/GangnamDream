@@ -777,24 +777,13 @@ func _snapshot_stats() -> Dictionary:
 
 # 스탯 표시 정보: 이모지 + 한글 이름
 const STAT_INFO = {
-	"money":            {"icon": "💰", "name": "돈"},
-	"health":           {"icon": "❤", "name": "건강"},
-	"mental":           {"icon": "🧠", "name": "정신력"},
-	"intelligence":     {"icon": "📚", "name": "지력"},
-	"social_skill":     {"icon": "🤝", "name": "사회성"},
-	"investment_skill": {"icon": "📈", "name": "투자감각"},
-	"luck":             {"icon": "🍀", "name": "운"},
-}
-# 인물 한글 이름 (관계 변화 토스트용)
-const CAST_NAME = {
-	"father": "아버지", "jiyeon": "한지연", "daeun": "김다은",
-	"jaehyuk": "최재혁", "sangchul": "임상철", "hyunsu": "현수",
-}
-# 스탯/인물 영어 이름 (영어 모드 토스트용)
-const STAT_NAME_EN = {
-	"money": "Money", "health": "Health", "mental": "Mental",
-	"intelligence": "Intelligence", "social_skill": "Social",
-	"investment_skill": "Investing", "luck": "Luck",
+	"money":            {"icon": "💰", "name": "돈", "name_en": "Money"},
+	"health":           {"icon": "❤", "name": "건강", "name_en": "Health"},
+	"mental":           {"icon": "🧠", "name": "정신력", "name_en": "Mental"},
+	"intelligence":     {"icon": "📚", "name": "지력", "name_en": "Intelligence"},
+	"social_skill":     {"icon": "🤝", "name": "사회성", "name_en": "Social"},
+	"investment_skill": {"icon": "📈", "name": "투자감각", "name_en": "Investing"},
+	"luck":             {"icon": "🍀", "name": "운", "name_en": "Luck"},
 }
 const CAST_NAME_EN = {
 	"father": "Father", "jiyeon": "Han Jiyeon", "daeun": "Kim Daeun",
@@ -804,14 +793,21 @@ const CAST_NAME_EN = {
 ## 스탯 표시 이름 — 현재 언어에 맞게
 func _stat_display_name(key: String, ko_name: String) -> String:
 	if LocaleManager.language == "en":
-		return str(STAT_NAME_EN.get(key, key))
+		return str(STAT_INFO.get(key, {}).get("name_en", key))
 	return ko_name
 
 ## 인물 표시 이름 — 현재 언어에 맞게
 func _cast_display_name(pid: String) -> String:
 	if LocaleManager.language == "en":
 		return str(CAST_NAME_EN.get(pid, pid))
-	return str(CAST_NAME.get(pid, pid))
+	match pid:
+		"father": return _tr("아버지", "Father")
+		"jiyeon": return _tr("한지연", "Han Jiyeon")
+		"daeun": return _tr("김다은", "Kim Daeun")
+		"jaehyuk": return _tr("최재혁", "Choi Jaehyuk")
+		"sangchul": return _tr("임상철", "Lim Sangchul")
+		"hyunsu": return _tr("현수", "Hyunsu")
+	return pid
 
 func _show_change_toasts(before: Dictionary):
 	for key in before:

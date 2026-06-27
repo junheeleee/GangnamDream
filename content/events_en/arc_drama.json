@@ -622,5 +622,20 @@
         }
       }
     ]
+  },
+  {
+    "id": "arc_father_call_on_ktx",
+    "title": "KTX, Outside the Window",
+    "description": "Inside the KTX.\nThe view was sliding past the window.\n\n{name} opened the call history.\nDad. 23 seconds.\n\nScrolling up, that was the first one.\nThere had been nothing before it.\n\nA finger stopped over the number.",
+    "choices": [
+      {
+        "text": "Call him",
+        "result_text": "The phone rang.\nHe did not pick up.\n\n{name} set the phone down and looked out the window.\nThe landscape ran backward."
+      },
+      {
+        "text": "Do not call",
+        "result_text": "The screen went dark.\n{name} closed their eyes.\nOutside the window, the world kept running backward."
+      }
+    ]
   }
 ]

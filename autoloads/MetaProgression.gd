@@ -123,6 +123,59 @@ const ALL_TITLES := [
 	 "desc":"아무도 밟지 않고 30억을 달성했다. 화면이 하얗게 빛나던 그 순간을 기억한다. 0.1%의 길."},
 ]
 
+const TITLE_EN := {
+	"gosiwon_survivor": {"name":"Gosiwon Survivor", "cat":"Housing", "desc":"Survived 12 months in a gosiwon. You will not forget that room."},
+	"first_move": {"name":"First Move", "cat":"Housing", "desc":"Left the gosiwon for the first time and moved into a new space."},
+	"apartment_life": {"name":"Apartment Life", "cat":"Housing", "desc":"Finally living in an apartment. Even the security guard greets you."},
+	"gangnam_resident": {"name":"Gangnam Resident", "cat":"Housing", "desc":"A Gangnam apartment. The address alone changes how people look at you."},
+	"long_gosiwon": {"name":"Long-Term Gosiwon Tenant", "cat":"Housing", "desc":"24 months in a gosiwon. Even the smell has started to feel like home."},
+	"first_paycheck": {"name":"Weight of the First Paycheck", "cat":"Career", "desc":"Your first salary hit the account. It felt joyful and strangely hollow."},
+	"one_year_worker": {"name":"One-Year Worker", "cat":"Career", "desc":"Stayed at the same company for a year. Somehow, you became senior to someone."},
+	"three_year_worker": {"name":"Office Veteran", "cat":"Career", "desc":"Three years. Your name has seeped into the company's filing cabinets."},
+	"long_unemployed": {"name":"Freedom of Unemployment", "cat":"Career", "desc":"Stayed unemployed for 12 months. Some call it joblessness. Some call it freedom."},
+	"first_investment": {"name":"First Investment", "cat":"Investment", "desc":"Bought your first stock. From that day on, you opened the app every day."},
+	"margin_called": {"name":"Lesson of the Margin Call", "cat":"Investment", "desc":"A leveraged position was liquidated. An expensive lesson."},
+	"invest_master_title": {"name":"Market Savant", "cat":"Investment", "desc":"Investment sense 70. The market started to look different."},
+	"survived_broke": {"name":"Zero-Balance Survivor", "cat":"Investment", "desc":"Your balance went below zero and came back."},
+	"steady_youth": {"name":"Diligent Young Man", "cat":"Tendency", "desc":"Made 10 orthodox choices. You are becoming closer to what society expects."},
+	"elite_course": {"name":"Elite Course", "cat":"Tendency", "desc":"Made 20 orthodox choices. You still do not know what waits at the end."},
+	"outsider_title": {"name":"Outlier", "cat":"Tendency", "desc":"Made 10 unorthodox choices. You are walking a different road."},
+	"dangerous_dreamer": {"name":"Dangerous Dreamer", "cat":"Tendency", "desc":"Made 20 unorthodox moves. The result will decide whether it was a dream or recklessness."},
+	"my_own_way": {"name":"My Own Way", "cat":"Tendency", "desc":"Made at least 10 orthodox and 10 unorthodox choices. Not either road. Your own."},
+	"free_spirit": {"name":"Free Spirit", "cat":"Tendency", "desc":"Used free time 10 times. The Han River, convenience stores, walks. This is your life."},
+	"seoul_love": {"name":"Love in Seoul", "cat":"Relationships", "desc":"Even in this complicated city, you came to care for someone."},
+	"social_king_title": {"name":"Network King", "cat":"Relationships", "desc":"Built five or more relationships. Seoul is people, in the end."},
+	"loner_title": {"name":"Better Alone", "cat":"Relationships", "desc":"Lasted 30 turns without relationships. You grew used to Seoul's loneliness."},
+	"stress_survivor": {"name":"Mental Final Boss", "cat":"Lifestyle", "desc":"Mental fell to 15 or below. And you survived."},
+	"first_10m_title": {"name":"First KRW 10M", "cat":"Assets", "desc":"KRW 10 million cash. For the first time in Seoul, you could breathe."},
+	"first_100m_title": {"name":"First KRW 100M", "cat":"Assets", "desc":"KRW 100 million net worth. Something changed. Or maybe nothing did."},
+	"five_runs_title": {"name":"Five Lives", "cat":"Meta", "desc":"Completed five runs. Every life was different."},
+	"ten_runs_title": {"name":"Ten Lives", "cat":"Meta", "desc":"Ten runs. The patterns of this game are starting to show."},
+	"gangnam_dream_title": {"name":"Gangnam Dream Achiever", "cat":"Meta", "desc":"KRW 3 billion net worth. You achieved the Gangnam Dream. What do you dream of next?"},
+	"burnout_survivor": {"name":"Burnout Survivor", "cat":"Meta", "desc":"Experienced the burnout ending. You learned the price of trying too hard."},
+	"ordinary_end_title": {"name":"Ordinary Happiness", "cat":"Meta", "desc":"Ordinary Life ending. Even normalcy can be an achievement."},
+	"holdem_master_title": {"name":"Hold'em Outlaw", "cat":"Mini-Games", "desc":"Played 15 or more underground hold'em games. You read people now, not cards."},
+	"racetrack_master_title": {"name":"Racetrack Ghost", "cat":"Mini-Games", "desc":"Bet on 15 or more races. Form lies sometimes. Now you know that too."},
+	"scalping_master_title": {"name":"Scalper", "cat":"Mini-Games", "desc":"Scalped 15 or more times. Buy and sell within a minute. Your hands remember."},
+	"baccarat_master_title": {"name":"Jeongseon Casino Regular", "cat":"Mini-Games", "desc":"Played 15 or more baccarat rounds. You memorized the roadmap and learned it means nothing."},
+	"blackjack_master_title": {"name":"Basic Strategy Master", "cat":"Mini-Games", "desc":"Played 15 or more blackjack hands. Hit or stand. That is the whole game."},
+	"slot_master_title": {"name":"Jackpot Hunter", "cat":"Mini-Games", "desc":"Spun slots 20 or more times. The sound of 777 still echoes."},
+	"roulette_master_title": {"name":"Master of Zero", "cat":"Mini-Games", "desc":"Spun roulette 15 or more times. You know the 2.7% house edge and still cannot stop."},
+	"bigwheel_master_title": {"name":"Eye of the Needle", "cat":"Mini-Games", "desc":"Spun the big wheel 15 or more times. The simplest game, still chasing 45:1."},
+	"daisai_master_title": {"name":"Night of Dice", "cat":"Mini-Games", "desc":"Played 15 or more Dai Sai rounds. You remember the sound of three dice rolling."},
+	"spec_elite_title": {"name":"Path of the Elite", "cat":"Tendency", "desc":"Chose the elite specialization. What waits at the end of the proper path?"},
+	"spec_quant_title": {"name":"Quant Mind", "cat":"Tendency", "desc":"Chose the quant specialization. You see the market as equations."},
+	"spec_founder_title": {"name":"Founder Spirit", "cat":"Tendency", "desc":"Chose the founder specialization. Someone who began from nothing."},
+	"clean_run_title": {"name":"Clean Road to Gangnam", "cat":"Meta", "desc":"Reached KRW 3 billion on a clean run. No gambling. You survived this city."},
+	"network_run_title": {"name":"Seoul Network King", "cat":"Meta", "desc":"Entered Gangnam on a network run. People were the greatest asset after all."},
+	"temptation_resist_title": {"name":"Choice That Night", "cat":"Story", "desc":"Refused easy money when things were hardest. That choice began everything."},
+	"high_road_title": {"name":"One Who Held the Line", "cat":"Story", "desc":"Turned your friend over to the police. The right thing is sometimes the most painful thing."},
+	"father_peace_title": {"name":"Last Spring", "cat":"Story", "desc":"Made peace with your father. Before the cherry blossoms. Before it was too late."},
+	"love_chosen_title": {"name":"One Who Chose Love", "cat":"Story", "desc":"Held onto Daeun at the crossroads. Something you caught before Gangnam."},
+	"investigator_title": {"name":"The Suspicious One", "cat":"Story", "desc":"Did not dismiss your friend's warning. Suspicion is sometimes another name for friendship."},
+	"white_gangnam_title": {"name":"To Gangnam as a Human Being", "cat":"Meta", "desc":"Reached KRW 3 billion without stepping on anyone. Remember the moment the screen turned white. The 0.1% path."},
+}
+
 # ── 칭호 보유 → 다음 런 시작 보너스 (카테고리별, 상한 있음) ────────
 const PERK_RULES := {
 	"투자":     {"stat": "investment_skill", "per": 1, "cap": 4},
@@ -139,7 +192,7 @@ const PERK_RULES := {
 func get_run_start_bonus() -> Dictionary:
 	var counts: Dictionary = {}
 	for tid in get_unlocked_titles():
-		var info = get_title_info(str(tid))
+		var info = _get_title_info_raw(str(tid))
 		if info.is_empty():
 			continue
 		var cat = str(info.get("cat", ""))
@@ -194,10 +247,26 @@ func unlock_title(title_id: String) -> bool:
 	return true
 
 func get_title_info(title_id: String) -> Dictionary:
+	var raw := _get_title_info_raw(title_id)
+	return _localized_title(raw)
+
+func _get_title_info_raw(title_id: String) -> Dictionary:
 	for t in ALL_TITLES:
 		if t["id"] == title_id:
 			return t
 	return {}
+
+func _localized_title(title: Dictionary) -> Dictionary:
+	if title.is_empty() or not LocaleManager.is_english():
+		return title
+	var title_id := str(title.get("id", ""))
+	if not TITLE_EN.has(title_id):
+		return title
+	var localized := title.duplicate(true)
+	var en_info: Dictionary = TITLE_EN[title_id]
+	for key in en_info:
+		localized[key] = en_info[key]
+	return localized
 
 func check_and_unlock_titles() -> Array:
 	var newly: Array = []
@@ -207,7 +276,7 @@ func check_and_unlock_titles() -> Array:
 			continue
 		if _check_title_condition(tid):
 			if unlock_title(tid):
-				newly.append(title)
+				newly.append(_localized_title(title))
 	return newly
 
 func _check_title_condition(tid: String) -> bool:
@@ -312,11 +381,11 @@ func get_mastery(game_id: String) -> int:
 
 func get_mastery_label(game_id: String) -> String:
 	match get_mastery(game_id):
-		0: return "입문"
-		1: return "숙련"
-		2: return "고급"
-		3: return "마스터"
-	return "입문"
+		0: return LocaleManager.ui("입문", "Novice")
+		1: return LocaleManager.ui("숙련", "Skilled")
+		2: return LocaleManager.ui("고급", "Advanced")
+		3: return LocaleManager.ui("마스터", "Master")
+	return LocaleManager.ui("입문", "Novice")
 
 func get_new_unlocks() -> Dictionary:
 	return _new_this_run.duplicate(true)

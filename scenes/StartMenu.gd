@@ -327,7 +327,7 @@ func _build_ui():
 	title_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_vb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	header_row.add_child(title_vb)
-	var title_lbl = _label("강남드림", 34, "#f0b429", HORIZONTAL_ALIGNMENT_LEFT)
+	var title_lbl = _label(_tr("강남드림", "Gangnam Dream"), 34, "#f0b429", HORIZONTAL_ALIGNMENT_LEFT)
 	title_lbl.text = _tr("강남드림", "Gangnam Dream")
 	title_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	title_lbl.clip_text = false
@@ -840,26 +840,21 @@ func _show_content_warning():
 	var body_lbl = Label.new()
 	body_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_lbl.custom_minimum_size = Vector2(400, 0)
-	if LocaleManager.language == "en":
-		body_lbl.text = (
-			"This game contains depictions of:\n\n"
-			+ "• Financial hardship and debt\n"
-			+ "• Family pressure and social comparison\n"
-			+ "• Workplace stress and burnout\n"
-			+ "• Mental health struggles\n\n"
-			+ "Gangnam Dream is a realistic portrayal of life. "
-			+ "Difficult situations are part of the story — not endorsements."
-		)
-	else:
-		body_lbl.text = (
+	body_lbl.text = _tr(
 			"이 게임에는 다음과 같은 내용이 포함됩니다:\n\n"
 			+ "• 재정적 어려움과 부채\n"
 			+ "• 가족·사회적 압박과 비교\n"
 			+ "• 직장 스트레스와 번아웃\n"
 			+ "• 정신건강 관련 묘사\n\n"
 			+ "강남드림은 현실적인 삶을 다룹니다. "
-			+ "어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다."
-		)
+			+ "어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.",
+			"This game contains depictions of:\n\n"
+			+ "• Financial hardship and debt\n"
+			+ "• Family pressure and social comparison\n"
+			+ "• Workplace stress and burnout\n"
+			+ "• Mental health struggles\n\n"
+			+ "Gangnam Dream is a realistic portrayal of life. "
+			+ "Difficult situations are part of the story — not endorsements.")
 	body_lbl.add_theme_font_size_override("font_size", 13)
 	body_lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	vbox.add_child(body_lbl)
@@ -873,7 +868,7 @@ func _show_content_warning():
 	vbox.add_child(btn_row)
 
 	var back_btn = Button.new()
-	back_btn.text = "뒤로" if LocaleManager.language != "en" else "Back"
+	back_btn.text = _tr("뒤로", "Back")
 	back_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	back_btn.custom_minimum_size = Vector2(0, 44)
 	var back_st = StyleBoxFlat.new()
@@ -886,7 +881,7 @@ func _show_content_warning():
 	btn_row.add_child(back_btn)
 
 	var ok_btn = Button.new()
-	ok_btn.text = "이해했습니다 ›" if LocaleManager.language != "en" else "Understood ›"
+	ok_btn.text = _tr("이해했습니다 ›", "Understood ›")
 	ok_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ok_btn.custom_minimum_size = Vector2(0, 44)
 	var ok_st = StyleBoxFlat.new()
@@ -1139,7 +1134,7 @@ func _build_language_toggle(parent: Control):
 	row.add_child(lbl)
 	for lang_code in ["ko", "en"]:
 		var btn = Button.new()
-		btn.text = "한국어" if lang_code == "ko" else "EN"
+		btn.text = (_tr("한국어", "Korean") if lang_code == "ko" else "EN")
 		btn.custom_minimum_size = Vector2(64, 28)
 		var is_active = LocaleManager.language == lang_code
 		var st = StyleBoxFlat.new()
@@ -1185,8 +1180,4 @@ func _build_fullscreen_toggle(parent: Control):
 	row.add_child(toggle)
 
 func _format_money(amount) -> String:
-	if abs(amount) >= 100_000_000:
-		return "%.1f억원" % (amount / 100_000_000.0)
-	if abs(amount) >= 10_000:
-		return "%.0f만원" % (amount / 10_000.0)
-	return "%.0f원" % amount
+	return GameState.format_money(float(amount))

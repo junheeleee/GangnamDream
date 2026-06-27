@@ -5,9 +5,9 @@ func get_ending(ending_id):
 	if ending.is_empty():
 		return {
 			"id": ending_id,
-			"title": "미기록 엔딩",
+			"title": LocaleManager.ui("미기록 엔딩", "Unrecorded Ending"),
 			"grade": "C",
-			"description": "이 삶은 아직 정리되지 않은 결말로 남았다.",
+			"description": LocaleManager.ui("이 삶은 아직 정리되지 않은 결말로 남았다.", "This life remains an ending that has not yet been recorded."),
 		}
 	return ending
 

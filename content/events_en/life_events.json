@@ -5357,7 +5357,7 @@
     "description": "Sent a text, then looked again.\n\n\"Are you free for a meeting tomorrow\"\nwent out as \"Are you free for a meating tomorrow.\"\n\nThe other person had already read it.",
     "choices": [
       {
-        "result_text": "\"*meeting, sorry ㅠ\"\nThe other person replied 'lol.'\nMight have come across as human.",
+        "result_text": "\"*meeting, sorry T_T\"\nThe other person replied 'lol.'\nMight have come across as human.",
         "text": "Send a correction right away"
       },
       {

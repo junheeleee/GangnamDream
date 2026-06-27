@@ -71,10 +71,31 @@ const DIFFICULTY_DATA := {
 		"opp_bonus": -0.04,
 	},
 }
+const DIFFICULTY_TEXT_EN := {
+	"드라마": {
+		"name": "Drama Mode",
+		"tagline": "Story first",
+		"desc": "Start with KRW 2M / lighter monthly pressure / betting odds +4pp. For players here for the drama.",
+	},
+	"현실": {
+		"name": "Reality Mode",
+		"tagline": "Seoul as intended",
+		"desc": "Default balance. KRW 500K, 5 years, KRW 3B. The intended tension.",
+	},
+	"지옥고": {
+		"name": "Hell Room Mode",
+		"tagline": "Seoul is like this",
+		"desc": "Start with KRW 300K / harsher monthly pressure / betting odds -4pp. From a basement room to Gangnam.",
+	},
+}
 var difficulty: String = "현실"
 
 func get_difficulty_data() -> Dictionary:
-	return DIFFICULTY_DATA.get(difficulty, DIFFICULTY_DATA["현실"])
+	var data: Dictionary = DIFFICULTY_DATA.get(difficulty, DIFFICULTY_DATA["현실"]).duplicate(true)
+	if LocaleManager.is_english() and DIFFICULTY_TEXT_EN.has(difficulty):
+		for key in DIFFICULTY_TEXT_EN[difficulty]:
+			data[key] = DIFFICULTY_TEXT_EN[difficulty][key]
+	return data
 
 # ── 대출 — 빚으로 판을 키운다 ─────────────────────────────────────
 # 빚은 순자산(get_total_asset_value)에서 차감되고, 파산 판정도 순자산 기준.
@@ -82,8 +103,8 @@ func get_difficulty_data() -> Dictionary:
 # 한도와 금리는 신용등급(get_credit_grade)이 결정한다. 금리는 변동금리 —
 # 등급이 떨어지면(실직·자산 손실·과다 부채) 보유 중인 빚의 이자도 같이 오른다.
 const LOAN_PRODUCTS := {
-	"bank":   {"name": "1금융 신용대출", "emoji": "🏦"},
-	"second": {"name": "제2금융 대출",   "emoji": "💳"},
+	"bank":   {"name": "1금융 신용대출", "name_en": "Prime bank credit loan", "emoji": "🏦"},
+	"second": {"name": "제2금융 대출",   "name_en": "Secondary lender loan",  "emoji": "💳"},
 }
 var loans: Dictionary = {"bank": 0.0, "second": 0.0}
 
@@ -122,6 +143,11 @@ const TENDENCY_DESC := {
 	"career": "성실하게 쌓아 올린다. 월급과 승진, 신용이 무기다.",
 	"invest": "돈이 돈을 벌게 한다. 시장을 읽고 베팅한다.",
 	"found":  "내 것을 만든다. 위험하지만 천장이 없다.",
+}
+const TENDENCY_DESC_EN := {
+	"career": "Build steadily. Salary, promotions, and credit are your weapons.",
+	"invest": "Let money make money. Read the market and place the bet.",
+	"found":  "Build something of your own. Risky, but the ceiling disappears.",
 }
 const TENDENCY_REALIZE_THRESHOLD := 12   # 1위가 이 점수 넘고
 const TENDENCY_REALIZE_GAP := 4          # 2위와 격차가 이 이상이면 자각
@@ -190,7 +216,10 @@ func new_game():
 	start_new_game()
 
 func start_new_game(chosen_name: String = "김민준", chosen_background: String = "지방_상경", chosen_route: String = "직장형", starting_profile: String = "백수", chosen_theme: String = "자유런", chosen_difficulty: String = "현실"):
-	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else "김민준"
+	var fallback_name := LocaleManager.ui("김민준", "Kim Minjun")
+	if LocaleManager.is_english() and chosen_name == "김민준":
+		chosen_name = fallback_name
+	player_name = chosen_name if not chosen_name.strip_edges().is_empty() else fallback_name
 	player_background = chosen_background
 	player_route = chosen_route
 	difficulty = chosen_difficulty if DIFFICULTY_DATA.has(chosen_difficulty) else "현실"
@@ -330,6 +359,27 @@ func _localized_profile_label(profile: String) -> String:
 		"백수": "Unemployed",
 	}
 	return str(labels.get(profile, profile))
+
+func tendency_desc(kind: String) -> String:
+	if LocaleManager.is_english():
+		return str(TENDENCY_DESC_EN.get(kind, TENDENCY_DESC.get(kind, "")))
+	return str(TENDENCY_DESC.get(kind, ""))
+
+func get_loan_name(product: String) -> String:
+	var info: Dictionary = LOAN_PRODUCTS.get(product, {})
+	var key := "name_en" if LocaleManager.is_english() else "name"
+	return str(info.get(key, info.get("name", product)))
+
+func get_job_display_name(job: Dictionary = {}) -> String:
+	var source: Dictionary = current_job if job.is_empty() else job
+	if source.is_empty():
+		return LocaleManager.ui("무직", "Unemployed")
+	var job_id := str(source.get("id", ""))
+	if not job_id.is_empty():
+		var localized: Dictionary = DataRegistry.get_job(job_id)
+		if not localized.is_empty():
+			return str(localized.get("name", source.get("name", job_id)))
+	return str(source.get("name", LocaleManager.ui("직장", "Job")))
 
 func _apply_background_bonus(bg: String):
 	pass  # legacy — 신규 런은 _apply_route_bonus 사용
@@ -510,18 +560,21 @@ func can_upgrade_housing() -> bool:
 
 func upgrade_housing() -> Dictionary:
 	var info = get_housing_info()
+	var current_id := housing
 	var next_id = str(info.get("next", ""))
 	if next_id.is_empty():
-		return {"success": false, "message": "이미 최고 등급 주거입니다."}
+		return {"success": false, "message": LocaleManager.ui("이미 최고 등급 주거입니다.", "You already have the best available housing.")}
 	var next_info = HOUSING_DATA.get(next_id, {})
 	if money < float(next_info.get("req_cash", 0.0)):
-		return {"success": false, "message": "자금이 부족합니다."}
+		return {"success": false, "message": LocaleManager.ui("자금이 부족합니다.", "Not enough cash.")}
 	var deposit_diff = float(next_info.get("deposit", 0.0)) - float(info.get("deposit", 0.0))
 	add_money(-deposit_diff)
 	housing = next_id
 	fixed_expense = get_housing_expense()
 	flags["housing_moved_once"] = true
-	add_log("이사: %s → %s (보증금 %s)" % [info.get("name",""), next_info.get("name",""), format_money(deposit_diff)], "system")
+	add_log(LocaleManager.ui("이사: %s → %s (보증금 %s)", "Moved: %s → %s (deposit %s)") % [
+		get_housing_name(current_id), get_housing_name(next_id), format_money(deposit_diff)
+	], "system")
 	stats_changed.emit()
 	return {"success": true, "housing": next_info}
 
@@ -531,7 +584,7 @@ func apply_monthly_pressure():
 	# 첫 월급 수령 플래그 — 투자 기능 잠금 해제 트리거
 	if monthly_income > 0 and not flags.get("has_received_paycheck", false):
 		flags["has_received_paycheck"] = true
-		add_log("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "job")
+		add_log(LocaleManager.ui("💳 첫 월급이 통장에 들어왔다. 이제 투자를 시작할 수 있다.", "💳 Your first paycheck hit the account. Investing is now available."), "job")
 
 	# ── 대출 이자 — 빚은 숨만 쉬어도 매달 나간다 (변동금리: 현재 등급 기준) ──
 	var loan_interest := 0.0
@@ -540,7 +593,10 @@ func apply_monthly_pressure():
 	if loan_interest > 0.0:
 		add_money(-loan_interest)
 		modify_stat("mental", -1)
-		add_log("🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급)." % [format_money(loan_interest), format_money(get_loan_total()), get_credit_grade()], "money")
+		add_log(LocaleManager.ui(
+			"🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급).",
+			"🏦 Loan interest paid: %s (principal %s, credit grade %d)."
+		) % [format_money(loan_interest), format_money(get_loan_total()), get_credit_grade()], "money")
 
 	# ── 서울살이 기본 압박 (난이도별 계수) ───────────────────────────
 	var diff_data: Dictionary = get_difficulty_data()
@@ -554,7 +610,7 @@ func apply_monthly_pressure():
 			modify_stat("mental", -1)
 			modify_stat("mental", -1)
 			if randf() < 0.25:
-				add_log("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "event")
+				add_log(LocaleManager.ui("🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.", "🏚 Goshiwon life: next-room noise, shared bathrooms... it wears down the mind."), "event")
 		"villa", "apartment":
 			modify_stat("mental", 1)  # 더 나은 주거 = 삶의 질 ↑
 
@@ -563,15 +619,15 @@ func apply_monthly_pressure():
 	if get_cast_stage("father") in ["reconciled", "connected", "hopeful", "close"]:
 		modify_stat("mental", 1)
 		if randf() < 0.18:
-			add_log("📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.", "relationship")
+			add_log(LocaleManager.ui("📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.", "📞 A short call with Dad. Not much was said, but it felt like finding solid ground."), "relationship")
 	if get_cast_stage("jiyeon") in ["honest_together", "lover"] \
 			or get_cast_stage("daeun") in ["lover", "together", "close"]:
 		modify_stat("mental", 1)
 		if randf() < 0.18:
-			add_log("💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.", "relationship")
+			add_log(LocaleManager.ui("💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.", "💬 A few messages before sleep help close the day."), "relationship")
 	if get_cast_stage("sangchul") in ["trusted", "mentoring", "guardian"] and turn % 4 == 0:
 		modify_stat("investment_skill", 1)
-		add_log("🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.", "relationship")
+		add_log(LocaleManager.ui("🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.", "🏢 Lim Sangchul's offhand comments are slowly becoming instinct."), "relationship")
 
 	# ── 칭호 조건 플래그 자동 추적 ───────────────────────────────
 	if money < 0:
@@ -584,18 +640,18 @@ func apply_monthly_pressure():
 	# 무직이면 정신/스트레스 추가 압박
 	if monthly_income == 0:
 		modify_stat("mental", -2)
-		add_log("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "event")
+		add_log(LocaleManager.ui("💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.", "💸 No income. You can feel the account balance shrinking."), "event")
 
 
 	# ── 중독 단계별 월간 압박 ────────────────────────────────────
 	if addiction_tendency >= 70:
 		modify_stat("mental", -2)
 		if randf() < 0.5:
-			add_log("🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.", "event")
+			add_log(LocaleManager.ui("🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.", "🎰 'Just one more.' The thought circled your head again today."), "event")
 	elif addiction_tendency >= 50:
 		modify_stat("mental", -1)
 		if randf() < 0.4:
-			add_log("🎰 다음 판이 자꾸 눈에 밟힌다.", "event")
+			add_log(LocaleManager.ui("🎰 다음 판이 자꾸 눈에 밟힌다.", "🎰 The next hand keeps pulling at your attention."), "event")
 
 	# ── 전문화 성향 월간 패시브 (3~5턴마다 소량 누적) ─────────────
 	if flags.get("spec_elite", false) and turn % 3 == 0:
@@ -614,10 +670,10 @@ func apply_monthly_pressure():
 	# 현금 위기 — 마이너스가 더 심각하므로 먼저 검사 (역순이면 도달 불가)
 	if money < 0:
 		modify_stat("mental", -4)
-		add_log("🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.", "money")
+		add_log(LocaleManager.ui("🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.", "🆘 Your balance is negative. At this rate, you could really get pushed out."), "money")
 	elif money < 300_000:
 		modify_stat("mental", -2)
-		add_log("😰 통장 잔고가 30만원 아래다. 이번 달을 버틸 수 있을까.", "money")
+		add_log(LocaleManager.ui("😰 통장 잔고가 30만원 아래다. 이번 달을 버틸 수 있을까.", "😰 Your balance is under KRW 300K. Can you survive this month?"), "money")
 
 	check_game_over()
 
@@ -659,7 +715,7 @@ func apply_choice(event, choice):
 			job_tenure     = 0
 			work_performance = 50
 			monthly_income = float(gj.get("base_salary", 0))
-			add_log("💼 취업: %s" % str(gj.get("name", "")), "job")
+			add_log(LocaleManager.ui("💼 취업: %s", "💼 Hired: %s") % get_job_display_name(gj), "job")
 	# 스토리 인물 관계 변화 (cast_effects)
 	# 예: "cast_effects": { "jiyeon": { "affinity": 10, "stage": "interest", "met": true } }
 	for person_id in choice.get("cast_effects", {}):
@@ -674,7 +730,7 @@ func apply_choice(event, choice):
 		"result": format_event_text(str(choice.get("result_text", ""))),
 	})
 	add_log("%s: %s" % [
-		format_event_text(str(event.get("title", "이벤트"))),
+		format_event_text(str(event.get("title", LocaleManager.ui("이벤트", "Event")))),
 		format_event_text(str(choice.get("result_text", choice.get("text", "")))),
 	], "event")
 
@@ -773,7 +829,7 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 		result = "win"
 		if opp.has("win_flag"):
 			flags[str(opp["win_flag"])] = true
-		add_log("📈 베팅 성공! %s 벌었다." % format_money(win), "money")
+		add_log(LocaleManager.ui("📈 베팅 성공! %s 벌었다.", "📈 Bet won! You earned %s.") % format_money(win), "money")
 	else:
 		# 실패 — 베팅금 x 손실비율 만큼 날림 (이미 차감됐으니 나머지 환급)
 		var loss_ratio = clampf(float(opp.get("loss_ratio", 1.0)), 0.0, 1.0)
@@ -783,7 +839,7 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 		result = "lose"
 		if opp.has("lose_flag"):
 			flags[str(opp["lose_flag"])] = true
-		add_log("📉 베팅 실패. %s 잃었다." % format_money(stake - refund), "money")
+		add_log(LocaleManager.ui("📉 베팅 실패. %s 잃었다.", "📉 Bet lost. You lost %s.") % format_money(stake - refund), "money")
 	flags["_last_opportunity_result"] = result
 	return result
 
@@ -866,7 +922,7 @@ func apply_relationship_effect(effect):
 	if not found:
 		relationships.append({
 			"id": rel_id,
-			"name": effect.get("name", "새 인연"),
+			"name": effect.get("name", LocaleManager.ui("새 인연", "New Connection")),
 			"type": effect.get("type", "friends"),
 			"affection": clamp(int(effect.get("affection", 45)), 0, 100),
 			"trust": clamp(int(effect.get("trust", 40)), 0, 100),
@@ -979,15 +1035,17 @@ func add_route_point(route_type: String, focus_label: String = ""):
 func get_route_identity() -> String:
 	var diff = route_orthodox - route_unorthodox
 	var total = route_orthodox + route_unorthodox
-	if total == 0: return "📍 방향 없음"
-	if diff >= 15: return "🏆 정석 엘리트"
-	if diff >= 7:  return "📘 정석 지향"
-	if diff <= -15: return "🔥 완전 아웃사이더"
-	if diff <= -7:  return "🌊 비정석 지향"
-	return "⚖️ 균형형"
+	if total == 0: return LocaleManager.ui("📍 방향 없음", "📍 No Direction")
+	if diff >= 15: return LocaleManager.ui("🏆 정석 엘리트", "🏆 Orthodox Elite")
+	if diff >= 7:  return LocaleManager.ui("📘 정석 지향", "📘 Orthodox Leaning")
+	if diff <= -15: return LocaleManager.ui("🔥 완전 아웃사이더", "🔥 Full Outsider")
+	if diff <= -7:  return LocaleManager.ui("🌊 비정석 지향", "🌊 Unorthodox Leaning")
+	return LocaleManager.ui("⚖️ 균형형", "⚖️ Balanced")
 
 func get_route_label() -> String:
-	return "%s  (정석 %d / 비정석 %d)" % [get_route_identity(), route_orthodox, route_unorthodox]
+	return LocaleManager.ui("%s  (정석 %d / 비정석 %d)", "%s  (Orthodox %d / Unorthodox %d)") % [
+		get_route_identity(), route_orthodox, route_unorthodox
+	]
 
 # ── 플레이 스타일 진단 (분석요소) ──────────────────────────────
 # 런 종료 시 플레이어의 행동 패턴을 한 줄로 분류. 도달 자산이 아니라
@@ -999,22 +1057,22 @@ func get_playstyle_label() -> String:
 	var diff: int = route_orthodox - route_unorthodox
 	# 우선순위: 극단 패턴부터
 	if addict >= 60 or gamble >= 60:
-		return "🎰 승부사 — 한 방에 모든 걸 건 사람"
+		return LocaleManager.ui("🎰 승부사 — 한 방에 모든 걸 건 사람", "🎰 Gambler — staked everything on one hit")
 	if peak_asset >= 1_000_000_000 and total < peak_asset * 0.4:
-		return "📉 롤러코스터 — 정점에서 미끄러진 사람"
+		return LocaleManager.ui("📉 롤러코스터 — 정점에서 미끄러진 사람", "📉 Rollercoaster — slid down from the peak")
 	if has_any_close_relationship() and reputation >= 60:
-		return "🤝 관계형 — 사람으로 버틴 사람"
+		return LocaleManager.ui("🤝 관계형 — 사람으로 버틴 사람", "🤝 Relationship-Driven — survived through people")
 	if diff >= 12:
-		return "📘 원칙주의자 — 규칙대로 끝까지 간 사람"
+		return LocaleManager.ui("📘 원칙주의자 — 규칙대로 끝까지 간 사람", "📘 Principled — stayed with the rules to the end")
 	if diff <= -12:
-		return "🔥 개척자 — 남들 안 가는 길로 간 사람"
+		return LocaleManager.ui("🔥 개척자 — 남들 안 가는 길로 간 사람", "🔥 Trailblazer — took the road others avoided")
 	if health <= 35 or mental <= 35:
-		return "🥀 소진형 — 자신을 갈아 넣은 사람"
+		return LocaleManager.ui("🥀 소진형 — 자신을 갈아 넣은 사람", "🥀 Burnout Type — spent yourself to keep going")
 	if housing == "gosiwon" and turn >= 120:
-		return "🪨 생존형 — 바닥에서 끝까지 버틴 사람"
+		return LocaleManager.ui("🪨 생존형 — 바닥에서 끝까지 버틴 사람", "🪨 Survivor — endured from the bottom to the end")
 	if events_seen >= 80:
-		return "🧭 탐험가 — 모든 문을 열어본 사람"
-	return "⚖️ 균형형 — 중심을 잃지 않은 사람"
+		return LocaleManager.ui("🧭 탐험가 — 모든 문을 열어본 사람", "🧭 Explorer — opened every door")
+	return LocaleManager.ui("⚖️ 균형형 — 중심을 잃지 않은 사람", "⚖️ Balanced — kept your center")
 
 # ── 성향 시스템 ────────────────────────────────────────────────
 func add_tendency(kind: String, amount: int = 1):
@@ -1157,7 +1215,7 @@ func format_money(amount):
 	return "%s%.0f원" % [sign, abs_amount]
 
 func format_event_text(text: String) -> String:
-	var job_name: String = str(current_job.get("name", "무직"))
+	var job_name: String = get_job_display_name()
 	var total_assets: float = get_total_asset_value()
 	var loan_total: float = get_loan_total()
 	return text \
@@ -1281,10 +1339,10 @@ func get_credit_grade() -> int:
 
 func get_credit_grade_label() -> String:
 	var g := get_credit_grade()
-	if g <= 3: return "우량"
-	if g <= 6: return "보통"
-	if g <= 8: return "주의"
-	return "위험"
+	if g <= 3: return LocaleManager.ui("우량", "Prime")
+	if g <= 6: return LocaleManager.ui("보통", "Standard")
+	if g <= 8: return LocaleManager.ui("주의", "Watch")
+	return LocaleManager.ui("위험", "Risk")
 
 ## 변동금리 — 매달 현재 등급으로 이자를 계산한다.
 ## 한국 법정 최고금리(연 20%, 2021.7~) 초과 금지 — 월 환산 상한으로 클램프.
@@ -1328,7 +1386,9 @@ func borrow(product: String, amount: float) -> bool:
 	loans[product] = owed + amount
 	add_money(amount)
 	var info: Dictionary = LOAN_PRODUCTS[product]
-	add_log("%s %s %s 대출 실행 — 매달 이자가 먼저 나간다." % [info["emoji"], info["name"], format_money(amount)], "money")
+	add_log(LocaleManager.ui("%s %s %s 대출 실행 — 매달 이자가 먼저 나간다.", "%s %s borrowed: %s — interest comes first every month.") % [
+		info["emoji"], get_loan_name(product), format_money(amount)
+	], "money")
 	stats_changed.emit()
 	return true
 
@@ -1343,21 +1403,23 @@ func repay(product: String, amount: float) -> bool:
 	loans[product] = owed - amount
 	add_money(-amount)
 	var info: Dictionary = LOAN_PRODUCTS[product]
-	add_log("%s %s %s 상환 — 남은 원금 %s." % [info["emoji"], info["name"], format_money(amount), format_money(loans[product])], "money")
+	add_log(LocaleManager.ui("%s %s %s 상환 — 남은 원금 %s.", "%s %s repaid: %s — remaining principal %s.") % [
+		info["emoji"], get_loan_name(product), format_money(amount), format_money(loans[product])
+	], "money")
 	stats_changed.emit()
 	return true
 
 func get_wealth_tier():
 	var total = get_total_asset_value()
 	if total >= 600_000_000:
-		return "강남 입성권"
+		return LocaleManager.ui("강남 입성권", "Gangnam Threshold")
 	if total >= 200_000_000:
-		return "내 집 마련"
+		return LocaleManager.ui("내 집 마련", "Homeowner Track")
 	if total >= 80_000_000:
-		return "전세 탈출"
+		return LocaleManager.ui("전세 탈출", "Beyond Jeonse")
 	if total >= 20_000_000:
-		return "종잣돈 모으는 중"
-	return "고시원 생존자"
+		return LocaleManager.ui("종잣돈 모으는 중", "Building Seed Money")
+	return LocaleManager.ui("고시원 생존자", "Goshiwon Survivor")
 
 func check_game_over():
 	if is_game_over:
@@ -1368,19 +1430,19 @@ func check_game_over():
 		peak_asset = total_now
 	if total_now >= 100_000_000 and not flags.get("asset_100m_reached", false):
 		flags["asset_100m_reached"] = true
-		add_log("💰 자산 1억 돌파 — 종잣돈이 생겼다.", "money")
+		add_log(LocaleManager.ui("💰 자산 1억 돌파 — 종잣돈이 생겼다.", "💰 Assets passed KRW 100M — real seed money has formed."), "money")
 	if total_now >= 500_000_000 and not flags.get("asset_500m_reached", false):
 		flags["asset_500m_reached"] = true
-		add_log("💰 자산 5억 돌파 — 길이 보이기 시작한다.", "money")
+		add_log(LocaleManager.ui("💰 자산 5억 돌파 — 길이 보이기 시작한다.", "💰 Assets passed KRW 500M — the path is starting to appear."), "money")
 	if total_now >= 1_000_000_000 and not flags.get("asset_1b_reached", false):
 		flags["asset_1b_reached"] = true
-		add_log("💰 자산 10억 돌파 — 30억의 3분의 1. 이제부터 가속이 붙는다.", "money")
+		add_log(LocaleManager.ui("💰 자산 10억 돌파 — 30억의 3분의 1. 이제부터 가속이 붙는다.", "💰 Assets passed KRW 1B — one third of the goal. Acceleration starts now."), "money")
 	if total_now >= 2_000_000_000 and not flags.get("asset_2b_reached", false):
 		flags["asset_2b_reached"] = true
-		add_log("🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다. 남은 건 10억.", "money")
+		add_log(LocaleManager.ui("🔥 자산 20억 돌파 — 강남이 손에 잡힐 듯하다. 남은 건 10억.", "🔥 Assets passed KRW 2B — Gangnam feels close. KRW 1B left."), "money")
 	if total_now >= 2_700_000_000 and not flags.get("asset_2_7b_reached", false):
 		flags["asset_2_7b_reached"] = true
-		add_log("🔥 자산 27억 — 마지막 고비다. 강남 입성이 코앞이다.", "money")
+		add_log(LocaleManager.ui("🔥 자산 27억 — 마지막 고비다. 강남 입성이 코앞이다.", "🔥 Assets reached KRW 2.7B — the final wall. Gangnam is right there."), "money")
 	# ── 즉시 게임오버 (실패) ──────────────────────────
 	if health <= 0:
 		finish_run("burnout"); return

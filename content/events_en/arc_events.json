@@ -87,7 +87,7 @@
       "intro"
     ],
     "cooldown": 9999,
-    "description": "2 AM. The goshiwon room. Can't sleep.\n\nStaring at the ceiling, {name} opened Instagram out of habit. Fingers scrolling the feed.\n\nHigh school friend Park Minho — 'Finally my own home 🏠 Housing lottery win ㅠㅠ Waited 10 years #allIn #30sHomeowner'\nUniversity classmate Lee Suhyeon — Honeymoon photos. Maldives. Turquoise water. A wedding dress.\nDepartment senior Kim Junghoon — Foreign car key flex. BMW 3 Series. 'First day in the company lot 🔑'\n\nEveryone had arrived somewhere.\nOnly {name} was still at the starting line. No, behind the starting line.\n\n₩650,000 rent. Bank balance. The stain on the goshiwon wall.\n\nThe hand holding the phone grew heavy.",
+    "description": "2 AM. The goshiwon room. Can't sleep.\n\nStaring at the ceiling, {name} opened Instagram out of habit. Fingers scrolling the feed.\n\nHigh school friend Park Minho — 'Finally my own home 🏠 Housing lottery win T_T Waited 10 years #allIn #30sHomeowner'\nUniversity classmate Lee Suhyeon — Honeymoon photos. Maldives. Turquoise water. A wedding dress.\nDepartment senior Kim Junghoon — Foreign car key flex. BMW 3 Series. 'First day in the company lot 🔑'\n\nEveryone had arrived somewhere.\nOnly {name} was still at the starting line. No, behind the starting line.\n\n₩650,000 rent. Bank balance. The stain on the goshiwon wall.\n\nThe hand holding the phone grew heavy.",
     "choices": [
       {
         "text": "Delete the app — comparison is poison.",
@@ -3279,6 +3279,51 @@
           "kept_quiet_money"
         ],
         "result_text": "The moment you talk about money it gets complicated. Family, friends — not yet. {name} put the phone face down. A secret only {name} knows."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_card_at_confrontation",
+    "title": "One Business Card",
+    "description": "The night before the confrontation.\n\nSearching a pocket, {name} felt it catch on a finger.\nHis business card. The one he handed over the first day.\nA private number written on the back by hand.\n\n'I don't give this to people. This is only for you, Minjun.'\n\n{name} turned the card over.\nSame handwriting. Same person. A different story.",
+    "choices": [
+      {
+        "text": "Keep the card and meet him tomorrow",
+        "result_text": "Did not throw it away.\nSomewhere between knowing and pretending not to know,\n{name} slipped the card back into the pocket."
+      },
+      {
+        "text": "Put the card in a drawer. Did not want to carry it",
+        "result_text": "The drawer closed.\n{name} decided to go tomorrow with nothing in hand."
+      }
+    ]
+  },
+  {
+    "id": "arc_jaehyuk_photo_in_dark",
+    "title": "The Photo From That Night",
+    "description": "Night.\n\n{name} took out the phone and opened the gallery.\n\nOne photo.\nIn front of a pojangmacha. The two of them together.\nJaehyuk had an arm around {name}'s shoulder and was smiling.\n\nThat night had been real.\nEven if he was a con man, at least that smile that night — must have been real.\n\nOr had even that been practiced?",
+    "choices": [
+      {
+        "text": "Decide to believe it was real",
+        "result_text": "Did not delete it.\nOutside the evidence folder, {name} simply left it there.\nThat night was that night."
+      },
+      {
+        "text": "Delete the photo",
+        "result_text": "Permanently deleted.\n{name} turned the phone face down."
+      }
+    ]
+  },
+  {
+    "id": "arc_hyunsu_lifeline_call",
+    "title": "Someone You Can Call",
+    "description": "There was nothing in your hand.\n\n{name} scrolled up and down the contact list.\nSomeone you could call.\nMore precisely — someone you could call in this state.\n\nHyunsu's name was there.\n\nThat business card. One photo of him in a suit after four years of exam prep.\n'It's thanks to you, hyung.' That sentence.",
+    "choices": [
+      {
+        "text": "Call him",
+        "result_text": "\"Hyung, is something wrong?\"\n\nYou did not say much. Just talked. Said things had been hard lately.\nHyunsu did not say much either. He just listened.\n\nAfter hanging up, something felt a little different."
+      },
+      {
+        "text": "Put the phone down",
+        "result_text": "Could not do it.\nFor now, it felt like this had to be handled alone."
       }
     ]
   }

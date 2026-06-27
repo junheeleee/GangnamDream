@@ -124,12 +124,14 @@
     },
     "choices": [
       {
+        "text": "\"Of course. The moment I get there.\" — affirm the promise",
         "effects": {
           "tint": 2
         },
         "result_text": "That promise still standing — it gave today a different warmth."
       },
       {
+        "text": "\"Let's talk about it then. It's still far away.\" — answer honestly",
         "effects": {},
         "result_text": "An honest answer. Daeun nodded. As if willing to wait."
       }

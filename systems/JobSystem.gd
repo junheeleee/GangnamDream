@@ -38,7 +38,7 @@ func apply_for_job(job_id):
 	if job_tier > int(GameState.flags.get("max_job_tier", 0)):
 		GameState.flags["max_job_tier"] = job_tier
 	var prep_log = (LocaleManager.ui(" (준비 보너스 업무능력 +%d)", " (prep bonus work performance +%d)") % prep_bonus) if prep_bonus > 0 else ""
-	GameState.add_log(LocaleManager.ui("%s 취업. 월급 %s%s", "Hired at %s. Salary %s%s") % [job.get("name", LocaleManager.ui("직장", "Job")), GameState.format_money(job.get("base_salary", 0.0)), prep_log], "job")
+	GameState.add_log(LocaleManager.ui("%s 취업. 월급 %s%s", "Hired at %s. Salary %s%s") % [GameState.get_job_display_name(job), GameState.format_money(job.get("base_salary", 0.0)), prep_log], "job")
 	job_changed.emit(job)
 	return {"success": true, "message": LocaleManager.ui("취업 완료", "Hired")}
 
@@ -48,7 +48,7 @@ func quit_job(voluntary):
 	var eff := float(GameState.current_job.get("effective_salary",
 		GameState.current_job.get("base_salary", 0.0)))
 	GameState.monthly_income -= eff
-	GameState.add_log(LocaleManager.ui("%s 퇴사", "Quit %s") % GameState.current_job.get("name", LocaleManager.ui("직장", "Job")), "job")
+	GameState.add_log(LocaleManager.ui("%s 퇴사", "Quit %s") % GameState.get_job_display_name(), "job")
 	GameState.current_job = {}
 	GameState.job_tenure = 0
 	GameState.flags.erase("has_job")

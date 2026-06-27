@@ -246,6 +246,21 @@ func _on_language_changed(_lang: String) -> void:
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
 
+func _loc_dict(data: Dictionary, key: String, fallback := "") -> String:
+	var en_key := "%s_en" % key
+	if LocaleManager.is_english() and data.has(en_key):
+		return str(data.get(en_key, fallback))
+	return str(data.get(key, fallback))
+
+func _run_theme_display(theme_id: String) -> String:
+	match theme_id:
+		"자유런": return _tr("자유런", "Free Run")
+		"투자런": return _tr("투자런", "Investment Run")
+		"인맥런": return _tr("인맥런", "Network Run")
+		"청렴런": return _tr("청렴런", "Clean Run")
+		"성실런": return _tr("성실런", "Diligent Run")
+	return theme_id
+
 ## StoryMode 복귀 후: 같은 턴에 이어질 스토리가 더 있으면 다시 StoryMode로,
 ## 없으면 이번 달 행동(AP) 화면으로 진입.
 ## 앰비언트 이벤트(_maybe_play_month_situation)는 여기서 부르지 않는다.
@@ -2345,7 +2360,7 @@ func _present_tendency_realization(kind: String):
 	if GameState.is_game_over:
 		return
 	var tname: String = GameState.tendency_name(kind)
-	var desc: String = str(GameState.TENDENCY_DESC.get(kind, ""))
+	var desc: String = GameState.tendency_desc(kind)
 	var icon: String = {"career": "💼", "invest": "📈", "found": "🚀"}.get(kind, "✨")
 	var accent: String = {"career": "#c9a227", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
 	var passive: String = {
@@ -2789,7 +2804,7 @@ func _refresh_all():
 	var showing_character = not current_event.is_empty() and str(current_event.get("portrait", "")) != ""
 	if not showing_character:
 		if player_name_label:
-			var job_name = GameState.current_job.get("name", _tr("무직", "Unemployed"))
+			var job_name = GameState.get_job_display_name()
 			player_name_label.text = "%s\n%s" % [GameState.player_name, job_name]
 		if title_label:
 			var ttl := "「%s」" % GameState.get_current_title()
@@ -2797,7 +2812,7 @@ func _refresh_all():
 				ttl += "\n· %s ·" % GameState.get_tendency_label()
 			title_label.text = ttl
 
-	stat_labels["job"].text = GameState.current_job.get("name", _tr("무직", "Unemployed"))
+	stat_labels["job"].text = GameState.get_job_display_name()
 	_set_stat_value("health", GameState.health, true, 50, 30)
 	_set_stat_value("mental", GameState.mental, true, 50, 30)
 
@@ -3574,7 +3589,7 @@ func _refresh_arc_box() -> void:
 	run_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	run_box.add_theme_constant_override("separation", 6)
 	run_card.add_child(run_box)
-	run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % theme_id, 14, "#8fb6d8"))
+	run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % _run_theme_display(theme_id), 14, "#8fb6d8"))
 	var tendency_lbl := GameState.get_tendency_label()
 	if not tendency_lbl.is_empty():
 		run_box.add_child(_wrap_label(_tr("성향: %s", "Leaning: %s") % tendency_lbl, 14, "#8fb6d8"))
@@ -3636,10 +3651,7 @@ func _render_ap_actions():
 		lines.append("──────────────────")
 	var net_sign = "+" if net >= 0 else ""
 	var net_flag = _tr("  [color=#ff7070]← 매달 적자 주의![/color]", "  [color=#ff7070]← Monthly deficit warning![/color]") if net < 0 else ""
-	if LocaleManager.is_english():
-		lines.append("Monthly net  %s%s%s" % [net_sign, GameState.format_money(net), net_flag])
-	else:
-		lines.append("이번 달 수입·지출  [b]%s%s[/b]%s" % [net_sign, GameState.format_money(net), net_flag])
+	lines.append(_tr("이번 달 수입·지출  [b]%s%s[/b]%s", "Monthly net  %s%s%s") % [net_sign, GameState.format_money(net), net_flag])
 	var ms_hint = _next_milestone_hint(total)
 	if not ms_hint.is_empty():
 		lines.append(ms_hint)
@@ -4026,7 +4038,7 @@ func _essential_btn(title: String, subtitle: String, icon_id: String, accent: St
 	choice_box.add_child(btn)
 
 func _essential_locked(title: String, subtitle: String, icon_id: String, accent: String) -> void:
-	choice_box.add_child(_make_essential_action_card(title, subtitle, icon_id, accent, true, false, "잠금"))
+	choice_box.add_child(_make_essential_action_card(title, subtitle, icon_id, accent, true, false, _tr("잠금", "Locked")))
 
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String) -> Button:
@@ -4120,7 +4132,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	text_col.add_child(sub_lbl)
 
 	var badge_text := forced_badge
-	if forced_badge == "잠금":
+	if forced_badge == _tr("잠금", "Locked"):
 		badge_text = _tr("잠금", "Locked")
 	if badge_text.is_empty():
 		badge_text = _tr("무료", "Free") if free_action else _tr("AP 1", "AP 1")
@@ -4131,7 +4143,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var badge_style := StyleBoxFlat.new()
 	badge_style.bg_color = Color("#13131d") if not disabled else Color("#0e0e14")
 	badge_style.border_color = Color("#2e3446") if not free_action else Color("#3d6f59")
-	if forced_badge == "잠금":
+	if forced_badge == _tr("잠금", "Locked"):
 		badge_style.border_color = Color("#3a3a48")
 	badge_style.set_border_width_all(1)
 	badge_style.set_corner_radius_all(5)
@@ -4143,7 +4155,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	row.add_child(badge)
 
 	var badge_lbl := _label(badge_text, 11, "#a7f3d0" if free_action and not disabled else "#aab3c5")
-	if forced_badge == "잠금":
+	if forced_badge == _tr("잠금", "Locked"):
 		badge_lbl.add_theme_color_override("font_color", Color("#6d7282"))
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -4391,7 +4403,7 @@ func _open_cat_work():
 		if GameState.social_skill >= 20:
 			_cat_modal_button(_tr("모의 면접  —  말하는 연습을 한다", "Mock interview  —  practice speaking"), "#3a6ea8", "_ap_interview_prep")
 	else:
-		var job_name = GameState.current_job.get("name", _tr("직장인", "Office Worker"))
+		var job_name = GameState.get_job_display_name()
 		var tenure = GameState.job_tenure
 		var threshold = int(GameState.current_job.get("promotion_threshold", 12))
 		var promo_count = int(GameState.current_job.get("promotion_count", 0))
@@ -4437,7 +4449,7 @@ func _open_cat_work():
 			var next_jobs: Array = []
 			for j in DataRegistry.jobs:
 				if int(j.get("tier", 0)) == job_tier + 1:
-					next_jobs.append(str(j.get("name", "")))
+					next_jobs.append(GameState.get_job_display_name(j))
 			if not next_jobs.is_empty():
 				modal_body.add_child(_wrap_label(
 					_tr("다음 직급 예시  ", "Next rank e.g.  ") + "  /  ".join(next_jobs.slice(0, 3)), 12, "#3a6ea8"))
@@ -4958,7 +4970,7 @@ func _open_bank():
 		sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(sep)
 		modal_body.add_child(_label(_tr("%s — 월 이자 %.2f%% (연 %.1f%%)", "%s — Monthly %.2f%% (Annual %.1f%%)") % [
-			info["name"], rate * 100.0, rate * 1200.0], 15, "#e2e8f0"))
+			GameState.get_loan_name(product), rate * 100.0, rate * 1200.0], 15, "#e2e8f0"))
 		if limit <= 0.0:
 			if GameState.monthly_income <= 0:
 				modal_body.add_child(_wrap_label(_tr("  직장(소득)이 있어야 신용대출이 가능합니다.", "  You need a job (income) to qualify for a credit loan."), 12, "#6a7486"))
@@ -5458,7 +5470,7 @@ func _open_jobs():
 	if current_tier > 0:
 		var promo_count = int(GameState.current_job.get("promotion_count", 0))
 		var max_promo = int(GameState.current_job.get("max_promotions", 3))
-		modal_body.add_child(_wrap_label(_tr("현재: %s  Tier %d  승진 %d/%d회", "Current: %s  Tier %d  Promotions %d/%d") % [GameState.current_job.get("name",""), current_tier, promo_count, max_promo], 13, "#f0b429"))
+		modal_body.add_child(_wrap_label(_tr("현재: %s  Tier %d  승진 %d/%d회", "Current: %s  Tier %d  Promotions %d/%d") % [GameState.get_job_display_name(), current_tier, promo_count, max_promo], 13, "#f0b429"))
 	modal_body.add_child(_wrap_label(_tr("지력 %d  |  사회성 %d  |  외모 %d", "Intelligence %d  |  Social %d  |  Appearance %d") % [GameState.intelligence, GameState.social_skill, GameState.appearance], 12, "#5a6075"))
 	# 취업 준비도 패널 (무직일 때만 표시)
 	if GameState.current_job.is_empty():
@@ -5485,7 +5497,7 @@ func _open_jobs():
 
 		# 잠긴 티어: 경력 조건 미충족
 		if job.get("locked", false):
-			var lock_btn = _button("🔒  %s" % job.get("name", ""), "#1e1e2e")
+			var lock_btn = _button("🔒  %s" % GameState.get_job_display_name(job), "#1e1e2e")
 			lock_btn.disabled = true
 			modal_body.add_child(lock_btn)
 			modal_body.add_child(_wrap_label("  %s" % job.get("lock_reason", _tr("경력 조건 미충족", "Career requirement not met")), 11, "#3a3a5a"))
@@ -5509,7 +5521,7 @@ func _open_jobs():
 				"min_appearance": req_parts.append(_tr("외모 %d", "Appearance %d") % req[k])
 				"min_social_skill", "min_social": req_parts.append(_tr("사회성 %d", "Social %d") % req[k])
 		var req_str = " · ".join(req_parts) if not req_parts.is_empty() else _tr("제한 없음", "No requirements")
-		var label = _tr("%s  %s/월  정신 -%d/월", "%s  %s/mo  Mental -%d/mo") % [job.get("name", ""), GameState.format_money(job.get("base_salary", 0)), stress_val / 2]
+		var label = _tr("%s  %s/월  정신 -%d/월", "%s  %s/mo  Mental -%d/mo") % [GameState.get_job_display_name(job), GameState.format_money(job.get("base_salary", 0)), stress_val / 2]
 		if is_current: label += _tr("  ✓현재", "  ✓Current")
 		if needs_resume: label += "  📋"
 		var button = _button(label, button_color)
@@ -5960,7 +5972,7 @@ func _on_job_selected(job_id):
 	var had_interview = GameState.flags.get("interview_practiced", false)
 	var is_first_job = GameState.current_job.is_empty()
 	job_system.apply_for_job(job_id)
-	var job_name = GameState.current_job.get("name", _tr("직업 변경", "Job change"))
+	var job_name = GameState.get_job_display_name()
 	var salary = GameState.format_money(GameState.monthly_income)
 	var prep_bonus = (10 if had_resume else 0) + (7 if had_interview else 0)
 	var prep_note = (_tr("  (준비 보너스 +%d 업무능력)", "  (prep bonus +%d work skill)") % prep_bonus) if prep_bonus > 0 else ""
@@ -6196,7 +6208,7 @@ func _unhandled_input(event):
 		return
 	if modal_layer and modal_layer.visible:
 		# 시스템 메뉴만 ESC/B로 닫는다 — 이벤트/결산 모달은 흐름 보호를 위해 버튼으로만
-		if modal_title_label and modal_title_label.text == "≡ 시스템":
+		if modal_title_label and modal_title_label.text == _tr("≡ 시스템", "≡ System"):
 			_close_modal()
 			get_viewport().set_input_as_handled()
 		return
@@ -6281,7 +6293,7 @@ func _show_demo_ending():
 	if GameState.current_job.is_empty():
 		story_lines.append(_tr("직장은 아직 없다. 그게 지금 가장 큰 과제다.", "Still no job. That's the biggest challenge right now."))
 	else:
-		story_lines.append(_tr("%s에 다니고 있다.", "Working at %s.") % GameState.current_job.get("name", _tr("직장", "work")))
+		story_lines.append(_tr("%s에 다니고 있다.", "Working at %s.") % GameState.get_job_display_name())
 	# 인물 관계
 	if f.get("arc_sangchul_met_seen", false):
 		if f.get("arc_sangchul_casino_seen", false):
@@ -6487,9 +6499,9 @@ func _show_ending(ending_id):
 
 	# 런 테마 요약
 	var theme_id: String = GameState.run_theme
-	if theme_id != "자유런":
-		modal_body.add_child(_wrap_label(_tr("이번 런 테마: %s", "Run Theme: %s") % theme_id, 11, "#5a8a7a"))
-	if GameState.difficulty != "현실":
+	if theme_id != _tr("자유런", "자유런"):
+		modal_body.add_child(_wrap_label(_tr("이번 런 테마: %s", "Run Theme: %s") % _run_theme_display(theme_id), 11, "#5a8a7a"))
+	if GameState.difficulty != _tr("현실", "현실"):
 		modal_body.add_child(_wrap_label(_tr("난이도: %s %s", "Difficulty: %s %s") % [
 			str(GameState.get_difficulty_data().get("icon", "")),
 			str(GameState.get_difficulty_data().get("name", ""))], 11, "#8a6a3a"))
@@ -6561,10 +6573,10 @@ func _get_ending_cg_path(ending: Dictionary) -> String:
 	return ImageRegistry.get_cg(cg_id)
 
 func _ending_run_summary(ending_id: String) -> String:
-	var route = GameState.get_route_identity()
+	var route_diff := GameState.route_orthodox - GameState.route_unorthodox
 	var f = GameState.flags
-	var is_orthodox = "정석" in route or "엘리트" in route
-	var is_unorthodox = "아웃사이더" in route or "이단아" in route
+	var is_orthodox = route_diff >= 7
+	var is_unorthodox = route_diff <= -7
 	match ending_id:
 		"gangnam_dream_white":
 			return _tr("아무도 밟지 않고 30억을 달성했다. 이 도시에서 사람으로 남은 강남입성.", "Reached ₩3B without stepping on anyone. Made it to Gangnam — and stayed human.")
@@ -6813,11 +6825,11 @@ func _run_card_text(ending_id: String) -> String:
 	lines.append(_tr("🏠 마지막 거처: %s", "🏠 Last Home: %s") % housing_name)
 	lines.append(_tr("📍 정석 %d회 / 비정석 %d회  →  %s", "📍 Orthodox %d / Unorthodox %d  →  %s") % [o, u, route_id])
 	lines.append(_tr("📖 이번 런 이벤트: %d / %d개", "📖 Events This Run: %d / %d") % [seen, total_events])
-	if GameState.difficulty != "현실":
+	if GameState.difficulty != _tr("현실", "현실"):
 		lines.append(_tr("🎚 난이도: %s", "🎚 Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
 	lines.append(_tr("🏆 엔딩: \"%s\"  (등급 %s)", "🏆 Ending: \"%s\"  (Grade %s)") % [ending_title, ending_grade])
 	lines.append("━━━━━━━━━━━━━━━━━━")
-	lines.append("#강남드림 #GangnamDream")
+	lines.append(_tr("#강남드림 #GangnamDream", "#GangnamDream"))
 	return "\n".join(lines)
 
 ## ── 공유 버튼 섹션 ─────────────────────────────────────────────
@@ -6976,7 +6988,7 @@ func _ending_route_bar(parent: Control):
 func _ending_milestones(parent: Control):
 	var f = GameState.flags
 	var milestones: Array = []
-	var job_name: String = GameState.current_job.get("name", "")
+	var job_name: String = GameState.get_job_display_name() if not GameState.current_job.is_empty() else ""
 	var job_tier: int = int(GameState.current_job.get("tier", 0))
 	if not job_name.is_empty():
 		if job_tier >= 4:
@@ -7410,7 +7422,7 @@ func _check_milestones():
 			_update_portrait()
 
 func _on_promoted(job: Dictionary, bonus: float):
-	var msg = _tr("⬆ 승진! %s  월급 +%s", "⬆ Promoted! %s  Salary +%s") % [job.get("name",""), GameState.format_money(bonus)]
+	var msg = _tr("⬆ 승진! %s  월급 +%s", "⬆ Promoted! %s  Salary +%s") % [GameState.get_job_display_name(job), GameState.format_money(bonus)]
 	_show_toast(msg, Color("#fbbf24"))
 	AudioManager.play("housing_up")
 
@@ -7766,9 +7778,9 @@ func _hint_box() -> StyleBoxFlat:
 	return s
 
 func _random_topic(news):
-	var topics: Array = news.get("topics", ["시장"])
+	var topics: Array = news.get("topics", [_tr("시장", "market")])
 	if topics.is_empty():
-		return "시장"
+		return _tr("시장", "market")
 	return topics.pick_random()
 
 # ── 다음 마일스톤 힌트 ────────────────────────────────
@@ -7804,13 +7816,13 @@ func _months_to_goal_estimate() -> String:
 	var net: float = float(GameState.monthly_income) - float(GameState.get_housing_expense())
 	var remaining = GOAL - total
 	if net <= 0.0:
-		return "[color=#ff7070]💡 투자 없이는 달성 불가 — 자산을 굴려야 합니다[/color]"
+		return _tr("[color=#ff7070]💡 투자 없이는 달성 불가 — 자산을 굴려야 합니다[/color]", "[color=#ff7070]💡 Impossible without investing — you need your assets to work[/color]")
 	var months_needed = int(ceil(remaining / net))
 	var turns_left: int = maxi(0, (38 - GameState.age) * 12 - GameState.month + 1)
 	if months_needed <= turns_left:
-		return "[color=#7a8496]💡 현재 수입만으로  약 %d개월 후 달성 가능 (투자 수익 제외)[/color]" % months_needed
+		return _tr("[color=#7a8496]💡 현재 수입만으로  약 %d개월 후 달성 가능 (투자 수익 제외)[/color]", "[color=#7a8496]💡 Current income reaches the goal in about %d months (investment returns excluded)[/color]") % months_needed
 	else:
-		return "[color=#f0b429]💡 현재 수입만으로  %d개월 필요 → 남은 시간 %d개월, 투자가 필수![/color]" % [months_needed, turns_left]
+		return _tr("[color=#f0b429]💡 현재 수입만으로  %d개월 필요 → 남은 시간 %d개월, 투자가 필수![/color]", "[color=#f0b429]💡 Current income needs %d months → %d months left, investing is essential![/color]") % [months_needed, turns_left]
 
 # ── 월 등급 계산 ─────────────────────────────────────
 func _calc_month_grade(snap: Dictionary) -> Dictionary:
@@ -7820,36 +7832,36 @@ func _calc_month_grade(snap: Dictionary) -> Dictionary:
 	var t = GameState.turn
 	if asset_delta >= 10_000_000.0:
 		var big_msgs = [
-			"자산이 %s 늘었습니다. 이 흐름을 유지하세요." % GameState.format_money(asset_delta),
-			"투자가 빛을 발하고 있습니다. 포지션을 점검하세요.",
-			"이런 달이 쌓이면 강남드림이 가까워집니다.",
+			_tr("자산이 %s 늘었습니다. 이 흐름을 유지하세요.", "Assets grew by %s. Keep this momentum.") % GameState.format_money(asset_delta),
+			_tr("투자가 빛을 발하고 있습니다. 포지션을 점검하세요.", "Your investments are paying off. Review your positions."),
+			_tr("이런 달이 쌓이면 강남드림이 가까워집니다.", "Enough months like this will bring Gangnam within reach."),
 		]
-		return {"emoji": "🏆", "title": "대박 달!", "msg": big_msgs[t % big_msgs.size()], "color": "#fbbf24"}
+		return {"emoji": "🏆", "title": _tr("대박 달!", "Breakout Month!"), "msg": big_msgs[t % big_msgs.size()], "color": "#fbbf24"}
 	elif asset_delta >= 2_000_000.0 and net >= 0.0:
 		var good_msgs = [
-			"흑자에 자산 성장까지. 좋은 한 달이었습니다.",
-			"수입과 투자 모두 순조롭습니다.",
-			"꾸준히 이 방향으로 가면 됩니다.",
+			_tr("흑자에 자산 성장까지. 좋은 한 달이었습니다.", "Positive cash flow and asset growth. A good month."),
+			_tr("수입과 투자 모두 순조롭습니다.", "Income and investments are both moving well."),
+			_tr("꾸준히 이 방향으로 가면 됩니다.", "Keep moving steadily in this direction."),
 		]
-		return {"emoji": "✨", "title": "잘 했습니다", "msg": good_msgs[t % good_msgs.size()], "color": "#00c896"}
+		return {"emoji": "✨", "title": _tr("잘 했습니다", "Well Done"), "msg": good_msgs[t % good_msgs.size()], "color": "#00c896"}
 	elif net >= 0.0:
 		if total < 5_000_000.0:
-			return {"emoji": "📊", "title": "버티는 달", "msg": "아직 초반입니다. 취업과 저축이 최우선입니다.", "color": "#8892a4"}
-		return {"emoji": "📊", "title": "평범한 달", "msg": "흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.", "color": "#8892a4"}
+			return {"emoji": "📊", "title": _tr("버티는 달", "Survival Month"), "msg": _tr("아직 초반입니다. 취업과 저축이 최우선입니다.", "It is still early. Jobs and savings come first."), "color": "#8892a4"}
+		return {"emoji": "📊", "title": _tr("평범한 달", "Ordinary Month"), "msg": _tr("흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.", "You stayed positive. Look for the right time to grow assets through investing."), "color": "#8892a4"}
 	elif GameState.health > 55 and GameState.mental > 55:
 		var tough_msgs = [
-			"재정은 적자지만 건강하게 버텼습니다. 곧 나아질 거예요.",
-			"어려운 달이었지만 쓰러지지 않았습니다.",
-			"이 경험이 더 단단하게 만들어줄 겁니다.",
+			_tr("재정은 적자지만 건강하게 버텼습니다. 곧 나아질 거예요.", "Finances were negative, but you stayed healthy. Things can improve soon."),
+			_tr("어려운 달이었지만 쓰러지지 않았습니다.", "It was a hard month, but you did not collapse."),
+			_tr("이 경험이 더 단단하게 만들어줄 겁니다.", "This experience will make you harder to break."),
 		]
-		return {"emoji": "💪", "title": "힘든 달", "msg": tough_msgs[t % tough_msgs.size()], "color": "#f0b429"}
+		return {"emoji": "💪", "title": _tr("힘든 달", "Hard Month"), "msg": tough_msgs[t % tough_msgs.size()], "color": "#f0b429"}
 	else:
 		var crisis_msgs = [
-			"재정과 체력 모두 위험합니다. 전략을 바꾸세요.",
-			"지금 방향을 바꾸지 않으면 무너집니다.",
-			"운동이나 명상으로 정신력부터 회복하세요.",
+			_tr("재정과 체력 모두 위험합니다. 전략을 바꾸세요.", "Both finances and stamina are in danger. Change strategy."),
+			_tr("지금 방향을 바꾸지 않으면 무너집니다.", "If you do not change course now, you will break."),
+			_tr("운동이나 명상으로 정신력부터 회복하세요.", "Recover Mental first through exercise or meditation."),
 		]
-		return {"emoji": "😰", "title": "위기 상황", "msg": crisis_msgs[t % crisis_msgs.size()], "color": "#ff4444"}
+		return {"emoji": "😰", "title": _tr("위기 상황", "Crisis"), "msg": crisis_msgs[t % crisis_msgs.size()], "color": "#ff4444"}
 
 # ── 다음 달 조언 ─────────────────────────────────────
 func _update_event_bg():
@@ -8074,10 +8086,11 @@ func _open_title_collection():
 		modal_body.add_child(_label("── %s ──" % cat_names.get(cat, cat), 12, "#5a6075"))
 		for t in cat_titles:
 			var tid: String = t["id"]
+			var display_t: Dictionary = MetaProgression.get_title_info(tid)
 			var is_unlocked: bool = unlocked.has(tid)
 			var rare: String = t.get("rare", "common")
 			var color = rare_colors.get(rare, "#8892a4") if is_unlocked else "#3a3a4a"
-			var name_text: String = t.get("name", tid) if is_unlocked else "???"
+			var name_text: String = display_t.get("name", tid) if is_unlocked else "???"
 			var row = HBoxContainer.new()
 			row.add_theme_constant_override("separation", 6)
 			var icon = "🏆" if is_unlocked else "🔒"
@@ -8086,7 +8099,7 @@ func _open_title_collection():
 			row.add_child(lbl)
 			modal_body.add_child(row)
 			if is_unlocked:
-				modal_body.add_child(_wrap_label("    %s" % t.get("desc", ""), 11, "#5a6075"))
+				modal_body.add_child(_wrap_label("    %s" % display_t.get("desc", ""), 11, "#5a6075"))
 
 	var sep_end = HSeparator.new()
 	sep_end.add_theme_color_override("color", Color("#252535"))
@@ -8099,36 +8112,37 @@ func _open_title_collection():
 
 ## A-4: 금융 용어 설명 모달
 const GLOSSARY_BANK := [
-	["신용등급", "1~10등급 (낮을수록 좋음). 직장·근속·소득·자산이 올리고 부채 비율·잔고 위기가 깎는다. 대출 한도와 금리를 결정한다."],
-	["변동금리", "매달 달라질 수 있는 금리. 신용등급이 떨어지면 이미 빌린 대출의 이자도 같이 오른다. 이 게임의 모든 대출은 변동금리다."],
-	["레버리지", "빌린 돈으로 더 큰 금액을 투자하는 것. 수익이 배로 나지만 손실도 배로 커진다. '레버리지 투자' 탭에서 2배 레버리지를 쓸 수 있다."],
-	["마진콜", "레버리지 투자에서 원금 대비 손실이 65% 이상 나면 강제 전량 청산. 원금의 35% 이하로 떨어지는 순간 자동 발동된다."],
+	{"term": "신용등급", "term_en": "Credit Grade", "desc": "1~10등급 (낮을수록 좋음). 직장·근속·소득·자산이 올리고 부채 비율·잔고 위기가 깎는다. 대출 한도와 금리를 결정한다.", "desc_en": "A 1-10 grade where lower is better. Jobs, tenure, income, and assets improve it; debt ratio and cash crises damage it. It determines loan limits and interest rates."},
+	{"term": "변동금리", "term_en": "Variable Rate", "desc": "매달 달라질 수 있는 금리. 신용등급이 떨어지면 이미 빌린 대출의 이자도 같이 오른다. 이 게임의 모든 대출은 변동금리다.", "desc_en": "An interest rate that can change every month. If your credit grade worsens, existing loan interest rises too. All loans in this game use variable rates."},
+	{"term": "레버리지", "term_en": "Leverage", "desc": "빌린 돈으로 더 큰 금액을 투자하는 것. 수익이 배로 나지만 손실도 배로 커진다. '레버리지 투자' 탭에서 2배 레버리지를 쓸 수 있다.", "desc_en": "Investing a larger amount with borrowed money. Gains multiply, but losses multiply too. The Leverage tab allows 2x leverage."},
+	{"term": "마진콜", "term_en": "Margin Call", "desc": "레버리지 투자에서 원금 대비 손실이 65% 이상 나면 강제 전량 청산. 원금의 35% 이하로 떨어지는 순간 자동 발동된다.", "desc_en": "Forced liquidation when a leveraged position loses 65% or more of principal. It triggers automatically once value falls below 35% of principal."},
 ]
 const GLOSSARY_INVEST := [
-	["포트폴리오", "내가 보유한 모든 자산의 구성. 여러 자산에 나눠 투자하면 한 종목이 폭락해도 전체 타격이 줄어든다."],
-	["배당률", "자산 보유 중 정기적으로 지급받는 수익 비율. 리츠(월배당)·배당주(분기배당)는 보유만 해도 현금이 들어온다."],
-	["레버리지 ETF", "지수 움직임의 2~3배로 등락하는 고위험 상품. 상승 시 3배 수익이지만 하락 시 3배 손실, 장기 보유 시 복리 손실이 누적된다."],
-	["마진콜", "레버리지 투자 시 원금의 35% 이하로 떨어지면 강제 청산. 단기 급락으로도 전액 손실 가능."],
-	["공포/탐욕 지수", "시장 분위기를 0~100으로 나타낸 지표. 30 이하(공포)일 때 사고 70 이상(탐욕)일 때 팔면 수익 확률이 높다."],
-	["하우스엣지", "카지노가 장기적으로 가져가는 수익 비율. 바카라 1.06%, 블랙잭 0.5%, 룰렛 2.70%. 장기로 플레이할수록 이 비율만큼 손실이 쌓인다."],
-	["RTP", "Return To Player. 장기 플레이 시 플레이어에게 돌아가는 비율. 슬롯 RTP 90%면 100만원 투입 시 이론상 90만원 반환. 단기 결과는 크게 벗어날 수 있다."],
+	{"term": "포트폴리오", "term_en": "Portfolio", "desc": "내가 보유한 모든 자산의 구성. 여러 자산에 나눠 투자하면 한 종목이 폭락해도 전체 타격이 줄어든다.", "desc_en": "The mix of all assets you own. Diversifying across assets reduces the damage if one position crashes."},
+	{"term": "배당률", "term_en": "Dividend Yield", "desc": "자산 보유 중 정기적으로 지급받는 수익 비율. 리츠(월배당)·배당주(분기배당)는 보유만 해도 현금이 들어온다.", "desc_en": "The periodic income rate paid while holding an asset. REITs and dividend stocks generate cash just by being held."},
+	{"term": "레버리지 ETF", "term_en": "Leveraged ETF", "desc": "지수 움직임의 2~3배로 등락하는 고위험 상품. 상승 시 3배 수익이지만 하락 시 3배 손실, 장기 보유 시 복리 손실이 누적된다.", "desc_en": "A high-risk product that moves 2-3x an index. It can triple gains on rises, but also triple losses, and compounding decay can hurt long holds."},
+	{"term": "마진콜", "term_en": "Margin Call", "desc": "레버리지 투자 시 원금의 35% 이하로 떨어지면 강제 청산. 단기 급락으로도 전액 손실 가능.", "desc_en": "Forced liquidation when a leveraged position falls below 35% of principal. A short crash can wipe out the entire position."},
+	{"term": "공포/탐욕 지수", "term_en": "Fear/Greed Index", "desc": "시장 분위기를 0~100으로 나타낸 지표. 30 이하(공포)일 때 사고 70 이상(탐욕)일 때 팔면 수익 확률이 높다.", "desc_en": "A 0-100 market sentiment indicator. Buying under 30 fear and selling over 70 greed improves your odds."},
+	{"term": "하우스엣지", "term_en": "House Edge", "desc": "카지노가 장기적으로 가져가는 수익 비율. 바카라 1.06%, 블랙잭 0.5%, 룰렛 2.70%. 장기로 플레이할수록 이 비율만큼 손실이 쌓인다.", "desc_en": "The casino's long-term advantage. Baccarat 1.06%, blackjack 0.5%, roulette 2.70%. The longer you play, the more this edge accumulates against you."},
+	{"term": "RTP", "term_en": "RTP", "desc": "Return To Player. 장기 플레이 시 플레이어에게 돌아가는 비율. 슬롯 RTP 90%면 100만원 투입 시 이론상 90만원 반환. 단기 결과는 크게 벗어날 수 있다.", "desc_en": "Return To Player. The long-term percentage returned to players. If slot RTP is 90%, KRW 1M wagered theoretically returns KRW 900K, though short-term results can swing wildly."},
 ]
 
 func _open_glossary(title: String, category: String):
 	_open_modal(title)
 	var terms := GLOSSARY_BANK if category == "bank" else GLOSSARY_INVEST
 	for pair in terms:
+		var item: Dictionary = pair
 		var term_row := VBoxContainer.new()
 		term_row.add_theme_constant_override("separation", 2)
 		modal_body.add_child(term_row)
 		var term_lbl := Label.new()
-		term_lbl.text = pair[0]
+		term_lbl.text = _loc_dict(item, "term")
 		term_lbl.add_theme_font_size_override("font_size", 13)
 		term_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 		if UIStyle.font_bold:
 			term_lbl.add_theme_font_override("font", UIStyle.font_bold)
 		term_row.add_child(term_lbl)
-		term_row.add_child(_wrap_label(pair[1], 12, "#8892a4"))
+		term_row.add_child(_wrap_label(_loc_dict(item, "desc"), 12, "#8892a4"))
 		var sep := HSeparator.new()
 		sep.add_theme_color_override("color", Color("#1e1e2e"))
 		modal_body.add_child(sep)

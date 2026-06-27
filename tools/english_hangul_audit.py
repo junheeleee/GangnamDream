@@ -19,14 +19,19 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-HANGUL_RE = re.compile(r"[가-힣]")
+HANGUL_RE = re.compile(r"[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7A3]")
 STRING_RE = re.compile(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'')
 
 CONTENT_TARGETS = [ROOT / "content" / "endings_en.json"]
 CONTENT_TARGETS += sorted((ROOT / "content" / "events_en").glob("*.json"))
 
 RUNTIME_TARGETS = [
+    "autoloads/DataRegistry.gd",
+    "autoloads/GameState.gd",
+    "autoloads/NewsManager.gd",
+    "scenes/StartMenu.gd",
     "scenes/MainGame.gd",
+    "scenes/StoryMode.gd",
     "scenes/TutorialOverlay.gd",
     "scenes/JeongseonCasino.gd",
     "scenes/BaccaratTable.gd",
@@ -49,6 +54,7 @@ RUNTIME_TARGETS = [
     "systems/DaiSai.gd",
     "systems/HorseWorld.gd",
     "systems/HorseRace.gd",
+    "systems/EndingSystem.gd",
     "autoloads/MetaProgression.gd",
 ]
 
@@ -71,9 +77,42 @@ PAIRED_DATA_KEYS = (
     "q",
     "rare",
     "scene",
+    "term",
     "text",
     "tip",
 )
+
+PAIRED_DATA_ALIASES = {
+    "t": "et",
+}
+
+LOCALIZED_INTERNAL_BLOCKS = {
+    "scenes/MainGame.gd": (
+        ("const _STAT_KR = {", "}"),
+    ),
+    "autoloads/MetaProgression.gd": (
+        ("const ALL_TITLES := [", "]"),
+        ("const PERK_RULES := {", "}"),
+    ),
+    "autoloads/GameState.gd": (
+        ("const HOUSING_DATA = {", "}"),
+        ("const DIFFICULTY_DATA := {", "}"),
+        ("const TENDENCY_DESC := {", "}"),
+    ),
+    "autoloads/DataRegistry.gd": (
+        ("const JOB_TEXT_EN := {", "}"),
+        ("const ASSET_TEXT_EN := {", "}"),
+        ("const ITEM_TEXT_EN := {", "}"),
+        ("const ACHIEVEMENT_TEXT_EN := {", "}"),
+        ("const CLUE_TEXT_EN := {", "}"),
+        ("const THOUGHT_TEXT_EN := {", "}"),
+    ),
+    "scenes/StartMenu.gd": (
+        ("const RUN_THEMES = [", "]"),
+        ("const RUN_THEME_TEXT_EN := {", "}"),
+        ("const DIFFICULTY_TEXT_EN := {", "}"),
+    ),
+}
 
 
 def rel(path: Path) -> str:
@@ -144,7 +183,88 @@ def is_paired_localized_data_line(lines: list[str], index: int) -> bool:
         window = "\n".join(strip_comment(item) for item in lines[start:end])
         if re.search(rf'["\']{re.escape(key)}_en["\']\s*:', window):
             return True
+    for key, en_key in PAIRED_DATA_ALIASES.items():
+        if not re.search(rf'["\']{re.escape(key)}["\']\s*:', line):
+            continue
+        start = max(0, index - 1)
+        end = min(len(lines), index + 4)
+        window = "\n".join(strip_comment(item) for item in lines[start:end])
+        if re.search(rf'["\']{re.escape(en_key)}["\']\s*:', window):
+            return True
     return False
+
+
+def internal_only_runtime_line(target: str, line: str) -> bool:
+    if target == "scenes/MainGame.gd":
+        return (
+            "lower_body.find(" in line
+            or "lower_title.find(" in line
+            or 'for cat in ["주거"' in line
+        )
+    if target == "autoloads/GameState.gd":
+        return (
+            'player_name = "김민준"' in line
+            or 'player_background = "지방_상경"' in line
+            or 'player_route = "직장형"' in line
+            or 'var difficulty: String = "현실"' in line
+            or 'var run_theme: String = "자유런"' in line
+            or '"드라마": {' in line
+            or '"현실": {' in line
+            or '"지옥고": {' in line
+            or 'DIFFICULTY_DATA["현실"]' in line
+            or "func start_new_game(" in line
+            or 'chosen_name == "김민준"' in line
+            or 'DIFFICULTY_DATA.has(chosen_difficulty) else "현실"' in line
+            or 'run_theme = "자유런"' in line
+            or 'difficulty = "현실"' in line
+            or 'return "%d년 %d월 %d주차"' in line
+            or 'return "%s%.1f억원"' in line
+            or 'return "%s%.0f만원"' in line
+            or 'return "%s%.0f원"' in line
+            or 'if run_theme == "자유런"' in line
+            or 'run_theme = "투자런"' in line
+            or 'run_theme = "인맥런"' in line
+            or 'run_theme = "성실런"' in line
+            or 'TENDENCY_NAMES :=' in line
+            or '"investment_skill": "투자감각"' in line
+            or '"luck": "운"' in line
+            or '"investment": "투자"' in line
+            or '"health": "건강"' in line
+            or 'player_route = "투자형"' in line
+            or 'player_route = "창업형"' in line
+            or '"직장형":' in line
+            or '"투자형":' in line
+            or '"창업형":' in line
+            or '"백수":' in line
+            or '"알바":' in line
+            or '"직장인":' in line
+            or '"유튜버":' in line
+            or '"코인폐인":' in line
+            or '"자유런":' in line
+            or '"투자런":' in line
+            or '"인맥런":' in line
+            or '"청렴런":' in line
+        )
+    if target == "scenes/StartMenu.gd":
+        return (
+            'var _selected_theme: String = "자유런"' in line
+            or 'var _selected_diff: String = "현실"' in line
+            or '"자유런":' in line
+            or '"투자런":' in line
+            or '"인맥런":' in line
+            or '"청렴런":' in line
+            or '"드라마":' in line
+            or '"현실":' in line
+            or '"지옥고":' in line
+            or 'GameState.start_new_game(' in line
+        )
+    if target != "autoloads/MetaProgression.gd":
+        return False
+    return (
+        'run.get("run_theme"' in line
+        or 'summary.get("run_theme"' in line
+        or '"코인폐인"' in line
+    )
 
 
 def scan_content() -> list[str]:
@@ -165,10 +285,21 @@ def scan_runtime() -> dict[str, list[str]]:
         if not path.exists():
             continue
         localized_depth = 0
+        internal_block_end = ""
         lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
         for index, raw_line in enumerate(lines):
             lineno = index + 1
             line = strip_comment(raw_line)
+            if internal_block_end:
+                if line.strip() == internal_block_end:
+                    internal_block_end = ""
+                continue
+            for marker, end_marker in LOCALIZED_INTERNAL_BLOCKS.get(target, ()):
+                if marker in line:
+                    internal_block_end = end_marker
+                    break
+            if internal_block_end:
+                continue
             if localized_depth > 0:
                 localized_depth = max(0, localized_depth + paren_delta(line))
                 continue
@@ -178,6 +309,8 @@ def scan_runtime() -> dict[str, list[str]]:
             if not HANGUL_RE.search(line):
                 continue
             if any(marker in line for marker in LOCALIZED_INLINE_MARKERS):
+                continue
+            if internal_only_runtime_line(target, line):
                 continue
             if is_paired_localized_data_line(lines, index):
                 continue
