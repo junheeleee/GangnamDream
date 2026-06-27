@@ -1,6 +1,6 @@
 # Player-Facing Polish Audit
 
-Updated: 2026-06-19
+Updated: 2026-06-27
 
 ## Verdict
 
@@ -16,6 +16,27 @@ Updated: 2026-06-19
 - `tools/CGRuntimeCheck.tscn`은 처음 실패했다. 다만 원인은 게임 데이터가 아니라 QA 기대값이 낡은 것이었다. `gangnam_dream` 엔딩에 병실 CG를 다시 붙이면 정합성이 깨지므로 QA를 수정했다.
 - 실제 화면에서 빨간 위기/피드백 레이어가 너무 쉽게 남아 “상시 위험 상태”처럼 읽혔다. 위기 빨강은 건강/정신력 붕괴 임박 또는 큰 손실에만 사용해야 한다.
 - 메인 행동 화면과 미니게임 허브는 정보 구조가 웹 게시판/관리자 화면처럼 보인다. 원인은 이모지 아이콘, 텍스트형 버튼, 과한 목록 레이아웃, 약한 hover/pressed/입장 연출이다.
+
+## 2026-06-27 Runtime QA Update
+
+Executed after merging Claude's latest game-polish branch into `main`.
+
+Checks run:
+
+- `tools/ScreenshotQA.tscn` full 1280x800 render pass: completed, screenshots in `/tmp/gangnamdream_qa/`.
+- `tools/VisualCropQA.tscn`: passed, 18 composition shots in `/tmp/gangnamdream_crop_qa/`.
+- `tools/AudioAssetCheck.tscn`: passed, BGM 7 / ambience 5 / SFX 28.
+- `tools/BGMContinuityCheck.tscn`: passed; repeated BGM start does not restart playback.
+- `tools/LocaleSurfaceCheck.tscn`: initially failed because the QA tool changed `LocaleManager.language` directly instead of the saved setting path. Fixed tool path and re-ran successfully.
+
+Player-facing findings:
+
+- Start menu is now serviceable, but still reads more like a systems launcher than an emotional title screen. The next pass should make the `KRW 500K -> KRW 3B -> 5 years` pressure unavoidable without adding more text.
+- English dashboard is readable at 1280x800. The broken-looking `[` + emoji style investment unlock hint was removed and replaced with plain text.
+- Main portrait panel was too small for a character-driven game. Increasing the left portrait panel from 196px to 224px and portrait height from 248px to 310px makes Minjun read as the protagonist rather than a sidebar icon.
+- Casino minigames are substantially improved versus earlier passes. Baccarat, roulette, blackjack, slot, big wheel, Dai Sai, Hold'em, and racetrack no longer have the most obvious off-center/table-obstruction issues in the QA captures.
+- The ending screen was the biggest "AI/web mockup" surface: red close button, small modal, and small CG made endings feel like a settings dialog. The ending modal is now a wider cinematic `Finale` frame with a larger CG and subdued close button.
+- Remaining high-impact weakness: minigames still feel like styled UI panels over a casino background, not fully tactile table objects. The next art/UX jump needs felt/table skins, chip travel, card dealing timelines, dealer/result callouts, and stronger localized SFX timing.
 
 ## UI/UX Diagnosis
 
@@ -183,3 +204,4 @@ P2:
 - Added immediate tint/flash cleanup when returning to dashboard/action vignettes.
 - Changed MainGame background display to covered texture mode and added subtle background drift.
 - Fixed StartMenu legacy “100만원” tagline to “50만원”.
+- 2026-06-27: Fixed locale QA to use the real saved language path, cleaned English investment unlock hint, enlarged the left portrait panel, and converted the final ending modal into a larger cinematic `Finale` frame.

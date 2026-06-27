@@ -70,7 +70,10 @@ func _qa_scope() -> String:
 	return "full"
 
 func _set_qa_language(lang: String) -> void:
-	LocaleManager.language = lang
+	if LocaleManager.has_method("set_language"):
+		LocaleManager.set_language(lang)
+	else:
+		LocaleManager.language = lang
 	DataRegistry.reload()
 
 func _prepare_main_game_state() -> void:

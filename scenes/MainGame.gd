@@ -545,7 +545,7 @@ func _build_top_bar(parent):
 func _build_portrait_panel(parent):
 	# 왼쪽 고정 초상화 패널
 	var panel = _panel("#0d0d14", "#1a1a28")
-	panel.custom_minimum_size = Vector2(196, 0)
+	panel.custom_minimum_size = Vector2(224, 0)
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	parent.add_child(panel)
 
@@ -555,7 +555,7 @@ func _build_portrait_panel(parent):
 
 	# 초상화 — 고정 높이
 	character_portrait = TextureRect.new()
-	character_portrait.custom_minimum_size = Vector2(0, 248)
+	character_portrait.custom_minimum_size = Vector2(0, 310)
 	character_portrait.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	character_portrait.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
@@ -1155,7 +1155,7 @@ func _build_modal():
 	modal_title_label = _label("", 24, "#e8eaf0")
 	modal_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(modal_title_label)
-	var close_x = _small_button("✕", "#da3633")
+	var close_x = _small_button("✕", "#242433")
 	close_x.custom_minimum_size = Vector2(44, 42)
 	close_x.size_flags_horizontal = Control.SIZE_SHRINK_END
 	close_x.pressed.connect(_close_modal)
@@ -3716,7 +3716,7 @@ func _render_ap_actions():
 		hint_color = "#ef4444"
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
-		hint_text = _tr("💳 첫 월급 수령 — 이제 [📈 투자]도 가능합니다.", "💳 First paycheck received — [📈 Invest] is now available.")
+		hint_text = _tr("첫 월급 수령 — 이제 투자 메뉴가 열렸습니다.", "First paycheck received — Invest is now available.")
 		hint_color = "#00c896"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
 		hint_text = _tr("🎯 목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "🎯 Goal: KRW 3B assets → enter Gangnam (%d years left)") % max(0, 38 - GameState.age)
@@ -6211,6 +6211,7 @@ func _open_modal(title):
 	_clear_box(modal_body)
 	modal_title_label.text = title
 	modal_layer.visible = true
+	modal_layer.color = Color(0, 0, 0, 0.70)
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	# 스크롤/크기/위치 기본값 복원
 	if modal_scroll:
@@ -6219,6 +6220,7 @@ func _open_modal(title):
 		modal_scroll.custom_minimum_size = Vector2(0, 468)
 		modal_scroll.scroll_vertical = 0
 	if modal_panel:
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#13131a", "#252535", 6, 12, 10))
 		modal_panel.custom_minimum_size = Vector2(760, 610)
 		modal_panel.offset_left   = -380
 		modal_panel.offset_right  =  380
@@ -6227,6 +6229,18 @@ func _open_modal(title):
 	AudioManager.play("open_modal")
 	call_deferred("_reset_modal_scroll")
 	call_deferred("_focus_first_in_modal_body")
+
+func _modal_style(bg: String, border: String, radius: int = 6, h_margin: int = 12, v_margin: int = 10) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(bg)
+	style.border_color = Color(border)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(radius)
+	style.content_margin_left = h_margin
+	style.content_margin_right = h_margin
+	style.content_margin_top = v_margin
+	style.content_margin_bottom = v_margin
+	return style
 
 func _reset_modal_scroll() -> void:
 	if is_instance_valid(modal_scroll):
@@ -6388,7 +6402,8 @@ func _show_ending(ending_id):
 				event_bg.texture = null
 			)
 
-	_open_modal(_tr("엔딩", "Ending"))
+	_open_modal(_tr("최종 기록", "Finale"))
+	_apply_ending_modal_layout()
 	var grade = ending.get("grade", "?")
 	var grade_colors = {"S+": "#ffd700", "S": "#f0b429", "A+": "#7ee8a2", "A": "#34d399", "B": "#c9a227", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
 	var grade_emojis = {"S+": "🌠", "S": "🏆", "A+": "🌟", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
@@ -6501,6 +6516,19 @@ func _show_ending(ending_id):
 func _add_ending_cg_preview(parent: Control, cg_path: String) -> void:
 	_add_ending_art_preview(parent, cg_path, true)
 
+func _apply_ending_modal_layout() -> void:
+	if modal_layer:
+		modal_layer.color = Color(0, 0, 0, 0.82)
+	if modal_panel:
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#090910", "#c9a227", 8, 14, 12))
+		modal_panel.custom_minimum_size = Vector2(980, 720)
+		modal_panel.offset_left = -490
+		modal_panel.offset_right = 490
+		modal_panel.offset_top = -360
+		modal_panel.offset_bottom = 360
+	if modal_scroll:
+		modal_scroll.custom_minimum_size = Vector2(0, 570)
+
 func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = false) -> void:
 	var frame := PanelContainer.new()
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -6517,7 +6545,7 @@ func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = fa
 	parent.add_child(frame)
 
 	var img := TextureRect.new()
-	img.custom_minimum_size = Vector2(0, 360)
+	img.custom_minimum_size = Vector2(0, 430 if is_cg else 360)
 	img.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	img.texture = load(art_path)
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED

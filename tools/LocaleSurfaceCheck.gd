@@ -4,10 +4,11 @@ extends Node
 var _failures: Array[String] = []
 
 func _ready() -> void:
-	LocaleManager.language = "en"
+	LocaleManager.set_language("en")
+	await get_tree().process_frame
 	await _check_start_menu()
 	await _check_opening_cinematic()
-	LocaleManager.language = "ko"
+	LocaleManager.set_language("ko")
 	if _failures.is_empty():
 		print("LOCALE_SURFACE_CHECK_OK")
 		get_tree().quit(0)

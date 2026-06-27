@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-06-27 (Codex Final Surface QA Pass 1)
+
+### 수정
+- `tools/LocaleSurfaceCheck.gd`, `tools/ScreenshotQA.gd`: QA 언어 전환을 `LocaleManager.language` 직접 대입에서 실제 저장 설정 경로인 `LocaleManager.set_language()`로 변경. 영어 시작 화면/오프닝 검사가 실제 사용자 경로와 맞도록 정리.
+- `scenes/MainGame.gd`: 첫 월급 후 영어 힌트의 이모지/대괄호 기반 표기를 제거하고 `First paycheck received — Invest is now available.`로 단순화.
+- `scenes/MainGame.gd`: 공통 모달의 빨간 X 버튼을 어두운 버튼으로 낮춰, 일반 모달/엔딩이 위급 경고처럼 보이지 않게 수정.
+- `scenes/MainGame.gd`: 엔딩 화면을 `Finale/최종 기록` 전용 대형 시네마틱 모달로 조정. 패널 980×720, CG 높이 430, 금색 테두리/강한 딤 오버레이 적용.
+- `scenes/MainGame.gd`: 좌측 초상화 패널을 196px→224px, 초상화 높이를 248px→310px로 확대해 캐릭터 존재감을 강화.
+- `docs/PLAYER_FACING_POLISH_AUDIT.md`: 2026-06-27 실제 렌더 QA 결과와 남은 외형 우선순위 기록.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `LocaleSurfaceCheck.tscn` 통과.
+- `VisualCropQA.tscn` 통과.
+- `ScreenshotQA.tscn` full 1280×800 캡처 완료. `00c_en_ap_actions`, `04_ap_actions_dashboard`, `13_ending_gangnam_win` 직접 확인.
+
+---
+
 ## 2026-06-27 (Blackjack Table Shape Polish)
 
 ### 수정
