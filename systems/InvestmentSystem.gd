@@ -26,15 +26,15 @@ func process_month(news_items):
 func buy_asset(asset_id, amount_krw):
 	var asset = DataRegistry.get_asset(asset_id)
 	if asset.is_empty():
-		return {"success": false, "message": "존재하지 않는 자산입니다."}
+		return {"success": false, "message": LocaleManager.ui("존재하지 않는 자산입니다.", "Asset does not exist.")}
 	var current_price = float(GameState.market_prices.get(asset_id, asset.get("initial_price", asset.get("base_price", 10_000.0))))
 	if current_price <= 0.0:
-		return {"success": false, "message": "자산 가격 정보가 없습니다."}
+		return {"success": false, "message": LocaleManager.ui("자산 가격 정보가 없습니다.", "Asset price data is unavailable.")}
 	var min_invest = float(asset.get("min_invest", current_price))
 	if amount_krw < min_invest:
-		return {"success": false, "message": "최소 투자 금액은 %s입니다." % GameState.format_money(min_invest)}
+		return {"success": false, "message": LocaleManager.ui("최소 투자 금액은 %s입니다.", "Minimum investment is %s.") % GameState.format_money(min_invest)}
 	if amount_krw > GameState.money:
-		return {"success": false, "message": "잔액이 부족합니다."}
+		return {"success": false, "message": LocaleManager.ui("잔액이 부족합니다.", "Insufficient balance.")}
 
 	var decision_penalty = clamp(float(70 - GameState.mental) / 250.0, 0.0, 0.2)
 	var base_fee_rate = 0.003
@@ -52,14 +52,14 @@ func buy_asset(asset_id, amount_krw):
 	if randf() < 0.35:
 		GameState.modify_stat("investment_skill", 1)
 	GameState.flags["had_first_investment"] = true
-	GameState.add_log("%s 매수: %s" % [asset.get("name", asset_id), GameState.format_money(amount_krw)], "trade")
+	GameState.add_log(LocaleManager.ui("%s 매수: %s", "Bought %s: %s") % [asset.get("name", asset_id), GameState.format_money(amount_krw)], "trade")
 	trade_executed.emit(asset_id, "buy", quantity, current_price)
 	portfolio_updated.emit()
-	return {"success": true, "message": "매수 완료", "quantity": quantity}
+	return {"success": true, "message": LocaleManager.ui("매수 완료", "Purchase complete"), "quantity": quantity}
 
 func sell_asset(asset_id, sell_ratio):
 	if not GameState.portfolio.has(asset_id):
-		return {"success": false, "message": "보유하지 않은 자산입니다."}
+		return {"success": false, "message": LocaleManager.ui("보유하지 않은 자산입니다.", "You do not own this asset.")}
 	var asset = DataRegistry.get_asset(asset_id)
 	var holding: Dictionary = GameState.portfolio[asset_id]
 	var current_price = float(GameState.market_prices.get(asset_id, holding.get("avg_price", 10_000.0)))
@@ -74,10 +74,10 @@ func sell_asset(asset_id, sell_ratio):
 	if float(holding["quantity"]) <= 0.0001:
 		GameState.portfolio.erase(asset_id)
 	GameState.add_money(net)
-	GameState.add_log("%s 매도: %s / 손익 %s" % [asset.get("name", asset_id), GameState.format_money(net), GameState.format_money(profit)], "trade")
+	GameState.add_log(LocaleManager.ui("%s 매도: %s / 손익 %s", "Sold %s: %s / P/L %s") % [asset.get("name", asset_id), GameState.format_money(net), GameState.format_money(profit)], "trade")
 	trade_executed.emit(asset_id, "sell", sell_quantity, current_price)
 	portfolio_updated.emit()
-	return {"success": true, "message": "매도 완료", "profit": profit}
+	return {"success": true, "message": LocaleManager.ui("매도 완료", "Sale complete"), "profit": profit}
 
 func get_asset_rows():
 	var rows: Array = []
@@ -168,12 +168,12 @@ func _apply_dividends():
 func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 	var asset = DataRegistry.get_asset(asset_id)
 	if asset.is_empty():
-		return {"success": false, "message": "존재하지 않는 자산"}
+		return {"success": false, "message": LocaleManager.ui("존재하지 않는 자산", "Asset does not exist")}
 	var current_price = float(GameState.market_prices.get(asset_id, 0.0))
 	if current_price <= 0:
-		return {"success": false, "message": "가격 정보 없음"}
+		return {"success": false, "message": LocaleManager.ui("가격 정보 없음", "No price data")}
 	if amount_krw > GameState.money:
-		return {"success": false, "message": "잔액 부족"}
+		return {"success": false, "message": LocaleManager.ui("잔액 부족", "Insufficient balance")}
 	var fee = amount_krw * 0.015
 	# 2배 수량으로 매수 (레버리지 효과)
 	var quantity = (amount_krw * 2.0 - fee) / current_price
@@ -193,7 +193,7 @@ func buy_asset_leveraged(asset_id: String, amount_krw: float) -> Dictionary:
 		}
 	GameState.add_money(-amount_krw)
 	GameState.modify_stat("investment_skill", 1)
-	GameState.add_log("⚡ 레버리지 매수: %s ×2배 포지션 (%s)" % [asset.get("name", asset_id), GameState.format_money(amount_krw * 2.0)], "trade")
+	GameState.add_log(LocaleManager.ui("⚡ 레버리지 매수: %s ×2배 포지션 (%s)", "⚡ Leveraged buy: %s x2 position (%s)") % [asset.get("name", asset_id), GameState.format_money(amount_krw * 2.0)], "trade")
 	trade_executed.emit(asset_id, "leverage_buy", quantity, current_price)
 	portfolio_updated.emit()
 	return {"success": true}
@@ -216,7 +216,7 @@ func _check_margin_calls():
 			var asset = DataRegistry.get_asset(asset_id)
 			var loss = leveraged_amount - liquidation_value
 			GameState.flags["margin_called_happened"] = true
-			GameState.add_log("💥 마진콜! %s 강제청산 — 손실 %s" % [
+			GameState.add_log(LocaleManager.ui("💥 마진콜! %s 강제청산 — 손실 %s", "💥 Margin call! %s liquidated — loss %s") % [
 				asset.get("name", asset_id), GameState.format_money(loss)], "trade")
 			GameState.modify_stat("mental", -20)
 	for id in to_erase:
@@ -235,11 +235,11 @@ func get_market_forecast() -> String:
 	var fear_greed = int(GameState.market_context.get("fear_greed", 50))
 	var crash_risk = float(GameState.market_context.get("crash_risk", 0.05))
 	if crash_risk > 0.10:
-		return "⚠ 폭락 경보 — 현금 비중 늘리기 권장"
+		return LocaleManager.ui("⚠ 폭락 경보 — 현금 비중 늘리기 권장", "⚠ Crash warning — increase cash weighting")
 	if cycle == "bull" and fear_greed > 65:
-		return "🟢 상승 지속 예상 — 성장주 유리"
+		return LocaleManager.ui("🟢 상승 지속 예상 — 성장주 유리", "🟢 Uptrend likely — growth assets favored")
 	if cycle == "bear" or fear_greed < 35:
-		return "🔴 하락 압력 — 방어 자산 권장"
+		return LocaleManager.ui("🔴 하락 압력 — 방어 자산 권장", "🔴 Downside pressure — defensive assets recommended")
 	if cycle == "bull":
-		return "🟡 상승 국면 — 단기 변동 주의"
-	return "⚪ 횡보 예상 — 분산 투자 유지"
+		return LocaleManager.ui("🟡 상승 국면 — 단기 변동 주의", "🟡 Bullish phase — watch short-term volatility")
+	return LocaleManager.ui("⚪ 횡보 예상 — 분산 투자 유지", "⚪ Sideways market likely — maintain diversification")

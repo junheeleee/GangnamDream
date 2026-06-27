@@ -6,9 +6,9 @@ signal promoted(job: Dictionary, bonus: float)
 func apply_for_job(job_id):
 	var job = DataRegistry.get_job(job_id)
 	if job.is_empty():
-		return {"success": false, "message": "존재하지 않는 직업입니다."}
+		return {"success": false, "message": LocaleManager.ui("존재하지 않는 직업입니다.", "Job does not exist.")}
 	if not _check_requirements(job.get("requirements", {})):
-		return {"success": false, "message": "지원 조건이 부족합니다."}
+		return {"success": false, "message": LocaleManager.ui("지원 조건이 부족합니다.", "You do not meet the requirements.")}
 	if not GameState.current_job.is_empty():
 		quit_job(false)
 	GameState.current_job = job.duplicate(true)
@@ -37,10 +37,10 @@ func apply_for_job(job_id):
 	var job_tier: int = int(job.get("tier", 1))
 	if job_tier > int(GameState.flags.get("max_job_tier", 0)):
 		GameState.flags["max_job_tier"] = job_tier
-	var prep_log = (" (준비 보너스 업무능력 +%d)" % prep_bonus) if prep_bonus > 0 else ""
-	GameState.add_log("%s 취업. 월급 %s%s" % [job.get("name", "직장"), GameState.format_money(job.get("base_salary", 0.0)), prep_log], "job")
+	var prep_log = (LocaleManager.ui(" (준비 보너스 업무능력 +%d)", " (prep bonus work performance +%d)") % prep_bonus) if prep_bonus > 0 else ""
+	GameState.add_log(LocaleManager.ui("%s 취업. 월급 %s%s", "Hired at %s. Salary %s%s") % [job.get("name", LocaleManager.ui("직장", "Job")), GameState.format_money(job.get("base_salary", 0.0)), prep_log], "job")
 	job_changed.emit(job)
-	return {"success": true, "message": "취업 완료"}
+	return {"success": true, "message": LocaleManager.ui("취업 완료", "Hired")}
 
 func quit_job(voluntary):
 	if GameState.current_job.is_empty():
@@ -48,7 +48,7 @@ func quit_job(voluntary):
 	var eff := float(GameState.current_job.get("effective_salary",
 		GameState.current_job.get("base_salary", 0.0)))
 	GameState.monthly_income -= eff
-	GameState.add_log("%s 퇴사" % GameState.current_job.get("name", "직장"), "job")
+	GameState.add_log(LocaleManager.ui("%s 퇴사", "Quit %s") % GameState.current_job.get("name", LocaleManager.ui("직장", "Job")), "job")
 	GameState.current_job = {}
 	GameState.job_tenure = 0
 	GameState.flags.erase("has_job")
@@ -85,7 +85,7 @@ func get_available_jobs():
 		row["eligible"] = _check_requirements(job.get("requirements", {}))
 		if tier > max_accessible:
 			row["locked"] = true
-			row["lock_reason"] = "🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기" % (tier - 1)
+			row["lock_reason"] = LocaleManager.ui("🔒 Tier %d 경력 필요 — 낮은 직급에서 먼저 경험 쌓기", "🔒 Requires Tier %d experience — build experience in lower roles first") % (tier - 1)
 		else:
 			row["locked"] = false
 			row["lock_reason"] = ""
@@ -106,7 +106,7 @@ func _promote(job):
 	if not GameState.current_job.is_empty():
 		GameState.current_job["promotion_count"] = promo_count
 	var max_promo = int(job.get("max_promotions", 3))
-	GameState.add_log("⬆ 승진 (%d/%d): 월급 +%s" % [promo_count, max_promo, GameState.format_money(bonus)], "job")
+	GameState.add_log(LocaleManager.ui("⬆ 승진 (%d/%d): 월급 +%s", "⬆ Promotion (%d/%d): salary +%s") % [promo_count, max_promo, GameState.format_money(bonus)], "job")
 	promoted.emit(job, bonus)
 	# 승진할 때마다 직장 내 암투 이벤트 트리거
 	var drama_ev = DataRegistry.find_event("drama_office_politics")
