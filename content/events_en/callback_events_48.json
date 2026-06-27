@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_yolo_resisted_echo",
+    "title": "The ₩150,000 I Held Back",
+    "description": "{name} once held back an impulse buy, thinking 'before ₩3 billion, even ₩150,000 has to be saved.'\n\nThose small saved amounts piled up.\n\nToday they stood before a similar temptation.",
+    "choices": [
+      {
+        "text": "Like then — small restraint stacks into the goal",
+        "result_text": "₩150,000 doesn't make ₩3 billion. But the habit of restraint does.\n\nThe one who can hold back is the one who ends up saving.\n{name} closed the wallet again today. A small victory."
+      },
+      {
+        "text": "Now, sometimes — spend on myself too",
+        "result_text": "Hold back everything and something eventually bursts.\n\n{name} learned the balance between restraint and reward.\nTo finish five years, you have to allow yourself small things sometimes."
+      }
+    ]
+  },
+  {
+    "id": "callback_yolo_accepted_echo",
+    "title": "Memories Are an Asset, I Said",
+    "description": "{name} once consoled themselves the morning after an impulse buy — 'memories are an asset.'\n\nHow is that spending's memory now?\n\nToday they stood before a similar choice.",
+    "choices": [
+      {
+        "text": "That memory's still good — experience is investment too",
+        "result_text": "Spend all money only on the future and the present disappears.\n\nThat experience became a small breathing hole for {name}.\nThey just know how to control the frequency now."
+      },
+      {
+        "text": "A bank balance reassures more than memories — restraint now",
+        "result_text": "That rationalization wasn't always right.\n\n{name} decided not to hide behind 'experience is an asset.'\nThe real asset was a balance edging closer to the goal."
+      }
+    ]
+  },
+  {
+    "id": "callback_yolo_regretted_echo",
+    "title": "The Vow Never to Do It Again",
+    "description": "{name} once regretted an impulse buy the next day, vowing 'never again, focus on the goal.'\n\nWas that vow kept?\n\nToday the impulse returns.",
+    "choices": [
+      {
+        "text": "Thanks to that regret — spending habits took hold",
+        "result_text": "Regret matters only when it changes the next action.\n\nThat regret matured {name}'s spending one notch.\nOne who learns from a mistake repeats it less."
+      },
+      {
+        "text": "Check whether I only regretted and repeated",
+        "result_text": "Regret and change are different.\n\n{name} honestly examined whether they'd only repeated vows.\nWhat truly changed wasn't the count of vows, but the results of actions."
+      }
+    ]
+  },
+  {
+    "id": "callback_talked_about_bihon_echo",
+    "title": "Envying the Choice Not to Marry",
+    "description": "To a friend who declared they'd stay single, {name} said, 'I envy you — that decision couldn't have been easy.'\n\nThat conversation comes back sometimes.\n\nToday thoughts of marriage and singlehood cross the mind again.",
+    "choices": [
+      {
+        "text": "Married or single — it's my choice to make",
+        "result_text": "Envy another's decision too long and you fail to make your own.\n\n{name} settled that neither marriage nor singlehood is the answer — it's a personal choice.\nWhat matters isn't a path assigned by others, but one you choose."
+      },
+      {
+        "text": "Goal first for now — think about it after",
+        "result_text": "No need to decide everything at once.\n\n{name} decided to focus on the current goal first.\nLife's big decisions aren't too late to face once there's some room."
+      }
+    ]
+  },
+  {
+    "id": "callback_found_solo_peace_echo",
+    "title": "Alone Is Enough, I Said",
+    "description": "{name} once enjoyed their freedom and felt 'alone is enough.'\n\nIs that peace still valid?\n\nIn a quiet room today, that feeling returned.",
+    "choices": [
+      {
+        "text": "Even now — solitary time fills me",
+        "result_text": "Not enduring time alone, but enjoying it.\n\nThat capacity made {name} sturdier.\nLoneliness and solitude differ. Solitude was a self-chosen fullness."
+      },
+      {
+        "text": "Enough, yes — but sometimes I miss company",
+        "result_text": "Alone being enough didn't mean needing no one.\n\n{name} acknowledged both self-sufficiency and the longing for connection.\nThe two weren't a contradiction, but two natural sides of a person."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_detoxed_echo",
+    "title": "Deleting the App, Calling Comparison a Thief",
+    "description": "{name} once deleted the SNS app, saying 'comparison is a thief.'\n\nThey hadn't looked at others' feeds since.\n\nToday they happened to hear someone's glamorous update.",
+    "choices": [
+      {
+        "text": "Glad I deleted it — my time became mine",
+        "result_text": "What comparison steals is time and composure.\n\nAfter deleting the app, {name} reclaimed those stolen things.\nJust not comparing others' highlights to one's daily life lightened the heart."
+      },
+      {
+        "text": "Now I'm unshaken even seeing it — I've grown sturdy",
+        "result_text": "Deleting the app was training, not escape.\n\nNow {name}'s pace doesn't waver even seeing others' boasts.\nPast the avoiding stage, arrived at the stage of being fine facing it."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_compared_echo",
+    "title": "Stimulation Can Be Motivation, I Said",
+    "description": "{name} once kept watching SNS, saying 'stimulation can be motivation.'\n\nDid that comparison become motivation, or poison?\n\nToday, scrolling the feed, the mind grew complicated again.",
+    "choices": [
+      {
+        "text": "Now I know — comparison was more poison than motivation",
+        "result_text": "Believed it'd be stimulating, but mostly it just gnawed at the heart.\n\n{name} now knows comparison's real cost.\nMotivation lasted longer coming from within, not from others' feeds."
+      },
+      {
+        "text": "I learned to turn comparison into fuel",
+        "result_text": "The same comparison can sink you or lift you.\n\n{name} learned to turn envy into analysis.\nStart asking 'how did they do it?' and comparison becomes study."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_first_luxury_echo",
+    "title": "The First Reward to Myself",
+    "description": "{name} once bought their first luxury item, calling it 'a first reward to myself.'\n\nThat item is still around.\n\nLooking at it today, that feeling came back.",
+    "choices": [
+      {
+        "text": "That reward had meaning — it acknowledged me",
+        "result_text": "A life of only holding back doesn't last.\n\nThat first reward wasn't extravagance, but recognition of the self who'd come this far.\n{name} didn't regret it. Sometimes that's needed."
+      },
+      {
+        "text": "More than the item — the sense of achievement was real",
+        "result_text": "More than the luxury itself, the fact of having come far enough to buy it was bigger.\n\n{name} also knows an item's satisfaction is short.\nThe real reward was in the journey, not the bank account."
+      }
+    ]
+  },
+  {
+    "id": "callback_resisted_luxury_echo",
+    "title": "Just Taking a Photo and Leaving",
+    "description": "{name} once left a luxury store with just a photo, thinking 'not yet.'\n\nThat moment of restraint comes back sometimes.\n\nToday they stood before a similar temptation.",
+    "choices": [
+      {
+        "text": "Holding back then — narrowed the distance now",
+        "result_text": "Those photo-only moments gathered into seed money.\n\nHolding back wasn't penny-pinching — it was a choice.\n{name} wasn't ashamed of that restraint. It was restraint with a goal."
+      },
+      {
+        "text": "Now — if I truly want it, I can buy it",
+        "result_text": "Always holding back isn't the answer.\n\n{name} now knows how to spend on what's truly wanted.\nRestraint and stinginess differ. Spending with discernment was a skill too."
+      }
+    ]
+  },
+  {
+    "id": "callback_car_envy_resolved_echo",
+    "title": "I Have My Own Pace, I Said",
+    "description": "When a friend bought an imported car, {name} genuinely congratulated them, saying 'I have my own pace.'\n\nThat composure comes back sometimes.\n\nToday they faced another display of someone's success.",
+    "choices": [
+      {
+        "text": "Even now — I'm not swayed by others' speed",
+        "result_text": "A friend buying a car doesn't mean I've fallen behind.\n\nThere are only different games, different timetables.\n{name} knows that composure ultimately took them farther."
+      },
+      {
+        "text": "My turn comes too — quietly prepare",
+        "result_text": "Instead of envying now, build silently.\n\n{name} knows it's a time to prepare, not to show off.\nWhen the quiet accumulation ends, it shows without needing to boast."
+      }
+    ]
+  },
+  {
+    "id": "callback_car_envy_felt_echo",
+    "title": "The Sting I Felt",
+    "description": "When a friend bought an imported car, {name} felt a sting — 'what am I even doing?'\n\nWhat became of that envy?\n\nA similar moment came today.",
+    "choices": [
+      {
+        "text": "I've turned that sting into fuel",
+        "result_text": "Envy doesn't vanish by ignoring it. Given direction, it becomes fuel.\n\n{name} used that sting to rise instead of sink.\nComparison is poison, but handled well it becomes medicine."
+      },
+      {
+        "text": "It stings less now — because I see my path",
+        "result_text": "Before, another's car stung. Now less so.\n\nThe clearer one's own path, the less others' speed mattered.\n{name} knows that change is itself growth."
+      }
+    ]
+  },
+  {
+    "id": "callback_did_staycation_echo",
+    "title": "Breathing for One Night",
+    "description": "{name} once took a hotel staycation, saying 'sometimes you have to breathe.'\n\nThat one night of rest comes back sometimes.\n\nToday is the end of another exhausting day.",
+    "choices": [
+      {
+        "text": "That rest — gave me the strength to run again",
+        "result_text": "The money spent on rest might feel wasteful. But that one night prevented burnout.\n\nRest was an investment, not a cost.\n{name} knows that letting yourself rest is a skill too."
+      },
+      {
+        "text": "Now I know how to rest more cheaply too",
+        "result_text": "You can rest without a hotel.\n\n{name} learned to recover spending less.\nThe essence of rest wasn't the place, but the heart that pauses for a moment."
+      }
+    ]
+  },
+  {
+    "id": "callback_frugal_pride_echo",
+    "title": "Saying Proudly: I Have a Goal",
+    "description": "Asked why they were frugal, {name} once answered proudly, 'because I have a goal.'\n\nThat pride comes back sometimes.\n\nToday someone again puzzles over {name}'s thriftiness.",
+    "choices": [
+      {
+        "text": "Still proud — it's strategy, not penny-pinching",
+        "result_text": "Frugality for a goal is nothing to be ashamed of.\n\nEven if others see penny-pinching, {name} knows it's their own choice.\nProud frugality was the mark of someone unshaken."
+      },
+      {
+        "text": "No need to explain — show it with results",
+        "result_text": "The more you explain, the more it sounds like an excuse.\n\n{name} decided to prove it with results instead of words.\nOnce arrived, what the frugality was for becomes clear without saying."
+      }
+    ]
+  },
+  {
+    "id": "callback_networked_golf_echo",
+    "title": "Sitting at That Table",
+    "description": "{name} once joined a golf gathering, saying 'there are things you only see seated at that table.'\n\nThat networking table comes back sometimes.\n\nToday they were invited to a similar gathering.",
+    "choices": [
+      {
+        "text": "I learned something there — I'll go again",
+        "result_text": "Some information and opportunities flow only at such tables.\n\n{name} knows the value of sitting there even when uncomfortable.\nNetworking is a cost, but used well it's the fastest shortcut."
+      },
+      {
+        "text": "Now I pick my tables — not every seat is the answer",
+        "result_text": "Not every networking table helps.\n\n{name} learned to tell which to attend and which to skip.\nTime is an asset too, so where to spend it was itself strategy."
+      }
+    ]
+  }
+]

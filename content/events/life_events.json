@@ -67,7 +67,7 @@
     "cooldown": 9999,
     "choices": [
       {
-        "text": "반갑게 대화를 이어간다",
+        "text": "웃으면서 이름을 물었다",
         "effects": {
           "social_skill": 2,
           "mental": 9
@@ -164,7 +164,8 @@
         "effects": {
           "money": -60000,
           "mental": 25,
-          "health": 5
+          "health": 5,
+          "tint": 5
         },
         "flags": [
           "went_home_for_father"
@@ -174,7 +175,8 @@
       {
         "text": "다음에 꼭 내려가겠다고 한다.",
         "effects": {
-          "mental": -13
+          "mental": -13,
+          "tint": -3
         },
         "flags": [
           "skipped_father_wedding"
@@ -209,7 +211,8 @@
       {
         "text": "솔직하게 힘들다고 털어놓는다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 5
         },
         "result_text": "힘들다고 털어놓았더니 부모님 목소리가 조용해졌다. 마음은 가벼워졌지만 걱정을 드린 것 같다.",
         "flags": []
@@ -217,7 +220,8 @@
       {
         "text": "곧 크게 벌겠다고 큰소리친다",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": -3
         },
         "result_text": "곧 큰돈 벌겠다고 큰소리쳤다. 전화를 끊고 나서야 스스로가 좀 창피해졌다.",
         "flags": []
@@ -295,7 +299,7 @@
         "flags": []
       },
       {
-        "text": "부럽다고 솔직히 말한다",
+        "text": "\"솔직히 부럽다\"고 했다",
         "effects": {
           "mental": 5
         },
@@ -303,7 +307,7 @@
         "flags": []
       },
       {
-        "text": "나도 바로 따라 투자한다",
+        "text": "같은 종목을 검색했다",
         "effects": {
           "reputation": 2,
           "investment_skill": -1
@@ -356,7 +360,7 @@
         "flags": []
       },
       {
-        "text": "소액으로 일단 매수한다",
+        "text": "소액으로 매수 버튼을 눌렀다",
         "effects": {
           "reputation": 5,
           "investment_skill": 1
@@ -389,7 +393,8 @@
         "text": "사기라고 판단하고 바로 차단한다",
         "effects": {
           "money": 40000,
-          "mental": 6
+          "mental": 6,
+          "tint": 6
         },
         "result_text": "사기라고 판단하고 바로 차단했다. 속은 셈 치고 넘겼는데 4만원이 돌아왔다.",
         "flags": []
@@ -405,10 +410,11 @@
         ]
       },
       {
-        "text": "소액으로 일단 넣어본다",
+        "text": "링크를 눌렀다. 소액이었다",
         "effects": {
           "reputation": -3,
-          "investment_skill": 4
+          "investment_skill": 4,
+          "tint": -5
         },
         "result_text": "소액만 넣어봤다. 뭔가 알게 됐지만 주변에 알려지면 안 될 것 같은 찜찜함이 남았다.",
         "flags": [
@@ -446,13 +452,14 @@
       {
         "text": "짜증내며 동기들에게 하소연한다",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": -1
         },
         "result_text": "동기들한테 하소연하다 카톡방이 불타올랐다. 속은 시원했는데 현실은 그대로였다.",
         "flags": []
       },
       {
-        "text": "훈련 연기 방법을 알아본다",
+        "text": "연기 신청 방법을 검색했다",
         "effects": {
           "reputation": 4,
           "investment_skill": -2
@@ -487,7 +494,7 @@
         "flags": []
       },
       {
-        "text": "피곤해도 폰을 놓지 못한다",
+        "text": "폰을 내려놓지 못했다. 알람은 3시간 뒤",
         "effects": {
           "health": -2,
           "mental": -10
@@ -496,7 +503,7 @@
         "flags": []
       },
       {
-        "text": "수면제 구매를 검색한다",
+        "text": "처방전 없이 살 수 있는지 검색했다",
         "effects": {
           "reputation": -3,
           "investment_skill": 0
@@ -509,7 +516,8 @@
         "effects": {
           "health": -3,
           "luck": 1,
-          "mental": -2
+          "mental": -2,
+          "tint": -1
         },
         "result_text": "그냥 버티기로 했다. 몸이 조금씩 망가지고 있다는 건 알았지만, 당장 바꿀 여유가 없었다.",
         "flags": []
@@ -581,7 +589,8 @@
         "text": "청약 조건을 차분히 확인한다",
         "effects": {
           "money": 450000,
-          "health": -6
+          "health": -6,
+          "tint": 1
         },
         "result_text": "청약 점수부터 차근차근 확인했다. 45만원 들었지만 조건이 맞다는 걸 알았다.",
         "flags": []
@@ -598,7 +607,8 @@
         "text": "무조건 접수부터 해버린다",
         "effects": {
           "reputation": 2,
-          "investment_skill": 0
+          "investment_skill": 0,
+          "tint": -1
         },
         "result_text": "일단 접수부터 눌렀다. 되면 되는 거지, 하는 마음이었다.",
         "flags": []
@@ -626,7 +636,8 @@
         "text": "형편껏 보낼 수 있는 금액을 정한다",
         "effects": {
           "money": 310000,
-          "luck": -2
+          "luck": -2,
+          "tint": 3
         },
         "result_text": "형편껏 보낼 수 있는 금액만 정해서 보냈다. 부모님은 괜찮다 하셨지만 마음이 무거웠다.",
         "flags": []
@@ -634,16 +645,18 @@
       {
         "text": "죄책감에 쩔어 밤잠을 못 잔다",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 2
         },
         "result_text": "죄책감에 밤을 새웠다. 아무것도 안 하면서 스스로를 갉아먹고 있었다.",
         "flags": []
       },
       {
-        "text": "대출받아서 전액 지원한다",
+        "text": "대출 한도를 조회했다",
         "effects": {
           "reputation": 5,
-          "investment_skill": 4
+          "investment_skill": 4,
+          "tint": 4
         },
         "result_text": "대출받아 전액 지원했다. 가족은 고마워했지만 앞으로 몇 달이 빠듯해졌다.",
         "flags": []
@@ -681,7 +694,8 @@
       {
         "text": "억울하지만 고개를 끄덕인다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "result_text": "'네, 알겠습니다.'\n세 글자를 뱉는 데 2초가 걸렸다.\n집에 오는 지하철 안에서 그 두 글자가 계속 울렸다. 빠른 것 같던데.",
         "flags": []
@@ -690,7 +704,8 @@
         "text": "'업무는 다 마치고 나갑니다'라고 말한다",
         "effects": {
           "reputation": 0,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 3
         },
         "result_text": "팀장님이 잠깐 멈췄다.\n'그래요.' 그게 전부였다.\n동료 눈치가 느껴졌다. 잘한 건지 모르겠다.",
         "flags": []
@@ -756,6 +771,8 @@
     },
     "tags": [
       "disasters",
+      "jeonse",
+      "housing",
       "opportunity"
     ],
     "cooldown": 9,
@@ -764,7 +781,8 @@
         "text": "지금 당장 등기부 등본을 확인한다",
         "effects": {
           "money": 340000,
-          "luck": -2
+          "luck": -2,
+          "tint": 2
         },
         "result_text": "정부24에 들어갔다.\n집주인 이름을 찾았다. 근저당이 있었다.\n숫자가 예상보다 컸다. 내 보증금보다 컸다.",
         "flags": []
@@ -772,7 +790,8 @@
       {
         "text": "설마 내 집은 아니겠지 하고 뉴스를 끈다",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -3
         },
         "result_text": "TV를 껐다.\n이틀 후에 비슷한 기사가 또 떴다.\n그때도 {name}은 뉴스를 껐다.",
         "flags": []
@@ -781,7 +800,8 @@
         "text": "집주인에게 바로 전화를 건다",
         "effects": {
           "reputation": -3,
-          "investment_skill": 5
+          "investment_skill": 5,
+          "tint": 3
         },
         "result_text": "신호가 갔다. 안 받았다.\n문자를 보냈다. 답장이 없었다.\n밤새 폰을 손에 쥐고 있었다.",
         "flags": [
@@ -789,11 +809,12 @@
         ]
       },
       {
-        "text": "뉴스를 끄고 신경 안 쓴다",
+        "text": "창을 닫았다",
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -4
         },
         "result_text": "다음 달 관리비 고지서가 왔다.\n여전히 같은 주소. 같은 집주인 이름.\n아무 일도 없었다. 이번만은.",
         "flags": []
@@ -834,7 +855,7 @@
         "flags": []
       },
       {
-        "text": "주변에 적극적으로 공유한다",
+        "text": "단톡방에 링크를 올렸다",
         "effects": {
           "reputation": -2,
           "social_skill": 3
@@ -872,7 +893,8 @@
         "text": "거절 못하고 전부 빌려준다",
         "effects": {
           "money": -500000,
-          "mental": -13
+          "mental": -13,
+          "tint": -3
         },
         "result_text": "거절 못하고 전부 빌려줬다. 통장이 텅 비었고 돌려받을 수 있을지도 모르겠다.",
         "flags": []
@@ -890,7 +912,8 @@
       {
         "text": "못 들은 척 답장을 미룬다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -3
         },
         "result_text": "답장을 차일피일 미뤘다. 몸은 편했지만 마음 한켠이 계속 걸렸다.",
         "flags": []
@@ -918,7 +941,8 @@
         "text": "생활비 6개월치가 있나 계산해본다",
         "effects": {
           "money": 10000,
-          "appearance": 0
+          "appearance": 0,
+          "tint": 1
         },
         "result_text": "계산기를 켰다.\n숫자가 나왔다. 부족했다.\n영상을 다시 틀었다. 이번엔 끝까지 봤다.",
         "flags": []
@@ -935,7 +959,8 @@
         "text": "사직서 초안을 메모장에 써본다",
         "effects": {
           "reputation": -2,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 2
         },
         "result_text": "첫 줄은 썼다.\n'저는 이달 말로 사직하고자 합니다.'\n세 번 읽었다. 저장하지 않고 닫았다.",
         "flags": [
@@ -1018,7 +1043,8 @@
         "text": "어떤 ETF인지 조용히 찾아본다",
         "effects": {
           "money": 370000,
-          "intelligence": -4
+          "intelligence": -4,
+          "tint": 1
         },
         "result_text": "VOO, SPY, TIGER 미국S&P500.\n보수율 비교표를 저장했다.\n따라하는 건 아니고 일단 공부였다. 아마도.",
         "flags": []
@@ -1035,7 +1061,8 @@
         "text": "지금 바로 계좌를 만든다",
         "effects": {
           "reputation": 5,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": -1
         },
         "result_text": "증권사 앱을 받았다.\n계좌 개설까지 12분 걸렸다.\n첫 매수 버튼을 누르는 손이 약간 떨렸다.",
         "flags": []
@@ -1067,7 +1094,7 @@
         "flags": []
       },
       {
-        "text": "비 맞으며 감성에 젖어본다",
+        "text": "그냥 맞았다. 우산이 없으면 젖는 거다",
         "effects": {
           "health": -2,
           "mental": 0
@@ -1107,7 +1134,8 @@
         "text": "바쁘다고 둘러대고 화제를 돌린다",
         "effects": {
           "money": 380000,
-          "appearance": -3
+          "appearance": -3,
+          "tint": -1
         },
         "result_text": "'요즘 프로젝트가 좀 있어서요.'\n큰어머니가 고개를 끄덕였다.\n다음 질문은 옆 사촌에게 갔다. 5초의 유예였다.",
         "flags": []
@@ -1124,7 +1152,8 @@
         "text": "인사만 하고 일찍 자리를 뜬다",
         "effects": {
           "reputation": 4,
-          "investment_skill": 3
+          "investment_skill": 3,
+          "tint": 2
         },
         "result_text": "'저 오늘 일이 있어서요.'\n어머니 눈치가 보였다.\n버스 안에서 한숨을 쉬었다. 편하긴 했다.",
         "flags": [
@@ -1154,24 +1183,27 @@
         "text": "오늘 일정이 있다고 솔직하게 답한다",
         "effects": {
           "money": 140000,
-          "reputation": 1
+          "reputation": 1,
+          "tint": 4
         },
         "result_text": "'오늘 저녁에 선약이 있어서요.'\n답장을 보내고 폰을 주머니에 넣었다.\n팀장님 답장은 안 왔다. 그게 더 신경 쓰였다.",
         "flags": []
       },
       {
-        "text": "찔려서 야근을 수락한다",
+        "text": "타이핑하다가 잠깐 멈췄다. 그리고 \"네\"라고 보냈다",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -3
         },
         "result_text": "'네 가겠습니다.'\n약속 취소 문자를 보냈다.\n야근이 끝난 건 밤 11시였다.",
         "flags": []
       },
       {
-        "text": "지금 퇴근했다고 답한다",
+        "text": "\"이미 퇴근했어요\"라고 보냈다",
         "effects": {
           "reputation": 5,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 2
         },
         "result_text": "'아 저 지금 막 나왔는데요.'\n거짓말이었다. 아직 지하철 안이었다.\n답장이 왔다. '그래요. 수고해요.'",
         "flags": []
@@ -1181,7 +1213,8 @@
         "effects": {
           "health": -2,
           "money": 0,
-          "mental": 3
+          "mental": 3,
+          "tint": -1
         },
         "result_text": "읽음 표시가 켜졌다.\n폰을 뒤집어 놓았다.\n다음날 아침이 불편할 것 같았다.",
         "flags": []
@@ -1217,7 +1250,8 @@
         "effects": {
           "money": -300000,
           "social_skill": 3,
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "result_text": "기분은 나빴지만 그냥 쐈다. 분위기는 좋아졌는데 통장이 쓸쓸해졌다.",
         "flags": []
@@ -1295,7 +1329,7 @@
     "cooldown": 4,
     "choices": [
       {
-        "text": "냉정하게 통계를 찾아본다",
+        "text": "승률 통계를 찾아봤다",
         "effects": {
           "intelligence": 3,
           "investment_skill": 3,
@@ -1317,7 +1351,7 @@
         ]
       },
       {
-        "text": "일단 소액으로 베팅해본다",
+        "text": "소액만 걸었다. 딱 한 번",
         "effects": {
           "money": -100000,
           "addiction_tendency": 5,
@@ -1546,7 +1580,7 @@
         "flags": []
       },
       {
-        "text": "이어폰을 끼고 모른 척한다",
+        "text": "이어폰을 꼈다. 볼륨을 올렸다",
         "effects": {
           "mental": -6
         },
@@ -1631,7 +1665,7 @@
     "cooldown": 4,
     "choices": [
       {
-        "text": "한강공원에 바람 쐬러 간다",
+        "text": "신발을 신었다. 한강까지 걸어갔다",
         "effects": {
           "mental": 6,
           "health": 3,
@@ -1641,7 +1675,7 @@
         "flags": []
       },
       {
-        "text": "어둠에 익숙해지기로 한다",
+        "text": "눈을 감았다. 어차피 낮이든 밤이든 방은 같다",
         "effects": {
           "mental": -6,
           "intelligence": 1
@@ -1695,7 +1729,7 @@
         "flags": []
       },
       {
-        "text": "쉐어하우스를 알아본다",
+        "text": "쉐어하우스 후기를 검색했다",
         "effects": {
           "social_skill": 3,
           "intelligence": 2
@@ -1772,7 +1806,8 @@
         "text": "그냥 이걸로 때운다",
         "effects": {
           "money": -4900,
-          "health": -2
+          "health": -2,
+          "tint": -1
         },
         "result_text": "맛은 없지만 배는 찬다. 이 맛에 익숙해지는 게 더 무섭다.",
         "flags": []
@@ -1838,7 +1873,7 @@
         "flags": []
       },
       {
-        "text": "편의점 맥주 사서 합류한다",
+        "text": "편의점에서 캔맥주 두 개를 샀다",
         "effects": {
           "money": -8000,
           "mental": 5,
@@ -2031,7 +2066,7 @@
         "flags": []
       },
       {
-        "text": "최대한 벼락치기로 간다",
+        "text": "비닐을 뜯었다. 목차부터 봤다",
         "effects": {
           "intelligence": 4,
           "health": -4,
@@ -2105,7 +2140,7 @@
     "cooldown": 16,
     "choices": [
       {
-        "text": "루틴을 만들어 꾸준히 간다",
+        "text": "달력에 요일을 표시했다",
         "effects": {
           "money": -150000,
           "health": 12,
@@ -2116,7 +2151,7 @@
         "flags": []
       },
       {
-        "text": "열심히 가다가 흐지부지된다",
+        "text": "처음 이틀은 열심히 갔다",
         "effects": {
           "money": -150000,
           "health": 4
@@ -2153,7 +2188,7 @@
     "cooldown": 16,
     "choices": [
       {
-        "text": "솔직하게 말하고 넘어간다",
+        "text": "숫자를 말했다. 표정을 보지 않으려 했다",
         "effects": {
           "mental": -4,
           "social_skill": 3
@@ -2263,7 +2298,7 @@
         "flags": []
       },
       {
-        "text": "이 감정을 일기에 쓴다",
+        "text": "노트를 펼쳤다. 아무 말이나 썼다",
         "effects": {
           "mental": 10
         },
@@ -2344,7 +2379,7 @@
         "flags": []
       },
       {
-        "text": "친한 사람에게 전화한다",
+        "text": "전화했다. 받자마자 아무 말도 못 했다",
         "effects": {
           "mental": 11,
           "social_skill": 2
@@ -2433,7 +2468,7 @@
         "flags": []
       },
       {
-        "text": "뛰어서 지하철역으로 간다",
+        "text": "뛰었다",
         "effects": {
           "health": 2,
           "appearance": -3,
@@ -2483,7 +2518,7 @@
         "flags": []
       },
       {
-        "text": "잠깐 쉬었다가 다시 한다.",
+        "text": "잠깐 누웠다. 눈을 감았다",
         "effects": {
           "mental": 8
         },
@@ -2522,7 +2557,7 @@
     "cooldown": 9999,
     "choices": [
       {
-        "text": "근처 파출소에 신고한다.",
+        "text": "파출소 방향을 검색했다",
         "effects": {
           "reputation": 6,
           "mental": 11
@@ -2738,7 +2773,7 @@
     "cooldown": 4,
     "choices": [
       {
-        "text": "군말 없이 야근한다",
+        "text": "코트를 벗었다",
         "effects": {
           "mental": -12,
           "reputation": 1
@@ -2751,7 +2786,8 @@
         "text": "먼저 잡힌 약속이 있다고 솔직히 말한다",
         "effects": {
           "mental": 6,
-          "reputation": -1
+          "reputation": -1,
+          "tint": 4
         },
         "flags": [],
         "follow_up_event": "",
@@ -2762,7 +2798,8 @@
         "effects": {
           "mental": 4,
           "social_skill": -1,
-          "luck": -1
+          "luck": -1,
+          "tint": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -2802,7 +2839,7 @@
         "result_text": "이상 없었다. 하지만 이런 걸 확인할 줄 알게 됐다는 게 수확이었다."
       },
       {
-        "text": "전세보증보험에 가입한다",
+        "text": "보증보험 가입 조건을 검색했다",
         "effects": {
           "money": -200000,
           "mental": 8
@@ -2815,7 +2852,8 @@
         "text": "내 집은 괜찮겠지 하고 넘긴다",
         "effects": {
           "luck": -1,
-          "mental": -2
+          "mental": -2,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -2952,7 +2990,7 @@
         "result_text": "생각보다 쉽게 올려줬다. 요구하지 않으면 아무것도 바뀌지 않는다."
       },
       {
-        "text": "이직 준비를 시작한다",
+        "text": "인크루트 앱을 다시 설치했다",
         "effects": {
           "intelligence": 2,
           "luck": 1,
@@ -2968,7 +3006,8 @@
       {
         "text": "그냥 모른 척 넘긴다",
         "effects": {
-          "mental": -11
+          "mental": -11,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -3059,7 +3098,8 @@
       {
         "text": "그냥 이게 현실이다 받아들인다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -3102,7 +3142,8 @@
         "text": "자기 상황을 솔직하게 말한다.",
         "effects": {
           "social_skill": 1,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 4
         },
         "flags": [
           "sangchul_met"
@@ -3316,7 +3357,7 @@
     "cooldown": 9999,
     "choices": [
       {
-        "text": "남은 시간에 집중한다",
+        "text": "남은 날을 셌다",
         "effects": {
           "mental": 14
         },
@@ -3402,7 +3443,7 @@
     "description": "토요일 밤 9시. 로또 앱을 켰다.\n번호를 확인한다.\n\n...3개 일치. 5등. 5,000원.\n\n처음엔 웃겼다. 그러다가 어이가 없었다.\n그러다가 또 웃겼다.\n\n5,000원. 1000원 투자해서 5배 수익이다.\n투자 수익률 400%.\n\n{name}은 그날 밤 이 이야기를 아무한테도 못 했다.\n너무 우스워서.",
     "choices": [
       {
-        "text": "내일 치킨이라도 사먹어야지 (+4,000원 실수익)",
+        "text": "내일 치킨이나 사 먹어야지",
         "effects": {
           "money": 4000,
           "mental": 16,
@@ -3438,7 +3479,8 @@
         "text": "축하 댓글을 단다. 진심으로.",
         "effects": {
           "mental": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         },
         "result_text": "축하한다고 댓글 달았다. 진심이었다. 반은.\n\n그 친구가 살 아파트 평수가 뭔지 검색해봤다. 뭘 하는 건지 모르겠다.\n창을 닫고 가계부를 열었다. 지금 내가 할 수 있는 것부터.",
         "flags": []
@@ -3453,7 +3495,7 @@
         "flags": []
       },
       {
-        "text": "나도 청약 공부를 시작한다.",
+        "text": "청약 가점 계산기를 켰다",
         "effects": {
           "intelligence": 3,
           "mental": -6
@@ -3485,7 +3527,8 @@
         "text": "지금까지의 선택들을 돌아본다.",
         "effects": {
           "mental": 13,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         },
         "result_text": "잘한 것들, 못한 것들.\n아쉬운 선택들, 다행인 선택들.\n\n다 합산하면 지금 여기다. 후회는 내일 하고, 오늘은 남은 30개월을 생각한다.",
         "flags": []
@@ -3503,7 +3546,8 @@
         "text": "속도보다 방향이 맞는지 확인한다.",
         "effects": {
           "mental": 18,
-          "luck": 2
+          "luck": 2,
+          "tint": 3
         },
         "result_text": "강남이 목표인 건 맞다.\n그런데 왜 강남이어야 하냐는 질문을 오늘 처음 진지하게 해봤다.\n\n답은 아직 없다. 하지만 질문이 생긴 것 자체가 뭔가였다.",
         "flags": []
@@ -3541,7 +3585,8 @@
         "text": "결과보다 과정을 봤을 때, 이 5년이 어떤 의미인지 생각한다.",
         "effects": {
           "mental": 22,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 5
         },
         "result_text": "강남에 가든 못 가든.\n\n이 5년 동안 {name}은 처음으로 자기 돈을 벌었고, 처음으로 혼자 살았고, 처음으로 진짜 실패를 경험했다.\n\n그게 뭔지는 나중에 알 것 같다.",
         "flags": []
@@ -3573,7 +3618,8 @@
         "effects": {
           "money": -80000,
           "mental": 35,
-          "health": 5
+          "health": 5,
+          "tint": 8
         },
         "flags": [
           "visited_father_hospital"
@@ -3582,10 +3628,11 @@
         "result_text": "병원 복도는 조용했다.\n\n아버지는 자고 계셨다. 생각보다 많이 작아 보였다.\n어머니가 '왔니' 하셨다. 그 두 글자로 충분했다.\n\n서울로 돌아오는 KTX 안에서, 오랜만에 아무 생각도 안 했다."
       },
       {
-        "text": "이번에도 못 간다고 한다.",
+        "text": "\"이번엔 못 가겠어\"라고 했다",
         "effects": {
           "mental": -35,
-          "luck": -3
+          "luck": -3,
+          "tint": -6
         },
         "flags": [
           "skipped_father_hospital"
@@ -3619,7 +3666,8 @@
         "effects": {
           "mental": 15,
           "social_skill": 2,
-          "reputation": -1
+          "reputation": -1,
+          "tint": 4
         },
         "flags": [
           "honest_at_reunion"
@@ -3631,7 +3679,8 @@
         "text": "잘 되고 있다고 한다. 세부 사항은 생략.",
         "effects": {
           "mental": -13,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": -2
         },
         "flags": [
           "lied_at_reunion"
@@ -3673,7 +3722,8 @@
         "text": "솔직하게 털어놓는다. 아직 진행 중이라고.",
         "effects": {
           "mental": 13,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 6
         },
         "flags": [
           "came_clean_to_friend"
@@ -3727,7 +3777,8 @@
         "text": "모르겠다.",
         "effects": {
           "mental": 8,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 2
         },
         "flags": [
           "answered_happy_unsure"
@@ -3740,7 +3791,8 @@
         "effects": {
           "mental": 10,
           "intelligence": 5,
-          "luck": 3
+          "luck": 3,
+          "tint": 4
         },
         "flags": [
           "answered_happy_no"
@@ -3775,7 +3827,8 @@
         "effects": {
           "mental": 5,
           "reputation": 3,
-          "money": 300000
+          "money": 300000,
+          "tint": -2
         },
         "flags": [
           "got_promoted_orthodox"
@@ -3787,7 +3840,8 @@
         "text": "잠깐, 내가 원하던 게 이거였는지 생각한다.",
         "effects": {
           "mental": -8,
-          "intelligence": 4
+          "intelligence": 4,
+          "tint": 4
         },
         "flags": [
           "got_promoted_orthodox",
@@ -3822,7 +3876,8 @@
         "effects": {
           "money": 150000,
           "reputation": 2,
-          "mental": -8
+          "mental": -8,
+          "tint": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -3845,7 +3900,8 @@
         "effects": {
           "health": 5,
           "mental": 3,
-          "reputation": -2
+          "reputation": -2,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -3890,7 +3946,8 @@
         "text": "집에 와서 명패를 서랍에 넣는다.",
         "effects": {
           "mental": -9,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 3
         },
         "flags": [
           "received_orthodox_award",
@@ -3926,7 +3983,8 @@
         "effects": {
           "reputation": 3,
           "mental": 2,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 2
         },
         "flags": [
           "saw_senior_farewell"
@@ -3952,7 +4010,8 @@
         "effects": {
           "money": -30000,
           "health": -2,
-          "mental": 10
+          "mental": 10,
+          "tint": -1
         },
         "flags": [
           "saw_senior_farewell"
@@ -3984,7 +4043,8 @@
       {
         "text": "\"아버지, 몸은요? 병원은 다니고 계세요?\"",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": 5
         },
         "flags": [
           "father_health_known",
@@ -4001,7 +4061,8 @@
       {
         "text": "\"네, 잘 먹고 다녀요.\" 안부만 나눈다.",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": 1
         },
         "flags": [
           "father_health_known"
@@ -4040,7 +4101,8 @@
         "text": "아버지와 오래 이야기한다. 사기 얘기도 꺼낸다.",
         "effects": {
           "mental": 13,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 8
         },
         "flags": [
           "father_visited",
@@ -4058,7 +4120,8 @@
       {
         "text": "밥만 먹고 빨리 올라온다. 할 일이 쌓였다.",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -3
         },
         "flags": [
           "father_visited"
@@ -4085,7 +4148,10 @@
       "flag": "talked_about_scam",
       "min_turn": 136,
       "max_turn": 232,
-      "no_flag": "father_reconciled"
+      "no_flag": [
+        "father_reconciled",
+        "visited_father"
+      ]
     },
     "tags": [
       "father",
@@ -4198,7 +4264,8 @@
         "effects": {
           "money": 50000,
           "intelligence": 2,
-          "mental": -2
+          "mental": -2,
+          "tint": 1
         },
         "flags": [],
         "follow_up_event": "",
@@ -4209,7 +4276,8 @@
         "effects": {
           "money": -30000,
           "mental": 14,
-          "health": 3
+          "health": 3,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -4240,7 +4308,8 @@
         "text": "오락비였던 거야. 그냥 엔터테인먼트.",
         "effects": {
           "mental": -5,
-          "addiction_tendency": 5
+          "addiction_tendency": 5,
+          "tint": -2
         },
         "flags": [],
         "follow_up_event": "",
@@ -4363,6 +4432,7 @@
     "tags": [
       "survival",
       "finance",
+      "housing",
       "stress"
     ],
     "cooldown": 4,
@@ -4591,7 +4661,7 @@
     "cooldown": 25,
     "choices": [
       {
-        "text": "감정을 표현해본다.",
+        "text": "같이 점심 먹자고 말을 꺼냈다",
         "effects": {
           "social_skill": 1,
           "mental": 3,
@@ -4642,7 +4712,7 @@
     "cooldown": 30,
     "choices": [
       {
-        "text": "만나자고 한다.",
+        "text": "\"어디 나올 수 있어?\"라고 보냈다",
         "effects": {
           "social_skill": 1,
           "mental": 1,
@@ -4662,7 +4732,7 @@
         "result_text": "'응, 잘 지내.' 보냈다. 더 이상 대화는 없었다. 그것으로 충분했다. 이미 끝난 일이다."
       },
       {
-        "text": "읽고 무시한다.",
+        "text": "읽고 앱을 닫았다",
         "effects": {
           "mental": -1
         },
@@ -4907,7 +4977,8 @@
       {
         "text": "그냥 오늘만 한다. 내일은 모른다.",
         "effects": {
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -1
         },
         "flags": [],
         "result_text": "오늘 10분 했다. 내일은 모른다. 그것만으로도 어제보다 낫다."
@@ -4954,7 +5025,7 @@
     "description": "헬스장 앞까지 왔다.\n\n들어갈까 말까. 피곤했다.\n근데 이 핑계로 안 간 게 이번이 몇 번째인지 모르겠다.",
     "choices": [
       {
-        "text": "들어간다",
+        "text": "들어갔다",
         "effects": {
           "health": 5,
           "mental": 4
@@ -5009,7 +5080,7 @@
     "description": "허리가 아팠다.\n\n처음엔 좀 이상하다 싶었는데 이제 아침마다 뻣뻣했다.\n고시원 침대 매트리스가 문제인가. 자세가 문제인가. 나이가 문제인가.\n\n33살인데.",
     "choices": [
       {
-        "text": "병원에 간다",
+        "text": "정형외과 위치를 검색했다",
         "effects": {
           "health": 8,
           "money": -50000
@@ -5019,12 +5090,13 @@
       {
         "text": "그냥 참는다 — 바빠서",
         "effects": {
-          "health": -5
+          "health": -5,
+          "tint": -1
         },
         "result_text": "참았다.\n다음 달에는 더 나빠져 있었다."
       },
       {
-        "text": "스트레칭이라도 한다",
+        "text": "유튜브에서 허리 스트레칭을 찾았다",
         "effects": {
           "health": 3
         },
@@ -5052,7 +5124,7 @@
         "result_text": "종합감기약. 하루 쉬었다.\n다음 날 70%는 회복됐다. 일찍 잡길 잘했다."
       },
       {
-        "text": "버티면서 계속한다",
+        "text": "마스크를 쓰고 그냥 나갔다",
         "effects": {
           "health": -8,
           "mental": -3
@@ -5072,7 +5144,7 @@
     "description": "국가건강검진 안내 문자가 왔다.\n\n올해 대상자였다. 무료.\n\n{name}은 문자를 봤다가 넘겼다. 귀찮았다.\n근데 마지막으로 검진 받은 게 언제였는지 기억이 안 났다.",
     "choices": [
       {
-        "text": "예약한다",
+        "text": "날짜를 잡고 예약했다",
         "effects": {
           "health": 12,
           "mental": 3
@@ -5105,7 +5177,7 @@
         "result_text": "밤 열 시에 폰을 끄고 책을 읽었다.\n처음 10분은 손이 폰을 찾았다.\n30분 후엔 그냥 읽고 있었다."
       },
       {
-        "text": "조금 더 한다",
+        "text": "다 보고 나서 끄기로 했다",
         "effects": {
           "health": -3,
           "mental": -2
@@ -5224,7 +5296,7 @@
         "result_text": "\"저 편의점 가겠습니다.\"\n5분 만에 먹었다. 회의 시간 안에 왔다.\n리더십이란 결국 결정하는 것이다."
       },
       {
-        "text": "계속 의논한다",
+        "text": "계속 후보를 냈다",
         "effects": {
           "mental": -1
         },
@@ -5300,7 +5372,7 @@
     "description": "편의점에 갔다.\n\n삼각김밥 하나 사러 들어갔는데\n1+1 행사를 발견했다.\n\n과자. 음료. 아이스크림. 컵라면.\n\n계산대에 서니 5개를 들고 있었다.\n원래 3,500원인데 11,000원이 찍혔다.",
     "choices": [
       {
-        "text": "그냥 다 산다 — 1+1은 거부할 수 없다",
+        "text": "바구니에 다 담았다",
         "effects": {
           "mental": 3,
           "money": -11000
@@ -5335,7 +5407,7 @@
         "result_text": "앉았다. 상대방도 그 옆에 앉았다.\n둘 다 폰을 꺼냈다. 서울."
       },
       {
-        "text": "양보한다",
+        "text": "손으로 가리켰다. 앉으시라고",
         "effects": {
           "social_skill": 1,
           "mental": 1
@@ -5391,7 +5463,7 @@
         "result_text": "30분 기다렸다. 주인이 왔다. 화장실 다녀왔다고 했다.\n30분짜리 화장실이었다."
       },
       {
-        "text": "다른 카페로 간다",
+        "text": "나왔다. 다른 카페를 찾아 걸었다",
         "effects": {
           "money": -1000
         },

@@ -1,0 +1,575 @@
+[
+  {
+    "id": "callback_sought_help_echo",
+    "title": "도움을 청한 것",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "sought_help",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "gambling",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "바닥을 쳤던 그 밤, {name}은 혼자 버티지 않고 단도박 모임에 전화를 걸었었다.\n\n그 전화를 건 용기가 가끔 떠오른다.\n\n오늘 또 흔들리는 순간이 왔다.",
+    "choices": [
+      {
+        "text": "도움을 청한 게 — 가장 강한 선택이었다",
+        "effects": {
+          "mental": 7,
+          "health": 1,
+          "tint": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자 이겨내려는 게 강함이 아니었다. 손을 내미는 게 진짜 용기였다.\n\n그 전화 한 통이 {name}을 다른 길로 돌려세웠다.\n중독은 의지가 아니라 연결로 이겨내는 거였다."
+      },
+      {
+        "text": "흔들릴 때마다 — 다시 그 번호를 누른다",
+        "effects": {
+          "mental": 6,
+          "health": 1,
+          "tint": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "회복은 한 번의 결심이 아니라 매번의 선택이었다.\n\n{name}은 흔들릴 때마다 도움을 청하는 걸 부끄러워하지 않는다.\n다시 전화를 누를 수 있는 한, 다시 무너지지 않을 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_family_addiction_echo",
+    "title": "아버지에게 털어놓은 것",
+    "background": "dad_house",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "told_family_addiction",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family"
+    ],
+    "cooldown": 999,
+    "description": "바닥을 쳤던 그때, {name}은 아버지에게 모든 걸 털어놓았었다. 도박에 빠졌었다고.\n\n그 고백의 무게가 가끔 떠오른다.\n\n오늘 아버지가 그날을 조심스레 꺼냈다.",
+    "choices": [
+      {
+        "text": "\"그때 말하길 잘했어요. 숨겼으면 더 망가졌을 거예요.\"",
+        "effects": {
+          "mental": 7,
+          "tint": 4
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 6
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아버지가 한참 말이 없으셨다.\n\"...말해줘서 고맙다. 혼자 안 짊어져서.\"\n\n수치심을 무릅쓴 그 고백이, 혼자 가라앉는 걸 막았다.\n가족에게 약함을 보인 게, 오히려 회복의 시작이었다."
+      },
+      {
+        "text": "\"아버지가 알아줘서 — 버틸 수 있었어요.\"",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1,
+          "tint": 5
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"가족이 그러라고 있는 거야.\"\n\n혼자 숨겼다면 더 깊이 빠졌을 것이다.\n{name}은 약함을 나눌 사람이 있다는 게, 회복의 가장 큰 자원이었음을 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chose_deeper_echo",
+    "title": "한 판만 더라던 것",
+    "background": "late_night",
+    "portrait": "player_shocked",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "chose_deeper",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "gambling",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "바닥을 쳤던 그때, {name}은 '한 판만 더, 이걸로 다 만회한다'며 더 깊이 들어갔었다.\n\n그 선택의 결과를 안다.\n\n오늘 또 만회의 유혹이 손짓한다.",
+    "choices": [
+      {
+        "text": "그때 더 깊이 간 게 — 바닥을 보게 했다. 이젠 안 간다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2,
+          "tint": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'한 판만 더'는 가장 위험한 거짓말이었다.\n\n{name}은 그 만회의 욕망이 자신을 어디까지 끌고 갔는지 안다.\n다만 바닥을 봤기에, 다시 올라올 수도 있었다."
+      },
+      {
+        "text": "그 바닥이 — 멈추는 계기가 됐다",
+        "effects": {
+          "mental": 6,
+          "health": 1,
+          "tint": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "더 깊이 떨어진 그날이, 역설적으로 {name}을 멈춰 세웠다.\n\n어떤 사람은 바닥을 쳐야 비로소 방향을 튼다.\n그 최악의 선택이, 마지막 도박이 되기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chaebol_connection_echo",
+    "title": "그 명함을 건넨 것",
+    "background": "gangnam_day",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "chaebol_connection",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "우연히 만난 영향력 있는 사람에게, {name}은 적극적으로 명함을 건네며 어필했었다.\n\n그 대담한 순간이 가끔 떠오른다.\n\n오늘 또 기회를 잡을지 망설이는 순간이 왔다.",
+    "choices": [
+      {
+        "text": "그때 적극적으로 다가간 게 — 문을 열었다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기회는 다가가는 사람에게만 손을 내민다.\n\n망설였다면 그 인연은 스쳐 지나갔을 것이다.\n{name}은 들이대는 용기가 때론 실력보다 중요하다는 걸 안다."
+      },
+      {
+        "text": "인맥은 — 결국 내 실력 위에서만 의미가 있다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "명함을 건넨 건 시작일 뿐, 그 뒤를 채우는 건 실력이었다.\n\n{name}은 인맥에 기대기보다, 그 인맥이 투자할 만한 사람이 되는 데 집중했다.\n연결은 다리지만, 건너는 건 자기 발이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_apartment_echo",
+    "title": "계약금을 낸 것",
+    "background": "realestate_office",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "bought_apartment",
+      "min_turn": 50
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "큰 결단의 순간, {name}은 계약금을 내고 집 계약에 도장을 찍었었다.\n\n그 떨리던 순간이 가끔 떠오른다.\n\n오늘 또 그 결단을 돌아본다.",
+    "choices": [
+      {
+        "text": "그 결단이 — 자산의 발판이 됐다",
+        "effects": {
+          "mental": 6,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "도장을 찍는 손이 떨렸지만, 그 한 번의 결단이 큰 흐름을 만들었다.\n\n{name}은 망설임 끝에 내린 그 결정이 옳았음을 안다.\n때론 완벽한 확신 없이도, 결단해야 하는 순간이 있었다."
+      },
+      {
+        "text": "큰 결정일수록 — 더 신중하게 검증한다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결단은 좋았지만, 그만큼 위험도 컸다.\n\n{name}은 큰 결정엔 더 철저한 검증이 따라야 한다는 걸 배웠다.\n과감함과 무모함의 차이는, 검증의 깊이에 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_overtime_boundary_echo",
+    "title": "정시 퇴근을 택한 것",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "overtime_boundary_set",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "야근 문화 앞에서, {name}은 '할 일 끝냈으면 정시 퇴근한다'며 선을 그었었다.\n\n그 경계 설정이 가끔 떠오른다.\n\n오늘 또 눈치 야근의 압박이 있다.",
+    "choices": [
+      {
+        "text": "그 경계가 — 내 시간을 지켰다",
+        "effects": {
+          "mental": 6,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "퇴근 후 시간이 있어야, 자기 목표를 위한 시간도 있었다.\n\n{name}은 정시 퇴근으로 번 시간을 투자 공부에 썼다.\n경계를 긋는 건 게으름이 아니라, 우선순위의 선언이었다."
+      },
+      {
+        "text": "눈치보다 — 성과로 증명한다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "오래 앉아있는 게 아니라, 결과를 내는 게 일이었다.\n\n{name}은 자리를 지키는 시간보다 성과로 말하기로 했다.\n정시 퇴근에 떳떳하려면, 할 일은 확실히 끝내야 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_kkondae_yielded_echo",
+    "title": "흘려들은 것",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "kkondae_yielded",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "꼰대 상사의 설교 앞에서, {name}은 '맞는 말씀이에요' 하고 흘려들었었다.\n\n그 처세가 가끔 떠오른다.\n\n오늘 또 비슷한 설교를 마주한다.",
+    "choices": [
+      {
+        "text": "에너지를 아낀 게 — 현명했다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 싸움에 응할 필요는 없다.\n\n{name}은 흘려들을 것과 맞설 것을 구분하는 법을 안다.\n바꿀 수 없는 사람과 다투느라 에너지를 쓰는 건, 손해였다."
+      },
+      {
+        "text": "흘려듣되 — 그 안의 쓸 만한 건 챙긴다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "꼰대의 잔소리에도 가끔 진짜 경험이 섞여 있다.\n\n{name}은 형식은 흘리되 내용 중 쓸 만한 건 골라 담았다.\n사람은 미워도, 그 경험까지 버릴 필요는 없었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_impressed_jiyeon_mother_echo",
+    "title": "당당하게 사실대로 말한 것",
+    "background": "cafe",
+    "portrait": "jiyeon_warm",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "impressed_jiyeon_mother",
+      "min_turn": 175
+    },
+    "tags": [
+      "callback",
+      "jiyeon",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "지연의 어머니 앞에서, {name}은 포장하지 않고 당당하게 사실대로 말했었다.\n\n그 당당함이 가끔 떠오른다.\n\n오늘 또 누군가에게 평가받는 자리에 선다.",
+    "choices": [
+      {
+        "text": "솔직함이 — 가장 강한 무기였다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 2,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "꾸미지 않은 진심이, 어떤 포장보다 사람을 움직였다.\n\n{name}은 있는 그대로의 자신을 보여주는 게 통한다는 걸 안다.\n당당함은 가진 게 많아서가 아니라, 자신을 믿어서 나오는 거였다."
+      },
+      {
+        "text": "지금도 — 나를 포장하지 않는다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "포장은 결국 들통나고, 솔직함은 신뢰를 남긴다.\n\n{name}은 평가받는 자리에서도 자신을 부풀리지 않기로 했다.\n진짜 모습으로 인정받는 게, 가장 오래 가는 인정이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_cut_ties_echo",
+    "title": "신고하겠다고 한 것",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_cut_ties",
+      "min_turn": 90
+    },
+    "tags": [
+      "callback",
+      "sangchul",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "임상철의 진실을 알게 됐을 때, {name}은 '신고하겠다'며 그 관계를 끊어냈었다.\n\n그 단호한 선택이 가끔 떠오른다.\n\n오늘 또 그 결단의 무게가 마음에 남는다.",
+    "choices": [
+      {
+        "text": "옳은 일을 한 거다 — 이익보다 양심을 택했다",
+        "effects": {
+          "mental": 7,
+          "reputation": 3,
+          "tint": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "상철의 인맥과 정보는 컸지만, 아버지를 망친 사람이었다.\n\n{name}은 이익 대신 양심을 택한 그 선택을 후회하지 않는다.\n어떤 다리는, 태워야만 자신을 지킬 수 있었다."
+      },
+      {
+        "text": "그를 끊고 — 혼자 힘으로 여기까지 왔다",
+        "effects": {
+          "mental": 6,
+          "investment_skill": 1,
+          "tint": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "멘토도 인맥도 없이 가는 길은 더 힘들었지만, 더 떳떳했다.\n\n{name}은 상철 없이 스스로 일어선 자신을 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_mentor_met_echo",
+    "title": "배우는 중이라던 것",
+    "background": "holdem_club",
+    "portrait": "player_normal",
+    "category": "gambling",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "holdem_mentor_met",
+      "min_turn": 32
+    },
+    "tags": [
+      "callback",
+      "gambling",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "홀덤 고수 앞에서, {name}은 '얼마 안 됐어요, 배우는 중'이라며 겸손하게 말했었다.\n\n그 겸손이 가끔 떠오른다.\n\n오늘 또 누군가에게 배울 기회가 왔다.",
+    "choices": [
+      {
+        "text": "배우는 자세가 — 빠른 성장을 만들었다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아는 척하는 사람보다, 배우려는 사람이 더 빨리 큰다.\n\n{name}은 그 겸손함이 실력의 지름길이었음을 안다.\n다만 그 배움을 도박이 아니라 다른 데 쓰는 게 관건이었다."
+      },
+      {
+        "text": "그 감각을 — 도박이 아닌 곳에 쓴다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "확률을 읽고 기댓값을 계산하는 능력은, 테이블 밖에서 더 쓸모 있었다.\n\n{name}은 그 감각을 투자와 판단에 옮겨 썼다.\n같은 능력도, 어디에 쓰느냐가 인생을 갈랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_got_alternate_offer_echo",
+    "title": "다른 포지션을 들어본 것",
+    "background": "office_interview_day",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "got_alternate_offer",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "면접에서 다른 길이 열렸을 때, {name}은 '어떤 포지션인가요?'라며 일단 들어봤었다.\n\n그 열린 태도가 가끔 떠오른다.\n\n오늘 또 예상 밖의 제안 앞에 섰다.",
+    "choices": [
+      {
+        "text": "일단 들어본 게 — 선택지를 넓혔다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "문을 닫기 전에 들어보는 것만으로도 선택지가 늘어난다.\n\n{name}은 예상 밖의 제안도 일단 검토하는 유연함을 익혔다.\n계획에 없던 길이, 더 나은 길일 때도 있었다."
+      },
+      {
+        "text": "듣되 — 내 방향과 맞는지 본다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 제안이 좋은 건 아니다. 내 방향과 맞아야 한다.\n\n{name}은 열어두되, 자기 기준으로 거르는 법을 안다.\n선택지를 넓히는 것과 휘둘리는 건 다른 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_contacted_jaehyuk_early_echo",
+    "title": "재혁에게 먼저 연락한 것",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "contacted_jaehyuk_early",
+      "min_turn": 56
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "사기당한 뒤, {name}은 '재혁아, 요즘 어때?'라며 먼저 연락을 해봤었다.\n\n그 복잡한 마음이 가끔 떠오른다.\n\n오늘 또 그 일을 어떻게 정리할지 생각한다.",
+    "choices": [
+      {
+        "text": "먼저 연락한 건 — 매듭을 짓고 싶어서였다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "미움을 안고 사는 것도 에너지가 든다.\n\n{name}은 그 관계를 어떻게든 매듭짓고 싶었다.\n용서가 아니라 정리 — 그건 자신을 위한 거였다."
+      },
+      {
+        "text": "이젠 — 그 일에 더는 매이지 않는다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지나간 일에 마음을 묶어두면, 앞으로 갈 힘이 준다.\n\n{name}은 재혁의 일을 과거에 두고 시선을 앞에 뒀다.\n잃은 건 잃은 대로, 배운 건 챙겨서 — 그렇게 넘어갔다."
+      }
+    ]
+  },
+  {
+    "id": "callback_congratulated_friend_echo",
+    "title": "진심으로 축하해준 것",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "congratulated_friend",
+      "min_turn": 120
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "잘나가는 친구 소식에, {name}은 '진심으로 축하한다, 나는 나만의 길에 있다'고 했었다.\n\n그 성숙한 마음이 가끔 떠오른다.\n\n오늘 또 누군가의 좋은 소식을 듣는다.",
+    "choices": [
+      {
+        "text": "남의 성공을 — 질투 없이 기뻐할 수 있게 됐다",
+        "effects": {
+          "mental": 7,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남의 성공이 내 실패가 아니라는 걸 받아들인 사람만이, 진심으로 축하할 수 있다.\n\n{name}은 그 여유가 자기 길에 대한 확신에서 온다는 걸 안다.\n질투 없이 기뻐하는 마음이, 가장 단단한 자존감이었다."
+      },
+      {
+        "text": "내 길도 — 묵묵히 간다",
+        "effects": {
+          "mental": 6,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "축하는 진심으로 하되, 내 페이스는 흔들리지 않는다.\n\n{name}은 남의 속도에 휘둘리지 않고 자기 길을 갔다.\n각자의 시간표가 있다는 걸 아는 게, 비교에서 자유로워지는 길이었다."
+      }
+    ]
+  }
+]

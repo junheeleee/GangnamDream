@@ -1,0 +1,250 @@
+[
+  {
+    "id": "callback_shared_doubt_echo",
+    "title": "그 무서운 말",
+    "background": "goshiwon_hallway",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "shared_doubt_with_hyunsu",
+      "min_turn": 40
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "현수가 복도에서 {name}을 불러세웠다.\n\n\"형, 그때 라면 먹으면서 한 말 기억해요?\"\n\n\"안 하면 확실히 안 된다고.\"\n\n현수가 웃으면서 말했다. \"그 말이 아직도 머릿속에 있어요. 공부하다 손 놓고 싶을 때마다.\"",
+    "choices": [
+      {
+        "text": "\"나도 그 말이 아직 남아있어.\"",
+        "effects": {
+          "mental": 7
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현수가 고개를 끄덕였다. 둘 다 아직 안 됐고, 아직 하고 있다.\n\n그 새벽 라면이 이렇게 남아있을 줄 몰랐다.\n서울에서 같이 버티는 사람이 옆에 있다는 게 — 생각보다 많이 의지가 됐다."
+      },
+      {
+        "text": "\"현수 너는 계속 해? 공부.\"",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"그럼요. 안 하면 확실히 안 되니까요.\" 현수가 그 말을 그대로 돌려줬다.\n\n웃겼다. 그리고 뭔가 좀 찡했다.\n\n이 고시원에서, 각자 다른 걸 향해 달리는 사람들이 서로의 말을 기억하고 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_midpoint_bet_echo",
+    "title": "또 같은 갈림길",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "midpoint_bet_more",
+      "min_turn": 52
+    },
+    "tags": ["callback", "investment", "story"],
+    "cooldown": 999,
+    "description": "또 비슷한 상황이 왔다.\n\n숫자를 보면서 — 크게 베팅해야 할지, 물러서야 할지.\n\n저번 반환점에서 \"더 크게 베팅해야 한다\"고 했다.\n그 선택의 결과가 지금 여기에 있다.",
+    "choices": [
+      {
+        "text": "그때의 판단이 맞았다. 이번에도 크게 간다.",
+        "effects": {
+          "investment_skill": 2,
+          "mental": -4,
+          "money": -200000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "손이 덜 떨렸다. 저번에 한 번 해봤으니까.\n\n두렵지만 — 이 두려움을 알고 있다는 게 차이였다.\n결과는 아직 나오지 않았다. 나오면 안다."
+      },
+      {
+        "text": "저번 경험에서 배웠다. 이번엔 다르게 간다.",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "저번에 배운 게 있었다. 크게 베팅하면 결과도 크지만 — 손 떨리는 시간도 길었다.\n\n이번엔 다르게 접근했다. 그게 발전인지 겁쟁이가 된 건지는, 결과가 알려줄 거다."
+      }
+    ]
+  },
+  {
+    "id": "callback_midpoint_steady_echo",
+    "title": "버티는 사람",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "midpoint_steady",
+      "min_turn": 52
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "주변에서 크게 번 사람 얘기가 들려왔다.\n\n단기 투자, 코인, 스타트업 엑싯.\n\n\"지금 방식이 맞다. 흔들리지 않는다.\"고 했던 그 판단이 — 다시 시험받고 있었다.",
+    "choices": [
+      {
+        "text": "여전히 내 방식이 맞다고 생각한다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다른 사람의 숫자가 크더라도 — 내 판단이 맞다면 결국 거기 간다.\n\n남의 속도에 흔들렸다면 반환점에서 그런 결정을 못 했을 것이다.\n그때의 판단이 지금의 태도를 만들었다."
+      },
+      {
+        "text": "흔들린다. 내 방식이 너무 느린 게 아닐까",
+        "effects": {
+          "mental": -4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "번 사람도 있고, 잃은 사람도 있다. 다 보인다.\n\n흔들리는 게 당연하다. 흔들리면서도 버티는 것과, 흔들리다 방향을 바꾸는 것은 다르다.\n아직은 버티고 있다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_personal_echo",
+    "title": "버티다 보면",
+    "background": "goshiwon_room",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_personal_known",
+      "min_turn": 48
+    },
+    "tags": ["callback", "sangchul", "story"],
+    "cooldown": 999,
+    "description": "긴 침묵이 있는 날이었다.\n\n임상철이 했던 말이 떠올랐다.\n\n\"나는 그냥 버텼지. 버티다 보면 뭐가 보이더라.\"\n\n30년을 버텼다는 사람의 말이 — 오늘은 다르게 들렸다.",
+    "choices": [
+      {
+        "text": "그 말을 붙잡고 오늘을 넘긴다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "뭔가 보이려면 아직 더 버텨야 한다.\n\n아들 전화를 받고 공백한 얼굴을 했던 임상철도, 버텼다. 그리고 지금 거기 있다.\n오늘 하루는 버텼다."
+      },
+      {
+        "text": "그 사람처럼 버티는 게 맞는 방법인지 모르겠다",
+        "effects": {
+          "intelligence": 2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "버티는 것도 방법이고, 바꾸는 것도 방법이다.\n\n임상철의 방식이 {name}에게 맞는 방식은 아닐 수 있다.\n그걸 아는 게 — 그 사람과 나눈 대화의 진짜 가치였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_honest_to_boss_echo",
+    "title": "팀장이 기억했다",
+    "background": "office",
+    "portrait": "boss",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "honest_to_boss",
+      "min_turn": 48
+    },
+    "tags": ["callback", "job", "story"],
+    "cooldown": 999,
+    "description": "팀장이 퇴근 전에 불렀다.\n\n\"그때 개인 공부한다고 했잖아요.\"\n\n{name}은 잠깐 긴장했다.\n\n\"근데 요즘 일이 오히려 잘 되더라고. 이상하게 집중이 잘 되는 것 같아서.\"",
+    "choices": [
+      {
+        "text": "\"감사합니다. 두 가지 다 잡으려고 하고 있어요.\"",
+        "effects": {
+          "mental": 7,
+          "reputation": 2
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 0
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "팀장이 고개를 끄덕이고 보냈다.\n\n솔직하게 말했던 게 오늘 이렇게 돌아왔다.\n직장과 목표 사이에서 — 잘 하면 둘 다 아닌 게 아니라는 걸 조금 봤다."
+      },
+      {
+        "text": "\"일이 더 재미있어진 것 같아요.\" 공부 얘기는 빼고 답한다",
+        "effects": {
+          "mental": 4,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "틀린 말은 아니었다. 집중이 잘 되는 건 사실이었다.\n\n그때 솔직하게 말한 게 이 관계에 뭔가를 남겼다. 팀장이 {name}을 좀 다르게 보기 시작했다는 느낌이 들었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_faced_comparison_echo",
+    "title": "이번엔 나였다",
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "faced_comparison",
+      "min_turn": 72
+    },
+    "tags": ["callback", "social", "story"],
+    "cooldown": 999,
+    "description": "또 그 식당이었다.\n\n우연히 들어갔는데 — 이번엔 다른 누군가가 문을 열고 들어왔다.\n\n고등학교 때 아는 얼굴이었다. 눈이 마주쳤다.\n그때 양복 차림이었던 동창이 아니라, 지금의 그 {name}을 보는 눈빛이었다.",
+    "choices": [
+      {
+        "text": "먼저 다가간다 — \"오랜만이야\"",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"어, 형! 오랜만이에요. 요즘 뭐 하세요?\"\n\n설명했다. 이번엔 공허한 반응이 아니었다. \"대단하다, 진짜\" 했다.\n\n저번에 쪽 팔렸던 그 식당이, 오늘은 달랐다.\n뭔가 쌓인 게 있다는 걸 — 처음으로 체감했다."
+      },
+      {
+        "text": "눈인사만 하고 각자 앉는다",
+        "effects": {
+          "mental": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "아무 일도 없었다. 각자 밥을 먹고 나갔다.\n\n근데 저번처럼 빨리 나오진 않았다. 밥을 다 먹었다.\n\n그게 달라진 거였다."
+      }
+    ]
+  }
+]

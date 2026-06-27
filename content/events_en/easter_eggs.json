@@ -6,11 +6,17 @@
     "choices": [
       {
         "text": "Compile 30 months of know-how into a notebook",
-        "result_text": "He titled it 'The Goshiwon Survival Codex.'\n\nThe art of frugality, the philosophy of soundproofing, minimum-cost nutrition.\nWriting it out, it became a whole book.\n\nThis wouldn't get him to Gangnam — but at least, in this trench, {name} was stronger than anyone.\n\nSomeone who knows the bottom completely doesn't fear falling."
+        "result_text": "He titled it 'The Goshiwon Survival Codex.'\n\nThe art of frugality, the philosophy of soundproofing, minimum-cost nutrition.\nWriting it out, it became a whole book.\n\nThis wouldn't get him to Gangnam — but at least, in this trench, {name} was stronger than anyone.\n\nSomeone who knows the bottom completely doesn't fear falling.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "I want out of here now",
-        "result_text": "Thirty months. Too long.\n\nHe didn't become a sage by choice.\nHe has to leave. Somehow.\n\nThat night, for the first time, {name} seriously started calculating moving costs.\nThe training was over. Time to descend the mountain."
+        "result_text": "Thirty months. Too long.\n\nHe didn't become a sage by choice.\nHe has to leave. Somehow.\n\nThat night, for the first time, {name} seriously started calculating moving costs.\nThe training was over. Time to descend the mountain.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -21,7 +27,10 @@
     "choices": [
       {
         "text": "Buy two today. A luxury.",
-        "result_text": "One tuna mayo, one spam.\n\n2,400 won at the register.\n\n{name} walked out holding two, strangely feeling rich.\n\nWhether it's sad or fortunate that the bar for happiness dropped this low — felt like both.\n\nStill, tonight's dinner is two."
+        "result_text": "One tuna mayo, one spam.\n\n2,400 won at the register.\n\n{name} walked out holding two, strangely feeling rich.\n\nWhether it's sad or fortunate that the bar for happiness dropped this low — felt like both.\n\nStill, tonight's dinner is two.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "Hold back. One is enough.",
@@ -36,11 +45,17 @@
     "choices": [
       {
         "text": "Just acknowledge what you feel right now",
-        "result_text": "He said it out loud — that it's hard.\n\nIn the empty room, quietly.\n\"...This is hard.\"\n\nStrangely, getting the words out made it a little lighter.\n\nAdmitting you're not okay took more courage than pretending you were.\n\n4:30 AM. {name} lay back down. This time, sleep came."
+        "result_text": "He said it out loud — that it's hard.\n\nIn the empty room, quietly.\n\"...This is hard.\"\n\nStrangely, getting the words out made it a little lighter.\n\nAdmitting you're not okay took more courage than pretending you were.\n\n4:30 AM. {name} lay back down. This time, sleep came.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Drink some water and rewrite the plan",
-        "result_text": "He drank a cup from the dispenser.\n\nOpened the notebook. A 4 AM plan is different from a daytime plan.\nMore honest, more simple.\n\n'Don't overdo it. Survive. Then think about what's next.'\n\nThree lines, and he closed the notebook.\nOutside, the window was brightening, very slowly."
+        "result_text": "He drank a cup from the dispenser.\n\nOpened the notebook. A 4 AM plan is different from a daytime plan.\nMore honest, more simple.\n\n'Don't overdo it. Survive. Then think about what's next.'\n\nThree lines, and he closed the notebook.\nOutside, the window was brightening, very slowly.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -51,11 +66,17 @@
     "choices": [
       {
         "text": "Still, my way wasn't wrong",
-        "result_text": "{name} set the calculator down.\n\nOthers may have gone faster. Held more.\nBut {name} sleeps well at night.\nDoesn't owe anyone, didn't deceive anyone.\n\nWhether that's cheaper or dearer than 100 million — he'll know when he dies.\n\nAt least for now, he wasn't ashamed."
+        "result_text": "{name} set the calculator down.\n\nOthers may have gone faster. Held more.\nBut {name} sleeps well at night.\nDoesn't owe anyone, didn't deceive anyone.\n\nWhether that's cheaper or dearer than 100 million — he'll know when he dies.\n\nAt least for now, he wasn't ashamed.",
+        "effects": {
+          "tint": 6
+        }
       },
       {
         "text": "Maybe try it differently, just once — wavering for the first time",
-        "result_text": "For the first time, {name} seriously considered another path.\n\nIf it's a game the orthodox way can't win —\nmaybe the rules need bending.\n\nThe thought was frightening, and strangely freeing.\n\nHe hadn't done anything yet. But a latch somewhere in his heart had come loose.\nWhether this is a beginning or a fall, he doesn't yet know."
+        "result_text": "For the first time, {name} seriously considered another path.\n\nIf it's a game the orthodox way can't win —\nmaybe the rules need bending.\n\nThe thought was frightening, and strangely freeing.\n\nHe hadn't done anything yet. But a latch somewhere in his heart had come loose.\nWhether this is a beginning or a fall, he doesn't yet know.",
+        "effects": {
+          "tint": -3
+        }
       }
     ]
   },
@@ -66,11 +87,17 @@
     "choices": [
       {
         "text": "Stop now. Delete every gambling app.",
-        "result_text": "He took out his phone.\n\nGambling apps, betting site bookmarks, chart alerts — deleted one by one.\nHis hands shook. Even deleting, he wanted to reinstall.\n\nThat was the proof it was addiction.\n\n{name} threw the phone far away and pulled the blanket over his head.\nJust today. He'd try to endure just today.\n\nIt always starts with 'just today.' Quitting was the same."
+        "result_text": "He took out his phone.\n\nGambling apps, betting site bookmarks, chart alerts — deleted one by one.\nHis hands shook. Even deleting, he wanted to reinstall.\n\nThat was the proof it was addiction.\n\n{name} threw the phone far away and pulled the blanket over his head.\nJust today. He'd try to endure just today.\n\nIt always starts with 'just today.' Quitting was the same.",
+        "effects": {
+          "tint": 7
+        }
       },
       {
         "text": "Look away from the mirror. It's still fine.",
-        "result_text": "{name} looked away from the mirror.\n\n'It's still fine. One more win and I'm out.'\n\nHe decided not to count how many times he'd said 'just one more.'\nCounting would be terrifying.\n\nThe man in the mirror looked away too.\nBoth of them, a night of seeing what they didn't want to see."
+        "result_text": "{name} looked away from the mirror.\n\n'It's still fine. One more win and I'm out.'\n\nHe decided not to count how many times he'd said 'just one more.'\nCounting would be terrifying.\n\nThe man in the mirror looked away too.\nBoth of them, a night of seeing what they didn't want to see.",
+        "effects": {
+          "tint": -6
+        }
       }
     ]
   },
@@ -81,11 +108,17 @@
     "choices": [
       {
         "text": "This is my way. Numbers are just numbers.",
-        "result_text": "{name} slurped the ramen.\n\nWith 2 billion in the bank, ramen tasted the same.\nMaybe even better — his mind was at ease.\n\nMoney wasn't a goal but freedom.\nFreedom to leave when he must, freedom to stay if he wants.\n\n{name} was enjoying that freedom now.\nGangnam — he can go when he wants to. No rush."
+        "result_text": "{name} slurped the ramen.\n\nWith 2 billion in the bank, ramen tasted the same.\nMaybe even better — his mind was at ease.\n\nMoney wasn't a goal but freedom.\nFreedom to leave when he must, freedom to stay if he wants.\n\n{name} was enjoying that freedom now.\nGangnam — he can go when he wants to. No rush.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "Now it's really time to leave. For Gangnam.",
-        "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThose numbers he'd only seen on screen five years ago —\nwere now a price he could pay.\n\nHe cooked one last ramen for the next-room exam-prepper."
+        "result_text": "He drank the broth to the last drop.\n\n2 billion. That's enough now.\nThe stubbornness he'd shown in the goshiwon — this far was plenty.\n\n{name} opened the real estate app.\nLooked at Gangnam listings seriously, for the first time.\n\nThose numbers he'd only seen on screen five years ago —\nwere now a price he could pay.\n\nHe cooked one last ramen for the next-room exam-prepper.",
+        "effects": {
+          "tint": 2
+        }
       }
     ]
   },
@@ -96,7 +129,10 @@
     "choices": [
       {
         "text": "Do it differently this time — trust the instinct",
-        "result_text": "{name} didn't reject the strange familiarity — he followed it.\n\n'If it was like this before, then differently this time.'\n\nThere was no basis. But the instinct was strangely clear.\nLike someone who'd already walked this path once.\n\nMaybe someone lives the same life over and over.\nSearching for a better ending."
+        "result_text": "{name} didn't reject the strange familiarity — he followed it.\n\n'If it was like this before, then differently this time.'\n\nThere was no basis. But the instinct was strangely clear.\nLike someone who'd already walked this path once.\n\nMaybe someone lives the same life over and over.\nSearching for a better ending.",
+        "effects": {
+          "tint": 2
+        }
       },
       {
         "text": "It's just a feeling — forget it and sleep",
@@ -111,11 +147,17 @@
     "choices": [
       {
         "text": "Live truly differently this time — use everything I know",
-        "result_text": "{name} recalled everything learned from past lives.\n\nWhich offers were traps, which chances were real.\nThe map of failures was in his head.\n\nThis time he walks with that map in hand.\n\nStill, the ending is unknown. Life isn't a test you pass by memorizing.\nBut at least he won't fall in the same trap twice.\nThat alone — maybe this life will be a little better."
+        "result_text": "{name} recalled everything learned from past lives.\n\nWhich offers were traps, which chances were real.\nThe map of failures was in his head.\n\nThis time he walks with that map in hand.\n\nStill, the ending is unknown. Life isn't a test you pass by memorizing.\nBut at least he won't fall in the same trap twice.\nThat alone — maybe this life will be a little better.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Knowing changes nothing — just let it flow",
-        "result_text": "{name} gave a bitter smile.\n\nDoes knowing change anything. In the end you waver at the same place, regret the same things.\nThat's human.\n\nBut strangely, that resignation wasn't despair.\n\nThat living again and again turns out similar —\nmaybe it meant this life already fit {name}.\nAcceptance, too, was a kind of ending."
+        "result_text": "{name} gave a bitter smile.\n\nDoes knowing change anything. In the end you waver at the same place, regret the same things.\nThat's human.\n\nBut strangely, that resignation wasn't despair.\n\nThat living again and again turns out similar —\nmaybe it meant this life already fit {name}.\nAcceptance, too, was a kind of ending.",
+        "effects": {
+          "tint": -4
+        }
       }
     ]
   }

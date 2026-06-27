@@ -106,7 +106,7 @@
     "cooldown": 12,
     "choices": [
       {
-        "text": "전화한다",
+        "text": "전화 버튼을 눌렀다",
         "effects": {
           "mental": 15
         },
@@ -146,7 +146,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "아는 척한다",
+        "text": "\"어, 안녕하세요\"라고 했다",
         "effects": {
           "mental": -5,
           "social_skill": 1
@@ -167,49 +167,6 @@
         ],
         "follow_up_event": "",
         "result_text": "지나쳤다.\n다은도 못 봤을 것이다.\n블록 하나를 돌아서야 걸음이 느려졌다.\n왜인지는 몰랐다."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_pretended_found_out",
-    "title": "한지연의 문자",
-    "description": "한지연에게서 문자가 왔다.\n'그날 고시원 얘기... 나중에 알았어요. 처음부터 알고 있었던 것 같아요.\n왜 그랬어요?'",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_pretended",
-      "min_turn": 112
-    },
-    "tags": [
-      "jiyeon",
-      "callback",
-      "relationship"
-    ],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "솔직하게 사과한다",
-        "effects": {
-          "mental": -2,
-          "social_skill": 2
-        },
-        "flags": [
-          "jiyeon_honest_late"
-        ],
-        "follow_up_event": "",
-        "result_text": "'미안해요. 이쪽 세계에서 버티는 법이 그것밖에 없었어요.'\n잠시 침묵. 그리고 답장이 왔다.\n'...그거면 됐어요.'\n이상하게 이게 더 나았다."
-      },
-      {
-        "text": "변명한다",
-        "effects": {
-          "mental": -15,
-          "social_skill": -1
-        },
-        "flags": [],
-        "follow_up_event": "",
-        "result_text": "'그게 다 틀린 말은 아니었어요.'\n한참 읽음만 찍혀 있었다.\n그 다음 날, 답장이 없었다."
       }
     ]
   },
@@ -247,7 +204,7 @@
         "result_text": "세무사 사무실. 포트폴리오 구조를 다시 짰다.\n나중에 계산해보니 세금만 1200만원 아꼈다.\n한지연한테 고맙다는 문자를 보냈다.\n'당연한 거죠. 솔직한 분들이 좋아요.' 답장이 왔다."
       },
       {
-        "text": "거절한다",
+        "text": "\"이번엔 괜찮아요\"라고 했다",
         "effects": {
           "mental": 2
         },
@@ -277,7 +234,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "만나서 직접 얘기한다",
+        "text": "날짜를 잡았다",
         "effects": {
           "mental": -18,
           "social_skill": 2
@@ -296,50 +253,6 @@
         "flags": [],
         "follow_up_event": "",
         "result_text": "'지연씨가 결정할 일이에요. 저는 개입하지 않겠습니다.'\n어머니가 잠깐 침묵하다 전화를 끊었다.\n한지연에게는 말하지 않았다."
-      }
-    ]
-  },
-  {
-    "id": "callback_jiyeon_ended_gangnam_encounter",
-    "title": "강남에서",
-    "description": "강남 아파트 오픈하우스에 왔다.\n복도에서 익숙한 실루엣이 보인다.\n한지연이다. 남자와 함께. 부동산 직원처럼 보이는 사람과 얘기하고 있다.\n여기서 만날 줄은 몰랐다.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.6,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_ended",
-      "min_turn": 192
-    },
-    "tags": [
-      "jiyeon",
-      "callback",
-      "ending_prep"
-    ],
-    "cooldown": 999,
-    "choices": [
-      {
-        "text": "먼저 인사한다",
-        "effects": {
-          "mental": 3,
-          "social_skill": 1
-        },
-        "flags": [
-          "jiyeon_gangnam_final"
-        ],
-        "follow_up_event": "",
-        "result_text": "한지연이 눈이 마주치자 약간 놀랐다.\n'...여기도 보러 오셨어요?'\n'네. 드디어요.'\n그녀가 웃었다. '다행이네요.' 진심처럼 들렸다."
-      },
-      {
-        "text": "눈이 마주쳤지만 모른 척 지나간다",
-        "effects": {
-          "mental": -3
-        },
-        "flags": [
-          "jiyeon_gangnam_final"
-        ],
-        "follow_up_event": "",
-        "result_text": "지나쳤다.\n한지연도 같은 선택을 했는지, 아무 말도 없었다.\n강남에 왔다. 아는 사람도 있었다.\n그것으로 충분했다."
       }
     ]
   },
@@ -493,7 +406,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "출석한다",
+        "text": "출석했다",
         "effects": {
           "mental": 3,
           "reputation": 2,
@@ -537,7 +450,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "직접 찾아간다",
+        "text": "직접 찾아갔다",
         "effects": {
           "money": -5000000,
           "mental": -35,

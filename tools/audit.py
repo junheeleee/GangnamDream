@@ -280,11 +280,27 @@ def _walk_event_flags(ev, game_sets, game_reads_json, cast_sets, cast_reads_json
             v = cond.get(key)
             if isinstance(v, str) and v:
                 game_reads_json.setdefault(v, []).append(where)
+            elif isinstance(v, list):  # no_flag 배열 지원
+                for fl in v:
+                    if isinstance(fl, str) and fl:
+                        game_reads_json.setdefault(fl, []).append(where)
         cf = cond.get("cast_flag")
         if isinstance(cf, dict):
             p, fl = str(cf.get("person", "")), str(cf.get("flag", ""))
             if p and fl:
                 cast_reads_json.setdefault((p, fl), []).append(where)
+    # description_if_known 키 = 렌더링 엔진이 flags.get()으로 읽는 플래그
+    dik = ev.get("description_if_known", {})
+    if isinstance(dik, dict):
+        for fl in dik.keys():
+            if isinstance(fl, str) and fl:
+                game_reads_json.setdefault(str(fl), []).append(where)
+    # 생각정리(thoughts.json) on_complete.flags = 완료 시 set되는 플래그
+    oc = ev.get("on_complete", {})
+    if isinstance(oc, dict):
+        for fl in oc.get("flags", []):
+            if isinstance(fl, str) and fl:
+                game_sets.add(str(fl))
     for ch in ev.get("choices", []):
         for fl in ch.get("flags", []):
             game_sets.add(str(fl))
@@ -364,6 +380,7 @@ def check_flags():
 # 의도적으로 저장하지 않는 transient 변수 (씬 전환용 임시 상태)
 SERIALIZE_EXEMPT = {
     "pending_story_queue", "story_return_scene", "returning_from_story",
+    "pending_tint_vignette", "pending_scar_vignette",
 }
 
 def check_serialize():
@@ -395,13 +412,14 @@ EVENT_ROOT_KEYS = {"id", "title", "description", "category", "rarity", "weight",
                    "portrait", "background", "cg", "speaker", "one_time", "_file",
                    "timed", "timer_seconds",
                    "description_orthodox", "description_unorthodox",
-                   "description_low_mental", "description_long_gosiwon"}
+                   "description_low_mental", "description_long_gosiwon",
+                   "description_if_known"}
 # apply_choice()가 실제로 처리하는 선택지 키 + 주석용 키
 CHOICE_KEYS = {"text", "effects", "flags", "follow_up_event", "result_text",
                "opportunity", "cast_effects", "relationship_effects",
                "investment_effects", "tendency", "route", "grant_job",
                "conditions_note", "deferred_follow_up", "deferred_delay",
-               "foreshadow"}
+               "foreshadow", "clues", "give_items"}
 
 def _match_arm_keys(src, func_pattern):
     """함수 본문 안 match 문의 따옴표 키들을 수집 (코드가 진실 — 목록 자동 동기화)."""
@@ -533,6 +551,224 @@ def check_cast_stages():
                     check(pid, s, "%s:%d" % (rel(f), ln_no))
 
 # ══════════════════════════════════════════════════════════════
+# 9) 죽은 아크 이벤트 — 트리거 전용(min_turn>=9999)인데 코드/follow_up
+#    어디서도 호출 안 되는 이벤트. 작성됐지만 영원히 안 뜨는 죽은 콘텐츠.
+#    (← 난개발로 구버전 아크가 신버전으로 교체되며 안 지워진 잔재)
+# ══════════════════════════════════════════════════════════════
+def check_dead_arc_events():
+    # GD 코드 전체 텍스트 (id 문자열 참조 탐색용)
+    code = ""
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            code += open(f, encoding="utf-8").read()
+    # follow_up 타깃 수집 (KR 이벤트)
+    follow_targets = set()
+    trigger_only = []   # (id, file)
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            for key in ("follow_up", "follow_up_event", "deferred_follow_up"):
+                v = e.get(key)
+                if isinstance(v, str) and v:
+                    follow_targets.add(v)
+            for ch in e.get("choices", []) or []:
+                for key in ("follow_up_event", "deferred_follow_up"):
+                    v = ch.get(key)
+                    if isinstance(v, str) and v:
+                        follow_targets.add(v)
+            cond = e.get("conditions", {}) or {}
+            mt = cond.get("min_turn", 0)
+            if isinstance(mt, (int, float)) and mt >= 9999:
+                trigger_only.append((e.get("id"), p))
+    # 생각정리(thoughts) on_complete.unlock_event 도 정당한 트리거 경로
+    tp = os.path.join(ROOT, "content", "meta", "thoughts.json")
+    if os.path.exists(tp):
+        try:
+            for t in json.load(open(tp, encoding="utf-8")):
+                ue = (t.get("on_complete", {}) or {}).get("unlock_event")
+                if isinstance(ue, str) and ue:
+                    follow_targets.add(ue)
+        except Exception:
+            pass
+    for eid, p in trigger_only:
+        if not eid:
+            continue
+        if ('"%s"' % eid) in code or eid in follow_targets:
+            continue
+        err('%s [%s] 트리거 전용(min_turn>=9999)인데 코드/follow_up 어디서도 호출 안 됨 '
+            '— 영원히 안 뜨는 죽은 아크 (구버전 잔재거나 _next_arc_id 트리거 누락)'
+            % (rel(p), eid))
+
+# ══════════════════════════════════════════════════════════════
+# 10) 죽은 cast-stage 분기 — 코드/조건이 비교하는 cast stage인데
+#     어떤 이벤트도 그 stage를 set하지 않는 경우. 도달 불가 분기.
+#     (← 다은 with_daeun 엔딩이 committed를 안 보던 버그의 거울상:
+#      엔딩이 lover를 보는데 lover를 set하는 이벤트가 사라진 경우)
+# ══════════════════════════════════════════════════════════════
+def check_dead_cast_branches():
+    # set 소스 ① 이벤트 cast_effects.stage
+    set_pairs = set()
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            srcs = [e.get("cast_effects", {})] + \
+                   [c.get("cast_effects", {}) for c in e.get("choices", []) or []]
+            for ce in srcs:
+                if isinstance(ce, dict):
+                    for pid, pe in ce.items():
+                        if isinstance(pe, dict) and "stage" in pe:
+                            set_pairs.add((str(pid), str(pe["stage"])))
+    # set 소스 ② GameState.gd 초기/리셋 stage 리터럴 ("father":{"stage":"distant"} 등)
+    gs = os.path.join(ROOT, "autoloads", "GameState.gd")
+    casts_seen = set(pid for pid, _ in set_pairs)
+    if os.path.exists(gs):
+        gtext = open(gs, encoding="utf-8").read()
+        for pid, st in re.findall(r'"([a-z_]+)"\s*:\s*\{\s*"stage"\s*:\s*"([a-z_]+)"', gtext):
+            set_pairs.add((pid, st)); casts_seen.add(pid)
+    # 모든 인물의 초기 unknown 은 reset 경로에서 항상 set됨
+    for pid in casts_seen:
+        set_pairs.add((pid, "unknown"))
+
+    # read 소스 ① GD: get_cast_stage("pid") ... "stage"
+    GD_STAGE = re.compile(r'get_cast_stage\(\s*"([a-z_]+)"\s*\)')
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            for ln_no, line in enumerate(open(f, encoding="utf-8").read().splitlines(), 1):
+                if "audit-ignore" in line:
+                    continue
+                m = GD_STAGE.search(line)
+                if not m:
+                    continue
+                pid = m.group(1)
+                for s in re.findall(r'"([a-z_]+)"', line[m.end():]):
+                    if (pid, s) not in set_pairs:
+                        err('%s:%d  get_cast_stage("%s") 가 "%s" 와 비교하지만 이 stage를 '
+                            'set하는 이벤트가 없음 — 도달 불가 죽은 분기'
+                            % (rel(f), ln_no, pid, s))
+    # read 소스 ② conditions.cast_stage (is/in/not)
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            cs = e.get("conditions", {}).get("cast_stage", {})
+            if not (isinstance(cs, dict) and cs.get("person")):
+                continue
+            pid = str(cs["person"])
+            vals = ([cs["is"]] if "is" in cs else []) + list(cs.get("in", []))
+            # "not" 비교는 set 안 돼도 의미가 없을 뿐 도달성과 무관하므로 제외
+            for s in vals:
+                if (pid, str(s)) not in set_pairs:
+                    err('%s [%s] conditions.cast_stage 가 %s="%s" 를 요구하지만 이 stage를 '
+                        'set하는 이벤트가 없음 — 절대 발동 안 됨'
+                        % (rel(p), e.get("id", "?"), pid, s))
+
+# ══════════════════════════════════════════════════════════════
+# 11) 구조 부채 래칫 — write-only 플래그 / inert 이벤트 수를 baseline에
+#     고정하고, 늘어나면 ERROR. (난개발이 다시 자라지 못하게 하는 톱니.
+#     Phase 2 정리로 수가 줄면 baseline을 낮춰 톱니를 조인다.)
+#     baseline: tools/debt_baseline.json
+# ══════════════════════════════════════════════════════════════
+def _gather_game_flags():
+    """(set되는 플래그, 참조되는 플래그).
+    write-only 오탐(정상 배선된 플래그를 죽었다고 잘못 잡는 것)을 막기 위해
+    참조 판정을 넓게 잡는다: JSON 조건(flag/no_flag) + GD 코드의 모든 문자열
+    리터럴(f.get/match/배열 등 간접 읽기까지 포함)."""
+    game_sets, reads = set(), set()
+    # 게임플레이 플래그는 이벤트 파일에서만 set/조건읽기 된다 (설정 JSON 제외 — 오탐 방지)
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for ev in evs:
+            if not isinstance(ev, dict):
+                continue
+            gr_json = {}
+            _walk_event_flags(ev, game_sets, gr_json, set(), {}, "x")
+            reads |= set(gr_json.keys())
+    LIT = re.compile(r'"([A-Za-z0-9_]+)"')
+    for d in GD_DIRS:
+        for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
+            text = open(f, encoding="utf-8").read()
+            for line in text.splitlines():
+                if "audit-ignore" in line:
+                    continue
+                for m in FLAG_SET_GD.finditer(line):
+                    game_sets.add(m.group(1))
+            # 코드 내 모든 문자열 리터럴을 '참조'로 간주 (보수적 — 오탐 방지)
+            reads |= set(LIT.findall(text))
+    return game_sets, reads
+
+def _choice_is_inert(ch):
+    if isinstance(ch.get("effects"), dict) and ch["effects"]:
+        return False
+    if ch.get("flags"):
+        return False
+    if ch.get("follow_up_event") or ch.get("deferred_follow_up"):
+        return False
+    if isinstance(ch.get("cast_effects"), dict) and ch["cast_effects"]:
+        return False
+    if isinstance(ch.get("opportunity"), dict) and ch["opportunity"]:
+        return False
+    return True
+
+def check_structural_debt():
+    # 1) write-only 플래그: set되지만 코드/조건 어디서도 안 읽힘
+    game_sets, reads = _gather_game_flags()
+    write_only = sorted(f for f in game_sets if f not in reads)
+    # 2) inert 이벤트: 선택지 2개+인데 전 선택지가 기계적 영향 0
+    inert = []
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for ev in evs:
+            if not isinstance(ev, dict):
+                continue
+            chs = ev.get("choices", []) or []
+            if len(chs) >= 2 and all(_choice_is_inert(c) for c in chs):
+                inert.append(ev.get("id", "?"))
+    metrics = {"write_only_flags": len(write_only), "inert_events": len(inert)}
+
+    bp = os.path.join(ROOT, "tools", "debt_baseline.json")
+    baseline = {}
+    if os.path.exists(bp):
+        try:
+            baseline = json.load(open(bp, encoding="utf-8"))
+        except Exception:
+            baseline = {}
+
+    print(C.B + "● 구조 부채 래칫" + C.Z)
+    for k, cur in metrics.items():
+        base = baseline.get(k)
+        if base is None:
+            print("  %s: %d  (baseline 미설정 — tools/debt_baseline.json 생성 필요)" % (k, cur))
+        elif cur > base:
+            err('구조 부채 증가: %s %d→%d. 새로 추가한 항목을 배선(읽기/효과)하거나 제거할 것 '
+                '(의도된 증가면 tools/debt_baseline.json 갱신)' % (k, base, cur))
+            print("  %s%s: %d (baseline %d) ▲%s" % (C.R, k, cur, base, C.Z))
+        elif cur < base:
+            print("  %s%s: %d (baseline %d) ▼ — baseline 낮춰 톱니를 조이세요%s"
+                  % (C.G, k, cur, base, C.Z))
+        else:
+            print("  %s: %d (baseline 유지)" % (k, cur))
+
+# ══════════════════════════════════════════════════════════════
 # 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가
 #    KR 원본과 다를 경우 WARNING. (수동 번역 시 조건 불일치 회귀 방지)
 # ══════════════════════════════════════════════════════════════
@@ -568,6 +804,70 @@ def check_en_conditions():
                      % (fname, eid, kr_cond, en_cond))
 
 # ══════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════
+# 13) 발견 레이어 무결성 — 단서/생각정리(clues.json/thoughts.json)
+#     이벤트가 주는 clue id·생각의 required_clues·unlock_event가
+#     실제로 정의돼 있는지 대조 (← 오타로 조용히 죽는 추론 경로 방지)
+# ══════════════════════════════════════════════════════════════
+def check_clues_thoughts():
+    cp = os.path.join(ROOT, "content", "meta", "clues.json")
+    tp = os.path.join(ROOT, "content", "meta", "thoughts.json")
+    if not os.path.exists(cp) or not os.path.exists(tp):
+        return
+    try:
+        clue_rows = json.load(open(cp, encoding="utf-8"))
+        thought_rows = json.load(open(tp, encoding="utf-8"))
+    except Exception as e:
+        err("clues.json/thoughts.json 파싱 실패: %s" % e)
+        return
+    clue_ids = set()
+    for c in clue_rows:
+        cid = c.get("id", "")
+        if cid in clue_ids:
+            err("clues.json 중복 id: %s" % cid)
+        clue_ids.add(cid)
+    # 이벤트가 주는 clue id가 실제로 존재하는지
+    for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(p)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            for ch in e.get("choices", []) or []:
+                for cid in ch.get("clues", []) or []:
+                    if str(cid) not in clue_ids:
+                        err("%s [%s] 없는 단서 id 부여: %s (clues.json에 없음)"
+                            % (rel(p), e.get("id", "?"), cid))
+    # 생각의 required_clues / unlock_event 검증
+    thought_ids = set()
+    for t in thought_rows:
+        tid = t.get("id", "")
+        if tid in thought_ids:
+            err("thoughts.json 중복 id: %s" % tid)
+        thought_ids.add(tid)
+        for req in t.get("required_clues", []) or []:
+            if str(req) not in clue_ids:
+                err("thoughts.json [%s] 없는 required_clue: %s" % (tid, req))
+        ue = (t.get("on_complete", {}) or {}).get("unlock_event")
+        if ue and not DataRegistry_has_event(ue):
+            err("thoughts.json [%s] unlock_event 없는 이벤트: %s" % (tid, ue))
+
+_ALL_EVENT_IDS = None
+def DataRegistry_has_event(eid):
+    global _ALL_EVENT_IDS
+    if _ALL_EVENT_IDS is None:
+        _ALL_EVENT_IDS = set()
+        for p in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+            try:
+                for e in load_events(p):
+                    if isinstance(e, dict) and e.get("id"):
+                        _ALL_EVENT_IDS.add(e["id"])
+            except Exception:
+                pass
+    return eid in _ALL_EVENT_IDS
+
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)
     check_gdscript()
@@ -577,7 +877,11 @@ def main():
     check_serialize()
     check_event_keys()
     check_cast_stages()
+    check_dead_arc_events()
+    check_dead_cast_branches()
+    check_structural_debt()
     check_en_conditions()
+    check_clues_thoughts()
 
     if errors:
         print("\n" + C.R + C.BOLD + "● ERROR (%d)" % len(errors) + C.Z)

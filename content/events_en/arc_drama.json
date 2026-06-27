@@ -1,5 +1,113 @@
 [
   {
+    "id": "hidden_whole_picture",
+    "title": "The Picture He Built Alone",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "flag": "formed_whole_picture",
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "discovery",
+      "deduction"
+    ],
+    "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 15,
+    "description": "Three nights. A registry record, a line from an article a dozen years old, one remembered scene at a time.\n\nThe name he steered away from — Han PD Construction. The 'Lim' who vouched for Park Sang-jin to his father. The man who came up from a Chungcheong fishing town and reached Gangnam by stepping on people.\n\nThree threads met at one point. Lim Sang-chul.\n\nNo one told him. Minjun built the man out of fragments.\nAnd once he knew, the same seat in the same café looked different.",
+    "choices": [
+      {
+        "text": "Hold the cards — knowing is its own power",
+        "effects": {
+          "intelligence": 1,
+          "investment_skill": 1,
+          "mental": -3,
+          "tint": 2
+        },
+        "result_text": "Minjun closed the notebook.\n\nHe wouldn't tear the man down, wouldn't forgive him either. He would simply know.\nHe'd sit at the same table knowing exactly who this man was.\n\nThis time, the one holding the cards was Minjun."
+      },
+      {
+        "text": "See the man again — one day I'll ask him directly",
+        "effects": {
+          "mental": 2,
+          "social_skill": 1,
+          "tint": 4
+        },
+        "result_text": "Minjun looked at the Gangnam lights for a long time.\n\nHe wanted to ask. Why did you do it. Knowing, why did you let me in.\n\nNot yet. But the question was inside him now, clear and waiting."
+      },
+      {
+        "text": "Swallow it — Gangnam comes first for now",
+        "effects": {
+          "mental": -5,
+          "intelligence": 1,
+          "tint": -3
+        },
+        "result_text": "He wouldn't let on that he knew. He'd set the next meeting like nothing happened.\n\nSomeday this weight would come back around.\nUntil then — Gangnam first.\n\nMinjun turned off the light. Sleep didn't come."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_deduction",
+    "title": "A Name That Stayed",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "revelation",
+      "discovery"
+    ],
+    "cooldown": 9999,
+    "timed": true,
+    "timer_seconds": 15,
+    "description": "There was a name Sang-chul had quietly steered away from at the network dinner. \"Han PD Construction.\"\nMinjun filed it away in the back of his mind. Weeks passed.\n\nTonight, he couldn't sleep. He searched the name.\nAn old article. A real estate guarantee scam. A broker who made the introductions. The name was redacted — but the timing, the district, the pattern — it all mirrored what happened to his father.\n\nAnd at the bottom of the article, in the list of related entities: Han PD Construction.\nThe same name Sang-chul's face hadn't changed at all while he deflected.",
+    "choices": [
+      {
+        "text": "Dig deeper — trace Sang-chul's old transactions",
+        "effects": {
+          "mental": -12,
+          "intelligence": 2,
+          "investment_skill": 1,
+          "tint": 3
+        },
+        "flags": [
+          "arc_sangchul_deduction_seen",
+          "sangchul_truth_known",
+          "deduced_sangchul_truth"
+        ],
+        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same window. Same neighborhood. Same referral structure.\n\nLim. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who five years ago walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
+      },
+      {
+        "text": "Leave it alone — he can't be sure",
+        "effects": {
+          "mental": -4,
+          "tint": 2
+        },
+        "flags": [
+          "arc_sangchul_deduction_seen",
+          "sangchul_clue_noted"
+        ],
+        "result_text": "You can't accuse someone based on one article.\nMinjun closed his laptop.\n\nBut — a suspicion, once caught, doesn't let go easily.\nEvery time he saw Sang-chul now, that name rang somewhere quiet inside him.\n\nHe'd pretend not to know. For now."
+      }
+    ]
+  },
+  {
     "id": "arc_father_06_confession",
     "title": "Father's Secret",
     "background": "goshiwon_room",
@@ -11,16 +119,27 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "father", "sangchul", "revelation"],
+    "tags": [
+      "story",
+      "arc",
+      "father",
+      "sangchul",
+      "revelation"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 15,
     "description": "After the hospital visit, Dad started calling more often.\nShort calls. How's the weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. About that debt. It was... Park Sang-jin.\"\n\nMinjun had never heard that name before.\n\n\"Someone from the Gangnam real estate scene introduced us. A man named Lim. He seemed decent at first... He said Park Sang-jin was someone you could trust.\"\n\nMinjun set down the cup he'd been holding.",
+    "description_if_known": {
+      "deduced_sangchul_truth": "After the hospital visit, Dad started calling more.\nShort calls. Weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. It was Park Sang-jin. A man named Lim introduced us.\"\n\nMinjun already knew.\nHe'd pieced it together alone — in the small hours, from old articles and registry records.\nLim Sang-chul.\n\nHearing it from his father's mouth was different.\nThe weight he'd been carrying alone — now it belonged to both of them.\n\nMinjun set his cup down slowly.",
+      "sangchul_clue_noted": "After the hospital visit, Dad started calling more.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. A man named Lim from the Gangnam real estate scene introduced us.\"\n\nMinjun remembered.\nThe name that had passed through that dinner. The one he'd filed away and chosen not to dig into.\nNot sure enough. Not yet.\n\nNow he was sure.\nThe night he'd decided to leave it alone — suddenly felt very heavy."
+    },
     "choices": [
       {
         "text": "\"That man named Lim — do you happen to know his full name?\"",
         "effects": {
-          "mental": -10
+          "mental": -10,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -37,7 +156,8 @@
       {
         "text": "\"Do you know where he is now?\"",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 3
         },
         "cast_effects": {
           "father": {
@@ -54,7 +174,8 @@
       {
         "text": "(He couldn't say a word)",
         "effects": {
-          "mental": -14
+          "mental": -14,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -71,6 +192,64 @@
     ]
   },
   {
+    "id": "arc_sangchul_mirror",
+    "title": "Mirror",
+    "background": "pojangmacha",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "Late at night, Sang-chul spoke.\n\n\"Minjun, can I be honest with you?\"\n\n{name} set down his glass.\n\n\"At first I just thought you were someone with drive.\nBut the more I watch you — you're like me.\nYou know how to move fast.\nYou know what you have to let go of.\"\n\n{name} said nothing.\n\n\"I don't mean that as an insult. It's a compliment.\"\n\nThrough the window, Gangnam glittered.",
+    "choices": [
+      {
+        "text": "Raised his glass",
+        "effects": {
+          "tint": 1
+        },
+        "flags": [
+          "sangchul_called_you_his_mirror",
+          "arc_sangchul_mirror_seen"
+        ],
+        "result_text": "They clinked glasses.\nSang-chul smiled.\n{name} spent the whole walk home trying to figure out whether that was a compliment."
+      },
+      {
+        "text": "\"Do I seem that way?\"",
+        "effects": {
+          "mental": -6,
+          "tint": 2
+        },
+        "flags": [
+          "sangchul_called_you_his_mirror",
+          "arc_sangchul_mirror_seen"
+        ],
+        "result_text": "Sang-chul looked at him for a moment.\n\"You don't know? Or you're asking even though you do?\"\n\n{name} didn't answer.\nLooked out the window."
+      },
+      {
+        "text": "(He wanted to deny it)",
+        "effects": {
+          "mental": -10,
+          "tint": 2
+        },
+        "flags": [
+          "sangchul_called_you_his_mirror",
+          "denied_sangchul_mirror",
+          "arc_sangchul_mirror_seen"
+        ],
+        "result_text": "\"I'm a bit different.\"\nSang-chul nodded.\n\"If that's what you think, then sure.\"\n\n{name} spent all night turning that over in his head."
+      }
+    ]
+  },
+  {
     "id": "arc_sangchul_confrontation",
     "title": "The Question",
     "background": "cafe",
@@ -82,7 +261,12 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul", "confrontation"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "confrontation"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
@@ -91,7 +275,8 @@
       {
         "text": "Waited for Sang-chul's reaction",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "flags": [
           "arc_sangchul_confrontation_seen",
@@ -104,7 +289,8 @@
       {
         "text": "\"Forget it.\" (He took it back)",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": -3
         },
         "cast_effects": {
           "sangchul": {
@@ -121,7 +307,8 @@
         "text": "(He got up and left)",
         "effects": {
           "mental": -3,
-          "reputation": -2
+          "reputation": -2,
+          "tint": 8
         },
         "cast_effects": {
           "sangchul": {
@@ -134,7 +321,11 @@
         ],
         "result_text": "Minjun stood and walked out of the café without a word.\n\nSang-chul called his name from behind. He didn't turn around.\n\nThat relationship ended that day. With no dramatic scene."
       }
-    ]
+    ],
+    "description_if_known": {
+      "used_sangchul_knowingly": "For a month, Minjun did nothing.\nHe still met Sang-chul. Talked like usual. Charts, markets, strategy for next month.\nHe took the deals Sang-chul handed him too. Knowing, and still taking them.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sang-chul. Do you know a man named Park Sang-jin?\"\n\nHe thought of the account he'd grown with that man's money.\nWhether he had any right to ask this question — he didn't know.",
+      "sangchul_helped_with_father": "For a month, Minjun did nothing.\nHe still met Sang-chul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sang-chul. Do you know a man named Park Sang-jin?\"\n\nThe day Sang-chul handled his father's hospital situation came back to him.\nHad that been the moment — when this man became his person."
+    }
   },
   {
     "id": "arc_sangchul_reckoning",
@@ -148,7 +339,13 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "sangchul", "father", "moral"],
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "father",
+      "moral"
+    ],
     "cooldown": 9999,
     "description": "After a long silence, Sang-chul spoke.\n\n\"I knew he was your father. From the beginning.\"\n\nMinjun didn't respond.\n\n\"When Park Sang-jin called and made the introduction... I just did him a favor. I didn't know it would go this far.\"\n\nA beat of silence.\n\nSang-chul said,\n\"I'm sorry.\"",
     "choices": [
@@ -156,7 +353,8 @@
         "text": "\"I'm going to report you.\"",
         "effects": {
           "mental": 15,
-          "reputation": -10
+          "reputation": -10,
+          "tint": 8
         },
         "cast_effects": {
           "sangchul": {
@@ -173,7 +371,8 @@
       {
         "text": "\"That's all I needed to hear.\" (He let it go)",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "cast_effects": {
           "sangchul": {
@@ -191,7 +390,8 @@
         "text": "\"I'm only here because of you.\" (He chose to use it)",
         "effects": {
           "mental": -10,
-          "investment_skill": 5
+          "investment_skill": 5,
+          "tint": -8
         },
         "cast_effects": {
           "sangchul": {
@@ -205,7 +405,12 @@
         ],
         "result_text": "Sang-chul paused.\n\"...You're going to use this.\"\n\nMinjun smiled. It came out wrong.\n\nThis man destroyed his father. But without this man's network, Gangnam was impossible. So — this guilt was an asset too.\n\nIt was Jae-hyuk's move. Now Minjun was making it."
       }
-    ]
+    ],
+    "description_if_known": {
+      "rationalized_using_people": "After a long silence, Sang-chul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nSang-chul said, \"I'm sorry.\"\n\nMinjun remembered something he'd once told himself.\n'Everyone lives like this.'\nIt felt like Sang-chul was saying the exact same thing now.\nSomewhere along the way, he too must have talked himself into it.",
+      "sangchul_called_you_his_mirror": "After a long silence, Sang-chul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\n{name} said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nA silence between them.\n\nSang-chul said, \"I'm sorry.\"\n\nWhat he'd said once before — 'you're like me' — came back.\nHow those words sounded now was different.",
+      "denied_sangchul_mirror": "After a long silence, Sang-chul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\n{name} said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nA silence between them.\n\nSang-chul said, \"I'm sorry.\"\n\nHe remembered the night he'd said 'I'm a bit different.'\nAnd Sang-chul nodding: 'if that's what you think, then sure.'\nSitting here now, those words had weight."
+    }
   },
   {
     "id": "arc_jaehyuk_mirror",
@@ -219,7 +424,13 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "jaehyuk", "moral", "father"],
+    "tags": [
+      "story",
+      "arc",
+      "jaehyuk",
+      "moral",
+      "father"
+    ],
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
@@ -228,7 +439,8 @@
       {
         "text": "\"No.\" (He refused, flat)",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 7
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -239,7 +451,8 @@
       {
         "text": "\"How much are we talking?\" (He decided to hear it out)",
         "effects": {
-          "mental": -15
+          "mental": -15,
+          "tint": -6
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -252,7 +465,8 @@
       {
         "text": "(He closed the message and pretended not to have seen it)",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [
           "arc_jaehyuk_mirror_seen",
@@ -273,14 +487,23 @@
     "conditions": {
       "min_turn": 9999
     },
-    "tags": ["story", "arc", "father", "death"],
+    "tags": [
+      "story",
+      "arc",
+      "father",
+      "death"
+    ],
     "cooldown": 9999,
     "description": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThis wasn't the first time Minjun had gotten this call.\n\nThree times. He hadn't gone down any of them. Something important came up. A deal. No time.\n\nThis call — was the fourth.",
+    "description_if_known": {
+      "father_mentally_updated": "The hospital called.\n\nThey said Dad was in critical condition. He needed to come down right away.\n\nThree times. He hadn't gone down any of them.\n\nBut there had been one real conversation.\n{name} had told him — what he was doing, why he was in Seoul, how he was living.\nDad listened, quiet. Said he hoped things would work out.\n\nThat was the last thing he heard his father say."
+    },
     "choices": [
       {
         "text": "(He took the KTX. Knowing he was already too late.)",
         "effects": {
-          "mental": -40
+          "mental": -40,
+          "tint": 10
         },
         "cast_effects": {
           "father": {
@@ -298,7 +521,8 @@
         "text": "(He hung up. There was a deal he had to close right now.)",
         "effects": {
           "mental": -25,
-          "money": 5000000
+          "money": 5000000,
+          "tint": -8
         },
         "cast_effects": {
           "father": {
@@ -311,6 +535,91 @@
           "chose_money_over_father"
         ],
         "result_text": "He made five million won on that deal.\n\nThe next morning, the call came again. Dad had passed away the night before.\n\nMinjun set down his phone and looked at his bank balance.\n\nThe number had gone up."
+      }
+    ]
+  },
+  {
+    "id": "arc_36_father_comes_to_seoul",
+    "title": "Father Comes to Seoul",
+    "description": "A message from Father: he's coming to Seoul.\n\n\"I'm not trying to bother you. Just want to see your face for a bit. This weekend.\"\n\nThat weekend. A critical investment timing — a decision that had to be made within days.\n\n{name} set down the phone.\n\nTime to see Father — if he wanted to make it, he could. The question was whether he wanted to.",
+    "choices": [
+      {
+        "text": "Made the time. Ate together.",
+        "result_text": "They had a meal. Sat for a long time.\n\nThe investment timing passed. No gains that week.\nInstead — Father said \"Well done, Minjun\" on his way out.\n\nThat stayed with {name} all week."
+      },
+      {
+        "text": "Said let's meet next time. The timing isn't right.",
+        "result_text": "The investment worked out. Money came in.\n\nFather said \"Alright, let's meet later.\"\n\nThat voice lingered for a moment after the call ended.\n{name} just opened the next chart."
+      },
+      {
+        "text": "Met briefly at the station. Just an hour.",
+        "result_text": "Coffee in Seoul Station's waiting area.\nOne hour.\n\nFather said \"You must be busy.\" {name} said \"No, not really.\"\n\nWatched him get on the subway. Wished they'd stayed a little longer."
+      }
+    ]
+  },
+  {
+    "id": "arc_1b_isolation",
+    "title": "The Weight of ₩1 Billion",
+    "description": "Portfolio and cash combined crossed ₩1B.\n\n{name} looked at the number for a long time.\n\nWanted to tell someone. But — wasn't sure who that number could be shared with.\n\nNot bragging. Just wanting to share that something had changed.\nBut there was no one nearby who would understand what had changed.\n\nThis is what loneliness feels like, {name} thought.",
+    "choices": [
+      {
+        "text": "Just went to sleep. A number only {name} knows.",
+        "result_text": "Turned off the light.\n\n₩1B. A number only {name} knows.\n\nTomorrow the charts open again, and this feeling will disappear.\nNo — not disappear. Somewhere it accumulates."
+      },
+      {
+        "text": "Wanted to call Father. Even if not about the number.",
+        "result_text": "Father picked up.\n\"Oh, Minjun.\"\n\nDidn't say the number. Talked about food, weather.\n\nAfter hanging up, the loneliness of ₩1B felt a little lighter.\nYou don't have to share the number for something to be shared."
+      },
+      {
+        "text": "Strangely lonely that no one would understand this number",
+        "result_text": "Lonely. Honestly.\n\nStill far from Gangnam — a third of the way there.\nBut having come this far without building anyone to celebrate with — that was the shadow this number cast."
+      }
+    ]
+  },
+  {
+    "id": "arc_final_week",
+    "title": "The Last Week",
+    "description": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?",
+    "choices": [
+      {
+        "text": "\"You did well.\" Even if it wasn't enough.",
+        "result_text": "The person from five years ago — didn't know getting this far was possible.\n\nRegardless of whether the goal was reached, getting here was something that person never expected.\n\n\"Good job.\" {name} said it inwardly, to himself.\nNo one heard it. Still needed to be said."
+      },
+      {
+        "text": "\"Is this all?\" Could have done better.",
+        "result_text": "Not wrong. There were moments that could have been seized better.\n\nBut if every one of those moments had been seized — would this be the same person?\n\n{name} didn't know the answer.\nProbably still wouldn't know five more years from now."
+      },
+      {
+        "text": "\"I'm glad you didn't give up here.\"",
+        "result_text": "Five years ago, there were moments of wanting to quit in that goshiwon room.\n\nEvery moment needed a reason. Sometimes there wasn't one. Kept going anyway.\n\n\"I'm glad you didn't give up here.\"\n\nThose words were also something the current {name} needed."
+      }
+    ]
+  },
+  {
+    "id": "arc_why_gangnam_real",
+    "title": "Why Gangnam",
+    "description": "Late night. A milestone number finally crossed.\n\n{name} sat looking at the screen for a while after the notification.\n\nSomewhere in the middle of it all, the question surfaced:\n\"Why was it Gangnam in the first place?\"\n\nBack at the start — what was it that made that the destination?",
+    "choices": [
+      {
+        "text": "\"To prove something.\"",
+        "result_text": "To whom — {name} wasn't sure anymore.\nTo the people who wrote him off. To the hometown. Maybe to himself.\n\nSomewhere along the way, the thing to prove had blurred.\nBut the legs had kept walking anyway.",
+        "effects": {
+          "tint": 2
+        }
+      },
+      {
+        "text": "\"I think I wanted to pay back my father's debt — my way.\"",
+        "result_text": "Not the money. Not literally.\n\nThe debt of not being able to do anything then.\nThe debt of watching him collapse and just standing there.\n\n{name} looked at the screen for a long time.\nThis was the real answer. It had been there the whole time.",
+        "effects": {
+          "tint": 6
+        }
+      },
+      {
+        "text": "\"I thought Gangnam would make things different. Now I'm not sure.\"",
+        "result_text": "Different from what? Honestly — didn't know anymore.\n\nThe number on screen meant something. Just not exactly what {name} had imagined it would mean.\n\nMaybe the answer comes when the destination is actually reached.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   }

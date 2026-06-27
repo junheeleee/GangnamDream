@@ -90,14 +90,22 @@ const EVENT_PATHS = [
 	"res://content/events/callback_events_32.json",
 	"res://content/events/callback_events_33.json",
 	"res://content/events/callback_events_34.json",
+	"res://content/events/arc_new_characters.json",
+	"res://content/events/arc_daeun_extension.json",
+	"res://content/events/arc_year3_drama.json",
+	"res://content/events/arc_year_close.json",
+	"res://content/events/arc_romance_y5.json",
 ]
 const ASSETS_PATH = "res://content/assets.json"
 const JOBS_PATH = "res://content/jobs.json"
 const ITEMS_PATH = "res://content/items.json"
 const ENDINGS_PATH = "res://content/endings.json"
+const ENDINGS_EN_PATH = "res://content/endings_en.json"
 const NEWS_PATH = "res://content/news_templates.json"
 const META_PATH = "res://content/meta/default_meta.json"
 const ACHIEVEMENTS_PATH = "res://content/meta/achievements.json"
+const CLUES_PATH = "res://content/meta/clues.json"
+const THOUGHTS_PATH = "res://content/meta/thoughts.json"
 
 var events: Array = []
 var events_by_id: Dictionary = {}
@@ -113,6 +121,10 @@ var news_templates: Array = []
 var default_meta: Dictionary = {}
 var achievements: Array = []
 var achievements_by_id: Dictionary = {}
+var clues: Array = []
+var clues_by_id: Dictionary = {}
+var thoughts: Array = []
+var thoughts_by_id: Dictionary = {}
 
 func _ready():
 	reload()
@@ -137,10 +149,17 @@ func reload():
 	items_by_id = _index_by_id(items)
 	endings = _load_array(ENDINGS_PATH)
 	endings_by_id = _index_by_id(endings)
+	# 영어 엔딩 오버레이 — 같은 id의 텍스트 필드(title/description/condition 등)를 교체
+	if LocaleManager.language == "en":
+		_apply_endings_en_overlay()
 	news_templates = _load_array(NEWS_PATH)
 	default_meta = _load_dict(META_PATH)
 	achievements = _load_array(ACHIEVEMENTS_PATH)
 	achievements_by_id = _index_by_id(achievements)
+	clues = _load_array(CLUES_PATH)
+	clues_by_id = _index_by_id(clues)
+	thoughts = _load_array(THOUGHTS_PATH)
+	thoughts_by_id = _index_by_id(thoughts)
 
 func find_event(event_id):
 	return events_by_id.get(event_id, {})
@@ -189,6 +208,22 @@ func _merge_event_overlay(base_event: Dictionary, overlay_event: Dictionary) -> 
 			merged[key] = overlay_event[key]
 	return merged
 
+func _apply_endings_en_overlay() -> void:
+	# endings_en.json의 같은 id 엔딩으로 텍스트 필드를 덮어쓴다(없으면 KR 유지).
+	if not ResourceLoader.exists(ENDINGS_EN_PATH) and not FileAccess.file_exists(ENDINGS_EN_PATH):
+		return
+	for ev in _load_array(ENDINGS_EN_PATH):
+		var eid: String = str(ev.get("id", ""))
+		if eid == "" or not endings_by_id.has(eid):
+			continue
+		var merged: Dictionary = (endings_by_id[eid] as Dictionary).duplicate(true)
+		for key in ev.keys():
+			merged[key] = ev[key]
+		var idx = endings.find(endings_by_id[eid])
+		if idx >= 0:
+			endings[idx] = merged
+		endings_by_id[eid] = merged
+
 func _merge_choice_overlay(base_choices: Array, overlay_choices: Array) -> Array:
 	var merged_choices: Array = []
 	var max_count := maxi(base_choices.size(), overlay_choices.size())
@@ -222,6 +257,12 @@ func get_item(item_id):
 
 func get_ending(ending_id):
 	return endings_by_id.get(ending_id, {})
+
+func get_clue(clue_id):
+	return clues_by_id.get(clue_id, {})
+
+func get_thought(thought_id):
+	return thoughts_by_id.get(thought_id, {})
 
 func _index_by_id(rows):
 	var indexed: Dictionary = {}

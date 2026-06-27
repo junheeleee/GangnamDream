@@ -6,11 +6,17 @@
     "choices": [
       {
         "text": "Encourage him",
-        "result_text": "\"You'll get it this year.\"\n\nHyunsu smiled. A real one.\n\"You'll be fine too, hyung.\"\n\n{name} held onto that longer than expected."
+        "result_text": "\"You'll get it this year.\"\n\nHyunsu smiled. A real one.\n\"You'll be fine too, hyung.\"\n\n{name} held onto that longer than expected.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "\"Four years is a long time\"",
-        "result_text": "\"Yeah. But quitting now feels like I'd regret it longer.\"\n\n{name} understood that.\n\nChoosing a different path versus staying on this one — you only know which was right later."
+        "result_text": "\"Yeah. But quitting now feels like I'd regret it longer.\"\n\n{name} understood that.\n\nChoosing a different path versus staying on this one — you only know which was right later.",
+        "effects": {
+          "tint": 2
+        }
       }
     ]
   },
@@ -21,11 +27,17 @@
     "choices": [
       {
         "text": "Ask how it went later",
-        "result_text": "Hyunsu came back in the evening.\n\"How'd it go?\"\n\nHe paused before answering.\n\"I think it went okay. Maybe.\"\n\nMaybe. That one word carried a lot."
+        "result_text": "Hyunsu came back in the evening.\n\"How'd it go?\"\n\nHe paused before answering.\n\"I think it went okay. Maybe.\"\n\nMaybe. That one word carried a lot.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "Say nothing — better not to press",
-        "result_text": "Hyunsu came back quietly.\n{name} caught his eye in the hallway and asked without words.\nHyunsu gave a small nod. A signal that said: I'm okay."
+        "result_text": "Hyunsu came back quietly.\n{name} caught his eye in the hallway and asked without words.\nHyunsu gave a small nod. A signal that said: I'm okay.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -36,7 +48,10 @@
     "choices": [
       {
         "text": "Congratulate him",
-        "result_text": "\"Seriously? That's great.\"\n\nHyunsu smiled — the first real smile {name} had seen from him.\n\n{name} felt good about it. Like it was his own.\n\nWhen someone else's success feels like yours — that's what a real connection is."
+        "result_text": "\"Seriously? That's great.\"\n\nHyunsu smiled — the first real smile {name} had seen from him.\n\n{name} felt good about it. Like it was his own.\n\nWhen someone else's success feels like yours — that's what a real connection is.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   },
@@ -47,11 +62,17 @@
     "choices": [
       {
         "text": "Sit with him for a while",
-        "result_text": "They sat in the shared kitchen without speaking.\n\nNo ramen this time.\n\nSometimes being present is the only thing you can offer.\n{name} didn't have any words. Neither did Hyunsu.\n\nThey sat until past midnight."
+        "result_text": "They sat in the shared kitchen without speaking.\n\nNo ramen this time.\n\nSometimes being present is the only thing you can offer.\n{name} didn't have any words. Neither did Hyunsu.\n\nThey sat until past midnight.",
+        "effects": {
+          "tint": 5
+        }
       },
       {
         "text": "Give him space",
-        "result_text": "{name} went back to his room.\n\nSome things need to be processed alone.\nHe knew that.\n\nThe wall between the rooms was thin. Neither of them slept well that night."
+        "result_text": "{name} went back to his room.\n\nSome things need to be processed alone.\nHe knew that.\n\nThe wall between the rooms was thin. Neither of them slept well that night.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -62,7 +83,10 @@
     "choices": [
       {
         "text": "Tell him it'll work out",
-        "result_text": "\"You'll do great.\"\n\nHyunsu smiled. A firmer smile this time.\n\nChoosing a different road and giving up are not the same thing.\n{name} learned that from Hyunsu."
+        "result_text": "\"You'll do great.\"\n\nHyunsu smiled. A firmer smile this time.\n\nChoosing a different road and giving up are not the same thing.\n{name} learned that from Hyunsu.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   },
@@ -73,7 +97,10 @@
     "choices": [
       {
         "text": "Send a message of congratulations",
-        "result_text": "\"Wait, for real? That's amazing!!\"\n\n\"It's thanks to you, hyung. For knocking on my door back then.\"\n\n{name} set the phone down.\n\nFive years in Seoul. Some days, a message like this arrives."
+        "result_text": "\"Wait, for real? That's amazing!!\"\n\n\"It's thanks to you, hyung. For knocking on my door back then.\"\n\n{name} set the phone down.\n\nFive years in Seoul. Some days, a message like this arrives.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   },
@@ -84,11 +111,54 @@
     "choices": [
       {
         "text": "Buy him dinner",
-        "result_text": "A nearby sundae gukbap place. Hyunsu ate a lot.\n\n\"When are you getting out of here, hyung?\"\n\"...Not sure yet.\"\n\nHyunsu just smiled. That smile stayed with {name} a while.\nSame starting line — and one of them had crossed it first."
+        "result_text": "A nearby sundae gukbap place. Hyunsu ate a lot.\n\n\"When are you getting out of here, hyung?\"\n\"...Not sure yet.\"\n\nHyunsu just smiled. That smile stayed with {name} a while.\nSame starting line — and one of them had crossed it first.",
+        "effects": {
+          "tint": 5
+        }
       },
       {
         "text": "Tell him it's great news. Say goodbye.",
-        "result_text": "\"Good for you. Take care of yourself out there.\"\n\"Thank you, hyung.\"\n\nThe room was empty the next day.\nThe shared kitchen — one ramen pot missing —\nlooked, somehow, bigger than before."
+        "result_text": "\"Good for you. Take care of yourself out there.\"\n\"Thank you, hyung.\"\n\nThe room was empty the next day.\nThe shared kitchen — one ramen pot missing —\nlooked, somehow, bigger than before.",
+        "effects": {
+          "tint": 2
+        }
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_year4_echo",
+    "title": "Someone Who Settled In",
+    "description": "Hyunsu reached out after a long while.\n\nA photo. Hyunsu laughing at a work dinner. A suit. Coworkers.\n\n\"Hyung, you good? I've kind of found my footing now.\"\n\n{name} looked at the photo for a long time.\n\nFour years ago they were eating cup ramen in the same goshiwon. Hyunsu found his place. {name} is still — running.",
+    "description_if_known": {
+      "hyunsu_passed": "Hyunsu reached out after a long while.\n\nA photo. In front of a county office. Hyunsu, name tag on, smiling awkwardly.\n\n\"Hyung, I'm a public officer now. All settled in.\"\n\n{name} looked at the photo for a long time.\n\nFour years ago they were eating cup ramen in the same goshiwon. Hyunsu crossed the starting line first. {name} is still — running."
+    },
+    "choices": [
+      {
+        "text": "Say it honestly — \"I'm a little jealous\"",
+        "result_text": "\"Come on, hyung, why?\" Hyunsu laughed.\n\nWhat he envied was the stability. A road with a fixed end. {name}'s road still had no end in sight. Which left only one option: keep going."
+      },
+      {
+        "text": "Just congratulate him — and turn back to the screen",
+        "result_text": "\"Congrats. Really, that's great.\"\n\nHe set the phone down and went back to the investment screen. No time to envy. One year left."
+      }
+    ]
+  },
+  {
+    "id": "hyunsu_year5_call",
+    "title": "A Call at the End of Five Years",
+    "description": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nOn screen Hyunsu looked at ease. The face of someone settled into his own life.\n\n{name} looked at his own face reflected in the camera. Five years were in it.",
+    "description_if_known": {
+      "crossed_line": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nHyunsu was smiling, glad to see him, but {name} found it strangely hard to look straight at the screen.\n\nThe guy he'd eaten cup ramen with five years ago — what would he say if he saw who {name} was now? The thought passed through, briefly.",
+      "father_passed": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever, how have you—\"\n\nHyunsu started to ask after {name}'s father, then stopped. He seemed to catch something in {name}'s expression.\n\n\"...Hyung, make sure you eat.\" That was all he said."
+    },
+    "choices": [
+      {
+        "text": "Say it for real — \"I made it because of you\"",
+        "result_text": "\"What are you talking about, hyung, you did all of it.\"\n\nHe hadn't. It was because someone held on in the same goshiwon that he didn't quit halfway. He never quite got the whole thing out."
+      },
+      {
+        "text": "\"I'll have good news soon\" — hang up with a smile",
+        "result_text": "\"I'll be waiting, hyung!\"\n\nHe ended the call. When the screen went dark the room went quiet. Soon. Really, soon."
       }
     ]
   }

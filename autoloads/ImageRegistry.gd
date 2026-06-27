@@ -51,6 +51,12 @@ const PORTRAITS = {
 
 	# 경마장 정보상
 	"tip_seller":         "res://assets/characters/npc_tip_seller.png",
+
+	# 신규 인물 (Year 3-5)
+	"jaewon":             "res://assets/characters/npc_jaewon.png",
+	"jaewon_normal":      "res://assets/characters/npc_jaewon.png",
+	"minseo":             "res://assets/characters/npc_minseo.png",
+	"minseo_normal":      "res://assets/characters/npc_minseo.png",
 }
 
 const PLAYER_UNEMPLOYED = "res://assets/characters/main_character_unemployed.png"
@@ -75,6 +81,8 @@ const PERSON_INFO = {
 	"seongjun": {"name": "박성준",        "color": "#6a9ab0"},
 	"mother":   {"name": "어머니",        "color": "#b09a9a"},
 	"boss":     {"name": "팀장",          "color": "#9a6a6a"},
+	"jaewon":   {"name": "박재원",        "color": "#7a9a8a"},
+	"minseo":   {"name": "이민서",        "color": "#9a8a7a"},
 }
 
 const PERSON_NAMES_EN = {
@@ -127,6 +135,7 @@ const BACKGROUNDS = {
 	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
 	"burnout":           "res://assets/backgrounds/burnout_hospital_room.png",
 	"penthouse":         "res://assets/backgrounds/penthouse_view.png",
+	"gangnam_penthouse": "res://assets/backgrounds/penthouse_view.png",
 	"investment":        "res://assets/backgrounds/investment_phone.png",
 	"investment_phone":  "res://assets/backgrounds/investment_phone.png",
 	# Legacy key kept for old event JSON. General investing must stay phone/desk-scale;
@@ -141,6 +150,7 @@ const BACKGROUNDS = {
 	"restaurant":        "res://assets/backgrounds/restaurant_korean.png",
 	"street":            "res://assets/backgrounds/street_seoul_day.png",
 	"apartment":         "res://assets/backgrounds/oneroom_apartment.png",
+	"apartment_balcony": "res://assets/backgrounds/oneroom_apartment.png",
 	"convenience_store": "res://assets/backgrounds/convenience_store_night.png",
 	# 미니게임 전용
 	"racetrack_betting": "res://assets/backgrounds/racetrack_betting_hall.png",

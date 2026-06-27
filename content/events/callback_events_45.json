@@ -1,0 +1,603 @@
+[
+  {
+    "id": "callback_accepted_job_grind_echo",
+    "title": "그래도 버텼던 첫 주",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "accepted_job_grind",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "첫 출근 주, {name}은 '그래도 이게 지금 최선이다'라며 버텼었다.\n\n그 첫 주가 까마득하다.\n\n오늘 비슷하게 힘든 하루 끝에, 그때의 자신이 떠올랐다.",
+    "choices": [
+      {
+        "text": "그때 버틴 게 지금의 기반이 됐다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "최선이라는 말은 초라할 때도 있다. 하지만 그 초라한 최선들이 쌓여 길이 됐다.\n\n첫 주를 버텼기에 둘째 주가 있었고, 그렇게 여기까지 왔다.\n{name}은 그 끈기를 새삼 인정했다."
+      },
+      {
+        "text": "이젠 '버티는 것' 이상을 한다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "버티는 단계는 지났다.\n\n{name}은 이제 단순히 견디는 게 아니라, 다음을 설계한다.\n첫 주의 자신이 봤다면 놀랐을 만큼, 시야가 넓어져 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_enjoyed_work_echo",
+    "title": "일 자체는 괜찮았다",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "enjoyed_work",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "첫 출근 주, {name}은 의외로 '일 자체는 괜찮았다'고 느꼈었다.\n\n그 감각이 가끔 떠오른다.\n\n돈을 위한 수단으로만 봤던 일에서, 뜻밖의 만족을 느꼈던 순간.",
+    "choices": [
+      {
+        "text": "일에서 의미를 찾는 것도 나쁘지 않다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 시간을 강남으로 가는 수단으로만 보면 5년이 너무 길다.\n\n일 자체에서 작은 보람을 찾을 수 있다면, 그 길은 덜 고통스럽다.\n{name}은 수단과 과정 사이에서 균형을 찾아가고 있었다."
+      },
+      {
+        "text": "그래도 목표는 따로 있다 — 잊지 않는다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "일이 좋아도, 이건 종착지가 아니다.\n\n{name}은 만족에 안주하지 않기로 했다.\n좋아하는 일과 가야 할 곳은 다를 수 있다는 걸, 차갑게 기억했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_doubted_job_echo",
+    "title": "이게 맞나 싶었던 첫 주",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "doubted_job",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "첫 출근 주, {name}은 '이게 맞나' 하는 회의감에 시달렸었다.\n\n그 의심은 사라졌을까, 아니면 익숙해졌을까.\n\n오늘 다시 그 질문이 떠올랐다.",
+    "choices": [
+      {
+        "text": "의심했지만 계속한 게 답이었다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "회의감은 없애야 할 게 아니라 안고 가는 것이었다.\n\n그때 그만뒀다면 지금의 기반도 없었다.\n{name}은 의심 속에서도 한 걸음씩 옮긴 자신을 인정했다."
+      },
+      {
+        "text": "그때 의심이 옳았는지 다시 점검한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "의심을 무시하는 것도, 의심에 휩쓸리는 것도 답이 아니다.\n\n{name}은 그 회의감을 데이터로 바꿔 점검했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_invest_mindset_echo",
+    "title": "첫 월급, 투자 앱을 켠 것",
+    "background": "trading",
+    "portrait": "player_determined",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "invest_mindset",
+      "min_turn": 32
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "첫 월급을 받던 날, {name}은 자축 대신 곧장 투자 앱을 켰었다. '이 돈을 통장에 가만히 두면 안 된다.'\n\n그 본능이 지금의 흐름을 만들었다.\n\n오늘 또 돈이 들어왔다.",
+    "choices": [
+      {
+        "text": "그때 그 마인드 — 돈을 일하게 한다",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "월급만으로 강남은 불가능하다는 걸 첫 월급날부터 알았다.\n\n돈이 돈을 벌게 하는 구조. {name}은 그걸 일찍 깨달았고, 일찍 시작했다.\n그 한 달의 차이가, 5년 뒤엔 큰 차이가 된다."
+      },
+      {
+        "text": "이젠 속도보다 리스크 관리를 본다",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "처음엔 무조건 굴리는 게 답이라 믿었다.\n\n이제는 잃지 않는 것이 버는 것만큼 중요하다는 걸 안다.\n{name}의 투자는 공격에서 균형으로 성숙해 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_reconsidering_job_echo",
+    "title": "야근이 반복되던 그때",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "reconsidering_job_path",
+      "min_turn": 34
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "야근이 쌓이던 시기, {name}은 '이 직장은 내 답이 아니다, 다른 방향을 찾자'고 생각했었다.\n\n그 생각의 결과가 지금이다.\n\n오늘 문득 그때의 판단이 떠올랐다.",
+    "choices": [
+      {
+        "text": "방향을 의심한 게 옳았다 — 길을 바꿔왔다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "야근으로 메우는 경력에는 천장이 있다.\n\n그 한계를 일찍 본 덕에, {name}은 다른 길을 준비했다.\n방향을 바꾸는 건 포기가 아니라 전략이었다."
+      },
+      {
+        "text": "직장은 여전히 안전망 — 균형을 본다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다른 방향을 찾되, 발밑의 안전망은 함부로 버리지 않았다.\n\n{name}은 직장이라는 기반 위에서 다음을 도모했다.\n위험을 감수하는 것과 무모한 것은 다르다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cut_loss_first_echo",
+    "title": "첫 손절",
+    "background": "trading",
+    "portrait": "player_normal",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "cut_loss_first",
+      "min_turn": 36
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "첫 투자 손실 앞에서, {name}은 '더 크게 잃기 전에 나오는 게 맞다'며 손절했었다.\n\n그 첫 손절의 쓰라림.\n\n오늘 또 비슷한 갈림길에 섰다.",
+    "choices": [
+      {
+        "text": "손절은 패배가 아니라 규율이다",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "잃지 않으려고 버티다 더 크게 잃는 사람이 대부분이다.\n\n첫 손절에서 배운 규율이 {name}을 여러 번 구했다.\n끊을 줄 아는 게, 살아남는 투자자의 첫 조건이었다."
+      },
+      {
+        "text": "이번엔 손절 기준을 미리 정해둔다",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "감정으로 손절하면 매번 늦는다.\n\n{name}은 들어가기 전에 나올 선을 먼저 그었다.\n첫 손절의 아픔이, 원칙을 세우게 만든 수업료였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_held_through_loss_echo",
+    "title": "버텼던 첫 손실",
+    "background": "trading",
+    "portrait": "player_determined",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "held_through_loss",
+      "min_turn": 36
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "첫 투자 손실 앞에서, {name}은 '상철의 말대로 시장은 언젠가 돌아온다'며 버텼었다.\n\n그때 버틴 결과는 어땠나.\n\n오늘 또 평가손이 빨갛게 떠 있다.",
+    "choices": [
+      {
+        "text": "원칙대로 버틴 게 맞았다 — 흔들리지 않는다",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "공포에 팔지 않는 것.\n\n그 단순한 원칙을 첫 손실에서 몸으로 익혔다.\n{name}은 빨간 숫자를 보면서도, 이번엔 손이 떨리지 않았다."
+      },
+      {
+        "text": "버티는 것과 고집은 다르다 — 근거를 재점검한다",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "무작정 버티는 건 도박이다.\n\n{name}은 처음 샀던 이유가 아직 유효한지부터 다시 봤다.\n근거가 살아있으면 버티고, 깨졌으면 끊는다. 그게 차이였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_averaged_down_echo",
+    "title": "물타기했던 첫 손실",
+    "background": "trading",
+    "portrait": "player_normal",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "averaged_down",
+      "min_turn": 36
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "첫 투자 손실 앞에서, {name}은 '더 사서 평균 단가를 낮춘다'며 물타기했었다.\n\n그 선택은 약이었나 독이었나.\n\n오늘 또 손실 종목 앞에서 같은 유혹이 든다.",
+    "choices": [
+      {
+        "text": "물타기엔 확신이 필요하다 — 신중하게",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "오를 거라는 확신이 있을 때만 물타기는 약이 된다.\n\n근거 없이 물타기하면 손실만 키운다는 걸 {name}은 그때 배웠다.\n이번엔 종목의 펀더멘털부터 다시 봤다."
+      },
+      {
+        "text": "이번엔 물타기 대신 손절을 택한다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "떨어지는 칼날을 잡으면 손만 베인다.\n\n{name}은 물타기의 달콤한 유혹을 안다. 그래서 더 경계했다.\n그때의 물타기가 가르쳐준 교훈이, 오늘 다른 선택을 만들었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_stayed_up_studying_echo",
+    "title": "새벽 2시까지 공부했던 밤",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "stayed_up_studying",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "고시원 시절, 현수가 자러 간 뒤에도 {name}은 새벽 2시까지 공부했었다.\n\n그 새벽들이 쌓여 지금이 됐다.\n\n오늘도 늦은 밤, 책상 앞에 앉아 있다.",
+    "choices": [
+      {
+        "text": "그 새벽들이 헛되지 않았다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남들이 잘 때 켜둔 불빛.\n\n그 시간들이 보이지 않게 격차를 만들었다.\n{name}은 새벽의 자신에게 빚진 게 많다는 걸 안다."
+      },
+      {
+        "text": "이젠 무리한 밤샘은 줄인다 — 효율을 본다",
+        "effects": {
+          "mental": 4,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "절박함으로 버틴 밤샘은 필요했지만, 영원히 그럴 순 없다.\n\n{name}은 시간의 양보다 질을 보기 시작했다.\n오래 가려면, 태우는 게 아니라 데우는 법을 알아야 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_keeps_records_echo",
+    "title": "1년치 기록을 정리했던 날",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "keeps_records",
+      "min_turn": 76
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "서울살이 1년째, {name}은 1년치 기록을 정리하며 '내가 얼마나 왔는지 숫자로 확인'했었다.\n\n그 습관이 이어졌다.\n\n오늘 다시 그 기록을 펼쳐봤다.",
+    "choices": [
+      {
+        "text": "기록은 흔들릴 때 나를 잡아준다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "감정은 '아무것도 안 변했다'고 속이지만, 기록은 거짓말하지 않는다.\n\n1년 전과 비교한 숫자가 {name}에게 객관적 위안을 줬다.\n얼마나 왔는지 보이면, 얼마나 더 갈지도 보인다."
+      },
+      {
+        "text": "기록을 넘어 — 다음 1년을 설계한다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지나온 길을 적는 데서 멈추지 않았다.\n\n{name}은 그 데이터로 다음 1년의 전략을 짰다.\n기록은 과거의 정리이자 미래의 지도였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_grind_mentality_echo",
+    "title": "1년은 워밍업이었다",
+    "background": "goshiwon_room",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "grind_mentality",
+      "min_turn": 76
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "서울살이 1년째, {name}은 '1년은 워밍업이었다, 더 세게 밀어붙여야 한다'고 다짐했었다.\n\n그 독기가 지금까지 왔다.\n\n오늘 문득 그때의 다짐이 떠올랐다.",
+    "choices": [
+      {
+        "text": "그 독기가 여기까지 끌고 왔다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "워밍업이라 부른 1년조차 누군가에겐 전력질주였다.\n\n그렇게까지 밀어붙였기에 남들과 다른 속도가 나왔다.\n{name}은 그 독기를 후회하지 않았다."
+      },
+      {
+        "text": "독기만으론 못 버틴다 — 지속 가능하게 조절한다",
+        "effects": {
+          "mental": 5,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "초반의 폭발적 추진력은 필요했다. 하지만 5년은 단거리가 아니다.\n\n{name}은 독기를 지속 가능한 속도로 바꿔갔다.\n끝까지 가는 건, 가장 빠른 사람이 아니라 멈추지 않는 사람이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_kept_job_as_base_echo",
+    "title": "직장을 기반으로 삼은 것",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "kept_job_as_base",
+      "min_turn": 50
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "경력의 한계를 느꼈을 때, {name}은 '그래도 직장은 지킨다'며 안정의 기반으로 쓰기로 했었다.\n\n그 선택의 결과가 지금이다.\n\n오늘 다시 그 판단을 돌아본다.",
+    "choices": [
+      {
+        "text": "안정적 현금흐름이 도전을 가능하게 했다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "매달 들어오는 월급이 있어서, 투자에서 무리하지 않을 수 있었다.\n\n안전망이 있는 도전과 없는 도전은 다르다.\n{name}은 직장을 발판 삼아 더 멀리 뛰었다."
+      },
+      {
+        "text": "이젠 직장 너머를 본다 — 다음 단계로",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "기반으로 쓰던 직장도, 언젠가는 졸업해야 한다.\n\n{name}은 직장이 목적이 아니라 도구였음을 잊지 않았다.\n충분히 단단해지면, 다음 단계로 넘어갈 때가 온다."
+      }
+    ]
+  },
+  {
+    "id": "callback_career_pivot_intent_echo",
+    "title": "더 크게 움직이려 했던 것",
+    "background": "office",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "career_pivot_intent",
+      "min_turn": 50
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "경력의 한계를 느꼈을 때, {name}은 '더 크게 움직여야 한다'며 이직이나 다른 길을 생각했었다.\n\n그 결심은 행동으로 이어졌나.\n\n오늘 그때의 야심이 떠올랐다.",
+    "choices": [
+      {
+        "text": "그 결심이 나를 움직이게 했다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한계를 인정하는 데서 멈추지 않고, 그 너머를 향했다.\n\n현재에 안주했다면 천장에 머물렀을 것이다.\n{name}은 더 큰 그림을 그린 자신의 결심이 옳았다고 느꼈다."
+      },
+      {
+        "text": "크게 움직이되 무모하진 않게 — 계산한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "야심은 좋지만, 계산 없는 야심은 도박이다.\n\n{name}은 '더 크게'와 '더 영리하게' 사이에서 균형을 잡았다.\n큰 움직임일수록, 발밑을 더 단단히 봐야 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_recommitted_to_job_echo",
+    "title": "정신 차리겠다고 했던 것",
+    "background": "office",
+    "portrait": "boss",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "recommitted_to_job",
+      "min_turn": 42
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "직장과 투자가 충돌했을 때, {name}은 상사 앞에서 '죄송합니다, 정신 차리겠습니다'라며 일단 직장을 잡았었다.\n\n그때 그 선택을 한 자신을 가끔 떠올린다.\n\n오늘 상사가 지나가며 한마디 했다. \"요즘 일 잘하던데.\"",
+    "choices": [
+      {
+        "text": "\"그때 마음 다잡길 잘했어요.\"",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2,
+          "reputation": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "투자에 정신이 팔려 직장을 잃었다면, 안전망까지 무너졌을 것이다.\n\n그때 직장을 붙든 게 균형을 지킨 선택이었다.\n{name}은 두 마리 토끼를 잡는 법을 그날 배웠다."
+      },
+      {
+        "text": "속으로 — 이젠 직장에만 매이지 않는다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "겉으로는 충실한 직원, 속으로는 자기 목표를 향해 가는 사람.\n\n{name}은 그 이중 트랙을 더 능숙하게 운영하게 됐다.\n직장은 지키되, 거기에 인생을 저당 잡히진 않았다."
+      }
+    ]
+  }
+]

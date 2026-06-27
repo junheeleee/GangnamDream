@@ -352,7 +352,26 @@ func _render_current():
 	var mental: int = int(GameState.mental)
 	var housing: String = str(GameState.housing)
 	var housing_months: int = int(GameState.housing_months.get(housing, 0))
-	if mental <= 20 and _current.has("description_low_mental"):
+	# 지식 반응형 (DE식 발견): 플레이어가 어떤 진실을 '알게 된' 뒤에는
+	# 같은 장면이 다르게 읽힌다. description_if_known = { 플래그: 대체본문 }.
+	# 가진 진실 중 첫 일치를 최우선 적용 — 아는 것이 이야기를 다시 쓴다.
+	var know_variant: String = ""
+	var know_map = _current.get("description_if_known", null)
+	if know_map is Dictionary:
+		for fl in know_map.keys():
+			if GameState.flags.get(str(fl), false):
+				know_variant = str(know_map[fl])
+				break
+	if know_variant == "":
+		var held_map = _current.get("description_if_held", null)
+		if held_map is Dictionary:
+			for item_id in held_map.keys():
+				if GameState.has_item(str(item_id)):
+					know_variant = str(held_map[item_id])
+					break
+	if know_variant != "":
+		desc_raw = know_variant
+	elif mental <= 20 and _current.has("description_low_mental"):
 		desc_raw = str(_current["description_low_mental"])
 	elif housing == "gosiwon" and housing_months >= 6 and _current.has("description_long_gosiwon"):
 		desc_raw = str(_current["description_long_gosiwon"])
@@ -480,8 +499,8 @@ func _choice_effect_preview(choice: Dictionary) -> String:
 			merged["mental"] = int(merged.get("mental", 0)) + int(eff[k])
 		else:
 			merged[k] = eff[k]
-	var priority := ["money", "health", "mental", "intelligence",
-		"social_skill", "investment_skill", "reputation", "luck"]
+	# 즉각적으로 느껴지는 것만 표시 — 관계/스킬/평판은 숨김
+	var priority := ["money", "health", "mental"]
 	var parts: Array = []
 	for key in priority:
 		if not merged.has(key):

@@ -29,7 +29,8 @@
         "text": "무시하고 지나간다",
         "effects": {
           "intelligence": 1,
-          "mental": 2
+          "mental": 2,
+          "tint": 2
         },
         "flags": [
           "ignored_mystery_info"
@@ -60,7 +61,8 @@
         "text": "50만원 낸다",
         "effects": {
           "money": -500000,
-          "mental": -5
+          "mental": -5,
+          "tint": -5
         },
         "flags": [
           "mystery_info_bought"
@@ -73,7 +75,8 @@
         "effects": {
           "intelligence": 2,
           "luck": 1,
-          "mental": 2
+          "mental": 2,
+          "tint": 4
         },
         "flags": [],
         "result_text": "\"생각해보겠습니다.\" 하고 돌아섰다.\n\n남자는 말리지 않았다.\n\n집에 와서 마포구 재개발 뉴스를 검색했다.\n아직 아무것도 없었다.",
@@ -106,7 +109,8 @@
           "money": 8000000,
           "investment_skill": 3,
           "reputation": 4,
-          "luck": -1
+          "luck": -1,
+          "tint": -6
         },
         "flags": [
           "mystery_info_paid_off",
@@ -167,7 +171,8 @@
         "text": "그 남자를 신고한다",
         "effects": {
           "mental": -13,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 5
         },
         "flags": [
           "mystery_info_resolved",

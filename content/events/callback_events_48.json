@@ -1,0 +1,543 @@
+[
+  {
+    "id": "callback_yolo_resisted_echo",
+    "title": "그때 참은 15만원",
+    "background": "convenience_store",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "yolo_resisted",
+      "min_turn": 40
+    },
+    "tags": ["callback", "finance", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '30억 앞에서 15만원도 아껴야 한다'며 충동 소비를 참았었다.\n\n그렇게 아낀 작은 돈들이 쌓였다.\n\n오늘 또 비슷한 유혹 앞에 섰다.",
+    "choices": [
+      {
+        "text": "그때처럼 — 작은 절제가 쌓여 목표가 된다",
+        "effects": {
+          "mental": 4,
+          "money": 100000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "15만원이 30억을 만드는 건 아니다. 하지만 그 절제의 습관이 만든다.\n\n참을 줄 아는 사람이 결국 모은다.\n{name}은 오늘도 지갑을 닫았다. 작은 승리였다."
+      },
+      {
+        "text": "이젠 가끔 — 나에게도 쓴다",
+        "effects": {
+          "mental": 5,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "무조건 참기만 하면 어딘가 터진다.\n\n{name}은 절제와 보상 사이의 균형을 배웠다.\n5년을 완주하려면, 가끔은 자신에게도 작은 것을 허락해야 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_yolo_accepted_echo",
+    "title": "기억으로 남는 게 자산이라던 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "yolo_accepted",
+      "min_turn": 40
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 충동 소비 다음 날, '기억으로 남는 게 자산이야'라며 자신을 다독였었다.\n\n그 소비의 기억은 지금 어떤가.\n\n오늘 또 비슷한 선택 앞에 섰다.",
+    "choices": [
+      {
+        "text": "그 기억은 지금도 좋다 — 경험도 투자다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 돈을 미래에만 쓰면 현재가 사라진다.\n\n그때의 그 경험이 {name}에게 작은 숨구멍이 됐다.\n다만 이제는 그 빈도를 조절할 줄 안다."
+      },
+      {
+        "text": "기억보다 통장이 더 든든하다 — 이젠 절제한다",
+        "effects": {
+          "mental": 4,
+          "money": 50000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그때의 합리화가 늘 옳았던 건 아니다.\n\n{name}은 '경험도 자산'이라는 말 뒤에 숨지 않기로 했다.\n진짜 자산은, 목표에 가까워지는 통장 잔고였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_yolo_regretted_echo",
+    "title": "다신 이러지 말자던 다짐",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "yolo_regretted",
+      "min_turn": 40
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 충동 소비 다음 날 후회하며 '다신 이러지 말자, 목표에 집중하자'고 다짐했었다.\n\n그 다짐은 지켜졌나.\n\n오늘 또 충동이 찾아온다.",
+    "choices": [
+      {
+        "text": "그 후회 덕에 — 소비 습관이 잡혔다",
+        "effects": {
+          "mental": 5,
+          "money": 80000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "후회는 다음 행동을 바꿀 때만 의미가 있다.\n\n그때의 후회가 {name}의 소비를 한 단계 성숙시켰다.\n실수에서 배운 사람은, 같은 실수를 덜 반복한다."
+      },
+      {
+        "text": "후회만 하고 또 반복하진 않았는지 점검한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "후회와 변화는 다르다.\n\n{name}은 다짐만 반복하지 않았는지 자신을 솔직하게 돌아봤다.\n진짜 변한 건, 다짐의 횟수가 아니라 행동의 결과였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_talked_about_bihon_echo",
+    "title": "비혼을 부러워했던 것",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "talked_about_bihon",
+      "min_turn": 56
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "비혼을 선언한 친구에게, {name}은 '부럽다, 그 결단이 쉽지 않았을 텐데'라고 했었다.\n\n그 대화가 가끔 떠오른다.\n\n오늘 결혼·비혼을 둘러싼 생각이 다시 머릿속을 스친다.",
+    "choices": [
+      {
+        "text": "결혼이든 비혼이든 — 내가 선택하는 거다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남의 결단을 부러워하다 보면, 정작 내 선택을 못 한다.\n\n{name}은 비혼도 결혼도 정답이 아니라, 자기 선택이라는 걸 정리했다.\n중요한 건 남이 정해준 길이 아니라, 내가 고른 길이었다."
+      },
+      {
+        "text": "지금은 목표가 우선 — 그 다음에 생각한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 걸 동시에 결정할 필요는 없다.\n\n{name}은 일단 지금의 목표에 집중하기로 했다.\n인생의 큰 결정들은, 여유가 생긴 뒤에 봐도 늦지 않았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_found_solo_peace_echo",
+    "title": "혼자도 충분하다던 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "found_solo_peace",
+      "min_turn": 48
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 혼자만의 자유를 즐기며 '혼자도 충분하다'고 느꼈었다.\n\n그 평온은 지금도 유효한가.\n\n오늘 조용한 방에서, 그때의 마음이 떠올랐다.",
+    "choices": [
+      {
+        "text": "지금도 — 혼자만의 시간이 나를 채운다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자 있는 시간을 견디는 게 아니라 즐기는 것.\n\n그 능력이 {name}을 단단하게 만들었다.\n외로움과 고독은 다르다. 고독은 스스로 선택한 충만함이었다."
+      },
+      {
+        "text": "충분하지만 — 가끔은 곁이 그립다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자도 충분하다는 게, 아무도 필요 없다는 뜻은 아니었다.\n\n{name}은 자족하면서도, 연결을 그리워하는 마음을 인정했다.\n둘은 모순이 아니라, 사람의 자연스러운 두 면이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_detoxed_echo",
+    "title": "비교는 도둑이라며 앱을 지운 것",
+    "background": "investment_phone",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sns_detoxed",
+      "min_turn": 44
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '비교는 도둑이다'라며 SNS 앱을 지웠었다.\n\n그 뒤로 남의 피드를 보지 않았다.\n\n오늘 우연히 누군가의 화려한 근황을 전해 들었다.",
+    "choices": [
+      {
+        "text": "지우길 잘했다 — 내 시간이 내 것이 됐다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "비교가 훔쳐가는 건 시간과 평정심이었다.\n\n앱을 지운 뒤, {name}은 그 도둑맞던 것들을 되찾았다.\n남의 하이라이트와 내 일상을 비교하지 않는 것만으로도 마음이 가벼웠다."
+      },
+      {
+        "text": "이젠 봐도 흔들리지 않는다 — 단단해졌다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "앱을 지운 건 도피가 아니라 훈련이었다.\n\n이제는 남의 자랑을 봐도 {name}의 페이스가 흔들리지 않는다.\n피하는 단계를 지나, 마주해도 괜찮은 단계에 왔다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_compared_echo",
+    "title": "자극이 동기가 된다던 것",
+    "background": "investment_phone",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sns_compared",
+      "min_turn": 44
+    },
+    "tags": ["callback", "story", "risk"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '자극이 동기가 될 수도 있다'며 SNS를 계속 봤었다.\n\n그 비교는 동기가 됐나, 독이 됐나.\n\n오늘도 피드를 넘기다 마음이 복잡해졌다.",
+    "choices": [
+      {
+        "text": "이젠 안다 — 비교는 동기보다 독이 많았다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "자극이 될 거라 믿었지만, 대부분은 그냥 마음만 갉아먹었다.\n\n{name}은 이제 비교의 진짜 비용을 안다.\n동기는 남의 피드가 아니라 내 안에서 와야 오래갔다."
+      },
+      {
+        "text": "비교를 연료로 바꾸는 법을 익혔다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "같은 비교라도, 주저앉을 때와 일어설 때가 있다.\n\n{name}은 부러움을 분석으로 바꾸는 법을 배웠다.\n'쟤는 어떻게 했지?'를 묻기 시작하면, 비교도 공부가 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_bought_first_luxury_echo",
+    "title": "나에게 준 첫 보상",
+    "background": "gangnam_day",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "bought_first_luxury",
+      "min_turn": 52
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '나한테 주는 첫 보상'이라며 처음으로 명품을 샀었다.\n\n그 물건은 지금도 곁에 있다.\n\n오늘 문득 그걸 보며, 그때의 마음이 떠올랐다.",
+    "choices": [
+      {
+        "text": "그 보상은 의미가 있었다 — 나를 인정한 거니까",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "참기만 하는 삶은 지속되지 않는다.\n\n그 첫 보상은 사치가 아니라, 여기까지 온 자신에 대한 인정이었다.\n{name}은 그 소비를 후회하지 않았다. 가끔은 그런 게 필요했다."
+      },
+      {
+        "text": "물건보다 — 그때의 성취감이 진짜였다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "명품 자체보다, 그걸 살 만큼 왔다는 사실이 더 컸다.\n\n{name}은 물건이 주는 만족이 짧다는 것도 안다.\n진짜 보상은 통장이 아니라, 거기까지 온 과정에 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_resisted_luxury_echo",
+    "title": "사진만 찍고 나온 것",
+    "background": "gangnam_day",
+    "portrait": "player_determined",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "resisted_luxury",
+      "min_turn": 52
+    },
+    "tags": ["callback", "finance", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 명품 매장에서 '아직은 아니다'라며 사진만 찍고 나왔었다.\n\n그 절제의 순간이 가끔 떠오른다.\n\n오늘 또 비슷한 유혹 앞에 섰다.",
+    "choices": [
+      {
+        "text": "그때 참은 게 — 지금의 거리를 좁혔다",
+        "effects": {
+          "mental": 5,
+          "money": 100000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "사진만 찍고 나온 그 순간들이 모여 종잣돈이 됐다.\n\n참는 건 궁상이 아니라 선택이었다.\n{name}은 그 절제가 부끄럽지 않았다. 목표가 있는 절제였으니까."
+      },
+      {
+        "text": "이젠 — 정말 원하면 살 수도 있다",
+        "effects": {
+          "mental": 5,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "무조건 참는 게 정답은 아니다.\n\n{name}은 이제 진짜 원하는 것엔 쓸 줄도 알게 됐다.\n절제와 인색함은 다르다. 분별 있게 쓰는 것도 능력이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_car_envy_resolved_echo",
+    "title": "내 페이스가 따로 있다던 것",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "car_envy_resolved",
+      "min_turn": 64
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "친구가 외제차를 샀을 때, {name}은 진심으로 축하하며 '내 페이스가 따로 있다'고 했었다.\n\n그 평정심이 가끔 떠오른다.\n\n오늘 또 누군가의 과시 앞에 섰다.",
+    "choices": [
+      {
+        "text": "지금도 — 남의 속도에 휘둘리지 않는다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남이 외제차를 샀다고 내가 뒤처진 게 아니다.\n\n각자의 게임, 각자의 시간표가 있을 뿐이다.\n{name}은 그 평정심이 결국 더 멀리 가게 했다는 걸 안다."
+      },
+      {
+        "text": "내 차례도 온다 — 조용히 준비한다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "지금 부러워하는 대신, 묵묵히 쌓는다.\n\n{name}은 과시할 때가 아니라 준비할 때라는 걸 안다.\n조용한 축적이 끝나면, 굳이 자랑하지 않아도 보이게 된다."
+      }
+    ]
+  },
+  {
+    "id": "callback_car_envy_felt_echo",
+    "title": "속이 쓰렸던 것",
+    "background": "cafe",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "car_envy_felt",
+      "min_turn": 64
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "친구가 외제차를 샀을 때, {name}은 '나는 뭐 하고 있나' 속이 쓰렸었다.\n\n그 부러움은 지금 어떻게 됐나.\n\n오늘 또 비슷한 순간이 왔다.",
+    "choices": [
+      {
+        "text": "그 쓰림을 동력으로 바꿔왔다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "부러움은 무시한다고 사라지지 않는다. 방향을 주면 연료가 된다.\n\n{name}은 그 속쓰림을 주저앉는 대신 일어서는 데 썼다.\n비교는 독이지만, 다룰 줄 알면 약이 되기도 했다."
+      },
+      {
+        "text": "이젠 덜 쓰리다 — 내 길이 보이니까",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "예전엔 남의 차에 속이 쓰렸다. 지금은 덜하다.\n\n자기 길이 또렷해질수록, 남의 속도는 덜 신경 쓰였다.\n{name}은 그 변화가 곧 성장이라는 걸 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_did_staycation_echo",
+    "title": "하룻밤 숨을 쉰 것",
+    "background": "restaurant",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "did_staycation",
+      "min_turn": 58
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '가끔은 숨도 쉬어야지'라며 호캉스를 다녀왔었다.\n\n그 하룻밤의 쉼이 가끔 떠오른다.\n\n오늘 또 지친 하루의 끝이다.",
+    "choices": [
+      {
+        "text": "그 쉼이 — 다시 달릴 힘을 줬다",
+        "effects": {
+          "mental": 6,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "쉬는 데 쓴 돈이 아까울 수도 있다. 하지만 그 하룻밤이 번아웃을 막았다.\n\n쉼은 비용이 아니라 투자였다.\n{name}은 자신을 쉬게 할 줄 아는 것도 능력임을 안다."
+      },
+      {
+        "text": "이젠 더 저렴하게도 쉴 줄 안다",
+        "effects": {
+          "mental": 5,
+          "money": 50000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "꼭 호캉스가 아니어도 쉴 수 있다.\n\n{name}은 돈을 덜 쓰고도 회복하는 법을 익혔다.\n쉼의 본질은 장소가 아니라, 잠시 멈추는 그 마음이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_frugal_pride_echo",
+    "title": "목표가 있어서라고 당당히 말한 것",
+    "background": "hangang_riverside",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "frugal_pride",
+      "min_turn": 76
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "절약하는 이유를 물어왔을 때, {name}은 '목표가 있어서'라고 당당하게 말했었다.\n\n그 당당함이 가끔 떠오른다.\n\n오늘 또 누군가 {name}의 검소함을 의아해한다.",
+    "choices": [
+      {
+        "text": "지금도 당당하다 — 궁상이 아니라 전략이다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "목표를 위한 절약은 부끄러운 게 아니다.\n\n남들이 궁상으로 봐도, {name}은 그게 자기 선택임을 안다.\n당당한 검소함은, 흔들리지 않는 사람의 표식이었다."
+      },
+      {
+        "text": "굳이 설명 안 한다 — 결과로 보여준다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "설명할수록 변명처럼 들린다.\n\n{name}은 말 대신 결과로 증명하기로 했다.\n도착한 뒤엔, 그 검소함이 무엇을 위한 거였는지 굳이 말 안 해도 알게 된다."
+      }
+    ]
+  },
+  {
+    "id": "callback_networked_golf_echo",
+    "title": "그 테이블에 앉은 것",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "networked_golf",
+      "min_turn": 88
+    },
+    "tags": ["callback", "story"],
+    "cooldown": 999,
+    "description": "한때 {name}은 '그 테이블에 앉아야 보이는 게 있다'며 골프 모임에 꼈었다.\n\n그 인맥의 자리가 가끔 떠오른다.\n\n오늘 또 비슷한 자리에 초대받았다.",
+    "choices": [
+      {
+        "text": "그 자리에서 배운 게 있었다 — 또 간다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "어떤 정보와 기회는 그런 자리에서만 흐른다.\n\n{name}은 불편해도 그 테이블에 앉는 것의 가치를 안다.\n인맥은 비용이지만, 잘 쓰면 가장 빠른 지름길이기도 했다."
+      },
+      {
+        "text": "이젠 자리를 골라 간다 — 모든 자리가 답은 아니다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 인맥 자리가 도움이 되는 건 아니다.\n\n{name}은 갈 자리와 거를 자리를 구분하게 됐다.\n시간도 자산이라, 어디에 쓸지가 곧 전략이었다."
+      }
+    ]
+  }
+]

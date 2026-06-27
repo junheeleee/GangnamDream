@@ -1,0 +1,611 @@
+[
+  {
+    "id": "callback_cafe_stole_dodged_echo",
+    "title": "그때 발을 뺀 것",
+    "background": "street_rainy",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_stole_dodged",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "수상한 돈벌이 제안 앞에서, {name}은 '이런 식이면 위험하다'며 발을 뺐었다.\n\n그 결단이 가끔 떠오른다.\n\n오늘 또 빠르지만 위험한 길이 눈앞에 보인다.",
+    "choices": [
+      {
+        "text": "그때 빠져나온 게 — 가장 잘한 일이었다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "빠른 돈은 대개 더 빠른 추락을 부른다.\n\n그때 발을 뺀 덕에 {name}은 깨끗한 길 위에 남았다.\n안 했어야 할 일을 안 한 것도, 분명한 선택이었다."
+      },
+      {
+        "text": "지금도 — 위험한 건 거른다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 번 발을 빼본 사람은, 다음에도 뺄 줄 안다.\n\n{name}은 위험 신호를 읽는 그 감각을 지금도 쓴다."
+      }
+    ]
+  },
+  {
+    "id": "callback_crossed_line_early_echo",
+    "title": "그때 선을 넘은 것",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "crossed_line_early",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "초반 어느 순간, {name}은 '딱 한 번만'이라며 넘지 말아야 할 선을 넘었었다.\n\n그 선택의 무게가 가끔 떠오른다.\n\n오늘 또 비슷한 회색지대 앞에 섰다.",
+    "choices": [
+      {
+        "text": "그때 배웠다 — 한 번이 가장 위험한 말이다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "'딱 한 번만'은 두 번째를 부르는 주문이었다.\n\n{name}은 그 선을 넘었을 때의 찜찜함을 기억한다.\n다시는 그 말로 자신을 속이지 않기로 했다."
+      },
+      {
+        "text": "그 빚을 — 깨끗한 방식으로 갚아간다",
+        "effects": {
+          "mental": 6,
+          "reputation": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 번 넘은 선을 되돌릴 순 없지만, 그 뒤를 다르게 살 순 있다.\n\n{name}은 그때의 선택을 정직한 노력으로 메워가기로 했다.\n과거를 지울 순 없어도, 방향은 바꿀 수 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_invested_echo",
+    "title": "형편에 맞게 들어간 것",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_honest_invested",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "투자 제안 앞에서, {name}은 무리하지 않고 '형편에 맞게' 들어갔었다.\n\n그 분수에 맞는 선택이 가끔 떠오른다.\n\n오늘 또 큰 베팅의 유혹이 있다.",
+    "choices": [
+      {
+        "text": "감당 가능한 만큼만 — 그게 오래 가는 법이다",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "형편을 넘는 투자는, 한 번의 출렁임에 무너진다.\n\n{name}은 감당할 수 있는 선에서 움직였기에 끝까지 버텼다.\n분수를 아는 것도, 결국 실력이었다."
+      },
+      {
+        "text": "이젠 — 그 형편의 폭이 넓어졌다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그때는 작은 돈으로 시작했지만, 이제 그 폭이 커졌다.\n\n{name}은 늘 형편에 맞게, 하지만 그 형편을 키워왔다.\n무리하지 않으면서 성장하는 게, 가장 단단한 길이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_redeemed_echo",
+    "title": "배운 걸로 다시 물은 것",
+    "background": "cafe",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_redeemed",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 망신을 당했던 그 자리에서, {name}은 '이번엔 제대로' 배운 걸로 다시 물었었다.\n\n그 만회의 순간이 가끔 떠오른다.\n\n오늘 또 한때 약점이었던 영역을 마주한다.",
+    "choices": [
+      {
+        "text": "망신을 — 성장으로 갚아냈다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "창피했던 그 순간이, 이를 악물고 배우게 만들었다.\n\n{name}은 약점이었던 곳을 강점으로 바꿔냈다.\n망신은 끝이 아니라, 제대로 배울 계기였다."
+      },
+      {
+        "text": "이젠 — 모르는 걸 부끄러워하지 않는다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모른다고 망신당하는 것보다, 모르는 걸 숨기는 게 더 위험하다.\n\n{name}은 묻는 게 부끄러운 게 아니라는 걸 배웠다.\n그 한 번의 만회가, 배움에 대한 태도를 바꿔놨다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_still_ashamed_echo",
+    "title": "아직도 민망한 것",
+    "background": "cafe",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_still_ashamed",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 망신을 당했던 그 자리에서, {name}은 아직도 민망해 고개를 숙이고 피했었다.\n\n그 부끄러움이 가끔 떠오른다.\n\n오늘 또 그때 그 영역을 마주하는 순간이 왔다.",
+    "choices": [
+      {
+        "text": "이젠 — 그 부끄러움을 넘어선다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "피하기만 하면 그 자리는 영영 약점으로 남는다.\n\n{name}은 이번엔 고개를 들고 마주하기로 했다.\n부끄러움은 마주할 때만 사라지는 거였다."
+      },
+      {
+        "text": "그 민망함도 — 나의 일부로 받아들인다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "완벽하지 않았던 순간들도 나를 만든 일부다.\n\n{name}은 그 민망함을 지우려 하지 않고, 그냥 안고 가기로 했다.\n부끄러운 기억이 있다는 건, 그만큼 부딪혀봤다는 뜻이기도 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_awkward_echo",
+    "title": "어색하게 자리를 뜬 것",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "cafe_awkward",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 민망한 상황에서 어색하게 자리를 떴었다.\n\n그 회피의 순간이 가끔 떠오른다.\n\n오늘 또 불편한 자리를 마주한다.",
+    "choices": [
+      {
+        "text": "이젠 — 불편해도 자리를 지킨다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "어색하다고 매번 피하면, 단련될 기회도 사라진다.\n\n{name}은 불편함을 견디는 힘을 조금씩 키웠다.\n피하지 않고 머무는 것만으로도, 어떤 자리는 익숙해졌다."
+      },
+      {
+        "text": "피하는 게 나을 때도 있다 — 분별한다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 불편함을 견딜 필요는 없다.\n\n{name}은 버틸 자리와 떠날 자리를 구분하게 됐다.\n회피가 늘 약함은 아니었다 — 가끔은 현명한 선택이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_ignored_hyunsu_warning_echo",
+    "title": "현수의 경고를 흘린 것",
+    "background": "convenience_night",
+    "portrait": "hyunsu",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "ignored_hyunsu_warning",
+      "min_turn": 35
+    },
+    "tags": [
+      "callback",
+      "hyunsu",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "현수가 재혁을 조심하라고 했을 때, {name}은 '재혁이는 아닐 거야'라며 군대 친구를 믿었었다.\n\n그 무시한 경고가 가끔 떠오른다.\n\n오늘 또 누군가의 경고와 내 믿음이 충돌한다.",
+    "choices": [
+      {
+        "text": "그때 현수 말을 들었어야 했나 — 이젠 경고를 흘리지 않는다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "가까운 사람의 경고엔 대개 이유가 있다.\n\n{name}은 믿고 싶은 것과 사실을 구분하는 법을 비싸게 배웠다.\n신뢰는 소중하지만, 맹신은 위험했다."
+      },
+      {
+        "text": "사람을 믿은 건 — 후회하지 않는다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결과가 안 좋았어도, 친구를 믿으려 한 마음 자체는 잘못이 아니었다.\n\n{name}은 의심만 하며 사는 삶을 원하진 않았다.\n다만 믿음에도 눈이 필요하다는 걸, 그때 배웠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_rejected_rescue_job_echo",
+    "title": "마음만 받겠다고 한 것",
+    "background": "goshiwon_hallway",
+    "portrait": "goshiwon_owner",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "rejected_rescue_job",
+      "min_turn": 35
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "고시원 주인이 일자리를 제안했을 때, {name}은 '마음만 받겠습니다, 더 나은 자리를 찾는 중'이라며 사양했었다.\n\n그 자존심 혹은 고집이 가끔 떠오른다.\n\n오늘 또 비슷한 호의의 갈림길에 섰다.",
+    "choices": [
+      {
+        "text": "그때 거절한 게 — 더 나은 길로 이어졌다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "당장의 호의에 안주했다면, 거기서 멈췄을 것이다.\n\n{name}은 더 나은 자리를 찾겠다는 그 고집을 지켰다.\n때론 좋은 제안을 거절하는 게, 더 큰 걸 위한 선택이었다."
+      },
+      {
+        "text": "도움도 받을 줄 알아야 한다 — 이젠 안다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "자존심 때문에 모든 호의를 거절하는 건, 어리석을 때도 있다.\n\n{name}은 받을 도움은 받는 유연함도 배웠다.\n혼자 다 해내야 한다는 고집이, 늘 옳은 건 아니었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_stayed_hungry_echo",
+    "title": "아직 멀었다고 생각한 것",
+    "background": "goshiwon_room",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "stayed_hungry",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "중간 점검에서 자산을 확인하고도, {name}은 '별거 아니다, 아직 멀었다'며 자만하지 않았었다.\n\n그 헝그리 정신이 가끔 떠오른다.\n\n오늘 또 작은 성취 앞에 섰다.",
+    "choices": [
+      {
+        "text": "그 굶주림이 — 자만을 막아줬다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "작은 성취에 취하면 거기서 멈춘다.\n\n{name}은 늘 '아직'이라는 마음으로 더 갔다.\n만족을 미루는 그 헝그리함이, 결국 거리를 만들었다."
+      },
+      {
+        "text": "이젠 — 굶주림과 자기인정의 균형을 본다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "계속 부족하다고만 하면, 도착해도 만족이 없다.\n\n{name}은 더 가되, 여기까지 온 자신도 인정하기로 했다.\n헝그리함과 자기학대는 다른 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_reason_confirmed_echo",
+    "title": "이 길 끝에도 그녀가 있다던 것",
+    "background": "gangnam_night",
+    "portrait": "daeun_smile",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_reason_confirmed",
+      "min_turn": 60
+    },
+    "tags": [
+      "callback",
+      "daeun",
+      "romance",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "막바지에서, {name}은 '아직 함께다, 이 길 끝에도 그녀가 있다'며 다은과의 미래를 확인했었다.\n\n그 다짐이 가끔 떠오른다.\n\n오늘 또 다은과의 길을 생각한다.",
+    "choices": [
+      {
+        "text": "그녀가 있어 — 이 길이 외롭지 않았다",
+        "effects": {
+          "mental": 7,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자 가는 길과, 끝에 누가 기다리는 길은 다르다.\n\n{name}에게 다은은 목표가 아니라 이유의 일부였다.\n도착했을 때 함께 웃을 사람이 있다는 게, 큰 힘이 됐다."
+      },
+      {
+        "text": "그녀를 위해서가 아니라 — 함께이기 위해 간다",
+        "effects": {
+          "mental": 6
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "누구를 위한 삶이 아니라, 함께하는 삶.\n\n{name}은 다은을 짐이 아니라 동행으로 여겼다."
+      }
+    ]
+  },
+  {
+    "id": "callback_confronted_manager_echo",
+    "title": "팀장에게 따로 이야기한 것",
+    "background": "office",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "confronted_manager",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "{name}의 공을 누가 가로챘을 때, {name}은 팀장에게 따로 이야기했었다.\n\n그 목소리를 낸 순간이 가끔 떠오른다.\n\n오늘 또 부당한 일 앞에서, 그때가 생각났다.",
+    "choices": [
+      {
+        "text": "그때 목소리를 낸 게 — 나를 지켰다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 2,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "참기만 하면, 가로채는 사람만 이긴다.\n\n{name}은 정당하게 자기 몫을 주장하는 법을 배웠다.\n목소리를 내는 것과 싸우는 건 다른 거였다 — 그건 자기 존중이었다."
+      },
+      {
+        "text": "방식은 더 다듬되 — 침묵하진 않는다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "목소리를 내되, 어떻게 내느냐도 중요하다.\n\n{name}은 감정이 아니라 사실로 주장하는 법을 다듬었다.\n부당함에 침묵하지 않으면서도, 적을 만들지 않는 균형을 익혔다."
+      }
+    ]
+  },
+  {
+    "id": "callback_considered_job_change_echo",
+    "title": "헤드헌터를 만나본 것",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "considered_job_change",
+      "min_turn": 48
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "헤드헌터의 연락에, {name}은 '한 번 만나보겠다'며 이직 가능성을 탐색했었다.\n\n그 탐색의 순간이 가끔 떠오른다.\n\n오늘 또 커리어의 갈림길에 섰다.",
+    "choices": [
+      {
+        "text": "선택지를 넓혀둔 게 — 협상력이 됐다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다른 길이 있다는 걸 아는 것만으로도 협상력이 생긴다.\n\n{name}은 옮기지 않더라도, 시장에서의 자기 가치를 알게 됐다.\n선택지를 가진 사람은, 머물러도 당당했다."
+      },
+      {
+        "text": "지금 자리의 가치도 — 다시 봤다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "밖을 봐야 안의 가치도 보인다.\n\n{name}은 이직을 알아보며, 오히려 현재의 장점도 재발견했다.\n떠날지 남을지는, 비교해본 뒤에야 제대로 정할 수 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_market_value_checked_echo",
+    "title": "내 몸값을 확인한 것",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "market_value_checked",
+      "min_turn": 48
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "헤드헌터에게 {name}은 '조건을 좀 더 알려달라'며 정보만 수집했었다. 자기 시장 가치를 확인하려고.\n\n그 점검이 가끔 떠오른다.\n\n오늘 또 자기 위치를 가늠해본다.",
+    "choices": [
+      {
+        "text": "내 가치를 아는 것 — 모든 협상의 시작이다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "자기 시장 가치를 모르면, 제값을 받을 수 없다.\n\n{name}은 정기적으로 자기 위치를 점검하는 습관을 들였다.\n정보를 쥔 사람만이, 흔들리지 않고 협상했다."
+      },
+      {
+        "text": "몸값을 — 더 올릴 방법을 찾는다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현재 가치를 안 뒤, {name}은 거기서 멈추지 않았다.\n\n무엇을 더하면 몸값이 오를지 역설계했다.\n자기 가치는 주어지는 게 아니라, 만들어가는 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_asked_growth_path_echo",
+    "title": "성장 방향을 물은 것",
+    "background": "meeting",
+    "portrait": "player_determined",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "asked_for_growth_path",
+      "min_turn": 52
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "연말 평가에서, {name}은 '내년 S등급을 위해 뭘 보완해야 할지' 먼저 물었었다.\n\n그 적극성이 가끔 떠오른다.\n\n오늘 또 성장의 방향을 고민한다.",
+    "choices": [
+      {
+        "text": "먼저 물은 게 — 성장의 속도를 높였다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "평가를 기다리는 사람과, 방향을 먼저 묻는 사람은 다르다.\n\n{name}은 피드백을 두려워하지 않고 먼저 구했다.\n성장은, 질문하는 사람에게 더 빨리 왔다."
+      },
+      {
+        "text": "이젠 — 회사 안팎의 성장을 함께 본다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "회사 안의 등급만이 성장은 아니다.\n\n{name}은 직장에서의 발전과 자기 목표를 함께 설계했다.\nS등급도 좋지만, 진짜 목표는 그 너머에 있었다."
+      }
+    ]
+  }
+]

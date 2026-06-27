@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_told_father_win_echo",
+    "title": "That Phone Call",
+    "description": "A Sunday call.\n\nDad brought it up out of nowhere.\n\n'Minjun-ah — that time you called because something went well. Your voice sounded good that day.'\n\nThe day {name} first crossed ₩50 million, the first call was to Dad.",
+    "choices": [
+      {
+        "text": "\"I was happy. I wanted to hear your voice.\"",
+        "result_text": "'...Yeah. I felt good that day too.'\n\nThe first person {name} thought of after making money was Dad. That meant something.\nNumbers are cold when looked at alone. Less so when there's someone to share them with."
+      },
+      {
+        "text": "\"It wasn't a big deal. I made a fuss over nothing.\"",
+        "result_text": "Dad laughed.\n'Fuss or not, it was good. Getting a call when my son has good news.'\n\nThat line stayed in {name}'s head for days."
+      }
+    ]
+  },
+  {
+    "id": "callback_said_bye_hyunsu_echo",
+    "title": "The Door You Knocked On",
+    "description": "On the day {name} left the goshiwon, they knocked on Hyun-su's door before leaving.\n\nToday a KakaoTalk came from Hyun-su.\n\n'Hyung — when you left, you knocked on my door. I remember that. I was kind of lonely that day.'",
+    "choices": [
+      {
+        "text": "\"Of course I'd say goodbye. How are you?\"",
+        "result_text": "'Good, thanks to you, hyung.'\n\nOne knock on the way out stayed with someone for a long time.\n{name} hadn't realized that small goodbye had landed that deeply."
+      },
+      {
+        "text": "\"I still think about that room sometimes.\"",
+        "result_text": "'Me too, hyung.'\n\nThe narrow hallway, the shared kitchen, the smell of ramen at dawn.\nOnly after leaving did that era settle into a single scene."
+      }
+    ]
+  },
+  {
+    "id": "callback_remembered_goshiwon_echo",
+    "title": "The Pause at the End of the Hall",
+    "description": "On the day {name} left the goshiwon, they paused at the end of the hallway and thought about the time spent there.\n\nToday, walking somewhere, they passed a hallway of the same narrow width.\n\nThat smell, that dim light. Instantly back there.",
+    "choices": [
+      {
+        "text": "That time made this time — accept it",
+        "result_text": "Decided not to be ashamed of that room.\n\nA humble starting point isn't a weakness. Coming from there to here — that's the story.\n{name} walked on past the hallway."
+      },
+      {
+        "text": "Vow never to go back there",
+        "result_text": "Fear is fuel too.\n\nThe memory of that narrow room pushed {name} one more step today.\nSo as not to go back. That was reason enough."
+      }
+    ]
+  },
+  {
+    "id": "callback_gangnam_vow_echo",
+    "title": "The Vow That Day",
+    "description": "The first time {name} went to Gangnam alone, they made a silent vow: 'I'll definitely make it here.'\n\nToday they passed that street again.\n\nA little closer than back then. Not arrived yet, but closer.",
+    "choices": [
+      {
+        "text": "Renew the vow once more",
+        "result_text": "That day's vow wasn't empty.\n\nA vow made only in words is different from one backed by months of accumulated time.\n{name} paused on that street, then kept walking."
+      },
+      {
+        "text": "Know a vow isn't enough — audit the actions",
+        "result_text": "A vow is a starting line, not a finish.\n\n{name} coldly retraced what had actually been done since that day.\nNot by emotion, but by numbers. That was how you keep a vow."
+      }
+    ]
+  },
+  {
+    "id": "callback_gangnam_doubt_echo",
+    "title": "Being Honest That Day",
+    "description": "The first time {name} went to Gangnam alone, they got honest: 'I don't know if this is really my goal.'\n\nThey carried that doubt and still made it this far.\n\nToday the question surfaced again. Found an answer?",
+    "choices": [
+      {
+        "text": "Now I know — this is my goal",
+        "result_text": "Pushing a doubted goal all the way through.\n\nIn that process {name} confirmed it was truly theirs.\nA goal made stronger precisely because it had been shaken."
+      },
+      {
+        "text": "Still don't always know — but keep going",
+        "result_text": "You can walk without certainty.\n\nDecided not to erase the doubt, but to carry it.\nGoing forward without knowing is its own kind of courage — {name} learned that."
+      }
+    ]
+  },
+  {
+    "id": "callback_goal_reaffirmed_echo",
+    "title": "The Night I Went Back to the Plan",
+    "description": "On the night the weight of ₩3 billion shook {name}, they ended up opening the plan again.\n\nBack to the numbers.\n\nThat choice built the current momentum.",
+    "choices": [
+      {
+        "text": "Plan over emotion — that principle was right",
+        "result_text": "The habit of returning to numbers when shaken.\n\nThat saved {name} several times.\nEmotion is the wave; the plan is the anchor. Dropping anchor that night was right."
+      },
+      {
+        "text": "There were moments the plan alone wasn't enough",
+        "result_text": "A plan is direction, not everything.\n\nSome days called for closing the plan and resting.\n{name} learned that balance through trial and error."
+      }
+    ]
+  },
+  {
+    "id": "callback_goal_questioned_echo",
+    "title": "The Night I Just Lay Down",
+    "description": "On the night the weight of ₩3 billion pressed down, {name} did nothing and just lay down to sleep.\n\nThe doubt of that day.\n\nTonight a similar night returned.",
+    "choices": [
+      {
+        "text": "Like that day — sleep first, look again tomorrow",
+        "result_text": "Stopping is a strategy too.\n\n{name} now knows that just sleeping that day wasn't running away — it was recovery.\nThe next morning the numbers were the same, but the person was a little different."
+      },
+      {
+        "text": "Not just lying down this time — do one small thing",
+        "result_text": "Remembering that day's helplessness.\n\nDecided to do one tiny thing before sleep today.\nDoubt only shrinks through action — {name} knew that after that night."
+      }
+    ]
+  },
+  {
+    "id": "callback_called_dad_milestone_echo",
+    "title": "The Call Just to Hear a Voice",
+    "description": "The day {name} first crossed ₩100 million, they couldn't tell anyone and called Dad instead. Just to hear his voice.\n\nToday Dad brought up that call again.\n\n'You called out of the blue that time. Asked if everything was okay. Did something happen that day?'",
+    "choices": [
+      {
+        "text": "\"Something good happened — and you were the only one I could tell.\"",
+        "result_text": "Dad went quiet for a while.\n\n'...Yeah. Call anytime.'\n\nMore than the number ₩100 million, the fact that Dad was the only one to share it with weighed on {name}."
+      },
+      {
+        "text": "\"I just wanted to hear your voice.\"",
+        "result_text": "'...I feel that sometimes too.'\n\nA call with no reason. Both knew that's the hardest kind of call to make."
+      }
+    ]
+  },
+  {
+    "id": "callback_solo_celebration_echo",
+    "title": "The Can of Beer Alone",
+    "description": "The day {name} crossed ₩100 million, they celebrated alone with a can of beer at the convenience store.\n\nToday they achieved something again.\n\nStanding in front of the convenience store fridge once more.",
+    "choices": [
+      {
+        "text": "Alone again — but it's familiar and comfortable now",
+        "result_text": "Celebrating alone had become not loneliness but a private ritual.\n\nCracked the can, took the first sip, smiled quietly.\nThere are achievements that count even when no one else knows."
+      },
+      {
+        "text": "This time, reach out to just one person",
+        "result_text": "Held the can and opened the phone.\n\nDrinking alone is fine, but sometimes you need someone to drink with.\n{name} scrolled through contacts for a while, then sent someone a message."
+      }
+    ]
+  },
+  {
+    "id": "callback_told_daeun_everything_echo",
+    "title": "Telling Her Everything",
+    "description": "The day {name} decided to tell Dae-un everything — the ₩3 billion goal, starting with ₩500,000, all of it.\n\nToday Dae-un brought it up again.\n\n'When you told me everything that day, honestly I was surprised. But — thank you. You trusted me.'",
+    "choices": [
+      {
+        "text": "\"I didn't want to hide anything from you.\"",
+        "result_text": "Dae-un fiddled with her cup and smiled.\n\n'That's why I wanted to go along. Your reckless goal.'\n\nThe choice not to hide set the two of them facing the same direction."
+      },
+      {
+        "text": "\"You were the only one I had who'd believe it.\"",
+        "result_text": "'...Then own those words.'\n\nDae-un said it like a joke, but her eyes were serious.\nBeing trusted was a weight too. {name} didn't mind that weight."
+      }
+    ]
+  },
+  {
+    "id": "callback_shared_with_sangchul_echo",
+    "title": "When I Opened Up",
+    "description": "When Sang-chul shared his own beginning, {name} had related: 'I started from a similar place.'\n\nToday Sang-chul mentioned it again.\n\n'You told me about yourself that time. That's when I started seeing you differently.'",
+    "choices": [
+      {
+        "text": "\"I meant it.\"",
+        "result_text": "Sang-chul nodded.\n\n'I know you don't say things like that lightly. That's why I trust you more.'\n\nApproaching with sincerity rather than calculation had changed the grain of the relationship."
+      },
+      {
+        "text": "\"Honestly, I regretted saying it. Thought maybe I was too open.\"",
+        "result_text": "Sang-chul laughed.\n\n'You think honesty's a weakness? In this business it's the rarest weapon there is.'\n\n{name} chewed on that for a long time."
+      }
+    ]
+  },
+  {
+    "id": "callback_restarted_after_scam_echo",
+    "title": "Picking Up the Plan Again",
+    "description": "The day after being scammed by Jae-hyuk, {name} didn't collapse — they opened the plan again.\n\nThat recovery built the current momentum.\n\nToday that day suddenly came to mind.",
+    "choices": [
+      {
+        "text": "Getting back up that day was the best choice",
+        "result_text": "It's not the scam that makes a person — it's what they do the next day.\n\nOn a day {name} could have stayed down, they opened the plan.\nThat single page carried all the way here."
+      },
+      {
+        "text": "That loss still surfaces sometimes — but I learned",
+        "result_text": "The money never came back.\n\nBut {name} gained an eye for people, a habit of doubt, a way to get back up.\nAn expensive lesson — but not one {name} entirely regretted paying for."
+      }
+    ]
+  },
+  {
+    "id": "callback_looked_up_apartment_echo",
+    "title": "Looking Up at That Apartment Again",
+    "description": "Entering the final stretch, {name} looked up at that apartment again.\n\nToday they stood before it once more.\n\nCloser than that time. Almost within reach.",
+    "choices": [
+      {
+        "text": "Picture the day I look up from inside",
+        "result_text": "The building looked up at from outside will one day be looked down from within.\n\nThat image had shifted from a vague dream to a concrete plan.\n{name} ran the numbers again. Not far now."
+      },
+      {
+        "text": "Don't rush — stay calm to the end",
+        "result_text": "People stumble most when the finish line is in sight.\n\n{name} deliberately slowed their breathing.\nThe same way that got them here — that's how the end would go too."
+      }
+    ]
+  },
+  {
+    "id": "callback_picked_gangnam_target_echo",
+    "title": "The Place I Bookmarked",
+    "description": "The day {name} crossed ₩2.5 billion, they bookmarked a ₩1.7 billion listing. 'This is the goal.'\n\nToday they opened that listing again.\n\nStill not sold. As if it were waiting.",
+    "choices": [
+      {
+        "text": "Run the final calculation toward that place",
+        "result_text": "Not a vague 'Gangnam,' but one specific home.\n\nWhen a goal has coordinates, the path gets clear.\n{name} measured the remaining distance against that home."
+      },
+      {
+        "text": "The home is just a means — reconsider the real goal",
+        "result_text": "That home is a symbol, not the essence.\n\nWhat {name} truly wanted — a life no longer chased, a self with nothing left to prove.\nClosing the listing photo, {name} looked past it."
+      }
+    ]
+  }
+]

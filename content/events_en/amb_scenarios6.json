@@ -27,7 +27,8 @@
         "effects": {
           "mental": -4,
           "stress": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         }
       },
       {
@@ -38,7 +39,8 @@
         ],
         "effects": {
           "stress": 10,
-          "mental": 2
+          "mental": 2,
+          "tint": -4
         }
       },
       {
@@ -50,7 +52,8 @@
         "effects": {
           "money": -300000,
           "stress": 3,
-          "mental": 1
+          "mental": 1,
+          "tint": 1
         }
       }
     ]
@@ -84,7 +87,8 @@
         "effects": {
           "stress": 9,
           "mental": -4,
-          "reputation": 1
+          "reputation": 1,
+          "tint": -2
         }
       },
       {
@@ -93,7 +97,8 @@
         "follow_up_event": "amb_credit_confront",
         "effects": {
           "stress": 7,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         }
       },
       {

@@ -209,7 +209,8 @@
           "intelligence": 4,
           "reputation": 8,
           "stress": 12,
-          "work_performance": 15
+          "work_performance": 15,
+          "tint": 5
         },
         "result_text": "Volunteered for overtime. Let results do the talking. It'll take time — but no regrets."
       },
@@ -220,7 +221,8 @@
           "reputation": 12,
           "stress": 8,
           "mental": -6,
-          "monthly_income": 300000
+          "monthly_income": 300000,
+          "tint": -4
         },
         "result_text": "Got the team leader position. Salary went up. Assistant Manager Kim's eyes went cold. This industry — you take what comes with it."
       },
@@ -229,7 +231,8 @@
         "effects": {
           "stress": -10,
           "intelligence": 2,
-          "mental": 5
+          "mental": 5,
+          "tint": 0
         },
         "result_text": "Stepped out of the race. Quietly opened a job listing site. Something better is out there."
       }
@@ -363,7 +366,8 @@
         "effects": {
           "money": -1000000,
           "mental": -18,
-          "gambling_tendency": 5
+          "gambling_tendency": 5,
+          "tint": -5
         },
         "result_text": "Sent a message confirming the transfer, but no reply. Three days later the account was gone. A classic scam."
       },
@@ -371,7 +375,8 @@
         "text": "Suspicious — report and block",
         "effects": {
           "intelligence": 2,
-          "mental": 3
+          "mental": 3,
+          "tint": 6
         },
         "result_text": "Reported and blocked. A reminder to never fall for this kind of thing."
       },
@@ -381,7 +386,8 @@
           "intelligence": 3,
           "social_skill": 2,
           "reputation": 5,
-          "mental": 4
+          "mental": 4,
+          "tint": 7
         },
         "result_text": "Shared the scam info in an open chat. 'You saved me' comments came in. Felt good."
       }
@@ -409,7 +415,8 @@
         "text": "Accept the inheritance",
         "effects": {
           "money": 5000000,
-          "mental": -10
+          "mental": -10,
+          "tint": 0
         },
         "result_text": "₩5,000,000 entered the account. Someone never met, yet a strange feeling lingered."
       },
@@ -417,7 +424,8 @@
         "text": "Donate it all",
         "effects": {
           "mental": 15,
-          "reputation": 10
+          "reputation": 10,
+          "tint": 8
         },
         "result_text": "Donated the full amount. A lighter feeling than the money itself. This felt right."
       }
@@ -447,7 +455,8 @@
         "text": "Lend ₩5,000,000",
         "effects": {
           "money": -5000000,
-          "mental": -10
+          "mental": -10,
+          "tint": 5
         },
         "relationship_effects": [
           {
@@ -464,7 +473,8 @@
         "text": "Help with ₩1,000,000 only",
         "effects": {
           "money": -1000000,
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         },
         "relationship_effects": [
           {
@@ -480,7 +490,8 @@
       {
         "text": "Decline — don't want money to mess up the friendship",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 2
         },
         "relationship_effects": [
           {
@@ -604,7 +615,8 @@
         "effects": {
           "money": -150000,
           "health": 15,
-          "mental": 21
+          "mental": 21,
+          "tint": 2
         },
         "result_text": "The doctor said: 'You need to rest.' Decided to tap the brakes for a moment."
       },
@@ -613,7 +625,8 @@
         "effects": {
           "health": -12,
           "mental": -16,
-          "money": 300000
+          "money": 300000,
+          "tint": -2
         },
         "result_text": "Drank more coffee and held on. End-of-month numbers came through. But the body is past its limit."
       },
@@ -622,7 +635,8 @@
         "effects": {
           "health": 8,
           "mental": 18,
-          "money": -100000
+          "money": -100000,
+          "tint": 3
         },
         "result_text": "Cleared two whole days. Walked, ate, slept. Had forgotten how good simple things could be."
       }
@@ -888,7 +902,8 @@
         "text": "Confront them directly",
         "effects": {
           "social_skill": 5,
-          "mental": -8
+          "mental": -8,
+          "tint": 4
         },
         "result_text": "A long fight. The friend apologized. Things could never go back to how they were."
       },
@@ -896,7 +911,8 @@
         "text": "Look into legal options",
         "effects": {
           "intelligence": 5,
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "result_text": "Found out an idea alone is hard to patent. Decided to document everything going forward."
       },
@@ -904,7 +920,8 @@
         "text": "Let it go and find a better idea",
         "effects": {
           "mental": 5,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": -2
         },
         "result_text": "Felt burned, but decided not to spend energy there. This experience became fuel instead."
       }
@@ -1070,7 +1087,8 @@
         "effects": {
           "reputation": 5,
           "intelligence": 4,
-          "mental": -8
+          "mental": -8,
+          "tint": 0
         },
         "result_text": "A pressure to do the work of those who are gone. That pressure pushed harder."
       },
@@ -1079,7 +1097,8 @@
         "effects": {
           "intelligence": 5,
           "investment_skill": 2,
-          "mental": -4
+          "mental": -4,
+          "tint": 0
         },
         "result_text": "No knowing when it'll be your turn. Learned to always be ready."
       },
@@ -1087,7 +1106,8 @@
         "text": "Reach out to the colleagues who left",
         "effects": {
           "social_skill": 5,
-          "mental": 4
+          "mental": 4,
+          "tint": 5
         },
         "result_text": "Bought them a meal. Said 'you worked hard.' Tried not to forget that people come first."
       }
@@ -1207,7 +1227,8 @@
           "money": 12000000,
           "investment_skill": 8,
           "luck": 5,
-          "mental": -10
+          "mental": -10,
+          "tint": -3
         },
         "result_text": "4 a.m. on election results night. Watching the chart, finger stretched out.\n\nSell. Confirm.\n\n₩12,000,000. The account changed.\nLearned in the body that in this city, information is money and timing is everything.",
         "flags": [
@@ -1219,7 +1240,8 @@
         "effects": {
           "money": 800000,
           "investment_skill": 5,
-          "mental": -4
+          "mental": -4,
+          "tint": -1
         },
         "result_text": "₩800,000 gain. Disappointing, but kept it safe.\nGot the nerve to go bigger next time."
       },
@@ -1227,7 +1249,8 @@
         "text": "Skip theme stocks — keep to the rules",
         "effects": {
           "intelligence": 3,
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "result_text": "Didn't do it. A few days later, news broke that theme stocks had crashed.\nThe rules protected the outcome."
       }
@@ -1254,7 +1277,8 @@
         "text": "Help as much as possible",
         "effects": {
           "money": -3000000,
-          "mental": -2
+          "mental": -2,
+          "tint": 7
         },
         "result_text": "Sent ₩3,000,000. The account was emptied. But the parents' voice changed. That was enough."
       },
@@ -1262,7 +1286,8 @@
         "text": "Help within limits only",
         "effects": {
           "money": -1000000,
-          "mental": -1
+          "mental": -1,
+          "tint": 2
         },
         "result_text": "₩1,000,000. Not everything, but what was possible. Knowing your limits is also maturity."
       },
@@ -1270,7 +1295,8 @@
         "text": "Be honest — things are hard on this end too",
         "effects": {
           "mental": 4,
-          "social_skill": 3
+          "social_skill": 3,
+          "tint": 4
         },
         "result_text": "Said 'I'm struggling too' for the first time. The parents ended up apologizing. Honesty can sometimes save a relationship."
       }
@@ -1447,7 +1473,8 @@
         "effects": {
           "mental": -10,
           "reputation": -5,
-          "social_skill": 4
+          "social_skill": 4,
+          "tint": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -1458,7 +1485,8 @@
         "effects": {
           "mental": -23,
           "reputation": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -1467,7 +1495,8 @@
       {
         "text": "Ignore it and move on to the next video.",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -1554,7 +1583,8 @@
         "text": "Admit it — \"I think something's off with me lately\"",
         "effects": {
           "mental": 6,
-          "addiction_tendency": -8
+          "addiction_tendency": -8,
+          "tint": 6
         },
         "flags": [
           "addiction_self_aware"
@@ -1565,7 +1595,8 @@
         "text": "It's nothing — everyone lives like this",
         "effects": {
           "addiction_tendency": 5,
-          "mental": -3
+          "mental": -3,
+          "tint": -4
         },
         "flags": [],
         "result_text": "{name} set an alarm and lay down. It's nothing.\nBut sleep didn't come easily."
@@ -1597,7 +1628,8 @@
         "text": "Stop for now — delete every betting and gambling app",
         "effects": {
           "mental": 10,
-          "addiction_tendency": -15
+          "addiction_tendency": -15,
+          "tint": 6
         },
         "flags": [
           "addiction_paused",
@@ -1609,7 +1641,8 @@
         "text": "Can recover — just one more big bet",
         "effects": {
           "mental": -10,
-          "addiction_tendency": 12
+          "addiction_tendency": 12,
+          "tint": -6
         },
         "flags": [
           "addiction_escalated"
@@ -1620,7 +1653,8 @@
         "text": "Call Hyunsu — not to talk, just to hear a voice",
         "effects": {
           "mental": 7,
-          "addiction_tendency": -5
+          "addiction_tendency": -5,
+          "tint": 7
         },
         "cast_effects": {
           "hyunsu": {
@@ -1657,7 +1691,8 @@
       {
         "text": "\"I'm fine. Just been pushing too hard lately.\" — deflect",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -3
         },
         "cast_effects": {
           "father": {
@@ -1673,7 +1708,8 @@
         "text": "\"Dad, I've been having a hard time lately.\" — say it for the first time",
         "effects": {
           "mental": 12,
-          "addiction_tendency": -10
+          "addiction_tendency": -10,
+          "tint": 8
         },
         "cast_effects": {
           "father": {

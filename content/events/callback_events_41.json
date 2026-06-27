@@ -1,0 +1,164 @@
+[
+  {
+    "id": "callback_hyunsu_passed_echo",
+    "title": "발령 이후",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hyunsu_passed",
+      "min_turn": 48
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "현수가 붙었다.\n\n그 소식을 들은 날이 생각났다. \"야, 진짜? 잘됐다.\"\n\n4년. 한 자리에서 4년을 버텼다.\n\n{name}은 자기 계산기를 꺼냈다.\n지금 이 자리에서 — 나는 몇 년째인가.",
+    "choices": [
+      {
+        "text": "현수처럼 나도 버틸 거라고 생각한다",
+        "effects": {
+          "mental": 7
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "4년을 버텨서 나간 사람이 옆에 있었다.\n\n{name}의 5년이 불가능한 게 아니었다.\n현수가 해냈다면, {name}도 할 수 있다 — 그런 단순한 논리가,\n생각보다 오래 버텨줬다."
+      },
+      {
+        "text": "나는 현수와는 다른 길이라고 생각한다",
+        "effects": {
+          "intelligence": 1,
+          "mental": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현수는 4년을 한 길로 갔다. 한 가지를 향해.\n\n{name}은 그보다 복잡한 방정식을 풀고 있다.\n난이도가 다른 거다. 방향이 다른 거다.\n\n그 차이를 알고 가는 게, 비교하는 것보다 낫다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_comforted_echo",
+    "title": "음료 두 개",
+    "background": "goshiwon_hallway",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hyunsu_comforted",
+      "min_turn": 44
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "자기도 힘든 날이었다.\n\n복도를 지나치다가 202호에서 소리가 났다. 새 입주자.\n\n그 소리가 현수가 방에만 있던 그 사흘을 떠올렸다.\n편의점에서 음료 두 개 사다 줬던 그날.",
+    "choices": [
+      {
+        "text": "그게 별 거였나 생각하니 따뜻해진다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"말을 많이 하지 않았다. 그걸로 충분했다.\"\n\n그때 현수가 문을 열었을 때 한 말이 없었다.\n근데 그게 맞았다. 때로는 그게 전부다.\n\n지금 자기도 힘든데 — 그때 했던 선택이 좋았다고 생각이 됐다."
+      },
+      {
+        "text": "자기도 그런 사람이 필요한 날이다",
+        "effects": {
+          "mental": -3,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현수한테는 해줬는데.\n자기한테는 해줄 사람이 없는 날이 있다.\n\n편의점 음료 하나를 샀다. 혼자 마셨다.\n\n그래도 — 그때 두드린 건 잘한 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_departure_meal_echo",
+    "title": "형은 언제 나가요",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hyunsu_departure_meal",
+      "min_turn": 96
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "오늘도 고시원이다.\n\n현수가 나갔을 때 했던 말이 가끔 생각난다.\n\"형은 언제 여기 나가요?\"\n\"...글쎄.\"\n\n그 대답이 아직도 '글쎄'인 날들이 있다.",
+    "choices": [
+      {
+        "text": "나가는 날이 올 거라고 믿는다",
+        "effects": {
+          "mental": 6
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현수는 나갔다. 5년이 걸렸다.\n{name}은 아직 여기 있다.\n\n근데 언젠가 나가는 날이 있을 거다.\n그날 이 방에서의 시간이 어떻게 보일지는 — 그때 가서 보면 된다."
+      },
+      {
+        "text": "그 질문이 오늘은 무겁다",
+        "effects": {
+          "mental": -5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "글쎄. 아직도 글쎄.\n\n현수한테 그 말을 했을 때 웃어넘겼는데, 오늘은 무겁다.\n\n그래도 여기 있다는 게 — 아직 포기 안 했다는 거다."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_reconnected_echo",
+    "title": "형 덕분이에요",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "hyunsu_reconnected",
+      "min_turn": 80
+    },
+    "tags": ["callback", "hyunsu", "story"],
+    "cooldown": 999,
+    "description": "현수가 취직했다.\n\n\"형 덕분이에요. 그때 문 두드려줘서.\"\n\n{name}은 그 카톡을 한동안 봤다.\n\n그때 문 두드리는 게 그렇게 큰 일인지 몰랐다.",
+    "choices": [
+      {
+        "text": "\"잘됐다. 거기서도 버텨.\"",
+        "effects": {
+          "mental": 8,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "hyunsu": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"네 ㅎㅎ 형도 화이팅이에요.\"\n\n서울에서 5년. 이런 연락이 오는 날도 있다.\n\n현수가 다른 길로 나갔고, {name}은 아직 여기 있다.\n각자의 속도로, 각자의 방향으로 — 그게 서울이다."
+      },
+      {
+        "text": "\"나도 곧 거기서 나갈 수 있게 되겠지.\" 혼자 생각한다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "현수한테 답장을 짧게 보냈다.\n\n폰을 내려놓으면서 생각했다.\n공시를 포기하고 새 길을 찾은 현수도, 결국 나갔다.\n{name}도 — 찾고 있는 중이다."
+      }
+    ]
+  }
+]

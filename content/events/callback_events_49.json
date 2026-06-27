@@ -1,0 +1,603 @@
+[
+  {
+    "id": "callback_rejected_godsaeng_echo",
+    "title": "내 페이스대로 산다던 것",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "rejected_godsaeng_pressure",
+      "min_turn": 32
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "갓생 열풍 앞에서, {name}은 '남의 갓생 말고 내 페이스대로 산다'고 했었다.\n\n그 선택이 가끔 떠오른다.\n\n오늘 또 누군가의 '새벽 5시 기상' 인증을 봤다.",
+    "choices": [
+      {
+        "text": "지금도 — 내 리듬이 내 페이스다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남의 루틴을 따라 하는 건 오래 못 간다.\n\n{name}은 자기에게 맞는 리듬을 찾았고, 그게 결국 더 멀리 가게 했다.\n갓생은 보여주는 게 아니라, 조용히 사는 거였다."
+      },
+      {
+        "text": "내 페이스에 좋은 습관을 더했다",
+        "effects": {
+          "mental": 5,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "내 페이스를 지키되, 좋은 건 받아들인다.\n\n{name}은 유행을 거부하면서도 거기서 쓸 만한 건 골라 담았다.\n남의 방식을 흉내 내지 않으면서도, 배울 건 배웠다."
+      }
+    ]
+  },
+  {
+    "id": "callback_godsaeng_for_show_echo",
+    "title": "보여주기 갓생을 시작한 것",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "godsaeng_for_show",
+      "min_turn": 32
+    },
+    "tags": [
+      "callback",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '보여주기라도 하면 동기부여 되겠지'라며 갓생 인증 계정을 팠었다.\n\n그 보여주기는 동기가 됐나, 피로가 됐나.\n\n오늘 또 그 계정에 뭘 올릴지 고민하는 자신을 발견했다.",
+    "choices": [
+      {
+        "text": "이젠 안다 — 진짜 동기는 안에서 온다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남에게 보여주려고 하는 노력은, 보는 눈이 없으면 멈춘다.\n\n{name}은 인증을 위한 삶에서 벗어났다.\n진짜 갓생은 아무도 안 볼 때도 하는 거였다."
+      },
+      {
+        "text": "보여주기라도 — 안 하는 것보단 나았다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "동기가 외부에서 왔어도, 그 덕에 움직인 날들이 있었다.\n\n{name}은 그 계정이 마중물 역할을 했다는 것도 인정했다.\n시작이 보여주기였대도, 결국 습관으로 남으면 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_learned_to_rest_echo",
+    "title": "진짜 휴식을 택한 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "learned_to_rest",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "health",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "갓생의 역설 앞에서, {name}은 '하루는 아무것도 안 하기로' 진짜 휴식을 택했었다.\n\n그 쉼을 배운 게 가끔 떠오른다.\n\n오늘 또 번아웃의 기운이 느껴진다.",
+    "choices": [
+      {
+        "text": "그때처럼 — 멈출 줄 아는 게 실력이다",
+        "effects": {
+          "mental": 6,
+          "health": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "쉬지 않는 부지런함은 결국 자신을 태운다.\n\n진짜 휴식을 배운 덕에 {name}은 끝까지 갈 수 있었다.\n멈추는 것도 전진의 일부였다."
+      },
+      {
+        "text": "쉬되 — 죄책감 없이 쉰다",
+        "effects": {
+          "mental": 7
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "쉬면서도 불안한 게 가장 큰 문제였다.\n\n{name}은 이제 쉴 때 제대로 쉬는 법을 안다.\n죄책감 없는 휴식만이 진짜 회복이 됐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_godsaeng_overdrive_echo",
+    "title": "더 갈아 넣기로 한 것",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "godsaeng_overdrive",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "health",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "갓생의 역설 앞에서, {name}은 '더 효율적으로 갈아 넣으면 된다'며 시스템을 최적화했었다.\n\n그 과부하는 지속됐나.\n\n오늘 또 몸과 마음이 한계를 알린다.",
+    "choices": [
+      {
+        "text": "이젠 안다 — 무한히 갈아 넣을 순 없다",
+        "effects": {
+          "mental": 5,
+          "health": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "효율을 아무리 높여도, 인간은 기계가 아니다.\n\n{name}은 그 한계를 인정하고 속도를 조절하기로 했다.\n지속 가능하지 않은 노력은, 결국 멈춤보다 더 큰 손실이었다."
+      },
+      {
+        "text": "최적화는 유지하되 — 회복 시간을 넣는다",
+        "effects": {
+          "mental": 5,
+          "health": 2,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "효율 추구 자체가 나쁜 건 아니다. 회복이 빠진 게 문제였다.\n\n{name}은 시스템에 쉼을 변수로 넣었다.\n갈아 넣는 것과 지속하는 것의 균형을, 비로소 찾았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_joined_geojibang_echo",
+    "title": "거지방에 정착한 것",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "joined_geojibang",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "finance",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 거지방에 정착해 매일 지출을 검열받았었다.\n\n그 극단적 절약 챌린지가 가끔 떠오른다.\n\n오늘 또 지출 앞에서, 그때의 검열관들이 생각났다.",
+    "choices": [
+      {
+        "text": "그 방 덕에 — 지출 감각이 몸에 뱄다",
+        "effects": {
+          "mental": 5,
+          "money": 80000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남들의 눈이 무서워 아낀 날들이 습관이 됐다.\n\n거지방을 나온 뒤에도 그 감각은 남았다.\n{name}은 이제 검열관 없이도 스스로 절제할 줄 안다."
+      },
+      {
+        "text": "이젠 — 극단적 절약은 졸업했다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "1원까지 검열받는 삶은 오래 못 간다.\n\n{name}은 그 단계를 지나, 균형 잡힌 소비로 옮겨갔다.\n절약은 목적이 아니라 수단이었다는 걸, 그 방이 역설적으로 가르쳐줬다."
+      }
+    ]
+  },
+  {
+    "id": "callback_left_geojibang_echo",
+    "title": "거지방을 나온 것",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "left_geojibang",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "finance",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '이런 걸로 스트레스받기 싫다'며 거지방을 한 번 웃고 나왔었다.\n\n그 선택이 가끔 떠오른다.\n\n오늘 또 절약 관련 유행을 봤다.",
+    "choices": [
+      {
+        "text": "나만의 방식으로 절약한다 — 검열은 필요 없다",
+        "effects": {
+          "mental": 6,
+          "money": 50000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남의 검열 없이도 절약할 수 있다.\n\n{name}은 외부 압박이 아니라 자기 원칙으로 지출을 관리한다.\n진짜 절제는, 누가 보지 않아도 하는 거였다."
+      },
+      {
+        "text": "가끔은 그런 자극도 필요할까 — 점검한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자만의 절제가 느슨해질 때도 있다.\n\n{name}은 자기 절약이 해이해지지 않았는지 점검했다.\n방을 나온 게 절약을 그만둔다는 뜻은 아니었으니까."
+      }
+    ]
+  },
+  {
+    "id": "callback_followed_leading_room_echo",
+    "title": "리딩방을 따라간 것",
+    "background": "investment_phone",
+    "portrait": "player_tired",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "followed_leading_room",
+      "min_turn": 38
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '다들 버는데 나만 빠질 순 없다'며 리딩방이 찍어준 종목을 샀었다.\n\n그 결과는 약이었나 독이었나.\n\n오늘 또 '확실한 정보'라는 유혹이 찾아온다.",
+    "choices": [
+      {
+        "text": "그때 배웠다 — 남이 찍어주는 건 믿지 않는다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "공짜로 돈 버는 법을 알려주는 사람은 없다.\n\n그 리딩방 경험이 {name}에게 비싼 교훈을 줬다.\n이제는 남의 종목이 아니라 자기 판단으로 산다."
+      },
+      {
+        "text": "정보는 참고하되 — 최종 판단은 내가 한다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 정보를 무시할 필요는 없지만, 맹신은 위험하다.\n\n{name}은 정보를 거르고 검증하는 법을 익혔다.\n남의 확신에 내 돈을 맡기지 않는 것. 그게 첫 원칙이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_learned_invest_wisdom_echo",
+    "title": "공짜 정보는 없다는 것",
+    "background": "investment_phone",
+    "portrait": "player_normal",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "learned_invest_wisdom",
+      "min_turn": 38
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '공짜로 돈 버는 법을 알려주는 사람은 없다'는 걸 깨달았었다.\n\n그 깨달음이 투자 원칙이 됐다.\n\n오늘 또 '확실하다'는 솔깃한 제안이 들어왔다.",
+    "choices": [
+      {
+        "text": "그 원칙대로 — 너무 좋은 건 의심한다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "너무 좋아 보이는 제안엔 대개 함정이 있다.\n\n{name}은 그 원칙으로 여러 번 사기를 피했다.\n의심하는 능력은, 버는 능력만큼 중요했다."
+      },
+      {
+        "text": "검증할 건 검증하고 — 좋은 기회는 잡는다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 걸 의심만 하면 기회도 놓친다.\n\n{name}은 의심과 결단 사이의 균형을 찾았다.\n검증한 뒤의 확신은, 막연한 두려움과는 달랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_fought_margin_call_echo",
+    "title": "마진콜을 막아낸 것",
+    "background": "investment_phone",
+    "portrait": "player_shocked",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "fought_margin_call",
+      "min_turn": 42
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 마진콜 앞에서 '여기서 팔면 끝이다'라며 어떻게든 돈을 구해 막았었다.\n\n그 아찔한 순간이 가끔 떠오른다.\n\n오늘 또 레버리지의 유혹이 머릿속을 스친다.",
+    "choices": [
+      {
+        "text": "그때 막아낸 건 운이었다 — 이젠 레버리지를 줄인다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그날 막아낸 건 실력이 아니라 운에 가까웠다.\n\n{name}은 다시는 그렇게 벼랑 끝에 서지 않기로 했다.\n레버리지는 양날의 검 — 살아남으려면 칼날을 줄여야 했다."
+      },
+      {
+        "text": "버틴 경험이 — 위기 대응력을 키웠다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "벼랑 끝에서 버텨본 경험이 담력을 줬다.\n\n{name}은 그 위기를 통해 자금 관리의 중요성을 뼈저리게 배웠다.\n다만 그 담력을 만용으로 착각하지 않는 게 관건이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_gig_grinder_echo",
+    "title": "비 와도 뛴 날",
+    "background": "convenience_night",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "gig_grinder",
+      "min_turn": 34
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '우천 할증이 붙는다'며 비 오는 날에도 배달을 뛰었었다.\n\n그 악착같던 밤들이 가끔 떠오른다.\n\n오늘 또 비가 온다.",
+    "choices": [
+      {
+        "text": "그때 그 악착이 — 종잣돈을 만들었다",
+        "effects": {
+          "mental": 5,
+          "money": 100000
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "비 오는 날 할증 몇천 원을 더 벌려고 뛴 밤들.\n\n그게 모여 첫 종잣돈이 됐다.\n{name}은 그 절박함이 부끄럽지 않았다. 그게 시작이었으니까."
+      },
+      {
+        "text": "이젠 — 몸값을 더 효율적으로 쓴다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "비 맞으며 버는 몇천 원도 소중했지만, 이제는 시간당 가치를 본다.\n\n{name}은 노동의 단가를 높이는 쪽으로 옮겨갔다.\n같은 시간이라도, 어디에 쓰느냐가 결국 격차를 만들었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_gig_cautious_echo",
+    "title": "비 오는 날 접은 것",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "gig_cautious",
+      "min_turn": 34
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '비 오는 날 사고 나면 더 손해다'라며 배달을 접었었다.\n\n그 신중함이 가끔 떠오른다.\n\n오늘 또 무리할지 말지 갈림길에 섰다.",
+    "choices": [
+      {
+        "text": "그때 접은 게 맞았다 — 몸이 자산이다",
+        "effects": {
+          "mental": 5,
+          "health": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다치면 며칠을 못 번다. 위험을 감수한 몇천 원보다 큰 손실이다.\n\n{name}은 그 계산을 일찍 했다.\n무모함과 성실함은 다르다는 걸, 그때 배웠다."
+      },
+      {
+        "text": "신중하되 — 기회는 놓치지 않게 균형 잡는다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "너무 몸을 사리면 벌 기회도 놓친다.\n\n{name}은 위험과 보상을 저울질하는 감각을 키웠다.\n언제 뛰고 언제 멈출지 아는 것. 그게 결국 실력이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_committed_to_course_echo",
+    "title": "완강 목표를 세운 것",
+    "background": "goshiwon_room",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "committed_to_course",
+      "min_turn": 24
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 1,900원짜리 강의를 결제하며 '완강 목표'를 세웠었다.\n\n그 다짐은 지켜졌나.\n\n오늘 또 새로운 배움 앞에 섰다.",
+    "choices": [
+      {
+        "text": "그때 완강한 게 — 작은 성취의 시작이었다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "1,900원짜리 강의 하나를 끝까지 들은 것.\n\n별것 아닌 것 같지만, '끝낸다'는 경험이 쌓여 자신감이 됐다.\n{name}은 작은 완주가 큰 완주의 연습이었다는 걸 안다."
+      },
+      {
+        "text": "결제만 하고 안 들은 건 없는지 점검한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결제는 의지가 아니라 소비일 뿐이다.\n\n{name}은 사놓고 안 들은 강의가 없는지 솔직하게 돌아봤다.\n진짜 투자는 결제가 아니라 완강이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_completed_30day_echo",
+    "title": "30일 연속을 채운 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "completed_30day_habit",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '작은 것부터'라며 30일 연속 습관 목표를 채웠었다.\n\n그 작은 성공이 가끔 떠오른다.\n\n오늘 또 새 습관을 시작할지 고민한다.",
+    "choices": [
+      {
+        "text": "그 30일이 — 나도 할 수 있다는 증거였다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "30일을 채운 그 경험이, '나는 꾸준할 수 있는 사람'이라는 자기 인식을 만들었다.\n\n작은 약속을 지키는 사람이, 큰 약속도 지킨다.\n{name}은 그 30일이 5년의 축소판이었다는 걸 안다."
+      },
+      {
+        "text": "더 긴 습관에 도전했다",
+        "effects": {
+          "mental": 5,
+          "health": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "30일을 해냈으니, 다음은 더 길게.\n\n{name}은 작은 성공을 발판으로 더 큰 꾸준함을 쌓아갔다.\n습관은 의지가 아니라 시스템이라는 걸, 그 30일이 가르쳐줬다."
+      }
+    ]
+  },
+  {
+    "id": "callback_attended_seminar_echo",
+    "title": "투자 세미나에 간 것",
+    "background": "library",
+    "portrait": "player_normal",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "attended_invest_seminar",
+      "min_turn": 34
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "한때 {name}은 '모르는 것도 있을 수 있다'며 투자 세미나에 갔었다.\n\n그 배움이 가끔 떠오른다.\n\n오늘 또 새로운 투자 정보 앞에서, 그때가 생각났다.",
+    "choices": [
+      {
+        "text": "배우려는 자세가 — 지금의 안목을 만들었다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모른다는 걸 인정하고 배우러 간 것.\n\n그 겸손함이 {name}의 투자 안목을 키웠다.\n아는 척하는 사람보다, 모르는 걸 배우는 사람이 결국 멀리 갔다."
+      },
+      {
+        "text": "세미나는 출발점 — 진짜 공부는 실전이었다",
+        "effects": {
+          "investment_skill": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "세미나에서 들은 건 지도일 뿐, 길을 걷는 건 따로였다.\n\n{name}은 강의실의 지식을 시장에서 검증하며 진짜 실력을 쌓았다.\n배움과 실전 사이의 간극을, 직접 메워야 했다."
+      }
+    ]
+  }
+]

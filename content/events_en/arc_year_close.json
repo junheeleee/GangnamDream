@@ -1,0 +1,105 @@
+[
+  {
+    "id": "arc_year1_close",
+    "title": "The Last Night of 33",
+    "description": "December.\n\nA crack in the goshiwon ceiling. It was there the day {name} moved in. A year of looking at it.\n\nThis time last year, {name} stepped off a bus. One bag. ₩500,000.\n\nSurvived.\n\nIs that all — or is this just the beginning?",
+    "description_if_known": {
+      "jaehyuk_scammed": "December.\n\nThe year Jaehyuk disappeared. The year the account ran dry. The year of the real bottom.\n\nStill here, though.\n\nLooked at the ceiling crack. Same spot as always.",
+      "entered_network": "December.\n\nThe year of meeting Im Sangchul's people. Learning a little of how that world works.\n\nWhat that means going forward — still unknown.\n\nLooked at the ceiling crack. There since move-in day.",
+      "hit_rock_bottom": "December.\n\nThe year of seeing the real bottom. Now {name} knows exactly where it is.\n\nClimbed back from it. Not all the way — but back.\n\nLooked at the ceiling crack. Same spot as always."
+    },
+    "choices": [
+      {
+        "text": "(Next year, I'll live differently) — made a resolution",
+        "result_text": "Before sleep, thought about what kind of person next year's {name} should be. No answer yet. Maybe that's a good thing."
+      },
+      {
+        "text": "(Survived a year. That's enough) — quiet about it",
+        "result_text": "Made it through. That's enough. Tomorrow is tomorrow's problem."
+      },
+      {
+        "text": "(Don't know. Just closed my eyes) — no thoughts",
+        "result_text": "Seoul's night came through the goshiwon window. {name} just fell asleep."
+      }
+    ]
+  },
+  {
+    "id": "arc_year2_close",
+    "title": "The Last Night of 34",
+    "description": "December again.\n\nCompared to a year ago — a lot has changed. Bank balance. People around. The feeling of looking in the mirror in the morning.\n\nNot sure all of it is good.\n\nJust different.\n\n34. Already two years.",
+    "description_if_known": {
+      "jaehyuk_stood_up": "December again.\n\nThe year of getting back up after Jaehyuk's betrayal.\n\nOne more year older through that. Lost money, lost a person — but somehow feels like something was gained. Not sure exactly what yet.",
+      "crossed_line": "December again.\n\nCrossed a line this year.\n\nDidn't recognize it as a line at the time. Know it now. And — still doing fine after.\n\nThat fact says something. Think about it sometimes.",
+      "chose_money_over_father": "December again.\n\nThere was a moment of choosing numbers over Dad. Seemed right at the time.\n\nStill not certain it was wrong. But — that moment comes back sometimes.",
+      "year1_resolve": "December again.\n\nA year ago, there was a resolution. What kind of person next year's {name} should be.\n\nWhether that got answered — honestly, hard to say.\n\nChanged, though. 34. Two years already.",
+      "year1_numb": "December again.\n\nA year ago, couldn't feel anything. Just fell asleep.\n\nThis time — something was felt. Not sure exactly what.\n\nThat alone made it a different year."
+    },
+    "choices": [
+      {
+        "text": "(Made it to the right track) — said it with confidence",
+        "result_text": "Year three starts. Now it gets real."
+      },
+      {
+        "text": "(Feel like I lost something and gained something) — complicated",
+        "result_text": "Tried to tally the gains and losses. Stopped. Too early to settle accounts."
+      },
+      {
+        "text": "(Gangnam is still far) — just looked at the numbers",
+        "result_text": "Recalculated the distance. Three years left."
+      }
+    ]
+  },
+  {
+    "id": "arc_year3_close",
+    "title": "The Last Night of 35",
+    "description": "The last night of 35.\n\nLearned a lot of things this year. Including things that weren't wanted.\n\nThought knowing the truth would change things — and it did. Just not in the expected direction.\n\nThe Han River was dark. {name} stood there a moment.",
+    "description_if_known": {
+      "father_confession_heard": "The last night of 35.\n\nDad spoke. Something he'd kept hidden a long time.\n\nSpent weeks carrying that. Still not fully settled.\n\nThere's a kind of truth that gets heavier after you know it. Now {name} knows that.",
+      "sangchul_truth_known": "The last night of 35.\n\nThe year of two truths. Sangchul's and Dad's.\n\nBoth were heavy. Still learning how to carry that weight.\n\nThe Han River was dark. {name} stood there a moment.",
+      "arc_y3_jiyeon_departure_seen": "The last night of 35.\n\nJiyeon went to Busan. Things unsaid — the moment just passed.\n\nThat stayed the longest of anything this year.\n\nThe Han River was dark. {name} stood there a moment.",
+      "year2_confident": "The last night of 35.\n\nAt the end of year two: 'On track now.' Said it with confidence.\n\nThis year tested that confidence. Still on track — unclear.\n\nThe Han River was dark. {name} stood there a moment.",
+      "year2_conflicted": "The last night of 35.\n\nAt the end of year two: felt like something was lost and gained. Complicated.\n\nYear three is done. Still complicated. Just more familiar with it.\n\nThe Han River was dark. {name} stood there a moment."
+    },
+    "choices": [
+      {
+        "text": "(I know now. I keep going) — looked ahead",
+        "result_text": "Decided not to put the weight down. Decided to carry it. That felt more right."
+      },
+      {
+        "text": "(I think I know too much now) — heavy",
+        "result_text": "Can't go back to not knowing. That's what truth is."
+      },
+      {
+        "text": "(Next year I just want to focus on the money) — tried to close it off",
+        "result_text": "Turned away from the river and started walking. Learning how to turn thoughts off."
+      }
+    ]
+  },
+  {
+    "id": "arc_year4_close",
+    "title": "The Last Night of 36",
+    "description": "The last night of 36.\n\nGangnam — one year left. The distance is palpable.\n\nTonight, strangely, the numbers weren't what came first. The people from these four years. The choices made.\n\nWhat kind of person I've become — it's starting to be visible.",
+    "description_if_known": {
+      "father_passed": "The last night of 36.\n\nThe first year without Dad.\n\nThere was something {name} had planned to do first thing upon reaching Gangnam — that's not possible now.\n\nSo Gangnam means something different now. Not sure what yet.",
+      "crossed_line": "The last night of 36.\n\nThere was a year a line got crossed. Something shifted gradually after that.\n\nWhat's done is done. Took a long time to accept that.\n\nAccepted now. This is just who {name} is.",
+      "year3_avoidant": "The last night of 36.\n\nLast year, tried to close it off. Turned away from the river and started walking.\n\nOne more year gone. One left. No time to close things off now.\n\nWanted it to look like running forward. Not running away.",
+      "year3_weighted": "The last night of 36.\n\nLast year: can't go back to not knowing.\n\nAnother year later — still can't. Just learned to carry it a little better.",
+      "year3_eyes_open": "The last night of 36.\n\nDecided last year: carry the weight, don't put it down.\n\nWhether that was right — starting to see now. Gangnam will tell.",
+      "sangchul_truth_known": "The last night of 36.\n\nKnew the truth, made the choices, watched the results accumulate.\n\nFour years of decisions are what {name} is now.\n\nWhether that's right or wrong — the ending hasn't come yet."
+    },
+    "choices": [
+      {
+        "text": "(Next year it happens) — steeled for the final stretch",
+        "result_text": "One year. The last one. Decided to remember this feeling."
+      },
+      {
+        "text": "(I know what kind of person I am now) — quietly",
+        "result_text": "That came before Gangnam. Knowing who you are. Now {name} knows."
+      },
+      {
+        "text": "(I'll figure it out once I'm there) — deferred it",
+        "result_text": "Will know upon arrival. Decided to believe that."
+      }
+    ]
+  }
+]

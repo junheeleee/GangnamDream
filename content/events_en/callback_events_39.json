@@ -1,0 +1,92 @@
+[
+  {
+    "id": "callback_daeun_knows_struggle_echo",
+    "title": "Being Difficult Together",
+    "description": "Another hard day.\n\nDae-un came in and didn't ask. Just sat.\n\n'How are you doing today?'\n\nThe night {name} had said it out loud for the first time. 'Honestly — things have been hard lately.'\nHer: 'I know. I just want to be difficult with you.'",
+    "choices": [
+      {
+        "text": "\"Still hard. But better with you here.\"",
+        "result_text": "She laughed a little, then said nothing.\nJust stayed.\n\nThat offer to share the difficulty — it was still valid.\nThat said a lot."
+      },
+      {
+        "text": "\"It got better. Don't worry.\"",
+        "result_text": "She looked skeptical. Didn't push.\n\nBetter or just numb — she probably couldn't tell.\nNeither could {name}, honestly."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_married_echo",
+    "title": "The Feed",
+    "description": "Days later.\n\nThe photo surfaces sometimes.\nWhite dress. A wide smile.\n\n{name} doesn't resent her.\nIt's just that the smile feels unfamiliar.\n\nCould a smile like that ever come.",
+    "choices": [
+      {
+        "text": "Genuinely glad for her",
+        "result_text": "Took a while to land. But today it was real.\n\nDifferent destinations. She reached hers.\n{name} is still moving toward theirs."
+      },
+      {
+        "text": "Just close the app",
+        "result_text": "Did it. No like, no comment.\n\nShe's living her life. {name} is living theirs.\nJust a pause. Then keep going."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_gangnam_first_echo",
+    "title": "The Café Promise",
+    "description": "Dae-un finished her first day at the Gangnam office.\n\n'How was it?'\n'Everyone walks so fast there.'\n\nShe laughed.\n\nThe promise from before: 'When you get to Gangnam, we'll hit that café nearby.'",
+    "choices": [
+      {
+        "text": "\"Let's go this weekend. I'll buy.\"",
+        "result_text": "Gangnam café. Dae-un looked out the window.\n'I can't believe I work here now.'\n\n{name} was still on the outside of this neighborhood.\nBut at least — sitting here today with coffee. First time."
+      },
+      {
+        "text": "\"I'll be there soon. Then we'll go.\"",
+        "result_text": "'I know,' she said.\n\nThe promise still stands.\nThe day {name} walks through that neighborhood as a resident rather than a visitor — then the café."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_news_father_echo",
+    "title": "Good, Said Dad",
+    "description": "Sunday evening call.\n\nDad brought it up.\n'That man was in the news. The one you called me about.'\n\n{name} paused.",
+    "choices": [
+      {
+        "text": "\"Yes. But I learned things from him.\"",
+        "result_text": "Dad thought about it, then:\n'Even a flawed person teaches something.'\n\nAn unexpected kind of comfort.\nWhat Sang-chul gave {name} — that was separate from who Sang-chul was."
+      },
+      {
+        "text": "\"That chapter's over, Dad.\"",
+        "result_text": "'Right,' Dad said. Moved on.\n\nHis name in a newspaper. Then just a name.\n{name} felt the weight shift. Slightly lighter."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_complicated_echo",
+    "title": "Two Things at Once",
+    "description": "Without him, {name} might not be here.\nBecause of him, Dad suffered for years.\n\nBoth are true at the same time.\n\nToday that came back without warning.",
+    "choices": [
+      {
+        "text": "Accept both — that's the most honest framing",
+        "result_text": "People you can't thank and can't blame — there are a few of those in every life.\n\nHolding both without resolving them. That's actually closer to real.\nA little less stuck."
+      },
+      {
+        "text": "Still not resolved — more time needed",
+        "result_text": "Not resolved. His name still catches at something.\n\nBeing unresolved isn't weak. It's not pretending.\nWhen resolution comes, it'll come."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_real_talk_echo",
+    "title": "Finding It",
+    "description": "Message from Ji-yeon.\n\n'Remember how we both said we were still figuring out our own way? I think I found mine.'\n\n{name} recalled the alley. That conversation about paths.",
+    "choices": [
+      {
+        "text": "\"Me too. Slowly.\"",
+        "result_text": "Ji-yeon sent a small emoji.\n\nNot deep friends — but people who knew the same question at the same time.\nThat's a certain kind of connection. Enough for Seoul."
+      },
+      {
+        "text": "\"Still figuring mine out.\"",
+        "result_text": "'That's still figuring it out,' Ji-yeon replied.\n\nTrue. Wandering with intention is also a path.\n{name} smiled a little and put the phone down."
+      }
+    ]
+  }
+]

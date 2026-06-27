@@ -39,6 +39,9 @@
           "hyunsu": {
             "affinity": 5
           }
+        },
+        "effects": {
+          "tint": -3
         }
       },
       {
@@ -50,7 +53,8 @@
         "effects": {
           "intelligence": 2,
           "stress": 6,
-          "mental": -2
+          "mental": -2,
+          "tint": 3
         },
         "cast_effects": {
           "hyunsu": {
@@ -63,7 +67,8 @@
         "result_text": "Hyunsu's face hardened. \"You're always like this, hyung,\" he shot back.",
         "follow_up_event": "amb_coin_warn",
         "effects": {
-          "stress": 4
+          "stress": 4,
+          "tint": 5
         }
       }
     ]

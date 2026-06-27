@@ -1,0 +1,62 @@
+[
+  {
+    "id": "callback_asked_father_more_echo",
+    "title": "Dad Spoke First",
+    "description": "It was a Sunday evening call.\n\nDad brought it up himself.\n\n'Minjun-ah. Last time you asked how I was doing — really asked.'\n\nA pause.\n\n'That meant something.'",
+    "choices": [
+      {
+        "text": "\"I worry about you, Dad.\"",
+        "result_text": "'...Yeah.'\n\nNot many words. But this call was different.\nAsking a little more the last time had come back around like this.\n\n{name} hung up and sat still for a while."
+      },
+      {
+        "text": "\"Don't mention it. I was just curious.\"",
+        "result_text": "Dad laughed. Quietly.\n\n'A father knows what's behind the \"just curious,\" son.'\n\nThat line stayed longer than expected."
+      }
+    ]
+  },
+  {
+    "id": "callback_medication_visited_echo",
+    "title": "The Kid Who Came In",
+    "description": "Dad's first appointment after the fall.\n\nThe doctor looked up at {name}.\n'Oh — you've been in before, right? About the blood pressure medication.'\n\nDad glanced over.",
+    "choices": [
+      {
+        "text": "\"Yes. I was worried.\"",
+        "result_text": "Dad didn't say anything.\nJust turned toward the window.\n\nOn the way home, he spoke.\n'...I remembered. That you came in about the medication.'"
+      },
+      {
+        "text": "\"Just happened to be passing by.\"",
+        "result_text": "Dad nodded. Didn't push.\n\nBut no one wanders into their father's specific hospital by accident.\nHe probably knew that too."
+      }
+    ]
+  },
+  {
+    "id": "callback_medication_ignored_echo",
+    "title": "The Signal That Was Missed",
+    "description": "The first call after Dad's collapse.\n\nHis voice was still calm.\n\n'Minjun-ah. You got your mother's message, didn't you — about starting the medication.'\n\n{name} paused before answering.",
+    "choices": [
+      {
+        "text": "\"I should have called then. I'm sorry.\"",
+        "result_text": "'It's fine,' Dad said.\n'I knew you were busy.'\n\nWhether that 'it's fine' was real — {name} thought about it for a long time."
+      },
+      {
+        "text": "\"I didn't know it was serious. I thought it was minor.\"",
+        "result_text": "'Right.'\nDad ended it with that one word.\n\n{name} stared at the phone after hanging up.\nThere was something that should have been noticed then."
+      }
+    ]
+  },
+  {
+    "id": "callback_rushed_to_father_echo",
+    "title": "You Came",
+    "description": "A late call.\n\nDad paused before speaking.\n\n'Minjun-ah. That time — you took the train from Seoul in the middle of the night.'\n\n{name} held their breath.",
+    "choices": [
+      {
+        "text": "\"Of course, Dad.\"",
+        "result_text": "'...A father knows what that means.'\n\nA short silence.\n\n'Thank you, Minjun-ah.'\n\nThe words stayed. That predawn KTX turned out to have meant something — confirmed for the first time."
+      },
+      {
+        "text": "\"I ran because it was you, Dad.\"",
+        "result_text": "Dad laughed softly.\n\n'Right. Because of me.'\n\nA call that had seemed about to end awkwardly found its warmth in that one laugh."
+      }
+    ]
+  }
+]

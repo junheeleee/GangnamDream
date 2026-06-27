@@ -39,6 +39,9 @@
           "hyunsu": {
             "affinity": 5
           }
+        },
+        "effects": {
+          "tint": -3
         }
       },
       {
@@ -49,7 +52,8 @@
         ],
         "effects": {
           "intelligence": 2,
-          "mental": -8
+          "mental": -8,
+          "tint": 3
         },
         "cast_effects": {
           "hyunsu": {
@@ -62,7 +66,8 @@
         "result_text": "현수의 표정이 굳었다. \"형은 항상 그래요\"라는 말이 날아왔다.",
         "follow_up_event": "amb_coin_warn",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 5
         }
       }
     ]

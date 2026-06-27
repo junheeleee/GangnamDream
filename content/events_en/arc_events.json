@@ -21,11 +21,17 @@
     "choices": [
       {
         "text": "Tell the truth — 'There were family circumstances.'",
-        "result_text": "The interviewer looked at {name} for a moment. Didn't probe further.\nSomething in her eyes — understanding. Or resignation.\n'...I see. You seem like someone who works hard.'\n\nWalking down the stairs, {name} thought:\nWhether it leads to a job or not — that was the truth.\nAnd that was the only pride {name} had left right now."
+        "result_text": "The interviewer looked at {name} for a moment. Didn't probe further.\nSomething in her eyes — understanding. Or resignation.\n'...I see. You seem like someone who works hard.'\n\nWalking down the stairs, {name} thought:\nWhether it leads to a job or not — that was the truth.\nAnd that was the only pride {name} had left right now.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Gloss over it — 'I was preparing to start a business.'",
-        "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected."
+        "result_text": "Packaged it plausibly. The interviewer nodded — but wrote something long in her notes.\nLike someone writing 'needs verification.'\n\nWalking down the stairs, {name} thought:\nOne lie calls for another.\nAnd that weight tends to arrive sooner than expected.",
+        "effects": {
+          "tint": -2
+        }
       }
     ]
   },
@@ -185,11 +191,15 @@
   {
     "id": "arc_chapter1_close",
     "title": "The First Week",
-    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu left, you stood in the shared kitchen for a while.\n\nInterview. Calculator. Instagram. Ramen.\nNone of this feels unfamiliar anymore — and it's only been a week.\n\nBack in the room, you open the notebook. First line:\n'₩3,000,000,000. Five years.'\n\nNothing below it. No plan yet.\n\nBut — tonight, there's one thing you didn't have yesterday.\nSomewhere in this goshiwon, on the other side of a thin wall:\nsomeone who's looking at the same ceiling.",
+    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu left, you stood in the shared kitchen alone for a while.\n\nThis past week — the burner account text, father's call, the name Im Sangchul, Hyunsu's ramen.\n\nBack in the room, you open the notebook. First line:\n'₩3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan ₩3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
-        "result_text": "Turned off the light.\n\nIn the dark, {name} thought: this moment is the starting line.\nNothing yet. Which means — everything is still possible."
+        "result_text": "Turned off the light.\n\nIn the dark, the number ₩3,000,000,000 remained.\nThe distance between that number and this room — that's exactly the distance ahead.\n\n{name} closed his eyes. No plan yet. Still — he thought he could sleep tonight."
+      },
+      {
+        "text": "Write one more line: 'Wake up at 7 AM tomorrow.'",
+        "result_text": "7 AM tomorrow. Below the blank nothing of ₩3B, just that.\n\n₩3B is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nTurned off the light. {name} thought tomorrow might be just a little different from today."
       }
     ]
   },
@@ -217,7 +227,8 @@
         "text": "'I... want to show my father. Just once.'",
         "effects": {
           "mental": 6,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 5
         },
         "cast_effects": {
           "sangchul": {
@@ -257,7 +268,8 @@
         "effects": {
           "mental": 5,
           "stress": -2,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 3
         },
         "cast_effects": {
           "sangchul": {
@@ -523,7 +535,8 @@
         "text": "'You're not weird. That's just being human.' — Accept it.",
         "effects": {
           "mental": 8,
-          "stress": -5
+          "stress": -5,
+          "tint": 5
         },
         "cast_effects": {
           "jiyeon": {
@@ -541,7 +554,8 @@
         "text": "'Jiyeon — Gangnam still comes first for me.' — Draw a clear line.",
         "effects": {
           "intelligence": 3,
-          "stress": 3
+          "stress": 3,
+          "tint": -3
         },
         "cast_effects": {
           "jiyeon": {
@@ -559,7 +573,8 @@
         "text": "'I understand all three reasons.' — No judgment.",
         "effects": {
           "mental": 6,
-          "stress": -2
+          "stress": -2,
+          "tint": 4
         },
         "cast_effects": {
           "jiyeon": {
@@ -745,7 +760,8 @@
         "text": "Put in everything — trust Jaehyuk.",
         "effects": {
           "money": -3000000,
-          "stress": 8
+          "stress": 8,
+          "tint": -5
         },
         "cast_effects": {
           "jaehyuk": {
@@ -768,7 +784,8 @@
         "effects": {
           "money": -1000000,
           "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 2
         },
         "cast_effects": {
           "jaehyuk": {
@@ -858,7 +875,8 @@
         "effects": {
           "mental": -8,
           "stress": 12,
-          "intelligence": 4
+          "intelligence": 4,
+          "tint": 5
         },
         "cast_effects": {
           "jaehyuk": {
@@ -900,7 +918,8 @@
         "effects": {
           "mental": 10,
           "stress": -5,
-          "reputation": 8
+          "reputation": 8,
+          "tint": 6
         },
         "cast_effects": {
           "jaehyuk": {
@@ -921,7 +940,8 @@
         "effects": {
           "money": 8000000,
           "mental": -6,
-          "stress": 10
+          "stress": 10,
+          "tint": -5
         },
         "cast_effects": {
           "jaehyuk": {
@@ -943,7 +963,8 @@
           "money": 5000000,
           "mental": -12,
           "stress": 14,
-          "investment_skill": 6
+          "investment_skill": 6,
+          "tint": -8
         },
         "cast_effects": {
           "jaehyuk": {
@@ -1202,7 +1223,8 @@
       {
         "text": "Delete it — I won't sink that low",
         "effects": {
-          "mental": -8
+          "mental": -8,
+          "tint": 5
         },
         "flags": [
           "arc_temptation_seen",
@@ -1216,7 +1238,8 @@
         "text": "Just this once. Lend out the account  (+2,000,000 won)",
         "effects": {
           "money": 2000000,
-          "mental": -16
+          "mental": -16,
+          "tint": -10
         },
         "flags": [
           "arc_temptation_seen",
@@ -1333,6 +1356,9 @@
     ],
     "cooldown": 9999,
     "description": "Out checking studio-apartment listings, he passed through that neighborhood and the light on at Sangchul's office caught his eye.\n\nHe wavered a moment over whether to go in, then pushed the door open.\nSangchul welcomed him. \"You came. Want a coffee?\"\n\nHe was unusually talkative today.\nThe story of coming up to Seoul from Chungcheong without a single connection.\nThe day he first set foot in Gangnam.\n\n\"Look at the people who made it into Gangnam. Every one of them had a connection somewhere.\nSomeone opened a door for them. The ones who knocked their way in alone — they're truly rare.\"\n\nAfter a brief silence, Sangchul added,\n\"Once you've got a bit of seed money, there's a place I want to take you. A gathering that meets once a month.\nReal estate, construction, capital. I can show you how Gangnam actually turns.\"",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul welcomed him. \"You came. Want some coffee?\"\n\nMinjun knows now what moves through this room.\n\nHometown stories. Gangnam stories. 'Doors get opened by people.'\nAmong the people he'd opened doors for — Dad was one of them.\nMinjun knew what lay behind that door.\n\nHe took the coffee and drank it.\nIt tasted more bitter."
+    },
     "choices": [
       {
         "text": "\"Anytime. Please, take me there.\"",
@@ -1357,7 +1383,8 @@
         "text": "\"Thank you, but for now I want to try under my own power.\"",
         "effects": {
           "intelligence": 4,
-          "mental": 3
+          "mental": 3,
+          "tint": 5
         },
         "cast_effects": {
           "sangchul": {
@@ -1391,6 +1418,9 @@
     ],
     "cooldown": 9999,
     "description": "Sangchul got in touch.\n\"That gathering's happening this month. Come with me.\"\n\nA private room in a restaurant in the heart of Gangnam.\nBusiness cards moved across every table, and big numbers were exchanged in soft voices.\nConstruction firms, developers, investment syndicates. Sangchul introduced him to each one.\n\"This one's a friend of mine. Someone I'm keeping an eye on.\"\n\nIn the middle of the conversation, one name slipped past, casually.\n\"What about Han PD Construction over there?\" — someone said.\nSangchul changed the subject without a flicker in his expression.\n{name} hung that name on a hook somewhere in his mind.\n\nOff to one side of the room were people of a different air.\n'Guaranteed returns,' 'short-term high yield.' Low voices, but familiar words.\nSangchul gave him a look. \"Don't mix with that lot.\nThere's the real thing and the fake — telling them apart is the skill.\"",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul made the introductions. \"This is a friend of mine. Someone I believe in.\"\n\nMinjun heard that phrase differently now.\n'Someone I believe in.' Had his father been introduced that way too?\n\nIn the middle of the conversation, a name passed by. \"Han PD Construction.\"\nSangchul changed the subject without a flicker.\n\nMinjun knows what that name is now.\nStaying in that seat without showing it — was the hardest thing he'd ever had to do."
+    },
     "choices": [
       {
         "text": "Stick close to Sangchul and greet everyone",
@@ -1451,6 +1481,9 @@
       "gambling"
     ],
     "cooldown": 9999,
+    "description_if_known": {
+      "sangchul_truth_known": "A text came from Sangchul's number.\n\n\"What about this weekend? A few of us are heading to Jeongseon Casino.\nI've booked a table room, so come on by, take it easy.\"\n\nNow that {name} knew the truth, that phrase — \"take it easy\" — caught.\nYears ago, Dad had probably been told the same thing by someone's introduction.\nCome on in. No pressure. Take it easy.\n\nCasino. Money. Network. The world Sangchul lived in.\n{name} stared at the message for a long time."
+    },
     "choices": [
       {
         "text": "\"I'll come along\" — follow him",
@@ -1647,7 +1680,8 @@
       {
         "text": "\"Thank you for being honest. Let's figure out a way together.\"",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 6
         },
         "cast_effects": {
           "jiyeon": {
@@ -1665,7 +1699,8 @@
       {
         "text": "\"You used me, didn't you.\" — lay the betrayal out plainly",
         "effects": {
-          "mental": -13
+          "mental": -13,
+          "tint": -2
         },
         "cast_effects": {
           "jiyeon": {
@@ -1684,7 +1719,8 @@
         "text": "\"You lived in your world, and I made my own choice.\"",
         "effects": {
           "mental": 13,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 4
         },
         "cast_effects": {
           "jiyeon": {
@@ -1724,7 +1760,8 @@
       {
         "text": "\"I knew. Even so, thank you for telling me yourself.\"",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "cast_effects": {
           "jiyeon": {
@@ -1743,7 +1780,8 @@
         "text": "\"Thank you for telling me. But — what if you'd been honest from the start?\"",
         "effects": {
           "mental": -5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 2
         },
         "cast_effects": {
           "jiyeon": {
@@ -1762,7 +1800,8 @@
         "text": "\"That's just how people are. Your world had its own ways.\"",
         "effects": {
           "mental": 13,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": 3
         },
         "cast_effects": {
           "jiyeon": {
@@ -2226,7 +2265,8 @@
       {
         "text": "\"Yeah. You too?\"",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": 3
         },
         "cast_effects": {
           "father": {
@@ -2262,7 +2302,8 @@
       {
         "text": "Just ask how he is and hang up quickly",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -2301,7 +2342,8 @@
         "text": "Reply that you'll come down next week",
         "effects": {
           "mental": -2,
-          "money": -50000
+          "money": -50000,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -2318,7 +2360,8 @@
       {
         "text": "Call to check — can't be that serious",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 4
         },
         "cast_effects": {
           "father": {
@@ -2333,7 +2376,8 @@
       {
         "text": "Can't afford to go down right now — once things settle",
         "effects": {
-          "mental": -13
+          "mental": -13,
+          "tint": -4
         },
         "cast_effects": {
           "father": {
@@ -2373,7 +2417,8 @@
         "text": "Go down right now",
         "effects": {
           "mental": -15,
-          "money": -80000
+          "money": -80000,
+          "tint": 8
         },
         "cast_effects": {
           "father": {
@@ -2390,7 +2435,8 @@
       {
         "text": "Say you'll go down within the week",
         "effects": {
-          "mental": -11
+          "mental": -11,
+          "tint": -2
         },
         "cast_effects": {
           "father": {
@@ -2407,7 +2453,8 @@
         "text": "Send money — too busy with things here",
         "effects": {
           "mental": -15,
-          "money": -300000
+          "money": -300000,
+          "tint": 2
         },
         "cast_effects": {
           "father": {
@@ -2419,6 +2466,27 @@
           "sent_money_instead"
         ],
         "result_text": "Transferred the money. For hospital expenses.\nMom said \"Thank you.\"\nDad would ask whose money it was.\n{name} decided not to think about what Mom would say."
+      },
+      {
+        "text": "Called Sang-chul — he'd know someone",
+        "effects": {
+          "mental": -8,
+          "tint": -4
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 3,
+            "stage": "health_crisis"
+          },
+          "sangchul": {
+            "affinity": 10
+          }
+        },
+        "flags": [
+          "arc_father_03_seen",
+          "sangchul_helped_with_father"
+        ],
+        "result_text": "Sang-chul picked up and within minutes had connected a doctor he knew near Changwon.\nFast. No questions.\n\"This is the kind of thing you have to handle,\" was all he said.\n\nDad was moved to a better room.\nMom asked what had happened.\n{name} just said, \"Someone I know helped out.\""
       }
     ]
   },
@@ -2446,7 +2514,8 @@
       {
         "text": "\"It's not your fault, Dad.\" — first time saying those words",
         "effects": {
-          "mental": 23
+          "mental": 23,
+          "tint": 9
         },
         "cast_effects": {
           "father": {
@@ -2463,7 +2532,8 @@
       {
         "text": "\"When I make it to Gangnam, you're the first person I'll bring.\"",
         "effects": {
-          "mental": 15
+          "mental": 15,
+          "tint": 2
         },
         "cast_effects": {
           "father": {
@@ -2480,7 +2550,8 @@
       {
         "text": "Can't say anything — just sit beside him",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "cast_effects": {
           "father": {
@@ -2519,7 +2590,8 @@
         "text": "\"Cold here. Cold there too, right?\" — just talk about small things",
         "effects": {
           "mental": 18,
-          "health": 3
+          "health": 3,
+          "tint": 5
         },
         "cast_effects": {
           "father": {
@@ -2536,7 +2608,8 @@
       {
         "text": "\"I'm doing well lately, Dad. Don't worry.\"",
         "effects": {
-          "mental": 11
+          "mental": 11,
+          "tint": 2
         },
         "cast_effects": {
           "father": {
@@ -2699,7 +2772,8 @@
         "effects": {
           "intelligence": 8,
           "investment_skill": 4,
-          "mental": 11
+          "mental": 11,
+          "tint": 3
         },
         "flags": [
           "arc_jaehyuk_standup_seen",
@@ -2712,7 +2786,8 @@
         "effects": {
           "health": 5,
           "mental": 12,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 4
         },
         "flags": [
           "arc_jaehyuk_standup_seen",
@@ -2851,7 +2926,8 @@
         "effects": {
           "social_skill": 1,
           "reputation": 1,
-          "mental": 2
+          "mental": 2,
+          "tint": 4
         },
         "flags": [
           "arc_ch1_career_spec_seen"
@@ -2864,7 +2940,8 @@
         "effects": {
           "intelligence": 1,
           "social_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": -2
         },
         "flags": [
           "arc_ch1_career_spec_seen"
@@ -2876,7 +2953,8 @@
         "text": "Just submit — speed over perfection",
         "effects": {
           "mental": 5,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": 3
         },
         "flags": [
           "arc_ch1_career_spec_seen"

@@ -1,0 +1,248 @@
+[
+  {
+    "id": "callback_truth_echo",
+    "title": "그 질문이 또 나왔다",
+    "background": "office_interview_day",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "told_truth_interview",
+      "min_turn": 16
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "새 면접이었다.\n\n서류 전형을 통과했고, 면접관이 이력서를 보다가 멈췄다.\n\"공백기에 대해 좀 더 말씀해주실 수 있을까요?\"\n\n그 질문. 처음 들었던 날이 생각났다.\n그때는 담담하게 말했었다. '가족 빚을 갚고 있었습니다.'\n\n지금도 같은 이야기다. 달라진 건 없다.\n{name}은 숨을 고르고 입을 열었다.",
+    "choices": [
+      {
+        "text": "그때처럼 — 담담하게 사실대로 말한다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2,
+          "reputation": 3,
+          "tint": 5
+        },
+        "flags": [
+          "truth_consistent"
+        ],
+        "follow_up_event": "",
+        "result_text": "말하는 동안 면접관의 표정이 조금 달라졌다.\n경력이 아니라 사람을 보는 눈빛이었다.\n\n\"...솔직하게 말씀해주셔서 감사해요.\"\n\n일관성. 그게 사람에 대한 신뢰를 만든다는 걸 {name}은 이번에도 느꼈다."
+      },
+      {
+        "text": "이번엔 조금 다르게 포장했다",
+        "effects": {
+          "mental": -4,
+          "intelligence": 1,
+          "tint": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "꾸며서 말했다. 면접관은 고개를 끄덕였다.\n\n나오면서 {name}은 생각했다 — 처음에 솔직하게 말했을 때가 더 가벼웠는데.\n거짓말은 기억력을 요구한다."
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_echo",
+    "title": "그 말이 발목을 잡는다",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "lied_interview",
+      "min_turn": 16
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "처음 면접에서 '개인 사업을 준비했습니다'라고 했던 것.\n\n오늘 팀장님이 우연히 물었다.\n\"{name}씨, 예전에 사업 준비했었다고요? 어떤 아이템이었어요?\"\n\n방어적인 질문이 아니었다. 그냥 호기심이었다.\n근데 {name}은 6개월 전에 그 이야기를 했다는 걸 까먹고 있었다.",
+    "choices": [
+      {
+        "text": "지금 솔직하게 정정한다 — '사실 가족 빚을 갚고 있었어요'",
+        "effects": {
+          "mental": 6,
+          "social_skill": 2,
+          "reputation": -2,
+          "tint": 6
+        },
+        "flags": [
+          "lie_corrected"
+        ],
+        "follow_up_event": "",
+        "result_text": "팀장님은 잠깐 놀란 표정이었다. 그러다 고개를 끄덕였다.\n\"...그게 더 멋진 이야기네요, 사실은.\"\n\n무거웠던 것이 조금 내려갔다. 거짓말을 유지하는 데 쓰던 에너지가 돌아왔다."
+      },
+      {
+        "text": "그럴듯하게 이야기를 만들어낸다",
+        "effects": {
+          "mental": -6,
+          "intelligence": 1,
+          "tint": -5
+        },
+        "flags": [
+          "lie_compounded"
+        ],
+        "follow_up_event": "",
+        "result_text": "그럴듯하게 대답했다. 팀장님은 납득했다.\n\n오늘 새로 만들어낸 이야기. 이걸 이제 기억해야 한다.\n거짓말은 거짓말을 먹고 자란다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mindset_saver_echo",
+    "title": "종잣돈이 쌓이는 속도",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "finance",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "mindset_saver",
+      "min_turn": 16
+    },
+    "tags": [
+      "callback",
+      "finance",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "악착같이 모은 결과가 통장에 쌓이고 있었다.\n\n커피 한 잔도 아꼈다. 점심은 편의점 삼각김밥. 지하철 대신 걸었다.\n\n그리고 지금, 옆에서 누군가는 그 돈으로 주식을 샀고 벌었다는 얘기가 들린다.\n\n{name}의 통장 잔고는 확실히 있다. 근데 그게 충분한 건지 모르겠다.",
+    "choices": [
+      {
+        "text": "원칙대로 — 종잣돈이 될 때까지 계속 모은다",
+        "effects": {
+          "mental": 3,
+          "intelligence": 2,
+          "money": 200000,
+          "tint": 1
+        },
+        "flags": [
+          "saver_patient"
+        ],
+        "follow_up_event": "",
+        "result_text": "모으는 건 확실하다. 느리지만 확실하다.\n\n투자도 결국은 종잣돈이 있어야 한다. 지금 쌓고 있는 게 그 기반이 될 것이다.\n{name}은 통장을 보며 기다리기로 했다. 아직 그때가 아니다."
+      },
+      {
+        "text": "이제 모은 돈으로 투자를 시작할 때가 됐다",
+        "effects": {
+          "investment_skill": 3,
+          "mental": -2
+        },
+        "flags": [
+          "saver_pivots_to_invest"
+        ],
+        "follow_up_event": "",
+        "result_text": "종잣돈이 어느 정도 됐다. 이제 일만 해서는 안 된다는 걸 처음부터 알고 있었다.\n\n돈이 돈을 벌게 하는 시작점에 드디어 섰다.\n{name}은 처음으로 HTS를 켜고 계좌를 열었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_mindset_investor_echo",
+    "title": "첫 수익과 첫 손실",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.1,
+    "hidden": false,
+    "conditions": {
+      "flag": "mindset_investor",
+      "min_turn": 16
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "새벽부터 투자 공부를 해온 지 몇 달이 됐다.\n\n책도 읽었다. 유튜브도 봤다. 카페 글도 뒤졌다.\n그리고 드디어 처음으로 작은 돈을 넣었다.\n\n며칠이 지났다. 숫자가 움직이고 있었다.\n오를 때는 심장이 뛰고, 내릴 때는 배가 아팠다.\n\n이게 투자구나 — 숫자가 아니라 감정이라는 걸 처음 알았다.",
+    "choices": [
+      {
+        "text": "감정을 배제하고 원칙대로 운용한다",
+        "effects": {
+          "investment_skill": 4,
+          "intelligence": 2,
+          "mental": -1,
+          "tint": 2
+        },
+        "flags": [
+          "investor_disciplined"
+        ],
+        "follow_up_event": "",
+        "result_text": "원칙 위반 없이 버텼다. 손절도 했고, 추가매수도 했다.\n\n수익이 났다 — 크진 않지만 내가 결정한 것이었다.\n투자는 정보보다 심리가 어렵다는 걸 {name}은 이제 조금 안다."
+      },
+      {
+        "text": "손실이 났다 — 일단 다 팔고 재정비한다",
+        "effects": {
+          "investment_skill": 3,
+          "mental": -4,
+          "money": -100000
+        },
+        "flags": [
+          "investor_reset"
+        ],
+        "follow_up_event": "",
+        "result_text": "다 팔았다. 손실이 확정됐다.\n\n수업료였다. 비싼 수업이었지만 더 비싼 실수를 막았다.\n{name}은 다음에는 다르게 하겠다고 — 그 말을 스스로에게 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_envy_fuel_echo",
+    "title": "연료가 다 타버렸나",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "health",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "envy_fuel",
+      "min_turn": 20
+    },
+    "tags": [
+      "callback",
+      "mental",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "처음에는 분했다.\n'두고 봐' — 그 말이 매일 아침을 일으켰다.\n\n몇 달이 지났다. 여전히 분하긴 한데 — 지쳐 있었다.\n분노는 오래 타는 연료가 아니었다.\n\n지금 뭘 위해 이걸 하고 있는 건지 가끔 모르겠다.",
+    "choices": [
+      {
+        "text": "부러움을 내려놓고 내 이유를 다시 찾는다",
+        "effects": {
+          "mental": 7,
+          "intelligence": 2
+        },
+        "flags": [
+          "envy_released"
+        ],
+        "follow_up_event": "",
+        "result_text": "남들 때문이 아니라 나를 위해서 하는 것이라는 걸 다시 생각했다.\n\n비교는 방향을 만들어줄 수 있지만 동력은 아니다.\n{name}은 자기 이야기를 — 자기 언어로 다시 적어봤다."
+      },
+      {
+        "text": "이 피로는 지나간다 — 계속 간다",
+        "effects": {
+          "mental": -2,
+          "health": -3,
+          "investment_skill": 2
+        },
+        "flags": [
+          "envy_still_burning"
+        ],
+        "follow_up_event": "",
+        "result_text": "계속 했다. 지쳐도 계속.\n\n두고 봐. 그 말이 아직 남아있었다.\n근데 몸이 조금 비명을 질렀다. 연료가 맞긴 한데 — 소진이 빠른 연료다."
+      }
+    ]
+  }
+]

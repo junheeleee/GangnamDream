@@ -2,6 +2,104 @@
 
 ## Unreleased
 
+### Fixed (2026-06-25) — 지연 로맨스 Y5 단일화 정합성
+
+- **[FIX] jiyeon_man 조기 발동**: 엔딩이 cast stage(honest_together Y2/lover Y4) 기준이라 Y5 전 연애 엔딩 발동 가능 → `jiyeon_romance_started` 플래그 게이트로 변경(with_daeun과 동일 패턴). `arc_jiyeon_year5_return`이 실제 연애 formalize(lover+flag), Y4 seoul은 `honest_together`(감정 인정·확정 이연).
+- 에필로그 지연 분기 플래그 게이트, `arc_jiyeon_y5_feelings` 부산 귀환 아크 중복 방지 가드.
+- `honest_together`='연애 전 깊은 유대' 의미 유지 → Y2 텍스트/콜백 무수정(리스크 최소).
+
+### Added/Fixed (2026-06-25) — 다은 우정 재프레임 완성 + 현수 Y4-Y5 + Steam App ID
+
+- **다은 Y2-Y5 우정 재프레임**: arc_daeun_05_together(동거 암시 제거), year3_together("안 지 2년"), year4_together(취직), year5_ending(친구 finale + 연애 변주) — 전부 `committed`→`close`. 연애는 Y5 게이트(arc_daeun_y5_feelings)로 단일화.
+- **[FIX] with_daeun 엔딩 오발동**: 우정 플레이어가 year5_ending에서 `together` stage를 얻으면 연애 엔딩이 잘못 발동하던 버그 → `daeun_romance_started` 플래그 기준으로 라우터 변경. 죽은 cast-stage(`committed`/`dating`) 읽기 4곳 제거.
+- **현수 Y4-Y5 아크**: `hyunsu_year4_echo`(t≥150, 안정 vs 야망 거울), `hyunsu_year5_call`(t≥200, crossed_line/father_passed 반응형) 신규. 공무원/회계법인 두 경로 모두 페이오프. KR+EN.
+- **Steam App ID 정리**: `STEAM_APP_ID` 상수화 + 플레이스홀더 시 상점 검색 폴백(깨진 URL 방지).
+- audit ERROR 0/WARNING 0/밴드 통과.
+
+### Added (2026-06-25) — 로맨스 시스템 재설계 (Y5 게이트)
+
+- **다은 Y1-Y4 재프레임**: 연인 장면들을 우정/미완성 감정으로 전환. arc_daeun_03_fork "같이 버텨봐요"(friend commitment), arc_daeun_04_morning "새벽 메시지 씬"(침대 씬 대체), arc_daeun_04b_future `daeun_committed`→`daeun_close_bond`.
+- **arc_romance_y5.json 신규**: `arc_daeun_y5_feelings`(t≥193, moral_stage≥0) — 37세 카페 4년치 고백. `arc_jiyeon_y5_feelings`(t≥193, moral_stage≤-1) — "두 개의 강남" 회합. 두 로맨스 모두 Y5 첫 개막.
+- **결혼 변주 추가**: `with_daeun[daeun_romance_started]` + `jiyeon_man[jiyeon_romance_started]` — 강남에서 만나는 그 사람.
+- **KR+EN 동기화**, audit ERROR 0/WARNING 0/밴드 통과.
+
+### Added (2026-06-25) — 5권 구조 연말 클로징 씬 4종
+
+- **arc_year_close.json 신규** (4개 이벤트): 각 연도의 마지막 밤을 완결된 한 편의 소설처럼 마무리. Y1(고시원 천장 금) / Y2(거리의 밤) / Y3(한강 어두운 밤) / Y4(옥상 야경).
+- **cross-year echo 체인**: 전년도 선택(year1_resolve/numb → year2, year2_confident/conflicted → year3, year3_eyes_open/weighted/avoidant → year4)이 다음 해 description_if_known으로 연결 — 5년이 연속된 한 사람의 이야기처럼 느껴지게.
+- **gangnam_dream 엔딩 year4 변주 2종**: `year4_final_resolve`("다짐한 것이 현실이 됐다") / `year4_self_known`("그 사람이 강남에 있다").
+- **KR+EN 완전 동기화**, audit ERROR 0/WARNING 0/밴드 통과.
+
+### Added (2026-06-24) — 다은/지연 로맨스 상호배타 + 지연 Y4-Y5 아크 완성
+
+- **한지연 Y4-Y5 아크 5개 이벤트**: 부산 첫 전화(Y4) → 서울 방문(Y4, 표준/갈등 2버전) → Y5 귀환(연인 경로) / 부산 소식(비연인 경로). Y3 부산 출발 이후 완전한 공백이었던 Y4-Y5 구간 해소.
+- **다은/지연 상호배타 dispatch**: `_next_arc_id()` t165-192 — 다은 연인 경로(`daeun_together_path`/`lover`/`together`/`committed`)면 `arc_jiyeon_year4_seoul_daeun`(갈등 버전), 아니면 일반 버전. 두 로맨스 동시 진행 불가 보장.
+- **arc_jiyeon_year4_seoul_daeun**: 다은 연인 플레이어 전용 씬 — 지연에게 솔직(`jiyeon_respectfully_distanced`, tint +5) vs 침묵(`jiyeon_hidden_feelings`, tint -5). KR+EN.
+- **arc_jiyeon_year5_news `description_if_known` 2종**: 갈등 씬 선택 결과가 Y5 소식 수신 시 텍스트에 반영. 솔직한 작별→기쁜 소식, 침묵→이름 붙이기 어려운 감정. write-only 플래그 전환, baseline 226 유지.
+- **`jiyeon_man` 엔딩** `lover` stage 포함(기존엔 `honest_together`만).
+
+### Added (2026-06-24) — MORAL_TINT 6차 확장 + cut_sangchul_network 엔딩 변주
+
+- **NG+ 고도덕강도 이벤트 tint 8종** (`ng_plus_events.json`): 지식을 갖고도 상철을 이용하는 순간 (-6/+7), 아버지 전화 2번째 무시 (-2/+3), 자기기만으로 카지노 재입장 (-4/+3), 도박 중 낯선 사람에게 손 내밀기 (-3/+5). NG+의 핵심은 알면서도 같은 실수를 반복하는 무게 — tint가 그 순간을 반영.
+- **chain_events.json tint 8종**: 임원 식사 면접 정직/거짓 (+5/-3), 봉투 양심 +8/-8 (게임 내 최대값), 사기꾼 제보 +6/-5. 최고도덕강도 씬 tint 완비.
+- **butterfly 내부정보 체인 tint 5종**: 정보 무시 +2, 구입 -5, 사기 확인 후 신고 +5 vs 즉시 투자 -6.
+- **shadow 지하경제 이벤트 tint 8종**: 모른 척/거짓말/외면 -2~-5, 직접 고발/솔직 +3~+5.
+- **cut_sangchul_network 엔딩 발견 레이어** (`endings.json` + `endings_en.json`): `stable_success` / `ordinary_life` / `balanced_life` 세 엔딩에 `description_if_known["cut_sangchul_network"]` 추가. 상철 네트워크를 스스로 끊은 플레이어에게 "설명할 수 없는 출처가 없는 돈"이라는 텍스트 변주.
+
+### Fixed (2026-06-24) — 서사 무결성 수정 5종
+
+- **[HIGH] 다은 아크 연속성 데드엔드 수정**: `arc_daeun_04_morning` choice 2가 `daeun_together_path`를 설정하지 않아 Y3~Y5 아크 전체가 잘리던 버그 수정.
+- **[HIGH] 다은 이별 경로 Y3 진입 수정**: `arc_daeun_year3_apart` 트리거가 `arc_daeun_ghost_seen`만 수락하고 `daeun_breakup_accepted`를 차단하던 구조 버그 → OR 조건으로 수정.
+- **[HIGH] 상철 타임라인 모순 수정**: `arc_sangchul_deduction` + `arc_father_06_confession` 두 씬에서 "5년 전 아버지를 무너뜨린" → "몇 년 전"으로 수정(6년 빚 상환 타임라인과의 수학적 모순 해소).
+- **[MED] Y5 echo 시간 표현 수정**: Y3(35세) 이벤트에서 발동된 echo 4종(cb_weight_stayed/adjusted, cb_cost_embraced/reclaimed)이 "작년에"를 사용하던 것 → "2년 전"으로 수정 (KR+EN).
+- **[MED] arc_34_two_years_in 윈도우 확장**: t<=96 → t<=100 (높은 우선순위 씬에 의한 starved 방지).
+
+### Added (2026-06-24) — 연차별 챕터 테마 분배 (17개 신규 이벤트)
+
+- **챕터 테마가 보장 씬으로 전달되도록 5막 구조 명확화**. 기존엔 Y2~Y5가 일반 마커(생일/루틴/연도)뿐이라 챕터 카드가 약속한 테마(확장/무게/균열)가 실제 콘텐츠로 구현돼 있지 않았음.
+- **Y3 "무게" 3종** (`arc_chapter_themes.json`, KR+EN): `arc_35_orthodox_weight`(정석=지루함의 무게)/`arc_35_unorthodox_weight`(비정석=불안의 무게) route 반응형 분기 + `arc_35_path_cost`(3년치 잃은 것의 영수증).
+- **Y4 "균열" 2종**: `arc_36_trust_crack`(믿었던 사람이 흔든다 — 끊다/이해하다/거리두다) + `arc_36_unexpected_hand`(예상치 못한 사람이 잡는다). 챕터4 카드 직결.
+- **Y2 "확장" 2종**: `arc_34_money_attracts_money`(돈이 돈을 부른다 + 출발선 격차) + `arc_34_doors_open`(기회는 사람을 통해 온다). 챕터2 카드 직결.
+- **Y5 echo 콜백 8종** (`callback_chapter_themes.json`, KR+EN): 위 선택의 stance를 마지막 해에 페이오프. grace echo는 1년 전 받은 손을 이번엔 내가 내미는 pay-it-forward (tint +6). 8개 cluster 플래그를 전부 읽어 write-only 부채 0 유지.
+- **결과**: 보장 스토리 비트 Y1=34 / Y2=10 / Y3=9 / Y4=10 / Y5=7(+echo 8). Y2~Y4 균형(9~10). audit ERROR 0/WARNING 0/밸런스 밴드 통과.
+
+### Added (2026-06-23) — 발견 레이어: DE식 지식반응형 서사
+
+- **`description_if_known` 엔진** (`StoryMode.gd`): `{플래그: 대체본문}` 매핑 — 플레이어가 진실을 아는 순간부터 같은 장면이 다르게 읽힌다. DE 스타일의 지식반응형 서사 최우선 적용.
+- **`arc_sangchul_deduction`** 신규 이벤트 (KR+EN): 지력55+ 또는 비정통 성향 플레이어가 한PD건설 단서로 임상철의 과거를 자가발견. 아버지 고백 경로와 독립된 두 번째 진실 발견 경로.
+- **6개 상철 장면에 `description_if_known` 추가** (KR+EN): coffee/network/offguard/human/why_gangnam/past — 진실을 알면 따뜻했던 멘토 장면들이 쓸쓸하게 재독됨. 그가 나쁜 사람이라서가 아니라 나쁜 것을 했음에도 진짜이기 때문에.
+- **`arc_father_06_confession`** 2경로 대응: 미리 알고 있을 때(deduced_sangchul_truth) vs 묻어뒀다 확인할 때(sangchul_clue_noted) 각각 다른 감정으로 읽힘.
+- **`audit.py`**: `description_if_known` 키를 flag-read로 인식해 write-only 오탐 방지.
+
+### Added (2026-06-22) — Steam 데모 QA + Steam 위시리스트 CTA
+
+- **Steam 위시리스트 CTA** 데모 종료 화면에 추가 (`_show_demo_ending()`): "♥ Steam 위시리스트에 추가" 버튼, KR/EN 양쪽. URL은 App ID 등록 후 `STEAM_APP_ID` 교체 필요.
+- **Steam 데모 크리티컬 패스 검증**: OpeningCinematic → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) → arc_chapter1_close (t=8) 전 이벤트 존재·유효성 확인.
+- **콜백 트리거 전수 검증**: callback_events_35~54 416개 flag-triggered 콜백 전부 reachable 확인. opportunity.win_flag/lose_flag 경로 포함.
+- **EN 커버리지 100%** 재확인: KR 1369개 이벤트 전부 EN 오버레이 존재.
+- **밸런스 밴드 통과 재확인**: 무직 실패 100% / 직장 실패 0% / 베팅 30억 도달 14.8%.
+
+### Added (2026-06-22) — 5년 서사 구조 재편: Year 3-5 인물 재등장 아크
+
+- **신규 인물 박재원** (고시원 후배, Year 3): 4이벤트. 33세가 26세에게 서울 생존을 가르쳐 주다 5년 뒤 50M 저축 메시지 받는 아크. `arc_new_characters.json`
+- **신규 인물 이민서** (강남 먼저 간 여성, Year 4): 2이벤트. 35→38세 3년에 강남 전세 매입. "목표가 사라질 때를 준비해야 한다"는 역설. `arc_new_characters.json`
+- **다은 Year 3-5 확장 5이벤트** (`arc_daeun_extension.json`): 함께 궤적(2주년/강남취직/30억전날밤) + 이별 궤적(결혼사진/강남대로) 분기
+- **임상철 Year 3**: 신문기사 입건 씬(대면 후) — 배운 것과 잃은 것이 동시에 사실인 불편함
+- **지연 Year 3**: 카카오톡 재연락(에필로그 후) — 삶의 가장자리에서 가끔 안부
+- **아버지 기일 씬** + arc_father_passing 트리거 연결
+- **한지연 아크 타이밍 현실화**: store/offer/lunch/reveal/truth/epilogue 전 구간 더 현실적 간격으로 조정 (1~2주→수개월)
+- EN 오버레이 전체 동시 제공 (전세/부동산 브로커 사기 문화 설명 포함)
+- audit ERROR 0 / WARNING 0 / 밴드 통과. 이벤트 총 1057개.
+
+### Changed (2026-06-22) — audit 하드닝 + 죽은 레거시 아크 제거
+
+- **audit.py 정적 검사 2종 영구 추가**: ①죽은 아크 이벤트(트리거 전용인데 호출 안 됨) ②죽은 cast-stage 분기(코드가 읽는 stage를 set하는 이벤트 없음). 난개발성 죽은 코드가 다시 쌓이면 CI가 빨개진다.
+- **옛 지연(jiyeon) 레거시 아크 16개 제거**: `arc_jiyeon_*` 신버전으로 대체됐는데 안 지워진 잔재 — 레거시 이벤트 5개 + 거기에만 의존하던 콜백 11개(KR+EN). 전부 `min_turn>=9999`로 비활성이라 게임플레이 무영향, 도감/번역 부채만 정리.
+
+### Fixed (2026-06-22) — 다은 with_daeun 엔딩 도달 버그
+
+- 다은 아크 최종 stage는 `committed`인데 엔딩 판정이 `["lover","together"]`만 검사해, **가장 헌신적으로 키운 플레이어가 오히려 연인 엔딩을 놓치던** 버그. `committed` 추가로 회수. jiyeon 엔딩의 죽은 `"lover"` stage도 제거.
+
 ### Fixed (2026-06-21) — 품질 버그 일제 수정 (도달불가 엔딩 / 고아 플래그 / EN 오버레이)
 
 - **도달 불가 엔딩 `sangchul_reckoning`(청산, B) 완전 연결**: finish_run 트리거·endings.json 엔트리·BGM 등록이 모두 빠져 있어 도달 불가였음. 임상철 신고(`sangchul_reported`) + 아버지 생존 루트로 도달하도록 수정. 엔딩 34개.

@@ -119,6 +119,8 @@ const ALL_TITLES := [
 	 "desc":"갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것."},
 	{"id":"investigator_title", "name":"의심하는 자",        "cat":"이야기", "rare":"uncommon",
 	 "desc":"친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다."},
+	{"id":"white_gangnam_title","name":"사람으로 강남에",    "cat":"메타",   "rare":"legendary",
+	 "desc":"아무도 밟지 않고 30억을 달성했다. 화면이 하얗게 빛나던 그 순간을 기억한다. 0.1%의 길."},
 ]
 
 # ── 칭호 보유 → 다음 런 시작 보너스 (카테고리별, 상한 있음) ────────
@@ -275,6 +277,7 @@ func _check_title_condition(tid: String) -> bool:
 		"father_peace_title":      return GameState.flags.get("father_reconciled", false)
 		"love_chosen_title":       return GameState.flags.get("daeun_chose_her", false)
 		"investigator_title":      return GameState.flags.get("started_investigating", false)
+		"white_gangnam_title":     return data.get("achievements", []).has("white_gangnam")
 	return false
 
 func is_hidden_event_unlocked(event_id):
@@ -394,6 +397,9 @@ func _check_progression_unlocks(summary):
 		unlock_achievement("stable_life")
 	if ending_id == "gangnam_dream":
 		unlock_achievement("gangnam_dream")
+	if ending_id == "gangnam_dream_white":
+		unlock_achievement("gangnam_dream")    # 강남드림 기본 업적도 함께
+		unlock_achievement("white_gangnam")
 	if ending_id in ["burnout", "mental_break"]:
 		unlock_achievement("survived_burnout")
 	if ending_id == "startup_exit":

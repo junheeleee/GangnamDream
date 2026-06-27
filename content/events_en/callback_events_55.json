@@ -1,0 +1,77 @@
+[
+  {
+    "id": "callback_gangnam_reason_father_echo",
+    "title": "It Was Always This",
+    "description": "A night when Gangnam's edge grew close.\n\n{name} paused for a moment.\n\nThere'd been a time when the question surfaced: why Gangnam?\nThe answer then was: \"I wanted to pay back my father's debt — my way.\"\n\nIt's been like that from the start.\nGangnam wasn't a destination. It was the last line in a letter to his father.",
+    "choices": [
+      {
+        "text": "Does he know I made it?",
+        "result_text": "Even if he's gone, {name} got here on what he gave.\n\nIt wasn't revenge. It was proof.\n\"I did it\" — that single line is what all of this was running toward."
+      },
+      {
+        "text": "The first thought was right",
+        "result_text": "It was never just about the money.\nSomewhere along the way it felt like it became about that — but it had always been the same reason.\n\n{name} understood that wasn't confusion. It was growth."
+      }
+    ]
+  },
+  {
+    "id": "callback_called_father_first_echo",
+    "title": "The One Who Calls First",
+    "description": "This time, Father called first.\n\n\"Oh, Minjun. You doing okay?\"\n\nAnswering the call, {name} remembered — there was a time when he'd called first.\nNo reason. Sunday morning.\n\nThat seems to have changed something.",
+    "choices": [
+      {
+        "text": "\"Yes, Father. I'm good.\" — short and warm",
+        "result_text": "The call ended.\n\nFather calling first seemed like nothing at first — but after hanging up, it was something.\n\nOne call made first. And now this."
+      },
+      {
+        "text": "The conversation ran long",
+        "result_text": "An hour passed.\n\nUsually ten minutes. Weather, food, Seoul rent, hometown news.\n\nOne Sunday call for no reason — it made this conversation."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_busan_postcard",
+    "title": "From Busan",
+    "description": "A message from Han Jiyeon.\n\n\"I opened the office. It's small. I wanted to send you a photo when I hung the sign.\"\n\nA photo was attached. A back street in Busan somewhere. A small sign. Han Jiyeon Real Estate.\n\n{name} looked at it for a long time.",
+    "choices": [
+      {
+        "text": "\"I'm really glad for you.\" — brief, sincere",
+        "result_text": "Jiyeon replied. \"Thank you. For seeing me off well.\"\n\nThat felt like a proper ending.\nDifferent directions — but seeing each other's path clearly."
+      },
+      {
+        "text": "\"That's really yours now.\" — her words from back then came back",
+        "result_text": "Jiyeon just said \"Yes.\"\n\nThat short reply felt like it had a long silence behind it.\n\nNot her father's firm. Her name on the door.\nThat was genuinely hers."
+      }
+    ]
+  },
+  {
+    "id": "callback_cut_sangchul_network_echo",
+    "title": "Right to Cut It",
+    "description": "A similar name reached out. Real estate investment tip, they said.\n\n{name} recognized immediately where this came from.\n\nMonths ago, there was a decision to cut that network.",
+    "choices": [
+      {
+        "text": "Turned it down again. That decision was right.",
+        "result_text": "Declined.\n\nHanging up, {name} knew this wasn't a loss.\nCutting something means you no longer need to depend on it."
+      },
+      {
+        "text": "Hesitated for a moment. Declined anyway.",
+        "result_text": "The hesitation was honest.\n\nGood terms. Declined anyway.\nStill remembered why the line was drawn then."
+      }
+    ]
+  },
+  {
+    "id": "callback_used_sangchul_after_echo",
+    "title": "Still Using It",
+    "description": "Another similar message. From that network.\n\n{name} has taken it now three times. Called it my network. Said the source doesn't matter.\n\nBut sometimes, after hanging up, there's a pause.",
+    "choices": [
+      {
+        "text": "Keep using it. This is fine.",
+        "result_text": "Deal done. Money came in.\n\nChecking the balance, {name} thought: this is fine.\nEveryone lives like this.\n\nWho's in that 'everyone' — chose not to think about slowly."
+      },
+      {
+        "text": "Turned it down this time. Felt like it had to stop here.",
+        "result_text": "First refusal.\n\nIt was a loss. Good terms.\nBut declining it, {name} fell asleep easily for the first time in a while."
+      }
+    ]
+  }
+]

@@ -130,6 +130,9 @@
     ],
     "cooldown": 9999,
     "description": "Sangchul's office. We'd stayed late reviewing contract documents.\n\nHe stepped away to take a call. Ten minutes. Fifteen.\n\nWhen he returned, he didn't look like himself. He opened the papers without a word — then suddenly said it.\n\n\"That was my son. He wants to drop out of university.\"\n\nHe said it without being asked. \"I can't tell if he doesn't want to study, or if he just hates everything right now. Honestly, I don't know.\"\n\nHe'd never said anything like this before.",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul came back from the call looking different.\n\n\"That was my son. He wants to drop out.\"\n\nMinjun listened.\nHe used to think bad people only did bad things.\nSang-chul wasn't like that.\nThis worry — it was real.\nAnd that was the hardest part to hold."
+    },
     "choices": [
       {
         "text": "\"That must be hard.\" — quiet empathy",
@@ -217,7 +220,8 @@
         "effects": {
           "social_skill": 1,
           "reputation": 1,
-          "mental": -4
+          "mental": -4,
+          "tint": 4
         },
         "flags": [
           "arc_job_invest_clash_seen",
@@ -286,7 +290,8 @@
         "effects": {
           "social_skill": 2,
           "intelligence": 1,
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [
           "arc_social_comparison_seen",
@@ -330,7 +335,8 @@
       {
         "text": "Call his father.",
         "effects": {
-          "mental": 13
+          "mental": 13,
+          "tint": 6
         },
         "flags": [
           "arc_first_real_win_seen",
@@ -375,13 +381,14 @@
       "hyunsu"
     ],
     "cooldown": 9999,
-    "description": "There were boxes in the hallway.\n\nHyunsu's door was open. His stuff was down to half.\n\n\"Hyung, I'm leaving.\" Hyunsu said. \"Since you moved out, I've been thinking a lot.\"\n\nSix years. Six years of the civil service exams.\n\n\"So what are you going to do?\" {name} asked.\n\"I still don't know.\" Hyunsu smiled. \"But this — this isn't it.\"",
+    "description": "There were boxes in the hallway.\n\nHyunsu's door was open. His stuff was down to half.\n\n\"Hyung, I'm leaving.\" Hyunsu said. \"Since you moved out, I've been thinking a lot.\"\n\nFour years. Four years of the civil service exams.\n\n\"So what are you going to do?\" {name} asked.\n\"I still don't know.\" Hyunsu smiled. \"But this — this isn't it.\"",
     "choices": [
       {
         "text": "\"Good for you. Take care.\" — sincere encouragement",
         "effects": {
           "mental": 5,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "flags": [
           "arc_hyunsu_new_path_seen"
@@ -568,7 +575,8 @@
       {
         "text": "\"When I get to Gangnam, you'll be the first one I call.\" — almost says it, then stops",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": -1
         },
         "flags": [
           "arc_father_quiet_call_seen"
@@ -583,7 +591,8 @@
       {
         "text": "Just hang up. Nothing special.",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": -2
         },
         "flags": [
           "arc_father_quiet_call_seen"
@@ -593,7 +602,8 @@
       {
         "text": "\"Dad, how have you been?\" — asks more",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 5
         },
         "flags": [
           "arc_father_quiet_call_seen",
@@ -753,7 +763,8 @@
       {
         "text": "\"I'm not even sure this is what I really want.\" — being honest",
         "effects": {
-          "mental": 10
+          "mental": 10,
+          "tint": 4
         },
         "flags": [
           "arc_gangnam_visit_alone_seen",
@@ -796,7 +807,8 @@
       {
         "text": "\"Hey Jaehyuk, how's everything?\" — reach out first",
         "effects": {
-          "mental": -6
+          "mental": -6,
+          "tint": 3
         },
         "flags": [
           "arc_jaehyuk_wait_seen",
@@ -1027,7 +1039,8 @@
       {
         "text": "Called his father — just to hear his voice.",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1044,7 +1057,8 @@
         "text": "Told no one — decided to keep it to himself.",
         "effects": {
           "intelligence": 1,
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "flags": [
           "arc_money_loneliness_seen",
@@ -1147,7 +1161,8 @@
       {
         "text": "Called his father directly.",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 5
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1175,7 +1190,8 @@
         "text": "Said he'd come down on the weekend.",
         "effects": {
           "mental": 5,
-          "money": -50000
+          "money": -50000,
+          "tint": 3
         },
         "flags": [
           "arc_father_medication_seen",
@@ -1346,7 +1362,8 @@
       {
         "text": "Admitted fear for the first time.",
         "effects": {
-          "mental": 7
+          "mental": 7,
+          "tint": 5
         },
         "flags": [
           "arc_final_stretch_seen",
@@ -1411,7 +1428,8 @@
         "text": "Decided to tell everything — this person can be trusted.",
         "effects": {
           "mental": 10,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 7
         },
         "flags": [
           "arc_daeun_money_gap_seen",
@@ -1444,7 +1462,10 @@
       "sangchul"
     ],
     "cooldown": 9999,
-    "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nIncheon's outskirts. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.",
+    "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nA seaside town in Chungcheong. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul brought up his hometown.\nA father who worked the docks. Night school. Crying alone the first time he bought an apartment.\n\nMinjun listened.\nIf this were a lie — that would have been easier.\nIt wasn't a lie. That made it lonelier.\n\nFrom poverty to Gangnam. Someone who climbed that road by stepping on others was now sitting across from him, telling the story of the young man who cried the day he first owned something."
+    },
     "choices": [
       {
         "text": "\"I started from something similar.\" — shared the connection.",
@@ -1499,6 +1520,145 @@
     ]
   },
   {
+    "id": "arc_sangchul_known_offer",
+    "title": "Knowing",
+    "background": "realestate_office",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "Sang-chul set his coffee down and spoke.\n\n\"This is just between us, Minjun.\"\n\nHe slid a single sheet across. A property not on the market yet. Redevelopment about to be confirmed. Get in — and in six months it doubles.\n\n\"Trust me and go in. You won't lose.\"\n\nMinjun looked at the sheet.\nAnd he knew who this man was.\nThe man who pushed his father into that debt.\n\nAnd yet right now, the hand reaching out held a real opportunity.",
+    "description_if_known": {
+      "sangchul_helped_with_father": "Sang-chul slid a single sheet across.\nA property not on the market yet. Redevelopment about to be confirmed. Six months, double.\n\n\"Trust me and go in. You won't lose.\"\n\nMinjun knew who this man was.\nThe man who pushed his father into that debt.\nAnd the man who got the hospital room when his father collapsed.\n\nThe same hand. The same hand was holding out an opportunity now."
+    },
+    "choices": [
+      {
+        "text": "Took the sheet",
+        "effects": {
+          "money": 1800000,
+          "mental": -7,
+          "tint": -8
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen",
+          "used_sangchul_knowingly"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 6
+          }
+        },
+        "result_text": "He took the sheet.\nSang-chul smiled, satisfied.\n\nSix months later, he'd been right. The account swelled.\nLooking at the money, Minjun never once felt glad.\nHe'd just — gotten used to it."
+      },
+      {
+        "text": "Took it. His fingers caught for a second",
+        "effects": {
+          "money": 1800000,
+          "mental": -12,
+          "tint": -8
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen",
+          "used_sangchul_knowingly"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 3
+          }
+        },
+        "result_text": "He took it. His fingers caught for a second.\n\nWhether Sang-chul noticed that hitch, he couldn't tell.\nThe money came in. Exactly double.\n\nThat night, Minjun didn't call his father.\nNot because he had nothing to say — because there was nothing he could say."
+      },
+      {
+        "text": "\"Not this time.\" — pushed the sheet back",
+        "effects": {
+          "mental": 2,
+          "tint": 6
+        },
+        "flags": [
+          "arc_sangchul_known_offer_seen"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": -3
+          }
+        },
+        "result_text": "\"Not this time.\"\nSang-chul pulled the sheet back, puzzled. \"Why? Not like you.\"\n\nMinjun didn't answer.\nThey both knew it was only this once.\nHe'd show up to the next table too."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_known_reflex",
+    "title": "The Habit",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "tags": [
+      "story",
+      "arc",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "description": "He was sitting in a café with Hyunsu.\nHyunsu wanted to introduce a junior of his. Looking for work.\n\nAs Minjun listened to the kid's résumé — without meaning to, he was calculating.\nIs he useful. What can I extract. Does this help me.\n\nThen he stopped.\n\nWhen did he start seeing people like this.\n\nThe way Sang-chul must have looked at him the first time.\nThat look that called him \"someone with drive.\"",
+    "choices": [
+      {
+        "text": "Pushed the thought away",
+        "effects": {
+          "mental": -5,
+          "tint": -2
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen"
+        ],
+        "result_text": "He pushed the thought away.\nTold Hyunsu, \"Sure, let's meet him.\" Meaning to genuinely help.\n\nBut walking out of the café, the calculation was already done.\nWhat he'd pushed away wasn't the thought — only the discomfort."
+      },
+      {
+        "text": "(Is this so wrong? Everyone lives like this)",
+        "effects": {
+          "mental": -3,
+          "social_skill": 1,
+          "tint": -5
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen",
+          "rationalized_using_people"
+        ],
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 2
+          }
+        },
+        "result_text": "Is this so wrong. Everyone lives like this.\nSang-chul came up that way, and everyone in Gangnam does it too.\n\nThinking that, it got easier.\nThat it got easier — was the most frightening part."
+      },
+      {
+        "text": "Told Hyunsu the truth",
+        "effects": {
+          "mental": 3,
+          "tint": 4
+        },
+        "flags": [
+          "arc_sangchul_known_reflex_seen"
+        ],
+        "result_text": "\"Lately I think I look at people kind of wrong.\"\nHyunsu laughed. \"Man, you were never like that.\"\n\nHe was never like that.\nThe words landed not as comfort but as evidence.\nThat something had changed."
+      }
+    ]
+  },
+  {
     "id": "arc_after_scam",
     "title": "The Day After the Scam",
     "background": "goshiwon_room",
@@ -1533,7 +1693,8 @@
       {
         "text": "Reached out to Hyunsu.",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 5
         },
         "flags": [
           "arc_after_scam_seen",
@@ -1732,7 +1893,7 @@
           "arc_gangnam_real_estate_seen",
           "aimed_higher"
         ],
-        "result_text": "If it's going to happen once, do it properly. Revised the target from 3 billion to 3.2 billion. Two hundred million more needed. That actually felt more motivating."
+        "result_text": "If it's going to happen once, do it properly. ₩3 billion. He wrote the number down again. The vague goal turned into a line he could almost touch."
       }
     ]
   },
@@ -1759,7 +1920,8 @@
       {
         "text": "\"Going anyway.\" — starts walking again",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_four_months_seen",
@@ -1772,7 +1934,8 @@
         "text": "\"There has to be another way.\" — looks for a shortcut",
         "effects": {
           "mental": -1,
-          "intelligence": 1
+          "intelligence": 1,
+          "tint": -3
         },
         "flags": [
           "arc_four_months_seen",
@@ -2266,7 +2429,8 @@
         "text": "Honestly, I'm worn out. Not sure if this is right anymore.",
         "effects": {
           "mental": -6,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 3
         },
         "flags": [
           "arc_year_two_half_seen"
@@ -2408,7 +2572,8 @@
       {
         "text": "Decided today would just be a birthday",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_35_birthday_seen",
@@ -2419,7 +2584,8 @@
       {
         "text": "Called dad",
         "effects": {
-          "mental": 4
+          "mental": 4,
+          "tint": 5
         },
         "flags": [
           "arc_35_birthday_seen"
@@ -2457,7 +2623,8 @@
         "text": "Reached out. To anyone.",
         "effects": {
           "social_skill": 1,
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [
           "arc_35_alone_seen",
@@ -2584,7 +2751,8 @@
         "text": "Keeping the current pace. Rushing leads to mistakes.",
         "effects": {
           "mental": 6,
-          "luck": 1
+          "luck": 1,
+          "tint": 3
         },
         "flags": [
           "arc_36_reality_check_seen",
@@ -2873,7 +3041,8 @@
       {
         "text": "Understood that this is already a drama.",
         "effects": {
-          "mental": 10
+          "mental": 10,
+          "tint": 3
         },
         "flags": [
           "arc_37_ending_peace_seen",
@@ -2884,7 +3053,8 @@
       {
         "text": "Felt like calling dad soon.",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [
           "arc_37_ending_peace_seen",

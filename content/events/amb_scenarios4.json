@@ -24,7 +24,8 @@
         "follow_up_event": "amb_wallet_return",
         "effects": {
           "reputation": 2,
-          "mental": -3
+          "mental": -3,
+          "tint": 7
         }
       },
       {
@@ -36,7 +37,8 @@
         ],
         "effects": {
           "money": 300000,
-          "mental": -10
+          "mental": -10,
+          "tint": -4
         }
       },
       {
@@ -46,7 +48,8 @@
           "wallet_ignored"
         ],
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": -2
         }
       }
     ]

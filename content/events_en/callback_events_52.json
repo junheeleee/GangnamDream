@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_cafe_stole_dodged_echo",
+    "title": "Pulling Out Then",
+    "description": "Faced with a shady money scheme, {name} pulled out, saying 'this is dangerous.'\n\nThat decision comes back sometimes.\n\nToday a fast but risky road appears again.",
+    "choices": [
+      {
+        "text": "Pulling out then — was the best thing I did",
+        "result_text": "Fast money usually invites a faster fall.\n\nBecause they pulled out then, {name} stayed on a clean path.\nNot doing what shouldn't be done was a clear choice too."
+      },
+      {
+        "text": "Even now — filter out the dangerous",
+        "result_text": "One who's pulled out once knows how to pull out again.\n\n{name} still uses that sense for reading danger signals.\nNot crossing the line was a condition for going far."
+      }
+    ]
+  },
+  {
+    "id": "callback_crossed_line_early_echo",
+    "title": "Crossing the Line Then",
+    "description": "At some early point, {name} crossed a line they shouldn't have, telling themselves 'just once.'\n\nThe weight of that choice comes back sometimes.\n\nToday they stand before a similar gray zone.",
+    "choices": [
+      {
+        "text": "I learned then — 'just once' is the most dangerous phrase",
+        "result_text": "'Just once' was a spell that summoned the second time.\n\n{name} remembers the unease of crossing that line.\nThey decided never to fool themselves with those words again."
+      },
+      {
+        "text": "Repay that debt — the clean way",
+        "result_text": "A line once crossed can't be undone, but the life after can be lived differently.\n\n{name} decided to fill that choice with honest effort.\nThe past can't be erased, but the direction can change."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_honest_invested_echo",
+    "title": "Going In Within My Means",
+    "description": "Facing an investment offer, {name} didn't overreach and went in 'within my means.'\n\nThat right-sized choice comes back sometimes.\n\nToday there's the temptation of a big bet.",
+    "choices": [
+      {
+        "text": "Only what I can bear — that's how you last",
+        "result_text": "Investing beyond your means collapses at one swing.\n\nBecause {name} moved within what they could handle, they held to the end.\nKnowing your limits was, in the end, skill too."
+      },
+      {
+        "text": "Now — that range of means has widened",
+        "result_text": "Started with small money then, but the range has grown.\n\n{name} always invested within means — but grew those means.\nGrowing without overreaching was the sturdiest path."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_redeemed_echo",
+    "title": "Asking Again, with What I'd Learned",
+    "description": "At the spot where they were once humiliated, {name} asked again 'properly this time,' with what they'd learned.\n\nThat moment of redemption comes back sometimes.\n\nToday they face an area that was once a weakness.",
+    "choices": [
+      {
+        "text": "Repaid the humiliation — with growth",
+        "result_text": "That embarrassing moment made them grit their teeth and learn.\n\n{name} turned a former weakness into a strength.\nHumiliation wasn't the end, but a chance to learn properly."
+      },
+      {
+        "text": "Now — I'm not ashamed of not knowing",
+        "result_text": "Hiding what you don't know is more dangerous than being embarrassed by it.\n\n{name} learned asking isn't shameful.\nThat one redemption changed their attitude toward learning."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_still_ashamed_echo",
+    "title": "Still Embarrassed",
+    "description": "At the spot where they were once humiliated, {name} still bowed their head and avoided it, embarrassed.\n\nThat shame comes back sometimes.\n\nToday came a moment of facing that area again.",
+    "choices": [
+      {
+        "text": "Now — I move past that shame",
+        "result_text": "Only avoiding it leaves that spot a permanent weakness.\n\n{name} decided to lift their head and face it this time.\nShame only vanishes when faced."
+      },
+      {
+        "text": "Accept that embarrassment too — as part of me",
+        "result_text": "Imperfect moments are part of what made me too.\n\n{name} decided not to erase the embarrassment, but to carry it.\nHaving embarrassing memories also meant having tried that much."
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_awkward_echo",
+    "title": "Leaving Awkwardly",
+    "description": "{name} once left an awkward situation uncomfortably.\n\nThat moment of avoidance comes back sometimes.\n\nToday they face an uncomfortable situation again.",
+    "choices": [
+      {
+        "text": "Now — I hold my ground even when uncomfortable",
+        "result_text": "Flee every awkward thing and the chance to toughen up vanishes too.\n\n{name} slowly built the strength to endure discomfort.\nJust staying instead of fleeing made some situations familiar."
+      },
+      {
+        "text": "Sometimes avoiding is better — I discern",
+        "result_text": "No need to endure every discomfort.\n\n{name} learned to tell which to weather and which to leave.\nAvoidance wasn't always weakness — sometimes it was a wise choice."
+      }
+    ]
+  },
+  {
+    "id": "callback_ignored_hyunsu_warning_echo",
+    "title": "Brushing Off Hyun-su's Warning",
+    "description": "When Hyun-su warned to be careful of Jae-hyuk, {name} trusted the army buddy — 'Jae-hyuk wouldn't.'\n\nThat ignored warning comes back sometimes.\n\nToday another's warning clashes with my trust again.",
+    "choices": [
+      {
+        "text": "Should've listened then — now I don't brush off warnings",
+        "result_text": "A close person's warning usually has a reason.\n\n{name} learned expensively to tell what they wish were true from what is.\nTrust is precious, but blind faith was dangerous."
+      },
+      {
+        "text": "Trusting a person — I don't regret",
+        "result_text": "Even if the result was bad, the heart that tried to trust a friend wasn't wrong.\n\n{name} didn't want a life lived only in suspicion.\nBut they learned trust needs eyes too."
+      }
+    ]
+  },
+  {
+    "id": "callback_rejected_rescue_job_echo",
+    "title": "Saying I'll Just Take the Thought",
+    "description": "When the goshiwon owner offered a job, {name} declined — 'I'll just take the thought, I'm looking for something better.'\n\nThat pride — or stubbornness — comes back sometimes.\n\nToday they stand at a similar fork of kindness.",
+    "choices": [
+      {
+        "text": "Declining then — led to a better path",
+        "result_text": "Had they settled into the immediate offer, they'd have stopped there.\n\n{name} kept the stubbornness of seeking something better.\nSometimes declining a good offer was a choice for something bigger."
+      },
+      {
+        "text": "You must know how to accept help too — I know now",
+        "result_text": "Declining every kindness out of pride is foolish sometimes.\n\n{name} also learned the flexibility to accept help worth accepting.\nThe stubbornness to do everything alone wasn't always right."
+      }
+    ]
+  },
+  {
+    "id": "callback_stayed_hungry_echo",
+    "title": "Thinking It Wasn't Enough Yet",
+    "description": "Checking assets at a mid-point, {name} didn't grow complacent — 'this is nothing, still far to go.'\n\nThat hunger comes back sometimes.\n\nToday they stand before a small achievement.",
+    "choices": [
+      {
+        "text": "That hunger — kept complacency away",
+        "result_text": "Get drunk on small wins and you stop there.\n\n{name} always went further with an 'not yet' mindset.\nThe hunger of deferring satisfaction ultimately made the distance."
+      },
+      {
+        "text": "Now — balance hunger with self-acknowledgment",
+        "result_text": "Keep saying it's never enough and even arriving brings no satisfaction.\n\n{name} decided to go further while also acknowledging the self that came this far.\nHunger and self-flagellation were different."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_reason_confirmed_echo",
+    "title": "She's at the End of This Road Too, I Said",
+    "description": "Near the end, {name} confirmed a future with Dae-un — 'we're still together; she's at the end of this road too.'\n\nThat resolve comes back sometimes.\n\nToday they think about the road with Dae-un.",
+    "choices": [
+      {
+        "text": "Because she's there — this road wasn't lonely",
+        "result_text": "A road walked alone and one with someone waiting at the end are different.\n\nTo {name}, Dae-un wasn't the goal but part of the reason.\nHaving someone to smile with on arrival was a great strength."
+      },
+      {
+        "text": "Not for her sake — but to be together, I go",
+        "result_text": "Not a life for someone, but a life together.\n\n{name} saw Dae-un as a companion, not a burden.\nLove wasn't a substitute for the goal, but walking the goal together."
+      }
+    ]
+  },
+  {
+    "id": "callback_confronted_manager_echo",
+    "title": "Talking to the Manager Privately",
+    "description": "When someone took credit for {name}'s work, {name} talked to the manager privately.\n\nThat moment of speaking up comes back sometimes.\n\nToday, before another injustice, that day came to mind.",
+    "choices": [
+      {
+        "text": "Speaking up then — protected me",
+        "result_text": "Only endure, and the credit-thief alone wins.\n\n{name} learned to justly claim their own share.\nSpeaking up and fighting were different — it was self-respect."
+      },
+      {
+        "text": "Refine the manner — but don't stay silent",
+        "result_text": "Speak up, but how you do it matters too.\n\n{name} refined arguing by fact, not emotion.\nThey learned to not stay silent at injustice while not making enemies."
+      }
+    ]
+  },
+  {
+    "id": "callback_considered_job_change_echo",
+    "title": "Meeting the Headhunter",
+    "description": "At a headhunter's contact, {name} explored a job change — 'I'll meet once.'\n\nThat exploration comes back sometimes.\n\nToday they stand at a career fork again.",
+    "choices": [
+      {
+        "text": "Widening options — became leverage",
+        "result_text": "Just knowing another path exists creates leverage.\n\nEven without moving, {name} learned their market value.\nOne with options stood tall even when staying."
+      },
+      {
+        "text": "Also re-saw — the value of my current place",
+        "result_text": "You have to look outside to see the value within.\n\nExploring a move, {name} rediscovered the merits of the present.\nWhether to leave or stay could only be decided properly after comparing."
+      }
+    ]
+  },
+  {
+    "id": "callback_market_value_checked_echo",
+    "title": "Checking My Market Value",
+    "description": "To the headhunter, {name} just gathered info — 'tell me more about the terms' — to check their market value.\n\nThat check comes back sometimes.\n\nToday they gauge their own position again.",
+    "choices": [
+      {
+        "text": "Knowing my value — is the start of all negotiation",
+        "result_text": "Not knowing your market value, you can't get your worth.\n\n{name} built the habit of regularly checking their position.\nOnly one holding the information negotiated unshaken."
+      },
+      {
+        "text": "Find ways — to raise that value further",
+        "result_text": "After knowing the current value, {name} didn't stop there.\n\nThey reverse-engineered what to add to raise it.\nSelf-worth wasn't given, but built."
+      }
+    ]
+  },
+  {
+    "id": "callback_asked_growth_path_echo",
+    "title": "Asking About the Growth Path",
+    "description": "At the year-end review, {name} asked first 'what to improve for an S grade next year.'\n\nThat initiative comes back sometimes.\n\nToday they ponder the direction of growth.",
+    "choices": [
+      {
+        "text": "Asking first — sped up my growth",
+        "result_text": "One who waits for the review and one who asks the direction first are different.\n\n{name} sought feedback first without fearing it.\nGrowth came faster to those who asked."
+      },
+      {
+        "text": "Now — I watch growth both inside and outside the company",
+        "result_text": "A company grade isn't the only growth.\n\n{name} designed company advancement and personal goals together.\nAn S grade is good, but the real goal lay beyond it."
+      }
+    ]
+  }
+]

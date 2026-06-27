@@ -1,0 +1,523 @@
+[
+  {
+    "id": "callback_comparison_anxiety_echo",
+    "title": "그때 조급해졌던 것",
+    "background": "cafe",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "comparison_anxiety_triggered",
+      "min_turn": 40
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "친구의 아이 소식을 듣고, {name}은 축하하면서도 뭔가 조급해졌었다.\n\n그 조급함이 가끔 떠오른다.\n\n오늘 또 누군가의 인생 이정표 소식에 마음이 흔들린다.",
+    "choices": [
+      {
+        "text": "남의 시간표는 — 내 것이 아니다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "결혼, 출산, 내 집 마련 — 사람마다 순서도 속도도 다르다.\n\n{name}은 남의 이정표에 내 불안을 얹지 않기로 했다.\n조급함은 비교에서 오고, 비교는 끝이 없었다."
+      },
+      {
+        "text": "그 조급함을 — 동력으로 바꿔본다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "조급함을 무시하기보다, 방향을 주기로 했다.\n\n{name}은 그 불안을 '오늘 한 걸음'으로 바꿨다.\n흔들릴 때 가만히 있으면 더 흔들리고, 움직이면 가라앉았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_asserted_timeline_echo",
+    "title": "내 목표가 있다고 말한 것",
+    "background": "dad_house",
+    "portrait": "mother",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "asserted_own_timeline",
+      "min_turn": 32
+    },
+    "tags": [
+      "callback",
+      "story",
+      "family"
+    ],
+    "cooldown": 999,
+    "description": "결혼 압박 앞에서, {name}은 '저는 지금 다른 목표가 있어요'라고 단호하게 말했었다.\n\n그 선언이 가끔 떠오른다.\n\n오늘 또 부모님의 걱정 어린 질문이 돌아온다.",
+    "choices": [
+      {
+        "text": "지금도 — 내 속도대로 산다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "남의 기대에 맞춰 살면, 내 인생이 아니게 된다.\n\n{name}은 그때의 단호함을 지금도 지킨다.\n부모님을 사랑하는 것과, 부모님 시간표대로 사는 건 다른 거였다."
+      },
+      {
+        "text": "부모님 마음도 헤아리며 — 부드럽게 다시 말한다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "단호함이 때론 부모님께 상처가 됐을지도 모른다.\n\n{name}은 자기 길을 지키되, 그 마음을 더 따뜻하게 전하기로 했다.\n경계를 지키는 것과 차갑게 구는 건 다른 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_childfree_leaning_echo",
+    "title": "아이는 안 낳는 게 맞겠다던 것",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "childfree_leaning",
+      "min_turn": 52
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "아이 양육비를 계산해보고, {name}은 '아이는 안 낳는 게 맞는 것 같다'고 생각했었다.\n\n그 냉정한 계산이 가끔 떠오른다.\n\n오늘 또 그 주제가 머릿속을 스친다.",
+    "choices": [
+      {
+        "text": "그건 — 지금 내 상황의 합리적 결론이었다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "감당할 수 없는 걸 욕심내지 않는 것도 책임이다.\n\n{name}은 그 계산이 비관이 아니라 현실 인식이었음을 안다.\n다만 상황이 바뀌면 결론도 바뀔 수 있다는 것도, 열어뒀다."
+      },
+      {
+        "text": "계산만으로 정할 일은 아니다 — 열어둔다",
+        "effects": {
+          "mental": 5
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "어떤 결정은 엑셀로 환산되지 않는다.\n\n{name}은 그 문제를 지금 못박지 않기로 했다.\n돈이 결정의 전부가 되면, 정작 중요한 걸 놓칠 수도 있었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_proactive_parent_care_echo",
+    "title": "병원 같이 가자고 한 것",
+    "background": "dad_house",
+    "portrait": "father_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "proactive_parent_care",
+      "min_turn": 44
+    },
+    "tags": [
+      "callback",
+      "father",
+      "story",
+      "family"
+    ],
+    "cooldown": 999,
+    "description": "부모님이 늙어가는 걸 느끼고, {name}은 '아버지, 병원 한번 같이 가요'라고 먼저 말했었다.\n\n그 먼저 내민 손이 가끔 떠오른다.\n\n오늘 또 부모님 생각이 났다.",
+    "choices": [
+      {
+        "text": "그때 먼저 챙긴 게 — 후회를 줄였다",
+        "effects": {
+          "mental": 7
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "부모님은 기다려주지 않는다.\n\n그때 먼저 병원에 같이 간 게, 나중의 후회를 덜어줬다.\n{name}은 효도가 거창한 게 아니라 타이밍이라는 걸 안다."
+      },
+      {
+        "text": "더 자주 챙겨야겠다 — 지금도 늦지 않았다",
+        "effects": {
+          "mental": 6,
+          "social_skill": 1
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 4
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "한 번으로 끝날 일이 아니었다.\n\n{name}은 목표를 향해 가면서도, 부모님 챙기는 일을 미루지 않기로 했다.\n돈을 버는 이유 중 하나가, 결국 그 사람들이었으니까."
+      }
+    ]
+  },
+  {
+    "id": "callback_corporate_escape_echo",
+    "title": "더 빨리 탈출해야 한다던 것",
+    "background": "office",
+    "portrait": "player_tired",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "corporate_escape_urgent",
+      "min_turn": 56
+    },
+    "tags": [
+      "callback",
+      "job",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "조기 퇴직하는 선배를 보며, {name}은 '이게 직장인의 현실이다, 더 빨리 탈출해야 한다'고 다짐했었다.\n\n그 위기감이 가끔 떠오른다.\n\n오늘 또 직장의 한계를 실감하는 순간이 왔다.",
+    "choices": [
+      {
+        "text": "그 위기감이 — 다른 길을 준비하게 했다",
+        "effects": {
+          "mental": 5,
+          "investment_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "직장은 영원한 안전지대가 아니다.\n\n그 현실을 일찍 본 덕에 {name}은 탈출 경로를 미리 닦았다.\n남의 조기 퇴직이, {name}에겐 경고이자 자극이었다."
+      },
+      {
+        "text": "조급함보다 — 착실한 준비가 진짜 탈출이다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "급하게 뛰쳐나가는 건 탈출이 아니라 추락일 수 있다.\n\n{name}은 위기감을 조급함이 아니라 준비로 바꿨다.\n진짜 탈출은, 나갈 곳을 만들어두고 나가는 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_loan_ignored_echo",
+    "title": "모르는 사람이라며 끊은 것",
+    "background": "convenience_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "shadow_loan_ignored",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "수상한 대출 권유 전화에, {name}은 '모르는 사람'이라며 끊어버렸었다.\n\n그 단호함이 가끔 떠오른다.\n\n오늘 또 솔깃한 제안이 전화로 들어왔다.",
+    "choices": [
+      {
+        "text": "그때처럼 — 수상한 건 거른다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "급할수록 사기꾼의 먹잇감이 되기 쉽다.\n\n{name}은 솔깃한 제안일수록 한 번 더 의심하는 법을 안다.\n그때 끊어버린 전화가, 어떤 함정을 피하게 했을지 모른다."
+      },
+      {
+        "text": "거르되 — 정당한 기회는 검토할 줄 안다",
+        "effects": {
+          "mental": 4,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 제안을 무조건 끊는 것도 답은 아니다.\n\n{name}은 수상한 것과 정당한 것을 구분하는 눈을 키웠다.\n의심은 기본이되, 분별은 능력이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_loan_met_echo",
+    "title": "일단 만나자고 한 것",
+    "background": "pojangmacha",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "shadow_loan_met",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "story",
+      "risk"
+    ],
+    "cooldown": 999,
+    "description": "수상한 대출 권유에, {name}은 '일단 만나자'며 발을 들였었다.\n\n그 위험했던 선택이 가끔 떠오른다.\n\n오늘 또 비슷한 회색지대의 제안이 있다.",
+    "choices": [
+      {
+        "text": "그때 위험했다 — 이젠 발부터 안 들인다",
+        "effects": {
+          "mental": 5,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "만나는 순간부터 빠져나오기 어려운 것들이 있다.\n\n{name}은 호기심에 발을 들인 그 선택의 위험을 안다.\n어떤 문은, 열기 전에 안 여는 게 답이었다."
+      },
+      {
+        "text": "만나봤기에 — 그 수법을 안다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "위험했지만, 그 자리에서 그들의 수법을 직접 봤다.\n\n{name}은 그 경험을 거울 삼아 다시는 안 당하기로 했다.\n다만 같은 호기심이 늘 무사하진 않다는 것도 안다."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_snitch_ignored_echo",
+    "title": "소문을 무시한 것",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "shadow_snitch_ignored",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "{name}에 관한 안 좋은 소문이 돌았을 때, {name}은 '신경 쓸 여유가 없다'며 무시했었다.\n\n그 무덤덤함이 가끔 떠오른다.\n\n오늘 또 누군가의 입방아에 오른 것 같다.",
+    "choices": [
+      {
+        "text": "소문은 — 결국 결과 앞에서 사라진다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "소문에 일일이 대응하면 거기에 발이 묶인다.\n\n{name}은 말 대신 결과로 답하기로 했다.\n묵묵히 가다 보면, 소문은 제풀에 지쳐 사라졌다."
+      },
+      {
+        "text": "무시하되 — 필요한 건 바로잡는다",
+        "effects": {
+          "mental": 4,
+          "social_skill": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 소문을 무시할 순 없다. 어떤 건 바로잡아야 한다.\n\n{name}은 흘려보낼 것과 대응할 것을 구분하게 됐다.\n무관심과 방치는 다른 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_snitch_spun_echo",
+    "title": "소문을 역이용한 것",
+    "background": "office",
+    "portrait": "player_determined",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 0.9,
+    "hidden": false,
+    "conditions": {
+      "flag": "shadow_snitch_spun",
+      "min_turn": 30
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "{name}에 관한 소문이 돌았을 때, {name}은 그 소문을 직접 역이용했었다.\n\n그 영리함 혹은 위험함이 가끔 떠오른다.\n\n오늘 또 비슷한 상황이 왔다.",
+    "choices": [
+      {
+        "text": "그때 영리하게 넘겼다 — 위기를 기회로",
+        "effects": {
+          "mental": 5,
+          "social_skill": 2,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "불리한 소문도 어떻게 다루느냐에 따라 달라진다.\n\n{name}은 위기를 뒤집는 감각을 그때 익혔다.\n다만 그런 수가 늘 통하진 않는다는 것도 안다."
+      },
+      {
+        "text": "이젠 — 정공법이 더 오래 간다고 본다",
+        "effects": {
+          "mental": 5,
+          "reputation": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "술수는 한두 번은 통해도, 결국 정직함이 신뢰를 만든다.\n\n{name}은 영리함보다 신뢰가 오래 가는 자산임을 안다.\n역이용도 좋지만, 역이용할 일을 안 만드는 게 더 나았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_collab_echo",
+    "title": "같이 해보자던 약속",
+    "background": "cafe",
+    "portrait": "player_normal",
+    "category": "jobs",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "startup_collab_joined",
+      "min_turn": 32
+    },
+    "tags": [
+      "callback",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "옛 지인이 창업 협업을 제안했을 때, {name}은 '같이 해보자'고 했었다.\n\n그 약속이 가끔 떠오른다.\n\n오늘 또 그 협업의 향방을 생각한다.",
+    "choices": [
+      {
+        "text": "함께 도모한 게 — 혼자선 못 할 걸 가능하게 했다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "혼자 가면 빨리 가지만, 함께 가면 멀리 간다.\n\n{name}은 그 협업에서 혼자선 못 봤을 길을 봤다.\n사람과 함께하는 데는 리스크도 있지만, 그만한 가능성도 있었다."
+      },
+      {
+        "text": "협업은 신중하게 — 사람을 가려서 한다",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "모든 협업이 잘되는 건 아니다. 사람이 전부였다.\n\n{name}은 누구와 함께하느냐가 결과를 가른다는 걸 배웠다.\n같이 가되, 아무하고나 가진 않기로 했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_first_invest_win_echo",
+    "title": "첫 수익의 기억",
+    "background": "trading",
+    "portrait": "player_happy",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "first_invest_win",
+      "min_turn": 22
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "투자에서 처음 수익을 봤던 날, {name}은 심장이 뛰었었다.\n\n그 첫 수익의 기억이 가끔 떠오른다.\n\n오늘 또 계좌에 파란 불이 들어왔다.",
+    "choices": [
+      {
+        "text": "첫 수익의 흥분을 — 이젠 다스릴 줄 안다",
+        "effects": {
+          "investment_skill": 3,
+          "mental": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "처음엔 수익에 도취돼 무리한 베팅을 했었다.\n\n{name}은 이제 수익에도 손실에도 덜 흔들린다.\n첫 수익의 짜릿함을 기억하되, 거기에 휘둘리지 않는 게 성숙이었다."
+      },
+      {
+        "text": "그 설렘이 — 투자를 계속하게 한 동력이었다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "첫 수익의 그 짜릿함이, 공부를 계속할 이유가 됐다.\n\n{name}은 그 설렘이 도박과 투자의 경계라는 것도 안다.\n같은 흥분이라도, 어디에 쓰느냐가 운명을 갈랐다."
+      }
+    ]
+  },
+  {
+    "id": "callback_first_invest_loss_echo",
+    "title": "첫 손실의 기억",
+    "background": "trading",
+    "portrait": "player_tired",
+    "category": "investment",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "first_invest_loss",
+      "min_turn": 24
+    },
+    "tags": [
+      "callback",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "투자에서 처음 손실을 봤던 날, {name}은 배가 아팠었다.\n\n그 첫 손실의 기억이 가끔 떠오른다.\n\n오늘 또 계좌가 빨갛게 물들었다.",
+    "choices": [
+      {
+        "text": "그 손실이 — 가장 비싸고 좋은 수업이었다",
+        "effects": {
+          "investment_skill": 3,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "처음 잃었을 때의 그 쓰라림이, 무모함을 줄여줬다.\n\n{name}은 잃어보지 않은 사람이 더 위험하다는 걸 안다."
+      },
+      {
+        "text": "이젠 손실에도 — 덜 흔들린다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "처음엔 손실 하나에 잠을 못 잤다. 지금은 다르다.\n\n{name}은 손실을 게임의 일부로 받아들이게 됐다.\n빨간 숫자에 일희일비하지 않는 것. 그게 첫 손실이 준 단단함이었다."
+      }
+    ]
+  }
+]

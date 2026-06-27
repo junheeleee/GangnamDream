@@ -1,0 +1,284 @@
+[
+  {
+    "id": "callback_investment_lesson_echo",
+    "title": "작게 해, 처음엔",
+    "background": "goshiwon_room",
+    "portrait": "sangchul_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "investment_lesson_1",
+      "min_turn": 28
+    },
+    "tags": [
+      "callback",
+      "sangchul",
+      "investment",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "처음으로 진짜 돈을 넣었다.\n\n소액이었다. 임상철이 말한 대로 — '잃어도 배울 수 있는 돈'.\n\n차트가 빨갛게 바뀌었다.\n\n\"처음엔 작게 해. 잃으면서 시장이 눈에 들어오기 시작해.\"\n그 목소리가 다시 들렸다.",
+    "choices": [
+      {
+        "text": "버텼다 — 손절하지 않고 기다린다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": 4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "3일을 버텼다. 결국 본전에서 조금 올랐다.\n\n수익보다 그 과정이 공부였다. 어떻게 오르고 내리는지, 내 손이 얼마나 떨리는지.\n임상철이 말하려 한 게 이거였구나."
+      },
+      {
+        "text": "욕심이 났다 — 더 넣었다가 더 잃었다",
+        "effects": {
+          "investment_skill": 1,
+          "money": -50000,
+          "mental": -4
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "\"작게\"라는 말을 들었지만 손이 멈추지 않았다.\n\n잃고 나서야 그 말이 이해됐다.\n\n수업료다. 비쌌지만 — 진짜 수업은 이렇게 온다."
+      }
+    ]
+  },
+  {
+    "id": "callback_knows_dad_reason_echo",
+    "title": "처음에 왜 왔냐고",
+    "background": "goshiwon_room",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "cast_flag": {
+        "person": "sangchul",
+        "flag": "knows_dad_reason"
+      },
+      "min_turn": 80
+    },
+    "tags": [
+      "callback",
+      "sangchul",
+      "father",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "지쳐 있던 날 밤.\n\n임상철에게서 전화가 왔다. 별 말 없이 시작했다가,\n\n\"요즘 어때?\"\n\n{name}은 잠깐 말이 막혔다. 솔직하게 말하면 — 힘들었다.\n\n\"처음에 아버지한테 보여드리고 싶다고 했잖아. 그거 아직 맞아?\"",
+    "choices": [
+      {
+        "text": "\"네. 그 마음은 변하지 않았어요.\"",
+        "effects": {
+          "mental": 8
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "임상철이 조용히 말했다.\n\"그럼 된 거야. 왜 하는지 아는 사람은 지쳐도 안 포기해.\"\n\n전화를 끊고 나서 {name}은 한동안 폰을 내려다봤다.\n이 사람이 그때 명함을 줬던 이유가, 지금도 유효했다."
+      },
+      {
+        "text": "\"요즘은 잘 모르겠어요.\"",
+        "effects": {
+          "intelligence": 2,
+          "mental": 3
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "임상철이 한참 있다가 말했다.\n\"그게 솔직한 거야. 모르겠을 때 안다고 하는 사람이 더 위험해.\"\n\n\"천천히 다시 찾아봐. 처음에 했던 말, 잊지는 마.\"\n\n그 말이 뜨겁지도 차갑지도 않게 남았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_daily_life_echo",
+    "title": "짜도 괜찮아",
+    "background": "goshiwon_room",
+    "portrait": "daeun_smile",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_daily_life",
+      "min_turn": 72
+    },
+    "tags": [
+      "callback",
+      "daeun",
+      "romance",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "오늘도 다은이 왔다.\n\n냉장고를 열더니 \"달걀 없다\"고 했다. 사온다고 나갔다가 두부를 들고 왔다.\n\n\"달걀은?\"\n\n\"몰라. 어쩌다 두부가 손에 잡혔어.\" 웃었다.\n\n이게 일상이 됐다. 짠 찌개도, 틀린 재료도.",
+    "choices": [
+      {
+        "text": "두부찌개를 같이 끓인다 — 오늘은 여기까지",
+        "effects": {
+          "mental": 7
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "잘 됐는지는 모르겠다. 짰다. 또.\n\n다은이 \"이번엔 내가 넣은 거 아냐\" 했다. {name}도 \"나도 아냐\" 했다.\n둘 다 거짓말인데, 둘 다 웃었다.\n\n30억은 내일 생각하자."
+      },
+      {
+        "text": "다은이 잠든 후 자료를 더 봤다",
+        "effects": {
+          "intelligence": 2,
+          "mental": -3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "화면 빛이 방을 채웠다. 다은의 숨소리가 고요했다.\n\n{name}은 차트를 봤다. 수치를 봤다. 내일 할 일을 정리했다.\n\n이 사람을 이 안에 두는 게 잘하는 건지, 못하는 건지 — 모르면서 계속했다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_breakup_accepted_echo",
+    "title": "잘 됐으면 좋겠다는 말",
+    "background": "late_night",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_breakup_accepted",
+      "min_turn": 56
+    },
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "헤어진 뒤 몇 주가 지났다.\n\n오늘 그 포장마차 앞을 지나쳤다.\n\n다은이 일어서면서 했던 말이 떠올랐다.\n\"잘 됐으면 좋겠어요. 진짜로.\"\n\n그게 진심이었다는 걸 안다.\n그래서 더 오래 남는다.",
+    "choices": [
+      {
+        "text": "그 말대로 잘 돼야겠다고 생각한다",
+        "effects": {
+          "mental": 5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "원망하기 쉬웠다. 아쉬워하기도 쉬웠다.\n\n근데 그 '잘 됐으면 좋겠다'가 진심이었으면,\n{name}도 진심으로 잘 돼야 한다.\n그게 답례 같은 거라는 생각이 들었다."
+      },
+      {
+        "text": "아직 그 앞을 지나치기가 쉽지 않다",
+        "effects": {
+          "mental": -4,
+          "health": -2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "포장마차를 돌아서 다른 길로 갔다.\n\n그게 약한 건지, 아직 사람인 건지.\n\n이 거리도 익숙해질 거라는 걸 알면서도 — 아직은 좀 더 돌아가도 된다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_breakup_begged_echo",
+    "title": "바뀔 수 있다고 했던 말",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_breakup_begged",
+      "min_turn": 56
+    },
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "\"지금이라도 나 바뀔 수 있어요.\"\n\n그날 했던 말이 가끔 떠오른다.\n\n다은의 대답이 더 오래 남는다.\n\"당신이 바뀌는 게 문제가 아니에요. 내가 기다리는 걸 선택한 게 지쳤어요.\"\n\n그 말에 내가 할 수 있는 게 없었다.",
+    "choices": [
+      {
+        "text": "그래도 그 말은 진심이었다 — 나는 실제로 바뀌고 있다",
+        "effects": {
+          "intelligence": 2,
+          "mental": 3
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "바꾸겠다는 말이 사람을 잡는 말이 될 줄 몰랐다.\n\n근데 지금은 — 그 말이 나한테 남아 있다.\n아무도 보지 않아도, {name}은 조금씩 다르게 살고 있다.\n그게 그 말의 잔존이었다."
+      },
+      {
+        "text": "솔직히 — 나는 그다지 바뀌지 않았다",
+        "effects": {
+          "mental": -5,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 말을 하던 순간의 나는 진심이었다.\n하지만 사람이 그렇게 빨리 바뀌지는 않는다는 걸 — 지금은 안다.\n\n그게 위로가 되지는 않았다.\n그냥 정확한 거였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_let_drift_echo",
+    "title": "잘 지내죠?",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "daeun_let_drift",
+      "min_turn": 56
+    },
+    "tags": [
+      "callback",
+      "daeun",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "편의점에서 아르바이트생이 물었다.\n\"혹시 다은씨 아세요? 예전에 여기서 일했다고 했는데.\"\n\n{name}은 잠깐 멈췄다.\n\n\"아, 네. 알아요.\"\n\n\"잘 지내더라고요. 요즘 카페 일한다고.\"",
+    "choices": [
+      {
+        "text": "나중에 연락해볼까 생각했다",
+        "effects": {
+          "mental": 3
+        },
+        "cast_effects": {
+          "daeun": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "연락을 바로 하지는 않았다.\n\n근데 잘 지낸다는 말이 — 이상하게 가볍게 숨 쉬어졌다.\n\"잘 지내죠?\"라고 물었던 그날의 그 말이, 이제 조금 사실이 된 것 같았다."
+      },
+      {
+        "text": "그냥 \"다행이네요\"하고 계산한다",
+        "effects": {
+          "mental": -4,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "다행이다. 진심으로.\n\n뒤돌아볼 용기가 없어서 \"잘 지내요\"로 끝낸 인연이었다.\n그 인연이 진짜 잘 지내고 있다면 — 그걸로 충분하다고, 혼자 생각했다."
+      }
+    ]
+  }
+]

@@ -62,7 +62,7 @@
     "cooldown": 26,
     "background": "realestate_office",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "survival"],
+    "tags": ["korea", "culture", "survival", "jeonse", "housing"],
     "description": "전입신고하러 동 주민센터.\n번호표를 뽑고 기다린다. 등본, 확정일자, 전입신고...\n\n서류 용어가 외국어 같다.\n창구 직원이 친절하게 하나씩 짚어준다.",
     "choices": [
       {

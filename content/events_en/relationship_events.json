@@ -1,66 +1,5 @@
 [
   {
-    "id": "jiyeon_meet",
-    "title": "An Accident",
-    "description": "A spring afternoon. A back-alley in Sinchon.\n\nA black Mercedes-Benz S-Class-level sedan cutting a corner clipped a bicycle. The handlebars twisted. A knee scraped.\n\nThe woman who stepped out from the driver's seat ran over. Long black hair, a cream tailored suit, a face that hardly loses composure even when shaken. 'I'm so sorry — are you hurt? The hospital—'\n\nGlanced at the wrist. Four minutes until shift starts.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.0,
-    "hidden": true,
-    "conditions": {
-      "min_turn": 9999,
-      "max_turn": 14,
-      "no_flag": "jiyeon_met"
-    },
-    "tags": [
-      "romance",
-      "jiyeon"
-    ],
-    "cooldown": 99,
-    "choices": [
-      {
-        "text": "'I'm fine.' Pick up the bike. Leave.",
-        "effects": {
-          "social_skill": 1,
-          "luck": 1
-        },
-        "flags": [
-          "jiyeon_met",
-          "jiyeon_left_first"
-        ],
-        "cast_effects": {
-          "jiyeon": {
-            "met": true,
-            "affinity": 15,
-            "stage": "interest"
-          }
-        },
-        "follow_up_event": "",
-        "result_text": "Didn't look back.\n\nHalf a block on, the knee stung.\nPulled up the pant leg — the skin was scraped clean.\n\nShe must have stood there for a moment.\nNever seen anyone do that, probably. Something like that.\n\nThe shift started three minutes late.\nThe knee hurt for three days."
-      },
-      {
-        "text": "Get her number. Bike repair costs something.",
-        "effects": {
-          "social_skill": 1,
-          "money": 50000
-        },
-        "flags": [
-          "jiyeon_met",
-          "jiyeon_took_number"
-        ],
-        "cast_effects": {
-          "jiyeon": {
-            "met": true,
-            "affinity": 10,
-            "stage": "interest"
-          }
-        },
-        "follow_up_event": "",
-        "result_text": "Got the number. Walked away.\n\nSomething felt strange after. An accident, and {name} didn't even know her name.\n\n₩50,000 for the repair came through the next day.\nAnd one more line beneath it:\n'I'm truly sorry about that day. I hope you weren't badly hurt.'\n\nJust bruised. {name} stared at the message for a while, then replied:\n'I'm fine. Thank you for the repair money.'\n\nWhether that was a beginning or an end — impossible to know then."
-      }
-    ]
-  },
-  {
     "id": "daeun_choice",
     "title": "What Daeun Said",
     "description": "Sitting on a bench. Daeun was beside {name}.\n\nAfter a long silence she finally spoke.\n\n'Being next to someone who wants to become something in Seoul — makes me feel like I could become something too.'\n\n'Just saying. Weird thing to say, right?'",
@@ -261,7 +200,8 @@
         "text": "Go even though you don't want to — show your face",
         "effects": {
           "social_skill": 1,
-          "mental": -6
+          "mental": -6,
+          "tint": 1
         },
         "flags": [],
         "result_text": "You forced yourself to go. Questions about your life poured in. On the way home you stared at your phone. No new messages."
@@ -271,7 +211,8 @@
         "effects": {
           "appearance": 2,
           "social_skill": 2,
-          "mental": -4
+          "mental": -4,
+          "tint": -1
         },
         "flags": [],
         "result_text": "It took an hour to get ready. A few heads turned when you walked in. Then came the questions about your life. That was the problem."
@@ -500,7 +441,8 @@
         "text": "Send whatever you can right now",
         "effects": {
           "money": -300000,
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "flags": [],
         "result_text": "Transferred ₩300,000. Taken from the investment savings. Mother said 'thank you.' Those two words stayed a long time."
@@ -509,7 +451,8 @@
         "text": "Be honest about your own financial situation",
         "effects": {
           "mental": -4,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": -3
         },
         "flags": [],
         "result_text": "'Mom, I'm also a bit tight right now.'\nSaying it made your throat tighten a little.\nMother said 'Oh, it's okay.' She didn't look okay."
@@ -518,7 +461,8 @@
         "text": "Take out a loan and send it anyway",
         "effects": {
           "money": -1000000,
-          "mental": -5
+          "mental": -5,
+          "tint": 6
         },
         "flags": [],
         "result_text": "Sent ₩1,000,000. Pulled from the overdraft account. Decided not to calculate the interest."
@@ -603,7 +547,8 @@
         "text": "Listen calmly to whatever it is",
         "effects": {
           "mental": 3,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 2
         },
         "flags": [],
         "result_text": "It was a compliment. They said the project results looked good. Why did those thirty seconds in the hallway feel so long?"
@@ -621,7 +566,8 @@
         "text": "Take a breath and prepare for the worst",
         "effects": {
           "intelligence": 2,
-          "mental": -2
+          "mental": -2,
+          "tint": 1
         },
         "flags": [],
         "result_text": "If you're fired, it starts next month. You ran the numbers on how to find the next job. The manager brought up a team transfer for next year."
@@ -709,7 +655,8 @@
         "text": "Share your life honestly",
         "effects": {
           "mental": 6,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You talked for a long time. Once the awkwardness faded, the longing was filled."
@@ -755,7 +702,8 @@
         "effects": {
           "intelligence": 2,
           "social_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": 4
         },
         "flags": [],
         "result_text": "It took two hours. You fixed three spots in the cover letter. Your sibling said 'thanks.' You slept well that night."
@@ -810,7 +758,8 @@
         "text": "Send the first message",
         "effects": {
           "social_skill": 2,
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         },
         "flags": [],
         "result_text": "'Yesterday was fun.'\nYou sent it, then turned the phone face down.\nA reply came twenty minutes later."
@@ -827,7 +776,8 @@
         "text": "Send a casual message suggesting plans",
         "effects": {
           "social_skill": 3,
-          "mental": 2
+          "mental": 2,
+          "tint": 2
         },
         "flags": [],
         "result_text": "'Would you happen to be free this weekend?'\nYou immediately regretted sending it.\nThe reply came an hour later. 'That sounds good.'"
@@ -855,7 +805,8 @@
       {
         "text": "Wait a little longer",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": 2
         },
         "flags": [],
         "result_text": "You stood there ten more minutes. Water dripping from your hair. At forty minutes a message came. 'Sorry, I don't think I can make it.'"
@@ -864,7 +815,8 @@
         "text": "Call them",
         "effects": {
           "social_skill": 1,
-          "mental": -3
+          "mental": -3,
+          "tint": 1
         },
         "flags": [],
         "result_text": "It rang twice then cut off. You sent a text. You stepped under the convenience store awning."
@@ -880,7 +832,8 @@
       {
         "text": "Stand in the rain right where you are",
         "effects": {
-          "mental": -7
+          "mental": -7,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You didn't move. Five more minutes passed. The hem of your pants was completely soaked. No message came."
@@ -918,7 +871,8 @@
         "text": "Click and watch to the end",
         "effects": {
           "intelligence": 2,
-          "mental": -3
+          "mental": -3,
+          "tint": 2
         },
         "flags": [],
         "result_text": "It was 14 minutes and 47 seconds. The company story came at the seven-minute mark. Your hand hovered over the subscribe button."
@@ -927,7 +881,8 @@
         "text": "Leave an anonymous comment",
         "effects": {
           "social_skill": 1,
-          "mental": 3
+          "mental": 3,
+          "tint": -3
         },
         "flags": [],
         "result_text": "'Rooting for you.' You posted it and checked that it was anonymous. It was. You added one more view."
@@ -955,7 +910,8 @@
       {
         "text": "Turn the phone face down",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": 1
         },
         "flags": [],
         "result_text": "You flipped it over. Even face down, you kept thinking about it. An hour later you flipped it again. Still nothing."
@@ -972,7 +928,8 @@
       {
         "text": "Check their profile",
         "effects": {
-          "mental": -3
+          "mental": -3,
+          "tint": -1
         },
         "flags": [],
         "result_text": "You went in. Their profile picture had changed. You didn't know when. That felt stranger than the silence."
@@ -1002,7 +959,8 @@
         "text": "Open up honestly about your worries",
         "effects": {
           "mental": 8,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 5
         },
         "flags": [],
         "result_text": "As you talked, things you hadn't expected to say came pouring out. The senior nodded and listened before offering any advice. One cup of coffee became an hour of counseling."
@@ -1183,7 +1141,8 @@
         "text": "Show them the reality honestly",
         "effects": {
           "mental": 8,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You walked near the goshiwon together and told them honestly. Your parents went quiet for a long while. Then your father said softly, 'You've been working hard.' You almost cried at those words."
@@ -1700,7 +1659,8 @@
         "effects": {
           "social_skill": 2,
           "intelligence": 3,
-          "mental": 3
+          "mental": 3,
+          "tint": 4
         },
         "flags": [],
         "result_text": "You talked for an hour. The process story was worth more than the money story."
@@ -1747,7 +1707,8 @@
         "text": "'Honestly, I'm not sure' — open up",
         "effects": {
           "mental": 6,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 5
         },
         "flags": [],
         "result_text": "Your mentor nodded. 'Keep living with that question,' they said. It was strangely comforting."
@@ -1765,7 +1726,8 @@
         "effects": {
           "intelligence": 2,
           "social_skill": 3,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 4
         },
         "flags": [],
         "result_text": "Two hours passed. Your mentor made a few introductions. Connections move this way."
@@ -1794,7 +1756,8 @@
         "text": "Talk honestly about what's been difficult lately",
         "effects": {
           "mental": 7,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 5
         },
         "flags": [],
         "result_text": "Your father listened for a long time. There are days when just being listened to, without solutions, is enough."
@@ -1811,7 +1774,8 @@
         "text": "Promise to come visit at the next holiday",
         "effects": {
           "mental": 5,
-          "health": 1
+          "health": 1,
+          "tint": 4
         },
         "flags": [],
         "result_text": "After hanging up you booked the train ticket. You missed home cooking."
@@ -1913,180 +1877,12 @@
     ]
   },
   {
-    "id": "jiyeon_coffee",
-    "title": "She Reached Out",
-    "description": "'You've been on my mind since that day.'\n\nIt was Han Jiyeon. She said she wanted to buy you a coffee.\n\nA café in Gangnam. ₩12,000 a cup. You glanced at the menu once and kept your expression neutral.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_met",
-      "min_turn": 9999,
-      "max_turn": 20,
-      "no_flag": "jiyeon_coffee_done"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "gangnam"
-    ],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "Go. Curious to see what kind of person she is.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 6
-        },
-        "flags": [
-          "jiyeon_coffee_done"
-        ],
-        "result_text": "You had no idea where two hours went.\n\nJiyeon was sharp, intelligent, and unexpectedly had a lot of laughter in her.\nAs you parted she said: 'Let's meet again.'"
-      },
-      {
-        "text": "You're busy. Maybe another time.",
-        "effects": {
-          "mental": -2
-        },
-        "flags": [],
-        "result_text": "You sent a declining text.\n\nJiyeon replied only 'I see, okay.'\nThe read receipt appeared, and a long time passed."
-      }
-    ]
-  },
-  {
-    "id": "jiyeon_date",
-    "title": "Jiyeon's World",
-    "description": "Jiyeon suggested it. Do you have time on the weekend?\n\nGangnam fine dining. Valet parking, a sommelier, warm towels.\nThe menu had no prices.\n\nJiyeon was someone who found all of this natural.\nAnd right now she was smiling across the table.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_coffee_done",
-      "no_flag": "jiyeon_date_done",
-      "min_turn": 9999,
-      "max_turn": 30
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "gangnam"
-    ],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "Show her who you actually are. No performance.",
-        "effects": {
-          "social_skill": 3,
-          "mental": 7
-        },
-        "flags": [
-          "jiyeon_honest"
-        ],
-        "result_text": "Around dessert, Jiyeon asked: 'Do you live in a goshiwon?'\n\nYou answered honestly. She thought for a moment and said: 'You're the most direct person I've met. First of your kind around me.'"
-      },
-      {
-        "text": "Create the impression that things are going well. Have to survive in this world.",
-        "effects": {
-          "mental": -6,
-          "social_skill": -1
-        },
-        "flags": [],
-        "result_text": "You kept up the performance.\n\nIn the taxi on the way home, a card statement notification came.\nWhat you spent today was double your monthly food budget."
-      }
-    ]
-  },
-  {
-    "id": "jiyeon_crisis",
-    "title": "He Appeared",
-    "description": "You met Jiyeon at Gangnam Station.\n\nWalking together when someone appeared. Jiyeon's face hardened. A tall, polished man. Sharp eyes. Well-dressed.\n\n'Jiyeon.' He called her name.\n\nIt was her ex-boyfriend. A Gangnam native. Second-generation chaebol.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_date_done",
-      "min_turn": 9999,
-      "max_turn": 48,
-      "no_flag": "jiyeon_crisis_done"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "gangnam"
-    ],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "Hold your ground. Stay beside Jiyeon.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 5,
-          "reputation": 2
-        },
-        "flags": [
-          "jiyeon_stood_by"
-        ],
-        "result_text": "You stayed right there.\n\nLater Jiyeon said: 'Thank you for that day.'\nThen a brief pause: 'Were you scared?'\n'Yes.' You answered honestly."
-      },
-      {
-        "text": "Step aside. Let the two of them talk.",
-        "effects": {
-          "mental": -4
-        },
-        "flags": [],
-        "result_text": "You stepped into a convenience store. Picked up a drink and looked through the glass.\n\nYou could see the two of them talking.\nYou were reminded once more of where that world is."
-      }
-    ]
-  },
-  {
-    "id": "jiyeon_confession",
-    "title": "Jiyeon's Question",
-    "description": "A bench at Hangang Park.\n\nJiyeon stared at the river for a long time. Then she asked:\n\n'Are you interested in me?'\n\nDirect. Jiyeon was always like that.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_crisis_done",
-      "min_turn": 9999,
-      "max_turn": 55,
-      "no_flag": "jiyeon_ended"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "gangnam"
-    ],
-    "cooldown": 9999,
-    "choices": [
-      {
-        "text": "'Yes.' Honestly.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 10
-        },
-        "flags": [
-          "jiyeon_confessed"
-        ],
-        "result_text": "Jiyeon looked at the river for a moment.\nThen she said: 'I'm glad.'\n\nYou sat there side by side, just like that.\nSeoul felt, for the first time, a little warm."
-      },
-      {
-        "text": "'I'm not sure yet. Gangnam comes first for now.'",
-        "effects": {
-          "mental": -3,
-          "intelligence": 2
-        },
-        "flags": [],
-        "result_text": "Jiyeon smiled. She didn't seem hurt.\n'You're honest. That's very you.'\n\nShe slowly stood up.\nAfter you parted, you had the feeling you'd missed something."
-      }
-    ]
-  },
-  {
     "id": "sangchul_why_gangnam",
     "title": "Sangchul's Question",
     "description": "It was your second meeting at the gukbap place.\n\nSangchul took a sip of broth and asked:\n\n'Do you want to get to Gangnam?'\n'...Yes.'\n'Why?'\n\nThat 'why' landed deeper than expected.",
+    "description_if_known": {
+      "sangchul_truth_known": "Sangchul asked.\n\"Do you want to get to Gangnam?\"\n\nMinjun knows what this man sees in that question.\nHe walked that same hunger himself — and he knows exactly where it leads.\n\nThe 'why' didn't land deep because it was philosophical.\nIt landed deep because the man asking already knew the answer."
+    },
     "category": "relationship",
     "rarity": "rare",
     "weight": 0.8,
@@ -2109,7 +1905,8 @@
         "effects": {
           "social_skill": 2,
           "mental": 6,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 7
         },
         "flags": [
           "sangchul_knows_why"
@@ -2119,7 +1916,8 @@
       {
         "text": "'Just... I want to win in Seoul.'",
         "effects": {
-          "mental": 2
+          "mental": 2,
+          "tint": 2
         },
         "flags": [],
         "result_text": "Sangchul nodded.\n'That's a reason too. But.'\n\nHe paused and said: 'When winning is the goal, you feel hollow after you win.'"
@@ -2130,6 +1928,9 @@
     "id": "sangchul_past",
     "title": "Sangchul Opens Up",
     "description": "It was the second bottle of soju.\n\nSangchul brought up his own story for the first time.\n\n'I lost everything at first too. Tanked a business. My wife left too.'\n\nHe looked at the Gangnam lights outside.\n'You know being there doesn't mean you're happy, right?'\nThen he looked at {name}: 'Still — you have to go to know.'",
+    "description_if_known": {
+      "sangchul_truth_known": "Second bottle of soju.\nSangchul said it. 'I lost everything at first too.'\n\nDad lost everything at first too.\nMinjun looked down at his glass.\n\nHow they each climbed back — those two stories point toward each other at exactly the same point.\n\nSangchul looked at the Gangnam lights. 'Still — you have to go to know.'\nMinjun looked too.\nHe knows he has to go. Just not the same way this man did."
+    },
     "category": "relationship",
     "rarity": "rare",
     "weight": 0.8,
@@ -2151,7 +1952,8 @@
         "text": "'I still want to go.' Honestly.",
         "effects": {
           "mental": 7,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         },
         "flags": [
           "sangchul_trust_built"
@@ -2193,7 +1995,8 @@
         "text": "'Me too. When I'm on night shift, I always get the same sandwich.' You pick it up.",
         "effects": {
           "social_skill": 2,
-          "mental": 5
+          "mental": 5,
+          "tint": 3
         },
         "flags": [
           "daeun_talked"
@@ -2203,7 +2006,8 @@
       {
         "text": "Just ring her up quietly. You're on shift.",
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": -1
         },
         "flags": [],
         "result_text": "She said nothing either.\n\nBut she kept coming. Every week at 2 AM."
@@ -2235,7 +2039,8 @@
         "text": "Tell her your story too. The goshiwon, the account, the Gangnam dream.",
         "effects": {
           "social_skill": 3,
-          "mental": 6
+          "mental": 6,
+          "tint": 5
         },
         "flags": [
           "daeun_shared"
@@ -2245,7 +2050,8 @@
       {
         "text": "'Seoul's all like that.' Brush it off lightly.",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": -3
         },
         "flags": [],
         "result_text": "She smiled. 'I suppose so.'\n\nA taxi came. She got in.\n\nYou could have said one more thing."
@@ -2277,7 +2083,8 @@
         "text": "Go. It's been a while since you've gone out in the daytime.",
         "effects": {
           "social_skill": 2,
-          "mental": 8
+          "mental": 8,
+          "tint": 4
         },
         "flags": [
           "daeun_date"
@@ -2287,7 +2094,8 @@
       {
         "text": "'I've been busy lately.' Decline.",
         "effects": {
-          "mental": -4
+          "mental": -4,
+          "tint": -3
         },
         "flags": [],
         "result_text": "Daeun replied 'I see, okay.'\n\nAfter that she came to the convenience store once more, then stopped coming."
@@ -2320,7 +2128,8 @@
         "effects": {
           "social_skill": 3,
           "mental": 7,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 5
         },
         "flags": [],
         "result_text": "Saying it out loud, you felt strangely free.\n\nOn the way home Jiyeon said: 'You were impressive tonight.'\n'That's impressive?'\n'First person I've seen in that setting who didn't put on a show.'"
@@ -2328,7 +2137,8 @@
       {
         "text": "Polish it a bit. Have to survive in this world.",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -3
         },
         "flags": [],
         "result_text": "You got through it.\n\nBut in Jiyeon's car she said:\n'It was a bit uncomfortable today, wasn't it?'\nYou couldn't say anything. Jiyeon didn't ask again."
@@ -2444,7 +2254,8 @@
         "effects": {
           "investment_skill": 3,
           "intelligence": 2,
-          "mental": -3
+          "mental": -3,
+          "tint": -2
         },
         "flags": [
           "sangchul_info_received"
@@ -2455,7 +2266,8 @@
         "text": "'I know there's no such thing as a free tip.' You ask.",
         "effects": {
           "intelligence": 4,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         },
         "flags": [
           "sangchul_info_received"
@@ -2489,7 +2301,8 @@
         "text": "'I learned a lot from you.' Say it honestly.",
         "effects": {
           "mental": 8,
-          "social_skill": 2
+          "social_skill": 2,
+          "tint": 4
         },
         "flags": [
           "sangchul_farewell"
@@ -2500,12 +2313,192 @@
         "text": "'Stay healthy.' You stay there with him.",
         "effects": {
           "mental": 6,
-          "social_skill": 1
+          "social_skill": 1,
+          "tint": 3
         },
         "flags": [
           "sangchul_farewell"
         ],
         "result_text": "Neither of you spoke.\n\nLater Sangchul said:\n'Not many people sit with me like this.'\n\nThose words stayed a long time."
+      }
+    ]
+  },
+  {
+    "id": "daeun_drift_quiet",
+    "title": "Gone Quiet",
+    "description": "When was the last time Dae-eun reached out.\n\nThinking about it — over a month.\nWhether {name} stopped first or she cut back, the line had blurred.\n\nHe opened the chat. The last message was one {name} had sent.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 6,
+    "hidden": false,
+    "conditions": {
+      "max_cast_affinity": {
+        "daeun": 25
+      },
+      "min_turn": 50,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Sent something — short, anything",
+        "effects": {
+          "mental": -3,
+          "tint": 4
+        },
+        "result_text": "\"How've you been?\"\nIt felt awkward once it was sent.\nThe read receipt came up much later. No reply."
+      },
+      {
+        "text": "Left it",
+        "effects": {
+          "tint": -3
+        },
+        "result_text": "He closed the window.\nHe'd been busy. Busy then, busy now.\nThat's what he told himself."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_becomes_primary",
+    "title": "Contacts",
+    "description": "He counted who'd reached out this week.\n\nSang-chul — three times.\nDad — one missed call.\nDae-eun — none.\n\n{name} scrolled the screen down.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 5,
+    "hidden": false,
+    "conditions": {
+      "min_cast_affinity": {
+        "sangchul": 70
+      },
+      "max_cast_affinity": {
+        "daeun": 30
+      },
+      "min_turn": 80,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "sangchul",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Scrolled down",
+        "effects": {},
+        "result_text": "Another message came in from Sang-chul.\nThis week's meeting schedule.\n{name} checked the date."
+      }
+    ]
+  },
+  {
+    "id": "daeun_birthday_missed",
+    "title": "The Date",
+    "description": "A social media notification popped up.\n\n'Today is Dae-eun's birthday.'\n\n{name} paused for a moment.\nHe'd known. At some point it had been wiped from his mind.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 5,
+    "hidden": false,
+    "conditions": {
+      "max_cast_affinity": {
+        "daeun": 30
+      },
+      "min_turn": 60,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Reached out, late as it was",
+        "effects": {
+          "mental": -5,
+          "tint": 3
+        },
+        "result_text": "\"Happy birthday. Sorry it's late.\"\nThe reply came the next day.\n\"Thanks.\"\nThat was all."
+      },
+      {
+        "text": "Closed the notification",
+        "effects": {
+          "tint": -3
+        },
+        "result_text": "He swiped the notification away.\nA day passed."
+      }
+    ]
+  },
+  {
+    "id": "sangchul_world_absorbed",
+    "title": "The Address Book",
+    "description": "Scrolling his contacts, he stopped.\n\nNames from Sang-chul's network were more than half of them.\n\nHe didn't know when it happened — but somewhere along the way, Sang-chul's people had become {name}'s people.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 4,
+    "hidden": false,
+    "conditions": {
+      "min_cast_affinity": {
+        "sangchul": 80
+      },
+      "min_turn": 100
+    },
+    "tags": [
+      "relationship",
+      "sangchul"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "Kept scrolling",
+        "effects": {},
+        "result_text": "People Sang-chul introduced.\nPeople met at Sang-chul's gatherings.\nPeople connected through Sang-chul.\n\n{name} turned the screen off."
+      }
+    ]
+  },
+  {
+    "id": "jiyeon_notices_daeun",
+    "title": "Jiyeon's Question",
+    "description": "Jiyeon set her coffee down and asked.\n\n\"Are you still in touch with Dae-eun these days?\"\n\n{name} hesitated for a moment.",
+    "category": "social",
+    "rarity": "uncommon",
+    "weight": 5,
+    "hidden": false,
+    "conditions": {
+      "min_cast_affinity": {
+        "jiyeon": 35
+      },
+      "max_cast_affinity": {
+        "daeun": 25
+      },
+      "min_turn": 70,
+      "flag": "daeun_met"
+    },
+    "tags": [
+      "relationship",
+      "jiyeon",
+      "daeun"
+    ],
+    "cooldown": 9999,
+    "choices": [
+      {
+        "text": "\"Been busy lately\"",
+        "effects": {},
+        "result_text": "Jiyeon nodded.\nShe didn't ask further.\nThat silence felt like an answer."
+      },
+      {
+        "text": "\"Not really sure these days\"",
+        "effects": {
+          "mental": -4
+        },
+        "result_text": "Jiyeon glanced at him, then picked up her cup.\n\"I see.\"\nThat was all."
+      },
+      {
+        "text": "Changed the subject",
+        "effects": {},
+        "result_text": "He brought up something else.\nJiyeon went along with it.\nBut something felt off."
       }
     ]
   }

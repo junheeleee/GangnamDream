@@ -1,0 +1,215 @@
+[
+  {
+    "id": "callback_gangnam_reason_father_echo",
+    "title": "처음부터 그랬다",
+    "background": "gangnam_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.5,
+    "hidden": false,
+    "conditions": {
+      "flag": "gangnam_reason_father",
+      "min_turn": 193
+    },
+    "tags": ["callback", "story", "father"],
+    "cooldown": 999,
+    "description": "강남 경계에 가까워진 밤.\n\n{name}은 잠깐 멈췄다.\n\n왜 강남이었냐고 스스로 물었던 적이 있었다.\n그때 답은 \"아버지의 빚을 내 방식으로 갚고 싶었다\"였다.\n\n처음부터 그랬던 것 같다.\n강남은 목적지가 아니라, 아버지한테 보내는 편지의 마지막 줄이었던 거다.",
+    "choices": [
+      {
+        "text": "다 왔다는 걸 아버지도 아실까",
+        "effects": {
+          "mental": 12,
+          "health": 3,
+          "tint": 5
+        },
+        "flags": [],
+        "result_text": "아버지가 안 계시더라도, 그분이 준 것으로 여기까지 온 거다.\n\n{name}은 그게 복수가 아니라 증명이었다는 걸 안다.\n\"제가 해냈어요\" — 그 한마디를 위해 달려온 것 같았다."
+      },
+      {
+        "text": "처음 그 생각이 맞았다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 1,
+          "tint": 3
+        },
+        "flags": [],
+        "result_text": "돈이 먼저가 아니었다.\n아버지 때문에 시작한 일이, 어느 순간 돈이 목적이 된 것처럼 느껴졌지만 — 실은 처음부터 같은 이유였다.\n\n{name}은 그게 흔들림이 아니라 성장이었다는 걸 알았다."
+      }
+    ]
+  },
+  {
+    "id": "callback_called_father_first_echo",
+    "title": "먼저 거는 사람",
+    "background": "late_night",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "called_father_first",
+      "min_turn": 160
+    },
+    "tags": ["callback", "story", "father"],
+    "cooldown": 999,
+    "description": "이번엔 아버지가 먼저 전화하셨다.\n\n\"어, 민준아. 잘 있지?\"\n\n{name}은 전화를 받으면서 — 전에 자기가 먼저 건 적이 있었다는 게 떠올랐다.\n이유 없이. 일요일 오전에.\n\n그게 뭔가를 바꾼 것 같다.",
+    "choices": [
+      {
+        "text": "\"네 아버지. 잘 있어요.\" — 짧고 따뜻하게",
+        "effects": {
+          "mental": 9,
+          "health": 2,
+          "tint": 5
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 5
+          }
+        },
+        "flags": [],
+        "result_text": "전화가 끝났다.\n\n아버지가 먼저 거셨다는 게 처음에는 별일 아닌 것 같았는데, 전화를 끊고 보니 — 별일이었다.\n\n먼저 건 전화 하나가, 이렇게 되돌아왔다."
+      },
+      {
+        "text": "이야기가 길어졌다",
+        "effects": {
+          "mental": 14,
+          "health": 3,
+          "tint": 6
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 8
+          }
+        },
+        "flags": ["father_calls_often"],
+        "result_text": "한 시간이 지났다.\n\n평소엔 10분이었는데. 날씨, 음식, 서울 집값, 고향 동네 이야기.\n\n일요일 오전에 이유 없이 먼저 건 전화 하나가 — 이 대화를 만든 것이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_busan_postcard",
+    "title": "부산에서",
+    "background": "street",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "jiyeon_sent_off_well",
+      "min_turn": 148
+    },
+    "tags": ["callback", "story", "jiyeon"],
+    "cooldown": 999,
+    "description": "한지연에게서 카톡이 왔다.\n\n\"사무소 냈어요. 작지만. 간판 달았을 때 사진 보내드리고 싶었어요.\"\n\n사진이 첨부돼 있었다. 부산 골목 어딘가. 작은 간판. 한지연공인중개사사무소.\n\n{name}은 그 사진을 한참 봤다.",
+    "choices": [
+      {
+        "text": "\"잘 됐어요. 진짜로.\" — 짧지만 진심으로",
+        "effects": {
+          "mental": 8,
+          "social_skill": 1,
+          "tint": 4
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 6
+          }
+        },
+        "flags": [],
+        "result_text": "지연이 답했다. \"고마워요. 그때 잘 가라고 해줘서.\"\n\n그 말이 뭔가 마무리가 되는 것 같았다.\n각자의 방향으로 갔지만 — 가는 길을 잘 봐줬다는 거 서로 아는 관계."
+      },
+      {
+        "text": "\"그게 진짜 당신 것이네요.\" — 그때 그 말이 생각났다",
+        "effects": {
+          "mental": 10,
+          "intelligence": 1,
+          "social_skill": 1,
+          "tint": 5
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": 10
+          }
+        },
+        "flags": ["jiyeon_real_connection"],
+        "result_text": "지연이 \"맞아요\"라고만 했다.\n\n그 짧은 답 뒤에 오랜 침묵이 있었던 것 같은 느낌이 들었다.\n\n아버지 회사 딸이 아닌 것. 자기 이름이 달린 것.\n그게 진짜 그녀의 것이었다."
+      }
+    ]
+  },
+  {
+    "id": "callback_cut_sangchul_network_echo",
+    "title": "끊기를 잘했다",
+    "background": "office",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "cut_sangchul_network",
+      "min_turn": 130
+    },
+    "tags": ["callback", "story", "sangchul"],
+    "cooldown": 999,
+    "description": "비슷한 이름의 연락이 왔다. 부동산 투자 정보라고 했다.\n\n{name}은 한 번에 알아봤다. 이 출처가 어디인지.\n\n몇 달 전, 그쪽 연결망을 끊겠다고 했었다.",
+    "choices": [
+      {
+        "text": "이번에도 거절했다. 그 결정이 옳았다.",
+        "effects": {
+          "mental": 7,
+          "tint": 3
+        },
+        "flags": ["sangchul_network_fully_cut"],
+        "result_text": "거절했다.\n\n전화를 끊고 나서, {name}은 그 결정이 손해가 아닌 것을 알고 있었다.\n무언가를 끊는다는 것은, 더 이상 그것에 의존하지 않아도 된다는 의미다."
+      },
+      {
+        "text": "잠깐 망설였다. 그래도 거절했다.",
+        "effects": {
+          "mental": 4,
+          "intelligence": 1,
+          "tint": 1
+        },
+        "flags": [],
+        "result_text": "망설임 자체가 정직했다.\n\n좋은 조건이었다. 그래도 거절했다.\n그때 선을 그은 이유를 아직 기억하고 있었기 때문이다."
+      }
+    ]
+  },
+  {
+    "id": "callback_used_sangchul_after_echo",
+    "title": "계속 쓰고 있다",
+    "background": "investment_phone",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.2,
+    "hidden": false,
+    "conditions": {
+      "flag": "used_sangchul_network_after",
+      "min_turn": 145
+    },
+    "tags": ["callback", "story", "sangchul"],
+    "cooldown": 999,
+    "description": "또 비슷한 연락이 왔다. 그 망에서 온 것.\n\n{name}은 이미 세 번째다. 내 인맥이 됐다고 했던 것. 출처가 어디서든 상관없다고 했던 것.\n\n근데 가끔, 전화를 끊고 나서 잠깐 멈추게 된다.",
+    "choices": [
+      {
+        "text": "계속 쓴다. 이 정도는 괜찮다.",
+        "effects": {
+          "money": 1500000,
+          "tint": -2
+        },
+        "flags": [],
+        "result_text": "성사됐다. 수익도 들어왔다.\n\n{name}은 계좌를 확인하며 — 이게 맞는 거라고 생각했다.\n괜찮다. 누구나 비슷하게 산다.\n\n그 \"누구나\"에 누가 있는지는, 천천히 생각하지 않기로 했다."
+      },
+      {
+        "text": "이번엔 거절했다. 여기서 멈춰야 할 것 같았다.",
+        "effects": {
+          "mental": 6,
+          "tint": 3
+        },
+        "flags": ["sangchul_network_finally_cut"],
+        "result_text": "처음 거절이었다.\n\n손해였다. 좋은 조건이었다.\n그래도 거절하고 나서, {name}은 오래간만에 가볍게 잠들었다."
+      }
+    ]
+  }
+]

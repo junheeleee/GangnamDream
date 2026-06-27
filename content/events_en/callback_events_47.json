@@ -1,0 +1,203 @@
+[
+  {
+    "id": "callback_midpoint_replan_echo",
+    "title": "The Night I Replanned",
+    "description": "At the halfway point of five years, {name} stopped to think — 'I have to redo the strategy.'\n\nThe strategy redrawn then carried all the way here.\n\nToday it's time to review again.",
+    "choices": [
+      {
+        "text": "Stopping to replan then was right",
+        "result_text": "Sometimes stopping to re-see the direction is faster than running on momentum.\n\nThe halfway reset shaped the late-game flow.\n{name} knows knowing when to stop is a strategy too."
+      },
+      {
+        "text": "Stop and review once more this time too",
+        "result_text": "The habit of regularly stopping to review.\n\nIt saved {name} from big mistakes several times.\nEven when the running speed feels too precious to lose, review time always paid back more than it cost."
+      }
+    ]
+  },
+  {
+    "id": "callback_double_down_10b_echo",
+    "title": "Going Further from ₩1 Billion",
+    "description": "The day {name} crossed ₩1 billion, instead of resting they made a plan — 'I have to go further.'\n\n₩1 billion is an end for some; for {name} it was a waypoint.\n\nThat resolve came to mind today.",
+    "choices": [
+      {
+        "text": "Not stopping at ₩1 billion was right",
+        "result_text": "Had they been content at ₩1 billion, they'd have stopped there.\n\nWith the goal set at ₩3 billion, ₩1 billion was a checkpoint, not a celebration.\n{name} knows the height of your gaze ultimately creates the distance."
+      },
+      {
+        "text": "Still, sometimes stop and breathe",
+        "result_text": "Just running eventually exhausts you.\n\nNot resting at ₩1 billion was right, but it can't always be so.\n{name} was finding the rhythm between advancing and recovering."
+      }
+    ]
+  },
+  {
+    "id": "callback_ten_b_anxiety_echo",
+    "title": "The Day ₩3 Billion Looked Farther",
+    "description": "The day {name} crossed ₩1 billion, rather than joy they felt anxious — '₩3 billion looks even farther.'\n\nEven before that large number, the goal felt distant.\n\nThat sense of distance washed over them again today.",
+    "choices": [
+      {
+        "text": "Far as it is — one step at a time is the answer",
+        "result_text": "Reaching ₩1 billion was one step at a time too.\n\nThe remaining distance is the same method. Looking far is a matter of perspective, not impossibility.\n{name} looked at their feet again. It starts there."
+      },
+      {
+        "text": "Anxiety as fuel — go more precisely",
+        "result_text": "Anxiety isn't to erase but to use.\n\nThat sense of distance made {name} more meticulous.\nTurn vague fear into a concrete plan, and that itself becomes progress."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deflected_echo",
+    "title": "Deflecting into Investing Talk",
+    "description": "When Sang-chul brought up his life story, {name} deflected into investing — 'How much was that place?'\n\nAvoiding the deeper conversation comes back sometimes.\n\nToday they sat across from Sang-chul again.",
+    "choices": [
+      {
+        "text": "This time, listen to his story",
+        "result_text": "The conversation deflected last time, this time heard to the end.\n\nSang-chul unexpectedly opened up about a lot.\n{name} learned belatedly that relationships don't deepen on information exchange alone."
+      },
+      {
+        "text": "I'm comfortable with a transactional bond — keep the line",
+        "result_text": "Not every relationship has to be deep.\n\n{name} decided to keep a measured distance from Sang-chul.\nWhether that's cold or wise — that would be known later."
+      }
+    ]
+  },
+  {
+    "id": "callback_relaxed_at_night_echo",
+    "title": "A Beer Instead of Charts",
+    "description": "One night in the goshiwon days, instead of watching charts, {name} closed the day with a can of beer.\n\nThose nights of catching a breath were needed too.\n\nTonight, too, the head is heavy.",
+    "choices": [
+      {
+        "text": "Tonight too — let myself rest a moment",
+        "result_text": "Running without rest isn't a virtue.\n\nThose can-of-beer nights carried {name} to the end.\nKnowing how to let yourself rest was a condition for going long too."
+      },
+      {
+        "text": "Rest a moment — then back to the desk",
+        "result_text": "Rest isn't stopping — it's recharging.\n\n{name} caught a short breath, then returned to their place.\nKnowing that rhythm was the secret to going without burnout."
+      }
+    ]
+  },
+  {
+    "id": "callback_slept_early_echo",
+    "title": "The Night I Told Hyun-su to Sleep",
+    "description": "One night in the goshiwon days, instead of overdoing it, {name} told Hyun-su 'get some sleep' and turned in early.\n\nThose nights of looking out for each other.\n\nToday the air of that era suddenly came to mind.",
+    "choices": [
+      {
+        "text": "Looking out for each other then — was the strength to endure",
+        "result_text": "Alone, they'd have tired faster.\n\nJust having someone enduring in the next room made the night less long.\n{name} missed the small care of those days."
+      },
+      {
+        "text": "Past that era — I've grown a bit sturdier",
+        "result_text": "Past the days of leaning on each other, they now stand alone.\n\nBut the warmth received then is melted into the present sturdiness.\n{name} knows they owe a lot to those days."
+      }
+    ]
+  },
+  {
+    "id": "callback_aimed_higher_echo",
+    "title": "Looking at the ₩2.5 Billion One",
+    "description": "The day {name} crossed ₩2.5 billion, instead of the ₩1.7 billion listing they looked at a ₩2.5 billion one. 'If I'm going to do it right.'\n\nThat ambition comes back sometimes.\n\nToday they opened that listing again.",
+    "choices": [
+      {
+        "text": "If at all — do it right. Aim higher",
+        "result_text": "Lower the goal and you go only that far.\n\nHaving looked higher, {name} gained the drive to go farther.\nAmbition differs from recklessness — backed by calculation, it's vision."
+      },
+      {
+        "text": "Check the greed — is it too much?",
+        "result_text": "A higher goal isn't always right.\n\n{name} coldly weighed whether ₩2.5 billion was ambition or greed.\nA goal you can handle and one that breaks you are a paper's width apart."
+      }
+    ]
+  },
+  {
+    "id": "callback_demo_resolved_echo",
+    "title": "Saying I'll Go Anyway",
+    "description": "Four months into Seoul, stuck in a sense of stagnation on a Han River bridge, {name} started walking again — 'I'll go anyway.'\n\nThat one step carried all the way here.\n\nToday is another similar moment of stagnation.",
+    "choices": [
+      {
+        "text": "Like then — even stopped, I walk again",
+        "result_text": "Stagnation isn't an end but a brief pause.\n\nLike walking again on that bridge four months in, they decided to walk again today.\n{name} knows that stopping and going again is stronger than giving up."
+      },
+      {
+        "text": "This time, change the method and go again",
+        "result_text": "If the same method fails, change the method.\n\nInstead of blindly enduring, {name} redrew the path.\n'I'll go anyway' had to be followed by a 'how.'"
+      }
+    ]
+  },
+  {
+    "id": "callback_demo_shortcut_echo",
+    "title": "Thinking of a Shortcut",
+    "description": "Four months into Seoul, stuck in stagnation, {name} thought 'there has to be another way' and considered a shortcut.\n\nThat temptation still visits sometimes.\n\nToday 'a faster way' crossed the mind again.",
+    "choices": [
+      {
+        "text": "I know the temptation of shortcuts — so I guard more",
+        "result_text": "Fast roads usually hide traps.\n\nThe mind seeking shortcuts then could have led to scams or gambling.\nBecause {name} knows that temptation, they paused a beat each time."
+      },
+      {
+        "text": "Seek legitimate shortcuts — but keep the principles",
+        "result_text": "Raising efficiency and breaking principles are different.\n\n{name} sought smarter paths but held the lines not to cross.\nThe real shortcut was the road you walk without collapsing."
+      }
+    ]
+  },
+  {
+    "id": "callback_admitted_fear_echo",
+    "title": "Admitting the Fear",
+    "description": "Entering the final stretch, {name} admitted for the first time that they were 'afraid.'\n\nAfraid of collapsing right at the end. Of all this coming to nothing.\n\nToday that fear is beside them again.",
+    "choices": [
+      {
+        "text": "Admitting the fear — actually became strength",
+        "result_text": "Deny fear and it grows. Admit it and you can handle it.\n\nBecause they admitted it honestly then, {name} wasn't devoured by it.\nCourage isn't the absence of fear — it's going despite it.",
+        "effects": {
+          "tint": 4
+        }
+      },
+      {
+        "text": "Afraid — but I trust the self that came this far",
+        "result_text": "Coming this far wasn't luck.\n\nIt was the result of countless choices and endurances. {name} decided to trust that self.\nBuilding trust atop fear — that was how to walk the final leg.",
+        "effects": {
+          "tint": 3
+        }
+      }
+    ]
+  },
+  {
+    "id": "callback_calculated_final_push_echo",
+    "title": "Calculating While Walking",
+    "description": "Entering the final stretch, {name} calculated the remaining numbers while walking.\n\nMeasured the distance by numbers, not emotion.\n\nToday they're running the calculator in their head again.",
+    "choices": [
+      {
+        "text": "Seen as numbers — the vague becomes clear",
+        "result_text": "Turn a vague 'still far' into concrete numbers and fear becomes a plan.\n\n{name} chose calculation over emotion.\nWhen the remaining distance is visible, so is how to go."
+      },
+      {
+        "text": "Beyond numbers — don't forget why I go",
+        "result_text": "Watch only the numbers and you lose the way.\n\nEven while calculating, {name} held onto why they walk this road.\nDestination and reason together kept them steady to the end."
+      }
+    ]
+  },
+  {
+    "id": "callback_almost_messaged_daeun_echo",
+    "title": "The Message I Didn't Send",
+    "description": "After letting Dae-un go, one night running into a trace of her, {name} wrote her a message, then deleted it without sending.\n\nThat unsent message comes back sometimes.\n\nToday they opened that chat window again.",
+    "choices": [
+      {
+        "text": "This time too — don't send. It's the past",
+        "result_text": "An unsent message has meaning too.\n\nThere were things to say, but not saying them was for both of them.\n{name} closed the window. Some feelings are resolved by not sending."
+      },
+      {
+        "text": "Just a line to check in — send it calmly",
+        "result_text": "Sent a single line asking how she was.\n\nNo telling if a reply comes. But it beat only burying it.\n{name} sent that line not as lingering attachment, but as a knot tied off."
+      }
+    ]
+  },
+  {
+    "id": "callback_lingered_for_daeun_echo",
+    "title": "Standing in That Spot",
+    "description": "After letting Dae-un go, one night running into a trace of her, {name} stood still in that spot for a while.\n\nThat moment of pausing comes back sometimes.\n\nPassing a similar place today, their feet stopped again.",
+    "choices": [
+      {
+        "text": "Acknowledge the feeling — and walk again",
+        "result_text": "Not denying the longing, just lingering a moment.\n\nAfter that, walking again was possible.\n{name} didn't regret that paused moment. It was part of the goodbye too."
+      },
+      {
+        "text": "I don't linger long in that spot anymore",
+        "result_text": "Before, they stood a long while. Now they glance and pass.\n\nTime had eased the weight of that spot.\n{name} calmly accepted that what was let go had truly gone."
+      }
+    ]
+  }
+]

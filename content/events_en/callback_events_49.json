@@ -1,0 +1,212 @@
+[
+  {
+    "id": "callback_rejected_godsaeng_echo",
+    "title": "Living at My Own Pace, I Said",
+    "description": "Faced with the 'godsaeng' (perfect-life) craze, {name} said, 'I live at my own pace, not someone else's godsaeng.'\n\nThat choice comes back sometimes.\n\nToday they saw another '5 a.m. wake-up' post.",
+    "choices": [
+      {
+        "text": "Even now — my rhythm is my pace",
+        "result_text": "Copying someone else's routine doesn't last.\n\n{name} found a rhythm that fit, and it ultimately took them farther.\nGodsaeng wasn't for show — it was lived quietly."
+      },
+      {
+        "text": "Add good habits that fit my pace",
+        "result_text": "Keep my pace, but adopt what's good.\n\n{name} rejected the trend yet picked out what was usable.\nWithout mimicking others' ways, they still learned what was worth learning."
+      }
+    ]
+  },
+  {
+    "id": "callback_godsaeng_for_show_echo",
+    "title": "Starting a Godsaeng-for-Show Account",
+    "description": "{name} once started a godsaeng-proof account, thinking 'even just for show, it'll motivate me.'\n\nDid that showing become motivation, or fatigue?\n\nToday they caught themselves wondering what to post on that account.",
+    "choices": [
+      {
+        "text": "Now I know — real motivation comes from within",
+        "result_text": "Effort done for others' eyes stops when no one's watching.\n\n{name} escaped the life-for-proof.\nReal godsaeng was done even when no one saw."
+      },
+      {
+        "text": "Even for show — it beat doing nothing",
+        "result_text": "Even if motivation came from outside, there were days it got them moving.\n\n{name} acknowledged the account served as a primer.\nEven if it started as show, it was enough if it became a habit."
+      }
+    ]
+  },
+  {
+    "id": "callback_learned_to_rest_echo",
+    "title": "Choosing Real Rest",
+    "description": "Facing the godsaeng paradox, {name} chose real rest — 'one day of doing absolutely nothing.'\n\nLearning to rest comes back sometimes.\n\nToday the air of burnout returns.",
+    "choices": [
+      {
+        "text": "Like then — knowing when to stop is a skill",
+        "result_text": "Restless diligence eventually burns you out.\n\nHaving learned real rest, {name} could go all the way.\nStopping was part of advancing too."
+      },
+      {
+        "text": "Rest — but without guilt",
+        "result_text": "Being anxious while resting was the biggest problem.\n\n{name} now knows how to truly rest when resting.\nOnly guilt-free rest became real recovery."
+      }
+    ]
+  },
+  {
+    "id": "callback_godsaeng_overdrive_echo",
+    "title": "Deciding to Grind Harder",
+    "description": "Facing the godsaeng paradox, {name} optimized the system, thinking 'I'll just grind more efficiently.'\n\nDid that overload last?\n\nToday body and mind signal their limits again.",
+    "choices": [
+      {
+        "text": "Now I know — you can't grind infinitely",
+        "result_text": "However high you push efficiency, a human isn't a machine.\n\n{name} admitted the limit and chose to pace themselves.\nUnsustainable effort was a bigger loss than stopping."
+      },
+      {
+        "text": "Keep optimizing — but build in recovery time",
+        "result_text": "Pursuing efficiency isn't bad itself. Missing recovery was the problem.\n\n{name} added rest as a variable in the system.\nFinally found the balance between grinding and sustaining."
+      }
+    ]
+  },
+  {
+    "id": "callback_joined_geojibang_echo",
+    "title": "Settling into the 'Beggar Room'",
+    "description": "{name} once settled into a 'beggar room' chat, getting daily spending policed.\n\nThat extreme-frugality challenge comes back sometimes.\n\nToday, facing a purchase, those censors came to mind.",
+    "choices": [
+      {
+        "text": "Thanks to that room — spending sense got ingrained",
+        "result_text": "Days of saving for fear of others' eyes became habit.\n\nEven after leaving the room, that sense remained.\n{name} can now restrain themselves without censors."
+      },
+      {
+        "text": "Now — I've graduated from extreme frugality",
+        "result_text": "A life policed to the last won doesn't last.\n\n{name} moved past that stage to balanced spending.\nThat room ironically taught that saving is a means, not an end."
+      }
+    ]
+  },
+  {
+    "id": "callback_left_geojibang_echo",
+    "title": "Leaving the 'Beggar Room'",
+    "description": "{name} once left a 'beggar room' after a laugh, thinking 'I don't want stress from this.'\n\nThat choice comes back sometimes.\n\nToday they saw another saving-related trend.",
+    "choices": [
+      {
+        "text": "I save my own way — no policing needed",
+        "result_text": "You can save without others' policing.\n\n{name} manages spending by personal principle, not outside pressure.\nReal restraint was done even when unwatched."
+      },
+      {
+        "text": "Maybe such nudges help sometimes — check in",
+        "result_text": "Solo restraint can slacken sometimes.\n\n{name} checked whether their saving had grown lax.\nLeaving the room didn't mean quitting saving."
+      }
+    ]
+  },
+  {
+    "id": "callback_followed_leading_room_echo",
+    "title": "Following the Stock-Tip Room",
+    "description": "{name} once bought a stock a tip-room picked, thinking 'everyone's making money, I can't be left out.'\n\nWas the result medicine or poison?\n\nToday the temptation of a 'sure thing' returns.",
+    "choices": [
+      {
+        "text": "I learned then — don't trust others' picks",
+        "result_text": "No one teaches you how to make money for free.\n\nThat tip-room experience gave {name} an expensive lesson.\nNow they buy by their own judgment, not others' picks."
+      },
+      {
+        "text": "Reference info — but the final call is mine",
+        "result_text": "No need to ignore all information, but blind faith is dangerous.\n\n{name} learned to filter and verify information.\nNot entrusting your money to others' certainty — that was the first principle."
+      }
+    ]
+  },
+  {
+    "id": "callback_learned_invest_wisdom_echo",
+    "title": "There's No Free Information",
+    "description": "{name} once realized 'no one teaches you how to make money for free.'\n\nThat realization became an investing principle.\n\nToday another tempting 'sure thing' offer came in.",
+    "choices": [
+      {
+        "text": "By that principle — doubt what's too good",
+        "result_text": "Offers that look too good usually hide traps.\n\n{name} avoided several scams by that principle.\nThe ability to doubt mattered as much as the ability to earn."
+      },
+      {
+        "text": "Verify what's verifiable — and seize good chances",
+        "result_text": "Doubt everything and you miss opportunities too.\n\n{name} found the balance between doubt and decision.\nConviction after verification was different from vague fear."
+      }
+    ]
+  },
+  {
+    "id": "callback_fought_margin_call_echo",
+    "title": "Fighting Off the Margin Call",
+    "description": "{name} once scraped together money to cover a margin call, thinking 'if I sell here it's over.'\n\nThat harrowing moment comes back sometimes.\n\nToday the temptation of leverage crosses the mind again.",
+    "choices": [
+      {
+        "text": "Surviving then was luck — now I cut leverage",
+        "result_text": "Surviving that day was closer to luck than skill.\n\n{name} decided never to stand at that cliff edge again.\nLeverage is a double-edged sword — to survive, you trim the blade."
+      },
+      {
+        "text": "Holding through it — built crisis resilience",
+        "result_text": "Holding at the cliff's edge gave nerve.\n\nThrough that crisis {name} learned the importance of money management down to the bone.\nThe key was not mistaking that nerve for recklessness."
+      }
+    ]
+  },
+  {
+    "id": "callback_gig_grinder_echo",
+    "title": "Running Even in the Rain",
+    "description": "{name} once ran deliveries even on rainy days, for the 'rain surcharge.'\n\nThose dogged nights come back sometimes.\n\nToday it's raining again.",
+    "choices": [
+      {
+        "text": "That doggedness — made the seed money",
+        "result_text": "Nights run to earn a few thousand won more in rain surcharge.\n\nThose gathered into the first seed money.\n{name} wasn't ashamed of that desperation. It was the start."
+      },
+      {
+        "text": "Now — I use my labor more efficiently",
+        "result_text": "A few thousand won earned in the rain mattered, but now they watch hourly value.\n\n{name} shifted toward raising the unit price of labor.\nThe same hours, spent differently, ultimately made the gap."
+      }
+    ]
+  },
+  {
+    "id": "callback_gig_cautious_echo",
+    "title": "Calling It Off in the Rain",
+    "description": "{name} once called off deliveries, thinking 'an accident in the rain costs more.'\n\nThat caution comes back sometimes.\n\nToday they stood at a fork: push or not.",
+    "choices": [
+      {
+        "text": "Calling it off then was right — the body is an asset",
+        "result_text": "Get hurt and you can't earn for days. A bigger loss than a few risked thousand won.\n\n{name} did that math early.\nRecklessness and diligence differ — they learned that then."
+      },
+      {
+        "text": "Cautious — but balance so as not to miss chances",
+        "result_text": "Play it too safe and you miss earning chances too.\n\n{name} honed a sense for weighing risk against reward.\nKnowing when to run and when to stop — that was ultimately skill."
+      }
+    ]
+  },
+  {
+    "id": "callback_committed_to_course_echo",
+    "title": "Setting a Finish-the-Course Goal",
+    "description": "{name} once paid ₩1,900 for a course and set a goal to 'finish it all.'\n\nWas that resolve kept?\n\nToday they stood before new learning again.",
+    "choices": [
+      {
+        "text": "Finishing it then — was the start of small wins",
+        "result_text": "Listening to one ₩1,900 course all the way through.\n\nIt seems like nothing, but the experience of 'finishing' built confidence.\n{name} knows small completions were practice for big ones."
+      },
+      {
+        "text": "Check if I paid and never watched",
+        "result_text": "Paying is consumption, not willpower.\n\n{name} honestly reviewed whether they had unwatched courses.\nReal investment wasn't payment — it was completion."
+      }
+    ]
+  },
+  {
+    "id": "callback_completed_30day_echo",
+    "title": "Filling 30 Days Straight",
+    "description": "{name} once filled a 30-day-straight habit goal, 'starting small.'\n\nThat small success comes back sometimes.\n\nToday they consider starting a new habit.",
+    "choices": [
+      {
+        "text": "Those 30 days — were proof I could do it",
+        "result_text": "Filling 30 days built the self-image of 'I'm someone who can be consistent.'\n\nOne who keeps small promises keeps big ones too.\n{name} knows those 30 days were a miniature of the five years."
+      },
+      {
+        "text": "Now I take on a longer habit",
+        "result_text": "Did 30 days, so next is longer.\n\n{name} built greater consistency on the springboard of small success.\nHabit is a system, not willpower — those 30 days taught that."
+      }
+    ]
+  },
+  {
+    "id": "callback_attended_seminar_echo",
+    "title": "Going to the Investing Seminar",
+    "description": "{name} once went to an investing seminar, thinking 'there may be things I don't know.'\n\nThat learning comes back sometimes.\n\nToday, before new investing information, that day came to mind.",
+    "choices": [
+      {
+        "text": "The willingness to learn — built my eye for it",
+        "result_text": "Admitting they didn't know and going to learn.\n\nThat humility grew {name}'s eye for investing.\nThe one who learns what they don't know goes farther than the one who pretends to know."
+      },
+      {
+        "text": "Seminars are a start — real study was hands-on",
+        "result_text": "What they heard at the seminar was just a map; walking the road was separate.\n\n{name} built real skill by testing classroom knowledge in the market.\nThe gap between learning and practice had to be filled themselves."
+      }
+    ]
+  }
+]

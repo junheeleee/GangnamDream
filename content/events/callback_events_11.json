@@ -19,7 +19,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "총회에 참석한다",
+        "text": "총회에 참석했다",
         "effects": {
           "intelligence": 4,
           "investment_skill": 3,
@@ -60,7 +60,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "계속 이 방식을 정교화한다",
+        "text": "수식을 더 다듬었다",
         "effects": {
           "investment_skill": 5,
           "intelligence": 4
@@ -112,7 +112,7 @@
         "result_text": "3개월 결과: 2승 3패.\n구독료 포함하면 마이너스였다.\n정보를 파는 사람은 정보로 돈 버는 게 아니라 구독료로 돈 번다.\n그 차이를 이제 알았다."
       },
       {
-        "text": "좀 더 지켜본다",
+        "text": "한 달만 더 지켜봤다",
         "effects": {
           "mental": -2
         },
@@ -183,7 +183,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "그 감각이 뭔지 분석한다",
+        "text": "그 감각을 분석하려 했다",
         "effects": {
           "intelligence": 3,
           "investment_skill": 1
@@ -389,7 +389,7 @@
     "cooldown": 999,
     "choices": [
       {
-        "text": "그 말을 기준으로 결정한다",
+        "text": "그 기준으로 선택했다",
         "effects": {
           "mental": 10,
           "intelligence": 2

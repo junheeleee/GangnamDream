@@ -29,7 +29,8 @@
         ],
         "effects": {
           "mental": 6,
-          "stress": 2
+          "stress": 2,
+          "tint": 3
         },
         "cast_effects": {
           "daeun": {
@@ -90,7 +91,8 @@
         "effects": {
           "mental": 7,
           "money": -30000,
-          "stress": -4
+          "stress": -4,
+          "tint": 6
         },
         "cast_effects": {
           "daeun": {
@@ -108,7 +110,8 @@
         ],
         "effects": {
           "mental": -2,
-          "stress": -1
+          "stress": -1,
+          "tint": -3
         },
         "cast_effects": {
           "daeun": {
@@ -121,7 +124,8 @@
         "result_text": "The words came out. For the first time, in front of this person.",
         "follow_up_event": "arc_daeun_02b_dream",
         "effects": {
-          "stress": 3
+          "stress": 3,
+          "tint": 4
         },
         "cast_effects": {
           "daeun": {
@@ -160,7 +164,8 @@
         ],
         "effects": {
           "mental": 9,
-          "stress": -3
+          "stress": -3,
+          "tint": 5
         },
         "cast_effects": {
           "daeun": {
@@ -177,7 +182,8 @@
           "arc_daeun_regular_seen"
         ],
         "effects": {
-          "mental": 1
+          "mental": 1,
+          "tint": -2
         },
         "cast_effects": {
           "daeun": {
@@ -205,18 +211,19 @@
       "daeun"
     ],
     "cooldown": 9999,
-    "description": "Daeun got a call from home. Her mom's not well — and a stable job has opened up at the local mart.\n\"...I'm thinking of packing up and going back. Seoul is just too much.\"\nShe looks at {name}. An unasked question sitting in her eyes.\n\nIf {name} says the words — let's just live a simple life together — she might stay.\nBut that would mean stepping off the path to ₩3 billion.\nLove and ambition, placed on the same scale.",
+    "description": "Daeun got a call from home. Her mother is unwell, and a stable position opened up at the local market back in her hometown.\n\"...I think I'm going to pack up here and go back. Seoul is just too much.\"\nShe looks at {name}. An unasked question lives in her eyes.\n\nThere's no reason to keep her in Seoul.\nBut answering that question — wasn't easy.",
     "choices": [
       {
-        "text": "\"Don't go. Let's figure this out together.\" Hold on to her  (love·stability / ambition wavers)",
-        "result_text": "For the first time, {name} said something out loud that mattered more than ₩3 billion.\nDaeun's eyes went red. She decided to stay in Seoul.\nGangnam may have moved a little further away. But {name} would no longer be walking that road alone.\nWhether that was weakness or happiness — there would be no answer until the end.",
+        "text": "\"Don't go. Let's hold on here together\" — reach for her",
+        "result_text": "She was quiet for a moment. Then smiled softly.\n\"...Okay. I'll stay a little longer.\"\nShe didn't ask why. {name} didn't explain.",
         "flags": [
           "daeun_chose_her",
           "arc_daeun_fork_seen"
         ],
         "effects": {
           "mental": 10,
-          "stress": -5
+          "stress": -5,
+          "tint": 9
         },
         "cast_effects": {
           "daeun": {
@@ -234,7 +241,8 @@
         ],
         "effects": {
           "mental": -8,
-          "stress": 4
+          "stress": 4,
+          "tint": -7
         },
         "cast_effects": {
           "daeun": {
@@ -247,7 +255,7 @@
   },
   {
     "id": "arc_daeun_03b_date",
-    "title": "Outside the Convenience Store",
+    "title": "First Time Out",
     "background": "pojangmacha",
     "portrait": "daeun_smile",
     "category": "story",
@@ -264,7 +272,7 @@
       "romance"
     ],
     "cooldown": 9999,
-    "description": "She asked. \"Want to go somewhere with me today?\"\n\nFirst time — seeing Daeun outside the store.\n\nAfter going back and forth on where to meet, they ended up at a pojangmacha nearby.\nOne shot of soju. One kimchi jeon.\n\nShe was different away from the counter.\nMore relaxed. More laughs.\n\n{name} said it would be nice if they sold triangle kimbap here — she burst out laughing.\nThe real kind.",
+    "description": "She asked: \"Want to go somewhere with me today?\"\n\nFirst time. Daeun outside the convenience store.\n\nThey ended up at a nearby tent bar — pojangmacha.\nOne bottle of soju. One serving of kimchi pancake.\n\nShe was different away from the counter.\nA little more relaxed. A little more laughing.\n\nHe said \"they should sell triangular kimbap here\" and she burst out laughing.\nA real laugh.",
     "choices": [
       {
         "text": "\"Today is enough.\" — Gangnam forgotten for a moment",
@@ -275,7 +283,8 @@
         ],
         "effects": {
           "mental": 10,
-          "stress": -6
+          "stress": -6,
+          "tint": 5
         },
         "cast_effects": {
           "daeun": {
@@ -285,15 +294,16 @@
         }
       },
       {
-        "text": "\"Next time I'll take you somewhere better.\" — today feels insufficient",
-        "result_text": "At that, Daeun went quiet for a moment.\n'This right here is already good enough.'\n{name} heard it — and still thought about his bank balance.\nWhen Gangnam comes, things will be better. That's what he told himself.",
+        "text": "\"Next time I'll take you somewhere better\" — today feels like too little",
+        "result_text": "Today was today. Whether it was enough — not really sure.",
         "flags": [
           "arc_daeun_03b_seen"
         ],
         "effects": {
           "mental": 5,
           "stress": 2,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -3
         },
         "cast_effects": {
           "daeun": {
@@ -305,7 +315,7 @@
   },
   {
     "id": "arc_daeun_04_morning",
-    "title": "This Morning Becomes a Reason",
+    "title": "The Reason at 3 A.M.",
     "background": "goshiwon_room",
     "portrait": "player_happy",
     "category": "story",
@@ -322,18 +332,19 @@
       "romance"
     ],
     "cooldown": 9999,
-    "description": "Five in the morning.\n\nDaeun is asleep. The blanket has drifted to one side.\nOutside the window, Seoul's lights haven't gone dark. This city never goes dark.\n\n{name} got up quietly. ₩3 billion is still a long way off. Time is always short.\n\nBut this morning — he didn't want to rush.\nWaking up beside this person, for the first time {name} felt close to knowing.\nWhy he's been running.",
+    "description": "3 A.M.\n\nA message from Daeun.\n\"You awake? ...Just can't sleep. Not exactly struggling — just.\"\n\n{name} stared at the screen, then looked out the window. Seoul doesn't go dark at 3 A.M.\n\n₩3 billion was still far off. Time was always running short.\n\nBut right now, looking at this message — for the first time, it felt clear.\nWhy he was running.",
     "choices": [
       {
-        "text": "Sit quietly and stay beside her — I want to win for her too",
-        "result_text": "{name} stayed in that spot for a long time.\nNothing happened that morning.\nAnd yet, ₩3 billion felt strangely clear today.\n\nHe wasn't afraid. Now there was someone to go there with.",
+        "text": "Reply: \"Me too. Don't worry\"",
+        "result_text": "A short text exchange. Nothing important. Around 4 A.M. she fell asleep first.\n{name} opened the laptop again. Wanted to win — for this person too.",
         "flags": [
           "arc_daeun_04_seen",
           "daeun_together_path"
         ],
         "effects": {
           "mental": 12,
-          "stress": -8
+          "stress": -8,
+          "tint": 4
         },
         "cast_effects": {
           "daeun": {
@@ -343,14 +354,15 @@
         }
       },
       {
-        "text": "Get up and open the laptop — can't let her see me waver",
-        "result_text": "{name} opened the laptop.\nHer breathing became a kind of background sound.\n\nSomewhere between tenderness and obsession,\nhe filled in the numbers again today.",
+        "text": "Send \"Sleep well\" — then open the laptop",
+        "result_text": "Can't afford to waver. But — why he's running felt a little clearer.",
         "flags": [
           "arc_daeun_04_seen"
         ],
         "effects": {
           "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -2
         },
         "cast_effects": {
           "daeun": {
@@ -379,7 +391,7 @@
       "romance"
     ],
     "cooldown": 9999,
-    "description": "Late at night. The sound of {name} tapping away at a calculator woke Daeun.\n\nShe watched for a long moment, then asked quietly.\n\"...I get scared sometimes.\"\n\n{name} looked up. She kept going.\n\"When you get to Gangnam... what happens to me?\nYou were the one who made me stay here.\nBut I don't know if the person who makes it there still wants me.\"\n\nThe words hung in the air for a long time.",
+    "description": "Late. The sound of {name} clicking at a calculator woke Daeun.\n\nShe watched for a long time, then spoke quietly.\n\"...I get anxious sometimes.\"\n\n{name} looked up, and she kept going.\n\"When you get to Gangnam... what happens to me?\nYou're the reason I stayed here,\nbut I don't know if the person who gets there will still want me.\"\n\nThe words hung in the air a long time.\n\n{name} didn't know what to say.\nThere were things that couldn't be said yet — not until the right moment.",
     "choices": [
       {
         "text": "\"We go together. It only means something if you're with me.\"",
@@ -390,7 +402,8 @@
         ],
         "effects": {
           "mental": 8,
-          "stress": -3
+          "stress": -3,
+          "tint": 7
         },
         "cast_effects": {
           "daeun": {
@@ -401,14 +414,15 @@
       },
       {
         "text": "\"When I get to Gangnam I'll treat you better. Bear with it for now.\"",
-        "result_text": "Daeun nodded. \"...Okay.\"\nBut that 'okay' felt strangely weightless.\nWatching her turn away,\n{name} felt he'd lost something. He couldn't say exactly what.",
+        "result_text": "She smiled — but that smile was a little sad. {name} knew it too.",
         "flags": [
           "arc_daeun_04b_seen",
           "daeun_deferred"
         ],
         "effects": {
           "stress": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -5
         },
         "cast_effects": {
           "daeun": {
@@ -419,14 +433,15 @@
       },
       {
         "text": "\"Honestly I don't know. I need to think about that too.\"",
-        "result_text": "After a pause, Daeun said: \"Thank you. For being honest.\"\nThe night was quiet. Close and far at the same time.\nNeither of them had quite learned yet\nthat honesty doesn't always protect what's between people.",
+        "result_text": "Couldn't answer. That silence stayed with him a long time.",
         "flags": [
           "arc_daeun_04b_seen",
           "daeun_uncertain"
         ],
         "effects": {
           "mental": -3,
-          "stress": 3
+          "stress": 3,
+          "tint": -2
         },
         "cast_effects": {
           "daeun": {
@@ -466,7 +481,8 @@
         ],
         "effects": {
           "mental": -4,
-          "stress": 4
+          "stress": 4,
+          "tint": -3
         },
         "cast_effects": {
           "daeun": {
@@ -483,7 +499,8 @@
         "effects": {
           "mental": -6,
           "stress": -2,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         }
       }
     ]
@@ -517,7 +534,8 @@
         ],
         "effects": {
           "mental": -5,
-          "stress": 3
+          "stress": 3,
+          "tint": 2
         },
         "cast_effects": {
           "daeun": {
@@ -533,23 +551,30 @@
         ],
         "effects": {
           "mental": -8,
-          "stress": 5
+          "stress": 5,
+          "tint": -4
         }
       }
     ]
   },
   {
     "id": "arc_daeun_05_together",
-    "title": "The Winter Room",
-    "description": "Daeun's things started appearing in the fridge.\nA few eggs. Spinach. Tofu.\n\n{name} was staring at an investment screen when she reached over and touched the frame of his glasses.\n\"Your eyes are going to give out.\" That had become something they just said.\n\nSomewhere along the way, her being here stopped feeling strange.\nWhether that was good, or just habit — he wasn't sure.",
+    "title": "A Rented Room in Winter",
+    "description": "Daeun dropped by often. Always with something in her hands.\nA few eggs. Spinach. Tofu.\n\n{name} would be staring at an investment screen and she'd reach over and touch the frame of his glasses.\n\"Your eyes are going to give out.\" That had become something they just said.\n\nThey weren't a couple. But just friends didn't quite cover it either — there was something more.\nNeither of them put that line into words.\n\nSomewhere along the way, her being here stopped feeling strange.\nWhether that was good, or just habit — he wasn't sure.",
     "choices": [
       {
-        "text": "Decide to cook together tonight",
-        "result_text": "The tofu stew came out too salty. Daeun said {name} put in too much. {name} said it was hers.\nThey both knew the truth.\n\nIf he could hold the small things steady for this person —\nmaybe the run toward ₩3 billion wouldn't come apart either."
+        "text": "Decide to just cook something together tonight",
+        "result_text": "They dug through the fridge together. Nothing decent to work with — but that kind of evening wasn't bad.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "\"I still can't give you much yet — is that okay?\"",
-        "result_text": "After a long pause, Daeun said: \"This is already something.\"\n\n{name} was grateful. And burdened.\nHolding both at the same time, he turned back to the screen.\n\nHe couldn't stop. Not if he wanted her to be able to look at him."
+        "result_text": "Daeun paused for a moment. \"I'm not asking for that.\"\nThe words were plain. Something still unnamed sat quietly between them.",
+        "effects": {
+          "tint": 3
+        }
       }
     ]
   },
@@ -560,11 +585,17 @@
     "choices": [
       {
         "text": "\"I'm sorry. You're right.\" Accept it.",
-        "result_text": "She stood up. \"I hope things work out for you. I mean that.\"\nIt sounded like the truth. That made it worse.\n\n{name} sat there for a long time after she left.\nThe words 'just wait a little longer' — this was where they led."
+        "result_text": "She stood up. \"I hope things work out for you. I mean that.\"\nIt sounded like the truth. That made it worse.\n\n{name} sat there for a long time after she left.\nThe words 'just wait a little longer' — this was where they led.",
+        "effects": {
+          "tint": 5
+        }
       },
       {
         "text": "\"Even now — I can change.\" Try to hold on.",
-        "result_text": "She looked at {name} for a moment.\n\"It's not about you changing. I chose to wait too. I'm just tired of it.\"\n\nThat was the more honest answer.\n{name} couldn't find a word to say."
+        "result_text": "She looked at {name} for a moment.\n\"It's not about you changing. I chose to wait too. I'm just tired of it.\"\n\nThat was the more honest answer.\n{name} couldn't find a word to say.",
+        "effects": {
+          "tint": -4
+        }
       }
     ]
   },
@@ -575,11 +606,17 @@
     "choices": [
       {
         "text": "\"Where does this leave us?\" Ask her directly.",
-        "result_text": "She thought for a while. Then: \"...I don't know. Me neither.\"\n\nBoth of them not knowing — that was itself a kind of answer.\nAfter that day, neither reached out. That was the answer too."
+        "result_text": "She thought for a while. Then: \"...I don't know. Me neither.\"\n\nBoth of them not knowing — that was itself a kind of answer.\nAfter that day, neither reached out. That was the answer too.",
+        "effects": {
+          "tint": 2
+        }
       },
       {
         "text": "\"You doing okay?\" Let it pass.",
-        "result_text": "\"Yeah, doing fine.\"\nAnd they each went their separate way.\n\nHe didn't look back. More accurately — he didn't have the nerve to.\nThe silence from that night of 'I'm not sure' —\nit ended like this."
+        "result_text": "\"Yeah, doing fine.\"\nAnd they each went their separate way.\n\nHe didn't look back. More accurately — he didn't have the nerve to.\nThe silence from that night of 'I'm not sure' —\nit ended like this.",
+        "effects": {
+          "tint": -4
+        }
       }
     ]
   }

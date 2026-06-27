@@ -88,7 +88,7 @@ func on_ending(ending_id: String):
 	_is_ending = true
 	clear_ambience()
 	var good = [
-		"gangnam_dream", "stable_success", "investment_master",
+		"gangnam_dream", "gangnam_dream_white", "stable_success", "investment_master",
 		"startup_exit", "reputation_legend", "healthy_retirement", "political_fix",
 		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
 		"creator_success", "with_daeun", "jiyeon_man",

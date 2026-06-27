@@ -1,0 +1,62 @@
+[
+  {
+    "id": "callback_hyunsu_passed_echo",
+    "title": "After the Posting",
+    "description": "Hyun-su passed.\n\nThat day when he knocked: 'Hyung. I passed.'\nFour years. In one room. One path.\n\n{name} pulled up the calculator.\nFrom this room — how many years in?",
+    "choices": [
+      {
+        "text": "If Hyun-su did it, this is possible too",
+        "result_text": "Four years. Held to one thing.\n{name}'s five years, three billion — not impossible.\n\nHyun-su became a small proof. One that stayed."
+      },
+      {
+        "text": "Different road, different math",
+        "result_text": "Hyun-su had one clear target for four years.\n{name} is solving something more complicated.\n\nHarder — or just different. Either way: still going."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_comforted_echo",
+    "title": "Two Drinks",
+    "description": "Another hard day.\n\nPassing the hallway — sound from Room 202. New tenant.\n\nThe three days when Hyun-su didn't come out. How {name} brought two drinks from the convenience store and knocked.\nHis eyes were swollen. Didn't say much. That was enough.",
+    "choices": [
+      {
+        "text": "That was the right call — it helped him",
+        "result_text": "Didn't say much. Just showed up.\n\nSometimes showing up is the entire thing.\nNow {name}'s the one who could use a knock — and knows what it means."
+      },
+      {
+        "text": "Today I'm the one who needs someone to knock",
+        "result_text": "Could've used that, right now.\n\nBought one drink. Drank it alone.\n\nThat day, knocking was the right move. Still is."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_departure_meal_echo",
+    "title": "When Are You Getting Out",
+    "description": "Still in the goshiwon.\n\nHyun-su's last question at the noodle place.\n'Hyung — when are you getting out of here?'\n'...Not sure.'\n\nHis laugh. It stayed.\n\nSome days the answer is still 'not sure.'",
+    "choices": [
+      {
+        "text": "The day will come — believe that",
+        "result_text": "Hyun-su made it out in five years.\n{name} is still here.\n\nBut there'll be a day. When this room is looked back on from the other side.\nWait until then to decide what it meant."
+      },
+      {
+        "text": "That question feels heavy today",
+        "result_text": "'Not sure.' Still the answer.\n\nHis question had weight. Today it's heavier.\n\nBut still here means still not quit.\nThat's the only math that matters right now."
+      }
+    ]
+  },
+  {
+    "id": "callback_hyunsu_reconnected_echo",
+    "title": "Because You Knocked",
+    "description": "Hyun-su got placed.\n\n'Hyung, I got a job at an accounting firm.'\n\nA photo: suit, business card.\n\n'Thank you. For knocking that day.'\n\n{name} held the screen for a while.",
+    "choices": [
+      {
+        "text": "\"Nice. Keep going out there.\"",
+        "result_text": "'Will do hyung ㅎㅎ'\n\nFive years in Seoul. Some days end like this.\n\nHyun-su went a different direction. {name} is still here.\nBoth are still moving. That's enough."
+      },
+      {
+        "text": "Think: I'll get out too — my own way",
+        "result_text": "Sent a short reply.\n\nHyun-su dropped the public service exam, found a new path, and made it.\n{name} is still finding.\n\nStill looking. That's not the same as lost."
+      }
+    ]
+  }
+]

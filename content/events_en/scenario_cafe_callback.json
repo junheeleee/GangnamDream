@@ -39,7 +39,8 @@
         ],
         "effects": {
           "mental": 7,
-          "stress": -4
+          "stress": -4,
+          "tint": 4
         }
       }
     ]
@@ -246,7 +247,8 @@
         "effects": {
           "intelligence": 2,
           "reputation": 3,
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         }
       }
     ]

@@ -1,0 +1,281 @@
+[
+  {
+    "id": "callback_father_confession_echo",
+    "title": "그날의 무게",
+    "background": "goshiwon_room",
+    "portrait": "player_shocked",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "father_confession_heard",
+      "min_turn": 76
+    },
+    "tags": [
+      "callback",
+      "father",
+      "sangchul",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "임상철이 차를 건넸다.\n\n평소와 다를 게 없었다. 차트 이야기. 시장 이야기.\n\n{name}은 받아들면서 생각했다.\n이 사람이 — 아버지의 빚을 만든 소개인이었다.\n\n이걸 안 채로 이 자리에 앉아 있다.",
+    "choices": [
+      {
+        "text": "이 사람에게서 배울 수 있는 건 다 배우기로 한다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": -4
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "차트를 봤다. 메모를 했다.\n\n이 사람의 지식과 이 사람의 죄는 — 분리할 수 있다.\n적어도 지금은 그렇게 믿기로 했다.\n\n아버지한테 미안했다. 그리고 계속 했다."
+      },
+      {
+        "text": "이 자리가 이상하다는 생각이 계속 든다",
+        "effects": {
+          "mental": -7,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "차를 마시다가 손이 멈췄다.\n\n아버지를 망하게 한 사람과 차를 마시고 있다.\n이 상황이 비정상인 건지, 아니면 삶이란 게 이런 건지.\n\n{name}은 오늘은 먼저 자리를 떴다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_truth_buried_echo",
+    "title": "묻어둔 것",
+    "background": "cafe",
+    "portrait": "sangchul_serious",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_truth_buried",
+      "min_turn": 84
+    },
+    "tags": [
+      "callback",
+      "sangchul",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "\"됐어요, 잊어버려요.\"\n\n그날 했던 그 말이 여전히 속에 있다.\n\n임상철은 그날 이후 아무것도 묻지 않았다.\n{name}도 아무것도 꺼내지 않았다.\n\n그게 합의였다. 뭉개놓은 것.",
+    "choices": [
+      {
+        "text": "아직 이 관계가 필요하다 — 계속 간다",
+        "effects": {
+          "investment_skill": 2,
+          "mental": -5
+        },
+        "cast_effects": {
+          "sangchul": {
+            "affinity": 2
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "이 사람이 가진 것이 필요하다.\n진실보다 목표가 앞에 있을 때 — 이런 선택이 가능하다.\n\n어느 쪽이 맞는지는 — 강남에 도달하는 날 알게 될 것 같다.\n아니면 그때도 모를 수도 있다."
+      },
+      {
+        "text": "이 무게를 계속 들고 가는 게 맞는지 모르겠다",
+        "effects": {
+          "mental": -8,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "묻어두는 게 편해야 하는데 — 오히려 더 무겁다.\n\n그날 임상철이 \"어떻게 알았어?\" 물었을 때 대답을 안 했다.\n그 미완성된 순간이 아직 살아 있다.\n\n어떻게 끝내야 할지, 아직 모른다."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_quietly_distanced_echo",
+    "title": "이름 불렀을 때",
+    "background": "street",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "sangchul_quietly_distanced",
+      "min_turn": 84
+    },
+    "tags": [
+      "callback",
+      "sangchul",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "임상철이 뒤에서 이름을 불렀다.\n돌아보지 않았다.\n\n그날 카페를 나온 뒤 — 그 목소리가 아직 남아 있다.\n\n한동안 임상철 없이 했다.\n선생도 없이, 네트워크도 없이.",
+    "choices": [
+      {
+        "text": "그래도 그 결정이 옳았다고 생각한다",
+        "effects": {
+          "mental": 6,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "멘토 없이 하는 게 더 힘들었다.\n근데 — 더 내 것이 됐다.\n\n임상철이 가르쳐준 것들은 아직 남아 있다. 그 사람이 없어도.\n그 선이 어디인지 알고 나서야 — 혼자 서는 게 뭔지 배웠다."
+      },
+      {
+        "text": "가끔은 그 관계가 아쉽다",
+        "effects": {
+          "mental": -3,
+          "investment_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 사람이 알려준 것들이 아직 쓸모 있다.\n그 사람이 가진 네트워크가 아직 가끔 생각난다.\n\n근데 돌아보지 않았던 건 옳았다.\n그 등 뒤의 목소리가 — 그 결정을 바꾸지 않은 이유다."
+      }
+    ]
+  },
+  {
+    "id": "callback_tried_to_go_father_echo",
+    "title": "한 시간 전에",
+    "background": "hospital",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "tried_to_go_to_father",
+      "min_turn": 116
+    },
+    "tags": [
+      "callback",
+      "father",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "\"한 시간 전에.\"\n\n그 말이 가끔 꿈에 나온다.\n\n비어 있던 병실 침대. 아직 따뜻했는지, 차가웠는지 기억이 없다.\n\n오늘 일을 하다가 갑자기 그 기차 창밖이 떠올랐다. 지나가던 논밭.",
+    "choices": [
+      {
+        "text": "갔다는 사실이 지금도 위로가 된다",
+        "effects": {
+          "mental": 6
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 3
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "늦었지만 — 갔다.\n\n그 선택이 지금 무슨 의미인지 정확히 알 수 없지만,\n안 갔던 것보다는 낫다는 걸 안다.\n\n아버지한테 보여드리고 싶다고 했던 그 이유가 — 아직 살아 있다."
+      },
+      {
+        "text": "한 시간만 빨랐어도 하는 생각이 아직 든다",
+        "effects": {
+          "mental": -8
+        },
+        "cast_effects": {
+          "father": {
+            "affinity": 2
+          }
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "그 기차 안에서 — 한 번만 더 빨리 탔더라면.\n\n그 생각이 완전히 안 든다고 하면 거짓말이다.\n\n그래도 탔다. 거기 갔다. 빈 침대 옆에 앉았다.\n그게 {name}이 할 수 있는 전부였다."
+      }
+    ]
+  },
+  {
+    "id": "callback_chose_money_father_echo",
+    "title": "숫자와 날짜",
+    "background": "goshiwon_room",
+    "portrait": "player_tired",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "chose_money_over_father",
+      "min_turn": 116
+    },
+    "tags": [
+      "callback",
+      "father",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "통장에 숫자가 쌓였다.\n\n그날 이후로 그 숫자가 올라갈 때마다,\n잠깐씩 멈추는 날이 있다.\n\n\"숫자는 올라가 있었다.\"\n\n그게 전부였다, 그날.",
+    "choices": [
+      {
+        "text": "이 돈으로 뭔가를 갚아야 한다는 생각이 든다",
+        "effects": {
+          "mental": -5,
+          "intelligence": 2
+        },
+        "flags": [
+          "father_debt_felt"
+        ],
+        "follow_up_event": "",
+        "result_text": "갚을 수 없다는 걸 안다. 돈으로 갚을 수 있는 게 아니었다.\n\n근데 이 숫자들이 쌓이는 걸 보면서 — 더 잘 되면 그게 갚는 거라고,\n그렇게 믿어야 앞으로 갈 수 있었다.\n\n아버지한테 보여드리고 싶어서 서울에 왔었는데.\n그 이유가 아직 살아 있어야 한다."
+      },
+      {
+        "text": "이 돈이 모든 걸 해결하지는 않는다는 걸 안다",
+        "effects": {
+          "mental": -10,
+          "social_skill": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "안다. 처음부터 알고 있었다.\n\n5백만원을 벌면서 — 그 순간 선택의 무게를 알았다.\n\n이 돈이 무슨 값이냐고 묻는다면.\n아직 대답이 없다."
+      }
+    ]
+  },
+  {
+    "id": "callback_recovery_complete_echo",
+    "title": "동그라미",
+    "background": "goshiwon_room",
+    "portrait": "player_normal",
+    "category": "story",
+    "rarity": "uncommon",
+    "weight": 1.0,
+    "hidden": false,
+    "conditions": {
+      "flag": "recovery_complete",
+      "min_turn": 100
+    },
+    "tags": [
+      "callback",
+      "addiction",
+      "story"
+    ],
+    "cooldown": 999,
+    "description": "달력에 동그라미가 꽉 찼다.\n\n그 달력이 아직 방에 있다. 버리지 못했다.\n\n오늘 어딘가에서 도박 광고가 떴다. 스크롤을 내렸다.\n손이 전에 같지 않았다.",
+    "choices": [
+      {
+        "text": "그 달력이 아직 힘이 됐다",
+        "effects": {
+          "mental": 8,
+          "intelligence": 1
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "바닥을 본 사람은 무너지지 않는 게 아니라,\n무너지고 나서 다시 올라온 사람이다.\n\n동그라미 하나, 하나. 그게 지금의 {name}을 만들었다.\n\n달력을 버리지 않은 게 맞았다."
+      },
+      {
+        "text": "아직 시험받는 날이 있다",
+        "effects": {
+          "mental": 2,
+          "intelligence": 2
+        },
+        "flags": [],
+        "follow_up_event": "",
+        "result_text": "끊는 건 한 번의 결심이 아니었다. 매번의 선택이었다.\n\n오늘도 선택했다. 광고를 닫았다.\n\n그 선택이 매일 쌓이고 있다. 달력 동그라미처럼."
+      }
+    ]
+  }
+]

@@ -6,15 +6,24 @@
     "choices": [
       {
         "text": "Ask for help — call a gambling recovery group",
-        "result_text": "With trembling hands, he dialed the recovery group's number.\n\nAn unfamiliar voice answered. \"Yes, we're here. Take your time.\"\n\n{name} couldn't speak for a while.\nThen, barely, one sentence. \"...I want to quit gambling.\"\n\nA quiet reply came through the phone.\n\"Well done. That one sentence is the hardest.\"\n\nHitting bottom also meant the only way left was up.\nAt least, {name} chose to believe that."
+        "result_text": "With trembling hands, he dialed the recovery group's number.\n\nAn unfamiliar voice answered. \"Yes, we're here. Take your time.\"\n\n{name} couldn't speak for a while.\nThen, barely, one sentence. \"...I want to quit gambling.\"\n\nA quiet reply came through the phone.\n\"Well done. That one sentence is the hardest.\"\n\nHitting bottom also meant the only way left was up.\nAt least, {name} chose to believe that.",
+        "effects": {
+          "tint": 7
+        }
       },
       {
         "text": "Confess everything to your father",
-        "result_text": "He called his father. It was 4 AM.\n\nHe told him everything. The gambling, the debt, the ruined account, the ruined self.\nHe cried while talking. The first time since becoming an adult.\n\nFather was silent for a long time.\nThen he said, low:\n\"...Come home. Just come once.\"\n\nHe didn't scold. That hurt more.\nThe son who paid off his father's debt six years ago was now confessing his own debt to his father.\nThis had to be a new beginning, not an end."
+        "result_text": "He called his father. It was 4 AM.\n\nHe told him everything. The gambling, the debt, the ruined account, the ruined self.\nHe cried while talking. The first time since becoming an adult.\n\nFather was silent for a long time.\nThen he said, low:\n\"...Come home. Just come once.\"\n\nHe didn't scold. That hurt more.\nThe son who paid off his father's debt six years ago was now confessing his own debt to his father.\nThis had to be a new beginning, not an end.",
+        "effects": {
+          "tint": 8
+        }
       },
       {
         "text": "One more hand — win it all back with this",
-        "result_text": "{name} didn't ask for help.\n\n'Just one hand. I've got a good feeling this time.'\n\nHe scraped together the last of his money and bet it.\n\nThe result — I won't bother writing it down.\nBelow the place he thought was bottom, there was another bottom.\n\nAddiction keeps renewing the floor like that.\n{name} was learning this fact the most expensive way possible."
+        "result_text": "{name} didn't ask for help.\n\n'Just one hand. I've got a good feeling this time.'\n\nHe scraped together the last of his money and bet it.\n\nThe result — I won't bother writing it down.\nBelow the place he thought was bottom, there was another bottom.\n\nAddiction keeps renewing the floor like that.\n{name} was learning this fact the most expensive way possible.",
+        "effects": {
+          "tint": -8
+        }
       }
     ]
   },
@@ -25,11 +34,17 @@
     "choices": [
       {
         "text": "Endure day by day — circle each day on the calendar",
-        "result_text": "{name} bought a calendar.\n\nFor each gambling-free day, he drew a circle.\nOne, two, three… the circles grew.\n\nIt seemed like nothing, but those circles were strangely a source of strength.\nQuitting wasn't a grand resolution — it was one circle for today.\n\nOne more tomorrow. That was enough."
+        "result_text": "{name} bought a calendar.\n\nFor each gambling-free day, he drew a circle.\nOne, two, three… the circles grew.\n\nIt seemed like nothing, but those circles were strangely a source of strength.\nQuitting wasn't a grand resolution — it was one circle for today.\n\nOne more tomorrow. That was enough.",
+        "effects": {
+          "tint": 5
+        }
       },
       {
         "text": "Work the body — go running every dawn",
-        "result_text": "Whenever he wanted to bet, {name} put on running shoes.\n\nHe ran the dawn Han River. Breathless, legs aching.\nBut that pain was honest. Different from the pain of gambling.\n\nReturning drenched in sweat, the urge to bet faded a little.\n\nCovering addiction with something else wasn't a perfect solution, but —\nat least tonight, he didn't turn on the phone."
+        "result_text": "Whenever he wanted to bet, {name} put on running shoes.\n\nHe ran the dawn Han River. Breathless, legs aching.\nBut that pain was honest. Different from the pain of gambling.\n\nReturning drenched in sweat, the urge to bet faded a little.\n\nCovering addiction with something else wasn't a perfect solution, but —\nat least tonight, he didn't turn on the phone.",
+        "effects": {
+          "tint": 6
+        }
       }
     ]
   },
@@ -40,11 +55,17 @@
     "choices": [
       {
         "text": "Refuse — 'Sorry, I don't do that anymore'",
-        "result_text": "{name} sent the reply.\n\n'Sorry. I don't do that anymore. You should ease up too.'\n\nAfter sending, he stared at the phone a while.\nHis heart still raced, but this time — he won.\n\nQuitting wasn't one resolution, but a choice every time.\nToday, {name} won that choice.\n\nWin once, and the next time gets a little easier.\nBelieving that, he set the phone down."
+        "result_text": "{name} sent the reply.\n\n'Sorry. I don't do that anymore. You should ease up too.'\n\nAfter sending, he stared at the phone a while.\nHis heart still raced, but this time — he won.\n\nQuitting wasn't one resolution, but a choice every time.\nToday, {name} won that choice.\n\nWin once, and the next time gets a little easier.\nBelieving that, he set the phone down.",
+        "effects": {
+          "tint": 7
+        }
       },
       {
         "text": "Just once — 'I can control it'",
-        "result_text": "'Just once.'\n\n{name} went.\nAnd it wasn't just once.\n\nA month of circles, erased in one night.\nThe week of withdrawal, the dawn runs — all of it became nothing.\n\nAddiction waits. For the moment the one who quit lets his guard down and thinks 'I'm fine now.'\n\n{name} had to start again from the collapsed place.\nThis time, with a heavier heart."
+        "result_text": "'Just once.'\n\n{name} went.\nAnd it wasn't just once.\n\nA month of circles, erased in one night.\nThe week of withdrawal, the dawn runs — all of it became nothing.\n\nAddiction waits. For the moment the one who quit lets his guard down and thinks 'I'm fine now.'\n\n{name} had to start again from the collapsed place.\nThis time, with a heavier heart.",
+        "effects": {
+          "tint": -7
+        }
       }
     ]
   },
@@ -55,7 +76,10 @@
     "choices": [
       {
         "text": "Make this experience a foundation",
-        "result_text": "{name} taped the calendar to the front of his desk.\n\nEvery day, looking at those circles, he resolved:\nNever to return to that bottom again.\n\nSomeone who overcame addiction isn't a weak person.\nThey're the strongest — someone who saw the bottom and climbed back up.\n\nFor the time remaining, {name} would go honestly.\nSlow, but certain.\n\nThe circles would keep growing. One each day."
+        "result_text": "{name} taped the calendar to the front of his desk.\n\nEvery day, looking at those circles, he resolved:\nNever to return to that bottom again.\n\nSomeone who overcame addiction isn't a weak person.\nThey're the strongest — someone who saw the bottom and climbed back up.\n\nFor the time remaining, {name} would go honestly.\nSlow, but certain.\n\nThe circles would keep growing. One each day.",
+        "effects": {
+          "tint": 8
+        }
       }
     ]
   }

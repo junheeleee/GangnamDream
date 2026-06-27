@@ -1,0 +1,92 @@
+[
+  {
+    "id": "callback_shared_doubt_echo",
+    "title": "That Scary Line",
+    "description": "Hyun-su stopped {name} in the hallway.\n\n'Hey — remember what you said at the ramen table?'\n\n'If you don't try, it definitely won't happen.'\n\n'That line. Still in my head. When I want to quit studying.'",
+    "choices": [
+      {
+        "text": "\"That line is still in mine too.\"",
+        "result_text": "Hyun-su nodded. Both still going, still not there.\n\nSomething said in a late-night kitchen had become a shared anchor.\nHaving someone who keeps the same words — that was unexpected support."
+      },
+      {
+        "text": "\"You still keeping at it? The exams?\"",
+        "result_text": "'Obviously. If I don't, it definitely won't happen.' He echoed it back.\n\nHad to laugh.\nTwo people chasing different things in the same building — holding each other's words."
+      }
+    ]
+  },
+  {
+    "id": "callback_midpoint_bet_echo",
+    "title": "Same Fork Again",
+    "description": "Similar situation. Again.\n\nChecking numbers — push harder, or pull back?\n\nAt the halfway point, said: 'Have to bet bigger.'\nThe result of that choice is what brought this moment.",
+    "choices": [
+      {
+        "text": "That call was right. Same logic applies.",
+        "result_text": "Less hand-trembling this time. Done it before.\n\nFear exists — but it's a familiar fear now.\nResult unknown. That's always the answer until it isn't."
+      },
+      {
+        "text": "Learned something that day. Different play this time.",
+        "result_text": "Remembered what big bets felt like from the inside.\nThe wins and the waiting.\n\nThis approach was different. Growth — or overcorrection? Results will say."
+      }
+    ]
+  },
+  {
+    "id": "callback_midpoint_steady_echo",
+    "title": "People Who Cashed Out",
+    "description": "Word of people who got out fast.\nBig trades. Crypto. Startup exits.\n\nAt the halfway point: 'This method is right. Hold.'\n\nThat conviction is being tested again.",
+    "choices": [
+      {
+        "text": "Still believe the method is right",
+        "result_text": "Other people's speed isn't the benchmark.\n\nThe halfway decision built the current stance.\nIf the reasoning holds, the destination holds too."
+      },
+      {
+        "text": "Shaken — what if this pace is too slow?",
+        "result_text": "Rising and falling. Both are visible.\n\nBeing shaken is fine. Changing course while shaken is different from deciding to change course.\nStill here. Still going."
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_personal_echo",
+    "title": "If You Keep Going",
+    "description": "A quiet day.\n\nSang-chul's words surfaced:\n\n'I just kept going. Eventually you start to see things.'\n\nThirty years. That's what the patience looked like.",
+    "choices": [
+      {
+        "text": "Hold onto that — get through today",
+        "result_text": "Need to go further before anything comes into view.\n\nSang-chul kept going even when his son called to say he was dropping out.\nHe got through it. Something showed up.\nToday was kept."
+      },
+      {
+        "text": "His method might not be the right one for this",
+        "result_text": "Endurance is a method. So is changing course.\n\nSang-chul's way isn't automatically {name}'s way.\nKnowing that — that's actually what the conversation gave."
+      }
+    ]
+  },
+  {
+    "id": "callback_honest_to_boss_echo",
+    "title": "The Manager Remembered",
+    "description": "Manager called after hours.\n\n'You mentioned that personal project of yours—'\n\n{name} braced.\n\n'Work's been sharper lately. Not sure if that's related, but.'",
+    "choices": [
+      {
+        "text": "\"Trying to balance both. Glad it shows.\"",
+        "result_text": "Manager nodded and let it go.\n\nBeing honest that day turned out to be a different kind of credibility.\nNot permission — just someone who knew and respected it."
+      },
+      {
+        "text": "\"More focused lately, I think.\" Keep the personal project separate",
+        "result_text": "Not false.\n\nThe honesty from that day left a residue — the manager sees {name} slightly differently now.\nNot entirely sure if that's good yet."
+      }
+    ]
+  },
+  {
+    "id": "callback_faced_comparison_echo",
+    "title": "This Time It Was Different",
+    "description": "Same restaurant.\n\nSomeone came in the door — someone from high school.\nEyes met.\n\nNot the polished classmate from before. A different face. Looking at {name}.",
+    "choices": [
+      {
+        "text": "Walk over — 'Long time no see'",
+        "result_text": "'Oh — you! What have you been up to?'\n\nExplained. The response wasn't hollow this time.\n'Wow, seriously?' Eyes went wide.\n\nSame restaurant. Something had changed.\nFor the first time — felt it as a fact, not an idea."
+      },
+      {
+        "text": "Just nod — each to their own table",
+        "result_text": "Small acknowledgment. Both sat down separately.\n\nThe last time, left before finishing. This time, ate everything.\n\nThat was the difference."
+      }
+    ]
+  }
+]

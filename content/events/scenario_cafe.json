@@ -190,12 +190,18 @@
       {
         "text": "솔직하게 — \"무직입니다. 배우고 싶습니다\"",
         "result_text": "말이 끝나자 그의 시선이 달라졌다. 위아래로 다시 훑었다.",
-        "follow_up_event": "cafe_humble"
+        "follow_up_event": "cafe_humble",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "있는 척한다 — \"저도 이쪽 일 좀 합니다\"",
         "result_text": "그는 고개를 끄덕였다. 그 눈빛이 꿰뚫는 것 같았다.",
-        "follow_up_event": "cafe_bluff_01"
+        "follow_up_event": "cafe_bluff_01",
+        "effects": {
+          "tint": -3
+        }
       }
     ]
   },
@@ -256,12 +262,18 @@
       {
         "text": "아는 척 우긴다 — 대충 숫자를 던진다",
         "result_text": "\"한 2억쯤...\" 말이 엉켰다. 그가 그것을 느꼈을 것이다.",
-        "follow_up_event": "cafe_bluff_caught"
+        "follow_up_event": "cafe_bluff_caught",
+        "effects": {
+          "tint": -4
+        }
       },
       {
         "text": "무너진다 — \"...사실 모릅니다. 죄송합니다\"",
         "result_text": "고개를 들 수가 없었다. 그런데 이상하게, 그가 잠시 뒤 웃었다.",
-        "follow_up_event": "cafe_bluff_recover"
+        "follow_up_event": "cafe_bluff_recover",
+        "effects": {
+          "tint": 5
+        }
       }
     ]
   },
@@ -358,7 +370,8 @@
           "cafe_kindness"
         ],
         "effects": {
-          "mental": 13
+          "mental": 13,
+          "tint": 3
         }
       },
       {

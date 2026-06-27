@@ -1,0 +1,16 @@
+[
+  {
+    "id": "thought_whole_picture",
+    "title": "전체 그림",
+    "topic": "sangchul",
+    "required_clues": ["clue_hanpd_name", "clue_father_broker", "clue_sangchul_past"],
+    "processing_turns": 3,
+    "description": "조각들이 자꾸 머릿속 같은 자리로 모인다. 한PD건설. 아버지를 무너뜨린 소개인. 상철이 올라온 길.\n\n시간을 들여 가만히 들여다보면 — 하나의 그림이 될 것 같다.",
+    "conclusion": "사흘 밤. 등기와 옛 기사와 기억을 맞췄다.\n\n한PD건설을 피한 이름. 아버지에게 박상진을 소개한 '임가'. 충청도서 올라와 누군가를 밟고 강남에 선 사람.\n\n셋은 한 사람이었다. 임상철.\n\n아무도 말해주지 않았다. 민준이 스스로, 조각에서 사람을 세웠다.\n그게 더 무거웠다.",
+    "on_complete": {
+      "flags": ["formed_whole_picture", "sangchul_truth_known", "deduced_sangchul_truth"],
+      "effects": { "intelligence": 2, "mental": -8 },
+      "unlock_event": "hidden_whole_picture"
+    }
+  }
+]

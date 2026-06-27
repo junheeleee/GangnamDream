@@ -1,0 +1,212 @@
+[
+  {
+    "id": "gangnam_dream",
+    "title": "Gangnam Dream",
+    "description": "Three billion won.\nThe deed to a Gangnam apartment, in his hand.\n\nFive years ago, there were nights in a goshiwon room, buried under a blanket, staring at a phone screen at dawn.\nGangnam — three billion. A number so big it was almost funny.\n\nNow {name} stands in that living room, the city laid out below the big window.\n\nThe doorbell rings. It's his father.\nHe opens the door. Hands worn from a lifetime in a factory, shoulders bent.\n\nHis father came into the living room and stared out the window for a long while.\nHe didn't say a word. Just looked.\n\nThen, quietly, he said.\n\"...It's good, son.\"\n\n{name} couldn't say anything.\nSix years of debt and five years of struggle were all packed into those few words.\n\nThe two of them stood side by side, looking at Gangnam at night.\n\nIt wasn't winning.\nHe just — hadn't lost.",
+    "description_if_known": {
+      "sangchul_truth_buried": "Three billion won.\nThe deed to a Gangnam apartment, in his hand.\n\nNow {name} stands in that living room, the city laid out below the big window.\n\nThe doorbell rings. It's his father.\nHe opens the door. Hands worn from a lifetime in a factory, shoulders bent.\n\nHis father came into the living room and stared out the window for a long while.\nThen, quietly, he said.\n\"...It's good, son.\"\n\n{name} couldn't say anything.\n\nHis father doesn't know.\nThat half of the view out this window passed through the hands of the man who ruined him.\nThat day at the cafe, {name} had said, \"Forget it. Let it go.\"\nWith those few words he buried his father's debt, and himself, together.\n\nNow the thing he'd buried — seemed to be watching the night view from somewhere in this living room too.\n\n\"It is good, Dad.\"\n{name} said only that.\n\nThe two of them stood side by side, looking at Gangnam at night.\nHis father was smiling, to the very end.",
+      "sangchul_forgiven": "Three billion won.\nThe deed to a Gangnam apartment, in his hand.\n\nNow {name} stands in that living room, the city laid out below the big window.\n\nThe doorbell rings. It's his father.\nHe opens the door. Hands worn from a lifetime in a factory, shoulders bent.\n\nHis father came into the living room and stared out the window for a long while.\nThen, quietly, he said.\n\"...It's good, son.\"\n\n{name} thought of Lim Sang-chul.\nThe day he knew the truth and, instead of reporting him, said \"Those few words were enough.\"\nMaybe it wasn't forgiveness — maybe he just had no strength left to spend on hating.\n\nStill, because of that choice, he could call his father here today.\nIn the hand that set down its resentment — there was a deed.\n\nThe two of them stood side by side, looking at Gangnam at night.\n\nIt wasn't winning.\nHe'd just — stopped hating anyone anymore.",
+      "sangchul_quietly_distanced": "Three billion won.\nThe deed to a Gangnam apartment, in his hand.\n\nNow {name} stands in that living room, the city laid out below the big window.\n\nThe doorbell rings. It's his father.\nHe opens the door. Hands worn from a lifetime in a factory, shoulders bent.\n\nHis father came into the living room and stared out the window for a long while.\nThen, quietly, he said.\n\"...It's good, son.\"\n\n{name} thought of Lim Sang-chul.\nAfter walking out of that cafe without a word, he never reached out again.\nThe information Sang-chul fed him, the network, the seats — he left all of it behind.\n\nHe knows that made the road to Gangnam many times longer.\nBut {name} knows that nowhere in this view out the window did that man's hand reach.\n\nThis was wholly {name}'s own.\n\nThe two of them stood side by side, looking at Gangnam at night.\n\nIt wasn't winning.\nBut at least — he hadn't borrowed it.",
+      "jaehyuk_stood_up": "Gangnam.\n\nI thought of the year Jaehyuk disappeared. I'd put everything in. He vanished.\nRock bottom. Real rock bottom.\n\nBuilt again from there. Not his way.\n\n{name} made it to Gangnam — but {name} was the one who made the trip.\nThe road was longer. Slower. And more {name}'s own for it.\n\nCalled Dad. He picked up. Couldn't find words.\n\nGangnam. Here. That's all.\nAnd somehow — that was enough.",
+      "year4_final_resolve": "₩3 billion.\nThe Gangnam apartment title deed is in hand.\n\nStanding in that living room now, the city spread out below through a wide window.\n\nA year ago, there was a resolution.\nThe last year. Would remember this feeling.\n\n{name} remembered it.\n\nGangnam. Made it.\nWhat was decided became real.\n\nCalled Dad. Connected.",
+      "year4_self_known": "₩3 billion.\nThe Gangnam apartment title deed is in hand.\n\nStanding in that living room now, the city spread out below through a wide window.\n\nA year ago, something was learned. What kind of person.\nThat came before Gangnam.\n\nNow that person is in Gangnam.\n\nCalled Dad. Connected.\nGangnam. That's it.\nBut — it was enough."
+    }
+  },
+  {
+    "id": "empty_house",
+    "title": "Empty House",
+    "description": "A Gangnam apartment.\n{name}'s name is printed on the deed.\n\nHe reached the goal.\n\nBut there's no one to show it to.\n\nLast winter, his father slipped away quietly while hospitalized.\nThat call where he'd said 'I'll definitely come down next month' — was the last.\n\nA wide living room. A big window. A night view with no one in it.\n{name} sat on the sofa and stared at that window for a long time.\n\nHe'd wanted to show his father.\nThat had been the real reason from the very start.\n\nWhere that reason used to be — there's a three-billion-won house."
+  },
+  {
+    "id": "with_daeun",
+    "title": "With Dae-eun",
+    "description": "He didn't make it to Gangnam.\n\nBut he has Dae-eun.\n\nA rented villa on the outskirts. The two of them barely getting by on what they earn.\nOn weekends they boil ramen, just like that first time they met at the convenience store.\n\nDae-eun picks up her chopsticks and asks.\n\"No regrets? About Gangnam.\"\n\n{name} thought for a moment.\nThe overtime, the failed investments, the goshiwon fridge, all of it.\n\n\"I don't know. But right now — I'm not unhappy.\"\n\nDae-eun smiles.\n\nGangnam was the destination.\nBut maybe it was a destination he'd set when he didn't yet know what he really wanted.\n\nThe ramen was going cold. Neither of them ate. It was okay.",
+    "description_if_known": {
+      "daeun_romance_started": "Reached Gangnam.\n\nThe key to {housing} was in hand, and Daeun was standing right there.\n\nThe person who'd passed triangular kimbap over a convenience store counter five years ago — standing next to this key now.\n\n\"So this is Gangnam.\"\n\"Yeah.\"\n\nThat was it.\nBut those two words held all five years inside them.\n\n{name} took Daeun's hand.\nNo need to say more. Now — they were here together."
+    }
+  },
+  {
+    "id": "jiyeon_man",
+    "title": "Jiyeon's Man",
+    "description": "He made it to Gangnam. With Han Jiyeon.\n\nA good car, a good house, good people.\nAt her family's place, his father-in-law now calls {name} 'our son-in-law.'\n\nOne night, he stood alone in front of the bathroom mirror.\n\nThe man who rode a bicycle around the goshiwon five years ago.\nThe man who made a triangle kimbap his dinner.\nWhether that man and {name} now are the same person — he doesn't know.\n\nHe lives in Gangnam.\nBut whether this is the Gangnam he wanted,\nor whether he just moved into the Gangnam Jiyeon already lived in —\n\nJiyeon knocks on the bathroom door. \"You up?\"\n\"Yeah.\"\n\nThe door opens. She stands beside him. The two of them reflected in the mirror.\n\n{name} smiled.\nA happy smile, but one with something hollow in it.",
+    "description_if_known": {
+      "jiyeon_gangnam_together": "He made it to Gangnam. With Han Jiyeon.\n\nA good car, a good house, good people. Her father calls {name} 'our son-in-law' now.\n\n\"See you in Gangnam\" — that had been a promise. When neither of them was there yet.\n\nHe stood alone in front of the bathroom mirror one night. The man who rode a bicycle from a goshiwon. The man who ate triangle kimbap for dinner.\nWhether this is the Gangnam he wanted, or whether he entered the Gangnam Jiyeon already lived in — he doesn't know.\n\nJiyeon knocks on the door. \"Sleeping?\"\n\"No.\"\n\nThe door opens. In the mirror: both of them.\n\nThat promise made before they were there — completed right here.",
+      "jiyeon_romance_started": "Reached Gangnam.\n\nJiyeon was already there. For different reasons, through different means.\n\nBoth knew — the reasons they'd ended up in this city weren't entirely the same.\n\n\"You made it.\"\n\"I made it.\"\n\nSame city, same moment.\n\nJiyeon smiled. A smile that suited this city.\n{name} smiled too. Their Gangnam."
+    }
+  },
+  {
+    "id": "jaehyuk_way",
+    "title": "Jaehyuk's Way",
+    "description": "He made it to Gangnam. Fast. Dirty.\n\nHe sold other people's information, exploited rivals' weaknesses,\nbroke promises more times than he could count.\n\nThe house he bought with that money.\n\nHe invited his father. His father was delighted.\n\"Wow, amazing. My son.\"\n\n{name} couldn't smile at those words.\n\nBecause the faces he'd trampled on the way up\nseemed to be standing right behind his father.\n\nThe people he'd hated so much.\nAnd himself, now.\n\nThe living room of a Gangnam apartment. The city glittering outside the window.\n\n{name} looked at that light for a while, then drew the curtains.",
+    "description_if_known": {
+      "sangchul_used_fully": "He made it to Gangnam. Fast. Dirty.\n\nLim Sang-chul. The man who pushed his father into that debt.\nInstead of cutting him off, {name} used his guilt as an asset.\nHe took the information, got introduced to the seats, was never refused.\n\nThe house he bought with that money.\n\nHe invited his father. His father was delighted.\n\"Wow, amazing. My son.\"\n\n{name} couldn't smile at those words.\nHis father doesn't know whose hands this house passed through.\n\nHe remembered something Lim Sang-chul once said.\n\"You're like me.\"\n\nBack then he'd wanted to deny it. Now — there was nothing to deny.\nHe started out hating him, and ended up exactly him.\n\nThe living room of a Gangnam apartment. The city glittering outside.\n{name} looked at that light for a while, then drew the curtains.",
+      "jaehyuk_trusted_fully": "Gangnam. Fast. Dirty.\n\nIt started with Park Jaehyuk.\nI put in everything. He was an army friend, years of history — I believed it was real.\nAnd then he disappeared.\n\nClimbing back from the bottom, {name} had promised: not his methods.\nThat's how it went, I think. The memory keeps fading.\n\nInvited Dad to the apartment. He was delighted.\n\"Wow. I'm proud of you, son.\"\n\n{name} couldn't smile at that.\nJaehyuk must have climbed this way too — the thought arrived for the first time.\nAnd suddenly that disappearance looked different.\n\nThe living room. The city lights beyond the glass.\n{name} watched them for a moment, then closed the curtains.",
+      "jaehyuk_partnered": "Gangnam. With Jaehyuk. His way.\n\nInstead of reporting him, I took the offer. \"Let's do this properly, together.\"\nWhether that was sincere or calculated — I can't tell anymore. Maybe I never could.\n\nThat's how I bought this place.\n\nInvited Dad to the apartment. He was delighted.\n\"Wow. I'm proud of you, son.\"\n\n{name} couldn't smile at that.\nJaehyuk sent a text: got his own place now. \"We did it, right?\"\n{name} stared at that text for a long time.\n\nHow this apartment came to be. One person in this city knows the answer.\n\nThe living room. The city lights beyond the glass.\n{name} watched them for a moment, then closed the curtains."
+    }
+  },
+  {
+    "id": "late_call",
+    "title": "The Late Call",
+    "description": "He didn't make it to Gangnam.\n\nThe scenery streams past the KTX window. Bound for Changwon.\nHe'd struggled for five years, but Gangnam stayed out of reach in the end.\n\nBut with the phone in his hand, he calls his father.\n\n\"Dad, I'm coming down. Let's get a meal together.\"\nThe dial tone rang twice.\n\n\"...Sure. Dad'll buy you gukbap.\"\n\nRaindrops gathered on the window.\n{name} took out his earphones and pressed the phone closer to his ear.\n\nHe couldn't buy the Gangnam apartment.\nInstead, he made this call he'd put off and put off for five years.\n\nMaybe this was where he'd really wanted to go all along.",
+    "description_if_known": {
+      "sangchul_used_fully": "He didn't make it to Gangnam.\n\nThe scenery streams past the KTX window. Bound for Changwon.\nHe ran five years using Lim Sang-chul's guilt as a lever, and in the end Gangnam stayed out of reach.\n\nHe used him to the last. Took the information, got introduced to the seats.\nAnd after all that — this is all there is.\n\nWith the phone in his hand, he calls his father.\n\n\"Dad, I'm coming down. Let's get a meal together.\"\nThe dial tone rang twice.\n\n\"...Sure. Dad'll buy you gukbap.\"\n\nListening to that voice, {name} thought.\nThat he'd used, with his own hands, the man who brought his father down —\nhe would never be able to say it through this call.\n\nHe sold everything there was to sell, and Gangnam never came.\nWhat's left — a bowl of gukbap, and one thing he can never say.",
+      "sangchul_truth_known": "He didn't make it to Gangnam.\n\nThe scenery streams past the KTX window. Bound for Changwon.\nHe'd struggled for five years, but Gangnam stayed out of reach in the end.\n\nWith the phone in his hand, he calls his father.\n\n\"Dad, I'm coming down. Let's get a meal together.\"\nThe dial tone rang twice.\n\n\"...Sure. Dad'll buy you gukbap.\"\n\n{name} thought of Lim Sang-chul.\nThe man who pushed his father into that debt. {name} knows the truth.\nHis father doesn't.\n\nHe thought about telling him, hundreds of times.\nBut the voice on the other end right now — was just giddy that his son was coming down.\n\nHe didn't want to break that gladness.\n\nHe couldn't buy the Gangnam apartment.\nInstead, so his father could stay at peace not knowing — {name} chose to carry that truth alone.\n\nMaybe this was harder than Gangnam.",
+      "jaehyuk_trusted_fully": "Not Gangnam. Five years gone.\n\nCounted what Park Jaehyuk took.\nMoney was the biggest loss. Time was next.\n\nAfter that, stopped trying to climb fast. Made a rule of it.\n\nLate — called Dad.\n\n\"Dad, it's me.\"\n\"...Hey, son. You doing okay?\"\n\nNot Gangnam. But I made the call.\nMaybe that was the best thing I did in five years."
+    }
+  },
+  {
+    "id": "stable_success",
+    "title": "Stable Success",
+    "description": "One billion won.\n\nThe day that number first showed up in his account,\n{name} did nothing.\n\nHe just closed the app and lay down to sleep.\n\nSeoul glittered beyond the window.\nGangnam was somewhere in those lights. Out of reach.\nAnd yet — he wasn't afraid.\n\nLease expirations, medical bills, payday texts.\nWhere all that weight used to be, a question settled in for the first time.\n\nHow should I live now.\n\nHe didn't reach three billion. He didn't achieve the Gangnam dream.\nBut waking up without fear —\n\nmaybe that was the real dream all along.",
+    "description_if_known": {
+      "cut_sangchul_network": "The day one billion showed up in his account, {name} did nothing.\nHe just closed the app and lay down to sleep.\n\nThere were opportunities he'd passed on. Money that could have come faster. Deals he chose not to make.\n\nThe day he severed that connection came back to him. After that, things slowed.\nFor a long time it felt like a mistake.\n\nBut this one billion — it's money that never used anyone's guilt as leverage.\nIt came slowly. It's his money.\n\nSeoul glittered beyond the window. He wasn't afraid."
+    }
+  },
+  {
+    "id": "ordinary_life",
+    "title": "Just a Person",
+    "description": "He didn't make it to Gangnam.\n\nA villa on the outskirts of Seoul. Rent 580,000 a month.\nOne room with one window, and beyond the window, the wall of the next building.\n\nAn ordinary job. An ordinary today.\nSubway in the morning, subway in the evening, home to wash up and sleep.\n\nSometimes when Gangnam apartment prices come up on the news, he blanks out for a second.\n'If I'd done things differently.' That thought comes too, sometimes.\n\nBut dinner tasted good tonight.\nA cup ramen bought at the convenience store on the way home.\nRain falling outside, and it's his own room.\n\n{name} went to search something on his phone, then just set it down.\n\nIn Seoul, there are far more people who didn't make it to Gangnam than people who did.\n{name} is one of them.\n\nWhether that's failure — he doesn't know.\nWhat's certain is that tonight isn't cold.\nThere are nights when that's enough.",
+    "description_if_known": {
+      "cut_sangchul_network": "He didn't make it to Gangnam.\n\nA villa on the outskirts of Seoul. Rent 580,000 a month.\nOne room, one window, and beyond it — the wall of the next building.\n\nThere was a door he could have walked through faster. He closed it.\nBecause he knew where that door came from.\n\nSometimes he wonders where he'd be now if he hadn't. Probably somewhere better.\n\nBut that thought doesn't stay long.\nThis room needs no explanation.\n\nThis room feeling a little less bitter — that's because of that choice."
+    }
+  },
+  {
+    "id": "burnout",
+    "title": "Collapsed from Overwork",
+    "description": "His body stopped first.\n\nIt was on the goshiwon stairs. Coming down from the 3rd floor to the 1st,\nhe couldn't stay standing without gripping the railing.\n\nThere had been signs. Less sleep, skipped meals,\nthe room spinning every time he went to the bathroom.\nStill he didn't stop. Seoul doesn't wait for people who rest.\n\nAn ER IV drip. Fluorescent lights on the ceiling.\nSomeone groaning in the next bed.\n\nA nurse asked, checking the chart.\n\"Do you have a guardian's contact?\"\n\n{name} couldn't answer.\nThere were people he could call, but they were people he didn't want to call.\nFather, mother, army buddies.\nHe didn't want to worry them. Because he hadn't achieved anything yet.\n\nGangnam was the goal.\nWhile running, he lost the runner himself.\n\nStaring at the hospital ceiling, he asked for the first time.\n\nAm I, right now — happy.\n\nNo answer came.\nMaybe he'd been the one not letting it come."
+  },
+  {
+    "id": "mental_break",
+    "title": "Mental Collapse",
+    "description": "The psychiatrist's office was quieter than he'd expected.\n\nHe'd held out three weeks before booking the appointment.\nHe hated going outside. He hated people.\nAt some point even getting up began to use all his energy.\n\nThe doctor asked. \"What's the hardest thing for you these days?\"\n\n{name} thought for a moment.\nHe couldn't say 'I can't get to Gangnam.'\nIt didn't even seem like the real problem.\n\n\"I don't know. Everything just feels like too much.\"\n\nHe doesn't know when it started.\nHe wore out from comparing, collapsed from wearing out, didn't even notice he was collapsing.\n\nHe thought he had to act strong.\nHe thought weak people get pushed aside in Seoul.\n\nThat thought was wrong.\n\nMore precisely — even if it was right,\nhe couldn't survive five years that way.\n\nNext time, the mind comes first. Before Gangnam."
+  },
+  {
+    "id": "bankruptcy",
+    "title": "Debt Abyss",
+    "description": "The day his debt passed 100 million, {name} decided to stop looking at the numbers.\n\nAt first it was a small minus.\nHe thought 'just for a moment.'\nThat became 20 million, 50 million, 100 million.\n\nLeverage doubles your gains.\nAnd it doubles your losses at the same ratio.\nHis head knew it. His hands didn't.\n\nWhen the first collection call came, it was an unknown number, so he hung up.\nThe second, he answered then hung up.\nThe third, he just answered.\n\nHe sat in the goshiwon room punching at a calculator.\nPrincipal 120 million. Monthly interest 950,000. Salary 2.2 million.\n\nThe numbers didn't add up.\nHe decided not to trace where it went wrong anymore.\n\nHe went out and bought a convenience store coffee.\n500 won. That was exactly all that was in his wallet.\n\nHe started with 500,000.\nHe ended at minus 120 million.\n\nStill, he starts again.\nThis time — beginning with not losing."
+  },
+  {
+    "id": "crypto_ghost",
+    "title": "Crypto Ghost",
+    "description": "He could no longer put the phone down.\n\nWatching crypto charts became the center of his life.\nCheering when it rose, crumbling when it fell.\nAt some point reality became the game, and the chart became reality.\n\nHe checked the screen even while eating.\nHe refreshed the order book even as he lay down to sleep.\n\nThe man who set out to buy a Gangnam apartment ended up spending his days with an exchange app in his hand.\n\nThe chart was right there. Life was somewhere else."
+  },
+  {
+    "id": "startup_exit",
+    "title": "Startup Exit",
+    "description": "He signed the contract.\n\nHis hand still trembled a little.\n\nThe day he raised funding, the night a teammate ran off, the dawn he decided to pivot.\nAll of it got settled with this one signature.\n\nThe acquisition amount appeared as a number.\n\n{name} went to the bathroom and washed his hands.\nHe stood in front of the mirror and did nothing for about ten seconds.\n\nHe came out.\n\nAs CEO, he sent a notice to the team.\n\"Thank you all for your hard work.\"\n\nThere wasn't just one way to buy a Gangnam apartment.\nThe world recognizing the value of what you built — that was a Gangnam dream too."
+  },
+  {
+    "id": "political_fix",
+    "title": "To Yeouido",
+    "description": "He was elected.\n\nThe man who set out to enter Gangnam entered Yeouido instead.\nStarting from a goshiwon, through being an aide, all the way to the gold badge.\n\nThe day he first walked into the National Assembly member's office,\nhe could look down on the Gangnam apartment complexes through the window.\n\nFive years ago he'd set out to live in that neighborhood.\nNow he looks down on it.\n\nHis assets aren't three billion.\nBut that money isn't the only power in this city,\n{name} proved in a different way.\n\nThe shape of a dream sometimes changes along the road."
+  },
+  {
+    "id": "lonely_rich",
+    "title": "The Lonely Rich",
+    "description": "One billion won showed up.\n\nHe sat alone in the living room and looked out the window.\nSeoul at night was always beautiful.\n\nHe was hungry. He opened the delivery app, then closed it.\nEating alone felt like a hassle.\n\nHe opened his contacts.\nHe couldn't remember the last time he'd texted anyone 'Have you eaten?'\n\nIt wasn't that people left while he chased money.\nMore precisely, the moments he chose money over people had quietly piled up.\n\nHe opened the delivery app again.\nOrdered a single portion.\n\nA billion-won loneliness was — just loneliness."
+  },
+  {
+    "id": "investment_master",
+    "title": "Investment Master",
+    "description": "One day, he bought when others sold in fear.\n\nHe was right.\n\nThe next time too.\nAnd the next.\n\nAt first he thought it was luck.\nWhen it kept repeating, a pattern began to show.\n\nThe market moves on people's emotions.\nIt gets cheap when people are afraid, expensive when they're greedy.\n{name} walked the opposite direction in that current.\n\nFive hundred million.\n\nThis money wasn't born.\nThe practice of admitting when he was wrong,\nthe practice of not crumbling when he lost,\nthose hours piled up into it.\n\nHe gained something worth more than money.\nAn eye that reads the market.\nNo one can take this away."
+  },
+  {
+    "id": "reputation_legend",
+    "title": "Legend of Seoul",
+    "description": "He doesn't know when it started.\n\nOne day he went to an industry event, and a stranger knew his name first.\n\"You're {name}, aren't you?\"\n\n{name} paused for a moment.\n\nTrust breaks if you rush it.\nHe kept promises, did what he said, admitted when he didn't know.\nThat was all.\n\nBut it added up.\n\nThree hundred million. It wasn't Gangnam.\nBut in this city, {name}'s name came to mean the same thing as trust.\n\nSeoul is, in the end, a city made of people.\n{name} found a way to survive among those people for a long time."
+  },
+  {
+    "id": "healthy_retirement",
+    "title": "Healthy Retirement",
+    "description": "Fifty-five. A morning jog.\n\nHis knees are still okay.\nRunning along the Han River, he stopped for a moment to look at the water.\n\nHe thought of the alley visible from a thirty-three-year-old's goshiwon window.\nFrom that window he'd dreamed of Gangnam.\n\nHe didn't make it to Gangnam.\n\nInstead, at fifty-five his knees are good, his blood pressure is normal, and he can run alone in the morning.\nHe didn't overdo it, he rested well, ate what he should and slept when he should.\n\nThe Han River was shining.\n\nHe learned early that running long requires a pace.\nThis is the result of that pace."
+  },
+  {
+    "id": "debt_spiral",
+    "title": "The Debt Spiral",
+    "description": "He sat in the goshiwon room punching at a calculator.\n\nPrincipal 200 million. Monthly interest 1.4 million. Salary 2.5 million.\n\nThe numbers didn't add up. He borrowed more to pay, borrowed more to plug the gap.\nDebt births interest, interest births debt.\nThe structure never added up from the start.\n\n{name} set down the calculator.\n\nHe decided not to calculate anymore.\nWhere it went wrong — that no longer mattered.\n\nHe went out and bought a convenience store coffee.\n500 won. That was exactly all that was in his wallet."
+  },
+  {
+    "id": "orthodox_pinnacle",
+    "title": "Pinnacle of the Orthodox",
+    "description": "He lived diligently.\n\nWhile others struck it rich on crypto, he worked quietly.\nHe didn't refuse overtime, didn't skip company dinners, didn't talk back to his boss.\n\nTwo hundred million. It wasn't Gangnam.\nBut now he'd become someone others envied.\n\nAt a team dinner, a junior asked.\n\"How did you live so diligently, senior?\"\n\n{name} thought for a moment.\n\nWhether he'd lived diligently.\nOr — whether he'd been too afraid of other roads to leave this one.\n\n\"Just did.\" That's how he answered.\n\n{name} himself still doesn't know the difference between the two.\nMaybe that's the answer of this road."
+  },
+  {
+    "id": "orthodox_hollow",
+    "title": "Hollow Success",
+    "description": "At fifty-five he opened his bankbook.\n\nThe number was enough.\n\nHe stared out the window for a long while. He felt nothing.\n\nHe lived diligently. The way society wanted.\nDidn't skip overtime, invested safely, didn't do anything that stood out.\nBecause that was right — no, more precisely, because people said it was right.\n\nHe never once asked what he himself wanted.\n\nIs this success.\nIt's success, alright. Numbers don't lie.\n\nBut in this living room, who am I now.\nThat — there's no answer."
+  },
+  {
+    "id": "balanced_life",
+    "title": "My Own Balance",
+    "description": "It was a road neither orthodox nor unorthodox.\n\nHe invested while working at a company,\ndid side gigs while investing,\nrefocused on the company when the side gigs went well.\n\nSome people said you couldn't pin him down.\n\nOn one side, 'should have focused more,'\non the other, 'maybe spread too thin' — there were such moments.\n\nBut {name} was just — that was me.\n\nHe didn't make it to Gangnam.\nDidn't succeed big, didn't fail big.\n\nOne evening, before the account balance,\nhe started thinking about whether today had been fun.\n\nThat was {name}'s way. He lived his own way, and survived.",
+    "description_if_known": {
+      "cut_sangchul_network": "Balance meant — not just how much you bring in, but also what you choose not to bring in.\n\nThere was a connection he walked away from. A faster road, but he knew where it came from.\n\nAfter that, things slowed. Still, he got here.\n\nHe didn't make it to Gangnam.\nBut none of this money has an origin he can't explain.\n\nThat was {name}'s balance.",
+      "jiyeon_beautifully_apart": "Balance meant — not just how much you bring in, but also what you choose not to bring in.\n\nJiyeon will be building her own thing in Busan. \"Different directions\" — at first it felt like goodbye. Now it feels like the right phrase.\n\nNot holding on, but cheering her on. That was one part of {name}'s balance."
+    }
+  },
+  {
+    "id": "unorthodox_legend",
+    "title": "The Outsider's Victory",
+    "description": "Five hundred million.\n\nDown the road others laughed at.\n\nWhile those who followed the orthodox path gained stability,\n{name} was walking in a different direction.\n\nThe day he was nearly swept away by leverage.\nThe day a failed investment sent him back to the goshiwon.\nWhy he didn't change direction even then — honestly, he doesn't really know.\n\nThat road just didn't seem like his road.\n\nSeoul is a city you have to fight to the end.\n{name} survived that fight his own way.\n\nFive years ago, a thirty-three-year-old staring at a bankbook in a goshiwon\nwouldn't have believed this number if he'd seen it now.\n\nHe wouldn't have believed it. Which made it even better."
+  },
+  {
+    "id": "early_retirement",
+    "title": "Early Retirement",
+    "description": "The alarm didn't go off.\n\nHe opened his eyes. It was morning.\nSomething felt off, so he checked his phone. No alarm.\n\nOh, right.\n\nHe retired before fifty.\n\nHe understood compounding early, put principle before greed,\nand luck followed maybe twice.\n\nThe result was a 'morning without an alarm.'\n\nHe brewed coffee. Looked out the window.\nSeoul was busy again today. People commuting, the subway, buses.\n\nFive years ago he was out there.\n\nNow he's here.\n\nThey say real life begins now.\n{name} still doesn't know what that means.\nHe'll find out now. Without rushing."
+  },
+  {
+    "id": "creator_success",
+    "title": "The Age of the Creator",
+    "description": "The comment notifications wouldn't stop.\n\nOne million.\nOne million subscribers.\n\nThe day he uploaded his first video, it had 43 views.\nThat wasn't embarrassing. He just wanted to film.\n\nThat became 10,000, became 100,000, and now it's come this far.\n\nA brand deal contract came in.\nAn amount more than a month's rent on a Gangnam apartment.\n\nSigning it, {name} had a strange feeling.\nDoing what he wanted to do, and the money followed.\n\nHe didn't know this kind of way existed five years ago.\n\nThere wasn't just one way to survive in Seoul.\n{name} standing in front of the camera is the proof."
+  },
+  {
+    "id": "instant_legend",
+    "title": "Myth",
+    "description": "Five hundred thousand won.\nThree months.\nThree billion.\n\nIt's a number that makes no sense. {name} himself knows it.\n\nWhether it was at the racetrack or in front of a chart — only {name} knows what happened that day.\nThe odds that day, the bet that day. He could never do it again.\n\nThe deed to a Gangnam apartment, in his hand.\nIt came so fast that none of it feels real.\n\nHe still hasn't reconciled with his father.\nHe still hasn't met the people he was meant to meet.\nA whole five years were still left.\n\nAnd yet it's over. Because he reached the goal.\n\nPeople will tell this story for years.\n'A jobless guy living in a goshiwon got to Gangnam in three months.'\nNo one will believe it.\n\nSeoul sometimes allows one impossible thing like this.\nWho it'll be — no one knows.\n\n— You found a path that was never designed.\nThis almost never happens."
+  },
+  {
+    "id": "full_circle",
+    "title": "In His Father's Name",
+    "description": "On the day he entered Gangnam, he called his father.\n'Dad, that debt to the Lim guy — I paid it all off.'\nA brief silence.\n'...How?'\n'From the man himself.'\n\nHis father was quiet for a long time, then wept.\n\nMinjun looked out the window. It was Gangnam. The same sky as the day he first arrived."
+  },
+  {
+    "id": "gangnam_dream_white",
+    "title": "Human Until Gangnam",
+    "description": "₩3 billion.\nThe deed to a Gangnam apartment, in hand.\n\nIn this city — no one was stepped on to get here.\nThis number once seemed impossible without exploitation.\n\nIt was, in fact, nearly impossible.\nSlow. Many days felt like falling behind.\nAnd yet — here.\n\nStanding at the window. The Gangnam boulevard stretches below.\nThe same sky as the day {name} first arrived in this city, five years ago.\n\nBack then, {name} was no one yet.\nNow — {name} knows what was kept intact on the way here.\n\nWhat that is worth, you only know by arriving."
+  },
+  {
+    "id": "second_love",
+    "title": "To Gangnam, Together",
+    "description": "On the Gangnam apartment balcony, Dae-eun looked at the night view.\n'It's really high up here.'\nMinjun said, 'At first, getting here was the goal.'\nDae-eun turned around. 'And now?'\n\nMinjun didn't answer. Instead he made another cup of coffee.\n\nThere are things that need no answer."
+  },
+  {
+    "id": "guardian",
+    "title": "The Things He Kept",
+    "description": "On the day his father was discharged, Minjun went down to Changwon.\n\nIn the hospital parking lot, his father said.\n'Don't you have to go back to Seoul?'\n'I'll stay a while.'\n\nMinjun carried his father's bags.\nThere was no Gangnam yet. There was something to do before that."
+  },
+  {
+    "id": "gambling_recovery",
+    "title": "The End of the Circles",
+    "description": "He didn't make it to Gangnam.\n\nThe bankbook fell far short of the goal.\nThe three billion he'd set five years ago remained, in the end, only a number.\n\nBut on {name}'s desk hangs a calendar.\nA calendar full of circles.\n\nDays spent without gambling. More than a hundred circles.\n\nThere was a time {name} hit rock bottom.\nBlowing borrowed money, calculating the next hand at dawn.\nThere, he reached out a hand. Asking for help.\n\nThat was the best thing he did in these five years.\n\nIn terms of money it may be a lost game.\nBut not losing himself — that was something three billion couldn't buy.\n\n{name} drew one more circle on the calendar today.\nHe'll draw one tomorrow too. That's enough."
+  },
+  {
+    "id": "career_climber",
+    "title": "The Ladder He Switched",
+    "description": "His business card changed three times.\n\nFive years ago, he started at a convenience store night counter.\nNext was an office job, then a bigger company, and now — a place you'd know by name.\n\nOthers said holding one position was a virtue.\n{name} thought differently. Holding on and being trapped are different things.\n\nThe day he named a number first at the salary negotiation table,\nthe day he listened to the headhunter's call to the end instead of hanging up,\nthe day his hand didn't tremble as he handed in his resignation.\n\nThose days piled up into his current title.\n\nHe couldn't buy a Gangnam apartment. Three billion was far off.\nBut {name} proved his worth to the market,\nand that worth rose every year.\n\nOn the way home, he saw his reflection in the building lobby glass.\nThe suit didn't feel awkward.\n\nHe hadn't climbed a ladder.\nHe'd kept switching to a better one."
+  },
+  {
+    "id": "career_burnout",
+    "title": "The Things He Endured",
+    "description": "The commuter bus. The dark city passing by the window.\n\nHe worked for five years.\nHe considered changing jobs, and actually moved, or tried to.\nThere were days he first spoke the word burnout out loud.\nHe moved toward something better, and there were days he moved out of exhaustion.\n\nThirty-eight. He has a job.\nIt's not three billion, and not even a hundred million.\n\nEvery time the bus passed a stop, he thought.\nIs this failure.\n\nFor five years he never once gave up.\nHe didn't go bankrupt. He didn't collapse.\nHe didn't run away, and tried to find a better place.\n\nJust because that doesn't all show up in his account balance now\n— doesn't make it a lie.\n\nThe bus stopped at the last stop.\n{name} rose from his seat and walked toward the door.\n\nHe goes to work tomorrow too.\nWhether that's tragedy or relief — right now he isn't sure."
+  },
+  {
+    "id": "sangchul_reckoning",
+    "title": "Reckoning",
+    "description": "He didn't make it to Gangnam.\n\nInstead, he wrote a statement at the police station.\nPark Sang-jin. Lim Sang-chul. The two names that brought down his father six years ago.\n\nThe hand writing the statement trembled.\nBecause he knew that the moment he wrote it, the last ladder to Gangnam would be pulled away.\nLim Sang-chul's network, the information he provided, those seats — all of it, over.\n\nStill he didn't stop the pen.\n\nHe came home and called his father.\n\"Dad. About that debt. It's not your fault anymore. I looked into all of it.\"\n\nThe other end of the line was quiet for a long time.\nAnd then his father, for the first time in his life, cried like a child.\n\nThere was no Gangnam apartment.\nBut that one phone call let him set down something heavier than six years of debt.\n\n{name} opened the window.\nToday, even the sky over Gangnam was just sky."
+  },
+  {
+    "id": "writer",
+    "title": "The Chronicler",
+    "description": "A story that began at thirty-three, in a goshiwon room.\nHe didn't reach Gangnam. Not three billion, not an apartment. At thirty-eight he still lived in a {housing}.\n\nBut one day, he began to write — everything that had happened.\n\nConvenience store lunchboxes and 3 a.m., the first paycheck and the failed villa lease, a friend's wedding invitation and the New Year's rice cake soup eaten alone. The stock charts he pored over through sleepless nights, and the bathroom at the end of the goshiwon hall.\n\nA memoir of a failed Gangnam dream.\n\nFirst printing 50,000 copies. Number-one bestseller two weeks after release."
+  }
+]

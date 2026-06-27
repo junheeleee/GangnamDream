@@ -2114,7 +2114,8 @@
         "effects": {
           "investment_skill": 2,
           "intelligence": 1,
-          "mental": 3
+          "mental": 3,
+          "tint": -2
         },
         "flags": [
           "first_invest_win"
@@ -2125,7 +2126,8 @@
         "text": "Sell now and lock it in — it's only mine once it's in hand",
         "effects": {
           "intelligence": 1,
-          "mental": 2
+          "mental": 2,
+          "tint": 1
         },
         "flags": [
           "first_invest_win"
@@ -2157,7 +2159,8 @@
         "text": "I held — this is a long game",
         "effects": {
           "mental": -10,
-          "investment_skill": 2
+          "investment_skill": 2,
+          "tint": 1
         },
         "flags": [
           "first_invest_loss"

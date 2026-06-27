@@ -6,11 +6,17 @@
     "choices": [
       {
         "text": "Find the friend. First check if he ran",
-        "result_text": "The friend hadn't run. He was alone in a half-basement office.\n\n\"I'm sorry. Sorry is all I can say.\"\n\nHeard how the business collapsed. He'd been scammed. Him too.\n\nDrafted a installment repayment agreement together. {name} absorbed part of it.\n\nThought of Father. That man back then — did he have this same face?"
+        "result_text": "The friend hadn't run. He was alone in a half-basement office.\n\n\"I'm sorry. Sorry is all I can say.\"\n\nHeard how the business collapsed. He'd been scammed. Him too.\n\nDrafted a installment repayment agreement together. {name} absorbed part of it.\n\nThought of Father. That man back then — did he have this same face?",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "Find a lawyer. Reduce it legally first",
-        "result_text": "Retainer: ₩1,500,000. Worth every won.\n\n\"Excess over the maximum legal rate, procedural defects in the acceleration notice — there's room to fight.\"\n\n₩32,000,000 came down to ₩7,000,000. 24 monthly installments.\n\nThe lawyer's last words:\n\"From now on — don't stamp anything, not even at your parents' funeral.\"\n\nDecided to remember that for life."
+        "result_text": "Retainer: ₩1,500,000. Worth every won.\n\n\"Excess over the maximum legal rate, procedural defects in the acceleration notice — there's room to fight.\"\n\n₩32,000,000 came down to ₩7,000,000. 24 monthly installments.\n\nThe lawyer's last words:\n\"From now on — don't stamp anything, not even at your parents' funeral.\"\n\nDecided to remember that for life.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -47,11 +53,17 @@
     "choices": [
       {
         "text": "Demand for distribution + leasehold registration — recover everything legally possible",
-        "result_text": "A month of courts, registry offices, community centers.\n\nRecovered 60% of the deposit through priority repayment and distribution.\nThe other 40% — ₩8,000,000 — vanished.\n\nThat day, ₩300,000 for insurance felt expensive.\nThat ₩300,000 was actually ₩8,000,000.\n\nBrutal tuition. But this kind of lesson lasts a lifetime after one payment."
+        "result_text": "A month of courts, registry offices, community centers.\n\nRecovered 60% of the deposit through priority repayment and distribution.\nThe other 40% — ₩8,000,000 — vanished.\n\nThat day, ₩300,000 for insurance felt expensive.\nThat ₩300,000 was actually ₩8,000,000.\n\nBrutal tuition. But this kind of lesson lasts a lifetime after one payment.",
+        "effects": {
+          "tint": 2
+        }
       },
       {
         "text": "Track down the landlord personally. Grab him by the collar if needed",
-        "result_text": "Went to the landlord's registered address. Already empty.\n\nLearned there that there were seventeen victims.\nJoined the class action — but recovery odds were low, they said.\n\nWhile chasing rage, the distribution demand deadline passed.\nAnger ate the procedure.\n\n₩12,000,000. Seoul's lessons always cost this much."
+        "result_text": "Went to the landlord's registered address. Already empty.\n\nLearned there that there were seventeen victims.\nJoined the class action — but recovery odds were low, they said.\n\nWhile chasing rage, the distribution demand deadline passed.\nAnger ate the procedure.\n\n₩12,000,000. Seoul's lessons always cost this much.",
+        "effects": {
+          "tint": -1
+        }
       }
     ]
   },
@@ -62,11 +74,17 @@
     "choices": [
       {
         "text": "Get the full workup this time",
-        "result_text": "Results — overwork, malnutrition, early arrhythmia.\n\n\"A few more months of living like this and it would have been serious.\"\n\nHospital bill: ₩1,200,000. The ER that day would have been ₩300,000.\n\nThe body always collects its debts. With interest.\n\nLeaving the hospital, made an appointment for the first time. With himself. Eat, then run."
+        "result_text": "Results — overwork, malnutrition, early arrhythmia.\n\n\"A few more months of living like this and it would have been serious.\"\n\nHospital bill: ₩1,200,000. The ER that day would have been ₩300,000.\n\nThe body always collects its debts. With interest.\n\nLeaving the hospital, made an appointment for the first time. With himself. Eat, then run.",
+        "effects": {
+          "tint": 5
+        }
       },
       {
         "text": "Just take the IV and leave again. Can't stop now",
-        "result_text": "The doctor objected. The nurse took a consent form.\n'Discharge against medical advice.'\n\nLegs wobbled slightly walking out the hospital door.\n\nA warning ignored twice — isn't a warning the third time.\n{name} knew that. Knew it and walked.\n\nSeoul doesn't teach you how to stop.\nUntil the body teaches you directly."
+        "result_text": "The doctor objected. The nurse took a consent form.\n'Discharge against medical advice.'\n\nLegs wobbled slightly walking out the hospital door.\n\nA warning ignored twice — isn't a warning the third time.\n{name} knew that. Knew it and walked.\n\nSeoul doesn't teach you how to stop.\nUntil the body teaches you directly.",
+        "effects": {
+          "tint": -5
+        }
       }
     ]
   },
@@ -77,11 +95,17 @@
     "choices": [
       {
         "text": "Quietly tell the team lead the truth",
-        "result_text": "After the second round, pulled the team lead aside.\n\n\"The truth is it wasn't a business — I was repaying my father's debt. Six years.\"\n\nThe team lead poured a shot of soju. Said nothing for a while.\n\n\"I'll push the presentation. But — a guy who repaid debt for six years beats a guy who prepped a business.\nGrit can't be faked.\"\n\nThe lie disappeared. Strangely, leaving something sturdier behind."
+        "result_text": "After the second round, pulled the team lead aside.\n\n\"The truth is it wasn't a business — I was repaying my father's debt. Six years.\"\n\nThe team lead poured a shot of soju. Said nothing for a while.\n\n\"I'll push the presentation. But — a guy who repaid debt for six years beats a guy who prepped a business.\nGrit can't be faked.\"\n\nThe lie disappeared. Strangely, leaving something sturdier behind.",
+        "effects": {
+          "tint": 7
+        }
       },
       {
         "text": "Study all night and actually pull off the presentation",
-        "result_text": "A week of studying business plan formats until 3 AM.\n\nThe presentation — passed. An executive nodded.\n\nWalking back, the team lead clapped his shoulder. \"Knew you had the experience.\"\n\nThe compliment sat like indigestion.\n\nThe lie had become a skill. But the lie hadn't disappeared.\nIt had just gone deeper."
+        "result_text": "A week of studying business plan formats until 3 AM.\n\nThe presentation — passed. An executive nodded.\n\nWalking back, the team lead clapped his shoulder. \"Knew you had the experience.\"\n\nThe compliment sat like indigestion.\n\nThe lie had become a skill. But the lie hadn't disappeared.\nIt had just gone deeper.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -137,11 +161,17 @@
     "choices": [
       {
         "text": "\"I'm going. I'm keeping that promise.\"",
-        "result_text": "A laugh came through the receiver.\n\n\"Alright. But don't overdo it. To me, you—\"\n\nThe words cut off. Long silence.\n\n\"...Stay healthy. Hanging up.\"\n\nListening to the dial tone, {name} held the phone for a long while.\nThe unfinished sentence hung somewhere in the line.\nTo hear the rest of it — he had to go. Gangnam or Changwon."
+        "result_text": "A laugh came through the receiver.\n\n\"Alright. But don't overdo it. To me, you—\"\n\nThe words cut off. Long silence.\n\n\"...Stay healthy. Hanging up.\"\n\nListening to the dial tone, {name} held the phone for a long while.\nThe unfinished sentence hung somewhere in the line.\nTo hear the rest of it — he had to go. Gangnam or Changwon.",
+        "effects": {
+          "tint": 3
+        }
       },
       {
         "text": "\"Father. Even if I never make Gangnam — I'm taking care of you.\"",
-        "result_text": "The other end went quiet.\n\n\"...What nonsense. I have a house.\"\n\nThe voice trembled. The pretending was fully audible.\n\n\"Hanging up. Eat your meals.\"\n\nAfter hanging up, it landed.\nGangnam was a condition, and the condition just got removed.\nRemove the condition from a promise — and it becomes a real one."
+        "result_text": "The other end went quiet.\n\n\"...What nonsense. I have a house.\"\n\nThe voice trembled. The pretending was fully audible.\n\n\"Hanging up. Eat your meals.\"\n\nAfter hanging up, it landed.\nGangnam was a condition, and the condition just got removed.\nRemove the condition from a promise — and it becomes a real one.",
+        "effects": {
+          "tint": 7
+        }
       }
     ]
   },

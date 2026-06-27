@@ -60,21 +60,6 @@
     ]
   },
   {
-    "id": "callback_jiyeon_was_honest_echo",
-    "title": "The Day You Were Honest with Jiyeon",
-    "description": "A month since you told Jiyeon something honestly.\nIt wasn't easy.\nToday Jiyeon texted:\n'Thank you for being honest with me then.'",
-    "choices": [
-      {
-        "text": "\"It wasn't easy for me either.\"",
-        "result_text": "Jiyeon said 'I know. That's why I'm grateful.'\nHonesty wasn't for when it was easy.\nThe kind done when it's hard — that's what stays."
-      },
-      {
-        "text": "\"It was the natural thing.\"",
-        "result_text": "'It's just what you do,' you said.\nJiyeon replied '...Not everyone thinks that.'\nDoing what's natural — turns out it's not that common."
-      }
-    ]
-  },
-  {
     "id": "callback_daeun_kept_distance_echo",
     "title": "After Keeping Distance",
     "description": "Two months since you decided to keep your distance from Daeun.\nToday you spotted her from far away.\nYou passed without saying anything.",

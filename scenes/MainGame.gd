@@ -1,5 +1,11 @@
 extends Control
 
+# ── Steam 출시 설정 ───────────────────────────────────────────
+# Steamworks에 앱 등록 후 STEAM_APP_ID를 실제 숫자 ID로 교체하면 위시리스트
+# 버튼이 정식 상점 페이지로 연결된다. 그 전까지는 안전한 폴백(상점 검색)으로 연결.
+const STEAM_APP_ID := "STEAM_APP_ID"  # TODO: Steamworks 등록 후 실제 App ID(숫자)로 교체
+const STEAM_FALLBACK_URL := "https://store.steampowered.com/search/?term=Gangnam%20Dream"
+
 var investment_system: Node
 var job_system: Node
 var relationship_system: Node
@@ -527,7 +533,7 @@ func _build_top_bar(parent):
 	shop_button.add_theme_font_size_override("font_size", 14)
 	shop_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	shop_button.pressed.connect(_open_shop)
-	row.add_child(shop_button)
+	# 상점 버튼 비활성화 — 아이템 시스템은 서사 유물 방향으로 전환 예정 (DECISIONS.md 2026-06-24)
 
 	var title_btn2 = _small_button(_tr("칭호", "Title"), "#1a2a1a")
 	title_btn2.custom_minimum_size = Vector2(56, 40)
@@ -752,7 +758,7 @@ func _build_info_panel():
 	if _font_bold:
 		player_hdr.add_theme_font_override("font", _font_bold)
 	stat_box.add_child(player_hdr)
-	for key in ["housing", "job", "health", "mental", "intelligence", "social_skill", "appearance", "investment_skill", "luck", "reputation", "asset"]:
+	for key in ["housing", "job", "health", "mental", "asset"]:
 		var stat_row = HBoxContainer.new()
 		stat_box.add_child(stat_row)
 		var name_label = _label(_stat_name(key), 14, "#7a8496")
@@ -1282,6 +1288,16 @@ func _next_arc_id() -> String:
 	if _age == 37 and not f.get("chapter_37_seen", false):
 		return "chapter_card_37"
 
+	# ══ 연말 클로징 씬 — 각 연도의 마지막 밤 (5권 구조의 마침표) ══
+	if t >= 44 and t <= 48 and not f.get("arc_year1_close_seen", false):
+		return "arc_year1_close"
+	if t >= 92 and t <= 96 and not f.get("arc_year2_close_seen", false):
+		return "arc_year2_close"
+	if t >= 140 and t <= 144 and not f.get("arc_year3_close_seen", false):
+		return "arc_year3_close"
+	if t >= 188 and t <= 192 and not f.get("arc_year4_close_seen", false):
+		return "arc_year4_close"
+
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
 			and not f.get("arc_goshiwon_goodbye_seen", false):
@@ -1473,7 +1489,7 @@ func _next_arc_id() -> String:
 			and not f.get("arc_daeun_regret_seen", false):
 		return "arc_daeun_regret_draft"
 	# ── 다은 05 — 함께 가는 경로 (committed 이후 일상) ──
-	if t >= 50 and f.get("daeun_committed", false) \
+	if t >= 50 and f.get("daeun_close_bond", false) \
 			and not f.get("arc_daeun_05_together_seen", false):
 		return "arc_daeun_05_together"
 	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
@@ -1499,8 +1515,17 @@ func _next_arc_id() -> String:
 	if t >= 35 and f.get("arc_father_02_done", false) \
 			and not f.get("arc_father_03_seen", false):
 		return "arc_father_03_hospital"
-	# ── 아버지 별세 — 병원 알고도 미방문 (t64 이후 타임아웃) ──
-	if t >= 64 and f.get("arc_father_03_seen", false) \
+	# ── 아버지 별세 — 병원 알고도 미방문 (t100 이후, medication 목격 후 타임아웃) ──
+	# [유물 해금] 통화시간 23초를 가진 채 KTX를 타는 순간 — 별세 직전 전처리
+	if t >= 100 and f.get("arc_father_03_seen", false) \
+			and f.get("arc_father_medication_seen", false) \
+			and not f.get("visited_father", false) \
+			and not f.get("father_passed", false) \
+			and GameState.has_item("artifact_father_call") \
+			and not f.get("arc_father_call_on_ktx_seen", false):
+		return "arc_father_call_on_ktx"
+	if t >= 100 and f.get("arc_father_03_seen", false) \
+			and f.get("arc_father_medication_seen", false) \
 			and not f.get("visited_father", false) \
 			and not f.get("father_passed", false):
 		return "arc_father_passing"
@@ -1522,33 +1547,78 @@ func _next_arc_id() -> String:
 	# ══ 3구간: 여주인공 (턴 17+) ═══════════════════════
 	if t >= 17 and not f.get("arc_jiyeon_crash_seen", false):
 		return "arc_jiyeon_01_crash"
-	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 20:
+	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 26:
 		return "arc_jiyeon_02_store"
-	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 21:
+	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 36:
 		return "arc_jiyeon_03_offer"
-	# 데모 6개월(24턴) 안에 지연 점심(스캘핑 해금) 가능하도록 턴 조건 축소 (원래 t>=27)
-	if t >= 22 and f.get("arc_jiyeon_offer_seen", false) \
+	if t >= 40 and f.get("arc_jiyeon_offer_seen", false) \
 			and not f.get("arc_jiyeon_03b_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_jiyeon_03b_lunch"
+
+	# ── 추론 발견 경로 — 한PD건설 단서로 스스로 진실에 닿는 씬 (지력55+ 또는 비정통 경향) ──
+	if t >= 26 and t <= 50 and f.get("arc_sangchul_03_seen", false) \
+			and (GameState.intelligence >= 55 or GameState.route_unorthodox > 20) \
+			and not f.get("sangchul_truth_known", false) \
+			and not f.get("arc_sangchul_deduction_seen", false):
+		return "arc_sangchul_deduction"
 
 	# ── 임상철 인간적 면 — 아들 전화 이후 빈틈 (네트워크 이벤트 이후) ──
 	if t >= 26 and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_offguard_seen", false):
 		return "arc_sangchul_offguard"
 
-	# ── 임상철의 이름 — 밥 한 번 먹고 처음 사람으로 보인 날 (턴 30~42) ──
-	if t >= 30 and t <= 42 \
+	# ── 임상철의 이름 — 밥 한 번 먹고 처음 사람으로 보인 날 (턴 30~52) ──
+	# 상한 52: 네트워크(03) 합류가 늦은(자산<100만 장기) 플레이어도 offguard→human을
+	# 완주해 known_offer(t38~55)에 닿을 수 있도록 윈도우 확장. 일반 케이스는 t30에 발동.
+	if t >= 30 and t <= 52 \
 			and f.get("arc_sangchul_offguard_seen", false) \
 			and not f.get("arc_sangchul_human_seen", false):
 		return "arc_sangchul_human"
+	# ── 임상철 거울 씬 — "당신은 나랑 비슷해요" (진실 발견 전, 관계 깊어진 후) ──
+	if t >= 50 and t <= 90 \
+			and GameState.get_cast_affinity("sangchul") >= 65 \
+			and f.get("arc_sangchul_human_seen", false) \
+			and not f.get("sangchul_truth_known", false) \
+			and not f.get("arc_sangchul_mirror_seen", false):
+		return "arc_sangchul_mirror"
+
+	# ── 알면서도 — 진실을 안 채 상철을 계속 이용하는 구간 (대면 전 t38~55) ──
+	# 사람이 도구가 되는 순간: 알고도 멈추지 않는다.
+	if t >= 38 and t <= 55 and f.get("sangchul_truth_known", false) \
+			and f.get("arc_sangchul_human_seen", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and not f.get("arc_sangchul_known_offer_seen", false):
+		return "arc_sangchul_known_offer"
+	# ── 버릇 — 자기가 상철처럼 사람을 계산하는 걸 발견하는 거울 씬 (t50~59) ──
+	if t >= 50 and t <= 59 and f.get("sangchul_truth_known", false) \
+			and f.get("arc_sangchul_known_offer_seen", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and not f.get("arc_sangchul_known_reflex_seen", false):
+		return "arc_sangchul_known_reflex"
+
 	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
+	# [유물 해금] 임상철 명함을 가진 채 대면 전날 밤 — 명함과 함께 서는 씬
+	if t >= 60 and f.get("sangchul_truth_known", false) \
+			and not f.get("sangchul_confronted", false) \
+			and not f.get("sangchul_truth_buried", false) \
+			and not f.get("sangchul_quietly_distanced", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and GameState.has_item("artifact_sangchul_card") \
+			and not f.get("arc_sangchul_card_at_confrontation_seen", false):
+		return "arc_sangchul_card_at_confrontation"
 	if t >= 60 and f.get("sangchul_truth_known", false) \
 			and not f.get("sangchul_confronted", false) \
 			and not f.get("sangchul_truth_buried", false) \
 			and not f.get("sangchul_quietly_distanced", false) \
 			and not f.get("arc_sangchul_confrontation_seen", false):
 		return "arc_sangchul_confrontation"
+
+	# ── 알면서 사는 값 — 대면/청산 이후 상철 망 사용 결정 (Y2 후반~Y3 초) ──
+	if t >= 65 and t <= 90 \
+			and f.get("arc_sangchul_reckoning_seen", false) \
+			and not f.get("arc_y3_cost_of_knowing_seen", false):
+		return "arc_y3_cost_of_knowing"
 
 	# ── 임상철 관계 심화 ──
 	if t >= 14 and f.get("arc_sangchul_met_seen", false) \
@@ -1590,7 +1660,7 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_casino_seen", false):
 		return "arc_sangchul_casino_invite"
 	# ── 임상철×지연 교차점 — 두 세계의 충돌 ──
-	if t >= 35 and f.get("arc_jiyeon_offer_seen", false) \
+	if t >= 48 and f.get("arc_jiyeon_offer_seen", false) \
 			and f.get("arc_sangchul_03_seen", false) \
 			and not f.get("arc_sangchul_jiyeon_reveal_seen", false):
 		return "arc_sangchul_jiyeon_reveal"
@@ -1697,6 +1767,15 @@ func _next_arc_id() -> String:
 			and not f.get("hyunsu_pass_news_seen", false):
 		return "hyunsu_pass_news"
 
+	# ── 현수 Y4 — 자리잡은 사람 (안정 vs 야망 거울, 합격/피벗 둘 다) ──
+	if t >= 150 and (f.get("hyunsu_passed", false) or f.get("hyunsu_pivoted", false)) \
+			and not f.get("hyunsu_year4_echo_seen", false):
+		return "hyunsu_year4_echo"
+	# ── 현수 Y5 — 5년의 끝에서 온 전화 (moral_tint 반응형) ──
+	if t >= 200 and f.get("hyunsu_year4_echo_seen", false) \
+			and not f.get("hyunsu_year5_call_seen", false):
+		return "hyunsu_year5_call"
+
 	if t >= 19 and not f.get("arc_jaehyuk_reunion_seen", false):
 		return "arc_jaehyuk_01_reunion"
 	if t >= 29 and f.get("arc_jaehyuk_reunion_seen", false) \
@@ -1729,6 +1808,11 @@ func _next_arc_id() -> String:
 	if GameState.cast_has_flag("jaehyuk", "suspected") and not f.get("arc_jaehyuk_counter_seen", false) and t >= 42:
 		return "arc_jaehyuk_04b_counter"
 	# ── 사기 당한 후 재기 — ghost 이후, 사후처리 전 ──
+	# [유물 해금] 포장마차 셀카를 가진 채 ghost 발각 직후 — 그날 밤의 진실
+	if t >= 42 and f.get("arc_jaehyuk_ghost_seen", false) \
+			and GameState.has_item("artifact_jaehyuk_photo") \
+			and not f.get("arc_jaehyuk_photo_in_dark_seen", false):
+		return "arc_jaehyuk_photo_in_dark"
 	if t >= 44 and f.get("arc_jaehyuk_ghost_seen", false) \
 			and f.get("jaehyuk_scammed", false) \
 			and not f.get("arc_jaehyuk_standup_seen", false):
@@ -1815,14 +1899,14 @@ func _next_arc_id() -> String:
 			and not f.get("arc_opp_jiyeon_result_seen", false) \
 			and (f.get("jiyeon_deal_won", false) or f.get("jiyeon_deal_lost", false)):
 		return "arc_opp_jiyeon_win" if f.get("jiyeon_deal_won", false) else "arc_opp_jiyeon_lose"
-	# ── 지연의 고백 — 제안 이후, 임상철 경고 이후 ──
-	if t >= 44 and f.get("arc_jiyeon_offer_seen", false) \
-			and f.get("arc_sangchul_jiyeon_reveal_seen", false) \
+	# ── 지연의 고백 — 제안 이후, (임상철 경고 이후 OR t>=70 자연 발견) ──
+	if t >= 56 and f.get("arc_jiyeon_offer_seen", false) \
+			and (f.get("arc_sangchul_jiyeon_reveal_seen", false) or t >= 70) \
 			and not f.get("arc_jiyeon_truth_seen", false):
 		if f.get("warned_about_jiyeon", false):
 			return "arc_jiyeon_truth_warned"
 		return "arc_jiyeon_truth_moment"
-	if t >= 50 and f.get("arc_jiyeon_truth_seen", false) \
+	if t >= 64 and f.get("arc_jiyeon_truth_seen", false) \
 			and not f.get("arc_jiyeon_epilogue_seen", false):
 		return "arc_jiyeon_05_epilogue"
 
@@ -1865,12 +1949,24 @@ func _next_arc_id() -> String:
 			and f.get("hyunsu_pivoted", false) \
 			and not f.get("hyunsu_reconnected", false):
 		return "hyunsu_reunion_later"
+	# [유물 해금] 현수 명함 × 극도로 지친 Y4~Y5 — 연락해도 되는 사람
+	if t >= 145 and f.get("hyunsu_reconnected", false) \
+			and GameState.mental <= 35 \
+			and GameState.has_item("artifact_hyunsu_card") \
+			and not f.get("arc_hyunsu_lifeline_call_seen", false):
+		return "arc_hyunsu_lifeline_call"
 
 	# ══ 8구간: 연도 마커 + 챕터 내부 씬 — 5년의 흐름을 체감하는 무조건 씬 ══
 	# t=52 = 13개월차(1년 1개월), t=72 = 18개월차(1년 6개월), t=96 = 24개월차(2년)
 	# t=148 = 37개월차(3년 1개월), t=192 = 48개월차(4년), t=220 = 55개월차(마지막 6개월)
 	if t >= 52 and t <= 68 and not f.get("arc_year_one_mark_seen", false):
 		return "arc_year_one_mark"
+	# ── 챕터2 "확장" — 돈이 돈을 부른다 (t54~74) ──
+	if t >= 54 and t <= 74 and not f.get("arc_34_money_attracts_seen", false):
+		return "arc_34_money_attracts_money"
+	# ── 챕터2 "확장" — 문은 사람이 연다 (t74~94) ──
+	if t >= 74 and t <= 94 and not f.get("arc_34_doors_open_seen", false):
+		return "arc_34_doors_open"
 	# ── 1년 반 마커 — t68-90 공백 구간 앵커 (무조건) ──
 	if t >= 68 and t <= 90 and not f.get("arc_year_one_half_seen", false):
 		return "arc_year_one_half"
@@ -1881,7 +1977,7 @@ func _next_arc_id() -> String:
 	if t >= 77 and t <= 88 and not f.get("arc_34_parents_visit_seen", false):
 		return "arc_34_parents_visit"
 	# ── 34세 서울 2년째 자각 (t89-96) ──
-	if t >= 89 and t <= 96 and not f.get("arc_34_two_years_in_seen", false):
+	if t >= 89 and t <= 100 and not f.get("arc_34_two_years_in_seen", false):
 		return "arc_34_two_years_in"
 
 	if t >= 96 and t <= 115 and not f.get("arc_year_two_pressure_seen", false):
@@ -1895,6 +1991,21 @@ func _next_arc_id() -> String:
 	# ── 35세 고독 (t116-128) ──
 	if t >= 116 and t <= 128 and not f.get("arc_35_alone_seen", false):
 		return "arc_35_alone"
+	# ── 왜 강남인가 — 테마 결정화 (Y3 중반, t115~140) ──
+	if t >= 115 and t <= 140 and not f.get("arc_why_gangnam_real_seen", false):
+		return "arc_why_gangnam_real"
+	# ── 챕터3 "무게" — 선택한 길의 대가 (route 반응형, t108~138) ──
+	if t >= 108 and t <= 138 \
+			and not f.get("arc_35_orthodox_weight_seen", false) \
+			and not f.get("arc_35_unorthodox_weight_seen", false) \
+			and (GameState.route_orthodox + GameState.route_unorthodox) >= 4:
+		if GameState.route_orthodox >= GameState.route_unorthodox:
+			return "arc_35_orthodox_weight"
+		else:
+			return "arc_35_unorthodox_weight"
+	# ── 챕터3 "무게" — 3년치 잃은 것의 영수증 (무조건, t124~144) ──
+	if t >= 124 and t <= 144 and not f.get("arc_35_path_cost_seen", false):
+		return "arc_35_path_cost"
 	# ── 35세 루틴 점검 (t138-148) ──
 	if t >= 138 and t <= 148 and not f.get("arc_35_habit_check_seen", false):
 		return "arc_35_habit_check"
@@ -1903,9 +2014,27 @@ func _next_arc_id() -> String:
 		return "arc_36_reality_check"
 	if t >= 148 and t <= 165 and not f.get("arc_year_three_crossroads_seen", false):
 		return "arc_year_three_crossroads"
+	# ── 아버지 서울 방문 — 야망의 비용 (Y4 초반, 아버지와 연결된 플레이어) ──
+	if t >= 155 and t <= 178 \
+			and f.get("arc_father_01_seen", false) \
+			and not f.get("father_passed", false) \
+			and not f.get("arc_36_father_visit_seen", false):
+		return "arc_36_father_comes_to_seoul"
+	# ── 10억 고독 — 자산 10억 돌파 직후 (Y4 전반) ──
+	if t >= 145 and t <= 185 \
+			and GameState.get_total_asset_value() >= 1_000_000_000.0 \
+			and not f.get("arc_1b_isolation_seen", false):
+		return "arc_1b_isolation"
 	# ── 36세 몸 신호 (t163-172) ──
 	if t >= 163 and t <= 172 and not f.get("arc_36_body_signal_seen", false):
 		return "arc_36_body_signal"
+	# ── 챕터4 "균열" — 믿었던 사람이 흔든다 (t150~178) ──
+	if t >= 150 and t <= 178 and not f.get("arc_36_trust_crack_seen", false):
+		return "arc_36_trust_crack"
+	# ── 챕터4 "균열" — 예상치 못한 사람이 잡는다 (흔들린 직후, t156~188) ──
+	if t >= 156 and t <= 188 and f.get("arc_36_trust_crack_seen", false) \
+			and not f.get("arc_36_unexpected_hand_seen", false):
+		return "arc_36_unexpected_hand"
 	# ── 3년 반 마커 — t168-188 공백 구간 앵커 (무조건) ──
 	if t >= 168 and t <= 188 and not f.get("arc_year_three_half_seen", false):
 		return "arc_year_three_half"
@@ -1926,6 +2055,125 @@ func _next_arc_id() -> String:
 	if t >= 216 and t <= 237 and not f.get("arc_endgame_sixmonths_seen", false):
 		return "arc_endgame_sixmonths"
 
+	# ══ 9구간: Year 3-5 인물 재등장 ══════════════════════════════
+	# 박재원 (고시원 후배) — Year 3 신규 인물
+	if t >= 96 and not f.get("arc_jaewon_01_seen", false):
+		return "arc_jaewon_01_meet"
+	if t >= 108 and f.get("arc_jaewon_01_seen", false) \
+			and not f.get("arc_jaewon_02_seen", false):
+		return "arc_jaewon_02_advice"
+	if t >= 140 and f.get("arc_jaewon_02_seen", false) \
+			and not f.get("arc_jaewon_03_seen", false):
+		return "arc_jaewon_03_farewell"
+	if t >= 193 and f.get("arc_jaewon_03_seen", false) \
+			and not f.get("arc_jaewon_reunion_seen", false):
+		return "arc_jaewon_04_reunion"
+	# 임상철 Year 3 — 신문 기사 (대면 이후)
+	if t >= 100 and f.get("arc_sangchul_confrontation_seen", false) \
+			and not f.get("arc_sangchul_year3_seen", false):
+		return "arc_sangchul_year3"
+	# 한지연 Year 3 — 재연락 (에필로그 이후)
+	if t >= 100 and f.get("arc_jiyeon_epilogue_seen", false) \
+			and not f.get("arc_jiyeon_year3_seen", false):
+		return "arc_jiyeon_year3"
+	# 한지연 진짜 이유 — 독립 자격증 공부 (에필로그 이후, Y2후반~Y3)
+	if t >= 75 and t <= 105 \
+			and f.get("arc_jiyeon_epilogue_seen", false) \
+			and not f.get("arc_jiyeon_real_reason_seen", false):
+		return "arc_jiyeon_real_reason"
+	# 한지연 각자의 방향 — 부산 독립 (진짜 이유 이후, Y3)
+	if t >= 110 and t <= 135 \
+			and f.get("arc_jiyeon_real_reason_seen", false) \
+			and not f.get("arc_y3_jiyeon_departure_seen", false):
+		return "arc_y3_jiyeon_departure"
+	# 먼저 거는 전화 — 민준의 첫 능동적 연락 (Y3후반~Y4초)
+	if t >= 130 and t <= 155 \
+			and not f.get("arc_minjun_first_call_seen", false):
+		return "arc_minjun_first_call"
+	# 한지연 Y4 — 부산 첫 전화 (출발 이후 t>=145)
+	if t >= 145 \
+			and f.get("arc_y3_jiyeon_departure_seen", false) \
+			and not f.get("arc_jiyeon_year4_call_seen", false):
+		return "arc_jiyeon_year4_call"
+	# 한지연 Y4 서울 방문 — 다은 연인 경로면 갈등 버전, 아니면 일반 버전
+	if t >= 165 and t <= 192 \
+			and f.get("arc_jiyeon_year4_call_seen", false) \
+			and not f.get("arc_jiyeon_year4_seoul_seen", false):
+		if f.get("daeun_together_path", false) \
+				or f.get("daeun_close_bond", false) \
+				or GameState.get_cast_stage("daeun") in ["lover", "together"]:
+			return "arc_jiyeon_year4_seoul_daeun"
+		elif f.get("jiyeon_year4_wants_more", false) \
+				or GameState.get_cast_stage("jiyeon") in ["honest_together", "close", "lover", "respected", "trust"]:
+			return "arc_jiyeon_year4_seoul"
+	# 한지연 Y5 — 관계에 따라 분기 (귀환 vs 부산 소식)
+	if t >= 193 \
+			and f.get("arc_jiyeon_year4_call_seen", false) \
+			and not f.get("arc_jiyeon_year5_return_seen", false) \
+			and not f.get("arc_jiyeon_year5_news_seen", false):
+		if f.get("jiyeon_lovers_acknowledged", false):
+			return "arc_jiyeon_year5_return"
+		else:
+			return "arc_jiyeon_year5_news"
+	# 김다은 Year 3 — 함께 2주년 (함께 궤적)
+	if t >= 100 and (f.get("daeun_close_bond", false) or f.get("daeun_together_path", false)) \
+			and not f.get("arc_daeun_year3_together_seen", false):
+		return "arc_daeun_year3_together"
+	# 김다은 Year 3 — 결혼 소식 (이별 궤적)
+	if t >= 100 and (f.get("daeun_let_her_go", false) or f.get("daeun_breakup_accepted", false)) \
+			and (f.get("arc_daeun_ghost_seen", false) or f.get("daeun_breakup_accepted", false)) \
+			and not f.get("arc_daeun_year3_apart_seen", false):
+		return "arc_daeun_year3_apart"
+	# 이민서 — Year 4 신규 인물
+	if t >= 145 and not f.get("arc_minseo_01_seen", false):
+		return "arc_minseo_01_meet"
+	if t >= 160 and f.get("arc_minseo_01_seen", false) \
+			and not f.get("arc_minseo_02_seen", false):
+		return "arc_minseo_02_real"
+	# 김다은 Year 4 — 강남 취직 (함께 궤적)
+	if t >= 145 and f.get("arc_daeun_year3_together_seen", false) \
+			and not f.get("arc_daeun_year4_together_seen", false):
+		return "arc_daeun_year4_together"
+	# 아버지 기일
+	if t >= 150 and f.get("father_passed", false) \
+			and not f.get("arc_father_legacy_seen", false):
+		return "arc_father_legacy"
+	# 아버지 임종 — 약 복용 이후, 고백 들은 이후
+	if t >= 150 and f.get("arc_father_medication_seen", false) \
+			and f.get("father_confession_heard", false) \
+			and not f.get("arc_father_passing_seen", false) \
+			and not f.get("father_passed", false):
+		return "arc_father_passing"
+	# 김다은 Y4 후반 — 오늘의 서울 (함께 궤적, 강남 취직 이후 조용한 행복 비트)
+	if t >= 170 and f.get("arc_daeun_year4_together_seen", false) \
+			and not f.get("arc_daeun_year4_quiet_seen", false):
+		return "arc_daeun_year4_quiet"
+	# 김다은 Year 5 — 30억 전날 밤 (함께 궤적)
+	# ★ Y5 로맨스 게이트 — moral_tint 경로 기반 첫 고백 (Y5 첫 주부터)
+	if t >= 193 and (f.get("daeun_close_bond", false) or f.get("daeun_together_path", false)) \
+			and not f.get("daeun_romance_started", false) \
+			and not f.get("daeun_romance_blocked", false) \
+			and not f.get("arc_daeun_y5_feelings_seen", false) \
+			and GameState.moral_stage() >= 0:
+		return "arc_daeun_y5_feelings"
+	# 지연 Y5 고백 — 회색 경로 전용. 단, 부산 출발→Y4-Y5 귀환 아크를 탄 플레이어는
+	# 그쪽(year5_return)이 연애를 formalize하므로 중복 방지.
+	if t >= 193 and f.get("arc_jiyeon_03b_seen", false) \
+			and not f.get("jiyeon_romance_started", false) \
+			and not f.get("arc_jiyeon_y5_feelings_seen", false) \
+			and not f.get("arc_jiyeon_year4_call_seen", false) \
+			and not f.get("arc_jiyeon_year5_return_seen", false) \
+			and not f.get("arc_jiyeon_year5_news_seen", false) \
+			and GameState.moral_stage() <= -1:
+		return "arc_jiyeon_y5_feelings"
+	if t >= 193 and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
+			and not f.get("arc_daeun_year5_seen", false):
+		return "arc_daeun_year5_ending"
+	# 김다은 Year 5 — 강남대로에서 혼자 (이별 궤적)
+	if t >= 193 and f.get("arc_daeun_year3_apart_seen", false) \
+			and not f.get("arc_daeun_year5_apart_seen", false):
+		return "arc_daeun_year5_apart"
+
 	# ── 엔딩 직전 씬 (t>=234, 궤적별 분기) — 진짜 마지막 감정 비트 ──
 	if t >= 234:
 		var _asset: float = float(GameState.get_total_asset_value())
@@ -1940,6 +2188,10 @@ func _next_arc_id() -> String:
 				and not f.get("father_passed", false) \
 				and not f.get("arc_pre_ending_father_call_seen", false):
 			return "arc_pre_ending_father_call"
+
+	# ── 마지막 주 — 38세 7일 전, 궤적 무관 (t237-240) ──
+	if t >= 237 and not f.get("arc_final_week_seen", false):
+		return "arc_final_week"
 
 	return ""
 
@@ -2260,7 +2512,83 @@ func _show_result(result_text: String):
 func _on_result_confirmed():
 	pending_result_text = ""
 	_transient_bg_active = false
+	# 흉터 비네트 — 삶의 선을 처음 넘는 순간 (band 전이보다 우선)
+	if not GameState.pending_scar_vignette.is_empty():
+		var scar := GameState.pending_scar_vignette
+		GameState.pending_scar_vignette = ""
+		_show_scar_beat(scar)
+		return
+	# MORAL_TINT 밴드 전이 비네트 — 선택의 결과 직후, 조용한 자각 한 장면
+	if not GameState.pending_tint_vignette.is_empty():
+		var v: Dictionary = GameState.pending_tint_vignette
+		GameState.pending_tint_vignette = {}
+		_show_moral_beat(int(v.get("from", 0)), int(v.get("to", 0)))
+		return
 	_render_event()
+
+# 밴드를 넘을 때 터지는 짧은 자각 — 숫자·스탯 표시 없이 본문만. (docs/MORAL_TINT.md §6)
+func _show_moral_beat(from_band: int, to_band: int):
+	for child in choice_box.get_children():
+		child.queue_free()
+	_transient_bg_active = true
+	_clear_category_tint(true)
+	_clear_feedback_flash()
+	var body := _moral_beat_text(from_band, to_band)
+	event_title.text = ""
+	_type_text(_fmt(body), 42.0)
+	var btn: Button = _button(_tr("…", "…"), "#3a3f4a")
+	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
+	choice_box.add_child(btn)
+	next_button.disabled = true
+
+# 흉터 비네트 — 삶의 선을 처음 넘은 날 밤, 한 장면. 숫자 없음. (docs/MORAL_TINT.md §7)
+func _show_scar_beat(scar_flag: String) -> void:
+	for child in choice_box.get_children():
+		child.queue_free()
+	_transient_bg_active = true
+	_clear_category_tint(true)
+	_clear_feedback_flash()
+	var body: String
+	match scar_flag:
+		"crossed_line":
+			body = _tr(
+				"잠에서 깼다.\n\n뭔가 없어진 것 같은 느낌이었다.\n어제 내린 결정이 생각났다.\n이전으로 돌아갈 수 없다는 것도.",
+				"I woke up.\n\nSomething felt missing.\nI thought of the decision I'd made yesterday.\nAnd of the fact that there was no going back.")
+		"chose_money_over_father":
+			body = _tr(
+				"아버지가 마지막으로 말했던 것을 기억하려 했다.\n\n그런데 기억이 나지 않았다.\n이상하게.",
+				"I tried to remember the last thing my father said.\n\nI couldn't.\nStrangely.")
+		_:
+			body = _tr("...", "...")
+	event_title.text = ""
+	_type_text(_fmt(body), 36.0)
+	var btn: Button = _button(_tr("…", "…"), "#2a2f3a")
+	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
+	choice_box.add_child(btn)
+	next_button.disabled = true
+
+func _moral_beat_text(from_band: int, to_band: int) -> String:
+	# 검정 쪽으로 (잃어감)
+	if to_band < from_band:
+		if to_band <= -2:
+			return _tr(
+				"거울을 봤다.\n5년 전 고시원에서 라면 먹던 얼굴을 떠올리려 했는데 —\n안 떠올랐다.",
+				"I looked in the mirror.\nI tried to picture the face that ate ramen in the goshiwon five years ago —\nit wouldn't come.")
+		if to_band == -1:
+			return _tr(
+				"밥을 먹는데 맛이 안 났다.\n그냥 연료 같았다.",
+				"I was eating, but the food had no taste.\nIt was just fuel.")
+		return _tr(
+			"뭔가, 조금씩 식어가는 느낌이 들었다.\n뭔지는 몰랐다.",
+			"Something felt like it was slowly going cold.\nI couldn't say what.")
+	# 하양 쪽으로 (되찾음 — 불완전)
+	if to_band >= 1:
+		return _tr(
+			"오랜만에 통화 끝에 웃었다.\n웃는 게 어색했다는 걸, 웃고 나서 알았다.",
+			"For once I laughed at the end of a call.\nOnly after did I realize how unfamiliar laughing had become.")
+	return _tr(
+		"오늘은 조금, 사람 같았다.\n그게 얼마 만인지 세지 않기로 했다.",
+		"Today I felt a little more like a person.\nI decided not to count how long it had been.")
 
 func _fmt(text: String) -> String:
 	return GameState.format_event_text(text)
@@ -2475,12 +2803,6 @@ func _refresh_all():
 
 	# ── 탑바 바이탈 HUD 갱신 ─────────────────────────
 	_refresh_vitals()
-	_set_stat_value("intelligence",     GameState.intelligence,     false, 90, 100)
-	_set_stat_value("social_skill",     GameState.social_skill,     false, 90, 100)
-	_set_stat_value("appearance",       GameState.appearance,       false, 90, 100)
-	_set_stat_value("investment_skill", GameState.investment_skill, false, 90, 100)
-	_set_stat_value("luck",             GameState.luck,             false, 90, 100)
-	_set_stat_value("reputation",       GameState.reputation,       false, 90, 100)
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
 	var h = GameState.get_housing_info()
 	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), GameState.get_housing_name(GameState.housing)]
@@ -2534,9 +2856,8 @@ func _choice_effects_preview(choice: Dictionary) -> String:
 			merged["mental"] = int(merged.get("mental", 0)) + int(eff[k])
 		else:
 			merged[k] = eff[k]
-	# 중요 스탯만 표시 (money, health, mental 우선, 나머지 최대 2개)
-	var priority = ["money", "health", "mental", "intelligence", "social_skill",
-		"investment_skill", "reputation", "luck", "appearance"]
+	# 즉각적으로 느껴지는 것만 표시 — 관계/스킬/평판은 숨김 (결과 텍스트로 전달)
+	var priority = ["money", "health", "mental"]
 	var parts: Array = []
 	for key in priority:
 		if not merged.has(key):
@@ -2849,6 +3170,8 @@ func _pulse_vital_critical(lbl: Label) -> void:
 	tw.tween_property(lbl, "modulate:a", 1.0, 0.15)
 
 func _set_stat_value(key: String, value: int, low_is_bad: bool, warn_thresh: int, danger_thresh: int):
+	if not stat_labels.has(key):
+		return
 	var label = stat_labels[key]
 	# 건강·정신 = 긴 바(10칸), 스킬류 = 짧은 바(5칸)으로 시각화
 	var skill_stats := ["intelligence", "social_skill", "investment_skill", "luck", "appearance", "reputation"]
@@ -2993,9 +3316,9 @@ func _render_sidebars():
 		relationship_box.add_child(card)
 
 	_clear_box(inventory_box)
-	inventory_box.add_child(_info_section_title(_tr("소지품", "Inventory"), "#fbbf24"))
+	inventory_box.add_child(_info_section_title(_tr("소지품 · 유물", "Keepsakes"), "#fbbf24"))
 	if GameState.inventory.is_empty():
-		inventory_box.add_child(_info_empty_card(_tr("비어 있습니다. 상점에서 회복·성장 아이템을 구매할 수 있습니다.", "Empty. Buy recovery and growth items from the shop."), "#64748b"))
+		inventory_box.add_child(_info_empty_card(_tr("아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.", "Nothing yet.\nThings given or left behind through the story collect here."), "#64748b"))
 	for item in GameState.inventory:
 		var item_card: PanelContainer = _info_card("#fbbf24", "#0d1018")
 		var item_box: VBoxContainer = VBoxContainer.new()
@@ -3033,6 +3356,10 @@ func _render_sidebars():
 		inventory_box.add_child(item_card)
 
 	_refresh_arc_box()
+
+func _on_start_thought(thought_id: String) -> void:
+	if GameState.start_thought(thought_id):
+		_refresh_arc_box()
 
 func _refresh_arc_box() -> void:
 	if not is_instance_valid(arc_box): return
@@ -3086,13 +3413,16 @@ func _refresh_arc_box() -> void:
 			"active": f.get("arc_jiyeon_crash_seen", false),
 			"done": f.get("arc_jiyeon_truth_seen", false) or f.get("arc_jiyeon_epilogue_seen", false),
 			"stages": [
-				{"label": _tr("접촉 (17개월차+)", "Contact (month 17+)"), "done": f.get("arc_jiyeon_crash_seen", false)},
-				{"label": _tr("재회 (20개월차+)", "Reunion (month 20+)"), "done": f.get("arc_jiyeon_store_seen", false)},
-				{"label": _tr("연결 (21개월차+)", "Connection (month 21+)"), "done": f.get("arc_jiyeon_offer_seen", false)},
-				{"label": _tr("그녀의 세계 (22개월차+)", "Her World (month 22+)"), "done": f.get("arc_jiyeon_03b_seen", false)},
+				{"label": _tr("접촉 (5개월차+)", "Contact (month 5+)"), "done": f.get("arc_jiyeon_crash_seen", false)},
+				{"label": _tr("재회 (7개월차+)", "Reunion (month 7+)"), "done": f.get("arc_jiyeon_store_seen", false)},
+				{"label": _tr("연결 (9개월차+)", "Connection (month 9+)"), "done": f.get("arc_jiyeon_offer_seen", false)},
+				{"label": _tr("그녀의 세계 (10개월차+)", "Her World (month 10+)"), "done": f.get("arc_jiyeon_03b_seen", false)},
 				{"label": _tr("진실", "Truth"), "done": f.get("arc_jiyeon_truth_seen", false)},
+				{"label": _tr("Y4 부산 전화", "Y4 Busan Call"), "done": f.get("arc_jiyeon_year4_call_seen", false)},
+				{"label": _tr("Y4 서울 방문", "Y4 Seoul Visit"), "done": f.get("arc_jiyeon_year4_seoul_seen", false)},
+				{"label": _tr("Y5 마지막", "Y5 Finale"), "done": f.get("arc_jiyeon_year5_return_seen", false) or f.get("arc_jiyeon_year5_news_seen", false)},
 			],
-			"hint": _tr("17개월차(1년5개월) 이후 자동 등장", "Auto-appears after month 17 (1y5m)") if not f.get("arc_jiyeon_crash_seen", false) else "",
+			"hint": _tr("5개월차 이후 자동 등장", "Auto-appears after month 5") if not f.get("arc_jiyeon_crash_seen", false) else "",
 		},
 		{
 			"name": _tr("아버지", "Father"),
@@ -3178,6 +3508,64 @@ func _refresh_arc_box() -> void:
 	if not any_active:
 		arc_box.add_child(_info_empty_card(_tr("아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.", "No arcs yet. As the story unfolds, they will be tracked here."), "#64748b"))
 
+	# ── 단서 / 생각 정리 (추리·분석) ──────────────────────────
+	arc_box.add_child(_info_section_title(_tr("단서 / 생각 정리", "Clues / Deductions"), "#c8a96a"))
+	# 정리 중인 생각
+	if not GameState.active_thought.is_empty():
+		var at_id: String = str(GameState.active_thought.get("id", ""))
+		var at: Dictionary = DataRegistry.get_thought(at_id)
+		var left: int = int(GameState.active_thought.get("turns_left", 0))
+		var at_card: PanelContainer = _info_card("#c8a96a", "#0d1018")
+		var at_box: VBoxContainer = VBoxContainer.new()
+		at_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		at_box.add_theme_constant_override("separation", 6)
+		at_card.add_child(at_box)
+		at_box.add_child(_label(_tr("정리 중: %s", "Working it out: %s") % str(at.get("title", at_id)), 14, "#e8d3a0"))
+		at_box.add_child(_wrap_label(_tr("%d주 남음 — 생각이 무르익는 중", "%d weeks left — still taking shape") % left, 13, "#a89668"))
+		arc_box.add_child(at_card)
+	# 정리 가능한 생각 (필요 단서 충족)
+	var avail_thoughts: Array = GameState.available_thoughts()
+	for th in avail_thoughts:
+		var tid: String = str(th.get("id", ""))
+		var t_card: PanelContainer = _info_card("#d4af6a", "#0d1018")
+		var t_box: VBoxContainer = VBoxContainer.new()
+		t_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		t_box.add_theme_constant_override("separation", 6)
+		t_card.add_child(t_box)
+		t_box.add_child(_label("💭 " + str(th.get("title", tid)), 15, "#f0d9a8"))
+		t_box.add_child(_wrap_label(str(th.get("description", "")), 13, "#b8a878"))
+		var turns: int = int(th.get("processing_turns", 1))
+		var start_btn: Button = _small_button(_tr("생각 정리 시작 (%d주)", "Start working it out (%d wk)") % turns, "#5a4a1e")
+		if not GameState.active_thought.is_empty():
+			start_btn.disabled = true
+		start_btn.pressed.connect(Callable(self, "_on_start_thought").bind(tid))
+		t_box.add_child(start_btn)
+		arc_box.add_child(t_card)
+	# 완료한 생각 (결론)
+	for tid2 in GameState.thoughts_done:
+		var t2: Dictionary = DataRegistry.get_thought(str(tid2))
+		var d_card: PanelContainer = _info_card("#5a6a6a", "#0d1018")
+		var d_box: VBoxContainer = VBoxContainer.new()
+		d_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		d_box.add_theme_constant_override("separation", 4)
+		d_card.add_child(d_box)
+		d_box.add_child(_label(_tr("결론: %s", "Concluded: %s") % str(t2.get("title", tid2)), 13, "#94a3b8"))
+		arc_box.add_child(d_card)
+	# 수집한 단서
+	if GameState.clues.is_empty():
+		arc_box.add_child(_info_empty_card(_tr("아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.", "No clues yet. Fragments accumulate through conversations and choices."), "#64748b"))
+	else:
+		for cid in GameState.clues:
+			var c: Dictionary = DataRegistry.get_clue(str(cid))
+			var c_card: PanelContainer = _info_card("#7a8a5a", "#0d1018")
+			var c_box: VBoxContainer = VBoxContainer.new()
+			c_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			c_box.add_theme_constant_override("separation", 4)
+			c_card.add_child(c_box)
+			c_box.add_child(_label("🔎 " + str(c.get("title", cid)), 14, "#cdd9a8"))
+			c_box.add_child(_wrap_label(str(c.get("text", "")), 12, "#9aa888"))
+			arc_box.add_child(c_card)
+
 	# 런 테마 표시
 	arc_box.add_child(_info_section_title(_tr("런 정보", "Run Info"), "#5a9ac8"))
 	var theme_id: String = GameState.run_theme
@@ -3187,7 +3575,9 @@ func _refresh_arc_box() -> void:
 	run_box.add_theme_constant_override("separation", 6)
 	run_card.add_child(run_box)
 	run_box.add_child(_wrap_label(_tr("테마: %s", "Theme: %s") % theme_id, 14, "#8fb6d8"))
-	run_box.add_child(_wrap_label(_tr("투자감각 %d  /  사교력 %d", "Investing %d  /  Social %d") % [GameState.investment_skill, GameState.social_skill], 14, "#8fb6d8"))
+	var tendency_lbl := GameState.get_tendency_label()
+	if not tendency_lbl.is_empty():
+		run_box.add_child(_wrap_label(_tr("성향: %s", "Leaning: %s") % tendency_lbl, 14, "#8fb6d8"))
 	# 마스터리 표시
 	var mg_line: String = ""
 	for gid in ["holdem", "racetrack", "scalping", "aruba"]:
@@ -3354,10 +3744,9 @@ func _render_ap_actions():
 			pad_hint = _tr("🎮  [%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)", "🎮  [%s] Choose  [%s/%s] Tab  [%s] Menu (%s)") % [s, lb, rb, m, ControllerHints.brand_name()]
 		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
 
-	# ── 상점 버튼 (상단 바) ───────────────────────────────
+	# ── 상점 버튼 비활성화 (서사 유물로 전환 예정) ─────────────
 	if shop_button:
-		shop_button.text = _tr("상점", "Shop") if has_paycheck else _tr("상점 잠김", "Shop Locked")
-		shop_button.disabled = not has_paycheck
+		shop_button.disabled = true
 
 ## 상황 기반 이번 달 추천 행동 (경고 없을 때만 표시)
 func _recommend_action() -> String:
@@ -3454,10 +3843,12 @@ func _month_narration() -> String:
 		return _tr("아버지가 편찮으시다는 소식이 마음 한구석에 걸려 있다.", "The news that my father is unwell sits in a corner of my mind.")
 
 	# ── 관계 아크 ──────────────────────────────────
-	if f.get("daeun_together_path", false):
+	if f.get("daeun_romance_started", false):
 		if m in [12, 1, 2]:
 			return _tr("다은이 따뜻한 국을 끓여줬다. 이 겨울은 작년보다 따뜻하다.", "Daeun made me warm soup. This winter is warmer than last year's.")
 		return _tr("다은이 있다. 오늘 그것만으로 충분한 날이었다.", "Daeun is here. Today, that alone was enough.")
+	if f.get("daeun_together_path", false):
+		return _tr("다은이 생각난다. 연락하지 않아도 잘 있는지 알 것 같은 사람.", "Daeun comes to mind. The kind of person you know is doing fine without checking.")
 	if f.get("startup_exit", false):
 		return _tr("한 번은 해냈다. 그게 자신감이 됐다.", "I pulled it off once. That became confidence.")
 	if f.get("creator_viral", false):
@@ -3600,25 +3991,21 @@ func _render_essential_actions(ap: int):
 			_essential_btn(_tr("시장 분석", "Market Analysis"), _tr("다음 달 시장 방향을 무료로 예측한다", "Predict next month's market for free"), "market", "#1e3a5f", "_ap_market_analysis", false, true)
 	elif has_paycheck:
 		_essential_locked(_tr("투자", "Invest"), _tr("상철과의 대화 이후 열림", "Unlocks after talking with Sangchul"), "invest", "#3a8a5a")
-	_essential_btn(_tr("자기계발", "Self-Dev"), _tr("공부·운동으로 스탯을 올린다", "Study and exercise to raise stats"), "study", "#5a6ea8", "_ap_selfdev", disabled)
-	if GameState.intelligence >= 30:
-		_essential_btn(_tr("심화 독서", "Deep Reading"), _tr("지력 +8. 지력 30 이상 전용 행동", "Intelligence +8. Requires 30+ intelligence"), "study", "#3a4e8a", "_ap_deep_study", disabled)
+	_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상 중 한 가지", "One of: reading, exercise, meditation"), "study", "#5a6ea8", "_ap_study", disabled)
 	_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
-	# 경마장: 경마 아저씨와 만난 후(racetrack_guide_met) 또는 직접 방문 경험(racetrack_visited)
-	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
-		var rt_badge: String = _mastery_badge("racetrack")
-		_essential_btn(_tr("경마장", "Racetrack") + rt_badge, _tr("폼을 읽고 베팅한다. 중독 주의", "Read the form and bet. Addiction risk"), "racetrack", "#9a5a3a", "_open_racetrack", disabled)
-	# 홀덤: 상철 네트워크로 입성(entered_network)
-	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
-		var hm_badge: String = _mastery_badge("holdem")
-		_essential_btn(_tr("지하 홀덤 클럽", "Underground Hold'em") + hm_badge, _tr("인맥 있는 사람만 들어가는 고위험 테이블", "High-stakes table, connections only"), "holdem", "#6d4bd4", "_open_holdem", disabled)
-	# 스캘핑: 지연과 점심(scalping_introduced)에서 단타 언급 + 투자감각 15 이상
-	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
-		var sc_badge: String = _mastery_badge("scalping")
-		_essential_btn(_tr("스캘핑 트레이딩", "Scalp Trading") + sc_badge, _tr("60초 실시간 매매. 빠르고 위험하다", "60-second live trading. Fast and risky"), "scalping", "#1a5f7a", "_open_scalping", disabled)
-	# 정선 카지노: 상철의 초대를 수락(casino_club_introduced)한 경우만
-	if GameState.flags.get("casino_club_introduced", false):
-		_essential_btn(_tr("정선 카지노", "Jeongseon Casino"), _tr("바카라·블랙잭·다이사이 등", "Baccarat, blackjack, dai sai, and more"), "casino", "#7b3fd1", "_open_jeongseon_casino", disabled)
+	# 도박 회복 잠금: 회복을 시작/완료했고 아직 재발하지 않았으면 도박 입구를 닫는다.
+	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
+			or GameState.flags.get("recovery_holding", false) \
+			or GameState.flags.get("beat_addiction", false)
+	var _gambling_locked: bool = _in_recovery and not GameState.flags.get("relapsed", false)
+	# 해금된 도박 장소가 하나라도 있으면 단일 "도박장" 버튼으로 통합
+	var _has_racetrack: bool = GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false)
+	var _has_holdem: bool = GameState.flags.get("entered_network", false) and GameState.money >= 50000
+	var _has_scalping: bool = GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15
+	var _has_casino: bool = GameState.flags.get("casino_club_introduced", false)
+	if _has_racetrack or _has_holdem or _has_scalping or _has_casino:
+		var g_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("열린 장소를 고른다", "Choose from available venues")
+		_essential_btn(_tr("도박장", "Gambling"), g_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked)
 	_essential_btn(_tr("생활", "Life"), _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost"), "life", "#9a8a5a", "_open_cat_life", false, true)
 
 func _mastery_badge(game_id: String) -> String:
@@ -3938,7 +4325,7 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 # ══════════════════════════════════════════════════════════
 func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	var split := _split_action_label(label)
-	var free_action := fn in ["_open_shop", "_ap_move_housing"]
+	var free_action := fn in ["_ap_move_housing"]
 	var btn := _make_essential_action_card(
 		str(split.get("title", label)),
 		str(split.get("subtitle", "")),
@@ -4000,9 +4387,9 @@ func _open_cat_work():
 	if no_job:
 		modal_body.add_child(_wrap_label(_tr("아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.", "No job yet. Income is zero. You have to start something."), 13, "#c8a060"))
 		_cat_modal_button(_tr("구직활동  —  일자리를 찾아 지원한다", "Job Hunt  —  find and apply for jobs"), "#dc6a2a", "_ap_job_hunt")
-		_cat_modal_button(_tr("자소서 작성  —  지력 +1~+2, 정신력 변동", "Write cover letter  —  Intelligence +1~+2, Mental varies"), "#3a6ea8", "_ap_write_resume")
+		_cat_modal_button(_tr("자소서 작성  —  지원서를 다듬는다", "Write cover letter  —  refine the application"), "#3a6ea8", "_ap_write_resume")
 		if GameState.social_skill >= 20:
-			_cat_modal_button(_tr("모의 면접  —  사회성+1~+2, 운+1 (성과 따라)", "Mock interview  —  Social +1~+2, Luck +1 (by result)"), "#3a6ea8", "_ap_interview_prep")
+			_cat_modal_button(_tr("모의 면접  —  말하는 연습을 한다", "Mock interview  —  practice speaking"), "#3a6ea8", "_ap_interview_prep")
 	else:
 		var job_name = GameState.current_job.get("name", _tr("직장인", "Office Worker"))
 		var tenure = GameState.job_tenure
@@ -4067,14 +4454,14 @@ func _open_cat_money():
 	_open_modal(_tr("돈 · 투자", "Money · Invest"))
 	modal_body.add_child(_wrap_label(_tr("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", "A salary alone won't reach KRW 3B. Make money work for you."), 13, "#7a8496"))
 	if GameState.flags.get("arc_invest_guidance_seen", false):
-		_cat_modal_button(_tr("투자 집중  —  매수·매도 (투자감각 %d)", "Focus on investing  —  buy·sell (Investing %d)") % GameState.investment_skill, "#3a8a5a", "_ap_invest")
+		_cat_modal_button(_tr("투자 집중  —  차트를 들여다본다", "Focus on investing  —  study the charts"), "#3a8a5a", "_ap_invest")
 	elif has_paycheck:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 상철과의 대화 후 가능하다.", "Locked: investing unlocks after talking with Sangchul."), 12, "#5a5a6a"))
 	else:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 첫 월급을 받은 뒤 가능하다.", "Locked: investing unlocks after your first paycheck."), 12, "#5a5a6a"))
 	var side_label = _tr("단기 알바  —  40만원+ (건강-3, 정신력 변동)", "Gig work  —  KRW 400K+ (Health -3, Mental varies)") if no_job else _tr("부업/사이드  —  추가 수입 도전", "Side hustle  —  chase extra income")
 	_cat_modal_button(side_label, "#3a8a5a", "_ap_side_job")
-	_cat_modal_button(_tr("저축/절약  —  자금 절약, 정신력 -2", "Save/cut back  —  save cash, Mental -2"), "#3a6ea8", "_ap_save_money")
+	_cat_modal_button(_tr("저축/절약  —  이번 달 지출을 줄인다", "Save/cut back  —  trim this month's spending"), "#3a6ea8", "_ap_save_money")
 
 func _open_cat_dev():
 	# _ap_study가 이미 세부 모달(독서/운동/명상)을 띄움 → 바로 호출
@@ -4106,15 +4493,25 @@ func _open_cat_people():
 				verb = _tr("전화드리기", "Call")
 			elif pid == "jaehyuk":
 				verb = _tr("만나기", "Meet up")
-			var lbl := _tr("%s  ·  %s  —  호감도 %d  (정신 +8, 호감도 +4)", "%s  ·  %s  —  Affinity %d  (Mental +8, Affinity +4)") % [verb, pname, aff]
+			# 수치 대신 관계 온도 표시
+			var warmth: String
+			if aff >= 75:
+				warmth = _tr("가까운 사이", "Close")
+			elif aff >= 45:
+				warmth = _tr("알아가는 중", "Getting to know")
+			elif aff >= 20:
+				warmth = _tr("서먹한 편", "A bit distant")
+			else:
+				warmth = _tr("아직 낯선", "Still a stranger")
+			var lbl := "%s  ·  %s  —  %s" % [verb, pname, warmth]
 			_cat_modal_button(lbl, accent, "_ap_contact_person", pid)
 
 	# ── 새로운 사람·휴식 ──
 	modal_body.add_child(_label(_tr("── 인맥 · 휴식 ──", "── Network · Rest ──"), 12, "#3a3a5a"))
-	_cat_modal_button(_tr("인맥 넓히기  —  사교력+, 평판+ (정신력 소모)", "Network  —  Social+, Reputation+ (costs Mental)"), "#8a5a9a", "_ap_network")
+	_cat_modal_button(_tr("인맥 넓히기  —  모르는 사람들 사이로 섞인다", "Network  —  mix with new people"), "#8a5a9a", "_ap_network")
 	if GameState.social_skill >= 50:
-		_cat_modal_button(_tr("VIP 인맥  —  사교력+3·평판+2·관계호감+15 (사교력 50 해금)", "VIP network  —  Social+3·Reputation+2·Affinity+15 (Social 50 unlock)"), "#5a2a7a", "_ap_vip_network")
-	_cat_modal_button(_tr("자유시간  —  한강·산책 (정신력 +10)", "Free time  —  Han River·walk (Mental +10)"), "#3a8a9a", "_ap_free_time")
+		_cat_modal_button(_tr("VIP 인맥  —  더 높은 곳의 사람들을 만난다", "VIP network  —  meet people from a higher circle"), "#5a2a7a", "_ap_vip_network")
+	_cat_modal_button(_tr("자유시간  —  한강을 걷거나 그냥 쉰다", "Free time  —  walk the Han River or just rest"), "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():
 	_open_modal(_tr("생활", "Living"))
@@ -4127,10 +4524,30 @@ func _open_cat_life():
 			GameState.format_money(float(next_info.get("expense", 0.0))),
 			GameState.format_money(float(next_info.get("deposit", 0.0)))]
 		_cat_modal_button(move_label, "#c8a040", "_ap_move_housing")
-	else:
-		modal_body.add_child(_wrap_label(_tr("아직 이사할 현금이 부족하다.", "Not enough cash to move yet."), 12, "#5a5a6a"))
-	if GameState.flags.get("has_received_paycheck", false):
-		_cat_modal_button(_tr("상점  —  생활용품·자기관리 아이템", "Shop  —  daily goods · self-care items"), "#2f7a55", "_open_shop")
+	# 상점 항목 제거 — 서사 유물로 전환 예정
+
+func _open_cat_gambling():
+	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
+			or GameState.flags.get("recovery_holding", false) \
+			or GameState.flags.get("beat_addiction", false)
+	var locked: bool = _in_recovery and not GameState.flags.get("relapsed", false)
+	_open_modal(_tr("도박장", "Gambling Venues"))
+	if locked:
+		modal_body.add_child(_wrap_label(_tr("회복 중 — 지금은 들어가지 않기로 했다.", "In recovery — you decided not to go back in."), 13, "#7a8496"))
+		return
+	modal_body.add_child(_wrap_label(_tr("높은 수익, 더 높은 위험. 중독에 주의하라.", "High returns, higher risk. Watch for addiction."), 13, "#7a8496"))
+	if GameState.flags.get("racetrack_guide_met", false) or GameState.flags.get("racetrack_visited", false):
+		var rt_badge: String = _mastery_badge("racetrack")
+		_cat_modal_button(_tr("경마장", "Racetrack") + rt_badge + _tr("  —  폼을 읽고 베팅한다", "  —  read the form and bet"), "#9a5a3a", "_open_racetrack")
+	if GameState.flags.get("entered_network", false) and GameState.money >= 50000:
+		var hm_badge: String = _mastery_badge("holdem")
+		_cat_modal_button(_tr("지하 홀덤 클럽", "Underground Hold'em") + hm_badge + _tr("  —  인맥 있는 자만의 고위험 테이블", "  —  high-stakes, connections only"), "#6d4bd4", "_open_holdem")
+	if GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15:
+		var sc_badge: String = _mastery_badge("scalping")
+		_cat_modal_button(_tr("스캘핑 트레이딩", "Scalp Trading") + sc_badge + _tr("  —  60초 실시간 매매", "  —  60-second live trading"), "#1a5f7a", "_open_scalping")
+	if GameState.flags.get("casino_club_introduced", false):
+		var cs_badge: String = _mastery_badge("casino")
+		_cat_modal_button(_tr("정선 카지노", "Jeongseon Casino") + cs_badge + _tr("  —  바카라·블랙잭·다이사이 등", "  —  baccarat, blackjack, dai sai"), "#7b3fd1", "_open_jeongseon_casino")
 
 func _add_action_section_header(parent: Control, title: String, _bg_hex: String):
 	var lbl = _label("  " + title, 10, "#2e3a4e")
@@ -4174,7 +4591,9 @@ func _ap_study():
 			GameState.modify_hidden_stat(k, val)
 		else:
 			GameState.modify_stat(k, val)
-	GameState.add_tendency("career", 1)
+	# 투자공부(type 3)는 invest 성향, 그 외(독서/운동/명상)는 career 성향으로 집계.
+	# (기존엔 전부 career로 보내 invest 성향이 AP 행동에서 한 번도 안 쌓이던 버그)
+	GameState.add_tendency("invest" if study_type == 3 else "career", 1)
 	var _st_key := "et" if LocaleManager.is_english() else "t"
 	var flavor: String = str(v.get(_st_key, v.get("t", "")))
 	GameState.add_log(tag + " — " + flavor, "event")
@@ -4657,33 +5076,8 @@ func _on_jeongseon_casino_closed():
 	_refresh_all()
 	_render_ap_actions()
 
-func _open_baccarat():
-	if not GameState.spend_ap():
-		return
-	_enter_minigame_overlay(baccarat_table)
-	baccarat_table.open()
-
-func _on_baccarat_closed():
-	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 🎰 바카라", "✓ 🎰 Baccarat"))
-	GameState.add_log(_tr("🎰 정선 카지노 바카라 테이블을 나왔다.", "🎰 Left the Jeongseon Casino baccarat table."), "event")
-	_check_addiction_warnings()
-	_refresh_all()
-	_render_ap_actions()
-
-func _open_blackjack():
-	if not GameState.spend_ap():
-		return
-	_enter_minigame_overlay(blackjack_table)
-	blackjack_table.open()
-
-func _on_blackjack_closed():
-	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ 🃏 블랙잭", "✓ 🃏 Blackjack"))
-	GameState.add_log(_tr("🃏 정선 카지노 블랙잭 테이블을 나왔다.", "🃏 Left the Jeongseon Casino blackjack table."), "event")
-	_check_addiction_warnings()
-	_refresh_all()
-	_render_ap_actions()
+# (구형 _open_baccarat/_open_blackjack + 핸들러 제거 — 정선 카지노 허브의
+#  _launch_*로 일원화됨. baccarat_table/blackjack_table 노드는 허브가 사용.)
 
 func _enter_minigame_overlay(overlay: Node = null) -> void:
 	_minigame_overlay_active = true
@@ -4971,11 +5365,8 @@ func _ap_market_analysis():
 	modal_body.add_child(ok_btn)
 	GameState.add_log(_tr("🔭 시장 분석 — %s", "🔭 Market Analysis — %s") % forecast, "market")
 
-func _ap_leverage_invest():
-	if GameState.action_points <= 0:
-		_show_toast(_tr("⚡ 행동력이 없습니다", "⚡ No Action Points"), Color("#ff4444"))
-		return
-	_open_leverage_investments()
+# (_ap_leverage_invest 데드 래퍼 제거 — 호출처 0. 레버리지는 _open_investments가
+#  _open_leverage_investments를 직접 연결해 진입함.)
 
 func _open_leverage_investments():
 	_open_modal(_tr("레버리지 투자", "Leverage Investing"))
@@ -5944,6 +6335,26 @@ func _show_demo_ending():
 	for tl in teaser_lines:
 		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
 
+	# ── Steam 위시리스트 CTA ───────────────────────────────────
+	var sep_steam = HSeparator.new()
+	sep_steam.add_theme_color_override("color", Color("#252535"))
+	modal_body.add_child(sep_steam)
+
+	var wishlist_lbl = _wrap_label(
+		_tr("풀버전 출시 알림을 받으려면 Steam 위시리스트에 추가하세요.",
+			"Add to your Steam Wishlist to get notified when the full version launches."),
+		12, "#8a9ab8")
+	modal_body.add_child(wishlist_lbl)
+
+	# App ID가 아직 플레이스홀더면 깨진 /app/STEAM_APP_ID/ URL 대신 상점 검색으로 폴백.
+	var steam_url := STEAM_FALLBACK_URL
+	if STEAM_APP_ID != "STEAM_APP_ID" and STEAM_APP_ID.is_valid_int():
+		steam_url = "https://store.steampowered.com/app/%s/Gangnam_Dream/" % STEAM_APP_ID
+	var wishlist_btn = _button(
+		_tr("♥  Steam 위시리스트에 추가", "♥  Add to Steam Wishlist"), "#1b4a2e")
+	wishlist_btn.pressed.connect(func(): OS.shell_open(steam_url))
+	modal_body.add_child(wishlist_btn)
+
 	var sep4 = HSeparator.new()
 	sep4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep4)
@@ -6000,8 +6411,15 @@ func _show_ending(ending_id):
 		_add_ending_art_preview(modal_body, ending_cg_path, true)
 	# ── 드라마틱 한 줄 요약 ──
 	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, "#c8a060"))
-	# ── 엔딩 설명 ──
-	modal_body.add_child(_wrap_label(_fmt(str(ending.get("description", ""))), 13, "#6a7486"))
+	# ── 엔딩 설명 ── (지식 반응형: 같은 결말도 어떻게 거기 닿았는지 알면 다르게 읽힌다)
+	var ending_desc := str(ending.get("description", ""))
+	var ending_know = ending.get("description_if_known", null)
+	if ending_know is Dictionary:
+		for fl in ending_know.keys():
+			if GameState.flags.get(str(fl), false):
+				ending_desc = str(ending_know[fl])
+				break
+	modal_body.add_child(_wrap_label(_fmt(ending_desc), 13, "#6a7486"))
 	# ── 인연 에필로그 — 같은 결말이라도 곁에 누가 있었는지가 다르다 ──
 	_ending_cast_epilogue(modal_body, ending_id)
 	# ── 스탯 그리드 ──
@@ -6033,6 +6451,7 @@ func _show_ending(ending_id):
 			"five_lives":        _tr("다섯 번의 인생", "Five Lives"),
 			"ten_lives":         _tr("열 번의 인생", "Ten Lives"),
 			"beat_addiction":    _tr("동그라미 서른 개 (중독 회복)", "Thirty Circles (Addiction Recovery)"),
+			"white_gangnam":     _tr("사람으로 강남에 (0.1%의 길)", "Human Until Gangnam (The 0.1% Path)"),
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)
@@ -6119,6 +6538,8 @@ func _ending_run_summary(ending_id: String) -> String:
 	var is_orthodox = "정석" in route or "엘리트" in route
 	var is_unorthodox = "아웃사이더" in route or "이단아" in route
 	match ending_id:
+		"gangnam_dream_white":
+			return _tr("아무도 밟지 않고 30억을 달성했다. 이 도시에서 사람으로 남은 강남입성.", "Reached ₩3B without stepping on anyone. Made it to Gangnam — and stayed human.")
 		"gangnam_dream":
 			if is_orthodox:
 				return _tr("착실하게 살아온 청년이 마침내 강남에 입성했다", "A young man who lived diligently finally made it into Gangnam.")
@@ -6209,7 +6630,7 @@ func _ending_run_summary(ending_id: String) -> String:
 ## 각 인물의 최종 stage에 따라 결말 직후의 한 장면을 보여준다.
 func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var good := ending_id in [
-		"gangnam_dream", "stable_success", "investment_master",
+		"gangnam_dream", "gangnam_dream_white", "stable_success", "investment_master",
 		"startup_exit", "political_fix", "reputation_legend", "healthy_retirement",
 		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
 		"creator_success", "with_daeun", "jiyeon_man",
@@ -6250,12 +6671,12 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 
 	# 한지연 — 세계가 다른 사람과 어디까지 갔는가
 	var js := GameState.get_cast_stage("jiyeon")
-	if js in ["lover", "honest_together"]:
+	if GameState.flags.get("jiyeon_romance_started", false):
 		if bad:
 			lines.append(_tr("💜  다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "💜  Even the day everything collapsed, Jiyeon didn't leave. 「I never came for the money in the first place.」"))
 		else:
 			lines.append(_tr("💜  한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "💜  Jiyeon smiled, 「See, my eye was right.」 That seat beside her is better than Gangnam."))
-	elif js in ["respected", "trust", "close", "connected", "business_partner", "indebted"]:
+	elif js in ["honest_together", "respected", "trust", "close", "connected", "business_partner", "indebted"]:
 		lines.append(_tr("💜  한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.", "💜  I meet Jiyeon for coffee now and then. We remain people who acknowledged each other's worlds."))
 	elif js in ["hurt", "disillusioned", "distant", "rejected_help"]:
 		lines.append(_tr("💜  한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.", "💜  I check Jiyeon's social media sometimes. I don't reach out. We both remember what was said that day."))
@@ -6264,21 +6685,27 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 
 	# 김다은 — 카페의 그 사람
 	var ds := GameState.get_cast_stage("daeun")
-	if ds in ["lover", "together", "committed", "dating"]:
+	if GameState.flags.get("daeun_romance_started", false):
 		if good:
 			lines.append(_tr("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "☕  Daeun said, 「Even in Gangnam, come drink your coffee at my place.」 I agreed."))
 		elif bad:
 			lines.append(_tr("☕  통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.", "☕  Even when my bank account was empty, the corner seat at Daeun's cafe was not."))
 		else:
 			lines.append(_tr("☕  다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.", "☕  Daeun's cafe became not just a regular spot, but a place to return to."))
-	elif ds in ["close", "warm", "interest", "acquaintance"]:
+	elif ds in ["together", "close", "warm", "interest", "acquaintance"]:
 		lines.append(_tr("☕  다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.", "☕  I still drop by Daeun's cafe sometimes. There's a drink that comes without ordering."))
 	elif ds in ["distant", "wary", "uncertain"]:
 		lines.append(_tr("☕  그 카페 앞을 지날 때면 걸음이 조금 빨라진다.", "☕  When I pass that cafe, my pace quickens a little."))
 
-	# 임상철 — 멘토였는가
+	# 임상철 — 멘토였는가 / 도구였는가
 	var ss := GameState.get_cast_stage("sangchul")
-	if ss in ["trusted", "mentoring", "guardian"]:
+	# 진실을 알고도 그의 죄책감을 끝까지 자산으로 쓴 경우 — 관계 stage가 무엇이든 이 라인이 우선.
+	# (stage 기반 따뜻한 라인이 착취 플레이어에게 잘못 뜨던 톤 버그 차단)
+	if GameState.flags.get("sangchul_used_fully", false):
+		lines.append(_tr("🏢  임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.", "🏢  I still keep in touch with Im Sangchul. I'll use him again if I need to. He knows that, and still picks up the phone."))
+	elif GameState.flags.get("sangchul_leveraged", false):
+		lines.append(_tr("🏢  임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.", "🏢  Im Sangchul's guilt made a good lever. That fact catches in my chest sometimes — just sometimes."))
+	elif ss in ["trusted", "mentoring", "guardian"]:
 		if good:
 			lines.append(_tr("🏢  임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "🏢  Im Sangchul laughed as if it were his own, 「I sure know how to read people.」"))
 		elif bad:
@@ -6294,16 +6721,37 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 
 	# 박재혁 — 그 제안의 끝
 	var hs := GameState.get_cast_stage("jaehyuk")
+	var hf := GameState.flags
 	if hs == "betrayed":
-		lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone."))
+		if hf.get("jaehyuk_stood_up", false):
+			lines.append(_tr("📱  박재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.", "📱  Betrayed by Park Jaehyuk. Account empty. Rock bottom. Afterward, I wrote down the things he used to say — the only thing left from someone who betrayed me. Started again from there."))
+		elif hf.get("jaehyuk_night_was_real", false):
+			lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone. But I kept the photo from that night. Chose to believe it was real."))
+		else:
+			lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone."))
 	elif hs == "reported":
 		lines.append(_tr("📱  박재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.", "📱  I read that Park Jaehyuk was finally arrested. I felt neither satisfaction nor sorrow."))
 	elif hs in ["partner_in_crime", "blackmailed"]:
 		lines.append(_tr("📱  박재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.", "📱  I never told anyone about Park Jaehyuk. I never will."))
+	elif hs == "trusted":
+		if hf.get("felt_jaehyuk_kindness", false):
+			lines.append(_tr("📱  박재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.", "📱  There was a day Park Jaehyuk handed me his card, no strings attached. I don't know if it was sincere. But I think that gesture, in that moment, was real."))
+		else:
+			lines.append(_tr("📱  박재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.", "📱  Park Jaehyuk and I drifted apart. I still think sometimes about the day he helped without asking anything in return."))
+	elif hs == "opening_up":
+		lines.append(_tr("📱  박재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.", "📱  There was a day Park Jaehyuk told me his story. Said he'd never told anyone. I remember the weight of it."))
 	elif hs in ["suspect", "retreating", "guarded"]:
 		lines.append(_tr("📱  박재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.", "📱  I kept a careful distance from Park Jaehyuk. I think that was right."))
 	elif hs != "unknown":
 		lines.append(_tr("📱  박재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.", "📱  Park Jaehyuk reaches out now and then. Whether I answer depends on the day."))
+
+	# 강현수 — 고시원 옆방, 자기 길을 간 사람
+	var hyunsu_stage := GameState.get_cast_stage("hyunsu")
+	if hyunsu_stage in ["passed", "deployed", "friend"] or GameState.flags.get("hyunsu_reconnected", false):
+		if GameState.flags.get("called_hyunsu_for_help", false):
+			lines.append(_tr("🎓  바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.", "🎓  I called Hyunsu when I'd hit bottom. He just listened. A person who could listen without words — that was what I needed."))
+		else:
+			lines.append(_tr("🎓  현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "🎓  Hyunsu became a civil servant. We're both doing all right. No more, no less."))
 
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))

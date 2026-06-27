@@ -8,6 +8,10 @@ signal log_added(entry: Dictionary)
 signal run_started()
 signal stat_threshold_crossed(stat_name: String, threshold: int)
 signal tendency_awakened(kind: String)
+signal clue_added(clue_id: String)
+signal thought_completed(thought_id: String)
+# Codex 테마색 구독용 — norm(-1~+1) 부드러운 보간, stage(-2~+2) 이산 효과
+signal moral_tint_changed(norm: float, stage: int)
 
 const STAT_THRESHOLDS: Array = [30, 50, 70]
 var unlocked_stat_thresholds: Dictionary = {}
@@ -101,6 +105,12 @@ var tutorial_step = 3
 var route_orthodox: int = 0
 var route_unorthodox: int = 0
 var month_focus: String = ""
+# ── MORAL_TINT — 색으로 보는 자기 파괴 (docs/MORAL_TINT.md) ──
+# −100(새까망/돈) ↔ 0(회색/시작) ↔ +100(새하양/인간). 플레이어에겐 숫자 미노출, 색으로만.
+var moral_tint: float = 0.0
+var moral_band_last: int = 0   # 직전 밴드(−2~+2). 전이 비네트 트리거용
+var pending_tint_vignette: Dictionary = {}  # transient: {"from":int,"to":int} — UI가 표시 후 비움
+var pending_scar_vignette: String = ""     # transient: "crossed_line"|"chose_money_over_father" — 첫 설정 시 한 번만
 var housing_months: Dictionary = {}
 
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
@@ -154,6 +164,10 @@ var news_log: Array = []
 var event_log: Array = []
 var action_log: Array = []
 var flags: Dictionary = {}
+# 발견 레이어 — 단서/생각정리 (추리·분석의 재미)
+var clues: Array = []              # 획득한 단서 id 목록
+var thoughts_done: Array = []      # 완료한 생각(추론) id 목록
+var active_thought: Dictionary = {}  # {"id": String, "turns_left": int} — 현재 정리 중인 생각 (1슬롯)
 var deferred_events: Array = []  # [{event_id, trigger_turn}] — N턴 후 자동 발동 이벤트
 var events_seen: int = 0   # 이번 런에서 플레이어가 실제 선택한 이벤트 수
 var peak_asset: float = 0.0   # 이번 런 최고 자산 (분석요소 — 정점 대비 결말 비교)
@@ -228,6 +242,8 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	unlocked_stat_thresholds = {}
 	route_orthodox = 0
 	route_unorthodox = 0
+	moral_tint = 0.0
+	moral_band_last = 0
 	month_focus = ""
 	housing_months = {}
 	tendency = {"career": 0, "invest": 0, "found": 0}
@@ -257,6 +273,7 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	], "system")
 	stats_changed.emit()
 	run_started.emit()
+	moral_tint_changed.emit(moral_tint_norm(), moral_stage())  # Codex 초기 시각 상태 설정
 
 ## 해금한 칭호가 다음 런 시작 보너스가 된다 — 수집의 실질 보상
 func _apply_title_perks():
@@ -460,6 +477,7 @@ func advance_calendar() -> bool:
 			month = 1
 			year += 1
 			age += 1
+	_tick_active_thought()
 	turn_advanced.emit(turn)
 	return month_ended
 
@@ -546,8 +564,8 @@ func apply_monthly_pressure():
 		modify_stat("mental", 1)
 		if randf() < 0.18:
 			add_log("📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.", "relationship")
-	if get_cast_stage("jiyeon") in ["lover", "honest_together"] \
-			or get_cast_stage("daeun") in ["lover", "together", "committed", "dating"]:
+	if get_cast_stage("jiyeon") in ["honest_together", "lover"] \
+			or get_cast_stage("daeun") in ["lover", "together", "close"]:
 		modify_stat("mental", 1)
 		if randf() < 0.18:
 			add_log("💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.", "relationship")
@@ -611,13 +629,22 @@ func apply_choice(event, choice):
 		apply_relationship_effect(rel_effect)
 	for investment_effect in choice.get("investment_effects", []):
 		apply_investment_effect(investment_effect)
+	# 발견 레이어 — 선택지가 단서를 줄 수 있다: "clues": ["clue_x"]
+	for clue_id in choice.get("clues", []):
+		add_clue(str(clue_id))
 	for flag_id in choice.get("flags", []):
-		flags[str(flag_id)] = true
+		var fid := str(flag_id)
+		var _was_set: bool = flags.get(fid, false)
+		flags[fid] = true
 		# 마인드셋 선택(arc_intro_02) → 성향 초기 시드
-		match str(flag_id):
+		match fid:
 			"mindset_saver":    add_tendency("career", 6)
 			"mindset_investor": add_tendency("invest", 6)
 			"mindset_founder":  add_tendency("found", 6)
+		# 흉터 플래그 최초 설정 → 비네트 대기 + 즉시 tint 상한 적용
+		if not _was_set and fid in ["crossed_line", "chose_money_over_father"]:
+			pending_scar_vignette = fid
+			shift_moral_tint(0.0)  # delta=0, 상한만 즉시 적용
 	# 선택지가 직접 성향 포인트를 줄 수도 있다: "tendency": {"invest": 2}
 	for tk in choice.get("tendency", {}):
 		add_tendency(str(tk), int(choice["tendency"][tk]))
@@ -716,10 +743,18 @@ func _resolve_opportunity(opp: Dictionary) -> String:
 	# 돈이 부족하면 가진 만큼만 (마이너스 베팅 방지)
 	stake = min(stake, max(0.0, money)) if opp.has("stake_ratio") else stake
 
-	# 성공 확률 = 기본 + luck 보정 + 난이도 보정
+	# 성공 확률 = 기본 + luck 보정 + 난이도 보정 + 멘토(임상철) affinity 보정
 	var rate: float = float(opp.get("success_rate", 0.5))
-	rate += float(luck) * float(opp.get("luck_factor", 0.0015))
+	rate += float(luck) * float(opp.get("luck_factor", 0.002))
 	rate += float(get_difficulty_data().get("opp_bonus", 0.0))
+	# 임상철 affinity 보정: 관계가 깊을수록 기회 성공률 상승
+	var sangchul_aff: int = get_cast_affinity("sangchul")
+	if sangchul_aff >= 35:
+		rate += 0.15
+	elif sangchul_aff >= 25:
+		rate += 0.10
+	elif sangchul_aff >= 15:
+		rate += 0.05
 	rate = clampf(rate, 0.02, 0.98)
 
 	# 베팅금 차감
@@ -780,7 +815,44 @@ func apply_effects(effects):
 				route_orthodox = maxi(0, route_orthodox + int(value))
 			"route_unorthodox":
 				route_unorthodox = maxi(0, route_unorthodox + int(value))
+			"tint":
+				shift_moral_tint(float(value))
+			"give_items":
+				for item_id in value:
+					add_item(str(item_id), 1)
 	stats_changed.emit()
+
+# ── MORAL_TINT 엔진 (docs/MORAL_TINT.md) ──
+# 인간성=하양(+) / 돈=검정(−). 누적식. 흉터(crossed_line·죽음 외면)는 상한을 영구 고정.
+func shift_moral_tint(delta: float) -> void:
+	var old_band: int = moral_stage()
+	moral_tint = clampf(moral_tint + delta, -100.0, 100.0)
+	# 영구 얼룩 — 상한 고정 (아무리 착하게 굴어도 완전히는 못 돌아온다)
+	if flags.get("crossed_line", false):
+		moral_tint = minf(moral_tint, -20.0)        # 상철 끝까지 이용·재혁의 방식 → 양수 불가
+	elif flags.get("chose_money_over_father", false):
+		moral_tint = minf(moral_tint, 0.0)           # 죽음 외면 → 하양 불가
+	# 밴드 전이 감지 — 넘었으면 비네트 대기열에 기록(표시는 UI가). from은 시작 밴드 유지.
+	var new_band: int = moral_stage()
+	if new_band != old_band:
+		if pending_tint_vignette.is_empty():
+			pending_tint_vignette = {"from": old_band, "to": new_band}
+		else:
+			pending_tint_vignette["to"] = new_band
+		moral_band_last = new_band
+	moral_tint_changed.emit(moral_tint_norm(), moral_stage())
+
+# −2(새까망) ~ +2(새하양). 이산 효과(틀어짐·돈 글로우)용.
+func moral_stage() -> int:
+	if moral_tint >= 60.0: return 2
+	if moral_tint >= 20.0: return 1
+	if moral_tint <= -60.0: return -2
+	if moral_tint <= -20.0: return -1
+	return 0
+
+# −1.0 ~ +1.0. Codex 테마색 부드러운 보간용.
+func moral_tint_norm() -> float:
+	return clampf(moral_tint / 100.0, -1.0, 1.0)
 
 func apply_relationship_effect(effect):
 	var rel_id = str(effect.get("id", effect.get("type", "unknown")))
@@ -1039,6 +1111,12 @@ func remove_item(item_id, quantity):
 			if int(inventory[i]["quantity"]) <= 0:
 				inventory.remove_at(i)
 			stats_changed.emit()
+			return true
+	return false
+
+func has_item(item_id: String) -> bool:
+	for owned in inventory:
+		if owned.get("id", "") == item_id and int(owned.get("quantity", 0)) > 0:
 			return true
 	return false
 
@@ -1353,10 +1431,13 @@ func check_game_over():
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
 		if relationships.is_empty() and not has_any_close_relationship():
-			# 아버지와도 화해 못 했으면 진짜 아무도 없는 집
-			if not flags.get("father_reconciled", false):
+			# 아버지도 없거나(별세/미화해) → 진짜 빈 집
+			if not flags.get("father_reconciled", false) or flags.get("father_passed", false):
 				finish_run("empty_house"); return     # 빈 집
 			finish_run("lonely_rich"); return         # 외로운 부자 — 돈만 남음
+		# 진엔딩: White 밴드(tint ≥ +60) 유지한 채로 30억 — 극악 난이도 0.1%
+		if moral_stage() >= 2:
+			finish_run("gangnam_dream_white"); return
 		finish_run("gangnam_dream"); return           # 강남드림 (정상)
 
 	# 특수 성공 엔딩 (강남 외 경로)
@@ -1373,10 +1454,10 @@ func check_game_over():
 	if age >= 38:
 		var total = get_total_asset_value()
 		# 연인 엔딩
-		if get_cast_stage("daeun") in ["lover", "together"]:
-			finish_run("with_daeun"); return          # 다은과 함께
-		if get_cast_stage("jiyeon") in ["lover", "honest_together"]:
-			finish_run("jiyeon_man"); return          # 한지연의 남자
+		if flags.get("daeun_romance_started", false):
+			finish_run("with_daeun"); return          # 다은과 연인 (Y5 고백)
+		if flags.get("jiyeon_romance_started", false):
+			finish_run("jiyeon_man"); return          # 한지연의 남자 (Y5 formalize)
 		# 도박 중독을 이겨낸 사람 — 강남엔 못 갔어도, 가장 깊은 구덩이에서 올라왔다.
 		# 30억 도달자는 이미 위에서 gangnam_dream 분기 → 여기 오는 건 미달자.
 		# 이 런의 진짜 서사가 '회복'이었던 사람에게 주는 구원 엔딩.
@@ -1484,6 +1565,8 @@ func serialize():
 		"tutorial_step": tutorial_step,
 		"route_orthodox": route_orthodox,
 		"route_unorthodox": route_unorthodox,
+		"moral_tint": moral_tint,
+		"moral_band_last": moral_band_last,
 		"tendency": tendency,
 		"tendency_realized": tendency_realized,
 		"month_focus": month_focus,
@@ -1504,6 +1587,9 @@ func serialize():
 		"event_log": event_log,
 		"action_log": action_log,
 		"flags": flags,
+		"clues": clues,
+		"thoughts_done": thoughts_done,
+		"active_thought": active_thought,
 		"deferred_events": deferred_events,
 		"market_prices": market_prices,
 		"price_history": price_history,
@@ -1525,6 +1611,7 @@ func load_from_dict(data):
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
 		"route_orthodox", "route_unorthodox", "events_seen",
+		"moral_band_last",
 	]
 	var allowed = serialize().keys()
 	for key in data:
@@ -1561,6 +1648,13 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — deferred_events 없으면 빈 배열
 	if typeof(deferred_events) != TYPE_ARRAY:
 		deferred_events = []
+	# 구버전 세이브 호환 — 발견 레이어 필드
+	if typeof(clues) != TYPE_ARRAY:
+		clues = []
+	if typeof(thoughts_done) != TYPE_ARRAY:
+		thoughts_done = []
+	if typeof(active_thought) != TYPE_DICTIONARY:
+		active_thought = {}
 	stats_changed.emit()
 
 ## 그림자 이벤트 — N턴 후 자동 발동 예약
@@ -1578,3 +1672,90 @@ func pop_ready_deferred_events() -> Array:
 			remaining.append(entry)
 	deferred_events = remaining
 	return ready
+
+# ── 발견 레이어: 단서/생각정리 엔진 (추리·분석의 재미) ──────────────
+## 단서 획득 (이미 있으면 무시). 신규면 true.
+func add_clue(clue_id: String) -> bool:
+	if clue_id == "" or clues.has(clue_id):
+		return false
+	clues.append(clue_id)
+	var c: Dictionary = DataRegistry.get_clue(clue_id)
+	var title: String = str(c.get("title", clue_id))
+	add_log(LocaleManager.ui("🔎 단서 발견: %s" % title, "🔎 Clue found: %s" % title), "system")
+	clue_added.emit(clue_id)
+	stats_changed.emit()
+	return true
+
+func has_clue(clue_id: String) -> bool:
+	return clues.has(clue_id)
+
+func is_thought_done(thought_id: String) -> bool:
+	return thoughts_done.has(thought_id)
+
+## 필요한 단서를 모두 모았고, 아직 정리/완료하지 않은 생각 목록
+func available_thoughts() -> Array:
+	var out: Array = []
+	for t in DataRegistry.thoughts:
+		var tid: String = str(t.get("id", ""))
+		if tid == "" or thoughts_done.has(tid):
+			continue
+		if str(active_thought.get("id", "")) == tid:
+			continue
+		var ok: bool = true
+		for req in t.get("required_clues", []):
+			if not clues.has(str(req)):
+				ok = false
+				break
+		if ok:
+			out.append(t)
+	return out
+
+## 생각정리 시작 (1슬롯 — 이미 정리 중이면 실패). 시간이 걸린다 = 기회비용.
+func start_thought(thought_id: String) -> bool:
+	if not active_thought.is_empty():
+		return false
+	if thoughts_done.has(thought_id):
+		return false
+	var t: Dictionary = DataRegistry.get_thought(thought_id)
+	if t.is_empty():
+		return false
+	for req in t.get("required_clues", []):
+		if not clues.has(str(req)):
+			return false
+	var turns: int = max(1, int(t.get("processing_turns", 1)))
+	active_thought = {"id": thought_id, "turns_left": turns}
+	var title: String = str(t.get("title", thought_id))
+	add_log(LocaleManager.ui("💭 생각 정리 시작: %s (%d주)" % [title, turns], "💭 Started working it out: %s (%d weeks)" % [title, turns]), "system")
+	stats_changed.emit()
+	return true
+
+## 매주 호출 (advance_calendar) — 정리 중인 생각 진행, 완료 시 결론 적용
+func _tick_active_thought() -> void:
+	if active_thought.is_empty():
+		return
+	var left: int = int(active_thought.get("turns_left", 0)) - 1
+	if left <= 0:
+		var tid: String = str(active_thought.get("id", ""))
+		active_thought = {}
+		_complete_thought(tid)
+	else:
+		active_thought["turns_left"] = left
+
+func _complete_thought(thought_id: String) -> void:
+	if thought_id == "" or thoughts_done.has(thought_id):
+		return
+	thoughts_done.append(thought_id)
+	var t: Dictionary = DataRegistry.get_thought(thought_id)
+	var oc: Dictionary = t.get("on_complete", {})
+	for fk in oc.get("flags", []):
+		flags[str(fk)] = true
+	var eff = oc.get("effects", {})
+	if eff is Dictionary and not eff.is_empty():
+		apply_effects(eff)
+	var unlock: String = str(oc.get("unlock_event", ""))
+	if unlock != "":
+		add_deferred_event(unlock, 0)
+	var title: String = str(t.get("title", thought_id))
+	add_log(LocaleManager.ui("💡 결론에 도달: %s" % title, "💡 Reached a conclusion: %s" % title), "system")
+	thought_completed.emit(thought_id)
+	stats_changed.emit()

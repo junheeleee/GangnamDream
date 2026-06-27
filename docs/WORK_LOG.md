@@ -12,8 +12,681 @@
 - 카지노 전용 `ScreenshotQA` 실행 완료. `10a_blackjack_betting`, `10_blackjack_table` 직접 확인.
 
 ---
+## 2026-06-24 (다은/지연 로맨스 상호배타 + 지연 Y4-Y5 아크 완성)
 
-## 2026-06-22 (English Surface + AP Modal Polish)
+### 수정 내용
+
+#### 한지연 Y4-Y5 아크 신규 이벤트 4종
+- `arc_jiyeon_year4_call` (t>=145): Y4 부산 첫 전화 — 3가지 반응, `jiyeon_year4_wants_more` 플래그
+- `arc_jiyeon_year4_seoul` (t165-192, 표준): 서울 방문 — 연인 인정 → `lover`/`jiyeon_lovers_acknowledged`, 아름다운 이별 → `jiyeon_beautifully_apart`, 침묵 → `distant`
+- `arc_jiyeon_year4_seoul_daeun` (t165-192, 다은 갈등): 다은 연인 경로 전용 — 솔직 고백 +5 → `jiyeon_respectfully_distanced`/`respected`, 침묵 -5 → `jiyeon_hidden_feelings`/`close`
+- `arc_jiyeon_year5_return` (Y5, lover 경로): "강남에서 봐요" → `jiyeon_gangnam_together`
+- `arc_jiyeon_year5_news` (Y5, 비연인 경로): 부산 소식 + `description_if_known` 2종(솔직한 작별 / 침묵의 무게)
+
+#### 다은/지연 상호배타 dispatch 분기
+- `_next_arc_id()` t165-192 블록: `daeun_together_path`/`lover`/`together`/`committed` → `arc_jiyeon_year4_seoul_daeun`; 아니면 조건부 `arc_jiyeon_year4_seoul`
+- 최종 엔딩에서 두 로맨스 동시 진행 불가 — 다은 연인 경로 플레이어는 지연에게 솔직해지거나 침묵하는 선택만 가능
+
+#### description_if_known 전환 (write-only→read)
+- `arc_jiyeon_year5_news`: `jiyeon_respectfully_distanced` / `jiyeon_hidden_feelings` 두 플래그 소비 — 갈등 씬 선택이 Y5 소식 반응에 반영
+- KR+EN 동기화
+- write-only 226 baseline 유지 (두 플래그 all read로 전환)
+
+### 결과
+- 지연 아크 Y1→Y5 완전 연결 (Y4-Y5 공백 해소)
+- 다은 연인 경로 ↔ 지연 로맬스 상호배타 보장
+- `jiyeon_man` 엔딩 `lover` stage도 포함 (GameState.gd)
+- audit ERROR 0 / WARNING 0 / 밴드 통과
+
+---
+
+## 2026-06-24 (MORAL_TINT 6차 확장 — shadow/chain/butterfly/NG+ 고도덕강도 이벤트 + cut_sangchul_network 엔딩 변주)
+
+### 수정 내용
+
+#### MORAL_TINT 선택지 tint 추가 (34개 선택지)
+- **shadow_events.json** (8개): 사채업자 응대/모른 척/직접고발, 오래된 약속 솔직/시간끌기, 신고 vs 체념 등
+- **work_events.json** (1개): `work_credit_stolen` — 팀장에게 직접 이야기하기 +4
+- **story_events.json** (2개): 프롤로그 아버지 전화 — 챙기는 말 +2 / 짧게 끊기 -2
+- **butterfly_events.json** (5개): 내부정보 거절 +2/구입 -5, 사기 확인 시 신고 +5/바로 투자 -6
+- **chain_events.json** (8개): 임원 식사 솔직 +5/둘러대기 -3, 봉투 돌려줌 +8/못 본 척 -8, 사기꾼 제보 +6/지나침 -5
+- **drama_events.json** (2개): 도박 회복 직후 솔직 고백 +5 / 자리 피함 -2
+- **ng_plus_events.json** (8개): 상철 모른 척(알면서 이용) -6 / 직접 대면 +7, 아버지 전화 주말 방문 +3 / 짧게 끊기 -2, 카지노 거부 +3 / 자기기만으로 재입장 -4, 낯선 도박꾼에게 손 내밀기 +5 / 외면 -3
+
+#### cut_sangchul_network 엔딩 발견 레이어 (endings.json + endings_en.json)
+- `stable_success`, `ordinary_life`, `balanced_life` 3개 엔딩에 `description_if_known["cut_sangchul_network"]` 변주 추가(KR+EN)
+- 상철 네트워크를 스스로 끊은 플레이어가 각 엔딩에서 "그 출처를 설명할 수 없는 돈은 없다"는 자각으로 읽힘
+
+### 결과
+- tint 커버리지 약 610+/3170+ 선택지 (~19-20%)
+- `cut_sangchul_network` 플래그: write-only → 엔딩 3종이 읽어 부채 해소
+- audit ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+---
+
+## 2026-06-24 (서사 무결성 수정 5종 — 내러티브 QA 후속 픽스)
+
+### 수정 내용
+
+#### [HIGH] 다은 아크 데드엔드 2건
+1. `arc_daeun_04_morning` choice 2 ("노트북을 연다")가 `daeun_together_path` 플래그를 설정하지 않아
+   Y3~Y5 연속 아크(`arc_daeun_year3_together`→`year4`→`year5`)가 완전히 잘려나가는 데드엔드 수정.
+   → choice 2 flags에 `daeun_together_path` 추가.
+
+2. `arc_daeun_year3_apart` 트리거가 `arc_daeun_ghost_seen`을 요구했는데,
+   이 플래그는 `daeun_let_her_go` 경로에서만 설정됨.
+   `daeun_breakup_accepted`(명시적 이별) 경로는 ghost 씬 없이도 year3_apart 진입해야 하는데 막혀 있었음.
+   → `(arc_daeun_ghost_seen OR daeun_breakup_accepted)` OR 조건으로 수정.
+
+#### [HIGH] 상철 타임라인 수학적 모순
+`arc_sangchul_deduction` + `arc_father_06_confession` 두 곳에서
+"5년 전 아버지를 무너뜨렸다"고 하는데, 아버지 빚 상환 기간이 6년으로 명시돼 있어 수학적으로 불가능.
+→ "5년 전" → "몇 년 전"으로 수정(2곳, arc_drama.json).
+
+#### [MED] Y5 echo 4종 시간 표현 오류
+Y3(35세) 씬에서 나온 선택에 대한 echo가 Y5(37세)에 발동하면서 "작년에"로 언급.
+Y3→Y5는 2년 간격이므로 "작년"은 사실 오류.
+→ cb_weight_stayed/adjusted + cb_cost_embraced/reclaimed echo 4종:
+   "작년 이맘때" → "2년 전 이맘때", "작년에" → "2년 전," , "1년이 더 지났다" → "2년이 더 지났다"
+   (KR + EN 동기화, content/events/callback_chapter_themes.json + content/events_en/callback_chapter_themes.json)
+
+#### [MED] arc_34_two_years_in 윈도우 starved 방지
+윈도우 t89-96이 높은 우선순위 씬들(two_years_mark 등)에 의해 잘릴 수 있어 발동 불가 가능성.
+→ t89-100으로 상한 확장 (scenes/MainGame.gd).
+
+### 검증
+- audit.sh: ERROR 0, WARNING 0, write_only 210 baseline 유지, 밴드 전부 통과
+- arc_flow_sim.py: 잼 0, 대표 체인 완결 (Path A Y1=47/Y2=24/Y3=12/Y4=12/Y5=9, Path B 유사)
+- JSON 파싱: 전부 valid
+
+---
+
+## 2026-06-24 (전 구간 무결성 검증 — 턴별 _next_arc_id 시뮬레이터로 2개 주요 경로 정밀 추적)
+
+### 목적
+"껍데기만 채운 게 아니라 처음부터 끝까지 탄탄한가"를 정량 검증. 보장 비트 개수만 세는 게 아니라
+실제 한 플레이가 240턴 동안 어떤 아크가 발동되는지 턴별로 시뮬레이션.
+
+### 방법
+`_next_arc_id()`를 들여쓰기-인식 파서로 추출(중첩 if·백슬래시 연속행·inline if 처리),
+이벤트 JSON에서 self-guard 플래그를 ground-truth로 추출, 상태 궤적(자산/route/직업/주거/호감도)과
+스파인 선택 플래그를 스크립트로 구동해 GDScript 조건을 Python에서 충실히 평가.
+
+### 발견 (구조)
+- **잼(같은 아크 반복 발동) 0건** — 두 경로 모두. (초기 시뮬의 t1부터 orthodox_weight 무한반복은
+  중첩 if를 못 읽은 **시뮬레이터 파서 버그**였고, 게임 자체는 정상 — 윈도우 가드 정상 작동 확인.)
+- **데드엔드/고아 아크 0건** — 모든 아크가 도달 가능, 발동 후 _seen으로 재발동 차단.
+- **빈 턴은 랜덤풀로 충전** — Y3~Y5 가용 풀 ~900개. 빈 화면/반복 없음.
+
+### 발견 (페이싱 — 의도된 front-load, 단 확인됨)
+실제 한 경로의 연차별 "authored 아크 발동 턴" 수:
+| | Path A(정석/다은 보냄/사기당함) | Path B(비정석/진실/다은 함께) |
+|--|--|--|
+| Y1 | 47/48 | 47/48 |
+| Y2 | 24 | 23 |
+| Y3 | 12 | 12 |
+| Y4 | 12 | 13 |
+| Y5 | 8 | 9 |
+- 밀집 도입(Y1) → 구두점식 그라인드(Y3~5). 큰 침묵 구간(t125~137/t169~189/t196~209/t223~240)은
+  랜덤풀+마일스톤+엔드게임 비트가 메움. 엔드게임 비트(final_year_start/reckoning/burn_or_light/
+  six_months/ending_peace/gangnam_real_estate)는 자산 반응형으로 잘 escalate — shell 아님.
+
+### 발견 (캐릭터 아크 완결성 — 양 경로 start→finish)
+- **Path B 진실 아크 완결**: deduction(t30)→known_offer(t38)→known_reflex(t51)→confrontation(t60)→year3(t101).
+- **Path B 다은 committed 5년 관통**: fork(t23)→future(t42)→year3(t103)→year4(t147)→year5(t195).
+- **Y5 echo 콜백 페이오프 확인**: Path B에서 adjusted_my_path/reclaimed_cost/crack_softened/accepted_grace
+  4개 stance 플래그 전부 set → 마지막 해 echo가 실제로 발동·회수됨.
+- 신규 테마 6씬 전부 정확한 연차에 안착(Y2 확장 t63/t74, Y3 무게 t108/t124, Y4 균열 t151/t156).
+
+### 결론
+구조는 양대 경로에서 처음부터 끝까지 탄탄(잼·데드엔드·고아·빈화면 0, 아크 완결, 테마·echo 회수).
+front-load는 의도적·방어 가능한 페이싱이며, 추가 reflection 비트는 오히려 "shell"이 될 위험이 커
+이번 라운드는 **검증으로 마무리**(불필요한 패딩 지양).
+
+### 산출물: `tools/arc_flow_sim.py` (영구 회귀 도구)
+시뮬레이터를 scratchpad→tools로 승격. 2개 캐논 경로(A 정석/다은보냄/사기, B 비정석/진실/committed)에서
+아크 잼(같은 아크 반복 발동=윈도우/가드 버그)과 대표 체인 미완결을 검출, 발견 시 종료코드 1.
+중첩 if를 못 읽으면 잼으로 드러나므로 이번 같은 _next_arc_id 구조 회귀를 CI에서 빨리 잡는다.
+
+## 2026-06-24 (연차별 챕터 테마 분배 — 챕터2~4 테마 씬 신설 + Y5 echo 콜백)
+
+### 문제 진단 (연차별 콘텐츠/스토리 분배 점검)
+- `_next_arc_id()` 보장 스토리 비트(턴만으로 게이트, 모든 플레이 공통) 연차별 집계:
+  - **Before**: Y1=34, Y2=8, Y3=6, Y4=8, Y5=7 — Y2~Y5가 일반 마커(생일/루틴/연도)뿐, **챕터 카드 테마(확장/무게/균열)를 직접 구현하는 씬이 없음**.
+- 챕터 카드는 Y2="확장(돈이 돈을, 사람이 기회)", Y3="무게(선택한 길의 대가)", Y4="균열(믿었던 사람이 흔든다)"를 약속하나 실제 콘텐츠가 부재.
+
+### 신규 콘텐츠 (17개 이벤트, KR+EN, 전부 챕터 테마 직결)
+**Y3 "무게" (3종, route 반응형)** — `arc_chapter_themes.json`
+- `arc_35_orthodox_weight`(정석 우세, t108~138): 지루함의 무게. `arc_35_unorthodox_weight`(비정석 우세): 불안의 무게. route 합산 비교로 분기.
+- `arc_35_path_cost`(t124~144): 3년치 잃은 것의 영수증 (무조건).
+
+**Y4 "균열" (2종)** — 챕터4 카드 직결
+- `arc_36_trust_crack`(t150~178): 믿었던 사람이 흔든다 (끊다/이해하다/거리두다).
+- `arc_36_unexpected_hand`(t156~188, trust_crack 이후): 예상치 못한 사람이 잡는다.
+
+**Y2 "확장" (2종)** — 챕터2 카드 직결
+- `arc_34_money_attracts_money`(t54~74): 돈이 돈을 부른다 + 출발선 격차 자각.
+- `arc_34_doors_open`(t74~94): 기회는 사람을 통해 온다.
+
+**Y5 echo 콜백 (8종)** — `callback_chapter_themes.json`, 위 선택의 stance 플래그를 마지막 해에 페이오프
+- 8개 cluster 플래그(stayed_my_path/adjusted_my_path/embraced_cost/reclaimed_cost/crack_hardened/crack_softened/crack_distanced/accepted_grace)를 전부 읽음 → write-only 부채 0.
+- grace echo: 1년 전 받은 손을 이번엔 내가 내미는 pay-it-forward (tint +6).
+
+### 결과
+- **After**: Y1=34, Y2=10, Y3=9, Y4=10, Y5=7(+echo 8). Y2~Y4 균형(9~10), 각 연차가 고유 챕터 테마를 보장 씬으로 전달.
+- 5막 구조 명확화: Y1 시작/도입 → Y2 확장 → Y3 무게 → Y4 균열 → Y5 강남/정산.
+- write-only 플래그 210 유지(echo가 전부 소비), audit ERROR 0/WARNING 0, 밸런스 밴드 통과.
+
+## 2026-06-23 (자율 사각지대 감사 + MORAL_TINT 4차 확장 63개 + 진엔딩 자산 버그 수정)
+
+### 자율 감사 발견사항 (전수 점검)
+1. **17개 조건 플래그 → 전부 합법** (cafe/coin은 opportunity win_flag/lose_flag, jeongseon은 GDScript, is_repeat_run/housing_moved_once는 GameState, formed_whole_picture는 thoughts.json)
+2. **gangnam_penthouse 배경 ID 버그** — endings.json `full_circle`이 ImageRegistry에 없는 ID 사용 → `gangnam_penthouse` 알리아스 추가 (penthouse_view.png로 매핑)
+3. **아크 체인 전수** — _next_arc_id() 반환 158개 ID 전부 JSON에 존재
+4. **이벤트 조건 모순 0건** — min_money>max_money, 동일 flag/no_flag, min_turn>max_turn 없음
+5. **중복 ID 0건** (KR/EN 오버레이 쌍은 의도된 중복)
+6. **NG+ full_circle 체인 확인** — MetaProgression.sangchul_truth_ever_known + ng_plus_events.json 완전 배선
+7. **thoughts.json 체인 확인** — clue 3종 전부 이벤트 choice flags로 설정됨
+
+### MORAL_TINT 4차 확장 (63개 tint, KR+EN 동기화)
+**1차 배치 (25개)** — 최고가중치 이벤트 14종:
+- life_events: chapter_break_30(반환점 +4/+3), chapter_break_45(5년의미+5), father_wedding_call(아버지전화+5/-3), father_missed_chance(입원+8/-6), are_you_happy(모르겠다+2/아니다+4), orthodox_promotion_mirror(거울+4/-2), orthodox_overtime_fomo(야근+2/-1), orthodox_award_ceremony(서랍+3), orthodox_senior_farewell(선배+2/-1)
+- investment_events: invest_first_win(확정+1/-2), invest_first_loss(버팀+1)
+- relationship_events: daeun_regular(말받기+3/-1), daeun_share(내얘기+5/-3), daeun_feeling(나간다+4/-3)
+
+**2차 배치 (38개)** — weight=8 이벤트 16종:
+- relationship_events: family_007(병원비 대출+6/솔직+4/-3), social_life_001(+1/-1), jobs_010(경청+2), jobs_026(박씨유튜브+2/-3), romance_017(먼저카톡+3/약속+2), romance_020(빗속+4/기다림+2/+1), romance_029(뒤집기+1/-1)
+- life_events: family_013(집안병원비+4/죄책감+2/형편껏+3), jobs_036(야근카톡: 솔직+4/네-3/퇴근+2/-1), disasters_020(전세사기: 확인+2/-3/전화+3/닫는다-4), jobs_014(억울-2/당당+3), finance_033(조용히+1/-1), family_035(일찍자리+2/둘러대기-1), jobs_025(계획+1/사직서+2), finance_011(차분+1/-1), military_007(-1)
+
+### 전체 tint 커버리지
+- **347/3090 선택지 (11.2%)** (이전 284 → 9.2%)
+
+---
+
+## 2026-06-23 (MORAL_TINT 딥 점검 + 3차 스파인 확장 52개)
+
+### 자율 점검 발견사항 7종
+1. `gambling_006[0]` — MORAL_TINT.md §2 직접 명시 "사기 제안 거절 +6" 누락
+2. `father_health_call` / `father_first_visit` — life_events 아버지 씬 tint 없음
+3. `sangchul_why_gangnam[0]` — 아버지 사기 고백 핵심 감정 씬 tint 없음
+4. `cafe_talk_01` / `cafe_bluff_01` — scenario_cafe 인터트 이벤트 (effects: {} 기계적 null + tint 기회)
+5. `arc_jaehyuk_04a/04b/04c` — 재혁 사기 대응 3씬 tint 없음
+6. `write_only_flags` 211 vs baseline 211 — 래칫 조임 기회
+7. EN 오버레이 커버리지: KR 전체 ID 포함 확인 (정상)
+
+### 구현 (52개 tint, KR+EN 동기화)
+- life_events.json (17개): gambling사기차단+6, 아버지 방문+8, 솔직힘들다+5, 야근약속+4, 동창회 솔직+4, 아버지건강전화+5
+- relationship_events.json (20개): 상철 아버지사기고백+7, 지연 솔직+5, 다은 드리프트 연락+4, 명절 약속+4, 멘토 솔직+5
+- scenario_cafe.json (5개): 솔직무직+4/있는척-3, 모른다고+5/아는척-4
+- scenario_cafe_callback.json (2개): 훔친번호 양심 +4, 아직이다 정직 +3
+- arc_events.json (6개): 재혁대응 경찰+6/협박-5/합류(crossed_line)-8
+
+### 구조 부채
+- `debt_baseline.json` write_only_flags 211→210 (톱니 조임)
+
+### 전체 tint 커버리지
+- 284/3090 선택지 (9.2%)
+
+---
+
+## 2026-06-23 (MORAL_TINT 스파인 확장 2차 — arc_events + arc_midgame)
+
+### 추가 tint 저작 (58개 선택지 KR+EN)
+- arc_events.json (33개): 아버지 아크 전 5씬(call/signal/hospital/visit/after), 재혁 pitch(통장털어 -5/일부만 +2), 지연 epilogue 3선택지, 자소서 정직(3년 이유 그대로 +4), 상철 도움 거절(혼자 하겠다 +5), KTX 즉시 예매 +8
+- arc_midgame.json (25개): 첫 수익 아버지 전화 +6, 외로움→아버지 전화 +5, 약 전달 직접 +5, 35세 생일 아버지 +5, 37세 평화 +4, 다은 솔직 고백 +7, 현수 진심 응원 +4, 더 묻는다 +5, 지침 인정 +3, 소셜 비교 진심 +4
+- EN 오버레이 58개 자동 동기화
+
+### 전체 tint 커버리지
+- 232/3090 선택지 (7.5%)
+- 서사 핵심 파일(arc_drama/daeun/gambling/addiction/hyunsu/pre_ending/year3): 100%
+- audit ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+
+---
+
+## 2026-06-23 (MORAL_TINT 스파인 확장 + White/Black 시뮬 검증)
+
+### 스파인 확장 (57개 선택지 KR+EN tint 저작)
+- arc_daeun.json (12개 이벤트): 갈림길 붙잡음 +9/보냄 -7, 30억전날밤 "같이 이룬 거야" +8 등
+- arc_daeun_extension.json (5개): year3~5 전 씬 tint 배선
+- arc_new_characters.json (6개): 재원 지혜나눔 +7, 솔직털어놓기 +6, 민서 편한칭찬 -2/진실요청 +6
+- arc_year3_drama.json (3개): 상철year3, 지연year3, 아버지 레거시
+- EN 오버레이 57개 자동 동기화
+
+### White/Black 30억 시뮬 검증 (N=3000)
+- 혼합(70% White선택): 15.3% 30억 도달, 승자 평균 tint +54.8
+- 순수 White (착취 거절·수입 -12%): 0.1% 30억 도달 — "가능하되 극악" 설계 의도 확인
+- Black 베팅: 14.8% (기존 밴드 유지)
+
+### 용어 통일
+- 문서 전체 "하양" → White, "검정" → Black
+
+---
+
+## 2026-06-23 (MORAL_TINT 밴드 전이 비네트)
+
+### 구현
+- `GameState.shift_moral_tint()` — 밴드 경계(0/±1/±2) 넘을 때 `pending_tint_vignette: {from, to}` 기록
+- `MainGame._on_result_confirmed()` — vignette 있으면 `_render_event()` 전에 `_show_moral_beat()` 선점
+- `_show_moral_beat(from, to)` — 조용한 패널, 빈 제목, "…" 확인 버튼, 스탯/숫자 없음
+- `_moral_beat_text()` 비네트 3종 KR+EN:
+  - 0→−1: "밥을 먹는데 맛이 안 났다. 그냥 연료 같았다."
+  - −1→−2: "거울을 봤다. 5년 전 라면 먹던 얼굴이 안 떠올랐다."
+  - 회복(음→양): "오랜만에 통화 끝에 웃었다. 웃는 게 어색했다는 걸, 웃고 나서 알았다."
+- `audit.py SERIALIZE_EXEMPT` — pending_tint_vignette 트랜지언트 등록
+- 헤드리스 밴드 감지 검증 + xvfb 비트 패널 렌더 검증 완료
+
+---
+
+## 2026-06-23 (★MORAL_TINT 신규 시스템 — 엔진 코어 + 수직 슬라이스)
+
+### 설계 (docs/MORAL_TINT.md)
+- "가질수록 나를 잃는다. 회색 시작 → 인간성=하양 / 돈=검정. 30억 쥐었을 때 화면 색이 진짜 결말."
+- DE 무관 고유 시스템. 플레이어에겐 숫자 미노출, 오직 테마색으로만.
+- 네 칸 매트릭스(tint×30억)가 기존 엔딩 변주(jaehyuk_way/late_call 2/gangnam_dream 3)와 맞물림
+
+### 엔진 코어 (GameState)
+- `moral_tint: float` −100(검정/돈) ~ 0(회색/시작) ~ +100(하양/인간)
+- `shift_moral_tint(delta)` — clamp + 흉터 상한
+- 흉터(영구): crossed_line→상한 −20(양수 불가), chose_money_over_father→상한 0(하양 불가)
+- `moral_stage()` −2~+2 (이산), `moral_tint_norm()` −1~+1 (Codex 보간)
+- apply_effects에 `tint` 효과 키 추가
+- serialize/load/start_new_game 반영, moral_band_last(전이 비네트용) 추가
+
+### 수직 슬라이스 tint 저작
+- 상철: known_offer(집음 −8/거절 +6), reflex(자기기만 −2/합리화 −5/정직 +4),
+  confrontation(묻음 −3/떠남 +8), reckoning(신고 +8/용서 +5/레버리지 −8), mirror(부정 +2)
+- 아버지 병원: 달려감 +10 / 상철인맥 −6 / 돈만 −4 / 미룸 −2
+
+### 헤드리스 검증 (전부 통과)
+- 누적(−8×3=−24, stage −1), 회복(+10→−14, stage 0), 깊은 검정(−74, stage −2)
+- 흉터: crossed_line+200→−20 상한 / death-ignored+50→0 상한
+- serialize 라운드트립(−33, band_last −1)
+
+### Codex 핸드오프
+- NEW_ASSET_REQUESTS.md에 시각 스펙: moral_tint_norm()/moral_stage() 구독 →
+  테마색 보간 + 돈 글로우 반비례 + stage −2 틀어짐 + 엔딩 팔레트
+
+### audit ERROR 0 / Godot 55개 컴파일 클린 / 게임 동작 무변(값만 쌓임)
+
+## 2026-06-23 (데모 빌드 export QA — Windows + Linux/Steam Deck)
+
+### export 환경
+- export 템플릿 4.6.2.stable 설치 확인, export_presets.cfg 4종(Win/macOS/Web/Linux) 존재
+
+### Linux / Steam Deck 빌드 (네이티브 타깃)
+- godot --headless --import → --export-release "Linux / Steam Deck"
+- 산출: build/linux/GangnamDream.x86_64 (167MB ELF 64-bit)
+- xvfb 실행 검증: 18초 메인루프 부팅, SCRIPT/Parse/Compile/Load 에러 0
+  (exit 124=timeout 강제종료=정상 구동 중이었음)
+- 패키징된 빌드가 에디터가 아닌 독립 실행에서도 무에러 부팅 확인
+
+### Windows 빌드 (주요 Steam 데스크톱 타깃)
+- --export-release "Windows" → build/windows/GangnamDream.exe (201MB PE32+ x86-64)
+- 패키징 성공(project.binary 저장 완료)
+
+### 비고
+- 빌드 산출물은 .gitignore 처리됨(git check-ignore 확인) — 미커밋, QA 후 삭제
+- 패키지 빌드는 메인씬 baked-in이라 임의 씬 인자 미수용 → 데모 콘텐츠 시각 검증은
+  source ScreenshotQA(동일 코드/데이터)로 기검증분 활용
+- 두 주요 Steam 타깃(Windows 데스크톱 + Linux/Steam Deck) 패키징·실행 모두 통과
+
+## 2026-06-23 (다은/지연/재혁 아크 reachability 트레이스 — 데드엔드 없음 확정)
+
+### 점검 방법
+- 각 인물 _next_arc_id 트리거의 상한 윈도우(t<=X) 전수 추출
+- 바운드 윈도우는 선행 _seen 플래그가 윈도우 안에 도착 가능한지 trace
+
+### 다은 아크 — 데드엔드 없음
+- 01_meet(t9)→02_regular(t15,affinity≥8)→03_fork(t23,affinity≥12)→
+  03b_date/04_morning/04b_future/ghost/regret/05_* 전부 하한(t>=)만
+- affinity 게이트는 의도된 관계-상태 게이트(저친밀=미심화). 윈도우 데드엔드 아님
+
+### 지연 아크 — 데드엔드 없음
+- 01_crash(t17)→02_store(t26)→03_offer(t36)→03b_lunch(t40) 전부 하한만
+- 03b_lunch는 sangchul_jiyeon_reveal과 either/or (동일 비트 — 정상 분기)
+
+### 재혁 아크 — 바운드 1개(wait t38~41), 코어는 안전
+- reunion(t19)→bond(t32)→pitch(t37)→[wait t38~41]→hyunsu_warning(t39)→ghost(t42)→standup(t44)
+- wait만 상한 윈도우. pitch가 아크 경쟁으로 지연되면 wait 스킵 가능
+- 트레이스: pitch t37/t40 → wait+코어 전부 도달 / pitch t42(심한 지연) → wait 스킵,
+  but ghost→standup 코어 도달 ✓
+- ghost(invested 플래그, 하한만)·standup(ghost_seen, 하한만)은 열린 윈도우 — 항상 도달
+- 결론: wait는 선택적 페이싱 비트(투자 후 불안의 일주일). pitch가 늦으면 그 비트 자체가
+  서사적으로 안 맞음(reveal 임박) → 스킵 허용. 코어 아크 무손상. 수정 불요
+
+### 종합: 4개 인물 아크 중 데드엔드는 상철 known_offer뿐(직전 수정 완료). 나머지 3개 안전.
+
+## 2026-06-23 (상철 진실 아크 타임라인 reachability 점검 + 데드엔드 수정)
+
+### 전체 체인 매핑
+- 01_meet(t10)→02_coffee(t14)→03_network(t20,자산≥100만)→deduction(t26~50,지력55/비정통20)
+- offguard(t26)→human(t30~42)
+- known_offer(t38~55,truth+human_seen)→reflex(t50~59)→confrontation(t60)→reckoning→엔딩
+
+### 발견한 데드엔드
+- 네트워크(03) 합류가 늦으면(자산<100만 장기) offguard도 늦어지고
+  human 윈도우(t30~42)를 놓침 → human_seen 미설정 → known_offer 영구 스킵
+- 100만 자산은 보통 일찍 충족되나, 장기 빈곤+추론적격(지력55) 교집합에서 발생
+
+### 수정: arc_sangchul_human 상한 t42→t52
+- 일반 케이스(human t30 발동)는 무영향 — 첫 적격 턴에 발동하므로
+- 늦은 합류(offguard ~t51까지)만 구제
+
+### 오프라인 트레이스 검증 (함수 순서·매 턴 첫 매치 모델)
+- 조기 네트워크(t20): offer(t38)/reflex(t50)/confrontation(t60) 전부 ✓
+- 늦은 네트워크(t40): offer(t44)/reflex/confrontation ✓ (기존 t42캡이면 데드엔드)
+- 매우 늦은(t48): human(t51)/offer(t52)/reflex(t53) — t52 확장이 구제 ✓
+- 추론 안함: offguard→human→mirror, gap 씬 없음 (진실 모름 — 정상)
+- t50+ 합류: deduction 윈도우(t26~50) 닫혀 confession 경로로 (데드엔드 아님)
+
+### Godot 55개 컴파일 클린 / audit ERROR 0 / WARNING 0 / 밴드 통과
+
+## 2026-06-23 (description_if_known 엔딩 변주 실기 렌더 검증)
+
+### xvfb + opengl3 실제 렌더 캡처로 변주 시각 검증
+- 임시 QAVariants.tscn 하니스 작성 → MainGame 부팅 후 _show_ending에 플래그 주입 캡처
+- 9컷 캡처 성공:
+  - KR: gangnam_dream(truth_buried/forgiven/quietly_distanced/base), jaehyuk_way(used_fully),
+        late_call(used_fully/truth_known)
+  - EN: jaehyuk_way(used_fully), late_call(truth_known)
+- 육안 확인:
+  - jaehyuk_way+used_fully: "그를 미워하며 시작해서, 정확히 그가 되어 끝났다" 정상 렌더
+  - late_call+truth_known: "진실을 민준은 안다. 아버지는 모른다... 들뜸을 깨고 싶지 않았다" 정상
+  - EN jaehyuk_way: "He started out hating him, and ended up exactly him." 영어 정상 렌더
+- description_if_known 엔진이 실제 렌더러에서 엔딩 경로 end-to-end 작동 확인
+- 검증 후 임시 하니스 삭제(레포 정리)
+
+### 참고: 테스트 아티팩트
+- EN 캡처에서 HUD 라벨이 KR로 남고 {name}이 "민준"으로 뜬 것은 하니스가 KR로 부팅 후
+  DataRegistry.reload()만 한 한계 — 실제 EN 게임은 전체 EN 부팅. 엔딩 본문 자체는 언어별 정상.
+
+## 2026-06-23 (late_call 비-강남 엔딩 상철 진실 변주 2종)
+
+### 배경
+- 진실(sangchul_truth_known)을 안 플레이어가 30억 미달 시 age>=38 타임리밋 엔딩으로
+- 그중 father_reconciled면 late_call(화해 엔딩) — 상철 진실이 본질적으로 '아버지' 건이라 최적
+
+### late_call description_if_known 2종 (KR+EN)
+- sangchul_used_fully (우선): 그를 끝까지 이용했는데도 강남 미달 — 가장 쓴 결말
+  "팔 건 다 팔았는데 강남은 안 왔다. 남은 건 국밥 한 그릇과, 말할 수 없는 것 하나."
+- sangchul_truth_known (일반): 진실을 아버지 평안 위해 혼자 짊어짐
+  "아버지가 모르는 채로 평안하도록 — 그 진실을 혼자 들기로 했다.
+   어쩌면 이게 강남보다 어려운 일이었는지도."
+
+### 라우팅/우선순위 검증
+- reported → sangchul_reckoning 전용 엔딩으로 분기 → late_call 미도달, 충돌 없음
+- description_if_known 첫 일치: used_fully > truth_known (착취 경로가 더 구체적)
+- crossed_line은 30억 도달 시에만 jaehyuk_way 가로채기 → 미달 leveraged 플레이어는
+  late_call 도달 가능 → used_fully 변주가 정확히 커버
+
+### 런타임 검증: ko(346/389자) en(771/805자) 양언어 정상 로드
+### audit ERROR 0 / WARNING 0 / write_only_flags 211
+
+## 2026-06-23 (상철 진실 4경로 엔딩 페이오프 완비 + 에필로그 톤 점검)
+
+### gangnam_dream + sangchul_quietly_distanced 변주 (KR+EN)
+- 진실 알고 말없이 떠난 뒤, 그의 사다리 없이 30억 도달
+- "그게 강남까지 길을 몇 배 멀게 만든 걸 안다. 그래도 이 풍경 어디에도 그 손이 닿지 않았다.
+  이건 온전히 내 것이었다. ...적어도 빌리지 않았다."
+
+### 상철 진실 경로별 엔딩 페이오프 — 전 경로 완비
+- used_fully / leveraged → jaehyuk_way (그가 되어 끝남)
+- truth_buried → gangnam_dream 변주 (묻어둔 채 올라옴)
+- forgiven → gangnam_dream 변주 (원망 내려놓음)
+- quietly_distanced → gangnam_dream 변주 (빌리지 않음)
+- reported / cut_ties → sangchul_reckoning (전용 엔딩)
+
+### task② 다른 인물 에필로그 톤 점검 (결론: 추가 수정 불요)
+- 다은/지연: stage가 관계 건강을 정직히 반영 — drift가 affinity↓→stage↓→콜드 라인
+  자동 처리. "착취하면서도 high-stage 유지" 패턴(상철 leverage)이 없음
+- 재혁: 에필로그 이미 플래그 기반(betrayed/reported/partner_in_crime/blackmailed)
+- 결론: 상철 톤버그는 leverage가 관계를 끊지 않고 이어가는 고유 구조 때문 — 확정
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 / 런타임 양언어 로드 확인
+
+## 2026-06-23 (엔딩 EN 검증 + gangnam_dream 변주 2종 + 에필로그 톤버그)
+
+### run_summary / cast_epilogue EN 커버리지 검증 (완료)
+- _ending_run_summary: 34개 엔딩 + ng_gambling_premonition 전수 _tr() + fallback
+- _ending_cast_epilogue: 아버지/어머니/지연/다은/상철/재혁 전 분기 _tr()
+- 누락 없음 — 완전 이중언어 확인
+
+### gangnam_dream description_if_known 2종 (KR+EN)
+- sangchul_truth_buried: "됐어요 잊어버려요"로 진실 묻고 올라온 승리
+  아버지가 "좋구나 아들" — 그는 이 풍경의 절반이 자신을 무너뜨린 사람을 거친 걸 모른다
+  묻어둔 것이 거실에서 같이 야경을 본다
+- sangchul_forgiven: 신고 대신 용서한 경로
+  "용서가 아니라 더 이상 미워할 힘이 없었던 건지도" / "더 이상 누구도 미워하지 않게 됐을 뿐"
+- 라우팅 검증: 둘 다 crossed_line 미설정 → jaehyuk_way 가로채기 없이 gangnam_dream 도달
+- 런타임 검증: ko/en 양 언어 변주 정상 로드
+
+### 인연 에필로그 상철 착취 톤버그 수정 (MainGame.gd)
+- 버그: sangchul stage가 trusted/mentoring이면 착취 플레이어도 따뜻한 라인
+  ("내가 사람 하나는 잘 본다" / "국밥 같이 먹는다")이 떴음
+- 수정: sangchul_used_fully / sangchul_leveraged 플래그를 stage보다 우선 체크
+  - used_fully: "필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다"
+  - leveraged: "그의 죄책감은 좋은 지렛대였다. 그 사실이 가끔 마음에 걸린다"
+- KR+EN, Godot 55개 컴파일 클린
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 / 밸런스 밴드 통과
+
+## 2026-06-23 (엔딩 EN 번역 인프라 + 34개 엔딩 전체 영어화)
+
+### 발견: 엔딩 전체가 KR 전용
+- content/endings.json은 한국어만 — EN 오버레이 인프라가 아예 없었음
+- 데모(t24 종료)는 미차단이나, 풀 릴리스 전 필수
+
+### content/endings_en.json 신규 (34개 전체)
+- gangnam_dream, empty_house, with_daeun, jiyeon_man, jaehyuk_way, late_call,
+  stable_success, ordinary_life, burnout, mental_break, bankruptcy, crypto_ghost,
+  startup_exit, political_fix, lonely_rich, investment_master, reputation_legend,
+  healthy_retirement, debt_spiral, orthodox_pinnacle, orthodox_hollow, balanced_life,
+  unorthodox_legend, early_retirement, creator_success, instant_legend, full_circle,
+  second_love, guardian, gambling_recovery, career_climber, career_burnout,
+  sangchul_reckoning, writer
+- title + description 번역, jaehyuk_way는 description_if_known(sangchul_used_fully)도
+- {name}/{housing} 플레이스홀더 보존
+- condition은 내부 dev 메타데이터(미렌더링)라 번역 생략
+
+### DataRegistry._apply_endings_en_overlay()
+- events_en 오버레이 패턴 미러
+- ENDINGS_EN_PATH 상수 추가, reload()에서 language=="en"일 때 적용
+- 같은 id의 텍스트 필드를 영어로 덮어씀, 없는 엔딩은 KR 유지(graceful)
+
+### 런타임 검증
+- 임시 TestEndingsEN.tscn로 헤드리스 검증 (오토로드 로드 상태)
+- EN모드: gangnam_dream="Gangnam Dream", jaehyuk_way="Jaehyuk's Way", dik 정상
+- KR모드: gangnam_dream="강남드림" (오버레이 미적용 확인)
+- 검증 후 테스트 파일 삭제
+
+### audit ERROR 0 / WARNING 0 / Godot 55개 컴파일 클린 / 밸런스 밴드 통과
+
+## 2026-06-23 (drift EN + jaehyuk_way 상철 변주 엔딩 + 파스 에러 수정)
+
+### relationship drift 5종 EN 번역
+- daeun_drift_quiet, sangchul_becomes_primary, daeun_birthday_missed,
+  sangchul_world_absorbed, jiyeon_notices_daeun
+- KR/EN 선택지 수·effects·flags 완전 일치 (EN은 텍스트 오버레이만, 엔진이 KR effects 적용)
+
+### jaehyuk_way 엔딩 상철 변주 (description_if_known)
+- 기존 jaehyuk_way는 "최재혁의 방식" — 일반 포식자 엔딩
+- sangchul_used_fully 플래그 보유 시 상철 전용 변주로 교체
+  - "임상철. 아버지를 빚으로 밀어 넣은 사람. ...그의 죄책감을 자산으로 썼다"
+  - 거울 씬 콜백: "나랑 비슷해요" — "그때는 부정하고 싶었다. 지금은 부정할 게 없었다"
+  - "그를 미워하며 시작해서, 정확히 그가 되어 끝났다"
+- _show_ending()에 지식 반응형 변주 엔진 추가 (StoryMode description_if_known 패턴 미러)
+- 전체 체인 완성:
+  used_sangchul_knowingly(알면서 이용) → callback_sangchul_leveraged_cost(거울)
+  → sangchul_used_fully + crossed_line → 30억 → jaehyuk_way 상철 변주
+
+### 발견: confrontation 이후 t70~90 여파 씬은 이미 완비
+- 5종 터미널 상태 모두 echo 씬 존재(KR+EN): truth_buried(t84)/quietly_distanced(t84)
+  /cut_ties(t90)/forgiven(t76)/leveraged_cost(t76)
+- callback_sangchul_leveraged_cost "쓰는 사람의 얼굴" — 이미 강력한 거울
+
+### var t 셰도잉 파스 에러 수정 (기존 버그)
+- MainGame.gd _refresh_arc_box(): 3132 `var t: int` vs 3288 `for t in ...` 충돌
+- 엄격 파서(--check-only --script)가 검출, 커밋 HEAD에 이미 존재하던 버그
+- 루프 변수 t → th 로 변경
+- Godot 전체 컴파일 55개 스크립트 클린 (audit.sh CompileCheck.tscn)
+
+### audit ERROR 0 / WARNING 0 / 밸런스 밴드 통과 / write_only_flags 211
+
+## 2026-06-23 (상철 이후 중간 씬 — 알면서도 이용하는 구간)
+
+### 빈 구간 발견
+- deduction 경로는 t26~50에 sangchul_truth_known을 일찍 set
+- 하지만 confrontation은 t60+ — 그 사이 "알면서도 계속 이용하는" 구간이 비어있었음
+- 이게 핵심 메커니즘: "사람이 도구가 되는 순간" — 알고도 멈추지 않는다
+
+### arc_sangchul_known_offer (t38~55, KR+EN)
+- 상철이 진짜 유용한 재개발 정보를 내민다. 플레이어는 그가 누구인지 안다.
+- 종이를 집으면: money +180만, mental -7~-12, used_sangchul_knowingly 플래그
+- "이번엔 됐어요" 거절도 가능하지만, 거절은 이번 한 번뿐이라는 걸 둘 다 안다
+- description_if_known(sangchul_helped_with_father): 빚으로 민 손과 병실 잡아준 손이 같은 손
+
+### arc_sangchul_known_reflex (t50~59, KR+EN)
+- 현수가 후배를 소개하려 하자, 플레이어가 무의식적으로 그 사람을 계산하고 있는 걸 발견
+- "임상철이 자기를 처음 봤을 때 이렇게 봤을 것이다"
+- rationalized_using_people 플래그 ("다들 이렇게 산다 — 편해졌다는 게 가장 무서웠다")
+
+### 페이오프 배선
+- used_sangchul_knowingly → arc_sangchul_confrontation description_if_known
+  (그 사람 돈으로 불린 계좌 — 이 질문을 할 자격이 있는지)
+- rationalized_using_people → arc_sangchul_reckoning description_if_known
+  (상철의 사과가 자기가 했던 합리화와 똑같이 들린다)
+
+### 비대칭 설계
+- deduction 경로: 진실(t26~50) → offer(t38~55) → reflex(t50~59) → confrontation(t60)
+- confession 경로(t56+): 진실 → 대면 직행
+- 스스로 알아챈 자만 그 무게를 더 오래 진다
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 (baseline 유지) / KR+EN 완전 동기화
+
+## 2026-06-23 (선택지 재작성 + arc_sangchul_mirror + 관계 균열)
+
+### 선택지 텍스트 219개 전수 인간행동 재작성
+- life_events 50개, relationship_events 30개, investment_events 22개, hidden_events 23개
+- callback_events 26개 파일 94개
+- 패턴: "X한다" 단일동사 → 구체 장면 ("링크를 눌렀다. 소액이었다", "이어폰을 꼈다. 볼륨을 올렸다")
+- 선택지 효과 미리보기 필터: money/health/mental 3종만 표시 — 관계/스킬은 서사로 발견
+
+### arc_sangchul_mirror 신규 이벤트 (KR+EN)
+- t>=50, sangchul_affinity>=65, arc_sangchul_human_seen 조건
+- 상철: "나랑 비슷해요" — 3가지 반응 (건배/질문/"저는 좀 달라요")
+- `sangchul_called_you_his_mirror` / `denied_sangchul_mirror` 플래그 → arc_sangchul_reckoning 반응 분기
+
+### arc_father_03_hospital 4번째 선택지 (KR+EN)
+- "상철에게 연락했다 — 그가 아는 사람이 있을 것이다"
+- `sangchul_helped_with_father` 플래그 → arc_sangchul_confrontation description_if_known 분기
+
+### EN 오버레이 완성
+- arc_sangchul_confrontation/reckoning description_if_known EN 번역 (거울 인식·부정 2경로)
+- arc_father_03_hospital 4번째 선택지 EN
+
+### audit ERROR 0 / WARNING 0 / write_only_flags 211 (baseline 유지)
+
+## 2026-06-23 (발견 레이어 — DE식 지식반응형 서사 엔진)
+
+### description_if_known 엔진 (StoryMode.gd)
+- `_render_current()`에 `description_if_known` 지원 추가
+- `{플래그: 대체본문}` dict — 플레이어가 해당 플래그를 가지면 장면 설명이 교체됨
+- 최우선 적용 (orthodox/low_mental/gosiwon 변형보다 우선)
+
+### arc_sangchul_deduction — 새 이벤트 (KR+EN)
+- t>=26, 지력55+ 또는 route_unorthodox>20 조건으로 발동
+- 상철이 네트워크에서 돌렸던 이름(한PD건설)을 혼자 추적해 진실 자가발견
+- deduced_sangchul_truth 경로: sangchul_truth_known 획득 (아버지 고백 불필요)
+- sangchul_clue_noted 경로: 알면서 묻어두는 선택 — 이후 아버지 고백에서 더 무거움
+
+### description_if_known 적용 6개 장면 (KR+EN)
+- arc_sangchul_02_coffee: 따뜻한 멘토 장면이 쓴맛으로
+- arc_sangchul_03_network: 모르는 척 앉아 있는 어려움
+- arc_sangchul_offguard: 나쁜 사람도 진짜로 걱정한다는 복잡함
+- arc_sangchul_human: 거짓말이 아니라는 게 더 쓸쓸한 이유
+- sangchul_why_gangnam: 그 '왜'는 답을 몰라서가 아니었다
+- sangchul_past: 두 가난 이야기가 같은 지점에서 서로를 향함
+
+### arc_father_06_confession 2경로 대응
+- deduced_sangchul_truth: 혼자 알고 있던 무게가 이제 둘의 것이 됨
+- sangchul_clue_noted: 묻어둔 날이 갑자기 무거워짐
+
+### audit.py 개선
+- _walk_event_flags: description_if_known 키를 flag-read로 인식
+- audit ERROR 0 / WARNING 0
+
+---
+
+## 2026-06-22 (Steam 데모 QA + 위시리스트 CTA)
+
+### Steam 데모 크리티컬 패스 검증
+- OpeningCinematic 7카드 → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 → arc_chapter1_close 전 이벤트 확인
+- EN 100% 커버리지 확인 (1369/1369)
+- 밸런스 밴드 전부 통과 재확인
+
+### 콜백 트리거 전수 검증
+- callback_events_35~54 파일 416개 flag-triggered 콜백 전부 reachable
+- opportunity.win_flag/lose_flag 경로까지 포함해 정확하게 검증
+
+### Steam 위시리스트 CTA 추가
+- `_show_demo_ending()` 내 wishlist_btn 추가 (KR: "♥ Steam 위시리스트에 추가" / EN: "♥ Add to Steam Wishlist")
+- `OS.shell_open(STEAM_STORE_URL)` 연결; URL 상수는 TODO 주석으로 App ID 교체 안내
+- audit ERROR 0 / WARNING 0 유지
+
+---
+
+## 2026-06-22 (Phase 3 배선: inert 이벤트 106개 전수 effect 연결)
+
+### callback_events_19~26 wiring 완료
+- 8개 파일 (~107 이벤트, ~214 선택지) 모든 선택지에 effects/cast_effects 추가
+- 이전까지 게임 상태에 아무 흔적도 없던 "가짜 분기(inert)" 해소
+- 선택 패턴: 따뜻/적극→mental +3~+6 + 카테고리별 스탯; 소극/위험→mental -4~+2 (도박 재발: money 페널티)
+- 관계 이벤트: cast_effects (daeun, father, jiyeon, jaehyuk affinity ±2~±8)
+- audit inert_events: 106 → 0. debt_baseline.json inert 래칫 0으로 조임 (이후 추가 시 즉시 ERROR)
+- ERROR 0 / WARNING 0
+
+---
+
+## 2026-06-22 (5년 서사 구조 재편 — Year 3-5 인물 재등장 아크 + 지연 타이밍)
+
+### 1. 신규 인물 2명 추가 (arc_new_characters.json)
+- **박재원** (고시원 후배, Year 3): 첫만남→조언→이사→5년후재회 4이벤트. 처음 서울 온 26세가 2년 뒤 50M 저축 성공 — 뭔가 남기는 것의 의미.
+- **이민서** (강남 먼저 간 여성, Year 4): 세미나에서 만남→카페에서 현실 고백 2이벤트. "목표가 사라질 때를 준비해야 한다" 메시지.
+- ImageRegistry portrait 키 등록(jaewon/jaewon_normal/minseo/minseo_normal), cast_stages.json stage 선언.
+
+### 2. Year 3-5 인물 재등장 아크 (arc_daeun_extension.json, arc_year3_drama.json)
+- **다은** 5이벤트: 2주년(t100)·결혼사진(t100 이별루트)·강남취직(t145)·30억전날밤(t193)·강남대로(t193 이별루트)
+- **임상철** Year 3: 신문기사 입건(t100, 대면 후) — 배운 것과 잃은 것이 동시에 사실
+- **지연** Year 3: 카카오톡 재연락(t100, 에필로그 후) — 각자의 삶 가장자리에서 가끔 안부
+- **아버지** 기일 씬(t150) + arc_father_passing 트리거 추가
+- KR/EN 동시 (EN에 전세·부동산 브로커 사기 문화 설명 포함)
+
+### 3. MainGame.gd _next_arc_id() 9구간 블록 추가
+- Year 3(t96-100)~Year 5(t193) 인물별 분기 트리거 삽입
+
+### 4. 한지연 아크 타이밍 현실화
+- 기존: 5주 만에 첫만남→재회→제안→점심 (비현실적 신뢰 형성)
+- 변경: store t20→t26, offer t21→t36, lunch t22→t40 (2~3개월 간격)
+- 연쇄: reveal t35→t48, truth t44→t56, epilogue t50→t64
+- 관계 패널 개월 레이블 수정
+
+### 결과
+- audit ERROR 0 / WARNING 0 / 밸런스 밴드 전부 통과
+- 이벤트 신규 14개 (총 1057개)
+
+### 5. 다은 with_daeun 엔딩 버그 픽스
+- 다은 아크 최종 stage는 `committed`인데 엔딩 판정이 `["lover","together"]`만 봐서, 가장 헌신적으로 키운 플레이어가 오히려 with_daeun 엔딩을 놓치던 버그. `committed` 추가로 회수 (GameState.gd:1313).
+
+### 6. audit 하드닝 — 죽은 코드 자동 검출 체크 2종 영구 추가
+- **배경**: 유저 지적 "난개발로 컨텐츠가 유기적으로 안 돌고 죽은 코드가 너무 많다." 한 개씩 손으로 찾는 대신, 죽은 코드 클래스를 CI가 자동으로 잡도록 audit.py 하드닝.
+- **체크 #9 죽은 아크 이벤트**: `min_turn>=9999`(트리거 전용)인데 코드/follow_up 어디서도 호출 안 되는 이벤트 = 영원히 안 뜨는 죽은 콘텐츠 (구버전 잔재 / 트리거 누락).
+- **체크 #10 죽은 cast-stage 분기**: 코드/조건이 비교하는 cast stage인데 어떤 이벤트도 set 안 하는 도달 불가 분기 (다은 committed 버그의 거울상).
+- **검출·제거**: 두 체크가 **옛 지연(jiyeon) 레거시 아크 전체**를 적발 — `arc_jiyeon_*` 신버전으로 교체됐는데 안 지워진 잔재. 레거시 이벤트 5개(jiyeon_meet/coffee/date/crisis/confession) + 거기에만 매달린 콜백 11개 = **16개(KR+EN) 제거**. jiyeon 엔딩 체크의 죽은 `"lover"` stage도 제거(→`honest_together`만).
+- 두 체크 음성 테스트로 회귀 검출 동작 확인. audit ERROR 0 / WARNING 0 / 밴드 통과.
+
+---
+
+## 2026-06-22 (Codex: English Surface + AP Modal Polish)
 
 ### 수정
 - `scenes/MainGame.gd`: AP 세부 카테고리 모달 버튼을 기존 긴 텍스트 버튼에서 아이콘/제목/보조설명/AP 배지를 갖춘 카드형 버튼으로 전환. 메인 행동 카드와 같은 시각 언어를 사용하도록 정리.
@@ -3253,3 +3926,114 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 - 17개 이벤트: chaebol_contact, approached_shadow_investors, declined_sangchul_deal, jeonse_ignored, checked_registry, wallet_took_cash, wallet_ignored, fomo_invested, declared_dream(turn40), deleted_sns, envy_fuel, came_clean_to_friend, borrowed_from_parents, escaped_dirty_money, heard_father_young_story, asked_father_health, freelance_started
 - audit.sh ERROR 0 / WARNING 20 (기존) 통과
 - 배치 1~5 누적 87개 콜백 이벤트
+
+## 2026-06-25 (5권 구조 연말 클로징 씬 4종)
+
+### 수정 내용
+
+#### 연말 클로징 씬 신규 (arc_year_close.json)
+- `arc_year1_close` (t44-48): "33세의 마지막 밤" — 고시원 천장 금, 1년 생존 반성
+  - description_if_known: jaehyuk_scammed / entered_network / hit_rock_bottom
+  - stance 플래그: year1_resolve / year1_numb
+- `arc_year2_close` (t92-96): "34세의 마지막 밤" — 거리의 밤, 달라진 것들 점검
+  - description_if_known: jaehyuk_stood_up / crossed_line / chose_money_over_father / year1_resolve / year1_numb (cross-year echo)
+  - stance 플래그: year2_confident / year2_conflicted
+- `arc_year3_close` (t140-144): "35세의 마지막 밤" — 한강 어두운 밤, 진실의 무게
+  - description_if_known: father_confession_heard / sangchul_truth_known / arc_y3_jiyeon_departure_seen / year2_confident / year2_conflicted
+  - stance 플래그: year3_eyes_open / year3_weighted / year3_avoidant
+- `arc_year4_close` (t188-192): "36세의 마지막 밤" — 옥상에서 본 도시, 마지막 1년
+  - description_if_known: father_passed / crossed_line / year3_avoidant / year3_weighted / year3_eyes_open / sangchul_truth_known
+  - stance 플래그: year4_final_resolve / year4_self_known
+
+#### gangnam_dream 엔딩 year4 stance 변주 2종
+- year4_final_resolve: "다짐한 것이 현실이 됐다" — 마지막 1년 다짐 페이오프
+- year4_self_known: "그 사람이 강남에 있다" — 자기 인식 페이오프
+
+#### MainGame.gd _next_arc_id()
+- 연말 창구 4개 dispatch 추가 (t44-48 / t92-96 / t140-144 / t188-192)
+
+#### 시스템
+- DataRegistry.gd: arc_year_close.json 등록
+- content/events_en/arc_year_close.json: 전체 EN 오버레이
+- debt_baseline: 228 (endings.json 읽기 미스캔 2건)
+- audit ERROR 0/WARNING 0/밴드 통과
+
+## 2026-06-25 (로맨스 시스템 재설계 — Y5 게이트)
+
+### 수정 내용
+
+#### 다은 아크 Y1-Y4 재프레임 (arc_daeun.json + events_en)
+- arc_daeun_03_fork: "같이 잘 살아봐요" → "같이 버텨봐요" (lover stage → close, 우정 다짐)
+- arc_daeun_03b_date: "데이트" → "처음 나간 날" (dating→warm, 연인 플래그 제거)
+- arc_daeun_04_morning: 침대 옆 장면 → 새벽 3시 메시지 씬 (함께 있음 암시 제거)
+- arc_daeun_04b_future: daeun_committed → daeun_close_bond (사랑 선언→우정 다짐으로)
+
+#### Y5 로맨스 게이트 신규 (arc_romance_y5.json)
+- arc_daeun_y5_feelings (t≥193, daeun_close_bond + moral_stage≥0): 4년 만에 말하는 장면
+- arc_jiyeon_y5_feelings (t≥193, arc_jiyeon_03b_seen + moral_stage≤-1): 두 개의 강남
+
+#### 결혼 변주 (endings.json + endings_en.json)
+- with_daeun [daeun_romance_started]: "편의점 삼각김밥 → 강남 열쇠 옆"
+- jiyeon_man [jiyeon_romance_started]: "두 사람의 강남"
+
+#### 시스템 수정
+- MainGame.gd: Y5 romance dispatch, 내레이션 romance_started 분기
+- GameState.gd: dating stage 참조 제거 → close/lover
+- DataRegistry: arc_romance_y5.json 등록
+- audit ERROR 0/WARNING 0/밴드 통과
+
+## 2026-06-25 (다은 우정 재프레임 완성 + 현수 Y4-Y5 + Steam App ID)
+
+### 수정 내용
+
+#### 다은 Y2-Y5 우정 재프레임 (연애는 Y5 게이트로 단일화)
+- arc_daeun_05_together: 동거 암시("냉장고에 다은 물건") 제거 → 자주 들르는 깊은 우정. committed→close
+- arc_daeun_year3_together: "같이 지낸 2년"→"안 지 2년", committed→close
+- arc_daeun_year4_together: 강남 취직 씬, 잘못된 "형" 호칭 제거, committed→close
+- arc_daeun_year5_ending: 친구 finale 기본 + description_if_known[daeun_romance_started] 연애 변주
+
+#### 엔딩 라우터 버그 수정 (CRITICAL)
+- with_daeun 엔딩이 cast stage 기준이라, 우정 플레이어가 year5_ending에서 together stage를 얻으면 연애 엔딩 오발동 → daeun_romance_started 플래그 기준으로 변경 (GameState.gd:1457)
+- 죽은 cast-stage 정리: committed/dating 읽기 4곳 제거 (MainGame 2곳, GameState 2곳)
+- Y4 다은/지연 상호배타 체크에 daeun_close_bond 추가
+
+#### 현수 Y4-Y5 아크 공백 해소 (arc_hyunsu.json +2, KR+EN)
+- hyunsu_year4_echo (t≥150, hyunsu_passed OR hyunsu_pivoted): 자리잡은 현수 vs 아직 달리는 나 (안정 vs 야망 거울)
+- hyunsu_year5_call (t≥200): 5년 끝 영상통화, crossed_line/father_passed 반응형
+- MainGame.gd dispatch 2개 (hyunsu_pass_news 뒤)
+
+#### Steam App ID 정리
+- STEAM_APP_ID / STEAM_FALLBACK_URL 클래스 상수화 — 출시 시 1곳만 교체
+- 플레이스홀더면 깨진 /app/STEAM_APP_ID/ 대신 상점 검색 URL로 안전 폴백
+
+#### 검증
+- audit ERROR 0/WARNING 0/밴드 통과, 전 JSON 파싱 OK
+
+## 2026-06-25 (지연 로맨스 Y5 단일화 정합성)
+
+### 수정 내용 (다은 재프레임의 거울 — 지연도 동일 버그 구조)
+- 문제: jiyeon_man 엔딩이 cast stage(honest_together=Y2 t56-64 / lover=Y4) 기준 → Y5 전 연애 엔딩 발동 가능. Y5 return은 아무것도 formalize 안 함.
+- jiyeon_man 라우터: stage → jiyeon_romance_started 플래그 기준 (GameState.gd)
+- arc_jiyeon_year5_return CH0: jiyeon_romance_started + stage lover 부여 (Y5 = 연애 확정 지점)
+- arc_jiyeon_year4_seoul CH0: lover → honest_together (Y4는 감정 인정, 확정은 Y5 이연)
+- _ending_cast_epilogue: 지연 연애 분기 stage→플래그 게이트, honest_together는 비연애 깊은유대 티어로
+- arc_jiyeon_y5_feelings 중복 가드: 부산 귀환 아크(year4_call/year5_return/news) 탄 플레이어 제외
+- honest_together = "깊은 정직 유대(연애 전)"로 의미 유지 → Y2 텍스트/콜백 무수정(리스크 최소)
+- audit ERROR 0/WARNING 0/밴드 통과
+
+## 2026-06-25 (Y1-Y5 전체 정합성 QA + 후속 수정)
+
+### 점검 방식
+4개 영역 병렬 정밀 추적(서브에이전트): 다은 아크 / 지연 아크 / 타임라인·스타베이션 / 기타아크+엔딩.
+
+### 결과: 블로커·데드엔드 없음, 엔딩 우선순위 회귀 없음
+- 엔딩 우선순위: 30억 블록(GameState 1424)이 age>=38 연애 블록(1454)보다 먼저 return → 30억 승자는 gangnam_dream 유지, with_daeun이 가로채지 않음
+- 다은/지연 연애 상호배타 구조적 확정 (moral_stage 분리 + daeun 경로 라우팅)
+- 연말 클로징(t44-48 등)·현수 Y4-Y5·연애 Y5 게이트 전부 도달 가능, 스타베이션 없음
+- age=38은 t241에 도달 → Y5(t193-240) 48턴 완주, t>=200 콘텐츠도 실행됨
+
+### 후속 수정 3건
+- [지연 MAJOR] respected/trust 플레이어 Y4 지연 비트 공백 → year4_seoul 게이트에 respected/trust 추가
+- [다은 MINOR] 우정 finale(together stage)의 엔딩 에필로그 연인 톤 누수 → daeun_romance_started 플래그 게이트
+- [다은 MINOR] cast_stages.json 죽은 stage(dating/committed) 제거
+- audit ERROR 0/WARNING 0/밴드 통과

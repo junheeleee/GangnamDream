@@ -22,7 +22,7 @@
       },
       {
         "text": "팀장에게 따로 이야기했다. (직접 언급)",
-        "effects": { "mental": 3, "reputation": -3 },
+        "effects": { "mental": 3, "reputation": -3, "tint": 4 },
         "flags": ["confronted_manager"],
         "result_text": "회의실에서 단둘이 이야기했다. 팀장은 \"당연히 네 기여를 알고 있다\"고 했다.\n\n상황은 바뀌지 않았다. 하지만 다음 번엔 조심할 것이다. 그것만으로도 충분했다."
       },

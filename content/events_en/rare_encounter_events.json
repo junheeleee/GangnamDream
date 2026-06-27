@@ -36,11 +36,17 @@
     "choices": [
       {
         "text": "Just listen",
-        "result_text": "He talked for 20 minutes.\nGot laid off, opened a chicken place that failed, started small logistics work.\n\"But it's all my story now. I can tell it like it's someone else's. That's when you know you made it.\"\n\nHe left. {name} turned that over in his head for a while."
+        "result_text": "He talked for 20 minutes.\nGot laid off, opened a chicken place that failed, started small logistics work.\n\"But it's all my story now. I can tell it like it's someone else's. That's when you know you made it.\"\n\nHe left. {name} turned that over in his head for a while.",
+        "effects": {
+          "tint": 2
+        }
       },
       {
         "text": "Ask sincerely — \"How did you keep going?\"",
-        "result_text": "The man stopped. Looked at {name} properly for the first time.\n\n\"Keep going? No. I just got up the next day. Every day.\"\n\nFinished the beer and stood up.\n\"You just get up too. Every day.\"\n\n{name} thought about that while mopping up for closing."
+        "result_text": "The man stopped. Looked at {name} properly for the first time.\n\n\"Keep going? No. I just got up the next day. Every day.\"\n\nFinished the beer and stood up.\n\"You just get up too. Every day.\"\n\n{name} thought about that while mopping up for closing.",
+        "effects": {
+          "tint": 4
+        }
       }
     ]
   },
@@ -66,11 +72,17 @@
     "choices": [
       {
         "text": "Hand it in to station staff",
-        "result_text": "A text came a week later. The number from the business card.\n\"Thank you for the other day. Can I buy you a meal?\"\n\n{name} stared at the screen for a long moment.\nSome connections start on staircases."
+        "result_text": "A text came a week later. The number from the business card.\n\"Thank you for the other day. Can I buy you a meal?\"\n\n{name} stared at the screen for a long moment.\nSome connections start on staircases.",
+        "effects": {
+          "tint": 7
+        }
       },
       {
         "text": "Take the cash and leave the wallet",
-        "result_text": "Three 50,000-won bills.\n\nStation staff walked past. {name} went down the stairs.\n\nEvery step home felt heavy.\n₩150,000 gained, felt like nothing was gained.\nThis is what money weighs."
+        "result_text": "Three 50,000-won bills.\n\nStation staff walked past. {name} went down the stairs.\n\nEvery step home felt heavy.\n₩150,000 gained, felt like nothing was gained.\nThis is what money weighs.",
+        "effects": {
+          "tint": -5
+        }
       }
     ]
   },
@@ -81,11 +93,17 @@
     "choices": [
       {
         "text": "\"Thank you. If you give me your account I'll send it right away\"",
-        "result_text": "She smiled.\n\"It's fine. I was there once too.\"\n\nTransaction done. Each went their way.\n\n{name} stood in the parking lot for a moment.\nNot all of Seoul is cold. Sometimes this is how you learn that."
+        "result_text": "She smiled.\n\"It's fine. I was there once too.\"\n\nTransaction done. Each went their way.\n\n{name} stood in the parking lot for a moment.\nNot all of Seoul is cold. Sometimes this is how you learn that.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "\"It's okay\" and put the items back",
-        "result_text": "Walked out empty-handed. Sky was overcast.\n\nHad to make it until next payday. Could manage it.\nThat was all that could be done right now."
+        "result_text": "Walked out empty-handed. Sky was overcast.\n\nHad to make it until next payday. Could manage it.\nThat was all that could be done right now.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -126,11 +144,17 @@
     "choices": [
       {
         "text": "Call the manager immediately",
-        "result_text": "Manager arrived 30 minutes later. Reached the customer.\n\nThe customer came, took the bag. Gave {name} ₩100,000.\n\n\"Thank you. That was everything I had.\"\n\nThat sentence stayed longer than the ₩100,000."
+        "result_text": "Manager arrived 30 minutes later. Reached the customer.\n\nThe customer came, took the bag. Gave {name} ₩100,000.\n\n\"Thank you. That was everything I had.\"\n\nThat sentence stayed longer than the ₩100,000.",
+        "effects": {
+          "tint": 6
+        }
       },
       {
         "text": "Pretend not to notice and take it",
-        "result_text": "Got home and took the bag out.\n₩500,000.\n\nLay down to sleep. Couldn't sleep.\nThought about the CCTV. The customer might come back.\n\n{name} stared at the ceiling all night.\nThis is what money weighs."
+        "result_text": "Got home and took the bag out.\n₩500,000.\n\nLay down to sleep. Couldn't sleep.\nThought about the CCTV. The customer might come back.\n\n{name} stared at the ceiling all night.\nThis is what money weighs.",
+        "effects": {
+          "tint": -6
+        }
       }
     ]
   },
@@ -156,11 +180,17 @@
     "choices": [
       {
         "text": "Congratulate them sincerely",
-        "result_text": "\"Really? Congratulations.\"\n\nSaying that, {name} checked his own feelings.\nWas there envy? Yes. But more than that — genuine happiness.\n\nThis person had shared the same walls and same nights.\n{name}'s turn will come. Don't know when. But it will."
+        "result_text": "\"Really? Congratulations.\"\n\nSaying that, {name} checked his own feelings.\nWas there envy? Yes. But more than that — genuine happiness.\n\nThis person had shared the same walls and same nights.\n{name}'s turn will come. Don't know when. But it will.",
+        "effects": {
+          "tint": 4
+        }
       },
       {
         "text": "Think quietly — \"I need to get out of here too\"",
-        "result_text": "That night, {name} rewrote the plan.\n\nVague numbers became specific.\nSeeing the person next door leave — this is what it's good for."
+        "result_text": "That night, {name} rewrote the plan.\n\nVague numbers became specific.\nSeeing the person next door leave — this is what it's good for.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },
@@ -171,11 +201,17 @@
     "choices": [
       {
         "text": "Buy it",
-        "result_text": "Paid and went outside to scratch it with a coin."
+        "result_text": "Paid and went outside to scratch it with a coin.",
+        "effects": {
+          "tint": -1
+        }
       },
       {
         "text": "Don't. It's a math problem.",
-        "result_text": "Put the ticket down.\nExpected value — always a losing game.\n\nBought a triangle sandwich with ₩5,000 instead. Felt full.\nMore reliable return on investment."
+        "result_text": "Put the ticket down.\nExpected value — always a losing game.\n\nBought a triangle sandwich with ₩5,000 instead. Felt full.\nMore reliable return on investment.",
+        "effects": {
+          "tint": 1
+        }
       }
     ]
   },

@@ -20,7 +20,9 @@
     "choices": [
       {
         "text": "전재산을 넣는다 (최대 500만원)",
-        "effects": {},
+        "effects": {
+          "tint": -4
+        },
         "result_text": "손이 떨렸다. 확인 버튼을 눌렀다.\n이제 결과가 나올 때까지 아무것도 할 수 없다. 기다리는 것만 남았다.",
         "follow_up_event": "drama_crypto_result_big",
         "flags": [
@@ -39,7 +41,8 @@
       {
         "text": "차트를 보다가 닫는다",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 2
         },
         "result_text": "오픈카톡을 껐다. 내일 아침에 결과를 알게 될 것이다. 잘 결정한 건지 모르겠다."
       }
@@ -277,7 +280,8 @@
         "effects": {
           "money": -1000000,
           "mental": -18,
-          "gambling_tendency": 5
+          "gambling_tendency": 5,
+          "tint": -5
         },
         "result_text": "입금 확인 메시지를 보냈지만 답장이 없다. 3일 뒤 계정이 사라졌다. 전형적인 사기였다."
       },
@@ -285,7 +289,8 @@
         "text": "수상하다 — 신고하고 차단한다",
         "effects": {
           "intelligence": 2,
-          "mental": 3
+          "mental": 3,
+          "tint": 6
         },
         "result_text": "신고하고 차단했다. 이런 거 걸리면 안 된다는 걸 다시 한번 새겼다."
       },
@@ -295,7 +300,8 @@
           "intelligence": 3,
           "social_skill": 2,
           "reputation": 5,
-          "mental": 4
+          "mental": 4,
+          "tint": 7
         },
         "result_text": "오픈카톡방에 사기 정보를 공유했다. '덕분에 살았어요' 댓글이 달렸다. 기분이 좋았다."
       }
@@ -323,7 +329,8 @@
         "text": "상속을 받는다",
         "effects": {
           "money": 5000000,
-          "mental": -10
+          "mental": -10,
+          "tint": 0
         },
         "result_text": "통장에 500만원이 들어왔다. 한 번도 본 적 없는 사람이었지만, 어딘가 묘한 감정이 남았다."
       },
@@ -331,7 +338,8 @@
         "text": "모두 기부한다",
         "effects": {
           "mental": 15,
-          "reputation": 10
+          "reputation": 10,
+          "tint": 8
         },
         "result_text": "전액 기부했다. 돈보다 더 가벼운 마음이 생겼다. 이게 맞는 것 같았다."
       }
@@ -402,7 +410,8 @@
           "intelligence": 4,
           "reputation": 8,
           "work_performance": 15,
-          "mental": -12
+          "mental": -12,
+          "tint": 5
         },
         "result_text": "야근을 자처했다. 결과물로 말했다. 시간이 좀 걸리겠지만, 후회는 없을 것 같다."
       },
@@ -412,7 +421,8 @@
           "social_skill": 4,
           "reputation": 12,
           "mental": -9,
-          "monthly_income": 300000
+          "monthly_income": 300000,
+          "tint": -4
         },
         "result_text": "팀장이 됐다. 월급도 올랐다. 김 대리의 눈빛이 차가워졌다. 이 바닥에서 이 정도는 감수해야 한다."
       },
@@ -420,7 +430,8 @@
         "text": "관심 없는 척하고 이직을 알아본다",
         "effects": {
           "intelligence": 2,
-          "mental": 10
+          "mental": 10,
+          "tint": 0
         },
         "result_text": "팀장 경쟁에서 빠졌다. 조용히 이직 사이트를 들여다봤다. 더 좋은 곳이 있을 것이다."
       }
@@ -450,7 +461,8 @@
         "text": "500만원을 빌려준다",
         "effects": {
           "money": -5000000,
-          "mental": -10
+          "mental": -10,
+          "tint": 5
         },
         "relationship_effects": [
           {
@@ -467,7 +479,8 @@
         "text": "100만원만 도와준다",
         "effects": {
           "money": -1000000,
-          "mental": 3
+          "mental": 3,
+          "tint": 3
         },
         "relationship_effects": [
           {
@@ -483,7 +496,8 @@
       {
         "text": "거절한다 — 돈 문제로 우정을 흔들기 싫다",
         "effects": {
-          "mental": 3
+          "mental": 3,
+          "tint": 2
         },
         "relationship_effects": [
           {
@@ -607,7 +621,8 @@
         "effects": {
           "money": -150000,
           "health": 15,
-          "mental": 21
+          "mental": 21,
+          "tint": 2
         },
         "result_text": "의사가 말했다. '쉬셔야 해요.' 잠시 브레이크를 밟기로 했다."
       },
@@ -616,7 +631,8 @@
         "effects": {
           "health": -12,
           "mental": -16,
-          "money": 300000
+          "money": 300000,
+          "tint": -2
         },
         "result_text": "커피를 더 마시고 버텼다. 월말 실적은 나왔다. 하지만 몸은 한계를 넘어가고 있다."
       },
@@ -625,7 +641,8 @@
         "effects": {
           "health": 8,
           "mental": 18,
-          "money": -100000
+          "money": -100000,
+          "tint": 3
         },
         "result_text": "이틀을 통째로 비웠다. 산책하고 밥 먹고 잠을 잤다. 단순한 것들이 얼마나 좋은지 잊고 있었다."
       }
@@ -748,7 +765,8 @@
         "effects": {
           "intelligence": 6,
           "money": 1000000,
-          "mental": -5
+          "mental": -5,
+          "tint": 2
         },
         "result_text": "전입신고와 확정일자가 있었다. 법이 나를 보호했다. 정보가 권리다."
       },
@@ -765,7 +783,8 @@
         "effects": {
           "social_skill": 3,
           "money": 500000,
-          "mental": -4
+          "mental": -4,
+          "tint": 1
         },
         "result_text": "협상해서 50만원 받았다. 당당하게 요구하길 잘했다."
       }
@@ -891,7 +910,8 @@
         "text": "직접 따지고 대화한다",
         "effects": {
           "social_skill": 5,
-          "mental": -8
+          "mental": -8,
+          "tint": 4
         },
         "result_text": "긴 싸움이었다. 친구는 사과했다. 관계는 예전으로 돌아갈 수 없었다."
       },
@@ -899,7 +919,8 @@
         "text": "법적으로 대응할 수 있는지 알아본다",
         "effects": {
           "intelligence": 5,
-          "mental": -5
+          "mental": -5,
+          "tint": 1
         },
         "result_text": "아이디어만으론 특허 성립이 어렵다는 걸 알았다. 앞으로는 기록을 남기기로 했다."
       },
@@ -907,7 +928,8 @@
         "text": "잊고 더 좋은 아이디어를 찾는다",
         "effects": {
           "mental": 5,
-          "intelligence": 3
+          "intelligence": 3,
+          "tint": -2
         },
         "result_text": "분했지만 에너지를 거기 쓰지 않기로 했다. 이 경험이 오히려 동력이 됐다."
       }
@@ -981,7 +1003,8 @@
         "effects": {
           "money": -500000,
           "health": 10,
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "result_text": "이상 없었다. 과로로 인한 수치 이상이었다. 몸이 보낸 경고를 들었다."
       },
@@ -989,7 +1012,8 @@
         "text": "생활습관부터 바꾼다",
         "effects": {
           "health": 6,
-          "mental": 6
+          "mental": 6,
+          "tint": 1
         },
         "result_text": "수면, 식사, 운동. 기본부터 시작했다. 몸은 생각보다 빨리 반응했다."
       },
@@ -997,7 +1021,8 @@
         "text": "무시하고 계속 같은 생활을 한다",
         "effects": {
           "health": -10,
-          "mental": -4
+          "mental": -4,
+          "tint": -3
         },
         "result_text": "다음 검사에서 수치가 더 나빠졌다. 몸은 무시한다고 괜찮아지지 않는다."
       }
@@ -1073,7 +1098,8 @@
         "effects": {
           "reputation": 5,
           "intelligence": 4,
-          "mental": -8
+          "mental": -8,
+          "tint": 0
         },
         "result_text": "살아남은 사람의 몫을 해야 한다는 부담이 생겼다. 그게 더 열심히 하게 만들었다."
       },
@@ -1082,7 +1108,8 @@
         "effects": {
           "intelligence": 5,
           "investment_skill": 2,
-          "mental": -4
+          "mental": -4,
+          "tint": 0
         },
         "result_text": "언제 나의 차례가 될지 모른다. 항상 준비해야 한다는 걸 배웠다."
       },
@@ -1090,7 +1117,8 @@
         "text": "떠난 동료들에게 연락한다",
         "effects": {
           "social_skill": 5,
-          "mental": 4
+          "mental": 4,
+          "tint": 5
         },
         "result_text": "밥 한 번 사줬다. '고생했다'는 말 한마디. 사람이 먼저라는 걸 잊지 않으려 했다."
       }
@@ -1210,7 +1238,8 @@
           "money": 12000000,
           "investment_skill": 8,
           "luck": 5,
-          "mental": -10
+          "mental": -10,
+          "tint": -3
         },
         "result_text": "선거 결과가 나온 날 새벽 4시, 차트를 보며 손가락을 뻗었다.\n\n매도. 확인.\n\n1200만원. 계좌가 달라졌다.\n이 도시에서 정보는 돈이고, 타이밍이 전부라는 걸 몸으로 배웠다.",
         "flags": [
@@ -1222,7 +1251,8 @@
         "effects": {
           "money": 800000,
           "investment_skill": 5,
-          "mental": -4
+          "mental": -4,
+          "tint": -1
         },
         "result_text": "80만원 수익. 아쉽지만 안전하게 남겼다.\n다음엔 더 크게 들어갈 용기가 생겼다."
       },
@@ -1230,7 +1260,8 @@
         "text": "테마주는 안 한다 — 원칙을 지킨다",
         "effects": {
           "intelligence": 3,
-          "mental": 5
+          "mental": 5,
+          "tint": 4
         },
         "result_text": "안 했다. 며칠 뒤 테마주들이 폭락했다는 뉴스가 떴다.\n원칙이 나를 지켰다."
       }
@@ -1257,7 +1288,8 @@
         "text": "가진 걸 최대한 도와드린다",
         "effects": {
           "money": -3000000,
-          "mental": -2
+          "mental": -2,
+          "tint": 7
         },
         "result_text": "300만원을 보냈다. 내 통장이 텅 비었다. 근데 부모님 목소리가 달라졌다. 그것으로 충분했다."
       },
@@ -1265,7 +1297,8 @@
         "text": "할 수 있는 선에서만 돕는다",
         "effects": {
           "money": -1000000,
-          "mental": -1
+          "mental": -1,
+          "tint": 2
         },
         "result_text": "100만원. 전부는 아니지만 내가 할 수 있는 것. 한계를 아는 것도 성숙함이다."
       },
@@ -1273,7 +1306,8 @@
         "text": "지금은 나도 힘들다고 솔직히 말한다",
         "effects": {
           "mental": 4,
-          "social_skill": 3
+          "social_skill": 3,
+          "tint": 4
         },
         "result_text": "처음으로 '나도 힘들어'라고 했다. 부모님이 오히려 미안해했다. 솔직함이 관계를 구하기도 한다."
       }
@@ -1346,7 +1380,8 @@
         "effects": {
           "social_skill": 3,
           "intelligence": 2,
-          "mental": -8
+          "mental": -8,
+          "tint": 3
         },
         "flags": [],
         "follow_up_event": "",
@@ -1356,7 +1391,8 @@
         "text": "내가 CEO니까 내 결정대로 간다.",
         "effects": {
           "reputation": -3,
-          "mental": -13
+          "mental": -13,
+          "tint": -2
         },
         "flags": [
           "startup_going_solo"
@@ -1450,7 +1486,8 @@
         "effects": {
           "mental": -10,
           "reputation": -5,
-          "social_skill": 4
+          "social_skill": 4,
+          "tint": 5
         },
         "flags": [],
         "follow_up_event": "",
@@ -1461,7 +1498,8 @@
         "effects": {
           "mental": -23,
           "reputation": 5,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": -3
         },
         "flags": [],
         "follow_up_event": "",
@@ -1470,7 +1508,8 @@
       {
         "text": "그냥 무시하고 다음 영상으로 넘어간다.",
         "effects": {
-          "mental": -2
+          "mental": -2,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -1501,7 +1540,8 @@
           "money": 500000,
           "social_skill": 5,
           "reputation": 5,
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "flags": [],
         "follow_up_event": "",
@@ -1513,7 +1553,8 @@
           "money": 300000,
           "social_skill": 3,
           "reputation": 3,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 2
         },
         "flags": [],
         "follow_up_event": "",
@@ -1523,7 +1564,8 @@
         "text": "거절. 나는 내 길을 간다.",
         "effects": {
           "mental": 5,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 1
         },
         "flags": [],
         "follow_up_event": "",
@@ -1557,7 +1599,8 @@
         "text": "스스로를 인정한다 — \"나 요즘 좀 이상한 것 같아\"",
         "effects": {
           "mental": 6,
-          "addiction_tendency": -8
+          "addiction_tendency": -8,
+          "tint": 6
         },
         "flags": [
           "addiction_self_aware"
@@ -1568,7 +1611,8 @@
         "text": "별일 아니라고 넘긴다 — 다 그렇게 사는 거지",
         "effects": {
           "addiction_tendency": 5,
-          "mental": -3
+          "mental": -3,
+          "tint": -4
         },
         "flags": [],
         "result_text": "{name}은 알람을 맞추고 누웠다. 별일 아니야.\n근데 잠은 쉽게 오지 않았다."
@@ -1600,7 +1644,8 @@
         "text": "당분간 멈춘다 — 모든 베팅·도박 앱을 지운다",
         "effects": {
           "mental": 10,
-          "addiction_tendency": -15
+          "addiction_tendency": -15,
+          "tint": 6
         },
         "flags": [
           "addiction_paused",
@@ -1613,7 +1658,8 @@
         "text": "만회하면 된다 — 한 번만 더 크게 걸면",
         "effects": {
           "mental": -10,
-          "addiction_tendency": 12
+          "addiction_tendency": 12,
+          "tint": -6
         },
         "flags": [
           "addiction_escalated"
@@ -1624,7 +1670,8 @@
         "text": "현수에게 전화한다 — 말은 안 해도 목소리라도",
         "effects": {
           "mental": 7,
-          "addiction_tendency": -5
+          "addiction_tendency": -5,
+          "tint": 7
         },
         "cast_effects": {
           "hyunsu": {
@@ -1661,7 +1708,8 @@
       {
         "text": "\"괜찮아요. 요즘 좀 무리해서요\" — 둘러댄다",
         "effects": {
-          "mental": -5
+          "mental": -5,
+          "tint": -3
         },
         "cast_effects": {
           "father": {
@@ -1677,7 +1725,8 @@
         "text": "\"아버지, 저 요즘 좀 힘들어요\" — 처음으로 말한다",
         "effects": {
           "mental": 12,
-          "addiction_tendency": -10
+          "addiction_tendency": -10,
+          "tint": 8
         },
         "cast_effects": {
           "father": {
@@ -1819,7 +1868,8 @@
         "effects": {
           "mental": 10,
           "health": 4,
-          "intelligence": 2
+          "intelligence": 2,
+          "tint": 4
         },
         "flags": [
           "addiction_recovery_milestone"
@@ -1830,7 +1880,8 @@
         "text": "아직 힘들다 — 다른 걸로 대체한다",
         "effects": {
           "health": 2,
-          "mental": 5
+          "mental": 5,
+          "tint": -3
         },
         "result_text": "달리기를 시작했다.\n베팅을 대신할 뭔가가 필요했다.\n어설픈 운동이었다. 그래도 돈은 안 잃었다."
       }
@@ -1861,14 +1912,16 @@
         "text": "\"나도 그만뒀어.\" 솔직하게 말한다",
         "effects": {
           "mental": 8,
-          "reputation": 4
+          "reputation": 4,
+          "tint": 5
         },
         "result_text": "그 사람의 표정이 잠깐 바뀌었다.\n\"...어떻게?\"\n{name}은 간단히 말해줬다. 앱 삭제, 첫 3일, 21일.\n뭔가를 줬는지 모르겠다. 하지만 그날 {name}은\n자기 이야기를 부끄럽지 않게 할 수 있었다."
       },
       {
         "text": "그냥 자리를 피한다",
         "effects": {
-          "mental": 5
+          "mental": 5,
+          "tint": -2
         },
         "result_text": "편의점을 나왔다. 그 사람의 눈빛이 따라왔다.\n저 눈빛이 — 3개월 전 자기 눈빛이었을 거다.\n{name}은 그 생각을 오래 가지고 갔다."
       }

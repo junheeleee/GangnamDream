@@ -31,7 +31,8 @@
           "social_skill": 2,
           "reputation": 2,
           "health": -4,
-          "mental": -3
+          "mental": -3,
+          "tint": 3
         }
       },
       {
@@ -75,7 +76,8 @@
         ],
         "effects": {
           "money": -5000000,
-          "mental": -2
+          "mental": -2,
+          "tint": 8
         },
         "cast_effects": {
           "father": {
@@ -91,7 +93,8 @@
         ],
         "effects": {
           "money": 0,
-          "mental": -22
+          "mental": -22,
+          "tint": -5
         },
         "cast_effects": {
           "father": {
@@ -107,7 +110,8 @@
         ],
         "effects": {
           "money": 0,
-          "mental": -10
+          "mental": -10,
+          "tint": 6
         },
         "cast_effects": {
           "father": {
