@@ -8,9 +8,16 @@
 - Black stage에서는 돈 HUD와 목표 자산 숫자만 형광 녹색으로 밝아지게 해 "돈만 밝아지는" 주제문을 화면에 반영했다. White stage에서는 같은 영역을 따뜻한 아이보리 톤으로 낮췄다.
 - 엔딩 모달 진입 시 최종 moral stage에 따라 딤 오버레이, 패널 테두리, 타이틀 색을 바꾸도록 했다.
 - `tools/ScreenshotQA.gd`: `--qa=moral` 스코프를 추가해 Black/Gray/White 3상태 캡처를 빠르게 생성할 수 있게 했다.
+- 2차 수정: 단순 배경 틴트가 아니라 상단 HUD/초상화 패널/선택지 카드/버튼/뱃지까지 moral palette를 적용하도록 확장했다. White는 브라운/골드가 아닌 청백색 선명도 계열로 보정했다.
+- `assets/shaders/moral_surface.gdshader`: Black 쪽 표면 부식·긁힘·가장자리 어둠, White 쪽 중심부 선명도 레이어를 추가했다.
+- 3차 수정: 기본 비주얼 언어를 금색·남색 누아르에서 무채색 moral spectrum으로 재정의했다. 회색/진회색/검정/연회색/흰색이 기본 상태가 되도록 주요 HUD/목표바/선택지 색과 메인 루프 이모지·금색 힌트를 정리했다.
+- `assets/shaders/background_grade.gdshader`: 이벤트 배경 이미지 자체를 desaturation/brightness/contrast로 그레이딩해, UI만 바뀌고 배경은 기존 색으로 남는 문제를 줄였다.
 
 ### 검증
 - `CompileCheck.tscn` 통과.
+- `audit.py` ERROR 0 / WARNING 0.
+- `english_hangul_audit.py` 통과.
+- `VisualCropQA.tscn` 통과.
 - `ScreenshotQA.tscn -- --qa=moral` 실행 완료. `03b_moral_black`, `03c_moral_gray`, `03d_moral_white` 직접 확인.
 
 ---

@@ -40,7 +40,11 @@ var _vignette_rect: ColorRect = null      # 스트레스/정신력 비네팅 레
 var _ambient_overlay: ColorRect = null
 var _category_tint: ColorRect = null  # 이벤트 카테고리 색 틴트
 var _moral_tint_overlay: ColorRect = null  # MORAL_TINT: 배경 온도/채도 필터
+var _moral_surface_overlay: ColorRect = null  # MORAL_TINT: 화면 표면의 부식/선명도 레이어
+var _moral_surface_material: ShaderMaterial = null
+var _moral_bg_material: ShaderMaterial = null
 var _moral_tint_tween: Tween = null
+var _moral_world_tween: Tween = null
 var _moral_norm: float = 0.0
 var _moral_stage: int = 0
 var _event_bg_motion_tween: Tween = null
@@ -55,15 +59,16 @@ var player_name_label: Label
 var title_label: Label
 var _ui_icon_cache: Dictionary = {}
 
-# ── 시네마틱 누아르 팔레트 ────────────────────────────────────────
-# SaaS 프라이머리 블루(#c9a227)를 버리고 골드를 주강조색으로. '돈·욕망·강남 밤'.
-const COL_GOLD       := "#c9a227"   # 주강조 — 앤틱 골드 (헤더·타이틀·핵심 수치)
-const COL_GOLD_BRIGHT := "#e3c45a"  # 밝은 골드 — 호버·달성 강조
-const COL_GOLD_DIM   := "#8a7320"   # 어두운 골드 — 보더·비활성 강조
-const COL_INK        := "#0a070c"   # 잉크 — 패널 바닥
-const COL_INK_RAISED := "#15101a"   # 살짝 뜬 패널
-const COL_TEXT       := "#d8d2c4"   # 본문 — 따뜻한 아이보리 (순백 회색 X)
-const COL_TEXT_DIM   := "#7a7263"   # 흐린 본문 — 세피아 회색
+# ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
+# 이 게임의 중심 상태는 회색/진회색/검정/연회색/흰색이다.
+# 금색·남색·갈색을 기본값으로 쓰면 MORAL_TINT와 충돌하므로 기본 UI는 무채색으로 둔다.
+const COL_GOLD       := "#c5ccd5"   # 주강조 — 낡은 은빛
+const COL_GOLD_BRIGHT := "#f4f7fb"  # 밝은 강조 — 거의 백색
+const COL_GOLD_DIM   := "#6f7680"   # 어두운 강조 — 재빛
+const COL_INK        := "#08090b"   # 잉크 — 패널 바닥
+const COL_INK_RAISED := "#11151a"   # 살짝 뜬 패널
+const COL_TEXT       := "#d6dce4"   # 본문 — 차가운 회백색
+const COL_TEXT_DIM   := "#7b838d"   # 흐린 본문 — 회색
 const COL_DANGER     := "#c0392b"   # 위험 — 딥레드
 const UI_MIN_BODY_FONT := 14
 const UI_MIN_BUTTON_FONT := 15
@@ -318,41 +323,214 @@ func _apply_moral_visuals(norm: float, stage: int, immediate: bool = false) -> v
 		else:
 			_moral_tint_tween = create_tween()
 			_moral_tint_tween.tween_property(_moral_tint_overlay, "color", target, 0.9).set_trans(Tween.TRANS_SINE)
+	_apply_moral_world_state(immediate)
+	_apply_moral_surface_shader()
+	_apply_story_moral_clarity()
+	_apply_moral_ui_palette()
 	_apply_money_moral_glow()
 
 func _moral_overlay_color(norm: float, stage: int) -> Color:
 	if stage <= -2:
-		return Color(0.00, 0.025, 0.035, 0.22)
+		return Color(0.00, 0.018, 0.018, 0.34)
 	if stage == -1:
-		return Color(0.015, 0.035, 0.05, 0.13)
+		return Color(0.01, 0.028, 0.030, 0.20)
 	if stage >= 2:
-		return Color(1.00, 0.92, 0.74, 0.12)
+		return Color(0.86, 0.95, 1.00, 0.13)
 	if stage == 1:
-		return Color(0.92, 0.88, 0.78, 0.07)
-	var gray_alpha: float = 0.025 + absf(norm) * 0.025
-	return Color(0.35, 0.35, 0.39, gray_alpha)
+		return Color(0.84, 0.92, 1.00, 0.075)
+	var gray_alpha: float = 0.055 + absf(norm) * 0.025
+	return Color(0.28, 0.28, 0.30, gray_alpha)
+
+func _apply_moral_world_state(immediate: bool = false) -> void:
+	if not is_instance_valid(_main_ui_root):
+		return
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	var target_rotation := deg_to_rad(-0.20 * black)
+	var target_position := Vector2(-3.0 * black, 2.0 * black)
+	var target_modulate := Color(1.0 + white * 0.035 - black * 0.035, 1.0 + white * 0.035 - black * 0.055, 1.0 + white * 0.025 - black * 0.055, 1.0)
+	_main_ui_root.pivot_offset = get_viewport_rect().size * 0.5
+	if _moral_world_tween and _moral_world_tween.is_running():
+		_moral_world_tween.kill()
+	if immediate:
+		_main_ui_root.rotation = target_rotation
+		_main_ui_root.position = target_position
+		_main_ui_root.modulate = target_modulate
+		return
+	_moral_world_tween = create_tween()
+	_moral_world_tween.set_parallel(true)
+	_moral_world_tween.tween_property(_main_ui_root, "rotation", target_rotation, 0.95).set_trans(Tween.TRANS_SINE)
+	_moral_world_tween.tween_property(_main_ui_root, "position", target_position, 0.95).set_trans(Tween.TRANS_SINE)
+	_moral_world_tween.tween_property(_main_ui_root, "modulate", target_modulate, 0.95).set_trans(Tween.TRANS_SINE)
+
+func _apply_moral_surface_shader() -> void:
+	if not is_instance_valid(_moral_surface_overlay) or not _moral_surface_material:
+		return
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	_moral_surface_overlay.visible = black > 0.01 or white > 0.01
+	_moral_surface_material.set_shader_parameter("black_intensity", black)
+	_moral_surface_material.set_shader_parameter("white_intensity", white)
+	_moral_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_moral_norm) * 10.0)
+	if _moral_bg_material:
+		_moral_bg_material.set_shader_parameter("desaturation", clampf(0.82 + black * 0.18 - white * 0.10, 0.0, 1.0))
+		_moral_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.30 + white * 0.16, 0.35, 1.25))
+		_moral_bg_material.set_shader_parameter("contrast", clampf(0.92 - black * 0.10 + white * 0.16, 0.65, 1.25))
+		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.08, 0.0, 0.20))
+		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#eff8ff"), white))
+
+func _apply_story_moral_clarity() -> void:
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	var title_color := Color("#e8eaf0").lerp(Color("#c4d2ca"), black * 0.75).lerp(Color("#ffffff"), white * 0.85)
+	var body_color := Color("#c8d0df").lerp(Color("#89948f"), black * 0.72).lerp(Color("#e9f0fb"), white * 0.85)
+	if is_instance_valid(event_title):
+		event_title.add_theme_color_override("font_color", title_color)
+	if is_instance_valid(event_body):
+		event_body.add_theme_color_override("default_color", body_color)
+
+func _moral_ui_palette() -> Dictionary:
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	return {
+		"panel_bg": Color("#0d0d14").lerp(Color("#050807"), black).lerp(Color("#11191f"), white),
+		"panel_border": Color("#1a1a28").lerp(Color("#132018"), black).lerp(Color("#5f7c8b"), white),
+		"chip_bg": Color("#0f1018").lerp(Color("#050a08"), black).lerp(Color("#101a21"), white),
+		"choice_bg": Color("#101018").lerp(Color("#060907"), black).lerp(Color("#111b22"), white),
+		"choice_hover": Color("#171723").lerp(Color("#0a110d"), black).lerp(Color("#172630"), white),
+		"disabled_bg": Color("#0a0a0f").lerp(Color("#040605"), black).lerp(Color("#0b1115"), white),
+		"text": Color("#c8d0df").lerp(Color("#87918b"), black).lerp(Color("#edf7ff"), white),
+		"dim": Color("#9aa4b8").lerp(Color("#5f6a63"), black).lerp(Color("#b7cbd6"), white),
+		"brand": Color(COL_GOLD).lerp(Color("#9aa29d"), black).lerp(Color("#f8fbff"), white),
+		"focus": Color(COL_GOLD_BRIGHT).lerp(Color("#6f7a73"), black).lerp(Color("#f8fbff"), white),
+		"black": black,
+		"white": white,
+	}
+
+func _apply_moral_ui_palette() -> void:
+	_apply_moral_tree_styles(self, _moral_ui_palette())
+	_apply_money_moral_glow()
+
+func _apply_moral_tree_styles(node: Node, palette: Dictionary) -> void:
+	if node is Control and node.has_meta("moral_role"):
+		_apply_moral_control_style(node as Control, palette)
+	for child in node.get_children():
+		_apply_moral_tree_styles(child, palette)
+
+func _apply_moral_control_style(control: Control, palette: Dictionary) -> void:
+	var role := str(control.get_meta("moral_role"))
+	var accent := _moral_gray_accent(Color(str(control.get_meta("moral_accent", "#8b929c"))), palette)
+	match role:
+		"panel":
+			if control is PanelContainer:
+				(control as PanelContainer).add_theme_stylebox_override("panel", _moral_box(palette["panel_bg"], palette["panel_border"], 6, 12, 10))
+		"hud_chip":
+			if control is PanelContainer:
+				var border := accent.lerp(palette["panel_border"], float(palette["black"]) * 0.55).lerp(Color("#d8f4ff"), float(palette["white"]) * 0.55)
+				(control as PanelContainer).add_theme_stylebox_override("panel", _moral_box(palette["chip_bg"], border, 6, 9, 6))
+		"hud_icon":
+			if control is TextureRect:
+				(control as TextureRect).modulate = accent.lerp(Color("#8effba"), float(palette["black"]) * 0.55).lerp(Color("#e7faff"), float(palette["white"]) * 0.65)
+		"hud_text":
+			if control is Label:
+				(control as Label).add_theme_color_override("font_color", palette["text"])
+		"brand_text":
+			if control is Label:
+				(control as Label).add_theme_color_override("font_color", palette["brand"])
+		"choice_card":
+			if control is Button:
+				_apply_moral_button_box(control as Button, accent, palette, true)
+		"choice_icon":
+			if control is PanelContainer:
+				var icon_bg := accent.lerp(palette["choice_bg"], 0.72)
+				icon_bg.a = 0.58
+				(control as PanelContainer).add_theme_stylebox_override("panel", _moral_box(icon_bg, accent.lerp(palette["focus"], float(palette["white"]) * 0.45), 6, 0, 0))
+		"choice_title":
+			if control is Label:
+				(control as Label).add_theme_color_override("font_color", palette["text"])
+		"choice_subtitle":
+			if control is Label:
+				(control as Label).add_theme_color_override("font_color", palette["dim"])
+		"choice_badge":
+			if control is PanelContainer:
+				(control as PanelContainer).add_theme_stylebox_override("panel", _moral_box(palette["chip_bg"], palette["panel_border"], 5, 8, 4))
+		"choice_badge_text":
+			if control is Label:
+				(control as Label).add_theme_color_override("font_color", palette["dim"])
+		"choice_arrow":
+			if control is Label:
+				(control as Label).add_theme_color_override("font_color", accent.lerp(palette["focus"], float(palette["white"]) * 0.35))
+		"button", "small_button", "action_button":
+			if control is Button:
+				_apply_moral_button_box(control as Button, accent, palette, false)
+
+func _moral_gray_accent(color: Color, palette: Dictionary, boost: float = 0.0) -> Color:
+	var lum := clampf(color.r * 0.299 + color.g * 0.587 + color.b * 0.114 + boost, 0.0, 1.0)
+	var gray := Color(lum, lum, lum, color.a)
+	return gray.lerp(Color("#313832"), float(palette["black"]) * 0.58).lerp(Color("#dce8f0"), float(palette["white"]) * 0.72)
+
+func _moral_box(bg: Color, border: Color, radius: int, h_margin: int, v_margin: int, left_border: int = 0) -> StyleBoxFlat:
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	st.border_color = border
+	st.set_border_width_all(1)
+	if left_border > 0:
+		st.border_width_left = left_border
+	st.set_corner_radius_all(radius)
+	st.content_margin_left = h_margin
+	st.content_margin_right = h_margin
+	st.content_margin_top = v_margin
+	st.content_margin_bottom = v_margin
+	return st
+
+func _apply_moral_button_box(button: Button, accent: Color, palette: Dictionary, is_choice: bool) -> void:
+	var bg: Color = palette["choice_bg"] if is_choice else palette["chip_bg"]
+	var hover: Color = palette["choice_hover"]
+	var pressed: Color = bg.darkened(0.12)
+	var border := accent.lerp(palette["panel_border"], 0.28).lerp(palette["focus"], float(palette["white"]) * 0.35)
+	var left_border := 3 if is_choice else 1
+	var normal := _moral_box(bg, border, 6 if is_choice else 5, 16 if not is_choice else 0, 10 if not is_choice else 0, left_border)
+	var hover_st := normal.duplicate()
+	hover_st.bg_color = hover
+	hover_st.border_color = border.lightened(0.15)
+	var pressed_st := normal.duplicate()
+	pressed_st.bg_color = pressed
+	var focus_st := normal.duplicate()
+	focus_st.border_color = palette["focus"]
+	focus_st.set_border_width_all(UI_FOCUS_BORDER)
+	var disabled_st := normal.duplicate()
+	disabled_st.bg_color = palette["disabled_bg"]
+	disabled_st.border_color = palette["panel_border"]
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover_st)
+	button.add_theme_stylebox_override("pressed", pressed_st)
+	button.add_theme_stylebox_override("focus", focus_st)
+	button.add_theme_stylebox_override("disabled", disabled_st)
+	button.add_theme_color_override("font_color", palette["text"])
 
 func _apply_money_moral_glow() -> void:
-	var money_col := Color("#00c896")
-	var goal_col := Color("#9aa4b8")
+	var money_col := Color("#cdd3dc")
+	var goal_col := Color("#9aa4b0")
 	var shadow_col := Color(0, 0, 0, 0)
 	var shadow_size := 0
 	if _moral_stage <= -2:
-		money_col = Color("#79ffb2")
-		goal_col = Color("#9affc9")
-		shadow_col = Color(0.15, 1.0, 0.60, 0.50)
+		money_col = Color("#ffffff")
+		goal_col = Color("#f7fbff")
+		shadow_col = Color(0.88, 0.96, 1.0, 0.56)
 		shadow_size = 8
 	elif _moral_stage == -1:
-		money_col = Color("#46e89a")
-		goal_col = Color("#67dca7")
-		shadow_col = Color(0.10, 0.70, 0.45, 0.32)
+		money_col = Color("#edf4f7")
+		goal_col = Color("#dce6eb")
+		shadow_col = Color(0.75, 0.84, 0.88, 0.30)
 		shadow_size = 4
 	elif _moral_stage >= 2:
-		money_col = Color("#f8e7b0")
-		goal_col = Color("#ead89a")
+		money_col = Color("#f9fbff")
+		goal_col = Color("#e9f2f7")
+		shadow_col = Color(0.75, 0.95, 1.0, 0.18)
+		shadow_size = 3
 	elif _moral_stage == 1:
-		money_col = Color("#d8d2c4")
-		goal_col = Color("#cfc8b6")
+		money_col = Color("#e3eef5")
+		goal_col = Color("#cddce5")
 	_apply_money_label_style(top_labels.get("money", null) as Label, money_col, shadow_col, shadow_size)
 	_apply_money_label_style(_goal_money_lbl, goal_col, shadow_col, shadow_size)
 
@@ -397,6 +575,16 @@ func _build_ui():
 	event_bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	event_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	event_bg.modulate = Color(1, 1, 1, 0.0)   # 크로스페이드가 페이드인 처리
+	var bg_grade_shader = load("res://assets/shaders/background_grade.gdshader")
+	if bg_grade_shader:
+		_moral_bg_material = ShaderMaterial.new()
+		_moral_bg_material.shader = bg_grade_shader
+		_moral_bg_material.set_shader_parameter("desaturation", 0.82)
+		_moral_bg_material.set_shader_parameter("brightness", 0.88)
+		_moral_bg_material.set_shader_parameter("contrast", 0.92)
+		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303"))
+		_moral_bg_material.set_shader_parameter("tint_amount", 0.0)
+		event_bg.material = _moral_bg_material
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(event_bg)
 
@@ -453,9 +641,25 @@ func _build_ui():
 	_build_info_panel()
 
 	_build_vignette_layer()
+	_build_moral_surface_layer()
 	_build_feedback_layer()
 	_build_modal()
 	_build_toast_layer()
+
+func _build_moral_surface_layer():
+	_moral_surface_overlay = ColorRect.new()
+	_moral_surface_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_moral_surface_overlay.color = Color(1, 1, 1, 1)
+	_moral_surface_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_moral_surface_overlay.visible = false
+	var shader_res = load("res://assets/shaders/moral_surface.gdshader")
+	if shader_res:
+		_moral_surface_material = ShaderMaterial.new()
+		_moral_surface_material.shader = shader_res
+		_moral_surface_material.set_shader_parameter("black_intensity", 0.0)
+		_moral_surface_material.set_shader_parameter("white_intensity", 0.0)
+		_moral_surface_overlay.material = _moral_surface_material
+	add_child(_moral_surface_overlay)
 
 func _build_vignette_layer():
 	_vignette_rect = ColorRect.new()
@@ -571,6 +775,7 @@ func _build_top_bar(parent):
 	panel.add_child(row)
 
 	var title = _label(_tr("강남드림", "Gangnam Dream"), 18, COL_GOLD)
+	title.set_meta("moral_role", "brand_text")
 	title.custom_minimum_size = Vector2(132, 0)
 	title.clip_text = false
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -581,7 +786,7 @@ func _build_top_bar(parent):
 	var date_lbl = _hud_chip(row, "", "#8892a4", 108, false)
 	top_labels["date"] = date_lbl
 
-	var ap_lbl = _hud_chip(row, "ap", "#f0b429", 74, false)
+	var ap_lbl = _hud_chip(row, "ap", "#b9bec7", 74, false)
 	top_labels["ap"] = ap_lbl
 
 	# ── 바이탈 HUD: 건강 / 정신 ──────────────────
@@ -589,13 +794,13 @@ func _build_top_bar(parent):
 	vitals_row.add_theme_constant_override("separation", 6)
 	row.add_child(vitals_row)
 
-	var hp_lbl = _hud_chip(vitals_row, "health", "#34d399", 78, false)
+	var hp_lbl = _hud_chip(vitals_row, "health", "#aab2bc", 78, false)
 	top_labels["vital_health"] = hp_lbl
 
-	var mp_lbl = _hud_chip(vitals_row, "mental", "#93c5fd", 78, false)
+	var mp_lbl = _hud_chip(vitals_row, "mental", "#9aa3ad", 78, false)
 	top_labels["vital_mental"] = mp_lbl
 
-	var money_lbl = _hud_chip(row, "money", "#00c896", 210, false)
+	var money_lbl = _hud_chip(row, "money", "#d9dee6", 210, false)
 	top_labels["money"] = money_lbl
 
 	var info_btn = _small_button(_tr("정보", "Info"), "#1e2a3a")
@@ -681,7 +886,7 @@ func _build_portrait_panel(parent):
 	player_name_label.clip_text = false
 	name_panel.add_child(player_name_label)
 
-	title_label = _label(_tr("서울 상경 초보", "Seoul Newcomer"), 11, "#f0b429")
+	title_label = _label(_tr("서울 상경 초보", "Seoul Newcomer"), 11, COL_GOLD_DIM)
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title_label.clip_text = false
@@ -1032,7 +1237,7 @@ func _build_goal_bar(parent: Control) -> void:
 	_goal_pct_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	row.add_child(_goal_pct_label)
 
-	var goal_lbl = _label(_tr("목표 30억", "Goal KRW 3B"), 11, "#f0b429")
+	var goal_lbl = _label(_tr("목표 30억", "Goal KRW 3B"), 11, COL_GOLD_DIM)
 	goal_lbl.custom_minimum_size = Vector2(92, 0)
 	goal_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(goal_lbl)
@@ -1055,16 +1260,16 @@ func _refresh_goal_bar() -> void:
 		_gb_tw.tween_property(_goal_bar, "value", pct, 0.7) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
-	# 진행률에 따라 색 변경
+	# 진행률도 무채색 축으로만 변화한다. 색은 위급/도덕성 연출에 양보한다.
 	var fill_color: Color
 	if pct < 5.0:
-		fill_color = Color("#3a6ea8")    # 초반: 파랑
+		fill_color = Color("#42474f")
 	elif pct < 20.0:
-		fill_color = Color("#00b894")   # 중반: 녹색
+		fill_color = Color("#646b73")
 	elif pct < 60.0:
-		fill_color = Color("#f0b429")   # 고반: 금색
+		fill_color = Color("#8b929b")
 	else:
-		fill_color = Color("#ff6b35")   # 라스트: 주황
+		fill_color = Color("#c5ccd5")
 	var fill_st = StyleBoxFlat.new()
 	fill_st.bg_color = fill_color
 	fill_st.set_corner_radius_all(5)
@@ -1085,7 +1290,7 @@ func _refresh_goal_bar() -> void:
 	if years_left == 0:
 		_goal_pct_label.add_theme_color_override("font_color", Color("#ff4444"))
 	elif years_left == 1:
-		_goal_pct_label.add_theme_color_override("font_color", Color("#f0b429"))
+		_goal_pct_label.add_theme_color_override("font_color", Color("#c5ccd5"))
 	else:
 		_goal_pct_label.remove_theme_color_override("font_color")
 
@@ -1112,7 +1317,7 @@ func _refresh_goal_bar() -> void:
 		if months_left <= 12:
 			time_color = "#ff4444"
 		elif months_left <= 24:
-			time_color = "#f0b429"
+			time_color = "#c5ccd5"
 		else:
 			time_color = "#5a6a7a"
 		_goal_time_lbl.text = _tr("%d개월", "%d mo") % months_left
@@ -3203,7 +3408,7 @@ func _animate_ap_refill() -> void:
 		tw.tween_callback(func():
 			var filled: int = pip_i + 1
 			ap_lbl.text = "%d/%d" % [filled, max_ap]
-			ap_lbl.modulate = Color("#ffe566")
+			ap_lbl.modulate = Color("#f4f7fb")
 		)
 		tw.tween_property(ap_lbl, "modulate", Color.WHITE, 0.15)
 	# 최종 상태 보정
@@ -3224,9 +3429,9 @@ func _refresh_vitals():
 	if hp <= 30:
 		hp_color = Color("#ff4444")
 	elif hp <= 50:
-		hp_color = Color("#f0b429")
+		hp_color = Color("#b9bec7")
 	else:
-		hp_color = Color("#34d399")
+		hp_color = Color("#c8cdd4")
 	var hp_lbl = top_labels["vital_health"]
 	hp_lbl.text = "%d %s" % [hp, hp_bar]
 	hp_lbl.add_theme_color_override("font_color", hp_color)
@@ -3241,9 +3446,9 @@ func _refresh_vitals():
 	if mp <= 30:
 		mp_color = Color("#ff4444")
 	elif mp <= 50:
-		mp_color = Color("#f0b429")
+		mp_color = Color("#b9bec7")
 	else:
-		mp_color = Color("#93c5fd")
+		mp_color = Color("#c8cdd4")
 	var mp_lbl = top_labels["vital_mental"]
 	mp_lbl.text = "%d %s" % [mp, mp_bar]
 	mp_lbl.add_theme_color_override("font_color", mp_color)
@@ -3716,7 +3921,7 @@ func _render_ap_actions():
 	for child in choice_box.get_children():
 		child.queue_free()
 	var ap = GameState.action_points
-	var ap_dots = "⚡".repeat(ap) + "○".repeat(max(0, GameState.max_action_points - ap))
+	var ap_dots = "◆".repeat(ap) + "◇".repeat(max(0, GameState.max_action_points - ap))
 	if top_labels.has("ap"):
 		top_labels["ap"].text = "%s  %d/%d" % [ap_dots, ap, GameState.max_action_points]
 	event_title.text = _tr("%d년 %d월", "%d-%02d") % [GameState.year, GameState.month]
@@ -3754,7 +3959,7 @@ func _render_ap_actions():
 		lines.append(_tr("[color=#ff4444]🚨  정신력 %d / 100[/color]  — 위험!", "[color=#ff4444]🚨  Mental %d / 100[/color]  — Danger!") % GameState.mental)
 		has_warning = true
 	if GameState.mental <= 55 and GameState.health > 45 and GameState.mental > 45:
-		lines.append(_tr("[color=#f0b429]⚠  정신력 %d[/color]  — 피로가 쌓이고 있습니다. 가끔 쉬세요.", "[color=#f0b429]⚠  Mental %d[/color]  — Fatigue is building up. Rest sometimes.") % GameState.mental)
+		lines.append(_tr("[color=#b9bec7]⚠  정신력 %d[/color]  — 피로가 쌓이고 있습니다. 가끔 쉬세요.", "[color=#b9bec7]⚠  Mental %d[/color]  — Fatigue is building up. Rest sometimes.") % GameState.mental)
 		has_warning = true
 	if GameState.money < 0:
 		lines.append(_tr("[color=#ff4444]🚨  잔고 마이너스  %s[/color]  — 빚이 생겼습니다!", "[color=#ff4444]🚨  Negative balance  %s[/color]  — You're in debt!") % GameState.format_money(GameState.money))
@@ -3762,7 +3967,7 @@ func _render_ap_actions():
 	# ── 이번 달 추천 행동 ──
 	if not has_warning:
 		lines.append("")
-		lines.append(_tr("[color=#c9a227]💡 이번 달 추천[/color]  %s", "[color=#c9a227]💡 This month's tip[/color]  %s") % _recommend_action())
+		lines.append(_tr("[color=#b9bec7]이번 달 추천[/color]  %s", "[color=#b9bec7]This month's tip[/color]  %s") % _recommend_action())
 	# 새 주 첫 상황판은 짧게 타이핑 (60cps — 빠르게)
 	var body_text := "\n".join(lines)
 	# 위기 상황 내레이션에 wave 적용 (첫 줄이 이탤릭 내레이션)
@@ -3781,8 +3986,8 @@ func _render_ap_actions():
 	if disabled:
 		next_button.text = _tr("다음 주로 ›", "To Next Week ›")
 		var btn_style = StyleBoxFlat.new()
-		btn_style.bg_color = Color("#0a2a1a")
-		btn_style.border_color = Color("#00c896")
+		btn_style.bg_color = Color("#10151a")
+		btn_style.border_color = Color("#dce6ee")
 		btn_style.border_width_left = 3
 		btn_style.set_corner_radius_all(4)
 		btn_style.content_margin_left = 20
@@ -3790,7 +3995,7 @@ func _render_ap_actions():
 		btn_style.content_margin_top = 8
 		btn_style.content_margin_bottom = 8
 		next_button.add_theme_stylebox_override("normal", btn_style)
-		next_button.add_theme_color_override("font_color", Color("#00c896"))
+		next_button.add_theme_color_override("font_color", Color("#f4f7fb"))
 		next_button.call_deferred("grab_focus")
 	else:
 		next_button.text = _tr("다음 주 ›", "Next Week ›")
@@ -3799,24 +4004,24 @@ func _render_ap_actions():
 
 	# ── 튜토리얼 힌트 (1줄, 스타일박스 없음) ──────────
 	var hint_text = ""
-	var hint_color = "#f0b429"
+	var hint_color = "#b9bec7"
 	var job_story_done: bool = GameState.flags.get("story_job_unlocked", false)
 	var just_got_paycheck = GameState.flags.get("has_received_paycheck", false) \
 		and not GameState.flags.get("invest_hint_shown", false)
 
 	if GameState.turn == 1 and ap == GameState.max_action_points and turn_action_log.is_empty():
 		hint_text = _tr("👋 이번 달 상황에 반응하거나, 아래 [💼 구직활동]으로 일자리부터 구하세요.", "👋 React to this month's situation, or get a job first via [💼 Job Hunt] below.")
-		hint_color = "#00c896"
+		hint_color = "#c8cdd4"
 	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
 		hint_text = _tr("⚠ 수입 0원 — 아래 [💼 구직활동]으로 취업하세요!", "⚠ KRW 0 income — get a job via [💼 Job Hunt] below!")
 		hint_color = "#ef4444"
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
 		hint_text = _tr("첫 월급 수령 — 이제 투자 메뉴가 열렸습니다.", "First paycheck received — Invest is now available.")
-		hint_color = "#00c896"
+		hint_color = "#c8cdd4"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
-		hint_text = _tr("🎯 목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "🎯 Goal: KRW 3B assets → enter Gangnam (%d years left)") % max(0, 38 - GameState.age)
-		hint_color = "#c9a227"
+		hint_text = _tr("목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "Goal: KRW 3B assets → enter Gangnam (%d years left)") % max(0, 38 - GameState.age)
+		hint_color = "#b9bec7"
 
 	if not hint_text.is_empty():
 		choice_box.add_child(_label(hint_text, 12, hint_color))
@@ -3843,6 +4048,7 @@ func _render_ap_actions():
 	# ── 상점 버튼 비활성화 (서사 유물로 전환 예정) ─────────────
 	if shop_button:
 		shop_button.disabled = true
+	_apply_moral_ui_palette()
 
 ## 상황 기반 이번 달 추천 행동 (경고 없을 때만 표시)
 func _recommend_action() -> String:
@@ -3868,11 +4074,11 @@ func _recommend_action() -> String:
 
 	# ── 주거 업그레이드 힌트 ──
 	if housing == "gosiwon" and total >= 8_000_000:
-		return _tr("🏠 이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)", "🏠 Consider Moving  →  Assets %s, you can move to a one-room (AP housing menu)") % GameState.format_money(total)
+		return _tr("이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)", "Consider Moving  →  Assets %s, you can move to a one-room (AP housing menu)") % GameState.format_money(total)
 	if housing == "oneroom" and total >= 40_000_000:
-		return _tr("🏡 이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다", "🏡 Consider Moving  →  Assets %s, upgrading to a villa (jeonse) gives a Mental bonus") % GameState.format_money(total)
+		return _tr("이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다", "Consider Moving  →  Assets %s, upgrading to a villa (jeonse) gives a Mental bonus") % GameState.format_money(total)
 	if housing == "villa" and total >= 130_000_000:
-		return _tr("🏢 이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다", "🏢 Consider Moving  →  Assets %s, apartment (jeonse) range. Reputation rises too") % GameState.format_money(total)
+		return _tr("이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다", "Consider Moving  →  Assets %s, apartment (jeonse) range. Reputation rises too") % GameState.format_money(total)
 
 	# ── 투자감각 미성숙 ──
 	if inv_skill < 10 and total >= 3_000_000:
@@ -4127,6 +4333,8 @@ func _essential_locked(title: String, subtitle: String, icon_id: String, accent:
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String) -> Button:
 	var btn := Button.new()
+	btn.set_meta("moral_role", "choice_card")
+	btn.set_meta("moral_accent", accent if not disabled else "#343446")
 	btn.text = ""
 	btn.custom_minimum_size = Vector2(0, 62)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -4178,6 +4386,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	margin.add_child(row)
 
 	var icon_box := PanelContainer.new()
+	icon_box.set_meta("moral_role", "choice_icon")
+	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
 	icon_box.custom_minimum_size = Vector2(42, 42)
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var icon_style := StyleBoxFlat.new()
@@ -4189,6 +4399,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	row.add_child(icon_box)
 
 	var icon_tex := TextureRect.new()
+	icon_tex.set_meta("moral_role", "hud_icon")
+	icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 	icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_tex.custom_minimum_size = Vector2(34, 34)
 	icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -4205,12 +4417,14 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	row.add_child(text_col)
 
 	var title_lbl := _label(title, 15, "#e8eaf0" if not disabled else "#5f6372")
+	title_lbl.set_meta("moral_role", "choice_title")
 	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if _font_bold:
 		title_lbl.add_theme_font_override("font", _font_bold)
 	text_col.add_child(title_lbl)
 
 	var sub_lbl := _label(subtitle, 12, "#9aa4b8" if not disabled else "#484c5c")
+	sub_lbl.set_meta("moral_role", "choice_subtitle")
 	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	text_col.add_child(sub_lbl)
@@ -4221,6 +4435,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	if badge_text.is_empty():
 		badge_text = _tr("무료", "Free") if free_action else _tr("AP 1", "AP 1")
 	var badge := PanelContainer.new()
+	badge.set_meta("moral_role", "choice_badge")
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	badge.custom_minimum_size = Vector2(54, 26)
 	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -4239,6 +4454,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	row.add_child(badge)
 
 	var badge_lbl := _label(badge_text, 11, "#a7f3d0" if free_action and not disabled else "#aab3c5")
+	badge_lbl.set_meta("moral_role", "choice_badge_text")
 	if forced_badge == _tr("잠금", "Locked"):
 		badge_lbl.add_theme_color_override("font_color", Color("#6d7282"))
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -4247,15 +4463,20 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	badge.add_child(badge_lbl)
 
 	var arrow_lbl := _label("›", 24, accent if not disabled else "#303040")
+	arrow_lbl.set_meta("moral_role", "choice_arrow")
+	arrow_lbl.set_meta("moral_accent", accent if not disabled else "#343446")
 	arrow_lbl.custom_minimum_size = Vector2(14, 0)
 	arrow_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	arrow_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(arrow_lbl)
+	_apply_moral_tree_styles(btn, _moral_ui_palette())
 	return btn
 
 func _hud_chip(parent: Control, icon_id: String, accent: String,
 		min_width: int, expand: bool) -> Label:
 	var panel := PanelContainer.new()
+	panel.set_meta("moral_role", "hud_chip")
+	panel.set_meta("moral_accent", accent)
 	panel.custom_minimum_size = Vector2(min_width, 40)
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL if expand else Control.SIZE_SHRINK_BEGIN
@@ -4279,6 +4500,8 @@ func _hud_chip(parent: Control, icon_id: String, accent: String,
 
 	if not icon_id.is_empty():
 		var tex := TextureRect.new()
+		tex.set_meta("moral_role", "hud_icon")
+		tex.set_meta("moral_accent", accent)
 		tex.custom_minimum_size = Vector2(18, 18)
 		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -4288,11 +4511,14 @@ func _hud_chip(parent: Control, icon_id: String, accent: String,
 		row.add_child(tex)
 
 	var lbl := _label("", 14, "#d8deea")
+	lbl.set_meta("moral_role", "hud_text")
+	lbl.set_meta("moral_accent", accent)
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	lbl.clip_text = false
 	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(lbl)
+	_apply_moral_tree_styles(panel, _moral_ui_palette())
 	return lbl
 
 func _ui_icon_texture(icon_id: String) -> Texture2D:
@@ -6638,13 +6864,13 @@ func _apply_ending_moral_palette() -> void:
 		modal_panel.add_theme_stylebox_override("panel", _modal_style("#070b0d", "#2acc7d", 8, 14, 12))
 		modal_title_label.add_theme_color_override("font_color", Color("#8ee8bc"))
 	elif stage >= 2:
-		modal_layer.color = Color(0.055, 0.040, 0.018, 0.62)
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#17130d", "#f2d58a", 8, 14, 12))
-		modal_title_label.add_theme_color_override("font_color", Color("#f7e3a4"))
+		modal_layer.color = Color(0.010, 0.016, 0.020, 0.60)
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#0f1418", "#d8f4ff", 8, 14, 12))
+		modal_title_label.add_theme_color_override("font_color", Color("#f4fbff"))
 	elif stage == 1:
-		modal_layer.color = Color(0.045, 0.035, 0.025, 0.66)
-		modal_panel.add_theme_stylebox_override("panel", _modal_style("#14120f", "#d8c17c", 8, 14, 12))
-		modal_title_label.add_theme_color_override("font_color", Color("#ead89a"))
+		modal_layer.color = Color(0.012, 0.018, 0.022, 0.64)
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#10161a", "#a9d8ea", 8, 14, 12))
+		modal_title_label.add_theme_color_override("font_color", Color("#e3f5ff"))
 	else:
 		var alpha := 0.70 + minf(absf(norm) * 0.08, 0.08)
 		modal_layer.color = Color(0, 0, 0, alpha)
@@ -7586,6 +7812,8 @@ func _clear_box(box):
 
 func _panel(bg, border):
 	var panel = PanelContainer.new()
+	panel.set_meta("moral_role", "panel")
+	panel.set_meta("moral_accent", border)
 	var style = StyleBoxFlat.new()
 	style.bg_color = Color(bg)
 	style.border_color = Color(border)
@@ -7596,6 +7824,7 @@ func _panel(bg, border):
 	style.content_margin_top = 10
 	style.content_margin_bottom = 10
 	panel.add_theme_stylebox_override("panel", style)
+	_apply_moral_tree_styles(panel, _moral_ui_palette())
 	return panel
 
 func _info_card(accent: String, bg: String = "#0b1018") -> PanelContainer:
@@ -7690,6 +7919,8 @@ func _wrap_label(text, size, color) -> Label:
 
 func _button(text, color) -> Button:
 	var button = Button.new()
+	button.set_meta("moral_role", "button")
+	button.set_meta("moral_accent", color)
 	button.text = text
 	button.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -7716,6 +7947,7 @@ func _button(text, color) -> Button:
 	focus_st.set_border_width_all(UI_FOCUS_BORDER)
 	button.add_theme_stylebox_override("focus", focus_st)
 	button.pressed.connect(func(): AudioManager.play("click"))
+	_apply_moral_tree_styles(button, _moral_ui_palette())
 	return button
 
 func _icon_button(text: String, icon_id: String, color: String) -> Button:
@@ -7729,6 +7961,8 @@ func _icon_button(text: String, icon_id: String, color: String) -> Button:
 
 func _action_button(text: String, accent_color: String) -> Button:
 	var button = Button.new()
+	button.set_meta("moral_role", "action_button")
+	button.set_meta("moral_accent", accent_color)
 	button.text = text
 	button.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -7761,10 +7995,13 @@ func _action_button(text: String, accent_color: String) -> Button:
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	button.pressed.connect(func(): AudioManager.play("click"))
+	_apply_moral_tree_styles(button, _moral_ui_palette())
 	return button
 
 func _small_button(text, color) -> Button:
 	var button = Button.new()
+	button.set_meta("moral_role", "small_button")
+	button.set_meta("moral_accent", color)
 	button.text = text
 	button.custom_minimum_size = Vector2(0, UI_MIN_SMALL_BUTTON_HEIGHT)
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -7787,6 +8024,7 @@ func _small_button(text, color) -> Button:
 	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
+	_apply_moral_tree_styles(button, _moral_ui_palette())
 	return button
 
 func _icon_small_button(text: String, icon_id: String, color: String) -> Button:
@@ -7896,15 +8134,15 @@ func _random_topic(news):
 func _next_milestone_hint(total: float) -> String:
 	# [target, label, strategy_hint]
 	var milestones: Array = [
-		[8_000_000.0,     _tr("🏠 원룸 이사 구간", "🏠 One-room move range"),        _tr("→ 주거 AP에서 이사 가능. 정신력 보너스", "→ Move via Housing AP. Mental bonus")],
+		[8_000_000.0,     _tr("원룸 이사 구간", "One-room move range"),        _tr("→ 주거 AP에서 이사 가능. 정신력 보너스", "→ Move via Housing AP. Mental bonus")],
 		[20_000_000.0,    _tr("종잣돈 2천만", "KRW 20M seed money"),              _tr("→ 투자 계좌 개설 & 주식·코인 시작 가능", "→ Open an investment account & start stocks/crypto")],
-		[40_000_000.0,    _tr("🏡 빌라 전세 구간", "🏡 Villa jeonse range"),        _tr("→ 주거 AP에서 빌라 전세 선택 가능", "→ Choose villa jeonse via Housing AP")],
+		[40_000_000.0,    _tr("빌라 전세 구간", "Villa jeonse range"),        _tr("→ 주거 AP에서 빌라 전세 선택 가능", "→ Choose villa jeonse via Housing AP")],
 		[100_000_000.0,   _tr("자산 1억", "KRW 100M assets"),                 _tr("→ 레버리지 투자 & 고급 이벤트 해금", "→ Unlock leverage investing & advanced events")],
-		[130_000_000.0,   _tr("🏢 아파트 전세 구간", "🏢 Apartment jeonse range"),      _tr("→ 아파트 입주 시 평판·투자감각 보너스", "→ Reputation & Investing bonus on moving in")],
+		[130_000_000.0,   _tr("아파트 전세 구간", "Apartment jeonse range"),      _tr("→ 아파트 입주 시 평판·투자감각 보너스", "→ Reputation & Investing bonus on moving in")],
 		[500_000_000.0,   _tr("자산 5억", "KRW 500M assets"),                 _tr("→ 고수익 투자 루트 본격 가동 구간", "→ Time to run high-yield investment routes in earnest")],
 		[1_000_000_000.0, _tr("자산 10억", "KRW 1B assets"),                "→ " + _tr("강남 오픈하우스 이벤트 + 엘리트 인맥", "Gangnam open-house event + elite connections")],
 		[2_000_000_000.0, _tr("자산 20억", "KRW 2B assets"),                _tr("→ 마지막 10억 — 레버리지 or 집중 투자", "→ The last KRW 1B — leverage or concentrated investing")],
-		[3_000_000_000.0, _tr("🏙 자산 30억 = 강남드림!", "🏙 KRW 3B assets = Gangnam Dream!"), ""],
+		[3_000_000_000.0, _tr("자산 30억 = 강남드림!", "KRW 3B assets = Gangnam Dream!"), ""],
 	]
 	for m in milestones:
 		var target: float = float(m[0])
@@ -7913,8 +8151,8 @@ func _next_milestone_hint(total: float) -> String:
 			var pct: int = int(total / target * 100.0)
 			var hint: String = str(m[2])
 			if hint.is_empty():
-				return _tr("🎯  %s  까지  %s 남음  [%d%%]", "🎯  %s  —  %s to go  [%d%%]") % [str(m[1]), GameState.format_money(needed), pct]
-			return _tr("🎯  %s  까지  %s  [%d%%]  [color=#7a9ab0]%s[/color]", "🎯  %s  —  %s  [%d%%]  [color=#7a9ab0]%s[/color]") % [str(m[1]), GameState.format_money(needed), pct, hint]
+				return _tr("%s  까지  %s 남음  [%d%%]", "%s  —  %s to go  [%d%%]") % [str(m[1]), GameState.format_money(needed), pct]
+			return _tr("%s  까지  %s  [%d%%]  [color=#7a9ab0]%s[/color]", "%s  —  %s  [%d%%]  [color=#7a9ab0]%s[/color]") % [str(m[1]), GameState.format_money(needed), pct, hint]
 	return ""
 
 func _months_to_goal_estimate() -> String:
@@ -7925,13 +8163,13 @@ func _months_to_goal_estimate() -> String:
 	var net: float = float(GameState.monthly_income) - float(GameState.get_housing_expense())
 	var remaining = GOAL - total
 	if net <= 0.0:
-		return _tr("[color=#ff7070]💡 투자 없이는 달성 불가 — 자산을 굴려야 합니다[/color]", "[color=#ff7070]💡 Impossible without investing — you need your assets to work[/color]")
+		return _tr("[color=#ff7070]투자 없이는 달성 불가 — 자산을 굴려야 합니다[/color]", "[color=#ff7070]Impossible without investing — you need your assets to work[/color]")
 	var months_needed = int(ceil(remaining / net))
 	var turns_left: int = maxi(0, (38 - GameState.age) * 12 - GameState.month + 1)
 	if months_needed <= turns_left:
-		return _tr("[color=#7a8496]💡 현재 수입만으로  약 %d개월 후 달성 가능 (투자 수익 제외)[/color]", "[color=#7a8496]💡 Current income reaches the goal in about %d months (investment returns excluded)[/color]") % months_needed
+		return _tr("[color=#7a8496]현재 수입만으로  약 %d개월 후 달성 가능 (투자 수익 제외)[/color]", "[color=#7a8496]Current income reaches the goal in about %d months (investment returns excluded)[/color]") % months_needed
 	else:
-		return _tr("[color=#f0b429]💡 현재 수입만으로  %d개월 필요 → 남은 시간 %d개월, 투자가 필수![/color]", "[color=#f0b429]💡 Current income needs %d months → %d months left, investing is essential![/color]") % [months_needed, turns_left]
+		return _tr("[color=#b9bec7]현재 수입만으로  %d개월 필요 → 남은 시간 %d개월, 투자가 필수![/color]", "[color=#b9bec7]Current income needs %d months → %d months left, investing is essential![/color]") % [months_needed, turns_left]
 
 # ── 월 등급 계산 ─────────────────────────────────────
 func _calc_month_grade(snap: Dictionary) -> Dictionary:
