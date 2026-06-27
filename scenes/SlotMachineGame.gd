@@ -1161,7 +1161,7 @@ func _refresh_session_lbl() -> void:
 func _refresh_balance_lbl() -> void:
 	if not is_instance_valid(_balance_lbl):
 		return
-	_balance_lbl.text = _tr("현재 잔액  ₩%s", "Current balance  ₩%s") % GameState.format_money(GameState.money)
+	_balance_lbl.text = _tr("현재 잔액  %s", "Current balance  %s") % GameState.format_money(GameState.money)
 
 func _refresh_meters() -> void:
 	if is_instance_valid(_credit_meter_lbl):

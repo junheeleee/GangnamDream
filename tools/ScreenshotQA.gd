@@ -4,23 +4,28 @@ extends Node
 ##         --resolution 1280x800 res://tools/ScreenshotQA.tscn
 ## 카지노만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino
+## 영어 카지노만 빠르게 확인:
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
 const OUT_DIR := "/tmp/gangnamdream_qa"
 const QA_SCOPE_CASINO := "casino"
+const QA_SCOPE_CASINO_EN := "casino_en"
 var _mg: Node = null
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
 	var scope: String = _qa_scope()
-	if scope == QA_SCOPE_CASINO:
-		_set_qa_language("ko")
+	if scope in [QA_SCOPE_CASINO, QA_SCOPE_CASINO_EN]:
+		var lang := _qa_language("en" if scope == QA_SCOPE_CASINO_EN else "ko")
+		var prefix := "en_" if lang == "en" else ""
+		_set_qa_language(lang)
 		_prepare_main_game_state()
 		await _boot_main_game()
-		await _shot_casino_suite()
-		print("SCREENSHOT_QA_DONE scope=casino dir=%s" % OUT_DIR)
+		await _shot_casino_suite(prefix)
+		print("SCREENSHOT_QA_DONE scope=casino lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 
@@ -64,10 +69,28 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["casino-en", "casino_en", "--casino-en", "--casino_en",
+				"qa=casino-en", "--qa=casino-en", "qa=casino_en", "--qa=casino_en",
+				"scope=casino-en", "--scope=casino-en", "scope=casino_en", "--scope=casino_en"]:
+			return QA_SCOPE_CASINO_EN
 		if arg in ["casino", "casino-only", "--casino", "--casino-only",
 				"qa=casino", "--qa=casino", "scope=casino", "--scope=casino"]:
 			return QA_SCOPE_CASINO
 	return "full"
+
+func _qa_language(default_lang: String = "ko") -> String:
+	var args: Array[String] = []
+	for raw in OS.get_cmdline_user_args():
+		args.append(str(raw))
+	for raw in OS.get_cmdline_args():
+		args.append(str(raw))
+	for raw in args:
+		var arg := raw.strip_edges().to_lower()
+		if arg in ["en", "--en", "lang=en", "--lang=en", "language=en", "--language=en"]:
+			return "en"
+		if arg in ["ko", "--ko", "lang=ko", "--lang=ko", "language=ko", "--language=ko"]:
+			return "ko"
+	return default_lang
 
 func _set_qa_language(lang: String) -> void:
 	if LocaleManager.has_method("set_language"):
@@ -111,14 +134,17 @@ func _boot_main_game() -> void:
 	await get_tree().create_timer(0.5).timeout
 	_kill_transition()
 
-func _shot_casino_suite() -> void:
-	await _shot_minigame("jeongseon_casino", "08_jeongseon_casino")
-	await _shot_casino_table("baccarat_table", "09_baccarat_table")
-	await _shot_casino_table("blackjack_table", "10_blackjack_table")
-	await _shot_casino_table("slot_machine_game", "11_slot_machine")
-	await _shot_casino_table("roulette_table", "12_roulette_table")
-	await _shot_casino_table("big_wheel_game", "12a_bigwheel")
-	await _shot_casino_table("dai_sai_table", "12b_daisai_table")
+func _shot_casino_suite(prefix: String = "") -> void:
+	await _shot_minigame("jeongseon_casino", _shot_name(prefix, "08_jeongseon_casino"))
+	await _shot_casino_table("baccarat_table", _shot_name(prefix, "09_baccarat_table"), prefix)
+	await _shot_casino_table("blackjack_table", _shot_name(prefix, "10_blackjack_table"), prefix)
+	await _shot_casino_table("slot_machine_game", _shot_name(prefix, "11_slot_machine"), prefix)
+	await _shot_casino_table("roulette_table", _shot_name(prefix, "12_roulette_table"), prefix)
+	await _shot_casino_table("big_wheel_game", _shot_name(prefix, "12a_bigwheel"), prefix)
+	await _shot_casino_table("dai_sai_table", _shot_name(prefix, "12b_daisai_table"), prefix)
+
+func _shot_name(prefix: String, base: String) -> String:
+	return "%s%s" % [prefix, base] if not prefix.is_empty() else base
 
 func _clear_output_dir() -> void:
 	var dir := DirAccess.open(OUT_DIR)
@@ -516,7 +542,7 @@ func _shot_racetrack() -> void:
 		node.visible = false
 	await _settle(0.3)
 
-func _shot_casino_table(node_name: String, shot_name: String) -> void:
+func _shot_casino_table(node_name: String, shot_name: String, prefix: String = "") -> void:
 	GameState.money = 10_000_000.0
 	var node = _mg.get(node_name)
 	if node == null or not node.has_method("open"):
@@ -526,13 +552,13 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 	await _settle(0.4)
 	match node_name:
 		"baccarat_table":
-			await _save("09a_baccarat_betting")
+			await _save(_shot_name(prefix, "09a_baccarat_betting"))
 			node._set_stake(10_000)
 			node._add_bet("B")
 			node._deal()
 			await _settle(3.2)
 		"blackjack_table":
-			await _save("10a_blackjack_betting")
+			await _save(_shot_name(prefix, "10a_blackjack_betting"))
 			node._set_stake_and_deal(10_000)
 			await _settle(0.8)
 		"slot_machine_game":
@@ -541,7 +567,7 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 				"reels": [2, 2, 4],
 				"multiplier": 3.0,
 				"is_win": true,
-				"win_type": "체리 2개",
+				"win_type": LocaleManager.ui("체리 2개", "2 Cherries"),
 				"symbols": ["CHERRY", "CHERRY", "LEMON"],
 				"emojis": ["", "", ""],
 			}
@@ -552,7 +578,7 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._do_bet()
 			node._do_spin()
 			await _settle(1.6)
-			await _save("12_roulette_spin")
+			await _save(_shot_name(prefix, "12_roulette_spin"))
 			await _settle(1.7)
 		"big_wheel_game":
 			node._select_segment(0)
@@ -561,7 +587,7 @@ func _shot_casino_table(node_name: String, shot_name: String) -> void:
 			node._result_seg = 0
 			node._target_angle = node._compute_target(0)
 			await _settle(1.8)
-			await _save("12a_bigwheel_spin")
+			await _save(_shot_name(prefix, "12a_bigwheel_spin"))
 			await _settle(1.7)
 		"dai_sai_table":
 			node._select_bet(0, -1)

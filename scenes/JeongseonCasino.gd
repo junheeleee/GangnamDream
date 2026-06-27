@@ -87,17 +87,17 @@ func _close() -> void:
 
 func _refresh_balance() -> void:
 	if _balance_lbl:
-		_balance_lbl.text = _tr("잔액: ₩%s", "Balance: ₩%s") % _fmt(GameState.money)
+		_balance_lbl.text = _tr("잔액: %s", "Balance: %s") % GameState.format_money(float(GameState.money))
 	if _session_lbl:
 		var delta: int = GameState.money - _entry_balance
 		if delta > 0:
-			_session_lbl.text = "+₩%s" % _fmt(delta)
+			_session_lbl.text = "+%s" % GameState.format_money(float(delta))
 			_session_lbl.add_theme_color_override("font_color", Color("#3de87a"))
 		elif delta < 0:
-			_session_lbl.text = "-₩%s" % _fmt(-delta)
+			_session_lbl.text = GameState.format_money(float(delta))
 			_session_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
 		else:
-			_session_lbl.text = "±₩0"
+			_session_lbl.text = _tr("±0원", "±KRW 0")
 			_session_lbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.6))
 
 # ── UI 빌드 ──────────────────────────────────────────────────────

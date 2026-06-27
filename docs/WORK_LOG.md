@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex English Casino Surface QA)
+
+### 수정
+- `tools/ScreenshotQA.gd`: 카지노 전용 QA에 `--qa=casino-en` / `--qa=casino --lang=en` 모드를 추가. 영어 카지노 허브와 바카라/블랙잭/슬롯/룰렛/빅휠/다이사이 캡처를 `en_` 접두사로 생성해 외국 유저 표면 QA를 빠르게 반복할 수 있게 했다.
+- `scenes/JeongseonCasino.gd`: 영어 허브 잔액/세션 손익 표기를 `₩5,000,000` 대신 `KRW 5.0M` 계열의 `GameState.format_money()`로 통일.
+- `scenes/SlotMachineGame.gd`: 슬롯 하단 잔액 문구의 `₩KRW 10.0M` 중복 통화 표기 제거.
+- `tools/ScreenshotQA.gd`: 슬롯 QA 강제 당첨 데이터의 `체리 2개` 문자열을 로케일 기반 `2 Cherries`로 전환.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `english_hangul_audit.py` 통과.
+- `audit.py` ERROR 0 / WARNING 0.
+- `ScreenshotQA.tscn -- --qa=casino-en` 실행 완료. `en_08_jeongseon_casino`, `en_11_slot_machine`, `en_12_roulette_spin`, `en_12b_daisai_table` 직접 확인.
+
+---
+
 ## 2026-06-27 (Codex Final Surface QA Pass 1)
 
 ### 수정
