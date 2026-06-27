@@ -91,6 +91,9 @@ func _f(n, bold := false) -> void:
 			n.add_theme_font_override("normal_font", ft)
 			n.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 # ── 진입/종료 ──────────────────────────────────────────────────
 func open() -> void:
 	_shoe = BAC.new_shoe(_rng)
@@ -109,7 +112,7 @@ func _on_exit() -> void:
 	# 커미션 정산
 	if _commission > 0.0:
 		GameState.add_money(-_commission)
-		GameState.add_log("바카라 커미션 정산 -%s" % GameState.format_money(_commission), "money")
+		GameState.add_log(_tr("바카라 커미션 정산 -%s", "Baccarat commission paid -%s") % GameState.format_money(_commission), "money")
 	MetaProgression.record_minigame_play("baccarat")
 	set_process(false)
 	visible = false
@@ -146,7 +149,7 @@ func _process(delta: float) -> void:
 func _add_bet(type: String) -> void:
 	var add: int = _active_stake
 	if GameState.money < float(add + _total_bet()):
-		_flash("현금 부족", "#e85d5d"); return
+		_flash(_tr("현금 부족", "Insufficient cash"), "#e85d5d"); return
 	match type:
 		"P":  _bet_p  += add
 		"B":  _bet_b  += add
@@ -168,14 +171,14 @@ func _total_bet() -> int:
 # ── 딜 시작 ────────────────────────────────────────────────────
 func _deal() -> void:
 	if _total_bet() == 0:
-		_flash("베팅을 먼저 해주세요", "#e8c45d"); return
+		_flash(_tr("베팅을 먼저 해주세요", "Place a bet first"), "#e8c45d"); return
 	if GameState.money < float(_total_bet()):
-		_flash("현금 부족", "#e85d5d"); return
+		_flash(_tr("현금 부족", "Insufficient cash"), "#e85d5d"); return
 
 	# 슈 리셔플 체크
 	if BAC.shoe_remaining_ratio(_shoe) < SHOE_CUT:
 		_shoe = BAC.new_shoe(_rng)
-		_flash("🔀 슈 리셔플", "#d4a020")
+		_flash(_tr("🔀 슈 리셔플", "🔀 Shoe reshuffled"), "#d4a020")
 
 	GameState.add_money(-float(_total_bet()))
 	_result = BAC.play(_shoe)
@@ -274,8 +277,8 @@ func _finish_result() -> void:
 		_road.pop_front()
 	_start_road_fade()
 
-	GameState.add_log("바카라 %s%s %s" % [
-		res, " 내추럴" if (res == "player" and bool(_result.get("player_natural", false))) or
+	GameState.add_log(_tr("바카라 %s%s %s", "Baccarat %s%s %s") % [
+		res, _tr(" 내추럴", " natural") if (res == "player" and bool(_result.get("player_natural", false))) or
 			(res == "banker" and bool(_result.get("banker_natural", false))) else "",
 		("+%s" % GameState.format_money(net_round)) if net_round >= 0 else
 		GameState.format_money(net_round)], "money")
@@ -311,8 +314,8 @@ func _refresh_hud() -> void:
 	var comm_str: String = ""
 	if _commission > 0.0:
 		var hud_comm_col: String = "#f0d020" if _commission >= 100_000.0 else "#e8a05d"
-		comm_str = "   커미션 [color=%s]%s[/color]" % [hud_comm_col, GameState.format_money(_commission)]
-	_hud_lbl.text = "[b]현금 %s[/b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s" % [
+		comm_str = _tr("   커미션 [color=%s]%s[/color]", "   Commission [color=%s]%s[/color]") % [hud_comm_col, GameState.format_money(_commission)]
+	_hud_lbl.text = _tr("[b]현금 %s[/b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s", "[b]Cash %s[/b]   |   Round %d   W%d B%d T%d   P/L [b]%s[/b]   Shoe %d%%%s") % [
 		GameState.format_money(GameState.money), _rounds,
 		_p_wins, _b_wins, _ties,
 		("+%s" % GameState.format_money(_net)) if _net >= 0 else GameState.format_money(_net),
@@ -322,7 +325,7 @@ func _render_betting() -> void:
 	var vb := _make_vbox(12)
 
 	var title := Label.new()
-	title.text = "바카라"
+	title.text = _tr("바카라", "Baccarat")
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -344,27 +347,27 @@ func _render_betting() -> void:
 	var row1 := HBoxContainer.new()
 	row1.add_theme_constant_override("separation", 10)
 	vb.add_child(row1)
-	_add_bet_btn(row1, "PLAYER", "플레이어", "P", "#1a2a3a", "#3a6a9a")
-	_add_bet_btn(row1, "BANKER", "뱅커", "B", "#2a1a1a", "#9a3a3a")
-	_add_bet_btn(row1, "TIE", "타이  (8배)", "T", "#1a2a1a", "#3a7a3a")
+	_add_bet_btn(row1, "PLAYER", _tr("플레이어", "Player"), "P", "#1a2a3a", "#3a6a9a")
+	_add_bet_btn(row1, "BANKER", _tr("뱅커", "Banker"), "B", "#2a1a1a", "#9a3a3a")
+	_add_bet_btn(row1, "TIE", _tr("타이  (8배)", "Tie  (8x)"), "T", "#1a2a1a", "#3a7a3a")
 
 	# 페어 베팅 (선택)
 	var pair_lbl := Label.new()
-	pair_lbl.text = "사이드 베팅 (선택)"
+	pair_lbl.text = _tr("사이드 베팅 (선택)", "Side Bets (optional)")
 	pair_lbl.add_theme_font_size_override("font_size", 11)
 	pair_lbl.add_theme_color_override("font_color", Color("#4a5a6a"))
 	_f(pair_lbl); vb.add_child(pair_lbl)
 	var row2 := HBoxContainer.new()
 	row2.add_theme_constant_override("separation", 10)
 	vb.add_child(row2)
-	_add_bet_btn(row2, "플레이어 페어  (11배)", "PP베팅", "PP", "#18141e", "#5a3a7a")
-	_add_bet_btn(row2, "뱅커 페어  (11배)", "BP베팅", "BP", "#18141e", "#7a3a4a")
+	_add_bet_btn(row2, _tr("플레이어 페어  (11배)", "Player Pair  (11x)"), _tr("PP베팅", "PP Bet"), "PP", "#18141e", "#5a3a7a")
+	_add_bet_btn(row2, _tr("뱅커 페어  (11배)", "Banker Pair  (11x)"), _tr("BP베팅", "BP Bet"), "BP", "#18141e", "#7a3a4a")
 
 	vb.add_child(_sep())
 
 	# 베팅 단위 선택
 	var stake_lbl := Label.new()
-	stake_lbl.text = "베팅 단위 (클릭당)"
+	stake_lbl.text = _tr("베팅 단위 (클릭당)", "Bet Unit (per click)")
 	stake_lbl.add_theme_font_size_override("font_size", 11)
 	stake_lbl.add_theme_color_override("font_color", Color("#6a7a8a"))
 	_f(stake_lbl); vb.add_child(stake_lbl)
@@ -391,19 +394,19 @@ func _render_betting() -> void:
 	var action_row := HBoxContainer.new()
 	action_row.add_theme_constant_override("separation", 10)
 	vb.add_child(action_row)
-	var deal_btn := _make_btn("딜 시작", _deal, "#1a3a1a", "#3de87a")
+	var deal_btn := _make_btn(_tr("딜 시작", "Deal"), _deal, "#1a3a1a", "#3de87a")
 	deal_btn.custom_minimum_size = Vector2(0, 44)
 	deal_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	deal_btn.disabled = (_total_bet() == 0)
 	_f(deal_btn, true); action_row.add_child(deal_btn)
-	var clear_btn := _make_btn("베팅 초기화", _clear_bets, "#1a1a1a", "#4a4a5a")
+	var clear_btn := _make_btn(_tr("베팅 초기화", "Clear Bets"), _clear_bets, "#1a1a1a", "#4a4a5a")
 	clear_btn.custom_minimum_size = Vector2(100, 44)
 	action_row.add_child(clear_btn)
-	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#5a4510")
+	var help_btn := _make_btn(_tr("규칙", "Rules"), func(): TutorialOverlay.force_show("baccarat", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(60, 44)
 	action_row.add_child(help_btn)
 
-	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(80, 44)
 	action_row.add_child(exit_btn)
 
@@ -412,14 +415,14 @@ func _render_betting() -> void:
 	rules.bbcode_enabled = true; rules.fit_content = true; rules.scroll_active = false
 	_f(rules); rules.add_theme_font_size_override("normal_font_size", 11)
 	rules.add_theme_color_override("default_color", Color("#3a4a5a"))
-	rules.text = "플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음"
+	rules.text = _tr("플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음", "Player 1:1  ·  Banker 0.95:1 (5% commission)  ·  Tie 8:1  ·  Pair 11:1  ·  6-deck shoe  ·  Natural 8/9 stops drawing")
 	vb.add_child(rules)
 
 func _render_dealing() -> void:
 	var vb := _make_vbox(16)
 	_add_table_display(vb, true)
 	var dealing_lbl := Label.new()
-	dealing_lbl.text = "카드를 배분하는 중..."
+	dealing_lbl.text = _tr("카드를 배분하는 중...", "Dealing cards...")
 	dealing_lbl.add_theme_font_size_override("font_size", 14)
 	dealing_lbl.add_theme_color_override("font_color", Color("#7a9abf"))
 	dealing_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -432,7 +435,7 @@ func _render_result_screen() -> void:
 
 	# 결과 타이틀
 	var res := str(_result.get("result", ""))
-	var res_ko := {"player": "플레이어 승", "banker": "뱅커 승", "tie": "타이!"}
+	var res_ko := {"player": _tr("플레이어 승", "Player Wins"), "banker": _tr("뱅커 승", "Banker Wins"), "tie": _tr("타이!", "Tie!")}
 	var res_col := {"player": "#d4a020", "banker": "#e85d5d", "tie": "#f0b429"}
 	var nat_str := ""
 	if res == "player" and bool(_result.get("player_natural", false)): nat_str = "  [Natural!]"
@@ -445,8 +448,8 @@ func _render_result_screen() -> void:
 
 	# 페어 결과
 	var pair_parts: Array = []
-	if bool(_result.get("p_pair", false)): pair_parts.append("플레이어 페어!")
-	if bool(_result.get("b_pair", false)): pair_parts.append("뱅커 페어!")
+	if bool(_result.get("p_pair", false)): pair_parts.append(_tr("플레이어 페어!", "Player Pair!"))
+	if bool(_result.get("b_pair", false)): pair_parts.append(_tr("뱅커 페어!", "Banker Pair!"))
 	if not pair_parts.is_empty():
 		var pair_lbl := Label.new()
 		pair_lbl.text = "  /  ".join(pair_parts)
@@ -457,7 +460,7 @@ func _render_result_screen() -> void:
 	# 커미션 안내
 	if _commission > 0.0:
 		var comm_lbl := Label.new()
-		comm_lbl.text = "누적 커미션: %s (나갈 때 정산)" % GameState.format_money(_commission)
+		comm_lbl.text = _tr("누적 커미션: %s (나갈 때 정산)", "Accumulated commission: %s (paid on exit)") % GameState.format_money(_commission)
 		comm_lbl.add_theme_font_size_override("font_size", 12)
 		# 10만원 이상이면 노란색으로 강조
 		var comm_color: Color = Color("#f0d020") if _commission >= 100_000.0 else Color("#e8a05d")
@@ -470,11 +473,11 @@ func _render_result_screen() -> void:
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 10)
 	vb.add_child(btn_row)
-	var again_btn := _make_btn("다음 라운드", _next_round, "#1a2a1a", "#3de87a")
+	var again_btn := _make_btn(_tr("다음 라운드", "Next Round"), _next_round, "#1a2a1a", "#3de87a")
 	again_btn.custom_minimum_size = Vector2(0, 48)
 	again_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(again_btn, true); btn_row.add_child(again_btn)
-	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(100, 48)
 	btn_row.add_child(exit_btn)
 
@@ -513,7 +516,7 @@ func _draw_bet_zone(ctrl: Control, rect: Rect2, label: String, amount: int, col:
 	ctrl.draw_rect(rect, Color(col.r, col.g, col.b, 0.55 if amount > 0 else 0.34), false, 2.0 if amount > 0 else 1.0)
 	ctrl.draw_string(bold, rect.position + Vector2(0, 28), label,
 		HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 18, col.lightened(0.34))
-	var amount_text: String = GameState.format_money(float(amount)) if amount > 0 else "베팅 없음"
+	var amount_text: String = GameState.format_money(float(amount)) if amount > 0 else _tr("베팅 없음", "No Bet")
 	ctrl.draw_string(font, rect.position + Vector2(0, 57), amount_text,
 		HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 12, Color("#dce4f0") if amount > 0 else Color(1, 1, 1, 0.30))
 	if amount > 0:
@@ -777,14 +780,14 @@ func _get_bet_for_type(type: String) -> int:
 
 func _bet_status_text() -> String:
 	var parts: Array = []
-	if _bet_p  > 0: parts.append("[color=#d4a020]플 %s[/color]" % GameState.format_money(float(_bet_p)))
-	if _bet_b  > 0: parts.append("[color=#e85d5d]뱅 %s[/color]" % GameState.format_money(float(_bet_b)))
-	if _bet_t  > 0: parts.append("[color=#f0b429]타이 %s[/color]" % GameState.format_money(float(_bet_t)))
+	if _bet_p  > 0: parts.append(_tr("[color=#d4a020]플 %s[/color]", "[color=#d4a020]P %s[/color]") % GameState.format_money(float(_bet_p)))
+	if _bet_b  > 0: parts.append(_tr("[color=#e85d5d]뱅 %s[/color]", "[color=#e85d5d]B %s[/color]") % GameState.format_money(float(_bet_b)))
+	if _bet_t  > 0: parts.append(_tr("[color=#f0b429]타이 %s[/color]", "[color=#f0b429]Tie %s[/color]") % GameState.format_money(float(_bet_t)))
 	if _bet_pp > 0: parts.append("[color=#d4a0ff]PP %s[/color]" % GameState.format_money(float(_bet_pp)))
 	if _bet_bp > 0: parts.append("[color=#d4a0ff]BP %s[/color]" % GameState.format_money(float(_bet_bp)))
 	if parts.is_empty():
-		return "[color=#3a4a5a]베팅 없음[/color]"
-	var total := "[b]총 %s[/b]" % GameState.format_money(float(_total_bet()))
+		return _tr("[color=#3a4a5a]베팅 없음[/color]", "[color=#3a4a5a]No Bet[/color]")
+	var total := _tr("[b]총 %s[/b]", "[b]Total %s[/b]") % GameState.format_money(float(_total_bet()))
 	return "  ".join(parts) + "   " + total
 
 func _card_widget(card: int) -> Control:
@@ -1021,7 +1024,7 @@ func _draw_road() -> void:
 
 	var f := _font if _font else ThemeDB.fallback_font
 	# 제목
-	_road_ctrl.draw_string(f, Vector2(6, 18), "로드맵",
+	_road_ctrl.draw_string(f, Vector2(6, 18), _tr("로드맵", "Roadmap"),
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#5a6a7a"))
 
 	# 격자 (6열 x 6행)

@@ -91,17 +91,17 @@ static func label_for_bet(bet_type: int, selected: int = -1) -> String:
 		BET_SMALL:
 			return "SMALL"
 		BET_ODD:
-			return "홀수"
+			return LocaleManager.ui("홀수", "ODD")
 		BET_EVEN:
-			return "짝수"
+			return LocaleManager.ui("짝수", "EVEN")
 		BET_SINGLE:
-			return "%d 싱글" % selected
+			return LocaleManager.ui("%d 싱글", "%d Single") % selected
 		BET_PAIR:
-			return "%d 페어" % selected
+			return LocaleManager.ui("%d 페어", "%d Pair") % selected
 		BET_ANY_TRIPLE:
 			return "ANY TRIPLE"
 		BET_SPECIFIC_TRIPLE:
 			return "%d%d%d" % [selected, selected, selected]
 		BET_TOTAL:
-			return "합계 %d" % selected
-	return "베팅 없음"
+			return LocaleManager.ui("합계 %d", "Total %d") % selected
+	return LocaleManager.ui("베팅 없음", "No Bet")

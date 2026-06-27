@@ -50,6 +50,9 @@ func _f(n: Control, bold: bool = false) -> void:
 		if n is RichTextLabel:
 			n.add_theme_font_override("normal_font", ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 func open() -> void:
 	visible = true
 	modulate.a = 0.0
@@ -64,7 +67,10 @@ func open() -> void:
 	if not GameState.flags.get("jeongseon_first_visit", false):
 		GameState.flags["jeongseon_first_visit"] = true
 		if _msg_lbl:
-			_msg_lbl.text = "처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다."
+			_msg_lbl.text = _tr(
+				"처음 왔군요.\n화려한 조명과 기계음이 섞인 공간 — 이곳이 정선 카지노입니다.",
+				"First time here.\nLights, machine noise, and felt tables — this is Jeongseon Casino."
+			)
 	_refresh_balance()
 
 func _close() -> void:
@@ -81,7 +87,7 @@ func _close() -> void:
 
 func _refresh_balance() -> void:
 	if _balance_lbl:
-		_balance_lbl.text = "잔액: ₩%s" % _fmt(GameState.money)
+		_balance_lbl.text = _tr("잔액: ₩%s", "Balance: ₩%s") % _fmt(GameState.money)
 	if _session_lbl:
 		var delta: int = GameState.money - _entry_balance
 		if delta > 0:
@@ -127,7 +133,7 @@ func _build_ui() -> void:
 	header.add_child(hrow)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "정선 카지노"
+	title_lbl.text = _tr("정선 카지노", "Jeongseon Casino")
 	title_lbl.add_theme_font_size_override("font_size", 24)
 	title_lbl.add_theme_color_override("font_color", COLOR_GOLD)
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -146,14 +152,14 @@ func _build_ui() -> void:
 	_f(_session_lbl, true)
 	hrow.add_child(_session_lbl)
 
-	var exit_btn := _make_btn("나가기", "#6a6a6a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), "#6a6a6a")
 	exit_btn.custom_minimum_size = Vector2(90, 44)
 	exit_btn.pressed.connect(_close)
 	hrow.add_child(exit_btn)
 
 	# ── 메시지 ──
 	_msg_lbl = Label.new()
-	_msg_lbl.text = "원하는 게임을 선택하세요"
+	_msg_lbl.text = _tr("원하는 게임을 선택하세요", "Choose a game")
 	_msg_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_msg_lbl.add_theme_font_size_override("font_size", 14)
 	_msg_lbl.add_theme_color_override("font_color", Color(0.7, 0.65, 0.8))
@@ -179,28 +185,34 @@ func _build_ui() -> void:
 	gm.add_child(grid)
 	root.add_child(gm)
 
-	_add_game_card(grid, "cards", "바카라",
-		"뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~",
+	_add_game_card(grid, "cards", _tr("바카라", "Baccarat"),
+		_tr("뱅커 vs 플레이어\n6덱 슈 · 로드맵 · 커미션\n하우스엣지 1.06%~",
+			"Banker vs Player\n6-deck shoe · roadmap · commission\nHouse edge from 1.06%"),
 		"#1a0f20", "#7a3a8a", "_launch_baccarat", "baccarat", "B")
 
-	_add_game_card(grid, "cards", "블랙잭",
-		"기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~",
+	_add_game_card(grid, "cards", _tr("블랙잭", "Blackjack"),
+		_tr("기본전략 힌트 내장\n더블다운 · 스플릿\n하우스엣지 0.5%~",
+			"Basic-strategy hint\nDouble down · split\nHouse edge from 0.5%"),
 		"#1a2e1a", "#4aff4a", "_launch_blackjack", "blackjack", "21")
 
-	_add_game_card(grid, "chip", "슬롯머신",
-		"777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%",
+	_add_game_card(grid, "chip", _tr("슬롯머신", "Slot Machine"),
+		_tr("777 잭팟 200배\n체리 조합으로 소액 당첨\n이론 RTP 90%",
+			"777 jackpot 200x\nCherry hits pay small prizes\nTheoretical RTP 90%"),
 		"#2e1a1a", "#ff4a4a", "_launch_slot", "slot", "777")
 
-	_add_game_card(grid, "chip", "룰렛",
-		"유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%",
+	_add_game_card(grid, "chip", _tr("룰렛", "Roulette"),
+		_tr("유럽식 룰렛 0~36\n단일숫자 35:1 최고배당\n하우스엣지 2.70%",
+			"European wheel 0-36\nStraight number pays 35:1\nHouse edge 2.70%"),
 		"#1a2e2a", "#4affcc", "_launch_roulette", "roulette", "0-36")
 
-	_add_game_card(grid, "chip", "다이사이",
-		"주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1",
+	_add_game_card(grid, "chip", _tr("다이사이", "Dai Sai"),
+		_tr("주사위 3개 합계 승부\nBIG·SMALL·페어·트리플\n최고배당 150:1",
+			"Three dice, many calls\nBIG · SMALL · pairs · triples\nTop payout 150:1"),
 		"#1f1a2e", "#b78cff", "_launch_daisai", "daisai", "3D6")
 
-	_add_game_card(grid, "chip", "빅휠",
-		"바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임",
+	_add_game_card(grid, "chip", _tr("빅휠", "Big Wheel"),
+		_tr("바늘이 멈춘 구역 배당\n조커 45:1 최고배당\n가장 단순한 카지노 게임",
+			"Bet where the pointer stops\nJoker pays 45:1\nThe simplest casino game"),
 		"#2e2a1a", "#ffcc4a", "_launch_bigwheel", "bigwheel", "x45")
 
 	# ── 안내 + 용어 버튼 ──
@@ -213,7 +225,7 @@ func _build_ui() -> void:
 	bottom_margin.add_child(bottom_row)
 	root.add_child(bottom_margin)
 	var tip_lbl := Label.new()
-	tip_lbl.text = "도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요."
+	tip_lbl.text = _tr("도박은 중독성이 있습니다. 적정 한도 내에서 즐기세요.", "Gambling is addictive. Set limits before you play.")
 	tip_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	tip_lbl.add_theme_font_size_override("font_size", 11)
 	tip_lbl.add_theme_color_override("font_color", Color(0.5, 0.4, 0.4))
@@ -221,7 +233,7 @@ func _build_ui() -> void:
 	tip_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_f(tip_lbl)
 	bottom_row.add_child(tip_lbl)
-	var gloss_btn := _make_btn("용어 설명", "#1a1a2a")
+	var gloss_btn := _make_btn(_tr("용어 설명", "Glossary"), "#1a1a2a")
 	gloss_btn.custom_minimum_size = Vector2(100, 32)
 	gloss_btn.pressed.connect(_show_casino_glossary)
 	bottom_row.add_child(gloss_btn)
@@ -303,7 +315,7 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 
 	if tutorial_id != "":
 		var help_btn := Button.new()
-		help_btn.text = "규칙"
+		help_btn.text = _tr("규칙", "Rules")
 		help_btn.add_theme_font_size_override("font_size", 11)
 		var hbs := StyleBoxFlat.new()
 		hbs.bg_color = Color(0.0, 0.0, 0.0, 0.0)
@@ -328,7 +340,7 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 		btn_row.add_child(help_btn)
 
 	var btn := Button.new()
-	btn.text = "입장"
+	btn.text = _tr("입장", "Enter")
 	btn.add_theme_font_size_override("font_size", 13)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bs := StyleBoxFlat.new()
@@ -531,7 +543,7 @@ func _draw_mini_die(ctrl: Control, pos: Vector2, size: float, value: int) -> voi
 # ── 게임 런처 ─────────────────────────────────────────────────
 func _launch_baccarat() -> void:
 	if not baccarat_table:
-		_msg_lbl.text = "바카라 테이블을 불러올 수 없습니다."
+		_msg_lbl.text = _tr("바카라 테이블을 불러올 수 없습니다.", "Baccarat table is unavailable.")
 		return
 	visible = false
 	baccarat_table.open()
@@ -540,7 +552,7 @@ func _launch_baccarat() -> void:
 
 func _launch_blackjack() -> void:
 	if not blackjack_table:
-		_msg_lbl.text = "블랙잭 테이블을 불러올 수 없습니다."
+		_msg_lbl.text = _tr("블랙잭 테이블을 불러올 수 없습니다.", "Blackjack table is unavailable.")
 		return
 	visible = false
 	blackjack_table.open()
@@ -549,7 +561,7 @@ func _launch_blackjack() -> void:
 
 func _launch_slot() -> void:
 	if not slot_machine_game:
-		_msg_lbl.text = "슬롯머신을 불러올 수 없습니다."
+		_msg_lbl.text = _tr("슬롯머신을 불러올 수 없습니다.", "Slot machine is unavailable.")
 		return
 	visible = false
 	slot_machine_game.open()
@@ -558,7 +570,7 @@ func _launch_slot() -> void:
 
 func _launch_roulette() -> void:
 	if not roulette_table:
-		_msg_lbl.text = "룰렛 테이블을 불러올 수 없습니다."
+		_msg_lbl.text = _tr("룰렛 테이블을 불러올 수 없습니다.", "Roulette table is unavailable.")
 		return
 	visible = false
 	roulette_table.open()
@@ -567,7 +579,7 @@ func _launch_roulette() -> void:
 
 func _launch_bigwheel() -> void:
 	if not big_wheel_game:
-		_msg_lbl.text = "빅휠을 불러올 수 없습니다."
+		_msg_lbl.text = _tr("빅휠을 불러올 수 없습니다.", "Big Wheel is unavailable.")
 		return
 	visible = false
 	big_wheel_game.open()
@@ -576,7 +588,7 @@ func _launch_bigwheel() -> void:
 
 func _launch_daisai() -> void:
 	if not dai_sai_table:
-		_msg_lbl.text = "다이사이 테이블을 불러올 수 없습니다."
+		_msg_lbl.text = _tr("다이사이 테이블을 불러올 수 없습니다.", "Dai Sai table is unavailable.")
 		return
 	visible = false
 	dai_sai_table.open()
@@ -643,22 +655,22 @@ func _show_casino_glossary() -> void:
 	overlay.add_child(mc)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "카지노 용어 설명"
+	title_lbl.text = _tr("카지노 용어 설명", "Casino Glossary")
 	title_lbl.add_theme_font_size_override("font_size", 18)
 	title_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 	_f(title_lbl, true)
 	vbox.add_child(title_lbl)
 
 	var TERMS := [
-		["하우스엣지", "카지노가 장기적으로 가져가는 수익 비율. 바카라 뱅커 1.06%, 블랙잭 기본전략 0.5%, 룰렛 2.70%. 오래 할수록 이 비율만큼 잃는 게 수학적 법칙이다."],
-		["RTP", "Return To Player. 100만원 투입 시 장기적으로 돌아오는 금액 비율. 슬롯 RTP 90%면 이론상 90만원 반환. 단기에선 크게 벗어날 수 있다."],
-		["배당률", "배팅 금액 대비 당첨 시 받는 배수. 룰렛 단일 숫자 35:1, 빅휠 조커 45:1, 블랙잭 내추럴 1.5:1."],
-		["내추럴 (바카라)", "처음 두 장의 합이 8 또는 9인 경우. 추가 카드 없이 즉시 결판. 뱅커·플레이어 모두 내추럴이면 무승부."],
-		["커미션 (바카라)", "뱅커 승리 시 카지노가 가져가는 수수료, 통상 5%. 뱅커 배당률이 0.95:1인 이유."],
-		["더블다운 (블랙잭)", "첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리."],
-		["다이사이", "세 개의 주사위 결과에 거는 카지노 게임. 빅/스몰은 이해하기 쉽지만, 트리플이나 합계 베팅은 배당이 큰 만큼 확률이 낮다."],
-		["빅/스몰 (다이사이)", "주사위 합계 11~17은 빅, 4~10은 스몰. 단, 세 주사위가 모두 같은 트리플이면 빅/스몰은 패배 처리된다."],
-		["마틴게일", "질 때마다 배팅액을 2배로 늘리는 전략. 이론상 한 번 이기면 원금 회복. 자금이 바닥나거나 한도에 걸리면 전액 손실."],
+		[_tr("하우스엣지", "House Edge"), _tr("카지노가 장기적으로 가져가는 수익 비율. 바카라 뱅커 1.06%, 블랙잭 기본전략 0.5%, 룰렛 2.70%. 오래 할수록 이 비율만큼 잃는 게 수학적 법칙이다.", "The long-term percentage the casino keeps. Banker baccarat is about 1.06%, basic-strategy blackjack about 0.5%, roulette 2.70%. The longer you play, the more the math asserts itself.")],
+		[_tr("RTP", "RTP"), _tr("Return To Player. 100만원 투입 시 장기적으로 돌아오는 금액 비율. 슬롯 RTP 90%면 이론상 90만원 반환. 단기에선 크게 벗어날 수 있다.", "Return To Player. If a slot has 90% RTP, KRW 1,000,000 wagered returns KRW 900,000 in theory over the long run. Short-term results can swing wildly.")],
+		[_tr("배당률", "Payout"), _tr("배팅 금액 대비 당첨 시 받는 배수. 룰렛 단일 숫자 35:1, 빅휠 조커 45:1, 블랙잭 내추럴 1.5:1.", "The multiplier paid when a bet wins. Roulette straight number pays 35:1, Big Wheel joker 45:1, blackjack natural 1.5:1.")],
+		[_tr("내추럴 (바카라)", "Natural (Baccarat)"), _tr("처음 두 장의 합이 8 또는 9인 경우. 추가 카드 없이 즉시 결판. 뱅커·플레이어 모두 내추럴이면 무승부.", "A first two-card total of 8 or 9. No more cards are drawn. If both Banker and Player have naturals, compare totals or tie.")],
+		[_tr("커미션 (바카라)", "Commission (Baccarat)"), _tr("뱅커 승리 시 카지노가 가져가는 수수료, 통상 5%. 뱅커 배당률이 0.95:1인 이유.", "The fee the casino takes on Banker wins, usually 5%. This is why Banker pays 0.95:1 instead of even money.")],
+		[_tr("더블다운 (블랙잭)", "Double Down (Blackjack)"), _tr("첫 두 장 받은 후 배팅액을 2배로 늘리고 카드를 한 장만 더 받는 것. 합이 10·11일 때 유리.", "After the first two cards, double your bet and take exactly one more card. Often strong on totals of 10 or 11.")],
+		[_tr("다이사이", "Dai Sai"), _tr("세 개의 주사위 결과에 거는 카지노 게임. 빅/스몰은 이해하기 쉽지만, 트리플이나 합계 베팅은 배당이 큰 만큼 확률이 낮다.", "A casino dice game using three dice. BIG/SMALL is easy to understand; triples and exact totals pay more because they are much rarer.")],
+		[_tr("빅/스몰 (다이사이)", "BIG/SMALL (Dai Sai)"), _tr("주사위 합계 11~17은 빅, 4~10은 스몰. 단, 세 주사위가 모두 같은 트리플이면 빅/스몰은 패배 처리된다.", "Totals 11-17 are BIG, 4-10 are SMALL. But if all three dice match, BIG/SMALL bets lose.")],
+		[_tr("마틴게일", "Martingale"), _tr("질 때마다 배팅액을 2배로 늘리는 전략. 이론상 한 번 이기면 원금 회복. 자금이 바닥나거나 한도에 걸리면 전액 손실.", "A strategy that doubles the bet after each loss. One win recovers the sequence in theory, but table limits or a cash shortage can wipe you out.")],
 	]
 	for pair in TERMS:
 		var term_vbox := VBoxContainer.new()
@@ -678,7 +690,7 @@ func _show_casino_glossary() -> void:
 		_f(def_lbl)
 		term_vbox.add_child(def_lbl)
 
-	var close_btn := _make_btn("카지노 허브로", "#1a1a2e")
+	var close_btn := _make_btn(_tr("카지노 허브로", "Back to Casino"), "#1a1a2e")
 	close_btn.pressed.connect(func(): overlay.queue_free())
 	vbox.add_child(close_btn)
 

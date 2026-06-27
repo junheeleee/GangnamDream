@@ -102,6 +102,9 @@ func _f(n: Object, bold: bool = false) -> void:
 			n.add_theme_font_override("normal_font", ft)
 			n.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 # ── 진입/종료 ──────────────────────────────────────────────────
 func open() -> void:
 	_phase               = Phase.IDLE
@@ -185,9 +188,9 @@ func _do_spin() -> void:
 	if _phase != Phase.IDLE:
 		return
 	if _bet_segment < 0:
-		_flash_msg("세그먼트를 먼저 선택해 주세요", "#e8c45d"); return
+		_flash_msg(_tr("세그먼트를 먼저 선택해 주세요", "Choose a segment first"), "#e8c45d"); return
 	if int(GameState.money) < _stake:
-		_flash_msg("현금이 부족합니다", "#e85d5d"); return
+		_flash_msg(_tr("현금이 부족합니다", "Not enough cash"), "#e85d5d"); return
 
 	GameState.add_money(-float(_stake))
 
@@ -263,11 +266,11 @@ func _finish_spin() -> void:
 		# 카운트업 애니메이션 (0.6초)
 		_count_label_ref = _msg_lbl
 		_msg_lbl.add_theme_color_override("font_color", Color("#3de87a"))
-		_msg_lbl.text = "당첨!  %s배   +%s" % [_segment_display_label(seg), "0원"]
+		_msg_lbl.text = _tr("당첨!  %s배   +%s", "Win!  %s x   +%s") % [_segment_display_label(seg), _tr("0원", "₩0")]
 		_msg_lbl.visible = true
 		_animate_winnings(win_amount, _msg_lbl)
 	else:
-		_flash_msg("꽝   결과: %s" % _segment_display_label(seg), "#e85d5d")
+		_flash_msg(_tr("꽝   결과: %s", "Loss   Result: %s") % _segment_display_label(seg), "#e85d5d")
 
 	get_tree().create_timer(2.4).timeout.connect(func():
 		if is_instance_valid(self) and _phase == Phase.RESULT:
@@ -321,7 +324,7 @@ func _update_count_label(val: int) -> void:
 	if is_instance_valid(_count_label_ref):
 		var seg: int = _result_seg
 		var lbl_str: String = _segment_display_label(seg)
-		_count_label_ref.text = "당첨!  %s배   +%s" % [
+		_count_label_ref.text = _tr("당첨!  %s배   +%s", "Win!  %s x   +%s") % [
 			lbl_str, GameState.format_money(float(val))]
 
 # ── UI 빌드 ──────────────────────────────────────────────────
@@ -458,7 +461,7 @@ func _build_ui() -> void:
 
 	# ── 세그먼트 베팅 버튼 (6개) ──
 	var bet_title := Label.new()
-	bet_title.text = "베팅 구역 선택"
+	bet_title.text = _tr("베팅 구역 선택", "Choose Segment")
 	bet_title.add_theme_font_size_override("font_size", 11)
 	bet_title.add_theme_color_override("font_color", Color("#7a5a2a"))
 	_f(bet_title)
@@ -474,16 +477,16 @@ func _build_ui() -> void:
 		var slots_n: int     = int(SEG_SLOTS[i])
 		var btn_text: String
 		if i == 5:
-			btn_text = "JOKER\n(%.0f:1)\n%d칸" % [pay_val, slots_n]
+			btn_text = _tr("JOKER\n(%.0f:1)\n%d칸", "JOKER\n(%.0f:1)\n%d slots") % [pay_val, slots_n]
 		else:
-			btn_text = "%s배당\n(%.0f:1)\n%d칸" % [lbl_str, pay_val, slots_n]
+			btn_text = _tr("%s배당\n(%.0f:1)\n%d칸", "%s bet\n(%.0f:1)\n%d slots") % [lbl_str, pay_val, slots_n]
 		var btn := _make_seg_btn(btn_text, i)
 		_seg_btns.append(btn)
 		seg_row.add_child(btn)
 
 	# ── 스테이크 버튼 ──
 	var stake_title := Label.new()
-	stake_title.text = "베팅 금액"
+	stake_title.text = _tr("베팅 금액", "Stake")
 	stake_title.add_theme_font_size_override("font_size", 11)
 	stake_title.add_theme_color_override("font_color", Color("#7a5a2a"))
 	_f(stake_title)
@@ -520,19 +523,19 @@ func _build_ui() -> void:
 	_spin_btn.add_theme_font_size_override("font_size", 18)
 	action_row.add_child(_spin_btn)
 
-	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("bigwheel", self), "#0a0a1a", "#5a4510")
+	var help_btn := _make_btn(_tr("규칙", "Rules"), func(): TutorialOverlay.force_show("bigwheel", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(64, 50)
 	_f(help_btn)
 	action_row.add_child(help_btn)
 
-	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(90, 50)
 	_f(exit_btn)
 	action_row.add_child(exit_btn)
 
 	# ── 최근 결과 ──
 	var hist_title := Label.new()
-	hist_title.text = "최근 결과"
+	hist_title.text = _tr("최근 결과", "Recent Results")
 	hist_title.add_theme_font_size_override("font_size", 11)
 	hist_title.add_theme_color_override("font_color", Color("#5a3a1a"))
 	_f(hist_title)
@@ -659,7 +662,7 @@ func _on_wheel_draw() -> void:
 		var rl: String  = str(SEG_LABELS[_result_seg])
 		var rc: Color   = Color(str(SEG_COLORS[_result_seg]))
 		_wheel_ctrl.draw_string(f, Vector2(cx - 28.0, cy + r + 22.0),
-			"결과: %s" % rl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, rc)
+			_tr("결과: %s", "Result: %s") % rl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, rc)
 
 	_draw_result_plate(Vector2(cx + r + 58.0, cy - 72.0), f)
 
@@ -679,7 +682,7 @@ func _draw_result_plate(pos: Vector2, font: Font) -> void:
 		accent = Color(str(SEG_COLORS[_result_seg]))
 		title = "WINNER"
 		body = "%s x" % _segment_display_label(_result_seg)
-		sub = "%.0f:1  /  %d칸" % [float(SEG_PAYOUTS[_result_seg]), int(SEG_SLOTS[_result_seg])]
+		sub = _tr("%.0f:1  /  %d칸", "%.0f:1  /  %d slots") % [float(SEG_PAYOUTS[_result_seg]), int(SEG_SLOTS[_result_seg])]
 	_wheel_ctrl.draw_rect(Rect2(rect.position + Vector2(0, 5), rect.size), Color(0, 0, 0, 0.30), true)
 	_wheel_ctrl.draw_rect(rect, Color(0.045, 0.020, 0.010, 0.86), true)
 	_wheel_ctrl.draw_rect(rect, Color(accent.r, accent.g, accent.b, 0.78), false, 2.0)
@@ -702,9 +705,10 @@ func _refresh() -> void:
 func _refresh_hud() -> void:
 	var phase_str: String = ""
 	if _phase == Phase.SPINNING:
-		phase_str = "   [color=#f0b429]스핀 중...[/color]"
+		phase_str = _tr("   [color=#f0b429]스핀 중...[/color]", "   [color=#f0b429]Spinning...[/color]")
 	_hud_lbl.text = (
-		"[b]빅휠[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s"
+		_tr("[b]빅휠[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s",
+			"[b]Big Wheel[/b]   |   Cash [b]%s[/b]   |   Round %d   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   Net [b]%s[/b]%s")
 		% [
 			GameState.format_money(GameState.money),
 			_rounds, _wins, _losses,
@@ -822,7 +826,7 @@ func _refresh_history() -> void:
 
 func _refresh_balance() -> void:
 	if is_instance_valid(_balance_lbl):
-		_balance_lbl.text = "잔액: %s   |   베팅: %s" % [
+		_balance_lbl.text = _tr("잔액: %s   |   베팅: %s", "Balance: %s   |   Stake: %s") % [
 			GameState.format_money(GameState.money),
 			GameState.format_money(float(_stake))
 		]

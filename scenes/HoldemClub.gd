@@ -21,8 +21,8 @@ var _deck: Array = []
 var _community: Array = []        # 공개된 커뮤니티 카드 0~5
 var _hole: Array = []             # 플레이어 홀 카드 2장
 var _opp: Array = [               # AI 상대 2명
-	{"name": "조용한 남자", "hole": [], "folded": false, "stack": 0, "aggression": 0.25},
-	{"name": "소란스러운 여자", "hole": [], "folded": false, "stack": 0, "aggression": 0.72},
+	{"name_id": 0, "hole": [], "folded": false, "stack": 0, "aggression": 0.25},
+	{"name_id": 1, "hole": [], "folded": false, "stack": 0, "aggression": 0.72},
 ]
 var _pot: int = 0
 var _player_stack: int = 0
@@ -82,6 +82,23 @@ func _f(n: Control, bold := false) -> void:
 			n.add_theme_font_override("normal_font", ft)
 			n.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
+func _opp_name(idx: int) -> String:
+	if idx < 0 or idx >= _opp.size():
+		return "?"
+	var o: Dictionary = _opp[idx]
+	match int(o.get("name_id", idx)):
+		0:
+			return _tr("조용한 남자", "Quiet Man")
+		1:
+			return _tr("소란스러운 여자", "Loud Woman")
+	return "?"
+
+func _player_display_name() -> String:
+	return LocaleManager.ui("김민준", "Kim Minjun")
+
 # ── 진입 ──────────────────────────────────────────────────────────
 func open() -> void:
 	_net_session = 0
@@ -105,7 +122,7 @@ func _show_buyin_screen() -> void:
 	var vb := _content_vbox()
 
 	var title := Label.new()
-	title.text = "지하 홀덤 클럽"
+	title.text = _tr("지하 홀덤 클럽", "Underground Hold'em Club")
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -113,7 +130,7 @@ func _show_buyin_screen() -> void:
 	vb.add_child(title)
 
 	var sub := Label.new()
-	sub.text = "No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드"
+	sub.text = _tr("No-Limit Texas Hold'em  ·  5,000 / 10,000 블라인드", "No-Limit Texas Hold'em  ·  5,000 / 10,000 blinds")
 	sub.add_theme_font_size_override("font_size", 12)
 	sub.add_theme_color_override("font_color", Color("#5a6075"))
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -121,7 +138,7 @@ func _show_buyin_screen() -> void:
 	vb.add_child(sub)
 
 	var money_lbl := Label.new()
-	money_lbl.text = "보유 현금: %s" % _fmt(GameState.money)
+	money_lbl.text = _tr("보유 현금: %s", "Cash: %s") % _fmt(GameState.money)
 	money_lbl.add_theme_font_size_override("font_size", 13)
 	money_lbl.add_theme_color_override("font_color", Color("#a0c8a0"))
 	money_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -132,7 +149,7 @@ func _show_buyin_screen() -> void:
 
 	var info := RichTextLabel.new()
 	info.bbcode_enabled = true
-	info.text = "[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[/color]"
+	info.text = _tr("[color=#7a8a9a]• 상대방 2명과 1:1:1 대결\n• 상금은 모두 테이블 위로\n• 언제든 자리를 뜰 수 있습니다[/color]", "[color=#7a8a9a]• Play 1:1:1 against two opponents\n• The prize pool stays on the table\n• You can leave the seat anytime[/color]")
 	info.fit_content = true
 	info.scroll_active = false
 	_f(info)
@@ -143,7 +160,7 @@ func _show_buyin_screen() -> void:
 	vb.add_child(spacer)
 
 	var buy_lbl := Label.new()
-	buy_lbl.text = "바이인 금액 선택"
+	buy_lbl.text = _tr("바이인 금액 선택", "Choose Buy-In")
 	buy_lbl.add_theme_font_size_override("font_size", 13)
 	buy_lbl.add_theme_color_override("font_color", Color("#c0c8d0"))
 	_f(buy_lbl, true)
@@ -166,11 +183,11 @@ func _show_buyin_screen() -> void:
 
 	vb.add_child(_sep())
 
-	var rules_btn := _make_btn("게임 규칙 보기", func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
+	var rules_btn := _make_btn(_tr("게임 규칙 보기", "View Rules"), func(): TutorialOverlay.force_show("holdem", self), "#0a0a1a")
 	rules_btn.custom_minimum_size = Vector2(0, 38)
 	vb.add_child(rules_btn)
 
-	var leave := _make_btn("자리를 뜬다", _leave, "#2a1818")
+	var leave := _make_btn(_tr("자리를 뜬다", "Leave Seat"), _leave, "#2a1818")
 	vb.add_child(leave)
 
 # ── 핸드 시작 ─────────────────────────────────────────────────────
@@ -246,13 +263,21 @@ func _render_table() -> void:
 	# 헤더 + 세션 통계
 	var hdr := RichTextLabel.new()
 	hdr.bbcode_enabled = true
-	var phase_names := ["설정", "프리플랍", "플랍", "턴", "리버", "쇼다운", "결과"]
+	var phase_names := [
+		_tr("설정", "Setup"),
+		_tr("프리플랍", "Preflop"),
+		_tr("플랍", "Flop"),
+		_tr("턴", "Turn"),
+		_tr("리버", "River"),
+		_tr("쇼다운", "Showdown"),
+		_tr("결과", "Result")
+	]
 	var winrate_str: String = ""
 	var total_hands := _session_won + _session_lost
 	if total_hands > 0:
-		winrate_str = "   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]" % [
+		winrate_str = _tr("   [color=#5a6a7a]승률 %d%% (%dW/%dL)[/color]", "   [color=#5a6a7a]Win Rate %d%% (%dW/%dL)[/color]") % [
 			roundi(float(_session_won) / float(total_hands) * 100.0), _session_won, _session_lost]
-	hdr.text = "[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s" % [
+	hdr.text = _tr("[b][color=#f0b429]지하 홀덤 클럽[/color][/b]   [color=#3a4a5a]%s[/color]%s", "[b][color=#f0b429]Underground Hold'em Club[/color][/b]   [color=#3a4a5a]%s[/color]%s") % [
 		phase_names[_phase], winrate_str]
 	hdr.fit_content = true
 	hdr.scroll_active = false
@@ -269,7 +294,7 @@ func _render_table() -> void:
 			var col := "#5de89c" if h["won"] else "#e85d5d"
 			var icon := "▲" if h["won"] else "▼"
 			parts.append("[color=%s]%s%s[/color]" % [col, icon, str(h["hand"]).substr(0, 3)])
-		hist_rt.text = "히스토리: " + "  ".join(parts)
+		hist_rt.text = _tr("히스토리: ", "History: ") + "  ".join(parts)
 		root.add_child(hist_rt)
 
 	var pot_box := HBoxContainer.new()
@@ -297,7 +322,7 @@ func _render_table() -> void:
 	if not _community.is_empty() and not _player_folded:
 		var hand := TH.best_hand(_hole + _community)
 		var hint := Label.new()
-		hint.text = "현재: %s" % TH.rank_name(hand[0])
+		hint.text = _tr("현재: %s", "Current: %s") % TH.rank_name(hand[0])
 		hint.add_theme_font_size_override("font_size", 11)
 		hint.add_theme_color_override("font_color", Color("#c9a227"))
 		_f(hint)
@@ -327,10 +352,10 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 	parent.add_child(table)
 	_table_surface = table
 
-	_build_holdem_seat(table, 0, _opp[0]["name"], _opp[0]["hole"], int(_opp[0]["stack"]),
+	_build_holdem_seat(table, 0, _opp_name(0), _opp[0]["hole"], int(_opp[0]["stack"]),
 			int(_opp_bets[0]), bool(_opp[0]["folded"]), _phase == Phase.SHOWDOWN and not bool(_opp[0]["folded"]),
 			0.06, 0.07, 0.34, 0.37)
-	_build_holdem_seat(table, 1, _opp[1]["name"], _opp[1]["hole"], int(_opp[1]["stack"]),
+	_build_holdem_seat(table, 1, _opp_name(1), _opp[1]["hole"], int(_opp[1]["stack"]),
 			int(_opp_bets[1]), bool(_opp[1]["folded"]), _phase == Phase.SHOWDOWN and not bool(_opp[1]["folded"]),
 			0.66, 0.07, 0.94, 0.37)
 
@@ -392,7 +417,7 @@ func _build_table_surface(parent: VBoxContainer) -> void:
 	for _j in range(5 - _community.size()):
 		comm_row.add_child(_card_placeholder())
 
-	_build_holdem_seat(table, -1, "김민준", _hole, _player_stack, _player_bet, _player_folded,
+	_build_holdem_seat(table, -1, _player_display_name(), _hole, _player_stack, _player_bet, _player_folded,
 			true, 0.36, 0.72, 0.64, 0.98)
 	_add_showdown_panel(table)
 	table.queue_redraw()
@@ -683,15 +708,15 @@ func _show_player_actions() -> void:
 	var strength := TH.hand_strength(_hole, _community)
 	var win_pct: int = roundi(strength * 100.0)
 
-	var msg := "당신의 차례"
+	var msg := _tr("당신의 차례", "Your turn")
 	if to_call > 0:
 		var equity_str: String
 		if win_pct > pot_odds_pct + 10:
-			equity_str = " — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[/color]" % [win_pct, pot_odds_pct]
+			equity_str = _tr(" — [color=#5de89c]+EV 콜 (승률%d%% > 팟오즈%d%%)[/color]", " — [color=#5de89c]+EV call (win %d%% > pot odds %d%%)[/color]") % [win_pct, pot_odds_pct]
 		elif win_pct < pot_odds_pct - 5:
-			equity_str = " — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[/color]" % [win_pct, pot_odds_pct]
+			equity_str = _tr(" — [color=#e85d5d]-EV 폴드 권장 (승률%d%% < 팟오즈%d%%)[/color]", " — [color=#e85d5d]-EV fold recommended (win %d%% < pot odds %d%%)[/color]") % [win_pct, pot_odds_pct]
 		else:
-			equity_str = " — [color=#e8c45d]팟오즈 %d%% / 핸드강도 %d%%[/color]" % [pot_odds_pct, win_pct]
+			equity_str = _tr(" — [color=#e8c45d]팟오즈 %d%% / 핸드강도 %d%%[/color]", " — [color=#e8c45d]Pot odds %d%% / hand strength %d%%[/color]") % [pot_odds_pct, win_pct]
 		msg += equity_str
 	_set_msg(msg)
 
@@ -709,18 +734,18 @@ func _show_player_actions() -> void:
 	vbox.add_child(btn_row)
 
 	# Fold
-	var fold_btn := _make_btn("폴드", func(): _player_action("fold", 0), "#3a1818")
+	var fold_btn := _make_btn(_tr("폴드", "Fold"), func(): _player_action("fold", 0), "#3a1818")
 	fold_btn.custom_minimum_size = Vector2(70, 36)
 	btn_row.add_child(fold_btn)
 
 	# Check or Call
 	if to_call == 0:
-		var check_btn := _make_btn("체크", func(): _player_action("check", 0), "#1a2a3a")
+		var check_btn := _make_btn(_tr("체크", "Check"), func(): _player_action("check", 0), "#1a2a3a")
 		check_btn.custom_minimum_size = Vector2(70, 36)
 		btn_row.add_child(check_btn)
 	else:
 		var can_call := _player_stack > 0
-		var call_lbl := "콜  %s" % _fmt(mini(to_call, _player_stack))
+		var call_lbl := _tr("콜  %s", "Call  %s") % _fmt(mini(to_call, _player_stack))
 		var call_btn := _make_btn(call_lbl, func(): _player_action("call", to_call), "#1a3a2a")
 		call_btn.disabled = not can_call
 		call_btn.custom_minimum_size = Vector2(80, 36)
@@ -735,12 +760,12 @@ func _show_player_actions() -> void:
 	if _player_stack > to_call:
 		var raise_options: Array = []
 		if third_pot > min_raise:
-			raise_options.append(["1/3팟\n%s" % _fmt(third_pot), third_pot])
+			raise_options.append([_tr("1/3팟\n%s", "1/3 Pot\n%s") % _fmt(third_pot), third_pot])
 		if half_pot > third_pot:
-			raise_options.append(["하프팟\n%s" % _fmt(half_pot), half_pot])
+			raise_options.append([_tr("하프팟\n%s", "Half Pot\n%s") % _fmt(half_pot), half_pot])
 		if pot_raise > half_pot:
-			raise_options.append(["팟\n%s" % _fmt(pot_raise), pot_raise])
-		raise_options.append(["올인\n%s" % _fmt(_player_stack), _player_stack])
+			raise_options.append([_tr("팟\n%s", "Pot\n%s") % _fmt(pot_raise), pot_raise])
+		raise_options.append([_tr("올인\n%s", "All-In\n%s") % _fmt(_player_stack), _player_stack])
 
 		for opt in raise_options:
 			var amt: int = opt[1]
@@ -749,7 +774,7 @@ func _show_player_actions() -> void:
 			btn_row.add_child(raise_btn)
 
 	# 나가기
-	var leave_btn := _make_btn("자리를\n뜬다", _leave_mid, "#2a1a1a")
+	var leave_btn := _make_btn(_tr("자리를\n뜬다", "Leave\nSeat"), _leave_mid, "#2a1a1a")
 	leave_btn.custom_minimum_size = Vector2(70, 40)
 	btn_row.add_child(leave_btn)
 
@@ -762,18 +787,18 @@ func _player_action(action: String, amount: int) -> void:
 	match action:
 		"fold":
 			_player_folded = true
-			_set_msg("폴드했습니다.")
+			_set_msg(_tr("폴드했습니다.", "You folded."))
 			_show_table_banner("FOLD", Color("#d73a49"), 0.48)
 			_screen_flash(Color("#d73a49"), 0.08, 0.18)
 		"check":
-			_set_msg("체크.")
+			_set_msg(_tr("체크.", "Check."))
 			_show_table_banner("CHECK", Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, _player_stack)
 			_player_stack -= actual
 			_player_bet += actual
 			_pot += actual
-			_set_msg("콜 (%s)." % _fmt(actual))
+			_set_msg(_tr("콜 (%s).", "Call (%s).") % _fmt(actual))
 			AudioManager.play("sell", -6.0)
 			_show_table_banner("CALL", Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.56), 4)
@@ -784,7 +809,7 @@ func _player_action(action: String, amount: int) -> void:
 			_player_bet += actual
 			_pot += actual
 			_max_bet = maxi(_max_bet, _player_bet)
-			_set_msg("레이즈 → %s" % _fmt(_player_bet))
+			_set_msg(_tr("레이즈 → %s", "Raise to %s") % _fmt(_player_bet))
 			AudioManager.play("money_big" if actual >= 200_000 else "sell")
 			_show_table_banner("RAISE", Color("#f0b429"), 0.58)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.56), 8)
@@ -803,21 +828,21 @@ func _do_ai_action(opp_idx: int) -> void:
 	var decision := TH.ai_decide(o["hole"], _community, _pot, to_call, o["stack"],
 			float(o["aggression"]), _rng)
 
-	_set_msg("%s: %s" % [o["name"], _action_to_korean(decision["action"])])
+	_set_msg("%s: %s" % [_opp_name(opp_idx), _action_label(decision["action"])])
 
 	match decision["action"]:
 		"fold":
 			o["folded"] = true
-			_show_table_banner("%s  FOLD" % o["name"], Color("#8a5a5a"), 0.46)
+			_show_table_banner("%s  FOLD" % _opp_name(opp_idx), Color("#8a5a5a"), 0.46)
 		"check":
-			_show_table_banner("%s  CHECK" % o["name"], Color("#7a8a9a"), 0.42)
+			_show_table_banner("%s  CHECK" % _opp_name(opp_idx), Color("#7a8a9a"), 0.42)
 		"call":
 			var actual := mini(to_call, o["stack"])
 			o["stack"] -= actual
 			_opp_bets[opp_idx] += actual
 			_pot += actual
 			AudioManager.play("sell", -8.0)
-			_show_table_banner("%s  CALL" % o["name"], Color("#5de89c"), 0.45)
+			_show_table_banner("%s  CALL" % _opp_name(opp_idx), Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.40), 3)
 		"raise":
 			var actual := mini(int(decision["amount"]), o["stack"])
@@ -826,7 +851,7 @@ func _do_ai_action(opp_idx: int) -> void:
 			_pot += actual
 			_max_bet = maxi(_max_bet, _opp_bets[opp_idx])
 			AudioManager.play("sell", -5.0)
-			_show_table_banner("%s  RAISE" % o["name"], Color("#f0b429"), 0.55)
+			_show_table_banner("%s  RAISE" % _opp_name(opp_idx), Color("#f0b429"), 0.55)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.40), 6)
 			_screen_flash(Color("#f0b429"), 0.08, 0.16)
 
@@ -835,12 +860,12 @@ func _do_ai_action(opp_idx: int) -> void:
 	_render_table()
 	_process_action_turn()
 
-func _action_to_korean(action: String) -> String:
+func _action_label(action: String) -> String:
 	match action:
-		"fold": return "폴드"
-		"check": return "체크"
-		"call": return "콜"
-		"raise": return "레이즈"
+		"fold": return _tr("폴드", "Fold")
+		"check": return _tr("체크", "Check")
+		"call": return _tr("콜", "Call")
+		"raise": return _tr("레이즈", "Raise")
 	return action
 
 # ── 페이즈 전환 ────────────────────────────────────────────────────
@@ -913,14 +938,14 @@ func _do_showdown() -> void:
 	# 팟 분배
 	var msg_parts: Array = []
 	var hand_net: int = 0
-	var winner_name := "김민준" if winner_idx == -1 else str(_opp[winner_idx]["name"])
+	var winner_name := _player_display_name() if winner_idx == -1 else _opp_name(winner_idx)
 	if winner_idx == -1:
 		# 플레이어 승
 		_player_stack += _pot
 		hand_net = _pot
 		_net_session += _pot - _buy_in if _hands_played == 1 else _pot
 		_session_won += 1
-		msg_parts.append("%s으로 승리! +%s" % [TH.rank_name(best_hand[0]), _fmt(_pot)])
+		msg_parts.append(_tr("%s으로 승리! +%s", "Won with %s! +%s") % [TH.rank_name(best_hand[0]), _fmt(_pot)])
 		GameState.modify_hidden_stat("gambling_tendency", 3)
 		AudioManager.play_casino_result(float(_pot), maxf(float(_buy_in), 1.0), _pot >= 1_000_000)
 		_screen_flash(Color("#f0b429"), 0.22, 0.42)
@@ -930,7 +955,7 @@ func _do_showdown() -> void:
 		hand_net = -_pot
 		_net_session -= _pot if _hands_played == 1 else 0
 		_session_lost += 1
-		msg_parts.append("%s가 이겼습니다 (%s)" % [_opp[winner_idx]["name"], TH.rank_name(best_hand[0])])
+		msg_parts.append(_tr("%s가 이겼습니다 (%s)", "%s wins (%s)") % [_opp_name(winner_idx), TH.rank_name(best_hand[0])])
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 		AudioManager.play_casino_result(-float(_pot), maxf(float(_buy_in), 1.0))
 		_screen_flash(Color("#d73a49"), 0.22, 0.38)
@@ -938,8 +963,8 @@ func _do_showdown() -> void:
 
 	# 핸드 히스토리 기록
 	var hand_rank_name: String = TH.rank_name(best_hand[0]) if not best_hand.is_empty() else "?"
-	_showdown_title = "%s 승리" % winner_name
-	_showdown_detail = "%s · POT %s 정산" % [hand_rank_name, _fmt(_pot)]
+	_showdown_title = _tr("%s 승리", "%s Wins") % winner_name
+	_showdown_detail = _tr("%s · POT %s 정산", "%s · POT %s settled") % [hand_rank_name, _fmt(_pot)]
 	_showdown_net = hand_net
 	_hand_history.append({
 		"won": winner_idx == -1,
@@ -972,10 +997,10 @@ func _do_showdown() -> void:
 func _show_showdown_buttons() -> void:
 	for ch in _action_panel.get_children():
 		ch.queue_free()
-	var next_btn := _make_btn("다음 핸드", func(): _start_hand(), "#1a3a1a")
+	var next_btn := _make_btn(_tr("다음 핸드", "Next Hand"), func(): _start_hand(), "#1a3a1a")
 	next_btn.custom_minimum_size = Vector2(100, 36)
 	_action_panel.add_child(next_btn)
-	var leave_btn := _make_btn("자리를 뜬다", _leave_mid, "#2a1a1a")
+	var leave_btn := _make_btn(_tr("자리를 뜬다", "Leave Seat"), _leave_mid, "#2a1a1a")
 	leave_btn.custom_minimum_size = Vector2(100, 36)
 	_action_panel.add_child(leave_btn)
 
@@ -986,7 +1011,7 @@ func _show_result_screen() -> void:
 	var vb := _content_vbox()
 
 	var title := Label.new()
-	title.text = "세션 종료"
+	title.text = _tr("세션 종료", "Session Ended")
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -994,7 +1019,7 @@ func _show_result_screen() -> void:
 	vb.add_child(title)
 
 	var played_lbl := Label.new()
-	played_lbl.text = "%d핸드 플레이" % _hands_played
+	played_lbl.text = _tr("%d핸드 플레이", "%d hands played") % _hands_played
 	played_lbl.add_theme_font_size_override("font_size", 13)
 	played_lbl.add_theme_color_override("font_color", Color("#8a9ab0"))
 	played_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1016,19 +1041,19 @@ func _show_result_screen() -> void:
 	# GameState 반영
 	GameState.add_money(float(_player_stack - _buy_in))
 	if net > 0:
-		GameState.add_log("홀덤 클럽에서 %s 땄다." % _fmt(net), "money")
+		GameState.add_log(_tr("홀덤 클럽에서 %s 땄다.", "Won %s at the hold'em club.") % _fmt(net), "money")
 		GameState.modify_hidden_stat("gambling_tendency", 5)
 		if GameState.addiction_tendency < 50:
 			GameState.modify_hidden_stat("addiction_tendency", 3)
 	else:
-		GameState.add_log("홀덤 클럽에서 %s 잃었다." % _fmt(-net), "money")
+		GameState.add_log(_tr("홀덤 클럽에서 %s 잃었다.", "Lost %s at the hold'em club.") % _fmt(-net), "money")
 		GameState.modify_hidden_stat("stress", 5)
 		if net < -200_000:
 			GameState.modify_hidden_stat("addiction_tendency", 4)
 	# 마스터리 기록
 	MetaProgression.record_minigame_play("holdem")
 
-	var close_btn := _make_btn("돌아가기", _leave, "#1a2a3a")
+	var close_btn := _make_btn(_tr("돌아가기", "Return"), _leave, "#1a2a3a")
 	close_btn.custom_minimum_size = Vector2(0, 44)
 	vb.add_child(close_btn)
 
@@ -1219,9 +1244,17 @@ func _sep() -> HSeparator:
 
 func _fmt(amount) -> String:
 	var a := int(amount)
-	if abs(a) >= 100_000_000: return "%.1f억" % (float(a) / 100_000_000.0)
-	if abs(a) >= 10_000:      return "%d만" % (a / 10_000)
-	return "%d원" % a
+	if LocaleManager.is_english():
+		if abs(a) >= 1_000_000_000:
+			return "₩%.1fB" % (float(a) / 1_000_000_000.0)
+		if abs(a) >= 1_000_000:
+			return "₩%.1fM" % (float(a) / 1_000_000.0)
+		if abs(a) >= 1_000:
+			return "₩%dK" % int(a / 1_000)
+		return "₩%d" % a
+	if abs(a) >= 100_000_000: return _tr("%.1f억", "₩%.1fB") % (float(a) / 100_000_000.0)
+	if abs(a) >= 10_000:      return _tr("%d만", "₩%dK") % (a / 10_000)
+	return _tr("%d원", "₩%d") % a
 
 func _signed_fmt(amount: int) -> String:
 	if amount >= 0:

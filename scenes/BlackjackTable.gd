@@ -73,6 +73,9 @@ func _f(n, bold := false) -> void:
 			n.add_theme_font_override("normal_font", ft)
 			n.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 # ── 진입/종료 ──────────────────────────────────────────────────
 func open() -> void:
 	_shoe = BJ.new_shoe(_rng)
@@ -92,10 +95,10 @@ func _on_exit() -> void:
 # ── 딜 ──────────────────────────────────────────────────────
 func _deal() -> void:
 	if GameState.money < float(_stake):
-		_flash("현금 부족", "#e85d5d"); return
+		_flash(_tr("현금 부족", "Insufficient cash"), "#e85d5d"); return
 	if BJ.shoe_remaining_ratio(_shoe) < SHOE_CUT:
 		_shoe = BJ.new_shoe(_rng)
-		_flash("🔀 슈 리셔플", "#c9a227")
+		_flash(_tr("🔀 슈 리셔플", "🔀 Shoe reshuffled"), "#c9a227")
 
 	GameState.add_money(-float(_stake))
 	_dealer = [_shoe.pop_front(), _shoe.pop_front()]
@@ -226,12 +229,12 @@ func _resolve_hand() -> void:
 		var label: String = ""
 
 		if pv > 21:
-			label = "버스트 -%s" % GameState.format_money(float(actual_stake))
+			label = _tr("버스트 -%s", "Bust -%s") % GameState.format_money(float(actual_stake))
 			_losses += 1
 			got_bust = true
 		elif pj and dealer_bj:
 			gain = float(actual_stake)
-			label = "블랙잭 타이 (반환)"
+			label = _tr("블랙잭 타이 (반환)", "Blackjack Push (returned)")
 			_pushes += 1
 		elif pj:
 			gain = float(actual_stake) * (1.0 + BJ_PAYOUT)
@@ -239,11 +242,11 @@ func _resolve_hand() -> void:
 			_wins += 1
 			got_blackjack = true
 		elif dealer_bj:
-			label = "딜러 블랙잭 -%s" % GameState.format_money(float(actual_stake))
+			label = _tr("딜러 블랙잭 -%s", "Dealer Blackjack -%s") % GameState.format_money(float(actual_stake))
 			_losses += 1
 		elif dv > 21:
 			gain = float(actual_stake) * 2.0
-			label = "딜러 버스트 +%s" % GameState.format_money(float(actual_stake))
+			label = _tr("딜러 버스트 +%s", "Dealer Bust +%s") % GameState.format_money(float(actual_stake))
 			_wins += 1
 		elif pv > dv:
 			gain = float(actual_stake) * 2.0
@@ -251,7 +254,7 @@ func _resolve_hand() -> void:
 			_wins += 1
 		elif pv == dv:
 			gain = float(actual_stake)
-			label = "타이 — 베팅 환불"
+			label = _tr("타이 — 베팅 환불", "Push — bet returned")
 			_pushes += 1
 		else:
 			label = "-%s" % GameState.format_money(float(actual_stake))
@@ -284,7 +287,7 @@ func _resolve_hand() -> void:
 		AudioManager.play_casino_result(0.0, float(_stake))
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 
-	GameState.add_log("블랙잭 %s" % desc, "money")
+	GameState.add_log(_tr("블랙잭 %s", "Blackjack %s") % desc, "money")
 	GameState.stats_changed.emit()
 	_render()
 	if got_blackjack:
@@ -292,7 +295,7 @@ func _resolve_hand() -> void:
 		_screen_flash(Color("#f0b429"), 0.22, 0.44)
 		_pulse_node(_content_root, 1.04, 0.32)
 	elif got_bust:
-		_show_table_banner("버스트  %s" % GameState.format_money(net_round), Color("#e85d5d"), 0.72)
+		_show_table_banner(_tr("버스트  %s", "BUST  %s") % GameState.format_money(net_round), Color("#e85d5d"), 0.72)
 		_screen_flash(Color("#e85d5d"), 0.22, 0.40)
 		_shake_node(_content_root, 6.0, 5)
 	elif net_round > 0:
@@ -300,7 +303,7 @@ func _resolve_hand() -> void:
 		_screen_flash(Color("#5de89c"), 0.18, 0.36)
 		_pulse_node(_content_root, 1.025, 0.26)
 	elif net_round == 0.0:
-		_show_table_banner("타이 — 베팅 환불", Color("#9a9aaa"), 0.64)
+		_show_table_banner(_tr("타이 — 베팅 환불", "PUSH — bet returned"), Color("#9a9aaa"), 0.64)
 		_screen_flash(Color("#9a9aaa"), 0.10, 0.22)
 	else:
 		_show_table_banner("LOSE  %s" % GameState.format_money(net_round), Color("#e85d5d"), 0.72)
@@ -321,8 +324,8 @@ func _refresh_hud() -> void:
 	var total_h := _wins + _losses + _pushes
 	var wr: String = ""
 	if total_h > 0:
-		wr = "  승률 %d%% (%dW/%dL/%dP)" % [roundi(float(_wins)/float(total_h)*100), _wins, _losses, _pushes]
-	_hud_lbl.text = "[b]현금 %s[/b]   |   블랙잭%s   손익 [b]%s[/b]" % [
+		wr = _tr("  승률 %d%% (%dW/%dL/%dP)", "  Win Rate %d%% (%dW/%dL/%dP)") % [roundi(float(_wins)/float(total_h)*100), _wins, _losses, _pushes]
+	_hud_lbl.text = _tr("[b]현금 %s[/b]   |   블랙잭%s   손익 [b]%s[/b]", "[b]Cash %s[/b]   |   Blackjack%s   P/L [b]%s[/b]") % [
 		GameState.format_money(GameState.money), wr,
 		("+%s" % GameState.format_money(_net)) if _net >= 0 else GameState.format_money(_net)]
 
@@ -330,7 +333,7 @@ func _render_betting() -> void:
 	var vb := _make_vbox(12)
 
 	var title := Label.new()
-	title.text = "블랙잭"
+	title.text = _tr("블랙잭", "Blackjack")
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -340,7 +343,7 @@ func _render_betting() -> void:
 	rules.bbcode_enabled = true; rules.fit_content = true; rules.scroll_active = false
 	_f(rules); rules.add_theme_font_size_override("normal_font_size", 12)
 	rules.add_theme_color_override("default_color", Color("#4a5a6a"))
-	rules.text = "블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공"
+	rules.text = _tr("블랙잭 3:2  ·  딜러 소프트17 히트  ·  더블·스플릿 가능  ·  6덱  ·  기본전략 힌트 제공", "Blackjack pays 3:2  ·  Dealer hits soft 17  ·  Double/Split allowed  ·  6 decks  ·  Basic strategy hint")
 	vb.add_child(rules)
 
 	_add_blackjack_betting_mat(vb)
@@ -354,13 +357,13 @@ func _render_betting() -> void:
 		for h in _hand_history:
 			var col := "#5de89c" if h["won"] else "#e85d5d"
 			parts.append("[color=%s]%s[/color]" % [col, "▲" if h["won"] else "▼"])
-		hist.text = "히스토리: " + " ".join(parts)
+		hist.text = _tr("히스토리: ", "History: ") + " ".join(parts)
 		vb.add_child(hist)
 
 	vb.add_child(_sep())
 
 	var stake_lbl := Label.new()
-	stake_lbl.text = "베팅 금액 선택"
+	stake_lbl.text = _tr("베팅 금액 선택", "Choose Stake")
 	stake_lbl.add_theme_font_size_override("font_size", 12)
 	stake_lbl.add_theme_color_override("font_color", Color("#7a8a9a"))
 	_f(stake_lbl); vb.add_child(stake_lbl)
@@ -386,17 +389,17 @@ func _render_betting() -> void:
 
 	vb.add_child(_sep())
 
-	var deal_btn := _make_btn("딜 시작  |  베팅 %s" % GameState.format_money(float(_stake)),
+	var deal_btn := _make_btn(_tr("딜 시작  |  베팅 %s", "Deal  |  Bet %s") % GameState.format_money(float(_stake)),
 		func(): _set_stake_and_deal(_stake), "#1a3a1a", "#3de87a")
 	deal_btn.custom_minimum_size = Vector2(0, 48)
 	deal_btn.disabled = GameState.money < float(_stake)
 	_f(deal_btn, true); vb.add_child(deal_btn)
 
-	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#5a4510")
+	var help_btn := _make_btn(_tr("규칙", "Rules"), func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(0, 44)
 	vb.add_child(help_btn)
 
-	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(0, 44)
 	vb.add_child(exit_btn)
 
@@ -408,23 +411,25 @@ func _render_game() -> void:
 	var vb := _make_vbox(14)
 	var cur_hand := _split_hand()
 	var cv := BJ.hand_value(cur_hand)
-	var phase_ko := "플레이어 차례" if _phase == Phase.PLAYER_TURN else "딜러 차례"
-	if _split_active: phase_ko = "스플릿 핸드 1 플레이 중"
-	elif not _split.is_empty() and _phase == Phase.PLAYER_TURN: phase_ko = "스플릿 핸드 2 플레이 중"
 
 	_add_blackjack_table_display(vb, _phase != Phase.PLAYER_TURN)
 
 	# 기본전략 힌트
 	if _phase == Phase.PLAYER_TURN and _dealer.size() >= 1:
 		var hint_action := BJ.basic_strategy(cur_hand, _dealer[0])
-		var hint_ko := {"H": "히트", "S": "스탠드", "D": "더블다운", "P": "스플릿"}
+		var hint_ko := {
+			"H": _tr("히트", "Hit"),
+			"S": _tr("스탠드", "Stand"),
+			"D": _tr("더블다운", "Double Down"),
+			"P": _tr("스플릿", "Split")
+		}
 		var hint_col := {"H": "#5b9cf6", "S": "#5de89c", "D": "#f0b429", "P": "#d4a0ff"}
 		var hs: String = hint_ko.get(hint_action, "?")
 		var hc: String = hint_col.get(hint_action, "#aaa")
 		var hint_rt := RichTextLabel.new()
 		hint_rt.bbcode_enabled = true; hint_rt.fit_content = true; hint_rt.scroll_active = false
 		_f(hint_rt); hint_rt.add_theme_font_size_override("normal_font_size", 13)
-		hint_rt.text = "기본전략: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~0.5%%)[/color]" % [hc, hs]
+		hint_rt.text = _tr("기본전략: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](이 힌트를 매번 따르면 기댓값 손실 ~0.5%%)[/color]", "Basic strategy: [color=%s][b]%s[/b][/color]  [color=#3a4a5a](Following this keeps expected loss near ~0.5%%)[/color]") % [hc, hs]
 		vb.add_child(hint_rt)
 
 	vb.add_child(_sep())
@@ -436,17 +441,17 @@ func _render_game() -> void:
 		btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		vb.add_child(btn_row)
 
-		var hit_btn := _make_btn("히트", _hit, "#1a2a3a", "#3a7abf")
+		var hit_btn := _make_btn(_tr("히트", "Hit"), _hit, "#1a2a3a", "#3a7abf")
 		hit_btn.custom_minimum_size = Vector2(80, 40)
 		btn_row.add_child(hit_btn)
 
-		var stand_btn := _make_btn("스탠드", _stand, "#1a3a1a", "#3a9a3a")
+		var stand_btn := _make_btn(_tr("스탠드", "Stand"), _stand, "#1a3a1a", "#3a9a3a")
 		stand_btn.custom_minimum_size = Vector2(80, 40)
 		btn_row.add_child(stand_btn)
 
 		# 더블다운: 첫 두 장이고 현금 있을 때
 		var can_dbl: bool = cur_hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
-		var dbl_btn := _make_btn("더블 x2", _double_down, "#2a2a0a", "#9a9a2a")
+		var dbl_btn := _make_btn(_tr("더블 x2", "Double x2"), _double_down, "#2a2a0a", "#9a9a2a")
 		dbl_btn.custom_minimum_size = Vector2(80, 40)
 		dbl_btn.disabled = not can_dbl
 		btn_row.add_child(dbl_btn)
@@ -458,12 +463,12 @@ func _render_game() -> void:
 			var v0: int = int(_player[0]) % 13
 			var v1: int = int(_player[1]) % 13
 			can_split = (mini(v0+1,10) == mini(v1+1,10)) or (v0 >= 9 and v1 >= 9)
-		var split_btn := _make_btn("스플릿", _do_split, "#2a0a2a", "#8a3a8a")
+		var split_btn := _make_btn(_tr("스플릿", "Split"), _do_split, "#2a0a2a", "#8a3a8a")
 		split_btn.custom_minimum_size = Vector2(80, 40)
 		split_btn.disabled = not can_split
 		btn_row.add_child(split_btn)
 
-		var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+		var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 		exit_btn.custom_minimum_size = Vector2(70, 40)
 		btn_row.add_child(exit_btn)
 
@@ -487,12 +492,12 @@ func _render_result() -> void:
 	btn_row.add_theme_constant_override("separation", 10)
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vb.add_child(btn_row)
-	var again_btn := _make_btn("다음 핸드", func():
+	var again_btn := _make_btn(_tr("다음 핸드", "Next Hand"), func():
 		_phase = Phase.BETTING; _render(), "#1a3a1a", "#3de87a")
 	again_btn.custom_minimum_size = Vector2(0, 48)
 	again_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(again_btn, true); btn_row.add_child(again_btn)
-	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(90, 48)
 	btn_row.add_child(exit_btn)
 

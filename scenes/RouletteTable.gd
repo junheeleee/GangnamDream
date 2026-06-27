@@ -110,6 +110,9 @@ func _f(n: Object, bold: bool = false) -> void:
 			n.add_theme_font_override("normal_font", ft)
 			n.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 # ── 진입/종료 ──────────────────────────────────────────────────
 func open() -> void:
 	_phase        = Phase.IDLE
@@ -187,11 +190,11 @@ func _do_bet() -> void:
 	if _phase != Phase.IDLE:
 		return
 	if _bet_type < 0:
-		_flash("베팅 유형을 선택해 주세요", "#e8c45d"); return
+		_flash(_tr("베팅 유형을 선택해 주세요", "Choose a bet type"), "#e8c45d"); return
 	if _bet_type == 0 and _chosen_number < 0:
-		_flash("숫자를 선택해 주세요", "#e8c45d"); return
+		_flash(_tr("숫자를 선택해 주세요", "Choose a number"), "#e8c45d"); return
 	if int(GameState.money) < _stake:
-		_flash("현금이 부족합니다", "#e85d5d"); return
+		_flash(_tr("현금이 부족합니다", "Insufficient cash"), "#e85d5d"); return
 	_bet_amount = _stake
 	AudioManager.play("casino_bet")
 	_refresh()
@@ -200,11 +203,11 @@ func _do_spin() -> void:
 	if _phase != Phase.IDLE:
 		return
 	if _bet_amount <= 0:
-		_flash("먼저 BET 버튼을 눌러주세요", "#e8c45d"); return
+		_flash(_tr("먼저 BET 버튼을 눌러주세요", "Press BET first"), "#e8c45d"); return
 	if _bet_type < 0:
-		_flash("베팅 유형을 선택해 주세요", "#e8c45d"); return
+		_flash(_tr("베팅 유형을 선택해 주세요", "Choose a bet type"), "#e8c45d"); return
 	if int(GameState.money) < _bet_amount:
-		_flash("현금이 부족합니다", "#e85d5d"); return
+		_flash(_tr("현금이 부족합니다", "Insufficient cash"), "#e85d5d"); return
 
 	GameState.add_money(-float(_bet_amount))
 	_result_number    = _roulette.spin(_rng)
@@ -277,9 +280,9 @@ func _finish_spin() -> void:
 
 	# 결과 플래시
 	if won:
-		_flash("당첨!  +" + GameState.format_money(float(wagered) * multiplier), "#3de87a")
+		_flash(_tr("당첨!  +%s", "Win!  +%s") % GameState.format_money(float(wagered) * multiplier), "#3de87a")
 	else:
-		_flash("꽝  결과: %d" % result, "#e85d5d")
+		_flash(_tr("꽝  결과: %d", "Miss  Result: %d") % result, "#e85d5d")
 
 	# 2.2초 후 IDLE 복귀 + 패널 배경 원래 색으로 리셋
 	get_tree().create_timer(2.2).timeout.connect(func():
@@ -486,29 +489,29 @@ func _draw_winning_pocket_marker(rect: Rect2, n: int, font: Font) -> void:
 
 func _selected_bet_label() -> String:
 	if _bet_type < 0:
-		return "선택 전"
+		return _tr("선택 전", "Not selected")
 	match _bet_type:
 		0:
-			return "숫자 %d" % _chosen_number
+			return _tr("숫자 %d", "Number %d") % _chosen_number
 		1:
-			return "빨강"
+			return _tr("빨강", "Red")
 		2:
-			return "검정"
+			return _tr("검정", "Black")
 		3:
-			return "홀수"
+			return _tr("홀수", "Odd")
 		4:
-			return "짝수"
+			return _tr("짝수", "Even")
 		5:
-			return "낮음 1-18"
+			return _tr("낮음 1-18", "Low 1-18")
 		6:
-			return "높음 19-36"
+			return _tr("높음 19-36", "High 19-36")
 		7:
-			return "1묶음 1-12"
+			return _tr("1묶음 1-12", "1st Dozen 1-12")
 		8:
-			return "2묶음 13-24"
+			return _tr("2묶음 13-24", "2nd Dozen 13-24")
 		9:
-			return "3묶음 25-36"
-	return "선택 전"
+			return _tr("3묶음 25-36", "3rd Dozen 25-36")
+	return _tr("선택 전", "Not selected")
 
 func _stake_label() -> String:
 	if _bet_amount > 0:
@@ -673,7 +676,7 @@ func _build_ui() -> void:
 
 	# ── 히스토리 스트립 ──
 	var hist_label := Label.new()
-	hist_label.text = "최근 결과"
+	hist_label.text = _tr("최근 결과", "Recent Results")
 	hist_label.add_theme_font_size_override("font_size", 11)
 	hist_label.add_theme_color_override("font_color", Color("#3a5a3a"))
 	_f(hist_label)
@@ -702,7 +705,7 @@ func _build_ui() -> void:
 	number_mat.add_child(number_mat_v)
 
 	var number_mat_lbl := Label.new()
-	number_mat_lbl.text = "숫자 베팅 매트  |  단일 숫자는 바로 선택"
+	number_mat_lbl.text = _tr("숫자 베팅 매트  |  단일 숫자는 바로 선택", "Number Betting Mat  |  Single numbers select immediately")
 	number_mat_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	number_mat_lbl.add_theme_font_size_override("font_size", 12)
 	number_mat_lbl.add_theme_color_override("font_color", Color("#8aba8a"))
@@ -731,7 +734,7 @@ func _build_ui() -> void:
 
 	# ── 베팅 타입 버튼 (2행) ──
 	var bet_lbl := Label.new()
-	bet_lbl.text = "베팅 유형 선택"
+	bet_lbl.text = _tr("베팅 유형 선택", "Choose Bet Type")
 	bet_lbl.add_theme_font_size_override("font_size", 11)
 	bet_lbl.add_theme_color_override("font_color", Color("#4a7a4a"))
 	_f(bet_lbl)
@@ -742,24 +745,24 @@ func _build_ui() -> void:
 	var row1 := HBoxContainer.new()
 	row1.add_theme_constant_override("separation", 5)
 	_content_root.add_child(row1)
-	_build_bet_btn(row1, "단일숫자\n(35:1)",  0)
-	_build_bet_btn(row1, "빨강\n(1:1)",       1)
-	_build_bet_btn(row1, "검정\n(1:1)",       2)
-	_build_bet_btn(row1, "홀수\n(1:1)",       3)
-	_build_bet_btn(row1, "짝수\n(1:1)",       4)
+	_build_bet_btn(row1, _tr("단일숫자\n(35:1)", "Single\n(35:1)"),  0)
+	_build_bet_btn(row1, _tr("빨강\n(1:1)", "Red\n(1:1)"),       1)
+	_build_bet_btn(row1, _tr("검정\n(1:1)", "Black\n(1:1)"),       2)
+	_build_bet_btn(row1, _tr("홀수\n(1:1)", "Odd\n(1:1)"),       3)
+	_build_bet_btn(row1, _tr("짝수\n(1:1)", "Even\n(1:1)"),       4)
 
 	var row2 := HBoxContainer.new()
 	row2.add_theme_constant_override("separation", 5)
 	_content_root.add_child(row2)
-	_build_bet_btn(row2, "낮음 1-18\n(1:1)",   5)
-	_build_bet_btn(row2, "높음 19-36\n(1:1)",  6)
-	_build_bet_btn(row2, "1묶음 1-12\n(2:1)",  7)
-	_build_bet_btn(row2, "2묶음 13-24\n(2:1)", 8)
-	_build_bet_btn(row2, "3묶음 25-36\n(2:1)", 9)
+	_build_bet_btn(row2, _tr("낮음 1-18\n(1:1)", "Low 1-18\n(1:1)"),   5)
+	_build_bet_btn(row2, _tr("높음 19-36\n(1:1)", "High 19-36\n(1:1)"),  6)
+	_build_bet_btn(row2, _tr("1묶음 1-12\n(2:1)", "1st Dozen 1-12\n(2:1)"),  7)
+	_build_bet_btn(row2, _tr("2묶음 13-24\n(2:1)", "2nd Dozen 13-24\n(2:1)"), 8)
+	_build_bet_btn(row2, _tr("3묶음 25-36\n(2:1)", "3rd Dozen 25-36\n(2:1)"), 9)
 
 	# ── 스테이크 버튼 ──
 	var stake_lbl := Label.new()
-	stake_lbl.text = "베팅 금액"
+	stake_lbl.text = _tr("베팅 금액", "Stake")
 	stake_lbl.add_theme_font_size_override("font_size", 11)
 	stake_lbl.add_theme_color_override("font_color", Color("#4a7a4a"))
 	_f(stake_lbl)
@@ -800,12 +803,12 @@ func _build_ui() -> void:
 	_spin_btn.add_theme_font_size_override("font_size", 16)
 	action_row.add_child(_spin_btn)
 
-	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#5a4510")
+	var help_btn := _make_btn(_tr("규칙", "Rules"), func(): TutorialOverlay.force_show("roulette", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(70, 48)
 	_f(help_btn)
 	action_row.add_child(help_btn)
 
-	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(96, 48)
 	_f(exit_btn)
 	action_row.add_child(exit_btn)
@@ -929,9 +932,9 @@ func _refresh() -> void:
 		_wheel_display.queue_redraw()
 
 func _refresh_hud() -> void:
-	var spinning_str: String = "  [color=#f0b429][b]스핀 중[/b][/color]" if _phase == Phase.SPINNING else ""
+	var spinning_str: String = _tr("  [color=#f0b429][b]스핀 중[/b][/color]", "  [color=#f0b429][b]Spinning[/b][/color]") if _phase == Phase.SPINNING else ""
 	_hud_lbl.text = (
-		"[b]유럽식 룰렛[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s"
+		_tr("[b]유럽식 룰렛[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s", "[b]European Roulette[/b]   |   Cash [b]%s[/b]   |   Round %d   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   P/L [b]%s[/b]%s")
 		% [
 			GameState.format_money(GameState.money),
 			_rounds, _wins, _losses,
@@ -1048,22 +1051,22 @@ func _refresh_bet_info() -> void:
 	if _bet_amount > 0:
 		var payout: float = _roulette.payout_multiplier(_bet_type)
 		var potential: float = float(_bet_amount) * (1.0 + payout)
-		_bet_info_lbl.text = "베팅: %s   |   배당: %.0f:1   |   당첨 시 수령: %s" % [
+		_bet_info_lbl.text = _tr("베팅: %s   |   배당: %.0f:1   |   당첨 시 수령: %s", "Bet: %s   |   Payout: %.0f:1   |   Win returns: %s") % [
 			GameState.format_money(float(_bet_amount)),
 			payout,
 			GameState.format_money(potential)
 		]
 	elif _bet_type >= 0:
 		var payout: float = _roulette.payout_multiplier(_bet_type)
-		_bet_info_lbl.text = "배당률: %.0f:1   |   베팅 금액: %s   →   BET 버튼 클릭" % [
+		_bet_info_lbl.text = _tr("배당률: %.0f:1   |   베팅 금액: %s   →   BET 버튼 클릭", "Payout: %.0f:1   |   Stake: %s   →   Press BET") % [
 			payout,
 			GameState.format_money(float(_stake))
 		]
 	else:
-		_bet_info_lbl.text = "베팅 유형을 선택하세요"
+		_bet_info_lbl.text = _tr("베팅 유형을 선택하세요", "Choose a bet type")
 
 func _refresh_balance() -> void:
-	_balance_lbl.text = "잔액: %s" % GameState.format_money(GameState.money)
+	_balance_lbl.text = _tr("잔액: %s", "Balance: %s") % GameState.format_money(GameState.money)
 
 func _refresh_spin_btn() -> void:
 	if not is_instance_valid(_spin_btn):

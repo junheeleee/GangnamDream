@@ -109,6 +109,9 @@ func _f(node, bold: bool = false) -> void:
 		node.add_theme_font_override("normal_font", ft)
 		node.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 # ── 진입/종료 ─────────────────────────────────────────────────
 func open() -> void:
 	_rounds = 0
@@ -138,7 +141,7 @@ func _start_spin() -> void:
 	if _phase != Phase.IDLE:
 		return
 	if GameState.money < _active_stake:
-		_flash_msg("잔액 부족!", "#e74c3c")
+		_flash_msg(_tr("잔액 부족!", "Insufficient balance"), "#e74c3c")
 		return
 
 	# 베팅 즉시 차감
@@ -232,7 +235,7 @@ func _finish_spin() -> void:
 	_rounds += 1
 
 	# 히스토리 저장 (최근 5개)
-	var hist_label: String = win_type if win_type != "" else "꽝"
+	var hist_label: String = win_type if win_type != "" else _tr("꽝", "Miss")
 	_last_results.push_back({"win": is_win, "label": hist_label, "amount": net_round})
 	if _last_results.size() > 5:
 		_last_results.pop_front()
@@ -246,9 +249,9 @@ func _finish_spin() -> void:
 	# 로그
 	var log_str: String
 	if is_win:
-		log_str = "슬롯 %s +%s" % [win_type, GameState.format_money(float(gain))]
+		log_str = _tr("슬롯 %s +%s", "Slot %s +%s") % [win_type, GameState.format_money(float(gain))]
 	else:
-		log_str = "슬롯 꽝 -%s" % GameState.format_money(float(_active_stake))
+		log_str = _tr("슬롯 꽝 -%s", "Slot Miss -%s") % GameState.format_money(float(_active_stake))
 	GameState.add_log(log_str, "money")
 	GameState.stats_changed.emit()
 
@@ -257,7 +260,7 @@ func _finish_spin() -> void:
 	# 위 라인 표시 + 당첨 연출
 	if is_win:
 		if win_type.begins_with("777"):
-			_set_win_line("[color=#ff0][b]JACKPOT 200배[/b][/color]")
+			_set_win_line(_tr("[color=#ff0][b]JACKPOT 200배[/b][/color]", "[color=#ff0][b]JACKPOT 200x[/b][/color]"))
 			_play_jackpot_celebration()
 			_play_payout_tray(gain, multiplier)
 			AudioManager.play_casino_result(float(net_round), float(_active_stake), true)
@@ -285,16 +288,16 @@ func _finish_spin() -> void:
 			elif syms[0] == syms[2] and int(syms[0]) <= 2:
 				near_miss = true
 			if near_miss:
-				_set_win_line("[color=#e88a30][b]아깝다! 한 끗 차이...[/b][/color]")
-				_flash_msg("아깝다!", "#e88a30")
+				_set_win_line(_tr("[color=#e88a30][b]아깝다! 한 끗 차이...[/b][/color]", "[color=#e88a30][b]So close... one symbol away[/b][/color]"))
+				_flash_msg(_tr("아깝다!", "So close!"), "#e88a30")
 				GameState.modify_hidden_stat("addiction_tendency", 1)
 				_play_near_miss_shake()
 				AudioManager.play_casino_result(float(net_round), float(_active_stake))
 			else:
-				_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
+				_set_win_line(_tr("[color=#4a4a6a]— 꽝 —[/color]", "[color=#4a4a6a]— MISS —[/color]"))
 				AudioManager.play_casino_result(float(net_round), float(_active_stake))
 		else:
-			_set_win_line("[color=#4a4a6a]— 꽝 —[/color]")
+			_set_win_line(_tr("[color=#4a4a6a]— 꽝 —[/color]", "[color=#4a4a6a]— MISS —[/color]"))
 			AudioManager.play_casino_result(float(net_round), float(_active_stake))
 
 	_phase = Phase.IDLE
@@ -817,7 +820,7 @@ func _build_ui() -> void:
 	inner.add_child(header)
 
 	var title_lbl := Label.new()
-	title_lbl.text = "정선 슬롯"
+	title_lbl.text = _tr("정선 슬롯", "Jeongseon Slots")
 	title_lbl.add_theme_font_size_override("font_size", 16)
 	title_lbl.add_theme_color_override("font_color", COLOR_GOLD)
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -831,11 +834,11 @@ func _build_ui() -> void:
 	_f(_session_lbl)
 	header.add_child(_session_lbl)
 
-	var help_btn := _make_btn("규칙", func(): TutorialOverlay.force_show("slot", self), "#0a0a1a", "#5a4510")
+	var help_btn := _make_btn(_tr("규칙", "Rules"), func(): TutorialOverlay.force_show("slot", self), "#0a0a1a", "#5a4510")
 	help_btn.custom_minimum_size = Vector2(58, 26)
 	header.add_child(help_btn)
 
-	var exit_btn := _make_btn("나가기", _on_exit, "#1a0e0e", "#5a2a2a")
+	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(80, 26)
 	header.add_child(exit_btn)
 
@@ -844,11 +847,11 @@ func _build_ui() -> void:
 	paytable.add_theme_constant_override("h_separation", 6)
 	paytable.add_theme_constant_override("v_separation", 4)
 	inner.add_child(paytable)
-	_add_paytable_cell(paytable, "777", "200배", "#ffd84d")
-	_add_paytable_cell(paytable, "BAR", "50배", "#d8dbe8")
-	_add_paytable_cell(paytable, "CHERRY", "20배", "#e85d5d")
-	_add_paytable_cell(paytable, "BELL", "15배", "#f0b429")
-	_add_paytable_cell(paytable, "CHERRY x1", "1.5배", "#75d97a")
+	_add_paytable_cell(paytable, "777", _tr("200배", "200x"), "#ffd84d")
+	_add_paytable_cell(paytable, "BAR", _tr("50배", "50x"), "#d8dbe8")
+	_add_paytable_cell(paytable, "CHERRY", _tr("20배", "20x"), "#e85d5d")
+	_add_paytable_cell(paytable, "BELL", _tr("15배", "15x"), "#f0b429")
+	_add_paytable_cell(paytable, "CHERRY x1", _tr("1.5배", "1.5x"), "#75d97a")
 
 	# ── 릴 디스플레이 ─────────────────────────────────────────
 	var reel_window := PanelContainer.new()
@@ -997,7 +1000,7 @@ func _build_ui() -> void:
 
 	# ── 베팅 단위 선택 ─────────────────────────────────────────
 	var stake_header := Label.new()
-	stake_header.text = "베팅 금액"
+	stake_header.text = _tr("베팅 금액", "Stake")
 	stake_header.add_theme_font_size_override("font_size", 10)
 	stake_header.add_theme_color_override("font_color", Color("#6a7a8a"))
 	_f(stake_header)
@@ -1077,7 +1080,7 @@ func _build_ui() -> void:
 
 	# ── 히스토리 (최근 5판) ────────────────────────────────────
 	var hist_header := Label.new()
-	hist_header.text = "최근 결과"
+	hist_header.text = _tr("최근 결과", "Recent Results")
 	hist_header.add_theme_font_size_override("font_size", 9)
 	hist_header.add_theme_color_override("font_color", Color("#4a5a6a"))
 	_f(hist_header)
@@ -1147,7 +1150,7 @@ func _refresh_session_lbl() -> void:
 		net_str = "+%s" % GameState.format_money(float(_net))
 	else:
 		net_str = GameState.format_money(float(_net))
-	_session_lbl.text = "%d판  |  수익: %s" % [_rounds, net_str]
+	_session_lbl.text = _tr("%d판  |  수익: %s", "%d spins  |  Profit: %s") % [_rounds, net_str]
 	if _net > 0:
 		_session_lbl.add_theme_color_override("font_color", Color("#3de87a"))
 	elif _net < 0:
@@ -1158,7 +1161,7 @@ func _refresh_session_lbl() -> void:
 func _refresh_balance_lbl() -> void:
 	if not is_instance_valid(_balance_lbl):
 		return
-	_balance_lbl.text = "현재 잔액  ₩%s" % GameState.format_money(GameState.money)
+	_balance_lbl.text = _tr("현재 잔액  ₩%s", "Current balance  ₩%s") % GameState.format_money(GameState.money)
 
 func _refresh_meters() -> void:
 	if is_instance_valid(_credit_meter_lbl):
@@ -1244,7 +1247,7 @@ func _refresh_history() -> void:
 			chip_lbl.text = "▲ %s" % lbl_str
 			chip_lbl.add_theme_color_override("font_color", Color("#3de87a"))
 		else:
-			chip_lbl.text = "▼ 꽝"
+			chip_lbl.text = _tr("▼ 꽝", "▼ Miss")
 			chip_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
 		chip_lbl.add_theme_font_size_override("font_size", 11)
 		_f(chip_lbl)

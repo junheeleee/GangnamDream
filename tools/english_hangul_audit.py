@@ -52,9 +52,13 @@ RUNTIME_TARGETS = [
     "autoloads/MetaProgression.gd",
 ]
 
-LOCALIZED_MARKERS = (
+LOCALIZED_CALLS = (
     "_tr(",
     "LocaleManager.ui(",
+    "_localized_slide(",
+)
+
+LOCALIZED_INLINE_MARKERS = (
     " if LocaleManager.is_english() else ",
 )
 
@@ -89,6 +93,32 @@ def strip_comment(line: str) -> str:
     return "".join(out)
 
 
+def paren_delta(line: str) -> int:
+    quote = ""
+    escaped = False
+    delta = 0
+    for ch in line:
+        if escaped:
+            escaped = False
+            continue
+        if ch == "\\" and quote:
+            escaped = True
+            continue
+        if ch in ("'", '"'):
+            if not quote:
+                quote = ch
+            elif quote == ch:
+                quote = ""
+            continue
+        if quote:
+            continue
+        if ch == "(":
+            delta += 1
+        elif ch == ")":
+            delta -= 1
+    return delta
+
+
 def scan_content() -> list[str]:
     issues: list[str] = []
     for path in CONTENT_TARGETS:
@@ -106,11 +136,18 @@ def scan_runtime() -> dict[str, list[str]]:
         path = ROOT / target
         if not path.exists():
             continue
+        localized_depth = 0
         for lineno, raw_line in enumerate(path.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
             line = strip_comment(raw_line)
+            if localized_depth > 0:
+                localized_depth = max(0, localized_depth + paren_delta(line))
+                continue
+            if any(call in line for call in LOCALIZED_CALLS):
+                localized_depth = max(0, paren_delta(line))
+                continue
             if not HANGUL_RE.search(line):
                 continue
-            if any(marker in line for marker in LOCALIZED_MARKERS):
+            if any(marker in line for marker in LOCALIZED_INLINE_MARKERS):
                 continue
             literals = [s for s in STRING_RE.findall(line) if HANGUL_RE.search(s)]
             if not literals:

@@ -40,13 +40,21 @@ static func _show(game_id: String, parent: Control) -> void:
 
 # ── 슬라이드 콘텐츠 ─────────────────────────────────────────────
 # 각 항목: {icon, title, body}
+static func _localized_slide(icon: String, title_ko: String, title_en: String, body_ko: String, body_en: String) -> Dictionary:
+	return {
+		"icon": icon,
+		"title": LocaleManager.ui(title_ko, title_en),
+		"body": LocaleManager.ui(body_ko, body_en),
+	}
+
 static func _get_slides(game_id: String) -> Array:
 	match game_id:
 		"baccarat":
-			return [{
-				"icon": "🃏",
-				"title": "바카라 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"🃏",
+				"바카라 — 기본 규칙",
+				"Baccarat — Basic Rules",
+				(
 					"카드 합이 [b]9에 가까운[/b] 쪽이 이겨요!\n"
 					+ "10·J·Q·K = [b]0점[/b]  /  A = [b]1점[/b]  /  나머지 = 숫자 그대로\n\n"
 					+ "[color=#4a9eff]🔵 뱅커 베팅[/color] — 이기면 베팅금의 [b]0.95배[/b] 수익\n"
@@ -56,13 +64,25 @@ static func _get_slides(game_id: String) -> Array:
 					+ "   (두 패가 완전히 같을 때만 — 잘 안 나와요!)\n\n"
 					+ "[color=#aaffaa]💡 처음이라면 [b]뱅커[/b]에 꾸준히 베팅해보세요.\n"
 					+ "   카지노 게임 중 손실이 제일 적은 베팅이에요.[/color]"
+				),
+				(
+					"Bet on which hand lands closest to [b]9[/b].\n"
+					+ "10/J/Q/K = [b]0[/b]  /  A = [b]1[/b]  /  other cards keep their value\n\n"
+					+ "[color=#4a9eff]🔵 Banker[/color] — pays [b]0.95x[/b] profit when it wins\n"
+					+ "   (5% commission, but the strongest base odds)\n"
+					+ "[color=#ff5555]🔴 Player[/color] — pays [b]1x[/b] profit\n"
+					+ "[color=#f0c040]🟡 Tie[/color] — pays [b]8x[/b] profit\n"
+					+ "   (only when both hands tie exactly)\n\n"
+					+ "[color=#aaffaa]💡 New players should start with steady [b]Banker[/b] bets.\n"
+					+ "   It is one of the lowest-loss casino bets.[/color]"
 				)
-			}]
+			)]
 		"blackjack":
-			return [{
-				"icon": "🂡",
-				"title": "블랙잭 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"🂡",
+				"블랙잭 — 기본 규칙",
+				"Blackjack — Basic Rules",
+				(
 					"[b]21[/b]에 가장 가깝게 만들어야 해요!\n"
 					+ "A = 1 또는 11  /  J·Q·K = 10  /  나머지 = 숫자\n\n"
 					+ "[b][히트][/b]  카드 1장 더 받기\n"
@@ -74,14 +94,27 @@ static func _get_slides(game_id: String) -> Array:
 					+ "처음 2장이 A+10이면 [color=#f0c040][b]블랙잭[/b][/color] — 1.5배 수익!\n\n"
 					+ "[color=#aaffaa]💡 화면의 [b]힌트 보기[/b] 버튼을 누르면\n"
 					+ "   지금 상황에서 최선의 선택을 알려줘요![/color]"
+				),
+				(
+					"Get as close to [b]21[/b] as possible without going over.\n"
+					+ "A = 1 or 11  /  J/Q/K = 10  /  other cards keep their value\n\n"
+					+ "[b][Hit][/b]  Take one more card\n"
+					+ "[b][Stand][/b]  Keep this hand\n"
+					+ "[b][Double][/b]  Double the bet and take exactly one card\n"
+					+ "[b][Split][/b]  Split two equal cards into two hands\n\n"
+					+ "The dealer always stops at [b]17+[/b].\n"
+					+ "Over 21 is a [color=#ff5555][b]bust[/b][/color] — instant loss.\n"
+					+ "A+10 on the first two cards is [color=#f0c040][b]blackjack[/b][/color] — 1.5x profit.\n\n"
+					+ "[color=#aaffaa]💡 Use [b]Show Hint[/b] to see the basic-strategy move.[/color]"
 				)
-			}]
+			)]
 		"holdem":
 			return [
-				{
-					"icon": "♠",
-					"title": "텍사스 홀덤 — 기본 규칙",
-					"body": (
+				_localized_slide(
+					"♠",
+					"텍사스 홀덤 — 기본 규칙",
+					"Texas Hold'em — Basic Rules",
+					(
 						"내 [b]2장[/b] + 공개 [b]5장[/b] 중 최강 [b]5장[/b] 조합!\n\n"
 						+ "[b][콜][/b]  상대방 베팅에 맞추기\n"
 						+ "[b][레이즈][/b]  더 많이 베팅하기\n"
@@ -89,12 +122,22 @@ static func _get_slides(game_id: String) -> Array:
 						+ "[b][폴드][/b]  포기 (베팅금 포기)\n\n"
 						+ "[color=#aaffaa]💡 팟 오즈 힌트를 확인해보세요.\n"
 						+ "   [b]+EV[/b]가 표시되면 콜/레이즈가 유리해요![/color]"
+					),
+					(
+						"Build the best [b]5-card[/b] hand from your [b]2 hole cards[/b] and [b]5 community cards[/b].\n\n"
+						+ "[b][Call][/b]  Match the current bet\n"
+						+ "[b][Raise][/b]  Put in more money\n"
+						+ "[b][Check][/b]  Pass when no bet is owed\n"
+						+ "[b][Fold][/b]  Give up the hand and your committed chips\n\n"
+						+ "[color=#aaffaa]💡 Watch the pot-odds hint.\n"
+						+ "   If it shows [b]+EV[/b], calling or raising is usually profitable.[/color]"
 					)
-				},
-				{
-					"icon": "🏆",
-					"title": "홀덤 — 패 순위 (강한 순)",
-					"body": (
+				),
+				_localized_slide(
+					"🏆",
+					"홀덤 — 패 순위 (강한 순)",
+					"Hold'em — Hand Rankings",
+					(
 						"[b]1위[/b]  로열 플러시  — A K Q J 10 같은 무늬\n"
 						+ "[b]2위[/b]  스트레이트 플러시  — 연속 숫자 + 같은 무늬\n"
 						+ "[b]3위[/b]  포카드  — 같은 숫자 4장\n"
@@ -107,13 +150,28 @@ static func _get_slides(game_id: String) -> Array:
 						+ "[b]10위[/b]  하이카드  — 아무것도 없을 때 가장 높은 카드\n\n"
 						+ "[color=#aaffaa]💡 처음엔 페어 이상이 나오면 레이즈해보세요![/color]"
 					)
-				}
+					,
+					(
+						"[b]1[/b]  Royal Flush — A K Q J 10, same suit\n"
+						+ "[b]2[/b]  Straight Flush — sequence, same suit\n"
+						+ "[b]3[/b]  Four of a Kind — four cards of one rank\n"
+						+ "[b]4[/b]  Full House — three of a kind + pair\n"
+						+ "[b]5[/b]  Flush — five cards, same suit\n"
+						+ "[b]6[/b]  Straight — five-card sequence\n"
+						+ "[b]7[/b]  Three of a Kind — three cards of one rank\n"
+						+ "[b]8[/b]  Two Pair — two separate pairs\n"
+						+ "[b]9[/b]  One Pair — one pair\n"
+						+ "[b]10[/b]  High Card — no made hand\n\n"
+						+ "[color=#aaffaa]💡 Early on, consider raising when you make at least a pair.[/color]"
+					)
+				)
 			]
 		"slot":
-			return [{
-				"icon": "🎰",
-				"title": "슬롯머신 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"🎰",
+				"슬롯머신 — 기본 규칙",
+				"Slot Machine — Basic Rules",
+				(
 					"[b]SPIN[/b] 버튼을 눌러 3개 릴을 돌려요!\n"
 					+ "같은 그림이 나오면 당첨!\n\n"
 					+ "[color=#f0c040][b]7️⃣ 7️⃣ 7️⃣[/b][/color]  = [b]200배[/b]  🎉 대박 잭팟!\n"
@@ -124,13 +182,26 @@ static func _get_slides(game_id: String) -> Array:
 					+ "[b]🍒[/b]  (1개)  = [b]1.5배[/b]  (작은 당첨)\n\n"
 					+ "[color=#aaffaa]💡 체리(🍒)가 가장 많이 나와요!\n"
 					+ "   잭팟(7️⃣)을 노리려면 베팅금을 크게 해보세요.[/color]"
+				),
+				(
+					"Press [b]SPIN[/b] to roll the three reels.\n"
+					+ "Matching symbols pay out.\n\n"
+					+ "[color=#f0c040][b]7 7 7[/b][/color]  = [b]200x[/b] jackpot\n"
+					+ "[b]BAR BAR BAR[/b]  = [b]50x[/b]\n"
+					+ "[b]Cherry Cherry Cherry[/b]  = [b]20x[/b]\n"
+					+ "[b]Bell Bell Bell[/b]  = [b]15x[/b]\n"
+					+ "[b]Two cherries[/b]  = [b]3x[/b]\n"
+					+ "[b]One cherry[/b]  = [b]1.5x[/b]\n\n"
+					+ "[color=#aaffaa]💡 Cherries appear most often.\n"
+					+ "   Bigger bets make jackpot hits matter more.[/color]"
 				)
-			}]
+			)]
 		"roulette":
-			return [{
-				"icon": "🎡",
-				"title": "룰렛 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"🎡",
+				"룰렛 — 기본 규칙",
+				"Roulette — Basic Rules",
+				(
 					"0~36 숫자 중 하나에 공이 떨어져요.\n"
 					+ "베팅 후 [b]SPIN[/b]을 누르세요!\n\n"
 					+ "[b]쉬운 베팅 (약 48.6% 확률) → 1배 수익[/b]\n"
@@ -142,13 +213,26 @@ static func _get_slides(game_id: String) -> Array:
 					+ "  숫자 하나를 정확히 맞추면 대박!\n\n"
 					+ "[color=#ff5555]⚠ 0이 나오면 빨강/검정/홀짝 등 모두 패배해요.[/color]\n"
 					+ "[color=#aaffaa]💡 처음이라면 빨강 또는 검정부터 해보세요![/color]"
+				),
+				(
+					"The ball lands on one number from 0 to 36.\n"
+					+ "Place a bet, then press [b]SPIN[/b].\n\n"
+					+ "[b]Even-money bets (about 48.6%) → 1x profit[/b]\n"
+					+ "  Red / Black / Odd / Even / Low / High\n\n"
+					+ "[b]Dozens (about 32.4%) → 2x profit[/b]\n"
+					+ "  1-12 / 13-24 / 25-36\n\n"
+					+ "[b]Straight number (2.7%) → 35x profit[/b]\n"
+					+ "  Hit the exact number for the biggest standard payout.\n\n"
+					+ "[color=#ff5555]⚠ If 0 hits, red/black/odd/even style bets lose.[/color]\n"
+					+ "[color=#aaffaa]💡 New players should start with red or black.[/color]"
 				)
-			}]
+			)]
 		"bigwheel":
-			return [{
-				"icon": "🎯",
-				"title": "빅휠 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"🎯",
+				"빅휠 — 기본 규칙",
+				"Big Wheel — Basic Rules",
+				(
 					"바퀴를 돌려 [b]바늘이 멈추는 구역[/b]에 베팅하세요!\n\n"
 					+ "[color=#e74c3c]🔴 1배[/color]  24칸 — 제일 많이 있어요 (이기기 쉬움)\n"
 					+ "[color=#3498db]🔵 2배[/color]  15칸\n"
@@ -158,13 +242,24 @@ static func _get_slides(game_id: String) -> Array:
 					+ "[color=#f1c40f]🃏 조커 45배[/color]  2칸 — 잘 안 나오지만 대박!\n\n"
 					+ "[color=#aaffaa]💡 처음이라면 [b]1배[/b]로 시작해보세요.\n"
 					+ "   가장 자주 이길 수 있어요![/color]"
+				),
+				(
+					"Bet on the segment where the [b]pointer stops[/b].\n\n"
+					+ "[color=#e74c3c]Red 1x[/color]  24 slots — most common\n"
+					+ "[color=#3498db]Blue 2x[/color]  15 slots\n"
+					+ "[color=#2ecc71]Green 5x[/color]  7 slots\n"
+					+ "[color=#f39c12]Yellow 10x[/color]  4 slots\n"
+					+ "[color=#9b59b6]Purple 20x[/color]  2 slots\n"
+					+ "[color=#f1c40f]Joker 45x[/color]  2 slots — rare, huge payout\n\n"
+					+ "[color=#aaffaa]💡 Start with [b]1x[/b] if you want frequent wins.[/color]"
 				)
-			}]
+			)]
 		"daisai":
-			return [{
-				"icon": "🎲",
-				"title": "다이사이 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"🎲",
+				"다이사이 — 기본 규칙",
+				"Dai Sai — Basic Rules",
+				(
 					"세 개의 주사위를 굴려 결과에 베팅하는 게임이에요.\n\n"
 					+ "[b]BIG[/b]  합계 11~17  → [b]1배[/b] 수익\n"
 					+ "[b]SMALL[/b]  합계 4~10  → [b]1배[/b] 수익\n"
@@ -176,13 +271,26 @@ static func _get_slides(game_id: String) -> Array:
 					+ "[b]합계 베팅[/b]  4~17 합계를 정확히 맞추면 6~60배\n\n"
 					+ "[color=#aaffaa]💡 처음이라면 BIG/SMALL로 흐름을 보고,\n"
 					+ "   대박을 노릴 때만 트리플이나 합계에 소액 베팅하세요.[/color]"
+				),
+				(
+					"Roll three dice and bet on the result.\n\n"
+					+ "[b]BIG[/b]  Total 11-17  → [b]1x[/b] profit\n"
+					+ "[b]SMALL[/b]  Total 4-10  → [b]1x[/b] profit\n"
+					+ "But any [color=#ff5555][b]triple[/b][/color] makes BIG/SMALL lose.\n\n"
+					+ "[b]Single[/b]  Pays by how many times your number appears\n"
+					+ "[b]Pair[/b]  Two or more of the same number → [b]8x[/b]\n"
+					+ "[b]Any Triple[/b]  Any triple → [b]24x[/b]\n"
+					+ "[b]Specific Triple[/b]  Exact triple, e.g. 333 → [b]150x[/b]\n"
+					+ "[b]Total[/b]  Exact total from 4-17 pays 6x-60x\n\n"
+					+ "[color=#aaffaa]💡 Start with BIG/SMALL, then use small stakes for triples or totals.[/color]"
 				)
-			}]
+			)]
 		"scalping":
-			return [{
-				"icon": "⚡",
-				"title": "스캘핑 트레이딩 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"⚡",
+				"스캘핑 트레이딩 — 기본 규칙",
+				"Scalping Trading — Basic Rules",
+				(
 					"[b]60초[/b] 안에 사고 팔아 수익을 내세요!\n\n"
 					+ "[b]캔들 차트 읽는 법[/b]\n"
 					+ "  🟢 초록 막대 = 가격 [b]오름[/b]\n"
@@ -194,13 +302,26 @@ static func _get_slides(game_id: String) -> Array:
 					+ "노란선이 파란선 [b]아래[/b]로 내려오면 → [color=#ff5252][b]SELL 신호[/b][/color]\n\n"
 					+ "[color=#aaffaa]💡 타이밍이 전부예요!\n"
 					+ "   수익이 나면 빨리 파세요 — 60초는 짧아요![/color]"
+				),
+				(
+					"Buy and sell within [b]60 seconds[/b] to lock in profit.\n\n"
+					+ "[b]Candles[/b]\n"
+					+ "  Green bars mean price moved [b]up[/b]\n"
+					+ "  Red bars mean price moved [b]down[/b]\n\n"
+					+ "[b]Moving averages[/b]\n"
+					+ "  [color=#f0c040]Yellow MA5[/color] = short-term trend\n"
+					+ "  [color=#4a90e8]Blue MA20[/color] = long-term trend\n\n"
+					+ "Yellow crossing [b]above[/b] blue → [color=#00c896][b]BUY signal[/b][/color]\n"
+					+ "Yellow crossing [b]below[/b] blue → [color=#ff5252][b]SELL signal[/b][/color]\n\n"
+					+ "[color=#aaffaa]💡 Timing is everything. If you are ahead, take profit quickly.[/color]"
 				)
-			}]
+			)]
 		"trading", "invest":
-			return [{
-				"icon": "📊",
-				"title": "투자 화면 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"📊",
+				"투자 화면 — 기본 규칙",
+				"Investment Screen — Basic Rules",
+				(
 					"종목을 선택하고 사고팔아 자산을 늘려요!\n\n"
 					+ "[b]캔들 차트 읽는 법[/b]\n"
 					+ "  🟢 초록 막대 = 그달 가격이 [b]올랐어요[/b]\n"
@@ -213,13 +334,27 @@ static func _get_slides(game_id: String) -> Array:
 					+ "보유 중인 종목의 [b]손익(%)[/b]이 실시간으로 표시돼요.\n\n"
 					+ "[color=#aaffaa]💡 처음엔 [b]코스피 ETF[/b]나 [b]S&P500[/b]처럼\n"
 					+ "   변동성이 낮은 종목부터 시작해보세요![/color]"
+				),
+				(
+					"Pick an asset, buy or sell, and grow your net worth.\n\n"
+					+ "[b]Candles[/b]\n"
+					+ "  Green bars mean the monthly price moved [b]up[/b]\n"
+					+ "  Red bars mean the monthly price moved [b]down[/b]\n\n"
+					+ "[b]Moving averages[/b]\n"
+					+ "  [color=#f0c040]Yellow MA5[/color] = 5-month average\n"
+					+ "  [color=#4a90e8]Blue MA20[/color] = 20-month average\n"
+					+ "  Yellow above blue usually signals strength.\n\n"
+					+ "[b]Buy[/b] adds a position. [b]Sell[/b] closes part or all of it.\n"
+					+ "Your current profit/loss is shown in real time.\n\n"
+					+ "[color=#aaffaa]💡 Start with lower-volatility assets such as KOSPI ETF or S&P 500.[/color]"
 				)
-			}]
+			)]
 		"racetrack":
-			return [{
-				"icon": "🏇",
-				"title": "경마 — 기본 규칙",
-				"body": (
+			return [_localized_slide(
+				"🏇",
+				"경마 — 기본 규칙",
+				"Horse Racing — Basic Rules",
+				(
 					"말을 골라 베팅하고 레이스를 관전하세요!\n\n"
 					+ "[b]폼 지수 읽기[/b]\n"
 					+ "  ⭐ 별이 많을수록 최근 성적이 좋아요\n"
@@ -231,23 +366,27 @@ static func _get_slides(game_id: String) -> Array:
 					+ "[color=#ff5252]⚠ 경마는 중독성이 있어요. 잃어도 되는 금액만 베팅하세요.[/color]\n\n"
 					+ "[color=#aaffaa]💡 폼이 좋은 말이 항상 이기진 않아요.\n"
 					+ "   1~3위권 말을 고르는 게 안전해요![/color]"
+				),
+				(
+					"Choose horses, place a bet, and watch the race.\n\n"
+					+ "[b]Reading form[/b]\n"
+					+ "  More stars mean stronger recent performance\n"
+					+ "  Lower odds mean higher public confidence\n"
+					+ "  Higher odds are risky, but can swing a run\n\n"
+					+ "[b]Bet types[/b]\n"
+					+ "  Win: pick the winner\n"
+					+ "  Place / Exacta style bets use multiple horses\n\n"
+					+ "[color=#ff5252]⚠ Horse racing is addictive. Bet only money you can afford to lose.[/color]\n\n"
+					+ "[color=#aaffaa]💡 Strong form does not guarantee a win. Safer bets focus on top contenders.[/color]"
 				)
-			}]
+			)]
 		"main_game":
-			var _en := (LocaleManager.language == "en")
 			return [
-				{
-					"icon": "🏙",
-					"title": "Gangnam Dream — Your Goal" if _en else "강남드림 — 게임 목표",
-					"body": (
-						"You are [b]Kim Minjun, 33, unemployed[/b].\n"
-							+ "Your bank account holds [b]KRW 500,000[/b]. That's it.\n\n"
-							+ "One goal —\n"
-							+ "[color=#f0c040][b]Build KRW 3 billion in assets\nwithin 5 years and reach Gangnam.[/b][/color]\n\n"
-						+ "Every week (= 1 turn), spend [b]Action Points (AP)[/b]\nto work, invest, gamble, build relationships.\n\n"
-						+ "[color=#aaffaa]💡 The game ends when you turn 38 (240 turns).\n"
-						+ "   1 month = 4 weeks = 4 turns. 5 years = 240 turns.[/color]"
-						) if _en else (
+				_localized_slide(
+					"🏙",
+					"강남드림 — 게임 목표",
+					"Gangnam Dream — Your Goal",
+					(
 						"당신은 [b]김민준, 33세, 백수[/b].\n"
 						+ "통장에 [b]50만원[/b]이 전부예요.\n\n"
 						+ "목표는 딱 하나 —\n"
@@ -256,20 +395,22 @@ static func _get_slides(game_id: String) -> Array:
 						+ "취업·투자·도박·인간관계 등을 선택하세요.\n\n"
 						+ "[color=#aaffaa]💡 38세(240턴)가 되면 게임이 끝나요.\n"
 						+ "   1달 = 4주 = 4턴. 5년 = 60달 = 240턴.[/color]"
+					),
+					(
+						"You are [b]Kim Minjun, 33, unemployed[/b].\n"
+							+ "Your bank account holds [b]KRW 500,000[/b]. That's it.\n\n"
+							+ "One goal —\n"
+							+ "[color=#f0c040][b]Build KRW 3 billion in assets\nwithin 5 years and reach Gangnam.[/b][/color]\n\n"
+						+ "Every week (= 1 turn), spend [b]Action Points (AP)[/b]\nto work, invest, gamble, build relationships.\n\n"
+						+ "[color=#aaffaa]💡 The game ends when you turn 38 (240 turns).\n"
+						+ "   1 month = 4 weeks = 4 turns. 5 years = 240 turns.[/color]"
 					)
-				},
-				{
-					"icon": "📊",
-					"title": "Reading the Dashboard" if _en else "대시보드 읽는 법",
-					"body": (
-						"Watch the [b]stat bar at the top[/b] at all times:\n\n"
-						+ "  💰 [b]Assets[/b] — cash + portfolio total\n"
-						+ "  ❤ [b]Health[/b] — hits 0: hospitalization or worse\n"
-						+ "  🧠 [b]Mental[/b] — hits 0: burnout, breakdown\n\n"
-						+ "Both drain automatically each month.\nUnemployed? They drain faster.\n\n"
-						+ "[color=#aaffaa]💡 Your first week: use [b]Job Search[/b]\n"
-						+ "   to find work before anything else.[/color]"
-						) if _en else (
+				),
+				_localized_slide(
+					"📊",
+					"대시보드 읽는 법",
+					"Reading the Dashboard",
+					(
 						"[b]상단 스탯 바[/b]를 항상 확인하세요:\n\n"
 						+ "  💰 [b]자산[/b] — 현금 + 포트폴리오 총합\n"
 						+ "  ❤ [b]건강[/b] — 0이 되면 입원 or 사망\n"
@@ -278,22 +419,22 @@ static func _get_slides(game_id: String) -> Array:
 						+ "무직이면 더 빨리 떨어지니 주의!\n\n"
 						+ "[color=#aaffaa]💡 첫 주에는 [b]구직활동[/b]으로\n"
 						+ "   일자리부터 구하는 게 안전해요.[/color]"
+					),
+					(
+						"Watch the [b]stat bar at the top[/b] at all times:\n\n"
+						+ "  💰 [b]Assets[/b] — cash + portfolio total\n"
+						+ "  ❤ [b]Health[/b] — hits 0: hospitalization or worse\n"
+						+ "  🧠 [b]Mental[/b] — hits 0: burnout, breakdown\n\n"
+						+ "Both drain automatically each month.\nUnemployed? They drain faster.\n\n"
+						+ "[color=#aaffaa]💡 Your first week: use [b]Job Search[/b]\n"
+						+ "   to find work before anything else.[/color]"
 					)
-				},
-				{
-					"icon": "⚡",
-					"title": "The Weekly Loop" if _en else "한 주의 흐름",
-					"body": (
-						"Each week goes like this:\n\n"
-						+ "1️⃣  [b]This Week[/b] — read the news and events\n"
-						+ "2️⃣  [b]Choose[/b] — spend AP to respond\n"
-						+ "3️⃣  [b]Next Week ▶[/b] — advance to the next week\n\n"
-						+ "[b]Ways to spend AP:[/b]\n"
-						+ "  💼 Job Hunt  📈 Invest  🎰 Casino\n"
-						+ "  🃏 Hold'em  🏇 Races  👥 Network  and more\n\n"
-						+ "[color=#aaffaa]💡 Unused AP carries over — but\n"
-						+ "   wasting turns makes the goal much harder.[/color]"
-						) if _en else (
+				),
+				_localized_slide(
+					"⚡",
+					"한 주의 흐름",
+					"The Weekly Loop",
+					(
 						"매주 이렇게 진행돼요:\n\n"
 						+ "1️⃣  [b]이번 주 상황[/b] — 뉴스·이벤트 확인\n"
 						+ "2️⃣  [b]선택[/b] — 행동 포인트(AP)를 써서 반응\n"
@@ -303,22 +444,24 @@ static func _get_slides(game_id: String) -> Array:
 						+ "  🃏 홀덤  🏇 경마  👥 인맥 관리  등\n\n"
 						+ "[color=#aaffaa]💡 AP가 남아도 다음 주로 넘어갈 수 있어요.\n"
 						+ "   하지만 낭비하면 목표 달성이 어려워요![/color]"
+					),
+					(
+						"Each week goes like this:\n\n"
+						+ "1️⃣  [b]This Week[/b] — read the news and events\n"
+						+ "2️⃣  [b]Choose[/b] — spend AP to respond\n"
+						+ "3️⃣  [b]Next Week ▶[/b] — advance to the next week\n\n"
+						+ "[b]Ways to spend AP:[/b]\n"
+						+ "  💼 Job Hunt  📈 Invest  🎰 Casino\n"
+						+ "  🃏 Hold'em  🏇 Races  👥 Network  and more\n\n"
+						+ "[color=#aaffaa]💡 Unused AP carries over — but\n"
+						+ "   wasting turns makes the goal much harder.[/color]"
 					)
-				},
-				{
-					"icon": "⚖",
-					"title": "Choices Become a Life" if _en else "선택이 쌓이면 삶이 된다",
-					"body": (
-						"What you do week after week\ndetermines [b]who you become[/b].\n\n"
-						+ "[color=#a78bfa]💼 Build stability[/color]\n"
-						+ "  Jobs, promotions, savings, self-improvement.\n"
-						+ "  Slow — but you don't collapse.\n\n"
-						+ "[color=#f0b429]📈 Build speed[/color]\n"
-						+ "  Investing, leverage, startups, gambling.\n"
-						+ "  Fast — but one bad break ends it all.\n\n"
-						+ "[color=#aaffaa]Both paths can reach Gangnam. Both can fail.[/color]\n"
-						+ "Your pattern of choices unlocks [b]different events\nand different endings[/b]."
-						) if _en else (
+				),
+				_localized_slide(
+					"⚖",
+					"선택이 쌓이면 삶이 된다",
+					"Choices Become a Life",
+					(
 						"매주 어떤 행동을 반복하느냐가\n"
 						+ "당신이 [b]어떤 사람인지[/b]를 결정합니다.\n\n"
 						+ "[color=#a78bfa]💼 안정을 쌓으면[/color]\n"
@@ -329,8 +472,19 @@ static func _get_slides(game_id: String) -> Array:
 						+ "  빠르지만 한 번에 무너진다.\n\n"
 						+ "[color=#aaffaa]둘 다 강남에 갈 수 있고, 둘 다 망할 수 있다.[/color]\n"
 						+ "쌓인 선택에 따라 [b]다른 이벤트와 다른 엔딩[/b]이 열립니다."
+					),
+					(
+						"What you do week after week\ndetermines [b]who you become[/b].\n\n"
+						+ "[color=#a78bfa]💼 Build stability[/color]\n"
+						+ "  Jobs, promotions, savings, self-improvement.\n"
+						+ "  Slow — but you don't collapse.\n\n"
+						+ "[color=#f0b429]📈 Build speed[/color]\n"
+						+ "  Investing, leverage, startups, gambling.\n"
+						+ "  Fast — but one bad break ends it all.\n\n"
+						+ "[color=#aaffaa]Both paths can reach Gangnam. Both can fail.[/color]\n"
+						+ "Your pattern of choices unlocks [b]different events\nand different endings[/b]."
 					)
-				}
+				)
 			]
 	return []
 
@@ -485,9 +639,9 @@ func _show_slide(idx: int) -> void:
 		_page_lbl.text = ""
 
 	if idx < total - 1:
-		_next_btn.text = "다음 ›"
+		_next_btn.text = LocaleManager.ui("다음 ›", "Next ›")
 	else:
-		_next_btn.text = "이해했어요"
+		_next_btn.text = LocaleManager.ui("이해했어요", "Got it")
 
 func _set_slide_icon(slide: Dictionary) -> void:
 	if not is_instance_valid(_icon_tex):
@@ -515,12 +669,12 @@ func _icon_id_for_slide(slide: Dictionary) -> String:
 			return "scalping"
 		"trading", "invest":
 			return "invest"
-	var title := str(slide.get("title", ""))
-	if title.contains("대시보드"):
+	var icon := str(slide.get("icon", ""))
+	if _game_id == "main_game" and icon == "📊":
 		return "health"
-	if title.contains("흐름"):
+	if _game_id == "main_game" and icon == "⚡":
 		return "ap"
-	if title.contains("선택"):
+	if _game_id == "main_game" and icon == "⚖":
 		return "invest"
 	return "goal"
 

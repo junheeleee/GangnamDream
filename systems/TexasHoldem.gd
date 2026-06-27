@@ -53,15 +53,15 @@ static func best_hand(cards: Array) -> Array:
 
 static func rank_name(rank: int) -> String:
 	match rank:
-		0: return "하이카드"
-		1: return "원페어"
-		2: return "투페어"
-		3: return "트리플"
-		4: return "스트레이트"
-		5: return "플러시"
-		6: return "풀하우스"
-		7: return "포카드"
-		8: return "스트레이트 플러시"
+		0: return LocaleManager.ui("하이카드", "High Card")
+		1: return LocaleManager.ui("원페어", "One Pair")
+		2: return LocaleManager.ui("투페어", "Two Pair")
+		3: return LocaleManager.ui("트리플", "Three of a Kind")
+		4: return LocaleManager.ui("스트레이트", "Straight")
+		5: return LocaleManager.ui("플러시", "Flush")
+		6: return LocaleManager.ui("풀하우스", "Full House")
+		7: return LocaleManager.ui("포카드", "Four of a Kind")
+		8: return LocaleManager.ui("스트레이트 플러시", "Straight Flush")
 	return "???"
 
 static func _eval5(cards: Array) -> Array:

@@ -112,22 +112,22 @@ func spin(rng: RandomNumberGenerator) -> Dictionary:
 	# 우선순위: 완전 일치 조합 먼저, 그 다음 부분 조합
 	if r0 == SYM_SEVEN and r1 == SYM_SEVEN and r2 == SYM_SEVEN:
 		multiplier = 200.0
-		win_type = "777 잭팟!"
+		win_type = LocaleManager.ui("777 잭팟!", "777 Jackpot!")
 	elif r0 == SYM_BAR and r1 == SYM_BAR and r2 == SYM_BAR:
 		multiplier = 50.0
 		win_type = "BAR BAR BAR"
 	elif cherry_count == 3:
 		multiplier = 20.0
-		win_type = "체리 3개"
+		win_type = LocaleManager.ui("체리 3개", "3 Cherries")
 	elif r0 == SYM_BELL and r1 == SYM_BELL and r2 == SYM_BELL:
 		multiplier = 15.0
 		win_type = "BELL BELL BELL"
 	elif cherry_count == 2:
 		multiplier = 3.0
-		win_type = "체리 2개"
+		win_type = LocaleManager.ui("체리 2개", "2 Cherries")
 	elif cherry_count == 1:
 		multiplier = 1.5
-		win_type = "체리 1개"
+		win_type = LocaleManager.ui("체리 1개", "1 Cherry")
 	# else: 꽝 → multiplier = 0.0
 
 	var is_win: bool = multiplier > 0.0

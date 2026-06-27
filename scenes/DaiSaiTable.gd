@@ -73,6 +73,9 @@ func _f(node: Object, bold: bool = false) -> void:
 			node.add_theme_font_override("normal_font", ft)
 			node.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 func open() -> void:
 	_phase = Phase.IDLE
 	_bet_type = DAI_SAI.BET_BIG
@@ -134,7 +137,7 @@ func _do_roll() -> void:
 	if _phase != Phase.IDLE:
 		return
 	if int(GameState.money) < _stake:
-		_flash_msg("현금이 부족합니다", "#e85d5d")
+		_flash_msg(_tr("현금이 부족합니다", "Not enough cash"), "#e85d5d")
 		return
 
 	GameState.add_money(-float(_stake))
@@ -142,7 +145,7 @@ func _do_roll() -> void:
 	_phase = Phase.ROLLING
 	_roll_elapsed = 0.0
 	_roll_tick_elapsed = 0.0
-	_msg_lbl.text = "주사위가 굴러갑니다..."
+	_msg_lbl.text = _tr("주사위가 굴러갑니다...", "Dice rolling...")
 	_msg_lbl.add_theme_color_override("font_color", Color("#e8c45d"))
 	AudioManager.play("casino_spin")
 	set_process(true)
@@ -161,13 +164,13 @@ func _finish_roll() -> void:
 		_wins += 1
 		GameState.modify_hidden_stat("gambling_tendency", 2 if multiplier >= 8.0 else 1)
 		AudioManager.play_casino_result(float(net_round), float(_stake), multiplier >= 24.0)
-		_flash_msg("당첨! %s  +%s" % [_dice_label(), GameState.format_money(float(net_round))], "#3de87a")
+		_flash_msg(_tr("당첨! %s  +%s", "Win! %s  +%s") % [_dice_label(), GameState.format_money(float(net_round))], "#3de87a")
 		_pulse_dice()
 	else:
 		_losses += 1
 		GameState.modify_hidden_stat("addiction_tendency", 2)
 		AudioManager.play_casino_result(float(net_round), float(_stake))
-		_flash_msg("패배  %s" % _dice_label(), "#e85d5d")
+		_flash_msg(_tr("패배  %s", "Loss  %s") % _dice_label(), "#e85d5d")
 		_shake_dice()
 
 	_rounds += 1
@@ -181,7 +184,7 @@ func _finish_roll() -> void:
 	if _history.size() > HISTORY_MAX:
 		_history.pop_back()
 
-	GameState.add_log("다이사이 %s %s (%s)" % [
+	GameState.add_log(_tr("다이사이 %s %s (%s)", "Dai Sai %s %s (%s)") % [
 		DAI_SAI.label_for_bet(_bet_type, _selected),
 		"+" + GameState.format_money(float(net_round)) if net_round > 0 else "-" + GameState.format_money(float(abs(net_round))),
 		_dice_label()
@@ -237,11 +240,11 @@ func _build_ui() -> void:
 	_f(_hud_lbl, true)
 	top_row.add_child(_hud_lbl)
 
-	var rules_btn := _make_button("규칙", "#171a25", "#8a6cff", 82, 38)
+	var rules_btn := _make_button(_tr("규칙", "Rules"), "#171a25", "#8a6cff", 82, 38)
 	rules_btn.pressed.connect(func(): TutorialOverlay.force_show("daisai", self))
 	top_row.add_child(rules_btn)
 
-	var exit_btn := _make_button("나가기", "#2a151a", "#e85d5d", 98, 38)
+	var exit_btn := _make_button(_tr("나가기", "Exit"), "#2a151a", "#e85d5d", 98, 38)
 	exit_btn.pressed.connect(_on_exit)
 	top_row.add_child(exit_btn)
 
@@ -273,7 +276,7 @@ func _build_ui() -> void:
 	table_margin.add_child(table)
 
 	var title := Label.new()
-	title.text = "다이사이"
+	title.text = _tr("다이사이", "Dai Sai")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 27)
 	title.add_theme_color_override("font_color", Color("#f2c45f"))
@@ -331,7 +334,7 @@ func _build_ui() -> void:
 	info_v.add_child(_call_ctrl)
 
 	_msg_lbl = Label.new()
-	_msg_lbl.text = "BIG, SMALL 또는 원하는 조합에 베팅하세요."
+	_msg_lbl.text = _tr("BIG, SMALL 또는 원하는 조합에 베팅하세요.", "Choose BIG, SMALL, or any dice combination.")
 	_msg_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_msg_lbl.add_theme_font_size_override("font_size", 15)
 	_msg_lbl.add_theme_color_override("font_color", Color("#d8dbe8"))
@@ -361,8 +364,8 @@ func _add_bet_rows(table: VBoxContainer) -> void:
 	table.add_child(quick)
 	quick.add_child(_bet_btn("BIG 11-17\n1:1", DAI_SAI.BET_BIG, -1, "#17313d", "#48b4ff", 154, 48))
 	quick.add_child(_bet_btn("SMALL 4-10\n1:1", DAI_SAI.BET_SMALL, -1, "#173d2a", "#57d987", 154, 48))
-	quick.add_child(_bet_btn("홀수\n1:1", DAI_SAI.BET_ODD, -1, "#2b213a", "#b78cff", 130, 48))
-	quick.add_child(_bet_btn("짝수\n1:1", DAI_SAI.BET_EVEN, -1, "#2b213a", "#b78cff", 130, 48))
+	quick.add_child(_bet_btn(_tr("홀수\n1:1", "ODD\n1:1"), DAI_SAI.BET_ODD, -1, "#2b213a", "#b78cff", 130, 48))
+	quick.add_child(_bet_btn(_tr("짝수\n1:1", "EVEN\n1:1"), DAI_SAI.BET_EVEN, -1, "#2b213a", "#b78cff", 130, 48))
 	quick.add_child(_bet_btn("ANY TRIPLE\n24:1", DAI_SAI.BET_ANY_TRIPLE, -1, "#3a1f1f", "#f07f55", 184, 48))
 
 	var single := HBoxContainer.new()
@@ -370,14 +373,14 @@ func _add_bet_rows(table: VBoxContainer) -> void:
 	table.add_child(single)
 	for face in range(1, 7):
 		var f := int(face)
-		single.add_child(_bet_btn("%d 싱글\n1~3:1" % f, DAI_SAI.BET_SINGLE, f, "#142026", "#75d6ff", 118, 44))
+		single.add_child(_bet_btn(_tr("%d 싱글\n1~3:1", "%d Single\n1-3:1") % f, DAI_SAI.BET_SINGLE, f, "#142026", "#75d6ff", 118, 44))
 
 	var pair := HBoxContainer.new()
 	pair.add_theme_constant_override("separation", 6)
 	table.add_child(pair)
 	for face in range(1, 7):
 		var f := int(face)
-		pair.add_child(_bet_btn("%d%d 페어\n8:1" % [f, f], DAI_SAI.BET_PAIR, f, "#171a25", "#d8dbe8", 118, 44))
+		pair.add_child(_bet_btn(_tr("%d%d 페어\n8:1", "%d%d Pair\n8:1") % [f, f], DAI_SAI.BET_PAIR, f, "#171a25", "#d8dbe8", 118, 44))
 
 	var triple := HBoxContainer.new()
 	triple.add_theme_constant_override("separation", 6)
@@ -394,7 +397,7 @@ func _add_bet_rows(table: VBoxContainer) -> void:
 	for total in range(4, 18):
 		var t := int(total)
 		var pay := int(DAI_SAI.TOTAL_PAYOUTS.get(t, 0.0))
-		totals.add_child(_bet_btn("합계 %d\n%d:1" % [t, pay], DAI_SAI.BET_TOTAL, t, "#1a1825", "#e8c45d", 118, 42))
+		totals.add_child(_bet_btn(_tr("합계 %d\n%d:1", "Total %d\n%d:1") % [t, pay], DAI_SAI.BET_TOTAL, t, "#1a1825", "#e8c45d", 118, 42))
 
 func _add_stake_and_action_rows(table: VBoxContainer) -> void:
 	var stake_row := HBoxContainer.new()
@@ -402,7 +405,7 @@ func _add_stake_and_action_rows(table: VBoxContainer) -> void:
 	table.add_child(stake_row)
 
 	var stake_label := Label.new()
-	stake_label.text = "베팅 단위"
+	stake_label.text = _tr("베팅 단위", "Stake")
 	stake_label.custom_minimum_size = Vector2(96, 42)
 	stake_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	stake_label.add_theme_font_size_override("font_size", 13)
@@ -426,7 +429,7 @@ func _add_stake_and_action_rows(table: VBoxContainer) -> void:
 	_roll_btn.pressed.connect(_do_roll)
 	action_row.add_child(_roll_btn)
 
-	var reset_btn := _make_button("기본 베팅", "#161a25", "#8a93a8", 160, 54)
+	var reset_btn := _make_button(_tr("기본 베팅", "Default Bet"), "#161a25", "#8a93a8", 160, 54)
 	reset_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	reset_btn.pressed.connect(func():
 		_select_bet(DAI_SAI.BET_BIG, -1)
@@ -434,7 +437,7 @@ func _add_stake_and_action_rows(table: VBoxContainer) -> void:
 	)
 	action_row.add_child(reset_btn)
 
-	var close_btn := _make_button("카지노 허브로", "#2a151a", "#e85d5d", 180, 54)
+	var close_btn := _make_button(_tr("카지노 허브로", "Casino Hub"), "#2a151a", "#e85d5d", 180, 54)
 	close_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	close_btn.pressed.connect(_on_exit)
 	action_row.add_child(close_btn)
@@ -512,7 +515,7 @@ func _alpha(hex: String, a: float) -> Color:
 func _refresh() -> void:
 	if _hud_lbl:
 		var net_color := "#3de87a" if _net >= 0 else "#e85d5d"
-		_hud_lbl.bbcode_text = "[b]현금[/b] %s   |   [b]라운드[/b] %d   승%d 패%d   |   [color=%s][b]손익[/b] %s%s[/color]" % [
+		_hud_lbl.bbcode_text = _tr("[b]현금[/b] %s   |   [b]라운드[/b] %d   승%d 패%d   |   [color=%s][b]손익[/b] %s%s[/color]", "[b]Cash[/b] %s   |   [b]Round[/b] %d   W%d L%d   |   [color=%s][b]Net[/b] %s%s[/color]") % [
 			GameState.format_money(float(GameState.money)),
 			_rounds,
 			_wins,
@@ -522,9 +525,9 @@ func _refresh() -> void:
 			GameState.format_money(float(abs(_net))),
 		]
 	if _balance_lbl:
-		_balance_lbl.text = "현재 현금 %s" % GameState.format_money(float(GameState.money))
+		_balance_lbl.text = _tr("현재 현금 %s", "Current cash %s") % GameState.format_money(float(GameState.money))
 	if _bet_info_lbl:
-		_bet_info_lbl.text = "선택: %s   |   베팅액: %s   |   결과: %s" % [
+		_bet_info_lbl.text = _tr("선택: %s   |   베팅액: %s   |   결과: %s", "Selected: %s   |   Stake: %s   |   Result: %s") % [
 			DAI_SAI.label_for_bet(_bet_type, _selected),
 			GameState.format_money(float(_stake)),
 			_dice_label(),
@@ -630,7 +633,7 @@ func _refresh_history() -> void:
 		child.queue_free()
 	if _history.is_empty():
 		var empty := Label.new()
-		empty.text = "최근 결과 없음"
+		empty.text = _tr("최근 결과 없음", "No recent results")
 		empty.add_theme_font_size_override("font_size", 11)
 		empty.add_theme_color_override("font_color", Color("#6f7788"))
 		_f(empty)
@@ -750,7 +753,7 @@ func _draw_single_die(pos: Vector2, size: float, value: int) -> void:
 		_dice_ctrl.draw_circle(p[k], r, pip_color)
 
 func _dice_label() -> String:
-	return "%d-%d-%d / 합계 %d" % [int(_dice[0]), int(_dice[1]), int(_dice[2]), DAI_SAI.total(_dice)]
+	return _tr("%d-%d-%d / 합계 %d", "%d-%d-%d / Total %d") % [int(_dice[0]), int(_dice[1]), int(_dice[2]), DAI_SAI.total(_dice)]
 
 func _flash_msg(text: String, color_hex: String) -> void:
 	if not _msg_lbl:
