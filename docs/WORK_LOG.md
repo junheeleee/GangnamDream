@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex MORAL_TINT Visual Link)
+
+### 수정
+- `scenes/MainGame.gd`: `GameState.moral_tint_changed(norm, stage)`를 구독해 `MORAL_TINT` 값을 실제 화면에 연결했다.
+- 배경 전역 필터를 추가해 Black 쪽은 차갑고 어둡게, White 쪽은 따뜻하게 보이도록 조정했다. UI 텍스트 가독성을 해치지 않도록 필터는 메인 UI 아래 레이어에 배치했다.
+- Black stage에서는 돈 HUD와 목표 자산 숫자만 형광 녹색으로 밝아지게 해 "돈만 밝아지는" 주제문을 화면에 반영했다. White stage에서는 같은 영역을 따뜻한 아이보리 톤으로 낮췄다.
+- 엔딩 모달 진입 시 최종 moral stage에 따라 딤 오버레이, 패널 테두리, 타이틀 색을 바꾸도록 했다.
+- `tools/ScreenshotQA.gd`: `--qa=moral` 스코프를 추가해 Black/Gray/White 3상태 캡처를 빠르게 생성할 수 있게 했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA.tscn -- --qa=moral` 실행 완료. `03b_moral_black`, `03c_moral_gray`, `03d_moral_white` 직접 확인.
+
+---
+
 ## 2026-06-28 (Codex English Casino Surface QA)
 
 ### 수정

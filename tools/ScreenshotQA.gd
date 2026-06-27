@@ -6,12 +6,15 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino
 ## 영어 카지노만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
+## MORAL_TINT 필터만 빠르게 확인:
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=moral
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
 const OUT_DIR := "/tmp/gangnamdream_qa"
 const QA_SCOPE_CASINO := "casino"
 const QA_SCOPE_CASINO_EN := "casino_en"
+const QA_SCOPE_MORAL := "moral"
 var _mg: Node = null
 
 func _ready() -> void:
@@ -26,6 +29,15 @@ func _ready() -> void:
 		await _boot_main_game()
 		await _shot_casino_suite(prefix)
 		print("SCREENSHOT_QA_DONE scope=casino lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_MORAL:
+		_set_qa_language(_qa_language("ko"))
+		_prepare_main_game_state()
+		_seed_portfolio()
+		await _boot_main_game()
+		await _shot_moral_tint_states()
+		print("SCREENSHOT_QA_DONE scope=moral dir=%s" % OUT_DIR)
 		get_tree().quit(0)
 		return
 
@@ -69,6 +81,10 @@ func _qa_scope() -> String:
 		args.append(str(raw))
 	for raw in args:
 		var arg := raw.strip_edges().to_lower()
+		if arg in ["moral", "moral-tint", "moral_tint", "--moral", "--moral-tint", "--moral_tint",
+				"qa=moral", "--qa=moral", "qa=moral-tint", "--qa=moral-tint",
+				"scope=moral", "--scope=moral", "scope=moral-tint", "--scope=moral-tint"]:
+			return QA_SCOPE_MORAL
 		if arg in ["casino-en", "casino_en", "--casino-en", "--casino_en",
 				"qa=casino-en", "--qa=casino-en", "qa=casino_en", "--qa=casino_en",
 				"scope=casino-en", "--scope=casino-en", "scope=casino_en", "--scope=casino_en"]:
@@ -353,6 +369,25 @@ func _shot_ap_actions() -> void:
 		_mg._render_ap_actions()
 	await _settle(0.8)
 	await _save("04_ap_actions_dashboard")
+
+func _shot_moral_tint_states() -> void:
+	var cases := [
+		[-80.0, "03b_moral_black"],
+		[0.0, "03c_moral_gray"],
+		[80.0, "03d_moral_white"],
+	]
+	for data in cases:
+		GameState.moral_tint = float(data[0])
+		if _mg.has_method("_apply_moral_visuals"):
+			_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+		_mg.current_event = {}
+		if _mg.has_method("_render_ap_actions"):
+			_mg._render_ap_actions()
+		await _settle(0.7)
+		await _save(str(data[1]))
+	GameState.moral_tint = 0.0
+	if _mg.has_method("_apply_moral_visuals"):
+		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
 
 func _shot_english_main_flow() -> void:
 	_set_qa_language("en")

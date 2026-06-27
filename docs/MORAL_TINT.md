@@ -124,7 +124,7 @@ DE의 "스킬이 말한다"와 무관한 우리 고유 시스템. 추상 메타�
 1. ✅ **엔진 코어**: moral_tint 필드·shift·stage·norm·tint 키·흉터 훅·serialize·audit (게임 동작 무변, 값만 쌓임) — 헤드리스 검증 완료
 2. ✅ **수직 슬라이스**: 상철 known_offer/reflex/confrontation/reckoning/mirror + 아버지 병원 tint 부여 완료
 3. ✅ **밴드 전이 비네트**: 0→−1, −1→−2, 회복 시 짧은 서사 통지 (§6) — pending_tint_vignette + _show_moral_beat() + 3종 KR+EN
-4. ⬜ **Codex 시각 연결**: `moral_tint_norm()`/`moral_stage()` 구독 (스펙 → NEW_ASSET_REQUESTS.md)
+4. ✅ **Codex 시각 연결**: `moral_tint_changed(norm, stage)` 구독 → MainGame 배경 필터·돈 HUD 글로우·엔딩 팔레트 연결, ScreenshotQA `--qa=moral` 검증 완료
 5. ✅ **스파인 확장**: 다은(전 씬)·재원·민서·지연·아버지·상철 year3 KR+EN tint 저작 완료 (57개 선택지)
 6. ✅ **밸런스 시뮬 검증** (N=3000):
    - 혼합(70% white): 15.3% 30억 도달, 승자 평균 tint +54.8

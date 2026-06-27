@@ -39,6 +39,10 @@ var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표�
 var _vignette_rect: ColorRect = null      # 스트레스/정신력 비네팅 레이어
 var _ambient_overlay: ColorRect = null
 var _category_tint: ColorRect = null  # 이벤트 카테고리 색 틴트
+var _moral_tint_overlay: ColorRect = null  # MORAL_TINT: 배경 온도/채도 필터
+var _moral_tint_tween: Tween = null
+var _moral_norm: float = 0.0
+var _moral_stage: int = 0
 var _event_bg_motion_tween: Tween = null
 var _transient_bg_active: bool = false
 var _main_ui_root: Control = null
@@ -231,6 +235,7 @@ func _ready():
 	if not LocaleManager.language_changed.is_connected(_on_language_changed):
 		LocaleManager.language_changed.connect(_on_language_changed)
 	_refresh_all()
+	_apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
 	# StoryMode에서 복귀한 경우: 달을 다시 시작하지 않고 이어진 스토리만 체크
 	if GameState.returning_from_story:
 		GameState.returning_from_story = false
@@ -292,9 +297,79 @@ func _init_systems():
 func _connect_signals():
 	GameState.stats_changed.connect(_refresh_all)
 	GameState.game_over.connect(_show_ending)
+	if not GameState.moral_tint_changed.is_connected(_on_moral_tint_changed):
+		GameState.moral_tint_changed.connect(_on_moral_tint_changed)
 	job_system.promoted.connect(_on_promoted)
 	GameState.stat_threshold_crossed.connect(_on_stat_threshold_crossed)
 	GameState.tendency_awakened.connect(_on_tendency_awakened)
+
+func _on_moral_tint_changed(norm: float, stage: int) -> void:
+	_apply_moral_visuals(norm, stage)
+
+func _apply_moral_visuals(norm: float, stage: int, immediate: bool = false) -> void:
+	_moral_norm = clampf(norm, -1.0, 1.0)
+	_moral_stage = stage
+	var target := _moral_overlay_color(_moral_norm, _moral_stage)
+	if is_instance_valid(_moral_tint_overlay):
+		if _moral_tint_tween and _moral_tint_tween.is_running():
+			_moral_tint_tween.kill()
+		if immediate:
+			_moral_tint_overlay.color = target
+		else:
+			_moral_tint_tween = create_tween()
+			_moral_tint_tween.tween_property(_moral_tint_overlay, "color", target, 0.9).set_trans(Tween.TRANS_SINE)
+	_apply_money_moral_glow()
+
+func _moral_overlay_color(norm: float, stage: int) -> Color:
+	if stage <= -2:
+		return Color(0.00, 0.025, 0.035, 0.22)
+	if stage == -1:
+		return Color(0.015, 0.035, 0.05, 0.13)
+	if stage >= 2:
+		return Color(1.00, 0.92, 0.74, 0.12)
+	if stage == 1:
+		return Color(0.92, 0.88, 0.78, 0.07)
+	var gray_alpha: float = 0.025 + absf(norm) * 0.025
+	return Color(0.35, 0.35, 0.39, gray_alpha)
+
+func _apply_money_moral_glow() -> void:
+	var money_col := Color("#00c896")
+	var goal_col := Color("#9aa4b8")
+	var shadow_col := Color(0, 0, 0, 0)
+	var shadow_size := 0
+	if _moral_stage <= -2:
+		money_col = Color("#79ffb2")
+		goal_col = Color("#9affc9")
+		shadow_col = Color(0.15, 1.0, 0.60, 0.50)
+		shadow_size = 8
+	elif _moral_stage == -1:
+		money_col = Color("#46e89a")
+		goal_col = Color("#67dca7")
+		shadow_col = Color(0.10, 0.70, 0.45, 0.32)
+		shadow_size = 4
+	elif _moral_stage >= 2:
+		money_col = Color("#f8e7b0")
+		goal_col = Color("#ead89a")
+	elif _moral_stage == 1:
+		money_col = Color("#d8d2c4")
+		goal_col = Color("#cfc8b6")
+	_apply_money_label_style(top_labels.get("money", null) as Label, money_col, shadow_col, shadow_size)
+	_apply_money_label_style(_goal_money_lbl, goal_col, shadow_col, shadow_size)
+
+func _apply_money_label_style(label: Label, color: Color, shadow_color: Color, shadow_size: int) -> void:
+	if not is_instance_valid(label):
+		return
+	label.add_theme_color_override("font_color", color)
+	if shadow_size > 0:
+		label.add_theme_color_override("font_shadow_color", shadow_color)
+		label.add_theme_constant_override("shadow_outline_size", shadow_size)
+		label.add_theme_constant_override("shadow_offset_x", 0)
+		label.add_theme_constant_override("shadow_offset_y", 0)
+	else:
+		label.remove_theme_color_override("font_shadow_color")
+		label.remove_theme_constant_override("shadow_outline_size")
+		label.remove_theme_constant_override("shadow_offset_x")
+		label.remove_theme_constant_override("shadow_offset_y")
 
 func _build_ui():
 	# ── 1. 최하단: 시네마틱 라디얼 그라디언트 배경 (누아르 깊이) ──
@@ -345,6 +420,14 @@ func _build_ui():
 	_category_tint.color = Color(0.0, 0.0, 0.0, 0.0)
 	_category_tint.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_category_tint)
+
+	# MORAL_TINT 전역 필터. 숫자/게이지를 노출하지 않고 배경의 온도와 채도로만
+	# 플레이어가 선택의 누적 방향을 느끼게 한다.
+	_moral_tint_overlay = ColorRect.new()
+	_moral_tint_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_moral_tint_overlay.color = Color(0.35, 0.35, 0.38, 0.025)
+	_moral_tint_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_moral_tint_overlay)
 
 	# ── 4. 메인 레이아웃 ──
 	var root = VBoxContainer.new()
@@ -2797,6 +2880,7 @@ func _refresh_all():
 		top_labels["money"].text = _tr("현금 %s  |  자산 %s", "Cash %s  |  Assets %s") % [cash_str, asset_str]
 	else:
 		top_labels["money"].text = cash_str if LocaleManager.is_english() else (_tr("현금 %s", "Cash %s") % cash_str)
+	_apply_money_moral_glow()
 	# AP 도트 (이벤트 없을 때만 표시, _render_ap_actions에서도 갱신)
 	var ap = GameState.action_points
 	top_labels["ap"].text = "%d/%d" % [ap, GameState.max_action_points]
@@ -6416,6 +6500,7 @@ func _show_ending(ending_id):
 
 	_open_modal(_tr("최종 기록", "Finale"))
 	_apply_ending_modal_layout()
+	_apply_ending_moral_palette()
 	var grade = ending.get("grade", "?")
 	var grade_colors = {"S+": "#ffd700", "S": "#f0b429", "A+": "#7ee8a2", "A": "#34d399", "B": "#c9a227", "C": "#8892a4", "F": "#ff4444", "?": "#a855f7"}
 	var grade_emojis = {"S+": "🌠", "S": "🏆", "A+": "🌟", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
@@ -6540,6 +6625,30 @@ func _apply_ending_modal_layout() -> void:
 		modal_panel.offset_bottom = 360
 	if modal_scroll:
 		modal_scroll.custom_minimum_size = Vector2(0, 570)
+
+func _apply_ending_moral_palette() -> void:
+	var norm := GameState.moral_tint_norm()
+	var stage := GameState.moral_stage()
+	if stage <= -2:
+		modal_layer.color = Color(0.0, 0.0, 0.0, 0.86)
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#030506", "#42ff9a", 8, 14, 12))
+		modal_title_label.add_theme_color_override("font_color", Color("#79ffb2"))
+	elif stage == -1:
+		modal_layer.color = Color(0.0, 0.015, 0.02, 0.78)
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#070b0d", "#2acc7d", 8, 14, 12))
+		modal_title_label.add_theme_color_override("font_color", Color("#8ee8bc"))
+	elif stage >= 2:
+		modal_layer.color = Color(0.055, 0.040, 0.018, 0.62)
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#17130d", "#f2d58a", 8, 14, 12))
+		modal_title_label.add_theme_color_override("font_color", Color("#f7e3a4"))
+	elif stage == 1:
+		modal_layer.color = Color(0.045, 0.035, 0.025, 0.66)
+		modal_panel.add_theme_stylebox_override("panel", _modal_style("#14120f", "#d8c17c", 8, 14, 12))
+		modal_title_label.add_theme_color_override("font_color", Color("#ead89a"))
+	else:
+		var alpha := 0.70 + minf(absf(norm) * 0.08, 0.08)
+		modal_layer.color = Color(0, 0, 0, alpha)
+		modal_title_label.add_theme_color_override("font_color", Color("#e8eaf0"))
 
 func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = false) -> void:
 	var frame := PanelContainer.new()

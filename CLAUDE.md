@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-25** — **Y1-Y5 전체 정합성 QA + 후속 수정**: 4영역 병렬 추적(다은/지연/타임라인/엔딩). 블로커·데드엔드 없음, 30억>연애 엔딩 우선순위 회귀 없음 확인. 수정: 지연 respected/trust 플레이어 Y4 공백→year4_seoul 게이트 확장, 다은 우정 finale 에필로그 톤 누수→플래그 게이트, 죽은 stage(dating/committed) 제거. audit 통과. |
+| **최근 완료** | **2026-06-28** — **Codex MORAL_TINT 시각 연결**: `GameState.moral_tint_changed(norm, stage)` 구독 → MainGame 배경 온도/채도 필터, 검정 stage 돈 HUD 형광 글로우, 하양 stage 따뜻한 팔레트, 엔딩 모달 moral palette 연결. `ScreenshotQA --qa=moral`로 Black/Gray/White 3상태 캡처 검증. |
+| **이전** | **2026-06-25** — **Y1-Y5 전체 정합성 QA + 후속 수정**: 4영역 병렬 추적(다은/지연/타임라인/엔딩). 블로커·데드엔드 없음, 30억>연애 엔딩 우선순위 회귀 없음 확인. 수정: 지연 respected/trust 플레이어 Y4 공백→year4_seoul 게이트 확장, 다은 우정 finale 에필로그 톤 누수→플래그 게이트, 죽은 stage(dating/committed) 제거. audit 통과. |
 | **이전** | **2026-06-25** — **지연 로맨스 Y5 단일화 정합성**: jiyeon_man 엔딩 stage(honest_together Y2/lover Y4)→jiyeon_romance_started 플래그 게이트. Y5 return이 연애 formalize(lover+flag). Y4 seoul lover→honest_together. 에필로그/중복가드 정리. honest_together='연애 전 깊은 유대'로 의미 유지(콜백 무수정). audit 통과. |
 | **이전** | **2026-06-25** — **다은 우정 재프레임 완성 + 현수 Y4-Y5 + Steam App ID**: 다은 Y2-Y5(05_together/year3/year4/year5) committed→close 우정 전환, 연애는 Y5 게이트 단일화. with_daeun 엔딩 오발동 버그 수정(stage→daeun_romance_started 플래그). 죽은 stage(committed/dating) 정리. 현수 hyunsu_year4_echo/year5_call 신규(안정 vs 야망 거울). Steam App ID 상수화+폴백. audit ERROR 0/WARNING 0/밴드 통과. |
 | **이전** | **2026-06-25** — **로맨스 시스템 재설계 (Y5 게이트 + 경로 연동)**: 다은 Y1-Y4 아크 우정 재프레임. arc_romance_y5.json 신규 — `arc_daeun_y5_feelings`(moral_stage≥0) / `arc_jiyeon_y5_feelings`(moral_stage≤-1) Y5 첫 고백. with_daeun/jiyeon_man 결혼 변주. |
@@ -48,8 +49,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **Codex 최종 검수 Phase 2** — 데모 첫 30분 블랙박스 플레이 흐름 점검 → MORAL_TINT §4 화면 필터 연결 → 미니게임 촉감(카드 딜/칩 이동/SFX 타이밍) 강화 → Steam Deck/영어판 표면 QA. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-28 (Codex: English Casino Surface QA — ScreenshotQA `--qa=casino-en` 추가, 영어 카지노 허브/슬롯 통화 표기 통일, 슬롯 QA 당첨 문자열 로케일화. CompileCheck/english_hangul_audit/audit/casino-en ScreenshotQA 통과.) |
+| **다음 작업** | **Codex 최종 검수 Phase 2** — 데모 첫 30분 블랙박스 플레이 흐름 점검 → 미니게임 촉감(카드 딜/칩 이동/SFX 타이밍) 강화 → Steam Deck/영어판 표면 QA. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-28 (Codex: MORAL_TINT Visual Link — MainGame 배경 필터·돈 HUD 글로우·엔딩 팔레트 연결, ScreenshotQA `--qa=moral` 추가. CompileCheck/moral ScreenshotQA 통과.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
