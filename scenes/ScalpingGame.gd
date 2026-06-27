@@ -53,6 +53,9 @@ func _ready() -> void:
 	visible = false
 	set_process(false)
 
+func _tr(ko_text: String, en_text: String) -> String:
+	return LocaleManager.ui(ko_text, en_text)
+
 func _load_fonts() -> void:
 	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
 	_font_bold = load("res://assets/fonts/Pretendard-Bold.ttf") as FontFile
@@ -161,7 +164,7 @@ func _build_ui() -> void:
 	var hdr_row := HBoxContainer.new()
 	root.add_child(hdr_row)
 	var title := Label.new()
-	title.text = "⚡ 스캘핑 트레이딩"
+	title.text = _tr("⚡ 스캘핑 트레이딩", "⚡ Scalping Trading")
 	title.add_theme_font_size_override("font_size", 18)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -282,7 +285,7 @@ func _draw_chart(canvas: Control) -> void:
 	if _in_position and _entry_price > 0.0:
 		var ey: float = h - ((_entry_price - lo) / range_y) * h
 		canvas.draw_line(Vector2(0, ey), Vector2(w, ey), Color(0.15, 0.8, 0.4, 0.55), 1.5)
-		canvas.draw_string(f, Vector2(w - 70, ey - 10), "진입 %.2f" % _entry_price,
+		canvas.draw_string(f, Vector2(w - 70, ey - 10), _tr("진입 %.2f", "Entry %.2f") % _entry_price,
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("#3dba6a"))
 
 	# ── 캔들 렌더 ────────────────────────────────────────────────
@@ -353,7 +356,7 @@ func _draw_chart(canvas: Control) -> void:
 			canvas.draw_line(Vector2(cx - sz, ty - sz * 0.5), Vector2(cx + sz, ty - sz * 0.5), Color("#ff4040"), 2.0)
 			canvas.draw_line(Vector2(cx + sz, ty - sz * 0.5), Vector2(cx, ty + sz), Color("#ff4040"), 2.0)
 			var pnl: float = float(trade.get("pnl", 0.0))
-			var pnl_str := "%+.0f" % pnl
+			var pnl_str := _signed_money(pnl)
 			canvas.draw_string(f, Vector2(cx + sz + 2, ty - 4), "SELL " + pnl_str,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("#ff6060"))
 
@@ -373,7 +376,7 @@ func _refresh_ui() -> void:
 	if _phase != Phase.PLAYING: return
 	if is_instance_valid(_timer_lbl):
 		var sec_left: int = ceili(_timer)
-		_timer_lbl.text = "⏱ %d초" % sec_left
+		_timer_lbl.text = _tr("⏱ %d초", "⏱ %ds") % sec_left
 		if _timer <= 10.0:
 			_timer_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
 		elif _timer <= 20.0:
@@ -381,23 +384,23 @@ func _refresh_ui() -> void:
 		else:
 			_timer_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	if is_instance_valid(_price_lbl):
-		_price_lbl.text = "가격  %.2f" % _price
+		_price_lbl.text = _tr("가격  %.2f", "Price  %.2f") % _price
 	var total_pnl: float = _realized
 	if _in_position:
 		total_pnl += float(_stake) * (_price - _entry_price) / _entry_price
 	if is_instance_valid(_pnl_lbl):
-		var pnl_str := ("%+.0f원" % total_pnl)
+		var pnl_str := _signed_money(total_pnl)
 		_pnl_lbl.text = "P&L  " + pnl_str
 		_pnl_lbl.add_theme_color_override("font_color", Color("#3dba6a") if total_pnl >= 0 else Color("#e85d5d"))
 	if is_instance_valid(_position_lbl):
-		_position_lbl.text = "포지션: 보유중 (%s)" % _fmt(_stake) if _in_position else "포지션: 없음"
+		_position_lbl.text = _tr("포지션: 보유중 (%s)", "Position: Open (%s)") % _fmt(_stake) if _in_position else _tr("포지션: 없음", "Position: None")
 	# 힌트 (투자감각 40+)
 	if is_instance_valid(_hint_lbl) and _skill_level >= 40:
 		var recent: Array = _price_history.slice(maxi(0, _price_history.size() - 5))
 		if recent.size() >= 3:
 			var trend: float = float(recent[-1]) - float(recent[0])
 			if absf(trend) > 0.3:
-				_hint_lbl.text = "📈 추세 감지: %s" % ("상승" if trend > 0 else "하락")
+				_hint_lbl.text = _tr("📈 추세 감지: %s", "📈 Trend detected: %s") % (_tr("상승", "Up") if trend > 0 else _tr("하락", "Down"))
 			else:
 				_hint_lbl.text = ""
 	if is_instance_valid(_buy_btn):
@@ -434,15 +437,15 @@ func _show_setup() -> void:
 	vb.custom_minimum_size = Vector2(340, 0)
 	center.add_child(vb)
 	var t := Label.new()
-	t.text = "⚡ 스캘핑 트레이딩"
+	t.text = _tr("⚡ 스캘핑 트레이딩", "⚡ Scalping Trading")
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.add_theme_font_size_override("font_size", 22)
 	t.add_theme_color_override("font_color", Color("#f0b429"))
 	_f(t, true)
 	vb.add_child(t)
 	var desc := Label.new()
-	desc.text = "60초 안에 저점 매수 → 고점 매도\n투자감각 %d  ( %s )" % [_skill_level,
-		"노이즈 낮음 · 추세 힌트 있음" if _skill_level >= 40 else "노이즈 높음"]
+	desc.text = _tr("60초 안에 저점 매수 → 고점 매도\n투자감각 %d  ( %s )", "Buy lows and sell highs within 60 seconds\nInvestment Sense %d  ( %s )") % [_skill_level,
+		_tr("노이즈 낮음 · 추세 힌트 있음", "Low noise · trend hints enabled") if _skill_level >= 40 else _tr("노이즈 높음", "High noise")]
 	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	desc.add_theme_font_size_override("font_size", 12)
 	desc.add_theme_color_override("font_color", Color("#8a9ab0"))
@@ -453,7 +456,7 @@ func _show_setup() -> void:
 	sep.modulate = Color("#1a2030")
 	vb.add_child(sep)
 	var stake_lbl := Label.new()
-	stake_lbl.text = "판돈 선택"
+	stake_lbl.text = _tr("판돈 선택", "Choose Stake")
 	stake_lbl.add_theme_font_size_override("font_size", 13)
 	stake_lbl.add_theme_color_override("font_color", Color("#c0c8d0"))
 	_f(stake_lbl, true)
@@ -471,7 +474,7 @@ func _show_setup() -> void:
 		_f(sb)
 		btn_grid.add_child(sb)
 	vb.add_child(_sep())
-	var leave_btn := _btn("나가기", func(): _on_close_pressed(), "#2a1818")
+	var leave_btn := _btn(_tr("나가기", "Leave"), func(): _on_close_pressed(), "#2a1818")
 	vb.add_child(leave_btn)
 
 func _show_result() -> void:
@@ -491,21 +494,21 @@ func _show_result() -> void:
 	vb.custom_minimum_size = Vector2(300, 0)
 	center.add_child(vb)
 	var t := Label.new()
-	t.text = "⚡ 세션 종료"
+	t.text = _tr("⚡ 세션 종료", "⚡ Session Complete")
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.add_theme_font_size_override("font_size", 20)
 	t.add_theme_color_override("font_color", Color("#f0b429"))
 	_f(t, true)
 	vb.add_child(t)
 	var trades_lbl := Label.new()
-	trades_lbl.text = "거래 %d회" % _trades
+	trades_lbl.text = _tr("거래 %d회", "%d trades") % _trades
 	trades_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	trades_lbl.add_theme_font_size_override("font_size", 12)
 	trades_lbl.add_theme_color_override("font_color", Color("#5a6a8a"))
 	_f(trades_lbl)
 	vb.add_child(trades_lbl)
 	var pnl_lbl := Label.new()
-	pnl_lbl.text = ("%+.0f원" % _realized)
+	pnl_lbl.text = _signed_money(_realized)
 	pnl_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pnl_lbl.add_theme_font_size_override("font_size", 26)
 	pnl_lbl.add_theme_color_override("font_color", Color("#3dba6a") if _realized >= 0 else Color("#e85d5d"))
@@ -516,7 +519,7 @@ func _show_result() -> void:
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 8)
 	vb.add_child(btn_row)
-	var again_btn := _btn("다시하기", func():
+	var again_btn := _btn(_tr("다시하기", "Retry"), func():
 		overlay.queue_free()
 		_phase = Phase.SETUP
 		_show_setup()
@@ -524,7 +527,7 @@ func _show_result() -> void:
 	again_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(again_btn)
 	btn_row.add_child(again_btn)
-	var leave_btn := _btn("나가기", func(): _on_close_pressed(), "#2a1818")
+	var leave_btn := _btn(_tr("나가기", "Leave"), func(): _on_close_pressed(), "#2a1818")
 	leave_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_f(leave_btn)
 	btn_row.add_child(leave_btn)
@@ -567,12 +570,12 @@ func _on_sell() -> void:
 func _apply_result() -> void:
 	GameState.add_money(_realized)
 	if _realized > 0:
-		GameState.add_log("⚡ 스캘핑으로 %s 벌었다. (%d회 거래)" % [_fmt(_realized), _trades], "money")
+		GameState.add_log(_tr("⚡ 스캘핑으로 %s 벌었다. (%d회 거래)", "⚡ Earned %s from scalping. (%d trades)") % [_fmt(_realized), _trades], "money")
 		GameState.modify_stat("investment_skill", 1)
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 		AudioManager.play("money_big" if _realized >= 1_000_000.0 else "money_gain")
 	elif _realized < 0:
-		GameState.add_log("⚡ 스캘핑에서 %s 잃었다." % _fmt(-_realized), "money")
+		GameState.add_log(_tr("⚡ 스캘핑에서 %s 잃었다.", "⚡ Lost %s from scalping.") % _fmt(-_realized), "money")
 		GameState.modify_hidden_stat("stress", 4)
 		AudioManager.play("money_loss")
 	# 많이 할수록 중독성
@@ -622,10 +625,13 @@ func _sep() -> HSeparator:
 	return s
 
 func _fmt(v) -> String:
-	var a := int(v)
-	if abs(a) >= 100_000_000: return "%.1f억" % (float(a) / 100_000_000.0)
-	if abs(a) >= 10_000:      return "%+d만" % (a / 10_000)
-	return "%+d원" % a
+	return GameState.format_money(float(v))
+
+func _signed_money(v) -> String:
+	var amount := float(v)
+	if amount > 0.0:
+		return "+%s" % GameState.format_money(amount)
+	return GameState.format_money(amount)
 
 func _screen_flash(color: Color, alpha: float = 0.16, duration: float = 0.3) -> void:
 	if not is_instance_valid(_flash_layer):

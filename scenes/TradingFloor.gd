@@ -48,6 +48,9 @@ var _dc_n: int = 1
 func setup(investment_system) -> void:
 	inv = investment_system
 
+func _tr(ko_text: String, en_text: String) -> String:
+	return LocaleManager.ui(ko_text, en_text)
+
 # ── 폰트 ──────────────────────────────────────────────────────
 func _load_fonts() -> void:
 	_font      = load("res://assets/fonts/Pretendard-Regular.ttf") as FontFile
@@ -119,7 +122,7 @@ func _build_ui() -> void:
 	add_child(help_btn)
 
 	var close_btn := Button.new()
-	close_btn.text = "✕  닫기"
+	close_btn.text = _tr("✕  닫기", "✕  Close")
 	close_btn.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	close_btn.offset_left = -150
 	close_btn.offset_top = 8
@@ -182,7 +185,7 @@ func _build_ui() -> void:
 
 	# ── 자산 목록 (스크롤) ──
 	var list_head := Label.new()
-	list_head.text = "──  종목  ──  (눌러서 선택)"
+	list_head.text = _tr("──  종목  ──  (눌러서 선택)", "──  Assets  ──  (click to select)")
 	list_head.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	list_head.offset_left = 24
 	list_head.offset_top = 436
@@ -263,11 +266,18 @@ func _refresh() -> void:
 	var pct: int = clampi(int(assets / 3_000_000_000.0 * 100.0), 0, 100)
 	var fg: int = int(GameState.market_context.get("fear_greed", 50))
 	var cyc: String = str(GameState.market_context.get("cycle", "neutral"))
-	var cyc_kr: String = {"bull": "🟢 상승장", "bear": "🔴 하락장", "neutral": "⚪ 횡보"}.get(cyc, "⚪ 횡보")
+	var cyc_label: String = {
+		"bull": _tr("🟢 상승장", "🟢 Bull"),
+		"bear": _tr("🔴 하락장", "🔴 Bear"),
+		"neutral": _tr("⚪ 횡보", "⚪ Sideways"),
+	}.get(cyc, _tr("⚪ 횡보", "⚪ Sideways"))
 	var ap: int = GameState.action_points
 	var ap_col: String = "#4adfaa" if ap > 0 else "#ff6060"
-	_hud.text = "[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / 30억 [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]" % [
-		GameState.format_money(cash), GameState.format_money(assets), pct, cyc_kr, fg, ap_col, ap]
+	var target_text := _tr("30억", GameState.format_money(3_000_000_000.0))
+	_hud.text = _tr(
+		"[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]",
+		"[b]💰 Cash %s[/b]    📊 Net Worth [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  Fear/Greed %d    [color=%s]⚡%d[/color]"
+	) % [GameState.format_money(cash), GameState.format_money(assets), target_text, pct, cyc_label, fg, ap_col, ap]
 
 	# 차트 헤더 — 현재가 + 변동 + 포지션 P&L
 	var price: float = float(GameState.market_prices.get(_selected, 0.0))
@@ -284,8 +294,8 @@ func _refresh() -> void:
 		var pl_abs: float = (price - avg) * qty
 		var pl_col: String = "#00c896" if pl >= 0 else "#ff5252"
 		var pl_arrow: String = "▲" if pl >= 0 else "▼"
-		pl_str = "   [color=#c8a050]보유 %s[/color]  [color=%s]%s %+.1f%%  %+s원[/color]" % [
-			GameState.format_money(hold_val), pl_col, pl_arrow, pl, GameState.format_money(pl_abs)]
+		pl_str = _tr("   [color=#c8a050]보유 %s[/color]  [color=%s]%s %+.1f%%  %s[/color]", "   [color=#c8a050]Holding %s[/color]  [color=%s]%s %+.1f%%  %s[/color]") % [
+			GameState.format_money(hold_val), pl_col, pl_arrow, pl, _signed_money(pl_abs)]
 	_chart_head.text = "[b]%s[/b]   [b]%s[/b]   [color=%s]%s %+.1f%%[/color]%s" % [
 		_name_of(_selected), GameState.format_money(price), ch_col, ch_arrow, ch, pl_str]
 
@@ -358,18 +368,18 @@ func _build_trade_controls(cash: float, qty: float, price: float, ap: int) -> vo
 	for c in _sell_row.get_children():
 		c.queue_free()
 	var can_trade: bool = ap > 0
-	_trade_label.text = ("매수/매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균" if can_trade
-		else "⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달)")
+	_trade_label.text = (_tr("매수/매도 시 시간(⚡) 1 소비  |  캔들 MA5=5개월 MA20=20개월 평균", "Buy/Sell consumes 1 time (⚡)  |  Candles use MA5=5-month, MA20=20-month averages") if can_trade
+		else _tr("⚡ 시간이 없다 — 이번 달은 관망만. (닫고 다음 달)", "⚡ No time left — observe this month. Close and advance."))
 
 	# ── 매수 ──
 	var buy_lbl := Label.new()
-	buy_lbl.text = "  매수 "
+	buy_lbl.text = _tr("  매수 ", "  Buy ")
 	_font_for(buy_lbl, true)
 	buy_lbl.add_theme_color_override("font_color", Color("#00c896"))
 	_buy_row.add_child(buy_lbl)
 
 	# 현금 비율 기반 버튼
-	for pair in [["10%", 0.10], ["25%", 0.25], ["50%", 0.50], ["전량", 1.0]]:
+	for pair in [["10%", 0.10], ["25%", 0.25], ["50%", 0.50], [_tr("전량", "All"), 1.0]]:
 		var b := Button.new()
 		b.text = str(pair[0])
 		_style_btn(b, "#0e2018", "#1e7a52")
@@ -392,12 +402,12 @@ func _build_trade_controls(cash: float, qty: float, price: float, ap: int) -> vo
 
 	# ── 매도 ──
 	var sell_lbl := Label.new()
-	sell_lbl.text = "  매도 "
+	sell_lbl.text = _tr("  매도 ", "  Sell ")
 	_font_for(sell_lbl, true)
 	sell_lbl.add_theme_color_override("font_color", Color("#ff6b6b"))
 	_sell_row.add_child(sell_lbl)
 	var has_hold: bool = qty > 0
-	for pair in [["25%", 0.25], ["50%", 0.50], ["75%", 0.75], ["전량", 1.0]]:
+	for pair in [["25%", 0.25], ["50%", 0.50], ["75%", 0.75], [_tr("전량", "All"), 1.0]]:
 		var b := Button.new()
 		b.text = str(pair[0])
 		_style_btn(b, "#201012", "#7a2e2e")
@@ -475,17 +485,17 @@ func _select(aid: String) -> void:
 # ── 거래 ──────────────────────────────────────────────────────
 func _do_buy(krw: int) -> void:
 	if GameState.action_points <= 0:
-		_flash("⚡ 시간이 없다", "#ff5252"); return
+		_flash(_tr("⚡ 시간이 없다", "⚡ No time left"), "#ff5252"); return
 	if GameState.money < float(krw) or krw <= 0:
-		_flash("현금이 부족하다", "#ff5252"); return
+		_flash(_tr("현금이 부족하다", "Not enough cash"), "#ff5252"); return
 	var price: float = float(GameState.market_prices.get(_selected, 0.0))
 	if price <= 0:
-		_flash("가격 데이터 없음", "#ff5252"); return
+		_flash(_tr("가격 데이터 없음", "No price data"), "#ff5252"); return
 	if not GameState.spend_ap():
 		return
 	AudioManager.play("buy")
 	inv.buy_asset(_selected, float(krw))
-	_flash("📈 [b]%s[/b] 매수  %s" % [_name_of(_selected), GameState.format_money(float(krw))], "#00c896")
+	_flash(_tr("📈 [b]%s[/b] 매수  %s", "📈 Bought [b]%s[/b]  %s") % [_name_of(_selected), GameState.format_money(float(krw))], "#00c896")
 	_trade_burst("BUY", Color("#00c896"))
 	_screen_flash(Color("#00c896"), 0.10, 0.22)
 	_pulse_node(_chart, 1.018, 0.20)
@@ -494,10 +504,10 @@ func _do_buy(krw: int) -> void:
 
 func _do_sell(ratio: float) -> void:
 	if GameState.action_points <= 0:
-		_flash("⚡ 시간이 없다", "#ff5252"); return
+		_flash(_tr("⚡ 시간이 없다", "⚡ No time left"), "#ff5252"); return
 	var owned: Dictionary = GameState.portfolio.get(_selected, {})
 	if float(owned.get("quantity", 0.0)) <= 0:
-		_flash("보유 수량이 없다", "#ff5252"); return
+		_flash(_tr("보유 수량이 없다", "No holdings to sell"), "#ff5252"); return
 	var price: float = float(GameState.market_prices.get(_selected, 0.0))
 	var qty: float = float(owned.get("quantity", 0.0))
 	var avg: float = float(owned.get("avg_price", 0.0))
@@ -510,11 +520,11 @@ func _do_sell(ratio: float) -> void:
 	inv.sell_asset(_selected, ratio)
 	if pl_pct >= 0:
 		_screen_flash(Color("#00c896"), 0.12, 0.24)
-		_flash("📉 %s 매도  +%s  (%+.1f%%)" % [_name_of(_selected),
+		_flash(_tr("📉 %s 매도  +%s  (%+.1f%%)", "📉 Sold %s  +%s  (%+.1f%%)") % [_name_of(_selected),
 			GameState.format_money(sell_val), pl_pct], "#00c896")
 	else:
 		_screen_flash(Color("#ff5252"), 0.12, 0.24)
-		_flash("📉 %s 매도  %s  (%+.1f%%)" % [_name_of(_selected),
+		_flash(_tr("📉 %s 매도  %s  (%+.1f%%)", "📉 Sold %s  %s  (%+.1f%%)") % [_name_of(_selected),
 			GameState.format_money(sell_val), pl_pct], "#ff6b6b")
 	_trade_burst(("TAKE PROFIT" if est_pnl >= 0.0 else "CUT LOSS"), Color("#00c896") if est_pnl >= 0.0 else Color("#ff5252"))
 	if est_pnl < 0.0:
@@ -558,7 +568,7 @@ func _draw_chart() -> void:
 	if _chart_candles.is_empty():
 		_chart.draw_string(_font if _font else ThemeDB.fallback_font,
 			Vector2(pad_l + 8.0, sz.y * 0.5),
-			"거래가 쌓이면 캔들 차트가 그려집니다",
+			_tr("거래가 쌓이면 캔들 차트가 그려집니다", "A candlestick chart appears as trades accumulate"),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#5a6478"))
 		return
 
@@ -683,7 +693,7 @@ func _draw_chart() -> void:
 			Color("#f0b429", 0.7), 1.0, 6.0)
 		_chart.draw_string(_font if _font else ThemeDB.fallback_font,
 			Vector2(pad_l + 4.0, avg_y - 4.0),
-			"평단 " + GameState.format_money(avg),
+			_tr("평단 ", "Avg ") + GameState.format_money(avg),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("#f0b429"))
 
 func _dc_px(v: float) -> float:
@@ -766,6 +776,11 @@ func _trade_burst(text: String, color: Color) -> void:
 	tw.tween_interval(0.44)
 	tw.tween_property(panel, "modulate:a", 0.0, 0.16)
 	tw.tween_callback(panel.queue_free)
+
+func _signed_money(amount: float) -> String:
+	if amount > 0.0:
+		return "+%s" % GameState.format_money(amount)
+	return GameState.format_money(amount)
 
 func _shake_node(node: Node, amount: float = 6.0, duration: float = 0.25) -> void:
 	if not is_instance_valid(node) or not (node is Control):
