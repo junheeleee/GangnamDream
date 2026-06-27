@@ -8,15 +8,8 @@ signal closed
 enum Phase { BETTING, RACE, RESULT }
 enum BetType { PLACE, WIN, QUINELLA, TRIFECTA }
 
-const BET_NAMES := ["연승", "단승", "복승", "삼쌍승"]
 const BET_PICKS := [1, 1, 2, 3]           # 필요한 말 수
 const BET_ORDERED := [false, false, false, true]   # 삼쌍승만 착순 순서 중요
-const BET_DESC := [
-	"고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당",
-	"고른 말이 1착이면 배당만큼 — 기본",
-	"고른 2마리가 1·2착 (순서 무관) — 중간 배당",
-	"1·2·3착을 순서까지 정확히 — 대박, 초고배당",
-]
 const PICK_BADGE := ["①", "②", "③"]
 const HR := preload("res://systems/HorseRace.gd")   # class_name 글로벌 캐시 의존 제거(콜드런 크래시 방지)
 const HW := preload("res://systems/HorseWorld.gd")  # 영속 명마 세계 + 정보상 팁
@@ -81,6 +74,28 @@ func _f(lbl, bold := false) -> void:
 			lbl.add_theme_font_override("normal_font", ft)
 			lbl.add_theme_font_override("bold_font", _font_bold if _font_bold else ft)
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
+func _bet_name(t: int) -> String:
+	match t:
+		BetType.PLACE: return _tr("연승", "Place")
+		BetType.WIN: return _tr("단승", "Win")
+		BetType.QUINELLA: return _tr("복승", "Quinella")
+		BetType.TRIFECTA: return _tr("삼쌍승", "Trifecta")
+	return "?"
+
+func _bet_desc(t: int) -> String:
+	match t:
+		BetType.PLACE: return _tr("고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당", "Win if your horse finishes 1st or 2nd — safer, lower payout")
+		BetType.WIN: return _tr("고른 말이 1착이면 배당만큼 — 기본", "Win if your horse finishes 1st — standard bet")
+		BetType.QUINELLA: return _tr("고른 2마리가 1·2착 (순서 무관) — 중간 배당", "Two selected horses must finish 1st/2nd in any order — medium payout")
+		BetType.TRIFECTA: return _tr("1·2·3착을 순서까지 정확히 — 대박, 초고배당", "Pick the exact 1st/2nd/3rd order — jackpot payout")
+	return ""
+
+func _horse_name(h: Dictionary) -> String:
+	return HW.display_name(h)
+
 # ── 골격 ──────────────────────────────────────────────────────
 func _build_skeleton() -> void:
 	# 풀스크린 미니게임은 뒤의 월간 대시보드가 비치지 않도록 불투명 베이스를 먼저 깐다.
@@ -121,7 +136,7 @@ func _build_skeleton() -> void:
 	add_child(_hud)
 
 	var help := Button.new()
-	help.text = "규칙"
+	help.text = _tr("규칙", "Rules")
 	help.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	help.offset_left = -188; help.offset_top = 14; help.offset_right = -128; help.offset_bottom = 46
 	_style(help, "#0a0a1a", "#5a4510")
@@ -129,7 +144,7 @@ func _build_skeleton() -> void:
 	add_child(help)
 
 	var exit := Button.new()
-	exit.text = "나가기"
+	exit.text = _tr("나가기", "Exit")
 	exit.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	exit.offset_left = -120; exit.offset_top = 14; exit.offset_right = -22; exit.offset_bottom = 46
 	_style(exit, "#201217", "#7a3030")
@@ -195,12 +210,12 @@ func _clear() -> void:
 		c.queue_free()
 
 func _refresh_top() -> void:
-	_header.text = "[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s" % [
+	_header.text = _tr("[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s", "[b]Race Track[/b]   ·   Race %d   ·   %dm   ·   Track %s") % [
 		_races_today, int(_race.get("distance", 0)), str(_race.get("track", ""))]
 	var addic: int = GameState.addiction_tendency
 	var bars: int = clampi(addic / 10, 0, 10)
 	var ac: String = "#5de89c" if addic < 40 else ("#e8c45d" if addic < 70 else "#e85d5d")
-	_hud.text = "현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d" % [
+	_hud.text = _tr("현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d", "Cash [b]%s[/b]      Addiction [color=%s]%s[/color] %d/100      Read (INT) %d") % [
 		GameState.format_money(GameState.money),
 		ac, ("▰".repeat(bars) + "▱".repeat(10 - bars)), addic, GameState.intelligence]
 
@@ -244,7 +259,7 @@ func _render_betting() -> void:
 	head.offset_left = 8; head.offset_top = 0; head.offset_right = -8; head.offset_bottom = 24
 	_f(head); head.add_theme_font_size_override("normal_font_size", 12)
 	head.add_theme_color_override("default_color", Color("#6a7488"))
-	head.text = "   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)"
+	head.text = _tr("   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)", "   Horse  [recent/preference]  ·  Class Distance Track Jockey  ·  Win Odds   (high ★ plus high odds = value)")
 	_content.add_child(head)
 
 	var tip_target: int = int(_tip.get("target", -1)) if _tip_seen else -1
@@ -269,19 +284,19 @@ func _render_betting() -> void:
 		rt.custom_minimum_size = Vector2(0, 52)
 		_f(rt); rt.add_theme_font_size_override("normal_font_size", 15)
 		var tag: String = ""
-		if i == tip_target: tag += "  [color=#6cc5ff]정보상 지목[/color]"
-		if i == vpick: tag += "  [color=#f0c45d]저평가[/color]"
+		if i == tip_target: tag += _tr("  [color=#6cc5ff]정보상 지목[/color]", "  [color=#6cc5ff]Tipster pick[/color]")
+		if i == vpick: tag += _tr("  [color=#f0c45d]저평가[/color]", "  [color=#f0c45d]Value[/color]")
 		# 선택 배지: 삼쌍승은 착순(①②③), 그 외는 ✓
 		var badge: String = ""
 		if sel:
 			badge = ("[color=#ffe14d]%s[/color] " % PICK_BADGE[pos]) if ordered else "[color=#ffe14d]✓[/color] "
 		# 2줄: 1) 이름·★·배당  2) 최근전적·통산·선호
-		var line2: String = "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]" % [
-			str(h.get("recent", "신마")), str(h.get("record", "0전 0승")),
-			int(h.get("dist_pref", 0)), HW.TRACKS[int(h.get("cond_pref", 0))],
-			HW.STYLE_NAMES[int(h.get("style", 0))]]
-		rt.text = "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s" % [
-			badge, COLORS[i % COLORS.size()], str(h["name"]),
+		var line2: String = _tr("[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]", "[color=#5a6478]    Recent %s · %s · Prefers %dm/%s/%s[/color]") % [
+			str(h.get("recent", _tr("신마", "Debut"))), str(h.get("record", _tr("0전 0승", "0 starts 0 wins"))),
+			int(h.get("dist_pref", 0)), HW.track_name(int(h.get("cond_pref", 0))),
+			HW.style_name(int(h.get("style", 0)))]
+		rt.text = _tr("%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s", "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   Odds [b]%.1f[/b]%s\n%s") % [
+			badge, COLORS[i % COLORS.size()], _horse_name(h),
 			_stars(int(h["star_class"])), _stars(int(h["star_dist"])),
 			_stars(int(h["star_cond"])), _stars(int(h["star_jockey"])),
 			float(h["odds"]), tag, line2]
@@ -322,9 +337,9 @@ func _render_betting() -> void:
 	var type_row := HBoxContainer.new()
 	type_row.add_theme_constant_override("separation", 6)
 	bet_panel.add_child(type_row)
-	for t in range(BET_NAMES.size()):
+	for t in range(BET_PICKS.size()):
 		var tb := Button.new()
-		tb.text = BET_NAMES[t]
+		tb.text = _bet_name(t)
 		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		if t == _bet_type:
 			_style(tb, "#2a1e0e", "#d0a040")
@@ -357,7 +372,7 @@ func _render_betting() -> void:
 		b.pressed.connect(func(): _place_bet(float(a)))
 		row.add_child(b)
 	var skip := Button.new()
-	skip.text = "이 경주 패스 ▷"
+	skip.text = _tr("이 경주 패스 ▷", "Skip Race ▷")
 	_style(skip, "#1a1a22", "#3a3a4a")
 	skip.pressed.connect(_new_race)
 	row.add_child(skip)
@@ -374,10 +389,10 @@ func _build_dealer_row(parent) -> void:
 		var b := Button.new()
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		if GameState.money < 3000:
-			b.text = "정보상에게 듣기  (현금 부족)"
+			b.text = _tr("정보상에게 듣기  (현금 부족)", "Ask Tipster  (not enough cash)")
 			_style(b, "#1a1620", "#3a2a3a"); b.disabled = true
 		else:
-			b.text = "정보상에게 듣기   -3,000   (오늘의 한 마리...)"
+			b.text = _tr("정보상에게 듣기   -3,000   (오늘의 한 마리...)", "Ask Tipster   -3,000   (today's one horse...)")
 			_style(b, "#1c1726", "#5a4a7a")
 			b.pressed.connect(_consult_dealer)
 		parent.add_child(b)
@@ -390,15 +405,15 @@ func _build_dealer_row(parent) -> void:
 	_f(rt); rt.add_theme_font_size_override("normal_font_size", 14)
 	var hint: String = ""
 	if GameState.intelligence < 40:
-		hint = "  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]"
-	rt.text = "[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s" % [
+		hint = _tr("  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]", "  [color=#6a7080](your read is too low to judge the tip)[/color]")
+	rt.text = _tr("[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s", "[color=#6cc5ff]\"%s\"[/color]   Trust %s [color=#9aa4b8]%d%%[/color]%s") % [
 		str(_tip.get("claim", "")), _cred_bar(cred), roundi(cred * 100.0), hint]
 	parent.add_child(rt)
 
 func _consult_dealer() -> void:
 	if _tip_seen: return
 	if GameState.money < 3000:
-		_flash("현금이 부족하다", "#e85d5d"); return
+		_flash(_tr("현금이 부족하다", "Not enough cash"), "#e85d5d"); return
 	GameState.add_money(-3000)
 	GameState.addiction_tendency = clampi(GameState.addiction_tendency + 1, 0, 100)
 	GameState.stats_changed.emit()
@@ -424,7 +439,7 @@ func _toggle_pick(i: int) -> void:
 	elif need == 1:
 		_picks = [i]                       # 단일 선택은 교체
 	elif _picks.size() >= need:
-		_flash("%s은 %d마리까지" % [BET_NAMES[_bet_type], need], "#e8c45d")
+		_flash(_tr("%s은 %d마리까지", "%s allows up to %d horses") % [_bet_name(_bet_type), need], "#e8c45d")
 		return
 	else:
 		_picks.append(i)
@@ -446,19 +461,19 @@ func _bet_info_text() -> String:
 	var hs: Array = _race["horses"]
 	if _picks.size() < need:
 		var left: int = need - _picks.size()
-		var how: String = "착순대로 " if BET_ORDERED[_bet_type] else ""
-		return "[color=#9aa4b8][b]%s[/b] · %s  →  %s%d마리 더 고르세요[/color]" % [
-			BET_NAMES[_bet_type], BET_DESC[_bet_type], how, left]
+		var how: String = _tr("착순대로 ", "in order ") if BET_ORDERED[_bet_type] else ""
+		return _tr("[color=#9aa4b8][b]%s[/b] · %s  →  %s%d마리 더 고르세요[/color]", "[color=#9aa4b8][b]%s[/b] · %s  →  choose %s%d more[/color]") % [
+			_bet_name(_bet_type), _bet_desc(_bet_type), how, left]
 	var names: Array = []
-	for p in _picks: names.append(str(hs[p]["name"]))
+	for p in _picks: names.append(_horse_name(hs[p]))
 	var joiner: String = " → " if BET_ORDERED[_bet_type] else " + "
-	return "[color=#cfe0ff][b]%s[/b]  %s   →   배당 [color=#ffe14d][b]×%.1f[/b][/color]  (베팅액을 고르세요)[/color]" % [
-		BET_NAMES[_bet_type], joiner.join(names), _current_odds()]
+	return _tr("[color=#cfe0ff][b]%s[/b]  %s   →   배당 [color=#ffe14d][b]×%.1f[/b][/color]  (베팅액을 고르세요)[/color]", "[color=#cfe0ff][b]%s[/b]  %s   →   Odds [color=#ffe14d][b]×%.1f[/b][/color]  (choose stake)[/color]") % [
+		_bet_name(_bet_type), joiner.join(names), _current_odds()]
 
 func _place_bet(stake: float) -> void:
 	if _picks.size() < BET_PICKS[_bet_type]: return
 	if GameState.money < stake:
-		_flash("현금이 부족하다", "#e85d5d"); return
+		_flash(_tr("현금이 부족하다", "Not enough cash"), "#e85d5d"); return
 	_bet_stake = stake
 	GameState.add_money(-stake)
 	AudioManager.play("sell")
@@ -509,7 +524,7 @@ func _run_countdown() -> void:
 	overlay.add_theme_color_override("font_color", Color("#f0c45d"))
 	_f(overlay, true)
 	add_child(overlay)
-	var steps := ["3", "2", "1", "출발!"]
+	var steps := ["3", "2", "1", _tr("출발!", "GO!")]
 	var colors := [Color("#e85d5d"), Color("#e8a05d"), Color("#e8e05d"), Color("#5de8a0")]
 	_play_countdown_step(overlay, steps, colors, 0)
 
@@ -518,7 +533,7 @@ func _play_countdown_step(overlay: Label, steps: Array, colors: Array, idx: int)
 		return
 	if idx >= steps.size():
 		overlay.queue_free()
-		_flash("출발!", "#f0c45d")
+		_flash(_tr("출발!", "GO!"), "#f0c45d")
 		_screen_flash(Color("#f0c45d"), 0.14, 0.28)
 		_shake_node(_content, 4.0, 0.18)
 		AudioManager.play("event_new")
@@ -565,9 +580,9 @@ func _update_race_call(delta: float) -> void:
 	if leader < 0:
 		return
 	var hs: Array = _race["horses"]
-	var leader_name := str(hs[leader].get("name", "선두"))
+	var leader_name := _horse_name(hs[leader])
 	if _race_dur - _race_t <= 0.85:
-		_set_race_msg("마지막 직선!  %s 버틴다!" % leader_name, "#f0c45d")
+		_set_race_msg(_tr("마지막 직선!  %s 버틴다!", "Final stretch! %s holds on!") % leader_name, "#f0c45d")
 		if not _final_stretch_sfx_played:
 			_final_stretch_sfx_played = true
 			AudioManager.play("event_new", -2.0)
@@ -576,7 +591,7 @@ func _update_race_call(delta: float) -> void:
 			_pulse_node(_msg, 1.12, 0.22)
 	elif leader != _last_leader:
 		_last_leader = leader
-		_set_race_msg("선두 교체 — %s!" % leader_name, COLORS[leader % COLORS.size()])
+		_set_race_msg(_tr("선두 교체 — %s!", "New leader — %s!") % leader_name, COLORS[leader % COLORS.size()])
 		if is_instance_valid(_msg):
 			_pulse_node(_msg, 1.08, 0.18)
 
@@ -652,7 +667,7 @@ func _draw_track() -> void:
 			if BET_ORDERED[_bet_type]:
 				_track.draw_string(f, Vector2(x + 14, y + 5), PICK_BADGE[ppos],
 					HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#ffe14d"))
-		_track.draw_string(f, Vector2(26.0, lane_y - 10.0), str(h["name"]),
+		_track.draw_string(f, Vector2(26.0, lane_y - 10.0), _horse_name(h),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col)
 	_draw_live_board(hs, f, sz, fin_x)
 
@@ -733,7 +748,7 @@ func _draw_live_board(hs: Array, f: Font, sz: Vector2, fin_x: float) -> void:
 		var col := Color(COLORS[idx % COLORS.size()])
 		var y := board.position.y + 45.0 + float(rank) * 20.0
 		_track.draw_circle(Vector2(board.position.x + 18.0, y - 5.0), 4.0, col)
-		_track.draw_string(f, Vector2(board.position.x + 30.0, y), "%d  %s" % [rank + 1, str(h["name"])],
+		_track.draw_string(f, Vector2(board.position.x + 30.0, y), "%d  %s" % [rank + 1, _horse_name(h)],
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#dce4f0"))
 
 func _display_progress(h: Dictionary, index: int) -> float:
@@ -829,19 +844,19 @@ func _render_result() -> void:
 
 	var title := Label.new()
 	_f(title, true); title.add_theme_font_size_override("font_size", 24)
-	title.text = "경주 결과"
+	title.text = _tr("경주 결과", "Race Result")
 	title.add_theme_color_override("font_color", Color("#f7e6b2"))
 	title_box.add_child(title)
 
 	var subtitle := Label.new()
 	_f(subtitle); subtitle.add_theme_font_size_override("font_size", 12)
-	subtitle.text = "PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s" % [BET_NAMES[_bet_type], GameState.format_money(_bet_stake)]
+	subtitle.text = _tr("PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s", "PHOTO FINISH VERIFIED  ·  %s  ·  Bet %s") % [_bet_name(_bet_type), GameState.format_money(_bet_stake)]
 	subtitle.add_theme_color_override("font_color", Color("#8e98ad"))
 	title_box.add_child(subtitle)
 
 	var stamp := Label.new()
 	_f(stamp, true); stamp.add_theme_font_size_override("font_size", 24)
-	stamp.text = "적중" if won else "미적중"
+	stamp.text = _tr("적중", "HIT") if won else _tr("미적중", "MISS")
 	stamp.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	stamp.add_theme_color_override("font_color", result_col)
 	stamp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -871,7 +886,7 @@ func _render_result() -> void:
 
 	var order_title := Label.new()
 	_f(order_title, true); order_title.add_theme_font_size_override("font_size", 15)
-	order_title.text = "착순 보드"
+	order_title.text = _tr("착순 보드", "Finish Board")
 	order_title.add_theme_color_override("font_color", Color("#e8eaf0"))
 	order_box.add_child(order_title)
 
@@ -896,7 +911,7 @@ func _render_result() -> void:
 
 	var ticket_title := Label.new()
 	_f(ticket_title, true); ticket_title.add_theme_font_size_override("font_size", 16)
-	ticket_title.text = "내 베팅 정산표"
+	ticket_title.text = _tr("내 베팅 정산표", "Bet Settlement")
 	ticket_title.add_theme_color_override("font_color", Color("#f7e6b2"))
 	ticket.add_child(ticket_title)
 
@@ -909,13 +924,13 @@ func _render_result() -> void:
 
 	var stake_lbl := Label.new()
 	_f(stake_lbl); stake_lbl.add_theme_font_size_override("font_size", 13)
-	stake_lbl.text = "베팅금  %s   ·   배당금  %s" % [GameState.format_money(_bet_stake), GameState.format_money(_payout_amt)]
+	stake_lbl.text = _tr("베팅금  %s   ·   배당금  %s", "Stake  %s   ·   Payout  %s") % [GameState.format_money(_bet_stake), GameState.format_money(_payout_amt)]
 	stake_lbl.add_theme_color_override("font_color", Color("#9aa4b8"))
 	ticket.add_child(stake_lbl)
 
 	var net_lbl := Label.new()
 	_f(net_lbl, true); net_lbl.add_theme_font_size_override("font_size", 26)
-	net_lbl.text = "손익  %s" % _signed_money(net)
+	net_lbl.text = _tr("손익  %s", "P/L  %s") % _signed_money(net)
 	net_lbl.add_theme_color_override("font_color", result_col)
 	ticket.add_child(net_lbl)
 	_pulse_node(net_lbl, 1.10, 0.34)
@@ -932,18 +947,18 @@ func _render_result() -> void:
 		var verdict := Label.new()
 		_f(verdict); verdict.add_theme_font_size_override("font_size", 14)
 		if bool(_tip.get("is_true", false)):
-			verdict.text = "정보상은 진짜였다 — '%s' (지목마 %s)" % [
-				str(_tip.get("name", "")), "1착 적중" if hit else "이번엔 안 풀림"]
+			verdict.text = _tr("정보상은 진짜였다 — '%s' (지목마 %s)", "The tipster was real — '%s' (%s)") % [
+				str(_tip.get("name", "")), _tr("1착 적중", "finished 1st") if hit else _tr("이번엔 안 풀림", "didn't land this time")]
 			verdict.add_theme_color_override("font_color", Color("#6cc5ff"))
 		else:
-			verdict.text = "정보상은 함정이었다 — '%s'는 작전이었다" % str(_tip.get("name", ""))
+			verdict.text = _tr("정보상은 함정이었다 — '%s'는 작전이었다", "The tipster was a trap — '%s' was a pump") % str(_tip.get("name", ""))
 			verdict.add_theme_color_override("font_color", Color("#c47a7a"))
 		box.add_child(verdict)
 
 	if GameState.addiction_tendency >= 70:
 		var warn := Label.new()
 		_f(warn); warn.add_theme_font_size_override("font_size", 13)
-		warn.text = "위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)" % GameState.addiction_tendency
+		warn.text = _tr("위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)", "Danger signal: 'just one more' is the trap. (Addiction %d)") % GameState.addiction_tendency
 		warn.add_theme_color_override("font_color", Color("#e8a05d"))
 		box.add_child(warn)
 
@@ -953,13 +968,13 @@ func _render_result() -> void:
 	row.add_theme_constant_override("separation", 10)
 	_content.add_child(row)
 	var again := Button.new()
-	again.text = "다음 경주"
+	again.text = _tr("다음 경주", "Next Race")
 	again.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style(again, "#231016", "#a03a4a")
 	again.pressed.connect(_new_race)
 	row.add_child(again)
 	var leave := Button.new()
-	leave.text = "오늘은 그만, 나간다"
+	leave.text = _tr("오늘은 그만, 나간다", "I'm done for today")
 	leave.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style(leave, "#10231a", "#2a7a52")
 	leave.pressed.connect(_on_exit)
@@ -996,7 +1011,7 @@ func _make_result_row(rank: int) -> Control:
 
 	var name := Label.new()
 	_f(name, true); name.add_theme_font_size_override("font_size", 15)
-	name.text = str(h["name"])
+	name.text = _horse_name(h)
 	name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name.add_theme_color_override("font_color", Color(COLORS[hidx % COLORS.size()]).lightened(0.18))
 	row.add_child(name)
@@ -1011,17 +1026,17 @@ func _make_result_row(rank: int) -> Control:
 
 func _pick_summary_text() -> String:
 	if not _race.has("horses"):
-		return "선택 없음"
+		return _tr("선택 없음", "No selection")
 	var hs: Array = _race["horses"]
 	var parts := PackedStringArray()
 	for i in range(_picks.size()):
 		var idx := int(_picks[i])
 		if idx < 0 or idx >= hs.size():
 			continue
-		var prefix := "%d순위 " % (i + 1) if BET_ORDERED[_bet_type] else ""
-		parts.append("%s%s" % [prefix, str(hs[idx]["name"])])
+		var prefix := _tr("%d순위 ", "%d. ") % (i + 1) if BET_ORDERED[_bet_type] else ""
+		parts.append("%s%s" % [prefix, _horse_name(hs[idx])])
 	var joiner := "  →  " if BET_ORDERED[_bet_type] else "  +  "
-	return "%s  ·  %s" % [BET_NAMES[_bet_type], joiner.join(parts)]
+	return "%s  ·  %s" % [_bet_name(_bet_type), joiner.join(parts)]
 
 func _signed_money(amount: float) -> String:
 	if amount >= 0.0:
@@ -1062,7 +1077,7 @@ func _draw_finish_photo(ctrl: Control) -> void:
 		ctrl.draw_rect(Rect2(Vector2(x - 8.0, y + 10.0), Vector2(20.0, 14.0)), col.darkened(0.08), true)
 		ctrl.draw_string(f, Vector2(x - 2.0, y + 22.0), str(rank + 1),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
-		ctrl.draw_string(f, Vector2(rect.position.x + 58.0, y + 17.0), "%d위  %s" % [rank + 1, str(h["name"])],
+		ctrl.draw_string(f, Vector2(rect.position.x + 58.0, y + 17.0), _tr("%d위  %s", "%d.  %s") % [rank + 1, _horse_name(h)],
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#dce4f0"))
 
 func _result_style(bg: String, border: String, alpha: float, border_width: int, radius: int) -> StyleBoxFlat:

@@ -10,16 +10,39 @@ class_name HorseRace
 ## => "저평가된 말 찾기"가 스킬. 밸류 베팅 +EV, 인기마 추종 -EV.
 
 const TAKE := 0.14   # 공제율 — 숙련+절제하면 이길 수 있되, 무지성·중독이면 나락
-const NAMES := ["번개","질풍","흑운","천리마","불꽃","새벽별","강철","행운아","폭풍",
-	"은하수","대박이","무쇠","칼바람","승리호","바람돌이","검은별"]
+static func _name_pool() -> Array:
+	return [
+		LocaleManager.ui("번개", "Lightning"),
+		LocaleManager.ui("질풍", "Gale"),
+		LocaleManager.ui("흑운", "Black Cloud"),
+		LocaleManager.ui("천리마", "Cheollima"),
+		LocaleManager.ui("불꽃", "Spark"),
+		LocaleManager.ui("새벽별", "Morning Star"),
+		LocaleManager.ui("강철", "Ironclad"),
+		LocaleManager.ui("행운아", "Lucky One"),
+		LocaleManager.ui("폭풍", "Storm"),
+		LocaleManager.ui("은하수", "Milky Way"),
+		LocaleManager.ui("대박이", "Jackpot"),
+		LocaleManager.ui("무쇠", "Cast Iron"),
+		LocaleManager.ui("칼바람", "Knife Wind"),
+		LocaleManager.ui("승리호", "Victory"),
+		LocaleManager.ui("바람돌이", "Windrunner"),
+		LocaleManager.ui("검은별", "Black Star"),
+	]
+
+static func _track_name(idx: int) -> String:
+	match idx:
+		0: return LocaleManager.ui("건조", "Dry")
+		1: return LocaleManager.ui("양호", "Good")
+		_: return LocaleManager.ui("다습", "Wet")
 
 ## 한 경주 생성. info_level 0~100 (지력/정보력) — 높을수록 가시 신호가 정확.
 static func generate_race(rng: RandomNumberGenerator, info_level: float) -> Dictionary:
 	var distances := [1200, 1400, 1600, 1800, 2000]
 	var distance: int = distances[rng.randi() % distances.size()]
-	var track: String = ["건조", "양호", "다습"][rng.randi() % 3]
+	var track: String = _track_name(rng.randi() % 3)
 	var n: int = rng.randi_range(5, 7)
-	var names: Array = NAMES.duplicate()
+	var names: Array = _name_pool()
 	for i in range(names.size() - 1, 0, -1):
 		var j: int = rng.randi_range(0, i)
 		var tmp = names[i]; names[i] = names[j]; names[j] = tmp
