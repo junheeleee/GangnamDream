@@ -13,74 +13,90 @@ enum Mode { RESUME, INTERVIEW }
 const RESUME_QUESTION_POOL = [
 	{
 		"q": "지원동기를 서술하시오.",
+		"q_en": "Write your reason for applying.",
 		"hint": "면접관이 가장 먼저 읽는 문항. 진정성이 핵심.",
+		"hint_en": "The first answer a recruiter reads. Sincerity matters.",
 		"choices": [
-			{"text": "이 분야에서 쌓은 경험을 실무에 적용해 함께 성장하고 싶습니다.", "score": 3},
-			{"text": "성장 가능성이 있다고 판단해 지원하게 됐습니다.", "score": 1},
-			{"text": "연봉 조건이 괜찮고 집에서 가까워서 지원했습니다.", "score": 0},
+			{"text": "이 분야에서 쌓은 경험을 실무에 적용해 함께 성장하고 싶습니다.", "text_en": "I want to apply my experience in this field to real work and grow with the team.", "score": 3},
+			{"text": "성장 가능성이 있다고 판단해 지원하게 됐습니다.", "text_en": "I applied because I believe this role has growth potential.", "score": 1},
+			{"text": "연봉 조건이 괜찮고 집에서 가까워서 지원했습니다.", "text_en": "The salary looked decent, and the office is close to home.", "score": 0},
 		]
 	},
 	{
 		"q": "본인의 강점을 구체적인 경험과 함께 서술하시오.",
+		"q_en": "Describe your strengths with a concrete example.",
 		"hint": "추상적인 단어보다 구체적인 사례가 설득력 있다.",
+		"hint_en": "Specific examples are more convincing than vague traits.",
 		"choices": [
-			{"text": "데이터 분석과 빠른 업무 처리 능력입니다. 이전 업무에서 처리 속도를 30% 개선한 경험이 있습니다.", "score": 3},
-			{"text": "성실하고 책임감이 강합니다. 맡은 일은 끝까지 완수합니다.", "score": 1},
-			{"text": "특별한 강점은 없지만 열심히 하겠습니다.", "score": 0},
+			{"text": "데이터 분석과 빠른 업무 처리 능력입니다. 이전 업무에서 처리 속도를 30% 개선한 경험이 있습니다.", "text_en": "My strengths are data analysis and fast execution. In a previous role, I improved processing speed by 30%.", "score": 3},
+			{"text": "성실하고 책임감이 강합니다. 맡은 일은 끝까지 완수합니다.", "text_en": "I am diligent and responsible. I finish whatever I take on.", "score": 1},
+			{"text": "특별한 강점은 없지만 열심히 하겠습니다.", "text_en": "I do not have any special strengths, but I will work hard.", "score": 0},
 		]
 	},
 	{
 		"q": "단점과 그 극복 과정을 서술하시오.",
+		"q_en": "Describe a weakness and how you worked to overcome it.",
 		"hint": "단점을 인정하면서 극복 과정까지 보여주는 것이 핵심.",
+		"hint_en": "Admit the weakness, then show the process of improvement.",
 		"choices": [
-			{"text": "계획 수립이 부족했습니다. 업무 일지를 매일 작성하는 습관을 만들어 개선했습니다.", "score": 3},
-			{"text": "완벽주의 성향으로 업무 처리가 느릴 때가 있습니다.", "score": 1},
-			{"text": "단점은 딱히 없는 것 같습니다.", "score": 0},
+			{"text": "계획 수립이 부족했습니다. 업무 일지를 매일 작성하는 습관을 만들어 개선했습니다.", "text_en": "I used to plan poorly, so I built a daily work log habit to improve.", "score": 3},
+			{"text": "완벽주의 성향으로 업무 처리가 느릴 때가 있습니다.", "text_en": "My perfectionism can sometimes slow down my work.", "score": 1},
+			{"text": "단점은 딱히 없는 것 같습니다.", "text_en": "I cannot think of any real weaknesses.", "score": 0},
 		]
 	},
 	{
 		"q": "입사 후 3년, 5년 포부를 서술하시오.",
+		"q_en": "Describe your goals after three and five years at the company.",
 		"hint": "구체적인 시간표와 목표가 신뢰감을 준다.",
+		"hint_en": "A concrete timeline and goal sound more credible.",
 		"choices": [
-			{"text": "1년 내 업무를 완전히 파악하고, 3년 후에는 팀의 핵심 인재로 성장하겠습니다.", "score": 3},
-			{"text": "열심히 배우며 회사에 기여하겠습니다.", "score": 1},
-			{"text": "일단 들어가 봐야 알겠습니다.", "score": 0},
+			{"text": "1년 내 업무를 완전히 파악하고, 3년 후에는 팀의 핵심 인재로 성장하겠습니다.", "text_en": "Within one year I will master the role, and within three years I want to become a core member of the team.", "score": 3},
+			{"text": "열심히 배우며 회사에 기여하겠습니다.", "text_en": "I will learn hard and contribute to the company.", "score": 1},
+			{"text": "일단 들어가 봐야 알겠습니다.", "text_en": "I will know once I actually join.", "score": 0},
 		]
 	},
 	{
 		"q": "팀 내 갈등 상황에서 어떻게 대처하나요?",
+		"q_en": "How do you handle conflict within a team?",
 		"hint": "갈등 해결 능력과 협업 역량을 보여주는 문항.",
+		"hint_en": "This tests conflict resolution and collaboration.",
 		"choices": [
-			{"text": "먼저 상대방의 입장을 충분히 듣고, 공통된 목표를 기준으로 합의점을 찾습니다.", "score": 3},
-			{"text": "상급자에게 중재를 요청합니다.", "score": 1},
-			{"text": "갈등을 피하고 조용히 넘어가려 합니다.", "score": 0},
+			{"text": "먼저 상대방의 입장을 충분히 듣고, 공통된 목표를 기준으로 합의점을 찾습니다.", "text_en": "I first listen to the other person's position, then look for common ground around the team's goal.", "score": 3},
+			{"text": "상급자에게 중재를 요청합니다.", "text_en": "I ask a manager to mediate.", "score": 1},
+			{"text": "갈등을 피하고 조용히 넘어가려 합니다.", "text_en": "I avoid the conflict and try to move on quietly.", "score": 0},
 		]
 	},
 	{
 		"q": "본인의 실패 경험과 그로부터 배운 점을 서술하시오.",
+		"q_en": "Describe a failure and what you learned from it.",
 		"hint": "실패를 인정하는 용기와 성장 의지를 보여준다.",
+		"hint_en": "This shows honesty and a willingness to grow.",
 		"choices": [
-			{"text": "프로젝트 마감 실패 경험이 있습니다. 이후 주간 체크리스트를 도입해 재발을 방지했습니다.", "score": 3},
-			{"text": "큰 실패는 없었지만 작은 실수에서 배웠습니다.", "score": 1},
-			{"text": "딱히 기억나는 실패가 없습니다.", "score": 0},
+			{"text": "프로젝트 마감 실패 경험이 있습니다. 이후 주간 체크리스트를 도입해 재발을 방지했습니다.", "text_en": "I once missed a project deadline. After that, I introduced weekly checklists to prevent it from happening again.", "score": 3},
+			{"text": "큰 실패는 없었지만 작은 실수에서 배웠습니다.", "text_en": "I have not had a major failure, but I have learned from small mistakes.", "score": 1},
+			{"text": "딱히 기억나는 실패가 없습니다.", "text_en": "I cannot really remember any failures.", "score": 0},
 		]
 	},
 	{
 		"q": "빠르게 변화하는 업무 환경에 어떻게 적응하나요?",
+		"q_en": "How do you adapt to a rapidly changing work environment?",
 		"hint": "변화 대응력과 학습 의지를 어필하는 문항.",
+		"hint_en": "Show adaptability and a willingness to learn.",
 		"choices": [
-			{"text": "변화의 핵심을 빠르게 파악하고, 관련 자료와 교육을 스스로 찾아 학습합니다.", "score": 3},
-			{"text": "상사나 동료에게 방향을 물어보고 따릅니다.", "score": 1},
-			{"text": "변화가 안정되기를 기다렸다가 움직입니다.", "score": 0},
+			{"text": "변화의 핵심을 빠르게 파악하고, 관련 자료와 교육을 스스로 찾아 학습합니다.", "text_en": "I identify the core of the change quickly, then seek out resources and training on my own.", "score": 3},
+			{"text": "상사나 동료에게 방향을 물어보고 따릅니다.", "text_en": "I ask my manager or coworkers for direction and follow it.", "score": 1},
+			{"text": "변화가 안정되기를 기다렸다가 움직입니다.", "text_en": "I wait until the change settles before taking action.", "score": 0},
 		]
 	},
 	{
 		"q": "본인이 이 직무에 적합한 이유를 서술하시오.",
+		"q_en": "Explain why you are a good fit for this role.",
 		"hint": "직무 요건과 나의 경험을 연결하는 것이 핵심.",
+		"hint_en": "Connect the role requirements to your experience.",
 		"choices": [
-			{"text": "직무 요건에 명시된 역량 세 가지를 각각 경험과 연결해 구체적으로 설명합니다.", "score": 3},
-			{"text": "관련 업무에 관심이 많고 열심히 할 자신이 있습니다.", "score": 1},
-			{"text": "다른 곳에서도 비슷한 일을 해봤습니다.", "score": 0},
+			{"text": "직무 요건에 명시된 역량 세 가지를 각각 경험과 연결해 구체적으로 설명합니다.", "text_en": "I explain three required skills and connect each one to a concrete experience.", "score": 3},
+			{"text": "관련 업무에 관심이 많고 열심히 할 자신이 있습니다.", "text_en": "I am interested in this work and confident I can work hard.", "score": 1},
+			{"text": "다른 곳에서도 비슷한 일을 해봤습니다.", "text_en": "I have done something similar elsewhere.", "score": 0},
 		]
 	},
 ]
@@ -89,92 +105,102 @@ const RESUME_QUESTIONS_PER_SESSION: int = 4
 const INTERVIEW_QUESTION_POOL = [
 	{
 		"q": "이력서에 6년 공백이 있네요. 설명해 주시겠어요?",
+		"q_en": "There is a six-year gap on your resume. Could you explain it?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "집안 사정으로 부모님을 돌봐야 했습니다. 그 기간에도 자격증 공부를 병행했습니다.", "score": 3},
-			{"text": "개인적인 사정이 있었습니다. 이제는 집중할 수 있습니다.", "score": 1},
-			{"text": "특별한 이유는 없고 그냥 쉬었습니다.", "score": 0},
+			{"text": "집안 사정으로 부모님을 돌봐야 했습니다. 그 기간에도 자격증 공부를 병행했습니다.", "text_en": "I had to care for my parents because of family circumstances, but I continued studying for certifications during that period.", "score": 3},
+			{"text": "개인적인 사정이 있었습니다. 이제는 집중할 수 있습니다.", "text_en": "I had personal circumstances. I can focus now.", "score": 1},
+			{"text": "특별한 이유는 없고 그냥 쉬었습니다.", "text_en": "There was no special reason. I just took time off.", "score": 0},
 		]
 	},
 	{
 		"q": "저희 회사 지원동기가 무엇인가요?",
+		"q_en": "Why did you apply to our company?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "귀사의 성장세와 사업 방향이 제 커리어 목표와 맞닿아 있어 지원했습니다.", "score": 3},
-			{"text": "찾아보다가 관심이 생겼습니다. 좋은 회사라고 생각합니다.", "score": 1},
-			{"text": "마침 공고가 떠서 넣어봤습니다.", "score": 0},
+			{"text": "귀사의 성장세와 사업 방향이 제 커리어 목표와 맞닿아 있어 지원했습니다.", "text_en": "Your growth and business direction align with my career goals.", "score": 3},
+			{"text": "찾아보다가 관심이 생겼습니다. 좋은 회사라고 생각합니다.", "text_en": "I looked into the company and became interested. It seems like a good workplace.", "score": 1},
+			{"text": "마침 공고가 떠서 넣어봤습니다.", "text_en": "I saw the posting and decided to apply.", "score": 0},
 		]
 	},
 	{
 		"q": "5년 후 본인의 모습은 어떨 것 같나요?",
+		"q_en": "Where do you see yourself in five years?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "이 분야의 전문가로서 팀을 이끄는 역할을 하고 싶습니다.", "score": 3},
-			{"text": "더 좋은 포지션으로 성장해 있을 것 같습니다.", "score": 1},
-			{"text": "솔직히 잘 모르겠습니다.", "score": 0},
+			{"text": "이 분야의 전문가로서 팀을 이끄는 역할을 하고 싶습니다.", "text_en": "I want to become a specialist in this field and take on a role leading a team.", "score": 3},
+			{"text": "더 좋은 포지션으로 성장해 있을 것 같습니다.", "text_en": "I think I will have grown into a better position.", "score": 1},
+			{"text": "솔직히 잘 모르겠습니다.", "text_en": "Honestly, I am not sure.", "score": 0},
 		]
 	},
 	{
 		"q": "⚡ 돌발: 지금 이 자리에서 스스로를 한 단어로 표현한다면?",
+		"q_en": "⚡ Surprise: If you had to describe yourself in one word right now, what would it be?",
 		"timer": 5.0, "surprise": true,
 		"choices": [
-			{"text": "\"성실함\" — 맡은 일은 반드시 끝내는 사람입니다.", "score": 3},
-			{"text": "(잠시 침묵) \"...열정적인 사람입니다.\"", "score": 1},
-			{"text": "(당황) \"...글쎄요... 잘 모르겠습니다.\"", "score": 0},
+			{"text": "\"성실함\" — 맡은 일은 반드시 끝내는 사람입니다.", "text_en": "\"Reliability.\" I am someone who finishes what I take responsibility for.", "score": 3},
+			{"text": "(잠시 침묵) \"...열정적인 사람입니다.\"", "text_en": "(A pause.) \"...Passionate.\"", "score": 1},
+			{"text": "(당황) \"...글쎄요... 잘 모르겠습니다.\"", "text_en": "(Panicked.) \"...I am not sure.\"", "score": 0},
 		]
 	},
 	{
 		"q": "마지막으로 하고 싶은 말씀 있으신가요?",
+		"q_en": "Do you have any final comments?",
 		"timer": 8.0, "surprise": false,
 		"choices": [
-			{"text": "오늘 좋은 기회를 주셔서 감사합니다. 합류하게 된다면 최선을 다하겠습니다.", "score": 3},
-			{"text": "(아무 말도 못 하고 인사만)", "score": 1},
-			{"text": "연봉 협상은 어떻게 되나요?", "score": 0},
+			{"text": "오늘 좋은 기회를 주셔서 감사합니다. 합류하게 된다면 최선을 다하겠습니다.", "text_en": "Thank you for the opportunity today. If I join, I will give it my best.", "score": 3},
+			{"text": "(아무 말도 못 하고 인사만)", "text_en": "(You say nothing and just bow.)", "score": 1},
+			{"text": "연봉 협상은 어떻게 되나요?", "text_en": "How does salary negotiation work?", "score": 0},
 		]
 	},
 	{
 		"q": "동료가 실수를 했는데 마감이 얼마 안 남았습니다. 어떻게 하겠습니까?",
+		"q_en": "A coworker made a mistake and the deadline is close. What would you do?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "먼저 문제의 범위를 파악하고, 팀과 협력해 최단 시간 내 해결책을 찾겠습니다.", "score": 3},
-			{"text": "상황을 상사에게 즉시 보고하겠습니다.", "score": 1},
-			{"text": "그것은 동료의 책임이므로 제 업무에 집중하겠습니다.", "score": 0},
+			{"text": "먼저 문제의 범위를 파악하고, 팀과 협력해 최단 시간 내 해결책을 찾겠습니다.", "text_en": "I would first identify the scope of the issue, then work with the team to find the fastest solution.", "score": 3},
+			{"text": "상황을 상사에게 즉시 보고하겠습니다.", "text_en": "I would report the situation to my manager immediately.", "score": 1},
+			{"text": "그것은 동료의 책임이므로 제 업무에 집중하겠습니다.", "text_en": "That is my coworker's responsibility, so I would focus on my own work.", "score": 0},
 		]
 	},
 	{
 		"q": "⚡ 돌발: 지금 바로 저를 설득해서 제품을 하나 파세요.",
+		"q_en": "⚡ Surprise: Sell me a product right now.",
 		"timer": 5.0, "surprise": true,
 		"choices": [
-			{"text": "(침착하게) 이 펜은 오늘 하루를 기록하는 도구입니다. 오늘 당신이 내린 결정, 잊고 싶지 않으시죠?", "score": 3},
-			{"text": "(당황하며) 음... 이 펜은 잘 써지고 가격도 합리적입니다.", "score": 1},
-			{"text": "(웃으며 넘김) 저는 영업직 지원자가 아닌데요.", "score": 0},
+			{"text": "(침착하게) 이 펜은 오늘 하루를 기록하는 도구입니다. 오늘 당신이 내린 결정, 잊고 싶지 않으시죠?", "text_en": "(Calmly.) This pen records your day: the decisions you made today, the things you do not want to forget.", "score": 3},
+			{"text": "(당황하며) 음... 이 펜은 잘 써지고 가격도 합리적입니다.", "text_en": "(Flustered.) Well... this pen writes smoothly and the price is reasonable.", "score": 1},
+			{"text": "(웃으며 넘김) 저는 영업직 지원자가 아닌데요.", "text_en": "(Laughing it off.) I am not applying for a sales role.", "score": 0},
 		]
 	},
 	{
 		"q": "업무 중 우선순위가 충돌할 때 어떻게 결정하나요?",
+		"q_en": "How do you decide when work priorities conflict?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "긴급도와 중요도를 기준으로 매트릭스를 만들고, 팀장과 우선순위를 확인합니다.", "score": 3},
-			{"text": "먼저 들어온 일을 먼저 처리합니다.", "score": 1},
-			{"text": "모든 일을 동시에 처리하려 노력합니다.", "score": 0},
+			{"text": "긴급도와 중요도를 기준으로 매트릭스를 만들고, 팀장과 우선순위를 확인합니다.", "text_en": "I rank tasks by urgency and importance, then confirm priorities with the team lead.", "score": 3},
+			{"text": "먼저 들어온 일을 먼저 처리합니다.", "text_en": "I handle tasks in the order they came in.", "score": 1},
+			{"text": "모든 일을 동시에 처리하려 노력합니다.", "text_en": "I try to handle everything at the same time.", "score": 0},
 		]
 	},
 	{
 		"q": "이전 직장을 떠난 이유가 무엇인가요?",
+		"q_en": "Why did you leave your previous job?",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "성장 한계를 느꼈고, 더 넓은 환경에서 역량을 키우고 싶어 새로운 기회를 찾았습니다.", "score": 3},
-			{"text": "연봉이 낮아서입니다.", "score": 0},
-			{"text": "상사와 맞지 않아서 퇴사했습니다.", "score": 1},
+			{"text": "성장 한계를 느꼈고, 더 넓은 환경에서 역량을 키우고 싶어 새로운 기회를 찾았습니다.", "text_en": "I felt I had reached a growth limit and wanted a broader environment to develop my skills.", "score": 3},
+			{"text": "연봉이 낮아서입니다.", "text_en": "The salary was too low.", "score": 0},
+			{"text": "상사와 맞지 않아서 퇴사했습니다.", "text_en": "I left because I did not get along with my manager.", "score": 1},
 		]
 	},
 	{
 		"q": "본인의 리더십 경험을 구체적으로 말씀해 주세요.",
+		"q_en": "Please describe a specific leadership experience.",
 		"timer": 10.0, "surprise": false,
 		"choices": [
-			{"text": "프로젝트 팀장 역할을 맡아 일정 관리와 갈등 조율을 담당했고, 목표 기한 내 완료했습니다.", "score": 3},
-			{"text": "공식 리더 경험은 없지만 비공식적으로 팀을 도왔습니다.", "score": 1},
-			{"text": "리더십 경험은 없습니다.", "score": 0},
+			{"text": "프로젝트 팀장 역할을 맡아 일정 관리와 갈등 조율을 담당했고, 목표 기한 내 완료했습니다.", "text_en": "I led a project team, managed the schedule, mediated conflicts, and delivered by the deadline.", "score": 3},
+			{"text": "공식 리더 경험은 없지만 비공식적으로 팀을 도왔습니다.", "text_en": "I have not held an official leadership role, but I have supported teams informally.", "score": 1},
+			{"text": "리더십 경험은 없습니다.", "text_en": "I do not have leadership experience.", "score": 0},
 		]
 	},
 ]
@@ -271,10 +297,10 @@ func open(mode: Mode) -> void:
 
 	match _mode:
 		Mode.RESUME:
-			_header_lbl.text = "🖊 자기소개서 작성"
+			_header_lbl.text = LocaleManager.ui("🖊 자기소개서 작성", "🖊 Resume Writing")
 			_start_common()
 		Mode.INTERVIEW:
-			_header_lbl.text = "🎯 모의 면접"
+			_header_lbl.text = LocaleManager.ui("🎯 모의 면접", "🎯 Mock Interview")
 			_start_common()
 
 func _get_questions() -> Array:
@@ -311,7 +337,7 @@ func _build_base_ui() -> void:
 	var hdr := HBoxContainer.new()
 	_root_vb.add_child(hdr)
 	_header_lbl = Label.new()
-	_header_lbl.text = "📋 취업 준비"
+	_header_lbl.text = LocaleManager.ui("📋 취업 준비", "📋 Job Prep")
 	_header_lbl.add_theme_font_size_override("font_size", 17)
 	_header_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	_header_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -382,9 +408,9 @@ func _show_question() -> void:
 	var q: Dictionary = questions[_q_idx]
 	_progress_lbl.text = "%d / %d" % [_q_idx + 1, questions.size()]
 
-	_q_lbl.text = q["q"]
+	_q_lbl.text = _loc(q, "q")
 	if is_instance_valid(_hint_lbl):
-		_hint_lbl.text = q.get("hint", "")
+		_hint_lbl.text = _loc(q, "hint")
 	if is_instance_valid(_feedback_lbl):
 		_feedback_lbl.text = ""
 
@@ -394,7 +420,7 @@ func _show_question() -> void:
 	var choices: Array = q["choices"]
 	for ci in range(choices.size()):
 		var c: Dictionary = choices[ci]
-		var btn := _make_btn(c["text"], "#0e1a2e", 13)
+		var btn := _make_btn(_loc(c, "text"), "#0e1a2e", 13)
 		btn.pressed.connect(func(): _on_choose(ci))
 		_choice_vb.add_child(btn)
 
@@ -407,10 +433,10 @@ func _show_question() -> void:
 			_timer_bar.value = 100.0
 			# 돌발 질문 표시 (짧은 타이머)
 			if q.get("surprise", false):
-				_hint_lbl.text = "⚡ 돌발 질문! — %d초 안에 대답하세요" % int(_timer_max)
+				_hint_lbl.text = LocaleManager.ui("⚡ 돌발 질문! — %d초 안에 대답하세요", "⚡ Surprise question! Answer within %d seconds.") % int(_timer_max)
 				_hint_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
 			else:
-				_hint_lbl.text = "%d초 안에 대답하세요" % int(_timer_max)
+				_hint_lbl.text = LocaleManager.ui("%d초 안에 대답하세요", "Answer within %d seconds.") % int(_timer_max)
 				_hint_lbl.add_theme_color_override("font_color", Color("#4a6a7a"))
 			# 타이머 바 색상 리셋
 			var fill := StyleBoxFlat.new()
@@ -433,14 +459,14 @@ func _on_choose(choice_idx: int) -> void:
 	var feedback_color: String
 	match score:
 		3:
-			feedback_text = "✦ 훌륭한 답변입니다."
+			feedback_text = LocaleManager.ui("✦ 훌륭한 답변입니다.", "✦ Excellent answer.")
 			feedback_color = "#f0e040"
 			_stress_delta -= 1
 		1:
-			feedback_text = "○ 무난한 답변입니다."
+			feedback_text = LocaleManager.ui("○ 무난한 답변입니다.", "○ Acceptable answer.")
 			feedback_color = "#7a9ab0"
 		_:
-			feedback_text = "✗ 면접관의 표정이 굳었다."
+			feedback_text = LocaleManager.ui("✗ 면접관의 표정이 굳었다.", "✗ The interviewer's face hardens.")
 			feedback_color = "#e85d5d"
 			_stress_delta += 1
 
@@ -460,7 +486,7 @@ func _on_timeout() -> void:
 	_timer_active = false
 	_stress_delta += 2
 	if is_instance_valid(_feedback_lbl):
-		_feedback_lbl.text = "⏱ 시간 초과 — 침묵이 흘렀다."
+		_feedback_lbl.text = LocaleManager.ui("⏱ 시간 초과 — 침묵이 흘렀다.", "⏱ Time out — silence hangs in the room.")
 		_feedback_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
 	for ch in _choice_vb.get_children():
 		if ch is Button:
@@ -473,7 +499,7 @@ func _on_timeout() -> void:
 func _show_result() -> void:
 	set_process(false)
 	_clear_content()
-	_progress_lbl.text = "완료"
+	_progress_lbl.text = LocaleManager.ui("완료", "Done")
 
 	var questions := _get_questions()
 	var max_score: int = questions.size() * 3
@@ -484,19 +510,19 @@ func _show_result() -> void:
 
 	if ratio >= 0.85:
 		quality = 3
-		grade_text = "우수  ★★★"
+		grade_text = LocaleManager.ui("우수  ★★★", "Excellent  ★★★")
 		grade_color = "#f0e040"
 	elif ratio >= 0.6:
 		quality = 2
-		grade_text = "양호  ★★"
+		grade_text = LocaleManager.ui("양호  ★★", "Good  ★★")
 		grade_color = "#3dba6a"
 	elif ratio >= 0.35:
 		quality = 1
-		grade_text = "무난  ★"
+		grade_text = LocaleManager.ui("무난  ★", "Passable  ★")
 		grade_color = "#7a9ab0"
 	else:
 		quality = 0
-		grade_text = "재작성 필요  ✗"
+		grade_text = LocaleManager.ui("재작성 필요  ✗", "Needs Rewrite  ✗")
 		grade_color = "#e85d5d"
 
 	AudioManager.play("money_gain" if quality >= 2 else ("click" if quality == 1 else "money_loss"))
@@ -505,7 +531,7 @@ func _show_result() -> void:
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_size_override("font_size", 15)
 	title_lbl.add_theme_color_override("font_color", Color("#c9a227"))
-	title_lbl.text = "자기소개서 완성" if _mode == Mode.RESUME else "모의 면접 종료"
+	title_lbl.text = LocaleManager.ui("자기소개서 완성", "Resume Complete") if _mode == Mode.RESUME else LocaleManager.ui("모의 면접 종료", "Mock Interview Complete")
 	_content_vb.add_child(title_lbl)
 
 	var grade_lbl := Label.new()
@@ -519,7 +545,7 @@ func _show_result() -> void:
 	score_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	score_lbl.add_theme_font_size_override("font_size", 12)
 	score_lbl.add_theme_color_override("font_color", Color("#5a6a8a"))
-	score_lbl.text = "점수 %d / %d" % [_total_score, max_score]
+	score_lbl.text = LocaleManager.ui("점수 %d / %d", "Score %d / %d") % [_total_score, max_score]
 	_content_vb.add_child(score_lbl)
 
 	# 결과에 따른 설명
@@ -530,24 +556,24 @@ func _show_result() -> void:
 	match quality:
 		3:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = "채용 담당자의 눈에 띌 만한 자소서다. 지력과 사회성이 올랐다."
+				desc_lbl.text = LocaleManager.ui("채용 담당자의 눈에 띌 만한 자소서다. 지력과 사회성이 올랐다.", "This resume could catch a recruiter's eye. Intelligence and social skill improved.")
 			else:
-				desc_lbl.text = "압박에도 흔들리지 않았다. 면접 스킬이 확실히 올랐다."
+				desc_lbl.text = LocaleManager.ui("압박에도 흔들리지 않았다. 면접 스킬이 확실히 올랐다.", "You stayed steady under pressure. Your interview skill clearly improved.")
 		2:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = "부족하진 않다. 서류 통과 가능성이 생겼다."
+				desc_lbl.text = LocaleManager.ui("부족하진 않다. 서류 통과 가능성이 생겼다.", "It is not bad. You now have a chance to pass screening.")
 			else:
-				desc_lbl.text = "잘 했지만 아쉬운 부분도 있었다. 연습이 됐다."
+				desc_lbl.text = LocaleManager.ui("잘 했지만 아쉬운 부분도 있었다. 연습이 됐다.", "You did well, though parts were rough. Good practice.")
 		1:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = "평범한 자소서다. 통과할 수도, 안 될 수도 있다."
+				desc_lbl.text = LocaleManager.ui("평범한 자소서다. 통과할 수도, 안 될 수도 있다.", "It is an ordinary resume. It might pass, or it might not.")
 			else:
-				desc_lbl.text = "실수가 있었다. 그래도 경험이 됐다."
+				desc_lbl.text = LocaleManager.ui("실수가 있었다. 그래도 경험이 됐다.", "You made mistakes, but it still counted as experience.")
 		_:
 			if _mode == Mode.RESUME:
-				desc_lbl.text = "솔직히 이 자소서로는 서류도 힘들다. 다시 써야 한다."
+				desc_lbl.text = LocaleManager.ui("솔직히 이 자소서로는 서류도 힘들다. 다시 써야 한다.", "Honestly, this resume will struggle to pass screening. Rewrite it.")
 			else:
-				desc_lbl.text = "면접이 많이 힘들었다. 정신이 많이 소모됐다."
+				desc_lbl.text = LocaleManager.ui("면접이 많이 힘들었다. 정신이 많이 소모됐다.", "The interview was rough. It drained you mentally.")
 	_content_vb.add_child(desc_lbl)
 
 	# 스트레스 표시
@@ -557,10 +583,10 @@ func _show_result() -> void:
 		stat_lbl.add_theme_font_size_override("font_size", 11)
 		stat_lbl.add_theme_color_override("font_color",
 			Color("#e85d5d") if _stress_delta > 0 else Color("#3dba6a"))
-		stat_lbl.text = "정신력 %+d" % (-_stress_delta)
+		stat_lbl.text = LocaleManager.ui("정신력 %+d", "Mental %+d") % (-_stress_delta)
 		_content_vb.add_child(stat_lbl)
 
-	var ok_btn := _make_btn("확인", "#0e3a2a", 15)
+	var ok_btn := _make_btn(LocaleManager.ui("확인", "Confirm"), "#0e3a2a", 15)
 	ok_btn.custom_minimum_size = Vector2(0, 46)
 	ok_btn.pressed.connect(func(): _on_finish(quality))
 	_content_vb.add_child(ok_btn)
@@ -590,3 +616,9 @@ func _make_btn(text: String, bg_hex: String, font_size: int) -> Button:
 	btn.add_theme_color_override("font_disabled_color", Color("#4a5a6a"))
 	btn.add_theme_font_size_override("font_size", font_size)
 	return btn
+
+func _loc(data: Dictionary, key: String) -> String:
+	var en_key := "%s_en" % key
+	if LocaleManager.is_english() and data.has(en_key):
+		return str(data.get(en_key, ""))
+	return str(data.get(key, ""))

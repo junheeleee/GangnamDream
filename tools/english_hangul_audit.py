@@ -62,6 +62,19 @@ LOCALIZED_INLINE_MARKERS = (
     " if LocaleManager.is_english() else ",
 )
 
+PAIRED_DATA_KEYS = (
+    "cat",
+    "desc",
+    "hint",
+    "info",
+    "name",
+    "q",
+    "rare",
+    "scene",
+    "text",
+    "tip",
+)
+
 
 def rel(path: Path) -> str:
     return str(path.relative_to(ROOT))
@@ -119,6 +132,21 @@ def paren_delta(line: str) -> int:
     return delta
 
 
+def is_paired_localized_data_line(lines: list[str], index: int) -> bool:
+    line = strip_comment(lines[index])
+    if not HANGUL_RE.search(line):
+        return False
+    for key in PAIRED_DATA_KEYS:
+        if not re.search(rf'["\']{re.escape(key)}["\']\s*:', line):
+            continue
+        start = max(0, index - 1)
+        end = min(len(lines), index + 4)
+        window = "\n".join(strip_comment(item) for item in lines[start:end])
+        if re.search(rf'["\']{re.escape(key)}_en["\']\s*:', window):
+            return True
+    return False
+
+
 def scan_content() -> list[str]:
     issues: list[str] = []
     for path in CONTENT_TARGETS:
@@ -137,7 +165,9 @@ def scan_runtime() -> dict[str, list[str]]:
         if not path.exists():
             continue
         localized_depth = 0
-        for lineno, raw_line in enumerate(path.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
+        lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        for index, raw_line in enumerate(lines):
+            lineno = index + 1
             line = strip_comment(raw_line)
             if localized_depth > 0:
                 localized_depth = max(0, localized_depth + paren_delta(line))
@@ -148,6 +178,8 @@ def scan_runtime() -> dict[str, list[str]]:
             if not HANGUL_RE.search(line):
                 continue
             if any(marker in line for marker in LOCALIZED_INLINE_MARKERS):
+                continue
+            if is_paired_localized_data_line(lines, index):
                 continue
             literals = [s for s in STRING_RE.findall(line) if HANGUL_RE.search(s)]
             if not literals:
