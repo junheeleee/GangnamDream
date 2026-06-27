@@ -19,7 +19,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 5씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8, 현수 라면 씬 이후). 플레이타임 약 20~30분. Steam 위시리스트 CTA 삽입 포인트 = arc_chapter1_close 이후. |
 | **다음 작업** | **CONTENT_ROADMAP.md 순서대로** — 카지노/홀덤/경마 서사 이벤트(미니게임 메커니즘 제외); P2 잔여 audit #7(인물 stage vs 대사 톤 심화 스캔). **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-22 (English Surface + AP Modal Polish: AP 세부 모달 카드화, 영어 메인 HUD/돈·관계 모달/정보 패널/StoryMode 초반 이벤트 ScreenshotQA 추가, 영어 로고/탑바/날짜/금액/KRW 표기/주거명/인물명/로그/관계 단계 라벨 정리. 전체 ScreenshotQA 및 audit.sh 통과.) |
+| **마지막 업데이트** | 2026-06-27 (Blackjack Table Shape Polish: 블랙잭 베팅 매트의 원형 아크/임시 딜러 실루엣 제거, 직사각형 BETTING SPOT/DEALER AREA로 정리, 배너 위치를 카드 아래로 이동. 카지노 ScreenshotQA 및 audit.sh 통과.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

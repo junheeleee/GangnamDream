@@ -517,13 +517,21 @@ func _draw_blackjack_betting_mat(ctrl: Control) -> void:
 	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 140, 62), "Dealer hits soft 17 · Double · Split · Basic strategy",
 		HORIZONTAL_ALIGNMENT_CENTER, 280, 10, Color(1, 1, 1, 0.40))
 	var bet_center := Vector2(sz.x * 0.5, 118)
-	ctrl.draw_arc(bet_center, 48.0, 0.0, TAU, 48, Color("#f0b429"), 2.0)
-	ctrl.draw_arc(bet_center, 36.0, 0.0, TAU, 48, Color(1, 1, 1, 0.10), 1.0)
-	_draw_bj_chip_stack(ctrl, bet_center + Vector2(0, -18), _bj_chip_color(_stake), _stake, 30.0)
-	ctrl.draw_string(bold, bet_center + Vector2(-58, 18), "BET  " + GameState.format_money(float(_stake)),
-		HORIZONTAL_ALIGNMENT_CENTER, 116, 14, Color("#f0b429"))
+	var bet_box := Rect2(bet_center - Vector2(112.0, 38.0), Vector2(224.0, 76.0))
+	ctrl.draw_rect(Rect2(bet_box.position + Vector2(0, 4), bet_box.size), Color(0, 0, 0, 0.32), true)
+	ctrl.draw_rect(bet_box, Color("#092f18"), true)
+	ctrl.draw_rect(bet_box, Color("#f0b429"), false, 1.6)
+	ctrl.draw_string(font, bet_box.position + Vector2(0, 18), "BETTING SPOT",
+		HORIZONTAL_ALIGNMENT_CENTER, bet_box.size.x, 10, Color(1, 1, 1, 0.42))
+	_draw_bj_chip_stack(ctrl, bet_box.position + Vector2(58, 45), _bj_chip_color(_stake), _stake, 30.0)
+	ctrl.draw_string(bold, bet_box.position + Vector2(88, 51), GameState.format_money(float(_stake)),
+		HORIZONTAL_ALIGNMENT_LEFT, 120, 14, Color("#f0b429"))
 	_draw_shoe_box(ctrl, Rect2(Vector2(sz.x - 152, 35), Vector2(92, 76)), font)
-	_draw_dealer_silhouette(ctrl, Vector2(92, 76))
+	var discard_box := Rect2(Vector2(54.0, 44.0), Vector2(170.0, 72.0))
+	ctrl.draw_rect(discard_box, Color(0, 0, 0, 0.12), true)
+	ctrl.draw_rect(discard_box, Color(1, 1, 1, 0.10), false, 1.0)
+	ctrl.draw_string(font, discard_box.position + Vector2(0, 27), "DEALER AREA",
+		HORIZONTAL_ALIGNMENT_CENTER, discard_box.size.x, 10, Color(1, 1, 1, 0.30))
 
 func _add_blackjack_table_display(parent: VBoxContainer, show_dealer_all: bool) -> void:
 	var table := Control.new()
@@ -955,7 +963,7 @@ func _show_table_banner(text: String, color: Color, duration: float = 0.5) -> vo
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.z_index = 75
 	panel.size = Vector2(minf(390.0, root_size.x - 48.0), 54.0)
-	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(88.0, root_size.y * 0.28))
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(520.0, root_size.y - 190.0))
 	panel.modulate = Color(1, 1, 1, 0.0)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(0.02, 0.03, 0.04, 0.86)
@@ -1004,7 +1012,7 @@ func _show_table_banner_bj(text: String, color: Color) -> void:
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.z_index = 76
 	panel.size = Vector2(minf(420.0, root_size.x - 48.0), 72.0)
-	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(80.0, root_size.y * 0.26))
+	panel.position = Vector2((root_size.x - panel.size.x) * 0.5, maxf(510.0, root_size.y - 210.0))
 	panel.modulate = Color(1, 1, 1, 0.0)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(0.36, 0.28, 0.02, 0.92)

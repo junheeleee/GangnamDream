@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-06-27 (Blackjack Table Shape Polish)
+
+### 수정
+- `scenes/BlackjackTable.gd`: 블랙잭 베팅 매트 중앙의 원형 아크/가이드 느낌 도형을 제거하고, 실제 테이블에 가까운 직사각형 `BETTING SPOT` 패널로 교체.
+- 베팅 매트 왼쪽의 임시 딜러 실루엣/팔 선을 제거하고 낮은 대비의 `DEALER AREA` 박스로 정리.
+- 블랙잭 액션/결과 배너 위치를 테이블 카드 영역 아래쪽으로 내려 카드가 가려지지 않도록 수정.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- 카지노 전용 `ScreenshotQA` 실행 완료. `10a_blackjack_betting`, `10_blackjack_table` 직접 확인.
+
+---
+
 ## 2026-06-22 (English Surface + AP Modal Polish)
 
 ### 수정
