@@ -2,7 +2,7 @@
   {
     "id": "arc_sangchul_year3",
     "title": "News Article",
-    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Lim arrested on suspicion of defrauding multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\n[In Korea, real estate broker fraud is a persistent problem. Brokers exploit information asymmetry in the complex jeonse/매매 system — particularly targeting young first-time tenants who don't know their rights. Cases range from double-contracting a single unit to outright taking jeonse deposits and disappearing. The ₩600 확정일자 stamp and 전입신고 (residency registration) are the main defenses tenants have.]\n\nClosed the article and looked out the window. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
+    "description": "Saw the name in a portal news headline.\n\n\"Real estate broker Lim arrested on suspicion of defrauding multiple investors\"\n\nThere was a photo. Definitely Im Sangchul.\n\nSeparate from what {name} did — another case had surfaced elsewhere. The father's situation wasn't the only one.\n\n[In Korea, real estate broker fraud is a persistent problem. Brokers exploit information asymmetry in the complex jeonse and property-sale system — particularly targeting young first-time tenants who don't know their rights. Cases range from double-contracting a single unit to outright taking jeonse deposits and disappearing. The ₩600 fixed-date stamp and residency registration are the main defenses tenants have.]\n\nClosed the article and looked out the window. Learned a lot from that man. That man destroyed his father. Both things are true at once.",
     "choices": [
       {
         "text": "Just moved past it. That relationship is over.",
@@ -107,7 +107,7 @@
   {
     "id": "arc_jiyeon_real_reason",
     "title": "Not Her Father's Company",
-    "description": "Met up after a long stretch.\n\nOver coffee, Han Jiyeon said:\n\"I've been studying for a real estate agent license.\"\n\n{name} paused.\n\n[공인중개사 (gong-in junggaesa) is a licensed real estate broker certification in Korea — one of the most competitive national exams, comparable to a bar exam in difficulty. Passing rates hover around 25-30%. Her father already owns a real estate firm, so the decision to sit the exam herself is a deliberate act of independence — not career preparation.]\n\nHer father runs a property firm. Her studying for the license herself was unexpected.\n\n\"For your father's business?\"",
+    "description": "Met up after a long stretch.\n\nOver coffee, Han Jiyeon said:\n\"I've been studying for a real estate agent license.\"\n\n{name} paused.\n\n[Gong-in junggaesa is Korea's licensed real estate broker certification — one of the country's most competitive national exams, comparable to a bar exam in difficulty. Passing rates hover around 25-30%. Her father already owns a real estate firm, so the decision to sit the exam herself is a deliberate act of independence — not career preparation.]\n\nHer father runs a property firm. Her studying for the license herself was unexpected.\n\n\"For your father's business?\"",
     "choices": [
       {
         "text": "\"Is it for your father's company?\" — asked directly",

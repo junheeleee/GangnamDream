@@ -804,6 +804,35 @@ def check_en_conditions():
                      % (fname, eid, kr_cond, en_cond))
 
 # ══════════════════════════════════════════════════════════════
+# 9) 영어 콘텐츠 한글 문자 금지 — 영어 플레이 중 한글 노출 회귀 방지
+# ══════════════════════════════════════════════════════════════
+def check_en_content_no_hangul():
+    targets = []
+    en_dir = os.path.join(ROOT, "content", "events_en")
+    if os.path.isdir(en_dir):
+        targets.extend(sorted(glob.glob(os.path.join(en_dir, "*.json"))))
+    endings_en = os.path.join(ROOT, "content", "endings_en.json")
+    if os.path.exists(endings_en):
+        targets.append(endings_en)
+
+    bad = []
+    hangul_re = re.compile(r"[가-힣]")
+    for path in targets:
+        try:
+            with open(path, encoding="utf-8") as f:
+                for lineno, line in enumerate(f, 1):
+                    if hangul_re.search(line):
+                        bad.append("%s:%d: %s" % (rel(path), lineno, line.strip()[:160]))
+                        break
+        except Exception as e:
+            err("영어 콘텐츠 한글 검사 실패 [%s]: %s" % (rel(path), e))
+
+    if bad:
+        err("영어 콘텐츠에 한글 문자가 남아 있습니다. 영어판은 로마자/영문 설명만 사용하세요.\n    "
+            + "\n    ".join(bad[:20])
+            + ("\n    ... 외 %d건" % (len(bad) - 20) if len(bad) > 20 else ""))
+
+# ══════════════════════════════════════════════════════════════
 # ══════════════════════════════════════════════════════════════
 # 13) 발견 레이어 무결성 — 단서/생각정리(clues.json/thoughts.json)
 #     이벤트가 주는 clue id·생각의 required_clues·unlock_event가
@@ -881,6 +910,7 @@ def main():
     check_dead_cast_branches()
     check_structural_debt()
     check_en_conditions()
+    check_en_content_no_hangul()
     check_clues_thoughts()
 
     if errors:

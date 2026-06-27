@@ -5,7 +5,7 @@
     "description": "I remembered being careful when I signed the jeonse contract.\nThen news came: the landlord filed for bankruptcy.\n\nJeonse fraud warnings have been all over the news. But I have the stamp.",
     "choices": [
       {
-        "text": "Gather the 확정일자 documents and respond",
+        "text": "Gather the fixed-date stamp documents and respond",
         "result_text": "Fixed-date stamp. Leasehold registration. The paperwork I filed that day protected everything.\n\nRecognized as a priority creditor in the foreclosure proceedings. Full deposit returned.\nI was grateful to the version of myself who paid attention."
       }
     ]
@@ -13,11 +13,11 @@
   {
     "id": "callback_jeonse_scam_narrow",
     "title": "Jeonse Fraud — Too Close",
-    "description": "A text message: the landlord has filed for bankruptcy.\nI should have gotten the 확정일자 (fixed-date stamp) at the community center back then.\n\nJeonse fraud is no longer something that happens to other people.",
+    "description": "A text message: the landlord has filed for bankruptcy.\nI should have gotten the fixed-date stamp at the community center back then.\n\nJeonse fraud is no longer something that happens to other people.",
     "choices": [
       {
         "text": "Contact the Legal Aid Corporation and fight for what you can recover",
-        "result_text": "Went to the Legal Aid Corporation. No fixed-date stamp means I'm a junior creditor.\n\n₩500,000 lost in the end — a partial recovery.\n[One document. One trip to the community center. That's what it cost to protect ₩50M in deposit money. In Korea, jeonse fraud has cost thousands of people their life savings. The 확정일자 stamp — ₩600 to file, takes 10 minutes — is the only protection.]\nNow I know it in my bones."
+        "result_text": "Went to the Legal Aid Corporation. No fixed-date stamp means I'm a junior creditor.\n\n₩500,000 lost in the end — a partial recovery.\n[One document. One trip to the community center. That's what it cost to protect ₩50M in deposit money. In Korea, jeonse fraud has cost thousands of people their life savings. The fixed-date stamp costs ₩600 to file, takes 10 minutes, and can be the only protection.]\nNow I know it in my bones."
       }
     ]
   },
@@ -54,7 +54,7 @@
     "choices": [
       {
         "text": "Decide to start drawing the line",
-        "result_text": "'From now on, I leave when the work is done.' Decided internally.\n\n[눈치야근 (nunchi yageun): overtime performed not because there's actual work, but because no one wants to be seen leaving before the boss. A distinctly Korean workplace phenomenon — the cost isn't just time, it's accumulated health damage.]\nThe body won against the office. The line is mine to draw."
+        "result_text": "'From now on, I leave when the work is done.' Decided internally.\n\n[Nunchi overtime: overtime performed not because there's actual work, but because no one wants to be seen leaving before the boss. A distinctly Korean workplace phenomenon — the cost isn't just time, it's accumulated health damage.]\nThe body won against the office. The line is mine to draw."
       },
       {
         "text": "Push through a little longer",

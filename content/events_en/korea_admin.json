@@ -17,7 +17,7 @@
   {
     "id": "kx_tax_refund",
     "title": "Year-End Tax Settlement",
-    "description": "January — the company sends a request for year-end tax settlement documents.\n\n[연말정산 (Yeonmal Jeongsan): Korea's annual wage earner tax reconciliation. Throughout the year, income tax is withheld from your paycheck based on estimates. In January, employees file a detailed claim of deductions — rent, medical, education, card spending. If you overclaimed: pay back. If you underclaimed: refund.]\n\nMedical expenses, card spending, monthly rent...\nHow carefully you claim these determines whether January brings a gift or a bill.",
+    "description": "January — the company sends a request for year-end tax settlement documents.\n\n[Yeonmal Jeongsan: Korea's annual wage earner tax reconciliation. Throughout the year, income tax is withheld from your paycheck based on estimates. In January, employees file a detailed claim of deductions — rent, medical, education, card spending. If you overclaimed: pay back. If you underclaimed: refund.]\n\nMedical expenses, card spending, monthly rent...\nHow carefully you claim these determines whether January brings a gift or a bill.",
     "choices": [
       {
         "text": "Claim every deduction carefully",
@@ -47,15 +47,15 @@
   {
     "id": "kx_real_estate_jeonse",
     "title": "Jeonse Contract",
-    "description": "Sitting at the real estate office.\nA jeonse contract.\n\n[Jeonse (전세): Korea's unique rent system. You pay 60–80% of the property's value as a lump-sum deposit — and live there completely rent-free for the lease term (usually 2 years). When you leave, the landlord returns the full deposit. No monthly rent. The landlord profits by investing your money.]\n\nNowhere else on earth works like this. Foreign friends can never quite believe it.",
+    "description": "Sitting at the real estate office.\nA jeonse contract.\n\n[Jeonse: Korea's unique rent system. You pay 60-80% of the property's value as a lump-sum deposit — and live there completely rent-free for the lease term (usually 2 years). When you leave, the landlord returns the full deposit. No monthly rent. The landlord profits by investing your money.]\n\nNowhere else on earth works like this. Foreign friends can never quite believe it.",
     "choices": [
       {
         "text": "Get the fixed-date stamp and register the lease — cover all bases",
-        "result_text": "Pulled the registry, checked for prior claims, got the fixed-date stamp (확정일자 — the legal record that protects your deposit if the landlord goes bankrupt), registered the leasehold.\nThe agent said 'you really know your stuff.'\n\nIf the tenant doesn't protect themselves, this money can vanish overnight.\nIn Korea's jeonse system, knowing the rules is survival."
+        "result_text": "Pulled the registry, checked for prior claims, got the fixed-date stamp — the legal record that protects your deposit if the landlord goes bankrupt — and registered the leasehold.\nThe agent said 'you really know your stuff.'\n\nIf the tenant doesn't protect themselves, this money can vanish overnight.\nIn Korea's jeonse system, knowing the rules is survival."
       },
       {
         "text": "Trust the agent and sign",
-        "result_text": "The agent handled it. I signed the documents.\n\nChecked afterward — the 확정일자 (fixed-date stamp) had to be obtained separately at the community center. Without it, your deposit has no legal protection if the landlord defaults.\nLuckily caught it in time. Jeonse fraud has wiped out thousands of Koreans."
+        "result_text": "The agent handled it. I signed the documents.\n\nChecked afterward — the fixed-date stamp had to be obtained separately at the community center. Without it, your deposit has no legal protection if the landlord defaults.\nLuckily caught it in time. Jeonse fraud has wiped out thousands of Koreans."
       }
     ]
   },
