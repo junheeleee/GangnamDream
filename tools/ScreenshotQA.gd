@@ -16,7 +16,7 @@ func _ready() -> void:
 	_clear_output_dir()
 	var scope: String = _qa_scope()
 	if scope == QA_SCOPE_CASINO:
-		LocaleManager.language = "ko"
+		_set_qa_language("ko")
 		_prepare_main_game_state()
 		await _boot_main_game()
 		await _shot_casino_suite()
@@ -26,8 +26,9 @@ func _ready() -> void:
 
 	await _shot_start_menu("ko", "00_start_menu")
 	await _shot_start_menu("en", "00b_start_menu_en")
+	await _shot_story_event("arc_intro_01_meal", "00h_en_story_intro", "en")
 	await _shot_english_main_flow()
-	LocaleManager.language = "ko"
+	_set_qa_language("ko")
 	_prepare_main_game_state()
 	_seed_portfolio()
 	await _shot_story_event("arc_intro_01_meal", "00a_story_interview")
@@ -67,6 +68,10 @@ func _qa_scope() -> String:
 				"qa=casino", "--qa=casino", "scope=casino", "--scope=casino"]:
 			return QA_SCOPE_CASINO
 	return "full"
+
+func _set_qa_language(lang: String) -> void:
+	LocaleManager.language = lang
+	DataRegistry.reload()
 
 func _prepare_main_game_state() -> void:
 	GameState.start_new_game()
@@ -125,7 +130,7 @@ func _clear_output_dir() -> void:
 	dir.list_dir_end()
 
 func _shot_start_menu(lang: String, shot_name: String) -> void:
-	LocaleManager.language = lang
+	_set_qa_language(lang)
 	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
 	var menu := packed.instantiate()
 	get_tree().root.add_child.call_deferred(menu)
@@ -164,7 +169,10 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "") -> void:
+	if not lang.is_empty():
+		_set_qa_language(lang)
+		_prepare_main_game_state()
 	GameState.pending_story_queue = [event_id]
 	var packed: PackedScene = load("res://scenes/StoryMode.tscn")
 	var story := packed.instantiate()
@@ -318,7 +326,7 @@ func _shot_ap_actions() -> void:
 	await _save("04_ap_actions_dashboard")
 
 func _shot_english_main_flow() -> void:
-	LocaleManager.language = "en"
+	_set_qa_language("en")
 	_prepare_main_game_state()
 	_seed_portfolio()
 	_seed_info_panel_state("en")

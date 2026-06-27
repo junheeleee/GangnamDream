@@ -678,15 +678,17 @@ front-load는 의도적·방어 가능한 페이싱이며, 추가 reflection 비
 
 ### 수정
 - `scenes/MainGame.gd`: AP 세부 카테고리 모달 버튼을 기존 긴 텍스트 버튼에서 아이콘/제목/보조설명/AP 배지를 갖춘 카드형 버튼으로 전환. 메인 행동 카드와 같은 시각 언어를 사용하도록 정리.
-- 영어 모드 탑바에서 `Gangnam Dream` 로고와 `Title` 버튼이 1280x800에서 잘리던 문제 수정. 영어 탑바 금액 표기는 `₩3.5M | ₩7.3M` 형태로 압축.
+- 영어 모드 탑바에서 `Gangnam Dream` 로고와 `Title` 버튼이 1280x800에서 잘리던 문제 수정. 영어 탑바 금액 표기는 `KRW 3.5M | KRW 7.3M` 형태로 압축.
 - 영어 모드의 날짜, 금액, 주거명, 인물명, 칭호/성향, 월 조언 문구가 한국어 표면으로 남는 문제를 보정.
+- 영어권 주 타깃 기준으로 HUD/모달/마일스톤/요약의 통화 표기를 `₩`에서 `KRW`로 전환. 1280x800 캡처에서 `₩` 글리프가 `W`처럼 읽히는 문제 방지.
 - `autoloads/GameState.gd`, `systems/RelationshipSystem.gd`, `systems/InvestmentSystem.gd`: 새 런/런 테마/칭호 보너스/시장 국면/관계 단계 로그를 영어 모드에서 영어로 남기도록 수정.
-- `tools/ScreenshotQA.gd`: 영어 메인 HUD, 영어 돈/관계 모달, 영어 정보 패널 Stats/Relations 캡처를 전체 QA 루틴에 추가.
+- `tools/ScreenshotQA.gd`: 영어 메인 HUD, 영어 돈/관계 모달, 영어 정보 패널 Stats/Relations, 영어 StoryMode 초반 이벤트 캡처를 전체 QA 루틴에 추가.
+- QA 언어 전환 시 `DataRegistry.reload()`를 강제해 영어 이벤트 오버레이가 한국어 캐시에 가려지던 ScreenshotQA 사각지대 수정.
 - 리베이스 후 원격 변경에서 드러난 Godot 4.6 파서 오류 보정: `GameState.get_run_pace()` 타입 명시, `TutorialOverlay` JS식 삼항 연산자 제거.
 
 ### 검증
-- 전체 `ScreenshotQA` 반복 실행 완료. `00c_en_ap_actions`, `00d_en_money_modal`, `00e_en_people_modal`, `00f_en_info_stats`, `00g_en_info_relations` 직접 확인.
-- 1280x800 기준 영어 로고/탑바 버튼/목표 라벨 잘림 없음. 영어 정보 패널의 주요 로그와 관계 단계 라벨 영어 표시 확인.
+- 전체 `ScreenshotQA` 반복 실행 완료. `00h_en_story_intro`, `00c_en_ap_actions`, `00d_en_money_modal`, `00e_en_people_modal`, `00f_en_info_stats`, `00g_en_info_relations` 직접 확인.
+- 1280x800 기준 영어 로고/탑바 버튼/목표 라벨 잘림 없음. 영어 초반 StoryMode 이벤트와 정보 패널의 주요 로그/관계 단계 라벨 영어 표시 확인.
 - `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, Godot 전체 스크립트 컴파일 깨끗, 밸런스 밴드 전부 통과.
 
 ---
