@@ -7,9 +7,9 @@
 
 | 항목 | 명세 |
 |---|---|
-| **아트 스타일** | 한국 웹툰/만화 미학 — 깔끔한 선, 표현력 있는 얼굴, 현대 배경 |
-| **캐릭터 톤** | 사실적이되 약간 스타일화 (애니메이션 아님, 사진사실주의 아님) |
-| **배경 팔레트** | 서울 도시 회색/파랑, 강남 럭셔리 골드 포인트, 고시원 빈곤 갈색 |
+| **아트 스타일** | `Gangnam Ink`: 저채도 한국 비주얼노벨/만화 리얼리즘, 콘크리트 회색과 차콜 UI에 잘 붙는 matte paper grain |
+| **캐릭터 톤** | 사실적이되 약간 스타일화. 사진사실주의 raw AI 느낌 금지, 배경 없는 투명 포트레이트 우선 |
+| **배경 팔레트** | 회색/진회색/검정/연회색/흰색 moral axis. 골드·초록·파랑은 카지노/시장 등 좁은 의미 신호로만 사용 |
 | **해상도** | 포트레잇 512×512 이상 / 배경 1920×1080 / CG 1920×1080 |
 | **파일 형식** | PNG (투명 배경은 포트레잇만) |
 | **네이밍** | `{캐릭터}_{감정}.png` / `{장소}_{시간}.png` |
@@ -91,20 +91,33 @@
 
 ### 1-C. CG (풀스크린 클라이맥스 일러스트)
 
-> **현재:** CG 3개 정의 (`cg_jiyeon_crash`, `cg_jaehyuk_reveal`, `cg_ending_father`)  
-> **목표:** 각 엔딩 + 핵심 감정 절정 장면 커버
+> 상세 엔딩 기준은 `docs/ENDING_ART.md`가 정본이다.
+> CG는 주연 인물과 배경을 합성해도 되는 예외 영역이지만, 그래서 더 엄격하게 정합성을 본다.
 
-| CG ID | 장면 | 구도/내용 |
+현재 보유:
+
+| CG ID | 상태 | 구도/내용 |
 |---|---|---|
-| `cg_jiyeon_crash` ✅ 있음 | 자전거 접촉 사고 | 비오는 골목, 외제차 + 자전거 + 두 사람 |
-| `cg_jaehyuk_reveal` ✅ 있음 | 재혁 잠적 발견 | 폰 화면에 피해자 카페 글, 충격받는 민준 |
-| `cg_ending_father` ✅ 있음 | 아버지와 화해 | 가족 집, 아버지-민준 마주보는 장면 |
-| `cg_gangnam_arrival` ⭐ 필요 | 강남 입성 | 강남 밤 전경, 민준이 처음으로 그 거리에 서는 장면 |
-| `cg_daeun_fork` ⭐ 필요 | 다은 갈림길 | 편의점 앞 밤, 민준이 다은에게 선택을 말하는 순간 |
-| `cg_burnout_crash` ⭐ 필요 | 번아웃/입원 | 병원 침대, 천장을 보는 민준, 창밖 서울 |
-| `cg_start` ✅ 있음 | 오프닝 | 고시원 방, 통장 잔액 50만원 화면 |
-| `cg_bankruptcy_ending` ⭐ 필요 | 파산 엔딩 | 빈 통장, 고시원 퇴실 짐 |
-| `cg_ordinary_ending` ⭐ 필요 | 평범한 삶 엔딩 | 소박한 원룸, 창밖 서울 야경 |
+| `cg_start` | ✅ 있음 | 오프닝 고시원. 큰 창문/전망 금지 |
+| `cg_jiyeon_crash` | ✅ 있음 | 자전거 접촉 사고. 지연 얼굴/차량/운전석 정합성 유지 |
+| `cg_jaehyuk_reveal` | ✅ 있음 | 재혁 폭로/잠적 발견 |
+| `cg_ending_father` | ✅ 있음 | 병실 방문 장면. 현재는 `arc_father_04_visit`용이며 엔딩 CG로 억지 연결 금지 |
+| `cg_ending_gangnam_dream` | ✅ 있음 | 강남 입성/아버지 초대 |
+| `cg_ending_empty_house` | ✅ 있음 | 강남 입성 후 상실 |
+| `cg_ending_crypto_ghost` | ✅ 있음 | 코인 중독 실패 |
+
+릴리즈 블로커급 신규 P0:
+
+| CG ID | 연결 엔딩 | 구도/내용 |
+|---|---|---|
+| `cg_ending_full_circle` | `full_circle` | 상철 빚을 청산하고 아버지 이름을 돌려받는 S+ 진엔딩 |
+| `cg_ending_gangnam_dream_white` | `gangnam_dream_white` | 아무도 밟지 않고 강남에 도착한 White route 전용 컷 |
+| `cg_ending_with_daeun` | `with_daeun` | 작은 주방/외곽 빌라, 다은과 민준의 평온 |
+| `cg_ending_second_love` | `second_love` | 강남 아파트 베란다, 다은과 같이 도착한 엔딩 |
+| `cg_ending_jiyeon_man` | `jiyeon_man` | 강남 거울 앞, 위험하고 고혹적인 지연과 공허한 민준 |
+| `cg_ending_guardian` | `guardian` | 병원 퇴원 날, 아버지 짐을 드는 민준 |
+| `cg_ending_jaehyuk_way` | `jaehyuk_way` | 커튼을 치는 민준, Black moral collapse |
+| `cg_ending_sangchul_reckoning` | `sangchul_reckoning` | 진술서/서류/떨리는 손, 강남 사다리를 스스로 치우는 장면 |
 
 ---
 

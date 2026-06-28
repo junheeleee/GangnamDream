@@ -48,6 +48,40 @@
 
 ---
 
+## 🎬 엔딩 CG (P0/P1)
+
+> 상세 기준: `docs/ENDING_ART.md`.
+> 전용 CG는 예쁘기보다 먼저 정확해야 한다. 특히 주연 인물 얼굴, 나이, 관계, 공간 정본,
+> `MORAL_TINT` 상태가 틀리면 연결하지 않는다.
+
+### P0 — Next Fest/상점 스크린샷 후보
+
+| 요청 ID | 연결 엔딩 | 설명 |
+|---|---|---|
+| `cg_ending_full_circle` | `full_circle` | 강남 펜트하우스/거실 창가. 상철 빚을 청산하고 아버지 이름을 돌려받는 S+ 진엔딩 |
+| `cg_ending_gangnam_dream_white` | `gangnam_dream_white` | White moral route 전용. 강남 야경 앞, 차갑고 맑은 공기, 아무도 밟지 않고 도착한 고요함 |
+| `cg_ending_with_daeun` | `with_daeun` | 작은 주방/외곽 빌라. 다은과 민준이 라면/커피를 사이에 두고 웃는 장면 |
+| `cg_ending_second_love` | `second_love` | 강남 아파트 베란다. 다은은 야경을 보고 민준은 커피를 탄다 |
+| `cg_ending_jiyeon_man` | `jiyeon_man` | 강남 고급 욕실/복도 거울. 고혹적이고 위험한 지연, 행복과 공허 사이의 민준 |
+| `cg_ending_guardian` | `guardian` | 창원 병원 퇴원 날. 민준이 아버지 짐을 든다. 기존 병실 방문 CG와 구분 |
+| `cg_ending_jaehyuk_way` | `jaehyuk_way` | 강남 아파트에서 커튼을 치는 민준. Black moral route, 돈만 남은 결말 |
+| `cg_ending_sangchul_reckoning` | `sangchul_reckoning` | 경찰서 진술서/밤 카페. 강남 사다리를 스스로 치우는 손과 서류 |
+
+### P1 — 정식 출시 전 보강
+
+| 요청 ID | 연결 엔딩 | 설명 |
+|---|---|---|
+| `cg_ending_late_call` | `late_call` | KTX 창가, 폰을 쥔 손, 빗방울 |
+| `cg_ending_instant_legend` | `instant_legend` | 너무 이른 강남 도착. 비현실적으로 비어 있는 거실 |
+| `cg_ending_startup_exit` | `startup_exit` | 작은 사무실/회의실, 계약서와 노트북 |
+| `cg_ending_lonely_rich` | `lonely_rich` | 고급 거실에서 혼자 배달앱을 닫는 장면 |
+| `cg_ending_orthodox_pinnacle` | `orthodox_pinnacle` | 회식 자리/회사 로비. 후배의 부러움과 본인의 공허함 |
+| `cg_ending_gambling_recovery` | `gambling_recovery` | 고시원 책상 달력의 동그라미. 카지노가 아니라 회복의 일상 |
+| `cg_ending_bankruptcy` | `bankruptcy`, `debt_spiral` | 계산기, 독촉 문자, 비 오는 방. 실패 공통 컷 가능 |
+| `cg_ending_burnout` | `burnout`, `mental_break` | 병원 형광등/천장/링거. 현실적인 소진 |
+
+---
+
 ## 🎮 미니게임 브리프 (Codex 구현용)
 
 ### 인형뽑기 (Claw Machine) — 이미 docs/KOREA_EXPERIENCE_PLAN.md에 기록됨

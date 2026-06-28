@@ -1977,7 +1977,7 @@
   {
     "id": "sangchul_tip_redev",
     "title": "Sangchul's Tip — A Distress Sale",
-    "description": "Pushed open the real estate office door. Sangchul waved {name} over.\n\n「Minjun, this isn't something I tell just anyone.」\n\nStation-adjacent commercial building share, distress sale. Owner needs cash fast — listed way below market.\n\n「In 30 years of looking, this is one I can count on my fingers. But money — nothing's certain. Know that before you go in.」\n\nInformation only a trusted person hears. The decision is still yours to make.",
+    "description": "Pushed open the real estate office door. Sangchul waved {name} over.\n\n\"Minjun, this isn't something I tell just anyone.\"\n\nStation-adjacent commercial building share, distress sale. Owner needs cash fast — listed way below market.\n\n\"In 30 years of looking, this is one I can count on my fingers. But money — nothing's certain. Know that before you go in.\"\n\nInformation only a trusted person hears. The decision is still yours to make.",
     "category": "investment",
     "rarity": "rare",
     "weight": 4,
@@ -2015,7 +2015,7 @@
           "win_flag": "sangchul_tip_win",
           "lose_flag": "sangchul_tip_lose"
         },
-        "result_text": "Signed the contract.\nSangchul clapped a shoulder. 「Now the job is waiting.」"
+        "result_text": "Signed the contract.\nSangchul clapped a shoulder. \"Now the job is waiting.\""
       },
       {
         "text": "Try a small amount.",
@@ -2030,7 +2030,7 @@
           "luck_factor": 0.002,
           "skill_gain": 2
         },
-        "result_text": "「Betting small is also a skill.」 Sangchul smiled.\nOnly as much as {name} could absorb without crumbling."
+        "result_text": "\"Betting small is also a skill.\" Sangchul smiled.\nOnly as much as {name} could absorb without crumbling."
       },
       {
         "text": "Thanks — sitting this one out.",
@@ -2038,14 +2038,14 @@
           "investment_skill": 1,
           "mental": 1
         },
-        "result_text": "「Right. Not going in is also a judgment call.」\nSangchul didn't take it personally. That's what makes him different."
+        "result_text": "\"Right. Not going in is also a judgment call.\"\nSangchul didn't take it personally. That's what makes him different."
       }
     ]
   },
   {
     "id": "sangchul_tip_warning",
     "title": "Sangchul's Warning — The Market Is Off",
-    "description": "Gukbap place. Sangchul set down his spoon and spoke.\n\n「Have you been watching the market lately? Everyone's too excited. I've seen this atmosphere three times in 30 years — all three times it ended badly.」\n\n「Selling when it's up is the hardest thing. Because of greed. But the ones who manage to do it — those are the ones who survive.」\n\nThe portfolio flickered through {name}'s mind.",
+    "description": "Gukbap place. Sangchul set down his spoon and spoke.\n\n\"Have you been watching the market lately? Everyone's too excited. I've seen this atmosphere three times in 30 years — all three times it ended badly.\"\n\n\"Selling when it's up is the hardest thing. Because of greed. But the ones who manage to do it — those are the ones who survive.\"\n\nThe portfolio flickered through {name}'s mind.",
     "category": "investment",
     "rarity": "uncommon",
     "weight": 5,
@@ -2086,7 +2086,7 @@
           "stress": 4,
           "investment_skill": 1
         },
-        "result_text": "「That line — I heard it before each of those three crashes.」\nSangchul didn't push further. 「It's your money.」"
+        "result_text": "\"That line — I heard it before each of those three crashes.\"\nSangchul didn't push further. \"It's your money.\""
       }
     ]
   },

@@ -258,6 +258,9 @@ func _on_language_changed(_lang: String) -> void:
 func _tr(ko: String, en: String) -> String:
 	return LocaleManager.ui(ko, en)
 
+func _quote_ui(text: String) -> String:
+	return "\"%s\"" % text if LocaleManager.is_english() else "「%s」" % text
+
 func _loc_dict(data: Dictionary, key: String, fallback := "") -> String:
 	var en_key := "%s_en" % key
 	if LocaleManager.is_english() and data.has(en_key):
@@ -3252,7 +3255,7 @@ func _refresh_all():
 			var job_name = GameState.get_job_display_name()
 			player_name_label.text = "%s\n%s" % [GameState.player_name, job_name]
 		if title_label:
-			var ttl := "「%s」" % GameState.get_current_title()
+			var ttl := _quote_ui(GameState.get_current_title())
 			if not GameState.get_dominant_tendency().is_empty():
 				ttl += "\n· %s ·" % GameState.get_tendency_label()
 			title_label.text = ttl
@@ -5994,7 +5997,7 @@ func _open_jobs():
 	if GameState.current_job.is_empty():
 		var _jh_v: Dictionary = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
 		var mood: String = str(_jh_v.get("et" if LocaleManager.is_english() else "t", _jh_v.get("t", "")))
-		modal_body.add_child(_wrap_label("「 %s 」" % mood, 12, "#4a5a72"))
+		modal_body.add_child(_wrap_label(_quote_ui(mood), 12, "#4a5a72"))
 	var current_job_id = GameState.current_job.get("id", "")
 	# 경력 경로 안내
 	var tier_labels = {1: _tr("입문", "Entry"), 2: _tr("성장", "Growth"), 3: _tr("전문가", "Expert"), 4: _tr("상위", "Top")}
@@ -6996,8 +6999,10 @@ func _show_ending(ending_id):
 	modal_body.add_child(ending_sep)
 	if ending_cg_path != "" and ResourceLoader.exists(ending_cg_path):
 		_add_ending_art_preview(modal_body, ending_cg_path, true)
+	else:
+		_add_ending_mood_card(modal_body, ending, ending_id)
 	# ── 드라마틱 한 줄 요약 ──
-	modal_body.add_child(_wrap_label("「%s」" % _ending_run_summary(ending_id), 15, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
+	modal_body.add_child(_wrap_label(_quote_ui(_ending_run_summary(ending_id)), 15, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
 	# ── 엔딩 설명 ── (지식 반응형: 같은 결말도 어떻게 거기 닿았는지 알면 다르게 읽힌다)
 	var ending_desc := str(ending.get("description", ""))
 	var ending_know = ending.get("description_if_known", null)
@@ -7055,7 +7060,7 @@ func _show_ending(ending_id):
 		var rare_colors := {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
 		for t in newly_titles:
 			var col: String = rare_colors.get(str(t.get("rare", "common")), "#8892a4")
-			modal_body.add_child(_wrap_label(_tr("  🏆 칭호: 「%s」  %s", "  🏆 Title: 「%s」  %s") % [str(t.get("name","")), str(t.get("desc",""))], 12, col))
+			modal_body.add_child(_wrap_label(_tr("  🏆 칭호: 「%s」  %s", "  🏆 Title: \"%s\"  %s") % [str(t.get("name","")), str(t.get("desc",""))], 12, col))
 
 	# 런 테마 요약
 	var theme_id: String = GameState.run_theme
@@ -7150,6 +7155,157 @@ func _add_ending_art_preview(parent: Control, art_path: String, is_cg: bool = fa
 	img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	img.clip_contents = true
 	frame.add_child(img)
+
+func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: String) -> void:
+	var palette := _moral_ui_palette()
+	var stage := GameState.moral_stage()
+	var black := float(palette.get("black", 0.0))
+	var white := float(palette.get("white", 0.0))
+	var accent := _moral_gray_accent(Color("#d6dde8"), palette, 0.05)
+	if stage <= -1:
+		accent = _moral_gray_accent(Color("#9aa39e"), palette, 0.05)
+	elif stage >= 1:
+		accent = _moral_gray_accent(Color("#f4fbff"), palette, 0.05)
+
+	var frame := PanelContainer.new()
+	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	frame.custom_minimum_size = Vector2(0, 214)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b0c10").lerp(Color("#020303"), black * 0.85).lerp(Color("#111820"), white * 0.55)
+	st.border_color = accent
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(8)
+	st.content_margin_left = 22
+	st.content_margin_right = 22
+	st.content_margin_top = 18
+	st.content_margin_bottom = 18
+	frame.add_theme_stylebox_override("panel", st)
+	parent.add_child(frame)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 12)
+	frame.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 16)
+	box.add_child(header)
+
+	var title_col := VBoxContainer.new()
+	title_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_col.add_theme_constant_override("separation", 5)
+	header.add_child(title_col)
+	title_col.add_child(_label(_tr("최종 기록", "RUN FINALE"), 10, _moral_hex(_moral_text_accent(Color("#7f8896"), 0.02))))
+	var title_lbl: Label = _label(_fmt(str(ending.get("title", ending_id))), 26, _moral_hex(_moral_text_accent(Color("#eef2f8"), 0.06)))
+	title_lbl.clip_text = false
+	title_col.add_child(title_lbl)
+	title_col.add_child(_wrap_label(_ending_card_signal_line(ending_id), 13, _moral_hex(_moral_text_accent(Color("#aeb7c2"), 0.03))))
+
+	var grade_box := PanelContainer.new()
+	grade_box.custom_minimum_size = Vector2(128, 82)
+	var grade_st := StyleBoxFlat.new()
+	grade_st.bg_color = Color(1, 1, 1, 0.045).lerp(Color(0, 0, 0, 0.16), black)
+	grade_st.border_color = accent
+	grade_st.set_border_width_all(1)
+	grade_st.set_corner_radius_all(6)
+	grade_st.content_margin_left = 12
+	grade_st.content_margin_right = 12
+	grade_st.content_margin_top = 10
+	grade_st.content_margin_bottom = 10
+	grade_box.add_theme_stylebox_override("panel", grade_st)
+	header.add_child(grade_box)
+	var grade_col := VBoxContainer.new()
+	grade_col.alignment = BoxContainer.ALIGNMENT_CENTER
+	grade_box.add_child(grade_col)
+	grade_col.add_child(_label(_tr("등급", "GRADE"), 10, "#7f8896"))
+	var grade_lbl: Label = _label(str(ending.get("grade", "?")), 28, _moral_hex(accent))
+	grade_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	grade_col.add_child(grade_lbl)
+
+	var meta_row := HBoxContainer.new()
+	meta_row.add_theme_constant_override("separation", 8)
+	box.add_child(meta_row)
+	_add_ending_card_chip(meta_row, _tr("도덕 표면", "Moral Surface"), _ending_moral_surface_label(), "#cbd5df")
+	_add_ending_card_chip(meta_row, _tr("루트", "Route"), GameState.get_route_identity(), "#aeb7c2")
+	_add_ending_card_chip(meta_row, _tr("최종 자산", "Final Asset"), GameState.format_money(GameState.get_total_asset_value()), "#d9ffe8" if stage <= -1 else "#cbd5df")
+
+	var bars := HBoxContainer.new()
+	bars.add_theme_constant_override("separation", 5)
+	bars.custom_minimum_size = Vector2(0, 16)
+	box.add_child(bars)
+	var moral_fill := clampf((GameState.moral_tint_norm() + 1.0) * 0.5, 0.0, 1.0)
+	_add_ending_card_bar(bars, moral_fill, accent)
+	_add_ending_card_bar(bars, clampf(float(GameState.health) / 100.0, 0.0, 1.0), Color("#7d8794"))
+	_add_ending_card_bar(bars, clampf(float(GameState.mental) / 100.0, 0.0, 1.0), Color("#9aa3ad"))
+
+func _add_ending_card_chip(parent: Control, label_text: String, value_text: String, color: String) -> void:
+	var chip := PanelContainer.new()
+	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	chip.custom_minimum_size = Vector2(0, 54)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(1, 1, 1, 0.035)
+	st.border_color = _moral_gray_accent(Color("#30343a"), _moral_ui_palette(), 0.03)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 7
+	st.content_margin_bottom = 7
+	chip.add_theme_stylebox_override("panel", st)
+	parent.add_child(chip)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	chip.add_child(box)
+	box.add_child(_label(label_text, 10, "#707987"))
+	var value_lbl := _label(value_text, 13, color)
+	value_lbl.clip_text = false
+	value_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(value_lbl)
+
+func _add_ending_card_bar(parent: Control, ratio: float, color: Color) -> void:
+	var holder := PanelContainer.new()
+	holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	holder.custom_minimum_size = Vector2(0, 12)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(1, 1, 1, 0.045)
+	st.set_corner_radius_all(4)
+	holder.add_theme_stylebox_override("panel", st)
+	parent.add_child(holder)
+	var fill := ColorRect.new()
+	fill.color = _moral_gray_accent(color, _moral_ui_palette(), 0.03)
+	fill.anchor_right = clampf(ratio, 0.02, 1.0)
+	fill.anchor_bottom = 1.0
+	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(fill)
+
+func _ending_moral_surface_label() -> String:
+	var stage := GameState.moral_stage()
+	if stage <= -2:
+		return _tr("검정 — 돈만 선명함", "Black — only money stayed bright")
+	if stage == -1:
+		return _tr("진회색 — 어두워지는 중", "Dark Gray — drifting downward")
+	if stage >= 2:
+		return _tr("흰색 — 선명하게 남음", "White — stayed clear")
+	if stage == 1:
+		return _tr("연회색 — 회복 쪽", "Light Gray — leaning clear")
+	return _tr("회색 — 아직 정해지지 않음", "Gray — still unresolved")
+
+func _ending_card_signal_line(ending_id: String) -> String:
+	match ending_id:
+		"jaehyuk_way":
+			return _tr("강남은 왔지만, 화면은 닫힌다.", "He reached Gangnam, but the screen closes in.")
+		"full_circle", "guardian", "gangnam_dream_white":
+			return _tr("돈보다 먼저 지킨 것들이 남았다.", "What he kept matters before what he earned.")
+		"with_daeun", "second_love":
+			return _tr("목적지가 아니라 함께 있는 장면으로 끝난다.", "It ends not at a destination, but beside someone.")
+		"jiyeon_man":
+			return _tr("아름다운 승리와 위험한 공허가 같은 거울에 비친다.", "A beautiful victory and a dangerous emptiness share the mirror.")
+		"sangchul_reckoning":
+			return _tr("마지막 사다리를 치우고, 빚보다 무거운 것을 내려놓았다.", "He removed the last ladder and laid down something heavier than debt.")
+		"gambling_recovery":
+			return _tr("오늘도 동그라미 하나. 작지만 가장 어려운 승리.", "One more circle today. Small, and the hardest victory.")
+		_:
+			return _tr("이 결말은 여기까지 온 선택의 흔적으로 남는다.", "This ending remains as a trace of the choices that led here.")
 
 func _get_ending_cg_path(ending: Dictionary) -> String:
 	var cg_id := str(ending.get("cg", ""))
@@ -7270,9 +7426,9 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var fs := GameState.get_cast_stage("father")
 	if fs in ["reconciled", "connected", "hopeful", "close"]:
 		if good:
-			lines.append(_tr("👨‍🦳  아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.", "👨‍🦳  Father sat awkwardly in the new living room and said 「the room is too big」. I know that's a compliment."))
+			lines.append(_tr("👨‍🦳  아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.", "👨‍🦳  Father sat awkwardly in the new living room and said \"the room is too big.\" I know that's a compliment."))
 		elif bad:
-			lines.append(_tr("👨‍🦳  다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.", "👨‍🦳  When I said I'd lost everything, Father only said 「come home and eat」."))
+			lines.append(_tr("👨‍🦳  다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.", "👨‍🦳  When I said I'd lost everything, Father only said \"come home and eat.\""))
 		else:
 			lines.append(_tr("👨‍🦳  아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "👨‍🦳  I call Father twice a month now. Not long, but never broken off."))
 	elif fs == "passed":
@@ -7290,7 +7446,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	# 어머니 — 아버지 곁의 또 한 사람 (화해했을 때만 한 줄)
 	if GameState.flags.get("mother_reconciled", false) or GameState.flags.get("mother_reconnected", false):
 		if good:
-			lines.append(_tr("👩  어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.", "👩  Mother said, 「Your father would have loved to see this.」 The words don't sting anymore."))
+			lines.append(_tr("👩  어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.", "👩  Mother said, \"Your father would have loved to see this.\" The words don't sting anymore."))
 		else:
 			lines.append(_tr("👩  어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.", "👩  Mother and I have long calls now. Nothing much to them. But I know they're the calls I needed."))
 
@@ -7298,9 +7454,9 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var js := GameState.get_cast_stage("jiyeon")
 	if GameState.flags.get("jiyeon_romance_started", false):
 		if bad:
-			lines.append(_tr("💜  다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "💜  Even the day everything collapsed, Jiyeon didn't leave. 「I never came for the money in the first place.」"))
+			lines.append(_tr("💜  다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "💜  Even the day everything collapsed, Jiyeon didn't leave. \"I never came for the money in the first place.\""))
 		else:
-			lines.append(_tr("💜  한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "💜  Jiyeon smiled, 「See, my eye was right.」 That seat beside her is better than Gangnam."))
+			lines.append(_tr("💜  한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "💜  Jiyeon smiled, \"See, my eye was right.\" That seat beside her is better than Gangnam."))
 	elif js in ["honest_together", "respected", "trust", "close", "connected", "business_partner", "indebted"]:
 		lines.append(_tr("💜  한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.", "💜  I meet Jiyeon for coffee now and then. We remain people who acknowledged each other's worlds."))
 	elif js in ["hurt", "disillusioned", "distant", "rejected_help"]:
@@ -7312,7 +7468,7 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var ds := GameState.get_cast_stage("daeun")
 	if GameState.flags.get("daeun_romance_started", false):
 		if good:
-			lines.append(_tr("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "☕  Daeun said, 「Even in Gangnam, come drink your coffee at my place.」 I agreed."))
+			lines.append(_tr("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "☕  Daeun said, \"Even in Gangnam, come drink your coffee at my place.\" I agreed."))
 		elif bad:
 			lines.append(_tr("☕  통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.", "☕  Even when my bank account was empty, the corner seat at Daeun's cafe was not."))
 		else:
@@ -7332,9 +7488,9 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 		lines.append(_tr("🏢  임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.", "🏢  Im Sangchul's guilt made a good lever. That fact catches in my chest sometimes — just sometimes."))
 	elif ss in ["trusted", "mentoring", "guardian"]:
 		if good:
-			lines.append(_tr("🏢  임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "🏢  Im Sangchul laughed as if it were his own, 「I sure know how to read people.」"))
+			lines.append(_tr("🏢  임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "🏢  Im Sangchul laughed as if it were his own. \"I sure know how to read people.\""))
 		elif bad:
-			lines.append(_tr("🏢  임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.", "🏢  Im Sangchul said, 「Gangnam, who cares. As long as you're alive.」 It was the gentlest I'd ever heard him."))
+			lines.append(_tr("🏢  임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.", "🏢  Im Sangchul said, \"Gangnam, who cares. As long as you're alive.\" It was the gentlest I'd ever heard him."))
 		else:
 			lines.append(_tr("🏢  임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.", "🏢  I still grab gukbap with Boss Im Sangchul sometimes. We take turns paying."))
 	elif ss == "cut_off":
@@ -8691,7 +8847,7 @@ func _check_title_unlocks():
 	var rare_colors = {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
 	for t in newly:
 		var color = rare_colors.get(t.get("rare", "common"), "#8892a4")
-		_show_toast(_tr("🏆 칭호 해금! 「%s」", "🏆 Title Unlocked! 「%s」") % t.get("name", ""), Color(color))
+		_show_toast(_tr("🏆 칭호 해금! 「%s」", "🏆 Title Unlocked! \"%s\"") % t.get("name", ""), Color(color))
 		GameState.add_log(_tr("🏆 칭호 해금: %s", "🏆 Title Unlocked: %s") % t.get("name", ""), "system")
 
 func _open_title_collection():

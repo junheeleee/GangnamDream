@@ -6,6 +6,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino
 ## 영어 카지노만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
+## Steam Deck 영어 표면 회귀:
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=moral
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
@@ -17,6 +19,7 @@ const QA_SCOPE_CASINO_EN := "casino_en"
 const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
+const QA_SCOPE_SURFACE_EN := "surface_en"
 var _mg: Node = null
 
 func _tr(ko: String, en: String) -> String:
@@ -55,6 +58,11 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_demo_blackbox(lang)
 		print("SCREENSHOT_QA_DONE scope=demo-blackbox lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_SURFACE_EN:
+		await _shot_surface_en()
+		print("SCREENSHOT_QA_DONE scope=surface-en lang=en dir=%s" % OUT_DIR)
 		get_tree().quit(0)
 		return
 
@@ -110,6 +118,11 @@ func _qa_scope() -> String:
 				"qa=demo-blackbox", "--qa=demo-blackbox", "qa=demo_blackbox", "--qa=demo_blackbox",
 				"scope=demo-blackbox", "--scope=demo-blackbox", "scope=demo_blackbox", "--scope=demo_blackbox"]:
 			return QA_SCOPE_DEMO_BLACKBOX
+		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
+				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
+				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
+				"scope=surface-en", "--scope=surface-en", "scope=surface_en", "--scope=surface_en"]:
+			return QA_SCOPE_SURFACE_EN
 		if arg in ["casino-en", "casino_en", "--casino-en", "--casino_en",
 				"qa=casino-en", "--qa=casino-en", "qa=casino_en", "--qa=casino_en",
 				"scope=casino-en", "--scope=casino-en", "scope=casino_en", "--scope=casino_en"]:
@@ -337,6 +350,38 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 	]:
 		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
 	await _shot_demo_loop_surfaces(lang, prefix)
+
+func _shot_surface_en() -> void:
+	var prefix := "surface_en_"
+	await _shot_splash_screen("en", prefix + "00_splash")
+	await _shot_start_menu("en", prefix + "01_start_menu")
+	await _shot_story_event("arc_intro_01_meal", prefix + "02_story_intro", "en")
+
+	_set_qa_language("en")
+	_prepare_main_game_state()
+	_seed_portfolio()
+	_seed_info_panel_state("en")
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.8)
+	await _save(prefix + "03_ap_actions")
+	await _shot_action_category_modal("_open_cat_money", prefix + "04_money_modal")
+	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
+	await _shot_info_panel_tabs("en", prefix)
+	await _shot_people(prefix)
+	await _shot_holdem_club(prefix)
+	await _shot_racetrack(prefix)
+	await _shot_casino_suite(prefix)
+	await _shot_ending("gangnam_dream", prefix + "13_ending_gangnam_win")
+	await _shot_ending("empty_house", prefix + "13a_ending_empty_house")
+	await _shot_ending("bankruptcy", prefix + "14_ending_bankruptcy")
+	await _shot_ending("stable_success", prefix + "15_ending_stable_success")
+	await _shot_ending("crypto_ghost", prefix + "16_ending_crypto_ghost")
+	await _shot_ending("orthodox_pinnacle", prefix + "17_ending_orthodox_pinnacle")
 
 func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
@@ -616,8 +661,8 @@ func _shot_action_category_modal(method_name: String, shot_name: String) -> void
 	_close_modal()
 	await _settle(0.3)
 
-func _shot_info_panel_tabs() -> void:
-	_seed_info_panel_state("ko")
+func _shot_info_panel_tabs(lang: String = "ko", prefix: String = "") -> void:
+	_seed_info_panel_state(lang)
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	if _mg.has_method("_render_sidebars"):
@@ -627,7 +672,7 @@ func _shot_info_panel_tabs() -> void:
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	await _settle(0.5)
-	await _save("04b_info_stats")
+	await _save(_shot_name(prefix, "04b_info_stats"))
 	var tabs: TabContainer = _mg.get("info_tabs") as TabContainer
 	if is_instance_valid(tabs):
 		var shots := {
@@ -640,7 +685,7 @@ func _shot_info_panel_tabs() -> void:
 			tabs.current_tab = int(idx)
 			GameState.flags["_last_info_tab"] = int(idx)
 			await _settle(0.35)
-			await _save(str(shots[idx]))
+			await _save(_shot_name(prefix, str(shots[idx])))
 	if _mg.has_method("_toggle_info_panel"):
 		_mg._toggle_info_panel()
 	await _settle(0.3)
@@ -687,13 +732,13 @@ func _close_modal() -> void:
 			_mg.call(m)
 			return
 
-func _shot_people() -> void:
+func _shot_people(prefix: String = "") -> void:
 	# 인맥 카테고리 모달 — 캐스트 관계 상태
 	GameState.flags["entered_network"] = true
 	if _mg.has_method("_open_cat_people"):
 		_mg._open_cat_people()
 		await _settle(0.7)
-		await _save("05_people_relationships")
+		await _save(_shot_name(prefix, "05_people_relationships"))
 		_close_modal()
 		await _settle(0.4)
 
@@ -717,7 +762,7 @@ func _shot_minigame(node_name: String, shot_name: String) -> void:
 		node.visible = false
 	await _settle(0.3)
 
-func _shot_holdem_club() -> void:
+func _shot_holdem_club(prefix: String = "") -> void:
 	GameState.flags["entered_network"] = true
 	GameState.money = 5_000_000.0
 	var node = _mg.get("holdem_club")
@@ -729,17 +774,17 @@ func _shot_holdem_club() -> void:
 	node._buy_in = 100_000
 	node._start_hand()
 	await _settle(1.0)
-	await _save("06_holdem_club")
+	await _save(_shot_name(prefix, "06_holdem_club"))
 	while node._community.size() < 5 and node._deck.size() > 0:
 		node._community.append(node._deck.pop_back())
 	node._do_showdown()
 	await _settle(1.0)
-	await _save("06a_holdem_showdown")
+	await _save(_shot_name(prefix, "06a_holdem_showdown"))
 	if "visible" in node:
 		node.visible = false
 	await _settle(0.3)
 
-func _shot_racetrack() -> void:
+func _shot_racetrack(prefix: String = "") -> void:
 	GameState.flags["entered_network"] = true
 	GameState.money = 5_000_000.0
 	var node = _mg.get("racetrack")
@@ -748,15 +793,15 @@ func _shot_racetrack() -> void:
 		return
 	node.open()
 	await _settle(0.8)
-	await _save("07_racetrack_betting")
+	await _save(_shot_name(prefix, "07_racetrack_betting"))
 	node.skip_countdown_for_smoke = true
 	node._bet_type = 1
 	node._picks = [0]
 	node._place_bet(10_000.0)
 	await _settle(1.2)
-	await _save("07a_racetrack_race")
+	await _save(_shot_name(prefix, "07a_racetrack_race"))
 	await _settle(4.2)
-	await _save("07b_racetrack_result")
+	await _save(_shot_name(prefix, "07b_racetrack_result"))
 	node.skip_countdown_for_smoke = false
 	if "visible" in node:
 		node.visible = false

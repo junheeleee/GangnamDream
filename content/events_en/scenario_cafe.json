@@ -70,7 +70,7 @@
       "cafe"
     ],
     "cooldown": 9999,
-    "description": "The man hangs up and stands. Bathroom, maybe.\nHis phone and — a document folder, left on the table.\nBold text on the cover: 「○○ District Housing Association Allocation Guide」.\n\nNobody around is paying attention.\n{name}'s heart quickens slightly.",
+    "description": "The man hangs up and stands. Bathroom, maybe.\nHis phone and — a document folder, left on the table.\nBold text on the cover: \"XX District Housing Association Allocation Guide.\"\n\nNobody around is paying attention.\n{name}'s heart quickens slightly.",
     "choices": [
       {
         "text": "Flip the folder open. Just a peek.",
@@ -115,7 +115,7 @@
       "cafe"
     ],
     "cooldown": 9999,
-    "description": "The folder opens. Pricing, unit sizes, and a contact —\n「Manager Kim 010-XXXX-XXXX」. A red stamp: CONFIRMED.\n{name} memorized the number.\n\nThen a shadow falls.\nThe man returns — and looks back and forth between {name} and the open folder.\n\"...What exactly are you doing?\"",
+    "description": "The folder opens. Pricing, unit sizes, and a contact —\n\"Manager Kim 010-XXXX-XXXX.\" A red stamp: CONFIRMED.\n{name} memorized the number.\n\nThen a shadow falls.\nThe man returns — and looks back and forth between {name} and the open folder.\n\"...What exactly are you doing?\"",
     "choices": [
       {
         "text": "Be honest. Apologize. \"Sorry — I was just very interested.\"",
