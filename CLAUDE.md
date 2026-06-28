@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-28** — **Codex Casino Tactile Pass**: `AudioManager.play_delayed()` 추가로 카지노 카드/칩 SFX를 순차 재생 가능하게 했다. 바카라는 베팅 칩 이동·코인 SFX·약한 진동·좌우 카드 슬라이드 인, 블랙잭은 첫 딜 순차 카드 SFX·베팅/더블/스플릿 칩 이동·딜러/플레이어 카드 슬라이드 인, 홀덤은 블라인드/콜/레이즈/보드공개/쇼다운 SFX를 카지노 계열로 보정. 빅휠/룰렛 하단 결과 메시지 겹침 수정. `CompileCheck`, `ScreenshotQA --qa=casino-en` 통과 및 직접 캡처 확인. |
+| **최근 완료** | **2026-06-28** — **Codex Steam Deck/English Surface QA Pass**: 1280×800 영어/카지노/데모 표면 QA를 재실행하고 직접 캡처 확인. 영어 정보 패널 주거명이 원시 ID `goshiwon`처럼 보이던 것을 UI 전용 `Goshiwon Room` 표기로 보정하고, `ScreenshotQA` 정보 패널 캡처가 타이핑 도중 잡히지 않도록 `_finish_typing()` 안정화. `audit.sh`, `english_hangul_audit.py`, `ScreenshotQA --qa=casino-en`, `ScreenshotQA --lang=en` 통과(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
+| **이전** | **2026-06-28** — **Codex Casino Tactile Pass**: `AudioManager.play_delayed()` 추가로 카지노 카드/칩 SFX를 순차 재생 가능하게 했다. 바카라는 베팅 칩 이동·코인 SFX·약한 진동·좌우 카드 슬라이드 인, 블랙잭은 첫 딜 순차 카드 SFX·베팅/더블/스플릿 칩 이동·딜러/플레이어 카드 슬라이드 인, 홀덤은 블라인드/콜/레이즈/보드공개/쇼다운 SFX를 카지노 계열로 보정. 빅휠/룰렛 하단 결과 메시지 겹침 수정. `CompileCheck`, `ScreenshotQA --qa=casino-en` 통과 및 직접 캡처 확인. |
 | **이전** | **2026-06-28** — **Codex Demo AP Loop + CTA Surface Pass**: AP 화면에 주차 기준 `이번 주 / This Week` 포커스 카드(남은 선택 수·월 현금흐름·총자산·추천 행동)를 추가하고, `Monthly net`/`Next Month`류 표면 문구를 주간 AP 루프에 맞게 보정. 데모 완료 요약과 Steam 위시리스트를 밝은 primary CTA로 격상. `ScreenshotQA --qa=demo-flow`가 AP 루프/데모 완료 요약/데모 엔딩 CTA까지 캡처하도록 확장. |
 | **이전** | **2026-06-28** — **Codex Demo Flow Surface QA**: `ScreenshotQA --qa=demo-flow` 추가로 Steam 데모 초반 흐름(OpeningCinematic → Chapter 1 카드 → intro 01~04 → chapter close)을 영어/한국어로 빠르게 캡처 가능하게 했다. StoryMode 챕터 카드에서 상단 HUD 패널이 겹치던 문제 수정. 초반 `arc_intro_02_dad_call` 편의점 밤 배경을 고시원 방으로 교체하고, 현수 첫 만남은 실제 보유 배경에 맞춰 공용 주방 앞 복도로 문구 보정. |
 | **이전** | **2026-06-28** — **Codex Gangnam Ink Surface Lock**: 최종 표면 언어 `Gangnam Ink` 정본(`docs/GANGNAM_INK_ART_DIRECTION.md`) 추가. 배경 필터에 종이결·잉크 번짐·pale fade·edge burn을 추가하고 `MORAL_TINT`에 연결. Black 표면 부식색을 브라운 rust에서 차가운 흑회색 ink/concrete로 교체. `UI_ART_DIRECTION`/`MORAL_TINT`/`NEW_ASSET_REQUESTS`/`DECISIONS`/`ROADMAP`에 향후 이미지·CG·UI 작업 기준 반영. |
@@ -55,8 +56,8 @@
 | **이전 (13차)** | **2026-06-21 (13차)** — **한국 체험 배치 5~13 완료 + 튜토리얼/오버레이 버그 수정 (35개 이벤트, 이벤트 1159개)**: ①생활생존 ②기후/계절 ③지정학 ④운세 ⑤행정인프라 ⑥디지털/SNS ⑦교육문화(학원/수능/고시/영어학원) ⑧명절(추석귀성/설날세뱃돈/혼자명절) ⑨직장문화(회식/야근/꼰대/사내정치/연봉협상). + TutorialOverlay EN 완전 지원(한국어 전용 버그 수정), story_events EN stress→mental 잔존 3개 수정, arc_intro EN 오버레이 effects 덮어쓰기 버그(reputation 손실) 수정. docs/NEW_ASSET_REQUESTS.md 작성(Codex용 신규 에셋 위시리스트). audit ERROR 0/WARNING 0, 밴드 통과. |
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
-| **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 QA → 데모 첫 30분 블랙박스 실제 플레이 추가 점검 → 남은 미니게임 미세 촉감(슬롯 릴 정지감/다이사이 컵/경마 결과 타격감) 보강. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-28 (Codex: Casino Tactile Pass — 바카라/블랙잭/홀덤 카드·칩·SFX·진동 촉감 강화, 빅휠/룰렛 결과 메시지 겹침 수정. `CompileCheck`, `ScreenshotQA --qa=casino-en` 통과 및 직접 캡처 확인.) |
+| **다음 작업** | **Codex 최종 검수 Phase 2 계속** — 데모 첫 30분 블랙박스 실제 플레이 추가 점검 → 남은 미니게임 미세 촉감(슬롯 릴 정지감/다이사이 컵/경마 결과 타격감) 보강 → Steam Deck/영어판 표면 회귀 반복. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
+| **마지막 업데이트** | 2026-06-28 (Codex: Steam Deck/English Surface QA Pass — 영어 정보 패널 주거 표시명 보정, ScreenshotQA 정보 패널 타이핑 캡처 안정화, 영어/카지노 1280×800 캡처 재검증.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

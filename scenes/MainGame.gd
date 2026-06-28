@@ -3265,7 +3265,7 @@ func _refresh_all():
 	_refresh_vitals()
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
 	var h = GameState.get_housing_info()
-	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), GameState.get_housing_name(GameState.housing)]
+	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), GameState.get_housing_display_name(GameState.housing)]
 
 	# 배경 + 초상화 업데이트
 	_update_event_bg()

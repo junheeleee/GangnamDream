@@ -517,10 +517,14 @@ func _shot_english_main_flow() -> void:
 	await _save("00c_en_ap_actions")
 	await _shot_action_category_modal("_open_cat_money", "00d_en_money_modal")
 	await _shot_action_category_modal("_open_cat_people", "00e_en_people_modal")
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
 	if _mg.has_method("_render_sidebars"):
 		_mg._render_sidebars()
 	if _mg.has_method("_toggle_info_panel"):
 		_mg._toggle_info_panel()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
 	await _settle(0.5)
 	await _save("00f_en_info_stats")
 	var tabs: TabContainer = _mg.get("info_tabs") as TabContainer
@@ -552,10 +556,14 @@ func _shot_action_category_modal(method_name: String, shot_name: String) -> void
 
 func _shot_info_panel_tabs() -> void:
 	_seed_info_panel_state("ko")
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
 	if _mg.has_method("_render_sidebars"):
 		_mg._render_sidebars()
 	if _mg.has_method("_toggle_info_panel"):
 		_mg._toggle_info_panel()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
 	await _settle(0.5)
 	await _save("04b_info_stats")
 	var tabs: TabContainer = _mg.get("info_tabs") as TabContainer

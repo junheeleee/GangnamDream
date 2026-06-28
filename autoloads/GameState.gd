@@ -550,6 +550,19 @@ func get_housing_name(housing_id: String = "") -> String:
 		return str(names_en.get(id, id))
 	return str(HOUSING_DATA.get(id, HOUSING_DATA["gosiwon"]).get("name", id))
 
+func get_housing_display_name(housing_id: String = "") -> String:
+	var id := housing if housing_id.is_empty() else housing_id
+	if LocaleManager.is_english():
+		var names_en := {
+			"gosiwon": "Goshiwon Room",
+			"oneroom": "One-room Studio",
+			"villa": "Villa Jeonse",
+			"apartment": "Apartment Jeonse",
+			"gangnam": "Gangnam Apartment",
+		}
+		return str(names_en.get(id, id.capitalize()))
+	return get_housing_name(id)
+
 func can_upgrade_housing() -> bool:
 	var info = get_housing_info()
 	var next_id = str(info.get("next", ""))
