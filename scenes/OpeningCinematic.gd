@@ -41,7 +41,7 @@ const CARDS = [
 	},
 	{
 		"text": "이제, 당신의 5년이 시작된다.",
-		"sub": "50만원으로 시작해 30억까지.\n돈을 따라갈수록, 무엇이 남는지 보게 된다.",
+		"sub": "50만원으로 시작해 30억까지.\n정답은 없다. 다음 선택부터 시작하면 된다.",
 		"hold": -1,
 		"size": 32,
 		"stats": [
@@ -91,7 +91,7 @@ const CARDS_EN = [
 	},
 	{
 		"text": "Your next five years begin now.",
-		"sub": "Start with KRW 500K. Reach KRW 3B before 38.\nEvery choice leaves a mark.",
+		"sub": "Start with KRW 500K. Reach KRW 3B before 38.\nNo guide. Start with the next choice.",
 		"hold": -1,
 		"size": 32,
 		"stats": [

@@ -2,9 +2,15 @@
 
 ## Unreleased
 
+### Fixed (2026-06-29) — Opening copy spoiler guard
+
+- Removed opening/splash copy that directly hinted at moral loss before the player experiences it.
+- The opening now presents only the surface objective: KRW 500K, KRW 3B, five years, no guide.
+- Moral collapse remains an experiential layer expressed through UI, tone, and choices during play.
+
 ### Added/Changed (2026-06-29) — Demo opening promise pass
 
-- Changed the splash tagline to foreground the core game promise: KRW 500K to KRW 3B, five years, every choice leaving a mark.
+- Changed the splash tagline to foreground the core game promise: KRW 500K to KRW 3B, five years, no guide.
 - Reworked the final opening cinematic card with START/GOAL/TIME stat chips so the demo enters the main menu with a clearer hook.
 - Fade timing now reveals the final opening title, subtitle, and stat chips together for cleaner capture and player readability.
 

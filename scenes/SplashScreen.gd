@@ -120,7 +120,7 @@ func _build_ui():
 
 	# ── 배경 설명 ──
 	_context_lbl = Label.new()
-	_context_lbl.text = LocaleManager.ui("― 2026년 서울. 5년. 모든 선택의 흔적. ―", "― Seoul, 2026. Five years. Every choice leaves a mark. ―")
+	_context_lbl.text = LocaleManager.ui("― 2026년 서울. 5년. 정답도 보장도 없다. ―", "― Seoul, 2026. Five years. No guide. No guarantee. ―")
 	_context_lbl.add_theme_font_size_override("font_size", 13)
 	_context_lbl.add_theme_color_override("font_color", Color("#3d4a5e"))
 	_context_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
