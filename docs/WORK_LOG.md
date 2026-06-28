@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex Moral Surface Continuity Pass)
+
+### 수정
+- `scenes/MainGame.gd`: 본편 기본 라디얼 배경/딤 오버레이를 흑갈·남색 누아르에서 흑회색 바닥으로 낮춰 `MORAL_TINT`의 회색/흰색/검정 축과 맞췄다.
+- `scenes/MainGame.gd`: 시간대 앰비언트와 이벤트 카테고리 틴트를 `_moral_signal_color()`로 저채도화해, 투자/관계/도박 같은 정보 신호는 남기되 화면 전체가 색 장식처럼 튀지 않게 했다.
+- `scenes/MainGame.gd`: 선택지 구분선, 선택지 효과 미리보기, 패드 힌트, AP 행동 섹션 문구, 정보 패널 탭을 `moral_role` 기반 팔레트에 연결했다.
+- `scenes/MainGame.gd`: 엔딩/데모 종료 화면의 금색·초록 보상색을 텍스트용 `_moral_text_accent()`와 테두리용 `_moral_gray_accent()`로 분리해 무채색 축으로 정리했다.
+- `scenes/MainGame.gd`: Black 경로에서 HUD/선택지 아이콘이 초록빛으로 보이던 부식색을 차가운 회색으로 교체했다.
+- `scenes/MainGame.gd`: 엔딩 스탯 그리드 값 라벨이 `clip_text`/최소폭 문제로 보이지 않던 렌더 버그를 수정했다.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `LocaleSurfaceCheck.tscn` 통과.
+- `ScreenshotQA.tscn -- --qa=moral` 실행 후 `03b_moral_black`, `03c_moral_gray`, `03d_moral_white`, echo 2종 직접 확인.
+- `ScreenshotQA.tscn` full 1280x800 실행 후 `00f_en_info_stats`, `04_ap_actions_dashboard`, `13_ending_gangnam_win`, `15_ending_stable_success` 직접 확인. `15_ending_stable_success`에서 엔딩 스탯 값 가독성 수정 확인.
+
+---
+
 ## 2026-06-28 (Codex Start Surface Monochrome Pass)
 
 ### 수정
