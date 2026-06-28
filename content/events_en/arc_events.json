@@ -38,7 +38,7 @@
   {
     "id": "arc_intro_02_dad_call",
     "title": "The Number",
-    "background": "convenience_night",
+    "background": "goshiwon_room",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
@@ -53,19 +53,19 @@
       "intro"
     ],
     "cooldown": 9999,
-    "description": "Convenience store night shift. 3 AM.\n\nDifficult customers, stacking deliveries, mopping floors. Slapping 'discount' stickers on near-expiry items.\nThe fluorescent tubes buzzed. Outside: no one.\n\nPulled out a calculator.\nJust over minimum wage. Not even ₩2,000,000 for a full month of work.\n₩3,000,000,000 ÷ ₩2,000,000 = 1,500 months = 125 years.\n\n125 years.\n\n{name} stared at the calculator screen. Laughed. Because what else can you do.\nSalary alone — mathematically impossible.\n\nFolding delivery boxes, thinking:\nThere has to be another way. There has to be.",
+    "description": "Goshiwon room. 3 AM. {name} couldn't sleep.\n\nOpened the calculator on the phone.\n\nMinimum wage. Not even KRW 2,000,000 for a full month of work.\nKRW 3,000,000,000 ÷ KRW 2,000,000 = 1,500 months = 125 years.\n\n125 years.\n\n{name} stared at the screen. Laughed, because it was absurd.\nSalary alone — mathematically impossible. From the beginning.\n\nThen the phone rang.\nFather. At 3 AM.",
     "choices": [
       {
-        "text": "Start by saving aggressively — every won counts. [Saver mindset]",
-        "result_text": "Big money starts from small money.\n{name} finished the shift and kept scanning job apps. Side work, temp work, two jobs.\n\nSeed money. That's the first gate.\nThe number 125 years kept drifting in front of the eyes."
+        "text": "Keep searching job apps after the shift. Seed money first. [Saver mindset]",
+        "result_text": "Big money starts from small money.\nEven after work, {name} kept scanning job apps. Side work, temp work, two jobs.\n\nSeed money. That's the first gate.\nThe number 125 years kept drifting in front of the eyes."
       },
       {
-        "text": "Start studying investing — money has to make money. [Investor mindset]",
-        "result_text": "YouTube, books, finance forums.\nAfter the night shift ended, {name} went to the library.\n\nIf salary won't work, money has to work instead.\nCompound interest. Leverage. Assets. {name} read those words seriously for the first time."
+        "text": "Go to the library after work. Start studying investing. [Investor mindset]",
+        "result_text": "YouTube, books, finance forums.\nAfter work, {name} went to the library.\n\nIf salary won't work, money has to work instead.\nCompound interest. Leverage. Assets. {name} read those words seriously for the first time."
       },
       {
-        "text": "Someday, my own business. Start writing down ideas. [Founder mindset]",
-        "result_text": "Behind the register, {name} wrote something in a notebook.\nGaps. Demand. Supply. What nobody else was doing.\n\nIdeas alone are nothing yet.\nBut people who write nothing down never begin."
+        "text": "Write business ideas in the notebook. [Founder mindset]",
+        "result_text": "{name} wrote something in a notebook.\nGaps. Demand. Supply. What nobody else was doing.\n\nIdeas alone are nothing yet.\nBut people who write nothing down never begin."
       }
     ]
   },
@@ -145,7 +145,7 @@
       "intro"
     ],
     "cooldown": 9999,
-    "description": "Goshiwon shared kitchen. 1 AM.\n\nA narrow space with only one fluorescent tube working.\n{name} was pouring hot water into a cup ramen when the door opened behind.\n\nThe neighbor from next door. They'd crossed paths before — but this was the first time.\n'...You're doing ramen too, hyung.'\n\nHe spoke first. Hollows under his eyes. The face of someone who sits for a long time.\nLooks about twenty-six. The person whose desk was always piled with notebooks.\n\n'Fourth year studying for the civil service exam. This is my last year — I say that every year.'\nHe gave a half-laugh. A smile that didn't quite reach the eyes.\n\n'What about you, hyung? What do you do?'",
+    "description": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nA narrow corridor with only one fluorescent tube working.\n{name} was carrying cup ramen back to the room when the door next to his opened.\n\nThe neighbor from next door. They'd crossed paths before — but this was the first time.\n'...You're doing ramen too, hyung.'\n\nHe spoke first. Hollows under his eyes. The face of someone who sits for a long time.\nLooks about twenty-six. A worn civil service exam book was tucked under his arm.\n\n'Fourth year studying for the civil service exam. This is my last year — I say that every year.'\nHe gave a half-laugh. A smile that didn't quite reach the eyes.\n\n'What about you, hyung? What do you do?'",
     "choices": [
       {
         "text": "'I don't really know yet. Still figuring it out.'",
@@ -163,7 +163,7 @@
         "flags": [
           "arc_intro_hyunsu_seen"
         ],
-        "result_text": "Hyunsu nodded.\n'That's the most honest answer.'\n\nThe two of them ate ramen in silence in the narrow kitchen.\nJust knowing there's someone on the other side of this thin wall in the same situation —\ntonight was a little less cold."
+        "result_text": "Hyunsu nodded.\n'That's the most honest answer.'\n\nThe two of them ate ramen in silence in the narrow hallway.\nJust knowing there's someone on the other side of this thin wall in the same situation —\ntonight was a little less cold."
       },
       {
         "text": "'I'm going to Gangnam. Within five years.'",
@@ -191,7 +191,7 @@
   {
     "id": "arc_chapter1_close",
     "title": "The First Week",
-    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu left, you stood in the shared kitchen alone for a while.\n\nThis past week — the burner account text, father's call, the name Im Sangchul, Hyunsu's ramen.\n\nBack in the room, you open the notebook. First line:\n'₩3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan ₩3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu went back inside, you stood in the hallway alone for a while.\n\nThis past week — the burner account text, father's call, the name Im Sangchul, Hyunsu's ramen.\n\nBack in the room, you open the notebook. First line:\n'KRW 3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan KRW 3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",

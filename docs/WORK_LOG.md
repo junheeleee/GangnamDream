@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex Demo Flow Surface QA)
+
+### 수정
+- `tools/ScreenshotQA.gd`: `--qa=demo-flow` / `--qa=demo_flow` / `--demo` 스코프를 추가했다. 영어/한국어 데모 초반 흐름을 OpeningCinematic 첫/마지막 카드 → `chapter_card_33` → `arc_intro_01~04` → `arc_chapter1_close` 순서로 캡처한다.
+- `scenes/StoryMode.gd`: 챕터 카드 시 상단 HUD 패널까지 숨기고, 일반 이벤트로 돌아올 때 복원하도록 수정했다. 챕터 카드가 게임 HUD가 겹친 화면이 아니라 온전한 시네마틱 전환으로 보인다.
+- `content/events/arc_events.json`, `content/events_en/arc_events.json`: `arc_intro_02_dad_call` 배경을 편의점 밤에서 고시원 방으로 교체했다. 현수 첫 만남은 실제 보유 배경에 맞춰 "공용 주방"이 아니라 "공용 주방 앞 복도"로 텍스트를 맞췄다.
+- `arc_chapter1_close` KR/EN 문구를 현수가 들어간 뒤 복도에 남았다가 방으로 돌아오는 흐름으로 보정했다. 영어판 원화 표기는 `₩` 대신 `KRW` 표기로 통일했다.
+
+### 검증
+- `python3 -c "import json; ..."` 통과: KR/EN arc 이벤트 JSON 파싱 OK.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `LocaleSurfaceCheck.tscn` 통과.
+- `ScreenshotQA.tscn -- --qa=demo-flow --lang=en` 실행 완료. `demo_en_01_chapter_card_33`에서 HUD 겹침 제거 확인, `arc_intro_02_dad_call` 고시원 방, `arc_intro_04_hyunsu` 고시원 복도 확인.
+- `ScreenshotQA.tscn` full 1280x800 실행 완료. 종료 시 기존 Godot RID/Texture cleanup 경고는 남지만 exit code 0.
+
+---
+
 ## 2026-06-28 (Codex Gangnam Ink Surface Lock)
 
 ### 수정

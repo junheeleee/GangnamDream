@@ -48,6 +48,7 @@ var _body_lbl: RichTextLabel
 var _continue_hint: Label
 var _choice_box: VBoxContainer
 var _toast_layer: VBoxContainer
+var _hud_panel: Panel      # 챕터 카드 시 전체 HUD 바를 숨기기 위한 상단 패널 참조
 var _hud_label: Label   # 얇은 상단 HUD — 자산/돈/컨디션/시간
 var _text_panel: Panel           # 하단 텍스트 박스 (챕터 카드 시 숨김)
 var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
@@ -244,6 +245,7 @@ func _build_ui():
 
 	# 9. 얇은 상단 HUD — 드라마 모드의 스테이크(자산/30억·돈·컨디션·시간) 상시 표시
 	var hud_panel = Panel.new()
+	_hud_panel = hud_panel
 	hud_panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	hud_panel.offset_top = 0
 	hud_panel.offset_bottom = 38
@@ -307,6 +309,8 @@ func _render_current():
 		_chapter_overlay = null
 	if _text_panel != null:
 		_text_panel.visible = true
+	if _hud_panel != null and is_instance_valid(_hud_panel):
+		_hud_panel.visible = true
 
 	# 챕터 카드 전용 시네마틱 연출
 	if str(_current.get("id", "")).begins_with("chapter_card_"):
@@ -654,6 +658,8 @@ func _render_chapter_card_cinematic():
 	_name_panel.visible = false
 	_text_panel.visible = false
 	_continue_hint.visible = false
+	if _hud_panel != null and is_instance_valid(_hud_panel):
+		_hud_panel.visible = false
 	BGMPlayer.update_event_ambience(_current)
 
 	# 오버레이 컨테이너

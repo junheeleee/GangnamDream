@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added/Fixed (2026-06-28) — Demo flow surface QA
+
+- Added `ScreenshotQA --qa=demo-flow` for the Steam demo opening path: opening cinematic, Chapter 1 card, intro events, and chapter close.
+- Fixed StoryMode chapter cards so the top HUD bar is hidden during cinematic chapter transitions.
+- Fixed the early dad-call scene using a convenience-store night background; it now uses the goshiwon room background.
+- Adjusted Hyunsu's first scene from "shared kitchen" to "hallway outside the shared kitchen" to match the available goshiwon hallway background.
+- Cleaned early English currency phrasing to prefer `KRW` over raw `₩` glyphs in narrative text.
+
 ### Added/Changed (2026-06-28) — Gangnam Ink visual language
 
 - Added `docs/GANGNAM_INK_ART_DIRECTION.md` as the production art direction for future images, UI polish, transitions, and ending cutscenes.

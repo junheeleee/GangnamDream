@@ -15,6 +15,7 @@ const OUT_DIR := "/tmp/gangnamdream_qa"
 const QA_SCOPE_CASINO := "casino"
 const QA_SCOPE_CASINO_EN := "casino_en"
 const QA_SCOPE_MORAL := "moral"
+const QA_SCOPE_DEMO_FLOW := "demo_flow"
 var _mg: Node = null
 
 func _ready() -> void:
@@ -38,6 +39,12 @@ func _ready() -> void:
 		await _boot_main_game()
 		await _shot_moral_tint_states()
 		print("SCREENSHOT_QA_DONE scope=moral dir=%s" % OUT_DIR)
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_DEMO_FLOW:
+		var lang := _qa_language("en")
+		await _shot_demo_flow(lang)
+		print("SCREENSHOT_QA_DONE scope=demo-flow lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 
@@ -85,6 +92,10 @@ func _qa_scope() -> String:
 				"qa=moral", "--qa=moral", "qa=moral-tint", "--qa=moral-tint",
 				"scope=moral", "--scope=moral", "scope=moral-tint", "--scope=moral-tint"]:
 			return QA_SCOPE_MORAL
+		if arg in ["demo-flow", "demo_flow", "demo", "--demo-flow", "--demo_flow", "--demo",
+				"qa=demo-flow", "--qa=demo-flow", "qa=demo_flow", "--qa=demo_flow",
+				"scope=demo-flow", "--scope=demo-flow", "scope=demo_flow", "--scope=demo_flow"]:
+			return QA_SCOPE_DEMO_FLOW
 		if arg in ["casino-en", "casino_en", "--casino-en", "--casino_en",
 				"qa=casino-en", "--qa=casino-en", "qa=casino_en", "--qa=casino_en",
 				"scope=casino-en", "--scope=casino-en", "scope=casino_en", "--scope=casino_en"]:
@@ -214,7 +225,7 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "") -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -223,11 +234,43 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "") -
 	var story := packed.instantiate()
 	get_tree().root.add_child.call_deferred(story)
 	await get_tree().process_frame
-	await _settle(1.1)
+	await _settle(settle_time)
+	if finish_first_paragraph and not event_id.begins_with("chapter_card_") \
+			and bool(story.get("_typing")) and story.has_method("_on_advance"):
+		story._on_advance()
+		await _settle(0.2)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
 	await _settle(0.3)
+
+func _shot_opening_cinematic(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	var packed: PackedScene = load("res://scenes/OpeningCinematic.tscn")
+	var cinema := packed.instantiate()
+	get_tree().root.add_child.call_deferred(cinema)
+	await get_tree().process_frame
+	await _settle(1.2)
+	await _save(prefix + "00_opening_first")
+	if cinema.has_method("_skip_to_last"):
+		cinema._skip_to_last()
+		await _settle(1.35)
+		await _save(prefix + "00_opening_final")
+	_remove_nodes_by_script("res://scenes/OpeningCinematic.gd")
+	await _settle(0.3)
+
+func _shot_demo_flow(lang: String = "en") -> void:
+	var prefix := "demo_en_" if lang == "en" else "demo_ko_"
+	await _shot_opening_cinematic(lang, prefix)
+	await _shot_story_event("chapter_card_33", prefix + "01_chapter_card_33", lang, 2.7)
+	for event_id in [
+		"arc_intro_01_meal",
+		"arc_intro_02_dad_call",
+		"arc_intro_03_sns",
+		"arc_intro_04_hyunsu",
+		"arc_chapter1_close",
+	]:
+		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
 
 func _remove_nodes_by_script(script_path: String) -> void:
 	var targets: Array[Node] = []
