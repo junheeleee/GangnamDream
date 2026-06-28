@@ -40,10 +40,15 @@ const CARDS = [
 		"size": 26,
 	},
 	{
-		"text": "이것은, 당신의 이야기다.",
-		"sub": "",
+		"text": "이제, 당신의 5년이 시작된다.",
+		"sub": "50만원으로 시작해 30억까지.\n돈을 따라갈수록, 무엇이 남는지 보게 된다.",
 		"hold": -1,
 		"size": 32,
+		"stats": [
+			["START", "50만원"],
+			["GOAL", "30억"],
+			["TIME", "5년"],
+		],
 	},
 ]
 
@@ -85,10 +90,15 @@ const CARDS_EN = [
 		"size": 26,
 	},
 	{
-		"text": "This is your story.",
-		"sub": "",
+		"text": "Your next five years begin now.",
+		"sub": "Start with KRW 500K. Reach KRW 3B before 38.\nEvery choice leaves a mark.",
 		"hold": -1,
 		"size": 32,
+		"stats": [
+			["START", "KRW 500K"],
+			["GOAL", "KRW 3B"],
+			["TIME", "5 YEARS"],
+		],
 	},
 ]
 
@@ -102,6 +112,7 @@ var _waiting_input := false
 var _bg:       ColorRect
 var _main_lbl: Label
 var _sub_lbl:  Label
+var _stats_row: HBoxContainer
 var _hint_lbl: Label
 var _font:     FontFile
 var _font_bold: FontFile
@@ -165,6 +176,14 @@ func _build_ui():
 	_apply_font(_sub_lbl)
 	vbox.add_child(_sub_lbl)
 
+	_stats_row = HBoxContainer.new()
+	_stats_row.add_theme_constant_override("separation", 10)
+	_stats_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_stats_row.modulate = Color(1, 1, 1, 0.0)
+	_stats_row.visible = false
+	_stats_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vbox.add_child(_stats_row)
+
 	# 하단 힌트 ("아무 키나 눌러 시작")
 	_hint_lbl = Label.new()
 	_hint_lbl.text = LocaleManager.ui("아무 키나 눌러 시작", "Press any key to begin")
@@ -191,16 +210,20 @@ func _play_card(idx: int):
 
 	# 서브 텍스트 표시 여부
 	_sub_lbl.visible = card["sub"] != ""
+	_apply_card_stats(card)
 
 	# 메인 텍스트 페이드인
 	_main_lbl.modulate = Color(1, 1, 1, 0.0)
 	_sub_lbl.modulate  = Color(1, 1, 1, 0.0)
+	_stats_row.modulate = Color(1, 1, 1, 0.0)
 
 	var tw = create_tween()
 	tw.tween_property(_main_lbl, "modulate", Color(1, 1, 1, 1.0), FADE_IN)
 
 	if card["sub"] != "":
-		tw.tween_property(_sub_lbl, "modulate", Color(1, 1, 1, 1.0), FADE_IN * 0.8)
+		tw.parallel().tween_property(_sub_lbl, "modulate", Color(1, 1, 1, 1.0), FADE_IN * 0.8)
+	if _stats_row.visible:
+		tw.parallel().tween_property(_stats_row, "modulate", Color(1, 1, 1, 1.0), FADE_IN * 0.75)
 
 	# 마지막 카드: 입력 대기 + 힌트 표시
 	if card["hold"] < 0:
@@ -220,7 +243,9 @@ func _play_card(idx: int):
 	var tw2 = create_tween()
 	tw2.tween_property(_main_lbl, "modulate", Color(1, 1, 1, 0.0), FADE_OUT)
 	if card["sub"] != "":
-		tw2.tween_property(_sub_lbl, "modulate", Color(1, 1, 1, 0.0), FADE_OUT * 0.9)
+		tw2.parallel().tween_property(_sub_lbl, "modulate", Color(1, 1, 1, 0.0), FADE_OUT * 0.9)
+	if _stats_row.visible:
+		tw2.parallel().tween_property(_stats_row, "modulate", Color(1, 1, 1, 0.0), FADE_OUT * 0.9)
 	await tw2.finished
 
 	if _transitioning:
@@ -228,6 +253,56 @@ func _play_card(idx: int):
 
 	await get_tree().create_timer(0.25).timeout
 	_play_card(idx + 1)
+
+func _apply_card_stats(card: Dictionary) -> void:
+	for child in _stats_row.get_children():
+		child.queue_free()
+	var stats: Array = card.get("stats", [])
+	_stats_row.visible = not stats.is_empty()
+	if stats.is_empty():
+		return
+	for entry in stats:
+		if not entry is Array or entry.size() < 2:
+			continue
+		_stats_row.add_child(_make_stat_chip(str(entry[0]), str(entry[1])))
+
+func _make_stat_chip(label_text: String, value_text: String) -> PanelContainer:
+	var chip := PanelContainer.new()
+	chip.custom_minimum_size = Vector2(132, 56)
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#10121a", 0.94)
+	st.border_color = Color("#596273", 0.86)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 9
+	st.content_margin_bottom = 9
+	chip.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.add_theme_constant_override("separation", 3)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.add_child(box)
+
+	var small := Label.new()
+	small.text = label_text
+	small.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	small.add_theme_font_size_override("font_size", 10)
+	small.add_theme_color_override("font_color", Color("#747f92"))
+	_apply_font(small)
+	box.add_child(small)
+
+	var value := Label.new()
+	value.text = value_text
+	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	value.add_theme_font_size_override("font_size", 16)
+	value.add_theme_color_override("font_color", Color("#e9edf4"))
+	_apply_font(value, true)
+	box.add_child(value)
+	return chip
 
 func _show_hint():
 	var tw = create_tween()

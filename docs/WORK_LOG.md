@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Demo Opening Promise Pass)
+
+### 수정
+- `scenes/SplashScreen.gd`: 스플래시 태그라인을 `Survive Seoul`에서 `KRW 500K to KRW 3B` / `50만원에서 30억까지`로 바꿔 첫 화면에서 게임 목표가 즉시 읽히게 했다.
+- `scenes/SplashScreen.gd`: 보조 문구를 `Five years. Every choice leaves a mark.` 축으로 정리해 `MORAL_TINT`와 선택 누적 테마를 초반부터 암시하게 했다.
+- `scenes/OpeningCinematic.gd`: 마지막 오프닝 카드를 한 줄 문장 대신 `Your next five years begin now.` / `이제, 당신의 5년이 시작된다.`로 교체하고, START/GOAL/TIME 스탯 칩을 추가했다.
+- `scenes/OpeningCinematic.gd`: 오프닝 카드 텍스트/서브텍스트/스탯 칩이 함께 페이드되도록 조정해 QA 캡처와 실제 플레이 모두에서 마지막 카드 정보가 한 번에 읽히게 했다.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `LocaleSurfaceCheck.tscn` 통과.
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. 영어 스플래시/오프닝 최종 카드 직접 확인.
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=ko` 실행 완료. 한국어 스플래시/오프닝 최종 카드 직접 확인.
+
+---
+
 ## 2026-06-29 (Codex Demo AP Focus Surface Pass)
 
 ### 수정

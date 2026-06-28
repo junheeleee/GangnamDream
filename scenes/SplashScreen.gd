@@ -110,7 +110,7 @@ func _build_ui():
 
 	# ── 태그라인 ──
 	_tagline_lbl = Label.new()
-	_tagline_lbl.text = LocaleManager.ui("서울에서 살아남아라", "Survive Seoul")
+	_tagline_lbl.text = LocaleManager.ui("50만원에서 30억까지", "KRW 500K to KRW 3B")
 	_tagline_lbl.add_theme_font_size_override("font_size", 19)
 	_tagline_lbl.add_theme_color_override("font_color", Color("#8892a4"))
 	_tagline_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -120,7 +120,7 @@ func _build_ui():
 
 	# ── 배경 설명 ──
 	_context_lbl = Label.new()
-	_context_lbl.text = LocaleManager.ui("― 2026년 서울, 당신의 이야기 ―", "― Seoul, 2026. Your story. ―")
+	_context_lbl.text = LocaleManager.ui("― 2026년 서울. 5년. 모든 선택의 흔적. ―", "― Seoul, 2026. Five years. Every choice leaves a mark. ―")
 	_context_lbl.add_theme_font_size_override("font_size", 13)
 	_context_lbl.add_theme_color_override("font_color", Color("#3d4a5e"))
 	_context_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

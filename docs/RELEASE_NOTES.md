@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Demo opening promise pass
+
+- Changed the splash tagline to foreground the core game promise: KRW 500K to KRW 3B, five years, every choice leaving a mark.
+- Reworked the final opening cinematic card with START/GOAL/TIME stat chips so the demo enters the main menu with a clearer hook.
+- Fade timing now reveals the final opening title, subtitle, and stat chips together for cleaner capture and player readability.
+
 ### Added/Changed (2026-06-29) — Demo AP focus surface pass
 
 - Added visible AP slots to the `This Week` focus card so remaining actions read at a glance on 1280x800/Steam Deck-style layouts.
