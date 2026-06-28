@@ -10,6 +10,8 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=moral
+## 전환 레이어만 빠르게 확인:
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=transition
 ## 헤드리스 더미 렌더러는 빈 텍스처를 주므로 x11+opengl3(xvfb) 필요.
 ## .tscn 으로 부팅해야 autoload(GameState 등)가 로드된다.
 
@@ -20,6 +22,7 @@ const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_SURFACE_EN := "surface_en"
+const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
 
 func _tr(ko: String, en: String) -> String:
@@ -46,6 +49,15 @@ func _ready() -> void:
 		await _boot_main_game()
 		await _shot_moral_tint_states()
 		print("SCREENSHOT_QA_DONE scope=moral dir=%s" % OUT_DIR)
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_TRANSITION:
+		_set_qa_language(_qa_language("en"))
+		_prepare_main_game_state()
+		_seed_portfolio()
+		await _boot_main_game()
+		await _shot_transition_states()
+		print("SCREENSHOT_QA_DONE scope=transition dir=%s" % OUT_DIR)
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_DEMO_FLOW:
@@ -110,6 +122,11 @@ func _qa_scope() -> String:
 				"qa=moral", "--qa=moral", "qa=moral-tint", "--qa=moral-tint",
 				"scope=moral", "--scope=moral", "scope=moral-tint", "--scope=moral-tint"]:
 			return QA_SCOPE_MORAL
+		if arg in ["transition", "transitions", "scene-transition", "scene_transition",
+				"--transition", "--transitions", "--scene-transition", "--scene_transition",
+				"qa=transition", "--qa=transition", "qa=scene-transition", "--qa=scene-transition",
+				"scope=transition", "--scope=transition", "scope=scene-transition", "--scope=scene-transition"]:
+			return QA_SCOPE_TRANSITION
 		if arg in ["demo-flow", "demo_flow", "demo", "--demo-flow", "--demo_flow", "--demo",
 				"qa=demo-flow", "--qa=demo-flow", "qa=demo_flow", "--qa=demo_flow",
 				"scope=demo-flow", "--scope=demo-flow", "scope=demo_flow", "--scope=demo_flow"]:
@@ -589,6 +606,32 @@ func _shot_moral_tint_states() -> void:
 	await _shot_moral_choice_echo(-25.0, "03e_moral_black_choice_echo")
 	await _shot_moral_choice_echo(25.0, "03f_moral_white_choice_echo")
 	GameState.pending_tint_vignette = {}
+	GameState.moral_tint = 0.0
+	if _mg.has_method("_apply_moral_visuals"):
+		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+
+func _shot_transition_states() -> void:
+	var cases := [
+		[-80.0, "transition_black"],
+		[0.0, "transition_gray"],
+		[80.0, "transition_white"],
+	]
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.5)
+	for data in cases:
+		GameState.moral_tint = float(data[0])
+		if _mg.has_method("_apply_moral_visuals"):
+			_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+		if SceneTransition.has_method("_set_transition_alpha"):
+			SceneTransition._set_transition_alpha(0.72)
+		await _settle(0.2)
+		await _save(str(data[1]), 0.05)
+	if SceneTransition.has_method("_set_transition_alpha"):
+		SceneTransition._set_transition_alpha(0.0)
 	GameState.moral_tint = 0.0
 	if _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
