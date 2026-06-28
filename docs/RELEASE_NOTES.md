@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-28) — Demo AP loop and wishlist CTA polish
+
+- Added a `This Week` focus card to the AP screen showing choices left, month cashflow, assets, and a suggested next action.
+- Updated AP surface copy so weekly action flow no longer reads like a pure monthly loop.
+- Promoted the demo-complete and Steam Wishlist actions to high-contrast primary CTA buttons with Steam Deck-friendly focus readability.
+- Extended `ScreenshotQA --qa=demo-flow` to capture AP loop, demo complete summary, and demo ending CTA screens.
+- Fixed month-summary BBCode leaking into plain labels.
+
 ### Added/Fixed (2026-06-28) — Demo flow surface QA
 
 - Added `ScreenshotQA --qa=demo-flow` for the Steam demo opening path: opening cinematic, Chapter 1 card, intro events, and chapter close.

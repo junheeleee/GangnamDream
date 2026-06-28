@@ -18,6 +18,9 @@ const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 var _mg: Node = null
 
+func _tr(ko: String, en: String) -> String:
+	return LocaleManager.ui(ko, en)
+
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
 	_clear_output_dir()
@@ -271,6 +274,49 @@ func _shot_demo_flow(lang: String = "en") -> void:
 		"arc_chapter1_close",
 	]:
 		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
+	await _shot_demo_loop_surfaces(lang, prefix)
+
+func _shot_demo_loop_surfaces(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	GameState.turn = 9
+	GameState.month = 3
+	GameState.week_of_month = 1
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.8)
+	await _save(prefix + "02_ap_loop")
+
+	GameState.turn = GameState.DEMO_TURN_LIMIT + 1
+	GameState.month = 7
+	GameState.week_of_month = 1
+	var snap := {
+		"date": GameState.get_date_string(),
+		"money_before": GameState.money,
+		"monthly_income": GameState.monthly_income,
+		"fixed_expense": GameState.get_housing_expense(),
+		"assets_before": GameState.get_total_asset_value(),
+		"health_before": GameState.health,
+		"mental_before": GameState.mental,
+		"mental_before_pressure": GameState.mental,
+		"actions": [
+			_tr("✓ 💼 구직활동 → 사무직 취업", "✓ 💼 Job Hunt → hired as Office Worker"),
+			_tr("✓ 📈 투자 → 첫 포트폴리오 구성", "✓ 📈 Invest → built first portfolio"),
+		],
+		"subsidy": false,
+	}
+	if _mg.has_method("_show_month_summary"):
+		_mg._show_month_summary(snap)
+	await _settle(0.9)
+	await _save(prefix + "03_demo_complete_summary")
+	if _mg.has_method("_show_demo_ending"):
+		_mg._show_demo_ending()
+	await _settle(0.9)
+	await _save(prefix + "04_demo_ending_cta")
 
 func _remove_nodes_by_script(script_path: String) -> void:
 	var targets: Array[Node] = []
@@ -410,6 +456,8 @@ func _shot_ap_actions() -> void:
 	_mg.current_event = {}
 	if _mg.has_method("_render_ap_actions"):
 		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
 	await _settle(0.8)
 	await _save("04_ap_actions_dashboard")
 
@@ -463,6 +511,8 @@ func _shot_english_main_flow() -> void:
 	_mg.current_event = {}
 	if _mg.has_method("_render_ap_actions"):
 		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
 	await _settle(0.8)
 	await _save("00c_en_ap_actions")
 	await _shot_action_category_modal("_open_cat_money", "00d_en_money_modal")

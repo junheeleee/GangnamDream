@@ -4080,7 +4080,7 @@ func _render_ap_actions():
 	var ap_dots = "◆".repeat(ap) + "◇".repeat(max(0, GameState.max_action_points - ap))
 	if top_labels.has("ap"):
 		top_labels["ap"].text = "%s  %d/%d" % [ap_dots, ap, GameState.max_action_points]
-	event_title.text = _tr("%d년 %d월", "%d-%02d") % [GameState.year, GameState.month]
+	event_title.text = _tr("%d년 %d월 %d주차", "%d-%02d W%d") % [GameState.year, GameState.month, GameState.week_of_month]
 	_maybe_show_tutorial()
 
 	# ── 상황판 ────────────────────────────────────────────────────
@@ -4095,8 +4095,8 @@ func _render_ap_actions():
 			lines.append(entry)
 		lines.append("──────────────────")
 	var net_sign = "+" if net >= 0 else ""
-	var net_flag = _tr("  [color=#ff7070]← 매달 적자 주의![/color]", "  [color=#ff7070]← Monthly deficit warning![/color]") if net < 0 else ""
-	lines.append(_tr("이번 달 수입·지출  [b]%s%s[/b]%s", "Monthly net  %s%s%s") % [net_sign, GameState.format_money(net), net_flag])
+	var net_flag = _tr("  [color=#ff7070]← 월 고정비 적자 주의[/color]", "  [color=#ff7070]← fixed-cost deficit warning[/color]") if net < 0 else ""
+	lines.append(_tr("월 현금흐름  [b]%s%s[/b]%s", "Month cashflow  %s%s%s") % [net_sign, GameState.format_money(net), net_flag])
 	var ms_hint = _next_milestone_hint(total)
 	if not ms_hint.is_empty():
 		lines.append(ms_hint)
@@ -4120,10 +4120,7 @@ func _render_ap_actions():
 	if GameState.money < 0:
 		lines.append(_tr("[color=#ff4444]🚨  잔고 마이너스  %s[/color]  — 빚이 생겼습니다!", "[color=#ff4444]🚨  Negative balance  %s[/color]  — You're in debt!") % GameState.format_money(GameState.money))
 		has_warning = true
-	# ── 이번 달 추천 행동 ──
-	if not has_warning:
-		lines.append("")
-		lines.append(_tr("[color=#b9bec7]이번 달 추천[/color]  %s", "[color=#b9bec7]This month's tip[/color]  %s") % _recommend_action())
+	# 추천 행동은 아래 '이번 주' 포커스 카드에서 더 크게 보여준다.
 	# 새 주 첫 상황판은 짧게 타이핑 (60cps — 빠르게)
 	var body_text := "\n".join(lines)
 	# 위기 상황 내레이션에 wave 적용 (첫 줄이 이탤릭 내레이션)
@@ -4166,7 +4163,7 @@ func _render_ap_actions():
 		and not GameState.flags.get("invest_hint_shown", false)
 
 	if GameState.turn == 1 and ap == GameState.max_action_points and turn_action_log.is_empty():
-		hint_text = _tr("👋 이번 달 상황에 반응하거나, 아래 [💼 구직활동]으로 일자리부터 구하세요.", "👋 React to this month's situation, or get a job first via [💼 Job Hunt] below.")
+		hint_text = _tr("👋 이번 주 상황에 반응하거나, 아래 [💼 구직활동]으로 일자리부터 구하세요.", "👋 React to this week's situation, or get a job first via [💼 Job Hunt] below.")
 		hint_color = "#c8cdd4"
 	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
 		hint_text = _tr("⚠ 수입 0원 — 아래 [💼 구직활동]으로 취업하세요!", "⚠ KRW 0 income — get a job via [💼 Job Hunt] below!")
@@ -4182,6 +4179,8 @@ func _render_ap_actions():
 	if not hint_text.is_empty():
 		choice_box.add_child(_label(hint_text, 12, hint_color))
 
+	_render_week_focus_panel(ap, net, total, has_warning)
+
 	# ══════════════════════════════════════════════════════
 	# 상황 카드 — 매 턴 '이번 달 상황'에 반응. (추상 메뉴 대체)
 	# ══════════════════════════════════════════════════════
@@ -4196,7 +4195,7 @@ func _render_ap_actions():
 		var m := ControllerHints.start_btn()
 		var pad_hint: String
 		if disabled:
-			pad_hint = _tr("🎮  [%s] 확인  [%s] 다음달  [%s/%s] 탭  [%s] 메뉴", "🎮  [%s] Confirm  [%s] Next Month  [%s/%s] Tab  [%s] Menu") % [s, r3, lb, rb, m]
+			pad_hint = _tr("🎮  [%s] 확인  [%s] 다음 주  [%s/%s] 탭  [%s] 메뉴", "🎮  [%s] Confirm  [%s] Next Week  [%s/%s] Tab  [%s] Menu") % [s, r3, lb, rb, m]
 		else:
 			pad_hint = _tr("🎮  [%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)", "🎮  [%s] Choose  [%s/%s] Tab  [%s] Menu (%s)") % [s, lb, rb, m, ControllerHints.brand_name()]
 		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
@@ -4206,7 +4205,68 @@ func _render_ap_actions():
 		shop_button.disabled = true
 	_apply_moral_ui_palette()
 
-## 상황 기반 이번 달 추천 행동 (경고 없을 때만 표시)
+func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool) -> void:
+	var card := PanelContainer.new()
+	card.set_meta("moral_role", "info_card")
+	card.set_meta("moral_accent", "#c5ccd5")
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0, 86)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#0b0d12", 0.94)
+	style.border_color = Color("#3e4654")
+	style.border_width_left = 4
+	style.set_border_width(SIDE_TOP, 1)
+	style.set_border_width(SIDE_RIGHT, 1)
+	style.set_border_width(SIDE_BOTTOM, 1)
+	style.set_corner_radius_all(7)
+	style.content_margin_left = 14
+	style.content_margin_right = 14
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	card.add_theme_stylebox_override("panel", style)
+	choice_box.add_child(card)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(box)
+
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 10)
+	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(top)
+
+	var title := _label(_tr("이번 주", "This Week"), 15, "#e8edf4")
+	title.set_meta("moral_role", "choice_title")
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(title)
+
+	var ap_text := _tr("선택 완료", "Choices spent")
+	if ap > 0:
+		ap_text = _tr("선택 %d개 남음", "%d choices left") % ap
+	var ap_lbl := _label(ap_text, 13, "#f4f7fb" if ap > 0 else "#7a8496")
+	ap_lbl.custom_minimum_size = Vector2(132, 0)
+	ap_lbl.clip_text = false
+	ap_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	top.add_child(ap_lbl)
+
+	var net_sign := "+" if net >= 0 else ""
+	var summary := _tr("월 현금흐름 %s%s  ·  총자산 %s", "Month cashflow %s%s  ·  Assets %s") % [
+		net_sign, GameState.format_money(net), GameState.format_money(total)
+	]
+	var summary_lbl := _wrap_label(summary, 12, "#9aa4b8")
+	summary_lbl.set_meta("moral_role", "choice_subtitle")
+	box.add_child(summary_lbl)
+
+	var focus_text := _tr("먼저 위험 신호를 줄여야 한다.", "Stabilize the immediate risk first.") if has_warning else _recommend_action()
+	var focus_lbl := _wrap_label(_tr("추천  %s", "Suggested  %s") % focus_text, 13, "#c8d0df")
+	focus_lbl.set_meta("moral_role", "hint_text")
+	box.add_child(focus_lbl)
+	_apply_moral_tree_styles(card, _moral_ui_palette())
+
+## 상황 기반 이번 주 추천 행동 (경고 없을 때만 표시)
 func _recommend_action() -> String:
 	var no_job: bool = GameState.current_job.is_empty()
 	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
@@ -6838,19 +6898,46 @@ func _show_demo_ending():
 	sep_steam.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep_steam)
 
-	var wishlist_lbl = _wrap_label(
-		_tr("풀버전 출시 알림을 받으려면 Steam 위시리스트에 추가하세요.",
-			"Add to your Steam Wishlist to get notified when the full version launches."),
-		12, "#8a9ab8")
-	modal_body.add_child(wishlist_lbl)
+	var cta_card := PanelContainer.new()
+	cta_card.set_meta("moral_role", "info_card")
+	cta_card.set_meta("moral_accent", "#f4f7fb")
+	var cta_style := StyleBoxFlat.new()
+	cta_style.bg_color = Color("#0b0d12", 0.96)
+	cta_style.border_color = Color("#dce6ee", 0.86)
+	cta_style.border_width_left = 4
+	cta_style.set_border_width(SIDE_TOP, 1)
+	cta_style.set_border_width(SIDE_RIGHT, 1)
+	cta_style.set_border_width(SIDE_BOTTOM, 1)
+	cta_style.set_corner_radius_all(7)
+	cta_style.content_margin_left = 14
+	cta_style.content_margin_right = 14
+	cta_style.content_margin_top = 12
+	cta_style.content_margin_bottom = 12
+	cta_card.add_theme_stylebox_override("panel", cta_style)
+	modal_body.add_child(cta_card)
+
+	var cta_box := VBoxContainer.new()
+	cta_box.add_theme_constant_override("separation", 7)
+	cta_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cta_card.add_child(cta_box)
+	var cta_title := _label(_tr("풀버전에서 4년 반이 계속됩니다", "The next 4.5 years continue in the full version"), 16, "#f4f7fb")
+	if _font_bold:
+		cta_title.add_theme_font_override("font", _font_bold)
+	cta_box.add_child(cta_title)
+	cta_box.add_child(_wrap_label(
+		_tr("이 기록을 이어가고 싶다면 Steam 위시리스트에 추가하세요. 출시 알림과 다음 빌드 소식을 받을 수 있습니다.",
+			"Wishlist on Steam if you want to continue this run. You'll get launch and future build updates."),
+		13, "#aeb8c8"))
+	_apply_moral_tree_styles(cta_card, _moral_ui_palette())
 
 	# App ID가 아직 플레이스홀더면 깨진 /app/STEAM_APP_ID/ URL 대신 상점 검색으로 폴백.
 	var steam_url := STEAM_FALLBACK_URL
 	if STEAM_APP_ID != "STEAM_APP_ID" and STEAM_APP_ID.is_valid_int():
 		steam_url = "https://store.steampowered.com/app/%s/Gangnam_Dream/" % STEAM_APP_ID
-	var wishlist_btn = _button(
-		_tr("♥  Steam 위시리스트에 추가", "♥  Add to Steam Wishlist"), "#1b4a2e")
+	var wishlist_btn = _primary_cta_button(
+		_tr("Steam 위시리스트에 추가  ›", "Add to Steam Wishlist  ›"))
 	wishlist_btn.pressed.connect(func(): OS.shell_open(steam_url))
+	wishlist_btn.call_deferred("grab_focus")
 	modal_body.add_child(wishlist_btn)
 
 	var sep4 = HSeparator.new()
@@ -7706,18 +7793,43 @@ func _show_month_summary(snap: Dictionary):
 	# ── 목표 힌트 ─────────────────────────────────
 	var ms = _next_milestone_hint(assets_now)
 	if not ms.is_empty():
-		modal_body.add_child(_wrap_label(ms, 11, "#3fb950"))
+		var ms_plain := ms.replace("[color=#7a9ab0]", "").replace("[/color]", "")
+		modal_body.add_child(_wrap_label(ms_plain, 11, "#9aa4b8"))
 
 	# ── 확인 버튼 (하단) ──────────────────────────
 	var div4 = HSeparator.new()
 	div4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(div4)
 	if GameState.IS_DEMO and GameState.turn > GameState.DEMO_TURN_LIMIT:
-		var demo_btn = _button(_tr("데모 체험 완료  —  결과 보기  ▶", "Demo Complete  —  See Results  ▶"), "#7a1a1a")
+		var demo_notice := PanelContainer.new()
+		demo_notice.set_meta("moral_role", "info_card")
+		demo_notice.set_meta("moral_accent", "#dce6ee")
+		var notice_style := StyleBoxFlat.new()
+		notice_style.bg_color = Color("#0b0d12", 0.96)
+		notice_style.border_color = Color("#dce6ee", 0.72)
+		notice_style.border_width_left = 4
+		notice_style.set_border_width(SIDE_TOP, 1)
+		notice_style.set_border_width(SIDE_RIGHT, 1)
+		notice_style.set_border_width(SIDE_BOTTOM, 1)
+		notice_style.set_corner_radius_all(7)
+		notice_style.content_margin_left = 13
+		notice_style.content_margin_right = 13
+		notice_style.content_margin_top = 10
+		notice_style.content_margin_bottom = 10
+		demo_notice.add_theme_stylebox_override("panel", notice_style)
+		modal_body.add_child(demo_notice)
+		demo_notice.add_child(_wrap_label(
+			_tr("데모는 여기까지입니다. 지난 6개월의 기록을 확인하고 풀버전에서 이어질 선택을 살펴보세요.",
+				"This is the end of the demo. Review the past six months and see what your choices point toward next."),
+			13, "#c8d0df"))
+		_apply_moral_tree_styles(demo_notice, _moral_ui_palette())
+
+		var demo_btn = _primary_cta_button(_tr("6개월 기록 보기  ›", "See 6-Month Record  ›"))
 		demo_btn.pressed.connect(func():
 			_close_modal()
 			_show_demo_ending()
 		)
+		demo_btn.call_deferred("grab_focus")
 		modal_body.add_child(demo_btn)
 	else:
 		var confirm_btn = _button(_tr("다음 달 시작  ▶", "Start Next Month  ▶"), "#0e2a3a")
@@ -8121,6 +8233,41 @@ func _button(text, color) -> Button:
 	button.add_theme_stylebox_override("focus", focus_st)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	_apply_moral_tree_styles(button, _moral_ui_palette())
+	return button
+
+func _primary_cta_button(text: String) -> Button:
+	var button := _button(text, "#f4f7fb")
+	button.set_meta("moral_role", "primary_cta_button")
+	button.set_meta("moral_accent", "#f4f7fb")
+	button.custom_minimum_size = Vector2(0, 58)
+	button.add_theme_font_size_override("font_size", 16)
+	button.add_theme_color_override("font_color", Color("#05070a"))
+	button.add_theme_color_override("font_hover_color", Color("#05070a"))
+	button.add_theme_color_override("font_pressed_color", Color("#05070a"))
+	button.add_theme_color_override("font_focus_color", Color("#05070a"))
+	button.add_theme_color_override("font_hover_pressed_color", Color("#05070a"))
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#edf2f7")
+	normal.border_color = Color("#f8fafc")
+	normal.set_border_width_all(1)
+	normal.border_width_left = 4
+	normal.set_corner_radius_all(6)
+	normal.content_margin_left = 18
+	normal.content_margin_right = 18
+	normal.content_margin_top = 12
+	normal.content_margin_bottom = 12
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#ffffff")
+	var pressed_style := normal.duplicate()
+	pressed_style.bg_color = Color("#cbd5df")
+	var focus_style := normal.duplicate()
+	focus_style.border_color = Color("#ffffff")
+	focus_style.set_border_width_all(UI_FOCUS_BORDER)
+	focus_style.border_width_left = 5
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed_style)
+	button.add_theme_stylebox_override("focus", focus_style)
 	return button
 
 func _icon_button(text: String, icon_id: String, color: String) -> Button:

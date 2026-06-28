@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex Demo AP Loop + CTA Surface Pass)
+
+### 수정
+- `scenes/MainGame.gd`: AP 화면의 메인 날짜를 `2026-03 W1` / `2026년 3월 1주차`처럼 주차 기준으로 명확히 표시하도록 수정했다.
+- `scenes/MainGame.gd`: AP 화면 상단에 `이번 주 / This Week` 포커스 카드를 추가했다. 남은 선택 수, 월 현금흐름, 총자산, 추천 행동을 버튼 목록 위에 묶어 초견 유저가 다음 행동을 바로 읽게 했다.
+- `scenes/MainGame.gd`: AP 화면 본문에 남아 있던 `Monthly net`/`이번 달 추천`류 문구를 `Month cashflow`/주간 추천 카드 구조로 정리했다. 패드 힌트도 `Next Month`가 아니라 `Next Week`로 정정했다.
+- `scenes/MainGame.gd`: 데모 종료 월말 요약에 전용 안내 카드와 밝은 primary CTA 버튼을 추가했다. `6개월 기록 보기` / `See 6-Month Record`가 포커스 상태에서도 검정 글자로 읽히도록 `_primary_cta_button()`을 추가했다.
+- `scenes/MainGame.gd`: 데모 최종 화면의 Steam 위시리스트 CTA를 작은 보조 버튼에서 큰 primary CTA로 격상하고, 풀버전에서 4년 반이 이어진다는 전용 안내 카드를 추가했다.
+- `scenes/MainGame.gd`: 월말 요약에서 `_next_milestone_hint()`의 BBCode가 일반 Label에 그대로 노출되던 표면 버그를 제거했다.
+- `tools/ScreenshotQA.gd`: `--qa=demo-flow`가 AP 루프, 데모 완료 요약, 데모 엔딩 CTA까지 캡처하도록 확장했다. AP 화면 캡처 전 타이핑을 강제로 완료해 QA PNG가 중간 문장으로 남지 않게 했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `LocaleSurfaceCheck.tscn` 통과.
+- `ScreenshotQA.tscn -- --qa=demo-flow --lang=en` 실행 완료. `demo_en_02_ap_loop`, `demo_en_03_demo_complete_summary`, `demo_en_04_demo_ending_cta` 직접 확인.
+- `ScreenshotQA.tscn` full 1280x800 실행 완료. 종료 시 기존 Godot RID/Texture cleanup 경고는 남지만 exit code 0.
+
+---
+
 ## 2026-06-28 (Codex Demo Flow Surface QA)
 
 ### 수정
