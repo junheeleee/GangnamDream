@@ -4213,7 +4213,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	card.set_meta("moral_role", "info_card")
 	card.set_meta("moral_accent", "#c5ccd5")
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.custom_minimum_size = Vector2(0, 86)
+	card.custom_minimum_size = Vector2(0, 112)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#0b0d12", 0.94)
 	style.border_color = Color("#3e4654")
@@ -4255,6 +4255,8 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	ap_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top.add_child(ap_lbl)
 
+	_add_week_ap_slots(box, ap)
+
 	var net_sign := "+" if net >= 0 else ""
 	var summary := _tr("월 현금흐름 %s%s  ·  총자산 %s", "Month cashflow %s%s  ·  Assets %s") % [
 		net_sign, GameState.format_money(net), GameState.format_money(total)
@@ -4263,11 +4265,37 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	summary_lbl.set_meta("moral_role", "choice_subtitle")
 	box.add_child(summary_lbl)
 
-	var focus_text := _tr("먼저 위험 신호를 줄여야 한다.", "Stabilize the immediate risk first.") if has_warning else _recommend_action()
+	var focus_text := _tr("먼저 위험 신호를 줄여야 한다.", "Stabilize the immediate risk first.") if has_warning else _clean_focus_text(_recommend_action())
 	var focus_lbl := _wrap_label(_tr("추천  %s", "Suggested  %s") % focus_text, 13, "#c8d0df")
 	focus_lbl.set_meta("moral_role", "hint_text")
 	box.add_child(focus_lbl)
 	_apply_moral_tree_styles(card, _moral_ui_palette())
+
+func _add_week_ap_slots(parent: Control, ap: int) -> void:
+	var max_ap: int = maxi(1, GameState.max_action_points)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(row)
+	for i in range(max_ap):
+		var filled := i < ap
+		var slot := PanelContainer.new()
+		slot.custom_minimum_size = Vector2(0, 14)
+		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#dce4ee", 0.82) if filled else Color("#1a1d24", 0.82)
+		st.border_color = Color("#f6f8fb", 0.72) if filled else Color("#303640", 0.88)
+		st.set_border_width_all(1)
+		st.set_corner_radius_all(4)
+		slot.add_theme_stylebox_override("panel", st)
+		row.add_child(slot)
+
+func _clean_focus_text(text: String) -> String:
+	var out := text
+	for token in ["💼 ", "🌊 ", "📚 ", "🤝 ", "📈 ", "⏰ ", "🏙 "]:
+		out = out.replace(token, "")
+	return out.strip_edges()
 
 ## 상황 기반 이번 주 추천 행동 (경고 없을 때만 표시)
 func _recommend_action() -> String:
@@ -4551,9 +4579,23 @@ func _essential_btn(title: String, subtitle: String, icon_id: String, accent: St
 			self.call(fn_name)
 		)
 	choice_box.add_child(btn)
+	_animate_ap_action_card(btn, choice_box.get_child_count())
 
 func _essential_locked(title: String, subtitle: String, icon_id: String, accent: String) -> void:
-	choice_box.add_child(_make_essential_action_card(title, subtitle, icon_id, accent, true, false, _tr("잠금", "Locked")))
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, true, false, _tr("잠금", "Locked"))
+	choice_box.add_child(btn)
+	_animate_ap_action_card(btn, choice_box.get_child_count())
+
+func _animate_ap_action_card(card: Control, index: int) -> void:
+	if not is_inside_tree() or not is_instance_valid(card):
+		return
+	var start_modulate := card.modulate
+	start_modulate.a = 0.0
+	card.modulate = start_modulate
+	var tw := create_tween()
+	tw.tween_property(card, "modulate:a", 1.0, 0.16) \
+			.set_delay(minf(0.18, 0.025 * float(index))) \
+			.set_trans(Tween.TRANS_SINE)
 
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String) -> Button:
@@ -8646,7 +8688,7 @@ func _months_to_goal_estimate() -> String:
 	if months_needed <= turns_left:
 		return _tr("[color=#7a8496]현재 수입만으로  약 %d개월 후 달성 가능 (투자 수익 제외)[/color]", "[color=#7a8496]Current income reaches the goal in about %d months (investment returns excluded)[/color]") % months_needed
 	else:
-		return _tr("[color=#b9bec7]현재 수입만으로  %d개월 필요 → 남은 시간 %d개월, 투자가 필수![/color]", "[color=#b9bec7]Current income needs %d months → %d months left, investing is essential![/color]") % [months_needed, turns_left]
+		return _tr("[color=#b9bec7]현재 수입만으로  %d개월 필요 → 남은 시간 %d개월, 투자가 필수![/color]", "[color=#b9bec7]At current income: %d months needed → %d months left. Investing is essential.[/color]") % [months_needed, turns_left]
 
 # ── 월 등급 계산 ─────────────────────────────────────
 func _calc_month_grade(snap: Dictionary) -> Dictionary:

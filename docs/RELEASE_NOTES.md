@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Demo AP focus surface pass
+
+- Added visible AP slots to the `This Week` focus card so remaining actions read at a glance on 1280x800/Steam Deck-style layouts.
+- Cleaned AP recommendation text by removing emoji prefixes and tightening English goal-pressure copy.
+- Added a short sequential reveal to direct action cards so the weekly action loop feels less like a static web form.
+
 ### Added/Changed (2026-06-29) — Gangnam Ink StoryMode surface pass
 
 - Applied the Gangnam Ink background grading and moral surface shaders to StoryMode/VN scenes.

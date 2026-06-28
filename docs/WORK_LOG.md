@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Demo AP Focus Surface Pass)
+
+### 수정
+- `scenes/MainGame.gd`: AP 행동 화면의 `This Week` 포커스 카드에 남은 행동력을 숫자뿐 아니라 슬롯 막대로 표시해 Steam Deck 크기에서도 즉시 읽히게 했다.
+- `scenes/MainGame.gd`: 추천 행동 문구에서 이모지 접두어를 제거해 영어판 AP 루프가 덜 모바일 위젯처럼 보이게 정리했다.
+- `scenes/MainGame.gd`: 직접 행동 카드가 화면에 뜰 때 짧은 순차 reveal 애니메이션을 추가해 정적인 게시판식 UI 느낌을 줄였다.
+- `scenes/MainGame.gd`: 목표 달성 예상 문구의 영어를 `At current income: ...` 형태로 보정해 기계번역 느낌을 낮췄다.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `ScreenshotQA.tscn -- --qa=surface-en` 실행 완료. `surface_en_03_ap_actions` 직접 확인: AP 슬롯/영어 추천 문구/행동 카드 배치 정상. 종료 시 기존 Godot RID/Texture cleanup 경고는 남지만 exit code 0.
+
+---
+
 ## 2026-06-29 (Codex Gangnam Ink StoryMode Surface Pass)
 
 ### 수정
