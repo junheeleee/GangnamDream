@@ -268,8 +268,8 @@ func _settle(t: float = 0.6) -> void:
 	await get_tree().create_timer(t).timeout
 	await get_tree().process_frame
 
-func _save(shot_name: String) -> void:
-	await _settle(0.3)
+func _save(shot_name: String, settle_time: float = 0.3) -> void:
+	await _settle(settle_time)
 	RenderingServer.force_draw()
 	await get_tree().process_frame
 	var viewport_texture := get_viewport().get_texture()
@@ -388,6 +388,28 @@ func _shot_moral_tint_states() -> void:
 	GameState.moral_tint = 0.0
 	if _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+	await _shot_moral_choice_echo(-25.0, "03e_moral_black_choice_echo")
+	await _shot_moral_choice_echo(25.0, "03f_moral_white_choice_echo")
+	GameState.pending_tint_vignette = {}
+	GameState.moral_tint = 0.0
+	if _mg.has_method("_apply_moral_visuals"):
+		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+
+func _shot_moral_choice_echo(delta: float, shot_name: String) -> void:
+	GameState.pending_tint_vignette = {}
+	GameState.moral_tint = 0.0
+	if _mg.has_method("_apply_moral_visuals"):
+		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	await _settle(0.2)
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await get_tree().process_frame
+	GameState.shift_moral_tint(delta)
+	await _settle(0.04)
+	await _save(shot_name, 0.02)
 
 func _shot_english_main_flow() -> void:
 	_set_qa_language("en")

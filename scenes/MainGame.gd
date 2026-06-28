@@ -45,6 +45,8 @@ var _moral_surface_material: ShaderMaterial = null
 var _moral_bg_material: ShaderMaterial = null
 var _moral_tint_tween: Tween = null
 var _moral_world_tween: Tween = null
+var _moral_echo_tween: Tween = null
+var _moral_visual_initialized: bool = false
 var _moral_norm: float = 0.0
 var _moral_stage: int = 0
 var _event_bg_motion_tween: Tween = null
@@ -309,7 +311,18 @@ func _connect_signals():
 	GameState.tendency_awakened.connect(_on_tendency_awakened)
 
 func _on_moral_tint_changed(norm: float, stage: int) -> void:
+	var previous_norm := _moral_norm
+	var previous_stage := _moral_stage
+	var was_initialized := _moral_visual_initialized
 	_apply_moral_visuals(norm, stage)
+	if not was_initialized:
+		return
+	var actual_delta := _moral_norm - previous_norm
+	if GameState.turn <= 1 and _moral_stage == 0 and absf(_moral_norm) < 0.001:
+		return
+	if absf(actual_delta) < 0.001 and previous_stage == _moral_stage:
+		return
+	_play_moral_choice_echo(actual_delta, previous_stage, _moral_stage)
 
 func _apply_moral_visuals(norm: float, stage: int, immediate: bool = false) -> void:
 	_moral_norm = clampf(norm, -1.0, 1.0)
@@ -328,6 +341,7 @@ func _apply_moral_visuals(norm: float, stage: int, immediate: bool = false) -> v
 	_apply_story_moral_clarity()
 	_apply_moral_ui_palette()
 	_apply_money_moral_glow()
+	_moral_visual_initialized = true
 
 func _moral_overlay_color(norm: float, stage: int) -> Color:
 	if stage <= -2:
@@ -548,6 +562,77 @@ func _apply_money_label_style(label: Label, color: Color, shadow_color: Color, s
 		label.remove_theme_constant_override("shadow_outline_size")
 		label.remove_theme_constant_override("shadow_offset_x")
 		label.remove_theme_constant_override("shadow_offset_y")
+
+func _play_moral_choice_echo(delta_norm: float, previous_stage: int, new_stage: int) -> void:
+	# MORAL_TINT는 점수 표시가 아니라 "방금 선택 때문에 세계를 보는 렌즈가 변했다"는 체감이어야 한다.
+	# 그래서 숫자/문구를 추가하지 않고, 색·표면·돈 HUD만 짧게 반응시킨다.
+	var toward_black := delta_norm < 0.0 or new_stage < previous_stage
+	var stage_crossed := previous_stage != new_stage
+	var strength := clampf(absf(delta_norm) * 5.5, 0.08, 0.38)
+	if stage_crossed:
+		strength = maxf(strength, 0.30)
+	if toward_black:
+		_screen_flash(Color("#010202"), 0.10 + strength * 0.24, 0.42 + strength * 0.22)
+		_pulse_moral_money_echo(strength)
+	else:
+		_screen_flash(Color("#f4fbff"), 0.05 + strength * 0.10, 0.34 + strength * 0.16)
+		_pulse_moral_clarity_echo(strength)
+	_pulse_moral_surface_echo(toward_black, strength)
+
+func _pulse_moral_money_echo(strength: float) -> void:
+	var scale_to := 1.035 + strength * 0.18
+	var duration := 0.32 + strength * 0.28
+	_pulse_node(top_labels.get("money", null), scale_to, duration)
+	_pulse_node(_goal_money_lbl, 1.02 + strength * 0.12, duration)
+
+func _pulse_moral_clarity_echo(strength: float) -> void:
+	var duration := 0.30 + strength * 0.18
+	_pulse_node(event_title, 1.015 + strength * 0.08, duration)
+	if is_instance_valid(event_body):
+		var base := event_body.modulate
+		var tw := create_tween()
+		tw.tween_property(event_body, "modulate", base.lerp(Color("#f7fbff"), 0.20 + strength * 0.24), duration * 0.42)
+		tw.tween_property(event_body, "modulate", base, duration * 0.58)
+
+func _pulse_moral_surface_echo(toward_black: bool, strength: float) -> void:
+	if not is_instance_valid(_moral_surface_overlay) or not _moral_surface_material:
+		return
+	if _moral_echo_tween and _moral_echo_tween.is_running():
+		_moral_echo_tween.kill()
+		_apply_moral_surface_shader()
+	var base_black := clampf(-_moral_norm, 0.0, 1.0)
+	var base_white := clampf(_moral_norm, 0.0, 1.0)
+	var peak_black := base_black
+	var peak_white := base_white
+	if toward_black:
+		peak_black = clampf(base_black + 0.18 + strength * 0.55, 0.0, 1.0)
+	else:
+		peak_white = clampf(base_white + 0.12 + strength * 0.40, 0.0, 1.0)
+	_moral_surface_overlay.visible = true
+	_moral_echo_tween = create_tween()
+	_moral_echo_tween.set_parallel(false)
+	if toward_black:
+		_moral_echo_tween.tween_method(
+			func(v: float): _moral_surface_material.set_shader_parameter("black_intensity", v),
+			base_black, peak_black, 0.09
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		_moral_echo_tween.tween_method(
+			func(v: float): _moral_surface_material.set_shader_parameter("black_intensity", v),
+			peak_black, base_black, 0.42 + strength * 0.18
+		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	else:
+		_moral_echo_tween.tween_method(
+			func(v: float): _moral_surface_material.set_shader_parameter("white_intensity", v),
+			base_white, peak_white, 0.10
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		_moral_echo_tween.tween_method(
+			func(v: float): _moral_surface_material.set_shader_parameter("white_intensity", v),
+			peak_white, base_white, 0.36 + strength * 0.16
+		).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_moral_echo_tween.tween_callback(func():
+		_apply_moral_surface_shader()
+		_moral_echo_tween = null
+	)
 
 func _build_ui():
 	# ── 1. 최하단: 시네마틱 라디얼 그라디언트 배경 (누아르 깊이) ──
