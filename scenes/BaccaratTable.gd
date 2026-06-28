@@ -157,6 +157,9 @@ func _add_bet(type: String) -> void:
 		"PP": _bet_pp += add
 		"BP": _bet_bp += add
 	AudioManager.play("casino_bet")
+	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.pulse_gamepad(0.06, 0.12, 0.06)
+	_spawn_bet_chip(type, add)
 	_show_table_banner("BET  %s" % type, Color("#f0b429"), 0.22)
 	_render()
 
@@ -205,6 +208,7 @@ func _deal() -> void:
 	_deal_timer = 0.1
 	_phase = Phase.DEALING
 	AudioManager.play("event_new")
+	AudioManager.pulse_gamepad(0.08, 0.18, 0.10)
 	set_process(true)
 	_render()
 	_show_table_banner("NO MORE BETS", Color("#f0b429"), 0.52)
@@ -551,8 +555,8 @@ func _add_table_display(parent: VBoxContainer, partial: bool) -> void:
 	var b_cards: Array = (_deal_b_visible if partial else _result.get("banker", []))
 	var player_rect := _baccarat_player_rect(860.0)
 	var banker_rect := _baccarat_banker_rect(860.0)
-	_place_baccarat_cards(table, p_cards, _baccarat_card_start(player_rect, p_cards.size(), partial), partial)
-	_place_baccarat_cards(table, b_cards, _baccarat_card_start(banker_rect, b_cards.size(), partial), partial)
+	_place_baccarat_cards(table, p_cards, _baccarat_card_start(player_rect, p_cards.size(), partial), partial, false)
+	_place_baccarat_cards(table, b_cards, _baccarat_card_start(banker_rect, b_cards.size(), partial), partial, true)
 	if not partial:
 		_add_score_badge(table, _baccarat_score_pos(player_rect), int(_result.get("player_val", 0)), Color("#d4a020"))
 		_add_score_badge(table, _baccarat_score_pos(banker_rect), int(_result.get("banker_val", 0)), Color("#e85d5d"))
@@ -601,11 +605,11 @@ func _draw_baccarat_table(ctrl: Control, partial: bool) -> void:
 	ctrl.draw_string(font, Vector2(sz.x * 0.5 - 68, 224), "PLAYER 1:1   BANKER 0.95:1   TIE 8:1",
 		HORIZONTAL_ALIGNMENT_CENTER, 136, 10, Color(1, 1, 1, 0.34))
 
-func _place_baccarat_cards(parent: Control, cards: Array, start: Vector2, fill_placeholders: bool) -> void:
+func _place_baccarat_cards(parent: Control, cards: Array, start: Vector2, fill_placeholders: bool, from_right := false) -> void:
 	var visible_cards: int = mini(cards.size(), 3)
 	for i in range(visible_cards):
 		var card_ctrl := _card_widget(int(cards[i]))
-		_place_table_child(parent, card_ctrl, start + Vector2(float(i) * 74.0, 0))
+		_place_table_child(parent, card_ctrl, start + Vector2(float(i) * 74.0, 0), float(i) * 0.035, from_right)
 	if not fill_placeholders:
 		return
 	for i in range(visible_cards, 3):
@@ -625,10 +629,31 @@ func _add_score_badge(parent: Control, pos: Vector2, value: int, col: Color) -> 
 	_f(lbl, true)
 	parent.add_child(lbl)
 
-func _place_table_child(parent: Control, child: Control, pos: Vector2) -> void:
+func _place_table_child(parent: Control, child: Control, pos: Vector2, delay := 0.0, from_right := false) -> void:
 	child.position = pos
 	child.size = child.custom_minimum_size
 	parent.add_child(child)
+	if child.modulate.a >= 0.95:
+		_animate_table_card(child, pos, delay, from_right)
+
+func _animate_table_card(child: Control, final_pos: Vector2, delay: float, from_right: bool) -> void:
+	if not is_instance_valid(child):
+		return
+	var drift := Vector2(58.0 if from_right else -58.0, -22.0)
+	child.position = final_pos + drift
+	child.scale = Vector2(0.88, 0.88)
+	child.pivot_offset = child.custom_minimum_size * 0.5
+	child.rotation_degrees = 4.0 if from_right else -4.0
+	child.modulate.a = 0.0
+	var tw := create_tween()
+	if delay > 0.0:
+		tw.tween_interval(delay)
+	tw.set_parallel(true)
+	tw.tween_property(child, "position", final_pos, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(child, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(child, "rotation_degrees", 0.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(child, "modulate:a", 1.0, 0.12)
+	tw.set_parallel(false)
 
 func _next_round() -> void:
 	_reset_bets()
@@ -857,9 +882,7 @@ func _card_widget(card: int) -> Control:
 	return root
 
 func _animate_card_appear(node: Control) -> void:
-	node.modulate.a = 0.0
-	var tw := create_tween()
-	tw.tween_property(node, "modulate:a", 1.0, 0.2)
+	node.modulate.a = 1.0
 
 func _card_back() -> Control:
 	if CARD_BACK_TEX != null:
@@ -999,6 +1022,58 @@ func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> 
 	var tw := create_tween()
 	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func _spawn_bet_chip(type: String, stake: int) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var target_ratio := Vector2(0.50, 0.48)
+	match type:
+		"P":
+			target_ratio = Vector2(0.38, 0.47)
+		"B":
+			target_ratio = Vector2(0.62, 0.47)
+		"T":
+			target_ratio = Vector2(0.50, 0.43)
+		"PP":
+			target_ratio = Vector2(0.39, 0.56)
+		"BP":
+			target_ratio = Vector2(0.61, 0.56)
+	var start := Vector2(root_size.x * 0.50, root_size.y * 0.78)
+	var target := Vector2(root_size.x * target_ratio.x, root_size.y * target_ratio.y)
+	var chip := _floating_chip(stake, 34.0)
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.z_index = 74
+	chip.position = start - chip.size * 0.5
+	chip.scale = Vector2(0.70, 0.70)
+	chip.modulate.a = 0.95
+	add_child(chip)
+	var tw := create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(chip, "position", target - chip.size * 0.5, 0.22).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(chip, "scale", Vector2(1.0, 1.0), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(chip, "modulate:a", 0.0, 0.18).set_delay(0.26)
+	tw.set_parallel(false)
+	tw.tween_callback(chip.queue_free)
+
+func _floating_chip(stake: int, chip_size: float) -> Control:
+	var raw_tex = CHIP_TEX_BY_STAKE.get(stake, null)
+	if raw_tex is Texture2D:
+		var tex := TextureRect.new()
+		tex.texture = raw_tex as Texture2D
+		tex.size = Vector2(chip_size, chip_size)
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		return tex
+	var panel := PanelContainer.new()
+	panel.size = Vector2(chip_size, chip_size)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#d4a020")
+	st.border_color = Color("#fff3b0")
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(99)
+	panel.add_theme_stylebox_override("panel", st)
+	return panel
 
 # ── 로드맵 드로우 콜백 ─────────────────────────────────────────
 func _refresh_road() -> void:

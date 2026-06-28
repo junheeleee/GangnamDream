@@ -228,6 +228,10 @@ func _start_hand() -> void:
 	_phase = Phase.PREFLOP
 	_action_idx = 0  # 플레이어 먼저 (SB acts first preflop in simplified version)
 	_render_table()
+	AudioManager.play("casino_bet")
+	AudioManager.play_delayed("casino_coin", 0.06, -5.0)
+	_play_card_sound_sequence(2, 0.12)
+	AudioManager.pulse_gamepad(0.06, 0.14, 0.08)
 	_show_table_banner("NEW HAND", Color("#c9a227"), 0.65)
 	_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.47), 6)
 	_screen_flash(Color("#c9a227"), 0.10, 0.22)
@@ -799,7 +803,9 @@ func _player_action(action: String, amount: int) -> void:
 			_player_bet += actual
 			_pot += actual
 			_set_msg(_tr("콜 (%s).", "Call (%s).") % _fmt(actual))
-			AudioManager.play("sell", -6.0)
+			AudioManager.play("casino_bet")
+			AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+			AudioManager.pulse_gamepad(0.06, 0.14, 0.07)
 			_show_table_banner("CALL", Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.56), 4)
 			_pulse_node(_msg_lbl, 1.04, 0.18)
@@ -810,7 +816,9 @@ func _player_action(action: String, amount: int) -> void:
 			_pot += actual
 			_max_bet = maxi(_max_bet, _player_bet)
 			_set_msg(_tr("레이즈 → %s", "Raise to %s") % _fmt(_player_bet))
-			AudioManager.play("money_big" if actual >= 200_000 else "sell")
+			AudioManager.play("money_big" if actual >= 200_000 else "casino_bet")
+			AudioManager.play_delayed("casino_coin", 0.08, -4.0)
+			AudioManager.pulse_gamepad(0.11, 0.28, 0.10)
 			_show_table_banner("RAISE", Color("#f0b429"), 0.58)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.56), 8)
 			_screen_flash(Color("#f0b429"), 0.13, 0.22)
@@ -841,7 +849,8 @@ func _do_ai_action(opp_idx: int) -> void:
 			o["stack"] -= actual
 			_opp_bets[opp_idx] += actual
 			_pot += actual
-			AudioManager.play("sell", -8.0)
+			AudioManager.play("casino_bet", -6.0)
+			AudioManager.play_delayed("casino_coin", 0.08, -7.0)
 			_show_table_banner("%s  CALL" % _opp_name(opp_idx), Color("#5de89c"), 0.45)
 			_spawn_chip_burst(Color("#5de89c"), Vector2(0.50, 0.40), 3)
 		"raise":
@@ -850,7 +859,8 @@ func _do_ai_action(opp_idx: int) -> void:
 			_opp_bets[opp_idx] += actual
 			_pot += actual
 			_max_bet = maxi(_max_bet, _opp_bets[opp_idx])
-			AudioManager.play("sell", -5.0)
+			AudioManager.play("casino_bet", -4.0)
+			AudioManager.play_delayed("casino_coin", 0.08, -6.0)
 			_show_table_banner("%s  RAISE" % _opp_name(opp_idx), Color("#f0b429"), 0.55)
 			_spawn_chip_burst(Color("#f0b429"), Vector2(0.50, 0.40), 6)
 			_screen_flash(Color("#f0b429"), 0.08, 0.16)
@@ -898,7 +908,8 @@ func _advance_phase() -> void:
 
 	var new_cards := 1 if banner in ["TURN", "RIVER"] else 3
 	_render_table()
-	AudioManager.play("tab_open", -4.0)
+	_play_card_sound_sequence(new_cards, 0.10)
+	AudioManager.pulse_gamepad(0.05, 0.12, 0.08)
 	_show_table_banner(banner, Color("#c9a227"), 0.62)
 	_screen_flash(Color("#c9a227"), 0.09, 0.20)
 	# 새로 공개된 카드들 scale 0→1 순차 팝인
@@ -975,6 +986,7 @@ func _do_showdown() -> void:
 		_hand_history.pop_front()
 
 	_render_table()
+	_play_card_sound_sequence(4, 0.08)
 	_show_table_banner("SHOWDOWN", Color("#f0b429"), 0.70)
 	_set_msg(" ".join(msg_parts))
 	_pulse_node(_msg_lbl, 1.08, 0.30)
@@ -1366,3 +1378,7 @@ func _spawn_chip_burst(color: Color, center_ratio: Vector2 = Vector2(0.5, 0.5), 
 		tw.tween_property(chip, "scale", Vector2(0.55, 0.55), 0.34)
 		tw.set_parallel(false)
 		tw.tween_callback(chip.queue_free)
+
+func _play_card_sound_sequence(count: int, gap: float = 0.08) -> void:
+	for i in range(count):
+		AudioManager.play_delayed("casino_card", float(i) * gap, -1.5)

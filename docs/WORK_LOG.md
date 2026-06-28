@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex Casino Tactile Pass)
+
+### 수정
+- `autoloads/AudioManager.gd`: `play_delayed()`를 추가해 카드 딜/칩 이동 같은 미니게임 SFX를 짧은 간격으로 순차 재생할 수 있게 했다.
+- `scenes/BaccaratTable.gd`: 베팅 시 선택 칩이 테이블 베팅 영역으로 날아가는 짧은 칩 이동 연출, 코인 SFX, 약한 게임패드 진동을 추가했다. 카드 공개는 플레이어/뱅커 방향에 맞춰 좌우에서 미끄러져 들어오는 애니메이션으로 교체했다.
+- `scenes/BlackjackTable.gd`: 첫 딜 카드 SFX를 4회 순차 재생하고, 베팅/더블다운/스플릿 시 칩 이동·코인 SFX·진동을 추가했다. 딜러/플레이어 카드는 슈 방향에서 슬라이드 인하도록 보정했다.
+- `scenes/HoldemClub.gd`: 블라인드/콜/레이즈/보드 공개/쇼다운 SFX를 카지노 카드·칩 계열로 정리하고, 콜/레이즈에 약한 진동과 칩 피드백을 추가했다.
+- `scenes/BigWheelGame.gd`: 결과 메시지를 잔액 라인과 겹치지 않도록 상향 배치했다.
+- `scenes/RouletteTable.gd`: 결과 메시지가 베팅/잔액 정보와 겹치지 않도록 메시지 표시 중 하단 정보 라인을 잠시 숨기게 했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA.tscn -- --qa=casino-en` 실행 완료. 바카라/블랙잭/룰렛/빅휠 영어 캡처 직접 확인. 종료 시 기존 Godot RID/Texture cleanup 경고는 남지만 exit code 0.
+
+---
+
 ## 2026-06-28 (Codex Demo AP Loop + CTA Surface Pass)
 
 ### 수정

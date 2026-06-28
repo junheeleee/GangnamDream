@@ -157,6 +157,13 @@ func play(sound_id: String, volume_mod: float = 0.0):
 			p.play()
 			return
 
+func play_delayed(sound_id: String, delay: float, volume_mod: float = 0.0) -> void:
+	if delay <= 0.0:
+		play(sound_id, volume_mod)
+		return
+	get_tree().create_timer(delay).timeout.connect(func():
+		play(sound_id, volume_mod))
+
 func play_casino_result(net_amount: float, stake: float = 0.0, force_jackpot: bool = false) -> void:
 	var stake_abs: float = maxf(absf(stake), 1.0)
 	if force_jackpot or net_amount >= maxf(stake_abs * 10.0, 1_000_000.0):

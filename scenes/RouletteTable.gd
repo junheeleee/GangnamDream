@@ -834,7 +834,7 @@ func _build_ui() -> void:
 	# ── 플래시 메시지 ──
 	_msg_lbl = Label.new()
 	_msg_lbl.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_msg_lbl.offset_top = -36
+	_msg_lbl.offset_top = -38
 	_msg_lbl.offset_bottom = -8
 	_msg_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if _font_bold: _msg_lbl.add_theme_font_override("font", _font_bold)
@@ -1184,5 +1184,11 @@ func _flash(msg: String, color: String) -> void:
 	_msg_lbl.text = msg
 	_msg_lbl.add_theme_color_override("font_color", Color(color))
 	_msg_lbl.visible = true
+	if is_instance_valid(_bet_info_lbl):
+		_bet_info_lbl.visible = false
+	if is_instance_valid(_balance_lbl):
+		_balance_lbl.visible = false
 	get_tree().create_timer(1.8).timeout.connect(func():
-		if is_instance_valid(_msg_lbl): _msg_lbl.visible = false)
+		if is_instance_valid(_msg_lbl): _msg_lbl.visible = false
+		if is_instance_valid(_bet_info_lbl): _bet_info_lbl.visible = true
+		if is_instance_valid(_balance_lbl): _balance_lbl.visible = true)

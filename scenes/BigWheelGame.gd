@@ -557,8 +557,8 @@ func _build_ui() -> void:
 	# ── 플래시 메시지 ──
 	_msg_lbl = Label.new()
 	_msg_lbl.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_msg_lbl.offset_top = -38
-	_msg_lbl.offset_bottom = -8
+	_msg_lbl.offset_top = -72
+	_msg_lbl.offset_bottom = -42
 	_msg_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if _font_bold: _msg_lbl.add_theme_font_override("font", _font_bold)
 	_msg_lbl.add_theme_font_size_override("font_size", 17)

@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-28) — Casino tactile feedback pass
+
+- Added delayed SFX playback support for staggered casino card/chip timing.
+- Added chip travel, coin SFX, light gamepad pulse, and slide-in card motion to Baccarat bets/deals.
+- Added chip travel, staggered card SFX, light gamepad pulse, and slide-in card motion to Blackjack deals, hits, double downs, and splits.
+- Retuned Hold'em action sounds so blinds, calls, raises, board reveals, and showdowns read as table-game actions rather than generic UI clicks.
+- Fixed Big Wheel and Roulette result text overlapping lower balance/bet information in English casino QA.
+
 ### Added/Changed (2026-06-28) — Demo AP loop and wishlist CTA polish
 
 - Added a `This Week` focus card to the AP screen showing choices left, month cashflow, assets, and a suggested next action.

@@ -101,6 +101,10 @@ func _deal() -> void:
 		_flash(_tr("🔀 슈 리셔플", "🔀 Shoe reshuffled"), "#c9a227")
 
 	GameState.add_money(-float(_stake))
+	AudioManager.play("casino_bet")
+	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.pulse_gamepad(0.07, 0.15, 0.08)
+	_spawn_bet_chip(_stake, Vector2(0.50, 0.66))
 	_dealer = [_shoe.pop_front(), _shoe.pop_front()]
 	_player = [_shoe.pop_front(), _shoe.pop_front()]
 	_split  = []
@@ -109,13 +113,13 @@ func _deal() -> void:
 	_split_stake = 0
 	_phase = Phase.PLAYER_TURN
 	_rounds += 1
+	_play_card_sound_sequence(4, 0.075)
 
 	# 즉시 블랙잭 체크
 	if BJ.is_blackjack(_player):
 		_resolve_hand()
 		return
 
-	AudioManager.play("casino_card")
 	_render()
 	_show_table_banner("DEAL", Color("#c9a227"), 0.48)
 	if is_instance_valid(_content_root):
@@ -129,6 +133,7 @@ func _hit() -> void:
 	var hand := _split_hand()
 	hand.append(_shoe.pop_front())
 	AudioManager.play("casino_card")
+	AudioManager.pulse_gamepad(0.04, 0.10, 0.06)
 	_show_table_banner("HIT", Color("#c9a227"), 0.38)
 	_screen_flash(Color("#c9a227"), 0.08, 0.16)
 	if BJ.hand_value(hand) >= 21:
@@ -153,6 +158,9 @@ func _double_down() -> void:
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
 	AudioManager.play("casino_bet")
+	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.pulse_gamepad(0.10, 0.25, 0.10)
+	_spawn_bet_chip(_stake, Vector2(0.50, 0.66))
 	_show_table_banner("DOUBLE DOWN", Color("#f0b429"), 0.55)
 	_screen_flash(Color("#f0b429"), 0.13, 0.24)
 	_shake_node(_content_root, 4.0, 3)
@@ -171,6 +179,9 @@ func _do_split() -> void:
 	if GameState.money < float(_stake): return
 	GameState.add_money(-float(_stake))
 	AudioManager.play("casino_bet")
+	AudioManager.play_delayed("casino_coin", 0.08, -5.0)
+	AudioManager.pulse_gamepad(0.08, 0.18, 0.08)
+	_spawn_bet_chip(_stake, Vector2(0.58, 0.66))
 	_show_table_banner("SPLIT", Color("#d4a0ff"), 0.52)
 	_screen_flash(Color("#d4a0ff"), 0.11, 0.22)
 	_split_stake = _stake
@@ -201,6 +212,7 @@ func _next_or_dealer() -> void:
 func _dealer_play_and_resolve() -> void:
 	# 딜러 두 번째 카드 공개 후 플레이
 	AudioManager.play("casino_card")
+	AudioManager.pulse_gamepad(0.05, 0.13, 0.08)
 	_show_table_banner("DEALER", Color("#e85d5d"), 0.40)
 	BJ.dealer_play(_dealer, _shoe)
 	_resolve_hand()
@@ -552,20 +564,20 @@ func _add_blackjack_table_display(parent: VBoxContainer, show_dealer_all: bool) 
 	var player_rect := Rect2(Vector2(74, 188), Vector2(table_w - 148.0, 126))
 	var dealer_start := _bj_card_start(dealer_rect, dealer_cards.size())
 	if dealer_cards.size() > 0:
-		_place_bj_cards(table, dealer_cards, dealer_start, show_dealer_all, false)
+		_place_bj_cards(table, dealer_cards, dealer_start, show_dealer_all, false, true)
 		var dealer_value: int = BJ.hand_value(dealer_cards) if show_dealer_all else BJ.hand_value([dealer_cards[0]])
 		var dealer_text := str(dealer_value) if show_dealer_all else (str(dealer_value) + " + ?")
 		_add_bj_score_badge(table, _bj_score_pos(dealer_rect), dealer_text, Color("#e85d5d"))
 
 	if _split.is_empty():
-		_place_bj_cards(table, _player, _bj_card_start(player_rect, _player.size()), true, _phase == Phase.PLAYER_TURN)
+		_place_bj_cards(table, _player, _bj_card_start(player_rect, _player.size()), true, _phase == Phase.PLAYER_TURN, false)
 		_add_bj_score_badge(table, _bj_score_pos(player_rect), _bj_score_text(_player), _score_color(_player))
 	else:
 		var left_rect := Rect2(player_rect.position, Vector2(player_rect.size.x * 0.5, player_rect.size.y))
 		var right_rect := Rect2(player_rect.position + Vector2(player_rect.size.x * 0.5, 0), Vector2(player_rect.size.x * 0.5, player_rect.size.y))
-		_place_bj_cards(table, _player, _bj_card_start(left_rect, _player.size()), true, _phase == Phase.PLAYER_TURN and not _split_active)
+		_place_bj_cards(table, _player, _bj_card_start(left_rect, _player.size()), true, _phase == Phase.PLAYER_TURN and not _split_active, false)
 		_add_bj_score_badge(table, _bj_score_pos(left_rect), _bj_score_text(_player), _score_color(_player))
-		_place_bj_cards(table, _split, _bj_card_start(right_rect, _split.size()), true, _phase == Phase.PLAYER_TURN and _split_active)
+		_place_bj_cards(table, _split, _bj_card_start(right_rect, _split.size()), true, _phase == Phase.PLAYER_TURN and _split_active, false)
 		_add_bj_score_badge(table, _bj_score_pos(right_rect), _bj_score_text(_split), _score_color(_split))
 
 func _draw_blackjack_table(ctrl: Control, show_dealer_all: bool) -> void:
@@ -608,19 +620,39 @@ func _bj_card_start(rect: Rect2, card_count: int) -> Vector2:
 func _bj_score_pos(rect: Rect2) -> Vector2:
 	return rect.position + Vector2(rect.size.x - 238.0, rect.size.y * 0.5 - 22.0)
 
-func _place_bj_cards(parent: Control, cards: Array, start: Vector2, show_all: bool, highlight: bool) -> void:
+func _place_bj_cards(parent: Control, cards: Array, start: Vector2, show_all: bool, highlight: bool, from_dealer := false) -> void:
 	for i in range(cards.size()):
 		var card_ctrl: Control
 		if i == 1 and not show_all:
 			card_ctrl = _card_back()
 		else:
 			card_ctrl = _card_widget(int(cards[i]), highlight)
-		_place_bj_child(parent, card_ctrl, start + Vector2(float(i) * 78.0, 0))
+		_place_bj_child(parent, card_ctrl, start + Vector2(float(i) * 78.0, 0), float(i) * 0.045, from_dealer)
 
-func _place_bj_child(parent: Control, child: Control, pos: Vector2) -> void:
+func _place_bj_child(parent: Control, child: Control, pos: Vector2, delay := 0.0, from_dealer := false) -> void:
 	child.position = pos
 	child.size = child.custom_minimum_size
 	parent.add_child(child)
+	_animate_table_card(child, pos, delay, from_dealer)
+
+func _animate_table_card(child: Control, final_pos: Vector2, delay: float, from_dealer: bool) -> void:
+	if not is_instance_valid(child):
+		return
+	var drift := Vector2(44.0 if from_dealer else -44.0, -36.0 if from_dealer else 28.0)
+	child.position = final_pos + drift
+	child.scale = Vector2(0.88, 0.88)
+	child.pivot_offset = child.custom_minimum_size * 0.5
+	child.rotation_degrees = 4.0 if from_dealer else -4.0
+	child.modulate.a = 0.0
+	var tw := create_tween()
+	if delay > 0.0:
+		tw.tween_interval(delay)
+	tw.set_parallel(true)
+	tw.tween_property(child, "position", final_pos, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(child, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(child, "rotation_degrees", 0.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(child, "modulate:a", 1.0, 0.12)
+	tw.set_parallel(false)
 
 func _add_bj_score_badge(parent: Control, pos: Vector2, text: String, col: Color) -> void:
 	var lbl := Label.new()
@@ -1005,9 +1037,7 @@ func _shake_node(node: Node, amount: float = 6.0, count: int = 5) -> void:
 	tw.tween_property(ctrl, "position", base, 0.04)
 
 func _animate_card_appear(ctrl: Control) -> void:
-	ctrl.modulate = Color(1, 1, 1, 0)
-	var tw := create_tween()
-	tw.tween_property(ctrl, "modulate", Color(1, 1, 1, 1), 0.15)
+	ctrl.modulate = Color(1, 1, 1, 1)
 
 func _show_table_banner_bj(text: String, color: Color) -> void:
 	var root_size := size
@@ -1054,3 +1084,47 @@ func _pulse_node(node: Node, scale_to: float = 1.08, duration: float = 0.28) -> 
 	var tw := create_tween()
 	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func _play_card_sound_sequence(count: int, gap: float = 0.08) -> void:
+	for i in range(count):
+		AudioManager.play_delayed("casino_card", float(i) * gap, -1.5)
+
+func _spawn_bet_chip(stake: int, target_ratio: Vector2) -> void:
+	var root_size := size
+	if root_size.x <= 1.0 or root_size.y <= 1.0:
+		root_size = get_viewport_rect().size
+	var start := Vector2(root_size.x * 0.50, root_size.y * 0.82)
+	var target := Vector2(root_size.x * target_ratio.x, root_size.y * target_ratio.y)
+	var chip := _floating_chip(stake, 34.0)
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.z_index = 74
+	chip.position = start - chip.size * 0.5
+	chip.scale = Vector2(0.70, 0.70)
+	chip.modulate.a = 0.95
+	add_child(chip)
+	var tw := create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(chip, "position", target - chip.size * 0.5, 0.22).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(chip, "scale", Vector2(1.0, 1.0), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(chip, "modulate:a", 0.0, 0.18).set_delay(0.26)
+	tw.set_parallel(false)
+	tw.tween_callback(chip.queue_free)
+
+func _floating_chip(stake: int, chip_size: float) -> Control:
+	var raw_tex = CHIP_TEX_BY_STAKE.get(stake, null)
+	if raw_tex is Texture2D:
+		var tex := TextureRect.new()
+		tex.texture = raw_tex as Texture2D
+		tex.size = Vector2(chip_size, chip_size)
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_SCALE
+		return tex
+	var panel := PanelContainer.new()
+	panel.size = Vector2(chip_size, chip_size)
+	var st := StyleBoxFlat.new()
+	st.bg_color = _bj_chip_color(stake)
+	st.border_color = Color("#fff3b0")
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(99)
+	panel.add_theme_stylebox_override("panel", st)
+	return panel
