@@ -1,19 +1,20 @@
 # 강남드림 UI Art Direction
 
-Updated: 2026-06-22
+Updated: 2026-06-28
 
 ## 목적
 
 `강남드림`의 이미지 에셋은 이제 배경/포트레이트/CG 레이어 분리와 정합성 기준을 갖췄다. 다음 품질 병목은 UI다. 이 문서는 버튼, HUD, 아이콘, 모달, VN 대화창, 미니게임 화면을 하나의 상업 게임처럼 보이게 만들기 위한 UI 아트 정본이다.
 
-이 문서는 신규 UI/아이콘/이미지 작업의 기준이며, `CLAUDE.md`, `docs/CANON_MAP.md`, `assets/CHARACTER_VISUAL_BIBLE.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`와 함께 확인한다.
+이 문서는 신규 UI/아이콘/이미지 작업의 기준이며, `CLAUDE.md`, `docs/GANGNAM_INK_ART_DIRECTION.md`, `docs/CANON_MAP.md`, `assets/CHARACTER_VISUAL_BIBLE.md`, `docs/ASSET_CONTINUITY_CHECKLIST.md`와 함께 확인한다.
 
 ## 비주얼 목표
 
 - 장르 인상: 한국 사회 리얼리티 인터랙티브 드라마 / 비주얼노벨 / 라이프 로그라이크.
 - 감정 톤: 좁은 고시원, 젖은 아스팔트, 늦은 밤 계좌 화면, 멀리 보이는 강남의 차가운 빛.
-- UI 인상: 조용하고 날카로운 도시형 인터페이스. 화려한 카지노 UI나 모바일 캐주얼 UI가 아니다.
+- UI 인상: `Gangnam Ink` 무채색 표면. 조용하고 날카로운 도시형 인터페이스. 화려한 카지노 UI나 모바일 캐주얼 UI가 아니다.
 - 핵심 원칙: 그림은 감정을 만들고, UI는 판단을 돕는다. UI가 그림보다 시끄러우면 실패다.
+- 모럴 축: 시작은 콘크리트 회색, 인간성을 지키면 창백하게 선명해지고, 돈을 위해 무너지면 잉크처럼 검어진다.
 
 ## 현재 UI 문제 진단
 
@@ -25,25 +26,23 @@ Updated: 2026-06-22
 
 ## 팔레트
 
-기존 `UIStyle.gd`의 어두운 팔레트는 유지하되, 의미별 역할을 고정한다.
+`Gangnam Ink` 이후 팔레트는 금색/초록/남색 브랜드가 아니라 회색/검정/흰색을 기본 언어로 삼는다. 색은 의미 신호로만 제한한다.
 
 | 용도 | 색 | 사용 |
 |---|---|---|
-| Base black | `#0c0c10` | 전체 배경, 딤 베이스 |
-| Panel black | `#0d0d14` | 기본 패널 |
-| Panel raised | `#13131f` | 선택/강조 패널 |
-| Border | `#252535` | 기본 1px 경계 |
-| Text primary | `#e8eaf0` | 본문/주요 수치 |
-| Text secondary | `#a0aec0` | 보조 설명 |
-| Text muted | `#5a6075` | 비활성 설명 |
-| Gangnam gold | `#f0b429` | 목표, 성공, 브랜드 포인트 |
-| Seoul blue | `#5b9cf6` | 정보, 선택 가능, HUD |
-| Money green | `#00c896` | 수익, 회복, 긍정 |
-| Risk red | `#ff4444` | 손실, 위험, 경고 |
-| Stress orange | `#f97316` | 압박, 중독, 긴장 |
-| Relationship pink | `#e8a0c0` | 호감도, 관계 |
+| Concrete base | `#0d0d10` | 전체 배경, 딤 베이스 |
+| Panel black | `#111216` | 기본 패널 |
+| Panel raised | `#181a20` | 선택/강조 패널 |
+| Cold border | `#30343a` | 기본 1px 경계 |
+| Text primary | `#e6e8ec` | 본문/주요 수치 |
+| Text secondary | `#9aa1a8` | 보조 설명 |
+| Text muted | `#5f656b` | 비활성 설명 |
+| White clarity | `#f3f7ff` | 인간성 회복, 선명도 |
+| Black ink | `#020303` | 자기 붕괴, 표면 burn |
+| Money ghost | `#d9ffe8` | Black 경로에서 돈 HUD만 비정상적으로 밝힐 때 |
+| Emergency red | `#ff4f5e` | 건강·파산·게임오버급 위급 상황 |
 
-금색은 브랜드 포인트다. 모든 버튼을 금색으로 만들면 값어치가 사라진다. 금색은 목표/승리/희귀 기회/포커스 링에 제한한다.
+금색/초록/파랑은 브랜드색이 아니다. 카지노 칩, 투자 수익/손실, 위험 같은 좁은 의미 신호로만 허용한다.
 
 ## 타이포그래피
 

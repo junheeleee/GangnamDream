@@ -21,11 +21,11 @@ void fragment() {
 	float scan = step(0.993, fract(uv.y * 180.0 + fine * 0.7));
 
 	float decay_alpha = black_intensity * (0.012 + edge * 0.095 + stain * 0.038 + scratches * 0.030 + scan * 0.008 + fine * 0.010);
-	vec3 decay_color = mix(vec3(0.0, 0.018, 0.018), vec3(0.22, 0.12, 0.04), stain);
+	vec3 decay_color = mix(vec3(0.0, 0.012, 0.014), vec3(0.12, 0.13, 0.13), stain);
 
 	float center = 1.0 - smoothstep(0.02, 0.72, distance(uv, vec2(0.5, 0.44)) * 1.2);
 	float clarity_alpha = white_intensity * (0.008 + center * 0.035);
-	vec3 clarity_color = vec3(0.92, 0.985, 1.0);
+	vec3 clarity_color = vec3(0.94, 0.97, 1.0);
 
 	float total_intensity = max(black_intensity + white_intensity, 0.001);
 	vec3 color = (decay_color * black_intensity + clarity_color * white_intensity) / total_intensity;

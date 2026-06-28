@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-28) — Gangnam Ink visual language
+
+- Added `docs/GANGNAM_INK_ART_DIRECTION.md` as the production art direction for future images, UI polish, transitions, and ending cutscenes.
+- Updated the event background grading shader with subtle paper grain, ink bleed, pale fade, and edge burn driven by `MORAL_TINT`.
+- Changed the moral surface Black effect from brown rust to cold ink/concrete corrosion so Black reads as moral collapse, not sepia warmth.
+- Updated UI/asset guidance so future generated images use the Gangnam Ink prompt prefix before production wiring.
+
 ### Fixed (2026-06-25) — 지연 로맨스 Y5 단일화 정합성
 
 - **[FIX] jiyeon_man 조기 발동**: 엔딩이 cast stage(honest_together Y2/lover Y4) 기준이라 Y5 전 연애 엔딩 발동 가능 → `jiyeon_romance_started` 플래그 게이트로 변경(with_daeun과 동일 패턴). `arc_jiyeon_year5_return`이 실제 연애 formalize(lover+flag), Y4 seoul은 `honest_together`(감정 인정·확정 이연).

@@ -169,6 +169,7 @@
     - [x] 정보 패널/행동 모달/세부 카지노 테이블 버튼 이모지·텍스트 버튼 정리 (2026-06-19)
     - [x] 투자/은행/상점/시스템 모달을 SVG/Icon 버튼·섹션 헤더 기반으로 정리하고 ScreenshotQA 보조 모달 3장 추가 (2026-06-19)
     - [x] 영어 시작 표면 P1 — StartMenu/Splash/OpeningCinematic 영어 문구 연결, `LocaleSurfaceCheck`, ScreenshotQA 영어 시작 화면 추가 (2026-06-20)
+    - [x] Gangnam Ink 무채색 표면 정본 — 배경/표면 셰이더와 이미지 생성 prompt prefix를 `MORAL_TINT`에 연결 (2026-06-28)
   - [~] 미니게임 물체 에셋 P1 — 카드 앞면, 칩 denomination, 룰렛 휠/볼, 슬롯 심볼, 경마 말/기수 스프라이트 확장
     - [x] 슬롯 릴 심볼 텍스트 타일화 및 니어미스 런타임 오류 수정 (2026-06-19)
     - [x] 룰렛 휠/볼 Canvas 드로잉 추가 및 ScreenshotQA 본체 캡처 추가 (2026-06-19)

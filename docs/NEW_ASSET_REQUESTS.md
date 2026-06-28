@@ -64,6 +64,7 @@
 
 > 상세 스펙: `docs/MORAL_TINT.md`. 게임의 핵심 신규 시스템. **"회색 시작 → 인간성=하양 / 돈=검정"**.
 > 엔진(Claude)과 2차 시각 연결(Codex)은 완료. 현재 `MainGame.gd`가 아래 신호를 구독해 배경 채도 제거/그레이딩·표면 부식/선명도 셰이더·상단 HUD/선택지/패널/버튼 UI-wide 무채색 palette·돈 HUD 글로우·엔딩 팔레트를 적용한다. 후속은 전환 타이밍, SFX 연동, 캐릭터 초상화/CG별 moral variant.
+> 신규 이미지/CG/엔딩 컷신 생성은 `docs/GANGNAM_INK_ART_DIRECTION.md`의 prompt prefix와 Black/White variant 규칙을 먼저 붙인다. 기존 특정 AI 세대의 그림체를 따라가는 것보다 `Gangnam Ink` 필터를 통과했을 때 정합성이 유지되는지가 우선이다.
 
 **구독할 신호 (GameState) — 시그널 기반, 폴링 불필요:**
 ```gdscript

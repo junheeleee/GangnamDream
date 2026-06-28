@@ -392,6 +392,11 @@ func _apply_moral_surface_shader() -> void:
 		_moral_bg_material.set_shader_parameter("contrast", clampf(0.92 - black * 0.10 + white * 0.16, 0.65, 1.25))
 		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.08, 0.0, 0.20))
 		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#eff8ff"), white))
+		_moral_bg_material.set_shader_parameter("grain_amount", clampf(0.018 + black * 0.026 - white * 0.006, 0.0, 0.08))
+		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.130 - white * 0.030, 0.0, 0.25))
+		_moral_bg_material.set_shader_parameter("paper_fade", clampf(0.018 + white * 0.050, 0.0, 0.09))
+		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.070 + black * 0.130 - white * 0.040, 0.0, 0.24))
+		_moral_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_moral_norm) * 19.0)
 
 func _apply_story_moral_clarity() -> void:
 	var black := clampf(-_moral_norm, 0.0, 1.0)
@@ -718,6 +723,11 @@ func _build_ui():
 		_moral_bg_material.set_shader_parameter("contrast", 0.92)
 		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303"))
 		_moral_bg_material.set_shader_parameter("tint_amount", 0.0)
+		_moral_bg_material.set_shader_parameter("grain_amount", 0.018)
+		_moral_bg_material.set_shader_parameter("ink_bleed", 0.055)
+		_moral_bg_material.set_shader_parameter("paper_fade", 0.018)
+		_moral_bg_material.set_shader_parameter("edge_burn", 0.070)
+		_moral_bg_material.set_shader_parameter("seed", 0.0)
 		event_bg.material = _moral_bg_material
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(event_bg)

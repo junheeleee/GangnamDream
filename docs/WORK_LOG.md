@@ -1,5 +1,23 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex Gangnam Ink Surface Lock)
+
+### 수정
+- `docs/GANGNAM_INK_ART_DIRECTION.md`: 강남드림의 최종 표면 언어를 `Gangnam Ink`로 고정했다. 콘크리트 회색/차콜/잉크 검정/창백한 흰색 축, 이미지 생성 prompt prefix, Black/White variant 규칙, UI/전환/QA 기준을 정리했다.
+- `assets/shaders/background_grade.gdshader`: 기존 desaturation/contrast 필터 위에 종이결, 잉크 번짐, pale fade, edge burn 파라미터를 추가해 여러 세대의 배경 이미지가 같은 필름을 통과한 것처럼 보이게 했다.
+- `assets/shaders/moral_surface.gdshader`: Black 경로 표면 부식색을 브라운 rust에서 차가운 흑회색 ink/concrete 계열로 교체했다.
+- `scenes/MainGame.gd`: `MORAL_TINT` 값에 따라 배경 grain/ink/edge burn이 강해지거나 White에서 선명도가 회복되도록 셰이더 파라미터를 연결했다.
+- `docs/UI_ART_DIRECTION.md`, `docs/MORAL_TINT.md`, `docs/NEW_ASSET_REQUESTS.md`, `docs/DECISIONS.md`: 향후 이미지/CG/UI 작업이 `Gangnam Ink`를 기준으로 진행되도록 정본 문서를 연결했다.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `LocaleSurfaceCheck.tscn` 통과.
+- `ScreenshotQA.tscn -- --qa=moral` 실행 후 Black/Gray/White/echo 캡처 확인. Black 표면이 브라운으로 새지 않고 흑회색 ink/concrete로 읽힘.
+- `ScreenshotQA.tscn` full 1280x800 실행 후 영어 스토리, 이벤트, 바카라, 엔딩 컷신 캡처 확인. 종료 시 기존 Godot RID/Texture cleanup 경고는 남지만 exit code 0.
+
+---
+
 ## 2026-06-28 (Codex Moral Surface Continuity Pass)
 
 ### 수정
