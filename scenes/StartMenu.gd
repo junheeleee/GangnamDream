@@ -67,6 +67,20 @@ const UI_ICON_PATHS := {
 }
 var _ui_icon_cache: Dictionary = {}
 
+# 첫 화면도 본편의 MORAL_TINT 언어와 이어지도록 금색/초록 CTA 대신 무채색 팔레트를 쓴다.
+const MENU_ACCENT := "#d8dee8"
+const MENU_ACCENT_BRIGHT := "#f4f7fb"
+const MENU_ACCENT_DIM := "#818b98"
+const MENU_PANEL := "#0d1017"
+const MENU_PANEL_SELECTED := "#171b20"
+const MENU_PANEL_MUTED := "#11141b"
+const MENU_BORDER := "#242a34"
+const MENU_BORDER_ACTIVE := "#d8e1ec"
+const MENU_TEXT := "#d6dce4"
+const MENU_TEXT_DIM := "#7b8490"
+const MENU_TEXT_FAINT := "#3f4752"
+const MENU_DANGER := "#6b1f1f"
+
 const RUN_THEME_TEXT_EN := {
 	"자유런": {
 		"name": "Free Run",
@@ -195,7 +209,7 @@ func _build_splash():
 	var logo = Label.new()
 	logo.text = _tr("강남드림", "Gangnam Dream")
 	logo.add_theme_font_size_override("font_size", 80)
-	logo.add_theme_color_override("font_color", Color("#f0b429"))
+	logo.add_theme_color_override("font_color", Color(MENU_ACCENT_BRIGHT))
 	logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(logo)
 
@@ -227,7 +241,7 @@ func _build_splash():
 			"누적 %d런  ·  최고 자산 %s" % [total_runs, _format_money(meta.get("best_asset", 0))],
 			"%d runs  ·  Best assets %s" % [total_runs, _format_start_money(float(meta.get("best_asset", 0)))])
 		stats_lbl.add_theme_font_size_override("font_size", 12)
-		stats_lbl.add_theme_color_override("font_color", Color("#2e3050"))
+		stats_lbl.add_theme_color_override("font_color", Color(MENU_TEXT_FAINT))
 		stats_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		vbox.add_child(stats_lbl)
 
@@ -241,7 +255,7 @@ func _build_splash():
 				"📖 엔딩 도감  %d / %d 발견" % [coll_found, coll_total],
 				"📖 Endings  %d / %d discovered" % [coll_found, coll_total])
 			coll_lbl.add_theme_font_size_override("font_size", 12)
-			coll_lbl.add_theme_color_override("font_color", Color("#3a3a20") if coll_found < coll_total else Color("#7a5a10"))
+			coll_lbl.add_theme_color_override("font_color", Color(MENU_TEXT_FAINT) if coll_found < coll_total else Color(MENU_ACCENT))
 			coll_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			vbox.add_child(coll_lbl)
 
@@ -327,14 +341,14 @@ func _build_ui():
 	title_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_vb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	header_row.add_child(title_vb)
-	var title_lbl = _label(_tr("강남드림", "Gangnam Dream"), 34, "#f0b429", HORIZONTAL_ALIGNMENT_LEFT)
+	var title_lbl = _label(_tr("강남드림", "Gangnam Dream"), 34, MENU_ACCENT_BRIGHT, HORIZONTAL_ALIGNMENT_LEFT)
 	title_lbl.text = _tr("강남드림", "Gangnam Dream")
 	title_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	title_lbl.clip_text = false
 	title_vb.add_child(title_lbl)
 	var sub_lbl = _label(_tr(
 		"한국 인생 시뮬레이션  ·  38세 전에 자산 30억",
-		"Korean life sim  ·  Build KRW 3B before age 38"), 10, "#2e3e50", HORIZONTAL_ALIGNMENT_LEFT)
+		"Korean life sim  ·  Build KRW 3B before age 38"), 10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT)
 	sub_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	sub_lbl.clip_text = false
 	title_vb.add_child(sub_lbl)
@@ -368,7 +382,7 @@ func _build_ui():
 	var story_panel = PanelContainer.new()
 	var sp_st = StyleBoxFlat.new()
 	sp_st.bg_color = Color("#09091400")
-	sp_st.border_color = Color("#f0b429")
+	sp_st.border_color = Color(MENU_BORDER_ACTIVE)
 	sp_st.border_width_left = 3
 	sp_st.set_corner_radius_all(4)
 	sp_st.content_margin_left = 16
@@ -396,7 +410,7 @@ func _build_ui():
 	var sp1 = Control.new(); sp1.custom_minimum_size = Vector2(0, 18); left.add_child(sp1)
 
 	# ── 난이도 (compact 가로 카드) ──
-	var diff_hdr_lbl = _label(_tr("난이도", "Difficulty"), 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
+	var diff_hdr_lbl = _label(_tr("난이도", "Difficulty"), 11, MENU_TEXT_DIM, HORIZONTAL_ALIGNMENT_LEFT)
 	diff_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	diff_hdr_lbl.clip_text = false
 	left.add_child(diff_hdr_lbl)
@@ -407,7 +421,7 @@ func _build_ui():
 
 	_diff_desc_label = Label.new()
 	_diff_desc_label.add_theme_font_size_override("font_size", 11)
-	_diff_desc_label.add_theme_color_override("font_color", Color("#4a6a54"))
+	_diff_desc_label.add_theme_color_override("font_color", Color(MENU_TEXT_DIM))
 	_diff_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_diff_desc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	left.add_child(_diff_desc_label)
@@ -420,14 +434,14 @@ func _build_ui():
 	var theme_hdr = HBoxContainer.new()
 	theme_hdr.add_theme_constant_override("separation", 8)
 	left.add_child(theme_hdr)
-	var theme_hdr_lbl = _label(_tr("런 테마", "Run Theme"), 11, "#5a6a7a", HORIZONTAL_ALIGNMENT_LEFT)
+	var theme_hdr_lbl = _label(_tr("런 테마", "Run Theme"), 11, MENU_TEXT_DIM, HORIZONTAL_ALIGNMENT_LEFT)
 	theme_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	theme_hdr_lbl.clip_text = false
 	theme_hdr_lbl.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	theme_hdr.add_child(theme_hdr_lbl)
 	var theme_hint_lbl = _label(_tr(
 		"(2회차 이상 추천 — 처음이라면 자유런)",
-		"(Recommended from run 2 — start with Free Run)"), 10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT)
+		"(Recommended from run 2 — start with Free Run)"), 10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT)
 	theme_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	theme_hint_lbl.clip_text = false
 	theme_hdr.add_child(theme_hint_lbl)
@@ -439,7 +453,7 @@ func _build_ui():
 	# 테마 설명 (작고 심플하게)
 	_theme_desc_label = Label.new()
 	_theme_desc_label.add_theme_font_size_override("font_size", 11)
-	_theme_desc_label.add_theme_color_override("font_color", Color("#4a6a54"))
+	_theme_desc_label.add_theme_color_override("font_color", Color(MENU_TEXT_DIM))
 	_theme_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_theme_desc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	left.add_child(_theme_desc_label)
@@ -452,10 +466,10 @@ func _build_ui():
 	left.add_child(spacer)
 
 	# ── 새 게임 시작 버튼 ──
-	var new_game = _button(_tr("새 이야기 시작 ›", "Start New Story ›"), "#0d2a1a")
+	var new_game = _button(_tr("새 이야기 시작 ›", "Start New Story ›"), MENU_PANEL_SELECTED)
 	var ng_st = StyleBoxFlat.new()
-	ng_st.bg_color = Color("#0d2a1a")
-	ng_st.border_color = Color("#00c896")
+	ng_st.bg_color = Color(MENU_PANEL_SELECTED)
+	ng_st.border_color = Color(MENU_BORDER_ACTIVE)
 	ng_st.border_width_left = 4
 	ng_st.set_corner_radius_all(5)
 	ng_st.content_margin_left = 20
@@ -464,9 +478,9 @@ func _build_ui():
 	ng_st.content_margin_bottom = 12
 	new_game.add_theme_stylebox_override("normal", ng_st)
 	var ng_hov = ng_st.duplicate()
-	ng_hov.bg_color = Color("#133a24")
+	ng_hov.bg_color = Color("#222831")
 	new_game.add_theme_stylebox_override("hover", ng_hov)
-	new_game.add_theme_color_override("font_color", Color("#00c896"))
+	new_game.add_theme_color_override("font_color", Color(MENU_ACCENT_BRIGHT))
 	new_game.add_theme_font_size_override("font_size", 17)
 	new_game.pressed.connect(_start_new_run)
 	left.add_child(new_game)
@@ -483,7 +497,7 @@ func _build_ui():
 	right.add_theme_constant_override("separation", 10)
 	cols.add_child(right)
 
-	right.add_child(_label(_tr("이어하기", "Continue"), 13, "#c9a227", HORIZONTAL_ALIGNMENT_LEFT))
+	right.add_child(_label(_tr("이어하기", "Continue"), 13, MENU_ACCENT, HORIZONTAL_ALIGNMENT_LEFT))
 
 	slot_container = VBoxContainer.new()
 	slot_container.add_theme_constant_override("separation", 8)
@@ -504,11 +518,11 @@ func _build_ui():
 		_tr(
 			"누적 %d런  ·  최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
 			"%d runs  ·  Best assets %s" % [int(meta.get("total_runs", 0)), _format_start_money(float(meta.get("best_asset", 0)))]),
-		10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT))
+		10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT))
 	right.add_child(_label(
 		_tr("업적 %d / %d 해금" % [unlocked_ach_count, total_ach],
 			"Achievements %d / %d" % [unlocked_ach_count, total_ach]),
-		10, "#2a3a4a", HORIZONTAL_ALIGNMENT_LEFT))
+		10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT))
 
 # ── 슬롯 목록 빌드 / 새로고침 ─────────────────────────────────
 func _rebuild_slots():
@@ -663,8 +677,8 @@ func _build_theme_cards() -> void:
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		card.custom_minimum_size = Vector2(0, 74)
 		var st := StyleBoxFlat.new()
-		st.bg_color = Color("#111e14") if is_selected else Color("#0d1017")
-		st.border_color = Color("#3dba6a") if is_selected else Color("#1a2030")
+		st.bg_color = Color(MENU_PANEL_SELECTED) if is_selected else Color(MENU_PANEL)
+		st.border_color = Color(MENU_BORDER_ACTIVE) if is_selected else Color(MENU_BORDER)
 		st.set_border_width_all(2 if is_selected else 1)
 		st.set_corner_radius_all(7)
 		st.content_margin_top = 6
@@ -675,20 +689,20 @@ func _build_theme_cards() -> void:
 		vb.alignment = BoxContainer.ALIGNMENT_CENTER
 		card.add_child(vb)
 		var icon_tex: TextureRect = _menu_icon(str(t.get("icon_id", "goal")),
-			Color("#3dba6a") if is_selected else Color("#324052"), 24)
+			Color(MENU_ACCENT_BRIGHT) if is_selected else Color(MENU_TEXT_FAINT), 24)
 		vb.add_child(icon_tex)
 		var name_lbl := Label.new()
 		name_lbl.text = _theme_text(t, "name")
 		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_lbl.add_theme_font_size_override("font_size", 11)
-		name_lbl.add_theme_color_override("font_color", Color("#b8e8c8") if is_selected else Color("#5a6a7a"))
+		name_lbl.add_theme_color_override("font_color", Color(MENU_TEXT) if is_selected else Color(MENU_TEXT_DIM))
 		name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vb.add_child(name_lbl)
 		var diff_lbl2 := Label.new()
 		diff_lbl2.text = t["diff"]
 		diff_lbl2.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		diff_lbl2.add_theme_font_size_override("font_size", 9)
-		diff_lbl2.add_theme_color_override("font_color", Color("#5a8a60") if is_selected else Color("#1e2830"))
+		diff_lbl2.add_theme_color_override("font_color", Color(MENU_ACCENT_DIM) if is_selected else Color(MENU_TEXT_FAINT))
 		diff_lbl2.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vb.add_child(diff_lbl2)
 		var btn := Button.new()
@@ -726,8 +740,8 @@ func _build_diff_cards() -> void:
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		card.custom_minimum_size = Vector2(0, 74)
 		var st := StyleBoxFlat.new()
-		st.bg_color = Color("#1a1410") if is_selected else Color("#0d1017")
-		st.border_color = Color("#f0b429") if is_selected else Color("#1a2030")
+		st.bg_color = Color(MENU_PANEL_SELECTED) if is_selected else Color(MENU_PANEL)
+		st.border_color = Color(MENU_BORDER_ACTIVE) if is_selected else Color(MENU_BORDER)
 		st.set_border_width_all(2 if is_selected else 1)
 		st.set_corner_radius_all(7)
 		st.content_margin_top = 6
@@ -739,20 +753,20 @@ func _build_diff_cards() -> void:
 		card.add_child(vb)
 		var icon_id: String = _difficulty_icon_id(did)
 		var icon_tex: TextureRect = _menu_icon(icon_id,
-			Color("#f0b429") if is_selected else Color("#324052"), 24)
+			Color(MENU_ACCENT_BRIGHT) if is_selected else Color(MENU_TEXT_FAINT), 24)
 		vb.add_child(icon_tex)
 		var name_lbl := Label.new()
 		name_lbl.text = _difficulty_text(did, d, "name")
 		name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_lbl.add_theme_font_size_override("font_size", 11)
-		name_lbl.add_theme_color_override("font_color", Color("#f0d8a8") if is_selected else Color("#5a6a7a"))
+		name_lbl.add_theme_color_override("font_color", Color(MENU_TEXT) if is_selected else Color(MENU_TEXT_DIM))
 		name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vb.add_child(name_lbl)
 		var stars_lbl := Label.new()
 		stars_lbl.text = str(d["stars"])
 		stars_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		stars_lbl.add_theme_font_size_override("font_size", 9)
-		stars_lbl.add_theme_color_override("font_color", Color("#8a7a50") if is_selected else Color("#1e2830"))
+		stars_lbl.add_theme_color_override("font_color", Color(MENU_ACCENT_DIM) if is_selected else Color(MENU_TEXT_FAINT))
 		stars_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vb.add_child(stars_lbl)
 		var btn := Button.new()
@@ -812,7 +826,7 @@ func _show_content_warning():
 	panel.custom_minimum_size = Vector2(460, 0)
 	var panel_st = StyleBoxFlat.new()
 	panel_st.bg_color = Color("#12121e")
-	panel_st.border_color = Color("#f0b429")
+	panel_st.border_color = Color(MENU_BORDER_ACTIVE)
 	panel_st.set_border_width_all(1)
 	panel_st.set_corner_radius_all(10)
 	panel_st.content_margin_left = 28
@@ -829,7 +843,7 @@ func _show_content_warning():
 	var title_lbl = Label.new()
 	title_lbl.text = _tr("콘텐츠 안내", "Content Notice")
 	title_lbl.add_theme_font_size_override("font_size", 17)
-	title_lbl.add_theme_color_override("font_color", Color("#f0b429"))
+	title_lbl.add_theme_color_override("font_color", Color(MENU_ACCENT_BRIGHT))
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(title_lbl)
 
@@ -885,10 +899,10 @@ func _show_content_warning():
 	ok_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ok_btn.custom_minimum_size = Vector2(0, 44)
 	var ok_st = StyleBoxFlat.new()
-	ok_st.bg_color = Color("#f0b429")
+	ok_st.bg_color = Color(MENU_ACCENT_BRIGHT)
 	ok_st.set_corner_radius_all(6)
 	var ok_hover = ok_st.duplicate()
-	ok_hover.bg_color = Color("#f0b429").lightened(0.1)
+	ok_hover.bg_color = Color(MENU_ACCENT_BRIGHT).lightened(0.08)
 	ok_btn.add_theme_stylebox_override("normal", ok_st)
 	ok_btn.add_theme_stylebox_override("hover", ok_hover)
 	ok_btn.add_theme_color_override("font_color", Color("#0a0a0e"))
@@ -918,7 +932,7 @@ func _section_header(text: String) -> Label:
 	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	lbl.clip_text = false
 	lbl.add_theme_font_size_override("font_size", 13)
-	lbl.add_theme_color_override("font_color", Color("#c9a227"))
+	lbl.add_theme_color_override("font_color", Color(MENU_ACCENT))
 	return lbl
 
 func _label(text, size, color, align) -> Label:
@@ -947,7 +961,7 @@ func _button(text, color) -> Button:
 	var hover = normal.duplicate()
 	hover.bg_color = Color(color).lightened(0.12)
 	var focus_st = normal.duplicate()
-	focus_st.border_color = Color("#f0b429")
+	focus_st.border_color = Color(MENU_BORDER_ACTIVE)
 	focus_st.set_border_width_all(2)
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
@@ -1016,7 +1030,7 @@ func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: C
 	var lbl2 = Label.new()
 	lbl2.text = sub_line
 	lbl2.add_theme_font_size_override("font_size", 11)
-	lbl2.add_theme_color_override("font_color", Color("#7a6830") if enabled else Color("#2a2a3a"))
+	lbl2.add_theme_color_override("font_color", Color(MENU_ACCENT_DIM) if enabled else Color("#2a2a3a"))
 	vbox.add_child(lbl2)
 
 	if enabled and on_press.is_valid():
@@ -1026,7 +1040,7 @@ func _slot_button(top_line: String, sub_line: String, enabled: bool, on_press: C
 		var empty_st = StyleBoxEmpty.new()
 		var focus_slot = StyleBoxFlat.new()
 		focus_slot.bg_color = Color(0, 0, 0, 0)
-		focus_slot.border_color = Color("#f0b429")
+		focus_slot.border_color = Color(MENU_BORDER_ACTIVE)
 		focus_slot.set_border_width_all(2)
 		focus_slot.set_corner_radius_all(6)
 		btn.add_theme_stylebox_override("normal", empty_st)
@@ -1138,8 +1152,8 @@ func _build_language_toggle(parent: Control):
 		btn.custom_minimum_size = Vector2(64, 28)
 		var is_active = LocaleManager.language == lang_code
 		var st = StyleBoxFlat.new()
-		st.bg_color = Color("#1a2a3a") if is_active else Color("#0d1017")
-		st.border_color = Color("#c9a227") if is_active else Color("#2a2a40")
+		st.bg_color = Color(MENU_PANEL_SELECTED) if is_active else Color(MENU_PANEL)
+		st.border_color = Color(MENU_BORDER_ACTIVE) if is_active else Color(MENU_BORDER)
 		st.set_border_width_all(1)
 		st.set_corner_radius_all(4)
 		var hov = st.duplicate()

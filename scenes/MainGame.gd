@@ -6293,13 +6293,13 @@ func _open_shop():
 func _build_shop_item_card(item: Dictionary) -> Control:
 	var price: float = float(item.get("price", 0.0))
 	var can_buy: bool = GameState.money >= price
-	var accent: String = "#34d399" if can_buy else "#64748b"
+	var accent: Color = _moral_gray_accent(Color("#34d399" if can_buy else "#64748b"), _moral_ui_palette(), 0.04)
 
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0b1116")
-	st.border_color = Color(accent)
+	st.border_color = accent
 	st.set_border_width_all(1)
 	st.border_width_left = 4
 	st.set_corner_radius_all(7)
@@ -6325,7 +6325,7 @@ func _build_shop_item_card(item: Dictionary) -> Control:
 		name_lbl.add_theme_font_override("font", _font_bold)
 	header.add_child(name_lbl)
 
-	var price_lbl := _label(GameState.format_money(price), 15, "#f0b429" if can_buy else "#94a3b8")
+	var price_lbl := _label(GameState.format_money(price), 15, "#e2e8f0" if can_buy else "#94a3b8")
 	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	price_lbl.custom_minimum_size = Vector2(110, 0)
 	if _font_bold:
@@ -6344,11 +6344,11 @@ func _build_shop_item_card(item: Dictionary) -> Control:
 	var one_time: bool = bool(item.get("one_time", true))
 	var use_type: String = _tr("사용 시 소모", "Consumed on use") if one_time else _tr("보유 지속 효과", "Passive while held")
 	if not effect_parts.is_empty():
-		box.add_child(_wrap_label("%s  [%s]" % [", ".join(effect_parts), use_type], 14, "#00c896" if can_buy else "#94a3b8"))
+		box.add_child(_wrap_label("%s  [%s]" % [", ".join(effect_parts), use_type], 14, "#cbd5e1" if can_buy else "#94a3b8"))
 	if not item.get("description", "").is_empty():
 		box.add_child(_wrap_label(str(item.get("description", "")), 14, "#7f8ea3"))
 
-	var buy_btn := _small_button(_tr("구매", "Buy"), "#166048" if can_buy else "#334155")
+	var buy_btn := _small_button(_tr("구매", "Buy"), "#1c242c" if can_buy else "#334155")
 	buy_btn.custom_minimum_size = Vector2(0, UI_MIN_BUTTON_HEIGHT)
 	buy_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	buy_btn.disabled = not can_buy
@@ -8122,11 +8122,12 @@ func _icon_small_button(text: String, icon_id: String, color: String) -> Button:
 	return button
 
 func _modal_section_header(title: String, icon_id: String, accent: String, subtitle: String = "") -> Control:
+	var accent_col := _moral_gray_accent(Color(accent), _moral_ui_palette(), 0.04)
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(accent, 0.10)
-	style.border_color = Color(accent, 0.45)
+	style.bg_color = Color(accent_col.r, accent_col.g, accent_col.b, 0.10)
+	style.border_color = Color(accent_col.r, accent_col.g, accent_col.b, 0.45)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(6)
 	style.content_margin_left = 14
@@ -8144,7 +8145,7 @@ func _modal_section_header(title: String, icon_id: String, accent: String, subti
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.texture = _ui_icon_texture(icon_id)
-	icon.modulate = Color(accent)
+	icon.modulate = accent_col
 	row.add_child(icon)
 
 	var col := VBoxContainer.new()

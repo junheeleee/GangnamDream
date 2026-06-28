@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-28 (Codex Start Surface Monochrome Pass)
+
+### 수정
+- `scenes/StartMenu.gd`: 시작 메뉴 전용 `MENU_*` 무채색 팔레트를 추가하고, 로고/스토리 패널/난이도 카드/런 테마 카드/새 게임 CTA/슬롯 포커스/콘텐츠 안내/언어 토글의 금색·초록 강조를 회색·흰색 축으로 교체했다.
+- `scenes/MainGame.gd`: `_modal_section_header()`가 전달받은 색을 그대로 쓰지 않고 현재 `MORAL_TINT` 팔레트에 맞는 회색 액센트로 변환하도록 변경했다.
+- `scenes/MainGame.gd`: 상점 아이템 카드의 구조 테두리·가격·구매 버튼을 무채색 계열로 낮췄다. 투자 장세/손익 같은 정보색은 의미 신호라 유지했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA.tscn` full 1280x800 캡처 완료. `00_start_menu`, `00b_start_menu_en`, `02_investment_portfolio_chart`, `02b_shop_modal`, `04_ap_actions_dashboard` 직접 확인.
+- `LocaleSurfaceCheck`, `AudioAssetCheck`, `BGMContinuityCheck` 통과.
+
+---
+
 ## 2026-06-28 (Codex MORAL_TINT Visual Link)
 
 ### 수정

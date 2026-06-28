@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-28** — **Codex MORAL_TINT 무채색 비주얼 리셋 + 선택 직후 체감 피드백**: 게임 기본 UI/배경을 금색·남색 누아르에서 회색/진회색/검정/연회색/흰색 축으로 재정의. `background_grade.gdshader`로 배경 이미지 채도 제거, `moral_surface.gdshader`로 Black 부식·White 선명도, MainGame 상단 HUD/초상화 패널/목표바/선택지/버튼 UI-wide palette 동기화. 돈 HUD는 Black에서만 비정상적으로 밝게 남김. 선택 직후 actual tint delta를 감지해 Black 방향은 화면 암전·표면 부식·돈 HUD 맥박, White 방향은 본문/표면 선명도 맥박으로 원인-결과를 체감시킴. `ScreenshotQA --qa=moral` 3상태+echo 캡처 검증. |
+| **최근 완료** | **2026-06-28** — **Codex Start Surface Monochrome Pass**: StartMenu 로고/스토리 패널/난이도·런테마 카드/새 게임 CTA/슬롯 포커스/콘텐츠 안내/언어 토글을 금색·초록에서 회색/흰색 축으로 통일. MainGame 공통 섹션 헤더와 상점 아이템 카드 구조색도 현재 `MORAL_TINT`에 맞는 회색 액센트로 낮춤. `ScreenshotQA` full 캡처로 시작 화면 KR/EN, 투자/상점/메인 AP 화면 직접 확인. |
+| **이전** | **2026-06-28** — **Codex MORAL_TINT 무채색 비주얼 리셋 + 선택 직후 체감 피드백**: 게임 기본 UI/배경을 금색·남색 누아르에서 회색/진회색/검정/연회색/흰색 축으로 재정의. `background_grade.gdshader`로 배경 이미지 채도 제거, `moral_surface.gdshader`로 Black 부식·White 선명도, MainGame 상단 HUD/초상화 패널/목표바/선택지/버튼 UI-wide palette 동기화. 돈 HUD는 Black에서만 비정상적으로 밝게 남김. 선택 직후 actual tint delta를 감지해 Black 방향은 화면 암전·표면 부식·돈 HUD 맥박, White 방향은 본문/표면 선명도 맥박으로 원인-결과를 체감시킴. `ScreenshotQA --qa=moral` 3상태+echo 캡처 검증. |
 | **이전** | **2026-06-25** — **Y1-Y5 전체 정합성 QA + 후속 수정**: 4영역 병렬 추적(다은/지연/타임라인/엔딩). 블로커·데드엔드 없음, 30억>연애 엔딩 우선순위 회귀 없음 확인. 수정: 지연 respected/trust 플레이어 Y4 공백→year4_seoul 게이트 확장, 다은 우정 finale 에필로그 톤 누수→플래그 게이트, 죽은 stage(dating/committed) 제거. audit 통과. |
 | **이전** | **2026-06-25** — **지연 로맨스 Y5 단일화 정합성**: jiyeon_man 엔딩 stage(honest_together Y2/lover Y4)→jiyeon_romance_started 플래그 게이트. Y5 return이 연애 formalize(lover+flag). Y4 seoul lover→honest_together. 에필로그/중복가드 정리. honest_together='연애 전 깊은 유대'로 의미 유지(콜백 무수정). audit 통과. |
 | **이전** | **2026-06-25** — **다은 우정 재프레임 완성 + 현수 Y4-Y5 + Steam App ID**: 다은 Y2-Y5(05_together/year3/year4/year5) committed→close 우정 전환, 연애는 Y5 게이트 단일화. with_daeun 엔딩 오발동 버그 수정(stage→daeun_romance_started 플래그). 죽은 stage(committed/dating) 정리. 현수 hyunsu_year4_echo/year5_call 신규(안정 vs 야망 거울). Steam App ID 상수화+폴백. audit ERROR 0/WARNING 0/밴드 통과. |
@@ -50,7 +51,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2** — 데모 첫 30분 블랙박스 플레이 흐름 점검 → 미니게임 촉감(카드 딜/칩 이동/SFX 타이밍) 강화 → Steam Deck/영어판 표면 QA. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-28 (Codex: MORAL_TINT Monochrome Reset + choice echo — 기본 UI/배경 채도 제거, 회색 5상태 비주얼 언어 적용, 선택 직후 Black/White 체감 피드백 추가. CompileCheck/audit/english_hangul_audit/VisualCropQA/moral ScreenshotQA 통과.) |
+| **마지막 업데이트** | 2026-06-28 (Codex: Start Surface Monochrome Pass — 시작 메뉴 KR/EN과 기본 모달 구조색을 본편 MORAL_TINT 무채색 언어에 맞춤. CompileCheck/LocaleSurface/AudioAsset/BGMContinuity/ScreenshotQA full 통과.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
