@@ -148,6 +148,7 @@ func _do_roll() -> void:
 	_msg_lbl.text = _tr("주사위가 굴러갑니다...", "Dice rolling...")
 	_msg_lbl.add_theme_color_override("font_color", Color("#e8c45d"))
 	AudioManager.play("casino_spin")
+	AudioManager.pulse_gamepad(0.10, 0.22, 0.12)
 	set_process(true)
 	_refresh()
 
@@ -686,8 +687,11 @@ func _draw_dice() -> void:
 		_draw_single_die(Vector2(x + float(i) * (dice_size + gap), y), dice_size, int(_dice[i]))
 
 func _draw_dice_cup(center: Vector2, rolling: bool) -> void:
-	var rot := -0.18 if rolling else -0.06
-	_dice_ctrl.draw_set_transform(center, rot, Vector2.ONE)
+	var wobble := sin(_roll_elapsed * 46.0) if rolling else 0.0
+	var lift := cos(_roll_elapsed * 38.0) if rolling else 0.0
+	var rot := (-0.18 + wobble * 0.075) if rolling else -0.06
+	var draw_center := center + Vector2(wobble * 4.5, lift * 2.0)
+	_dice_ctrl.draw_set_transform(draw_center, rot, Vector2.ONE)
 	var body := PackedVector2Array([
 		Vector2(-30, -28),
 		Vector2(30, -28),
@@ -704,7 +708,7 @@ func _draw_dice_cup(center: Vector2, rolling: bool) -> void:
 	_dice_ctrl.draw_rect(Rect2(Vector2(-28, 22), Vector2(56, 10)), Color("#221014"), true)
 	_dice_ctrl.draw_line(Vector2(-25, -10), Vector2(20, -18), Color(1, 1, 1, 0.20), 2.0)
 	_dice_ctrl.draw_line(Vector2(-18, 4), Vector2(16, -2), Color(0, 0, 0, 0.20), 2.0)
-	_dice_ctrl.draw_set_transform(center + Vector2(0, -29), rot, Vector2(1.0, 0.32))
+	_dice_ctrl.draw_set_transform(draw_center + Vector2(0, -29), rot, Vector2(1.0, 0.32))
 	_dice_ctrl.draw_circle(Vector2.ZERO, 31.0, Color("#160910"))
 	_dice_ctrl.draw_arc(Vector2.ZERO, 31.0, 0.0, TAU, 40, Color("#c49a38"), 2.0)
 	_dice_ctrl.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
@@ -764,6 +768,7 @@ func _flash_msg(text: String, color_hex: String) -> void:
 func _pulse_dice() -> void:
 	if not is_instance_valid(_dice_ctrl):
 		return
+	AudioManager.pulse_gamepad(0.14, 0.34, 0.11)
 	var tw := create_tween()
 	tw.tween_property(_dice_ctrl, "scale", Vector2(1.06, 1.06), 0.12)
 	tw.tween_property(_dice_ctrl, "scale", Vector2.ONE, 0.16)
@@ -771,6 +776,7 @@ func _pulse_dice() -> void:
 func _shake_dice() -> void:
 	if not is_instance_valid(_dice_ctrl):
 		return
+	AudioManager.pulse_gamepad(0.22, 0.20, 0.13)
 	var base := _dice_ctrl.position
 	var tw := create_tween()
 	for i in range(5):

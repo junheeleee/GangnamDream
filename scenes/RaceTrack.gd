@@ -586,6 +586,7 @@ func _update_race_call(delta: float) -> void:
 		if not _final_stretch_sfx_played:
 			_final_stretch_sfx_played = true
 			AudioManager.play("event_new", -2.0)
+			AudioManager.pulse_gamepad(0.14, 0.34, 0.16)
 			_shake_node(_content, 3.0, 0.16)
 		if is_instance_valid(_msg):
 			_pulse_node(_msg, 1.12, 0.22)
@@ -797,11 +798,13 @@ func _finish_race() -> void:
 		GameState.add_money(payout)
 		var profit := payout - _bet_stake
 		AudioManager.play_casino_result(profit, float(_bet_stake), profit >= float(_bet_stake) * 10.0)
+		AudioManager.pulse_gamepad(0.16, 0.48, 0.16)
 		_screen_flash(Color("#f0b429"), 0.22, 0.44)
 		_shake_node(_content, 5.0, 0.22)
 		_last_lost = false
 	else:
 		AudioManager.play_casino_result(-float(_bet_stake), float(_bet_stake))
+		AudioManager.pulse_gamepad(0.28, 0.26, 0.18)
 		_screen_flash(Color("#d73a49"), 0.22, 0.38)
 		_shake_node(_content, 10.0, 0.30)
 		_last_lost = true

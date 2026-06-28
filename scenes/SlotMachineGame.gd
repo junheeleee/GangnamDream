@@ -167,6 +167,7 @@ func _start_spin() -> void:
 		_cabinet_overlay.queue_redraw()
 
 	AudioManager.play("casino_spin")
+	AudioManager.pulse_gamepad(0.08, 0.18, 0.10)
 
 func _process(delta: float) -> void:
 	if _phase != Phase.SPINNING:
@@ -455,6 +456,7 @@ func _bump_reel(index: int) -> void:
 	var panel := _reel_panels[index] as PanelContainer
 	if not is_instance_valid(panel):
 		return
+	AudioManager.pulse_gamepad(0.05 + float(index) * 0.02, 0.12 + float(index) * 0.04, 0.055)
 	var base: Vector2 = panel.position
 	var tw := create_tween()
 	tw.tween_property(panel, "position:y", base.y + 5.0, 0.045)
