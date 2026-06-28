@@ -821,8 +821,12 @@ func _show_content_warning():
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(overlay)
 
+	var center = CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(center)
+
 	var panel = PanelContainer.new()
-	panel.set_anchors_preset(Control.PRESET_CENTER)
 	panel.custom_minimum_size = Vector2(460, 0)
 	var panel_st = StyleBoxFlat.new()
 	panel_st.bg_color = Color("#12121e")
@@ -834,7 +838,7 @@ func _show_content_warning():
 	panel_st.content_margin_top = 28
 	panel_st.content_margin_bottom = 28
 	panel.add_theme_stylebox_override("panel", panel_st)
-	overlay.add_child(panel)
+	center.add_child(panel)
 
 	var vbox = VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 14)

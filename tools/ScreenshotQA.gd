@@ -16,6 +16,7 @@ const QA_SCOPE_CASINO := "casino"
 const QA_SCOPE_CASINO_EN := "casino_en"
 const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
+const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 var _mg: Node = null
 
 func _tr(ko: String, en: String) -> String:
@@ -48,6 +49,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_demo_flow(lang)
 		print("SCREENSHOT_QA_DONE scope=demo-flow lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_DEMO_BLACKBOX:
+		var lang := _qa_language("en")
+		await _shot_demo_blackbox(lang)
+		print("SCREENSHOT_QA_DONE scope=demo-blackbox lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 
@@ -99,6 +106,10 @@ func _qa_scope() -> String:
 				"qa=demo-flow", "--qa=demo-flow", "qa=demo_flow", "--qa=demo_flow",
 				"scope=demo-flow", "--scope=demo-flow", "scope=demo_flow", "--scope=demo_flow"]:
 			return QA_SCOPE_DEMO_FLOW
+		if arg in ["demo-blackbox", "demo_blackbox", "--demo-blackbox", "--demo_blackbox",
+				"qa=demo-blackbox", "--qa=demo-blackbox", "qa=demo_blackbox", "--qa=demo_blackbox",
+				"scope=demo-blackbox", "--scope=demo-blackbox", "scope=demo_blackbox", "--scope=demo_blackbox"]:
+			return QA_SCOPE_DEMO_BLACKBOX
 		if arg in ["casino-en", "casino_en", "--casino-en", "--casino_en",
 				"qa=casino-en", "--qa=casino-en", "qa=casino_en", "--qa=casino_en",
 				"scope=casino-en", "--scope=casino-en", "scope=casino_en", "--scope=casino_en"]:
@@ -123,9 +134,13 @@ func _qa_language(default_lang: String = "ko") -> String:
 	return default_lang
 
 func _set_qa_language(lang: String) -> void:
+	if SaveManager.has_method("set_setting"):
+		SaveManager.set_setting("language", lang)
 	if LocaleManager.has_method("set_language"):
 		LocaleManager.set_language(lang)
 	else:
+		LocaleManager.language = lang
+	if LocaleManager.language != lang:
 		LocaleManager.language = lang
 	DataRegistry.reload()
 
@@ -207,6 +222,37 @@ func _shot_start_menu(lang: String, shot_name: String) -> void:
 	_remove_start_menu_nodes()
 	await _settle(0.4)
 
+func _shot_splash_screen(lang: String, shot_name: String) -> void:
+	_set_qa_language(lang)
+	var packed: PackedScene = load("res://scenes/SplashScreen.tscn")
+	var splash := packed.instantiate()
+	get_tree().root.add_child.call_deferred(splash)
+	await get_tree().process_frame
+	await _settle(2.75)
+	await _save(shot_name)
+	_remove_nodes_by_script("res://scenes/SplashScreen.gd")
+	await _settle(0.25)
+
+func _shot_start_menu_notice(lang: String, prefix: String) -> void:
+	_set_qa_language(lang)
+	MetaProgression.data["content_warning_seen"] = false
+	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
+	var menu := packed.instantiate()
+	get_tree().root.add_child.call_deferred(menu)
+	await get_tree().process_frame
+	await _settle(0.8)
+	if menu.has_method("_dismiss_splash"):
+		menu._dismiss_splash()
+	await _settle(0.5)
+	await _save(prefix + "02_start_menu")
+	if menu.has_method("_show_content_warning"):
+		menu._show_content_warning()
+		await _settle(0.4)
+		await _save(prefix + "03_content_notice")
+	MetaProgression.data["content_warning_seen"] = true
+	_remove_start_menu_nodes()
+	await _settle(0.35)
+
 func _remove_start_menu_nodes() -> void:
 	var targets: Array[Node] = []
 	_collect_start_menu_nodes(get_tree().root, targets)
@@ -266,6 +312,22 @@ func _shot_demo_flow(lang: String = "en") -> void:
 	var prefix := "demo_en_" if lang == "en" else "demo_ko_"
 	await _shot_opening_cinematic(lang, prefix)
 	await _shot_story_event("chapter_card_33", prefix + "01_chapter_card_33", lang, 2.7)
+	for event_id in [
+		"arc_intro_01_meal",
+		"arc_intro_02_dad_call",
+		"arc_intro_03_sns",
+		"arc_intro_04_hyunsu",
+		"arc_chapter1_close",
+	]:
+		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
+	await _shot_demo_loop_surfaces(lang, prefix)
+
+func _shot_demo_blackbox(lang: String = "en") -> void:
+	var prefix := "demo_en_blackbox_" if lang == "en" else "demo_ko_blackbox_"
+	await _shot_splash_screen(lang, prefix + "00_splash")
+	await _shot_opening_cinematic(lang, prefix)
+	await _shot_start_menu_notice(lang, prefix)
+	await _shot_story_event("chapter_card_33", prefix + "04_chapter_card_33", lang, 2.7)
 	for event_id in [
 		"arc_intro_01_meal",
 		"arc_intro_02_dad_call",

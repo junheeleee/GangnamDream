@@ -6812,7 +6812,7 @@ func _show_demo_ending():
 	BGMPlayer.on_ending("stable_success")
 	AudioManager.play_ending_stinger("stable_success")
 	var f = GameState.flags
-	var total_assets = GameState.money + GameState.get_total_asset_value()
+	var total_assets = GameState.get_total_asset_value()
 
 	# ── 개인화 요약 문장 ───────────────────────────────────
 	var story_lines: Array = []

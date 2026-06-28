@@ -74,16 +74,10 @@ func _build_ui():
 	_logo_img = TextureRect.new()
 	_logo_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_logo_img.expand_mode  = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-	_logo_img.custom_minimum_size = Vector2(380, 190)
+	_logo_img.custom_minimum_size = Vector2(0, 6)
 	_logo_img.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_logo_img.modulate = Color(1, 1, 1, 0.0)
-	if LocaleManager.is_english():
-		_logo_img.visible = false
-		_logo_img.custom_minimum_size = Vector2(0, 6)
-	else:
-		var logo_tex = load("res://assets/logos/gangnam_dream_logo_concept.png")
-		if logo_tex:
-			_logo_img.texture = logo_tex
+	_logo_img.visible = false
 	vbox.add_child(_logo_img)
 
 	# ── 한글 타이틀 ──
@@ -98,9 +92,9 @@ func _build_ui():
 
 	# ── 영문 부제 ──
 	_sub_lbl = Label.new()
-	_sub_lbl.text = LocaleManager.ui("GANGNAM DREAM", "KOREAN LIFE ROGUELIKE")
+	_sub_lbl.text = LocaleManager.ui("KOREAN LIFE SIM", "KOREAN LIFE SIM")
 	_sub_lbl.add_theme_font_size_override("font_size", 16)
-	_sub_lbl.add_theme_color_override("font_color", Color("#c9a227"))
+	_sub_lbl.add_theme_color_override("font_color", Color("#aab2bc"))
 	_sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_sub_lbl.modulate = Color(1, 1, 1, 0.0)
 	_apply_font(_sub_lbl)
@@ -109,7 +103,7 @@ func _build_ui():
 	# ── 구분선 ──
 	_line_rect = ColorRect.new()
 	_line_rect.custom_minimum_size      = Vector2(260, 1)
-	_line_rect.color                    = Color("#1e3a5f")
+	_line_rect.color                    = Color("#4b5566")
 	_line_rect.size_flags_horizontal    = Control.SIZE_SHRINK_CENTER
 	_line_rect.modulate = Color(1, 1, 1, 0.0)
 	vbox.add_child(_line_rect)
@@ -126,7 +120,7 @@ func _build_ui():
 
 	# ── 배경 설명 ──
 	_context_lbl = Label.new()
-	_context_lbl.text = LocaleManager.ui("― 2030년대 서울, 당신의 이야기 ―", "― Seoul in the 2030s. Your story. ―")
+	_context_lbl.text = LocaleManager.ui("― 2026년 서울, 당신의 이야기 ―", "― Seoul, 2026. Your story. ―")
 	_context_lbl.add_theme_font_size_override("font_size", 13)
 	_context_lbl.add_theme_color_override("font_color", Color("#3d4a5e"))
 	_context_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
