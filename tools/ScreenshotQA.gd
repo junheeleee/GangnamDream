@@ -304,7 +304,7 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -318,6 +318,12 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 			and bool(story.get("_typing")) and story.has_method("_on_advance"):
 		story._on_advance()
 		await _settle(0.2)
+	if show_choices and not event_id.begins_with("chapter_card_") and story.has_method("_on_advance"):
+		for _step in range(30):
+			if bool(story.get("_showing_choices")):
+				break
+			story._on_advance()
+			await _settle(0.16)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
@@ -373,6 +379,7 @@ func _shot_surface_en() -> void:
 	await _shot_splash_screen("en", prefix + "00_splash")
 	await _shot_start_menu("en", prefix + "01_start_menu")
 	await _shot_story_event("arc_intro_01_meal", prefix + "02_story_intro", "en")
+	await _shot_story_event("arc_intro_02_dad_call", prefix + "02b_story_choices", "en", 0.45, true, true)
 
 	_set_qa_language("en")
 	_prepare_main_game_state()

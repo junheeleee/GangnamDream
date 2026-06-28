@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Gangnam Ink StoryMode surface pass
+
+- Applied the Gangnam Ink background grading and moral surface shaders to StoryMode/VN scenes.
+- Linked StoryMode panels, HUD, name tags, chapter cards, tutorial popups, and stat toasts to `MORAL_TINT` so story scenes now visibly harden or clear with the player.
+- Replaced gold/brown story choices with matte numbered choices, stronger controller focus, subtle choice fade-in, and a short commit pulse.
+- Removed tiny story-choice stat previews so narrative choices read as dramatic decisions first; result toasts still communicate outcomes after the choice.
+- Added `surface_en_02b_story_choices` to `ScreenshotQA --qa=surface-en` for English choice-screen regression coverage.
+
 ### Added/Changed (2026-06-28) — Casino tactile feedback pass
 
 - Added delayed SFX playback support for staggered casino card/chip timing.

@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Gangnam Ink StoryMode Surface Pass)
+
+### 수정
+- `scenes/StoryMode.gd`: VN/스토리 화면 배경에 `background_grade.gdshader`와 `moral_surface.gdshader`를 적용해 메인 화면과 같은 Gangnam Ink 필름을 통과하게 했다.
+- `scenes/StoryMode.gd`: `GameState.moral_tint_changed`를 구독해 배경 dim, 텍스트 박스, 이름표, 상단 HUD, 챕터 카드, 튜토리얼 팝업, 토스트가 회색/검정/흰색 축으로 함께 변하도록 연결했다.
+- `scenes/StoryMode.gd`: 선택지 버튼을 금색/갈색 스타일에서 matte graphite 번호 선택지로 교체하고, 선택지 등장 페이드와 패드 포커스 테두리, 선택 직후 텍스트 박스 펄스를 추가했다.
+- `scenes/StoryMode.gd`: 선택지가 뜰 때 초상화를 뒤로 물려 얼굴과 선택지가 서로 싸우지 않게 했고, 작은 스탯 효과 미리보기는 제거해 문장 선택 자체에 집중하게 했다.
+- `tools/ScreenshotQA.gd`: `surface-en` QA에 영어 스토리 선택지 캡처 `surface_en_02b_story_choices`를 추가했다.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `ScreenshotQA.tscn -- --qa=surface-en` 실행 완료. `surface_en_02b_story_choices` 직접 확인: 선택지 번호/포커스/초상화 후퇴/영어 가독성 정상.
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. 챕터 카드와 초반 StoryMode 샷 직접 확인. 종료 시 기존 Godot RID/Texture cleanup 경고는 남지만 exit code 0.
+
+---
+
 ## 2026-06-28 (Codex Casino Tactile Pass)
 
 ### 수정

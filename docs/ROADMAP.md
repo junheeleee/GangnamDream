@@ -172,6 +172,7 @@
     - [x] Gangnam Ink 무채색 표면 정본 — 배경/표면 셰이더와 이미지 생성 prompt prefix를 `MORAL_TINT`에 연결 (2026-06-28)
     - [x] 데모 첫 흐름 표면 QA — `ScreenshotQA --qa=demo-flow` 추가, 챕터 카드 HUD 겹침 제거, 초반 고시원/복도 배경-지문 정합성 보정 (2026-06-28)
     - [x] 데모 AP 루프/종료 CTA 표면 패스 — 주차 기준 AP 화면 포커스 카드, 데모 완료/위시리스트 primary CTA, demo-flow QA 확장 (2026-06-28)
+    - [x] StoryMode/VN Gangnam Ink 표면 패스 — 배경 셰이더·MORAL_TINT 팔레트·번호 선택지·초상화 후퇴·영어 선택지 QA 캡처 추가 (2026-06-29)
   - [~] 미니게임 물체 에셋 P1 — 카드 앞면, 칩 denomination, 룰렛 휠/볼, 슬롯 심볼, 경마 말/기수 스프라이트 확장
     - [x] 슬롯 릴 심볼 텍스트 타일화 및 니어미스 런타임 오류 수정 (2026-06-19)
     - [x] 룰렛 휠/볼 Canvas 드로잉 추가 및 ScreenshotQA 본체 캡처 추가 (2026-06-19)

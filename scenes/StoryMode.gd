@@ -39,6 +39,9 @@ var _pending_follow_up: String = ""
 # ── 노드 ──────────────────────────────────────────────────────
 var _bg_img: TextureRect
 var _bg_dim: ColorRect
+var _story_surface_overlay: ColorRect = null
+var _story_surface_material: ShaderMaterial = null
+var _story_bg_material: ShaderMaterial = null
 var _portrait: TextureRect
 var _portrait_frame: PanelContainer
 var _name_panel: PanelContainer
@@ -46,6 +49,7 @@ var _name_tag: Label
 var _title_lbl: Label
 var _body_lbl: RichTextLabel
 var _continue_hint: Label
+var _text_rule: ColorRect
 var _choice_box: VBoxContainer
 var _toast_layer: VBoxContainer
 var _hud_panel: Panel      # 챕터 카드 시 전체 HUD 바를 숨기기 위한 상단 패널 참조
@@ -53,6 +57,9 @@ var _hud_label: Label   # 얇은 상단 HUD — 자산/돈/컨디션/시간
 var _text_panel: Panel           # 하단 텍스트 박스 (챕터 카드 시 숨김)
 var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
 var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
+var _current_uses_cg: bool = false
+var _story_moral_norm: float = 0.0
+var _story_moral_stage: int = 0
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -64,6 +71,8 @@ func _ready():
 	_build_ui()
 	_refresh_hud()
 	GameState.stats_changed.connect(_refresh_hud)
+	if not GameState.moral_tint_changed.is_connected(_on_story_moral_tint_changed):
+		GameState.moral_tint_changed.connect(_on_story_moral_tint_changed)
 	SceneTransition.fade_in()
 	# 큐 가져오기
 	_queue = GameState.pending_story_queue.duplicate()
@@ -79,6 +88,141 @@ func _load_fonts():
 	FontKit.attach_emoji_fallback(_font)
 	FontKit.attach_emoji_fallback(_font_bold)
 
+# ── Gangnam Ink 표면 팔레트 ───────────────────────────────────
+func _on_story_moral_tint_changed(norm: float, stage: int) -> void:
+	_story_moral_norm = clampf(norm, -1.0, 1.0)
+	_story_moral_stage = stage
+	_apply_story_surface_palette(_current_uses_cg)
+	_pulse_story_moral_echo(norm, stage)
+
+func _story_palette() -> Dictionary:
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	return {
+		"panel_bg": Color("#0d0d10", 0.92).lerp(Color("#050706", 0.95), black).lerp(Color("#111820", 0.90), white),
+		"panel_border": Color("#30343a", 0.92).lerp(Color("#202824", 0.95), black).lerp(Color("#637483", 0.96), white),
+		"hud_bg": Color("#0b0c10", 0.86).lerp(Color("#040605", 0.91), black).lerp(Color("#111820", 0.84), white),
+		"choice_bg": Color("#111216", 0.96).lerp(Color("#060807", 0.98), black).lerp(Color("#131d24", 0.95), white),
+		"choice_hover": Color("#181a20", 0.98).lerp(Color("#0a100d", 0.99), black).lerp(Color("#1a2a34", 0.97), white),
+		"text": Color("#e6e8ec").lerp(Color("#a0aaa4"), black * 0.55).lerp(Color("#f3f7ff"), white * 0.65),
+		"dim": Color("#9aa1a8").lerp(Color("#66706a"), black * 0.55).lerp(Color("#c1ced8"), white * 0.58),
+		"dead": Color("#5f656b").lerp(Color("#3f4742"), black * 0.5).lerp(Color("#87949d"), white * 0.45),
+		"focus": Color("#d7dbe2").lerp(Color("#89938d"), black * 0.60).lerp(Color("#f8fbff"), white * 0.75),
+		"line": Color("#30343a", 0.72).lerp(Color("#1d2521", 0.85), black).lerp(Color("#6b7c89", 0.72), white),
+		"black": black,
+		"white": white,
+	}
+
+func _story_panel_style(bg: Color, border: Color, radius: int, h_margin: int = 0, v_margin: int = 0, left_border: int = 0) -> StyleBoxFlat:
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	st.border_color = border
+	st.set_border_width_all(1)
+	if left_border > 0:
+		st.border_width_left = left_border
+	st.set_corner_radius_all(radius)
+	st.content_margin_left = h_margin
+	st.content_margin_right = h_margin
+	st.content_margin_top = v_margin
+	st.content_margin_bottom = v_margin
+	return st
+
+func _story_dim_color(has_cg: bool) -> Color:
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var base := Color("#050609", 0.58)
+	if has_cg:
+		base = Color("#040508", 0.38)
+	base = base.lerp(Color("#010202", 0.72 if not has_cg else 0.54), black)
+	base = base.lerp(Color("#dfefff", 0.12 if not has_cg else 0.08), white)
+	return base
+
+func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false) -> void:
+	_story_moral_norm = clampf(GameState.moral_tint_norm(), -1.0, 1.0)
+	_story_moral_stage = GameState.moral_stage()
+	var palette := _story_palette()
+	var black: float = float(palette["black"])
+	var white: float = float(palette["white"])
+	var panel_bg: Color = palette["panel_bg"]
+	var panel_border: Color = palette["panel_border"]
+	var hud_bg: Color = palette["hud_bg"]
+	var text_col: Color = palette["text"]
+	var dim_col: Color = palette["dim"]
+	var dead_col: Color = palette["dead"]
+	var focus_col: Color = palette["focus"]
+	var line_col: Color = palette["line"]
+
+	if is_instance_valid(_bg_dim):
+		_bg_dim.color = _story_dim_color(has_cg)
+	if _story_bg_material:
+		_story_bg_material.set_shader_parameter("desaturation", clampf(0.86 + black * 0.12 - white * 0.10, 0.0, 1.0))
+		_story_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.24 + white * 0.14, 0.42, 1.20))
+		_story_bg_material.set_shader_parameter("contrast", clampf(0.94 - black * 0.08 + white * 0.13, 0.68, 1.24))
+		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.12 + white * 0.055, 0.0, 0.18))
+		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#eff8ff"), white))
+		_story_bg_material.set_shader_parameter("grain_amount", clampf(0.020 + black * 0.030 - white * 0.008, 0.0, 0.075))
+		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.060 + black * 0.120 - white * 0.025, 0.0, 0.24))
+		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.016 + white * 0.052, 0.0, 0.09))
+		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.075 + black * 0.145 - white * 0.045, 0.0, 0.25))
+		_story_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_story_moral_norm) * 19.0)
+	if _story_surface_material and is_instance_valid(_story_surface_overlay):
+		_story_surface_overlay.visible = black > 0.01 or white > 0.01
+		_story_surface_material.set_shader_parameter("black_intensity", black)
+		_story_surface_material.set_shader_parameter("white_intensity", white)
+		_story_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_story_moral_norm) * 10.0)
+	if is_instance_valid(_text_panel):
+		_text_panel.add_theme_stylebox_override("panel", _story_panel_style(panel_bg, panel_border, 8))
+	if is_instance_valid(_name_panel):
+		_name_panel.add_theme_stylebox_override("panel", _story_panel_style(palette["choice_bg"], panel_border, 6, 18, 5, 3))
+	if is_instance_valid(_hud_panel):
+		var hud_style := _story_panel_style(hud_bg, line_col, 0)
+		hud_style.border_width_top = 0
+		hud_style.border_width_left = 0
+		hud_style.border_width_right = 0
+		hud_style.border_width_bottom = 1
+		_hud_panel.add_theme_stylebox_override("panel", hud_style)
+	if is_instance_valid(_text_rule):
+		_text_rule.color = line_col
+	if is_instance_valid(_title_lbl):
+		_title_lbl.add_theme_color_override("font_color", dim_col)
+	if is_instance_valid(_body_lbl):
+		_body_lbl.add_theme_color_override("default_color", text_col)
+	if is_instance_valid(_continue_hint):
+		_continue_hint.add_theme_color_override("font_color", dead_col)
+	if is_instance_valid(_name_tag):
+		_name_tag.add_theme_color_override("font_color", focus_col)
+	if is_instance_valid(_hud_label):
+		_hud_label.add_theme_color_override("font_color", dim_col)
+
+func _animate_story_text_panel() -> void:
+	if not is_instance_valid(_text_panel):
+		return
+	if not is_inside_tree():
+		return
+	_text_panel.modulate = Color(1, 1, 1, 0.0)
+	var tw := create_tween()
+	tw.tween_property(_text_panel, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
+
+func _pulse_story_moral_echo(_norm: float, _stage: int) -> void:
+	if not is_inside_tree() or not is_instance_valid(_text_panel):
+		return
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var target := Color("#080909").lerp(Color("#f6fbff"), white)
+	target.a = 1.0
+	var base := _text_panel.modulate
+	var strength := clampf(maxf(black, white), 0.10, 0.32)
+	var tw := create_tween()
+	tw.tween_property(_text_panel, "modulate", base.lerp(target, strength), 0.12)
+	tw.tween_property(_text_panel, "modulate", Color(1, 1, 1, 1), 0.38)
+
+func _pulse_story_choice_commit() -> void:
+	if not is_inside_tree() or not is_instance_valid(_text_panel):
+		return
+	var tw := create_tween()
+	tw.tween_property(_text_panel, "modulate", Color(1.07, 1.07, 1.07, 1.0), 0.08)
+	tw.tween_property(_text_panel, "modulate", Color(1, 1, 1, 1), 0.20)
+
 # ── UI 구성 ───────────────────────────────────────────────────
 func _build_ui():
 	# 1. 배경 이미지 (이벤트별 전환)
@@ -86,6 +230,21 @@ func _build_ui():
 	_bg_img.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_bg_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_bg_img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	var bg_grade_shader = load("res://assets/shaders/background_grade.gdshader")
+	if bg_grade_shader:
+		_story_bg_material = ShaderMaterial.new()
+		_story_bg_material.shader = bg_grade_shader
+		_story_bg_material.set_shader_parameter("desaturation", 0.86)
+		_story_bg_material.set_shader_parameter("brightness", 0.88)
+		_story_bg_material.set_shader_parameter("contrast", 0.94)
+		_story_bg_material.set_shader_parameter("tint_color", Color("#020303"))
+		_story_bg_material.set_shader_parameter("tint_amount", 0.0)
+		_story_bg_material.set_shader_parameter("grain_amount", 0.020)
+		_story_bg_material.set_shader_parameter("ink_bleed", 0.060)
+		_story_bg_material.set_shader_parameter("paper_fade", 0.016)
+		_story_bg_material.set_shader_parameter("edge_burn", 0.075)
+		_story_bg_material.set_shader_parameter("seed", 0.0)
+		_bg_img.material = _story_bg_material
 	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_bg_img)
 
@@ -96,7 +255,23 @@ func _build_ui():
 	_bg_dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_bg_dim)
 
-	# 3. 클릭 받는 전체 버튼 (타이핑 스킵/다음)
+	# 3. MORAL_TINT 표면 필름 — 배경만 먼저 통과시켜 UI 가독성을 보존한다.
+	_story_surface_overlay = ColorRect.new()
+	_story_surface_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_story_surface_overlay.color = Color(1, 1, 1, 1)
+	_story_surface_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_story_surface_overlay.visible = false
+	var surface_shader = load("res://assets/shaders/moral_surface.gdshader")
+	if surface_shader:
+		_story_surface_material = ShaderMaterial.new()
+		_story_surface_material.shader = surface_shader
+		_story_surface_material.set_shader_parameter("black_intensity", 0.0)
+		_story_surface_material.set_shader_parameter("white_intensity", 0.0)
+		_story_surface_material.set_shader_parameter("seed", 0.0)
+		_story_surface_overlay.material = _story_surface_material
+	add_child(_story_surface_overlay)
+
+	# 4. 클릭 받는 전체 버튼 (타이핑 스킵/다음)
 	var click_catcher = Button.new()
 	click_catcher.flat = true
 	click_catcher.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -104,7 +279,7 @@ func _build_ui():
 	click_catcher.pressed.connect(_on_advance)
 	add_child(click_catcher)
 
-	# 4. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
+	# 5. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
 	_portrait_frame = PanelContainer.new()
 	_portrait_frame.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	_portrait_frame.offset_left = -430
@@ -130,7 +305,7 @@ func _build_ui():
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait_frame.add_child(_portrait)
 
-	# 5. 이름표 — 텍스트 박스(상단 -250) 위에 완전히 올림
+	# 6. 이름표 — 텍스트 박스(상단 -250) 위에 완전히 올림
 	var name_panel = PanelContainer.new()
 	name_panel.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	name_panel.offset_left = 64
@@ -138,8 +313,11 @@ func _build_ui():
 	name_panel.offset_bottom = -256
 	name_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var name_style = StyleBoxFlat.new()
-	name_style.bg_color = Color(0.10, 0.16, 0.30, 0.96)
-	name_style.set_corner_radius_all(7)
+	name_style.bg_color = Color("#121318", 0.96)
+	name_style.border_color = Color("#343841")
+	name_style.set_border_width_all(1)
+	name_style.border_width_left = 3
+	name_style.set_corner_radius_all(6)
 	name_style.content_margin_left = 18
 	name_style.content_margin_right = 18
 	name_style.content_margin_top = 5
@@ -148,13 +326,13 @@ func _build_ui():
 	add_child(name_panel)
 	_name_tag = Label.new()
 	_name_tag.add_theme_font_size_override("font_size", 18)
-	_name_tag.add_theme_color_override("font_color", Color("#cfe0ff"))
+	_name_tag.add_theme_color_override("font_color", Color("#e6e8ec"))
 	_apply_font(_name_tag, true)
 	name_panel.add_child(_name_tag)
 	_name_panel = name_panel
 	name_panel.visible = false
 
-	# 6. 하단 텍스트 박스 — 고정 높이 (타이핑해도 흔들리지 않음)
+	# 7. 하단 텍스트 박스 — 고정 높이 (타이핑해도 흔들리지 않음)
 	# PanelContainer(자식 크기 추종) 대신 고정 Panel + 절대 배치 사용.
 	var text_panel = Panel.new()
 	text_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
@@ -164,13 +342,23 @@ func _build_ui():
 	text_panel.offset_bottom = -40
 	text_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = Color(0.03, 0.03, 0.06, 0.90)
-	panel_style.border_color = Color("#2a3450")
+	panel_style.bg_color = Color("#0d0d10", 0.92)
+	panel_style.border_color = Color("#30343a")
 	panel_style.set_border_width_all(1)
-	panel_style.set_corner_radius_all(10)
+	panel_style.set_corner_radius_all(8)
 	text_panel.add_theme_stylebox_override("panel", panel_style)
 	add_child(text_panel)
 	_text_panel = text_panel  # 챕터 카드 시 숨기기 위해 참조 보관
+
+	_text_rule = ColorRect.new()
+	_text_rule.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_text_rule.offset_left = 36
+	_text_rule.offset_right = -36
+	_text_rule.offset_top = 39
+	_text_rule.offset_bottom = 40
+	_text_rule.color = Color("#30343a", 0.75)
+	_text_rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text_panel.add_child(_text_rule)
 
 	# 제목 (이벤트 타이틀, 작게) — 박스 좌상단 고정
 	_title_lbl = Label.new()
@@ -217,14 +405,14 @@ func _build_ui():
 	_continue_hint.visible = false
 	text_panel.add_child(_continue_hint)
 
-	# 7. 선택지 박스 — 텍스트 박스(높이250) 위에 띄움. 겹치지 않게 -270부터.
+	# 8. 선택지 박스 — 텍스트 박스(높이250) 위에 띄움. 겹치지 않게 -270부터.
 	_choice_box = VBoxContainer.new()
 	_choice_box.anchor_left = 0.5
 	_choice_box.anchor_right = 0.5
 	_choice_box.anchor_top = 1.0
 	_choice_box.anchor_bottom = 1.0
-	_choice_box.offset_left = -440
-	_choice_box.offset_right = 440
+	_choice_box.offset_left = -460
+	_choice_box.offset_right = 460
 	_choice_box.offset_top = -620
 	_choice_box.offset_bottom = -270
 	_choice_box.add_theme_constant_override("separation", 10)
@@ -232,7 +420,7 @@ func _build_ui():
 	_choice_box.visible = false
 	add_child(_choice_box)
 
-	# 8. 토스트 레이어 (스탯/관계 변화 노출) — 우측 상단 (HUD 아래로)
+	# 9. 토스트 레이어 (스탯/관계 변화 노출) — 우측 상단 (HUD 아래로)
 	_toast_layer = VBoxContainer.new()
 	_toast_layer.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	_toast_layer.offset_left = -340
@@ -243,7 +431,7 @@ func _build_ui():
 	_toast_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_toast_layer)
 
-	# 9. 얇은 상단 HUD — 드라마 모드의 스테이크(자산/30억·돈·컨디션·시간) 상시 표시
+	# 10. 얇은 상단 HUD — 드라마 모드의 스테이크(자산/30억·돈·컨디션·시간) 상시 표시
 	var hud_panel = Panel.new()
 	_hud_panel = hud_panel
 	hud_panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
@@ -251,8 +439,8 @@ func _build_ui():
 	hud_panel.offset_bottom = 38
 	hud_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var hud_style = StyleBoxFlat.new()
-	hud_style.bg_color = Color(0.02, 0.02, 0.05, 0.82)
-	hud_style.border_color = Color("#1e2438")
+	hud_style.bg_color = Color("#0b0c10", 0.86)
+	hud_style.border_color = Color("#2e3239")
 	hud_style.border_width_bottom = 1
 	hud_panel.add_theme_stylebox_override("panel", hud_style)
 	add_child(hud_panel)
@@ -266,6 +454,7 @@ func _build_ui():
 	_hud_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(_hud_label)
 	hud_panel.add_child(_hud_label)
+	_apply_story_surface_palette(false, true)
 
 func _refresh_hud():
 	if _hud_label == null:
@@ -298,6 +487,7 @@ func _load_next_event():
 
 func _render_current():
 	_showing_choices = false
+	_current_uses_cg = false
 	_choice_box.visible = false
 	for c in _choice_box.get_children():
 		c.queue_free()
@@ -327,9 +517,8 @@ func _render_current():
 	# 없을 때만 명시 background / 태그 추론 배경으로 폴백한다.
 	if cg_path != "" and ResourceLoader.exists(cg_path):
 		_bg_img.texture = load(cg_path)
-		_bg_dim.color = Color(0.03, 0.03, 0.05, 0.42)
+		_current_uses_cg = true
 	else:
-		_bg_dim.color = Color(0.04, 0.04, 0.07, 0.62)
 		var bg_id = str(_current.get("background", ""))
 		if bg_id == "":
 			bg_id = ImageRegistry.infer_background_id(_current, GameState.housing)
@@ -337,6 +526,7 @@ func _render_current():
 			var bp = ImageRegistry.get_background(bg_id)
 			if bp != "" and ResourceLoader.exists(bp):
 				_bg_img.texture = load(bp)
+	_apply_story_surface_palette(_current_uses_cg)
 	BGMPlayer.update_event_ambience(_current)
 
 	# 초상화 + 이름표 — bg_focus:true 장면은 배경만(초상화 생략)
@@ -346,6 +536,7 @@ func _render_current():
 
 	# 제목
 	_title_lbl.text = "— %s —" % _fmt(str(_current.get("title", "")))
+	_animate_story_text_panel()
 
 	# 본문 문단 분할 (\n\n 기준)
 	# 루트·상태별 대체 description: description_orthodox / description_unorthodox /
@@ -422,6 +613,13 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 	else:
 		if _name_panel:
 			_name_panel.visible = false
+
+func _set_portrait_choice_focus(choices_visible: bool) -> void:
+	if not is_inside_tree() or not is_instance_valid(_portrait_frame) or not _portrait_frame.visible:
+		return
+	var target_alpha := 0.34 if choices_visible else 1.0
+	var tw := create_tween()
+	tw.tween_property(_portrait_frame, "modulate:a", target_alpha, 0.18).set_trans(Tween.TRANS_SINE)
 
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
@@ -528,28 +726,27 @@ func _show_choices():
 		# 선택지 없는 이벤트 → 바로 다음
 		_load_next_event()
 		return
+	_apply_story_surface_palette(_current_uses_cg)
 	_showing_choices = true
 	_continue_hint.visible = false
 	_choice_box.visible = true
+	_choice_box.modulate = Color(1, 1, 1, 0)
+	_set_portrait_choice_focus(true)
 	for i in range(choices.size()):
 		var ch: Dictionary = choices[i]
 		# 버튼+미리보기를 묶어 그룹 컨테이너에 넣기
 		var group := VBoxContainer.new()
 		group.add_theme_constant_override("separation", 3)
 		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		group.modulate = Color(1, 1, 1, 0)
 		_choice_box.add_child(group)
 		var btn = _make_choice_button(_fmt(str(ch.get("text", _tr("선택", "Choose")))), i)
 		group.add_child(btn)
-		var preview_str := _choice_effect_preview(ch)
-		if not preview_str.is_empty():
-			var lbl := Label.new()
-			lbl.text = "  " + preview_str
-			lbl.add_theme_font_size_override("font_size", 12)
-			lbl.add_theme_color_override("font_color", Color("#5a6a80"))
-			if _font:
-				lbl.add_theme_font_override("font", _font)
-			lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			group.add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(_choice_box, "modulate:a", 1.0, 0.12)
+	for i in range(_choice_box.get_child_count()):
+		var group_node := _choice_box.get_child(i)
+		tw.parallel().tween_property(group_node, "modulate:a", 1.0, 0.20).set_delay(0.04 * float(i))
 	# 컨트롤러: 첫 번째 그룹의 버튼에 포커스 (A 버튼으로 즉시 선택 가능)
 	if _choice_box.get_child_count() > 0:
 		var first_group = _choice_box.get_child(0)
@@ -558,30 +755,35 @@ func _show_choices():
 
 func _make_choice_button(text: String, idx: int) -> Button:
 	var btn = Button.new()
-	btn.text = "  " + text
-	btn.custom_minimum_size = Vector2(0, 52)
+	btn.text = "  %02d  %s" % [idx + 1, text]
+	btn.custom_minimum_size = Vector2(0, 56)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	var normal = StyleBoxFlat.new()
-	normal.bg_color = Color(0.07, 0.06, 0.04, 0.94)
-	normal.set_border_width_all(0)
-	normal.border_width_left = 3
-	normal.border_color = Color("#c9a227")
-	normal.set_corner_radius_all(5)
-	normal.content_margin_left = 18
-	normal.content_margin_right = 14
+	var palette := _story_palette()
+	var choice_bg: Color = palette["choice_bg"]
+	var choice_hover: Color = palette["choice_hover"]
+	var panel_border: Color = palette["panel_border"]
+	var focus_col: Color = palette["focus"]
+	var text_col: Color = palette["text"]
+	var normal = _story_panel_style(choice_bg, panel_border, 6, 18, 9, 3)
 	var hover = normal.duplicate()
-	hover.bg_color = Color(0.14, 0.11, 0.05, 0.98)
-	hover.border_color = Color("#e8c46a")
+	hover.bg_color = choice_hover
+	hover.border_color = focus_col
 	var focus = normal.duplicate()
-	focus.bg_color = Color(0.18, 0.14, 0.06, 0.98)
-	focus.border_color = Color("#e8c46a")
+	focus.bg_color = choice_hover.lightened(0.05)
+	focus.border_color = focus_col
 	focus.border_width_left = 4
+	focus.set_border_width_all(2)
+	var pressed = normal.duplicate()
+	pressed.bg_color = choice_bg.darkened(0.14)
+	pressed.border_color = focus_col.darkened(0.12)
 	btn.add_theme_stylebox_override("normal", normal)
 	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", hover)
+	btn.add_theme_stylebox_override("pressed", pressed)
 	btn.add_theme_stylebox_override("focus", focus)
-	btn.add_theme_color_override("font_color", Color(C_CHOICE))
-	btn.add_theme_font_size_override("font_size", 17)
+	btn.add_theme_color_override("font_color", text_col)
+	btn.add_theme_color_override("font_hover_color", focus_col)
+	btn.add_theme_color_override("font_focus_color", focus_col)
+	btn.add_theme_font_size_override("font_size", 18)
 	if _font:
 		btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(_on_choice.bind(idx))
@@ -595,6 +797,7 @@ func _on_choice(idx: int):
 		return
 	var choice: Dictionary = choices[idx]
 	AudioManager.play("choice_made")
+	_pulse_story_choice_commit()
 
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
 	_pending_follow_up = str(choice.get("follow_up_event", ""))
@@ -615,6 +818,7 @@ func _on_choice(idx: int):
 	# 결과 텍스트 표시
 	_showing_choices = false
 	_choice_box.visible = false
+	_set_portrait_choice_focus(false)
 	for c in _choice_box.get_children():
 		c.queue_free()
 
@@ -650,9 +854,17 @@ func _chapter_card_advance():
 	_load_next_event()
 
 func _render_chapter_card_cinematic():
-	# 배경: 순수 검은색
+	_apply_story_surface_palette(false, true)
+	var palette := _story_palette()
+	var black: float = float(palette["black"])
+	var white: float = float(palette["white"])
+	var focus_col: Color = palette["focus"]
+	var text_col: Color = palette["text"]
+	var dim_col: Color = palette["dim"]
+	var line_col: Color = palette["line"]
+	# 배경: Gangnam Ink 챕터 카드
 	_bg_img.texture = null
-	_bg_dim.color = Color(0.0, 0.0, 0.02, 0.98)
+	_bg_dim.color = Color("#030405", 0.98).lerp(Color("#000000", 0.99), black).lerp(Color("#101820", 0.96), white)
 	# 일반 UI 숨김
 	_portrait_frame.visible = false
 	_name_panel.visible = false
@@ -681,21 +893,21 @@ func _render_chapter_card_cinematic():
 	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ov.add_child(vbox)
 
-	# ① 챕터 번호 — 골드, 작게
+	# ① 챕터 번호 — 작게, 차갑게
 	var num_lbl := Label.new()
 	num_lbl.text = _fmt(str(_current.get("title", "")))
 	num_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	num_lbl.add_theme_font_size_override("font_size", 15)
-	num_lbl.add_theme_color_override("font_color", Color("#c9a227"))
+	num_lbl.add_theme_color_override("font_color", focus_col)
 	num_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(num_lbl)
 	num_lbl.modulate.a = 0.0
 	vbox.add_child(num_lbl)
 
-	# ② 구분선 (골드)
+	# ② 구분선
 	var sep := HSeparator.new()
 	var sep_style := StyleBoxFlat.new()
-	sep_style.bg_color = Color("#c9a227", 0.35)
+	sep_style.bg_color = line_col
 	sep_style.set_content_margin_all(0)
 	sep.add_theme_stylebox_override("separator", sep_style)
 	sep.custom_minimum_size.y = 1
@@ -714,19 +926,19 @@ func _render_chapter_card_cinematic():
 			body_parts.append(l)
 	var body_text: String = "\n".join(body_parts)
 
-	# 부제 레이블 (크게, 흰색)
+	# 부제 레이블 (크게)
 	var sub_lbl := Label.new()
 	sub_lbl.text = subtitle
 	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	sub_lbl.add_theme_font_size_override("font_size", 52)
-	sub_lbl.add_theme_color_override("font_color", Color("#eef0f5"))
+	sub_lbl.add_theme_color_override("font_color", text_col)
 	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_apply_font(sub_lbl, true)
 	sub_lbl.modulate.a = 0.0
 	vbox.add_child(sub_lbl)
 
-	# 설명 레이블 (작게, 회색)
+	# 설명 레이블 (작게)
 	var desc_lbl: RichTextLabel = null
 	if body_text != "":
 		desc_lbl = RichTextLabel.new()
@@ -735,7 +947,7 @@ func _render_chapter_card_cinematic():
 		desc_lbl.scroll_active = false
 		desc_lbl.text = "[center]" + body_text + "[/center]"
 		desc_lbl.add_theme_font_size_override("normal_font_size", 19)
-		desc_lbl.add_theme_color_override("default_color", Color("#6a7890"))
+		desc_lbl.add_theme_color_override("default_color", dim_col)
 		if _font:
 			desc_lbl.add_theme_font_override("normal_font", _font)
 		desc_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -747,7 +959,7 @@ func _render_chapter_card_cinematic():
 	hint.text = _tr("▼  클릭하여 계속", "▼  Click to continue")
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_font_size_override("font_size", 13)
-	hint.add_theme_color_override("font_color", Color("#3a4460"))
+	hint.add_theme_color_override("font_color", palette["dead"])
 	_apply_font(hint)
 	hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	hint.offset_bottom = -32
@@ -876,9 +1088,17 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 
 ## 화면 중앙 안내 팝업 (클릭하면 닫힘)
 func _show_popup(title: String, body: String):
+	_apply_story_surface_palette(_current_uses_cg)
+	var palette := _story_palette()
+	var panel_bg: Color = palette["panel_bg"]
+	var panel_border: Color = palette["panel_border"]
+	var text_col: Color = palette["text"]
+	var dead_col: Color = palette["dead"]
+	var focus_col: Color = palette["focus"]
+
 	var overlay = ColorRect.new()
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.color = Color(0, 0, 0, 0.55)
+	overlay.color = Color(0, 0, 0, 0.62)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(overlay)
 
@@ -887,13 +1107,7 @@ func _show_popup(title: String, body: String):
 	panel.anchor_top = 0.5; panel.anchor_bottom = 0.5
 	panel.offset_left = -300; panel.offset_right = 300
 	panel.offset_top = -150; panel.offset_bottom = 150
-	var st = StyleBoxFlat.new()
-	st.bg_color = Color("#0e1322")
-	st.border_color = Color("#3a5a8a")
-	st.set_border_width_all(2)
-	st.set_corner_radius_all(12)
-	st.content_margin_left = 32; st.content_margin_right = 32
-	st.content_margin_top = 28; st.content_margin_bottom = 28
+	var st = _story_panel_style(panel_bg, panel_border, 8, 32, 28, 3)
 	panel.add_theme_stylebox_override("panel", st)
 	overlay.add_child(panel)
 
@@ -904,7 +1118,7 @@ func _show_popup(title: String, body: String):
 	var tl = Label.new()
 	tl.text = title
 	tl.add_theme_font_size_override("font_size", 22)
-	tl.add_theme_color_override("font_color", Color("#c9a227"))
+	tl.add_theme_color_override("font_color", focus_col)
 	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if _font_bold: tl.add_theme_font_override("font", _font_bold)
 	vb.add_child(tl)
@@ -912,7 +1126,7 @@ func _show_popup(title: String, body: String):
 	var bl = Label.new()
 	bl.text = body
 	bl.add_theme_font_size_override("font_size", 16)
-	bl.add_theme_color_override("font_color", Color("#c8d0e0"))
+	bl.add_theme_color_override("font_color", text_col)
 	bl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	if _font: bl.add_theme_font_override("font", _font)
@@ -921,7 +1135,7 @@ func _show_popup(title: String, body: String):
 	var hint = Label.new()
 	hint.text = _tr("[A] 또는 클릭하여 닫기", "[A] or click to close") if ControllerHints.is_pad_active() else _tr("클릭하여 닫기", "Click to close")
 	hint.add_theme_font_size_override("font_size", 12)
-	hint.add_theme_color_override("font_color", Color("#5a6478"))
+	hint.add_theme_color_override("font_color", dead_col)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if _font: hint.add_theme_font_override("font", _font)
 	vb.add_child(hint)
@@ -941,13 +1155,16 @@ func _show_popup(title: String, body: String):
 	panel.gui_input.connect(_close_fn)
 
 func _spawn_toast(text: String, color: Color):
+	var palette := _story_palette()
+	var chip_bg: Color = palette["choice_bg"]
+	var panel_border: Color = palette["panel_border"]
 	# 어두운 배경 칩 + 라벨 (배경에 안 묻히게)
 	var chip = PanelContainer.new()
 	chip.size_flags_horizontal = Control.SIZE_SHRINK_END
 	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var st = StyleBoxFlat.new()
-	st.bg_color = Color(0.04, 0.05, 0.09, 0.92)
-	st.border_color = color
+	st.bg_color = chip_bg
+	st.border_color = color.lerp(panel_border, 0.22)
 	st.border_width_left = 3
 	st.set_corner_radius_all(5)
 	st.content_margin_left = 12
