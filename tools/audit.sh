@@ -13,6 +13,10 @@ python3 tools/audit.py
 PY_EXIT=$?
 
 echo "──────────────────────────────────────────"
+python3 tools/surface_emoji_audit.py
+SURFACE_EXIT=$?
+
+echo "──────────────────────────────────────────"
 python3 tools/balance_check.py
 BAL_EXIT=$?
 
@@ -46,7 +50,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi
