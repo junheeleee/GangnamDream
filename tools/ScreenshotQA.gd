@@ -6,6 +6,12 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino
 ## 영어 카지노만 빠르게 확인:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=casino-en
+## 수정 부위별 빠른 확인:
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -21,6 +27,11 @@ const QA_SCOPE_CASINO_EN := "casino_en"
 const QA_SCOPE_MORAL := "moral"
 const QA_SCOPE_DEMO_FLOW := "demo_flow"
 const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
+const QA_SCOPE_START_EN := "start_en"
+const QA_SCOPE_STORY_EN := "story_en"
+const QA_SCOPE_AP_EN := "ap_en"
+const QA_SCOPE_ENDINGS_EN := "endings_en"
+const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -70,6 +81,36 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_demo_blackbox(lang)
 		print("SCREENSHOT_QA_DONE scope=demo-blackbox lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_START_EN:
+		var lang := _qa_language("en")
+		await _shot_start_surfaces(lang, "start_en_" if lang == "en" else "start_ko_")
+		print("SCREENSHOT_QA_DONE scope=start-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_STORY_EN:
+		var lang := _qa_language("en")
+		await _shot_story_surfaces(lang, "story_en_" if lang == "en" else "story_ko_")
+		print("SCREENSHOT_QA_DONE scope=story-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_AP_EN:
+		var lang := _qa_language("en")
+		await _shot_ap_shell_surfaces(lang, "ap_en_" if lang == "en" else "ap_ko_")
+		print("SCREENSHOT_QA_DONE scope=ap-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_ENDINGS_EN:
+		var lang := _qa_language("en")
+		await _shot_ending_suite(lang, "ending_en_" if lang == "en" else "ending_ko_")
+		print("SCREENSHOT_QA_DONE scope=endings-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_DEMO_END_EN:
+		var lang := _qa_language("en")
+		await _shot_demo_end_surfaces(lang, "demo_end_en_" if lang == "en" else "demo_end_ko_")
+		print("SCREENSHOT_QA_DONE scope=demo-end-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SURFACE_EN:
@@ -135,6 +176,26 @@ func _qa_scope() -> String:
 				"qa=demo-blackbox", "--qa=demo-blackbox", "qa=demo_blackbox", "--qa=demo_blackbox",
 				"scope=demo-blackbox", "--scope=demo-blackbox", "scope=demo_blackbox", "--scope=demo_blackbox"]:
 			return QA_SCOPE_DEMO_BLACKBOX
+		if arg in ["start-en", "start_en", "start", "--start-en", "--start_en",
+				"qa=start-en", "--qa=start-en", "qa=start_en", "--qa=start_en",
+				"scope=start-en", "--scope=start-en", "scope=start_en", "--scope=start_en"]:
+			return QA_SCOPE_START_EN
+		if arg in ["story-en", "story_en", "story", "--story-en", "--story_en",
+				"qa=story-en", "--qa=story-en", "qa=story_en", "--qa=story_en",
+				"scope=story-en", "--scope=story-en", "scope=story_en", "--scope=story_en"]:
+			return QA_SCOPE_STORY_EN
+		if arg in ["ap-en", "ap_en", "main-en", "main_en", "--ap-en", "--ap_en",
+				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
+				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
+			return QA_SCOPE_AP_EN
+		if arg in ["endings-en", "endings_en", "ending-en", "ending_en", "--endings-en", "--ending-en",
+				"qa=endings-en", "--qa=endings-en", "qa=endings_en", "--qa=endings_en",
+				"qa=ending-en", "--qa=ending-en", "scope=endings-en", "--scope=endings-en"]:
+			return QA_SCOPE_ENDINGS_EN
+		if arg in ["demo-end-en", "demo_end_en", "demo-ending-en", "demo_ending_en", "--demo-end-en",
+				"qa=demo-end-en", "--qa=demo-end-en", "qa=demo_end_en", "--qa=demo_end_en",
+				"scope=demo-end-en", "--scope=demo-end-en"]:
+			return QA_SCOPE_DEMO_END_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -373,6 +434,57 @@ func _shot_demo_blackbox(lang: String = "en") -> void:
 	]:
 		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
 	await _shot_demo_loop_surfaces(lang, prefix)
+
+func _shot_start_surfaces(lang: String = "en", prefix: String = "start_en_") -> void:
+	await _shot_splash_screen(lang, prefix + "00_splash")
+	await _shot_opening_cinematic(lang, prefix)
+	await _shot_start_menu_notice(lang, prefix)
+
+func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> void:
+	await _shot_story_event("chapter_card_33", prefix + "01_chapter_card_33", lang, 2.7)
+	for event_id in [
+		"arc_intro_01_meal",
+		"arc_intro_02_dad_call",
+		"arc_intro_03_sns",
+		"arc_intro_04_hyunsu",
+		"arc_chapter1_close",
+	]:
+		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
+	await _shot_story_event("arc_intro_02_dad_call", prefix + "02b_story_choices", lang, 0.45, true, true)
+
+func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	_seed_info_panel_state(lang)
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.8)
+	await _save(prefix + "03_ap_actions")
+	await _shot_action_category_modal("_open_cat_money", prefix + "04_money_modal")
+	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
+	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")
+	await _shot_info_panel_tabs(lang, prefix)
+	await _shot_people(prefix)
+
+func _shot_demo_end_surfaces(lang: String = "en", prefix: String = "demo_end_en_") -> void:
+	await _shot_demo_loop_surfaces(lang, prefix)
+
+func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	await _boot_main_game()
+	await _shot_ending("gangnam_dream", prefix + "13_ending_gangnam_win")
+	await _shot_ending("empty_house", prefix + "13a_ending_empty_house")
+	await _shot_ending("bankruptcy", prefix + "14_ending_bankruptcy")
+	await _shot_ending("stable_success", prefix + "15_ending_stable_success")
+	await _shot_ending("crypto_ghost", prefix + "16_ending_crypto_ghost")
+	await _shot_ending("orthodox_pinnacle", prefix + "17_ending_orthodox_pinnacle")
 
 func _shot_surface_en() -> void:
 	var prefix := "surface_en_"

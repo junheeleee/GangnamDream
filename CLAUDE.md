@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-29** — **Codex English Copy Micro-Polish Pass**: 영어 데모 blackbox QA에서 어색하게 보이던 첫 면접 문장 `A job app led to this`를 `A job posting led to this`로 보정하고, 데모 종료 진행률을 `Progress to Gangnam (Seoul's status district): ...` 형식으로 정리했다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 첫 면접/데모 종료 CTA 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
+| **최근 완료** | **2026-06-29** — **Codex Targeted Screenshot QA Pass**: 매번 카지노까지 도는 비효율을 줄이기 위해 `ScreenshotQA`를 수정 부위별 스코프로 분리. `--qa=start-en`, `--qa=story-en`, `--qa=ap-en`, `--qa=demo-end-en`, `--qa=endings-en` 추가. `docs/QA_CHECKLIST.md`에 Targeted Screenshot QA 매트릭스를 추가해 카지노는 카지노/미니게임 변경 때만 돌리도록 운영 기준화했다. 신규 스코프 5종 전부 exit code 0 확인, `audit.sh`, `english_hangul_audit.py` 통과. |
+| **이전** | **2026-06-29** — **Codex English Copy Micro-Polish Pass**: 영어 데모 blackbox QA에서 어색하게 보이던 첫 면접 문장 `A job app led to this`를 `A job posting led to this`로 보정하고, 데모 종료 진행률을 `Progress to Gangnam (Seoul's status district): ...` 형식으로 정리했다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 첫 면접/데모 종료 CTA 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Gangnam Meaning EN Onboarding Pass**: 외국인 플레이어가 `Gangnam`을 단순 지명으로 지나치지 않도록 스플래시/오프닝/시작 메뉴/튜토리얼/목표 힌트에 `Seoul's status district`, `wealth, status, arrival` 의미를 짧게 삽입. 과설명은 피하고 초반 표면에서 강남=계급 상승 상징임을 반복 노출하도록 정리했다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 스플래시/오프닝 최종 카드/시작 메뉴 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Month Summary Surface Pass**: 데모 월말 요약 모달의 플랫폼 이모지(`📊/💼/📈/🎯`) 노출을 제거. 월 등급은 `LOG/OK/TOP/HOLD/RISK` 무채색 배지로 표시하고, 행동 로그/목표 진행/경고 라인을 텍스트 기반으로 정리해 기록창과 같은 `Gangnam Ink` 표면 톤에 맞췄다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 데모 요약 모달 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Weekly AP Slot Surface Pass**: AP 화면 `This Week` 카드의 남은 행동 슬롯이 긴 흰 막대처럼 늘어나던 문제를 고정 폭 작은 슬롯으로 교체. Steam Deck/영어 화면에서 행동 횟수 피드백이 로딩바가 아니라 게임 UI 슬롯처럼 보이도록 정리했다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 AP 루프 캡처 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
@@ -71,7 +72,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: English Copy Micro-Polish Pass — 영어 데모 첫 면접/종료 CTA 문구 보정.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: Targeted Screenshot QA Pass — 수정 부위별 빠른 QA 스코프 추가.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added (2026-06-29) — Targeted screenshot QA scopes
+
+- Added focused `ScreenshotQA` scopes for start surfaces, StoryMode/VN surfaces, AP/info-panel surfaces, demo-ending surfaces, and ending surfaces.
+- Documented the targeted QA matrix so casino/minigame screenshot QA is only required when casino/minigame UI actually changes.
+- New fast scopes: `--qa=start-en`, `--qa=story-en`, `--qa=ap-en`, `--qa=demo-end-en`, `--qa=endings-en`.
+
 ### Fixed (2026-06-29) — English demo copy micro-polish
 
 - Changed the first interview line from `A job app led to this` to `A job posting led to this` so it does not read like a mobile app caused the scene.

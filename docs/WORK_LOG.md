@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Targeted Screenshot QA Pass)
+
+### 수정
+- `tools/ScreenshotQA.gd`: 수정 부위별 빠른 QA 스코프를 추가했다.
+  - `--qa=start-en`: 스플래시, 오프닝, 시작 메뉴, 콘텐츠 안내만 캡처.
+  - `--qa=story-en`: 챕터 카드와 초반 StoryMode/VN 이벤트, 선택지 화면만 캡처.
+  - `--qa=ap-en`: AP 화면, 행동 모달, 정보 패널, 인맥 모달만 캡처.
+  - `--qa=demo-end-en`: AP 루프, 데모 월말 요약, 데모 종료 CTA만 캡처.
+  - `--qa=endings-en`: 대표 엔딩 모달/CG 카드만 캡처.
+- `docs/QA_CHECKLIST.md`: Targeted Screenshot QA 매트릭스를 추가했다. 앞으로 카지노/미니게임을 수정하지 않은 경우 `casino-en`을 반복 실행하지 않고 수정 표면 스코프만 먼저 확인한다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=start-en` 통과.
+- `ScreenshotQA.tscn -- --qa=story-en` 통과.
+- `ScreenshotQA.tscn -- --qa=ap-en` 통과.
+- `ScreenshotQA.tscn -- --qa=demo-end-en` 통과.
+- `ScreenshotQA.tscn -- --qa=endings-en` 통과.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex English Copy Micro-Polish Pass)
 
 ### 수정
