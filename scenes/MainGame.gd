@@ -5720,8 +5720,8 @@ func _open_scalping():
 
 func _on_scalping_closed():
 	_exit_minigame_overlay()
-	turn_action_log.append(_tr("✓ ⚡ 스캘핑 트레이딩", "✓ ⚡ Scalping Trading"))
-	GameState.add_log(_tr("⚡ 스캘핑 트레이딩 세션을 마쳤다.", "⚡ Finished a scalping trading session."), "event")
+	turn_action_log.append(_tr("✓ 스캘핑 트레이딩", "✓ Scalping Trading"))
+	GameState.add_log(_tr("스캘핑 트레이딩 세션을 마쳤다.", "Finished a scalping trading session."), "event")
 	_check_addiction_warnings()
 	_refresh_all()
 	_render_ap_actions()

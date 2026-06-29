@@ -16,6 +16,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=tutorial-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=job-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=aruba-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=scalping-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -40,6 +41,7 @@ const QA_SCOPE_TITLE_EN := "title_en"
 const QA_SCOPE_TUTORIAL_EN := "tutorial_en"
 const QA_SCOPE_JOB_EN := "job_en"
 const QA_SCOPE_ARUBA_EN := "aruba_en"
+const QA_SCOPE_SCALPING_EN := "scalping_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -145,6 +147,12 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=aruba-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_SCALPING_EN:
+		var lang := _qa_language("en")
+		await _shot_scalping_surfaces(lang, "scalping_en_" if lang == "en" else "scalping_ko_")
+		print("SCREENSHOT_QA_DONE scope=scalping-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_SURFACE_EN:
 		await _shot_surface_en()
 		print("SCREENSHOT_QA_DONE scope=surface-en lang=en dir=%s" % OUT_DIR)
@@ -244,6 +252,10 @@ func _qa_scope() -> String:
 				"--aruba-en", "--aruba_en", "qa=aruba-en", "--qa=aruba-en",
 				"qa=aruba_en", "--qa=aruba_en", "scope=aruba-en", "--scope=aruba-en"]:
 			return QA_SCOPE_ARUBA_EN
+		if arg in ["scalping-en", "scalping_en", "scalp-en", "scalp_en", "--scalping-en",
+				"--scalping_en", "qa=scalping-en", "--qa=scalping-en",
+				"qa=scalping_en", "--qa=scalping_en", "scope=scalping-en", "--scope=scalping-en"]:
+			return QA_SCOPE_SCALPING_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -780,6 +792,39 @@ func _open_aruba_for_qa(node: Node) -> void:
 	await _settle(0.6)
 
 func _hide_aruba_for_qa(node: Node) -> void:
+	if "visible" in node:
+		node.visible = false
+
+func _shot_scalping_surfaces(lang: String = "en", prefix: String = "scalping_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	GameState.money = 5_000_000.0
+	GameState.investment_skill = 50
+	await _boot_main_game()
+	var node = _mg.get("scalping_game")
+	if node == null or not node.has_method("open"):
+		print("SKIP scalping surface (no scalping_game)")
+		return
+	if _mg.has_method("_enter_minigame_overlay"):
+		_mg.call("_enter_minigame_overlay", node)
+	node.open()
+	await _settle(0.6)
+	await _save(prefix + "00_setup")
+	if node.has_method("_start_game"):
+		node.call("_start_game")
+		await _settle(1.2)
+		await _save(prefix + "01_live")
+	if node.has_method("_on_buy"):
+		node.call("_on_buy")
+		await _settle(0.35)
+		await _save(prefix + "02_position_open")
+	node.set("_in_position", false)
+	node.set("_realized", 120_000.0)
+	node.set("_trades", 2)
+	if node.has_method("_end_game"):
+		node.call("_end_game")
+		await _settle(0.6)
+		await _save(prefix + "03_result")
 	if "visible" in node:
 		node.visible = false
 

@@ -92,6 +92,7 @@ func _start_game() -> void:
 	_trade_history = []
 	_phase = Phase.PLAYING
 	set_process(true)
+	_clear_phase_overlay()
 	_rebuild()
 	AudioManager.play("event_new")
 	_show_trade_banner("MARKET OPEN", Color("#c9a227"), 0.60)
@@ -164,7 +165,7 @@ func _build_ui() -> void:
 	var hdr_row := HBoxContainer.new()
 	root.add_child(hdr_row)
 	var title := Label.new()
-	title.text = _tr("⚡ 스캘핑 트레이딩", "⚡ Scalping Trading")
+	title.text = _tr("스캘핑 트레이딩", "Scalping Trading")
 	title.add_theme_font_size_override("font_size", 18)
 	title.add_theme_color_override("font_color", Color("#f0b429"))
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -175,12 +176,14 @@ func _build_ui() -> void:
 	_timer_lbl.add_theme_color_override("font_color", Color("#c9a227"))
 	_f(_timer_lbl, true)
 	hdr_row.add_child(_timer_lbl)
-	var help_btn := _btn("❓", func(): TutorialOverlay.force_show("scalping", self), "#0a0a1a")
+	var help_btn := _btn("?", func(): TutorialOverlay.force_show("scalping", self), "#0a0a1a")
 	help_btn.custom_minimum_size = Vector2(34, 34)
+	help_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	hdr_row.add_child(help_btn)
 
-	var close_btn := _btn("✕", func(): _on_close_pressed(), "#2a1818")
+	var close_btn := _btn("X", func(): _on_close_pressed(), "#2a1818")
 	close_btn.custom_minimum_size = Vector2(34, 34)
+	close_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	hdr_row.add_child(close_btn)
 	# 차트
 	_chart_node = Control.new()
@@ -310,7 +313,8 @@ func _draw_chart(canvas: Control) -> void:
 		canvas.draw_line(Vector2(cx, body_bot), Vector2(cx, wick_bot), col_dim, wick_w)
 		# 몸통
 		var body_h: float = maxf(body_bot - body_top, 1.5)
-		canvas.draw_rect(Rect2(cx - cw * 0.35, body_top, cw * 0.7, body_h), col)
+		var body_w: float = minf(cw * 0.7, 16.0)
+		canvas.draw_rect(Rect2(cx - body_w * 0.5, body_top, body_w, body_h), col)
 
 	# ── 이동평균선 (MA_FAST / MA_SLOW) ───────────────────────────
 	var draw_ma := func(period: int, col: Color) -> void:
@@ -376,7 +380,7 @@ func _refresh_ui() -> void:
 	if _phase != Phase.PLAYING: return
 	if is_instance_valid(_timer_lbl):
 		var sec_left: int = ceili(_timer)
-		_timer_lbl.text = _tr("⏱ %d초", "⏱ %ds") % sec_left
+		_timer_lbl.text = _tr("%d초", "%ds") % sec_left
 		if _timer <= 10.0:
 			_timer_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
 		elif _timer <= 20.0:
@@ -400,7 +404,7 @@ func _refresh_ui() -> void:
 		if recent.size() >= 3:
 			var trend: float = float(recent[-1]) - float(recent[0])
 			if absf(trend) > 0.3:
-				_hint_lbl.text = _tr("📈 추세 감지: %s", "📈 Trend detected: %s") % (_tr("상승", "Up") if trend > 0 else _tr("하락", "Down"))
+				_hint_lbl.text = _tr("추세 감지: %s", "Trend detected: %s") % (_tr("상승", "Up") if trend > 0 else _tr("하락", "Down"))
 			else:
 				_hint_lbl.text = ""
 	if is_instance_valid(_buy_btn):
@@ -417,7 +421,13 @@ func _rebuild() -> void:
 		Phase.RESULT:
 			_show_result()
 		_:
+			_clear_phase_overlay()
 			_refresh_ui()
+
+func _clear_phase_overlay() -> void:
+	var overlay := get_node_or_null("setup_overlay")
+	if is_instance_valid(overlay) and not overlay.is_queued_for_deletion():
+		overlay.queue_free()
 
 func _show_setup() -> void:
 	# 새 오버레이 패널로 설정 화면 표시
@@ -437,14 +447,14 @@ func _show_setup() -> void:
 	vb.custom_minimum_size = Vector2(340, 0)
 	center.add_child(vb)
 	var t := Label.new()
-	t.text = _tr("⚡ 스캘핑 트레이딩", "⚡ Scalping Trading")
+	t.text = _tr("스캘핑 트레이딩", "Scalping Trading")
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.add_theme_font_size_override("font_size", 22)
 	t.add_theme_color_override("font_color", Color("#f0b429"))
 	_f(t, true)
 	vb.add_child(t)
 	var desc := Label.new()
-	desc.text = _tr("60초 안에 저점 매수 → 고점 매도\n투자감각 %d  ( %s )", "Buy lows and sell highs within 60 seconds\nInvestment Sense %d  ( %s )") % [_skill_level,
+	desc.text = _tr("60초 안에 저점 매수 / 고점 매도\n투자감각 %d  ( %s )", "Buy lows / sell highs within 60 seconds\nInvestment Sense %d  ( %s )") % [_skill_level,
 		_tr("노이즈 낮음 · 추세 힌트 있음", "Low noise · trend hints enabled") if _skill_level >= 40 else _tr("노이즈 높음", "High noise")]
 	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	desc.add_theme_font_size_override("font_size", 12)
@@ -494,7 +504,7 @@ func _show_result() -> void:
 	vb.custom_minimum_size = Vector2(300, 0)
 	center.add_child(vb)
 	var t := Label.new()
-	t.text = _tr("⚡ 세션 종료", "⚡ Session Complete")
+	t.text = _tr("세션 종료", "Session Complete")
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	t.add_theme_font_size_override("font_size", 20)
 	t.add_theme_color_override("font_color", Color("#f0b429"))
@@ -570,12 +580,12 @@ func _on_sell() -> void:
 func _apply_result() -> void:
 	GameState.add_money(_realized)
 	if _realized > 0:
-		GameState.add_log(_tr("⚡ 스캘핑으로 %s 벌었다. (%d회 거래)", "⚡ Earned %s from scalping. (%d trades)") % [_fmt(_realized), _trades], "money")
+		GameState.add_log(_tr("스캘핑으로 %s 벌었다. (%d회 거래)", "Earned %s from scalping. (%d trades)") % [_fmt(_realized), _trades], "money")
 		GameState.modify_stat("investment_skill", 1)
 		GameState.modify_hidden_stat("gambling_tendency", 2)
 		AudioManager.play("money_big" if _realized >= 1_000_000.0 else "money_gain")
 	elif _realized < 0:
-		GameState.add_log(_tr("⚡ 스캘핑에서 %s 잃었다.", "⚡ Lost %s from scalping.") % _fmt(-_realized), "money")
+		GameState.add_log(_tr("스캘핑에서 %s 잃었다.", "Lost %s from scalping.") % _fmt(-_realized), "money")
 		GameState.modify_hidden_stat("stress", 4)
 		AudioManager.play("money_loss")
 	# 많이 할수록 중독성
