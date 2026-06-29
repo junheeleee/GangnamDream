@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Title Collection Surface Pass)
+
+### 수정
+- `scenes/MainGame.gd`: 칭호 도감의 `🏆/🔒/🎁` 노출 이모지를 제거하고, 해금/미해금/희귀도 정보를 `OWNED/HIDDEN` 무채색 배지 카드로 재구성했다.
+- `scenes/MainGame.gd`: 칭호 해금 토스트와 로그를 플랫폼 이모지 없이 `칭호 해금` / `Title Unlocked` 계열 문장으로 정리했다.
+- `tools/ScreenshotQA.gd`: 칭호 도감만 빠르게 검증하는 `--qa=title-en` 스코프를 추가했다.
+- `docs/QA_CHECKLIST.md`: Targeted Screenshot QA 매트릭스에 `title-en`을 추가했다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=title-en` 실행 완료. `title_en_01_title_collection` 직접 확인: `UNCOMMON` 배지 잘림 수정 후 정상 표시.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Ending Modal Emoji Surface Cleanup)
 
 ### 수정

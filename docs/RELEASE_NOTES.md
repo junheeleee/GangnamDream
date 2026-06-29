@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed (2026-06-29) — Title collection surface pass
+
+- Reworked the title collection modal from emoji-led rows into restrained card rows with monochrome `OWNED` / `HIDDEN` and rarity badges.
+- Removed visible platform emoji from title unlock toast/log copy and next-run title bonus copy.
+- Added a focused `--qa=title-en` ScreenshotQA scope for fast title collection regression checks.
+
 ### Changed (2026-06-29) — Ending modal emoji surface cleanup
 
 - Removed visible platform emoji/icons from the ending modal header, cast epilogue, stat grid, next-run hints, milestone list, collection progress, and share button.

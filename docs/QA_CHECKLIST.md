@@ -14,6 +14,7 @@ Use this checklist before major commits, playable builds, and release candidates
 | Main AP screen, action modals, info panel, people modal | `--qa=ap-en` |
 | Demo month summary and demo ending CTA | `--qa=demo-end-en` |
 | Ending modals and ending CG/card surface | `--qa=endings-en` |
+| Title collection and meta-title reward surface | `--qa=title-en` |
 | Casino/minigame UI only | `--qa=casino-en` |
 | Moral tint/filter only | `--qa=moral` |
 | Scene transition only | `--qa=transition` |

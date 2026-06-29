@@ -12,6 +12,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -32,6 +33,7 @@ const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
+const QA_SCOPE_TITLE_EN := "title_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -111,6 +113,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_demo_end_surfaces(lang, "demo_end_en_" if lang == "en" else "demo_end_ko_")
 		print("SCREENSHOT_QA_DONE scope=demo-end-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_TITLE_EN:
+		var lang := _qa_language("en")
+		await _shot_title_collection_surface(lang, "title_en_" if lang == "en" else "title_ko_")
+		print("SCREENSHOT_QA_DONE scope=title-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SURFACE_EN:
@@ -196,6 +204,10 @@ func _qa_scope() -> String:
 				"qa=demo-end-en", "--qa=demo-end-en", "qa=demo_end_en", "--qa=demo_end_en",
 				"scope=demo-end-en", "--scope=demo-end-en"]:
 			return QA_SCOPE_DEMO_END_EN
+		if arg in ["title-en", "title_en", "titles-en", "titles_en", "--title-en", "--title_en",
+				"qa=title-en", "--qa=title-en", "qa=title_en", "--qa=title_en",
+				"scope=title-en", "--scope=title-en", "scope=title_en", "--scope=title_en"]:
+			return QA_SCOPE_TITLE_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -473,6 +485,32 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 
 func _shot_demo_end_surfaces(lang: String = "en", prefix: String = "demo_end_en_") -> void:
 	await _shot_demo_loop_surfaces(lang, prefix)
+
+func _shot_title_collection_surface(lang: String = "en", prefix: String = "title_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	MetaProgression.data["unlocked_titles"] = [
+		"gosiwon_survivor",
+		"first_move",
+		"apartment_life",
+		"first_paycheck",
+		"first_investment",
+		"steady_youth",
+		"father_peace_title",
+	]
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	if _mg.has_method("_open_title_collection"):
+		_mg._open_title_collection()
+		await _settle(0.8)
+		await _save(prefix + "01_title_collection")
+	else:
+		print("SKIP title collection (no _open_title_collection)")
 
 func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> void:
 	_set_qa_language(lang)

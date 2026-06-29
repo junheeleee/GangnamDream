@@ -8965,11 +8965,80 @@ func _get_month_advice() -> String:
 
 func _check_title_unlocks():
 	var newly = MetaProgression.check_and_unlock_titles()
-	var rare_colors = {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
+	var rare_colors = {"common": "#8892a4", "uncommon": "#b8c0cc", "rare": "#dce5ee", "legendary": "#f8fbff"}
 	for t in newly:
 		var color = rare_colors.get(t.get("rare", "common"), "#8892a4")
-		_show_toast(_tr("🏆 칭호 해금! 「%s」", "🏆 Title Unlocked! \"%s\"") % t.get("name", ""), Color(color))
-		GameState.add_log(_tr("🏆 칭호 해금: %s", "🏆 Title Unlocked: %s") % t.get("name", ""), "system")
+		_show_toast(_tr("칭호 해금: 「%s」", "Title Unlocked: \"%s\"") % t.get("name", ""), Color(color))
+		GameState.add_log(_tr("칭호 해금: %s", "Title Unlocked: %s") % t.get("name", ""), "system")
+
+func _title_collection_badge(text: String, color: String, muted: bool = false) -> PanelContainer:
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(98, 24)
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#11131a", 0.90) if not muted else Color("#090a0e", 0.80)
+	st.border_color = Color(color, 0.62 if not muted else 0.26)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(5)
+	st.content_margin_left = 8
+	st.content_margin_right = 8
+	st.content_margin_top = 3
+	st.content_margin_bottom = 3
+	badge.add_theme_stylebox_override("panel", st)
+	var lbl := _label(text, 10, color if not muted else "#4f5665")
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	if _font_bold and not muted:
+		lbl.add_theme_font_override("font", _font_bold)
+	badge.add_child(lbl)
+	return badge
+
+func _title_collection_row(name_text: String, desc_text: String, rare_label: String, rare_color: String, is_unlocked: bool) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0, 62 if is_unlocked else 46)
+	card.set_meta("moral_role", "info_card")
+	card.set_meta("moral_accent", rare_color if is_unlocked else "#3a3f4f")
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#101116", 0.96) if is_unlocked else Color("#08090d", 0.82)
+	st.border_color = Color(rare_color, 0.52) if is_unlocked else Color("#252935", 0.72)
+	st.set_border_width_all(1)
+	st.border_width_left = 3 if is_unlocked else 1
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	card.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	card.add_child(row)
+
+	var text_col := VBoxContainer.new()
+	text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_col.add_theme_constant_override("separation", 2)
+	row.add_child(text_col)
+
+	var top_row := HBoxContainer.new()
+	top_row.add_theme_constant_override("separation", 8)
+	text_col.add_child(top_row)
+
+	var name_lbl := _label(name_text, 13, "#e8eaf0" if is_unlocked else "#5b6372")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if _font_bold and is_unlocked:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	top_row.add_child(name_lbl)
+	top_row.add_child(_title_collection_badge(rare_label, rare_color, not is_unlocked))
+
+	if is_unlocked and not desc_text.is_empty():
+		var desc_lbl := _wrap_label(desc_text, 11, "#7f8794")
+		text_col.add_child(desc_lbl)
+
+	var status_text := _tr("획득", "OWNED") if is_unlocked else _tr("미발견", "HIDDEN")
+	row.add_child(_title_collection_badge(status_text, "#c8d0df" if is_unlocked else "#4f5665", not is_unlocked))
+	return card
 
 func _open_title_collection():
 	_open_modal(_tr("칭호 도감", "Title Collection"))
@@ -9005,12 +9074,12 @@ func _open_title_collection():
 				perk_parts.append("%s %+d" % [stat_display.get(str(stat), str(stat)), amount])
 		if not perk_parts.is_empty():
 			modal_body.add_child(_wrap_label(
-				_tr("🎁 다음 런 시작 보너스:  ", "🎁 Next Run Start Bonus:  ") + " · ".join(perk_parts), 12, "#f0b429"))
+				_tr("다음 런 시작 보너스:  ", "Next Run Start Bonus:  ") + " · ".join(perk_parts), 12, "#dce5ee"))
 
-	var rare_colors = {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
+	var rare_colors = {"common": "#8892a4", "uncommon": "#b8c0cc", "rare": "#dce5ee", "legendary": "#f8fbff"}
 	var rare_labels = {
-		"common": _tr("일반", "Common"), "uncommon": _tr("희귀", "Uncommon"),
-		"rare": _tr("레어", "Rare"), "legendary": _tr("전설", "Legendary")
+		"common": _tr("일반", "COMMON"), "uncommon": _tr("희귀", "UNCOMMON"),
+		"rare": _tr("레어", "RARE"), "legendary": _tr("전설", "LEGENDARY")
 	}
 	var cat_names: Dictionary = {
 		"주거": _tr("주거", "Housing"), "직업": _tr("직업", "Career"), "투자": _tr("투자", "Investment"),
@@ -9028,23 +9097,19 @@ func _open_title_collection():
 		var sep = HSeparator.new()
 		sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(sep)
-		modal_body.add_child(_label("── %s ──" % cat_names.get(cat, cat), 12, "#5a6075"))
+		var cat_text := str(cat_names.get(cat, cat))
+		if LocaleManager.is_english():
+			cat_text = cat_text.to_upper()
+		modal_body.add_child(_label(cat_text, 12, "#7f8794"))
 		for t in cat_titles:
 			var tid: String = t["id"]
 			var display_t: Dictionary = MetaProgression.get_title_info(tid)
 			var is_unlocked: bool = unlocked.has(tid)
 			var rare: String = t.get("rare", "common")
-			var color = rare_colors.get(rare, "#8892a4") if is_unlocked else "#3a3a4a"
-			var name_text: String = display_t.get("name", tid) if is_unlocked else "???"
-			var row = HBoxContainer.new()
-			row.add_theme_constant_override("separation", 6)
-			var icon = "🏆" if is_unlocked else "🔒"
-			var lbl = _label("%s  %s  [%s]" % [icon, name_text, rare_labels.get(rare, rare)], 13, color)
-			lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			row.add_child(lbl)
-			modal_body.add_child(row)
-			if is_unlocked:
-				modal_body.add_child(_wrap_label("    %s" % display_t.get("desc", ""), 11, "#5a6075"))
+			var color: String = rare_colors.get(rare, "#8892a4")
+			var name_text: String = str(display_t.get("name", tid)) if is_unlocked else _tr("미발견 칭호", "Undiscovered Title")
+			var desc_text: String = str(display_t.get("desc", "")) if is_unlocked else ""
+			modal_body.add_child(_title_collection_row(name_text, desc_text, str(rare_labels.get(rare, rare)), color, is_unlocked))
 
 	var sep_end = HSeparator.new()
 	sep_end.add_theme_color_override("color", Color("#252535"))
