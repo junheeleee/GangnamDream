@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed (2026-06-29) — Ending card surface polish
+
+- Polished non-CG ending cards so they read like finished finale records instead of placeholder/system cards.
+- Replaced generic fallback wording with grade-aware finale lines.
+- Updated ending screenshot QA seeds so representative ending captures show coherent final assets and moral/path states.
+
 ### Added (2026-06-29) — Targeted screenshot QA scopes
 
 - Added focused `ScreenshotQA` scopes for start surfaces, StoryMode/VN surfaces, AP/info-panel surfaces, demo-ending surfaces, and ending surfaces.

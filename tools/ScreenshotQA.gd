@@ -1028,7 +1028,92 @@ func _shot_casino_table(node_name: String, shot_name: String, prefix: String = "
 
 func _shot_ending(ending_id: String, shot_name: String) -> void:
 	if _mg.has_method("_show_ending"):
+		_seed_ending_state(ending_id)
 		_mg._show_ending(ending_id)
 		await _settle(1.0)
 		await _save(shot_name)
 		await _settle(0.3)
+
+func _seed_ending_state(ending_id: String) -> void:
+	GameState.age = 38
+	GameState.year = 2031
+	GameState.month = 1
+	GameState.week_of_month = 1
+	GameState.turn = 240
+	GameState.portfolio.clear()
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.monthly_income = 0.0
+	GameState.health = 62
+	GameState.mental = 58
+	GameState.reputation = 42
+	GameState.route_orthodox = 8
+	GameState.route_unorthodox = 8
+	GameState.moral_tint = 0.0
+	GameState.housing = "apartment"
+	GameState.current_job = {"name":("Office Worker" if LocaleManager.is_english() else "사무직"), "base_salary": 2_240_000.0, "tier": 2}
+	match ending_id:
+		"gangnam_dream", "gangnam_dream_white", "full_circle":
+			GameState.money = 3_180_000_000.0
+			GameState.housing = "gangnam"
+			GameState.health = 76
+			GameState.mental = 74
+			GameState.reputation = 88
+			GameState.route_orthodox = 18
+			GameState.route_unorthodox = 9
+			GameState.moral_tint = 72.0 if ending_id == "gangnam_dream_white" else 24.0
+		"empty_house", "jaehyuk_way", "lonely_rich":
+			GameState.money = 3_050_000_000.0
+			GameState.housing = "gangnam"
+			GameState.health = 48
+			GameState.mental = 34
+			GameState.reputation = 70
+			GameState.route_orthodox = 5
+			GameState.route_unorthodox = 24
+			GameState.moral_tint = -72.0
+		"bankruptcy", "debt_spiral":
+			GameState.money = -118_000_000.0
+			GameState.housing = "gosiwon"
+			GameState.health = 31
+			GameState.mental = 22
+			GameState.reputation = 4
+			GameState.route_orthodox = 4
+			GameState.route_unorthodox = 16
+			GameState.moral_tint = -34.0
+		"burnout", "mental_break", "career_burnout":
+			GameState.money = 18_000_000.0
+			GameState.health = 12 if ending_id == "burnout" else 28
+			GameState.mental = 9 if ending_id == "mental_break" else 24
+			GameState.reputation = 22
+			GameState.moral_tint = -18.0
+		"crypto_ghost":
+			GameState.money = -42_000_000.0
+			GameState.housing = "gosiwon"
+			GameState.health = 26
+			GameState.mental = 12
+			GameState.reputation = 6
+			GameState.route_orthodox = 2
+			GameState.route_unorthodox = 26
+			GameState.moral_tint = -86.0
+		"stable_success":
+			GameState.money = 1_050_000_000.0
+			GameState.health = 70
+			GameState.mental = 68
+			GameState.reputation = 52
+			GameState.route_orthodox = 14
+			GameState.route_unorthodox = 10
+			GameState.moral_tint = 6.0
+		"orthodox_pinnacle", "career_climber":
+			GameState.money = 1_240_000_000.0
+			GameState.health = 58
+			GameState.mental = 46
+			GameState.reputation = 78
+			GameState.route_orthodox = 28
+			GameState.route_unorthodox = 4
+			GameState.moral_tint = -4.0
+			GameState.current_job = {"name":("Major Corporation Manager" if LocaleManager.is_english() else "대기업 관리자"), "base_salary": 7_200_000.0, "tier": 4}
+		_:
+			GameState.money = 180_000_000.0
+	if is_instance_valid(_mg) and _mg.has_method("_apply_moral_visuals"):
+		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+	if is_instance_valid(_mg) and _mg.has_method("_render_sidebars"):
+		_mg._render_sidebars()

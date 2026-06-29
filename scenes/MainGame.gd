@@ -7248,11 +7248,11 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	title_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_col.add_theme_constant_override("separation", 5)
 	header.add_child(title_col)
-	title_col.add_child(_label(_tr("최종 기록", "RUN FINALE"), 10, _moral_hex(_moral_text_accent(Color("#7f8896"), 0.02))))
+	title_col.add_child(_label(_tr("최종 기록", "FINAL RECORD"), 10, _moral_hex(_moral_text_accent(Color("#7f8896"), 0.02))))
 	var title_lbl: Label = _label(_fmt(str(ending.get("title", ending_id))), 26, _moral_hex(_moral_text_accent(Color("#eef2f8"), 0.06)))
 	title_lbl.clip_text = false
 	title_col.add_child(title_lbl)
-	title_col.add_child(_wrap_label(_ending_card_signal_line(ending_id), 13, _moral_hex(_moral_text_accent(Color("#aeb7c2"), 0.03))))
+	title_col.add_child(_wrap_label(_ending_card_signal_line(ending_id, str(ending.get("grade", "?"))), 13, _moral_hex(_moral_text_accent(Color("#aeb7c2"), 0.03))))
 
 	var grade_box := PanelContainer.new()
 	grade_box.custom_minimum_size = Vector2(128, 82)
@@ -7278,9 +7278,9 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	var meta_row := HBoxContainer.new()
 	meta_row.add_theme_constant_override("separation", 8)
 	box.add_child(meta_row)
-	_add_ending_card_chip(meta_row, _tr("도덕 표면", "Moral Surface"), _ending_moral_surface_label(), "#cbd5df")
-	_add_ending_card_chip(meta_row, _tr("루트", "Route"), GameState.get_route_identity(), "#aeb7c2")
-	_add_ending_card_chip(meta_row, _tr("최종 자산", "Final Asset"), GameState.format_money(GameState.get_total_asset_value()), "#d9ffe8" if stage <= -1 else "#cbd5df")
+	_add_ending_card_chip(meta_row, _tr("남은 색", "Moral Trace"), _ending_moral_surface_label(), "#cbd5df")
+	_add_ending_card_chip(meta_row, _tr("경로", "Path"), _ending_card_route_label(), "#aeb7c2")
+	_add_ending_card_chip(meta_row, _tr("최종 자산", "Final Assets"), GameState.format_money(GameState.get_total_asset_value()), "#d9ffe8" if stage <= -1 else "#cbd5df")
 
 	var bars := HBoxContainer.new()
 	bars.add_theme_constant_override("separation", 5)
@@ -7344,7 +7344,14 @@ func _ending_moral_surface_label() -> String:
 		return _tr("연회색 — 회복 쪽", "Light Gray — leaning clear")
 	return _tr("회색 — 아직 정해지지 않음", "Gray — still unresolved")
 
-func _ending_card_signal_line(ending_id: String) -> String:
+func _ending_card_route_label() -> String:
+	var raw := GameState.get_route_identity()
+	raw = raw.replace("📍 ", "").replace("🏆 ", "").replace("📘 ", "").replace("⚖️ ", "").replace("🌊 ", "")
+	if raw == _tr("방향 없음", "No Direction"):
+		return _tr("아직 고정되지 않은 길", "Unfixed path")
+	return raw
+
+func _ending_card_signal_line(ending_id: String, grade: String = "?") -> String:
 	match ending_id:
 		"jaehyuk_way":
 			return _tr("강남은 왔지만, 화면은 닫힌다.", "He reached Gangnam, but the screen closes in.")
@@ -7358,8 +7365,19 @@ func _ending_card_signal_line(ending_id: String) -> String:
 			return _tr("마지막 사다리를 치우고, 빚보다 무거운 것을 내려놓았다.", "He removed the last ladder and laid down something heavier than debt.")
 		"gambling_recovery":
 			return _tr("오늘도 동그라미 하나. 작지만 가장 어려운 승리.", "One more circle today. Small, and the hardest victory.")
+	match grade:
+		"S+", "S":
+			return _tr("강남은 끝이 아니라, 무엇을 남겼는지 묻는 장면이 되었다.", "Gangnam is not the end. It asks what survived the climb.")
+		"A+", "A":
+			return _tr("성공은 도착했다. 이제 남은 것은 그 성공의 모양이다.", "Success arrived. What remains is the shape it took.")
+		"B":
+			return _tr("강남드림은 모양을 바꾸었다. 그래도 삶은 여기까지 왔다.", "The Gangnam Dream changed shape. Life still made it this far.")
+		"C":
+			return _tr("전설은 아니었다. 하지만 이 결말도 한 사람의 생활이다.", "Not a legend. Still, this ending is someone's life.")
+		"F":
+			return _tr("이번 런은 여기서 멈춘다. 남은 것은 대가의 기록이다.", "This run stops here. What remains is the record of its cost.")
 		_:
-			return _tr("이 결말은 여기까지 온 선택의 흔적으로 남는다.", "This ending remains as a trace of the choices that led here.")
+			return _tr("도시는 이 결말에 아직 이름을 붙이지 못했다.", "The city does not quite know how to name this ending.")
 
 func _get_ending_cg_path(ending: Dictionary) -> String:
 	var cg_id := str(ending.get("cg", ""))

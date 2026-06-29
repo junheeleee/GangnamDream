@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Ending Card Surface Polish Pass)
+
+### 수정
+- `scenes/MainGame.gd`: 전용 CG 없는 엔딩 카드의 영어 표면을 덜 디버그/플레이스홀더처럼 보이게 정리했다.
+  - `RUN FINALE` → `FINAL RECORD`
+  - `Moral Surface` → `Moral Trace`
+  - `Route` → `Path`
+  - `Final Asset` → `Final Assets`
+- `scenes/MainGame.gd`: 기본 엔딩 카드 설명문 `This ending remains as a trace...`를 제거하고 등급별 문장으로 교체했다. B급은 “강남드림이 모양을 바꾼 결말”, F급은 “대가의 기록”처럼 카드 자체가 컷신 없는 엔딩의 톤을 잡도록 했다.
+- `scenes/MainGame.gd`: `No Direction` 같은 시스템 진단어를 엔딩 카드에서는 `Unfixed path` / `아직 고정되지 않은 길`로 낮췄다.
+- `tools/ScreenshotQA.gd`: 엔딩 캡처 전 대표 상태를 엔딩별로 시드한다. `bankruptcy`는 음수 자산, `stable_success`는 10억대 안정 성공, `crypto_ghost`는 강한 Black 표면처럼 엔딩 본문과 카드 내부 수치가 맞도록 보정했다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=endings-en` 실행 완료. `ending_en_15_ending_stable_success`, `ending_en_14_ending_bankruptcy` 직접 확인.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Targeted Screenshot QA Pass)
 
 ### 수정
