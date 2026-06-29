@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Start Menu Meta Badge Pass)
+
+### 수정
+- `scenes/StartMenu.gd`: 내부 `PRESS ANY KEY` 스플래시의 누적 기록/엔딩 도감 진행도를 이모지 문장에서 `RUNS` / `BEST` / `ENDINGS` 무채색 메타 배지로 교체했다.
+- `scenes/StartMenu.gd`: 영어 시작 화면 금액 포맷에 B 단위를 추가해 `KRW 1240.0M` 대신 `KRW 1.2B`처럼 표시되게 했다.
+- `tools/ScreenshotQA.gd`: `--qa=start-en`에 StartMenu 내부 press-any-key 화면 캡처 `start_en_02a_start_menu_press_any_key`를 추가했다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=start-en` 실행 완료. `start_en_02a_start_menu_press_any_key`, `start_en_02_start_menu` 직접 확인: 이모지 제거 및 `KRW 1.2B` 표시 정상.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Title Collection Surface Pass)
 
 ### 수정

@@ -308,6 +308,7 @@ func _clear_output_dir() -> void:
 
 func _shot_start_menu(lang: String, shot_name: String) -> void:
 	_set_qa_language(lang)
+	_seed_start_menu_meta_progress()
 	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
 	var menu := packed.instantiate()
 	get_tree().root.add_child.call_deferred(menu)
@@ -339,11 +340,13 @@ func _shot_splash_screen(lang: String, shot_name: String) -> void:
 func _shot_start_menu_notice(lang: String, prefix: String) -> void:
 	_set_qa_language(lang)
 	MetaProgression.data["content_warning_seen"] = false
+	_seed_start_menu_meta_progress()
 	var packed: PackedScene = load("res://scenes/StartMenu.tscn")
 	var menu := packed.instantiate()
 	get_tree().root.add_child.call_deferred(menu)
 	await get_tree().process_frame
 	await _settle(0.8)
+	await _save(prefix + "02a_start_menu_press_any_key")
 	if menu.has_method("_dismiss_splash"):
 		menu._dismiss_splash()
 	await _settle(0.5)
@@ -623,6 +626,17 @@ func _seed_portfolio() -> void:
 		return
 	GameState.portfolio["samsung"] = {"quantity": 30.0, "avg_price": 68000.0}
 	GameState.portfolio["nvidia"] = {"quantity": 2.0, "avg_price": 820000.0}
+
+func _seed_start_menu_meta_progress() -> void:
+	MetaProgression.data["total_runs"] = 3
+	MetaProgression.data["best_asset"] = 1_240_000_000.0
+	MetaProgression.data["discovered_endings"] = [
+		"ordinary_life",
+		"stable_success",
+		"bankruptcy",
+		"crypto_ghost",
+		"gangnam_dream",
+	]
 
 func _suppress_tutorial_overlays() -> void:
 	for id in ["main_game", "holdem", "racetrack", "baccarat", "blackjack",

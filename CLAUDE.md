@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-29** — **Codex Title Collection Surface Pass**: 칭호 도감이 모바일 배지 목록처럼 보이던 `🏆/🔒/🎁` 표면을 제거하고, 해금/미해금/희귀도 정보를 `OWNED/HIDDEN` 무채색 배지 카드로 재구성했다. 칭호 해금 토스트/로그도 플랫폼 이모지 없이 `Title Unlocked` 계열로 정리. `ScreenshotQA --qa=title-en` 신규 스코프 추가 및 `title_en_01_title_collection` 직접 확인(UNCOMMON 배지 잘림 수정 포함). `audit.sh`, `english_hangul_audit.py` 통과. |
+| **최근 완료** | **2026-06-29** — **Codex Start Menu Meta Badge Pass**: StartMenu 내부 `PRESS ANY KEY` 스플래시의 누적 기록/엔딩 도감 진행도를 이모지 문장(`📖 Endings...`)에서 작은 무채색 메타 배지(`RUNS/BEST/ENDINGS`)로 교체했다. 영어 금액 포맷도 `KRW 1240.0M`→`KRW 1.2B`처럼 B 단위를 지원. `ScreenshotQA --qa=start-en`에 `start_en_02a_start_menu_press_any_key` 캡처를 추가하고 해당 화면/메인 시작 화면 직접 확인. `audit.sh`, `english_hangul_audit.py` 통과. |
+| **이전** | **2026-06-29** — **Codex Title Collection Surface Pass**: 칭호 도감이 모바일 배지 목록처럼 보이던 `🏆/🔒/🎁` 표면을 제거하고, 해금/미해금/희귀도 정보를 `OWNED/HIDDEN` 무채색 배지 카드로 재구성했다. 칭호 해금 토스트/로그도 플랫폼 이모지 없이 `Title Unlocked` 계열로 정리. `ScreenshotQA --qa=title-en` 신규 스코프 추가 및 `title_en_01_title_collection` 직접 확인(UNCOMMON 배지 잘림 수정 포함). `audit.sh`, `english_hangul_audit.py` 통과. |
 | **이전** | **2026-06-29** — **Codex Ending Modal Emoji Surface Cleanup**: 엔딩 모달이 모바일 결과창처럼 보이게 하던 노출 이모지/플랫폼 아이콘을 제거했다. 등급 헤더의 큰 이모지, 인연 에필로그/스탯/다음 런 힌트/발자취/도감/공유 버튼의 `📋/🔁/📊/💰/🏆`류 표면을 정리하고, route identity도 엔딩 카드와 같은 plain label을 쓰도록 맞췄다. QA는 수정 부위 기준으로 `ScreenshotQA --qa=endings-en`만 실행하고 `ending_en_15_ending_stable_success`, `ending_en_14_ending_bankruptcy` 직접 확인. `audit.sh`, `english_hangul_audit.py` 통과. |
 | **이전** | **2026-06-29** — **Codex Hidden Moral Surface Leak Fix**: 엔딩 카드에 `Moral Trace`, `Gray/Black/White`처럼 숨은 `MORAL_TINT` 시스템을 대놓고 보여주던 문제 수정. 엔딩 카드의 공개 메타칩은 `Last Home / Path / Final Assets`로 제한하고, hidden moral 값 막대도 목표 자산 진행 막대로 교체했다. 도덕 상태는 앞으로도 색·질감·명암으로만 체감되어야 하며 UI 텍스트로 설명하지 않는다. `ScreenshotQA --qa=endings-en` 직접 확인, `audit.sh`, `english_hangul_audit.py` 통과. |
 | **이전** | **2026-06-29** — **Codex Ending Card Surface Polish Pass**: 전용 CG 없는 엔딩 카드가 플레이스홀더처럼 보이던 문구를 보정. `RUN FINALE`→`FINAL RECORD`, 기본 설명문을 등급별 완성 문장으로 교체. `ScreenshotQA --qa=endings-en`의 엔딩별 대표 시드도 보정해 bankruptcy/stable_success 등 카드 내부 최종 자산이 본문과 맞게 표시되도록 했다. ※ 직후 Hidden Moral Surface Leak Fix에서 hidden moral 명시 문구는 전부 제거. |
@@ -76,7 +77,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: Title Collection Surface Pass — 칭호 도감의 모바일식 이모지/배지 표면 정리.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: Start Menu Meta Badge Pass — 시작 내부 스플래시 메타 기록 배지화.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

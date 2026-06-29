@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed (2026-06-29) — Start menu meta badge pass
+
+- Replaced the StartMenu press-any-key splash progress line with compact monochrome `RUNS` / `BEST` / `ENDINGS` meta badges.
+- Added billion formatting for English start-menu money values (`KRW 1.2B` instead of `KRW 1240.0M`).
+- Extended `--qa=start-en` to capture the StartMenu internal press-any-key splash before dismissing it.
+
 ### Changed (2026-06-29) — Title collection surface pass
 
 - Reworked the title collection modal from emoji-led rows into restrained card rows with monochrome `OWNED` / `HIDDEN` and rarity badges.

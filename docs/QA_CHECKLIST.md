@@ -9,7 +9,7 @@ Use this checklist before major commits, playable builds, and release candidates
 
 | Change area | Fast QA command |
 |---|---|
-| Splash, opening, start menu, content notice | `--qa=start-en` |
+| Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | StoryMode/VN intro events, choices, chapter card | `--qa=story-en` |
 | Main AP screen, action modals, info panel, people modal | `--qa=ap-en` |
 | Demo month summary and demo ending CTA | `--qa=demo-end-en` |

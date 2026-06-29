@@ -148,6 +148,8 @@ func _slot_title(slot: int) -> String:
 
 func _format_start_money(amount: float) -> String:
 	if LocaleManager.is_english():
+		if abs(amount) >= 1_000_000_000.0:
+			return "KRW %.1fB" % (amount / 1_000_000_000.0)
 		if abs(amount) >= 1_000_000.0:
 			return "KRW %.1fM" % (amount / 1_000_000.0)
 		if abs(amount) >= 1_000.0:
@@ -236,28 +238,21 @@ func _build_splash():
 	var meta = MetaProgression.data
 	var total_runs = int(meta.get("total_runs", 0))
 	if total_runs > 0:
-		var stats_lbl = Label.new()
-		stats_lbl.text = _tr(
-			"누적 %d런  ·  최고 자산 %s" % [total_runs, _format_money(meta.get("best_asset", 0))],
-			"%d runs  ·  Best assets %s" % [total_runs, _format_start_money(float(meta.get("best_asset", 0)))])
-		stats_lbl.add_theme_font_size_override("font_size", 12)
-		stats_lbl.add_theme_color_override("font_color", Color(MENU_TEXT_FAINT))
-		stats_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		vbox.add_child(stats_lbl)
+		var meta_row := HBoxContainer.new()
+		meta_row.alignment = BoxContainer.ALIGNMENT_CENTER
+		meta_row.add_theme_constant_override("separation", 8)
+		vbox.add_child(meta_row)
+		meta_row.add_child(_splash_meta_badge(_tr("런", "RUNS"), "%d" % total_runs))
+		meta_row.add_child(_splash_meta_badge(
+			_tr("최고", "BEST"),
+			_format_money(meta.get("best_asset", 0)) if not LocaleManager.is_english() else _format_start_money(float(meta.get("best_asset", 0)))))
 
 		# 엔딩 도감 진행도 — 컴플리션 후크 (메뉴에서 바로 보이게)
 		var coll: Dictionary = MetaProgression.get_ending_collection_progress()
 		var coll_found: int = int(coll.get("found", 0))
 		var coll_total: int = int(coll.get("total", 0))
 		if coll_total > 0:
-			var coll_lbl = Label.new()
-			coll_lbl.text = _tr(
-				"📖 엔딩 도감  %d / %d 발견" % [coll_found, coll_total],
-				"📖 Endings  %d / %d discovered" % [coll_found, coll_total])
-			coll_lbl.add_theme_font_size_override("font_size", 12)
-			coll_lbl.add_theme_color_override("font_color", Color(MENU_TEXT_FAINT) if coll_found < coll_total else Color(MENU_ACCENT))
-			coll_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			vbox.add_child(coll_lbl)
+			meta_row.add_child(_splash_meta_badge(_tr("엔딩", "ENDINGS"), "%d / %d" % [coll_found, coll_total], coll_found >= coll_total))
 
 	var spacer = Control.new()
 	spacer.custom_minimum_size = Vector2(0, 52)
@@ -275,6 +270,40 @@ func _build_splash():
 	_splash_prompt_tween.set_loops()
 	_splash_prompt_tween.tween_property(press_lbl, "modulate:a", 0.12, 0.75)
 	_splash_prompt_tween.tween_property(press_lbl, "modulate:a", 1.0, 0.75)
+
+func _splash_meta_badge(label_text: String, value_text: String, complete: bool = false) -> PanelContainer:
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(0, 28)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0d1017", 0.78)
+	st.border_color = Color(MENU_ACCENT, 0.36 if complete else 0.20)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(5)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 4
+	st.content_margin_bottom = 4
+	badge.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 6)
+	badge.add_child(row)
+
+	var label := Label.new()
+	label.text = label_text
+	label.add_theme_font_size_override("font_size", 10)
+	label.add_theme_color_override("font_color", Color(MENU_TEXT_FAINT))
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(label)
+
+	var value := Label.new()
+	value.text = value_text
+	value.add_theme_font_size_override("font_size", 11)
+	value.add_theme_color_override("font_color", Color(MENU_ACCENT if complete else MENU_TEXT_DIM))
+	value.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(value)
+	return badge
 
 func _input(event):
 	if not _splash_active:
