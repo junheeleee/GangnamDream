@@ -3202,7 +3202,7 @@ func _reveal_choices():
 		tw.tween_property(group, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
 		stagger_delay += 0.10
 	if ControllerHints.is_pad_active():
-		var hint = _tr("🎮  [%s] 선택  [%s] 메뉴  (%s)", "🎮  [%s] Choose  [%s] Menu  (%s)") % [
+		var hint = _tr("[%s] 선택  [%s] 메뉴  (%s)", "[%s] Choose  [%s] Menu  (%s)") % [
 			ControllerHints.south(), ControllerHints.start_btn(), ControllerHints.brand_name()]
 		var hlbl = _label(hint, 11, "#3a4a5a")
 		hlbl.set_meta("moral_role", "hint_text")
@@ -3232,7 +3232,7 @@ func _start_choice_countdown(secs: int):
 	pbar.custom_minimum_size = Vector2(0, 6)
 	pbar.show_percentage = false
 	timer_row.add_child(pbar)
-	var tlbl := _label("⏱  %d" % secs, 13, "#f97316")
+	var tlbl := _label(_tr("남은 시간 %d", "Time %d") % secs, 13, "#f97316")
 	tlbl.name = "_countdown_lbl"
 	tlbl.custom_minimum_size = Vector2(44, 0)
 	timer_row.add_child(tlbl)
@@ -3248,7 +3248,7 @@ func _start_choice_countdown(secs: int):
 	_choice_countdown_timer.timeout.connect(func():
 		_choice_countdown_remaining -= 1
 		if is_instance_valid(tlbl):
-			tlbl.text = "⏱  %d" % _choice_countdown_remaining
+			tlbl.text = _tr("남은 시간 %d", "Time %d") % _choice_countdown_remaining
 			if _choice_countdown_remaining <= 3:
 				tlbl.remove_theme_color_override("font_color")
 				tlbl.add_theme_color_override("font_color", Color("#ff4444"))
@@ -4221,9 +4221,9 @@ func _render_ap_actions():
 		var m := ControllerHints.start_btn()
 		var pad_hint: String
 		if disabled:
-			pad_hint = _tr("🎮  [%s] 확인  [%s] 다음 주  [%s/%s] 탭  [%s] 메뉴", "🎮  [%s] Confirm  [%s] Next Week  [%s/%s] Tab  [%s] Menu") % [s, r3, lb, rb, m]
+			pad_hint = _tr("[%s] 확인  [%s] 다음 주  [%s/%s] 탭  [%s] 메뉴", "[%s] Confirm  [%s] Next Week  [%s/%s] Tab  [%s] Menu") % [s, r3, lb, rb, m]
 		else:
-			pad_hint = _tr("🎮  [%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)", "🎮  [%s] Choose  [%s/%s] Tab  [%s] Menu (%s)") % [s, lb, rb, m, ControllerHints.brand_name()]
+			pad_hint = _tr("[%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)", "[%s] Choose  [%s/%s] Tab  [%s] Menu (%s)") % [s, lb, rb, m, ControllerHints.brand_name()]
 		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
 
 	# ── 상점 버튼 비활성화 (서사 유물로 전환 예정) ─────────────
