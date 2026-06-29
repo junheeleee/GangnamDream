@@ -9,6 +9,18 @@ signal closed(stress_delta: int, quality: int)
 
 enum Mode { RESUME, INTERVIEW }
 
+const COL_BG := "#050506"
+const COL_PANEL := "#101012"
+const COL_PANEL_SOFT := "#151518"
+const COL_LINE := "#303036"
+const COL_TEXT := "#e3e3df"
+const COL_TEXT_DIM := "#9b9b94"
+const COL_TEXT_FAINT := "#666660"
+const COL_ACCENT := "#c8c2ad"
+const COL_GOOD := "#b7c9b6"
+const COL_WARN := "#b9a56a"
+const COL_BAD := "#c46f6f"
+
 # ── 자소서 문항 ──────────────────────────────────────────────────
 const RESUME_QUESTION_POOL = [
 	{
@@ -134,8 +146,8 @@ const INTERVIEW_QUESTION_POOL = [
 		]
 	},
 	{
-		"q": "⚡ 돌발: 지금 이 자리에서 스스로를 한 단어로 표현한다면?",
-		"q_en": "⚡ Surprise: If you had to describe yourself in one word right now, what would it be?",
+		"q": "돌발: 지금 이 자리에서 스스로를 한 단어로 표현한다면?",
+		"q_en": "Pressure: If you had to describe yourself in one word right now, what would it be?",
 		"timer": 5.0, "surprise": true,
 		"choices": [
 			{"text": "\"성실함\" — 맡은 일은 반드시 끝내는 사람입니다.", "text_en": "\"Reliability.\" I am someone who finishes what I take responsibility for.", "score": 3},
@@ -164,8 +176,8 @@ const INTERVIEW_QUESTION_POOL = [
 		]
 	},
 	{
-		"q": "⚡ 돌발: 지금 바로 저를 설득해서 제품을 하나 파세요.",
-		"q_en": "⚡ Surprise: Sell me a product right now.",
+		"q": "돌발: 지금 바로 저를 설득해서 제품을 하나 파세요.",
+		"q_en": "Pressure: Sell me a product right now.",
 		"timer": 5.0, "surprise": true,
 		"choices": [
 			{"text": "(침착하게) 이 펜은 오늘 하루를 기록하는 도구입니다. 오늘 당신이 내린 결정, 잊고 싶지 않으시죠?", "text_en": "(Calmly.) This pen records your day: the decisions you made today, the things you do not want to forget.", "score": 3},
@@ -257,11 +269,11 @@ func _process(delta: float) -> void:
 			# 색상 경고
 			if _timer_left < _timer_max * 0.3:
 				var fill := StyleBoxFlat.new()
-				fill.bg_color = Color("#c83030")
+				fill.bg_color = Color(COL_BAD)
 				_timer_bar.add_theme_stylebox_override("fill", fill)
 			elif _timer_left < _timer_max * 0.6:
 				var fill := StyleBoxFlat.new()
-				fill.bg_color = Color("#c8a020")
+				fill.bg_color = Color(COL_WARN)
 				_timer_bar.add_theme_stylebox_override("fill", fill)
 		if _timer_left <= 0.0:
 			_on_timeout()
@@ -297,10 +309,10 @@ func open(mode: Mode) -> void:
 
 	match _mode:
 		Mode.RESUME:
-			_header_lbl.text = LocaleManager.ui("🖊 자기소개서 작성", "🖊 Resume Writing")
+			_header_lbl.text = LocaleManager.ui("자기소개서 작성", "Resume Writing")
 			_start_common()
 		Mode.INTERVIEW:
-			_header_lbl.text = LocaleManager.ui("🎯 모의 면접", "🎯 Mock Interview")
+			_header_lbl.text = LocaleManager.ui("모의 면접", "Mock Interview")
 			_start_common()
 
 func _get_questions() -> Array:
@@ -319,36 +331,50 @@ func _clear_content() -> void:
 func _build_base_ui() -> void:
 	var bg := ColorRect.new()
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	bg.color = Color("#060a12")
+	bg.color = Color(COL_BG)
 	add_child(bg)
 
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(center)
+
+	var frame := PanelContainer.new()
+	frame.custom_minimum_size = Vector2(980, 610)
+	var frame_style := StyleBoxFlat.new()
+	frame_style.bg_color = Color(COL_PANEL)
+	frame_style.border_color = Color(COL_LINE)
+	frame_style.set_border_width_all(1)
+	frame_style.set_corner_radius_all(4)
+	frame.add_theme_stylebox_override("panel", frame_style)
+	center.add_child(frame)
+
 	var margin := MarginContainer.new()
-	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 24)
 	margin.add_theme_constant_override("margin_right", 24)
 	margin.add_theme_constant_override("margin_top", 20)
 	margin.add_theme_constant_override("margin_bottom", 20)
-	add_child(margin)
+	frame.add_child(margin)
 
 	_root_vb = VBoxContainer.new()
 	_root_vb.add_theme_constant_override("separation", 10)
 	margin.add_child(_root_vb)
 
 	var hdr := HBoxContainer.new()
+	hdr.add_theme_constant_override("separation", 12)
 	_root_vb.add_child(hdr)
 	_header_lbl = Label.new()
-	_header_lbl.text = LocaleManager.ui("📋 취업 준비", "📋 Job Prep")
+	_header_lbl.text = LocaleManager.ui("취업 준비", "Job Prep")
 	_header_lbl.add_theme_font_size_override("font_size", 17)
-	_header_lbl.add_theme_color_override("font_color", Color("#c9a227"))
+	_header_lbl.add_theme_color_override("font_color", Color(COL_ACCENT))
 	_header_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hdr.add_child(_header_lbl)
 	_progress_lbl = Label.new()
 	_progress_lbl.add_theme_font_size_override("font_size", 12)
-	_progress_lbl.add_theme_color_override("font_color", Color("#5a6a8a"))
+	_progress_lbl.add_theme_color_override("font_color", Color(COL_TEXT_FAINT))
 	hdr.add_child(_progress_lbl)
 
 	var sep := HSeparator.new()
-	sep.add_theme_color_override("color", Color("#1a2030"))
+	sep.add_theme_color_override("color", Color(COL_LINE))
 	_root_vb.add_child(sep)
 
 	_content_vb = VBoxContainer.new()
@@ -367,15 +393,20 @@ func _start_common() -> void:
 		_timer_bar.show_percentage = false
 		_timer_bar.custom_minimum_size = Vector2(0, 8)
 		var fill := StyleBoxFlat.new()
-		fill.bg_color = Color("#2a7a3a")
+		fill.bg_color = Color(COL_TEXT_DIM)
 		_timer_bar.add_theme_stylebox_override("fill", fill)
+		var bg := StyleBoxFlat.new()
+		bg.bg_color = Color("#1a1a1c")
+		bg.border_color = Color(COL_LINE)
+		bg.set_border_width_all(1)
+		_timer_bar.add_theme_stylebox_override("background", bg)
 		_content_vb.add_child(_timer_bar)
 
 	# 질문 텍스트
 	_q_lbl = Label.new()
 	_q_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_q_lbl.add_theme_font_size_override("font_size", 14)
-	_q_lbl.add_theme_color_override("font_color", Color("#e8eaf0"))
+	_q_lbl.add_theme_color_override("font_color", Color(COL_TEXT))
 	_q_lbl.custom_minimum_size = Vector2(0, 56)
 	_content_vb.add_child(_q_lbl)
 
@@ -383,7 +414,7 @@ func _start_common() -> void:
 	_hint_lbl = Label.new()
 	_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_hint_lbl.add_theme_font_size_override("font_size", 11)
-	_hint_lbl.add_theme_color_override("font_color", Color("#4a6a7a"))
+	_hint_lbl.add_theme_color_override("font_color", Color(COL_TEXT_FAINT))
 	_hint_lbl.custom_minimum_size = Vector2(0, 18)
 	_content_vb.add_child(_hint_lbl)
 
@@ -391,7 +422,7 @@ func _start_common() -> void:
 	_feedback_lbl = Label.new()
 	_feedback_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_feedback_lbl.add_theme_font_size_override("font_size", 12)
-	_feedback_lbl.add_theme_color_override("font_color", Color("#3dba6a"))
+	_feedback_lbl.add_theme_color_override("font_color", Color(COL_GOOD))
 	_feedback_lbl.custom_minimum_size = Vector2(0, 22)
 	_content_vb.add_child(_feedback_lbl)
 
@@ -420,7 +451,7 @@ func _show_question() -> void:
 	var choices: Array = q["choices"]
 	for ci in range(choices.size()):
 		var c: Dictionary = choices[ci]
-		var btn := _make_btn(_loc(c, "text"), "#0e1a2e", 13)
+		var btn := _make_btn(_loc(c, "text"), COL_PANEL_SOFT, 13)
 		btn.pressed.connect(func(): _on_choose(ci))
 		_choice_vb.add_child(btn)
 
@@ -433,14 +464,14 @@ func _show_question() -> void:
 			_timer_bar.value = 100.0
 			# 돌발 질문 표시 (짧은 타이머)
 			if q.get("surprise", false):
-				_hint_lbl.text = LocaleManager.ui("⚡ 돌발 질문! — %d초 안에 대답하세요", "⚡ Surprise question! Answer within %d seconds.") % int(_timer_max)
-				_hint_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
+				_hint_lbl.text = LocaleManager.ui("압박 질문 — %d초 안에 대답하세요", "Pressure question — answer within %d seconds.") % int(_timer_max)
+				_hint_lbl.add_theme_color_override("font_color", Color(COL_BAD))
 			else:
 				_hint_lbl.text = LocaleManager.ui("%d초 안에 대답하세요", "Answer within %d seconds.") % int(_timer_max)
-				_hint_lbl.add_theme_color_override("font_color", Color("#4a6a7a"))
+				_hint_lbl.add_theme_color_override("font_color", Color(COL_TEXT_FAINT))
 			# 타이머 바 색상 리셋
 			var fill := StyleBoxFlat.new()
-			fill.bg_color = Color("#2a7a3a")
+			fill.bg_color = Color(COL_TEXT_DIM)
 			_timer_bar.add_theme_stylebox_override("fill", fill)
 
 func _on_choose(choice_idx: int) -> void:
@@ -459,15 +490,15 @@ func _on_choose(choice_idx: int) -> void:
 	var feedback_color: String
 	match score:
 		3:
-			feedback_text = LocaleManager.ui("✦ 훌륭한 답변입니다.", "✦ Excellent answer.")
-			feedback_color = "#f0e040"
+			feedback_text = LocaleManager.ui("평가 양호 — 설득력 있는 답변입니다.", "Strong answer — clear and credible.")
+			feedback_color = COL_GOOD
 			_stress_delta -= 1
 		1:
-			feedback_text = LocaleManager.ui("○ 무난한 답변입니다.", "○ Acceptable answer.")
-			feedback_color = "#7a9ab0"
+			feedback_text = LocaleManager.ui("평가 보통 — 무난한 답변입니다.", "Acceptable answer — safe, not memorable.")
+			feedback_color = COL_TEXT_DIM
 		_:
-			feedback_text = LocaleManager.ui("✗ 면접관의 표정이 굳었다.", "✗ The interviewer's face hardens.")
-			feedback_color = "#e85d5d"
+			feedback_text = LocaleManager.ui("평가 위험 — 면접관의 표정이 굳었다.", "Weak answer — the interviewer goes still.")
+			feedback_color = COL_BAD
 			_stress_delta += 1
 
 	if is_instance_valid(_feedback_lbl):
@@ -486,8 +517,8 @@ func _on_timeout() -> void:
 	_timer_active = false
 	_stress_delta += 2
 	if is_instance_valid(_feedback_lbl):
-		_feedback_lbl.text = LocaleManager.ui("⏱ 시간 초과 — 침묵이 흘렀다.", "⏱ Time out — silence hangs in the room.")
-		_feedback_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
+		_feedback_lbl.text = LocaleManager.ui("시간 초과 — 침묵이 흘렀다.", "Time out — silence hangs in the room.")
+		_feedback_lbl.add_theme_color_override("font_color", Color(COL_BAD))
 	for ch in _choice_vb.get_children():
 		if ch is Button:
 			ch.disabled = true
@@ -510,27 +541,27 @@ func _show_result() -> void:
 
 	if ratio >= 0.85:
 		quality = 3
-		grade_text = LocaleManager.ui("우수  ★★★", "Excellent  ★★★")
-		grade_color = "#f0e040"
+		grade_text = LocaleManager.ui("평가 A", "Grade A")
+		grade_color = COL_ACCENT
 	elif ratio >= 0.6:
 		quality = 2
-		grade_text = LocaleManager.ui("양호  ★★", "Good  ★★")
-		grade_color = "#3dba6a"
+		grade_text = LocaleManager.ui("평가 B", "Grade B")
+		grade_color = COL_GOOD
 	elif ratio >= 0.35:
 		quality = 1
-		grade_text = LocaleManager.ui("무난  ★", "Passable  ★")
-		grade_color = "#7a9ab0"
+		grade_text = LocaleManager.ui("평가 C", "Grade C")
+		grade_color = COL_TEXT_DIM
 	else:
 		quality = 0
-		grade_text = LocaleManager.ui("재작성 필요  ✗", "Needs Rewrite  ✗")
-		grade_color = "#e85d5d"
+		grade_text = LocaleManager.ui("평가 D", "Grade D")
+		grade_color = COL_BAD
 
 	AudioManager.play("money_gain" if quality >= 2 else ("click" if quality == 1 else "money_loss"))
 
 	var title_lbl := Label.new()
 	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_size_override("font_size", 15)
-	title_lbl.add_theme_color_override("font_color", Color("#c9a227"))
+	title_lbl.add_theme_color_override("font_color", Color(COL_ACCENT))
 	title_lbl.text = LocaleManager.ui("자기소개서 완성", "Resume Complete") if _mode == Mode.RESUME else LocaleManager.ui("모의 면접 종료", "Mock Interview Complete")
 	_content_vb.add_child(title_lbl)
 
@@ -544,7 +575,7 @@ func _show_result() -> void:
 	var score_lbl := Label.new()
 	score_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	score_lbl.add_theme_font_size_override("font_size", 12)
-	score_lbl.add_theme_color_override("font_color", Color("#5a6a8a"))
+	score_lbl.add_theme_color_override("font_color", Color(COL_TEXT_FAINT))
 	score_lbl.text = LocaleManager.ui("점수 %d / %d", "Score %d / %d") % [_total_score, max_score]
 	_content_vb.add_child(score_lbl)
 
@@ -552,7 +583,7 @@ func _show_result() -> void:
 	var desc_lbl := Label.new()
 	desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	desc_lbl.add_theme_font_size_override("font_size", 13)
-	desc_lbl.add_theme_color_override("font_color", Color("#9ab0c0"))
+	desc_lbl.add_theme_color_override("font_color", Color(COL_TEXT_DIM))
 	match quality:
 		3:
 			if _mode == Mode.RESUME:
@@ -582,11 +613,11 @@ func _show_result() -> void:
 		stat_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		stat_lbl.add_theme_font_size_override("font_size", 11)
 		stat_lbl.add_theme_color_override("font_color",
-			Color("#e85d5d") if _stress_delta > 0 else Color("#3dba6a"))
+			Color(COL_BAD) if _stress_delta > 0 else Color(COL_GOOD))
 		stat_lbl.text = LocaleManager.ui("정신력 %+d", "Mental %+d") % (-_stress_delta)
 		_content_vb.add_child(stat_lbl)
 
-	var ok_btn := _make_btn(LocaleManager.ui("확인", "Confirm"), "#0e3a2a", 15)
+	var ok_btn := _make_btn(LocaleManager.ui("확인", "Confirm"), "#20201f", 15)
 	ok_btn.custom_minimum_size = Vector2(0, 46)
 	ok_btn.pressed.connect(func(): _on_finish(quality))
 	_content_vb.add_child(ok_btn)
@@ -603,17 +634,27 @@ func _make_btn(text: String, bg_hex: String, font_size: int) -> Button:
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg_hex)
-	st.set_corner_radius_all(6)
+	st.border_color = Color(COL_LINE)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(4)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 10
+	st.content_margin_bottom = 10
 	var hov := st.duplicate()
-	hov.bg_color = st.bg_color.lightened(0.1)
+	hov.bg_color = Color("#202022")
+	hov.border_color = Color(COL_TEXT_FAINT)
 	var dis := st.duplicate()
 	dis.bg_color = st.bg_color.darkened(0.4)
+	dis.border_color = Color("#242428")
 	btn.add_theme_stylebox_override("normal", st)
 	btn.add_theme_stylebox_override("hover", hov)
 	btn.add_theme_stylebox_override("pressed", hov)
 	btn.add_theme_stylebox_override("disabled", dis)
-	btn.add_theme_color_override("font_color", Color("#e8eaf0"))
-	btn.add_theme_color_override("font_disabled_color", Color("#4a5a6a"))
+	btn.add_theme_color_override("font_color", Color(COL_TEXT))
+	btn.add_theme_color_override("font_hover_color", Color("#ffffff"))
+	btn.add_theme_color_override("font_pressed_color", Color("#ffffff"))
+	btn.add_theme_color_override("font_disabled_color", Color(COL_TEXT_FAINT))
 	btn.add_theme_font_size_override("font_size", font_size)
 	return btn
 

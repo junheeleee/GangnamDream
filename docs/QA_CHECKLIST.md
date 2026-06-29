@@ -15,6 +15,8 @@ Use this checklist before major commits, playable builds, and release candidates
 | Demo month summary and demo ending CTA | `--qa=demo-end-en` |
 | Ending modals and ending CG/card surface | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |
+| Tutorial overlay surface and onboarding copy | `--qa=tutorial-en` |
+| Job hunt resume/interview minigame surface | `--qa=job-en` |
 | Casino/minigame UI only | `--qa=casino-en` |
 | Moral tint/filter only | `--qa=moral` |
 | Scene transition only | `--qa=transition` |

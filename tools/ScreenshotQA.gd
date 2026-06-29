@@ -14,6 +14,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=tutorial-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=job-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -36,6 +37,7 @@ const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
 const QA_SCOPE_TUTORIAL_EN := "tutorial_en"
+const QA_SCOPE_JOB_EN := "job_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -129,6 +131,12 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=tutorial-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_JOB_EN:
+		var lang := _qa_language("en")
+		await _shot_job_hunt_surfaces(lang, "job_en_" if lang == "en" else "job_ko_")
+		print("SCREENSHOT_QA_DONE scope=job-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_SURFACE_EN:
 		await _shot_surface_en()
 		print("SCREENSHOT_QA_DONE scope=surface-en lang=en dir=%s" % OUT_DIR)
@@ -220,6 +228,10 @@ func _qa_scope() -> String:
 				"qa=tutorial-en", "--qa=tutorial-en", "qa=tutorial_en", "--qa=tutorial_en",
 				"scope=tutorial-en", "--scope=tutorial-en", "scope=tutorial_en", "--scope=tutorial_en"]:
 			return QA_SCOPE_TUTORIAL_EN
+		if arg in ["job-en", "job_en", "jobs-en", "jobs_en", "--job-en", "--job_en",
+				"qa=job-en", "--qa=job-en", "qa=job_en", "--qa=job_en",
+				"scope=job-en", "--scope=job-en", "scope=job_en", "--scope=job_en"]:
+			return QA_SCOPE_JOB_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -571,6 +583,77 @@ func _find_tutorial_overlay() -> Node:
 	var targets: Array[Node] = []
 	_collect_nodes_by_script(get_tree().root, "res://scenes/TutorialOverlay.gd", targets)
 	return targets[0] if not targets.is_empty() else null
+
+func _shot_job_hunt_surfaces(lang: String = "en", prefix: String = "job_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.4)
+
+	var node = _mg.get("job_hunt_game")
+	if node == null or not node.has_method("open"):
+		print("SKIP job hunt surface (no job_hunt_game)")
+		return
+
+	await _open_job_hunt_for_qa(node, 0)
+	await _save(prefix + "01_resume_question")
+	if node.has_method("_on_choose"):
+		node.call("_on_choose", 0)
+		await _settle(0.25)
+		await _save(prefix + "02_resume_feedback")
+		await _answer_job_hunt_remaining(node)
+		await _settle(0.9)
+		await _save(prefix + "03_resume_result")
+	_hide_job_hunt_for_qa(node)
+
+	await _open_job_hunt_for_qa(node, 1)
+	await _save(prefix + "04_interview_question")
+	if _force_job_hunt_pressure_question(node):
+		await _settle(0.2)
+		await _save(prefix + "04a_interview_pressure")
+	if node.has_method("_on_choose"):
+		node.call("_on_choose", 0)
+		await _settle(0.25)
+		await _save(prefix + "05_interview_feedback")
+	_hide_job_hunt_for_qa(node)
+
+func _open_job_hunt_for_qa(node: Node, mode: int) -> void:
+	if _mg.has_method("_enter_minigame_overlay"):
+		_mg.call("_enter_minigame_overlay", node)
+	node.open(mode)
+	await _settle(0.6)
+
+func _answer_job_hunt_remaining(node: Node) -> void:
+	for _i in range(8):
+		await _settle(0.92)
+		var questions: Array = node.get("_active_questions")
+		var q_idx := int(node.get("_q_idx"))
+		if q_idx >= questions.size():
+			return
+		if node.has_method("_on_choose"):
+			node.call("_on_choose", 0)
+
+func _force_job_hunt_pressure_question(node: Node) -> bool:
+	var questions: Array = node.get("_active_questions")
+	for i in range(questions.size()):
+		var q = questions[i]
+		if q is Dictionary and bool(q.get("surprise", false)):
+			node.set("_q_idx", i)
+			if node.has_method("_show_question"):
+				node.call("_show_question")
+			return true
+	return false
+
+func _hide_job_hunt_for_qa(node: Node) -> void:
+	if "visible" in node:
+		node.visible = false
+	if _mg.has_method("_exit_minigame_overlay"):
+		_mg.call("_exit_minigame_overlay")
 
 func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> void:
 	_set_qa_language(lang)
