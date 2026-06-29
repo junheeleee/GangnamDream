@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-30** — **Codex Start Tagline Alignment Pass**: 시작 메뉴 대기 화면의 장르 태그라인을 영어판 `SEOUL STATUS LIFE SIM`으로 본편 스플래시와 통일하고 대비를 한 단계 올려 해외 유저가 읽을 수 있게 보정. `tools/audit.sh`, `ScreenshotQA --qa=start-en` 통과 및 스플래시 직접 확인. |
+| **최근 완료** | **2026-06-30** — **Codex Opening Cinematic Ink-Line Pass**: 오프닝 시네마틱의 완전한 검은 배경에 아주 낮은 대비의 계좌/영수증형 선 레이어를 추가해 빈 화면 느낌을 줄이고 `Gangnam Ink` 표면과 연결. `tools/audit.sh`, `ScreenshotQA --qa=start-en` 통과 및 첫/마지막 카드 직접 확인. |
+| **이전** | **2026-06-30** — **Codex Start Tagline Alignment Pass**: 시작 메뉴 대기 화면의 장르 태그라인을 영어판 `SEOUL STATUS LIFE SIM`으로 본편 스플래시와 통일하고 대비를 한 단계 올려 해외 유저가 읽을 수 있게 보정. `tools/audit.sh`, `ScreenshotQA --qa=start-en` 통과 및 스플래시 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Ending Epilogue Source Cleanup**: 엔딩 인연 에필로그 원문 앞의 `👨‍🦳/👩/💜/☕/🏢/📱/🎓` 장식을 제거해 `_ending_plain_text()` 필터 의존을 낮춤. 직접 UI 텍스트 이모지 스캔은 닫기 `✕` 1건만 남음. `tools/audit.sh`, `ScreenshotQA --qa=endings-en` 통과 및 대표 엔딩 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Toast Source Surface Cleanup**: 공통 필터에 의존하던 토스트/행동 로그 원문의 `💳/⚡/🤝/🏦/🏠/📖/👔/💾` 표면을 제거. 직접 UI 텍스트 스캔 결과 남은 노출 후보는 닫기 `✕`와 별도 `_ending_plain_text()`로 정리되는 엔딩 원문뿐. `tools/audit.sh`, `ScreenshotQA --qa=ap-en` 통과. |
 | **이전** | **2026-06-30** — **Codex Genre Label Alignment Pass**: 시작 스플래시에 남아 있던 `KOREAN LIFE ROGUELIKE`와 현재 제품/정본 문서의 로그라이크 표기를 제거하고 `KOREAN LIFE SIM`, interactive drama / life sim 방향으로 정리. `roguelike/로그라이크` 현재 표면·정본 검색 0건, `tools/audit.sh`, `ScreenshotQA --qa=start-en` 직접 확인. |
@@ -100,7 +101,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-30 (Codex: Start Tagline Alignment Pass — 시작 태그라인을 SEOUL STATUS LIFE SIM으로 정렬.) |
+| **마지막 업데이트** | 2026-06-30 (Codex: Opening Cinematic Ink-Line Pass — 오프닝 검은 배경에 미세한 잉크 라인 레이어 추가.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
