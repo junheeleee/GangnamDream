@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-29** — **Codex Controller Hint Surface Pass**: MainGame 선택지/AP 화면의 게임패드 힌트에서 `🎮`, 제한시간 라벨에서 `⏱`를 제거해 Steam Deck/PC 표면이 모바일 앱처럼 보이지 않도록 정리. 패드 힌트는 `[A] Choose [Menu]` 계열 텍스트로 유지하고 타이머는 `Time N`/`남은 시간 N`으로 통일했다. `tools/audit.sh` 통과, `rg "🎮|⏱"` 0건 확인. |
+| **최근 완료** | **2026-06-29** — **Codex StoryMode Popup Surface Pass**: StoryMode 관계 변화 토스트와 첫 스탯/호감도 안내 팝업 제목의 `❤/📊` 표면을 제거. `Affinity — Bonds With People`, `Stats & Resources`처럼 텍스트 기반으로 유지해 VN 표면의 모바일 앱 감을 낮췄다. `tools/audit.sh`, `ScreenshotQA --qa=story-en`, StoryMode emoji scan 0건 확인. |
+| **이전** | **2026-06-29** — **Codex Controller Hint Surface Pass**: MainGame 선택지/AP 화면의 게임패드 힌트에서 `🎮`, 제한시간 라벨에서 `⏱`를 제거해 Steam Deck/PC 표면이 모바일 앱처럼 보이지 않도록 정리. 패드 힌트는 `[A] Choose [Menu]` 계열 텍스트로 유지하고 타이머는 `Time N`/`남은 시간 N`으로 통일했다. `tools/audit.sh` 통과, `rg "🎮|⏱"` 0건 확인. |
 | **이전** | **2026-06-29** — **Codex System Modal Surface Pass**: 월별 호재/위기·스탯 해금·성향 자각 표면의 모바일 emoji와 직접적인 시스템 알림 톤을 제거. 성향 자각 모달을 `A Pattern Emerges`/`습관이 굳어진다` 내면 비트로 재작성하고 전용 낮은 모달 크기를 적용해 빈 목업 패널 느낌을 줄였다. `ScreenshotQA --qa=tendency-en` 신규 스코프 추가. `tools/audit.sh`, `english_hangul_audit.py` content_issues=0, 전용 캡처 직접 확인. |
 | **이전** | **2026-06-29** — **Codex VN Choice Effect Surface Pass**: MainGame/StoryMode 선택지 효과 미리보기와 StoryMode 결과 토스트의 스탯 emoji(`💰/🧠/📈` 등)를 텍스트 라벨(`Money`, `Health`, `Mental`) 기반으로 교체. `STAT_INFO` icon 필드를 제거해 VN 핵심 표면이 모바일 이모지 UI로 보이지 않게 정리했다. `audit.sh`, `english_hangul_audit.py` content_issues=0, `ScreenshotQA --qa=story-en` 선택지 화면 직접 확인. |
 | **이전** | **2026-06-29** — **Codex Work Modal Surface Pass**: 취업 후 `Work · Career` 모달의 기본 Godot `ProgressBar`를 얇은 커스텀 미터(`_mini_progress_meter`)로 교체하고, `Promotable ✓ / Not promotable ✗` 표면을 `Promotion ready / Below requirement` 텍스트로 정리. 상황 카드의 카테고리 emoji도 KR/EN 텍스트 태그로 교체해 잠재 누수 제거. `ScreenshotQA --qa=job-en`에 `job_en_00c_work_employed` 캡처 추가. `audit.sh`, `english_hangul_audit.py` content_issues=0, Work 모달 직접 확인. |
@@ -88,7 +89,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: Controller Hint Surface Pass — 패드 힌트와 선택지 제한시간 표면의 잔여 emoji 제거.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: StoryMode Popup Surface Pass — StoryMode 토스트/첫 안내 팝업의 잔여 `❤/📊` 표면 제거.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

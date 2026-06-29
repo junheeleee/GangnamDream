@@ -1048,7 +1048,7 @@ func _show_cast_toasts(before: Dictionary):
 			continue
 		var nm = _cast_display_name(pid)
 		var arrow = _tr("▲ 가까워짐", "▲ closer") if diff > 0 else _tr("▼ 멀어짐", "▼ distant")
-		var txt = _tr("❤ %s 호감도 %s%d  (%s)", "❤ %s affinity %s%d  (%s)") % [nm, "+" if diff > 0 else "", diff, arrow]
+		var txt = _tr("%s 호감도 %s%d  (%s)", "%s affinity %s%d  (%s)") % [nm, "+" if diff > 0 else "", diff, arrow]
 		_spawn_toast(txt, Color("#e8a0c0") if diff > 0 else Color("#ff6b6b"))
 
 ## 첫 변화에 1회만 안내 팝업. GameState.flags로 중복 방지.
@@ -1062,7 +1062,7 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 	if stat_changed and not GameState.flags.get("tut_stat_shown", false):
 		GameState.flags["tut_stat_shown"] = true
 		_show_popup(
-			_tr("📊  능력치와 자원", "📊  Stats & Resources"),
+			_tr("능력치와 자원", "Stats & Resources"),
 			_tr("선택에는 대가가 따른다.\n\n돈, 건강, 정신력 — 모든 선택이 이 수치들을 움직인다.\n오른쪽 위에 뜨는 변화를 눈여겨봐라.\n\n무엇을 얻고 무엇을 잃을지, 늘 저울질해야 한다.",
 				"Every choice has a cost.\n\nMoney, health, mental — each choice moves these numbers.\nWatch the changes that pop up in the top right.\n\nAlways weigh what you gain against what you lose."))
 		return
@@ -1075,7 +1075,7 @@ func _maybe_show_tutorial_popup(stat_before: Dictionary, cast_before: Dictionary
 	if cast_changed and not GameState.flags.get("tut_cast_shown", false):
 		GameState.flags["tut_cast_shown"] = true
 		_show_popup(
-			_tr("❤  호감도 — 사람과의 인연", "❤  Affinity — Bonds With People"),
+			_tr("호감도 — 사람과의 인연", "Affinity — Bonds With People"),
 			_tr("방금 '아버지 호감도'가 변했다.\n\n호감도는 그 사람과 얼마나 가까운지를 나타낸다.\n네 말과 선택이 호감도를 올리거나 내린다.\n\n쌓인 호감도는 언젠가 위기에서 너를 구하거나,\n결정적 기회가 되어 돌아온다.\n\n혼자 강남에 가는 사람은 없다.",
 				"Your father's affinity just changed.\n\nAffinity shows how close you are to someone.\nYour words and choices raise or lower it.\n\nThe affinity you build can save you in a crisis someday,\nor return as a decisive opportunity.\n\nNo one reaches Gangnam alone."))
 
