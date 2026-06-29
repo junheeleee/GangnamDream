@@ -18,6 +18,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=aruba-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=scalping-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=invest-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=racetrack-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -44,6 +45,7 @@ const QA_SCOPE_JOB_EN := "job_en"
 const QA_SCOPE_ARUBA_EN := "aruba_en"
 const QA_SCOPE_SCALPING_EN := "scalping_en"
 const QA_SCOPE_INVEST_EN := "invest_en"
+const QA_SCOPE_RACETRACK_EN := "racetrack_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -161,6 +163,15 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=invest-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_RACETRACK_EN:
+		var lang := _qa_language("en")
+		_set_qa_language(lang)
+		_prepare_main_game_state()
+		await _boot_main_game()
+		await _shot_racetrack("racetrack_en_" if lang == "en" else "racetrack_ko_")
+		print("SCREENSHOT_QA_DONE scope=racetrack-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_SURFACE_EN:
 		await _shot_surface_en()
 		print("SCREENSHOT_QA_DONE scope=surface-en lang=en dir=%s" % OUT_DIR)
@@ -268,6 +279,10 @@ func _qa_scope() -> String:
 				"--invest_en", "qa=invest-en", "--qa=invest-en", "qa=invest_en",
 				"--qa=invest_en", "scope=invest-en", "--scope=invest-en"]:
 			return QA_SCOPE_INVEST_EN
+		if arg in ["racetrack-en", "racetrack_en", "race-en", "race_en", "--racetrack-en",
+				"--racetrack_en", "qa=racetrack-en", "--qa=racetrack-en",
+				"qa=racetrack_en", "--qa=racetrack_en", "scope=racetrack-en", "--scope=racetrack-en"]:
+			return QA_SCOPE_RACETRACK_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -1378,6 +1393,10 @@ func _shot_racetrack(prefix: String = "") -> void:
 	node.skip_countdown_for_smoke = true
 	node._bet_type = 1
 	node._picks = [0]
+	if node.has_method("_render"):
+		node.call("_render")
+	await _settle(0.3)
+	await _save(_shot_name(prefix, "07c_racetrack_pick_badge"))
 	node._place_bet(10_000.0)
 	await _settle(1.2)
 	await _save(_shot_name(prefix, "07a_racetrack_race"))

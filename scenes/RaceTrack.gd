@@ -10,7 +10,7 @@ enum BetType { PLACE, WIN, QUINELLA, TRIFECTA }
 
 const BET_PICKS := [1, 1, 2, 3]           # 필요한 말 수
 const BET_ORDERED := [false, false, false, true]   # 삼쌍승만 착순 순서 중요
-const PICK_BADGE := ["①", "②", "③"]
+const PICK_BADGE := ["1.", "2.", "3."]
 const HR := preload("res://systems/HorseRace.gd")   # class_name 글로벌 캐시 의존 제거(콜드런 크래시 방지)
 const HW := preload("res://systems/HorseWorld.gd")  # 영속 명마 세계 + 정보상 팁
 const HORSE_TEX := preload("res://assets/ui/horse_silhouette.png")  # 질주 실루엣 8프레임(128px) 아틀라스
@@ -286,10 +286,10 @@ func _render_betting() -> void:
 		var tag: String = ""
 		if i == tip_target: tag += _tr("  [color=#6cc5ff]정보상 지목[/color]", "  [color=#6cc5ff]Tipster pick[/color]")
 		if i == vpick: tag += _tr("  [color=#f0c45d]저평가[/color]", "  [color=#f0c45d]Value[/color]")
-		# 선택 배지: 삼쌍승은 착순(①②③), 그 외는 ✓
+		# 선택 배지: 삼쌍승은 착순, 그 외는 텍스트 태그
 		var badge: String = ""
 		if sel:
-			badge = ("[color=#ffe14d]%s[/color] " % PICK_BADGE[pos]) if ordered else "[color=#ffe14d]✓[/color] "
+			badge = ("[color=#ffe14d]%s[/color] " % PICK_BADGE[pos]) if ordered else _tr("[color=#ffe14d]선택[/color] ", "[color=#ffe14d]PICK[/color] ")
 		# 2줄: 1) 이름·★·배당  2) 최근전적·통산·선호
 		var line2: String = _tr("[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]", "[color=#5a6478]    Recent %s · %s · Prefers %dm/%s/%s[/color]") % [
 			str(h.get("recent", _tr("신마", "Debut"))), str(h.get("record", _tr("0전 0승", "0 starts 0 wins"))),

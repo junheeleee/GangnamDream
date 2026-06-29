@@ -86,7 +86,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: Investment Toast Surface Pass — 투자/레버리지/상점 토스트와 투자 액션 로그의 이모지 표면 제거, `ScreenshotQA --qa=invest-en` 추가.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: RaceTrack Surface Pass — 경마 선택 배지 체크마크 제거(PICK/순번), 삼쌍승 순번 ASCII화, `ScreenshotQA --qa=racetrack-en` 추가.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
