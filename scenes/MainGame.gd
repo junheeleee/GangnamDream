@@ -2828,7 +2828,7 @@ func _present_tendency_realization(kind: String):
 		return
 	var tname: String = GameState.tendency_name(kind)
 	var desc: String = GameState.tendency_desc(kind)
-	var accent: String = {"career": "#c9a227", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
+	var accent: String = {"career": "#b8ad8a", "invest": "#8bb6a1", "found": "#aaa0bf"}.get(kind, "#b8ad8a")
 	var passive: String = {
 		"career": _tr("업무 성과 +12, 사회성 +3 — 승진과 신용이 너의 무기가 된다.", "Work Performance +12, Social +3 — promotions and credit become your weapons."),
 		"invest": _tr("투자 감각 +6, 지력 +2 — 시장이 한층 선명하게 보인다.", "Investing +6, Intelligence +2 — the market comes into sharper focus."),
