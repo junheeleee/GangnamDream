@@ -937,13 +937,28 @@ func _show_content_warning():
 	ok_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ok_btn.custom_minimum_size = Vector2(0, 44)
 	var ok_st = StyleBoxFlat.new()
-	ok_st.bg_color = Color(MENU_ACCENT_BRIGHT)
+	ok_st.bg_color = Color("#111820", 0.98)
+	ok_st.border_color = Color(MENU_ACCENT_BRIGHT, 0.78)
+	ok_st.set_border_width_all(1)
+	ok_st.border_width_left = 4
 	ok_st.set_corner_radius_all(6)
 	var ok_hover = ok_st.duplicate()
-	ok_hover.bg_color = Color(MENU_ACCENT_BRIGHT).lightened(0.08)
+	ok_hover.bg_color = Color("#172331", 0.98)
+	ok_hover.border_color = Color("#ffffff", 0.9)
+	var ok_pressed = ok_st.duplicate()
+	ok_pressed.bg_color = Color("#0b1018", 0.98)
+	var ok_focus = ok_st.duplicate()
+	ok_focus.border_color = Color("#ffffff")
+	ok_focus.set_border_width_all(2)
+	ok_focus.border_width_left = 5
 	ok_btn.add_theme_stylebox_override("normal", ok_st)
 	ok_btn.add_theme_stylebox_override("hover", ok_hover)
-	ok_btn.add_theme_color_override("font_color", Color("#0a0a0e"))
+	ok_btn.add_theme_stylebox_override("pressed", ok_pressed)
+	ok_btn.add_theme_stylebox_override("focus", ok_focus)
+	ok_btn.add_theme_color_override("font_color", Color("#eef3f8"))
+	ok_btn.add_theme_color_override("font_hover_color", Color("#ffffff"))
+	ok_btn.add_theme_color_override("font_pressed_color", Color("#dce6ee"))
+	ok_btn.add_theme_color_override("font_focus_color", Color("#ffffff"))
 	ok_btn.add_theme_font_size_override("font_size", 14)
 	ok_btn.pressed.connect(func():
 		MetaProgression.data["content_warning_seen"] = true
