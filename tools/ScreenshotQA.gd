@@ -19,6 +19,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=scalping-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=invest-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=racetrack-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=tendency-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -46,6 +47,7 @@ const QA_SCOPE_ARUBA_EN := "aruba_en"
 const QA_SCOPE_SCALPING_EN := "scalping_en"
 const QA_SCOPE_INVEST_EN := "invest_en"
 const QA_SCOPE_RACETRACK_EN := "racetrack_en"
+const QA_SCOPE_TENDENCY_EN := "tendency_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -172,6 +174,12 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=racetrack-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_TENDENCY_EN:
+		var lang := _qa_language("en")
+		await _shot_tendency_surface(lang, "tendency_en_" if lang == "en" else "tendency_ko_")
+		print("SCREENSHOT_QA_DONE scope=tendency-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_SURFACE_EN:
 		await _shot_surface_en()
 		print("SCREENSHOT_QA_DONE scope=surface-en lang=en dir=%s" % OUT_DIR)
@@ -283,6 +291,10 @@ func _qa_scope() -> String:
 				"--racetrack_en", "qa=racetrack-en", "--qa=racetrack-en",
 				"qa=racetrack_en", "--qa=racetrack_en", "scope=racetrack-en", "--scope=racetrack-en"]:
 			return QA_SCOPE_RACETRACK_EN
+		if arg in ["tendency-en", "tendency_en", "pattern-en", "pattern_en", "--tendency-en",
+				"--tendency_en", "qa=tendency-en", "--qa=tendency-en", "qa=tendency_en",
+				"--qa=tendency_en", "scope=tendency-en", "--scope=tendency-en"]:
+			return QA_SCOPE_TENDENCY_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -603,6 +615,21 @@ func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -
 			_mg.call("_finish_typing")
 		await _settle(0.55)
 		await _save(prefix + "01_buy_toast")
+
+func _shot_tendency_surface(lang: String = "en", prefix: String = "tendency_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	GameState.tendency_realized = "invest"
+	if _mg.has_method("_present_tendency_realization"):
+		_mg.call("_present_tendency_realization", "invest")
+	await _settle(0.7)
+	await _save(prefix + "00_pattern_modal")
 
 func _shot_demo_end_surfaces(lang: String = "en", prefix: String = "demo_end_en_") -> void:
 	await _shot_demo_loop_surfaces(lang, prefix)
@@ -1310,7 +1337,7 @@ func _seed_info_panel_state(lang: String = "ko") -> void:
 		GameState.flags["_qa_surface_logs_seeded"] = true
 		GameState.add_log(_tr("💼 알바 시프트 수입 8만원 (건강 62→58, 정신력 -3)", "💼 Gig shift income KRW 80K [urgent] (Health 62→58, Mental -3)"), "event")
 		GameState.add_log(_tr("📈 투자 → KOSPI ETF 매수 50만원", "📈 Invest → bought KOSPI ETF KRW 500K"), "trade")
-		GameState.add_log(_tr("✨ 성향 자각 — 버티는 사람", "✨ Disposition Realized — steady climber"), "system")
+		GameState.add_log(_tr("습관이 굳어진다 — 버티는 사람", "A pattern emerges — steady climber"), "system")
 
 func _seed_cast_state() -> void:
 	for data in [

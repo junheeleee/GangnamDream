@@ -2719,31 +2719,31 @@ func _roll_monthly_crisis() -> Dictionary:
 		var bonus_type = randi() % 3
 		match bonus_type:
 			0:
-				return {"type": "bonus_ap", "title": _tr("⚡ 탄력 받은 달", "⚡ A Month on a Roll"),
+				return {"type": "bonus_ap", "title": _tr("탄력 받은 달", "A Month on a Roll"),
 					"desc": _tr("컨디션이 최고다. 이번 달 행동력 +1 보너스!", "You're in top form. +1 Action Point this month!"), "color": "#00c896"}
 			1:
 				var amt = float(randi_range(200_000, 600_000))
-				return {"type": "bonus_income", "title": _tr("💸 뜻밖의 수입", "💸 Unexpected Income"),
+				return {"type": "bonus_income", "title": _tr("뜻밖의 수입", "Unexpected Income"),
 					"desc": _tr("예상치 못한 %s이 들어왔다.", "An unexpected %s came in.") % GameState.format_money(amt), "amount": amt, "color": "#00c896"}
 			_:
-				return {"type": "market_boom", "title": _tr("📈 시장 급등 신호", "📈 Market Surge Signal"),
+				return {"type": "market_boom", "title": _tr("시장 급등 신호", "Market Surge Signal"),
 					"desc": _tr("이번 달 시장 전반에 강세 신호가 감지됐다. 투자 기회!", "Bullish signals are spreading across the market this month. An investing opportunity!"), "color": "#3fb950"}
 	# 18% 위기 달
 	if roll < 0.24:
 		var crisis_type = randf()
 		if crisis_type < 0.30:
 			var amt = float(randi_range(150_000, 700_000))
-			return {"type": "emergency_expense", "title": _tr("🚨 긴급 지출", "🚨 Emergency Expense"),
+			return {"type": "emergency_expense", "title": _tr("긴급 지출", "Emergency Expense"),
 				"desc": _tr("갑작스럽게 %s이 빠져나갔다.", "Suddenly %s went out.") % GameState.format_money(amt), "amount": amt, "color": "#ff4444"}
 		elif crisis_type < 0.55:
-			return {"type": "ap_penalty", "title": _tr("😩 여유 없는 달", "😩 A Tight Month"),
+			return {"type": "ap_penalty", "title": _tr("여유 없는 달", "A Tight Month"),
 				"desc": _tr("갑작스러운 사정으로 이번 달 행동력이 1 줄어든다.", "Unexpected circumstances cut your Action Points by 1 this month."), "color": "#f0b429"}
 		elif crisis_type < 0.75:
-			return {"type": "market_shock", "title": _tr("📉 시장 충격", "📉 Market Shock"),
+			return {"type": "market_shock", "title": _tr("시장 충격", "Market Shock"),
 				"desc": _tr("외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.", "An external shock rattled the market. Investment risk spikes sharply this month."), "color": "#ff4444"}
 		else:
 			var hp_dmg = randi_range(8, 18)
-			return {"type": "health_crisis", "title": _tr("🏥 건강 위기", "🏥 Health Crisis"),
+			return {"type": "health_crisis", "title": _tr("몸의 경고", "Body Warning"),
 				"desc": _tr("갑자기 몸이 안 좋아졌다. 건강 -%d, 정신력 -12.", "Your body suddenly broke down. Health -%d, Mental -12.") % hp_dmg, "hp": hp_dmg, "color": "#ef4444"}
 	return {}
 
@@ -2796,26 +2796,26 @@ func _apply_monthly_event(ev: Dictionary):
 func _on_stat_threshold_crossed(stat_name: String, threshold: int):
 	var unlock_msgs = {
 		"investment_skill": {
-			30: _tr("📊 레버리지 투자 해금! 2배 포지션으로 고수익을 노릴 수 있다.", "📊 Leverage Investing unlocked! Go for high returns with 2x positions."),
-			50: _tr("🔭 시장 분석(무료 행동) 해금! 매달 시장 방향을 미리 읽어라.", "🔭 Market Analysis (free action) unlocked! Read the market direction ahead each month."),
-			70: _tr("⚡ 선물 매매 해금! 극한의 투자가가 되었다.", "⚡ Futures Trading unlocked! You've become an extreme investor."),
+			30: _tr("레버리지 투자 해금. 2배 포지션으로 고수익을 노릴 수 있다.", "Leverage Investing unlocked. Go for high returns with 2x positions."),
+			50: _tr("시장 분석(무료 행동) 해금. 매달 시장 방향을 미리 읽어라.", "Market Analysis (free action) unlocked. Read the market direction ahead each month."),
+			70: _tr("선물 매매 해금. 극한의 투자가가 되었다.", "Futures Trading unlocked. You've become an extreme investor."),
 		},
 		"intelligence": {
-			30: _tr("📖 심화 독서 해금! 독서 효과가 2배로 강화된다.", "📖 Deep Reading unlocked! Reading effects are doubled."),
-			50: _tr("🔬 재무제표 분석 해금! 투자 결정에 정확도가 올라간다.", "🔬 Financial Statement Analysis unlocked! Your investment decisions get more accurate."),
-			70: _tr("🧠 데이터 드리븐 투자 해금! 시장 예측 정확도 최고 수준.", "🧠 Data-Driven Investing unlocked! Top-tier market prediction accuracy."),
+			30: _tr("심화 독서 해금. 독서 효과가 2배로 강화된다.", "Deep Reading unlocked. Reading effects are doubled."),
+			50: _tr("재무제표 분석 해금. 투자 결정에 정확도가 올라간다.", "Financial Statement Analysis unlocked. Your investment decisions get more accurate."),
+			70: _tr("데이터 드리븐 투자 해금. 시장 예측 정확도 최고 수준.", "Data-Driven Investing unlocked. Top-tier market prediction accuracy."),
 		},
 		"social_skill": {
-			30: _tr("🤝 관계 강화 효과 상승! 인맥활동 보너스가 커진다.", "🤝 Relationship effects boosted! Networking bonuses grow larger."),
-			50: _tr("👔 VIP 인맥 해금! 사회성 3배 상승, 대형 관계 이벤트 접근 가능.", "👔 VIP Connections unlocked! Social x3, access to major relationship events."),
-			70: _tr("🎩 엘리트 서클 해금! 최상위 직군 이벤트와 네트워크에 접근한다.", "🎩 Elite Circle unlocked! Access to top-tier career events and networks."),
+			30: _tr("관계 강화 효과 상승. 인맥활동 보너스가 커진다.", "Relationship effects boosted. Networking bonuses grow larger."),
+			50: _tr("VIP 인맥 해금. 사회성 3배 상승, 대형 관계 이벤트 접근 가능.", "VIP Connections unlocked. Social x3, access to major relationship events."),
+			70: _tr("엘리트 서클 해금. 최상위 직군 이벤트와 네트워크에 접근한다.", "Elite Circle unlocked. Access to top-tier career events and networks."),
 		},
 	}
 	var stat_msg = unlock_msgs.get(stat_name, {})
 	if stat_msg.has(threshold):
 		var msg = stat_msg[threshold]
-		_show_toast("🔓 " + msg, Color("#f0b429"))
-		GameState.add_log("✨ " + msg, "system")
+		_show_toast(msg, Color("#f0b429"))
+		GameState.add_log(msg, "system")
 		AudioManager.play("housing_up")
 
 # ── 성향 자각 (직장/투자/창업) ─────────────────────────────────
@@ -2828,23 +2828,28 @@ func _present_tendency_realization(kind: String):
 		return
 	var tname: String = GameState.tendency_name(kind)
 	var desc: String = GameState.tendency_desc(kind)
-	var icon: String = {"career": "💼", "invest": "📈", "found": "🚀"}.get(kind, "✨")
 	var accent: String = {"career": "#c9a227", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
 	var passive: String = {
 		"career": _tr("업무 성과 +12, 사회성 +3 — 승진과 신용이 너의 무기가 된다.", "Work Performance +12, Social +3 — promotions and credit become your weapons."),
 		"invest": _tr("투자 감각 +6, 지력 +2 — 시장이 한층 선명하게 보인다.", "Investing +6, Intelligence +2 — the market comes into sharper focus."),
 		"found":  _tr("운 +3, 지력 +2 — 창업가의 촉이 열렸다.", "Luck +3, Intelligence +2 — a founder's instinct has awakened."),
 	}.get(kind, "")
-	_open_modal(_tr("✨ 성향 자각", "✨ Disposition Realized"))
-	modal_body.add_child(_label(_tr("%s  너는 결국 — %s 인간이다.", "%s  In the end, you're a %s person.") % [icon, tname], 21, "#ffffff"))
+	_open_modal(_tr("습관이 굳어진다", "A Pattern Emerges"))
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(760, 360)
+		modal_panel.offset_top = -180
+		modal_panel.offset_bottom = 180
+	if modal_scroll:
+		modal_scroll.custom_minimum_size = Vector2(0, 230)
+	modal_body.add_child(_label(_tr("어느새 너는 — %s의 길로 움직이고 있다.", "Without noticing, you have begun moving toward the %s path.") % tname, 21, "#ffffff"))
 	modal_body.add_child(_wrap_label(desc, 14, "#aab3c5"))
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep)
-	modal_body.add_child(_wrap_label("⟡ " + passive, 14, accent))
-	modal_body.add_child(_wrap_label(_tr("이 길이 옳은지는 아무도 모른다. 하지만 이제 네 방식이 생겼다. 강남까지, 그 방식대로.", "No one knows if this path is right. But now you have your own way. All the way to Gangnam, your way."), 13, "#7a8496"))
+	modal_body.add_child(_wrap_label(passive, 14, accent))
+	modal_body.add_child(_wrap_label(_tr("이 길이 옳은지는 아무도 모른다. 다만 같은 선택을 반복할수록, 선택도 너를 닮아간다.", "No one knows if this path is right. But the more you repeat a choice, the more your choices begin to resemble you."), 13, "#7a8496"))
 	AudioManager.play("housing_up")
-	GameState.add_log(_tr("✨ 성향 자각 — 너는 %s 인간이다. %s", "✨ Disposition Realized — you're a %s person. %s") % [tname, passive], "system")
+	GameState.add_log(_tr("습관이 굳어진다 — %s. %s", "A pattern emerges — %s. %s") % [tname, passive], "system")
 
 func _on_next_month():
 	if not current_event.is_empty():
