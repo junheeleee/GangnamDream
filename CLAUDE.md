@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-29** — **Codex Weekly AP Slot Surface Pass**: AP 화면 `This Week` 카드의 남은 행동 슬롯이 긴 흰 막대처럼 늘어나던 문제를 고정 폭 작은 슬롯으로 교체. Steam Deck/영어 화면에서 행동 횟수 피드백이 로딩바가 아니라 게임 UI 슬롯처럼 보이도록 정리했다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 AP 루프 캡처 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
+| **최근 완료** | **2026-06-29** — **Codex Month Summary Surface Pass**: 데모 월말 요약 모달의 플랫폼 이모지(`📊/💼/📈/🎯`) 노출을 제거. 월 등급은 `LOG/OK/TOP/HOLD/RISK` 무채색 배지로 표시하고, 행동 로그/목표 진행/경고 라인을 텍스트 기반으로 정리해 기록창과 같은 `Gangnam Ink` 표면 톤에 맞췄다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 데모 요약 모달 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
+| **이전** | **2026-06-29** — **Codex Weekly AP Slot Surface Pass**: AP 화면 `This Week` 카드의 남은 행동 슬롯이 긴 흰 막대처럼 늘어나던 문제를 고정 폭 작은 슬롯으로 교체. Steam Deck/영어 화면에서 행동 횟수 피드백이 로딩바가 아니라 게임 UI 슬롯처럼 보이도록 정리했다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 AP 루프 캡처 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Start Menu Save Slot Surface Pass**: 시작 메뉴 우측 저장 슬롯의 기본 삭제 버튼을 빨간 `Delete`에서 무채색 `X` 보조 액션으로 낮추고, 2차 확인 상태에서만 `Delete?`/`삭제 확인` 위험색이 뜨도록 정리. 첫 화면 시선이 저장 삭제가 아니라 `Start New Story`/계속하기에 남도록 보정했다. `audit.sh`, `english_hangul_audit.py`, `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 영어 시작 메뉴 캡처 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Demo Record Surface Pass**: 데모 종료 6개월 기록창의 목업감을 낮춤. `📖/📊/▶` 이모지 섹션 헤더를 제거하고, 영어 직업 요약 `Working at Office Worker`를 `Current work: Office Worker`로 보정. 목표 문구도 `Gangnam Dream KRW 3B goal`로 정리. `audit.sh`, `english_hangul_audit.py`, 영어/한국어 `ScreenshotQA --qa=demo-blackbox` 통과 및 데모 종료 CTA 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Demo Opening Copy Guard**: 오프닝 카피가 도덕 붕괴를 미리 해설하던 문제 수정. 스플래시/오프닝 마지막 카드는 `KRW 500K → KRW 3B / 5년 / 정답 없음`처럼 표면 목표만 제시하고, 인간성 변화·UI 붕괴는 플레이 중 선택 누적으로 체감되도록 숨김. `audit.sh`, `english_hangul_audit.py`, `LocaleSurfaceCheck`, 영어/한국어 `ScreenshotQA --qa=demo-blackbox` 통과(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
@@ -68,7 +69,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: Weekly AP Slot Surface Pass — AP 화면 남은 행동 슬롯을 고정 폭 소형 슬롯으로 바꿔 Steam Deck 표면 가독성 보강.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: Month Summary Surface Pass — 데모 월말 요약 모달 이모지 표면을 무채색 배지/텍스트로 교체.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

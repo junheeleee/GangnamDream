@@ -7875,10 +7875,29 @@ func _show_month_summary(snap: Dictionary):
 	var grade_row = HBoxContainer.new()
 	grade_row.add_theme_constant_override("separation", 10)
 	modal_body.add_child(grade_row)
-	var emoji_lbl = Label.new()
-	emoji_lbl.text = grade["emoji"]
-	emoji_lbl.add_theme_font_size_override("font_size", 26)
-	grade_row.add_child(emoji_lbl)
+	var grade_badge := PanelContainer.new()
+	grade_badge.custom_minimum_size = Vector2(36, 30)
+	grade_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var badge_style := StyleBoxFlat.new()
+	badge_style.bg_color = Color("#0b0d12", 0.96)
+	badge_style.border_color = _moral_signal_color(Color(grade["color"]), 0.2)
+	badge_style.set_border_width_all(1)
+	badge_style.set_corner_radius_all(5)
+	badge_style.content_margin_left = 5
+	badge_style.content_margin_right = 5
+	badge_style.content_margin_top = 4
+	badge_style.content_margin_bottom = 4
+	grade_badge.add_theme_stylebox_override("panel", badge_style)
+	var badge_lbl := Label.new()
+	badge_lbl.text = _month_grade_badge_text(str(grade.get("emoji", "")))
+	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge_lbl.add_theme_font_size_override("font_size", 10)
+	badge_lbl.add_theme_color_override("font_color", _moral_signal_color(Color(grade["color"]), 0.22))
+	if _font_bold:
+		badge_lbl.add_theme_font_override("font", _font_bold)
+	grade_badge.add_child(badge_lbl)
+	grade_row.add_child(grade_badge)
 	var grade_col = VBoxContainer.new()
 	grade_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grade_col.add_theme_constant_override("separation", 2)
@@ -7948,7 +7967,7 @@ func _show_month_summary(snap: Dictionary):
 		div2.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(div2)
 		for entry in snap["actions"]:
-			modal_body.add_child(_wrap_label(entry, 12, "#8892a4"))
+			modal_body.add_child(_wrap_label(_clean_month_summary_entry(entry), 12, "#8892a4"))
 
 	# ── 스탯 변화 (한 줄) ─────────────────────────
 	var stat_parts: Array = []
@@ -7971,7 +7990,7 @@ func _show_month_summary(snap: Dictionary):
 	# ── A-2: AP 사용 패턴 코멘트 ─────────────────
 	var ap_comment = _get_ap_pattern_comment(snap["actions"])
 	if not ap_comment.is_empty():
-		modal_body.add_child(_wrap_label("💭 " + ap_comment, 12, "#7a8496"))
+		modal_body.add_child(_wrap_label(_tr("기록 — ", "Note — ") + ap_comment, 12, "#7a8496"))
 
 	# ── A-6: 월말 서사 내레이션 ───────────────────
 	var narrative = _get_month_narrative()
@@ -7984,7 +8003,7 @@ func _show_month_summary(snap: Dictionary):
 		warn_div.add_theme_color_override("color", Color("#cc0000"))
 		modal_body.add_child(warn_div)
 		modal_body.add_child(_wrap_label(
-			_tr("🚨 중독 위험 단계 — 매달 정신력 -2가 추가로 빠지고 있습니다. 도박을 즉시 중단하세요.", "🚨 Addiction danger level — you're losing an extra -2 Mental each month. Stop gambling immediately."), 13, "#ff4444"))
+			_tr("중독 위험 단계 — 매달 정신력 -2가 추가로 빠지고 있습니다. 도박을 즉시 중단하세요.", "Addiction danger level — you're losing an extra -2 Mental each month. Stop gambling immediately."), 13, "#ff4444"))
 		var warn_div2 = HSeparator.new()
 		warn_div2.add_theme_color_override("color", Color("#cc0000"))
 		modal_body.add_child(warn_div2)
@@ -7996,7 +8015,7 @@ func _show_month_summary(snap: Dictionary):
 	var base_bar := Color("#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#c9a227"))
 	var bar_color = _moral_hex(_moral_gray_accent(base_bar, _moral_ui_palette(), 0.04))
 	modal_body.add_child(_make_progress_row(
-		_tr("🎯 강남드림 (30억)", "🎯 Gangnam Dream (KRW 3B)"), pct, bar_color,
+		_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"), pct, bar_color,
 		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
 
 	# ── 목표 힌트 ─────────────────────────────────
@@ -8046,6 +8065,29 @@ func _show_month_summary(snap: Dictionary):
 		modal_body.add_child(confirm_btn)
 		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
 
+func _month_grade_badge_text(emoji: String) -> String:
+	match emoji:
+		"🏆":
+			return "TOP"
+		"✨":
+			return "OK"
+		"📊":
+			return "LOG"
+		"💪":
+			return "HOLD"
+		"😰":
+			return "RISK"
+		_:
+			return "RUN"
+
+func _clean_month_summary_entry(entry: Variant) -> String:
+	var out := str(entry)
+	for token in ["💼 ", "📈 ", "📚 ", "📖 ", "🏃 ", "🧘 ", "📊 ", "🎯 ", "🖊 ", "🌊 ", "🎰 ", "🏇 ", "🃏 ", "🤝 ", "💰 ", "🚀 ", "✨ "]:
+		out = out.replace(token, "")
+	out = out.replace("✓ ", "• ")
+	out = out.replace("✅ ", "")
+	out = out.replace("✅", "")
+	return out.strip_edges()
 
 ## A-1: 관계 연락 후 인물 리액션을 스토리 영역에 표시
 func _show_contact_reaction(pname: String, flavor: String, accent: Color):

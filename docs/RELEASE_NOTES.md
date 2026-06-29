@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Month summary surface pass
+
+- Replaced month-summary grade emoji with compact monochrome text badges (`LOG`, `OK`, `TOP`, `HOLD`, `RISK`).
+- Cleaned platform emoji from visible month-summary action logs, AP notes, addiction warnings, and Gangnam Dream progress labels.
+- The demo-complete summary now matches the more restrained Gangnam Ink record surface.
+
 ### Added/Changed (2026-06-29) — Weekly AP slot surface pass
 
 - Changed the `This Week` AP slots from full-width bars to compact fixed-width action slots.

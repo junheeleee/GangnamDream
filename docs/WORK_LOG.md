@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Month Summary Surface Pass)
+
+### 수정
+- `scenes/MainGame.gd`: 월말 요약 모달의 등급 이모지(`📊`, `✨`, `🏆`, `💪`, `😰`)를 `LOG/OK/TOP/HOLD/RISK` 무채색 배지로 교체했다.
+- `scenes/MainGame.gd`: 월말 행동 로그에 표시되던 플랫폼 이모지(`💼`, `📈`, `🎯` 등)를 모달 출력 시점에만 제거하고 `• Job Hunt`, `• Invest`처럼 차분한 기록 텍스트로 표시한다.
+- `scenes/MainGame.gd`: 월말 AP 코멘트, 중독 경고, 강남드림 목표 진행 라인의 이모지 접두어를 제거해 데모 종료 기록창과 같은 `Gangnam Ink` 표면 톤으로 맞췄다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. `demo_en_blackbox_03_demo_complete_summary` 직접 확인: 등급 배지/행동 로그/목표 진행 라인에서 플랫폼 이모지 제거됨.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Weekly AP Slot Surface Pass)
 
 ### 수정
