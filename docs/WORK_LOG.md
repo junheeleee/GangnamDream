@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Ending Modal Emoji Surface Cleanup)
+
+### 수정
+- `scenes/MainGame.gd`: 엔딩 모달 상단의 큰 등급 이모지를 제거해 최종 기록 화면이 모바일 결과창처럼 보이지 않게 했다.
+- `scenes/MainGame.gd`: 인연 에필로그, 스탯 그리드, 다음 런 힌트, 이번 런 발자취, 엔딩 도감, 결과 복사 버튼에서 노출 이모지/플랫폼 아이콘을 제거했다.
+- `scenes/MainGame.gd`: 엔딩 route identity 표시도 엔딩 카드와 같은 plain label을 사용하도록 맞췄다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=endings-en` 실행 완료. `ending_en_15_ending_stable_success`, `ending_en_14_ending_bankruptcy` 직접 확인: 상단 엔딩 카드/모달이 더 절제된 톤으로 표시됨.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Hidden Moral Surface Leak Fix)
 
 ### 수정

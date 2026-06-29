@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed (2026-06-29) — Ending modal emoji surface cleanup
+
+- Removed visible platform emoji/icons from the ending modal header, cast epilogue, stat grid, next-run hints, milestone list, collection progress, and share button.
+- Changed the ending route identity line to use the same plain route label as the non-CG ending card.
+- Kept the hidden moral state visual-only: ending surfaces should feel altered by tone, not explained by UI labels or icon noise.
+
 ### Fixed (2026-06-29) — Hidden moral surface leak
 
 - Removed explicit hidden moral-state labels from non-CG ending cards.

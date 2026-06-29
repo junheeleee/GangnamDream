@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-29** — **Codex Hidden Moral Surface Leak Fix**: 엔딩 카드에 `Moral Trace`, `Gray/Black/White`처럼 숨은 `MORAL_TINT` 시스템을 대놓고 보여주던 문제 수정. 엔딩 카드의 공개 메타칩은 `Last Home / Path / Final Assets`로 제한하고, hidden moral 값 막대도 목표 자산 진행 막대로 교체했다. 도덕 상태는 앞으로도 색·질감·명암으로만 체감되어야 하며 UI 텍스트로 설명하지 않는다. `ScreenshotQA --qa=endings-en` 직접 확인, `audit.sh`, `english_hangul_audit.py` 통과. |
+| **최근 완료** | **2026-06-29** — **Codex Ending Modal Emoji Surface Cleanup**: 엔딩 모달이 모바일 결과창처럼 보이게 하던 노출 이모지/플랫폼 아이콘을 제거했다. 등급 헤더의 큰 이모지, 인연 에필로그/스탯/다음 런 힌트/발자취/도감/공유 버튼의 `📋/🔁/📊/💰/🏆`류 표면을 정리하고, route identity도 엔딩 카드와 같은 plain label을 쓰도록 맞췄다. QA는 수정 부위 기준으로 `ScreenshotQA --qa=endings-en`만 실행하고 `ending_en_15_ending_stable_success`, `ending_en_14_ending_bankruptcy` 직접 확인. `audit.sh`, `english_hangul_audit.py` 통과. |
+| **이전** | **2026-06-29** — **Codex Hidden Moral Surface Leak Fix**: 엔딩 카드에 `Moral Trace`, `Gray/Black/White`처럼 숨은 `MORAL_TINT` 시스템을 대놓고 보여주던 문제 수정. 엔딩 카드의 공개 메타칩은 `Last Home / Path / Final Assets`로 제한하고, hidden moral 값 막대도 목표 자산 진행 막대로 교체했다. 도덕 상태는 앞으로도 색·질감·명암으로만 체감되어야 하며 UI 텍스트로 설명하지 않는다. `ScreenshotQA --qa=endings-en` 직접 확인, `audit.sh`, `english_hangul_audit.py` 통과. |
 | **이전** | **2026-06-29** — **Codex Ending Card Surface Polish Pass**: 전용 CG 없는 엔딩 카드가 플레이스홀더처럼 보이던 문구를 보정. `RUN FINALE`→`FINAL RECORD`, 기본 설명문을 등급별 완성 문장으로 교체. `ScreenshotQA --qa=endings-en`의 엔딩별 대표 시드도 보정해 bankruptcy/stable_success 등 카드 내부 최종 자산이 본문과 맞게 표시되도록 했다. ※ 직후 Hidden Moral Surface Leak Fix에서 hidden moral 명시 문구는 전부 제거. |
 | **이전** | **2026-06-29** — **Codex Targeted Screenshot QA Pass**: 매번 카지노까지 도는 비효율을 줄이기 위해 `ScreenshotQA`를 수정 부위별 스코프로 분리. `--qa=start-en`, `--qa=story-en`, `--qa=ap-en`, `--qa=demo-end-en`, `--qa=endings-en` 추가. `docs/QA_CHECKLIST.md`에 Targeted Screenshot QA 매트릭스를 추가해 카지노는 카지노/미니게임 변경 때만 돌리도록 운영 기준화했다. 신규 스코프 5종 전부 exit code 0 확인, `audit.sh`, `english_hangul_audit.py` 통과. |
 | **이전** | **2026-06-29** — **Codex English Copy Micro-Polish Pass**: 영어 데모 blackbox QA에서 어색하게 보이던 첫 면접 문장 `A job app led to this`를 `A job posting led to this`로 보정하고, 데모 종료 진행률을 `Progress to Gangnam (Seoul's status district): ...` 형식으로 정리했다. `ScreenshotQA --qa=demo-blackbox --lang=en` 통과 및 첫 면접/데모 종료 CTA 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
@@ -74,7 +75,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: Hidden Moral Surface Leak Fix — 엔딩 카드에서 숨은 도덕 상태명 제거.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: Ending Modal Emoji Surface Cleanup — 엔딩 모달의 모바일식 이모지 표면 제거.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

@@ -7035,14 +7035,11 @@ func _show_ending(ending_id):
 	_apply_ending_moral_palette()
 	var grade = ending.get("grade", "?")
 	var grade_colors = {"S+": "#f8fbff", "S": "#e7edf5", "A+": "#dce5ee", "A": "#cbd5df", "B": "#aeb7c2", "C": "#8892a4", "F": "#ff4444", "?": "#aab3c5"}
-	var grade_emojis = {"S+": "🌠", "S": "🏆", "A+": "🌟", "A": "🌟", "B": "✨", "C": "📋", "F": "💀", "?": "👁"}
 	var grade_color = grade_colors.get(grade, "#ffffff")
-	var grade_emoji = grade_emojis.get(grade, "")
 	# 등급 헤더 행
 	var ending_row = HBoxContainer.new()
 	ending_row.add_theme_constant_override("separation", 14)
 	modal_body.add_child(ending_row)
-	ending_row.add_child(_label(grade_emoji, 40, "#ffffff"))
 	var ending_text_col = VBoxContainer.new()
 	ending_text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ending_row.add_child(ending_text_col)
@@ -7084,7 +7081,7 @@ func _show_ending(ending_id):
 		var unlock_sep = HSeparator.new()
 		unlock_sep.add_theme_color_override("color", Color("#252535"))
 		modal_body.add_child(unlock_sep)
-		modal_body.add_child(_label(_tr("🔓 이번 런 해금", "🔓 Unlocked This Run"), 15, "#f0b429"))
+		modal_body.add_child(_label(_tr("이번 런 해금", "Unlocked This Run"), 15, "#f0b429"))
 		var ach_names = {
 			"first_billion":     _tr("첫 1억 달성", "First KRW 100M"),
 			"stable_life":       _tr("안정적인 삶", "A Stable Life"),
@@ -7101,7 +7098,7 @@ func _show_ending(ending_id):
 		}
 		for a in new_ach:
 			var ach_name = ach_names.get(a, a)
-			modal_body.add_child(_wrap_label(_tr("  🏅 업적 달성: %s", "  🏅 Achievement: %s") % ach_name, 13, "#fbbf24"))
+			modal_body.add_child(_wrap_label(_tr("업적 달성: %s", "Achievement: %s") % ach_name, 13, "#fbbf24"))
 
 	# 이번 런 새 칭호 해금
 	var newly_titles: Array = MetaProgression.check_and_unlock_titles()
@@ -7110,11 +7107,11 @@ func _show_ending(ending_id):
 			var title_sep := HSeparator.new()
 			title_sep.add_theme_color_override("color", Color("#252535"))
 			modal_body.add_child(title_sep)
-			modal_body.add_child(_label(_tr("🔓 이번 런 해금", "🔓 Unlocked This Run"), 15, "#f0b429"))
+			modal_body.add_child(_label(_tr("이번 런 해금", "Unlocked This Run"), 15, "#f0b429"))
 		var rare_colors := {"common": "#8892a4", "uncommon": "#c9a227", "rare": "#f0b429", "legendary": "#f97316"}
 		for t in newly_titles:
 			var col: String = rare_colors.get(str(t.get("rare", "common")), "#8892a4")
-			modal_body.add_child(_wrap_label(_tr("  🏆 칭호: 「%s」  %s", "  🏆 Title: \"%s\"  %s") % [str(t.get("name","")), str(t.get("desc",""))], 12, col))
+			modal_body.add_child(_wrap_label(_tr("칭호: 「%s」  %s", "Title: \"%s\"  %s") % [str(t.get("name","")), str(t.get("desc",""))], 12, col))
 
 	# 런 테마 요약
 	var theme_id: String = GameState.run_theme
@@ -7353,6 +7350,13 @@ func _ending_card_route_label() -> String:
 	if raw == _tr("방향 없음", "No Direction"):
 		return _tr("아직 고정되지 않은 길", "Unfixed path")
 	return raw
+
+func _ending_plain_text(text: String) -> String:
+	var cleaned := text
+	for token in ["👨‍🦳", "👩", "💜", "☕", "🏢", "📱", "🎓", "📖", "💡", "🔍", "📈", "✨", "💼", "🏠", "🏙️", "🚀", "🎬", "🏛️", "📊", "💰", "🏆", "❤️", "🧠", "⭐", "🎂", "📅"]:
+		cleaned = cleaned.replace(token + "  ", "")
+		cleaned = cleaned.replace(token + " ", "")
+	return cleaned.strip_edges()
 
 func _ending_card_signal_line(ending_id: String, grade: String = "?") -> String:
 	match ending_id:
@@ -7612,9 +7616,9 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
-	parent.add_child(_label(_tr("👥 그 사람들은", "👥 As for Them"), 15, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
+	parent.add_child(_label(_tr("그 사람들은", "As for Them"), 15, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
 	for l in lines:
-		parent.add_child(_wrap_label(str(l), 12, "#8a93a6"))
+		parent.add_child(_wrap_label(_ending_plain_text(str(l)), 12, "#8a93a6"))
 
 ## ── 런 요약 카드 텍스트 (클립보드 공유용) ──────────────────────────
 func _run_card_text(ending_id: String) -> String:
@@ -7653,13 +7657,13 @@ func _ending_share_section(parent: Control, ending_id: String):
 	var sep = HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
-	var share_btn = _button(_tr("📋  결과 복사하기", "📋  Copy Result"), "#122230")
+	var share_btn = _button(_tr("결과 복사하기", "Copy Result"), "#122230")
 	share_btn.pressed.connect(func():
 		DisplayServer.clipboard_set(_run_card_text(ending_id))
-		share_btn.text = _tr("✓  복사됨!", "✓  Copied!")
+		share_btn.text = _tr("복사됨", "Copied")
 		var tw = create_tween()
 		tw.tween_interval(1.8)
-		tw.tween_callback(func(): share_btn.text = _tr("📋  결과 복사하기", "📋  Copy Result"))
+		tw.tween_callback(func(): share_btn.text = _tr("결과 복사하기", "Copy Result"))
 	)
 	parent.add_child(share_btn)
 
@@ -7671,51 +7675,51 @@ func _ending_next_run_hints(parent: Control):
 	var seen = GameState.events_seen
 	var hints: Array = []
 
-	hints.append(_tr("📖  이번 런에서 못 본 이벤트가 %d개 더 있습니다.", "📖  There are %d more events you didn't see this run.") % (total_events - seen))
+	hints.append(_tr("이번 런에서 못 본 이벤트가 %d개 더 있습니다.", "There are %d more events you didn't see this run.") % (total_events - seen))
 
 	var o = GameState.route_orthodox
 	var u = GameState.route_unorthodox
 	if o > u + 10:
-		hints.append(_tr("💡  비정석 루트를 선택했다면 어떤 강남이었을까요?", "💡  What kind of Gangnam would it have been on the unorthodox route?"))
+		hints.append(_tr("비정석 루트를 선택했다면 어떤 강남이었을까요?", "What kind of Gangnam would it have been on the unorthodox route?"))
 	elif u > o + 10:
-		hints.append(_tr("💡  정석 루트로만 살았다면 어떤 결말이 됐을까요?", "💡  What ending would you get living only the orthodox route?"))
+		hints.append(_tr("정석 루트로만 살았다면 어떤 결말이 됐을까요?", "What ending would you get living only the orthodox route?"))
 
 	if not f.get("arc_jiyeon_crash_seen", false):
-		hints.append(_tr("🔍  이번 런에서 한지연을 만나지 못했습니다.", "🔍  You didn't meet Jiyeon this run."))
+		hints.append(_tr("이번 런에서 한지연을 만나지 못했습니다.", "You didn't meet Jiyeon this run."))
 	elif not f.get("arc_jiyeon_truth_seen", false):
-		hints.append(_tr("🔍  한지연의 진실을 끝까지 보지 못했습니다.", "🔍  You didn't see Jiyeon's truth to the end."))
+		hints.append(_tr("한지연의 진실을 끝까지 보지 못했습니다.", "You didn't see Jiyeon's truth to the end."))
 
 	if not f.get("arc_father_01_seen", false):
-		hints.append(_tr("🔍  아버지 아크를 아직 시작하지 않았습니다.", "🔍  You haven't started Father's arc yet."))
+		hints.append(_tr("아버지 아크를 아직 시작하지 않았습니다.", "You haven't started Father's arc yet."))
 
 	if not f.get("startup_launched", false) and not f.get("creator_started", false):
-		hints.append(_tr("💡  창업·크리에이터 루트, 둘 다 아직 가보지 않으셨네요.", "💡  You haven't tried either the startup or creator route yet."))
+		hints.append(_tr("창업·크리에이터 루트, 둘 다 아직 가보지 않으셨네요.", "You haven't tried either the startup or creator route yet."))
 	elif not f.get("startup_launched", false):
-		hints.append(_tr("💡  창업 루트 — 아이디어 하나로 엑싯까지, 아직 미탐험입니다.", "💡  The startup route — one idea to an exit — still unexplored."))
+		hints.append(_tr("창업 루트 — 아이디어 하나로 엑싯까지, 아직 미탐험입니다.", "The startup route — one idea to an exit — still unexplored."))
 	elif not f.get("creator_started", false):
-		hints.append(_tr("💡  크리에이터 루트 — 구독자 100만의 이야기, 아직 미탐험입니다.", "💡  The creator route — the one-million-subscriber story — still unexplored."))
+		hints.append(_tr("크리에이터 루트 — 구독자 100만의 이야기, 아직 미탐험입니다.", "The creator route — the one-million-subscriber story — still unexplored."))
 
 	if total < 1_000_000_000.0 and GameState.investment_skill < 50:
-		hints.append(_tr("📈  투자 기술을 먼저 키웠다면 결과가 달랐을까요?", "📈  Would the result differ if you grew your investing skill first?"))
+		hints.append(_tr("투자 기술을 먼저 키웠다면 결과가 달랐을까요?", "Would the result differ if you grew your investing skill first?"))
 
 	# NG+ 힌트 — 1회차에서 특정 경험을 하면 2회차 암시
 	var rc = MetaProgression.data.get("runs_completed", 0)
 	if rc == 0:
 		if f.get("sangchul_truth_known", false) or f.get("father_confession_heard", false):
-			hints.append(_tr("✨  다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...", "✨  If you start over, maybe you can treat Im Sangchul differently from the start..."))
+			hints.append(_tr("다시 시작한다면, 임상철을 처음부터 다르게 대할 수 있을지 모른다...", "If you start over, maybe you can treat Im Sangchul differently from the start..."))
 		if f.get("father_passed", false):
-			hints.append(_tr("✨  다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...", "✨  If you start over, maybe you can answer Father's call first..."))
+			hints.append(_tr("다시 시작한다면, 아버지 전화를 먼저 받을 수 있을지 모른다...", "If you start over, maybe you can answer Father's call first..."))
 		if f.get("daeun_let_her_go", false):
-			hints.append(_tr("✨  다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...", "✨  If you start over, maybe you won't lose Daeun from the start..."))
+			hints.append(_tr("다시 시작한다면, 다은을 처음부터 놓치지 않을 수 있을지 모른다...", "If you start over, maybe you won't lose Daeun from the start..."))
 
 	if hints.is_empty():
 		return
 	var sep = HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
 	parent.add_child(sep)
-	parent.add_child(_label(_tr("🔁  다음 런에서", "🔁  Next Run"), 13, "#c9a227"))
+	parent.add_child(_label(_tr("다음 런에서", "Next Run"), 13, "#c9a227"))
 	for i in range(mini(3, hints.size())):
-		parent.add_child(_wrap_label("  " + hints[i], 12, "#5a7090"))
+		parent.add_child(_wrap_label(str(hints[i]), 12, "#5a7090"))
 
 ## 같은 조건으로 5년을 산 사람들 중 상위 몇 %인지 — 30억 실패를 '정상'으로 리프레이밍
 func _ending_percentile_line() -> String:
@@ -7732,8 +7736,8 @@ func _ending_percentile_line() -> String:
 	elif total >= 0.0:             pct = 80
 	else:                          pct = 95
 	if pct <= 1:
-		return _tr("📊 같은 50만원으로 시작한 사람들 중  상위 1%  — 강남드림은 원래 이런 확률이었다.", "📊 Top 1% among those who started with the same KRW 500K — the Gangnam Dream was always these odds.")
-	return _tr("📊 같은 50만원으로 시작한 사람들 중  상위 %d%%  — 강남 입성은 상위 1%%의 일이다.", "📊 Top %d%% among those who started with the same KRW 500K — entering Gangnam is a top-1%% affair.") % pct
+		return _tr("같은 50만원으로 시작한 사람들 중 상위 1% — 강남드림은 원래 이런 확률이었다.", "Top 1% among those who started with the same KRW 500K — the Gangnam Dream was always these odds.")
+	return _tr("같은 50만원으로 시작한 사람들 중 상위 %d%% — 강남 입성은 상위 1%%의 일이다.", "Top %d%% among those who started with the same KRW 500K — entering Gangnam is a top-1%% affair.") % pct
 
 func _ending_stat_grid(parent: Control):
 	var total = GameState.get_total_asset_value()
@@ -7742,15 +7746,15 @@ func _ending_stat_grid(parent: Control):
 	var good_col := _moral_hex(_moral_text_accent(Color("#34d399"), 0.04))
 	var mental_col := _moral_hex(_moral_text_accent(Color("#c9a227"), 0.03))
 	var stats = [
-		[_tr("💰 최종 자산", "💰 Final Assets"), GameState.format_money(total), reward_col],
-		[_tr("🏆 점수", "🏆 Score"), _tr("%d점", "%d pts") % score, good_col],
-		[_tr("❤️ 건강", "❤️ Health"), "%d / 100" % GameState.health,
+		[_tr("최종 자산", "Final Assets"), GameState.format_money(total), reward_col],
+		[_tr("점수", "Score"), _tr("%d점", "%d pts") % score, good_col],
+		[_tr("건강", "Health"), "%d / 100" % GameState.health,
 			"#ef4444" if GameState.health <= 45 else good_col],
-		[_tr("🧠 정신력", "🧠 Mental"), "%d / 100" % GameState.mental,
+		[_tr("정신력", "Mental"), "%d / 100" % GameState.mental,
 			"#ef4444" if GameState.mental <= 45 else mental_col],
-		[_tr("⭐ 명성", "⭐ Reputation"), "%d" % GameState.reputation, reward_col],
-		[_tr("🎂 최종 나이", "🎂 Final Age"), _tr("%d세", "age %d") % GameState.age, "#aab3c5"],
-		[_tr("📅 총 턴", "📅 Total Turns"), _tr("%d턴", "%d turns") % GameState.turn, "#5a6075"],
+		[_tr("명성", "Reputation"), "%d" % GameState.reputation, reward_col],
+		[_tr("최종 나이", "Final Age"), _tr("%d세", "age %d") % GameState.age, "#aab3c5"],
+		[_tr("총 턴", "Total Turns"), _tr("%d턴", "%d turns") % GameState.turn, "#5a6075"],
 	]
 	var grid = GridContainer.new()
 	grid.columns = 2
@@ -7785,7 +7789,7 @@ func _ending_route_bar(parent: Control):
 	var info_row = HBoxContainer.new()
 	info_row.add_theme_constant_override("separation", 8)
 	parent.add_child(info_row)
-	var id_lbl = _label(GameState.get_route_identity(), 13, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04)))
+	var id_lbl = _label(_ending_card_route_label(), 13, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04)))
 	id_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info_row.add_child(id_lbl)
 	info_row.add_child(_label(_tr("정석 %d", "Orthodox %d") % o, 11, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.03))))
@@ -7817,32 +7821,32 @@ func _ending_milestones(parent: Control):
 	var job_tier: int = int(GameState.current_job.get("tier", 0))
 	if not job_name.is_empty():
 		if job_tier >= 4:
-			milestones.append(_tr("💼 최고 티어 직장 달성: %s", "💼 Top-tier job reached: %s") % job_name)
+			milestones.append(_tr("최고 티어 직장 달성: %s", "Top-tier job reached: %s") % job_name)
 		elif job_tier >= 3:
-			milestones.append(_tr("💼 중견 직장인: %s", "💼 Mid-career professional: %s") % job_name)
+			milestones.append(_tr("중견 직장인: %s", "Mid-career professional: %s") % job_name)
 		else:
-			milestones.append(_tr("💼 직장: %s", "💼 Job: %s") % job_name)
+			milestones.append(_tr("직장: %s", "Job: %s") % job_name)
 	var housing_labels = {
-		"oneroom": _tr("🏠 원룸 이사 성공", "🏠 Moved into a one-room"),
-		"apartment": _tr("🏢 아파트 입성", "🏢 Entered an apartment"),
-		"gangnam": _tr("🏙️ 강남 아파트 입성", "🏙️ Entered a Gangnam apartment"),
+		"oneroom": _tr("원룸 이사 성공", "Moved into a one-room"),
+		"apartment": _tr("아파트 입성", "Entered an apartment"),
+		"gangnam": _tr("강남 아파트 입성", "Entered a Gangnam apartment"),
 	}
 	if housing_labels.has(GameState.housing):
 		milestones.append(housing_labels[GameState.housing])
 	if f.get("startup_exit", false):
-		milestones.append(_tr("🚀 스타트업 엑싯 성공", "🚀 Startup exit succeeded"))
+		milestones.append(_tr("스타트업 엑싯 성공", "Startup exit succeeded"))
 	elif f.get("startup_launched", false):
-		milestones.append(_tr("🚀 창업 도전", "🚀 Attempted a startup"))
+		milestones.append(_tr("창업 도전", "Attempted a startup"))
 	if f.get("creator_viral", false):
-		milestones.append(_tr("🎬 크리에이터 수익화 성공", "🎬 Creator monetization succeeded"))
+		milestones.append(_tr("크리에이터 수익화 성공", "Creator monetization succeeded"))
 	elif f.get("creator_started", false):
-		milestones.append(_tr("🎬 크리에이터 활동 시작", "🎬 Started creator activity"))
+		milestones.append(_tr("크리에이터 활동 시작", "Started creator activity"))
 	if GameState.investment_skill >= 50:
-		milestones.append(_tr("📈 투자 고수 레벨 달성", "📈 Reached expert investor level"))
+		milestones.append(_tr("투자 고수 레벨 달성", "Reached expert investor level"))
 	elif GameState.investment_skill >= 25:
-		milestones.append(_tr("📈 투자 중수 달성", "📈 Reached intermediate investor level"))
+		milestones.append(_tr("투자 중수 달성", "Reached intermediate investor level"))
 	if f.get("political_candidate", false):
-		milestones.append(_tr("🏛️ 정계 진출", "🏛️ Entered politics"))
+		milestones.append(_tr("정계 진출", "Entered politics"))
 	if milestones.is_empty():
 		return
 	var ms_sep = HSeparator.new()
@@ -7865,9 +7869,9 @@ func _ending_playstyle(parent: Control):
 	var coll_total: int = int(coll.get("total", 0))
 	if coll_total > 0:
 		var is_new: bool = (MetaProgression.get_new_unlocks().get("new_ending", "") != "")
-		var coll_text: String = _tr("  📖 엔딩 도감  %d / %d 발견", "  📖 Ending Collection  %d / %d found") % [coll_found, coll_total]
+		var coll_text: String = _tr("엔딩 도감  %d / %d 발견", "Ending Collection  %d / %d found") % [coll_found, coll_total]
 		if is_new:
-			coll_text += "   ✨ NEW"
+			coll_text += "   NEW"
 		parent.add_child(_wrap_label(coll_text, 13, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04)) if is_new else "#7a8496"))
 	# 정점 대비 결말 — 정점에서 얼마나 지켰는가
 	var peak: float = float(GameState.peak_asset)
