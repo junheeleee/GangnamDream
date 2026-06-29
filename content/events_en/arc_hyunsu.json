@@ -58,18 +58,18 @@
   {
     "id": "hyunsu_result_fail",
     "title": "Hyunsu Didn't Pass",
-    "description": "Hyunsu came back late that night.\n\nHe didn't say anything. {name} could tell from the way he moved.\n\nThe results were out.",
+    "description": "Hyunsu hadn't left his room in three days.\n\nNo sound of him eating.\n\n{name} stood at the door. Should he knock?",
     "choices": [
       {
-        "text": "Sit with him for a while",
-        "result_text": "They sat in the shared kitchen without speaking.\n\nNo ramen this time.\n\nSometimes being present is the only thing you can offer.\n{name} didn't have any words. Neither did Hyunsu.\n\nThey sat until past midnight.",
+        "text": "Knock on the door",
+        "result_text": "After a long while, the door opened.\n\nHyunsu's eyes were swollen.\n\nHe didn't say much. {name} brought him two drinks from the convenience store.\nThat was enough. Sometimes that's everything.",
         "effects": {
           "tint": 5
         }
       },
       {
-        "text": "Give him space",
-        "result_text": "{name} went back to his room.\n\nSome things need to be processed alone.\nHe knew that.\n\nThe wall between the rooms was thin. Neither of them slept well that night.",
+        "text": "Leave him be — he probably wants to be alone",
+        "result_text": "On the fourth day, Hyunsu came out.\n\nWashed his face without a word.\nHis eyes met {name}'s. Hyunsu gave a small nod.\n\nWhether it meant he was okay, or that he still didn't know — hard to say.",
         "effects": {
           "tint": 1
         }

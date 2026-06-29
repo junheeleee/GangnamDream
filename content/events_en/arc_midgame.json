@@ -75,7 +75,7 @@
     "description": "Started at 33. Several months have already passed.\n\nI pulled out my phone calculator. Target: 3 billion. Time remaining. Calculated how much I'd need to grow per month.\n\nThe number came out. {name} stared at the screen for a moment.\n\nIt wasn't an impossible number. But at this rate — something had to change.\nOutside, Hyunsu came back from his convenience store shift.",
     "choices": [
       {
-        "text": "\"I need to bet bigger.\" — push for speed",
+        "text": "Closed the calculator, opened another tab.",
         "effects": {
           "investment_skill": 1,
           "mental": -7
@@ -87,7 +87,7 @@
         "result_text": "Excitement overtook the fear. Playing it safe now would mean regret later.\n\nLucky to not have lost anything so far — but now the real game begins."
       },
       {
-        "text": "\"The current approach is right. Stay the course.\" — hold firm",
+        "text": "Set the phone down. Just today, nothing more.",
         "effects": {
           "mental": 8
         },
@@ -98,7 +98,7 @@
         "result_text": "I haven't quit yet. That's the proof.\n\nThis game isn't only won by the fastest. It's also won by the ones who last."
       },
       {
-        "text": "\"I need to rethink the strategy.\" — stop and reconsider",
+        "text": "Took out a blank page and started over.",
         "effects": {
           "intelligence": 2,
           "mental": -2

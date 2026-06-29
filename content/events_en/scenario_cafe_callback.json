@@ -32,7 +32,7 @@
       },
       {
         "text": "Delete the number. Don't want to start with something stolen.",
-        "result_text": "{name} deleted it. Fingers trembled slightly.\nAnother easy path discarded. But — somewhere deep in the mind,\na corner that had quietly turned dirty in that café finally felt clean again.\nWanted to start with both feet on my own ground.",
+        "result_text": "{name} deleted it. Fingers trembled slightly.\nAnother easy path discarded. But — somewhere deep in the mind,\na corner that had quietly turned dirty in that café finally felt clean again.\nHe wanted to start with both feet on his own ground.",
         "flags": [
           "cafe_stole_redeemed",
           "cafe_callback_seen"
@@ -67,12 +67,12 @@
     "choices": [
       {
         "text": "Check first — verify the registry and market rate.",
-        "result_text": "I called two licensed brokers. I cross-checked the figures.",
+        "result_text": "{name} called two licensed brokers and cross-checked the figures.",
         "follow_up_event": "cafe_cb_stole_verify"
       },
       {
         "text": "Trust the gut. Go all in. Everything.",
-        "result_text": "I hit transfer mid-call. Sometimes a gut feeling is the only evidence you get.",
+        "result_text": "{name} hit transfer mid-call. Sometimes a gut feeling is the only evidence you get.",
         "follow_up_event": "cafe_cb_stole_allin"
       },
       {
@@ -110,7 +110,7 @@
     "choices": [
       {
         "text": "Strip the foam. Enter carefully.",
-        "result_text": "I held the registry out to Manager Kim. \"Twenty million of this is just air.\" He looked away.",
+        "result_text": "{name} held the registry out to Manager Kim. \"Twenty million of this is just foam.\" He looked away.",
         "follow_up_event": "cafe_cb_stole_smart"
       },
       {

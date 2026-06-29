@@ -32,7 +32,7 @@
       },
       {
         "text": "Tune it out. Focus on the resume.",
-        "result_text": "I filled in the blanks on my resume. But the voices at the next table kept catching my ear.",
+        "result_text": "{name} filled in the blanks on his résumé, but the voices at the next table kept catching his ear.",
         "follow_up_event": "cafe_mind_01",
         "flags": [
           "cafe_scenario_seen"
@@ -74,7 +74,7 @@
     "choices": [
       {
         "text": "Flip the folder open. Just a peek.",
-        "result_text": "Sale prices, floor areas, contact numbers. Figures stamped in red caught my eye.",
+        "result_text": "Sale prices, floor areas, contact numbers. Figures stamped in red caught his eye.",
         "follow_up_event": "cafe_peek_01",
         "effects": {
           "stress": 6
@@ -82,7 +82,7 @@
       },
       {
         "text": "Wait for him to come back. Say something.",
-        "result_text": "I sat and waited for him to come back. My heart beat a little faster.",
+        "result_text": "{name} sat and waited for the man to come back. His heart beat a little faster.",
         "follow_up_event": "cafe_talk_01"
       },
       {
@@ -119,7 +119,7 @@
     "choices": [
       {
         "text": "Be honest. Apologize. \"Sorry — I was just very interested.\"",
-        "result_text": "I lowered my head. He was quiet for a moment. An unexpected expression crossed his face.",
+        "result_text": "{name} lowered his head. The man was quiet for a moment. An unexpected expression crossed his face.",
         "follow_up_event": "cafe_caught_honest"
       },
       {
@@ -191,7 +191,7 @@
     "choices": [
       {
         "text": "Honest. \"I'm unemployed. I want to learn.\"",
-        "result_text": "When I finished, his gaze changed. He looked me up and down again.",
+        "result_text": "When {name} finished, the man's gaze changed. He looked him up and down again.",
         "follow_up_event": "cafe_humble",
         "effects": {
           "tint": 4
@@ -199,7 +199,7 @@
       },
       {
         "text": "Play it up. \"I do a bit of this kind of work myself.\"",
-        "result_text": "He nodded. His eyes seemed to see right through me.",
+        "result_text": "The man nodded. His eyes seemed to see right through {name}.",
         "follow_up_event": "cafe_bluff_01",
         "effects": {
           "tint": -3
@@ -259,7 +259,7 @@
       "cafe"
     ],
     "cooldown": 9999,
-    "description": "\"You work in this field. Is that right?\"\nThe man's eyes narrow. Testing.\n\"So if LTV is 70 on a property with a ₩5 million gap,\nhow much do you figure for actual investment?\"\n\n{name} doesn't know what any of those words mean.\nCold sweat runs down the back.",
+    "description": "\"You work in this field. Is that right?\"\nThe man's eyes narrow. Testing.\n\"So if LTV is 70 on a property with a ₩50 million gap,\nhow much do you figure for actual investment?\"\n\n{name} doesn't know what any of those words mean.\nCold sweat runs down the back.",
     "choices": [
       {
         "text": "Bluff through it. Throw out a number.",
@@ -271,7 +271,7 @@
       },
       {
         "text": "Cave. \"...I don't actually know. I'm sorry.\"",
-        "result_text": "I couldn't lift my head. But strangely, after a moment, he smiled.",
+        "result_text": "{name} couldn't lift his head. But strangely, after a moment, the man smiled.",
         "follow_up_event": "cafe_bluff_recover",
         "effects": {
           "tint": 5
@@ -297,7 +297,7 @@
       "cafe"
     ],
     "cooldown": 9999,
-    "description": "\"Around... ₩200 million?\" {name} tossed out a random number.\nThe man scoffed.\n\"The gap is ₩5M and you need ₩200M for actual investment? Kid, go study before you try to run a scam.\"\n\nPeople at nearby tables glance over.\n{name}'s face burns. Gangnam — it spots the bluff first.",
+    "description": "\"Around... ₩200 million?\" {name} tossed out a random number.\nThe man scoffed.\n\"The gap is ₩50M and you need ₩200M for actual investment? Kid, go study before you try to run a scam.\"\n\nPeople at nearby tables glance over.\n{name}'s face burns. Gangnam — it spots the bluff first.",
     "choices": [
       {
         "text": "Escape the café.",

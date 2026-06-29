@@ -33,7 +33,9 @@
           "tint": -2
         }
       }
-    ]
+    ],
+    "description_orthodox": "A message from a job app. Mapo-gu. Third floor. No elevator.\n\nCounted the stairs on the way up. 29. {name} counts things like this — turning it into numbers makes it lighter.\n\nThe interviewer picked up the résumé. Her eyes stopped at the six-year gap.\n\n{name} knew this question was coming. He'd prepared.\nPreparing doesn't make it hurt less.",
+    "description_unorthodox": "A message from a job app. Mapo-gu. Third floor. No elevator.\n\n'Mirae Industrial Tech, Inc.' Funny. If this is the future, the future's pretty narrow.\nDoesn't matter. He needs money now, and this whole thing is temporary anyway.\n\nThe interviewer flagged the six-year gap. {name} knew that look — 'an odd one.'\nFine. So what if I'm odd."
   },
   {
     "id": "arc_intro_02_dad_call",
@@ -68,7 +70,7 @@
         "result_text": "{name} wrote something in a notebook.\nGaps. Demand. Supply. What nobody else was doing.\n\nIdeas alone are nothing yet.\nBut people who write nothing down never begin."
       }
     ],
-    "description_orthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage KRW 10,000/hour. KRW 2,000,000 a month. Gangnam, KRW 3 billion. 125 years.\n\n{name} wrote down more numbers. Save KRW 3,000,000 a month. 15% annual return. Compounding.\nWhat looks impossible to the gut, broken into numbers, starts to show a path.\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The clearer the path got, the less he knew what to even say first.",
+    "description_orthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage KRW 10,000/hour. KRW 2,000,000 a month. Gangnam, KRW 3 billion. 125 years.\n\n{name} wrote down more numbers. Save KRW 3,000,000 a month. 15% annual return. Compounding.\nWhat looks impossible to the gut, broken into numbers, starts to show a path.\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The clearer the path got, the less he knew where to even begin.",
     "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage KRW 10,000/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way — a different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
     "description_low_mental": "Goshiwon. 3 AM.\n\nCouldn't sleep again.\n\nOpened the calculator, then closed it. The number — 125 years — stayed in front of his eyes. Even doing nothing.\n\nHis body felt heavy. The air in this room felt heavy.\n\nThe phone rang. Father. {name} thought for a moment about whether to answer."
   },
@@ -128,7 +130,10 @@
         ],
         "result_text": "Scrolled to the end. Even hit Like.\n\nDecided not to pretend not to be jealous. That's honest too.\nBut the honesty of that night — ached a little long."
       }
-    ]
+    ],
+    "description_orthodox": "2 AM. The goshiwon room.\n\nOpened Instagram. Scrolling the feed, {name} stopped.\n\nPark Minho, housing-lottery win. Lee Suhyeon, Maldives honeymoon. Kim Junghoon, foreign car.\n\n{name} worked out how old each was, when they must have started.\nWhere am I right now?\n\nHe knows comparison doesn't help. But without coordinates, you don't know which way you're facing.",
+    "description_unorthodox": "2 AM. The goshiwon room.\n\nOpened Instagram. Other people's lives slid past like ads.\n\nLottery win. Maldives. BMW.\n\n{name} thought — is that it? Is that 'arrival'?\nA housing-lottery win is the start of a 30-year mortgage, and after the honeymoon photos, what comes next?\n\nEveryone posts like they've arrived at something. {name} found that a little funny.\nAbout himself, and about them too.",
+    "description_long_gosiwon": "2 AM.\n\nOpened Instagram again. Seventh month in this room.\n\nPark Minho, housing-lottery win. Lee Suhyeon, newlywed. Kim Junghoon, foreign car.\n\n{name} set the phone down. Not envy, not anger — just distant.\nSome days your own life doesn't feel like your own.\nToday was one of those days."
   },
   {
     "id": "arc_intro_04_hyunsu",
@@ -189,12 +194,14 @@
         ],
         "result_text": "Hyunsu stopped mid-ramen and looked at {name}.\nExpected a laugh. Didn't get one.\n'...You mean it, don't you, hyung.'\n\nA short silence. Then, quietly:\n'Somehow I feel like you'll actually go.'\nThat line stayed. Coming from someone who'd been looking at the same wall for four years."
       }
-    ]
+    ],
+    "description_orthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nAs {name} turned to head back with his cup ramen, the man next door came out.\n\n\"You're on ramen too, hyung.\"\n\nGrade 9 exam prep book. Worn cover. Four years, easy.\n\nThis path is a path too. The sure, slow one.\n{name} briefly measured the road he'd chosen against this man's.",
+    "description_unorthodox": "Hallway outside the goshiwon shared kitchen. 1 AM.\n\nThe man next door came out. Grade 9 exam prep book.\n\n\"You're on ramen too, hyung.\"\n\n{name} thought — what does he see, studying that every single day?\nIf he passes, where does he go? On KRW 2.2 million a month, can he even get out of this goshiwon?\nHe didn't ask. Everyone has their own math."
   },
   {
     "id": "arc_chapter1_close",
     "title": "The First Week",
-    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu went back inside, you stood in the hallway alone for a while.\n\nThis past week — the burner account text, father's call, the first Gangnam cafe I ever walked into, Hyunsu's ramen.\n\nBack in the room, you open the notebook. First line:\n'KRW 3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan KRW 3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu went back inside, {name} stood in the hallway alone for a while.\n\nThis past week — the burner account text, father's call, the first Gangnam cafe he ever walked into, Hyunsu's ramen.\n\nBack in the room, {name} opens the notebook. First line:\n'KRW 3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan KRW 3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
@@ -202,7 +209,7 @@
       },
       {
         "text": "Write one more line: 'Wake up at 7 AM tomorrow.'",
-        "result_text": "7 AM tomorrow. Below the blank nothing of ₩3B, just that.\n\n₩3B is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nTurned off the light. {name} thought tomorrow might be just a little different from today."
+        "result_text": "7 AM tomorrow. Below that first line — ₩3B with nothing under it — just that.\n\n₩3B is far. 7 AM is close.\nHe decided to start with the smallest thing he could actually do right now.\n\nTurned off the light. {name} thought tomorrow might be just a little different from today."
       }
     ]
   },
@@ -287,7 +294,9 @@
         ],
         "result_text": "Im Sangchul set down his coffee.\n'...I said the same thing thirty years ago. Coming up from South Chungcheong Province.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'You — don't lose anything. If you're going, go without losing.'\nThere was a weight in that."
       }
-    ]
+    ],
+    "description_orthodox": "A small real estate office in the Sinchon alleys.\n\nDeposit-to-rent ratio. Still doesn't add up.\n\nThe man behind the desk seemed to read {name}'s math.\n\"With your situation right now, it'll be tough.\"\n\nHow did he know? Or maybe everyone walks in wearing this same look.\n\n\"Have a cup of coffee before you go.\" {name} sat down.\nSomething told him there was something to learn from this man.",
+    "description_unorthodox": "A small real estate office in the Sinchon alleys.\n\nAsked the going rate for a studio. Still a long way off.\n\n\"With your situation right now, it'll be tough.\" A man in his fifties. Blunt way of talking.\n\n{name} looked at him a moment. This guy knows something — just a feeling.\nThirty years in Seoul teaches you a few things. Some of them are worth more than money.\nHe took the coffee."
   },
   {
     "id": "arc_jiyeon_01_crash",
@@ -308,7 +317,7 @@
       "jiyeon"
     ],
     "cooldown": 9999,
-    "description": "Spring afternoon. On the way to work.\nPedaling the bike, turning into an alley — a black Mercedes-Benz S-Class-level sedan swung out and clipped the front wheel.\n\n{name} hit the asphalt. Knee scraped. Front wheel bent.\n\nA woman steps out from the driver's seat. Early thirties. Wet long black hair, a cream tailored suit, and a composure that looks more expensive than the car. But right now, she is clearly shaken.\n\n'Oh no — are you okay? I can call insurance—'\n\n{name} stands the bike back up. Checks the wheel. Checks the watch.\n12 minutes to the start of the shift.",
+    "description": "Spring afternoon. On the way to work.\nPedaling the bike, turning into an alley — a black sedan swung out and clipped the front wheel.\n\n{name} hit the asphalt. Knee scraped. Front wheel bent.\n\nA woman steps out from the driver's seat. Early thirties. Long black hair, a cream tailored suit, and a composure that looks more expensive than the car. But right now, she is clearly shaken.\n\n'Oh no — are you okay? I can call insurance—'\n\n{name} stands the bike back up. Checks the wheel. Checks the watch.\n40 minutes to the start of the shift.",
     "choices": [
       {
         "text": "'I'm fine.' — Just leave.",
@@ -365,7 +374,9 @@
         },
         "result_text": "Words that had been held in came out. She bows her head.\n'...I'm really sorry.'\n\nIt seemed genuine. Which made it impossible to stay angry.\n{name} sighs and walks the bent bike away.\nThe weight of her gaze lingered."
       }
-    ]
+    ],
+    "description_orthodox": "Spring afternoon. A Sinchon back road.\n\nA black sedan came around the corner and clipped the bike. He went down. Knee bleeding. Wheel bent.\n\nThe car door opened. A woman in her early thirties. A flustered look.\n\n{name} tallied the losses — wheel repair, the late penalty at work, hospital fees.\n\n\"The hospital's fine. Just the repair—\"\n\nThen he checked his watch. 40 minutes until his shift. No time to argue now.",
+    "description_unorthodox": "Spring afternoon. A Sinchon back road.\n\nBlack sedan. Corner. Impact. Down.\n\nGetting up, {name} caught the plate. Foreign car. Money in this neighborhood.\n\nThe woman stepped out. Playing flustered, but her eyes were calm. Someone used to situations like this.\n\n\"You should really see a doctor—\"\n\n{name} worked out that he had 40 minutes until his shift.\nAnd that this woman owed something."
   },
   {
     "id": "arc_jiyeon_02_store",
@@ -1095,7 +1106,7 @@
       "invest"
     ],
     "cooldown": 9999,
-    "description": "A text came from Sangchul.\n\"How've you been? You just crossed my mind.\"\n\nI called him back. After a stretch of small talk, he said,\n\"Starting a new job at 33 and trying to pull together three billion won by 38... have you actually run the numbers?\"\n\nMinjun listened in silence.\n\n\"On a salary it's impossible. Even at a 30% savings rate in Seoul, you wouldn't clear a hundred million in five years.\nYou have to put the seed money to work. Stocks, real estate, a business — something.\nWhat I'm saying is, you've got to learn something.\"",
+    "description": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} looked at the man's hands. Hands that had worked.\nManual labor, night-guard shifts, real-estate gigs. Two buildings now.\n\n\"I am — but I don't know anything yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n\"Someone who knows nothing is the easiest to teach. It's the ones who pretend to know that are the problem.\"",
     "choices": [
       {
         "text": "\"How should I start?\" — ask in earnest",
@@ -1131,7 +1142,9 @@
         ],
         "result_text": "\"Sure. You've got to figure it out for yourself in the end.\"\nSangchul laughed, unbothered.\n{name} hung up and stared at the ceiling for a while.\nWhat his own way actually was — he still wasn't sure."
       }
-    ]
+    ],
+    "description_orthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\nBefore answering, {name} ran the math — why is this man asking? What does he want?\nThere's no kindness without an angle. Or almost none.\n\n\"I am — but I don't know yet.\"\n\n\"That's the most honest answer there is.\" Im Sangchul smiled.\n{name} studied that smile. It looked genuine — for the first time.",
+    "description_unorthodox": "Im Sangchul held out a cup of tea.\n\n\"You thinking about investing?\"\n\n\"Sure.\" {name} answered right away.\n\n\"Why?\"\n\nThat stung. Why. Too simple to call it the money; too long to explain if it was Gangnam.\n\n\"I haven't sorted it out yet.\"\n\n\"Let me know when you do.\" Im Sangchul smiled."
   },
   {
     "id": "arc_opp_jiyeon_bunyang",
@@ -1276,7 +1289,7 @@
     "cooldown": 9999,
     "choices": [
       {
-        "text": "Thank god. I go my own way",
+        "text": "Let out a long breath. I go my own way",
         "effects": {
           "mental": 10,
           "reputation": 2
@@ -2936,7 +2949,7 @@
           "arc_ch1_career_spec_seen"
         ],
         "follow_up_event": "",
-        "result_text": "Wrote it. The reason for the three years. Reading it back, it looks bleak.\nBut it's me. Starting from here."
+        "result_text": "Wrote it. The reason for the six years. Reading it back, it looks bleak.\nBut it's me. Starting from here."
       },
       {
         "text": "Dress it up — make it sound good",
