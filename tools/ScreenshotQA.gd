@@ -13,6 +13,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=tutorial-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -34,6 +35,7 @@ const QA_SCOPE_AP_EN := "ap_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
+const QA_SCOPE_TUTORIAL_EN := "tutorial_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -119,6 +121,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_title_collection_surface(lang, "title_en_" if lang == "en" else "title_ko_")
 		print("SCREENSHOT_QA_DONE scope=title-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_TUTORIAL_EN:
+		var lang := _qa_language("en")
+		await _shot_tutorial_surfaces(lang, "tutorial_en_" if lang == "en" else "tutorial_ko_")
+		print("SCREENSHOT_QA_DONE scope=tutorial-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_SURFACE_EN:
@@ -208,6 +216,10 @@ func _qa_scope() -> String:
 				"qa=title-en", "--qa=title-en", "qa=title_en", "--qa=title_en",
 				"scope=title-en", "--scope=title-en", "scope=title_en", "--scope=title_en"]:
 			return QA_SCOPE_TITLE_EN
+		if arg in ["tutorial-en", "tutorial_en", "tutorial", "--tutorial-en", "--tutorial_en",
+				"qa=tutorial-en", "--qa=tutorial-en", "qa=tutorial_en", "--qa=tutorial_en",
+				"scope=tutorial-en", "--scope=tutorial-en", "scope=tutorial_en", "--scope=tutorial_en"]:
+			return QA_SCOPE_TUTORIAL_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -514,6 +526,51 @@ func _shot_title_collection_surface(lang: String = "en", prefix: String = "title
 		await _save(prefix + "01_title_collection")
 	else:
 		print("SKIP title collection (no _open_title_collection)")
+
+func _shot_tutorial_surfaces(lang: String = "en", prefix: String = "tutorial_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.4)
+
+	var parent_control := _mg as Control
+	if parent_control == null:
+		print("SKIP tutorial surface (MainGame is not Control)")
+		return
+
+	await _capture_tutorial(parent_control, "main_game", [0, 1, 2], [
+		prefix + "01_main_goal",
+		prefix + "02_main_status",
+		prefix + "03_main_actions",
+	])
+	await _capture_tutorial(parent_control, "baccarat", [0], [prefix + "04_baccarat"])
+	await _capture_tutorial(parent_control, "slot", [0], [prefix + "05_slot"])
+
+func _capture_tutorial(parent_control: Control, game_id: String, slide_indices: Array, shot_names: Array) -> void:
+	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
+	TutorialOverlay.force_show(game_id, parent_control)
+	await _settle(0.3)
+	var overlay := _find_tutorial_overlay()
+	if overlay == null:
+		print("SKIP tutorial %s (overlay missing)" % game_id)
+		return
+	for i in range(min(slide_indices.size(), shot_names.size())):
+		if overlay.has_method("_show_slide"):
+			overlay.call("_show_slide", int(slide_indices[i]))
+		await _settle(0.2)
+		await _save(str(shot_names[i]), 0.1)
+	_remove_nodes_by_script("res://scenes/TutorialOverlay.gd")
+	await _settle(0.2)
+
+func _find_tutorial_overlay() -> Node:
+	var targets: Array[Node] = []
+	_collect_nodes_by_script(get_tree().root, "res://scenes/TutorialOverlay.gd", targets)
+	return targets[0] if not targets.is_empty() else null
 
 func _shot_ending_suite(lang: String = "en", prefix: String = "ending_en_") -> void:
 	_set_qa_language(lang)

@@ -44,8 +44,41 @@ static func _localized_slide(icon: String, title_ko: String, title_en: String, b
 	return {
 		"icon": icon,
 		"title": LocaleManager.ui(title_ko, title_en),
-		"body": LocaleManager.ui(body_ko, body_en),
+		"body": _clean_body_for_surface(LocaleManager.ui(body_ko, body_en)),
 	}
+
+static func _clean_body_for_surface(text: String) -> String:
+	var out := text
+	var en := LocaleManager.is_english()
+	var replacements := [
+		["7️⃣ 7️⃣ 7️⃣", "777"],
+		["🃏 🃏 🃏", "BAR BAR BAR"],
+		["🍒 🍒 🍒", "Cherry Cherry Cherry" if en else "체리 체리 체리"],
+		["🔔 🔔 🔔", "Bell Bell Bell" if en else "벨 벨 벨"],
+		["🍒 🍒", "Two cherries" if en else "체리 2개"],
+		["1️⃣", "1."],
+		["2️⃣", "2."],
+		["3️⃣", "3."],
+		["7️⃣", "7"],
+		["🍒", "Cherry" if en else "체리"],
+		["🔔", "Bell" if en else "벨"],
+		["💡 ", "Tip: " if en else "힌트: "],
+		["💡", "Tip:" if en else "힌트:"],
+		["⚠ ", "Warning: " if en else "주의: "],
+		["⚠", "Warning:" if en else "주의:"],
+		["🎉 ", ""],
+	]
+	for pair in replacements:
+		out = out.replace(str(pair[0]), str(pair[1]))
+
+	for token in [
+		"🔵 ", "🔴 ", "🟡 ", "🟢 ", "⚫ ", "🟣 ",
+		"💰 ", "❤ ", "🧠 ", "💼 ", "📈 ", "🎰 ",
+		"🃏 ", "🏇 ", "👥 ", "⭐ ", "📊 ", "📖 ",
+		"✨ ", "🚀 ", "🎯 ", "🏠 ",
+	]:
+		out = out.replace(token, "")
+	return out
 
 static func _get_slides(game_id: String) -> Array:
 	match game_id:
