@@ -7302,7 +7302,7 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 
 	var frame := PanelContainer.new()
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	frame.custom_minimum_size = Vector2(0, 214)
+	frame.custom_minimum_size = Vector2(0, 328)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0b0c10").lerp(Color("#020303"), black * 0.85).lerp(Color("#111820"), white * 0.55)
 	st.border_color = accent
@@ -7318,6 +7318,7 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
 	frame.add_child(box)
+	_add_ending_card_scene(box, ending_id, accent, black, white)
 
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 16)
@@ -7370,6 +7371,92 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	_add_ending_card_bar(bars, clampf(float(GameState.health) / 100.0, 0.0, 1.0), Color("#7d8794"))
 	_add_ending_card_bar(bars, clampf(float(GameState.mental) / 100.0, 0.0, 1.0), Color("#9aa3ad"))
 
+func _add_ending_card_scene(parent: Control, ending_id: String, accent: Color, black: float, white: float) -> void:
+	var scene := Panel.new()
+	scene.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scene.custom_minimum_size = Vector2(0, 104)
+	scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#090a0d").lerp(Color("#020303"), black * 0.7).lerp(Color("#121a20"), white * 0.35)
+	st.border_color = Color(accent.r, accent.g, accent.b, 0.42)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	scene.add_theme_stylebox_override("panel", st)
+	parent.add_child(scene)
+
+	var line_col := Color(accent.r, accent.g, accent.b, 0.12)
+	_ending_scene_rect(scene, 0.04, 0.18, 0.96, 0.19, line_col)
+	_ending_scene_rect(scene, 0.04, 0.76, 0.96, 0.77, Color("#ffffff", 0.045))
+	_ending_scene_rect(scene, 0.08, 0.83, 0.92, 0.88, Color("#000000", 0.30))
+
+	match _ending_card_scene_kind(ending_id):
+		"debt":
+			_ending_scene_rect(scene, 0.10, 0.30, 0.34, 0.68, Color("#d7d0bd", 0.055))
+			_ending_scene_rect(scene, 0.13, 0.38, 0.30, 0.39, Color("#d7d0bd", 0.13))
+			_ending_scene_rect(scene, 0.13, 0.49, 0.27, 0.50, Color("#d7d0bd", 0.10))
+			_ending_scene_rect(scene, 0.40, 0.34, 0.55, 0.70, Color("#16181d", 0.95))
+			for x in [0.425, 0.475, 0.525]:
+				for y in [0.43, 0.52, 0.61]:
+					_ending_scene_rect(scene, x, y, x + 0.025, y + 0.030, Color("#cbd5df", 0.075))
+			_ending_scene_rect(scene, 0.65, 0.30, 0.82, 0.68, Color("#111217", 0.98))
+			_ending_scene_rect(scene, 0.675, 0.36, 0.795, 0.37, Color("#ff4444", 0.22))
+			_ending_scene_rect(scene, 0.675, 0.48, 0.755, 0.49, Color("#ff4444", 0.15))
+			_ending_scene_rect(scene, 0.675, 0.60, 0.785, 0.61, Color("#ff4444", 0.11))
+		"burnout":
+			_ending_scene_rect(scene, 0.16, 0.46, 0.68, 0.58, Color("#d9e4ee", 0.055))
+			_ending_scene_rect(scene, 0.16, 0.60, 0.70, 0.64, Color("#d9e4ee", 0.08))
+			_ending_scene_rect(scene, 0.76, 0.24, 0.765, 0.70, Color("#d9e4ee", 0.16))
+			_ending_scene_rect(scene, 0.765, 0.28, 0.83, 0.285, Color("#d9e4ee", 0.13))
+			_ending_scene_rect(scene, 0.82, 0.285, 0.835, 0.40, Color("#d9e4ee", 0.10))
+		"gangnam":
+			for i in range(8):
+				var x := 0.16 + float(i) * 0.075
+				var h := 0.22 + float((i * 17) % 5) * 0.045
+				_ending_scene_rect(scene, x, 0.72 - h, x + 0.045, 0.72, Color("#cbd5df", 0.055 + white * 0.06))
+			_ending_scene_rect(scene, 0.12, 0.28, 0.88, 0.29, Color("#cbd5df", 0.10 + white * 0.06))
+			_ending_scene_rect(scene, 0.12, 0.70, 0.88, 0.71, Color("#cbd5df", 0.10))
+		"bond":
+			_ending_scene_rect(scene, 0.18, 0.58, 0.82, 0.64, Color("#1f1b16", 0.74))
+			_ending_scene_rect(scene, 0.33, 0.38, 0.39, 0.57, Color("#cbd5df", 0.08))
+			_ending_scene_rect(scene, 0.60, 0.38, 0.66, 0.57, Color("#cbd5df", 0.08))
+			_ending_scene_rect(scene, 0.42, 0.45, 0.58, 0.46, Color("#cbd5df", 0.11))
+		"career":
+			for i in range(5):
+				var x := 0.22 + float(i) * 0.105
+				_ending_scene_rect(scene, x, 0.24, x + 0.065, 0.72, Color("#cbd5df", 0.045))
+				_ending_scene_rect(scene, x + 0.014, 0.34, x + 0.052, 0.35, Color("#cbd5df", 0.11))
+				_ending_scene_rect(scene, x + 0.014, 0.48, x + 0.052, 0.49, Color("#cbd5df", 0.08))
+		_:
+			for i in range(7):
+				var x := 0.18 + float(i) * 0.085
+				_ending_scene_rect(scene, x, 0.40 + float(i % 3) * 0.055, x + 0.052, 0.72, Color("#cbd5df", 0.045))
+			_ending_scene_rect(scene, 0.20, 0.34, 0.80, 0.35, Color("#cbd5df", 0.08))
+
+func _ending_card_scene_kind(ending_id: String) -> String:
+	if ending_id in ["bankruptcy", "debt_spiral", "crypto_ghost"]:
+		return "debt"
+	if ending_id in ["burnout", "mental_break", "career_burnout"]:
+		return "burnout"
+	if ending_id in ["gangnam_dream", "gangnam_dream_white", "empty_house", "jaehyuk_way", "lonely_rich", "instant_legend", "full_circle"]:
+		return "gangnam"
+	if ending_id in ["with_daeun", "second_love", "guardian", "late_call", "gambling_recovery", "sangchul_reckoning"]:
+		return "bond"
+	if ending_id in ["orthodox_pinnacle", "career_climber", "political_fix", "startup_exit", "reputation_king"]:
+		return "career"
+	return "city"
+
+func _ending_scene_rect(parent: Control, left: float, top: float, right: float, bottom: float, color: Color) -> void:
+	var rect := ColorRect.new()
+	rect.anchor_left = left
+	rect.anchor_top = top
+	rect.anchor_right = right
+	rect.anchor_bottom = bottom
+	rect.offset_right = 1
+	rect.offset_bottom = 1
+	rect.color = color
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(rect)
+
 func _add_ending_card_chip(parent: Control, label_text: String, value_text: String, color: String) -> void:
 	var chip := PanelContainer.new()
 	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -7396,18 +7483,28 @@ func _add_ending_card_chip(parent: Control, label_text: String, value_text: Stri
 	box.add_child(value_lbl)
 
 func _add_ending_card_bar(parent: Control, ratio: float, color: Color) -> void:
-	var holder := PanelContainer.new()
+	var holder := Control.new()
 	holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	holder.custom_minimum_size = Vector2(0, 12)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color(1, 1, 1, 0.045)
-	st.set_corner_radius_all(4)
-	holder.add_theme_stylebox_override("panel", st)
+	holder.clip_contents = true
 	parent.add_child(holder)
+
+	var track := ColorRect.new()
+	track.color = Color("#15171b")
+	track.set_anchors_preset(Control.PRESET_FULL_RECT)
+	track.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(track)
+
 	var fill := ColorRect.new()
 	fill.color = _moral_gray_accent(color, _moral_ui_palette(), 0.03)
+	fill.anchor_left = 0.0
+	fill.anchor_top = 0.0
 	fill.anchor_right = clampf(ratio, 0.02, 1.0)
 	fill.anchor_bottom = 1.0
+	fill.offset_left = 0
+	fill.offset_top = 0
+	fill.offset_right = 0
+	fill.offset_bottom = 0
 	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(fill)
 
