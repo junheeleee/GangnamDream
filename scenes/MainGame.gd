@@ -8610,19 +8610,19 @@ func _button(text, color) -> Button:
 	return button
 
 func _primary_cta_button(text: String) -> Button:
-	var button := _button(text, "#f4f7fb")
+	var button := _button(text, "#121820")
 	button.set_meta("moral_role", "primary_cta_button")
-	button.set_meta("moral_accent", "#f4f7fb")
+	button.set_meta("moral_accent", "#dce6ee")
 	button.custom_minimum_size = Vector2(0, 58)
 	button.add_theme_font_size_override("font_size", 16)
-	button.add_theme_color_override("font_color", Color("#05070a"))
-	button.add_theme_color_override("font_hover_color", Color("#05070a"))
-	button.add_theme_color_override("font_pressed_color", Color("#05070a"))
-	button.add_theme_color_override("font_focus_color", Color("#05070a"))
-	button.add_theme_color_override("font_hover_pressed_color", Color("#05070a"))
+	button.add_theme_color_override("font_color", Color("#eef3f8"))
+	button.add_theme_color_override("font_hover_color", Color("#ffffff"))
+	button.add_theme_color_override("font_pressed_color", Color("#dce6ee"))
+	button.add_theme_color_override("font_focus_color", Color("#ffffff"))
+	button.add_theme_color_override("font_hover_pressed_color", Color("#ffffff"))
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("#edf2f7")
-	normal.border_color = Color("#f8fafc")
+	normal.bg_color = Color("#111820", 0.98)
+	normal.border_color = Color("#cbd5df", 0.72)
 	normal.set_border_width_all(1)
 	normal.border_width_left = 4
 	normal.set_corner_radius_all(6)
@@ -8631,9 +8631,10 @@ func _primary_cta_button(text: String) -> Button:
 	normal.content_margin_top = 12
 	normal.content_margin_bottom = 12
 	var hover := normal.duplicate()
-	hover.bg_color = Color("#ffffff")
+	hover.bg_color = Color("#172331", 0.98)
+	hover.border_color = Color("#eef3f8", 0.9)
 	var pressed_style := normal.duplicate()
-	pressed_style.bg_color = Color("#cbd5df")
+	pressed_style.bg_color = Color("#0b1018", 0.98)
 	var focus_style := normal.duplicate()
 	focus_style.border_color = Color("#ffffff")
 	focus_style.set_border_width_all(UI_FOCUS_BORDER)
