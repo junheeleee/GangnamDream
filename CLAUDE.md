@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-29** — **Codex Log / Info Panel Surface Pass**: `GameState.action_log` 원문은 유지하되 표시층에서 `_clean_log_surface_text()`와 BBCode 대괄호 escape를 적용해 정보 패널 Log/AP 이번 주 기록/월말 행동 요약에 `✓/💼/📈/🎰/✨`류 플랫폼 이모지가 노출되지 않게 했다. 정보 패널 주거값 앞의 주거 emoji도 제거. `ScreenshotQA --qa=ap-en`에 AP 행동 로그 및 Info Log 샘플을 심어 영어 Steam Deck 표면 직접 확인. `audit.sh`, `english_hangul_audit.py` content_issues=0, AP 캡처 확인. |
+| **최근 완료** | **2026-06-29** — **Codex Info Panel Monotone Pass**: 정보 패널 하위 탭의 강한 섹션색/관계색/마켓 티커색을 `_info_signal_hex()`/`_info_text_hex()`로 `Gangnam Ink` 무채색 축에 맞춰 낮췄다. Market/Relationships/Keepsakes/Story 탭이 네온·모바일 앱 팔레트가 아니라 기록장 같은 표면으로 보이도록 카드 테두리, 값 바, ticker 보유액 표시(`• KRW`)를 정리. `audit.sh`, `english_hangul_audit.py` content_issues=0, `ScreenshotQA --qa=ap-en` 시장/관계/아이템 탭 직접 확인. |
+| **이전** | **2026-06-29** — **Codex Log / Info Panel Surface Pass**: `GameState.action_log` 원문은 유지하되 표시층에서 `_clean_log_surface_text()`와 BBCode 대괄호 escape를 적용해 정보 패널 Log/AP 이번 주 기록/월말 행동 요약에 `✓/💼/📈/🎰/✨`류 플랫폼 이모지가 노출되지 않게 했다. 정보 패널 주거값 앞의 주거 emoji도 제거. `ScreenshotQA --qa=ap-en`에 AP 행동 로그 및 Info Log 샘플을 심어 영어 Steam Deck 표면 직접 확인. `audit.sh`, `english_hangul_audit.py` content_issues=0, AP 캡처 확인. |
 | **이전** | **2026-06-29** — **Codex AP Warning + Toast Surface Pass**: AP 상황판 경고의 `⚠/🚨` 표면을 텍스트형 위험 라벨로 바꾸고, 토스트 공통 표시 직전 필터(`_clean_surface_message`)를 추가해 `💾/💳/🔓/⚡/🏦/📈`류 플랫폼 이모지가 알림 UI에 노출되지 않게 했다. `ScreenshotQA --qa=ap-en`에 `ap_en_03a_ap_warnings` 경고 상태 캡처를 추가하고 정상 AP/경고 AP/돈 모달 직접 확인. `audit.sh` 통과. |
 | **이전** | **2026-06-29** — **Codex Career Modal Continuity Pass**: 직업 선택/취업 준비도/취업 완료 로그가 직전 Job Hunt 미니게임과 톤이 끊기지 않도록 정리. `✅/📋/🔒/🎉/💼` 표면을 `RESUME READY/MISSING`, `INTERVIEW READY/NEEDED`, `LOCKED`, `First job` 같은 텍스트형 표기로 교체하고, 직업 목록의 네온 초록 요구조건/골드 버튼을 `Gangnam Ink` 저채도 계열로 낮췄다. `ScreenshotQA --qa=job-en`에 work category + jobs missing/ready 3컷 추가. `audit.sh`, `english_hangul_audit.py` content_issues=0, `job_en_00~05+04a` 직접 확인. |
 | **이전** | **2026-06-29** — **Codex Job Hunt Surface Pass**: 취업/면접 미니게임을 모바일 앱식 이모지 표면(`🖊/🎯/⚡/✦/✗/★`)에서 중앙 채용 평가표 카드로 재정리했다. 질문/힌트/피드백/결과 등급은 `Grade A~D`, `Strong answer`, `Pressure question` 같은 텍스트 표기로 통일하고 버튼·타이머를 `Gangnam Ink` 무채색 계열로 낮춤. `ScreenshotQA --qa=job-en` 신규 스코프로 이력서 질문/피드백/결과+면접/압박질문 캡처 가능. `audit.sh`, `english_hangul_audit.py`, `job_en_01~05+04a` 직접 확인. |
@@ -82,7 +83,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: Log / Info Panel Surface Pass — 기록 UI 표시층 이모지/BBCode 누수 정리.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: Info Panel Monotone Pass — 정보 패널 하위 탭 색상 감쇠.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

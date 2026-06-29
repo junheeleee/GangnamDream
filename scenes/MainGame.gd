@@ -3715,6 +3715,7 @@ func _render_news():
 		elif power <= -0.01:
 			color = "#fca5a5"
 			label_text = _tr("악재", "Down")
+		var muted_color := _info_signal_hex(color)
 		var card: PanelContainer = _info_card(color, "#0b0f16")
 		var box: VBoxContainer = VBoxContainer.new()
 		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -3723,12 +3724,12 @@ func _render_news():
 		var row: HBoxContainer = HBoxContainer.new()
 		row.add_theme_constant_override("separation", 8)
 		box.add_child(row)
-		var tag: Label = _label(label_text, 13, color)
+		var tag: Label = _label(label_text, 13, muted_color)
 		if _font_bold:
 			tag.add_theme_font_override("font", _font_bold)
 		tag.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(tag)
-		var impact: Label = _label("%+.1f%%" % (power * 100.0), 13, color)
+		var impact: Label = _label("%+.1f%%" % (power * 100.0), 13, muted_color)
 		impact.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		row.add_child(impact)
 		box.add_child(_wrap_label(text, 14, "#c8d0df"))
@@ -3738,7 +3739,7 @@ func _render_sidebars():
 	# ── 시세 패널: RichTextLabel 단일 업데이트 ──
 	if ticker_rtl:
 		var lines: PackedStringArray = PackedStringArray()
-		lines.append("[color=#3fb950][b]▸ MARKET TICKER[/b][/color]")
+		lines.append("[color=%s][b]MARKET TICKER[/b][/color]" % _info_signal_hex("#3fb950"))
 		for row in investment_system.get_asset_rows().slice(0, 12):
 			var asset_id = row["id"]
 			var price = float(row["price"])
@@ -3756,14 +3757,14 @@ func _render_sidebars():
 				color = "#ff4444"
 			var owned_str = ""
 			if float(row["owned_value"]) > 0:
-				owned_str = "  [color=#c9a227]▶%s[/color]" % GameState.format_money(row["owned_value"])
+				owned_str = "  [color=%s]• %s[/color]" % [_info_signal_hex("#c9a227"), GameState.format_money(row["owned_value"])]
 			var risk_dots = "●".repeat(int(row.get("risk_level", 1))) + "○".repeat(5 - int(row.get("risk_level", 1)))
 			# 6개월 미니 스파크라인
 			var spark_hist: Array = GameState.price_history.get(asset_id, [])
 			var mini_spark = ""
 			if spark_hist.size() >= 2:
 				mini_spark = "  " + _price_sparkline(spark_hist.slice(max(0, spark_hist.size() - 6)))
-			lines.append("[color=%s]%s  %s%s%s  %s%s[/color]" % [color, row["name"], GameState.format_money(price), pct_str, owned_str, risk_dots, mini_spark])
+			lines.append("[color=%s]%s  %s%s%s  %s%s[/color]" % [_info_signal_hex(color), row["name"], GameState.format_money(price), pct_str, owned_str, risk_dots, mini_spark])
 		ticker_rtl.clear()
 		ticker_rtl.append_text("\n".join(lines))
 
@@ -3832,9 +3833,9 @@ func _render_sidebars():
 			var sign2: String = "+" if v2 >= 0 else ""
 			effect_parts.append(_tr("매달 %s %s%d", "monthly %s %s%d") % [_stat_name(k), sign2, v2])
 		if not effect_parts.is_empty():
-			item_box.add_child(_wrap_label(", ".join(effect_parts), 13, "#fbbf24"))
+			item_box.add_child(_wrap_label(", ".join(effect_parts), 13, _info_signal_hex("#fbbf24")))
 		if has_immediate:
-			var use_btn = _small_button(_tr("사용 ⚡1", "Use ⚡1"), "#0f766e")
+			var use_btn = _small_button(_tr("사용 AP 1", "Use AP 1"), "#0f766e")
 			if GameState.action_points <= 0:
 				use_btn.disabled = true
 			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item.get("id", "")))
@@ -4090,7 +4091,7 @@ func _render_log():
 	}
 	for entry in GameState.action_log.slice(max(0, GameState.action_log.size() - 16)):
 		var t = entry.get("type", "system")
-		var color = type_colors.get(t, "#5a6075")
+		var color: String = _info_signal_hex(str(type_colors.get(t, "#5a6075")))
 		var date_str: String = _escape_bbcode_text(entry.get("date", ""))
 		var msg: String = _escape_bbcode_text(_clean_log_surface_text(entry.get("message", "")))
 		lines.append("[color=%s][%s] %s[/color]" % [color, date_str, msg])
@@ -8409,12 +8410,18 @@ func _panel(bg, border):
 	_apply_moral_tree_styles(panel, _moral_ui_palette())
 	return panel
 
+func _info_signal_hex(color: String, boost: float = 0.02) -> String:
+	return _moral_hex(_moral_gray_accent(Color(color), _moral_ui_palette(), boost))
+
+func _info_text_hex(color: String, boost: float = 0.01) -> String:
+	return _moral_hex(_moral_text_accent(Color(color), boost))
+
 func _info_card(accent: String, bg: String = "#0b1018") -> PanelContainer:
 	var panel: PanelContainer = PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var style: StyleBoxFlat = StyleBoxFlat.new()
 	style.bg_color = Color(bg)
-	style.border_color = Color(accent)
+	style.border_color = Color(_info_signal_hex(accent))
 	style.set_border_width_all(1)
 	style.border_width_left = 4
 	style.set_corner_radius_all(7)
@@ -8426,7 +8433,7 @@ func _info_card(accent: String, bg: String = "#0b1018") -> PanelContainer:
 	return panel
 
 func _info_section_title(text: String, color: String) -> Label:
-	var lbl: Label = _label(text, 15, color)
+	var lbl: Label = _label(text, 15, _info_text_hex(color, 0.02))
 	if _font_bold:
 		lbl.add_theme_font_override("font", _font_bold)
 	return lbl
@@ -8446,10 +8453,11 @@ func _info_value_bar(label_text: String, value: int, max_value: int, color: Stri
 	var lbl: Label = _label(label_text, 13, "#8f9ab0")
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(lbl)
-	var val: Label = _label("%d/%d" % [value, max_value], 13, color)
+	var muted_color := _info_signal_hex(color, 0.03)
+	var val: Label = _label("%d/%d" % [value, max_value], 13, muted_color)
 	val.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top.add_child(val)
-	var bar_lbl: Label = _label(_bar_str(value, max_value, 12), 13, color)
+	var bar_lbl: Label = _label(_bar_str(value, max_value, 12), 13, muted_color)
 	bar_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(bar_lbl)
 	return box
