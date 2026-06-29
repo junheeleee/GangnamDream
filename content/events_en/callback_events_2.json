@@ -92,7 +92,7 @@
   {
     "id": "callback_jaehyuk_scammed_news",
     "title": "A Name in the News",
-    "description": "You stopped scrolling.\n[Startup CEO arrested on investment fraud charges]\nA name is in the article. Park Jaehyuk.\nThere's a photo. That face.",
+    "description": "You stopped scrolling.\n[Startup CEO arrested on investment fraud charges]\nA name is in the article. Choi Jaehyuk.\nThere's a photo. That face.",
     "choices": [
       {
         "text": "Post in the victims' group",
@@ -137,7 +137,7 @@
   {
     "id": "callback_jaehyuk_reported_witness",
     "title": "The Detective's Call",
-    "description": "An unknown number.\n'I'm calling about the Park Jaehyuk case. Your name is on the victim list.\nA trial has been scheduled. Are you available to testify as a witness?'",
+    "description": "An unknown number.\n'I'm calling about the Choi Jaehyuk case. Your name is on the victim list.\nA trial has been scheduled. Are you available to testify as a witness?'",
     "choices": [
       {
         "text": "Appear",
