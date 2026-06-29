@@ -419,7 +419,9 @@ func _shot_splash_screen(lang: String, shot_name: String) -> void:
 	var splash := packed.instantiate()
 	get_tree().root.add_child.call_deferred(splash)
 	await get_tree().process_frame
-	await _settle(2.75)
+	await _settle(0.85)
+	await _save(shot_name + "_publisher", 0.0)
+	await _settle(1.9)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/SplashScreen.gd")
 	await _settle(0.25)

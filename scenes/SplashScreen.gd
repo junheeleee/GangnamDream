@@ -4,6 +4,7 @@ var _transitioning: bool = false
 
 var _bg_img:     TextureRect
 var _logo_img:   TextureRect
+var _publisher_logo: Control
 var _title_lbl:  Label
 var _sub_lbl:    Label
 var _line_rect:  ColorRect
@@ -70,6 +71,10 @@ func _build_ui():
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	center.add_child(vbox)
 
+	# ── 퍼블리셔 로고: JUNPAC GAMES ──
+	_publisher_logo = _build_junpac_logo()
+	vbox.add_child(_publisher_logo)
+
 	# ── 로고 이미지 ──
 	_logo_img = TextureRect.new()
 	_logo_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -131,15 +136,79 @@ func _build_ui():
 	# _press_lbl 는 더 이상 사용하지 않음 (컷신에서 처리)
 	_press_lbl = Label.new()
 
+func _build_junpac_logo() -> Control:
+	var group = Control.new()
+	group.custom_minimum_size = Vector2(360, 190)
+	group.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	group.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	group.modulate = Color(1, 1, 1, 0.0)
+
+	var j = _brand_label("J", 96, "#ffc107", true)
+	j.position = Vector2(104, 0)
+	j.custom_minimum_size = Vector2(74, 104)
+	j.size = Vector2(74, 104)
+	group.add_child(j)
+
+	var p = _brand_label("P", 96, "#e8e2d5", true)
+	p.position = Vector2(162, 0)
+	p.custom_minimum_size = Vector2(82, 104)
+	p.size = Vector2(82, 104)
+	group.add_child(p)
+
+	var dot = ColorRect.new()
+	dot.color = Color("#e63946")
+	dot.position = Vector2(238, 82)
+	dot.custom_minimum_size = Vector2(11, 11)
+	dot.size = Vector2(11, 11)
+	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	group.add_child(dot)
+
+	var name = _brand_label("J  U  N  P  A  C", 31, "#e8e2d5", false)
+	name.position = Vector2(0, 108)
+	name.custom_minimum_size = Vector2(360, 36)
+	name.size = Vector2(360, 36)
+	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	group.add_child(name)
+
+	var games = _brand_label("G  A  M  E  S", 16, "#ffc107", false)
+	games.position = Vector2(0, 148)
+	games.custom_minimum_size = Vector2(360, 26)
+	games.size = Vector2(360, 26)
+	games.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	group.add_child(games)
+
+	var line = ColorRect.new()
+	line.color = Color("#ffc107", 0.36)
+	line.position = Vector2(136, 181)
+	line.custom_minimum_size = Vector2(88, 1)
+	line.size = Vector2(88, 1)
+	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	group.add_child(line)
+	return group
+
+func _brand_label(text: String, font_size: int, color: String, bold: bool = false) -> Label:
+	var lbl = Label.new()
+	lbl.text = text
+	lbl.add_theme_font_size_override("font_size", font_size)
+	lbl.add_theme_color_override("font_color", Color(color))
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.clip_text = false
+	_apply_font(lbl, bold)
+	return lbl
+
 # ── 애니메이션 시퀀스 ──────────────────────────────────────────────────
 func _run_sequence():
+	# 퍼블리셔 프리롤: 첨부된 JUNPAC GAMES 브랜드 보드의 검정/amber/red 톤을 사용한다.
+	_fade_in(_publisher_logo, 0.5)
+	await get_tree().create_timer(0.85).timeout
+	_fade_out(_publisher_logo, 0.35)
+	await get_tree().create_timer(0.35).timeout
+
 	# 배경 먼저 서서히 등장
 	_fade_in(_bg_img, 1.0, 0.38)
 
 	await get_tree().create_timer(0.4).timeout
-	_fade_in(_logo_img, 0.7)
-
-	await get_tree().create_timer(0.5).timeout
 	_fade_in(_title_lbl, 0.65)
 
 	await get_tree().create_timer(0.4).timeout
@@ -159,6 +228,10 @@ func _run_sequence():
 func _fade_in(node: Control, duration: float, target_alpha: float = 1.0):
 	var tw = create_tween()
 	tw.tween_property(node, "modulate", Color(1, 1, 1, target_alpha), duration)
+
+func _fade_out(node: Control, duration: float):
+	var tw = create_tween()
+	tw.tween_property(node, "modulate", Color(1, 1, 1, 0.0), duration)
 
 # ── 전환 ─────────────────────────────────────────────────────────────────
 func _go_to_start():
