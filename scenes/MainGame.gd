@@ -7278,7 +7278,7 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	var meta_row := HBoxContainer.new()
 	meta_row.add_theme_constant_override("separation", 8)
 	box.add_child(meta_row)
-	_add_ending_card_chip(meta_row, _tr("남은 색", "Moral Trace"), _ending_moral_surface_label(), "#cbd5df")
+	_add_ending_card_chip(meta_row, _tr("마지막 거처", "Last Home"), _ending_last_home_label(), "#cbd5df")
 	_add_ending_card_chip(meta_row, _tr("경로", "Path"), _ending_card_route_label(), "#aeb7c2")
 	_add_ending_card_chip(meta_row, _tr("최종 자산", "Final Assets"), GameState.format_money(GameState.get_total_asset_value()), "#d9ffe8" if stage <= -1 else "#cbd5df")
 
@@ -7286,8 +7286,8 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	bars.add_theme_constant_override("separation", 5)
 	bars.custom_minimum_size = Vector2(0, 16)
 	box.add_child(bars)
-	var moral_fill := clampf((GameState.moral_tint_norm() + 1.0) * 0.5, 0.0, 1.0)
-	_add_ending_card_bar(bars, moral_fill, accent)
+	var goal_fill := clampf(GameState.get_total_asset_value() / GameState.GANGNAM_TARGET, 0.02, 1.0)
+	_add_ending_card_bar(bars, goal_fill, accent)
 	_add_ending_card_bar(bars, clampf(float(GameState.health) / 100.0, 0.0, 1.0), Color("#7d8794"))
 	_add_ending_card_bar(bars, clampf(float(GameState.mental) / 100.0, 0.0, 1.0), Color("#9aa3ad"))
 
@@ -7332,17 +7332,20 @@ func _add_ending_card_bar(parent: Control, ratio: float, color: Color) -> void:
 	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(fill)
 
-func _ending_moral_surface_label() -> String:
-	var stage := GameState.moral_stage()
-	if stage <= -2:
-		return _tr("검정 — 돈만 선명함", "Black — only money stayed bright")
-	if stage == -1:
-		return _tr("진회색 — 어두워지는 중", "Dark Gray — drifting downward")
-	if stage >= 2:
-		return _tr("흰색 — 선명하게 남음", "White — stayed clear")
-	if stage == 1:
-		return _tr("연회색 — 회복 쪽", "Light Gray — leaning clear")
-	return _tr("회색 — 아직 정해지지 않음", "Gray — still unresolved")
+func _ending_last_home_label() -> String:
+	match GameState.housing:
+		"gosiwon":
+			return _tr("고시원", "Goshiwon")
+		"oneroom":
+			return _tr("원룸", "One-room")
+		"villa":
+			return _tr("빌라 전세", "Villa jeonse")
+		"apartment":
+			return _tr("아파트 전세", "Apartment jeonse")
+		"gangnam":
+			return _tr("강남 아파트", "Gangnam apartment")
+		_:
+			return str(GameState.housing)
 
 func _ending_card_route_label() -> String:
 	var raw := GameState.get_route_identity()

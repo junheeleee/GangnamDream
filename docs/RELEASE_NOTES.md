@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-06-29) — Hidden moral surface leak
+
+- Removed explicit hidden moral-state labels from non-CG ending cards.
+- Replaced the visible `Moral Trace` chip with public run information (`Last Home`).
+- Changed the first ending-card bar from hidden moral value to goal-progress value; moral state should remain visual and experiential, not explained in UI text.
+
 ### Changed (2026-06-29) — Ending card surface polish
 
 - Polished non-CG ending cards so they read like finished finale records instead of placeholder/system cards.

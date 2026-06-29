@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Hidden Moral Surface Leak Fix)
+
+### 수정
+- `scenes/MainGame.gd`: 엔딩 카드에서 숨은 `MORAL_TINT` 시스템을 직접 노출하던 `Moral Trace` / `Gray` / `Black` / `White` 계열 문구를 제거했다.
+- `scenes/MainGame.gd`: 엔딩 카드 첫 메타칩을 `Last Home` / `마지막 거처`로 교체했다. 플레이어에게 보여도 되는 공개 정보만 남긴다.
+- `scenes/MainGame.gd`: 카드 하단 첫 막대가 hidden moral 값을 보여주던 것을 목표 자산 진행률 막대로 교체했다. 도덕 상태는 색·명암·질감으로만 체감되어야 한다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=endings-en` 실행 완료. `ending_en_15_ending_stable_success`, `ending_en_14_ending_bankruptcy` 직접 확인: hidden moral 상태명 노출 없음.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Ending Card Surface Polish Pass)
 
 ### 수정
