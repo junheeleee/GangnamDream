@@ -589,11 +589,35 @@ func _shot_job_hunt_surfaces(lang: String = "en", prefix: String = "job_en_") ->
 	_prepare_main_game_state()
 	await _boot_main_game()
 	_mg.current_event = {}
+	GameState.current_job = {}
+	GameState.monthly_income = 0.0
+	GameState.flags["resume_polished"] = false
+	GameState.flags["interview_practiced"] = false
 	if _mg.has_method("_render_ap_actions"):
 		_mg._render_ap_actions()
 	if _mg.has_method("_finish_typing"):
 		_mg._finish_typing()
 	await _settle(0.4)
+
+	if _mg.has_method("_open_cat_work"):
+		_mg.call("_open_cat_work")
+		await _settle(0.5)
+		await _save(prefix + "00_work_category")
+		_close_modal()
+		await _settle(0.2)
+	if _mg.has_method("_open_jobs"):
+		_mg.call("_open_jobs")
+		await _settle(0.5)
+		await _save(prefix + "00a_jobs_missing_resume")
+		_close_modal()
+		await _settle(0.2)
+		GameState.flags["resume_polished"] = true
+		GameState.flags["interview_practiced"] = true
+		_mg.call("_open_jobs")
+		await _settle(0.5)
+		await _save(prefix + "00b_jobs_ready")
+		_close_modal()
+		await _settle(0.2)
 
 	var node = _mg.get("job_hunt_game")
 	if node == null or not node.has_method("open"):

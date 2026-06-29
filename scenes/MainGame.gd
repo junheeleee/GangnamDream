@@ -5212,7 +5212,7 @@ func _ap_invest():
 func _ap_job_hunt():
 	if not GameState.spend_ap():
 		return
-	turn_action_log.append(_tr("✓ 💼 구직활동 — 직업 목록 열람", "✓ 💼 Job Hunt — browse job list"))
+	turn_action_log.append(_tr("구직활동 — 직업 목록 열람", "Job Hunt — browse job list"))
 	_open_jobs()
 
 func _ap_side_job():
@@ -5859,14 +5859,14 @@ func _ap_create_content():
 func _ap_write_resume():
 	if not GameState.spend_ap():
 		return
-	turn_action_log.append("✓ " + _tr("🖊 자소서 작성 — 미니게임 시작", "🖊 Resume Writing — Minigame Started"))
+	turn_action_log.append(_tr("Resume writing — assessment started", "Resume Writing — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
 
 func _ap_interview_prep():
 	if not GameState.spend_ap():
 		return
-	turn_action_log.append("✓ " + _tr("🎯 모의 면접 — 미니게임 시작", "🎯 Mock Interview — Minigame Started"))
+	turn_action_log.append(_tr("Mock interview — assessment started", "Mock Interview — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
 
@@ -5881,33 +5881,33 @@ func _on_job_hunt_closed(stress_delta: int, quality: int) -> void:
 			3:
 				GameState.modify_stat("intelligence", 2)
 				GameState.flags["resume_polished"] = true
-				GameState.add_log(_tr("🖊 자소서 작성 완료 (우수) — 지력 +2, 이력서 완성", "🖊 Resume done (Excellent) — Intelligence +2, resume complete"), "event")
+				GameState.add_log(_tr("자소서 작성 완료 (평가 A) — 지력 +2, 이력서 완성", "Resume complete (Grade A) — Intelligence +2, resume complete"), "event")
 			2:
 				GameState.modify_stat("intelligence", 1)
 				GameState.flags["resume_polished"] = true
-				GameState.add_log(_tr("🖊 자소서 작성 완료 (양호) — 지력 +1, 이력서 완성", "🖊 Resume done (Good) — Intelligence +1, resume complete"), "event")
+				GameState.add_log(_tr("자소서 작성 완료 (평가 B) — 지력 +1, 이력서 완성", "Resume complete (Grade B) — Intelligence +1, resume complete"), "event")
 			1:
-				GameState.add_log(_tr("🖊 자소서 작성 완료 (무난) — 보완이 필요하다", "🖊 Resume done (Passable) — needs polish"), "event")
+				GameState.add_log(_tr("자소서 작성 완료 (평가 C) — 보완이 필요하다", "Resume complete (Grade C) — needs polish"), "event")
 			0:
 				GameState.modify_hidden_stat("stress", 1)
-				GameState.add_log(_tr("🖊 자소서 작성 실패 (재작성필요) — 정신력 -1", "🖊 Resume failed (Rewrite needed) — Mental -1"), "event")
+				GameState.add_log(_tr("자소서 작성 실패 (평가 D) — 정신력 -1", "Resume failed (Grade D) — Mental -1"), "event")
 	else:
 		match quality:
 			3:
 				GameState.modify_stat("social_skill", 2)
 				GameState.modify_stat("luck", 1)
 				GameState.flags["interview_practiced"] = true
-				GameState.add_log(_tr("🎯 모의 면접 완료 (우수) — 사회성 +2, 운 +1", "🎯 Mock interview done (Excellent) — Social +2, Luck +1"), "event")
+				GameState.add_log(_tr("모의 면접 완료 (평가 A) — 사회성 +2, 운 +1", "Mock interview complete (Grade A) — Social +2, Luck +1"), "event")
 			2:
 				GameState.modify_stat("social_skill", 1)
 				GameState.flags["interview_practiced"] = true
-				GameState.add_log(_tr("🎯 모의 면접 완료 (양호) — 사회성 +1", "🎯 Mock interview done (Good) — Social +1"), "event")
+				GameState.add_log(_tr("모의 면접 완료 (평가 B) — 사회성 +1", "Mock interview complete (Grade B) — Social +1"), "event")
 			1:
 				GameState.modify_stat("luck", 1)
-				GameState.add_log(_tr("🎯 모의 면접 완료 (무난) — 운 +1", "🎯 Mock interview done (Passable) — Luck +1"), "event")
+				GameState.add_log(_tr("모의 면접 완료 (평가 C) — 운 +1", "Mock interview complete (Grade C) — Luck +1"), "event")
 			0:
 				GameState.modify_hidden_stat("stress", 1)
-				GameState.add_log(_tr("🎯 모의 면접 실패 (긴장) — 정신력 -1", "🎯 Mock interview failed (Nervous) — Mental -1"), "event")
+				GameState.add_log(_tr("모의 면접 실패 (평가 D) — 정신력 -1", "Mock interview failed (Grade D) — Mental -1"), "event")
 	GameState.stats_changed.emit()
 	_refresh_all()
 
@@ -6066,10 +6066,10 @@ func _open_jobs():
 		var resume_ok: bool = GameState.flags.get("resume_polished", false)
 		var interview_ok: bool = GameState.flags.get("interview_practiced", false)
 		var bonus_wp = (10 if resume_ok else 0) + (7 if interview_ok else 0)
-		var resume_str = _tr("✅ 이력서 완성 (+10)", "✅ Resume complete (+10)") if resume_ok else _tr("✗ 이력서 미완성", "✗ Resume incomplete")
-		var interview_str = _tr("✅ 면접 연습 완료 (+7)", "✅ Interview practiced (+7)") if interview_ok else _tr("✗ 면접 연습 필요", "✗ Interview practice needed")
-		var prep_color = "#00c896" if (resume_ok or interview_ok) else "#64748b"
-		var prep_line = _tr("📋 준비도  %s  |  %s", "📋 Readiness  %s  |  %s") % [resume_str, interview_str]
+		var resume_str = _tr("RESUME READY (+10)", "RESUME READY (+10)") if resume_ok else _tr("RESUME MISSING", "RESUME MISSING")
+		var interview_str = _tr("INTERVIEW READY (+7)", "INTERVIEW READY (+7)") if interview_ok else _tr("INTERVIEW NEEDED", "INTERVIEW NEEDED")
+		var prep_color = "#9aa4b8" if (resume_ok or interview_ok) else "#64748b"
+		var prep_line = _tr("준비도  %s  |  %s", "Readiness  %s  |  %s") % [resume_str, interview_str]
 		if bonus_wp > 0:
 			prep_line += _tr("  →  취업 후 업무능력 +%d 보너스", "  →  +%d work skill bonus after hiring") % bonus_wp
 		modal_body.add_child(_wrap_label(prep_line, 12, prep_color))
@@ -6086,7 +6086,7 @@ func _open_jobs():
 
 		# 잠긴 티어: 경력 조건 미충족
 		if job.get("locked", false):
-			var lock_btn = _button("🔒  %s" % GameState.get_job_display_name(job), "#1e1e2e")
+			var lock_btn = _button(_tr("LOCKED  %s", "LOCKED  %s") % GameState.get_job_display_name(job), "#1e1e2e")
 			lock_btn.disabled = true
 			modal_body.add_child(lock_btn)
 			modal_body.add_child(_wrap_label("  %s" % job.get("lock_reason", _tr("경력 조건 미충족", "Career requirement not met")), 11, "#3a3a5a"))
@@ -6097,10 +6097,10 @@ func _open_jobs():
 		var resume_ok: bool = GameState.flags.get("resume_polished", false)
 		# 정규직(티어 2+)은 이력서 완성 후에야 지원 가능 — 알바(티어 1)는 즉시
 		var needs_resume = tier >= 2 and not is_current and not resume_ok
-		var button_color = "#64748b"
-		if is_current: button_color = "#0f5132"
-		elif needs_resume: button_color = "#2a2a3a"
-		elif eligible: button_color = "#9a6700"
+		var button_color = "#2a2a30"
+		if is_current: button_color = "#242822"
+		elif needs_resume: button_color = "#1a1a1d"
+		elif eligible: button_color = "#222226"
 		var stress_val = int(job.get("stress_per_month", 5))
 		var req = job.get("requirements", {})
 		var req_parts: Array = []
@@ -6111,16 +6111,16 @@ func _open_jobs():
 				"min_social_skill", "min_social": req_parts.append(_tr("사회성 %d", "Social %d") % req[k])
 		var req_str = " · ".join(req_parts) if not req_parts.is_empty() else _tr("제한 없음", "No requirements")
 		var label = _tr("%s  %s/월  정신 -%d/월", "%s  %s/mo  Mental -%d/mo") % [GameState.get_job_display_name(job), GameState.format_money(job.get("base_salary", 0)), stress_val / 2]
-		if is_current: label += _tr("  ✓현재", "  ✓Current")
-		if needs_resume: label += "  📋"
+		if is_current: label += _tr("  현재", "  Current")
+		if needs_resume: label += _tr("  RESUME", "  RESUME")
 		var button = _button(label, button_color)
 		button.disabled = (not eligible and not is_current) or needs_resume
 		button.pressed.connect(Callable(self, "_on_job_selected").bind(job.get("id", "")))
 		modal_body.add_child(button)
 		if needs_resume:
-			modal_body.add_child(_wrap_label(_tr("  📋 이력서 먼저 완성하세요 (직업 탭 → 자소서 작성)", "  📋 Complete your resume first (Jobs tab → Write Resume)"), 11, "#5a3a7a"))
+			modal_body.add_child(_wrap_label(_tr("  이력서 먼저 완성하세요 (직업 탭 → 자소서 작성)", "  Complete your resume first (Jobs tab → Write Resume)"), 11, "#5a3a7a"))
 		else:
-			var detail_color = "#00c896" if eligible else "#64748b"
+			var detail_color = "#9aa4b8" if eligible else "#64748b"
 			modal_body.add_child(_wrap_label(_tr("  조건: %s", "  Requirements: %s") % req_str, 11, detail_color))
 		if not job.get("description", "").is_empty():
 			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#5a6075"))
@@ -6567,16 +6567,17 @@ func _on_job_selected(job_id):
 	var prep_note = (_tr("  (준비 보너스 +%d 업무능력)", "  (prep bonus +%d work skill)") % prep_bonus) if prep_bonus > 0 else ""
 	# 구직 로그 항목 갱신
 	for i in range(turn_action_log.size() - 1, -1, -1):
-		if turn_action_log[i].begins_with("✓ 💼"):
-			turn_action_log[i] = _tr("✓ 💼 구직활동 → %s 취업%s", "✓ 💼 Job Hunt → hired at %s%s") % [job_name, prep_note]
+		var entry := str(turn_action_log[i])
+		if entry.begins_with(_tr("구직활동", "Job Hunt")) or entry.begins_with("✓ 💼"):
+			turn_action_log[i] = _tr("구직활동 → %s 취업%s", "Job Hunt → hired at %s%s") % [job_name, prep_note]
 			break
 	_close_modal()
 	_refresh_all()
 	if is_first_job:
 		AudioManager.play("housing_up")
-		_show_toast(_tr("🎉 첫 취업! %s  월 %s%s", "🎉 First job! %s  monthly %s%s") % [job_name, salary, prep_note], Color("#00c896"))
+		_show_toast(_tr("첫 취업 — %s  월 %s%s", "First job — %s  monthly %s%s") % [job_name, salary, prep_note], Color("#9aa4b8"))
 	else:
-		_show_toast(_tr("💼 %s  월 %s%s", "💼 %s  monthly %s%s") % [job_name, salary, prep_note], Color("#fbbf24"))
+		_show_toast(_tr("%s  월 %s%s", "%s  monthly %s%s") % [job_name, salary, prep_note], Color("#9aa4b8"))
 
 func _on_buy_asset(asset_id, amount):
 	if not GameState.spend_ap():
@@ -8269,13 +8270,14 @@ func _get_ap_pattern_comment(actions: Array) -> String:
 		var e: String = str(entry)
 		if "🎰" in e or "🏇" in e or "🃏" in e:
 			gambling += 1
-		elif "📚" in e or "📖" in e or "🏃" in e or "🧘" in e or "📊" in e or "🎯" in e or "🖊" in e or "🌊" in e:
+		elif "📚" in e or "📖" in e or "🏃" in e or "🧘" in e or "📊" in e or "🎯" in e or "🖊" in e or "🌊" in e \
+				or "Resume" in e or "자소서" in e or "Mock Interview" in e or "모의 면접" in e:
 			selfdev += 1
 		elif "🤝" in e:
 			social += 1
 		elif "💰" in e:
 			saving += 1
-		elif "💼" in e:
+		elif "💼" in e or "Job Hunt" in e or "구직활동" in e:
 			work += 1
 	var total = actions.size()
 	if gambling >= total and total >= 2:
