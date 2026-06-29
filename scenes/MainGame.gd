@@ -4973,6 +4973,11 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	)
 	modal_body.add_child(btn)
 
+func _cat_modal_status_card(title: String, subtitle: String, accent: String, icon_id: String, badge: String) -> void:
+	var card := _make_essential_action_card(title, subtitle, icon_id, accent, true, true, badge)
+	card.custom_minimum_size = Vector2(0, 74)
+	modal_body.add_child(card)
+
 func _split_action_label(label: String) -> Dictionary:
 	var clean := label.strip_edges()
 	var dash_idx := clean.find("  —  ")
@@ -5142,14 +5147,41 @@ func _open_cat_people():
 func _open_cat_life():
 	_open_modal(_tr("생활", "Living"))
 	modal_body.add_child(_wrap_label(_tr("주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.", "Housing is quality of life. A better place eases your Mental."), 13, "#7a8496"))
-	if GameState.can_upgrade_housing():
-		var next_id = str(GameState.get_housing_info().get("next", ""))
+	var current_name: String = GameState.get_housing_display_name(GameState.housing)
+	var current_expense: String = GameState.format_money(GameState.get_housing_expense())
+	_cat_modal_status_card(
+		_tr("현재 주거  —  %s", "Current home  —  %s") % current_name,
+		_tr("월 고정비 %s · 현금 %s", "Monthly cost %s · Cash %s") % [current_expense, GameState.format_money(GameState.money)],
+		"#64748b",
+		"life",
+		_tr("현재", "Now"))
+
+	var next_id: String = str(GameState.get_housing_info().get("next", ""))
+	if next_id.is_empty():
+		_cat_modal_status_card(
+			_tr("다음 주거 없음", "No further housing step"),
+			_tr("이제 목표는 강남 입성 자산을 만드는 것이다.", "The goal now is building enough assets to reach Gangnam."),
+			"#64748b",
+			"life",
+			_tr("완료", "Done"))
+	elif GameState.can_upgrade_housing():
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
 		var move_label = _tr("이사  —  %s  (월 %s / 보증금 %s)", "Move  —  %s  (mo %s / deposit %s)") % [
-			GameState.get_housing_name(next_id),
+			GameState.get_housing_display_name(next_id),
 			GameState.format_money(float(next_info.get("expense", 0.0))),
 			GameState.format_money(float(next_info.get("deposit", 0.0)))]
 		_cat_modal_button(move_label, "#c8a040", "_ap_move_housing")
+	else:
+		var locked_info = GameState.HOUSING_DATA.get(next_id, {})
+		_cat_modal_status_card(
+			_tr("다음 이사  —  %s", "Next move  —  %s") % GameState.get_housing_display_name(next_id),
+			_tr("필요 현금 %s · 부족액 %s", "Needs %s cash · Short %s") % [
+				GameState.format_money(float(locked_info.get("req_cash", 0.0))),
+				GameState.format_money(maxf(float(locked_info.get("req_cash", 0.0)) - GameState.money, 0.0)),
+			],
+			"#7a8496",
+			"life",
+			_tr("대기", "Need"))
 	# 상점 항목 제거 — 서사 유물로 전환 예정
 
 func _open_cat_gambling():
