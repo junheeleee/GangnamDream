@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Weekly AP Slot Surface Pass)
+
+### 수정
+- `scenes/MainGame.gd`: AP 화면 `This Week` 카드의 남은 행동 슬롯이 가로로 길게 늘어나 로딩바처럼 보이던 문제를 수정했다.
+- `scenes/MainGame.gd`: `Action slots` 라벨과 고정 폭 소형 슬롯을 사용해 남은 행동 횟수가 Steam Deck/영어 화면에서도 즉시 읽히는 게임 UI 피드백으로 보이게 했다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. `demo_en_blackbox_02_ap_loop` 직접 확인: 슬롯이 카드 전체 폭으로 늘어나지 않고 오른쪽 작은 슬롯 2개로 표시됨.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Start Menu Save Slot Surface Pass)
 
 ### 수정

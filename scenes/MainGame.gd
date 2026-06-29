@@ -4274,22 +4274,33 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	var max_ap: int = maxi(1, GameState.max_action_points)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
+	row.add_theme_constant_override("separation", 8)
+	row.custom_minimum_size = Vector2(0, 18)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(row)
+
+	var caption := _label(_tr("행동 슬롯", "Action slots"), 11, "#7f8794")
+	caption.set_meta("moral_role", "hint_text")
+	caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(caption)
+
+	var slots := HBoxContainer.new()
+	slots.add_theme_constant_override("separation", 5)
+	slots.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(slots)
+
 	for i in range(max_ap):
 		var filled := i < ap
 		var slot := PanelContainer.new()
-		slot.custom_minimum_size = Vector2(0, 14)
-		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		slot.custom_minimum_size = Vector2(30, 12)
 		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var st := StyleBoxFlat.new()
-		st.bg_color = Color("#dce4ee", 0.82) if filled else Color("#1a1d24", 0.82)
-		st.border_color = Color("#f6f8fb", 0.72) if filled else Color("#303640", 0.88)
+		st.bg_color = Color("#dce4ee", 0.88) if filled else Color("#171b22", 0.86)
+		st.border_color = Color("#f6f8fb", 0.72) if filled else Color("#343a45", 0.9)
 		st.set_border_width_all(1)
 		st.set_corner_radius_all(4)
 		slot.add_theme_stylebox_override("panel", st)
-		row.add_child(slot)
+		slots.add_child(slot)
 
 func _clean_focus_text(text: String) -> String:
 	var out := text

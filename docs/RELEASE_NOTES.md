@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Weekly AP slot surface pass
+
+- Changed the `This Week` AP slots from full-width bars to compact fixed-width action slots.
+- The weekly action count now reads as deliberate game UI feedback instead of a stretched progress/loading bar on 1280x800 layouts.
+
 ### Added/Changed (2026-06-29) — Start menu save-slot surface pass
 
 - Changed the start-menu save-slot delete action from a red `Delete` text button to a muted `X` secondary action.
