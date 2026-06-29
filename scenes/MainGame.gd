@@ -7722,14 +7722,14 @@ func _run_card_text(ending_id: String) -> String:
 	var lines: PackedStringArray = PackedStringArray()
 	lines.append(_tr("[강남드림 런 결과]", "[Gangnam Dream Run Result]"))
 	lines.append("━━━━━━━━━━━━━━━━━━")
-	lines.append(_tr("👤 %s  |  33세 → %d세  |  %d개월", "👤 %s  |  age 33 → %d  |  %d months") % [GameState.player_name, GameState.age, (GameState.age - 33) * 12 + GameState.month])
-	lines.append(_tr("💰 최종 자산: %s  (목표 달성률 %d%%)", "💰 Final Assets: %s  (Goal %d%%)") % [GameState.format_money(total), pct])
-	lines.append(_tr("🏠 마지막 거처: %s", "🏠 Last Home: %s") % housing_name)
-	lines.append(_tr("📍 정석 %d회 / 비정석 %d회  →  %s", "📍 Orthodox %d / Unorthodox %d  →  %s") % [o, u, route_id])
-	lines.append(_tr("📖 이번 런 이벤트: %d / %d개", "📖 Events This Run: %d / %d") % [seen, total_events])
+	lines.append(_tr("플레이어: %s  |  33세 → %d세  |  %d개월", "Player: %s  |  age 33 → %d  |  %d months") % [GameState.player_name, GameState.age, (GameState.age - 33) * 12 + GameState.month])
+	lines.append(_tr("최종 자산: %s  (목표 달성률 %d%%)", "Final Assets: %s  (Goal %d%%)") % [GameState.format_money(total), pct])
+	lines.append(_tr("마지막 거처: %s", "Last Home: %s") % housing_name)
+	lines.append(_tr("경로: 정석 %d회 / 비정석 %d회  →  %s", "Path: Orthodox %d / Unorthodox %d  →  %s") % [o, u, route_id])
+	lines.append(_tr("이번 런 이벤트: %d / %d개", "Events This Run: %d / %d") % [seen, total_events])
 	if GameState.difficulty != _tr("현실", "현실"):
-		lines.append(_tr("🎚 난이도: %s", "🎚 Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
-	lines.append(_tr("🏆 엔딩: \"%s\"  (등급 %s)", "🏆 Ending: \"%s\"  (Grade %s)") % [ending_title, ending_grade])
+		lines.append(_tr("난이도: %s", "Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
+	lines.append(_tr("엔딩: \"%s\"  (등급 %s)", "Ending: \"%s\"  (Grade %s)") % [ending_title, ending_grade])
 	lines.append("━━━━━━━━━━━━━━━━━━")
 	lines.append(_tr("#강남드림 #GangnamDream", "#GangnamDream"))
 	return "\n".join(lines)
@@ -7997,7 +7997,7 @@ func _show_month_summary(snap: Dictionary):
 	badge_style.content_margin_bottom = 4
 	grade_badge.add_theme_stylebox_override("panel", badge_style)
 	var badge_lbl := Label.new()
-	badge_lbl.text = _month_grade_badge_text(str(grade.get("emoji", "")))
+	badge_lbl.text = str(grade.get("badge", "RUN"))
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	badge_lbl.add_theme_font_size_override("font_size", 10)
@@ -8172,21 +8172,6 @@ func _show_month_summary(snap: Dictionary):
 		confirm_btn.pressed.connect(_close_modal)
 		modal_body.add_child(confirm_btn)
 		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
-
-func _month_grade_badge_text(emoji: String) -> String:
-	match emoji:
-		"🏆":
-			return "TOP"
-		"✨":
-			return "OK"
-		"📊":
-			return "LOG"
-		"💪":
-			return "HOLD"
-		"😰":
-			return "RISK"
-		_:
-			return "RUN"
 
 func _clean_month_summary_entry(entry: Variant) -> String:
 	return _clean_log_surface_text(entry)
@@ -8893,32 +8878,32 @@ func _calc_month_grade(snap: Dictionary) -> Dictionary:
 			_tr("투자가 빛을 발하고 있습니다. 포지션을 점검하세요.", "Your investments are paying off. Review your positions."),
 			_tr("이런 달이 쌓이면 강남드림이 가까워집니다.", "Enough months like this will bring Gangnam within reach."),
 		]
-		return {"emoji": "🏆", "title": _tr("대박 달!", "Breakout Month!"), "msg": big_msgs[t % big_msgs.size()], "color": "#fbbf24"}
+		return {"badge": "TOP", "title": _tr("대박 달!", "Breakout Month!"), "msg": big_msgs[t % big_msgs.size()], "color": "#fbbf24"}
 	elif asset_delta >= 2_000_000.0 and net >= 0.0:
 		var good_msgs = [
 			_tr("흑자에 자산 성장까지. 좋은 한 달이었습니다.", "Positive cash flow and asset growth. A good month."),
 			_tr("수입과 투자 모두 순조롭습니다.", "Income and investments are both moving well."),
 			_tr("꾸준히 이 방향으로 가면 됩니다.", "Keep moving steadily in this direction."),
 		]
-		return {"emoji": "✨", "title": _tr("잘 했습니다", "Well Done"), "msg": good_msgs[t % good_msgs.size()], "color": "#00c896"}
+		return {"badge": "OK", "title": _tr("잘 했습니다", "Well Done"), "msg": good_msgs[t % good_msgs.size()], "color": "#00c896"}
 	elif net >= 0.0:
 		if total < 5_000_000.0:
-			return {"emoji": "📊", "title": _tr("버티는 달", "Survival Month"), "msg": _tr("아직 초반입니다. 취업과 저축이 최우선입니다.", "It is still early. Jobs and savings come first."), "color": "#8892a4"}
-		return {"emoji": "📊", "title": _tr("평범한 달", "Ordinary Month"), "msg": _tr("흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.", "You stayed positive. Look for the right time to grow assets through investing."), "color": "#8892a4"}
+			return {"badge": "LOG", "title": _tr("버티는 달", "Survival Month"), "msg": _tr("아직 초반입니다. 취업과 저축이 최우선입니다.", "It is still early. Jobs and savings come first."), "color": "#8892a4"}
+		return {"badge": "LOG", "title": _tr("평범한 달", "Ordinary Month"), "msg": _tr("흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.", "You stayed positive. Look for the right time to grow assets through investing."), "color": "#8892a4"}
 	elif GameState.health > 55 and GameState.mental > 55:
 		var tough_msgs = [
 			_tr("재정은 적자지만 건강하게 버텼습니다. 곧 나아질 거예요.", "Finances were negative, but you stayed healthy. Things can improve soon."),
 			_tr("어려운 달이었지만 쓰러지지 않았습니다.", "It was a hard month, but you did not collapse."),
 			_tr("이 경험이 더 단단하게 만들어줄 겁니다.", "This experience will make you harder to break."),
 		]
-		return {"emoji": "💪", "title": _tr("힘든 달", "Hard Month"), "msg": tough_msgs[t % tough_msgs.size()], "color": "#f0b429"}
+		return {"badge": "HOLD", "title": _tr("힘든 달", "Hard Month"), "msg": tough_msgs[t % tough_msgs.size()], "color": "#f0b429"}
 	else:
 		var crisis_msgs = [
 			_tr("재정과 체력 모두 위험합니다. 전략을 바꾸세요.", "Both finances and stamina are in danger. Change strategy."),
 			_tr("지금 방향을 바꾸지 않으면 무너집니다.", "If you do not change course now, you will break."),
 			_tr("운동이나 명상으로 정신력부터 회복하세요.", "Recover Mental first through exercise or meditation."),
 		]
-		return {"emoji": "😰", "title": _tr("위기 상황", "Crisis"), "msg": crisis_msgs[t % crisis_msgs.size()], "color": "#ff4444"}
+		return {"badge": "RISK", "title": _tr("위기 상황", "Crisis"), "msg": crisis_msgs[t % crisis_msgs.size()], "color": "#ff4444"}
 
 # ── 다음 달 조언 ─────────────────────────────────────
 func _update_event_bg():
