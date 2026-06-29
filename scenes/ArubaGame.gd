@@ -141,7 +141,7 @@ const SCENARIOS_GENERAL = [
 # ── 편의점 손님 유형 (10명 풀, 매 시프트 랜덤) ───────────────────
 const CUSTOMER_TYPES = [
 	{
-		"id": "checkout", "emoji": "🛒", "name": "계산 손님", "name_en": "Checkout Customer",
+		"id": "checkout", "name": "계산 손님", "name_en": "Checkout Customer",
 		"text": "저기요, 계산이요.",
 		"text_en": "Excuse me, checkout please.",
 		"patience": 12.0, "urgency": 1,
@@ -151,7 +151,7 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "angry", "emoji": "😤", "name": "진상 손님", "name_en": "Difficult Customer",
+		"id": "angry", "name": "진상 손님", "name_en": "Difficult Customer",
 		"text": "야! 왜 이렇게 느려!",
 		"text_en": "Hey! Why are you so slow?",
 		"patience": 6.0, "urgency": 3,
@@ -162,7 +162,7 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "regular_elder", "emoji": "👵", "name": "단골 할머니", "name_en": "Elderly Regular",
+		"id": "regular_elder", "name": "단골 할머니", "name_en": "Elderly Regular",
 		"text": "총각, 나 봤어요? 매일 오는데.",
 		"text_en": "Young man, do you remember me? I come here every day.",
 		"patience": 16.0, "urgency": 0,
@@ -172,7 +172,7 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "drunk", "emoji": "🍺", "name": "취한 손님", "name_en": "Drunk Customer",
+		"id": "drunk", "name": "취한 손님", "name_en": "Drunk Customer",
 		"text": "야... 소주 어디 있어요?",
 		"text_en": "Hey... where's the soju?",
 		"patience": 9.0, "urgency": 2,
@@ -183,7 +183,7 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "return", "emoji": "📦", "name": "교환 손님", "name_en": "Return Customer",
+		"id": "return", "name": "교환 손님", "name_en": "Return Customer",
 		"text": "이거 어제 샀는데 불량이에요.",
 		"text_en": "I bought this yesterday, and it's defective.",
 		"patience": 10.0, "urgency": 1,
@@ -193,7 +193,7 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "parcel", "emoji": "📬", "name": "택배 손님", "name_en": "Parcel Customer",
+		"id": "parcel", "name": "택배 손님", "name_en": "Parcel Customer",
 		"text": "택배 여기 맡겼는데요.",
 		"text_en": "I had a parcel left here.",
 		"patience": 11.0, "urgency": 1,
@@ -203,7 +203,7 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "points", "emoji": "💳", "name": "포인트 손님", "name_en": "Points Customer",
+		"id": "points", "name": "포인트 손님", "name_en": "Points Customer",
 		"text": "포인트 카드요! 이거 적립 됐어요?",
 		"text_en": "My points card! Did this get credited?",
 		"patience": 9.0, "urgency": 1,
@@ -213,7 +213,7 @@ const CUSTOMER_TYPES = [
 		]
 	},
 	{
-		"id": "lost", "emoji": "🤔", "name": "길 묻는 손님", "name_en": "Lost Customer",
+		"id": "lost", "name": "길 묻는 손님", "name_en": "Lost Customer",
 		"text": "저기, 삼각김밥 어디 있어요?",
 		"text_en": "Excuse me, where are the triangle gimbap?",
 		"patience": 13.0, "urgency": 0,
@@ -356,13 +356,13 @@ func open() -> void:
 
 	match _mode:
 		Mode.CONVENIENCE:
-			_header_lbl.text = LocaleManager.ui("🏪 편의점 야간 시프트", "🏪 Convenience Store Night Shift")
+			_header_lbl.text = LocaleManager.ui("편의점 야간 시프트", "Convenience Store Night Shift")
 			_start_convenience()
 		Mode.DELIVERY:
-			_header_lbl.text = LocaleManager.ui("🛵 배달 루트 설정", "🛵 Delivery Route Planning")
+			_header_lbl.text = LocaleManager.ui("배달 루트 설정", "Delivery Route Planning")
 			_start_delivery()
 		Mode.CARDS:
-			_header_lbl.text = LocaleManager.ui("💼 알바 시프트", "💼 Part-Time Shift")
+			_header_lbl.text = LocaleManager.ui("알바 시프트", "Part-Time Shift")
 			_start_cards()
 
 func _clear_content() -> void:
@@ -401,7 +401,7 @@ func _build_base_ui() -> void:
 	var hdr := HBoxContainer.new()
 	_root_vb.add_child(hdr)
 	_header_lbl = Label.new()
-	_header_lbl.text = LocaleManager.ui("💼 알바 시프트", "💼 Part-Time Shift")
+	_header_lbl.text = LocaleManager.ui("알바 시프트", "Part-Time Shift")
 	_header_lbl.add_theme_font_size_override("font_size", 17)
 	_header_lbl.add_theme_color_override("font_color", Color("#f0b429"))
 	_header_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -470,6 +470,7 @@ func _show_scenario(idx: int) -> void:
 		ch.queue_free()
 	for ci in range(sc["choices"].size()):
 		var btn := _make_btn(_loc(sc["choices"][ci], "text"), "#0e1a2a", 13)
+		btn.custom_minimum_size = Vector2(0, 42)
 		btn.pressed.connect(func(): _on_cards_choice(sc, ci))
 		_choice_vb.add_child(btn)
 
@@ -478,7 +479,7 @@ func _on_cards_choice(sc: Dictionary, ci: int) -> void:
 	_earned += int(choice.get("money", 0))
 	_stress_delta += int(choice.get("stress", 0))
 	_health_delta += int(choice.get("health", 0))
-	_feedback_lbl.text = "→ " + _loc(choice, "tip")
+	_feedback_lbl.text = LocaleManager.ui("결과: ", "Result: ") + _loc(choice, "tip")
 	for ch in _choice_vb.get_children():
 		if ch is Button:
 			ch.disabled = true
@@ -557,7 +558,7 @@ func _start_convenience() -> void:
 	_content_vb.add_child(_conv_action_vb)
 
 	var hint := Label.new()
-	hint.text = LocaleManager.ui("↑ 손님 패널을 클릭해서 응대하세요", "↑ Click a customer panel to respond")
+	hint.text = LocaleManager.ui("손님 패널을 클릭해서 응대하세요", "Select a customer panel to respond")
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_font_size_override("font_size", 11)
 	hint.add_theme_color_override("font_color", Color("#3a4a5a"))
@@ -608,14 +609,14 @@ func _conv_build_slot_content(slot_idx: int) -> void:
 	hb.add_theme_constant_override("separation", 8)
 	margin.add_child(hb)
 
-	# 이모지 + 이름
+	# 짧은 태그 + 이름
 	var info_vb := VBoxContainer.new()
 	info_vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info_vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hb.add_child(info_vb)
 
 	var name_lbl := Label.new()
-	name_lbl.text = "%s  %s" % [customer.get("emoji", "👤"), _loc(customer, "name", LocaleManager.ui("손님", "Customer"))]
+	name_lbl.text = "%s  %s" % [_customer_tag(customer), _loc(customer, "name", LocaleManager.ui("손님", "Customer"))]
 	name_lbl.add_theme_font_size_override("font_size", 13)
 	name_lbl.add_theme_color_override("font_color", Color("#dde8f0"))
 	name_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -734,7 +735,7 @@ func _conv_show_actions(slot_idx: int) -> void:
 
 	var customer: Dictionary = _conv_slots[slot_idx]
 	var who_lbl := Label.new()
-	who_lbl.text = LocaleManager.ui("%s %s 응대:", "%s %s:") % [customer.get("emoji", ""), _loc(customer, "name")]
+	who_lbl.text = LocaleManager.ui("%s %s 응대", "%s %s") % [_customer_tag(customer), _loc(customer, "name")]
 	who_lbl.add_theme_font_size_override("font_size", 12)
 	who_lbl.add_theme_color_override("font_color", Color("#a0b8c0"))
 	_conv_action_vb.add_child(who_lbl)
@@ -771,11 +772,11 @@ func _conv_handle(slot_idx: int, action_idx: int) -> void:
 	# 슬롯에 결과 텍스트 잠깐 표시
 	var text_lbl: Label = _conv_slot_text_lbls[slot_idx]
 	if is_instance_valid(text_lbl):
-		text_lbl.text = "→ " + _loc(action, "tip", LocaleManager.ui("처리 완료", "Handled"))
+		text_lbl.text = LocaleManager.ui("결과: ", "Result: ") + _loc(action, "tip", LocaleManager.ui("처리 완료", "Handled"))
 		text_lbl.add_theme_color_override("font_color", Color("#3dba6a") if bonus >= 0 else Color("#e85d5d"))
 	var name_lbl: Label = _conv_slot_name_lbls[slot_idx]
 	if is_instance_valid(name_lbl):
-		name_lbl.text = "✓ " + _loc(customer, "name")
+		name_lbl.text = LocaleManager.ui("처리  ", "OK  ") + _loc(customer, "name")
 
 	# 액션 영역 지우기
 	for ch in _conv_action_vb.get_children():
@@ -797,11 +798,11 @@ func _conv_timeout(slot_idx: int) -> void:
 
 	var text_lbl: Label = _conv_slot_text_lbls[slot_idx]
 	if is_instance_valid(text_lbl):
-		text_lbl.text = LocaleManager.ui("😠 참다가 나가버렸다", "😠 They lost patience and left")
+		text_lbl.text = LocaleManager.ui("참다가 나가버렸다", "They lost patience and left")
 		text_lbl.add_theme_color_override("font_color", Color("#e85d5d"))
 	var name_lbl: Label = _conv_slot_name_lbls[slot_idx]
 	if is_instance_valid(name_lbl):
-		name_lbl.text = "✗ " + _loc(customer, "name")
+		name_lbl.text = LocaleManager.ui("실패  ", "MISS  ") + _loc(customer, "name")
 
 	if _conv_selected == slot_idx:
 		_conv_selected = -1
@@ -879,7 +880,7 @@ func _start_delivery() -> void:
 	_del_status_lbl.custom_minimum_size = Vector2(0, 22)
 	_content_vb.add_child(_del_status_lbl)
 
-	_del_confirm_btn = _make_btn(LocaleManager.ui("배달 출발!", "Start Delivery!"), "#0d3a1a", 15)
+	_del_confirm_btn = _make_btn(LocaleManager.ui("배달 출발", "Start Delivery"), "#0d3a1a", 15)
 	_del_confirm_btn.custom_minimum_size = Vector2(0, 48)
 	_del_confirm_btn.disabled = true
 	_del_confirm_btn.pressed.connect(_del_confirm)
@@ -1008,6 +1009,27 @@ func _on_finish() -> void:
 	closed.emit(_earned, _stress_delta, _health_delta)
 
 # ── 헬퍼 ─────────────────────────────────────────────────────────
+func _customer_tag(customer: Dictionary) -> String:
+	match str(customer.get("id", "")):
+		"checkout":
+			return LocaleManager.ui("계산", "CHECKOUT")
+		"angry":
+			return LocaleManager.ui("불만", "COMPLAINT")
+		"regular_elder":
+			return LocaleManager.ui("단골", "REGULAR")
+		"drunk":
+			return LocaleManager.ui("취객", "DRUNK")
+		"return":
+			return LocaleManager.ui("교환", "RETURN")
+		"parcel":
+			return LocaleManager.ui("택배", "PARCEL")
+		"points":
+			return LocaleManager.ui("포인트", "POINTS")
+		"lost":
+			return LocaleManager.ui("문의", "ASK")
+		_:
+			return LocaleManager.ui("손님", "GUEST")
+
 func _make_btn(text: String, bg_hex: String, font_size: int) -> Button:
 	var btn := Button.new()
 	btn.text = text

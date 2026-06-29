@@ -15,6 +15,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=tutorial-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=job-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=aruba-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -38,6 +39,7 @@ const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
 const QA_SCOPE_TUTORIAL_EN := "tutorial_en"
 const QA_SCOPE_JOB_EN := "job_en"
+const QA_SCOPE_ARUBA_EN := "aruba_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -137,6 +139,12 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=job-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_ARUBA_EN:
+		var lang := _qa_language("en")
+		await _shot_aruba_surfaces(lang, "aruba_en_" if lang == "en" else "aruba_ko_")
+		print("SCREENSHOT_QA_DONE scope=aruba-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_SURFACE_EN:
 		await _shot_surface_en()
 		print("SCREENSHOT_QA_DONE scope=surface-en lang=en dir=%s" % OUT_DIR)
@@ -232,6 +240,10 @@ func _qa_scope() -> String:
 				"qa=job-en", "--qa=job-en", "qa=job_en", "--qa=job_en",
 				"scope=job-en", "--scope=job-en", "scope=job_en", "--scope=job_en"]:
 			return QA_SCOPE_JOB_EN
+		if arg in ["aruba-en", "aruba_en", "gig-en", "gig_en", "sidejob-en", "sidejob_en",
+				"--aruba-en", "--aruba_en", "qa=aruba-en", "--qa=aruba-en",
+				"qa=aruba_en", "--qa=aruba_en", "scope=aruba-en", "--scope=aruba-en"]:
+			return QA_SCOPE_ARUBA_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -713,6 +725,63 @@ func _force_job_hunt_pressure_question(node: Node) -> bool:
 				node.call("_show_question")
 			return true
 	return false
+
+func _shot_aruba_surfaces(lang: String = "en", prefix: String = "aruba_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	await _boot_main_game()
+	var node = _mg.get("aruba_game")
+	if node == null or not node.has_method("open"):
+		print("SKIP aruba surface (no aruba_game)")
+		return
+
+	GameState.current_job = {
+		"id": "job_03",
+		"name": ("Office Worker" if LocaleManager.is_english() else "사무직"),
+		"base_salary": 2_240_000.0,
+		"tier": 2,
+	}
+	await _open_aruba_for_qa(node)
+	await _save(prefix + "00_cards_shift")
+	_hide_aruba_for_qa(node)
+
+	GameState.current_job = {
+		"id": "job_01",
+		"name": ("Convenience Store Clerk" if LocaleManager.is_english() else "편의점 알바"),
+		"base_salary": 900_000.0,
+		"tier": 1,
+	}
+	await _open_aruba_for_qa(node)
+	await _save(prefix + "01_convenience_slots")
+	if node.has_method("_conv_click_slot"):
+		node.call("_conv_click_slot", 0)
+		await _settle(0.25)
+		await _save(prefix + "01a_convenience_actions")
+	if node.has_method("_conv_handle"):
+		node.call("_conv_handle", 0, 0)
+		await _settle(0.25)
+		await _save(prefix + "01b_convenience_result")
+	_hide_aruba_for_qa(node)
+
+	GameState.current_job = {
+		"id": "job_02",
+		"name": ("Delivery Rider" if LocaleManager.is_english() else "배달 라이더"),
+		"base_salary": 1_300_000.0,
+		"tier": 1,
+	}
+	await _open_aruba_for_qa(node)
+	await _save(prefix + "02_delivery_route")
+	_hide_aruba_for_qa(node)
+
+func _open_aruba_for_qa(node: Node) -> void:
+	if _mg.has_method("_enter_minigame_overlay"):
+		_mg.call("_enter_minigame_overlay", node)
+	node.open()
+	await _settle(0.6)
+
+func _hide_aruba_for_qa(node: Node) -> void:
+	if "visible" in node:
+		node.visible = false
 
 func _hide_job_hunt_for_qa(node: Node) -> void:
 	if "visible" in node:
