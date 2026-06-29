@@ -53,7 +53,7 @@
       "intro"
     ],
     "cooldown": 9999,
-    "description": "Goshiwon room. 3 AM. {name} couldn't sleep.\n\nOpened the calculator on the phone.\n\nMinimum wage. Not even KRW 2,000,000 for a full month of work.\nKRW 3,000,000,000 ÷ KRW 2,000,000 = 1,500 months = 125 years.\n\n125 years.\n\n{name} stared at the screen. Laughed, because it was absurd.\nSalary alone — mathematically impossible. From the beginning.\n\nThen the phone rang.\nFather. At 3 AM.",
+    "description": "Goshiwon room. 3 AM. {name} couldn't sleep.\n\nOpened the calculator on the phone.\n\nMinimum wage. Not even KRW 2,000,000 for a full month of work.\nKRW 3,000,000,000 ÷ KRW 2,000,000 = 1,500 months = 125 years.\n\n125 years.\n\n{name} stared at the screen. Laughed, because it was absurd.\nSalary alone — mathematically impossible. From the beginning.\n\nThen the phone rang.\nFather. At 3 AM.\n\n{name} didn't pick up. Not while staring at this number — there was no way to keep his voice steady.",
     "choices": [
       {
         "text": "Keep searching job apps after the shift. Seed money first. [Saver mindset]",
@@ -67,7 +67,10 @@
         "text": "Write business ideas in the notebook. [Founder mindset]",
         "result_text": "{name} wrote something in a notebook.\nGaps. Demand. Supply. What nobody else was doing.\n\nIdeas alone are nothing yet.\nBut people who write nothing down never begin."
       }
-    ]
+    ],
+    "description_orthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage KRW 10,000/hour. KRW 2,000,000 a month. Gangnam, KRW 3 billion. 125 years.\n\n{name} wrote down more numbers. Save KRW 3,000,000 a month. 15% annual return. Compounding.\nWhat looks impossible to the gut, broken into numbers, starts to show a path.\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The clearer the path got, the less he knew what to even say first.",
+    "description_unorthodox": "Goshiwon. 3 AM.\n\nCouldn't sleep. Opened the calculator on the phone.\n\nWage KRW 10,000/hour. 125 years.\n\n{name} shut the calculator off. This way won't work.\nHe'd known that from the start. So he needed another way — a different axis than time.\nHe had to see what others didn't.\n\nThen the phone rang. Father. At 3 AM.\n\nHe didn't pick up. The more set he was on finding another road, the heavier that voice felt.",
+    "description_low_mental": "Goshiwon. 3 AM.\n\nCouldn't sleep again.\n\nOpened the calculator, then closed it. The number — 125 years — stayed in front of his eyes. Even doing nothing.\n\nHis body felt heavy. The air in this room felt heavy.\n\nThe phone rang. Father. {name} thought for a moment about whether to answer."
   },
   {
     "id": "arc_intro_03_sns",
@@ -191,7 +194,7 @@
   {
     "id": "arc_chapter1_close",
     "title": "The First Week",
-    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu went back inside, you stood in the hallway alone for a while.\n\nThis past week — the burner account text, father's call, the name Im Sangchul, Hyunsu's ramen.\n\nBack in the room, you open the notebook. First line:\n'KRW 3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan KRW 3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
+    "description": "2 AM.\n\nThe ramen broth had gone cold.\nAfter Hyunsu went back inside, you stood in the hallway alone for a while.\n\nThis past week — the burner account text, father's call, the first Gangnam cafe I ever walked into, Hyunsu's ramen.\n\nBack in the room, you open the notebook. First line:\n'KRW 3,000,000,000. Five years.'\n\nNothing below it.\n\nUnder fluorescent light: a 4.5-pyeong goshiwon room. One desk. One blanket.\nCan KRW 3B actually come out of here?\n\n{name} still doesn't have an answer.\nBut — tonight was the first time the question felt completely real.",
     "choices": [
       {
         "text": "Close the notebook. That's enough for today.",
@@ -608,7 +611,7 @@
       "jaehyuk"
     ],
     "cooldown": 9999,
-    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Three years close, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\"You haven't changed at all! Let's drink.\"",
+    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Inseparable through our whole service, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\"You haven't changed at all! Let's drink.\"",
     "choices": [
       {
         "text": "Glad to see him — an old friend after a long time.",
@@ -2919,7 +2922,7 @@
       "route_career"
     ],
     "cooldown": 9999,
-    "description": "Laptop screen. Cover letter question 1.\n\n\"Please describe your motivation for applying.\"\n\nThe cursor has been blinking for a minute. Age 33. No work history. Three-year gap. How does this get written? Honest means rejected; polished means it doesn't sound like me.",
+    "description": "Laptop screen. Cover letter question 1.\n\n\"Please describe your motivation for applying.\"\n\nThe cursor has been blinking for a minute. Age 33. No work history. Six-year gap. How does this get written? Honest means rejected; polished means it doesn't sound like me.",
     "choices": [
       {
         "text": "Write honestly — explain the gap",
@@ -3078,7 +3081,7 @@
       "theme_invest"
     ],
     "cooldown": 9999,
-    "description": "Gosiwon room. 2 a.m.\n\nTechnical indicators, moving averages, trading volume. Watched three YouTube lectures. Starting to see something, maybe — or maybe not yet.\n\n2 a.m.",
+    "description": "Gosiwon room. 2 a.m.\n\nTechnical indicators, moving averages, trading volume. Watched three YouTube lectures. Starting to see something, maybe — or maybe not yet.\n\nBefore he knew it, it was 2 a.m.",
     "choices": [
       {
         "text": "Keep watching — something's about to click",

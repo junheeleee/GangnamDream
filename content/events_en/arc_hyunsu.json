@@ -79,7 +79,7 @@
   {
     "id": "hyunsu_pivot",
     "title": "Hyunsu's New Direction",
-    "description": "Hyunsu said he was moving out.\n\nHe was quitting the civil service exam to prepare for a job.\nHis major had been accounting. He was going to start studying for the CPA again.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time.",
+    "description": "Hyunsu said he was moving out.\n\nHe was quitting the civil service exam to prepare for a job.\nHis major had been accounting. He'd try working his way back into accounting.\n\n\"It's not farther, and it's not closer. It's just a different road.\"\n\n{name} turned those words over for a long time.",
     "choices": [
       {
         "text": "Tell him it'll work out",

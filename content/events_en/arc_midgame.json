@@ -1915,7 +1915,7 @@
       "introspection"
     ],
     "cooldown": 9999,
-    "description": "On the commute home, at the Han River bridge.\n\nFour months have passed.\n\nIn the account: {money}. Still tens of billions away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river flowed below the bridge. Even at night, Seoul was bright.\n\n{name} leaned on the railing and thought.\nHow far is it to Gangnam?",
+    "description": "On the commute home, at the Han River bridge.\n\nFour months have passed.\n\nIn the account: {money}. Still nearly KRW 3 billion away from the goal.\n\nIf five years go by at this rate, the math doesn't add up. It can't.\n\nThe river flowed below the bridge. Even at night, Seoul was bright.\n\n{name} leaned on the railing and thought.\nHow far is it to Gangnam?",
     "choices": [
       {
         "text": "\"Going anyway.\" — starts walking again",
