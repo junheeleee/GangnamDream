@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-30** — **Codex Junpac Games Splash Pass**: 첨부된 JUNPAC GAMES 브랜드 보드 기반으로 첫 부트 스플래시에 퍼블리셔 프리롤 추가. 검정 바탕, amber `J`, ivory `P`, ember red dot, `JUNPAC / GAMES` 워드마크를 코드 네이티브 UI로 구성하고 기존 Gangnam Dream 타이틀 컷으로 자연스럽게 전환되게 했다. `ScreenshotQA --qa=start-en`에 publisher 컷 캡처 추가, `tools/audit.sh`, `english_hangul_audit.py` content_issues=0, 스플래시 2컷 직접 확인. |
+| **최근 완료** | **2026-06-30** — **Codex AP Vignette Surface Pass**: AP 행동 결과 팝업의 `📚/💼/💰/🤝`식 제목과 `💰/❤/🧠/📖`식 효과 라벨을 제거하고 `Self-Dev`, `Money`, `Mental`, `Intelligence` 같은 텍스트 기반 표면으로 통일. `ScreenshotQA --qa=ap-en`에 AP 결과 팝업 캡처를 추가해 영어판에서 한글/이모지 없이 보이는지 확인했다. `tools/audit.sh`, `english_hangul_audit.py` content_issues=0, `ap_en_03b_ap_vignette` 직접 확인. |
+| **이전** | **2026-06-30** — **Codex Junpac Games Splash Pass**: 첨부된 JUNPAC GAMES 브랜드 보드 기반으로 첫 부트 스플래시에 퍼블리셔 프리롤 추가. 검정 바탕, amber `J`, ivory `P`, ember red dot, `JUNPAC / GAMES` 워드마크를 코드 네이티브 UI로 구성하고 기존 Gangnam Dream 타이틀 컷으로 자연스럽게 전환되게 했다. `ScreenshotQA --qa=start-en`에 publisher 컷 캡처 추가, `tools/audit.sh`, `english_hangul_audit.py` content_issues=0, 스플래시 2컷 직접 확인. |
 | **이전** | **2026-06-29** — **Codex AP Recommendation Surface Pass**: `This Week` 포커스 카드의 추천 행동 원문에서 `📚/🤝/📈/⏰/🏙/💼/🌊`류 표면 아이콘 제거. 추천 문구가 필터링에 의존하지 않고 `Self-Dev or Invest → ...` 같은 텍스트 UI로 직접 렌더되게 정리했다. `tools/audit.sh`, `english_hangul_audit.py` content_issues=0, `ScreenshotQA --qa=ap-en` 및 AP 화면 직접 확인. |
 | **이전** | **2026-06-29** — **Codex StoryMode Popup Surface Pass**: StoryMode 관계 변화 토스트와 첫 스탯/호감도 안내 팝업 제목의 `❤/📊` 표면을 제거. `Affinity — Bonds With People`, `Stats & Resources`처럼 텍스트 기반으로 유지해 VN 표면의 모바일 앱 감을 낮췄다. `tools/audit.sh`, `ScreenshotQA --qa=story-en`, StoryMode emoji scan 0건 확인. |
 | **이전** | **2026-06-29** — **Codex Controller Hint Surface Pass**: MainGame 선택지/AP 화면의 게임패드 힌트에서 `🎮`, 제한시간 라벨에서 `⏱`를 제거해 Steam Deck/PC 표면이 모바일 앱처럼 보이지 않도록 정리. 패드 힌트는 `[A] Choose [Menu]` 계열 텍스트로 유지하고 타이머는 `Time N`/`남은 시간 N`으로 통일했다. `tools/audit.sh` 통과, `rg "🎮|⏱"` 0건 확인. |
@@ -91,7 +92,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-30 (Codex: Junpac Games Splash Pass — 부트 스플래시에 JUNPAC GAMES 퍼블리셔 프리롤 추가.) |
+| **마지막 업데이트** | 2026-06-30 (Codex: AP Vignette Surface Pass — AP 행동 결과 팝업의 이모지/모바일 표면 제거.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

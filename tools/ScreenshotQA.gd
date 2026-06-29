@@ -570,6 +570,19 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_mg._finish_typing()
 	await _settle(0.8)
 	await _save(prefix + "03_ap_actions")
+	if _mg.has_method("_show_vignette"):
+		_mg.call("_show_vignette",
+			_tr("자기계발", "Self-Dev"),
+			_tr("도서관에서 마감 직전까지 앉아 있었다. 창이 어두워질 때쯤 뭔가 연결이 됐다.",
+				"Sat at the library until closing. By the time the windows darkened, something clicked."),
+			{"intelligence": 4, "mental": 2, "money": -30000},
+			"#5a6ea8")
+		if _mg.has_method("_finish_typing"):
+			_mg._finish_typing()
+		await _settle(0.5)
+		await _save(prefix + "03b_ap_vignette")
+	_mg.current_event = {}
+	_mg.set("_transient_bg_active", false)
 	GameState.current_job = {}
 	GameState.monthly_income = 0.0
 	GameState.mental = 42

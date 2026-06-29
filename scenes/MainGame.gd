@@ -5248,7 +5248,7 @@ func _ap_study():
 	if not GameState.spend_ap():
 		return
 	var study_type: int = randi() % 4
-	var tag: String = [_tr("📖 독서", "📖 Reading"), _tr("🏃 운동", "🏃 Exercise"), _tr("🧘 명상", "🧘 Meditation"), _tr("📊 투자공부", "📊 Invest Study")][study_type]
+	var tag: String = [_tr("독서", "Reading"), _tr("운동", "Exercise"), _tr("명상", "Meditation"), _tr("투자공부", "Invest Study")][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
@@ -5268,7 +5268,7 @@ func _ap_study():
 	var _st_key := "et" if LocaleManager.is_english() else "t"
 	var flavor: String = str(v.get(_st_key, v.get("t", "")))
 	GameState.add_log(tag + " — " + flavor, "event")
-	_show_vignette(_tr("📚 자기계발", "📚 Self-Dev"), flavor, eff, "#5a6ea8")
+	_show_vignette(_tr("자기계발", "Self-Dev"), flavor, eff, "#5a6ea8")
 	turn_action_log.append("✓ " + tag + " — " + flavor.substr(0, 20))
 	_render_ap_actions()
 	_refresh_all()
@@ -5306,7 +5306,7 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	turn_action_log.append(_tr("✓ 💼 알바 시프트 — ", "✓ 💼 Gig shift — ") + mood.substr(0, 22))
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
-	_show_vignette(_tr("💼 알바 시프트", "💼 Gig Shift"), mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
+	_show_vignette(_tr("알바 시프트", "Gig Shift"), mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -5328,7 +5328,7 @@ func _ap_save_money():
 	var _sv: Dictionary = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
 	var scene: String = str(_sv.get("et" if LocaleManager.is_english() else "t", _sv.get("t", "")))
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
-	_show_vignette(_tr("💰 절약", "💰 Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
+	_show_vignette(_tr("절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
 		{"money": saved, "stress": 2}, "#4a7a5a")
 	turn_action_log.append(_tr("✓ 💰 절약 — %s", "✓ 💰 Saving — %s") % GameState.format_money(saved))
 	AudioManager.play("money_gain")
@@ -5356,7 +5356,7 @@ func _ap_network():
 	GameState.add_log(_tr("🤝 인맥 — ", "🤝 Network — ") + flavor, "relationship")
 	turn_action_log.append(_tr("✓ 🤝 인맥 넓히기 — ", "✓ 🤝 Networking — ") + flavor.substr(0, 20))
 	GameState.stats_changed.emit()
-	_show_vignette(_tr("🤝 인맥 넓히기", "🤝 Networking"), flavor, eff, "#8a5a9a")
+	_show_vignette(_tr("인맥 넓히기", "Networking"), flavor, eff, "#8a5a9a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -5775,12 +5775,12 @@ func _exit_minigame_overlay() -> void:
 	_update_vignette()
 
 func _ap_selfdev():
-	_ap_vignette(_tr("📚 자기계발", "📚 Self-Dev"), SELFDEV_VIGNETTES, "#5a6ea8")
+	_ap_vignette(_tr("자기계발", "Self-Dev"), SELFDEV_VIGNETTES, "#5a6ea8")
 
 func _ap_free_time():
 	# 자유시간 누적 → 칭호 "자유로운 영혼" (MetaProgression free_spirit) 조건
 	GameState.flags["free_time_count"] = int(GameState.flags.get("free_time_count", 0)) + 1
-	_ap_vignette(_tr("🌊 휴식", "🌊 Rest"), REST_VIGNETTES, "#0891b2")
+	_ap_vignette(_tr("휴식", "Rest"), REST_VIGNETTES, "#0891b2")
 
 ## 루틴 행동을 '변주되는 미니 장면'으로 처리. 풀에서 무작위 결과를 뽑아 적용.
 func _ap_vignette(title: String, pool: Array, color: String):
@@ -5814,8 +5814,16 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	_apply_event_bg_path(_get_bg_for_vignette(title, body, eff))
 	event_title.text = title
 	var parts: PackedStringArray = PackedStringArray()
-	var names := {"money":"💰","health":"❤","mental":"🧠",
-		"intelligence":"📖","investment_skill":"📈","social_skill":"🤝","luck":"🍀","reputation":"⭐"}
+	var names := {
+		"money": _tr("돈", "Money"),
+		"health": _tr("건강", "Health"),
+		"mental": _tr("정신", "Mental"),
+		"intelligence": _tr("지력", "Intelligence"),
+		"investment_skill": _tr("투자감각", "Investing"),
+		"social_skill": _tr("사회성", "Social"),
+		"luck": _tr("운", "Luck"),
+		"reputation": _tr("평판", "Reputation"),
+	}
 	# merge "stress" into "mental" for display (stress removed as user-visible stat)
 	var disp: Dictionary = {}
 	for k in eff:
@@ -5896,7 +5904,7 @@ func _ap_startup_work():
 	turn_action_log.append("✓ " + _tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor.substr(0, 22))
 	GameState.add_log(_tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor, "event")
 	GameState.stats_changed.emit()
-	_show_vignette(_tr("🚀 창업 업무", "🚀 Startup Work"), flavor, eff, "#7c3aed")
+	_show_vignette(_tr("창업 업무", "Startup Work"), flavor, eff, "#7c3aed")
 	_refresh_all()
 
 func _ap_create_content():
@@ -5923,7 +5931,7 @@ func _ap_create_content():
 	GameState.stats_changed.emit()
 	var display_eff = eff.duplicate()
 	display_eff.merge(extra_eff, true)
-	_show_vignette(_tr("🎬 콘텐츠 제작", "🎬 Create Content"), flavor, display_eff, "#3fb950")
+	_show_vignette(_tr("콘텐츠 제작", "Create Content"), flavor, display_eff, "#3fb950")
 	_refresh_all()
 
 func _ap_write_resume():
