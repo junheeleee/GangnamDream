@@ -2895,7 +2895,7 @@ func _on_next_month():
 		GameState.advance_calendar()
 		_refresh_all()
 		if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
-			_show_toast(_tr("💳 첫 월급 수령! 투자·상점이 열렸습니다", "💳 First paycheck received! Investing and the shop are now open"), Color("#00c896"))
+			_show_toast(_tr("첫 월급 수령! 투자·상점이 열렸습니다", "First paycheck received! Investing and the shop are now open"), Color("#00c896"))
 		if GameState.is_game_over:
 			return
 		SaveManager.autosave()
@@ -4579,7 +4579,7 @@ func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
 
 func _engage_situation(sit: Dictionary):
 	if GameState.action_points <= 0:
-		_show_toast(_tr("⚡ 시간이 없습니다", "⚡ No time left"), Color("#ff4444"))
+		_show_toast(_tr("시간이 없습니다", "No time left"), Color("#ff4444"))
 		return
 	var sid: String = str(sit.get("id", ""))
 	if engaged_situations.has(sid):
@@ -5379,8 +5379,8 @@ func _ap_contact_person(person_id: String):
 	var flavor := _contact_flavor(person_id, aff)
 
 	var msg = _tr("%s — 정신 %d→%d, 호감도 %d", "%s — Mental %d→%d, Affinity %d") % [pname, mental_before, GameState.mental, aff]
-	GameState.add_log("🤝 " + msg + " / " + flavor, "relationship")
-	turn_action_log.append("✓ 🤝 " + msg)
+	GameState.add_log(msg + " / " + flavor, "relationship")
+	turn_action_log.append("✓ " + msg)
 	GameState.stats_changed.emit()
 	_refresh_all()
 	# A-1: 모달 닫고 스토리 영역에 인물 리액션 표시
@@ -5388,7 +5388,7 @@ func _ap_contact_person(person_id: String):
 		_close_modal()
 		_show_contact_reaction(pname, flavor, Color(accent))
 	else:
-		_show_toast("🤝 " + msg, Color(accent))
+		_show_toast(msg, Color(accent))
 		_render_ap_actions()
 
 ## 연락하기 대사 — 스토리 플래그·호감도·자산 상태에 따라 달라진다
@@ -5676,17 +5676,17 @@ func _open_bank():
 func _bank_borrow(product: String, amount: float):
 	if GameState.borrow(product, amount):
 		AudioManager.play("money_gain")
-		_show_toast(_tr("🏦 대출 실행 +%s", "🏦 Loan disbursed +%s") % GameState.format_money(amount), Color("#00c896"))
+		_show_toast(_tr("대출 실행 +%s", "Loan disbursed +%s") % GameState.format_money(amount), Color("#00c896"))
 	else:
-		_show_toast(_tr("🏦 한도를 초과했습니다", "🏦 Exceeds your limit"), Color("#ff4444"))
+		_show_toast(_tr("한도를 초과했습니다", "Exceeds your limit"), Color("#ff4444"))
 	_open_bank()
 	_refresh_all()
 
 func _bank_repay(product: String, amount: float):
 	if GameState.repay(product, amount):
-		_show_toast(_tr("🏦 상환 완료", "🏦 Repaid"), Color("#c9a227"))
+		_show_toast(_tr("상환 완료", "Repaid"), Color("#c9a227"))
 	else:
-		_show_toast(_tr("🏦 상환할 현금이 없습니다", "🏦 Not enough cash to repay"), Color("#ff4444"))
+		_show_toast(_tr("상환할 현금이 없습니다", "Not enough cash to repay"), Color("#ff4444"))
 	_open_bank()
 	_refresh_all()
 
@@ -5999,9 +5999,9 @@ func _ap_move_housing():
 		var info = result["housing"]
 		var housing_name = GameState.get_housing_name(GameState.housing)
 		var expense = GameState.format_money(float(info.get("expense", 0.0)))
-		turn_action_log.append(_tr("✓ 🏠 이사 → %s (월 %s)", "✓ 🏠 Moved → %s (monthly %s)") % [housing_name, expense])
+		turn_action_log.append(_tr("✓ 이사 → %s (월 %s)", "✓ Moved → %s (monthly %s)") % [housing_name, expense])
 		AudioManager.play("housing_up")
-		_show_toast(_tr("🏠 %s 이사 완료!", "🏠 Moved to %s!") % housing_name, Color("#f0b429"))
+		_show_toast(_tr("%s 이사 완료!", "Moved to %s!") % housing_name, Color("#f0b429"))
 	else:
 		AudioManager.play("stat_down")
 		_show_toast(result.get("message", _tr("이사 실패", "Move failed")), Color("#ff4444"))
@@ -6016,8 +6016,8 @@ func _ap_deep_study():
 	var int_before = GameState.intelligence
 	GameState.modify_stat("intelligence", 8)
 	AudioManager.play("stat_up")
-	turn_action_log.append(_tr("✓ 📖 심화 독서 → 지력 %d→%d", "✓ 📖 Deep Reading → Intelligence %d→%d") % [int_before, GameState.intelligence])
-	_show_toast(_tr("📖 심화 독서 — 지력 %d → %d", "📖 Deep Reading — Intelligence %d → %d") % [int_before, GameState.intelligence], Color("#1d4ed8"))
+	turn_action_log.append(_tr("✓ 심화 독서 → 지력 %d→%d", "✓ Deep Reading → Intelligence %d→%d") % [int_before, GameState.intelligence])
+	_show_toast(_tr("심화 독서 — 지력 %d → %d", "Deep Reading — Intelligence %d → %d") % [int_before, GameState.intelligence], Color("#1d4ed8"))
 	_render_ap_actions()
 	_refresh_all()
 
@@ -6121,8 +6121,8 @@ func _ap_vip_network():
 		rel_names.append(str(rel.get("name", "?")))
 	var rel_str = " · ".join(rel_names.slice(0, 3)) if not rel_names.is_empty() else _tr("인맥 없음", "No contacts")
 	GameState.add_log(_tr("VIP 인맥: 사회성 %d→%d, 평판 %d→%d (%s)", "VIP Networking: Social %d→%d, Reputation %d→%d (%s)") % [soc_before, GameState.social_skill, rep_before, GameState.reputation, rel_str], "relationship")
-	turn_action_log.append(_tr("✓ 👔 VIP 인맥 → 사회성 %d→%d, 평판+2", "✓ 👔 VIP Networking → Social %d→%d, Reputation +2") % [soc_before, GameState.social_skill])
-	_show_toast(_tr("👔 VIP 인맥 — 사회성 %d→%d, 모든 관계 친밀도 +15", "👔 VIP Networking — Social %d→%d, all relations affection +15") % [soc_before, GameState.social_skill], Color("#a855f7"))
+	turn_action_log.append(_tr("✓ VIP 인맥 → 사회성 %d→%d, 평판+2", "✓ VIP Networking → Social %d→%d, Reputation +2") % [soc_before, GameState.social_skill])
+	_show_toast(_tr("VIP 인맥 — 사회성 %d→%d, 모든 관계 친밀도 +15", "VIP Networking — Social %d→%d, all relations affection +15") % [soc_before, GameState.social_skill], Color("#a855f7"))
 	GameState.stats_changed.emit()
 	_render_ap_actions()
 	_refresh_all()
@@ -6635,7 +6635,7 @@ func _build_shop_item_card(item: Dictionary) -> Control:
 func _on_save_pressed():
 	SaveManager.save_game(1)
 	GameState.add_log(_tr("게임 저장 완료", "Game saved"), "system")
-	_show_toast(_tr("💾 저장 완료", "💾 Saved"), Color("#00c896"))
+	_show_toast(_tr("저장 완료", "Saved"), Color("#00c896"))
 
 func _on_job_selected(job_id):
 	var had_resume = GameState.flags.get("resume_polished", false)
@@ -6837,7 +6837,7 @@ func _build_save_load_section(parent: Control):
 func _save_to_slot(slot: int):
 	SaveManager.save_game(slot)
 	_close_modal()
-	_show_toast(_tr("💾 슬롯 %d에 저장했습니다", "💾 Saved to slot %d") % slot, Color("#c9a227"))
+	_show_toast(_tr("슬롯 %d에 저장했습니다", "Saved to slot %d") % slot, Color("#c9a227"))
 
 func _load_from_slot(slot: int):
 	SaveManager.load_game(slot)
