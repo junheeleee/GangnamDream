@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-29** — **Codex Demo Opening Copy Guard**: 오프닝 카피가 도덕 붕괴를 미리 해설하던 문제 수정. 스플래시/오프닝 마지막 카드는 `KRW 500K → KRW 3B / 5년 / 정답 없음`처럼 표면 목표만 제시하고, 인간성 변화·UI 붕괴는 플레이 중 선택 누적으로 체감되도록 숨김. `audit.sh`, `english_hangul_audit.py`, `LocaleSurfaceCheck`, 영어/한국어 `ScreenshotQA --qa=demo-blackbox` 통과(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
+| **최근 완료** | **2026-06-29** — **Codex Demo Record Surface Pass**: 데모 종료 6개월 기록창의 목업감을 낮춤. `📖/📊/▶` 이모지 섹션 헤더를 제거하고, 영어 직업 요약 `Working at Office Worker`를 `Current work: Office Worker`로 보정. 목표 문구도 `Gangnam Dream KRW 3B goal`로 정리. `audit.sh`, `english_hangul_audit.py`, 영어/한국어 `ScreenshotQA --qa=demo-blackbox` 통과 및 데모 종료 CTA 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
+| **이전** | **2026-06-29** — **Codex Demo Opening Copy Guard**: 오프닝 카피가 도덕 붕괴를 미리 해설하던 문제 수정. 스플래시/오프닝 마지막 카드는 `KRW 500K → KRW 3B / 5년 / 정답 없음`처럼 표면 목표만 제시하고, 인간성 변화·UI 붕괴는 플레이 중 선택 누적으로 체감되도록 숨김. `audit.sh`, `english_hangul_audit.py`, `LocaleSurfaceCheck`, 영어/한국어 `ScreenshotQA --qa=demo-blackbox` 통과(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Demo Opening Promise Pass**: 데모 첫인상 강화. 스플래시 태그라인을 `KRW 500K → KRW 3B / 5년` 중심으로 교체하고, 오프닝 시네마틱 마지막 카드를 `Your next five years begin now` + START/GOAL/TIME 스탯 칩으로 재구성. 영어/한국어 `ScreenshotQA --qa=demo-blackbox`로 스플래시와 오프닝 최종 카드 직접 확인. `audit.sh`, `english_hangul_audit.py`, `LocaleSurfaceCheck` 통과(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Demo AP Focus Surface Pass**: 데모 첫 30분 반복 루프인 AP 행동 화면을 Steam Deck/영어 기준으로 보강. `This Week` 카드에 남은 AP를 슬롯으로 시각화하고, 추천 행동 문구의 이모지 노이즈와 어색한 영어 목표 문장을 정리. 직접 행동 카드는 짧은 reveal 애니메이션으로 게시판식 정적 화면 느낌을 줄였다. `audit.sh`, `english_hangul_audit.py`, `ScreenshotQA --qa=surface-en` 통과 및 `surface_en_03_ap_actions` 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
 | **이전** | **2026-06-29** — **Codex Gangnam Ink StoryMode Surface Pass**: StoryMode/VN 화면을 `Gangnam Ink` 표면 언어에 연결. 배경에 `background_grade`/`moral_surface` 셰이더를 적용하고, `MORAL_TINT`에 따라 배경 dim·텍스트 박스·이름표·상단 HUD·챕터 카드·튜토리얼 팝업·토스트가 회색/흑/백 축으로 변하도록 정리. 스토리 선택지는 금색/갈색과 작은 효과 미리보기를 제거하고 matte 번호 선택지+패드 포커스+초상화 후퇴 연출로 교체. `ScreenshotQA --qa=surface-en`에 영어 선택지 캡처 `surface_en_02b_story_choices` 추가. `audit.sh`, `english_hangul_audit.py`, `ScreenshotQA --qa=surface-en`, `ScreenshotQA --qa=demo-blackbox --lang=en` 통과(종료 시 기존 Texture/RID cleanup 경고만 잔존). |
@@ -65,7 +66,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam. Five years — no guide, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-29 (Codex: Demo Opening Copy Guard — 초반 카피는 돈 목표만 제시하고 도덕 변화는 플레이 중 체감되도록 숨김.) |
+| **마지막 업데이트** | 2026-06-29 (Codex: Demo Record Surface Pass — 데모 종료 기록창 이모지 헤더/어색한 영어를 제거해 상용 데모 마감감 보강.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

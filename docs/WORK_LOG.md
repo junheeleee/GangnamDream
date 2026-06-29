@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Demo Record Surface Pass)
+
+### 수정
+- `scenes/MainGame.gd`: 데모 종료 `6-Month Record` 모달의 `📖 Past 6 Months`, `📊 6-Month Report`, `▶ Continues in the full version` 섹션 헤더에서 이모지를 제거해 웹 게시판/프로토타입 느낌을 줄였다.
+- `scenes/MainGame.gd`: 영어 직업 요약 `Working at Office Worker.`를 관사 문제 없는 `Current work: Office Worker.` 형식으로 보정했다.
+- `scenes/MainGame.gd`: 영어 목표 진행 문구를 `Gangnam Dream KRW 3B goal`로 보정해 통화 단위가 빠진 듯한 느낌을 줄였다.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. `demo_en_blackbox_04_demo_ending_cta` 직접 확인.
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=ko` 실행 완료. `demo_ko_blackbox_04_demo_ending_cta` 직접 확인.
+
+---
+
 ## 2026-06-29 (Codex Demo Opening Copy Guard)
 
 ### 수정

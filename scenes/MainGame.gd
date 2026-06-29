@@ -6870,7 +6870,7 @@ func _show_demo_ending():
 	if GameState.current_job.is_empty():
 		story_lines.append(_tr("직장은 아직 없다. 그게 지금 가장 큰 과제다.", "Still no job. That's the biggest challenge right now."))
 	else:
-		story_lines.append(_tr("%s에 다니고 있다.", "Working at %s.") % GameState.get_job_display_name())
+		story_lines.append(_tr("현재 직업: %s.", "Current work: %s.") % GameState.get_job_display_name())
 	# 인물 관계
 	if f.get("arc_sangchul_met_seen", false):
 		if f.get("arc_sangchul_casino_seen", false):
@@ -6906,7 +6906,7 @@ func _show_demo_ending():
 	modal_body.add_child(sep1)
 
 	# 개인화 스토리 요약
-	modal_body.add_child(_label(_tr("📖 지난 6개월", "📖 Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
+	modal_body.add_child(_label(_tr("지난 6개월", "Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
 	for line in story_lines:
 		modal_body.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
 
@@ -6915,11 +6915,11 @@ func _show_demo_ending():
 	modal_body.add_child(sep2)
 
 	# 자산 성적표
-	modal_body.add_child(_label(_tr("📊 6개월 성적표", "📊 6-Month Report"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
+	modal_body.add_child(_label(_tr("6개월 성적표", "6-Month Report"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
 	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
 	modal_body.add_child(_wrap_label(_tr("총자산  %s", "Total Assets  %s") % GameState.format_money(total_assets), 16, asset_color))
 	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Gangnam Dream 3B goal  %.3f%%  reached") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
+	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Gangnam Dream KRW 3B goal  %.3f%%  reached") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
 
 	var sep3 = HSeparator.new()
 	sep3.add_theme_color_override("color", Color("#252535"))
@@ -6934,7 +6934,7 @@ func _show_demo_ending():
 	if f.get("arc_jaehyuk_reunion_seen", false):
 		teaser_lines.append(_tr("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.", "Jaehyuk — the real face behind his business proposal."))
 	teaser_lines.append(_tr("강남 입성까지 남은 거리: %s", "Distance to Gangnam: %s") % GameState.format_money(3_000_000_000.0 - total_assets))
-	modal_body.add_child(_label(_tr("▶ 풀버전에서 계속됩니다", "▶ Continues in the full version"), 14, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
+	modal_body.add_child(_label(_tr("풀버전에서 계속됩니다", "Continues in the full version"), 14, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
 	for tl in teaser_lines:
 		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
 

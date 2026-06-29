@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Demo record surface pass
+
+- Removed emoji section prefixes from the demo 6-month record modal for a more finished, less mockup-like ending surface.
+- Cleaned the English job summary from `Working at Office Worker` to `Current work: Office Worker`.
+- Clarified the English demo progress line as `Gangnam Dream KRW 3B goal`.
+
 ### Fixed (2026-06-29) — Opening copy spoiler guard
 
 - Removed opening/splash copy that directly hinted at moral loss before the player experiences it.
