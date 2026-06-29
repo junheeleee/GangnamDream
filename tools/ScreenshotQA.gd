@@ -504,6 +504,27 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_mg._finish_typing()
 	await _settle(0.8)
 	await _save(prefix + "03_ap_actions")
+	GameState.current_job = {}
+	GameState.monthly_income = 0.0
+	GameState.mental = 42
+	GameState.health = 44
+	GameState.money = -250_000.0
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.5)
+	await _save(prefix + "03a_ap_warnings")
+	GameState.current_job = {"name":("Office Worker" if LocaleManager.is_english() else "사무직"), "base_salary":2_240_000.0, "tier":2}
+	GameState.monthly_income = 2_240_000.0
+	GameState.mental = 58
+	GameState.health = 62
+	GameState.money = 3_500_000.0
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_finish_typing"):
+		_mg._finish_typing()
+	await _settle(0.2)
 	await _shot_action_category_modal("_open_cat_money", prefix + "04_money_modal")
 	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
 	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")

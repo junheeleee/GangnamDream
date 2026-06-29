@@ -1647,7 +1647,17 @@ func _build_toast_layer():
 func _show_toast(message: String, color: Color = Color("#8892a4")):
 	var toast = load("res://ui_components/NotificationToast.gd").new()
 	_toast_container.add_child(toast)
-	toast.show_message(message, color)
+	toast.show_message(_clean_surface_message(message), color)
+
+func _clean_surface_message(message: String) -> String:
+	var out := message
+	for token in [
+		"🚨 ", "⚠️ ", "⚠ ", "💾 ", "💳 ", "🔓 ", "⚡ ", "🤝 ",
+		"🏦 ", "🏠 ", "📖 ", "👔 ", "📈 ", "📉 ", "🛒 ",
+		"✨ ", "💼 ", "🎉 ",
+	]:
+		out = out.replace(token, "")
+	return out.strip_edges()
 
 func _begin_month():
 	GameState.restore_ap()
@@ -4110,19 +4120,19 @@ func _render_ap_actions():
 	# ── 경고 ──
 	var has_warning := false
 	if GameState.current_job.is_empty():
-		lines.append(_tr("[color=#ff7070]⚠  직업 없음[/color]  — 수입 0원. 구직활동을 먼저 하세요!", "[color=#ff7070]⚠  No job[/color]  — KRW 0 income. Do a Job Hunt first!"))
+		lines.append(_tr("[color=#ff7070]직업 없음[/color]  — 수입 0원. 구직활동을 먼저 하세요!", "[color=#ff7070]No job[/color]  — KRW 0 income. Do a Job Hunt first!"))
 		has_warning = true
 	if GameState.health <= 45:
-		lines.append(_tr("[color=#ff4444]🚨  건강 %d / 100[/color]  — 위험!", "[color=#ff4444]🚨  Health %d / 100[/color]  — Danger!") % GameState.health)
+		lines.append(_tr("[color=#ff4444]건강 %d / 100[/color]  — 위험!", "[color=#ff4444]Health %d / 100[/color]  — Danger!") % GameState.health)
 		has_warning = true
 	if GameState.mental <= 45:
-		lines.append(_tr("[color=#ff4444]🚨  정신력 %d / 100[/color]  — 위험!", "[color=#ff4444]🚨  Mental %d / 100[/color]  — Danger!") % GameState.mental)
+		lines.append(_tr("[color=#ff4444]정신력 %d / 100[/color]  — 위험!", "[color=#ff4444]Mental %d / 100[/color]  — Danger!") % GameState.mental)
 		has_warning = true
 	if GameState.mental <= 55 and GameState.health > 45 and GameState.mental > 45:
-		lines.append(_tr("[color=#b9bec7]⚠  정신력 %d[/color]  — 피로가 쌓이고 있습니다. 가끔 쉬세요.", "[color=#b9bec7]⚠  Mental %d[/color]  — Fatigue is building up. Rest sometimes.") % GameState.mental)
+		lines.append(_tr("[color=#b9bec7]정신력 %d[/color]  — 피로가 쌓이고 있습니다. 가끔 쉬세요.", "[color=#b9bec7]Mental %d[/color]  — Fatigue is building up. Rest sometimes.") % GameState.mental)
 		has_warning = true
 	if GameState.money < 0:
-		lines.append(_tr("[color=#ff4444]🚨  잔고 마이너스  %s[/color]  — 빚이 생겼습니다!", "[color=#ff4444]🚨  Negative balance  %s[/color]  — You're in debt!") % GameState.format_money(GameState.money))
+		lines.append(_tr("[color=#ff4444]잔고 마이너스  %s[/color]  — 빚이 생겼습니다!", "[color=#ff4444]Negative balance  %s[/color]  — You're in debt!") % GameState.format_money(GameState.money))
 		has_warning = true
 	# 추천 행동은 아래 '이번 주' 포커스 카드에서 더 크게 보여준다.
 	# 새 주 첫 상황판은 짧게 타이핑 (60cps — 빠르게)
@@ -4167,10 +4177,10 @@ func _render_ap_actions():
 		and not GameState.flags.get("invest_hint_shown", false)
 
 	if GameState.turn == 1 and ap == GameState.max_action_points and turn_action_log.is_empty():
-		hint_text = _tr("👋 이번 주 상황에 반응하거나, 아래 [💼 구직활동]으로 일자리부터 구하세요.", "👋 React to this week's situation, or get a job first via [💼 Job Hunt] below.")
+		hint_text = _tr("이번 주 상황에 반응하거나, 아래 [구직활동]으로 일자리부터 구하세요.", "React to this week's situation, or get a job first via [Job Hunt] below.")
 		hint_color = "#c8cdd4"
 	elif GameState.tutorial_step >= 1 and job_story_done and no_job:
-		hint_text = _tr("⚠ 수입 0원 — 아래 [💼 구직활동]으로 취업하세요!", "⚠ KRW 0 income — get a job via [💼 Job Hunt] below!")
+		hint_text = _tr("수입 0원 — 아래 [구직활동]으로 취업하세요!", "KRW 0 income — get a job via [Job Hunt] below!")
 		hint_color = "#ef4444"
 	elif just_got_paycheck:
 		GameState.flags["invest_hint_shown"] = true
@@ -4324,12 +4334,12 @@ func _recommend_action() -> String:
 	# ── 위기 우선 ──
 	if no_job:
 		if intel >= 35:
-			return _tr("💼 구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터", "💼 Job Hunt  →  Intelligence %d qualifies for office jobs. Start with a resume") % intel
-		return _tr("💼 구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저", "💼 Job Hunt  →  Escaping KRW 0 income is priority. Even a part-time job first")
+			return _tr("구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터", "Job Hunt  →  Intelligence %d qualifies for office jobs. Start with a resume") % intel
+		return _tr("구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저", "Job Hunt  →  Escaping KRW 0 income is priority. Even a part-time job first")
 	if GameState.mental <= 50:
 		return _tr("🌊 휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략", "🌊 Rest  →  Mental %d. Stopping before burnout is strategy") % GameState.mental
 	if not has_paycheck:
-		return _tr("💼 일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다", "💼 Start Working  →  Investing stays locked until your first paycheck")
+		return _tr("일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다", "Start Working  →  Investing stays locked until your first paycheck")
 
 	# ── 주거 업그레이드 힌트 ──
 	if housing == "gosiwon" and total >= 8_000_000:
