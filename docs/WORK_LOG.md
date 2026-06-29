@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Start Menu Save Slot Surface Pass)
+
+### 수정
+- `scenes/StartMenu.gd`: 시작 메뉴 우측 저장 슬롯의 기본 삭제 버튼을 빨간 `Delete` 텍스트에서 무채색 `X` 보조 액션으로 낮췄다. 첫 화면에서 위험 버튼이 시선을 빼앗지 않고, `Start New Story`와 계속하기 슬롯이 주 액션으로 읽히게 했다.
+- `scenes/StartMenu.gd`: 삭제 버튼 스타일 생성을 `_delete_slot_button()`으로 통합했다. 기본 상태는 차콜/회색, 2차 확인 상태에서만 `삭제 확인` / `Delete?`와 붉은 테두리를 사용한다.
+- `scenes/StartMenu.gd`: 저장 삭제 툴팁과 포커스 스타일을 추가해 Steam Deck/키보드 조작에서도 작은 `X` 버튼의 의미가 유지되게 했다.
+
+### 검증
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. `demo_en_blackbox_02_start_menu` 직접 확인: 우측 저장 슬롯 삭제 액션이 보조 버튼으로 낮아지고 빨간 위험색은 기본 상태에서 사라짐.
+
+---
+
 ## 2026-06-29 (Codex Demo Record Surface Pass)
 
 ### 수정

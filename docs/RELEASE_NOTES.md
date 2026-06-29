@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Start menu save-slot surface pass
+
+- Changed the start-menu save-slot delete action from a red `Delete` text button to a muted `X` secondary action.
+- The destructive red state now appears only during delete confirmation as `Delete?` / `삭제 확인`.
+- Added tooltip/focus styling so the smaller save-delete action remains readable for keyboard and Steam Deck-style navigation.
+
 ### Added/Changed (2026-06-29) — Demo record surface pass
 
 - Removed emoji section prefixes from the demo 6-month record modal for a more finished, less mockup-like ending surface.

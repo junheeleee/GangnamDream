@@ -561,21 +561,7 @@ func _rebuild_slots():
 
 		# 삭제 버튼 (데이터가 있을 때만 표시)
 		if enabled:
-			var del_btn = Button.new()
-			del_btn.text = _tr("삭제", "Delete")
-			del_btn.custom_minimum_size = Vector2(36, 56)
-			del_btn.flat = false
-			var del_st = StyleBoxFlat.new()
-			del_st.bg_color = Color("#2a1010")
-			del_st.border_color = Color("#5a1a1a")
-			del_st.set_border_width_all(1)
-			del_st.set_corner_radius_all(6)
-			var del_hover = del_st.duplicate()
-			del_hover.bg_color = Color("#3d1515")
-			del_btn.add_theme_stylebox_override("normal", del_st)
-			del_btn.add_theme_stylebox_override("hover", del_hover)
-			del_btn.add_theme_stylebox_override("pressed", del_hover)
-			del_btn.add_theme_font_size_override("font_size", 16)
+			var del_btn := _delete_slot_button(false)
 			del_btn.pressed.connect(func(): _confirm_delete(slot))
 			row.add_child(del_btn)
 
@@ -627,22 +613,8 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 		row.add_child(slot_panel)
 
 		if enabled:
-			var del_btn = Button.new()
 			var is_confirm = (slot == confirm_slot)
-			del_btn.text = _tr("삭제!", "Delete!") if is_confirm else _tr("삭제", "Delete")
-			del_btn.custom_minimum_size = Vector2(44, 56)
-			var del_st = StyleBoxFlat.new()
-			del_st.bg_color = Color("#5a1a1a") if is_confirm else Color("#2a1010")
-			del_st.border_color = Color("#ff4444") if is_confirm else Color("#5a1a1a")
-			del_st.set_border_width_all(1)
-			del_st.set_corner_radius_all(6)
-			var del_hover = del_st.duplicate()
-			del_hover.bg_color = Color("#7a2020") if is_confirm else Color("#3d1515")
-			del_btn.add_theme_stylebox_override("normal", del_st)
-			del_btn.add_theme_stylebox_override("hover", del_hover)
-			del_btn.add_theme_stylebox_override("pressed", del_hover)
-			del_btn.add_theme_font_size_override("font_size", 11)
-			del_btn.add_theme_color_override("font_color", Color("#ff6666") if is_confirm else Color("#884444"))
+			var del_btn := _delete_slot_button(is_confirm)
 			del_btn.pressed.connect(func(): _confirm_delete(slot))
 			row.add_child(del_btn)
 
@@ -664,6 +636,39 @@ func _rebuild_slots_with_confirm(confirm_slot: int):
 					_rebuild_slots()
 				)
 				row.add_child(cancel_btn)
+
+func _delete_slot_button(is_confirm: bool) -> Button:
+	var del_btn := Button.new()
+	del_btn.text = _tr("삭제 확인", "Delete?") if is_confirm else "X"
+	del_btn.tooltip_text = _tr("저장 삭제", "Delete save")
+	del_btn.custom_minimum_size = Vector2(58, 56) if is_confirm else Vector2(36, 56)
+	del_btn.flat = false
+
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#351515") if is_confirm else Color("#10131a")
+	normal.border_color = Color("#e65a5a") if is_confirm else Color("#2c3440")
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(6)
+
+	var hover := normal.duplicate()
+	hover.bg_color = Color("#4a1b1b") if is_confirm else Color("#17141a")
+	hover.border_color = Color("#ff7777") if is_confirm else Color("#6f3a3a")
+
+	var pressed := hover.duplicate()
+	pressed.bg_color = Color("#2a1010") if is_confirm else Color("#0b0d12")
+
+	var focus := normal.duplicate()
+	focus.border_color = Color("#f4f7fb") if not is_confirm else Color("#ff9a9a")
+	focus.set_border_width_all(2)
+
+	del_btn.add_theme_stylebox_override("normal", normal)
+	del_btn.add_theme_stylebox_override("hover", hover)
+	del_btn.add_theme_stylebox_override("pressed", pressed)
+	del_btn.add_theme_stylebox_override("focus", focus)
+	del_btn.add_theme_font_size_override("font_size", 11 if is_confirm else 15)
+	del_btn.add_theme_color_override("font_color", Color("#ffd6d6") if is_confirm else Color("#566171"))
+	return del_btn
+
 func _build_theme_cards() -> void:
 	if not is_instance_valid(_theme_row):
 		return
