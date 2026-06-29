@@ -17,6 +17,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=job-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=aruba-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=scalping-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=invest-en
 ## Steam Deck 영어 표면 회귀:
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=surface-en
 ## MORAL_TINT 필터만 빠르게 확인:
@@ -42,6 +43,7 @@ const QA_SCOPE_TUTORIAL_EN := "tutorial_en"
 const QA_SCOPE_JOB_EN := "job_en"
 const QA_SCOPE_ARUBA_EN := "aruba_en"
 const QA_SCOPE_SCALPING_EN := "scalping_en"
+const QA_SCOPE_INVEST_EN := "invest_en"
 const QA_SCOPE_SURFACE_EN := "surface_en"
 const QA_SCOPE_TRANSITION := "transition"
 var _mg: Node = null
@@ -153,6 +155,12 @@ func _ready() -> void:
 		print("SCREENSHOT_QA_DONE scope=scalping-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
+	if scope == QA_SCOPE_INVEST_EN:
+		var lang := _qa_language("en")
+		await _shot_invest_surfaces(lang, "invest_en_" if lang == "en" else "invest_ko_")
+		print("SCREENSHOT_QA_DONE scope=invest-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
 	if scope == QA_SCOPE_SURFACE_EN:
 		await _shot_surface_en()
 		print("SCREENSHOT_QA_DONE scope=surface-en lang=en dir=%s" % OUT_DIR)
@@ -256,6 +264,10 @@ func _qa_scope() -> String:
 				"--scalping_en", "qa=scalping-en", "--qa=scalping-en",
 				"qa=scalping_en", "--qa=scalping_en", "scope=scalping-en", "--scope=scalping-en"]:
 			return QA_SCOPE_SCALPING_EN
+		if arg in ["invest-en", "invest_en", "investment-en", "investment_en", "--invest-en",
+				"--invest_en", "qa=invest-en", "--qa=invest-en", "qa=invest_en",
+				"--qa=invest_en", "scope=invest-en", "--scope=invest-en"]:
+			return QA_SCOPE_INVEST_EN
 		if arg in ["surface-en", "surface_en", "deck-en", "deck_en", "steamdeck-en", "steamdeck_en",
 				"--surface-en", "--surface_en", "--deck-en", "--deck_en",
 				"qa=surface-en", "--qa=surface-en", "qa=surface_en", "--qa=surface_en",
@@ -555,6 +567,27 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")
 	await _shot_info_panel_tabs(lang, prefix)
 	await _shot_people(prefix)
+
+func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	GameState.money = 5_000_000.0
+	GameState.action_points = 2
+	await _boot_main_game()
+	_mg.current_event = {}
+	if _mg.has_method("_render_ap_actions"):
+		_mg._render_ap_actions()
+	if _mg.has_method("_open_investments"):
+		_mg.call("_open_investments")
+		await _settle(0.7)
+		await _save(prefix + "00_modal")
+	if _mg.has_method("_on_buy_asset"):
+		_mg.call("_on_buy_asset", "samsung", 100_000)
+		if _mg.has_method("_finish_typing"):
+			_mg.call("_finish_typing")
+		await _settle(0.55)
+		await _save(prefix + "01_buy_toast")
 
 func _shot_demo_end_surfaces(lang: String = "en", prefix: String = "demo_end_en_") -> void:
 	await _shot_demo_loop_surfaces(lang, prefix)

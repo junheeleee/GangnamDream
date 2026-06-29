@@ -5270,7 +5270,7 @@ func _ap_study():
 
 func _ap_invest():
 	if GameState.action_points <= 0:
-		_show_toast(_tr("⚡ 행동력이 없습니다", "⚡ No Action Points"), Color("#ff4444"))
+		_show_toast(_tr("행동력이 없습니다", "No Action Points"), Color("#ff4444"))
 		return
 	_open_investments()
 
@@ -6072,7 +6072,7 @@ func _open_leverage_investments():
 
 func _on_leverage_buy(asset_id: String, amount: float):
 	if not GameState.spend_ap():
-		_show_toast(_tr("⚡ 행동력이 없습니다. 이번 달 거래 불가", "⚡ No Action Points. No trading this month."), Color("#ff4444"))
+		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
 	AudioManager.play("money_gain")
@@ -6083,10 +6083,10 @@ func _on_leverage_buy(asset_id: String, amount: float):
 			if data.get("id", "") == asset_id:
 				asset_name = data.get("name", asset_id)
 				break
-		turn_action_log.append(_tr("✓ ⚡ 레버리지 → %s ×2배  %s", "✓ ⚡ Leverage → %s ×2  %s") % [asset_name, GameState.format_money(amount)])
+		turn_action_log.append(_tr("✓ 레버리지 → %s ×2배  %s", "✓ Leverage → %s ×2  %s") % [asset_name, GameState.format_money(amount)])
 		_close_modal()
 		_refresh_all()
-		_show_toast(_tr("⚡ 레버리지 매수 — %s ×2배 포지션 확보", "⚡ Leverage buy — secured %s ×2 position") % GameState.format_money(amount * 2.0), Color("#ef4444"))
+		_show_toast(_tr("레버리지 매수 — %s ×2배 포지션 확보", "Leverage buy — secured %s ×2 position") % GameState.format_money(amount * 2.0), Color("#ef4444"))
 	else:
 		_show_toast(result.get("message", _tr("오류", "Error")), Color("#ff4444"))
 
@@ -6646,7 +6646,7 @@ func _on_job_selected(job_id):
 
 func _on_buy_asset(asset_id, amount):
 	if not GameState.spend_ap():
-		_show_toast(_tr("⚡ 행동력이 없습니다. 이번 달 거래 불가", "⚡ No Action Points. No trading this month."), Color("#ff4444"))
+		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
 	AudioManager.play("money_gain")
@@ -6657,14 +6657,14 @@ func _on_buy_asset(asset_id, amount):
 		if data.get("id", "") == asset_id:
 			asset_name = data.get("name", asset_id)
 			break
-	turn_action_log.append(_tr("✓ 📈 투자 → %s 매수 %s", "✓ 📈 Invest → bought %s %s") % [asset_name, GameState.format_money(amount)])
+	turn_action_log.append(_tr("✓ 투자 → %s 매수 %s", "✓ Invest → bought %s %s") % [asset_name, GameState.format_money(amount)])
 	_close_modal()
 	_refresh_all()
-	_show_toast(_tr("📈 매수 완료 %s", "📈 Bought %s") % GameState.format_money(amount), Color("#00c896"))
+	_show_toast(_tr("매수 완료 %s", "Bought %s") % GameState.format_money(amount), Color("#00c896"))
 
 func _on_sell_asset(asset_id, ratio):
 	if not GameState.spend_ap():
-		_show_toast(_tr("⚡ 행동력이 없습니다. 이번 달 거래 불가", "⚡ No Action Points. No trading this month."), Color("#ff4444"))
+		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
 	AudioManager.play("money_loss")
@@ -6674,24 +6674,24 @@ func _on_sell_asset(asset_id, ratio):
 		if data.get("id", "") == asset_id:
 			asset_name = data.get("name", asset_id)
 			break
-	turn_action_log.append(_tr("✓ 📈 투자 → %s 매도", "✓ 📈 Invest → sold %s") % asset_name)
+	turn_action_log.append(_tr("✓ 투자 → %s 매도", "✓ Invest → sold %s") % asset_name)
 	_close_modal()
 	_refresh_all()
-	_show_toast(_tr("📉 매도 완료", "📉 Sold"), Color("#ff4444"))
+	_show_toast(_tr("매도 완료", "Sold"), Color("#ff4444"))
 
 func _on_shop_item(item_id):
 	inventory_system.purchase_item(item_id)
 	_close_modal()
 	_refresh_all()
-	_show_toast(_tr("🛒 아이템 구매 완료", "🛒 Item purchased"), Color("#d8b4fe"))
+	_show_toast(_tr("아이템 구매 완료", "Item purchased"), Color("#d8b4fe"))
 
 func _on_use_item(item_id):
 	var result: Dictionary = inventory_system.use_item(item_id)
 	_refresh_all()
 	if result.get("success", false):
-		_show_toast(_tr("✨ 아이템 사용 (행동력 -1)", "✨ Item used (AP -1)"), Color("#fbbf24"))
+		_show_toast(_tr("아이템 사용 (행동력 -1)", "Item used (AP -1)"), Color("#fbbf24"))
 	else:
-		_show_toast("⚡ " + str(result.get("message", _tr("사용 불가", "Cannot use"))), Color("#ff4444"))
+		_show_toast(str(result.get("message", _tr("사용 불가", "Cannot use"))), Color("#ff4444"))
 
 func _open_system_menu():
 	_open_modal(_tr("시스템", "System"))
