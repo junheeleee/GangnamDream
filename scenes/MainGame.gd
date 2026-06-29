@@ -7587,113 +7587,113 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var fs := GameState.get_cast_stage("father")
 	if fs in ["reconciled", "connected", "hopeful", "close"]:
 		if good:
-			lines.append(_tr("👨‍🦳  아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.", "👨‍🦳  Father sat awkwardly in the new living room and said \"the room is too big.\" I know that's a compliment."))
+			lines.append(_tr("아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.", "Father sat awkwardly in the new living room and said \"the room is too big.\" I know that's a compliment."))
 		elif bad:
-			lines.append(_tr("👨‍🦳  다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.", "👨‍🦳  When I said I'd lost everything, Father only said \"come home and eat.\""))
+			lines.append(_tr("다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.", "When I said I'd lost everything, Father only said \"come home and eat.\""))
 		else:
-			lines.append(_tr("👨‍🦳  아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "👨‍🦳  I call Father twice a month now. Not long, but never broken off."))
+			lines.append(_tr("아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "I call Father twice a month now. Not long, but never broken off."))
 	elif fs == "passed":
 		if GameState.flags.get("chose_money_over_father", false):
-			lines.append(_tr("👨‍🦳  아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.", "👨‍🦳  The night Father passed, I closed a deal. The number in my account went up — and every time I see it, I see the version of me who didn't board the train to Changwon."))
+			lines.append(_tr("아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.", "The night Father passed, I closed a deal. The number in my account went up — and every time I see it, I see the version of me who didn't board the train to Changwon."))
 		elif GameState.flags.get("tried_to_go_to_father", false):
-			lines.append(_tr("👨‍🦳  마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.", "👨‍🦳  I caught the last train but was an hour too late. Still, I've chosen to believe the time spent in that empty hospital room was better than not going at all."))
+			lines.append(_tr("마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.", "I caught the last train but was an hour too late. Still, I've chosen to believe the time spent in that empty hospital room was better than not going at all."))
 		else:
-			lines.append(_tr("👨‍🦳  아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.", "👨‍🦳  After Father passed, I went down to Changwon once. I sat for a long time in an empty room."))
+			lines.append(_tr("아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.", "After Father passed, I went down to Changwon once. I sat for a long time in an empty room."))
 	elif fs in ["worried", "health_crisis", "quiet"]:
-		lines.append(_tr("👨‍🦳  아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.", "👨‍🦳  Many nights I dialed Father's number and stopped. Next time, next time — and five years passed."))
+		lines.append(_tr("아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.", "Many nights I dialed Father's number and stopped. Next time, next time — and five years passed."))
 	else:
-		lines.append(_tr("👨‍🦳  창원에는 끝내 한 번도 내려가지 못했다.", "👨‍🦳  I never once made it down to Changwon."))
+		lines.append(_tr("창원에는 끝내 한 번도 내려가지 못했다.", "I never once made it down to Changwon."))
 
 	# 어머니 — 아버지 곁의 또 한 사람 (화해했을 때만 한 줄)
 	if GameState.flags.get("mother_reconciled", false) or GameState.flags.get("mother_reconnected", false):
 		if good:
-			lines.append(_tr("👩  어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.", "👩  Mother said, \"Your father would have loved to see this.\" The words don't sting anymore."))
+			lines.append(_tr("어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.", "Mother said, \"Your father would have loved to see this.\" The words don't sting anymore."))
 		else:
-			lines.append(_tr("👩  어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.", "👩  Mother and I have long calls now. Nothing much to them. But I know they're the calls I needed."))
+			lines.append(_tr("어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.", "Mother and I have long calls now. Nothing much to them. But I know they're the calls I needed."))
 
 	# 한지연 — 세계가 다른 사람과 어디까지 갔는가
 	var js := GameState.get_cast_stage("jiyeon")
 	if GameState.flags.get("jiyeon_romance_started", false):
 		if bad:
-			lines.append(_tr("💜  다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "💜  Even the day everything collapsed, Jiyeon didn't leave. \"I never came for the money in the first place.\""))
+			lines.append(_tr("다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "Even the day everything collapsed, Jiyeon didn't leave. \"I never came for the money in the first place.\""))
 		else:
-			lines.append(_tr("💜  한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "💜  Jiyeon smiled, \"See, my eye was right.\" That seat beside her is better than Gangnam."))
+			lines.append(_tr("한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "Jiyeon smiled, \"See, my eye was right.\" That seat beside her is better than Gangnam."))
 	elif js in ["honest_together", "respected", "trust", "close", "connected", "business_partner", "indebted"]:
-		lines.append(_tr("💜  한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.", "💜  I meet Jiyeon for coffee now and then. We remain people who acknowledged each other's worlds."))
+		lines.append(_tr("한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.", "I meet Jiyeon for coffee now and then. We remain people who acknowledged each other's worlds."))
 	elif js in ["hurt", "disillusioned", "distant", "rejected_help"]:
-		lines.append(_tr("💜  한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.", "💜  I check Jiyeon's social media sometimes. I don't reach out. We both remember what was said that day."))
+		lines.append(_tr("한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.", "I check Jiyeon's social media sometimes. I don't reach out. We both remember what was said that day."))
 	elif js != "unknown":
-		lines.append(_tr("💜  한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.", "💜  Jiyeon and I never grew closer than that. The connection ended there."))
+		lines.append(_tr("한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.", "Jiyeon and I never grew closer than that. The connection ended there."))
 
 	# 김다은 — 카페의 그 사람
 	var ds := GameState.get_cast_stage("daeun")
 	if GameState.flags.get("daeun_romance_started", false):
 		if good:
-			lines.append(_tr("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "☕  Daeun said, \"Even in Gangnam, come drink your coffee at my place.\" I agreed."))
+			lines.append(_tr("다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "Daeun said, \"Even in Gangnam, come drink your coffee at my place.\" I agreed."))
 		elif bad:
-			lines.append(_tr("☕  통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.", "☕  Even when my bank account was empty, the corner seat at Daeun's cafe was not."))
+			lines.append(_tr("통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.", "Even when my bank account was empty, the corner seat at Daeun's cafe was not."))
 		else:
-			lines.append(_tr("☕  다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.", "☕  Daeun's cafe became not just a regular spot, but a place to return to."))
+			lines.append(_tr("다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.", "Daeun's cafe became not just a regular spot, but a place to return to."))
 	elif ds in ["together", "close", "warm", "interest", "acquaintance"]:
-		lines.append(_tr("☕  다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.", "☕  I still drop by Daeun's cafe sometimes. There's a drink that comes without ordering."))
+		lines.append(_tr("다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.", "I still drop by Daeun's cafe sometimes. There's a drink that comes without ordering."))
 	elif ds in ["distant", "wary", "uncertain"]:
-		lines.append(_tr("☕  그 카페 앞을 지날 때면 걸음이 조금 빨라진다.", "☕  When I pass that cafe, my pace quickens a little."))
+		lines.append(_tr("그 카페 앞을 지날 때면 걸음이 조금 빨라진다.", "When I pass that cafe, my pace quickens a little."))
 
 	# 임상철 — 멘토였는가 / 도구였는가
 	var ss := GameState.get_cast_stage("sangchul")
 	# 진실을 알고도 그의 죄책감을 끝까지 자산으로 쓴 경우 — 관계 stage가 무엇이든 이 라인이 우선.
 	# (stage 기반 따뜻한 라인이 착취 플레이어에게 잘못 뜨던 톤 버그 차단)
 	if GameState.flags.get("sangchul_used_fully", false):
-		lines.append(_tr("🏢  임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.", "🏢  I still keep in touch with Im Sangchul. I'll use him again if I need to. He knows that, and still picks up the phone."))
+		lines.append(_tr("임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.", "I still keep in touch with Im Sangchul. I'll use him again if I need to. He knows that, and still picks up the phone."))
 	elif GameState.flags.get("sangchul_leveraged", false):
-		lines.append(_tr("🏢  임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.", "🏢  Im Sangchul's guilt made a good lever. That fact catches in my chest sometimes — just sometimes."))
+		lines.append(_tr("임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.", "Im Sangchul's guilt made a good lever. That fact catches in my chest sometimes — just sometimes."))
 	elif ss in ["trusted", "mentoring", "guardian"]:
 		if good:
-			lines.append(_tr("🏢  임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "🏢  Im Sangchul laughed as if it were his own. \"I sure know how to read people.\""))
+			lines.append(_tr("임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "Im Sangchul laughed as if it were his own. \"I sure know how to read people.\""))
 		elif bad:
-			lines.append(_tr("🏢  임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.", "🏢  Im Sangchul said, \"Gangnam, who cares. As long as you're alive.\" It was the gentlest I'd ever heard him."))
+			lines.append(_tr("임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.", "Im Sangchul said, \"Gangnam, who cares. As long as you're alive.\" It was the gentlest I'd ever heard him."))
 		else:
-			lines.append(_tr("🏢  임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.", "🏢  I still grab gukbap with Boss Im Sangchul sometimes. We take turns paying."))
+			lines.append(_tr("임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.", "I still grab gukbap with Boss Im Sangchul sometimes. We take turns paying."))
 	elif ss == "cut_off":
-		lines.append(_tr("🏢  임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.", "🏢  Im Sangchul was investigated and vanished from the industry. That cafe seat comes to mind sometimes."))
+		lines.append(_tr("임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.", "Im Sangchul was investigated and vanished from the industry. That cafe seat comes to mind sometimes."))
 	elif ss == "strained":
-		lines.append(_tr("🏢  임상철 사장과는 그 일 이후 연락이 끊겼다.", "🏢  Boss Im Sangchul and I lost contact after that incident."))
+		lines.append(_tr("임상철 사장과는 그 일 이후 연락이 끊겼다.", "Boss Im Sangchul and I lost contact after that incident."))
 	elif ss != "unknown":
-		lines.append(_tr("🏢  부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.", "🏢  When I pass the realty office, I see Boss Im Sangchul. We remain people who only nod."))
+		lines.append(_tr("부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.", "When I pass the realty office, I see Boss Im Sangchul. We remain people who only nod."))
 
 	# 박재혁 — 그 제안의 끝
 	var hs := GameState.get_cast_stage("jaehyuk")
 	var hf := GameState.flags
 	if hs == "betrayed":
 		if hf.get("jaehyuk_stood_up", false):
-			lines.append(_tr("📱  박재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.", "📱  Betrayed by Park Jaehyuk. Account empty. Rock bottom. Afterward, I wrote down the things he used to say — the only thing left from someone who betrayed me. Started again from there."))
+			lines.append(_tr("박재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.", "Betrayed by Park Jaehyuk. Account empty. Rock bottom. Afterward, I wrote down the things he used to say — the only thing left from someone who betrayed me. Started again from there."))
 		elif hf.get("jaehyuk_night_was_real", false):
-			lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone. But I kept the photo from that night. Chose to believe it was real."))
+			lines.append(_tr("박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.", "Park Jaehyuk's number became a dead line. The money, and the man, both gone. But I kept the photo from that night. Chose to believe it was real."))
 		else:
-			lines.append(_tr("📱  박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "📱  Park Jaehyuk's number became a dead line. The money, and the man, both gone."))
+			lines.append(_tr("박재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "Park Jaehyuk's number became a dead line. The money, and the man, both gone."))
 	elif hs == "reported":
-		lines.append(_tr("📱  박재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.", "📱  I read that Park Jaehyuk was finally arrested. I felt neither satisfaction nor sorrow."))
+		lines.append(_tr("박재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.", "I read that Park Jaehyuk was finally arrested. I felt neither satisfaction nor sorrow."))
 	elif hs in ["partner_in_crime", "blackmailed"]:
-		lines.append(_tr("📱  박재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.", "📱  I never told anyone about Park Jaehyuk. I never will."))
+		lines.append(_tr("박재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.", "I never told anyone about Park Jaehyuk. I never will."))
 	elif hs == "trusted":
 		if hf.get("felt_jaehyuk_kindness", false):
-			lines.append(_tr("📱  박재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.", "📱  There was a day Park Jaehyuk handed me his card, no strings attached. I don't know if it was sincere. But I think that gesture, in that moment, was real."))
+			lines.append(_tr("박재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.", "There was a day Park Jaehyuk handed me his card, no strings attached. I don't know if it was sincere. But I think that gesture, in that moment, was real."))
 		else:
-			lines.append(_tr("📱  박재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.", "📱  Park Jaehyuk and I drifted apart. I still think sometimes about the day he helped without asking anything in return."))
+			lines.append(_tr("박재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.", "Park Jaehyuk and I drifted apart. I still think sometimes about the day he helped without asking anything in return."))
 	elif hs == "opening_up":
-		lines.append(_tr("📱  박재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.", "📱  There was a day Park Jaehyuk told me his story. Said he'd never told anyone. I remember the weight of it."))
+		lines.append(_tr("박재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.", "There was a day Park Jaehyuk told me his story. Said he'd never told anyone. I remember the weight of it."))
 	elif hs in ["suspect", "retreating", "guarded"]:
-		lines.append(_tr("📱  박재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.", "📱  I kept a careful distance from Park Jaehyuk. I think that was right."))
+		lines.append(_tr("박재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.", "I kept a careful distance from Park Jaehyuk. I think that was right."))
 	elif hs != "unknown":
-		lines.append(_tr("📱  박재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.", "📱  Park Jaehyuk reaches out now and then. Whether I answer depends on the day."))
+		lines.append(_tr("박재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.", "Park Jaehyuk reaches out now and then. Whether I answer depends on the day."))
 
 	# 강현수 — 고시원 옆방, 자기 길을 간 사람
 	var hyunsu_stage := GameState.get_cast_stage("hyunsu")
 	if hyunsu_stage in ["passed", "deployed", "friend"] or GameState.flags.get("hyunsu_reconnected", false):
 		if GameState.flags.get("called_hyunsu_for_help", false):
-			lines.append(_tr("🎓  바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.", "🎓  I called Hyunsu when I'd hit bottom. He just listened. A person who could listen without words — that was what I needed."))
+			lines.append(_tr("바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.", "I called Hyunsu when I'd hit bottom. He just listened. A person who could listen without words — that was what I needed."))
 		else:
-			lines.append(_tr("🎓  현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "🎓  Hyunsu became a civil servant. We're both doing all right. No more, no less."))
+			lines.append(_tr("현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "Hyunsu became a civil servant. We're both doing all right. No more, no less."))
 
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
