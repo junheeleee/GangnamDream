@@ -583,6 +583,10 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		await _save(prefix + "03b_ap_vignette")
 	_mg.current_event = {}
 	_mg.set("_transient_bg_active", false)
+	if _mg.has_method("_spawn_coin_burst"):
+		_mg.call("_spawn_coin_burst")
+		await _settle(0.12)
+		await _save(prefix + "03c_money_burst")
 	GameState.current_job = {}
 	GameState.monthly_income = 0.0
 	GameState.mental = 42

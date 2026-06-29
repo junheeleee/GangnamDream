@@ -3496,27 +3496,30 @@ func _pulse_node(node: Variant, scale_to: float = 1.08, duration: float = 0.28):
 
 func _spawn_coin_burst():
 	var vp := get_viewport_rect().size
-	for i in range(8):
-		var sym := "💰" if randf() > 0.35 else "✨"
-		var col := Color("#f0b429") if sym == "💰" else Color("#ffffff")
-		var lbl := Label.new()
-		lbl.text = sym
-		lbl.add_theme_font_size_override("font_size", 22 + randi() % 10)
-		lbl.add_theme_color_override("font_color", col)
+	var palette: Array[Color] = [Color("#f0b429"), Color("#e8e2d5"), Color("#8a6d2f")]
+	for i in range(12):
+		var shard := ColorRect.new()
+		shard.color = palette[randi() % palette.size()]
+		shard.size = Vector2(randf_range(8.0, 18.0), randf_range(2.0, 5.0))
+		shard.pivot_offset = shard.size * 0.5
 		var bx := vp.x * randf_range(0.35, 0.75)
 		var by := vp.y * randf_range(0.35, 0.65)
-		lbl.position = Vector2(bx, by)
-		lbl.z_index = 200
-		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		add_child(lbl)
+		shard.position = Vector2(bx, by)
+		shard.rotation = randf_range(-0.8, 0.8)
+		shard.z_index = 200
+		shard.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		shard.modulate.a = randf_range(0.72, 0.95)
+		add_child(shard)
 		var tw := create_tween()
 		var rise := randf_range(-120.0, -60.0)
 		var drift := randf_range(-40.0, 40.0)
-		tw.tween_property(lbl, "position", Vector2(bx + drift, by + rise), 0.9) \
+		tw.tween_property(shard, "position", Vector2(bx + drift, by + rise), 0.9) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.9) \
+		tw.parallel().tween_property(shard, "rotation", shard.rotation + randf_range(-1.6, 1.6), 0.9) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.parallel().tween_property(shard, "modulate:a", 0.0, 0.9) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		tw.tween_callback(lbl.queue_free)
+		tw.tween_callback(shard.queue_free)
 
 func _spawn_float(text: String, color: Color, index: int):
 	var lbl = Label.new()
