@@ -1391,6 +1391,7 @@ func _build_goal_bar(parent: Control) -> void:
 	row.add_child(_goal_pct_label)
 
 	var goal_lbl = _label(_tr("목표 30억", "Goal KRW 3B"), 11, COL_GOLD_DIM)
+	goal_lbl.tooltip_text = _tr("강남 입성 목표", "Gangnam means Seoul's status district.")
 	goal_lbl.custom_minimum_size = Vector2(92, 0)
 	goal_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(goal_lbl)
@@ -1501,12 +1502,12 @@ func _show_tutorial() -> void:
 
 	var intro_lbl := _wrap_label(
 	_tr("33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.",
-		"Age 33, KRW 500K in the bank. Build KRW 3B in assets within 5 years and make it to Gangnam."),
+		"Age 33, KRW 500K in the bank. Build KRW 3B in assets within 5 years and make it to Gangnam, Seoul's status district."),
 	14, "#d8deea")
 	if _font_bold:
 		intro_lbl.add_theme_font_override("font", _font_bold)
 	modal_body.add_child(intro_lbl)
-	modal_body.add_child(_tutorial_card("goal", _tr("목표", "Goal"), _tr("자산 30억. 시간은 60개월뿐입니다.", "KRW 3B in assets. You have only 60 months."), "#f0b429"))
+	modal_body.add_child(_tutorial_card("goal", _tr("목표", "Goal"), _tr("자산 30억. 시간은 60개월뿐입니다.", "KRW 3B in assets. Gangnam is the status symbol. You have only 60 months."), "#f0b429"))
 	modal_body.add_child(_tutorial_card("ap", _tr("행동", "Actions"), _tr("매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.", "Each week, spend AP on Job Hunt, Invest, Self-Dev, Rest, or mini-games."), "#5b9cf6"))
 	modal_body.add_child(_tutorial_card("invest", _tr("방향", "Approach"), _tr("안정 루트는 느리지만 버팁니다. 속도 루트는 빠르지만 한 번에 무너질 수 있습니다.", "The steady route is slow but durable. The fast route is quick but can collapse in one blow."), "#00c896"))
 	modal_body.add_child(_tutorial_card("health", _tr("위험", "Danger"), _tr("건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.", "It's over if Health/Mental hits 0, or if debt exceeds -KRW 100M."), "#ff6b6b"))
@@ -4176,7 +4177,7 @@ func _render_ap_actions():
 		hint_text = _tr("첫 월급 수령 — 이제 투자 메뉴가 열렸습니다.", "First paycheck received — Invest is now available.")
 		hint_color = "#c8cdd4"
 	elif GameState.tutorial_step == 0 and GameState.turn <= 4:
-		hint_text = _tr("목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "Goal: KRW 3B assets → enter Gangnam (%d years left)") % max(0, 38 - GameState.age)
+		hint_text = _tr("목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "Goal: KRW 3B assets → reach Seoul's status district (%d years left)") % max(0, 38 - GameState.age)
 		hint_color = "#b9bec7"
 
 	if not hint_text.is_empty():
@@ -6930,7 +6931,7 @@ func _show_demo_ending():
 	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
 	modal_body.add_child(_wrap_label(_tr("총자산  %s", "Total Assets  %s") % GameState.format_money(total_assets), 16, asset_color))
 	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Gangnam Dream KRW 3B goal  %.3f%%  reached") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
+	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Gangnam, Seoul's status district  %.3f%%  reached") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
 
 	var sep3 = HSeparator.new()
 	sep3.add_theme_color_override("color", Color("#252535"))

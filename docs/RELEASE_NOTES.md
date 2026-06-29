@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added/Changed (2026-06-29) — Gangnam meaning English onboarding pass
+
+- Added short English onboarding copy that defines Gangnam as Seoul's status district/status symbol without turning the opening into exposition.
+- Updated the splash, opening cinematic, start menu, first tutorial, goal hint, and demo record progress copy so foreign players understand why Gangnam matters.
+- Documented the translation rule: first major exposure may explain Gangnam, later UI can keep the proper noun.
+
 ### Added/Changed (2026-06-29) — Month summary surface pass
 
 - Replaced month-summary grade emoji with compact monochrome text badges (`LOG`, `OK`, `TOP`, `HOLD`, `RISK`).

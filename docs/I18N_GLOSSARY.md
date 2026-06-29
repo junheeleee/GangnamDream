@@ -6,6 +6,7 @@
 | 한국어 | English |
 |---|---|
 | 강남드림 | Gangnam Dream |
+| 강남 | Gangnam |
 | 김민준 | Kim Minjun |
 | 행동력(AP) | Action Points (AP) |
 | 구직활동 | Job Hunt |
@@ -49,3 +50,8 @@
 - 간결한 게임 UI 영어. 마침표 최소화.
 - 이모지·BBCode `[color]`·`%d/%s` 포맷 지정자·`\n`는 **절대 변경 금지**, 위치 보존.
 - `{name}` `{housing}` 토큰 보존.
+
+## 문화 설명 원칙
+- `Gangnam`은 고유명사로 유지한다.
+- 외국인 초견 구간의 첫 주요 노출에서는 짧게 의미를 풀어준다: `Gangnam, Seoul's status district`, `Seoul's status symbol`, `wealth, status, arrival`.
+- 이후 반복 UI에서는 설명을 계속 늘이지 말고 `Gangnam` 또는 `Gangnam Dream`으로 돌아간다.

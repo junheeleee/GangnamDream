@@ -23,7 +23,7 @@ const CARDS = [
 	},
 	{
 		"text": "강남드림.",
-		"sub": "",
+		"sub": "그곳은 주소가 아니라,\n도착했다는 증명처럼 불린다.",
 		"hold": 2.8,
 		"size": 52,
 	},
@@ -61,7 +61,7 @@ const CARDS_EN = [
 	},
 	{
 		"text": "The average Gangnam apartment\nhas crossed KRW 3 billion.",
-		"sub": "At minimum wage, saving every won would take 82 years.",
+		"sub": "Gangnam is Seoul's shorthand for wealth, status, and arrival.\nAt minimum wage, saving every won would take 82 years.",
 		"hold": 3.5,
 		"size": 30,
 	},
@@ -73,7 +73,7 @@ const CARDS_EN = [
 	},
 	{
 		"text": "Gangnam Dream.",
-		"sub": "",
+		"sub": "Not just a place.\nProof that you made it.",
 		"hold": 2.8,
 		"size": 52,
 	},
@@ -91,7 +91,7 @@ const CARDS_EN = [
 	},
 	{
 		"text": "Your next five years begin now.",
-		"sub": "Start with KRW 500K. Reach KRW 3B before 38.\nNo guide. Start with the next choice.",
+		"sub": "Start with KRW 500K. Reach Seoul's status district before 38.\nNo guide. Start with the next choice.",
 		"hold": -1,
 		"size": 32,
 		"stats": [

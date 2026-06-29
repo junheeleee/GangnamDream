@@ -348,7 +348,7 @@ func _build_ui():
 	title_vb.add_child(title_lbl)
 	var sub_lbl = _label(_tr(
 		"한국 인생 시뮬레이션  ·  38세 전에 자산 30억",
-		"Korean life sim  ·  Build KRW 3B before age 38"), 10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT)
+		"Korean life sim  ·  KRW 3B to Seoul's status district"), 10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT)
 	sub_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	sub_lbl.clip_text = false
 	title_vb.add_child(sub_lbl)
@@ -402,7 +402,7 @@ func _build_ui():
 		+ "[color=#e8eaf0][b]38살이 되기 전에, 강남에 입성한다.[/b][/color]\n"
 		+ "[color=#6a7888]불가능하다는 걸 안다.  그래서 시작한다.[/color]",
 		"[color=#b0bcd0][b]Kim Minjun, 33.[/b]  Six years of his father's debt.  Only KRW 500K remains.[/color]\n\n"
-		+ "[color=#e8eaf0][b]Before turning 38, he will enter Gangnam.[/b][/color]\n"
+		+ "[color=#e8eaf0][b]Before turning 38, he will enter Gangnam, Seoul's status district.[/b][/color]\n"
 		+ "[color=#6a7888]He knows it is impossible.  That is why he starts.[/color]")
 	story_panel.add_child(story_rtl)
 	left.add_child(story_panel)

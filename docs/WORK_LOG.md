@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex Gangnam Meaning EN Onboarding Pass)
+
+### 수정
+- `scenes/SplashScreen.gd`: 영어 스플래시 서브타이틀을 `SEOUL STATUS LIFE SIM`으로 바꾸고, 하단 문구에 `Gangnam means wealth, status, arrival`를 추가했다. 설명 대비도 살짝 올려 첫 화면에서 읽히게 했다.
+- `scenes/OpeningCinematic.gd`: 영어 오프닝 초반에 `Gangnam is Seoul's shorthand for wealth, status, and arrival`를 추가하고, `Gangnam Dream` 카드에 `Not just a place. Proof that you made it.`을 넣었다. 마지막 카드도 `Reach Seoul's status district before 38`로 보정했다.
+- `scenes/StartMenu.gd`: 시작 메뉴 헤더와 주인공 소개 문장에 `Seoul's status district`를 넣어 외국인 플레이어가 강남을 단순 지명이 아니라 계급 상승 상징으로 읽게 했다.
+- `scenes/MainGame.gd`: 첫 튜토리얼/목표 힌트/목표 툴팁/데모 기록 진행 문구에서 `Gangnam`의 의미를 짧게 보강했다.
+- `docs/I18N_GLOSSARY.md`: `Gangnam` 번역 원칙을 추가했다. 첫 노출은 `Seoul's status district` 또는 `Seoul's status symbol`로 풀고, 이후에는 고유명사 `Gangnam`을 유지한다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. `demo_en_blackbox_00_splash`, `demo_en_blackbox_00_opening_final`, `demo_en_blackbox_02_start_menu` 직접 확인: 문장 잘림 없음, 목표 의미 노출 정상.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Month Summary Surface Pass)
 
 ### 수정
