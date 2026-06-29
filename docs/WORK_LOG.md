@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-06-29 (Codex English Copy Micro-Polish Pass)
+
+### 수정
+- `content/events_en/arc_events.json`: 첫 면접 시작 문장 `A job app led to this.`가 모바일 앱처럼 읽힐 수 있어 `A job posting led to this.`로 보정했다.
+- `scenes/MainGame.gd`: 데모 종료 기록창 진행률 문구를 `Progress to Gangnam (Seoul's status district): %.3f%%`로 정리했다. 직전 온보딩 패스의 강남 의미 설명과 연결하면서도 기록창에서는 한 줄로 읽히게 했다.
+
+### 검증
+- `ScreenshotQA.tscn -- --qa=demo-blackbox --lang=en` 실행 완료. `demo_en_blackbox_arc_intro_01_meal`, `demo_en_blackbox_04_demo_ending_cta` 직접 확인: 첫 면접 문장과 데모 진행률 문구 정상.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, Godot 컴파일 클린.
+- `python3 tools/english_hangul_audit.py` 통과: content/runtime 한글 누수 0건.
+
+---
+
 ## 2026-06-29 (Codex Gangnam Meaning EN Onboarding Pass)
 
 ### 수정

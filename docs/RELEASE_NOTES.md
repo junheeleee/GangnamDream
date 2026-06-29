@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Fixed (2026-06-29) — English demo copy micro-polish
+
+- Changed the first interview line from `A job app led to this` to `A job posting led to this` so it does not read like a mobile app caused the scene.
+- Tightened the demo record progress line to `Progress to Gangnam (Seoul's status district): ...` for clearer English onboarding continuity.
+
 ### Added/Changed (2026-06-29) — Gangnam meaning English onboarding pass
 
 - Added short English onboarding copy that defines Gangnam as Seoul's status district/status symbol without turning the opening into exposition.

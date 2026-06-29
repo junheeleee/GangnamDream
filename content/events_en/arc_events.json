@@ -17,7 +17,7 @@
       "intro"
     ],
     "cooldown": 9999,
-    "description": "A job app led to this.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industry Technology Co., Ltd.' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
+    "description": "A job posting led to this.\n\nA small office in Mapo-gu. Third floor. No elevator.\nThe sign reads 'Mirae Industry Technology Co., Ltd.' — nothing comes up when you search for them.\n\nThe interviewer was a woman in her early forties. She picked up the résumé, adjusted her glasses, and read slowly.\nThe AC hummed loudly. A motorcycle passed outside.\n\n'There's a six-year gap here.'\n\nShe set the résumé down and looked at {name}.\n'What were you doing?'\n\nCan't say 'paying off debt.' Six years, from twenty-seven to thirty-three, covering for a father who co-signed the wrong loan.\nHow do you put six years into one sentence.\n\n{name}'s palms were sweating.",
     "choices": [
       {
         "text": "Tell the truth — 'There were family circumstances.'",

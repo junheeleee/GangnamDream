@@ -6931,7 +6931,7 @@ func _show_demo_ending():
 	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
 	modal_body.add_child(_wrap_label(_tr("총자산  %s", "Total Assets  %s") % GameState.format_money(total_assets), 16, asset_color))
 	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Gangnam, Seoul's status district  %.3f%%  reached") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
+	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Progress to Gangnam (Seoul's status district): %.3f%%") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
 
 	var sep3 = HSeparator.new()
 	sep3.add_theme_color_override("color", Color("#252535"))
