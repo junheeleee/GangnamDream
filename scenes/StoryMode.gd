@@ -16,13 +16,6 @@ const C_NARRATION := "#d8dce8"
 const C_DIM       := "#8892a4"
 const C_CHOICE    := "#c8d0e0"
 
-const _SM_STAT_EMOJI = {
-	"health": "❤", "mental": "🧠", "money": "💰",
-	"intelligence": "📖", "social_skill": "🤝",
-	"investment_skill": "📈", "luck": "🍀",
-	"appearance": "✨", "reputation": "⭐",
-}
-
 # ── 상태 ──────────────────────────────────────────────────────
 var _queue: Array = []          # 재생할 이벤트 ID 목록
 var _current: Dictionary = {}   # 현재 이벤트
@@ -710,12 +703,12 @@ func _choice_effect_preview(choice: Dictionary) -> String:
 		var val: int = int(merged[key])
 		if val == 0:
 			continue
-		var emoji: String = _SM_STAT_EMOJI.get(key, "")
+		var stat_name: String = _stat_display_name(key, str(STAT_INFO.get(key, {}).get("name", key)))
 		var sign: String = "+" if val > 0 else ""
 		if key == "money":
-			parts.append("%s%s%s" % [emoji, sign, GameState.format_money(float(val))])
+			parts.append("%s %s%s" % [stat_name, sign, GameState.format_money(float(val))])
 		else:
-			parts.append("%s%s%d" % [emoji, sign, val])
+			parts.append("%s %s%d" % [stat_name, sign, val])
 		if parts.size() >= 4:
 			break
 	return "  ".join(parts)
@@ -993,15 +986,15 @@ func _snapshot_stats() -> Dictionary:
 		"luck": GameState.luck,
 	}
 
-# 스탯 표시 정보: 이모지 + 한글 이름
+# 스탯 표시 정보: 한글/영문 이름
 const STAT_INFO = {
-	"money":            {"icon": "💰", "name": "돈", "name_en": "Money"},
-	"health":           {"icon": "❤", "name": "건강", "name_en": "Health"},
-	"mental":           {"icon": "🧠", "name": "정신력", "name_en": "Mental"},
-	"intelligence":     {"icon": "📚", "name": "지력", "name_en": "Intelligence"},
-	"social_skill":     {"icon": "🤝", "name": "사회성", "name_en": "Social"},
-	"investment_skill": {"icon": "📈", "name": "투자감각", "name_en": "Investing"},
-	"luck":             {"icon": "🍀", "name": "운", "name_en": "Luck"},
+	"money":            {"name": "돈", "name_en": "Money"},
+	"health":           {"name": "건강", "name_en": "Health"},
+	"mental":           {"name": "정신력", "name_en": "Mental"},
+	"intelligence":     {"name": "지력", "name_en": "Intelligence"},
+	"social_skill":     {"name": "사회성", "name_en": "Social"},
+	"investment_skill": {"name": "투자감각", "name_en": "Investing"},
+	"luck":             {"name": "운", "name_en": "Luck"},
 }
 const CAST_NAME_EN = {
 	"father": "Father", "jiyeon": "Han Jiyeon", "daeun": "Kim Daeun",
@@ -1033,13 +1026,13 @@ func _show_change_toasts(before: Dictionary):
 		var diff = now - before[key]
 		if abs(diff) < 0.01:
 			continue
-		var info = STAT_INFO.get(key, {"icon": "·", "name": key})
+		var info = STAT_INFO.get(key, {"name": key})
 		var disp_name = _stat_display_name(key, str(info["name"]))
 		var txt = ""
 		if key == "money":
-			txt = "%s %s  %s%s" % [info["icon"], disp_name, "+" if diff > 0 else "-", GameState.format_money(abs(diff))]
+			txt = "%s  %s%s" % [disp_name, "+" if diff > 0 else "-", GameState.format_money(abs(diff))]
 		else:
-			txt = "%s %s  %s%d" % [info["icon"], disp_name, "+" if diff > 0 else "", int(diff)]
+			txt = "%s  %s%d" % [disp_name, "+" if diff > 0 else "", int(diff)]
 		# 스트레스는 +가 나쁨
 		var good = diff > 0
 		if key == "stress":

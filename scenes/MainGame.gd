@@ -3322,14 +3322,6 @@ const _STAT_EN = {
 	"money": "KRW", "addiction_tendency": "Addiction",
 }
 
-const _STAT_EMOJI = {
-	"health": "❤", "mental": "🧠",
-	"intelligence": "📖", "social_skill": "🤝",
-	"investment_skill": "📈", "luck": "🍀",
-	"appearance": "✨", "reputation": "⭐",
-	"money": "💰",
-}
-
 ## 선택지 효과 미리보기 한 줄 요약 (Disco Elysium 스타일)
 func _choice_effects_preview(choice: Dictionary) -> String:
 	var eff: Dictionary = choice.get("effects", {})
@@ -3353,12 +3345,12 @@ func _choice_effects_preview(choice: Dictionary) -> String:
 		var val: int = int(merged[key])
 		if val == 0:
 			continue
-		var emoji: String = _STAT_EMOJI.get(key, "")
+		var stat_name: String = str(_STAT_EN.get(key, key)) if LocaleManager.is_english() else str(_STAT_KR.get(key, key))
 		var sign: String = "+" if val > 0 else ""
 		if key == "money":
-			parts.append("%s%s%s" % [emoji, sign, GameState.format_money(float(val))])
+			parts.append("%s %s%s" % [stat_name, sign, GameState.format_money(float(val))])
 		else:
-			parts.append("%s%s%d" % [emoji, sign, val])
+			parts.append("%s %s%d" % [stat_name, sign, val])
 		if parts.size() >= 4:
 			break
 	if parts.is_empty():
