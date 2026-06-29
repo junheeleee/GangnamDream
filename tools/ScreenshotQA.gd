@@ -498,6 +498,7 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	_seed_info_panel_state(lang)
 	await _boot_main_game()
 	_mg.current_event = {}
+	_seed_ap_action_log_surface_samples(lang)
 	if _mg.has_method("_render_ap_actions"):
 		_mg._render_ap_actions()
 	if _mg.has_method("_finish_typing"):
@@ -1089,6 +1090,16 @@ func _shot_info_panel_tabs(lang: String = "ko", prefix: String = "") -> void:
 		_mg._toggle_info_panel()
 	await _settle(0.3)
 
+func _seed_ap_action_log_surface_samples(_lang: String = "ko") -> void:
+	if not is_instance_valid(_mg):
+		return
+	var samples := [
+		_tr("✓ 💼 알바 시프트 — 피곤하지만 버텼다", "✓ 💼 Gig shift — held it together"),
+		_tr("✓ 📈 투자 → KOSPI ETF 매수", "✓ 📈 Invest → bought KOSPI ETF"),
+		_tr("✓ 🎰 정선 카지노", "✓ 🎰 Jeongseon Casino"),
+	]
+	_mg.set("turn_action_log", samples)
+
 func _seed_info_panel_state(lang: String = "ko") -> void:
 	if lang == "en":
 		GameState.relationships = [
@@ -1114,6 +1125,11 @@ func _seed_info_panel_state(lang: String = "ko") -> void:
 	GameState.flags["met_daeun"] = true
 	GameState.flags["arc_daeun_01_seen"] = true
 	GameState.run_theme = "steady_climb"
+	if not bool(GameState.flags.get("_qa_surface_logs_seeded", false)):
+		GameState.flags["_qa_surface_logs_seeded"] = true
+		GameState.add_log(_tr("💼 알바 시프트 수입 8만원 (건강 62→58, 정신력 -3)", "💼 Gig shift income KRW 80K [urgent] (Health 62→58, Mental -3)"), "event")
+		GameState.add_log(_tr("📈 투자 → KOSPI ETF 매수 50만원", "📈 Invest → bought KOSPI ETF KRW 500K"), "trade")
+		GameState.add_log(_tr("✨ 성향 자각 — 버티는 사람", "✨ Disposition Realized — steady climber"), "system")
 
 func _seed_cast_state() -> void:
 	for data in [

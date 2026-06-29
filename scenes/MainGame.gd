@@ -1650,14 +1650,29 @@ func _show_toast(message: String, color: Color = Color("#8892a4")):
 	toast.show_message(_clean_surface_message(message), color)
 
 func _clean_surface_message(message: String) -> String:
-	var out := message
+	var out := str(message)
 	for token in [
-		"🚨 ", "⚠️ ", "⚠ ", "💾 ", "💳 ", "🔓 ", "⚡ ", "🤝 ",
-		"🏦 ", "🏠 ", "📖 ", "👔 ", "📈 ", "📉 ", "🛒 ",
-		"✨ ", "💼 ", "🎉 ",
+		"🚨", "⚠️", "⚠", "💾", "💳", "🔓", "⚡", "🤝",
+		"🏦", "🏠", "📖", "📚", "👔", "📈", "📉", "🛒",
+		"✨", "💼", "🎉", "💰", "🏇", "🃏", "🎰", "🚀",
+		"🎬", "🖊", "🌊", "🔭", "🏃", "🧘", "📊", "🎯",
+		"✅", "💡", "📋", "🔒", "🏆", "😰", "📱", "💙",
+		"🍺", "💎", "👨", "⭐", "💭", "🔎", "🆘", "🔥",
+		"💸", "🎲",
 	]:
+		out = out.replace(token + " ", "")
 		out = out.replace(token, "")
 	return out.strip_edges()
+
+func _clean_log_surface_text(value: Variant) -> String:
+	var out := _clean_surface_message(str(value))
+	out = out.replace("✓ ", "• ")
+	out = out.replace("✓", "•")
+	out = out.replace("  ", " ")
+	return out.strip_edges()
+
+func _escape_bbcode_text(value: Variant) -> String:
+	return str(value).replace("[", "(").replace("]", ")")
 
 func _begin_month():
 	GameState.restore_ap()
@@ -3278,8 +3293,7 @@ func _refresh_all():
 	# ── 탑바 바이탈 HUD 갱신 ─────────────────────────
 	_refresh_vitals()
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
-	var h = GameState.get_housing_info()
-	stat_labels["housing"].text = "%s %s" % [h.get("emoji",""), GameState.get_housing_display_name(GameState.housing)]
+	stat_labels["housing"].text = GameState.get_housing_display_name(GameState.housing)
 
 	# 배경 + 초상화 업데이트
 	_update_event_bg()
@@ -4006,7 +4020,7 @@ func _refresh_arc_box() -> void:
 		t_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		t_box.add_theme_constant_override("separation", 6)
 		t_card.add_child(t_box)
-		t_box.add_child(_label("💭 " + str(th.get("title", tid)), 15, "#f0d9a8"))
+		t_box.add_child(_label(str(th.get("title", tid)), 15, "#f0d9a8"))
 		t_box.add_child(_wrap_label(str(th.get("description", "")), 13, "#b8a878"))
 		var turns: int = int(th.get("processing_turns", 1))
 		var start_btn: Button = _small_button(_tr("생각 정리 시작 (%d주)", "Start working it out (%d wk)") % turns, "#5a4a1e")
@@ -4036,7 +4050,7 @@ func _refresh_arc_box() -> void:
 			c_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			c_box.add_theme_constant_override("separation", 4)
 			c_card.add_child(c_box)
-			c_box.add_child(_label("🔎 " + str(c.get("title", cid)), 14, "#cdd9a8"))
+			c_box.add_child(_label(str(c.get("title", cid)), 14, "#cdd9a8"))
 			c_box.add_child(_wrap_label(str(c.get("text", "")), 12, "#9aa888"))
 			arc_box.add_child(c_card)
 
@@ -4077,8 +4091,8 @@ func _render_log():
 	for entry in GameState.action_log.slice(max(0, GameState.action_log.size() - 16)):
 		var t = entry.get("type", "system")
 		var color = type_colors.get(t, "#5a6075")
-		var date_str = entry.get("date", "")
-		var msg = entry.get("message", "")
+		var date_str: String = _escape_bbcode_text(entry.get("date", ""))
+		var msg: String = _escape_bbcode_text(_clean_log_surface_text(entry.get("message", "")))
 		lines.append("[color=%s][%s] %s[/color]" % [color, date_str, msg])
 	log_box.text = "\n".join(lines)
 
@@ -4106,7 +4120,7 @@ func _render_ap_actions():
 	lines.append("")
 	if not turn_action_log.is_empty():
 		for entry in turn_action_log:
-			lines.append(entry)
+			lines.append(_escape_bbcode_text(_clean_log_surface_text(entry)))
 		lines.append("──────────────────")
 	var net_sign = "+" if net >= 0 else ""
 	var net_flag = _tr("  [color=#ff7070]← 월 고정비 적자 주의[/color]", "  [color=#ff7070]← fixed-cost deficit warning[/color]") if net < 0 else ""
@@ -8118,13 +8132,7 @@ func _month_grade_badge_text(emoji: String) -> String:
 			return "RUN"
 
 func _clean_month_summary_entry(entry: Variant) -> String:
-	var out := str(entry)
-	for token in ["💼 ", "📈 ", "📚 ", "📖 ", "🏃 ", "🧘 ", "📊 ", "🎯 ", "🖊 ", "🌊 ", "🎰 ", "🏇 ", "🃏 ", "🤝 ", "💰 ", "🚀 ", "✨ "]:
-		out = out.replace(token, "")
-	out = out.replace("✓ ", "• ")
-	out = out.replace("✅ ", "")
-	out = out.replace("✅", "")
-	return out.strip_edges()
+	return _clean_log_surface_text(entry)
 
 ## A-1: 관계 연락 후 인물 리액션을 스토리 영역에 표시
 func _show_contact_reaction(pname: String, flavor: String, accent: Color):
