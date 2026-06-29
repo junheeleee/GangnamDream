@@ -321,6 +321,7 @@ func _get_questions() -> Array:
 func _clear_content() -> void:
 	for ch in _content_vb.get_children():
 		ch.queue_free()
+	_content_vb.alignment = BoxContainer.ALIGNMENT_BEGIN
 	_q_lbl = null
 	_hint_lbl = null
 	_choice_vb = null
@@ -333,13 +334,14 @@ func _build_base_ui() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.color = Color(COL_BG)
 	add_child(bg)
+	_add_room_surface()
 
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 
 	var frame := PanelContainer.new()
-	frame.custom_minimum_size = Vector2(980, 610)
+	frame.custom_minimum_size = Vector2(980, 520)
 	var frame_style := StyleBoxFlat.new()
 	frame_style.bg_color = Color(COL_PANEL)
 	frame_style.border_color = Color(COL_LINE)
@@ -393,7 +395,7 @@ func _start_common() -> void:
 		_timer_bar.show_percentage = false
 		_timer_bar.custom_minimum_size = Vector2(0, 8)
 		var fill := StyleBoxFlat.new()
-		fill.bg_color = Color(COL_TEXT_DIM)
+		fill.bg_color = Color("#565d55")
 		_timer_bar.add_theme_stylebox_override("fill", fill)
 		var bg := StyleBoxFlat.new()
 		bg.bg_color = Color("#1a1a1c")
@@ -401,6 +403,8 @@ func _start_common() -> void:
 		bg.set_border_width_all(1)
 		_timer_bar.add_theme_stylebox_override("background", bg)
 		_content_vb.add_child(_timer_bar)
+
+	_content_vb.add_child(_make_scene_strip())
 
 	# 질문 텍스트
 	_q_lbl = Label.new()
@@ -471,7 +475,7 @@ func _show_question() -> void:
 				_hint_lbl.add_theme_color_override("font_color", Color(COL_TEXT_FAINT))
 			# 타이머 바 색상 리셋
 			var fill := StyleBoxFlat.new()
-			fill.bg_color = Color(COL_TEXT_DIM)
+			fill.bg_color = Color("#565d55")
 			_timer_bar.add_theme_stylebox_override("fill", fill)
 
 func _on_choose(choice_idx: int) -> void:
@@ -530,6 +534,7 @@ func _on_timeout() -> void:
 func _show_result() -> void:
 	set_process(false)
 	_clear_content()
+	_content_vb.alignment = BoxContainer.ALIGNMENT_CENTER
 	_progress_lbl.text = LocaleManager.ui("완료", "Done")
 
 	var questions := _get_questions()
@@ -657,6 +662,75 @@ func _make_btn(text: String, bg_hex: String, font_size: int) -> Button:
 	btn.add_theme_color_override("font_disabled_color", Color(COL_TEXT_FAINT))
 	btn.add_theme_font_size_override("font_size", font_size)
 	return btn
+
+func _add_room_surface() -> void:
+	var layer := Control.new()
+	layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(layer)
+
+	var wash := ColorRect.new()
+	wash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	wash.color = Color("#0b0b0d", 0.64)
+	wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(wash)
+
+	_add_surface_rect(layer, Vector2(0.12, 0.14), Vector2(0.88, 0.145), Color("#23242a", 0.18))
+	_add_surface_rect(layer, Vector2(0.16, 0.22), Vector2(0.84, 0.225), Color("#1a1b20", 0.20))
+	_add_surface_rect(layer, Vector2(0.16, 0.78), Vector2(0.84, 0.785), Color("#25201a", 0.26))
+	_add_surface_rect(layer, Vector2(0.22, 0.81), Vector2(0.78, 0.815), Color("#191714", 0.34))
+
+	for x in [0.18, 0.34, 0.66, 0.82]:
+		_add_surface_rect(layer, Vector2(x, 0.18), Vector2(x, 0.76), Color("#151820", 0.20), Vector2(1, 0))
+	for x in [0.27, 0.73]:
+		_add_surface_rect(layer, Vector2(x, 0.30), Vector2(x, 0.72), Color("#1f1d18", 0.22), Vector2(2, 0))
+
+	_add_surface_rect(layer, Vector2(0.36, 0.10), Vector2(0.64, 0.105), Color("#c8c2ad", 0.08))
+	_add_surface_rect(layer, Vector2(0.38, 0.125), Vector2(0.62, 0.127), Color("#c8c2ad", 0.05))
+
+func _make_scene_strip() -> Panel:
+	var strip := Panel.new()
+	strip.custom_minimum_size = Vector2(0, 86)
+	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b0b0d")
+	st.border_color = Color("#232329")
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(3)
+	strip.add_theme_stylebox_override("panel", st)
+
+	_add_surface_rect(strip, Vector2(0.05, 0.16), Vector2(0.95, 0.17), Color("#2d2c28", 0.55))
+	_add_surface_rect(strip, Vector2(0.06, 0.74), Vector2(0.94, 0.80), Color("#1f1b16", 0.72))
+	_add_surface_rect(strip, Vector2(0.08, 0.82), Vector2(0.92, 0.86), Color("#11100e", 0.85))
+
+	if _mode == Mode.INTERVIEW:
+		for x in [0.32, 0.50, 0.68]:
+			_add_surface_rect(strip, Vector2(x - 0.018, 0.31), Vector2(x + 0.018, 0.42), Color("#1a1b1f", 0.82))
+			_add_surface_rect(strip, Vector2(x - 0.052, 0.45), Vector2(x + 0.052, 0.67), Color("#15161a", 0.78))
+			_add_surface_rect(strip, Vector2(x - 0.066, 0.67), Vector2(x + 0.066, 0.70), Color("#24211b", 0.56))
+		_add_surface_rect(strip, Vector2(0.20, 0.24), Vector2(0.80, 0.25), Color("#c8c2ad", 0.08))
+	else:
+		for x in [0.25, 0.39, 0.53]:
+			_add_surface_rect(strip, Vector2(x, 0.27), Vector2(x + 0.10, 0.66), Color("#c8c2ad", 0.07))
+			_add_surface_rect(strip, Vector2(x + 0.018, 0.36), Vector2(x + 0.082, 0.37), Color("#c8c2ad", 0.12))
+			_add_surface_rect(strip, Vector2(x + 0.018, 0.47), Vector2(x + 0.072, 0.48), Color("#c8c2ad", 0.10))
+			_add_surface_rect(strip, Vector2(x + 0.018, 0.58), Vector2(x + 0.088, 0.59), Color("#c8c2ad", 0.08))
+	return strip
+
+func _add_surface_rect(parent: Control, start_anchor: Vector2, end_anchor: Vector2, color: Color, offsets: Vector2 = Vector2.ZERO) -> void:
+	var rect := ColorRect.new()
+	rect.anchor_left = start_anchor.x
+	rect.anchor_top = start_anchor.y
+	rect.anchor_right = end_anchor.x
+	rect.anchor_bottom = end_anchor.y
+	rect.offset_left = 0
+	rect.offset_top = 0
+	rect.offset_right = maxf(1.0, offsets.x)
+	rect.offset_bottom = maxf(1.0, offsets.y)
+	rect.color = color
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(rect)
 
 func _loc(data: Dictionary, key: String) -> String:
 	var en_key := "%s_en" % key
