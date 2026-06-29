@@ -216,7 +216,7 @@ func _build_splash():
 	vbox.add_child(logo)
 
 	var sub = Label.new()
-	sub.text = "KOREAN LIFE ROGUELIKE"
+	sub.text = "KOREAN LIFE SIM"
 	sub.add_theme_font_size_override("font_size", 15)
 	sub.add_theme_color_override("font_color", Color("#2e3050"))
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

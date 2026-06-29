@@ -2710,7 +2710,7 @@ func _next_milestone_id() -> String:
 		return "age_39_final"
 	return ""
 
-# ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
+# ── 월별 위기/호재 시스템 ─────────────────────────────────
 
 func _roll_monthly_crisis() -> Dictionary:
 	var roll = randf()

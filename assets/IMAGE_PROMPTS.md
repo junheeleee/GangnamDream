@@ -123,7 +123,7 @@ Portrait of a Korean male in his mid-20s, same character as the existing neutral
 **저장 경로**: `icon.png` (프로젝트 루트)
 
 ```
-App icon for a Korean mobile roguelike game called 강남드림 (Gangnam Dream). Dark charcoal background. Seoul building skyline silhouette at the bottom. The Korean text 강남드림 in a bold clean font centered. Warm gold and cool blue accent colors. Minimalist and clean enough to read at small sizes. No people, no characters — just the title and cityscape. 1024x1024. Modern Korean indie game aesthetic.
+App icon for a Korean interactive drama / life sim called 강남드림 (Gangnam Dream). Dark charcoal background. Seoul building skyline silhouette at the bottom. The Korean text 강남드림 in a bold clean font centered. Warm gold and cool blue accent colors. Minimalist and clean enough to read at small sizes. No people, no characters — just the title and cityscape. 1024x1024. Modern Korean indie game aesthetic.
 ```
 
 **용도**: Godot 프로젝트 아이콘, 스토어 아이콘

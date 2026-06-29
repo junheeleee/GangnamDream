@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-30** — **Codex Start Notice CTA Surface Pass**: 시작 전 콘텐츠 안내 모달의 `Understood` 확인 버튼이 순백 웹 버튼처럼 보이던 문제 수정. 어두운 잉크 버튼+좌측 스트립+포커스 테두리로 맞춰 시작 메뉴/데모 CTA와 같은 버튼 질감으로 통일했다. `tools/audit.sh`, `ScreenshotQA --qa=start-en` 직접 확인. |
+| **최근 완료** | **2026-06-30** — **Codex Genre Label Alignment Pass**: 시작 스플래시에 남아 있던 `KOREAN LIFE ROGUELIKE`와 현재 제품/정본 문서의 로그라이크 표기를 제거하고 `KOREAN LIFE SIM`, interactive drama / life sim 방향으로 정리. `roguelike/로그라이크` 현재 표면·정본 검색 0건, `tools/audit.sh`, `ScreenshotQA --qa=start-en` 직접 확인. |
+| **이전** | **2026-06-30** — **Codex Start Notice CTA Surface Pass**: 시작 전 콘텐츠 안내 모달의 `Understood` 확인 버튼이 순백 웹 버튼처럼 보이던 문제 수정. 어두운 잉크 버튼+좌측 스트립+포커스 테두리로 맞춰 시작 메뉴/데모 CTA와 같은 버튼 질감으로 통일했다. `tools/audit.sh`, `ScreenshotQA --qa=start-en` 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Primary CTA Surface Pass**: 데모 종료/위시리스트 주 CTA가 순백 웹 버튼처럼 떠 보이던 문제 수정. `_primary_cta_button()`을 어두운 잉크 버튼, 밝은 좌측 스트립, 얇은 포커스 테두리 중심으로 재정의해 모노톤 고급화 방향과 맞췄다. `tools/audit.sh`, `ScreenshotQA --qa=demo-end-en` 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Month/Share Text Surface Pass**: 월말 등급 데이터의 내부 `emoji` 키를 `badge` 텍스트로 교체하고, 엔딩 결과 복사 텍스트의 `👤/💰/🏠/📍/📖/🏆` 표면을 제거. 월말 결산은 `LOG/TOP/RISK` 배지로 유지하고 공유 카드는 plain text 기록장 톤으로 정리했다. `tools/audit.sh`, `english_hangul_audit.py` content_issues=0, `ScreenshotQA --qa=demo-end-en` 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Money Burst Surface Pass**: 큰 금액 획득 시 화면에 뿌려지던 `💰/✨` 문자 이펙트를 제거하고, amber/ivory 금속 파편이 짧게 흩어지는 코드 네이티브 이펙트로 교체. `ScreenshotQA --qa=ap-en`에 `ap_en_03c_money_burst` 캡처 추가, `tools/audit.sh`, `english_hangul_audit.py` content_issues=0, 직접 캡처 확인. |
@@ -96,7 +97,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-30 (Codex: Start Notice CTA Surface Pass — 시작 콘텐츠 안내 확인 버튼 질감 보정.) |
+| **마지막 업데이트** | 2026-06-30 (Codex: Genre Label Alignment Pass — 현재 제품 표기를 life sim/interactive drama로 정렬.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
