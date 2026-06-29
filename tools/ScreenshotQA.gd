@@ -640,6 +640,25 @@ func _shot_job_hunt_surfaces(lang: String = "en", prefix: String = "job_en_") ->
 		await _save(prefix + "00b_jobs_ready")
 		_close_modal()
 		await _settle(0.2)
+	if _mg.has_method("_open_cat_work"):
+		GameState.current_job = {
+			"name": ("Office Worker" if LocaleManager.is_english() else "사무직"),
+			"base_salary": 2_240_000.0,
+			"tier": 2,
+			"promotion_threshold": 12,
+			"promotion_count": 0,
+			"max_promotions": 3,
+		}
+		GameState.monthly_income = 2_240_000.0
+		GameState.job_tenure = 10
+		GameState.work_performance = 57
+		_mg.call("_open_cat_work")
+		await _settle(0.5)
+		await _save(prefix + "00c_work_employed")
+		_close_modal()
+		await _settle(0.2)
+		GameState.current_job = {}
+		GameState.monthly_income = 0.0
 
 	var node = _mg.get("job_hunt_game")
 	if node == null or not node.has_method("open"):

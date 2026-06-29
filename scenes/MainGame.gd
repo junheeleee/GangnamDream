@@ -4511,11 +4511,34 @@ func _month_narration() -> String:
 # ══════════════════════════════════════════════════════════════
 # 상황 카드 시스템 — 추상 메뉴 대신 '이번 달 상황'에 반응한다.
 # ══════════════════════════════════════════════════════════════
-const SITUATION_ICONS := {
-	"finance": "💰", "family": "👨‍👩‍👧", "jobs": "💼", "social": "🤝",
-	"gambling": "🎲", "health": "🏥", "investment": "📈", "relationship": "❤",
-	"disasters": "🌀", "politics": "🏛", "comedy": "😆", "military": "🎖",
-}
+func _situation_category_tag(category: String) -> String:
+	match category:
+		"finance":
+			return _tr("돈", "FIN")
+		"family":
+			return _tr("가족", "FAM")
+		"jobs":
+			return _tr("일", "JOB")
+		"social":
+			return _tr("사회", "SOC")
+		"gambling":
+			return _tr("도박", "RISK")
+		"health":
+			return _tr("건강", "BODY")
+		"investment":
+			return _tr("투자", "INV")
+		"relationship":
+			return _tr("관계", "REL")
+		"disasters":
+			return _tr("위기", "CRISIS")
+		"politics":
+			return _tr("사회", "CIVIC")
+		"comedy":
+			return _tr("일상", "LIFE")
+		"military":
+			return _tr("예비군", "RES")
+		_:
+			return _tr("상황", "EVENT")
 
 func _render_situation_cards():
 	# 그 달의 '사건'은 풀스크린 VN으로 이미 재생됨(드라마 모드).
@@ -4533,7 +4556,7 @@ func _render_situation_cards():
 
 func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
 	var cat: String = str(sit.get("category", "social"))
-	var icon: String = str(SITUATION_ICONS.get(cat, "•"))
+	var tag: String = _situation_category_tag(cat)
 	var title: String = _fmt(str(sit.get("title", _tr("상황", "Situation"))))
 	var desc: String = _fmt(str(sit.get("description", "")))
 	var hook: String = desc.split("\n")[0]
@@ -4542,10 +4565,10 @@ func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
 	var label_text: String = ""
 	var accent: String = "#3a6ea8"
 	if engaged:
-		label_text = "  ✓  %s  %s" % [icon, title]
+		label_text = "  %s  %s  %s" % [_tr("완료", "DONE"), tag, title]
 		accent = "#24242e"
 	else:
-		label_text = "  %s  %s\n        %s" % [icon, title, hook]
+		label_text = "  %s  %s\n        %s" % [tag, title, hook]
 	var btn: Button = _action_button(label_text, accent)
 	btn.custom_minimum_size = Vector2(0, 54)
 	btn.disabled = engaged or no_ap
@@ -5030,10 +5053,10 @@ func _open_cat_work():
 		var perf = GameState.work_performance
 		var salary = GameState.monthly_income
 		modal_body.add_child(_wrap_label(
-			_tr("%s — 월급 %s", "%s — Salary %s") % [job_name, GameState.format_money(salary)], 14, "#c8a060"))
+			_tr("%s — 월급 %s", "%s — Salary %s") % [job_name, GameState.format_money(salary)], 14, _info_text_hex("#c8a060", 0.02)))
 		modal_body.add_child(_label(_tr("── 승진 현황 ──", "── Promotion Status ──"), 11, "#3a3a5a"))
 		if promo_count >= max_promo:
-			modal_body.add_child(_wrap_label(_tr("최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.", "Top rank reached — consider moving to a higher-tier job."), 13, "#c9a227"))
+			modal_body.add_child(_wrap_label(_tr("최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.", "Top rank reached — consider moving to a higher-tier job."), 13, _info_text_hex("#c9a227", 0.02)))
 		else:
 			var tenure_row = HBoxContainer.new()
 			tenure_row.add_theme_constant_override("separation", 8)
@@ -5041,25 +5064,18 @@ func _open_cat_work():
 			var tenure_lbl = _label(_tr("근속", "Tenure"), 12, "#7a8496")
 			tenure_lbl.custom_minimum_size = Vector2(36, 0)
 			tenure_row.add_child(tenure_lbl)
-			var bar = ProgressBar.new()
-			bar.min_value = 0
-			bar.max_value = maxi(threshold, 1)
-			bar.value = mini(tenure, threshold)
-			bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			bar.custom_minimum_size = Vector2(0, 18)
-			bar.show_percentage = false
-			tenure_row.add_child(bar)
+			tenure_row.add_child(_mini_progress_meter(tenure, threshold, "#8f98a8"))
 			var months_lbl = _label(_tr("%d / %d개월", "%d / %d mo") % [tenure, threshold], 12, "#aab3c5")
 			months_lbl.custom_minimum_size = Vector2(72, 0)
 			tenure_row.add_child(months_lbl)
-			var perf_color = "#00c896" if perf >= 60 else "#ef4444"
-			var perf_gate = _tr("승진 가능 ✓", "Promotable ✓") if perf >= 60 else _tr("승진 불가 ✗", "Not promotable ✗")
+			var perf_color = _info_signal_hex("#00c896" if perf >= 60 else "#ef4444")
+			var perf_gate = _tr("승진 준비됨", "Promotion ready") if perf >= 60 else _tr("기준 미달", "Below requirement")
 			modal_body.add_child(_wrap_label(
 				_tr("업무 성과  %d / 100  [%s]  (기준: 60+)", "Performance  %d / 100  [%s]  (req: 60+)") % [perf, perf_gate], 12, perf_color))
 			if tenure >= threshold and perf >= 60:
-				modal_body.add_child(_wrap_label(_tr("이번 달 승진 판정 대상!  (35% 확률)", "Up for promotion this month!  (35% chance)"), 13, "#f0b429"))
+				modal_body.add_child(_wrap_label(_tr("이번 달 승진 판정 대상!  (35% 확률)", "Up for promotion this month!  (35% chance)"), 13, _info_text_hex("#f0b429", 0.02)))
 			elif tenure >= threshold:
-				modal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance above 60."), 13, "#f0b429"))
+				modal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance above 60."), 13, _info_text_hex("#f0b429", 0.02)))
 			else:
 				var left = threshold - tenure
 				modal_body.add_child(_wrap_label(
@@ -5071,7 +5087,7 @@ func _open_cat_work():
 					next_jobs.append(GameState.get_job_display_name(j))
 			if not next_jobs.is_empty():
 				modal_body.add_child(_wrap_label(
-					_tr("다음 직급 예시  ", "Next rank e.g.  ") + "  /  ".join(next_jobs.slice(0, 3)), 12, "#3a6ea8"))
+					_tr("다음 직급 예시  ", "Next rank e.g.  ") + "  /  ".join(next_jobs.slice(0, 3)), 12, _info_signal_hex("#3a6ea8")))
 		modal_body.add_child(_wrap_label(_tr("남는 행동력은 투자·자기계발·관계에 쓰자.", "Spend leftover AP on invest · self-dev · relations."), 12, "#3a3a5a"))
 	# 창업/크리에이터 진행 중이면 노출
 	if GameState.flags.get("startup_launched", false) and not GameState.flags.get("startup_exit", false):
@@ -8474,6 +8490,34 @@ func _info_empty_card(text: String, accent: String = "#64748b") -> Control:
 	var card: PanelContainer = _info_card(accent, "#0b0f16")
 	card.add_child(_wrap_label(text, 14, "#8f9ab0"))
 	return card
+
+func _mini_progress_meter(value: int, max_value: int, accent: String = "#8f98a8") -> Control:
+	var ratio := clampf(float(value) / float(maxi(max_value, 1)), 0.0, 1.0)
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.custom_minimum_size = Vector2(0, 18)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#0d0e14")
+	style.border_color = Color("#242734")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(5)
+	panel.add_theme_stylebox_override("panel", style)
+	var track := Control.new()
+	track.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	track.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	track.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel.add_child(track)
+	var fill := ColorRect.new()
+	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fill.color = Color(_info_signal_hex(accent, 0.03))
+	fill.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fill.anchor_right = ratio
+	fill.offset_left = 2
+	fill.offset_top = 2
+	fill.offset_right = -2
+	fill.offset_bottom = -2
+	track.add_child(fill)
+	return panel
 
 func _info_value_bar(label_text: String, value: int, max_value: int, color: String) -> Control:
 	var box: VBoxContainer = VBoxContainer.new()
