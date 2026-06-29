@@ -4349,7 +4349,7 @@ func _recommend_action() -> String:
 			return _tr("구직활동  →  지력 %d이면 사무직 지원 가능. 이력서 작성부터", "Job Hunt  →  Intelligence %d qualifies for office jobs. Start with a resume") % intel
 		return _tr("구직활동  →  수입 0원 탈출이 1순위. 알바라도 먼저", "Job Hunt  →  Escaping KRW 0 income is priority. Even a part-time job first")
 	if GameState.mental <= 50:
-		return _tr("🌊 휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략", "🌊 Rest  →  Mental %d. Stopping before burnout is strategy") % GameState.mental
+		return _tr("휴식  →  정신력 %d. 번아웃 전에 멈추는 게 전략", "Rest  →  Mental %d. Stopping before burnout is strategy") % GameState.mental
 	if not has_paycheck:
 		return _tr("일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다", "Start Working  →  Investing stays locked until your first paycheck")
 
@@ -4363,33 +4363,33 @@ func _recommend_action() -> String:
 
 	# ── 투자감각 미성숙 ──
 	if inv_skill < 10 and total >= 3_000_000:
-		return _tr("📚 자기계발(투자)  →  투자감각 %d. 공부 AP로 투자 지식을 먼저 쌓으세요", "📚 Self-Dev (Invest)  →  Investing %d. Build investment knowledge with study AP first") % inv_skill
+		return _tr("자기계발(투자)  →  투자감각 %d. 공부 AP로 투자 지식을 먼저 쌓으세요", "Self-Dev (Invest)  →  Investing %d. Build investment knowledge with study AP first") % inv_skill
 
 	# ── 인맥 미개척 ──
 	if social < 15 and not f.get("entered_network", false) and me >= 10:
-		return _tr("🤝 사교력  →  상철 네트워크(사교 AP)가 투자·직업·이벤트 경로를 엽니다", "🤝 Social  →  Sangchul's network (social AP) opens invest/job/event paths")
+		return _tr("사교력  →  상철 네트워크(사교 AP)가 투자·직업·이벤트 경로를 엽니다", "Social  →  Sangchul's network (social AP) opens invest/job/event paths")
 
 	# ── 투자 준비 완료 ──
 	if total > 10_000_000 and inv_skill >= 15:
 		if not f.get("arc_invest_guidance_seen", false):
-			return _tr("📈 투자  →  투자감각 %d, 자산 %s — 상철에게 투자 가이드를 받아보세요", "📈 Invest  →  Investing %d, assets %s — get an investment guide from Sangchul") % [inv_skill, GameState.format_money(total)]
-		return _tr("📈 투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다", "📈 Invest  →  Assets %s, diversifying your portfolio reduces risk") % GameState.format_money(total)
+			return _tr("투자  →  투자감각 %d, 자산 %s — 상철에게 투자 가이드를 받아보세요", "Invest  →  Investing %d, assets %s — get an investment guide from Sangchul") % [inv_skill, GameState.format_money(total)]
+		return _tr("투자  →  자산 %s, 포트폴리오를 분산하면 위험이 줄어듭니다", "Invest  →  Assets %s, diversifying your portfolio reduces risk") % GameState.format_money(total)
 
 	# ── 지력 부족 ──
 	if intel < 40:
-		return _tr("📚 자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다", "📚 Self-Dev  →  Intelligence %d. Good jobs and invest events often need 40+") % intel
+		return _tr("자기계발  →  지력 %d. 좋은 직장·투자이벤트는 지력 40+ 조건이 많습니다", "Self-Dev  →  Intelligence %d. Good jobs and invest events often need 40+") % intel
 
 	# ── 후반 마무리 힌트 ──
 	if me >= 48:
 		var remaining: int = maxi(0, (38 - GameState.age) * 12 - GameState.month + 1)
 		if total < 1_000_000_000:
-			return _tr("⏰ 남은 %d개월  →  투자 레버리지나 고수익 루트가 필요한 시점입니다", "⏰ %d months left  →  Time for investment leverage or a high-yield route") % remaining
+			return _tr("남은 %d개월  →  투자 레버리지나 고수익 루트가 필요한 시점입니다", "%d months left  →  Time for investment leverage or a high-yield route") % remaining
 		if total < 3_000_000_000:
-			return _tr("🏙 남은 %d개월  →  30억까지 %s. 지금 루트를 유지하면 보입니다", "🏙 %d months left  →  %s to KRW 3B. Stay on course and it's in reach") % [remaining, GameState.format_money(3_000_000_000.0 - total)]
+			return _tr("남은 %d개월  →  30억까지 %s. 지금 루트를 유지하면 보입니다", "%d months left  →  %s to KRW 3B. Stay on course and it's in reach") % [remaining, GameState.format_money(3_000_000_000.0 - total)]
 
 	if total < 1_000_000:
-		return _tr("💼 구직활동  →  자산 %s. 수입부터 늘려야 합니다", "💼 Job Hunt  →  Assets %s. You need to grow income first") % GameState.format_money(total)
-	return _tr("📚 자기계발 또는 📈 투자  →  꾸준히 스탯과 자산을 키우세요", "📚 Self-Dev or 📈 Invest  →  Steadily grow your stats and assets")
+		return _tr("구직활동  →  자산 %s. 수입부터 늘려야 합니다", "Job Hunt  →  Assets %s. You need to grow income first") % GameState.format_money(total)
+	return _tr("자기계발 또는 투자  →  꾸준히 스탯과 자산을 키우세요", "Self-Dev or Invest  →  Steadily grow your stats and assets")
 
 ## 매달 분위기 내레이션 한 줄 (계절 + 상태 + 아크 플래그 + 턴 기반)
 func _month_narration() -> String:
