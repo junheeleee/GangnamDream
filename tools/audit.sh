@@ -21,6 +21,22 @@ python3 tools/balance_check.py
 BAL_EXIT=$?
 
 echo "──────────────────────────────────────────"
+echo "● 오디오 자산/엔딩 톤 회귀 검사"
+if [ -x "$GODOT" ]; then
+  command -v gtimeout >/dev/null 2>&1 && GT="gtimeout 150" || GT=""
+  AUDIO_RAW=$($GT "$GODOT" --headless res://tools/AudioAssetCheck.tscn 2>&1)
+  echo "$AUDIO_RAW" | grep -E "AUDIO_ASSET_CHECK_OK|ERROR:|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+  if echo "$AUDIO_RAW" | grep -q "AUDIO_ASSET_CHECK_OK"; then
+    AUDIO_EXIT=0
+  else
+    AUDIO_EXIT=1
+  fi
+else
+  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 오디오 체크 건너뜀."
+  AUDIO_EXIT=0
+fi
+
+echo "──────────────────────────────────────────"
 echo "● Godot 전체 스크립트 컴파일 체크 (씬 부팅 → 모든 .gd load 강제 컴파일)"
 # 주의: --quit-after 2(메인씬 부팅)는 RaceTrack/MainGame 등 부팅 시 미로드 스크립트를
 # 컴파일하지 않아 컴파일 버그를 놓친다(게다가 macOS엔 timeout 바이너리도 없어 헛돌았음).
@@ -50,7 +66,7 @@ else
 fi
 
 echo "──────────────────────────────────────────"
-if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
+if [ "$PY_EXIT" -ne 0 ] || [ "$SURFACE_EXIT" -ne 0 ] || [ "$BAL_EXIT" -ne 0 ] || [ "$AUDIO_EXIT" -ne 0 ] || [ "$GD_EXIT" -ne 0 ]; then
   echo "❌ 감사 실패 — 위 ERROR를 고치고 다시 돌리세요."
   exit 1
 fi

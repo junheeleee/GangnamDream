@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-30** — **Codex Big Wheel Result Text Cleanup**: 빅휠 결과 화면에서 휠 하단 `Result: N` 텍스트가 포인터/스탠드와 겹치던 문제 제거. 오른쪽 `WINNER` plate와 하단 정산 메시지만 남겨 결과 정보는 유지하면서 조잡한 중복 표면을 줄였다. `tools/audit.sh`, `ScreenshotQA --qa=casino-en` 통과 및 빅휠 결과 직접 확인. |
+| **최근 완료** | **2026-06-30** — **Codex Ending Audio Tone Governance Pass**: 엔딩 BGM과 stinger 분류를 등급 기반이 아니라 정서 톤 기반(`legend/hopeful/dark`)으로 통합. `empty_house/jaehyuk_way/lonely_rich`처럼 자산 성공이지만 정서적으로 어두운 결말은 축하 stinger가 아니라 dark tone을 쓰도록 고정했다. `AudioAssetCheck`에 엔딩 톤 회귀 검사를 추가하고 `tools/audit.sh`에 연결. `tools/audit.sh`, `AudioAssetCheck`, `BGMContinuityCheck`, `ScreenshotQA --qa=transition` 통과. |
+| **이전** | **2026-06-30** — **Codex Big Wheel Result Text Cleanup**: 빅휠 결과 화면에서 휠 하단 `Result: N` 텍스트가 포인터/스탠드와 겹치던 문제 제거. 오른쪽 `WINNER` plate와 하단 정산 메시지만 남겨 결과 정보는 유지하면서 조잡한 중복 표면을 줄였다. `tools/audit.sh`, `ScreenshotQA --qa=casino-en` 통과 및 빅휠 결과 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Ending Fallback Scene Pass**: 전용 CG가 없는 엔딩 카드가 미완성 보고서처럼 보이던 문제 보정. `bankruptcy/debt_spiral/burnout/gangnam/bond/career` 계열별 코드 네이티브 장면 스트립을 추가하고, 엔딩 상태 바를 어두운 트랙+부분 채움으로 재구성해 무CG 엔딩도 의도된 최종 기록 화면처럼 보이게 했다. `tools/audit.sh`, `ScreenshotQA --qa=endings-en` 통과 및 `Debt Abyss`/`Stable Success` 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Job Hunt Room Surface Pass**: 취업/면접 미니게임이 검은 웹 폼처럼 비어 보이던 문제를 보정. 자소서/면접 모드별 낮은 대비의 서류/면접실 스트립을 추가하고, 면접 타이머 색과 프레임 높이·결과 정렬을 조정해 Steam Deck/영어판에서도 더 밀도 있는 게임 UI로 보이게 했다. `tools/audit.sh`, `ScreenshotQA --qa=job-en` 통과 및 대표 캡처 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Surface Emoji Audit Guard**: 직접 UI 경로(`_label`, `_wrap_label`, `_button`, `.text`, `_show_toast`, `_show_vignette`)에 플랫폼 이모지가 새면 실패하는 `tools/surface_emoji_audit.py` 추가 및 `tools/audit.sh`에 연결. 닫기 `✕`만 허용. `tools/audit.sh` 통과. |
@@ -107,7 +108,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-30 (Codex: Big Wheel Result Text Cleanup — 빅휠 결과 중복/겹침 제거.) |
+| **마지막 업데이트** | 2026-06-30 (Codex: Ending Audio Tone Governance Pass — 엔딩 BGM/stinger 정서 톤 분류 통합.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 

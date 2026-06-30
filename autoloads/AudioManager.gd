@@ -45,6 +45,25 @@ const _SFX_FILES = {
 	"ending_stinger_legend": "res://assets/audio/sfx_ending_stinger_legend.wav",
 }
 
+const _ENDING_AUDIO_LEGEND = [
+	"instant_legend", "gangnam_dream", "gangnam_dream_white", "full_circle",
+	"unorthodox_legend",
+]
+
+const _ENDING_AUDIO_DARK = [
+	"empty_house", "jaehyuk_way", "lonely_rich", "orthodox_hollow",
+	"burnout", "mental_break", "bankruptcy", "crypto_ghost", "debt_spiral",
+]
+
+const _ENDING_AUDIO_HOPEFUL = [
+	"stable_success", "ordinary_life", "with_daeun", "jiyeon_man",
+	"startup_exit", "political_fix", "investment_master", "reputation_legend",
+	"healthy_retirement", "orthodox_pinnacle", "balanced_life",
+	"early_retirement", "creator_success", "late_call", "second_love",
+	"guardian", "gambling_recovery", "career_climber", "career_burnout",
+	"sangchul_reckoning", "writer",
+]
+
 func _ready():
 	load_settings()
 	for i in range(_POOL_SIZE):
@@ -134,17 +153,34 @@ func play_ending_stinger(ending_id: String) -> void:
 		return
 	_last_ending_stinger_id = ending_id
 	_last_ending_stinger_ms = now
+	play(ending_stinger_key(ending_id))
+
+func ending_audio_tone(ending_id: String) -> String:
+	if ending_id in _ENDING_AUDIO_DARK:
+		return "dark"
+	if ending_id in _ENDING_AUDIO_LEGEND:
+		return "legend"
+	if ending_id in _ENDING_AUDIO_HOPEFUL:
+		return "hopeful"
 	var ending: Dictionary = DataRegistry.get_ending(ending_id)
 	var grade := str(ending.get("grade", ""))
-	if ending_id in ["instant_legend", "gangnam_dream", "orthodox_pinnacle", "unorthodox_legend"] \
-			or grade in ["?", "S+", "S"]:
-		play("ending_stinger_legend")
-		return
-	var good = ["stable_success", "investment_master",
-				"startup_exit", "reputation_legend", "healthy_retirement", "political_fix",
-				"creator_success", "with_daeun", "jiyeon_man", "balanced_life",
-				"early_retirement", "full_circle", "second_love", "guardian"]
-	play("ending_stinger_good" if ending_id in good or grade in ["A+", "A", "B"] else "ending_stinger_bad")
+	if grade in ["?", "S+", "S"]:
+		return "legend"
+	if grade in ["A+", "A", "B"]:
+		return "hopeful"
+	return "dark"
+
+func ending_bgm_key(ending_id: String) -> String:
+	return "ending_bad" if ending_audio_tone(ending_id) == "dark" else "ending_good"
+
+func ending_stinger_key(ending_id: String) -> String:
+	match ending_audio_tone(ending_id):
+		"legend":
+			return "ending_stinger_legend"
+		"hopeful":
+			return "ending_stinger_good"
+		_:
+			return "ending_stinger_bad"
 
 # ── 재생 ─────────────────────────────────────────────────────
 func play(sound_id: String, volume_mod: float = 0.0):

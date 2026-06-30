@@ -87,17 +87,7 @@ func update_context():
 func on_ending(ending_id: String):
 	_is_ending = true
 	clear_ambience()
-	var good = [
-		"gangnam_dream", "gangnam_dream_white", "stable_success", "investment_master",
-		"startup_exit", "reputation_legend", "healthy_retirement", "political_fix",
-		"instant_legend", "orthodox_pinnacle", "unorthodox_legend",
-		"creator_success", "with_daeun", "jiyeon_man",
-		"early_retirement", "balanced_life",
-		"lonely_rich", "late_call", "sangchul_reckoning",
-		"full_circle", "second_love", "guardian",
-		"gambling_recovery", "writer", "career_climber", "career_burnout",
-	]
-	_crossfade_to("ending_good" if ending_id in good else "ending_bad")
+	_crossfade_to(AudioManager.ending_bgm_key(ending_id))
 
 func update_idle_ambience() -> void:
 	if _is_ending:
