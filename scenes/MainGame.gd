@@ -7252,7 +7252,7 @@ func _show_demo_ending():
 	modal_body.add_child(record_card)
 
 	var record_box := VBoxContainer.new()
-	record_box.add_theme_constant_override("separation", 9)
+	record_box.add_theme_constant_override("separation", 7)
 	record_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	record_card.add_child(record_box)
 
@@ -7298,8 +7298,14 @@ func _show_demo_ending():
 
 	# 개인화 스토리 요약
 	record_box.add_child(_label(_tr("지난 6개월", "Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
+	var shown_story_count := 0
 	for line in story_lines:
+		if shown_story_count >= 3:
+			break
 		record_box.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
+		shown_story_count += 1
+	if story_lines.size() > shown_story_count:
+		record_box.add_child(_wrap_label(_tr("• 나머지는 아직 정리되지 않은 기록으로 남았다.", "• The rest remains an unfinished record."), 12, "#697386"))
 
 	record_box.add_child(_demo_record_separator())
 	# 자산 성적표
@@ -7311,57 +7317,36 @@ func _show_demo_ending():
 		_tr("%.3f%% 달성", "%.3f%% reached") % progress_pct))
 
 	record_box.add_child(_demo_record_separator())
-	# 풀버전 티저
-	var teaser_lines: Array = []
-	if f.get("arc_sangchul_casino_seen", false):
-		teaser_lines.append(_tr("정선 카지노 — 임상철과 함께 테이블에 앉게 된다면?", "Jeongseon Casino — what if you sit at the table with Sangchul?"))
-	if f.get("arc_jiyeon_crash_seen", false):
-		teaser_lines.append(_tr("한지연 — 그녀의 제안, 받을 것인가 말 것인가.", "Jiyeon — her offer. Accept or refuse?"))
-	if f.get("arc_jaehyuk_reunion_seen", false):
-		teaser_lines.append(_tr("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.", "Jaehyuk — the real face behind his business proposal."))
-	teaser_lines.append(_tr("강남 입성까지 남은 거리: %s", "Distance to Gangnam: %s") % GameState.format_money(max(0.0, 3_000_000_000.0 - total_assets)))
-	record_box.add_child(_label(_tr("풀버전에서 계속됩니다", "Continues in the full version"), 14, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
-	for tl in teaser_lines:
-		record_box.add_child(_wrap_label(tl, 12, "#7a8496"))
+	# 풀버전 티저는 광고 문구가 아니라 기록장 하단의 미완 항목처럼 보이게 둔다.
+	var next_card := PanelContainer.new()
+	next_card.set_meta("moral_role", "info_card")
+	next_card.set_meta("moral_accent", "#dce6ee")
+	var next_style := StyleBoxFlat.new()
+	next_style.bg_color = Color("#111820", 0.72)
+	next_style.border_color = Color("#dce6ee", 0.42)
+	next_style.set_border_width_all(1)
+	next_style.border_width_left = 3
+	next_style.set_corner_radius_all(5)
+	next_style.content_margin_left = 10
+	next_style.content_margin_right = 10
+	next_style.content_margin_top = 7
+	next_style.content_margin_bottom = 7
+	next_card.add_theme_stylebox_override("panel", next_style)
+	record_box.add_child(next_card)
+	var next_box := VBoxContainer.new()
+	next_box.add_theme_constant_override("separation", 2)
+	next_card.add_child(next_box)
+	var next_title := _label(_tr("아직 4년 반이 남아있다", "Four and a half years remain"), 14, "#f4f7fb")
+	if _font_bold:
+		next_title.add_theme_font_override("font", _font_bold)
+	next_box.add_child(next_title)
+	next_box.add_child(_wrap_label(
+		_tr("이 기록은 끝난 게 아니라, 잠시 접힌 것이다.",
+			"This record is not over. It is only folded shut for now."),
+		12, "#aeb8c8"))
 	_apply_moral_tree_styles(record_card, _moral_ui_palette())
 
 	# ── Steam 위시리스트 CTA ───────────────────────────────────
-	var sep_steam = HSeparator.new()
-	sep_steam.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep_steam)
-
-	var cta_card := PanelContainer.new()
-	cta_card.set_meta("moral_role", "info_card")
-	cta_card.set_meta("moral_accent", "#f4f7fb")
-	var cta_style := StyleBoxFlat.new()
-	cta_style.bg_color = Color("#0b0d12", 0.96)
-	cta_style.border_color = Color("#dce6ee", 0.86)
-	cta_style.border_width_left = 4
-	cta_style.set_border_width(SIDE_TOP, 1)
-	cta_style.set_border_width(SIDE_RIGHT, 1)
-	cta_style.set_border_width(SIDE_BOTTOM, 1)
-	cta_style.set_corner_radius_all(7)
-	cta_style.content_margin_left = 14
-	cta_style.content_margin_right = 14
-	cta_style.content_margin_top = 12
-	cta_style.content_margin_bottom = 12
-	cta_card.add_theme_stylebox_override("panel", cta_style)
-	modal_body.add_child(cta_card)
-
-	var cta_box := VBoxContainer.new()
-	cta_box.add_theme_constant_override("separation", 7)
-	cta_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	cta_card.add_child(cta_box)
-	var cta_title := _label(_tr("풀버전에서 4년 반이 계속됩니다", "The next 4.5 years continue in the full version"), 16, "#f4f7fb")
-	if _font_bold:
-		cta_title.add_theme_font_override("font", _font_bold)
-	cta_box.add_child(cta_title)
-	cta_box.add_child(_wrap_label(
-		_tr("이 기록을 이어가고 싶다면 Steam 위시리스트에 추가하세요. 출시 알림과 다음 빌드 소식을 받을 수 있습니다.",
-			"Wishlist on Steam if you want to continue this run. You'll get launch and future build updates."),
-		13, "#aeb8c8"))
-	_apply_moral_tree_styles(cta_card, _moral_ui_palette())
-
 	# App ID가 아직 플레이스홀더면 깨진 /app/STEAM_APP_ID/ URL 대신 상점 검색으로 폴백.
 	var steam_url := STEAM_FALLBACK_URL
 	if STEAM_APP_ID != "STEAM_APP_ID" and STEAM_APP_ID.is_valid_int():
@@ -7375,12 +7360,15 @@ func _show_demo_ending():
 	var sep4 = HSeparator.new()
 	sep4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep4)
+	var end_buttons := HBoxContainer.new()
+	end_buttons.add_theme_constant_override("separation", 8)
+	modal_body.add_child(end_buttons)
 	var restart_btn = _button(_tr("처음부터 다시  ▶", "Start Over  ▶"), "#0e3a2a")
 	restart_btn.pressed.connect(_restart_run)
-	modal_body.add_child(restart_btn)
+	end_buttons.add_child(restart_btn)
 	var menu_btn = _button(_tr("메인 메뉴로", "Main Menu"), "#1a1a28")
 	menu_btn.pressed.connect(_go_to_menu)
-	modal_body.add_child(menu_btn)
+	end_buttons.add_child(menu_btn)
 
 func _demo_record_separator() -> HSeparator:
 	var sep := HSeparator.new()
