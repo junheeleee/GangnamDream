@@ -4443,7 +4443,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	card.set_meta("moral_role", "info_card")
 	card.set_meta("moral_accent", "#c5ccd5")
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.custom_minimum_size = Vector2(0, 112)
+	card.custom_minimum_size = Vector2(0, 148)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#0b0d12", 0.94)
 	style.border_color = Color("#3e4654")
@@ -4495,11 +4495,68 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	summary_lbl.set_meta("moral_role", "choice_subtitle")
 	box.add_child(summary_lbl)
 
+	_render_week_pressure_row(box, net, total, has_warning)
+
 	var focus_text := _tr("먼저 위험 신호를 줄여야 한다.", "Stabilize the immediate risk first.") if has_warning else _clean_focus_text(_recommend_action())
 	var focus_lbl := _wrap_label(_tr("추천  %s", "Suggested  %s") % focus_text, 13, "#c8d0df")
 	focus_lbl.set_meta("moral_role", "hint_text")
 	box.add_child(focus_lbl)
 	_apply_moral_tree_styles(card, _moral_ui_palette())
+
+func _render_week_pressure_row(parent: Control, net: float, total: float, has_warning: bool) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(row)
+
+	var net_sign := "+" if net >= 0.0 else ""
+	var cash_text := _tr("%s%s / 월", "%s%s / mo") % [net_sign, GameState.format_money(net)]
+	var goal_gap := maxf(0.0, 3_000_000_000.0 - total)
+	var condition := _tr("불안정", "Unstable") if has_warning else _tr("버티는 중", "Holding")
+	if not has_warning and mini(GameState.health, GameState.mental) >= 65:
+		condition = _tr("안정", "Steady")
+	elif not has_warning and mini(GameState.health, GameState.mental) < 60:
+		condition = _tr("피로 누적", "Strained")
+
+	_add_week_pressure_cell(row, _tr("현금흐름", "CASHFLOW"), cash_text, net >= 0.0)
+	_add_week_pressure_cell(row, _tr("강남까지", "GAP"), GameState.format_money(goal_gap), goal_gap <= 1_000_000_000.0)
+	_add_week_pressure_cell(row, _tr("몸과 마음", "CONDITION"), condition, not has_warning)
+
+func _add_week_pressure_cell(parent: Control, label_text: String, value_text: String, good: bool) -> void:
+	var cell := PanelContainer.new()
+	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cell.custom_minimum_size = Vector2(0, 38)
+	cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#11141a", 0.68)
+	st.border_color = Color("#3d4552", 0.88) if good else Color("#6a4b4b", 0.88)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(5)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	cell.add_theme_stylebox_override("panel", st)
+	parent.add_child(cell)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 1)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cell.add_child(box)
+
+	var key := _label(label_text, 9, "#7f8794")
+	key.set_meta("moral_role", "hint_text")
+	key.uppercase = true
+	box.add_child(key)
+
+	var value_col := "#dce4ee" if good else "#f0c1c1"
+	var value := _label(value_text, 12, value_col)
+	value.set_meta("moral_role", "choice_title" if good else "hint_text")
+	if _font_bold:
+		value.add_theme_font_override("font", _font_bold)
+	value.clip_text = true
+	value.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	box.add_child(value)
 
 func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	var max_ap: int = maxi(1, GameState.max_action_points)

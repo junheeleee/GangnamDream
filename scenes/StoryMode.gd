@@ -1021,6 +1021,60 @@ func _chapter_card_advance():
 		GameState.apply_choice(_current, choices[0])
 	_load_next_event()
 
+func _add_chapter_ink_frame(ov: Control, palette: Dictionary) -> void:
+	var black: float = float(palette["black"])
+	var white: float = float(palette["white"])
+	var line_col: Color = palette["line"]
+	var text_col: Color = palette["dim"]
+	var rule_col := Color(line_col.r, line_col.g, line_col.b, 0.055 + black * 0.035 + white * 0.030)
+	for x in [0.18, 0.50, 0.82]:
+		var rule := ColorRect.new()
+		rule.color = rule_col
+		rule.anchor_left = x
+		rule.anchor_right = x
+		rule.anchor_top = 0.12
+		rule.anchor_bottom = 0.88
+		rule.offset_left = -0.5
+		rule.offset_right = 0.5
+		rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ov.add_child(rule)
+	for y in [0.18, 0.34, 0.66, 0.82]:
+		var rule := ColorRect.new()
+		rule.color = rule_col
+		rule.anchor_left = 0.16
+		rule.anchor_right = 0.84
+		rule.anchor_top = y
+		rule.anchor_bottom = y
+		rule.offset_top = -0.5
+		rule.offset_bottom = 0.5
+		rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ov.add_child(rule)
+
+	var file_box := VBoxContainer.new()
+	file_box.anchor_left = 0.08
+	file_box.anchor_right = 0.32
+	file_box.anchor_top = 0.12
+	file_box.anchor_bottom = 0.24
+	file_box.add_theme_constant_override("separation", 5)
+	file_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ov.add_child(file_box)
+
+	var case_lbl := Label.new()
+	case_lbl.text = _tr("기록 번호", "CASE FILE")
+	case_lbl.add_theme_font_size_override("font_size", 11)
+	case_lbl.add_theme_color_override("font_color", text_col)
+	case_lbl.modulate.a = 0.42
+	_apply_font(case_lbl)
+	file_box.add_child(case_lbl)
+
+	var run_lbl := Label.new()
+	run_lbl.text = _tr("50만원 / 30억 / 5년", "KRW 500K / KRW 3B / 5 YEARS")
+	run_lbl.add_theme_font_size_override("font_size", 13)
+	run_lbl.add_theme_color_override("font_color", Color("#d7dce5").lerp(Color("#f8fbff"), white * 0.45))
+	run_lbl.modulate.a = 0.48
+	_apply_font(run_lbl, true)
+	file_box.add_child(run_lbl)
+
 func _render_chapter_card_cinematic():
 	_apply_story_surface_palette(false, true)
 	var palette := _story_palette()
@@ -1048,6 +1102,7 @@ func _render_chapter_card_cinematic():
 	ov.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(ov)
 	_chapter_overlay = ov
+	_add_chapter_ink_frame(ov, palette)
 
 	# 중앙 VBox
 	var vbox := VBoxContainer.new()
