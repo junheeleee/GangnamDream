@@ -390,6 +390,7 @@ func _apply_moral_surface_shader() -> void:
 	_moral_surface_overlay.visible = black > 0.01 or white > 0.01
 	_moral_surface_material.set_shader_parameter("black_intensity", black)
 	_moral_surface_material.set_shader_parameter("white_intensity", white)
+	_moral_surface_material.set_shader_parameter("print_screen", clampf(black * 0.045 - white * 0.010, 0.0, 0.055))
 	_moral_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_moral_norm) * 10.0)
 	if _moral_bg_material:
 		# Black is numbness: the world loses color, edges close in, money remains sharp.
@@ -403,6 +404,9 @@ func _apply_moral_surface_shader() -> void:
 		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.130 - white * 0.046, 0.0, 0.25))
 		_moral_bg_material.set_shader_parameter("paper_fade", clampf(0.018 + white * 0.030, 0.0, 0.07))
 		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.070 + black * 0.130 - white * 0.070, 0.0, 0.24))
+		_moral_bg_material.set_shader_parameter("print_screen", clampf(0.010 + black * 0.026 - white * 0.009, 0.002, 0.052))
+		_moral_bg_material.set_shader_parameter("tone_quantize", clampf(0.018 + black * 0.095 - white * 0.014, 0.0, 0.14))
+		_moral_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_moral_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_moral_norm) * 19.0)
 
 func _apply_story_moral_clarity() -> void:
@@ -432,6 +436,9 @@ func _apply_moral_portrait_state() -> void:
 		_moral_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
 		_moral_portrait_material.set_shader_parameter("paper_fade", clampf(white * 0.022, 0.0, 0.05))
 		_moral_portrait_material.set_shader_parameter("edge_burn", clampf(0.020 + black * 0.115 - white * 0.020, 0.0, 0.16))
+		_moral_portrait_material.set_shader_parameter("print_screen", clampf(0.004 + black * 0.014 - white * 0.003, 0.0, 0.025))
+		_moral_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
+		_moral_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
 		_moral_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_moral_norm) * 23.0)
 	character_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
 
@@ -758,6 +765,9 @@ func _build_ui():
 		_moral_bg_material.set_shader_parameter("ink_bleed", 0.055)
 		_moral_bg_material.set_shader_parameter("paper_fade", 0.018)
 		_moral_bg_material.set_shader_parameter("edge_burn", 0.070)
+		_moral_bg_material.set_shader_parameter("print_screen", 0.010)
+		_moral_bg_material.set_shader_parameter("tone_quantize", 0.018)
+		_moral_bg_material.set_shader_parameter("screen_scale", 620.0)
 		_moral_bg_material.set_shader_parameter("seed", 0.0)
 		event_bg.material = _moral_bg_material
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -833,6 +843,7 @@ func _build_moral_surface_layer():
 		_moral_surface_material.shader = shader_res
 		_moral_surface_material.set_shader_parameter("black_intensity", 0.0)
 		_moral_surface_material.set_shader_parameter("white_intensity", 0.0)
+		_moral_surface_material.set_shader_parameter("print_screen", 0.0)
 		_moral_surface_overlay.material = _moral_surface_material
 	add_child(_moral_surface_overlay)
 
@@ -1054,6 +1065,9 @@ func _build_portrait_panel(parent):
 		_moral_portrait_material.set_shader_parameter("ink_bleed", 0.010)
 		_moral_portrait_material.set_shader_parameter("paper_fade", 0.0)
 		_moral_portrait_material.set_shader_parameter("edge_burn", 0.020)
+		_moral_portrait_material.set_shader_parameter("print_screen", 0.004)
+		_moral_portrait_material.set_shader_parameter("tone_quantize", 0.0)
+		_moral_portrait_material.set_shader_parameter("screen_scale", 700.0)
 		_moral_portrait_material.set_shader_parameter("seed", 0.0)
 		character_portrait.material = _moral_portrait_material
 	if ResourceLoader.exists(PORTRAIT_NEUTRAL):

@@ -162,11 +162,15 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.060 + black * 0.120 - white * 0.042, 0.0, 0.24))
 		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.016 + white * 0.030, 0.0, 0.07))
 		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.075 + black * 0.145 - white * 0.065, 0.0, 0.25))
+		_story_bg_material.set_shader_parameter("print_screen", clampf(0.011 + black * 0.026 - white * 0.009, 0.002, 0.052))
+		_story_bg_material.set_shader_parameter("tone_quantize", clampf(0.018 + black * 0.095 - white * 0.014, 0.0, 0.14))
+		_story_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_story_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_story_moral_norm) * 19.0)
 	if _story_surface_material and is_instance_valid(_story_surface_overlay):
 		_story_surface_overlay.visible = black > 0.01 or white > 0.01
 		_story_surface_material.set_shader_parameter("black_intensity", black)
 		_story_surface_material.set_shader_parameter("white_intensity", white)
+		_story_surface_material.set_shader_parameter("print_screen", clampf(black * 0.045 - white * 0.010, 0.0, 0.055))
 		_story_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_story_moral_norm) * 10.0)
 	_apply_story_portrait_surface()
 	if is_instance_valid(_text_panel):
@@ -208,6 +212,9 @@ func _apply_story_portrait_surface() -> void:
 		_story_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
 		_story_portrait_material.set_shader_parameter("paper_fade", clampf(white * 0.022, 0.0, 0.05))
 		_story_portrait_material.set_shader_parameter("edge_burn", clampf(0.020 + black * 0.115 - white * 0.020, 0.0, 0.16))
+		_story_portrait_material.set_shader_parameter("print_screen", clampf(0.004 + black * 0.014 - white * 0.003, 0.0, 0.025))
+		_story_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
+		_story_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
 		_story_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_story_moral_norm) * 23.0)
 	_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
 
@@ -260,6 +267,9 @@ func _build_ui():
 		_story_bg_material.set_shader_parameter("ink_bleed", 0.060)
 		_story_bg_material.set_shader_parameter("paper_fade", 0.016)
 		_story_bg_material.set_shader_parameter("edge_burn", 0.075)
+		_story_bg_material.set_shader_parameter("print_screen", 0.011)
+		_story_bg_material.set_shader_parameter("tone_quantize", 0.018)
+		_story_bg_material.set_shader_parameter("screen_scale", 620.0)
 		_story_bg_material.set_shader_parameter("seed", 0.0)
 		_bg_img.material = _story_bg_material
 	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -284,6 +294,7 @@ func _build_ui():
 		_story_surface_material.shader = surface_shader
 		_story_surface_material.set_shader_parameter("black_intensity", 0.0)
 		_story_surface_material.set_shader_parameter("white_intensity", 0.0)
+		_story_surface_material.set_shader_parameter("print_screen", 0.0)
 		_story_surface_material.set_shader_parameter("seed", 0.0)
 		_story_surface_overlay.material = _story_surface_material
 	add_child(_story_surface_overlay)
@@ -332,6 +343,9 @@ func _build_ui():
 		_story_portrait_material.set_shader_parameter("ink_bleed", 0.010)
 		_story_portrait_material.set_shader_parameter("paper_fade", 0.0)
 		_story_portrait_material.set_shader_parameter("edge_burn", 0.020)
+		_story_portrait_material.set_shader_parameter("print_screen", 0.004)
+		_story_portrait_material.set_shader_parameter("tone_quantize", 0.0)
+		_story_portrait_material.set_shader_parameter("screen_scale", 700.0)
 		_story_portrait_material.set_shader_parameter("seed", 0.0)
 		_portrait.material = _story_portrait_material
 	_portrait_frame.add_child(_portrait)

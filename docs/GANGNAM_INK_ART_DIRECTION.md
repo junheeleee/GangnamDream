@@ -1,6 +1,6 @@
 # Gangnam Ink Art Direction
 
-Updated: 2026-06-28
+Updated: 2026-06-30
 
 ## Purpose
 
@@ -43,6 +43,8 @@ Gold, green, and saturated blue are no longer brand colors. They can remain as n
 - CGs may include main cast, but only for unique story moments and must obey canon continuity.
 - Seoul landmarks are used as story signals, not tourist wallpaper.
 - Private canon spaces such as the goshiwon, family home, and hospital must keep layout continuity before mood.
+- Do not convert the whole game to pixel art. Gangnam Dream needs faces, class signals, and Seoul spaces to remain readable. Use subtle ink-print screening, grain, and light tonal stepping as a unifying film stock instead.
+- Pixel/dither language is allowed only as a controlled accent: casino machines, money fixation, memory collapse, or Black-route disorientation. It should never make the whole UI look like a cheap filter.
 
 ## UI Rules
 
@@ -76,7 +78,8 @@ For White-route variants add:
 ## Current Engine Implementation
 
 - `assets/shaders/background_grade.gdshader` desaturates all event backgrounds and adds subtle paper grain, ink bleed, pale fade, and edge burn.
-- `assets/shaders/moral_surface.gdshader` adds Black ink corrosion and White clarity without brown rust.
+- `assets/shaders/background_grade.gdshader` also adds a restrained print-screen texture and very light tonal stepping. Black makes the printed surface rougher; White clears it back down.
+- `assets/shaders/moral_surface.gdshader` adds Black ink corrosion, screen scarring, and White clarity without brown rust.
 - `scenes/MainGame.gd` drives those parameters from `GameState.moral_tint_norm()` so the same background changes with the player.
 
 ## QA Checklist
