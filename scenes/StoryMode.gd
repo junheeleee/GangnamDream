@@ -63,6 +63,11 @@ var _font: FontFile
 var _font_bold: FontFile
 
 const TYPE_SPEED := 0.018   # 글자당 초
+const PORTRAIT_OFFSET_LEFT := -430
+const PORTRAIT_OFFSET_RIGHT := -28
+const PORTRAIT_OFFSET_TOP := -690
+const PORTRAIT_OFFSET_BOTTOM := -40
+const PORTRAIT_CHOICE_SHIFT_X := 72
 
 func _ready():
 	_load_fonts()
@@ -355,10 +360,10 @@ func _build_ui():
 	# 5. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
 	_portrait_frame = PanelContainer.new()
 	_portrait_frame.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_portrait_frame.offset_left = -430
-	_portrait_frame.offset_right = -28
-	_portrait_frame.offset_top = -690
-	_portrait_frame.offset_bottom = -40
+	_portrait_frame.offset_left = PORTRAIT_OFFSET_LEFT
+	_portrait_frame.offset_right = PORTRAIT_OFFSET_RIGHT
+	_portrait_frame.offset_top = PORTRAIT_OFFSET_TOP
+	_portrait_frame.offset_bottom = PORTRAIT_OFFSET_BOTTOM
 	_portrait_frame.clip_contents = true
 	_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait_frame.modulate = Color(1, 1, 1, 0)
@@ -497,14 +502,14 @@ func _build_ui():
 
 	# 8. 선택지 박스 — 텍스트 박스(높이250) 위에 띄움. 겹치지 않게 -270부터.
 	_choice_box = VBoxContainer.new()
-	_choice_box.anchor_left = 0.5
-	_choice_box.anchor_right = 0.5
+	_choice_box.anchor_left = 0.08
+	_choice_box.anchor_right = 0.74
 	_choice_box.anchor_top = 1.0
 	_choice_box.anchor_bottom = 1.0
-	_choice_box.offset_left = -460
-	_choice_box.offset_right = 460
-	_choice_box.offset_top = -620
-	_choice_box.offset_bottom = -270
+	_choice_box.offset_left = 0
+	_choice_box.offset_right = 0
+	_choice_box.offset_top = -654
+	_choice_box.offset_bottom = -314
 	_choice_box.add_theme_constant_override("separation", 10)
 	_choice_box.alignment = BoxContainer.ALIGNMENT_END
 	_choice_box.visible = false
@@ -780,9 +785,13 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 func _set_portrait_choice_focus(choices_visible: bool) -> void:
 	if not is_inside_tree() or not is_instance_valid(_portrait_frame) or not _portrait_frame.visible:
 		return
-	var target_alpha := 0.34 if choices_visible else 1.0
+	var target_alpha := 0.46 if choices_visible else 1.0
+	var target_shift := PORTRAIT_CHOICE_SHIFT_X if choices_visible else 0
 	var tw := create_tween()
+	tw.set_parallel(true)
 	tw.tween_property(_portrait_frame, "modulate:a", target_alpha, 0.18).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(_portrait_frame, "offset_left", PORTRAIT_OFFSET_LEFT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(_portrait_frame, "offset_right", PORTRAIT_OFFSET_RIGHT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
 
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
@@ -921,8 +930,9 @@ func _show_choices():
 func _make_choice_button(text: String, idx: int) -> Button:
 	var btn = Button.new()
 	btn.text = "  %02d  %s" % [idx + 1, text]
-	btn.custom_minimum_size = Vector2(0, 56)
+	btn.custom_minimum_size = Vector2(0, 60)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var palette := _story_palette()
 	var choice_bg: Color = palette["choice_bg"]
 	var choice_hover: Color = palette["choice_hover"]
