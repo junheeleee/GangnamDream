@@ -6055,40 +6055,18 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	_clear_feedback_flash()
 	_apply_event_bg_path(_get_bg_for_vignette(title, body, eff))
 	event_title.text = title
-	var parts: PackedStringArray = PackedStringArray()
-	var names := {
-		"money": _tr("돈", "Money"),
-		"health": _tr("건강", "Health"),
-		"mental": _tr("정신", "Mental"),
-		"intelligence": _tr("지력", "Intelligence"),
-		"investment_skill": _tr("투자감각", "Investing"),
-		"social_skill": _tr("사회성", "Social"),
-		"luck": _tr("운", "Luck"),
-		"reputation": _tr("평판", "Reputation"),
-	}
-	# merge "stress" into "mental" for display (stress removed as user-visible stat)
-	var disp: Dictionary = {}
-	for k in eff:
-		if k == "stress":
-			disp["mental"] = int(disp.get("mental", 0)) - int(eff[k])
-		elif k == "mental":
-			disp["mental"] = int(disp.get("mental", 0)) + int(eff[k])
-		else:
-			disp[k] = eff[k]
-	for k in disp:
-		var val: int = int(disp[k])
-		if val == 0:
-			continue
-		var sym: String = str(names.get(k, k))
-		var sign: String = "+" if val > 0 else ""
-		var col: String = "#34d399" if val > 0 else "#ff6b6b"
-		if k == "money":
-			col = "#f0b429" if val > 0 else "#ff6b6b"
-			parts.append("[color=%s]%s %s%s[/color]" % [col, sym, sign, GameState.format_money(float(val))])
-		else:
-			parts.append("[color=%s]%s %s%d[/color]" % [col, sym, sign, val])
-	var parts_line := "    ".join(parts)
-	_type_text(_fmt(body) + "\n\n" + parts_line, 50.0)
+	var disp: Dictionary = _ap_result_display_effects(eff)
+	_type_text(_fmt(body), 50.0)
+
+	var result_card: Control = _ap_result_feedback_card(disp, color)
+	if result_card:
+		result_card.modulate.a = 0.0
+		result_card.scale = Vector2(0.992, 0.992)
+		choice_box.add_child(result_card)
+		var card_tw := create_tween()
+		card_tw.tween_interval(0.10)
+		card_tw.tween_property(result_card, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_SINE)
+		card_tw.parallel().tween_property(result_card, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 	var btn_row := HBoxContainer.new()
 	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -6103,6 +6081,141 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	btn_row.add_child(btn)
 	btn.call_deferred("grab_focus")
 	next_button.disabled = true
+
+func _ap_result_display_effects(eff: Dictionary) -> Dictionary:
+	var disp: Dictionary = {}
+	for raw_key in eff:
+		var key: String = str(raw_key)
+		var val: int = int(eff[raw_key])
+		if key == "stress":
+			disp["mental"] = int(disp.get("mental", 0)) - val
+		elif key == "mental":
+			disp["mental"] = int(disp.get("mental", 0)) + val
+		else:
+			disp[key] = int(disp.get(key, 0)) + val
+	return disp
+
+func _ap_result_feedback_card(disp: Dictionary, accent_hex: String) -> Control:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#090c11", 0.96)
+	style.border_color = _moral_signal_color(Color(accent_hex), 0.22)
+	style.set_border_width_all(1)
+	style.border_width_left = 4
+	style.set_corner_radius_all(7)
+	style.content_margin_left = 13
+	style.content_margin_right = 13
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	card.add_theme_stylebox_override("panel", style)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	card.add_child(box)
+
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 10)
+	box.add_child(top)
+	var overline := _label(_tr("행동 결과", "ACTION RESULT"), 10, "#6f7888")
+	overline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(overline)
+	var tone := _ap_result_tone_label(disp)
+	var tone_lbl := _label(str(tone["label"]), 11, str(tone["color"]))
+	tone_lbl.custom_minimum_size = Vector2(110, 0)
+	tone_lbl.clip_text = false
+	tone_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	if _font_bold:
+		tone_lbl.add_theme_font_override("font", _font_bold)
+	top.add_child(tone_lbl)
+
+	var grid := GridContainer.new()
+	grid.columns = 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 8)
+	box.add_child(grid)
+
+	var added := 0
+	for key in _ap_result_effect_order(disp):
+		var val: int = int(disp.get(key, 0))
+		if val == 0:
+			continue
+		grid.add_child(_ap_result_effect_chip(key, val))
+		added += 1
+	if added == 0:
+		grid.add_child(_wrap_label(_tr("눈에 띄는 변화는 없었다.", "No visible stat change."), 12, "#8f98aa"))
+	return card
+
+func _ap_result_tone_label(disp: Dictionary) -> Dictionary:
+	var positive := 0
+	var negative := 0
+	for key in disp:
+		var val: int = int(disp[key])
+		if val > 0:
+			positive += 1
+		elif val < 0:
+			negative += 1
+	if positive > 0 and negative > 0:
+		return {"label": _tr("대가 있음", "TRADE-OFF"), "color": "#c8d0df"}
+	if negative > 0:
+		return {"label": _tr("손실", "COST"), "color": "#ff8a8a"}
+	if positive > 0:
+		return {"label": _tr("성장", "GAIN"), "color": "#7ee0b2"}
+	return {"label": _tr("기록", "LOG"), "color": "#8f98aa"}
+
+func _ap_result_effect_order(disp: Dictionary) -> Array[String]:
+	var order: Array[String] = [
+		"money", "health", "mental", "intelligence", "investment_skill",
+		"social_skill", "appearance", "luck", "reputation", "addiction_tendency"
+	]
+	for key in disp.keys():
+		var key_str: String = str(key)
+		if not order.has(key_str):
+			order.append(key_str)
+	return order
+
+func _ap_result_effect_chip(key: String, val: int) -> Control:
+	var chip := PanelContainer.new()
+	chip.custom_minimum_size = Vector2(0, 50)
+	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var accent := _ap_result_effect_color(key, val)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0d1017", 0.96)
+	st.border_color = _moral_signal_color(Color(accent), 0.18)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 7
+	st.content_margin_bottom = 7
+	chip.add_theme_stylebox_override("panel", st)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	chip.add_child(box)
+	box.add_child(_label(str(_stat_name(key)).to_upper(), 10, "#6f7888"))
+	var value_text := _ap_result_effect_value(key, val)
+	var value_lbl := _label(value_text, 14, accent)
+	value_lbl.clip_text = false
+	if _font_bold:
+		value_lbl.add_theme_font_override("font", _font_bold)
+	box.add_child(value_lbl)
+	return chip
+
+func _ap_result_effect_color(key: String, val: int) -> String:
+	if val < 0:
+		return "#ff8a8a"
+	if key == "money":
+		return "#f0c56a"
+	return "#7ee0b2"
+
+func _ap_result_effect_value(key: String, val: int) -> String:
+	if key == "money":
+		if val >= 0:
+			return "+%s" % GameState.format_money(float(val))
+		return "-%s" % GameState.format_money(absf(float(val)))
+	var sign := "+" if val > 0 else ""
+	return "%s%d" % [sign, val]
 
 func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> String:
 	var lower_title := title.to_lower()
