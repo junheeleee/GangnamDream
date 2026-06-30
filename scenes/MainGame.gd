@@ -352,9 +352,9 @@ func _moral_overlay_color(norm: float, stage: int) -> Color:
 	if stage == -1:
 		return Color(0.01, 0.028, 0.030, 0.20)
 	if stage >= 2:
-		return Color(0.86, 0.95, 1.00, 0.13)
+		return Color(0.96, 1.00, 0.98, 0.105)
 	if stage == 1:
-		return Color(0.84, 0.92, 1.00, 0.075)
+		return Color(0.92, 0.98, 0.96, 0.060)
 	var gray_alpha: float = 0.055 + absf(norm) * 0.025
 	return Color(0.28, 0.28, 0.30, gray_alpha)
 
@@ -390,15 +390,17 @@ func _apply_moral_surface_shader() -> void:
 	_moral_surface_material.set_shader_parameter("white_intensity", white)
 	_moral_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_moral_norm) * 10.0)
 	if _moral_bg_material:
-		_moral_bg_material.set_shader_parameter("desaturation", clampf(0.82 + black * 0.18 - white * 0.10, 0.0, 1.0))
-		_moral_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.30 + white * 0.16, 0.35, 1.25))
-		_moral_bg_material.set_shader_parameter("contrast", clampf(0.92 - black * 0.10 + white * 0.16, 0.65, 1.25))
-		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.08, 0.0, 0.20))
-		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#eff8ff"), white))
-		_moral_bg_material.set_shader_parameter("grain_amount", clampf(0.018 + black * 0.026 - white * 0.006, 0.0, 0.08))
-		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.130 - white * 0.030, 0.0, 0.25))
-		_moral_bg_material.set_shader_parameter("paper_fade", clampf(0.018 + white * 0.050, 0.0, 0.09))
-		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.070 + black * 0.130 - white * 0.040, 0.0, 0.24))
+		# Black is numbness: the world loses color, edges close in, money remains sharp.
+		# White is not a beige skin; it is perception returning, so real image color comes back.
+		_moral_bg_material.set_shader_parameter("desaturation", clampf(0.82 + black * 0.18 - white * 0.46, 0.28, 1.0))
+		_moral_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.30 + white * 0.22, 0.35, 1.25))
+		_moral_bg_material.set_shader_parameter("contrast", clampf(0.92 - black * 0.10 + white * 0.18, 0.65, 1.25))
+		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.035, 0.0, 0.18))
+		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
+		_moral_bg_material.set_shader_parameter("grain_amount", clampf(0.018 + black * 0.026 - white * 0.014, 0.0, 0.08))
+		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.130 - white * 0.046, 0.0, 0.25))
+		_moral_bg_material.set_shader_parameter("paper_fade", clampf(0.018 + white * 0.030, 0.0, 0.07))
+		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.070 + black * 0.130 - white * 0.070, 0.0, 0.24))
 		_moral_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_moral_norm) * 19.0)
 
 func _apply_story_moral_clarity() -> void:
@@ -3059,8 +3061,8 @@ func _moral_beat_text(from_band: int, to_band: int) -> String:
 	if to_band < from_band:
 		if to_band <= -2:
 			return _tr(
-				"거울을 봤다.\n5년 전 고시원에서 라면 먹던 얼굴을 떠올리려 했는데 —\n안 떠올랐다.",
-				"I looked in the mirror.\nI tried to picture the face that ate ramen in the goshiwon five years ago —\nit wouldn't come.")
+				"거울을 봤다.\n처음 이 방에 들어왔던 얼굴을 떠올리려 했는데 —\n낯설었다.",
+				"I looked in the mirror.\nI tried to picture the face that first walked into this room —\nit felt unfamiliar.")
 		if to_band == -1:
 			return _tr(
 				"밥을 먹는데 맛이 안 났다.\n그냥 연료 같았다.",
@@ -3069,7 +3071,11 @@ func _moral_beat_text(from_band: int, to_band: int) -> String:
 			"뭔가, 조금씩 식어가는 느낌이 들었다.\n뭔지는 몰랐다.",
 			"Something felt like it was slowly going cold.\nI couldn't say what.")
 	# 하양 쪽으로 (되찾음 — 불완전)
-	if to_band >= 1:
+	if to_band >= 2:
+		return _tr(
+			"창밖의 간판 색이 이상하게 선명했다.\n원래 저렇게 많은 색이 있었나, 잠깐 생각했다.",
+			"The signs outside the window looked strangely vivid.\nFor a moment I wondered whether there had always been that much color.")
+	if to_band == 1:
 		return _tr(
 			"오랜만에 통화 끝에 웃었다.\n웃는 게 어색했다는 걸, 웃고 나서 알았다.",
 			"For once I laughed at the end of a call.\nOnly after did I realize how unfamiliar laughing had become.")

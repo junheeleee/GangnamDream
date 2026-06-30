@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-30** — **Codex Demo Record Surface Pass**: 데모 종료 6개월 기록창을 일반 웹 모달에서 `RUN RECORD` 카드 표면으로 재구성. Act/기간/현재 직업/총자산/남은 거리 메트릭과 진행 바를 하나의 기록지 안에 묶어 마지막 위시리스트 CTA 직전 화면이 더 게임 내 결과물처럼 보이게 했다. `tools/audit.sh`, `ScreenshotQA --qa=demo-end-en --lang=en/ko` 통과 및 캡처 직접 확인. |
+| **최근 완료** | **2026-06-30** — **Codex Moral Perception Surface Pass**: `MORAL_TINT`가 색깔놀이가 아니라 민준의 지각 변화임을 시각/문서 양쪽에 고정. White 경로는 흰 막이 아니라 배경의 실제 색채·선명도가 돌아오도록 셰이더 연결값을 조정하고, Black 경로는 탈색·번짐·돈 HUD 선명도 축을 유지. 밴드 전이 비네트도 시간 오류 없는 감각 문장으로 보정했다. `tools/audit.sh`, `ScreenshotQA --qa=moral --lang=en` 통과. |
+| **이전** | **2026-06-30** — **Codex Demo Record Surface Pass**: 데모 종료 6개월 기록창을 일반 웹 모달에서 `RUN RECORD` 카드 표면으로 재구성. Act/기간/현재 직업/총자산/남은 거리 메트릭과 진행 바를 하나의 기록지 안에 묶어 마지막 위시리스트 CTA 직전 화면이 더 게임 내 결과물처럼 보이게 했다. `tools/audit.sh`, `ScreenshotQA --qa=demo-end-en --lang=en/ko` 통과 및 캡처 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Ending Audio Tone Governance Pass**: 엔딩 BGM과 stinger 분류를 등급 기반이 아니라 정서 톤 기반(`legend/hopeful/dark`)으로 통합. `empty_house/jaehyuk_way/lonely_rich`처럼 자산 성공이지만 정서적으로 어두운 결말은 축하 stinger가 아니라 dark tone을 쓰도록 고정했다. `AudioAssetCheck`에 엔딩 톤 회귀 검사를 추가하고 `tools/audit.sh`에 연결. `tools/audit.sh`, `AudioAssetCheck`, `BGMContinuityCheck`, `ScreenshotQA --qa=transition` 통과. |
 | **이전** | **2026-06-30** — **Codex Big Wheel Result Text Cleanup**: 빅휠 결과 화면에서 휠 하단 `Result: N` 텍스트가 포인터/스탠드와 겹치던 문제 제거. 오른쪽 `WINNER` plate와 하단 정산 메시지만 남겨 결과 정보는 유지하면서 조잡한 중복 표면을 줄였다. `tools/audit.sh`, `ScreenshotQA --qa=casino-en` 통과 및 빅휠 결과 직접 확인. |
 | **이전** | **2026-06-30** — **Codex Ending Fallback Scene Pass**: 전용 CG가 없는 엔딩 카드가 미완성 보고서처럼 보이던 문제 보정. `bankruptcy/debt_spiral/burnout/gangnam/bond/career` 계열별 코드 네이티브 장면 스트립을 추가하고, 엔딩 상태 바를 어두운 트랙+부분 채움으로 재구성해 무CG 엔딩도 의도된 최종 기록 화면처럼 보이게 했다. `tools/audit.sh`, `ScreenshotQA --qa=endings-en` 통과 및 `Debt Abyss`/`Stable Success` 직접 확인. |
