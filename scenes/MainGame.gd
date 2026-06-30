@@ -6989,36 +6989,84 @@ func _show_demo_ending():
 		story_lines.append(_tr("통장이 마이너스다. 6개월이 이랬다.", "Account is in the red. That's what six months looked like."))
 
 	_open_modal(_tr("강남드림 — 6개월의 기록", "Gangnam Dream — A 6-Month Record"))
-	modal_body.add_child(_label(_tr("— 1막 종료 —", "— Act 1 End —"), 14, _moral_hex(_moral_text_accent(Color("#f0b429"), 0.06))))
-
 	var date_str = GameState.get_date_string()
-	modal_body.add_child(_wrap_label(
-		_tr("%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다.", "%s. Minjun is still 33. Four and a half years left.") % date_str, 14, "#c8d0df"))
+	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
+	var record_card := PanelContainer.new()
+	record_card.set_meta("moral_role", "info_card")
+	record_card.set_meta("moral_accent", "#dce6ee")
+	var record_style := StyleBoxFlat.new()
+	record_style.bg_color = Color("#0b0d12", 0.985)
+	record_style.border_color = Color("#dce6ee", 0.58)
+	record_style.set_border_width_all(1)
+	record_style.border_width_left = 4
+	record_style.set_corner_radius_all(6)
+	record_style.content_margin_left = 14
+	record_style.content_margin_right = 14
+	record_style.content_margin_top = 13
+	record_style.content_margin_bottom = 13
+	record_card.add_theme_stylebox_override("panel", record_style)
+	modal_body.add_child(record_card)
 
-	var sep1 = HSeparator.new()
-	sep1.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep1)
+	var record_box := VBoxContainer.new()
+	record_box.add_theme_constant_override("separation", 9)
+	record_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	record_card.add_child(record_box)
+
+	var record_header := HBoxContainer.new()
+	record_header.add_theme_constant_override("separation", 12)
+	record_box.add_child(record_header)
+	var record_title_box := VBoxContainer.new()
+	record_title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	record_title_box.add_theme_constant_override("separation", 2)
+	record_header.add_child(record_title_box)
+	record_title_box.add_child(_label(_tr("런 기록", "RUN RECORD"), 11, "#697386"))
+	var act_lbl := _label(_tr("1막 종료", "Act 1 End"), 19, "#eef3f8")
+	if _font_bold:
+		act_lbl.add_theme_font_override("font", _font_bold)
+	record_title_box.add_child(act_lbl)
+	record_title_box.add_child(_wrap_label(
+		_tr("%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다.", "%s. Minjun is still 33. Four and a half years left.") % date_str, 13, "#aeb8c8"))
+	var stamp := _demo_record_metric(_tr("기간", "Period"), _tr("6개월", "6 months"), _tr("데모 기록", "Demo record"), "#dce6ee")
+	stamp.custom_minimum_size = Vector2(150, 0)
+	stamp.size_flags_horizontal = Control.SIZE_SHRINK_END
+	record_header.add_child(stamp)
+
+	var metrics := HBoxContainer.new()
+	metrics.add_theme_constant_override("separation", 8)
+	record_box.add_child(metrics)
+	metrics.add_child(_demo_record_metric(
+		_tr("현재", "Current"),
+		GameState.get_job_display_name() if not GameState.current_job.is_empty() else _tr("무직", "Unemployed"),
+		_tr("생활 기반", "Life base"),
+		"#9aa4b8"))
+	metrics.add_child(_demo_record_metric(
+		_tr("총자산", "Assets"),
+		GameState.format_money(total_assets),
+		_tr("6개월 결과", "6-month result"),
+		asset_color))
+	metrics.add_child(_demo_record_metric(
+		_tr("남은 거리", "Distance"),
+		GameState.format_money(max(0.0, 3_000_000_000.0 - total_assets)),
+		_tr("강남까지", "To Gangnam"),
+		"#aeb8c8"))
+
+	record_box.add_child(_demo_record_separator())
 
 	# 개인화 스토리 요약
-	modal_body.add_child(_label(_tr("지난 6개월", "Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
+	record_box.add_child(_label(_tr("지난 6개월", "Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
 	for line in story_lines:
-		modal_body.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
+		record_box.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
 
-	var sep2 = HSeparator.new()
-	sep2.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep2)
-
+	record_box.add_child(_demo_record_separator())
 	# 자산 성적표
-	modal_body.add_child(_label(_tr("6개월 성적표", "6-Month Report"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
-	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
-	modal_body.add_child(_wrap_label(_tr("총자산  %s", "Total Assets  %s") % GameState.format_money(total_assets), 16, asset_color))
 	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Progress to Gangnam (Seoul's status district): %.3f%%") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
+	record_box.add_child(_make_progress_row(
+		_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"),
+		progress_pct / 100.0,
+		asset_color,
+		_tr("%.3f%% 달성", "%.3f%% reached") % progress_pct))
 
-	var sep3 = HSeparator.new()
-	sep3.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep3)
-
+	record_box.add_child(_demo_record_separator())
 	# 풀버전 티저
 	var teaser_lines: Array = []
 	if f.get("arc_sangchul_casino_seen", false):
@@ -7027,10 +7075,11 @@ func _show_demo_ending():
 		teaser_lines.append(_tr("한지연 — 그녀의 제안, 받을 것인가 말 것인가.", "Jiyeon — her offer. Accept or refuse?"))
 	if f.get("arc_jaehyuk_reunion_seen", false):
 		teaser_lines.append(_tr("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.", "Jaehyuk — the real face behind his business proposal."))
-	teaser_lines.append(_tr("강남 입성까지 남은 거리: %s", "Distance to Gangnam: %s") % GameState.format_money(3_000_000_000.0 - total_assets))
-	modal_body.add_child(_label(_tr("풀버전에서 계속됩니다", "Continues in the full version"), 14, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
+	teaser_lines.append(_tr("강남 입성까지 남은 거리: %s", "Distance to Gangnam: %s") % GameState.format_money(max(0.0, 3_000_000_000.0 - total_assets)))
+	record_box.add_child(_label(_tr("풀버전에서 계속됩니다", "Continues in the full version"), 14, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
 	for tl in teaser_lines:
-		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
+		record_box.add_child(_wrap_label(tl, 12, "#7a8496"))
+	_apply_moral_tree_styles(record_card, _moral_ui_palette())
 
 	# ── Steam 위시리스트 CTA ───────────────────────────────────
 	var sep_steam = HSeparator.new()
@@ -7088,6 +7137,40 @@ func _show_demo_ending():
 	var menu_btn = _button(_tr("메인 메뉴로", "Main Menu"), "#1a1a28")
 	menu_btn.pressed.connect(_go_to_menu)
 	modal_body.add_child(menu_btn)
+
+func _demo_record_separator() -> HSeparator:
+	var sep := HSeparator.new()
+	sep.add_theme_color_override("color", Color("#303545", 0.78))
+	return sep
+
+func _demo_record_metric(title: String, value: String, hint: String, accent: String) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.set_meta("moral_role", "info_card")
+	card.set_meta("moral_accent", accent)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#11141b", 0.96)
+	style.border_color = Color(accent, 0.38)
+	style.set_border_width_all(1)
+	style.border_width_top = 2
+	style.set_corner_radius_all(5)
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	card.add_theme_stylebox_override("panel", style)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(box)
+	box.add_child(_label(title.to_upper(), 10, "#697386"))
+	var value_lbl := _label(value, 15, _moral_hex(_moral_text_accent(Color(accent), 0.05)))
+	if _font_bold:
+		value_lbl.add_theme_font_override("font", _font_bold)
+	box.add_child(value_lbl)
+	box.add_child(_label(hint, 11, "#596274"))
+	return card
 
 func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
