@@ -8391,110 +8391,68 @@ func _show_month_summary(snap: Dictionary):
 		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	# 결산은 가운데 모달, 크기를 약간 더 넉넉하게
 	if modal_panel:
-		modal_panel.custom_minimum_size = Vector2(660, 580)
-		modal_panel.offset_left   = -330
-		modal_panel.offset_right  =  330
-		modal_panel.offset_top    = -290
-		modal_panel.offset_bottom =  290
+		modal_panel.custom_minimum_size = Vector2(700, 640)
+		modal_panel.offset_left   = -350
+		modal_panel.offset_right  =  350
+		modal_panel.offset_top    = -320
+		modal_panel.offset_bottom =  320
 
-	# ── 이달 등급 (한 줄) ──────────────────────────
-	var grade = _calc_month_grade(snap)
-	var grade_row = HBoxContainer.new()
-	grade_row.add_theme_constant_override("separation", 10)
-	modal_body.add_child(grade_row)
-	var grade_badge := PanelContainer.new()
-	grade_badge.custom_minimum_size = Vector2(36, 30)
-	grade_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var badge_style := StyleBoxFlat.new()
-	badge_style.bg_color = Color("#0b0d12", 0.96)
-	badge_style.border_color = _moral_signal_color(Color(grade["color"]), 0.2)
-	badge_style.set_border_width_all(1)
-	badge_style.set_corner_radius_all(5)
-	badge_style.content_margin_left = 5
-	badge_style.content_margin_right = 5
-	badge_style.content_margin_top = 4
-	badge_style.content_margin_bottom = 4
-	grade_badge.add_theme_stylebox_override("panel", badge_style)
-	var badge_lbl := Label.new()
-	badge_lbl.text = str(grade.get("badge", "RUN"))
-	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	badge_lbl.add_theme_font_size_override("font_size", 10)
-	badge_lbl.add_theme_color_override("font_color", _moral_signal_color(Color(grade["color"]), 0.22))
-	if _font_bold:
-		badge_lbl.add_theme_font_override("font", _font_bold)
-	grade_badge.add_child(badge_lbl)
-	grade_row.add_child(grade_badge)
-	var grade_col = VBoxContainer.new()
-	grade_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grade_col.add_theme_constant_override("separation", 2)
-	grade_row.add_child(grade_col)
-	var grade_title = Label.new()
-	grade_title.text = grade["title"]
-	grade_title.add_theme_font_size_override("font_size", 15)
-	grade_title.add_theme_color_override("font_color", _moral_signal_color(Color(grade["color"]), 0.18))
-	grade_col.add_child(grade_title)
-	var grade_msg = Label.new()
-	grade_msg.text = grade["msg"]
-	grade_msg.add_theme_font_size_override("font_size", 11)
-	grade_msg.add_theme_color_override("font_color", Color("#5a6075"))
-	grade_msg.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	grade_msg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grade_col.add_child(grade_msg)
-
-	var div = HSeparator.new()
-	div.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(div)
-
-	# ── 재정 요약 (2행 그리드) ─────────────────────
-	var income  = float(snap["monthly_income"])
-	var expense = float(snap["fixed_expense"])
-	var net     = income - expense
+	var income: float = float(snap["monthly_income"])
+	var expense: float = float(snap["fixed_expense"])
+	var net: float = income - expense
 	var net_color  = "#00c896" if net >= 0 else "#ff4444"
-	var assets_now = GameState.get_total_asset_value()
-	var asset_delta = assets_now - float(snap["assets_before"])
+	var assets_now: float = GameState.get_total_asset_value()
+	var asset_delta: float = assets_now - float(snap["assets_before"])
 	var asset_color = "#00c896" if asset_delta >= 0 else "#ff4444"
 	var asset_sign  = "+" if asset_delta >= 0 else ""
+	var goal: float = 3_000_000_000.0
+	var pct: float = clampf(assets_now / goal, 0.0, 1.0)
+	var pct_disp: String = "%.1f%%" % (pct * 100.0)
 
-	# 행1: 수입 / 지출 / 순이익
-	var fin_row1 = HBoxContainer.new()
-	fin_row1.add_theme_constant_override("separation", 0)
-	modal_body.add_child(fin_row1)
-	var _fc = func(label: String, value: String, color: String):
-		var cell = VBoxContainer.new()
-		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		cell.add_theme_constant_override("separation", 1)
-		var lbl = Label.new()
-		lbl.text = label
-		lbl.add_theme_font_size_override("font_size", 10)
-		lbl.add_theme_color_override("font_color", Color("#4a5568"))
-		cell.add_child(lbl)
-		var val = Label.new()
-		val.text = value
-		val.add_theme_font_size_override("font_size", 14)
-		val.add_theme_color_override("font_color", Color(color))
-		cell.add_child(val)
-		return cell
-	fin_row1.add_child(_fc.call(_tr("월급 수입", "Salary Income"), GameState.format_money(income), "#00c896"))
+	# ── 이달 판정 / 재정 결과 — 월말 리듬의 첫 인상 ─────────────
+	var grade = _calc_month_grade(snap)
+	modal_body.add_child(_month_summary_result_card(grade, net, net_color, assets_now, pct_disp))
+
+	var metric_grid := GridContainer.new()
+	metric_grid.columns = 4
+	metric_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	metric_grid.add_theme_constant_override("h_separation", 8)
+	metric_grid.add_theme_constant_override("v_separation", 8)
+	modal_body.add_child(metric_grid)
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("수입", "Income"),
+		GameState.format_money(income),
+		_tr("이번 달 들어온 돈", "Money in this month"),
+		"#00c896"))
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("지출", "Expense"),
+		"-%s" % GameState.format_money(expense),
+		_tr("고정 생활비", "Fixed living cost"),
+		"#ff6b6b"))
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("자산 변화", "Asset Change"),
+		"%s%s" % [asset_sign, GameState.format_money(asset_delta)],
+		_tr("투자 포함", "Including investments"),
+		asset_color))
+	metric_grid.add_child(_month_summary_metric_card(
+		_tr("총자산", "Total Assets"),
+		GameState.format_money(assets_now),
+		_tr("현재 위치", "Current position"),
+		"#8892a4"))
 	if bool(snap.get("subsidy", false)):
-		fin_row1.add_child(_fc.call(_tr("지원금", "Subsidy"), _tr("+30만원", "+KRW 300K"), "#c9a227"))
-	fin_row1.add_child(_fc.call(_tr("고정 지출", "Fixed Expense"), "-%s" % GameState.format_money(expense), "#ff6b6b"))
-	fin_row1.add_child(_fc.call(_tr("순이익", "Net Profit"), GameState.format_money(net), net_color))
+		modal_body.add_child(_wrap_label(
+			_tr("정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.", "The KRW 300K settlement subsidy quietly kept this month afloat."),
+			11, "#7f8798"))
 
-	# 행2: 자산변화 / 총자산
-	var fin_row2 = HBoxContainer.new()
-	fin_row2.add_theme_constant_override("separation", 0)
-	modal_body.add_child(fin_row2)
-	fin_row2.add_child(_fc.call(_tr("자산 변화", "Asset Change"), "%s%s" % [asset_sign, GameState.format_money(asset_delta)], asset_color))
-	fin_row2.add_child(_fc.call(_tr("현재 총자산", "Current Total Assets"), GameState.format_money(assets_now), "#8892a4"))
+	var base_bar := Color("#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#c9a227"))
+	var bar_color = _moral_hex(_moral_gray_accent(base_bar, _moral_ui_palette(), 0.04))
+	modal_body.add_child(_make_progress_row(
+		_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"), pct, bar_color,
+		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
 
 	# ── 행동 요약 ─────────────────────────────────
 	if not snap["actions"].is_empty():
-		var div2 = HSeparator.new()
-		div2.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(div2)
-		for entry in snap["actions"]:
-			modal_body.add_child(_wrap_label(_clean_month_summary_entry(entry), 12, "#8892a4"))
+		modal_body.add_child(_month_summary_action_card(snap["actions"]))
 
 	# ── 스탯 변화 (한 줄) ─────────────────────────
 	var stat_parts: Array = []
@@ -8534,16 +8492,6 @@ func _show_month_summary(snap: Dictionary):
 		var warn_div2 = HSeparator.new()
 		warn_div2.add_theme_color_override("color", Color("#cc0000"))
 		modal_body.add_child(warn_div2)
-
-	# ── 강남드림 달성률 진행 바 (그래픽) ──────────────
-	var goal = 3_000_000_000.0
-	var pct = clamp(assets_now / goal, 0.0, 1.0)
-	var pct_disp = "%.1f%%" % (pct * 100.0)
-	var base_bar := Color("#00c896" if pct >= 0.5 else ("#f0b429" if pct >= 0.2 else "#c9a227"))
-	var bar_color = _moral_hex(_moral_gray_accent(base_bar, _moral_ui_palette(), 0.04))
-	modal_body.add_child(_make_progress_row(
-		_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"), pct, bar_color,
-		"%s  (%s)" % [GameState.format_money(assets_now), pct_disp]))
 
 	# ── 목표 힌트 ─────────────────────────────────
 	var ms = _next_milestone_hint(assets_now)
@@ -8591,6 +8539,108 @@ func _show_month_summary(snap: Dictionary):
 		confirm_btn.pressed.connect(_close_modal)
 		modal_body.add_child(confirm_btn)
 		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
+
+func _month_summary_result_card(grade: Dictionary, net: float, net_color: String, assets_now: float, pct_disp: String) -> Control:
+	var grade_color: String = str(grade.get("color", "#8892a4"))
+	var grade_badge_text: String = str(grade.get("badge", "LOG"))
+	var grade_title_text: String = str(grade.get("title", ""))
+	var grade_msg_text: String = str(grade.get("msg", ""))
+	var card: PanelContainer = _info_card(grade_color, "#0b0d12")
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	card.add_child(row)
+
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(58, 58)
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var badge_style := StyleBoxFlat.new()
+	badge_style.bg_color = Color("#050608", 0.96)
+	badge_style.border_color = _moral_signal_color(Color(grade_color), 0.22)
+	badge_style.set_border_width_all(1)
+	badge_style.set_corner_radius_all(7)
+	badge_style.content_margin_left = 6
+	badge_style.content_margin_right = 6
+	badge_style.content_margin_top = 6
+	badge_style.content_margin_bottom = 6
+	badge.add_theme_stylebox_override("panel", badge_style)
+	row.add_child(badge)
+
+	var badge_lbl := Label.new()
+	badge_lbl.text = grade_badge_text
+	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge_lbl.add_theme_font_size_override("font_size", 14)
+	badge_lbl.add_theme_color_override("font_color", _moral_signal_color(Color(grade_color), 0.24))
+	if _font_bold:
+		badge_lbl.add_theme_font_override("font", _font_bold)
+	badge.add_child(badge_lbl)
+
+	var copy_col := VBoxContainer.new()
+	copy_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy_col.add_theme_constant_override("separation", 3)
+	row.add_child(copy_col)
+	var overline := _label(_tr("이번 달 판정", "This Month"), 10, "#5f6878")
+	copy_col.add_child(overline)
+	var grade_title: Label = _label(grade_title_text, 18, _moral_hex(_moral_text_accent(Color(grade_color), 0.03)))
+	if _font_bold:
+		grade_title.add_theme_font_override("font", _font_bold)
+	copy_col.add_child(grade_title)
+	copy_col.add_child(_wrap_label(grade_msg_text, 12, "#8f98aa"))
+
+	var result_col := VBoxContainer.new()
+	result_col.custom_minimum_size = Vector2(190, 0)
+	result_col.add_theme_constant_override("separation", 3)
+	row.add_child(result_col)
+	var net_label := _label(_tr("순이익", "Net Profit"), 10, "#5f6878")
+	net_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	result_col.add_child(net_label)
+	var net_value := _label(GameState.format_money(net), 22, net_color)
+	net_value.clip_text = false
+	net_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	if _font_bold:
+		net_value.add_theme_font_override("font", _font_bold)
+	result_col.add_child(net_value)
+	var asset_hint := _label(_tr("%s / 30억", "%s / KRW 3B") % GameState.format_money(assets_now), 11, "#7f8798")
+	asset_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	result_col.add_child(asset_hint)
+	var pct_hint := _label(pct_disp, 10, "#5f6878")
+	pct_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	result_col.add_child(pct_hint)
+	return card
+
+func _month_summary_metric_card(title: String, value: String, hint: String, accent: String) -> Control:
+	var card := _info_card(accent, "#090c11")
+	card.custom_minimum_size = Vector2(0, 74)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 3)
+	card.add_child(box)
+	box.add_child(_label(title.to_upper(), 10, "#5f6878"))
+	var value_lbl := _label(value, 15, _moral_hex(_moral_text_accent(Color(accent), 0.02)))
+	value_lbl.clip_text = false
+	if _font_bold:
+		value_lbl.add_theme_font_override("font", _font_bold)
+	box.add_child(value_lbl)
+	box.add_child(_wrap_label(hint, 10, "#6f7888"))
+	return card
+
+func _month_summary_action_card(actions: Array) -> Control:
+	var card := _info_card("#64748b", "#090c11")
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 5)
+	card.add_child(box)
+	box.add_child(_label(_tr("이번 달 선택", "This Month's Choices"), 11, "#7f8798"))
+	var visible_count := mini(actions.size(), 3)
+	for i in range(visible_count):
+		box.add_child(_wrap_label("· %s" % _month_summary_action_text(actions[i]), 12, "#a0a8b8"))
+	if actions.size() > visible_count:
+		box.add_child(_label(_tr("외 %d개 기록", "%d more records") % (actions.size() - visible_count), 10, "#5f6878"))
+	return card
+
+func _month_summary_action_text(entry: Variant) -> String:
+	var text := _clean_month_summary_entry(entry).strip_edges()
+	while text.begins_with("•") or text.begins_with("·") or text.begins_with("-"):
+		text = text.substr(1).strip_edges()
+	return text
 
 func _clean_month_summary_entry(entry: Variant) -> String:
 	return _clean_log_surface_text(entry)
