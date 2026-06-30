@@ -2612,6 +2612,11 @@ func _next_arc_id() -> String:
 	if t >= 160 and f.get("arc_minseo_01_seen", false) \
 			and not f.get("arc_minseo_02_seen", false):
 		return "arc_minseo_02_real"
+	# 이민서 — 강남 도착 페이오프 (Y5, 목표 근접 시 그녀의 경고가 회수된다)
+	if t >= 200 and f.get("arc_minseo_02_seen", false) \
+			and not f.get("arc_minseo_03_seen", false) \
+			and GameState.get_total_asset_value() >= 2_000_000_000.0:
+		return "arc_minseo_03_arrival"
 	# 김다은 Year 4 — 강남 취직 (함께 궤적)
 	if t >= 145 and f.get("arc_daeun_year3_together_seen", false) \
 			and not f.get("arc_daeun_year4_together_seen", false):

@@ -92,5 +92,20 @@
         "result_text": "She thought for a moment, then said:\n\"When you have a goal — you have to be ready for when the goal disappears. That's the hardest part.\"\n\nIt took {name} a while to understand what that meant."
       }
     ]
+  },
+  {
+    "id": "arc_minseo_03_arrival",
+    "title": "The One Who Arrives",
+    "description": "Gangnam wasn't far now.\n\nWith the number nearly full, a message came from Lee Minseo.\n\"I heard. They say you're almost there.\"\n\nThey met again at that same cafe.\n\"Congratulations. I mean it.\"\nThen she went quiet for a moment.\n\"Remember what I told you back then?\"\n\n{name} remembered. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.",
+    "choices": [
+      {
+        "text": "\"I think I'm starting to get it.\" — said it honestly",
+        "result_text": "Lee Minseo nodded.\n\"Right? When you arrive, the next question comes. 'So now what.'\nBut that's not all bad. At least — it's a new question.\"\n\nFor the first time, {name} felt that Gangnam wasn't the end, but the start of the next sentence."
+      },
+      {
+        "text": "\"I haven't arrived yet. Don't want to count my chickens.\" — smiled",
+        "result_text": "Lee Minseo laughed. \"Fair enough. See it all the way through.\"\n\nStill, {name} decided to tuck her words away in his bag.\nHe'd take them out once he got there."
+      }
+    ]
   }
 ]
