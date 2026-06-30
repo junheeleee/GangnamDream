@@ -1594,20 +1594,10 @@ func _refresh_goal_bar() -> void:
 	else:
 		_goal_pct_label.remove_theme_color_override("font_color")
 
-	# 자산 레이블 + 다음 마일스톤
+	# 자산 레이블은 최종 목표 대비로 고정한다.
+	# 다음 마일스톤은 아래 주간 판단 카드에서 따로 보여줘야 첫 화면이 덜 산만하다.
 	if _goal_money_lbl:
-		var milestone_text: String
-		if total < 100_000_000:
-			milestone_text = _tr("→ 1억", "→ KRW 100M")
-		elif total < 500_000_000:
-			milestone_text = _tr("→ 5억", "→ KRW 500M")
-		elif total < 1_000_000_000:
-			milestone_text = _tr("→ 10억", "→ KRW 1B")
-		elif total < 2_000_000_000:
-			milestone_text = _tr("→ 20억", "→ KRW 2B")
-		else:
-			milestone_text = _tr("→ 30억!", "→ KRW 3B!")
-		_goal_money_lbl.text = "%s  %s" % [GameState.format_money(total), milestone_text]
+		_goal_money_lbl.text = "%s / %s" % [GameState.format_money(total), GameState.format_money(3_000_000_000.0)]
 
 	# 남은 시간 레이블 (시간 압박 가시화)
 	if _goal_time_lbl:
@@ -4327,15 +4317,8 @@ func _render_ap_actions():
 		for entry in turn_action_log:
 			lines.append(_escape_bbcode_text(_clean_log_surface_text(entry)))
 		lines.append("──────────────────")
-	var net_sign = "+" if net >= 0 else ""
-	var net_flag = _tr("  [color=#ff7070]← 월 고정비 적자 주의[/color]", "  [color=#ff7070]← fixed-cost deficit warning[/color]") if net < 0 else ""
-	lines.append(_tr("월 현금흐름  [b]%s%s[/b]%s", "Month cashflow  %s%s%s") % [net_sign, GameState.format_money(net), net_flag])
-	var ms_hint = _next_milestone_hint(total)
-	if not ms_hint.is_empty():
-		lines.append(ms_hint)
-	var traj = _months_to_goal_estimate()
-	if not traj.is_empty():
-		lines.append(traj)
+	# 월 현금흐름/마일스톤/목표까지의 압박은 아래 'This Week' 카드로 모아
+	# 첫 AP 화면이 계산표처럼 시작하지 않게 한다.
 	# ── 경고 ──
 	var has_warning := false
 	if GameState.current_job.is_empty():
@@ -4443,7 +4426,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	card.set_meta("moral_role", "info_card")
 	card.set_meta("moral_accent", "#c5ccd5")
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.custom_minimum_size = Vector2(0, 148)
+	card.custom_minimum_size = Vector2(0, 122)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#0b0d12", 0.94)
 	style.border_color = Color("#3e4654")
@@ -4485,16 +4468,6 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	ap_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top.add_child(ap_lbl)
 
-	_add_week_ap_slots(box, ap)
-
-	var net_sign := "+" if net >= 0 else ""
-	var summary := _tr("월 현금흐름 %s%s  ·  총자산 %s", "Month cashflow %s%s  ·  Assets %s") % [
-		net_sign, GameState.format_money(net), GameState.format_money(total)
-	]
-	var summary_lbl := _wrap_label(summary, 12, "#9aa4b8")
-	summary_lbl.set_meta("moral_role", "choice_subtitle")
-	box.add_child(summary_lbl)
-
 	_render_week_pressure_row(box, net, total, has_warning)
 
 	var focus_text := _tr("먼저 위험 신호를 줄여야 한다.", "Stabilize the immediate risk first.") if has_warning else _clean_focus_text(_recommend_action())
@@ -4519,7 +4492,7 @@ func _render_week_pressure_row(parent: Control, net: float, total: float, has_wa
 		condition = _tr("피로 누적", "Strained")
 
 	_add_week_pressure_cell(row, _tr("현금흐름", "CASHFLOW"), cash_text, net >= 0.0)
-	_add_week_pressure_cell(row, _tr("강남까지", "GAP"), GameState.format_money(goal_gap), goal_gap <= 1_000_000_000.0)
+	_add_week_pressure_cell(row, _tr("강남까지", "TO GANGNAM"), GameState.format_money(goal_gap), goal_gap <= 1_000_000_000.0)
 	_add_week_pressure_cell(row, _tr("몸과 마음", "CONDITION"), condition, not has_warning)
 
 func _add_week_pressure_cell(parent: Control, label_text: String, value_text: String, good: bool) -> void:
@@ -6111,9 +6084,19 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 			parts.append("[color=%s]%s %s%d[/color]" % [col, sym, sign, val])
 	var parts_line := "    ".join(parts)
 	_type_text(_fmt(body) + "\n\n" + parts_line, 50.0)
+
+	var btn_row := HBoxContainer.new()
+	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	btn_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn_row.add_theme_constant_override("separation", 0)
+	choice_box.add_child(btn_row)
+
 	var btn: Button = _button(_tr("확인", "OK"), color)
+	btn.custom_minimum_size = Vector2(220, 46)
+	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
-	choice_box.add_child(btn)
+	btn_row.add_child(btn)
+	btn.call_deferred("grab_focus")
 	next_button.disabled = true
 
 func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> String:
