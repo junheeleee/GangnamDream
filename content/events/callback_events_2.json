@@ -51,7 +51,7 @@
     "weight": 0.9,
     "hidden": false,
     "conditions": {
-      "flag": "daeun_committed",
+      "flag": "daeun_romance_started",
       "min_turn": 200
     },
     "tags": [

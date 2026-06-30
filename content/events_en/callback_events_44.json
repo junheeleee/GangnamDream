@@ -156,17 +156,11 @@
     "choices": [
       {
         "text": "Like that time — body first",
-        "result_text": "Collapsing right at the finish line means nothing.\n\nAs going to the hospital protected {name} then, they chose the body first today too.\nNo health, no Gangnam.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Collapsing right at the finish line means nothing.\n\nAs going to the hospital protected {name} then, they chose the body first today too.\nNo health, no Gangnam."
       },
       {
         "text": "Trust the test results — pace it, no overreach",
-        "result_text": "Thanks to that checkup, {name} knows their own condition.\n\nInstead of running blindly, they found a sustainable speed.\nGoing all the way belongs not to the fast but to those who don't stop.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Thanks to that checkup, {name} knows their own condition.\n\nInstead of running blindly, they found a sustainable speed.\nGoing all the way belongs not to the fast but to those who don't stop."
       }
     ]
   },
@@ -177,17 +171,11 @@
     "choices": [
       {
         "text": "Not putting it off this time — go to the hospital",
-        "result_text": "The price of putting it off came back as a bigger signal.\n\nThis time {name} didn't delay.\nLearned the body is like debt — put it off and the interest compounds.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "The price of putting it off came back as a bigger signal.\n\nThis time {name} didn't delay.\nLearned the body is like debt — put it off and the interest compounds."
       },
       {
         "text": "Just a little more — rest properly when it's over",
-        "result_text": "Put it off again. Because the finish line is in sight.\n\nBut it was 'just a little more' that time too.\n{name} made the same choice knowingly, just hoping the body would hold.",
-        "effects": {
-          "tint": -4
-        }
+        "result_text": "Put it off again. Because the finish line is in sight.\n\nBut it was 'just a little more' that time too.\n{name} made the same choice knowingly, just hoping the body would hold."
       }
     ]
   },

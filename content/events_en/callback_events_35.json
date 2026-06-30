@@ -6,17 +6,11 @@
     "choices": [
       {
         "text": "Explain consistently — the same answer as before",
-        "result_text": "It matched. The interviewer nodded.\n\nTelling the truth doesn't mean the answer has to be polished. It means the answer is the same every time it gets checked.\nThe only story you never have to remember is the one you didn't make up.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "It matched. The interviewer nodded.\n\nTelling the truth doesn't mean the answer has to be polished. It means the answer is the same every time it gets checked.\nThe only story you never have to remember is the one you didn't make up."
       },
       {
         "text": "Try to soften it — the truth might come off wrong now",
-        "result_text": "The interviewer frowned slightly.\n\nThat divergence — even a small one — was enough to raise a question.\nIt was a small thing. But trust is often built or broken in small things.",
-        "effects": {
-          "tint": -4
-        }
+        "result_text": "The interviewer frowned slightly.\n\nThat divergence — even a small one — was enough to raise a question.\nIt was a small thing. But trust is often built or broken in small things."
       }
     ]
   },
@@ -27,17 +21,11 @@
     "choices": [
       {
         "text": "Acknowledge it — come clean",
-        "result_text": "Harder than expected. But it actually went better than expected.\n\nThere's a version of the lie that stays buried forever. This wasn't that version.\nOwning it sooner hurt less than being found out later.",
-        "effects": {
-          "tint": 6
-        }
+        "result_text": "Harder than expected. But it actually went better than expected.\n\nThere's a version of the lie that stays buried forever. This wasn't that version.\nOwning it sooner hurt less than being found out later."
       },
       {
         "text": "Deflect — find a way to change the subject",
-        "result_text": "Got past it. This time.\n\nBut that conversation left a small crack. Trust that gets quietly repaired is still cracked.\nThe lie is still there. Now someone else is close enough to notice.",
-        "effects": {
-          "tint": -5
-        }
+        "result_text": "Got past it. This time.\n\nBut that conversation left a small crack. Trust that gets quietly repaired is still cracked.\nThe lie is still there. Now someone else is close enough to notice."
       }
     ]
   },
@@ -48,10 +36,7 @@
     "choices": [
       {
         "text": "Leave it in — keep going",
-        "result_text": "The money stayed where it was.\n\nSaving isn't just numbers. It's proof that you can commit to something without immediate reward.\nThat discipline will transfer to every decision from here.",
-        "effects": {
-          "tint": 1
-        }
+        "result_text": "The money stayed where it was.\n\nSaving isn't just numbers. It's proof that you can commit to something without immediate reward.\nThat discipline will transfer to every decision from here."
       },
       {
         "text": "A little reward — earned this",
@@ -66,10 +51,7 @@
     "choices": [
       {
         "text": "Let it run — trust the analysis",
-        "result_text": "Didn't touch it. Checked it less.\n\nThe hardest part isn't buying or selling. It's the waiting in between.\nInvesting patience turned out to be a skill too.",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "Didn't touch it. Checked it less.\n\nThe hardest part isn't buying or selling. It's the waiting in between.\nInvesting patience turned out to be a skill too."
       },
       {
         "text": "Take the small profit now — better than watching it reverse",

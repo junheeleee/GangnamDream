@@ -8,17 +8,11 @@
     "choices": [
       {
         "text": "Call your father",
-        "result_text": "Two rings, and Father picked up.\n\"Minjun.\"\n\"Dad. I... I bought a place. In Gangnam.\"\n\nA pause.\n\nThrough the receiver, just the sound of breathing.\nThen, low, very low — \"...I see.\"\n\nThat was all. But {name} heard everything packed into that one word.\n\nWhat was left: one registration paper next week. And bringing his father into that living room.",
-        "effects": {
-          "tint": 6
-        }
+        "result_text": "Two rings, and Father picked up.\n\"Minjun.\"\n\"Dad. I... I bought a place. In Gangnam.\"\n\nA pause.\n\nThrough the receiver, just the sound of breathing.\nThen, low, very low — \"...I see.\"\n\nThat was all. But {name} heard everything packed into that one word.\n\nWhat was left: one registration paper next week. And bringing his father into that living room."
       },
       {
         "text": "Walk Gangnam-daero alone, slowly",
-        "result_text": "He walked slowly under the lights.\n\nFive years ago, when he first came to this street, the people who lived here seemed like a different species.\nNow {name} becomes one of them. On paper.\n\nBut walking, it felt strange.\nNot like winning. Like finishing.\n\nLike finally setting down something he'd dragged a long way, heavy.\n\nWhat was left was one registration paper next week.",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "He walked slowly under the lights.\n\nFive years ago, when he first came to this street, the people who lived here seemed like a different species.\nNow {name} becomes one of them. On paper.\n\nBut walking, it felt strange.\nNot like winning. Like finishing.\n\nLike finally setting down something he'd dragged a long way, heavy.\n\nWhat was left was one registration paper next week."
       }
     ]
   },
@@ -30,17 +24,11 @@
     "choices": [
       {
         "text": "Write down what these five years left you",
-        "result_text": "He opened the notebook.\n\nGangnam: didn't make it.\nUnder that, slowly, he wrote other things.\n\nFive years survived. Debt paid off. People he'd come to know. Things he'd learned.\nNo longer fooled. The number of times he fell and got back up.\n\nIn numbers it wasn't 3 billion.\nBut what was written in the notebook — those were things 3 billion couldn't buy.\n\n{name} closed the notebook. The snow kept falling.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "He opened the notebook.\n\nGangnam: didn't make it.\nUnder that, slowly, he wrote other things.\n\nFive years survived. Debt paid off. People he'd come to know. Things he'd learned.\nNo longer fooled. The number of times he fell and got back up.\n\nIn numbers it wasn't 3 billion.\nBut what was written in the notebook — those were things 3 billion couldn't buy.\n\n{name} closed the notebook. The snow kept falling."
       },
       {
         "text": "Just watch the snow — sort nothing out",
-        "result_text": "He decided not to sort it out.\n\nWhether it was five years well-lived or poorly-lived — there was no need to conclude it now.\nThat only comes into view later, from further away.\n\nFor now, snow was simply falling.\n{name} sat by the window and watched.\n\nNeither warm nor cold, a strangely peaceful night.",
-        "effects": {
-          "tint": 1
-        }
+        "result_text": "He decided not to sort it out.\n\nWhether it was five years well-lived or poorly-lived — there was no need to conclude it now.\nThat only comes into view later, from further away.\n\nFor now, snow was simply falling.\n{name} sat by the window and watched.\n\nNeither warm nor cold, a strangely peaceful night."
       }
     ]
   },
@@ -51,17 +39,11 @@
     "choices": [
       {
         "text": "\"Dad, I never said it — but it was okay. All of it.\"",
-        "result_text": "The other end went quiet.\n\nFor a long time.\n\nThen Father said something he'd never said in his life.\n\"...Thank you. And I'm sorry. Both.\"\n\n{name} looked at the ceiling. His eyes burned.\nThe six years of debt, the five years of struggle — all of it grew small before this one call.\n\n\"Dad. Gangnam or not, I'm coming down soon. Let's eat together.\"\n\"...Yeah. Let's do that.\"",
-        "effects": {
-          "tint": 8
-        }
+        "result_text": "The other end went quiet.\n\nFor a long time.\n\nThen Father said something he'd never said in his life.\n\"...Thank you. And I'm sorry. Both.\"\n\n{name} looked at the ceiling. His eyes burned.\nThe six years of debt, the five years of struggle — all of it grew small before this one call.\n\n\"Dad. Gangnam or not, I'm coming down soon. Let's eat together.\"\n\"...Yeah. Let's do that.\""
       },
       {
         "text": "\"Is something wrong? Your voice sounds...\"",
-        "result_text": "\"No. I just... wanted to hear your voice.\"\n\nIt was the first time Father had said that.\n\n{name} held the phone to his ear for a long while.\nThere was so much to say, but none of it came out.\n\nIn the end, all he said was \"...Me too, Dad.\"\n\nThere are nights when that's enough.\nAfter hanging up, {name} watched out the window a long time. Gangnam far or near, tonight that didn't matter.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "\"No. I just... wanted to hear your voice.\"\n\nIt was the first time Father had said that.\n\n{name} held the phone to his ear for a long while.\nThere was so much to say, but none of it came out.\n\nIn the end, all he said was \"...Me too, Dad.\"\n\nThere are nights when that's enough.\nAfter hanging up, {name} watched out the window a long time. Gangnam far or near, tonight that didn't matter."
       }
     ]
   }

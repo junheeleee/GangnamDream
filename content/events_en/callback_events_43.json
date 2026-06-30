@@ -167,7 +167,7 @@
   {
     "id": "callback_restarted_after_scam_echo",
     "title": "Picking Up the Plan Again",
-    "description": "The day after being scammed by Jae-hyuk, {name} didn't collapse — they opened the plan again.\n\nThat recovery built the current momentum.\n\nToday that day suddenly came to mind.",
+    "description": "The day after being scammed by Jaehyuk, {name} didn't collapse — they opened the plan again.\n\nThat recovery built the current momentum.\n\nToday that day suddenly came to mind.",
     "choices": [
       {
         "text": "Getting back up that day was the best choice",

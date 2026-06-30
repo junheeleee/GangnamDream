@@ -2,205 +2,68 @@
   {
     "id": "amb_wallet_00",
     "title": "A Wallet on the Ground",
-    "background": "street_rainy",
-    "portrait": "player_tired",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 3
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 30,
     "description": "Under a bench at a bus stop. A wallet.\nPick it up. Inside — ₩300,000 in cash, an ID, a few cards.\nNobody nearby. No CCTV in sight.\n\n{name}'s account barely covers this month's rent.\n₩300,000 would breathe for a few days.\nConscience and hunger are sitting on the same palm.",
     "choices": [
       {
         "text": "Take it to the police.  (clear conscience + reputation / time + no cash)",
-        "result_text": "I walked out of the police station with a receipt. The way back felt strangely light.",
-        "follow_up_event": "amb_wallet_return",
-        "effects": {
-          "stress": 3,
-          "reputation": 2,
-          "tint": 7
-        }
+        "result_text": "I walked out of the police station with a receipt. The way back felt strangely light."
       },
       {
         "text": "Keep the cash. Drop the wallet in a mailbox.  (₩300,000 / guilt)",
-        "result_text": "{name} pocketed the cash and pushed the wallet into the nearest mailbox.\nThe ID would get back to its owner — that was the justification.\n₩300,000 appeared. That night, the food didn't go down well.\nCrossing a small line once makes the next line easier.",
-        "flags": [
-          "wallet_took_cash",
-          "crossed_line_early"
-        ],
-        "effects": {
-          "money": 300000,
-          "mental": -6,
-          "stress": 4,
-          "tint": -4
-        }
+        "result_text": "{name} pocketed the cash and pushed the wallet into the nearest mailbox.\nThe ID would get back to its owner — that was the justification.\n₩300,000 appeared. That night, the food didn't go down well.\nCrossing a small line once makes the next line easier."
       },
       {
         "text": "Walk past. Don't touch it either way.  (do nothing / unease)",
-        "result_text": "{name} moved on without looking back.\nNeither took the money nor took responsibility.\nOn the bus, couldn't stop thinking about that wallet.\nDoing nothing is also a choice.",
-        "flags": [
-          "wallet_ignored"
-        ],
-        "effects": {
-          "mental": -1,
-          "stress": 1,
-          "tint": -2
-        }
+        "result_text": "{name} moved on without looking back.\nNeither took the money nor took responsibility.\nOn the bus, couldn't stop thinking about that wallet.\nDoing nothing is also a choice."
       }
     ]
   },
   {
     "id": "amb_wallet_return",
     "title": "After Returning It",
-    "background": "cafe",
-    "portrait": "player_normal",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "Left the wallet at the station and walked away. A few days later, a call.\nThe owner — a middle-aged business owner, grateful, asking to meet.\n\"In this day and age, there are still people like you. Let me at least buy you a meal.\"",
     "choices": [
       {
         "text": "Accept the gesture graciously.  (connection + token / awkward meeting)",
-        "result_text": "Awkward — but {name} showed up.\nThe owner pressed a thank-you into {name}'s hand and offered a business card.\n\"Character is an asset. If you ever need anything, call.\"\nAn honest pair of hands brought an unexpected connection.",
-        "flags": [
-          "wallet_connection"
-        ],
-        "effects": {
-          "money": 100000,
-          "reputation": 3,
-          "social_skill": 2
-        }
+        "result_text": "Awkward — but {name} showed up.\nThe owner pressed a thank-you into {name}'s hand and offered a business card.\n\"Character is an asset. If you ever need anything, call.\"\nAn honest pair of hands brought an unexpected connection."
       },
       {
         "text": "\"It was the right thing to do\" — politely decline.  (self-respect / connection + cash)",
-        "result_text": "{name} waved off the reward. It was just the right thing.\nThe owner was more moved than before — but the connection stayed light.\nKept the conscience. Nothing to hold in the hand. Still felt light.",
-        "flags": [
-          "wallet_declined_reward"
-        ],
-        "effects": {
-          "mental": 5,
-          "reputation": 1
-        }
+        "result_text": "{name} waved off the reward. It was just the right thing.\nThe owner was more moved than before — but the connection stayed light.\nKept the conscience. Nothing to hold in the hand. Still felt light."
       }
     ]
   },
   {
     "id": "amb_jobswitch_00",
     "title": "The Offer",
-    "background": "office",
-    "portrait": "player_determined",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 14,
-      "has_job": true
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 30,
     "description": "A message from an old coworker.\n\"Come to our startup. 1.5x your current salary.\nWe just closed Series A — if it works out, the stock options could change everything.\nOf course — fifty-fifty chance of folding in two years, but.\"\n\nCurrent job is dull but stable.\n{name}'s ₩3 billion is impossibly far on this dull monthly paycheck.",
     "choices": [
       {
         "text": "Take the leap. Leave stability behind.  (higher pay + opportunity / risk + stability)",
-        "result_text": "I held out my resignation letter. The team lead was silent for a moment, then just said, \"Understood.\"",
-        "follow_up_event": "amb_jobswitch_in",
-        "flags": [
-          "jobswitch_took"
-        ],
-        "effects": {
-          "stress": 7,
-          "social_skill": 1
-        }
+        "result_text": "I held out my resignation letter. The team lead was silent for a moment, then just said, \"Understood.\""
       },
       {
         "text": "Decline. Hold this position.  (stability / opportunity + regret)",
-        "result_text": "{name} chose the safe option. The reassurance of a reliable paycheck each month.\nBut months later, when that startup hit the news with a new funding round —\n'Should I have gone?' followed {name} around for days.\nThe cost of the safe road is the lingering what-if.",
-        "flags": [
-          "jobswitch_declined"
-        ],
-        "effects": {
-          "stress": -3,
-          "mental": -3
-        }
+        "result_text": "{name} chose the safe option. The reassurance of a reliable paycheck each month.\nBut months later, when that startup hit the news with a new funding round —\n'Should I have gone?' followed {name} around for days.\nThe cost of the safe road is the lingering what-if."
       },
       {
         "text": "Ask for more time to decide.  (careful / risk of losing the slot)",
-        "result_text": "{name} said \"let me think for a few days.\"\nPulled the financials, asked around about their reputation. Thorough.\nIn the meantime — the spot went to someone else.\nLook before you leap — but too much looking and you never cross.",
-        "flags": [
-          "jobswitch_hesitated"
-        ],
-        "effects": {
-          "intelligence": 2,
-          "stress": 3,
-          "mental": -2
-        }
+        "result_text": "{name} said \"let me think for a few days.\"\nPulled the financials, asked around about their reputation. Thorough.\nIn the meantime — the spot went to someone else.\nLook before you leap — but too much looking and you never cross."
       }
     ]
   },
   {
     "id": "amb_jobswitch_in",
     "title": "The Bet",
-    "background": "meeting",
-    "portrait": "player_tired",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "{name} handed in the resignation. Gave up a steady paycheck by choice.\nThe new office was energetic; everyone's eyes were alive.\nAnd — twice the late nights. The future in a fog.\nThat sheet of stock options: will it become kindling or a new life?",
     "choices": [
       {
         "text": "Go all in. Day and night, no holding back.  (growth + equity / health + burnout)",
-        "result_text": "{name} ground through it. The company grew fast, and so did the equity value.\nBut health bottomed out, and the face in the mirror was always exhausted.\nThe price of limitless opportunity is always paid in body and time.",
-        "flags": [
-          "startup_grind"
-        ],
-        "effects": {
-          "health": -10,
-          "stress": 8,
-          "investment_skill": 3,
-          "reputation": 3
-        }
+        "result_text": "{name} ground through it. The company grew fast, and so did the equity value.\nBut health bottomed out, and the face in the mirror was always exhausted.\nThe price of limitless opportunity is always paid in body and time."
       },
       {
         "text": "Keep a sustainable pace.  (sustainable / drift from core)",
-        "result_text": "{name} decided not to overextend. Kept health intact, kept showing up steadily.\nAvoided burnout — but drifted slightly from the core team over time.\nTo last, you have to protect something — and that means giving something up too.",
-        "flags": [
-          "startup_balanced"
-        ],
-        "effects": {
-          "health": 2,
-          "stress": 2,
-          "reputation": -1,
-          "mental": 2
-        }
+        "result_text": "{name} decided not to overextend. Kept health intact, kept showing up steadily.\nAvoided burnout — but drifted slightly from the core team over time.\nTo last, you have to protect something — and that means giving something up too."
       }
     ]
   }

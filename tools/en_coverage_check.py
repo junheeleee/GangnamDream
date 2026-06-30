@@ -38,6 +38,17 @@ for f in glob.glob(os.path.join(KRDIR, '*.json')):
         for v in VARIANTS:
             if v in e and v not in en:
                 leaks.append((eid, 'MISSING_' + v))
+        # description_if_known: KR이 분기 본문을 가지면 EN도 같은 플래그 키를
+        # 가져야 한다(merge가 per-key라 EN에 키 없으면 KR 한글이 그대로 렌더됨).
+        kr_dik = e.get('description_if_known')
+        if isinstance(kr_dik, dict) and kr_dik:
+            en_dik = en.get('description_if_known')
+            if not isinstance(en_dik, dict):
+                leaks.append((eid, 'MISSING_description_if_known(%d keys)' % len(kr_dik)))
+            else:
+                miss = [k for k in kr_dik if k not in en_dik]
+                if miss:
+                    leaks.append((eid, 'MISSING_dik_keys:' + ','.join(miss)))
         if len(en.get('choices', [])) < len(e.get('choices', [])):
             leaks.append((eid, 'FEWER_CHOICES %d<%d' % (
                 len(en.get('choices', [])), len(e.get('choices', [])))))

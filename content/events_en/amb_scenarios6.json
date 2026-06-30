@@ -2,161 +2,53 @@
   {
     "id": "amb_guarantee_00",
     "title": "Just One Stamp",
-    "background": "pojangmacha",
-    "portrait": "player_tired",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 1.4,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 8
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 40,
     "description": "A high school friend calls out of nowhere and insists on buying drinks.\nA few rounds in, the real reason surfaces.\n\"Business loan — I'm one guarantor short. Just need your stamp.\nYou won't be on the hook, I promise. Between us, this much at least?\"\n\n{name} knows. A guarantee turns someone else's debt into yours.\nAnd — saying no puts a crack in twenty years of friendship.",
     "choices": [
       {
         "text": "\"I'm sorry. I can't sign a guarantee.\" Refuse.  (safety / friendship)",
-        "result_text": "{name} turned it down. Hard to say.\nThe friend's face went cold. \"...You're just like everyone else.\"\nThat was the last message. Twenty years collapsed in a moment.\nSometimes the right choice is the loneliest one.",
-        "flags": [
-          "guarantee_refused"
-        ],
-        "effects": {
-          "mental": -4,
-          "stress": 5,
-          "social_skill": 1,
-          "tint": 3
-        }
+        "result_text": "{name} turned it down. Hard to say.\nThe friend's face went cold. \"...You're just like everyone else.\"\nThat was the last message. Twenty years collapsed in a moment.\nSometimes the right choice is the loneliest one."
       },
       {
         "text": "Trust the friendship. Sign it.  (loyalty / time bomb)",
-        "result_text": "{name} pressed the stamp. The friend nearly teared up with gratitude.\nThe friendship held — for now. But someone else's debt settled onto {name}'s shoulders.\nNow {name} prays every day that the business stays afloat.\nSigned out of goodwill. Didn't know it would become a lifetime of anxiety.",
-        "flags": [
-          "guarantee_signed"
-        ],
-        "effects": {
-          "stress": 10,
-          "mental": 2,
-          "tint": -4
-        }
+        "result_text": "{name} pressed the stamp. The friend nearly teared up with gratitude.\nThe friendship held — for now. But someone else's debt settled onto {name}'s shoulders.\nNow {name} prays every day that the business stays afloat.\nSigned out of goodwill. Didn't know it would become a lifetime of anxiety."
       },
       {
         "text": "\"I can't sign, but I'll help another way.\" Offer a middle ground.  (keep some of both / half-measure)",
-        "result_text": "{name} proposed helping in a smaller way instead of signing.\nThe friend was lukewarm. Not entirely satisfied, not entirely pushed away.\nA compromise to hold the line without breaking the bond — both sides ended up somewhere in between.",
-        "flags": [
-          "guarantee_compromise"
-        ],
-        "effects": {
-          "money": -300000,
-          "stress": 3,
-          "mental": 1,
-          "tint": 1
-        }
+        "result_text": "{name} proposed helping in a smaller way instead of signing.\nThe friend was lukewarm. Not entirely satisfied, not entirely pushed away.\nA compromise to hold the line without breaking the bond — both sides ended up somewhere in between."
       }
     ]
   },
   {
     "id": "amb_credit_steal_00",
     "title": "My Report",
-    "background": "office",
-    "portrait": "player_determined",
-    "category": "jobs",
-    "rarity": "uncommon",
-    "weight": 1.4,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 12,
-      "has_job": true
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 40,
     "description": "Nights of work. That proposal — the manager presents it to the executive meeting.\n\"The plan I've prepared this time—\" I. Mine.\n{name}'s name was nowhere.\nThe applause went to the manager.\n\nBoiling inside. Speak up and it's 'insubordination.' Stay silent and it's 'pushover.'\nIn Korean workplaces, credit flows upward and responsibility flows down.",
     "choices": [
       {
         "text": "Swallow it quietly. Wait for the right moment.  (peace / self-respect)",
-        "result_text": "{name} managed the expression and swallowed it whole. No point making an enemy of the manager.\nKept the atmosphere. No grudge held.\nBut that night, couldn't look at their own reflection for long.\nSometimes swallowing becomes who you are.",
-        "flags": [
-          "credit_swallowed"
-        ],
-        "effects": {
-          "stress": 9,
-          "mental": -4,
-          "reputation": 1,
-          "tint": -2
-        }
+        "result_text": "{name} managed the expression and swallowed it whole. No point making an enemy of the manager.\nKept the atmosphere. No grudge held.\nBut that night, couldn't look at their own reflection for long.\nSometimes swallowing becomes who you are."
       },
       {
         "text": "Take it up with the manager, quietly, after the meeting.  (self-respect + recognition / bad blood)",
-        "result_text": "I caught the manager in the hallway. \"You know that report was mine,\" I said.",
-        "follow_up_event": "amb_credit_confront",
-        "effects": {
-          "stress": 7,
-          "social_skill": 1,
-          "tint": 4
-        }
+        "result_text": "I caught the manager in the hallway. \"You know that report was mine,\" I said."
       },
       {
         "text": "Subtly let the executive know it was your work.  (recognition / political risk)",
-        "result_text": "{name} forwarded the original materials to the executive separately. 'For your reference.'\nThe executive caught on. {name}'s name registered upstairs.\nBut the manager — knows exactly who did it. An invisible blade has started being sharpened.\nThe price of recognition: {name} made one enemy.",
-        "flags": [
-          "credit_went_over_head"
-        ],
-        "effects": {
-          "reputation": 4,
-          "stress": 8,
-          "mental": 2
-        }
+        "result_text": "{name} forwarded the original materials to the executive separately. 'For your reference.'\nThe executive caught on. {name}'s name registered upstairs.\nBut the manager — knows exactly who did it. An invisible blade has started being sharpened.\nThe price of recognition: {name} made one enemy."
       }
     ]
   },
   {
     "id": "amb_credit_confront",
     "title": "One-on-One",
-    "background": "office",
-    "portrait": "player_tired",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "{name} pulled the manager aside. \"That proposal was mine.\"\nThe manager's eyebrow twitched.\n\"...Oh, was it? It was team work. Don't sweat the small stuff.\nI know you do good work. I'll take care of you next time, okay?\"\nClassic deflection. Trust it — or stake a claim?",
     "choices": [
       {
         "text": "\"Next time, please include my name.\" Put a line down.  (declaration / cooling of relationship)",
-        "result_text": "{name} drew the line clearly. The manager gave a reluctant 'fine.'\nNot a pushover anymore. The manager won't take liberties again.\nBut a cold distance settled between them.\nRespect has to be demanded to be earned — and the price is comfort.",
-        "flags": [
-          "credit_drew_line"
-        ],
-        "effects": {
-          "reputation": 2,
-          "stress": 4,
-          "mental": 4
-        }
+        "result_text": "{name} drew the line clearly. The manager gave a reluctant 'fine.'\nNot a pushover anymore. The manager won't take liberties again.\nBut a cold distance settled between them.\nRespect has to be demanded to be earned — and the price is comfort."
       },
       {
         "text": "\"Understood. I trust you.\" Step back.  (relationship / pushover again)",
-        "result_text": "{name} chose to believe the manager. Kept things smooth.\nRelationship intact — but {name} knows the expiration date on 'I'll take care of you next time.'\nUsually, that next time never comes.",
-        "flags": [
-          "credit_backed_down"
-        ],
-        "effects": {
-          "stress": 5,
-          "mental": -3,
-          "social_skill": 1
-        }
+        "result_text": "{name} chose to believe the manager. Kept things smooth.\nRelationship intact — but {name} knows the expiration date on 'I'll take care of you next time.'\nUsually, that next time never comes."
       }
     ]
   }

@@ -2,391 +2,142 @@
   {
     "id": "cafe_00",
     "title": "Gangnam Café",
-    "background": "cafe",
-    "portrait": "player_tired",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "{name} ordered a ₩6,500 americano.\nUnemployed, sitting in a Gangnam café. Still — just once,\n{name} wanted to sit inside the world being aimed for.\n\nNext table. A man in a suit, on a call.\n\"This is the last entry pass in the zone. If you don't lock it in today, it's gone.\nRedevelopment's confirmed. ...Yes, ₩50 million cash is enough.\"\n\n{name}'s ear drifted over on its own.",
     "choices": [
       {
         "text": "Keep listening. Quietly.",
-        "result_text": "He didn't notice. The numbers lodged themselves one by one in {name}'s head.",
-        "follow_up_event": "cafe_listen_01",
-        "flags": [
-          "cafe_scenario_seen"
-        ],
-        "effects": {
-          "stress": 2
-        }
+        "result_text": "He didn't notice. The numbers lodged themselves one by one in {name}'s head."
       },
       {
         "text": "Tune it out. Focus on the resume.",
-        "result_text": "{name} filled in the blanks on his résumé, but the voices at the next table kept catching his ear.",
-        "follow_up_event": "cafe_mind_01",
-        "flags": [
-          "cafe_scenario_seen"
-        ]
+        "result_text": "{name} filled in the blanks on his résumé, but the voices at the next table kept catching his ear."
       },
       {
         "text": "The seat is uncomfortable. Just leave.",
-        "result_text": "{name} got up and left the cold coffee behind.\nWhatever the man was saying, whatever the opportunity — gone forever. Sometimes not knowing is better.\nAt least, nothing happened.",
-        "flags": [
-          "cafe_scenario_seen",
-          "cafe_left_early"
-        ],
-        "effects": {
-          "stress": -3,
-          "mental": 1
-        }
+        "result_text": "{name} got up and left the cold coffee behind.\nWhatever the man was saying, whatever the opportunity — gone forever. Sometimes not knowing is better.\nAt least, nothing happened."
       }
     ]
   },
   {
     "id": "cafe_listen_01",
     "title": "The Gap",
-    "background": "cafe",
-    "portrait": "player_determined",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "The man hangs up and stands. Bathroom, maybe.\nHis phone and — a document folder, left on the table.\nBold text on the cover: \"XX District Housing Association Allocation Guide.\"\n\nNobody around is paying attention.\n{name}'s heart quickens slightly.",
     "choices": [
       {
         "text": "Flip the folder open. Just a peek.",
-        "result_text": "Sale prices, floor areas, contact numbers. Figures stamped in red caught his eye.",
-        "follow_up_event": "cafe_peek_01",
-        "effects": {
-          "stress": 6
-        }
+        "result_text": "Sale prices, floor areas, contact numbers. Figures stamped in red caught his eye."
       },
       {
         "text": "Wait for him to come back. Say something.",
-        "result_text": "{name} sat and waited for the man to come back. His heart beat a little faster.",
-        "follow_up_event": "cafe_talk_01"
+        "result_text": "{name} sat and waited for the man to come back. His heart beat a little faster."
       },
       {
         "text": "Pretend not to notice. Drink the coffee.",
-        "result_text": "Heard it — but that's as far as it goes.\n{name} didn't touch someone else's opportunity.\nOnly a name, a few words, stayed lodged in the back of the mind.",
-        "flags": [
-          "cafe_overheard_only"
-        ],
-        "effects": {
-          "intelligence": 1
-        }
+        "result_text": "Heard it — but that's as far as it goes.\n{name} didn't touch someone else's opportunity.\nOnly a name, a few words, stayed lodged in the back of the mind."
       }
     ]
   },
   {
     "id": "cafe_peek_01",
     "title": "What Was Stolen",
-    "background": "cafe",
-    "portrait": "player_shocked",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "The folder opens. Pricing, unit sizes, and a contact —\n\"Manager Kim 010-XXXX-XXXX.\" A red stamp: CONFIRMED.\n{name} memorized the number.\n\nThen a shadow falls.\nThe man returns — and looks back and forth between {name} and the open folder.\n\"...What exactly are you doing?\"",
     "choices": [
       {
         "text": "Be honest. Apologize. \"Sorry — I was just very interested.\"",
-        "result_text": "{name} lowered his head. The man was quiet for a moment. An unexpected expression crossed his face.",
-        "follow_up_event": "cafe_caught_honest"
+        "result_text": "{name} lowered his head. The man was quiet for a moment. An unexpected expression crossed his face."
       },
       {
         "text": "Look away. Act like nothing happened.",
-        "result_text": "\"Oh, sorry — I thought this was my table.\"\n{name} smiled awkwardly and looked away.\nThe man gathered the folder with a suspicious look and left.\n\nBut the number — stayed in {name}'s head.\nWhether to use it or not, that was a problem for later.",
-        "flags": [
-          "cafe_stole_lead"
-        ],
-        "effects": {
-          "stress": 8,
-          "mental": -3
-        }
+        "result_text": "\"Oh, sorry — I thought this was my table.\"\n{name} smiled awkwardly and looked away.\nThe man gathered the folder with a suspicious look and left.\n\nBut the number — stayed in {name}'s head.\nWhether to use it or not, that was a problem for later."
       }
     ]
   },
   {
     "id": "cafe_caught_honest",
     "title": "Caught Honest",
-    "background": "cafe",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "{name} bowed their head.\n\"I'm unemployed. ₩500,000 in the bank.\nBut I want to be here someday — that's why I looked.\nI'm sorry.\"\n\nThe man stared for a long moment. Then let out a short laugh.\n\"You're insane. But that look in your eyes — it's the same as mine, back then.\"",
     "choices": [
       {
         "text": "\"May I ask you just one thing?\"",
-        "result_text": "The man set a business card on the table.\n\"Get educated first. Giving opportunities to unprepared people is how accidents happen.\nWhen you're actually ready, call. Otherwise delete the number.\"\n\n{name} received the card with both hands.\nNot stolen — given. That made all the difference.",
-        "flags": [
-          "cafe_got_card_honest"
-        ],
-        "effects": {
-          "mental": 6,
-          "reputation": 3,
-          "intelligence": 2
-        }
+        "result_text": "The man set a business card on the table.\n\"Get educated first. Giving opportunities to unprepared people is how accidents happen.\nWhen you're actually ready, call. Otherwise delete the number.\"\n\n{name} received the card with both hands.\nNot stolen — given. That made all the difference."
       }
     ]
   },
   {
     "id": "cafe_talk_01",
     "title": "Speaking Up",
-    "background": "cafe",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "The man returns. {name} gathers the nerve.\n\"Excuse me — what you were talking about just now... I'd like to hear more.\"\n\nThe man sizes {name} up with guarded eyes.\nOld puffer jacket. Worn sneakers. A cold americano, one cup.\n\"...What do you do?\"",
     "choices": [
       {
         "text": "Honest. \"I'm unemployed. I want to learn.\"",
-        "result_text": "When {name} finished, the man's gaze changed. He looked him up and down again.",
-        "follow_up_event": "cafe_humble",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "When {name} finished, the man's gaze changed. He looked him up and down again."
       },
       {
         "text": "Play it up. \"I do a bit of this kind of work myself.\"",
-        "result_text": "The man nodded. His eyes seemed to see right through {name}.",
-        "follow_up_event": "cafe_bluff_01",
-        "effects": {
-          "tint": -3
-        }
+        "result_text": "The man nodded. His eyes seemed to see right through {name}."
       }
     ]
   },
   {
     "id": "cafe_humble",
     "title": "Lowering the Bar",
-    "background": "cafe",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "\"Unemployed. But I can't keep living like this —\nso I came all the way to Gangnam, ordered one coffee, and sat down trying to learn something.\"\n\nThe man laughed incredulously. Then turned his chair around.\n\"A broke person trying to get in on a ₩50M deal.\nBut fine — you've got time on your hands. Ten minutes. I'll talk for ten minutes.\"",
     "choices": [
       {
         "text": "Listen. Every word.",
-        "result_text": "Ten minutes became thirty.\nGap investments, leverage, entry passes, premiums —\n{name} crammed the language of a world never heard before.\n\nThe man gave no business card. No name.\nStill, today, {name} caught a first glimpse through the door to Gangnam.",
-        "flags": [
-          "cafe_humble_lesson"
-        ],
-        "effects": {
-          "intelligence": 3,
-          "investment_skill": 3,
-          "mental": 4
-        }
+        "result_text": "Ten minutes became thirty.\nGap investments, leverage, entry passes, premiums —\n{name} crammed the language of a world never heard before.\n\nThe man gave no business card. No name.\nStill, today, {name} caught a first glimpse through the door to Gangnam."
       }
     ]
   },
   {
     "id": "cafe_bluff_01",
     "title": "The Bluff",
-    "background": "cafe",
-    "portrait": "player_shocked",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "\"You work in this field. Is that right?\"\nThe man's eyes narrow. Testing.\n\"So if LTV is 70 on a property with a ₩50 million gap,\nhow much do you figure for actual investment?\"\n\n{name} doesn't know what any of those words mean.\nCold sweat runs down the back.",
     "choices": [
       {
         "text": "Bluff through it. Throw out a number.",
-        "result_text": "\"About 200 million or so...\" My words tangled. He must have sensed it.",
-        "follow_up_event": "cafe_bluff_caught",
-        "effects": {
-          "tint": -4
-        }
+        "result_text": "\"About 200 million or so...\" My words tangled. He must have sensed it."
       },
       {
         "text": "Cave. \"...I don't actually know. I'm sorry.\"",
-        "result_text": "{name} couldn't lift his head. But strangely, after a moment, the man smiled.",
-        "follow_up_event": "cafe_bluff_recover",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "{name} couldn't lift his head. But strangely, after a moment, the man smiled."
       }
     ]
   },
   {
     "id": "cafe_bluff_caught",
     "title": "Caught",
-    "background": "cafe",
-    "portrait": "player_shocked",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "\"Around... ₩200 million?\" {name} tossed out a random number.\nThe man scoffed.\n\"The gap is ₩50M and you need ₩200M for actual investment? Kid, go study before you try to run a scam.\"\n\nPeople at nearby tables glance over.\n{name}'s face burns. Gangnam — it spots the bluff first.",
     "choices": [
       {
         "text": "Escape the café.",
-        "result_text": "{name} walked out with the coffee barely touched.\nThe winter air hit the burning cheeks.\nThe shame lingered long. But that shame —\nit didn't take long to curdle into a fury to know things properly.",
-        "flags": [
-          "cafe_humiliated"
-        ],
-        "effects": {
-          "stress": 12,
-          "mental": -6,
-          "intelligence": 2
-        }
+        "result_text": "{name} walked out with the coffee barely touched.\nThe winter air hit the burning cheeks.\nThe shame lingered long. But that shame —\nit didn't take long to curdle into a fury to know things properly."
       }
     ]
   },
   {
     "id": "cafe_bluff_recover",
     "title": "After Falling",
-    "background": "cafe",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "{name}'s head dropped.\n\"...I'm sorry. I don't know any of it.\nI was just so desperate — I pretended to know. I'm sorry.\"\n\nThe man was quiet for a moment. Then a short exhale.\n\"First time I've seen someone bluff that hard and fold that fast.\nThat honesty is better. One thing to remember —\nif you don't know, say you don't know. That at least won't kill you in this world.\"",
     "choices": [
       {
         "text": "Take those words to heart.",
-        "result_text": "The man left without another word.\nNo business card. No name.\nBut {name} learned something valuable today.\nThat the fastest way to die in Gangnam is by bluffing.",
-        "flags": [
-          "cafe_learned_humility"
-        ],
-        "effects": {
-          "mental": 3,
-          "social_skill": 2
-        }
+        "result_text": "The man left without another word.\nNo business card. No name.\nBut {name} learned something valuable today.\nThat the fastest way to die in Gangnam is by bluffing."
       }
     ]
   },
   {
     "id": "cafe_mind_01",
     "title": "The Time of an Americano",
-    "background": "cafe",
-    "portrait": "player_tired",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe"
-    ],
-    "cooldown": 9999,
     "description": "{name} ignored the next table and stared at the resume.\nSix years of blank. How to fill that gap in words — no idea.\n\nTwo hours in. The coffee had long since gone.\nThen a part-timer quietly approached and refilled the cup.\n\"...You've been here a while. On the house. It's cold, so — warm one.\"\nA stranger's small kindness left {name} briefly stunned.",
     "choices": [
       {
         "text": "Thank them. Sincerely.",
-        "result_text": "\"...Thank you. Really.\"\nFor such a small thing — eyes stung a little.\nSeoul seemed cold through and through, but sometimes warmth like this exists.\n\n{name} found just enough strength that day to keep going.\nNot a grand opportunity — but this was what it meant to be human.",
-        "flags": [
-          "cafe_kindness"
-        ],
-        "effects": {
-          "mental": 8,
-          "stress": -5,
-          "tint": 3
-        }
+        "result_text": "\"...Thank you. Really.\"\nFor such a small thing — eyes stung a little.\nSeoul seemed cold through and through, but sometimes warmth like this exists.\n\n{name} found just enough strength that day to keep going.\nNot a grand opportunity — but this was what it meant to be human."
       },
       {
         "text": "Get flustered. Leave without saying much.",
-        "result_text": "{name} got up without properly saying thank you.\nSomeone unused to kindness runs from it.\nOn the way home, the warm coffee kept coming to mind.",
-        "flags": [
-          "cafe_awkward"
-        ],
-        "effects": {
-          "mental": 2
-        }
+        "result_text": "{name} got up without properly saying thank you.\nSomeone unused to kindness runs from it.\nOn the way home, the warm coffee kept coming to mind."
       }
     ]
   }

@@ -243,9 +243,9 @@
   {
     "id": "callback_daeun_committed_echo",
     "title": "다은에게 진심으로 헌신한 뒤",
-    "description": "다은과의 관계에 진지하게 헌신하기로 한 지 두 달.\n작은 약속들이 쌓였다.\n오늘 다은이 처음으로 \"우리\"라는 단어를 썼다.",
+    "description": "다은과 곁을 지켜주기로 한 지 두 달.\n작은 약속들이 쌓였다.\n오늘 다은이 무심코 \"우리\"라는 단어를 썼다.",
     "conditions": {
-      "flag": "daeun_committed",
+      "flag": "daeun_close_bond",
       "min_turn": 8
     },
     "choices": [

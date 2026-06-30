@@ -2,285 +2,98 @@
   {
     "id": "amb_jeonse_00",
     "title": "The Landlord's Debt",
-    "background": "street_rainy",
-    "portrait": "player_tired",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 12,
-      "flag": "housing_moved_once"
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 30,
     "description": "The neighbor grabs {name} and whispers.\n\"That landlord — I heard he's buried in debt beyond this building too.\nHave you checked the registry? Jeonse fraud is everywhere these days.\"\n\n{name}'s deposit — every won saved over years —\nis locked inside that apartment. The phrase 'hollow jeonse' circles the mind.",
     "choices": [
       {
         "text": "Pull the registry right now.  (fee + time)",
-        "result_text": "I pulled the documents from the machine at the district office. A dense list of mortgage liens jumped out at me.",
-        "follow_up_event": "amb_jeonse_check",
-        "effects": {
-          "money": -1000,
-          "stress": 8
-        }
+        "result_text": "I pulled the documents from the machine at the district office. A dense list of mortgage liens jumped out at me."
       },
       {
         "text": "Surely not. Unsettling, but leave it for now.",
-        "result_text": "{name} pushed the thought away. Easier in the moment.\nBut every night after, 'buried in debt' floated back up and killed the sleep.\nIs not knowing better — or is looking away the real poison? No way to tell.",
-        "flags": [
-          "jeonse_ignored"
-        ],
-        "effects": {
-          "stress": -3,
-          "mental": -5
-        }
+        "result_text": "{name} pushed the thought away. Easier in the moment.\nBut every night after, 'buried in debt' floated back up and killed the sleep.\nIs not knowing better — or is looking away the real poison? No way to tell."
       },
       {
         "text": "Call the landlord. Confront them directly.  (stress)",
-        "result_text": "It rang three times. The landlord cut me short — \"There's no problem at all.\"",
-        "follow_up_event": "amb_jeonse_confront",
-        "effects": {
-          "stress": 10,
-          "social_skill": 1
-        }
+        "result_text": "It rang three times. The landlord cut me short — \"There's no problem at all.\""
       }
     ]
   },
   {
     "id": "amb_jeonse_check",
     "title": "80%",
-    "background": "realestate_office",
-    "portrait": "player_determined",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "The registry confirms it — the mortgage is at 80% of market value.\nIf the landlord goes under, not a single won of the deposit comes back.\nLuckily, the threshold for lease deposit insurance hasn't quite been crossed yet.\n\nInsurance premium: ₩300,000. More than {name}'s monthly food budget.",
     "choices": [
       {
         "text": "Pay ₩300,000. Get the deposit insurance.",
-        "result_text": "{name} enrolled in the insurance. The account thinned again.\nBut that night, for the first time in months, slept deeply.\nThe price of protecting every saved won — ₩300,000 was cheap.",
-        "flags": [
-          "jeonse_insured"
-        ],
-        "effects": {
-          "money": -300000,
-          "stress": -10,
-          "mental": 6
-        }
+        "result_text": "{name} enrolled in the insurance. The account thinned again.\nBut that night, for the first time in months, slept deeply.\nThe price of protecting every saved won — ₩300,000 was cheap."
       },
       {
         "text": "₩300,000 is too much. Ride it out and hope.",
-        "result_text": "Saved ₩300,000. Something for the seed fund.\nIn exchange, {name} started anxiously checking on the landlord every month.\nWhether the savings paid for peace of mind — that would become clear later.",
-        "flags": [
-          "jeonse_uninsured_gamble"
-        ],
-        "effects": {
-          "stress": 7,
-          "mental": -3
-        }
+        "result_text": "Saved ₩300,000. Something for the seed fund.\nIn exchange, {name} started anxiously checking on the landlord every month.\nWhether the savings paid for peace of mind — that would become clear later."
       }
     ]
   },
   {
     "id": "amb_jeonse_confront",
     "title": "Don't Worry",
-    "background": "street_rainy",
-    "portrait": "player_shocked",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "The landlord only repeated 'don't worry.' No real answer.\nGot defensive — \"How dare you imply something like that.\"\nAfter hanging up, {name}'s hand was clammy with cold sweat.\nTrust them and stay, or cut losses and run?",
     "choices": [
       {
         "text": "Start looking for a new place before the lease ends.  (moving costs + agent fees)",
-        "result_text": "{name} decided to move first. Cost legwork and fees — but better than being trapped in an uncertain building.\nThose who want to avoid the worst always move before it arrives.",
-        "flags": [
-          "jeonse_planning_move"
-        ],
-        "effects": {
-          "money": -150000,
-          "stress": 4,
-          "mental": 3
-        }
+        "result_text": "{name} decided to move first. Cost legwork and fees — but better than being trapped in an uncertain building.\nThose who want to avoid the worst always move before it arrives."
       },
       {
         "text": "Trust them anyway.  (save on moving costs)",
-        "result_text": "{name} decided to believe it. Saved the moving costs and the energy.\nBut that 'trust' ate a little into the peace of mind every night.\nSometimes the most expensive choice is doing nothing at all.",
-        "flags": [
-          "jeonse_trusting"
-        ],
-        "effects": {
-          "money": 0,
-          "mental": -4,
-          "stress": 3
-        }
+        "result_text": "{name} decided to believe it. Saved the moving costs and the energy.\nBut that 'trust' ate a little into the peace of mind every night.\nSometimes the most expensive choice is doing nothing at all."
       }
     ]
   },
   {
     "id": "amb_hoesik_00",
     "title": "One More Round",
-    "background": "pojangmacha",
-    "portrait": "player_tired",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 8,
-      "has_job": true
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 30,
     "description": "Department dinner, third round already. The manager refills {name}'s glass.\n\"Can't have the new one bailing on us. Drink up, drink up.\"\n\nImportant thing tomorrow morning. Already queasy.\nBut leaving now means being the one with no team spirit.\nIn Korean companies, your real evaluation happens at the table, not at the desk.",
     "choices": [
       {
         "text": "Drink to the end.  (rapport + reputation / health + mental)",
-        "result_text": "I drained the glass to the bottom. The manager laughed loudly and clapped me on the shoulder.",
-        "follow_up_event": "amb_hoesik_drink",
-        "effects": {
-          "reputation": 3,
-          "social_skill": 2,
-          "health": -8,
-          "stress": -2
-        }
+        "result_text": "I drained the glass to the bottom. The manager laughed loudly and clapped me on the shoulder."
       },
       {
         "text": "Politely excuse yourself and leave early.  (health / rapport)",
-        "result_text": "{name} bowed out. \"I have something early tomorrow.\"\nGot home fine. Slept well.\nBut the next day, the manager's greeting felt oddly cold.\nProtecting the body cost invisible points.",
-        "flags": [
-          "hoesik_left_early"
-        ],
-        "effects": {
-          "health": 5,
-          "stress": 3,
-          "reputation": -4,
-          "social_skill": -1
-        }
+        "result_text": "{name} bowed out. \"I have something early tomorrow.\"\nGot home fine. Slept well.\nBut the next day, the manager's greeting felt oddly cold.\nProtecting the body cost invisible points."
       },
       {
         "text": "Fake being drunk. Kill time in the bathroom.  (compromise / risk of being caught)",
-        "result_text": "I held out ten minutes in the bathroom stall. From outside I heard, \"Where'd that kid go?\"",
-        "follow_up_event": "amb_hoesik_dodge",
-        "effects": {
-          "stress": 5,
-          "mental": -1
-        }
+        "result_text": "I held out ten minutes in the bathroom stall. From outside I heard, \"Where'd that kid go?\""
       }
     ]
   },
   {
     "id": "amb_hoesik_drink",
     "title": "Next Morning",
-    "background": "goshiwon_room",
-    "portrait": "player_shocked",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "{name} drank every round to the end.\nThe manager clapped a shoulder: \"That's the spirit — you're one of us.\"\n\nAnd then the next morning — head splitting, stomach turning.\nThe important thing went sideways. The body is lead.",
     "choices": [
       {
         "text": "Pop a hangover pill and push through.  (show up / worsened health)",
-        "result_text": "{name} downed a hangover remedy and showed up.\nShuffled through the day half-dead. Didn't miss work — but the body took weeks to recover.\nThe price of buying goodwill is always paid in the body.",
-        "flags": [
-          "hoesik_pushed_through"
-        ],
-        "effects": {
-          "health": -5,
-          "stress": 6,
-          "reputation": 1
-        }
+        "result_text": "{name} downed a hangover remedy and showed up.\nShuffled through the day half-dead. Didn't miss work — but the body took weeks to recover.\nThe price of buying goodwill is always paid in the body."
       },
       {
         "text": "Can't do it. Take a half-day.  (recovery / reputation)",
-        "result_text": "{name} filed for a half-day. Spent it in bed.\nThe points earned last night got trimmed a little today.\nYou can't have both the rapport and the health — {name} learned that again.",
-        "flags": [
-          "hoesik_halfday"
-        ],
-        "effects": {
-          "health": 3,
-          "reputation": -2,
-          "mental": 2
-        }
+        "result_text": "{name} filed for a half-day. Spent it in bed.\nThe points earned last night got trimmed a little today.\nYou can't have both the rapport and the health — {name} learned that again."
       }
     ]
   },
   {
     "id": "amb_hoesik_dodge",
     "title": "Reading the Room",
-    "background": "pojangmacha",
-    "portrait": "player_tired",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "{name} faked drunk and killed time in the bathroom.\nDrank less — but nerves were on edge the whole time.\nGot back to the table. The manager stares.\n\"Hey, where'd you disappear to? You weren't trying to run, were you?\"",
     "choices": [
       {
         "text": "Play it off with a grin.  (escape / social energy spent)",
-        "result_text": "{name} laughed it off. \"The bathroom line was long.\"\nThe manager chuckled. Crisis navigated.\nDrank less, reputation mostly intact — but it cost nervous sweat.\nKnowing how to slip away gracefully is also a skill — and an exhausting one.",
-        "flags": [
-          "hoesik_dodged"
-        ],
-        "effects": {
-          "social_skill": 2,
-          "stress": 4,
-          "health": 2
-        }
+        "result_text": "{name} laughed it off. \"The bathroom line was long.\"\nThe manager chuckled. Crisis navigated.\nDrank less, reputation mostly intact — but it cost nervous sweat.\nKnowing how to slip away gracefully is also a skill — and an exhausting one."
       },
       {
         "text": "End up taking another glass anyway.  (rapport / health)",
-        "result_text": "Tried to hold out, ended up drinking again.\nDrank while anxious, and was anxious while drinking.\nTried to dodge both and lost a little of both — the most ambiguous ending.",
-        "flags": [
-          "hoesik_caved"
-        ],
-        "effects": {
-          "health": -5,
-          "reputation": 1,
-          "stress": 3
-        }
+        "result_text": "Tried to hold out, ended up drinking again.\nDrank while anxious, and was anxious while drinking.\nTried to dodge both and lost a little of both — the most ambiguous ending."
       }
     ]
   }

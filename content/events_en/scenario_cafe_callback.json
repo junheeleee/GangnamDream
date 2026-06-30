@@ -2,356 +2,116 @@
   {
     "id": "cafe_cb_stole_00",
     "title": "The Number Memorized That Day",
-    "background": "street_rainy",
-    "portrait": "player_tired",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "Months have passed. {name} scraped together seed money by sheer will.\nAnd — that number memorized in the café that day,\nManager Kim 010-XXXX, still won't leave the mind.\n\n3 AM. {name} picks up the phone. Puts it down.\nThat entry pass — could it still be live? One call would tell.",
     "choices": [
       {
         "text": "Make the call.",
-        "result_text": "It rang three times. My heart pounded along with it.",
-        "follow_up_event": "cafe_cb_stole_call",
-        "effects": {
-          "stress": 5
-        },
-        "flags": [
-          "cafe_callback_seen"
-        ]
+        "result_text": "It rang three times. My heart pounded along with it."
       },
       {
         "text": "Delete the number. Don't want to start with something stolen.",
-        "result_text": "{name} deleted it. Fingers trembled slightly.\nAnother easy path discarded. But — somewhere deep in the mind,\na corner that had quietly turned dirty in that café finally felt clean again.\nHe wanted to start with both feet on his own ground.",
-        "flags": [
-          "cafe_stole_redeemed",
-          "cafe_callback_seen"
-        ],
-        "effects": {
-          "mental": 7,
-          "stress": -4,
-          "tint": 4
-        }
+        "result_text": "{name} deleted it. Fingers trembled slightly.\nAnother easy path discarded. But — somewhere deep in the mind,\na corner that had quietly turned dirty in that café finally felt clean again.\nHe wanted to start with both feet on his own ground."
       }
     ]
   },
   {
     "id": "cafe_cb_stole_call",
     "title": "The Call",
-    "background": "street_rainy",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "Three rings. \"Hello.\"\nManager Kim doesn't remember {name}. {name} improvises.\n\"From the café that day... I was referred about the entry pass.\"\n\nA brief silence. Then the voice softens.\n\"Ah, right. One slot still left. But the premium went up.\n₩70 million now. You need to decide today or tomorrow. So — you in?\"",
     "choices": [
       {
         "text": "Check first — verify the registry and market rate.",
-        "result_text": "{name} called two licensed brokers and cross-checked the figures.",
-        "follow_up_event": "cafe_cb_stole_verify"
+        "result_text": "{name} called two licensed brokers and cross-checked the figures."
       },
       {
         "text": "Trust the gut. Go all in. Everything.",
-        "result_text": "{name} hit transfer mid-call. Sometimes a gut feeling is the only evidence you get.",
-        "follow_up_event": "cafe_cb_stole_allin"
+        "result_text": "{name} hit transfer mid-call. Sometimes a gut feeling is the only evidence you get."
       },
       {
         "text": "...Actually, no. Hang up.",
-        "result_text": "{name} quietly ended the call.\nToo fast. \"Today or tomorrow\" kept nagging.\nHard sells always have a reason. Instinct said so.\nMight have missed an opportunity. Might have dodged a trap. No way to know.",
-        "flags": [
-          "cafe_stole_walked"
-        ],
-        "effects": {
-          "intelligence": 2,
-          "stress": -2
-        }
+        "result_text": "{name} quietly ended the call.\nToo fast. \"Today or tomorrow\" kept nagging.\nHard sells always have a reason. Instinct said so.\nMight have missed an opportunity. Might have dodged a trap. No way to know."
       }
     ]
   },
   {
     "id": "cafe_cb_stole_verify",
     "title": "Digging In",
-    "background": "street_rainy",
-    "portrait": "player_determined",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "{name} spent three days on it. Registry, real estate forums, news.\nThe truth was half real — redevelopment confirmed. That part checked out.\nBut Manager Kim wasn't a co-op member or anything. Just a broker.\nAnd ₩20M of that ₩70M was inflated foam — his \"service fee.\"\n\nA real opportunity wearing a fake price tag.",
     "choices": [
       {
         "text": "Strip the foam. Enter carefully.",
-        "result_text": "{name} held the registry out to Manager Kim. \"Twenty million of this is just foam.\" He looked away.",
-        "follow_up_event": "cafe_cb_stole_smart"
+        "result_text": "{name} held the registry out to Manager Kim. \"Twenty million of this is just foam.\" He looked away."
       },
       {
         "text": "Too risky like this. Walk away.",
-        "result_text": "{name} pulled out. Manager Kim swore and hung up.\nLater heard — the people who went in on that entry pass\ngot caught in the broker's markup and suffered for a long time after.\nThose three days of digging saved {name}.",
-        "flags": [
-          "cafe_stole_dodged"
-        ],
-        "effects": {
-          "intelligence": 4,
-          "investment_skill": 3,
-          "mental": 3
-        }
+        "result_text": "{name} pulled out. Manager Kim swore and hung up.\nLater heard — the people who went in on that entry pass\ngot caught in the broker's markup and suffered for a long time after.\nThose three days of digging saved {name}."
       }
     ]
   },
   {
     "id": "cafe_cb_stole_allin",
     "title": "All In",
-    "background": "street_rainy",
-    "portrait": "player_shocked",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "{name} emptied the account. No verification. No hesitation.\nThe number stolen in that café, the desire stolen in that café —\nthey finally pulled {name} all the way here.\n\nThe die is cast. If the redevelopment is real, life changes.\nIf not — back to zero.",
     "choices": [
       {
         "text": "Accept whatever comes.",
-        "result_text": "The account balance swung wildly. {name} stared at it for a long time.",
-        "flags": [
-          "cafe_stole_gambled",
-          "crossed_line_early"
-        ],
-        "opportunity": {
-          "stake_ratio": 0.85,
-          "success_rate": 0.24,
-          "win_multiplier": 2.4,
-          "loss_ratio": 0.85,
-          "luck_factor": 0.0022,
-          "skill_gain": 4,
-          "win_flag": "cafe_jackpot",
-          "lose_flag": "cafe_burned"
-        }
+        "result_text": "The account balance swung wildly. {name} stared at it for a long time."
       }
     ]
   },
   {
     "id": "cafe_cb_stole_smart",
     "title": "Cutting the Foam",
-    "background": "street_rainy",
-    "portrait": "player_determined",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "{name} put the registry in front of Manager Kim.\n\"₩20M is foam. Let's do ₩50M. Otherwise I report it.\"\nManager Kim's face twisted. Then, reluctantly, a nod.\n\"...You can read a deal. Fine. ₩50M.\"\n\nOnly those who verify can negotiate. {name} got in at the right price.",
     "choices": [
       {
         "text": "Sign the contract.",
-        "result_text": "Risk still exists. But this time, it's a risk entered knowingly.",
-        "flags": [
-          "cafe_stole_invested"
-        ],
-        "effects": {
-          "investment_skill": 3
-        },
-        "opportunity": {
-          "stake_ratio": 0.6,
-          "success_rate": 0.28,
-          "win_multiplier": 1.9,
-          "loss_ratio": 0.55,
-          "luck_factor": 0.002,
-          "skill_gain": 6,
-          "win_flag": "cafe_smart_win",
-          "lose_flag": "cafe_smart_loss"
-        }
+        "result_text": "Risk still exists. But this time, it's a risk entered knowingly."
       }
     ]
   },
   {
     "id": "cafe_cb_honest_00",
     "title": "An Incoming Call",
-    "background": "street_rainy",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "Unknown number. The voice is familiar.\n\"The café friend. Remember me? The one you caught peeking at my folder.\"\nIt was the man from that day. The one {name} received a card from with both hands.\n\n\"Wondering if you've done your homework. Small deal in circulation —\nI only give it to people who are genuinely prepared. Interested?\"",
     "choices": [
       {
         "text": "\"I'm prepared. I'd like to hear.\"",
-        "result_text": "They named a date and a place. {name} noted it down at once.",
-        "follow_up_event": "cafe_cb_honest_in",
-        "flags": [
-          "cafe_callback_seen"
-        ]
+        "result_text": "They named a date and a place. {name} noted it down at once."
       },
       {
         "text": "\"Not yet. I'll study more and get back to you.\"",
-        "result_text": "The man was quiet a moment, then laughed.\n\"...Someone who can say that always comes eventually. Okay, take your time.\"\nHe hung up. The opportunity was deferred, but the door stayed open.\nIf anything — knowing how to say 'not yet' made him trust {name} more.",
-        "flags": [
-          "cafe_honest_trust",
-          "cafe_callback_seen"
-        ],
-        "effects": {
-          "intelligence": 2,
-          "reputation": 3,
-          "mental": 3,
-          "tint": 3
-        }
+        "result_text": "The man was quiet a moment, then laughed.\n\"...Someone who can say that always comes eventually. Okay, take your time.\"\nHe hung up. The opportunity was deferred, but the door stayed open.\nIf anything — knowing how to say 'not yet' made him trust {name} more."
       }
     ]
   },
   {
     "id": "cafe_cb_honest_in",
     "title": "Verified Opportunity",
-    "background": "street_rainy",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "What the man put forward was clean. No foam, no manufactured urgency.\n\"A deal I'm watching personally. Not a jackpot, but it won't crack.\nCome in within your means. Don't overextend.\"\n\nNot stolen information — an opportunity vouched for by a person.\nHow different that is — {name} now knows.",
     "choices": [
       {
         "text": "Enter within my means.",
-        "result_text": "Not a big bet. But a solid first step.",
-        "flags": [
-          "cafe_honest_invested",
-          "kept_clean_hands"
-        ],
-        "effects": {
-          "reputation": 2
-        },
-        "opportunity": {
-          "stake_ratio": 0.55,
-          "success_rate": 0.28,
-          "win_multiplier": 1.7,
-          "loss_ratio": 0.5,
-          "luck_factor": 0.0018,
-          "skill_gain": 6,
-          "win_flag": "cafe_honest_win",
-          "lose_flag": "cafe_honest_loss"
-        }
+        "result_text": "Not a big bet. But a solid first step."
       },
       {
         "text": "Still too much of a stretch. Wait for the next one.",
-        "result_text": "\"Not pushing is also a skill.\" The man nodded.\n{name} let it go this time. But the relationship stayed.\nKeeping a person is longer-lasting than any single opportunity.",
-        "flags": [
-          "cafe_honest_patient"
-        ],
-        "effects": {
-          "mental": 4,
-          "reputation": 2
-        }
+        "result_text": "\"Not pushing is also a skill.\" The man nodded.\n{name} let it go this time. But the relationship stayed.\nKeeping a person is longer-lasting than any single opportunity."
       }
     ]
   },
   {
     "id": "cafe_cb_humiliated_00",
     "title": "Back at That Café",
-    "background": "street_rainy",
-    "portrait": "boss",
-    "category": "story",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "story",
-      "scenario",
-      "cafe_callback"
-    ],
-    "cooldown": 9999,
     "description": "{name} never forgot the humiliation.\n'Learn before you try to run a scam.' Those words became fuel —\nmonths of obsessive grinding through real estate. LTV, gaps — knows it all now.\n\nThen by chance — same café, same man.\nHe recognizes {name}. \"Hey, isn't that the bluffer?\"",
     "choices": [
       {
         "text": "Ask properly this time. With what was learned.",
-        "result_text": "{name} spoke clearly. Right terms. Straight to the point.\nThe man's expression shifted. The smirk became curiosity.\n\"...You actually studied. That embarrassment taught you something.\"\nFor the first time, he treated {name} like a person.\nHumiliation had been the sharpest teacher.",
-        "flags": [
-          "cafe_redeemed",
-          "cafe_callback_seen"
-        ],
-        "effects": {
-          "mental": 6,
-          "reputation": 3,
-          "investment_skill": 2,
-          "social_skill": 2
-        }
+        "result_text": "{name} spoke clearly. Right terms. Straight to the point.\nThe man's expression shifted. The smirk became curiosity.\n\"...You actually studied. That embarrassment taught you something.\"\nFor the first time, he treated {name} like a person.\nHumiliation had been the sharpest teacher."
       },
       {
         "text": "Still too embarrassed. Head down, walk away.",
-        "result_text": "{name} avoided his eyes and left the café.\nThe studying was done — but that day's shame still lived somewhere inside.\nSomeday — there'd be a day to face him head-on.",
-        "flags": [
-          "cafe_still_ashamed",
-          "cafe_callback_seen"
-        ],
-        "effects": {
-          "stress": 4,
-          "mental": -2
-        }
+        "result_text": "{name} avoided his eyes and left the café.\nThe studying was done — but that day's shame still lived somewhere inside.\nSomeday — there'd be a day to face him head-on."
       }
     ]
   }

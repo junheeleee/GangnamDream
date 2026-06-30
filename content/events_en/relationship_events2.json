@@ -2,477 +2,162 @@
   {
     "id": "rel_daeun_first_text",
     "title": "She Texted First",
-    "background": "goshiwon",
-    "portrait": "player_happy",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.4,
-    "hidden": false,
-    "conditions": {
-      "cast_stage": {
-        "person": "daeun",
-        "in": [
-          "warm",
-          "close",
-          "interest"
-        ]
-      },
-      "min_turn": 10
-    },
-    "tags": [
-      "relationship",
-      "ripple"
-    ],
-    "cooldown": 20,
     "description": "A notification.\nDaeun.\n\"Hey, how have you been lately?\"\n\nShe's never reached out first.\n{name} looked at the screen for a moment, then started typing.",
     "choices": [
       {
         "text": "Write a long reply. Talk properly.  (connection / deepening)",
-        "result_text": "An hour of back-and-forth messages.\nFrom the triangle kimbap day to now — seemed like a lot had changed, and then again not much.\nDaeun said, \"Let's get coffee sometime.\"",
-        "effects": {
-          "mental": 5,
-          "stress": -2
-        },
-        "cast_effects": {
-          "daeun": {
-            "affinity": 6
-          }
-        }
+        "result_text": "An hour of back-and-forth messages.\nFrom the triangle kimbap day to now — seemed like a lot had changed, and then again not much.\nDaeun said, \"Let's get coffee sometime.\""
       },
       {
         "text": "Short reply. Keep the connection.  (balance / distance)",
-        "result_text": "\"Doing okay, you?\"\nA few messages exchanged, then it faded.\nThe thread stayed warm.",
-        "effects": {
-          "mental": 2
-        },
-        "cast_effects": {
-          "daeun": {
-            "affinity": 2
-          }
-        }
+        "result_text": "\"Doing okay, you?\"\nA few messages exchanged, then it faded.\nThe thread stayed warm."
       }
     ]
   },
   {
     "id": "rel_hyunsu_loan",
     "title": "Hyunsu's Favor",
-    "background": "pojangmacha",
-    "portrait": "player_tired",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.3,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 12,
-      "flag": "arc_intro_hyunsu_seen"
-    },
-    "tags": [
-      "relationship",
-      "tradeoff"
-    ],
-    "cooldown": 25,
     "description": "Over drinks at the pojangmacha, Hyunsu brought it up.\n\"Hyung, could you lend me ₩1,000,000 for a month? I need it fast.\"\n\nClose like brothers. Had to ask why.\n\"There's an investment deal — I don't want to miss the timing.\"",
     "choices": [
       {
         "text": "Lend it. Trust Hyunsu.  (friendship / risk)",
-        "result_text": "Sent the transfer. Hyunsu was grateful.\nA month passed — paid back a little late, but paid back.",
-        "effects": {
-          "money": -1000000,
-          "mental": 2,
-          "stress": 4
-        },
-        "cast_effects": {
-          "hyunsu": {
-            "affinity": 5
-          }
-        }
+        "result_text": "Sent the transfer. Hyunsu was grateful.\nA month passed — paid back a little late, but paid back."
       },
       {
         "text": "Can't do it. Not in a position to right now.  (self-protection / awkward aftermath)",
-        "result_text": "Hyunsu said, \"Fair enough, can't be helped.\"\nThe energy at the table dropped.\n{name} kept thinking about whether the refusal was right.",
-        "effects": {
-          "stress": 3,
-          "mental": -2
-        },
-        "cast_effects": {
-          "hyunsu": {
-            "affinity": -3
-          }
-        }
+        "result_text": "Hyunsu said, \"Fair enough, can't be helped.\"\nThe energy at the table dropped.\n{name} kept thinking about whether the refusal was right."
       },
       {
         "text": "₩500,000 is what's possible.  (compromise / relationship)",
-        "result_text": "\"Can do five hundred.\" {name} said.\nHyunsu was grateful. Sourced the rest from somewhere else.",
-        "effects": {
-          "money": -500000,
-          "stress": 2,
-          "mental": 1
-        },
-        "cast_effects": {
-          "hyunsu": {
-            "affinity": 3
-          }
-        }
+        "result_text": "\"Can do five hundred.\" {name} said.\nHyunsu was grateful. Sourced the rest from somewhere else."
       }
     ]
   },
   {
     "id": "rel_sangchul_wisdom",
     "title": "What Sangchul Said",
-    "background": "cafe",
-    "portrait": "player_normal",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.3,
-    "hidden": false,
-    "conditions": {
-      "cast_stage": {
-        "person": "sangchul",
-        "in": [
-          "acquaintance",
-          "trusted",
-          "mentoring",
-          "guardian"
-        ]
-      },
-      "min_turn": 14
-    },
-    "tags": [
-      "relationship",
-      "ripple"
-    ],
-    "cooldown": 20,
     "description": "Coffee stretching into a long conversation.\nSangchul brought up an old story.\nEarly thirties — he'd been trying to build everything fast, exactly like {name} now.\n\n\"The last thing I figured out — direction matters more than speed.\"",
     "choices": [
       {
         "text": "Take it seriously. Check the direction.  (wisdom / recalibration)",
-        "result_text": "{name} came home and opened a notebook.\nFast — or right direction?\nFirst time really asking that question.",
-        "effects": {
-          "mental": 5,
-          "intelligence": 2,
-          "stress": -2
-        },
-        "cast_effects": {
-          "sangchul": {
-            "affinity": 3
-          }
-        }
+        "result_text": "{name} came home and opened a notebook.\nFast — or right direction?\nFirst time really asking that question."
       },
       {
         "text": "Nod along, but stay the course.  (confidence / closed to learning)",
-        "result_text": "Nodded — but inside, stood firm.\nSangchul's path and {name}'s path are different.",
-        "effects": {
-          "mental": 1
-        }
+        "result_text": "Nodded — but inside, stood firm.\nSangchul's path and {name}'s path are different."
       }
     ]
   },
   {
     "id": "rel_father_silent",
     "title": "Father's Silence",
-    "background": "restaurant",
-    "portrait": "player_sad",
-    "category": "family",
-    "rarity": "uncommon",
-    "weight": 1.4,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 10
-    },
-    "tags": [
-      "family",
-      "ripple"
-    ],
-    "cooldown": 20,
     "description": "Eating together, just the two of them, for the first time in a while.\nBoth quiet.\nFather glanced at {name} a few times over the rice, then looked away.\n\nLooked like something almost said.",
     "choices": [
       {
         "text": "Reach out first. \"How are you, Dad?\"  (approach / awkwardness)",
-        "result_text": "Father stopped.\n\"Same as always,\" he said.\nThen put down his spoon.\n\"You've been looking tired lately.\"\nThey talked for a long time after that — first real conversation in years.",
-        "effects": {
-          "mental": 7,
-          "stress": -3
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 8
-          }
-        }
+        "result_text": "Father stopped.\n\"Same as always,\" he said.\nThen put down his spoon.\n\"You've been looking tired lately.\"\nThey talked for a long time after that — first real conversation in years."
       },
       {
         "text": "Just eat. This kind of quiet is familiar.  (comfortable distance / connection missed)",
-        "result_text": "Finished the meal and parted ways.\nWatched Dad's back at the bus stop.\nShould have said something — next time.",
-        "effects": {
-          "mental": -1
-        }
+        "result_text": "Finished the meal and parted ways.\nWatched Dad's back at the bus stop.\nShould have said something — next time."
       }
     ]
   },
   {
     "id": "rel_mother_confession",
     "title": "Something Mom Never Said",
-    "background": "restaurant",
-    "portrait": "player_normal",
-    "category": "family",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 72
-    },
-    "tags": [
-      "family",
-      "hidden"
-    ],
-    "cooldown": 40,
     "description": "Mom brought up something from a long time ago.\nWhen she was young — there was something she wanted to do.\nCould have been a career. She let it go when she got married.\n\n\"No regrets. But sometimes I wonder. What if I'd gone that way?\"",
     "choices": [
       {
         "text": "Listen to the whole story.  (understanding / connection)",
-        "result_text": "{name} saw Mom as a full person for the first time — not just a parent.\nA long conversation followed.\nOn the walk home: {name}'s path can't be given up.",
-        "effects": {
-          "mental": 8,
-          "intelligence": 1
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 6
-          }
-        }
+        "result_text": "{name} saw Mom as a full person for the first time — not just a parent.\nA long conversation followed.\nOn the walk home: {name}'s path can't be given up."
       },
       {
         "text": "\"It's not too late, Mom.\" Encourage her.  (courage / warmth)",
-        "result_text": "Mom laughed. \"What would I even do now.\"\nBut something in her eyes shifted.",
-        "effects": {
-          "mental": 5,
-          "social_skill": 1
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 4
-          }
-        }
+        "result_text": "Mom laughed. \"What would I even do now.\"\nBut something in her eyes shifted."
       }
     ]
   },
   {
     "id": "rel_friend_breakup",
     "title": "A Friend's Heartbreak",
-    "background": "pojangmacha",
-    "portrait": "player_sad",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.3,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 8
-    },
-    "tags": [
-      "relationship",
-      "social"
-    ],
-    "cooldown": 15,
     "description": "Friend called suddenly, asked to meet at the pojangmacha.\nBroke up. Three years.\n\n{name} poured drinks and listened. Didn't need to say much.",
     "choices": [
       {
         "text": "Stay until late. That's the whole thing.  (friendship / tired tomorrow)",
-        "result_text": "Stayed until past midnight.\nFriend cried a lot.\n{name} called a taxi at the end.\nFriend said \"thank you\" — two words that covered everything.",
-        "effects": {
-          "mental": 3,
-          "health": -2,
-          "social_skill": 1
-        }
+        "result_text": "Stayed until past midnight.\nFriend cried a lot.\n{name} called a taxi at the end.\nFriend said \"thank you\" — two words that covered everything."
       },
       {
         "text": "Stay two hours, then head out.  (balance / slight guilt)",
-        "result_text": "\"Got to get going, sorry.\"\n\"No, you came — that's enough.\"\nLeft feeling like staying longer would have been better.",
-        "effects": {
-          "mental": 1,
-          "social_skill": 1
-        }
+        "result_text": "\"Got to get going, sorry.\"\n\"No, you came — that's enough.\"\nLeft feeling like staying longer would have been better."
       }
     ]
   },
   {
     "id": "rel_old_flame_00",
     "title": "An Old Name",
-    "background": "cafe",
-    "portrait": "player_normal",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.9,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 64
-    },
-    "tags": [
-      "relationship",
-      "tradeoff"
-    ],
-    "cooldown": 30,
     "description": "A KakaoTalk from someone contact had been lost with.\nAn ex.\n\"Hey. Long time.\"\n\nWhy now. {name} looked at the screen.\nRespond well? Honestly?",
     "choices": [
       {
         "text": "\"Doing well, you?\" — safe conversation.  (neutral connection / managed feelings)",
-        "result_text": "Short pleasantries. Awkward but not bad.\nThe connection hadn't fully gone.",
-        "effects": {
-          "mental": 1,
-          "social_skill": 1
-        }
+        "result_text": "Short pleasantries. Awkward but not bad.\nThe connection hadn't fully gone."
       },
       {
         "text": "\"Why are you reaching out?\" — ask directly.  (direct / awkward)",
-        "result_text": "A pause.\n\"Just thought of you.\"\nThat led somewhere longer.",
-        "effects": {
-          "stress": 2,
-          "mental": 2
-        }
+        "result_text": "A pause.\n\"Just thought of you.\"\nThat led somewhere longer."
       },
       {
         "text": "Don't reply. Not the right moment.  (self-protection / closed door)",
-        "result_text": "{name} closed the chat.\nNot rude — just: not now.",
-        "effects": {
-          "stress": 1,
-          "mental": 1
-        }
+        "result_text": "{name} closed the chat.\nNot rude — just: not now."
       }
     ]
   },
   {
     "id": "rel_mentor_wisdom",
     "title": "Last Coffee",
-    "background": "cafe",
-    "portrait": "player_normal",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 80,
-      "cast_stage": {
-        "person": "sangchul",
-        "in": [
-          "mentoring",
-          "guardian"
-        ]
-      }
-    },
-    "tags": [
-      "relationship",
-      "milestone"
-    ],
-    "cooldown": 30,
     "description": "Sangchul spoke slowly today.\n\"When you get old, what's left is relationships. Money's fine — but there's nowhere to spend it alone.\"\n\n{name} said nothing. Just listened.",
     "choices": [
       {
         "text": "Write it down. Won't forget this.  (learning / record)",
-        "result_text": "Typed it in the notes app on the walk home.\n'Nowhere to spend it alone.'\nThe ₩3B goal stands — but someone to share it with has to exist too.",
-        "effects": {
-          "mental": 5,
-          "intelligence": 2,
-          "social_skill": 1
-        },
-        "cast_effects": {
-          "sangchul": {
-            "affinity": 4
-          }
-        }
+        "result_text": "Typed it in the notes app on the walk home.\n'Nowhere to spend it alone.'\nThe ₩3B goal stands — but someone to share it with has to exist too."
       },
       {
         "text": "\"Work comes first for me, still.\" Say it honestly.  (conviction / respect)",
-        "result_text": "Sangchul smiled. \"Good. I was the same.\"\nNot the wrong road — just heard that from the right person.",
-        "effects": {
-          "mental": 3
-        },
-        "cast_effects": {
-          "sangchul": {
-            "affinity": 2
-          }
-        }
+        "result_text": "Sangchul smiled. \"Good. I was the same.\"\nNot the wrong road — just heard that from the right person."
       }
     ]
   },
   {
     "id": "rel_coworker_secret",
     "title": "Overheard",
-    "background": "office",
-    "portrait": "player_shocked",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "has_job": true,
-      "min_turn": 10
-    },
-    "tags": [
-      "relationship",
-      "tradeoff"
-    ],
-    "cooldown": 20,
     "description": "Coming out of the bathroom — two colleagues talking.\nShouldn't have heard it.\nPersonnel information. The kind that directly affects {name}.",
     "choices": [
       {
         "text": "Pretend it wasn't heard. Wait for the official announcement.  (principle / unready)",
-        "result_text": "Walked past as if nothing happened.\nThe information refused to leave anyway.",
-        "effects": {
-          "stress": 4,
-          "mental": -1
-        }
+        "result_text": "Walked past as if nothing happened.\nThe information refused to leave anyway."
       },
       {
         "text": "Quietly verify with the colleague.  (information / awkward relationship)",
-        "result_text": "Colleague was flustered — then confirmed.\n{name} could prepare early.\nGot a little closer to that colleague in the process.",
-        "effects": {
-          "intelligence": 1,
-          "social_skill": 1,
-          "stress": 2
-        }
+        "result_text": "Colleague was flustered — then confirmed.\n{name} could prepare early.\nGot a little closer to that colleague in the process."
       },
       {
         "text": "Use the information to quietly prepare.  (pragmatic / moral discomfort)",
-        "result_text": "{name} moved quietly.\nNo bad intent — just prepared early.\nLeft a faint unease that didn't quite go away.",
-        "effects": {
-          "intelligence": 2,
-          "mental": -2,
-          "stress": 1
-        }
+        "result_text": "{name} moved quietly.\nNo bad intent — just prepared early.\nLeft a faint unease that didn't quite go away."
       }
     ]
   },
   {
     "id": "rel_childhood_rival",
     "title": "Same Starting Line",
-    "background": "cafe",
-    "portrait": "player_normal",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 12
-    },
-    "tags": [
-      "relationship",
-      "social"
-    ],
-    "cooldown": 20,
     "description": "Found them on social media by accident.\nSame neighborhood, growing up — competed at everything.\nNow: executive at a major conglomerate.\n\nDoes that person still remember those years?",
     "choices": [
       {
         "text": "Reach out. It's been a while.  (reconnection / comparison risk)",
-        "result_text": "Warm response. Suggested meeting for a meal.\nTwo people who started from the same spot, now on different roads —\nCurious to see where the conversation goes.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 2
-        }
+        "result_text": "Warm response. Suggested meeting for a meal.\nTwo people who started from the same spot, now on different roads —\nCurious to see where the conversation goes."
       },
       {
         "text": "Just watch from a distance.  (observation / held back)",
-        "result_text": "Followed the account.\nWatching quietly — what they're doing, where they're going.",
-        "effects": {
-          "intelligence": 1
-        }
+        "result_text": "Followed the account.\nWatching quietly — what they're doing, where they're going."
       }
     ]
   }

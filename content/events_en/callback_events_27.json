@@ -2,42 +2,14 @@
   {
     "id": "callback_parttime_survived",
     "title": "The Choice He Didn't Make",
-    "background": "street",
-    "portrait": "player_normal",
-    "category": "story",
-    "rarity": "uncommon",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "considered_parttime",
-      "min_turn": 14,
-      "max_turn": 22
-    },
-    "tags": [
-      "callback",
-      "internal",
-      "ch1"
-    ],
-    "cooldown": 999,
     "description": "Passing a convenience store, a job posting catches his eye.\n\nAutumn at 33, when the bank account dropped below 300,000 won — it's the same posting he'd seriously considered. In the end, he didn't take it. Whether that was the right call, he still doesn't know.\n\nWhat he does know is that he's standing here now.",
     "choices": [
       {
         "text": "That was the right call — what I'm doing now is proof",
-        "effects": {
-          "mental": 7
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "He walked on.\nA posting is just a posting. He chose something else. It was his own direction, even if slower."
       },
       {
         "text": "Still not sure — just holding on",
-        "effects": {
-          "intelligence": 1,
-          "mental": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Too early to judge.\nSurviving and making the right choice aren't the same thing. He keeps going either way."
       }
     ]
@@ -45,43 +17,14 @@
   {
     "id": "callback_budget_check_in",
     "title": "The Budget Sheet",
-    "background": "goshiwon",
-    "portrait": "player_tired",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 0.7,
-    "hidden": false,
-    "conditions": {
-      "flag": "budget_planned",
-      "min_turn": 13,
-      "max_turn": 20
-    },
-    "tags": [
-      "callback",
-      "finance",
-      "ch1"
-    ],
-    "cooldown": 999,
     "description": "When his balance was at its lowest, he drafted a budget in a notebook.\nIncome, fixed expenses, variable expenses, investable amount.\nToday he dug that notebook out again.\n\nDid he actually live by it?",
     "choices": [
       {
         "text": "Mostly stuck to it — just tweaking the parts that drifted",
-        "effects": {
-          "mental": 8,
-          "intelligence": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "The specific numbers were off, but the direction held.\nA budget isn't something you follow — it's something you stay aware of. On that count, it worked."
       },
       {
         "text": "Went pretty far off track — time to redo it",
-        "effects": {
-          "intelligence": 2,
-          "mental": -3
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "The gap between the plan and reality was bigger than expected.\nBetter to revise than make excuses. He opened it again."
       }
     ]
@@ -89,43 +32,14 @@
   {
     "id": "callback_mid_goal_echo",
     "title": "The Number He Set",
-    "background": "office",
-    "portrait": "player_normal",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "set_monthly_goal",
-      "min_turn": 15,
-      "max_turn": 22
-    },
-    "tags": [
-      "callback",
-      "finance",
-      "ch1"
-    ],
-    "cooldown": 999,
     "description": "When his assets were just beginning to grow, he wrote down monthly targets.\nSpecific numbers. They became something to hold onto.\n\nToday he looked at those numbers again. Whether he hit them or not — having a target made all the difference.",
     "choices": [
       {
         "text": "Raise the goal — aim higher",
-        "effects": {
-          "investment_skill": 1,
-          "intelligence": 1,
-          "mental": -3
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "He revised the number upward. Bigger.\nBigger also means he has to endure more."
       },
       {
         "text": "Keep the current pace — no overreaching",
-        "effects": {
-          "mental": 6
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Consistency beats greed.\nA goal isn't there to be achieved — it's there to keep you pointed in the right direction."
       }
     ]
@@ -133,43 +47,14 @@
   {
     "id": "callback_quiet_money_patience",
     "title": "Nobody Knows",
-    "background": "goshiwon",
-    "portrait": "player_normal",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 0.7,
-    "hidden": false,
-    "conditions": {
-      "flag": "kept_quiet_money",
-      "min_turn": 16,
-      "max_turn": 24
-    },
-    "tags": [
-      "callback",
-      "internal",
-      "ch1"
-    ],
-    "cooldown": 999,
     "description": "As his assets quietly grew, he told no one.\nCoworkers, family, Hyunsu. Not a soul.\n\nThis silence feels strangely comfortable. Maybe it's that things would change if others found out. Or maybe he would change. He can't say which.",
     "choices": [
       {
         "text": "This is right — the quieter, the better",
-        "effects": {
-          "mental": 3,
-          "reputation": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "No one's expectations means no one's disappointment.\nHe keeps this silence."
       },
       {
         "text": "Someday, I want to tell at least one person",
-        "effects": {
-          "mental": 2,
-          "social_skill": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "The story's gotten too long to keep entirely to himself.\nSomeday. Not yet."
       }
     ]
@@ -177,45 +62,14 @@
   {
     "id": "callback_early_greed_humbled",
     "title": "The Cost of Arrogance",
-    "background": "investment_phone",
-    "portrait": "player_shocked",
-    "category": "investment",
-    "rarity": "uncommon",
-    "weight": 0.9,
-    "hidden": false,
-    "conditions": {
-      "flag": "early_greed",
-      "min_turn": 14,
-      "max_turn": 24
-    },
-    "tags": [
-      "callback",
-      "investment",
-      "ch1"
-    ],
-    "cooldown": 999,
     "description": "His assets grew early. Back then, he thought he should push even bigger.\n\nToday the market moved. More than expected. In the wrong direction.\nThis number sits between arrogance and reality.",
     "choices": [
       {
         "text": "Cut losses — lock in the loss and learn from it",
-        "effects": {
-          "money": -500000,
-          "intelligence": 3,
-          "investment_skill": 2,
-          "mental": -5
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "He sold.\nThe number dropped. And he realized this was his second lesson.\nMore expensive than the first — but he'll remember it longer."
       },
       {
         "text": "Hold — it'll come back",
-        "effects": {
-          "mental": -12,
-          "luck": -1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "He held.\nIt might recover. It might sink further.\nNow he has a habit of checking the screen every morning."
       }
     ]
@@ -223,42 +77,14 @@
   {
     "id": "callback_gosiwon_wall_echo",
     "title": "That Room Was Empty",
-    "background": "goshiwon",
-    "portrait": "player_tired",
-    "category": "story",
-    "rarity": "uncommon",
-    "weight": 0.6,
-    "hidden": false,
-    "conditions": {
-      "flag": "knocked_on_wall",
-      "min_turn": 14,
-      "max_turn": 22
-    },
-    "tags": [
-      "callback",
-      "internal",
-      "ch1"
-    ],
-    "cooldown": 999,
     "description": "Walking past the hallway, he glanced toward the room next door.\n\nThe stuff was gone. That person had left. He never knew their name. Someone he only knew through a shared wall — maybe they both stared at the same ceiling in the middle of the night.",
     "choices": [
       {
         "text": "Paused for a moment, then walked on",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "He stood in front of the empty room for about a second, then went back to his own.\nEveryone leaves this place like that."
       },
       {
         "text": "Thought about when he'll leave this place too",
-        "effects": {
-          "mental": 3,
-          "intelligence": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "He pictured the room back when it was still full.\nHe'll pack up his things someday too. Where he ends up then — that's being decided right now."
       }
     ]
@@ -266,43 +92,14 @@
   {
     "id": "callback_stayed_grounded_echo",
     "title": "It Was Luck",
-    "background": "office",
-    "portrait": "player_normal",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 0.7,
-    "hidden": false,
-    "conditions": {
-      "flag": "stayed_grounded",
-      "min_turn": 16,
-      "max_turn": 24
-    },
-    "tags": [
-      "callback",
-      "investment",
-      "ch1"
-    ],
-    "cooldown": 999,
     "description": "When his assets started growing fast, he told himself it was luck.\nHe told himself not to get carried away.\n\nToday he looks back on that period. That judgment may have been the foundation for where he is now. Or maybe not. There's no way to know.",
     "choices": [
       {
         "text": "Not getting cocky then was the right call",
-        "effects": {
-          "mental": 4,
-          "intelligence": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Hindsight, but — that steadiness from back then is still working.\nHe takes it with him into the next opportunity."
       },
       {
         "text": "It was probably just luck — no need to read too much into it",
-        "effects": {
-          "mental": 2,
-          "investment_skill": 1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Believing your own story too hard is dangerous.\nLuck is part of skill. But it isn't all of it."
       }
     ]

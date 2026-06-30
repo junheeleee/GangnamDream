@@ -6,24 +6,15 @@
     "choices": [
       {
         "text": "Just moved past it. That relationship is over.",
-        "result_text": "Closed the article. The connection with Im Sangchul ended at that café.\n\nWho {name} is now — got here without his help, and without his weight.",
-        "effects": {
-          "tint": 1
-        }
+        "result_text": "Closed the article. The connection with Im Sangchul ended at that café.\n\nWho {name} is now — got here without his help, and without his weight."
       },
       {
         "text": "Called his father. He should know about this.",
-        "result_text": "\"Yeah.\" Father said briefly. \"Good.\"\n\nNothing more. A short silence. Something heavy lifted slightly.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "\"Yeah.\" Father said briefly. \"Good.\"\n\nNothing more. A short silence. Something heavy lifted slightly."
       },
       {
         "text": "Feeling sorry for him is strange",
-        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously. That's uncomfortable.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Without that man, the {name} now might not exist. But that man destroyed his father.\n\nBoth are true simultaneously. That's uncomfortable."
       }
     ]
   },
@@ -34,17 +25,11 @@
     "choices": [
       {
         "text": "\"I'm doing okay. Nice to hear from you.\" — straightforward",
-        "result_text": "Jiyeon replied. \"Glad to hear it. I've been shifting directions a bit myself. Let's meet sometime.\"\n\nThat was it. This relationship settled into something that exchanges occasional check-ins from the edges of each other's lives.",
-        "effects": {
-          "tint": 1
-        }
+        "result_text": "Jiyeon replied. \"Glad to hear it. I've been shifting directions a bit myself. Let's meet sometime.\"\n\nThat was it. This relationship settled into something that exchanges occasional check-ins from the edges of each other's lives."
       },
       {
         "text": "\"You helped me a lot back then. I think I've found my own way now.\" — honest",
-        "result_text": "Jiyeon said \"Oh really?\" Then: \"What way is that?\"\n\nAnswering that question made the last two years fall into order. Strangely — in the process, Jiyeon said something similar. \"I'm figuring that out too.\"",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "Jiyeon said \"Oh really?\" Then: \"What way is that?\"\n\nAnswering that question made the last two years fall into order. Strangely — in the process, Jiyeon said something similar. \"I'm figuring that out too.\""
       }
     ]
   },
@@ -55,24 +40,15 @@
     "choices": [
       {
         "text": "\"I'll get there, Father.\" — said it inwardly",
-        "result_text": "The words came out.\n\nNo one heard. Father isn't here. Did it anyway. That's what's possible right now.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "The words came out.\n\nNo one heard. Father isn't here. Did it anyway. That's what's possible right now."
       },
       {
         "text": "Wanted to explain the current situation to him",
-        "result_text": "I'm at this point, Father. Still far. But not giving up.\n\n{name} said all of it silently. Every word felt important.",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "I'm at this point, Father. Still far. But not giving up.\n\n{name} said all of it silently. Every word felt important."
       },
       {
         "text": "Turned on the monitor. Living people have things to do.",
-        "result_text": "The monitor came on. The charts came up.\n\nThe photo was still there. {name} was still there. Living people have things to do.",
-        "effects": {
-          "tint": -1
-        }
+        "result_text": "The monitor came on. The charts came up.\n\nThe photo was still there. {name} was still there. Living people have things to do."
       }
     ]
   },
@@ -83,24 +59,15 @@
     "choices": [
       {
         "text": "Use it. This is my network now. His crimes don't transfer to me.",
-        "result_text": "Closed the deal. Money came in.\n\nSangchul's name hovered faintly next to the consultant's — but that's only something {name} knows.",
-        "effects": {
-          "tint": -3
-        }
+        "result_text": "Closed the deal. Money came in.\n\nSangchul's name hovered faintly next to the consultant's — but that's only something {name} knows."
       },
       {
         "text": "Not doing this deal. If it came from there, it all gets cut.",
-        "result_text": "Declined. Didn't say why.\n\nHanging up, {name} thought of the first day arriving in Seoul.\nThat {name} wouldn't have known what this deal was. Now knows. So cut it.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Declined. Didn't say why.\n\nHanging up, {name} thought of the first day arriving in Seoul.\nThat {name} wouldn't have known what this deal was. Now knows. So cut it."
       },
       {
         "text": "Do the deal — but this is the last one. The line gets drawn here.",
-        "result_text": "Said \"last one\" silently.\n\nWhether that word was real — the only way to know was when the next similar call came.",
-        "effects": {
-          "tint": 1
-        }
+        "result_text": "Said \"last one\" silently.\n\nWhether that word was real — the only way to know was when the next similar call came."
       }
     ]
   },
@@ -111,24 +78,15 @@
     "choices": [
       {
         "text": "\"Is it for your father's company?\" — asked directly",
-        "result_text": "Jiyeon smiled for a moment.\n\"No. I want something that's mine. Something that isn't the real estate boss's daughter.\"\n\nThat landed harder than expected.\n{name} understood the weight of 'mine.'",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "Jiyeon smiled for a moment.\n\"No. I want something that's mine. Something that isn't the real estate boss's daughter.\"\n\nThat landed harder than expected.\n{name} understood the weight of 'mine.'"
       },
       {
         "text": "\"That exam isn't easy, is it?\" — realistic",
-        "result_text": "\"It's hard.\" Jiyeon said. \"That's why I'm doing it.\"\n\nNothing more needed after that.\nDoing something hard knowing it's hard — that's what sincerity looks like.",
-        "effects": {
-          "tint": 1
-        }
+        "result_text": "\"It's hard.\" Jiyeon said. \"That's why I'm doing it.\"\n\nNothing more needed after that.\nDoing something hard knowing it's hard — that's what sincerity looks like."
       },
       {
         "text": "\"I think you'll do great.\" — kept it light",
-        "result_text": "Jiyeon smiled lightly. \"Thank you.\"\n\nIt was clearly a good thing to say — but after the conversation ended, {name} felt like something was unfinished.\nThe feeling of saying the easy thing instead of the right thing.",
-        "effects": {
-          "tint": -1
-        }
+        "result_text": "Jiyeon smiled lightly. \"Thank you.\"\n\nIt was clearly a good thing to say — but after the conversation ended, {name} felt like something was unfinished.\nThe feeling of saying the easy thing instead of the right thing."
       }
     ]
   },
@@ -139,24 +97,15 @@
     "choices": [
       {
         "text": "\"Take care. Sincerely.\" — let her go",
-        "result_text": "Jiyeon replied. \"Thanks. I'll message when I come back to Seoul.\"\n\nThat was the last text. A sincere goodbye is sometimes the most complete kind.\n{name} locked the screen. Something felt properly finished.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Jiyeon replied. \"Thanks. I'll message when I come back to Seoul.\"\n\nThat was the last text. A sincere goodbye is sometimes the most complete kind.\n{name} locked the screen. Something felt properly finished."
       },
       {
         "text": "\"You should have done this ages ago.\" — honest",
-        "result_text": "Jiyeon replied after a moment. \"You're right. It's late.\"\nThen another message: \"Still — glad it's now.\"\n\n{name} had a feeling that wasn't only something she was saying to herself.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Jiyeon replied after a moment. \"You're right. It's late.\"\nThen another message: \"Still — glad it's now.\"\n\n{name} had a feeling that wasn't only something she was saying to herself."
       },
       {
         "text": "\"You could stay here, you know.\" — wanted to hold her back",
-        "result_text": "Jiyeon didn't answer.\nA short time later: just \"Thank you.\"\n\nThat message felt like a goodbye. Trying to hold someone back doesn't keep them — it just makes them leave faster.",
-        "effects": {
-          "tint": -1
-        }
+        "result_text": "Jiyeon didn't answer.\nA short time later: just \"Thank you.\"\n\nThat message felt like a goodbye. Trying to hold someone back doesn't keep them — it just makes them leave faster."
       }
     ]
   },
@@ -167,24 +116,15 @@
     "choices": [
       {
         "text": "Called his father. No reason.",
-        "result_text": "Father picked up.\n\"Oh, Minjun?\" His voice was warm with surprise.\n\nNothing special was said. Weather talk, \"Have you eaten?\" talk.\nAfter hanging up, {name} realized:\nThat was the reason. You don't need one.",
-        "effects": {
-          "tint": 6
-        }
+        "result_text": "Father picked up.\n\"Oh, Minjun?\" His voice was warm with surprise.\n\nNothing special was said. Weather talk, \"Have you eaten?\" talk.\nAfter hanging up, {name} realized:\nThat was the reason. You don't need one."
       },
       {
         "text": "Called Hyunsu. Haven't heard from him in a while.",
-        "result_text": "Hyunsu picked up. \"Hey? {name}? Been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just studying.\" — \"Same.\" — \"...Want to eat?\" — \"When?\" — \"This week?\"\n\nThat was that. One call made first became a plan a month out.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Hyunsu picked up. \"Hey? {name}? Been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just studying.\" — \"Same.\" — \"...Want to eat?\" — \"When?\" — \"This week?\"\n\nThat was that. One call made first became a plan a month out."
       },
       {
         "text": "Pressed the call button. Then hung up. Not yet.",
-        "result_text": "Hung up before it could ring.\n\n{name} wasn't sure why.\nTurned the phone face-down on the desk and looked out the window.\n\nCalling first turned out to be harder than expected.",
-        "effects": {
-          "tint": -1
-        }
+        "result_text": "Hung up before it could ring.\n\n{name} wasn't sure why.\nTurned the phone face-down on the desk and looked out the window.\n\nCalling first turned out to be harder than expected."
       }
     ]
   },
@@ -195,22 +135,15 @@
     "choices": [
       {
         "text": "\"That's great. Genuinely. You made it happen.\"",
-        "result_text": "A brief silence on the other end. Then Jiyeon said: \"It feels more real hearing you say it.\"\n\nBeing someone who could say that to someone who made it — not a bad year.",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "A brief silence on the other end. Then Jiyeon said: \"It feels more real hearing you say it.\"\n\nBeing someone who could say that to someone who made it — not a bad year."
       },
       {
         "text": "\"Can I say I've missed you? After this long?\"",
-        "result_text": "Jiyeon laughed on the other end. \"I wanted to hear that.\"\n\nSaid what went unsaid for a year. After hanging up, {name} lay looking at the ceiling for a long time.\n\nThe sound of the ocean was still there.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Jiyeon laughed on the other end. \"I wanted to hear that.\"\n\nSaid what went unsaid for a year. After hanging up, {name} lay looking at the ceiling for a long time.\n\nThe sound of the ocean was still there."
       },
       {
         "text": "\"I'm holding on here too. Each in our own direction.\"",
-        "result_text": "Jiyeon said \"Yeah.\" Short.\n\nDifferent directions. The weight of those words when they were first written — still the same.\nTwo different cities. Two different staircases.",
-        "effects": {}
+        "result_text": "Jiyeon said \"Yeah.\" Short.\n\nDifferent directions. The weight of those words when they were first written — still the same.\nTwo different cities. Two different staircases."
       }
     ]
   },
@@ -221,22 +154,15 @@
     "choices": [
       {
         "text": "\"Come often then. I'll be waiting.\"",
-        "result_text": "Jiyeon smiled. The face she hadn't seen in a while.\n\n\"When can I come?\" \"Anytime.\"\n\nThey walked after leaving the café. No words — but not awkward. It felt like a lot had already been said.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Jiyeon smiled. The face she hadn't seen in a while.\n\n\"When can I come?\" \"Anytime.\"\n\nThey walked after leaving the café. No words — but not awkward. It felt like a lot had already been said."
       },
       {
         "text": "\"Don't let this dismantle what you built in Busan. That's real, what you made there.\"",
-        "result_text": "Jiyeon was quiet for a while. Then: \"Thank you.\"\n\n\"That's what I wanted to hear. Not to be held back.\"\n\nThe two of them living in different cities didn't feel wrong. Each standing in their own place — that's also a form of relationship.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Jiyeon was quiet for a while. Then: \"Thank you.\"\n\n\"That's what I wanted to hear. Not to be held back.\"\n\nThe two of them living in different cities didn't feel wrong. Each standing in their own place — that's also a form of relationship."
       },
       {
         "text": "(Couldn't find words. That was the answer.)",
-        "result_text": "Jiyeon stood up first. \"I should get going.\"\n\nListening to the café door close, {name} looked at his coffee cup.\n\nUnspoken words last longer than the ones you say.",
-        "effects": {}
+        "result_text": "Jiyeon stood up first. \"I should get going.\"\n\nListening to the café door close, {name} looked at his coffee cup.\n\nUnspoken words last longer than the ones you say."
       }
     ]
   },
@@ -247,17 +173,11 @@
     "choices": [
       {
         "text": "\"See you in Gangnam. I'm on my way there too.\"",
-        "result_text": "Jiyeon replied: \"Then I'll see you in Gangnam. For sure.\"\n\nThat became a promise. Neither of them was there yet. But both were heading there.\n\nSeoul looked different somehow.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Jiyeon replied: \"Then I'll see you in Gangnam. For sure.\"\n\nThat became a promise. Neither of them was there yet. But both were heading there.\n\nSeoul looked different somehow."
       },
       {
         "text": "\"That decision has to be yours. Not because of me.\"",
-        "result_text": "Jiyeon replied after a moment: \"I know. It's my decision. But you're one of the reasons.\"\n\nThat was honest. There's a reason honest is good.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "Jiyeon replied after a moment: \"I know. It's my decision. But you're one of the reasons.\"\n\nThat was honest. There's a reason honest is good."
       }
     ]
   },
@@ -268,15 +188,11 @@
     "choices": [
       {
         "text": "\"That's great.\" — said it sincerely",
-        "result_text": "Meant it.\n\nJiyeon is building her own thing in Busan. That was the point. She reached it.\n\nDifferent directions — at first it felt like goodbye. Now it feels like it was the right phrase.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Meant it.\n\nJiyeon is building her own thing in Busan. That was the point. She reached it.\n\nDifferent directions — at first it felt like goodbye. Now it feels like it was the right phrase."
       },
       {
         "text": "(Nodded. Nothing to say.)",
-        "result_text": "Nodded.\n\nNothing to say. More precisely — there was something that couldn't be said right now, and that was all.\n\n{name} started walking. Seoul was the same as always.",
-        "effects": {}
+        "result_text": "Nodded.\n\nNothing to say. More precisely — there was something that couldn't be said right now, and that was all.\n\n{name} started walking. Seoul was the same as always."
       }
     ],
     "description_if_known": {
@@ -291,17 +207,11 @@
     "choices": [
       {
         "text": "Said it honestly. \"I'm seeing someone right now.\"",
-        "result_text": "Jiyeon was quiet for a moment. Then smiled. \"I know. I just mean — you're a good person.\"\n\nThey finished their coffee. It wasn't awkward.\n\nLearned that day — honest words don't break things.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "Jiyeon was quiet for a moment. Then smiled. \"I know. I just mean — you're a good person.\"\n\nThey finished their coffee. It wasn't awkward.\n\nLearned that day — honest words don't break things."
       },
       {
         "text": "(Said nothing. Let her misread it.)",
-        "result_text": "Said nothing.\n\nJiyeon smiled and stood up. \"See you again.\"\n\n{name} sat there. The gap between 'not being honest' and 'lying' — narrower than expected.",
-        "effects": {
-          "tint": -5
-        }
+        "result_text": "Said nothing.\n\nJiyeon smiled and stood up. \"See you again.\"\n\n{name} sat there. The gap between 'not being honest' and 'lying' — narrower than expected."
       }
     ]
   }

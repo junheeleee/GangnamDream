@@ -141,17 +141,11 @@
     "choices": [
       {
         "text": "Admitting the fear — actually became strength",
-        "result_text": "Deny fear and it grows. Admit it and you can handle it.\n\nBecause they admitted it honestly then, {name} wasn't devoured by it.\nCourage isn't the absence of fear — it's going despite it.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Deny fear and it grows. Admit it and you can handle it.\n\nBecause they admitted it honestly then, {name} wasn't devoured by it.\nCourage isn't the absence of fear — it's going despite it."
       },
       {
         "text": "Afraid — but I trust the self that came this far",
-        "result_text": "Coming this far wasn't luck.\n\nIt was the result of countless choices and endurances. {name} decided to trust that self.\nBuilding trust atop fear — that was how to walk the final leg.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Coming this far wasn't luck.\n\nIt was the result of countless choices and endurances. {name} decided to trust that self.\nBuilding trust atop fear — that was how to walk the final leg."
       }
     ]
   },
