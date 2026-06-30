@@ -54,6 +54,10 @@ var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
 var _story_moral_norm: float = 0.0
 var _story_moral_stage: int = 0
+var _story_ink_transition_layer: Control = null
+var _story_ink_transition_tween: Tween = null
+var _story_ink_transition_progress: float = 0.0
+var _story_ink_transition_kind: String = "scene"
 
 var _font: FontFile
 var _font_bold: FontFile
@@ -541,6 +545,77 @@ func _build_ui():
 	_apply_font(_hud_label)
 	hud_panel.add_child(_hud_label)
 	_apply_story_surface_palette(false, true)
+	_build_story_ink_transition_layer()
+
+func _build_story_ink_transition_layer() -> void:
+	_story_ink_transition_layer = Control.new()
+	_story_ink_transition_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_story_ink_transition_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_story_ink_transition_layer.visible = false
+	_story_ink_transition_layer.z_index = 86
+	_story_ink_transition_layer.draw.connect(_draw_story_ink_transition)
+	add_child(_story_ink_transition_layer)
+
+func _play_story_ink_transition(kind: String = "scene", strength: float = 1.0) -> void:
+	if not is_instance_valid(_story_ink_transition_layer) or not is_inside_tree():
+		return
+	if _story_ink_transition_tween and _story_ink_transition_tween.is_running():
+		_story_ink_transition_tween.kill()
+	_story_ink_transition_kind = kind
+	_story_ink_transition_progress = 0.0
+	_story_ink_transition_layer.visible = true
+	_story_ink_transition_layer.queue_redraw()
+	var duration := clampf(0.30 + strength * 0.10, 0.24, 0.48)
+	_story_ink_transition_tween = create_tween()
+	_story_ink_transition_tween.tween_method(_set_story_ink_transition_progress, 0.0, 1.0, duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_story_ink_transition_tween.tween_callback(func():
+		_story_ink_transition_progress = 0.0
+		if is_instance_valid(_story_ink_transition_layer):
+			_story_ink_transition_layer.visible = false
+			_story_ink_transition_layer.queue_redraw()
+		_story_ink_transition_tween = null
+	)
+
+func _set_story_ink_transition_progress(value: float) -> void:
+	_story_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if is_instance_valid(_story_ink_transition_layer):
+		_story_ink_transition_layer.queue_redraw()
+
+func _draw_story_ink_transition() -> void:
+	if not is_instance_valid(_story_ink_transition_layer) or _story_ink_transition_progress <= 0.01:
+		return
+	var size := _story_ink_transition_layer.size
+	if size.x <= 0.0 or size.y <= 0.0:
+		return
+	var pulse := sin(_story_ink_transition_progress * PI)
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var base := Color("#08090c").lerp(Color("#020303"), black * 0.60).lerp(Color("#eef6ff"), white * 0.32)
+	if _story_ink_transition_kind == "choice":
+		base = base.lerp(Color("#111216"), 0.25)
+	_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.075 + black * 0.070 + white * 0.035)), true)
+
+	var sweep_x := lerpf(-size.x * 0.18, size.x * 1.10, _story_ink_transition_progress)
+	var edge_w := 28.0 + black * 18.0
+	var edge_col := Color("#dce4ef", pulse * (0.14 + white * 0.05)).lerp(Color("#111817", pulse * 0.26), black)
+	_story_ink_transition_layer.draw_rect(Rect2(Vector2(sweep_x - edge_w, 0.0), Vector2(edge_w, size.y)), edge_col, true)
+
+	var line_alpha := pulse * (0.045 + black * 0.045 + white * 0.022)
+	var line_col := Color("#f4f7fb", line_alpha).lerp(Color("#8e9892", line_alpha), black * 0.70)
+	var gap := 28
+	var offset := fmod(_story_ink_transition_progress * 86.0 + float(GameState.turn * 5), float(gap))
+	for y in range(-gap, int(size.y) + gap, gap):
+		var yy := float(y) + offset
+		var jitter := sin(yy * 0.033 + float(GameState.turn)) * (0.8 + black * 2.4)
+		_story_ink_transition_layer.draw_line(Vector2(0.0, yy + jitter), Vector2(size.x, yy - jitter), line_col, 1.0)
+
+	if black > 0.01:
+		var burn := Color("#000000", pulse * (0.065 + black * 0.11))
+		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+		_story_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 16.0), Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+	if white > 0.01:
+		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.042), false, 2.0)
 
 func _refresh_hud():
 	if _hud_label == null:
@@ -572,6 +647,7 @@ func _load_next_event():
 	_render_current()
 
 func _render_current():
+	_play_story_ink_transition("scene", 0.80)
 	_showing_choices = false
 	_current_uses_cg = false
 	_choice_box.visible = false
@@ -888,6 +964,7 @@ func _on_choice(idx: int):
 	var choice: Dictionary = choices[idx]
 	AudioManager.play("choice_made")
 	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
+	_play_story_ink_transition("choice", 0.65)
 	_pulse_story_choice_commit()
 
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)

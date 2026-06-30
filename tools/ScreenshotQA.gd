@@ -1210,12 +1210,16 @@ func _shot_transition_states() -> void:
 		GameState.moral_tint = float(data[0])
 		if _mg.has_method("_apply_moral_visuals"):
 			_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+		if _mg.has_method("_set_internal_transition_progress_for_qa"):
+			_mg._set_internal_transition_progress_for_qa(0.56, "event")
 		if SceneTransition.has_method("_set_transition_alpha"):
 			SceneTransition._set_transition_alpha(0.72)
 		await _settle(0.2)
 		await _save(str(data[1]), 0.05)
 	if SceneTransition.has_method("_set_transition_alpha"):
 		SceneTransition._set_transition_alpha(0.0)
+	if _mg.has_method("_set_internal_transition_progress_for_qa"):
+		_mg._set_internal_transition_progress_for_qa(0.0, "event")
 	GameState.moral_tint = 0.0
 	if _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)

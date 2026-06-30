@@ -50,6 +50,10 @@ var _moral_echo_tween: Tween = null
 var _moral_visual_initialized: bool = false
 var _moral_norm: float = 0.0
 var _moral_stage: int = 0
+var _ink_transition_layer: Control = null
+var _ink_transition_tween: Tween = null
+var _ink_transition_progress: float = 0.0
+var _ink_transition_kind: String = "neutral"
 var _event_bg_motion_tween: Tween = null
 var _transient_bg_active: bool = false
 var _main_ui_root: Control = null
@@ -827,6 +831,7 @@ func _build_ui():
 
 	_build_vignette_layer()
 	_build_moral_surface_layer()
+	_build_ink_transition_layer()
 	_build_feedback_layer()
 	_build_modal()
 	_build_toast_layer()
@@ -846,6 +851,90 @@ func _build_moral_surface_layer():
 		_moral_surface_material.set_shader_parameter("print_screen", 0.0)
 		_moral_surface_overlay.material = _moral_surface_material
 	add_child(_moral_surface_overlay)
+
+func _build_ink_transition_layer() -> void:
+	_ink_transition_layer = Control.new()
+	_ink_transition_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_ink_transition_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ink_transition_layer.visible = false
+	_ink_transition_layer.z_index = 86
+	_ink_transition_layer.draw.connect(_draw_ink_transition)
+	add_child(_ink_transition_layer)
+
+func _play_ink_transition(kind: String = "neutral", strength: float = 1.0) -> void:
+	if not is_instance_valid(_ink_transition_layer) or not is_inside_tree():
+		return
+	if _minigame_overlay_active:
+		return
+	if _ink_transition_tween and _ink_transition_tween.is_running():
+		_ink_transition_tween.kill()
+	_ink_transition_kind = kind
+	_ink_transition_progress = 0.0
+	_ink_transition_layer.visible = true
+	_ink_transition_layer.queue_redraw()
+	var duration := clampf(0.30 + strength * 0.10, 0.24, 0.48)
+	_ink_transition_tween = create_tween()
+	_ink_transition_tween.tween_method(_set_ink_transition_progress, 0.0, 1.0, duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_ink_transition_tween.tween_callback(func():
+		_ink_transition_progress = 0.0
+		if is_instance_valid(_ink_transition_layer):
+			_ink_transition_layer.visible = false
+			_ink_transition_layer.queue_redraw()
+		_ink_transition_tween = null
+	)
+
+func _set_ink_transition_progress(value: float) -> void:
+	_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if is_instance_valid(_ink_transition_layer):
+		_ink_transition_layer.queue_redraw()
+
+func _set_internal_transition_progress_for_qa(value: float, kind: String = "event") -> void:
+	_ink_transition_kind = kind
+	_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if is_instance_valid(_ink_transition_layer):
+		_ink_transition_layer.visible = _ink_transition_progress > 0.01
+		_ink_transition_layer.queue_redraw()
+
+func _draw_ink_transition() -> void:
+	if not is_instance_valid(_ink_transition_layer) or _ink_transition_progress <= 0.01:
+		return
+	var size := _ink_transition_layer.size
+	if size.x <= 0.0 or size.y <= 0.0:
+		return
+	var pulse := sin(_ink_transition_progress * PI)
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	var base := Color("#090a0d")
+	if _ink_transition_kind == "result":
+		base = Color("#0d0d10")
+	elif _ink_transition_kind == "ap":
+		base = Color("#111316")
+	elif _ink_transition_kind == "moral":
+		base = Color("#020303").lerp(Color("#f2f7ff"), white)
+	base = base.lerp(Color("#020303"), black * 0.55).lerp(Color("#eef6ff"), white * 0.32)
+	_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.08 + black * 0.07 + white * 0.035)), true)
+
+	var sweep_x := lerpf(-size.x * 0.20, size.x * 1.12, _ink_transition_progress)
+	var edge_w := 30.0 + black * 18.0
+	var edge_col := Color("#dce4ef", pulse * (0.16 + white * 0.06)).lerp(Color("#111817", pulse * 0.28), black)
+	_ink_transition_layer.draw_rect(Rect2(Vector2(sweep_x - edge_w, 0.0), Vector2(edge_w, size.y)), edge_col, true)
+
+	var line_alpha := pulse * (0.050 + black * 0.045 + white * 0.025)
+	var line_col := Color("#f4f7fb", line_alpha).lerp(Color("#8e9892", line_alpha), black * 0.70)
+	var gap := 28
+	var offset := fmod(_ink_transition_progress * 90.0 + float(GameState.turn * 5), float(gap))
+	for y in range(-gap, int(size.y) + gap, gap):
+		var yy := float(y) + offset
+		var jitter := sin(yy * 0.033 + float(GameState.turn)) * (0.8 + black * 2.6)
+		_ink_transition_layer.draw_line(Vector2(0.0, yy + jitter), Vector2(size.x, yy - jitter), line_col, 1.0)
+
+	if black > 0.01:
+		var burn := Color("#000000", pulse * (0.070 + black * 0.12))
+		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+		_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 16.0), Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+	if white > 0.01:
+		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.045), false, 2.0)
 
 func _build_vignette_layer():
 	_vignette_rect = ColorRect.new()
@@ -3009,6 +3098,7 @@ func _choose(index):
 	_refresh_all()
 
 func _show_result(result_text: String):
+	_play_ink_transition("result", 0.90)
 	for child in choice_box.get_children():
 		child.queue_free()
 	pending_result_text = result_text
@@ -3072,6 +3162,7 @@ func _on_result_confirmed():
 
 # 밴드를 넘을 때 터지는 짧은 자각 — 숫자·스탯 표시 없이 본문만. (docs/MORAL_TINT.md §6)
 func _show_moral_beat(from_band: int, to_band: int):
+	_play_ink_transition("moral", 1.15)
 	for child in choice_box.get_children():
 		child.queue_free()
 	_transient_bg_active = true
@@ -3087,6 +3178,7 @@ func _show_moral_beat(from_band: int, to_band: int):
 
 # 흉터 비네트 — 삶의 선을 처음 넘은 날 밤, 한 장면. 숫자 없음. (docs/MORAL_TINT.md §7)
 func _show_scar_beat(scar_flag: String) -> void:
+	_play_ink_transition("moral", 1.25)
 	for child in choice_box.get_children():
 		child.queue_free()
 	_transient_bg_active = true
@@ -3176,6 +3268,7 @@ func _render_event():
 		_render_ap_actions()
 		return
 	_transient_bg_active = false
+	_play_ink_transition("event", 0.80)
 	next_button.disabled = true
 	# 카테고리 틴트 적용 (분위기 신호 — Balatro 배경 전환 아이디어)
 	_apply_category_tint(str(current_event.get("category", "")))
@@ -4208,6 +4301,7 @@ func _render_log():
 	log_box.text = "\n".join(lines)
 
 func _render_ap_actions():
+	_play_ink_transition("ap", 0.55)
 	_transient_bg_active = false
 	_clear_category_tint(true)
 	_clear_feedback_flash()
