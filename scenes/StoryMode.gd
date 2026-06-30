@@ -247,6 +247,47 @@ func _pulse_story_choice_commit() -> void:
 	tw.tween_property(_text_panel, "modulate", Color(1.07, 1.07, 1.07, 1.0), 0.08)
 	tw.tween_property(_text_panel, "modulate", Color(1, 1, 1, 1), 0.20)
 
+func _bind_story_tactile_button(button: Button, strength: float = 1.0) -> void:
+	if not is_instance_valid(button) or button.has_meta("_story_tactile_bound"):
+		return
+	button.set_meta("_story_tactile_bound", true)
+	var hover_scale := Vector2.ONE * (1.0 + 0.006 * strength)
+	var press_scale := Vector2(1.0 - 0.010 * strength, 1.0 - 0.040 * strength)
+	button.mouse_entered.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.focus_entered.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.button_down.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, press_scale, 0.055, Tween.TRANS_QUAD)
+	)
+	button.button_up.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, hover_scale if button.has_focus() else Vector2.ONE, 0.12, Tween.TRANS_BACK)
+	)
+	button.mouse_exited.connect(func():
+		_story_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+	button.focus_exited.connect(func():
+		_story_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+
+func _story_tactile_button_to(button: Button, target_scale: Vector2, duration: float, trans: int) -> void:
+	if not is_instance_valid(button) or not is_inside_tree():
+		return
+	button.pivot_offset = button.size * 0.5
+	var old: Variant = button.get_meta("_story_tactile_tween") if button.has_meta("_story_tactile_tween") else null
+	if old is Tween and (old as Tween).is_running():
+		(old as Tween).kill()
+	var tw := create_tween()
+	tw.bind_node(button)
+	tw.tween_property(button, "scale", target_scale, duration).set_trans(trans).set_ease(Tween.EASE_OUT)
+	button.set_meta("_story_tactile_tween", tw)
+
 # ── UI 구성 ───────────────────────────────────────────────────
 func _build_ui():
 	# 1. 배경 이미지 (이벤트별 전환)
@@ -785,6 +826,7 @@ func _show_choices():
 		group.add_theme_constant_override("separation", 3)
 		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		group.modulate = Color(1, 1, 1, 0)
+		group.scale = Vector2(0.986, 0.986)
 		_choice_box.add_child(group)
 		var btn = _make_choice_button(_fmt(str(ch.get("text", _tr("선택", "Choose")))), i)
 		group.add_child(btn)
@@ -793,6 +835,7 @@ func _show_choices():
 	for i in range(_choice_box.get_child_count()):
 		var group_node := _choice_box.get_child(i)
 		tw.parallel().tween_property(group_node, "modulate:a", 1.0, 0.20).set_delay(0.04 * float(i))
+		tw.parallel().tween_property(group_node, "scale", Vector2.ONE, 0.24).set_delay(0.04 * float(i)).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	# 컨트롤러: 첫 번째 그룹의 버튼에 포커스 (A 버튼으로 즉시 선택 가능)
 	if _choice_box.get_child_count() > 0:
 		var first_group = _choice_box.get_child(0)
@@ -833,6 +876,7 @@ func _make_choice_button(text: String, idx: int) -> Button:
 	if _font:
 		btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(_on_choice.bind(idx))
+	_bind_story_tactile_button(btn, 1.0)
 	return btn
 
 func _on_choice(idx: int):
@@ -843,6 +887,7 @@ func _on_choice(idx: int):
 		return
 	var choice: Dictionary = choices[idx]
 	AudioManager.play("choice_made")
+	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
 	_pulse_story_choice_commit()
 
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)

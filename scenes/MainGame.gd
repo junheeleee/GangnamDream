@@ -3241,6 +3241,7 @@ func _reveal_choices():
 		group.add_theme_constant_override("separation", 3)
 		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		group.modulate.a = 0.0
+		group.scale = Vector2(0.986, 0.986)
 		choice_box.add_child(group)
 		var button = _action_button("  %d.  %s" % [i + 1, _fmt(choice.get("text", _tr("선택", "Choice")))], acc)
 		button.custom_minimum_size = Vector2(0, 44)
@@ -3261,6 +3262,7 @@ func _reveal_choices():
 		var tw := create_tween()
 		tw.tween_interval(stagger_delay)
 		tw.tween_property(group, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
+		tw.parallel().tween_property(group, "scale", Vector2.ONE, 0.24).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		stagger_delay += 0.10
 	if ControllerHints.is_pad_active():
 		var hint = _tr("[%s] 선택  [%s] 메뉴  (%s)", "[%s] Choose  [%s] Menu  (%s)") % [
@@ -3460,6 +3462,8 @@ func _show_effects_float(effects: Dictionary):
 
 func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 	AudioManager.play("choice_made")
+	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
+	_pulse_choice_surface()
 	if choice.has("opportunity"):
 		var result := str(GameState.flags.get("_last_opportunity_result", ""))
 		if result == "win":
@@ -3554,6 +3558,51 @@ func _pulse_node(node: Variant, scale_to: float = 1.08, duration: float = 0.28):
 	var tw := create_tween()
 	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func _bind_tactile_button(button: Button, strength: float = 1.0) -> void:
+	if not is_instance_valid(button) or button.has_meta("_tactile_bound"):
+		return
+	button.set_meta("_tactile_bound", true)
+	var hover_scale := Vector2.ONE * (1.0 + 0.006 * strength)
+	var press_scale := Vector2(1.0 - 0.010 * strength, 1.0 - 0.040 * strength)
+	button.mouse_entered.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.focus_entered.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.button_down.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, press_scale, 0.055, Tween.TRANS_QUAD)
+	)
+	button.button_up.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, hover_scale if button.has_focus() else Vector2.ONE, 0.12, Tween.TRANS_BACK)
+	)
+	button.mouse_exited.connect(func():
+		_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+	button.focus_exited.connect(func():
+		_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+
+func _tactile_button_to(button: Button, target_scale: Vector2, duration: float, trans: int) -> void:
+	if not is_instance_valid(button) or not is_inside_tree():
+		return
+	button.pivot_offset = button.size * 0.5
+	var old: Variant = button.get_meta("_tactile_tween") if button.has_meta("_tactile_tween") else null
+	if old is Tween and (old as Tween).is_running():
+		(old as Tween).kill()
+	var tw := create_tween()
+	tw.bind_node(button)
+	tw.tween_property(button, "scale", target_scale, duration).set_trans(trans).set_ease(Tween.EASE_OUT)
+	button.set_meta("_tactile_tween", tw)
+
+func _pulse_choice_surface() -> void:
+	if is_instance_valid(choice_box):
+		_pulse_node(choice_box, 1.006, 0.18)
 
 func _spawn_coin_burst():
 	var vp := get_viewport_rect().size
@@ -8848,6 +8897,7 @@ func _button(text, color) -> Button:
 	button.add_theme_stylebox_override("focus", focus_st)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	_apply_moral_tree_styles(button, _moral_ui_palette())
+	_bind_tactile_button(button, 0.75)
 	return button
 
 func _primary_cta_button(text: String) -> Button:
@@ -8932,6 +8982,7 @@ func _action_button(text: String, accent_color: String) -> Button:
 		button.add_theme_font_override("font", _font_regular)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	_apply_moral_tree_styles(button, _moral_ui_palette())
+	_bind_tactile_button(button, 1.0)
 	return button
 
 func _small_button(text, color) -> Button:
@@ -8961,6 +9012,7 @@ func _small_button(text, color) -> Button:
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	_apply_moral_tree_styles(button, _moral_ui_palette())
+	_bind_tactile_button(button, 0.65)
 	return button
 
 func _icon_small_button(text: String, icon_id: String, color: String) -> Button:
