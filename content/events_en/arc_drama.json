@@ -2,7 +2,7 @@
   {
     "id": "hidden_whole_picture",
     "title": "The Picture He Built Alone",
-    "description": "Three nights. A registry record, a line from an article a dozen years old, one remembered scene at a time.\n\nThe name he steered away from — Han PD Construction. The 'Lim' who vouched for Park Sang-jin to his father. The man who came up from a Chungcheong fishing town and reached Gangnam by stepping on people.\n\nThree threads met at one point. Lim Sangchul.\n\nNo one told him. Minjun built the man out of fragments.\nAnd once he knew, the same seat in the same café looked different.",
+    "description": "Three nights. A registry record, a line from an article a dozen years old, one remembered scene at a time.\n\nThe name he steered away from — Han PD Construction. The 'Im' who vouched for Park Sang-jin to his father. The man who came up from a Chungcheong fishing town and reached Gangnam by stepping on people.\n\nThree threads met at one point. Im Sangchul.\n\nNo one told him. Minjun built the man out of fragments.\nAnd once he knew, the same seat in the same café looked different.",
     "choices": [
       {
         "text": "Hold the cards — knowing is its own power",
@@ -25,7 +25,7 @@
     "choices": [
       {
         "text": "Dig deeper — trace Sangchul's old transactions",
-        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same window. Same neighborhood. Same referral structure.\n\nLim. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who five years ago walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
+        "result_text": "Registry records. Old articles. Corporate histories. He dug through all of it until dawn.\n\nThe pieces aligned. Same window. Same neighborhood. Same referral structure.\n\nLim. Sang. Chul.\n\nMinjun's father never spoke the name. Minjun had found it himself.\nThe man who'd been teaching him to read charts — the same man who years ago walked his father into financial ruin.\n\nNo one told him. He figured it out alone.\nThat weight was heavier."
       },
       {
         "text": "Leave it alone — he can't be sure",
@@ -36,19 +36,19 @@
   {
     "id": "arc_father_06_confession",
     "title": "Father's Secret",
-    "description": "After the hospital visit, Dad started calling more often.\nShort calls. How's the weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. About that debt. It was... Park Sang-jin.\"\n\nMinjun had never heard that name before.\n\n\"Someone from the Gangnam real estate scene introduced us. A man named Lim. He seemed decent at first... He said Park Sang-jin was someone you could trust.\"\n\nMinjun set down the cup he'd been holding.",
+    "description": "After the hospital visit, Dad started calling more often.\nShort calls. How's the weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. About that debt. It was... Park Sang-jin.\"\n\nMinjun had never heard that name before.\n\n\"Someone from the Gangnam real estate scene introduced us. A man named Im. He seemed decent at first... He said Park Sang-jin was someone you could trust.\"\n\nMinjun set down the cup he'd been holding.",
     "description_if_known": {
-      "deduced_sangchul_truth": "After the hospital visit, Dad started calling more.\nShort calls. Weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. It was Park Sang-jin. A man named Lim introduced us.\"\n\nMinjun already knew.\nHe'd pieced it together alone — in the small hours, from old articles and registry records.\nLim Sangchul.\n\nHearing it from his father's mouth was different.\nThe weight he'd been carrying alone — now it belonged to both of them.\n\nMinjun set his cup down slowly.",
-      "sangchul_clue_noted": "After the hospital visit, Dad started calling more.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. A man named Lim from the Gangnam real estate scene introduced us.\"\n\nMinjun remembered.\nThe name that had passed through that dinner. The one he'd filed away and chosen not to dig into.\nNot sure enough. Not yet.\n\nNow he was sure.\nThe night he'd decided to leave it alone — suddenly felt very heavy."
+      "deduced_sangchul_truth": "After the hospital visit, Dad started calling more.\nShort calls. Weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. It was Park Sang-jin. A man named Im introduced us.\"\n\nMinjun already knew.\nHe'd pieced it together alone — in the small hours, from old articles and registry records.\nLim Sangchul.\n\nHearing it from his father's mouth was different.\nThe weight he'd been carrying alone — now it belonged to both of them.\n\nMinjun set his cup down slowly.",
+      "sangchul_clue_noted": "After the hospital visit, Dad started calling more.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. A man named Im from the Gangnam real estate scene introduced us.\"\n\nMinjun remembered.\nThe name that had passed through that dinner. The one he'd filed away and chosen not to dig into.\nNot sure enough. Not yet.\n\nNow he was sure.\nThe night he'd decided to leave it alone — suddenly felt very heavy."
     },
     "choices": [
       {
-        "text": "\"That man named Lim — do you happen to know his full name?\"",
-        "result_text": "\"Lim... Sangchul, I think he said. Why?\"\n\nMinjun couldn't answer.\n\nLim. Sang. Chul.\n\nThe broker who ruined his father five years ago. That man is Minjun's mentor right now. The one who sits across from him at the same café, teaching him how to read charts.\n\nThe hand holding the phone went cold."
+        "text": "\"That man named Im — do you happen to know his full name?\"",
+        "result_text": "\"Im... Sangchul, I think he said. Why?\"\n\nMinjun couldn't answer.\n\nLim. Sang. Chul.\n\nThe broker who ruined his father years ago. That man is Minjun's mentor right now. The one who sits across from him at the same café, teaching him how to read charts.\n\nThe hand holding the phone went cold."
       },
       {
         "text": "\"Do you know where he is now?\"",
-        "result_text": "\"No idea. Somewhere in Gangnam, I suppose.\"\n\nMinjun knows.\n\nNot just somewhere in Gangnam — Lim Sangchul still sits at the same table in the same café. Teaching Minjun how to trade charts.\n\nDad doesn't know. He has no idea that man has walked right into the middle of his son's life."
+        "result_text": "\"No idea. Somewhere in Gangnam, I suppose.\"\n\nMinjun knows.\n\nNot just somewhere in Gangnam — Im Sangchul still sits at the same table in the same café. Teaching Minjun how to trade charts.\n\nDad doesn't know. He has no idea that man has walked right into the middle of his son's life."
       },
       {
         "text": "(He couldn't say a word)",
@@ -119,9 +119,9 @@
       }
     ],
     "description_if_known": {
-      "rationalized_using_people": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nSangchul said, \"I'm sorry.\"\n\nMinjun remembered something he'd once told himself.\n'Everyone lives like this.'\nIt felt like Sangchul was saying the exact same thing now.\nSomewhere along the way, he too must have talked himself into it.",
-      "sangchul_called_you_his_mirror": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\n{name} said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nA silence between them.\n\nSangchul said, \"I'm sorry.\"\n\nWhat he'd said once before — 'you're like me' — came back.\nHow those words sounded now was different.",
-      "denied_sangchul_mirror": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\n{name} said nothing.\n\n\"When Park Sang-jin reached out and asked me to look out for you... I just did what he asked. I didn't know it would become this.\"\n\nA silence between them.\n\nSangchul said, \"I'm sorry.\"\n\nHe remembered the night he'd said 'I'm a bit different.'\nAnd Sangchul nodding: 'if that's what you think, then sure.'\nSitting here now, those words had weight."
+      "rationalized_using_people": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and made the introduction... I just did him the favor. I didn't know it would become this.\"\n\nSangchul said, \"I'm sorry.\"\n\nMinjun remembered something he'd once told himself.\n'Everyone lives like this.'\nIt felt like Sangchul was saying the exact same thing now.\nSomewhere along the way, he too must have talked himself into it.",
+      "sangchul_called_you_his_mirror": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and made the introduction... I just did him the favor. I didn't know it would become this.\"\n\nA silence between them.\n\nSangchul said, \"I'm sorry.\"\n\nWhat he'd said once before — 'you're like me' — came back.\nHow those words sounded now was different.",
+      "denied_sangchul_mirror": "After a long silence, Sangchul spoke.\n\n\"He's that man's son. I knew from the start.\"\n\nMinjun said nothing.\n\n\"When Park Sang-jin reached out and made the introduction... I just did him the favor. I didn't know it would become this.\"\n\nA silence between them.\n\nSangchul said, \"I'm sorry.\"\n\nHe remembered the night he'd said 'I'm a bit different.'\nAnd Sangchul nodding: 'if that's what you think, then sure.'\nSitting here now, those words had weight."
     }
   },
   {
