@@ -37,7 +37,7 @@ func _ready():
 func _build_ui():
 	# 1. 검정 베이스
 	var bg = ColorRect.new()
-	bg.color = Color("#0c0c10")
+	bg.color = Color("#000000")
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
@@ -57,7 +57,7 @@ func _build_ui():
 	# 3. 어두운 그라데이션 오버레이
 	var overlay = ColorRect.new()
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.color        = Color(0.03, 0.03, 0.07, 0.72)
+	overlay.color        = Color(0.0, 0.0, 0.0, 0.72)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 
@@ -138,64 +138,21 @@ func _build_ui():
 
 func _build_junpac_logo() -> Control:
 	var group = Control.new()
-	group.custom_minimum_size = Vector2(360, 190)
+	group.custom_minimum_size = Vector2(430, 430)
 	group.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	group.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	group.modulate = Color(1, 1, 1, 0.0)
 
-	var j = _brand_label("J", 96, "#ffc107", true)
-	j.position = Vector2(104, 0)
-	j.custom_minimum_size = Vector2(74, 104)
-	j.size = Vector2(74, 104)
-	group.add_child(j)
-
-	var p = _brand_label("P", 96, "#e8e2d5", true)
-	p.position = Vector2(162, 0)
-	p.custom_minimum_size = Vector2(82, 104)
-	p.size = Vector2(82, 104)
-	group.add_child(p)
-
-	var dot = ColorRect.new()
-	dot.color = Color("#e63946")
-	dot.position = Vector2(238, 82)
-	dot.custom_minimum_size = Vector2(11, 11)
-	dot.size = Vector2(11, 11)
-	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	group.add_child(dot)
-
-	var name = _brand_label("J  U  N  P  A  C", 31, "#e8e2d5", false)
-	name.position = Vector2(0, 108)
-	name.custom_minimum_size = Vector2(360, 36)
-	name.size = Vector2(360, 36)
-	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	group.add_child(name)
-
-	var games = _brand_label("G  A  M  E  S", 16, "#ffc107", false)
-	games.position = Vector2(0, 148)
-	games.custom_minimum_size = Vector2(360, 26)
-	games.size = Vector2(360, 26)
-	games.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	group.add_child(games)
-
-	var line = ColorRect.new()
-	line.color = Color("#ffc107", 0.36)
-	line.position = Vector2(136, 181)
-	line.custom_minimum_size = Vector2(88, 1)
-	line.size = Vector2(88, 1)
-	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	group.add_child(line)
+	var logo = TextureRect.new()
+	logo.position = Vector2.ZERO
+	logo.custom_minimum_size = Vector2(430, 430)
+	logo.size = Vector2(430, 430)
+	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	logo.texture = load("res://assets/logos/junpac_games_logo.jpg")
+	group.add_child(logo)
 	return group
-
-func _brand_label(text: String, font_size: int, color: String, bold: bool = false) -> Label:
-	var lbl = Label.new()
-	lbl.text = text
-	lbl.add_theme_font_size_override("font_size", font_size)
-	lbl.add_theme_color_override("font_color", Color(color))
-	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	lbl.clip_text = false
-	_apply_font(lbl, bold)
-	return lbl
 
 # ── 애니메이션 시퀀스 ──────────────────────────────────────────────────
 func _run_sequence():

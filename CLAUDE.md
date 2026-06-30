@@ -9,7 +9,8 @@
 | 항목 | 내용 |
 |---|---|
 | **단계** | **Metacritic 90 목표 — 스토리/게임성/흥행 콘텐츠 확장 (역할 분담: Codex=외형, Claude=내용)** |
-| **최근 완료** | **2026-06-30** — **Codex Demo First-Run Surface Pass**: 데모 첫 30분 블랙박스 기준으로 챕터 카드와 첫 AP 루프의 정적 웹 UI 느낌을 보정. StoryMode 챕터 카드에 희미한 기록지/케이스 파일 프레임을 추가하고, MainGame `This Week` 카드에 현금흐름·강남까지 거리·몸과 마음 상태를 한 줄 압박 미터로 표시해 첫 루프의 목적과 긴장감을 더 즉시 읽히게 했다. `tools/audit.sh`, `ScreenshotQA --qa=demo-blackbox --lang=en/ko`, `ScreenshotQA --qa=ap-en --lang=en` 통과 및 대표 캡처 확인. |
+| **최근 완료** | **2026-06-30** — **Codex Junpac Logo Replacement Pass**: 퍼블리셔 프리롤의 코드 네이티브 `JP` 임시 로고를 사용자가 제공한 초승달+red square `JUNPAC GAMES` 로고 이미지로 교체. 프리롤 배경을 완전 블랙으로 맞춰 JPG 경계가 보이지 않게 정리하고, export-safe import 리소스 로드로 고정. `tools/audit.sh`, `ScreenshotQA --qa=start-en --lang=en` 통과 및 publisher splash 직접 확인. |
+| **이전** | **2026-06-30** — **Codex Demo First-Run Surface Pass**: 데모 첫 30분 블랙박스 기준으로 챕터 카드와 첫 AP 루프의 정적 웹 UI 느낌을 보정. StoryMode 챕터 카드에 희미한 기록지/케이스 파일 프레임을 추가하고, MainGame `This Week` 카드에 현금흐름·강남까지 거리·몸과 마음 상태를 한 줄 압박 미터로 표시해 첫 루프의 목적과 긴장감을 더 즉시 읽히게 했다. `tools/audit.sh`, `ScreenshotQA --qa=demo-blackbox --lang=en/ko`, `ScreenshotQA --qa=ap-en --lang=en` 통과 및 대표 캡처 확인. |
 | **이전** | **2026-06-30** — **Codex Internal Transition Pass**: MainGame/StoryMode 내부 장면 전환에 짧은 Gangnam Ink 스윕·인쇄선·도덕 축별 명암 펄스를 추가해 이벤트/결과/AP/스토리 선택 전환이 정적인 웹 페이지 교체처럼 보이지 않도록 보정. `ScreenshotQA --qa=transition`에 내부 전환 프레임을 포함하고 영어 Story/AP 표면 회귀 확인. `tools/audit.sh`, `ScreenshotQA --qa=transition --lang=en`, `ScreenshotQA --qa=story-en --lang=en`, `ScreenshotQA --qa=ap-en --lang=en` 통과 및 대표 캡처 확인. |
 | **이전** | **2026-06-30** — **Codex Choice Tactility Pass**: MainGame/StoryMode 선택지와 공통 버튼에 짧은 눌림 압축·복원·포커스/호버 스케일을 추가하고, 선택지 등장 시 미세한 카드 스케일 인을 적용해 반복 클릭 표면이 웹 게시판보다 게임 UI처럼 반응하게 보정. 선택 확정에 낮은 게임패드 펄스와 선택 영역 펄스를 연결. `tools/audit.sh`, `ScreenshotQA --qa=story-en --lang=en`, `ScreenshotQA --qa=endings-en --lang=en` 통과 및 대표 캡처 확인. |
 | **이전** | **2026-06-30** — **Codex Gangnam Ink Print Surface Pass**: 풀 도트 전환 대신 Gangnam Ink 방향을 유지. `background_grade.gdshader`에 restrained print-screen texture와 light tonal stepping을 추가하고, MainGame/StoryMode 배경·초상화·moral surface가 `MORAL_TINT`에 따라 Black에서는 거친 인쇄망/잉크 결이 늘고 White에서는 정리되도록 연결했다. 문서에 “전체 픽셀아트 전환 금지, 제한적 인쇄/디더 질감만 사용” 기준 고정. `tools/audit.sh`, `ScreenshotQA --qa=moral --lang=en`, `ScreenshotQA --qa=story-en --lang=en` 통과 및 대표 캡처 확인. |
@@ -115,7 +116,7 @@
 | **Steam 한 줄 피치 (확정)** | **KR**: "빚을 다 갚고 남은 건 50만원. 강남까지 30억이 필요하다. 5년밖에 없다." **EN**: "₩500,000 in the bank. ₩3B to reach Gangnam, Seoul's status district. Five years, no guarantee." |
 | **Steam 데모 범위** | **시작**: OpeningCinematic(7카드) → 프롤로그 3씬 → chapter_card_33 → arc_intro_01~04 (t=2~7) **종료**: arc_chapter1_close (t=8) → 계속 플레이 → t=24 데모 엔딩 스크린(Steam 위시리스트 CTA 포함). 실 플레이타임: 초반 20~30분 + 자유 탐색. |
 | **다음 작업** | **Codex 최종 검수 Phase 2 계속** — Steam Deck/영어판 표면 회귀 반복 → 엔딩별 컷신/CG 우선순위 재점검 → 데모 첫 30분의 이미지/오디오/전환 연출 A급 후보 정리. Steamworks 등록 후 STEAM_APP_ID 실제값 교체, 다은/지연 연애 Y5 단일화 회귀 QA. **이미지/오디오/UI + 카지노 미니게임 메커니즘은 Codex 영역 — Codex는 `docs/PRODUCTION_ASSET_PIPELINE.md`와 `docs/GANGNAM_INK_ART_DIRECTION.md` 기준으로 상용 에셋 관리. Claude는 서사/밸런스/번역 중심.** |
-| **마지막 업데이트** | 2026-06-30 (Codex: Demo First-Run Surface Pass — 챕터 카드 기록지 프레임 + 첫 AP 압박 미터 추가.) |
+| **마지막 업데이트** | 2026-06-30 (Codex: Junpac Logo Replacement Pass — 퍼블리셔 프리롤 로고를 제공 이미지 기반으로 교체.) |
 
 **세션 시작 시 위 "다음 작업"부터 시작한다. 유저가 다른 지시를 하면 그쪽 우선.**
 
