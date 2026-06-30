@@ -43,6 +43,7 @@ var _moral_tint_overlay: ColorRect = null  # MORAL_TINT: 배경 온도/채도 �
 var _moral_surface_overlay: ColorRect = null  # MORAL_TINT: 화면 표면의 부식/선명도 레이어
 var _moral_surface_material: ShaderMaterial = null
 var _moral_bg_material: ShaderMaterial = null
+var _moral_portrait_material: ShaderMaterial = null
 var _moral_tint_tween: Tween = null
 var _moral_world_tween: Tween = null
 var _moral_echo_tween: Tween = null
@@ -341,6 +342,7 @@ func _apply_moral_visuals(norm: float, stage: int, immediate: bool = false) -> v
 			_moral_tint_tween.tween_property(_moral_tint_overlay, "color", target, 0.9).set_trans(Tween.TRANS_SINE)
 	_apply_moral_world_state(immediate)
 	_apply_moral_surface_shader()
+	_apply_moral_portrait_state()
 	_apply_story_moral_clarity()
 	_apply_moral_ui_palette()
 	_apply_money_moral_glow()
@@ -413,22 +415,46 @@ func _apply_story_moral_clarity() -> void:
 	if is_instance_valid(event_body):
 		event_body.add_theme_color_override("default_color", body_color)
 
+func _apply_moral_portrait_state() -> void:
+	if not is_instance_valid(character_portrait):
+		return
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	if _moral_portrait_material:
+		# Portraits carry the moral weight more than buttons do: numbness drains faces,
+		# conscience lets human color return without turning the UI into a morality meter.
+		_moral_portrait_material.set_shader_parameter("desaturation", clampf(0.36 + black * 0.54 - white * 0.24, 0.08, 0.96))
+		_moral_portrait_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.26 + white * 0.10, 0.56, 1.18))
+		_moral_portrait_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.06 + white * 0.12, 0.70, 1.24))
+		_moral_portrait_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.025, 0.0, 0.16))
+		_moral_portrait_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f6fbff"), white))
+		_moral_portrait_material.set_shader_parameter("grain_amount", clampf(0.004 + black * 0.026 - white * 0.004, 0.0, 0.055))
+		_moral_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
+		_moral_portrait_material.set_shader_parameter("paper_fade", clampf(white * 0.022, 0.0, 0.05))
+		_moral_portrait_material.set_shader_parameter("edge_burn", clampf(0.020 + black * 0.115 - white * 0.020, 0.0, 0.16))
+		_moral_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_moral_norm) * 23.0)
+	character_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
+
 func _moral_ui_palette() -> Dictionary:
 	var black := clampf(-_moral_norm, 0.0, 1.0)
 	var white := clampf(_moral_norm, 0.0, 1.0)
+	var ui_black := black * 0.24
+	var ui_white := white * 0.18
 	return {
-		"panel_bg": Color("#0d0d14").lerp(Color("#050807"), black).lerp(Color("#11191f"), white),
-		"panel_border": Color("#1a1a28").lerp(Color("#132018"), black).lerp(Color("#5f7c8b"), white),
-		"chip_bg": Color("#0f1018").lerp(Color("#050a08"), black).lerp(Color("#101a21"), white),
-		"choice_bg": Color("#101018").lerp(Color("#060907"), black).lerp(Color("#111b22"), white),
-		"choice_hover": Color("#171723").lerp(Color("#0a110d"), black).lerp(Color("#172630"), white),
-		"disabled_bg": Color("#0a0a0f").lerp(Color("#040605"), black).lerp(Color("#0b1115"), white),
-		"text": Color("#c8d0df").lerp(Color("#87918b"), black).lerp(Color("#edf7ff"), white),
-		"dim": Color("#9aa4b8").lerp(Color("#5f6a63"), black).lerp(Color("#b7cbd6"), white),
-		"brand": Color(COL_GOLD).lerp(Color("#9aa29d"), black).lerp(Color("#f8fbff"), white),
-		"focus": Color(COL_GOLD_BRIGHT).lerp(Color("#6f7a73"), black).lerp(Color("#f8fbff"), white),
-		"black": black,
-		"white": white,
+		"panel_bg": Color("#0d0d14").lerp(Color("#050807"), ui_black).lerp(Color("#11191f"), ui_white),
+		"panel_border": Color("#1a1a28").lerp(Color("#132018"), ui_black).lerp(Color("#5f7c8b"), ui_white),
+		"chip_bg": Color("#0f1018").lerp(Color("#050a08"), ui_black).lerp(Color("#101a21"), ui_white),
+		"choice_bg": Color("#101018").lerp(Color("#060907"), ui_black).lerp(Color("#111b22"), ui_white),
+		"choice_hover": Color("#171723").lerp(Color("#0a110d"), ui_black).lerp(Color("#172630"), ui_white),
+		"disabled_bg": Color("#0a0a0f").lerp(Color("#040605"), ui_black).lerp(Color("#0b1115"), ui_white),
+		"text": Color("#c8d0df").lerp(Color("#87918b"), ui_black).lerp(Color("#edf7ff"), ui_white),
+		"dim": Color("#9aa4b8").lerp(Color("#5f6a63"), ui_black).lerp(Color("#b7cbd6"), ui_white),
+		"brand": Color(COL_GOLD).lerp(Color("#9aa29d"), ui_black).lerp(Color("#f8fbff"), ui_white),
+		"focus": Color(COL_GOLD_BRIGHT).lerp(Color("#6f7a73"), ui_black).lerp(Color("#f8fbff"), ui_white),
+		"black": ui_black,
+		"white": ui_white,
+		"moral_black": black,
+		"moral_white": white,
 	}
 
 func _apply_moral_ui_palette() -> void:
@@ -1015,6 +1041,21 @@ func _build_portrait_panel(parent):
 	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	character_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	character_portrait.clip_contents = true
+	var portrait_grade_shader = load("res://assets/shaders/background_grade.gdshader")
+	if portrait_grade_shader:
+		_moral_portrait_material = ShaderMaterial.new()
+		_moral_portrait_material.shader = portrait_grade_shader
+		_moral_portrait_material.set_shader_parameter("desaturation", 0.36)
+		_moral_portrait_material.set_shader_parameter("brightness", 0.98)
+		_moral_portrait_material.set_shader_parameter("contrast", 0.98)
+		_moral_portrait_material.set_shader_parameter("tint_color", Color("#020303"))
+		_moral_portrait_material.set_shader_parameter("tint_amount", 0.0)
+		_moral_portrait_material.set_shader_parameter("grain_amount", 0.004)
+		_moral_portrait_material.set_shader_parameter("ink_bleed", 0.010)
+		_moral_portrait_material.set_shader_parameter("paper_fade", 0.0)
+		_moral_portrait_material.set_shader_parameter("edge_burn", 0.020)
+		_moral_portrait_material.set_shader_parameter("seed", 0.0)
+		character_portrait.material = _moral_portrait_material
 	if ResourceLoader.exists(PORTRAIT_NEUTRAL):
 		character_portrait.texture = load(PORTRAIT_NEUTRAL)
 	vbox.add_child(character_portrait)
@@ -9176,7 +9217,7 @@ func _show_character_portrait(portrait_id: String):
 	var reg_path = ImageRegistry.get_portrait(portrait_id)
 	if reg_path != "" and ResourceLoader.exists(reg_path):
 		character_portrait.texture = load(reg_path)
-		character_portrait.modulate = Color(1, 1, 1, 1)
+		_apply_moral_portrait_state()
 	else:
 		# 파일 없음 → 플레이스홀더(이름+색상 박스) 표시
 		_show_portrait_placeholder(portrait_id)
@@ -9191,7 +9232,7 @@ func _show_player_portrait():
 	var portrait_path = _get_portrait_path()
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		character_portrait.texture = load(portrait_path)
-		character_portrait.modulate = Color(1, 1, 1, 1)
+		_apply_moral_portrait_state()
 	else:
 		_show_portrait_placeholder("player_normal")
 
@@ -9202,7 +9243,7 @@ func _show_portrait_placeholder(portrait_id: String):
 	var img = Image.create(2, 3, false, Image.FORMAT_RGB8)
 	img.fill(col.darkened(0.55))
 	character_portrait.texture = ImageTexture.create_from_image(img)
-	character_portrait.modulate = Color(1, 1, 1, 1)
+	_apply_moral_portrait_state()
 
 func _get_portrait_path() -> String:
 	# 충격·위기 상황 (이벤트 직후 플래그)

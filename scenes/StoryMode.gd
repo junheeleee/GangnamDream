@@ -35,6 +35,7 @@ var _bg_dim: ColorRect
 var _story_surface_overlay: ColorRect = null
 var _story_surface_material: ShaderMaterial = null
 var _story_bg_material: ShaderMaterial = null
+var _story_portrait_material: ShaderMaterial = null
 var _portrait: TextureRect
 var _portrait_frame: PanelContainer
 var _name_panel: PanelContainer
@@ -91,19 +92,23 @@ func _on_story_moral_tint_changed(norm: float, stage: int) -> void:
 func _story_palette() -> Dictionary:
 	var black := clampf(-_story_moral_norm, 0.0, 1.0)
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var ui_black := black * 0.24
+	var ui_white := white * 0.18
 	return {
-		"panel_bg": Color("#0d0d10", 0.92).lerp(Color("#050706", 0.95), black).lerp(Color("#111820", 0.90), white),
-		"panel_border": Color("#30343a", 0.92).lerp(Color("#202824", 0.95), black).lerp(Color("#637483", 0.96), white),
-		"hud_bg": Color("#0b0c10", 0.86).lerp(Color("#040605", 0.91), black).lerp(Color("#111820", 0.84), white),
-		"choice_bg": Color("#111216", 0.96).lerp(Color("#060807", 0.98), black).lerp(Color("#131d24", 0.95), white),
-		"choice_hover": Color("#181a20", 0.98).lerp(Color("#0a100d", 0.99), black).lerp(Color("#1a2a34", 0.97), white),
-		"text": Color("#e6e8ec").lerp(Color("#a0aaa4"), black * 0.55).lerp(Color("#f3f7ff"), white * 0.65),
-		"dim": Color("#9aa1a8").lerp(Color("#66706a"), black * 0.55).lerp(Color("#c1ced8"), white * 0.58),
-		"dead": Color("#5f656b").lerp(Color("#3f4742"), black * 0.5).lerp(Color("#87949d"), white * 0.45),
-		"focus": Color("#d7dbe2").lerp(Color("#89938d"), black * 0.60).lerp(Color("#f8fbff"), white * 0.75),
-		"line": Color("#30343a", 0.72).lerp(Color("#1d2521", 0.85), black).lerp(Color("#6b7c89", 0.72), white),
-		"black": black,
-		"white": white,
+		"panel_bg": Color("#0d0d10", 0.92).lerp(Color("#050706", 0.95), ui_black).lerp(Color("#111820", 0.90), ui_white),
+		"panel_border": Color("#30343a", 0.92).lerp(Color("#202824", 0.95), ui_black).lerp(Color("#637483", 0.96), ui_white),
+		"hud_bg": Color("#0b0c10", 0.86).lerp(Color("#040605", 0.91), ui_black).lerp(Color("#111820", 0.84), ui_white),
+		"choice_bg": Color("#111216", 0.96).lerp(Color("#060807", 0.98), ui_black).lerp(Color("#131d24", 0.95), ui_white),
+		"choice_hover": Color("#181a20", 0.98).lerp(Color("#0a100d", 0.99), ui_black).lerp(Color("#1a2a34", 0.97), ui_white),
+		"text": Color("#e6e8ec").lerp(Color("#a0aaa4"), ui_black * 0.55).lerp(Color("#f3f7ff"), ui_white * 0.65),
+		"dim": Color("#9aa1a8").lerp(Color("#66706a"), ui_black * 0.55).lerp(Color("#c1ced8"), ui_white * 0.58),
+		"dead": Color("#5f656b").lerp(Color("#3f4742"), ui_black * 0.5).lerp(Color("#87949d"), ui_white * 0.45),
+		"focus": Color("#d7dbe2").lerp(Color("#89938d"), ui_black * 0.60).lerp(Color("#f8fbff"), ui_white * 0.75),
+		"line": Color("#30343a", 0.72).lerp(Color("#1d2521", 0.85), ui_black).lerp(Color("#6b7c89", 0.72), ui_white),
+		"black": ui_black,
+		"white": ui_white,
+		"moral_black": black,
+		"moral_white": white,
 	}
 
 func _story_panel_style(bg: Color, border: Color, radius: int, h_margin: int = 0, v_margin: int = 0, left_border: int = 0) -> StyleBoxFlat:
@@ -134,8 +139,8 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	_story_moral_norm = clampf(GameState.moral_tint_norm(), -1.0, 1.0)
 	_story_moral_stage = GameState.moral_stage()
 	var palette := _story_palette()
-	var black: float = float(palette["black"])
-	var white: float = float(palette["white"])
+	var black: float = float(palette["moral_black"])
+	var white: float = float(palette["moral_white"])
 	var panel_bg: Color = palette["panel_bg"]
 	var panel_border: Color = palette["panel_border"]
 	var hud_bg: Color = palette["hud_bg"]
@@ -148,21 +153,22 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	if is_instance_valid(_bg_dim):
 		_bg_dim.color = _story_dim_color(has_cg)
 	if _story_bg_material:
-		_story_bg_material.set_shader_parameter("desaturation", clampf(0.86 + black * 0.12 - white * 0.10, 0.0, 1.0))
-		_story_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.24 + white * 0.14, 0.42, 1.20))
-		_story_bg_material.set_shader_parameter("contrast", clampf(0.94 - black * 0.08 + white * 0.13, 0.68, 1.24))
-		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.12 + white * 0.055, 0.0, 0.18))
-		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#eff8ff"), white))
-		_story_bg_material.set_shader_parameter("grain_amount", clampf(0.020 + black * 0.030 - white * 0.008, 0.0, 0.075))
-		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.060 + black * 0.120 - white * 0.025, 0.0, 0.24))
-		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.016 + white * 0.052, 0.0, 0.09))
-		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.075 + black * 0.145 - white * 0.045, 0.0, 0.25))
+		_story_bg_material.set_shader_parameter("desaturation", clampf(0.86 + black * 0.14 - white * 0.46, 0.28, 1.0))
+		_story_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.26 + white * 0.20, 0.42, 1.20))
+		_story_bg_material.set_shader_parameter("contrast", clampf(0.94 - black * 0.08 + white * 0.16, 0.68, 1.24))
+		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.12 + white * 0.035, 0.0, 0.18))
+		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
+		_story_bg_material.set_shader_parameter("grain_amount", clampf(0.020 + black * 0.030 - white * 0.014, 0.0, 0.075))
+		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.060 + black * 0.120 - white * 0.042, 0.0, 0.24))
+		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.016 + white * 0.030, 0.0, 0.07))
+		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.075 + black * 0.145 - white * 0.065, 0.0, 0.25))
 		_story_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_story_moral_norm) * 19.0)
 	if _story_surface_material and is_instance_valid(_story_surface_overlay):
 		_story_surface_overlay.visible = black > 0.01 or white > 0.01
 		_story_surface_material.set_shader_parameter("black_intensity", black)
 		_story_surface_material.set_shader_parameter("white_intensity", white)
 		_story_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_story_moral_norm) * 10.0)
+	_apply_story_portrait_surface()
 	if is_instance_valid(_text_panel):
 		_text_panel.add_theme_stylebox_override("panel", _story_panel_style(panel_bg, panel_border, 8))
 	if is_instance_valid(_name_panel):
@@ -186,6 +192,24 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 		_name_tag.add_theme_color_override("font_color", focus_col)
 	if is_instance_valid(_hud_label):
 		_hud_label.add_theme_color_override("font_color", dim_col)
+
+func _apply_story_portrait_surface() -> void:
+	if not is_instance_valid(_portrait):
+		return
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	if _story_portrait_material:
+		_story_portrait_material.set_shader_parameter("desaturation", clampf(0.36 + black * 0.54 - white * 0.24, 0.08, 0.96))
+		_story_portrait_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.26 + white * 0.10, 0.56, 1.18))
+		_story_portrait_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.06 + white * 0.12, 0.70, 1.24))
+		_story_portrait_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.025, 0.0, 0.16))
+		_story_portrait_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f6fbff"), white))
+		_story_portrait_material.set_shader_parameter("grain_amount", clampf(0.004 + black * 0.026 - white * 0.004, 0.0, 0.055))
+		_story_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
+		_story_portrait_material.set_shader_parameter("paper_fade", clampf(white * 0.022, 0.0, 0.05))
+		_story_portrait_material.set_shader_parameter("edge_burn", clampf(0.020 + black * 0.115 - white * 0.020, 0.0, 0.16))
+		_story_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_story_moral_norm) * 23.0)
+	_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
 
 func _animate_story_text_panel() -> void:
 	if not is_instance_valid(_text_panel):
@@ -296,6 +320,20 @@ func _build_ui():
 	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if bg_grade_shader:
+		_story_portrait_material = ShaderMaterial.new()
+		_story_portrait_material.shader = bg_grade_shader
+		_story_portrait_material.set_shader_parameter("desaturation", 0.36)
+		_story_portrait_material.set_shader_parameter("brightness", 0.98)
+		_story_portrait_material.set_shader_parameter("contrast", 0.98)
+		_story_portrait_material.set_shader_parameter("tint_color", Color("#020303"))
+		_story_portrait_material.set_shader_parameter("tint_amount", 0.0)
+		_story_portrait_material.set_shader_parameter("grain_amount", 0.004)
+		_story_portrait_material.set_shader_parameter("ink_bleed", 0.010)
+		_story_portrait_material.set_shader_parameter("paper_fade", 0.0)
+		_story_portrait_material.set_shader_parameter("edge_burn", 0.020)
+		_story_portrait_material.set_shader_parameter("seed", 0.0)
+		_portrait.material = _story_portrait_material
 	_portrait_frame.add_child(_portrait)
 
 	# 6. 이름표 — 텍스트 박스(상단 -250) 위에 완전히 올림
@@ -590,6 +628,7 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
 	if path != "" and ResourceLoader.exists(path):
 		_portrait.texture = load(path)
+		_apply_story_portrait_surface()
 		_portrait_frame.visible = true
 		_portrait_frame.modulate = Color(1, 1, 1, 0)
 		var tw = create_tween()
