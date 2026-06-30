@@ -36,6 +36,8 @@ var _feedback_flash_tween: Tween = null
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
+var _result_reveal_controls: Array[Control] = []
+var _result_focus_button: Button = null
 var _vignette_rect: ColorRect = null      # 스트레스/정신력 비네팅 레이어
 var _ambient_overlay: ColorRect = null
 var _category_tint: ColorRect = null  # 이벤트 카테고리 색 틴트
@@ -3087,15 +3089,17 @@ func _choose(index):
 	if not effects.is_empty():
 		_show_effects_float(effects)
 	if not result_text.is_empty() and current_event.is_empty():
-		_show_result(result_text)
+		_show_result(result_text, effects, selected_choice)
 	else:
 		_render_event()
 	_refresh_all()
 
-func _show_result(result_text: String):
+func _show_result(result_text: String, effects: Dictionary = {}, selected_choice: Dictionary = {}):
 	_play_ink_transition("result", 0.90)
 	for child in choice_box.get_children():
 		child.queue_free()
+	_result_reveal_controls.clear()
+	_result_focus_button = null
 	pending_result_text = result_text
 	_transient_bg_active = true
 	event_title.text = _tr("결과", "Result")
@@ -3116,27 +3120,48 @@ func _show_result(result_text: String):
 		fw_lbl = _wrap_label("…  " + fw, 11, "#3a4a60")
 		fw_lbl.modulate.a = 0.0
 		choice_box.add_child(fw_lbl)
+		_result_reveal_controls.append(fw_lbl)
+	var result_card: Control = _story_result_feedback_card(effects, selected_choice)
+	if result_card:
+		result_card.modulate.a = 0.0
+		result_card.scale = Vector2(0.992, 0.992)
+		choice_box.add_child(result_card)
+		_result_reveal_controls.append(result_card)
 	# 확인 버튼도 타이핑 완료 후 페이드인
 	var confirm_btn = _button(_tr("확인", "Confirm"), "#1f6feb")
 	confirm_btn.modulate.a = 0.0
 	confirm_btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
 	choice_box.add_child(confirm_btn)
+	_result_reveal_controls.append(confirm_btn)
+	_result_focus_button = confirm_btn
 	if _typing_tween:
-		_typing_tween.tween_callback(func():
-			if fw_lbl:
-				var tw_fw := create_tween()
-				tw_fw.tween_interval(0.4)
-				tw_fw.tween_property(fw_lbl, "modulate:a", 1.0, 0.8).set_trans(Tween.TRANS_SINE)
-			var tw := create_tween()
-			tw.tween_interval(0.2 if fw_lbl else 0.0)
-			tw.tween_property(confirm_btn, "modulate:a", 1.0, 0.22)
-			confirm_btn.call_deferred("grab_focus"))
+		_typing_tween.tween_callback(func(): _reveal_result_controls(true))
 	else:
-		if fw_lbl:
-			fw_lbl.modulate.a = 1.0
-		confirm_btn.modulate.a = 1.0
-		confirm_btn.call_deferred("grab_focus")
+		_reveal_result_controls(false)
 	next_button.disabled = true
+
+func _reveal_result_controls(animated: bool) -> void:
+	if _result_reveal_controls.is_empty():
+		return
+	var delay := 0.0
+	for node in _result_reveal_controls:
+		if not is_instance_valid(node):
+			continue
+		if animated:
+			var tw := create_tween()
+			tw.tween_interval(delay)
+			tw.tween_property(node, "modulate:a", 1.0, 0.20).set_trans(Tween.TRANS_SINE)
+			if node is PanelContainer:
+				tw.parallel().tween_property(node, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		else:
+			node.modulate.a = 1.0
+			if node is PanelContainer:
+				node.scale = Vector2.ONE
+		delay += 0.10
+	if _result_focus_button and is_instance_valid(_result_focus_button):
+		_result_focus_button.call_deferred("grab_focus")
+	_result_reveal_controls.clear()
+	_result_focus_button = null
 
 func _on_result_confirmed():
 	pending_result_text = ""
@@ -3250,6 +3275,7 @@ func _finish_typing() -> bool:
 		# 선택지가 아직 안 나왔으면 즉시 표시
 		if _choice_reveal_pending:
 			_reveal_choices()
+		_reveal_result_controls(false)
 		return true
 	return false
 
@@ -6086,6 +6112,10 @@ func _ap_result_display_effects(eff: Dictionary) -> Dictionary:
 	var disp: Dictionary = {}
 	for raw_key in eff:
 		var key: String = str(raw_key)
+		if not _result_effect_is_visible(key):
+			continue
+		if typeof(eff[raw_key]) != TYPE_INT and typeof(eff[raw_key]) != TYPE_FLOAT:
+			continue
 		var val: int = int(eff[raw_key])
 		if key == "stress":
 			disp["mental"] = int(disp.get("mental", 0)) - val
@@ -6094,6 +6124,9 @@ func _ap_result_display_effects(eff: Dictionary) -> Dictionary:
 		else:
 			disp[key] = int(disp.get(key, 0)) + val
 	return disp
+
+func _result_effect_is_visible(key: String) -> bool:
+	return key not in ["tint", "route_orthodox", "route_unorthodox"]
 
 func _ap_result_feedback_card(disp: Dictionary, accent_hex: String) -> Control:
 	var card := PanelContainer.new()
@@ -6141,7 +6174,7 @@ func _ap_result_feedback_card(disp: Dictionary, accent_hex: String) -> Control:
 		var val: int = int(disp.get(key, 0))
 		if val == 0:
 			continue
-		grid.add_child(_ap_result_effect_chip(key, val))
+		grid.add_child(_ap_result_effect_badge(key, val))
 		added += 1
 	if added == 0:
 		grid.add_child(_wrap_label(_tr("눈에 띄는 변화는 없었다.", "No visible stat change."), 12, "#8f98aa"))
@@ -6175,10 +6208,10 @@ func _ap_result_effect_order(disp: Dictionary) -> Array[String]:
 			order.append(key_str)
 	return order
 
-func _ap_result_effect_chip(key: String, val: int) -> Control:
-	var chip := PanelContainer.new()
-	chip.custom_minimum_size = Vector2(0, 50)
-	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+func _ap_result_effect_badge(key: String, val: int) -> Control:
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(0, 50)
+	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var accent := _ap_result_effect_color(key, val)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0d1017", 0.96)
@@ -6189,10 +6222,10 @@ func _ap_result_effect_chip(key: String, val: int) -> Control:
 	st.content_margin_right = 10
 	st.content_margin_top = 7
 	st.content_margin_bottom = 7
-	chip.add_theme_stylebox_override("panel", st)
+	badge.add_theme_stylebox_override("panel", st)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 2)
-	chip.add_child(box)
+	badge.add_child(box)
 	box.add_child(_label(str(_stat_name(key)).to_upper(), 10, "#6f7888"))
 	var value_text := _ap_result_effect_value(key, val)
 	var value_lbl := _label(value_text, 14, accent)
@@ -6200,22 +6233,147 @@ func _ap_result_effect_chip(key: String, val: int) -> Control:
 	if _font_bold:
 		value_lbl.add_theme_font_override("font", _font_bold)
 	box.add_child(value_lbl)
-	return chip
+	return badge
 
 func _ap_result_effect_color(key: String, val: int) -> String:
+	if key in ["addiction_tendency", "gambling_tendency"]:
+		return "#ff8a8a" if val > 0 else "#7ee0b2"
 	if val < 0:
 		return "#ff8a8a"
 	if key == "money":
 		return "#f0c56a"
+	if key == "reputation":
+		return "#b8c7d9"
 	return "#7ee0b2"
 
 func _ap_result_effect_value(key: String, val: int) -> String:
-	if key == "money":
+	if key in ["money", "monthly_income"]:
 		if val >= 0:
 			return "+%s" % GameState.format_money(float(val))
 		return "-%s" % GameState.format_money(absf(float(val)))
 	var sign := "+" if val > 0 else ""
 	return "%s%d" % [sign, val]
+
+func _story_result_feedback_card(effects: Dictionary, selected_choice: Dictionary) -> Control:
+	var disp: Dictionary = _ap_result_display_effects(effects)
+	var cast_effects: Dictionary = selected_choice.get("cast_effects", {})
+	var visible_cast := _story_result_visible_cast_effects(cast_effects)
+	if disp.is_empty() and visible_cast.is_empty():
+		return null
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#080a0f", 0.94)
+	style.border_color = _moral_signal_color(Color("#7f8896"), 0.18)
+	style.set_border_width_all(1)
+	style.border_width_left = 4
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 13
+	style.content_margin_right = 13
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	card.add_theme_stylebox_override("panel", style)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	card.add_child(box)
+
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 10)
+	box.add_child(top)
+	var overline := _label(_tr("선택 기록", "CHOICE RESULT"), 10, "#6f7888")
+	overline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(overline)
+	var tone := _ap_result_tone_label(disp)
+	var tone_lbl := _label(str(tone["label"]), 11, str(tone["color"]))
+	tone_lbl.custom_minimum_size = Vector2(110, 0)
+	tone_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	tone_lbl.clip_text = false
+	if _font_bold:
+		tone_lbl.add_theme_font_override("font", _font_bold)
+	top.add_child(tone_lbl)
+
+	var grid := GridContainer.new()
+	grid.columns = 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 8)
+	box.add_child(grid)
+	var added := 0
+	for key in _ap_result_effect_order(disp):
+		var val: int = int(disp.get(key, 0))
+		if val == 0:
+			continue
+		grid.add_child(_ap_result_effect_badge(key, val))
+		added += 1
+		if added >= 6:
+			break
+	for cast_item in visible_cast:
+		grid.add_child(_story_result_cast_badge(str(cast_item["id"]), int(cast_item["affinity"])))
+		added += 1
+		if added >= 6:
+			break
+	if added == 0:
+		grid.add_child(_wrap_label(_tr("눈에 띄는 변화는 없었다.", "No visible stat change."), 12, "#8f98aa"))
+	return card
+
+func _story_result_visible_cast_effects(cast_effects: Dictionary) -> Array:
+	var visible: Array = []
+	for pid in cast_effects:
+		var item = cast_effects[pid]
+		if not (item is Dictionary):
+			continue
+		var val := int(item.get("affinity", 0))
+		if val == 0:
+			continue
+		visible.append({"id": str(pid), "affinity": val})
+	return visible
+
+func _story_result_cast_badge(pid: String, affinity_delta: int) -> Control:
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(0, 50)
+	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var accent := "#c8b6e6" if affinity_delta > 0 else "#ff8a8a"
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0d1017", 0.96)
+	st.border_color = _moral_signal_color(Color(accent), 0.16)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 7
+	st.content_margin_bottom = 7
+	badge.add_theme_stylebox_override("panel", st)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	badge.add_child(box)
+	box.add_child(_label(_story_result_cast_name(pid).to_upper(), 10, "#6f7888"))
+	var sign := "+" if affinity_delta > 0 else ""
+	var value_lbl := _label(_tr("호감도 ", "Affinity ") + "%s%d" % [sign, affinity_delta], 14, accent)
+	value_lbl.clip_text = false
+	if _font_bold:
+		value_lbl.add_theme_font_override("font", _font_bold)
+	box.add_child(value_lbl)
+	return badge
+
+func _story_result_cast_name(pid: String) -> String:
+	if LocaleManager.is_english():
+		return {
+			"father": "Father",
+			"jiyeon": "Han Jiyeon",
+			"daeun": "Kim Daeun",
+			"jaehyuk": "Choi Jaehyuk",
+			"sangchul": "Im Sangchul",
+			"hyunsu": "Hyunsu",
+		}.get(pid, pid)
+	return {
+		"father": "아버지",
+		"jiyeon": "한지연",
+		"daeun": "김다은",
+		"jaehyuk": "최재혁",
+		"sangchul": "임상철",
+		"hyunsu": "현수",
+	}.get(pid, pid)
 
 func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> String:
 	var lower_title := title.to_lower()
@@ -9368,6 +9526,10 @@ func _stat_name(key):
 		"investment_skill": _tr("투자감각", "Investing"),
 		"luck": _tr("운", "Luck"),
 		"reputation": _tr("평판", "Reputation"),
+		"addiction_tendency": _tr("중독도", "Addiction"),
+		"gambling_tendency": _tr("도박충동", "Gambling Urge"),
+		"work_performance": _tr("업무성과", "Performance"),
+		"monthly_income": _tr("월수입", "Monthly Income"),
 		"asset": _tr("총자산", "Total Assets"),
 	}.get(key, key)
 

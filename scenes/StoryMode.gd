@@ -49,6 +49,7 @@ var _toast_layer: VBoxContainer
 var _hud_panel: Panel      # 챕터 카드 시 전체 HUD 바를 숨기기 위한 상단 패널 참조
 var _hud_label: Label   # 얇은 상단 HUD — 자산/돈/컨디션/시간
 var _text_panel: Panel           # 하단 텍스트 박스 (챕터 카드 시 숨김)
+var _result_record_card: Control = null
 var _chapter_overlay: Control = null  # 챕터 카드 전용 오버레이
 var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
@@ -654,6 +655,7 @@ func _load_next_event():
 func _render_current():
 	_play_story_ink_transition("scene", 0.80)
 	_showing_choices = false
+	_clear_result_record_card()
 	_current_uses_cg = false
 	_choice_box.visible = false
 	for c in _choice_box.get_children():
@@ -861,6 +863,203 @@ func _unhandled_input(event: InputEvent):
 		get_viewport().set_input_as_handled()
 
 # ── 선택지 ────────────────────────────────────────────────────
+func _clear_result_record_card() -> void:
+	if _result_record_card != null and is_instance_valid(_result_record_card):
+		_result_record_card.queue_free()
+	_result_record_card = null
+
+func _show_story_result_record(choice: Dictionary) -> void:
+	_clear_result_record_card()
+	var disp: Dictionary = _story_result_display_effects(choice.get("effects", {}))
+	var cast_items: Array = _story_result_visible_cast_effects(choice.get("cast_effects", {}))
+	if disp.is_empty() and cast_items.is_empty():
+		return
+	var palette := _story_palette()
+	var panel_bg: Color = palette["choice_bg"]
+	var panel_border: Color = palette["panel_border"]
+	var focus_col: Color = palette["focus"]
+	var dim_col: Color = palette["dim"]
+
+	var card := PanelContainer.new()
+	card.name = "StoryResultRecord"
+	card.anchor_left = 0.20
+	card.anchor_right = 0.76
+	card.anchor_top = 1.0
+	card.anchor_bottom = 1.0
+	card.offset_left = 0
+	card.offset_right = 0
+	card.offset_top = -342
+	card.offset_bottom = -260
+	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := _story_panel_style(panel_bg, panel_border, 6, 12, 9, 4)
+	st.border_color = panel_border.lerp(focus_col, 0.16)
+	card.add_theme_stylebox_override("panel", st)
+	add_child(card)
+	_result_record_card = card
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	card.add_child(row)
+
+	var head := VBoxContainer.new()
+	head.custom_minimum_size = Vector2(132, 0)
+	head.add_theme_constant_override("separation", 2)
+	row.add_child(head)
+	head.add_child(_story_record_label(_tr("선택 기록", "CHOICE RESULT"), 10, dim_col, false))
+	var tone := _story_result_tone_label(disp)
+	head.add_child(_story_record_label(str(tone["label"]), 13, tone["color"], true))
+
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 7)
+	grid.add_theme_constant_override("v_separation", 5)
+	row.add_child(grid)
+
+	var added := 0
+	for key in _story_result_effect_order(disp):
+		var val := int(disp.get(key, 0))
+		if val == 0:
+			continue
+		grid.add_child(_story_result_badge(str(_stat_display_name(key, str(STAT_INFO.get(key, {}).get("name", key)))).to_upper(),
+				_story_result_value_text(key, val), _story_result_effect_color(key, val)))
+		added += 1
+		if added >= 4:
+			break
+	for cast_item in cast_items:
+		if added >= 4:
+			break
+		var cast_name := _cast_display_name(str(cast_item["id"])).to_upper()
+		var aff := int(cast_item["affinity"])
+		var sign := "+" if aff > 0 else ""
+		grid.add_child(_story_result_badge(cast_name, _tr("호감도 ", "Affinity ") + "%s%d" % [sign, aff],
+				Color("#c9b6df") if aff > 0 else Color("#d99494")))
+		added += 1
+	if added == 0:
+		grid.add_child(_story_result_badge(_tr("기록", "LOG"), _tr("변화 없음", "No visible change"), dim_col))
+
+	card.modulate = Color(1, 1, 1, 0)
+	card.scale = Vector2(0.992, 0.992)
+	var tw := create_tween()
+	tw.tween_interval(0.08)
+	tw.tween_property(card, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_SINE)
+	tw.parallel().tween_property(card, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+func _story_record_label(text: String, size: int, color: Color, bold: bool = false) -> Label:
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.add_theme_font_size_override("font_size", size)
+	lbl.add_theme_color_override("font_color", color)
+	lbl.clip_text = true
+	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_apply_font(lbl, bold)
+	return lbl
+
+func _story_result_badge(label_text: String, value_text: String, accent: Color) -> Control:
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(0, 46)
+	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var palette := _story_palette()
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0a0c11", 0.72).lerp(palette["choice_bg"], 0.30)
+	st.border_color = accent.lerp(palette["panel_border"], 0.58)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(5)
+	st.content_margin_left = 9
+	st.content_margin_right = 9
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	badge.add_theme_stylebox_override("panel", st)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 1)
+	badge.add_child(box)
+	box.add_child(_story_record_label(label_text, 9, palette["dead"], false))
+	box.add_child(_story_record_label(value_text, 13, accent, true))
+	return badge
+
+func _story_result_display_effects(eff: Dictionary) -> Dictionary:
+	var disp: Dictionary = {}
+	for raw_key in eff:
+		var key := str(raw_key)
+		if not _story_result_effect_visible(key):
+			continue
+		if typeof(eff[raw_key]) != TYPE_INT and typeof(eff[raw_key]) != TYPE_FLOAT:
+			continue
+		var val := int(eff[raw_key])
+		if key == "stress":
+			disp["mental"] = int(disp.get("mental", 0)) - val
+		elif key == "mental":
+			disp["mental"] = int(disp.get("mental", 0)) + val
+		else:
+			disp[key] = int(disp.get(key, 0)) + val
+	return disp
+
+func _story_result_effect_visible(key: String) -> bool:
+	return key not in ["tint", "route_orthodox", "route_unorthodox"]
+
+func _story_result_visible_cast_effects(cast_effects: Dictionary) -> Array:
+	var visible: Array = []
+	for pid in cast_effects:
+		var item = cast_effects[pid]
+		if not (item is Dictionary):
+			continue
+		var val := int(item.get("affinity", 0))
+		if val == 0:
+			continue
+		visible.append({"id": str(pid), "affinity": val})
+	return visible
+
+func _story_result_effect_order(disp: Dictionary) -> Array[String]:
+	var order: Array[String] = [
+		"money", "health", "mental", "reputation", "intelligence",
+		"investment_skill", "social_skill", "appearance", "luck",
+		"addiction_tendency", "gambling_tendency", "work_performance", "monthly_income"
+	]
+	for key in disp.keys():
+		var key_str := str(key)
+		if not order.has(key_str):
+			order.append(key_str)
+	return order
+
+func _story_result_tone_label(disp: Dictionary) -> Dictionary:
+	var positive := 0
+	var negative := 0
+	for key in disp:
+		var val := int(disp[key])
+		if key in ["addiction_tendency", "gambling_tendency"]:
+			val = -val
+		if val > 0:
+			positive += 1
+		elif val < 0:
+			negative += 1
+	if positive > 0 and negative > 0:
+		return {"label": _tr("대가 있음", "TRADE-OFF"), "color": Color("#c8d0df")}
+	if negative > 0:
+		return {"label": _tr("손실", "COST"), "color": Color("#d99494")}
+	if positive > 0:
+		return {"label": _tr("성장", "GAIN"), "color": Color("#a9d8c1")}
+	return {"label": _tr("기록", "LOG"), "color": Color("#8f98aa")}
+
+func _story_result_effect_color(key: String, val: int) -> Color:
+	if key in ["addiction_tendency", "gambling_tendency"]:
+		return Color("#d99494") if val > 0 else Color("#a9d8c1")
+	if val < 0:
+		return Color("#d99494")
+	if key == "money" or key == "monthly_income":
+		return Color("#d8c48a")
+	if key == "reputation":
+		return Color("#b8c7d9")
+	return Color("#a9d8c1")
+
+func _story_result_value_text(key: String, val: int) -> String:
+	if key == "money" or key == "monthly_income":
+		if val >= 0:
+			return "+%s" % GameState.format_money(float(val))
+		return "-%s" % GameState.format_money(absf(float(val)))
+	var sign := "+" if val > 0 else ""
+	return "%s%d" % [sign, val]
+
 func _choice_effect_preview(choice: Dictionary) -> String:
 	var eff: Dictionary = choice.get("effects", {})
 	if eff.is_empty():
@@ -893,6 +1092,7 @@ func _choice_effect_preview(choice: Dictionary) -> String:
 	return "  ".join(parts)
 
 func _show_choices():
+	_clear_result_record_card()
 	var choices: Array = _current.get("choices", [])
 	if choices.is_empty():
 		# 선택지 없는 이벤트 → 바로 다음
@@ -1002,6 +1202,7 @@ func _on_choice(idx: int):
 
 	var result = _fmt(str(choice.get("result_text", "")))
 	if result != "":
+		_show_story_result_record(choice)
 		_paragraphs = []
 		for para in result.split("\n\n"):
 			var p = str(para).strip_edges()
@@ -1017,6 +1218,7 @@ func _on_choice(idx: int):
 
 func _after_result():
 	_pending_after_result = false
+	_clear_result_record_card()
 	# 선택의 follow_up_event가 있으면 큐 맨 앞에 끼워 이어서 재생
 	if _pending_follow_up != "" and not DataRegistry.find_event(_pending_follow_up).is_empty():
 		_queue.push_front(_pending_follow_up)
@@ -1235,6 +1437,12 @@ const STAT_INFO = {
 	"social_skill":     {"name": "사회성", "name_en": "Social"},
 	"investment_skill": {"name": "투자감각", "name_en": "Investing"},
 	"luck":             {"name": "운", "name_en": "Luck"},
+	"reputation":       {"name": "평판", "name_en": "Reputation"},
+	"appearance":       {"name": "외모", "name_en": "Appearance"},
+	"addiction_tendency": {"name": "중독도", "name_en": "Addiction"},
+	"gambling_tendency": {"name": "도박충동", "name_en": "Gambling Urge"},
+	"work_performance": {"name": "업무성과", "name_en": "Performance"},
+	"monthly_income":   {"name": "월수입", "name_en": "Monthly Income"},
 }
 const CAST_NAME_EN = {
 	"father": "Father", "jiyeon": "Han Jiyeon", "daeun": "Kim Daeun",
@@ -1333,6 +1541,7 @@ func _show_popup(title: String, body: String):
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.color = Color(0, 0, 0, 0.62)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 100
 	add_child(overlay)
 
 	var panel = PanelContainer.new()
