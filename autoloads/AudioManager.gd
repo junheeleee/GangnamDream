@@ -9,8 +9,17 @@ var sfx_enabled: bool    = true
 var _pool: Array[AudioStreamPlayer] = []
 const _POOL_SIZE = 8
 var _sounds: Dictionary = {}
+var _last_sfx_ms: Dictionary = {}
 var _last_ending_stinger_id: String = ""
 var _last_ending_stinger_ms: int = 0
+
+const _SFX_COOLDOWN_MS = {
+	"click": 45,
+	"close": 90,
+	"open_modal": 90,
+	"tab_open": 70,
+	"casino_coin": 24,
+}
 
 # wav 파일 → AudioManager key 매핑
 const _SFX_FILES = {
@@ -186,12 +195,26 @@ func ending_stinger_key(ending_id: String) -> String:
 func play(sound_id: String, volume_mod: float = 0.0):
 	if not sfx_enabled or not _sounds.has(sound_id):
 		return
+	if _is_sfx_throttled(sound_id):
+		return
 	for p in _pool:
 		if not p.playing:
 			p.stream    = _sounds[sound_id]
 			p.volume_db = _vol_db() + volume_mod
 			p.play()
 			return
+
+func play_ui_click(volume_mod: float = -4.0) -> void:
+	play("click", volume_mod)
+	pulse_gamepad(0.022, 0.045, 0.045)
+
+func play_ui_close(volume_mod: float = -8.0) -> void:
+	play("close", volume_mod)
+	pulse_gamepad(0.035, 0.060, 0.070)
+
+func play_ui_open(volume_mod: float = -5.0) -> void:
+	play("open_modal", volume_mod)
+	pulse_gamepad(0.030, 0.075, 0.060)
 
 func play_delayed(sound_id: String, delay: float, volume_mod: float = 0.0) -> void:
 	if delay <= 0.0:
@@ -229,6 +252,16 @@ func pulse_gamepad(weak: float, strong: float, duration: float = 0.12) -> void:
 func _vol_db() -> float:
 	if master_volume <= 0.0: return -80.0
 	return lerp(-20.0, 0.0, master_volume)
+
+func _is_sfx_throttled(sound_id: String) -> bool:
+	if not _SFX_COOLDOWN_MS.has(sound_id):
+		return false
+	var now := Time.get_ticks_msec()
+	var last := int(_last_sfx_ms.get(sound_id, -1000000))
+	if now - last < int(_SFX_COOLDOWN_MS[sound_id]):
+		return true
+	_last_sfx_ms[sound_id] = now
+	return false
 
 # ── 프로시저럴 폴백용 합성 ────────────────────────────────────
 const _SAMPLE_RATE = 22050

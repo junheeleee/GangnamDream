@@ -24,11 +24,14 @@ const AMBIENCE_TRACKS = {
 # ── 상태 ──────────────────────────────────────────────────────
 var volume: float       = 0.25
 var _current_key: String = ""
+var _active_key: String = ""
+var _fade_target_key: String = ""
 var _is_ending: bool    = false
 
 var _player_a: AudioStreamPlayer  # 현재 재생
 var _player_b: AudioStreamPlayer  # 크로스페이드 대상
 var _ambience_player: AudioStreamPlayer
+var _fade_tween: Tween
 var _ambience_tween: Tween
 var _procedural_stream: AudioStreamWAV  # 폴백 스트림 (1회 생성)
 var _current_ambience_key: String = ""
@@ -62,11 +65,15 @@ func start_menu():
 	clear_ambience()
 
 func stop():
+	if _fade_tween and _fade_tween.is_running():
+		_fade_tween.kill()
 	_player_a.stop()
 	_player_b.stop()
 	if _ambience_player:
 		_ambience_player.stop()
 	_current_key = ""
+	_active_key = ""
+	_fade_target_key = ""
 	_current_ambience_key = ""
 
 func apply_volume(v: float):
@@ -108,7 +115,7 @@ func update_event_ambience(ev: Dictionary) -> void:
 	set_ambience(_pick_ambience(ev))
 
 func set_ambience(key: String) -> void:
-	if key == _current_ambience_key:
+	if key == _current_ambience_key and _ambience_player and _ambience_player.playing:
 		return
 	_current_ambience_key = key
 	if _ambience_tween and _ambience_tween.is_running():
@@ -164,10 +171,13 @@ func _pick_track() -> String:
 
 # ── 크로스페이드 ──────────────────────────────────────────────
 func _switch_to(key: String, immediate: bool = false):
-	if key == _current_key and _player_a.playing:
+	if key == _active_key and _player_a.playing:
+		_current_key = key
 		_player_a.volume_db = _db(volume)
 		return
 	_current_key = key
+	_active_key = key
+	_fade_target_key = ""
 	var stream = _load_track(key)
 	_player_a.stream    = stream
 	_player_a.volume_db = _db(volume)
@@ -175,7 +185,9 @@ func _switch_to(key: String, immediate: bool = false):
 
 func _play_or_keep(key: String) -> void:
 	if key == _current_key and (_player_a.playing or _player_b.playing):
-		if _player_a.playing:
+		if _fade_tween and _fade_tween.is_running():
+			return
+		if key == _active_key and _player_a.playing:
 			_player_a.volume_db = _db(volume)
 		return
 	if _current_key != "" and _player_a.playing:
@@ -186,7 +198,19 @@ func _play_or_keep(key: String) -> void:
 func _crossfade_to(key: String):
 	if key == _current_key:
 		return
+
+	if _fade_tween and _fade_tween.is_running():
+		_fade_tween.kill()
+		_fade_tween = null
+		_player_b.stop()
+		_player_a.volume_db = _db(volume)
+		if key == _active_key:
+			_current_key = key
+			_fade_target_key = ""
+			return
+
 	_current_key = key
+	_fade_target_key = key
 
 	# B에 새 트랙 준비 (0 볼륨)
 	var stream = _load_track(key)
@@ -195,11 +219,11 @@ func _crossfade_to(key: String):
 	_player_b.play()
 
 	# A 페이드아웃, B 페이드인
-	var tw = create_tween()
-	tw.set_parallel(true)
-	tw.tween_method(_set_vol_a, volume, 0.0, _FADE_TIME)
-	tw.tween_method(_set_vol_b, 0.0, volume, _FADE_TIME)
-	tw.chain().tween_callback(_swap_players)
+	_fade_tween = create_tween()
+	_fade_tween.set_parallel(true)
+	_fade_tween.tween_method(_set_vol_a, volume, 0.0, _FADE_TIME)
+	_fade_tween.tween_method(_set_vol_b, 0.0, volume, _FADE_TIME)
+	_fade_tween.chain().tween_callback(_swap_players)
 
 func _set_vol_a(v: float): _player_a.volume_db = _db(v)
 func _set_vol_b(v: float): _player_b.volume_db = _db(v)
@@ -210,6 +234,9 @@ func _swap_players():
 	var tmp = _player_a
 	_player_a = _player_b
 	_player_b = tmp
+	_active_key = _fade_target_key
+	_fade_target_key = ""
+	_fade_tween = null
 
 # ── 스트림 로딩 ───────────────────────────────────────────────
 func _load_track(key: String) -> AudioStream:
