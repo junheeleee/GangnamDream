@@ -140,18 +140,18 @@
   {
     "id": "callback_sangchul_cut_ties_echo",
     "title": "Saying I'll Report You",
-    "description": "When they learned Sang-chul's truth, {name} cut ties, saying 'I'll report you.'\n\nThat resolute choice comes back sometimes.\n\nToday the weight of that decision lingers.",
+    "description": "When they learned Sangchul's truth, {name} cut ties, saying 'I'll report you.'\n\nThat resolute choice comes back sometimes.\n\nToday the weight of that decision lingers.",
     "choices": [
       {
         "text": "I did the right thing — chose conscience over gain",
-        "result_text": "Sang-chul's network and information were vast, but he was the man who ruined Dad.\n\n{name} doesn't regret choosing conscience over gain.\nSome bridges must be burned to protect yourself.",
+        "result_text": "Sangchul's network and information were vast, but he was the man who ruined Dad.\n\n{name} doesn't regret choosing conscience over gain.\nSome bridges must be burned to protect yourself.",
         "effects": {
           "tint": 5
         }
       },
       {
         "text": "Cutting him off — I came this far on my own",
-        "result_text": "The road without a mentor or network was harder, but cleaner.\n\n{name} knows they rose on their own without Sang-chul.\nGoing far on your own strength beat going fast on borrowed power.",
+        "result_text": "The road without a mentor or network was harder, but cleaner.\n\n{name} knows they rose on their own without Sangchul.\nGoing far on your own strength beat going fast on borrowed power.",
         "effects": {
           "tint": 3
         }

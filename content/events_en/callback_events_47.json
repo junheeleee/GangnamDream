@@ -47,15 +47,15 @@
   {
     "id": "callback_sangchul_deflected_echo",
     "title": "Deflecting into Investing Talk",
-    "description": "When Sang-chul brought up his life story, {name} deflected into investing — 'How much was that place?'\n\nAvoiding the deeper conversation comes back sometimes.\n\nToday they sat across from Sang-chul again.",
+    "description": "When Sangchul brought up his life story, {name} deflected into investing — 'How much was that place?'\n\nAvoiding the deeper conversation comes back sometimes.\n\nToday they sat across from Sangchul again.",
     "choices": [
       {
         "text": "This time, listen to his story",
-        "result_text": "The conversation deflected last time, this time heard to the end.\n\nSang-chul unexpectedly opened up about a lot.\n{name} learned belatedly that relationships don't deepen on information exchange alone."
+        "result_text": "The conversation deflected last time, this time heard to the end.\n\nSangchul unexpectedly opened up about a lot.\n{name} learned belatedly that relationships don't deepen on information exchange alone."
       },
       {
         "text": "I'm comfortable with a transactional bond — keep the line",
-        "result_text": "Not every relationship has to be deep.\n\n{name} decided to keep a measured distance from Sang-chul.\nWhether that's cold or wise — that would be known later."
+        "result_text": "Not every relationship has to be deep.\n\n{name} decided to keep a measured distance from Sangchul.\nWhether that's cold or wise — that would be known later."
       }
     ]
   },

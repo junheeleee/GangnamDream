@@ -2489,7 +2489,7 @@
         "result_text": "Transferred the money. For hospital expenses.\nMom said \"Thank you.\"\nDad would ask whose money it was.\n{name} decided not to think about what Mom would say."
       },
       {
-        "text": "Called Sang-chul — he'd know someone",
+        "text": "Called Sangchul — he'd know someone",
         "effects": {
           "mental": -8,
           "tint": -4
@@ -2507,7 +2507,7 @@
           "arc_father_03_seen",
           "sangchul_helped_with_father"
         ],
-        "result_text": "Sang-chul picked up and within minutes had connected a doctor he knew near Changwon.\nFast. No questions.\n\"This is the kind of thing you have to handle,\" was all he said.\n\nDad was moved to a better room.\nMom asked what had happened.\n{name} just said, \"Someone I know helped out.\""
+        "result_text": "Sangchul picked up and within minutes had connected a doctor he knew near Changwon.\nFast. No questions.\n\"This is the kind of thing you have to handle,\" was all he said.\n\nDad was moved to a better room.\nMom asked what had happened.\n{name} just said, \"Someone I know helped out.\""
       }
     ],
     "description_unorthodox": "A call from his mother, who hadn't been in touch in a long time.\n\n\"Minjun.\"\n\nDad had collapsed. A cerebrovascular warning. Changwon Sungsim Hospital.\n\n{name} thought of the moves he had in play right now.\nInvestments underway, timing he had to catch, things that would wobble if he stepped away.\n\nAnd then he hated himself for it.\nThat with his father down, the money math had spun up first in his head.",

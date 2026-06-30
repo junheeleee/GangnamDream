@@ -152,15 +152,15 @@
   {
     "id": "callback_shared_with_sangchul_echo",
     "title": "When I Opened Up",
-    "description": "When Sang-chul shared his own beginning, {name} had related: 'I started from a similar place.'\n\nToday Sang-chul mentioned it again.\n\n'You told me about yourself that time. That's when I started seeing you differently.'",
+    "description": "When Sangchul shared his own beginning, {name} had related: 'I started from a similar place.'\n\nToday Sangchul mentioned it again.\n\n'You told me about yourself that time. That's when I started seeing you differently.'",
     "choices": [
       {
         "text": "\"I meant it.\"",
-        "result_text": "Sang-chul nodded.\n\n'I know you don't say things like that lightly. That's why I trust you more.'\n\nApproaching with sincerity rather than calculation had changed the grain of the relationship."
+        "result_text": "Sangchul nodded.\n\n'I know you don't say things like that lightly. That's why I trust you more.'\n\nApproaching with sincerity rather than calculation had changed the grain of the relationship."
       },
       {
         "text": "\"Honestly, I regretted saying it. Thought maybe I was too open.\"",
-        "result_text": "Sang-chul laughed.\n\n'You think honesty's a weakness? In this business it's the rarest weapon there is.'\n\n{name} chewed on that for a long time."
+        "result_text": "Sangchul laughed.\n\n'You think honesty's a weakness? In this business it's the rarest weapon there is.'\n\n{name} chewed on that for a long time."
       }
     ]
   },

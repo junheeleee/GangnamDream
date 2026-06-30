@@ -2,7 +2,7 @@
   {
     "id": "callback_sangchul_forgiven_echo",
     "title": "The Days After Forgiving",
-    "description": "Months had passed since he'd told Sang-chul, \"That one word is enough.\"\n\nHe hadn't cut ties. But it wasn't like before either.\nThey kept an awkward distance, crossing paths at the cafe now and then.\n\nToday Sang-chul sent a short message.\n\"Got time for a coffee?\"\n\nMinjun stared at the screen for a long while.\nHad the forgiveness back then come from a heart that had truly let go — or just from not wanting to face him?",
+    "description": "Months had passed since he'd told Sangchul, \"That one word is enough.\"\n\nHe hadn't cut ties. But it wasn't like before either.\nThey kept an awkward distance, crossing paths at the cafe now and then.\n\nToday Sangchul sent a short message.\n\"Got time for a coffee?\"\n\nMinjun stared at the screen for a long while.\nHad the forgiveness back then come from a heart that had truly let go — or just from not wanting to face him?",
     "choices": [
       {
         "text": "Go — the forgiveness was real",
@@ -17,15 +17,15 @@
   {
     "id": "callback_sangchul_leveraged_cost",
     "title": "Interest",
-    "description": "\"It's thanks to you that I'm here, isn't it.\"\n\nAfter saying that, Minjun used Sang-chul's guilt like an asset.\nHe got information, got introduced to seats at the table, never got turned away.\n\nIt worked. The numbers in his account proved it.\n\nBut today he stopped while looking in the mirror.\nWhat he'd once seen in Choi Jae-hyuk's eyes was right there.\n\nThe face of someone who uses people.",
+    "description": "\"It's thanks to you that I'm here, isn't it.\"\n\nAfter saying that, Minjun used Sangchul's guilt like an asset.\nHe got information, got introduced to seats at the table, never got turned away.\n\nIt worked. The numbers in his account proved it.\n\nBut today he stopped while looking in the mirror.\nWhat he'd once seen in Choi Jae-hyuk's eyes was right there.\n\nThe face of someone who uses people.",
     "choices": [
       {
         "text": "This is the road to Gangnam — keep using it",
-        "result_text": "Minjun pulled his eyes from the mirror.\n\nNo time for sentiment. The clock was fixed, and the ladder had to be climbed one rung at a time.\n\nSang-chul's guilt was still useful.\n\nWhat would his father say if he knew — that thought vanished for a moment whenever he looked at the balance."
+        "result_text": "Minjun pulled his eyes from the mirror.\n\nNo time for sentiment. The clock was fixed, and the ladder had to be climbed one rung at a time.\n\nSangchul's guilt was still useful.\n\nWhat would his father say if he knew — that thought vanished for a moment whenever he looked at the balance."
       },
       {
         "text": "I won't go this far — cut him off",
-        "result_text": "Minjun called Sang-chul one last time.\n\"I won't be in touch anymore. What I got from you — that's that.\"\n\nThe network was cut. The information was cut. Gangnam probably got a little farther away.\n\nBut the face in the mirror turned back into Minjun's own.\n\nHe'd decided not to become someone like Jae-hyuk. That much, he kept."
+        "result_text": "Minjun called Sangchul one last time.\n\"I won't be in touch anymore. What I got from you — that's that.\"\n\nThe network was cut. The information was cut. Gangnam probably got a little farther away.\n\nBut the face in the mirror turned back into Minjun's own.\n\nHe'd decided not to become someone like Jae-hyuk. That much, he kept."
       }
     ]
   }

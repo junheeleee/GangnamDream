@@ -92,7 +92,7 @@
   {
     "id": "callback_held_through_loss_echo",
     "title": "The First Loss I Held Through",
-    "description": "Facing the first investment loss, {name} held on — 'like Sang-chul said, the market always comes back.'\n\nHow did holding turn out?\n\nToday paper losses glow red again.",
+    "description": "Facing the first investment loss, {name} held on — 'like Sangchul said, the market always comes back.'\n\nHow did holding turn out?\n\nToday paper losses glow red again.",
     "choices": [
       {
         "text": "Holding on principle was right — don't waver",

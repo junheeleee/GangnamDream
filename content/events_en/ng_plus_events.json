@@ -14,7 +14,7 @@
     "cooldown": 9999,
     "timed": true,
     "timer_seconds": 10,
-    "description": "Minjun already knows who Lim Sang-chul is. The broker who led his father into debt. Last run, he learned what kind of man this is. This time, he can use that knowledge differently. At the café window seat, Sang-chul extends a business card with a smile. Minjun knows what lies behind that smile.",
+    "description": "Minjun already knows who Lim Sangchul is. The broker who led his father into debt. Last run, he learned what kind of man this is. This time, he can use that knowledge differently. At the café window seat, Sangchul extends a business card with a smile. Minjun knows what lies behind that smile.",
     "choices": [
       {
         "text": "(He played dumb and sat down. He needs this man.)",
@@ -52,7 +52,7 @@
             "stage": "exposed"
           }
         },
-        "result_text": "Sang-chul's expression hardened. After a brief silence, he slowly reached back for his business card. This relationship was going to flow in a different direction now. Strangely, what came first wasn't fear — it was a sense of relief."
+        "result_text": "Sangchul's expression hardened. After a brief silence, he slowly reached back for his business card. This relationship was going to flow in a different direction now. Strangely, what came first wasn't fear — it was a sense of relief."
       }
     ]
   },

@@ -2364,7 +2364,7 @@
   {
     "id": "sangchul_becomes_primary",
     "title": "Contacts",
-    "description": "He counted who'd reached out this week.\n\nSang-chul — three times.\nDad — one missed call.\nDae-eun — none.\n\n{name} scrolled the screen down.",
+    "description": "He counted who'd reached out this week.\n\nSangchul — three times.\nDad — one missed call.\nDae-eun — none.\n\n{name} scrolled the screen down.",
     "category": "social",
     "rarity": "uncommon",
     "weight": 5,
@@ -2389,7 +2389,7 @@
       {
         "text": "Scrolled down",
         "effects": {},
-        "result_text": "Another message came in from Sang-chul.\nThis week's meeting schedule.\n{name} checked the date."
+        "result_text": "Another message came in from Sangchul.\nThis week's meeting schedule.\n{name} checked the date."
       }
     ]
   },
@@ -2434,7 +2434,7 @@
   {
     "id": "sangchul_world_absorbed",
     "title": "The Address Book",
-    "description": "Scrolling his contacts, he stopped.\n\nNames from Sang-chul's network were more than half of them.\n\nHe didn't know when it happened — but somewhere along the way, Sang-chul's people had become {name}'s people.",
+    "description": "Scrolling his contacts, he stopped.\n\nNames from Sangchul's network were more than half of them.\n\nHe didn't know when it happened — but somewhere along the way, Sangchul's people had become {name}'s people.",
     "category": "social",
     "rarity": "uncommon",
     "weight": 4,
@@ -2454,7 +2454,7 @@
       {
         "text": "Kept scrolling",
         "effects": {},
-        "result_text": "People Sang-chul introduced.\nPeople met at Sang-chul's gatherings.\nPeople connected through Sang-chul.\n\n{name} turned the screen off."
+        "result_text": "People Sangchul introduced.\nPeople met at Sangchul's gatherings.\nPeople connected through Sangchul.\n\n{name} turned the screen off."
       }
     ]
   },
