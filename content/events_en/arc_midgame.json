@@ -937,11 +937,11 @@
     "description": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.",
     "choices": [
       {
-        "text": "Getting this far is already different. Going to the end.",
+        "text": "Whatever the number — this trajectory is mine. Going to the end.",
         "result_text": "500,000 won at thirty-three. Here now. Whatever the number — this trajectory is mine. Last year. Just live it."
       },
       {
-        "text": "Being cold about it. At this pace, the ending is visible.",
+        "text": "Adjust the plan once more. Live the end knowing.",
         "result_text": "Numbers don't lie. Whatever the result — knowing the truth and living the final chapter beats not knowing. {name} adjusted the plan one more time."
       },
       {

@@ -1439,19 +1439,19 @@
   {
     "id": "final_stretch_check",
     "title": "Time Left",
-    "description": "You looked at the calendar.\n\nLess than a year left until you turn 38.\n\nYou thought back to yourself when you first came up to Seoul, five years ago.\nThe now you imagined back then, versus the now that's actually here.\n\nWhat will you do with the time left?\nActually — what will you not do?",
+    "description": "He looked at the calendar.\n\nLess than a year left until he turns 38.\n\nHe thought back to himself when he first came up to Seoul, five years ago.\nThe now he'd imagined back then, versus the now that's actually here.\n\nWhat will he do with the time left?\nActually — what will he not do?",
     "choices": [
       {
         "text": "Go all out until the end. No regrets.",
-        "result_text": "Last year. You've come this far, so you're going to see it through.\nYour heart beat fast. Not a bad feeling."
+        "result_text": "Last year. He's come this far, so he's going to see it through.\nHis heart beat fast. Not a bad feeling."
       },
       {
         "text": "Focus on protecting what you've built",
-        "result_text": "Not losing is also a strategy.\nYou decided to spend the final year reinforcing what you've accumulated."
+        "result_text": "Not losing is also a strategy.\nHe decided to spend the final year reinforcing what he'd built."
       },
       {
         "text": "You're starting to think Gangnam isn't everything",
-        "result_text": "There are things you can only see after running five years.\nWhere the finish line is — maybe you're the one who gets to decide that."
+        "result_text": "There are things you only see after running five years.\nWhere the finish line is — maybe that was his to decide."
       }
     ]
   },

@@ -880,7 +880,7 @@
   {
     "id": "daeun_drift_quiet",
     "title": "Gone Quiet",
-    "description": "When was the last time Dae-eun reached out.\n\nThinking about it — over a month.\nWhether {name} stopped first or she cut back, the line had blurred.\n\nHe opened the chat. The last message was one {name} had sent.",
+    "description": "When was the last time Daeun reached out.\n\nThinking about it — over a month.\nWhether {name} stopped first or she cut back, the line had blurred.\n\nHe opened the chat. The last message was one {name} had sent.",
     "choices": [
       {
         "text": "Sent something — short, anything",
@@ -895,7 +895,7 @@
   {
     "id": "sangchul_becomes_primary",
     "title": "Contacts",
-    "description": "He counted who'd reached out this week.\n\nSangchul — three times.\nDad — one missed call.\nDae-eun — none.\n\n{name} scrolled the screen down.",
+    "description": "He counted who'd reached out this week.\n\nSangchul — three times.\nDad — one missed call.\nDaeun — none.\n\n{name} scrolled the screen down.",
     "choices": [
       {
         "text": "Scrolled down",
@@ -906,7 +906,7 @@
   {
     "id": "daeun_birthday_missed",
     "title": "The Date",
-    "description": "A social media notification popped up.\n\n'Today is Dae-eun's birthday.'\n\n{name} paused for a moment.\nHe'd known. At some point it had been wiped from his mind.",
+    "description": "A social media notification popped up.\n\n'Today is Daeun's birthday.'\n\n{name} paused for a moment.\nHe'd known. At some point it had been wiped from his mind.",
     "choices": [
       {
         "text": "Reached out, late as it was",
@@ -932,7 +932,7 @@
   {
     "id": "jiyeon_notices_daeun",
     "title": "Jiyeon's Question",
-    "description": "Jiyeon set her coffee down and asked.\n\n\"Are you still in touch with Dae-eun these days?\"\n\n{name} hesitated for a moment.",
+    "description": "Jiyeon set her coffee down and asked.\n\n\"Are you still in touch with Daeun these days?\"\n\n{name} hesitated for a moment.",
     "choices": [
       {
         "text": "\"Been busy lately\"",

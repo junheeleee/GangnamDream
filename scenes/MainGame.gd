@@ -7681,8 +7681,10 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	if hyunsu_stage in ["passed", "deployed", "friend"] or GameState.flags.get("hyunsu_reconnected", false):
 		if GameState.flags.get("called_hyunsu_for_help", false):
 			lines.append(_tr("🎓  바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.", "🎓  I called Hyunsu when I'd hit bottom. He just listened. A person who could listen without words — that was what I needed."))
-		else:
+		elif GameState.flags.get("hyunsu_passed", false):
 			lines.append(_tr("🎓  현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "🎓  Hyunsu became a civil servant. We're both doing all right. No more, no less."))
+		else:
+			lines.append(_tr("🎓  현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "🎓  Hyunsu landed a job at an accounting firm. We're both doing all right. No more, no less."))
 
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
@@ -7808,7 +7810,7 @@ func _ending_percentile_line() -> String:
 	else:                          pct = 95
 	if pct <= 1:
 		return _tr("같은 50만원으로 시작한 사람들 중 상위 1% — 강남드림은 원래 이런 확률이었다.", "Top 1% among those who started with the same KRW 500K — the Gangnam Dream was always these odds.")
-	return _tr("같은 50만원으로 시작한 사람들 중 상위 %d%% — 강남 입성은 상위 1%%의 일이다.", "Top %d%% among those who started with the same KRW 500K — entering Gangnam is a top-1%% affair.") % pct
+	return _tr("같은 50만원으로 시작한 사람들 중 상위 %d%% — 강남 입성은 상위 1%%의 일이다.", "Top %d%% among those who started with the same KRW 500K — entering Gangnam is a top-1%% feat.") % pct
 
 func _ending_stat_grid(parent: Control):
 	var total = GameState.get_total_asset_value()
