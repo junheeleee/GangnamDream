@@ -35,6 +35,7 @@ var _bg_dim: ColorRect
 var _story_surface_overlay: ColorRect = null
 var _story_surface_material: ShaderMaterial = null
 var _story_bg_material: ShaderMaterial = null
+var _story_portrait_material: ShaderMaterial = null
 var _portrait: TextureRect
 var _portrait_frame: PanelContainer
 var _name_panel: PanelContainer
@@ -53,11 +54,20 @@ var _is_chapter_card: bool = false    # 챕터 카드 모드 플래그
 var _current_uses_cg: bool = false
 var _story_moral_norm: float = 0.0
 var _story_moral_stage: int = 0
+var _story_ink_transition_layer: Control = null
+var _story_ink_transition_tween: Tween = null
+var _story_ink_transition_progress: float = 0.0
+var _story_ink_transition_kind: String = "scene"
 
 var _font: FontFile
 var _font_bold: FontFile
 
 const TYPE_SPEED := 0.018   # 글자당 초
+const PORTRAIT_OFFSET_LEFT := -430
+const PORTRAIT_OFFSET_RIGHT := -28
+const PORTRAIT_OFFSET_TOP := -690
+const PORTRAIT_OFFSET_BOTTOM := -40
+const PORTRAIT_CHOICE_SHIFT_X := 72
 
 func _ready():
 	_load_fonts()
@@ -91,19 +101,23 @@ func _on_story_moral_tint_changed(norm: float, stage: int) -> void:
 func _story_palette() -> Dictionary:
 	var black := clampf(-_story_moral_norm, 0.0, 1.0)
 	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var ui_black := black * 0.24
+	var ui_white := white * 0.18
 	return {
-		"panel_bg": Color("#0d0d10", 0.92).lerp(Color("#050706", 0.95), black).lerp(Color("#111820", 0.90), white),
-		"panel_border": Color("#30343a", 0.92).lerp(Color("#202824", 0.95), black).lerp(Color("#637483", 0.96), white),
-		"hud_bg": Color("#0b0c10", 0.86).lerp(Color("#040605", 0.91), black).lerp(Color("#111820", 0.84), white),
-		"choice_bg": Color("#111216", 0.96).lerp(Color("#060807", 0.98), black).lerp(Color("#131d24", 0.95), white),
-		"choice_hover": Color("#181a20", 0.98).lerp(Color("#0a100d", 0.99), black).lerp(Color("#1a2a34", 0.97), white),
-		"text": Color("#e6e8ec").lerp(Color("#a0aaa4"), black * 0.55).lerp(Color("#f3f7ff"), white * 0.65),
-		"dim": Color("#9aa1a8").lerp(Color("#66706a"), black * 0.55).lerp(Color("#c1ced8"), white * 0.58),
-		"dead": Color("#5f656b").lerp(Color("#3f4742"), black * 0.5).lerp(Color("#87949d"), white * 0.45),
-		"focus": Color("#d7dbe2").lerp(Color("#89938d"), black * 0.60).lerp(Color("#f8fbff"), white * 0.75),
-		"line": Color("#30343a", 0.72).lerp(Color("#1d2521", 0.85), black).lerp(Color("#6b7c89", 0.72), white),
-		"black": black,
-		"white": white,
+		"panel_bg": Color("#0d0d10", 0.92).lerp(Color("#050706", 0.95), ui_black).lerp(Color("#111820", 0.90), ui_white),
+		"panel_border": Color("#30343a", 0.92).lerp(Color("#202824", 0.95), ui_black).lerp(Color("#637483", 0.96), ui_white),
+		"hud_bg": Color("#0b0c10", 0.86).lerp(Color("#040605", 0.91), ui_black).lerp(Color("#111820", 0.84), ui_white),
+		"choice_bg": Color("#111216", 0.96).lerp(Color("#060807", 0.98), ui_black).lerp(Color("#131d24", 0.95), ui_white),
+		"choice_hover": Color("#181a20", 0.98).lerp(Color("#0a100d", 0.99), ui_black).lerp(Color("#1a2a34", 0.97), ui_white),
+		"text": Color("#e6e8ec").lerp(Color("#a0aaa4"), ui_black * 0.55).lerp(Color("#f3f7ff"), ui_white * 0.65),
+		"dim": Color("#9aa1a8").lerp(Color("#66706a"), ui_black * 0.55).lerp(Color("#c1ced8"), ui_white * 0.58),
+		"dead": Color("#5f656b").lerp(Color("#3f4742"), ui_black * 0.5).lerp(Color("#87949d"), ui_white * 0.45),
+		"focus": Color("#d7dbe2").lerp(Color("#89938d"), ui_black * 0.60).lerp(Color("#f8fbff"), ui_white * 0.75),
+		"line": Color("#30343a", 0.72).lerp(Color("#1d2521", 0.85), ui_black).lerp(Color("#6b7c89", 0.72), ui_white),
+		"black": ui_black,
+		"white": ui_white,
+		"moral_black": black,
+		"moral_white": white,
 	}
 
 func _story_panel_style(bg: Color, border: Color, radius: int, h_margin: int = 0, v_margin: int = 0, left_border: int = 0) -> StyleBoxFlat:
@@ -134,8 +148,8 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	_story_moral_norm = clampf(GameState.moral_tint_norm(), -1.0, 1.0)
 	_story_moral_stage = GameState.moral_stage()
 	var palette := _story_palette()
-	var black: float = float(palette["black"])
-	var white: float = float(palette["white"])
+	var black: float = float(palette["moral_black"])
+	var white: float = float(palette["moral_white"])
 	var panel_bg: Color = palette["panel_bg"]
 	var panel_border: Color = palette["panel_border"]
 	var hud_bg: Color = palette["hud_bg"]
@@ -148,21 +162,26 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 	if is_instance_valid(_bg_dim):
 		_bg_dim.color = _story_dim_color(has_cg)
 	if _story_bg_material:
-		_story_bg_material.set_shader_parameter("desaturation", clampf(0.86 + black * 0.12 - white * 0.10, 0.0, 1.0))
-		_story_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.24 + white * 0.14, 0.42, 1.20))
-		_story_bg_material.set_shader_parameter("contrast", clampf(0.94 - black * 0.08 + white * 0.13, 0.68, 1.24))
-		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.12 + white * 0.055, 0.0, 0.18))
-		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#eff8ff"), white))
-		_story_bg_material.set_shader_parameter("grain_amount", clampf(0.020 + black * 0.030 - white * 0.008, 0.0, 0.075))
-		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.060 + black * 0.120 - white * 0.025, 0.0, 0.24))
-		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.016 + white * 0.052, 0.0, 0.09))
-		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.075 + black * 0.145 - white * 0.045, 0.0, 0.25))
+		_story_bg_material.set_shader_parameter("desaturation", clampf(0.86 + black * 0.14 - white * 0.46, 0.28, 1.0))
+		_story_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.26 + white * 0.20, 0.42, 1.20))
+		_story_bg_material.set_shader_parameter("contrast", clampf(0.94 - black * 0.08 + white * 0.16, 0.68, 1.24))
+		_story_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.12 + white * 0.035, 0.0, 0.18))
+		_story_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
+		_story_bg_material.set_shader_parameter("grain_amount", clampf(0.020 + black * 0.030 - white * 0.014, 0.0, 0.075))
+		_story_bg_material.set_shader_parameter("ink_bleed", clampf(0.060 + black * 0.120 - white * 0.042, 0.0, 0.24))
+		_story_bg_material.set_shader_parameter("paper_fade", clampf(0.016 + white * 0.030, 0.0, 0.07))
+		_story_bg_material.set_shader_parameter("edge_burn", clampf(0.075 + black * 0.145 - white * 0.065, 0.0, 0.25))
+		_story_bg_material.set_shader_parameter("print_screen", clampf(0.011 + black * 0.026 - white * 0.009, 0.002, 0.052))
+		_story_bg_material.set_shader_parameter("tone_quantize", clampf(0.018 + black * 0.095 - white * 0.014, 0.0, 0.14))
+		_story_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_story_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_story_moral_norm) * 19.0)
 	if _story_surface_material and is_instance_valid(_story_surface_overlay):
 		_story_surface_overlay.visible = black > 0.01 or white > 0.01
 		_story_surface_material.set_shader_parameter("black_intensity", black)
 		_story_surface_material.set_shader_parameter("white_intensity", white)
+		_story_surface_material.set_shader_parameter("print_screen", clampf(black * 0.045 - white * 0.010, 0.0, 0.055))
 		_story_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_story_moral_norm) * 10.0)
+	_apply_story_portrait_surface()
 	if is_instance_valid(_text_panel):
 		_text_panel.add_theme_stylebox_override("panel", _story_panel_style(panel_bg, panel_border, 8))
 	if is_instance_valid(_name_panel):
@@ -186,6 +205,27 @@ func _apply_story_surface_palette(has_cg: bool = false, immediate: bool = false)
 		_name_tag.add_theme_color_override("font_color", focus_col)
 	if is_instance_valid(_hud_label):
 		_hud_label.add_theme_color_override("font_color", dim_col)
+
+func _apply_story_portrait_surface() -> void:
+	if not is_instance_valid(_portrait):
+		return
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	if _story_portrait_material:
+		_story_portrait_material.set_shader_parameter("desaturation", clampf(0.36 + black * 0.54 - white * 0.24, 0.08, 0.96))
+		_story_portrait_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.26 + white * 0.10, 0.56, 1.18))
+		_story_portrait_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.06 + white * 0.12, 0.70, 1.24))
+		_story_portrait_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.025, 0.0, 0.16))
+		_story_portrait_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f6fbff"), white))
+		_story_portrait_material.set_shader_parameter("grain_amount", clampf(0.004 + black * 0.026 - white * 0.004, 0.0, 0.055))
+		_story_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
+		_story_portrait_material.set_shader_parameter("paper_fade", clampf(white * 0.022, 0.0, 0.05))
+		_story_portrait_material.set_shader_parameter("edge_burn", clampf(0.020 + black * 0.115 - white * 0.020, 0.0, 0.16))
+		_story_portrait_material.set_shader_parameter("print_screen", clampf(0.004 + black * 0.014 - white * 0.003, 0.0, 0.025))
+		_story_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
+		_story_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
+		_story_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_story_moral_norm) * 23.0)
+	_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
 
 func _animate_story_text_panel() -> void:
 	if not is_instance_valid(_text_panel):
@@ -216,6 +256,47 @@ func _pulse_story_choice_commit() -> void:
 	tw.tween_property(_text_panel, "modulate", Color(1.07, 1.07, 1.07, 1.0), 0.08)
 	tw.tween_property(_text_panel, "modulate", Color(1, 1, 1, 1), 0.20)
 
+func _bind_story_tactile_button(button: Button, strength: float = 1.0) -> void:
+	if not is_instance_valid(button) or button.has_meta("_story_tactile_bound"):
+		return
+	button.set_meta("_story_tactile_bound", true)
+	var hover_scale := Vector2.ONE * (1.0 + 0.006 * strength)
+	var press_scale := Vector2(1.0 - 0.010 * strength, 1.0 - 0.040 * strength)
+	button.mouse_entered.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.focus_entered.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.button_down.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, press_scale, 0.055, Tween.TRANS_QUAD)
+	)
+	button.button_up.connect(func():
+		if not button.disabled:
+			_story_tactile_button_to(button, hover_scale if button.has_focus() else Vector2.ONE, 0.12, Tween.TRANS_BACK)
+	)
+	button.mouse_exited.connect(func():
+		_story_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+	button.focus_exited.connect(func():
+		_story_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+
+func _story_tactile_button_to(button: Button, target_scale: Vector2, duration: float, trans: int) -> void:
+	if not is_instance_valid(button) or not is_inside_tree():
+		return
+	button.pivot_offset = button.size * 0.5
+	var old: Variant = button.get_meta("_story_tactile_tween") if button.has_meta("_story_tactile_tween") else null
+	if old is Tween and (old as Tween).is_running():
+		(old as Tween).kill()
+	var tw := create_tween()
+	tw.bind_node(button)
+	tw.tween_property(button, "scale", target_scale, duration).set_trans(trans).set_ease(Tween.EASE_OUT)
+	button.set_meta("_story_tactile_tween", tw)
+
 # ── UI 구성 ───────────────────────────────────────────────────
 func _build_ui():
 	# 1. 배경 이미지 (이벤트별 전환)
@@ -236,6 +317,9 @@ func _build_ui():
 		_story_bg_material.set_shader_parameter("ink_bleed", 0.060)
 		_story_bg_material.set_shader_parameter("paper_fade", 0.016)
 		_story_bg_material.set_shader_parameter("edge_burn", 0.075)
+		_story_bg_material.set_shader_parameter("print_screen", 0.011)
+		_story_bg_material.set_shader_parameter("tone_quantize", 0.018)
+		_story_bg_material.set_shader_parameter("screen_scale", 620.0)
 		_story_bg_material.set_shader_parameter("seed", 0.0)
 		_bg_img.material = _story_bg_material
 	_bg_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -260,6 +344,7 @@ func _build_ui():
 		_story_surface_material.shader = surface_shader
 		_story_surface_material.set_shader_parameter("black_intensity", 0.0)
 		_story_surface_material.set_shader_parameter("white_intensity", 0.0)
+		_story_surface_material.set_shader_parameter("print_screen", 0.0)
 		_story_surface_material.set_shader_parameter("seed", 0.0)
 		_story_surface_overlay.material = _story_surface_material
 	add_child(_story_surface_overlay)
@@ -275,10 +360,10 @@ func _build_ui():
 	# 5. 인물 초상화 — 우측 하단, 배경 위에 직접 표시.
 	_portrait_frame = PanelContainer.new()
 	_portrait_frame.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_portrait_frame.offset_left = -430
-	_portrait_frame.offset_right = -28
-	_portrait_frame.offset_top = -690
-	_portrait_frame.offset_bottom = -40
+	_portrait_frame.offset_left = PORTRAIT_OFFSET_LEFT
+	_portrait_frame.offset_right = PORTRAIT_OFFSET_RIGHT
+	_portrait_frame.offset_top = PORTRAIT_OFFSET_TOP
+	_portrait_frame.offset_bottom = PORTRAIT_OFFSET_BOTTOM
 	_portrait_frame.clip_contents = true
 	_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_portrait_frame.modulate = Color(1, 1, 1, 0)
@@ -296,6 +381,23 @@ func _build_ui():
 	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if bg_grade_shader:
+		_story_portrait_material = ShaderMaterial.new()
+		_story_portrait_material.shader = bg_grade_shader
+		_story_portrait_material.set_shader_parameter("desaturation", 0.36)
+		_story_portrait_material.set_shader_parameter("brightness", 0.98)
+		_story_portrait_material.set_shader_parameter("contrast", 0.98)
+		_story_portrait_material.set_shader_parameter("tint_color", Color("#020303"))
+		_story_portrait_material.set_shader_parameter("tint_amount", 0.0)
+		_story_portrait_material.set_shader_parameter("grain_amount", 0.004)
+		_story_portrait_material.set_shader_parameter("ink_bleed", 0.010)
+		_story_portrait_material.set_shader_parameter("paper_fade", 0.0)
+		_story_portrait_material.set_shader_parameter("edge_burn", 0.020)
+		_story_portrait_material.set_shader_parameter("print_screen", 0.004)
+		_story_portrait_material.set_shader_parameter("tone_quantize", 0.0)
+		_story_portrait_material.set_shader_parameter("screen_scale", 700.0)
+		_story_portrait_material.set_shader_parameter("seed", 0.0)
+		_portrait.material = _story_portrait_material
 	_portrait_frame.add_child(_portrait)
 
 	# 6. 이름표 — 텍스트 박스(상단 -250) 위에 완전히 올림
@@ -400,14 +502,14 @@ func _build_ui():
 
 	# 8. 선택지 박스 — 텍스트 박스(높이250) 위에 띄움. 겹치지 않게 -270부터.
 	_choice_box = VBoxContainer.new()
-	_choice_box.anchor_left = 0.5
-	_choice_box.anchor_right = 0.5
+	_choice_box.anchor_left = 0.08
+	_choice_box.anchor_right = 0.74
 	_choice_box.anchor_top = 1.0
 	_choice_box.anchor_bottom = 1.0
-	_choice_box.offset_left = -460
-	_choice_box.offset_right = 460
-	_choice_box.offset_top = -620
-	_choice_box.offset_bottom = -270
+	_choice_box.offset_left = 0
+	_choice_box.offset_right = 0
+	_choice_box.offset_top = -654
+	_choice_box.offset_bottom = -314
 	_choice_box.add_theme_constant_override("separation", 10)
 	_choice_box.alignment = BoxContainer.ALIGNMENT_END
 	_choice_box.visible = false
@@ -448,6 +550,77 @@ func _build_ui():
 	_apply_font(_hud_label)
 	hud_panel.add_child(_hud_label)
 	_apply_story_surface_palette(false, true)
+	_build_story_ink_transition_layer()
+
+func _build_story_ink_transition_layer() -> void:
+	_story_ink_transition_layer = Control.new()
+	_story_ink_transition_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_story_ink_transition_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_story_ink_transition_layer.visible = false
+	_story_ink_transition_layer.z_index = 86
+	_story_ink_transition_layer.draw.connect(_draw_story_ink_transition)
+	add_child(_story_ink_transition_layer)
+
+func _play_story_ink_transition(kind: String = "scene", strength: float = 1.0) -> void:
+	if not is_instance_valid(_story_ink_transition_layer) or not is_inside_tree():
+		return
+	if _story_ink_transition_tween and _story_ink_transition_tween.is_running():
+		_story_ink_transition_tween.kill()
+	_story_ink_transition_kind = kind
+	_story_ink_transition_progress = 0.0
+	_story_ink_transition_layer.visible = true
+	_story_ink_transition_layer.queue_redraw()
+	var duration := clampf(0.30 + strength * 0.10, 0.24, 0.48)
+	_story_ink_transition_tween = create_tween()
+	_story_ink_transition_tween.tween_method(_set_story_ink_transition_progress, 0.0, 1.0, duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_story_ink_transition_tween.tween_callback(func():
+		_story_ink_transition_progress = 0.0
+		if is_instance_valid(_story_ink_transition_layer):
+			_story_ink_transition_layer.visible = false
+			_story_ink_transition_layer.queue_redraw()
+		_story_ink_transition_tween = null
+	)
+
+func _set_story_ink_transition_progress(value: float) -> void:
+	_story_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if is_instance_valid(_story_ink_transition_layer):
+		_story_ink_transition_layer.queue_redraw()
+
+func _draw_story_ink_transition() -> void:
+	if not is_instance_valid(_story_ink_transition_layer) or _story_ink_transition_progress <= 0.01:
+		return
+	var size := _story_ink_transition_layer.size
+	if size.x <= 0.0 or size.y <= 0.0:
+		return
+	var pulse := sin(_story_ink_transition_progress * PI)
+	var black := clampf(-_story_moral_norm, 0.0, 1.0)
+	var white := clampf(_story_moral_norm, 0.0, 1.0)
+	var base := Color("#08090c").lerp(Color("#020303"), black * 0.60).lerp(Color("#eef6ff"), white * 0.32)
+	if _story_ink_transition_kind == "choice":
+		base = base.lerp(Color("#111216"), 0.25)
+	_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.075 + black * 0.070 + white * 0.035)), true)
+
+	var sweep_x := lerpf(-size.x * 0.18, size.x * 1.10, _story_ink_transition_progress)
+	var edge_w := 28.0 + black * 18.0
+	var edge_col := Color("#dce4ef", pulse * (0.14 + white * 0.05)).lerp(Color("#111817", pulse * 0.26), black)
+	_story_ink_transition_layer.draw_rect(Rect2(Vector2(sweep_x - edge_w, 0.0), Vector2(edge_w, size.y)), edge_col, true)
+
+	var line_alpha := pulse * (0.045 + black * 0.045 + white * 0.022)
+	var line_col := Color("#f4f7fb", line_alpha).lerp(Color("#8e9892", line_alpha), black * 0.70)
+	var gap := 28
+	var offset := fmod(_story_ink_transition_progress * 86.0 + float(GameState.turn * 5), float(gap))
+	for y in range(-gap, int(size.y) + gap, gap):
+		var yy := float(y) + offset
+		var jitter := sin(yy * 0.033 + float(GameState.turn)) * (0.8 + black * 2.4)
+		_story_ink_transition_layer.draw_line(Vector2(0.0, yy + jitter), Vector2(size.x, yy - jitter), line_col, 1.0)
+
+	if black > 0.01:
+		var burn := Color("#000000", pulse * (0.065 + black * 0.11))
+		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+		_story_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 16.0), Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+	if white > 0.01:
+		_story_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.042), false, 2.0)
 
 func _refresh_hud():
 	if _hud_label == null:
@@ -479,6 +652,7 @@ func _load_next_event():
 	_render_current()
 
 func _render_current():
+	_play_story_ink_transition("scene", 0.80)
 	_showing_choices = false
 	_current_uses_cg = false
 	_choice_box.visible = false
@@ -590,6 +764,7 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 	# 초상화 이미지가 실제로 있을 때만 액자 표시. 없으면(배경전용/플레이스홀더) 프레임 통째로 숨김.
 	if path != "" and ResourceLoader.exists(path):
 		_portrait.texture = load(path)
+		_apply_story_portrait_surface()
 		_portrait_frame.visible = true
 		_portrait_frame.modulate = Color(1, 1, 1, 0)
 		var tw = create_tween()
@@ -610,9 +785,13 @@ func _show_portrait(portrait_id: String, bg_only: bool = false):
 func _set_portrait_choice_focus(choices_visible: bool) -> void:
 	if not is_inside_tree() or not is_instance_valid(_portrait_frame) or not _portrait_frame.visible:
 		return
-	var target_alpha := 0.34 if choices_visible else 1.0
+	var target_alpha := 0.46 if choices_visible else 1.0
+	var target_shift := PORTRAIT_CHOICE_SHIFT_X if choices_visible else 0
 	var tw := create_tween()
+	tw.set_parallel(true)
 	tw.tween_property(_portrait_frame, "modulate:a", target_alpha, 0.18).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(_portrait_frame, "offset_left", PORTRAIT_OFFSET_LEFT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(_portrait_frame, "offset_right", PORTRAIT_OFFSET_RIGHT + target_shift, 0.22).set_trans(Tween.TRANS_SINE)
 
 # ── 타이핑 효과 ───────────────────────────────────────────────
 var _type_accum: float = 0.0
@@ -732,6 +911,7 @@ func _show_choices():
 		group.add_theme_constant_override("separation", 3)
 		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		group.modulate = Color(1, 1, 1, 0)
+		group.scale = Vector2(0.986, 0.986)
 		_choice_box.add_child(group)
 		var btn = _make_choice_button(_fmt(str(ch.get("text", _tr("선택", "Choose")))), i)
 		group.add_child(btn)
@@ -740,6 +920,7 @@ func _show_choices():
 	for i in range(_choice_box.get_child_count()):
 		var group_node := _choice_box.get_child(i)
 		tw.parallel().tween_property(group_node, "modulate:a", 1.0, 0.20).set_delay(0.04 * float(i))
+		tw.parallel().tween_property(group_node, "scale", Vector2.ONE, 0.24).set_delay(0.04 * float(i)).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	# 컨트롤러: 첫 번째 그룹의 버튼에 포커스 (A 버튼으로 즉시 선택 가능)
 	if _choice_box.get_child_count() > 0:
 		var first_group = _choice_box.get_child(0)
@@ -749,8 +930,9 @@ func _show_choices():
 func _make_choice_button(text: String, idx: int) -> Button:
 	var btn = Button.new()
 	btn.text = "  %02d  %s" % [idx + 1, text]
-	btn.custom_minimum_size = Vector2(0, 56)
+	btn.custom_minimum_size = Vector2(0, 60)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var palette := _story_palette()
 	var choice_bg: Color = palette["choice_bg"]
 	var choice_hover: Color = palette["choice_hover"]
@@ -780,6 +962,7 @@ func _make_choice_button(text: String, idx: int) -> Button:
 	if _font:
 		btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(_on_choice.bind(idx))
+	_bind_story_tactile_button(btn, 1.0)
 	return btn
 
 func _on_choice(idx: int):
@@ -790,6 +973,8 @@ func _on_choice(idx: int):
 		return
 	var choice: Dictionary = choices[idx]
 	AudioManager.play("choice_made")
+	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
+	_play_story_ink_transition("choice", 0.65)
 	_pulse_story_choice_commit()
 
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
@@ -846,6 +1031,60 @@ func _chapter_card_advance():
 		GameState.apply_choice(_current, choices[0])
 	_load_next_event()
 
+func _add_chapter_ink_frame(ov: Control, palette: Dictionary) -> void:
+	var black: float = float(palette["black"])
+	var white: float = float(palette["white"])
+	var line_col: Color = palette["line"]
+	var text_col: Color = palette["dim"]
+	var rule_col := Color(line_col.r, line_col.g, line_col.b, 0.055 + black * 0.035 + white * 0.030)
+	for x in [0.18, 0.50, 0.82]:
+		var rule := ColorRect.new()
+		rule.color = rule_col
+		rule.anchor_left = x
+		rule.anchor_right = x
+		rule.anchor_top = 0.12
+		rule.anchor_bottom = 0.88
+		rule.offset_left = -0.5
+		rule.offset_right = 0.5
+		rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ov.add_child(rule)
+	for y in [0.18, 0.34, 0.66, 0.82]:
+		var rule := ColorRect.new()
+		rule.color = rule_col
+		rule.anchor_left = 0.16
+		rule.anchor_right = 0.84
+		rule.anchor_top = y
+		rule.anchor_bottom = y
+		rule.offset_top = -0.5
+		rule.offset_bottom = 0.5
+		rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ov.add_child(rule)
+
+	var file_box := VBoxContainer.new()
+	file_box.anchor_left = 0.08
+	file_box.anchor_right = 0.32
+	file_box.anchor_top = 0.12
+	file_box.anchor_bottom = 0.24
+	file_box.add_theme_constant_override("separation", 5)
+	file_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ov.add_child(file_box)
+
+	var case_lbl := Label.new()
+	case_lbl.text = _tr("기록 번호", "CASE FILE")
+	case_lbl.add_theme_font_size_override("font_size", 11)
+	case_lbl.add_theme_color_override("font_color", text_col)
+	case_lbl.modulate.a = 0.42
+	_apply_font(case_lbl)
+	file_box.add_child(case_lbl)
+
+	var run_lbl := Label.new()
+	run_lbl.text = _tr("50만원 / 30억 / 5년", "KRW 500K / KRW 3B / 5 YEARS")
+	run_lbl.add_theme_font_size_override("font_size", 13)
+	run_lbl.add_theme_color_override("font_color", Color("#d7dce5").lerp(Color("#f8fbff"), white * 0.45))
+	run_lbl.modulate.a = 0.48
+	_apply_font(run_lbl, true)
+	file_box.add_child(run_lbl)
+
 func _render_chapter_card_cinematic():
 	_apply_story_surface_palette(false, true)
 	var palette := _story_palette()
@@ -873,6 +1112,7 @@ func _render_chapter_card_cinematic():
 	ov.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(ov)
 	_chapter_overlay = ov
+	_add_chapter_ink_frame(ov, palette)
 
 	# 중앙 VBox
 	var vbox := VBoxContainer.new()

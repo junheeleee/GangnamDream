@@ -4,6 +4,7 @@ var _transitioning: bool = false
 
 var _bg_img:     TextureRect
 var _logo_img:   TextureRect
+var _publisher_logo: Control
 var _title_lbl:  Label
 var _sub_lbl:    Label
 var _line_rect:  ColorRect
@@ -36,7 +37,7 @@ func _ready():
 func _build_ui():
 	# 1. 검정 베이스
 	var bg = ColorRect.new()
-	bg.color = Color("#0c0c10")
+	bg.color = Color("#000000")
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
@@ -56,7 +57,7 @@ func _build_ui():
 	# 3. 어두운 그라데이션 오버레이
 	var overlay = ColorRect.new()
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.color        = Color(0.03, 0.03, 0.07, 0.72)
+	overlay.color        = Color(0.0, 0.0, 0.0, 0.72)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 
@@ -69,6 +70,10 @@ func _build_ui():
 	vbox.add_theme_constant_override("separation", 14)
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	center.add_child(vbox)
+
+	# ── 퍼블리셔 로고: JUNPAC GAMES ──
+	_publisher_logo = _build_junpac_logo()
+	vbox.add_child(_publisher_logo)
 
 	# ── 로고 이미지 ──
 	_logo_img = TextureRect.new()
@@ -131,15 +136,36 @@ func _build_ui():
 	# _press_lbl 는 더 이상 사용하지 않음 (컷신에서 처리)
 	_press_lbl = Label.new()
 
+func _build_junpac_logo() -> Control:
+	var group = Control.new()
+	group.custom_minimum_size = Vector2(430, 430)
+	group.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	group.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	group.modulate = Color(1, 1, 1, 0.0)
+
+	var logo = TextureRect.new()
+	logo.position = Vector2.ZERO
+	logo.custom_minimum_size = Vector2(430, 430)
+	logo.size = Vector2(430, 430)
+	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	logo.texture = load("res://assets/logos/junpac_games_logo.jpg")
+	group.add_child(logo)
+	return group
+
 # ── 애니메이션 시퀀스 ──────────────────────────────────────────────────
 func _run_sequence():
+	# 퍼블리셔 프리롤: 첨부된 JUNPAC GAMES 브랜드 보드의 검정/amber/red 톤을 사용한다.
+	_fade_in(_publisher_logo, 0.5)
+	await get_tree().create_timer(0.85).timeout
+	_fade_out(_publisher_logo, 0.35)
+	await get_tree().create_timer(0.35).timeout
+
 	# 배경 먼저 서서히 등장
 	_fade_in(_bg_img, 1.0, 0.38)
 
 	await get_tree().create_timer(0.4).timeout
-	_fade_in(_logo_img, 0.7)
-
-	await get_tree().create_timer(0.5).timeout
 	_fade_in(_title_lbl, 0.65)
 
 	await get_tree().create_timer(0.4).timeout
@@ -159,6 +185,10 @@ func _run_sequence():
 func _fade_in(node: Control, duration: float, target_alpha: float = 1.0):
 	var tw = create_tween()
 	tw.tween_property(node, "modulate", Color(1, 1, 1, target_alpha), duration)
+
+func _fade_out(node: Control, duration: float):
+	var tw = create_tween()
+	tw.tween_property(node, "modulate", Color(1, 1, 1, 0.0), duration)
 
 # ── 전환 ─────────────────────────────────────────────────────────────────
 func _go_to_start():

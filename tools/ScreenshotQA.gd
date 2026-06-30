@@ -419,7 +419,9 @@ func _shot_splash_screen(lang: String, shot_name: String) -> void:
 	var splash := packed.instantiate()
 	get_tree().root.add_child.call_deferred(splash)
 	await get_tree().process_frame
-	await _settle(2.75)
+	await _settle(0.85)
+	await _save(shot_name + "_publisher", 0.0)
+	await _settle(1.9)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/SplashScreen.gd")
 	await _settle(0.25)
@@ -568,6 +570,23 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_mg._finish_typing()
 	await _settle(0.8)
 	await _save(prefix + "03_ap_actions")
+	if _mg.has_method("_show_vignette"):
+		_mg.call("_show_vignette",
+			_tr("자기계발", "Self-Dev"),
+			_tr("도서관에서 마감 직전까지 앉아 있었다. 창이 어두워질 때쯤 뭔가 연결이 됐다.",
+				"Sat at the library until closing. By the time the windows darkened, something clicked."),
+			{"intelligence": 4, "mental": 2, "money": -30000},
+			"#5a6ea8")
+		if _mg.has_method("_finish_typing"):
+			_mg._finish_typing()
+		await _settle(0.5)
+		await _save(prefix + "03b_ap_vignette")
+	_mg.current_event = {}
+	_mg.set("_transient_bg_active", false)
+	if _mg.has_method("_spawn_coin_burst"):
+		_mg.call("_spawn_coin_burst")
+		await _settle(0.12)
+		await _save(prefix + "03c_money_burst")
 	GameState.current_job = {}
 	GameState.monthly_income = 0.0
 	GameState.mental = 42
@@ -1191,12 +1210,16 @@ func _shot_transition_states() -> void:
 		GameState.moral_tint = float(data[0])
 		if _mg.has_method("_apply_moral_visuals"):
 			_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)
+		if _mg.has_method("_set_internal_transition_progress_for_qa"):
+			_mg._set_internal_transition_progress_for_qa(0.56, "event")
 		if SceneTransition.has_method("_set_transition_alpha"):
 			SceneTransition._set_transition_alpha(0.72)
 		await _settle(0.2)
 		await _save(str(data[1]), 0.05)
 	if SceneTransition.has_method("_set_transition_alpha"):
 		SceneTransition._set_transition_alpha(0.0)
+	if _mg.has_method("_set_internal_transition_progress_for_qa"):
+		_mg._set_internal_transition_progress_for_qa(0.0, "event")
 	GameState.moral_tint = 0.0
 	if _mg.has_method("_apply_moral_visuals"):
 		_mg._apply_moral_visuals(GameState.moral_tint_norm(), GameState.moral_stage(), true)

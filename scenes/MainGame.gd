@@ -43,12 +43,17 @@ var _moral_tint_overlay: ColorRect = null  # MORAL_TINT: 배경 온도/채도 �
 var _moral_surface_overlay: ColorRect = null  # MORAL_TINT: 화면 표면의 부식/선명도 레이어
 var _moral_surface_material: ShaderMaterial = null
 var _moral_bg_material: ShaderMaterial = null
+var _moral_portrait_material: ShaderMaterial = null
 var _moral_tint_tween: Tween = null
 var _moral_world_tween: Tween = null
 var _moral_echo_tween: Tween = null
 var _moral_visual_initialized: bool = false
 var _moral_norm: float = 0.0
 var _moral_stage: int = 0
+var _ink_transition_layer: Control = null
+var _ink_transition_tween: Tween = null
+var _ink_transition_progress: float = 0.0
+var _ink_transition_kind: String = "neutral"
 var _event_bg_motion_tween: Tween = null
 var _transient_bg_active: bool = false
 var _main_ui_root: Control = null
@@ -341,6 +346,7 @@ func _apply_moral_visuals(norm: float, stage: int, immediate: bool = false) -> v
 			_moral_tint_tween.tween_property(_moral_tint_overlay, "color", target, 0.9).set_trans(Tween.TRANS_SINE)
 	_apply_moral_world_state(immediate)
 	_apply_moral_surface_shader()
+	_apply_moral_portrait_state()
 	_apply_story_moral_clarity()
 	_apply_moral_ui_palette()
 	_apply_money_moral_glow()
@@ -352,9 +358,9 @@ func _moral_overlay_color(norm: float, stage: int) -> Color:
 	if stage == -1:
 		return Color(0.01, 0.028, 0.030, 0.20)
 	if stage >= 2:
-		return Color(0.86, 0.95, 1.00, 0.13)
+		return Color(0.96, 1.00, 0.98, 0.105)
 	if stage == 1:
-		return Color(0.84, 0.92, 1.00, 0.075)
+		return Color(0.92, 0.98, 0.96, 0.060)
 	var gray_alpha: float = 0.055 + absf(norm) * 0.025
 	return Color(0.28, 0.28, 0.30, gray_alpha)
 
@@ -388,17 +394,23 @@ func _apply_moral_surface_shader() -> void:
 	_moral_surface_overlay.visible = black > 0.01 or white > 0.01
 	_moral_surface_material.set_shader_parameter("black_intensity", black)
 	_moral_surface_material.set_shader_parameter("white_intensity", white)
+	_moral_surface_material.set_shader_parameter("print_screen", clampf(black * 0.045 - white * 0.010, 0.0, 0.055))
 	_moral_surface_material.set_shader_parameter("seed", float(GameState.turn % 97) + absf(_moral_norm) * 10.0)
 	if _moral_bg_material:
-		_moral_bg_material.set_shader_parameter("desaturation", clampf(0.82 + black * 0.18 - white * 0.10, 0.0, 1.0))
-		_moral_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.30 + white * 0.16, 0.35, 1.25))
-		_moral_bg_material.set_shader_parameter("contrast", clampf(0.92 - black * 0.10 + white * 0.16, 0.65, 1.25))
-		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.08, 0.0, 0.20))
-		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#eff8ff"), white))
-		_moral_bg_material.set_shader_parameter("grain_amount", clampf(0.018 + black * 0.026 - white * 0.006, 0.0, 0.08))
-		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.130 - white * 0.030, 0.0, 0.25))
-		_moral_bg_material.set_shader_parameter("paper_fade", clampf(0.018 + white * 0.050, 0.0, 0.09))
-		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.070 + black * 0.130 - white * 0.040, 0.0, 0.24))
+		# Black is numbness: the world loses color, edges close in, money remains sharp.
+		# White is not a beige skin; it is perception returning, so real image color comes back.
+		_moral_bg_material.set_shader_parameter("desaturation", clampf(0.82 + black * 0.18 - white * 0.46, 0.28, 1.0))
+		_moral_bg_material.set_shader_parameter("brightness", clampf(0.88 - black * 0.30 + white * 0.22, 0.35, 1.25))
+		_moral_bg_material.set_shader_parameter("contrast", clampf(0.92 - black * 0.10 + white * 0.18, 0.65, 1.25))
+		_moral_bg_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.035, 0.0, 0.18))
+		_moral_bg_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f7fbff"), white))
+		_moral_bg_material.set_shader_parameter("grain_amount", clampf(0.018 + black * 0.026 - white * 0.014, 0.0, 0.08))
+		_moral_bg_material.set_shader_parameter("ink_bleed", clampf(0.055 + black * 0.130 - white * 0.046, 0.0, 0.25))
+		_moral_bg_material.set_shader_parameter("paper_fade", clampf(0.018 + white * 0.030, 0.0, 0.07))
+		_moral_bg_material.set_shader_parameter("edge_burn", clampf(0.070 + black * 0.130 - white * 0.070, 0.0, 0.24))
+		_moral_bg_material.set_shader_parameter("print_screen", clampf(0.010 + black * 0.026 - white * 0.009, 0.002, 0.052))
+		_moral_bg_material.set_shader_parameter("tone_quantize", clampf(0.018 + black * 0.095 - white * 0.014, 0.0, 0.14))
+		_moral_bg_material.set_shader_parameter("screen_scale", 620.0 + black * 80.0 - white * 40.0)
 		_moral_bg_material.set_shader_parameter("seed", float(GameState.turn % 131) + absf(_moral_norm) * 19.0)
 
 func _apply_story_moral_clarity() -> void:
@@ -411,22 +423,49 @@ func _apply_story_moral_clarity() -> void:
 	if is_instance_valid(event_body):
 		event_body.add_theme_color_override("default_color", body_color)
 
+func _apply_moral_portrait_state() -> void:
+	if not is_instance_valid(character_portrait):
+		return
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	if _moral_portrait_material:
+		# Portraits carry the moral weight more than buttons do: numbness drains faces,
+		# conscience lets human color return without turning the UI into a morality meter.
+		_moral_portrait_material.set_shader_parameter("desaturation", clampf(0.36 + black * 0.54 - white * 0.24, 0.08, 0.96))
+		_moral_portrait_material.set_shader_parameter("brightness", clampf(0.98 - black * 0.26 + white * 0.10, 0.56, 1.18))
+		_moral_portrait_material.set_shader_parameter("contrast", clampf(0.98 - black * 0.06 + white * 0.12, 0.70, 1.24))
+		_moral_portrait_material.set_shader_parameter("tint_amount", clampf(black * 0.14 + white * 0.025, 0.0, 0.16))
+		_moral_portrait_material.set_shader_parameter("tint_color", Color("#020303").lerp(Color("#f6fbff"), white))
+		_moral_portrait_material.set_shader_parameter("grain_amount", clampf(0.004 + black * 0.026 - white * 0.004, 0.0, 0.055))
+		_moral_portrait_material.set_shader_parameter("ink_bleed", clampf(0.010 + black * 0.120 - white * 0.008, 0.0, 0.18))
+		_moral_portrait_material.set_shader_parameter("paper_fade", clampf(white * 0.022, 0.0, 0.05))
+		_moral_portrait_material.set_shader_parameter("edge_burn", clampf(0.020 + black * 0.115 - white * 0.020, 0.0, 0.16))
+		_moral_portrait_material.set_shader_parameter("print_screen", clampf(0.004 + black * 0.014 - white * 0.003, 0.0, 0.025))
+		_moral_portrait_material.set_shader_parameter("tone_quantize", clampf(black * 0.045 - white * 0.010, 0.0, 0.075))
+		_moral_portrait_material.set_shader_parameter("screen_scale", 700.0 + black * 90.0)
+		_moral_portrait_material.set_shader_parameter("seed", float(GameState.turn % 149) + absf(_moral_norm) * 23.0)
+	character_portrait.modulate = Color(1.0 + white * 0.035 - black * 0.045, 1.0 + white * 0.030 - black * 0.055, 1.0 + white * 0.020 - black * 0.060, 1.0)
+
 func _moral_ui_palette() -> Dictionary:
 	var black := clampf(-_moral_norm, 0.0, 1.0)
 	var white := clampf(_moral_norm, 0.0, 1.0)
+	var ui_black := black * 0.24
+	var ui_white := white * 0.18
 	return {
-		"panel_bg": Color("#0d0d14").lerp(Color("#050807"), black).lerp(Color("#11191f"), white),
-		"panel_border": Color("#1a1a28").lerp(Color("#132018"), black).lerp(Color("#5f7c8b"), white),
-		"chip_bg": Color("#0f1018").lerp(Color("#050a08"), black).lerp(Color("#101a21"), white),
-		"choice_bg": Color("#101018").lerp(Color("#060907"), black).lerp(Color("#111b22"), white),
-		"choice_hover": Color("#171723").lerp(Color("#0a110d"), black).lerp(Color("#172630"), white),
-		"disabled_bg": Color("#0a0a0f").lerp(Color("#040605"), black).lerp(Color("#0b1115"), white),
-		"text": Color("#c8d0df").lerp(Color("#87918b"), black).lerp(Color("#edf7ff"), white),
-		"dim": Color("#9aa4b8").lerp(Color("#5f6a63"), black).lerp(Color("#b7cbd6"), white),
-		"brand": Color(COL_GOLD).lerp(Color("#9aa29d"), black).lerp(Color("#f8fbff"), white),
-		"focus": Color(COL_GOLD_BRIGHT).lerp(Color("#6f7a73"), black).lerp(Color("#f8fbff"), white),
-		"black": black,
-		"white": white,
+		"panel_bg": Color("#0d0d14").lerp(Color("#050807"), ui_black).lerp(Color("#11191f"), ui_white),
+		"panel_border": Color("#1a1a28").lerp(Color("#132018"), ui_black).lerp(Color("#5f7c8b"), ui_white),
+		"chip_bg": Color("#0f1018").lerp(Color("#050a08"), ui_black).lerp(Color("#101a21"), ui_white),
+		"choice_bg": Color("#101018").lerp(Color("#060907"), ui_black).lerp(Color("#111b22"), ui_white),
+		"choice_hover": Color("#171723").lerp(Color("#0a110d"), ui_black).lerp(Color("#172630"), ui_white),
+		"disabled_bg": Color("#0a0a0f").lerp(Color("#040605"), ui_black).lerp(Color("#0b1115"), ui_white),
+		"text": Color("#c8d0df").lerp(Color("#87918b"), ui_black).lerp(Color("#edf7ff"), ui_white),
+		"dim": Color("#9aa4b8").lerp(Color("#5f6a63"), ui_black).lerp(Color("#b7cbd6"), ui_white),
+		"brand": Color(COL_GOLD).lerp(Color("#9aa29d"), ui_black).lerp(Color("#f8fbff"), ui_white),
+		"focus": Color(COL_GOLD_BRIGHT).lerp(Color("#6f7a73"), ui_black).lerp(Color("#f8fbff"), ui_white),
+		"black": ui_black,
+		"white": ui_white,
+		"moral_black": black,
+		"moral_white": white,
 	}
 
 func _apply_moral_ui_palette() -> void:
@@ -730,6 +769,9 @@ func _build_ui():
 		_moral_bg_material.set_shader_parameter("ink_bleed", 0.055)
 		_moral_bg_material.set_shader_parameter("paper_fade", 0.018)
 		_moral_bg_material.set_shader_parameter("edge_burn", 0.070)
+		_moral_bg_material.set_shader_parameter("print_screen", 0.010)
+		_moral_bg_material.set_shader_parameter("tone_quantize", 0.018)
+		_moral_bg_material.set_shader_parameter("screen_scale", 620.0)
 		_moral_bg_material.set_shader_parameter("seed", 0.0)
 		event_bg.material = _moral_bg_material
 	event_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -789,6 +831,7 @@ func _build_ui():
 
 	_build_vignette_layer()
 	_build_moral_surface_layer()
+	_build_ink_transition_layer()
 	_build_feedback_layer()
 	_build_modal()
 	_build_toast_layer()
@@ -805,8 +848,93 @@ func _build_moral_surface_layer():
 		_moral_surface_material.shader = shader_res
 		_moral_surface_material.set_shader_parameter("black_intensity", 0.0)
 		_moral_surface_material.set_shader_parameter("white_intensity", 0.0)
+		_moral_surface_material.set_shader_parameter("print_screen", 0.0)
 		_moral_surface_overlay.material = _moral_surface_material
 	add_child(_moral_surface_overlay)
+
+func _build_ink_transition_layer() -> void:
+	_ink_transition_layer = Control.new()
+	_ink_transition_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_ink_transition_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ink_transition_layer.visible = false
+	_ink_transition_layer.z_index = 86
+	_ink_transition_layer.draw.connect(_draw_ink_transition)
+	add_child(_ink_transition_layer)
+
+func _play_ink_transition(kind: String = "neutral", strength: float = 1.0) -> void:
+	if not is_instance_valid(_ink_transition_layer) or not is_inside_tree():
+		return
+	if _minigame_overlay_active:
+		return
+	if _ink_transition_tween and _ink_transition_tween.is_running():
+		_ink_transition_tween.kill()
+	_ink_transition_kind = kind
+	_ink_transition_progress = 0.0
+	_ink_transition_layer.visible = true
+	_ink_transition_layer.queue_redraw()
+	var duration := clampf(0.30 + strength * 0.10, 0.24, 0.48)
+	_ink_transition_tween = create_tween()
+	_ink_transition_tween.tween_method(_set_ink_transition_progress, 0.0, 1.0, duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_ink_transition_tween.tween_callback(func():
+		_ink_transition_progress = 0.0
+		if is_instance_valid(_ink_transition_layer):
+			_ink_transition_layer.visible = false
+			_ink_transition_layer.queue_redraw()
+		_ink_transition_tween = null
+	)
+
+func _set_ink_transition_progress(value: float) -> void:
+	_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if is_instance_valid(_ink_transition_layer):
+		_ink_transition_layer.queue_redraw()
+
+func _set_internal_transition_progress_for_qa(value: float, kind: String = "event") -> void:
+	_ink_transition_kind = kind
+	_ink_transition_progress = clampf(value, 0.0, 1.0)
+	if is_instance_valid(_ink_transition_layer):
+		_ink_transition_layer.visible = _ink_transition_progress > 0.01
+		_ink_transition_layer.queue_redraw()
+
+func _draw_ink_transition() -> void:
+	if not is_instance_valid(_ink_transition_layer) or _ink_transition_progress <= 0.01:
+		return
+	var size := _ink_transition_layer.size
+	if size.x <= 0.0 or size.y <= 0.0:
+		return
+	var pulse := sin(_ink_transition_progress * PI)
+	var black := clampf(-_moral_norm, 0.0, 1.0)
+	var white := clampf(_moral_norm, 0.0, 1.0)
+	var base := Color("#090a0d")
+	if _ink_transition_kind == "result":
+		base = Color("#0d0d10")
+	elif _ink_transition_kind == "ap":
+		base = Color("#111316")
+	elif _ink_transition_kind == "moral":
+		base = Color("#020303").lerp(Color("#f2f7ff"), white)
+	base = base.lerp(Color("#020303"), black * 0.55).lerp(Color("#eef6ff"), white * 0.32)
+	_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.08 + black * 0.07 + white * 0.035)), true)
+
+	var sweep_x := lerpf(-size.x * 0.20, size.x * 1.12, _ink_transition_progress)
+	var edge_w := 30.0 + black * 18.0
+	var edge_col := Color("#dce4ef", pulse * (0.16 + white * 0.06)).lerp(Color("#111817", pulse * 0.28), black)
+	_ink_transition_layer.draw_rect(Rect2(Vector2(sweep_x - edge_w, 0.0), Vector2(edge_w, size.y)), edge_col, true)
+
+	var line_alpha := pulse * (0.050 + black * 0.045 + white * 0.025)
+	var line_col := Color("#f4f7fb", line_alpha).lerp(Color("#8e9892", line_alpha), black * 0.70)
+	var gap := 28
+	var offset := fmod(_ink_transition_progress * 90.0 + float(GameState.turn * 5), float(gap))
+	for y in range(-gap, int(size.y) + gap, gap):
+		var yy := float(y) + offset
+		var jitter := sin(yy * 0.033 + float(GameState.turn)) * (0.8 + black * 2.6)
+		_ink_transition_layer.draw_line(Vector2(0.0, yy + jitter), Vector2(size.x, yy - jitter), line_col, 1.0)
+
+	if black > 0.01:
+		var burn := Color("#000000", pulse * (0.070 + black * 0.12))
+		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+		_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 16.0), Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+	if white > 0.01:
+		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.045), false, 2.0)
 
 func _build_vignette_layer():
 	_vignette_rect = ColorRect.new()
@@ -1013,6 +1141,24 @@ func _build_portrait_panel(parent):
 	character_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	character_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	character_portrait.clip_contents = true
+	var portrait_grade_shader = load("res://assets/shaders/background_grade.gdshader")
+	if portrait_grade_shader:
+		_moral_portrait_material = ShaderMaterial.new()
+		_moral_portrait_material.shader = portrait_grade_shader
+		_moral_portrait_material.set_shader_parameter("desaturation", 0.36)
+		_moral_portrait_material.set_shader_parameter("brightness", 0.98)
+		_moral_portrait_material.set_shader_parameter("contrast", 0.98)
+		_moral_portrait_material.set_shader_parameter("tint_color", Color("#020303"))
+		_moral_portrait_material.set_shader_parameter("tint_amount", 0.0)
+		_moral_portrait_material.set_shader_parameter("grain_amount", 0.004)
+		_moral_portrait_material.set_shader_parameter("ink_bleed", 0.010)
+		_moral_portrait_material.set_shader_parameter("paper_fade", 0.0)
+		_moral_portrait_material.set_shader_parameter("edge_burn", 0.020)
+		_moral_portrait_material.set_shader_parameter("print_screen", 0.004)
+		_moral_portrait_material.set_shader_parameter("tone_quantize", 0.0)
+		_moral_portrait_material.set_shader_parameter("screen_scale", 700.0)
+		_moral_portrait_material.set_shader_parameter("seed", 0.0)
+		character_portrait.material = _moral_portrait_material
 	if ResourceLoader.exists(PORTRAIT_NEUTRAL):
 		character_portrait.texture = load(PORTRAIT_NEUTRAL)
 	vbox.add_child(character_portrait)
@@ -1448,20 +1594,10 @@ func _refresh_goal_bar() -> void:
 	else:
 		_goal_pct_label.remove_theme_color_override("font_color")
 
-	# 자산 레이블 + 다음 마일스톤
+	# 자산 레이블은 최종 목표 대비로 고정한다.
+	# 다음 마일스톤은 아래 주간 판단 카드에서 따로 보여줘야 첫 화면이 덜 산만하다.
 	if _goal_money_lbl:
-		var milestone_text: String
-		if total < 100_000_000:
-			milestone_text = _tr("→ 1억", "→ KRW 100M")
-		elif total < 500_000_000:
-			milestone_text = _tr("→ 5억", "→ KRW 500M")
-		elif total < 1_000_000_000:
-			milestone_text = _tr("→ 10억", "→ KRW 1B")
-		elif total < 2_000_000_000:
-			milestone_text = _tr("→ 20억", "→ KRW 2B")
-		else:
-			milestone_text = _tr("→ 30억!", "→ KRW 3B!")
-		_goal_money_lbl.text = "%s  %s" % [GameState.format_money(total), milestone_text]
+		_goal_money_lbl.text = "%s / %s" % [GameState.format_money(total), GameState.format_money(3_000_000_000.0)]
 
 	# 남은 시간 레이블 (시간 압박 가시화)
 	if _goal_time_lbl:
@@ -2715,7 +2851,7 @@ func _next_milestone_id() -> String:
 		return "age_39_final"
 	return ""
 
-# ── 로그라이크: 월별 위기/호재 시스템 ─────────────────────────────────
+# ── 월별 위기/호재 시스템 ─────────────────────────────────
 
 func _roll_monthly_crisis() -> Dictionary:
 	var roll = randf()
@@ -2833,7 +2969,7 @@ func _present_tendency_realization(kind: String):
 		return
 	var tname: String = GameState.tendency_name(kind)
 	var desc: String = GameState.tendency_desc(kind)
-	var accent: String = {"career": "#c9a227", "invest": "#3fb950", "found": "#b87edb"}.get(kind, "#f0b429")
+	var accent: String = {"career": "#b8ad8a", "invest": "#8bb6a1", "found": "#aaa0bf"}.get(kind, "#b8ad8a")
 	var passive: String = {
 		"career": _tr("업무 성과 +12, 사회성 +3 — 승진과 신용이 너의 무기가 된다.", "Work Performance +12, Social +3 — promotions and credit become your weapons."),
 		"invest": _tr("투자 감각 +6, 지력 +2 — 시장이 한층 선명하게 보인다.", "Investing +6, Intelligence +2 — the market comes into sharper focus."),
@@ -2900,7 +3036,7 @@ func _on_next_month():
 		GameState.advance_calendar()
 		_refresh_all()
 		if not had_paycheck_before and GameState.flags.get("has_received_paycheck", false):
-			_show_toast(_tr("💳 첫 월급 수령! 투자·상점이 열렸습니다", "💳 First paycheck received! Investing and the shop are now open"), Color("#00c896"))
+			_show_toast(_tr("첫 월급 수령! 투자·상점이 열렸습니다", "First paycheck received! Investing and the shop are now open"), Color("#00c896"))
 		if GameState.is_game_over:
 			return
 		SaveManager.autosave()
@@ -2957,6 +3093,7 @@ func _choose(index):
 	_refresh_all()
 
 func _show_result(result_text: String):
+	_play_ink_transition("result", 0.90)
 	for child in choice_box.get_children():
 		child.queue_free()
 	pending_result_text = result_text
@@ -3020,6 +3157,7 @@ func _on_result_confirmed():
 
 # 밴드를 넘을 때 터지는 짧은 자각 — 숫자·스탯 표시 없이 본문만. (docs/MORAL_TINT.md §6)
 func _show_moral_beat(from_band: int, to_band: int):
+	_play_ink_transition("moral", 1.15)
 	for child in choice_box.get_children():
 		child.queue_free()
 	_transient_bg_active = true
@@ -3035,6 +3173,7 @@ func _show_moral_beat(from_band: int, to_band: int):
 
 # 흉터 비네트 — 삶의 선을 처음 넘은 날 밤, 한 장면. 숫자 없음. (docs/MORAL_TINT.md §7)
 func _show_scar_beat(scar_flag: String) -> void:
+	_play_ink_transition("moral", 1.25)
 	for child in choice_box.get_children():
 		child.queue_free()
 	_transient_bg_active = true
@@ -3064,8 +3203,8 @@ func _moral_beat_text(from_band: int, to_band: int) -> String:
 	if to_band < from_band:
 		if to_band <= -2:
 			return _tr(
-				"거울을 봤다.\n5년 전 고시원에서 라면 먹던 얼굴을 떠올리려 했는데 —\n안 떠올랐다.",
-				"I looked in the mirror.\nI tried to picture the face that ate ramen in the goshiwon five years ago —\nit wouldn't come.")
+				"거울을 봤다.\n처음 이 방에 들어왔던 얼굴을 떠올리려 했는데 —\n낯설었다.",
+				"I looked in the mirror.\nI tried to picture the face that first walked into this room —\nit felt unfamiliar.")
 		if to_band == -1:
 			return _tr(
 				"밥을 먹는데 맛이 안 났다.\n그냥 연료 같았다.",
@@ -3074,7 +3213,11 @@ func _moral_beat_text(from_band: int, to_band: int) -> String:
 			"뭔가, 조금씩 식어가는 느낌이 들었다.\n뭔지는 몰랐다.",
 			"Something felt like it was slowly going cold.\nI couldn't say what.")
 	# 하양 쪽으로 (되찾음 — 불완전)
-	if to_band >= 1:
+	if to_band >= 2:
+		return _tr(
+			"창밖의 간판 색이 이상하게 선명했다.\n원래 저렇게 많은 색이 있었나, 잠깐 생각했다.",
+			"The signs outside the window looked strangely vivid.\nFor a moment I wondered whether there had always been that much color.")
+	if to_band == 1:
 		return _tr(
 			"오랜만에 통화 끝에 웃었다.\n웃는 게 어색했다는 걸, 웃고 나서 알았다.",
 			"For once I laughed at the end of a call.\nOnly after did I realize how unfamiliar laughing had become.")
@@ -3120,6 +3263,7 @@ func _render_event():
 		_render_ap_actions()
 		return
 	_transient_bg_active = false
+	_play_ink_transition("event", 0.80)
 	next_button.disabled = true
 	# 카테고리 틴트 적용 (분위기 신호 — Balatro 배경 전환 아이디어)
 	_apply_category_tint(str(current_event.get("category", "")))
@@ -3185,6 +3329,7 @@ func _reveal_choices():
 		group.add_theme_constant_override("separation", 3)
 		group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		group.modulate.a = 0.0
+		group.scale = Vector2(0.986, 0.986)
 		choice_box.add_child(group)
 		var button = _action_button("  %d.  %s" % [i + 1, _fmt(choice.get("text", _tr("선택", "Choice")))], acc)
 		button.custom_minimum_size = Vector2(0, 44)
@@ -3205,6 +3350,7 @@ func _reveal_choices():
 		var tw := create_tween()
 		tw.tween_interval(stagger_delay)
 		tw.tween_property(group, "modulate:a", 1.0, 0.22).set_trans(Tween.TRANS_SINE)
+		tw.parallel().tween_property(group, "scale", Vector2.ONE, 0.24).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		stagger_delay += 0.10
 	if ControllerHints.is_pad_active():
 		var hint = _tr("[%s] 선택  [%s] 메뉴  (%s)", "[%s] Choose  [%s] Menu  (%s)") % [
@@ -3404,6 +3550,8 @@ func _show_effects_float(effects: Dictionary):
 
 func _play_choice_feedback(effects: Dictionary, choice: Dictionary):
 	AudioManager.play("choice_made")
+	AudioManager.pulse_gamepad(0.035, 0.070, 0.055)
+	_pulse_choice_surface()
 	if choice.has("opportunity"):
 		var result := str(GameState.flags.get("_last_opportunity_result", ""))
 		if result == "win":
@@ -3499,29 +3647,77 @@ func _pulse_node(node: Variant, scale_to: float = 1.08, duration: float = 0.28):
 	tw.tween_property(ctrl, "scale", base * scale_to, duration * 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(ctrl, "scale", base, duration * 0.58).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
+func _bind_tactile_button(button: Button, strength: float = 1.0) -> void:
+	if not is_instance_valid(button) or button.has_meta("_tactile_bound"):
+		return
+	button.set_meta("_tactile_bound", true)
+	var hover_scale := Vector2.ONE * (1.0 + 0.006 * strength)
+	var press_scale := Vector2(1.0 - 0.010 * strength, 1.0 - 0.040 * strength)
+	button.mouse_entered.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.focus_entered.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, hover_scale, 0.10, Tween.TRANS_QUAD)
+	)
+	button.button_down.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, press_scale, 0.055, Tween.TRANS_QUAD)
+	)
+	button.button_up.connect(func():
+		if not button.disabled:
+			_tactile_button_to(button, hover_scale if button.has_focus() else Vector2.ONE, 0.12, Tween.TRANS_BACK)
+	)
+	button.mouse_exited.connect(func():
+		_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+	button.focus_exited.connect(func():
+		_tactile_button_to(button, Vector2.ONE, 0.12, Tween.TRANS_QUAD)
+	)
+
+func _tactile_button_to(button: Button, target_scale: Vector2, duration: float, trans: int) -> void:
+	if not is_instance_valid(button) or not is_inside_tree():
+		return
+	button.pivot_offset = button.size * 0.5
+	var old: Variant = button.get_meta("_tactile_tween") if button.has_meta("_tactile_tween") else null
+	if old is Tween and (old as Tween).is_running():
+		(old as Tween).kill()
+	var tw := create_tween()
+	tw.bind_node(button)
+	tw.tween_property(button, "scale", target_scale, duration).set_trans(trans).set_ease(Tween.EASE_OUT)
+	button.set_meta("_tactile_tween", tw)
+
+func _pulse_choice_surface() -> void:
+	if is_instance_valid(choice_box):
+		_pulse_node(choice_box, 1.006, 0.18)
+
 func _spawn_coin_burst():
 	var vp := get_viewport_rect().size
-	for i in range(8):
-		var sym := "💰" if randf() > 0.35 else "✨"
-		var col := Color("#f0b429") if sym == "💰" else Color("#ffffff")
-		var lbl := Label.new()
-		lbl.text = sym
-		lbl.add_theme_font_size_override("font_size", 22 + randi() % 10)
-		lbl.add_theme_color_override("font_color", col)
+	var palette: Array[Color] = [Color("#f0b429"), Color("#e8e2d5"), Color("#8a6d2f")]
+	for i in range(12):
+		var shard := ColorRect.new()
+		shard.color = palette[randi() % palette.size()]
+		shard.size = Vector2(randf_range(8.0, 18.0), randf_range(2.0, 5.0))
+		shard.pivot_offset = shard.size * 0.5
 		var bx := vp.x * randf_range(0.35, 0.75)
 		var by := vp.y * randf_range(0.35, 0.65)
-		lbl.position = Vector2(bx, by)
-		lbl.z_index = 200
-		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		add_child(lbl)
+		shard.position = Vector2(bx, by)
+		shard.rotation = randf_range(-0.8, 0.8)
+		shard.z_index = 200
+		shard.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		shard.modulate.a = randf_range(0.72, 0.95)
+		add_child(shard)
 		var tw := create_tween()
 		var rise := randf_range(-120.0, -60.0)
 		var drift := randf_range(-40.0, 40.0)
-		tw.tween_property(lbl, "position", Vector2(bx + drift, by + rise), 0.9) \
+		tw.tween_property(shard, "position", Vector2(bx + drift, by + rise), 0.9) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tw.parallel().tween_property(lbl, "modulate:a", 0.0, 0.9) \
+		tw.parallel().tween_property(shard, "rotation", shard.rotation + randf_range(-1.6, 1.6), 0.9) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.parallel().tween_property(shard, "modulate:a", 0.0, 0.9) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		tw.tween_callback(lbl.queue_free)
+		tw.tween_callback(shard.queue_free)
 
 func _spawn_float(text: String, color: Color, index: int):
 	var lbl = Label.new()
@@ -4100,6 +4296,7 @@ func _render_log():
 	log_box.text = "\n".join(lines)
 
 func _render_ap_actions():
+	_play_ink_transition("ap", 0.55)
 	_transient_bg_active = false
 	_clear_category_tint(true)
 	_clear_feedback_flash()
@@ -4125,15 +4322,8 @@ func _render_ap_actions():
 		for entry in turn_action_log:
 			lines.append(_escape_bbcode_text(_clean_log_surface_text(entry)))
 		lines.append("──────────────────")
-	var net_sign = "+" if net >= 0 else ""
-	var net_flag = _tr("  [color=#ff7070]← 월 고정비 적자 주의[/color]", "  [color=#ff7070]← fixed-cost deficit warning[/color]") if net < 0 else ""
-	lines.append(_tr("월 현금흐름  [b]%s%s[/b]%s", "Month cashflow  %s%s%s") % [net_sign, GameState.format_money(net), net_flag])
-	var ms_hint = _next_milestone_hint(total)
-	if not ms_hint.is_empty():
-		lines.append(ms_hint)
-	var traj = _months_to_goal_estimate()
-	if not traj.is_empty():
-		lines.append(traj)
+	# 월 현금흐름/마일스톤/목표까지의 압박은 아래 'This Week' 카드로 모아
+	# 첫 AP 화면이 계산표처럼 시작하지 않게 한다.
 	# ── 경고 ──
 	var has_warning := false
 	if GameState.current_job.is_empty():
@@ -4241,7 +4431,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	card.set_meta("moral_role", "info_card")
 	card.set_meta("moral_accent", "#c5ccd5")
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.custom_minimum_size = Vector2(0, 112)
+	card.custom_minimum_size = Vector2(0, 122)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#0b0d12", 0.94)
 	style.border_color = Color("#3e4654")
@@ -4283,21 +4473,68 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	ap_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top.add_child(ap_lbl)
 
-	_add_week_ap_slots(box, ap)
-
-	var net_sign := "+" if net >= 0 else ""
-	var summary := _tr("월 현금흐름 %s%s  ·  총자산 %s", "Month cashflow %s%s  ·  Assets %s") % [
-		net_sign, GameState.format_money(net), GameState.format_money(total)
-	]
-	var summary_lbl := _wrap_label(summary, 12, "#9aa4b8")
-	summary_lbl.set_meta("moral_role", "choice_subtitle")
-	box.add_child(summary_lbl)
+	_render_week_pressure_row(box, net, total, has_warning)
 
 	var focus_text := _tr("먼저 위험 신호를 줄여야 한다.", "Stabilize the immediate risk first.") if has_warning else _clean_focus_text(_recommend_action())
 	var focus_lbl := _wrap_label(_tr("추천  %s", "Suggested  %s") % focus_text, 13, "#c8d0df")
 	focus_lbl.set_meta("moral_role", "hint_text")
 	box.add_child(focus_lbl)
 	_apply_moral_tree_styles(card, _moral_ui_palette())
+
+func _render_week_pressure_row(parent: Control, net: float, total: float, has_warning: bool) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(row)
+
+	var net_sign := "+" if net >= 0.0 else ""
+	var cash_text := _tr("%s%s / 월", "%s%s / mo") % [net_sign, GameState.format_money(net)]
+	var goal_gap := maxf(0.0, 3_000_000_000.0 - total)
+	var condition := _tr("불안정", "Unstable") if has_warning else _tr("버티는 중", "Holding")
+	if not has_warning and mini(GameState.health, GameState.mental) >= 65:
+		condition = _tr("안정", "Steady")
+	elif not has_warning and mini(GameState.health, GameState.mental) < 60:
+		condition = _tr("피로 누적", "Strained")
+
+	_add_week_pressure_cell(row, _tr("현금흐름", "CASHFLOW"), cash_text, net >= 0.0)
+	_add_week_pressure_cell(row, _tr("강남까지", "TO GANGNAM"), GameState.format_money(goal_gap), goal_gap <= 1_000_000_000.0)
+	_add_week_pressure_cell(row, _tr("몸과 마음", "CONDITION"), condition, not has_warning)
+
+func _add_week_pressure_cell(parent: Control, label_text: String, value_text: String, good: bool) -> void:
+	var cell := PanelContainer.new()
+	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cell.custom_minimum_size = Vector2(0, 38)
+	cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#11141a", 0.68)
+	st.border_color = Color("#3d4552", 0.88) if good else Color("#6a4b4b", 0.88)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(5)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	cell.add_theme_stylebox_override("panel", st)
+	parent.add_child(cell)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 1)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cell.add_child(box)
+
+	var key := _label(label_text, 9, "#7f8794")
+	key.set_meta("moral_role", "hint_text")
+	key.uppercase = true
+	box.add_child(key)
+
+	var value_col := "#dce4ee" if good else "#f0c1c1"
+	var value := _label(value_text, 12, value_col)
+	value.set_meta("moral_role", "choice_title" if good else "hint_text")
+	if _font_bold:
+		value.add_theme_font_override("font", _font_bold)
+	value.clip_text = true
+	value.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	box.add_child(value)
 
 func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	var max_ap: int = maxi(1, GameState.max_action_points)
@@ -4581,7 +4818,7 @@ func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
 
 func _engage_situation(sit: Dictionary):
 	if GameState.action_points <= 0:
-		_show_toast(_tr("⚡ 시간이 없습니다", "⚡ No time left"), Color("#ff4444"))
+		_show_toast(_tr("시간이 없습니다", "No time left"), Color("#ff4444"))
 		return
 	var sid: String = str(sit.get("id", ""))
 	if engaged_situations.has(sid):
@@ -5253,7 +5490,7 @@ func _ap_study():
 	if not GameState.spend_ap():
 		return
 	var study_type: int = randi() % 4
-	var tag: String = [_tr("📖 독서", "📖 Reading"), _tr("🏃 운동", "🏃 Exercise"), _tr("🧘 명상", "🧘 Meditation"), _tr("📊 투자공부", "📊 Invest Study")][study_type]
+	var tag: String = [_tr("독서", "Reading"), _tr("운동", "Exercise"), _tr("명상", "Meditation"), _tr("투자공부", "Invest Study")][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
@@ -5273,7 +5510,7 @@ func _ap_study():
 	var _st_key := "et" if LocaleManager.is_english() else "t"
 	var flavor: String = str(v.get(_st_key, v.get("t", "")))
 	GameState.add_log(tag + " — " + flavor, "event")
-	_show_vignette(_tr("📚 자기계발", "📚 Self-Dev"), flavor, eff, "#5a6ea8")
+	_show_vignette(_tr("자기계발", "Self-Dev"), flavor, eff, "#5a6ea8")
 	turn_action_log.append("✓ " + tag + " — " + flavor.substr(0, 20))
 	_render_ap_actions()
 	_refresh_all()
@@ -5311,7 +5548,7 @@ func _on_aruba_closed(earned: int, stress_delta: int, health_delta: int) -> void
 	turn_action_log.append(_tr("✓ 💼 알바 시프트 — ", "✓ 💼 Gig shift — ") + mood.substr(0, 22))
 	AudioManager.play("money_gain")
 	_show_effects_float({"money": earned, "health": total_health_delta, "mental": -stress_delta})
-	_show_vignette(_tr("💼 알바 시프트", "💼 Gig Shift"), mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
+	_show_vignette(_tr("알바 시프트", "Gig Shift"), mood, {"money": earned, "health": total_health_delta, "mental": -stress_delta}, "#dc6a2a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -5333,7 +5570,7 @@ func _ap_save_money():
 	var _sv: Dictionary = _SAVE_SCENES[randi() % _SAVE_SCENES.size()]
 	var scene: String = str(_sv.get("et" if LocaleManager.is_english() else "t", _sv.get("t", "")))
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
-	_show_vignette(_tr("💰 절약", "💰 Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
+	_show_vignette(_tr("절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
 		{"money": saved, "stress": 2}, "#4a7a5a")
 	turn_action_log.append(_tr("✓ 💰 절약 — %s", "✓ 💰 Saving — %s") % GameState.format_money(saved))
 	AudioManager.play("money_gain")
@@ -5361,7 +5598,7 @@ func _ap_network():
 	GameState.add_log(_tr("🤝 인맥 — ", "🤝 Network — ") + flavor, "relationship")
 	turn_action_log.append(_tr("✓ 🤝 인맥 넓히기 — ", "✓ 🤝 Networking — ") + flavor.substr(0, 20))
 	GameState.stats_changed.emit()
-	_show_vignette(_tr("🤝 인맥 넓히기", "🤝 Networking"), flavor, eff, "#8a5a9a")
+	_show_vignette(_tr("인맥 넓히기", "Networking"), flavor, eff, "#8a5a9a")
 	_render_ap_actions()
 	_refresh_all()
 
@@ -5381,8 +5618,8 @@ func _ap_contact_person(person_id: String):
 	var flavor := _contact_flavor(person_id, aff)
 
 	var msg = _tr("%s — 정신 %d→%d, 호감도 %d", "%s — Mental %d→%d, Affinity %d") % [pname, mental_before, GameState.mental, aff]
-	GameState.add_log("🤝 " + msg + " / " + flavor, "relationship")
-	turn_action_log.append("✓ 🤝 " + msg)
+	GameState.add_log(msg + " / " + flavor, "relationship")
+	turn_action_log.append("✓ " + msg)
 	GameState.stats_changed.emit()
 	_refresh_all()
 	# A-1: 모달 닫고 스토리 영역에 인물 리액션 표시
@@ -5390,7 +5627,7 @@ func _ap_contact_person(person_id: String):
 		_close_modal()
 		_show_contact_reaction(pname, flavor, Color(accent))
 	else:
-		_show_toast("🤝 " + msg, Color(accent))
+		_show_toast(msg, Color(accent))
 		_render_ap_actions()
 
 ## 연락하기 대사 — 스토리 플래그·호감도·자산 상태에 따라 달라진다
@@ -5678,17 +5915,17 @@ func _open_bank():
 func _bank_borrow(product: String, amount: float):
 	if GameState.borrow(product, amount):
 		AudioManager.play("money_gain")
-		_show_toast(_tr("🏦 대출 실행 +%s", "🏦 Loan disbursed +%s") % GameState.format_money(amount), Color("#00c896"))
+		_show_toast(_tr("대출 실행 +%s", "Loan disbursed +%s") % GameState.format_money(amount), Color("#00c896"))
 	else:
-		_show_toast(_tr("🏦 한도를 초과했습니다", "🏦 Exceeds your limit"), Color("#ff4444"))
+		_show_toast(_tr("한도를 초과했습니다", "Exceeds your limit"), Color("#ff4444"))
 	_open_bank()
 	_refresh_all()
 
 func _bank_repay(product: String, amount: float):
 	if GameState.repay(product, amount):
-		_show_toast(_tr("🏦 상환 완료", "🏦 Repaid"), Color("#c9a227"))
+		_show_toast(_tr("상환 완료", "Repaid"), Color("#c9a227"))
 	else:
-		_show_toast(_tr("🏦 상환할 현금이 없습니다", "🏦 Not enough cash to repay"), Color("#ff4444"))
+		_show_toast(_tr("상환할 현금이 없습니다", "Not enough cash to repay"), Color("#ff4444"))
 	_open_bank()
 	_refresh_all()
 
@@ -5780,12 +6017,12 @@ func _exit_minigame_overlay() -> void:
 	_update_vignette()
 
 func _ap_selfdev():
-	_ap_vignette(_tr("📚 자기계발", "📚 Self-Dev"), SELFDEV_VIGNETTES, "#5a6ea8")
+	_ap_vignette(_tr("자기계발", "Self-Dev"), SELFDEV_VIGNETTES, "#5a6ea8")
 
 func _ap_free_time():
 	# 자유시간 누적 → 칭호 "자유로운 영혼" (MetaProgression free_spirit) 조건
 	GameState.flags["free_time_count"] = int(GameState.flags.get("free_time_count", 0)) + 1
-	_ap_vignette(_tr("🌊 휴식", "🌊 Rest"), REST_VIGNETTES, "#0891b2")
+	_ap_vignette(_tr("휴식", "Rest"), REST_VIGNETTES, "#0891b2")
 
 ## 루틴 행동을 '변주되는 미니 장면'으로 처리. 풀에서 무작위 결과를 뽑아 적용.
 func _ap_vignette(title: String, pool: Array, color: String):
@@ -5819,8 +6056,16 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 	_apply_event_bg_path(_get_bg_for_vignette(title, body, eff))
 	event_title.text = title
 	var parts: PackedStringArray = PackedStringArray()
-	var names := {"money":"💰","health":"❤","mental":"🧠",
-		"intelligence":"📖","investment_skill":"📈","social_skill":"🤝","luck":"🍀","reputation":"⭐"}
+	var names := {
+		"money": _tr("돈", "Money"),
+		"health": _tr("건강", "Health"),
+		"mental": _tr("정신", "Mental"),
+		"intelligence": _tr("지력", "Intelligence"),
+		"investment_skill": _tr("투자감각", "Investing"),
+		"social_skill": _tr("사회성", "Social"),
+		"luck": _tr("운", "Luck"),
+		"reputation": _tr("평판", "Reputation"),
+	}
 	# merge "stress" into "mental" for display (stress removed as user-visible stat)
 	var disp: Dictionary = {}
 	for k in eff:
@@ -5844,9 +6089,19 @@ func _show_vignette(title: String, body: String, eff: Dictionary, color: String)
 			parts.append("[color=%s]%s %s%d[/color]" % [col, sym, sign, val])
 	var parts_line := "    ".join(parts)
 	_type_text(_fmt(body) + "\n\n" + parts_line, 50.0)
+
+	var btn_row := HBoxContainer.new()
+	btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	btn_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn_row.add_theme_constant_override("separation", 0)
+	choice_box.add_child(btn_row)
+
 	var btn: Button = _button(_tr("확인", "OK"), color)
+	btn.custom_minimum_size = Vector2(220, 46)
+	btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	btn.pressed.connect(func(): _finish_typing(); _on_result_confirmed())
-	choice_box.add_child(btn)
+	btn_row.add_child(btn)
+	btn.call_deferred("grab_focus")
 	next_button.disabled = true
 
 func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> String:
@@ -5901,7 +6156,7 @@ func _ap_startup_work():
 	turn_action_log.append("✓ " + _tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor.substr(0, 22))
 	GameState.add_log(_tr("🚀 창업 업무", "🚀 Startup Work") + " — " + flavor, "event")
 	GameState.stats_changed.emit()
-	_show_vignette(_tr("🚀 창업 업무", "🚀 Startup Work"), flavor, eff, "#7c3aed")
+	_show_vignette(_tr("창업 업무", "Startup Work"), flavor, eff, "#7c3aed")
 	_refresh_all()
 
 func _ap_create_content():
@@ -5928,7 +6183,7 @@ func _ap_create_content():
 	GameState.stats_changed.emit()
 	var display_eff = eff.duplicate()
 	display_eff.merge(extra_eff, true)
-	_show_vignette(_tr("🎬 콘텐츠 제작", "🎬 Create Content"), flavor, display_eff, "#3fb950")
+	_show_vignette(_tr("콘텐츠 제작", "Create Content"), flavor, display_eff, "#3fb950")
 	_refresh_all()
 
 func _ap_write_resume():
@@ -5993,9 +6248,9 @@ func _ap_move_housing():
 		var info = result["housing"]
 		var housing_name = GameState.get_housing_name(GameState.housing)
 		var expense = GameState.format_money(float(info.get("expense", 0.0)))
-		turn_action_log.append(_tr("✓ 🏠 이사 → %s (월 %s)", "✓ 🏠 Moved → %s (monthly %s)") % [housing_name, expense])
+		turn_action_log.append(_tr("✓ 이사 → %s (월 %s)", "✓ Moved → %s (monthly %s)") % [housing_name, expense])
 		AudioManager.play("housing_up")
-		_show_toast(_tr("🏠 %s 이사 완료!", "🏠 Moved to %s!") % housing_name, Color("#f0b429"))
+		_show_toast(_tr("%s 이사 완료!", "Moved to %s!") % housing_name, Color("#f0b429"))
 	else:
 		AudioManager.play("stat_down")
 		_show_toast(result.get("message", _tr("이사 실패", "Move failed")), Color("#ff4444"))
@@ -6010,8 +6265,8 @@ func _ap_deep_study():
 	var int_before = GameState.intelligence
 	GameState.modify_stat("intelligence", 8)
 	AudioManager.play("stat_up")
-	turn_action_log.append(_tr("✓ 📖 심화 독서 → 지력 %d→%d", "✓ 📖 Deep Reading → Intelligence %d→%d") % [int_before, GameState.intelligence])
-	_show_toast(_tr("📖 심화 독서 — 지력 %d → %d", "📖 Deep Reading — Intelligence %d → %d") % [int_before, GameState.intelligence], Color("#1d4ed8"))
+	turn_action_log.append(_tr("✓ 심화 독서 → 지력 %d→%d", "✓ Deep Reading → Intelligence %d→%d") % [int_before, GameState.intelligence])
+	_show_toast(_tr("심화 독서 — 지력 %d → %d", "Deep Reading — Intelligence %d → %d") % [int_before, GameState.intelligence], Color("#1d4ed8"))
 	_render_ap_actions()
 	_refresh_all()
 
@@ -6115,8 +6370,8 @@ func _ap_vip_network():
 		rel_names.append(str(rel.get("name", "?")))
 	var rel_str = " · ".join(rel_names.slice(0, 3)) if not rel_names.is_empty() else _tr("인맥 없음", "No contacts")
 	GameState.add_log(_tr("VIP 인맥: 사회성 %d→%d, 평판 %d→%d (%s)", "VIP Networking: Social %d→%d, Reputation %d→%d (%s)") % [soc_before, GameState.social_skill, rep_before, GameState.reputation, rel_str], "relationship")
-	turn_action_log.append(_tr("✓ 👔 VIP 인맥 → 사회성 %d→%d, 평판+2", "✓ 👔 VIP Networking → Social %d→%d, Reputation +2") % [soc_before, GameState.social_skill])
-	_show_toast(_tr("👔 VIP 인맥 — 사회성 %d→%d, 모든 관계 친밀도 +15", "👔 VIP Networking — Social %d→%d, all relations affection +15") % [soc_before, GameState.social_skill], Color("#a855f7"))
+	turn_action_log.append(_tr("✓ VIP 인맥 → 사회성 %d→%d, 평판+2", "✓ VIP Networking → Social %d→%d, Reputation +2") % [soc_before, GameState.social_skill])
+	_show_toast(_tr("VIP 인맥 — 사회성 %d→%d, 모든 관계 친밀도 +15", "VIP Networking — Social %d→%d, all relations affection +15") % [soc_before, GameState.social_skill], Color("#a855f7"))
 	GameState.stats_changed.emit()
 	_render_ap_actions()
 	_refresh_all()
@@ -6629,7 +6884,7 @@ func _build_shop_item_card(item: Dictionary) -> Control:
 func _on_save_pressed():
 	SaveManager.save_game(1)
 	GameState.add_log(_tr("게임 저장 완료", "Game saved"), "system")
-	_show_toast(_tr("💾 저장 완료", "💾 Saved"), Color("#00c896"))
+	_show_toast(_tr("저장 완료", "Saved"), Color("#00c896"))
 
 func _on_job_selected(job_id):
 	var had_resume = GameState.flags.get("resume_polished", false)
@@ -6831,7 +7086,7 @@ func _build_save_load_section(parent: Control):
 func _save_to_slot(slot: int):
 	SaveManager.save_game(slot)
 	_close_modal()
-	_show_toast(_tr("💾 슬롯 %d에 저장했습니다", "💾 Saved to slot %d") % slot, Color("#c9a227"))
+	_show_toast(_tr("슬롯 %d에 저장했습니다", "Saved to slot %d") % slot, Color("#c9a227"))
 
 func _load_from_slot(slot: int):
 	SaveManager.load_game(slot)
@@ -6983,86 +7238,120 @@ func _show_demo_ending():
 		story_lines.append(_tr("통장이 마이너스다. 6개월이 이랬다.", "Account is in the red. That's what six months looked like."))
 
 	_open_modal(_tr("강남드림 — 6개월의 기록", "Gangnam Dream — A 6-Month Record"))
-	modal_body.add_child(_label(_tr("— 1막 종료 —", "— Act 1 End —"), 14, _moral_hex(_moral_text_accent(Color("#f0b429"), 0.06))))
-
 	var date_str = GameState.get_date_string()
-	modal_body.add_child(_wrap_label(
-		_tr("%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다.", "%s. Minjun is still 33. Four and a half years left.") % date_str, 14, "#c8d0df"))
+	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
+	var record_card := PanelContainer.new()
+	record_card.set_meta("moral_role", "info_card")
+	record_card.set_meta("moral_accent", "#dce6ee")
+	var record_style := StyleBoxFlat.new()
+	record_style.bg_color = Color("#0b0d12", 0.985)
+	record_style.border_color = Color("#dce6ee", 0.58)
+	record_style.set_border_width_all(1)
+	record_style.border_width_left = 4
+	record_style.set_corner_radius_all(6)
+	record_style.content_margin_left = 14
+	record_style.content_margin_right = 14
+	record_style.content_margin_top = 13
+	record_style.content_margin_bottom = 13
+	record_card.add_theme_stylebox_override("panel", record_style)
+	modal_body.add_child(record_card)
 
-	var sep1 = HSeparator.new()
-	sep1.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep1)
+	var record_box := VBoxContainer.new()
+	record_box.add_theme_constant_override("separation", 7)
+	record_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	record_card.add_child(record_box)
+
+	var record_header := HBoxContainer.new()
+	record_header.add_theme_constant_override("separation", 12)
+	record_box.add_child(record_header)
+	var record_title_box := VBoxContainer.new()
+	record_title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	record_title_box.add_theme_constant_override("separation", 2)
+	record_header.add_child(record_title_box)
+	record_title_box.add_child(_label(_tr("런 기록", "RUN RECORD"), 11, "#697386"))
+	var act_lbl := _label(_tr("1막 종료", "Act 1 End"), 19, "#eef3f8")
+	if _font_bold:
+		act_lbl.add_theme_font_override("font", _font_bold)
+	record_title_box.add_child(act_lbl)
+	record_title_box.add_child(_wrap_label(
+		_tr("%s. 민준은 여전히 33세다. 아직 4년 반이 남아있다.", "%s. Minjun is still 33. Four and a half years left.") % date_str, 13, "#aeb8c8"))
+	var stamp := _demo_record_metric(_tr("기간", "Period"), _tr("6개월", "6 months"), _tr("데모 기록", "Demo record"), "#dce6ee")
+	stamp.custom_minimum_size = Vector2(150, 0)
+	stamp.size_flags_horizontal = Control.SIZE_SHRINK_END
+	record_header.add_child(stamp)
+
+	var metrics := HBoxContainer.new()
+	metrics.add_theme_constant_override("separation", 8)
+	record_box.add_child(metrics)
+	metrics.add_child(_demo_record_metric(
+		_tr("현재", "Current"),
+		GameState.get_job_display_name() if not GameState.current_job.is_empty() else _tr("무직", "Unemployed"),
+		_tr("생활 기반", "Life base"),
+		"#9aa4b8"))
+	metrics.add_child(_demo_record_metric(
+		_tr("총자산", "Assets"),
+		GameState.format_money(total_assets),
+		_tr("6개월 결과", "6-month result"),
+		asset_color))
+	metrics.add_child(_demo_record_metric(
+		_tr("남은 거리", "Distance"),
+		GameState.format_money(max(0.0, 3_000_000_000.0 - total_assets)),
+		_tr("강남까지", "To Gangnam"),
+		"#aeb8c8"))
+
+	record_box.add_child(_demo_record_separator())
 
 	# 개인화 스토리 요약
-	modal_body.add_child(_label(_tr("지난 6개월", "Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
+	record_box.add_child(_label(_tr("지난 6개월", "Past 6 Months"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
+	var shown_story_count := 0
 	for line in story_lines:
-		modal_body.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
+		if shown_story_count >= 3:
+			break
+		record_box.add_child(_wrap_label("• " + line, 13, "#a0aabf"))
+		shown_story_count += 1
+	if story_lines.size() > shown_story_count:
+		record_box.add_child(_wrap_label(_tr("• 나머지는 아직 정리되지 않은 기록으로 남았다.", "• The rest remains an unfinished record."), 12, "#697386"))
 
-	var sep2 = HSeparator.new()
-	sep2.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep2)
-
+	record_box.add_child(_demo_record_separator())
 	# 자산 성적표
-	modal_body.add_child(_label(_tr("6개월 성적표", "6-Month Report"), 14, _moral_hex(_moral_text_accent(Color("#c9a227"), 0.04))))
-	var asset_color = "#34d399" if total_assets >= 1_000_000 else "#c8d0df"
-	modal_body.add_child(_wrap_label(_tr("총자산  %s", "Total Assets  %s") % GameState.format_money(total_assets), 16, asset_color))
 	var progress_pct = clampf(total_assets / 3_000_000_000.0 * 100.0, 0.0, 100.0)
-	modal_body.add_child(_wrap_label(_tr("강남드림 30억까지  %.3f%%  달성", "Progress to Gangnam (Seoul's status district): %.3f%%") % progress_pct, 12, _moral_hex(_moral_text_accent(Color("#c9a227")))))
+	record_box.add_child(_make_progress_row(
+		_tr("강남드림 (30억)", "Gangnam Dream (KRW 3B)"),
+		progress_pct / 100.0,
+		asset_color,
+		_tr("%.3f%% 달성", "%.3f%% reached") % progress_pct))
 
-	var sep3 = HSeparator.new()
-	sep3.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep3)
-
-	# 풀버전 티저
-	var teaser_lines: Array = []
-	if f.get("arc_sangchul_casino_seen", false):
-		teaser_lines.append(_tr("정선 카지노 — 임상철과 함께 테이블에 앉게 된다면?", "Jeongseon Casino — what if you sit at the table with Sangchul?"))
-	if f.get("arc_jiyeon_crash_seen", false):
-		teaser_lines.append(_tr("한지연 — 그녀의 제안, 받을 것인가 말 것인가.", "Jiyeon — her offer. Accept or refuse?"))
-	if f.get("arc_jaehyuk_reunion_seen", false):
-		teaser_lines.append(_tr("최재혁 — 그가 가져온 사업 제안의 진짜 얼굴.", "Jaehyuk — the real face behind his business proposal."))
-	teaser_lines.append(_tr("강남 입성까지 남은 거리: %s", "Distance to Gangnam: %s") % GameState.format_money(3_000_000_000.0 - total_assets))
-	modal_body.add_child(_label(_tr("풀버전에서 계속됩니다", "Continues in the full version"), 14, _moral_hex(_moral_text_accent(Color("#c8a060"), 0.04))))
-	for tl in teaser_lines:
-		modal_body.add_child(_wrap_label(tl, 12, "#7a8496"))
+	record_box.add_child(_demo_record_separator())
+	# 풀버전 티저는 광고 문구가 아니라 기록장 하단의 미완 항목처럼 보이게 둔다.
+	var next_card := PanelContainer.new()
+	next_card.set_meta("moral_role", "info_card")
+	next_card.set_meta("moral_accent", "#dce6ee")
+	var next_style := StyleBoxFlat.new()
+	next_style.bg_color = Color("#111820", 0.72)
+	next_style.border_color = Color("#dce6ee", 0.42)
+	next_style.set_border_width_all(1)
+	next_style.border_width_left = 3
+	next_style.set_corner_radius_all(5)
+	next_style.content_margin_left = 10
+	next_style.content_margin_right = 10
+	next_style.content_margin_top = 7
+	next_style.content_margin_bottom = 7
+	next_card.add_theme_stylebox_override("panel", next_style)
+	record_box.add_child(next_card)
+	var next_box := VBoxContainer.new()
+	next_box.add_theme_constant_override("separation", 2)
+	next_card.add_child(next_box)
+	var next_title := _label(_tr("아직 4년 반이 남아있다", "Four and a half years remain"), 14, "#f4f7fb")
+	if _font_bold:
+		next_title.add_theme_font_override("font", _font_bold)
+	next_box.add_child(next_title)
+	next_box.add_child(_wrap_label(
+		_tr("이 기록은 끝난 게 아니라, 잠시 접힌 것이다.",
+			"This record is not over. It is only folded shut for now."),
+		12, "#aeb8c8"))
+	_apply_moral_tree_styles(record_card, _moral_ui_palette())
 
 	# ── Steam 위시리스트 CTA ───────────────────────────────────
-	var sep_steam = HSeparator.new()
-	sep_steam.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep_steam)
-
-	var cta_card := PanelContainer.new()
-	cta_card.set_meta("moral_role", "info_card")
-	cta_card.set_meta("moral_accent", "#f4f7fb")
-	var cta_style := StyleBoxFlat.new()
-	cta_style.bg_color = Color("#0b0d12", 0.96)
-	cta_style.border_color = Color("#dce6ee", 0.86)
-	cta_style.border_width_left = 4
-	cta_style.set_border_width(SIDE_TOP, 1)
-	cta_style.set_border_width(SIDE_RIGHT, 1)
-	cta_style.set_border_width(SIDE_BOTTOM, 1)
-	cta_style.set_corner_radius_all(7)
-	cta_style.content_margin_left = 14
-	cta_style.content_margin_right = 14
-	cta_style.content_margin_top = 12
-	cta_style.content_margin_bottom = 12
-	cta_card.add_theme_stylebox_override("panel", cta_style)
-	modal_body.add_child(cta_card)
-
-	var cta_box := VBoxContainer.new()
-	cta_box.add_theme_constant_override("separation", 7)
-	cta_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	cta_card.add_child(cta_box)
-	var cta_title := _label(_tr("풀버전에서 4년 반이 계속됩니다", "The next 4.5 years continue in the full version"), 16, "#f4f7fb")
-	if _font_bold:
-		cta_title.add_theme_font_override("font", _font_bold)
-	cta_box.add_child(cta_title)
-	cta_box.add_child(_wrap_label(
-		_tr("이 기록을 이어가고 싶다면 Steam 위시리스트에 추가하세요. 출시 알림과 다음 빌드 소식을 받을 수 있습니다.",
-			"Wishlist on Steam if you want to continue this run. You'll get launch and future build updates."),
-		13, "#aeb8c8"))
-	_apply_moral_tree_styles(cta_card, _moral_ui_palette())
-
 	# App ID가 아직 플레이스홀더면 깨진 /app/STEAM_APP_ID/ URL 대신 상점 검색으로 폴백.
 	var steam_url := STEAM_FALLBACK_URL
 	if STEAM_APP_ID != "STEAM_APP_ID" and STEAM_APP_ID.is_valid_int():
@@ -7076,12 +7365,49 @@ func _show_demo_ending():
 	var sep4 = HSeparator.new()
 	sep4.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep4)
+	var end_buttons := HBoxContainer.new()
+	end_buttons.add_theme_constant_override("separation", 8)
+	modal_body.add_child(end_buttons)
 	var restart_btn = _button(_tr("처음부터 다시  ▶", "Start Over  ▶"), "#0e3a2a")
 	restart_btn.pressed.connect(_restart_run)
-	modal_body.add_child(restart_btn)
+	end_buttons.add_child(restart_btn)
 	var menu_btn = _button(_tr("메인 메뉴로", "Main Menu"), "#1a1a28")
 	menu_btn.pressed.connect(_go_to_menu)
-	modal_body.add_child(menu_btn)
+	end_buttons.add_child(menu_btn)
+
+func _demo_record_separator() -> HSeparator:
+	var sep := HSeparator.new()
+	sep.add_theme_color_override("color", Color("#303545", 0.78))
+	return sep
+
+func _demo_record_metric(title: String, value: String, hint: String, accent: String) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.set_meta("moral_role", "info_card")
+	card.set_meta("moral_accent", accent)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#11141b", 0.96)
+	style.border_color = Color(accent, 0.38)
+	style.set_border_width_all(1)
+	style.border_width_top = 2
+	style.set_corner_radius_all(5)
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	card.add_theme_stylebox_override("panel", style)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 2)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(box)
+	box.add_child(_label(title.to_upper(), 10, "#697386"))
+	var value_lbl := _label(value, 15, _moral_hex(_moral_text_accent(Color(accent), 0.05)))
+	if _font_bold:
+		value_lbl.add_theme_font_override("font", _font_bold)
+	box.add_child(value_lbl)
+	box.add_child(_label(hint, 11, "#596274"))
+	return card
 
 func _show_ending(ending_id):
 	BGMPlayer.on_ending(ending_id)  # BGM 엔딩 트랙으로 전환
@@ -7296,7 +7622,7 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 
 	var frame := PanelContainer.new()
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	frame.custom_minimum_size = Vector2(0, 214)
+	frame.custom_minimum_size = Vector2(0, 328)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0b0c10").lerp(Color("#020303"), black * 0.85).lerp(Color("#111820"), white * 0.55)
 	st.border_color = accent
@@ -7312,6 +7638,7 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
 	frame.add_child(box)
+	_add_ending_card_scene(box, ending_id, accent, black, white)
 
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 16)
@@ -7364,6 +7691,92 @@ func _add_ending_mood_card(parent: Control, ending: Dictionary, ending_id: Strin
 	_add_ending_card_bar(bars, clampf(float(GameState.health) / 100.0, 0.0, 1.0), Color("#7d8794"))
 	_add_ending_card_bar(bars, clampf(float(GameState.mental) / 100.0, 0.0, 1.0), Color("#9aa3ad"))
 
+func _add_ending_card_scene(parent: Control, ending_id: String, accent: Color, black: float, white: float) -> void:
+	var scene := Panel.new()
+	scene.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scene.custom_minimum_size = Vector2(0, 104)
+	scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#090a0d").lerp(Color("#020303"), black * 0.7).lerp(Color("#121a20"), white * 0.35)
+	st.border_color = Color(accent.r, accent.g, accent.b, 0.42)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	scene.add_theme_stylebox_override("panel", st)
+	parent.add_child(scene)
+
+	var line_col := Color(accent.r, accent.g, accent.b, 0.12)
+	_ending_scene_rect(scene, 0.04, 0.18, 0.96, 0.19, line_col)
+	_ending_scene_rect(scene, 0.04, 0.76, 0.96, 0.77, Color("#ffffff", 0.045))
+	_ending_scene_rect(scene, 0.08, 0.83, 0.92, 0.88, Color("#000000", 0.30))
+
+	match _ending_card_scene_kind(ending_id):
+		"debt":
+			_ending_scene_rect(scene, 0.10, 0.30, 0.34, 0.68, Color("#d7d0bd", 0.055))
+			_ending_scene_rect(scene, 0.13, 0.38, 0.30, 0.39, Color("#d7d0bd", 0.13))
+			_ending_scene_rect(scene, 0.13, 0.49, 0.27, 0.50, Color("#d7d0bd", 0.10))
+			_ending_scene_rect(scene, 0.40, 0.34, 0.55, 0.70, Color("#16181d", 0.95))
+			for x in [0.425, 0.475, 0.525]:
+				for y in [0.43, 0.52, 0.61]:
+					_ending_scene_rect(scene, x, y, x + 0.025, y + 0.030, Color("#cbd5df", 0.075))
+			_ending_scene_rect(scene, 0.65, 0.30, 0.82, 0.68, Color("#111217", 0.98))
+			_ending_scene_rect(scene, 0.675, 0.36, 0.795, 0.37, Color("#ff4444", 0.22))
+			_ending_scene_rect(scene, 0.675, 0.48, 0.755, 0.49, Color("#ff4444", 0.15))
+			_ending_scene_rect(scene, 0.675, 0.60, 0.785, 0.61, Color("#ff4444", 0.11))
+		"burnout":
+			_ending_scene_rect(scene, 0.16, 0.46, 0.68, 0.58, Color("#d9e4ee", 0.055))
+			_ending_scene_rect(scene, 0.16, 0.60, 0.70, 0.64, Color("#d9e4ee", 0.08))
+			_ending_scene_rect(scene, 0.76, 0.24, 0.765, 0.70, Color("#d9e4ee", 0.16))
+			_ending_scene_rect(scene, 0.765, 0.28, 0.83, 0.285, Color("#d9e4ee", 0.13))
+			_ending_scene_rect(scene, 0.82, 0.285, 0.835, 0.40, Color("#d9e4ee", 0.10))
+		"gangnam":
+			for i in range(8):
+				var x := 0.16 + float(i) * 0.075
+				var h := 0.22 + float((i * 17) % 5) * 0.045
+				_ending_scene_rect(scene, x, 0.72 - h, x + 0.045, 0.72, Color("#cbd5df", 0.055 + white * 0.06))
+			_ending_scene_rect(scene, 0.12, 0.28, 0.88, 0.29, Color("#cbd5df", 0.10 + white * 0.06))
+			_ending_scene_rect(scene, 0.12, 0.70, 0.88, 0.71, Color("#cbd5df", 0.10))
+		"bond":
+			_ending_scene_rect(scene, 0.18, 0.58, 0.82, 0.64, Color("#1f1b16", 0.74))
+			_ending_scene_rect(scene, 0.33, 0.38, 0.39, 0.57, Color("#cbd5df", 0.08))
+			_ending_scene_rect(scene, 0.60, 0.38, 0.66, 0.57, Color("#cbd5df", 0.08))
+			_ending_scene_rect(scene, 0.42, 0.45, 0.58, 0.46, Color("#cbd5df", 0.11))
+		"career":
+			for i in range(5):
+				var x := 0.22 + float(i) * 0.105
+				_ending_scene_rect(scene, x, 0.24, x + 0.065, 0.72, Color("#cbd5df", 0.045))
+				_ending_scene_rect(scene, x + 0.014, 0.34, x + 0.052, 0.35, Color("#cbd5df", 0.11))
+				_ending_scene_rect(scene, x + 0.014, 0.48, x + 0.052, 0.49, Color("#cbd5df", 0.08))
+		_:
+			for i in range(7):
+				var x := 0.18 + float(i) * 0.085
+				_ending_scene_rect(scene, x, 0.40 + float(i % 3) * 0.055, x + 0.052, 0.72, Color("#cbd5df", 0.045))
+			_ending_scene_rect(scene, 0.20, 0.34, 0.80, 0.35, Color("#cbd5df", 0.08))
+
+func _ending_card_scene_kind(ending_id: String) -> String:
+	if ending_id in ["bankruptcy", "debt_spiral", "crypto_ghost"]:
+		return "debt"
+	if ending_id in ["burnout", "mental_break", "career_burnout"]:
+		return "burnout"
+	if ending_id in ["gangnam_dream", "gangnam_dream_white", "empty_house", "jaehyuk_way", "lonely_rich", "instant_legend", "full_circle"]:
+		return "gangnam"
+	if ending_id in ["with_daeun", "second_love", "guardian", "late_call", "gambling_recovery", "sangchul_reckoning"]:
+		return "bond"
+	if ending_id in ["orthodox_pinnacle", "career_climber", "political_fix", "startup_exit", "reputation_king"]:
+		return "career"
+	return "city"
+
+func _ending_scene_rect(parent: Control, left: float, top: float, right: float, bottom: float, color: Color) -> void:
+	var rect := ColorRect.new()
+	rect.anchor_left = left
+	rect.anchor_top = top
+	rect.anchor_right = right
+	rect.anchor_bottom = bottom
+	rect.offset_right = 1
+	rect.offset_bottom = 1
+	rect.color = color
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(rect)
+
 func _add_ending_card_chip(parent: Control, label_text: String, value_text: String, color: String) -> void:
 	var chip := PanelContainer.new()
 	chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -7390,18 +7803,28 @@ func _add_ending_card_chip(parent: Control, label_text: String, value_text: Stri
 	box.add_child(value_lbl)
 
 func _add_ending_card_bar(parent: Control, ratio: float, color: Color) -> void:
-	var holder := PanelContainer.new()
+	var holder := Control.new()
 	holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	holder.custom_minimum_size = Vector2(0, 12)
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color(1, 1, 1, 0.045)
-	st.set_corner_radius_all(4)
-	holder.add_theme_stylebox_override("panel", st)
+	holder.clip_contents = true
 	parent.add_child(holder)
+
+	var track := ColorRect.new()
+	track.color = Color("#15171b")
+	track.set_anchors_preset(Control.PRESET_FULL_RECT)
+	track.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(track)
+
 	var fill := ColorRect.new()
 	fill.color = _moral_gray_accent(color, _moral_ui_palette(), 0.03)
+	fill.anchor_left = 0.0
+	fill.anchor_top = 0.0
 	fill.anchor_right = clampf(ratio, 0.02, 1.0)
 	fill.anchor_bottom = 1.0
+	fill.offset_left = 0
+	fill.offset_top = 0
+	fill.offset_right = 0
+	fill.offset_bottom = 0
 	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(fill)
 
@@ -7581,115 +8004,115 @@ func _ending_cast_epilogue(parent: Control, ending_id: String):
 	var fs := GameState.get_cast_stage("father")
 	if fs in ["reconciled", "connected", "hopeful", "close"]:
 		if good:
-			lines.append(_tr("👨‍🦳  아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.", "👨‍🦳  Father sat awkwardly in the new living room and said \"the room is too big.\" I know that's a compliment."))
+			lines.append(_tr("아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.", "Father sat awkwardly in the new living room and said \"the room is too big.\" I know that's a compliment."))
 		elif bad:
-			lines.append(_tr("👨‍🦳  다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.", "👨‍🦳  When I said I'd lost everything, Father only said \"come home and eat.\""))
+			lines.append(_tr("다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.", "When I said I'd lost everything, Father only said \"come home and eat.\""))
 		else:
-			lines.append(_tr("👨‍🦳  아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "👨‍🦳  I call Father twice a month now. Not long, but never broken off."))
+			lines.append(_tr("아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.", "I call Father twice a month now. Not long, but never broken off."))
 	elif fs == "passed":
 		if GameState.flags.get("chose_money_over_father", false):
-			lines.append(_tr("👨‍🦳  아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.", "👨‍🦳  The night Father passed, I closed a deal. The number in my account went up — and every time I see it, I see the version of me who didn't board the train to Changwon."))
+			lines.append(_tr("아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.", "The night Father passed, I closed a deal. The number in my account went up — and every time I see it, I see the version of me who didn't board the train to Changwon."))
 		elif GameState.flags.get("tried_to_go_to_father", false):
-			lines.append(_tr("👨‍🦳  마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.", "👨‍🦳  I caught the last train but was an hour too late. Still, I've chosen to believe the time spent in that empty hospital room was better than not going at all."))
+			lines.append(_tr("마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.", "I caught the last train but was an hour too late. Still, I've chosen to believe the time spent in that empty hospital room was better than not going at all."))
 		else:
-			lines.append(_tr("👨‍🦳  아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.", "👨‍🦳  After Father passed, I went down to Changwon once. I sat for a long time in an empty room."))
+			lines.append(_tr("아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.", "After Father passed, I went down to Changwon once. I sat for a long time in an empty room."))
 	elif fs in ["worried", "health_crisis", "quiet"]:
-		lines.append(_tr("👨‍🦳  아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.", "👨‍🦳  Many nights I dialed Father's number and stopped. Next time, next time — and five years passed."))
+		lines.append(_tr("아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.", "Many nights I dialed Father's number and stopped. Next time, next time — and five years passed."))
 	else:
-		lines.append(_tr("👨‍🦳  창원에는 끝내 한 번도 내려가지 못했다.", "👨‍🦳  I never once made it down to Changwon."))
+		lines.append(_tr("창원에는 끝내 한 번도 내려가지 못했다.", "I never once made it down to Changwon."))
 
 	# 어머니 — 아버지 곁의 또 한 사람 (화해했을 때만 한 줄)
 	if GameState.flags.get("mother_reconciled", false) or GameState.flags.get("mother_reconnected", false):
 		if good:
-			lines.append(_tr("👩  어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.", "👩  Mother said, \"Your father would have loved to see this.\" The words don't sting anymore."))
+			lines.append(_tr("어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.", "Mother said, \"Your father would have loved to see this.\" The words don't sting anymore."))
 		else:
-			lines.append(_tr("👩  어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.", "👩  Mother and I have long calls now. Nothing much to them. But I know they're the calls I needed."))
+			lines.append(_tr("어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.", "Mother and I have long calls now. Nothing much to them. But I know they're the calls I needed."))
 
 	# 한지연 — 세계가 다른 사람과 어디까지 갔는가
 	var js := GameState.get_cast_stage("jiyeon")
 	if GameState.flags.get("jiyeon_romance_started", false):
 		if bad:
-			lines.append(_tr("💜  다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "💜  Even the day everything collapsed, Jiyeon didn't leave. \"I never came for the money in the first place.\""))
+			lines.append(_tr("다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」", "Even the day everything collapsed, Jiyeon didn't leave. \"I never came for the money in the first place.\""))
 		else:
-			lines.append(_tr("💜  한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "💜  Jiyeon smiled, \"See, my eye was right.\" That seat beside her is better than Gangnam."))
+			lines.append(_tr("한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.", "Jiyeon smiled, \"See, my eye was right.\" That seat beside her is better than Gangnam."))
 	elif js in ["honest_together", "respected", "trust", "close", "connected", "business_partner", "indebted"]:
-		lines.append(_tr("💜  한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.", "💜  I meet Jiyeon for coffee now and then. We remain people who acknowledged each other's worlds."))
+		lines.append(_tr("한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.", "I meet Jiyeon for coffee now and then. We remain people who acknowledged each other's worlds."))
 	elif js in ["hurt", "disillusioned", "distant", "rejected_help"]:
-		lines.append(_tr("💜  한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.", "💜  I check Jiyeon's social media sometimes. I don't reach out. We both remember what was said that day."))
+		lines.append(_tr("한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.", "I check Jiyeon's social media sometimes. I don't reach out. We both remember what was said that day."))
 	elif js != "unknown":
-		lines.append(_tr("💜  한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.", "💜  Jiyeon and I never grew closer than that. The connection ended there."))
+		lines.append(_tr("한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.", "Jiyeon and I never grew closer than that. The connection ended there."))
 
 	# 김다은 — 카페의 그 사람
 	var ds := GameState.get_cast_stage("daeun")
 	if GameState.flags.get("daeun_romance_started", false):
 		if good:
-			lines.append(_tr("☕  다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "☕  Daeun said, \"Even in Gangnam, come drink your coffee at my place.\" I agreed."))
+			lines.append(_tr("다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.", "Daeun said, \"Even in Gangnam, come drink your coffee at my place.\" I agreed."))
 		elif bad:
-			lines.append(_tr("☕  통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.", "☕  Even when my bank account was empty, the corner seat at Daeun's cafe was not."))
+			lines.append(_tr("통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.", "Even when my bank account was empty, the corner seat at Daeun's cafe was not."))
 		else:
-			lines.append(_tr("☕  다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.", "☕  Daeun's cafe became not just a regular spot, but a place to return to."))
+			lines.append(_tr("다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.", "Daeun's cafe became not just a regular spot, but a place to return to."))
 	elif ds in ["together", "close", "warm", "interest", "acquaintance"]:
-		lines.append(_tr("☕  다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.", "☕  I still drop by Daeun's cafe sometimes. There's a drink that comes without ordering."))
+		lines.append(_tr("다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.", "I still drop by Daeun's cafe sometimes. There's a drink that comes without ordering."))
 	elif ds in ["distant", "wary", "uncertain"]:
-		lines.append(_tr("☕  그 카페 앞을 지날 때면 걸음이 조금 빨라진다.", "☕  When I pass that cafe, my pace quickens a little."))
+		lines.append(_tr("그 카페 앞을 지날 때면 걸음이 조금 빨라진다.", "When I pass that cafe, my pace quickens a little."))
 
 	# 임상철 — 멘토였는가 / 도구였는가
 	var ss := GameState.get_cast_stage("sangchul")
 	# 진실을 알고도 그의 죄책감을 끝까지 자산으로 쓴 경우 — 관계 stage가 무엇이든 이 라인이 우선.
 	# (stage 기반 따뜻한 라인이 착취 플레이어에게 잘못 뜨던 톤 버그 차단)
 	if GameState.flags.get("sangchul_used_fully", false):
-		lines.append(_tr("🏢  임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.", "🏢  I still keep in touch with Im Sangchul. I'll use him again if I need to. He knows that, and still picks up the phone."))
+		lines.append(_tr("임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.", "I still keep in touch with Im Sangchul. I'll use him again if I need to. He knows that, and still picks up the phone."))
 	elif GameState.flags.get("sangchul_leveraged", false):
-		lines.append(_tr("🏢  임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.", "🏢  Im Sangchul's guilt made a good lever. That fact catches in my chest sometimes — just sometimes."))
+		lines.append(_tr("임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.", "Im Sangchul's guilt made a good lever. That fact catches in my chest sometimes — just sometimes."))
 	elif ss in ["trusted", "mentoring", "guardian"]:
 		if good:
-			lines.append(_tr("🏢  임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "🏢  Im Sangchul laughed as if it were his own. \"I sure know how to read people.\""))
+			lines.append(_tr("임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.", "Im Sangchul laughed as if it were his own. \"I sure know how to read people.\""))
 		elif bad:
-			lines.append(_tr("🏢  임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.", "🏢  Im Sangchul said, \"Gangnam, who cares. As long as you're alive.\" It was the gentlest I'd ever heard him."))
+			lines.append(_tr("임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.", "Im Sangchul said, \"Gangnam, who cares. As long as you're alive.\" It was the gentlest I'd ever heard him."))
 		else:
-			lines.append(_tr("🏢  임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.", "🏢  I still grab gukbap with Boss Im Sangchul sometimes. We take turns paying."))
+			lines.append(_tr("임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.", "I still grab gukbap with Boss Im Sangchul sometimes. We take turns paying."))
 	elif ss == "cut_off":
-		lines.append(_tr("🏢  임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.", "🏢  Im Sangchul was investigated and vanished from the industry. That cafe seat comes to mind sometimes."))
+		lines.append(_tr("임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.", "Im Sangchul was investigated and vanished from the industry. That cafe seat comes to mind sometimes."))
 	elif ss == "strained":
-		lines.append(_tr("🏢  임상철 사장과는 그 일 이후 연락이 끊겼다.", "🏢  Boss Im Sangchul and I lost contact after that incident."))
+		lines.append(_tr("임상철 사장과는 그 일 이후 연락이 끊겼다.", "Boss Im Sangchul and I lost contact after that incident."))
 	elif ss != "unknown":
-		lines.append(_tr("🏢  부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.", "🏢  When I pass the realty office, I see Boss Im Sangchul. We remain people who only nod."))
+		lines.append(_tr("부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.", "When I pass the realty office, I see Boss Im Sangchul. We remain people who only nod."))
 
 	# 최재혁 — 그 제안의 끝
 	var hs := GameState.get_cast_stage("jaehyuk")
 	var hf := GameState.flags
 	if hs == "betrayed":
 		if hf.get("jaehyuk_stood_up", false):
-			lines.append(_tr("📱  최재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.", "📱  Betrayed by Choi Jaehyuk. Account empty. Rock bottom. Afterward, I wrote down the things he used to say — the only thing left from someone who betrayed me. Started again from there."))
+			lines.append(_tr("최재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.", "Betrayed by Choi Jaehyuk. Account empty. Rock bottom. Afterward, I wrote down the things he used to say — the only thing left from someone who betrayed me. Started again from there."))
 		elif hf.get("jaehyuk_night_was_real", false):
-			lines.append(_tr("📱  최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.", "📱  Choi Jaehyuk's number became a dead line. The money, and the man, both gone. But I kept the photo from that night. Chose to believe it was real."))
+			lines.append(_tr("최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.", "Choi Jaehyuk's number became a dead line. The money, and the man, both gone. But I kept the photo from that night. Chose to believe it was real."))
 		else:
-			lines.append(_tr("📱  최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "📱  Choi Jaehyuk's number became a dead line. The money, and the man, both gone."))
+			lines.append(_tr("최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.", "Choi Jaehyuk's number became a dead line. The money, and the man, both gone."))
 	elif hs == "reported":
-		lines.append(_tr("📱  최재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.", "📱  I read that Choi Jaehyuk was finally arrested. I felt neither satisfaction nor sorrow."))
+		lines.append(_tr("최재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.", "I read that Choi Jaehyuk was finally arrested. I felt neither satisfaction nor sorrow."))
 	elif hs in ["partner_in_crime", "blackmailed"]:
-		lines.append(_tr("📱  최재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.", "📱  I never told anyone about Choi Jaehyuk. I never will."))
+		lines.append(_tr("최재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.", "I never told anyone about Choi Jaehyuk. I never will."))
 	elif hs == "trusted":
 		if hf.get("felt_jaehyuk_kindness", false):
-			lines.append(_tr("📱  최재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.", "📱  There was a day Choi Jaehyuk handed me his card, no strings attached. I don't know if it was sincere. But I think that gesture, in that moment, was real."))
+			lines.append(_tr("최재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.", "There was a day Choi Jaehyuk handed me his card, no strings attached. I don't know if it was sincere. But I think that gesture, in that moment, was real."))
 		else:
-			lines.append(_tr("📱  최재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.", "📱  Choi Jaehyuk and I drifted apart. I still think sometimes about the day he helped without asking anything in return."))
+			lines.append(_tr("최재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.", "Choi Jaehyuk and I drifted apart. I still think sometimes about the day he helped without asking anything in return."))
 	elif hs == "opening_up":
-		lines.append(_tr("📱  최재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.", "📱  There was a day Choi Jaehyuk told me his story. Said he'd never told anyone. I remember the weight of it."))
+		lines.append(_tr("최재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.", "There was a day Choi Jaehyuk told me his story. Said he'd never told anyone. I remember the weight of it."))
 	elif hs in ["suspect", "retreating", "guarded"]:
-		lines.append(_tr("📱  최재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.", "📱  I kept a careful distance from Choi Jaehyuk. I think that was right."))
+		lines.append(_tr("최재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.", "I kept a careful distance from Choi Jaehyuk. I think that was right."))
 	elif hs != "unknown":
-		lines.append(_tr("📱  최재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.", "📱  Choi Jaehyuk reaches out now and then. Whether I answer depends on the day."))
+		lines.append(_tr("최재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.", "Choi Jaehyuk reaches out now and then. Whether I answer depends on the day."))
 
 	# 강현수 — 고시원 옆방, 자기 길을 간 사람
 	var hyunsu_stage := GameState.get_cast_stage("hyunsu")
 	if hyunsu_stage in ["passed", "deployed", "friend"] or GameState.flags.get("hyunsu_reconnected", false):
 		if GameState.flags.get("called_hyunsu_for_help", false):
-			lines.append(_tr("🎓  바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.", "🎓  I called Hyunsu when I'd hit bottom. He just listened. A person who could listen without words — that was what I needed."))
+			lines.append(_tr("바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.", "I called Hyunsu when I'd hit bottom. He just listened. A person who could listen without words — that was what I needed."))
 		elif GameState.flags.get("hyunsu_passed", false):
-			lines.append(_tr("🎓  현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "🎓  Hyunsu became a civil servant. We're both doing all right. No more, no less."))
+			lines.append(_tr("현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "Hyunsu became a civil servant. We're both doing all right. No more, no less."))
 		else:
-			lines.append(_tr("🎓  현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "🎓  Hyunsu landed a job at an accounting firm. We're both doing all right. No more, no less."))
+			lines.append(_tr("현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.", "Hyunsu landed a job at an accounting firm. We're both doing all right. No more, no less."))
 
 	var sep := HSeparator.new()
 	sep.add_theme_color_override("color", Color("#252535"))
@@ -7718,14 +8141,14 @@ func _run_card_text(ending_id: String) -> String:
 	var lines: PackedStringArray = PackedStringArray()
 	lines.append(_tr("[강남드림 런 결과]", "[Gangnam Dream Run Result]"))
 	lines.append("━━━━━━━━━━━━━━━━━━")
-	lines.append(_tr("👤 %s  |  33세 → %d세  |  %d개월", "👤 %s  |  age 33 → %d  |  %d months") % [GameState.player_name, GameState.age, (GameState.age - 33) * 12 + GameState.month])
-	lines.append(_tr("💰 최종 자산: %s  (목표 달성률 %d%%)", "💰 Final Assets: %s  (Goal %d%%)") % [GameState.format_money(total), pct])
-	lines.append(_tr("🏠 마지막 거처: %s", "🏠 Last Home: %s") % housing_name)
-	lines.append(_tr("📍 정석 %d회 / 비정석 %d회  →  %s", "📍 Orthodox %d / Unorthodox %d  →  %s") % [o, u, route_id])
-	lines.append(_tr("📖 이번 런 이벤트: %d / %d개", "📖 Events This Run: %d / %d") % [seen, total_events])
+	lines.append(_tr("플레이어: %s  |  33세 → %d세  |  %d개월", "Player: %s  |  age 33 → %d  |  %d months") % [GameState.player_name, GameState.age, (GameState.age - 33) * 12 + GameState.month])
+	lines.append(_tr("최종 자산: %s  (목표 달성률 %d%%)", "Final Assets: %s  (Goal %d%%)") % [GameState.format_money(total), pct])
+	lines.append(_tr("마지막 거처: %s", "Last Home: %s") % housing_name)
+	lines.append(_tr("경로: 정석 %d회 / 비정석 %d회  →  %s", "Path: Orthodox %d / Unorthodox %d  →  %s") % [o, u, route_id])
+	lines.append(_tr("이번 런 이벤트: %d / %d개", "Events This Run: %d / %d") % [seen, total_events])
 	if GameState.difficulty != _tr("현실", "현실"):
-		lines.append(_tr("🎚 난이도: %s", "🎚 Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
-	lines.append(_tr("🏆 엔딩: \"%s\"  (등급 %s)", "🏆 Ending: \"%s\"  (Grade %s)") % [ending_title, ending_grade])
+		lines.append(_tr("난이도: %s", "Difficulty: %s") % str(GameState.get_difficulty_data().get("name", GameState.difficulty)))
+	lines.append(_tr("엔딩: \"%s\"  (등급 %s)", "Ending: \"%s\"  (Grade %s)") % [ending_title, ending_grade])
 	lines.append("━━━━━━━━━━━━━━━━━━")
 	lines.append(_tr("#강남드림 #GangnamDream", "#GangnamDream"))
 	return "\n".join(lines)
@@ -7993,7 +8416,7 @@ func _show_month_summary(snap: Dictionary):
 	badge_style.content_margin_bottom = 4
 	grade_badge.add_theme_stylebox_override("panel", badge_style)
 	var badge_lbl := Label.new()
-	badge_lbl.text = _month_grade_badge_text(str(grade.get("emoji", "")))
+	badge_lbl.text = str(grade.get("badge", "RUN"))
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	badge_lbl.add_theme_font_size_override("font_size", 10)
@@ -8168,21 +8591,6 @@ func _show_month_summary(snap: Dictionary):
 		confirm_btn.pressed.connect(_close_modal)
 		modal_body.add_child(confirm_btn)
 		# 월 결산 닫기 후 _begin_month 호출은 _pending_month_summary 플래그로 처리됨
-
-func _month_grade_badge_text(emoji: String) -> String:
-	match emoji:
-		"🏆":
-			return "TOP"
-		"✨":
-			return "OK"
-		"📊":
-			return "LOG"
-		"💪":
-			return "HOLD"
-		"😰":
-			return "RISK"
-		_:
-			return "RUN"
 
 func _clean_month_summary_entry(entry: Variant) -> String:
 	return _clean_log_surface_text(entry)
@@ -8618,22 +9026,23 @@ func _button(text, color) -> Button:
 	button.add_theme_stylebox_override("focus", focus_st)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	_apply_moral_tree_styles(button, _moral_ui_palette())
+	_bind_tactile_button(button, 0.75)
 	return button
 
 func _primary_cta_button(text: String) -> Button:
-	var button := _button(text, "#f4f7fb")
+	var button := _button(text, "#121820")
 	button.set_meta("moral_role", "primary_cta_button")
-	button.set_meta("moral_accent", "#f4f7fb")
+	button.set_meta("moral_accent", "#dce6ee")
 	button.custom_minimum_size = Vector2(0, 58)
 	button.add_theme_font_size_override("font_size", 16)
-	button.add_theme_color_override("font_color", Color("#05070a"))
-	button.add_theme_color_override("font_hover_color", Color("#05070a"))
-	button.add_theme_color_override("font_pressed_color", Color("#05070a"))
-	button.add_theme_color_override("font_focus_color", Color("#05070a"))
-	button.add_theme_color_override("font_hover_pressed_color", Color("#05070a"))
+	button.add_theme_color_override("font_color", Color("#eef3f8"))
+	button.add_theme_color_override("font_hover_color", Color("#ffffff"))
+	button.add_theme_color_override("font_pressed_color", Color("#dce6ee"))
+	button.add_theme_color_override("font_focus_color", Color("#ffffff"))
+	button.add_theme_color_override("font_hover_pressed_color", Color("#ffffff"))
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("#edf2f7")
-	normal.border_color = Color("#f8fafc")
+	normal.bg_color = Color("#111820", 0.98)
+	normal.border_color = Color("#cbd5df", 0.72)
 	normal.set_border_width_all(1)
 	normal.border_width_left = 4
 	normal.set_corner_radius_all(6)
@@ -8642,9 +9051,10 @@ func _primary_cta_button(text: String) -> Button:
 	normal.content_margin_top = 12
 	normal.content_margin_bottom = 12
 	var hover := normal.duplicate()
-	hover.bg_color = Color("#ffffff")
+	hover.bg_color = Color("#172331", 0.98)
+	hover.border_color = Color("#eef3f8", 0.9)
 	var pressed_style := normal.duplicate()
-	pressed_style.bg_color = Color("#cbd5df")
+	pressed_style.bg_color = Color("#0b1018", 0.98)
 	var focus_style := normal.duplicate()
 	focus_style.border_color = Color("#ffffff")
 	focus_style.set_border_width_all(UI_FOCUS_BORDER)
@@ -8701,6 +9111,7 @@ func _action_button(text: String, accent_color: String) -> Button:
 		button.add_theme_font_override("font", _font_regular)
 	button.pressed.connect(func(): AudioManager.play("click"))
 	_apply_moral_tree_styles(button, _moral_ui_palette())
+	_bind_tactile_button(button, 1.0)
 	return button
 
 func _small_button(text, color) -> Button:
@@ -8730,6 +9141,7 @@ func _small_button(text, color) -> Button:
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
 	_apply_moral_tree_styles(button, _moral_ui_palette())
+	_bind_tactile_button(button, 0.65)
 	return button
 
 func _icon_small_button(text: String, icon_id: String, color: String) -> Button:
@@ -8889,32 +9301,32 @@ func _calc_month_grade(snap: Dictionary) -> Dictionary:
 			_tr("투자가 빛을 발하고 있습니다. 포지션을 점검하세요.", "Your investments are paying off. Review your positions."),
 			_tr("이런 달이 쌓이면 강남드림이 가까워집니다.", "Enough months like this will bring Gangnam within reach."),
 		]
-		return {"emoji": "🏆", "title": _tr("대박 달!", "Breakout Month!"), "msg": big_msgs[t % big_msgs.size()], "color": "#fbbf24"}
+		return {"badge": "TOP", "title": _tr("대박 달!", "Breakout Month!"), "msg": big_msgs[t % big_msgs.size()], "color": "#fbbf24"}
 	elif asset_delta >= 2_000_000.0 and net >= 0.0:
 		var good_msgs = [
 			_tr("흑자에 자산 성장까지. 좋은 한 달이었습니다.", "Positive cash flow and asset growth. A good month."),
 			_tr("수입과 투자 모두 순조롭습니다.", "Income and investments are both moving well."),
 			_tr("꾸준히 이 방향으로 가면 됩니다.", "Keep moving steadily in this direction."),
 		]
-		return {"emoji": "✨", "title": _tr("잘 했습니다", "Well Done"), "msg": good_msgs[t % good_msgs.size()], "color": "#00c896"}
+		return {"badge": "OK", "title": _tr("잘 했습니다", "Well Done"), "msg": good_msgs[t % good_msgs.size()], "color": "#00c896"}
 	elif net >= 0.0:
 		if total < 5_000_000.0:
-			return {"emoji": "📊", "title": _tr("버티는 달", "Survival Month"), "msg": _tr("아직 초반입니다. 취업과 저축이 최우선입니다.", "It is still early. Jobs and savings come first."), "color": "#8892a4"}
-		return {"emoji": "📊", "title": _tr("평범한 달", "Ordinary Month"), "msg": _tr("흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.", "You stayed positive. Look for the right time to grow assets through investing."), "color": "#8892a4"}
+			return {"badge": "LOG", "title": _tr("버티는 달", "Survival Month"), "msg": _tr("아직 초반입니다. 취업과 저축이 최우선입니다.", "It is still early. Jobs and savings come first."), "color": "#8892a4"}
+		return {"badge": "LOG", "title": _tr("평범한 달", "Ordinary Month"), "msg": _tr("흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.", "You stayed positive. Look for the right time to grow assets through investing."), "color": "#8892a4"}
 	elif GameState.health > 55 and GameState.mental > 55:
 		var tough_msgs = [
 			_tr("재정은 적자지만 건강하게 버텼습니다. 곧 나아질 거예요.", "Finances were negative, but you stayed healthy. Things can improve soon."),
 			_tr("어려운 달이었지만 쓰러지지 않았습니다.", "It was a hard month, but you did not collapse."),
 			_tr("이 경험이 더 단단하게 만들어줄 겁니다.", "This experience will make you harder to break."),
 		]
-		return {"emoji": "💪", "title": _tr("힘든 달", "Hard Month"), "msg": tough_msgs[t % tough_msgs.size()], "color": "#f0b429"}
+		return {"badge": "HOLD", "title": _tr("힘든 달", "Hard Month"), "msg": tough_msgs[t % tough_msgs.size()], "color": "#f0b429"}
 	else:
 		var crisis_msgs = [
 			_tr("재정과 체력 모두 위험합니다. 전략을 바꾸세요.", "Both finances and stamina are in danger. Change strategy."),
 			_tr("지금 방향을 바꾸지 않으면 무너집니다.", "If you do not change course now, you will break."),
 			_tr("운동이나 명상으로 정신력부터 회복하세요.", "Recover Mental first through exercise or meditation."),
 		]
-		return {"emoji": "😰", "title": _tr("위기 상황", "Crisis"), "msg": crisis_msgs[t % crisis_msgs.size()], "color": "#ff4444"}
+		return {"badge": "RISK", "title": _tr("위기 상황", "Crisis"), "msg": crisis_msgs[t % crisis_msgs.size()], "color": "#ff4444"}
 
 # ── 다음 달 조언 ─────────────────────────────────────
 func _update_event_bg():
@@ -9000,7 +9412,7 @@ func _show_character_portrait(portrait_id: String):
 	var reg_path = ImageRegistry.get_portrait(portrait_id)
 	if reg_path != "" and ResourceLoader.exists(reg_path):
 		character_portrait.texture = load(reg_path)
-		character_portrait.modulate = Color(1, 1, 1, 1)
+		_apply_moral_portrait_state()
 	else:
 		# 파일 없음 → 플레이스홀더(이름+색상 박스) 표시
 		_show_portrait_placeholder(portrait_id)
@@ -9015,7 +9427,7 @@ func _show_player_portrait():
 	var portrait_path = _get_portrait_path()
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		character_portrait.texture = load(portrait_path)
-		character_portrait.modulate = Color(1, 1, 1, 1)
+		_apply_moral_portrait_state()
 	else:
 		_show_portrait_placeholder("player_normal")
 
@@ -9026,7 +9438,7 @@ func _show_portrait_placeholder(portrait_id: String):
 	var img = Image.create(2, 3, false, Image.FORMAT_RGB8)
 	img.fill(col.darkened(0.55))
 	character_portrait.texture = ImageTexture.create_from_image(img)
-	character_portrait.modulate = Color(1, 1, 1, 1)
+	_apply_moral_portrait_state()
 
 func _get_portrait_path() -> String:
 	# 충격·위기 상황 (이벤트 직후 플래그)

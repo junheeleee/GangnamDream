@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="강남드림"
-config/description="대한민국 현대를 배경으로 한 로그라이크 인생 시뮬레이션 RPG"
+config/description="대한민국 현대를 배경으로 한 인터랙티브 드라마 / 라이프 시뮬레이션"
 run/main_scene="res://scenes/SplashScreen.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)

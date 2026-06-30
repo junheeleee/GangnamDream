@@ -11,6 +11,7 @@ func _ready() -> void:
 	_check_ambience()
 	_check_sfx()
 	_check_used_sfx_keys()
+	_check_ending_audio_tones()
 	if _failures.is_empty():
 		print("AUDIO_ASSET_CHECK_OK bgm=%d ambience=%d sfx=%d" % [
 			BGMPlayer.TRACKS.size(), BGMPlayer.AMBIENCE_TRACKS.size(), AudioManager._SFX_FILES.size()])
@@ -41,6 +42,48 @@ func _check_used_sfx_keys() -> void:
 	for key in used.keys():
 		if not AudioManager._SFX_FILES.has(key):
 			_failures.append("AudioManager.play key is used but not mapped: %s" % key)
+
+func _check_ending_audio_tones() -> void:
+	var expected := {
+		"empty_house": "dark",
+		"jaehyuk_way": "dark",
+		"lonely_rich": "dark",
+		"bankruptcy": "dark",
+		"debt_spiral": "dark",
+		"burnout": "dark",
+		"mental_break": "dark",
+		"crypto_ghost": "dark",
+		"gangnam_dream": "legend",
+		"gangnam_dream_white": "legend",
+		"full_circle": "legend",
+		"stable_success": "hopeful",
+		"late_call": "hopeful",
+		"gambling_recovery": "hopeful",
+		"sangchul_reckoning": "hopeful",
+		"career_burnout": "hopeful",
+	}
+	for ending_id in expected.keys():
+		var actual := AudioManager.ending_audio_tone(str(ending_id))
+		if actual != str(expected[ending_id]):
+			_failures.append("Ending audio tone mismatch: %s expected %s got %s" % [
+				ending_id, expected[ending_id], actual])
+
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string("res://content/endings.json"))
+	if not (parsed is Array):
+		_failures.append("Cannot parse endings.json for ending audio tone check")
+		return
+	for ending in parsed:
+		if not (ending is Dictionary):
+			continue
+		var ending_id := str(ending.get("id", ""))
+		if ending_id == "":
+			continue
+		var bgm_key := AudioManager.ending_bgm_key(ending_id)
+		var stinger_key := AudioManager.ending_stinger_key(ending_id)
+		if not BGMPlayer.TRACKS.has(bgm_key):
+			_failures.append("Ending %s maps to missing BGM key: %s" % [ending_id, bgm_key])
+		if not AudioManager._SFX_FILES.has(stinger_key):
+			_failures.append("Ending %s maps to missing stinger key: %s" % [ending_id, stinger_key])
 
 func _scan_audio_calls(dir_path: String, re: RegEx, used: Dictionary) -> void:
 	var dir := DirAccess.open(dir_path)

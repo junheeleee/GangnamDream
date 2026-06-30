@@ -143,6 +143,33 @@ func _build_ui():
 	_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_bg)
 
+	var line_layer := Control.new()
+	line_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	line_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(line_layer)
+	for x in [0.18, 0.50, 0.82]:
+		var vline := ColorRect.new()
+		vline.color = Color("#161b26", 0.24)
+		vline.anchor_left = x
+		vline.anchor_right = x
+		vline.anchor_top = 0.12
+		vline.anchor_bottom = 0.88
+		vline.offset_left = 0
+		vline.offset_right = 1
+		vline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line_layer.add_child(vline)
+	for y in [0.34, 0.66]:
+		var hline := ColorRect.new()
+		hline.color = Color("#141824", 0.22)
+		hline.anchor_left = 0.16
+		hline.anchor_right = 0.84
+		hline.anchor_top = y
+		hline.anchor_bottom = y
+		hline.offset_top = 0
+		hline.offset_bottom = 1
+		hline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line_layer.add_child(hline)
+
 	# 중앙 컨테이너
 	var center = CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)

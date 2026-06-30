@@ -657,13 +657,6 @@ func _on_wheel_draw() -> void:
 	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 16.0, stand_top), Vector2(32.0, 34.0)), Color("#7a4f1a"), false, 2.0)
 	_wheel_ctrl.draw_rect(Rect2(Vector2(cx - 92.0, stand_top + 34.0), Vector2(184.0, 10.0)), Color("#2a1407"), true)
 
-	# 결과 텍스트
-	if _phase == Phase.RESULT and _result_seg >= 0:
-		var rl: String  = str(SEG_LABELS[_result_seg])
-		var rc: Color   = Color(str(SEG_COLORS[_result_seg]))
-		_wheel_ctrl.draw_string(f, Vector2(cx - 28.0, cy + r + 22.0),
-			_tr("결과: %s", "Result: %s") % rl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, rc)
-
 	_draw_result_plate(Vector2(cx + r + 58.0, cy - 72.0), f)
 
 func _draw_result_plate(pos: Vector2, font: Font) -> void:

@@ -3,7 +3,7 @@
 This document keeps the game identity consistent across writing, UI, event tone, news, systems, and store materials.
 
 ## Current Direction
-- Genre: Korean modern-life roguelike text RPG.
+- Genre: Korean modern-life interactive drama / life sim.
 - Fantasy: surviving poverty, pressure, debt, relationships, work, and speculation while chasing upward mobility.
 - Mood: darkly funny, anxious, sharp, satirical, strategic.
 - UI keywords: dark navy dashboard, financial terminal, Football Manager density, visual novel event focus.
@@ -28,4 +28,3 @@ This document keeps the game identity consistent across writing, UI, event tone,
 - Events that only change one stat without story value.
 - UI decoration that reduces readability.
 - Financial simulation that feels arbitrary.
-

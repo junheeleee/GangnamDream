@@ -38,7 +38,7 @@
     "title": "Father's Secret",
     "description": "After the hospital visit, Dad started calling more often.\nShort calls. How's the weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. About that debt. It was... Park Sang-jin.\"\n\nMinjun had never heard that name before.\n\n\"Someone from the Gangnam real estate scene introduced us. A man named Im. He seemed decent at first... He said Park Sang-jin was someone you could trust.\"\n\nMinjun set down the cup he'd been holding.",
     "description_if_known": {
-      "deduced_sangchul_truth": "After the hospital visit, Dad started calling more.\nShort calls. Weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. It was Park Sang-jin. A man named Im introduced us.\"\n\nMinjun already knew.\nHe'd pieced it together alone — in the small hours, from old articles and registry records.\nLim Sangchul.\n\nHearing it from his father's mouth was different.\nThe weight he'd been carrying alone — now it belonged to both of them.\n\nMinjun set his cup down slowly.",
+      "deduced_sangchul_truth": "After the hospital visit, Dad started calling more.\nShort calls. Weather. Have you eaten.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. It was Park Sang-jin. A man named Im introduced us.\"\n\nMinjun already knew.\nHe'd pieced it together alone — in the small hours, from old articles and registry records.\nIm Sangchul.\n\nHearing it from his father's mouth was different.\nThe weight he'd been carrying alone — now it belonged to both of them.\n\nMinjun set his cup down slowly.",
       "sangchul_clue_noted": "After the hospital visit, Dad started calling more.\n\nToday was different.\nHe spoke slowly.\n\"Minjun. That debt. A man named Im from the Gangnam real estate scene introduced us.\"\n\nMinjun remembered.\nThe name that had passed through that dinner. The one he'd filed away and chosen not to dig into.\nNot sure enough. Not yet.\n\nNow he was sure.\nThe night he'd decided to leave it alone — suddenly felt very heavy."
     },
     "choices": [
@@ -52,7 +52,7 @@
       },
       {
         "text": "(He couldn't say a word)",
-        "result_text": "After a long silence, Dad spoke again.\n\"I just... felt like I had to tell you. I'm sorry, son.\"\n\nMinjun couldn't even say \"it's okay.\" He ended the call.\nAnd sat alone in his room.\n\nLim Sangchul."
+        "result_text": "After a long silence, Dad spoke again.\n\"I just... felt like I had to tell you. I'm sorry, son.\"\n\nMinjun couldn't even say \"it's okay.\" He ended the call.\nAnd sat alone in his room.\n\nIm Sangchul."
       }
     ]
   },

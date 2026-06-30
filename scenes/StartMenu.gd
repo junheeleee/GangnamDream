@@ -216,9 +216,9 @@ func _build_splash():
 	vbox.add_child(logo)
 
 	var sub = Label.new()
-	sub.text = "KOREAN LIFE ROGUELIKE"
+	sub.text = _tr("KOREAN LIFE SIM", "SEOUL STATUS LIFE SIM")
 	sub.add_theme_font_size_override("font_size", 15)
-	sub.add_theme_color_override("font_color", Color("#2e3050"))
+	sub.add_theme_color_override("font_color", Color("#515a76"))
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(sub)
 
@@ -382,10 +382,12 @@ func _build_ui():
 	sub_lbl.clip_text = false
 	title_vb.add_child(sub_lbl)
 
-	var settings_btn = _button(_tr("설정", "Settings"), "#1a1a28")
-	settings_btn.custom_minimum_size = Vector2(62, 44)
+	var settings_btn = _button(_tr("옵션", "Options"), "#10131a")
+	settings_btn.custom_minimum_size = Vector2(84, 36)
 	settings_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
 	settings_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	settings_btn.add_theme_font_size_override("font_size", 12)
+	settings_btn.add_theme_color_override("font_color", Color(MENU_TEXT_DIM))
 	settings_btn.pressed.connect(_open_settings_popup)
 	header_row.add_child(settings_btn)
 
@@ -515,18 +517,39 @@ func _build_ui():
 	left.add_child(new_game)
 	new_game.call_deferred("grab_focus")
 
-	# ── 구분선 ──
-	var vsep = VSeparator.new()
-	vsep.add_theme_color_override("color", Color("#181828"))
-	cols.add_child(vsep)
-
 	# ═══ 오른쪽 컬럼 ═══════════════════════════════════════
-	var right = VBoxContainer.new()
-	right.custom_minimum_size = Vector2(232, 0)
-	right.add_theme_constant_override("separation", 10)
-	cols.add_child(right)
+	var right_shell = PanelContainer.new()
+	right_shell.custom_minimum_size = Vector2(264, 0)
+	right_shell.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var right_st = StyleBoxFlat.new()
+	right_st.bg_color = Color("#090a10", 0.68)
+	right_st.border_color = Color("#2d3340", 0.82)
+	right_st.set_border_width_all(1)
+	right_st.border_width_left = 3
+	right_st.set_corner_radius_all(7)
+	right_st.content_margin_left = 14
+	right_st.content_margin_right = 14
+	right_st.content_margin_top = 14
+	right_st.content_margin_bottom = 14
+	right_shell.add_theme_stylebox_override("panel", right_st)
+	cols.add_child(right_shell)
 
-	right.add_child(_label(_tr("이어하기", "Continue"), 13, MENU_ACCENT, HORIZONTAL_ALIGNMENT_LEFT))
+	var right = VBoxContainer.new()
+	right.add_theme_constant_override("separation", 10)
+	right_shell.add_child(right)
+
+	var records_hdr = VBoxContainer.new()
+	records_hdr.add_theme_constant_override("separation", 3)
+	right.add_child(records_hdr)
+	var records_eyebrow = _label(_tr("런 기록", "RUN RECORDS"), 10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT)
+	records_eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
+	records_eyebrow.clip_text = false
+	records_hdr.add_child(records_eyebrow)
+	var records_title = _label(_tr("이어하기", "Continue"), 15, MENU_ACCENT, HORIZONTAL_ALIGNMENT_LEFT)
+	records_title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	records_title.clip_text = false
+	records_hdr.add_child(records_title)
+	right.add_child(_sep())
 
 	slot_container = VBoxContainer.new()
 	slot_container.add_theme_constant_override("separation", 8)
@@ -537,18 +560,31 @@ func _build_ui():
 	right_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	right.add_child(right_spacer)
 
-	right.add_child(_sep())
-
 	# 메타 한 줄 (업적 그리드 제거 — 첫 플레이어 혼란 방지)
+	var meta_panel = PanelContainer.new()
+	var meta_st = StyleBoxFlat.new()
+	meta_st.bg_color = Color("#0c0e14", 0.86)
+	meta_st.border_color = Color("#202632", 0.9)
+	meta_st.set_border_width_all(1)
+	meta_st.set_corner_radius_all(6)
+	meta_st.content_margin_left = 10
+	meta_st.content_margin_right = 10
+	meta_st.content_margin_top = 9
+	meta_st.content_margin_bottom = 9
+	meta_panel.add_theme_stylebox_override("panel", meta_st)
+	right.add_child(meta_panel)
+	var meta_box = VBoxContainer.new()
+	meta_box.add_theme_constant_override("separation", 5)
+	meta_panel.add_child(meta_box)
 	var meta = MetaProgression.data
 	var unlocked_ach_count: int = MetaProgression.get_unlocked_achievements().size()
 	var total_ach: int = DataRegistry.achievements.size()
-	right.add_child(_label(
+	meta_box.add_child(_label(
 		_tr(
 			"누적 %d런  ·  최고 자산 %s" % [meta.get("total_runs", 0), _format_money(meta.get("best_asset", 0))],
 			"%d runs  ·  Best assets %s" % [int(meta.get("total_runs", 0)), _format_start_money(float(meta.get("best_asset", 0)))]),
 		10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT))
-	right.add_child(_label(
+	meta_box.add_child(_label(
 		_tr("업적 %d / %d 해금" % [unlocked_ach_count, total_ach],
 			"Achievements %d / %d" % [unlocked_ach_count, total_ach]),
 		10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT))
@@ -937,13 +973,28 @@ func _show_content_warning():
 	ok_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ok_btn.custom_minimum_size = Vector2(0, 44)
 	var ok_st = StyleBoxFlat.new()
-	ok_st.bg_color = Color(MENU_ACCENT_BRIGHT)
+	ok_st.bg_color = Color("#111820", 0.98)
+	ok_st.border_color = Color(MENU_ACCENT_BRIGHT, 0.78)
+	ok_st.set_border_width_all(1)
+	ok_st.border_width_left = 4
 	ok_st.set_corner_radius_all(6)
 	var ok_hover = ok_st.duplicate()
-	ok_hover.bg_color = Color(MENU_ACCENT_BRIGHT).lightened(0.08)
+	ok_hover.bg_color = Color("#172331", 0.98)
+	ok_hover.border_color = Color("#ffffff", 0.9)
+	var ok_pressed = ok_st.duplicate()
+	ok_pressed.bg_color = Color("#0b1018", 0.98)
+	var ok_focus = ok_st.duplicate()
+	ok_focus.border_color = Color("#ffffff")
+	ok_focus.set_border_width_all(2)
+	ok_focus.border_width_left = 5
 	ok_btn.add_theme_stylebox_override("normal", ok_st)
 	ok_btn.add_theme_stylebox_override("hover", ok_hover)
-	ok_btn.add_theme_color_override("font_color", Color("#0a0a0e"))
+	ok_btn.add_theme_stylebox_override("pressed", ok_pressed)
+	ok_btn.add_theme_stylebox_override("focus", ok_focus)
+	ok_btn.add_theme_color_override("font_color", Color("#eef3f8"))
+	ok_btn.add_theme_color_override("font_hover_color", Color("#ffffff"))
+	ok_btn.add_theme_color_override("font_pressed_color", Color("#dce6ee"))
+	ok_btn.add_theme_color_override("font_focus_color", Color("#ffffff"))
 	ok_btn.add_theme_font_size_override("font_size", 14)
 	ok_btn.pressed.connect(func():
 		MetaProgression.data["content_warning_seen"] = true
