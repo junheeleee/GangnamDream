@@ -4448,3 +4448,19 @@ EventManager.gd (min/max_addiction 조건) + GameState.gd (월간 압박) + dram
 - [다은 MINOR] 우정 finale(together stage)의 엔딩 에필로그 연인 톤 누수 → daeun_romance_started 플래그 게이트
 - [다은 MINOR] cast_stages.json 죽은 stage(dating/committed) 제거
 - audit ERROR 0/WARNING 0/밴드 통과
+
+## 2026-06-30 (챕터 1-5 전수 한글+영어 폴리싱 + EN 게임플레이 패리티 + EN 디폴트화)
+
+### 방식
+챕터별 병렬 에이전트(KR 품질 + KR↔EN 의미드리프트/숫자/표기/커버리지) → 검증 → 적용 → 커밋.
+
+### 주요 성과
+- **EN 게임플레이 패리티 대수술**: EN 오버레이가 cast_effects/flags/conditions로 KR을 덮어쓰던 94건 → 47개 EN 파일에서 게임플레이 키 7354개 제거, EN을 순수 텍스트 오버레이로 정규화. 다은 재프레임이 영어에서 연애로 무력화되던 것 등 해소.
+- **EN 커버리지 누수 0**: 변형 description + description_if_known 누락 전부 채움. tools/en_coverage_check.py 신규(재발 방지턱, description_if_known까지 검사).
+- **고유명사 표기 통일**: 박재혁→최재혁/Choi Jaehyuk, Sang-chul→Sangchul, Lim→Im Sangchul, Jae-hyuk→Jaehyuk, Min-seo→Minseo, Dae-eun→Daeun.
+- **타임라인 오역**: "five years ago"→"years ago"(몇 년 전, 6년 빚 모순) 다수.
+- **의미 드리프트 재번역**: arc_invest_guidance/hyunsu_result_fail/arc_father_01_call(EN이 다른 씬) → KR로 재번역. 날조 단락(전세/공인중개사 설명) 삭제.
+- **기본 표시 언어 EN 전환**(외국인 우선). 소스 오브 트루스는 KR 유지.
+- 챕터별 KR 개연성/정합 수정(임상철 선참조, 매달린 전화, 공백 6년, 군복무 등).
+
+### 결과: audit ERROR 0/WARNING 0/밴드 통과, EN coverage clean (전 챕터)
