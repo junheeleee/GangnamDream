@@ -2,207 +2,64 @@
   {
     "id": "amb_mlm_00",
     "title": "A Great Opportunity",
-    "background": "cafe",
-    "portrait": "player_tired",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 4,
-      "no_job": true
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 30,
     "description": "A long-lost classmate texts out of nowhere. Warm opener.\n\"How have you been? What are you up to? I've got this great business going —\nno capital required, ₩1M a month is realistic. Perfect for someone like you.\nIf you have time, let's meet?\"\n\nUnemployed, account nearly empty. {name} has a pretty good idea what this is.\nAnd yet — '₩1 million a month' keeps catching the eye.",
     "choices": [
       {
         "text": "Go and at least hear it out.  (desperation / trap + time)",
-        "result_text": "I spent two hours at the cafe. Whiteboard diagrams and the words \"profit structure\" kept repeating.",
-        "follow_up_event": "amb_mlm_meet",
-        "effects": {
-          "stress": 4,
-          "money": -10000,
-          "tint": -2
-        }
+        "result_text": "I spent two hours at the cafe. Whiteboard diagrams and the words \"profit structure\" kept repeating."
       },
       {
         "text": "Shut it down immediately.  (dignity + safety / relationship + faint hope)",
-        "result_text": "{name} replied 'not interested' and closed the chat.\nThe classmate sneered about 'kicking opportunity away', and the connection ended there.\nLet go of the ₩1M fantasy too. When desperate, clarity matters most.",
-        "flags": [
-          "mlm_refused"
-        ],
-        "effects": {
-          "mental": 3,
-          "social_skill": -1,
-          "stress": -2,
-          "tint": 3
-        }
+        "result_text": "{name} replied 'not interested' and closed the chat.\nThe classmate sneered about 'kicking opportunity away', and the connection ended there.\nLet go of the ₩1M fantasy too. When desperate, clarity matters most."
       }
     ]
   },
   {
     "id": "amb_mlm_meet",
     "title": "The Seminar Room",
-    "background": "meeting",
-    "portrait": "player_shocked",
-    "category": "social",
-    "rarity": "story",
-    "weight": 0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 9999
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 9999,
     "description": "Glossy hotel seminar hall. Applause. 'Success story' reels. A speaker draped in luxury.\nEven {name}'s pulse picks up with the energy for a second.\nThen the classmate slides over and grabs a shoulder.\n\"All you need is ₩3 million in enrollment fees. Card works? Let's change your life.\"",
     "choices": [
       {
         "text": "Come to your senses and walk out.  (escape / awkwardness + relationship)",
-        "result_text": "{name} slipped out on a 'bathroom' excuse and walked home from there.\nThe classmate's calls rained down on the way. Blocked.\n₩3 million saved. Self-respect saved. But that night was long and cold.",
-        "flags": [
-          "mlm_escaped"
-        ],
-        "effects": {
-          "mental": 4,
-          "stress": 8,
-          "social_skill": 1
-        }
+        "result_text": "{name} slipped out on a 'bathroom' excuse and walked home from there.\nThe classmate's calls rained down on the way. Blocked.\n₩3 million saved. Self-respect saved. But that night was long and cold."
       },
       {
         "text": "'Once-in-a-lifetime opportunity' — pull out the card.  (false hope / debt + regret)",
-        "result_text": "{name} swiped the card. ₩3 million in debt out of nothing.\nWithin days, the truth was clear — product won't sell, only the debt remains.\nDesperation is the most expensive vulnerability.",
-        "flags": [
-          "mlm_trapped",
-          "crossed_line_early"
-        ],
-        "effects": {
-          "money": -3000000,
-          "stress": 12,
-          "mental": -8
-        }
+        "result_text": "{name} swiped the card. ₩3 million in debt out of nothing.\nWithin days, the truth was clear — product won't sell, only the debt remains.\nDesperation is the most expensive vulnerability."
       }
     ]
   },
   {
     "id": "amb_health_00",
     "title": "The Day of Collapse",
-    "background": "hospital",
-    "portrait": "player_shocked",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 6,
-      "max_health": 55
-    },
-    "tags": [
-      "scenario",
-      "tradeoff"
-    ],
-    "cooldown": 30,
     "description": "Subway stairs. Eyes white out — and then {name} goes down.\nPeople murmur. Someone reaches for 119.\n\nMonths without real sleep. Meals skipped. Running on nothing.\nThis was the body's final warning.\nThe ER means money, time, disruption.",
     "choices": [
       {
         "text": "Go to the ER.  (treatment + relief / hospital bill + time)",
-        "result_text": "{name} was put on an IV at the ER. Overwork and malnutrition.\n\"A little longer and it would have been serious.\" The doctor's words landed hard.\nThe bill hit the account again. But the body — came back a little.\nSometimes stopping is the fastest way forward.",
-        "flags": [
-          "health_treated"
-        ],
-        "effects": {
-          "money": -200000,
-          "health": 12,
-          "stress": -6,
-          "tint": 5
-        }
+        "result_text": "{name} was put on an IV at the ER. Overwork and malnutrition.\n\"A little longer and it would have been serious.\" The doctor's words landed hard.\nThe bill hit the account again. But the body — came back a little.\nSometimes stopping is the fastest way forward."
       },
       {
         "text": "Wave everyone off and get back up.  (save money + time / health gamble)",
-        "result_text": "{name} said \"I'm fine\" and forced up, walking along the wall.\nSaved the hospital bill and the half-day.\nBut the body felt heavier from that day on.\nWhether the saved ₩200,000 comes back at a higher cost — nobody knows yet.",
-        "flags": [
-          "health_ignored"
-        ],
-        "effects": {
-          "money": 0,
-          "health": -10,
-          "stress": 4,
-          "tint": -5
-        }
+        "result_text": "{name} said \"I'm fine\" and forced up, walking along the wall.\nSaved the hospital bill and the half-day.\nBut the body felt heavier from that day on.\nWhether the saved ₩200,000 comes back at a higher cost — nobody knows yet."
       }
     ]
   },
   {
     "id": "amb_mlm_aftermath",
     "title": "The Card Bill",
-    "background": "goshiwon_room",
-    "portrait": "player_shocked",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 3.5,
-    "hidden": false,
-    "conditions": {
-      "flag": "mlm_trapped",
-      "min_turn": 8
-    },
-    "tags": [
-      "scenario",
-      "tradeoff",
-      "ripple"
-    ],
-    "cooldown": 999,
     "description": "The MLM product sits in storage. Unsold. Every last piece.\nAnd now — the ₩3 million card bill has arrived. Debt collection calls coming in waves.\nThe classmate has gone silent. From the start, {name} wasn't a friend — just prey.\n\nThat 'once-in-a-lifetime opportunity' came back as a daily debt call.",
     "choices": [
       {
         "text": "Grind part-time jobs and pay it off.  (clear the debt / health + time)",
-        "result_text": "{name} took every dawn and weekend shift available.\nGround through it for months and cleared the debt. Credit survived.\nBut health suffered and the entire time for building seed money evaporated.\nThe price of the mistake was paid in the most expensive currency — time.",
-        "flags": [
-          "mlm_debt_repaid"
-        ],
-        "effects": {
-          "money": -1500000,
-          "health": -8,
-          "stress": 10,
-          "mental": 4,
-          "tint": 3
-        }
+        "result_text": "{name} took every dawn and weekend shift available.\nGround through it for months and cleared the debt. Credit survived.\nBut health suffered and the entire time for building seed money evaporated.\nThe price of the mistake was paid in the most expensive currency — time."
       },
       {
         "text": "Can't pay. Accept the credit damage.  (short-term relief / future)",
-        "result_text": "{name} let the card payment go delinquent. Escaped the part-time hell for now.\nBut the credit score collapsed. Loans, jeonse deposits — all blocked going forward.\n{name} paved the road to Gangnam with its own thorns.",
-        "flags": [
-          "credit_damaged"
-        ],
-        "effects": {
-          "stress": 8,
-          "mental": -6,
-          "investment_skill": -1,
-          "tint": -3
-        }
+        "result_text": "{name} let the card payment go delinquent. Escaped the part-time hell for now.\nBut the credit score collapsed. Loans, jeonse deposits — all blocked going forward.\n{name} paved the road to Gangnam with its own thorns."
       },
       {
         "text": "Swallow pride and ask Dad for help.  (resolved / family + shame)",
-        "result_text": "{name} made the call that wouldn't come easily. Asked Dad.\nDad sent the money without asking anything. Just: 'Are you eating?'\nThe debt disappeared. But that silence hurt more than the debt.\nDad spent six years paying off his own debts. {name} just added to them.",
-        "flags": [
-          "borrowed_from_parents"
-        ],
-        "effects": {
-          "money": 3000000,
-          "mental": -7,
-          "stress": -4,
-          "tint": 1
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": -6
-          }
-        }
+        "result_text": "{name} made the call that wouldn't come easily. Asked Dad.\nDad sent the money without asking anything. Just: 'Are you eating?'\nThe debt disappeared. But that silence hurt more than the debt.\nDad spent six years paying off his own debts. {name} just added to them."
       }
     ]
   }

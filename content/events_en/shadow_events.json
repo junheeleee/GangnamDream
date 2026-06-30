@@ -3,50 +3,17 @@
     "id": "shadow_loan_collector",
     "title": "The Collection Call",
     "description": "An unknown number appears. He picks up — the voice on the other end is low and calm. \"Mr. Kim Minjun, I'm someone who helped you out briefly a while back. I think it's time we settled up.\" He has no memory of borrowing anything, but this person knows far too much about him.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {},
-    "tags": [
-      "shadow",
-      "debt",
-      "pressure"
-    ],
-    "cooldown": 20,
     "choices": [
       {
         "text": "Tell them they have the wrong person and hang up",
-        "effects": {
-          "mental": -13
-        },
-        "flags": [
-          "shadow_loan_ignored"
-        ],
         "result_text": "He hangs up, but the calls keep coming. Same number, same voice. He blocks it — a different number calls. Something gave this person his number."
       },
       {
         "text": "Ask how they got his contact information",
-        "effects": {
-          "intelligence": 1,
-          "mental": -5
-        },
-        "flags": [
-          "shadow_loan_questioned"
-        ],
-        "deferred_follow_up": "shadow_loan_answer",
-        "deferred_delay": 4,
         "result_text": "\"Someone who knows you passed it along.\" They won't say who. They'll call back in four weeks, they say. Think it over until then."
       },
       {
         "text": "Agree to meet in person",
-        "effects": {
-          "money": -200000,
-          "mental": -12
-        },
-        "flags": [
-          "shadow_loan_met"
-        ],
         "result_text": "The man at the café was neat and composed. He slid a sheet of paper across the table. The signature date looks like his handwriting, but he has no memory of it. He paid 200,000 won and got out of there."
       }
     ]
@@ -55,34 +22,13 @@
     "id": "shadow_loan_answer",
     "title": "That Someone",
     "description": "After four weeks, the call comes again. This time they say a name. It's a name he knows. Someone he once asked for a favor. Or someone he once turned his back on.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 0.0,
-    "hidden": true,
-    "conditions": {
-      "flag": "shadow_loan_questioned"
-    },
-    "tags": [
-      "shadow",
-      "callback"
-    ],
-    "cooldown": 99,
     "choices": [
       {
         "text": "Deny knowing anyone by that name",
-        "effects": {
-          "reputation": -2,
-          "mental": -5
-        },
         "result_text": "The caller laughed quietly. \"If you don't know them, there's nothing I can do either.\" The line went dead. Now he can't reach out to that person."
       },
       {
         "text": "Contact that person directly",
-        "effects": {
-          "social_skill": 1,
-          "money": -300000,
-          "mental": 5
-        },
         "result_text": "\"I had no choice. I'm sorry.\" He handed over 300,000 won to make it go away. The relationship survived, but something shifted."
       }
     ]
@@ -91,54 +37,17 @@
     "id": "shadow_snitch_rumor",
     "title": "The Rumor",
     "description": "A KakaoTalk message from an acquaintance. \"Minjun, are you aware there's some weird rumor going around about you?\" He asks what kind — they say they're not sure. Somewhere out there, his reputation is being rewritten.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "min_reputation": 3
-    },
-    "tags": [
-      "shadow",
-      "reputation",
-      "social"
-    ],
-    "cooldown": 15,
     "choices": [
       {
         "text": "Ignore it. No bandwidth to deal with this",
-        "effects": {
-          "reputation": -3,
-          "mental": -3
-        },
-        "flags": [
-          "shadow_snitch_ignored"
-        ],
         "result_text": "Two weeks later, the interviewer at a job interview treated him with a strange edge. No offer came. The rumor had already spread."
       },
       {
         "text": "Track down the source",
-        "effects": {
-          "intelligence": 1,
-          "mental": -6
-        },
-        "flags": [
-          "shadow_snitch_tracked"
-        ],
-        "deferred_follow_up": "shadow_snitch_found",
-        "deferred_delay": 5,
         "result_text": "He worked through mutual contacts one by one. Someone definitely leaked it — but it looks like it'll take another five weeks to pin down who."
       },
       {
         "text": "Flip the rumor to his advantage",
-        "effects": {
-          "reputation": 2,
-          "social_skill": 2,
-          "mental": -4
-        },
-        "flags": [
-          "shadow_snitch_spun"
-        ],
         "result_text": "\"Heard the rumor? I'm working on something big these days — guess I made some enemies.\" He laughed it off, and people actually bought it. Bluff or boldness — hard to say."
       }
     ]
@@ -147,43 +56,17 @@
     "id": "shadow_snitch_found",
     "title": "The Source",
     "description": "He finally found them. It was someone he never would have guessed. Someone he'd known for a long time, someone he'd shared meals with. He doesn't understand why they did it. Or maybe, somewhere in the back of his mind, he does.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 0.0,
-    "hidden": true,
-    "conditions": {
-      "flag": "shadow_snitch_tracked"
-    },
-    "tags": [
-      "shadow",
-      "callback",
-      "relationship"
-    ],
-    "cooldown": 99,
     "choices": [
       {
         "text": "Confront them directly",
-        "effects": {
-          "reputation": 1,
-          "social_skill": -1,
-          "mental": 8
-        },
         "result_text": "Their face went red. First denial, then admission. The reason was envy. The relationship is over, but strangely — he feels lighter."
       },
       {
         "text": "Say nothing and quietly drift away",
-        "effects": {
-          "mental": -6
-        },
         "result_text": "They must have sensed it — the messages thinned out. He learned again how people get quietly removed from your life."
       },
       {
         "text": "Pretend he doesn't know and keep seeing them",
-        "effects": {
-          "social_skill": 2,
-          "intelligence": 1,
-          "mental": -5
-        },
         "result_text": "Knowing but acting like you don't is harder than it sounds. But he still needed the connections this person had."
       }
     ]
@@ -192,51 +75,17 @@
     "id": "shadow_old_promise",
     "title": "An Old Promise",
     "description": "A DM arrives out of nowhere. \"Hey, remember when we said we'd start something together? I'm actually ready now. What about you?\" He remembers. He'd just been talking — but apparently the other person had been waiting in earnest.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 10
-    },
-    "tags": [
-      "shadow",
-      "startup",
-      "promise"
-    ],
-    "cooldown": 18,
     "choices": [
       {
         "text": "Be honest — tell them things have changed on his end",
-        "effects": {
-          "reputation": -1,
-          "mental": 7
-        },
         "result_text": "\"Yeah, that's okay.\" Those were the words, but the messages stopped after that. The price of honesty is always a quiet goodbye."
       },
       {
         "text": "Stall — tell them the timing isn't right yet",
-        "effects": {
-          "mental": -4
-        },
-        "flags": [
-          "shadow_promise_delayed"
-        ],
-        "deferred_follow_up": "shadow_promise_again",
-        "deferred_delay": 7,
         "result_text": "\"Okay, I'll wait.\" Another message will come in seven weeks. He has to figure something out before then."
       },
       {
         "text": "Say yes — let's do this",
-        "effects": {
-          "intelligence": 2,
-          "social_skill": 1,
-          "money": -500000,
-          "mental": -8
-        },
-        "flags": [
-          "startup_collab_joined"
-        ],
         "result_text": "They met at a café on the weekend. The ideas were there. The execution felt impossibly vague. They split 500,000 won for initial costs. It's started."
       }
     ]
@@ -245,38 +94,13 @@
     "id": "shadow_promise_again",
     "title": "Seven Weeks Later",
     "description": "Just as promised, the message came. There's nowhere left to dodge. This person is serious. And that seriousness is, somehow, a little frightening.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 0.0,
-    "hidden": true,
-    "conditions": {
-      "flag": "shadow_promise_delayed"
-    },
-    "tags": [
-      "shadow",
-      "callback",
-      "startup"
-    ],
-    "cooldown": 99,
     "choices": [
       {
         "text": "Tell them this time it's real",
-        "effects": {
-          "intelligence": 2,
-          "money": -300000,
-          "mental": -6
-        },
-        "flags": [
-          "startup_collab_joined"
-        ],
         "result_text": "He made the promise a second time. This time, bank accounts were involved. 300,000 won left his account. Whether it's a real start or just another delay, he still doesn't know."
       },
       {
         "text": "Be honest — tell them he can't do it",
-        "effects": {
-          "reputation": -2,
-          "mental": 10
-        },
         "result_text": "\"Okay.\" Just one word. A long silence, then the call ended. He learned this time how a casual remark can hold someone else hostage."
       }
     ]

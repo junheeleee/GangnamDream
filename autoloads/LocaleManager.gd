@@ -2,7 +2,7 @@ extends Node
 ## 언어 설정 관리자 — ko(한국어) / en(영어)
 ## 언어 변경 시 DataRegistry.reload() 트리거
 
-var language: String = "ko"
+var language: String = "en"
 
 # 주인공 기본 이름 — 언어 전환 시 다른 언어 기본값으로 동기화 (커스텀 이름은 보존)
 const DEFAULT_NAME_KO := "김민준"
@@ -18,8 +18,8 @@ func _load_saved_language() -> void:
 	var sm = get_node_or_null("/root/SaveManager")
 	if sm == null:
 		return
-	var saved = sm.get_setting("language", "ko")
-	var lang := str(saved) if str(saved) in ["ko", "en"] else "ko"
+	var saved = sm.get_setting("language", "en")
+	var lang := str(saved) if str(saved) in ["ko", "en"] else "en"
 	if lang != language:
 		language = lang
 		_sync_player_name(lang)

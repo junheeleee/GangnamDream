@@ -366,5 +366,47 @@
         "result_text": "이민서가 한참 생각하다가 말했다.\n\"목표가 생기면 — 목표가 사라질 때를 준비해야 해요. 그게 제일 힘들어요.\"\n\n{name}은 그 말을 이해하는 데 한참 걸렸다."
       }
     ]
+  },
+  {
+    "id": "arc_minseo_03_arrival",
+    "title": "도착하는 사람",
+    "category": "relationship",
+    "rarity": "uncommon",
+    "hidden": true,
+    "weight": 0,
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "minseo"
+    ],
+    "portrait": "minseo",
+    "background": "gangnam_day",
+    "description": "강남까지 얼마 남지 않았다.\n\n숫자가 거의 다 찼을 때, 이민서에게서 연락이 왔다.\n\"소식 들었어요. 거의 다 오셨다면서요.\"\n\n그때 그 카페에서 다시 만났다.\n\"축하해요. 진심으로.\"\n그러더니 잠깐 말이 없었다.\n\"그때 제가 했던 말, 기억나요?\"\n\n{name}은 기억하고 있었다. '목표가 사라질 때를 준비하라'던 말.\n이제는 — 그게 무슨 뜻인지 조금 알 것 같았다.",
+    "choices": [
+      {
+        "text": "\"이제 좀 알 것 같아요.\" — 솔직하게 말했다",
+        "effects": {
+          "mental": 4
+        },
+        "flags": [
+          "arc_minseo_03_seen"
+        ],
+        "result_text": "이민서가 고개를 끄덕였다.\n\"그쵸. 도착하면 다음 질문이 와요. '이제 뭘 하지.'\n근데 그게 나쁜 것만은 아니에요. 적어도 — 새 질문이 생긴 거니까.\"\n\n{name}은 처음으로, 강남이 끝이 아니라 다음 문장의 시작이라는 걸 느꼈다."
+      },
+      {
+        "text": "\"아직 도착 안 했어요. 김칫국부터 마시기 싫어서요.\" — 웃었다",
+        "effects": {
+          "mental": 2
+        },
+        "flags": [
+          "arc_minseo_03_seen"
+        ],
+        "result_text": "이민서가 웃었다. \"그것도 맞아요. 끝까지 가보세요.\"\n\n그래도 {name}은 그녀의 말을 가방 안에 넣어두기로 했다.\n도착한 다음에 꺼내볼 것이다."
+      }
+    ]
   }
 ]

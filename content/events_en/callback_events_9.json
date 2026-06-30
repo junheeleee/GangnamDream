@@ -152,10 +152,7 @@
     "choices": [
       {
         "text": "Say goodbye in person this time",
-        "result_text": "'You worked hard. I hope it goes well.'\nThey said 'Thanks. Take care.'\nWhat you saw then changed how you acted now.\nWatching and learning is also experience.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "'You worked hard. I hope it goes well.'\nThey said 'Thanks. Take care.'\nWhat you saw then changed how you acted now.\nWatching and learning is also experience."
       },
       {
         "text": "Watch from your seat",
@@ -185,17 +182,11 @@
     "choices": [
       {
         "text": "Sort out the reasons again",
-        "result_text": "You wrote it down.\nWhy Gangnam. Who it's for.\nHalf pride, half something real.\nIf half is real — that's enough reason to keep going.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "You wrote it down.\nWhy Gangnam. Who it's for.\nHalf pride, half something real.\nIf half is real — that's enough reason to keep going."
       },
       {
         "text": "Whatever the reason — results matter",
-        "result_text": "Results matter. You kept running.\nBut running on pride alone — sometimes even reaching the goal leaves you empty.\nThat was starting to make sense.",
-        "effects": {
-          "tint": -2
-        }
+        "result_text": "Results matter. You kept running.\nBut running on pride alone — sometimes even reaching the goal leaves you empty.\nThat was starting to make sense."
       }
     ]
   },
@@ -206,17 +197,11 @@
     "choices": [
       {
         "text": "The straight path is right. Keep going.",
-        "result_text": "Slow, but it had accumulated.\nMoney made through speculation was lost through speculation — but this number remained.\nThe orthodox path isn't slow. Speculation's speed was an illusion.",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "Slow, but it had accumulated.\nMoney made through speculation was lost through speculation — but this number remained.\nThe orthodox path isn't slow. Speculation's speed was an illusion."
       },
       {
         "text": "Still unsure. There's probably a faster way.",
-        "result_text": "Still no clear answer.\nBut questioning while moving — better than moving without thinking.\nThe answer comes at the end.",
-        "effects": {
-          "tint": -2
-        }
+        "result_text": "Still no clear answer.\nBut questioning while moving — better than moving without thinking.\nThe answer comes at the end."
       }
     ]
   },

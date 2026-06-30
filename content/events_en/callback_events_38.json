@@ -47,7 +47,7 @@
   {
     "id": "callback_minseo_card_echo",
     "title": "The Card in the Wallet",
-    "description": "Cleaning out the wallet — a business card.\n\nLee Min-seo. The woman who owns the Gangnam apartment.\n\n'If you want to know how I did it, reach out.'\n\nMonths since she said that.",
+    "description": "Cleaning out the wallet — a business card.\n\nLee Minseo. The woman who owns the Gangnam apartment.\n\n'If you want to know how I did it, reach out.'\n\nMonths since she said that.",
     "choices": [
       {
         "text": "Send the message — ask to meet",
@@ -62,11 +62,11 @@
   {
     "id": "callback_minseo_real_talk_echo",
     "title": "When the Goal Disappears",
-    "description": "Something Min-seo said keeps coming back.\n\n'When you have a goal — prepare for when it disappears.'\n\nMade no sense then. Getting closer now.",
+    "description": "Something Minseo said keeps coming back.\n\n'When you have a goal — prepare for when it disappears.'\n\nMade no sense back then — what it meant that the ₩3 billion would vanish the moment I had it.\nLately I think I'm starting to understand.",
     "choices": [
       {
         "text": "Think about what comes after ₩3 billion",
-        "result_text": "'If I hit the number — then what?'\n\nUncomfortable question. The goal had been the engine.\nWithout it: who am I?\n\nMin-seo must have been talking about this. Now it makes sense."
+        "result_text": "'If I hit the number — then what?'\n\nUncomfortable question. The goal had been the engine.\nWithout it: who am I?\n\nMinseo must have been talking about this. Now it makes sense."
       },
       {
         "text": "Not there yet — focus on the goal first",

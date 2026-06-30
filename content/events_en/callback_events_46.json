@@ -77,7 +77,7 @@
   {
     "id": "callback_called_hyunsu_scam_echo",
     "title": "Calling Hyun-su After the Scam",
-    "description": "The day after being scammed by Jae-hyuk, trying not to collapse, {name} called Hyun-su.\n\nToday Hyun-su brought up that day.\n\n'Hyung, you called me then. I remember your voice shaking. But you got back up the next day.'",
+    "description": "The day after being scammed by Jaehyuk, trying not to collapse, {name} called Hyun-su.\n\nToday Hyun-su brought up that day.\n\n'Hyung, you called me then. I remember your voice shaking. But you got back up the next day.'",
     "choices": [
       {
         "text": "\"I held on because you picked up.\"",
@@ -92,7 +92,7 @@
   {
     "id": "callback_did_nothing_scam_echo",
     "title": "The Day I Did Nothing",
-    "description": "The day after being scammed by Jae-hyuk, {name} lay around doing nothing all day.\n\nThat collapsed day comes back sometimes.\n\nToday, after another hard thing, they're stalled like that day.",
+    "description": "The day after being scammed by Jaehyuk, {name} lay around doing nothing all day.\n\nThat collapsed day comes back sometimes.\n\nToday, after another hard thing, they're stalled like that day.",
     "choices": [
       {
         "text": "That day was needed too — I rose after collapsing",

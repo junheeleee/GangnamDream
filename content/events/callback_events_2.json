@@ -51,7 +51,7 @@
     "weight": 0.9,
     "hidden": false,
     "conditions": {
-      "flag": "daeun_committed",
+      "flag": "daeun_romance_started",
       "min_turn": 200
     },
     "tags": [
@@ -259,7 +259,7 @@
   {
     "id": "callback_jaehyuk_scammed_news",
     "title": "뉴스에 나온 이름",
-    "description": "포털에서 뉴스를 보다 멈췄다.\n[투자 사기 혐의 스타트업 대표 구속]\n기사 안에 이름이 있다. 박재혁.\n사진도 있다. 그 얼굴이다.",
+    "description": "포털에서 뉴스를 보다 멈췄다.\n[투자 사기 혐의 스타트업 대표 구속]\n기사 안에 이름이 있다. 최재혁.\n사진도 있다. 그 얼굴이다.",
     "category": "social",
     "rarity": "rare",
     "weight": 0.9,
@@ -389,7 +389,7 @@
   {
     "id": "callback_jaehyuk_reported_witness",
     "title": "형사의 전화",
-    "description": "모르는 번호로 전화가 왔다.\n\"박재혁 피해 건으로 진술 부탁드리려고요. 피해자 명단에 성함이 있어서요.\n재판이 열렸습니다. 증인으로 출석 가능하세요?\"",
+    "description": "모르는 번호로 전화가 왔다.\n\"최재혁 피해 건으로 진술 부탁드리려고요. 피해자 명단에 성함이 있어서요.\n재판이 열렸습니다. 증인으로 출석 가능하세요?\"",
     "category": "social",
     "rarity": "uncommon",
     "weight": 0.9,

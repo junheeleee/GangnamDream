@@ -3,58 +3,13 @@
     "id": "daeun_choice",
     "title": "What Daeun Said",
     "description": "Sitting on a bench. Daeun was beside {name}.\n\nAfter a long silence she finally spoke.\n\n'Being next to someone who wants to become something in Seoul — makes me feel like I could become something too.'\n\n'Just saying. Weird thing to say, right?'",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 6.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "daeun_date_done",
-      "no_flag": "daeun_ended",
-      "min_turn": 112,
-      "max_turn": 208
-    },
-    "tags": [
-      "romance",
-      "daeun"
-    ],
-    "cooldown": 99,
     "choices": [
       {
         "text": "'It's not weird.' Stay beside her.",
-        "effects": {
-          "mental": 10,
-          "stress": -6,
-          "luck": 3
-        },
-        "flags": [
-          "daeun_ended",
-          "daeun_together"
-        ],
-        "cast_effects": {
-          "daeun": {
-            "affinity": 35,
-            "stage": "lover"
-          }
-        },
-        "follow_up_event": "",
         "result_text": "Daeun smiled quietly.\n\nSeoul's low hum settled over the bench.\n\nGangnam still felt far.\nBut right here, right now — this wasn't bad.\n\nHow long that feeling would last — no way to know.\nFor now, it seemed like enough."
       },
       {
         "text": "'Gangnam comes first for me right now.'",
-        "effects": {
-          "stress": 3,
-          "mental": -5
-        },
-        "flags": [
-          "daeun_ended"
-        ],
-        "cast_effects": {
-          "daeun": {
-            "affinity": -15,
-            "stage": "distant"
-          }
-        },
-        "follow_up_event": "",
         "result_text": "Daeun nodded.\n'I know. That's why I hesitated to say it.'\n\nShe stood up.\n\nShe stopped coming after that.\n\nEvery week, around 2 AM, {name} would notice — freshly — that the spot was empty."
       }
     ]
@@ -63,53 +18,13 @@
     "id": "father_hospital_wait",
     "title": "Waiting Room",
     "description": "Dad had a check-up.\n\n{name} had come up to Seoul and was waiting in the waiting room.\nFluorescent lights. Plastic chairs. A numbered ticket.\n\nDad came out of the consultation room.\nExpression the same as always.\nNo way to know if that was good or bad.\n\n'Let's go.'\nThat was it.\n\nWalking out, {name} asked:\n'What did the doctor say?'",
-    "category": "family",
-    "rarity": "uncommon",
-    "weight": 4.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 15,
-      "flag": "father_visited"
-    },
-    "tags": [
-      "family",
-      "hospital",
-      "emotional"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "'Said everything's fine.' Don't ask more.",
-        "effects": {
-          "mental": -5,
-          "stress": 4
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 3
-          }
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Dad said nothing more.\n{name} asked nothing more.\n\nHad lunch. Same as always.\n\nOn the train back to Seoul, {name} stared out the window.\nWhether 'fine' was actually true.\nWanted to know — and maybe it was better not to."
       },
       {
         "text": "Ask to look at the results together.",
-        "effects": {
-          "mental": 3,
-          "stress": 2,
-          "intelligence": 2
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 6,
-            "stage": "hopeful"
-          }
-        },
-        "flags": [
-          "saw_father_medical"
-        ],
-        "follow_up_event": "",
         "result_text": "Dad hesitated for a moment, then took out the printout.\n\nRows of numbers. {name} didn't understand most of it.\nBut sitting next to him, reading it together — that itself felt like something new.\n\n'This number's a bit high, they said.'\n'Do you have to keep taking the medication?'\n'Apparently so.'\n\nThe first afternoon they thought about Dad's health together."
       }
     ]
@@ -118,52 +33,13 @@
     "id": "father_old_photo",
     "title": "One Photo",
     "description": "Helping Dad tidy up — an old album surfaced.\n\nFlipping through it, {name} stopped at one photo.\n\nDad in his twenties.\nStanding somewhere.\nIn front of a building. Somewhere in Seoul.\n\nHe was smiling.\nA different expression from the one he has now.\n\n{name} had never asked where this was, or why it was taken.\nPicked up the album and went to find Dad.",
-    "category": "family",
-    "rarity": "uncommon",
-    "weight": 3.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 10
-    },
-    "tags": [
-      "family",
-      "emotional",
-      "story_beat"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Ask where this was.",
-        "effects": {
-          "mental": 8,
-          "stress": -5,
-          "intelligence": 3
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 8,
-            "stage": "hopeful"
-          }
-        },
-        "flags": [
-          "heard_father_young_story"
-        ],
-        "follow_up_event": "",
         "result_text": "Dad looked at the photo.\n\nLong silence.\n\n'That was when I first came up to Seoul. Twenty-three, twenty-four maybe.'\n'I wanted to work here. Never quite happened.'\n\nDad smiled. The same smile as in the photo.\n\n{name} felt like seeing it for the first time.\nOr like having seen it long ago and forgotten."
       },
       {
         "text": "Close the album. Too hard to bring it up.",
-        "effects": {
-          "mental": -3,
-          "intelligence": 2
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 2
-          }
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Closed the album.\n\nDad may have noticed.\n\nThought: I'll ask someday.\nDidn't set a date for that someday.\n\nThe expression on that young Dad's face stayed\nall the way home."
       }
     ]
@@ -172,49 +48,17 @@
     "id": "social_life_001",
     "title": "10-Year High School Reunion",
     "description": "An official invitation arrived.\n\n'○○ High School 10-Year Reunion. Saturday, June 15. Grand Ballroom, XX Hotel, Gangnam.'\n\nSome friends were coming up from out of town.\nThe group chat suddenly came alive.\n\nThe number ten felt heavier than expected.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "social",
-      "relationship",
-      "milestone"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Attend and strengthen old connections",
-        "effects": {
-          "social_skill": 3,
-          "reputation": 2,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "It was a hotel ballroom. Faces you hadn't seen in ten years were awkward. Business cards were exchanged. Someone was already an assistant director."
       },
       {
         "text": "Go even though you don't want to — show your face",
-        "effects": {
-          "social_skill": 1,
-          "mental": -6,
-          "tint": 1
-        },
-        "flags": [],
         "result_text": "You forced yourself to go. Questions about your life poured in. On the way home you stared at your phone. No new messages."
       },
       {
         "text": "Show up dressed to impress",
-        "effects": {
-          "appearance": 2,
-          "social_skill": 2,
-          "mental": -4,
-          "tint": -1
-        },
-        "flags": [],
         "result_text": "It took an hour to get ready. A few heads turned when you walked in. Then came the questions about your life. That was the problem."
       }
     ]
@@ -223,45 +67,17 @@
     "id": "rel_job_change_offer",
     "title": "Job Posting Found",
     "description": "A LinkedIn notification came in. A position that pays more and matches your skills. Application deadline is this Friday.\n\nYou're not without complaints about your current job, but switching is a gamble. Reference checks, interviews, salary negotiations... it takes energy. {name} opened the résumé file.",
-    "category": "jobs",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "jobs",
-      "opportunity",
-      "career"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Prepare your documents carefully and apply",
-        "effects": {
-          "intelligence": 3,
-          "mental": -5
-        },
-        "flags": [],
         "result_text": "You polished the résumé and portfolio and submitted the application. A prepared challenge is always right."
       },
       {
         "text": "Want to apply but hesitate out of fear",
-        "effects": {
-          "mental": -4
-        },
-        "flags": [],
         "result_text": "You saved the posting and ultimately didn't apply. Fear locked the door on possibility."
       },
       {
         "text": "Use it as a negotiation card by hinting to your current employer",
-        "effects": {
-          "reputation": 3,
-          "intelligence": 2,
-          "mental": -2
-        },
-        "flags": [],
         "result_text": "You subtly floated the possibility of leaving to your current company. A risky card, but powerful when played right."
       }
     ]
@@ -270,56 +86,21 @@
     "id": "jobs_004",
     "title": "Overtime Message",
     "description": "Thirty minutes before clocking out, a message from the team manager.\n'If you're available tonight, could I ask you to work late with me?'\n\nYou had plans tonight. Or you just wanted to go home and rest.\nThere's no overtime pay, and rumor has it that staying late is factored into performance reviews.\n{name} read the message and paused for a moment.",
-    "category": "jobs",
-    "rarity": "common",
-    "weight": 2.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "has_job": true
-    },
-    "tags": [
-      "jobs",
-      "stress",
-      "workplace"
-    ],
-    "cooldown": 4,
     "choices": [
       {
         "text": "Reply 'of course' without hesitation",
-        "effects": {
-          "mental": -8,
-          "reputation": 2
-        },
-        "flags": [],
         "result_text": "'Yes, I'll get right on it.' Your reputation grew, but your body is only one. You'll need to learn the difference."
       },
       {
         "text": "See the message, agonize, and ultimately work overtime",
-        "effects": {
-          "mental": -10,
-          "reputation": 1
-        },
-        "flags": [],
         "result_text": "You sighed at the message and opened your laptop. Not being able to say no is your biggest weakness."
       },
       {
         "text": "Try to negotiate overtime pay",
-        "effects": {
-          "intelligence": 2,
-          "reputation": 1,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You brought up the additional pay before getting started. The moment assertiveness changes a relationship."
       },
       {
         "text": "Claim you didn't see it and handle it tomorrow",
-        "effects": {
-          "mental": 5,
-          "reputation": -1
-        },
-        "flags": [],
         "result_text": "You said 'just saw this' and took care of it in the morning. Learning to maintain healthy boundaries."
       }
     ]
@@ -328,46 +109,17 @@
     "id": "family_005",
     "title": "Family Gathering Pressure",
     "description": "Not even a holiday, but a family gathering was scheduled. Apparently your uncle's 60th birthday.\nYour parents insisted 'you have to come.'\n\nThe idea of reporting your life updates to all your relatives is already exhausting.\n'What are you doing these days? Are you married yet?' — the predictable questions flashed through your mind.\n{name} considered whether to attend and what to",
-    "category": "family",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "family",
-      "social",
-      "stress"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Attend and keep up appearances",
-        "effects": {
-          "social_skill": 1,
-          "reputation": 1,
-          "mental": -7
-        },
-        "flags": [],
         "result_text": "It wasn't an easy gathering, but you showed your face. Family dignity is hard to discard."
       },
       {
         "text": "Make an excuse and skip it",
-        "effects": {
-          "mental": 4
-        },
-        "flags": [],
         "result_text": "You avoided the gathering with the excuse of being busy. Guilt lingered, but your mind was at ease."
       },
       {
         "text": "Face it head-on and set your limits",
-        "effects": {
-          "intelligence": 2,
-          "social_skill": 2,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You declared you wouldn't be walking on eggshells anymore. You realized your own life comes before your family's gaze."
       }
     ]
@@ -376,44 +128,17 @@
     "id": "social_life_006",
     "title": "Instagram Comparison Hell",
     "description": "Before bed you opened Instagram. A high school classmate posted vacation photos from abroad. Another showed off the designer bag they bought to celebrate landing at a big company.\n\nYou hit like, but your fingers felt briefly heavy.\n{name} set the smartphone down and thought: 'What am I even doing right now.'",
-    "category": "social",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "social",
-      "comparison",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Quit social media and focus on reality",
-        "effects": {
-          "mental": 6,
-          "intelligence": 1
-        },
-        "flags": [],
         "result_text": "You deleted the app. Once the comparisons stopped, the days felt a little lighter."
       },
       {
         "text": "Keep scrolling and spiral into self-criticism",
-        "effects": {
-          "mental": -8
-        },
-        "flags": [],
         "result_text": "You counted and recounted your own shortcomings against others' lives. You knew you should stop but couldn't."
       },
       {
         "text": "Post your own success story as a counter",
-        "effects": {
-          "reputation": 2,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You posted your own photo. As the likes went up, so did the emptiness."
       }
     ]
@@ -422,49 +147,17 @@
     "id": "family_007",
     "title": "Mother's Call — Hospital Bill",
     "description": "A call from your mother.\n\n'Ah, well... I ended up having to go to the hospital, and this month is a bit tight.'\n\nShe didn't say the amount.\n{name} asked 'How much?'\n\nA brief silence.",
-    "category": "family",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 11,
-      "has_relationship": true
-    },
-    "tags": [
-      "family",
-      "finance",
-      "relationship"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Send whatever you can right now",
-        "effects": {
-          "money": -300000,
-          "mental": 5,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "Transferred ₩300,000. Taken from the investment savings. Mother said 'thank you.' Those two words stayed a long time."
       },
       {
         "text": "Be honest about your own financial situation",
-        "effects": {
-          "mental": -4,
-          "social_skill": 1,
-          "tint": -3
-        },
-        "flags": [],
         "result_text": "'Mom, I'm also a bit tight right now.'\nSaying it made your throat tighten a little.\nMother said 'Oh, it's okay.' She didn't look okay."
       },
       {
         "text": "Take out a loan and send it anyway",
-        "effects": {
-          "money": -1000000,
-          "mental": -5,
-          "tint": 6
-        },
-        "flags": [],
         "result_text": "Sent ₩1,000,000. Pulled from the overdraft account. Decided not to calculate the interest."
       }
     ]
@@ -473,53 +166,21 @@
     "id": "social_life_008",
     "title": "Friend's Investment Brag",
     "description": "A friend sent a screenshot on KakaoTalk. Portfolio return: +34%.\n'I hit it big this time lol here's what I did...'\n\nYou congratulated them sincerely, but there was a bitter taste rising.\nAt the same time, {name}'s portfolio hadn't moved.\nWould you follow your friend's method, or stick to your own principles?",
-    "category": "social",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "social",
-      "finance",
-      "comparison"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Listen calmly and collect the information",
-        "effects": {
-          "intelligence": 2,
-          "investment_skill": 1
-        },
-        "flags": [],
         "result_text": "You filtered useful information from the bragging. Even boasting becomes insight when you analyze it."
       },
       {
         "text": "Feel envious and let it bother you",
-        "effects": {
-          "mental": -6
-        },
-        "flags": [],
         "result_text": "The more you listened to the bragging, the more uncomfortable you felt. Jealousy is human, just not productive."
       },
       {
         "text": "Follow their move and invest right away",
-        "effects": {
-          "investment_skill": -1,
-          "mental": -4
-        },
-        "flags": [],
         "result_text": "Thinking you could do what your friend did, you bought in immediately. The start of emotional investing."
       },
       {
         "text": "Change the subject",
-        "effects": {
-          "social_skill": 1,
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "When the bragging went on too long, you slipped in a topic change. Avoiding what you don't want to hear is also a skill."
       }
     ]
@@ -528,48 +189,17 @@
     "id": "jobs_010",
     "title": "Wait a Moment",
     "description": "The meeting ended.\nEveryone was heading back to their desks when the manager said:\n\n'Wait a moment.'\n\nYou walked down the hallway after them.\nNothing was said. The meeting room door closed.",
-    "category": "jobs",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "has_job": true
-    },
-    "tags": [
-      "jobs",
-      "stress",
-      "workplace"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Listen calmly to whatever it is",
-        "effects": {
-          "mental": 3,
-          "reputation": 2,
-          "tint": 2
-        },
-        "flags": [],
         "result_text": "It was a compliment. They said the project results looked good. Why did those thirty seconds in the hallway feel so long?"
       },
       {
         "text": "Worry you're being let go and speak first",
-        "effects": {
-          "mental": -5,
-          "social_skill": -1
-        },
-        "flags": [],
         "result_text": "'Was there something I did wrong?' The manager paused. 'No, it's the opposite.' Their expression was a bit odd."
       },
       {
         "text": "Take a breath and prepare for the worst",
-        "effects": {
-          "intelligence": 2,
-          "mental": -2,
-          "tint": 1
-        },
-        "flags": [],
         "result_text": "If you're fired, it starts next month. You ran the numbers on how to find the next job. The manager brought up a team transfer for next year."
       }
     ]
@@ -578,56 +208,21 @@
     "id": "social_life_012",
     "title": "The Dinner Bill",
     "description": "The work dinner ended. The bill came out, and someone said 'let's split it.'\n₩45,000 per person.\n\nMore than expected. You didn't eat or drink that much.\n{name} hesitated while reaching for the wallet.\nShould you object, or just pay?",
-    "category": "social",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "social",
-      "finance",
-      "workplace"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Suggest splitting by what each person had",
-        "effects": {
-          "intelligence": 1,
-          "social_skill": -1,
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "You brought it up first: 'Let's all pay for what we had.' It was a fair suggestion but the mood briefly stiffened."
       },
       {
         "text": "Casually slip away before the bill",
-        "effects": {
-          "mental": 4,
-          "reputation": -2
-        },
-        "flags": [],
         "result_text": "You went to the bathroom before the payment. Embarrassing, but your account balance this month left no choice."
       },
       {
         "text": "Cover it all yourself",
-        "effects": {
-          "money": -90000,
-          "reputation": 3,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You pulled out your card and covered it all. It felt good not to feel anyone watching your back."
       },
       {
         "text": "Leave early",
-        "effects": {
-          "mental": 3,
-          "social_skill": -1
-        },
-        "flags": [],
         "result_text": "You said 'I'll head out' and got up. Things might get a bit bumpy, but honesty is better."
       }
     ]
@@ -636,45 +231,17 @@
     "id": "family_014",
     "title": "Call from Parents",
     "description": "Sunday afternoon. A call from your parents.\n'Are you eating well? Do you have money? How's your health?'\n\nWorry was woven between every line of small talk.\n{name} answered 'everything's fine' while actually thinking about whether everything really was.\nTell the truth, or pretend to be okay so they don't worry?",
-    "category": "family",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 72,
-      "has_relationship": true
-    },
-    "tags": [
-      "family",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Share your life honestly",
-        "effects": {
-          "mental": 6,
-          "social_skill": 1,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "You talked for a long time. Once the awkwardness faded, the longing was filled."
       },
       {
         "text": "Say you're busy and hang up quickly",
-        "effects": {
-          "mental": -4
-        },
-        "flags": [],
         "result_text": "'I'll call again later.' You know it's not great of you, but you have no bandwidth right now."
       },
       {
         "text": "Only share the good things so they don't worry",
-        "effects": {
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "You hid the hard parts and shared only the good. You didn't want to be a burden to your parents."
       }
     ]
@@ -683,55 +250,21 @@
     "id": "family_016",
     "title": "Sibling's Résumé",
     "description": "A KakaoTalk notification.\n\nYour sibling sent a photo.\nA résumé.\n'Hey, can you look at this? I need to submit it tomorrow.'\n\n{name} hasn't fully found their footing either.\nOpened the photo.",
-    "category": "family",
-    "rarity": "common",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "family",
-      "jobs",
-      "relationship"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Review it sincerely and thoroughly",
-        "effects": {
-          "intelligence": 2,
-          "social_skill": 1,
-          "mental": -3,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "It took two hours. You fixed three spots in the cover letter. Your sibling said 'thanks.' You slept well that night."
       },
       {
         "text": "Skim it and say 'looks fine'",
-        "effects": {
-          "mental": -2
-        },
-        "flags": [],
         "result_text": "'Yeah, looks fine I think.' Your sibling asked 'really?' again. The feeling that there was more to look at lingered."
       },
       {
         "text": "'I'm not sure honestly — maybe get a professional to look'",
-        "effects": {
-          "social_skill": 1,
-          "mental": 1
-        },
-        "flags": [],
         "result_text": "You were honest. Your sibling went quiet for a moment. Then said 'just look at it once anyway.' You opened it again."
       },
       {
         "text": "Help them with conditions — treat it like a deal",
-        "effects": {
-          "social_skill": 2,
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "'If I look at this, you buy me dinner sometime.' Sibling said 'deal.' Before long you were genuinely fixing it."
       }
     ]
@@ -740,46 +273,17 @@
     "id": "romance_017",
     "title": "The Day After a Blind Date",
     "description": "Last night's blind date.\nThe vibe wasn't bad.\nYou both laughed.\n\nTwenty-four hours have passed since parting.\nNo read receipt.\nActually, you haven't sent anything.\n\n{name}'s phone screen was off.",
-    "category": "relationship",
-    "rarity": "common",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Send the first message",
-        "effects": {
-          "social_skill": 2,
-          "mental": 3,
-          "tint": 3
-        },
-        "flags": [],
         "result_text": "'Yesterday was fun.'\nYou sent it, then turned the phone face down.\nA reply came twenty minutes later."
       },
       {
         "text": "Wait for them to contact you first",
-        "effects": {
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "Another day passed. No message.\nOn day three you started thinking about what to do."
       },
       {
         "text": "Send a casual message suggesting plans",
-        "effects": {
-          "social_skill": 3,
-          "mental": 2,
-          "tint": 2
-        },
-        "flags": [],
         "result_text": "'Would you happen to be free this weekend?'\nYou immediately regretted sending it.\nThe reply came an hour later. 'That sounds good.'"
       }
     ]
@@ -788,54 +292,21 @@
     "id": "romance_020",
     "title": "Gangnam Station Exit 10",
     "description": "It was raining.\nGangnam Station Exit 10.\n\nThirty minutes past the meeting time.\nNo word.\nNo umbrella.\n{name}'s shoulder was getting wet.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Wait a little longer",
-        "effects": {
-          "mental": -5,
-          "tint": 2
-        },
-        "flags": [],
         "result_text": "You stood there ten more minutes. Water dripping from your hair. At forty minutes a message came. 'Sorry, I don't think I can make it.'"
       },
       {
         "text": "Call them",
-        "effects": {
-          "social_skill": 1,
-          "mental": -3,
-          "tint": 1
-        },
-        "flags": [],
         "result_text": "It rang twice then cut off. You sent a text. You stepped under the convenience store awning."
       },
       {
         "text": "Just leave",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You walked toward the subway entrance. Heading down the stairs, you looked back once. Nobody at the exit."
       },
       {
         "text": "Stand in the rain right where you are",
-        "effects": {
-          "mental": -7,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "You didn't move. Five more minutes passed. The hem of your pants was completely soaked. No message came."
       }
     ]
@@ -844,47 +315,17 @@
     "id": "jobs_026",
     "title": "The Other Team's YouTube",
     "description": "A familiar face showed up in your feed.\n\nPark from the adjacent team. Someone who quit two months ago.\nChannel name: 'Surviving After Quitting'\nFirst video: 31,000 views.\nThe company name appeared in the comments. Our company.\n\n{name} moved a finger over the thumbnail.",
-    "category": "jobs",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_reputation": 20,
-      "has_relationship": true
-    },
-    "tags": [
-      "jobs",
-      "social",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Don't click",
-        "effects": {
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "You put your finger down. Scrolled to the next feed. That face stayed in your mind all afternoon."
       },
       {
         "text": "Click and watch to the end",
-        "effects": {
-          "intelligence": 2,
-          "mental": -3,
-          "tint": 2
-        },
-        "flags": [],
         "result_text": "It was 14 minutes and 47 seconds. The company story came at the seven-minute mark. Your hand hovered over the subscribe button."
       },
       {
         "text": "Leave an anonymous comment",
-        "effects": {
-          "social_skill": 1,
-          "mental": 3,
-          "tint": -3
-        },
-        "flags": [],
         "result_text": "'Rooting for you.' You posted it and checked that it was anonymous. It was. You added one more view."
       }
     ]
@@ -893,45 +334,17 @@
     "id": "romance_029",
     "title": "Read Receipt",
     "description": "You sent it.\n\nThe read receipt lit up.\n\nThree hours passed.",
-    "category": "relationship",
-    "rarity": "common",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Turn the phone face down",
-        "effects": {
-          "mental": -4,
-          "tint": 1
-        },
-        "flags": [],
         "result_text": "You flipped it over. Even face down, you kept thinking about it. An hour later you flipped it again. Still nothing."
       },
       {
         "text": "Send another message",
-        "effects": {
-          "mental": -6,
-          "social_skill": -1
-        },
-        "flags": [],
         "result_text": "'Did you miss this?' You immediately regretted sending it. A second read receipt lit up. No reply."
       },
       {
         "text": "Check their profile",
-        "effects": {
-          "mental": -3,
-          "tint": -1
-        },
-        "flags": [],
         "result_text": "You went in. Their profile picture had changed. You didn't know when. That felt stranger than the silence."
       }
     ]
@@ -940,38 +353,13 @@
     "id": "rel_mentor_coffee",
     "title": "Coffee with a Mentor",
     "description": "A KakaoTalk came from a work senior. 'Can we grab coffee this week?' This senior is usually quiet, and a message like this is rare. Sitting across from them at a café near the office, the atmosphere is curiously serious. You can't tell whether it's work talk, life talk, or both. A warm Americano",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "has_job": true
-    },
-    "tags": [
-      "relationship",
-      "jobs",
-      "social"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Open up honestly about your worries",
-        "effects": {
-          "mental": 8,
-          "social_skill": 2,
-          "tint": 5
-        },
-        "flags": [],
         "result_text": "As you talked, things you hadn't expected to say came pouring out. The senior nodded and listened before offering any advice. One cup of coffee became an hour of counseling."
       },
       {
         "text": "Try to show only your best side",
-        "effects": {
-          "mental": -3,
-          "social_skill": -1
-        },
-        "flags": [],
         "result_text": "You just kept repeating 'doing well' and ended the meeting. The senior probably noticed. On the way home you wondered why you did that."
       }
     ]
@@ -980,48 +368,17 @@
     "id": "rel_coworker_conflict",
     "title": "Conflict with a Coworker",
     "description": "In today's team meeting, you and Assistant Manager Kim clashed head-on. Neither side budged on the project direction, and the team leader finally cut in. After the meeting the office atmosphere is awkward. You can feel colleagues watching sideways. Kim is just staring at their monitor.",
-    "category": "jobs",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "has_job": true
-    },
-    "tags": [
-      "jobs",
-      "relationship",
-      "social"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "I apologize first",
-        "effects": {
-          "social_skill": 3,
-          "mental": 3,
-          "reputation": 1
-        },
-        "flags": [],
         "result_text": "At lunch you walked over to Kim's desk: 'I was a bit sharp earlier, sorry.' An awkward silence, then: 'Me too.' The afternoon air felt lighter."
       },
       {
         "text": "My view is correct — hold firm to the end",
-        "effects": {
-          "intelligence": 2,
-          "social_skill": -2,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You posted your reasoning in the team chat. The logic wasn't wrong, but the atmosphere got colder. The thought crossed your mind — it might not be about right or wrong."
       },
       {
         "text": "Suggest talking separately later",
-        "effects": {
-          "social_skill": 2,
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "Near the end of the day you DM'd Kim on Slack: 'Could we talk over coffee?' Next morning the two of you sat side by side on a bench with convenience store coffees."
       }
     ]
@@ -1030,44 +387,17 @@
     "id": "rel_blind_date_setup",
     "title": "Blind Date Setup",
     "description": "Your close friend Minjun reached out. 'Hey, I know someone who's perfect for you. A colleague at my company, seriously great.' The photo doesn't look bad. You agreed to meet this Saturday at a Hongdae café. What to wear, what to say, whether you're being too hopeful. Your head is already noisy.",
-    "category": "relationship",
-    "rarity": "common",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "social"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Go with excitement",
-        "effects": {
-          "social_skill": 2,
-          "mental": 6
-        },
-        "flags": [],
         "result_text": "You stood in front of the mirror for a long time. When you opened the café door and your eyes met, your heart beat one beat faster. Good start."
       },
       {
         "text": "Go out of loyalty even though it feels forced",
-        "effects": {
-          "social_skill": 1,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You got dressed and went anyway. The conversation was awkward, and you both said 'I'll be in touch' when you parted. You told Minjun 'it was fine.'"
       },
       {
         "text": "Cancel",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You sent 'something suddenly came up.' Minjun was disappointed. You did feel relieved, but with a strange emptiness."
       }
     ]
@@ -1076,44 +406,17 @@
     "id": "rel_friend_breakup_support",
     "title": "Friend's Breakup",
     "description": "At eleven at night, your closest friend Jisu called. Their voice is already crying. 'I broke up today.' They say they ended a three-year relationship. They're scared to be alone, but Jisu's studio apartment is an hour away by subway. Your mind rushes to think what to do.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "relationship",
-      "social",
-      "friendship"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Go over immediately and be there",
-        "effects": {
-          "social_skill": 3,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You grabbed a taxi and rode for an hour. When the door opened Jisu came right in for a hug. Just being there in silence was enough."
       },
       {
         "text": "Listen for a long time over the phone",
-        "effects": {
-          "social_skill": 2,
-          "mental": -2
-        },
-        "flags": [],
         "result_text": "You held the phone to your ear for two hours. Jisu repeated the same things. You just kept listening. At 1 AM you heard 'thanks' and hung up."
       },
       {
         "text": "Send a comforting text",
-        "effects": {
-          "mental": 1
-        },
-        "flags": [],
         "result_text": "You sent 'I know this is rough. Hang in there.' The read receipt appeared but no reply. When Jisu reached out the next day, last night nagged at you a little."
       }
     ]
@@ -1122,46 +425,17 @@
     "id": "rel_family_visit_seoul",
     "title": "Parents Visit Seoul",
     "description": "A text from your mom. 'I'm coming up to Seoul next week. I miss you.' Out of the blue. You can't show them the goshiwon, so you arranged to meet at a café near Hongdae. Seeing your parents standing outside the bus stop looking around fills your chest and weighs it down at the same time. How much of Seoul's reality will you show them?",
-    "category": "family",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "housing": "gosiwon"
-    },
-    "tags": [
-      "family",
-      "relationship",
-      "milestone"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Show them the reality honestly",
-        "effects": {
-          "mental": 8,
-          "social_skill": 2,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "You walked near the goshiwon together and told them honestly. Your parents went quiet for a long while. Then your father said softly, 'You've been working hard.' You almost cried at those words."
       },
       {
         "text": "Show only the good side",
-        "effects": {
-          "mental": -3,
-          "reputation": 1
-        },
-        "flags": [],
         "result_text": "You took them to a nice restaurant and smiled saying things were going well. When the bill came your heart sank. Their backs looked too far away as they headed home."
       },
       {
         "text": "Postpone — say you're busy",
-        "effects": {
-          "mental": -5
-        },
-        "flags": [],
         "result_text": "'I have a project this week.' Mom's 'I see, okay' reply was short. That shortness stayed with you a long time."
       }
     ]
@@ -1170,44 +444,17 @@
     "id": "rel_ex_reunion",
     "title": "Ex's Contact",
     "description": "You took out your phone and were startled. A KakaoTalk notification showed the name of a former partner you lost contact with long ago. 'You doing okay?' Exactly three words. It's been over a year. It was really hard back then, and you're not sure what you feel now. Thinking about what those three words mean, you can't sleep.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Reply",
-        "effects": {
-          "social_skill": 1,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You sent 'I'm doing well too.' A quick reply came back. The conversation continued until 2 AM, and you were still holding the phone in your hand as you fell asleep."
       },
       {
         "text": "Ignore it",
-        "effects": {
-          "mental": -2
-        },
-        "flags": [],
         "result_text": "You left it on unread. Feeling your heart stir, you still put the phone down. You told yourself: what's past is past."
       },
       {
         "text": "Use it as a chance to sort out your feelings",
-        "effects": {
-          "intelligence": 2,
-          "mental": 5
-        },
-        "flags": [],
         "result_text": "Instead of replying, you opened your journal. You wrote slowly about why it hurt back then and what you want now. When you finished, you felt strangely lighter."
       }
     ]
@@ -1216,47 +463,17 @@
     "id": "rel_coworker_gossip",
     "title": "Office Gossip",
     "description": "You sat down with colleagues at lunch. The topic of Assistant Manager Park came up. 'Don't you think they've been really out of line lately?' someone started, and others chimed in one by one. Somehow {name} ended up part of the conversation. While eating, your mouth is moving on its own.",
-    "category": "jobs",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "has_job": true
-    },
-    "tags": [
-      "jobs",
-      "social",
-      "workplace"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Join in on the gossip",
-        "effects": {
-          "social_skill": 1,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "The words came easily. It felt like stress relief. But when Park met your eyes in the hallway that afternoon, you looked away for no reason."
       },
       {
         "text": "Casually change the subject",
-        "effects": {
-          "social_skill": 2,
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "'By the way, where are we going for the Friday dinner?' You slipped it in. The topic changed naturally. The others didn't seem to notice anything odd."
       },
       {
         "text": "Excuse yourself from the table",
-        "effects": {
-          "intelligence": 1,
-          "social_skill": -1,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "'I'll head up first' and you left. The colleagues laughed awkwardly for a moment. Eating the rest of your meal alone at your desk, you thought it was the right call."
       }
     ]
@@ -1265,44 +482,17 @@
     "id": "rel_romantic_progress",
     "title": "Someone You're Into",
     "description": "Lately you keep checking KakaoTalk. Someone you started talking to by chance at the gym — you've been in daily contact ever since. Last night you talked until 2 AM. Every time a notification sounds, your heart beats a little faster. You can't decide what this is or what you should do.",
-    "category": "relationship",
-    "rarity": "common",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Express your feelings first",
-        "effects": {
-          "social_skill": 3,
-          "mental": 6
-        },
-        "flags": [],
         "result_text": "You sat across from them at a café and said 'I keep thinking about you lately.' Your heart felt like it would burst. They smiled for a moment and said 'me too.'"
       },
       {
         "text": "Watch how things develop slowly",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You talked yourself into waiting — it doesn't feel like the right time yet. You went about the day messaging as usual. The excitement right now is fine just as it is."
       },
       {
         "text": "Draw a practical line before things go further",
-        "effects": {
-          "intelligence": 2,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You reduced how often you reached out. You decided it was better to sort things before feelings deepened. The notifications reduced and the day got quieter."
       }
     ]
@@ -1311,47 +501,17 @@
     "id": "rel_business_partner_idea",
     "title": "Business Partner Proposal",
     "description": "An old college friend Junhyeok reached out after a long time. You met up, and at a café on Teheran-ro they opened a laptop and laid out a business plan. Eyes glittering, they say it's a rising market for 2026. The idea isn't bad, and Junhyeok is trustworthy. But it requires upfront capital and time. It may not be a scale you can do while keeping your current job.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "min_turn": 6
-    },
-    "tags": [
-      "relationship",
-      "finance",
-      "startup"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Decide to do it together",
-        "effects": {
-          "investment_skill": 2,
-          "reputation": 2,
-          "mental": -5
-        },
-        "flags": [],
         "result_text": "You shook hands. Junhyeok immediately started looking up business registration procedures. Fear and excitement hit at the same time."
       },
       {
         "text": "Help refine the idea but don't commit",
-        "effects": {
-          "intelligence": 3,
-          "social_skill": 2,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You couldn't join but helped develop the idea. For two hours you filled a whiteboard. Junhyeok said 'you helped me find the direction.'"
       },
       {
         "text": "Politely decline",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "'I'm honestly not ready for this yet.' Junhyeok was disappointed but understood. You picked up the tab."
       }
     ]
@@ -1360,45 +520,17 @@
     "id": "rel_sns_compare",
     "title": "SNS Comparison Spiral",
     "description": "You lay down to sleep and out of habit opened Instagram. A high school classmate posted vacation photos from Bali. A college friend announced a successful job switch. A middle school classmate posted wedding photos. {name} is staring at the ceiling again tonight. You can't put the phone down.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true
-    },
-    "tags": [
-      "social",
-      "comparison",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Delete the app",
-        "effects": {
-          "mental": 7,
-          "intelligence": 1
-        },
-        "flags": [],
         "result_text": "You pressed delete. The first few days felt like something was missing from your hand. But you started falling asleep faster."
       },
       {
         "text": "Post your own good photo",
-        "effects": {
-          "reputation": 2,
-          "mental": -4
-        },
-        "flags": [],
         "result_text": "You carefully edited a café photo and posted it. The likes went past thirty. But strangely, you didn't feel happy."
       },
       {
         "text": "Comparison means nothing — pull yourself together",
-        "effects": {
-          "mental": 4,
-          "intelligence": 1
-        },
-        "flags": [],
         "result_text": "You turned the phone face down. You recalled the saying that everyone moves at their own pace. The ceiling looked a little less suffocating."
       }
     ]
@@ -1407,47 +539,17 @@
     "id": "rel_mentor_harsh_advice",
     "title": "Mentor's Harsh Words",
     "description": "You were having dinner with your mentor when the conversation turned serious. The topic of {name}'s career path came up, and your mentor set down their spoon for a moment. 'Can I be honest?' Then they said: 'If you keep going the way you're going for five more years, you'll be in the same place five years from now.' The food suddenly lost its taste.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "min_turn": 6
-    },
-    "tags": [
-      "relationship",
-      "jobs",
-      "milestone"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Accept it with gratitude",
-        "effects": {
-          "intelligence": 4,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "'Thank you — I don't want to hear it but I think you're right.' Your mentor genuinely smiled for the first time. On the way home you opened your notes app."
       },
       {
         "text": "Push back that your approach is right",
-        "effects": {
-          "intelligence": 2,
-          "social_skill": -1,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You argued point by point. Your mentor nodded but wore a slightly disappointed expression. On the subway home you kept replaying what you said."
       },
       {
         "text": "Get shaken and reconsider everything",
-        "effects": {
-          "intelligence": 3,
-          "mental": -5
-        },
-        "flags": [],
         "result_text": "You wrote out all your choices so far in a notebook through the night. At 4 AM you admitted the mentor was right. You still don't know what to change."
       }
     ]
@@ -1456,45 +558,17 @@
     "id": "rel_family_loan_request",
     "title": "Family Loan Request",
     "description": "A KakaoTalk from your older sibling. 'Sorry to reach out suddenly, something came up. Can you lend me some money for a month?' The amount is ₩500,000. This isn't the first time they've asked, but repayment has always been vague. Your own account isn't exactly flush either. Family makes it harder, not easier.",
-    "category": "family",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "min_money": 1000000
-    },
-    "tags": [
-      "family",
-      "finance",
-      "relationship"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Lend it",
-        "effects": {
-          "money": -500000,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You did the bank transfer. 'Thank you' came back. Whether the money returns — unknown. But right now, you felt this was the right thing."
       },
       {
         "text": "Lend part of it",
-        "effects": {
-          "money": -200000,
-          "mental": -2
-        },
-        "flags": [],
         "result_text": "'I'm tight too so I can only do ₩200,000.' Sibling replied 'thanks anyway.' A little uneasy, but that was the limit."
       },
       {
         "text": "Decline, with apologies",
-        "effects": {
-          "mental": -5
-        },
-        "flags": [],
         "result_text": "'I'm honestly tight too, really sorry.' No reply from your sibling. You didn't sleep easily that night."
       }
     ]
@@ -1503,48 +577,17 @@
     "id": "rel_coworker_team_dinner",
     "title": "Team Dinner",
     "description": "Today is the quarterly team dinner. You booked a samgyeopsal place in Hongdae. The team leader raised a glass and shouted 'Cheers, everyone worked hard!' Amid the pork belly smoke, everyone's expressions are loosened up. You set the work talk aside for a while and think about how to spend this gathering.",
-    "category": "jobs",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "has_job": true
-    },
-    "tags": [
-      "jobs",
-      "social",
-      "workplace"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Go all in on the vibe and have fun",
-        "effects": {
-          "social_skill": 3,
-          "mental": 5,
-          "health": -2
-        },
-        "flags": [],
         "result_text": "You went to round two. The team leader handed you the mic at karaoke. Your voice will be shot tomorrow, but the atmosphere was as good as it gets."
       },
       {
         "text": "Drink moderately and leave early",
-        "effects": {
-          "mental": 4,
-          "health": 1
-        },
-        "flags": [],
         "result_text": "You drank lightly at round one and said 'I have early morning work tomorrow.' The team leader smiled and let you go. Arriving home early felt good."
       },
       {
         "text": "Skip the alcohol, just conversation",
-        "effects": {
-          "social_skill": 2,
-          "mental": 3,
-          "health": 2
-        },
-        "flags": [],
         "result_text": "You ordered a soft drink and focused on the conversation. You freshly discovered that your teammates are interesting people beyond the work talk. Looking forward to the next dinner."
       }
     ]
@@ -1553,46 +596,17 @@
     "id": "rel_networking_seminar",
     "title": "Networking Seminar",
     "description": "You were invited to a seminar where people from the industry gather. A shared office event hall in Gangnam, set up impressively. You didn't bring business cards. Looking around, everyone is holding business card cases with QR codes. The first few minutes among strangers are always the hardest.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "min_reputation": 15
-    },
-    "tags": [
-      "social",
-      "jobs",
-      "investment"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Actively approach people",
-        "effects": {
-          "social_skill": 4,
-          "reputation": 2,
-          "mental": -3
-        },
-        "flags": [],
         "result_text": "You spoke to seven people first. Connected via KakaoTalk QR codes instead of business cards. On the way home three group chat invitations arrived."
       },
       {
         "text": "Quietly just listen to the talks and leave",
-        "effects": {
-          "intelligence": 3,
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "You sat in the back and focused on the presentation. You filled your notepad. You didn't interact with people but learned a lot."
       },
       {
         "text": "Think there'll be other chances and just leave",
-        "effects": {
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "The awkwardness was hard to bear and you left early. On the subway you read event recap posts to soften the disappointment."
       }
     ]
@@ -1601,37 +615,13 @@
     "id": "rel_late_night_call",
     "title": "Late Night Call",
     "description": "2 AM. You can't sleep. You were staring at the ceiling and opened KakaoTalk — your friend Jaehun happens to be on too. You both seem to be struggling lately. At night people are more honest. You held a finger over the call button.",
-    "category": "relationship",
-    "rarity": "common",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "min_stress": 50
-    },
-    "tags": [
-      "relationship",
-      "daily_life",
-      "friendship"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Call",
-        "effects": {
-          "social_skill": 2,
-          "mental": 8
-        },
-        "flags": [],
         "result_text": "For two hours you talked about anything. That it's hard, that you're tired, that it's just that way. You hung up at 4 AM and strangely, sleep came."
       },
       {
         "text": "Just endure it alone",
-        "effects": {
-          "mental": -4,
-          "intelligence": 1
-        },
-        "flags": [],
         "result_text": "You saw the online status and put the phone down. You thought: practice enduring alone is also necessary. Your eyes stayed open until light came."
       }
     ]
@@ -1640,47 +630,17 @@
     "id": "rel_friend_big_success",
     "title": "Friend's Big Success",
     "description": "A KakaoTalk from a college classmate.\n\n'I got Series A investment this time. ₩1 billion.'\n\nA short sentence.\n\n{name} paused for a moment.\nA friend you used to do convenience store part-time work with.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 5
-    },
-    "tags": [
-      "social",
-      "finance",
-      "comparison"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Genuinely congratulate them and ask about how they did it",
-        "effects": {
-          "social_skill": 2,
-          "intelligence": 3,
-          "mental": 3,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "You talked for an hour. The process story was worth more than the money story."
       },
       {
         "text": "Congratulate them but feel strangely stimulated",
-        "effects": {
-          "mental": -2,
-          "intelligence": 2
-        },
-        "flags": [],
         "result_text": "You couldn't tell if it was envy or motivation. You just decided to work harder."
       },
       {
         "text": "Turn off social media and focus on your own work",
-        "effects": {
-          "mental": 4,
-          "intelligence": 1
-        },
-        "flags": [],
         "result_text": "You decided not to compare yourself to others. You have your own race."
       }
     ]
@@ -1689,47 +649,17 @@
     "id": "rel_mentor_life_question",
     "title": "Mentor's Question",
     "description": "A mentor you hadn't heard from in a while suggested coffee.\n\nYou were catching up on life when they asked quietly.\n\n'Are you happy right now?'\n\nAn unexpected question.\nYou weren't sure what to answer, and for a moment your thoughts stopped.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 10
-    },
-    "tags": [
-      "relationship",
-      "reflection",
-      "milestone"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "'Honestly, I'm not sure' — open up",
-        "effects": {
-          "mental": 6,
-          "social_skill": 2,
-          "tint": 5
-        },
-        "flags": [],
         "result_text": "Your mentor nodded. 'Keep living with that question,' they said. It was strangely comforting."
       },
       {
         "text": "'Yes, I'm busy but doing well' — smile and move on",
-        "effects": {
-          "mental": -2
-        },
-        "flags": [],
         "result_text": "The coffee went cold. Your mentor didn't press further. 'I'm fine' isn't always true."
       },
       {
         "text": "Talk honestly about what you're doing and your goals",
-        "effects": {
-          "intelligence": 2,
-          "social_skill": 3,
-          "reputation": 2,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "Two hours passed. Your mentor made a few introductions. Connections move this way."
       }
     ]
@@ -1738,46 +668,17 @@
     "id": "rel_family_proud_call",
     "title": "Parents' Evening Call",
     "description": "In the evening, a call from your father.\n\nFirst few minutes: weather talk.\nThen his voice dropped a little.\n\n'Are you eating well?'\n\nA short sentence carrying a lot.\n{name} was briefly at a loss for words.",
-    "category": "family",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 3
-    },
-    "tags": [
-      "family",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Talk honestly about what's been difficult lately",
-        "effects": {
-          "mental": 7,
-          "social_skill": 1,
-          "tint": 5
-        },
-        "flags": [],
         "result_text": "Your father listened for a long time. There are days when just being listened to, without solutions, is enough."
       },
       {
         "text": "Answer brightly, 'Yes, doing well'",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "You didn't want to worry them. That too is a form of care."
       },
       {
         "text": "Promise to come visit at the next holiday",
-        "effects": {
-          "mental": 5,
-          "health": 1,
-          "tint": 4
-        },
-        "flags": [],
         "result_text": "After hanging up you booked the train ticket. You missed home cooking."
       }
     ]
@@ -1786,46 +687,17 @@
     "id": "rel_online_community_tribe",
     "title": "Online Community Comrades",
     "description": "You joined a personal finance community.\n\nPeople of similar ages with similar goals shared information every day.\nStock picks, saving tips, even stories of failure.\n\nThings you can't say offline, you could say here.\nIt was anonymous, but there was a sense of solidarity.",
-    "category": "social",
-    "rarity": "common",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 2
-    },
-    "tags": [
-      "social",
-      "finance",
-      "investment"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Participate actively and share information",
-        "effects": {
-          "intelligence": 2,
-          "investment_skill": 2,
-          "social_skill": 1
-        },
-        "flags": [],
         "result_text": "The more you shared what you knew, the more came back. That's what a community is."
       },
       {
         "text": "Just lurk and gather information",
-        "effects": {
-          "intelligence": 2,
-          "investment_skill": 1
-        },
-        "flags": [],
         "result_text": "You picked up a few useful tips. Quiet participation is still learning."
       },
       {
         "text": "Keep your distance so you don't get too absorbed",
-        "effects": {
-          "intelligence": 1,
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "Herd mentality is dangerous. Not being pulled by others' judgments is also a skill."
       }
     ]
@@ -1834,44 +706,17 @@
     "id": "rel_ex_encounter",
     "title": "Chance Reunion",
     "description": "On the way home from work, you ran into someone at a café.\n\nSomeone you broke up with two years ago.\nYour eyes met.\n\nA brief moment waiting to order.\nWill you speak first?",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 8
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Go ahead and say hello casually",
-        "effects": {
-          "social_skill": 2,
-          "mental": 4
-        },
-        "flags": [],
         "result_text": "You talked for about ten minutes. You were both doing well. Confirming that was enough."
       },
       {
         "text": "Pretend not to see them and leave",
-        "effects": {
-          "mental": 2
-        },
-        "flags": [],
         "result_text": "Your mind settled only after you got on the subway. Pretending not to notice is also a choice."
       },
       {
         "text": "Greet them warmly and exchange contact info again",
-        "effects": {
-          "social_skill": 3,
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "Both of you had grown since the breakup. A second chapter might be possible."
       }
     ]
@@ -1883,43 +728,13 @@
     "description_if_known": {
       "sangchul_truth_known": "Sangchul asked.\n\"Do you want to get to Gangnam?\"\n\nMinjun knows what this man sees in that question.\nHe walked that same hunger himself — and he knows exactly where it leads.\n\nThe 'why' didn't land deep because it was philosophical.\nIt landed deep because the man asking already knew the answer."
     },
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "sangchul_lunch_done",
-      "min_turn": 80,
-      "max_turn": 160,
-      "no_flag": "sangchul_why_done"
-    },
-    "tags": [
-      "relationship",
-      "gangnam",
-      "milestone"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "'...My father was scammed. With money saved up to buy a Gangnam apartment.'",
-        "effects": {
-          "social_skill": 2,
-          "mental": 6,
-          "reputation": 2,
-          "tint": 7
-        },
-        "flags": [
-          "sangchul_knows_why"
-        ],
         "result_text": "Sangchul set down his chopsticks and was quiet for a while.\n\n'That 'why' is solid.'\nHe raised his glass and said: 'That'll hold you up when it wavers.'"
       },
       {
         "text": "'Just... I want to win in Seoul.'",
-        "effects": {
-          "mental": 2,
-          "tint": 2
-        },
-        "flags": [],
         "result_text": "Sangchul nodded.\n'That's a reason too. But.'\n\nHe paused and said: 'When winning is the goal, you feel hollow after you win.'"
       }
     ]
@@ -1931,41 +746,13 @@
     "description_if_known": {
       "sangchul_truth_known": "Second bottle of soju.\nSangchul said it. 'I lost everything at first too.'\n\nDad lost everything at first too.\nMinjun looked down at his glass.\n\nHow they each climbed back — those two stories point toward each other at exactly the same point.\n\nSangchul looked at the Gangnam lights. 'Still — you have to go to know.'\nMinjun looked too.\nHe knows he has to go. Just not the same way this man did."
     },
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "sangchul_why_done",
-      "min_turn": 120,
-      "max_turn": 200,
-      "no_flag": "sangchul_past_done"
-    },
-    "tags": [
-      "relationship",
-      "gangnam",
-      "milestone"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "'I still want to go.' Honestly.",
-        "effects": {
-          "mental": 7,
-          "intelligence": 2,
-          "tint": 4
-        },
-        "flags": [
-          "sangchul_trust_built"
-        ],
         "result_text": "Sangchul smiled.\n'Good. Then one thing.'\n\nHe refilled your glass and said:\n'Don't lose people on the way. That's where I failed.'"
       },
       {
         "text": "'I'd like to be happy, but survival comes first right now.'",
-        "effects": {
-          "mental": 3
-        },
-        "flags": [],
         "result_text": "Sangchul was silent for a moment.\n\n'That's true. But.'\nHe slowly drained his glass. 'If you get too used to survival, you forget how to live well later.'"
       }
     ]
@@ -1974,42 +761,13 @@
     "id": "daeun_regular",
     "title": "A Regular",
     "description": "Without quite noticing, you'd been coming every week.\n\nKim Daeun. You learned the name from the points card.\n\nTonight again, 2 AM. Triangle kimbap — tuna mayo. Black canned coffee.\n\n'You always buy the same thing.' The words came out.\n'Because it's comfortable,' she said. 'Some days choosing between things is too exhausting.'",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "flag": "daeun_met",
-      "min_turn": 6,
-      "max_turn": 22,
-      "no_flag": "daeun_talked"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "'Me too. When I'm on night shift, I always get the same sandwich.' You pick it up.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 5,
-          "tint": 3
-        },
-        "flags": [
-          "daeun_talked"
-        ],
         "result_text": "She smiled for the first time.\n\nAfter that the conversations grew. Weather, customers, Seoul.\nNeither of you were big talkers, but at 2 AM it was different."
       },
       {
         "text": "Just ring her up quietly. You're on shift.",
-        "effects": {
-          "mental": 1,
-          "tint": -1
-        },
-        "flags": [],
         "result_text": "She said nothing either.\n\nBut she kept coming. Every week at 2 AM."
       }
     ]
@@ -2018,42 +776,13 @@
     "id": "daeun_share",
     "title": "Alone in Seoul",
     "description": "She stayed late tonight.\n\nYou were cleaning up after closing and Daeun was standing by the door.\n'Can I wait a moment? Just until I catch a taxi.'\n\nSitting and waiting, you heard her story for the first time.\n\nFreelance designer. Two years in Seoul. Parents in Cheongju.\n'Seoul is lonelier than I expected. Sometimes.'",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "flag": "daeun_talked",
-      "min_turn": 12,
-      "max_turn": 30,
-      "no_flag": "daeun_shared"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Tell her your story too. The goshiwon, the account, the Gangnam dream.",
-        "effects": {
-          "social_skill": 3,
-          "mental": 6,
-          "tint": 5
-        },
-        "flags": [
-          "daeun_shared"
-        ],
         "result_text": "Daeun listened for a long time.\n\n'₩3 billion for Gangnam.' She said it like a thought aloud, then asked: 'Are you doing it alone?'\n'...Yes.'\nShe nodded. 'That's also courage.'\n\nA taxi came. She got in. The window came down.\n'See you again'"
       },
       {
         "text": "'Seoul's all like that.' Brush it off lightly.",
-        "effects": {
-          "mental": -2,
-          "tint": -3
-        },
-        "flags": [],
         "result_text": "She smiled. 'I suppose so.'\n\nA taxi came. She got in.\n\nYou could have said one more thing."
       }
     ]
@@ -2062,42 +791,13 @@
     "id": "daeun_feeling",
     "title": "Not the Convenience Store",
     "description": "A message from Daeun.\n\n'Do you have time during the day by any chance? I'd like to eat together.'\n\nNot the convenience store. First time.",
-    "category": "relationship",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "flag": "daeun_shared",
-      "no_flag": "daeun_date_done",
-      "min_turn": 72,
-      "max_turn": 160
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "daily_life"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Go. It's been a while since you've gone out in the daytime.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 8,
-          "tint": 4
-        },
-        "flags": [
-          "daeun_date"
-        ],
         "result_text": "A neighborhood bapsang restaurant. Doenjang jjigae and two bowls of rice.\n\nTwo hours passed. Food talk, drawing talk, Seoul talk.\n\nAs you parted Daeun said: 'This is nice. This kind of thing.'\n\nThe walk home felt strangely light."
       },
       {
         "text": "'I've been busy lately.' Decline.",
-        "effects": {
-          "mental": -4,
-          "tint": -3
-        },
-        "flags": [],
         "result_text": "Daeun replied 'I see, okay.'\n\nAfter that she came to the convenience store once more, then stopped coming."
       }
     ]
@@ -2106,41 +806,13 @@
     "id": "jiyeon_world_gap",
     "title": "In Jiyeon's World",
     "description": "Jiyeon brought you to a friend gathering.\n\nA Gangnam rooftop bar. Champagne, designer wallets pulled out without thinking, stories about traveling abroad.\n\nSomeone asked: 'What do you do?'\n\nJiyeon glanced over briefly.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_together",
-      "min_turn": 136,
-      "max_turn": 216,
-      "no_flag": "jiyeon_world_faced"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "gangnam"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Tell the truth. No performance.",
-        "effects": {
-          "social_skill": 3,
-          "mental": 7,
-          "reputation": 2,
-          "tint": 5
-        },
-        "flags": [],
         "result_text": "Saying it out loud, you felt strangely free.\n\nOn the way home Jiyeon said: 'You were impressive tonight.'\n'That's impressive?'\n'First person I've seen in that setting who didn't put on a show.'"
       },
       {
         "text": "Polish it a bit. Have to survive in this world.",
-        "effects": {
-          "mental": -5,
-          "tint": -3
-        },
-        "flags": [],
         "result_text": "You got through it.\n\nBut in Jiyeon's car she said:\n'It was a bit uncomfortable today, wasn't it?'\nYou couldn't say anything. Jiyeon didn't ask again."
       }
     ]
@@ -2149,40 +821,13 @@
     "id": "jiyeon_mother",
     "title": "Jiyeon's Mother",
     "description": "You met Jiyeon's mother.\n\nA café in Gangnam. Jiyeon's mother took a sip of tea and asked:\n\n'What do your parents do?'\n'They're out of Seoul.'\n'Where?'\n\nUnder the table, Jiyeon took your hand.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_world_faced",
-      "min_turn": 152,
-      "max_turn": 224,
-      "no_flag": "jiyeon_mother_met"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "gangnam",
-      "family"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Answer with confidence. The truth.",
-        "effects": {
-          "social_skill": 3,
-          "mental": 5,
-          "reputation": 2
-        },
-        "flags": [],
         "result_text": "Jiyeon's mother kept an unchanged expression throughout.\n\nAfterward Jiyeon said:\n'Mom texted. She said you have good eyes.'\nJiyeon smiled. 'Eyes are the only thing that matters to my mom.'"
       },
       {
         "text": "Dress it up as nicely as possible. For Jiyeon's sake.",
-        "effects": {
-          "mental": -5
-        },
-        "flags": [],
         "result_text": "Jiyeon's mother finished her coffee and rose from her seat.\n\nLater Jiyeon said:\n'Mom asked about your job.'\nShe started to say something more, then stopped."
       }
     ]
@@ -2191,39 +836,13 @@
     "id": "jiyeon_gangnam_moment",
     "title": "Thinking of Jiyeon in Gangnam",
     "description": "You stood in front of Gangnam District Hall.\n\nYou'd just finished your first-ever address transfer to a Gangnam address.\n\nThe apartment key was in your hand.\nThis is what you were working toward.\n\nYou took out your phone.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "jiyeon_together",
-      "min_assets": 2000000000,
-      "min_turn": 180,
-      "no_flag": "jiyeon_gangnam_called"
-    },
-    "tags": [
-      "romance",
-      "relationship",
-      "gangnam",
-      "milestone"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Call Jiyeon.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 10
-        },
-        "flags": [],
         "result_text": "Jiyeon picked up.\n'Did you arrive?'\n'...Yes.'\nA brief silence. Then Jiyeon said:\n'Congratulations. Sincerely.'\n\nYou hung up and looked at the sky.\nYou made it here."
       },
       {
         "text": "Stay alone. This feels like something you need to feel by yourself.",
-        "effects": {
-          "mental": 8
-        },
-        "flags": [],
         "result_text": "You stood there for a long time gripping the key.\n\nYou thought about calling Jiyeon, then didn't.\nYou'd made it to Gangnam — and you didn't know Gangnam would feel like this."
       }
     ]
@@ -2232,46 +851,13 @@
     "id": "sangchul_opportunity",
     "title": "Sangchul's Information",
     "description": "A message from Sangchul.\n\n'Are you busy? Let's meet for a bit.'\n\nWhen you met, he handed you a sheet of paper. A map of a scheduled redevelopment area.\n\n'Nobody knows this yet. The announcement comes out within six months.'\n\nThen he said: 'You're the first person I'm telling.'",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "sangchul_past_done",
-      "min_turn": 144,
-      "max_turn": 216,
-      "no_flag": "sangchul_opportunity_done"
-    },
-    "tags": [
-      "relationship",
-      "investment",
-      "gangnam"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Trust him. Sangchul has never been wrong before.",
-        "effects": {
-          "investment_skill": 3,
-          "intelligence": 2,
-          "mental": -3,
-          "tint": -2
-        },
-        "flags": [
-          "sangchul_info_received"
-        ],
         "result_text": "You folded the paper and put it in your pocket.\n\nSangchul said: 'Making money with this information isn't the goal. I'm seeing what kind of person you are.'"
       },
       {
         "text": "'I know there's no such thing as a free tip.' You ask.",
-        "effects": {
-          "intelligence": 4,
-          "social_skill": 2,
-          "tint": 4
-        },
-        "flags": [
-          "sangchul_info_received"
-        ],
         "result_text": "Sangchul looked at you for a long time.\n\nThen smiled. 'Now you're getting it.'\nHe took the paper back and said: 'I was waiting for this question.'"
       }
     ]
@@ -2280,45 +866,13 @@
     "id": "sangchul_last_lesson",
     "title": "Sangchul's Last Words",
     "description": "A text from Sangchul.\n\n'Let's meet for a bit.'\n\nWhen you met, he was quieter than usual.\nHe finished the whole bowl of gukbap before finally speaking.\n\n'My health isn't great. I think I need to rest for a while.'",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "sangchul_opportunity_done",
-      "min_turn": 176,
-      "max_turn": 232,
-      "no_flag": "sangchul_farewell_done"
-    },
-    "tags": [
-      "relationship",
-      "milestone",
-      "gangnam"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "'I learned a lot from you.' Say it honestly.",
-        "effects": {
-          "mental": 8,
-          "social_skill": 2,
-          "tint": 4
-        },
-        "flags": [
-          "sangchul_farewell"
-        ],
         "result_text": "Sangchul nodded.\n\n'When you make it to Gangnam, let me know. I'll buy you the housewarming gukbap.'\n\nHe patted your shoulder once as he got up.\n\nThat was the last time. Or at least, you hoped it wasn't yet."
       },
       {
         "text": "'Stay healthy.' You stay there with him.",
-        "effects": {
-          "mental": 6,
-          "social_skill": 1,
-          "tint": 3
-        },
-        "flags": [
-          "sangchul_farewell"
-        ],
         "result_text": "Neither of you spoke.\n\nLater Sangchul said:\n'Not many people sit with me like this.'\n\nThose words stayed a long time."
       }
     ]
@@ -2326,37 +880,14 @@
   {
     "id": "daeun_drift_quiet",
     "title": "Gone Quiet",
-    "description": "When was the last time Dae-eun reached out.\n\nThinking about it — over a month.\nWhether {name} stopped first or she cut back, the line had blurred.\n\nHe opened the chat. The last message was one {name} had sent.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 6,
-    "hidden": false,
-    "conditions": {
-      "max_cast_affinity": {
-        "daeun": 25
-      },
-      "min_turn": 50,
-      "flag": "daeun_met"
-    },
-    "tags": [
-      "relationship",
-      "daeun"
-    ],
-    "cooldown": 9999,
+    "description": "When was the last time Daeun reached out.\n\nThinking about it — over a month.\nWhether {name} stopped first or she cut back, the line had blurred.\n\nHe opened the chat. The last message was one {name} had sent.",
     "choices": [
       {
         "text": "Sent something — short, anything",
-        "effects": {
-          "mental": -3,
-          "tint": 4
-        },
         "result_text": "\"How've you been?\"\nIt felt awkward once it was sent.\nThe read receipt came up much later. No reply."
       },
       {
         "text": "Left it",
-        "effects": {
-          "tint": -3
-        },
         "result_text": "He closed the window.\nHe'd been busy. Busy then, busy now.\nThat's what he told himself."
       }
     ]
@@ -2364,69 +895,25 @@
   {
     "id": "sangchul_becomes_primary",
     "title": "Contacts",
-    "description": "He counted who'd reached out this week.\n\nSang-chul — three times.\nDad — one missed call.\nDae-eun — none.\n\n{name} scrolled the screen down.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 5,
-    "hidden": false,
-    "conditions": {
-      "min_cast_affinity": {
-        "sangchul": 70
-      },
-      "max_cast_affinity": {
-        "daeun": 30
-      },
-      "min_turn": 80,
-      "flag": "daeun_met"
-    },
-    "tags": [
-      "relationship",
-      "sangchul",
-      "daeun"
-    ],
-    "cooldown": 9999,
+    "description": "He counted who'd reached out this week.\n\nSangchul — three times.\nDad — one missed call.\nDaeun — none.\n\n{name} scrolled the screen down.",
     "choices": [
       {
         "text": "Scrolled down",
-        "effects": {},
-        "result_text": "Another message came in from Sang-chul.\nThis week's meeting schedule.\n{name} checked the date."
+        "result_text": "Another message came in from Sangchul.\nThis week's meeting schedule.\n{name} checked the date."
       }
     ]
   },
   {
     "id": "daeun_birthday_missed",
     "title": "The Date",
-    "description": "A social media notification popped up.\n\n'Today is Dae-eun's birthday.'\n\n{name} paused for a moment.\nHe'd known. At some point it had been wiped from his mind.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 5,
-    "hidden": false,
-    "conditions": {
-      "max_cast_affinity": {
-        "daeun": 30
-      },
-      "min_turn": 60,
-      "flag": "daeun_met"
-    },
-    "tags": [
-      "relationship",
-      "daeun"
-    ],
-    "cooldown": 9999,
+    "description": "A social media notification popped up.\n\n'Today is Daeun's birthday.'\n\n{name} paused for a moment.\nHe'd known. At some point it had been wiped from his mind.",
     "choices": [
       {
         "text": "Reached out, late as it was",
-        "effects": {
-          "mental": -5,
-          "tint": 3
-        },
         "result_text": "\"Happy birthday. Sorry it's late.\"\nThe reply came the next day.\n\"Thanks.\"\nThat was all."
       },
       {
         "text": "Closed the notification",
-        "effects": {
-          "tint": -3
-        },
         "result_text": "He swiped the notification away.\nA day passed."
       }
     ]
@@ -2434,70 +921,29 @@
   {
     "id": "sangchul_world_absorbed",
     "title": "The Address Book",
-    "description": "Scrolling his contacts, he stopped.\n\nNames from Sang-chul's network were more than half of them.\n\nHe didn't know when it happened — but somewhere along the way, Sang-chul's people had become {name}'s people.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 4,
-    "hidden": false,
-    "conditions": {
-      "min_cast_affinity": {
-        "sangchul": 80
-      },
-      "min_turn": 100
-    },
-    "tags": [
-      "relationship",
-      "sangchul"
-    ],
-    "cooldown": 9999,
+    "description": "Scrolling his contacts, he stopped.\n\nNames from Sangchul's network were more than half of them.\n\nHe didn't know when it happened — but somewhere along the way, Sangchul's people had become {name}'s people.",
     "choices": [
       {
         "text": "Kept scrolling",
-        "effects": {},
-        "result_text": "People Sang-chul introduced.\nPeople met at Sang-chul's gatherings.\nPeople connected through Sang-chul.\n\n{name} turned the screen off."
+        "result_text": "People Sangchul introduced.\nPeople met at Sangchul's gatherings.\nPeople connected through Sangchul.\n\n{name} turned the screen off."
       }
     ]
   },
   {
     "id": "jiyeon_notices_daeun",
     "title": "Jiyeon's Question",
-    "description": "Jiyeon set her coffee down and asked.\n\n\"Are you still in touch with Dae-eun these days?\"\n\n{name} hesitated for a moment.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 5,
-    "hidden": false,
-    "conditions": {
-      "min_cast_affinity": {
-        "jiyeon": 35
-      },
-      "max_cast_affinity": {
-        "daeun": 25
-      },
-      "min_turn": 70,
-      "flag": "daeun_met"
-    },
-    "tags": [
-      "relationship",
-      "jiyeon",
-      "daeun"
-    ],
-    "cooldown": 9999,
+    "description": "Jiyeon set her coffee down and asked.\n\n\"Are you still in touch with Daeun these days?\"\n\n{name} hesitated for a moment.",
     "choices": [
       {
         "text": "\"Been busy lately\"",
-        "effects": {},
         "result_text": "Jiyeon nodded.\nShe didn't ask further.\nThat silence felt like an answer."
       },
       {
         "text": "\"Not really sure these days\"",
-        "effects": {
-          "mental": -4
-        },
         "result_text": "Jiyeon glanced at him, then picked up her cup.\n\"I see.\"\nThat was all."
       },
       {
         "text": "Changed the subject",
-        "effects": {},
         "result_text": "He brought up something else.\nJiyeon went along with it.\nBut something felt off."
       }
     ]

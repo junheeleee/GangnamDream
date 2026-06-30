@@ -1238,7 +1238,7 @@ const STAT_INFO = {
 }
 const CAST_NAME_EN = {
 	"father": "Father", "jiyeon": "Han Jiyeon", "daeun": "Kim Daeun",
-	"jaehyuk": "Choi Jaehyuk", "sangchul": "Lim Sangchul", "hyunsu": "Hyunsu",
+	"jaehyuk": "Choi Jaehyuk", "sangchul": "Im Sangchul", "hyunsu": "Hyunsu",
 }
 
 ## 스탯 표시 이름 — 현재 언어에 맞게
@@ -1256,7 +1256,7 @@ func _cast_display_name(pid: String) -> String:
 		"jiyeon": return _tr("한지연", "Han Jiyeon")
 		"daeun": return _tr("김다은", "Kim Daeun")
 		"jaehyuk": return _tr("최재혁", "Choi Jaehyuk")
-		"sangchul": return _tr("임상철", "Lim Sangchul")
+		"sangchul": return _tr("임상철", "Im Sangchul")
 		"hyunsu": return _tr("현수", "Hyunsu")
 	return pid
 

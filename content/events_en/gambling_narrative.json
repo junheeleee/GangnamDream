@@ -6,17 +6,11 @@
     "choices": [
       {
         "text": "Exchange only what he decided beforehand",
-        "result_text": "Only 100,000 won worth. Left the wallet in the car.\n\nTwo chips. That's all there is today.\nLose it, he's done. Win, he gets up. Setting the rule in advance made his mind lighter.\n\nThe lighter the chips look, the more the person who sets a limit wins.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Only 100,000 won worth. Left the wallet in the car.\n\nTwo chips. That's all there is today.\nLose it, he's done. Win, he gets up. Setting the rule in advance made his mind lighter.\n\nThe lighter the chips look, the more the person who sets a limit wins."
       },
       {
         "text": "Exchange plenty — running short kills the mood",
-        "result_text": "Got 300,000 won in chips. Heavy.\n\nHe figured having plenty meant playing with peace of mind.\nBut that 'plenty' quickly became the baseline. 300,000 had somehow become 'today's spending money.'\n\nThat the more you exchange, the more you lose — no one at the cashier's cage tells you that.",
-        "effects": {
-          "tint": -2
-        }
+        "result_text": "Got 300,000 won in chips. Heavy.\n\nHe figured having plenty meant playing with peace of mind.\nBut that 'plenty' quickly became the baseline. 300,000 had somehow become 'today's spending money.'\n\nThat the more you exchange, the more you lose — no one at the cashier's cage tells you that."
       }
     ]
   },
@@ -27,17 +21,11 @@
     "choices": [
       {
         "text": "Check the time on his phone and get up",
-        "result_text": "4:17 AM.\n\n{name} gathered his chips and stood. His legs were numb. He'd been sitting six hours.\n\nThe cold air hit his face when he stepped out. Dawn in the mountains.\nHe welcomed that cold. Time had started flowing again.\n\nWalking out of a room with no clocks on your own two feet — that was a skill too.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "4:17 AM.\n\n{name} gathered his chips and stood. His legs were numb. He'd been sitting six hours.\n\nThe cold air hit his face when he stepped out. Dawn in the mountains.\nHe welcomed that cold. Time had started flowing again.\n\nWalking out of a room with no clocks on your own two feet — that was a skill too."
       },
       {
         "text": "One more game — the time to quit is after a win",
-        "result_text": "'I'll end it on a win.' And so another hour passed.\n\nThen another. Win and you want more, lose and you want it back.\nThe time to quit was structurally designed to never arrive.\n\nWhen he came to, five empty glasses were stacked beside him.\nA room with no clocks also makes the exit hard to find.",
-        "effects": {
-          "tint": -4
-        }
+        "result_text": "'I'll end it on a win.' And so another hour passed.\n\nThen another. Win and you want more, lose and you want it back.\nThe time to quit was structurally designed to never arrive.\n\nWhen he came to, five empty glasses were stacked beside him.\nA room with no clocks also makes the exit hard to find."
       }
     ]
   },
@@ -48,17 +36,11 @@
     "choices": [
       {
         "text": "\"No thanks, I'll catch the last bus\" — decline",
-        "result_text": "\"Appreciate it, but I have to head out.\"\n\nThe manager handed over a business card. \"Call anytime.\" Smiling.\n\n{name} walked to the bus terminal. The last bus was tight.\n\nThere's always a reason behind what's given for free. Walking the opposite way from that reason — that was today's victory.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "\"Appreciate it, but I have to head out.\"\n\nThe manager handed over a business card. \"Call anytime.\" Smiling.\n\n{name} walked to the bus terminal. The last bus was tight.\n\nThere's always a reason behind what's given for free. Walking the opposite way from that reason — that was today's victory."
       },
       {
         "text": "\"Just one night, then…\" — accept the favor",
-        "result_text": "The room was nice. The view was nice.\n\nBut he couldn't sleep. Staring at the ceiling, thinking about tomorrow's table.\n\nIn the morning he ate breakfast and, naturally, exchanged chips again.\nThe real price of the free room showed up in his account at checkout.\n\nNothing in this world is free. The casino, especially.",
-        "effects": {
-          "tint": -4
-        }
+        "result_text": "The room was nice. The view was nice.\n\nBut he couldn't sleep. Staring at the ceiling, thinking about tomorrow's table.\n\nIn the morning he ate breakfast and, naturally, exchanged chips again.\nThe real price of the free room showed up in his account at checkout.\n\nNothing in this world is free. The casino, especially."
       }
     ]
   },
@@ -69,17 +51,11 @@
     "choices": [
       {
         "text": "Call it a night — that could be my future",
-        "result_text": "{name} cashed out his remaining chips.\n\nThe man's shaking hands kept coming back to him. Could be himself in a year, in five years.\n\nClimbing the stairs, he resolved: this place looks like somewhere you 'win on skill,'\nbut in the end it's a place where the one who stands up last wins.\n\nToday, he stood up. That was enough.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "{name} cashed out his remaining chips.\n\nThe man's shaking hands kept coming back to him. Could be himself in a year, in five years.\n\nClimbing the stairs, he resolved: this place looks like somewhere you 'win on skill,'\nbut in the end it's a place where the one who stands up last wins.\n\nToday, he stood up. That was enough."
       },
       {
         "text": "Not my problem — I'd never do that",
-        "result_text": "{name} turned his eyes back to the cards. That guy had no self-control, and he was different.\n\nHe focused on the next hand. He believed he could control himself.\n\n'I'm different.' The man who climbed those stairs probably thought so too, at first.\nThat fact didn't surface that night.",
-        "effects": {
-          "tint": -2
-        }
+        "result_text": "{name} turned his eyes back to the cards. That guy had no self-control, and he was different.\n\nHe focused on the next hand. He believed he could control himself.\n\n'I'm different.' The man who climbed those stairs probably thought so too, at first.\nThat fact didn't surface that night."
       }
     ]
   },
@@ -90,17 +66,11 @@
     "choices": [
       {
         "text": "Use that instinct for work — cut back on the table",
-        "result_text": "{name} stayed one beat calmer in negotiations.\n\nHow to make the other side show their hand first. How to hide his own.\nHe'd paid steep tuition at the table to learn that.\n\nNow he decided to recoup that tuition outside the table.\nHis trips to the holdem club dropped. His bank balance rose instead.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "{name} stayed one beat calmer in negotiations.\n\nHow to make the other side show their hand first. How to hide his own.\nHe'd paid steep tuition at the table to learn that.\n\nNow he decided to recoup that tuition outside the table.\nHis trips to the holdem club dropped. His bank balance rose instead."
       },
       {
         "text": "The table really is the most honest — go more often",
-        "result_text": "The table was more comfortable than the office. There, doing well got you chips right away.\n\n{name} grew slowly accustomed to that structure of instant effort-and-reward.\n\nReality was slow, the table was fast.\nThat gap in speed is how it slowly breaks a person — he didn't know that yet.",
-        "effects": {
-          "tint": -5
-        }
+        "result_text": "The table was more comfortable than the office. There, doing well got you chips right away.\n\n{name} grew slowly accustomed to that structure of instant effort-and-reward.\n\nReality was slow, the table was fast.\nThat gap in speed is how it slowly breaks a person — he didn't know that yet."
       }
     ]
   },
@@ -111,17 +81,11 @@
     "choices": [
       {
         "text": "\"Let's leave together today\" — walk out with him",
-        "result_text": "{name} dragged the old man out. The two went to a gukbap place.\n\nThe old man said it'd been a while since he went home without betting.\n\"Thanks, kid.\" He smiled awkwardly.\n\nOn the way back, {name} thought: that man's twenty-years-ago could be me.\nJust having heard that story — today wasn't a wasted trip.",
-        "effects": {
-          "tint": 6
-        }
+        "result_text": "{name} dragged the old man out. The two went to a gukbap place.\n\nThe old man said it'd been a while since he went home without betting.\n\"Thanks, kid.\" He smiled awkwardly.\n\nOn the way back, {name} thought: that man's twenty-years-ago could be me.\nJust having heard that story — today wasn't a wasted trip."
       },
       {
         "text": "Sad, but — still watch the race today",
-        "result_text": "The old man's story was sad. But {name} bought a ticket today anyway.\n\n'I'm not that far gone.' That distance was a comfort.\n\nHe lost 30,000 won and caught the last train.\nStaring out the window, he heard the \"don't end up like me\" again.\nIt sounded like a warning sent back from the future. He pretended not to hear it.",
-        "effects": {
-          "tint": -3
-        }
+        "result_text": "The old man's story was sad. But {name} bought a ticket today anyway.\n\n'I'm not that far gone.' That distance was a comfort.\n\nHe lost 30,000 won and caught the last train.\nStaring out the window, he heard the \"don't end up like me\" again.\nIt sounded like a warning sent back from the future. He pretended not to hear it."
       }
     ]
   },
@@ -132,17 +96,11 @@
     "choices": [
       {
         "text": "Step out of the line — he knows where it ends",
-        "result_text": "{name} stepped out of the line.\n\nEveryone in that line had the same face. Desperate, exhausted, believing in one big hit.\nThat face scared him because it looked like his own.\n\nHe walked to the station without betting. The last train was empty.\nGoing home without winning it back. That was harder than winning it back.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "{name} stepped out of the line.\n\nEveryone in that line had the same face. Desperate, exhausted, believing in one big hit.\nThat face scared him because it looked like his own.\n\nHe walked to the station without betting. The last train was empty.\nGoing home without winning it back. That was harder than winning it back."
       },
       {
         "text": "Last one, so bet big — a chance to recover",
-        "result_text": "{name} bet everything he'd lost today. Because it was the last one.\n\nThe horses ran. He watched to the end. It wasn't it.\n\nThe betting window was empty by then. Everyone scattered with the same expression.\n\nOn the last train he checked his account. A day where chasing losses doubled them.\nThe phrase 'last race' was dangerous precisely because it was never the last.",
-        "effects": {
-          "tint": -6
-        }
+        "result_text": "{name} bet everything he'd lost today. Because it was the last one.\n\nThe horses ran. He watched to the end. It wasn't it.\n\nThe betting window was empty by then. Everyone scattered with the same expression.\n\nOn the last train he checked his account. A day where chasing losses doubled them.\nThe phrase 'last race' was dangerous precisely because it was never the last."
       }
     ]
   }

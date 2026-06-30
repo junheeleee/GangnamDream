@@ -3,39 +3,17 @@
     "id": "drama_crypto_allin",
     "title": "All In",
     "description": "2 AM. The open group chat is exploding.\n\n'If you don't buy this right now you'll regret it for life. It'll triple by tomorrow.'\n\nSomeone just posted they put in everything they had. The chart is going vertical.\nThere's money in the account right now.\n\nWhether this opportunity is real or a trap — unknown.\nBut the window is right now.",
-    "category": "finance",
-    "rarity": "uncommon",
-    "weight": 1.2,
-    "hidden": false,
-    "conditions": {
-      "min_money": 500000,
-      "min_turn": 3
-    },
-    "tags": [
-      "finance",
-      "risk",
-      "gambling"
-    ],
-    "cooldown": 10,
     "choices": [
       {
         "text": "Put in everything (max ₩5,000,000)",
-        "effects": {},
-        "result_text": "Hand shaking. Hit confirm.",
-        "follow_up_event": "drama_crypto_result_big"
+        "result_text": "Hand shaking. Hit confirm."
       },
       {
         "text": "Just ₩500,000 — test the waters",
-        "effects": {},
-        "result_text": "Decided to go in small.",
-        "follow_up_event": "drama_crypto_result_small"
+        "result_text": "Decided to go in small."
       },
       {
         "text": "Stare at the chart. Close it.",
-        "effects": {
-          "mental": 2,
-          "stress": -3
-        },
         "result_text": "Closed the chat. Will find out the result in the morning. No idea if it was the right call."
       }
     ]
@@ -44,53 +22,17 @@
     "id": "drama_startup_offer",
     "title": "The Startup Offer",
     "description": "A message from a former colleague.\n\n'Want to join our team? We just got seed funding. I'll give you equity.'\n\nThe company is six months old. No salary — stock options only.\nSuccess means nine figures. Failure means unemployed.\n\nIs there enough nerve to quit and jump in?",
-    "category": "career",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "has_job": true,
-      "min_intelligence": 50,
-      "min_turn": 6
-    },
-    "tags": [
-      "career",
-      "risk",
-      "opportunity"
-    ],
-    "cooldown": 18,
     "choices": [
       {
         "text": "Join them — quit the current job",
-        "effects": {
-          "monthly_income": -1500000,
-          "intelligence": 5,
-          "social_skill": 4,
-          "stress": 18,
-          "mental": -5,
-          "flag": "joined_startup"
-        },
-        "result_text": "Put in the resignation. The account will drain fast. But if this works — everything changes.",
-        "flags": [
-          "startup_launched"
-        ]
+        "result_text": "Put in the resignation. The account will drain fast. But if this works — everything changes."
       },
       {
         "text": "Decline — stability first",
-        "effects": {
-          "mental": 3,
-          "stress": -5,
-          "reputation": 2
-        },
         "result_text": "Politely declined. Chose stability. No one knows how that friend's startup will turn out."
       },
       {
         "text": "Negotiate: part-time only",
-        "effects": {
-          "social_skill": 3,
-          "intelligence": 2,
-          "stress": 8
-        },
         "result_text": "Agreed to join on weekends. Keep the day job, keep the option open."
       }
     ]
@@ -99,47 +41,13 @@
     "id": "drama_chaebol_encounter",
     "title": "The Gangnam Contact",
     "description": "A conversation that started by chance in a Gangnam café.\n\nThe other person didn't give a name, but the way they spoke and dressed was different.\n'There's an interesting project I'm working on. Looking for the right person to do it with.'\n\nOpportunity or danger — impossible to read.\nChances like this may not come again.",
-    "category": "social",
-    "rarity": "legendary",
-    "weight": 0.4,
-    "hidden": false,
-    "conditions": {
-      "min_social_skill": 45,
-      "min_turn": 8
-    },
-    "tags": [
-      "social",
-      "opportunity",
-      "network"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Hand over a card. Make an impression.",
-        "effects": {
-          "social_skill": 6,
-          "reputation": 15,
-          "stress": 5,
-          "money": 500000,
-          "flag": "chaebol_connection"
-        },
-        "relationship_effects": [
-          {
-            "id": "chaebol_contact",
-            "name": "Gangnam Contact",
-            "type": "business",
-            "affection": 50,
-            "trust": 35
-          }
-        ],
         "result_text": "Exchanged numbers. A week later, an invitation to a small gathering. The door to Gangnam opened slightly."
       },
       {
         "text": "Keep it light. Leave without giving contact info.",
-        "effects": {
-          "social_skill": 2,
-          "mental": 4
-        },
         "result_text": "Good conversation. But no contact exchanged. Never did learn their name."
       }
     ]
@@ -148,37 +56,13 @@
     "id": "drama_housing_lottery",
     "title": "Housing Lottery Win",
     "description": "The housing subscription account I'd forgotten about.\n\nA text arrived. 'You have been selected in the public housing offering you applied for.'\n\nMy hands trembled. A deposit is needed. With what I have now, it's barely possible.\n\nThis is a real opportunity.",
-    "category": "housing",
-    "rarity": "rare",
-    "weight": 0.7,
-    "hidden": false,
-    "conditions": {
-      "min_money": 10000000,
-      "min_turn": 18
-    },
-    "tags": [
-      "housing",
-      "opportunity"
-    ],
-    "cooldown": 99,
     "choices": [
       {
         "text": "Pay the deposit. Sign the contract.",
-        "effects": {
-          "money": -8000000,
-          "mental": 20,
-          "stress": 15,
-          "reputation": 8,
-          "flag": "bought_apartment"
-        },
         "result_text": "Stamped the contract. Move-in in two years. Hands wouldn't stop shaking. It didn't feel real — my own apartment."
       },
       {
         "text": "Can't cover the deposit right now. Pass.",
-        "effects": {
-          "mental": -10,
-          "stress": 8
-        },
         "result_text": "Sent the forfeit notice. Another chance will come someday. Someday."
       }
     ]
@@ -187,53 +71,17 @@
     "id": "drama_office_politics",
     "title": "Office Politics",
     "description": "The team leader position opened up.\n\nThe general manager called {name} in quietly. 'You're the right fit. But Assistant Manager Kim is gunning for it too. What are you going to do?'\n\nPlaying it straight takes time.\nPlaying it politically is faster, but makes enemies.\n\nWork, in the end, is a people game.",
-    "category": "career",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "has_job": true,
-      "min_turn": 10,
-      "min_intelligence": 45
-    },
-    "tags": [
-      "career",
-      "social",
-      "risk"
-    ],
-    "cooldown": 14,
     "choices": [
       {
         "text": "Compete on merit. Let the work speak.",
-        "effects": {
-          "intelligence": 4,
-          "reputation": 8,
-          "stress": 12,
-          "work_performance": 15,
-          "tint": 5
-        },
         "result_text": "Volunteered for overtime. Let results do the talking. It'll take time — but no regrets."
       },
       {
         "text": "Side with the GM. Play the politics.",
-        "effects": {
-          "social_skill": 4,
-          "reputation": 12,
-          "stress": 8,
-          "mental": -6,
-          "monthly_income": 300000,
-          "tint": -4
-        },
         "result_text": "Got the team leader position. Salary went up. Assistant Manager Kim's eyes went cold. This industry — you take what comes with it."
       },
       {
         "text": "Pretend not to care. Start looking for other jobs.",
-        "effects": {
-          "stress": -10,
-          "intelligence": 2,
-          "mental": 5,
-          "tint": 0
-        },
         "result_text": "Stepped out of the race. Quietly opened a job listing site. Something better is out there."
       }
     ]
@@ -242,52 +90,17 @@
     "id": "drama_crypto_result_big",
     "title": "Coin — 5 A.M.",
     "description": "Eyes opened on their own. 5 a.m.\n\nPicked up the phone. Opened the chart.\n\nBitcoin had crashed 38%. Forced liquidation complete. The position that held everything was gone overnight.\n\nNo alarm went off. Nobody stopped it.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 0,
-    "hidden": true,
-    "conditions": {
-      "flag": "did_crypto_allin"
-    },
-    "tags": [
-      "finance",
-      "gambling"
-    ],
-    "cooldown": 999,
     "choices": [
       {
         "text": "Turn off the screen and close your eyes",
-        "effects": {
-          "money": -4000000,
-          "mental": -29,
-          "addiction_tendency": 5
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "₩4,000,000 gone. Have to go to work today, but the body won't move. Not sure what this has become."
       },
       {
         "text": "Try to recover — open another position",
-        "effects": {
-          "money": -5500000,
-          "mental": -39,
-          "addiction_tendency": 25
-        },
-        "flags": [
-          "leverage_addict"
-        ],
-        "follow_up_event": "",
         "result_text": "Made a bigger bet with reason shut off. That got liquidated too. The account balance looked different from the last time it was checked."
       },
       {
         "text": "Close the chart and go to the convenience store",
-        "effects": {
-          "money": -4000000,
-          "mental": -18,
-          "social_skill": -1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Bought a triangle kimbap. Tasted like nothing. Felt keenly, at this hour, that there's no one to call."
       }
     ]
@@ -296,49 +109,17 @@
     "id": "drama_crypto_result_small",
     "title": "₩500K in Coin — The Result",
     "description": "One week later. Checked the chart on that coin again.\n\nIt had halved. ₩250,000 left.\n\nNot sure whether to be relieved it was a small amount, or regret that it was small.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 0,
-    "hidden": true,
-    "conditions": {
-      "flag": "did_crypto_allin"
-    },
-    "tags": [
-      "finance",
-      "gambling"
-    ],
-    "cooldown": 999,
     "choices": [
       {
         "text": "Cut losses and forget it",
-        "effects": {
-          "money": -250000,
-          "investment_skill": 2,
-          "mental": -3
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Withdrew ₩250,000. Lost ₩250,000. Decided to count it as good tuition."
       },
       {
         "text": "Buy more — average down the cost",
-        "effects": {
-          "money": -500000,
-          "addiction_tendency": 8,
-          "mental": -8
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Put in ₩500,000 more. Now it has to bounce just to break even. Started checking the chart constantly."
       },
       {
         "text": "Just hold and wait",
-        "effects": {
-          "addiction_tendency": 3,
-          "mental": -4
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Figured it would go up eventually. As long as the position is open, the chart gets checked ten times a day."
       }
     ]
@@ -347,48 +128,17 @@
     "id": "drama_scam_attempt",
     "title": "Suspicious Investment Offer",
     "description": "A DM arrived on SNS.\n\n'30% monthly returns guaranteed. Zero principal loss. Put in ₩1,000,000 now, get ₩1,300,000 in a month.'\n\nProfile photo: luxury car and designer watch. 30,000 followers.\nReviews in the comments. Everyone says they made money.\n\nSomething feels off. Or maybe it's real.",
-    "category": "finance",
-    "rarity": "common",
-    "weight": 2.0,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 2
-    },
-    "tags": [
-      "finance",
-      "risk",
-      "scam"
-    ],
-    "cooldown": 8,
     "choices": [
       {
         "text": "Put in ₩1,000,000",
-        "effects": {
-          "money": -1000000,
-          "mental": -18,
-          "gambling_tendency": 5,
-          "tint": -5
-        },
         "result_text": "Sent a message confirming the transfer, but no reply. Three days later the account was gone. A classic scam."
       },
       {
         "text": "Suspicious — report and block",
-        "effects": {
-          "intelligence": 2,
-          "mental": 3,
-          "tint": 6
-        },
         "result_text": "Reported and blocked. A reminder to never fall for this kind of thing."
       },
       {
         "text": "Alert others to prevent damage",
-        "effects": {
-          "intelligence": 3,
-          "social_skill": 2,
-          "reputation": 5,
-          "mental": 4,
-          "tint": 7
-        },
         "result_text": "Shared the scam info in an open chat. 'You saved me' comments came in. Felt good."
       }
     ]
@@ -397,36 +147,13 @@
     "id": "drama_inheritance_news",
     "title": "Unexpected Call",
     "description": "A call from an unknown number.\n\n'Hello. This is law firm OO. Regarding the inheritance left by a distant relative...'\n\nTook time to absorb the content after hanging up.\nA distant relative who never made contact passed away and left a small sum.\n\nNot sure whether this is money to accept — or money that should be accepted.",
-    "category": "finance",
-    "rarity": "rare",
-    "weight": 0.6,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 12
-    },
-    "tags": [
-      "life",
-      "money",
-      "family"
-    ],
-    "cooldown": 99,
     "choices": [
       {
         "text": "Accept the inheritance",
-        "effects": {
-          "money": 5000000,
-          "mental": -10,
-          "tint": 0
-        },
         "result_text": "₩5,000,000 entered the account. Someone never met, yet a strange feeling lingered."
       },
       {
         "text": "Donate it all",
-        "effects": {
-          "mental": 15,
-          "reputation": 10,
-          "tint": 8
-        },
         "result_text": "Donated the full amount. A lighter feeling than the money itself. This felt right."
       }
     ]
@@ -435,73 +162,17 @@
     "id": "drama_friend_investment",
     "title": "Friend's Business Proposal",
     "description": "An old friend got in touch.\n\n'I'm starting a business. Can you invest ₩5,000,000? I'll pay it back double in a year.'\n\nA lot of money to trust on friendship alone.\nIf refused, things might get awkward.\n\nMoney or friendship?",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.3,
-    "hidden": false,
-    "conditions": {
-      "min_money": 3000000,
-      "has_relationship": true,
-      "min_turn": 8
-    },
-    "tags": [
-      "social",
-      "risk",
-      "finance"
-    ],
-    "cooldown": 16,
     "choices": [
       {
         "text": "Lend ₩5,000,000",
-        "effects": {
-          "money": -5000000,
-          "mental": -10,
-          "tint": 5
-        },
-        "relationship_effects": [
-          {
-            "id": "close_friend",
-            "name": "Close Friend",
-            "type": "friends",
-            "affection": 20,
-            "trust": 15
-          }
-        ],
         "result_text": "Transferred the money. The friend was grateful. What happens in a year, nobody knows."
       },
       {
         "text": "Help with ₩1,000,000 only",
-        "effects": {
-          "money": -1000000,
-          "mental": 3,
-          "tint": 3
-        },
-        "relationship_effects": [
-          {
-            "id": "close_friend",
-            "name": "Close Friend",
-            "type": "friends",
-            "affection": 8,
-            "trust": 5
-          }
-        ],
         "result_text": "Said could only help a little. The friend was disappointed but accepted."
       },
       {
         "text": "Decline — don't want money to mess up the friendship",
-        "effects": {
-          "mental": 3,
-          "tint": 2
-        },
-        "relationship_effects": [
-          {
-            "id": "close_friend",
-            "name": "Close Friend",
-            "type": "friends",
-            "affection": -10,
-            "trust": -8
-          }
-        ],
         "result_text": "Declined. A brief silence. The friend said okay, but something shifted."
       }
     ]
@@ -510,46 +181,13 @@
     "id": "drama_mentor_encounter",
     "title": "Life Mentor",
     "description": "A middle-aged man seated next to you at a lecture. By chance.\n\nAfter the talk, he spoke first.\n'Feels like yesterday when I came to Seoul at twenty, living in a gosiwon. What do you do?'\n\nHe said he started in the exact same position twenty years ago and now has assets worth billions.\nSays he takes on a student now and then.",
-    "category": "social",
-    "rarity": "rare",
-    "weight": 0.9,
-    "hidden": false,
-    "conditions": {
-      "min_intelligence": 55,
-      "min_turn": 10
-    },
-    "tags": [
-      "social",
-      "opportunity",
-      "mentor"
-    ],
-    "cooldown": 20,
     "choices": [
       {
         "text": "Become his student",
-        "effects": {
-          "intelligence": 8,
-          "investment_skill": 6,
-          "social_skill": 4,
-          "mental": 8
-        },
-        "relationship_effects": [
-          {
-            "id": "life_mentor",
-            "name": "Life Mentor",
-            "type": "mentor",
-            "affection": 60,
-            "trust": 50
-          }
-        ],
         "result_text": "Started meeting once a week. He spoke in the language of the wealthy. Slowly starting to understand it."
       },
       {
         "text": "Just take his card and keep watching",
-        "effects": {
-          "social_skill": 3,
-          "intelligence": 2
-        },
         "result_text": "Took the card. Hard to fully trust what this person says yet. Decided to watch for a while."
       }
     ]
@@ -558,35 +196,13 @@
     "id": "drama_media_appearance",
     "title": "News Interview Request",
     "description": "A journalist working on a '2030 Youth Asset Building' feature made contact.\n\n'I'd like to tell the story of a young person in their twenties and thirties who's made it on their own in Seoul.'\n\nGetting covered would raise reputation, but privacy goes with it.\nDecline and life stays quiet.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.1,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 15,
-      "min_reputation": 15
-    },
-    "tags": [
-      "social",
-      "reputation"
-    ],
-    "cooldown": 20,
     "choices": [
       {
         "text": "Agree to the interview",
-        "effects": {
-          "reputation": 20,
-          "social_skill": 5,
-          "mental": -1,
-          "money": 200000
-        },
         "result_text": "The article ran. It got shared on SNS. Strangers left encouraging comments. A bit embarrassing, but not bad."
       },
       {
         "text": "Decline — want to live quietly",
-        "effects": {
-          "mental": 6
-        },
         "result_text": "Politely declined. Prefer the quiet. The Gangnam dream is something to achieve alone, without fanfare."
       }
     ]
@@ -595,49 +211,17 @@
     "id": "drama_burnout_warning",
     "title": "The Burnout Edge",
     "description": "Monday morning. The alarm went off, but the body won't get up.\n\nHead aching. Chest tight. Don't want to do anything.\nCan't tell if this is burnout or just exhaustion.\n\nStop now and fall behind. Keep going and something will break completely.",
-    "category": "health",
-    "rarity": "uncommon",
-    "weight": 1.4,
-    "hidden": false,
-    "conditions": {
-      "min_stress": 65,
-      "max_health": 55
-    },
-    "tags": [
-      "health",
-      "stress",
-      "burnout"
-    ],
-    "cooldown": 10,
     "choices": [
       {
         "text": "Go to the hospital",
-        "effects": {
-          "money": -150000,
-          "health": 15,
-          "mental": 21,
-          "tint": 2
-        },
         "result_text": "The doctor said: 'You need to rest.' Decided to tap the brakes for a moment."
       },
       {
         "text": "Push through anyway",
-        "effects": {
-          "health": -12,
-          "mental": -16,
-          "money": 300000,
-          "tint": -2
-        },
         "result_text": "Drank more coffee and held on. End-of-month numbers came through. But the body is past its limit."
       },
       {
         "text": "Take two days off and reset",
-        "effects": {
-          "health": 8,
-          "mental": 18,
-          "money": -100000,
-          "tint": 3
-        },
         "result_text": "Cleared two whole days. Walked, ate, slept. Had forgotten how good simple things could be."
       }
     ]
@@ -646,42 +230,17 @@
     "id": "drama_rooftop_oneroom",
     "title": "Signing the Rooftop Lease",
     "description": "Rooftop one-room: ₩500,000 deposit, ₩450,000/month rent. Already knows it'll be a furnace in summer and a freezer in winter. But there'll finally be a space that's just {name}'s.",
-    "category": "housing",
-    "rarity": "uncommon",
-    "weight": 0.9,
-    "hidden": false,
-    "conditions": {
-      "housing": "gosiwon"
-    },
-    "tags": [
-      "housing",
-      "ambition",
-      "opportunity"
-    ],
-    "cooldown": 20,
     "choices": [
       {
         "text": "Sign. Finally my own space.",
-        "effects": {
-          "mental": 16,
-          "money": -5000000
-        },
         "result_text": "Got the key. Small, worn down, but it's mine. Unpacking the bags, eyes got wet for no reason."
       },
       {
         "text": "Save a little more and aim for something better",
-        "effects": {
-          "mental": 1
-        },
         "result_text": "Decided to hold out. Not yet. Just hope the definition of 'enough' doesn't keep moving up."
       },
       {
         "text": "Sign a shared house instead",
-        "effects": {
-          "money": -3000000,
-          "mental": 8,
-          "social_skill": 4
-        },
         "result_text": "Two roommates. Hit or miss, but better than alone. Got people out of it."
       }
     ]
@@ -690,47 +249,17 @@
     "id": "drama_viral_moment",
     "title": "Suddenly Viral",
     "description": "A short video uploaded three days ago crossed 100,000 views. Hundreds of comments. Follower count growing. Could this be an opportunity?",
-    "category": "social",
-    "rarity": "rare",
-    "weight": 0.25,
-    "hidden": false,
-    "conditions": {},
-    "tags": [
-      "opportunity",
-      "luck",
-      "reputation",
-      "viral"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Commit to growing the channel",
-        "effects": {
-          "reputation": 15,
-          "social_skill": 5,
-          "intelligence": 3,
-          "mental": -8
-        },
-        "result_text": "Posted consistently for three months. 10,000 subscribers. Side income started coming in.",
-        "flags": [
-          "creator_started"
-        ]
+        "result_text": "Posted consistently for three months. 10,000 subscribers. Side income started coming in."
       },
       {
         "text": "Let it pass as a fluke",
-        "effects": {
-          "luck": 2,
-          "mental": 3
-        },
         "result_text": "A brief moment of attention. The wave came and went. That's fine. Life goes on."
       },
       {
         "text": "Look into brand collaboration inquiries",
-        "effects": {
-          "money": 500000,
-          "reputation": 8,
-          "mental": -5
-        },
         "result_text": "Received a small fee. There are so many ways to make money in this world."
       }
     ]
@@ -739,45 +268,17 @@
     "id": "drama_eviction_notice",
     "title": "Sudden Eviction Notice",
     "description": "The landlord sold the building. The new owner says they're doing renovations. Have to leave within two months.",
-    "category": "housing",
-    "rarity": "uncommon",
-    "weight": 0.6,
-    "hidden": false,
-    "conditions": {
-      "min_turn": 3
-    },
-    "tags": [
-      "housing",
-      "stress",
-      "anxiety",
-      "risk"
-    ],
-    "cooldown": 25,
     "choices": [
       {
         "text": "Check the legal protections and push back",
-        "effects": {
-          "intelligence": 6,
-          "money": 1000000,
-          "mental": -5
-        },
         "result_text": "Had a registered address and confirmation date. The law protected it. Information is rights."
       },
       {
         "text": "Find a new place fast",
-        "effects": {
-          "money": -3000000,
-          "mental": -8
-        },
         "result_text": "Moved within two months. Rushed, so not ideal — but there's a place to live."
       },
       {
         "text": "Negotiate for moving cost compensation",
-        "effects": {
-          "social_skill": 3,
-          "money": 500000,
-          "mental": -4
-        },
         "result_text": "Negotiated and got ₩500,000. Good thing for asking confidently."
       }
     ]
@@ -786,47 +287,17 @@
     "id": "drama_job_offer_dilemma",
     "title": "Two Offers at Once",
     "description": "Acceptance notices arrived from both a conglomerate affiliate and a startup at the same time. The conglomerate pays more; the startup has more growth potential.",
-    "category": "jobs",
-    "rarity": "rare",
-    "weight": 0.3,
-    "hidden": false,
-    "conditions": {
-      "no_job": true
-    },
-    "tags": [
-      "job",
-      "opportunity",
-      "ambition"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Choose the conglomerate — stability first",
-        "effects": {
-          "money": 500000,
-          "reputation": 8,
-          "intelligence": 4,
-          "mental": -3
-        },
         "result_text": "Stable salary. Structured systems. And a fast learning curve. This choice is right for now."
       },
       {
         "text": "Choose the startup — growth first",
-        "effects": {
-          "intelligence": 8,
-          "investment_skill": 4,
-          "social_skill": 5,
-          "mental": -8
-        },
         "result_text": "Rollercoaster of a company. A different pace of learning. If it works out, the reward is big too."
       },
       {
         "text": "Negotiate the terms one more time",
-        "effects": {
-          "social_skill": 5,
-          "intelligence": 3,
-          "money": 200000
-        },
         "result_text": "Tried salary negotiation. The startup went up ₩500,000. Can't get it without asking."
       }
     ]
@@ -835,45 +306,17 @@
     "id": "drama_investment_big_win",
     "title": "The Big Win",
     "description": "The ETF invested in six months ago is up 38%. For the first time, 'money making money' feels real.",
-    "category": "investment",
-    "rarity": "rare",
-    "weight": 0.2,
-    "hidden": false,
-    "conditions": {
-      "min_investment_skill": 40
-    },
-    "tags": [
-      "investment",
-      "opportunity",
-      "finance",
-      "luck"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Realize the gains and diversify again",
-        "effects": {
-          "money": 3000000,
-          "investment_skill": 6,
-          "intelligence": 4
-        },
         "result_text": "Sold. Felt good. Then started studying again. This cycle will repeat."
       },
       {
         "text": "Hold — feels like it'll go higher",
-        "effects": {
-          "investment_skill": 4,
-          "mental": -6
-        },
         "result_text": "Went up another 10%, then fell 15%. Learned where greed's ceiling should be."
       },
       {
         "text": "Cash out half, keep half",
-        "effects": {
-          "money": 1500000,
-          "investment_skill": 7,
-          "mental": 3
-        },
         "result_text": "Mechanical partial realization. Not greed, not fear — just the plan. This is the right way."
       }
     ]
@@ -882,47 +325,17 @@
     "id": "drama_friend_betrayal",
     "title": "A Friend's Betrayal",
     "description": "A friend who had been sharing a business idea filed for a business registration first. With that idea. Without a word.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.25,
-    "hidden": false,
-    "conditions": {
-      "has_relationship": true,
-      "min_turn": 5
-    },
-    "tags": [
-      "social",
-      "stress",
-      "risk",
-      "mental"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Confront them directly",
-        "effects": {
-          "social_skill": 5,
-          "mental": -8,
-          "tint": 4
-        },
         "result_text": "A long fight. The friend apologized. Things could never go back to how they were."
       },
       {
         "text": "Look into legal options",
-        "effects": {
-          "intelligence": 5,
-          "mental": -5,
-          "tint": 1
-        },
         "result_text": "Found out an idea alone is hard to patent. Decided to document everything going forward."
       },
       {
         "text": "Let it go and find a better idea",
-        "effects": {
-          "mental": 5,
-          "intelligence": 3,
-          "tint": -2
-        },
         "result_text": "Felt burned, but decided not to spend energy there. This experience became fuel instead."
       }
     ]
@@ -931,44 +344,17 @@
     "id": "drama_public_contest_win",
     "title": "Contest Entry Wins",
     "description": "An entry submitted with little expectation placed in a public competition. Prize: ₩1,000,000. The official list shows the name.",
-    "category": "social",
-    "rarity": "rare",
-    "weight": 0.2,
-    "hidden": false,
-    "conditions": {},
-    "tags": [
-      "opportunity",
-      "reputation",
-      "intelligence",
-      "luck"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Add to portfolio and enter the next one",
-        "effects": {
-          "money": 1000000,
-          "reputation": 10,
-          "intelligence": 5
-        },
         "result_text": "Name on the list. The feeling that 'I actually did something' was real, for the first time."
       },
       {
         "text": "Reconsider career direction based on this",
-        "effects": {
-          "money": 1000000,
-          "reputation": 8,
-          "intelligence": 4,
-          "mental": -3
-        },
         "result_text": "Found out there's something to be good at. Started reconsidering the path."
       },
       {
         "text": "Take the prize and stay the course",
-        "effects": {
-          "money": 1000000,
-          "mental": 5
-        },
         "result_text": "Got the money. A month of living expenses handled. That's valuable enough."
       }
     ]
@@ -977,42 +363,17 @@
     "id": "drama_health_scare",
     "title": "Warning Signs",
     "description": "Blood test results showed abnormalities. The doctor recommends further testing. Still in your early thirties. The body suddenly feels heavy.",
-    "category": "health",
-    "rarity": "uncommon",
-    "weight": 0.6,
-    "hidden": false,
-    "conditions": {},
-    "tags": [
-      "health",
-      "anxiety",
-      "stress",
-      "mental"
-    ],
-    "cooldown": 25,
     "choices": [
       {
         "text": "Get the detailed testing done now",
-        "effects": {
-          "money": -500000,
-          "health": 10,
-          "mental": 8
-        },
         "result_text": "All clear. The abnormal readings came from overwork. The body's warning was heard."
       },
       {
         "text": "Start changing lifestyle habits",
-        "effects": {
-          "health": 6,
-          "mental": 6
-        },
         "result_text": "Sleep, food, exercise. Started with the basics. The body responded faster than expected."
       },
       {
         "text": "Ignore it and keep the same routine",
-        "effects": {
-          "health": -10,
-          "mental": -4
-        },
         "result_text": "The next test came back worse. The body doesn't get better from being ignored."
       }
     ]
@@ -1021,43 +382,17 @@
     "id": "drama_apartment_lottery_win",
     "title": "Apartment Lottery Win",
     "description": "Entered an apartment pre-sale in the outer Seoul suburbs on a whim. Got selected. Sale price: ₩380,000,000. Impossible without a loan.",
-    "category": "housing",
-    "rarity": "rare",
-    "weight": 0.15,
-    "hidden": false,
-    "conditions": {
-      "min_money": 50000000
-    },
-    "tags": [
-      "housing",
-      "opportunity",
-      "finance",
-      "luck"
-    ],
-    "cooldown": 40,
     "choices": [
       {
         "text": "Take a loan and sign",
-        "effects": {
-          "money": -50000000,
-          "reputation": 10,
-          "mental": -3
-        },
         "result_text": "Thirty-year loan. Heavy. But there's now a place in Seoul. That weight has meaning."
       },
       {
         "text": "Wait for resale eligibility and flip it",
-        "effects": {
-          "money": 30000000,
-          "investment_skill": 8
-        },
         "result_text": "Sold with a premium. ₩30,000,000 profit. Investment sense sharpened."
       },
       {
         "text": "Pass on it — too much right now",
-        "effects": {
-          "mental": 5
-        },
         "result_text": "Made a cold, clear call. Not now. There's a pace to keep."
       }
     ]
@@ -1066,49 +401,17 @@
     "id": "drama_layoff_survivor",
     "title": "Surviving the Cuts",
     "description": "The company announced restructuring. Two people in the team were let go. {name} survived. Relief and guilt arrived at the same time.",
-    "category": "jobs",
-    "rarity": "rare",
-    "weight": 0.3,
-    "hidden": false,
-    "conditions": {
-      "has_job": true,
-      "min_turn": 3
-    },
-    "tags": [
-      "job",
-      "stress",
-      "mental",
-      "risk"
-    ],
-    "cooldown": 25,
     "choices": [
       {
         "text": "Focus on surviving and work harder",
-        "effects": {
-          "reputation": 5,
-          "intelligence": 4,
-          "mental": -8,
-          "tint": 0
-        },
         "result_text": "A pressure to do the work of those who are gone. That pressure pushed harder."
       },
       {
         "text": "Start preparing to change jobs",
-        "effects": {
-          "intelligence": 5,
-          "investment_skill": 2,
-          "mental": -4,
-          "tint": 0
-        },
         "result_text": "No knowing when it'll be your turn. Learned to always be ready."
       },
       {
         "text": "Reach out to the colleagues who left",
-        "effects": {
-          "social_skill": 5,
-          "mental": 4,
-          "tint": 5
-        },
         "result_text": "Bought them a meal. Said 'you worked hard.' Tried not to forget that people come first."
       }
     ]
@@ -1117,41 +420,17 @@
     "id": "drama_mentor_intro",
     "title": "Big Name in the Industry",
     "description": "Posted something on LinkedIn. A well-known figure in the industry sent a DM. 'I'd like to meet.' Need to verify it's real first.",
-    "category": "relationship",
-    "rarity": "rare",
-    "weight": 0.2,
-    "hidden": false,
-    "conditions": {},
-    "tags": [
-      "opportunity",
-      "social_skill",
-      "reputation"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Agree to meet somewhere public",
-        "effects": {
-          "social_skill": 6,
-          "intelligence": 5,
-          "reputation": 8,
-          "mental": -3
-        },
         "result_text": "It was real. One hour of conversation. Got two years' worth of insight. One post made this meeting happen."
       },
       {
         "text": "Do more research online first",
-        "effects": {
-          "intelligence": 4,
-          "reputation": 4
-        },
         "result_text": "Had a video call first. Met after trust was established. A carefully opened opportunity."
       },
       {
         "text": "Probably a scam — ignore it",
-        "effects": {
-          "luck": -3
-        },
         "result_text": "Later saw that person's face at a lecture. It was real. Missed a chance through suspicion."
       }
     ]
@@ -1160,42 +439,13 @@
     "id": "drama_startup_acquisition",
     "title": "Acquisition Offer",
     "description": "A VC reached out.\n\n'We're interested in your company. Can we meet?'\n\nTalked it over with the team through the night. A number was put on the table. Much bigger than imagined.\n\nSell here and it's over. But the number goes into the account.\n\nKeep going and it could get bigger. Or everything could be lost.",
-    "category": "career",
-    "rarity": "legendary",
-    "weight": 0.5,
-    "hidden": false,
-    "conditions": {
-      "flag": "joined_startup",
-      "min_turn": 18
-    },
-    "tags": [
-      "career",
-      "opportunity",
-      "finance",
-      "startup"
-    ],
-    "cooldown": 9999,
     "choices": [
       {
         "text": "Accept the acquisition — cash out now",
-        "effects": {
-          "money": 80000000,
-          "mental": 26,
-          "reputation": 25
-        },
-        "result_text": "Signed. ₩80,000,000 into the account.\n\nHad one last drink with the team. Nobody said much.\nNot sure if it was the right call. But numbers don't lie.",
-        "flags": [
-          "startup_exit"
-        ]
+        "result_text": "Signed. ₩80,000,000 into the account.\n\nHad one last drink with the team. Nobody said much.\nNot sure if it was the right call. But numbers don't lie."
       },
       {
         "text": "Decline — grow it bigger",
-        "effects": {
-          "intelligence": 6,
-          "investment_skill": 5,
-          "reputation": 10,
-          "mental": -8
-        },
         "result_text": "Declined. The VC rep looked surprised.\n\nThere's a bigger picture. Not time to sell yet.\nWhether this was right — time will tell."
       }
     ]
@@ -1204,54 +454,17 @@
     "id": "drama_election_theme_stock",
     "title": "Election Theme Stocks",
     "description": "Election is three months away.\n\nStocks tied to certain candidates are jumping.\nInvesting forums are buzzing. 'This time it's real.'\n\nTheme stocks spike or crash when the results come in.\nTiming is everything in this game.\n\nWhat to do?",
-    "category": "finance",
-    "rarity": "rare",
-    "weight": 0.4,
-    "hidden": false,
-    "conditions": {
-      "min_investment_skill": 35,
-      "min_turn": 10,
-      "min_money": 2000000
-    },
-    "tags": [
-      "finance",
-      "risk",
-      "politics",
-      "opportunity"
-    ],
-    "cooldown": 40,
     "choices": [
       {
         "text": "Buy just before election day — aim to sell right after results",
-        "effects": {
-          "money": 12000000,
-          "investment_skill": 8,
-          "luck": 5,
-          "mental": -10,
-          "tint": -3
-        },
-        "result_text": "4 a.m. on election results night. Watching the chart, finger stretched out.\n\nSell. Confirm.\n\n₩12,000,000. The account changed.\nLearned in the body that in this city, information is money and timing is everything.",
-        "flags": [
-          "political_winner"
-        ]
+        "result_text": "4 a.m. on election results night. Watching the chart, finger stretched out.\n\nSell. Confirm.\n\n₩12,000,000. The account changed.\nLearned in the body that in this city, information is money and timing is everything."
       },
       {
         "text": "Test it with a small amount only",
-        "effects": {
-          "money": 800000,
-          "investment_skill": 5,
-          "mental": -4,
-          "tint": -1
-        },
         "result_text": "₩800,000 gain. Disappointing, but kept it safe.\nGot the nerve to go bigger next time."
       },
       {
         "text": "Skip theme stocks — keep to the rules",
-        "effects": {
-          "intelligence": 3,
-          "mental": 5,
-          "tint": 4
-        },
         "result_text": "Didn't do it. A few days later, news broke that theme stocks had crashed.\nThe rules protected the outcome."
       }
     ]
@@ -1260,44 +473,17 @@
     "id": "drama_parents_financial_crisis",
     "title": "Parents' Crisis",
     "description": "Got a call from the parents. The business is struggling. Everything in the account right now is all there is.",
-    "category": "family",
-    "rarity": "rare",
-    "weight": 0.3,
-    "hidden": false,
-    "conditions": {},
-    "tags": [
-      "family",
-      "finance",
-      "stress",
-      "mental"
-    ],
-    "cooldown": 30,
     "choices": [
       {
         "text": "Help as much as possible",
-        "effects": {
-          "money": -3000000,
-          "mental": -2,
-          "tint": 7
-        },
         "result_text": "Sent ₩3,000,000. The account was emptied. But the parents' voice changed. That was enough."
       },
       {
         "text": "Help within limits only",
-        "effects": {
-          "money": -1000000,
-          "mental": -1,
-          "tint": 2
-        },
         "result_text": "₩1,000,000. Not everything, but what was possible. Knowing your limits is also maturity."
       },
       {
         "text": "Be honest — things are hard on this end too",
-        "effects": {
-          "mental": 4,
-          "social_skill": 3,
-          "tint": 4
-        },
         "result_text": "Said 'I'm struggling too' for the first time. The parents ended up apologizing. Honesty can sometimes save a relationship."
       }
     ]
@@ -1306,43 +492,13 @@
     "id": "startup_first_user_traction",
     "title": "A User Came Back",
     "description": "Two months since launching the service. MAU is still 400, but one of them sent a message today.\n\n'I don't know what I'd do without this. It's something I really needed.'\n\nOne sentence made the eyes water at the screen. Right. This is why it started. But there's still no money.",
-    "category": "jobs",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "startup_launched",
-      "no_flag": "startup_growing"
-    },
-    "tags": [
-      "startup",
-      "milestone"
-    ],
-    "cooldown": 15,
     "choices": [
       {
         "text": "Share this with the team and keep running.",
-        "effects": {
-          "mental": 10,
-          "reputation": 2,
-          "intelligence": 2
-        },
-        "flags": [
-          "startup_growing"
-        ],
-        "follow_up_event": "",
         "result_text": "One small spark reignited the whole team. Put a screenshot of this message on the office wall."
       },
       {
         "text": "Grateful, sure — but gratitude doesn't pay salaries.",
-        "effects": {
-          "mental": -1,
-          "intelligence": 1
-        },
-        "flags": [
-          "startup_growing"
-        ],
-        "follow_up_event": "",
         "result_text": "Don't lose the reality check. Can't live on user love alone. Pulled out the monetization strategy again."
       }
     ]
@@ -1351,49 +507,17 @@
     "id": "startup_team_conflict",
     "title": "Clash with the Co-Founder",
     "description": "The directions have diverged. The co-founder is pushing for a B2B pivot; {name} wants to keep B2C.\n\nMeetings have been getting longer, voices louder. By the end, everyone left without a word.\n\nPeople say startups are always a people problem. Now that makes sense.",
-    "category": "jobs",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "startup_founded"
-    },
-    "tags": [
-      "startup",
-      "relationship"
-    ],
-    "cooldown": 20,
     "choices": [
       {
         "text": "Persuade, but find a compromise.",
-        "effects": {
-          "social_skill": 3,
-          "intelligence": 2,
-          "mental": -8
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Half a day of debate, ended in a hybrid strategy. Wasn't easy, but the team survived."
       },
       {
         "text": "I'm the CEO — my call stands.",
-        "effects": {
-          "reputation": -3,
-          "mental": -13
-        },
-        "flags": [
-          "startup_going_solo"
-        ],
-        "follow_up_event": "",
         "result_text": "Decision was fast, but the co-founder left with part of the equity. Going solo started here."
       },
       {
         "text": "Take some distance and let both sides think it over.",
-        "effects": {
-          "mental": 5
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "A week later, both sat down with cooler heads. Without the emotion, it came together easier than expected."
       }
     ]
@@ -1402,51 +526,17 @@
     "id": "creator_algorithm_penalty",
     "title": "The Algorithm Died",
     "description": "Up until last month every video was pulling at least 50,000 views. A video posted this week has 300.\n\nSomeone commented 'Why aren't you getting traction lately.' Not sure if YouTube killed the channel, or the content is dying.\n\nNothing changed — and this happens. That's what an algorithm is.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "creator_started",
-      "no_flag": "creator_viral"
-    },
-    "tags": [
-      "creator",
-      "setback"
-    ],
-    "cooldown": 12,
     "choices": [
       {
         "text": "Post more often and overhaul the thumbnails.",
-        "effects": {
-          "health": -5,
-          "intelligence": 3,
-          "money": -200000,
-          "mental": -15
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Posted three videos a week for a month. The body's fading but the algorithm started responding little by little."
       },
       {
         "text": "Completely change the format. Follow the trends.",
-        "effects": {
-          "intelligence": 5,
-          "mental": -7
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Lost some identity, but the numbers started coming back. On YouTube, trends beat branding."
       },
       {
         "text": "Run another platform (shorts/Instagram) in parallel.",
-        "effects": {
-          "social_skill": 3,
-          "intelligence": 2,
-          "mental": -10
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Followers grew on shorts. Channel traffic came back a bit. Accepted living in the multi-platform era."
       }
     ]
@@ -1455,51 +545,17 @@
     "id": "creator_hater_crisis",
     "title": "Hate Bomb",
     "description": "One video went controversial. 'Factually wrong', 'spreading misinformation', 'unsubscribed'.\n\nIn one day, views hit 800,000 and 10,000 comments piled up. Most of them hostile.\n\nSo this is what being famous feels like. This many faceless people behind keyboards.",
-    "category": "social",
-    "rarity": "rare",
-    "weight": 0.7,
-    "hidden": false,
-    "conditions": {
-      "flag": "creator_viral"
-    },
-    "tags": [
-      "creator",
-      "crisis"
-    ],
-    "cooldown": 20,
     "choices": [
       {
         "text": "Post a public apology and take down the video.",
-        "effects": {
-          "mental": -10,
-          "reputation": -5,
-          "social_skill": 4,
-          "tint": 5
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Went quiet after the apology. Lost 5,000 subscribers, but the haters moved to the next target. This is crisis management."
       },
       {
         "text": "Post a rebuttal. I'm right.",
-        "effects": {
-          "mental": -23,
-          "reputation": 5,
-          "intelligence": 2,
-          "tint": -3
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "The rebuttal video went even bigger. 20,000 new subscribers, but just as many new enemies. Fame is a double-edged sword."
       },
       {
         "text": "Ignore it and move on to the next video.",
-        "effects": {
-          "mental": -2,
-          "tint": -1
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Silence is sometimes the best choice. Two days later it went quiet on its own. The internet moves on fast."
       }
     ]
@@ -1508,51 +564,17 @@
     "id": "creator_collab_offer",
     "title": "A 1M-Subscriber YouTuber Made an Offer",
     "description": "A DM arrived. A YouTuber with 1.2 million subscribers. Wants to collaborate.\n\n'We both get exposure — win-win.' That's fair. But that channel's style is a bit different from mine.\n\nFollowers will grow, but the brand might blur.",
-    "category": "social",
-    "rarity": "uncommon",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "creator_monetized"
-    },
-    "tags": [
-      "creator",
-      "opportunity"
-    ],
-    "cooldown": 15,
     "choices": [
       {
         "text": "Accept the collab. Exposure is everything.",
-        "effects": {
-          "money": 500000,
-          "social_skill": 5,
-          "reputation": 5,
-          "mental": -5
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "When the video went up, 30,000 new subscribers came in. Branding took a small hit but the numbers went up clearly."
       },
       {
         "text": "Negotiate terms to keep my identity.",
-        "effects": {
-          "money": 300000,
-          "social_skill": 3,
-          "reputation": 3,
-          "intelligence": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Proceeded with a condition to keep the original format. Fewer new subscribers, but existing fans responded well."
       },
       {
         "text": "Decline. I'll go my own way.",
-        "effects": {
-          "mental": 5,
-          "reputation": 2
-        },
-        "flags": [],
-        "follow_up_event": "",
         "result_text": "Sent a polite decline. Decided identity matters more than growth at this stage."
       }
     ]
@@ -1560,45 +582,14 @@
   {
     "id": "drama_addiction_mirror",
     "title": "Mirror",
-    "background": "goshiwon_room",
-    "portrait": "player_tired",
-    "category": "health",
-    "rarity": "uncommon",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "min_addiction": 50,
-      "max_addiction": 69,
-      "min_turn": 8
-    },
-    "tags": [
-      "drama",
-      "addiction",
-      "self"
-    ],
-    "cooldown": 20,
     "description": "2 a.m. again. Checking betting results, and it got this late.\n\nTurned off the screen and sat blankly — then happened to look in the mirror.\nAn unfamiliar face was there.\n\nWhen did this start. That 'just one more time' has\nconsumed this many nights.",
     "choices": [
       {
         "text": "Admit it — \"I think something's off with me lately\"",
-        "effects": {
-          "mental": 6,
-          "addiction_tendency": -8,
-          "tint": 6
-        },
-        "flags": [
-          "addiction_self_aware"
-        ],
         "result_text": "{name} put the phone in a drawer. Just for tonight.\nAdmitting it wasn't easy. But it was better than looking away from the mirror."
       },
       {
         "text": "It's nothing — everyone lives like this",
-        "effects": {
-          "addiction_tendency": 5,
-          "mental": -3,
-          "tint": -4
-        },
-        "flags": [],
         "result_text": "{name} set an alarm and lay down. It's nothing.\nBut sleep didn't come easily."
       }
     ]
@@ -1606,62 +597,18 @@
   {
     "id": "drama_addiction_debt",
     "title": "The Hole",
-    "background": "convenience_night",
-    "portrait": "player_shocked",
-    "category": "gambling",
-    "rarity": "rare",
-    "weight": 1.0,
-    "hidden": false,
-    "conditions": {
-      "min_addiction": 70,
-      "min_turn": 12
-    },
-    "tags": [
-      "drama",
-      "addiction",
-      "crisis"
-    ],
-    "cooldown": 25,
     "description": "Opened the account.\n\nMuch lower than expected.\n\nLooked back over the last two months. The bets.\nThe days of big losses. The days of betting more to try to recover.\n\n{name} stared at the numbers for a long time, then put down the phone.\nWhat scared more wasn't how much had been lost — but how much more seemed likely to go.",
     "choices": [
       {
         "text": "Stop for now — delete every betting and gambling app",
-        "effects": {
-          "mental": 10,
-          "addiction_tendency": -15,
-          "tint": 6
-        },
-        "flags": [
-          "addiction_paused",
-          "deleted_gambling_apps"
-        ],
         "result_text": "The hands trembled a little. Didn't know deleting would be this hard.\nBut someone once said — the one who can stop is the strong one.\n{name}, right now, stopped."
       },
       {
         "text": "Can recover — just one more big bet",
-        "effects": {
-          "mental": -10,
-          "addiction_tendency": 12,
-          "tint": -6
-        },
-        "flags": [
-          "addiction_escalated"
-        ],
         "result_text": "{name} turned the screen back on.\nThinking this was really the last time.\nThe eleventh 'last time' — that only came to light later."
       },
       {
         "text": "Call Hyunsu — not to talk, just to hear a voice",
-        "effects": {
-          "mental": 7,
-          "addiction_tendency": -5,
-          "tint": 7
-        },
-        "cast_effects": {
-          "hyunsu": {
-            "affinity": 5
-          }
-        },
-        "flags": [],
         "result_text": "Hyunsu picked up. Didn't say much. Just talked.\nFelt a little better after hanging up.\nNot sure why, but."
       }
     ]
@@ -1669,57 +616,14 @@
   {
     "id": "drama_addiction_warning",
     "title": "Dad Notices",
-    "background": "dad_house",
-    "portrait": "player_tired",
-    "category": "health",
-    "rarity": "rare",
-    "weight": 0.8,
-    "hidden": false,
-    "conditions": {
-      "min_addiction": 65,
-      "min_turn": 15,
-      "no_flag": "addiction_dad_warned"
-    },
-    "tags": [
-      "drama",
-      "addiction",
-      "family"
-    ],
-    "cooldown": 9999,
     "description": "Had a call with Dad after a long time.\nWhile catching up, Dad said quietly:\n\n\"Minjun. What's going on with you lately?\nI've been worried since I saw you last time.\nYou're not sick anywhere, right?\"\n\n{name} couldn't say anything.\nDad is someone who chooses every word carefully.\n'You're not sick anywhere, right?' — that can also mean: I already know.",
     "choices": [
       {
         "text": "\"I'm fine. Just been pushing too hard lately.\" — deflect",
-        "effects": {
-          "mental": -5,
-          "tint": -3
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": -3
-          }
-        },
-        "flags": [
-          "addiction_dad_warned"
-        ],
         "result_text": "Dad said \"Okay, don't push too hard\" and hung up.\n{name} knew Dad didn't believe it.\nDad not pressing further made it heavier, somehow."
       },
       {
         "text": "\"Dad, I've been having a hard time lately.\" — say it for the first time",
-        "effects": {
-          "mental": 12,
-          "addiction_tendency": -10,
-          "tint": 8
-        },
-        "cast_effects": {
-          "father": {
-            "affinity": 10
-          }
-        },
-        "flags": [
-          "addiction_dad_warned",
-          "told_dad_truth"
-        ],
         "result_text": "Dad went quiet for a long time. Then said:\n\"Yeah. Thank you for telling me.\nDad's here.\"\n\n{name} stayed still after hanging up.\nDidn't know why tears came. Actually knew why."
       }
     ]
@@ -1727,42 +631,14 @@
   {
     "id": "creator_first_income",
     "title": "First Payout",
-    "background": "goshiwon_room",
-    "portrait": "player_happy",
-    "category": "comedy",
-    "rarity": "uncommon",
-    "weight": 3.0,
-    "hidden": false,
-    "conditions": {
-      "flag": "creator_started",
-      "no_flag": "creator_monetized",
-      "min_turn": 6
-    },
-    "tags": [
-      "comedy",
-      "social",
-      "creator"
-    ],
-    "cooldown": 15,
     "description": "Opened the YouTube Studio dashboard.\n\nEstimated earnings: ₩23,400\n\nFirst payout.\n₩23,400.\nTwo days of gosiwon food money.\nBut for some reason — this felt different from any money earned before.\nBecause something made became money.",
     "choices": [
       {
         "text": "Triple this number next month",
-        "effects": {
-          "intelligence": 3,
-          "social_skill": 2,
-          "mental": 4
-        },
-        "flags": [
-          "creator_monetized"
-        ],
         "result_text": "A ₩23,400 goal exists now.\nStill nothing yet.\nBut if it starts at ₩23,000 — next could be ₩230,000, then ₩2,300,000.\n{name} decided to believe in that possibility."
       },
       {
         "text": "This is enough. Keep it as a hobby.",
-        "effects": {
-          "mental": 6
-        },
         "result_text": "Accepted the ₩23,400 and stepped back from the strategy.\nHobbies last longer when kept as hobbies.\n{name} had another path."
       }
     ]
@@ -1770,57 +646,18 @@
   {
     "id": "creator_breakout_video",
     "title": "The Video That Popped",
-    "background": "goshiwon_room",
-    "portrait": "player_shocked",
-    "category": "comedy",
-    "rarity": "rare",
-    "weight": 1.8,
-    "hidden": false,
-    "conditions": {
-      "flag": "creator_monetized",
-      "no_flag": "creator_viral",
-      "min_turn": 10
-    },
-    "tags": [
-      "comedy",
-      "social",
-      "creator"
-    ],
-    "cooldown": 20,
     "description": "Notifications wouldn't stop.\n\n\"The Real Route from Gosiwon to ₩3 Billion\" — just a video that got uploaded.\n\nViews: 420,000\nSubscribers: +8,200\n\nA link appeared in portal news.\n\"2030 relatable content goes viral\"\n\n{name}'s face — spreading across the internet.",
     "choices": [
       {
         "text": "Ride the momentum and post a follow-up right away",
-        "effects": {
-          "social_skill": 5,
-          "reputation": 12,
-          "intelligence": 2,
-          "mental": -6
-        },
-        "flags": [
-          "creator_viral",
-          "sns_viral_fame"
-        ],
         "result_text": "The follow-up also hit 300,000 views.\n{name} was a small influencer now.\nNobody would recognize the face on the street,\nbut open the phone and the comments tab was full of encouragement."
       },
       {
         "text": "The exposure feels like too much — want to live quietly",
-        "effects": {
-          "mental": 6
-        },
         "result_text": "Closed the comments, turned off notifications.\nThis is enough.\nToo slow for Gangnam money,\nand life getting too public.\n{name} put the camera in a drawer."
       },
       {
         "text": "Negotiate monetization and sponsors",
-        "effects": {
-          "social_skill": 3,
-          "investment_skill": 2,
-          "money": 500000,
-          "mental": -4
-        },
-        "flags": [
-          "creator_viral"
-        ],
         "result_text": "First sponsor contract. ₩500,000.\nThe official first revenue as a content creator.\nA small amount — but this was the price of something made.\nThat difference changed something."
       }
     ]
@@ -1828,42 +665,14 @@
   {
     "id": "addiction_recovery_step",
     "title": "Day 21",
-    "background": "goshiwon_room",
-    "portrait": "player_tired",
-    "category": "health",
-    "rarity": "uncommon",
-    "weight": 2.5,
-    "hidden": false,
-    "conditions": {
-      "flag": "addiction_paused",
-      "no_flag": "addiction_escalated",
-      "min_turn": 3
-    },
-    "tags": [
-      "health",
-      "gambling"
-    ],
-    "cooldown": 15,
     "description": "21 days since deleting the betting app.\n\nThe first three days felt like going crazy.\nEspecially on match days, fingers tapped the spot where the app used to be.\n\nNow — still hard, but better than 21 days ago.\n\nMoney came in today. With no way to bet it, it auto-transferred to a savings account.\nFor the first time, that money was still in the account.",
     "choices": [
       {
         "text": "Write it down — so as not to forget today's {name}",
-        "effects": {
-          "mental": 10,
-          "health": 4,
-          "intelligence": 2
-        },
-        "flags": [
-          "addiction_recovery_milestone"
-        ],
         "result_text": "Wrote in the notes: 'Day 21. Remaining: ₩OO0,000.'\nThe number was surprisingly big.\nMoney that went to betting this month — was in the account instead.\nA small recovery became the first savings."
       },
       {
         "text": "Still hard — replace it with something else",
-        "effects": {
-          "health": 2,
-          "mental": 5
-        },
         "result_text": "Started running.\nNeeded something to replace the betting.\nClumsy exercise. But no money lost."
       }
     ]
@@ -1871,37 +680,14 @@
   {
     "id": "addiction_clean_hands_echo",
     "title": "Clean Hands",
-    "background": "convenience_night",
-    "portrait": "player_normal",
-    "category": "health",
-    "rarity": "rare",
-    "weight": 1.5,
-    "hidden": false,
-    "conditions": {
-      "flag": "deleted_gambling_apps",
-      "no_flag": "addiction_escalated",
-      "min_turn": 5
-    },
-    "tags": [
-      "health",
-      "gambling"
-    ],
-    "cooldown": 20,
     "description": "Ran into a familiar face at the convenience store.\nSomeone often seen at the same horse racing cafe.\n\nTheir eyes were different from before. Empty, like something lost.\n\n\"You still doing it?\" they asked.\n\"No.\" {name} answered.\n\nThat one word was a confirmation — to {name} as much as anyone.",
     "choices": [
       {
         "text": "\"I quit too.\" Say it honestly.",
-        "effects": {
-          "mental": 8,
-          "reputation": 4
-        },
         "result_text": "Their expression shifted for a moment.\n'...How?'\n{name} said it simply. Deleting the app, the first three days, day 21.\nNot sure if it helped. But that day {name} could talk about their own story without shame."
       },
       {
         "text": "Just quietly leave",
-        "effects": {
-          "mental": 5
-        },
         "result_text": "Walked out of the convenience store. Their eyes followed.\nThat look — that was probably {name}'s own eyes three months ago.\n{name} carried that thought for a long time."
       }
     ]

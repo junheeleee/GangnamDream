@@ -2,11 +2,11 @@
   {
     "id": "callback_investment_lesson_echo",
     "title": "Start Small",
-    "description": "First real money in.\n\nSmall amount. 'Lose-and-learn money,' like Sang-chul had said.\n\nThe chart turned red.\n\n'Start small. Losing is how the market comes into focus.'\nThe voice came back.",
+    "description": "First real money in.\n\nSmall amount. 'Lose-and-learn money,' like Sangchul had said.\n\nThe chart turned red.\n\n'Start small. Losing is how the market comes into focus.'\nThe voice came back.",
     "choices": [
       {
         "text": "Hold — don't panic sell",
-        "result_text": "Held for three days. It recovered — barely into the green.\n\nThe profit was nothing. The lesson was everything: how it rises, how it falls, how the hand trembles.\nThat's what Sang-chul meant."
+        "result_text": "Held for three days. It recovered — barely into the green.\n\nThe profit was nothing. The lesson was everything: how it rises, how it falls, how the hand trembles.\nThat's what Sangchul meant."
       },
       {
         "text": "Got greedy — added more, lost more",
@@ -17,15 +17,15 @@
   {
     "id": "callback_knows_dad_reason_echo",
     "title": "Why You Started",
-    "description": "A hard stretch. Late at night.\n\nSang-chul called. Opened with small talk, then:\n\n'You said you wanted to prove something to your father. That still true?'",
+    "description": "A hard stretch. Late at night.\n\nSangchul called. Opened with small talk, then:\n\n'You said you wanted to prove something to your father. That still true?'",
     "choices": [
       {
         "text": "\"Yes. That hasn't changed.\"",
-        "result_text": "Sang-chul was quiet, then said:\n'Then you've got it. People who know their reason don't quit when they're tired.'\n\nAfter hanging up, {name} sat with the phone for a while.\nThis man still had a reason to check in. That was still worth something."
+        "result_text": "Sangchul was quiet, then said:\n'Then you've got it. People who know their reason don't quit when they're tired.'\n\nAfter hanging up, {name} sat with the phone for a while.\nThis man still had a reason to check in. That was still worth something."
       },
       {
         "text": "\"Honestly — I'm not sure anymore.\"",
-        "result_text": "Sang-chul waited, then said:\n'That's honest. The ones who say they're sure when they aren't — those are the dangerous ones.'\n\n'Take your time. Don't lose what you said at the beginning.'\n\nNeither hot nor cold. It just landed."
+        "result_text": "Sangchul waited, then said:\n'That's honest. The ones who say they're sure when they aren't — those are the dangerous ones.'\n\n'Take your time. Don't lose what you said at the beginning.'\n\nNeither hot nor cold. It just landed."
       }
     ]
   },

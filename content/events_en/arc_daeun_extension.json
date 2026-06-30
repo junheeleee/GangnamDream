@@ -6,24 +6,15 @@
     "choices": [
       {
         "text": "\"We're okay. It means a lot, you being here.\" — evenly",
-        "result_text": "Daeun looked at {name} for a long moment. \"I know. I just like to check sometimes.\"\n\nThe words were plain. Proof that this thing hadn't started to shake yet.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "Daeun looked at {name} for a long moment. \"I know. I just like to check sometimes.\"\n\nThe words were plain. Proof that this thing hadn't started to shake yet."
       },
       {
         "text": "\"Two whole years. I can't believe it either.\" — honest",
-        "result_text": "Daeun laughed. \"Same.\"\n\nSo this is how two years pass. Moving along in a way that's not bad at all.",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "Daeun laughed. \"Same.\"\n\nSo this is how two years pass. Moving along in a way that's not bad at all."
       },
       {
         "text": "\"Honestly — I'm struggling a lot lately.\" — first time admitting it",
-        "result_text": "Daeun listened quietly. The ₩3B, the time.\n\n\"I know. I just... want to struggle with you.\"\n\nThat was oddly comforting.",
-        "effects": {
-          "tint": 6
-        }
+        "result_text": "Daeun listened quietly. The ₩3B, the time.\n\n\"I know. I just... want to struggle with you.\"\n\nThat was oddly comforting."
       }
     ]
   },
@@ -34,17 +25,11 @@
     "choices": [
       {
         "text": "Liked it. Genuinely glad for her.",
-        "result_text": "Liked the photo. Closed the app.\n\nGlad. Really. That thought came quickly this time. Two years have passed. Changed that much, at least.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Liked the photo. Closed the app.\n\nGlad. Really. That thought came quickly this time. Two years have passed. Changed that much, at least."
       },
       {
         "text": "Closed the screen. Better not to see it.",
-        "result_text": "Scrolled past. Next post was a crypto ad.\n\nLife went on. {name} had to keep going too. Just — stopped for a moment.",
-        "effects": {
-          "tint": -3
-        }
+        "result_text": "Scrolled past. Next post was a crypto ad.\n\nLife went on. {name} had to keep going too. Just — stopped for a moment."
       }
     ]
   },
@@ -55,17 +40,11 @@
     "choices": [
       {
         "text": "\"That's great. When I get there, let's grab a cafe nearby.\" — happy for her",
-        "result_text": "\"It's a promise.\" Daeun said.\n\nSaid lightly, landed heavily. Gangnam becoming a promise instead of a goal. That came sooner than expected.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "\"It's a promise.\" Daeun said.\n\nSaid lightly, landed heavily. Gangnam becoming a promise instead of a goal. That came sooner than expected."
       },
       {
         "text": "(First thought: she's going to get there before me)",
-        "result_text": "{name} said nothing. Daeun seemed to notice something.\n\nStrange feeling. Said he'd take her there — and she's already going. Not bad, but — oddly complicated.",
-        "effects": {
-          "tint": -3
-        }
+        "result_text": "{name} said nothing. Daeun seemed to notice something.\n\nStrange feeling. Said he'd take her there — and she's already going. Not bad, but — oddly complicated."
       }
     ]
   },
@@ -76,17 +55,11 @@
     "choices": [
       {
         "text": "\"We got here together. Without you I'd have quit halfway.\" — said it for the first time",
-        "result_text": "Daeun stopped, then said, \"I didn't do anything.\"\n{name} shook his head. \"No. You're the reason I didn't give up.\"\n\nThe two of them stayed a long while. The omelette went cold.",
-        "effects": {
-          "tint": 8
-        }
+        "result_text": "Daeun stopped, then said, \"I didn't do anything.\"\n{name} shook his head. \"No. You're the reason I didn't give up.\"\n\nThe two of them stayed a long while. The omelette went cold."
       },
       {
         "text": "Ate without words. Tomorrow's soon enough.",
-        "result_text": "The egg roll was warm. Daeun was quiet too.\n\nMaybe it was nights like this that got him all the way here. A night that needed no words.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "The egg roll was warm. Daeun was quiet too.\n\nMaybe it was nights like this that got him all the way here. A night that needed no words."
       }
     ],
     "description_if_known": {
@@ -101,17 +74,11 @@
     "choices": [
       {
         "text": "Each got there. Glad she's okay.",
-        "result_text": "{name} didn't dwell on it long.\n\nEveryone has their own destination. He went this way, she went that way. They don't have to overlap. Just — hope she's well.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "{name} didn't dwell on it long.\n\nEveryone has their own destination. He went this way, she went that way. They don't have to overlap. Just — hope she's well."
       },
       {
         "text": "Thought about reaching out for a second, then didn't.",
-        "result_text": "Didn't reach out.\n\nContacting her on the day you make it feels like bragging. Didn't feel right.\n\nJust stood there alone.",
-        "effects": {
-          "tint": 2
-        }
+        "result_text": "Didn't reach out.\n\nContacting her on the day you make it feels like bragging. Didn't feel right.\n\nJust stood there alone."
       }
     ]
   },
@@ -125,14 +92,10 @@
     "choices": [
       {
         "text": "\"Of course. The moment I get there.\" — affirm the promise",
-        "effects": {
-          "tint": 2
-        },
         "result_text": "That promise still standing — it gave today a different warmth."
       },
       {
         "text": "\"Let's talk about it then. It's still far away.\" — answer honestly",
-        "effects": {},
         "result_text": "An honest answer. Daeun nodded. As if willing to wait."
       }
     ]

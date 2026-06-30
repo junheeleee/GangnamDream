@@ -6,17 +6,11 @@
     "choices": [
       {
         "text": "Asking for help — was the strongest choice",
-        "result_text": "Trying to win alone wasn't strength. Reaching out was the real courage.\n\nThat one call turned {name} onto a different road.\nAddiction was overcome not by willpower but by connection.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "Trying to win alone wasn't strength. Reaching out was the real courage.\n\nThat one call turned {name} onto a different road.\nAddiction was overcome not by willpower but by connection."
       },
       {
         "text": "Whenever shaken — I dial that number again",
-        "result_text": "Recovery wasn't one resolution but a choice made each time.\n\n{name} isn't ashamed to ask for help whenever shaken.\nAs long as they can dial again, they won't collapse again.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Recovery wasn't one resolution but a choice made each time.\n\n{name} isn't ashamed to ask for help whenever shaken.\nAs long as they can dial again, they won't collapse again."
       }
     ]
   },
@@ -27,17 +21,11 @@
     "choices": [
       {
         "text": "\"Glad I told you then. Hiding it would've broken me more.\"",
-        "result_text": "Dad was quiet for a long time.\n'...Thank you for telling me. For not carrying it alone.'\n\nThat confession, made despite the shame, kept them from sinking alone.\nShowing weakness to family was, in fact, the start of recovery.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "Dad was quiet for a long time.\n'...Thank you for telling me. For not carrying it alone.'\n\nThat confession, made despite the shame, kept them from sinking alone.\nShowing weakness to family was, in fact, the start of recovery."
       },
       {
         "text": "\"Because you knew — I could hold on.\"",
-        "result_text": "'That's what family is for.'\n\nHidden alone, they'd have sunk deeper.\n{name} knows having someone to share weakness with was recovery's greatest resource.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "'That's what family is for.'\n\nHidden alone, they'd have sunk deeper.\n{name} knows having someone to share weakness with was recovery's greatest resource."
       }
     ]
   },
@@ -48,17 +36,11 @@
     "choices": [
       {
         "text": "Going deeper then — made me see bottom. Never again",
-        "result_text": "'Just one more hand' was the most dangerous lie.\n\n{name} knows how far that recoup-desire dragged them.\nBut having seen bottom, they could also climb back up.",
-        "effects": {
-          "tint": 4
-        }
+        "result_text": "'Just one more hand' was the most dangerous lie.\n\n{name} knows how far that recoup-desire dragged them.\nBut having seen bottom, they could also climb back up."
       },
       {
         "text": "That bottom — became the reason to stop",
-        "result_text": "Falling deeper that day, paradoxically, stopped {name}.\n\nSome people only change direction after hitting bottom.\nThat worst choice also became the last gamble.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "Falling deeper that day, paradoxically, stopped {name}.\n\nSome people only change direction after hitting bottom.\nThat worst choice also became the last gamble."
       }
     ]
   },
@@ -140,21 +122,15 @@
   {
     "id": "callback_sangchul_cut_ties_echo",
     "title": "Saying I'll Report You",
-    "description": "When they learned Sang-chul's truth, {name} cut ties, saying 'I'll report you.'\n\nThat resolute choice comes back sometimes.\n\nToday the weight of that decision lingers.",
+    "description": "When they learned Sangchul's truth, {name} cut ties, saying 'I'll report you.'\n\nThat resolute choice comes back sometimes.\n\nToday the weight of that decision lingers.",
     "choices": [
       {
         "text": "I did the right thing — chose conscience over gain",
-        "result_text": "Sang-chul's network and information were vast, but he was the man who ruined Dad.\n\n{name} doesn't regret choosing conscience over gain.\nSome bridges must be burned to protect yourself.",
-        "effects": {
-          "tint": 5
-        }
+        "result_text": "Sangchul's network and information were vast, but he was the man who ruined Dad.\n\n{name} doesn't regret choosing conscience over gain.\nSome bridges must be burned to protect yourself."
       },
       {
         "text": "Cutting him off — I came this far on my own",
-        "result_text": "The road without a mentor or network was harder, but cleaner.\n\n{name} knows they rose on their own without Sang-chul.\nGoing far on your own strength beat going fast on borrowed power.",
-        "effects": {
-          "tint": 3
-        }
+        "result_text": "The road without a mentor or network was harder, but cleaner.\n\n{name} knows they rose on their own without Sangchul.\nGoing far on your own strength beat going fast on borrowed power."
       }
     ]
   },
@@ -190,8 +166,8 @@
   },
   {
     "id": "callback_contacted_jaehyuk_early_echo",
-    "title": "Reaching Out to Jae-hyuk First",
-    "description": "After being scammed, {name} reached out first — 'Jae-hyuk, how've you been?'\n\nThat complicated feeling comes back sometimes.\n\nToday they think about how to settle that matter.",
+    "title": "Reaching Out to Jaehyuk First",
+    "description": "After being scammed, {name} reached out first — 'Jaehyuk, how've you been?'\n\nThat complicated feeling comes back sometimes.\n\nToday they think about how to settle that matter.",
     "choices": [
       {
         "text": "Reaching out first — was to find closure",
@@ -199,7 +175,7 @@
       },
       {
         "text": "Now — I'm no longer bound by that matter",
-        "result_text": "Tie your heart to the past and you lose the strength to go forward.\n\n{name} left the Jae-hyuk matter in the past and set their gaze ahead.\nLeave the losses as losses, take the lessons — and move on."
+        "result_text": "Tie your heart to the past and you lose the strength to go forward.\n\n{name} left the Jaehyuk matter in the past and set their gaze ahead.\nLeave the losses as losses, take the lessons — and move on."
       }
     ]
   },

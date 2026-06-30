@@ -47,15 +47,15 @@
   {
     "id": "callback_sangchul_personal_echo",
     "title": "If You Keep Going",
-    "description": "A quiet day.\n\nSang-chul's words surfaced:\n\n'I just kept going. Eventually you start to see things.'\n\nThirty years. That's what the patience looked like.",
+    "description": "A quiet day.\n\nSangchul's words surfaced:\n\n'I just kept going. Eventually you start to see things.'\n\nThirty years. That's what the patience looked like.",
     "choices": [
       {
         "text": "Hold onto that — get through today",
-        "result_text": "Need to go further before anything comes into view.\n\nSang-chul kept going even when his son called to say he was dropping out.\nHe got through it. Something showed up.\nToday was kept."
+        "result_text": "Need to go further before anything comes into view.\n\nSangchul kept going even when his son called to say he was dropping out.\nHe got through it. Something showed up.\nToday was kept."
       },
       {
         "text": "His method might not be the right one for this",
-        "result_text": "Endurance is a method. So is changing course.\n\nSang-chul's way isn't automatically {name}'s way.\nKnowing that — that's actually what the conversation gave."
+        "result_text": "Endurance is a method. So is changing course.\n\nSangchul's way isn't automatically {name}'s way.\nKnowing that — that's actually what the conversation gave."
       }
     ]
   },

@@ -2,7 +2,7 @@
   {
     "id": "callback_father_confession_echo",
     "title": "What You Know Now",
-    "description": "Sang-chul poured tea.\n\nSame as any other day. Charts, market, next month's strategy.\n\n{name} took the cup and thought:\nThis man — he's the one who introduced the scammer to Dad.\n\nSitting here knowing that.",
+    "description": "Sangchul poured tea.\n\nSame as any other day. Charts, market, next month's strategy.\n\n{name} took the cup and thought:\nThis man — he's the one who introduced the scammer to Dad.\n\nSitting here knowing that.",
     "choices": [
       {
         "text": "Learn everything this person can teach — then decide",
@@ -17,7 +17,7 @@
   {
     "id": "callback_sangchul_truth_buried_echo",
     "title": "What Was Left Unsaid",
-    "description": "'Forget it.'\n\nSaid that and took it back. Sang-chul didn't bring it up again.\nNeither did {name}.\n\nAn agreement without words. Something buried.",
+    "description": "'Forget it.'\n\nSaid that and took it back. Sangchul didn't bring it up again.\nNeither did {name}.\n\nAn agreement without words. Something buried.",
     "choices": [
       {
         "text": "This relationship still has value — keep going",
@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "That was the right call — still believe it",
-        "result_text": "Harder without a guide. But more earned.\n\nWhat Sang-chul taught is still in the toolkit. Even without him.\nLearning where the line was — that's what standing alone requires."
+        "result_text": "Harder without a guide. But more earned.\n\nWhat Sangchul taught is still in the toolkit. Even without him.\nLearning where the line was — that's what standing alone requires."
       },
       {
         "text": "Sometimes that connection is missed",
