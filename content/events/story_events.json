@@ -794,7 +794,8 @@
         "text": "변해가는 내가 낯설다. 잠깐 고향에 다녀온다.",
         "effects": {
           "mental": 17,
-          "money": -80000
+          "money": -80000,
+          "tint": 1
         },
         "flags": [
           "story_two_year_seen"
@@ -836,7 +837,8 @@
         "effects": {
           "intelligence": 5,
           "investment_skill": 3,
-          "mental": -7
+          "mental": -7,
+          "tint": -2
         },
         "flags": [
           "story_three_year_seen"
@@ -847,7 +849,8 @@
         "text": "지금 이 자리에서 할 수 있는 걸 다 한다",
         "effects": {
           "reputation": 4,
-          "mental": 7
+          "mental": 7,
+          "tint": 1
         },
         "flags": [
           "story_three_year_seen"
@@ -878,7 +881,8 @@
         "effects": {
           "investment_skill": 4,
           "intelligence": 3,
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "flags": [
           "story_four_year_seen"
@@ -889,7 +893,8 @@
         "text": "지금 상태를 안정시키는 게 먼저다",
         "effects": {
           "health": 5,
-          "mental": 11
+          "mental": 11,
+          "tint": 2
         },
         "flags": [
           "story_four_year_seen"
@@ -920,7 +925,8 @@
         "effects": {
           "investment_skill": 6,
           "intelligence": 5,
-          "mental": -5
+          "mental": -5,
+          "tint": -2
         },
         "flags": [
           "age_35_reflected"
@@ -932,7 +938,8 @@
         "effects": {
           "health": 6,
           "mental": 14,
-          "reputation": 3
+          "reputation": 3,
+          "tint": 2
         },
         "flags": [
           "age_35_reflected"
@@ -963,7 +970,8 @@
         "effects": {
           "investment_skill": 6,
           "intelligence": 4,
-          "mental": -7
+          "mental": -7,
+          "tint": -2
         },
         "flags": [
           "age_39_seen"
@@ -974,7 +982,8 @@
         "text": "무리하지 않는다. 지금까지 한 것만으로도 충분하다",
         "effects": {
           "health": 8,
-          "mental": 20
+          "mental": 20,
+          "tint": 3
         },
         "flags": [
           "age_39_seen"
@@ -986,7 +995,8 @@
         "effects": {
           "intelligence": 6,
           "investment_skill": 4,
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "flags": [
           "age_39_seen"

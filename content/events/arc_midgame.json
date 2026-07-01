@@ -78,7 +78,8 @@
         "text": "계산기를 덮고 다른 창을 열었다",
         "effects": {
           "investment_skill": 1,
-          "mental": -7
+          "mental": -7,
+          "tint": -1
         },
         "flags": [
           "arc_midpoint_reckoning_seen",
@@ -89,7 +90,8 @@
       {
         "text": "핸드폰을 내려놨다. 오늘 것만 하기로 했다",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_midpoint_reckoning_seen",
@@ -101,7 +103,8 @@
         "text": "백지를 꺼내 처음부터 썼다",
         "effects": {
           "intelligence": 2,
-          "mental": -2
+          "mental": -2,
+          "tint": 1
         },
         "flags": [
           "arc_midpoint_reckoning_seen",
@@ -929,7 +932,8 @@
         "text": "다시 계획표를 폈다 — 숫자로 돌아간다",
         "effects": {
           "intelligence": 1,
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "flags": [
           "arc_goal_vertigo_seen",
@@ -940,7 +944,8 @@
       {
         "text": "그냥 자려고 누웠다",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 1
         },
         "flags": [
           "arc_goal_vertigo_seen",
@@ -952,7 +957,8 @@
         "text": "바람 쐬러 나갔다. 한강까지 걸었다",
         "effects": {
           "health": 3,
-          "mental": 9
+          "mental": 9,
+          "tint": 2
         },
         "flags": [
           "arc_goal_vertigo_seen",
@@ -2255,7 +2261,8 @@
         "effects": {
           "mental": -3,
           "luck": 2,
-          "investment_skill": 1
+          "investment_skill": 1,
+          "tint": -1
         },
         "flags": [
           "arc_year_three_crossroads_seen",
@@ -2267,7 +2274,8 @@
         "text": "방향을 틀기로 했다. 겁쟁이가 아니라 현실이다",
         "effects": {
           "mental": 4,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 2
         },
         "flags": [
           "arc_year_three_crossroads_seen",
@@ -2279,7 +2287,8 @@
         "text": "있는 걸 다 꺼냈다. 아직은 충분했다",
         "effects": {
           "mental": 3,
-          "luck": 1
+          "luck": 1,
+          "tint": -1
         },
         "flags": [
           "arc_year_three_crossroads_seen",
@@ -2311,7 +2320,8 @@
         "text": "전부를 올렸다. 두렵지 않다고 하면 거짓말이다",
         "effects": {
           "luck": 3,
-          "mental": -4
+          "mental": -4,
+          "tint": -2
         },
         "flags": [
           "arc_final_year_start_seen",
@@ -2323,7 +2333,8 @@
         "text": "욕심을 줄이기로 했다. 이것도 전략이다",
         "effects": {
           "mental": 5,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 2
         },
         "flags": [
           "arc_final_year_start_seen",
@@ -2367,7 +2378,8 @@
         "text": "손이 떨렸다. 그래도 클릭했다",
         "effects": {
           "luck": 4,
-          "mental": -6
+          "mental": -6,
+          "tint": -2
         },
         "flags": [
           "arc_endgame_sixmonths_seen",
@@ -2379,7 +2391,8 @@
         "text": "숫자를 다시 계산했다. 이것도 결말이다",
         "effects": {
           "mental": 6,
-          "reputation": 2
+          "reputation": 2,
+          "tint": 1
         },
         "flags": [
           "arc_endgame_sixmonths_seen",
@@ -2391,7 +2404,8 @@
         "text": "전화를 껐다. 창문을 열었다",
         "effects": {
           "mental": 9,
-          "luck": 1
+          "luck": 1,
+          "tint": 2
         },
         "flags": [
           "arc_endgame_sixmonths_seen",
@@ -2473,7 +2487,8 @@
         "effects": {
           "mental": -4,
           "investment_skill": 2,
-          "luck": 1
+          "luck": 1,
+          "tint": -1
         },
         "flags": [
           "arc_year_three_half_seen"
@@ -2483,7 +2498,8 @@
       {
         "text": "강남은 집이 아니라 자세의 문제일지도 모른다",
         "effects": {
-          "mental": 8
+          "mental": 8,
+          "tint": 2
         },
         "flags": [
           "arc_year_three_half_seen"
@@ -2923,7 +2939,8 @@
         "text": "숫자가 뭐가 됐든 — 이 궤적은 내 것이다",
         "effects": {
           "mental": 4,
-          "luck": 2
+          "luck": 2,
+          "tint": 2
         },
         "flags": [
           "arc_37_reckoning_seen",
@@ -2946,7 +2963,8 @@
       {
         "text": "계산기를 덮었다. 끝에 가봐야 안다",
         "effects": {
-          "mental": 6
+          "mental": 6,
+          "tint": 1
         },
         "flags": [
           "arc_37_reckoning_seen",
@@ -2981,7 +2999,8 @@
         "effects": {
           "investment_skill": 2,
           "health": -3,
-          "mental": -5
+          "mental": -5,
+          "tint": -1
         },
         "flags": [
           "arc_37_burn_or_light_seen",
@@ -2993,7 +3012,8 @@
         "text": "하루를 비웠다. 아무것도 안 했다",
         "effects": {
           "mental": 9,
-          "health": 3
+          "health": 3,
+          "tint": 2
         },
         "flags": [
           "arc_37_burn_or_light_seen",
@@ -3005,7 +3025,8 @@
         "text": "앉아서 한참 들여다봤다. 번아웃인지 집중인지",
         "effects": {
           "intelligence": 1,
-          "mental": 4
+          "mental": 4,
+          "tint": 1
         },
         "flags": [
           "arc_37_burn_or_light_seen",

@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed (2026-07-01) — Movie-grade P2 pass (moral crescendo, hole-free)
+
+- **Fixed "backwards escalation" without moving arcs.** Rather than relocating the deeply-wired Sangchul confrontation (t60) and father's death — which would close their downstream windows and orphan branches — the moral weight of Question A was moved to Y4-Y5 by adding **money-acceleration(−) / stay-human(+) tint** to the finale beats and the year-marker montage.
+- Tinted year-markers: `story_two_year`, `story_three_year`, `story_four_year`, `age_35_checkpoint`, `arc_midpoint_reckoning`, `arc_goal_vertigo`, `arc_year_three_crossroads` (16 choices).
+- Tinted Y4-Y5 finale beats: `arc_final_year_start`, `arc_endgame_sixmonths`, `arc_year_three_half`, `arc_37_reckoning`, `arc_37_burn_or_light`, `age_39_final` (15 choices) — the moral trajectory now peaks in the final year, where a climax belongs.
+- The montage that used to be consequence-free "pace sliders" now carries the spine: every "push harder / all-in" choice leans black, every "stay grounded / enough" choice leans white.
+- **Deliberately NOT done (would create holes):** physical relocation of confrontation/death; deletion of the redundant ending tail (endings are referenced by `finish_run`, cast epilogues, the endings-collection meta, and BGM tone maps — collapsing them orphans those and hurts replay value). See DECISIONS 2026-07-01.
+- tint is KR-source only (EN overlays are text-only); balance bands unaffected (tint doesn't touch asset/fail). audit ERROR 0, bands pass, write_only 224.
+
 ### Changed (2026-07-01) — Movie-grade P1 pass (character-web crossbeams)
 
 - **Jaehyuk ↔ Sangchul on-screen (`arc_jaehyuk_sangchul_echo`):** after the player has heard Jaehyuk's "victim-turned-operator" confession (`arc_jaehyuk_01b_seen`) and Sangchul's humanizing backstory (`arc_sangchul_human_seen`), Sangchul recognizes Jaehyuk as his own younger self ("I was somebody's 'senior' too, once"). Makes the two predators one species diegetically and turns the mirror on the player. Fires t≥45, before the confrontation.

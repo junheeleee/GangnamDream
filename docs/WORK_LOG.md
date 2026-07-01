@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-01 (Claude — 영화급 승격 P2 패스: 도덕 크레셴도, 구멍 0)
+
+"차근차근, 구멍이 안생기게" 지시에 따라 백워드 클라이맥스를 **아크 이동 없이** 해소.
+
+### 핵심 판단
+- 상철 대면(t60)·아버지 죽음(t≥100)을 Y4로 물리 이동하면 하위 window(known_offer/known_reflex/reckoning/y3_cost_of_knowing)·description_if_known·엔딩·콜백이 전부 그 타이밍에 묶여 있어 **도달 불가 분기(구멍)** 대량 발생 → 이동 대신 **도덕 무게의 정점을 Y4~5로 이동**하는 additive 접근 채택.
+
+### 수정 (KR 소스 tint — 게임플레이 키, EN 오버레이는 text-only라 무변경)
+- **연차 마커 몽타주 tint 부여(16선택지)**: story_two/three/four_year, age_35_checkpoint, arc_midpoint_reckoning, arc_goal_vertigo, arc_year_three_crossroads. money-가속(−)/stay-human(+) 축.
+- **Y4~5 피날레 비트 tint 부여(15선택지)**: arc_final_year_start, arc_endgame_sixmonths, arc_year_three_half, arc_37_reckoning, arc_37_burn_or_light, age_39_final. 도덕 궤적이 마지막 해에 정점.
+- 결과: "가속/올인" = 검정, "충분하다/기반 지킴/사람" = 하양. 몽타주가 이제 Question A 스파인을 태운다.
+
+### 의도적 미실행 (구멍 방지)
+- 상철/아버지죽음 물리 이동, 엔딩 꼬리 축소(35→8): finish_run·cast epilogue·엔딩 도감 메타·BGM 톤맵이 참조 → 삭제 시 orphan. 라이프심 리플레이 가치 훼손. 방치가 아니라 리스크 대비 이득 판단(DECISIONS 참조).
+
+### 검증
+- Y3는 이미 arc_year3_drama 12개 전부 tint 보유 + P1 jiyeon_father_records(t≥100) 추가로 충분 → 추가 이벤트 불필요(surface 불증가).
+- `audit.sh` ERROR 0 / WARNING 0 / write_only 224 / 밸런스 밴드 전부 통과(tint는 asset/fail 불변).
+
 ## 2026-07-01 (Claude — 영화급 승격 P1 패스: 인물망 크로스빔)
 
 허브-앤-스포크 인물망을 인물 추가 없이 조이는 크로스빔 3종. 전부 기존 설정에 뿌리내림.

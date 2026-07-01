@@ -1,5 +1,13 @@
 # Gangnam Dream Decisions
 
+## 2026-07-01 (영화급 승격 P2 — "이동" 대신 "부여"로 백워드 클라이맥스 해소)
+
+- **문제**: 구조 분석이 "클라이맥스가 거꾸로 배치"라 진단(상철 대면 t≈60/Y2, 아버지 죽음 t≥100/Y3에서 조기 소진, Y4~5는 정산). 로드맵 P2는 "상철 대면·아버지 죽음을 Y4로 물리적 이동"을 제안.
+- **결정: 아크를 물리적으로 이동하지 않는다.** 상철 대면은 하위 window 체인(known_offer t38~55 / known_reflex t50~59 / reckoning / y3_cost_of_knowing t65~90)과 다수 `description_if_known` 재구성·엔딩 분기·콜백이 전부 t60 타이밍에 묶여 있다. 트리거를 t150으로 옮기면 이 window들이 닫힌 뒤 발화 불가가 되어 **도달 불가 분기(구멍)** 가 대량 발생한다. 유저의 "구멍이 안생기게" 지시와 정면 충돌.
+- **대안(채택): 도덕 크레셴도를 Y4~5로 이동.** 백워드 클라이맥스의 본질은 "감정/도덕 무게의 정점이 앞에 있다"는 것. 아크를 옮기는 대신, 이미 존재하는 Y4~5 피날레 비트(arc_final_year_start / arc_endgame_sixmonths / arc_37_reckoning / arc_37_burn_or_light / age_39_final / arc_year_three_half)와 연차 마커 몽타주(story_two~four_year / age_35 / arc_midpoint_reckoning / arc_goal_vertigo / arc_year_three_crossroads)의 선택지에 **money-가속(−)/stay-human(+) 축의 tint**를 부여. 이로써 Question A(그것이 되지 않고 닿을 수 있는가)의 도덕 궤적이 마지막 해에 정점을 찍는다 — 아크 이동 없이, 순수 additive, 구멍 0.
+- **엔딩 꼬리 통합(35→8) 보류**: 다수 엔딩은 `finish_run` 호출·`_ending_cast_epilogue`·MetaProgression 도감·BGM 톤맵이 참조. 삭제는 orphan(구멍)을 만들고, 라이프심의 "엔딩 도감" 리플레이 가치를 훼손한다. 중복 축소는 리스크 대비 이득이 낮아 의도적으로 보류(방치 아님).
+- **원칙**: tint는 게임플레이 키라 KR 소스에만 부여(EN 오버레이는 text-only). 밸런스 밴드는 tint가 asset/fail에 영향 없어 불변 — 검증 통과.
+
 ## 2026-07-01 (영화급 승격 로드맵 — 4축 진단 + P0 우선 실행)
 
 - **배경**: 유저가 "이 스토리를 영화로 상영될 정도, 진격의 거인처럼 완벽한 인물 관계·서사로" 만들고 싶다고 요청. 4개 병렬 분석 에이전트(구조/주제/인물망/복선)를 돌려 전체 서사를 감사.
