@@ -2217,6 +2217,15 @@ func _next_arc_id() -> String:
 			and not f.get("arc_sangchul_known_reflex_seen", false):
 		return "arc_sangchul_known_reflex"
 
+	# ── 인물망 크로스빔: 재혁 ↔ 상철 — 두 포식자가 한 종(種)임을 화면에서 ──
+	# 재혁의 '피해자→운영자' 고백(01b)과 상철의 humanizing 씬을 둘 다 본 뒤,
+	# 상철이 재혁에게서 자기 젊은 날을 알아본다. 거울이 플레이어 쪽으로도 돈다.
+	if t >= 45 and f.get("arc_jaehyuk_01b_seen", false) \
+			and f.get("arc_sangchul_human_seen", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false) \
+			and not f.get("arc_jaehyuk_sangchul_echo_seen", false):
+		return "arc_jaehyuk_sangchul_echo"
+
 	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
 	# [유물 해금] 임상철 명함을 가진 채 대면 전날 밤 — 명함과 함께 서는 씬
 	if t >= 60 and f.get("sangchul_truth_known", false) \
@@ -2741,11 +2750,25 @@ func _next_arc_id() -> String:
 	if t >= 160 and f.get("arc_minseo_01_seen", false) \
 			and not f.get("arc_minseo_02_seen", false):
 		return "arc_minseo_02_real"
+	# ── 인물망 크로스빔: 지연 ↔ 아버지 — 한PD건설이 아버지 사기 기록에 있다 ──
+	# 진실을 알고(sangchul_truth_known) 지연이 한PD건설 딸임을 안(reveal) 플레이어가
+	# 그 사실을 지연에게 말할지 결정한다. 지연의 편안함의 바닥을 보여주는 자율 비트.
+	if t >= 100 and f.get("arc_sangchul_jiyeon_reveal_seen", false) \
+			and f.get("sangchul_truth_known", false) \
+			and GameState.get_cast_affinity("jiyeon") >= 40 \
+			and not f.get("arc_jiyeon_father_records_seen", false):
+		return "arc_jiyeon_father_records"
+
 	# 이민서 — 강남 도착 페이오프 (Y5, 목표 근접 시 그녀의 경고가 회수된다)
 	if t >= 200 and f.get("arc_minseo_02_seen", false) \
 			and not f.get("arc_minseo_03_seen", false) \
 			and GameState.get_total_asset_value() >= 2_000_000_000.0:
 		return "arc_minseo_03_arrival"
+	# 이민서 — 미달 런 변주 (도착 못 해도 '그 목표가 네 거였냐'는 주제는 똑같이 회수된다)
+	if t >= 200 and f.get("arc_minseo_02_seen", false) \
+			and not f.get("arc_minseo_03_seen", false) \
+			and GameState.get_total_asset_value() < 2_000_000_000.0:
+		return "arc_minseo_03b_not_arrived"
 	# 김다은 Year 4 — 강남 취직 (함께 궤적)
 	if t >= 145 and f.get("arc_daeun_year3_together_seen", false) \
 			and not f.get("arc_daeun_year4_together_seen", false):

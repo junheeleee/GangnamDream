@@ -30,6 +30,9 @@
         "text": "\"This is enough for what it was\" — don't reach out",
         "result_text": "No reply sent. That world wasn't {name}'s to enter.\nJiyeon went to Gangnam. {name} was headed there too. Same city, different roads."
       }
-    ]
+    ],
+    "description_if_known": {
+      "told_jiyeon_about_records": "37. Near Gangnam.\n\nJiyeon reached out first.\n\"I'm coming up to Seoul this month. Call me if you want to see me.\"\n\nHe stared at the message for a long time.\n\nOnce, Minjun had told her — that HanPD Construction was in the records of his father's fraud case. After that day she became someone who had looked down at the ground beneath her own feet for the first time.\nKnowing it, neither of them turned away from the other.\n\nThey both knew they were heading toward the same place for similar reasons.\nBut now each of them knew where the other had come from, too.\n\nHe felt he had to go see her."
+    }
   }
 ]

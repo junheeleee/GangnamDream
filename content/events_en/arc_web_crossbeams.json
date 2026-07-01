@@ -1,0 +1,32 @@
+[
+  {
+    "id": "arc_jaehyuk_sangchul_echo",
+    "title": "The Same Kind of Man",
+    "description": "Jaehyuk came up somehow.\nA friend who talks about investments, an old army senior.\n\nSangchul set down his coffee and smiled for a second.\n\n\"That friend of yours — he got taken first, I'd bet.\"\n\nMinjun froze. It was word for word what Jaehyuk had said at the pojangmacha, eyes glassy — 'honestly, I got taken too.'\n\n\"And then someone told him he'd be good at it. Told him to try running it himself.\"\nSangchul looked out the window.\n\"That's how everyone crosses over. From victim — to the next thing.\"\n\nMinjun couldn't tell whether the man was talking about Jaehyuk, or about himself.",
+    "choices": [
+      {
+        "text": "\"Did that happen to you too, Sangchul?\"",
+        "result_text": "Instead of answering, Sangchul drank his coffee.\n\nAfter a long while, still looking out the window, he said,\n\"I was somebody's 'senior' too, once.\"\n\nSuddenly Jaehyuk and Sangchul looked like the same man to Minjun. Whenever they'd started, they'd arrived at the same place.\nThe frightening part — that place looked one step closer to him, too."
+      },
+      {
+        "text": "\"That won't be me.\"",
+        "result_text": "This time Sangchul really laughed.\n\"Everyone says that.\"\n\nThe words landed like a threat, a warning, and a tired truth all at once.\nMinjun couldn't shake the thought that Jaehyuk, too, had once said the exact same thing — 'that won't be me.'"
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_father_records",
+    "title": "A Name in the Records",
+    "description": "He sat across from Han Jiyeon.\nHer father's company came up. HanPD Construction.\n\nMinjun already knows that name. The guarantee-fraud case that destroyed his father — at the bottom of that article, over a decade old, in the list of associated firms, that name was there.\nThe home Jiyeon had lived in her whole life, the floor beneath her comfort — that name was in it.\n\nJiyeon knows nothing. She just thinks it's her dad's company.\n\nHe could tell her. Or he could swallow it.",
+    "choices": [
+      {
+        "text": "\"Your father's company... it's tangled up with what happened to mine.\" (He told her)",
+        "result_text": "The color drained from Jiyeon's face.\n\"...What are you saying.\"\n\nMinjun told her about the article, the list, his father's name. Jiyeon was silent for a long time.\n\n\"I... I thought it was just my dad's company.\"\n\nShe was different after that day. The face of someone looking down at the ground beneath her feet for the first time.\nComfort isn't a crime — but now she knows where hers came from."
+      },
+      {
+        "text": "(He didn't tell her. This is mine to carry.)",
+        "result_text": "Minjun just drank his coffee.\n\nHe didn't know if he had the right to shake the ground Jiyeon had stood on her whole life.\nOr maybe — he just didn't want to be that kind of man in front of her.\n\nOn the way home he thought of his father. His father, too, had probably fallen inside someone's silence.\nMinjun pushed the thought away."
+      }
+    ]
+  }
+]

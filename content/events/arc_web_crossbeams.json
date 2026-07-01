@@ -1,0 +1,100 @@
+[
+  {
+    "id": "arc_jaehyuk_sangchul_echo",
+    "title": "같은 종류의 사람",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "cafe",
+    "portrait": "sangchul_normal",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "sangchul",
+      "jaehyuk",
+      "moral"
+    ],
+    "description": "재혁 얘기가 어쩌다 나왔다.\n투자 얘기를 하는 친구가 있다고, 군대 선임이었다고.\n\n임상철이 커피를 내려놓고 잠깐 웃었다.\n\n\"그 친구, 처음엔 자기도 당했을걸.\"\n\n민준은 멈칫했다. 재혁이 포장마차에서 흐린 눈으로 했던 말 — '사실 나도 당했어' — 그대로였다.\n\n\"그리고 누군가 그랬겠지. 너 이거 잘하겠다고, 직접 해보라고.\"\n임상철이 창밖을 봤다.\n\"다들 그렇게 넘어가는 거야. 피해자에서 — 그다음으로.\"\n\n민준은 이 사람이 지금 재혁 얘기를 하는 건지, 자기 얘기를 하는 건지 알 수 없었다.",
+    "choices": [
+      {
+        "text": "\"상철 씨도 그랬어요?\"",
+        "effects": {
+          "mental": -5,
+          "tint": 4
+        },
+        "flags": [
+          "arc_jaehyuk_sangchul_echo_seen"
+        ],
+        "result_text": "임상철이 대답 대신 커피를 마셨다.\n\n한참 뒤에, 창밖을 본 채로 말했다.\n\"나도 누군가한테는 그 선배였겠지.\"\n\n민준은 재혁과 임상철이 갑자기 같은 사람처럼 보였다. 시작이 언제였든, 도착한 자리가 같았다.\n무서운 건 — 그 자리가 자기 쪽으로도 한 걸음 가까워 보였다는 것이다."
+      },
+      {
+        "text": "\"저는 안 그럴 거예요.\"",
+        "effects": {
+          "mental": 3,
+          "tint": 2
+        },
+        "flags": [
+          "arc_jaehyuk_sangchul_echo_seen"
+        ],
+        "result_text": "임상철이 이번엔 진짜로 웃었다.\n\"다들 그렇게 말해.\"\n\n그 말이 위협 같기도, 경고 같기도, 그냥 피곤한 진실 같기도 했다.\n민준은 재혁도 언젠가 똑같이 '나는 안 그럴 거야'라고 했을 거라는 생각을 지울 수 없었다."
+      }
+    ]
+  },
+  {
+    "id": "arc_jiyeon_father_records",
+    "title": "기록 속의 이름",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "cafe",
+    "portrait": "jiyeon_normal",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "jiyeon",
+      "father",
+      "moral"
+    ],
+    "description": "한지연과 마주 앉았다.\n그녀의 아버지 회사 얘기가 나왔다. 한PD건설.\n\n민준은 그 이름을 이미 안다. 아버지를 무너뜨린 보증 사기 — 십수 년 전 그 기사 맨 아래, 관련 업체 목록에 있던 이름.\n지연이 평생 살아온 집, 그 편안함의 바닥에 그 이름이 있었다.\n\n지연은 아무것도 모른다. 그냥 아빠 회사라고 생각한다.\n\n말할 수 있다. 아니면, 삼킬 수 있다.",
+    "choices": [
+      {
+        "text": "\"네 아버지 회사가... 내 아버지 일하고 얽혀 있어.\" (말했다)",
+        "effects": {
+          "mental": -8,
+          "tint": 6
+        },
+        "cast_effects": {
+          "jiyeon": {
+            "affinity": -5
+          }
+        },
+        "flags": [
+          "arc_jiyeon_father_records_seen",
+          "told_jiyeon_about_records"
+        ],
+        "result_text": "지연의 얼굴에서 색이 빠졌다.\n\"...그게 무슨 말이야.\"\n\n민준은 기사를, 목록을, 아버지 이름을 말했다. 지연은 오래 말이 없었다.\n\n\"나는... 그냥 아빠 회사인 줄 알았어.\"\n\n그날 이후 지연은 달라졌다. 자기 발밑을 처음으로 내려다본 사람의 얼굴이었다.\n편한 게 죄는 아니지만 — 이제 그녀는 그 편함이 어디서 왔는지 안다."
+      },
+      {
+        "text": "(말하지 않았다. 이건 내가 지고 갈 몫이다.)",
+        "effects": {
+          "mental": -4,
+          "tint": -2
+        },
+        "flags": [
+          "arc_jiyeon_father_records_seen"
+        ],
+        "result_text": "민준은 커피만 마셨다.\n\n지연이 평생 딛고 산 바닥을 흔들 자격이 자기한테 있는지 알 수 없었다.\n어쩌면 그냥 — 그녀 앞에서 그런 사람이 되고 싶지 않았을 뿐인지도.\n\n집에 오는 길에 아버지 생각이 났다. 아버지도 누군가의 침묵 속에서 무너졌을 것이다.\n민준은 그 생각을 밀어냈다."
+      }
+    ]
+  }
+]

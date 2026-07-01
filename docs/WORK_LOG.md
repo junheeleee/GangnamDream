@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-07-01 (Claude — 영화급 승격 P1 패스: 인물망 크로스빔)
+
+허브-앤-스포크 인물망을 인물 추가 없이 조이는 크로스빔 3종. 전부 기존 설정에 뿌리내림.
+
+### 추가 (content/events/arc_web_crossbeams.json + EN 신규 파일)
+- **재혁↔상철 (`arc_jaehyuk_sangchul_echo`)**: 재혁의 '피해자→운영자' 고백(01b)과 상철의 humanizing 씬을 둘 다 본 뒤 상철이 재혁에게서 자기 젊은 날을 알아본다("나도 누군가한테는 그 선배였겠지"). 두 포식자를 화면에서 한 종(種)으로 묶고 거울을 플레이어 쪽으로 돌린다. t≥45, 대면 전.
+- **지연↔아버지 (`arc_jiyeon_father_records`)**: 한PD건설(지연 집안)이 아버지 사기 기록에 있다는 latent 연결을 지연에게 명시. 말할지/삼킬지 선택. 말하면 `told_jiyeon_about_records`가 Y5 로맨스 씬(`arc_jiyeon_y5_feelings`) description_if_known을 재구성. t≥100, sangchul_truth_known + reveal_seen + 지연 호감 40+.
+- **이민서 미달 변주 (`arc_minseo_03b_not_arrived`, arc_new_characters.json)**: 도착(₩20억) 게이트로 승자만 보던 "그 목표가 네 거였냐" 주제를 <₩20억 런에도 t≥200에 회수.
+
+### 수정 (scenes/MainGame.gd `_next_arc_id`)
+- 세 크로스빔 트리거 배선. 크로스빔 선택지는 효과(mental/tint)로 구분되어 inert 아님, 장식 플래그는 제거해 write-only 불성장(224 유지).
+
+### 검증
+- `en_coverage_check.py` clean, `audit.sh` ERROR 0 / WARNING 0 / write_only 224 / inert 0 / 밴드 통과, Godot 55개 컴파일 클린. 모든 게이트 플래그가 실존 setter로 해소됨(audit flag 교차검증 통과).
+
 ## 2026-07-01 (Claude — 영화급 승격 P0 패스: 서사 아키텍처)
 
 4개 병렬 분석(구조/주제/인물망/복선)이 수렴한 진단 — "걸작 스파인은 이미 깔려 있으나 클라이맥스가 거꾸로 배치되고 스파인이 런타임의 소수" — 을 바탕으로, 유저 승인(P0만) 하에 저비용·고효과 3건을 구현.

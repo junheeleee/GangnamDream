@@ -43,5 +43,20 @@
         "result_text": "Lee Minseo laughed. \"Fair enough. See it all the way through.\"\n\nStill, {name} decided to tuck her words away in his bag.\nHe'd take them out once he got there."
       }
     ]
+  },
+  {
+    "id": "arc_minseo_03b_not_arrived",
+    "title": "Even If You Don't Arrive",
+    "description": "Gangnam was still far off. The number hadn't filled.\n\nAnd then Minseo reached out.\n\"How are you holding up? Almost there?\"\n\nMinjun answered honestly. Still far. Maybe he wouldn't make it at all.\n\nMinseo was quiet a moment, then said,\n\"Remember what I told you? To prepare for when the goal disappears.\"\n\"...Yeah.\"\n\"Here's the thing — even if you don't reach the goal, you need that same preparation. The one who arrives and the one who doesn't. In the end the question left over is the same.\"\n\"What question?\"\n\"Whether that goal was ever really yours.\"",
+    "choices": [
+      {
+        "text": "\"It was mine. It still is.\"",
+        "result_text": "Minseo smiled.\n\"Then you're fine. Arriving is a separate problem.\"\n\nHe hung up and looked out the window. Gangnam was still far away.\nBut strangely — today the distance didn't ache the way it used to."
+      },
+      {
+        "text": "\"I don't know. Not anymore.\"",
+        "result_text": "Minseo didn't scold the answer.\n\"Asking that even now — that puts you ahead of the ones who arrived.\"\n\nMinjun held the phone for a long time.\nEven if he never reached Gangnam, what he shouldn't lose along the way — he was starting to understand it, a little."
+      }
+    ]
   }
 ]

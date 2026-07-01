@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Changed (2026-07-01) — Movie-grade P1 pass (character-web crossbeams)
+
+- **Jaehyuk ↔ Sangchul on-screen (`arc_jaehyuk_sangchul_echo`):** after the player has heard Jaehyuk's "victim-turned-operator" confession (`arc_jaehyuk_01b_seen`) and Sangchul's humanizing backstory (`arc_sangchul_human_seen`), Sangchul recognizes Jaehyuk as his own younger self ("I was somebody's 'senior' too, once"). Makes the two predators one species diegetically and turns the mirror on the player. Fires t≥45, before the confrontation.
+- **Jiyeon ↔ Father via HanPD Construction (`arc_jiyeon_father_records`):** the game already places 한PD건설 (Jiyeon's family firm) in the fraud records that ruined Minjun's father. This new scene lets Minjun tell — or spare — Jiyeon that truth, giving her arc real autonomy. If told, `told_jiyeon_about_records` reframes the Y5 romance scene (`arc_jiyeon_y5_feelings`). Fires t≥100 with truth known, reveal seen, Jiyeon affinity ≥40.
+- **Minseo thesis reaches losing runs (`arc_minseo_03b_not_arrived`):** the arrival payoff was gated at ₩2B (winners only). Added a sub-₩2B variant at t≥200 so "was that goal ever really yours?" lands regardless of whether the player reaches Gangnam.
+- All KR + EN. Choices stay distinct by effect; no new write-only flags (ratchet held at 224).
+
 ### Changed (2026-07-01) — Movie-grade P0 pass (story architecture)
 
 - **`full_circle` ending honesty fix:** the S+ ending narrates "I paid the debt back — from the man himself," but no event ever extracted restitution from Sangchul. Added a 4th choice to `arc_sangchul_reckoning` (`"갚으세요. 아버지 빚. 당신 손으로."`) that dramatizes the act and sets `cleared_father_debt_from_sangchul`; `full_circle` now requires that flag (KR + EN). Restitution-but-not-Gangnam runs now land in `sangchul_reckoning` too.
