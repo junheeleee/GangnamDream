@@ -469,7 +469,7 @@ func _collect_start_menu_nodes(node: Node, targets: Array[Node]) -> void:
 		else:
 			_collect_start_menu_nodes(child, targets)
 
-func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false) -> void:
+func _shot_story_event(event_id: String, shot_name: String, lang: String = "", settle_time: float = 1.1, finish_first_paragraph: bool = false, show_choices: bool = false, select_choice: int = -1) -> void:
 	if not lang.is_empty():
 		_set_qa_language(lang)
 		_prepare_main_game_state()
@@ -489,6 +489,14 @@ func _shot_story_event(event_id: String, shot_name: String, lang: String = "", s
 				break
 			story._on_advance()
 			await _settle(0.16)
+	if select_choice >= 0 and bool(story.get("_showing_choices")) and story.has_method("_on_choice"):
+		GameState.flags["tut_stat_shown"] = true
+		GameState.flags["tut_cast_shown"] = true
+		story._on_choice(select_choice)
+		await _settle(0.35)
+		if bool(story.get("_typing")) and story.has_method("_on_advance"):
+			story._on_advance()
+			await _settle(0.25)
 	await _save(shot_name)
 	_remove_nodes_by_script("res://scenes/StoryMode.gd")
 	GameState.pending_story_queue.clear()
@@ -555,6 +563,7 @@ func _shot_story_surfaces(lang: String = "en", prefix: String = "story_en_") -> 
 	]:
 		await _shot_story_event(event_id, prefix + event_id, lang, 0.45, true)
 	await _shot_story_event("arc_intro_02_dad_call", prefix + "02b_story_choices", lang, 0.45, true, true)
+	await _shot_story_event("arc_intro_02_dad_call", prefix + "02c_story_result", lang, 0.45, true, true, 0)
 
 func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> void:
 	_set_qa_language(lang)
@@ -581,6 +590,16 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 			_mg._finish_typing()
 		await _settle(0.5)
 		await _save(prefix + "03b_ap_vignette")
+	if _mg.has_method("_show_result"):
+		_mg.call("_show_result",
+			_tr("그 선택은 조용히 장부에 남았다. 누군가는 너를 다르게 보기 시작했고, 너도 그 시선을 알아챘다.",
+				"The choice stayed in the ledger. Someone began to see you differently, and you noticed the shift."),
+			{"reputation": -3, "mental": -4, "money": -150000},
+			{"cast_effects": {"father": {"affinity": -3}}})
+		if _mg.has_method("_finish_typing"):
+			_mg._finish_typing()
+		await _settle(0.5)
+		await _save(prefix + "03d_choice_result")
 	_mg.current_event = {}
 	_mg.set("_transient_bg_active", false)
 	if _mg.has_method("_spawn_coin_burst"):

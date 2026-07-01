@@ -29,8 +29,7 @@ func _ready():
 func go(scene_path: String):
 	if _tween:
 		_tween.kill()
-	AudioManager.play("close", -12.0)
-	AudioManager.pulse_gamepad(0.035, 0.06, 0.07)
+	AudioManager.play_ui_close(-12.0)
 	_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	_tween = create_tween()
 	_tween.tween_method(_set_transition_alpha, _transition_alpha, 1.0, _fade_time_for_state())

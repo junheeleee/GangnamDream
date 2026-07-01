@@ -141,7 +141,7 @@ func make_button(text: String, bg_color: String, font_size: int = 14) -> Button:
 	btn.add_theme_color_override("font_disabled_color", Color(C_TEXT_DISABLED))
 	btn.add_theme_font_size_override("font_size", font_size)
 	_apply_font(btn, false)
-	btn.pressed.connect(func(): AudioManager.play("click"))
+	btn.pressed.connect(AudioManager.play_ui_click)
 	return btn
 
 ## 소형 버튼 생성
@@ -177,7 +177,7 @@ func make_small_button(text: String, bg_color: String) -> Button:
 	btn.add_theme_color_override("font_disabled_color", Color(C_TEXT_DISABLED))
 	btn.add_theme_font_size_override("font_size", 13)
 	_apply_font(btn, false)
-	btn.pressed.connect(func(): AudioManager.play("click"))
+	btn.pressed.connect(AudioManager.play_ui_click)
 	return btn
 
 ## 패널 컨테이너 생성

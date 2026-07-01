@@ -24,6 +24,29 @@ func _ready() -> void:
 		_fail("main BGM restarted: %.3f -> %.3f" % [first_pos, second_pos])
 		return
 
+	GameState.age = 36
+	BGMPlayer.update_context()
+	await get_tree().create_timer(0.18).timeout
+	var fade_key := BGMPlayer._fade_target_key
+	var fade_pos := BGMPlayer._player_b.get_playback_position()
+	BGMPlayer.update_context()
+	await get_tree().process_frame
+	var repeated_fade_pos := BGMPlayer._player_b.get_playback_position()
+	if fade_key != "late_tense":
+		_fail("expected late_tense fade target, got %s" % fade_key)
+		return
+	if repeated_fade_pos + 0.05 < fade_pos:
+		_fail("crossfade target restarted: %.3f -> %.3f" % [fade_pos, repeated_fade_pos])
+		return
+
+	GameState.age = 33
+	BGMPlayer.update_context()
+	await get_tree().process_frame
+	if BGMPlayer._current_key != "early" or BGMPlayer._fade_target_key != "":
+		_fail("returning to active track during fade should keep early, got current=%s target=%s" % [
+			BGMPlayer._current_key, BGMPlayer._fade_target_key])
+		return
+
 	BGMPlayer.start_menu()
 	await get_tree().create_timer(0.15).timeout
 	BGMPlayer.start_menu()
