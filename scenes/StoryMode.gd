@@ -945,6 +945,13 @@ func _show_story_result_record(choice: Dictionary) -> void:
 	tw.tween_property(card, "modulate:a", 1.0, 0.18).set_trans(Tween.TRANS_SINE)
 	tw.parallel().tween_property(card, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
+func _story_choice_has_visible_result(choice: Dictionary) -> bool:
+	var disp: Dictionary = _story_result_display_effects(choice.get("effects", {}))
+	if not disp.is_empty():
+		return true
+	var cast_items: Array = _story_result_visible_cast_effects(choice.get("cast_effects", {}))
+	return not cast_items.is_empty()
+
 func _story_record_label(text: String, size: int, color: Color, bold: bool = false) -> Label:
 	var lbl := Label.new()
 	lbl.text = text
@@ -1179,6 +1186,8 @@ func _on_choice(idx: int):
 
 	# follow_up_event를 직접 읽어 큐에 이어붙임 (StoryMode는 자체 큐 사용)
 	_pending_follow_up = str(choice.get("follow_up_event", ""))
+	var result: String = _fmt(str(choice.get("result_text", "")))
+	var has_result_record: bool = result != "" and _story_choice_has_visible_result(choice)
 
 	# 변화 스냅샷 (노출용) — 스탯 + 인물 관계
 	var before = _snapshot_stats()
@@ -1189,9 +1198,10 @@ func _on_choice(idx: int):
 	GameState.apply_choice(_current, choice)
 	# 첫 변화에는 팝업 설명 먼저 (떴으면 토스트는 팝업 닫힌 뒤 자연스럽게 남음)
 	_maybe_show_tutorial_popup(before, cast_before)
-	# 변화 토스트 (스탯 → 관계 순)
-	_show_change_toasts(before)
-	_show_cast_toasts(cast_before)
+	# 결과 기록판이 있는 선택은 같은 변화를 우측 토스트로 반복 노출하지 않는다.
+	if not has_result_record:
+		_show_change_toasts(before)
+		_show_cast_toasts(cast_before)
 
 	# 결과 텍스트 표시
 	_showing_choices = false
@@ -1200,7 +1210,6 @@ func _on_choice(idx: int):
 	for c in _choice_box.get_children():
 		c.queue_free()
 
-	var result = _fmt(str(choice.get("result_text", "")))
 	if result != "":
 		_show_story_result_record(choice)
 		_paragraphs = []
