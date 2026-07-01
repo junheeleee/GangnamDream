@@ -97,7 +97,8 @@
       "confronted_with_card": "For a month, Minjun did nothing.\n\nToday, that business card was in his pocket.\nHe didn't take it out. It was just there.\n\nMidway through his coffee, Minjun set the cup down and said,\n\"Sangchul. Do you know Park Sang-jin?\"",
       "discarded_card_before_confrontation": "For a month, Minjun did nothing.\n\nToday he had nothing in his hand.\nLast night he'd put the card in a drawer. That felt better.\n\nMidway through his coffee, Minjun set the cup down and said,\n\"Sangchul. Do you know Park Sang-jin?\"",
       "used_sangchul_knowingly": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\nHe took the deals Sangchul handed him too. Knowing, and still taking them.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nHe thought of the account he'd grown with that man's money.\nWhether he had any right to ask this question — he didn't know.",
-      "sangchul_helped_with_father": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nThe day Sangchul handled his father's hospital situation came back to him.\nHad that been the moment — when this man became his person."
+      "sangchul_helped_with_father": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nThe day Sangchul handled his father's hospital situation came back to him.\nHad that been the moment — when this man became his person.",
+      "ng_confronted_sangchul_early": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nOnce — at the very first table, the day he took the man's card — Minjun had already asked. 'Do you know my father?' Back then, that was the end of it.\nThis time he kept him close, and sat across from him a long while, knowing.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nThis time, he would hear the answer to the end."
     }
   },
   {
@@ -116,6 +117,10 @@
       {
         "text": "\"I'm only here because of you.\" (He chose to use it)",
         "result_text": "Sangchul paused.\n\"...You're going to use this.\"\n\nMinjun smiled. It came out wrong.\n\nThis man destroyed his father. But without this man's network, Gangnam was impossible. So — this guilt was an asset too.\n\nIt was Jaehyuk's move. Now Minjun was making it."
+      },
+      {
+        "text": "\"Pay it back. My father's debt. With your own hands.\"",
+        "result_text": "Sangchul looked at Minjun for a long moment.\n\n\"...So that's what you want.\"\n\n\"'Sorry' doesn't put anything back in my father's account.\"\n\nInstead of answering, Sangchul took out his notebook. A few days later, an old number landed in his father's account. His father asked what the money was for, and Minjun only said, 'Just something owed, finally paid.'\n\nNot a report. Not forgiveness. Just — the one who owed it, paying it."
       }
     ],
     "description_if_known": {

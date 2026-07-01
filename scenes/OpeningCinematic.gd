@@ -40,6 +40,12 @@ const CARDS = [
 		"size": 26,
 	},
 	{
+		"text": "아버지는 그 길 어딘가에서\n모든 걸 잃었다.",
+		"sub": "빚과 침묵만 남았다.\n\n같은 길을 오르면서 —\n같은 사람이 되지 않을 수 있을까.",
+		"hold": 4.2,
+		"size": 27,
+	},
+	{
 		"text": "이제, 당신의 5년이 시작된다.",
 		"sub": "50만원으로 시작해 30억까지.\n정답은 없다. 다음 선택부터 시작하면 된다.",
 		"hold": -1,
@@ -88,6 +94,12 @@ const CARDS_EN = [
 		"sub": "You have to figure it out yourself.",
 		"hold": 3.0,
 		"size": 26,
+	},
+	{
+		"text": "Somewhere on that road,\nyour father lost everything.",
+		"sub": "All that was left was debt, and silence.\n\nClimbing the same road —\ncan you keep from becoming the same man?",
+		"hold": 4.2,
+		"size": 27,
 	},
 	{
 		"text": "Your next five years begin now.",

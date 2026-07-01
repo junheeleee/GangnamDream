@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Changed (2026-07-01) — Movie-grade P0 pass (story architecture)
+
+- **`full_circle` ending honesty fix:** the S+ ending narrates "I paid the debt back — from the man himself," but no event ever extracted restitution from Sangchul. Added a 4th choice to `arc_sangchul_reckoning` (`"갚으세요. 아버지 빚. 당신 손으로."`) that dramatizes the act and sets `cleared_father_debt_from_sangchul`; `full_circle` now requires that flag (KR + EN). Restitution-but-not-Gangnam runs now land in `sangchul_reckoning` too.
+- **Jaehyuk scam seed made non-skippable:** `arc_jaehyuk_02_bond` now requires `arc_jaehyuk_01b_seen`, guaranteeing the "victim-turned-operator" scam foreshadow is planted before the bond/pitch/invest chain even on fast runs.
+- **Prologue fourth-wall cleanup:** removed the bracketed tutorial-narration (`[선택이 자원을 바꾼다 …]`, `[인연은 이 게임의 한 축이다]` etc.) from `story_prologue_dad/meal` and `story_pressure`, replacing with diegetic beats (KR + EN).
+- **Question A planted in the cold open:** added an opening-cinematic card before the finale ("아버지는 그 길 어딘가에서 모든 걸 잃었다 … 같은 사람이 되지 않을 수 있을까" / "can you keep from becoming the same man?") so the hidden moral spine is seeded up front (KR + EN).
+- Wired `ng_confronted_sangchul_early` into `arc_sangchul_confrontation` as a `description_if_known` variant (was orphaned when removed from the full_circle condition).
+
 ### Changed (2026-06-29) — Start menu meta badge pass
 
 - Replaced the StartMenu press-any-key splash progress line with compact monochrome `RUNS` / `BEST` / `ENDINGS` meta badges.

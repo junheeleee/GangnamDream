@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-07-01 (Claude — 영화급 승격 P0 패스: 서사 아키텍처)
+
+4개 병렬 분석(구조/주제/인물망/복선)이 수렴한 진단 — "걸작 스파인은 이미 깔려 있으나 클라이맥스가 거꾸로 배치되고 스파인이 런타임의 소수" — 을 바탕으로, 유저 승인(P0만) 하에 저비용·고효과 3건을 구현.
+
+### 수정
+- **P0-1 `full_circle` 엔딩 정직성:** 최고 엔딩이 "그 사람한테서 빚을 갚았다"고 말하지만 실제로 상철에게서 배상을 받아내는 이벤트가 없었다(복선 분석이 지목한 최악 구멍). `arc_sangchul_reckoning`에 4번째 선택지(배상 요구)를 추가해 그 행위를 실제로 드라마화하고 `cleared_father_debt_from_sangchul` 플래그를 설정. `GameState.gd`의 `full_circle` 조건을 이 플래그 필수로 교체(기존 `ng_confronted_sangchul_early OR sangchul_reported` 대체). 배상했으나 30억 미달 런은 `sangchul_reckoning` 엔딩으로 착지하도록 OR 추가. KR+EN.
+- **P0-2 재혁 사기 씨앗 필수화:** `arc_jaehyuk_02_bond` 트리거에 `arc_jaehyuk_01b_seen` 조건을 추가. '피해자였다가 운영자가 됐다'는 최고의 사기 복선(`arc_jaehyuk_01b_real_face`)이 빠른 런에서 스킵되던 것을 방지 — 유대/피치/투자 체인 전에 반드시 심어진다.
+- **P0-3a 프롤로그 4벽 붕괴 제거:** `story_prologue_dad/meal`, `story_pressure`의 대괄호 튜토리얼 서술(`[선택이 자원을 바꾼다 …]`, `[인연은 이 게임의 한 축이다]` 등)을 제거하고 디제시스 문장으로 교체. KR+EN.
+- **P0-3b 질문 A 콜드오픈 심기:** `OpeningCinematic.gd` 마지막 카드 직전에 아버지/도덕 대가 카드("아버지는 그 길 어딘가에서 모든 걸 잃었다 … 같은 사람이 되지 않을 수 있을까")를 추가해 숨은 도덕 척추를 오프닝에서 선제 노출. KR+EN.
+- `ng_confronted_sangchul_early`가 full_circle 조건에서 빠지며 write-only가 된 것을 `arc_sangchul_confrontation`의 `description_if_known` 변주로 배선(NG+ 조기 대면자 전용 본문).
+
+### 검증
+- `tools/en_coverage_check.py` clean, `tools/audit.sh` ERROR 0 / WARNING 0 / write_only 224 유지 / inert 0 / 밸런스 밴드 전부 통과.
+- Godot 전체 컴파일 스캔 55개 클린, `ScreenshotQA --qa=demo-blackbox --lang=en`로 오프닝 시네마틱/프롤로그 렌더 직접 확인(종료 시 기존 Texture/RID cleanup 경고만 잔존).
+
 ## 2026-06-29 (Codex Start Menu Meta Badge Pass)
 
 ### 수정

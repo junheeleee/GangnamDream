@@ -2402,7 +2402,10 @@ func _next_arc_id() -> String:
 			and not f.get("arc_jaehyuk_01b_seen", false) \
 			and not f.get("arc_jaehyuk_bond_seen", false):
 		return "arc_jaehyuk_01b_real_face"
-	if f.get("arc_jaehyuk_reunion_seen", false) and not f.get("arc_jaehyuk_bond_seen", false) and t >= 32:
+	# 사기 씨앗(01b '피해자였다가 운영자가 됐다')을 반드시 유대 전에 심는다 —
+	# 빠른 런에서 씨앗이 스킵되면 나중 투자 사기 폭로가 뜬금없어진다.
+	if f.get("arc_jaehyuk_reunion_seen", false) and f.get("arc_jaehyuk_01b_seen", false) \
+			and not f.get("arc_jaehyuk_bond_seen", false) and t >= 32:
 		return "arc_jaehyuk_02_bond"
 	if t >= 34 and f.get("arc_jaehyuk_bond_seen", false) \
 			and not f.get("arc_jaehyuk_02b_seen", false) \

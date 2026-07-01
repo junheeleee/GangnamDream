@@ -17,11 +17,11 @@
     "choices": [
       {
         "text": "\"Yeah, I ate. Don't skip meals, Dad.\"",
-        "result_text": "A lie. You haven't eaten anything yet.\nBut you felt him relax on the other end of the line.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\nYou hung up and stared at the ceiling for a long time.\n\n[Your bond with Dad deepened — relationships are one of the pillars of this game.]"
+        "result_text": "A lie. You haven't eaten anything yet.\nBut you felt him relax on the other end of the line.\n\"Good... I'm sorry, son.\"\n\"Nothing to be sorry for.\"\nYou hung up and stared at the ceiling for a long time."
       },
       {
         "text": "\"I'm busy. I'll call you back.\" Click.",
-        "result_text": "You cut it short. Longer calls just make the silence hurt more.\nYou put the phone down and swallowed what you didn't say.\nThat small hesitation in his voice before you hung up — you couldn't stop thinking about it.\n\n[Your bond with Dad weakened — every choice shapes every relationship.]"
+        "result_text": "You cut it short. Longer calls just make the silence hurt more.\nYou put the phone down and swallowed what you didn't say.\nThat small hesitation in his voice before you hung up — you couldn't stop thinking about it."
       }
     ]
   },
@@ -43,11 +43,11 @@
     "choices": [
       {
         "text": "Buy a triangle kimbap (-₩1,200)",
-        "result_text": "You grab a tuna-mayo and pay.\nA little over a thousand won leaves your account.\n\n[Every choice shifts your resources — money, health, mental strength. Every decision has a cost.]"
+        "result_text": "You grab a tuna-mayo and pay.\nA little over a thousand won leaves your account.\nYour stomach is full, but the account is that much thinner."
       },
       {
         "text": "Skip it. Save every won.",
-        "result_text": "You walk out empty-handed.\nYour stomach growled, but the account held.\n\n[Every choice shifts your resources — save money, take the physical hit. Balance is everything.]"
+        "result_text": "You walk out empty-handed.\nYour stomach growled, but the account held.\nToday, you paid with your body instead."
       }
     ]
   },
@@ -58,7 +58,7 @@
     "choices": [
       {
         "text": "Open a job app. Survival comes first.",
-        "result_text": "Convenience store. Delivery. Café. Office temp...\nFor the first time, 'work' felt like a real option.\n{name} hovered a finger over the apply button.\n\n[From here, every month you decide what to do.\nOn the next screen — make your first move.]"
+        "result_text": "Convenience store. Delivery. Café. Office temp...\nFor the first time, 'work' felt like a real option.\n{name} hovered a finger over the apply button.\nNo one is going to live this life for you. From here, you move on your own."
       }
     ]
   },
