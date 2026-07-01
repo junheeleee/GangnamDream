@@ -2676,18 +2676,6 @@ func _next_arc_id() -> String:
 		return "arc_endgame_sixmonths"
 
 	# ══ 9구간: Year 3-5 인물 재등장 ══════════════════════════════
-	# 박재원 (고시원 후배) — Year 3 신규 인물
-	if t >= 96 and not f.get("arc_jaewon_01_seen", false):
-		return "arc_jaewon_01_meet"
-	if t >= 108 and f.get("arc_jaewon_01_seen", false) \
-			and not f.get("arc_jaewon_02_seen", false):
-		return "arc_jaewon_02_advice"
-	if t >= 140 and f.get("arc_jaewon_02_seen", false) \
-			and not f.get("arc_jaewon_03_seen", false):
-		return "arc_jaewon_03_farewell"
-	if t >= 193 and f.get("arc_jaewon_03_seen", false) \
-			and not f.get("arc_jaewon_reunion_seen", false):
-		return "arc_jaewon_04_reunion"
 	# 임상철 Year 3 — 신문 기사 (대면 이후)
 	if t >= 100 and f.get("arc_sangchul_confrontation_seen", false) \
 			and not f.get("arc_sangchul_year3_seen", false):

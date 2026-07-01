@@ -1,50 +1,5 @@
 [
   {
-    "id": "callback_jaewon_welcomed_echo",
-    "title": "The Blanket Question",
-    "description": "KakaoTalk from Jae-won.\n\n'Hey. One month in. You asked about my blanket on move-in day — I actually bought a thick one. Slept warm all month.'\n\nSome messages land like that.",
-    "choices": [
-      {
-        "text": "\"Glad you're settling in. Good work.\"",
-        "result_text": "'Thank you haha' came back immediately.\n\nThat first week — alone in a tiny room, not knowing anyone. There's a version of this city where someone asks about your blanket.\n{name} is that person now."
-      },
-      {
-        "text": "Open the door — look down the hallway",
-        "result_text": "Two years ago, {name} stood in that same spot. Box in hand, dazed.\n\nSomething has shifted. Not finished. But different from where it started."
-      }
-    ]
-  },
-  {
-    "id": "callback_jaewon_knows_goal_echo",
-    "title": "Still Going for the ₩3B?",
-    "description": "KakaoTalk from Jae-won.\n\n'Hey are you still doing the ₩3 billion thing lol. Randomly thought of it.'\n\nThe night {name} had said it out loud. In this room. Jae-won's eyes had gone wide.",
-    "choices": [
-      {
-        "text": "\"Obviously. Not stopping.\"",
-        "result_text": "'lol respect. I'll work hard too'\n\nSomeone is watching to see if you follow through.\nThat's extra weight — or extra fuel. Today it was fuel."
-      },
-      {
-        "text": "\"Still going. Slower than I thought.\"",
-        "result_text": "'But you're still doing it right? That's the hard part'\n\n{name} held the screen for a moment.\nJae-won hasn't been here long enough to know how tiring 'still doing it' can get. But he's not wrong."
-      }
-    ]
-  },
-  {
-    "id": "callback_jaewon_departed_echo",
-    "title": "203",
-    "description": "Room 203 has been dark for a week.\n\nJae-won left. Every time the hall is walked, that door catches the eye.\nNew tenant hasn't moved in yet.\n\n{name} stopped in front of it.",
-    "choices": [
-      {
-        "text": "Hope he makes it — wherever he went",
-        "result_text": "Hyun-su left. Now Jae-won.\n{name} is still here.\n\nThis goshiwon is a corridor. Everyone passes through.\nWhen the next person arrives — ask about the blanket."
-      },
-      {
-        "text": "Wonder: when does this hallway end for me too?",
-        "result_text": "Ran the numbers. When's the exit?\nThey didn't come out clean.\n\nJae-won left because something opened up. {name} has to make that opening.\nThe room is still here. The time is still ticking."
-      }
-    ]
-  },
-  {
     "id": "callback_minseo_card_echo",
     "title": "The Card in the Wallet",
     "description": "Cleaning out the wallet — a business card.\n\nLee Minseo. The woman who owns the Gangnam apartment.\n\n'If you want to know how I did it, reach out.'\n\nMonths since she said that.",
