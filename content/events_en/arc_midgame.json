@@ -801,7 +801,12 @@
         "text": "Whatever the numbers, getting this far already means something.",
         "result_text": "For the first time, the thought came: maybe Gangnam isn't about a place — it's about a posture. Whether he arrives or not — these choices were Minjun's."
       }
-    ]
+    ],
+    "description_if_known": {
+      "never_stop": "A year and a half left.\n\nMinjun laid out the numbers again. Current assets. Distance to goal. Months remaining.\n\nFor the first time — it became clear whether it was mathematically possible or impossible. Now it wasn't about direction. It was about speed.\n\nAt the crossroads, his feet had moved before his head.\nThis arithmetic, too, his feet will solve. By not stopping.",
+      "pivoted_to_safe": "A year and a half left.\n\nMinjun laid out the numbers again. Current assets. Distance to goal. Months remaining.\n\nFor the first time — it became clear whether it was mathematically possible or impossible. Now it wasn't about direction. It was about speed.\n\nThe turn he made at the crossroads laid the floor under this number.\nIt wasn't cowardice, it was reality — and reality compounds.",
+      "plays_hand": "A year and a half left.\n\nMinjun laid out the numbers again. Current assets. Distance to goal. Months remaining.\n\nFor the first time — it became clear whether it was mathematically possible or impossible. Now it wasn't about direction. It was about speed.\n\nAt the crossroads he'd laid out everything he had.\nThe last year and a half — the final round, played with the cards already on the table."
+    }
   },
   {
     "id": "arc_year_one_half",
@@ -988,7 +993,10 @@
       }
     ],
     "description_if_known": {
-      "improved_diet": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nThe body whose diet he fixed last year is what's holding up this final stretch.\nBurnout or focus — at least the body was still on his side."
+      "improved_diet": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nThe body whose diet he fixed last year is what's holding up this final stretch.\nBurnout or focus — at least the body was still on his side.",
+      "deferred_question": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nLast year at 3 a.m., there was a question he'd started to ask himself and shelved.\nIt rises again inside this strange focus. This time he won't dodge it.",
+      "opened_other_door": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nLast year, in the small hours, he'd left one other door open.\nKnowing it's still open is what makes this stretch bearable.",
+      "reaffirmed_motive": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nLast year at 3 a.m., he'd reconfirmed why he started.\nThat confirmation is burning as fuel now. This isn't burnout — it's the final focus."
     }
   },
   {

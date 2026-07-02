@@ -29,7 +29,6 @@
         },
         "flags": [
           "arc_minseo_01_seen",
-          "minseo_met",
           "got_minseo_card"
         ],
         "cast_effects": {
@@ -48,8 +47,7 @@
           "tint": -1
         },
         "flags": [
-          "arc_minseo_01_seen",
-          "minseo_met"
+          "arc_minseo_01_seen"
         ],
         "cast_effects": {
           "minseo": {
