@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 배상 엔딩 변주 + 엔딩 dik 패리티 가드 + 도박 거울 플래그 회수, baseline 220)
+
+### 자가 검증에서 발견한 구멍 수정
+- **`sangchul_reckoning` 엔딩 카피 불일치**: P0에서 배상 경로(`cleared_father_debt_from_sangchul`)를 엔딩 트리거 OR에 추가했는데 본문은 '경찰서 진술'만 서술 — 배상 런이 어긋난 카피를 읽던 구멍. 배상 전용 `description_if_known` 변주 추가(KR+EN): "받을 거, 받았어요" / 네트워크는 strained로 남으므로 "사다리는 남았지만 예전처럼 잡을 수는 없었다"로 정확히 서술.
+
+### 재발 방지턱 (tools/en_coverage_check.py 확장)
+- 엔딩 EN 오버레이는 dict **통째 덮어쓰기**(`_apply_endings_en_overlay`)라 EN dik 키가 KR보다 적으면 KR 변주가 조용히 사라지는 클래스 → 엔딩 dik 키 패리티 + EN 엔딩 존재 검사를 체커에 영구 추가.
+
+### 죽은 플래그 회수 (write-only → 서사 독자, KR+EN)
+- `egg_gambling_mirror`의 두 갈래가 둘 다 write-only였음 → `gambling_rock_bottom`(바닥 씬)에서 대구로 회수: **`tried_to_quit_gambling`** "지워도 다시 깔린다는 걸 — 의지의 문제가 아니라는 걸 — 이제는 안다" / **`ignored_gambling_warning`** "'아직은 괜찮다.' 그 말이 여기까지 오는 데 몇 달이 걸렸는지 세어보지 않기로 했다." (상호배타 선택지라 dik 충돌 없음)
+
+### 래칫
+- `tools/debt_baseline.json` write_only_flags 222 → **220**.
+
+### 검증
+- `en_coverage_check.py` clean(엔딩 패리티 포함), `audit.sh` ERROR 0 / 밴드 통과.
+
 ## 2026-07-02 (Claude — 구조 부채 래칫 조임: 죽은 플래그 2종 → 서사 독자 전환, baseline 224→222)
 
 write-only 플래그 중 서사 하중이 큰 2종을 `description_if_known` 독자로 전환(과거 "죽은 플래그 연결" 패턴). 전부 최후순위 키로 추가해 기존 변주 우선순위 불변.

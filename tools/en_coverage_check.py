@@ -53,6 +53,28 @@ for f in glob.glob(os.path.join(KRDIR, '*.json')):
             leaks.append((eid, 'FEWER_CHOICES %d<%d' % (
                 len(en.get('choices', [])), len(e.get('choices', [])))))
 
+# ── 엔딩 dik 패리티: 엔딩 EN 오버레이는 dict "통째 덮어쓰기"(DataRegistry
+#    _apply_endings_en_overlay)라 EN 키가 KR보다 적으면 KR 변주가 조용히
+#    사라지고, EN 엔딩 자체가 없으면 KR 한글이 EN 플레이어에게 샌다.
+def _endings(p):
+    try:
+        return {e['id']: e for e in json.load(open(p, encoding='utf-8'))
+                if isinstance(e, dict) and 'id' in e}
+    except Exception:
+        return {}
+kr_end = _endings(os.path.join(ROOT, 'content', 'endings.json'))
+en_end = _endings(os.path.join(ROOT, 'content', 'endings_en.json'))
+for eid, e in kr_end.items():
+    en = en_end.get(eid)
+    if en is None:
+        leaks.append(('ending:' + eid, 'NO_EN_ENDING'))
+        continue
+    kr_keys = set((e.get('description_if_known') or {}).keys())
+    en_keys = set((en.get('description_if_known') or {}).keys())
+    if kr_keys != en_keys:
+        leaks.append(('ending:' + eid, 'DIK_KEY_MISMATCH KR=%s EN=%s' % (
+            sorted(kr_keys), sorted(en_keys))))
+
 if leaks:
     print('EN coverage leaks: %d' % len(leaks))
     for eid, why in leaks:

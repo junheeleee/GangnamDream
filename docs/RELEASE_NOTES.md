@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-07-02) — Restitution ending variant + ending-dik parity guard + gambling mirror payoffs
+
+- `sangchul_reckoning` ending now has a restitution-path `description_if_known` variant (the base copy narrates the police report; restitution runs were reading mismatched copy). KR + EN.
+- `en_coverage_check.py` now also verifies ending EN overlays exist and their `description_if_known` keys match KR (the endings overlay is a whole-dict overwrite, so a missing EN key silently drops the KR variant).
+- Both `egg_gambling_mirror` outcomes now pay off at `gambling_rock_bottom`: the player who once deleted the apps ("it was never a matter of willpower") and the one who looked away ("I'm still fine"). write-only baseline 222 → 220.
+
 ### Changed (2026-07-02) — Structural-debt ratchet tightened (dead flags → narrative readers)
 
 - `father_knew_i_came` (the father silently knew about the quiet medication visit) now reframes `arc_father_passing`; `ng_playing_sangchul` (NG+ "pretend not to know") now reframes `arc_sangchul_confrontation`. Both as lowest-priority `description_if_known` keys (existing variants keep precedence), KR + EN.
