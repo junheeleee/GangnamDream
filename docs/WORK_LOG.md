@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 상철 network 계열 잔여 회수 3종, baseline 209)
+
+### 전환 (write-only → 독자, KR+EN)
+- **`balanced_life` + `sangchul_network_fully_cut`** (두 번 거절한 런, `cut_sangchul_network` 앞 삽입 — 함의 관계): "첫 번째는 결심이었고, 두 번째는 확인이었다. … 두 번 물었고, 두 번 다 같은 답이었다."
+- **`late_call` + `sangchul_network_finally_cut`** (알고도 쓰다가 놓은 런, `used_fully` 뒤·`truth_known` 앞): "놓은 만큼 느려졌고, 느려진 만큼 강남은 멀어졌다. … 잡고 있으면 안 되는 걸 놓을 줄 아는 손으로 — 이 전화를 걸었다."
+- **`arc_sangchul_confrontation` + `sangchul_trust_deepened`** (초반 팁으로 첫 수익, 최후순위 키): "그 고맙다는 말이 — 지금 목구멍 어딘가에 걸려 있었다."
+
+### 래칫
+- write_only 212 → **209**, baseline 동기 조임.
+
+### 검증
+- `en_coverage_check.py` clean(엔딩 dik 패리티), `audit.sh` ERROR 0 / 밴드 통과. KR=EN 키 순서 일치.
+
 ## 2026-07-02 (Claude — 상철 정산-이후 3결(結) 엔딩 변주, baseline 212)
 
 ### 엔딩 변주 3종 (write-only → 엔딩 독자, KR+EN)

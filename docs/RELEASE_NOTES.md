@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed (2026-07-02) — Sangchul network-cut shades in endings
+
+- `balanced_life` gains a `sangchul_network_fully_cut` variant ("the first time was a decision, the second a confirmation"); `late_call` gains `sangchul_network_finally_cut` ("with hands that had learned to let go of what shouldn't be held — he made this call"); the confrontation scene gains a `sangchul_trust_deepened` variant (the early thank-you lodged in his throat). KR + EN; write-only baseline 212 -> 209.
+
 ### Changed (2026-07-02) — Three shades of the Sangchul aftermath in endings
 
 - `gangnam_dream` gains `sangchul_peace_real` ("the road was too long to climb carrying hatred") and `sangchul_forgiven_not_forgotten` ("no hatred — only memory") variants, inserted above `sangchul_forgiven` so they can actually fire.
