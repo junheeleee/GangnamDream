@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 구조 부채 래칫 조임: 죽은 플래그 2종 → 서사 독자 전환, baseline 224→222)
+
+write-only 플래그 중 서사 하중이 큰 2종을 `description_if_known` 독자로 전환(과거 "죽은 플래그 연결" 패턴). 전부 최후순위 키로 추가해 기존 변주 우선순위 불변.
+
+### 전환 (KR+EN)
+- **`father_knew_i_came`** (callback_medication_visited_echo에서 set — 약 심부름을 아버지가 알고 있었다) → `arc_father_passing` 변주: "아들이 왔다 간 걸 알면서도 아무 말 않던 사람이 — 지금 위독하다고 했다."
+- **`ng_playing_sangchul`** (NG+ 두 번째 첫 만남에서 모른 척 — set만 되던 플래그) → `arc_sangchul_confrontation` 변주: "명함을 받던 첫날부터, 모른 척하기로 한 건 민준 자신이었다."
+
+### 래칫
+- `tools/debt_baseline.json` write_only_flags 224 → **222** (정리로 수가 줄면 baseline을 낮춰 톱니를 조인다는 운영 원칙 이행).
+
+### 검증
+- `en_coverage_check.py` clean(EN dik 키 패리티), `audit.sh` ERROR 0 / write_only 222 / 밴드 통과. dik 키 순서 확인(신규 키 최후순위).
+
 ## 2026-07-02 (Claude — 영화급 승격 P3 패스: 복선 씨앗 + 체호프의 총 회수 + political_winner 오용 버그)
 
 복선 원장(P0 분석)이 지목한 잔여 항목과 이전에 승인된 상철 씨앗 2종을 마무리.

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed (2026-07-02) — Structural-debt ratchet tightened (dead flags → narrative readers)
+
+- `father_knew_i_came` (the father silently knew about the quiet medication visit) now reframes `arc_father_passing`; `ng_playing_sangchul` (NG+ "pretend not to know") now reframes `arc_sangchul_confrontation`. Both as lowest-priority `description_if_known` keys (existing variants keep precedence), KR + EN.
+- write-only flag baseline lowered 224 → 222 (`tools/debt_baseline.json`) per the ratchet policy.
+
 ### Fixed (2026-07-02) — Movie-grade P3 pass (foreshadow seeds + Chekhov payoffs + political_winner misuse)
 
 - **CRITICAL: theme-stock buyers no longer become elected politicians.** `drama_election_theme_stock` (t≥10 stock gamble) wrongly set `political_winner`, granting the "two months after the election" callback and the `political_fix` (National Assembly) ending. The earned path (`political_election_victory`: 3 years as an aide, reputation 70+, t≥120) is now the only setter.
