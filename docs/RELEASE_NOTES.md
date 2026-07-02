@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed (2026-07-02) — Coin-friend name collision ("Hyunsu" → "Taeho")
+
+- The coin-gambling friend in `amb_coin_00`/`amb_coin_warn` and six coin callbacks shared the name 현수 with the canonical goshiwon exam-grinder — while pulling a jeonse deposit the goshiwon Hyunsu cannot have. Renamed the coin friend to 태호/Taeho across KR+EN (8 events each); `callback_declared_dream_check` (genuinely the goshiwon Hyunsu) keeps its text with the typo tag corrected.
+
 ### Fixed (2026-07-02) — Restitution ending variant + ending-dik parity guard + gambling mirror payoffs
 
 - `sangchul_reckoning` ending now has a restitution-path `description_if_known` variant (the base copy narrates the police report; restitution runs were reading mismatched copy). KR + EN.

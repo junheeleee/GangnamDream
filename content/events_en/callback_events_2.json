@@ -151,8 +151,8 @@
   },
   {
     "id": "callback_coin_gambled_crash",
-    "title": "Hyeonsu's Silence",
-    "description": "It's been four weeks since you handed money to Hyeonsu.\nNo word from him.\nCalls go unanswered. The '1' on KakaoTalk never disappears.\nYou try one more time.",
+    "title": "Taeho's Silence",
+    "description": "It's been four weeks since you handed money to Taeho.\nNo word from him.\nCalls go unanswered. The '1' on KakaoTalk never disappears.\nYou try one more time.",
     "choices": [
       {
         "text": "Go find him in person",
@@ -160,37 +160,37 @@
       },
       {
         "text": "Let it go — it's not coming back",
-        "result_text": "You hung up.\nAfter a moment you blocked Hyeonsu.\nThis money is tuition. A lesson: never trust 'guaranteed info' again."
+        "result_text": "You hung up.\nAfter a moment you blocked Taeho.\nThis money is tuition. A lesson: never trust 'guaranteed info' again."
       }
     ]
   },
   {
     "id": "callback_coin_refused_vindicated",
-    "title": "Hyeonsu's Call",
-    "description": "A call from Hyeonsu.\n'Hey... I lost everything.'\nHis voice was different. Flat.\n'Thirty million won. All gone.'",
+    "title": "Taeho's Call",
+    "description": "A call from Taeho.\n'Hey... I lost everything.'\nHis voice was different. Flat.\n'Thirty million won. All gone.'",
     "choices": [
       {
         "text": "\"That's why I told you\"",
-        "result_text": "It slipped out.\nHyeonsu said '...You were right.'\nAfter hanging up, you regretted saying it.\nThat's not what you say to someone who just lost ₩30 million."
+        "result_text": "It slipped out.\nTaeho said '...You were right.'\nAfter hanging up, you regretted saying it.\nThat's not what you say to someone who just lost ₩30 million."
       },
       {
         "text": "\"Let's get something to eat\"",
-        "result_text": "You met up.\nHyeonsu barely spoke through the whole meal.\nWalking out he said. 'Hey, thanks.'\nYou hadn't done anything. But he meant it."
+        "result_text": "You met up.\nTaeho barely spoke through the whole meal.\nWalking out he said. 'Hey, thanks.'\nYou hadn't done anything. But he meant it."
       }
     ]
   },
   {
     "id": "callback_coin_warned_result",
-    "title": "Hyeonsu's Result",
-    "description": "A KakaoTalk from Hyeonsu.\n'Hey Minjun. Remember when you talked me out of it?\nI cut the amount down.\nResults came out — half of it's still there. Because of you.'",
+    "title": "Taeho's Result",
+    "description": "A KakaoTalk from Taeho.\n'Hey Minjun. Remember when you talked me out of it?\nI cut the amount down.\nResults came out — half of it's still there. Because of you.'",
     "choices": [
       {
         "text": "\"Good. Hold on to that half.\"",
-        "result_text": "Hyeonsu sent a thumbs-up emoji.\nOut of nowhere, in the middle of the night, the mood lifted.\nOne fewer person got hurt. That's enough."
+        "result_text": "Taeho sent a thumbs-up emoji.\nOut of nowhere, in the middle of the night, the mood lifted.\nOne fewer person got hurt. That's enough."
       },
       {
         "text": "\"Be more careful next time\"",
-        "result_text": "Hyeonsu said 'Yeah, I'm done with crypto for real.'\nNot sure whether to believe him — but today, I chose to."
+        "result_text": "Taeho said 'Yeah, I'm done with crypto for real.'\nNot sure whether to believe him — but today, I chose to."
       }
     ]
   },

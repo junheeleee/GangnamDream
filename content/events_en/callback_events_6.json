@@ -151,16 +151,16 @@
   },
   {
     "id": "callback_coin_let_go_space",
-    "title": "Six Months Without Hyeonsu",
-    "description": "Half a year since you cut the gambling connection with Hyeonsu.\nToday Hyeonsu posted in a group chat.\n'I got a job. Completely done with betting.'\nAn unfamiliar company name.",
+    "title": "Six Months Without Taeho",
+    "description": "Half a year since you cut the gambling connection with Taeho.\nToday Taeho posted in a group chat.\n'I got a job. Completely done with betting.'\nAn unfamiliar company name.",
     "choices": [
       {
         "text": "Hit 'like'",
-        "result_text": "You pressed like.\nHyeonsu sent a short reply. 'You doing okay too?'\nYou just said 'Yeah.'\nThe distance that grew between you seemed to suit both of you."
+        "result_text": "You pressed like.\nTaeho sent a short reply. 'You doing okay too?'\nYou just said 'Yeah.'\nThe distance that grew between you seemed to suit both of you."
       },
       {
         "text": "Don't reach out separately",
-        "result_text": "You didn't do anything.\nYou were genuinely glad Hyeonsu was doing well.\nSome relationships don't need to be close to be good."
+        "result_text": "You didn't do anything.\nYou were genuinely glad Taeho was doing well.\nSome relationships don't need to be close to be good."
       }
     ]
   },

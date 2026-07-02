@@ -110,12 +110,12 @@
   },
   {
     "id": "callback_coin_jackpot_trap",
-    "title": "Hyeonsu's Second Offer",
-    "description": "After winning big on the coin, Hyeonsu contacts you.\n'Hey, I've got something even more certain this time.\nLast time doubled, right? This one triples. For real.'\nThat 'for real' is nagging at you.",
+    "title": "Taeho's Second Offer",
+    "description": "After winning big on the coin, Taeho contacts you.\n'Hey, I've got something even more certain this time.\nLast time doubled, right? This one triples. For real.'\nThat 'for real' is nagging at you.",
     "choices": [
       {
         "text": "\"Not this time.\" Decline.",
-        "result_text": "'Once is enough.'\nHyeonsu said 'You're going to regret this.'\nA few days later came news the coin halved.\nTrusting luck twice was never the right call."
+        "result_text": "'Once is enough.'\nTaeho said 'You're going to regret this.'\nA few days later came news the coin halved.\nTrusting luck twice was never the right call."
       },
       {
         "text": "Go in again",
@@ -125,12 +125,12 @@
   },
   {
     "id": "callback_coin_rekt_aftermath",
-    "title": "Hyeonsu and Me",
-    "description": "A month since losing everything on the coin.\nA text from Hyeonsu.\n'Hey I lost everything too. But I think I found something new for real this time.'\nHere we go again.",
+    "title": "Taeho and Me",
+    "description": "A month since losing everything on the coin.\nA text from Taeho.\n'Hey I lost everything too. But I think I found something new for real this time.'\nHere we go again.",
     "choices": [
       {
         "text": "\"Stop. Please.\"",
-        "result_text": "'Both of us lost. This time, please stop.'\nHyeonsu said '...Okay.'\nDon't know if I can believe it. But I said what needed saying."
+        "result_text": "'Both of us lost. This time, please stop.'\nTaeho said '...Okay.'\nDon't know if I can believe it. But I said what needed saying."
       },
       {
         "text": "Block him",

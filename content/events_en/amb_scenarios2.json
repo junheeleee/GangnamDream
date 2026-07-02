@@ -2,34 +2,34 @@
   {
     "id": "amb_coin_00",
     "title": "Inside Information",
-    "description": "Hyunsu gets in touch after a long silence. Voice buzzing with excitement.\n\"Hyung, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name}'s account balance surfaces in the mind. And beyond it — the impossible distance to ₩3 billion.",
+    "description": "Taeho gets in touch after a long silence. Voice buzzing with excitement.\n\"Hyung, this one is real. Inside info.\nThis coin's listing catalyst drops next week. I pulled my jeonse deposit.\nGet in now — let's change our lives together.\"\n\n{name}'s account balance surfaces in the mind. And beyond it — the impossible distance to ₩3 billion.",
     "choices": [
       {
-        "text": "Trust Hyunsu. Bet what's on hand.  (jackpot or bust)",
-        "result_text": "The die is cast. {name} put the account on the line on Hyunsu's 'inside info.'"
+        "text": "Trust Taeho. Bet what's on hand.  (jackpot or bust)",
+        "result_text": "The die is cast. {name} put the account on the line on Taeho's 'inside info.'"
       },
       {
         "text": "Decline. Won't gamble.  (discipline / FOMO + relationship)",
-        "result_text": "{name} said no. Hyunsu called it cowardice and hung up.\nFor days after, kept secretly checking the coin's price. It stung every time it went up.\nWhether {name} dodged a loss or missed a gain — FOMO lingered."
+        "result_text": "{name} said no. Taeho called it cowardice and hung up.\nFor days after, kept secretly checking the coin's price. It stung every time it went up.\nWhether {name} dodged a loss or missed a gain — FOMO lingered."
       },
       {
-        "text": "Try to stop Hyunsu. \"That's dangerous.\"  (friendship / conflict)",
-        "result_text": "Hyunsu's face hardened. \"You're always like this, hyung,\" he shot back."
+        "text": "Try to stop Taeho. \"That's dangerous.\"  (friendship / conflict)",
+        "result_text": "Taeho's face hardened. \"You're always like this, hyung,\" he shot back."
       }
     ]
   },
   {
     "id": "amb_coin_warn",
     "title": "A Hand That Holds Back",
-    "description": "\"Hyunsu, you pulled your jeonse deposit? That's not right.\"\n{name} means every word. Hyunsu's face hardens.\n\"You're always like this, hyung. You can't see an opportunity when it's right there.\nDon't come crying when I'm in Gangnam.\"\n\nBetween friendship and money — what more is there to say?",
+    "description": "\"Taeho, you pulled your jeonse deposit? That's not right.\"\n{name} means every word. Taeho's face hardens.\n\"You're always like this, hyung. You can't see an opportunity when it's right there.\nDon't come crying when I'm in Gangnam.\"\n\nBetween friendship and money — what more is there to say?",
     "choices": [
       {
         "text": "Keep trying to get through to him. Until the end.  (friendship / time + emotional cost)",
-        "result_text": "{name} stayed on the phone until dawn trying to talk him down.\nHyunsu ended up reducing the amount. Couldn't stop him entirely — but not a total loss.\nReal friends warn even when it earns them resentment — that was the only thing {name} could give."
+        "result_text": "{name} stayed on the phone until dawn trying to talk him down.\nTaeho ended up reducing the amount. Couldn't stop him entirely — but not a total loss.\nReal friends warn even when it earns them resentment — that was the only thing {name} could give."
       },
       {
         "text": "Let it go. His money, his call.  (peace of mind / guilt)",
-        "result_text": "\"It's your money, do what you want.\" {name} backed off.\nEasier not to fight about it.\nBut when word came back about Hyunsu a few weeks later — that ease turned into regret."
+        "result_text": "\"It's your money, do what you want.\" {name} backed off.\nEasier not to fight about it.\nBut when word came back about Taeho a few weeks later — that ease turned into regret."
       }
     ]
   },

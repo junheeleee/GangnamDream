@@ -324,8 +324,8 @@
   },
   {
     "id": "callback_coin_jackpot_trap",
-    "title": "현수의 두 번째 제안",
-    "description": "코인으로 크게 번 뒤 현수에게서 연락이 왔다.\n\"야 형, 이번엔 더 확실한 거 있어.\n지난번 두 배 됐잖아. 이번엔 세 배야. 진짜야.\"\n그 '진짜야'가 마음에 걸린다.",
+    "title": "태호의 두 번째 제안",
+    "description": "코인으로 크게 번 뒤 태호에게서 연락이 왔다.\n\"야 형, 이번엔 더 확실한 거 있어.\n지난번 두 배 됐잖아. 이번엔 세 배야. 진짜야.\"\n그 '진짜야'가 마음에 걸린다.",
     "category": "finance",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -336,7 +336,7 @@
     },
     "tags": [
       "coin",
-      "hyeonsu",
+      "taeho",
       "callback",
       "greed"
     ],
@@ -352,7 +352,7 @@
           "coin_greed_resisted"
         ],
         "follow_up_event": "",
-        "result_text": "\"한 번이면 충분해.\"\n현수가 \"진짜 손해야\" 했다.\n며칠 뒤 코인이 반토막 났다는 소식이 들렸다.\n운을 두 번 믿지 않은 게 맞았다."
+        "result_text": "\"한 번이면 충분해.\"\n태호가 \"진짜 손해야\" 했다.\n며칠 뒤 코인이 반토막 났다는 소식이 들렸다.\n운을 두 번 믿지 않은 게 맞았다."
       },
       {
         "text": "또 넣는다",
@@ -377,8 +377,8 @@
   },
   {
     "id": "callback_coin_rekt_aftermath",
-    "title": "현수와 나",
-    "description": "코인으로 다 잃고 한 달이 됐다.\n현수에게서 문자가 왔다.\n'야 나도 다 잃었어. 근데 나 진짜로 새로운 거 또 찾은 것 같아.'\n또 시작이다.",
+    "title": "태호와 나",
+    "description": "코인으로 다 잃고 한 달이 됐다.\n태호에게서 문자가 왔다.\n'야 나도 다 잃었어. 근데 나 진짜로 새로운 거 또 찾은 것 같아.'\n또 시작이다.",
     "category": "social",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -389,7 +389,7 @@
     },
     "tags": [
       "coin",
-      "hyeonsu",
+      "taeho",
       "callback"
     ],
     "cooldown": 999,
@@ -402,7 +402,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "\"너랑 나랑 둘 다 잃었잖아. 이번엔 진짜 그만해.\"\n현수가 \"...알겠어\" 했다.\n믿어야 할지 모르겠다. 근데 할 말은 했다."
+        "result_text": "\"너랑 나랑 둘 다 잃었잖아. 이번엔 진짜 그만해.\"\n태호가 \"...알겠어\" 했다.\n믿어야 할지 모르겠다. 근데 할 말은 했다."
       },
       {
         "text": "차단했다",
@@ -410,7 +410,7 @@
           "mental": 10
         },
         "flags": [
-          "hyeonsu_blocked"
+          "taeho_blocked"
         ],
         "follow_up_event": "",
         "result_text": "차단했다.\n연락이 오는 것 자체가 에너지 소모였다.\n미안하지만 — 지금은 나를 먼저 챙겨야 한다."

@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 인물 정체성 충돌 수정: 코인 친구 '현수' → '태호' 분리)
+
+### 발견
+- 코인 체인 8이벤트(amb_coin_00/warn + 콜백 6종)의 "현수"가 정본 현수(고시원 공시생)와 이름 충돌. 코인 현수는 **전세금을 빼서** 올인하는 인물 — 고시원 거주 공시생과 3중 모순(성격·주거·아크). 로마자도 hyeonsu/Hyunsu 혼재로 EN에선 일부가 정본 현수(Hyunsu)로 오인 렌더.
+
+### 수정
+- 코인 친구를 별개 인물 **태호(Taeho)** 로 분리(KR 8이벤트 + EN 8미러 텍스트 전면). 태그 `hyeonsu`→`taeho`, 플래그 `hyeonsu_blocked`→`taeho_blocked`(rename — write-only 수 불변).
+- `callback_declared_dream_check`는 텍스트가 고시원 공용 주방을 지시 — **진짜 현수**이므로 텍스트 유지, 오타 태그만 `hyeonsu`→`hyunsu` 교정.
+- 인물 추가가 아니라 기존 무명 조연의 이름 충돌 해소 — 정본 현수의 캐릭터 무결성(신중한 공시생) 보호.
+
+### 검증
+- `en_coverage_check.py` clean, `audit.sh` ERROR 0 / write_only 220 / 밴드 통과. `hyeonsu` 잔존 0건.
+
 ## 2026-07-02 (Claude — 배상 엔딩 변주 + 엔딩 dik 패리티 가드 + 도박 거울 플래그 회수, baseline 220)
 
 ### 자가 검증에서 발견한 구멍 수정
