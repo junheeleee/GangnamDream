@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed (2026-07-02) — Chaebol thread payoff + jiyeon_man records variant
+
+- The elevator-card chaebol thread ("no idea where this leads") now leads somewhere: `callback_chaebol_met_dinner` (t>=30, KR+EN) — dinner in Hannam-dong with a man for whom Gangnam is the default, not the goal. Choices split along the Question-A axis (envy-as-fuel vs setting your own gaze). `chaebol_met` converted from write-only to read; baseline 220 -> 219.
+- `jiyeon_man` ending gains a `told_jiyeon_about_records` variant ("not a Gangnam entered with questions unasked — a Gangnam chosen with everything known"), inserted at middle priority since `jiyeon_romance_started` always matches (it gates the ending) and would shadow any key after it.
+
 ### Fixed (2026-07-02) — Coin-friend name collision ("Hyunsu" → "Taeho")
 
 - The coin-gambling friend in `amb_coin_00`/`amb_coin_warn` and six coin callbacks shared the name 현수 with the canonical goshiwon exam-grinder — while pulling a jeonse deposit the goshiwon Hyunsu cannot have. Renamed the coin friend to 태호/Taeho across KR+EN (8 events each); `callback_declared_dream_check` (genuinely the goshiwon Hyunsu) keeps its text with the typo tag corrected.

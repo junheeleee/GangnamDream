@@ -257,5 +257,20 @@
         "result_text": "You politely declined.\nSaid to please reach out another time.\nHaving options — that was something that came from finishing the first job."
       }
     ]
+  },
+  {
+    "id": "callback_chaebol_met_dinner",
+    "title": "A Man From Another Floor",
+    "description": "Months later, he reached out again.\n\n'If you have time, let's have dinner. Nothing formal.'\n\nA quiet restaurant in Hannam-dong — the kind you enter by giving a reservation name.\nHe really was easygoing. Almost no talk of business.\n\nBut {name} kept circling one thought.\nFor this man, Gangnam isn't a goal. It's the default.\nA man born already arrived, and a man who has to prove his arrival.\n\nSame table, same food — different floors.",
+    "choices": [
+      {
+        "text": "I have to reach this floor. Whatever it takes.",
+        "result_text": "On the way home, every light outside the window looked like a floor number.\nEnvy makes good fuel. But the more you burn it — it burns something else along with it.\n{name} checked his account three times that night."
+      },
+      {
+        "text": "Different floors — but a person is a person.",
+        "result_text": "As they parted, the man said,\n\"I liked that you didn't look at me with envy. I don't get many dinners like that.\"\n\n{name} took the subway home. The face reflected in the window looked more at ease than usual.\nWhatever floor you live on, the height of your gaze is something you set yourself."
+      }
+    ]
   }
 ]

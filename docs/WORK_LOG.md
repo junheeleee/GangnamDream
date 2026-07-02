@@ -1,5 +1,19 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 재벌 총 회수 + jiyeon_man 엔딩 records 관통, baseline 219)
+
+### 체호프의 총 회수: 재벌 엘리베이터 체인 완결
+- `hidden_chaebol_elevator`(명함) → `callback_chaebol_elevator_response`(카페, "이게 어디로 이어질지 모른다") → **`chaebol_met`이 데드엔드**였던 것을 후속 만남 `callback_chaebol_met_dinner`(t≥30, KR+EN 신규)로 완결. 한남동 저녁 — "강남이 목표인 사람과 강남이 기본값인 사람, 같은 테이블의 다른 층." 선택지는 부러움-연료(tint−3) vs 시선의 높이(tint+3)로 Question A 축에 연결. 자기 가드(`chaebol_dinner_seen` no_flag)라 write-only 불증가, `chaebol_met`은 read로 전환.
+
+### P1 크로스빔 → 엔딩 관통
+- `jiyeon_man` 엔딩에 `told_jiyeon_about_records` 변주 삽입(KR+EN). **우선순위 주의**: 기존 `jiyeon_romance_started` 키는 엔딩 트리거 필수 플래그라 항상 매치 — 그 뒤에 추가하면 절대 발화 안 함 → 약속 완성(`jiyeon_gangnam_together`) > records 진실 > 기본 순으로 중간 삽입. "아무것도 묻지 않은 채 시작한 강남이 아니라 — 다 알고도 고른 강남이었다."
+
+### 래칫
+- `tools/debt_baseline.json` write_only_flags 220 → **219**.
+
+### 검증
+- `en_coverage_check.py` clean(엔딩 dik 패리티 포함), `audit.sh` ERROR 0 / 밴드 통과. dik 키 순서 KR=EN 확인.
+
 ## 2026-07-02 (Claude — 인물 정체성 충돌 수정: 코인 친구 '현수' → '태호' 분리)
 
 ### 발견
