@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Changed (2026-07-02) — Three shades of the Sangchul aftermath in endings
+
+- `gangnam_dream` gains `sangchul_peace_real` ("the road was too long to climb carrying hatred") and `sangchul_forgiven_not_forgotten` ("no hatred — only memory") variants, inserted above `sangchul_forgiven` so they can actually fire.
+- `jaehyuk_way` gains `sangchul_leverage_stopped` ("stopping halfway and never starting were not the same thing — he didn't draw the curtain"), rhyming with the used_fully variant's closed curtain.
+- write-only baseline 215 -> 212. KR + EN.
+
 ### Fixed (2026-07-02) — audit now counts ending `description_if_known` keys as flag reads
 
 - `_gather_game_flags()` only scanned `content/events/*.json`, so flags read exclusively by ending variants were false-flagged as write-only. Rescued 4 live flags; write-only baseline 219 -> 215.

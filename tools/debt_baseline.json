@@ -1,5 +1,5 @@
 {
   "_comment": "구조 부채 래칫 baseline (audit.py check_structural_debt). 이 수치를 초과하면 audit ERROR — 난개발이 다시 자라지 못하게 막는 톱니. Phase 2 정리로 수가 줄면 여기 숫자를 낮춰 톱니를 조인다. write_only_flags=이벤트에서 set되지만 조건/코드 어디서도 참조 안 되는 플래그 수. inert_events=선택지 2개+인데 전 선택지가 기계적 영향 0인 가짜분기 수.",
-  "write_only_flags": 215,
+  "write_only_flags": 212,
   "inert_events": 0
 }

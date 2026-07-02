@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 상철 정산-이후 3결(結) 엔딩 변주, baseline 212)
+
+### 엔딩 변주 3종 (write-only → 엔딩 독자, KR+EN)
+- **`gangnam_dream` + `sangchul_peace_real`** (용서가 진짜 평화가 된 런): "용서는 그 사람을 위한 게 아니었다. 미움을 들고 오르기엔 — 이 길이 너무 길었다."
+- **`gangnam_dream` + `sangchul_forgiven_not_forgotten`**: "용서는 내려놓는 일이고, 기억은 지키는 일이다. 둘 다 하기로 했다. … 미워하지 않는다. 다만, 기억한다."
+- **`jaehyuk_way` + `sangchul_leverage_stopped`** (레버리지 중도 포기, crossed_line 유지 런): "중간에 멈춘 것과 처음부터 안 한 것은 — 같은 게 아니었다. … 커튼은 치지 않았다. 그 정도는 — 아직 볼 수 있었다." (used_fully의 '커튼을 쳤다'와 모티프 라임)
+
+### 우선순위 설계
+- 두 용서 변주는 `sangchul_forgiven`(상위 함의 플래그)보다 **앞** 삽입 — 뒤에 넣으면 forgiven이 먼저 매치돼 영원히 발화 불가. `leverage_stopped`는 `used_fully` **뒤** — 둘 다 set된 모순 케이스에선 끝까지 쓴 쪽이 우선.
+
+### 래칫
+- write_only 215 → **212**, baseline 동기 조임.
+
+### 검증
+- `en_coverage_check.py` clean(엔딩 dik 패리티), `audit.sh` ERROR 0 / 밴드 통과. KR=EN 키 순서 일치 확인.
+
 ## 2026-07-02 (Claude — audit 정확성 수정: 엔딩 dik 키를 read로 인식, baseline 215)
 
 ### 발견
