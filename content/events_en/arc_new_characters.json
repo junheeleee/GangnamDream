@@ -42,7 +42,11 @@
         "text": "\"I haven't arrived yet. Don't want to count my chickens.\" — smiled",
         "result_text": "Lee Minseo laughed. \"Fair enough. See it all the way through.\"\n\nStill, {name} decided to tuck her words away in his bag.\nHe'd take them out once he got there."
       }
-    ]
+    ],
+    "description_if_known": {
+      "contacted_minseo": "Gangnam wasn't far now.\n\nWith the number nearly full, a message came from Lee Minseo.\n\"I heard. They say you're almost there.\"\n\nThey met again at that same cafe.\n\"Congratulations. I mean it.\"\nThen she went quiet for a moment.\n\"Remember what I told you back then?\"\n\n{name} remembered. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.\n\nIt was Minjun who had reached out first, using that business card.\nNot because he had a question — because he needed someone to ask.",
+      "thought_about_after": "Gangnam wasn't far now.\n\nWith the number nearly full, a message came from Lee Minseo.\n\"I heard. They say you're almost there.\"\n\nThey met again at that same cafe.\n\"Congratulations. I mean it.\"\nThen she went quiet for a moment.\n\"Remember what I told you back then?\"\n\n{name} remembered. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.\n\nOnce, after something Minseo said, he'd thought about 'after arrival' for the first time.\nPeople who have thought about it and people who haven't — they look at different things from the same finish line."
+    }
   },
   {
     "id": "arc_minseo_03b_not_arrived",
@@ -57,6 +61,10 @@
         "text": "\"I don't know. Not anymore.\"",
         "result_text": "Minseo didn't scold the answer.\n\"Asking that even now — that puts you ahead of the ones who arrived.\"\n\nMinjun held the phone for a long time.\nEven if he never reached Gangnam, what he shouldn't lose along the way — he was starting to understand it, a little."
       }
-    ]
+    ],
+    "description_if_known": {
+      "contacted_minseo": "Gangnam was still far off. The number hadn't filled.\n\nAnd then Minseo reached out.\n\"How are you holding up? Almost there?\"\n\nMinjun answered honestly. Still far. Maybe he wouldn't make it at all.\n\nMinseo was quiet a moment, then said,\n\"Remember what I told you? To prepare for when the goal disappears.\"\n\"...Yeah.\"\n\"Here's the thing — even if you don't reach the goal, you need that same preparation. The one who arrives and the one who doesn't. In the end the question left over is the same.\"\n\"What question?\"\n\"Whether that goal was ever really yours.\"\n\nIt was Minjun who had reached out first, using that business card.\nNot because he had a question — because he needed someone to ask.",
+      "thought_about_after": "Gangnam was still far off. The number hadn't filled.\n\nAnd then Minseo reached out.\n\"How are you holding up? Almost there?\"\n\nMinjun answered honestly. Still far. Maybe he wouldn't make it at all.\n\nMinseo was quiet a moment, then said,\n\"Remember what I told you? To prepare for when the goal disappears.\"\n\"...Yeah.\"\n\"Here's the thing — even if you don't reach the goal, you need that same preparation. The one who arrives and the one who doesn't. In the end the question left over is the same.\"\n\"What question?\"\n\"Whether that goal was ever really yours.\"\n\nOnce, after something Minseo said, he'd thought about 'after arrival' for the first time.\nPeople who have thought about it and people who haven't — they look at different things from the same finish line."
+    }
   }
 ]

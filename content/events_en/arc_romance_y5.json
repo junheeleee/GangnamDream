@@ -4,7 +4,8 @@
     "title": "One Day at 37",
     "description": "37.\n\nDaeun paused on her way out of the cafe and turned back.\n\"Can I ask you something?\"\n\n{name} looked up.\n\n\"When you get to Gangnam — will I be there too?\nOr... is this as far as we go?\"\n\nFour years' worth of unsaid things were pushing at the door.\nAnd — it felt like now was when they needed to come out.",
     "description_if_known": {
-      "daeun_close_bond": "37.\n\nDaeun paused on her way out of the cafe and turned back.\n\"Can I ask you something?\"\n\n{name} looked up.\n\n\"When you get to Gangnam — will I be there too?\nOr... is this as far as we go?\"\n\nRemembered saying 'let's hold on together.' That day came back.\nWhat couldn't be said then — it felt like it could be said now."
+      "daeun_close_bond": "37.\n\nDaeun paused on her way out of the cafe and turned back.\n\"Can I ask you something?\"\n\n{name} looked up.\n\n\"When you get to Gangnam — will I be there too?\nOr... is this as far as we go?\"\n\nRemembered saying 'let's hold on together.' That day came back.\nWhat couldn't be said then — it felt like it could be said now.",
+      "daeun_late_call": "37.\n\nDaeun paused on her way out of the cafe and turned back.\n\"Can I ask you something?\"\n\n{name} looked up.\n\n\"When you get to Gangnam — will I be there too?\nOr... is this as far as we go?\"\n\nFour years' worth of unsaid things were pushing at the door.\nAnd — it felt like now was when they needed to come out.\n\nHe thought of the late-night call not long ago.\nA call with no agenda that kept stretching. Thoughts that kept going after it ended.\nMaybe he already knew, even then."
     },
     "choices": [
       {
@@ -32,7 +33,8 @@
       }
     ],
     "description_if_known": {
-      "told_jiyeon_about_records": "37. Near Gangnam.\n\nJiyeon reached out first.\n\"I'm coming up to Seoul this month. Call me if you want to see me.\"\n\nHe stared at the message for a long time.\n\nOnce, Minjun had told her — that HanPD Construction was in the records of his father's fraud case. After that day she became someone who had looked down at the ground beneath her own feet for the first time.\nKnowing it, neither of them turned away from the other.\n\nThey both knew they were heading toward the same place for similar reasons.\nBut now each of them knew where the other had come from, too.\n\nHe felt he had to go see her."
+      "told_jiyeon_about_records": "37. Near Gangnam.\n\nJiyeon reached out first.\n\"I'm coming up to Seoul this month. Call me if you want to see me.\"\n\nHe stared at the message for a long time.\n\nOnce, Minjun had told her — that HanPD Construction was in the records of his father's fraud case. After that day she became someone who had looked down at the ground beneath her own feet for the first time.\nKnowing it, neither of them turned away from the other.\n\nThey both knew they were heading toward the same place for similar reasons.\nBut now each of them knew where the other had come from, too.\n\nHe felt he had to go see her.",
+      "jiyeon_real_connection": "37. Near Gangnam.\n\nJiyeon reached out first.\n\"I'm coming up to Seoul this month. Let me know if you want to meet.\"\n\nLooked at that message for a long time.\n\nThought about the time spent with Jiyeon. First it was an accident. Then a coincidence. At some point — it became a choice.\n\nBoth of them knew they were heading toward the same place, for similar reasons.\n\nNeeded to see her.\n\nHe still has the postcard from Busan.\nNot a courtesy note — real sentences, in real handwriting. Maybe that postcard was where this meeting began."
     }
   }
 ]

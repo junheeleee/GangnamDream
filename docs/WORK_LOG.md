@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — write-only 전수 처리 C7: 인물 실 마무리 + P0 잔여 갭, baseline 113)
+
+### P0 잔여 갭 발견·수정 (중요)
+- **배상+30억 도달 런이 `gangnam_dream`에서 무변주**였다 — P0의 배상 씬(`cleared_father_debt_from_sangchul`)은 full_circle(NG+)과 sangchul_reckoning(미달)만 커버, 배상 후 강남 도달 런은 기본 카피. **최우선(front) 변주 추가**: "이 손으로 임상철에게 아버지 빚을 받아냈다. 그러고도 — 그의 사다리 없이 여기까지 왔다."
+- `sangchul_network_final_use`("선은 여기서 긋는다")도 gangnam_dream 최후순위 변주로 회수.
+
+### 인물 실 마무리 10종 (KR+EN)
+- 지연: `jiyeon_real_connection`(부산 엽서) → Y5 재회 씬. 다은: `daeun_late_call`(심야 통화) → Y5 고백 씬.
+- 민서: `contacted_minseo`/`thought_about_after` → 도착·미달 양쪽 씬("같은 결승선에서도 다른 곳을 본다").
+- NG+: `ng_discipline_to_wealth`/`ng_paid_it_forward` → gambling_recovery 엔딩("회복은 혼자 끝나는 게 아니었다"), `ng_gambling_entered_again` → rock_bottom("알면서 다시 내려온 바닥은 처음보다 차가웠다").
+- 스타트업: `first_user_connected` → startup_exit 엔딩("인수 금액의 0들보다 그 1이 더 오래 남을 것 같았다").
+- 재혁: `asked_partial_return` → ghost 씬("그 웃음이 무엇이었는지 — 이제 안다").
+
+### 래칫
+- write_only 123 → **113** (세션 시작 224 대비 −111).
+
 ## 2026-07-02 (Claude — write-only 전수 처리 Batch C3/C4: 아버지 클러스터 + 연차 루틴 체인 + 강남 이유, baseline 142)
 
 ### 아버지 클러스터 8종 (KR+EN)
