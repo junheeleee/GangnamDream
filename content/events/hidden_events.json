@@ -225,10 +225,7 @@
           "reputation": 2,
           "investment_skill": 2
         },
-        "result_text": "껐다.\n누웠다.\n내일 알람이 6시 30분이었다.",
-        "flags": [
-          "seen_hidden_005"
-        ]
+        "result_text": "껐다.\n누웠다.\n내일 알람이 6시 30분이었다."
       }
     ]
   },
@@ -447,10 +444,7 @@
           "reputation": 4,
           "investment_skill": -2
         },
-        "result_text": "'3만원은 어렵고 2만원 추가 시 배송비 포함이요.'\n상대방이 받아들였다.\n나쁘지 않은 결과였다.",
-        "flags": [
-          "seen_hidden_010"
-        ]
+        "result_text": "'3만원은 어렵고 2만원 추가 시 배송비 포함이요.'\n상대방이 받아들였다.\n나쁘지 않은 결과였다."
       }
     ]
   },
@@ -678,10 +672,7 @@
           "reputation": 6,
           "investment_skill": 0
         },
-        "result_text": "모든 규정에는 예외가 있다. 규정을 읽어야 권리를 지킬 수 있다.",
-        "flags": [
-          "seen_hidden_015"
-        ]
+        "result_text": "모든 규정에는 예외가 있다. 규정을 읽어야 권리를 지킬 수 있다."
       }
     ]
   },
@@ -910,10 +901,7 @@
           "reputation": 7,
           "investment_skill": -2
         },
-        "result_text": "한 모금 마셨다.\n화제를 돌렸다.\n오늘 밤은 그냥 마시는 날로 하기로 했다.",
-        "flags": [
-          "seen_hidden_020"
-        ]
+        "result_text": "한 모금 마셨다.\n화제를 돌렸다.\n오늘 밤은 그냥 마시는 날로 하기로 했다."
       },
       {
         "text": "앱을 열어 바로 매수했다",

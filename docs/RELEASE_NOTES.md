@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Fixed (2026-07-02) — write-only sweep A+B: self-guards, scaffolding cleanup, endgame continuity
+
+- **with_daeun ending copy contradiction (major):** the `daeun_romance_started` variant claimed "arrived in Gangnam", but that key always matches (it gates the ending) and with_daeun only fires on sub-3B runs — every with_daeun player read copy for an arrival that never happened. Stale variant removed; replaced with a `daeun_final_together` variant weaving the rolled-omelette confession into the correct ramyeon scene.
+- 10 one-shot eggs/echoes got explicit `no_flag` self-guards; 15 repeatable pool events had dead `seen_*` scaffolding flags removed.
+- `arc_endgame_sixmonths` now recalls the year-ago resolve (`final_year_all_in/conservative/waiting`); `ordinary_life` gains final-week self-verdict variants. KR+EN. write-only baseline 209 -> 178.
+
 ### Changed (2026-07-02) — Sangchul network-cut shades in endings
 
 - `balanced_life` gains a `sangchul_network_fully_cut` variant ("the first time was a decision, the second a confirmation"); `late_call` gains `sangchul_network_finally_cut` ("with hands that had learned to let go of what shouldn't be held — he made this call"); the confrontation scene gains a `sangchul_trust_deepened` variant (the early thank-you lodged in his throat). KR + EN; write-only baseline 212 -> 209.

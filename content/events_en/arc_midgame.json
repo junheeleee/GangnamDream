@@ -766,7 +766,12 @@
         "text": "This moment is already a drama. No regrets no matter how it ends.",
         "result_text": "Turned off the phone. Opened the window. Seoul's night air came in. Standing a little higher than the alley beyond the goshiwon window five years ago."
       }
-    ]
+    ],
+    "description_if_known": {
+      "final_year_all_in": "24 weeks left.\n\nKnow how much is still missing from Gangnam. How to finish this. Dramas are decided in the final scene.\n\nA year ago, he had put everything on the table. Said he was afraid, and did it anyway.\nThe result of that half-year is written in the balance now.\nAnyone who has gone all-in knows — you can pull back, or push further. The last 24 weeks are that decision.",
+      "final_year_conservative": "24 weeks left.\n\nKnow how much is still missing from Gangnam. How to finish this. Dramas are decided in the final scene.\n\nA year ago, he had decided to want less. Called it a strategy.\nWhat he didn't reach for, he didn't lose; what he didn't lose is why he's still standing.\nThe last 24 weeks — trust the strategy to the end, or change it once, at the last.",
+      "final_year_waiting": "24 weeks left.\n\nKnow how much is still missing from Gangnam. How to finish this. Dramas are decided in the final scene.\n\nA year ago he'd said 'not yet.' A year is long, he'd said.\nNow 'not yet' has run out. What's left is 24 weeks.\nEvery deferred decision has crowded into this half-year."
+    }
   },
   {
     "id": "arc_year_two_half",

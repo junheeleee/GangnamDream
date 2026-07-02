@@ -11,7 +11,8 @@
     "conditions": {
       "housing": "gosiwon",
       "min_housing_months": 30,
-      "min_turn": 120
+      "min_turn": 120,
+      "no_flag": "egg_gosiwon_sage_seen"
     },
     "tags": [
       "hidden",
@@ -60,7 +61,8 @@
     "background": "convenience_night",
     "conditions": {
       "max_money": 800000,
-      "min_turn": 40
+      "min_turn": 40,
+      "no_flag": "egg_triangle_kimbap_seen"
     },
     "tags": [
       "hidden",
@@ -107,7 +109,8 @@
     "background": "late_night",
     "conditions": {
       "max_mental": 18,
-      "min_turn": 30
+      "min_turn": 30,
+      "no_flag": "egg_4am_clarity_seen"
     },
     "tags": [
       "hidden",
@@ -155,7 +158,8 @@
     "conditions": {
       "min_route_orthodox": 18,
       "max_assets": 100000000,
-      "min_turn": 150
+      "min_turn": 150,
+      "no_flag": "egg_honest_paradox_seen"
     },
     "tags": [
       "hidden",
@@ -206,7 +210,8 @@
     "background": "late_night",
     "conditions": {
       "min_addiction": 55,
-      "min_gambling": 45
+      "min_gambling": 45,
+      "no_flag": "egg_gambling_mirror_seen"
     },
     "tags": [
       "hidden",
@@ -257,7 +262,8 @@
     "background": "goshiwon_room",
     "conditions": {
       "min_assets": 2000000000,
-      "housing": "gosiwon"
+      "housing": "gosiwon",
+      "no_flag": "egg_quiet_rich_seen"
     },
     "tags": [
       "hidden",
@@ -307,7 +313,8 @@
     "conditions": {
       "flag": "is_repeat_run",
       "min_turn": 8,
-      "max_turn": 40
+      "max_turn": 40,
+      "no_flag": "egg_deja_vu_seen"
     },
     "tags": [
       "hidden",
@@ -356,7 +363,8 @@
     "conditions": {
       "flag": "is_veteran_run",
       "min_turn": 5,
-      "max_turn": 30
+      "max_turn": 30,
+      "no_flag": "egg_veteran_return_seen"
     },
     "tags": [
       "hidden",

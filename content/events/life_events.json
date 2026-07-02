@@ -365,10 +365,7 @@
           "reputation": 5,
           "investment_skill": 1
         },
-        "result_text": "소액으로 일단 매수했다. 운이 따랐고 주변에서 조금씩 알아보기 시작했다.",
-        "flags": [
-          "seen_politics_005"
-        ]
+        "result_text": "소액으로 일단 매수했다. 운이 따랐고 주변에서 조금씩 알아보기 시작했다."
       }
     ]
   },
@@ -803,10 +800,7 @@
           "investment_skill": 5,
           "tint": 3
         },
-        "result_text": "신호가 갔다. 안 받았다.\n문자를 보냈다. 답장이 없었다.\n밤새 폰을 손에 쥐고 있었다.",
-        "flags": [
-          "seen_disasters_020"
-        ]
+        "result_text": "신호가 갔다. 안 받았다.\n문자를 보냈다. 답장이 없었다.\n밤새 폰을 손에 쥐고 있었다."
       },
       {
         "text": "창을 닫았다",
@@ -962,10 +956,7 @@
           "investment_skill": 2,
           "tint": 2
         },
-        "result_text": "첫 줄은 썼다.\n'저는 이달 말로 사직하고자 합니다.'\n세 번 읽었다. 저장하지 않고 닫았다.",
-        "flags": [
-          "seen_jobs_025"
-        ]
+        "result_text": "첫 줄은 썼다.\n'저는 이달 말로 사직하고자 합니다.'\n세 번 읽었다. 저장하지 않고 닫았다."
       }
     ]
   },
@@ -1155,10 +1146,7 @@
           "investment_skill": 3,
           "tint": 2
         },
-        "result_text": "'저 오늘 일이 있어서요.'\n어머니 눈치가 보였다.\n버스 안에서 한숨을 쉬었다. 편하긴 했다.",
-        "flags": [
-          "seen_family_035"
-        ]
+        "result_text": "'저 오늘 일이 있어서요.'\n어머니 눈치가 보였다.\n버스 안에서 한숨을 쉬었다. 편하긴 했다."
       }
     ]
   },
@@ -1445,10 +1433,7 @@
           "reputation": 0,
           "investment_skill": 4
         },
-        "result_text": "잘 될 거라고 다짐했다. 상대방은 웃었고 나는 스스로에게 한 약속이 됐다.",
-        "flags": [
-          "seen_romance_045"
-        ]
+        "result_text": "잘 될 거라고 다짐했다. 상대방은 웃었고 나는 스스로에게 한 약속이 됐다."
       }
     ]
   },

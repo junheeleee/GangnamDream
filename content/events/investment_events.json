@@ -240,9 +240,6 @@
           "investment_skill": 3
         },
         "result_text": "남들이 패닉 셀할 때 과감히 들어갔다. 공포가 기회로 바뀌는 순간이었다.",
-        "flags": [
-          "seen_disasters_005"
-        ],
         "investment_effects": {
           "market_bias": "momentum",
           "asset_tag": "crypto",
@@ -606,9 +603,6 @@
           "tint": -4
         },
         "result_text": "한 방을 믿었다. 결과가 어떻든 이 선택은 오래 기억될 것이다.",
-        "flags": [
-          "seen_gambling_020"
-        ],
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "leveraged",
@@ -715,9 +709,6 @@
           "investment_skill": -1
         },
         "result_text": "남들이 팔 때 샀다. 루머 뒤의 공포는 종종 기회의 다른 이름이다.",
-        "flags": [
-          "seen_politics_025"
-        ],
         "investment_effects": {
           "market_bias": "bubble",
           "asset_tag": "leveraged",

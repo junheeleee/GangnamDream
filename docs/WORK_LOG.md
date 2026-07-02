@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — write-only 전수 처리 Batch A+B: 자기가드/스캐폴딩 정리 + ENDGAME 연속성, baseline 178)
+
+유저 지시("효율이 아니라 완벽성")에 따라 잔여 write-only 209개 전수 분류 후 배치 처리 시작.
+
+### Batch A — seen 추적류 25종 (기계적·안전)
+- **에그/에코 10종** (cooldown 9999·전 선택지 set = 일회성 의도 확정): `egg_*` 8종 + `callback_sangchul_forgiven_echo/leveraged_cost` 2종에 `no_flag` 자기가드 배선 — 의도를 명시적 게이트로 승격.
+- **넘버드 풀 이벤트 15종** (cooldown 3~20 = 반복 설계, 일부 선택지만 set): 가드를 달면 게임플레이가 바뀌므로 죽은 스캐폴딩으로 판정, `seen_*` 플래그 제거. inert 위험 0 확인(전 선택지 효과 보유).
+
+### Batch B — ENDGAME 연속성 6종 (KR+EN)
+- **`arc_endgame_sixmonths` dik ×3** ← `final_year_all_in/conservative/waiting`: 1년 전 결심이 24주 씬에서 회수 ("이제 '아직'이 끝났다" 등).
+- **`with_daeun` 엔딩 모순 카피 수정 (중대)**: `daeun_romance_started` 변주가 "강남에 도착했다"를 서술하나 이 키는 엔딩 트리거 필수 플래그(항상 매치)이고 with_daeun은 구조상 30억 미달 런 전용(3B는 먼저 gangnam 계열 분기) → **모든 with_daeun 런이 도달 못 한 강남에 '도착'했다고 읽던 버그**. 스테일 변주 제거(기본 라면 씬 카피 복원), `daeun_final_together`(계란말이 고백 "같이 온 거야") 변주로 교체. ※`jiyeon_man`의 동일 구조는 "그녀의 강남에 들어간" 프레임이라 정합 — 유지.
+- **`ordinary_life` dik ×2** ← `final_week_self_approval`("평범한 게 아니라, 살아낸 것이다")/`final_week_gratitude`("그 문장은 아직 여기 있다").
+
+### 래칫
+- write_only 209 → **178**, baseline 동기 조임.
+
+### 검증
+- `en_coverage_check.py` clean(이벤트+엔딩 dik 패리티), `audit.sh` ERROR 0 / inert 0 / 밴드 통과.
+
 ## 2026-07-02 (Claude — 상철 network 계열 잔여 회수 3종, baseline 209)
 
 ### 전환 (write-only → 독자, KR+EN)

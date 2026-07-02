@@ -8,7 +8,8 @@
     "hidden": true,
     "conditions": {
       "min_turn": 76,
-      "flag": "sangchul_forgiven"
+      "flag": "sangchul_forgiven",
+      "no_flag": "callback_sangchul_forgiven_echo_seen"
     },
     "cooldown": 9999,
     "background": "cafe",
@@ -55,7 +56,8 @@
     "hidden": true,
     "conditions": {
       "min_turn": 76,
-      "flag": "sangchul_leveraged"
+      "flag": "sangchul_leveraged",
+      "no_flag": "callback_sangchul_leveraged_cost_seen"
     },
     "cooldown": 9999,
     "background": "cafe",
