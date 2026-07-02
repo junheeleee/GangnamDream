@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — write-only 전수 처리 Batch C1/C2/C5: 결심-회수 체인 19종, baseline 159)
+
+5년 서사의 "결심 → 회수" 체인을 완성하는 dik 배선 19종 (전부 KR+EN, base+append 방식).
+
+- **`arc_final_week` ← 파이널 스프린트 7결**: 올인 승/패("걸어본 사람만 아는 게 있다"), 마지막 베팅 승/패("그 한 번이 5년을 지우지는 못한다"), 수성("완주였다"), 회수("그 밤 이후로 잠이 잘 왔다"), 사람 선택("지금의 {name}은 안다").
+- **`arc_37_reckoning` ← Y3 자기답변 3결**: doubled_down("그 속도의 대가와 결과가 지금 이 숫자다") / questioned_path("질문과 같이 걷는 법을 배웠다") / steady_path("크든 작든 — 거짓은 없다").
+- **`arc_37_ending_peace` ← 행복 6결**(t144 행복 콜백 → t~228 회수): consistent("그게 제일 이상한 성취였다") / faded("되찾아야 할 건 어쩌면 숫자가 아니다") / recovered("바닥을 말해본 사람만 회복을 안다") / resolved_yes("답이 바뀐 게 아니라, 사람이 바뀐 것이다") / resolved_no / still_no("그 대답이 끝이 아니라 시작").
+- **`age_39_final` ← 37세 정산 3결**: resolve("이 궤적은 내 것") / realistic("그 계산의 마지막 페이지") / open("이제 그 끝이 반년 앞에 있다").
+
+### 래칫
+- write_only 178 → **159**, baseline 동기 조임.
+
+### 검증
+- `en_coverage_check.py` clean, `audit.sh` ERROR 0 / 밴드 통과.
+
 ## 2026-07-02 (Claude — write-only 전수 처리 Batch A+B: 자기가드/스캐폴딩 정리 + ENDGAME 연속성, baseline 178)
 
 유저 지시("효율이 아니라 완벽성")에 따라 잔여 write-only 209개 전수 분류 후 배치 처리 시작.

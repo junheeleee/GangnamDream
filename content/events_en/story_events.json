@@ -370,6 +370,11 @@
         "text": "There's still a way. Run the numbers again",
         "result_text": "Numbers don't lie.\n{name} ran the simulation for the remaining twelve months.\nA possibility came into view."
       }
-    ]
+    ],
+    "description_if_known": {
+      "final_year_resolve": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nThere's a sentence from last year's reckoning: whatever the number turns out to be — this trajectory is mine.\nHe carries that sentence into the final six months.",
+      "final_year_realistic": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nLast year, he adjusted the plan and chose to live the ending with his eyes open.\nThis half-year is the last page of that calculation.",
+      "final_year_open": "Thirty-eight is right around the corner.\n\nExactly six months left.\n\nThe bank balance, the portfolio, the pay stubs.\n{name} looked over the numbers again.\n\nHow far is it to a Gangnam apartment?\nIs it possible within this half year?\n\nA single choice made this month weighs heavier than any month so far.\n\nLast year he closed the calculator. Said he'd only know at the end.\nNow the end is six months away."
+    }
   }
 ]

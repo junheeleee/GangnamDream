@@ -953,7 +953,12 @@
         "text": "Not drawing conclusions. Have to see the end to know.",
         "result_text": "Closed the calculator. Have to see the end to know. That's what four years taught."
       }
-    ]
+    ],
+    "description_if_known": {
+      "year3_doubled_down": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year, he'd given himself an answer: push harder.\nThe cost of that speed, and its result — is this number.",
+      "year3_questioned_path": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year there was a night he asked whether this road was the right one.\nThe question never left. He just learned to walk alongside it.",
+      "year3_steady_path": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year, he'd chosen not to waver.\nThe number that steadiness built is here. Big or small — there's no lie in it."
+    }
   },
   {
     "id": "arc_37_burn_or_light",
@@ -991,7 +996,15 @@
         "text": "Felt like calling dad soon.",
         "result_text": "Not yet. Will call when this is done. Don't know what to say. But it felt like he'd just listen."
       }
-    ]
+    ],
+    "description_if_known": {
+      "happy_consistent": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nOnce, he'd asked himself whether he was happy, and answered yes.\nThe answer hasn't changed. Regardless of the number — that was the strangest achievement of all.",
+      "happy_faded": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nThere was a time he'd answered yes to being happy. Somewhere along the way the answer blurred.\nWalking down Gangnam-daero, he thought: maybe what needs recovering isn't the number.",
+      "happy_recovered": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nThere was a night he answered no, he wasn't happy. Since then, it had come back, little by little.\nOnly someone who has said the bottom out loud knows what recovery is.",
+      "happy_resolved_yes": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nThe question he'd deferred with 'I don't know' — are you happy — at some point he became able to answer yes.\nIt wasn't the answer that changed. It was the person.",
+      "happy_resolved_no": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nThe question he'd deferred was finally answered one day: no.\nMaybe that honesty is what built this calm.",
+      "happy_still_no": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nTo the question of happiness, the answer is still no.\nBut now he knows that answer is a beginning, not an end. Three months — there's still time."
+    }
   },
   {
     "id": "arc_34_routine_trap",
