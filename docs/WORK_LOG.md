@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 엔딩 라우팅 매트릭스 검증 + 삼켜진 실 인정 변주 8종)
+
+### 방법
+- `finish_run` age≥38 캐스케이드(GameState.gd 1528~1595)를 파이썬으로 재현, 서사 하중이 큰 플래그 조합 9종의 실제 라우팅 매트릭스 산출.
+
+### 판정
+- 우선순위(로맨스 > 회복 > 도덕 > 성과 > 일반) 자체는 방어 가능 — **라우팅 변경 없음**(엔딩 도감/기대 분포 보존).
+- 다만 진 실이 이긴 엔딩에서 0줄 인정받는 조합 확인: 로맨스가 도박회복·아버지화해를, 회복이 신고·화해를, healthy_retirement/orthodox_hollow가 화해를 삼킴.
+
+### 수정 (additive, KR+EN)
+- **with_daeun** ← beat_addiction("회복은 혼자 하는 게 아니었다")/father_reconciled("식탁에 세 사람 — 5년 전엔 상상 못 한 그림").
+- **jiyeon_man** ← beat_addiction("그때 안 도망간 건, 스스로 나올 사람인 걸 알아서")/father_reconciled — **항상-매치 키(jiyeon_romance_started) 앞 삽입**.
+- **gambling_recovery** ← sangchul_reported("바깥의 정산과 안의 정산 — 둘 다 한 사람의 손으로")/father_reconciled("끊은 것과 이은 것 — 이 5년의 두 기둥") — 습관 디테일 키들보다 앞.
+- **healthy_retirement** ← father_reconciled("건강검진표 옆에 KTX 예매 내역이 쌓인다").
+- **orthodox_hollow** ← father_reconciled("정석으로 살아 못 모은 게 있고 — 지킨 게 있다").
+
+### 검증
+- dik 섀도잉 감사(신설) 통과, audit ERROR 0/write_only 0/밴드, EN coverage clean(엔딩 패리티).
+
 ## 2026-07-02 (Claude — 전체 플레이스루 페이싱 점검 + 피날레 데드존 폐쇄)
 
 ### 방법
