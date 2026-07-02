@@ -6,21 +6,32 @@
     "rarity": "uncommon",
     "weight": 1.4,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 18,
     "background": "subway",
     "portrait": "player_tired",
-    "tags": ["korea", "culture", "survival"],
+    "tags": [
+      "korea",
+      "culture",
+      "survival"
+    ],
     "description": "출근 시간 9호선 급행.\n사람과 사람 사이에 끼여 발이 땅에서 살짝 뜬다.\n\n\"다음 역은...\" 아무도 못 내리는데 더 탄다.\n가방이 짓눌리고, 폰 볼 손도 없다.",
     "choices": [
       {
         "text": "버틴다 — 이것도 출근의 일부다",
-        "effects": { "mental": -2, "health": -1 },
+        "effects": {
+          "mental": -2,
+          "health": -1
+        },
         "result_text": "회사에 도착하니 이미 진이 빠졌다.\n\n외국 친구가 이 풍경을 영상으로 찍으면 '믿기지 않는다' 하겠지만,\n한국 직장인에겐 그냥 화요일이다. 출근 전에 이미 하루치를 쓴다."
       },
       {
         "text": "한 대 보내고 다음 걸 탄다",
-        "effects": { "mental": 1 },
+        "effects": {
+          "mental": 1
+        },
         "result_text": "한 대를 그냥 보냈다. 다음 것도 만원이었지만 조금 나았다.\n\n2분 늦는 대신 끼여 죽지 않기로 했다.\n가끔은 그 2분이 하루의 멘탈을 지킨다."
       }
     ]
@@ -32,21 +43,36 @@
     "rarity": "uncommon",
     "weight": 1.2,
     "hidden": false,
-    "conditions": { "min_turn": 6 },
+    "conditions": {
+      "min_turn": 6
+    },
     "cooldown": 22,
     "background": "hangang_riverside",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "survival", "leisure"],
+    "tags": [
+      "korea",
+      "culture",
+      "survival",
+      "leisure"
+    ],
     "description": "서울 공공자전거 따릉이.\n앱으로 QR을 찍고 천 원에 한 시간. 거치대에서 자전거를 뺀다.\n\n날이 좋다. 페달을 밟자 바람이 분다.",
     "choices": [
       {
         "text": "한강 자전거길을 달린다",
-        "effects": { "money": -1000, "mental": 7, "health": 2 },
+        "effects": {
+          "money": -1000,
+          "mental": 7,
+          "health": 2
+        },
         "result_text": "한강을 따라 달렸다. 바람, 윤슬, 다리 밑 그늘.\n\n천 원으로 이만한 자유가 또 없다.\n페달을 밟는 동안만큼은 30억도, 마감도 뒤로 밀렸다."
       },
       {
         "text": "버스비 아끼려 따릉이로 출근한다",
-        "effects": { "money": -1000, "mental": 3, "health": 1 },
+        "effects": {
+          "money": -1000,
+          "mental": 3,
+          "health": 1
+        },
         "result_text": "출근을 자전거로. 버스비도 아끼고 운동도 됐다.\n\n조금 땀이 났지만 지하철 지옥보다 나았다.\n이런 작은 절약과 작은 상쾌함이, 팍팍한 하루의 균형을 맞춘다."
       }
     ]
@@ -58,21 +84,34 @@
     "rarity": "uncommon",
     "weight": 1.1,
     "hidden": false,
-    "conditions": { "min_turn": 5 },
+    "conditions": {
+      "min_turn": 5
+    },
     "cooldown": 26,
     "background": "realestate_office",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "survival", "jeonse", "housing"],
+    "tags": [
+      "korea",
+      "culture",
+      "survival",
+      "jeonse",
+      "housing"
+    ],
     "description": "전입신고하러 동 주민센터.\n번호표를 뽑고 기다린다. 등본, 확정일자, 전입신고...\n\n서류 용어가 외국어 같다.\n창구 직원이 친절하게 하나씩 짚어준다.",
     "choices": [
       {
         "text": "차근차근 다 처리한다 — 확정일자까지",
-        "effects": { "mental": 4, "intelligence": 1 },
+        "effects": {
+          "mental": 4,
+          "intelligence": 1
+        },
         "result_text": "전입신고에 확정일자까지 받았다.\n전세 보증금을 지키는 첫 단계다 — 안 해두면 나중에 큰일 난다는 걸 배웠다.\n\n어른의 일을 또 하나 익혔다. 서울에서 살아남는 건 이런 서류들의 합이다."
       },
       {
         "text": "핵심만 빨리 처리하고 나온다",
-        "effects": { "mental": 2 },
+        "effects": {
+          "mental": 2
+        },
         "result_text": "전입신고만 하고 나왔다. 확정일자는 다음에 받기로 했다.\n\n'다음에'가 위험하다는 걸 알면서도. 일단 오늘은 번호표 기다리는 게 지쳤다."
       }
     ]
@@ -84,21 +123,31 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 18,
     "background": "goshiwon_hallway",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "survival"],
+    "tags": [
+      "korea",
+      "culture",
+      "survival"
+    ],
     "description": "어제 주문한 택배가 벌써 무인택배함에 도착했다.\n문자로 온 비밀번호를 누르자 칸이 '철컥' 열린다.\n\n한국 배송은 빠르다. 어제 밤에 시킨 게 오늘 아침에 왔다.",
     "choices": [
       {
         "text": "택배를 뜯는다 — 소소한 설렘",
-        "effects": { "mental": 4 },
+        "effects": {
+          "mental": 4
+        },
         "result_text": "별거 아닌 생필품인데도 택배 뜯는 그 짧은 설렘이 있다.\n\n빠른 배송은 외국 친구들이 한국에서 제일 놀라는 것 중 하나다.\n'어떻게 다음 날 와?' 글쎄, 그게 그냥 한국이다."
       },
       {
         "text": "마음에 안 들어 무료 반품한다",
-        "effects": { "mental": 2 },
+        "effects": {
+          "mental": 2
+        },
         "result_text": "사이즈가 안 맞아 반품 신청. 무료 반품, 문 앞 수거.\n\n반품마저 이렇게 쉬우니 자꾸 사게 된다.\n편리함은 늘 지갑을 노린다는 걸, 잊지 말아야 하는데."
       }
     ]
@@ -110,23 +159,37 @@
     "rarity": "common",
     "weight": 1.2,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 20,
     "background": "goshiwon_hallway",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "survival"],
+    "tags": [
+      "korea",
+      "culture",
+      "survival"
+    ],
     "description": "일요일 밤, 분리수거.\n플라스틱, 캔, 종이, 비닐, 스티로폼, 음식물...\n\n라벨 떼고, 헹구고, 분류한다.\n처음 한국 온 외국인이 제일 헷갈려한다는 바로 그것.",
     "choices": [
       {
         "text": "규칙대로 꼼꼼히 분류한다",
-        "effects": { "mental": 3, "reputation": 1 },
-        "flags": ["recycling_diligent"],
+        "effects": {
+          "mental": 3,
+          "reputation": 1
+        },
+        "flags": [
+          "recycling_diligent"
+        ],
         "result_text": "페트병 라벨을 떼고 헹궈서 따로 배출했다.\n옆집 아주머니가 '잘하네' 한마디 하고 갔다.\n\n이 사소한 질서가 한국을 굴리는 힘인지도 모른다.\n남들 다 지키니까 나도 지키게 되는, 보이지 않는 약속."
       },
       {
         "text": "대충 묶어 버리고 들어간다",
-        "effects": { "mental": 1, "reputation": -1 },
-        "flags": ["recycling_lazy"],
+        "effects": {
+          "mental": 1,
+          "reputation": -1
+        },
+        "flags": [],
         "result_text": "피곤해서 대충 묶어 버렸다.\n경비 아저씨가 다음 날 다시 분류했을 거다.\n\n좀 미안했다. 누군가의 수고로 굴러가는 편리함이 있다는 걸, 안다."
       }
     ]

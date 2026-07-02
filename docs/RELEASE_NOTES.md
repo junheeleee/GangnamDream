@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed (2026-07-02) — ★ Write-only flags eliminated: 224 → 0 ★
+
+- Every flag in the game now has a reader — a gameplay condition, code, or a narrative `description_if_known` variant. The final sweep wired ~140 "final stance" flags into the scenes and endings where a film would recall them (gambling recovery, career ladder, money habits, friendships, family threads), each in both KR and EN.
+- `tools/debt_baseline.json` write_only_flags locked at **0**: any future orphaned flag fails audit immediately.
+
 ### Fixed (2026-07-02) — write-only sweep A+B: self-guards, scaffolding cleanup, endgame continuity
 
 - **with_daeun ending copy contradiction (major):** the `daeun_romance_started` variant claimed "arrived in Gangnam", but that key always matches (it gates the ending) and with_daeun only fires on sub-3B runs — every with_daeun player read copy for an arrival that never happened. Stale variant removed; replaced with a `daeun_final_together` variant weaving the rolled-omelette confession into the correct ramyeon scene.

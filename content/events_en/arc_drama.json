@@ -249,7 +249,10 @@
       "drama_accepted": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nSix months ago, there was an evening he turned off the phone and opened the window.\nWhat he accepted then, he accepts now. This drama is a drama as it stands.",
       "no_regrets": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nThree months ago on Gangnam-daero he'd decided to go without regret.\nHe stands in the final week with that intact.",
       "drama_realized": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nThree months ago he understood this was already the drama.\nHowever the finale ends — the audience was himself all along.",
-      "thought_of_father_end": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nThree months ago, walking Gangnam-daero, he thought of his father.\nHe'll make that call this week. Before the deadline — people first."
+      "thought_of_father_end": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nThree months ago, walking Gangnam-daero, he thought of his father.\nHe'll make that call this week. Before the deadline — people first.",
+      "final_burn": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nThe last stretch was burned on shortened sleep.\nEven the soot left in the body — is part of these five years' honest ledger.",
+      "rested_finally": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nOne day in the final stretch, he had emptied a whole day.\nThat day became the stamina that carries this last week.",
+      "reflected_on_state": "Seven days until the 38th birthday.\n\nFive years ending.\n\nWhether the goal was reached or not — five years passed anyway.\nThe person with ₩500,000 in the bank made it here.\n\n{name} looked at who they'd become and thought:\n\nIf the person from five years ago saw who this is now — what would they say?\n\nThere was a day he looked into himself a long time — burnout, or focus.\nEnding as someone who knows how to look — that too is part of the ending."
     }
   },
   {
@@ -269,7 +272,10 @@
         "text": "\"I thought Gangnam would make things different. Now I'm not sure.\"",
         "result_text": "Different from what? Honestly — didn't know anymore.\n\nThe number on screen meant something. Just not exactly what {name} had imagined it would mean.\n\nMaybe the answer comes when the destination is actually reached."
       }
-    ]
+    ],
+    "description_if_known": {
+      "motive_clarified": "Late night. A milestone number finally crossed.\n\n{name} sat looking at the screen for a while after the notification.\n\nSomewhere in the middle of it all, the question surfaced:\n\"Why was it Gangnam in the first place?\"\n\nBack at the start — what was it that made that the destination?\n\nHe had actually put this question to himself once before.\nThe day pride and purpose blurred, he had sorted out his reasons.\nWhich is why now — the answer came at once."
+    }
   },
   {
     "id": "arc_father_call_on_ktx",

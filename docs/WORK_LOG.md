@@ -1,5 +1,20 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — ★write-only 플래그 완전 소거: 224 → 0★)
+
+"효율이 아니라 완벽성" 지시의 종착점. 게임의 **모든 플래그가 이제 독자(讀者)를 갖는다** — 조건, 코드, 또는 서사 변주(dik) 중 하나가 반드시 읽는다. baseline **0**으로 완전 조임: 향후 고아 플래그는 커밋 즉시 audit ERROR.
+
+### 최종 배치 C10~C12 (81종, KR+EN)
+- **도박 실**: 바닥 기록/경마 끊기/비교 절단→gambling_recovery("회복은 작은 절단들의 합이었다"), 재발 2종→rock_bottom("'한 번쯤은'이 이 바닥까지 오는 가장 짧은 지름길"), 코인·홀덤 몰락→crypto_ghost("남의 폭주는 차단했으면서 자기 손은 차단하지 못했다"), 생존한 비정석→unorthodox_legend("세 번째를 시도하지 않은 것 — 그게 실력이었다").
+- **커리어 실**: career_climber ←9종("선의는 계획보다 좋은 헤드헌터였다"/"기록은 소심함이 아니라 무기였다"), orthodox_pinnacle ←11종("흔들리고도 지킨 정석이 진짜다"), reputation_legend ←4종("평판은 어느 임계점부터 스스로 일한다").
+- **돈-습관 실**: investment_master ←5종("스승은 종목이 아니라 태도를 물려줬다"/"계약서를 끝까지 읽던 사람"), arc_almost_there ←9종.
+- **삶 실**: ordinary_life ←9종("최저시급 계산대의 시간들이 부끄러웠던 적은 한 번도 없다"), stable_success/balanced_life/healthy_retirement/debt_spiral/startup_exit/with_daeun/lonely_rich("그 표에는 이런 밤의 값이 빠져 있었다")/full_circle/gangnam_dream 각각 회수.
+- **이벤트 dik**: 왜강남(motive)/새벽의심(daytime)/37정산(vision)/습관점검(godsaeng)/갈림길(instinct)/고시원 굿바이(wants_out)/마지막주(burn·rest·reflect)/현수 Y5 전화(called_first).
+- **제거 1종**: recycling_lazy(짝 플래그만 읽히는 사소 잡음).
+
+### 검증
+- `audit.sh` ERROR 0 / write_only **0** / inert 0 / 밸런스 밴드 전부 통과, `arc_flow_sim` 잼 0·체인 완결, Godot 55 컴파일 클린, `en_coverage_check.py` clean(이벤트+엔딩 dik 패리티).
+
 ## 2026-07-02 (Claude — write-only 전수 처리 C7: 인물 실 마무리 + P0 잔여 갭, baseline 113)
 
 ### P0 잔여 갭 발견·수정 (중요)

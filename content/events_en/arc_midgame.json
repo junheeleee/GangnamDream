@@ -171,7 +171,10 @@
         "text": "Stop at the end of the hallway. Think about the time spent here.",
         "result_text": "How long had it been. Counted.\n\nPoor and cramped and the smell — but somehow the memories weren't bad. Stood there a moment, then left."
       }
-    ]
+    ],
+    "description_if_known": {
+      "wants_out_of_gosiwon": "No moving truck needed. The luggage was two boxes.\n\nWalked down the hallway for the last time. Faded wallpaper, the hum of the shared fridge, that distinct goshiwon smell. The light was on outside Hyunsu's door.\n\nThe building manager was waiting at the bottom of the stairs. {name} handed her the key and she nodded.\n\n\"Live well.\"\n\nAfter thirty months of goshiwon know-how, there was a night he first admitted: I want out.\nToday is that sentence's due date."
+    }
   },
   {
     "id": "arc_father_quiet_call",
@@ -408,7 +411,8 @@
       "fomo_cut_loss": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThere was a day he cut a -26% position with his own hand.\nWithout that cut, he'd be looking at a very different number.",
       "fomo_deeper_loss": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThere was an account that averaging-down dug deeper.\nFilling that hole took a long time. Having filled it — he never dug another.",
       "fomo_recovered": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nOnce, averaging down actually came back to life.\nThat it was luck, not skill — he knows now. That knowing is why this number is still here.",
-      "cafe_patient_paid_off": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThe position he waited a year to enter on the official filing became a main pillar of this account.\nPatience compounds too."
+      "cafe_patient_paid_off": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThe position he waited a year to enter on the official filing became a main pillar of this account.\nPatience compounds too.",
+      "race_studied_form": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThere were eyes that once studied racing forms.\nThose eyes became the eyes that read charts.\nMore than where he learned — the will to learn is what built the account."
     }
   },
   {
@@ -741,7 +745,8 @@
     ],
     "description_if_known": {
       "envy_released": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nOnce, he set down the envy that used to fuel him.\nSince then this question — is this road right — frightens him less.\nHe walks at his own reasons now, not someone else's pace.",
-      "envy_still_burning": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nThe mornings that started with 'just watch me' are still going.\nHe knows rage isn't a fuel that burns long — and burns it anyway.\nAt the crossroads, the question wasn't only direction — it was fuel."
+      "envy_still_burning": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nThe mornings that started with 'just watch me' are still going.\nHe knows rage isn't a fuel that burns long — and burns it anyway.\nAt the crossroads, the question wasn't only direction — it was fuel.",
+      "trusting_instinct": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nOne déjà-vu night, he had decided to trust his instinct.\nSince then he doesn't ignore the answers his body already knows.\nAt this crossroads too — the body is leaning before the head."
     }
   },
   {
@@ -899,7 +904,8 @@
     ],
     "description_if_known": {
       "kept_routine": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nLast year, trap or not, he'd chosen to keep the routine.\nHe kept it for a year. Today is lived in a body built of what was kept.",
-      "broke_routine": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nLast year, he'd smashed the treadmill once.\nWhat he laid down in its place became today. Breaking, too, was a skill."
+      "broke_routine": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nLast year, he'd smashed the treadmill once.\nWhat he laid down in its place became today. Breaking, too, was a skill.",
+      "godsaeng_paradox_seen": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nHe'd seen the godsaeng paradox — people whose routines live their lives for them.\nWhich is why this check matters: does the routine exist for him, or he for the routine."
     }
   },
   {
@@ -962,7 +968,10 @@
         "text": "For the first time, opened the door to: maybe three billion isn't required.",
         "result_text": "Expected that thought to be terrifying. But strangely — it felt a little lighter. Maybe the goal wasn't three billion in the account. Maybe it was a three-billion kind of life."
       }
-    ]
+    ],
+    "description_if_known": {
+      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of my own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. doubt."
+    }
   },
   {
     "id": "arc_37_reckoning",
@@ -985,7 +994,8 @@
     "description_if_known": {
       "year3_doubled_down": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year, he'd given himself an answer: push harder.\nThe cost of that speed, and its result — is this number.",
       "year3_questioned_path": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year there was a night he asked whether this road was the right one.\nThe question never left. He just learned to walk alongside it.",
-      "year3_steady_path": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year, he'd chosen not to waver.\nThe number that steadiness built is here. Big or small — there's no lie in it."
+      "year3_steady_path": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nLast year, he'd chosen not to waver.\nThe number that steadiness built is here. Big or small — there's no lie in it.",
+      "vision_revised": "Thirty-seven.\n\nPulled out the calculator. Current assets. Distance to goal. Time remaining.\n\nFour years have passed. For the first time, there's a clear question: does this number still belong to me?\n\nWhere you stand at this point determines the temperature of the final year.\n\nOnce, midway, he had revised the vision.\nRevision wasn't an admission of failure — it was seamanship.\nBecause of it, this number is the result of a course, not a drift."
     }
   },
   {

@@ -116,7 +116,8 @@
     "description": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nOn screen Hyunsu looked at ease. The face of someone settled into his own life.\n\n{name} looked at his own face reflected in the camera. Five years were in it.",
     "description_if_known": {
       "crossed_line": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nHyunsu was smiling, glad to see him, but {name} found it strangely hard to look straight at the screen.\n\nThe guy he'd eaten cup ramen with five years ago — what would he say if he saw who {name} was now? The thought passed through, briefly.",
-      "father_passed": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever, how have you—\"\n\nHyunsu started to ask after {name}'s father, then stopped. He seemed to catch something in {name}'s expression.\n\n\"...Hyung, make sure you eat.\" That was all he said."
+      "father_passed": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever, how have you—\"\n\nHyunsu started to ask after {name}'s father, then stopped. He seemed to catch something in {name}'s expression.\n\n\"...Hyung, make sure you eat.\" That was all he said.",
+      "called_hyunsu_first": "The home stretch. Gangnam was genuinely close now.\n\nHyunsu called. Video call.\n\n\"Hyung! It's been forever. How are you?\"\n\nOn screen Hyunsu looked at ease. The face of someone settled into his own life.\n\n{name} looked at his own face reflected in the camera. Five years were in it.\n\nA number he had once dialed first, for no reason at all.\nSince that day, this call has never once felt awkward."
     },
     "choices": [
       {
