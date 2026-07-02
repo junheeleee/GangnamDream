@@ -29,8 +29,8 @@ const CARDS = [
 	},
 	{
 		"text": "남은 시간: 5년.",
-		"sub": "통장 잔액: 50만원.\n월세: 65만원.\n\n강남까지는 — 30억이 필요하다.",
-		"hold": 4.0,
+		"sub": "통장 잔액: 50만원.\n월세: 65만원.\n강남까지는 — 30억이 필요하다.\n\n왜 5년이냐고 묻는다면 —\n아버지의 시간은, 아무도 모르니까.",
+		"hold": 4.4,
 		"size": 34,
 	},
 	{
@@ -85,8 +85,8 @@ const CARDS_EN = [
 	},
 	{
 		"text": "Time left: 5 years.",
-		"sub": "Bank balance: KRW 500K.\nRent: KRW 650K a month.\n\nTo reach Gangnam — you need KRW 3 billion.",
-		"hold": 4.0,
+		"sub": "Bank balance: KRW 500K.\nRent: KRW 650K a month.\nTo reach Gangnam — you need KRW 3 billion.\n\nWhy five years?\nBecause no one knows how much time his father has.",
+		"hold": 4.4,
 		"size": 34,
 	},
 	{

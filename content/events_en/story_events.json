@@ -28,7 +28,7 @@
   {
     "id": "story_prologue_goal",
     "title": "Gangnam",
-    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time is left — nobody knows.\n\n{name} does the math.\nAt minimum wage, saving every single won without spending a cent:\n82 years.\n\nHe's 33. He doesn't have 82 years.\nHe has 5.\n\n{name} writes a number in the notebook anyway.\n₩3,000,000,000. Five years.\nThe math says impossible.\nThat's exactly why — he starts.",
+    "description": "After the call, {name} opens a worn notebook.\n\nOn the very first page, a single line.\nThe apartment his father spent a lifetime saving for. The one stolen by fraud.\n— An apartment in Gangnam.\n\nDad never brings it up anymore.\n{name} never asks.\nBut they both know what it means.\n\nThe doctor told his father: no overexerting yourself.\nHow much time is left — nobody knows.\n\n{name} does the math.\nAt minimum wage, saving every single won without spending a cent:\n82 years.\n\nHe's 33. He doesn't have 82 years.\n\nThe doctor never named a number. So {name} named one himself.\nFive years. While his father can still stand in that living room and see it.\n\n{name} writes a number in the notebook anyway.\n₩3,000,000,000. Five years.\nThe math says impossible.\nThat's exactly why — he starts.",
     "choices": [
       {
         "text": "Close the notebook. Stand up.",
