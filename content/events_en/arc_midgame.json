@@ -461,7 +461,7 @@
   {
     "id": "arc_sangchul_human",
     "title": "Sangchul's Name",
-    "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nA seaside town in Chungcheong. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.",
+    "description": "Sangchul bought dinner.\n\nA nice Korean beef restaurant. Had a glass of soju together. For the first time, Sangchul brought up a memory from when he was young.\n\nA seaside town in Chungcheong. A father who worked the docks. Night school. The first time he bought an apartment in his early thirties — he cried alone.\n\nHe'd never told any of this before.\n\nBut — when the story jumped from night school to Gangnam, a dozen-odd years in between were simply missing.\n{name} didn't ask about the gap. Not then.",
     "description_if_known": {
       "sangchul_truth_known": "Sangchul brought up his hometown.\nA father who worked the docks. Night school. Crying alone the first time he bought an apartment.\n\nMinjun listened.\nIf this were a lie — that would have been easier.\nIt wasn't a lie. That made it lonelier.\n\nFrom poverty to Gangnam. Someone who climbed that road by stepping on others was now sitting across from him, telling the story of the young man who cried the day he first owned something."
     },

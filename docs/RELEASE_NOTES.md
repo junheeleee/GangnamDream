@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Fixed (2026-07-02) — Movie-grade P3 pass (foreshadow seeds + Chekhov payoffs + political_winner misuse)
+
+- **CRITICAL: theme-stock buyers no longer become elected politicians.** `drama_election_theme_stock` (t≥10 stock gamble) wrongly set `political_winner`, granting the "two months after the election" callback and the `political_fix` (National Assembly) ending. The earned path (`political_election_victory`: 3 years as an aide, reputation 70+, t≥120) is now the only setter.
+- **Sangchul first-meeting flinch** (`arc_sangchul_01_meet`): on the father-motive choice, Sangchul asks where Minjun is from — "Changwon" — and his hand stops stirring for half a beat. Retroactively pays off "I knew from the beginning."
+- **Provincial-target line** (`arc_sangchul_02_coffee`): "This city reads the eyes of someone fresh up from the provinces faster than anything. These days I'm the one doing the reading." Mentor wisdom now, confession later.
+- **Gap signpost** (`arc_sangchul_human`): the dozen-odd missing years between night school and Gangnam are now noticed (and pointedly not asked about — "not then"), so the backstory clue reads as a clue.
+- **Chekhov payoffs via `description_if_known`:** Sangchul's college-quitting son (planted in `arc_sangchul_offguard`) returns at the reckoning ("the man who broke his father was, somewhere, a father coming apart himself"); Jaehyuk's no-strings job favor returns at the scam reveal ("was the kindness a technique too — or the one real thing?").
+- All KR + EN. audit ERROR 0, write_only 224, bands pass, EN coverage clean.
+
 ### Changed (2026-07-01) — Movie-grade P2 pass (moral crescendo, hole-free)
 
 - **Fixed "backwards escalation" without moving arcs.** Rather than relocating the deeply-wired Sangchul confrontation (t60) and father's death — which would close their downstream windows and orphan branches — the moral weight of Question A was moved to Y4-Y5 by adding **money-acceleration(−) / stay-human(+) tint** to the finale beats and the year-marker montage.

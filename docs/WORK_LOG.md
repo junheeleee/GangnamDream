@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — 영화급 승격 P3 패스: 복선 씨앗 + 체호프의 총 회수 + political_winner 오용 버그)
+
+복선 원장(P0 분석)이 지목한 잔여 항목과 이전에 승인된 상철 씨앗 2종을 마무리.
+
+### 버그 수정 (CRITICAL)
+- **`political_winner` 플래그 오용**: `drama_election_theme_stock`(테마주 매수, t≥10·200만원·투자감각35)이 `political_winner`를 설정 → 주식 도박꾼이 '당선 두 달 차' 콜백(`callback_political_winner_echo`)과 국회의원 엔딩(`political_fix`)을 받던 확정 구멍. 제대로 된 경로(`political_election_victory` — 보좌관 3년·평판70+·t≥120)가 이미 존재하므로 테마주 선택지에서 플래그만 제거(효과 money/skill/tint로 이미 구분 — inert 아님). `political_fix` 엔딩의 "뜬금없음"은 카피 문제가 아니라 이 오용이 근원이었음 — 카피는 earned 경로와 일치해 유지.
+
+### 복선 심기 (KR+EN)
+- **상철 첫 만남 flinch** (`arc_sangchul_01_meet` RT[0]): 아버지 언급 선택지에서 "고향이 어디예요?" → "창원요" → 커피잔 젓던 손이 반 박자 멈춤. reckoning의 "처음부터 알았어"가 소급 조명되는 씨앗.
+- **지방 출신 타깃 라인** (`arc_sangchul_02_coffee` DESC): "서울은 지방에서 막 올라온 사람 눈빛을 제일 빨리 알아보는 도시야. 나도 이제 그 눈빛 알아보는 쪽이 됐고. 그게 내 밥벌이였으니까." — 지금은 멘토 조언, 진실 후엔 자백으로 재독.
+- **상철 human 공백 시그널** (`arc_sangchul_human` DESC 끝): 야간대→강남 사이 십몇 년이 통째로 비어 있음을 {name}이 인지(묻지 않음, "그때는"). `clue_sangchul_past`가 단서로 읽히게 하는 한 줄.
+
+### 체호프의 총 회수 (description_if_known, KR+EN)
+- **상철 아들** (`arc_sangchul_reckoning` dik `sangchul_personal_known`, 최후순위 키): offguard에서 심은 '대학 그만두겠다는 아들'이 사과 장면에서 회수 — "아버지를 무너뜨린 사람도 어딘가에서는 흔들리는 아버지였다."
+- **재혁 호의-일자리 출처** (`arc_jaehyuk_04a_ghost` dik `felt_jaehyuk_kindness`): 02b의 '조건 없는 호의' 명함이 사기 폭로 장면에서 회수 — "호의도 수법이었을까, 호의만은 진짜였을까. 구분이 안 된다는 게 제일 무서웠다."
+
+### 검증
+- `en_coverage_check.py` clean, `audit.sh` ERROR 0 / write_only 224 / inert 0 / 밴드 통과. dik 키 순서 확인(기존 거울 변주 우선). `political_winner` setter는 이제 earned 경로 유일.
+
 ## 2026-07-01 (Claude — 영화급 승격 P2 패스: 도덕 크레셴도, 구멍 0)
 
 "차근차근, 구멍이 안생기게" 지시에 따라 백워드 클라이맥스를 **아크 이동 없이** 해소.

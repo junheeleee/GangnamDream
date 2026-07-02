@@ -99,7 +99,7 @@
     "choices": [
       {
         "text": "'I... want to show my father. Just once.'",
-        "result_text": "The first time that reason had been spoken out loud.\nIm Sangchul looked at {name} for a long moment, then nodded.\n'That 'why' is solid. Then that's enough.'\n'When you're shaken, it'll hold you. Here's my card — stop by sometime.'\nFor the first time in an unfamiliar city — {name} had someone to know."
+        "result_text": "The first time that reason had been spoken out loud.\n\"Where are you from?\" Sangchul asked.\n\"Changwon.\"\nThe hand stirring his coffee stopped — just for half a beat.\nThen he looked at {name} for a long moment, and nodded.\n\"That 'why' is solid. Then that's enough.\"\n\"When you're shaken, it'll hold you. Here's my card — stop by sometime.\"\nFor the first time in an unfamiliar city — {name} had someone to know."
       },
       {
         "text": "'Doesn't everyone want Gangnam if they have the money?'",
@@ -272,7 +272,10 @@
         "text": "Join the victims' group — not alone in this.",
         "result_text": "Joined the café and posted.\n'Me too. He was my army buddy.'\n\nComments: 'Same.' 'My classmate too.'\nHe always targeted people close. Used trust as his weapon.\n\nVictims started gathering. {name} ended up at the center.\nThere was still a way to get some of it back."
       }
-    ]
+    ],
+    "description_if_known": {
+      "felt_jaehyuk_kindness": "Settlement day. {name} reached out to Jaehyuk.\n\nNo 'Read' receipt.\nPhone rings and rings, then cuts.\nKakaoTalk profile picture: gone.\n\nThree days for unease to become certainty.\n\n{name} searched the company Jaehyuk mentioned.\n'Investment fraud victims group' forum comes up.\nTens of posts. Same name. Choi Jaehyuk.\n\n{name} wasn't alone.\nThe line 'we lived and died together' —\nthe line that made him wire the money —\nfloated up between the victim testimonies on the screen.\n\nAnd then — he remembered the business card, the 'HR manager hyung,' the hand holding it out.\n'Aren't we family?'\nWas the kindness a technique too? Or was the kindness the one real thing?\nNot being able to tell — that was the most frightening part."
+    }
   },
   {
     "id": "arc_jaehyuk_04b_counter",
@@ -392,7 +395,7 @@
   {
     "id": "arc_sangchul_02_coffee",
     "title": "The Second Coffee",
-    "description": "Out checking studio-apartment listings, he passed through that neighborhood and the light on at Sangchul's office caught his eye.\n\nHe wavered a moment over whether to go in, then pushed the door open.\nSangchul welcomed him. \"You came. Want a coffee?\"\n\nHe was unusually talkative today.\nThe story of coming up to Seoul from Chungcheong without a single connection.\nThe day he first set foot in Gangnam.\n\n\"Look at the people who made it into Gangnam. Every one of them had a connection somewhere.\nSomeone opened a door for them. The ones who knocked their way in alone — they're truly rare.\"\n\nAfter a brief silence, Sangchul added,\n\"Once you've got a bit of seed money, there's a place I want to take you. A gathering that meets once a month.\nReal estate, construction, capital. I can show you how Gangnam actually turns.\"",
+    "description": "Out checking studio-apartment listings, he passed through that neighborhood and the light on at Sangchul's office caught his eye.\n\nHe wavered a moment over whether to go in, then pushed the door open.\nSangchul welcomed him. \"You came. Want a coffee?\"\n\nHe was unusually talkative today.\nThe story of coming up to Seoul from Chungcheong without a single connection.\nThe day he first set foot in Gangnam.\n\n\"Look at the people who made it into Gangnam. Every one of them had a connection somewhere.\nSomeone opened a door for them. The ones who knocked their way in alone — they're truly rare.\"\n\n\"This city reads the eyes of someone fresh up from the provinces faster than anything.\nThese days I'm the one doing the reading. It's been my living, after all.\"\n\nAfter a brief silence, Sangchul added,\n\"Once you've got a bit of seed money, there's a place I want to take you. A gathering that meets once a month.\nReal estate, construction, capital. I can show you how Gangnam actually turns.\"",
     "description_if_known": {
       "sangchul_truth_known": "Sangchul welcomed him. \"You came. Want some coffee?\"\n\nMinjun knows now what moves through this room.\n\nHometown stories. Gangnam stories. 'Doors get opened by people.'\nAmong the people he'd opened doors for — Dad was one of them.\nMinjun knew what lay behind that door.\n\nHe took the coffee and drank it.\nIt tasted more bitter."
     },
