@@ -1,5 +1,22 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — write-only 전수 처리 Batch C3/C4: 아버지 클러스터 + 연차 루틴 체인 + 강남 이유, baseline 142)
+
+### 아버지 클러스터 8종 (KR+EN)
+- `arc_father_passing` ← `father_calls_often`("그 목소리가 지금 — 병원 번호 뒤에 있었다") / `apologized_for_ignoring`("그 괜찮다는 말들이 쌓여서 여기까지 온 건지도").
+- `arc_36_father_comes_to_seoul` ← `father_promised_visit`("그 '다음'이 오기 전에 아버지가 먼저 올라온 것이다") / `visited_father_going_soon`("순서가 바뀌는 데 몇 년이 걸렸다").
+- `late_call` 엔딩 ← `made_time_for_father`/`delayed_father_visit`/`brief_father_meeting` — KTX 귀향길이 그 주말의 선택을 회수("이번엔 역이 아니라 집으로 간다. 한 시간이 아니라, 며칠").
+- `guardian` NG+ ← `father_health_checked`("그 질문들이 이번 생의 아버지를 지켰다").
+
+### 연차 루틴 체인 7종 — Y1→Y5 습관의 서사 (KR+EN)
+- Y1 `set_morning_routine`(챕터1 클로즈) → Y2 `arc_34_routine_trap`("루틴과 덫은 같은 모양이었다") → Y3 `arc_35_habit_check`(kept/broke: "부수는 것도 기술이었다") → Y4 `arc_36_body_signal`(changed/maintained/restarted: "몸은 빚을 기억하지만 갚은 것도 기억한다") → Y5 `arc_37_burn_or_light`(improved_diet: "적어도 몸은 아직 편이었다").
+
+### 강남 이유 2결 (KR+EN, 앞순위)
+- `arc_37_ending_peace` ← `gangnam_reason_prove`("숫자가 아니라, 이 5년이 증명이었다") / `gangnam_reason_uncertain`("모르면서도 걸어온 이 길이 싫지 않다"). 강남대로 걷기 씬에 가장 밀착이라 happy 키들보다 앞 삽입.
+
+### 래칫
+- write_only 159 → **142**.
+
 ## 2026-07-02 (Claude — write-only 전수 처리 Batch C1/C2/C5: 결심-회수 체인 19종, baseline 159)
 
 5년 서사의 "결심 → 회수" 체인을 완성하는 dik 배선 19종 (전부 KR+EN, base+append 방식).

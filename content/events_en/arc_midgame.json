@@ -877,7 +877,11 @@
         "text": "Started exercising again. Need to use the body.",
         "result_text": "Dug out the running shoes after half a year. Three kilometers on the first day and nearly died. Still — the feeling wasn't bad. Something was coming back."
       }
-    ]
+    ],
+    "description_if_known": {
+      "kept_routine": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nLast year, trap or not, he'd chosen to keep the routine.\nHe kept it for a year. Today is lived in a body built of what was kept.",
+      "broke_routine": "Midnight.\n\nSame pattern again today. Morning — check charts. Afternoon — work or study. Evening — news. Night — adjust the plan. Late night — wind down, sleep.\n\nThis has been the routine for over two years. At some point, it became unclear whether it was something chosen or just something that stuck.\n\nGood or bad — hard to say. This is just {name} now.\n\nLast year, he'd smashed the treadmill once.\nWhat he laid down in its place became today. Breaking, too, was a skill."
+    }
   },
   {
     "id": "arc_36_reality_check",
@@ -915,7 +919,12 @@
         "text": "Can't stop now. Will rest later.",
         "result_text": "Had another coffee. The body seemed to be saying something — but there was work to do right now. Will rest later. Thought it once more."
       }
-    ]
+    ],
+    "description_if_known": {
+      "changed_routine": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.\n\nHe'd changed the routine last year. The body remembers the change.\nThe signal it sends now is a demand for the next chapter.",
+      "maintained_routine": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.\n\nHe'd maintained the routine last year too. The body banked those hours honestly.\nAnd still the signal comes. Some stretches can't be survived on maintenance alone.",
+      "restarted_exercise": "Lost breath climbing the stairs.\n\nThat hadn't happened before. And it was only the second floor.\n\nLooking back — meals from convenience stores. Sleep at 2 AM. Exercise stopped two years ago. Is this what thirty-six does, or is it what three years of this life does?\n\nThe body was saying something. For the first time, it was audible.\n\nHe'd restarted exercise last year.\nWithout that decision this signal would have come sooner, and louder. The body remembers debts — but it remembers payments too."
+    }
   },
   {
     "id": "arc_36_night_doubt",
@@ -977,7 +986,10 @@
         "text": "Sat down to figure out what this feeling actually is.",
         "result_text": "The difference between burnout and clarity seems to be: do you still remember what this is for? {name} remembered. Why it started. That was enough."
       }
-    ]
+    ],
+    "description_if_known": {
+      "improved_diet": "Something feels off lately.\n\nNot that focus is gone — it's a different kind of focus. A sense of knowing how this will end. Not fear, just knowing.\n\nWhen the ending comes into sight, what emerges — burnout or a final surge of clarity — {name} still doesn't know.\n\nThe body whose diet he fixed last year is what's holding up this final stretch.\nBurnout or focus — at least the body was still on his side."
+    }
   },
   {
     "id": "arc_37_ending_peace",
@@ -998,6 +1010,8 @@
       }
     ],
     "description_if_known": {
+      "gangnam_reason_prove": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nOne night, someone had asked: why Gangnam, in the beginning?\nTo prove something — that had been his answer.\nAsked again on this road, he thinks the proof is already in.\nNot the number — the five years were the proof.",
+      "gangnam_reason_uncertain": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nOne night, asked why Gangnam, he'd answered: I don't know.\nThree months out, he still doesn't.\nBut this road, walked without knowing — he doesn't hate it.",
       "happy_consistent": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nOnce, he'd asked himself whether he was happy, and answered yes.\nThe answer hasn't changed. Regardless of the number — that was the strangest achievement of all.",
       "happy_faded": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nThere was a time he'd answered yes to being happy. Somewhere along the way the answer blurred.\nWalking down Gangnam-daero, he thought: maybe what needs recovering isn't the number.",
       "happy_recovered": "Walking down Gangnam-daero.\n\nThose apartment buildings, actually visible now. Seen this view five years ago too.\n\nThree months left. Whether or not it reaches three billion — the end of this road is in sight. Strangely, it isn't frightening.\n\nWhatever the outcome — these five years are mine.\n\nThere was a night he answered no, he wasn't happy. Since then, it had come back, little by little.\nOnly someone who has said the bottom out loud knows what recovery is.",
@@ -1021,7 +1035,10 @@
         "text": "Stay the course — consistency is the point",
         "result_text": "{name} stayed with the routine.\n\nNot because he couldn't change, but because he'd chosen this pattern for a reason.\n\nDiscipline means doing it even when it feels like nothing.\n\nEspecially then."
       }
-    ]
+    ],
+    "description_if_known": {
+      "set_morning_routine": "One day, {name} realized he'd been doing the same things every day.\n\nSame wake-up time. Same route. Same lunch spot. Same desk.\n\nWas this discipline — or had he just stopped thinking?\n\nA year ago, the night one chapter ended, he'd set a morning routine.\nThat routine became this treadmill. A routine and a trap — the same shape."
+    }
   },
   {
     "id": "arc_34_parents_visit",
