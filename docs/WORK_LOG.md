@@ -1,5 +1,16 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — audit 정확성 수정: 엔딩 dik 키를 read로 인식, baseline 215)
+
+### 발견
+- `audit.py _gather_game_flags()`가 `content/events/*.json`만 스캔 — **`content/endings.json`의 `description_if_known` 키가 read로 안 잡혀** 실제로 `_show_ending()`이 읽는 살아 있는 플래그(`year4_final_resolve`, `year4_self_known`, `jiyeon_gangnam_together`, `jiyeon_beautifully_apart`)가 write-only로 오탐되고 있었다.
+
+### 수정
+- `_gather_game_flags()`에 endings.json dik 키 수집 추가. write_only 219 → **215** (오탐 4건 해소), baseline 동기 조임.
+
+### 부수 확인
+- 엔딩 dik "항상 매치 키가 뒤 키를 가림" 섀도잉 전수 스캔 — `jiyeon_man`(직전 수정)만 해당, `gangnam_dream`/`jaehyuk_way`/`late_call`/`balanced_life`는 특수→일반 우선순위가 의도적으로 정렬돼 있음 확인.
+
 ## 2026-07-02 (Claude — 재벌 총 회수 + jiyeon_man 엔딩 records 관통, baseline 219)
 
 ### 체호프의 총 회수: 재벌 엘리베이터 체인 완결

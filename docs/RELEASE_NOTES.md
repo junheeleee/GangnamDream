@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed (2026-07-02) — audit now counts ending `description_if_known` keys as flag reads
+
+- `_gather_game_flags()` only scanned `content/events/*.json`, so flags read exclusively by ending variants were false-flagged as write-only. Rescued 4 live flags; write-only baseline 219 -> 215.
+
 ### Changed (2026-07-02) — Chaebol thread payoff + jiyeon_man records variant
 
 - The elevator-card chaebol thread ("no idea where this leads") now leads somewhere: `callback_chaebol_met_dinner` (t>=30, KR+EN) — dinner in Hannam-dong with a man for whom Gangnam is the default, not the goal. Choices split along the Question-A axis (envy-as-fuel vs setting your own gaze). `chaebol_met` converted from write-only to read; baseline 220 -> 219.

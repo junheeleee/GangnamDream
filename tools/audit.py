@@ -700,6 +700,15 @@ def _gather_game_flags():
             gr_json = {}
             _walk_event_flags(ev, game_sets, gr_json, set(), {}, "x")
             reads |= set(gr_json.keys())
+    # 엔딩 description_if_known 키도 read — _show_ending()이 flags.get()으로 읽는다.
+    # (events/*.json만 스캔하면 엔딩 변주가 읽는 플래그가 write-only로 오탐됨)
+    try:
+        endings = json.load(open(os.path.join(ROOT, "content", "endings.json"), encoding="utf-8"))
+        for en in endings:
+            if isinstance(en, dict) and isinstance(en.get("description_if_known"), dict):
+                reads |= set(en["description_if_known"].keys())
+    except Exception:
+        pass
     LIT = re.compile(r'"([A-Za-z0-9_]+)"')
     for d in GD_DIRS:
         for f in glob.glob(os.path.join(ROOT, d, "**", "*.gd"), recursive=True):
