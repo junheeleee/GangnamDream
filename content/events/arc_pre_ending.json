@@ -114,5 +114,62 @@
         "result_text": "\"아니다. 그냥… 목소리 듣고 싶었다.\"\n\n아버지가 그렇게 말한 건 처음이었다.\n\n{name}은 한참 핸드폰을 귀에 댄 채로 있었다.\n할 말이 많은데, 입 밖으로 안 나왔다.\n\n결국 한 말은 \"…저도요, 아버지\" 한 마디였다.\n\n그거면 충분한 밤도 있다.\n전화를 끊고, {name}은 창밖을 오래 봤다. 강남이 멀든 가깝든, 오늘 밤은 그게 중요하지 않았다."
       }
     ]
+  },
+  {
+    "id": "arc_final_countdown",
+    "title": "마지막 두 달",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "gangnam_night",
+    "portrait": "",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "finale"
+    ],
+    "description": "달력을 넘겼다. 두 장 남았다.\n\n5년짜리 시계가 이제 주 단위로 읽힌다.\n통장의 숫자와 목표 사이의 간극 — 그 간극이 무엇이든, 이제 바뀔 수 있는 폭은 크지 않다.\n\n이상한 건, 마음이 조용하다는 것이었다.\n초조함이 아니라 — 어떤 명료함.\n\n남은 8주 동안 할 수 있는 일과, 이미 끝난 일과, 처음부터 할 수 없었던 일이\n처음으로 세 개의 다른 서랍에 정리돼 보였다.",
+    "choices": [
+      {
+        "text": "할 수 있는 일의 서랍만 연다. 끝까지 정확하게.",
+        "effects": {
+          "mental": 4,
+          "intelligence": 2,
+          "tint": 1
+        },
+        "flags": [
+          "arc_final_countdown_seen"
+        ],
+        "result_text": "책상 앞에 앉아 8주짜리 계획을 한 장으로 줄였다.\n할 수 없는 일들이 빠져나간 계획은 처음으로 가벼웠다.\n정확함은 마지막에 배우는 기술이었다."
+      },
+      {
+        "text": "숫자를 한 번 더 흔들어본다. 아직 두 달이 있다.",
+        "effects": {
+          "investment_skill": 2,
+          "mental": -4,
+          "tint": -2
+        },
+        "flags": [
+          "arc_final_countdown_seen"
+        ],
+        "result_text": "밤늦게까지 시나리오를 돌렸다. 레버리지, 집중 베팅, 마지막 회전.\n숫자는 흔들면 흔들리는 것처럼 보인다.\n그게 착시인지 기회인지 — 8주 안에 답이 나온다."
+      },
+      {
+        "text": "사람들 목록을 만든다. 끝나기 전에 봐야 할 얼굴들.",
+        "effects": {
+          "mental": 6,
+          "tint": 3
+        },
+        "flags": [
+          "arc_final_countdown_seen"
+        ],
+        "result_text": "수첩에 이름을 적었다. 몇 개 되지 않았다.\n그 짧은 목록이 — 5년의 진짜 결산서 같았다.\n돈은 마지막 주에도 셀 수 있다. 사람은 지금 봐야 한다."
+      }
+    ]
   }
 ]

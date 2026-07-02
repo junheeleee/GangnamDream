@@ -2829,6 +2829,9 @@ func _next_arc_id() -> String:
 			return "arc_pre_ending_father_call"
 
 	# ── 마지막 주 — 38세 7일 전, 궤적 무관 (t237-240) ──
+	# 마지막 두 달 — ending_peace(t≤236)와 final_week(t237+) 사이 authored 데드존(t223~233)을 닫는 카운트다운 비트
+	if t >= 228 and t <= 236 and not f.get("arc_final_countdown_seen", false):
+		return "arc_final_countdown"
 	if t >= 237 and not f.get("arc_final_week_seen", false):
 		return "arc_final_week"
 

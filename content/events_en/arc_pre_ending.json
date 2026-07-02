@@ -46,5 +46,24 @@
         "result_text": "\"No. I just... wanted to hear your voice.\"\n\nIt was the first time Father had said that.\n\n{name} held the phone to his ear for a long while.\nThere was so much to say, but none of it came out.\n\nIn the end, all he said was \"...Me too, Dad.\"\n\nThere are nights when that's enough.\nAfter hanging up, {name} watched out the window a long time. Gangnam far or near, tonight that didn't matter."
       }
     ]
+  },
+  {
+    "id": "arc_final_countdown",
+    "title": "The Last Two Months",
+    "description": "He turned the calendar. Two pages left.\n\nA five-year clock now reads in weeks.\nThe gap between the account and the goal — whatever it is, the room for it to change is no longer wide.\n\nThe strange part was how quiet his mind felt.\nNot anxiety — a kind of clarity.\n\nWhat could still be done in eight weeks, what was already finished, and what had never been possible —\nfor the first time, they sorted themselves into three separate drawers.",
+    "choices": [
+      {
+        "text": "Open only the drawer of what can be done. Precise, to the end.",
+        "result_text": "He sat at the desk and reduced the eight-week plan to a single page.\nWith the impossible cleared out, the plan felt light for the first time.\nPrecision is a skill you learn at the end."
+      },
+      {
+        "text": "Shake the numbers one more time. There are still two months.",
+        "result_text": "He ran scenarios late into the night. Leverage, concentrated bets, one last rotation.\nNumbers look like they move when you shake them.\nWhether that's an illusion or an opening — eight weeks will answer."
+      },
+      {
+        "text": "Make a list of people. Faces to see before this ends.",
+        "result_text": "He wrote names in a notebook. There weren't many.\nThat short list — felt like the real balance sheet of five years.\nMoney can be counted even in the last week. People have to be seen now."
+      }
+    ]
   }
 ]
