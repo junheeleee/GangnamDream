@@ -10,12 +10,12 @@ var _splash_layer: Control
 var _splash_active: bool = true
 var _splash_prompt_tween: Tween = null
 
-# ── 런 테마 선택 ─────────────────────────────────────────────────
+# ── 내부 시작 기본값 ─────────────────────────────────────────────
+# 시작 화면에서는 선택 UI를 노출하지 않는다. 플레이어의 성향은 런 중 선택으로 갈린다.
 var _selected_theme: String = "자유런"
 var _theme_row: HBoxContainer
 var _theme_desc_label: Label
 
-# ── 난이도 선택 ─────────────────────────────────────────────────
 var _selected_diff: String = "현실"
 var _diff_row: HBoxContainer
 var _diff_desc_label: Label
@@ -438,58 +438,8 @@ func _build_ui():
 	story_panel.add_child(story_rtl)
 	left.add_child(story_panel)
 
-	var sp1 = Control.new(); sp1.custom_minimum_size = Vector2(0, 18); left.add_child(sp1)
-
-	# ── 난이도 (compact 가로 카드) ──
-	var diff_hdr_lbl = _label(_tr("난이도", "Difficulty"), 11, MENU_TEXT_DIM, HORIZONTAL_ALIGNMENT_LEFT)
-	diff_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
-	diff_hdr_lbl.clip_text = false
-	left.add_child(diff_hdr_lbl)
-
-	_diff_row = HBoxContainer.new()
-	_diff_row.add_theme_constant_override("separation", 6)
-	left.add_child(_diff_row)
-
-	_diff_desc_label = Label.new()
-	_diff_desc_label.add_theme_font_size_override("font_size", 11)
-	_diff_desc_label.add_theme_color_override("font_color", Color(MENU_TEXT_DIM))
-	_diff_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_diff_desc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	left.add_child(_diff_desc_label)
-
-	_build_diff_cards()
-
-	var sp_diff = Control.new(); sp_diff.custom_minimum_size = Vector2(0, 10); left.add_child(sp_diff)
-
-	# ── 런 테마 (compact 가로 버튼) ──
-	var theme_hdr = HBoxContainer.new()
-	theme_hdr.add_theme_constant_override("separation", 8)
-	left.add_child(theme_hdr)
-	var theme_hdr_lbl = _label(_tr("런 테마", "Run Theme"), 11, MENU_TEXT_DIM, HORIZONTAL_ALIGNMENT_LEFT)
-	theme_hdr_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
-	theme_hdr_lbl.clip_text = false
-	theme_hdr_lbl.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	theme_hdr.add_child(theme_hdr_lbl)
-	var theme_hint_lbl = _label(_tr(
-		"(2회차 이상 추천 — 처음이라면 자유런)",
-		"(Recommended from run 2 — start with Free Run)"), 10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT)
-	theme_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
-	theme_hint_lbl.clip_text = false
-	theme_hdr.add_child(theme_hint_lbl)
-
-	_theme_row = HBoxContainer.new()
-	_theme_row.add_theme_constant_override("separation", 6)
-	left.add_child(_theme_row)
-
-	# 테마 설명 (작고 심플하게)
-	_theme_desc_label = Label.new()
-	_theme_desc_label.add_theme_font_size_override("font_size", 11)
-	_theme_desc_label.add_theme_color_override("font_color", Color(MENU_TEXT_DIM))
-	_theme_desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_theme_desc_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	left.add_child(_theme_desc_label)
-
-	_build_theme_cards()
+	var sp1 = Control.new(); sp1.custom_minimum_size = Vector2(0, 14); left.add_child(sp1)
+	left.add_child(_start_brief_panel())
 
 	# 스페이서 (시작 버튼을 항상 하단에 붙임)
 	var spacer = Control.new()
@@ -588,6 +538,73 @@ func _build_ui():
 		_tr("업적 %d / %d 해금" % [unlocked_ach_count, total_ach],
 			"Achievements %d / %d" % [unlocked_ach_count, total_ach]),
 		10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT))
+
+func _start_brief_panel() -> PanelContainer:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0a0c12", 0.68)
+	st.border_color = Color("#2a313d", 0.86)
+	st.set_border_width_all(1)
+	st.border_width_left = 3
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	panel.add_theme_stylebox_override("panel", st)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 9)
+	panel.add_child(box)
+
+	var eyebrow := _label(_tr("시작 기록", "STARTING RECORD"), 10, MENU_TEXT_FAINT, HORIZONTAL_ALIGNMENT_LEFT)
+	eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
+	eyebrow.clip_text = false
+	box.add_child(eyebrow)
+
+	var title := _label(_tr("정해진 조건, 갈라지는 선택", "Fixed terms, branching choices"), 15, MENU_ACCENT, HORIZONTAL_ALIGNMENT_LEFT)
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(title)
+
+	var note := _label(
+		_tr("난이도와 테마는 첫 화면에서 고르지 않는다. 민준이 어떤 사람이 되는지는 매주 선택한 행동과 대가가 정한다.",
+			"No setup menu decides who Minjun becomes. The weekly choices and their costs do."),
+		11, MENU_TEXT_DIM, HORIZONTAL_ALIGNMENT_LEFT)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(note)
+
+	box.add_child(_sep())
+	box.add_child(_start_brief_row("housing", _tr("현실 모드", "Reality"), _tr("통장 50만원으로 시작하는 기본 밸런스", "The intended KRW 500K start balance")))
+	box.add_child(_start_brief_row("goal", _tr("자유런", "Free Run"), _tr("매 런 조용히 달라지는 사건 흐름", "A quiet event drift changes each run")))
+	box.add_child(_start_brief_row("mental", _tr("5년 안에 30억", "KRW 3B in five years"), _tr("강남은 목표지만, 사람은 선택으로 변한다", "Gangnam is the goal; choices change the person")))
+	return panel
+
+func _start_brief_row(icon_id: String, top_text: String, sub_text: String) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(_menu_icon(icon_id, Color(MENU_TEXT_DIM), 19))
+
+	var text_box := VBoxContainer.new()
+	text_box.add_theme_constant_override("separation", 1)
+	text_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(text_box)
+
+	var top := Label.new()
+	top.text = top_text
+	top.add_theme_font_size_override("font_size", 12)
+	top.add_theme_color_override("font_color", Color(MENU_TEXT))
+	top.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_box.add_child(top)
+
+	var sub := Label.new()
+	sub.text = sub_text
+	sub.add_theme_font_size_override("font_size", 10)
+	sub.add_theme_color_override("font_color", Color(MENU_TEXT_FAINT))
+	sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_box.add_child(sub)
+	return row
 
 # ── 슬롯 목록 빌드 / 새로고침 ─────────────────────────────────
 func _rebuild_slots():
@@ -1007,7 +1024,7 @@ func _show_content_warning():
 func _do_start_run():
 	# 이름·루트 선택 없이 고정 시작 (드라마 모드)
 	# 성향은 플레이 중 선택으로 자연스럽게 결정됨
-	GameState.start_new_game(_tr("김민준", "Kim Minjun"), "지방_상경", "none", "백수", _selected_theme, _selected_diff)
+	GameState.start_new_game(_tr("김민준", "Kim Minjun"), "지방_상경", "none", "백수", "자유런", "현실")
 	SceneTransition.go("res://scenes/MainGame.tscn")
 
 func _load_slot(slot):
