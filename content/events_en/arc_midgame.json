@@ -399,7 +399,17 @@
         "text": "3 billion looked even further away.",
         "result_text": "Thought hitting 1 billion would feel freer. Instead, 3 billion came into sharper focus. Just that much more. And that \"much\" was a mountain."
       }
-    ]
+    ],
+    "description_if_known": {
+      "saver_patient": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThe seasons of triangle-kimbap lunches and stubborn saving were the first floor of this number.\nA billion built by waiting weighs a little differently.",
+      "saver_pivots_to_invest": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThere was a day the man who only saved turned toward investing.\nWithout that turn, this number wouldn't exist.",
+      "investor_disciplined": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nIn that first investment — heart racing, stomach aching — he decided to shut emotion out.\nThat principle is this account's skeleton.",
+      "investor_reset": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nOnce, at his first loss, he sold everything and regrouped.\nThe humility learned that day has guarded the account ever since.",
+      "fomo_cut_loss": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThere was a day he cut a -26% position with his own hand.\nWithout that cut, he'd be looking at a very different number.",
+      "fomo_deeper_loss": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThere was an account that averaging-down dug deeper.\nFilling that hole took a long time. Having filled it — he never dug another.",
+      "fomo_recovered": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nOnce, averaging down actually came back to life.\nThat it was luck, not skill — he knows now. That knowing is why this number is still here.",
+      "cafe_patient_paid_off": "Total assets: 1 billion won.\n\nChecked the number three times. It was right. 1.02 billion.\n\nStarted with 500,000 won at 33. Now 1 billion. How do you even process this.\n\nBut the target is 3 billion. Still 2 billion to go. That felt heavier somehow.\n\nThe position he waited a year to enter on the official filing became a main pillar of this account.\nPatience compounds too."
+    }
   },
   {
     "id": "arc_daeun_trace",
@@ -728,7 +738,11 @@
         "text": "Play the cards in hand as best I can. No other cards left.",
         "result_text": "Took stock again of what was there. Money, relationships, skills, experience. Something remained. Still enough, for now."
       }
-    ]
+    ],
+    "description_if_known": {
+      "envy_released": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nOnce, he set down the envy that used to fuel him.\nSince then this question — is this road right — frightens him less.\nHe walks at his own reasons now, not someone else's pace.",
+      "envy_still_burning": "Three years have passed.\n\nBefore turning 37, feels like a question needs to be asked. Is this path the right one? Less than two years left. Avoid this question now — and it comes back heavier later.\n\nThe mornings that started with 'just watch me' are still going.\nHe knows rage isn't a fuel that burns long — and burns it anyway.\nAt the crossroads, the question wasn't only direction — it was fuel."
+    }
   },
   {
     "id": "arc_final_year_start",
