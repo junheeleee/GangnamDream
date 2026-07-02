@@ -906,6 +906,45 @@ def DataRegistry_has_event(eid):
                 pass
     return eid in _ALL_EVENT_IDS
 
+def check_dik_shadowing():
+    """description_if_known 섀도잉 — 첫 매치 키가 뒤 키를 영원히 가리는 죽은 변주 검출.
+    ① 앞 키가 이벤트 트리거 필수 플래그(conditions.flag)면 항상 매치 → 뒤 키 전부 사망.
+    ② 뒤 키의 모든 세터 선택지가 앞 키도 함께 set(부분집합)이면 뒤 키 완전 섀도잉.
+    (2026-07-02 도입 시점에 denied_sangchul_mirror 죽은 변주 1건 검출·수정)"""
+    setters = {}
+    dik_owners = []  # (owner_label, dik_dict, trigger_flag)
+    for f in glob.glob(os.path.join(ROOT, "content", "events", "*.json")):
+        try:
+            evs = load_events(f)
+        except Exception:
+            continue
+        for e in evs:
+            if not isinstance(e, dict):
+                continue
+            for ci, c in enumerate(e.get("choices", []) or []):
+                for fl in (c.get("flags") or []):
+                    setters.setdefault(fl, set()).add((e.get("id"), ci))
+            dik = e.get("description_if_known")
+            if isinstance(dik, dict) and len(dik) >= 2:
+                dik_owners.append(("event:" + str(e.get("id")), dik,
+                                   (e.get("conditions") or {}).get("flag")))
+    try:
+        for e in json.load(open(os.path.join(ROOT, "content", "endings.json"), encoding="utf-8")):
+            dik = e.get("description_if_known") if isinstance(e, dict) else None
+            if isinstance(dik, dict) and len(dik) >= 2:
+                dik_owners.append(("ending:" + str(e.get("id")), dik, None))
+    except Exception:
+        pass
+    for owner, dik, trig in dik_owners:
+        keys = list(dik.keys())
+        for i, late in enumerate(keys):
+            for early in keys[:i]:
+                if trig and early == trig:
+                    errors.append("dik 섀도잉: %s의 '%s'는 트리거 필수 키 '%s' 뒤라 영원히 발화 불가 — 앞으로 이동할 것" % (owner, late, early))
+                ls, es = setters.get(late, set()), setters.get(early, set())
+                if ls and ls.issubset(es):
+                    errors.append("dik 섀도잉: %s의 '%s'는 '%s'와 항상 함께 set되는데 뒤 순서라 발화 불가 — 구체 키를 앞으로" % (owner, late, early))
+
 def main():
     print(C.BOLD + "═══ 강남드림 정적 감사 ═══" + C.Z)
     check_gdscript()
@@ -918,6 +957,7 @@ def main():
     check_dead_arc_events()
     check_dead_cast_branches()
     check_structural_debt()
+    check_dik_shadowing()
     check_en_conditions()
     check_en_content_no_hangul()
     check_clues_thoughts()

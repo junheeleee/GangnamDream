@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-07-02 (Claude — Codex main 병합 + 병합 회귀 QA + dik 섀도잉 감사 영구화)
+
+### 병합
+- `origin/main`(Codex Single Start Menu Pass — 난이도/런테마 카드 제거, Start 단일화)을 브랜치로 병합. 충돌은 CLAUDE.md 상태 블록 1건 — 양쪽 항목 보존으로 해소. 코드 충돌 0.
+
+### 병합 회귀 QA
+- `ScreenshotQA --qa=demo-blackbox` **EN+KR 양언어** 통과, 새 단일 Start 메뉴/AP 루프/월말 요약/데모 CTA 직접 확인. audit ERROR 0/write_only 0/밴드/컴파일 55 클린.
+
+### dik 섀도잉 전수 분석 → 기존 죽은 변주 1건 검출·수정
+- 신규 검사 로직(①앞 키가 트리거 필수 플래그면 뒤 키 사망 ②뒤 키 세터가 앞 키 세터의 부분집합이면 완전 섀도잉)으로 전 이벤트+엔딩 dik 스캔 → **`arc_sangchul_reckoning`의 `denied_sangchul_mirror` 변주가 세션 이전부터 죽어 있었음**(같은 선택지가 `sangchul_called_you_his_mirror`를 함께 set, dik 순서상 뒤) → 구체 키를 앞으로 이동(KR+EN).
+- 이 검사를 `audit.py check_dik_shadowing()`으로 **영구 편입**(ERROR 등급) — 죽은 변주 클래스 재발 차단.
+- 텍스트 새니티(EN dik 한글 누출/깨진 플레이스홀더) 0건 확인.
+
 ## 2026-07-02 (Claude — ★write-only 플래그 완전 소거: 224 → 0★)
 
 "효율이 아니라 완벽성" 지시의 종착점. 게임의 **모든 플래그가 이제 독자(讀者)를 갖는다** — 조건, 코드, 또는 서사 변주(dik) 중 하나가 반드시 읽는다. baseline **0**으로 완전 조임: 향후 고아 플래그는 커밋 즉시 audit ERROR.
