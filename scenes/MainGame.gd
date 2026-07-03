@@ -2112,6 +2112,16 @@ func _next_arc_id() -> String:
 	if t >= 50 and f.get("daeun_close_bond", false) \
 			and not f.get("arc_daeun_05_together_seen", false):
 		return "arc_daeun_05_together"
+	# ── 조기 연인 특별씬 '그 밤' — 사귄 뒤 관계가 무르익은 시점 (성숙 페이드아웃) ──
+	if t >= 70 and f.get("daeun_romance_started", false) \
+			and GameState.get_cast_affinity("daeun") >= 45 \
+			and not f.get("arc_daeun_first_night_seen", false):
+		return "arc_daeun_first_night"
+	# ── Y5 프로포즈 — 최고 호감의 연인에게 (결혼 진엔딩 게이트) ──
+	if t >= 205 and f.get("daeun_romance_started", false) \
+			and GameState.get_cast_affinity("daeun") >= 55 \
+			and not f.get("arc_daeun_proposal_seen", false):
+		return "arc_daeun_proposal"
 	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
 	if t >= 50 and f.get("daeun_deferred", false) \
 			and not f.get("arc_daeun_05_breaking_seen", false):

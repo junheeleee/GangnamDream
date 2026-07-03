@@ -109,6 +109,10 @@
       {
         "text": "\"Honestly I don't know. I need to think about that too.\"",
         "result_text": "Couldn't answer. That silence stayed with him a long time."
+      },
+      {
+        "text": "\"Forget Gangnam — I need you, now. Let's be together.\"",
+        "result_text": "Daeun's eyes went wide. The glow of the calculator screen flickered between them.\n\n\"...You mean it?\"\n\"Yeah. Gangnam will still be there in five years. But you — you're here now.\"\n\nShe laughed, then cried, then both.\n\nAfter that night, the distance across the convenience-store counter was gone. They became a couple.\nThe remaining four years — they'd walk them not alone, but together."
       }
     ]
   },
@@ -155,7 +159,10 @@
         "text": "\"I still can't give you much yet — is that okay?\"",
         "result_text": "Daeun paused for a moment. \"I'm not asking for that.\"\nThe words were plain. Something still unnamed sat quietly between them."
       }
-    ]
+    ],
+    "description_if_known": {
+      "daeun_romance_started": "Daeun practically lives here now. She brings something every time.\nA few eggs, spinach, tofu. One shelf of the fridge became hers without either of them deciding it.\n\nWhen {name} stares at the trading screen, she reaches from behind and taps his glasses.\n\"You'll ruin your eyes.\" He's used to it now.\n\nA few months since they became a couple. The tiny room never felt tiny.\nAt some point her being here became a given — and {name} learned, for the first time, that a given could feel this good."
+    }
   },
   {
     "id": "arc_daeun_05_breaking",

@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-03 (Claude — 미연시 Phase 1a: 다은 조기연애 풀 루프 수직 슬라이스)
+
+### 발견 (구멍 방지 조사)
+- 조기연애 인프라가 **이미 존재하되 이전 세션이 "우정"으로 재프레임**(committed/dating stage 버그 때문에 flag 기반으로 단일화, 연애는 Y5 게이트). 즉 없는 걸 짓는 게 아니라 **잠자는 flag(`daeun_romance_started`)를 일찍 세울 지점 하나만 열면** 전 구조가 안전하게 따라옴(Y5 고백은 이미 `not daeun_romance_started` 가드, 엔딩은 flag-read).
+
+### 구현 (다은 한 명 수직 슬라이스, KR+EN)
+- **A) 조기 고백** — `arc_daeun_04b_future`(t42, 다은이 직접 관계 정의를 요구하는 자리)에 4번째 선택지 "강남이고 뭐고 — 나 지금 당신이 필요해요. 우리 사귀어요." → `daeun_romance_started` 조기 설정 + close_bond + stage lover.
+- **B) 4년 동행 변주** — 05_together/year3_together/year4_together에 `daeun_romance_started` dik(연인 현실: 냉장고 한 칸, 같은 지하철, 다은 강남 취직 "나 먼저 입성했네요"). 우정 프레임이 조기연애 시 연인 프레임으로 자동 전환.
+- **C) 특별씬 '그 밤'**(`arc_daeun_first_night`, t≥70·호감45+) — 성숙 페이드아웃(소주·비·조명 끔·아침의 좁은 침대). **30대 연인의 자연스러운 친밀함을 품위 있게**; 명시 묘사는 미작성(성인 패치 슬롯). 두 갈래(직진/천천히).
+- **D) Y5 프로포즈**(`arc_daeun_proposal`, t≥205·호감55+) — 반지값=종잣돈 계산에 부끄러운 30대의 청혼. 성공 → `daeun_married`. `daeun_first_night` dik 변주로 그 밤 회수.
+- **E) 결혼 진엔딩** — `with_daeun` + `daeun_married` 최우선 변주(작은 결혼식, 아버지 눈물, 열쇠 두 개 "강남이라서가 아니라 너라서"). 관계 깊이가 엔딩을 가름.
+
+### 원칙
+- 이중 레이어 수위(본편 존엄, 성인=슬롯). 노골적 묘사는 직접 미작성 — 별도 패치 에셋. 장식 플래그 제거로 write_only 0 유지, first_night은 프로포즈 dik로 배선.
+
+### 검증
+- `audit.sh` ERROR 0/WARNING 0/write_only 0/밴드, `arc_flow_sim` 잼 0·체인 완결, Godot 55 컴파일 클린, `en_coverage_check.py` clean.
+
+### 다음
+- 지연에 동일 루프 복제 + 양다리 다크 경로 + 카톡멘트/선물 시스템(선호 스타일 매칭). CG 슬롯·호감 미터 UI는 Codex.
+
 ## 2026-07-03 (Claude — 미연시 전환 Phase 0: 다은 데모 훅 "불꽃+여운")
 
 ### 방향 (확정)

@@ -16,7 +16,10 @@
         "text": "\"Honestly — I'm struggling a lot lately.\" — first time admitting it",
         "result_text": "Daeun listened quietly. The ₩3B, the time.\n\n\"I know. I just... want to struggle with you.\"\n\nThat was oddly comforting."
       }
-    ]
+    ],
+    "description_if_known": {
+      "daeun_romance_started": "Over two years since they became a couple.\n\nSame room, same dawn, same ramyeon pot.\nThey fought sometimes — usually when {name} got sharp about money — but come morning they rode the same subway, side by side.\n\n\"What'll we do once we reach Gangnam?\" Daeun asked.\n\"No idea. But more than getting there — I hope this train I ride with you never stops running.\"\n\nDaeun rested her head on his shoulder. Two years lived inside that weight."
+    }
   },
   {
     "id": "arc_daeun_year3_apart",
@@ -46,7 +49,10 @@
         "text": "(First thought: she's going to get there before me)",
         "result_text": "{name} said nothing. Daeun seemed to notice something.\n\nStrange feeling. Said he'd take her there — and she's already going. Not bad, but — oddly complicated."
       }
-    ]
+    ],
+    "description_if_known": {
+      "daeun_romance_started": "Daeun landed a job at a company in Gangnam. A small position, but her first business card.\n\nThree years a couple. They know each other's days by heart now.\n\nShe held out the card, smiling. \"Guess I reached Gangnam first?\"\n\"Cheater.\"\n\n{name} laughed, but something in him went quietly heavy.\nShe's someone who'd be fine without me. And still she stays here.\nHe was grateful, and a little afraid."
+    }
   },
   {
     "id": "arc_daeun_year5_ending",
