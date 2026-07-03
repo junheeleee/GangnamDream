@@ -367,7 +367,8 @@
         "text": "Search whether online training qualifies",
         "result_text": "You looked into the online-training criteria. If it qualifies, finish from home; if not, off to the hall. Made a note either way."
       }
-    ]
+    ],
+    "background": "office"
   },
   {
     "id": "disasters_009",
