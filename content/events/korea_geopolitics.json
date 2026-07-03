@@ -6,21 +6,33 @@
     "rarity": "uncommon",
     "weight": 1.1,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 36,
     "background": "street",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "military", "geopolitics"],
+    "tags": [
+      "korea",
+      "culture",
+      "military",
+      "geopolitics"
+    ],
     "description": "오후 2시, 갑자기 사이렌이 울렸다.\n민방위 훈련. 연간 두 번, 이 사이렌은 서울 전체를 잠깐 멈춘다.\n\n외국인들이 가장 놀라는 것 중 하나.\n한국인들에게는, 그냥 '또 왔다'.",
     "choices": [
       {
         "text": "훈련에 따른다 — 대피소 표지판을 찾는다",
-        "effects": { "mental": 2, "intelligence": 1 },
+        "effects": {
+          "mental": 2,
+          "intelligence": 1
+        },
         "result_text": "지하철 역 방향으로 걸었다. 노란 대피소 표지판.\n\n훈련이라고 생각하면서도, 몸이 먼저 움직였다.\n평화로운 시간에 반복하는 것들이, 진짜 순간에 몸을 지킨다."
       },
       {
         "text": "어차피 훈련 — 카페에서 커피 마신다",
-        "effects": { "mental": 1 },
+        "effects": {
+          "mental": 1
+        },
         "result_text": "카페 안 사람들은 다 제자리였다. 나도 그랬다.\n\n사이렌이 꺼지고 서울이 다시 움직였다. 5분.\n이 나라에서 위기는, 커피 한 모금만큼의 일시정지였다."
       }
     ]
@@ -32,21 +44,32 @@
     "rarity": "uncommon",
     "weight": 1.2,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 30,
     "background": "goshiwon_room",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "military", "friendship"],
+    "tags": [
+      "korea",
+      "culture",
+      "military",
+      "friendship"
+    ],
     "description": "친구한테서 카톡이 왔다.\n\"나 다음 달에 입대해. 2년 동안 연락 못 할 수도 있어.\"\n\n한국 남자에게 군 복무는 선택이 아니다.\n18개월~2년. 강남으로 가는 시간표에 그게 낀다.",
     "choices": [
       {
         "text": "전역 선물 미리 약속한다 — \"나올 때 밥 산다\"",
-        "effects": { "mental": 4 },
+        "effects": {
+          "mental": 4
+        },
         "result_text": "\"전역하면 삼겹살 쏜다.\" 보냈다.\n\"야 2년 뒤에 네가 강남 살면 거기서 먹자.\" 돌아왔다.\n\n그 농담이 따뜻했다. 2년 후를 함께 그릴 수 있는 사람이 있다는 것."
       },
       {
         "text": "\"잘 다녀와\" — 짧게 답한다",
-        "effects": { "mental": 2 },
+        "effects": {
+          "mental": 2
+        },
         "result_text": "\"잘 다녀와.\" 세 글자.\n\n뭔가 더 써야 했나 싶었다. 근데 모르겠다, 뭐라고.\n군대 가는 친구한테 할 말이 아직도 없다."
       }
     ]
@@ -58,22 +81,34 @@
     "rarity": "uncommon",
     "weight": 1.1,
     "hidden": false,
-    "conditions": { "min_turn": 4 },
+    "conditions": {
+      "min_turn": 4
+    },
     "cooldown": 40,
     "background": "goshiwon_room",
     "portrait": "player_tired",
-    "tags": ["korea", "culture", "military"],
-    "description": "문자가 왔다.\n「예비군 훈련 입소 통지서. 일시: ○월 ○일 09:00. 불참 시 과태료 150만 원.」\n\n전역해도 끝이 아니다. 8년은 예비군.\n달력에 표시했다. 또 하루를 잃는다.",
+    "tags": [
+      "korea",
+      "culture",
+      "military"
+    ],
+    "description": "문자가 왔다.\n「민방위 교육 소집 통지서. 일시: ○월 ○일 09:00. 장소: 주민센터 대강당. 불참 시 과태료.」\n\n예비군은 몇 해 전에 끝났다. 이제는 민방위다.\n훈련장 위장 크림 대신, 접이식 의자에 앉아 4시간짜리 안보 강의를 듣는다.\n달력에 표시했다. 또 반나절을 잃는다.",
     "choices": [
       {
         "text": "일정을 비우고 성실히 다녀온다",
-        "effects": { "mental": 1, "health": -1 },
-        "result_text": "아침 일찍 훈련장 갔다. 위장 크림 바르고 하루 보냈다.\n\n전우들끼리는 묘하게 편했다. 세상에서 잠깐 빠져나온 느낌.\n\"사회 돌아가면 또 열심히 살아야지\"를 거기서 다시 다짐했다."
+        "effects": {
+          "mental": 1,
+          "health": -1
+        },
+        "result_text": "주민센터 강당. 낡은 프로젝터, 재난 대응 영상, 꾸벅꾸벅 조는 동네 아저씨들.\n\n예비군 훈련장의 묘한 전우애 같은 건 없었다. 다들 남남이었고, 빨리 끝나기만 바랐다.\n그래도 4시간이면 끝난다. 예비군에 비하면 이건 양반이었다."
       },
       {
-        "text": "소집 면제 사유를 알아본다",
-        "effects": { "mental": 2, "intelligence": 1 },
-        "result_text": "면제 사유 리스트 검색했다. 해외 체류, 질병, 생계유지...\n\n해당 없음. 어차피 가야 한다.\n그래도 선택지를 확인하는 게 나의 방식이다. 모르면 모른 채로 당한다."
+        "text": "사이버교육으로 대체할 수 있는지 알아본다",
+        "effects": {
+          "mental": 2,
+          "intelligence": 1
+        },
+        "result_text": "민방위는 연차에 따라 사이버교육으로 대체 가능한 경우가 있었다.\n검색해서 해당되는지 확인했다.\n모르면 반나절을 강당에서 날리고, 알면 집에서 클릭 몇 번으로 끝난다. 아는 게 시간이었다."
       }
     ]
   },
@@ -84,21 +119,32 @@
     "rarity": "uncommon",
     "weight": 1.0,
     "hidden": false,
-    "conditions": { "min_turn": 6 },
+    "conditions": {
+      "min_turn": 6
+    },
     "cooldown": 32,
     "background": "goshiwon_room",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "geopolitics"],
+    "tags": [
+      "korea",
+      "culture",
+      "geopolitics"
+    ],
     "description": "뉴스 알림: 「북한, 미사일 발사 — 동해 낙하」\n\n서울은 조용하다. 주가는 잠깐 출렁였다가 돌아온다.\n외국 친구들은 카톡 보낸다. \"괜찮아?\"",
     "choices": [
       {
         "text": "\"응 괜찮아 — 원래 이래\" 답장 보낸다",
-        "effects": { "mental": 3 },
+        "effects": {
+          "mental": 3
+        },
         "result_text": "\"Don't worry, this happens all the time here.\" 보냈다.\n\n맞는 말이다. 한국 사람들에게 북한 뉴스는 날씨 뉴스와 비슷하다.\n존재하지만, 오늘의 계획을 바꾸지 않는다."
       },
       {
         "text": "주가 움직임을 확인한다 — 지정학 리스크",
-        "effects": { "mental": 1, "intelligence": 1 },
+        "effects": {
+          "mental": 1,
+          "intelligence": 1
+        },
         "result_text": "코스피가 0.4% 빠졌다 돌아왔다. 외국인 매도가 잠깐 나왔다.\n\n지정학 리스크는 한국 주식의 구조적 할인 요인이라고 책에서 읽었다.\n오늘 내 통장엔 아무 의미 없지만, 언젠가는 써먹을 지식이다."
       }
     ]
@@ -110,21 +156,33 @@
     "rarity": "rare",
     "weight": 0.8,
     "hidden": false,
-    "conditions": { "min_turn": 10 },
+    "conditions": {
+      "min_turn": 10
+    },
     "cooldown": 50,
     "background": "goshiwon_room",
     "portrait": "player_normal",
-    "tags": ["korea", "culture", "geopolitics", "investment"],
+    "tags": [
+      "korea",
+      "culture",
+      "geopolitics",
+      "investment"
+    ],
     "description": "미국 대선 결과가 나왔다.\n한국 언론이 일제히 한미동맹과 방위비 분담금 얘기를 꺼낸다.\n원/달러 환율이 움직이기 시작했다.",
     "choices": [
       {
         "text": "환율을 관찰한다 — 달러 예금이 생각난다",
-        "effects": { "mental": 2, "intelligence": 2 },
+        "effects": {
+          "mental": 2,
+          "intelligence": 2
+        },
         "result_text": "달러가 오르면 원화 자산이 상대적으로 약해진다.\n반대로 달러 예금을 들고 있으면 지금이 기회일 수도 있다.\n\n돈이 없어서 못 하지만, 구조는 이해했다.\n이해가 먼저고, 실행은 나중이다."
       },
       {
         "text": "내 일이나 한다 — 강대국 정치는 내가 못 바꾼다",
-        "effects": { "mental": 2 },
+        "effects": {
+          "mental": 2
+        },
         "result_text": "뉴스를 껐다.\n\n한미 관계든 환율이든, 내가 바꿀 수 없는 것들이다.\n내가 바꿀 수 있는 것에 집중하기로 했다. 오늘 할 일로 돌아왔다."
       }
     ]

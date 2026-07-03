@@ -353,19 +353,19 @@
   {
     "id": "military_007",
     "title": "Reserve Training Notice",
-    "description": "A text arrived with a reserve forces training notice.\n\nReceived at 9:12 AM. You were in the middle of a meeting.\n33 years old. It had been over ten years since discharge, yet these texts still came.\n\nYou checked the date. A Friday that week of all weeks. The day before an important deadline.\n\nCaught between the Ministry of National Defense and your company. You weren't even sure if it was right to feel this way.",
+    "description": "A text arrived with a civil defense training notice.\n\nReceived at 9:12 AM. You were in the middle of a meeting.\n33 years old. Your reserve years ended two years back, and now it's these texts. You've aged, alright.\n\nYou checked the date. A Friday morning that week of all weeks. The day before an important deadline.\n\nGetting this worked up over a half-day lecture — you really don't have much slack these days.",
     "choices": [
       {
-        "text": "Check the date and apply for leave",
-        "result_text": "You checked the date and filed the leave request. A hassle, but there was no getting around it."
+        "text": "Check the date and apply for half-day leave",
+        "result_text": "You checked the date and took a half-day. Only the morning to clear — better than the old reserve days."
       },
       {
         "text": "Grumble about it with old army buddies",
-        "result_text": "You vented to your old buddies and the group chat lit up. Your chest felt lighter, but reality stayed exactly the same."
+        "result_text": "You vented to your old buddies and the group chat lit up. \"Wait, we're on civil defense now?\" — everyone suddenly felt old."
       },
       {
-        "text": "Look into ways to defer the training",
-        "result_text": "You researched how to defer. It felt a bit underhanded, but you made a note of it just in case."
+        "text": "Search whether online training qualifies",
+        "result_text": "You looked into the online-training criteria. If it qualifies, finish from home; if not, off to the hall. Made a note either way."
       }
     ]
   },

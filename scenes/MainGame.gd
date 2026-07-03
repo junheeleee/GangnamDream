@@ -2117,8 +2117,9 @@ func _next_arc_id() -> String:
 			and GameState.get_cast_affinity("daeun") >= 45 \
 			and not f.get("arc_daeun_first_night_seen", false):
 		return "arc_daeun_first_night"
-	# ── Y5 프로포즈 — 최고 호감의 연인에게 (결혼 진엔딩 게이트) ──
-	if t >= 205 and f.get("daeun_romance_started", false) \
+	# ── 프로포즈 — 최고 호감의 연인에게 (결혼 진엔딩 게이트). Y4(t≥150)부터 열어
+	#    헌신한 커플은 36세에 결혼하고 남은 기간을 신혼으로 — 마지막까지 미루는 '질질 끄는' 느낌 제거. ──
+	if t >= 150 and f.get("daeun_romance_started", false) \
 			and GameState.get_cast_affinity("daeun") >= 55 \
 			and not f.get("arc_daeun_proposal_seen", false):
 		return "arc_daeun_proposal"
