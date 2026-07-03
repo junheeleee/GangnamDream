@@ -1,5 +1,21 @@
 # Gangnam Dream Work Log
 
+## 2026-07-03 (Claude — EN 시점(POV) 통일 1차: 아크/드라마 계열 12이벤트)
+
+### 배경
+- "보통 주" 품질 패스에서 길이 프록시 최하위 24개를 정독한 결과 **전부 기준 통과**(미니멀리즘이 이 게임의 보이스) — 맹목 리라이트 취소. 대신 실측된 진짜 결함: **EN 서술 시점 3파전**(you 613 풀 관례 / he 222 아크 시네마틱 / I ~200 이질 번역 잔재). 영어 디폴트 제품에서 주 단위 시점 널뜀은 체감 결함.
+- 대화문 속 1인칭("I pulled my deposit")은 보존 대상이라 정규식 불가 → 정독 변환.
+
+### 1차 완료 (아크/드라마 계열, 7파일 12이벤트 24필드)
+- arc_midgame(7)/arc_events/arc_chapter_themes/amb_scenarios/amb_scenarios4/drama_events2/social_independence — 잔류 1인칭 서술을 파일 지배 보이스(3인칭 he/{name})로 정렬. 대화문·선택지 라벨·효과 무변경.
+- 스캐너가 따옴표 속 "I"까지 집계한 오탐 33건은 정당 스킵으로 판정.
+
+### 잔여 (2차 예정)
+- 대형 4파일(hidden/life/story/investment_events) + korea_*/callback_* 계열 ~190이벤트 — 서브에이전트 세션 한도로 미착수, 한도 리셋 후 재개.
+
+### 검증
+- 7파일 json 파스, `en_coverage_check.py` clean, `audit.sh` ERROR 0, diff 라인 단위 검수.
+
 ## 2026-07-02 (Claude — 개연성 앵커: "왜 하필 5년"을 아버지의 시간에 명시 결박)
 
 ### 배경 (유저 질문: "왜 5년에 30억? 강남이 왜 중요? 현실성은?")

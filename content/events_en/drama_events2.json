@@ -89,7 +89,7 @@
   {
     "id": "drama_sogeuting_00",
     "title": "Blind Date",
-    "description": "A senior set me up on a blind date.\nThe person sitting across the cafe table — not a bad first impression.\nTalk of jobs, hobbies, family went back and forth.\n\nAt some point, {name} didn't know how to explain his current situation.",
+    "description": "A senior set {name} up on a blind date.\nThe person sitting across the cafe table — not a bad first impression.\nTalk of jobs, hobbies, family went back and forth.\n\nAt some point, {name} didn't know how to explain his current situation.",
     "choices": [
       {
         "text": "Be honest. \"I'm somewhere in the middle of it all.\"  (honesty / impression risk)",
