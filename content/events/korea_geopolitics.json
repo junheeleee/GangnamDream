@@ -76,7 +76,7 @@
   },
   {
     "id": "kx_reserve_duty",
-    "title": "예비군 훈련 문자",
+    "title": "민방위 소집 문자",
     "category": "social",
     "rarity": "uncommon",
     "weight": 1.1,
@@ -157,7 +157,7 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "min_turn": 10
+      "min_turn": 96
     },
     "cooldown": 50,
     "background": "goshiwon_room",

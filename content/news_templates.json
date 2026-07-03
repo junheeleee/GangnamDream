@@ -102,7 +102,7 @@
     "id": "news_012",
     "category": "real_estate",
     "headline": "{topic} 재건축 안전진단 완화 발표 — '기대감 선반영' 호가 급등",
-    "topics": ["은마아파트", "잠실 주공5단지", "개포주공", "목동 아파트", "상계주공", "압구정 현대", "둔촌주공"],
+    "topics": ["은마아파트", "잠실 주공5단지", "개포주공", "목동 아파트", "상계주공", "압구정 현대", "올림픽파크포레온"],
     "market_effect": {"category": "crypto", "power": 0.015},
     "misleading_chance": 0.23,
     "sentiment": "greed"

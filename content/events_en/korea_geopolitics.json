@@ -31,7 +31,7 @@
   },
   {
     "id": "kx_reserve_duty",
-    "title": "Reserve Duty Notice",
+    "title": "Civil Defense Duty Notice",
     "description": "A text arrives:\n'Civil Defense Training Notice. Date: [Month] [Day] 09:00. Location: community center hall. Fine for no-show.'\n\n[Civil defense (minbangwi): after a Korean man finishes his 8 years of reserve duty, he rolls into civil defense until age 40 — a lighter obligation, usually a once-a-year 4-hour safety lecture at a community center, not field training.]\n\nThe reserve years ended a while ago. This is civil defense now.\nInstead of camo cream at a training ground, you sit in a folding chair through a four-hour security lecture.\nAnother half-day gone.",
     "choices": [
       {

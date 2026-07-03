@@ -1031,7 +1031,7 @@
   {
     "id": "drama_apartment_lottery_win",
     "title": "아파트 청약 당첨",
-    "description": "무심코 넣은 서울 외곽 아파트 청약에 당첨됐다. 분양가 3억 8천. 대출 없이는 불가능한 금액이다.",
+    "description": "무심코 넣은 서울 외곽 아파트 청약에 당첨됐다. 분양가 6억 8천. 대출 없이는 불가능한 금액이다.",
     "category": "housing",
     "rarity": "rare",
     "weight": 0.15,
