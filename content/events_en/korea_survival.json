@@ -2,11 +2,11 @@
   {
     "id": "kx_subway_hell",
     "title": "Line 9 Hell Train",
-    "description": "Rush-hour express on Line 9.\nCrammed between bodies, my feet lift slightly off the floor.\n\n\"The next station is...\" Nobody can get off, and more pile on.\nMy bag is crushed, no free hand for my phone.",
+    "description": "Rush-hour express on Line 9.\nCrammed between bodies, your feet lift slightly off the floor.\n\n\"The next station is...\" Nobody can get off, and more pile on.\nYour bag is crushed, no free hand for your phone.",
     "choices": [
       {
         "text": "Endure it — this is part of the commute too",
-        "result_text": "By the time I reached the office I was already drained.\n\nIf a foreign friend filmed this, they'd say 'unbelievable' —\nbut to a Korean office worker it's just Tuesday. A day's energy spent before work even starts."
+        "result_text": "By the time you reached the office you were already drained.\n\nIf a foreign friend filmed this, they'd say 'unbelievable' —\nBut to a Korean office worker it's just Tuesday. A day's energy spent before work even starts."
       },
       {
         "text": "Let one train go and take the next",
@@ -21,7 +21,7 @@
     "choices": [
       {
         "text": "Ride the Han River bike path",
-        "result_text": "Rode along the Han River. Wind, glittering water, shade under the bridges.\n\nNo freedom like it for a thousand won.\nWhile I'm pedaling, even the 3 billion and the deadline fall behind me."
+        "result_text": "Rode along the Han River. Wind, glittering water, shade under the bridges.\n\nNo freedom like it for a thousand won.\nWhile you're pedaling, even the 3 billion and the deadline fall behind you."
       },
       {
         "text": "Commute by bike to save the bus fare",
@@ -47,7 +47,7 @@
   {
     "id": "kx_parcel_locker",
     "title": "The Parcel Locker",
-    "description": "The package I ordered yesterday is already in the parcel locker.\nPunch in the code from the text and a compartment clicks open.\n\nKorean delivery is fast. Ordered last night, here this morning.",
+    "description": "The package you ordered yesterday is already in the parcel locker.\nPunch in the code from the text and a compartment clicks open.\n\nKorean delivery is fast. Ordered last night, here this morning.",
     "choices": [
       {
         "text": "Open the package — a small thrill",
@@ -55,7 +55,7 @@
       },
       {
         "text": "Don't like it — free return",
-        "result_text": "Wrong size, so I requested a return. Free return, picked up at the door.\n\nWhen even returns are this easy, you keep buying.\nConvenience always has its eye on your wallet — I shouldn't forget that."
+        "result_text": "Wrong size, so you requested a return. Free return, picked up at the door.\n\nWhen even returns are this easy, you keep buying.\nConvenience always has its eye on your wallet — you shouldn't forget that."
       }
     ]
   },
@@ -70,7 +70,7 @@
       },
       {
         "text": "Bundle it loosely and head back in",
-        "result_text": "Too tired, so I bundled it loosely.\nThe building guard probably re-sorted it the next day.\n\nFelt a little guilty. I know there's convenience that runs on someone else's labor."
+        "result_text": "Too tired, so you bundled it loosely.\nThe building guard probably re-sorted it the next day.\n\nFelt a little guilty. You know there's convenience that runs on someone else's labor."
       }
     ]
   }

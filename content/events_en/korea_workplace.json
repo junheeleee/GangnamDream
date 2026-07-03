@@ -25,7 +25,7 @@
       },
       {
         "text": "Work's done — leave on time",
-        "result_text": "'I'll head out now.' And left.\n\nFelt eyes on my back — but it faded as I walked.\nMy time is mine to keep. That takes practice too."
+        "result_text": "'you'll head out now.' And left.\n\nFelt eyes on your back — but it faded as you walked.\nYour time is yours to keep. That takes practice too."
       }
     ]
   },
@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "'You're absolutely right' — let it wash over you",
-        "result_text": "Agreed along. The team leader looked satisfied.\n\nI thought differently — but I held it back today.\nWhether this is pragmatism or surrender — I still don't know where the line is."
+        "result_text": "Agreed along. The team leader looked satisfied.\n\nYou thought differently — but you held it back today.\nWhether this is pragmatism or surrender — you still don't know where the line is."
       },
       {
         "text": "Politely say what you actually think",
-        "result_text": "'My thinking is a bit different — here's why...' Carefully.\n\nThe team leader paused. 'Hmm, that's worth considering.'\nBetter than expected. Courage takes practice."
+        "result_text": "'Your thinking is a bit different — here's why...' Carefully.\n\nThe team leader paused. 'Hmm, that's worth considering.'\nBetter than expected. Courage takes practice."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Come prepared with data and ask for a raise",
-        "result_text": "'Based on last year's performance metrics and market rates, I'd like to request a 15% increase.'\n\nHR looked caught off guard. Settled at 7%.\nNothing changes if you don't ask."
+        "result_text": "'Based on last year's performance metrics and market rates, you'd like to request a 15% increase.'\n\nHR looked caught off guard. Settled at 7%.\nNothing changes if you don't ask."
       },
       {
         "text": "'I leave it to you' — accept the company's decision",
-        "result_text": "3% increase. The company's call.\n\nFine. But I also know I can't keep doing this.\nI'll prepare properly next year."
+        "result_text": "3% increase. The company's call.\n\nFine. But you also know you can't keep doing this.\nYou'll prepare properly next year."
       }
     ]
   }

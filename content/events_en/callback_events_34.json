@@ -2,48 +2,48 @@
   {
     "id": "callback_jeonse_protected_safe",
     "title": "The Registry Saved Me",
-    "description": "I remembered being careful when I signed the jeonse contract.\nThen news came: the landlord filed for bankruptcy.\n\nJeonse fraud warnings have been all over the news. But I have the stamp.",
+    "description": "You remembered being careful when you signed the jeonse contract.\nThen news came: the landlord filed for bankruptcy.\n\nJeonse fraud warnings have been all over the news. But you have the stamp.",
     "choices": [
       {
         "text": "Gather the fixed-date stamp documents and respond",
-        "result_text": "Fixed-date stamp. Leasehold registration. The paperwork I filed that day protected everything.\n\nRecognized as a priority creditor in the foreclosure proceedings. Full deposit returned.\nI was grateful to the version of myself who paid attention."
+        "result_text": "Fixed-date stamp. Leasehold registration. The paperwork you filed that day protected everything.\n\nRecognized as a priority creditor in the foreclosure proceedings. Full deposit returned.\nYou were grateful to the version of yourself who paid attention."
       }
     ]
   },
   {
     "id": "callback_jeonse_scam_narrow",
     "title": "Jeonse Fraud — Too Close",
-    "description": "A text message: the landlord has filed for bankruptcy.\nI should have gotten the fixed-date stamp at the community center back then.\n\nJeonse fraud is no longer something that happens to other people.",
+    "description": "A text message: the landlord has filed for bankruptcy.\nYou should have gotten the fixed-date stamp at the community center back then.\n\nJeonse fraud is no longer something that happens to other people.",
     "choices": [
       {
         "text": "Contact the Legal Aid Corporation and fight for what you can recover",
-        "result_text": "Went to the Legal Aid Corporation. No fixed-date stamp means I'm a junior creditor.\n\n₩500,000 lost in the end — a partial recovery.\n[One document. One trip to the community center. That's what it cost to protect ₩50M in deposit money. In Korea, jeonse fraud has cost thousands of people their life savings. The fixed-date stamp costs ₩600 to file, takes 10 minutes, and can be the only protection.]\nNow I know it in my bones."
+        "result_text": "Went to the Legal Aid Corporation. No fixed-date stamp means you're a junior creditor.\n\n₩500,000 lost in the end — a partial recovery.\n[One document. One trip to the community center. That's what it cost to protect ₩50M in deposit money. In Korea, jeonse fraud has cost thousands of people their life savings. The fixed-date stamp costs ₩600 to file, takes 10 minutes, and can be the only protection.]\nNow you know it in your bones."
       }
     ]
   },
   {
     "id": "callback_hoesik_payoff",
     "title": "What the Dinner Left Behind",
-    "description": "The team leader called me over.\n'Are you interested in leading the new project next quarter?'\n\nWas it because I stayed until the end at that dinner? Or because of the actual work?\nMaybe both.",
+    "description": "The team leader called you over.\n'Are you interested in leading the new project next quarter?'\n\nWas it because you stayed until the end at that dinner? Or because of the actual work?\nMaybe both.",
     "choices": [
       {
         "text": "Say yes",
-        "result_text": "'I'll do it.'\n\nDid this opportunity come from the company dinner, or from my results?\nIn Korean workplaces, these two things are woven together."
+        "result_text": "'you'll do it.'\n\nDid this opportunity come from the company dinner, or from your results?\nIn Korean workplaces, these two things are woven together."
       },
       {
         "text": "Say you'd rather wait until you're more ready",
-        "result_text": "'I'd like to take it on when I'm a bit more prepared.' Said it clearly.\n\nThe team leader nodded. Opportunities come to people who save them for the right moment too.\nDecided to prepare for the next one."
+        "result_text": "'you'd like to take it on when you're a bit more prepared.' Said it clearly.\n\nThe team leader nodded. Opportunities come to people who save them for the right moment too.\nDecided to prepare for the next one."
       }
     ]
   },
   {
     "id": "callback_kkondae_respect",
     "title": "What the Kkondae Said Back",
-    "description": "The team leader pulled me aside after hours.\n\n'Oh no,' I thought. 'Here it comes.'",
+    "description": "The team leader pulled you aside after hours.\n\n'Oh no,' you thought. 'Here it comes.'",
     "choices": [
       {
         "text": "Listen",
-        "result_text": "'What you said back then — I thought about it. You were right. Everyone else just lets it go these days.'\n\nNot what I expected.\nSaying what you actually think can move even a kkondae — sometimes."
+        "result_text": "'What you said back then — I thought about it. You were right. Everyone else just lets it go these days.'\n\nNot what you expected.\nSaying what you actually think can move even a kkondae — sometimes."
       }
     ]
   },
@@ -54,11 +54,11 @@
     "choices": [
       {
         "text": "Decide to start drawing the line",
-        "result_text": "'From now on, I leave when the work is done.' Decided internally.\n\n[Nunchi overtime: overtime performed not because there's actual work, but because no one wants to be seen leaving before the boss. A distinctly Korean workplace phenomenon — the cost isn't just time, it's accumulated health damage.]\nThe body won against the office. The line is mine to draw."
+        "result_text": "'From now on, I leave when the work is done.' Decided internally.\n\n[Nunchi overtime: overtime performed not because there's actual work, but because no one wants to be seen leaving before the boss. A distinctly Korean workplace phenomenon — the cost isn't just time, it's accumulated health damage.]\nThe body won against the office. The line is yours to draw."
       },
       {
         "text": "Push through a little longer",
-        "result_text": "Just a little more. Just a little more.\n\nThe 'little mores' piled up until the body protested. Indigestion. Sleepless nights.\nEndurance has limits. I'd already passed mine by some distance."
+        "result_text": "Just a little more. Just a little more.\n\nThe 'little mores' piled up until the body protested. Indigestion. Sleepless nights.\nEndurance has limits. You'd already passed yours by some distance."
       }
     ]
   },
@@ -76,11 +76,11 @@
   {
     "id": "callback_recycling_neighbor",
     "title": "Small Trust in the Goshiwon",
-    "description": "The woman next door stopped me in the hallway.\n\n'You've been so good with the recycling lately. Thank you.'\nI'd barely noticed her. Turns out she noticed me.",
+    "description": "The woman next door stopped you in the hallway.\n\n'You've been so good with the recycling lately. Thank you.'\nYou'd barely noticed her. Turns out she noticed you.",
     "choices": [
       {
         "text": "Exchange a proper greeting",
-        "result_text": "We learned each other's names.\n\nI have a neighbor in the goshiwon now. Small trust built from something small.\n[Recycling rules in Korea are strict and specific: separate plastic, cans, paper, styrofoam, glass, food waste — each with its own designated bin and day. Rinsing bottles, removing labels — it's genuinely complex. But everyone does it, because the social pressure to comply is real. The unwritten compact that makes this country's density work.]"
+        "result_text": "We learned each other's names.\n\nYou have a neighbor in the goshiwon now. Small trust built from something small.\n[Recycling rules in Korea are strict and specific: separate plastic, cans, paper, styrofoam, glass, food waste — each with its own designated bin and day. Rinsing bottles, removing labels — it's genuinely complex. But everyone does it, because the social pressure to comply is real. The unwritten compact that makes this country's density work.]"
       }
     ]
   }

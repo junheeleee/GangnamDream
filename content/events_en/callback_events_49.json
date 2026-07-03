@@ -2,7 +2,7 @@
   {
     "id": "callback_rejected_godsaeng_echo",
     "title": "Living at My Own Pace, I Said",
-    "description": "Faced with the 'godsaeng' (perfect-life) craze, {name} said, 'I live at my own pace, not someone else's godsaeng.'\n\nThat choice comes back sometimes.\n\nToday they saw another '5 a.m. wake-up' post.",
+    "description": "Faced with the 'godsaeng' (perfect-life) craze, {name} said, 'you live at your own pace, not someone else's godsaeng.'\n\nThat choice comes back sometimes.\n\nToday they saw another '5 a.m. Wake-up' post.",
     "choices": [
       {
         "text": "Even now — my rhythm is my pace",
@@ -10,7 +10,7 @@
       },
       {
         "text": "Add good habits that fit my pace",
-        "result_text": "Keep my pace, but adopt what's good.\n\n{name} rejected the trend yet picked out what was usable.\nWithout mimicking others' ways, they still learned what was worth learning."
+        "result_text": "Keep your pace, but adopt what's good.\n\n{name} rejected the trend yet picked out what was usable.\nWithout mimicking others' ways, they still learned what was worth learning."
       }
     ]
   },
@@ -186,7 +186,7 @@
     "choices": [
       {
         "text": "Those 30 days — were proof I could do it",
-        "result_text": "Filling 30 days built the self-image of 'I'm someone who can be consistent.'\n\nOne who keeps small promises keeps big ones too.\n{name} knows those 30 days were a miniature of the five years."
+        "result_text": "Filling 30 days built the self-image of 'you're someone who can be consistent.'\n\nOne who keeps small promises keeps big ones too.\n{name} knows those 30 days were a miniature of the five years."
       },
       {
         "text": "Now I take on a longer habit",
@@ -197,7 +197,7 @@
   {
     "id": "callback_attended_seminar_echo",
     "title": "Going to the Investing Seminar",
-    "description": "{name} once went to an investing seminar, thinking 'there may be things I don't know.'\n\nThat learning comes back sometimes.\n\nToday, before new investing information, that day came to mind.",
+    "description": "{name} once went to an investing seminar, thinking 'there may be things you don't know.'\n\nThat learning comes back sometimes.\n\nToday, before new investing information, that day came to mind.",
     "choices": [
       {
         "text": "The willingness to learn — built my eye for it",

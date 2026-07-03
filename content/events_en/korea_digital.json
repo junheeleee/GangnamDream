@@ -10,7 +10,7 @@
       },
       {
         "text": "Post a question",
-        "result_text": "'What should I do first with ₩200K/month?' I posted.\nReplies came fast. Over ten of them. All different.\n\nNo right answer — but knowing other people are sweating the same thing helped."
+        "result_text": "'What should I do first with ₩200K/month?' you posted.\nReplies came fast. Over ten of them. All different.\n\nNo right answer — but knowing other people are sweating the same thing helped."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Retweet it — deeply relatable",
-        "result_text": "Retweeted it. Added 'this is literally me.'\n\nOver 200 likes. Strangers pressed 'me too.'\nI thought I was alone in this. We were all in the same place."
+        "result_text": "Retweeted it. Added 'this is literally me.'\n\nOver 200 likes. Strangers pressed 'me too.'\nYou thought you were alone in this. We were all in the same place."
       },
       {
         "text": "Laugh and move on — a meme isn't reality",
-        "result_text": "Laughed. Put the phone down.\n\nI relate — but opening social media for comfort just pulls you deeper in.\nDopamine is too cheap these days."
+        "result_text": "Laughed. Put the phone down.\n\nYou relate — but opening social media for comfort just pulls you deeper in.\nDopamine is too cheap these days."
       }
     ]
   },
@@ -51,7 +51,7 @@
     "choices": [
       {
         "text": "Buy one and reply in kind",
-        "result_text": "Bought a ₩2,200 emoticon. A waving cat.\n\n'Haha, cute,' they replied.\nIn this country, relationships are maintained less by words, more by emoticons — I keep learning this."
+        "result_text": "Bought a ₩2,200 emoticon. A waving cat.\n\n'Haha, cute,' they replied.\nIn this country, relationships are maintained less by words, more by emoticons — you keep learning this."
       },
       {
         "text": "Reply with text instead",
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Start reading it regularly",
-        "result_text": "Started reading 30 minutes a day.\n\nThree months later, I was using 'location value,' 'school zone,' 'subway proximity' without thinking.\nKnowledge accumulates as fast as you're willing to read."
+        "result_text": "Started reading 30 minutes a day.\n\nThree months later, you were using 'location value,' 'school zone,' 'subway proximity' without thinking.\nKnowledge accumulates as fast as you're willing to read."
       },
       {
         "text": "Skim it and close the tab — this isn't my world yet",
-        "result_text": "₩1 billion, ₩2 billion, ₩3 billion...\n\nThe numbers were too large to feel real.\nThe longer I stared, the more a sense of deprivation set in. Closed the tab."
+        "result_text": "₩1 billion, ₩2 billion, ₩3 billion...\n\nThe numbers were too large to feel real.\nThe longer you stared, the more a sense of deprivation set in. Closed the tab."
       }
     ]
   }

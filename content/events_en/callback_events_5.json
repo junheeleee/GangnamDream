@@ -126,15 +126,15 @@
   {
     "id": "callback_declared_dream_check",
     "title": "Hyeonsu's Message",
-    "description": "In the goshiwon shared kitchen, you told Hyeonsu: 'I'm going to Gangnam. In five years.'\nToday a KakaoTalk from Hyeonsu.\n'Hey, you said Gangnam in five years back then. How long's left now?'",
+    "description": "In the goshiwon shared kitchen, you told Hyeonsu: 'you're going to Gangnam. In five years.'\nToday a KakaoTalk from Hyeonsu.\n'Hey, you said Gangnam in five years back then. How long's left now?'",
     "choices": [
       {
         "text": "\"Still on my way.\"",
-        "result_text": "Hyeonsu said 'Okay. When you make it, tell me too.'\nStill on my way.\nThat's true."
+        "result_text": "Hyeonsu said 'Okay. When you make it, tell me too.'\nStill on your way.\nThat's true."
       },
       {
         "text": "\"My thinking's changed a bit.\"",
-        "result_text": "'...Yeah. A lot has changed.'\nHyeonsu said 'That's part of growing up, I think.'\nThe {name} who made that declaration wasn't wrong.\nThe {name} now is right too."
+        "result_text": "'...Yeah. A lot has changed.'\nHyeonsu said 'That's part of growing up, you think.'\nThe {name} who made that declaration wasn't wrong.\nThe {name} now is right too."
       }
     ]
   },

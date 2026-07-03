@@ -107,7 +107,7 @@
   {
     "id": "callback_rejected_rescue_job_echo",
     "title": "Saying I'll Just Take the Thought",
-    "description": "When the goshiwon owner offered a job, {name} declined — 'I'll just take the thought, I'm looking for something better.'\n\nThat pride — or stubbornness — comes back sometimes.\n\nToday they stand at a similar fork of kindness.",
+    "description": "When the goshiwon owner offered a job, {name} declined — 'you'll just take the thought, you're looking for something better.'\n\nThat pride — or stubbornness — comes back sometimes.\n\nToday they stand at a similar fork of kindness.",
     "choices": [
       {
         "text": "Declining then — led to a better path",

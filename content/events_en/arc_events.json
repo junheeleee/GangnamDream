@@ -171,7 +171,7 @@
   {
     "id": "arc_jiyeon_03b_lunch",
     "title": "Her World",
-    "description": "Jiyeon said she was buying lunch. A promise.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: ₩40,000.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n'Actually I'm interested in investing. I'm studying for my father's company, but there's no one in my circle who does this, which is frustrating.'\n\n{name} thought for a moment.\nWhat exactly does this person want — impossible to read clearly.",
+    "description": "Jiyeon said she was buying lunch. A promise.\n\nShe took {name} to a Korean restaurant in Cheongdam. Lunch set: ₩40,000.\n\n{name} opened the menu, closed it, opened it again, closed it.\n\nShe pretended not to notice. Or really didn't.\nAfter ordering she said:\n\n'Actually you're interested in investing. You're studying for your father's company, but there's no one in your circle who does this, which is frustrating.'\n\n{name} thought for a moment.\nWhat exactly does this person want — impossible to read clearly.",
     "choices": [
       {
         "text": "'I'm studying it too. Let's talk.' — Approach as investment partners.",
@@ -186,19 +186,19 @@
   {
     "id": "arc_jiyeon_05_epilogue",
     "title": "After",
-    "description": "The morning after {name} told her everything —\nJiyeon sent a message first.\n\n'I'm scared you might still be angry.\nI talked so much yesterday... I'm a little weird, aren't I?'\n\n{name} stared at the phone.\n\nA woman with three layers of reason.\nBecause of her father's company. Because she needed an investor. And because she wanted someone close.\n\nWhat can this become?",
+    "description": "The morning after {name} told her everything —\nJiyeon sent a message first.\n\n'you're scared you might still be angry.\nYou talked so much yesterday... You're a little weird, aren't you?'\n\n{name} stared at the phone.\n\nA woman with three layers of reason.\nBecause of her father's company. Because she needed an investor. And because she wanted someone close.\n\nWhat can this become?",
     "choices": [
       {
         "text": "'You're not weird. That's just being human.' — Accept it.",
-        "result_text": "Sent the reply.\nA moment later, hers: 'You're weird too. That's why I like it.'\n{name} half-smiled. Felt like there was one more reason to reach Gangnam."
+        "result_text": "Sent the reply.\nA moment later, hers: 'You're weird too. That's why you like it.'\n{name} half-smiled. Felt like there was one more reason to reach Gangnam."
       },
       {
         "text": "'Jiyeon — Gangnam still comes first for me.' — Draw a clear line.",
-        "result_text": "Jiyeon went quiet, then: '...I understand. That's more honest.'\nThe next day, a document on pre-sale rights came from her.\n'If you need help on this side, reach out. That part was genuine.'\nBusiness partners — without the feelings."
+        "result_text": "Jiyeon went quiet, then: '...you understand. That's more honest.'\nThe next day, a document on pre-sale rights came from her.\n'If you need help on this side, reach out. That part was genuine.'\nBusiness partners — without the feelings."
       },
       {
         "text": "'I understand all three reasons.' — No judgment.",
-        "result_text": "Jiyeon went quiet a moment, then said: '...That's the scariest thing you've said. Because I'm grateful.'\nGangnam and feelings and calculation all tangled in this.\nDecided not to give up on it for being complicated."
+        "result_text": "Jiyeon went quiet a moment, then said: '...That's the scariest thing you've said. Because you're grateful.'\nGangnam and feelings and calculation all tangled in this.\nDecided not to give up on it for being complicated."
       }
     ]
   },
@@ -209,11 +209,11 @@
     "choices": [
       {
         "text": "Glad to see him — an old friend after a long time.",
-        "result_text": "Old army stories stretched into the night.\nFirst time laughing out loud in a while. A welcome face in a hard stretch.\n'Let's meet up often, {name}. I'll be in touch.'\nJaehyuk seemed genuine. At least that night."
+        "result_text": "Old army stories stretched into the night.\nFirst time laughing out loud in a while. A welcome face in a hard stretch.\n'Let's meet up often, {name}. You'll be in touch.'\nJaehyuk seemed genuine. At least that night."
       },
       {
         "text": "Glad, but keeping some distance.",
-        "result_text": "Clinked glasses and smiled — but something sat uneasily.\nSomeone who contacts you after ten years is doing this well.\nWhy now, why me.\n{name} pushed that thought away. It's an old friend."
+        "result_text": "Clinked glasses and smiled — but something sat uneasily.\nSomeone who contacts you after ten years is doing this well.\nWhy now, why you.\n{name} pushed that thought away. It's an old friend."
       }
     ],
     "description_orthodox": "KakaoTalk. Choi Jaehyuk. Army.\n\nTen years.\n\nThe Jaehyuk at the pojangmacha used a foreign car as his profile photo.\nGood clothes. Expensive watch. The kind of confidence that fills a room.\n\n{name} smiled warmly and quietly calculated.\nWhat had this person been doing for ten years since discharge.\nWhy this call, why now.",
@@ -289,7 +289,7 @@
       },
       {
         "text": "Hold the leverage and negotiate — get my money back, and then some.",
-        "result_text": "'I won't report you. But give me triple my money back. One week.'\nJaehyuk nodded, trembling. The money came.\n\nOne step closer to Gangnam. But that night,\n{name} spent a long time thinking about how they were any different from Jaehyuk.\nCouldn't find an answer."
+        "result_text": "'you won't report you. But give you triple your money back. One week.'\nJaehyuk nodded, trembling. The money came.\n\nOne step closer to Gangnam. But that night,\n{name} spent a long time thinking about how they were any different from Jaehyuk.\nCouldn't find an answer."
       },
       {
         "text": "Pull him in and run a bigger scheme — turn fraud into business.",
@@ -831,11 +831,11 @@
   {
     "id": "arc_ch1_career_first_spec",
     "title": "First Line of the Cover Letter",
-    "description": "Laptop screen. Cover letter question 1.\n\n\"Please describe your motivation for applying.\"\n\nThe cursor has been blinking for a minute. Age 33. No work history. Six-year gap. How does this get written? Honest means rejected; polished means it doesn't sound like me.",
+    "description": "Laptop screen. Cover letter question 1.\n\n\"Please describe your motivation for applying.\"\n\nThe cursor has been blinking for a minute. Age 33. No work history. Six-year gap. How does this get written? Honest means rejected; polished means it doesn't sound like you.",
     "choices": [
       {
         "text": "Write honestly — explain the gap",
-        "result_text": "Wrote it. The reason for the six years. Reading it back, it looks bleak.\nBut it's me. Starting from here."
+        "result_text": "Wrote it. The reason for the six years. Reading it back, it looks bleak.\nBut it's you. Starting from here."
       },
       {
         "text": "Dress it up — make it sound good",

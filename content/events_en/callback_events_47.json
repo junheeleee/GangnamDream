@@ -107,7 +107,7 @@
   {
     "id": "callback_demo_resolved_echo",
     "title": "Saying I'll Go Anyway",
-    "description": "Four months into Seoul, stuck in a sense of stagnation on a Han River bridge, {name} started walking again — 'I'll go anyway.'\n\nThat one step carried all the way here.\n\nToday is another similar moment of stagnation.",
+    "description": "Four months into Seoul, stuck in a sense of stagnation on a Han River bridge, {name} started walking again — 'you'll go anyway.'\n\nThat one step carried all the way here.\n\nToday is another similar moment of stagnation.",
     "choices": [
       {
         "text": "Like then — even stopped, I walk again",
@@ -115,7 +115,7 @@
       },
       {
         "text": "This time, change the method and go again",
-        "result_text": "If the same method fails, change the method.\n\nInstead of blindly enduring, {name} redrew the path.\n'I'll go anyway' had to be followed by a 'how.'"
+        "result_text": "If the same method fails, change the method.\n\nInstead of blindly enduring, {name} redrew the path.\n'you'll go anyway' had to be followed by a 'how.'"
       }
     ]
   },

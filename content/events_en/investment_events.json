@@ -82,7 +82,7 @@
   {
     "id": "disasters_005",
     "title": "Sudden Layoff Rumors",
-    "description": "Lunch hour. A strange tension in the company chat.\n'I heard there's restructuring this month' — one post.\n\nSimilar rumors are circulating on stock forums too. About a company {name} holds.\nNo official announcement — but the stock is already sliding toward -8%.\nBelieve the rumor and sell, or wait for the official word?",
+    "description": "Lunch hour. A strange tension in the company chat.\n'you heard there's restructuring this month' — one post.\n\nSimilar rumors are circulating on stock forums too. About a company {name} holds.\nNo official announcement — but the stock is already sliding toward -8%.\nBelieve the rumor and sell, or wait for the official word?",
     "choices": [
       {
         "text": "Coolheadedly assess the situation first.",
@@ -303,7 +303,7 @@
   {
     "id": "inv_hot_tip_kakao",
     "title": "Stock Tip in the Group Chat",
-    "description": "2 PM. A message in the stock group chat: 'Timing to enter now — sharp rise expected tomorrow.' Sender is a someone who called it right once before. Over 100 people in the room and already half are typing 'I'm buying.' Whether this is real or noise — the palm holding the phone is sweating.",
+    "description": "2 PM. A message in the stock group chat: 'Timing to enter now — sharp rise expected tomorrow.' Sender is a someone who called it right once before. Over 100 people in the room and already half are typing 'you're buying.' Whether this is real or noise — the palm holding the phone is sweating.",
     "choices": [
       {
         "text": "Small bet — tuition if wrong.",
@@ -462,7 +462,7 @@
       },
       {
         "text": "Politely decline. Pretend not to have heard.",
-        "result_text": "Quietly told the senior 'I'd rather not hear that kind of thing.' The senior laughed it off awkwardly — and {name}'s conscience slept easily that night."
+        "result_text": "Quietly told the senior 'you'd rather not hear that kind of thing.' The senior laughed it off awkwardly — and {name}'s conscience slept easily that night."
       },
       {
         "text": "Research it independently. Do it legally.",
@@ -503,7 +503,7 @@
   {
     "id": "inv_crypto_mania",
     "title": "Crypto Mania",
-    "description": "The whole social feed is crypto. High school classmate posted a KakaoTalk status about making ₩30M on Bitcoin. A junior at work talks about nothing but coins at lunch. Am I the only one who doesn't know? Am I falling behind? {name} downloaded the Upbit app for the first time.",
+    "description": "The whole social feed is crypto. High school classmate posted a KakaoTalk status about making ₩30M on Bitcoin. A junior at work talks about nothing but coins at lunch. Am you the only one who doesn't know? Am you falling behind? {name} downloaded the Upbit app for the first time.",
     "choices": [
       {
         "text": "Get in a little — quiet the FOMO.",
@@ -783,45 +783,45 @@
   {
     "id": "invest_first_win",
     "title": "Money grew for the first time",
-    "description": "I looked at my phone screen.\nThe number had changed.\n\nThe ETF I bought yesterday was up 3.2%.\nIn won, that was 48,000.\n\nNothing huge. And yet my hands were shaking.\nWhile I did nothing at all, money had made money.",
+    "description": "You looked at your phone screen.\nThe number had changed.\n\nThe ETF you bought yesterday was up 3.2%.\nIn won, that was 48,000.\n\nNothing huge. And yet your hands were shaking.\nWhile you did nothing at all, money had made money.",
     "choices": [
       {
         "text": "I should buy more — this is the right direction",
-        "result_text": "It was a small amount, but it gave me conviction.\nLittle by little, steadily, like this."
+        "result_text": "It was a small amount, but it gave you conviction.\nLittle by little, steadily, like this."
       },
       {
         "text": "Sell now and lock it in — it's only mine once it's in hand",
-        "result_text": "I locked in the 48,000 won.\nAnd immediately regretted it. That afternoon it climbed another 2%."
+        "result_text": "You locked in the 48,000 won.\nAnd immediately regretted it. That afternoon it climbed another 2%."
       }
     ]
   },
   {
     "id": "invest_first_loss",
     "title": "Money shrank for the first time",
-    "description": "I opened the app before bed.\n\nRed numbers.\n\n-7.4%. In a single day, 7.4% of my investment was gone.\n\nReason says, 'Long-term investing, hold the line.'\nInstinct screams, 'Sell, right now.'",
+    "description": "You opened the app before bed.\n\nRed numbers.\n\n-7.4%. In a single day, 7.4% of your investment was gone.\n\nReason says, 'Long-term investing, hold the line.'\nInstinct screams, 'Sell, right now.'",
     "choices": [
       {
         "text": "I held — this is a long game",
-        "result_text": "I held on.\nThe next month it recovered 6%. Rising slower than it falls is the reality of investing."
+        "result_text": "You held on.\nThe next month it recovered 6%. Rising slower than it falls is the reality of investing."
       },
       {
         "text": "I sold — before losing more",
-        "result_text": "I sold. My mind felt at ease.\nAnd three weeks later, that stock was right back where it started."
+        "result_text": "You sold. Your mind felt at ease.\nAnd three weeks later, that stock was right back where it started."
       }
     ]
   },
   {
     "id": "leverage_temptation",
     "title": "The Temptation of Leverage",
-    "description": "The YouTube algorithm served it up.\n'3x Leveraged ETF, 280% Return in One Year'\n\nThe comments were ecstatic; several wrote 'I did it too.'\n\n{name} pulled out the calculator.\nMultiply what I have now by three.",
+    "description": "The YouTube algorithm served it up.\n'3x Leveraged ETF, 280% Return in One Year'\n\nThe comments were ecstatic; several wrote 'I did it too.'\n\n{name} pulled out the calculator.\nMultiply what you have now by three.",
     "choices": [
       {
         "text": "Just a portion in leverage — 30% should be fine",
-        "result_text": "I put 30% into a 3x leveraged fund.\nThat was effectively betting 90% of the whole portfolio on one direction."
+        "result_text": "You put 30% into a 3x leveraged fund.\nThat was effectively betting 90% of the whole portfolio on one direction."
       },
       {
         "text": "Skip it — the comments never mention the losses",
-        "result_text": "I closed the video.\nThe title said '280%,' but the share of people who lost over the same period was nowhere on screen."
+        "result_text": "You closed the video.\nThe title said '280%,' but the share of people who lost over the same period was nowhere on screen."
       }
     ]
   },
@@ -832,60 +832,60 @@
     "choices": [
       {
         "text": "Use the fear — a chance to buy in tranches",
-        "result_text": "I was able to buy into the fear.\nTwo months later the market rebounded 50%, and that position doubled."
+        "result_text": "You were able to buy into the fear.\nTwo months later the market rebounded 50%, and that position doubled."
       },
       {
         "text": "Sell everything — I have to protect the principal",
-        "result_text": "I sold. I locked in the loss.\nAfter that I didn't look at the market for a while."
+        "result_text": "You sold. You locked in the loss.\nAfter that you didn't look at the market for a while."
       },
       {
         "text": "Do nothing — I won't be shaken",
-        "result_text": "I held. That was all.\nThat was the first time I learned that holding, too, is a strategy."
+        "result_text": "You held. That was all.\nThat was the first time you learned that holding, too, is a strategy."
       }
     ]
   },
   {
     "id": "dividend_income",
     "title": "Dividend Deposited",
-    "description": "A text notification came in.\n\n'Dividend deposited: 234,000 won'\n\nIt was the first time.\nI'd done nothing, and money landed in my account.\n\nSo this is passive income.",
+    "description": "A text notification came in.\n\n'Dividend deposited: 234,000 won'\n\nIt was the first time.\nYou'd done nothing, and money landed in your account.\n\nSo this is passive income.",
     "choices": [
       {
         "text": "Reinvest it — the start of compounding",
-        "result_text": "I put the 234,000 won back into the market.\nA small snowball had started to roll."
+        "result_text": "You put the 234,000 won back into the market.\nA small snowball had started to roll."
       },
       {
         "text": "Spend it on living costs — things are tight right now",
-        "result_text": "I treated myself to something good with the 234,000 won.\nThis month was a little less tight."
+        "result_text": "You treated yourself to something good with the 234,000 won.\nThis month was a little less tight."
       }
     ]
   },
   {
     "id": "goshiwon_invest_night",
     "title": "An Investing Night in the Goshiwon",
-    "description": "2 a.m.\n\nIn a two-pyeong goshiwon room, I turned on the laptop.\n\nIt was the hour the U.S. market opened.\nUpstairs, someone snoring.\nNext door, the clatter of a keyboard.\n\n{name} watched the order book.",
+    "description": "2 a.m.\n\nIn a two-pyeong goshiwon room, you turned on the laptop.\n\nIt was the hour the U.S. Market opened.\nUpstairs, someone snoring.\nNext door, the clatter of a keyboard.\n\n{name} watched the order book.",
     "choices": [
       {
         "text": "Don't trade tonight — emotional decisions are poison",
-        "result_text": "I closed the laptop.\nDecisions made on late-night emotion always ended in regret."
+        "result_text": "You closed the laptop.\nDecisions made on late-night emotion always ended in regret."
       },
       {
         "text": "Buy — I can't face morning while it's still down",
-        "result_text": "I bought. And fell asleep at 4 a.m.\nThe next day, -3%. Exhaustion and losses piled up together."
+        "result_text": "You bought. And fell asleep at 4 a.m.\nThe next day, -3%. Exhaustion and losses piled up together."
       }
     ]
   },
   {
     "id": "real_estate_news",
     "title": "Housing Price News",
-    "description": "I turned on the news.\n\n'Gangnam apartments break 2.5 billion won on average'\n\n2.5 billion.\nI couldn't even calculate how many times {name}'s account balance that was.\n\nBut how did the people living in those apartments manage to buy them?",
+    "description": "You turned on the news.\n\n'Gangnam apartments break 2.5 billion won on average'\n\n2.5 billion.\nYou couldn't even calculate how many times {name}'s account balance that was.\n\nBut how did the people living in those apartments manage to buy them?",
     "choices": [
       {
         "text": "Start studying real estate",
-        "result_text": "Leverage, jeonse, gap investing.\nI started memorizing the words."
+        "result_text": "Leverage, jeonse, gap investing.\nYou started memorizing the words."
       },
       {
         "text": "Turn off the TV — that number has nothing to do with my reality",
-        "result_text": "I turned it off.\nWhether Gangnam prices rose or not, today's work still had to be done today."
+        "result_text": "You turned it off.\nWhether Gangnam prices rose or not, today's work still had to be done today."
       }
     ]
   }

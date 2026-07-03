@@ -62,7 +62,7 @@
   {
     "id": "callback_showed_room_parents_echo",
     "title": "Showing Them the Room",
-    "description": "The day {name}'s parents came to Seoul, {name} showed them the tiny room as it was. Nothing to hide.\n\nToday Dad brought up that day.\n\n'That room of yours — small, but clean. That's what hurt me more, actually.'",
+    "description": "The day {name}'s parents came to Seoul, {name} showed them the tiny room as it was. Nothing to hide.\n\nToday Dad brought up that day.\n\n'That room of yours — small, but clean. That's what hurt you more, actually.'",
     "choices": [
       {
         "text": "\"I wasn't ashamed. That's where I started.\"",
@@ -70,7 +70,7 @@
       },
       {
         "text": "\"I've moved somewhere better now. Come see it.\"",
-        "result_text": "'Yeah? ...I'll have to go see it.'\n\nA faint pride mixed into Dad's voice.\nBecause that room had been shown then, the change now landed more clearly."
+        "result_text": "'Yeah? ...you'll have to go see it.'\n\nA faint pride mixed into Dad's voice.\nBecause that room had been shown then, the change now landed more clearly."
       }
     ]
   },
@@ -85,7 +85,7 @@
       },
       {
         "text": "\"I can show you now. I've moved somewhere better.\"",
-        "result_text": "'...Yeah. I'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of.\nBecause there'd been years of hiding, the present was worth more."
+        "result_text": "'...Yeah. You'd like to see it.'\n\nIn place of the room never shown, there was now a space to be proud of.\nBecause there'd been years of hiding, the present was worth more."
       }
     ]
   },
@@ -107,11 +107,11 @@
   {
     "id": "callback_birthday_work_echo",
     "title": "The Birthday I Worked",
-    "description": "On {name}'s 35th birthday, they replied briefly to the messages and pulled the plan back out.\n\nThe day they didn't stop, even on a birthday.\n\nIt came to mind today. Did I have to go that far — or is that why I'm here?",
+    "description": "On {name}'s 35th birthday, they replied briefly to the messages and pulled the plan back out.\n\nThe day they didn't stop, even on a birthday.\n\nIt came to mind today. Did you have to go that far — or is that why you're here?",
     "choices": [
       {
         "text": "That's why I'm here — no regrets",
-        "result_text": "The days I went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
+        "result_text": "The days you went one step further while others rested.\n\nThat accumulated into the current gap.\n{name} quietly thanked the self of that birthday."
       },
       {
         "text": "Next birthday, a day off is allowed",
@@ -167,7 +167,7 @@
   {
     "id": "callback_ignored_body_echo",
     "title": "Putting the Body Off",
-    "description": "At 36, when the body sent signals, {name} brushed it off — 'can't stop now, I'll rest later.'\n\nThat 'later' is now.\n\nThe body is signaling again, louder this time.",
+    "description": "At 36, when the body sent signals, {name} brushed it off — 'can't stop now, you'll rest later.'\n\nThat 'later' is now.\n\nThe body is signaling again, louder this time.",
     "choices": [
       {
         "text": "Not putting it off this time — go to the hospital",

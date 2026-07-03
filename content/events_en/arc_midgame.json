@@ -255,7 +255,7 @@
   {
     "id": "arc_jaehyuk_wait",
     "title": "Settlement Day",
-    "description": "The profit settlement Jaehyuk had promised is next week.\n\nNo word from him yesterday. Or today. It had always been like this for the past month — maybe that wasn't strange.\n\nAnd yet. Why do I keep checking my phone.\n\nOpened KakaoTalk. Last message was Jaehyuk's \"How are you\" from three weeks ago.\n{name}'s reply, \"Fine, you?\" had gotten back just an emoji.\n\nThe money put in keeps cycling as a number in his head.",
+    "description": "The profit settlement Jaehyuk had promised is next week.\n\nNo word from him yesterday. Or today. It had always been like this for the past month — maybe that wasn't strange.\n\nAnd yet. Why does he keep checking his phone.\n\nOpened KakaoTalk. Last message was Jaehyuk's \"How are you\" from three weeks ago.\n{name}'s reply, \"Fine, you?\" had gotten back just an emoji.\n\nThe money put in keeps cycling as a number in his head.",
     "choices": [
       {
         "text": "\"Hey Jaehyuk, how's everything?\" — reach out first",
@@ -538,7 +538,7 @@
   {
     "id": "arc_after_scam",
     "title": "The Day After the Scam",
-    "description": "Jaehyuk went dark.\n\nChecked the account balance. More had been taken than expected. Sat alone in the room.\n\nShould be angry, but just felt numb. How did I trust him. How did I let this happen.",
+    "description": "Jaehyuk went dark.\n\nChecked the account balance. More had been taken than expected. Sat alone in the room.\n\nShould be angry, but just felt numb. How could he have trusted him. How did he let this happen.",
     "choices": [
       {
         "text": "Started putting together a new plan.",
@@ -954,7 +954,7 @@
   {
     "id": "arc_36_night_doubt",
     "title": "3 AM",
-    "description": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of my own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.",
+    "description": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.",
     "choices": [
       {
         "text": "Pulled out the original reason. Not to forget.",
@@ -970,7 +970,7 @@
       }
     ],
     "description_if_known": {
-      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of my own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. doubt."
+      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. Doubt."
     }
   },
   {

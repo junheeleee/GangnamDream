@@ -32,7 +32,7 @@
   {
     "id": "callback_daeun_daily_life_echo",
     "title": "Salty Again",
-    "description": "Dae-un came over again.\n\nOpened the fridge, said 'no eggs,' went out — came back with tofu.\n\n'Where are the eggs?'\n'I don't know. The tofu just ended up in my hand.' She laughed.\n\nThis had become the routine. Wrong ingredients and all.",
+    "description": "Dae-un came over again.\n\nOpened the fridge, said 'no eggs,' went out — came back with tofu.\n\n'Where are the eggs?'\n'you don't know. The tofu just ended up in your hand.' She laughed.\n\nThis had become the routine. Wrong ingredients and all.",
     "choices": [
       {
         "text": "Cook together tonight — that's enough for today",
@@ -62,7 +62,7 @@
   {
     "id": "callback_daeun_breakup_begged_echo",
     "title": "\"I Can Change\"",
-    "description": "'I can change right now.'\n\nSaid it that night. It comes back sometimes.\n\nHer answer stays longer:\n'You changing isn't the problem. I chose to wait — and waiting wore me out.'\n\nThere was nothing to counter.",
+    "description": "'I can change right now.'\n\nSaid it that night. It comes back sometimes.\n\nHer answer stays longer:\n'You changing isn't the problem. You chose to wait — and waiting wore you out.'\n\nThere was nothing to counter.",
     "choices": [
       {
         "text": "That was true — and I'm actually changing",

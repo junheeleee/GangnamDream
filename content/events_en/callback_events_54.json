@@ -32,7 +32,7 @@
   {
     "id": "callback_chose_deeper_echo",
     "title": "Saying Just One More Hand",
-    "description": "When they hit bottom, {name} went deeper, saying 'just one more hand, I'll recoup it all.'\n\nThey know that choice's result.\n\nToday the temptation to recoup beckons again.",
+    "description": "When they hit bottom, {name} went deeper, saying 'just one more hand, you'll recoup it all.'\n\nThey know that choice's result.\n\nToday the temptation to recoup beckons again.",
     "choices": [
       {
         "text": "Going deeper then — made me see bottom. Never again",
@@ -77,7 +77,7 @@
   {
     "id": "callback_overtime_boundary_echo",
     "title": "Choosing to Leave on Time",
-    "description": "Faced with overtime culture, {name} drew a line — 'if the work's done, I leave on time.'\n\nThat boundary comes back sometimes.\n\nToday there's the pressure of face-saving overtime again.",
+    "description": "Faced with overtime culture, {name} drew a line — 'if the work's done, you leave on time.'\n\nThat boundary comes back sometimes.\n\nToday there's the pressure of face-saving overtime again.",
     "choices": [
       {
         "text": "That boundary — protected my time",
@@ -137,7 +137,7 @@
   {
     "id": "callback_holdem_mentor_met_echo",
     "title": "Saying I'm Still Learning",
-    "description": "Before a holdem master, {name} said humbly, 'It's only been a while, I'm still learning.'\n\nThat humility comes back sometimes.\n\nToday came another chance to learn from someone.",
+    "description": "Before a holdem master, {name} said humbly, 'It's only been a while, you're still learning.'\n\nThat humility comes back sometimes.\n\nToday came another chance to learn from someone.",
     "choices": [
       {
         "text": "A learning posture — made for fast growth",
@@ -182,7 +182,7 @@
   {
     "id": "callback_congratulated_friend_echo",
     "title": "Congratulating Sincerely",
-    "description": "At a thriving friend's news, {name} said, 'congratulations sincerely — I'm on my own path.'\n\nThat mature heart comes back sometimes.\n\nToday they hear another's good news.",
+    "description": "At a thriving friend's news, {name} said, 'congratulations sincerely — you're on your own path.'\n\nThat mature heart comes back sometimes.\n\nToday they hear another's good news.",
     "choices": [
       {
         "text": "I can now rejoice at others' success — without envy",
@@ -190,7 +190,7 @@
       },
       {
         "text": "My path too — I walk it quietly",
-        "result_text": "Congratulate sincerely, but my pace stays unshaken.\n\n{name} walked their own road without being swayed by others' speed.\nKnowing each has their own timetable was the way to be free of comparison."
+        "result_text": "Congratulate sincerely, but your pace stays unshaken.\n\n{name} walked their own road without being swayed by others' speed.\nKnowing each has their own timetable was the way to be free of comparison."
       }
     ]
   }

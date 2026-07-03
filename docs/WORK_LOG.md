@@ -1,5 +1,18 @@
 # Gangnam Dream Work Log
 
+## 2026-07-03 (Claude — EN 서술 시점 통일 완료: 1인칭 우세 205 → 0)
+
+### 방법
+- 따옴표(대화)를 보호하는 POV 변환기(`scratchpad/povconv.py`) 자작: 겹따옴표 전체 + 홑따옴표 대화('...', 축약형 don't/you're 제외)를 플레이스홀더로 보호 → 서술부만 1→2/3인칭 변환(문두 대문자화·My→Your·am/was 동사일치 포함). 대화문·선택지 라벨·효과·플래그·{name}/{housing} 불변.
+- 파일별 지배 보이스 판정: 대부분 풀 관례 you, 아크는 3인칭 he. holdem/racetrack/korea_experience는 NPC "he"(경마 멘토·홀덤 노인)를 주인공으로 오인한 오판정이라 실제 주인공 "I"→you로 교정.
+
+### 결과
+- **1인칭 우세 서술 이벤트 205 → 0** (전 파일). 약 175 이벤트 you 변환 + arc 계열 he 변환(직전 배치 12 + 이번 arc_after_scam/jaehyuk_wait 내적 독백 he화).
+- `you is`류 3건은 전부 문법 정상(you가 전치사 목적어: "in front of you is", "version of you is")으로 오탐 확인. 대화문 속 1인칭("전세금 뺐어요")은 전량 보존.
+
+### 검증
+- 전 EN 파일 json 파스, `en_coverage_check.py` clean, `audit.sh` ERROR 0/밴드/Godot 55 컴파일 클린. diff 라인 단위 검수(대화 오염·문법오류 0).
+
 ## 2026-07-03 (Claude — EN 시점(POV) 통일 1차: 아크/드라마 계열 12이벤트)
 
 ### 배경

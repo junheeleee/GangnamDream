@@ -2,7 +2,7 @@
   {
     "id": "callback_truth_echo",
     "title": "The Interview Remembered",
-    "description": "My second interview at a different company.\n\nOne of the interviewers leaned forward.\n'You said something in a previous interview that caught our attention — can you elaborate?'\n\nSomething I'd said in a prior application had made it into a reference. I'd told the truth that day.",
+    "description": "Your second interview at a different company.\n\nOne of the interviewers leaned forward.\n'You said something in a previous interview that caught our attention — can you elaborate?'\n\nSomething you'd said in a prior application had made it into a reference. You'd told the truth that day.",
     "choices": [
       {
         "text": "Explain consistently — the same answer as before",

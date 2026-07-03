@@ -62,7 +62,7 @@
   {
     "id": "callback_gangnam_doubt_echo",
     "title": "Being Honest That Day",
-    "description": "The first time {name} went to Gangnam alone, they got honest: 'I don't know if this is really my goal.'\n\nThey carried that doubt and still made it this far.\n\nToday the question surfaced again. Found an answer?",
+    "description": "The first time {name} went to Gangnam alone, they got honest: 'you don't know if this is really your goal.'\n\nThey carried that doubt and still made it this far.\n\nToday the question surfaced again. Found an answer?",
     "choices": [
       {
         "text": "Now I know — this is my goal",

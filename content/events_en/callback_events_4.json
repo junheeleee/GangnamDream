@@ -81,11 +81,11 @@
     "choices": [
       {
         "text": "\"That was the right call. For real.\"",
-        "result_text": "'I think leaving was right for me too.'\nCouldn't tell if I was saying it for them or for myself.\nLeaving was right."
+        "result_text": "'I think leaving was right for me too.'\nCouldn't tell if you were saying it for them or for yourself.\nLeaving was right."
       },
       {
         "text": "Just offer comfort",
-        "result_text": "Replied 'Hang in there.'\nSomebody collapsed in the seat I'd vacated.\nLeaving was right."
+        "result_text": "Replied 'Hang in there.'\nSomebody collapsed in the seat you'd vacated.\nLeaving was right."
       }
     ]
   },

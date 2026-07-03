@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "The time to quit — isn't after winning",
-        "result_text": "'I'll stop when I win' was a trap. Winning makes you want more.\n\n{name} learned to quit by a set time.\nStopping by the clock, not the result — that was the only rule that worked."
+        "result_text": "'you'll stop when you win' was a trap. Winning makes you want more.\n\n{name} learned to quit by a set time.\nStopping by the clock, not the result — that was the only rule that worked."
       },
       {
         "text": "That dazed time scared me — never again",

@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Follow the drill — look for the shelter signs",
-        "result_text": "Walked toward the subway station. Yellow shelter signs.\n\nI knew it was a drill, but my body moved before my mind did.\nThe things you rehearse in peacetime are what save you when it counts."
+        "result_text": "Walked toward the subway station. Yellow shelter signs.\n\nYou knew it was a drill, but your body moved before your mind did.\nThe things you rehearse in peacetime are what save you when it counts."
       },
       {
         "text": "It's just a drill — keep drinking my coffee",
-        "result_text": "Everyone in the café stayed put. I did too.\n\nThe siren stopped and Seoul started moving again. Five minutes.\nIn this country, a crisis is a one-sip pause in your coffee."
+        "result_text": "Everyone in the café stayed put. You did too.\n\nThe siren stopped and Seoul started moving again. Five minutes.\nIn this country, a crisis is a one-sip pause in your coffee."
       }
     ]
   },
@@ -21,11 +21,11 @@
     "choices": [
       {
         "text": "Promise a discharge gift: 'I'll buy dinner when you're out'",
-        "result_text": "'Samgyeopsal's on me when you get out.' I sent it.\n'If you're living in Gangnam by then, let's eat there.' He sent back.\n\nThat joke warmed me. There's someone who can picture two years from now with me."
+        "result_text": "'Samgyeopsal's on you when you get out.' you sent it.\n'If you're living in Gangnam by then, let's eat there.' He sent back.\n\nThat joke warmed you. There's someone who can picture two years from now with you."
       },
       {
         "text": "Just 'take care' — keep it short",
-        "result_text": "'Take care.' Three words.\n\nShould have said more, maybe. But I didn't know what.\nI still don't know what to say to a friend heading to the army."
+        "result_text": "'Take care.' Three words.\n\nShould have said more, maybe. But you didn't know what.\nYou still don't know what to say to a friend heading to the army."
       }
     ]
   },
@@ -55,7 +55,7 @@
       },
       {
         "text": "Check the market movement — geopolitical risk",
-        "result_text": "KOSPI dropped 0.4%, then recovered. Brief foreign sell-off.\n\nGeopolitical risk is a structural discount on Korean stocks, I once read.\nMeans nothing to my bank account today — but it's knowledge I'll use someday."
+        "result_text": "KOSPI dropped 0.4%, then recovered. Brief foreign sell-off.\n\nGeopolitical risk is a structural discount on Korean stocks, you once read.\nMeans nothing to your bank account today — but it's knowledge you'll use someday."
       }
     ]
   },
@@ -66,11 +66,11 @@
     "choices": [
       {
         "text": "Watch the exchange rate — USD deposits cross my mind",
-        "result_text": "When the dollar rises, Korean won assets weaken in relative terms.\nConversely, if you hold USD deposits, this could be your moment.\n\nNo money to act on it, but I understand the structure now.\nUnderstanding comes first. Execution comes later."
+        "result_text": "When the dollar rises, Korean won assets weaken in relative terms.\nConversely, if you hold USD deposits, this could be your moment.\n\nNo money to act on it, but you understand the structure now.\nUnderstanding comes first. Execution comes later."
       },
       {
         "text": "Focus on my own life — can't change superpower politics",
-        "result_text": "Turned off the news.\n\nKorea-US relations, exchange rates — things I can't change.\nDecided to focus on what I can change. Got back to today's task."
+        "result_text": "Turned off the news.\n\nKorea-US relations, exchange rates — things you can't change.\nDecided to focus on what you can change. Got back to today's task."
       }
     ]
   }
