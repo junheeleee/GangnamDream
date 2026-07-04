@@ -2133,10 +2133,14 @@ func _next_arc_id() -> String:
 			and not f.get("father_passed", false) \
 			and not f.get("arc_daeun_families_seen", false):
 		return "arc_daeun_families_meet"
-	# ②-b 결혼 준비(스드메·예단·하객) — 결혼 비용 = 강남과 경쟁하는 돈. 실제 money 차감.
+	# ②-b 결혼 준비(스드메·예단) — 결혼 비용 = 강남과 경쟁하는 돈. 실제 money 차감.
 	if t >= 175 and f.get("arc_daeun_our_home_seen", false) \
 			and not f.get("arc_daeun_wedding_seen", false):
 		return "arc_daeun_wedding_prep"
+	# ②-c 결혼식 당일 신랑석 — 5년간 사람에게 쓴 시간의 결산(하객). 관계 플래그로 회수.
+	if t >= 200 and f.get("daeun_married", false) \
+			and not f.get("arc_daeun_wedding_day_seen", false):
+		return "arc_daeun_wedding_day"
 	# ③ 시험 — 아내를 서류로 쓰는 지름길. our_home 기반(상견례 스킵돼도 체인 유지).
 	#    상철 신고/절연 후엔 안 뜸(그가 제안할 리 없음).
 	if t >= 182 and f.get("arc_daeun_our_home_seen", false) \
