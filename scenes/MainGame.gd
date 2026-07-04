@@ -37,6 +37,9 @@ var _invest_pad_action_idx: int = 0
 var _invest_pad_asset_ids: Array = []
 var _invest_pad_asset_cards: Array = []
 var _invest_pad_hint_label: RichTextLabel = null
+var _invest_page_idx: int = 0
+var _invest_page_body: VBoxContainer = null
+var _invest_page_tab_buttons: Array = []
 var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var _feedback_flash: ColorRect
@@ -6202,20 +6205,30 @@ func _open_bank():
 	modal_body.add_child(back_btn)
 
 func _bank_borrow(product: String, amount: float):
+	var return_to_invest_page := _modal_kind == "investments"
 	if GameState.borrow(product, amount):
 		AudioManager.play("money_gain")
 		_show_toast(_tr("대출 실행 +%s", "Loan disbursed +%s") % GameState.format_money(amount), Color("#00c896"))
 	else:
 		_show_toast(_tr("한도를 초과했습니다", "Exceeds your limit"), Color("#ff4444"))
-	_open_bank()
+	if return_to_invest_page:
+		_invest_page_idx = _invest_page_index_for("bank")
+		_open_investments()
+	else:
+		_open_bank()
 	_refresh_all()
 
 func _bank_repay(product: String, amount: float):
+	var return_to_invest_page := _modal_kind == "investments"
 	if GameState.repay(product, amount):
 		_show_toast(_tr("상환 완료", "Repaid"), Color("#c9a227"))
 	else:
 		_show_toast(_tr("상환할 현금이 없습니다", "Not enough cash to repay"), Color("#ff4444"))
-	_open_bank()
+	if return_to_invest_page:
+		_invest_page_idx = _invest_page_index_for("bank")
+		_open_investments()
+	else:
+		_open_bank()
 	_refresh_all()
 
 ## 경마장 — 시각 미니게임 오버레이를 연다 (방문 = 시간 1 소비)
@@ -7079,172 +7092,443 @@ func _build_investment_market_board() -> Control:
 		portfolio.add_child(_label(_tr("소액 분산부터", "Start diversified"), 13, "#f0b429"))
 	return panel
 
-func _open_investments():
-	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"), true, "investments")
+func _invest_pages() -> Array:
+	return [
+		{"id": "assets", "label": _tr("거래", "Trade")},
+		{"id": "portfolio", "label": _tr("보유", "Holdings")},
+		{"id": "market", "label": _tr("시장", "Market")},
+		{"id": "bank", "label": _tr("은행", "Bank")},
+	]
+
+func _invest_page_index_for(page_id: String) -> int:
+	var pages := _invest_pages()
+	for i in range(pages.size()):
+		if str(pages[i].get("id", "")) == page_id:
+			return i
+	return 0
+
+func _invest_current_page_id() -> String:
+	var pages := _invest_pages()
+	if pages.is_empty():
+		return ""
+	_invest_page_idx = clampi(_invest_page_idx, 0, pages.size() - 1)
+	return str(pages[_invest_page_idx].get("id", ""))
+
+func _build_investment_status_strip() -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#080b10")
+	st.border_color = Color("#242a35")
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	panel.add_child(row)
+	var ap_color := "#cbd5e1" if GameState.action_points > 0 else "#ff7070"
+	var loan_total := GameState.get_loan_total()
+	var metrics: Array = [
+		[_tr("AP", "AP"), "%d/%d" % [GameState.action_points, GameState.max_action_points], ap_color],
+		[_tr("현금", "Cash"), GameState.format_money(GameState.money), "#cbd5e1"],
+		[_tr("순자산", "Net Worth"), GameState.format_money(GameState.get_total_asset_value()), "#cbd5e1"],
+		[_tr("대출", "Debt"), GameState.format_money(loan_total), "#f59e0b" if loan_total > 0.0 else "#64748b"],
+	]
+	for metric in metrics:
+		var box := VBoxContainer.new()
+		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		box.add_theme_constant_override("separation", 2)
+		row.add_child(box)
+		box.add_child(_label(str(metric[0]).to_upper(), 10, "#6f7886"))
+		var value := _label(str(metric[1]), 14, str(metric[2]))
+		if _font_bold:
+			value.add_theme_font_override("font", _font_bold)
+		box.add_child(value)
+	var terms_btn := _icon_small_button(_tr("용어", "Terms"), "info", "#1a2438")
+	terms_btn.custom_minimum_size = Vector2(88, 36)
+	terms_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+	terms_btn.pressed.connect(func(): _open_glossary(_tr("투자 용어", "Investing Terms"), "invest"))
+	row.add_child(terms_btn)
+	return panel
+
+func _build_investment_page_tabs() -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var pages := _invest_pages()
+	for i in range(pages.size()):
+		var page_idx := i
+		var page: Dictionary = pages[i]
+		var btn := _small_button("", "#111820")
+		btn.custom_minimum_size = Vector2(0, 38)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.pressed.connect(Callable(self, "_set_invest_page").bind(page_idx))
+		row.add_child(btn)
+		_invest_page_tab_buttons.append(btn)
+	_style_invest_page_tabs()
+	return row
+
+func _style_invest_page_tabs() -> void:
+	var pages := _invest_pages()
+	for i in range(mini(_invest_page_tab_buttons.size(), pages.size())):
+		var btn := _invest_page_tab_buttons[i] as Button
+		if not is_instance_valid(btn):
+			continue
+		var selected := i == _invest_page_idx
+		var page: Dictionary = pages[i]
+		btn.text = "%02d  %s" % [i + 1, str(page.get("label", ""))]
+		var bg := Color("#16202a" if selected else "#0c1118")
+		var border := Color("#d9e2ea" if selected else "#252b35")
+		var normal := StyleBoxFlat.new()
+		normal.bg_color = bg
+		normal.border_color = border
+		normal.set_border_width_all(1)
+		normal.border_width_bottom = 3 if selected else 1
+		normal.set_corner_radius_all(3)
+		normal.content_margin_left = 10
+		normal.content_margin_right = 10
+		normal.content_margin_top = 7
+		normal.content_margin_bottom = 7
+		var hover := normal.duplicate()
+		hover.bg_color = bg.lightened(0.10)
+		var focus_st := normal.duplicate()
+		focus_st.border_color = Color("#ffffff")
+		focus_st.set_border_width_all(UI_FOCUS_BORDER)
+		btn.add_theme_stylebox_override("normal", normal)
+		btn.add_theme_stylebox_override("hover", hover)
+		btn.add_theme_stylebox_override("pressed", normal)
+		btn.add_theme_stylebox_override("focus", focus_st)
+		btn.add_theme_color_override("font_color", Color("#eef3f8" if selected else "#8f98a8"))
+
+func _set_invest_page(index: int) -> void:
+	var pages := _invest_pages()
+	if pages.is_empty():
+		return
+	_invest_page_idx = clampi(index, 0, pages.size() - 1)
+	_invest_pad_action_idx = 0
+	_render_investment_page()
+
+func _invest_switch_page(delta: int) -> bool:
+	var pages := _invest_pages()
+	if pages.is_empty():
+		return true
+	_invest_page_idx = int(posmod(_invest_page_idx + delta, pages.size()))
+	_invest_pad_action_idx = 0
+	AudioManager.play_ui_click()
+	_render_investment_page()
+	return true
+
+func _render_investment_page() -> void:
+	if not is_instance_valid(_invest_page_body):
+		return
+	_clear_box(_invest_page_body)
 	_invest_pad_asset_ids.clear()
 	_invest_pad_asset_cards.clear()
-	_invest_pad_asset_idx = 0
+	_style_invest_page_tabs()
+	match _invest_current_page_id():
+		"assets":
+			_render_investment_assets_page()
+		"portfolio":
+			_render_investment_portfolio_page()
+		"market":
+			_render_investment_market_page()
+		"bank":
+			_render_investment_bank_page()
+		_:
+			_render_investment_assets_page()
+	_refresh_invest_pad_hint()
+
+func _build_investment_page_caption(title: String, subtitle: String, accent: String) -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#090d13")
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", st)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	panel.add_child(row)
+	var title_lbl := _label(title, 15, "#eef3f8")
+	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	row.add_child(title_lbl)
+	var sub_lbl := _label(subtitle, 12, "#8f98a8")
+	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	sub_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(sub_lbl)
+	return panel
+
+func _render_investment_assets_page() -> void:
+	var rows: Array = investment_system.get_asset_rows()
+	for row in rows:
+		_invest_pad_asset_ids.append(str(row.get("id", "")))
+	if rows.is_empty():
+		_invest_page_body.add_child(_build_investment_page_caption(_tr("거래 가능 자산 없음", "No Tradable Assets"), _tr("시장 데이터 없음", "No market data"), "#64748b"))
+		return
+	_invest_pad_asset_idx = clampi(_invest_pad_asset_idx, 0, rows.size() - 1)
+	var page_no := _tr("자산 %d/%d", "Asset %d/%d") % [_invest_pad_asset_idx + 1, rows.size()]
+	_invest_page_body.add_child(_build_investment_page_caption(
+		page_no,
+		_tr("↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지", "↑↓ asset · ←→ buy/sell · LB/RB page"),
+		"#5b9cf6"))
+	if not GameState.flags.get("investment_first_visited", false):
+		GameState.flags["investment_first_visited"] = true
+		_invest_page_body.add_child(_wrap_label(
+			_tr("첫 투자: 낮은 리스크 자산에 10~20만원씩 작게 들어가고, 레버리지는 익숙해진 뒤에 쓰세요.",
+			"First trade: start small, KRW 100k-200k in low-risk assets. Save leverage for later."),
+			12, "#a7b0c2"))
+	elif GameState.investment_skill < 25:
+		_invest_page_body.add_child(_wrap_label(
+			_tr("입문 팁: 투자감각이 낮으면 수수료가 높습니다. 낮은 리스크 자산부터 작게 시작하세요.",
+			"Beginner tip: low Investing means higher fees. Start small with lower-risk assets."),
+			12, "#f0b429"))
+	var visible_count := mini(2, rows.size())
+	var start_idx := clampi(_invest_pad_asset_idx - 1, 0, maxi(0, rows.size() - visible_count))
+	var end_idx := mini(rows.size(), start_idx + visible_count)
+	for i in range(start_idx, end_idx):
+		_invest_page_body.add_child(_build_investment_asset_card(rows[i]))
+	var window_lbl := _label(
+		_tr("표시 %d-%d / %d — 스크롤 대신 자산 커서로 이동", "Showing %d-%d / %d — move the asset cursor instead of scrolling")
+		% [start_idx + 1, end_idx, rows.size()],
+		11, "#6f7886")
+	window_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_invest_page_body.add_child(window_lbl)
+	_apply_invest_pad_cursor()
+
+func _render_investment_portfolio_page() -> void:
+	_invest_page_body.add_child(_build_investment_page_caption(
+		_tr("보유 포지션", "Holdings"),
+		_tr("현재 들고 있는 자산만 요약", "Only positions you currently hold"),
+		"#34d399"))
+	if GameState.portfolio.is_empty():
+		_invest_page_body.add_child(_build_investment_empty_card(
+			_tr("아직 보유 자산이 없습니다. 거래 페이지에서 작은 금액으로 시작하세요.", "No positions yet. Start small on the Trade page."),
+			"#64748b"))
+		return
+	var total_cost := 0.0
+	var total_now := 0.0
+	for aid in GameState.portfolio:
+		var h: Dictionary = GameState.portfolio[aid]
+		var qty := float(h.get("quantity", 0.0))
+		var avg_p := float(h.get("avg_price", 0.0))
+		var now_p := float(GameState.market_prices.get(aid, avg_p))
+		total_cost += qty * avg_p
+		total_now += qty * now_p
+	var overall_pct := (total_now - total_cost) / maxf(total_cost, 0.01) * 100.0
+	var overall_color := "#34d399" if overall_pct >= 0.0 else "#ff7070"
+	_invest_page_body.add_child(_build_investment_empty_card(
+		_tr("원금 %s → 현재 %s  (%+.1f%%)", "Cost %s → Value %s  (%+.1f%%)")
+		% [GameState.format_money(total_cost), GameState.format_money(total_now), overall_pct],
+		overall_color))
+	var shown := 0
+	for aid in GameState.portfolio:
+		if shown >= 4:
+			break
+		_invest_page_body.add_child(_build_investment_holding_card(str(aid)))
+		shown += 1
+	if GameState.portfolio.size() > shown:
+		_invest_page_body.add_child(_wrap_label(_tr("외 %d개 포지션", "%d more positions") % (GameState.portfolio.size() - shown), 11, "#6f7886"))
+
+func _render_investment_market_page() -> void:
+	_invest_page_body.add_child(_build_investment_market_board())
+	_invest_page_body.add_child(_build_investment_page_caption(
+		_tr("시장 움직임", "Market Moves"),
+		_tr("변동폭이 큰 자산 4개", "Top 4 movers"),
+		"#f0b429"))
+	var movers: Array = []
+	for row in investment_system.get_asset_rows():
+		var aid := str(row.get("id", ""))
+		var hist: Array = GameState.price_history.get(aid, [])
+		if hist.size() < 2:
+			continue
+		var d1 := (float(hist[-1]) - float(hist[-2])) / maxf(float(hist[-2]), 0.01) * 100.0
+		movers.append({"abs": absf(d1), "delta": d1, "row": row})
+	movers.sort_custom(func(a, b): return float(a.get("abs", 0.0)) > float(b.get("abs", 0.0)))
+	if movers.is_empty():
+		_invest_page_body.add_child(_build_investment_empty_card(_tr("가격 기록 축적 중입니다.", "Price history is still building."), "#64748b"))
+	else:
+		for i in range(mini(4, movers.size())):
+			var row: Dictionary = movers[i].get("row", {})
+			var delta := float(movers[i].get("delta", 0.0))
+			var color := "#34d399" if delta >= 0.0 else "#ff7070"
+			_invest_page_body.add_child(_build_investment_empty_card(
+				"%s   %s   %+.1f%%" % [str(row.get("name", row.get("id", ""))), GameState.format_money(float(row.get("price", 0.0))), delta],
+				color))
+
+func _render_investment_bank_page() -> void:
+	_invest_page_body.add_child(_build_investment_page_caption(
+		_tr("은행 / 레버리지", "Bank / Leverage"),
+		_tr("대출은 행동력 무소비", "Loans do not cost AP"),
+		"#f0b429"))
+	var grade := GameState.get_credit_grade()
+	var grade_label := GameState.get_credit_grade_label()
+	var grade_color := "#34d399" if grade <= 3 else ("#f0b429" if grade <= 6 else ("#f97316" if grade <= 8 else "#ff7070"))
+	_invest_page_body.add_child(_build_investment_empty_card(
+		_tr("신용 %d등급 (%s) · 점수 %d/100", "Credit Grade %d (%s) · Score %d/100") % [grade, grade_label, GameState.get_credit_score()],
+		grade_color))
+	for product in GameState.LOAN_PRODUCTS:
+		_invest_page_body.add_child(_build_investment_loan_card(str(product)))
+	if GameState.investment_skill >= 30:
+		var lev_btn := _icon_button(_tr("레버리지 투자 — 2배 포지션", "Leverage Investing — 2x Position"), "leverage", "#321516")
+		lev_btn.custom_minimum_size = Vector2(0, 42)
+		lev_btn.pressed.connect(_open_leverage_investments)
+		_invest_page_body.add_child(lev_btn)
+	else:
+		_invest_page_body.add_child(_wrap_label(
+			_tr("레버리지 잠금 — 투자감각 30 필요 (현재 %d)", "Leverage locked — Investing 30 required (current %d)") % GameState.investment_skill,
+			12, "#64748b"))
+
+func _build_investment_empty_card(text: String, accent: String) -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0a0e14")
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", st)
+	panel.add_child(_wrap_label(text, 13, "#cbd5e1"))
+	return panel
+
+func _investment_asset_row(asset_id: String) -> Dictionary:
+	for row in investment_system.get_asset_rows():
+		if str(row.get("id", "")) == asset_id:
+			return row
+	return {}
+
+func _build_investment_holding_card(asset_id: String) -> Control:
+	var row := _investment_asset_row(asset_id)
+	var holding: Dictionary = GameState.portfolio.get(asset_id, {})
+	var price := float(GameState.market_prices.get(asset_id, row.get("price", 0.0)))
+	var qty := float(holding.get("quantity", 0.0))
+	var avg := float(holding.get("avg_price", price))
+	var value := qty * price
+	var pct := (price - avg) / maxf(avg, 0.01) * 100.0
+	var color := "#34d399" if pct >= 0.0 else "#ff7070"
+	return _build_investment_empty_card(
+		"%s   %s   %+.1f%%" % [str(row.get("name", asset_id)), GameState.format_money(value), pct],
+		color)
+
+func _build_investment_loan_card(product: String) -> Control:
+	var info: Dictionary = GameState.LOAN_PRODUCTS.get(product, {})
+	var owed := float(GameState.loans.get(product, 0.0))
+	var limit := GameState.get_loan_limit(product)
+	var rate := GameState.get_loan_rate(product)
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0a0e14")
+	st.border_color = Color("#f0b429" if owed > 0.0 else "#334155")
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", st)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	panel.add_child(box)
+	var name := GameState.get_loan_name(product)
+	box.add_child(_label(_tr("%s · 월 %.2f%%", "%s · Monthly %.2f%%") % [name, rate * 100.0], 14, "#e8eaf0"))
+	box.add_child(_wrap_label(_tr("잔액 %s / 한도 %s", "Balance %s / Limit %s") % [GameState.format_money(owed), GameState.format_money(limit)], 12, "#8f98a8"))
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	box.add_child(row)
+	if limit - owed >= 5_000_000.0:
+		var borrow_5 := _small_button("+%s" % GameState.format_money(5_000_000.0), "#143526")
+		borrow_5.pressed.connect(_bank_borrow.bind(product, 5_000_000.0))
+		row.add_child(borrow_5)
+	if limit - owed >= 20_000_000.0:
+		var borrow_20 := _small_button("+%s" % GameState.format_money(20_000_000.0), "#143526")
+		borrow_20.pressed.connect(_bank_borrow.bind(product, 20_000_000.0))
+		row.add_child(borrow_20)
+	if owed > 0.0:
+		var repay_5 := _small_button(_tr("500만 상환", "Repay 5M"), "#162436")
+		repay_5.pressed.connect(_bank_repay.bind(product, 5_000_000.0))
+		row.add_child(repay_5)
+		var repay_all := _small_button(_tr("전액", "All"), "#162436")
+		repay_all.pressed.connect(_bank_repay.bind(product, owed))
+		row.add_child(repay_all)
+	if row.get_child_count() == 0:
+		box.add_child(_wrap_label(_tr("현재 실행 가능한 대출/상환 버튼이 없습니다.", "No borrow/repay action is currently available."), 12, "#64748b"))
+	return panel
+
+func _open_investments():
+	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"), true, "investments")
+	_invest_page_idx = clampi(_invest_page_idx, 0, _invest_pages().size() - 1)
+	_invest_pad_asset_cards.clear()
+	_invest_pad_asset_ids.clear()
 	_invest_pad_action_idx = 0
+	_invest_page_tab_buttons.clear()
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 540)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(840, 700)
+		modal_panel.offset_left = -420
+		modal_panel.offset_right = 420
+		modal_panel.offset_top = -350
+		modal_panel.offset_bottom = 350
+	modal_body.add_theme_constant_override("separation", 8)
 	modal_body.add_child(_modal_section_header(
-		_tr("포트폴리오", "Portfolio"),
+		_tr("투자 데스크", "Investment Desk"),
 		"invest",
 		"#34d399",
-		_tr("조회는 무료, 실제 매수·매도 실행 시 행동력 1을 소비합니다.", "Browsing is free; each buy or sell costs 1 AP.")))
-	# 행동력 안내: 조회는 무료, 거래 시 소비
-	var ap_now = GameState.action_points
-	var ap_hint_color = "#00c896" if ap_now > 0 else "#ff4444"
-	var ap_hint_text = _tr("행동력 %d/%d — 매수·매도 실행 시 1 소비", "AP %d/%d — buying or selling costs 1") % [ap_now, GameState.max_action_points]
-	if ap_now <= 0:
-		ap_hint_text = _tr("행동력 없음 — 이번 주 거래 불가. 다음 주에 다시 오세요.", "No AP — no trading this week. Come back next week.")
-	var inv_hint_row := HBoxContainer.new()
-	inv_hint_row.add_theme_constant_override("separation", 8)
-	modal_body.add_child(inv_hint_row)
-	var inv_hint_lbl := Label.new()
-	inv_hint_lbl.text = ap_hint_text
-	inv_hint_lbl.add_theme_font_size_override("font_size", 12)
-	inv_hint_lbl.add_theme_color_override("font_color", Color(ap_hint_color))
-	inv_hint_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	inv_hint_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	inv_hint_row.add_child(inv_hint_lbl)
-	var inv_gloss_btn := _icon_small_button(_tr("용어", "Terms"), "info", "#2a3a5a")
-	inv_gloss_btn.custom_minimum_size = Vector2(78, 32)
-	inv_gloss_btn.pressed.connect(func(): _open_glossary(_tr("투자 용어", "Investing Terms"), "invest"))
-	inv_hint_row.add_child(inv_gloss_btn)
+		_tr("거래/보유/시장/은행을 페이지로 나눴습니다. 조회는 무료, 매수·매도만 행동력 1을 씁니다.", "Trade, holdings, market, and bank are paged. Browsing is free; buy/sell costs 1 AP.")))
+	modal_body.add_child(_build_investment_status_strip())
 	_invest_pad_hint_label = RichTextLabel.new()
 	_invest_pad_hint_label.bbcode_enabled = true
 	_invest_pad_hint_label.fit_content = true
 	_invest_pad_hint_label.scroll_active = false
+	_invest_pad_hint_label.custom_minimum_size = Vector2(0, 24)
 	_invest_pad_hint_label.add_theme_font_size_override("normal_font_size", 11)
 	_invest_pad_hint_label.add_theme_color_override("default_color", Color("#8f98a8"))
 	if _font_bold:
 		_invest_pad_hint_label.add_theme_font_override("bold_font", _font_bold)
 	modal_body.add_child(_invest_pad_hint_label)
-	modal_body.add_child(_build_investment_market_board())
-	# 첫 방문 투자 가이드
-	if not GameState.flags.get("investment_first_visited", false):
-		GameState.flags["investment_first_visited"] = true
-		modal_body.add_child(_wrap_label(
-			_tr("첫 투자: 낮은 리스크 자산에 10~20만원씩 작게 들어가고, 레버리지는 익숙해진 뒤에 쓰세요.",
-			"First trade: start small, KRW 100k-200k in low-risk assets. Save leverage for later."),
-			12, "#a7b0c2"))
-	elif GameState.investment_skill < 25:
-		modal_body.add_child(_wrap_label(
-			_tr("입문 팁: 투자감각이 낮으면 수수료가 높습니다. 낮은 리스크 자산부터 작게 시작하세요.",
-			"Beginner tip: low Investing means higher fees. Start small with lower-risk assets."),
-			12, "#f0b429"))
-	var sep_top = HSeparator.new()
-	sep_top.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep_top)
-	# ── 포트폴리오 전체 수익률 요약 ─────────────────────
-	if not GameState.portfolio.is_empty():
-		var total_cost = 0.0
-		var total_now  = 0.0
-		for aid in GameState.portfolio:
-			var h: Dictionary = GameState.portfolio[aid]
-			var qty   = float(h.get("quantity", 0.0))
-			var avg_p = float(h.get("avg_price", 0.0))
-			var now_p = float(GameState.market_prices.get(aid, avg_p))
-			total_cost += qty * avg_p
-			total_now  += qty * now_p
-		var overall_pct = (total_now - total_cost) / max(total_cost, 0.01) * 100.0
-		var port_color  = "#00c896" if overall_pct >= 0 else "#ff4444"
-		modal_body.add_child(_wrap_label(
-			_tr("포트폴리오  원금 %s → 현재 %s  (수익률 %+.1f%%)", "Portfolio  cost %s → now %s  (return %+.1f%%)") % [
-				GameState.format_money(total_cost),
-				GameState.format_money(total_now),
-				overall_pct,
-			], 13, port_color))
-		# ── 보유 자산 합산 가격 히스토리 차트 ──
-		var chart_hist: Array = []
-		for _tick in range(12):
-			chart_hist.append(0.0)
-		for aid in GameState.portfolio:
-			var h2: Dictionary = GameState.portfolio[aid]
-			var qty2 := float(h2.get("quantity", 0.0))
-			var ph: Array = GameState.price_history.get(aid, [])
-			for ti in range(min(ph.size(), 12)):
-				chart_hist[12 - min(ph.size(), 12) + ti] += qty2 * float(ph[ti])
-		# 합산이 0인 초기 틱 제거
-		var first_nonzero := 0
-		for ci in range(chart_hist.size()):
-			if float(chart_hist[ci]) > 0.0:
-				first_nonzero = ci
-				break
-		if first_nonzero > 0:
-			chart_hist = chart_hist.slice(first_nonzero)
-		if chart_hist.size() >= 2:
-			var chart_node := Control.new()
-			chart_node.custom_minimum_size = Vector2(0, 34)
-			chart_node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			var chart_data := chart_hist.duplicate()
-			var chart_color := Color("#00c896") if float(chart_data[-1]) >= float(chart_data[0]) else Color("#ff4444")
-			chart_node.draw.connect(func():
-				var w := chart_node.size.x
-				var h3 := chart_node.size.y
-				if w < 4:
-					return
-				var mn := float(chart_data.min())
-				var mx := float(chart_data.max())
-				if mx <= mn:
-					mx = mn + 1.0
-				# 배경
-				chart_node.draw_rect(Rect2(0, 0, w, h3), Color("#07090f"))
-				# 수평 그리드
-				for gi in range(3):
-					var gy := h3 * float(gi + 1) / 4.0
-					chart_node.draw_line(Vector2(0, gy), Vector2(w, gy), Color("#0e1320"), 1)
-				# 가격 선
-				var pts := PackedVector2Array()
-				for pi in range(chart_data.size()):
-					var px := w * float(pi) / float(chart_data.size() - 1)
-					var py := h3 - h3 * (float(chart_data[pi]) - mn) / (mx - mn)
-					pts.append(Vector2(px, clampf(py, 2, h3 - 2)))
-				chart_node.draw_polyline(pts, chart_color, 2.0, true)
-				# 현재가 점
-				chart_node.draw_circle(pts[-1], 4.5, chart_color)
-			)
-			modal_body.add_child(chart_node)
-		var port_sep = HSeparator.new()
-		port_sep.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(port_sep)
-
-	modal_body.add_child(_modal_section_header(
-		_tr("거래 가능 자산", "Tradable Assets"),
-		"market",
-		"#5b9cf6",
-		_tr("각 자산 카드에서 추세를 보고 바로 매수·매도하세요.", "Read each asset card, then buy or sell directly.")))
-	for row in investment_system.get_asset_rows():
-		_invest_pad_asset_ids.append(str(row.get("id", "")))
-		modal_body.add_child(_build_investment_asset_card(row))
-	_invest_pad_asset_idx = clampi(_invest_pad_asset_idx, 0, max(0, _invest_pad_asset_ids.size() - 1))
-	_invest_pad_action_idx = 0
-	_apply_invest_pad_cursor()
-	# 은행 — 대출/상환 (재무 거래라 행동력 무소비). 거래 카드 뒤에 둬 첫 화면의 목적을 흐리지 않는다.
-	var bank_btn := _icon_button(_tr("은행 — 대출/상환", "Bank — Loan/Repay"), "money", "#1a2438")
-	bank_btn.pressed.connect(_open_bank)
-	modal_body.add_child(bank_btn)
-	if GameState.get_loan_total() > 0:
-		modal_body.add_child(_wrap_label(_tr("대출 원금 %s — 매달 이자가 먼저 나갑니다", "Loan principal %s — interest is deducted first each month") % GameState.format_money(GameState.get_loan_total()), 12, "#f59e0b"))
-	# ── 레버리지 투자 진입 (투자감각 30 이상 해금) ──
-	if GameState.investment_skill >= 30:
-		var lev_btn := _icon_button(_tr("레버리지 투자 — 2배 포지션 고수익·고위험", "Leverage Investing — 2x position, high reward·high risk"), "leverage", "#7f1d1d")
-		lev_btn.pressed.connect(_open_leverage_investments)
-		modal_body.add_child(lev_btn)
-	else:
-		modal_body.add_child(_wrap_label(
-			_tr("잠금: 레버리지 투자 — 투자감각 30 달성 시 해금 (현재 %d)", "Locked: Leverage Investing — unlocks at Investing 30 (current %d)") % GameState.investment_skill,
-			12, "#4a5a72"))
+	modal_body.add_child(_build_investment_page_tabs())
+	_invest_page_body = VBoxContainer.new()
+	_invest_page_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_invest_page_body.add_theme_constant_override("separation", 8)
+	modal_body.add_child(_invest_page_body)
+	_render_investment_page()
 
 func _handle_investment_modal_input(event: InputEvent) -> bool:
 	if event is InputEventKey and (event as InputEventKey).echo:
+		return false
+	if event.is_action_pressed("gd_tab_prev"):
+		return _invest_switch_page(-1)
+	if event.is_action_pressed("gd_tab_next"):
+		return _invest_switch_page(1)
+	if _invest_current_page_id() != "assets":
 		return false
 	if event.is_action_pressed("ui_up"):
 		return _invest_move_asset(-1)
 	if event.is_action_pressed("ui_down"):
 		return _invest_move_asset(1)
-	if event.is_action_pressed("ui_left") or event.is_action_pressed("gd_tab_prev"):
+	if event.is_action_pressed("ui_left"):
 		return _invest_cycle_action(-1)
-	if event.is_action_pressed("ui_right") or event.is_action_pressed("gd_tab_next"):
+	if event.is_action_pressed("ui_right"):
 		return _invest_cycle_action(1)
 	if event.is_action_pressed("ui_accept"):
 		return _invest_confirm_action()
@@ -7286,10 +7570,15 @@ func _invest_move_asset(delta: int) -> bool:
 	_invest_pad_asset_idx = int(posmod(_invest_pad_asset_idx + delta, _invest_pad_asset_ids.size()))
 	_invest_pad_action_idx = 0
 	AudioManager.play_ui_click()
-	_apply_invest_pad_cursor()
+	if _invest_current_page_id() == "assets" and is_instance_valid(_invest_page_body):
+		_render_investment_page()
+	else:
+		_apply_invest_pad_cursor()
 	return true
 
 func _invest_cycle_action(delta: int) -> bool:
+	if _invest_current_page_id() != "assets":
+		return false
 	var actions := _invest_pad_actions(_invest_selected_asset_id())
 	if actions.is_empty():
 		_refresh_invest_pad_hint()
@@ -7332,8 +7621,6 @@ func _apply_invest_pad_cursor() -> void:
 		st.content_margin_top = 12
 		st.content_margin_bottom = 12
 		panel.add_theme_stylebox_override("panel", st)
-		if selected and is_instance_valid(modal_scroll):
-			modal_scroll.call_deferred("ensure_control_visible", panel)
 	_refresh_invest_pad_hint()
 
 func _refresh_invest_pad_hint() -> void:
@@ -7343,9 +7630,21 @@ func _refresh_invest_pad_hint() -> void:
 		_invest_pad_hint_label.visible = false
 		return
 	_invest_pad_hint_label.visible = true
+	var page_id := _invest_current_page_id()
+	if page_id != "assets":
+		var page_label := ""
+		for page in _invest_pages():
+			if str(page.get("id", "")) == page_id:
+				page_label = str(page.get("label", ""))
+				break
+		_invest_pad_hint_label.text = _tr(
+			"[b]패드[/b]  LB/RB 페이지 · %s 뒤로  —  %s",
+			"[b]Pad[/b]  LB/RB Page · %s Back  —  %s"
+		) % [ControllerHints.east(), page_label]
+		return
 	var asset_id := _invest_selected_asset_id()
 	if asset_id.is_empty():
-		_invest_pad_hint_label.text = _tr("[b]패드[/b]  거래 가능한 자산 없음", "[b]Pad[/b]  No tradable assets")
+		_invest_pad_hint_label.text = _tr("[b]패드[/b]  LB/RB 페이지 · 거래 가능한 자산 없음", "[b]Pad[/b]  LB/RB Page · No tradable assets")
 		return
 	var actions := _invest_pad_actions(asset_id)
 	var action_label := _tr("거래 불가", "No trade")
@@ -7353,8 +7652,8 @@ func _refresh_invest_pad_hint() -> void:
 		_invest_pad_action_idx = clampi(_invest_pad_action_idx, 0, actions.size() - 1)
 		action_label = str(actions[_invest_pad_action_idx].get("label", action_label))
 	_invest_pad_hint_label.text = _tr(
-		"[b]패드[/b]  ↑↓ 자산 · ←→ 행동 · %s %s · %s 뒤로  —  %s",
-		"[b]Pad[/b]  ↑↓ Asset · ←→ Action · %s %s · %s Back  —  %s"
+		"[b]패드[/b]  LB/RB 페이지 · ↑↓ 자산 · ←→ 행동 · %s %s · %s 뒤로  —  %s",
+		"[b]Pad[/b]  LB/RB Page · ↑↓ Asset · ←→ Action · %s %s · %s Back  —  %s"
 	) % [ControllerHints.south(), action_label, ControllerHints.east(), _invest_asset_display_name(asset_id)]
 
 func _build_investment_asset_card(row: Dictionary) -> Control:

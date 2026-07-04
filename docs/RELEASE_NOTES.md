@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Changed (2026-07-04) — Investment modal paged no-scroll pass
+
+- Merged the latest Claude story/worldbuilding branch into `main` before continuing surface work.
+- Reworked the investment modal from a long scroll stack into a paged controller-friendly desk: `Trade`, `Holdings`, `Market`, and `Bank`.
+- `LB/RB` now switches investment pages, while `Up/Down` and `Left/Right` stay focused on asset/action selection inside the Trade page.
+- The Trade page now shows a two-card asset window plus an asset cursor instead of forcing controller users to scroll through every tradable asset.
+- Added compact no-scroll Holdings, Market, and Bank pages; Bank actions can borrow/repay inside the investment desk without dropping into a separate scroll surface.
+- Fixed a new English surface leak in the paged Bank page by using localized loan product names.
+- Updated `ScreenshotQA --qa=invest-en` to capture Trade/Holdings/Market/Bank pages plus the buy-toast regression.
+
 ### Changed (2026-07-04) — Controller label and AP no-scroll slot rail pass
 
 - Replaced remaining runtime hardcoded controller labels in StoryMode popup hints, investment modal hints, and RaceTrack betting/result hints with `ControllerHints`.

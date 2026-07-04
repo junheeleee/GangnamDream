@@ -680,13 +680,20 @@ func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -
 	if _mg.has_method("_open_investments"):
 		_mg.call("_open_investments")
 		await _settle(0.7)
-		await _save(prefix + "00_modal")
+		await _save(prefix + "00_trade_page")
+		if _mg.has_method("_set_invest_page"):
+			for page_info in [[1, "01_holdings_page"], [2, "02_market_page"], [3, "03_bank_page"]]:
+				_mg.call("_set_invest_page", int(page_info[0]))
+				await _settle(0.45)
+				await _save(prefix + str(page_info[1]))
+			_mg.call("_set_invest_page", 0)
+			await _settle(0.25)
 	if _mg.has_method("_on_buy_asset"):
 		_mg.call("_on_buy_asset", "samsung", 100_000)
 		if _mg.has_method("_finish_typing"):
 			_mg.call("_finish_typing")
 		await _settle(0.55)
-		await _save(prefix + "01_buy_toast")
+		await _save(prefix + "04_buy_toast")
 
 func _shot_tendency_surface(lang: String = "en", prefix: String = "tendency_en_") -> void:
 	_set_qa_language(lang)
@@ -1163,13 +1170,12 @@ func _shot_investment() -> void:
 	if _mg.has_method("_open_investments"):
 		_mg._open_investments()
 		await _settle(0.8)
-		await _save("02_investment_portfolio_chart")
-		var scroll: ScrollContainer = _mg.get("modal_scroll") as ScrollContainer
-		if is_instance_valid(scroll):
-			var bar: VScrollBar = scroll.get_v_scroll_bar()
-			scroll.scroll_vertical = int(bar.max_value * 0.62)
-			await _settle(0.4)
-			await _save("02d_investment_asset_cards")
+		await _save("02_investment_trade_page")
+		if _mg.has_method("_set_invest_page"):
+			for page_info in [[1, "02a_investment_holdings_page"], [2, "02b_investment_market_page"], [3, "02c_investment_bank_page"]]:
+				_mg.call("_set_invest_page", int(page_info[0]))
+				await _settle(0.45)
+				await _save(str(page_info[1]))
 		_close_modal()
 		await _settle(0.4)
 

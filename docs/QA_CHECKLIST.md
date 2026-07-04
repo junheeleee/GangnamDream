@@ -23,6 +23,7 @@ Use this checklist before major commits, playable builds, and release candidates
 | Splash, opening, StartMenu press-any-key, start menu, content notice | `--qa=start-en` |
 | StoryMode/VN intro events, choices, chapter card | `--qa=story-en` |
 | Main AP screen, warning state, action modals, info panel, people modal | `--qa=ap-en` |
+| Investment modal Trade/Holdings/Market/Bank pages | `--qa=invest-en` |
 | Demo month summary and demo ending CTA | `--qa=demo-end-en` |
 | Ending modals and ending CG/card surface | `--qa=endings-en` |
 | Title collection and meta-title reward surface | `--qa=title-en` |

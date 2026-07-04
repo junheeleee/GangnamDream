@@ -96,15 +96,17 @@ Use a numbered vertical or short stacked choice rail.
 
 ### Investment Modal
 
-Implementation status: first pass complete in `scenes/MainGame.gd`.
+Implementation status: paged no-scroll pass complete in `scenes/MainGame.gd`.
 
 Investment is a core loop, so the controller model should not make players visit every visible buy/sell button one by one.
 
-- D-pad up/down: choose asset.
-- D-pad left/right or LB/RB: choose the current asset action.
+- LB/RB: switch pages (`Trade`, `Holdings`, `Market`, `Bank`).
+- D-pad up/down on Trade page: choose asset.
+- D-pad left/right on Trade page: choose the current asset action.
 - A: confirm the highlighted buy/sell action.
 - B: close the modal.
-- The first viewport should show actual tradable assets, not only explanations, bank tools, or portfolio summaries.
+- The Trade page should show a small asset window plus an asset cursor, not a long scroll stack of every visible asset.
+- Holdings, Market, and Bank pages should fit in one 1280x800 modal view without requiring vertical scrolling.
 
 Mouse players can still click individual buy/sell buttons. Controller users should experience the screen as asset selection plus an action rail.
 

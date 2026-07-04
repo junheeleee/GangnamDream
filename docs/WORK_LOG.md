@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Codex — Investment modal paged no-scroll pass)
+
+### 배경
+- 전체 게임을 Steam Deck/패드 친화적으로 만들려면, 모든 화면에서 스크롤을 없애는 것이 아니라 핵심 결정 화면부터 스크롤 의존을 끊어야 한다.
+- 투자 모달은 자산 18개, 보유 요약, 시장 보드, 은행/레버리지 진입이 한 ScrollContainer에 쌓여 있어 패드로는 웹 문서처럼 느껴질 위험이 컸다.
+- 클로드 브랜치가 다은 로맨스/세계관 가상화/영어 시점 정리 등 신규 변경을 갖고 있어, 먼저 main에 병합한 뒤 표면 작업을 진행했다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`를 main에 병합하고 문서 충돌 2건(`DECISIONS`, `WORK_LOG`)은 양쪽 기록 보존으로 해결했다.
+- 투자 모달을 `Trade / Holdings / Market / Bank` 4페이지 구조로 재구성했다.
+- 투자 모달에서는 `LB/RB`가 페이지 전환 전용이고, `↑/↓`는 거래 페이지의 자산 커서, `←/→`는 현재 자산의 매수/매도 행동 전환으로 동작한다.
+- 거래 페이지는 전체 자산을 세로로 쌓지 않고 현재 커서 주변 2개 자산 카드만 보여준다. 하단에 `Showing 1-2 / 18` 안내를 두어 스크롤 대신 자산 커서로 이동하는 모델을 드러냈다.
+- 보유/시장/은행 페이지를 별도 compact page로 추가했다. 은행 페이지에서는 대출 실행/상환 후 기존 은행 모달이 아니라 투자 데스크의 Bank page로 돌아온다.
+- 영어 Bank page에서 대출 상품명이 한글로 보이던 문제를 `GameState.get_loan_name()` 사용으로 수정했다.
+- `ScreenshotQA --qa=invest-en`이 거래/보유/시장/은행 페이지와 매수 토스트를 각각 캡처하도록 갱신했다.
+
+### 검증
+- 클로드 병합 직후 `./tools/audit.sh` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 `/tmp/gangnamdream_qa/ap_en_04a_investment_modal.png` 직접 확인.
+- `ScreenshotQA --qa=invest-en --lang=en` 통과 및 `/tmp/gangnamdream_qa/invest_en_00_trade_page.png`, `invest_en_01_holdings_page.png`, `invest_en_02_market_page.png`, `invest_en_03_bank_page.png` 직접 확인.
+- 영어 Bank page에서 한글 대출명 누출이 사라진 것을 확인했다.
+
 ## 2026-07-04 (Codex — Controller label + AP no-scroll slot rail pass)
 
 ### 배경
