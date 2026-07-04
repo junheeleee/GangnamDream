@@ -4363,11 +4363,8 @@ func _render_ap_actions():
 	var lines: PackedStringArray = PackedStringArray()
 	# 분위기 내레이션 한 줄 (비주얼노벨 톤)
 	lines.append("[i]%s[/i]" % _month_narration())
-	lines.append("")
 	if not turn_action_log.is_empty():
-		for entry in turn_action_log:
-			lines.append(_escape_bbcode_text(_clean_log_surface_text(entry)))
-		lines.append("──────────────────")
+		lines.append(_ap_recent_action_line())
 	# 월 현금흐름/마일스톤/목표까지의 압박은 아래 'This Week' 카드로 모아
 	# 첫 AP 화면이 계산표처럼 시작하지 않게 한다.
 	# ── 경고 ──
@@ -4452,23 +4449,29 @@ func _render_ap_actions():
 
 	# ── 패드 힌트 (컨트롤러 연결 시에만 표시) ───────────────
 	if ControllerHints.is_pad_active():
-		var s := ControllerHints.south()
-		var lb := ControllerHints.shoulder_l()
-		var rb := ControllerHints.shoulder_r()
-		var r3 := ControllerHints.r3()
-		var m := ControllerHints.start_btn()
-		var pad_hint: String
-		if disabled:
-			pad_hint = _tr("[%s] 확인  [%s] 다음 주  [%s/%s] 탭  [%s] 메뉴", "[%s] Confirm  [%s] Next Week  [%s/%s] Tab  [%s] Menu") % [s, r3, lb, rb, m]
-		else:
-			pad_hint = _tr("[%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)", "[%s] Choose  [%s/%s] Tab  [%s] Menu (%s)") % [s, lb, rb, m, ControllerHints.brand_name()]
-		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
+		_add_ap_controller_hint_strip(disabled)
 	_apply_ap_focus_routes(disabled)
 
 	# ── 상점 버튼 비활성화 (서사 유물로 전환 예정) ─────────────
 	if shop_button:
 		shop_button.disabled = true
 	_apply_moral_ui_palette()
+
+func _ap_recent_action_line() -> String:
+	if turn_action_log.is_empty():
+		return ""
+	var parts: PackedStringArray = PackedStringArray()
+	var start_idx: int = maxi(0, turn_action_log.size() - 3)
+	for i in range(start_idx, turn_action_log.size()):
+		var item: String = _clean_log_surface_text(str(turn_action_log[i])).strip_edges()
+		item = item.replace("•", "").strip_edges()
+		if item.length() > 34:
+			item = item.substr(0, 33).strip_edges() + "…"
+		if not item.is_empty():
+			parts.append(_escape_bbcode_text(item))
+	if parts.is_empty():
+		return ""
+	return _tr("[color=#7f8794]이번 주:[/color] %s", "[color=#7f8794]This week:[/color] %s") % "  ·  ".join(parts)
 
 func _apply_ap_focus_routes(ap_empty: bool) -> void:
 	if not ControllerHints.is_pad_active():
@@ -4495,13 +4498,61 @@ func _apply_ap_focus_routes(ap_empty: bool) -> void:
 	elif not buttons.is_empty():
 		buttons[0].call_deferred("grab_focus")
 
+func _add_ap_controller_hint_strip(ap_empty: bool) -> void:
+	var strip := PanelContainer.new()
+	strip.set_meta("moral_role", "separator")
+	strip.set_meta("moral_accent", "#7f8794")
+	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#07080b", 0.72)
+	st.border_color = Color("#252b35", 0.86)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(2)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
+	strip.add_theme_stylebox_override("panel", st)
+	choice_box.add_child(strip)
+
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 8)
+	strip.add_child(row)
+
+	var title := _label(_tr("패드", "PAD"), 10, "#7f8794")
+	title.set_meta("moral_role", "hint_text")
+	title.custom_minimum_size = Vector2(42, 0)
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	row.add_child(title)
+
+	var body_text: String
+	if ap_empty:
+		body_text = _tr(
+			"[%s] 확인 · [%s] 다음 주 · [%s] 메뉴",
+			"[%s] Confirm · [%s] Next Week · [%s] Menu"
+		) % [ControllerHints.south(), ControllerHints.r3(), ControllerHints.start_btn()]
+	else:
+		body_text = _tr(
+			"↑↓ 행동 슬롯 · [%s] 선택 · [%s/%s] 탭 · [%s] 메뉴",
+			"↑↓ Action Slot · [%s] Choose · [%s/%s] Tabs · [%s] Menu"
+		) % [ControllerHints.south(), ControllerHints.shoulder_l(), ControllerHints.shoulder_r(), ControllerHints.start_btn()]
+	var body := _label(body_text, 12, "#aeb6c8")
+	body.set_meta("moral_role", "hint_text")
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	row.add_child(body)
+
 func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool,
 		hint_text: String = "", hint_color: String = "#b9bec7") -> void:
 	var card := PanelContainer.new()
 	card.set_meta("moral_role", "info_card")
 	card.set_meta("moral_accent", "#c5ccd5")
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.custom_minimum_size = Vector2(0, 158)
+	card.custom_minimum_size = Vector2(0, 142)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#08090d", 0.96)
 	style.border_color = Color("#343a45")
@@ -4510,20 +4561,20 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	style.set_border_width(SIDE_TOP, 1)
 	style.set_border_width(SIDE_RIGHT, 1)
 	style.set_corner_radius_all(3)
-	style.content_margin_left = 16
-	style.content_margin_right = 16
-	style.content_margin_top = 12
-	style.content_margin_bottom = 12
+	style.content_margin_left = 14
+	style.content_margin_right = 14
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
 	card.add_theme_stylebox_override("panel", style)
 	choice_box.add_child(card)
 
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
+	box.add_theme_constant_override("separation", 6)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(box)
 
 	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 12)
+	top.add_theme_constant_override("separation", 10)
 	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(top)
 
@@ -4585,8 +4636,8 @@ func _add_week_priority_strip(parent: Control, text: String, urgent: bool) -> vo
 	st.set_corner_radius_all(3)
 	st.content_margin_left = 10
 	st.content_margin_right = 10
-	st.content_margin_top = 7
-	st.content_margin_bottom = 7
+	st.content_margin_top = 6
+	st.content_margin_bottom = 6
 	strip.add_theme_stylebox_override("panel", st)
 	parent.add_child(strip)
 
@@ -4630,7 +4681,7 @@ func _render_week_pressure_row(parent: Control, net: float, total: float, has_wa
 func _add_week_pressure_cell(parent: Control, label_text: String, value_text: String, good: bool) -> void:
 	var cell := PanelContainer.new()
 	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cell.custom_minimum_size = Vector2(0, 38)
+	cell.custom_minimum_size = Vector2(0, 34)
 	cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#11141a", 0.68)
@@ -4639,8 +4690,8 @@ func _add_week_pressure_cell(parent: Control, label_text: String, value_text: St
 	st.set_corner_radius_all(3)
 	st.content_margin_left = 10
 	st.content_margin_right = 10
-	st.content_margin_top = 6
-	st.content_margin_bottom = 6
+	st.content_margin_top = 5
+	st.content_margin_bottom = 5
 	cell.add_theme_stylebox_override("panel", st)
 	parent.add_child(cell)
 
@@ -4666,21 +4717,21 @@ func _add_week_pressure_cell(parent: Control, label_text: String, value_text: St
 func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	var max_ap: int = maxi(1, GameState.max_action_points)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 8)
-	row.custom_minimum_size = Vector2(0, 18)
+	row.add_theme_constant_override("separation", 6)
+	row.custom_minimum_size = Vector2(0, 16)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.alignment = BoxContainer.ALIGNMENT_END
 	parent.add_child(row)
 
 	var slots := HBoxContainer.new()
-	slots.add_theme_constant_override("separation", 5)
+	slots.add_theme_constant_override("separation", 4)
 	slots.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(slots)
 
 	for i in range(max_ap):
 		var filled := i < ap
 		var slot := PanelContainer.new()
-		slot.custom_minimum_size = Vector2(34, 14)
+		slot.custom_minimum_size = Vector2(32, 12)
 		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var st := StyleBoxFlat.new()
 		st.bg_color = Color("#dce4ee", 0.88) if filled else Color("#171b22", 0.86)
@@ -5025,20 +5076,29 @@ func _mastery_badge(game_id: String) -> String:
 
 func _essential_btn(title: String, subtitle: String, icon_id: String, accent: String,
 		fn: String, disabled: bool, free_action: bool = false):
-	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "")
+	var rail_label := _next_ap_rail_label()
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label)
 	if not disabled:
 		var fn_name: String = fn
 		btn.pressed.connect(func():
 			AudioManager.play_ui_click()
 			self.call(fn_name)
 		)
+	btn.set_meta("ap_rail_label", rail_label)
 	choice_box.add_child(btn)
 	_animate_ap_action_card(btn, choice_box.get_child_count())
 
 func _essential_locked(title: String, subtitle: String, icon_id: String, accent: String) -> void:
-	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, true, false, _tr("잠금", "Locked"))
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, true, false, _tr("잠금", "Locked"), _next_ap_rail_label())
 	choice_box.add_child(btn)
 	_animate_ap_action_card(btn, choice_box.get_child_count())
+
+func _next_ap_rail_label() -> String:
+	var count := 0
+	for child in choice_box.get_children():
+		if child is Button:
+			count += 1
+	return "%02d" % (count + 1)
 
 func _animate_ap_action_card(card: Control, index: int) -> void:
 	if not is_inside_tree() or not is_instance_valid(card):
@@ -5052,12 +5112,13 @@ func _animate_ap_action_card(card: Control, index: int) -> void:
 			.set_trans(Tween.TRANS_SINE)
 
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
-		accent: String, disabled: bool, free_action: bool, forced_badge: String) -> Button:
+		accent: String, disabled: bool, free_action: bool, forced_badge: String,
+		rail_label: String = "") -> Button:
 	var btn := Button.new()
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343446")
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(0, 76)
+	btn.custom_minimum_size = Vector2(0, 68)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.disabled = disabled
 	btn.focus_mode = Control.FOCUS_ALL
@@ -5097,19 +5158,55 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	margin.add_theme_constant_override("margin_left", 14)
 	margin.add_theme_constant_override("margin_right", 14)
-	margin.add_theme_constant_override("margin_top", 10)
-	margin.add_theme_constant_override("margin_bottom", 10)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
 	btn.add_child(margin)
 
 	var row := HBoxContainer.new()
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_theme_constant_override("separation", 14)
+	row.add_theme_constant_override("separation", 12)
 	margin.add_child(row)
+
+	if not rail_label.is_empty():
+		var rail := PanelContainer.new()
+		rail.set_meta("moral_role", "choice_badge")
+		rail.custom_minimum_size = Vector2(40, 46)
+		rail.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var rail_style := StyleBoxFlat.new()
+		rail_style.bg_color = Color("#07080b", 0.92)
+		rail_style.border_color = Color(accent, 0.42 if not disabled else 0.16)
+		rail_style.set_border_width_all(1)
+		rail_style.set_corner_radius_all(2)
+		rail_style.content_margin_left = 5
+		rail_style.content_margin_right = 5
+		rail_style.content_margin_top = 6
+		rail_style.content_margin_bottom = 6
+		rail.add_theme_stylebox_override("panel", rail_style)
+		row.add_child(rail)
+
+		var rail_col := VBoxContainer.new()
+		rail_col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		rail_col.alignment = BoxContainer.ALIGNMENT_CENTER
+		rail_col.add_theme_constant_override("separation", 0)
+		rail.add_child(rail_col)
+
+		var rail_tag := _label(_tr("슬롯", "SLOT"), 8, "#667084" if not disabled else "#3e4350")
+		rail_tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		rail_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		rail_col.add_child(rail_tag)
+
+		var rail_num := _label(rail_label, 15, "#edf3f8" if not disabled else "#5a6070")
+		rail_num.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		rail_num.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if _font_bold:
+			rail_num.add_theme_font_override("font", _font_bold)
+		rail_col.add_child(rail_num)
 
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
-	icon_box.custom_minimum_size = Vector2(50, 50)
+	icon_box.custom_minimum_size = Vector2(46, 46)
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var icon_style := StyleBoxFlat.new()
 	icon_style.bg_color = Color(accent, 0.20 if not disabled else 0.06)
@@ -5123,7 +5220,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	icon_tex.set_meta("moral_role", "hud_icon")
 	icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 	icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon_tex.custom_minimum_size = Vector2(40, 40)
+	icon_tex.custom_minimum_size = Vector2(36, 36)
 	icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon_tex.texture = _ui_icon_texture(icon_id)
@@ -5137,14 +5234,14 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	text_col.add_theme_constant_override("separation", 2)
 	row.add_child(text_col)
 
-	var title_lbl := _label(title, 16, "#edf0f4" if not disabled else "#5f6372")
+	var title_lbl := _label(title, 15, "#edf0f4" if not disabled else "#5f6372")
 	title_lbl.set_meta("moral_role", "choice_title")
 	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if _font_bold:
 		title_lbl.add_theme_font_override("font", _font_bold)
 	text_col.add_child(title_lbl)
 
-	var sub_lbl := _label(subtitle, 13, "#a6adba" if not disabled else "#484c5c")
+	var sub_lbl := _label(subtitle, 12, "#a6adba" if not disabled else "#484c5c")
 	sub_lbl.set_meta("moral_role", "choice_subtitle")
 	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -5182,6 +5279,32 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	badge_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	badge.add_child(badge_lbl)
+
+	if ControllerHints.is_pad_active() and not disabled:
+		var keycap := PanelContainer.new()
+		keycap.set_meta("moral_role", "choice_badge")
+		keycap.custom_minimum_size = Vector2(38, 30)
+		keycap.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		keycap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var key_style := StyleBoxFlat.new()
+		key_style.bg_color = Color("#14120b", 0.92)
+		key_style.border_color = Color(COL_GOLD_BRIGHT, 0.82)
+		key_style.set_border_width_all(1)
+		key_style.set_corner_radius_all(3)
+		key_style.content_margin_left = 8
+		key_style.content_margin_right = 8
+		key_style.content_margin_top = 4
+		key_style.content_margin_bottom = 4
+		keycap.add_theme_stylebox_override("panel", key_style)
+		row.add_child(keycap)
+
+		var key_lbl := _label(ControllerHints.south(), 12, "#f8f1cf")
+		key_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		key_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		key_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if _font_bold:
+			key_lbl.add_theme_font_override("font", _font_bold)
+		keycap.add_child(key_lbl)
 
 	var arrow_lbl := _label("›", 28, accent if not disabled else "#303040")
 	arrow_lbl.set_meta("moral_role", "choice_arrow")
@@ -7219,9 +7342,9 @@ func _refresh_invest_pad_hint() -> void:
 		_invest_pad_action_idx = clampi(_invest_pad_action_idx, 0, actions.size() - 1)
 		action_label = str(actions[_invest_pad_action_idx].get("label", action_label))
 	_invest_pad_hint_label.text = _tr(
-		"[b]패드[/b]  ↑↓ 자산 · ←→ 행동 · A %s · B 뒤로  —  %s",
-		"[b]Pad[/b]  ↑↓ Asset · ←→ Action · A %s · B Back  —  %s"
-	) % [action_label, _invest_asset_display_name(asset_id)]
+		"[b]패드[/b]  ↑↓ 자산 · ←→ 행동 · %s %s · %s 뒤로  —  %s",
+		"[b]Pad[/b]  ↑↓ Asset · ←→ Action · %s %s · %s Back  —  %s"
+	) % [ControllerHints.south(), action_label, ControllerHints.east(), _invest_asset_display_name(asset_id)]
 
 func _build_investment_asset_card(row: Dictionary) -> Control:
 	var asset_id: String = str(row.get("id", ""))

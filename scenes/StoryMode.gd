@@ -1571,7 +1571,7 @@ func _show_popup(title: String, body: String):
 	vb.add_child(bl)
 
 	var hint = Label.new()
-	hint.text = _tr("[A] 또는 클릭하여 닫기", "[A] or click to close") if ControllerHints.is_pad_active() else _tr("클릭하여 닫기", "Click to close")
+	hint.text = _tr("[%s] 또는 클릭하여 닫기", "[%s] or click to close") % ControllerHints.south() if ControllerHints.is_pad_active() else _tr("클릭하여 닫기", "Click to close")
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", dead_col)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

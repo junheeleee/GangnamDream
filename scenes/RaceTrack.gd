@@ -463,8 +463,9 @@ func _render_betting() -> void:
 	# 정보상 (오늘의 한 마리 — 진짜일까 함정일까)
 	_build_dealer_row(bet_panel)
 	_add_pad_hint(bet_panel, _tr(
-		"[b]패드[/b]  ↑↓ 말 선택 · ←→ 베팅 종류 · X 금액 · A 선택/베팅 · B 취소/나가기 · Y 규칙",
-		"[b]Pad[/b]  ↑↓ Horse · ←→ Bet Type · X Stake · A Pick/Bet · B Undo/Leave · Y Rules"))
+		"[b]패드[/b]  ↑↓ 말 선택 · ←→ 베팅 종류 · %s 금액 · %s 선택/베팅 · %s 취소/나가기 · %s 규칙",
+		"[b]Pad[/b]  ↑↓ Horse · ←→ Bet Type · %s Stake · %s Pick/Bet · %s Undo/Leave · %s Rules"
+	) % [ControllerHints.west(), ControllerHints.south(), ControllerHints.east(), ControllerHints.north()])
 
 	# 베팅종류 선택 (연승/단승/복승/삼쌍승)
 	var type_row := HBoxContainer.new()
@@ -1103,7 +1104,10 @@ func _render_result() -> void:
 		warn.add_theme_color_override("font_color", Color("#e8a05d"))
 		box.add_child(warn)
 
-	_add_pad_hint(box, _tr("[b]패드[/b]  A 다음 경주 · B 나가기 · Y 규칙", "[b]Pad[/b]  A Next Race · B Leave · Y Rules"))
+	_add_pad_hint(box, _tr(
+		"[b]패드[/b]  %s 다음 경주 · %s 나가기 · %s 규칙",
+		"[b]Pad[/b]  %s Next Race · %s Leave · %s Rules"
+	) % [ControllerHints.south(), ControllerHints.east(), ControllerHints.north()])
 
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)

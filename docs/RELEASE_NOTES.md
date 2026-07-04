@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed (2026-07-04) — Controller label and AP no-scroll slot rail pass
+
+- Replaced remaining runtime hardcoded controller labels in StoryMode popup hints, investment modal hints, and RaceTrack betting/result hints with `ControllerHints`.
+- PlayStation pads now surface `✕/○/□/△`, Nintendo pads use `B/A/Y/X`, and Xbox/Steam Deck remains `A/B/X/Y` wherever these hints appear.
+- Added slot numbering to the main AP action rail so weekly actions read as deliberate `SLOT 01/02/03` choices instead of a plain web-style button list.
+- Added a compact controller hint strip to the AP action screen.
+- When a controller is active, eligible action cards show the actual confirm keycap on the card itself.
+- Collapsed AP action history into one `This week:` summary line and compressed the weekly board/action card heights so the 1280x800 AP screen shows all four action slots without a visible scrollbar.
+
 ### Changed (2026-07-03) — Investment modal controller cursor pass
 
 - Added a semantic controller cursor to the investment buy/sell modal.

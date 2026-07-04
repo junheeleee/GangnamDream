@@ -38,12 +38,15 @@ Focus routing is a fallback safety net. It is not the design.
 
 The same button should not mean different things on neighboring screens unless the screen title makes the mode unmistakable.
 
+Button labels shown to the player must come from `ControllerHints`, not hardcoded `A/B/X/Y` strings. The design contract uses physical positions (`South`, `East`, `West`, `North`), but the UI must surface the connected brand: Xbox/Steam Deck `A/B/X/Y`, PlayStation `✕/○/□/△`, Nintendo `B/A/Y/X`.
+
 ## Acceptance Gates
 
 Before demo/release candidate builds:
 
 - A new player must be able to complete the first 15 minutes on controller without touching mouse or keyboard.
 - No core screen may require navigating more than 12 focusable controller targets in a single uninterrupted rail.
+- Core decision screens should not require vertical scrolling. Use compact rails, pages, tabs, or semantic cursors instead.
 - Dense grids are allowed only in a dedicated cursor/grid mode, not as dozens of independent UI buttons mixed with other controls.
 - Every screen must have a visible default focus within 0.5 seconds of appearing.
 - Pressing `B` must never accidentally commit a destructive or irreversible action.
@@ -57,7 +60,7 @@ Before demo/release candidate builds:
 
 Use a vertical action rail.
 
-Implementation status: main AP rail first pass complete, cancelable AP/menu modal back behavior complete in `scenes/MainGame.gd`.
+Implementation status: main AP rail first pass complete, AP slot numbering/keycap pass complete, AP no-scroll 1280x800 pass complete, cancelable AP/menu modal back behavior complete in `scenes/MainGame.gd`.
 
 - D-pad up/down: move between action cards.
 - A: choose action.
@@ -65,9 +68,22 @@ Implementation status: main AP rail first pass complete, cancelable AP/menu moda
 - LB/RB: info tabs only when an info panel is open.
 - Menu: system.
 - B: close cancelable menu modals such as category, investment, bank, job, shop, title collection, and glossary.
+- The ordinary weekly AP screen must fit the week summary, pressure board, and four default action slots in one 1280x800 view without a visible scrollbar.
 
 Top HUD buttons may remain clickable by mouse, but they should not pull controller focus away from the main rail during ordinary play.
 Flow-protected modals such as demo records, final records, month summaries, warnings, and tendency popups should remain button-confirmed so B does not accidentally commit progression.
+
+## Scroll Policy
+
+Scroll is acceptable only for archive or reference surfaces: glossary, records, long rules, logs, collections, and dense read-only documentation. If the player is currently making a run-critical decision, the screen should prefer one of these patterns instead:
+
+- Compact vertical action rail.
+- Page stepper with clear page count.
+- Shoulder-tabbed categories.
+- Semantic cursor over a board/table.
+- Short summary plus details on demand.
+
+AP, casino tables, RaceTrack betting, and investment actions should not feel like scrolling a web page. If content exceeds the viewport, reduce the surface or split it into modes before allowing scroll.
 
 ### Visual Novel Choice Screens
 

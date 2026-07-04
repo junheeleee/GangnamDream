@@ -1,5 +1,27 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Codex — Controller label + AP no-scroll slot rail pass)
+
+### 배경
+- Steam Deck/패드 대응은 단순 focus traversal 문제가 아니라, 플레이어가 자기 패드의 실제 버튼 표기를 보고 즉시 이해해야 하는 문제다.
+- 일부 최근 힌트에 `A/B/X/Y`가 하드코딩되어 있어 PlayStation 패드에서는 `✕/○/□/△`와 어긋날 수 있었다.
+- AP 행동 화면은 1차 카드화 이후에도 "버튼 리스트" 느낌이 남아, 매주 행동을 고르는 게임 보드 감각을 더 강화할 필요가 있었다.
+
+### 수정
+- StoryMode 팝업 닫기 힌트, 투자 모달 패드 힌트, 경마장 베팅/결과 패드 힌트의 `A/B/X/Y` 하드코딩을 `ControllerHints` 기반 표기로 교체했다.
+- AP 행동 레일의 메인 행동 카드에 `SLOT 01/02/03` 레일 번호를 추가했다.
+- 패드 연결 시 AP 행동 카드 오른쪽에 실제 confirm keycap을 표시한다.
+- AP 하단 패드 안내를 평문 라벨에서 작은 controller strip으로 바꿨다.
+- AP 상단 action log를 긴 목록에서 `이번 주:` / `This week:` 한 줄 요약으로 접었다.
+- 주간 압박 보드, AP 슬롯, 행동 카드 높이를 압축해 1280x800 핵심 AP 화면에서 4개 행동 슬롯이 스크롤 없이 보이게 했다.
+
+### 검증
+- `CompileCheck` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ScreenshotQA --qa=racetrack-en --lang=en` 통과.
+- `/tmp/gangnamdream_qa/ap_en_03_ap_actions.png` 직접 확인: 영어 AP 화면에서 행동 카드가 `SLOT 01/02/03` 레일로 읽히고, 4개 행동 슬롯이 스크롤바 없이 한 화면에 들어옴.
+
 ## 2026-07-03 (Codex — Investment modal controller cursor pass)
 
 ### 배경
