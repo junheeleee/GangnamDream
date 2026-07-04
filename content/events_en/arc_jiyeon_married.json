@@ -10,14 +10,14 @@
       },
       {
         "text": "\"I can't do that. I want to do it within my means.\"",
-        "result_text": "His father-in-law's face hardened. Jiyeon looked at {name} without a word.\n\n\"...It's fine. I just need you,\" Jiyeon said.\nBut at the end of those words, something flickered, just for a moment. Disappointment, or resignation.\n\n{name} stood as himself. Only — the distance between her world and his became visible for the first time that day."
+        "result_text": "His father-in-law's face hardened. Jiyeon looked at {name} without a word.\n\n\"...It's fine. I've got you, oppa. That's all I need,\" Jiyeon said.\nBut at the end of those words, something flickered, just for a moment. Disappointment, or resignation.\n\n{name} stood as himself. Only — the distance between her world and his became visible for the first time that day."
       }
     ]
   },
   {
     "id": "arc_jiyeon_verdict",
     "title": "The Kind of Man He'd Be",
-    "description": "Five years are ending. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I'll be honest. I didn't know you were the kind of man who'd live like this.\"\n\n\"I wasn't asking for something huge. But you... at some point you just stopped. Avoiding anything risky, settling for something small.\"\n\n\"I can't tell if that's stability or just giving up. My father calls it giving up.\"\n\nHer eyes waited for an answer. Whatever {name} said now, this marriage hung on it.",
+    "description": "Five years are ending. Gangnam stayed out of reach.\n\nFor the first time in a while, Jiyeon sat him down, serious.\n\"I'll be honest, oppa. I never figured you for the kind of guy who'd live like this.\"\n\n\"I wasn't asking for anything huge. But you... somewhere along the way you just stopped. Dodging anything risky, settling for something small.\"\n\n\"I can't tell if that's stability or just giving up. My father calls it giving up.\"\n\nHer eyes waited for an answer. Whatever {name} said now, this marriage hung on it.",
     "choices": [
       {
         "text": "\"I'll change. I'll fit your world. Anything.\" (Hold on to her)",
@@ -25,7 +25,7 @@
       },
       {
         "text": "\"This is me. I can't change it. ...I'm sorry.\" (Let her go)",
-        "result_text": "Jiyeon looked at him for a long time. She didn't get angry. She wasn't the type.\n\n\"...I know. You're a good person. You're just not from my world.\"\n\nShe went back to her world. To a life that suited it, with someone who suited it.\n\n{name} never reached Gangnam, and lost her too. But the face in the mirror was still his.\nSmall and whole, and traded for nothing."
+        "result_text": "Jiyeon looked at him for a long time. She didn't get angry. She wasn't the type.\n\n\"...I know. You're a good person, oppa. You're just not from my world.\"\n\nShe went back to her world. To a life that suited it, with someone who suited it.\n\n{name} never reached Gangnam, and lost her too. But the face in the mirror was still his.\nSmall and whole, and traded for nothing."
       }
     ]
   }
