@@ -56,6 +56,8 @@ var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var _feedback_flash: ColorRect
 var _feedback_flash_tween: Tween = null
+var _ap_commit_layer: Control = null
+var _ap_commit_tween: Tween = null
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
@@ -860,6 +862,7 @@ func _build_ui():
 	_build_moral_surface_layer()
 	_build_ink_transition_layer()
 	_build_feedback_layer()
+	_build_ap_commit_layer()
 	_build_modal()
 	_build_toast_layer()
 
@@ -1055,6 +1058,143 @@ func _clear_feedback_flash() -> void:
 	_feedback_flash_tween = null
 	_feedback_flash.modulate = Color(1, 1, 1, 0.0)
 	_feedback_flash.visible = false
+
+func _build_ap_commit_layer() -> void:
+	_ap_commit_layer = Control.new()
+	_ap_commit_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_ap_commit_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_ap_commit_layer.visible = false
+	_ap_commit_layer.z_index = 91
+	add_child(_ap_commit_layer)
+
+func _hide_ap_action_commit() -> void:
+	if _ap_commit_tween and _ap_commit_tween.is_running():
+		_ap_commit_tween.kill()
+	_ap_commit_tween = null
+	_finish_ap_action_commit()
+
+func _finish_ap_action_commit() -> void:
+	if not is_instance_valid(_ap_commit_layer):
+		return
+	for child in _ap_commit_layer.get_children():
+		child.queue_free()
+	_ap_commit_layer.visible = false
+
+func _show_ap_action_commit(title: String, icon_id: String, accent: String,
+		free_action: bool = false, art_thumb: Texture2D = null) -> void:
+	if not is_instance_valid(_ap_commit_layer):
+		return
+	_hide_ap_action_commit()
+	_ap_commit_layer.visible = true
+
+	var panel := PanelContainer.new()
+	panel.set_meta("moral_role", "choice_card")
+	panel.set_meta("moral_accent", accent)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.anchor_left = 0.5
+	panel.anchor_right = 0.5
+	panel.anchor_top = 0.48
+	panel.anchor_bottom = 0.48
+	panel.offset_left = -235
+	panel.offset_right = 235
+	panel.offset_top = -42
+	panel.offset_bottom = 42
+	panel.pivot_offset = Vector2(235, 42)
+	panel.modulate.a = 0.0
+	panel.scale = Vector2(0.965, 0.965)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#07090d", 0.94)
+	style.border_color = _moral_signal_color(Color(accent), 0.34)
+	style.set_border_width_all(1)
+	style.border_width_left = 4
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
+	panel.add_theme_stylebox_override("panel", style)
+	_ap_commit_layer.add_child(panel)
+
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 12)
+	panel.add_child(row)
+
+	var icon_box := PanelContainer.new()
+	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon_box.custom_minimum_size = Vector2(50, 50)
+	icon_box.clip_contents = true
+	var icon_style := StyleBoxFlat.new()
+	icon_style.bg_color = Color("#05070a", 0.98)
+	icon_style.border_color = Color(accent, 0.74)
+	icon_style.set_border_width_all(1)
+	icon_style.set_corner_radius_all(3)
+	icon_box.add_theme_stylebox_override("panel", icon_style)
+	row.add_child(icon_box)
+
+	var thumb := art_thumb if art_thumb != null else _action_thumb_texture("", icon_id)
+	var icon := TextureRect.new()
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.custom_minimum_size = Vector2(50, 50)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	icon.texture = thumb if thumb != null else _ui_icon_texture(icon_id)
+	icon.modulate = Color(1, 1, 1, 0.94) if thumb != null else Color(accent, 0.95)
+	icon_box.add_child(icon)
+
+	var text_col := VBoxContainer.new()
+	text_col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_col.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	text_col.add_theme_constant_override("separation", 3)
+	row.add_child(text_col)
+
+	var overline := _label(_tr("행동 확정", "ACTION LOCKED"), 10, "#7d8796")
+	overline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overline.uppercase = true
+	text_col.add_child(overline)
+
+	var title_lbl := _label(title, 18, "#eef3f8")
+	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	text_col.add_child(title_lbl)
+
+	var badge := PanelContainer.new()
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.custom_minimum_size = Vector2(76, 30)
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var badge_style := StyleBoxFlat.new()
+	badge_style.bg_color = Color("#101116", 0.94)
+	badge_style.border_color = Color("#3d6f59" if free_action else accent, 0.55)
+	badge_style.set_border_width_all(1)
+	badge_style.set_corner_radius_all(3)
+	badge_style.content_margin_left = 8
+	badge_style.content_margin_right = 8
+	badge_style.content_margin_top = 4
+	badge_style.content_margin_bottom = 4
+	badge.add_theme_stylebox_override("panel", badge_style)
+	row.add_child(badge)
+
+	var badge_lbl := _label(_tr("무료", "FREE") if free_action else _tr("AP 1", "AP 1"), 11, "#cbd5e1")
+	badge_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge.add_child(badge_lbl)
+
+	_ap_commit_tween = create_tween()
+	_ap_commit_tween.tween_property(panel, "modulate:a", 1.0, 0.08).set_trans(Tween.TRANS_SINE)
+	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2.ONE, 0.12) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_ap_commit_tween.tween_interval(0.34)
+	_ap_commit_tween.tween_property(panel, "modulate:a", 0.0, 0.18).set_trans(Tween.TRANS_SINE)
+	_ap_commit_tween.parallel().tween_property(panel, "scale", Vector2(1.018, 1.018), 0.18) \
+			.set_trans(Tween.TRANS_SINE)
+	_ap_commit_tween.tween_callback(func():
+		_ap_commit_tween = null
+		_finish_ap_action_commit()
+	)
 
 func _build_top_bar(parent):
 	var panel = _panel("#0d0d14", "#1a1a28")
@@ -5184,15 +5324,58 @@ func _mastery_badge(game_id: String) -> String:
 	var labels := ["", _tr(" ★숙련", " ★Skilled"), _tr(" ★★고급", " ★★Expert"), _tr(" ★★★마스터", " ★★★Master")]
 	return labels[grade]
 
+func _is_ap_commit_function(fn_name: String) -> bool:
+	match fn_name:
+		"_ap_study", "_ap_free_time", "_ap_job_hunt", "_ap_side_job", "_ap_save_money":
+			return true
+		"_ap_network", "_ap_vip_network", "_ap_contact_person":
+			return true
+		"_ap_startup_work", "_ap_create_content", "_ap_write_resume", "_ap_interview_prep", "_ap_deep_study":
+			return true
+		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
+			return true
+	return false
+
+func _pulse_ap_action_card(card: Control) -> void:
+	if not is_instance_valid(card):
+		return
+	card.pivot_offset = card.size * 0.5
+	var tw := create_tween()
+	tw.tween_property(card, "scale", Vector2(0.985, 0.985), 0.045).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(card, "scale", Vector2.ONE, 0.16) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+func _play_ap_commit_feedback() -> void:
+	AudioManager.play("choice_made", -8.0)
+	AudioManager.pulse_gamepad(0.045, 0.110, 0.065)
+
+func _run_ap_action_from_button(card: Control, title: String, icon_id: String, accent: String,
+		fn_name: String, fn_arg = null, close_modal_first: bool = false,
+		free_action: bool = false, art_thumb: Texture2D = null) -> void:
+	if fn_name.is_empty():
+		return
+	if _is_ap_commit_function(fn_name):
+		_pulse_ap_action_card(card)
+		_show_ap_action_commit(title, icon_id, accent, free_action, art_thumb)
+		_play_ap_commit_feedback()
+	else:
+		AudioManager.play_ui_click(-8.0)
+	if close_modal_first:
+		_close_modal()
+	if fn_arg == null:
+		self.call(fn_name)
+	else:
+		self.call(fn_name, fn_arg)
+
 func _essential_btn(title: String, subtitle: String, icon_id: String, accent: String,
 		fn: String, disabled: bool, free_action: bool = false):
 	var rail_label := _next_ap_rail_label()
-	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label, _action_thumb_texture(fn, icon_id))
+	var art_thumb := _action_thumb_texture(fn, icon_id)
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label, art_thumb)
 	if not disabled:
 		var fn_name: String = fn
 		btn.pressed.connect(func():
-			AudioManager.play_ui_click()
-			self.call(fn_name)
+			_run_ap_action_from_button(btn, title, icon_id, accent, fn_name, null, false, free_action, art_thumb)
 		)
 	btn.set_meta("ap_rail_label", rail_label)
 	choice_box.add_child(btn)
@@ -5794,26 +5977,25 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	var split := _split_action_label(label)
 	var free_action := fn in ["_ap_move_housing"]
+	var icon_id := _cat_modal_icon(fn)
+	var title := str(split.get("title", label))
+	var subtitle := str(split.get("subtitle", ""))
+	var art_thumb := _action_thumb_texture(fn, icon_id)
 	var btn := _make_essential_action_card(
-		str(split.get("title", label)),
-		str(split.get("subtitle", "")),
-		_cat_modal_icon(fn),
+		title,
+		subtitle,
+		icon_id,
 		accent,
 		false,
 		free_action,
 		"",
 		"",
-		_action_thumb_texture(fn, _cat_modal_icon(fn)))
+		art_thumb)
 	btn.custom_minimum_size = Vector2(0, 74)
 	var fn_name := fn
 	var fn_arg = arg
 	btn.pressed.connect(func():
-		AudioManager.play("click")
-		_close_modal()
-		if fn_arg == null:
-			self.call(fn_name)
-		else:
-			self.call(fn_name, fn_arg)
+		_run_ap_action_from_button(btn, title, icon_id, accent, fn_name, fn_arg, true, free_action, art_thumb)
 	)
 	modal_body.add_child(btn)
 
@@ -6195,20 +6377,31 @@ func _build_people_action_card(action: Dictionary, index: int) -> Button:
 	var fn_name := str(action.get("fn", ""))
 	var fn_arg = action.get("arg", null)
 	btn.pressed.connect(func():
-		_run_people_action(fn_name, fn_arg)
+		_run_people_action(
+			fn_name,
+			fn_arg,
+			str(action.get("title", "")),
+			str(action.get("icon", "people")),
+			str(action.get("accent", "#8a5a9a")),
+			thumb)
 	)
 	_people_action_cards.append(btn)
 	return btn
 
-func _run_people_action(fn_name: String, fn_arg = null) -> void:
+func _run_people_action(fn_name: String, fn_arg = null, title: String = "",
+		icon_id: String = "people", accent: String = "#8a5a9a",
+		art_thumb: Texture2D = null) -> void:
 	if fn_name.is_empty():
 		return
-	AudioManager.play("click")
-	_close_modal()
-	if fn_arg == null:
-		self.call(fn_name)
-	else:
-		self.call(fn_name, fn_arg)
+	if title.is_empty():
+		title = _tr("관계 행동", "Relation Action")
+	if art_thumb == null:
+		var person_id: String = _canonical_person_id(str(fn_arg))
+		if not person_id.is_empty():
+			art_thumb = _person_thumb_texture(person_id)
+		if art_thumb == null:
+			art_thumb = _action_thumb_texture(fn_name, icon_id)
+	_run_ap_action_from_button(null, title, icon_id, accent, fn_name, fn_arg, true, false, art_thumb)
 
 func _people_selected_action() -> Dictionary:
 	var actions := _people_actions_for_page(_people_current_page_id())
@@ -6230,7 +6423,12 @@ func _people_confirm_action() -> bool:
 	var action := _people_selected_action()
 	if action.is_empty():
 		return true
-	_run_people_action(str(action.get("fn", "")), action.get("arg", null))
+	_run_people_action(
+		str(action.get("fn", "")),
+		action.get("arg", null),
+		str(action.get("title", "")),
+		str(action.get("icon", "people")),
+		str(action.get("accent", "#8a5a9a")))
 	return true
 
 func _apply_people_cursor() -> void:
@@ -6890,6 +7088,7 @@ func _on_jeongseon_casino_closed():
 
 func _enter_minigame_overlay(overlay: Node = null) -> void:
 	_minigame_overlay_active = true
+	_hide_ap_action_commit()
 	if is_instance_valid(_main_ui_root):
 		_main_ui_root.visible = false
 	if is_instance_valid(info_panel):
@@ -7482,6 +7681,7 @@ func _on_leverage_buy(asset_id: String, amount: float):
 	AudioManager.play("money_gain")
 	var result = investment_system.buy_asset_leveraged(asset_id, amount)
 	if result.get("success", false):
+		_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
 		var asset_name = asset_id
 		for data in DataRegistry.assets:
 			if data.get("id", "") == asset_id:
@@ -8861,6 +9061,7 @@ func _on_buy_asset(asset_id, amount):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
+	_show_ap_action_commit(_tr("투자 매수", "Buy Asset"), "invest", "#3a8a5a", false, _action_thumb_texture("_ap_invest", "invest"))
 	AudioManager.play("money_gain")
 	investment_system.buy_asset(asset_id, float(amount))
 	GameState.add_tendency("invest", 1)   # 자산 매수 = 투자형
@@ -8879,6 +9080,7 @@ func _on_sell_asset(asset_id, ratio):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
+	_show_ap_action_commit(_tr("투자 매도", "Sell Asset"), "invest", "#d73a49", false, _action_thumb_texture("_ap_invest", "invest"))
 	AudioManager.play("money_loss")
 	investment_system.sell_asset(asset_id, float(ratio))
 	var asset_name = asset_id

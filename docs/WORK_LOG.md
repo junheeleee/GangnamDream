@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Codex — AP action commit feedback pass)
+
+### 배경
+- 클로드 원격 브랜치 3개를 확인했지만 main보다 앞선 커밋은 없어 병합할 새 내용이 없었다.
+- AP 레일/행동 카드가 시각적으로는 정리됐지만, 버튼을 누르는 순간이 여전히 웹 UI 클릭처럼 바로 사라졌다.
+- 사용자가 지적한 핵심은 AP 화면이 "게임 루프"처럼 느껴져야 한다는 점이다. 그래서 결과창을 더 키우기보다, 행동 확정 순간에 짧은 물리감과 기록 스탬프를 넣는 쪽으로 잡았다.
+
+### 수정
+- `MainGame.gd`에 전역 AP commit overlay를 추가했다. 실제 행동을 확정하면 화면 중앙에 `ACTION LOCKED`/`행동 확정` 스탬프가 0.6초가량 뜬다.
+- AP 행동 카드는 눌리는 순간 짧게 압축됐다가 복원되는 펄스를 가진다.
+- 모든 버튼에 무조건 적용하지 않고, 실제 AP를 쓰거나 결과/미니게임으로 이어지는 함수만 `_is_ap_commit_function()`으로 분리했다. `Invest`, `Life`처럼 모달 입장 성격의 버튼은 기존처럼 조용히 연다.
+- 세부 행동 모달과 People/Relations 행동도 같은 확정 피드백을 사용한다.
+- 투자 매수/매도/레버리지 매수는 모달 내부에서 AP를 소비하므로 같은 시각 확정 스탬프를 붙였다. 돈 효과음은 기존 SFX와 중복되지 않게 유지했다.
+- 미니게임 입장 시에는 commit overlay를 즉시 숨겨 카지노/경마 화면 위에 잔상이 남지 않게 했다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_03b_ap_vignette.png`, `ap_en_05_people_modal_network.png` 직접 확인.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 영어 한글 누출 0, 밸런스 밴드 통과, 오디오 자산 검사 통과, Godot compile clean.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-04 (Codex — AP color action tile pass + Claude merge)
 
 ### 배경
