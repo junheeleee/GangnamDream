@@ -61,5 +61,20 @@
         "result_text": "He signed. The Gangnam deed came into his hands.\n\nIt didn't take Daeun long to learn the truth.\nShe didn't cry. Like someone who had already, quietly, cried it all out years ago.\n\n\"...When did you start seeing me as a document?\"\n\n{name} couldn't answer. He couldn't name the exact date.\nHe'd never even filed a marriage certificate — but he stamped the divorce papers."
       }
     ]
+  },
+  {
+    "id": "arc_daeun_wedding_prep",
+    "title": "The Wedding Package",
+    "description": "Wedding prep. {name} took the estimate in hand and, for a moment, couldn't breathe.\n\nStudio-dress-makeup package: 4.8 million. Hall rental and catering: 18 million. Ye-dan and gifts: 5 million. Honeymoon: 4 million.\nFive separate invitation dinners, each one on {name}'s tab.\n\nAll told, it was a jeonse deposit's worth. That much comes straight out of the seed money for Gangnam.\n\nDaeun glanced at the estimate and said,\n\"...Do we really have to do it like this?\"",
+    "choices": [
+      {
+        "text": "\"Let's keep it small. Minimal package, put that money toward our home.\"",
+        "result_text": "Daeun smiled, relieved.\n\"Honestly, spending millions to wear a dress for one day felt like a waste to me too.\"\n\nA small hall, family and a few close friends. Self-shot photos by the Han River instead of a studio.\nIt might have looked shabby to others — but every won saved went straight into their future.\nLiving with someone who values substance over appearance — {name} felt steadier for it."
+      },
+      {
+        "text": "\"It's once in a lifetime. Let's do it like everyone else does.\"",
+        "result_text": "They went full package. The dress was beautiful, the photos gorgeous, the guests envious.\n\nAfter the ceremony, settling the bills, {name} looked at the account. 31 million, gone in a single day.\n\nDaeun said nothing, but they both knew that money would have put Gangnam months closer.\nA wedding just like everyone else's. Just like everyone else's — exactly that much."
+      }
+    ]
   }
 ]
