@@ -1510,6 +1510,9 @@ func check_game_over():
 		# 결혼 유지한 채 강남 = 따뜻하게 온 진엔딩(두 부모 방 있는 집, 둘이 함께).
 		if flags.get("daeun_married", false):
 			finish_run("gangnam_dream"); return       # dik: daeun_married 변주
+		# 지연과 강남 도달 = 그녀 세계에 진입 성공(보내지 않았을 때). dik: jiyeon_reached 변주.
+		if flags.get("jiyeon_romance_started", false) and not flags.get("jiyeon_left", false):
+			finish_run("gangnam_dream"); return       # dik: jiyeon_reached 변주
 		# 어떤 사람이 되어 입성했는가로 엔딩 분기
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
@@ -1542,6 +1545,9 @@ func check_game_over():
 		# 연인 엔딩
 		if flags.get("daeun_romance_started", false):
 			finish_run("with_daeun"); return          # 다은과 연인 (Y5 고백)
+		# 지연이 떠남(안주를 견디지 못함) = 자기를 지키고 그녀를 잃음. ordinary에 jiyeon_left 변주.
+		if flags.get("jiyeon_left", false):
+			finish_run("ordinary_life"); return       # dik: jiyeon_left 변주
 		if flags.get("jiyeon_romance_started", false):
 			finish_run("jiyeon_man"); return          # 한지연의 남자 (Y5 formalize)
 		# 도박 중독을 이겨낸 사람 — 강남엔 못 갔어도, 가장 깊은 구덩이에서 올라왔다.

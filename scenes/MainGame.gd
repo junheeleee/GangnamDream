@@ -2849,6 +2849,16 @@ func _next_arc_id() -> String:
 			and not f.get("arc_jiyeon_year5_news_seen", false) \
 			and GameState.moral_stage() <= -1:
 		return "arc_jiyeon_y5_feelings"
+	# ── 지연 결혼 국면 (다은의 거울상: 그녀 세계에 맞출 것인가, 나답게 살 것인가) ──
+	# ① 그녀의 결혼식 — 처가 눈높이 vs 민준 현실(텅 빈 신랑석 = class gap 수치화)
+	if t >= 205 and f.get("jiyeon_romance_started", false) \
+			and not f.get("arc_jiyeon_wedding_gap_seen", false):
+		return "arc_jiyeon_wedding_gap"
+	# ② 이렇게 살 사람 — 강남 미달+작게 산 경우에만(성공하면 스킵→jiyeon_man). 반전 이혼.
+	if t >= 228 and f.get("jiyeon_romance_started", false) \
+			and not f.get("arc_jiyeon_verdict_seen", false) \
+			and GameState.get_total_asset_value() < 500_000_000.0:
+		return "arc_jiyeon_verdict"
 	if t >= 193 and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
 			and not f.get("arc_daeun_year5_seen", false):
 		return "arc_daeun_year5_ending"
