@@ -1,0 +1,235 @@
+[
+  {
+    "id": "arc_daeun_our_home",
+    "title": "우리 집",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "goshiwon_room",
+    "portrait": "daeun_smile",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "married",
+      "moral"
+    ],
+    "description": "약혼하고 처음, 강남 매물 사진을 같이 봤다.\n\n방 세 개짜리를 넘기다가 다은이 손을 멈췄다.\n\"이 방은... 아버님 방으로 어때요?\"\n{name}은 멈칫했다. 생각도 못 한 말이었다.\n\"그리고 이쪽은 우리 엄마 서울 오시면.\"\n\n5년 동안 '내 등기'였던 30억이, 그 한마디에 다른 게 됐다.\n혼자 오르던 숫자가 — 이제 방이 여러 개인 집이었다.",
+    "choices": [
+      {
+        "text": "\"그래. 두 분 다 모실 방 있는 집으로 하자.\"",
+        "effects": {
+          "mental": 12,
+          "tint": 6
+        },
+        "flags": [
+          "arc_daeun_our_home_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 12
+          }
+        },
+        "result_text": "다은이 환하게 웃었다.\n\n그날 밤 {name}은 처음으로, 강남을 '내가 도착하는 곳'이 아니라 '우리가 사는 곳'으로 생각했다.\n숫자의 무게가 바뀌었다. 더 무거워졌는데 — 이상하게 더 가벼웠다."
+      },
+      {
+        "text": "\"일단 들어가고 나서 생각하자. 지금은 숫자가 먼저야.\"",
+        "effects": {
+          "mental": 2,
+          "tint": -4
+        },
+        "flags": [
+          "arc_daeun_our_home_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -4
+          }
+        },
+        "result_text": "다은이 잠깐 말이 없다가 화면을 닫았다.\n\"...그래요. 숫자가 먼저겠죠.\"\n\n{name}은 그 목소리의 온도가 반 도쯤 내려간 걸 느꼈지만, 매물 계산으로 이미 머리가 돌아가 있었다.\n방이 몇 개인지는 — 나중 문제였다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_families_meet",
+    "title": "상견례",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "cafe",
+    "portrait": "daeun_normal",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "father",
+      "married",
+      "moral"
+    ],
+    "description": "상견례. 조용한 한정식집.\n\n{name}의 아버지 — 평생 공장, 굽은 어깨, 빌린 양복. 다은의 어머니 — 시골에서 새벽 버스로 올라온, 마디 굵은 손.\n\n두 사람 다 가진 게 없었다. 그게 한눈에 보였다.\n\n아버지가 어렵게 입을 뗐다.\n\"제가... 예전에 빚 때문에 자식한테 못 할 짓을 했습니다. 부끄러운 애비라...\"\n\n식탁에 침묵이 내려앉았다. 다은의 어머니가 {name}을 봤다.\n{name}이 뭐라고 말하느냐에, 아버지의 남은 자존심이 걸려 있었다.",
+    "choices": [
+      {
+        "text": "\"아버지가 그 빚 다 갚으셨어요. 저 여기까지 온 거, 다 아버지 덕입니다.\"",
+        "effects": {
+          "mental": 15,
+          "reputation": 5,
+          "tint": 7
+        },
+        "flags": [
+          "arc_daeun_families_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 10
+          }
+        },
+        "result_text": "아버지가 고개를 들었다. 눈이 붉었다.\n\n다은의 어머니가 조용히 말했다. \"좋은 아버님 두셨네요.\"\n\n돌아오는 길에 아버지가 {name}의 등을 한 번, 툭 쳤다.\n말은 없었지만 — 그거면 됐다."
+      },
+      {
+        "text": "화제를 돌린다. (아버지의 빚 얘기는 지금 자리에 안 맞다)",
+        "effects": {
+          "mental": -5,
+          "tint": -5
+        },
+        "flags": [
+          "arc_daeun_families_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -3
+          }
+        },
+        "result_text": "{name}은 서둘러 다른 얘기를 꺼냈다. 결혼식장, 날짜, 예산.\n\n아버지의 말은 그렇게 식탁 위에서 흐지부지 묻혔다.\n\n집에 오는 길, 아버지는 평소보다 더 말이 없었다.\n{name}은 그 침묵이 무슨 뜻인지 알면서도, 못 들은 척했다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_the_test",
+    "title": "지름길",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "gangnam_night",
+    "portrait": "sangchul_normal",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "sangchul",
+      "married",
+      "moral"
+    ],
+    "description": "마감이 가까웠다. 강남까지 한 걸음이 모자랐다.\n\n임상철이 커피를 밀어놓으며 말했다.\n\"방법이 하나 있긴 한데. 자네 처가 쪽 명의로 대출을 하나 껴서, 아내분 이름으로 물건을 잡으면 — 세금이고 규제고 넘어가.\"\n\n\"물론 아내분은 몰라도 돼. 서류에 도장만 받으면 되니까.\"\n\n아내를 서류 위의 이름으로 쓰는 것. 그러면 강남이 손에 잡힌다.\n임상철이 웃었다. 어딘가 익숙한 웃음이었다.",
+    "choices": [
+      {
+        "text": "\"됐어요. 다은이는 서류가 아니에요.\"",
+        "effects": {
+          "mental": 8,
+          "tint": 8
+        },
+        "flags": [
+          "arc_daeun_test_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 8
+          }
+        },
+        "result_text": "임상철이 어깨를 으쓱했다. \"뭐, 자네 선택이지.\"\n\n돌아오는 길이 멀었다. 강남은 다시 한 걸음 멀어졌다.\n그런데 이상하게 발걸음은 가벼웠다.\n\n{name}은 그 웃음이 왜 익숙했는지 알 것 같았다. 5년 전, 아버지를 그렇게 웃으며 소개했을 것이다."
+      },
+      {
+        "text": "\"...도장만 받으면 되는 거죠.\" (아내 이름을 빌린다)",
+        "effects": {
+          "mental": -10,
+          "investment_skill": 4,
+          "tint": -9
+        },
+        "flags": [
+          "arc_daeun_test_seen",
+          "crossed_line"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -6
+          }
+        },
+        "result_text": "다은은 아무것도 묻지 않고 도장을 찍어줬다. {name}을 믿으니까.\n\n그 믿음을 서류로 바꾸는 순간, {name}은 임상철이 됐다.\n미워하며 시작해서, 아내에게 그 짓을 하는 사람으로.\n\n강남이 한 걸음 가까워졌다. 그리고 뭔가가, 소리 없이 금이 갔다."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_final_choice",
+    "title": "마지막 한 걸음",
+    "category": "story",
+    "rarity": "story",
+    "weight": 0,
+    "hidden": true,
+    "background": "gangnam_night",
+    "portrait": "daeun_sad",
+    "conditions": {
+      "min_turn": 9999
+    },
+    "cooldown": 9999,
+    "tags": [
+      "story",
+      "arc",
+      "daeun",
+      "married",
+      "finale",
+      "moral"
+    ],
+    "description": "강남 등기까지, 정말 마지막 한 걸음.\n\n그 한 걸음이 — 다은을 배신해야만 닿는 자리였다. 아내 몰래 잡아둔 물건을 처분하면 그녀는 모든 걸 잃지만, {name}은 강남에 선다.\n\n계약서가 눈앞에 있다. 옆방에선 다은이 결혼식 청첩장 시안을 고르고 있다. 콧노래를 부르면서.\n\n펜을 들었다.\n\n30억이 이 서명 하나에 있었다. 그리고 다은도, 이 서명 하나에 있었다.",
+    "choices": [
+      {
+        "text": "펜을 내려놓는다. \"다은아, 우리 그냥... 좀 늦게 가자.\"",
+        "effects": {
+          "mental": 20,
+          "tint": 10
+        },
+        "flags": [
+          "arc_daeun_final_choice_seen"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": 20
+          }
+        },
+        "result_text": "다은이 방에서 나왔다. \"뭐라고 했어요?\"\n\"아니. 청첩장 예쁜 걸로 골랐어?\"\n\n그 지름길은 그날 밤 쓰레기통으로 갔다.\n강남은 정정당당하게 가든가, 끝내 못 가든가 — 둘 중 하나였다.\n어느 쪽이든, 옆방에서 콧노래 부르는 사람과는 바꾸지 않기로 했다.\n{name}은 그게 등기보다 비싸다는 걸, 그날 알았다."
+      },
+      {
+        "text": "서명한다. 강남이 한 걸음 앞이다.",
+        "effects": {
+          "mental": -15,
+          "tint": -12
+        },
+        "flags": [
+          "arc_daeun_final_choice_seen",
+          "daeun_divorced",
+          "crossed_line"
+        ],
+        "cast_effects": {
+          "daeun": {
+            "affinity": -40,
+            "stage": "distant"
+          }
+        },
+        "result_text": "서명했다. 강남 등기가 손에 들어왔다.\n\n다은이 진실을 알게 되는 데 오래 걸리지 않았다.\n그녀는 울지 않았다. 이미 몇 년 전에, 조용히 다 울었던 사람처럼.\n\n\"...당신, 언제부터 나를 서류로 봤어요?\"\n\n{name}은 대답하지 못했다. 정확한 날짜를 댈 수가 없어서.\n혼인신고서를 낸 적도 없는데, 이혼서류엔 도장을 찍었다."
+      }
+    ]
+  }
+]
