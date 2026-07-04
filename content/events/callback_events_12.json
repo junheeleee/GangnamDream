@@ -2,7 +2,7 @@
   {
     "id": "callback_jiyeon_accepted_echo",
     "title": "받아들인 이후",
-    "description": "지연의 말을 받아들이기로 했던 게 두 달 전이다.\n그것이 옳다고 생각했다.\n오늘 지연에게서 짧은 연락이 왔다.\n'민준 씨, 요즘 어때요?'",
+    "description": "지연의 말을 받아들이기로 했던 게 두 달 전이다.\n그것이 옳다고 생각했다.\n오늘 지연에게서 짧은 연락이 왔다.\n'오빠, 요즘 어때요?'",
     "category": "relationship",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -123,7 +123,7 @@
   {
     "id": "callback_jiyeon_honest_world_echo",
     "title": "세상에 대해 솔직했던 것",
-    "description": "지연에게 세상에 대한 솔직한 생각을 말했던 게 두 달 전이다.\n오늘 지연이 먼저 연락을 해왔다.\n'민준 씨, 그때 하신 말씀이 계속 생각나요.'",
+    "description": "지연에게 세상에 대한 솔직한 생각을 말했던 게 두 달 전이다.\n오늘 지연이 먼저 연락을 해왔다.\n'오빠, 그때 하신 말씀이 계속 생각나요.'",
     "category": "relationship",
     "rarity": "uncommon",
     "weight": 1.0,

@@ -151,7 +151,7 @@
         },
         "flags": [],
         "follow_up_event": "",
-        "result_text": "들었다.\n지연이 \"민준 씨한테는 말이 잘 되네요.\"라고 했다.\n처음 열린 문이 — 다음 이야기를 부른다."
+        "result_text": "들었다.\n지연이 \"오빠한테는 말이 잘 되네요.\"라고 했다.\n처음 열린 문이 — 다음 이야기를 부른다."
       },
       {
         "text": "나도 솔직하게 말했다",
@@ -250,7 +250,7 @@
   {
     "id": "callback_jiyeon_mother_direct_echo",
     "title": "지연 어머니와 직접",
-    "description": "지연 어머니와 직접 이야기를 나눴던 게 두 달 전이다.\n오늘 지연이 그 이야기를 꺼냈다.\n'어머니가 민준 씨 칭찬하시더라고요.'",
+    "description": "지연 어머니와 직접 이야기를 나눴던 게 두 달 전이다.\n오늘 지연이 그 이야기를 꺼냈다.\n'어머니가 오빠 칭찬하시더라고요.'",
     "category": "relationship",
     "rarity": "uncommon",
     "weight": 1.0,

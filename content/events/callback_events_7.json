@@ -132,7 +132,7 @@
   {
     "id": "callback_jiyeon_refused_deal_echo",
     "title": "지연의 재방문",
-    "description": "지연의 제안을 거절했던 게 두 달 전이다.\n오늘 카페에서 우연히 마주쳤다.\n\"아, 민준씨. 반가워요.\"\n표정에 서운함은 없어 보였다.",
+    "description": "지연의 제안을 거절했던 게 두 달 전이다.\n오늘 카페에서 우연히 마주쳤다.\n\"아, 오빠. 반가워요.\"\n표정에 서운함은 없어 보였다.",
     "category": "relationship",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -172,7 +172,7 @@
   {
     "id": "callback_jiyeon_took_money_weight",
     "title": "그 돈의 무게",
-    "description": "지연에게서 돈을 받은 지 두 달이 됐다.\n오늘 지연에게서 연락이 왔다.\n\"민준씨. 그때 드린 거 — 잘 되고 있죠?\"\n질문인지 확인인지 모를 말투였다.",
+    "description": "지연에게서 돈을 받은 지 두 달이 됐다.\n오늘 지연에게서 연락이 왔다.\n\"오빠. 그때 드린 거 — 잘 되고 있죠?\"\n질문인지 확인인지 모를 말투였다.",
     "category": "investment",
     "rarity": "uncommon",
     "weight": 1.0,
@@ -253,7 +253,7 @@
   {
     "id": "callback_forgave_jiyeon_outcome",
     "title": "용서 이후",
-    "description": "지연을 용서했던 그 대화.\n그 이후로 지연과의 관계가 달라졌다.\n오늘 지연이 뭔가를 들고 나타났다.\n\"민준씨한테 드리고 싶었던 게 있어요.\"",
+    "description": "지연을 용서했던 그 대화.\n그 이후로 지연과의 관계가 달라졌다.\n오늘 지연이 뭔가를 들고 나타났다.\n\"오빠한테 드리고 싶었던 게 있어요.\"",
     "category": "relationship",
     "rarity": "rare",
     "weight": 0.8,
