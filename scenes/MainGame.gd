@@ -87,6 +87,7 @@ var character_portrait: TextureRect
 var _story_container: Control
 var info_panel: Control
 var info_tabs: TabContainer
+var _info_pad_hint_label: Label
 var player_name_label: Label
 var title_label: Label
 var _ui_icon_cache: Dictionary = {}
@@ -107,7 +108,7 @@ const UI_MIN_BUTTON_FONT := 15
 const UI_MIN_BUTTON_HEIGHT := 46
 const UI_MIN_SMALL_BUTTON_HEIGHT := 38
 const UI_FOCUS_BORDER := 3
-const UI_INFO_PANEL_WIDTH := 400
+const UI_INFO_PANEL_WIDTH := 440
 
 const BG_PATHS = {
 	"gosiwon":   "res://assets/backgrounds/goshiwon_room.png",
@@ -1250,8 +1251,8 @@ func _build_info_panel():
 	info_panel.set_meta("moral_role", "panel")
 	info_panel.set_meta("moral_accent", "#303448")
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.045, 0.045, 0.07, 0.985)
-	style.border_color = Color("#303448")
+	style.bg_color = Color("#090a0e", 0.985)
+	style.border_color = Color("#323843")
 	style.set_border_width_all(0)
 	style.border_width_left = 2
 	style.content_margin_left = 0
@@ -1289,15 +1290,22 @@ func _build_info_panel():
 	panel_header.add_theme_stylebox_override("panel", ph_style)
 	panel_vbox.add_child(panel_header)
 
-	var panel_title = _label(_tr("정보 패널", "Info Panel"), 16, "#d8d2c4")
+	var panel_title = _label(_tr("정보 기록", "Info Deck"), 16, "#e8eaf0")
 	panel_title.set_meta("moral_role", "brand_text")
 	if _font_bold:
 		panel_title.add_theme_font_override("font", _font_bold)
 	panel_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel_header.add_child(panel_title)
 
+	_info_pad_hint_label = _label("", 11, "#7f8794")
+	_info_pad_hint_label.visible = false
+	_info_pad_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_info_pad_hint_label.size_flags_horizontal = Control.SIZE_SHRINK_END
+	panel_header.add_child(_info_pad_hint_label)
+
 	var panel_close = _small_button("X", "#2a2a3a")
 	panel_close.custom_minimum_size = Vector2(42, 34)
+	panel_close.size_flags_horizontal = Control.SIZE_SHRINK_END
 	panel_close.pressed.connect(_toggle_info_panel)
 	panel_header.add_child(panel_close)
 
@@ -1308,23 +1316,23 @@ func _build_info_panel():
 	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var tab_sel = StyleBoxFlat.new()
-	tab_sel.bg_color = Color("#13131f")
-	tab_sel.border_color = Color("#c9a227")
+	tab_sel.bg_color = Color("#16202a")
+	tab_sel.border_color = Color("#d9e2ea")
 	tab_sel.border_width_bottom = 2
 	tab_sel.content_margin_left = 12
 	tab_sel.content_margin_right = 12
 	tab_sel.content_margin_top = 8
 	tab_sel.content_margin_bottom = 8
 	var tab_unsel = StyleBoxFlat.new()
-	tab_unsel.bg_color = Color("#0a0a12")
-	tab_unsel.border_color = Color("#1e1e2a")
-	tab_unsel.set_border_width_all(0)
+	tab_unsel.bg_color = Color("#0a0d12")
+	tab_unsel.border_color = Color("#252b35")
+	tab_unsel.set_border_width_all(1)
 	tab_unsel.content_margin_left = 12
 	tab_unsel.content_margin_right = 12
 	tab_unsel.content_margin_top = 8
 	tab_unsel.content_margin_bottom = 8
 	var tab_panel_style = StyleBoxFlat.new()
-	tab_panel_style.bg_color = Color("#0c0c14")
+	tab_panel_style.bg_color = Color("#090a0f")
 	tab_panel_style.set_border_width_all(0)
 	tabs.add_theme_stylebox_override("tab_selected", tab_sel)
 	tabs.add_theme_stylebox_override("tab_unselected", tab_unsel)
@@ -1332,7 +1340,10 @@ func _build_info_panel():
 	tabs.add_theme_color_override("font_selected_color", Color("#e8eaf0"))
 	tabs.add_theme_color_override("font_unselected_color", Color("#5a6075"))
 	tabs.add_theme_font_size_override("font_size", 14)
-	tabs.tab_changed.connect(func(idx): GameState.flags["_last_info_tab"] = idx)
+	tabs.tab_changed.connect(func(idx):
+		GameState.flags["_last_info_tab"] = idx
+		_refresh_info_panel_hint()
+	)
 	panel_vbox.add_child(tabs)
 
 	# ── Tab 0: 📊 스탯 ──
@@ -1489,6 +1500,19 @@ func _toggle_info_panel():
 		if info_panel.visible and info_tabs:
 			var last = GameState.flags.get("_last_info_tab", 0)
 			info_tabs.current_tab = clampi(last, 0, info_tabs.get_tab_count() - 1)
+		_refresh_info_panel_hint()
+
+func _refresh_info_panel_hint() -> void:
+	if not is_instance_valid(_info_pad_hint_label):
+		return
+	if not is_instance_valid(info_panel) or not info_panel.visible or not ControllerHints.is_pad_active():
+		_info_pad_hint_label.visible = false
+		return
+	_info_pad_hint_label.visible = true
+	_info_pad_hint_label.text = _tr(
+		"%s/%s 탭 · %s 뒤로",
+		"%s/%s Tabs · %s Back"
+	) % [ControllerHints.shoulder_l(), ControllerHints.shoulder_r(), ControllerHints.east()]
 
 # ══════════════════════════════════════════════════════════════
 # 목표 진행바 — 상단 바 아래, 30억 달성률 시각화
@@ -8801,12 +8825,12 @@ func _unhandled_input(event):
 		return
 	# RB/LB: 정보 탭 순환 (모달 닫힌 상태에서만)
 	if event.is_action_pressed("gd_tab_next") and not modal_layer.visible:
-		if info_tabs:
+		if is_instance_valid(info_panel) and info_panel.visible and info_tabs:
 			info_tabs.current_tab = (info_tabs.current_tab + 1) % info_tabs.get_tab_count()
 			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("gd_tab_prev") and not modal_layer.visible:
-		if info_tabs:
+		if is_instance_valid(info_panel) and info_panel.visible and info_tabs:
 			info_tabs.current_tab = (info_tabs.current_tab - 1 + info_tabs.get_tab_count()) % info_tabs.get_tab_count()
 			get_viewport().set_input_as_handled()
 		return
@@ -8829,6 +8853,10 @@ func _unhandled_input(event):
 		if _modal_cancelable:
 			_close_modal()
 			get_viewport().set_input_as_handled()
+		return
+	if is_instance_valid(info_panel) and info_panel.visible:
+		_toggle_info_panel()
+		get_viewport().set_input_as_handled()
 		return
 	_open_system_menu()
 	get_viewport().set_input_as_handled()

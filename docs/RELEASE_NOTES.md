@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Changed (2026-07-04) — Info Deck controller back pass
+
+- Reworked the right-side `Info Panel` surface into a slightly wider `Info Deck` with more readable English spacing.
+- Retoned the info tabs away from gold into the same monochrome selected-tab language used by the paged controller modals.
+- Added controller-only header guidance for info navigation: `LB/RB` changes tabs and `B/East` backs out.
+- Fixed controller cancel behavior so pressing `B/East` while the info panel is open closes the panel instead of opening the system menu.
+- `LB/RB` no longer changes hidden info tabs when the info panel is closed.
+
 ### Changed (2026-07-04) — AP modal no-scroll career/people pass
 
 - Merged the latest Claude Daeun post-engagement story consistency branch into `main` before continuing UI work.

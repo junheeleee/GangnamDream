@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Codex — Info Deck controller back pass)
+
+### 배경
+- AP/직업/관계 모달은 페이지형으로 정리됐지만, 상시 여는 `Info` 패널은 아직 웹 사이드바 느낌이 남아 있었다.
+- 더 중요한 문제는 패드 조작이다. 정보 패널이 열린 상태에서 `B/○`를 누르면 패널을 닫는 대신 시스템 메뉴로 흐를 수 있어 Steam Deck 기준 뒤로가기 규칙과 어긋났다.
+
+### 수정
+- 클로드 브랜치 새 커밋이 없음을 확인하고 main 기준으로 작업했다.
+- 우측 `Info Panel` 표기를 `Info Deck`으로 바꾸고 폭을 400px → 440px로 넓혀 영어 텍스트 여백을 확보했다.
+- 정보 패널 탭 selected 스타일을 강한 금색에서 현재 페이지형 UI와 맞는 회백색 모노톤으로 낮췄다.
+- 패드 연결 시 정보 패널 헤더에 `LB/RB Tabs · B Back` 계열 실제 버튼 힌트를 표시한다.
+- 정보 패널이 열린 상태에서 `ui_cancel`은 시스템 메뉴를 열지 않고 패널을 닫도록 입력 순서를 수정했다.
+- 정보 패널이 닫혀 있을 때는 `LB/RB`가 더 이상 보이지 않는 정보 탭을 조작하지 않는다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_04b_info_stats.png`, `ap_en_04c_info_market.png`, `ap_en_04d_info_relations.png`, `ap_en_04f_info_story.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-04 (Codex — AP modal no-scroll career/people pass + Claude merge)
 
 ### 배경

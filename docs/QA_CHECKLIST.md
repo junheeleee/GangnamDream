@@ -11,6 +11,7 @@ Use this checklist before major commits, playable builds, and release candidates
 - Casino minigames must pass controller-only flow: change stake, place bet, read bet, start round, read result, repeat/exit.
 - Dense casino layouts such as Dai Sai and Roulette must use mode/cursor models, not flat focus traversal over every visible bet button.
 - `A/South` confirms the highlighted item, `B/East` backs out or clears pending action, `Y/North` opens rules/details, `LB/RB` changes group/tab/mode.
+- When the right-side Info Deck is open, `B/East` must close it instead of opening the system menu.
 - Basic actions must not require hidden multi-button chords.
 
 ## Targeted Screenshot QA
