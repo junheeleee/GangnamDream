@@ -51,7 +51,7 @@
   {
     "id": "drama_crypto_result_big",
     "title": "코인 결과 — 새벽 5시",
-    "description": "눈이 저절로 떠졌다. 새벽 5시.\n\n폰을 들었다. 차트를 열었다.\n\n비트코인이 38% 폭락해 있었다. 강제청산 완료. 전재산이 들어간 포지션이 밤사이 사라졌다.\n\n알람도 없었다. 아무도 막아주지 않았다.",
+    "description": "눈이 저절로 떠졌다. 새벽 5시.\n\n폰을 들었다. 차트를 열었다.\n\n코어코인이 38% 폭락해 있었다. 강제청산 완료. 전재산이 들어간 포지션이 밤사이 사라졌다.\n\n알람도 없었다. 아무도 막아주지 않았다.",
     "category": "finance",
     "rarity": "common",
     "weight": 0,
@@ -1031,7 +1031,7 @@
   {
     "id": "drama_apartment_lottery_win",
     "title": "아파트 청약 당첨",
-    "description": "무심코 넣은 서울 외곽 아파트 청약에 당첨됐다. 분양가 3억 8천. 대출 없이는 불가능한 금액이다.",
+    "description": "무심코 넣은 서울 외곽 아파트 청약에 당첨됐다. 분양가 6억 8천. 대출 없이는 불가능한 금액이다.",
     "category": "housing",
     "rarity": "rare",
     "weight": 0.15,

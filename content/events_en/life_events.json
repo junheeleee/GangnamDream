@@ -90,7 +90,7 @@
       },
       {
         "text": "Slowly look back at every choice made.",
-        "result_text": "What if the {name} from five years ago had known all this?\n\nSome of it was right. Some wasn't.\nRegrets exist. So does something like — yes, I did what I could.\n\nAll of it, together, was {name}.\nSomehow that felt okay."
+        "result_text": "What if the {name} from five years ago had known all this?\n\nSome of it was right. Some wasn't.\nRegrets exist. So does something like — yes, you did what you could.\n\nAll of it, together, was {name}.\nSomehow that felt okay."
       }
     ]
   },
@@ -120,7 +120,7 @@
       },
       {
         "text": "When Dad comes back, say what you saw.",
-        "result_text": "'I saw it. I'm sorry.'\n\nDad was quiet for a long time.\n'Hey. It's fine.' That was all.\n\nBut something shifted after those short words.\nNow neither of them had to pretend not to know.\n\n{name} stared out the window the whole ride back."
+        "result_text": "'you saw it. You're sorry.'\n\nDad was quiet for a long time.\n'Hey. It's fine.' That was all.\n\nBut something shifted after those short words.\nNow neither of them had to pretend not to know.\n\n{name} stared out the window the whole ride back."
       }
     ]
   },
@@ -180,22 +180,22 @@
       },
       {
         "text": "Close the app. Not sure what I'm doing.",
-        "result_text": "Closed the app.\nThe room went quiet.\nStared at the ceiling.\n\nDo I actually want Gangnam, or am I just anxious?\nThat line gets blurry sometimes.\n\nWent to sleep. Felt right."
+        "result_text": "Closed the app.\nThe room went quiet.\nStared at the ceiling.\n\nDo you actually want Gangnam, or am you just anxious?\nThat line gets blurry sometimes.\n\nWent to sleep. Felt right."
       }
     ]
   },
   {
     "id": "hometown_friend_ask",
     "title": "A Friend from Home",
-    "description": "A message from an old friend.\n\n'Hey, what's it actually like living in Seoul? I think I'm fine staying here.'\n\nThat friend works at a job back in their hometown.\nDoesn't earn much, but has a place to live, family nearby.\n\n'What do you think, {name}? Is Seoul really that great?'\n\n{name} stared at the screen for a moment.\n\nHad no idea what to say.",
+    "description": "A message from an old friend.\n\n'Hey, what's it actually like living in Seoul? You think you're fine staying here.'\n\nThat friend works at a job back in their hometown.\nDoesn't earn much, but has a place to live, family nearby.\n\n'What do you think, {name}? Is Seoul really that great?'\n\n{name} stared at the screen for a moment.\n\nHad no idea what to say.",
     "choices": [
       {
         "text": "Be honest: 'I genuinely can't say.'",
-        "result_text": "'I don't know. Some good things, some hard things.'\n\nFriend replied: 'Still, you've got your reasons for staying.'\n\nThat one line was, strangely, a comfort.\n\nThere are reasons. Hard to put into words.\nThat's enough, sometimes."
+        "result_text": "'you don't know. Some good things, some hard things.'\n\nFriend replied: 'Still, you've got your reasons for staying.'\n\nThat one line was, strangely, a comfort.\n\nThere are reasons. Hard to put into words.\nThat's enough, sometimes."
       },
       {
         "text": "Positive spin: 'Seoul's worth it. So many opportunities.'",
-        "result_text": "Friend replied: 'That's impressive, seriously.'\n\nThe word 'impressive' felt strange.\nNot sure if impressive is the right word.\n\nAfter hanging up, {name} thought:\nDo I stay because Seoul is good — or because leaving feels impossible?\n\nOne of those must be true."
+        "result_text": "Friend replied: 'That's impressive, seriously.'\n\nThe word 'impressive' felt strange.\nNot sure if impressive is the right word.\n\nAfter hanging up, {name} thought:\nDo you stay because Seoul is good — or because leaving feels impossible?\n\nOne of those must be true."
       }
     ]
   },
@@ -352,22 +352,23 @@
   },
   {
     "id": "military_007",
-    "title": "Reserve Training Notice",
-    "description": "A text arrived with a reserve forces training notice.\n\nReceived at 9:12 AM. You were in the middle of a meeting.\n33 years old. It had been over ten years since discharge, yet these texts still came.\n\nYou checked the date. A Friday that week of all weeks. The day before an important deadline.\n\nCaught between the Ministry of National Defense and your company. You weren't even sure if it was right to feel this way.",
+    "title": "Civil Defense Training Notice",
+    "description": "A text arrived with a civil defense training notice.\n\nReceived at 9:12 AM. You were in the middle of a meeting.\n33 years old. Your reserve years ended two years back, and now it's these texts. You've aged, alright.\n\nYou checked the date. A Friday morning that week of all weeks. The day before an important deadline.\n\nGetting this worked up over a half-day lecture — you really don't have much slack these days.",
     "choices": [
       {
-        "text": "Check the date and apply for leave",
-        "result_text": "You checked the date and filed the leave request. A hassle, but there was no getting around it."
+        "text": "Check the date and apply for half-day leave",
+        "result_text": "You checked the date and took a half-day. Only the morning to clear — better than the old reserve days."
       },
       {
         "text": "Grumble about it with old army buddies",
-        "result_text": "You vented to your old buddies and the group chat lit up. Your chest felt lighter, but reality stayed exactly the same."
+        "result_text": "You vented to your old buddies and the group chat lit up. \"Wait, we're on civil defense now?\" — everyone suddenly felt old."
       },
       {
-        "text": "Look into ways to defer the training",
-        "result_text": "You researched how to defer. It felt a bit underhanded, but you made a note of it just in case."
+        "text": "Search whether online training qualifies",
+        "result_text": "You looked into the online-training criteria. If it qualifies, finish from home; if not, off to the hall. Made a note either way."
       }
-    ]
+    ],
+    "background": "office"
   },
   {
     "id": "disasters_009",
@@ -1594,7 +1595,7 @@
       },
       {
         "text": "I don't know.",
-        "result_text": "I don't know.\n\nI'm not sure what happiness is. No reference point.\nWill I know once I've hit my goal? Or will I still not know then?\n\nNot knowing was the most honest answer tonight."
+        "result_text": "You don't know.\n\nYou're not sure what happiness is. No reference point.\nWill you know once you've hit your goal? Or will you still not know then?\n\nNot knowing was the most honest answer tonight."
       },
       {
         "text": "No.",
@@ -1654,7 +1655,7 @@
   {
     "id": "orthodox_senior_farewell",
     "title": "A Senior's Farewell",
-    "description": "A senior colleague who'd worked there for thirty years retired.\n\nAt the farewell dinner, the senior said,\n'I just... kept showing up, and thirty years went by.'\n\nApplause came. A cake came.\n{name} clapped and thought:\n\n'Just kept showing up, and thirty years went by.'\nWould I end up saying the same thing?",
+    "description": "A senior colleague who'd worked there for thirty years retired.\n\nAt the farewell dinner, the senior said,\n'I just... kept showing up, and thirty years went by.'\n\nApplause came. A cake came.\n{name} clapped and thought:\n\n'Just kept showing up, and thirty years went by.'\nWould you end up saying the same thing?",
     "choices": [
       {
         "text": "Lasting thirty years like that is also something to admire.",
@@ -1990,14 +1991,14 @@
   {
     "id": "health_exercise_choice",
     "title": "To Work Out or Not",
-    "description": "Made it all the way to the gym door.\n\nGo in or not. I was tired.\nBut I've lost count of how many times I've used that excuse to skip.",
+    "description": "Made it all the way to the gym door.\n\nGo in or not. You were tired.\nBut you've lost count of how many times you've used that excuse to skip.",
     "choices": [
       {
-        "result_text": "Thirty minutes. The first ten were the hardest.\nOn the way out I thought — yeah, glad I came.",
+        "result_text": "Thirty minutes. The first ten were the hardest.\nOn the way out you thought — yeah, glad you came.",
         "text": "Go in"
       },
       {
-        "result_text": "Came home. Lay down.\nFigured I'd go next time. Always did.",
+        "result_text": "Came home. Lay down.\nFigured you'd go next time. Always did.",
         "text": "Rest today"
       }
     ]
@@ -2005,14 +2006,14 @@
   {
     "id": "health_meal_skip",
     "title": "Skipped a Meal Again",
-    "description": "Too busy to eat.\n\nOr more precisely, chose not to. Couldn't be bothered.\nI was hungry. But going out to get something felt like too much.\n\nThird time this month already.",
+    "description": "Too busy to eat.\n\nOr more precisely, chose not to. Couldn't be bothered.\nYou were hungry. But going out to get something felt like too much.\n\nThird time this month already.",
     "choices": [
       {
         "result_text": "A convenience-store rice ball and milk. 8,000 won.\nFelt human again after eating.",
         "text": "Go out and eat something"
       },
       {
-        "result_text": "Decided to eat in the morning instead.\nMaybe my body felt a little lighter, maybe not.",
+        "result_text": "Decided to eat in the morning instead.\nMaybe your body felt a little lighter, maybe not.",
         "text": "Just sleep"
       }
     ]
@@ -2020,10 +2021,10 @@
   {
     "id": "health_back_pain",
     "title": "Lower Back",
-    "description": "My lower back hurt.\n\nThought it was odd at first, but now it's stiff every morning.\nThe goshiwon mattress? My posture? My age?\n\nI'm thirty-three.",
+    "description": "Your lower back hurt.\n\nThought it was odd at first, but now it's stiff every morning.\nThe goshiwon mattress? Your posture? Your age?\n\nYou're thirty-three.",
     "choices": [
       {
-        "result_text": "Orthopedics. X-ray. 50,000 won.\nMuscle tension, they said. Stretch more, they said.\n50,000-won advice, but it put my mind at ease.",
+        "result_text": "Orthopedics. X-ray. 50,000 won.\nMuscle tension, they said. Stretch more, they said.\n50,000-won advice, but it put your mind at ease.",
         "text": "Go to the hospital"
       },
       {
@@ -2039,10 +2040,10 @@
   {
     "id": "health_cold",
     "title": "A Cold",
-    "description": "A tickle in my throat, then a runny nose.\n\nA cold.\n\nBad timing to get sick. It always was.",
+    "description": "A tickle in your throat, then a runny nose.\n\nA cold.\n\nBad timing to get sick. It always was.",
     "choices": [
       {
-        "result_text": "Cold medicine. Rested a day.\nNext day I was 70% recovered. Glad I caught it early.",
+        "result_text": "Cold medicine. Rested a day.\nNext day you were 70% recovered. Glad you caught it early.",
         "text": "Buy medicine and rest up"
       },
       {
@@ -2054,14 +2055,14 @@
   {
     "id": "health_checkup_reminder",
     "title": "Checkup Notice",
-    "description": "A text about the national health checkup arrived.\n\nI was eligible this year. Free.\n\n{name} saw the text and swiped it away. Too much hassle.\nBut I couldn't remember the last time I got checked.",
+    "description": "A text about the national health checkup arrived.\n\nYou were eligible this year. Free.\n\n{name} saw the text and swiped it away. Too much hassle.\nBut you couldn't remember the last time you got checked.",
     "choices": [
       {
-        "result_text": "Booked the hospital. Blood test. Chest X-ray.\nWhen they said 'all clear,' the relief was bigger than expected.\nThought I wasn't worried about my health — turns out I was.",
+        "result_text": "Booked the hospital. Blood test. Chest X-ray.\nWhen they said 'all clear,' the relief was bigger than expected.\nThought you wasn't worried about your health — turns out you were.",
         "text": "Make an appointment"
       },
       {
-        "result_text": "Thought, later.\nLater will come. When, I don't know.",
+        "result_text": "Thought, later.\nLater will come. When, you don't know.",
         "text": "Later"
       }
     ]
@@ -2069,14 +2070,14 @@
   {
     "id": "health_eye_strain",
     "title": "My Eyes Are Killing Me",
-    "description": "Stared at my phone too long and my eyes stung.\n\nA screen-time alert popped up. 7 hours 48 minutes today.\n\nHow did it come to this. I didn't even really do anything.",
+    "description": "Stared at your phone too long and your eyes stung.\n\nA screen-time alert popped up. 7 hours 48 minutes today.\n\nHow did it come to this. You didn't even really do anything.",
     "choices": [
       {
-        "result_text": "Turned the phone off at ten and read a book.\nThe first ten minutes my hand kept reaching for the phone.\nThirty minutes later I was just reading.",
+        "result_text": "Turned the phone off at ten and read a book.\nThe first ten minutes your hand kept reaching for the phone.\nThirty minutes later you were just reading.",
         "text": "Turn the phone off early tonight"
       },
       {
-        "result_text": "Said I'd do a little more, but nothing useful came of it.\nLay down to sleep and my eyes kept blinking.",
+        "result_text": "Said you'd do a little more, but nothing useful came of it.\nLay down to sleep and your eyes kept blinking.",
         "text": "Do a little more"
       }
     ]
@@ -2084,10 +2085,10 @@
   {
     "id": "health_tension_headache",
     "title": "Migraine",
-    "description": "One side of my head throbbed.\n\nA stress migraine. Comes once or twice a month.\n\n{name} knew where the painkillers were. Inner pocket of the bag.",
+    "description": "One side of your head throbbed.\n\nA stress migraine. Comes once or twice a month.\n\n{name} knew where the painkillers were. Inner pocket of the bag.",
     "choices": [
       {
-        "result_text": "Lay down for twenty minutes. Felt better when I got up.\nIt was the body's way of telling me to rest.",
+        "result_text": "Lay down for twenty minutes. Felt better when you got up.\nIt was the body's way of telling you to rest.",
         "text": "Take medicine and lie down a bit"
       },
       {
@@ -2114,14 +2115,14 @@
   {
     "id": "health_mental_burnout_signal",
     "title": "A Signal",
-    "description": "One of those days I didn't want to do anything.\n\nThere were things to do. But my body wouldn't move.\nOutside the blanket felt too far.\n\n{name} thought — is this burnout?",
+    "description": "One of those days you didn't want to do anything.\n\nThere were things to do. But your body wouldn't move.\nOutside the blanket felt too far.\n\n{name} thought — is this burnout?",
     "choices": [
       {
         "result_text": "Spent the whole day under the blanket.\nGuilt at first, then after a while it was okay.\nTomorrow felt like it'd be different.",
         "text": "Take the day off — for real"
       },
       {
-        "result_text": "Forced myself up. Did something.\nThe body moved but the head was gone.\nEfficiency was under half.",
+        "result_text": "Forced yourself up. Did something.\nThe body moved but the head was gone.\nEfficiency was under half.",
         "text": "Force myself up"
       }
     ]
@@ -2144,7 +2145,7 @@
   {
     "id": "comedy_elevator_awkward",
     "title": "Elevator to the 2nd Floor",
-    "description": "Got on the elevator alone.\n\nPressed the button for the 2nd floor.\n\nThe moment the doors closed, I realized the stairs would've been faster.\nToo late.\n\n{name} faced forward. Waited for the number to change from 1 to 2.",
+    "description": "Got on the elevator alone.\n\nPressed the button for the 2nd floor.\n\nThe moment the doors closed, you realized the stairs would've been faster.\nToo late.\n\n{name} faced forward. Waited for the number to change from 1 to 2.",
     "choices": [
       {
         "result_text": "2nd floor. Doors opened.\nNo one there. A relief.",
@@ -2174,14 +2175,14 @@
   {
     "id": "comedy_convenience_1plus1",
     "title": "The 1+1 Trap",
-    "description": "Went to the convenience store.\n\nWent in for one rice ball,\nthen found a buy-one-get-one sale.\n\nSnacks. Drinks. Ice cream. Cup ramen.\n\nAt the register I was holding five things.\nOriginally 3,500 won, but it rang up 11,000.",
+    "description": "Went to the convenience store.\n\nWent in for one rice ball,\nThen found a buy-one-get-one sale.\n\nSnacks. Drinks. Ice cream. Cup ramen.\n\nAt the register you were holding five things.\nOriginally 3,500 won, but it rang up 11,000.",
     "choices": [
       {
         "result_text": "Have to buy it. 1+1 must be bought.\nGot home, opened the fridge. Already had two of the same thing.",
         "text": "Buy it all — 1+1 cannot be refused"
       },
       {
-        "result_text": "Paid just the 3,500 won.\nKept thinking about the 1+1 on the way out.\nNot sure if I did the right thing.",
+        "result_text": "Paid just the 3,500 won.\nKept thinking about the 1+1 on the way out.\nNot sure if you did the right thing.",
         "text": "Buy only what I came for"
       }
     ]
@@ -2189,10 +2190,10 @@
   {
     "id": "comedy_subway_seat",
     "title": "The Empty Seat",
-    "description": "There was an empty seat on the subway.\n\n{name} and the person beside me spotted it at the same time.\n\nA half-second exchange of glances.",
+    "description": "There was an empty seat on the subway.\n\n{name} and the person beside you spotted it at the same time.\n\nA half-second exchange of glances.",
     "choices": [
       {
-        "result_text": "Sat down. The other person sat right next to me.\nBoth pulled out our phones. Seoul.",
+        "result_text": "Sat down. The other person sat right next to you.\nBoth pulled out our phones. Seoul.",
         "text": "Sit down"
       },
       {
@@ -2226,7 +2227,7 @@
         "text": "Wait beside a table with belongings"
       },
       {
-        "result_text": "Went to another café. Same situation there.\nBut I snagged a window seat. Felt like a win.",
+        "result_text": "Went to another café. Same situation there.\nBut you snagged a window seat. Felt like a win.",
         "text": "Go to another café"
       }
     ]
@@ -2234,14 +2235,14 @@
   {
     "id": "comedy_wrong_floor",
     "title": "Got Off at the Wrong Stop",
-    "description": "Dozed off on the subway and got off at the wrong stop.\n\nWhen I opened my eyes, the doors were closing.\n\nThe station name was different. Two stops past mine.",
+    "description": "Dozed off on the subway and got off at the wrong stop.\n\nWhen you opened your eyes, the doors were closing.\n\nThe station name was different. Two stops past yours.",
     "choices": [
       {
         "result_text": "Waited six minutes for the next train, smiling. No big deal.\nSome days are like this.",
         "text": "Smile and wait for the next train"
       },
       {
-        "result_text": "Got angry at myself. Figured I'd lost six minutes.\nLater, I never once thought about those six minutes again.",
+        "result_text": "Got angry at yourself. Figured you'd lost six minutes.\nLater, you never once thought about those six minutes again.",
         "text": "Get angry at myself"
       }
     ]

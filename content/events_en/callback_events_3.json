@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Verify it first",
-        "result_text": "Three days of digging. This one was pure markup.\n'Last time was luck — I can't spend it again.' You hung up.\nOne win doesn't mean the next one is certain."
+        "result_text": "Three days of digging. This one was pure markup.\n'Last time was luck — you can't spend it again.' You hung up.\nOne win doesn't mean the next one is certain."
       },
       {
         "text": "Go all-in again",
-        "result_text": "I pushed all my chips in. This time, I was sure, it couldn't miss."
+        "result_text": "You pushed all your chips in. This time, you were sure, it couldn't miss."
       },
       {
         "text": "Decline",
@@ -25,7 +25,7 @@
     "choices": [
       {
         "text": "Find a part-time job",
-        "result_text": "Night shifts at a convenience store. ₩9,860 per hour.\nThree weeks later you paid the rent.\nBack to zero. But — this time you know exactly where you lost it."
+        "result_text": "Night shifts at a convenience store. ₩10,320 per hour.\nThree weeks later you paid the rent.\nBack to zero. But — this time you know exactly where you lost it."
       },
       {
         "text": "Call your parents",
@@ -111,7 +111,7 @@
   {
     "id": "callback_coin_jackpot_trap",
     "title": "Taeho's Second Offer",
-    "description": "After winning big on the coin, Taeho contacts you.\n'Hey, I've got something even more certain this time.\nLast time doubled, right? This one triples. For real.'\nThat 'for real' is nagging at you.",
+    "description": "After winning big on the coin, Taeho contacts you.\n'Hey, you've got something even more certain this time.\nLast time doubled, right? This one triples. For real.'\nThat 'for real' is nagging at you.",
     "choices": [
       {
         "text": "\"Not this time.\" Decline.",
@@ -119,7 +119,7 @@
       },
       {
         "text": "Go in again",
-        "result_text": "I opened my wallet. This is the last time, I told myself — just this once."
+        "result_text": "You opened your wallet. This is the last time, you told yourself — just this once."
       }
     ]
   },
@@ -130,11 +130,11 @@
     "choices": [
       {
         "text": "\"Stop. Please.\"",
-        "result_text": "'Both of us lost. This time, please stop.'\nTaeho said '...Okay.'\nDon't know if I can believe it. But I said what needed saying."
+        "result_text": "'Both of us lost. This time, please stop.'\nTaeho said '...Okay.'\nDon't know if you can believe it. But you said what needed saying."
       },
       {
         "text": "Block him",
-        "result_text": "Blocked.\nEven getting the messages was draining energy.\nI feel bad — but right now, I have to look after myself first."
+        "result_text": "Blocked.\nEven getting the messages was draining energy.\nYou feel bad — but right now, you have to look after yourself first."
       }
     ]
   },

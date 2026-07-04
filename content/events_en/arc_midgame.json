@@ -21,7 +21,7 @@
   {
     "id": "arc_midpoint_reckoning",
     "title": "The Halfway Mark",
-    "description": "Started at 33. Several months have already passed.\n\nI pulled out my phone calculator. Target: 3 billion. Time remaining. Calculated how much I'd need to grow per month.\n\nThe number came out. {name} stared at the screen for a moment.\n\nIt wasn't an impossible number. But at this rate — something had to change.\nOutside, Hyunsu came back from his convenience store shift.",
+    "description": "Started at 33. Several months have already passed.\n\nHe pulled out his phone calculator. Target: 3 billion. Time remaining. Calculated how much he'd need to grow per month.\n\nThe number came out. {name} stared at the screen for a moment.\n\nIt wasn't an impossible number. But at this rate — something had to change.\nOutside, Hyunsu came back from his convenience store shift.",
     "choices": [
       {
         "text": "Closed the calculator, opened another tab.",
@@ -29,11 +29,11 @@
       },
       {
         "text": "Set the phone down. Just today, nothing more.",
-        "result_text": "I haven't quit yet. That's the proof.\n\nThis game isn't only won by the fastest. It's also won by the ones who last."
+        "result_text": "He hasn't quit yet. That's the proof.\n\nThis game isn't only won by the fastest. It's also won by the ones who last."
       },
       {
         "text": "Took out a blank page and started over.",
-        "result_text": "Better to be right than fast — that was the lesson.\n\nI went back through each decision I'd made. There were things that needed adjustment. They started to become visible."
+        "result_text": "Better to be right than fast — that was the lesson.\n\nHe went back through each decision he'd made. There were things that needed adjustment. They started to become visible."
       }
     ]
   },
@@ -244,7 +244,7 @@
       },
       {
         "text": "\"I'm not even sure this is what I really want.\" — being honest",
-        "result_text": "The coffee went cold. It wasn't that Gangnam was undesirable —\njust the first moment of wondering: is this actually what I want, or am I just refusing to lose?"
+        "result_text": "The coffee went cold. It wasn't that Gangnam was undesirable —\njust the first moment of wondering: is this actually what he wants, or is he just refusing to lose?"
       },
       {
         "text": "Keep the 9,000-won receipt. Plan to look at it again later.",
@@ -255,7 +255,7 @@
   {
     "id": "arc_jaehyuk_wait",
     "title": "Settlement Day",
-    "description": "The profit settlement Jaehyuk had promised is next week.\n\nNo word from him yesterday. Or today. It had always been like this for the past month — maybe that wasn't strange.\n\nAnd yet. Why do I keep checking my phone.\n\nOpened KakaoTalk. Last message was Jaehyuk's \"How are you\" from three weeks ago.\n{name}'s reply, \"Fine, you?\" had gotten back just an emoji.\n\nThe money put in keeps cycling as a number in his head.",
+    "description": "The profit settlement Jaehyuk had promised is next week.\n\nNo word from him yesterday. Or today. It had always been like this for the past month — maybe that wasn't strange.\n\nAnd yet. Why does he keep checking his phone.\n\nOpened KakaoTalk. Last message was Jaehyuk's \"How are you\" from three weeks ago.\n{name}'s reply, \"Fine, you?\" had gotten back just an emoji.\n\nThe money put in keeps cycling as a number in his head.",
     "choices": [
       {
         "text": "\"Hey Jaehyuk, how's everything?\" — reach out first",
@@ -441,7 +441,7 @@
     "choices": [
       {
         "text": "Looked up at that apartment again.",
-        "result_text": "The fifth floor had its lights on. Someone lives there. That spot will be mine before long. Turned and walked away with that thought."
+        "result_text": "The fifth floor had its lights on. Someone lives there. That spot will be his before long. Turned and walked away with that thought."
       },
       {
         "text": "Ran the numbers while walking.",
@@ -449,14 +449,14 @@
       },
       {
         "text": "Admitted fear for the first time.",
-        "result_text": "Why am I scared when I've come this far? {name} thought about it for a moment. Maybe it's not fear of failing — maybe it's fear of succeeding."
+        "result_text": "Why is he scared when he's come this far? {name} thought about it for a moment. Maybe it's not fear of failing — maybe it's fear of succeeding."
       }
     ]
   },
   {
     "id": "arc_daeun_money_gap",
     "title": "What Daeun Doesn't Know",
-    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, a notification came up on his phone — a two-digit dividend from an investment account.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould I show this person my bank account someday? It doesn't feel like we're at that stage yet.",
+    "description": "Daeun tried to pay for the coffee.\n\n{name} paid first. At that moment, a notification came up on his phone — a two-digit dividend from an investment account.\n\nDaeun didn't notice. {name} quickly turned off the screen.\n\nCould he show this person his bank account someday? It doesn't feel like they're at that stage yet.",
     "choices": [
       {
         "text": "Let it pass — too early to talk about it.",
@@ -538,7 +538,7 @@
   {
     "id": "arc_after_scam",
     "title": "The Day After the Scam",
-    "description": "Jaehyuk went dark.\n\nChecked the account balance. More had been taken than expected. Sat alone in the room.\n\nShould be angry, but just felt numb. How did I trust him. How did I let this happen.",
+    "description": "Jaehyuk went dark.\n\nChecked the account balance. More had been taken than expected. Sat alone in the room.\n\nShould be angry, but just felt numb. How could he have trusted him. How did he let this happen.",
     "choices": [
       {
         "text": "Started putting together a new plan.",
@@ -690,11 +690,11 @@
   {
     "id": "arc_year_one_mark",
     "title": "One Year",
-    "description": "Exactly one year since the plan was set.\n\nSame alley visible from the goshiwon window. People still rushing past. The only thing that seems to have changed is the number in the account. But — if the number in the account has changed, that means something about me is changing too.",
+    "description": "Exactly one year since the plan was set.\n\nSame alley visible from the goshiwon window. People still rushing past. The only thing that seems to have changed is the number in the account. But — if the number in the account has changed, that means something about him is changing too.",
     "choices": [
       {
         "text": "Compile a year's worth of records. Verify in numbers how far I've come.",
-        "result_text": "Wrote it all down in a notebook. Income, expenses, investments, failures. Numbers don't lie. I was definitely moving forward."
+        "result_text": "Wrote it all down in a notebook. Income, expenses, investments, failures. Numbers don't lie. He was definitely moving forward."
       },
       {
         "text": "Just let it pass. Counting anniversaries is a luxury.",
@@ -709,15 +709,15 @@
   {
     "id": "arc_year_two_pressure",
     "title": "Autumn of Year Two",
-    "description": "A wedding invitation from Mingi, a high school classmate.\n\nApartment photos being posted to the group chat too. 'Finally got my own place!' Went to hit like — then stopped. I'm still paying rent. Tried not to compare, but autumn always seems to pull it out of you.",
+    "description": "A wedding invitation from Mingi, a high school classmate.\n\nApartment photos being posted to the group chat too. 'Finally got my own place!' Went to hit like — then stopped. He's still paying rent. Tried not to compare, but autumn always seems to pull it out of you.",
     "choices": [
       {
         "text": "Genuinely congratulate him. I'm on my own path.",
-        "result_text": "'Congrats Mingi, for real.' Sent the message. Reply came quickly. Good people make any news feel welcome. I walk my own road."
+        "result_text": "'Congrats Mingi, for real.' Sent the message. Reply came quickly. Good people make any news feel welcome. He walks his own road."
       },
       {
         "text": "Read it and set the phone down. My situation isn't something to be ashamed of.",
-        "result_text": "Closed the notification. Something complicated lingered. Knowing I'm not wrong doesn't make the feeling easy."
+        "result_text": "Closed the notification. Something complicated lingered. Knowing he's not wrong doesn't make the feeling easy."
       },
       {
         "text": "Delete social media. Comparison is poison to focus.",
@@ -756,7 +756,7 @@
     "choices": [
       {
         "text": "Put everything on the line. Last chance.",
-        "result_text": "Laid out all the remaining cards. Saying it's not scary would be a lie. Going anyway. This is the drama I chose."
+        "result_text": "Laid out all the remaining cards. Saying it's not scary would be a lie. Going anyway. This is the drama he chose."
       },
       {
         "text": "Protect what I have now. Land safely.",
@@ -954,7 +954,7 @@
   {
     "id": "arc_36_night_doubt",
     "title": "3 AM",
-    "description": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of my own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.",
+    "description": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.",
     "choices": [
       {
         "text": "Pulled out the original reason. Not to forget.",
@@ -970,7 +970,7 @@
       }
     ],
     "description_if_known": {
-      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of my own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. doubt."
+      "daytime_conviction": "3 AM. Couldn't sleep.\n\nA strange thought surfaced. Does Gangnam actually have to happen?\n\nIn the beginning, there was a clear reason. Father's guarantee fraud. Six years. After paying off that debt — needed to build something of your own. Three billion was the symbol of that.\n\nBut sometimes, three billion looks like just a number now. Whether this is fatigue, maturity, or surrender — couldn't tell.\n\nOnce before, he had carried a 3 a.m. Conviction into daylight to test it.\nIt held in daylight too.\nThat memory is a backrest now, against tonight's 3 a.m. Doubt."
     }
   },
   {

@@ -2113,6 +2113,17 @@ func _next_arc_id() -> String:
 	if t >= 50 and f.get("daeun_close_bond", false) \
 			and not f.get("arc_daeun_05_together_seen", false):
 		return "arc_daeun_05_together"
+	# ── 조기 연인 특별씬 '그 밤' — 사귄 뒤 관계가 무르익은 시점 (성숙 페이드아웃) ──
+	if t >= 70 and f.get("daeun_romance_started", false) \
+			and GameState.get_cast_affinity("daeun") >= 45 \
+			and not f.get("arc_daeun_first_night_seen", false):
+		return "arc_daeun_first_night"
+	# ── 프로포즈 — 최고 호감의 연인에게 (결혼 진엔딩 게이트). Y4(t≥150)부터 열어
+	#    헌신한 커플은 36세에 결혼하고 남은 기간을 신혼으로 — 마지막까지 미루는 '질질 끄는' 느낌 제거. ──
+	if t >= 150 and f.get("daeun_romance_started", false) \
+			and GameState.get_cast_affinity("daeun") >= 55 \
+			and not f.get("arc_daeun_proposal_seen", false):
+		return "arc_daeun_proposal"
 	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
 	if t >= 50 and f.get("daeun_deferred", false) \
 			and not f.get("arc_daeun_05_breaking_seen", false):
@@ -7887,6 +7898,11 @@ func _show_demo_ending():
 	else:
 		story_lines.append(_tr("현재 직업: %s.", "Current work: %s.") % GameState.get_job_display_name())
 	# 인물 관계
+	# 인물(특히 두 사람)을 상철·재혁보다 앞에 둔다 — 데모 마지막 인상에 '사람이 남았다'는 여운이 오게.
+	if f.get("arc_daeun_met", false):
+		story_lines.append(_tr("새벽 편의점의 다은 씨. 삼각김밥을 하나 더 쥐여주던 사람. 언제부턴가 그 불빛이, 멀리서도 눈에 들어왔다.", "Daeun, at the late-night store — the one who slipped you an extra rice ball. At some point, that store's light started catching your eye from far off."))
+	if f.get("arc_jiyeon_crash_seen", false):
+		story_lines.append(_tr("한지연 씨를 우연히 만났다. 다른 세계의 사람인데 — 그날 이후 자꾸 머릿속에 남았다.", "Ran into Jiyeon by chance. A woman from another world — and somehow, she's stayed on your mind ever since."))
 	if f.get("arc_sangchul_met_seen", false):
 		if f.get("arc_sangchul_casino_seen", false):
 			story_lines.append(_tr("임상철 씨의 정선 카지노 제안을 받았다.", "Got Sangchul's invitation to Jeongseon Casino."))
@@ -7894,10 +7910,6 @@ func _show_demo_ending():
 			story_lines.append(_tr("임상철 씨와 커피를 마셨다. 그가 보는 세계가 조금 보이기 시작했다.", "Had coffee with Sangchul. His world is starting to come into focus."))
 		else:
 			story_lines.append(_tr("임상철이라는 사람을 만났다. 뭔가 다른 세계의 사람 같았다.", "Met someone named Sangchul. Felt like a man from another world."))
-	if f.get("arc_daeun_met", false):
-		story_lines.append(_tr("편의점 다은 씨와 조금씩 안면을 트고 있다.", "Getting to know Daeun from the convenience store."))
-	if f.get("arc_jiyeon_crash_seen", false):
-		story_lines.append(_tr("한지연 씨를 우연히 만났다. 그날 이후 머릿속에 남아있다.", "Ran into Jiyeon by chance. She's been on my mind ever since."))
 	if f.get("arc_jaehyuk_reunion_seen", false):
 		story_lines.append(_tr("군대 동기 재혁을 만났다. 좋은 건지 나쁜 건지 모르겠다.", "Ran into Jaehyuk from the army. Hard to say if that's good or bad."))
 	# 도박

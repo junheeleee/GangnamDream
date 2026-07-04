@@ -6,7 +6,7 @@
     "choices": [
       {
         "text": "Take it to the police.  (clear conscience + reputation / time + no cash)",
-        "result_text": "I walked out of the police station with a receipt. The way back felt strangely light."
+        "result_text": "{name} walked out of the police station with a receipt. The way back felt strangely light."
       },
       {
         "text": "Keep the cash. Drop the wallet in a mailbox.  (₩300,000 / guilt)",

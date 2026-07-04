@@ -44,7 +44,7 @@
     "choices": [
       {
         "text": "Ask the staff about financing. Might come back someday.",
-        "result_text": "'What's the maximum loan I could get?'\n\nThe staff ran the numbers. Income basis, asset basis, rates.\n\n{name} wrote it down.\nA cold, clear look at the distance between those numbers and where {name} stands now.\n\nTook a brochure on the way out.\nPut it in a desk drawer.\n\nHad a feeling it would be opened again."
+        "result_text": "'What's the maximum loan you could get?'\n\nThe staff ran the numbers. Income basis, asset basis, rates.\n\n{name} wrote it down.\nA cold, clear look at the distance between those numbers and where {name} stands now.\n\nTook a brochure on the way out.\nPut it in a desk drawer.\n\nHad a feeling it would be opened again."
       },
       {
         "text": "Just look around. Leave.",
@@ -55,76 +55,76 @@
   {
     "id": "hidden_002",
     "title": "Two A.M., the Heart",
-    "description": "I woke from sleep.\n\nMy chest was pounding.\nNot in a steady rhythm.\n\nI had three coffees yesterday. I haven't been sleeping well lately.\nOr is something else going on?\n\nIt was two in the morning.",
+    "description": "You woke from sleep.\n\nYour chest was pounding.\nNot in a steady rhythm.\n\nYou had three coffees yesterday. You haven't been sleeping well lately.\nOr is something else going on?\n\nIt was two in the morning.",
     "choices": [
       {
         "text": "Book a hospital appointment for tomorrow",
-        "result_text": "I found an internal medicine clinic in the app.\nBooked it. 10 a.m., the day after tomorrow.\nThat night, at least, I think I slept a little better."
+        "result_text": "You found an internal medicine clinic in the app.\nBooked it. 10 a.m., the day after tomorrow.\nThat night, at least, you think you slept a little better."
       },
       {
         "text": "Brush it off as nothing and lie back down",
-        "result_text": "I pulled the blanket up.\nClosed my eyes.\nThe pounding stopped twenty minutes later."
+        "result_text": "You pulled the blanket up.\nClosed your eyes.\nThe pounding stopped twenty minutes later."
       },
       {
         "text": "Search whether I should go to the ER",
-        "result_text": "I searched 'heart palpitations ER guidelines.'\nRead through the symptom checklist.\nNone of it applied. Still, I stayed awake for thirty minutes."
+        "result_text": "You searched 'heart palpitations ER guidelines.'\nRead through the symptom checklist.\nNone of it applied. Still, you stayed awake for thirty minutes."
       }
     ]
   },
   {
     "id": "hidden_003",
     "title": "A Night of Service Memories",
-    "description": "When life grinds you down, military memories suddenly surface. A senior's face, night guard duty, the hours I endured for no reason. I still don't know whether it made me who I am now, or just wore me down.",
+    "description": "When life grinds you down, military memories suddenly surface. A senior's face, night guard duty, the hours you endured for no reason. You still don't know whether it made you who you are now, or just wore you down.",
     "choices": [
       {
         "text": "Pick out only the good memories and look back with gratitude",
-        "result_text": "I thought of what I learned rather than what was hard. How you edit your memories can change your future."
+        "result_text": "You thought of what you learned rather than what was hard. How you edit your memories can change your future."
       },
       {
         "text": "Pour the bottled-up feelings into a journal",
-        "result_text": "I picked up a pen at dawn. The feelings I poured out went quiet on the paper."
+        "result_text": "You picked up a pen at dawn. The feelings you poured out went quiet on the paper."
       },
       {
         "text": "Call an old comrade and talk about those days",
-        "result_text": "I called a comrade I hadn't spoken to in ages. Knowing someone shares the same memories was a comfort."
+        "result_text": "You called a comrade you hadn't spoken to in ages. Knowing someone shares the same memories was a comfort."
       }
     ]
   },
   {
     "id": "hidden_004",
     "title": "Spiderweb Screen",
-    "description": "I slipped on the third step of the stairs.\n\nMy phone hit the floor.\nThere was a sound.\n\nI picked it up. The screen was a spiderweb.\nThere was an important call coming today.\nOr there might have been.",
+    "description": "You slipped on the third step of the stairs.\n\nYour phone hit the floor.\nThere was a sound.\n\nYou picked it up. The screen was a spiderweb.\nThere was an important call coming today.\nOr there might have been.",
     "choices": [
       {
         "text": "Head straight to a repair shop",
-        "result_text": "I went to a nearby repair shop.\n120,000 won.\nWaited an hour. Good as new."
+        "result_text": "You went to a nearby repair shop.\n120,000 won.\nWaited an hour. Good as new."
       },
       {
         "text": "Tape it up and just keep using it",
-        "result_text": "I found some clear tape.\nStuck it on.\nA shard of glass caught the tip of my finger."
+        "result_text": "You found some clear tape.\nStuck it on.\nA shard of glass caught the tip of your finger."
       },
       {
         "text": "Swap the device through a secondhand deal",
-        "result_text": "I posted it on a used-goods app.\nGot a reply within thirty minutes.\nSold it for 70,000 and bought a used phone for 100,000."
+        "result_text": "You posted it on a used-goods app.\nGot a reply within thirty minutes.\nSold it for 70,000 and bought a used phone for 100,000."
       },
       {
         "text": "Check whether insurance covers it",
-        "result_text": "I opened the carrier's app.\nTurns out I was insured.\nDeductible: 30,000 won. Insurance I didn't even remember having."
+        "result_text": "You opened the carrier's app.\nTurns out you were insured.\nDeductible: 30,000 won. Insurance you didn't even remember having."
       }
     ]
   },
   {
     "id": "hidden_005",
     "title": "Five Resignation Vlogs",
-    "description": "It was a stranger's channel.\nThe algorithm caught it for me at dawn.\n\nI watched one. Autoplay kicked in. I watched another.\nBy the fifth video I checked the subscriber count. 81,000.\n\nThere was even an ad-revenue receipt video.\n{name} has no subscribers.",
+    "description": "It was a stranger's channel.\nThe algorithm caught it for you at dawn.\n\nYou watched one. Autoplay kicked in. You watched another.\nBy the fifth video you checked the subscriber count. 81,000.\n\nThere was even an ad-revenue receipt video.\n{name} has no subscribers.",
     "choices": [
       {
         "text": "Subscribe and close the window",
-        "result_text": "I hit the subscribe button.\nThe algorithm served up even more videos.\nClosing the window took another twenty minutes."
+        "result_text": "You hit the subscribe button.\nThe algorithm served up even more videos.\nClosing the window took another twenty minutes."
       },
       {
         "text": "Leave one line of encouragement in the comments",
-        "result_text": "'Enjoyed watching this.'\nAfter posting it, I looked at my own profile.\nZero subscribers. No uploaded videos."
+        "result_text": "'Enjoyed watching this.'\nAfter posting it, you looked at your own profile.\nZero subscribers. No uploaded videos."
       },
       {
         "text": "Close the window and sleep",
@@ -135,42 +135,42 @@
   {
     "id": "hidden_007",
     "title": "Breaking Policy Announcement",
-    "description": "A news alert went off. The government announced new finance and real estate policies. I can't tell whether to move before the market reacts, or whether a rash decision will sink me.",
+    "description": "A news alert went off. The government announced new finance and real estate policies. You can't tell whether to move before the market reacts, or whether a rash decision will sink you.",
     "choices": [
       {
         "text": "Analyze the announcement and adjust related assets",
-        "result_text": "I read the policy text carefully and reworked my portfolio. Reading the news fast is the skill of staying ahead of the market."
+        "result_text": "You read the policy text carefully and reworked your portfolio. Reading the news fast is the skill of staying ahead of the market."
       },
       {
         "text": "Tune it out and carry on as usual",
-        "result_text": "Figuring it wouldn't change anything for me anyway, I ignored it. Whether it was an opportunity, I'll find out later."
+        "result_text": "Figuring it wouldn't change anything for you anyway, you ignored it. Whether it was an opportunity, you'll find out later."
       },
       {
         "text": "Dive boldly into the policy-beneficiary stocks",
-        "result_text": "I read the policy direction and bet boldly. The key is moving before the news breaks."
+        "result_text": "You read the policy direction and bet boldly. The key is moving before the news breaks."
       }
     ]
   },
   {
     "id": "hidden_008",
     "title": "Unsaved Number",
-    "description": "An unknown number rang.\nThree times.\nI hung up.\n\nIt came again.\n\nFive seconds of not knowing whether it was spam.",
+    "description": "An unknown number rang.\nThree times.\nYou hung up.\n\nIt came again.\n\nFive seconds of not knowing whether it was spam.",
     "choices": [
       {
         "text": "Answer it",
-        "result_text": "I answered.\nIt was a college classmate. Five years since we last spoke.\nThey said 'let's grab a meal.' Unexpected."
+        "result_text": "You answered.\nIt was a college classmate. Five years since we last spoke.\nThey said 'let's grab a meal.' Unexpected."
       },
       {
         "text": "Hang up first and search the number",
-        "result_text": "The search returned 'carrier customer service.'\nIt wasn't. I sent a text. 'Who is this?' An old acquaintance."
+        "result_text": "The search returned 'carrier customer service.'\nIt wasn't. You sent a text. 'Who is this?' An old acquaintance."
       },
       {
         "text": "Don't answer; confirm by text",
-        "result_text": "I sent 'Sorry, who's this?'\nNo reply.\nThe next day I saw a 'beware of voice phishing' article."
+        "result_text": "You sent 'Sorry, who's this?'\nNo reply.\nThe next day you saw a 'beware of voice phishing' article."
       },
       {
         "text": "Refuse to answer to the end",
-        "result_text": "I didn't answer.\nBlocked the number.\nLater I learned it had been a college friend's number."
+        "result_text": "You didn't answer.\nBlocked the number.\nLater you learned it had been a college friend's number."
       }
     ]
   },
@@ -181,22 +181,22 @@
     "choices": [
       {
         "text": "Like the result and save it",
-        "result_text": "Result: entrepreneur face.\nI took a screenshot.\nI don't believe it, but it felt good."
+        "result_text": "Result: entrepreneur face.\nYou took a screenshot.\nYou don't believe it, but it felt good."
       },
       {
         "text": "Hate the result and do it again",
-        "result_text": "It came back office-worker face.\nI retook the photo.\nThe third try was office-worker face too."
+        "result_text": "It came back office-worker face.\nYou retook the photo.\nThe third try was office-worker face too."
       },
       {
         "text": "Share the result in the group chat",
-        "result_text": "I posted it.\nFriends reacted. 'Yep, that's spot on.'\nThe group chat buzzed for ten minutes."
+        "result_text": "You posted it.\nFriends reacted. 'Yep, that's spot on.'\nThe group chat buzzed for ten minutes."
       }
     ]
   },
   {
     "id": "hidden_010",
     "title": "Haggling on 'No Haggling'",
-    "description": "An item I'd listed on the secondhand market.\nI clearly wrote it in the last line of the description.\n'No haggling, please.'\n\nA message came.\n'Could you maybe knock it down to 30,000? ^^'\n\nThey must have read it.",
+    "description": "An item you'd listed on the secondhand market.\nYou clearly wrote it in the last line of the description.\n'No haggling, please.'\n\nA message came.\n'Could you maybe knock it down to 30,000? ^^'\n\nThey must have read it.",
     "choices": [
       {
         "text": "Politely say the price stands",
@@ -204,22 +204,22 @@
       },
       {
         "text": "Get annoyed and refuse the deal",
-        "result_text": "I replied, 'You saw the read receipt, right?'\nThey left a bad review.\nOne star."
+        "result_text": "You replied, 'You saw the read receipt, right?'\nThey left a bad review.\nOne star."
       },
       {
         "text": "Counter-haggle in turn",
-        "result_text": "'30,000 is too low, but add 20,000 and I'll cover shipping.'\nThey accepted.\nNot a bad outcome."
+        "result_text": "'30,000 is too low, but add 20,000 and you'll cover shipping.'\nThey accepted.\nNot a bad outcome."
       }
     ]
   },
   {
     "id": "hidden_011",
     "title": "LinkedIn Message",
-    "description": "A LinkedIn notification.\n\n'Hello, I'm reaching out after seeing {name}'s profile. Our company is looking for someone like you.'\n\nAn HR rep from a company I didn't know.\nNo salary info.\nNo way to tell if it was better or worse than my current job.",
+    "description": "A LinkedIn notification.\n\n'Hello, you're reaching out after seeing {name}'s profile. Our company is looking for someone like you.'\n\nAn HR rep from a company you didn't know.\nNo salary info.\nNo way to tell if it was better or worse than your current job.",
     "choices": [
       {
         "text": "Research the company first",
-        "result_text": "I searched the company name.\nA two-year-old startup. Thirty employees.\nReviews were mixed. I read them once more."
+        "result_text": "You searched the company name.\nA two-year-old startup. Thirty employees.\nReviews were mixed. You read them once more."
       },
       {
         "text": "Reply that I'm interested",
@@ -234,7 +234,7 @@
   {
     "id": "hidden_012",
     "title": "A Forgotten Bankbook",
-    "description": "While tidying up my banking apps, I found it.\n\nAn account I'd opened long ago.\nBalance: 47,200 won.\n\nI couldn't even remember the last time I'd looked at it.\nMaybe it had been even longer.",
+    "description": "While tidying up your banking apps, you found it.\n\nAn account you'd opened long ago.\nBalance: 47,200 won.\n\nYou couldn't even remember the last time you'd looked at it.\nMaybe it had been even longer.",
     "choices": [
       {
         "text": "Transfer it to the investment account",
@@ -242,11 +242,11 @@
       },
       {
         "text": "Spend it on dinner tonight",
-        "result_text": "I went to a barbecue place.\nAlone, but it didn't matter.\nAte 47,200 won's worth. For the first time in a while, I was full."
+        "result_text": "You went to a barbecue place.\nAlone, but it didn't matter.\nAte 47,200 won's worth. For the first time in a while, you were full."
       },
       {
         "text": "Just leave it",
-        "result_text": "Closed the app.\nDecided to forget it.\nIf I find it again next time, I'll think about it then."
+        "result_text": "Closed the app.\nDecided to forget it.\nIf you find it again next time, you'll think about it then."
       },
       {
         "text": "Decide not to touch it for now",
@@ -257,7 +257,7 @@
   {
     "id": "hidden_013",
     "title": "Ex-Boss on the Subway",
-    "description": "Subway Line 4.\nThe doors opened.\n\nI saw who came in.\nIt was my old team lead.\n\nThey saw me too.\nOur eyes met.",
+    "description": "Subway Line 4.\nThe doors opened.\n\nYou saw who came in.\nIt was your old team lead.\n\nThey saw you too.\nOur eyes met.",
     "choices": [
       {
         "text": "Greet them first",
@@ -265,26 +265,26 @@
       },
       {
         "text": "Move to another car",
-        "result_text": "I slipped into the next car before the doors closed.\nAvoided the awkwardness.\nI think they saw."
+        "result_text": "You slipped into the next car before the doors closed.\nAvoided the awkwardness.\nYou think they saw."
       },
       {
         "text": "Pretend to be on my phone and ignore them",
-        "result_text": "I lowered my head.\nThe screen was off.\nThey got off at the next station."
+        "result_text": "You lowered your head.\nThe screen was off.\nThey got off at the next station."
       }
     ]
   },
   {
     "id": "hidden_014",
     "title": "Card Statement",
-    "description": "The statement arrived.\n\n87,000 won more than I expected.\nI went through the items one by one.\n\nTwo subscriptions. No memory of signing up.\nThree online purchases. I remembered buying only one.\n\nThe other two, {name} couldn't recall.",
+    "description": "The statement arrived.\n\n87,000 won more than you expected.\nYou went through the items one by one.\n\nTwo subscriptions. No memory of signing up.\nThree online purchases. You remembered buying only one.\n\nThe other two, {name} couldn't recall.",
     "choices": [
       {
         "text": "Check each item and cancel everything",
-        "result_text": "I found the subscription services.\nCanceled both.\n23,000 won saved per month. 276,000 a year."
+        "result_text": "You found the subscription services.\nCanceled both.\n23,000 won saved per month. 276,000 a year."
       },
       {
         "text": "Keep only what I need and clear out the rest",
-        "result_text": "One I was using.\nOne I'd forgotten.\nI canceled only the one I'd forgotten."
+        "result_text": "One you were using.\nOne you'd forgotten.\nYou canceled only the one you'd forgotten."
       },
       {
         "text": "Just pay it this month",
@@ -295,15 +295,15 @@
   {
     "id": "hidden_015",
     "title": "Mail from the Military Manpower Administration",
-    "description": "An envelope from the Military Manpower Administration was stuck in the mailbox. A white envelope with a red stamp. My heart sank before I even opened it. I knew it was the kind of mail you can't ignore.",
+    "description": "An envelope from the Military Manpower Administration was stuck in the mailbox. A white envelope with a red stamp. Your heart sank before you even opened it. You knew it was the kind of mail you can't ignore.",
     "choices": [
       {
         "text": "Read it carefully and respond properly",
-        "result_text": "I opened the envelope and read it line by line. Better to know and handle it than to let it slide unaware."
+        "result_text": "You opened the envelope and read it line by line. Better to know and handle it than to let it slide unaware."
       },
       {
         "text": "Put off opening it and miss the deadline",
-        "result_text": "I kept saying 'I'll open it later' and missed the deadline. I learned you can't ignore mail from the MMA."
+        "result_text": "You kept saying 'you'll open it later' and missed the deadline. You learned you can't ignore mail from the MMA."
       },
       {
         "text": "Look into legal exceptions",
@@ -318,19 +318,19 @@
     "choices": [
       {
         "text": "Listen calmly and ask how to improve",
-        "result_text": "I listened.\nIt was about performance targets.\nI asked, 'What would you suggest I do?' It turned into a conversation."
+        "result_text": "You listened.\nIt was about performance targets.\nYou asked, 'What would you suggest I do?' It turned into a conversation."
       },
       {
         "text": "Swallow it inside and nod along",
-        "result_text": "I nodded.\nManaged my expression.\nLeft the meeting room and went to the bathroom."
+        "result_text": "You nodded.\nManaged your expression.\nLeft the meeting room and went to the bathroom."
       },
       {
         "text": "Push back and state my own view",
-        "result_text": "I started with, 'From my side, that part...'\nThe team lead's face hardened.\nIt turned into a ten-minute argument."
+        "result_text": "You started with, 'From my side, that part...'\nThe team lead's face hardened.\nIt turned into a ten-minute argument."
       },
       {
         "text": "Step away to collect my emotions",
-        "result_text": "I needed some air.\nWent down the stairwell.\nCame back up five minutes later."
+        "result_text": "You needed some air.\nWent down the stairwell.\nCame back up five minutes later."
       }
     ]
   },
@@ -341,15 +341,15 @@
     "choices": [
       {
         "text": "Decline politely",
-        "result_text": "'No thank you.'\nI bowed my head and walked past.\nBehind me I heard them start in on the next person."
+        "result_text": "'No thank you.'\nYou bowed your head and walked past.\nBehind you you heard them start in on the next person."
       },
       {
         "text": "Listen for just ten minutes",
-        "result_text": "We went to a nearby cafe.\nThe business model came out.\nWhen the pitch crossed the fifteen-minute mark, I stood up."
+        "result_text": "We went to a nearby cafe.\nThe business model came out.\nWhen the pitch crossed the fifteen-minute mark, you stood up."
       },
       {
         "text": "Film it and post it on SNS",
-        "result_text": "I quietly turned on the camera.\nPosted it.\nA comment read, 'Got got by them too.'"
+        "result_text": "You quietly turned on the camera.\nPosted it.\nA comment read, 'Got got by them too.'"
       }
     ]
   },
@@ -360,34 +360,34 @@
     "choices": [
       {
         "text": "Check the rumor's source first",
-        "result_text": "I searched for articles.\nNo official announcement was scheduled.\nThe community post got edited. 'Some say it's been canceled.'"
+        "result_text": "You searched for articles.\nNo official announcement was scheduled.\nThe community post got edited. 'Some say it's been canceled.'"
       },
       {
         "text": "Bet on deregulation and buy",
-        "result_text": "I bought in.\nFriday came with no announcement at all.\nMonday's market was flat."
+        "result_text": "You bought in.\nFriday came with no announcement at all.\nMonday's market was flat."
       },
       {
         "text": "Trim my holdings just in case",
-        "result_text": "I sold off a portion.\nFriday, deregulation was announced.\nThe part I sold rose by exactly that much."
+        "result_text": "You sold off a portion.\nFriday, deregulation was announced.\nThe part you sold rose by exactly that much."
       }
     ]
   },
   {
     "id": "hidden_019",
     "title": "Instagram Comparison Hell",
-    "description": "I opened Instagram before bed. A friend posted vacation photos abroad. Another, housewarming photos. Another, news of a promotion. The more I scrolled, the shabbier my own feed looked.",
+    "description": "You opened Instagram before bed. A friend posted vacation photos abroad. Another, housewarming photos. Another, news of a promotion. The more you scrolled, the shabbier your own feed looked.",
     "choices": [
       {
         "text": "Close the app and focus on my own goals",
-        "result_text": "I stopped scrolling and got to work. Comparison feeds on energy and grows."
+        "result_text": "You stopped scrolling and got to work. Comparison feeds on energy and grows."
       },
       {
         "text": "Wear myself down, blaming myself again and again",
-        "result_text": "The more I looked at the feed, the smaller I felt. I knew it, and still couldn't stop."
+        "result_text": "The more you looked at the feed, the smaller you felt. You knew it, and still couldn't stop."
       },
       {
         "text": "Analyze the popular accounts' strategies and copy them",
-        "result_text": "I turned jealousy into analysis. I'm learning to use envy as motivation."
+        "result_text": "You turned jealousy into analysis. You're learning to use envy as motivation."
       }
     ]
   },
@@ -402,7 +402,7 @@
       },
       {
         "text": "Congratulate them sincerely",
-        "result_text": "'Man, that's huge.'\nWe toasted.\nOn the way home I searched the name of that stock."
+        "result_text": "'Man, that's huge.'\nWe toasted.\nOn the way home you searched the name of that stock."
       },
       {
         "text": "Drink more beer",
@@ -417,11 +417,11 @@
   {
     "id": "hidden_screen_time",
     "title": "Weekly Usage Time",
-    "description": "A notification popped up on my phone.\n\n'Your weekly screen time report'\n\n{name} tapped it.\n\nDaily average: 5 hours 14 minutes.\n\nIt broke it down by category.\nYouTube. Stock app. Real estate app. News.\nAnd — search history.\n\n'Average price of a Gangnam apartment'\n'Average net worth at 33'\n'Minimum monthly living cost in Seoul'\n\nThe phone knew what {name} wanted.\nIn numbers.",
+    "description": "A notification popped up on your phone.\n\n'Your weekly screen time report'\n\n{name} tapped it.\n\nDaily average: 5 hours 14 minutes.\n\nIt broke it down by category.\nYouTube. Stock app. Real estate app. News.\nAnd — search history.\n\n'Average price of a Gangnam apartment'\n'Average net worth at 33'\n'Minimum monthly living cost in Seoul'\n\nThe phone knew what {name} wanted.\nIn numbers.",
     "choices": [
       {
         "text": "Decide to cut back. There's time to spend elsewhere.",
-        "result_text": "I set an app limit. One hour a day.\n\nThree days later I removed the limit.\n\nStill, just learning something about myself meant something.\nSeeing what I want laid out in numbers was strangely honest."
+        "result_text": "You set an app limit. One hour a day.\n\nThree days later you removed the limit.\n\nStill, just learning something about yourself meant something.\nSeeing what you want laid out in numbers was strangely honest."
       },
       {
         "text": "Just let it slide. Everyone probably lives like this.",
@@ -432,15 +432,15 @@
   {
     "id": "hidden_bull_market_fomo",
     "title": "The Whole Country Is Buying Stocks",
-    "description": "The group chat came alive.\n\nPeople who were usually quiet suddenly had a lot to say.\nEveryone was posting profit screenshots.\n\n'Made 3% yesterday'\n'I really hit it big this time'\n'Hey, why aren't you in yet?'\n\nI looked at the KOSPI chart. It kept rising.\nThe news said 'retail investors at an all-time high.'\n\nThat feeling that if you don't ride this wave, you'll be the only one left behind.\nExactly that feeling.",
+    "description": "The group chat came alive.\n\nPeople who were usually quiet suddenly had a lot to say.\nEveryone was posting profit screenshots.\n\n'Made 3% yesterday'\n'I really hit it big this time'\n'Hey, why aren't you in yet?'\n\nYou looked at the KOSPI chart. It kept rising.\nThe news said 'retail investors at an all-time high.'\n\nThat feeling that if you don't ride this wave, you'll be the only one left behind.\nExactly that feeling.",
     "choices": [
       {
         "text": "Decide to ride it. The chance is now.",
-        "result_text": "I put in 3 million won.\n\nThe first two days it rose. I thought I'd called it right.\nThe next week a correction came.\n\nThe group chat went quiet.\nNobody posts screenshots of their losses.\n\nFOMO runs both ways.\nThe fear of buying in and the fear of falling weighed the same."
+        "result_text": "You put in 3 million won.\n\nThe first two days it rose. You thought you'd called it right.\nThe next week a correction came.\n\nThe group chat went quiet.\nNobody posts screenshots of their losses.\n\nFOMO runs both ways.\nThe fear of buying in and the fear of falling weighed the same."
       },
       {
         "text": "Just watch. This could be the top.",
-        "result_text": "I watched.\n\nThree weeks later the chart turned down.\nThe group chat went quiet.\n\nMaybe I did the right thing. Maybe not.\nHad it risen, I'd have said, 'I should've gotten in after all.'\n\nWhatever you choose, there's room for regret.\nThat was investing."
+        "result_text": "You watched.\n\nThree weeks later the chart turned down.\nThe group chat went quiet.\n\nMaybe you did the right thing. Maybe not.\nHad it risen, you'd have said, 'you should've gotten in after all.'\n\nWhatever you choose, there's room for regret.\nThat was investing."
       }
     ]
   }

@@ -126,30 +126,30 @@
   {
     "id": "racetrack_mentor_meet",
     "title": "The Gwacheon Racing Man",
-    "description": "A man sitting alone in the corner of the convenience store spoke up.\n\n\"You look young — you know horse racing?\"\n\nA racing paper densely marked up with highlighter. Late forties. Sipping coffee and jotting down numbers.\n\n\"Next Saturday, number 3 is a lock. When the spring rain comes, the inside horses run strong on the Gwacheon track.\"\n\nI couldn't tell if he was someone who actually made money or just full of bluster.\nBut there was conviction in the way he talked.",
+    "description": "A man sitting alone in the corner of the convenience store spoke up.\n\n\"You look young — you know horse racing?\"\n\nA racing paper densely marked up with highlighter. Late forties. Sipping coffee and jotting down numbers.\n\n\"Next Saturday, number 3 is a lock. When the spring rain comes, the inside horses run strong on the Gwacheon track.\"\n\nYou couldn't tell if he was someone who actually made money or just full of bluster.\nBut there was conviction in the way he talked.",
     "choices": [
       {
         "text": "\"Could you teach me?\" — go along next Saturday",
-        "result_text": "We agreed to meet in front of Gwacheon Station.\nI took a copy of the racing paper. It was packed with numbers and symbols.\nI decided to take my first step into the world those numbers meant."
+        "result_text": "We agreed to meet in front of Gwacheon Station.\nYou took a copy of the racing paper. It was packed with numbers and symbols.\nYou decided to take your first step into the world those numbers meant."
       },
       {
         "text": "Mumble something and slip away",
-        "result_text": "I didn't take the racing paper he held out.\nWhat would've happened if I had — I wondered, for a moment."
+        "result_text": "You didn't take the racing paper he held out.\nWhat would've happened if you had — you wondered, for a moment."
       }
     ]
   },
   {
     "id": "race_early_lesson",
     "title": "Reading the Racing Paper",
-    "description": "The racing man spread out the paper.\n\nNumbers, symbols, horse names, jockey names, track conditions.\n\n\"You memorize all this?\"\n\nHe laughed. \"You don't memorize it. You read it.\"\n\nI still didn't know what the difference was.",
+    "description": "The racing man spread out the paper.\n\nNumbers, symbols, horse names, jockey names, track conditions.\n\n\"You memorize all this?\"\n\nHe laughed. \"You don't memorize it. You read it.\"\n\nYou still didn't know what the difference was.",
     "choices": [
       {
         "text": "Learn it seriously — start by memorizing the symbols",
-        "result_text": "I spent an hour reading the racing paper.\n\nTrifecta, win, place, quinella, exacta — there were six betting types alone.\nJockey win rates, trainer records, track-specific traits.\n\nIt amazed me that there were people who looked at all of this.\nI started to get a little of what 'reading it' meant."
+        "result_text": "You spent an hour reading the racing paper.\n\nTrifecta, win, place, quinella, exacta — there were six betting types alone.\nJockey win rates, trainer records, track-specific traits.\n\nIt amazed you that there were people who looked at all of this.\nYou started to get a little of what 'reading it' meant."
       },
       {
         "text": "Just bet on a hunch",
-        "result_text": "I picked horse number 7. I liked the name.\n\nIt lost.\n\nThe man said, \"Sometimes the hunch is right. But a hunch is cumulative.\"\nI felt like I understood, and also like I didn't."
+        "result_text": "You picked horse number 7. You liked the name.\n\nIt lost.\n\nThe man said, \"Sometimes the hunch is right. But a hunch is cumulative.\"\nYou felt like you understood, and also like you didn't."
       }
     ]
   }

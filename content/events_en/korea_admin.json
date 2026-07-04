@@ -32,11 +32,11 @@
   {
     "id": "kx_health_insurance",
     "title": "Health Insurance Bill",
-    "description": "KakaoPay notification: health insurance bill arrived.\nLocally insured (not through employer). No income, but it pulls out every month.\n\nWhen I had a job, the company covered half.\nNow I'm unemployed — I pay all of it.",
+    "description": "KakaoPay notification: health insurance bill arrived.\nLocally insured (not through employer). No income, but it pulls out every month.\n\nWhen you had a job, the company covered half.\nNow you're unemployed — you pay all of it.",
     "choices": [
       {
         "text": "Pay before the due date",
-        "result_text": "₩89,000. One click and it's gone.\n\nThe insurance is why clinic visits are cheap.\nI know that. Still — ₩89,000 is a lot when you're not earning."
+        "result_text": "₩89,000. One click and it's gone.\n\nThe insurance is why clinic visits are cheap.\nYou know that. Still — ₩89,000 is a lot when you're not earning."
       },
       {
         "text": "Look into an installment payment plan",
@@ -62,15 +62,15 @@
   {
     "id": "kx_convenience_store_job",
     "title": "Convenience Store Interview",
-    "description": "Part-time job posting. ₩9,860/hr — minimum wage.\nIncludes four major insurances plus weekly holiday pay, so the effective rate is a little higher.\n\nThe store manager skimmed my resume.\n'Are you currently working any other part-time jobs?' First question.",
+    "description": "Part-time job posting. ₩10,320/hr — minimum wage.\nIncludes four major insurances plus weekly holiday pay, so the effective rate is a little higher.\n\nThe store manager skimmed your resume.\n'Are you currently working any other part-time jobs?' First question.",
     "choices": [
       {
         "text": "Take the job",
-        "result_text": "Hired. 6 AM to 11 AM shift.\n\nFirst time I'd seen Seoul at dawn. Office workers heading out, students heading to school.\nThe convenience store is the capillary of Korea's 24-hour society. I worked at the very end of it."
+        "result_text": "Hired. 6 AM to 11 AM shift.\n\nFirst time you'd seen Seoul at dawn. Office workers heading out, students heading to school.\nThe convenience store is the capillary of Korea's 24-hour society. You worked at the very end of it."
       },
       {
         "text": "Hold out for something better",
-        "result_text": "Thought about it, then said no.\n\nOn this hourly rate, I'd barely breathe. I need something that builds toward something.\nI don't have that yet. And while I look, the bank account shrinks."
+        "result_text": "Thought about it, then said no.\n\nOn this hourly rate, you'd barely breathe. You need something that builds toward something.\nYou don't have that yet. And while you look, the bank account shrinks."
       }
     ]
   }

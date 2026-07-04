@@ -55,11 +55,11 @@
   {
     "id": "drama_housing_lottery",
     "title": "Housing Lottery Win",
-    "description": "The housing subscription account I'd forgotten about.\n\nA text arrived. 'You have been selected in the public housing offering you applied for.'\n\nMy hands trembled. A deposit is needed. With what I have now, it's barely possible.\n\nThis is a real opportunity.",
+    "description": "The housing subscription account you'd forgotten about.\n\nA text arrived. 'You have been selected in the public housing offering you applied for.'\n\nYour hands trembled. A deposit is needed. With what you have now, it's barely possible.\n\nThis is a real opportunity.",
     "choices": [
       {
         "text": "Pay the deposit. Sign the contract.",
-        "result_text": "Stamped the contract. Move-in in two years. Hands wouldn't stop shaking. It didn't feel real — my own apartment."
+        "result_text": "Stamped the contract. Move-in in two years. Hands wouldn't stop shaking. It didn't feel real — your own apartment."
       },
       {
         "text": "Can't cover the deposit right now. Pass.",
@@ -89,7 +89,7 @@
   {
     "id": "drama_crypto_result_big",
     "title": "Coin — 5 A.M.",
-    "description": "Eyes opened on their own. 5 a.m.\n\nPicked up the phone. Opened the chart.\n\nBitcoin had crashed 38%. Forced liquidation complete. The position that held everything was gone overnight.\n\nNo alarm went off. Nobody stopped it.",
+    "description": "Eyes opened on their own. 5 a.m.\n\nPicked up the phone. Opened the chart.\n\nCorecoin had crashed 38%. Forced liquidation complete. The position that held everything was gone overnight.\n\nNo alarm went off. Nobody stopped it.",
     "choices": [
       {
         "text": "Turn off the screen and close your eyes",
@@ -161,7 +161,7 @@
   {
     "id": "drama_friend_investment",
     "title": "Friend's Business Proposal",
-    "description": "An old friend got in touch.\n\n'I'm starting a business. Can you invest ₩5,000,000? I'll pay it back double in a year.'\n\nA lot of money to trust on friendship alone.\nIf refused, things might get awkward.\n\nMoney or friendship?",
+    "description": "An old friend got in touch.\n\n'you're starting a business. Can you invest ₩5,000,000? You'll pay it back double in a year.'\n\nA lot of money to trust on friendship alone.\nIf refused, things might get awkward.\n\nMoney or friendship?",
     "choices": [
       {
         "text": "Lend ₩5,000,000",
@@ -491,7 +491,7 @@
   {
     "id": "startup_first_user_traction",
     "title": "A User Came Back",
-    "description": "Two months since launching the service. MAU is still 400, but one of them sent a message today.\n\n'I don't know what I'd do without this. It's something I really needed.'\n\nOne sentence made the eyes water at the screen. Right. This is why it started. But there's still no money.",
+    "description": "Two months since launching the service. MAU is still 400, but one of them sent a message today.\n\n'you don't know what you'd do without this. It's something you really needed.'\n\nOne sentence made the eyes water at the screen. Right. This is why it started. But there's still no money.",
     "choices": [
       {
         "text": "Share this with the team and keep running.",

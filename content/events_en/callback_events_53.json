@@ -66,7 +66,7 @@
     "choices": [
       {
         "text": "\"Your passing — felt like my own.\"",
-        "result_text": "'You congratulated me first, hyung. I won't forget that.'\n\nBeing able to rejoice at another's success without envy.\n{name} knows that's proof of a truly close bond."
+        "result_text": "'You congratulated you first, hyung. You won't forget that.'\n\nBeing able to rejoice at another's success without envy.\n{name} knows that's proof of a truly close bond."
       },
       {
         "text": "\"We're both — doing well our own ways.\"",
@@ -77,11 +77,11 @@
   {
     "id": "callback_past_self_accepted_echo",
     "title": "My Past Self Wasn't Wrong, I Said",
-    "description": "Looking at an old notebook, {name} accepted, 'my past self wasn't wrong — only the direction changed.'\n\nThat reconciliation comes back sometimes.\n\nToday they look back on past choices again.",
+    "description": "Looking at an old notebook, {name} accepted, 'your past self wasn't wrong — only the direction changed.'\n\nThat reconciliation comes back sometimes.\n\nToday they look back on past choices again.",
     "choices": [
       {
         "text": "Every choice I made — built the present me",
-        "result_text": "Regretted choices and proud ones are all part of me.\n\n{name} accepted their past self instead of condemning it.\nOnly one reconciled with themselves could walk forward lightly."
+        "result_text": "Regretted choices and proud ones are all part of you.\n\n{name} accepted their past self instead of condemning it.\nOnly one reconciled with themselves could walk forward lightly."
       },
       {
         "text": "Only the direction changed — same now",

@@ -150,7 +150,7 @@
   {
     "id": "colleague_resign_00",
     "title": "Take Care",
-    "description": "A senior colleague announced they're leaving. 40% salary increase at a new company.\nFarewell dinner — everyone drank. Genuinely happy for them.\n\n{name} watched the colleague's retreating figure and thought:\nWhen is my turn? Or — do I choose to stay?",
+    "description": "A senior colleague announced they're leaving. 40% salary increase at a new company.\nFarewell dinner — everyone drank. Genuinely happy for them.\n\n{name} watched the colleague's retreating figure and thought:\nWhen is your turn? Or — do you choose to stay?",
     "choices": [
       {
         "text": "Seriously start looking for other options.  (opportunity / uncertainty)",
@@ -335,15 +335,15 @@
   {
     "id": "late_taxi_driver_00",
     "title": "The Driver",
-    "description": "I caught a taxi late at night.\nThe driver glanced at me in the rearview mirror and struck up a conversation.\n\"You're young. What kind of work do you do?\"\n\nThe talk went on for a while.\n\"Back when I was young, I said I'd make it to Gangnam someday too.\"\nThe driver said no more.\nThe city slid by outside the window.",
+    "description": "You caught a taxi late at night.\nThe driver glanced at you in the rearview mirror and struck up a conversation.\n\"You're young. What kind of work do you do?\"\n\nThe talk went on for a while.\n\"Back when I was young, I said I'd make it to Gangnam someday too.\"\nThe driver said no more.\nThe city slid by outside the window.",
     "choices": [
       {
         "text": "\"I don't think it's too late for you, even now\"  (comfort / empathy)",
-        "result_text": "The driver smiled. \"Haven't heard that in a long time.\"\nGetting out, {name} wondered whether those words applied to me, too."
+        "result_text": "The driver smiled. \"Haven't heard that in a long time.\"\nGetting out, {name} wondered whether those words applied to you, too."
       },
       {
         "text": "Quietly look out the window.  (silence / reflection)",
-        "result_text": "{name} couldn't say a word.\nGetting out at the destination, the line kept echoing in my ears.\n\"I said I'd make it to Gangnam someday.\""
+        "result_text": "{name} couldn't say a word.\nGetting out at the destination, the line kept echoing in your ears.\n\"I said I'd make it to Gangnam someday.\""
       }
     ]
   }

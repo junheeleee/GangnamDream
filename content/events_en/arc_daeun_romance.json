@@ -1,0 +1,35 @@
+[
+  {
+    "id": "arc_daeun_first_night",
+    "title": "That Night",
+    "description": "A rainy night. It had been a hard day for both of them.\nDaeun brought a bottle of soju and some convenience-store snacks.\n\nSmall room, low light. They laughed, then talked less, and at some point both went quiet.\n\nDaeun looked at {name} for a long moment. He didn't look away.\n\nBetween two people in their thirties, there was a distance that no longer needed explaining.\n\nDaeun reached over and turned off the light.",
+    "choices": [
+      {
+        "text": "Take her hand.",
+        "result_text": "The sound of rain outside filled the room.\n\nWhen he woke in the morning, there were two people in the narrow bed.\nDaeun was still asleep. {name} watched her face for a long time.\n\nGangnam, three billion — that morning, at least, they were far away.\nFor a man whose only possession was this one room — today, that was enough."
+      },
+      {
+        "text": "\"...Just stay next to me tonight.\" (Falls asleep holding her)",
+        "result_text": "Daeun looked startled for a second, then smiled quietly.\n\"...That's nice too.\"\n\nThey just lay side by side and listened to the rain.\nBeing two people who didn't have to hurry — somehow that ran deeper.\n\nLove in your thirties — it held firmer precisely because it wasn't in a rush."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_proposal",
+    "title": "The Proposal",
+    "description": "Five years are almost up.\n\nWhether he reached Gangnam or not — Daeun was beside {name}. Four years, weathered together in this cramped city.\n\nThere was a small box in his pocket. He'd hesitated for days.\nThe price of a ring could've been seed money — and for the first time, doing that math made him ashamed of himself.\n\nDaeun sits across from him, smiling. Knowing nothing.\n\nThis was the moment.",
+    "choices": [
+      {
+        "text": "Take out the box. \"Gangnam can wait — but I want to make you certain first.\"",
+        "result_text": "Daeun's hand flew to her mouth. Her eyes reddened in an instant.\n\n\"...Idiot. How many times have I told you Gangnam doesn't matter.\"\n\"That's exactly why I'm doing this. Even without Gangnam — you were always enough.\"\n\nDaeun nodded. Many times, hard.\n\nThe woman who handed him a rice ball at a convenience store five years ago had become {name}'s person.\nFive years that couldn't be counted in numbers, all fit into one ring on one finger."
+      },
+      {
+        "text": "Put the box away. \"Just a little more... when I'm ready.\" (Not yet)",
+        "result_text": "The box spent another night in his pocket.\n\nDaeun seemed to notice, or maybe not.\n\"Were you going to say something?\"\n\"...No. Let's eat.\"\n\nWhen he's ready. What that 'ready' meant, even {name} didn't quite know.\nWhether Gangnam came first, or she did — he was still putting off the answer."
+      }
+    ],
+    "description_if_known": {
+      "daeun_first_night": "Five years are almost up.\n\nWhether he reached Gangnam or not — Daeun was beside {name}. Four years, weathered together in this cramped city.\n\nThere was a small box in his pocket. He'd hesitated for days.\nThe price of a ring could've been seed money — and for the first time, doing that math made him ashamed of himself.\n\nDaeun sits across from him, smiling. Knowing nothing.\n\nThis was the moment.\n\nHe thought of that rainy night. The hand that turned off the light, the narrow bed in the morning.\nMaybe he'd already known then — that she was the one."
+    }
+  }
+]

@@ -36,7 +36,7 @@
     "choices": [
       {
         "text": "\"Let's go this weekend. I'll buy.\"",
-        "result_text": "Gangnam café. Dae-un looked out the window.\n'I can't believe I work here now.'\n\n{name} was still on the outside of this neighborhood.\nBut at least — sitting here today with coffee. First time."
+        "result_text": "Gangnam café. Dae-un looked out the window.\n'you can't believe you work here now.'\n\n{name} was still on the outside of this neighborhood.\nBut at least — sitting here today with coffee. First time."
       },
       {
         "text": "\"I'll be there soon. Then we'll go.\"",

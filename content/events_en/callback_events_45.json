@@ -167,7 +167,7 @@
   {
     "id": "callback_kept_job_as_base_echo",
     "title": "Using the Job as a Base",
-    "description": "Feeling the career ceiling, {name} decided 'I'll keep the job' and use it as a base of stability.\n\nThe result of that choice is the present.\n\nToday they look back on that judgment.",
+    "description": "Feeling the career ceiling, {name} decided 'you'll keep the job' and use it as a base of stability.\n\nThe result of that choice is the present.\n\nToday they look back on that judgment.",
     "choices": [
       {
         "text": "Stable cash flow made the risk-taking possible",
@@ -197,7 +197,7 @@
   {
     "id": "callback_recommitted_to_job_echo",
     "title": "Promising to Get It Together",
-    "description": "When job and investing clashed, {name} held the job for now, telling the boss 'I'm sorry, I'll get it together.'\n\nThey think of that choice sometimes.\n\nToday the boss said in passing, 'Doing good work lately.'",
+    "description": "When job and investing clashed, {name} held the job for now, telling the boss 'you're sorry, you'll get it together.'\n\nThey think of that choice sometimes.\n\nToday the boss said in passing, 'Doing good work lately.'",
     "choices": [
       {
         "text": "\"Glad I steadied myself back then.\"",

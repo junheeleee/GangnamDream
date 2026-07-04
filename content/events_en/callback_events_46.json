@@ -62,11 +62,11 @@
   {
     "id": "callback_hyunsu_drift_ramen_echo",
     "title": "A Bowl of Ramen at the Door",
-    "description": "While Hyun-su was drifting, instead of words {name} cooked a bowl of ramen and left it at his door.\n\nToday Hyun-su reached out.\n\n'Hyung, that ramen at my door — that was you, right? I didn't say anything, but I cried a little eating it.'",
+    "description": "While Hyun-su was drifting, instead of words {name} cooked a bowl of ramen and left it at his door.\n\nToday Hyun-su reached out.\n\n'Hyung, that ramen at your door — that was you, right? You didn't say anything, but you cried a little eating it.'",
     "choices": [
       {
         "text": "\"It was nothing. You held on well.\"",
-        "result_text": "'I'll never forget that ramen.'\n\nA wordless bowl of ramen landed deeper than any words of comfort.\n{name} knew it was repaying a debt for the dawn ramen they'd once received."
+        "result_text": "'you'll never forget that ramen.'\n\nA wordless bowl of ramen landed deeper than any words of comfort.\n{name} knew it was repaying a debt for the dawn ramen they'd once received."
       },
       {
         "text": "\"I once got ramen like that too.\"",
@@ -137,7 +137,7 @@
   {
     "id": "callback_quit_confident_echo",
     "title": "Handing In the Notice Calmly",
-    "description": "When leaving the job, {name} resigned calmly: 'I've found something I need to do now.'\n\nIs that conviction still valid?\n\nThat moment came to mind today.",
+    "description": "When leaving the job, {name} resigned calmly: 'you've found something you need to do now.'\n\nIs that conviction still valid?\n\nThat moment came to mind today.",
     "choices": [
       {
         "text": "That conviction was right — no regrets",

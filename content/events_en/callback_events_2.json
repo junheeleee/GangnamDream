@@ -62,11 +62,11 @@
   {
     "id": "callback_jiyeon_honest_referral",
     "title": "Han Jiyeon's Introduction",
-    "description": "A message from Han Jiyeon.\n'I know a tax accountant who manages personal portfolios.\nWant to meet them? I thought you'd click.'",
+    "description": "A message from Han Jiyeon.\n'you know a tax accountant who manages personal portfolios.\nWant to meet them? You thought you'd click.'",
     "choices": [
       {
         "text": "Meet them",
-        "result_text": "A tax accountant's office. We restructured the portfolio.\nLater I calculated it — saved 12 million in taxes alone.\nI texted Jiyeon to say thank you.\n'Of course. I like honest people.' The reply came back."
+        "result_text": "A tax accountant's office. We restructured the portfolio.\nLater you calculated it — saved 12 million in taxes alone.\nYou texted Jiyeon to say thank you.\n'Of course. I like honest people.' The reply came back."
       },
       {
         "text": "Pass — still want to do it solo",
@@ -182,7 +182,7 @@
   {
     "id": "callback_coin_warned_result",
     "title": "Taeho's Result",
-    "description": "A KakaoTalk from Taeho.\n'Hey Minjun. Remember when you talked me out of it?\nI cut the amount down.\nResults came out — half of it's still there. Because of you.'",
+    "description": "A KakaoTalk from Taeho.\n'Hey Minjun. Remember when you talked you out of it?\nYou cut the amount down.\nResults came out — half of it's still there. Because of you.'",
     "choices": [
       {
         "text": "\"Good. Hold on to that half.\"",
@@ -190,7 +190,7 @@
       },
       {
         "text": "\"Be more careful next time\"",
-        "result_text": "Taeho said 'Yeah, I'm done with crypto for real.'\nNot sure whether to believe him — but today, I chose to."
+        "result_text": "Taeho said 'Yeah, you're done with crypto for real.'\nNot sure whether to believe him — but today, you chose to."
       }
     ]
   },

@@ -16,7 +16,10 @@
         "text": "\"Honestly — I'm struggling a lot lately.\" — first time admitting it",
         "result_text": "Daeun listened quietly. The ₩3B, the time.\n\n\"I know. I just... want to struggle with you.\"\n\nThat was oddly comforting."
       }
-    ]
+    ],
+    "description_if_known": {
+      "daeun_romance_started": "Over two years since they became a couple.\n\nSame room, same dawn, same ramyeon pot.\nThey fought sometimes — usually when {name} got sharp about money — but come morning they rode the same subway, side by side.\n\n\"What'll we do once we reach Gangnam?\" Daeun asked.\n\"No idea. But more than getting there — I hope this train I ride with you never stops running.\"\n\nDaeun rested her head on his shoulder. Two years lived inside that weight."
+    }
   },
   {
     "id": "arc_daeun_year3_apart",
@@ -46,7 +49,10 @@
         "text": "(First thought: she's going to get there before me)",
         "result_text": "{name} said nothing. Daeun seemed to notice something.\n\nStrange feeling. Said he'd take her there — and she's already going. Not bad, but — oddly complicated."
       }
-    ]
+    ],
+    "description_if_known": {
+      "daeun_romance_started": "Daeun landed a job at a company in Gangnam. A small position, but her first business card.\n\nThree years a couple. They know each other's days by heart now.\n\nShe held out the card, smiling. \"Guess I reached Gangnam first?\"\n\"Cheater.\"\n\n{name} laughed, but something in him went quietly heavy.\nShe's someone who'd be fine without me. And still she stays here.\nHe was grateful, and a little afraid."
+    }
   },
   {
     "id": "arc_daeun_year5_ending",
@@ -63,6 +69,7 @@
       }
     ],
     "description_if_known": {
+      "daeun_married": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette. Something {name} once said he liked.\n\nThe ring on her finger still felt a little unfamiliar. He'd put it there last year.\n\n\"So tomorrow you really become a Gangnam person?\" she asked, smiling.\n\"Yeah. Though I already feel like I have everything.\"\n\nDaeun poked him with her spoon. She never could take a sweet line without squirming.\n\nFive years — and every year still to come — all of it in this one dinner.",
       "daeun_year4_close": "Numbers almost there.\n\nDaeun had made dinner. Rolled omelette. Something {name} had once mentioned liking.\n\n\"Today feels different somehow.\" Daeun said.\n\n{name} said nothing. Tomorrow would show it.\n\nThought of that promise from four years ago — the cafe in Gangnam, when you get there. Tomorrow, that promise could be kept.\n\nFive years lived in this one evening.",
       "daeun_romance_started": "The number is almost there.\n\nDaeun set out dinner. Rolled omelette — something {name} once said he liked.\n\nIt had been a few months since the cafe, since 'let's go together.' These dinners had become theirs since then.\n\n\"Something feels different today,\" Daeun said.\n\n{name} didn't answer. Tomorrow he'd know.\n\nFive years were in this dinner."
     }

@@ -6,11 +6,11 @@
     "choices": [
       {
         "text": "Follow the drill — look for the shelter signs",
-        "result_text": "Walked toward the subway station. Yellow shelter signs.\n\nI knew it was a drill, but my body moved before my mind did.\nThe things you rehearse in peacetime are what save you when it counts."
+        "result_text": "Walked toward the subway station. Yellow shelter signs.\n\nYou knew it was a drill, but your body moved before your mind did.\nThe things you rehearse in peacetime are what save you when it counts."
       },
       {
         "text": "It's just a drill — keep drinking my coffee",
-        "result_text": "Everyone in the café stayed put. I did too.\n\nThe siren stopped and Seoul started moving again. Five minutes.\nIn this country, a crisis is a one-sip pause in your coffee."
+        "result_text": "Everyone in the café stayed put. You did too.\n\nThe siren stopped and Seoul started moving again. Five minutes.\nIn this country, a crisis is a one-sip pause in your coffee."
       }
     ]
   },
@@ -21,26 +21,26 @@
     "choices": [
       {
         "text": "Promise a discharge gift: 'I'll buy dinner when you're out'",
-        "result_text": "'Samgyeopsal's on me when you get out.' I sent it.\n'If you're living in Gangnam by then, let's eat there.' He sent back.\n\nThat joke warmed me. There's someone who can picture two years from now with me."
+        "result_text": "'Samgyeopsal's on you when you get out.' you sent it.\n'If you're living in Gangnam by then, let's eat there.' He sent back.\n\nThat joke warmed you. There's someone who can picture two years from now with you."
       },
       {
         "text": "Just 'take care' — keep it short",
-        "result_text": "'Take care.' Three words.\n\nShould have said more, maybe. But I didn't know what.\nI still don't know what to say to a friend heading to the army."
+        "result_text": "'Take care.' Three words.\n\nShould have said more, maybe. But you didn't know what.\nYou still don't know what to say to a friend heading to the army."
       }
     ]
   },
   {
     "id": "kx_reserve_duty",
-    "title": "Reserve Duty Notice",
-    "description": "A text arrives:\n'Reserve Forces Training Notice. Date: [Month] [Day] 09:00. No-show fine: ₩1,500,000.'\n\n[Military reserve duty: all Korean men serve 18–21 months of active duty, then remain in the reserve for 8 more years after discharge. Once a year (sometimes more), they're called back for drills. Miss one without an approved reason: ₩1.5M fine. It's not optional, and it lands on your schedule whether you're planning a job interview or a business pitch.]\n\nAnother day blocked off. Another reminder that some things in Korea aren't negotiable.",
+    "title": "Civil Defense Duty Notice",
+    "description": "A text arrives:\n'Civil Defense Training Notice. Date: [Month] [Day] 09:00. Location: community center hall. Fine for no-show.'\n\n[Civil defense (minbangwi): after a Korean man finishes his 8 years of reserve duty, he rolls into civil defense until age 40 — a lighter obligation, usually a once-a-year 4-hour safety lecture at a community center, not field training.]\n\nThe reserve years ended a while ago. This is civil defense now.\nInstead of camo cream at a training ground, you sit in a folding chair through a four-hour security lecture.\nAnother half-day gone.",
     "choices": [
       {
         "text": "Clear the schedule and go dutifully",
-        "result_text": "Up early, training grounds. Camo cream on, whole day gone.\n\nSomething strangely comfortable about being with fellow reservists. Like slipping out of the world for a day.\nStood there and told myself: back to society tomorrow, back to working hard."
+        "result_text": "Community center hall. An old projector, a disaster-response video, neighborhood men nodding off.\n\nNone of the odd camaraderie of a reserve training ground. Everyone a stranger, everyone just wanting it over.\nStill, four hours and done. Compared to reserve duty, this was nothing."
       },
       {
-        "text": "Look up grounds for exemption",
-        "result_text": "Searched the exemption criteria list. Overseas residence, illness, sole breadwinner...\n\nNot applicable. I have to go either way.\nBut checking the options is my way. If you don't look, you get blindsided."
+        "text": "Check if it can be done as online training",
+        "result_text": "Depending on your year, civil defense can sometimes be completed online.\nYou searched to see if you qualified.\nNot knowing costs you a half-day in a hall; knowing means a few clicks from home. Knowledge was time."
       }
     ]
   },
@@ -55,23 +55,26 @@
       },
       {
         "text": "Check the market movement — geopolitical risk",
-        "result_text": "KOSPI dropped 0.4%, then recovered. Brief foreign sell-off.\n\nGeopolitical risk is a structural discount on Korean stocks, I once read.\nMeans nothing to my bank account today — but it's knowledge I'll use someday."
+        "result_text": "KOSPI dropped 0.4%, then recovered. Brief foreign sell-off.\n\nGeopolitical risk is a structural discount on Korean stocks, you once read.\nMeans nothing to your bank account today — but it's knowledge you'll use someday."
       }
     ]
   },
   {
     "id": "kx_us_korea_news",
     "title": "Korea-US Relations",
-    "description": "US election results are in.\nKorean media pivots instantly to the Korea-US alliance and defense cost-sharing.\nThe won-dollar exchange rate starts to move.",
+    "description": "A major overseas election result came in.\nKorean media all pivot to talk of the alliance and defense cost-sharing.\nThe won-dollar exchange rate starts to move.",
     "choices": [
       {
         "text": "Watch the exchange rate — USD deposits cross my mind",
-        "result_text": "When the dollar rises, Korean won assets weaken in relative terms.\nConversely, if you hold USD deposits, this could be your moment.\n\nNo money to act on it, but I understand the structure now.\nUnderstanding comes first. Execution comes later."
+        "result_text": "When the dollar rises, Korean won assets weaken in relative terms.\nConversely, if you hold USD deposits, this could be your moment.\n\nNo money to act on it, but you understand the structure now.\nUnderstanding comes first. Execution comes later."
       },
       {
         "text": "Focus on my own life — can't change superpower politics",
-        "result_text": "Turned off the news.\n\nKorea-US relations, exchange rates — things I can't change.\nDecided to focus on what I can change. Got back to today's task."
+        "result_text": "Turned off the news.\n\nKorea-US relations, exchange rates — things you can't change.\nDecided to focus on what you can change. Got back to today's task."
       }
-    ]
+    ],
+    "conditions": {
+      "min_turn": 10
+    }
   }
 ]

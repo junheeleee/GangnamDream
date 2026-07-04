@@ -11,7 +11,7 @@
     "background": "open_chat_screen",
     "portrait": "player_normal",
     "tags": ["korea", "culture", "digital", "social"],
-    "description": "카카오 오픈채팅 '서울 2030 재테크 모임'.\n익명으로 들어왔다.\n\n채팅창이 쉬지 않고 올라온다.\n부동산, 주식, 코인, 그리고 아파트 청약.",
+    "description": "다온 오픈채팅 '서울 2030 재테크 모임'.\n익명으로 들어왔다.\n\n채팅창이 쉬지 않고 올라온다.\n부동산, 주식, 코인, 그리고 아파트 청약.",
     "choices": [
       {
         "text": "정보를 모으면서 눈팅한다",
@@ -79,7 +79,7 @@
   },
   {
     "id": "kx_kakao_emoticon",
-    "title": "카카오 이모티콘",
+    "title": "다온 이모티콘",
     "category": "social",
     "rarity": "common",
     "weight": 1.0,
@@ -89,7 +89,7 @@
     "background": "goshiwon_room",
     "portrait": "player_normal",
     "tags": ["korea", "culture", "digital", "social"],
-    "description": "카톡 대화 중에 상대방이 이모티콘을 보냈다.\n춤추는 곰 하나.\n\n한국 카카오 이모티콘은 텍스트를 대신한다.\n슬프다, 기쁘다, 위로한다 — 전부 이 곰이 해결한다.",
+    "description": "카톡 대화 중에 상대방이 이모티콘을 보냈다.\n춤추는 곰 하나.\n\n한국 다온 이모티콘은 텍스트를 대신한다.\n슬프다, 기쁘다, 위로한다 — 전부 이 곰이 해결한다.",
     "choices": [
       {
         "text": "이모티콘 하나 사서 답장한다",

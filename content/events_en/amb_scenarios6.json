@@ -21,7 +21,7 @@
   {
     "id": "amb_credit_steal_00",
     "title": "My Report",
-    "description": "Nights of work. That proposal — the manager presents it to the executive meeting.\n\"The plan I've prepared this time—\" I. Mine.\n{name}'s name was nowhere.\nThe applause went to the manager.\n\nBoiling inside. Speak up and it's 'insubordination.' Stay silent and it's 'pushover.'\nIn Korean workplaces, credit flows upward and responsibility flows down.",
+    "description": "Nights of work. That proposal — the manager presents it to the executive meeting.\n\"The plan I've prepared this time—\" you. Yours.\n{name}'s name was nowhere.\nThe applause went to the manager.\n\nBoiling inside. Speak up and it's 'insubordination.' Stay silent and it's 'pushover.'\nIn Korean workplaces, credit flows upward and responsibility flows down.",
     "choices": [
       {
         "text": "Swallow it quietly. Wait for the right moment.  (peace / self-respect)",
@@ -29,7 +29,7 @@
       },
       {
         "text": "Take it up with the manager, quietly, after the meeting.  (self-respect + recognition / bad blood)",
-        "result_text": "I caught the manager in the hallway. \"You know that report was mine,\" I said."
+        "result_text": "You caught the manager in the hallway. \"You know that report was mine,\" you said."
       },
       {
         "text": "Subtly let the executive know it was your work.  (recognition / political risk)",

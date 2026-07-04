@@ -6,7 +6,7 @@
     "choices": [
       {
         "text": "Send the message — ask to meet",
-        "result_text": "'I've been waiting. Let's get coffee.'\n\nFast reply.\n\nA card that sat in a wallet for three months finally got used."
+        "result_text": "'you've been waiting. Let's get coffee.'\n\nFast reply.\n\nA card that sat in a wallet for three months finally got used."
       },
       {
         "text": "Not yet — not ready to stand in front of her",
@@ -17,11 +17,11 @@
   {
     "id": "callback_minseo_real_talk_echo",
     "title": "When the Goal Disappears",
-    "description": "Something Minseo said keeps coming back.\n\n'When you have a goal — prepare for when it disappears.'\n\nMade no sense back then — what it meant that the ₩3 billion would vanish the moment I had it.\nLately I think I'm starting to understand.",
+    "description": "Something Minseo said keeps coming back.\n\n'When you have a goal — prepare for when it disappears.'\n\nMade no sense back then — what it meant that the ₩3 billion would vanish the moment you had it.\nLately you think you're starting to understand.",
     "choices": [
       {
         "text": "Think about what comes after ₩3 billion",
-        "result_text": "'If I hit the number — then what?'\n\nUncomfortable question. The goal had been the engine.\nWithout it: who am I?\n\nMinseo must have been talking about this. Now it makes sense."
+        "result_text": "'If I hit the number — then what?'\n\nUncomfortable question. The goal had been the engine.\nWithout it: who am you?\n\nMinseo must have been talking about this. Now it makes sense."
       },
       {
         "text": "Not there yet — focus on the goal first",

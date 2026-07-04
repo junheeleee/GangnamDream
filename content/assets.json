@@ -1,7 +1,7 @@
 [
   {
     "id": "samsung",
-    "name": "삼성전자",
+    "name": "한성전자",
     "category": "korean_stock",
     "initial_price": 70000,
     "price": 70000,
@@ -11,11 +11,11 @@
     "fear_greed_sensitivity": 0.144,
     "min_invest": 70000,
     "tags": ["저변동", "분기배당", "한국 대형주"],
-    "description": "삼성전자 자산. 변동성 8%, 리스크 2/5."
+    "description": "한성전자 자산. 변동성 8%, 리스크 2/5."
   },
   {
     "id": "kakao",
-    "name": "카카오",
+    "name": "다온",
     "category": "korean_stock",
     "initial_price": 55000,
     "price": 55000,
@@ -25,11 +25,11 @@
     "fear_greed_sensitivity": 0.234,
     "min_invest": 55000,
     "tags": ["중변동", "무배당", "국내 플랫폼"],
-    "description": "카카오 자산. 변동성 13%, 리스크 3/5."
+    "description": "다온 자산. 변동성 13%, 리스크 3/5."
   },
   {
     "id": "hyundai",
-    "name": "현대차",
+    "name": "대현차",
     "category": "korean_stock",
     "initial_price": 210000,
     "price": 210000,
@@ -39,11 +39,11 @@
     "fear_greed_sensitivity": 0.18,
     "min_invest": 210000,
     "tags": ["중변동", "분기배당", "수출 민감"],
-    "description": "현대차 자산. 변동성 10%, 리스크 3/5."
+    "description": "대현차 자산. 변동성 10%, 리스크 3/5."
   },
   {
     "id": "kospi_etf",
-    "name": "KODEX200",
+    "name": "코스피200 ETF",
     "category": "korean_stock",
     "initial_price": 35000,
     "price": 35000,
@@ -53,11 +53,11 @@
     "fear_greed_sensitivity": 0.108,
     "min_invest": 35000,
     "tags": ["저변동", "분산투자", "코스피 추종"],
-    "description": "KODEX200 자산. 변동성 6%, 리스크 2/5."
+    "description": "코스피200 ETF 자산. 변동성 6%, 리스크 2/5."
   },
   {
     "id": "sp500",
-    "name": "S&P500 ETF",
+    "name": "미국 대형주 ETF",
     "category": "us_stock",
     "initial_price": 580000,
     "price": 580000,
@@ -67,11 +67,11 @@
     "fear_greed_sensitivity": 0.126,
     "min_invest": 580000,
     "tags": ["저변동", "달러자산", "미국 분산"],
-    "description": "S&P500 ETF 자산. 변동성 7%, 리스크 2/5."
+    "description": "미국 대형주 ETF 자산. 변동성 7%, 리스크 2/5."
   },
   {
     "id": "nasdaq",
-    "name": "나스닥100 ETF",
+    "name": "미국 기술주 ETF",
     "category": "us_stock",
     "initial_price": 490000,
     "price": 490000,
@@ -81,11 +81,11 @@
     "fear_greed_sensitivity": 0.198,
     "min_invest": 490000,
     "tags": ["중변동", "달러자산", "기술주 집중"],
-    "description": "나스닥100 ETF 자산. 변동성 11%, 리스크 3/5."
+    "description": "미국 기술주 ETF 자산. 변동성 11%, 리스크 3/5."
   },
   {
     "id": "nvidia",
-    "name": "엔비디아",
+    "name": "엔코어",
     "category": "us_stock",
     "initial_price": 850000,
     "price": 850000,
@@ -95,7 +95,7 @@
     "fear_greed_sensitivity": 0.36,
     "min_invest": 850000,
     "tags": ["고변동", "AI 테마", "달러자산"],
-    "description": "엔비디아 자산. 변동성 20%, 리스크 4/5."
+    "description": "엔코어 자산. 변동성 20%, 리스크 4/5."
   },
   {
     "id": "ai_chip",
@@ -113,7 +113,7 @@
   },
   {
     "id": "bitcoin",
-    "name": "비트코인",
+    "name": "코어코인",
     "category": "crypto",
     "initial_price": 80000000,
     "price": 80000000,
@@ -123,11 +123,11 @@
     "fear_greed_sensitivity": 0.576,
     "min_invest": 1000000,
     "tags": ["극고변동", "무배당", "사이클 민감"],
-    "description": "비트코인 자산. 변동성 32%, 리스크 5/5."
+    "description": "코어코인 자산. 변동성 32%, 리스크 5/5."
   },
   {
     "id": "ethereum",
-    "name": "이더리움",
+    "name": "노바코인",
     "category": "crypto",
     "initial_price": 4500000,
     "price": 4500000,
@@ -137,7 +137,7 @@
     "fear_greed_sensitivity": 0.63,
     "min_invest": 1000000,
     "tags": ["극고변동", "무배당", "기술 생태계"],
-    "description": "이더리움 자산. 변동성 35%, 리스크 5/5."
+    "description": "노바코인 자산. 변동성 35%, 리스크 5/5."
   },
   {
     "id": "meme_coin",
@@ -239,7 +239,7 @@
   },
   {
     "id": "nasdaq_3x",
-    "name": "나스닥 3배 ETF",
+    "name": "미국 기술주 3배 ETF",
     "category": "leveraged",
     "initial_price": 90000,
     "price": 90000,
@@ -249,6 +249,6 @@
     "fear_greed_sensitivity": 0.612,
     "min_invest": 90000,
     "tags": ["극고변동", "달러자산", "변동성 증폭"],
-    "description": "나스닥 3배 ETF 자산. 변동성 34%, 리스크 5/5."
+    "description": "미국 기술주 3배 ETF 자산. 변동성 34%, 리스크 5/5."
   }
 ]

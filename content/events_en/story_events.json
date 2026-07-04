@@ -65,15 +65,15 @@
   {
     "id": "story_six_months",
     "title": "Half a Year Gone",
-    "description": "Six months in.\n\nI still remember how lost I felt when I first moved into this room.\nOne suitcase, five hundred thousand won.\n\nWhere does {name} stand now?\nBetter than back then? Or did I just survive it?\n\nOutside the window, Seoul keeps spinning, fast as ever.",
+    "description": "Six months in.\n\nYou still remember how lost you felt when you first moved into this room.\nOne suitcase, five hundred thousand won.\n\nWhere does {name} stand now?\nBetter than back then? Or did you just survive it?\n\nOutside the window, Seoul keeps spinning, fast as ever.",
     "choices": [
       {
         "text": "I held on well. Let's keep going.",
-        "result_text": "Half a year.\nSmall things piled up and carried me this far.\n{name} is still here. That's all of it, and that's enough."
+        "result_text": "Half a year.\nSmall things piled up and carried you this far.\n{name} is still here. That's all of it, and that's enough."
       },
       {
         "text": "Still not enough. I need to move faster.",
-        "result_text": "A restlessness set in. It isn't a bad thing.\nI just have to tighten the screws only as much as I can take without breaking.\n{name} knows where that line is."
+        "result_text": "A restlessness set in. It isn't a bad thing.\nYou just have to tighten the screws only as much as you can take without breaking.\n{name} knows where that line is."
       },
       {
         "text": "Just rest. Today, at least, I won't think about anything.",
@@ -99,11 +99,11 @@
   {
     "id": "story_rainy_night",
     "title": "A Rainy Night",
-    "description": "11 p.m. Rain taps against the window.\n\nI grabbed a can of coffee from the vending machine in the goshiwon hallway and came back to my room.\nLying on the bed, I stare at the ceiling.\n\nDid I live today properly?\nDo I still remember why I came to Seoul?\n\n{name} quietly closes both eyes.",
+    "description": "11 p.m. Rain taps against the window.\n\nYou grabbed a can of coffee from the vending machine in the goshiwon hallway and came back to your room.\nLying on the bed, you stare at the ceiling.\n\nDid you live today properly?\nDo you still remember why you came to Seoul?\n\n{name} quietly closes both eyes.",
     "choices": [
       {
         "text": "Yeah, one step at a time. I won't give up.",
-        "result_text": "One sip of coffee.\nI can start over tomorrow.\n{name} is still here."
+        "result_text": "One sip of coffee.\nYou can start over tomorrow.\n{name} is still here."
       },
       {
         "text": "I'm worn out. I'll just rest today.",
@@ -114,15 +114,15 @@
   {
     "id": "story_compare_friend",
     "title": "News from a Friend",
-    "description": "A KakaoTalk message came from a high school friend.\n\n'I got into a big company lol'\n\nFor a second, as I typed 'congrats,' my fingers froze.\n\nWe came to Seoul the same year.\nThey're at a major firm, and {name} is still...\n\nI tried not to compare. It's harder than I expected.",
+    "description": "A KakaoTalk message came from a high school friend.\n\n'I got into a big company lol'\n\nFor a second, as you typed 'congrats,' your fingers froze.\n\nWe came to Seoul the same year.\nThey're at a major firm, and {name} is still...\n\nYou tried not to compare. It's harder than you expected.",
     "choices": [
       {
         "text": "I'm genuinely happy for them. I have my own path.",
-        "result_text": "I sent a message of congratulations.\nMy heart is a little tangled, but that's okay too.\nOnly {name} can walk {name}'s road."
+        "result_text": "You sent a message of congratulations.\nYour heart is a little tangled, but that's okay too.\nOnly {name} can walk {name}'s road."
       },
       {
         "text": "It lit a fire under me. I should work harder.",
-        "result_text": "I sent a reply and sat down at my desk.\nA night where impatience and will got mixed together.\nI hope this feeling doesn't become poison for {name}."
+        "result_text": "You sent a reply and sat down at your desk.\nA night where impatience and will got mixed together.\nYou hope this feeling doesn't become poison for {name}."
       },
       {
         "text": "Close the SNS app. Now is the time to focus on what's mine.",
@@ -133,26 +133,26 @@
   {
     "id": "story_first_paycheck_feel",
     "title": "First Paycheck",
-    "description": "A notification chimed.\n\n[Deposit] {name}'s account  ₩1,200,000\n\nI stared blankly at the screen.\nAfter taxes and transit costs, it isn't much.\nStill, it's money I earned by working.\n\nThe first money ever to land in my account under my own name.\nA small number, but somehow it moved me.",
+    "description": "A notification chimed.\n\n[Deposit] {name}'s account  ₩1,200,000\n\nYou stared blankly at the screen.\nAfter taxes and transit costs, it isn't much.\nStill, it's money you earned by working.\n\nThe first money ever to land in your account under your own name.\nA small number, but somehow it moved you.",
     "choices": [
       {
         "text": "Buy my parents something with my first paycheck",
-        "result_text": "I sent a 100,000-won gift card.\n'It's fine, save your money,' came the reply.\n{name} stared at that text for a long time."
+        "result_text": "You sent a 100,000-won gift card.\n'It's fine, save your money,' came the reply.\n{name} stared at that text for a long time."
       },
       {
         "text": "Save it all. The future comes before feelings.",
-        "result_text": "I left it untouched in the account.\nThe lump in my throat lasted only a moment. {name} starts preparing for next month."
+        "result_text": "You left it untouched in the account.\nThe lump in your throat lasted only a moment. {name} starts preparing for next month."
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "A 50,000-won pair of sneakers.\nNot expensive, but bought with {name}'s first paycheck.\nI think I'll remember this day every time I wear them."
+        "result_text": "A 50,000-won pair of sneakers.\nNot expensive, but bought with {name}'s first paycheck.\nYou think you'll remember this day every time you wear them."
       }
     ]
   },
   {
     "id": "story_first_workday",
     "title": "First Day at Work",
-    "description": "I woke up ten minutes before the alarm.\n\nA new job, my first.\nWhat to wear, how many minutes early to arrive,\nwhether to eat lunch alone or with others.\nEvery little thing is a first.\n\nOn the subway, {name} stood there in a daze.\nEveryone was living their own morning.\n\nNow I'm one of them too.",
+    "description": "You woke up ten minutes before the alarm.\n\nA new job, your first.\nWhat to wear, how many minutes early to arrive,\nWhether to eat lunch alone or with others.\nEvery little thing is a first.\n\nOn the subway, {name} stood there in a daze.\nEveryone was living their own morning.\n\nNow you're one of them too.",
     "choices": [
       {
         "text": "Arrive ten minutes early and survey the place",
@@ -167,30 +167,30 @@
   {
     "id": "story_late_night_grind",
     "title": "Working Late",
-    "description": "10 p.m. Only {name} is left in the office.\n\nWhen I looked up from the screen under the fluorescent lights,\nit was already pitch black outside.\n\nIf I don't finish today, it carries over to tomorrow.\nTomorrow might mean another late night.\n\nSomewhere in Seoul, what are my friends doing right now?",
+    "description": "10 p.m. Only {name} is left in the office.\n\nWhen you looked up from the screen under the fluorescent lights,\nIt was already pitch black outside.\n\nIf you don't finish today, it carries over to tomorrow.\nTomorrow might mean another late night.\n\nSomewhere in Seoul, what are your friends doing right now?",
     "choices": [
       {
         "text": "Finish it and go. Home's just a goshiwon anyway.",
-        "result_text": "11:30 p.m. The deadline's met.\nI fell asleep the moment I got on the bus.\n{name} held on again today."
+        "result_text": "11:30 p.m. The deadline's met.\nYou fell asleep the moment you got on the bus.\n{name} held on again today."
       },
       {
         "text": "Just clock out today. Tomorrow's work is for tomorrow.",
-        "result_text": "I felt the stares, but I left.\nThe fish-cake broth from the convenience store on the way home was the best part of the day.\n{name} gave today back to {name}."
+        "result_text": "You felt the stares, but you left.\nThe fish-cake broth from the convenience store on the way home was the best part of the day.\n{name} gave today back to {name}."
       },
       {
         "text": "Grab one more coffee and push through",
-        "result_text": "1 a.m. All done.\nThe way home was long, but oddly I felt refreshed.\nThis exhaustion is slowly making {name} a little tougher."
+        "result_text": "1 a.m. All done.\nThe way home was long, but oddly you felt refreshed.\nThis exhaustion is slowly making {name} a little tougher."
       }
     ]
   },
   {
     "id": "story_weekend_choice",
     "title": "Saturday Morning",
-    "description": "9 a.m. A day with no alarm.\n\nOn weekdays I'd already be on the commuter subway by now.\nToday I don't have to do anything.\n\nBut doing nothing somehow feels like falling behind.\n{name} stares at the ceiling from the bed.\nWhat is this feeling, this guilt that comes from resting?",
+    "description": "9 a.m. A day with no alarm.\n\nOn weekdays you'd already be on the commuter subway by now.\nToday you don't have to do anything.\n\nBut doing nothing somehow feels like falling behind.\n{name} stares at the ceiling from the bed.\nWhat is this feeling, this guilt that comes from resting?",
     "choices": [
       {
         "text": "Go to a cafe and study. Time is precious.",
-        "result_text": "Sat and studied for four hours. It was productive. But I'm a bit tired."
+        "result_text": "Sat and studied for four hours. It was productive. But you're a bit tired."
       },
       {
         "text": "Just rest. I'll give this one day to myself.",
@@ -205,7 +205,7 @@
   {
     "id": "story_gosiwon_neighbor",
     "title": "The Person Next Door",
-    "description": "I've lived in the goshiwon for a few months now,\nbut I still haven't gotten a proper look at the person in the next room.\n\nWhen we pass in the hallway, we avoid each other's eyes.\nMe, and them too.\n\nWe're each here for our own reasons,\nenduring in our own ways, I suppose.\n\nToday {name} thought about saying hello for the first time.",
+    "description": "You've lived in the goshiwon for a few months now,\nBut you still haven't gotten a proper look at the person in the next room.\n\nWhen we pass in the hallway, we avoid each other's eyes.\nYou, and them too.\n\nWe're each here for our own reasons,\nEnduring in our own ways, you suppose.\n\nToday {name} thought about saying hello for the first time.",
     "choices": [
       {
         "text": "Offer a single 'Hello'",
@@ -213,14 +213,14 @@
       },
       {
         "text": "Just pass by. It's easier not to get involved.",
-        "result_text": "Eyes down, I walked past.\nThis is what it means to live alone in Seoul.\n{name} is learning that way too now."
+        "result_text": "Eyes down, you walked past.\nThis is what it means to live alone in Seoul.\n{name} is learning that way too now."
       }
     ]
   },
   {
     "id": "story_payday_morning",
     "title": "Payday",
-    "description": "Morning of the 25th. On the commuter subway, I opened the app.\n\nDeposit confirmed.\nThe number in {name}'s account had changed.\n\nAfter taxes, after rent, I'd already calculated how little would be left.\nStill, the fact that a month of work amounted to that number\nsomehow moved me a little.",
+    "description": "Morning of the 25th. On the commuter subway, you opened the app.\n\nDeposit confirmed.\nThe number in {name}'s account had changed.\n\nAfter taxes, after rent, you'd already calculated how little would be left.\nStill, the fact that a month of work amounted to that number\nSomehow moved you a little.",
     "choices": [
       {
         "text": "Save it all. Now is the time to scrimp.",
@@ -228,33 +228,33 @@
       },
       {
         "text": "Buy a small gift for myself, who worked so hard",
-        "result_text": "A 50,000-won pair of sneakers. Not expensive, but bought with my own money."
+        "result_text": "A 50,000-won pair of sneakers. Not expensive, but bought with your own money."
       },
       {
         "text": "Think about how to grow this money",
-        "result_text": "I jotted income and expenses in a notes app. I started to see how much I could put toward investing."
+        "result_text": "You jotted income and expenses in a notes app. You started to see how much you could put toward investing."
       }
     ]
   },
   {
     "id": "story_hometown_nostalgia",
     "title": "Thinking of Home",
-    "description": "Around the holidays. The news shows crowds heading home.\n\n{name} didn't buy a ticket. No, didn't bother to.\nGo home and the questions pour out.\n'Got a job yet?' 'Saved any money?' 'How's Seoul?'\n\nEven if Seoul is suffocating,\nhome isn't ready to take me back yet.",
+    "description": "Around the holidays. The news shows crowds heading home.\n\n{name} didn't buy a ticket. No, didn't bother to.\nGo home and the questions pour out.\n'Got a job yet?' 'Saved any money?' 'How's Seoul?'\n\nEven if Seoul is suffocating,\nHome isn't ready to take you back yet.",
     "choices": [
       {
         "text": "Go down anyway. I miss my parents.",
-        "result_text": "I ate the meal Mom made.\nThe questions poured out, but they were bearable.\nOn the bus back to Seoul, {name} felt strangely lighter."
+        "result_text": "You ate the meal Mom made.\nThe questions poured out, but they were bearable.\nOn the bus back to Seoul, {name} felt strangely lighter."
       },
       {
         "text": "Stay in Seoul this year. This is the right call.",
-        "result_text": "I called, at least. Their voice sounded a little lonely.\nSpending the holiday alone in a goshiwon\nwas far lonelier than {name} had expected."
+        "result_text": "You called, at least. Their voice sounded a little lonely.\nSpending the holiday alone in a goshiwon\nWas far lonelier than {name} had expected."
       }
     ]
   },
   {
     "id": "story_first_savings_milestone",
     "title": "I Opened My Bankbook",
-    "description": "Today I happened to check my balance.\n\nWhen I first came to Seoul it was a million won.\nUnder {name}'s name, the number had changed.\n\nIt isn't a huge amount, but it's a number I built.\nEating, sleeping, working, saving, stacking it up.\n\nGangnam is far off,\nbut it feels like I've taken one step from the starting line.",
+    "description": "Today you happened to check your balance.\n\nWhen you first came to Seoul it was a million won.\nUnder {name}'s name, the number had changed.\n\nIt isn't a huge amount, but it's a number you built.\nEating, sleeping, working, saving, stacking it up.\n\nGangnam is far off,\nBut it feels like you've taken one step from the starting line.",
     "choices": [
       {
         "text": "Protect this money and grow it further",
@@ -266,52 +266,52 @@
       },
       {
         "text": "Record this moment",
-        "result_text": "I wrote the date and the amount in my notes.\nI hope I can look back at this number and smile someday.\n{name}'s Gangnam Dream began here."
+        "result_text": "You wrote the date and the amount in your notes.\nYou hope you can look back at this number and smile someday.\n{name}'s Gangnam Dream began here."
       }
     ]
   },
   {
     "id": "story_one_half_year",
     "title": "A Year and a Half",
-    "description": "Eighteen months.\n\nSeoul isn't strange to me anymore.\nThe commute, the convenience store I frequent, the diner where I have lunch.\nIt's all familiar now.\n\nBut I'm not sure being familiar is a good thing.\nAre the things {name} wants still here?\nOr is this just becoming the way I live?\n\nI was browsing job listings, then closed the window.",
+    "description": "Eighteen months.\n\nSeoul isn't strange to you anymore.\nThe commute, the convenience store you frequent, the diner where you have lunch.\nIt's all familiar now.\n\nBut you're not sure being familiar is a good thing.\nAre the things {name} wants still here?\nOr is this just becoming the way you live?\n\nYou were browsing job listings, then closed the window.",
     "choices": [
       {
         "text": "Now's the time. Prepare to switch jobs.",
-        "result_text": "I pulled out my resume again.\nI organized what I'd learned at my current job.\nEven if it feels like I'm not ready, the ones who move are the ones who catch the chance."
+        "result_text": "You pulled out your resume again.\nYou organized what you'd learned at your current job.\nEven if it feels like you're not ready, the ones who move are the ones who catch the chance."
       },
       {
         "text": "Hold on a bit longer. Build more where I am.",
-        "result_text": "Job-hopping later. For now I'll learn more here.\nThis is a time that needs depth more than haste.\n{name} held the position again today."
+        "result_text": "Job-hopping later. For now you'll learn more here.\nThis is a time that needs depth more than haste.\n{name} held the position again today."
       },
       {
         "text": "Decide not to think about it now. Just live today.",
-        "result_text": "I closed the window and ate.\nSome things just don't have an answer right now.\n{name} is slowly learning to accept that."
+        "result_text": "You closed the window and ate.\nSome things just don't have an answer right now.\n{name} is slowly learning to accept that."
       }
     ]
   },
   {
     "id": "story_two_year",
     "title": "Two Years",
-    "description": "Twenty-four months.\n\n{name} has become a Seoulite.\nSubway transfers, real estate apps, eating lunch in eight minutes flat.\n\nI met my hometown friends for the first time in a while,\nand they said my speech had changed a little.\nThat a Seoul accent had crept in.\n\nStrangely, that made me a little wistful.\nAnd at the same time, it felt like I'd become something.\n\nTwo years have passed.",
+    "description": "Twenty-four months.\n\n{name} has become a Seoulite.\nSubway transfers, real estate apps, eating lunch in eight minutes flat.\n\nYou met your hometown friends for the first time in a while,\nAnd they said your speech had changed a little.\nThat a Seoul accent had crept in.\n\nStrangely, that made you a little wistful.\nAnd at the same time, it felt like you'd become something.\n\nTwo years have passed.",
     "choices": [
       {
         "text": "Resolve to put down deeper roots in Seoul",
-        "result_text": "This became {name}'s city.\nSomeday I'll build something in this city.\nThat conviction took root, just a little."
+        "result_text": "This became {name}'s city.\nSomeday you'll build something in this city.\nThat conviction took root, just a little."
       },
       {
         "text": "The changing me feels strange. Take a quick trip home.",
-        "result_text": "I took the train down.\nEating the meal Mom made, I returned to childhood for a moment.\nHeading back up to Seoul, {name} felt a little tougher."
+        "result_text": "You took the train down.\nEating the meal Mom made, you returned to childhood for a moment.\nHeading back up to Seoul, {name} felt a little tougher."
       }
     ]
   },
   {
     "id": "story_three_year",
     "title": "Three Years",
-    "description": "Three years.\n\nThirty-six.\n\nThe people around me are starting to change.\nSomeone got married, someone bought a house,\nsomeone went abroad to study, someone started a company.\n\nWhere is {name} right now?\nGangnam is still far.\nBut strangely, I don't want to give up.\n\nThat's still the reason {name} is here.",
+    "description": "Three years.\n\nThirty-six.\n\nThe people around you are starting to change.\nSomeone got married, someone bought a house,\nSomeone went abroad to study, someone started a company.\n\nWhere is {name} right now?\nGangnam is still far.\nBut strangely, you don't want to give up.\n\nThat's still the reason {name} is here.",
     "choices": [
       {
         "text": "My path is the right one. Different pace is fine.",
-        "result_text": "I decided not to measure myself by someone else's milestones.\n{name}'s starting line was different from the start.\nComparing is meaningless. The direction {name} is heading is the right one."
+        "result_text": "You decided not to measure yourself by someone else's milestones.\n{name}'s starting line was different from the start.\nComparing is meaningless. The direction {name} is heading is the right one."
       },
       {
         "text": "I have to move faster. Three years is long enough.",
@@ -326,22 +326,22 @@
   {
     "id": "story_four_year",
     "title": "Four Years",
-    "description": "The fourth year.\n\nThirty-seven.\n\nNow Seoul feels like home.\nWhether I've escaped the goshiwon or am still in it, this city has become {name}'s ground.\n\nThese days the question is less 'is this the right path?'\nand more 'is this pace enough?'\n\nGangnam is still far.\nBut closer than it was two years ago.\nThat's a fact.",
+    "description": "The fourth year.\n\nThirty-seven.\n\nNow Seoul feels like home.\nWhether you've escaped the goshiwon or am still in it, this city has become {name}'s ground.\n\nThese days the question is less 'is this the right path?'\nAnd more 'is this pace enough?'\n\nGangnam is still far.\nBut closer than it was two years ago.\nThat's a fact.",
     "choices": [
       {
         "text": "Pick up the pace. Move more aggressively.",
-        "result_text": "I set down the comfortable choice.\nI chose the uncomfortable but growing path.\n{name}'s four years carry into the fifth."
+        "result_text": "You set down the comfortable choice.\nYou chose the uncomfortable but growing path.\n{name}'s four years carry into the fifth."
       },
       {
         "text": "Stabilizing where I am comes first",
-        "result_text": "Before running, I tended to my stamina.\nIf I collapse, everything starts from scratch.\n{name} knows that building a foundation is a strategy too."
+        "result_text": "Before running, you tended to your stamina.\nIf you collapse, everything starts from scratch.\n{name} knows that building a foundation is a strategy too."
       }
     ]
   },
   {
     "id": "age_35_checkpoint",
     "title": "Thirty-Five",
-    "description": "Thirty-five.\n\n{name} knows the weight this age carries in Korean society.\nMarriage, owning a home, settling into a career.\nPeople around me ask. Where do you live? Married yet?\n\n{name}'s answer is still being prepared.\nGangnam is the goal. I'm not there yet.\n\nBut the saying that opportunities shrink after thirty-five,\n{name} has decided not to believe it.\n\nThere's still time.",
+    "description": "Thirty-five.\n\n{name} knows the weight this age carries in Korean society.\nMarriage, owning a home, settling into a career.\nPeople around you ask. Where do you live? Married yet?\n\n{name}'s answer is still being prepared.\nGangnam is the goal. You're not there yet.\n\nBut the saying that opportunities shrink after thirty-five,\n{name} has decided not to believe it.\n\nThere's still time.",
     "choices": [
       {
         "text": "This is the most important turning point of my life. Go all in.",
