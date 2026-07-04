@@ -2127,6 +2127,30 @@ func _next_arc_id() -> String:
 			and GameState.get_cast_affinity("daeun") >= 55 \
 			and not f.get("arc_daeun_proposal_seen", false):
 		return "arc_daeun_proposal"
+	# ── 약혼-이후 국면 (결혼=끝까지 잃을 수 있는 것) ──
+	# ① 우리 집 — 강남이 '내 등기'에서 '두 부모 모실 집'으로 재정의
+	if t >= 155 and f.get("daeun_married", false) \
+			and not f.get("arc_daeun_our_home_seen", false):
+		return "arc_daeun_our_home"
+	# ② 상견례 — 두 가난한 부모(아버지 생존 시만). father_passed면 스킵(유령 등장 방지).
+	if t >= 168 and f.get("arc_daeun_our_home_seen", false) \
+			and not f.get("father_passed", false) \
+			and not f.get("arc_daeun_families_seen", false):
+		return "arc_daeun_families_meet"
+	# ③ 시험 — 아내를 서류로 쓰는 지름길. our_home 기반(상견례 스킵돼도 체인 유지).
+	#    상철 신고/절연 후엔 안 뜸(그가 제안할 리 없음).
+	if t >= 182 and f.get("arc_daeun_our_home_seen", false) \
+			and not f.get("sangchul_reported", false) \
+			and not f.get("sangchul_cut_ties", false) \
+			and not f.get("arc_daeun_test_seen", false):
+		return "arc_daeun_the_test"
+	# ④ 최종 선택 — 돈이냐 배우자냐. 30억 미달+마감 임박에만(정직-부자는 스킵→진엔딩).
+	if t >= 228 and f.get("daeun_married", false) \
+			and not f.get("daeun_divorced", false) \
+			and not f.get("arc_daeun_final_choice_seen", false) \
+			and GameState.get_total_asset_value() >= 1_800_000_000.0 \
+			and GameState.get_total_asset_value() < 3_000_000_000.0:
+		return "arc_daeun_final_choice"
 	# ── 다은 05 — 기다려달라 한 뒤 이별 ──
 	if t >= 50 and f.get("daeun_deferred", false) \
 			and not f.get("arc_daeun_05_breaking_seen", false):
@@ -2814,6 +2838,7 @@ func _next_arc_id() -> String:
 	# 그쪽(year5_return)이 연애를 formalize하므로 중복 방지.
 	if t >= 193 and f.get("arc_jiyeon_03b_seen", false) \
 			and not f.get("jiyeon_romance_started", false) \
+			and not f.get("daeun_romance_started", false) \
 			and not f.get("arc_jiyeon_y5_feelings_seen", false) \
 			and not f.get("arc_jiyeon_year4_call_seen", false) \
 			and not f.get("arc_jiyeon_year5_return_seen", false) \

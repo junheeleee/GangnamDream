@@ -1503,6 +1503,13 @@ func check_game_over():
 		#   아직 아무도 못 만난 상태 → 빈 집 대신 '신화' 엔딩으로 인정해준다.
 		if age <= 33:
 			finish_run("instant_legend"); return
+		# ── 결혼 분기 (배우자 실을 강남 엔딩에서 회수) ──
+		# 아내를 배신하고(이혼) 강남 = 직접 버린 '외로운 부자'. crossed_line보다 먼저.
+		if flags.get("daeun_divorced", false):
+			finish_run("lonely_rich"); return         # 이혼 후 강남 (dik: daeun_divorced 변주)
+		# 결혼 유지한 채 강남 = 따뜻하게 온 진엔딩(두 부모 방 있는 집, 둘이 함께).
+		if flags.get("daeun_married", false):
+			finish_run("gangnam_dream"); return       # dik: daeun_married 변주
 		# 어떤 사람이 되어 입성했는가로 엔딩 분기
 		if flags.get("fell_to_darkness", false) or flags.get("crossed_line", false):
 			finish_run("jaehyuk_way"); return        # 최재혁의 방식
@@ -1529,6 +1536,9 @@ func check_game_over():
 	# ── 38세 = 타임리밋 (5년 종료) ────────────────────
 	if age >= 38:
 		var total = get_total_asset_value()
+		# 이혼(강남 미달 엣지 — 서명했으나 끝내 못 닿음): 버렸는데 얻지도 못한 결말
+		if flags.get("daeun_divorced", false):
+			finish_run("lonely_rich"); return         # dik: daeun_divorced 변주
 		# 연인 엔딩
 		if flags.get("daeun_romance_started", false):
 			finish_run("with_daeun"); return          # 다은과 연인 (Y5 고백)

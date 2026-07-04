@@ -1,0 +1,65 @@
+[
+  {
+    "id": "arc_daeun_our_home",
+    "title": "Our Home",
+    "description": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"This room... how about it for your father?\"\n{name} froze. He'd never even thought of it.\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else with that one sentence.\nA number he'd climbed alone — was now a home with several rooms.",
+    "choices": [
+      {
+        "text": "\"Yeah. Let's find one with a room for both of them.\"",
+        "result_text": "Daeun beamed.\n\nThat night, for the first time, {name} thought of Gangnam not as 'where I arrive' but 'where we live.'\nThe weight of the number changed. Heavier now — and yet, strangely, lighter."
+      },
+      {
+        "text": "\"Let's think about that after we get in. Right now the number comes first.\"",
+        "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had — was a problem for later."
+      }
+    ],
+    "description_if_known": {
+      "father_passed": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"Let's keep this room for your father. Hang a photo of him.\"\n{name} froze. His father was gone now — but Daeun wanted to leave a place for him.\n\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else.\nA number he'd climbed alone — was now a home with a place for both the departed and the living."
+    }
+  },
+  {
+    "id": "arc_daeun_families_meet",
+    "title": "The Families Meet",
+    "description": "The introductions. A quiet Korean restaurant.\n\n{name}'s father — a lifetime in the factory, stooped shoulders, a borrowed suit. Daeun's mother — up on the dawn bus from the countryside, knuckles thick from work.\n\nNeither of them had anything. You could see it at a glance.\n\nHis father spoke, with effort.\n\"I... once did a terrible thing to my child, over a debt. A shameful father...\"\n\nSilence settled over the table. Daeun's mother looked at {name}.\nWhatever {name} said next — his father's remaining pride hung on it.",
+    "choices": [
+      {
+        "text": "\"My father paid off every won of that debt. Everything I am, I owe to him.\"",
+        "result_text": "His father lifted his head. His eyes were red.\n\nDaeun's mother said quietly, \"You've got a good father.\"\n\nOn the way home, his father clapped {name} once on the back.\nNo words — but that was enough."
+      },
+      {
+        "text": "Change the subject. (The debt talk doesn't belong here)",
+        "result_text": "{name} hurried to bring up something else. The venue, the date, the budget.\n\nAnd so his father's words were buried, trailing off over the table.\n\nOn the way home, his father was quieter than usual.\n{name} knew what that silence meant, and pretended he didn't."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_the_test",
+    "title": "The Shortcut",
+    "description": "The deadline was close. One step short of Gangnam.\n\nSangchul pushed a coffee across the table.\n\"There is one way. Take out a loan under your in-laws' name, hold the property under your wife's name — and you skip the taxes, the regulations, all of it.\"\n\n\"Your wife doesn't even need to know. Just get her stamp on the papers.\"\n\nUsing his wife as a name on a document. And Gangnam would be in reach.\nSangchul smiled. It was a smile he'd seen somewhere before.",
+    "choices": [
+      {
+        "text": "\"Forget it. Daeun isn't a document.\"",
+        "result_text": "Sangchul shrugged. \"Well. Your call.\"\n\nThe road home was long. Gangnam drifted a step further away.\nAnd yet, strangely, his steps were light.\n\n{name} understood now why that smile was familiar. Five years ago, that's how someone had smiled while introducing a deal to his father."
+      },
+      {
+        "text": "\"...Just her stamp, right.\" (Borrows his wife's name)",
+        "result_text": "Daeun stamped the papers without asking a thing. Because she trusts {name}.\n\nThe moment he turned that trust into a document, {name} became Sangchul.\nStarted out hating him, ended up doing that to his own wife.\n\nGangnam came a step closer. And something, soundlessly, cracked."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_final_choice",
+    "title": "The Last Step",
+    "description": "One last step to the Gangnam deed.\n\nAnd that step — could only be reached by betraying Daeun. Liquidate the property he'd quietly held in her name and she loses everything, but {name} stands in Gangnam.\n\nThe contract sits in front of him. In the next room, Daeun is picking wedding invitation designs. Humming.\n\nHe picked up the pen.\n\nThree billion was in this one signature. And Daeun, too, was in this one signature.",
+    "choices": [
+      {
+        "text": "Put the pen down. \"Daeun, let's just... get there a little later.\"",
+        "result_text": "Daeun came out of the room. \"What'd you say?\"\n\"Nothing. Did you pick a pretty invitation?\"\n\nThe shortcut went in the trash that night.\nGangnam would come honestly, or it wouldn't come at all — one of the two.\nEither way, he wasn't trading it for the person humming in the next room.\n{name} learned that day it was worth more than any deed."
+      },
+      {
+        "text": "Sign it. Gangnam is one step ahead.",
+        "result_text": "He signed. The Gangnam deed came into his hands.\n\nIt didn't take Daeun long to learn the truth.\nShe didn't cry. Like someone who had already, quietly, cried it all out years ago.\n\n\"...When did you start seeing me as a document?\"\n\n{name} couldn't answer. He couldn't name the exact date.\nHe'd never even filed a marriage certificate — but he stamped the divorce papers."
+      }
+    ]
+  }
+]
