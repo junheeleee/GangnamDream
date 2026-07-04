@@ -91,6 +91,7 @@ var _info_pad_hint_label: Label
 var player_name_label: Label
 var title_label: Label
 var _ui_icon_cache: Dictionary = {}
+var _art_thumb_cache: Dictionary = {}
 
 # ── MORAL MONOCHROME 팔레트 ─────────────────────────────────────
 # 이 게임의 중심 상태는 회색/진회색/검정/연회색/흰색이다.
@@ -4105,14 +4106,28 @@ func _render_sidebars():
 		var type_kr: String = _relationship_type_label(type_str)
 		var accent: String = _relationship_type_color(type_str)
 		var affinity = relationship_system.get_affinity_label(affection)
+		var person_id := _relationship_person_id(rel)
 		var card: PanelContainer = _info_card(accent, "#0d1018")
 		var box: VBoxContainer = VBoxContainer.new()
 		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		box.add_theme_constant_override("separation", 8)
 		card.add_child(box)
+		var body_parent: VBoxContainer = box
+		if not person_id.is_empty():
+			var person_row := HBoxContainer.new()
+			person_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			person_row.add_theme_constant_override("separation", 10)
+			box.add_child(person_row)
+			person_row.add_child(_person_thumb_frame(person_id, accent, 46))
+			var person_col := VBoxContainer.new()
+			person_col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			person_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			person_col.add_theme_constant_override("separation", 6)
+			person_row.add_child(person_col)
+			body_parent = person_col
 		var title_row: HBoxContainer = HBoxContainer.new()
 		title_row.add_theme_constant_override("separation", 8)
-		box.add_child(title_row)
+		body_parent.add_child(title_row)
 		var name_lbl: Label = _label(str(rel.get("name", "?")), 16, "#e8eaf0")
 		if _font_bold:
 			name_lbl.add_theme_font_override("font", _font_bold)
@@ -4121,13 +4136,15 @@ func _render_sidebars():
 		var type_lbl: Label = _label(type_kr, 13, accent)
 		type_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		title_row.add_child(type_lbl)
-		box.add_child(_wrap_label(str(affinity), 13, "#a8b3c7"))
-		box.add_child(_info_value_bar(_tr("호감도", "Affinity"), affection, 100, accent))
-		box.add_child(_info_value_bar(_tr("신뢰", "Trust"), trust, 100, "#93c5fd"))
+		body_parent.add_child(_label(str(affinity), 12, "#a8b3c7"))
+		body_parent.add_child(_info_compact_value_bar(_tr("호감", "Aff."), affection, 100, accent))
+		body_parent.add_child(_info_compact_value_bar(_tr("신뢰", "Trust"), trust, 100, "#93c5fd"))
 		if affection >= 45:
 			var effect_hint = _rel_effect_hint(type_str, affection, trust)
 			if not effect_hint.is_empty():
-				box.add_child(_wrap_label(effect_hint, 13, "#8f9ab0"))
+				var hint_lbl := _label(effect_hint, 11, "#8f9ab0")
+				hint_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+				body_parent.add_child(hint_lbl)
 		relationship_box.add_child(card)
 
 	_clear_box(inventory_box)
@@ -5160,7 +5177,7 @@ func _mastery_badge(game_id: String) -> String:
 func _essential_btn(title: String, subtitle: String, icon_id: String, accent: String,
 		fn: String, disabled: bool, free_action: bool = false):
 	var rail_label := _next_ap_rail_label()
-	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label)
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label, _action_thumb_texture(fn, icon_id))
 	if not disabled:
 		var fn_name: String = fn
 		btn.pressed.connect(func():
@@ -5172,7 +5189,7 @@ func _essential_btn(title: String, subtitle: String, icon_id: String, accent: St
 	_animate_ap_action_card(btn, choice_box.get_child_count())
 
 func _essential_locked(title: String, subtitle: String, icon_id: String, accent: String) -> void:
-	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, true, false, _tr("잠금", "Locked"), _next_ap_rail_label())
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, true, false, _tr("잠금", "Locked"), _next_ap_rail_label(), _action_thumb_texture("", icon_id))
 	choice_box.add_child(btn)
 	_animate_ap_action_card(btn, choice_box.get_child_count())
 
@@ -5196,7 +5213,7 @@ func _animate_ap_action_card(card: Control, index: int) -> void:
 
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String,
-		rail_label: String = "") -> Button:
+		rail_label: String = "", art_thumb: Texture2D = null) -> Button:
 	var btn := Button.new()
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343446")
@@ -5291,24 +5308,37 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
 	icon_box.custom_minimum_size = Vector2(46, 46)
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon_box.clip_contents = true
 	var icon_style := StyleBoxFlat.new()
-	icon_style.bg_color = Color(accent, 0.20 if not disabled else 0.06)
+	icon_style.bg_color = Color("#05070a", 0.96) if art_thumb != null else Color(accent, 0.20 if not disabled else 0.06)
 	icon_style.border_color = accent_color
 	icon_style.set_border_width_all(2 if not disabled else 1)
 	icon_style.set_corner_radius_all(3)
 	icon_box.add_theme_stylebox_override("panel", icon_style)
 	row.add_child(icon_box)
 
-	var icon_tex := TextureRect.new()
-	icon_tex.set_meta("moral_role", "hud_icon")
-	icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
-	icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon_tex.custom_minimum_size = Vector2(36, 36)
-	icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon_tex.texture = _ui_icon_texture(icon_id)
-	icon_tex.modulate = Color(accent, 0.95 if not disabled else 0.35)
-	icon_box.add_child(icon_tex)
+	if art_thumb != null:
+		var art_tex := TextureRect.new()
+		art_tex.set_meta("moral_role", "choice_thumbnail")
+		art_tex.set_meta("moral_accent", accent if not disabled else "#343446")
+		art_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		art_tex.custom_minimum_size = Vector2(46, 46)
+		art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		art_tex.texture = art_thumb
+		art_tex.modulate = Color("#bfc6d0", 0.82 if not disabled else 0.28)
+		icon_box.add_child(art_tex)
+	else:
+		var icon_tex := TextureRect.new()
+		icon_tex.set_meta("moral_role", "hud_icon")
+		icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
+		icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon_tex.custom_minimum_size = Vector2(36, 36)
+		icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon_tex.texture = _ui_icon_texture(icon_id)
+		icon_tex.modulate = Color(accent, 0.95 if not disabled else 0.35)
+		icon_box.add_child(icon_tex)
 
 	var text_col := VBoxContainer.new()
 	text_col.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -5460,6 +5490,185 @@ func _ui_icon_texture(icon_id: String) -> Texture2D:
 	_ui_icon_cache[icon_id] = tex
 	return tex
 
+func _load_art_thumb(path: String) -> Texture2D:
+	if path.is_empty() or not ResourceLoader.exists(path):
+		return null
+	if _art_thumb_cache.has(path):
+		return _art_thumb_cache[path]
+	var res := load(path)
+	var tex: Texture2D = res if res is Texture2D else null
+	_art_thumb_cache[path] = tex
+	return tex
+
+func _portrait_id_for_person(person_id: String) -> String:
+	match _canonical_person_id(person_id):
+		"player":
+			return "player_normal"
+		"father":
+			return "father_normal"
+		"sangchul":
+			return "sangchul_serious"
+		"jiyeon":
+			return "jiyeon_cold"
+		"daeun":
+			return "daeun_smile"
+		"jaehyuk":
+			return "jaehyuk_charisma"
+		"hyunsu":
+			return "hyunsu_normal"
+		"minseo":
+			return "minseo_normal"
+		"jaewon":
+			return "jaewon_normal"
+		"mother":
+			return "mother"
+		"boss":
+			return "boss"
+		"seongjun":
+			return "seongjun"
+		_:
+			return ""
+
+func _person_thumb_texture(person_id: String) -> Texture2D:
+	var portrait_id := _portrait_id_for_person(person_id)
+	if portrait_id.is_empty():
+		return null
+	return _load_art_thumb(ImageRegistry.get_portrait(portrait_id))
+
+func _canonical_person_id(raw_id: String) -> String:
+	var key := raw_id.strip_edges().to_lower()
+	var compact := key.replace(" ", "").replace("_", "").replace("-", "").replace("·", "")
+	if compact.is_empty():
+		return ""
+	var aliases: Dictionary = {
+		"player": ["player", "minjun", "kimminjun", "name"],
+		"father": ["father", "dad"],
+		"sangchul": ["sangchul", "limsangchul"],
+		"jiyeon": ["jiyeon", "hanjiyeon"],
+		"daeun": ["daeun", "kimdaeun", "daeeun"],
+		"jaehyuk": ["jaehyuk", "choijaehyuk"],
+		"hyunsu": ["hyunsu", "kanghyunsu", "hyeonsu"],
+		"minseo": ["minseo", "leeminseo"],
+		"jaewon": ["jaewon", "parkjaewon"],
+		"mother": ["mother", "mom"],
+		"boss": ["boss", "teamlead"],
+		"seongjun": ["seongjun", "parkseongjun"],
+	}
+	for person_id in aliases:
+		if compact in aliases[person_id]:
+			return str(person_id)
+		var info: Dictionary = ImageRegistry.get_person_info(str(person_id))
+		var localized_name: String = str(info.get("name", ""))
+		var localized_compact: String = localized_name.strip_edges().to_lower().replace(" ", "").replace("_", "").replace("-", "").replace("·", "")
+		if not localized_compact.is_empty() and compact == localized_compact:
+			return str(person_id)
+		if compact.begins_with(str(person_id)):
+			return str(person_id)
+	return ""
+
+func _relationship_person_id(rel: Dictionary) -> String:
+	for key in ["person_id", "portrait", "id", "name"]:
+		var person_id: String = _canonical_person_id(str(rel.get(key, "")))
+		if not person_id.is_empty():
+			return person_id
+	return ""
+
+func _action_thumb_path(fn: String, icon_id: String = "") -> String:
+	match fn:
+		"_ap_job_hunt", "_ap_interview_prep":
+			return "res://assets/backgrounds/office_interview_day.png"
+		"_ap_write_resume", "_ap_startup_work":
+			return BG_OFFICE
+		"_ap_create_content":
+			return BG_PC_BANG
+		"_ap_invest":
+			return BG_INVESTMENT
+		"_ap_market_analysis":
+			return BG_TRADING
+		"_ap_side_job":
+			return BG_CONVENIENCE
+		"_ap_save_money":
+			return BG_NIGHT_ROOM
+		"_ap_study":
+			return "res://assets/backgrounds/library.png"
+		"_ap_free_time":
+			return "res://assets/backgrounds/hangang_riverside_walk.png"
+		"_ap_network", "_ap_vip_network":
+			return BG_CAFE
+		"_ap_move_housing", "_open_cat_life":
+			return str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+		"_open_cat_gambling", "_open_jeongseon_casino":
+			return "res://assets/backgrounds/jeongseon_casino_entrance.png"
+		"_open_racetrack":
+			return BG_RACETRACK
+		"_open_holdem":
+			return BG_HOLDEM
+		"_open_scalping":
+			return BG_SCALPING
+	match icon_id:
+		"job":
+			return "res://assets/backgrounds/office_interview_day.png"
+		"study":
+			return "res://assets/backgrounds/library.png"
+		"rest":
+			return "res://assets/backgrounds/hangang_riverside_walk.png"
+		"invest":
+			return BG_INVESTMENT
+		"market":
+			return BG_TRADING
+		"money":
+			return BG_CONVENIENCE
+		"people":
+			return BG_CAFE
+		"life":
+			return str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+		"casino":
+			return "res://assets/backgrounds/jeongseon_casino_entrance.png"
+		"racetrack":
+			return BG_RACETRACK
+		"holdem":
+			return BG_HOLDEM
+		"scalping":
+			return BG_SCALPING
+		_:
+			return ""
+
+func _action_thumb_texture(fn: String, icon_id: String = "") -> Texture2D:
+	return _load_art_thumb(_action_thumb_path(fn, icon_id))
+
+func _person_thumb_frame(person_id: String, accent: String, size: int = 52) -> Control:
+	var frame := PanelContainer.new()
+	frame.set_meta("moral_role", "choice_icon")
+	frame.set_meta("moral_accent", accent)
+	frame.custom_minimum_size = Vector2(size, size)
+	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.clip_contents = true
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#06080c", 0.96)
+	st.border_color = Color(accent, 0.72)
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(3)
+	frame.add_theme_stylebox_override("panel", st)
+
+	var tex := _person_thumb_texture(person_id)
+	if tex != null:
+		var img := TextureRect.new()
+		img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		img.custom_minimum_size = Vector2(size, size)
+		img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		img.texture = tex
+		img.modulate = Color("#c5ccd5", 0.90)
+		frame.add_child(img)
+	else:
+		var lbl := _label("?", 18, "#aeb6c2")
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		lbl.custom_minimum_size = Vector2(size, size)
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		frame.add_child(lbl)
+	return frame
+
 ## 5개 카테고리 행동 카드 렌더링 (구버전 — 상황 카드로 대체됨)
 func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_unlocked: bool, warn_body: bool):
 	# [일/커리어] — 취업 후 일은 자동(월급·승진 패시브)이라 카드를 숨긴다.
@@ -5582,7 +5791,9 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 		accent,
 		false,
 		free_action,
-		"")
+		"",
+		"",
+		_action_thumb_texture(fn, _cat_modal_icon(fn)))
 	btn.custom_minimum_size = Vector2(0, 74)
 	var fn_name := fn
 	var fn_arg = arg
@@ -5597,7 +5808,7 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	modal_body.add_child(btn)
 
 func _cat_modal_status_card(title: String, subtitle: String, accent: String, icon_id: String, badge: String) -> void:
-	var card := _make_essential_action_card(title, subtitle, icon_id, accent, true, true, badge)
+	var card := _make_essential_action_card(title, subtitle, icon_id, accent, true, true, badge, "", _action_thumb_texture("", icon_id))
 	card.custom_minimum_size = Vector2(0, 74)
 	modal_body.add_child(card)
 
@@ -5951,6 +6162,12 @@ func _render_people_page() -> void:
 	_apply_people_cursor()
 
 func _build_people_action_card(action: Dictionary, index: int) -> Button:
+	var thumb: Texture2D = null
+	var person_id: String = _canonical_person_id(str(action.get("arg", "")))
+	if not person_id.is_empty():
+		thumb = _person_thumb_texture(person_id)
+	if thumb == null:
+		thumb = _action_thumb_texture(str(action.get("fn", "")), str(action.get("icon", "people")))
 	var btn := _make_essential_action_card(
 		str(action.get("title", "")),
 		str(action.get("subtitle", "")),
@@ -5958,7 +6175,9 @@ func _build_people_action_card(action: Dictionary, index: int) -> Button:
 		str(action.get("accent", "#8a5a9a")),
 		false,
 		bool(action.get("free", false)),
-		"")
+		"",
+		"",
+		thumb)
 	btn.custom_minimum_size = Vector2(0, 60)
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.set_meta("people_action_idx", index)
@@ -10752,6 +10971,22 @@ func _info_value_bar(label_text: String, value: int, max_value: int, color: Stri
 	bar_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(bar_lbl)
 	return box
+
+func _info_compact_value_bar(label_text: String, value: int, max_value: int, color: String) -> Control:
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 6)
+	var lbl := _label(label_text, 11, "#7f8796")
+	lbl.custom_minimum_size = Vector2(42, 0)
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(lbl)
+	row.add_child(_mini_progress_meter(value, max_value, color))
+	var value_lbl := _label("%d" % value, 11, _info_signal_hex(color, 0.03))
+	value_lbl.custom_minimum_size = Vector2(24, 0)
+	value_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	value_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(value_lbl)
+	return row
 
 func _relationship_type_label(type_str: String) -> String:
 	return {

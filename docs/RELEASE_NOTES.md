@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed (2026-07-04) — AP/Relations visual thumbnail pass
+
+- Merged the latest Claude Daeun wedding/guest story branch into `main` before continuing surface work.
+- Added optional artwork thumbnails to the shared AP/action card renderer while preserving SVG icon fallback.
+- Replaced the main AP action rail's plain symbolic icons with subdued thumbnails from existing in-game background assets.
+- People `My People` action cards now use actual cast portrait thumbnails for Father, Sangchul, Jiyeon, Daeun, and Jaehyuk.
+- Info Deck `Relations` cards now include portrait frames and compact Affinity/Trust meters so relationships read as people, not only stats.
+- Verified the English AP surface with `ScreenshotQA --qa=ap-en --lang=en`.
+
 ### Changed (2026-07-04) — Info Deck controller back pass
 
 - Reworked the right-side `Info Panel` surface into a slightly wider `Info Deck` with more readable English spacing.

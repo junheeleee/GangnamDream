@@ -1,5 +1,26 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Codex — AP/Relations visual thumbnail pass + Claude merge)
+
+### 배경
+- AP 행동과 관계 화면이 패드 친화적으로 정리됐지만, 아이콘은 여전히 단순 SVG 심볼 중심이라 웹 대시보드처럼 보이는 문제가 남아 있었다.
+- 사용자가 제안한 방향은 행동 카드는 게임 그림체의 작은 장면 컷, 관계 카드는 실제 인물 얼굴을 써서 더 직관적으로 읽히게 하는 것이다.
+- 클로드가 다은 결혼식/하객 비트 2커밋을 새로 올려 먼저 main에 병합했다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`의 결혼식/하객 비트 커밋을 main에 병합했다.
+- 공통 AP 행동 카드 빌더에 선택적 `Texture2D` 썸네일을 추가했다. 썸네일이 없으면 기존 SVG 아이콘으로 폴백한다.
+- AP 레일과 세부 행동 모달이 기존 배경 에셋을 재빛 썸네일로 사용한다. 예: Invest=투자폰, Self-Dev=도서관, Rest=한강, Life=현재 주거, Gambling=정선 카지노 입구.
+- People `My People` 카드에는 실제 초상화 얼굴을 넣었다. Father/Sangchul/Jiyeon/Daeun/Jaehyuk가 같은 화면에서 바로 구분된다.
+- Info Deck `Relations` 탭도 초상화 프레임을 추가하고, 기존 큰 관계 막대를 미니 호감/신뢰 미터로 압축했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_05_people_modal.png`, `ap_en_05_people_modal_network.png`, `ap_en_04d_info_relations.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-04 (Codex — Info Deck controller back pass)
 
 ### 배경
