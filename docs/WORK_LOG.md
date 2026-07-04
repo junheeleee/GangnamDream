@@ -1,5 +1,17 @@
 # Gangnam Dream Work Log
 
+## 2026-07-03 (Claude — 선택적 가상화: 거래 자산 실명 → 투명 아날로그)
+
+몰입/리얼리티 논의 결과 "안 변하는 한국=실명 / 변하는 수치=가상" 원칙 확정(DECISIONS 참조).
+
+### 가상화 (KR + ASSET_TEXT_EN 동시)
+- 거래 자산 실명 → 아날로그: 삼성전자→한성전자, 카카오(주식)→다온(※카카오톡/뱅크 보존, negative-lookahead), 현대차→대현차, 엔비디아→엔코어, 비트코인→코어코인, 이더리움→노바코인, 나스닥100 ETF→미국 기술주 ETF, S&P500→미국 대형주 ETF, KODEX200→코스피200 ETF, 나스닥 3배→미국 기술주 3배. 뉴스 무버 테슬라→볼턴/애플→오르카/도지→밈코인.
+- **보존**: 서울·강남·전세·정선·민방위·카카오톡·코스피(지수)·서비스 텍스처(배달의민족·토스·스타벅스). asset id 불변(저장 호환).
+- 미 선거 이벤트 제네릭화("해외 큰 선거"), min_turn 10 복귀(2026 중간선거 실재 — 유저 교정 반영).
+
+### 검증
+- assets.json/news_templates/investment/drama/korea_digital/callback_43 (KR) + investment/drama (EN) + DataRegistry ASSET_TEXT_EN 동기화. 실명 거래자산 잔존 0, 카카오톡/코스피 보존 확인. audit ERROR 0/WARNING 0/컴파일 55/밴드, en_coverage_check.py clean.
+
 ## 2026-07-03 (Claude — 전역 한국 팩트체크 감사 + 교정 6건)
 
 예비군 오류 발견 후 병렬 전수 감사(군대/세금/부동산/대출/최저임금/나이/시사)로 유사 오류 색출·교정. KR+EN.

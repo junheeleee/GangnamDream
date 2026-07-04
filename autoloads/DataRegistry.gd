@@ -126,16 +126,16 @@ const JOB_TEXT_EN := {
 }
 
 const ASSET_TEXT_EN := {
-	"samsung": {"name": "Samsung Electronics", "tags": ["low volatility", "quarterly dividend", "Korean blue chip"], "description": "Samsung Electronics asset. Volatility 8%, risk 2/5."},
-	"kakao": {"name": "Kakao", "tags": ["medium volatility", "no dividend", "domestic platform"], "description": "Kakao asset. Volatility 13%, risk 3/5."},
-	"hyundai": {"name": "Hyundai Motor", "tags": ["medium volatility", "quarterly dividend", "export sensitive"], "description": "Hyundai Motor asset. Volatility 10%, risk 3/5."},
-	"kospi_etf": {"name": "KODEX 200", "tags": ["low volatility", "diversified", "tracks KOSPI"], "description": "KODEX 200 asset. Volatility 6%, risk 2/5."},
-	"sp500": {"name": "S&P 500 ETF", "tags": ["low volatility", "USD asset", "US diversified"], "description": "S&P 500 ETF asset. Volatility 7%, risk 2/5."},
-	"nasdaq": {"name": "Nasdaq 100 ETF", "tags": ["medium volatility", "USD asset", "tech concentrated"], "description": "Nasdaq 100 ETF asset. Volatility 11%, risk 3/5."},
-	"nvidia": {"name": "NVIDIA", "tags": ["high volatility", "AI theme", "USD asset"], "description": "NVIDIA asset. Volatility 20%, risk 4/5."},
+	"samsung": {"name": "Hanseong Electronics", "tags": ["low volatility", "quarterly dividend", "Korean blue chip"], "description": "Hanseong Electronics asset. Volatility 8%, risk 2/5."},
+	"kakao": {"name": "Daon", "tags": ["medium volatility", "no dividend", "domestic platform"], "description": "Daon asset. Volatility 13%, risk 3/5."},
+	"hyundai": {"name": "Daehyeon Motor", "tags": ["medium volatility", "quarterly dividend", "export sensitive"], "description": "Daehyeon Motor asset. Volatility 10%, risk 3/5."},
+	"kospi_etf": {"name": "KOSPI 200 ETF", "tags": ["low volatility", "diversified", "tracks KOSPI"], "description": "KOSPI 200 ETF asset. Volatility 6%, risk 2/5."},
+	"sp500": {"name": "US Large-Cap ETF", "tags": ["low volatility", "USD asset", "US diversified"], "description": "US Large-Cap ETF asset. Volatility 7%, risk 2/5."},
+	"nasdaq": {"name": "US Tech ETF", "tags": ["medium volatility", "USD asset", "tech concentrated"], "description": "US Tech ETF asset. Volatility 11%, risk 3/5."},
+	"nvidia": {"name": "Encore", "tags": ["high volatility", "AI theme", "USD asset"], "description": "Encore asset. Volatility 20%, risk 4/5."},
 	"ai_chip": {"name": "AI Semiconductor Theme", "tags": ["extreme volatility", "theme concentrated", "USD asset"], "description": "AI semiconductor theme asset. Volatility 24%, risk 5/5."},
-	"bitcoin": {"name": "Bitcoin", "tags": ["extreme volatility", "no dividend", "cycle sensitive"], "description": "Bitcoin asset. Volatility 32%, risk 5/5."},
-	"ethereum": {"name": "Ethereum", "tags": ["extreme volatility", "no dividend", "tech ecosystem"], "description": "Ethereum asset. Volatility 35%, risk 5/5."},
+	"bitcoin": {"name": "Corecoin", "tags": ["extreme volatility", "no dividend", "cycle sensitive"], "description": "Corecoin asset. Volatility 32%, risk 5/5."},
+	"ethereum": {"name": "Novacoin", "tags": ["extreme volatility", "no dividend", "tech ecosystem"], "description": "Novacoin asset. Volatility 35%, risk 5/5."},
 	"meme_coin": {"name": "Meme Coin", "tags": ["speculative", "no dividend", "social driven"], "description": "Meme coin asset. Volatility 90%, risk 5/5."},
 	"reits": {"name": "REITs ETF", "tags": ["very low volatility", "monthly dividend", "indirect real estate"], "description": "REITs ETF asset. Volatility 4%, risk 2/5."},
 	"gangnam_share": {"name": "Gangnam Apartment Fraction", "tags": ["very low volatility", "capital gain", "direct real estate"], "description": "Gangnam apartment fraction asset. Volatility 4%, risk 2/5."},
@@ -143,7 +143,7 @@ const ASSET_TEXT_EN := {
 	"seed_startup": {"name": "Friend's Startup Seed", "tags": ["extreme volatility", "no dividend", "network dependent"], "description": "Friend's startup seed asset. Volatility 55%, risk 5/5."},
 	"ai_startup": {"name": "AI Startup SAFE", "tags": ["extreme volatility", "no dividend", "long lock-up"], "description": "AI startup SAFE asset. Volatility 50%, risk 5/5."},
 	"kospi_3x": {"name": "KOSPI 3x Leverage", "tags": ["extreme volatility", "amplified swings", "long-term danger"], "description": "KOSPI 3x leveraged asset. Volatility 28%, risk 5/5."},
-	"nasdaq_3x": {"name": "Nasdaq 3x ETF", "tags": ["extreme volatility", "USD asset", "amplified swings"], "description": "Nasdaq 3x ETF asset. Volatility 34%, risk 5/5."},
+	"nasdaq_3x": {"name": "US Tech 3x ETF", "tags": ["extreme volatility", "USD asset", "amplified swings"], "description": "US Tech 3x ETF asset. Volatility 34%, risk 5/5."},
 }
 
 const ITEM_TEXT_EN := {
@@ -184,15 +184,15 @@ const THOUGHT_TEXT_EN := {
 }
 
 const NEWS_TOPICS_EN := {
-	"korean_stocks": ["Samsung Electronics", "Hyundai Motor", "Kakao", "KOSPI", "Korean blue chips", "battery stocks"],
-	"us_stocks": ["Nasdaq", "S&P 500", "NVIDIA", "Apple", "big tech", "growth stocks"],
+	"korean_stocks": ["Hanseong Electronics", "Daehyeon Motor", "Daon", "KOSPI", "Korean blue chips", "battery stocks"],
+	"us_stocks": ["Nasdaq", "S&P 500", "Encore", "Apple", "big tech", "growth stocks"],
 	"real_estate": ["Gangnam", "Seoul apartments", "jeonse market", "new districts", "redevelopment zones"],
 	"politics": ["tax policy", "financial regulation", "housing policy", "startup incentives", "crypto regulation"],
 	"social_trends": ["young investors", "salary workers", "side hustlers", "online communities", "retail traders"],
 	"ai_boom": ["AI chips", "data centers", "generative AI", "cloud infrastructure", "automation"],
 	"startup_culture": ["AI startups", "fintech startups", "Series A companies", "venture capital", "founder exits"],
 	"employment_crisis": ["job seekers", "IT hiring", "contract workers", "restructuring", "career switching"],
-	"cryptocurrency": ["Bitcoin", "Ethereum", "altcoins", "crypto exchanges", "DeFi tokens"],
+	"cryptocurrency": ["Corecoin", "Novacoin", "altcoins", "crypto exchanges", "DeFi tokens"],
 	"market": ["markets", "risk assets", "investors", "asset prices", "the economy"],
 }
 

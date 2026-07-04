@@ -157,7 +157,7 @@
     "weight": 0.8,
     "hidden": false,
     "conditions": {
-      "min_turn": 96
+      "min_turn": 10
     },
     "cooldown": 50,
     "background": "goshiwon_room",
@@ -168,7 +168,7 @@
       "geopolitics",
       "investment"
     ],
-    "description": "미국 대선 결과가 나왔다.\n한국 언론이 일제히 한미동맹과 방위비 분담금 얘기를 꺼낸다.\n원/달러 환율이 움직이기 시작했다.",
+    "description": "해외 큰 선거의 결과가 나왔다.\n한국 언론이 일제히 한미동맹과 방위비 분담금 얘기를 꺼낸다.\n원/달러 환율이 움직이기 시작했다.",
     "choices": [
       {
         "text": "환율을 관찰한다 — 달러 예금이 생각난다",

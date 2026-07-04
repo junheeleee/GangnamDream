@@ -120,7 +120,7 @@
   {
     "id": "gambling_007",
     "title": "Sports Betting Link in Group Chat",
-    "description": "Unknown number dropped a link in the chat.\n'100% analysis for this week. If you watch Kakao closely, you'd know.'\n\nEleven people in the room.\nSomeone commented 'I hit it last week.'\n\n{name} spent three seconds debating whether to click.",
+    "description": "Unknown number dropped a link in the chat.\n'100% analysis for this week. If you watch Daon closely, you'd know.'\n\nEleven people in the room.\nSomeone commented 'I hit it last week.'\n\n{name} spent three seconds debating whether to click.",
     "choices": [
       {
         "text": "Ignore the link. Leave the group chat.",
@@ -246,7 +246,7 @@
   {
     "id": "finance_022",
     "title": "ETF Screenshot",
-    "description": "A 20-year S&P500 ETF return chart was posted to the finance community.\n600% over 20 years. Hundreds of comments.\n\n'Should've started earlier.' {name}'s hands are still empty.\nLooking at the screenshot triggered an urge to start something, now.\nStart diversified investing immediately — or study more first?",
+    "description": "A 20-year US Large-Cap ETF return chart was posted to the finance community.\n600% over 20 years. Hundreds of comments.\n\n'Should've started earlier.' {name}'s hands are still empty.\nLooking at the screenshot triggered an urge to start something, now.\nStart diversified investing immediately — or study more first?",
     "choices": [
       {
         "text": "Analyze the ETF's underlying holdings properly.",
@@ -390,7 +390,7 @@
   {
     "id": "inv_etf_study",
     "title": "Starting to Learn ETFs",
-    "description": "11 PM. The YouTube algorithm recommended 'The Complete S&P500 ETF Investing Method.' Clicked out of curiosity and watched three videos back to back. The concept of investing in the whole market without the stress of picking individual stocks sounded appealing. {name} put down the beer and pulled out a notepad.",
+    "description": "11 PM. The YouTube algorithm recommended 'The Complete US Large-Cap ETF Investing Method.' Clicked out of curiosity and watched three videos back to back. The concept of investing in the whole market without the stress of picking individual stocks sounded appealing. {name} put down the beer and pulled out a notepad.",
     "choices": [
       {
         "text": "Start studying ETFs seriously right now.",
@@ -488,7 +488,7 @@
   {
     "id": "inv_dca_commitment",
     "title": "DCA Commitment",
-    "description": "Auto-transfer scheduled for the day after payday. ₩300,000 monthly, S&P500 ETF. Finally decided to believe that consistency matters more than returns. {name} screenshotted the settings screen and made a quiet promise — this time, no cancelling halfway through.",
+    "description": "Auto-transfer scheduled for the day after payday. ₩300,000 monthly, US Large-Cap ETF. Finally decided to believe that consistency matters more than returns. {name} screenshotted the settings screen and made a quiet promise — this time, no cancelling halfway through.",
     "choices": [
       {
         "text": "Set the auto-transfer and forget about it.",
@@ -503,7 +503,7 @@
   {
     "id": "inv_crypto_mania",
     "title": "Crypto Mania",
-    "description": "The whole social feed is crypto. High school classmate posted a KakaoTalk status about making ₩30M on Bitcoin. A junior at work talks about nothing but coins at lunch. Am you the only one who doesn't know? Am you falling behind? {name} downloaded the Upbit app for the first time.",
+    "description": "The whole social feed is crypto. High school classmate posted a KakaoTalk status about making ₩30M on Corecoin. A junior at work talks about nothing but coins at lunch. Am you the only one who doesn't know? Am you falling behind? {name} downloaded the Upbit app for the first time.",
     "choices": [
       {
         "text": "Get in a little — quiet the FOMO.",
@@ -522,7 +522,7 @@
   {
     "id": "inv_overseas_stock",
     "title": "First Overseas Stock",
-    "description": "Bought Apple stock for the first time. Paying in dollars, waking up at 3 AM for US market close, and having to self-report capital gains tax above ₩2.5M — {name} found all of this out today. More complex than expected. {name} sat with the currency converter open, staring blankly.",
+    "description": "Bought Orca stock for the first time. Paying in dollars, waking up at 3 AM for US market close, and having to self-report capital gains tax above ₩2.5M — {name} found all of this out today. More complex than expected. {name} sat with the currency converter open, staring blankly.",
     "choices": [
       {
         "text": "Study all of it — exchange rate, taxes, time zones.",

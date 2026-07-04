@@ -62,7 +62,7 @@
   {
     "id": "kx_us_korea_news",
     "title": "Korea-US Relations",
-    "description": "US election results are in.\nKorean media pivots instantly to the Korea-US alliance and defense cost-sharing.\nThe won-dollar exchange rate starts to move.",
+    "description": "A major overseas election result came in.\nKorean media all pivot to talk of the alliance and defense cost-sharing.\nThe won-dollar exchange rate starts to move.",
     "choices": [
       {
         "text": "Watch the exchange rate — USD deposits cross my mind",
@@ -72,6 +72,9 @@
         "text": "Focus on my own life — can't change superpower politics",
         "result_text": "Turned off the news.\n\nKorea-US relations, exchange rates — things you can't change.\nDecided to focus on what you can change. Got back to today's task."
       }
-    ]
+    ],
+    "conditions": {
+      "min_turn": 10
+    }
   }
 ]
