@@ -2,7 +2,7 @@
   {
     "id": "arc_minseo_01_meet",
     "title": "강남에 먼저 도착한 사람",
-    "background": "gangnam_day",
+    "background": "meeting",
     "portrait": "minseo",
     "category": "story",
     "rarity": "story",
@@ -133,7 +133,7 @@
       "minseo"
     ],
     "portrait": "minseo",
-    "background": "gangnam_day",
+    "background": "cafe",
     "description": "강남까지 얼마 남지 않았다.\n\n숫자가 거의 다 찼을 때, 이민서에게서 연락이 왔다.\n\"소식 들었어요. 거의 다 오셨다면서요.\"\n\n그때 그 카페에서 다시 만났다.\n\"축하해요. 진심으로.\"\n그러더니 잠깐 말이 없었다.\n\"그때 제가 했던 말, 기억나요?\"\n\n{name}은 기억하고 있었다. '목표가 사라질 때를 준비하라'던 말.\n이제는 — 그게 무슨 뜻인지 조금 알 것 같았다.",
     "choices": [
       {

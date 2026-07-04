@@ -538,7 +538,7 @@
   {
     "id": "drama_summer_heat",
     "title": "폭염 주의보",
-    "background": "street",
+    "background": "heatwave_city",
     "portrait": "player_tired",
     "category": "health",
     "rarity": "common",

@@ -10,7 +10,7 @@
       "min_turn": 4
     },
     "cooldown": 24,
-    "background": "street",
+    "background": "hagwon_street",
     "portrait": "player_normal",
     "tags": [
       "korea",
@@ -47,7 +47,7 @@
       "min_turn": 41
     },
     "cooldown": 48,
-    "background": "street",
+    "background": "suneung_test_hall",
     "portrait": "player_normal",
     "tags": [
       "korea",
@@ -122,7 +122,7 @@
       "min_turn": 8
     },
     "cooldown": 30,
-    "background": "cafe",
+    "background": "hagwon_street",
     "portrait": "player_normal",
     "tags": [
       "korea",

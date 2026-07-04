@@ -15,11 +15,26 @@ const CHIP_TEX_BY_STAKE := {
 }
 
 enum Phase { IDLE, ROLLING, RESULT }
+enum PadBetMode { SIMPLE, FACE, TOTAL }
 
 const STAKE_OPTIONS := [10_000, 50_000, 100_000, 500_000, 1_000_000]
 const ROLL_DURATION := 1.35
 const ROLL_TICK := 0.075
 const HISTORY_MAX := 8
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
+const PAD_SIMPLE_BETS := [
+	[DAI_SAI.BET_BIG, -1],
+	[DAI_SAI.BET_SMALL, -1],
+	[DAI_SAI.BET_ODD, -1],
+	[DAI_SAI.BET_EVEN, -1],
+	[DAI_SAI.BET_ANY_TRIPLE, -1],
+]
+const PAD_FACE_TYPES := [
+	DAI_SAI.BET_SINGLE,
+	DAI_SAI.BET_PAIR,
+	DAI_SAI.BET_SPECIFIC_TRIPLE,
+]
 
 var _rng := RandomNumberGenerator.new()
 
@@ -49,8 +64,15 @@ var _balance_lbl: Label
 var _roll_btn: Button
 var _history_box: HBoxContainer
 var _bet_info_lbl: Label
+var _pad_hint_lbl: RichTextLabel
 var _stake_btns: Array = []
 var _bet_btns: Array = []
+var _pad_mode: int = PadBetMode.SIMPLE
+var _pad_simple_idx: int = 0
+var _pad_face: int = 1
+var _pad_face_kind_idx: int = 0
+var _pad_total: int = 10
+var _pad_navigation_active: bool = false
 
 func _ready() -> void:
 	_rng.randomize()
@@ -90,6 +112,12 @@ func open() -> void:
 	_wins = 0
 	_losses = 0
 	_history = []
+	_pad_mode = PadBetMode.SIMPLE
+	_pad_simple_idx = 0
+	_pad_face = 1
+	_pad_face_kind_idx = 0
+	_pad_total = 10
+	_pad_navigation_active = false
 	visible = true
 	set_process(false)
 	TutorialOverlay.maybe_show("daisai", self)
@@ -118,11 +146,219 @@ func _process(delta: float) -> void:
 		set_process(false)
 		_finish_roll()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_up") \
+			or event.is_action_pressed("ui_down") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	if event.is_action_pressed("gd_tab_prev"):
+		handled = _pad_cycle_mode(-1)
+	elif event.is_action_pressed("gd_tab_next"):
+		handled = _pad_cycle_mode(1)
+	elif event.is_action_pressed("ui_left"):
+		handled = _pad_move(-1, 0)
+	elif event.is_action_pressed("ui_right"):
+		handled = _pad_move(1, 0)
+	elif event.is_action_pressed("ui_up"):
+		handled = _pad_move(0, -1)
+	elif event.is_action_pressed("ui_down"):
+		handled = _pad_move(0, 1)
+	elif event.is_action_pressed("ui_accept"):
+		handled = _pad_accept()
+	elif event.is_action_pressed("ui_cancel"):
+		handled = _pad_cancel()
+	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+		handled = _pad_cycle_stake(1)
+	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+		handled = _pad_show_rules()
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _pad_cycle_mode(direction: int) -> bool:
+	if _phase == Phase.ROLLING:
+		return true
+	_pad_mode = int(posmod(_pad_mode + direction, 3))
+	AudioManager.play_ui_click()
+	_refresh()
+	_flash_msg(_tr("%s 베팅 모드", "%s betting mode") % _pad_mode_label(), "#f2c45f")
+	return true
+
+func _pad_move(dx: int, dy: int) -> bool:
+	if _phase == Phase.ROLLING:
+		return true
+	match _pad_mode:
+		PadBetMode.SIMPLE:
+			if dx != 0:
+				_pad_simple_idx = int(posmod(_pad_simple_idx + dx, PAD_SIMPLE_BETS.size()))
+			elif dy != 0:
+				return _pad_cycle_mode(dy)
+		PadBetMode.FACE:
+			if dx != 0:
+				_pad_face = _wrap_range(_pad_face, 1, 6, dx)
+			elif dy != 0:
+				_pad_face_kind_idx = int(posmod(_pad_face_kind_idx + dy, PAD_FACE_TYPES.size()))
+		PadBetMode.TOTAL:
+			var idx := _pad_total - 4
+			if dx != 0:
+				idx = int(posmod(idx + dx, 14))
+			elif dy != 0:
+				idx = clamp(idx + dy * 7, 0, 13)
+			_pad_total = idx + 4
+	AudioManager.play_ui_click()
+	_refresh()
+	_flash_msg(_tr("커서: %s", "Cursor: %s") % _pad_current_bet_label(), "#cfd5e5")
+	return true
+
+func _pad_accept() -> bool:
+	if _phase == Phase.ROLLING:
+		return true
+	if _phase == Phase.RESULT:
+		_phase = Phase.IDLE
+		_refresh()
+		_flash_msg(_tr("다음 베팅을 선택하세요.", "Choose the next bet."), "#d8dbe8")
+		return true
+
+	var bet := _pad_current_bet()
+	var t := int(bet.get("type", DAI_SAI.BET_BIG))
+	var selected := int(bet.get("selected", -1))
+	if _bet_type == t and _selected == selected:
+		_do_roll()
+	else:
+		_select_bet(t, selected)
+		_flash_msg(
+			_tr("%s 선택. %s를 한 번 더 누르면 굴립니다.", "%s selected. Press %s again to roll.") \
+					% [DAI_SAI.label_for_bet(t, selected), ControllerHints.south()],
+			"#f2c45f"
+		)
+	return true
+
+func _pad_cancel() -> bool:
+	if _phase == Phase.ROLLING:
+		return true
+	if _phase == Phase.RESULT:
+		_phase = Phase.IDLE
+		_refresh()
+		return true
+	if _bet_type == DAI_SAI.BET_BIG and _selected == -1 and _stake == 50_000:
+		_on_exit()
+	else:
+		_reset_default_bet()
+		_flash_msg(_tr("기본 베팅으로 되돌렸습니다.", "Default bet restored."), "#d8dbe8")
+	return true
+
+func _pad_cycle_stake(direction: int) -> bool:
+	if _phase == Phase.ROLLING:
+		return true
+	var idx := STAKE_OPTIONS.find(_stake)
+	if idx < 0:
+		idx = 1
+	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
+	_select_stake(int(STAKE_OPTIONS[idx]))
+	_flash_msg(_tr("베팅 단위: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
+	return true
+
+func _pad_show_rules() -> bool:
+	if _phase == Phase.ROLLING:
+		return true
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("daisai", self)
+	return true
+
+func _wrap_range(value: int, min_value: int, max_value: int, delta: int) -> int:
+	var span := max_value - min_value + 1
+	return min_value + int(posmod(value - min_value + delta, span))
+
+func _pad_current_bet() -> Dictionary:
+	match _pad_mode:
+		PadBetMode.FACE:
+			return {
+				"type": int(PAD_FACE_TYPES[_pad_face_kind_idx]),
+				"selected": _pad_face,
+			}
+		PadBetMode.TOTAL:
+			return {
+				"type": DAI_SAI.BET_TOTAL,
+				"selected": _pad_total,
+			}
+	var item: Array = PAD_SIMPLE_BETS[_pad_simple_idx]
+	return {
+		"type": int(item[0]),
+		"selected": int(item[1]),
+	}
+
+func _pad_current_bet_label() -> String:
+	var bet := _pad_current_bet()
+	return DAI_SAI.label_for_bet(int(bet.get("type", DAI_SAI.BET_BIG)), int(bet.get("selected", -1)))
+
+func _pad_mode_label() -> String:
+	match _pad_mode:
+		PadBetMode.FACE:
+			return _tr("숫자/페어", "Face")
+		PadBetMode.TOTAL:
+			return _tr("합계", "Total")
+	return _tr("간편", "Simple")
+
+func _sync_pad_cursor_to_bet(t: int, selected: int) -> void:
+	for i in range(PAD_SIMPLE_BETS.size()):
+		var item: Array = PAD_SIMPLE_BETS[i]
+		if int(item[0]) == t and int(item[1]) == selected:
+			_pad_mode = PadBetMode.SIMPLE
+			_pad_simple_idx = i
+			return
+	var face_idx := PAD_FACE_TYPES.find(t)
+	if face_idx >= 0:
+		_pad_mode = PadBetMode.FACE
+		_pad_face_kind_idx = face_idx
+		_pad_face = int(clamp(selected, 1, 6))
+		return
+	if t == DAI_SAI.BET_TOTAL:
+		_pad_mode = PadBetMode.TOTAL
+		_pad_total = int(clamp(selected, 4, 17))
+
+func _reset_default_bet(play_sound: bool = true) -> void:
+	if _phase == Phase.ROLLING:
+		return
+	_bet_type = DAI_SAI.BET_BIG
+	_selected = -1
+	_stake = 50_000
+	_sync_pad_cursor_to_bet(_bet_type, _selected)
+	if play_sound:
+		AudioManager.play("casino_bet")
+	_refresh()
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
+
 func _select_bet(t: int, selected: int = -1) -> void:
 	if _phase != Phase.IDLE:
 		return
 	_bet_type = t
 	_selected = selected
+	_sync_pad_cursor_to_bet(t, selected)
 	AudioManager.play("casino_bet")
 	_refresh()
 
@@ -350,6 +586,17 @@ func _build_ui() -> void:
 	_f(_balance_lbl)
 	info_v.add_child(_balance_lbl)
 
+	_pad_hint_lbl = RichTextLabel.new()
+	_pad_hint_lbl.bbcode_enabled = true
+	_pad_hint_lbl.scroll_active = false
+	_pad_hint_lbl.fit_content = true
+	_pad_hint_lbl.visible = false
+	_pad_hint_lbl.custom_minimum_size = Vector2(0, 18)
+	_pad_hint_lbl.add_theme_font_size_override("normal_font_size", 11)
+	_pad_hint_lbl.add_theme_color_override("default_color", Color("#aeb6ca"))
+	_f(_pad_hint_lbl, true)
+	info_v.add_child(_pad_hint_lbl)
+
 	_history_box = HBoxContainer.new()
 	_history_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	_history_box.add_theme_constant_override("separation", 6)
@@ -432,10 +679,7 @@ func _add_stake_and_action_rows(table: VBoxContainer) -> void:
 
 	var reset_btn := _make_button(_tr("기본 베팅", "Default Bet"), "#161a25", "#8a93a8", 160, 54)
 	reset_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	reset_btn.pressed.connect(func():
-		_select_bet(DAI_SAI.BET_BIG, -1)
-		_select_stake(50_000)
-	)
+	reset_btn.pressed.connect(func(): _reset_default_bet())
 	action_row.add_child(reset_btn)
 
 	var close_btn := _make_button(_tr("카지노 허브로", "Casino Hub"), "#2a151a", "#e85d5d", 180, 54)
@@ -461,6 +705,7 @@ func _bet_btn(text: String, t: int, selected: int, bg_hex: String, accent_hex: S
 func _make_chip_button(amount: int) -> Button:
 	var btn := Button.new()
 	btn.custom_minimum_size = Vector2(150, 42)
+	btn.focus_mode = Control.FOCUS_NONE
 	btn.text = "%s" % GameState.format_money(float(amount))
 	btn.icon = CHIP_TEX_BY_STAKE.get(amount, null)
 	btn.expand_icon = true
@@ -472,6 +717,7 @@ func _make_button(text: String, bg_hex: String, accent_hex: String, w: int, h: i
 	var btn := Button.new()
 	btn.text = text
 	btn.custom_minimum_size = Vector2(w, h)
+	btn.focus_mode = Control.FOCUS_NONE
 	btn.add_theme_font_size_override("font_size", 13)
 	_apply_button_style(btn, bg_hex, accent_hex, false)
 	btn.add_theme_color_override("font_color", Color("#eef2ff"))
@@ -479,13 +725,18 @@ func _make_button(text: String, bg_hex: String, accent_hex: String, w: int, h: i
 	_f(btn, true)
 	return btn
 
-func _apply_button_style(btn: Button, bg_hex: String, accent_hex: String, selected: bool) -> void:
+func _apply_button_style(btn: Button, bg_hex: String, accent_hex: String, selected: bool, pad_cursor: bool = false) -> void:
 	var base := Color.html(bg_hex)
 	var accent := Color.html(accent_hex)
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = base.lightened(0.16) if selected else base
-	sb.border_color = accent if selected else accent.darkened(0.25)
-	sb.set_border_width_all(2 if selected else 1)
+	if pad_cursor:
+		sb.bg_color = sb.bg_color.lightened(0.08)
+		sb.border_color = Color("#f2c45f")
+		sb.set_border_width_all(3)
+	else:
+		sb.border_color = accent if selected else accent.darkened(0.25)
+		sb.set_border_width_all(2 if selected else 1)
 	sb.set_corner_radius_all(7)
 	var hover := sb.duplicate()
 	hover.bg_color = sb.bg_color.lightened(0.12)
@@ -538,6 +789,7 @@ func _refresh() -> void:
 		_roll_btn.text = "ROLLING..." if _phase == Phase.ROLLING else "ROLL"
 	_update_bet_buttons()
 	_update_stake_buttons()
+	_refresh_pad_hint()
 	_refresh_history()
 	if is_instance_valid(_dice_ctrl):
 		_dice_ctrl.queue_redraw()
@@ -616,16 +868,42 @@ func _draw_daisai_chip(ctrl: Control, center: Vector2, stake: int, size: float) 
 		ctrl.draw_circle(p, size * 0.13, col.darkened(0.20))
 
 func _update_bet_buttons() -> void:
+	var cursor := _pad_current_bet()
+	var show_cursor := _should_show_pad_cursor()
 	for entry in _bet_btns:
 		var btn := entry["btn"] as Button
 		var selected := int(entry["type"]) == _bet_type and int(entry["selected"]) == _selected
-		_apply_button_style(btn, str(entry["bg"]), str(entry["accent"]), selected)
+		var pad_cursor := show_cursor \
+				and int(entry["type"]) == int(cursor.get("type", -999)) \
+				and int(entry["selected"]) == int(cursor.get("selected", -999))
+		_apply_button_style(btn, str(entry["bg"]), str(entry["accent"]), selected, pad_cursor)
 
 func _update_stake_buttons() -> void:
 	for entry in _stake_btns:
 		var btn := entry["btn"] as Button
 		var selected := int(entry["amount"]) == _stake
 		_apply_button_style(btn, "#111827", "#4be37d" if selected else "#4a5568", selected)
+
+func _refresh_pad_hint() -> void:
+	if not is_instance_valid(_pad_hint_lbl):
+		return
+	var show_hint := _should_show_pad_cursor()
+	_pad_hint_lbl.visible = show_hint
+	if not show_hint:
+		return
+	_pad_hint_lbl.bbcode_text = _tr(
+		"[b]%s[/b] · %s   [%s/%s] 모드  [%s] 선택/굴림  [%s] 칩  [%s] 규칙  [%s] 뒤로",
+		"[b]%s[/b] · %s   [%s/%s] Mode  [%s] Select/Roll  [%s] Stake  [%s] Rules  [%s] Back"
+	) % [
+		_pad_mode_label(),
+		_pad_current_bet_label(),
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.south(),
+		ControllerHints.west(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	]
 
 func _refresh_history() -> void:
 	if not is_instance_valid(_history_box):

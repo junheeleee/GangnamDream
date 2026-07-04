@@ -62,6 +62,14 @@ func _run() -> void:
 		},
 		{
 			"mode": "story",
+			"name": "story_04b_meeting_minseo",
+			"background": "res://assets/backgrounds/investment_meeting.png",
+			"portrait": "res://assets/characters/npc_minseo.png",
+			"title": "투자 세미나 / 이민서",
+			"body": "이민서는 한지연의 위험한 old-money 아우라와 달리, 강남에 먼저 도착한 38세 실무형 멘토로 읽혀야 한다."
+		},
+		{
+			"mode": "story",
 			"name": "story_05_family_father",
 			"background": "res://assets/backgrounds/family_living_room.png",
 			"portrait": "res://assets/characters/npc_father.png",

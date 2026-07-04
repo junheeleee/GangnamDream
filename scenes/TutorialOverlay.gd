@@ -49,23 +49,22 @@ static func _localized_slide(icon: String, title_ko: String, title_en: String, b
 
 static func _clean_body_for_surface(text: String) -> String:
 	var out := text
-	var en := LocaleManager.is_english()
 	var replacements := [
 		["7️⃣ 7️⃣ 7️⃣", "777"],
 		["🃏 🃏 🃏", "BAR BAR BAR"],
-		["🍒 🍒 🍒", "Cherry Cherry Cherry" if en else "체리 체리 체리"],
-		["🔔 🔔 🔔", "Bell Bell Bell" if en else "벨 벨 벨"],
-		["🍒 🍒", "Two cherries" if en else "체리 2개"],
+		["🍒 🍒 🍒", LocaleManager.ui("체리 체리 체리", "Cherry Cherry Cherry")],
+		["🔔 🔔 🔔", LocaleManager.ui("벨 벨 벨", "Bell Bell Bell")],
+		["🍒 🍒", LocaleManager.ui("체리 2개", "Two cherries")],
 		["1️⃣", "1."],
 		["2️⃣", "2."],
 		["3️⃣", "3."],
 		["7️⃣", "7"],
-		["🍒", "Cherry" if en else "체리"],
-		["🔔", "Bell" if en else "벨"],
-		["💡 ", "Tip: " if en else "힌트: "],
-		["💡", "Tip:" if en else "힌트:"],
-		["⚠ ", "Warning: " if en else "주의: "],
-		["⚠", "Warning:" if en else "주의:"],
+		["🍒", LocaleManager.ui("체리", "Cherry")],
+		["🔔", LocaleManager.ui("벨", "Bell")],
+		["💡 ", LocaleManager.ui("힌트: ", "Tip: ")],
+		["💡", LocaleManager.ui("힌트:", "Tip:")],
+		["⚠ ", LocaleManager.ui("주의: ", "Warning: ")],
+		["⚠", LocaleManager.ui("주의:", "Warning:")],
 		["🎉 ", ""],
 	]
 	for pair in replacements:

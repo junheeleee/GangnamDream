@@ -24,6 +24,12 @@ const PUSH_RETURN  := 1.0   # 타이: 베팅 반환
 const SHOE_CUT     := 0.25
 
 const STAKE_OPTIONS := [10_000, 50_000, 100_000, 500_000, 1_000_000]
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
+const PAD_ACTION_HIT := "hit"
+const PAD_ACTION_STAND := "stand"
+const PAD_ACTION_DOUBLE := "double"
+const PAD_ACTION_SPLIT := "split"
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _phase: int     = Phase.BETTING
@@ -44,6 +50,8 @@ var _pushes: int    = 0
 var _hand_history: Array = []  # 최근 10핸드
 
 var _rng := RandomNumberGenerator.new()
+var _pad_navigation_active: bool = false
+var _pad_action_idx: int = 0
 
 # UI
 var _font: FontFile
@@ -82,6 +90,8 @@ func open() -> void:
 	_rounds = 0; _net = 0.0; _wins = 0; _losses = 0; _pushes = 0
 	_hand_history = []
 	_phase = Phase.BETTING
+	_pad_navigation_active = false
+	_pad_action_idx = 0
 	visible = true
 	TutorialOverlay.maybe_show("blackjack", self)
 	_render()
@@ -91,6 +101,134 @@ func _on_exit() -> void:
 	MetaProgression.record_minigame_play("blackjack")
 	visible = false
 	closed.emit()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	match _phase:
+		Phase.BETTING:
+			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+				handled = _pad_cycle_stake(-1)
+			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+				handled = _pad_cycle_stake(1)
+			elif event.is_action_pressed("ui_accept"):
+				handled = _pad_deal()
+			elif event.is_action_pressed("ui_cancel"):
+				handled = _pad_exit()
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+		Phase.PLAYER_TURN:
+			if event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+				handled = _pad_move_action(-1)
+			elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right") or _joy_button_pressed(event, JOY_BUTTON_WEST):
+				handled = _pad_move_action(1)
+			elif event.is_action_pressed("ui_accept"):
+				handled = _pad_accept_action()
+			elif event.is_action_pressed("ui_cancel"):
+				handled = _pad_exit()
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+		Phase.RESULT:
+			if event.is_action_pressed("ui_accept"):
+				handled = _pad_next_hand()
+			elif event.is_action_pressed("ui_cancel"):
+				handled = _pad_exit()
+			elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+				handled = _pad_show_rules()
+		_:
+			if event.is_action_pressed("ui_cancel"):
+				handled = _pad_exit()
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _pad_cycle_stake(direction: int) -> bool:
+	var affordable: Array[int] = []
+	for s in STAKE_OPTIONS:
+		if GameState.money >= float(s):
+			affordable.append(int(s))
+	if affordable.is_empty():
+		_flash(_tr("현금 부족", "Insufficient cash"), "#e85d5d")
+		return true
+	var idx := affordable.find(_stake)
+	if idx < 0:
+		idx = 0
+	idx = int(posmod(idx + direction, affordable.size()))
+	_stake = int(affordable[idx])
+	AudioManager.play("casino_coin")
+	_flash(_tr("베팅 금액: %s", "Stake: %s") % GameState.format_money(float(_stake)), "#d8dbe8")
+	_render()
+	return true
+
+func _pad_deal() -> bool:
+	_deal()
+	return true
+
+func _pad_move_action(direction: int) -> bool:
+	var actions := _available_pad_actions()
+	if actions.is_empty():
+		return true
+	_pad_action_idx = int(posmod(_pad_action_idx + direction, actions.size()))
+	_render()
+	return true
+
+func _pad_accept_action() -> bool:
+	var actions := _available_pad_actions()
+	if actions.is_empty():
+		return true
+	_sync_pad_action_idx(actions)
+	var action := str(actions[_pad_action_idx])
+	match action:
+		PAD_ACTION_HIT:
+			_hit()
+		PAD_ACTION_STAND:
+			_stand()
+		PAD_ACTION_DOUBLE:
+			_double_down()
+		PAD_ACTION_SPLIT:
+			_do_split()
+	return true
+
+func _pad_next_hand() -> bool:
+	_phase = Phase.BETTING
+	_pad_action_idx = 0
+	_render()
+	return true
+
+func _pad_exit() -> bool:
+	_on_exit()
+	return true
+
+func _pad_show_rules() -> bool:
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("blackjack", self)
+	return true
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
 
 # ── 딜 ──────────────────────────────────────────────────────
 func _deal() -> void:
@@ -198,6 +336,40 @@ func _do_split() -> void:
 
 func _split_hand() -> Array:
 	return _split if _split_active else _player
+
+func _available_pad_actions() -> Array:
+	if _phase != Phase.PLAYER_TURN:
+		return []
+	var hand := _split_hand()
+	var actions: Array = [PAD_ACTION_HIT, PAD_ACTION_STAND]
+	if _can_double_down(hand):
+		actions.append(PAD_ACTION_DOUBLE)
+	if _can_split():
+		actions.append(PAD_ACTION_SPLIT)
+	_sync_pad_action_idx(actions)
+	return actions
+
+func _sync_pad_action_idx(actions: Array) -> void:
+	if actions.is_empty():
+		_pad_action_idx = 0
+	else:
+		_pad_action_idx = clampi(_pad_action_idx, 0, actions.size() - 1)
+
+func _can_double_down(hand: Array) -> bool:
+	return hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
+
+func _can_split() -> bool:
+	if not (_split.is_empty() and not _split_active and _player.size() == 2 and GameState.money >= float(_stake)):
+		return false
+	var v0: int = int(_player[0]) % 13
+	var v1: int = int(_player[1]) % 13
+	return (mini(v0 + 1, 10) == mini(v1 + 1, 10)) or (v0 >= 9 and v1 >= 9)
+
+func _is_pad_action_active(action: String, actions: Array) -> bool:
+	if not _should_show_pad_cursor() or actions.is_empty():
+		return false
+	_sync_pad_action_idx(actions)
+	return str(actions[_pad_action_idx]) == action
 
 func _next_or_dealer() -> void:
 	if _split_active and not _split.is_empty():
@@ -405,6 +577,8 @@ func _render_betting() -> void:
 		func(): _set_stake_and_deal(_stake), "#1a3a1a", "#3de87a")
 	deal_btn.custom_minimum_size = Vector2(0, 48)
 	deal_btn.disabled = GameState.money < float(_stake)
+	if _should_show_pad_cursor():
+		_mark_pad_button(deal_btn)
 	_f(deal_btn, true); vb.add_child(deal_btn)
 
 	var help_btn := _make_btn(_tr("규칙", "Rules"), func(): TutorialOverlay.force_show("blackjack", self), "#0a0a1a", "#5a4510")
@@ -414,6 +588,18 @@ func _render_betting() -> void:
 	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(0, 44)
 	vb.add_child(exit_btn)
+
+	_add_pad_hint(vb, _tr(
+		"[%s] 딜  [%s/%s/%s] 금액  [%s] 규칙  [%s] 나가기",
+		"[%s] Deal  [%s/%s/%s] Stake  [%s] Rules  [%s] Exit"
+	) % [
+		ControllerHints.south(),
+		ControllerHints.west(),
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	])
 
 func _set_stake_and_deal(s: int) -> void:
 	_stake = s
@@ -448,6 +634,7 @@ func _render_game() -> void:
 
 	# 액션 버튼
 	if _phase == Phase.PLAYER_TURN:
+		var pad_actions := _available_pad_actions()
 		var btn_row := HBoxContainer.new()
 		btn_row.add_theme_constant_override("separation", 8)
 		btn_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -455,34 +642,50 @@ func _render_game() -> void:
 
 		var hit_btn := _make_btn(_tr("히트", "Hit"), _hit, "#1a2a3a", "#3a7abf")
 		hit_btn.custom_minimum_size = Vector2(80, 40)
+		if _is_pad_action_active(PAD_ACTION_HIT, pad_actions):
+			_mark_pad_button(hit_btn)
 		btn_row.add_child(hit_btn)
 
 		var stand_btn := _make_btn(_tr("스탠드", "Stand"), _stand, "#1a3a1a", "#3a9a3a")
 		stand_btn.custom_minimum_size = Vector2(80, 40)
+		if _is_pad_action_active(PAD_ACTION_STAND, pad_actions):
+			_mark_pad_button(stand_btn)
 		btn_row.add_child(stand_btn)
 
 		# 더블다운: 첫 두 장이고 현금 있을 때
-		var can_dbl: bool = cur_hand.size() == 2 and GameState.money >= float(_stake) and not _dbl_down
+		var can_dbl: bool = _can_double_down(cur_hand)
 		var dbl_btn := _make_btn(_tr("더블 x2", "Double x2"), _double_down, "#2a2a0a", "#9a9a2a")
 		dbl_btn.custom_minimum_size = Vector2(80, 40)
 		dbl_btn.disabled = not can_dbl
+		if _is_pad_action_active(PAD_ACTION_DOUBLE, pad_actions):
+			_mark_pad_button(dbl_btn)
 		btn_row.add_child(dbl_btn)
 
 		# 스플릿: 첫 두 장 같은 값
-		var can_split: bool = (_split.is_empty() and not _split_active and _player.size() == 2
-			and GameState.money >= float(_stake))
-		if can_split:
-			var v0: int = int(_player[0]) % 13
-			var v1: int = int(_player[1]) % 13
-			can_split = (mini(v0+1,10) == mini(v1+1,10)) or (v0 >= 9 and v1 >= 9)
+		var can_split: bool = _can_split()
 		var split_btn := _make_btn(_tr("스플릿", "Split"), _do_split, "#2a0a2a", "#8a3a8a")
 		split_btn.custom_minimum_size = Vector2(80, 40)
 		split_btn.disabled = not can_split
+		if _is_pad_action_active(PAD_ACTION_SPLIT, pad_actions):
+			_mark_pad_button(split_btn)
 		btn_row.add_child(split_btn)
 
 		var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 		exit_btn.custom_minimum_size = Vector2(70, 40)
 		btn_row.add_child(exit_btn)
+
+		_add_pad_hint(vb, _tr(
+			"[%s/%s/%s/%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기",
+			"[%s/%s/%s/%s] Action  [%s] Confirm  [%s] Rules  [%s] Exit"
+		) % [
+			"D-pad",
+			ControllerHints.shoulder_l(),
+			ControllerHints.shoulder_r(),
+			ControllerHints.west(),
+			ControllerHints.south(),
+			ControllerHints.north(),
+			ControllerHints.east(),
+		])
 
 func _render_result() -> void:
 	var vb := _make_vbox(14)
@@ -508,10 +711,16 @@ func _render_result() -> void:
 		_phase = Phase.BETTING; _render(), "#1a3a1a", "#3de87a")
 	again_btn.custom_minimum_size = Vector2(0, 48)
 	again_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _should_show_pad_cursor():
+		_mark_pad_button(again_btn)
 	_f(again_btn, true); btn_row.add_child(again_btn)
 	var exit_btn := _make_btn(_tr("나가기", "Exit"), _on_exit, "#1a0e0e", "#5a2a2a")
 	exit_btn.custom_minimum_size = Vector2(90, 48)
 	btn_row.add_child(exit_btn)
+	_add_pad_hint(vb, _tr(
+		"[%s] 다음 핸드  [%s] 규칙  [%s] 나가기",
+		"[%s] Next Hand  [%s] Rules  [%s] Exit"
+	) % [ControllerHints.south(), ControllerHints.north(), ControllerHints.east()])
 
 func _add_blackjack_betting_mat(parent: VBoxContainer) -> void:
 	var mat := Control.new()
@@ -945,6 +1154,7 @@ func _make_btn(label: String, cb: Callable, bg: String, border: String) -> Butto
 	var btn := Button.new()
 	btn.text = label
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_NONE
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg); st.border_color = Color(border)
 	st.set_border_width_all(1); st.set_corner_radius_all(6)
@@ -964,6 +1174,35 @@ func _make_btn(label: String, cb: Callable, bg: String, border: String) -> Butto
 	if _font: btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(cb)
 	return btn
+
+func _add_pad_hint(parent: VBoxContainer, text: String) -> void:
+	if not _should_show_pad_cursor():
+		return
+	var hint := RichTextLabel.new()
+	hint.bbcode_enabled = true
+	hint.fit_content = true
+	hint.scroll_active = false
+	hint.text = text
+	hint.add_theme_font_size_override("normal_font_size", 11)
+	hint.add_theme_color_override("default_color", Color("#aeb6ca"))
+	_f(hint, true)
+	parent.add_child(hint)
+
+func _mark_pad_button(btn: Button) -> void:
+	var base := btn.get_theme_stylebox("normal")
+	if not base:
+		return
+	var st := base.duplicate()
+	if st is StyleBoxFlat:
+		var flat := st as StyleBoxFlat
+		flat.bg_color = flat.bg_color.lightened(0.08)
+		flat.border_color = Color("#f0b429")
+		flat.set_border_width_all(3)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_stylebox_override("focus", st)
+	btn.add_theme_stylebox_override("disabled", st)
 
 func _sep() -> HSeparator:
 	var s := HSeparator.new()

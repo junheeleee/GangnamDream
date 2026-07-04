@@ -7,7 +7,7 @@
     "weight": 0,
     "hidden": true,
     "portrait": "player_normal",
-    "background": "gangnam_night",
+    "background": "realestate_office",
     "conditions": {},
     "cooldown": 9999,
     "description": "강남의 한 부동산 사무실. 저녁.\n\n중개사가 서류를 정리하며 말했다.\n\"등기는 다음 주에 마무리될 거예요. 축하드립니다.\"\n\n{name}은 그 말을 들으면서도 실감이 안 났다.\n\n5년 전, 고시원 방에서 이불을 뒤집어쓰고 '30억'이라는 숫자를 검색하던 새벽.\n그 숫자가 너무 커서 차라리 웃겼던 밤.\n\n지금 그 숫자가 — 종이 위에, {name}의 이름 옆에 찍혀 있다.\n\n사무실을 나오니 강남대로의 불빛이 쏟아졌다.\n그 불빛 아래에서 {name}은 잠깐 멈춰 섰다.",

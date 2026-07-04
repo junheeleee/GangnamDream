@@ -1,0 +1,276 @@
+# Controller UX Strategy
+
+Updated: 2026-07-03
+
+## Why This Exists
+
+Gangnam Dream must treat controller support as a release gate, not a nice-to-have. A game can have strong content, visuals, and technical ambition, yet still lose player trust if the first hour feels like fighting the controls.
+
+The warning case is Crimson Desert: public criticism repeatedly centered on over-complex inputs, unintuitive button combinations, basic actions sharing confusing bindings, and players having to think about the controller instead of the game. Gangnam Dream is not an action game, but the same failure mode applies to dense UI: if a Steam Deck player spends attention finding the right button instead of making a decision, the game feels unfinished.
+
+## Core Principle
+
+Do not make every visible button a controller destination.
+
+Mouse UI can expose many clickable elements. Controller UI needs a smaller semantic input model:
+
+- One highlighted decision at a time.
+- One confirm button.
+- One back/cancel button.
+- Shoulder buttons for switching groups or tabs.
+- Face buttons for clear secondary verbs only.
+- No required multi-button chords for basic actions.
+
+Focus routing is a fallback safety net. It is not the design.
+
+## Global Controller Contract
+
+| Input | Meaning |
+|---|---|
+| D-pad / Left stick | Move selection inside the current group |
+| South / A | Confirm the highlighted choice |
+| East / B | Back, close, or cancel pending bet |
+| West / X | Adjust stake / quick secondary action where relevant |
+| North / Y | Rules / details / inspect |
+| LB / RB | Switch tab, group, or betting category |
+| Menu / Start | System menu |
+| R3 | Advance week only when AP is empty |
+
+The same button should not mean different things on neighboring screens unless the screen title makes the mode unmistakable.
+
+## Acceptance Gates
+
+Before demo/release candidate builds:
+
+- A new player must be able to complete the first 15 minutes on controller without touching mouse or keyboard.
+- No core screen may require navigating more than 12 focusable controller targets in a single uninterrupted rail.
+- Dense grids are allowed only in a dedicated cursor/grid mode, not as dozens of independent UI buttons mixed with other controls.
+- Every screen must have a visible default focus within 0.5 seconds of appearing.
+- Pressing `B` must never accidentally commit a destructive or irreversible action.
+- `A` must always commit the highlighted thing, not trigger a hidden default elsewhere.
+- Help/rules must be reachable without leaving the current screen.
+- The player should never need to remember a hidden button chord to perform a basic action.
+
+## Screen Models
+
+### AP / Life Sim Screens
+
+Use a vertical action rail.
+
+Implementation status: main AP rail first pass complete, cancelable AP/menu modal back behavior complete in `scenes/MainGame.gd`.
+
+- D-pad up/down: move between action cards.
+- A: choose action.
+- R3: next week when AP is empty.
+- LB/RB: info tabs only when an info panel is open.
+- Menu: system.
+- B: close cancelable menu modals such as category, investment, bank, job, shop, title collection, and glossary.
+
+Top HUD buttons may remain clickable by mouse, but they should not pull controller focus away from the main rail during ordinary play.
+Flow-protected modals such as demo records, final records, month summaries, warnings, and tendency popups should remain button-confirmed so B does not accidentally commit progression.
+
+### Visual Novel Choice Screens
+
+Use a numbered vertical or short stacked choice rail.
+
+- D-pad up/down: choice.
+- A: confirm.
+- B: skip/close only when safe; never auto-choose.
+- The portrait shift on choice reveal is good and should remain because it clarifies the active decision layer.
+
+### Investment Modal
+
+Implementation status: first pass complete in `scenes/MainGame.gd`.
+
+Investment is a core loop, so the controller model should not make players visit every visible buy/sell button one by one.
+
+- D-pad up/down: choose asset.
+- D-pad left/right or LB/RB: choose the current asset action.
+- A: confirm the highlighted buy/sell action.
+- B: close the modal.
+- The first viewport should show actual tradable assets, not only explanations, bank tools, or portfolio summaries.
+
+Mouse players can still click individual buy/sell buttons. Controller users should experience the screen as asset selection plus an action rail.
+
+### Casino Hub
+
+Use a venue list, not free-floating small buttons.
+
+Implementation status: first pass complete in `scenes/JeongseonCasino.gd`.
+
+- D-pad up/down: venue.
+- A: enter.
+- B: leave casino.
+- Y: rules/explanation.
+- X: glossary.
+
+### Blackjack / Holdem
+
+Use an action rail.
+
+- Primary actions: Hit/Stand/Call/Raise/Fold.
+- Stake/raise amount should be adjusted by X/Y or LB/RB, not selected from many small chip buttons unless in a dedicated stake mode.
+- A commits current highlighted action.
+- B cancels a pending raise/bet, then exits only if nothing is pending.
+
+### Blackjack
+
+Implementation status: first pass complete in `scenes/BlackjackTable.gd`.
+
+Blackjack should read as one table decision, not a web form with five buttons.
+
+- Betting phase: A deals, X/LB/RB cycles stake, Y opens rules, B exits.
+- Player turn: D-pad or LB/RB/X moves the action rail across Hit / Stand / Double / Split.
+- A confirms the highlighted action.
+- Result phase: A starts the next hand, Y opens rules, B exits.
+
+Double and Split stay visible for mouse readability, but the controller rail only lands on them when they are legal.
+
+### Holdem
+
+Implementation status: first pass complete in `scenes/HoldemClub.gd`.
+
+Holdem has higher accident risk than other casino screens because the wrong confirm can fold or shove.
+
+- Buy-in phase: A starts, X/LB/RB cycles buy-in, Y opens rules, B leaves.
+- Player turn: D-pad or LB/RB/X moves the action rail across legal actions only.
+- A confirms the highlighted action.
+- B leaves the seat/session rather than landing on a small Leave button in the same rail.
+- New action turns default to Check/Call rather than Fold.
+
+Mouse buttons can still show the full action set, but controller focus must prioritize safe repeat play over literal button order.
+
+### Baccarat
+
+Use betting zones, not five independent card-like buttons plus chip buttons as the main controller path.
+
+Implementation status: first pass complete in `scenes/BaccaratTable.gd`.
+
+- D-pad left/right: Player / Banker / Tie.
+- D-pad up/down or LB/RB: side bets.
+- X: cycle stake.
+- A: place chip on highlighted zone; on the Deal target, start the round.
+- Y: rules.
+- B: clear current bets, then exit if no bet is pending.
+
+### Dai Sai
+
+Dai Sai must not expose all 40+ bets as a flat controller rail.
+
+Implementation status: first pass complete in `scenes/DaiSaiTable.gd`.
+
+Use three betting modes:
+
+1. Simple: Big, Small, Odd, Even, Any Triple.
+2. Face: choose die face 1-6, then Single/Pair/Triple with LB/RB or X.
+3. Total: choose total 4-17 in a compact grid/cursor mode.
+
+Controller flow:
+
+- LB/RB: switch Simple / Face / Total.
+- D-pad: move within the current mode.
+- X: cycle stake.
+- A: select/place the highlighted bet; press A again on the active bet to roll.
+- Y: rules.
+- B: clear pending bet or exit.
+
+The current many-button layout can remain for mouse, but controller mode should collapse it into this semantic model.
+
+### Roulette
+
+Roulette needs a cursor/mode design, not raw focus over every number plus every outside bet.
+
+Implementation status: first pass complete in `scenes/RouletteTable.gd`.
+
+Recommended model:
+
+- Mode 1: Outside bets (Red/Black/Odd/Even/Low/High/Dozens).
+- Mode 2: Number board cursor.
+- Mode 3: Action target (BET/SPIN).
+- LB/RB: switch modes.
+- D-pad: move cursor in current mode.
+- X: cycle stake.
+- A: place chip or spin on the active action target.
+- B: clear last chip / back.
+- Y: rules/payouts.
+
+The number board can be dense only because it is a recognizable grid mode with cursor movement, not mixed with unrelated buttons.
+
+### Slots
+
+Implementation status: first pass complete in `scenes/SlotMachineGame.gd`.
+
+Slots should be the simplest controller experience in the game.
+
+- A: Spin.
+- X or LB/RB: cycle stake.
+- Y: rules.
+- B: exit.
+
+If slots need more than this, the slot UI is overdesigned.
+
+### Big Wheel
+
+Implementation status: first pass complete in `scenes/BigWheelGame.gd`.
+
+Big Wheel should feel like choosing a wedge and pulling the lever.
+
+- LB/RB or D-pad left/right: move segment cursor.
+- D-pad down: move to `SPIN`.
+- D-pad up: return to segment cursor.
+- A: select the segment; when `SPIN` is active, spin.
+- X: cycle stake.
+- Y: rules.
+- B: clear the selected segment, then exit if nothing is selected.
+
+After selecting a segment with A, the target moves to `SPIN` so the main rhythm is `A -> A`: choose, then spin.
+
+### RaceTrack
+
+Implementation status: first pass complete in `scenes/RaceTrack.gd`.
+
+RaceTrack should read as a betting slip, not a long web list with chip buttons.
+
+- D-pad up/down: choose horse.
+- D-pad left/right or LB/RB: change bet type.
+- X: cycle stake.
+- A: pick the highlighted horse; once enough horses are picked, place the bet.
+- Y: rules.
+- B: remove the last pick, then exit if no pick is pending.
+- Result phase: A starts the next race, B exits.
+
+The horse list may remain scrollable/clickable for mouse, but controller mode must keep one visible horse cursor plus one visible bet/stake target.
+
+## Implementation Order
+
+1. AP and VN: lock main rail behavior and default focus.
+2. Slots and Blackjack: simple action rail first. ✅ first pass complete
+3. Dai Sai: replace flat controller traversal with Simple/Face/Total mode model. ✅ first pass complete
+4. Baccarat: betting-zone selector. ✅ first pass complete
+5. Roulette: outside/number/action cursor. ✅ first pass complete
+6. Big Wheel: segment cursor plus spin target. ✅ first pass complete
+7. Holdem: action rail plus safe default action. ✅ first pass complete
+8. Casino hub: unified venue list and rules access. ✅ first pass complete
+9. RaceTrack: horse cursor plus betting slip flow. ✅ first pass complete
+10. Investment modal: asset cursor plus trade-action rail. ✅ first pass complete
+
+## QA Method
+
+Run targeted screenshot QA for visuals, but controller UX also needs manual blind passes:
+
+1. Start with hands on controller only.
+2. Enter the target screen.
+3. Without reading code or using mouse, complete the core action once.
+4. Count mis-presses, wrong focus jumps, and moments of uncertainty.
+5. Any confusion in the first attempt is a design bug unless the game intentionally teaches it on-screen.
+
+For casino, each minigame must pass:
+
+- Change stake.
+- Place a valid bet.
+- Read the current bet.
+- Start the round.
+- Read win/loss result.
+- Repeat or exit.
+
+All on controller only.

@@ -1,6 +1,6 @@
 # Gangnam Dream Character Visual Bible
 
-Updated: 2026-06-12
+Updated: 2026-07-03
 
 This file is the visual canon for recurring characters. It overrides older one-off prompt notes when there is a conflict. Recurring character portraits must be generated as transparent-background PNGs and then composited over location backgrounds in Godot.
 
@@ -21,6 +21,7 @@ This file is the visual canon for recurring characters. It overrides older one-o
 - Father: 63-year-old factory worker, worn work jacket, heavier guilt/warmth, older working-class signal.
 - Kim Daeun: ordinary convenience-store survival warmth, beige cardigan/navy work shirt, soft tired eyes.
 - Han Jiyeon: long black hair, cream/black tailored suit, old-money jewelry, dangerous high-status aura.
+- Lee Minseo: 38-year-old self-made Gangnam arrival mentor, short neat dark hair, charcoal practical blazer, calm tired eyes.
 
 ## Kim Minjun
 
@@ -83,6 +84,20 @@ No luxury watch, no designer styling, no polished Gangnam success look in early/
 ## Recurring Minor NPCs
 
 These characters are not main routes, but they have stable IDs and can recur. They must use transparent portraits, not baked room/office/racetrack backgrounds.
+
+### Lee Minseo
+
+**Role:** Self-made Gangnam apartment owner and late-game mirror. She is a living proof that Minjun's goal can be reached, but also the person who asks what remains after arrival.
+
+**Age:** 38. She should read as mature late-30s, not a college student and not an old-money heiress.
+
+**Visual Core:** Korean woman with short neat dark hair, calm but tired eyes, composed mouth, and a practical speaker/mentor posture. Her face should carry success plus aftertaste, not seduction.
+
+**Class Signal:** Charcoal-gray tailored blazer over an ivory knit/blouse. Understated professional Seoul polish, self-made and practical. Minimal small earrings are acceptable; no luxury jewelry aura, no designer-logo styling.
+
+**Current Asset Status:** `npc_minseo.png` added on 2026-07-03 as a transparent 512x768 portrait for `arc_minseo_01_meet`, `arc_minseo_02_real`, `arc_minseo_03_arrival`, and `arc_minseo_03b_not_arrived`.
+
+**Negative Prompt / Prohibited:** long old-money heroine hair, Han Jiyeon-like dangerous glamour, Kim Daeun-like convenience-store softness, teenager look, 50s mentor look, cafe/office/skyline background baked into the portrait, green fringe, visible logos.
 
 ### Goshiwon Owner
 

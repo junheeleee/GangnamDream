@@ -27,6 +27,9 @@ const STAKE_OPTIONS  := [10_000, 50_000, 100_000, 500_000, 1_000_000]
 const ROAD_MAX       := 36     # 로드맵 최대 기록 수
 const REVEAL_DELAY   := 0.45   # 카드당 공개 딜레이(초)
 const SHOE_CUT       := 0.25   # 남은 슈 비율 < 25%면 리셔플
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
+const PAD_TARGETS := ["P", "B", "T", "PP", "BP", "DEAL"]
 
 # ── 상태 ──────────────────────────────────────────────────────
 var _phase: int      = Phase.BETTING
@@ -41,6 +44,8 @@ var _bet_bp: int  = 0   # 뱅커 페어
 
 var _active_stake: int = 100_000  # 클릭당 추가 금액
 var _commission: float = 0.0      # 누적 미납 커미션(뱅커 승)
+var _pad_cursor_idx: int = 0
+var _pad_navigation_active: bool = false
 
 var _road: Array   = []   # Array of "P"/"B"/"T"
 var _rounds: int   = 0
@@ -100,6 +105,8 @@ func open() -> void:
 	_road = []
 	_rounds = 0; _net = 0.0; _p_wins = 0; _b_wins = 0; _ties = 0
 	_commission = 0.0
+	_pad_cursor_idx = 0
+	_pad_navigation_active = false
 	_reset_bets()
 	_phase = Phase.BETTING
 	visible = true
@@ -144,6 +151,163 @@ func _process(delta: float) -> void:
 	AudioManager.play("casino_card")
 	_render()
 	_screen_flash(Color("#d4a020") if step["side"] == "player" else Color("#e85d5d"), 0.06, 0.14)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_up") \
+			or event.is_action_pressed("ui_down") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	if event.is_action_pressed("gd_tab_prev"):
+		handled = _pad_cycle_target(-1)
+	elif event.is_action_pressed("gd_tab_next"):
+		handled = _pad_cycle_target(1)
+	elif event.is_action_pressed("ui_left"):
+		handled = _pad_move(-1, 0)
+	elif event.is_action_pressed("ui_right"):
+		handled = _pad_move(1, 0)
+	elif event.is_action_pressed("ui_up"):
+		handled = _pad_move(0, -1)
+	elif event.is_action_pressed("ui_down"):
+		handled = _pad_move(0, 1)
+	elif event.is_action_pressed("ui_accept"):
+		handled = _pad_accept()
+	elif event.is_action_pressed("ui_cancel"):
+		handled = _pad_cancel()
+	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+		handled = _pad_cycle_stake(1)
+	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+		handled = _pad_show_rules()
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _pad_cycle_target(direction: int) -> bool:
+	if _phase == Phase.DEALING:
+		return true
+	if _phase == Phase.RESULT:
+		return true
+	_pad_cursor_idx = int(posmod(_pad_cursor_idx + direction, PAD_TARGETS.size()))
+	AudioManager.play_ui_click()
+	_render()
+	_flash(_tr("커서: %s", "Cursor: %s") % _pad_target_label(), "#d8dbe8")
+	return true
+
+func _pad_move(dx: int, dy: int) -> bool:
+	if _phase != Phase.BETTING:
+		return true
+	if dx != 0:
+		if _pad_cursor_idx <= 2:
+			_pad_cursor_idx = int(posmod(_pad_cursor_idx + dx, 3))
+		elif _pad_cursor_idx <= 4:
+			_pad_cursor_idx = 3 + int(posmod(_pad_cursor_idx - 3 + dx, 2))
+	elif dy != 0:
+		if dy > 0:
+			if _pad_cursor_idx <= 0:
+				_pad_cursor_idx = 3
+			elif _pad_cursor_idx <= 2:
+				_pad_cursor_idx = 4
+			elif _pad_cursor_idx <= 4:
+				_pad_cursor_idx = 5
+		else:
+			if _pad_cursor_idx == 5:
+				_pad_cursor_idx = 1
+			elif _pad_cursor_idx == 3:
+				_pad_cursor_idx = 0
+			elif _pad_cursor_idx == 4:
+				_pad_cursor_idx = 1
+	AudioManager.play_ui_click()
+	_render()
+	_flash(_tr("커서: %s", "Cursor: %s") % _pad_target_label(), "#d8dbe8")
+	return true
+
+func _pad_accept() -> bool:
+	match _phase:
+		Phase.DEALING:
+			return true
+		Phase.RESULT:
+			_next_round()
+			return true
+	var target := _pad_target()
+	if target == "DEAL":
+		_deal()
+	else:
+		_add_bet(target)
+	return true
+
+func _pad_cancel() -> bool:
+	if _phase == Phase.DEALING:
+		return true
+	if _phase == Phase.RESULT:
+		_on_exit()
+		return true
+	if _total_bet() > 0:
+		_clear_bets()
+	else:
+		_on_exit()
+	return true
+
+func _pad_cycle_stake(direction: int) -> bool:
+	if _phase != Phase.BETTING:
+		return true
+	var idx := STAKE_OPTIONS.find(_active_stake)
+	if idx < 0:
+		idx = 2
+	idx = int(posmod(idx + direction, STAKE_OPTIONS.size()))
+	_set_stake(int(STAKE_OPTIONS[idx]))
+	_flash(_tr("베팅 단위: %s", "Stake: %s") % GameState.format_money(float(_active_stake)), "#d8dbe8")
+	return true
+
+func _pad_show_rules() -> bool:
+	if _phase == Phase.DEALING:
+		return true
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show("baccarat", self)
+	return true
+
+func _pad_target() -> String:
+	return str(PAD_TARGETS[_pad_cursor_idx])
+
+func _pad_target_label() -> String:
+	match _pad_target():
+		"P":
+			return _tr("플레이어", "Player")
+		"B":
+			return _tr("뱅커", "Banker")
+		"T":
+			return _tr("타이", "Tie")
+		"PP":
+			return _tr("플레이어 페어", "Player Pair")
+		"BP":
+			return _tr("뱅커 페어", "Banker Pair")
+		"DEAL":
+			return _tr("딜 시작", "Deal")
+	return ""
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
 
 # ── 베팅 배치 ──────────────────────────────────────────────────
 func _add_bet(type: String) -> void:
@@ -343,6 +507,7 @@ func _render_betting() -> void:
 	bet_rt.text = "[center]%s[/center]" % _bet_status_text()
 	vb.add_child(bet_rt)
 
+	_add_pad_hint(vb)
 	_add_baccarat_betting_mat(vb)
 
 	vb.add_child(_sep())
@@ -402,6 +567,8 @@ func _render_betting() -> void:
 	deal_btn.custom_minimum_size = Vector2(0, 44)
 	deal_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	deal_btn.disabled = (_total_bet() == 0)
+	if _should_show_pad_cursor() and _pad_target() == "DEAL":
+		_mark_pad_button(deal_btn)
 	_f(deal_btn, true); action_row.add_child(deal_btn)
 	var clear_btn := _make_btn(_tr("베팅 초기화", "Clear Bets"), _clear_bets, "#1a1a1a", "#4a4a5a")
 	clear_btn.custom_minimum_size = Vector2(100, 44)
@@ -512,8 +679,25 @@ func _draw_baccarat_betting_mat(ctrl: Control) -> void:
 	var bp_zone := Rect2(Vector2(sz.x - 284, 126), Vector2(236, 24))
 	_draw_side_bet_strip(ctrl, pp_zone, "PLAYER PAIR 11:1", _bet_pp, Color("#b478ff"), font)
 	_draw_side_bet_strip(ctrl, bp_zone, "BANKER PAIR 11:1", _bet_bp, Color("#d47898"), font)
+	if _should_show_pad_cursor():
+		match _pad_target():
+			"P":
+				_draw_pad_cursor_zone(ctrl, player_zone)
+			"B":
+				_draw_pad_cursor_zone(ctrl, banker_zone)
+			"T":
+				_draw_pad_cursor_zone(ctrl, tie_zone)
+			"PP":
+				_draw_pad_cursor_zone(ctrl, pp_zone)
+			"BP":
+				_draw_pad_cursor_zone(ctrl, bp_zone)
 	ctrl.draw_string(bold, Vector2(sz.x * 0.5 - 54, 145), "NO COMMISSION ON TABLE UNTIL BANKER WINS",
 		HORIZONTAL_ALIGNMENT_CENTER, 108, 8, Color(1, 1, 1, 0.26))
+
+func _draw_pad_cursor_zone(ctrl: Control, rect: Rect2) -> void:
+	var cursor_rect := rect.grow(5.0)
+	ctrl.draw_rect(cursor_rect, Color(0.95, 0.77, 0.27, 0.13), true)
+	ctrl.draw_rect(cursor_rect, Color("#f0b429"), false, 3.0)
 
 func _draw_bet_zone(ctrl: Control, rect: Rect2, label: String, amount: int, col: Color, font: Font, bold: Font) -> void:
 	ctrl.draw_rect(rect, Color(0.0, 0.0, 0.0, 0.18), true)
@@ -792,7 +976,34 @@ func _add_bet_btn(parent: HBoxContainer, header: String, label: String, type: St
 	var btn := _make_btn(label + ("\n[%s]" % GameState.format_money(float(cur_bet)) if cur_bet > 0 else ""),
 		func(): _add_bet(type), bg, border)
 	btn.custom_minimum_size = Vector2(0, 52)
+	if _should_show_pad_cursor() and _pad_target() == type:
+		_mark_pad_button(btn)
 	vb.add_child(btn)
+
+func _add_pad_hint(parent: VBoxContainer) -> void:
+	if not _should_show_pad_cursor():
+		return
+	var hint := RichTextLabel.new()
+	hint.bbcode_enabled = true
+	hint.fit_content = true
+	hint.scroll_active = false
+	hint.custom_minimum_size = Vector2(0, 18)
+	hint.add_theme_font_size_override("normal_font_size", 11)
+	hint.add_theme_color_override("default_color", Color("#aeb6ca"))
+	_f(hint, true)
+	hint.bbcode_text = _tr(
+		"[b]%s[/b]   [%s/%s] 존  [%s] 칩 놓기/딜  [%s] 단위  [%s] 규칙  [%s] 취소",
+		"[b]%s[/b]   [%s/%s] Zone  [%s] Bet/Deal  [%s] Stake  [%s] Rules  [%s] Cancel"
+	) % [
+		_pad_target_label(),
+		ControllerHints.shoulder_l(),
+		ControllerHints.shoulder_r(),
+		ControllerHints.south(),
+		ControllerHints.west(),
+		ControllerHints.north(),
+		ControllerHints.east(),
+	]
+	parent.add_child(hint)
 
 func _get_bet_for_type(type: String) -> int:
 	match type:
@@ -924,6 +1135,7 @@ func _make_btn(label: String, cb: Callable, bg: String, border: String) -> Butto
 	var btn := Button.new()
 	btn.text = label
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_NONE
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(bg); st.border_color = Color(border)
 	st.set_border_width_all(1); st.set_corner_radius_all(6)
@@ -943,6 +1155,21 @@ func _make_btn(label: String, cb: Callable, bg: String, border: String) -> Butto
 	if _font: btn.add_theme_font_override("font", _font)
 	btn.pressed.connect(cb)
 	return btn
+
+func _mark_pad_button(btn: Button) -> void:
+	var base := btn.get_theme_stylebox("normal")
+	if not base:
+		return
+	var st := base.duplicate()
+	if st is StyleBoxFlat:
+		var flat := st as StyleBoxFlat
+		flat.bg_color = flat.bg_color.lightened(0.08)
+		flat.border_color = Color("#f0b429")
+		flat.set_border_width_all(3)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_stylebox_override("focus", st)
 
 func _sep() -> HSeparator:
 	var s := HSeparator.new()

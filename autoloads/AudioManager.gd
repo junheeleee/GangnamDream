@@ -12,6 +12,8 @@ var _sounds: Dictionary = {}
 var _last_sfx_ms: Dictionary = {}
 var _last_ending_stinger_id: String = ""
 var _last_ending_stinger_ms: int = 0
+var _last_event_cue_id: String = ""
+var _last_event_cue_ms: int = 0
 
 const _SFX_COOLDOWN_MS = {
 	"click": 45,
@@ -19,6 +21,8 @@ const _SFX_COOLDOWN_MS = {
 	"open_modal": 90,
 	"tab_open": 70,
 	"casino_coin": 24,
+	"civil_defense_siren": 5000,
+	"monsoon_rain": 1800,
 }
 
 # wav 파일 → AudioManager key 매핑
@@ -49,6 +53,8 @@ const _SFX_FILES = {
 	"casino_card":  "res://assets/audio/sfx_casino_card.wav",
 	"casino_jackpot": "res://assets/audio/sfx_casino_jackpot.wav",
 	"casino_reel":  "res://assets/audio/sfx_casino_reel.wav",
+	"civil_defense_siren": "res://assets/audio/sfx_civil_defense_siren.wav",
+	"monsoon_rain": "res://assets/audio/sfx_monsoon_rain.wav",
 	"ending_stinger_good": "res://assets/audio/sfx_ending_stinger_good.wav",
 	"ending_stinger_bad": "res://assets/audio/sfx_ending_stinger_bad.wav",
 	"ending_stinger_legend": "res://assets/audio/sfx_ending_stinger_legend.wav",
@@ -120,6 +126,8 @@ func _make_fallback(key: String) -> AudioStreamWAV:
 		"casino_card":  return _tone(880, 0.06, [1.0, 0.6, 0.0])
 		"casino_jackpot": return _chord([523, 659, 784, 1047, 1319], 0.80, [0.0, 0.3, 0.8, 1.0, 0.8, 0.4, 0.0])
 		"casino_reel":  return _tone(494, 0.04, [1.0, 0.0])
+		"civil_defense_siren": return _chord([740, 988], 0.75, [0.0, 0.8, 1.0, 0.8, 0.0])
+		"monsoon_rain": return _tone(180, 0.80, [0.0, 0.7, 1.0, 0.8, 0.0])
 		"ending_stinger_good": return _chord([523, 659, 784, 1047], 1.10, [0.0, 0.4, 1.0, 0.6, 0.0])
 		"ending_stinger_bad": return _tone(92, 1.25, [0.0, 0.7, 1.0, 0.4, 0.0])
 		"ending_stinger_legend": return _chord([523, 659, 784, 1047, 1319], 1.55, [0.0, 0.3, 1.0, 0.8, 0.45, 0.0])
@@ -197,12 +205,48 @@ func play(sound_id: String, volume_mod: float = 0.0):
 		return
 	if _is_sfx_throttled(sound_id):
 		return
+	if sound_id == "click":
+		volume_mod -= 8.0
 	for p in _pool:
 		if not p.playing:
 			p.stream    = _sounds[sound_id]
 			p.volume_db = _vol_db() + volume_mod
 			p.play()
 			return
+
+func play_event_cue(ev: Dictionary) -> void:
+	var cue_key := _event_cue_key(ev)
+	if cue_key == "":
+		return
+	var event_id := str(ev.get("id", ""))
+	var now := Time.get_ticks_msec()
+	if event_id == _last_event_cue_id and now - _last_event_cue_ms < 3500:
+		return
+	_last_event_cue_id = event_id
+	_last_event_cue_ms = now
+	match cue_key:
+		"civil_defense_siren":
+			play(cue_key, -5.0)
+		"monsoon_rain":
+			play(cue_key, -8.0)
+		_:
+			play(cue_key)
+
+func _event_cue_key(ev: Dictionary) -> String:
+	var event_id := str(ev.get("id", "")).to_lower()
+	if event_id == "kx_civil_defense_siren":
+		return "civil_defense_siren"
+	if event_id == "kx_monsoon":
+		return "monsoon_rain"
+	var hay := (
+		str(ev.get("title", "")) + " " +
+		str(ev.get("description", ""))
+	).to_lower()
+	if "민방위" in hay or "civil defense siren" in hay:
+		return "civil_defense_siren"
+	if "장마" in hay or "monsoon" in hay:
+		return "monsoon_rain"
+	return ""
 
 func play_ui_click(volume_mod: float = -4.0) -> void:
 	play("click", volume_mod)

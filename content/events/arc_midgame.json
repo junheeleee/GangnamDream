@@ -1874,7 +1874,7 @@
   {
     "id": "arc_gangnam_real_estate",
     "title": "강남 집값",
-    "background": "gangnam_day",
+    "background": "investment_phone",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -2836,7 +2836,7 @@
   {
     "id": "arc_36_body_signal",
     "title": "몸이 말한다",
-    "background": "street_rainy",
+    "background": "goshiwon_hallway",
     "portrait": "player_tired",
     "category": "story",
     "rarity": "story",

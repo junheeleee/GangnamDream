@@ -2,7 +2,7 @@
   {
     "id": "amb_coin_00",
     "title": "확실한 정보",
-    "background": "convenience_night",
+    "background": "investment_phone",
     "portrait": "player_determined",
     "category": "social",
     "rarity": "uncommon",
@@ -75,7 +75,7 @@
   {
     "id": "amb_coin_warn",
     "title": "말리는 손",
-    "background": "convenience_night",
+    "background": "investment_phone",
     "portrait": "player_tired",
     "category": "social",
     "rarity": "story",

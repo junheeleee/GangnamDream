@@ -8,7 +8,7 @@
     "hidden": false,
     "conditions": { "min_turn": 4 },
     "cooldown": 20,
-    "background": "goshiwon_room",
+    "background": "open_chat_screen",
     "portrait": "player_normal",
     "tags": ["korea", "culture", "digital", "social"],
     "description": "카카오 오픈채팅 '서울 2030 재테크 모임'.\n익명으로 들어왔다.\n\n채팅창이 쉬지 않고 올라온다.\n부동산, 주식, 코인, 그리고 아파트 청약.",

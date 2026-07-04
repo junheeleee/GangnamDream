@@ -10,7 +10,7 @@
       "min_turn": 4
     },
     "cooldown": 20,
-    "background": "street",
+    "background": "fine_dust_sky",
     "portrait": "player_tired",
     "tags": [
       "korea",
@@ -50,7 +50,7 @@
       "min_turn": 13
     },
     "cooldown": 48,
-    "background": "hangang_riverside",
+    "background": "cherry_blossom_path",
     "portrait": "player_normal",
     "tags": [
       "korea",
@@ -88,7 +88,7 @@
       "min_turn": 25
     },
     "cooldown": 48,
-    "background": "street",
+    "background": "street_rainy",
     "portrait": "player_tired",
     "tags": [
       "korea",
@@ -125,7 +125,7 @@
       "min_turn": 29
     },
     "cooldown": 48,
-    "background": "street",
+    "background": "heatwave_city",
     "portrait": "player_tired",
     "tags": [
       "korea",

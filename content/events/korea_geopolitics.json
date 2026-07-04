@@ -60,7 +60,7 @@
     "hidden": false,
     "conditions": { "min_turn": 4 },
     "cooldown": 40,
-    "background": "goshiwon_room",
+    "background": "military_base_gate",
     "portrait": "player_tired",
     "tags": ["korea", "culture", "military"],
     "description": "문자가 왔다.\n「예비군 훈련 입소 통지서. 일시: ○월 ○일 09:00. 불참 시 과태료 150만 원.」\n\n전역해도 끝이 아니다. 8년은 예비군.\n달력에 표시했다. 또 하루를 잃는다.",

@@ -10,6 +10,8 @@ const COLOR_HEADER := Color(0.10, 0.08, 0.20, 1.0)
 const COLOR_GOLD   := Color(0.95, 0.80, 0.20, 1.0)
 const COLOR_ACCENT := Color(0.30, 0.20, 0.60, 1.0)
 const CASINO_BG_TEX := preload("res://assets/backgrounds/casino_interior.png")
+const JOY_BUTTON_WEST := 2
+const JOY_BUTTON_NORTH := 3
 
 # 하위 미니게임 씬들 (MainGame이 주입)
 var baccarat_table
@@ -26,6 +28,12 @@ var _balance_lbl: Label
 var _session_lbl: Label
 var _msg_lbl: Label
 var _entry_balance: int = 0
+var _pad_navigation_active: bool = false
+var _pad_game_idx: int = 0
+var _game_cards: Array = []
+var _game_entries: Array = []
+var _pad_hint_lbl: Label
+var _glossary_overlay: Control
 
 # ── 초기화 ─────────────────────────────────────────────────────────
 func _ready() -> void:
@@ -55,6 +63,9 @@ func _tr(ko: String, en: String) -> String:
 
 func open() -> void:
 	visible = true
+	_pad_navigation_active = false
+	_pad_game_idx = clampi(_pad_game_idx, 0, maxi(_game_entries.size() - 1, 0))
+	_refresh_pad_cursor()
 	modulate.a = 0.0
 	var tw := create_tween()
 	tw.tween_property(self, "modulate:a", 1.0, 0.25).set_trans(Tween.TRANS_SINE)
@@ -72,6 +83,92 @@ func open() -> void:
 				"First time here.\nLights, machine noise, and felt tables — this is Jeongseon Casino."
 			)
 	_refresh_balance()
+	_refresh_pad_cursor()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey:
+		var key := event as InputEventKey
+		if key.echo:
+			return
+
+	var pad_navigation_event := event.is_action_pressed("gd_tab_prev") \
+			or event.is_action_pressed("gd_tab_next") \
+			or event.is_action_pressed("ui_up") \
+			or event.is_action_pressed("ui_down") \
+			or event.is_action_pressed("ui_left") \
+			or event.is_action_pressed("ui_right") \
+			or event.is_action_pressed("ui_accept") \
+			or event.is_action_pressed("ui_cancel") \
+			or _joy_button_pressed(event, JOY_BUTTON_WEST) \
+			or _joy_button_pressed(event, JOY_BUTTON_NORTH)
+	if pad_navigation_event:
+		_pad_navigation_active = true
+
+	var handled := false
+	if is_instance_valid(_glossary_overlay):
+		if event.is_action_pressed("ui_cancel") or event.is_action_pressed("ui_accept"):
+			_glossary_overlay.queue_free()
+			_glossary_overlay = null
+			handled = true
+	elif event.is_action_pressed("ui_up"):
+		handled = _pad_move_game(-2)
+	elif event.is_action_pressed("ui_down"):
+		handled = _pad_move_game(2)
+	elif event.is_action_pressed("gd_tab_prev") or event.is_action_pressed("ui_left"):
+		handled = _pad_move_game(-1)
+	elif event.is_action_pressed("gd_tab_next") or event.is_action_pressed("ui_right"):
+		handled = _pad_move_game(1)
+	elif event.is_action_pressed("ui_accept"):
+		handled = _pad_launch_selected_game()
+	elif event.is_action_pressed("ui_cancel"):
+		_close()
+		handled = true
+	elif _joy_button_pressed(event, JOY_BUTTON_NORTH):
+		handled = _pad_show_selected_rules()
+	elif _joy_button_pressed(event, JOY_BUTTON_WEST):
+		_show_casino_glossary()
+		handled = true
+
+	if handled:
+		get_viewport().set_input_as_handled()
+
+func _joy_button_pressed(event: InputEvent, button_index: int) -> bool:
+	if not (event is InputEventJoypadButton):
+		return false
+	var joy := event as InputEventJoypadButton
+	return joy.pressed and int(joy.button_index) == button_index
+
+func _should_show_pad_cursor() -> bool:
+	return _pad_navigation_active or ControllerHints.is_pad_active()
+
+func _pad_move_game(delta: int) -> bool:
+	if _game_entries.is_empty():
+		return true
+	_pad_game_idx = int(posmod(_pad_game_idx + delta, _game_entries.size()))
+	_refresh_pad_cursor()
+	AudioManager.play("click")
+	return true
+
+func _pad_launch_selected_game() -> bool:
+	if _game_entries.is_empty():
+		return true
+	var entry: Dictionary = _game_entries[_pad_game_idx]
+	AudioManager.play("casino_bet")
+	call(str(entry.get("fn", "")))
+	return true
+
+func _pad_show_selected_rules() -> bool:
+	if _game_entries.is_empty():
+		return true
+	var entry: Dictionary = _game_entries[_pad_game_idx]
+	var tid := str(entry.get("tutorial_id", ""))
+	if tid.is_empty():
+		return true
+	AudioManager.play_ui_open()
+	TutorialOverlay.force_show(tid, self)
+	return true
 
 func _close() -> void:
 	# 세션 손익 기록 → 후속 이벤트 플래그
@@ -100,8 +197,52 @@ func _refresh_balance() -> void:
 			_session_lbl.text = _tr("±0원", "±KRW 0")
 			_session_lbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.6))
 
+func _refresh_pad_cursor() -> void:
+	var show_cursor := _should_show_pad_cursor()
+	_pad_game_idx = clampi(_pad_game_idx, 0, maxi(_game_cards.size() - 1, 0))
+	for i in range(_game_cards.size()):
+		var panel := _game_cards[i] as PanelContainer
+		var entry: Dictionary = _game_entries[i]
+		var selected := show_cursor and i == _pad_game_idx
+		_apply_game_card_style(panel, str(entry.get("bg", "#1a1a1a")), str(entry.get("accent", "#f0b429")), selected)
+	if is_instance_valid(_pad_hint_lbl):
+		_pad_hint_lbl.visible = show_cursor
+		if show_cursor:
+			_pad_hint_lbl.text = _tr(
+				"[%s] 입장  [D-pad/%s/%s] 게임 선택  [%s] 규칙  [%s] 용어집  [%s] 나가기",
+				"[%s] Enter  [D-pad/%s/%s] Select Game  [%s] Rules  [%s] Glossary  [%s] Exit"
+			) % [
+				ControllerHints.south(),
+				ControllerHints.shoulder_l(),
+				ControllerHints.shoulder_r(),
+				ControllerHints.north(),
+				ControllerHints.west(),
+				ControllerHints.east(),
+			]
+	if show_cursor and is_instance_valid(_msg_lbl) and not _game_entries.is_empty():
+		var entry: Dictionary = _game_entries[_pad_game_idx]
+		_msg_lbl.text = _tr("선택: %s", "Selected: %s") % str(entry.get("name", ""))
+
+func _apply_game_card_style(panel: PanelContainer, bg_hex: String, accent_hex: String, selected: bool) -> void:
+	if not is_instance_valid(panel):
+		return
+	var ps := StyleBoxFlat.new()
+	ps.bg_color = Color.html(bg_hex).lightened(0.05) if selected else Color.html(bg_hex)
+	ps.border_color = COLOR_GOLD if selected else Color.html(accent_hex)
+	ps.set_border_width_all(4 if selected else 2)
+	ps.corner_radius_top_left = 8
+	ps.corner_radius_top_right = 8
+	ps.corner_radius_bottom_left = 8
+	ps.corner_radius_bottom_right = 8
+	ps.shadow_color = Color(0, 0, 0, 0.46 if selected else 0.38)
+	ps.shadow_size = 18 if selected else 10
+	ps.shadow_offset = Vector2(0, 6 if selected else 4)
+	panel.add_theme_stylebox_override("panel", ps)
+
 # ── UI 빌드 ──────────────────────────────────────────────────────
 func _build_ui() -> void:
+	_game_cards = []
+	_game_entries = []
 	# 배경
 	var bg_img := TextureRect.new()
 	bg_img.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -238,28 +379,30 @@ func _build_ui() -> void:
 	gloss_btn.pressed.connect(_show_casino_glossary)
 	bottom_row.add_child(gloss_btn)
 
+	_pad_hint_lbl = Label.new()
+	_pad_hint_lbl.visible = false
+	_pad_hint_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pad_hint_lbl.add_theme_font_size_override("font_size", 11)
+	_pad_hint_lbl.add_theme_color_override("font_color", Color("#aeb6ca"))
+	_f(_pad_hint_lbl, true)
+	root.add_child(_pad_hint_lbl)
+
 func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 		desc: String, bg_hex: String, accent_hex: String, fn: String,
 		tutorial_id: String = "", mark: String = "") -> void:
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.custom_minimum_size = Vector2(0, 150)
-	var ps := StyleBoxFlat.new()
-	ps.bg_color = Color.html(bg_hex)
-	ps.border_color = Color.html(accent_hex)
-	ps.border_width_left   = 2
-	ps.border_width_right  = 2
-	ps.border_width_top    = 2
-	ps.border_width_bottom = 2
-	ps.corner_radius_top_left     = 8
-	ps.corner_radius_top_right    = 8
-	ps.corner_radius_bottom_left  = 8
-	ps.corner_radius_bottom_right = 8
-	ps.shadow_color = Color(0, 0, 0, 0.38)
-	ps.shadow_size = 10
-	ps.shadow_offset = Vector2(0, 4)
-	panel.add_theme_stylebox_override("panel", ps)
+	_apply_game_card_style(panel, bg_hex, accent_hex, false)
 	parent.add_child(panel)
+	_game_cards.append(panel)
+	_game_entries.append({
+		"name": name_kr,
+		"fn": fn,
+		"tutorial_id": tutorial_id,
+		"bg": bg_hex,
+		"accent": accent_hex,
+	})
 
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 3)
@@ -316,6 +459,7 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 	if tutorial_id != "":
 		var help_btn := Button.new()
 		help_btn.text = _tr("규칙", "Rules")
+		help_btn.focus_mode = Control.FOCUS_NONE
 		help_btn.add_theme_font_size_override("font_size", 11)
 		var hbs := StyleBoxFlat.new()
 		hbs.bg_color = Color(0.0, 0.0, 0.0, 0.0)
@@ -341,6 +485,7 @@ func _add_game_card(parent: Control, _icon_kind: String, name_kr: String,
 
 	var btn := Button.new()
 	btn.text = _tr("입장", "Enter")
+	btn.focus_mode = Control.FOCUS_NONE
 	btn.add_theme_font_size_override("font_size", 13)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bs := StyleBoxFlat.new()
@@ -615,6 +760,7 @@ func _make_panel(col: Color) -> PanelContainer:
 func _make_btn(text: String, hex: String) -> Button:
 	var b := Button.new()
 	b.text = text
+	b.focus_mode = Control.FOCUS_NONE
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color.html(hex)
 	sb.corner_radius_top_left     = 4
@@ -638,6 +784,8 @@ func _make_btn(text: String, hex: String) -> Button:
 
 ## A-4: 카지노 용어 설명 오버레이
 func _show_casino_glossary() -> void:
+	if is_instance_valid(_glossary_overlay):
+		return
 	var overlay := PanelContainer.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var sb := StyleBoxFlat.new()
@@ -645,6 +793,7 @@ func _show_casino_glossary() -> void:
 	overlay.add_theme_stylebox_override("panel", sb)
 	overlay.z_index = 50
 	add_child(overlay)
+	_glossary_overlay = overlay
 
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 12)
@@ -691,7 +840,9 @@ func _show_casino_glossary() -> void:
 		term_vbox.add_child(def_lbl)
 
 	var close_btn := _make_btn(_tr("카지노 허브로", "Back to Casino"), "#1a1a2e")
-	close_btn.pressed.connect(func(): overlay.queue_free())
+	close_btn.pressed.connect(func():
+		overlay.queue_free()
+		_glossary_overlay = null)
 	vbox.add_child(close_btn)
 
 

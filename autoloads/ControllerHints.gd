@@ -46,6 +46,10 @@ func is_pad_active() -> bool:
 func south()     -> String: return _LABELS[_brand][0]
 ## 취소 버튼 (East): B / ○ / A
 func east()      -> String: return _LABELS[_brand][1]
+## 보조 버튼 (West): X / □ / Y
+func west()      -> String: return _LABELS[_brand][2]
+## 상세/규칙 버튼 (North): Y / △ / X
+func north()     -> String: return _LABELS[_brand][3]
 ## 오른쪽 어깨 (RB/R1/R)
 func shoulder_r()-> String: return _LABELS[_brand][4]
 ## 스타트/옵션/+ 버튼

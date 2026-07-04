@@ -1,6 +1,6 @@
-# 강남드림 — 오디오 에셋 가이드 (v4)
+# 강남드림 — 오디오 에셋 가이드 (v10)
 
-Updated: 2026-06-19 — Audio P1 ambience + ending stinger pass complete.
+Updated: 2026-07-01 — Digital/holiday/climate/library ambience pass complete.
 
 ## 파일 구조
 
@@ -22,7 +22,27 @@ assets/audio/
 │   ├── amb_seoul_rain.wav         ← 비 오는 서울 거리/강남 야경
 │   ├── amb_hangang_riverside.wav  ← 한강 산책/바람/수면감
 │   ├── amb_office_room.wav        ← 사무실/회사 장면
-│   └── amb_casino_floor.wav       ← 정선 카지노 플로어 루프
+│   ├── amb_casino_floor.wav       ← 정선 카지노 플로어 루프
+│   ├── amb_subway_platform.wav    ← 지하철/출퇴근 플랫폼
+│   ├── amb_racetrack_crowd.wav    ← 경마장 관중/트랙 공기
+│   ├── amb_cafe_room.wav          ← 카페/커피 대화 공간
+│   ├── amb_pc_bang.wav            ← PC방 팬/키보드/전자음
+│   ├── amb_gym_room.wav           ← 헬스장/운동 장면
+│   ├── amb_convenience_store.wav  ← 편의점 냉장고/야간 매장
+│   ├── amb_hagwon_street.wav      ← 대치동 학원가/밤거리
+│   ├── amb_school_hall.wav        ← 수능 시험장/학교 복도
+│   ├── amb_public_office.wav      ← 주민센터/공공 민원 창구
+│   ├── amb_jjimjilbang.wav        ← 찜질방/사우나 휴식 공간
+│   ├── amb_cherry_blossom.wav     ← 벚꽃길/봄바람/꽃잎
+│   ├── amb_saju_cafe.wav          ← 사주카페/촛불/작은 종
+│   ├── amb_military_gate.wav      ← 예비군 훈련장 정문/젖은 아스팔트
+│   ├── amb_seoul_street.wav       ← 일반 서울 거리/교통/횡단보도 공기
+│   ├── amb_company_dinner.wav     ← 회식/삼겹살집/잔 부딪힘/그릴 소리
+│   ├── amb_heatwave_city.wav      ← 폭염 도심/냉방기/건조한 도시 열기
+│   ├── amb_fine_dust_city.wav     ← 미세먼지 도심/답답한 교통/탁한 공기
+│   ├── amb_highway_traffic.wav    ← 명절 고속도로 정체/브레이크/차량 저음
+│   ├── amb_open_chat_room.wav     ← 방 안 휴대폰 채팅/작은 진동/조용한 실내
+│   └── amb_library_room.wav       ← 도서관/열람실/형광등/책장 넘김/낮은 키보드
 └── SFX
     ├── sfx_click.wav       ← 버튼 클릭
     ├── sfx_close.wav       ← 모달 닫기
@@ -41,6 +61,8 @@ assets/audio/
     ├── sfx_housing_up.wav  ← 이사
     ├── sfx_game_over.wav   ← 게임오버
     ├── sfx_success.wav     ← 성공/강남드림 달성
+    ├── sfx_civil_defense_siren.wav ← 민방위 사이렌 이벤트 큐
+    ├── sfx_monsoon_rain.wav ← 장마 이벤트 진입 빗소리 큐
     ├── sfx_ending_stinger_good.wav   ← 일반 성공/긍정 엔딩
     ├── sfx_ending_stinger_bad.wav    ← 실패/파산/번아웃 엔딩
     └── sfx_ending_stinger_legend.wav ← S/S+/전설급 엔딩
@@ -250,7 +272,7 @@ SFX `.ogg`는 Loop 체크 해제.
 
 - BGM: `.ogg`, stereo 44100 Hz, Ogg Vorbis
 - SFX: `.wav`, mono 44100 Hz
-- Ambience/stinger P1: `tools/generate_audio_p1_assets.py`, `.wav`, mono 44100 Hz
+- Ambience/stinger P1: `tools/generate_audio_p1_assets.py`, `.wav`, stereo 22050 Hz
 - 검증: `res://tools/AudioAssetCheck.tscn`
 - 상세 QA: `docs/AUDIO_QA.md`
 

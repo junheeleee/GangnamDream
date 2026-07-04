@@ -27,8 +27,16 @@ var modal_scroll: ScrollContainer
 var modal_panel: PanelContainer
 var modal_body: VBoxContainer
 var modal_title_label: Label
+var modal_pad_hint_label: Label
 var next_button: Button
 var shop_button: Button
+var _modal_cancelable: bool = false
+var _modal_kind: String = ""
+var _invest_pad_asset_idx: int = 0
+var _invest_pad_action_idx: int = 0
+var _invest_pad_asset_ids: Array = []
+var _invest_pad_asset_cards: Array = []
+var _invest_pad_hint_label: RichTextLabel = null
 var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var _feedback_flash: ColorRect
@@ -868,13 +876,15 @@ func _play_ink_transition(kind: String = "neutral", strength: float = 1.0) -> vo
 		return
 	if _minigame_overlay_active:
 		return
+	if kind == "ap":
+		return
 	if _ink_transition_tween and _ink_transition_tween.is_running():
 		_ink_transition_tween.kill()
 	_ink_transition_kind = kind
 	_ink_transition_progress = 0.0
 	_ink_transition_layer.visible = true
 	_ink_transition_layer.queue_redraw()
-	var duration := clampf(0.30 + strength * 0.10, 0.24, 0.48)
+	var duration := clampf(0.16 + strength * 0.045, 0.14, 0.26)
 	_ink_transition_tween = create_tween()
 	_ink_transition_tween.tween_method(_set_ink_transition_progress, 0.0, 1.0, duration) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -915,28 +925,14 @@ func _draw_ink_transition() -> void:
 	elif _ink_transition_kind == "moral":
 		base = Color("#020303").lerp(Color("#f2f7ff"), white)
 	base = base.lerp(Color("#020303"), black * 0.55).lerp(Color("#eef6ff"), white * 0.32)
-	_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.08 + black * 0.07 + white * 0.035)), true)
-
-	var sweep_x := lerpf(-size.x * 0.20, size.x * 1.12, _ink_transition_progress)
-	var edge_w := 30.0 + black * 18.0
-	var edge_col := Color("#dce4ef", pulse * (0.16 + white * 0.06)).lerp(Color("#111817", pulse * 0.28), black)
-	_ink_transition_layer.draw_rect(Rect2(Vector2(sweep_x - edge_w, 0.0), Vector2(edge_w, size.y)), edge_col, true)
-
-	var line_alpha := pulse * (0.050 + black * 0.045 + white * 0.025)
-	var line_col := Color("#f4f7fb", line_alpha).lerp(Color("#8e9892", line_alpha), black * 0.70)
-	var gap := 28
-	var offset := fmod(_ink_transition_progress * 90.0 + float(GameState.turn * 5), float(gap))
-	for y in range(-gap, int(size.y) + gap, gap):
-		var yy := float(y) + offset
-		var jitter := sin(yy * 0.033 + float(GameState.turn)) * (0.8 + black * 2.6)
-		_ink_transition_layer.draw_line(Vector2(0.0, yy + jitter), Vector2(size.x, yy - jitter), line_col, 1.0)
+	_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color(base.r, base.g, base.b, pulse * (0.045 + black * 0.055 + white * 0.025)), true)
 
 	if black > 0.01:
-		var burn := Color("#000000", pulse * (0.070 + black * 0.12))
-		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 18.0 + black * 16.0)), burn, true)
-		_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 18.0 - black * 16.0), Vector2(size.x, 18.0 + black * 16.0)), burn, true)
+		var burn := Color("#000000", pulse * (0.045 + black * 0.075))
+		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 10.0 + black * 12.0)), burn, true)
+		_ink_transition_layer.draw_rect(Rect2(Vector2(0.0, size.y - 10.0 - black * 12.0), Vector2(size.x, 10.0 + black * 12.0)), burn, true)
 	if white > 0.01:
-		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.045), false, 2.0)
+		_ink_transition_layer.draw_rect(Rect2(Vector2.ZERO, size), Color("#ffffff", pulse * white * 0.018), true)
 
 func _build_vignette_layer():
 	_vignette_rect = ColorRect.new()
@@ -1750,6 +1746,11 @@ func _build_modal():
 	modal_title_label = _label("", 24, "#e8eaf0")
 	modal_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(modal_title_label)
+	modal_pad_hint_label = _label("", 12, "#7f8794")
+	modal_pad_hint_label.visible = false
+	modal_pad_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	modal_pad_hint_label.size_flags_horizontal = Control.SIZE_SHRINK_END
+	header.add_child(modal_pad_hint_label)
 	var close_x = _small_button("✕", "#242433")
 	close_x.custom_minimum_size = Vector2(44, 42)
 	close_x.size_flags_horizontal = Control.SIZE_SHRINK_END
@@ -3313,6 +3314,7 @@ func _render_event():
 	event_title.text = _fmt(current_event.get("title", _tr("이벤트", "Event")))
 	_update_event_bg()
 	BGMPlayer.update_event_ambience(current_event)
+	AudioManager.play_event_cue(current_event)
 	_update_portrait()
 	# 이벤트 패널 페이드인
 	event_body.modulate.a = 0.0
@@ -4340,6 +4342,7 @@ func _render_log():
 
 func _render_ap_actions():
 	_play_ink_transition("ap", 0.55)
+	next_button.disabled = false
 	_transient_bg_active = false
 	_clear_category_tint(true)
 	_clear_feedback_flash()
@@ -4440,10 +4443,7 @@ func _render_ap_actions():
 		hint_text = _tr("목표: 자산 30억 → 강남 입성 (남은 시간 %d년)", "Goal: KRW 3B assets → reach Seoul's status district (%d years left)") % max(0, 38 - GameState.age)
 		hint_color = "#b9bec7"
 
-	if not hint_text.is_empty():
-		choice_box.add_child(_label(hint_text, 12, hint_color))
-
-	_render_week_focus_panel(ap, net, total, has_warning)
+	_render_week_focus_panel(ap, net, total, has_warning, hint_text, hint_color)
 
 	# ══════════════════════════════════════════════════════
 	# 상황 카드 — 매 턴 '이번 달 상황'에 반응. (추상 메뉴 대체)
@@ -4463,66 +4463,150 @@ func _render_ap_actions():
 		else:
 			pad_hint = _tr("[%s] 선택  [%s/%s] 탭  [%s] 메뉴 (%s)", "[%s] Choose  [%s/%s] Tab  [%s] Menu (%s)") % [s, lb, rb, m, ControllerHints.brand_name()]
 		choice_box.add_child(_label(pad_hint, 11, "#3a4a5a"))
+	_apply_ap_focus_routes(disabled)
 
 	# ── 상점 버튼 비활성화 (서사 유물로 전환 예정) ─────────────
 	if shop_button:
 		shop_button.disabled = true
 	_apply_moral_ui_palette()
 
-func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool) -> void:
+func _apply_ap_focus_routes(ap_empty: bool) -> void:
+	if not ControllerHints.is_pad_active():
+		return
+	var buttons: Array[Button] = []
+	for child in choice_box.get_children():
+		if child is Button:
+			var btn := child as Button
+			if btn.visible and not btn.disabled and btn.focus_mode != Control.FOCUS_NONE:
+				buttons.append(btn)
+	for i in range(buttons.size()):
+		var btn := buttons[i]
+		var top := buttons[maxi(0, i - 1)]
+		var bottom := buttons[mini(buttons.size() - 1, i + 1)]
+		btn.focus_neighbor_top = btn.get_path_to(top)
+		btn.focus_neighbor_bottom = btn.get_path_to(bottom)
+		btn.focus_neighbor_left = btn.get_path_to(btn)
+		btn.focus_neighbor_right = btn.get_path_to(btn)
+		btn.focus_previous = btn.get_path_to(top)
+		btn.focus_next = btn.get_path_to(bottom)
+	if ap_empty:
+		if is_instance_valid(next_button) and not next_button.disabled:
+			next_button.call_deferred("grab_focus")
+	elif not buttons.is_empty():
+		buttons[0].call_deferred("grab_focus")
+
+func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bool,
+		hint_text: String = "", hint_color: String = "#b9bec7") -> void:
 	var card := PanelContainer.new()
 	card.set_meta("moral_role", "info_card")
 	card.set_meta("moral_accent", "#c5ccd5")
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.custom_minimum_size = Vector2(0, 122)
+	card.custom_minimum_size = Vector2(0, 158)
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#0b0d12", 0.94)
-	style.border_color = Color("#3e4654")
-	style.border_width_left = 4
+	style.bg_color = Color("#08090d", 0.96)
+	style.border_color = Color("#343a45")
+	style.border_width_left = 0
+	style.border_width_bottom = 2
 	style.set_border_width(SIDE_TOP, 1)
 	style.set_border_width(SIDE_RIGHT, 1)
-	style.set_border_width(SIDE_BOTTOM, 1)
-	style.set_corner_radius_all(7)
-	style.content_margin_left = 14
-	style.content_margin_right = 14
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
+	style.set_corner_radius_all(3)
+	style.content_margin_left = 16
+	style.content_margin_right = 16
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
 	card.add_theme_stylebox_override("panel", style)
 	choice_box.add_child(card)
 
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 6)
+	box.add_theme_constant_override("separation", 8)
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(box)
 
 	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 10)
+	top.add_theme_constant_override("separation", 12)
 	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(top)
 
-	var title := _label(_tr("이번 주", "This Week"), 15, "#e8edf4")
+	var title_col := VBoxContainer.new()
+	title_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_col.add_theme_constant_override("separation", 1)
+	top.add_child(title_col)
+
+	var eyebrow := _label(_tr("주간 계획", "WEEK PLAN"), 10, "#7f8794")
+	eyebrow.set_meta("moral_role", "hint_text")
+	eyebrow.uppercase = true
+	title_col.add_child(eyebrow)
+
+	var title := _label(_tr("이번 주 압박", "This Week's Pressure"), 17, "#eef3f8")
 	title.set_meta("moral_role", "choice_title")
 	if _font_bold:
 		title.add_theme_font_override("font", _font_bold)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(title)
+	title_col.add_child(title)
+
+	var slots_box := VBoxContainer.new()
+	slots_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	slots_box.custom_minimum_size = Vector2(92, 0)
+	top.add_child(slots_box)
+	_add_week_ap_slots(slots_box, ap)
 
 	var ap_text := _tr("선택 완료", "Choices spent")
 	if ap > 0:
 		ap_text = _tr("선택 %d개 남음", "%d choices left") % ap
 	var ap_lbl := _label(ap_text, 13, "#f4f7fb" if ap > 0 else "#7a8496")
-	ap_lbl.custom_minimum_size = Vector2(132, 0)
+	ap_lbl.custom_minimum_size = Vector2(118, 0)
 	ap_lbl.clip_text = false
 	ap_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top.add_child(ap_lbl)
 
 	_render_week_pressure_row(box, net, total, has_warning)
 
+	if not hint_text.is_empty():
+		var hint_lbl := _wrap_label(hint_text, 13, hint_color)
+		hint_lbl.set_meta("moral_role", "hint_text")
+		box.add_child(hint_lbl)
+
 	var focus_text := _tr("먼저 위험 신호를 줄여야 한다.", "Stabilize the immediate risk first.") if has_warning else _clean_focus_text(_recommend_action())
-	var focus_lbl := _wrap_label(_tr("추천  %s", "Suggested  %s") % focus_text, 13, "#c8d0df")
-	focus_lbl.set_meta("moral_role", "hint_text")
-	box.add_child(focus_lbl)
+	_add_week_priority_strip(box, focus_text, has_warning)
 	_apply_moral_tree_styles(card, _moral_ui_palette())
+
+func _add_week_priority_strip(parent: Control, text: String, urgent: bool) -> void:
+	var strip := PanelContainer.new()
+	strip.set_meta("moral_role", "info_card")
+	strip.set_meta("moral_accent", "#dce6ee")
+	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#101217", 0.84)
+	st.border_color = Color("#6a4b4b", 0.92) if urgent else Color("#3a424d", 0.90)
+	st.border_width_left = 3
+	st.set_border_width(SIDE_TOP, 1)
+	st.set_border_width(SIDE_RIGHT, 1)
+	st.set_border_width(SIDE_BOTTOM, 1)
+	st.set_corner_radius_all(3)
+	st.content_margin_left = 10
+	st.content_margin_right = 10
+	st.content_margin_top = 7
+	st.content_margin_bottom = 7
+	strip.add_theme_stylebox_override("panel", st)
+	parent.add_child(strip)
+
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 9)
+	strip.add_child(row)
+
+	var key := _label(_tr("우선순위", "PRIORITY"), 10, "#f0c1c1" if urgent else "#7f8794")
+	key.set_meta("moral_role", "hint_text")
+	key.custom_minimum_size = Vector2(76, 0)
+	key.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	if _font_bold:
+		key.add_theme_font_override("font", _font_bold)
+	row.add_child(key)
+
+	var value := _wrap_label(text, 13, "#e8edf4")
+	value.set_meta("moral_role", "choice_subtitle")
+	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(value)
 
 func _render_week_pressure_row(parent: Control, net: float, total: float, has_warning: bool) -> void:
 	var row := HBoxContainer.new()
@@ -4552,7 +4636,7 @@ func _add_week_pressure_cell(parent: Control, label_text: String, value_text: St
 	st.bg_color = Color("#11141a", 0.68)
 	st.border_color = Color("#3d4552", 0.88) if good else Color("#6a4b4b", 0.88)
 	st.set_border_width_all(1)
-	st.set_corner_radius_all(5)
+	st.set_corner_radius_all(3)
 	st.content_margin_left = 10
 	st.content_margin_right = 10
 	st.content_margin_top = 6
@@ -4585,12 +4669,8 @@ func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	row.add_theme_constant_override("separation", 8)
 	row.custom_minimum_size = Vector2(0, 18)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.alignment = BoxContainer.ALIGNMENT_END
 	parent.add_child(row)
-
-	var caption := _label(_tr("행동 슬롯", "Action slots"), 11, "#7f8794")
-	caption.set_meta("moral_role", "hint_text")
-	caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(caption)
 
 	var slots := HBoxContainer.new()
 	slots.add_theme_constant_override("separation", 5)
@@ -4600,13 +4680,13 @@ func _add_week_ap_slots(parent: Control, ap: int) -> void:
 	for i in range(max_ap):
 		var filled := i < ap
 		var slot := PanelContainer.new()
-		slot.custom_minimum_size = Vector2(30, 12)
+		slot.custom_minimum_size = Vector2(34, 14)
 		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var st := StyleBoxFlat.new()
 		st.bg_color = Color("#dce4ee", 0.88) if filled else Color("#171b22", 0.86)
 		st.border_color = Color("#f6f8fb", 0.72) if filled else Color("#343a45", 0.9)
 		st.set_border_width_all(1)
-		st.set_corner_radius_all(4)
+		st.set_corner_radius_all(2)
 		slot.add_theme_stylebox_override("panel", st)
 		slots.add_child(slot)
 
@@ -4827,14 +4907,49 @@ func _render_situation_cards():
 	# 여기선 남은 시간으로 할 '루틴 행동'만 고른다.
 	var ap: int = GameState.action_points
 	if ap > 0:
-		var left_lbl := _label(_tr("──  남은 시간에, 무엇을 할까  ──", "──  What to do with the time left  ──"), 12, "#9aa4b8")
-		left_lbl.set_meta("moral_role", "hint_text")
-		choice_box.add_child(left_lbl)
+		_add_ap_section_header(_tr("행동 레일", "ACTION RAIL"), _tr("이번 주의 남은 시간을 어디에 쓸지 고른다", "Choose where this week's remaining time goes"))
 	else:
-		var spent_lbl := _label(_tr("이번 주를 다 보냈다. [다음 주]로.", "This week is spent. On to [Next Week]."), 12, "#7a8496")
-		spent_lbl.set_meta("moral_role", "hint_text")
-		choice_box.add_child(spent_lbl)
+		_add_ap_section_header(_tr("이번 주 종료", "WEEK CLOSED"), _tr("더 할 수 있는 행동이 없다. 다음 주로 넘긴다", "No actions left. Advance to next week"))
 	_render_essential_actions(ap)
+
+func _add_ap_section_header(title: String, subtitle: String) -> void:
+	var panel := PanelContainer.new()
+	panel.set_meta("moral_role", "separator")
+	panel.set_meta("moral_accent", "#6f7788")
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#07080b", 0.72)
+	st.border_color = Color("#252b35", 0.95)
+	st.border_width_left = 3
+	st.set_border_width(SIDE_TOP, 1)
+	st.set_border_width(SIDE_BOTTOM, 1)
+	st.set_corner_radius_all(2)
+	st.content_margin_left = 11
+	st.content_margin_right = 11
+	st.content_margin_top = 7
+	st.content_margin_bottom = 7
+	panel.add_theme_stylebox_override("panel", st)
+	choice_box.add_child(panel)
+
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 10)
+	panel.add_child(row)
+
+	var title_lbl := _label(title, 12, "#d8dee8")
+	title_lbl.set_meta("moral_role", "choice_title")
+	title_lbl.custom_minimum_size = Vector2(112, 0)
+	title_lbl.uppercase = true
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	row.add_child(title_lbl)
+
+	var sub_lbl := _label(subtitle, 12, "#7f8794")
+	sub_lbl.set_meta("moral_role", "hint_text")
+	sub_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	row.add_child(sub_lbl)
 
 func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
 	var cat: String = str(sit.get("category", "social"))
@@ -4875,9 +4990,6 @@ func _engage_situation(sit: Dictionary):
 
 func _render_essential_actions(ap: int):
 	var disabled: bool = ap <= 0
-	var direct_lbl := _label(_tr("──  직접 행동  ──", "──  Direct Actions  ──"), 11, "#3a3a5a")
-	direct_lbl.set_meta("moral_role", "separator_text")
-	choice_box.add_child(direct_lbl)
 	var no_job: bool = GameState.current_job.is_empty()
 	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
 	if no_job:
@@ -4917,7 +5029,7 @@ func _essential_btn(title: String, subtitle: String, icon_id: String, accent: St
 	if not disabled:
 		var fn_name: String = fn
 		btn.pressed.connect(func():
-			AudioManager.play("click")
+			AudioManager.play_ui_click()
 			self.call(fn_name)
 		)
 	choice_box.add_child(btn)
@@ -4945,29 +5057,29 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343446")
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(0, 62)
+	btn.custom_minimum_size = Vector2(0, 76)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.disabled = disabled
 	btn.focus_mode = Control.FOCUS_ALL
 
 	var accent_color := Color(accent if not disabled else "#343446")
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("#101018") if not disabled else Color("#0b0b10")
-	normal.border_color = accent_color.darkened(0.12)
-	normal.border_width_left = 3
+	normal.bg_color = Color("#0c0d11") if not disabled else Color("#09090d")
+	normal.border_color = accent_color.darkened(0.04)
+	normal.border_width_left = 5
 	normal.set_border_width(SIDE_TOP, 1)
 	normal.set_border_width(SIDE_RIGHT, 1)
 	normal.set_border_width(SIDE_BOTTOM, 1)
-	normal.set_corner_radius_all(6)
+	normal.set_corner_radius_all(3)
 	normal.content_margin_left = 0
 	normal.content_margin_right = 0
 	normal.content_margin_top = 0
 	normal.content_margin_bottom = 0
 	var hover := normal.duplicate()
-	hover.bg_color = Color("#171723")
-	hover.border_color = accent_color.lightened(0.25)
+	hover.bg_color = Color("#15161c")
+	hover.border_color = accent_color.lightened(0.38)
 	var pressed_style := normal.duplicate()
-	pressed_style.bg_color = Color("#0a0a10")
+	pressed_style.bg_color = Color("#08090c")
 	var focus_style := normal.duplicate()
 	focus_style.border_color = Color(COL_GOLD_BRIGHT)
 	focus_style.set_border_width_all(2)
@@ -4983,27 +5095,27 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	margin.add_theme_constant_override("margin_left", 12)
-	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_top", 8)
-	margin.add_theme_constant_override("margin_bottom", 8)
+	margin.add_theme_constant_override("margin_left", 14)
+	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_top", 10)
+	margin.add_theme_constant_override("margin_bottom", 10)
 	btn.add_child(margin)
 
 	var row := HBoxContainer.new()
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_theme_constant_override("separation", 12)
+	row.add_theme_constant_override("separation", 14)
 	margin.add_child(row)
 
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
-	icon_box.custom_minimum_size = Vector2(42, 42)
+	icon_box.custom_minimum_size = Vector2(50, 50)
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var icon_style := StyleBoxFlat.new()
-	icon_style.bg_color = Color(accent, 0.16 if not disabled else 0.06)
+	icon_style.bg_color = Color(accent, 0.20 if not disabled else 0.06)
 	icon_style.border_color = accent_color
-	icon_style.set_border_width_all(1)
-	icon_style.set_corner_radius_all(6)
+	icon_style.set_border_width_all(2 if not disabled else 1)
+	icon_style.set_corner_radius_all(3)
 	icon_box.add_theme_stylebox_override("panel", icon_style)
 	row.add_child(icon_box)
 
@@ -5011,7 +5123,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	icon_tex.set_meta("moral_role", "hud_icon")
 	icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 	icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon_tex.custom_minimum_size = Vector2(34, 34)
+	icon_tex.custom_minimum_size = Vector2(40, 40)
 	icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon_tex.texture = _ui_icon_texture(icon_id)
@@ -5025,14 +5137,14 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	text_col.add_theme_constant_override("separation", 2)
 	row.add_child(text_col)
 
-	var title_lbl := _label(title, 15, "#e8eaf0" if not disabled else "#5f6372")
+	var title_lbl := _label(title, 16, "#edf0f4" if not disabled else "#5f6372")
 	title_lbl.set_meta("moral_role", "choice_title")
 	title_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if _font_bold:
 		title_lbl.add_theme_font_override("font", _font_bold)
 	text_col.add_child(title_lbl)
 
-	var sub_lbl := _label(subtitle, 12, "#9aa4b8" if not disabled else "#484c5c")
+	var sub_lbl := _label(subtitle, 13, "#a6adba" if not disabled else "#484c5c")
 	sub_lbl.set_meta("moral_role", "choice_subtitle")
 	sub_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -5046,15 +5158,15 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var badge := PanelContainer.new()
 	badge.set_meta("moral_role", "choice_badge")
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.custom_minimum_size = Vector2(54, 26)
+	badge.custom_minimum_size = Vector2(62, 30)
 	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var badge_style := StyleBoxFlat.new()
-	badge_style.bg_color = Color("#13131d") if not disabled else Color("#0e0e14")
+	badge_style.bg_color = Color("#101116") if not disabled else Color("#0e0e14")
 	badge_style.border_color = Color("#2e3446") if not free_action else Color("#3d6f59")
 	if forced_badge == _tr("잠금", "Locked"):
 		badge_style.border_color = Color("#3a3a48")
 	badge_style.set_border_width_all(1)
-	badge_style.set_corner_radius_all(5)
+	badge_style.set_corner_radius_all(3)
 	badge_style.content_margin_left = 8
 	badge_style.content_margin_right = 8
 	badge_style.content_margin_top = 4
@@ -5071,7 +5183,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	badge_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	badge.add_child(badge_lbl)
 
-	var arrow_lbl := _label("›", 24, accent if not disabled else "#303040")
+	var arrow_lbl := _label("›", 28, accent if not disabled else "#303040")
 	arrow_lbl.set_meta("moral_role", "choice_arrow")
 	arrow_lbl.set_meta("moral_accent", accent if not disabled else "#343446")
 	arrow_lbl.custom_minimum_size = Vector2(14, 0)
@@ -5091,10 +5203,10 @@ func _hud_chip(parent: Control, icon_id: String, accent: String,
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL if expand else Control.SIZE_SHRINK_BEGIN
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var st := StyleBoxFlat.new()
-	st.bg_color = Color("#0f1018")
-	st.border_color = Color(accent, 0.30)
+	st.bg_color = Color("#0c0d12")
+	st.border_color = Color(accent, 0.24)
 	st.set_border_width_all(1)
-	st.set_corner_radius_all(6)
+	st.set_corner_radius_all(3)
 	st.content_margin_left = 9
 	st.content_margin_right = 9
 	st.content_margin_top = 6
@@ -5319,7 +5431,7 @@ func _cat_modal_icon(fn: String) -> String:
 
 func _open_cat_work():
 	var no_job = GameState.current_job.is_empty()
-	_open_modal(_tr("일 · 커리어", "Work · Career"))
+	_open_modal(_tr("일 · 커리어", "Work · Career"), true)
 	if no_job:
 		modal_body.add_child(_wrap_label(_tr("아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.", "No job yet. Income is zero. You have to start something."), 13, "#c8a060"))
 		_cat_modal_button(_tr("구직활동  —  일자리를 찾아 지원한다", "Job Hunt  —  find and apply for jobs"), "#dc6a2a", "_ap_job_hunt")
@@ -5380,7 +5492,7 @@ func _open_cat_work():
 func _open_cat_money():
 	var has_paycheck: bool = GameState.flags.get("has_received_paycheck", false)
 	var no_job = GameState.current_job.is_empty()
-	_open_modal(_tr("돈 · 투자", "Money · Invest"))
+	_open_modal(_tr("돈 · 투자", "Money · Invest"), true)
 	modal_body.add_child(_wrap_label(_tr("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", "A salary alone won't reach KRW 3B. Make money work for you."), 13, "#7a8496"))
 	if GameState.flags.get("arc_invest_guidance_seen", false):
 		_cat_modal_button(_tr("투자 집중  —  차트를 들여다본다", "Focus on investing  —  study the charts"), "#3a8a5a", "_ap_invest")
@@ -5397,7 +5509,7 @@ func _open_cat_dev():
 	_ap_study()
 
 func _open_cat_people():
-	_open_modal(_tr("사람 · 관계", "People · Relations"))
+	_open_modal(_tr("사람 · 관계", "People · Relations"), true)
 	modal_body.add_child(_wrap_label(_tr("혼자 강남에 가는 사람은 없다. 곁에 있는 사람을 챙기고, 쉬어간다.", "No one reaches Gangnam alone. Care for those near you, and rest."), 13, "#7a8496"))
 
 	# ── 내가 실제로 만난 사람들 (cast 기반) ──
@@ -5443,7 +5555,7 @@ func _open_cat_people():
 	_cat_modal_button(_tr("자유시간  —  한강을 걷거나 그냥 쉰다", "Free time  —  walk the Han River or just rest"), "#3a8a9a", "_ap_free_time")
 
 func _open_cat_life():
-	_open_modal(_tr("생활", "Living"))
+	_open_modal(_tr("생활", "Living"), true)
 	modal_body.add_child(_wrap_label(_tr("주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.", "Housing is quality of life. A better place eases your Mental."), 13, "#7a8496"))
 	var current_name: String = GameState.get_housing_display_name(GameState.housing)
 	var current_expense: String = GameState.format_money(GameState.get_housing_expense())
@@ -5487,7 +5599,7 @@ func _open_cat_gambling():
 			or GameState.flags.get("recovery_holding", false) \
 			or GameState.flags.get("beat_addiction", false)
 	var locked: bool = _in_recovery and not GameState.flags.get("relapsed", false)
-	_open_modal(_tr("도박장", "Gambling Venues"))
+	_open_modal(_tr("도박장", "Gambling Venues"), true)
 	if locked:
 		modal_body.add_child(_wrap_label(_tr("회복 중 — 지금은 들어가지 않기로 했다.", "In recovery — you decided not to go back in."), 13, "#7a8496"))
 		return
@@ -5874,7 +5986,7 @@ const CONTENT_VIGNETTES := [
 
 ## ── 은행 — 대출/상환 (빚으로 판을 키운다, 행동력 무소비) ────────────
 func _open_bank():
-	_open_modal(_tr("은행", "Bank"))
+	_open_modal(_tr("은행", "Bank"), true)
 	modal_body.add_child(_modal_section_header(
 		_tr("대출 / 상환", "Borrow / Repay"),
 		"money",
@@ -6374,23 +6486,21 @@ func _story_result_cast_badge(pid: String, affinity_delta: int) -> Control:
 	return badge
 
 func _story_result_cast_name(pid: String) -> String:
-	if LocaleManager.is_english():
-		return {
-			"father": "Father",
-			"jiyeon": "Han Jiyeon",
-			"daeun": "Kim Daeun",
-			"jaehyuk": "Choi Jaehyuk",
-			"sangchul": "Im Sangchul",
-			"hyunsu": "Hyunsu",
-		}.get(pid, pid)
-	return {
-		"father": "아버지",
-		"jiyeon": "한지연",
-		"daeun": "김다은",
-		"jaehyuk": "최재혁",
-		"sangchul": "임상철",
-		"hyunsu": "현수",
-	}.get(pid, pid)
+	match pid:
+		"father":
+			return _tr("아버지", "Father")
+		"jiyeon":
+			return _tr("한지연", "Han Jiyeon")
+		"daeun":
+			return _tr("김다은", "Kim Daeun")
+		"jaehyuk":
+			return _tr("최재혁", "Choi Jaehyuk")
+		"sangchul":
+			return _tr("임상철", "Im Sangchul")
+		"hyunsu":
+			return _tr("현수", "Hyunsu")
+		_:
+			return pid
 
 func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> String:
 	var lower_title := title.to_lower()
@@ -6564,7 +6674,7 @@ func _ap_market_analysis():
 	var cycle = str(GameState.market_context.get("cycle", "neutral"))
 	var fg = int(GameState.market_context.get("fear_greed", 50))
 	var crash_risk = float(GameState.market_context.get("crash_risk", 0.05))
-	_open_modal(_tr("시장 분석", "Market Analysis"))
+	_open_modal(_tr("시장 분석", "Market Analysis"), true)
 	modal_body.add_child(_modal_section_header(
 		_tr("시장 리포트", "Market Report"),
 		"market",
@@ -6588,7 +6698,7 @@ func _ap_market_analysis():
 #  _open_leverage_investments를 직접 연결해 진입함.)
 
 func _open_leverage_investments():
-	_open_modal(_tr("레버리지 투자", "Leverage Investing"))
+	_open_modal(_tr("레버리지 투자", "Leverage Investing"), true)
 	var ap_now = GameState.action_points
 	modal_body.add_child(_modal_section_header(
 		_tr("2배 포지션", "2x Position"),
@@ -6665,7 +6775,7 @@ func _ap_vip_network():
 	_refresh_all()
 
 func _open_jobs():
-	_open_modal(_tr("직업 선택", "Choose a Job"))
+	_open_modal(_tr("직업 선택", "Choose a Job"), true)
 	if GameState.current_job.is_empty():
 		var _jh_v: Dictionary = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
 		var mood: String = str(_jh_v.get("et" if LocaleManager.is_english() else "t", _jh_v.get("t", "")))
@@ -6836,7 +6946,11 @@ func _build_investment_market_board() -> Control:
 	return panel
 
 func _open_investments():
-	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"))
+	_open_modal(_tr("투자 / 매수·매도", "Invest / Buy·Sell"), true, "investments")
+	_invest_pad_asset_ids.clear()
+	_invest_pad_asset_cards.clear()
+	_invest_pad_asset_idx = 0
+	_invest_pad_action_idx = 0
 	modal_body.add_child(_modal_section_header(
 		_tr("포트폴리오", "Portfolio"),
 		"invest",
@@ -6862,31 +6976,28 @@ func _open_investments():
 	inv_gloss_btn.custom_minimum_size = Vector2(78, 32)
 	inv_gloss_btn.pressed.connect(func(): _open_glossary(_tr("투자 용어", "Investing Terms"), "invest"))
 	inv_hint_row.add_child(inv_gloss_btn)
+	_invest_pad_hint_label = RichTextLabel.new()
+	_invest_pad_hint_label.bbcode_enabled = true
+	_invest_pad_hint_label.fit_content = true
+	_invest_pad_hint_label.scroll_active = false
+	_invest_pad_hint_label.add_theme_font_size_override("normal_font_size", 11)
+	_invest_pad_hint_label.add_theme_color_override("default_color", Color("#8f98a8"))
+	if _font_bold:
+		_invest_pad_hint_label.add_theme_font_override("bold_font", _font_bold)
+	modal_body.add_child(_invest_pad_hint_label)
 	modal_body.add_child(_build_investment_market_board())
-	# 은행 — 대출/상환 (재무 거래라 행동력 무소비)
-	var bank_btn := _icon_button(_tr("은행 — 대출/상환", "Bank — Loan/Repay"), "money", "#1a2438")
-	bank_btn.pressed.connect(_open_bank)
-	modal_body.add_child(bank_btn)
-	if GameState.get_loan_total() > 0:
-		modal_body.add_child(_wrap_label(_tr("대출 원금 %s — 매달 이자가 먼저 나갑니다", "Loan principal %s — interest is deducted first each month") % GameState.format_money(GameState.get_loan_total()), 12, "#f59e0b"))
 	# 첫 방문 투자 가이드
 	if not GameState.flags.get("investment_first_visited", false):
 		GameState.flags["investment_first_visited"] = true
-		modal_body.add_child(_modal_section_header(_tr("투자 첫 방문", "First Visit"), "info", "#f0b429", _tr("처음엔 낮은 리스크 자산에 소액부터 진입하세요.", "Start with small amounts in low-risk assets.")))
 		modal_body.add_child(_wrap_label(
-			_tr("핵심만 기억하세요: 공포가 낮을 때 분할 매수, 탐욕이 높을 때 일부 매도.\n레버리지는 수익과 손실이 모두 2배라 입문자는 피하는 편이 안전합니다.\n처음엔 리스크 ●●○○○ 이하 자산에 10~20만원 단위로 작게 시작하세요.",
-			"Remember the basics: scale in when Fear is low, trim positions when Greed is high.\nLeverage doubles both gains and losses, so beginners should avoid it.\nStart small, KRW 100k-200k at a time, in assets rated risk ●●○○○ or lower."),
-			14, "#a7b0c2"))
-		var guide_sep0 = HSeparator.new()
-		guide_sep0.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(guide_sep0)
+			_tr("첫 투자: 낮은 리스크 자산에 10~20만원씩 작게 들어가고, 레버리지는 익숙해진 뒤에 쓰세요.",
+			"First trade: start small, KRW 100k-200k in low-risk assets. Save leverage for later."),
+			12, "#a7b0c2"))
 	elif GameState.investment_skill < 25:
 		modal_body.add_child(_wrap_label(
-			_tr("투자 입문: 투자감각이 낮을수록 거래 수수료가 높습니다.\n    리스크 ●●○○○ 이하 자산부터 소액(10만원)으로 시작해보세요.", "Investing basics: the lower your investing sense, the higher the fees.\n    Start small (KRW 100k) with assets rated risk ●●○○○ or below."),
-			13, "#f0b429"))
-		var guide_sep = HSeparator.new()
-		guide_sep.add_theme_color_override("color", Color("#252535"))
-		modal_body.add_child(guide_sep)
+			_tr("입문 팁: 투자감각이 낮으면 수수료가 높습니다. 낮은 리스크 자산부터 작게 시작하세요.",
+			"Beginner tip: low Investing means higher fees. Start small with lower-risk assets."),
+			12, "#f0b429"))
 	var sep_top = HSeparator.new()
 	sep_top.add_theme_color_override("color", Color("#252535"))
 	modal_body.add_child(sep_top)
@@ -6929,7 +7040,7 @@ func _open_investments():
 			chart_hist = chart_hist.slice(first_nonzero)
 		if chart_hist.size() >= 2:
 			var chart_node := Control.new()
-			chart_node.custom_minimum_size = Vector2(0, 56)
+			chart_node.custom_minimum_size = Vector2(0, 34)
 			chart_node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			var chart_data := chart_hist.duplicate()
 			var chart_color := Color("#00c896") if float(chart_data[-1]) >= float(chart_data[0]) else Color("#ff4444")
@@ -6969,7 +7080,17 @@ func _open_investments():
 		"#5b9cf6",
 		_tr("각 자산 카드에서 추세를 보고 바로 매수·매도하세요.", "Read each asset card, then buy or sell directly.")))
 	for row in investment_system.get_asset_rows():
+		_invest_pad_asset_ids.append(str(row.get("id", "")))
 		modal_body.add_child(_build_investment_asset_card(row))
+	_invest_pad_asset_idx = clampi(_invest_pad_asset_idx, 0, max(0, _invest_pad_asset_ids.size() - 1))
+	_invest_pad_action_idx = 0
+	_apply_invest_pad_cursor()
+	# 은행 — 대출/상환 (재무 거래라 행동력 무소비). 거래 카드 뒤에 둬 첫 화면의 목적을 흐리지 않는다.
+	var bank_btn := _icon_button(_tr("은행 — 대출/상환", "Bank — Loan/Repay"), "money", "#1a2438")
+	bank_btn.pressed.connect(_open_bank)
+	modal_body.add_child(bank_btn)
+	if GameState.get_loan_total() > 0:
+		modal_body.add_child(_wrap_label(_tr("대출 원금 %s — 매달 이자가 먼저 나갑니다", "Loan principal %s — interest is deducted first each month") % GameState.format_money(GameState.get_loan_total()), 12, "#f59e0b"))
 	# ── 레버리지 투자 진입 (투자감각 30 이상 해금) ──
 	if GameState.investment_skill >= 30:
 		var lev_btn := _icon_button(_tr("레버리지 투자 — 2배 포지션 고수익·고위험", "Leverage Investing — 2x position, high reward·high risk"), "leverage", "#7f1d1d")
@@ -6979,6 +7100,128 @@ func _open_investments():
 		modal_body.add_child(_wrap_label(
 			_tr("잠금: 레버리지 투자 — 투자감각 30 달성 시 해금 (현재 %d)", "Locked: Leverage Investing — unlocks at Investing 30 (current %d)") % GameState.investment_skill,
 			12, "#4a5a72"))
+
+func _handle_investment_modal_input(event: InputEvent) -> bool:
+	if event is InputEventKey and (event as InputEventKey).echo:
+		return false
+	if event.is_action_pressed("ui_up"):
+		return _invest_move_asset(-1)
+	if event.is_action_pressed("ui_down"):
+		return _invest_move_asset(1)
+	if event.is_action_pressed("ui_left") or event.is_action_pressed("gd_tab_prev"):
+		return _invest_cycle_action(-1)
+	if event.is_action_pressed("ui_right") or event.is_action_pressed("gd_tab_next"):
+		return _invest_cycle_action(1)
+	if event.is_action_pressed("ui_accept"):
+		return _invest_confirm_action()
+	return false
+
+func _invest_selected_asset_id() -> String:
+	if _invest_pad_asset_ids.is_empty():
+		return ""
+	_invest_pad_asset_idx = clampi(_invest_pad_asset_idx, 0, _invest_pad_asset_ids.size() - 1)
+	return str(_invest_pad_asset_ids[_invest_pad_asset_idx])
+
+func _invest_asset_display_name(asset_id: String) -> String:
+	for row in investment_system.get_asset_rows():
+		if str(row.get("id", "")) == asset_id:
+			return str(row.get("name", asset_id))
+	return asset_id
+
+func _invest_pad_actions(asset_id: String) -> Array:
+	var actions: Array = []
+	if asset_id.is_empty() or GameState.action_points <= 0:
+		return actions
+	for amount in [100_000, 500_000, 1_000_000]:
+		if GameState.money >= float(amount):
+			actions.append({
+				"label": _tr("매수 %s", "Buy %s") % GameState.format_money(float(amount)),
+				"callback": Callable(self, "_on_buy_asset").bind(asset_id, amount)
+			})
+	if GameState.portfolio.has(asset_id):
+		for sell_info in [["25%", 0.25], ["50%", 0.5], [_tr("전량", "All"), 1.0]]:
+			actions.append({
+				"label": _tr("매도 %s", "Sell %s") % sell_info[0],
+				"callback": Callable(self, "_on_sell_asset").bind(asset_id, sell_info[1])
+			})
+	return actions
+
+func _invest_move_asset(delta: int) -> bool:
+	if _invest_pad_asset_ids.is_empty():
+		return true
+	_invest_pad_asset_idx = int(posmod(_invest_pad_asset_idx + delta, _invest_pad_asset_ids.size()))
+	_invest_pad_action_idx = 0
+	AudioManager.play_ui_click()
+	_apply_invest_pad_cursor()
+	return true
+
+func _invest_cycle_action(delta: int) -> bool:
+	var actions := _invest_pad_actions(_invest_selected_asset_id())
+	if actions.is_empty():
+		_refresh_invest_pad_hint()
+		return true
+	_invest_pad_action_idx = int(posmod(_invest_pad_action_idx + delta, actions.size()))
+	AudioManager.play_ui_click()
+	_refresh_invest_pad_hint()
+	return true
+
+func _invest_confirm_action() -> bool:
+	var actions := _invest_pad_actions(_invest_selected_asset_id())
+	if actions.is_empty():
+		_show_toast(_tr("가능한 거래가 없습니다", "No available trade"), Color("#9aa4b8"))
+		return true
+	_invest_pad_action_idx = clampi(_invest_pad_action_idx, 0, actions.size() - 1)
+	var cb: Callable = actions[_invest_pad_action_idx].get("callback", Callable())
+	if cb.is_valid():
+		cb.call()
+	return true
+
+func _apply_invest_pad_cursor() -> void:
+	if _invest_pad_asset_ids.is_empty():
+		_refresh_invest_pad_hint()
+		return
+	var selected_id := _invest_selected_asset_id()
+	for card in _invest_pad_asset_cards:
+		if not is_instance_valid(card):
+			continue
+		var panel := card as PanelContainer
+		var asset_id := str(panel.get_meta("invest_asset_id", ""))
+		var selected := asset_id == selected_id and ControllerHints.is_pad_active()
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#0b1116")
+		st.border_color = Color(COL_GOLD_BRIGHT if selected else str(panel.get_meta("invest_base_border", "#8892a4")))
+		st.set_border_width_all(2 if selected else 1)
+		st.border_width_left = 6 if selected else 4
+		st.set_corner_radius_all(7)
+		st.content_margin_left = 14
+		st.content_margin_right = 14
+		st.content_margin_top = 12
+		st.content_margin_bottom = 12
+		panel.add_theme_stylebox_override("panel", st)
+		if selected and is_instance_valid(modal_scroll):
+			modal_scroll.call_deferred("ensure_control_visible", panel)
+	_refresh_invest_pad_hint()
+
+func _refresh_invest_pad_hint() -> void:
+	if not is_instance_valid(_invest_pad_hint_label):
+		return
+	if not ControllerHints.is_pad_active() or _modal_kind != "investments":
+		_invest_pad_hint_label.visible = false
+		return
+	_invest_pad_hint_label.visible = true
+	var asset_id := _invest_selected_asset_id()
+	if asset_id.is_empty():
+		_invest_pad_hint_label.text = _tr("[b]패드[/b]  거래 가능한 자산 없음", "[b]Pad[/b]  No tradable assets")
+		return
+	var actions := _invest_pad_actions(asset_id)
+	var action_label := _tr("거래 불가", "No trade")
+	if not actions.is_empty():
+		_invest_pad_action_idx = clampi(_invest_pad_action_idx, 0, actions.size() - 1)
+		action_label = str(actions[_invest_pad_action_idx].get("label", action_label))
+	_invest_pad_hint_label.text = _tr(
+		"[b]패드[/b]  ↑↓ 자산 · ←→ 행동 · A %s · B 뒤로  —  %s",
+		"[b]Pad[/b]  ↑↓ Asset · ←→ Action · A %s · B Back  —  %s"
+	) % [action_label, _invest_asset_display_name(asset_id)]
 
 func _build_investment_asset_card(row: Dictionary) -> Control:
 	var asset_id: String = str(row.get("id", ""))
@@ -6992,6 +7235,8 @@ func _build_investment_asset_card(row: Dictionary) -> Control:
 		trend_color = "#00c896" if float(hist[-1]) >= float(hist[-2]) else "#ff4444"
 
 	var panel := PanelContainer.new()
+	panel.set_meta("invest_asset_id", asset_id)
+	panel.set_meta("invest_base_border", trend_color)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color("#0b1116")
@@ -7004,6 +7249,7 @@ func _build_investment_asset_card(row: Dictionary) -> Control:
 	st.content_margin_top = 12
 	st.content_margin_bottom = 12
 	panel.add_theme_stylebox_override("panel", st)
+	_invest_pad_asset_cards.append(panel)
 
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -7093,7 +7339,7 @@ func _build_investment_asset_card(row: Dictionary) -> Control:
 	return panel
 
 func _open_shop():
-	_open_modal(_tr("상점", "Shop"))
+	_open_modal(_tr("상점", "Shop"), true)
 	modal_body.add_child(_modal_section_header(
 		_tr("생활 / 자기관리 아이템", "Life / Self-Care Items"),
 		"shop",
@@ -7247,7 +7493,7 @@ func _on_use_item(item_id):
 		_show_toast(str(result.get("message", _tr("사용 불가", "Cannot use"))), Color("#ff4444"))
 
 func _open_system_menu():
-	_open_modal(_tr("시스템", "System"))
+	_open_modal(_tr("시스템", "System"), true)
 	modal_body.add_child(_modal_section_header(
 		_tr("설정 / 저장", "Settings / Save"),
 		"menu",
@@ -7402,21 +7648,25 @@ func _unhandled_input(event):
 		get_viewport().set_input_as_handled()
 		return
 	# RB/LB: 정보 탭 순환 (모달 닫힌 상태에서만)
-	if event.is_action_pressed("gd_tab_next"):
-		if not modal_layer.visible and info_tabs:
+	if event.is_action_pressed("gd_tab_next") and not modal_layer.visible:
+		if info_tabs:
 			info_tabs.current_tab = (info_tabs.current_tab + 1) % info_tabs.get_tab_count()
 			get_viewport().set_input_as_handled()
 		return
-	if event.is_action_pressed("gd_tab_prev"):
-		if not modal_layer.visible and info_tabs:
+	if event.is_action_pressed("gd_tab_prev") and not modal_layer.visible:
+		if info_tabs:
 			info_tabs.current_tab = (info_tabs.current_tab - 1 + info_tabs.get_tab_count()) % info_tabs.get_tab_count()
 			get_viewport().set_input_as_handled()
 		return
+	if modal_layer and modal_layer.visible and _modal_kind == "investments":
+		if _handle_investment_modal_input(event):
+			get_viewport().set_input_as_handled()
+			return
 	if not event.is_action_pressed("ui_cancel"):
 		return
 	if modal_layer and modal_layer.visible:
-		# 시스템 메뉴만 ESC/B로 닫는다 — 이벤트/결산 모달은 흐름 보호를 위해 버튼으로만
-		if modal_title_label and modal_title_label.text == _tr("≡ 시스템", "≡ System"):
+		# 메뉴형 모달만 ESC/B로 닫는다. 이벤트/결산/엔딩은 흐름 보호를 위해 명시 버튼으로만 닫는다.
+		if _modal_cancelable:
 			_close_modal()
 			get_viewport().set_input_as_handled()
 		return
@@ -7427,9 +7677,15 @@ func _go_to_menu():
 	SaveManager.autosave()
 	SceneTransition.go("res://scenes/StartMenu.tscn")
 
-func _open_modal(title):
+func _open_modal(title, cancelable: bool = false, kind: String = ""):
 	_clear_box(modal_body)
 	modal_title_label.text = title
+	_modal_cancelable = cancelable
+	_modal_kind = kind
+	_invest_pad_hint_label = null
+	if is_instance_valid(modal_pad_hint_label):
+		modal_pad_hint_label.visible = cancelable and ControllerHints.is_pad_active()
+		modal_pad_hint_label.text = _tr("[%s] 뒤로", "[%s] Back") % ControllerHints.east()
 	modal_layer.visible = true
 	modal_layer.color = Color(0, 0, 0, 0.70)
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -7446,7 +7702,7 @@ func _open_modal(title):
 		modal_panel.offset_right  =  380
 		modal_panel.offset_top    = -305
 		modal_panel.offset_bottom =  305
-	AudioManager.play("open_modal")
+	AudioManager.play_ui_open()
 	call_deferred("_reset_modal_scroll")
 	call_deferred("_focus_first_in_modal_body")
 
@@ -7475,7 +7731,12 @@ func _focus_first_in_modal_body():
 func _close_modal():
 	modal_layer.visible = false
 	modal_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	AudioManager.play("close")
+	_modal_cancelable = false
+	_modal_kind = ""
+	_invest_pad_hint_label = null
+	if is_instance_valid(modal_pad_hint_label):
+		modal_pad_hint_label.visible = false
+	AudioManager.play_ui_close()
 	if _pending_month_summary:
 		_pending_month_summary = false
 		_begin_month()
@@ -9083,18 +9344,21 @@ func _get_ap_pattern_comment(actions: Array) -> String:
 	var social := 0
 	var saving := 0
 	var work := 0
+	var resume_token := _tr("자소서", "Resume")
+	var mock_interview_token := _tr("모의 면접", "Mock Interview")
+	var job_hunt_token := _tr("구직활동", "Job Hunt")
 	for entry in actions:
 		var e: String = str(entry)
 		if "🎰" in e or "🏇" in e or "🃏" in e:
 			gambling += 1
 		elif "📚" in e or "📖" in e or "🏃" in e or "🧘" in e or "📊" in e or "🎯" in e or "🖊" in e or "🌊" in e \
-				or "Resume" in e or "자소서" in e or "Mock Interview" in e or "모의 면접" in e:
+				or "Resume" in e or resume_token in e or "Mock Interview" in e or mock_interview_token in e:
 			selfdev += 1
 		elif "🤝" in e:
 			social += 1
 		elif "💰" in e:
 			saving += 1
-		elif "💼" in e or "Job Hunt" in e or "구직활동" in e:
+		elif "💼" in e or "Job Hunt" in e or job_hunt_token in e:
 			work += 1
 	var total = actions.size()
 	if gambling >= total and total >= 2:
@@ -9342,7 +9606,7 @@ func _button(text, color) -> Button:
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color(color)
-	normal.set_corner_radius_all(5)
+	normal.set_corner_radius_all(3)
 	normal.content_margin_left = 16
 	normal.content_margin_right = 16
 	normal.content_margin_top = 10
@@ -9362,7 +9626,7 @@ func _button(text, color) -> Button:
 	focus_st.border_color = Color("#f0b429")
 	focus_st.set_border_width_all(UI_FOCUS_BORDER)
 	button.add_theme_stylebox_override("focus", focus_st)
-	button.pressed.connect(func(): AudioManager.play("click"))
+	button.pressed.connect(func(): AudioManager.play_ui_click())
 	_apply_moral_tree_styles(button, _moral_ui_palette())
 	_bind_tactile_button(button, 0.75)
 	return button
@@ -9383,7 +9647,7 @@ func _primary_cta_button(text: String) -> Button:
 	normal.border_color = Color("#cbd5df", 0.72)
 	normal.set_border_width_all(1)
 	normal.border_width_left = 4
-	normal.set_corner_radius_all(6)
+	normal.set_corner_radius_all(4)
 	normal.content_margin_left = 18
 	normal.content_margin_right = 18
 	normal.content_margin_top = 12
@@ -9424,7 +9688,7 @@ func _action_button(text: String, accent_color: String) -> Button:
 	normal.bg_color = Color("#111118")
 	normal.border_color = Color(accent_color)
 	normal.border_width_left = 4
-	normal.set_corner_radius_all(4)
+	normal.set_corner_radius_all(3)
 	normal.content_margin_left = 16
 	normal.content_margin_right = 14
 	normal.content_margin_top = 9
@@ -9447,7 +9711,7 @@ func _action_button(text: String, accent_color: String) -> Button:
 	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
-	button.pressed.connect(func(): AudioManager.play("click"))
+	button.pressed.connect(func(): AudioManager.play_ui_click())
 	_apply_moral_tree_styles(button, _moral_ui_palette())
 	_bind_tactile_button(button, 1.0)
 	return button
@@ -9461,7 +9725,7 @@ func _small_button(text, color) -> Button:
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var normal = StyleBoxFlat.new()
 	normal.bg_color = Color(color)
-	normal.set_corner_radius_all(4)
+	normal.set_corner_radius_all(3)
 	normal.content_margin_left = 10
 	normal.content_margin_right = 10
 	normal.content_margin_top = 7
@@ -9478,6 +9742,7 @@ func _small_button(text, color) -> Button:
 	button.add_theme_font_size_override("font_size", UI_MIN_BUTTON_FONT)
 	if _font_regular:
 		button.add_theme_font_override("font", _font_regular)
+	button.pressed.connect(func(): AudioManager.play_ui_click(-7.0))
 	_apply_moral_tree_styles(button, _moral_ui_palette())
 	_bind_tactile_button(button, 0.65)
 	return button
@@ -9903,7 +10168,7 @@ func _title_collection_row(name_text: String, desc_text: String, rare_label: Str
 	return card
 
 func _open_title_collection():
-	_open_modal(_tr("칭호 도감", "Title Collection"))
+	_open_modal(_tr("칭호 도감", "Title Collection"), true)
 	if modal_panel:
 		modal_panel.custom_minimum_size = Vector2(680, 600)
 		modal_panel.offset_left  = -340
@@ -10000,7 +10265,7 @@ const GLOSSARY_INVEST := [
 ]
 
 func _open_glossary(title: String, category: String):
-	_open_modal(title)
+	_open_modal(title, true)
 	var terms := GLOSSARY_BANK if category == "bank" else GLOSSARY_INVEST
 	for pair in terms:
 		var item: Dictionary = pair

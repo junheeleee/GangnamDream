@@ -167,7 +167,7 @@
       "min_turn": 8
     },
     "cooldown": 26,
-    "background": "restaurant",
+    "background": "company_dinner_restaurant",
     "portrait": "player_normal",
     "tags": [
       "korea",

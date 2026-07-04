@@ -97,6 +97,8 @@ const PERSON_NAMES_EN = {
 	"seongjun": "Park Seongjun",
 	"mother": "Mother",
 	"boss": "Team Lead",
+	"jaewon": "Park Jaewon",
+	"minseo": "Lee Minseo",
 }
 
 # ── 배경 이미지 ────────────────────────────────────────────────
@@ -108,6 +110,7 @@ const BACKGROUNDS = {
 	# 서울 일상
 	"convenience_night": "res://assets/backgrounds/convenience_store_night.png",
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
+	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
 	"street_rainy":      "res://assets/backgrounds/seoul_rainy_street.png",
 	"pojangmacha":       "res://assets/backgrounds/pojangmacha.png",
@@ -115,6 +118,17 @@ const BACKGROUNDS = {
 	"namsan_tower":      "res://assets/backgrounds/namsan_tower_view.png",
 	"rooftop_day":       "res://assets/backgrounds/rooftop_daytime.png",
 	"rooftop_night":     "res://assets/backgrounds/rooftop_night.png",
+	"hagwon_street":     "res://assets/backgrounds/hagwon_street.png",
+	"suneung_test_hall": "res://assets/backgrounds/suneung_test_hall.png",
+	"community_center":  "res://assets/backgrounds/community_center.png",
+	"jjimjilbang":       "res://assets/backgrounds/jjimjilbang.png",
+	"cherry_blossom_path": "res://assets/backgrounds/cherry_blossom_path.png",
+	"saju_cafe":         "res://assets/backgrounds/saju_cafe.png",
+	"company_dinner_restaurant": "res://assets/backgrounds/company_dinner_restaurant.png",
+	"heatwave_city":     "res://assets/backgrounds/heatwave_city.png",
+	"fine_dust_sky":     "res://assets/backgrounds/fine_dust_sky.png",
+	"chuseok_highway":   "res://assets/backgrounds/chuseok_highway.png",
+	"open_chat_screen":  "res://assets/backgrounds/open_chat_screen.png",
 	# 직장/사업
 	"office":            "res://assets/backgrounds/office_desk.png",
 	"office_interview_day": "res://assets/backgrounds/office_interview_day.png",
@@ -130,6 +144,7 @@ const BACKGROUNDS = {
 	"gym":               "res://assets/backgrounds/gym_interior.png",
 	"exercise":          "res://assets/backgrounds/gym_interior.png",
 	"military":          "res://assets/backgrounds/military_training_ground.png",
+	"military_base_gate": "res://assets/backgrounds/military_base_gate.png",
 	# Canon-safe Changwon father-home background regenerated on 2026-06-12.
 	"dad_house":         "res://assets/backgrounds/family_living_room.png",
 	"ktx_window":        "res://assets/backgrounds/hometown_train_station.png",
@@ -284,6 +299,131 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 		"namsan", "seoul tower"
 	]):
 		return "namsan_tower"
+	if event_id == "arc_minseo_01_meet":
+		return "meeting"
+	if event_id in ["arc_minseo_02_real", "arc_minseo_03_arrival", "arc_minseo_03b_not_arrived"]:
+		return "cafe"
+	if event_id in ["arc_jaehyuk_sangchul_echo", "arc_jiyeon_father_records"]:
+		return "cafe"
+	if event_id == "arc_pre_ending_summit":
+		return "realestate_office"
+	if event_id == "arc_gangnam_real_estate":
+		return "investment_phone"
+	if event_id == "arc_36_body_signal":
+		return "goshiwon_hallway"
+	if event_id == "callback_hoesik_payoff":
+		return "office"
+	if event_id == "casino_chip_exchange":
+		return "jeongseon_casino_entrance"
+	if event_id == "amb_jeonse_00":
+		return "apartment"
+	if event_id in ["amb_coin_00", "amb_coin_warn"]:
+		return "investment_phone"
+	if event_id == "amb_hoesik_drink":
+		return "goshiwon_room"
+	if event_id == "amb_jobswitch_in":
+		return "office"
+	if event_id == "amb_quit_impulse":
+		return "subway"
+	if event_id in ["arc_daeun_03b_date", "arc_daeun_05_breaking"]:
+		return "pojangmacha"
+	if "cherry_blossom" in tags or "spring_cherry" in tags or _has_any(search, [
+		"벚꽃", "여의도 둑방", "석촌호수", "꽃잎", "cherry blossom", "cherry blossoms",
+		"yeouido embankment", "seokchon lake", "petals"
+	]):
+		return "cherry_blossom_path"
+	if "saju" in tags or _has_any(search, [
+		"사주카페", "사주", "생년월일시", "fortune-reading", "fortune reading",
+		"fortune cafe", "saju"
+	]):
+		return "saju_cafe"
+	if "pojangmacha" in tags or _has_any(search, [
+		"포장마차", "street stall", "pojangmacha"
+	]):
+		return "pojangmacha"
+	if "hoesik" in tags or _has_any(search, [
+		"회식", "삼겹살집", "삼겹살", "소주", "노래방", "포장마차",
+		"company dinner", "hoesik", "samgyeopsal", "soju", "noraebang", "karaoke"
+	]):
+		return "company_dinner_restaurant"
+	if "heatwave" in tags or _has_any(search, [
+		"폭염", "체감온도 40도", "아스팔트 열기", "냉방 쉼터", "heatwave",
+		"heat wave", "feels like 40", "asphalt heat", "cooling shelter"
+	]):
+		return "heatwave_city"
+	if event_id == "kx_fine_dust" or "fine_dust" in tags or _has_any(search, [
+		"미세먼지", "황사", "kf94", "초미세먼지", "air pollution", "fine dust",
+		"yellow dust", "smog", "kf94 mask"
+	]):
+		return "fine_dust_sky"
+	if event_id == "kx_chuseok_traffic" or _has_any(search, [
+		"추석 귀성길", "귀성길", "추석 연휴", "고속도로", "시외버스", "ktx는",
+		"chuseok traffic", "holiday traffic", "homecoming traffic", "intercity bus"
+	]):
+		return "chuseok_highway"
+	if event_id == "kx_open_chat" or _has_any(search, [
+		"오픈채팅", "오픈 채팅", "open chat", "open chatroom", "anonymous chat",
+		"online investing chat", "chat room"
+	]):
+		return "open_chat_screen"
+	if event_id == "kx_monsoon" or _has_any(search, [
+		"장마", "며칠 째 비", "젖은 우산", "monsoon", "raining for days", "wet umbrellas"
+	]):
+		return "street_rainy"
+	if event_id == "kx_civil_defense_siren" or _has_any(search, [
+		"민방위", "사이렌", "civil defense siren", "civil defense drill"
+	]):
+		return "street"
+	if "hagwon" in tags or _has_any(search, [
+		"학원가", "학원", "대치동", "입시학원", "보습학원", "private academy",
+		"academy street", "hagwon", "daechi"
+	]):
+		return "hagwon_street"
+	if "suneung" in tags or _has_any(search, [
+		"수능", "시험장", "고사장", "수험표", "감독관", "college scholastic ability test",
+		"csat", "exam hall", "test hall"
+	]):
+		return "suneung_test_hall"
+	if "community_center" in tags or _has_any(search, [
+		"주민센터", "동사무소", "행정복지센터", "번호표", "확정일자", "민원 창구",
+		"community center", "district office", "public service office", "queue ticket"
+	]):
+		return "community_center"
+	if "jjimjilbang" in tags or _has_any(search, [
+		"찜질방", "황토방", "사우나", "목욕탕", "찜질복", "나무 베개",
+		"jjimjilbang", "korean sauna", "sauna room"
+	]):
+		return "jjimjilbang"
+	if "reserve_duty" in tags or _has_any(search, [
+		"예비군", "입소 통지서", "훈련 통지", "불참 시 과태료", "reserve forces",
+		"reserve duty", "reserve-force", "reserve training", "no-show fine"
+	]):
+		return "military_base_gate"
+	if event_id == "kx_convenience_store_job" or _has_any(search, [
+		"편의점 알바 면접", "편의점 점장", "convenience store interview",
+		"convenience-store interview"
+	]):
+		return "convenience_night"
+	if event_id == "kx_claw_machine" or _has_any(search, [
+		"인형뽑기", "뽑기의 함정", "지하철역 출구 인형뽑기", "claw machine"
+	]):
+		return "gangnam_station"
+	if event_id == "kx_room_escape" or _has_any(search, [
+		"방탈출", "방탈출 카페", "escape room"
+	]):
+		return "cafe"
+	if event_id == "kx_health_insurance" or _has_any(search, [
+		"건강보험료 고지서", "지역가입자", "health insurance bill"
+	]):
+		return "goshiwon_room"
+	if event_id == "kx_holiday_alone" or _has_any(search, [
+		"혼자 보내는 명절", "명절 연휴, 서울은 텅 비었다", "holidays alone"
+	]):
+		return "goshiwon_room"
+	if event_id == "kx_naver_cafe" or _has_any(search, [
+		"네이버 카페", "naver café", "naver cafe"
+	]):
+		return "goshiwon_room"
 	if _has_any(search, [
 		"신촌 이면도로", "back-alley in sinchon"
 	]):
@@ -363,7 +503,9 @@ func infer_background_id(ev: Dictionary, housing: String = "gosiwon") -> String:
 		return "gangnam_night"
 	if category == "gambling" or "gambling" in tags or "crypto" in tags:
 		return "investment_phone"
-	if "pc_bang" in tags or "gaming" in tags:
+	if "pc_bang" in tags or "gaming" in tags or _has_any(search, [
+		"pc방", "피시방", "pc bang", "pc cafe", "internet cafe"
+	]):
 		return "pc_bang"
 	if "gangnam_station" in tags:
 		return "gangnam_station"

@@ -628,10 +628,44 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 		_mg._finish_typing()
 	await _settle(0.2)
 	await _shot_action_category_modal("_open_cat_money", prefix + "04_money_modal")
+	if _mg.has_method("_open_investments"):
+		_mg.call("_open_investments")
+		await _settle(0.7)
+		await _save(prefix + "04a_investment_modal")
+		_close_modal()
+		await _settle(0.3)
 	await _shot_action_category_modal("_open_cat_people", prefix + "05_people_modal")
 	await _shot_action_category_modal("_open_cat_life", prefix + "06_life_modal")
 	await _shot_info_panel_tabs(lang, prefix)
 	await _shot_people(prefix)
+	await _assert_ap_next_week_unlocked()
+
+func _assert_ap_next_week_unlocked() -> void:
+	if _mg == null:
+		_fail("MainGame instance is unavailable for AP next-week regression.")
+		return
+	GameState.action_points = 0
+	GameState.month = 1
+	GameState.week_of_month = 2
+	GameState.turn = 2
+	_mg.current_event = {}
+	_mg.set("pending_result_text", "")
+	if _mg.has_method("_render_ap_actions"):
+		_mg.call("_render_ap_actions")
+	await _settle(0.15)
+	var next_btn := _mg.get("next_button") as Button
+	if next_btn == null:
+		_fail("MainGame next_button is unavailable on AP shell.")
+		return
+	if next_btn.disabled:
+		_fail("AP shell leaves next-week button disabled when AP is 0.")
+		return
+	if _mg.has_method("_on_next_month"):
+		_mg.call("_on_next_month")
+	await _settle(0.15)
+	if GameState.week_of_month != 3:
+		_fail("AP next-week action did not advance from week 2 to week 3.")
+		return
 
 func _shot_invest_surfaces(lang: String = "en", prefix: String = "invest_en_") -> void:
 	_set_qa_language(lang)

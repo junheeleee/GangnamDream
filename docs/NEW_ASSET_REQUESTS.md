@@ -8,32 +8,38 @@
 
 ### 우선순위 높음 (High)
 
+> 2026-07-01 Codex: 아래 4종은 전용 배경을 추가하고 `ImageRegistry` 자동 추론에 연결함.
+
 | 요청 ID | 설명 | 현재 대체 | 사용 이벤트 |
 |---|---|---|---|
-| `hagwon_street` | 밤 10시 대치동 학원가. 학생들이 쏟아지는 골목. 형광등 간판들. | `street` | kx_hagwon |
-| `suneung_test_hall` | 수능 시험장 복도 또는 교실 분위기. 긴장감. | `office_interview_day` | kx_suneung_day |
-| `community_center` | 주민센터 번호표 대기실. 공공 건물 특유의 조명. | `realestate_office` | kx_jumin_center |
-| `jjimjilbang` | 찜질방 내부. 황토방, 나무 베개, 빨간 유니폼. | `gym` | kx_jjimjilbang (korea_leisure) |
+| `hagwon_street` | 밤 10시 대치동 학원가. 학생들이 쏟아지는 골목. 형광등 간판들. | 전용 배경 추가 완료 | kx_hagwon |
+| `suneung_test_hall` | 수능 시험장 복도 또는 교실 분위기. 긴장감. | 전용 배경 추가 완료 | kx_suneung_day |
+| `community_center` | 주민센터 번호표 대기실. 공공 건물 특유의 조명. | 전용 배경 추가 완료 | kx_jumin_center |
+| `jjimjilbang` | 찜질방 내부. 황토방, 나무 베개, 빨간 유니폼. | 전용 배경 추가 완료 | kx_jjimjilbang (korea_leisure) |
 
 ### 우선순위 중간 (Medium)
 
+> 2026-07-01 Codex: `cherry_blossom_path`, `saju_cafe`, `military_base_gate`, `company_dinner_restaurant`, `heatwave_city`는 전용 배경과 장소 ambience를 추가하고 `ImageRegistry` 자동 추론에 연결함.
+
 | 요청 ID | 설명 | 현재 대체 | 사용 이벤트 |
 |---|---|---|---|
-| `cherry_blossom_path` | 벚꽃 만개한 여의도 또는 석촌호수 길. 분홍빛 꽃잎. | `hangang_riverside` | kx_spring_cherry |
-| `saju_cafe` | 사주카페 내부. 촛불, 사주 책, 별자리 장식. | `cafe` | kx_saju_cafe |
-| `military_base_gate` | 군부대 정문 또는 예비군 훈련장 입구. | `street` | kx_reserve_duty |
-| `company_dinner_restaurant` | 고기집 회식. 삼겹살 연기, 소주잔. | `restaurant` | kx_hoesik |
-| `heatwave_city` | 아지랑이 피어오르는 도심. 폭염 특보 전광판. | `street` | kx_heatwave |
+| `cherry_blossom_path` | 벚꽃 만개한 여의도 또는 석촌호수 길. 분홍빛 꽃잎. | 전용 배경 추가 완료 | kx_spring_cherry |
+| `saju_cafe` | 사주카페 내부. 촛불, 사주 책, 별자리 장식. | 전용 배경 추가 완료 | kx_saju_cafe |
+| `military_base_gate` | 군부대 정문 또는 예비군 훈련장 입구. | 전용 배경 추가 완료 | kx_reserve_duty |
+| `company_dinner_restaurant` | 고기집 회식. 삼겹살 연기, 소주잔. | 전용 배경 추가 완료 | kx_hoesik |
+| `heatwave_city` | 아지랑이 피어오르는 도심. 폭염 도시 거리. | 전용 배경 추가 완료 | kx_heatwave |
 
 ### 우선순위 낮음 (Low, Nice-to-have)
 
+> 2026-07-01 Codex: `chuseok_highway`, `fine_dust_sky`, `open_chat_screen`은 전용 배경과 장소 ambience를 추가하고 `ImageRegistry` 자동 추론에 연결함.
+
 | 요청 ID | 설명 | 현재 대체 | 사용 이벤트 |
 |---|---|---|---|
-| `chuseok_highway` | 명절 귀성길 고속도로. 빨간 브레이크등 물결. | `subway` | kx_chuseok_traffic |
-| `monsoon_street` | 장마 빗속 골목. 우산 행렬. | `street` | kx_monsoon |
-| `fine_dust_sky` | 미세먼지로 뿌연 서울 하늘. 회색빛 도시. | `street` | kx_fine_dust |
-| `open_chat_screen` | 카카오 오픈채팅 화면 분위기 배경. | `goshiwon_room` | kx_open_chat |
-| `daechi_library` | 새벽 도서관 열람실. 고시생 옆 빈자리. | `goshiwon_room` | kx_gosi_study |
+| `chuseok_highway` | 명절 귀성길 고속도로. 빨간 브레이크등 물결. | 전용 배경 추가 완료 | kx_chuseok_traffic |
+| `monsoon_street` | 장마 빗속 골목. 우산 행렬. | `street_rainy` + `sfx_monsoon_rain`으로 처리 완료 | kx_monsoon |
+| `fine_dust_sky` | 미세먼지로 뿌연 서울 하늘. 회색빛 도시. | 전용 배경 추가 완료 | kx_fine_dust |
+| `open_chat_screen` | 오픈채팅 화면 분위기 배경. 특정 브랜드/실제 UI 로고 없이 추상 채팅만 표시. | 전용 배경 추가 완료 | kx_open_chat, geojibang_chat |
+| `daechi_library` | 새벽 도서관 열람실. 고시생 옆 빈자리. | 보류 — `kx_gosi_study`는 실제로 고시원 복도 이벤트라 도서관 배경 적용 금지. 기존 `library.png` 장면에는 `amb_library_room` 추가 완료 | kx_gosi_study 재작성 시 재검토 |
 
 ---
 
@@ -41,10 +47,14 @@
 
 | 요청 ID | 설명 | 트리거 |
 |---|---|---|
-| `sfx_civil_defense_siren` | 민방위 사이렌 소리 (2-3초). 일시 재생. | kx_civil_defense_siren 이벤트 진입 시 |
-| `sfx_cherry_petals` | 벚꽃 바람 소리. 부드러운 앰비언스. | kx_spring_cherry 이벤트 |
-| `sfx_monsoon_rain` | 장마 빗소리. 고시원 창문 빗방울. | kx_monsoon 이벤트 |
-| `bgm_hoesik` | 회식 분위기 BGM. 노래방 + 삼겹살집 소음 믹스. | kx_hoesik 이벤트 |
+| `sfx_civil_defense_siren` | 민방위 사이렌 소리 (2-3초). 일시 재생. | 완료 — kx_civil_defense_siren 이벤트 진입 시 |
+| `sfx_cherry_petals` | 벚꽃 바람 소리. 부드러운 앰비언스. | `amb_cherry_blossom` 장소 ambience로 처리 완료 |
+| `sfx_monsoon_rain` | 장마 빗소리. 고시원 창문 빗방울. | 완료 — kx_monsoon 이벤트 진입 시 |
+| `bgm_hoesik` | 회식 분위기 BGM. 노래방 + 삼겹살집 소음 믹스. | 완료 — `amb_company_dinner` 장소 ambience로 처리 |
+| `amb_fine_dust_city` | 미세먼지 도심의 낮고 답답한 교통/공기 루프. | 완료 — fine dust 계열 이벤트 ambience |
+| `amb_highway_traffic` | 명절 고속도로 정체의 낮은 차량 소음/브레이크 루프. | 완료 — chuseok/highway 계열 이벤트 ambience |
+| `amb_open_chat_room` | 고시원 방 안의 휴대폰 알림/작은 진동/방 공기 루프. | 완료 — open chat 계열 이벤트 ambience |
+| `amb_library_room` | 공공 도서관/열람실의 형광등, 책장 넘김, 낮은 키보드 소리. | 완료 — `library` 배경 이벤트 ambience |
 
 ---
 
@@ -123,8 +133,8 @@ GameState.moral_tint_changed.connect(func(norm: float, stage: int):
 
 ## 📝 우선순위 요약
 
-1. **즉시 필요**: `jjimjilbang` (기존 gym이 너무 다름), `hagwon_street` (밤 학원가는 고유한 비주얼)
-2. **다음 스프린트**: `cherry_blossom_path`, `saju_cafe`, `community_center`
-3. **나중에**: 나머지 전부
+1. **즉시 필요**: 완료 — `jjimjilbang`, `hagwon_street`, `suneung_test_hall`, `community_center`
+2. **다음 스프린트**: 엔딩/핵심 아크 CG 우선순위 재검토, 신규 서사 데이터 반영 후 인물/장소 큐 재감사
+3. **나중에**: 엔딩 CG + moral route별 핵심 컷신
 
-> 업데이트: 2026-06-21
+> 업데이트: 2026-07-01
