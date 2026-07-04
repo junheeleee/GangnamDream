@@ -1,5 +1,24 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Claude — 다은 약혼-이후 아크 정합성 전수 감사 + 구멍 4건 수정)
+
+"하나를 탄탄하게" 지시에 따라 방금 추가한 다은 약혼-이후 아크(우리집/상견례/시험/최종선택 + 결혼·이혼 엔딩)를 다른 아크·챕터 흐름·개연성·밸런스와 전수 대조.
+
+### 발견·수정한 구멍 4건
+1. **상철 유령**: `arc_daeun_the_test`(t182, 상철이 지름길 제안)가 상철 신고(`sangchul_reported`)/절연(`sangchul_cut_ties`) 후에도 발화 → 신고한 사람에게 상철이 다시 등장하는 모순. 게이트에 두 배제 추가.
+2. **죽은 아버지 상견례**: `arc_daeun_families_meet`(t168, 아버지 등장)가 `father_passed` 후에도 발화 → 유령 등장. `not father_passed` 게이트 + 체인 의존을 `families_seen`→`our_home_seen`으로 바꿔 상견례 스킵돼도 test/final 체인 유지.
+3. **아버님 방 대사 모순**: `arc_daeun_our_home`의 "이 방 아버님 방으로"가 아버지 사망 시 어긋남 → `father_passed` 추모 변주("사진 하나 걸고 남겨둬요") 추가.
+4. **다은/지연 상호배타 누수**: `arc_jiyeon_y5_feelings`가 `not daeun_romance_started` 미검사라, 다은과 약혼했는데 moral_stage≤−1이면 지연 고백도 뜨던 양다리 누수 → 배제 추가.
+
+### 카피 모순 → 선택 결과로 승화
+- test에서 아내 이름을 서류로 쓰고(crossed_line) 최종 배신은 거절한 플레이어가 결혼 진엔딩의 "아무도 서류로 쓰지 않고" 거짓 카피를 읽던 문제 → `used_daeun_as_means` 복구 후 `gangnam_dream`에 **실금 변주**(daeun_married보다 앞): "완벽하게 깨끗한 유리에 실금 하나가 {name}에게만 보였다." 순수 진엔딩은 깨끗한 플레이어만.
+
+### 엔딩 라우팅 검증 (30억 도달 시)
+- 이혼(daeun_divorced)→lonely_rich 이혼변주 / 오염결혼(used_daeun)→gangnam_dream 실금 / 순수결혼→gangnam_dream 진엔딩 / age≥38 이혼 엣지 가드. crossed_line→jaehyuk_way보다 결혼 분기가 앞이라 배우자 실 우선 회수.
+
+### 밸런스·흐름
+- `balance_check` 밴드 전부 통과(무직 100%/직장 0%/베팅 14.8% 불변 — 로맨스 아크는 돈 파급 없음). `arc_flow_sim` 양 경로 잼 0·체인 완결. audit ERROR 0/WARNING 0/write_only 0/섀도잉 0/컴파일 55. EN coverage clean.
+
 ## 2026-07-03 (Claude — 선택적 가상화: 거래 자산 실명 → 투명 아날로그)
 
 몰입/리얼리티 논의 결과 "안 변하는 한국=실명 / 변하는 수치=가상" 원칙 확정(DECISIONS 참조).

@@ -12,7 +12,10 @@
         "text": "\"Let's think about that after we get in. Right now the number comes first.\"",
         "result_text": "Daeun went quiet for a moment, then closed the screen.\n\"...Right. The number comes first.\"\n\n{name} felt the temperature of her voice drop half a degree, but his head was already back in the listing math.\nHow many rooms it had — was a problem for later."
       }
-    ]
+    ],
+    "description_if_known": {
+      "father_passed": "For the first time since getting engaged, they browsed Gangnam listings together.\n\nScrolling past a three-bedroom, Daeun's hand stopped.\n\"Let's keep this room for your father. Hang a photo of him.\"\n{name} froze. His father was gone now — but Daeun wanted to leave a place for him.\n\n\"And this side, for when my mom comes up to Seoul.\"\n\nThe three billion that had been 'my deed' for five years became something else.\nA number he'd climbed alone — was now a home with a place for both the departed and the living."
+    }
   },
   {
     "id": "arc_daeun_families_meet",
