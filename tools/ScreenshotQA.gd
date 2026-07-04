@@ -816,6 +816,10 @@ func _shot_job_hunt_surfaces(lang: String = "en", prefix: String = "job_en_") ->
 		_mg.call("_open_jobs")
 		await _settle(0.5)
 		await _save(prefix + "00b_jobs_ready")
+		if _mg.has_method("_set_job_page"):
+			_mg.call("_set_job_page", 1)
+			await _settle(0.3)
+			await _save(prefix + "00b_jobs_ready_tier2")
 		_close_modal()
 		await _settle(0.2)
 	if _mg.has_method("_open_cat_work"):
@@ -1348,6 +1352,10 @@ func _shot_action_category_modal(method_name: String, shot_name: String) -> void
 	_mg.call(method_name)
 	await _settle(0.7)
 	await _save(shot_name)
+	if method_name == "_open_cat_people" and _mg.has_method("_set_people_page"):
+		_mg.call("_set_people_page", 1)
+		await _settle(0.35)
+		await _save(shot_name + "_network")
 	_close_modal()
 	await _settle(0.3)
 

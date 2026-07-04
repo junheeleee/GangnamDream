@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Codex — AP modal no-scroll career/people pass + Claude merge)
+
+### 배경
+- Steam Deck/패드 친화 방향은 "모든 버튼에 포커스만 달기"가 아니라, 주요 화면을 스크롤 문서가 아닌 의미 단위 선택 화면으로 바꾸는 것이다.
+- 투자 모달은 이미 페이지형으로 정리했지만, 직업 선택은 여전히 긴 채용 게시판처럼 보였고 사람·관계 모달은 5명+인맥 행동 때문에 1280×800에서 스크롤바가 보였다.
+- 클로드가 다은 약혼-이후 아크 정합성 수정 2커밋을 올려 먼저 main에 병합했다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`의 다은 약혼-이후 아크 정합성 수정분을 main에 병합하고 `docs/WORK_LOG.md` 충돌은 양쪽 기록 보존으로 해결했다.
+- 직업 선택 모달을 `Tier 1~4` 탭 + 현재 Tier의 2개 후보 카드 창으로 재구성했다.
+- 직업 모달 패드 조작을 `LB/RB`=Tier 전환, `↑/↓`=직업 후보 이동, confirm=지원/조건 확인으로 정리했다.
+- 지원 스탯/현재 경력/준비도는 상단 status strip으로 압축하고, 직업 설명은 카드 내부에서 잘라 한 화면에 들어오게 했다.
+- 사람·관계 모달을 `My People / Network·Rest` 2페이지로 나눴다. 만난 인물 5명과 인맥/휴식 행동이 각각 스크롤 없이 보인다.
+- `ScreenshotQA --qa=job-en`에 Tier2 페이지 캡처를, `ScreenshotQA --qa=ap-en`에 People network page 캡처를 추가했다.
+
+### 검증
+- 클로드 병합 직후 `./tools/audit.sh` 통과.
+- `git diff --check` 통과.
+- `CompileCheck` 통과.
+- `ScreenshotQA --qa=job-en --lang=en` 통과 및 `job_en_00a_jobs_missing_resume.png`, `job_en_00b_jobs_ready.png`, `job_en_00b_jobs_ready_tier2.png` 직접 확인.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 `ap_en_05_people_modal.png`, `ap_en_05_people_modal_network.png`, `ap_en_06_life_modal.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-04 (Claude — 다은 약혼-이후 아크 정합성 전수 감사 + 구멍 4건 수정)
 
 "하나를 탄탄하게" 지시에 따라 방금 추가한 다은 약혼-이후 아크(우리집/상견례/시험/최종선택 + 결혼·이혼 엔딩)를 다른 아크·챕터 흐름·개연성·밸런스와 전수 대조.

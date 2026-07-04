@@ -40,6 +40,18 @@ var _invest_pad_hint_label: RichTextLabel = null
 var _invest_page_idx: int = 0
 var _invest_page_body: VBoxContainer = null
 var _invest_page_tab_buttons: Array = []
+var _job_page_idx: int = 0
+var _job_candidate_idx: int = 0
+var _job_page_body: VBoxContainer = null
+var _job_page_tab_buttons: Array = []
+var _job_candidate_cards: Array = []
+var _job_pad_hint_label: RichTextLabel = null
+var _people_page_idx: int = 0
+var _people_action_idx: int = 0
+var _people_page_body: VBoxContainer = null
+var _people_page_tab_buttons: Array = []
+var _people_action_cards: Array = []
+var _people_pad_hint_label: RichTextLabel = null
 var _toast_container: VBoxContainer
 var event_bg: TextureRect
 var _feedback_flash: ColorRect
@@ -5671,18 +5683,56 @@ func _open_cat_dev():
 	_ap_study()
 
 func _open_cat_people():
-	_open_modal(_tr("사람 · 관계", "People · Relations"), true)
-	modal_body.add_child(_wrap_label(_tr("혼자 강남에 가는 사람은 없다. 곁에 있는 사람을 챙기고, 쉬어간다.", "No one reaches Gangnam alone. Care for those near you, and rest."), 13, "#7a8496"))
+	_open_modal(_tr("사람 · 관계", "People · Relations"), true, "people_actions")
+	_people_page_tab_buttons.clear()
+	_people_action_cards.clear()
+	_people_pad_hint_label = null
+	_people_action_idx = 0
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 500)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(800, 660)
+		modal_panel.offset_left = -400
+		modal_panel.offset_right = 400
+		modal_panel.offset_top = -330
+		modal_panel.offset_bottom = 330
+	modal_body.add_theme_constant_override("separation", 8)
+	modal_body.add_child(_build_people_status_strip())
+	_people_pad_hint_label = RichTextLabel.new()
+	_people_pad_hint_label.bbcode_enabled = true
+	_people_pad_hint_label.fit_content = true
+	_people_pad_hint_label.scroll_active = false
+	_people_pad_hint_label.custom_minimum_size = Vector2(0, 22)
+	_people_pad_hint_label.add_theme_font_size_override("normal_font_size", 11)
+	_people_pad_hint_label.add_theme_color_override("default_color", Color("#8f98a8"))
+	if _font_bold:
+		_people_pad_hint_label.add_theme_font_override("bold_font", _font_bold)
+	modal_body.add_child(_people_pad_hint_label)
+	modal_body.add_child(_build_people_page_tabs())
+	_people_page_body = VBoxContainer.new()
+	_people_page_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_people_page_body.add_theme_constant_override("separation", 7)
+	modal_body.add_child(_people_page_body)
+	_render_people_page()
 
-	# ── 내가 실제로 만난 사람들 (cast 기반) ──
-	var met_ids: Array = []
-	for pid in ["father", "sangchul", "jiyeon", "daeun", "jaehyuk"]:
-		if GameState.cast_has_met(pid):
-			met_ids.append(pid)
+func _people_pages() -> Array:
+	return [
+		{"id": "cast", "label": _tr("내 사람들", "My People")},
+		{"id": "network", "label": _tr("인맥·휴식", "Network·Rest")},
+	]
 
-	if not met_ids.is_empty():
-		modal_body.add_child(_label(_tr("── 내 사람들 ──", "── My People ──"), 12, "#3a3a5a"))
-		for pid in met_ids:
+func _people_current_page_id() -> String:
+	var pages := _people_pages()
+	_people_page_idx = clampi(_people_page_idx, 0, pages.size() - 1)
+	return str(pages[_people_page_idx].get("id", "cast"))
+
+func _people_actions_for_page(page_id: String) -> Array:
+	var actions: Array = []
+	if page_id == "cast":
+		for pid in ["father", "sangchul", "jiyeon", "daeun", "jaehyuk"]:
+			if not GameState.cast_has_met(pid):
+				continue
 			var info: Dictionary = ImageRegistry.get_person_info(pid)
 			var pname: String = str(info.get("name", _tr("인연", "Connection")))
 			var accent: String = str(info.get("color", "#8a5a9a"))
@@ -5696,7 +5746,6 @@ func _open_cat_people():
 				verb = _tr("전화드리기", "Call")
 			elif pid == "jaehyuk":
 				verb = _tr("만나기", "Meet up")
-			# 수치 대신 관계 온도 표시
 			var warmth: String
 			if aff >= 75:
 				warmth = _tr("가까운 사이", "Close")
@@ -5706,15 +5755,274 @@ func _open_cat_people():
 				warmth = _tr("서먹한 편", "A bit distant")
 			else:
 				warmth = _tr("아직 낯선", "Still a stranger")
-			var lbl := "%s  ·  %s  —  %s" % [verb, pname, warmth]
-			_cat_modal_button(lbl, accent, "_ap_contact_person", pid)
+			actions.append({
+				"title": "%s · %s" % [verb, pname],
+				"subtitle": warmth,
+				"accent": accent,
+				"icon": "people",
+				"fn": "_ap_contact_person",
+				"arg": pid,
+				"free": false,
+			})
+	else:
+		actions.append({
+			"title": _tr("인맥 넓히기", "Network"),
+			"subtitle": _tr("모르는 사람들 사이로 섞인다", "mix with new people"),
+			"accent": "#8a5a9a",
+			"icon": "people",
+			"fn": "_ap_network",
+			"arg": null,
+			"free": false,
+		})
+		if GameState.social_skill >= 50:
+			actions.append({
+				"title": _tr("VIP 인맥", "VIP network"),
+				"subtitle": _tr("더 높은 곳의 사람들을 만난다", "meet people from a higher circle"),
+				"accent": "#5a2a7a",
+				"icon": "people",
+				"fn": "_ap_vip_network",
+				"arg": null,
+				"free": false,
+			})
+		actions.append({
+			"title": _tr("자유시간", "Free time"),
+			"subtitle": _tr("한강을 걷거나 그냥 쉰다", "walk the Han River or just rest"),
+			"accent": "#3a8a9a",
+			"icon": "rest",
+			"fn": "_ap_free_time",
+			"arg": null,
+			"free": false,
+		})
+	return actions
 
-	# ── 새로운 사람·휴식 ──
-	modal_body.add_child(_label(_tr("── 인맥 · 휴식 ──", "── Network · Rest ──"), 12, "#3a3a5a"))
-	_cat_modal_button(_tr("인맥 넓히기  —  모르는 사람들 사이로 섞인다", "Network  —  mix with new people"), "#8a5a9a", "_ap_network")
-	if GameState.social_skill >= 50:
-		_cat_modal_button(_tr("VIP 인맥  —  더 높은 곳의 사람들을 만난다", "VIP network  —  meet people from a higher circle"), "#5a2a7a", "_ap_vip_network")
-	_cat_modal_button(_tr("자유시간  —  한강을 걷거나 그냥 쉰다", "Free time  —  walk the Han River or just rest"), "#3a8a9a", "_ap_free_time")
+func _build_people_status_strip() -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#080b10")
+	st.border_color = Color("#242a35")
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", st)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	panel.add_child(row)
+	var copy := VBoxContainer.new()
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.add_theme_constant_override("separation", 2)
+	row.add_child(copy)
+	copy.add_child(_label(_tr("관계", "RELATIONS"), 10, "#6f7886"))
+	copy.add_child(_label(_tr("혼자 강남에 가는 사람은 없다.", "No one reaches Gangnam alone."), 15, "#e8eaf0"))
+	var met_count := 0
+	for pid in ["father", "sangchul", "jiyeon", "daeun", "jaehyuk"]:
+		if GameState.cast_has_met(pid):
+			met_count += 1
+	var stat := VBoxContainer.new()
+	stat.custom_minimum_size = Vector2(190, 0)
+	stat.add_theme_constant_override("separation", 2)
+	row.add_child(stat)
+	stat.add_child(_label(_tr("만난 사람", "KNOWN PEOPLE"), 10, "#6f7886"))
+	stat.add_child(_label("%d / 5" % met_count, 15, "#cbd5e1"))
+	var ap := VBoxContainer.new()
+	ap.custom_minimum_size = Vector2(150, 0)
+	ap.add_theme_constant_override("separation", 2)
+	row.add_child(ap)
+	ap.add_child(_label(_tr("행동력", "ACTION"), 10, "#6f7886"))
+	ap.add_child(_label("%d / %d AP" % [GameState.action_points, GameState.max_action_points], 15, "#cbd5e1" if GameState.action_points > 0 else "#ff7070"))
+	return panel
+
+func _build_people_page_tabs() -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var pages := _people_pages()
+	for i in range(pages.size()):
+		var idx := i
+		var btn := _small_button("", "#111820")
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.custom_minimum_size = Vector2(0, 36)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.pressed.connect(Callable(self, "_set_people_page").bind(idx))
+		row.add_child(btn)
+		_people_page_tab_buttons.append(btn)
+	_style_people_page_tabs()
+	return row
+
+func _style_people_page_tabs() -> void:
+	var pages := _people_pages()
+	for i in range(mini(_people_page_tab_buttons.size(), pages.size())):
+		var btn := _people_page_tab_buttons[i] as Button
+		if not is_instance_valid(btn):
+			continue
+		var selected := i == _people_page_idx
+		btn.text = "%02d  %s" % [i + 1, str(pages[i].get("label", ""))]
+		var normal := StyleBoxFlat.new()
+		normal.bg_color = Color("#16202a" if selected else "#0c1118")
+		normal.border_color = Color("#d9e2ea" if selected else "#252b35")
+		normal.set_border_width_all(1)
+		normal.border_width_bottom = 3 if selected else 1
+		normal.set_corner_radius_all(3)
+		normal.content_margin_left = 10
+		normal.content_margin_right = 10
+		normal.content_margin_top = 7
+		normal.content_margin_bottom = 7
+		var hover := normal.duplicate()
+		hover.bg_color = normal.bg_color.lightened(0.10)
+		btn.add_theme_stylebox_override("normal", normal)
+		btn.add_theme_stylebox_override("hover", hover)
+		btn.add_theme_stylebox_override("pressed", normal)
+		btn.add_theme_stylebox_override("focus", normal)
+		btn.add_theme_color_override("font_color", Color("#eef3f8" if selected else "#8f98a8"))
+
+func _set_people_page(index: int) -> void:
+	var pages := _people_pages()
+	if pages.is_empty():
+		return
+	_people_page_idx = clampi(index, 0, pages.size() - 1)
+	_people_action_idx = 0
+	_render_people_page()
+
+func _people_switch_page(delta: int) -> bool:
+	var pages := _people_pages()
+	if pages.is_empty():
+		return true
+	_people_page_idx = int(posmod(_people_page_idx + delta, pages.size()))
+	_people_action_idx = 0
+	AudioManager.play_ui_click()
+	_render_people_page()
+	return true
+
+func _render_people_page() -> void:
+	if not is_instance_valid(_people_page_body):
+		return
+	_clear_box(_people_page_body)
+	_people_action_cards.clear()
+	_style_people_page_tabs()
+	var page_id := _people_current_page_id()
+	var actions := _people_actions_for_page(page_id)
+	_people_action_idx = clampi(_people_action_idx, 0, maxi(0, actions.size() - 1))
+	var caption := _tr("곁에 있는 사람을 챙긴다", "Care for people near you") if page_id == "cast" else _tr("새 인맥과 회복 행동", "New contacts and recovery actions")
+	_people_page_body.add_child(_build_job_page_caption(
+		str(_people_pages()[_people_page_idx].get("label", "")),
+		caption,
+		"#9aa4b8"))
+	if actions.is_empty():
+		_people_page_body.add_child(_build_job_empty_card(_tr("아직 연락할 사람이 없습니다.", "No one to contact yet."), "#64748b"))
+		_refresh_people_pad_hint()
+		return
+	for i in range(actions.size()):
+		_people_page_body.add_child(_build_people_action_card(actions[i], i))
+	_apply_people_cursor()
+
+func _build_people_action_card(action: Dictionary, index: int) -> Button:
+	var btn := _make_essential_action_card(
+		str(action.get("title", "")),
+		str(action.get("subtitle", "")),
+		str(action.get("icon", "people")),
+		str(action.get("accent", "#8a5a9a")),
+		false,
+		bool(action.get("free", false)),
+		"")
+	btn.custom_minimum_size = Vector2(0, 60)
+	btn.focus_mode = Control.FOCUS_NONE
+	btn.set_meta("people_action_idx", index)
+	btn.set_meta("people_action_accent", str(action.get("accent", "#8a5a9a")))
+	var fn_name := str(action.get("fn", ""))
+	var fn_arg = action.get("arg", null)
+	btn.pressed.connect(func():
+		_run_people_action(fn_name, fn_arg)
+	)
+	_people_action_cards.append(btn)
+	return btn
+
+func _run_people_action(fn_name: String, fn_arg = null) -> void:
+	if fn_name.is_empty():
+		return
+	AudioManager.play("click")
+	_close_modal()
+	if fn_arg == null:
+		self.call(fn_name)
+	else:
+		self.call(fn_name, fn_arg)
+
+func _people_selected_action() -> Dictionary:
+	var actions := _people_actions_for_page(_people_current_page_id())
+	if actions.is_empty():
+		return {}
+	_people_action_idx = clampi(_people_action_idx, 0, actions.size() - 1)
+	return actions[_people_action_idx]
+
+func _people_move_action(delta: int) -> bool:
+	var actions := _people_actions_for_page(_people_current_page_id())
+	if actions.is_empty():
+		return true
+	_people_action_idx = int(posmod(_people_action_idx + delta, actions.size()))
+	AudioManager.play_ui_click()
+	_apply_people_cursor()
+	return true
+
+func _people_confirm_action() -> bool:
+	var action := _people_selected_action()
+	if action.is_empty():
+		return true
+	_run_people_action(str(action.get("fn", "")), action.get("arg", null))
+	return true
+
+func _apply_people_cursor() -> void:
+	for card in _people_action_cards:
+		if not is_instance_valid(card):
+			continue
+		var btn := card as Button
+		var selected := int(btn.get_meta("people_action_idx", -1)) == _people_action_idx and ControllerHints.is_pad_active()
+		var accent := str(btn.get_meta("people_action_accent", "#8a5a9a"))
+		var normal := StyleBoxFlat.new()
+		normal.bg_color = Color("#0c0d11")
+		normal.border_color = Color(COL_GOLD_BRIGHT if selected else accent)
+		normal.border_width_left = 6 if selected else 5
+		normal.set_border_width(SIDE_TOP, 2 if selected else 1)
+		normal.set_border_width(SIDE_RIGHT, 2 if selected else 1)
+		normal.set_border_width(SIDE_BOTTOM, 2 if selected else 1)
+		normal.set_corner_radius_all(3)
+		var hover := normal.duplicate()
+		hover.bg_color = Color("#15161c")
+		btn.add_theme_stylebox_override("normal", normal)
+		btn.add_theme_stylebox_override("hover", hover)
+		btn.add_theme_stylebox_override("pressed", normal)
+		btn.add_theme_stylebox_override("focus", normal)
+	_refresh_people_pad_hint()
+
+func _refresh_people_pad_hint() -> void:
+	if not is_instance_valid(_people_pad_hint_label):
+		return
+	if not ControllerHints.is_pad_active() or _modal_kind != "people_actions":
+		_people_pad_hint_label.visible = false
+		return
+	_people_pad_hint_label.visible = true
+	var action := _people_selected_action()
+	var title := str(action.get("title", _tr("행동 없음", "No action")))
+	_people_pad_hint_label.text = _tr(
+		"[b]패드[/b]  LB/RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s",
+		"[b]Pad[/b]  LB/RB Page · ↑↓ Action · %s Select · %s Back  —  %s"
+	) % [ControllerHints.south(), ControllerHints.east(), title]
+
+func _handle_people_modal_input(event: InputEvent) -> bool:
+	if event is InputEventKey and (event as InputEventKey).echo:
+		return false
+	if event.is_action_pressed("gd_tab_prev"):
+		return _people_switch_page(-1)
+	if event.is_action_pressed("gd_tab_next"):
+		return _people_switch_page(1)
+	if event.is_action_pressed("ui_up"):
+		return _people_move_action(-1)
+	if event.is_action_pressed("ui_down"):
+		return _people_move_action(1)
+	if event.is_action_pressed("ui_accept"):
+		return _people_confirm_action()
+	return false
 
 func _open_cat_life():
 	_open_modal(_tr("생활", "Living"), true)
@@ -6947,83 +7255,469 @@ func _ap_vip_network():
 	_refresh_all()
 
 func _open_jobs():
-	_open_modal(_tr("직업 선택", "Choose a Job"), true)
-	if GameState.current_job.is_empty():
-		var _jh_v: Dictionary = JOB_HUNT_VIGNETTES[randi() % JOB_HUNT_VIGNETTES.size()]
-		var mood: String = str(_jh_v.get("et" if LocaleManager.is_english() else "t", _jh_v.get("t", "")))
-		modal_body.add_child(_wrap_label(_quote_ui(mood), 12, "#4a5a72"))
-	var current_job_id = GameState.current_job.get("id", "")
-	# 경력 경로 안내
-	var tier_labels = {1: _tr("입문", "Entry"), 2: _tr("성장", "Growth"), 3: _tr("전문가", "Expert"), 4: _tr("상위", "Top")}
-	var current_tier = int(GameState.current_job.get("tier", 0))
-	if current_tier > 0:
-		var promo_count = int(GameState.current_job.get("promotion_count", 0))
-		var max_promo = int(GameState.current_job.get("max_promotions", 3))
-		modal_body.add_child(_wrap_label(_tr("현재: %s  Tier %d  승진 %d/%d회", "Current: %s  Tier %d  Promotions %d/%d") % [GameState.get_job_display_name(), current_tier, promo_count, max_promo], 13, "#f0b429"))
-	modal_body.add_child(_wrap_label(_tr("지력 %d  |  사회성 %d  |  외모 %d", "Intelligence %d  |  Social %d  |  Appearance %d") % [GameState.intelligence, GameState.social_skill, GameState.appearance], 12, "#5a6075"))
-	# 취업 준비도 패널 (무직일 때만 표시)
-	if GameState.current_job.is_empty():
-		var resume_ok: bool = GameState.flags.get("resume_polished", false)
-		var interview_ok: bool = GameState.flags.get("interview_practiced", false)
-		var bonus_wp = (10 if resume_ok else 0) + (7 if interview_ok else 0)
-		var resume_str = _tr("RESUME READY (+10)", "RESUME READY (+10)") if resume_ok else _tr("RESUME MISSING", "RESUME MISSING")
-		var interview_str = _tr("INTERVIEW READY (+7)", "INTERVIEW READY (+7)") if interview_ok else _tr("INTERVIEW NEEDED", "INTERVIEW NEEDED")
-		var prep_color = "#9aa4b8" if (resume_ok or interview_ok) else "#64748b"
-		var prep_line = _tr("준비도  %s  |  %s", "Readiness  %s  |  %s") % [resume_str, interview_str]
-		if bonus_wp > 0:
-			prep_line += _tr("  →  취업 후 업무능력 +%d 보너스", "  →  +%d work skill bonus after hiring") % bonus_wp
-		modal_body.add_child(_wrap_label(prep_line, 12, prep_color))
-	var sep = HSeparator.new()
-	sep.add_theme_color_override("color", Color("#252535"))
-	modal_body.add_child(sep)
-	var prev_tier = 0
+	_open_modal(_tr("직업 선택", "Choose a Job"), true, "jobs")
+	_job_page_tab_buttons.clear()
+	_job_candidate_cards.clear()
+	_job_pad_hint_label = null
+	_job_candidate_idx = 0
+	var tiers := _job_tiers()
+	var current_tier := int(GameState.current_job.get("tier", 1))
+	var current_tier_idx := tiers.find(current_tier)
+	_job_page_idx = current_tier_idx if current_tier_idx >= 0 else 0
+	if modal_scroll:
+		modal_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		modal_scroll.custom_minimum_size = Vector2(0, 540)
+	if modal_panel:
+		modal_panel.custom_minimum_size = Vector2(840, 700)
+		modal_panel.offset_left = -420
+		modal_panel.offset_right = 420
+		modal_panel.offset_top = -350
+		modal_panel.offset_bottom = 350
+	modal_body.add_theme_constant_override("separation", 8)
+	modal_body.add_child(_build_job_status_strip())
+	_job_pad_hint_label = RichTextLabel.new()
+	_job_pad_hint_label.bbcode_enabled = true
+	_job_pad_hint_label.fit_content = true
+	_job_pad_hint_label.scroll_active = false
+	_job_pad_hint_label.custom_minimum_size = Vector2(0, 24)
+	_job_pad_hint_label.add_theme_font_size_override("normal_font_size", 11)
+	_job_pad_hint_label.add_theme_color_override("default_color", Color("#8f98a8"))
+	if _font_bold:
+		_job_pad_hint_label.add_theme_font_override("bold_font", _font_bold)
+	modal_body.add_child(_job_pad_hint_label)
+	modal_body.add_child(_build_job_page_tabs())
+	_job_page_body = VBoxContainer.new()
+	_job_page_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_job_page_body.add_theme_constant_override("separation", 8)
+	modal_body.add_child(_job_page_body)
+	_render_job_page()
+
+func _job_tiers() -> Array:
+	var tiers: Array = []
 	for job in job_system.get_available_jobs():
-		var tier = int(job.get("tier", 1))
-		if tier != prev_tier:
-			var tier_label = tier_labels.get(tier, "Tier %d" % tier)
-			modal_body.add_child(_label("── Tier %d  %s ──" % [tier, tier_label], 12, "#5a6075"))
-			prev_tier = tier
+		var tier := int(job.get("tier", 1))
+		if not tiers.has(tier):
+			tiers.append(tier)
+	tiers.sort()
+	return tiers if not tiers.is_empty() else [1]
 
-		# 잠긴 티어: 경력 조건 미충족
-		if job.get("locked", false):
-			var lock_btn = _button(_tr("LOCKED  %s", "LOCKED  %s") % GameState.get_job_display_name(job), "#1e1e2e")
-			lock_btn.disabled = true
-			modal_body.add_child(lock_btn)
-			modal_body.add_child(_wrap_label("  %s" % job.get("lock_reason", _tr("경력 조건 미충족", "Career requirement not met")), 11, "#3a3a5a"))
+func _job_tier_label(tier: int) -> String:
+	var tier_labels := {
+		1: _tr("입문", "Entry"),
+		2: _tr("성장", "Growth"),
+		3: _tr("전문가", "Expert"),
+		4: _tr("상위", "Top"),
+	}
+	return str(tier_labels.get(tier, "Tier %d" % tier))
+
+func _job_current_tier() -> int:
+	var tiers := _job_tiers()
+	_job_page_idx = clampi(_job_page_idx, 0, tiers.size() - 1)
+	return int(tiers[_job_page_idx])
+
+func _job_rows_for_current_tier() -> Array:
+	var rows: Array = []
+	var tier := _job_current_tier()
+	for job in job_system.get_available_jobs():
+		if int(job.get("tier", 1)) == tier:
+			rows.append(job)
+	return rows
+
+func _build_job_status_strip() -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#080b10")
+	st.border_color = Color("#242a35")
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", st)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	panel.add_child(row)
+
+	var status_box := VBoxContainer.new()
+	status_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status_box.add_theme_constant_override("separation", 2)
+	row.add_child(status_box)
+	status_box.add_child(_label(_tr("현재 경력", "CURRENT CAREER"), 10, "#6f7886"))
+	if GameState.current_job.is_empty():
+		status_box.add_child(_label(_tr("무직 · 이번 주 구직 AP 사용됨", "Unemployed · job-search AP spent"), 15, "#e8eaf0"))
+	else:
+		var promo_count := int(GameState.current_job.get("promotion_count", 0))
+		var max_promo := int(GameState.current_job.get("max_promotions", 3))
+		status_box.add_child(_label(
+			"%s · Tier %d · %s %d/%d" % [
+				GameState.get_job_display_name(),
+				int(GameState.current_job.get("tier", 1)),
+				_tr("승진", "Promotions"),
+				promo_count,
+				max_promo,
+			],
+			15, "#e8eaf0"))
+
+	var stat_box := VBoxContainer.new()
+	stat_box.custom_minimum_size = Vector2(250, 0)
+	stat_box.add_theme_constant_override("separation", 2)
+	row.add_child(stat_box)
+	stat_box.add_child(_label(_tr("지원 스탯", "APPLICATION STATS"), 10, "#6f7886"))
+	stat_box.add_child(_label(_tr("지력 %d · 사회성 %d · 외모 %d", "INT %d · SOC %d · APP %d") % [
+		GameState.intelligence, GameState.social_skill, GameState.appearance], 14, "#cbd5e1"))
+
+	var prep_box := VBoxContainer.new()
+	prep_box.custom_minimum_size = Vector2(230, 0)
+	prep_box.add_theme_constant_override("separation", 2)
+	row.add_child(prep_box)
+	prep_box.add_child(_label(_tr("준비도", "READINESS"), 10, "#6f7886"))
+	var resume_ok: bool = GameState.flags.get("resume_polished", false)
+	var interview_ok: bool = GameState.flags.get("interview_practiced", false)
+	var prep_color := "#cbd5e1" if resume_ok or interview_ok else "#7f8ea3"
+	prep_box.add_child(_label(
+		"%s · %s" % [
+			_tr("이력서 OK", "Resume OK") if resume_ok else _tr("이력서 필요", "Resume needed"),
+			_tr("면접 OK", "Interview OK") if interview_ok else _tr("면접 필요", "Interview needed"),
+		],
+		13, prep_color))
+	return panel
+
+func _build_job_page_tabs() -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var tiers := _job_tiers()
+	for i in range(tiers.size()):
+		var tier_idx := i
+		var tier := int(tiers[i])
+		var btn := _small_button("", "#111820")
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.custom_minimum_size = Vector2(0, 36)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.pressed.connect(Callable(self, "_set_job_page").bind(tier_idx))
+		row.add_child(btn)
+		_job_page_tab_buttons.append(btn)
+	_style_job_page_tabs()
+	return row
+
+func _style_job_page_tabs() -> void:
+	var tiers := _job_tiers()
+	for i in range(mini(_job_page_tab_buttons.size(), tiers.size())):
+		var btn := _job_page_tab_buttons[i] as Button
+		if not is_instance_valid(btn):
 			continue
+		var selected := i == _job_page_idx
+		var tier := int(tiers[i])
+		btn.text = "T%d  %s" % [tier, _job_tier_label(tier)]
+		var normal := StyleBoxFlat.new()
+		normal.bg_color = Color("#16202a" if selected else "#0c1118")
+		normal.border_color = Color("#d9e2ea" if selected else "#252b35")
+		normal.set_border_width_all(1)
+		normal.border_width_bottom = 3 if selected else 1
+		normal.set_corner_radius_all(3)
+		normal.content_margin_left = 10
+		normal.content_margin_right = 10
+		normal.content_margin_top = 7
+		normal.content_margin_bottom = 7
+		var hover := normal.duplicate()
+		hover.bg_color = normal.bg_color.lightened(0.10)
+		var focus_st := normal.duplicate()
+		focus_st.border_color = Color("#ffffff")
+		focus_st.set_border_width_all(UI_FOCUS_BORDER)
+		btn.add_theme_stylebox_override("normal", normal)
+		btn.add_theme_stylebox_override("hover", hover)
+		btn.add_theme_stylebox_override("pressed", normal)
+		btn.add_theme_stylebox_override("focus", focus_st)
+		btn.add_theme_color_override("font_color", Color("#eef3f8" if selected else "#8f98a8"))
 
-		var is_current = job.get("id", "") == current_job_id
-		var eligible = job.get("eligible", false)
-		var resume_ok: bool = GameState.flags.get("resume_polished", false)
-		# 정규직(티어 2+)은 이력서 완성 후에야 지원 가능 — 알바(티어 1)는 즉시
-		var needs_resume = tier >= 2 and not is_current and not resume_ok
-		var button_color = "#2a2a30"
-		if is_current: button_color = "#242822"
-		elif needs_resume: button_color = "#1a1a1d"
-		elif eligible: button_color = "#222226"
-		var stress_val = int(job.get("stress_per_month", 5))
-		var req = job.get("requirements", {})
-		var req_parts: Array = []
-		for k in req:
-			match k:
-				"min_intelligence": req_parts.append(_tr("지력 %d", "Intelligence %d") % req[k])
-				"min_appearance": req_parts.append(_tr("외모 %d", "Appearance %d") % req[k])
-				"min_social_skill", "min_social": req_parts.append(_tr("사회성 %d", "Social %d") % req[k])
-		var req_str = " · ".join(req_parts) if not req_parts.is_empty() else _tr("제한 없음", "No requirements")
-		var label = _tr("%s  %s/월  정신 -%d/월", "%s  %s/mo  Mental -%d/mo") % [GameState.get_job_display_name(job), GameState.format_money(job.get("base_salary", 0)), stress_val / 2]
-		if is_current: label += _tr("  현재", "  Current")
-		if needs_resume: label += _tr("  RESUME", "  RESUME")
-		var button = _button(label, button_color)
-		button.disabled = (not eligible and not is_current) or needs_resume
-		button.pressed.connect(Callable(self, "_on_job_selected").bind(job.get("id", "")))
-		modal_body.add_child(button)
-		if needs_resume:
-			modal_body.add_child(_wrap_label(_tr("  이력서 먼저 완성하세요 (직업 탭 → 자소서 작성)", "  Complete your resume first (Jobs tab → Write Resume)"), 11, "#5a3a7a"))
-		else:
-			var detail_color = "#9aa4b8" if eligible else "#64748b"
-			modal_body.add_child(_wrap_label(_tr("  조건: %s", "  Requirements: %s") % req_str, 11, detail_color))
-		if not job.get("description", "").is_empty():
-			modal_body.add_child(_wrap_label("  %s" % job.get("description", ""), 11, "#5a6075"))
+func _set_job_page(index: int) -> void:
+	var tiers := _job_tiers()
+	if tiers.is_empty():
+		return
+	_job_page_idx = clampi(index, 0, tiers.size() - 1)
+	_job_candidate_idx = 0
+	_render_job_page()
+
+func _job_switch_page(delta: int) -> bool:
+	var tiers := _job_tiers()
+	if tiers.is_empty():
+		return true
+	_job_page_idx = int(posmod(_job_page_idx + delta, tiers.size()))
+	_job_candidate_idx = 0
+	AudioManager.play_ui_click()
+	_render_job_page()
+	return true
+
+func _render_job_page() -> void:
+	if not is_instance_valid(_job_page_body):
+		return
+	_clear_box(_job_page_body)
+	_job_candidate_cards.clear()
+	_style_job_page_tabs()
+	var tier := _job_current_tier()
+	var rows := _job_rows_for_current_tier()
+	_job_candidate_idx = clampi(_job_candidate_idx, 0, maxi(0, rows.size() - 1))
+	_job_page_body.add_child(_build_job_page_caption(
+		_tr("Tier %d · %s", "Tier %d · %s") % [tier, _job_tier_label(tier)],
+		_tr("↑↓ 후보 · LB/RB 티어 · 확인 지원", "↑↓ role · LB/RB tier · confirm to apply"),
+		"#9aa4b8"))
+	if rows.is_empty():
+		_job_page_body.add_child(_build_job_empty_card(_tr("이 티어의 직업 데이터가 없습니다.", "No jobs in this tier."), "#64748b"))
+		_refresh_job_pad_hint()
+		return
+	var visible_count := mini(2, rows.size())
+	var start_idx := clampi(_job_candidate_idx - 1, 0, maxi(0, rows.size() - visible_count))
+	var end_idx := mini(rows.size(), start_idx + visible_count)
+	for i in range(start_idx, end_idx):
+		_job_page_body.add_child(_build_job_card(rows[i]))
+	var window_lbl := _label(
+		_tr("후보 %d-%d / %d — 스크롤 대신 후보 커서로 이동", "Roles %d-%d / %d — move the role cursor instead of scrolling")
+		% [start_idx + 1, end_idx, rows.size()],
+		11, "#6f7886")
+	window_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_job_page_body.add_child(window_lbl)
+	_apply_job_cursor()
+
+func _build_job_page_caption(title: String, subtitle: String, accent: String) -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#090d13")
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	st.content_margin_top = 7
+	st.content_margin_bottom = 7
+	panel.add_theme_stylebox_override("panel", st)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	panel.add_child(row)
+	var title_lbl := _label(title, 14, "#eef3f8")
+	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		title_lbl.add_theme_font_override("font", _font_bold)
+	row.add_child(title_lbl)
+	var sub_lbl := _label(subtitle, 11, "#8f98a8")
+	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	sub_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(sub_lbl)
+	return panel
+
+func _build_job_empty_card(text: String, accent: String) -> Control:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0a0e14")
+	st.border_color = Color(accent)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(6)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 14
+	st.content_margin_bottom = 14
+	panel.add_theme_stylebox_override("panel", st)
+	panel.add_child(_wrap_label(text, 13, "#9aa4b8"))
+	return panel
+
+func _job_needs_resume(job: Dictionary) -> bool:
+	var tier := int(job.get("tier", 1))
+	var is_current := str(job.get("id", "")) == str(GameState.current_job.get("id", ""))
+	return tier >= 2 and not is_current and not GameState.flags.get("resume_polished", false)
+
+func _job_requirements_string(job: Dictionary) -> String:
+	var req: Dictionary = job.get("requirements", {})
+	var req_parts: Array = []
+	for k in req:
+		match k:
+			"min_intelligence":
+				req_parts.append(_tr("지력 %d", "Intelligence %d") % int(req[k]))
+			"min_appearance":
+				req_parts.append(_tr("외모 %d", "Appearance %d") % int(req[k]))
+			"min_social_skill", "min_social":
+				req_parts.append(_tr("사회성 %d", "Social %d") % int(req[k]))
+			"min_investment_skill":
+				req_parts.append(_tr("투자감각 %d", "Investing %d") % int(req[k]))
+			"min_money":
+				req_parts.append(_tr("현금 %s", "Cash %s") % GameState.format_money(float(req[k])))
+	return " · ".join(req_parts) if not req_parts.is_empty() else _tr("제한 없음", "No requirements")
+
+func _job_lock_reason(job: Dictionary) -> String:
+	var reason := str(job.get("lock_reason", _tr("경력 조건 미충족", "Career requirement not met")))
+	var lock_icon := String.chr(0x1F512)
+	return reason.replace(lock_icon + " ", "").replace(lock_icon, "").strip_edges()
+
+func _job_can_apply(job: Dictionary) -> bool:
+	if bool(job.get("locked", false)):
+		return false
+	if str(job.get("id", "")) == str(GameState.current_job.get("id", "")):
+		return false
+	if not bool(job.get("eligible", false)):
+		return false
+	if _job_needs_resume(job):
+		return false
+	return true
+
+func _job_disabled_reason(job: Dictionary) -> String:
+	if bool(job.get("locked", false)):
+		return _job_lock_reason(job)
+	if str(job.get("id", "")) == str(GameState.current_job.get("id", "")):
+		return _tr("현재 직업", "Current role")
+	if _job_needs_resume(job):
+		return _tr("이력서 먼저 완성 필요", "Complete your resume first")
+	if not bool(job.get("eligible", false)):
+		return _tr("지원 조건 부족", "Requirements not met")
+	return ""
+
+func _build_job_card(job: Dictionary) -> Control:
+	var job_id := str(job.get("id", ""))
+	var can_apply := _job_can_apply(job)
+	var disabled_reason := _job_disabled_reason(job)
+	var base_border := "#8f98a8"
+	if bool(job.get("locked", false)):
+		base_border = "#424956"
+	elif can_apply:
+		base_border = "#d9e2ea"
+	elif disabled_reason == _tr("현재 직업", "Current role"):
+		base_border = "#9aa4b8"
+	var panel := PanelContainer.new()
+	panel.set_meta("job_id", job_id)
+	panel.set_meta("job_base_border", base_border)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b1116")
+	st.border_color = Color(base_border)
+	st.set_border_width_all(1)
+	st.border_width_left = 4
+	st.set_corner_radius_all(7)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 10
+	st.content_margin_bottom = 10
+	panel.add_theme_stylebox_override("panel", st)
+	_job_candidate_cards.append(panel)
+
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 6)
+	panel.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 10)
+	box.add_child(header)
+	var name_lbl := _label(GameState.get_job_display_name(job), 16, "#e8eaf0")
+	name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if _font_bold:
+		name_lbl.add_theme_font_override("font", _font_bold)
+	header.add_child(name_lbl)
+	var salary_lbl: Label = _label(GameState.format_money(float(job.get("base_salary", 0.0))) + _tr("/월", "/mo"), 14, "#cbd5e1")
+	salary_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	salary_lbl.custom_minimum_size = Vector2(130, 0)
+	header.add_child(salary_lbl)
+
+	var stress_val := int(job.get("stress_per_month", 5))
+	var req_str := _job_requirements_string(job)
+	var meta_line := _tr("정신력 -%d/월 · 조건: %s", "Mental -%d/mo · Req: %s") % [int(stress_val / 2), req_str]
+	box.add_child(_wrap_label(meta_line, 12, "#9aa4b8" if can_apply else "#64748b"))
+
+	var desc := str(job.get("description", "")).replace("\n", " ")
+	if desc.length() > 118:
+		desc = desc.substr(0, 116) + "..."
+	box.add_child(_wrap_label(desc, 12, "#7f8ea3"))
+
+	var btn_text := _tr("지원하기", "Apply")
+	if not can_apply:
+		btn_text = disabled_reason.to_upper()
+	var apply_btn := _small_button(btn_text, "#1c242c" if can_apply else "#26303c")
+	apply_btn.focus_mode = Control.FOCUS_NONE
+	apply_btn.custom_minimum_size = Vector2(0, 38)
+	apply_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	apply_btn.disabled = not can_apply
+	apply_btn.pressed.connect(Callable(self, "_on_job_selected").bind(job_id))
+	box.add_child(apply_btn)
+	return panel
+
+func _job_selected_job() -> Dictionary:
+	var rows := _job_rows_for_current_tier()
+	if rows.is_empty():
+		return {}
+	_job_candidate_idx = clampi(_job_candidate_idx, 0, rows.size() - 1)
+	return rows[_job_candidate_idx]
+
+func _job_move_candidate(delta: int) -> bool:
+	var rows := _job_rows_for_current_tier()
+	if rows.is_empty():
+		return true
+	_job_candidate_idx = int(posmod(_job_candidate_idx + delta, rows.size()))
+	AudioManager.play_ui_click()
+	_render_job_page()
+	return true
+
+func _job_confirm_candidate() -> bool:
+	var job := _job_selected_job()
+	if job.is_empty():
+		return true
+	if not _job_can_apply(job):
+		_show_toast(_job_disabled_reason(job), Color("#9aa4b8"))
+		return true
+	_on_job_selected(str(job.get("id", "")))
+	return true
+
+func _apply_job_cursor() -> void:
+	var selected := _job_selected_job()
+	var selected_id := str(selected.get("id", ""))
+	for card in _job_candidate_cards:
+		if not is_instance_valid(card):
+			continue
+		var panel := card as PanelContainer
+		var job_id := str(panel.get_meta("job_id", ""))
+		var is_selected := job_id == selected_id and ControllerHints.is_pad_active()
+		var st := StyleBoxFlat.new()
+		st.bg_color = Color("#0b1116")
+		st.border_color = Color(COL_GOLD_BRIGHT if is_selected else str(panel.get_meta("job_base_border", "#8f98a8")))
+		st.set_border_width_all(2 if is_selected else 1)
+		st.border_width_left = 6 if is_selected else 4
+		st.set_corner_radius_all(7)
+		st.content_margin_left = 14
+		st.content_margin_right = 14
+		st.content_margin_top = 10
+		st.content_margin_bottom = 10
+		panel.add_theme_stylebox_override("panel", st)
+	_refresh_job_pad_hint()
+
+func _refresh_job_pad_hint() -> void:
+	if not is_instance_valid(_job_pad_hint_label):
+		return
+	if not ControllerHints.is_pad_active() or _modal_kind != "jobs":
+		_job_pad_hint_label.visible = false
+		return
+	_job_pad_hint_label.visible = true
+	var job := _job_selected_job()
+	var role := GameState.get_job_display_name(job) if not job.is_empty() else _tr("직업 없음", "No role")
+	var action := _tr("지원", "Apply") if not job.is_empty() and _job_can_apply(job) else _tr("조건 확인", "Check")
+	_job_pad_hint_label.text = _tr(
+		"[b]패드[/b]  LB/RB 티어 · ↑↓ 후보 · %s %s · %s 뒤로  —  %s",
+		"[b]Pad[/b]  LB/RB Tier · ↑↓ Role · %s %s · %s Back  —  %s"
+	) % [ControllerHints.south(), action, ControllerHints.east(), role]
+
+func _handle_job_modal_input(event: InputEvent) -> bool:
+	if event is InputEventKey and (event as InputEventKey).echo:
+		return false
+	if event.is_action_pressed("gd_tab_prev"):
+		return _job_switch_page(-1)
+	if event.is_action_pressed("gd_tab_next"):
+		return _job_switch_page(1)
+	if event.is_action_pressed("ui_up"):
+		return _job_move_candidate(-1)
+	if event.is_action_pressed("ui_down"):
+		return _job_move_candidate(1)
+	if event.is_action_pressed("ui_accept"):
+		return _job_confirm_candidate()
+	return false
 
 func _build_investment_market_board() -> Control:
 	var fg: int = int(GameState.market_context.get("fear_greed", 50))
@@ -8120,6 +8814,14 @@ func _unhandled_input(event):
 		if _handle_investment_modal_input(event):
 			get_viewport().set_input_as_handled()
 			return
+	if modal_layer and modal_layer.visible and _modal_kind == "jobs":
+		if _handle_job_modal_input(event):
+			get_viewport().set_input_as_handled()
+			return
+	if modal_layer and modal_layer.visible and _modal_kind == "people_actions":
+		if _handle_people_modal_input(event):
+			get_viewport().set_input_as_handled()
+			return
 	if not event.is_action_pressed("ui_cancel"):
 		return
 	if modal_layer and modal_layer.visible:
@@ -8141,6 +8843,8 @@ func _open_modal(title, cancelable: bool = false, kind: String = ""):
 	_modal_cancelable = cancelable
 	_modal_kind = kind
 	_invest_pad_hint_label = null
+	_job_pad_hint_label = null
+	_people_pad_hint_label = null
 	if is_instance_valid(modal_pad_hint_label):
 		modal_pad_hint_label.visible = cancelable and ControllerHints.is_pad_active()
 		modal_pad_hint_label.text = _tr("[%s] 뒤로", "[%s] Back") % ControllerHints.east()
@@ -8192,6 +8896,8 @@ func _close_modal():
 	_modal_cancelable = false
 	_modal_kind = ""
 	_invest_pad_hint_label = null
+	_job_pad_hint_label = null
+	_people_pad_hint_label = null
 	if is_instance_valid(modal_pad_hint_label):
 		modal_pad_hint_label.visible = false
 	AudioManager.play_ui_close()

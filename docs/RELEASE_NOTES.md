@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed (2026-07-04) — AP modal no-scroll career/people pass
+
+- Merged the latest Claude Daeun post-engagement story consistency branch into `main` before continuing UI work.
+- Reworked the career/job modal from a long job-board list into a controller-friendly tier desk.
+- Job selection now uses `Tier 1~4` tabs, a compact two-card role window, and semantic controller input: `LB/RB` changes tier, `Up/Down` changes role, and confirm applies or checks the highlighted role.
+- Compressed current career, application stats, and readiness into a top status strip so the job modal fits 1280x800 without scrolling.
+- Reworked the People/Relations modal into two no-scroll pages: `My People` for known cast actions and `Network·Rest` for networking/free-time actions.
+- Updated screenshot QA: `job-en` now captures the Tier2 job page, and `ap-en` now captures the People network page.
+
 ### Changed (2026-07-04) — Investment modal paged no-scroll pass
 
 - Merged the latest Claude story/worldbuilding branch into `main` before continuing surface work.
