@@ -1,5 +1,45 @@
 # Gangnam Dream Work Log
 
+## 2026-07-04 (Codex — AP color action tile pass + Claude merge)
+
+### 배경
+- 클로드가 지연 결혼/이혼 국면과 다은·지연 호칭 개인화 커밋을 새로 올려 먼저 main에 병합했다.
+- 직전 AP 행동 이미지는 기존 배경을 잘라 넣는 방식이라 52px 카드 안에서 의미가 흐려졌다.
+- 사용자가 지적한 대로 AP 행동은 "분위기"보다 "즉시 인지"가 우선이다. 다만 순수 흑백 픽토그램은 다시 웹/시스템 앱처럼 보일 수 있어, 최종 방향은 컬러 액션 픽토그램 타일로 잡았다.
+
+### 수정
+- `origin/claude/game-polish-steam-uh6ldg`를 main에 병합하고 `docs/WORK_LOG.md` 충돌은 양쪽 기록 보존으로 해결했다.
+- `assets/ui/action_tiles/`에 AP 전용 컬러 SVG 타일 13종을 추가했다.
+- 공통 행동 카드의 아트 모듈레이션을 회색 강제에서 원색 보존으로 바꿨다. 초상화도 회색 틴트를 풀어 인물 얼굴 색이 살아난다.
+- `_action_thumb_path()` 매핑을 기존 배경 크롭에서 전용 액션 타일로 교체했다.
+- AP 메인 행동은 `Invest=폰 차트`, `Self-Dev=책`, `Rest=달/물결`, `Life=집/열쇠`처럼 작은 크기에서도 바로 읽히는 사물 중심으로 정리했다.
+- Network/Rest/Life 세부 모달도 같은 액션 타일 언어를 사용한다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_05_people_modal_network.png`, `ap_en_05_people_modal.png` 직접 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
+## 2026-07-04 (Claude — 지연 결혼 국면: 다은의 거울상 반전 이혼)
+
+유저 아이디어("답답하게 살면 지연이 한심하다고 이혼") + 한국 결혼 문화(처가 눈높이)를 지연 성격에 맞게 구현. **다은의 정확한 반전**:
+- 다은: 돈을 위해 사람(그녀)을 버리면 벌(이혼). 위험=너무 독해짐.
+- 지연: 사람(그녀)을 위해 자기를 버리면 공허 / 자기를 지키면 그녀를 잃음. 위험=다른 세계 사람을 사랑하는 것.
+
+### 신규 (arc_jiyeon_married.json + EN)
+- **arc_jiyeon_wedding_gap(t205)**: 처가 눈높이 결혼식(5성 호텔·재계 하객·수천만 예단) vs 민준 현실(신랑석에 아버지·현수·빈칸). class gap 수치화. 빚내서 맞춤(−2천만) vs 형편대로("나는 당신이면 돼요" 끝에 스치는 실망).
+- **arc_jiyeon_verdict(t228, 자산<5억일 때만)**: "당신이 이렇게 살 사람인 줄 몰랐어요." 붙잡는다(그녀 세계에 맞춰 자기 상실, crossed_line) vs 보낸다("이게 나예요"). 성공(자산≥5억/강남)하면 스킵→jiyeon_man.
+
+### 엔딩 라우팅 (GameState)
+- 지연+30억(안 보냄) → gangnam_dream **jiyeon_romance_started 변주**("그녀 세계에 두 발로 섰다") — 배우자 변주 최상위 정렬로 상철 변주에 안 가림.
+- 붙잡음(jiyeon_kept_by_diminishing) → jiyeon_man **공허 변주**("그녀가 사랑한다는 사람이 더는 {name}이 아니었다").
+- 보냄(jiyeon_left) → ordinary_life **변주**("자기 세계에 남았다. 작지만 무엇과도 바꾸지 않은 자기").
+
+### 검증
+- 장식 플래그 드롭(선택지는 money/tint로 구분)로 write_only 0 유지. jiyeon_reached→jiyeon_romance_started 키 버그 수정. audit ERROR0/WARNING0/섀도잉0/arc_flow_sim 잼0/밴드/컴파일55/EN clean.
+
 ## 2026-07-04 (Codex — AP/Relations visual thumbnail pass + Claude merge)
 
 ### 배경

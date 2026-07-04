@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed (2026-07-04) — AP color action tile pass
+
+- Merged the latest Claude Jiyeon marriage/divorce and character-address branch into `main` before continuing surface work.
+- Replaced unclear AP background-crop thumbnails with 13 dedicated color pictogram action tiles under `assets/ui/action_tiles/`.
+- Main AP actions now read as distinct game actions at small size: invest uses a phone chart, self-dev uses a book/growth mark, rest uses moon/water, and life uses a home/key tile.
+- Network/rest/life subpages now use the same action tile language instead of reused scenic background crops.
+- Preserved color on action artwork and cast portraits instead of muting every thumbnail to monochrome.
+- Verified the English AP surface with `ScreenshotQA --qa=ap-en --lang=en`.
+
 ### Changed (2026-07-04) — AP/Relations visual thumbnail pass
 
 - Merged the latest Claude Daeun wedding/guest story branch into `main` before continuing surface work.

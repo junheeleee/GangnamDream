@@ -2890,6 +2890,16 @@ func _next_arc_id() -> String:
 			and not f.get("arc_jiyeon_year5_news_seen", false) \
 			and GameState.moral_stage() <= -1:
 		return "arc_jiyeon_y5_feelings"
+	# ── 지연 결혼 국면 (다은의 거울상: 그녀 세계에 맞출 것인가, 나답게 살 것인가) ──
+	# ① 그녀의 결혼식 — 처가 눈높이 vs 민준 현실(텅 빈 신랑석 = class gap 수치화)
+	if t >= 205 and f.get("jiyeon_romance_started", false) \
+			and not f.get("arc_jiyeon_wedding_gap_seen", false):
+		return "arc_jiyeon_wedding_gap"
+	# ② 이렇게 살 사람 — 강남 미달+작게 산 경우에만(성공하면 스킵→jiyeon_man). 반전 이혼.
+	if t >= 228 and f.get("jiyeon_romance_started", false) \
+			and not f.get("arc_jiyeon_verdict_seen", false) \
+			and GameState.get_total_asset_value() < 500_000_000.0:
+		return "arc_jiyeon_verdict"
 	if t >= 193 and (f.get("daeun_romance_started", false) or f.get("arc_daeun_year4_together_seen", false)) \
 			and not f.get("arc_daeun_year5_seen", false):
 		return "arc_daeun_year5_ending"
@@ -5306,7 +5316,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
-	icon_box.custom_minimum_size = Vector2(46, 46)
+	icon_box.custom_minimum_size = Vector2(52, 52)
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_box.clip_contents = true
 	var icon_style := StyleBoxFlat.new()
@@ -5322,18 +5332,18 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		art_tex.set_meta("moral_role", "choice_thumbnail")
 		art_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 		art_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		art_tex.custom_minimum_size = Vector2(46, 46)
+		art_tex.custom_minimum_size = Vector2(52, 52)
 		art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		art_tex.texture = art_thumb
-		art_tex.modulate = Color("#bfc6d0", 0.82 if not disabled else 0.28)
+		art_tex.modulate = Color(1, 1, 1, 0.92 if not disabled else 0.28)
 		icon_box.add_child(art_tex)
 	else:
 		var icon_tex := TextureRect.new()
 		icon_tex.set_meta("moral_role", "hud_icon")
 		icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 		icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icon_tex.custom_minimum_size = Vector2(36, 36)
+		icon_tex.custom_minimum_size = Vector2(40, 40)
 		icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon_tex.texture = _ui_icon_texture(icon_id)
@@ -5576,62 +5586,62 @@ func _relationship_person_id(rel: Dictionary) -> String:
 func _action_thumb_path(fn: String, icon_id: String = "") -> String:
 	match fn:
 		"_ap_job_hunt", "_ap_interview_prep":
-			return "res://assets/backgrounds/office_interview_day.png"
+			return "res://assets/ui/action_tiles/action_job.svg"
 		"_ap_write_resume", "_ap_startup_work":
-			return BG_OFFICE
+			return "res://assets/ui/action_tiles/action_job.svg"
 		"_ap_create_content":
-			return BG_PC_BANG
+			return "res://assets/ui/action_tiles/action_scalping.svg"
 		"_ap_invest":
-			return BG_INVESTMENT
+			return "res://assets/ui/action_tiles/action_invest.svg"
 		"_ap_market_analysis":
-			return BG_TRADING
+			return "res://assets/ui/action_tiles/action_market.svg"
 		"_ap_side_job":
-			return BG_CONVENIENCE
+			return "res://assets/ui/action_tiles/action_money.svg"
 		"_ap_save_money":
-			return BG_NIGHT_ROOM
+			return "res://assets/ui/action_tiles/action_money.svg"
 		"_ap_study":
-			return "res://assets/backgrounds/library.png"
+			return "res://assets/ui/action_tiles/action_study.svg"
 		"_ap_free_time":
-			return "res://assets/backgrounds/hangang_riverside_walk.png"
+			return "res://assets/ui/action_tiles/action_rest.svg"
 		"_ap_network", "_ap_vip_network":
-			return BG_CAFE
+			return "res://assets/ui/action_tiles/action_people.svg"
 		"_ap_move_housing", "_open_cat_life":
-			return str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+			return "res://assets/ui/action_tiles/action_life.svg"
 		"_open_cat_gambling", "_open_jeongseon_casino":
-			return "res://assets/backgrounds/jeongseon_casino_entrance.png"
+			return "res://assets/ui/action_tiles/action_casino.svg"
 		"_open_racetrack":
-			return BG_RACETRACK
+			return "res://assets/ui/action_tiles/action_racetrack.svg"
 		"_open_holdem":
-			return BG_HOLDEM
+			return "res://assets/ui/action_tiles/action_holdem.svg"
 		"_open_scalping":
-			return BG_SCALPING
+			return "res://assets/ui/action_tiles/action_scalping.svg"
 	match icon_id:
 		"job":
-			return "res://assets/backgrounds/office_interview_day.png"
+			return "res://assets/ui/action_tiles/action_job.svg"
 		"study":
-			return "res://assets/backgrounds/library.png"
+			return "res://assets/ui/action_tiles/action_study.svg"
 		"rest":
-			return "res://assets/backgrounds/hangang_riverside_walk.png"
+			return "res://assets/ui/action_tiles/action_rest.svg"
 		"invest":
-			return BG_INVESTMENT
+			return "res://assets/ui/action_tiles/action_invest.svg"
 		"market":
-			return BG_TRADING
+			return "res://assets/ui/action_tiles/action_market.svg"
 		"money":
-			return BG_CONVENIENCE
+			return "res://assets/ui/action_tiles/action_money.svg"
 		"people":
-			return BG_CAFE
+			return "res://assets/ui/action_tiles/action_people.svg"
 		"life":
-			return str(BG_PATHS.get(GameState.housing, BG_DEFAULT))
+			return "res://assets/ui/action_tiles/action_life.svg"
 		"casino":
-			return "res://assets/backgrounds/jeongseon_casino_entrance.png"
+			return "res://assets/ui/action_tiles/action_casino.svg"
 		"racetrack":
-			return BG_RACETRACK
+			return "res://assets/ui/action_tiles/action_racetrack.svg"
 		"holdem":
-			return BG_HOLDEM
+			return "res://assets/ui/action_tiles/action_holdem.svg"
 		"scalping":
-			return BG_SCALPING
+			return "res://assets/ui/action_tiles/action_scalping.svg"
 		_:
-			return ""
+			return "res://assets/ui/action_tiles/action_ap.svg"
 
 func _action_thumb_texture(fn: String, icon_id: String = "") -> Texture2D:
 	return _load_art_thumb(_action_thumb_path(fn, icon_id))
@@ -5658,7 +5668,7 @@ func _person_thumb_frame(person_id: String, accent: String, size: int = 52) -> C
 		img.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		img.texture = tex
-		img.modulate = Color("#c5ccd5", 0.90)
+		img.modulate = Color(1, 1, 1, 0.94)
 		frame.add_child(img)
 	else:
 		var lbl := _label("?", 18, "#aeb6c2")
