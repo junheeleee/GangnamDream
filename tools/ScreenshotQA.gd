@@ -670,6 +670,12 @@ func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -
 			_mg.call("_finish_typing")
 		await _settle(0.45)
 		await _save("%s%02d_act%d" % [prefix, act, act])
+		if act == 4 and _mg.has_method("_open_cat_people"):
+			_mg.call("_open_cat_people")
+			await _settle(0.45)
+			await _save("%s%02da_act%d_people_modal" % [prefix, act, act])
+			_close_modal()
+			await _settle(0.2)
 
 func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 	GameState.action_points = GameState.max_action_points
@@ -740,9 +746,11 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.investment_skill = 63
 			GameState.mental = 44
 			GameState.action_axis_this_week = {"money": 1, "human": 0}
-			GameState.apply_cast_effect("father", {"met": true, "affinity": 34})
-			GameState.apply_cast_effect("daeun", {"met": true, "affinity": 38})
-			GameState.apply_cast_effect("jiyeon", {"met": true, "affinity": 58})
+			_set_cast_relation_for_qa("father", 34)
+			_set_cast_relation_for_qa("sangchul", 54)
+			_set_cast_relation_for_qa("jiyeon", 58)
+			_set_cast_relation_for_qa("daeun", 38)
+			_set_cast_relation_for_qa("jaehyuk", 41)
 		_:
 			GameState.year = 2030
 			GameState.month = 11
@@ -755,6 +763,11 @@ func _seed_ap_act_state(act: int, lang: String = "en") -> void:
 			GameState.health = 52
 			GameState.mental = 39
 			GameState.action_axis_this_week = {"money": 1, "human": 1}
+			_set_cast_relation_for_qa("father", 18)
+			_set_cast_relation_for_qa("sangchul", 49)
+			_set_cast_relation_for_qa("jiyeon", 52)
+			_set_cast_relation_for_qa("daeun", 28)
+			_set_cast_relation_for_qa("jaehyuk", 33)
 	if _mg != null and _mg.has_method("_seed_surface_background"):
 		_mg.call("_seed_surface_background")
 
@@ -1555,7 +1568,17 @@ func _seed_cast_state() -> void:
 		["daeun", 48],
 		["jaehyuk", 38],
 	]:
-		GameState.apply_cast_effect(str(data[0]), {"met": true, "affinity": int(data[1])})
+		_set_cast_relation_for_qa(str(data[0]), int(data[1]))
+
+func _set_cast_relation_for_qa(person_id: String, affinity: int, met: bool = true) -> void:
+	if not GameState.cast.has(person_id):
+		GameState.cast[person_id] = {"stage": "unknown", "affinity": 0, "met": false, "flags": {}}
+	var entry: Dictionary = GameState.cast[person_id]
+	entry["affinity"] = clampi(affinity, -100, 100)
+	entry["met"] = met
+	if not entry.has("flags"):
+		entry["flags"] = {}
+	GameState.cast[person_id] = entry
 
 func _close_modal() -> void:
 	for m in ["_close_modal","_close_overlay","_dismiss_modal"]:

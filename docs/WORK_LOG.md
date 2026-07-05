@@ -1,5 +1,29 @@
 # Gangnam Dream Work Log
 
+## 2026-07-05 (Codex — AP relationship pressure surface pass)
+
+### 배경
+- ACT 4/5 AP 레일은 `People`을 전면에 배치했지만, 카드 문구가 아직 일반적인 설명에 머물러 실제 관계 상태를 느끼기 어려웠다.
+- 모랄/관계 시스템은 점수를 대놓고 공개하는 장치가 아니라, 플레이어가 "돈을 쫓는 동안 누가 멀어졌는지"를 화면 표면에서 서서히 감지해야 한다.
+
+### 수정
+- `MainGame.gd`에 핵심 인물 관계 압박 helper를 추가했다. 만난 인물 중 가장 낮은 관계 상태를 찾아 이름만 은근히 문장에 반영한다.
+- ACT 4/5 `People` AP 카드가 실제 관계 상태에 반응한다. 예: `Father is drifting away`, `Father may not wait much longer`.
+- 후반 People 모달 첫 문장을 동적으로 바꿨다. 관계가 낮은 인물이 있으면 `Father has been waiting too long.`처럼 표시하되, 수치/도덕 점수는 노출하지 않는다.
+- People 모달의 인물 카드 상태 문구를 후반부에 맞게 조정했다. 낮은 관계는 `Drifting`, 매우 낮은 관계는 `Almost gone`으로 보인다.
+- `tools/ScreenshotQA.gd`의 관계 QA 시드를 절대값 설정 방식으로 바꿨다. 기존 `apply_cast_effect()`는 누적 덧셈이라 반복 QA에서 관계 상태가 달라질 수 있었다.
+- `--qa=ap-act-en`에 ACT4 People 모달 캡처(`ap_act_en_04a_act4_people_modal.png`)를 추가해 후반 관계 압박 표면을 매번 확인할 수 있게 했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-act-en --lang=en` 통과.
+- ACT4/ACT5 AP 레일과 ACT4 People 모달 캡처 직접 확인:
+  - ACT4 People 카드: `Father is drifting away`.
+  - ACT5 People 카드: `Father may not wait much longer`.
+  - ACT4 People 모달: `Father has been waiting too long.`, 인물 카드 `Drifting`.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-05 (Codex — AP act QA + 4-slot regression pass)
 
 ### 배경

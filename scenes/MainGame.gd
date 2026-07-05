@@ -5475,6 +5475,82 @@ func _engage_situation(sit: Dictionary):
 	current_event = sit
 	_render_event()
 
+func _core_relationship_people() -> Array:
+	return ["father", "sangchul", "jiyeon", "daeun", "jaehyuk"]
+
+func _lowest_relationship_pressure() -> Dictionary:
+	var lowest_id := ""
+	var lowest_affinity := 101
+	var met_count := 0
+	for pid in _core_relationship_people():
+		var person_id: String = str(pid)
+		if not GameState.cast_has_met(person_id):
+			continue
+		met_count += 1
+		var affinity: int = GameState.get_cast_affinity(person_id)
+		if affinity < lowest_affinity:
+			lowest_affinity = affinity
+			lowest_id = person_id
+	if lowest_id.is_empty():
+		return {}
+	var info: Dictionary = ImageRegistry.get_person_info(lowest_id)
+	return {
+		"id": lowest_id,
+		"name": str(info.get("name", _tr("누군가", "Someone"))),
+		"affinity": lowest_affinity,
+		"met_count": met_count,
+	}
+
+func _ap_people_pressure_subtitle(act: int) -> String:
+	var pressure := _lowest_relationship_pressure()
+	if pressure.is_empty():
+		if act >= 5:
+			return _tr("누가 마지막까지 남는지 확인한다", "See who remains at the end")
+		if act >= 4:
+			return _tr("방치한 관계가 선택을 요구한다", "Neglected bonds begin asking for choices")
+		return _tr("돈만 보던 주를 끊어 줄 수 있다", "A week with people can break the grind")
+	var name: String = str(pressure.get("name", _tr("누군가", "Someone")))
+	var affinity: int = int(pressure.get("affinity", 100))
+	if act >= 5:
+		if affinity < 45:
+			return _tr("%s는 오래 기다리지 않는다", "%s may not wait much longer") % name
+		return _tr("누가 마지막까지 남는지 확인한다", "See who remains at the end")
+	if act >= 4:
+		if affinity < 45:
+			return _tr("%s와의 거리가 벌어진다", "%s is drifting away") % name
+		return _tr("방치한 관계가 선택을 요구한다", "Neglected bonds begin asking for choices")
+	return _tr("돈만 보던 주를 끊어 줄 수 있다", "A week with people can break the grind")
+
+func _ap_people_pressure_accent(act: int) -> String:
+	var pressure := _lowest_relationship_pressure()
+	if pressure.is_empty() or int(pressure.get("affinity", 100)) >= 45:
+		return "#8a5a9a"
+	if act >= 5:
+		return "#dce5ee"
+	if act >= 4:
+		return "#bfc7d4"
+	return "#8a5a9a"
+
+func _people_status_line() -> String:
+	var pressure := _lowest_relationship_pressure()
+	if not pressure.is_empty() and _ap_act_index() >= 4 and int(pressure.get("affinity", 100)) < 45:
+		return _tr("%s와의 대화가 더 미뤄지고 있다.", "%s has been waiting too long.") % str(pressure.get("name", _tr("누군가", "Someone")))
+	return _tr("혼자 강남에 가는 사람은 없다.", "No one reaches Gangnam alone.")
+
+func _relationship_warmth_label(affinity: int) -> String:
+	if _ap_act_index() >= 4:
+		if affinity < 20:
+			return _tr("끊어지기 직전", "Almost gone")
+		if affinity < 45:
+			return _tr("멀어지는 중", "Drifting")
+	if affinity >= 75:
+		return _tr("가까운 사이", "Close")
+	if affinity >= 45:
+		return _tr("알아가는 중", "Getting to know")
+	if affinity >= 20:
+		return _tr("서먹한 편", "A bit distant")
+	return _tr("아직 낯선", "Still a stranger")
+
 func _render_essential_actions(ap: int):
 	var disabled: bool = ap <= 0
 	var no_job: bool = GameState.current_job.is_empty()
@@ -5522,12 +5598,12 @@ func _render_essential_actions(ap: int):
 		if gambling_available:
 			var g_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("빠른 돈의 문이 열린다", "The door to fast money opens")
 			_essential_btn(_tr("도박장", "Gambling"), g_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
-		_essential_btn(_tr("사람", "People"), _tr("돈만 보던 주를 끊어 줄 수 있다", "A week with people can break the grind"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
+		_essential_btn(_tr("사람", "People"), _ap_people_pressure_subtitle(act), "people", _ap_people_pressure_accent(act), "_open_cat_people", disabled, false, menu_badge)
 		if not gambling_available:
 			_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("평판과 직장 압력을 정리한다", "Manage reputation and work pressure"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
 		_essential_btn(_tr("휴식", "Rest"), _tr("위험을 감당할 정신력을 회복한다", "Recover the mental room to carry risk"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 	elif act == 4:
-		_essential_btn(_tr("사람", "People"), _tr("방치한 관계가 선택을 요구한다", "Neglected bonds begin asking for choices"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
+		_essential_btn(_tr("사람", "People"), _ap_people_pressure_subtitle(act), "people", _ap_people_pressure_accent(act), "_open_cat_people", disabled, false, menu_badge)
 		if invest_unlocked:
 			_essential_btn(_tr("투자", "Invest"), _tr("돈을 굴리되, 무엇을 잃는지 본다", "Move money while watching what it costs"), "invest", "#3a8a5a", "_ap_invest", disabled)
 		else:
@@ -5543,7 +5619,7 @@ func _render_essential_actions(ap: int):
 			_essential_btn(_tr("결산 투자", "Final Trades"), _tr("남은 시간 안에서 포트폴리오를 정한다", "Set your portfolio with time running out"), "invest", "#3a8a5a", "_ap_invest", disabled)
 		else:
 			_essential_btn(_tr("돈", "Money"), _tr("마지막 자금 흐름을 정리한다", "Settle the last cash flow"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
-		_essential_btn(_tr("사람", "People"), _tr("누가 마지막까지 남는지 확인한다", "See who remains at the end"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
+		_essential_btn(_tr("사람", "People"), _ap_people_pressure_subtitle(act), "people", _ap_people_pressure_accent(act), "_open_cat_people", disabled, false, menu_badge)
 		if gambling_available:
 			var g5_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("마지막 판은 가장 크게 흔든다", "The last table shakes the hardest")
 			_essential_btn(_tr("도박장", "Gambling"), g5_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
@@ -6483,15 +6559,7 @@ func _people_actions_for_page(page_id: String) -> Array:
 				verb = _tr("전화드리기", "Call")
 			elif pid == "jaehyuk":
 				verb = _tr("만나기", "Meet up")
-			var warmth: String
-			if aff >= 75:
-				warmth = _tr("가까운 사이", "Close")
-			elif aff >= 45:
-				warmth = _tr("알아가는 중", "Getting to know")
-			elif aff >= 20:
-				warmth = _tr("서먹한 편", "A bit distant")
-			else:
-				warmth = _tr("아직 낯선", "Still a stranger")
+			var warmth: String = _relationship_warmth_label(aff)
 			actions.append({
 				"title": "%s · %s" % [verb, pname],
 				"subtitle": warmth,
@@ -6553,7 +6621,7 @@ func _build_people_status_strip() -> Control:
 	copy.add_theme_constant_override("separation", 2)
 	row.add_child(copy)
 	copy.add_child(_label(_tr("관계", "RELATIONS"), 10, "#6f7886"))
-	copy.add_child(_label(_tr("혼자 강남에 가는 사람은 없다.", "No one reaches Gangnam alone."), 15, "#e8eaf0"))
+	copy.add_child(_label(_people_status_line(), 15, "#e8eaf0"))
 	var met_count := 0
 	for pid in ["father", "sangchul", "jiyeon", "daeun", "jaehyuk"]:
 		if GameState.cast_has_met(pid):
