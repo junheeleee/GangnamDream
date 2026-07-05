@@ -134,6 +134,14 @@ var pending_tint_vignette: Dictionary = {}  # transient: {"from":int,"to":int} �
 var pending_scar_vignette: String = ""     # transient: "crossed_line"|"chose_money_over_father" — 첫 설정 시 한 번만
 var housing_months: Dictionary = {}
 
+# ── AP 행동 축 — 돈을 좇는 주간 vs 사람/회복에 남긴 주간 ─────────────
+# 플레이어에게 도덕 점수를 보여주지 않고, 반복 루프가 어떤 삶의 모양으로 굳는지만 기록한다.
+var action_axis_this_week: Dictionary = {"money": 0, "human": 0}
+var life_human_used_this_week: bool = false
+var grind_streak_weeks: int = 0
+var human_weeks_total: int = 0
+var money_weeks_total: int = 0
+
 # ── 성향(직장/투자/창업) — 플레이로 누적, 임계점에서 '자각' ──────────
 # 죽은 트레이트 시스템을 대체: 선택이 아니라 행동이 정체성을 만든다.
 const TENDENCY_KINDS := ["career", "invest", "found"]
@@ -275,6 +283,11 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	moral_band_last = 0
 	month_focus = ""
 	housing_months = {}
+	action_axis_this_week = {"money": 0, "human": 0}
+	life_human_used_this_week = false
+	grind_streak_weeks = 0
+	human_weeks_total = 0
+	money_weeks_total = 0
 	tendency = {"career": 0, "invest": 0, "found": 0}
 	tendency_realized = ""
 	market_context = {
@@ -516,6 +529,7 @@ func _init_market_prices():
 func advance_calendar() -> bool:
 	if is_game_over:
 		return false
+	finalize_action_axis_week()
 	turn += 1
 	week_of_month += 1
 	var month_ended := false
@@ -1004,6 +1018,37 @@ func spend_ap(amount: int = 1) -> bool:
 	action_points -= amount
 	stats_changed.emit()
 	return true
+
+func register_action_axis(axis: String) -> void:
+	match axis:
+		"money":
+			action_axis_this_week["money"] = int(action_axis_this_week.get("money", 0)) + 1
+		"human":
+			action_axis_this_week["human"] = int(action_axis_this_week.get("human", 0)) + 1
+			life_human_used_this_week = true
+		_:
+			return
+	stats_changed.emit()
+
+func finalize_action_axis_week() -> void:
+	var money_count := int(action_axis_this_week.get("money", 0))
+	var human_count := int(action_axis_this_week.get("human", 0))
+	if money_count > 0:
+		money_weeks_total += 1
+	if human_count > 0:
+		human_weeks_total += 1
+		grind_streak_weeks = 0
+	elif money_count > 0:
+		grind_streak_weeks += 1
+		if grind_streak_weeks > 0 and grind_streak_weeks % 4 == 0:
+			shift_moral_tint(-1.0)
+			modify_stat("mental", -1)
+			add_log(LocaleManager.ui(
+				"한 달 내내 돈 쪽으로만 시간이 흘렀다. 피로가 조금 남았다.",
+				"A full month went only toward money. A little fatigue remained."
+			), "system")
+	action_axis_this_week = {"money": 0, "human": 0}
+	life_human_used_this_week = false
 
 func restore_ap():
 	action_points = max_action_points
@@ -1660,6 +1705,11 @@ func serialize():
 		"route_unorthodox": route_unorthodox,
 		"moral_tint": moral_tint,
 		"moral_band_last": moral_band_last,
+		"action_axis_this_week": action_axis_this_week,
+		"life_human_used_this_week": life_human_used_this_week,
+		"grind_streak_weeks": grind_streak_weeks,
+		"human_weeks_total": human_weeks_total,
+		"money_weeks_total": money_weeks_total,
 		"tendency": tendency,
 		"tendency_realized": tendency_realized,
 		"month_focus": month_focus,
@@ -1704,7 +1754,7 @@ func load_from_dict(data):
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
 		"route_orthodox", "route_unorthodox", "events_seen",
-		"moral_band_last",
+		"moral_band_last", "grind_streak_weeks", "human_weeks_total", "money_weeks_total",
 	]
 	var allowed = serialize().keys()
 	for key in data:
@@ -1720,6 +1770,9 @@ func load_from_dict(data):
 	# 구버전 세이브 호환 — tendency 없으면 기본값
 	if typeof(tendency) != TYPE_DICTIONARY or tendency.is_empty():
 		tendency = {"career": 0, "invest": 0, "found": 0}
+	# 구버전 세이브 호환 — AP 행동 축
+	if typeof(action_axis_this_week) != TYPE_DICTIONARY or action_axis_this_week.is_empty():
+		action_axis_this_week = {"money": 0, "human": 0}
 	# 구버전 세이브 호환 — run_theme 없으면 run_theme_categories로 역추론
 	if run_theme == "자유런" and not run_theme_categories.is_empty():
 		var cat_str = ",".join(run_theme_categories)

@@ -4850,6 +4850,7 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 	slots_box.custom_minimum_size = Vector2(92, 0)
 	top.add_child(slots_box)
 	_add_week_ap_slots(slots_box, ap)
+	_add_week_axis_compact(slots_box)
 
 	var ap_text := _tr("선택 완료", "Choices spent")
 	if ap > 0:
@@ -4927,6 +4928,109 @@ func _render_week_pressure_row(parent: Control, net: float, total: float, has_wa
 	_add_week_pressure_cell(row, _tr("현금흐름", "CASHFLOW"), cash_text, net >= 0.0)
 	_add_week_pressure_cell(row, _tr("강남까지", "TO GANGNAM"), GameState.format_money(goal_gap), goal_gap <= 1_000_000_000.0)
 	_add_week_pressure_cell(row, _tr("몸과 마음", "CONDITION"), condition, not has_warning)
+
+func _add_week_axis_strip(parent: Control) -> void:
+	var money_count := int(GameState.action_axis_this_week.get("money", 0))
+	var human_count := int(GameState.action_axis_this_week.get("human", 0))
+	var max_ap: int = maxi(1, GameState.max_action_points)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(row)
+
+	var label := _label(_tr("이번 주 시간", "WEEK SPLIT"), 10, "#7f8794")
+	label.set_meta("moral_role", "hint_text")
+	label.custom_minimum_size = Vector2(92, 0)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	if _font_bold:
+		label.add_theme_font_override("font", _font_bold)
+	row.add_child(label)
+
+	row.add_child(_axis_meter_chip("money", money_count, max_ap))
+	row.add_child(_axis_meter_chip("human", human_count, max_ap))
+
+	var mood := ""
+	if money_count > 0 and human_count == 0:
+		mood = _tr("돈 쪽으로 기울고 있다", "tilting toward money")
+	elif human_count > 0 and money_count == 0:
+		mood = _tr("사람과 회복에 시간을 남겼다", "left time for people")
+	elif human_count > 0 and money_count > 0:
+		mood = _tr("버는 일과 지키는 일을 나눴다", "split between earning and holding on")
+	else:
+		mood = _tr("아직 정해지지 않았다", "not shaped yet")
+	if GameState.grind_streak_weeks >= 3 and human_count == 0:
+		mood += _tr(" · 오래 돈 쪽만 보고 있다", " · money has been the only direction for a while")
+	var mood_lbl := _label(mood, 11, "#a6adba")
+	mood_lbl.set_meta("moral_role", "hint_text")
+	mood_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mood_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	row.add_child(mood_lbl)
+
+func _add_week_axis_compact(parent: Control) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+	row.alignment = BoxContainer.ALIGNMENT_END
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(row)
+	row.add_child(_axis_count_chip("money", int(GameState.action_axis_this_week.get("money", 0))))
+	row.add_child(_axis_count_chip("human", int(GameState.action_axis_this_week.get("human", 0))))
+
+func _axis_count_chip(axis: String, count: int) -> Control:
+	var chip := PanelContainer.new()
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.custom_minimum_size = Vector2(66, 16)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b0d12", 0.68)
+	st.border_color = Color(_axis_color(axis), 0.42 if count > 0 else 0.16)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(2)
+	st.content_margin_left = 4
+	st.content_margin_right = 4
+	st.content_margin_top = 1
+	st.content_margin_bottom = 1
+	chip.add_theme_stylebox_override("panel", st)
+
+	var lbl := _label("%s %d" % [_axis_label(axis), count], 8, _axis_color(axis) if count > 0 else "#5f6775")
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.add_child(lbl)
+	return chip
+
+func _axis_meter_chip(axis: String, count: int, max_ap: int) -> Control:
+	var chip := PanelContainer.new()
+	chip.set_meta("moral_role", "choice_badge")
+	chip.set_meta("moral_accent", _axis_color(axis))
+	chip.custom_minimum_size = Vector2(104, 24)
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color("#0b0d12", 0.72)
+	st.border_color = Color(_axis_color(axis), 0.44 if count > 0 else 0.18)
+	st.set_border_width_all(1)
+	st.set_corner_radius_all(3)
+	st.content_margin_left = 7
+	st.content_margin_right = 7
+	st.content_margin_top = 4
+	st.content_margin_bottom = 4
+	chip.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.add_child(row)
+	var title := _label(_axis_label(axis), 9, _axis_color(axis))
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title.custom_minimum_size = Vector2(42, 0)
+	if _font_bold:
+		title.add_theme_font_override("font", _font_bold)
+	row.add_child(title)
+	for i in range(max_ap):
+		var dot := ColorRect.new()
+		dot.custom_minimum_size = Vector2(11, 8)
+		dot.color = Color(_axis_color(axis), 0.88) if i < count else Color("#252b35", 0.72)
+		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(dot)
+	return chip
 
 func _add_week_pressure_cell(parent: Control, label_text: String, value_text: String, good: bool) -> void:
 	var cell := PanelContainer.new()
@@ -5349,6 +5453,45 @@ func _play_ap_commit_feedback() -> void:
 	AudioManager.play("choice_made", -8.0)
 	AudioManager.pulse_gamepad(0.045, 0.110, 0.065)
 
+func _action_axis_for_function(fn_name: String) -> String:
+	match fn_name:
+		"_ap_free_time", "_ap_network", "_ap_vip_network", "_ap_contact_person":
+			return "human"
+		"_ap_job_hunt", "_ap_side_job", "_ap_save_money", "_ap_write_resume", "_ap_interview_prep":
+			return "money"
+		"_ap_startup_work", "_ap_create_content", "_ap_deep_study":
+			return "money"
+		"_open_racetrack", "_open_holdem", "_open_scalping", "_open_jeongseon_casino":
+			return "money"
+	return ""
+
+func _action_axis_tag_for_card(fn_name: String) -> String:
+	if fn_name == "_ap_study":
+		return "mixed"
+	if fn_name == "_ap_invest" or fn_name == "_ap_market_analysis":
+		return "money"
+	return _action_axis_for_function(fn_name)
+
+func _axis_label(axis: String) -> String:
+	match axis:
+		"money":
+			return _tr("돈", "MONEY")
+		"human":
+			return _tr("사람", "PEOPLE")
+		"mixed":
+			return _tr("혼합", "MIXED")
+	return ""
+
+func _axis_color(axis: String) -> String:
+	match axis:
+		"money":
+			return "#aeb4bf"
+		"human":
+			return "#dce5ee"
+		"mixed":
+			return "#bfc7d4"
+	return "#7f8794"
+
 func _run_ap_action_from_button(card: Control, title: String, icon_id: String, accent: String,
 		fn_name: String, fn_arg = null, close_modal_first: bool = false,
 		free_action: bool = false, art_thumb: Texture2D = null) -> void:
@@ -5362,16 +5505,20 @@ func _run_ap_action_from_button(card: Control, title: String, icon_id: String, a
 		AudioManager.play_ui_click(-8.0)
 	if close_modal_first:
 		_close_modal()
+	var before_ap: int = GameState.action_points
 	if fn_arg == null:
 		self.call(fn_name)
 	else:
 		self.call(fn_name, fn_arg)
+	var axis := _action_axis_for_function(fn_name)
+	if not axis.is_empty() and GameState.action_points < before_ap:
+		GameState.register_action_axis(axis)
 
 func _essential_btn(title: String, subtitle: String, icon_id: String, accent: String,
 		fn: String, disabled: bool, free_action: bool = false):
 	var rail_label := _next_ap_rail_label()
 	var art_thumb := _action_thumb_texture(fn, icon_id)
-	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label, art_thumb)
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label, art_thumb, _action_axis_tag_for_card(fn))
 	if not disabled:
 		var fn_name: String = fn
 		btn.pressed.connect(func():
@@ -5406,7 +5553,7 @@ func _animate_ap_action_card(card: Control, index: int) -> void:
 
 func _make_essential_action_card(title: String, subtitle: String, icon_id: String,
 		accent: String, disabled: bool, free_action: bool, forced_badge: String,
-		rail_label: String = "", art_thumb: Texture2D = null) -> Button:
+		rail_label: String = "", art_thumb: Texture2D = null, axis_tag: String = "") -> Button:
 	var btn := Button.new()
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343446")
@@ -5558,6 +5705,32 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		badge_text = _tr("잠금", "Locked")
 	if badge_text.is_empty():
 		badge_text = _tr("무료", "Free") if free_action else _tr("AP 1", "AP 1")
+	if not axis_tag.is_empty() and forced_badge.is_empty():
+		var axis_badge := PanelContainer.new()
+		axis_badge.set_meta("moral_role", "choice_badge")
+		axis_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		axis_badge.custom_minimum_size = Vector2(58, 30)
+		axis_badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var axis_style := StyleBoxFlat.new()
+		axis_style.bg_color = Color("#0b0d12", 0.90)
+		axis_style.border_color = Color(_axis_color(axis_tag), 0.56 if not disabled else 0.18)
+		axis_style.set_border_width_all(1)
+		axis_style.set_corner_radius_all(3)
+		axis_style.content_margin_left = 7
+		axis_style.content_margin_right = 7
+		axis_style.content_margin_top = 4
+		axis_style.content_margin_bottom = 4
+		axis_badge.add_theme_stylebox_override("panel", axis_style)
+		row.add_child(axis_badge)
+
+		var axis_lbl := _label(_axis_label(axis_tag), 10, _axis_color(axis_tag) if not disabled else "#5a6070")
+		axis_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		axis_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		axis_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if _font_bold:
+			axis_lbl.add_theme_font_override("font", _font_bold)
+		axis_badge.add_child(axis_lbl)
+
 	var badge := PanelContainer.new()
 	badge.set_meta("moral_role", "choice_badge")
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -5990,7 +6163,8 @@ func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 		free_action,
 		"",
 		"",
-		art_thumb)
+		art_thumb,
+		_action_axis_tag_for_card(fn))
 	btn.custom_minimum_size = Vector2(0, 74)
 	var fn_name := fn
 	var fn_arg = arg
@@ -6369,7 +6543,8 @@ func _build_people_action_card(action: Dictionary, index: int) -> Button:
 		bool(action.get("free", false)),
 		"",
 		"",
-		thumb)
+		thumb,
+		_action_axis_tag_for_card(str(action.get("fn", ""))))
 	btn.custom_minimum_size = Vector2(0, 60)
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.set_meta("people_action_idx", index)
@@ -6576,6 +6751,8 @@ func _ap_study():
 	var study_type: int = randi() % 4
 	var tag: String = [_tr("독서", "Reading"), _tr("운동", "Exercise"), _tr("명상", "Meditation"), _tr("투자공부", "Invest Study")][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
+	var study_axis := "human" if (study_type == 1 or study_type == 2) else "money"
+	GameState.register_action_axis(study_axis)
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {}).duplicate()
 	if study_type == 1:
@@ -7681,6 +7858,7 @@ func _on_leverage_buy(asset_id: String, amount: float):
 	AudioManager.play("money_gain")
 	var result = investment_system.buy_asset_leveraged(asset_id, amount)
 	if result.get("success", false):
+		GameState.register_action_axis("money")
 		_show_ap_action_commit(_tr("레버리지 매수", "Leverage Buy"), "leverage", "#ef4444", false, _action_thumb_texture("_ap_invest", "invest"))
 		var asset_name = asset_id
 		for data in DataRegistry.assets:
@@ -9061,6 +9239,7 @@ func _on_buy_asset(asset_id, amount):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
+	GameState.register_action_axis("money")
 	_show_ap_action_commit(_tr("투자 매수", "Buy Asset"), "invest", "#3a8a5a", false, _action_thumb_texture("_ap_invest", "invest"))
 	AudioManager.play("money_gain")
 	investment_system.buy_asset(asset_id, float(amount))
@@ -9080,6 +9259,7 @@ func _on_sell_asset(asset_id, ratio):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
+	GameState.register_action_axis("money")
 	_show_ap_action_commit(_tr("투자 매도", "Sell Asset"), "invest", "#d73a49", false, _action_thumb_texture("_ap_invest", "invest"))
 	AudioManager.play("money_loss")
 	investment_system.sell_asset(asset_id, float(ratio))

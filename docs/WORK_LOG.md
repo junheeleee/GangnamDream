@@ -1,5 +1,28 @@
 # Gangnam Dream Work Log
 
+## 2026-07-05 (Codex — AP axis surface + grind drift pass)
+
+### 배경
+- `origin/claude/game-polish-steam-uh6ldg`에 새로 올라온 지연 로맨스 어투 수정과 `docs/AP_REDESIGN.md`를 먼저 main에 병합했다.
+- 클로드 설계 문서의 핵심은 AP 루프를 단순 2클릭 메뉴가 아니라 "돈 vs 사람"이라는 게임 주제의 반복 단위로 만드는 것이다.
+- 전체 루틴/몽타주 압축은 턴 루프 수술이라 아직 이르고, 이번 패스는 Phase 1의 낮은 위험 영역인 축 기록과 AP 표면만 구현했다.
+
+### 수정
+- `GameState`에 주간 AP 축 기록을 추가했다: `action_axis_this_week`, `life_human_used_this_week`, `grind_streak_weeks`, `human_weeks_total`, `money_weeks_total`.
+- 실제 AP 행동이 성공했을 때만 돈축/사람축이 기록된다. 자기계발은 카드상 `MIXED`로 보이고, 실제 결과가 운동/명상이면 사람축, 독서/투자공부면 돈축으로 기록한다.
+- 4주 연속 사람축 없이 돈축 행동만 반복하면 아주 완만하게 `moral_tint -1`, `mental -1`이 적용된다. 도덕 점수는 노출하지 않고 로그도 "한 달 내내 돈 쪽으로만 시간이 흘렀다" 수준의 서술로 처리했다.
+- AP 카드에 `MONEY / PEOPLE / MIXED` 축 배지를 추가했다. `Invest`, `Side hustle`, `Save/cut back`은 돈축, `Rest`, 관계 행동은 사람축, `Self-Dev`는 혼합으로 읽힌다.
+- 주간 보드 우측 AP 슬롯 아래에 `MONEY 0 / PEOPLE 0` 압축 칩을 추가했다. 별도 긴 행으로 만들면 Steam Deck 화면에서 행동 카드가 밀려서, 최종 화면은 압축 표시로 정리했다.
+- 축 표시가 도덕 점수표처럼 보이지 않도록 `moral_tint`/선악 수치 명칭은 UI에 노출하지 않았다.
+
+### 검증
+- `git diff --check` 통과.
+- `CompileCheck.tscn` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과.
+- `ap_en_03_ap_actions.png`, `ap_en_04_money_modal.png` 직접 확인. 1280×800에서 4개 AP 카드가 다시 한 화면에 들어온다.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 영어 한글 누출 0, 밸런스 밴드 통과, 오디오 자산 검사 통과, Godot compile clean.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-04 (Codex — AP action commit feedback pass)
 
 ### 배경
