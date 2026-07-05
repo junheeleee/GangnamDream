@@ -1,5 +1,36 @@
 # Gangnam Dream Work Log
 
+## 2026-07-05 (Codex — AP act QA + 4-slot regression pass)
+
+### 배경
+- 직전 패스에서 ACT 1 기준 AP 레일을 안정화했지만, ACT 2~5 화면을 실제로 강제 캡처해 보지는 않았다.
+- AP 화면은 240주 동안 반복되는 핵심 루프라서, 1년차만 예쁘고 뒤로 갈수록 다시 스크롤/웹 메뉴가 되면 안 된다.
+
+### 수정
+- `tools/ScreenshotQA.gd`에 `--qa=ap-act-en` 스코프를 추가했다. ACT 1~5 상태를 강제 세팅하고 `ap_act_en_01_act1.png`부터 `ap_act_en_05_act5.png`까지 한 번에 캡처한다.
+- ACT QA 시드에서 자산 마일스톤 토스트가 튀어나와 화면을 가리지 않도록 `milestones_reached`를 미리 채운다. 이는 QA 전용 상태 조정이다.
+- ACT QA에서 GameState를 직접 바꾼 뒤 상단 HUD 날짜/자산이 이전 ACT에 머무르지 않도록 `_refresh_all()`을 호출한다.
+- AP 레일 슬롯 번호가 같은 QA 인스턴스에서 05/06처럼 누적되던 문제를 고쳤다. `_ap_rail_slot_counter`를 렌더마다 리셋하고, 슬롯 번호는 child count가 아니라 전용 카운터로 부여한다.
+- ACT 2~5 메인 레일을 4장 노스크롤로 압축했다.
+  - ACT 2: Work · Career / Invest / People / Self-Dev
+  - ACT 3: Invest / Gambling / People / Rest
+  - ACT 4: People / Invest / Gambling / Rest
+  - ACT 5: Final Trades / People / Gambling / Rest
+- `Market Analysis`는 메인 레일 5번째 카드로 밀어 넣지 않고 `Money · Invest` 모달 안으로 이동했다. 무료 행동이라 모달 배지도 `Free`로 표시된다.
+- `docs/QA_CHECKLIST.md`의 Targeted Screenshot QA 매트릭스에 `--qa=ap-act-en`을 추가했다.
+
+### 검증
+- `CompileCheck.tscn` 통과.
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-act-en --lang=en` 통과.
+- ACT 1~5 캡처 직접 확인:
+  - ACT 1 Survival: 생존/구직/생계 중심.
+  - ACT 2 Expansion: 일·투자·사람·자기계발 4장, 스크롤 없음.
+  - ACT 3 Weight: 투자·도박·사람·휴식 4장, 스크롤 없음.
+  - ACT 4 Fracture: People 우선, 위기 틴트와 4슬롯 유지.
+  - ACT 5 Endgame: Final Trades/People/Gambling/Rest 4장, 상단 HUD 날짜/자산 동기화 확인.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-05 (Codex — AP act-aware action rail pass)
 
 ### 배경

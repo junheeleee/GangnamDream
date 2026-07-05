@@ -10,6 +10,7 @@ extends Node
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=start-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=story-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-en
+##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=ap-act-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=endings-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=demo-end-en
 ##       godot --rendering-driver opengl3 --resolution 1280x800 res://tools/ScreenshotQA.tscn -- --qa=title-en
@@ -38,6 +39,7 @@ const QA_SCOPE_DEMO_BLACKBOX := "demo_blackbox"
 const QA_SCOPE_START_EN := "start_en"
 const QA_SCOPE_STORY_EN := "story_en"
 const QA_SCOPE_AP_EN := "ap_en"
+const QA_SCOPE_AP_ACT_EN := "ap_act_en"
 const QA_SCOPE_ENDINGS_EN := "endings_en"
 const QA_SCOPE_DEMO_END_EN := "demo_end_en"
 const QA_SCOPE_TITLE_EN := "title_en"
@@ -115,6 +117,12 @@ func _ready() -> void:
 		var lang := _qa_language("en")
 		await _shot_ap_shell_surfaces(lang, "ap_en_" if lang == "en" else "ap_ko_")
 		print("SCREENSHOT_QA_DONE scope=ap-en lang=%s dir=%s" % [lang, OUT_DIR])
+		get_tree().quit(0)
+		return
+	if scope == QA_SCOPE_AP_ACT_EN:
+		var lang := _qa_language("en")
+		await _shot_ap_act_surfaces(lang, "ap_act_en_" if lang == "en" else "ap_act_ko_")
+		print("SCREENSHOT_QA_DONE scope=ap-act-en lang=%s dir=%s" % [lang, OUT_DIR])
 		get_tree().quit(0)
 		return
 	if scope == QA_SCOPE_ENDINGS_EN:
@@ -255,6 +263,10 @@ func _qa_scope() -> String:
 				"qa=ap-en", "--qa=ap-en", "qa=ap_en", "--qa=ap_en",
 				"qa=main-en", "--qa=main-en", "scope=ap-en", "--scope=ap-en"]:
 			return QA_SCOPE_AP_EN
+		if arg in ["ap-act-en", "ap_act_en", "ap-acts-en", "ap_acts_en", "--ap-act-en", "--ap_act_en",
+				"qa=ap-act-en", "--qa=ap-act-en", "qa=ap_act_en", "--qa=ap_act_en",
+				"scope=ap-act-en", "--scope=ap-act-en", "scope=ap_act_en", "--scope=ap_act_en"]:
+			return QA_SCOPE_AP_ACT_EN
 		if arg in ["endings-en", "endings_en", "ending-en", "ending_en", "--endings-en", "--ending-en",
 				"qa=endings-en", "--qa=endings-en", "qa=endings_en", "--qa=endings_en",
 				"qa=ending-en", "--qa=ending-en", "scope=endings-en", "--scope=endings-en"]:
@@ -639,6 +651,112 @@ func _shot_ap_shell_surfaces(lang: String = "en", prefix: String = "ap_en_") -> 
 	await _shot_info_panel_tabs(lang, prefix)
 	await _shot_people(prefix)
 	await _assert_ap_next_week_unlocked()
+
+func _shot_ap_act_surfaces(lang: String = "en", prefix: String = "ap_act_en_") -> void:
+	_set_qa_language(lang)
+	_prepare_main_game_state()
+	_seed_portfolio()
+	_seed_info_panel_state(lang)
+	await _boot_main_game()
+	for act in range(1, 6):
+		_seed_ap_act_state(act, lang)
+		_mg.current_event = {}
+		_mg.set("pending_result_text", "")
+		if _mg.has_method("_render_ap_actions"):
+			_mg.call("_render_ap_actions")
+		if _mg.has_method("_refresh_all"):
+			_mg.call("_refresh_all")
+		if _mg.has_method("_finish_typing"):
+			_mg.call("_finish_typing")
+		await _settle(0.45)
+		await _save("%s%02d_act%d" % [prefix, act, act])
+
+func _seed_ap_act_state(act: int, lang: String = "en") -> void:
+	GameState.action_points = GameState.max_action_points
+	GameState.action_axis_this_week = {"money": 0, "human": 0}
+	GameState.player_name = LocaleManager.DEFAULT_NAME_EN if lang == "en" else LocaleManager.DEFAULT_NAME_KO
+	GameState.current_job = {"name":("Office Worker" if lang == "en" else "사무직"), "base_salary":2_240_000.0, "tier":2}
+	GameState.monthly_income = 2_240_000.0
+	GameState.health = 64
+	GameState.mental = 58
+	GameState.money = 3_500_000.0
+	GameState.investment_skill = 35
+	GameState.flags["has_received_paycheck"] = true
+	GameState.flags["arc_invest_guidance_seen"] = true
+	GameState.flags["entered_network"] = act >= 2
+	GameState.flags["racetrack_guide_met"] = act >= 3
+	GameState.flags["racetrack_visited"] = act >= 3
+	GameState.flags["casino_club_introduced"] = act >= 3
+	GameState.flags["scalping_introduced"] = act >= 3
+	GameState.flags["in_recovery_started"] = false
+	GameState.flags["recovery_holding"] = false
+	GameState.flags["beat_addiction"] = false
+	GameState.flags["relapsed"] = false
+	GameState.milestones_reached = {
+		"10m": true,
+		"50m": true,
+		"100m": true,
+		"500m": true,
+		"1b": true,
+		"2b": true,
+	}
+	match act:
+		1:
+			GameState.year = 2026
+			GameState.month = 1
+			GameState.week_of_month = 1
+			GameState.turn = 8
+			GameState.current_job = {}
+			GameState.monthly_income = 0.0
+			GameState.money = 900_000.0
+			GameState.health = 60
+			GameState.mental = 54
+			GameState.flags["has_received_paycheck"] = false
+			GameState.flags["arc_invest_guidance_seen"] = false
+			GameState.action_axis_this_week = {"money": 0, "human": 0}
+		2:
+			GameState.year = 2027
+			GameState.month = 3
+			GameState.week_of_month = 2
+			GameState.turn = 60
+			GameState.money = 8_600_000.0
+			GameState.investment_skill = 42
+			GameState.action_axis_this_week = {"money": 1, "human": 0}
+		3:
+			GameState.year = 2028
+			GameState.month = 6
+			GameState.week_of_month = 3
+			GameState.turn = 112
+			GameState.money = 42_000_000.0
+			GameState.investment_skill = 58
+			GameState.mental = 49
+			GameState.action_axis_this_week = {"money": 2, "human": 0}
+		4:
+			GameState.year = 2029
+			GameState.month = 8
+			GameState.week_of_month = 2
+			GameState.turn = 162
+			GameState.money = 96_000_000.0
+			GameState.investment_skill = 63
+			GameState.mental = 44
+			GameState.action_axis_this_week = {"money": 1, "human": 0}
+			GameState.apply_cast_effect("father", {"met": true, "affinity": 34})
+			GameState.apply_cast_effect("daeun", {"met": true, "affinity": 38})
+			GameState.apply_cast_effect("jiyeon", {"met": true, "affinity": 58})
+		_:
+			GameState.year = 2030
+			GameState.month = 11
+			GameState.week_of_month = 4
+			GameState.turn = 220
+			GameState.current_job = {"name":("Major Corporation Manager" if lang == "en" else "대기업 관리자"), "base_salary":7_200_000.0, "tier":4}
+			GameState.monthly_income = 7_200_000.0
+			GameState.money = 360_000_000.0
+			GameState.investment_skill = 72
+			GameState.health = 52
+			GameState.mental = 39
+			GameState.action_axis_this_week = {"money": 1, "human": 1}
+	if _mg != null and _mg.has_method("_seed_surface_background"):
+		_mg.call("_seed_surface_background")
 
 func _assert_ap_next_week_unlocked() -> void:
 	if _mg == null:

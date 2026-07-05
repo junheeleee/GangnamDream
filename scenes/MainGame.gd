@@ -58,6 +58,7 @@ var _feedback_flash: ColorRect
 var _feedback_flash_tween: Tween = null
 var _ap_commit_layer: Control = null
 var _ap_commit_tween: Tween = null
+var _ap_rail_slot_counter: int = 0
 var _event_bg_path: String = ""   # 현재 표시 중인 배경 경로 (크로스페이드 중복 방지)
 var _typing_tween: Tween = null   # 타이핑 효과 전용 트윈
 var _choice_reveal_pending: bool = false  # 타이핑 완료 후 선택지 표시 대기
@@ -5373,6 +5374,7 @@ func _ap_act_line() -> String:
 func _render_situation_cards():
 	# 그 달의 '사건'은 풀스크린 VN으로 이미 재생됨(드라마 모드).
 	# 여기선 남은 시간으로 할 '루틴 행동'만 고른다.
+	_ap_rail_slot_counter = 0
 	var ap: int = GameState.action_points
 	var act_info: Dictionary = _ap_act_info()
 	var act_prefix: String = "%s · %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))]
@@ -5512,7 +5514,6 @@ func _render_essential_actions(ap: int):
 			_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 첫 월급 전까지 버틴다", "Use gigs and saving until your first paycheck"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
 		_essential_btn(_tr("사람", "People"), _tr("관계와 인맥을 이번 주의 선택지로 둔다", "Put bonds and networking into this week"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
 		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("돈이 되기 전의 몸과 머리를 만든다", "Build the body and mind before the money"), "study", "#5a6ea8", "_ap_study", disabled)
-		_essential_btn(_tr("휴식", "Rest"), _tr("속도를 늦춰 무너지지 않는다", "Slow down before you break"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 	elif act == 3:
 		if invest_unlocked:
 			_essential_btn(_tr("투자", "Invest"), _tr("수익률과 리스크를 직접 만진다", "Handle returns and risk directly"), "invest", "#3a8a5a", "_ap_invest", disabled)
@@ -5522,7 +5523,8 @@ func _render_essential_actions(ap: int):
 			var g_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("빠른 돈의 문이 열린다", "The door to fast money opens")
 			_essential_btn(_tr("도박장", "Gambling"), g_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
 		_essential_btn(_tr("사람", "People"), _tr("돈만 보던 주를 끊어 줄 수 있다", "A week with people can break the grind"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
-		_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("평판과 직장 압력을 정리한다", "Manage reputation and work pressure"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
+		if not gambling_available:
+			_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("평판과 직장 압력을 정리한다", "Manage reputation and work pressure"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
 		_essential_btn(_tr("휴식", "Rest"), _tr("위험을 감당할 정신력을 회복한다", "Recover the mental room to carry risk"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 	elif act == 4:
 		_essential_btn(_tr("사람", "People"), _tr("방치한 관계가 선택을 요구한다", "Neglected bonds begin asking for choices"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
@@ -5530,11 +5532,12 @@ func _render_essential_actions(ap: int):
 			_essential_btn(_tr("투자", "Invest"), _tr("돈을 굴리되, 무엇을 잃는지 본다", "Move money while watching what it costs"), "invest", "#3a8a5a", "_ap_invest", disabled)
 		else:
 			_essential_btn(_tr("돈", "Money"), _tr("수입과 지출을 다시 정리한다", "Recheck income and spending"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
-		_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("성과와 평판이 사람 사이를 압박한다", "Performance and reputation press on relationships"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
-		_essential_btn(_tr("휴식", "Rest"), _tr("균열을 넓히기 전에 멈춘다", "Stop before the cracks widen"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 		if gambling_available:
 			var g4_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("한 번의 판이 관계를 밀어낸다", "One table can push people away")
 			_essential_btn(_tr("도박장", "Gambling"), g4_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
+		else:
+			_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("성과와 평판이 사람 사이를 압박한다", "Performance and reputation press on relationships"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
+		_essential_btn(_tr("휴식", "Rest"), _tr("균열을 넓히기 전에 멈춘다", "Stop before the cracks widen"), "rest", "#3a8a9a", "_ap_free_time", disabled)
 	else:
 		if invest_unlocked:
 			_essential_btn(_tr("결산 투자", "Final Trades"), _tr("남은 시간 안에서 포트폴리오를 정한다", "Set your portfolio with time running out"), "invest", "#3a8a5a", "_ap_invest", disabled)
@@ -5545,9 +5548,6 @@ func _render_essential_actions(ap: int):
 			var g5_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("마지막 판은 가장 크게 흔든다", "The last table shakes the hardest")
 			_essential_btn(_tr("도박장", "Gambling"), g5_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
 		_essential_btn(_tr("휴식", "Rest"), _tr("결말 직전에도 사람은 쉬어야 한다", "Even before the ending, a person has to rest"), "rest", "#3a8a9a", "_ap_free_time", disabled)
-
-	if invest_unlocked and GameState.investment_skill >= 50:
-		_essential_btn(_tr("시장 분석", "Market Analysis"), _tr("다음 달 시장 방향을 무료로 예측한다", "Predict next month's market for free"), "market", "#1e3a5f", "_ap_market_analysis", false, true)
 
 func _mastery_badge(game_id: String) -> String:
 	var grade: int = MetaProgression.get_mastery(game_id)
@@ -5661,11 +5661,8 @@ func _essential_locked(title: String, subtitle: String, icon_id: String, accent:
 	_animate_ap_action_card(btn, choice_box.get_child_count())
 
 func _next_ap_rail_label() -> String:
-	var count := 0
-	for child in choice_box.get_children():
-		if child is Button:
-			count += 1
-	return "%02d" % (count + 1)
+	_ap_rail_slot_counter += 1
+	return "%02d" % _ap_rail_slot_counter
 
 func _animate_ap_action_card(card: Control, index: int) -> void:
 	if not is_inside_tree() or not is_instance_valid(card):
@@ -6276,7 +6273,7 @@ func _add_category_card(icon: String, title: String, subtitle: String,
 # ══════════════════════════════════════════════════════════
 func _cat_modal_button(label: String, accent: String, fn: String, arg = null):
 	var split := _split_action_label(label)
-	var free_action := fn in ["_ap_move_housing"]
+	var free_action := fn in ["_ap_move_housing", "_ap_market_analysis"]
 	var icon_id := _cat_modal_icon(fn)
 	var title := str(split.get("title", label))
 	var subtitle := str(split.get("subtitle", ""))
@@ -6326,6 +6323,8 @@ func _cat_modal_icon(fn: String) -> String:
 			return "job"
 		"_ap_invest":
 			return "invest"
+		"_ap_market_analysis":
+			return "market"
 		"_ap_side_job", "_ap_save_money":
 			return "money"
 		"_ap_network", "_ap_vip_network", "_ap_contact_person":
@@ -6406,6 +6405,8 @@ func _open_cat_money():
 	modal_body.add_child(_wrap_label(_tr("월급만으론 30억에 닿을 수 없다. 돈이 돈을 벌게 해야 한다.", "A salary alone won't reach KRW 3B. Make money work for you."), 13, "#7a8496"))
 	if GameState.flags.get("arc_invest_guidance_seen", false):
 		_cat_modal_button(_tr("투자 집중  —  차트를 들여다본다", "Focus on investing  —  study the charts"), "#3a8a5a", "_ap_invest")
+		if GameState.investment_skill >= 50:
+			_cat_modal_button(_tr("시장 분석  —  다음 달 방향을 무료로 예측한다", "Market analysis  —  predict next month's direction for free"), "#1e3a5f", "_ap_market_analysis")
 	elif has_paycheck:
 		modal_body.add_child(_wrap_label(_tr("잠금: 투자는 상철과의 대화 후 가능하다.", "Locked: investing unlocks after talking with Sangchul."), 12, "#5a5a6a"))
 	else:
