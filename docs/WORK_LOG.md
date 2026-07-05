@@ -1,5 +1,31 @@
 # Gangnam Dream Work Log
 
+## 2026-07-05 (Codex — AP act-aware action rail pass)
+
+### 배경
+- 클로드 브랜치와 원격 main을 확인했지만 main보다 앞선 새 커밋은 없어 병합할 내용이 없었다.
+- `docs/AP_REDESIGN.md`의 Phase 2(C: Act별 메뉴 진화)를 낮은 위험 범위에서 시작했다.
+- 목표는 AP 행동 화면이 240주 내내 같은 웹 버튼 목록으로 보이지 않고, 현재 연차의 압력(생존/확장/무게/균열/엔드게임)을 플레이어가 즉시 읽게 하는 것이다.
+
+### 수정
+- `MainGame.gd`에 `_ap_act_index()`, `_ap_act_info()`, `_ap_act_line()`을 추가했다. `GameState.turn` 기준으로 ACT 1~5를 계산하고, 주간 보드와 행동 레일 헤더에 현재 Act의 테마를 표시한다.
+- `_render_essential_actions()`를 Act-aware로 재구성했다.
+  - ACT 1 생존: `Work/Job Hunt`, `Survival Money`, `Self-Dev`, `Rest` 중심.
+  - ACT 2 확장: 일·투자·사람·자기관리 중심.
+  - ACT 3 무게: 투자/도박/사람/커리어가 앞으로 나오도록 정렬.
+  - ACT 4 균열: `People`을 첫 카드로 올려 관계 유지가 게임 루프의 전면에 보이게 했다.
+  - ACT 5 엔드게임: 최종 투자/사람/위험/휴식 위주로 압축했다.
+- 모달로 들어가는 행동 카드에는 `Menu` 배지를 줄 수 있게 `_essential_btn()`을 확장했다. 실제 AP 행동과 메뉴 진입이 덜 헷갈리게 하기 위함이다.
+- `Life` 카드는 레일에서 빼고 `ACTION RAIL` 헤더 우측의 작은 버튼으로 이동했다. 이사·상점 접근은 유지하면서, 메인 AP 레일은 1280×800에서 4슬롯 노스크롤 구조를 유지한다.
+- 행동 카드 높이와 아이콘 여백을 Steam Deck 기준으로 조금 압축했다. 기존 세부 모달 카드의 74px 오버라이드는 유지된다.
+
+### 검증
+- `git diff --check` 통과.
+- `ScreenshotQA --qa=ap-en --lang=en` 통과 및 `ap_en_03_ap_actions.png` 직접 확인. ACT 1 Survival 문구와 4개 행동 카드, 헤더 Life 버튼이 1280×800에서 스크롤 없이 보인다.
+- `python3 tools/english_hangul_audit.py` 통과: 영어 한글 누출 0.
+- `./tools/audit.sh` 통과: ERROR 0 / WARNING 0, 밸런스 밴드 통과, 오디오 자산 검사 통과, Godot compile clean.
+- Godot 종료 시 RID/Texture leak 경고는 기존 OpenGL QA 종료 경고 패턴으로, 이번 UI 회귀 실패로 보지 않았다.
+
 ## 2026-07-05 (Codex — AP axis surface + grind drift pass)
 
 ### 배경

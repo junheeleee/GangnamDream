@@ -4845,6 +4845,11 @@ func _render_week_focus_panel(ap: int, net: float, total: float, has_warning: bo
 		title.add_theme_font_override("font", _font_bold)
 	title_col.add_child(title)
 
+	var act_line := _label(_ap_act_line(), 11, "#8f98a8")
+	act_line.set_meta("moral_role", "hint_text")
+	act_line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title_col.add_child(act_line)
+
 	var slots_box := VBoxContainer.new()
 	slots_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	slots_box.custom_minimum_size = Vector2(92, 0)
@@ -5307,14 +5312,80 @@ func _situation_category_tag(category: String) -> String:
 		_:
 			return _tr("상황", "EVENT")
 
+func _ap_act_index() -> int:
+	var turn: int = maxi(1, int(GameState.turn))
+	if turn <= 48:
+		return 1
+	if turn <= 96:
+		return 2
+	if turn <= 144:
+		return 3
+	if turn <= 192:
+		return 4
+	return 5
+
+func _ap_act_info() -> Dictionary:
+	match _ap_act_index():
+		1:
+			return {
+				"label": _tr("ACT 1", "ACT 1"),
+				"title": _tr("생존", "Survival"),
+				"subtitle": _tr("일자리와 생활비부터 붙잡는다", "Secure work and living money first"),
+				"accent": "#8f98a8",
+			}
+		2:
+			return {
+				"label": _tr("ACT 2", "ACT 2"),
+				"title": _tr("확장", "Expansion"),
+				"subtitle": _tr("돈을 굴리고 사람을 넓힌다", "Grow money and widen your circle"),
+				"accent": "#aeb4bf",
+			}
+		3:
+			return {
+				"label": _tr("ACT 3", "ACT 3"),
+				"title": _tr("무게", "Weight"),
+				"subtitle": _tr("빠른 길은 늘 대가를 요구한다", "Shortcuts start asking for a price"),
+				"accent": "#9a8f86",
+			}
+		4:
+			return {
+				"label": _tr("ACT 4", "ACT 4"),
+				"title": _tr("균열", "Fracture"),
+				"subtitle": _tr("관계를 방치하면 틈이 벌어진다", "Neglected bonds begin to split"),
+				"accent": "#bfc7d4",
+			}
+		_:
+			return {
+				"label": _tr("ACT 5", "ACT 5"),
+				"title": _tr("엔드게임", "Endgame"),
+				"subtitle": _tr("한 번의 선택이 결말의 색을 바꾼다", "Each choice can color the ending"),
+				"accent": "#dce5ee",
+			}
+
+func _ap_act_line() -> String:
+	var info := _ap_act_info()
+	return "%s · %s — %s" % [
+		str(info.get("label", "")),
+		str(info.get("title", "")),
+		str(info.get("subtitle", "")),
+	]
+
 func _render_situation_cards():
 	# 그 달의 '사건'은 풀스크린 VN으로 이미 재생됨(드라마 모드).
 	# 여기선 남은 시간으로 할 '루틴 행동'만 고른다.
 	var ap: int = GameState.action_points
+	var act_info: Dictionary = _ap_act_info()
+	var act_prefix: String = "%s · %s" % [str(act_info.get("label", "")), str(act_info.get("title", ""))]
 	if ap > 0:
-		_add_ap_section_header(_tr("행동 레일", "ACTION RAIL"), _tr("이번 주의 남은 시간을 어디에 쓸지 고른다", "Choose where this week's remaining time goes"))
+		_add_ap_section_header(_tr("행동 레일", "ACTION RAIL"), "%s — %s" % [
+			act_prefix,
+			_tr("이번 주의 남은 시간을 어디에 쓸지 고른다", "Choose where this week's remaining time goes")
+		])
 	else:
-		_add_ap_section_header(_tr("이번 주 종료", "WEEK CLOSED"), _tr("더 할 수 있는 행동이 없다. 다음 주로 넘긴다", "No actions left. Advance to next week"))
+		_add_ap_section_header(_tr("이번 주 종료", "WEEK CLOSED"), "%s — %s" % [
+			act_prefix,
+			_tr("더 할 수 있는 행동이 없다. 다음 주로 넘긴다", "No actions left. Advance to next week")
+		])
 	_render_essential_actions(ap)
 
 func _add_ap_section_header(title: String, subtitle: String) -> void:
@@ -5355,6 +5426,15 @@ func _add_ap_section_header(title: String, subtitle: String) -> void:
 	sub_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sub_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	row.add_child(sub_lbl)
+
+	var life_btn := _icon_small_button(_tr("생활", "Life"), "life", "#111820")
+	life_btn.set_meta("moral_role", "button")
+	life_btn.set_meta("moral_accent", "#9a8a5a")
+	life_btn.custom_minimum_size = Vector2(84, 30)
+	life_btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+	life_btn.tooltip_text = _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost")
+	life_btn.pressed.connect(_open_cat_life)
+	row.add_child(life_btn)
 
 func _situation_card(sit: Dictionary, engaged: bool, no_ap: bool) -> Button:
 	var cat: String = str(sit.get("category", "social"))
@@ -5397,16 +5477,8 @@ func _render_essential_actions(ap: int):
 	var disabled: bool = ap <= 0
 	var no_job: bool = GameState.current_job.is_empty()
 	var has_paycheck: bool = bool(GameState.flags.get("has_received_paycheck", false))
-	if no_job:
-		_essential_btn(_tr("구직활동", "Job Hunt"), _tr("일자리를 찾아 수입 0원에서 벗어난다", "Find work and escape zero income"), "job", "#dc6a2a", "_ap_job_hunt", disabled)
-	if GameState.flags.get("arc_invest_guidance_seen", false):
-		_essential_btn(_tr("투자", "Invest"), _tr("매수·매도와 포트폴리오 조정", "Buy, sell, rebalance your portfolio"), "invest", "#3a8a5a", "_ap_invest", disabled)
-		if GameState.investment_skill >= 50:
-			_essential_btn(_tr("시장 분석", "Market Analysis"), _tr("다음 달 시장 방향을 무료로 예측한다", "Predict next month's market for free"), "market", "#1e3a5f", "_ap_market_analysis", false, true)
-	elif has_paycheck:
-		_essential_locked(_tr("투자", "Invest"), _tr("상철과의 대화 이후 열림", "Unlocks after talking with Sangchul"), "invest", "#3a8a5a")
-	_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상 중 한 가지", "One of: reading, exercise, meditation"), "study", "#5a6ea8", "_ap_study", disabled)
-	_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+	var act: int = _ap_act_index()
+	var invest_unlocked: bool = GameState.flags.get("arc_invest_guidance_seen", false)
 	# 도박 회복 잠금: 회복을 시작/완료했고 아직 재발하지 않았으면 도박 입구를 닫는다.
 	var _in_recovery: bool = GameState.flags.get("in_recovery_started", false) \
 			or GameState.flags.get("recovery_holding", false) \
@@ -5417,10 +5489,65 @@ func _render_essential_actions(ap: int):
 	var _has_holdem: bool = GameState.flags.get("entered_network", false) and GameState.money >= 50000
 	var _has_scalping: bool = GameState.flags.get("scalping_introduced", false) and GameState.investment_skill >= 15
 	var _has_casino: bool = GameState.flags.get("casino_club_introduced", false)
-	if _has_racetrack or _has_holdem or _has_scalping or _has_casino:
-		var g_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("열린 장소를 고른다", "Choose from available venues")
-		_essential_btn(_tr("도박장", "Gambling"), g_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked)
-	_essential_btn(_tr("생활", "Life"), _tr("이사·상점. 시간 소모 없음", "Move and shop. No time cost"), "life", "#9a8a5a", "_open_cat_life", false, true)
+	var gambling_available: bool = _has_racetrack or _has_holdem or _has_scalping or _has_casino
+	var menu_badge := _tr("메뉴", "Menu")
+
+	if act <= 1:
+		if no_job:
+			_essential_btn(_tr("구직활동", "Job Hunt"), _tr("일자리를 찾아 수입 0원에서 벗어난다", "Find work and escape zero income"), "job", "#dc6a2a", "_ap_job_hunt", disabled)
+		else:
+			_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("월급과 승진 상태를 관리한다", "Manage paychecks and promotion pressure"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
+		_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 이번 달을 버틴다", "Take gigs or cut back to survive this month"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
+		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("독서·운동·명상 중 한 가지", "One of: reading, exercise, meditation"), "study", "#5a6ea8", "_ap_study", disabled)
+		_essential_btn(_tr("휴식", "Rest"), _tr("숨을 고르고 정신력을 회복한다", "Catch your breath and recover mental"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+		return
+
+	if act == 2:
+		_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("직장·부업·새 수입원을 정리한다", "Review work, gigs, and new income paths"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
+		if invest_unlocked:
+			_essential_btn(_tr("투자", "Invest"), _tr("매수·매도와 포트폴리오 조정", "Buy, sell, rebalance your portfolio"), "invest", "#3a8a5a", "_ap_invest", disabled)
+		elif has_paycheck:
+			_essential_locked(_tr("투자", "Invest"), _tr("상철과의 대화 이후 열림", "Unlocks after talking with Sangchul"), "invest", "#3a8a5a")
+		else:
+			_essential_btn(_tr("생계", "Survival Money"), _tr("알바·절약으로 첫 월급 전까지 버틴다", "Use gigs and saving until your first paycheck"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
+		_essential_btn(_tr("사람", "People"), _tr("관계와 인맥을 이번 주의 선택지로 둔다", "Put bonds and networking into this week"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
+		_essential_btn(_tr("자기계발", "Self-Dev"), _tr("돈이 되기 전의 몸과 머리를 만든다", "Build the body and mind before the money"), "study", "#5a6ea8", "_ap_study", disabled)
+		_essential_btn(_tr("휴식", "Rest"), _tr("속도를 늦춰 무너지지 않는다", "Slow down before you break"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+	elif act == 3:
+		if invest_unlocked:
+			_essential_btn(_tr("투자", "Invest"), _tr("수익률과 리스크를 직접 만진다", "Handle returns and risk directly"), "invest", "#3a8a5a", "_ap_invest", disabled)
+		else:
+			_essential_btn(_tr("돈", "Money"), _tr("부업·절약·투자 준비를 묶어 본다", "Review gigs, saving, and investment prep"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
+		if gambling_available:
+			var g_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("빠른 돈의 문이 열린다", "The door to fast money opens")
+			_essential_btn(_tr("도박장", "Gambling"), g_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
+		_essential_btn(_tr("사람", "People"), _tr("돈만 보던 주를 끊어 줄 수 있다", "A week with people can break the grind"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
+		_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("평판과 직장 압력을 정리한다", "Manage reputation and work pressure"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
+		_essential_btn(_tr("휴식", "Rest"), _tr("위험을 감당할 정신력을 회복한다", "Recover the mental room to carry risk"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+	elif act == 4:
+		_essential_btn(_tr("사람", "People"), _tr("방치한 관계가 선택을 요구한다", "Neglected bonds begin asking for choices"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
+		if invest_unlocked:
+			_essential_btn(_tr("투자", "Invest"), _tr("돈을 굴리되, 무엇을 잃는지 본다", "Move money while watching what it costs"), "invest", "#3a8a5a", "_ap_invest", disabled)
+		else:
+			_essential_btn(_tr("돈", "Money"), _tr("수입과 지출을 다시 정리한다", "Recheck income and spending"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
+		_essential_btn(_tr("일 · 커리어", "Work · Career"), _tr("성과와 평판이 사람 사이를 압박한다", "Performance and reputation press on relationships"), "job", "#8f98a8", "_open_cat_work", disabled, false, menu_badge)
+		_essential_btn(_tr("휴식", "Rest"), _tr("균열을 넓히기 전에 멈춘다", "Stop before the cracks widen"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+		if gambling_available:
+			var g4_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("한 번의 판이 관계를 밀어낸다", "One table can push people away")
+			_essential_btn(_tr("도박장", "Gambling"), g4_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
+	else:
+		if invest_unlocked:
+			_essential_btn(_tr("결산 투자", "Final Trades"), _tr("남은 시간 안에서 포트폴리오를 정한다", "Set your portfolio with time running out"), "invest", "#3a8a5a", "_ap_invest", disabled)
+		else:
+			_essential_btn(_tr("돈", "Money"), _tr("마지막 자금 흐름을 정리한다", "Settle the last cash flow"), "money", "#3a8a5a", "_open_cat_money", disabled, false, menu_badge)
+		_essential_btn(_tr("사람", "People"), _tr("누가 마지막까지 남는지 확인한다", "See who remains at the end"), "people", "#8a5a9a", "_open_cat_people", disabled, false, menu_badge)
+		if gambling_available:
+			var g5_sub: String = _tr("회복 중 — 닫혀 있다", "In recovery — closed") if _gambling_locked else _tr("마지막 판은 가장 크게 흔든다", "The last table shakes the hardest")
+			_essential_btn(_tr("도박장", "Gambling"), g5_sub, "casino", "#7b3fd1", "_open_cat_gambling", disabled or _gambling_locked, false, menu_badge)
+		_essential_btn(_tr("휴식", "Rest"), _tr("결말 직전에도 사람은 쉬어야 한다", "Even before the ending, a person has to rest"), "rest", "#3a8a9a", "_ap_free_time", disabled)
+
+	if invest_unlocked and GameState.investment_skill >= 50:
+		_essential_btn(_tr("시장 분석", "Market Analysis"), _tr("다음 달 시장 방향을 무료로 예측한다", "Predict next month's market for free"), "market", "#1e3a5f", "_ap_market_analysis", false, true)
 
 func _mastery_badge(game_id: String) -> String:
 	var grade: int = MetaProgression.get_mastery(game_id)
@@ -5515,10 +5642,10 @@ func _run_ap_action_from_button(card: Control, title: String, icon_id: String, a
 		GameState.register_action_axis(axis)
 
 func _essential_btn(title: String, subtitle: String, icon_id: String, accent: String,
-		fn: String, disabled: bool, free_action: bool = false):
+		fn: String, disabled: bool, free_action: bool = false, forced_badge: String = ""):
 	var rail_label := _next_ap_rail_label()
 	var art_thumb := _action_thumb_texture(fn, icon_id)
-	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, "", rail_label, art_thumb, _action_axis_tag_for_card(fn))
+	var btn := _make_essential_action_card(title, subtitle, icon_id, accent, disabled, free_action, forced_badge, rail_label, art_thumb, _action_axis_tag_for_card(fn))
 	if not disabled:
 		var fn_name: String = fn
 		btn.pressed.connect(func():
@@ -5558,7 +5685,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	btn.set_meta("moral_role", "choice_card")
 	btn.set_meta("moral_accent", accent if not disabled else "#343446")
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(0, 68)
+	btn.custom_minimum_size = Vector2(0, 62)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.disabled = disabled
 	btn.focus_mode = Control.FOCUS_ALL
@@ -5598,8 +5725,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	margin.add_theme_constant_override("margin_left", 14)
 	margin.add_theme_constant_override("margin_right", 14)
-	margin.add_theme_constant_override("margin_top", 8)
-	margin.add_theme_constant_override("margin_bottom", 8)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_bottom", 6)
 	btn.add_child(margin)
 
 	var row := HBoxContainer.new()
@@ -5610,7 +5737,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	if not rail_label.is_empty():
 		var rail := PanelContainer.new()
 		rail.set_meta("moral_role", "choice_badge")
-		rail.custom_minimum_size = Vector2(40, 46)
+		rail.custom_minimum_size = Vector2(38, 44)
 		rail.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var rail_style := StyleBoxFlat.new()
@@ -5646,7 +5773,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 	var icon_box := PanelContainer.new()
 	icon_box.set_meta("moral_role", "choice_icon")
 	icon_box.set_meta("moral_accent", accent if not disabled else "#343446")
-	icon_box.custom_minimum_size = Vector2(52, 52)
+	icon_box.custom_minimum_size = Vector2(48, 48)
 	icon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_box.clip_contents = true
 	var icon_style := StyleBoxFlat.new()
@@ -5662,7 +5789,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		art_tex.set_meta("moral_role", "choice_thumbnail")
 		art_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 		art_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		art_tex.custom_minimum_size = Vector2(52, 52)
+		art_tex.custom_minimum_size = Vector2(48, 48)
 		art_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		art_tex.texture = art_thumb
@@ -5673,7 +5800,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		icon_tex.set_meta("moral_role", "hud_icon")
 		icon_tex.set_meta("moral_accent", accent if not disabled else "#343446")
 		icon_tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icon_tex.custom_minimum_size = Vector2(40, 40)
+		icon_tex.custom_minimum_size = Vector2(38, 38)
 		icon_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon_tex.texture = _ui_icon_texture(icon_id)
