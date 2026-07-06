@@ -5586,6 +5586,7 @@ func _add_action_buttons(parent: Control, actions: Array, disabled: bool):
 func _ap_study():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("human")   # 자기계발 = 자기 돌봄
 	var study_type: int = randi() % 4
 	var tag: String = [_tr("독서", "Reading"), _tr("운동", "Exercise"), _tr("명상", "Meditation"), _tr("투자공부", "Invest Study")][study_type]
 	var pool: Array = [STUDY_READ_VIGNETTES, STUDY_EXERCISE_VIGNETTES, STUDY_MEDITATE_VIGNETTES, STUDY_INVEST_VIGNETTES][study_type]
@@ -5621,12 +5622,14 @@ func _ap_invest():
 func _ap_job_hunt():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	turn_action_log.append(_tr("구직활동 — 직업 목록 열람", "Job Hunt — browse job list"))
 	_open_jobs()
 
 func _ap_side_job():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	_enter_minigame_overlay(aruba_game)
 	aruba_game.open()
 
@@ -5660,6 +5663,7 @@ const _SAVE_SCENES = [
 func _ap_save_money():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	var saved: int = 30000 + randi() % 70000
 	GameState.add_money(float(saved))
 	GameState.modify_hidden_stat("stress", 2)
@@ -5677,6 +5681,7 @@ func _ap_save_money():
 func _ap_network():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")   # 돈을 위한 연결
 	GameState.flags["network_count"] = int(GameState.flags.get("network_count", 0)) + 1
 	GameState.add_tendency("career", 1)
 	var v: Dictionary = NETWORK_VIGNETTES[randi() % NETWORK_VIGNETTES.size()]
@@ -5702,6 +5707,7 @@ func _ap_network():
 func _ap_contact_person(person_id: String):
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("human")   # 사람에게 쓴 시간
 	var info: Dictionary = ImageRegistry.PERSON_INFO.get(person_id, {})
 	var pname: String = str(ImageRegistry.get_person_info(person_id).get("name", info.get("name", _tr("인연", "Connection"))))
 	var accent: String = str(info.get("color", "#db2777"))
@@ -6030,6 +6036,7 @@ func _bank_repay(product: String, amount: float):
 func _open_racetrack():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	_enter_minigame_overlay(racetrack)
 	racetrack.open()
 
@@ -6044,6 +6051,7 @@ func _on_racetrack_closed():
 func _open_holdem():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	_enter_minigame_overlay(holdem_club)
 	holdem_club.open()
 
@@ -6059,6 +6067,7 @@ func _on_holdem_closed():
 func _open_scalping():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	_enter_minigame_overlay(scalping_game)
 	scalping_game.open()
 
@@ -6073,6 +6082,7 @@ func _on_scalping_closed():
 func _open_jeongseon_casino():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	_enter_minigame_overlay(jeongseon_casino)
 	BGMPlayer.set_ambience("casino")
 	jeongseon_casino.open()
@@ -6125,6 +6135,7 @@ func _ap_free_time():
 func _ap_vignette(title: String, pool: Array, color: String):
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("human")   # 자기계발·휴식 = 자기 돌봄
 	var v: Dictionary = pool[randi() % pool.size()]
 	var eff: Dictionary = v.get("e", {})
 	for k in eff:
@@ -6484,6 +6495,7 @@ func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> Strin
 func _ap_startup_work():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	var v: Dictionary = STARTUP_VIGNETTES[randi() % STARTUP_VIGNETTES.size()]
 	var eff: Dictionary = v.get("e", {})
 	for k in eff:
@@ -6504,6 +6516,7 @@ func _ap_startup_work():
 func _ap_create_content():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	var v: Dictionary = CONTENT_VIGNETTES[randi() % CONTENT_VIGNETTES.size()]
 	var eff: Dictionary = v.get("e", {})
 	var extra_eff: Dictionary = {}
@@ -6531,6 +6544,7 @@ func _ap_create_content():
 func _ap_write_resume():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	turn_action_log.append(_tr("Resume writing — assessment started", "Resume Writing — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(0)  # Mode.RESUME = 0
@@ -6538,6 +6552,7 @@ func _ap_write_resume():
 func _ap_interview_prep():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	turn_action_log.append(_tr("Mock interview — assessment started", "Mock Interview — assessment started"))
 	_enter_minigame_overlay(job_hunt_game)
 	job_hunt_game.open(1)  # Mode.INTERVIEW = 1
@@ -6604,6 +6619,7 @@ func _ap_move_housing():
 func _ap_deep_study():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	var int_before = GameState.intelligence
 	GameState.modify_stat("intelligence", 8)
 	AudioManager.play("stat_up")
@@ -6682,6 +6698,7 @@ func _on_leverage_buy(asset_id: String, amount: float):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
+	GameState.register_action_axis("money")
 	AudioManager.play("money_gain")
 	var result = investment_system.buy_asset_leveraged(asset_id, amount)
 	if result.get("success", false):
@@ -6700,6 +6717,7 @@ func _on_leverage_buy(asset_id: String, amount: float):
 func _ap_vip_network():
 	if not GameState.spend_ap():
 		return
+	GameState.register_action_axis("money")
 	var soc_before = GameState.social_skill
 	var rep_before = GameState.reputation
 	GameState.modify_stat("social_skill", 3)
@@ -7256,6 +7274,7 @@ func _on_buy_asset(asset_id, amount):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
+	GameState.register_action_axis("money")
 	AudioManager.play("money_gain")
 	investment_system.buy_asset(asset_id, float(amount))
 	GameState.add_tendency("invest", 1)   # 자산 매수 = 투자형
@@ -7274,6 +7293,7 @@ func _on_sell_asset(asset_id, ratio):
 		_show_toast(_tr("행동력이 없습니다. 이번 달 거래 불가", "No Action Points. No trading this month."), Color("#ff4444"))
 		_close_modal()
 		return
+	GameState.register_action_axis("money")
 	AudioManager.play("money_loss")
 	investment_system.sell_asset(asset_id, float(ratio))
 	var asset_name = asset_id

@@ -57,16 +57,33 @@
 
 ---
 
+## 재미 3원칙 (2026-07-06 유저 pushback "너말대로 하면 재밌어져?" 반영)
+
+구조(A+B+C)는 *의미/페이싱/변주*를 겨냥하지만, "재미" 자체는 아래 셋에서 나온다.
+초안의 A는 '숨은 페널티'였는데, 그건 재미가 아니라 보이지 않는 불안 → 다음으로 교체:
+
+1. **보이는 tradeoff** — 돈 vs 사람이 숨은 tint 드립이 아니라 **내가 지금 포기하는 걸 눈으로 보는 유혹**.
+   AP를 한 축에 몰면 "이번 주 못 하는 것"(예: 다은과의 저녁)이 흐릿하게 보여야 한다. 둘 다 갖고 싶은데 하나만 되는 게 재미.
+2. **상태형 진행** — 누르면 *내가 신경 쓰는 미터가 눈에 띄게 움직인다*. 두 개의 긴장 바:
+   **강남까지(종잣돈)** vs **관계(다은/지연)**. 그라인드는 강남 바를 채우고 관계 바를 비운다 — Question A를 두 바로 시각화.
+3. **압축(B)** — 반복 자체를 없앤다. 이 장르(드라마/VN)에서 재미 = 몰입+주체감+**페이싱**이라 B가 큰 레버.
+   단, 몽타주가 의미 있으려면 A의 축이 먼저 있어야 함("갈아넣은 3주 = 다은에게 못 간 3주").
+
+**장르 현실**: 아케이드 중독이 아니라 드라마. 목표는 "주 사이가 busywork로 안 느껴지고, 무언가로 누적되는 느낌".
+
 ## 구현 페이즈 (여러 세션)
 
-순서 근거: **A(주제) → C(변주) → B(페이싱 수술)**. B는 A/C의 의미가 굳은 뒤 그 위에서 압축해야 안전.
+순서 근거: **A(주제·재미핵) → C(변주) → B(페이싱 수술)**. B는 A/C의 의미가 굳은 뒤 그 위에서 압축해야 안전.
+**먼저 Y1 수직 슬라이스로 "실제로 재밌나"를 굴려보고 전체 확장 결정**(유저 승인 2026-07-06).
 
-- [ ] **Phase 1 — A 기반: 돈 vs 사람 축 + 누적** (구조 리스크 낮음, 주제 즉시 발화)
-  - GameState: `life_human_used_this_week`, `grind_streak_weeks`, `human_weeks_total`, `money_weeks_total`
-  - `GameState.register_action_axis("money"|"human")` — 각 `_ap_*`에서 호출
-  - 턴 진행 훅: 그라인드-only 주 누적 → 4주마다 tint−1·정신−1, 사람축 주 → streak 리셋
-  - MainGame: 각 essential 액션에 axis 태그 + 주간 인디케이터("이번 주: 돈에 몰두 / 사람에게 시간")
-  - serialize 완전성(audit) + 밸런스 밴드 유지 검증
+- [ ] **Phase 1 — A: 돈 vs 사람 축 (보이는 tradeoff 수직 슬라이스)**
+  - [x] **1a 백엔드 축 엔진** (구조 리스크 낮음): GameState `week_money_ap`/`week_human_ap`(transient),
+        `grind_streak_weeks`/`money_weeks_total`/`human_weeks_total`/`loop_tint_spent`(persist).
+        `register_action_axis()`, `advance_calendar`에서 `_evaluate_week_axis()` — 그라인드 4주마다 정신−1·tint−1(루프 드립 상한 −20), 사람축 주는 streak 리셋. serialize+audit.
+  - [ ] **1b 두 긴장 바 + 포기 힌트** (Y1 한정 렌더): 강남(종잣돈) vs 관계 바를 AP 화면에 표시,
+        AP를 한 축에 몰 때 "이번 주 못 하는 것" 힌트. 그라인드-월 시 관계 바 소폭 drift.
+  - [ ] **1c 월말 몽타주 프리뷰**: 그 달의 축 배분을 한 줄로("갈아넣은 4주 / 균형 4주") — B의 맛보기.
+  - 각 단계 후 serialize 완전성 + 밸런스 밴드 유지 검증. 재미 판정 후 전체 확장 여부 결정.
 - [ ] **Phase 2 — C: Act별 메뉴 진화** (대부분 게이팅)
   - `_render_essential_actions`를 act-aware로. 연차 마커(age/turn)로 메뉴 세트 분기
   - Y3 효율 액션 tint 비용, Y4 관계 유지 액션 AP화

@@ -121,6 +121,13 @@ var luck = 45
 
 var action_points = 2
 var max_action_points = 2
+# AP 축 시스템 (돈 vs 사람) — docs/AP_REDESIGN.md Phase 1
+var week_money_ap: int = 0        # transient: 이번 주 돈축에 쓴 AP
+var week_human_ap: int = 0        # transient: 이번 주 사람·자기축에 쓴 AP
+var grind_streak_weeks: int = 0   # 연속 그라인드-only 주
+var money_weeks_total: int = 0    # 통계: 돈축이 지배한 주
+var human_weeks_total: int = 0    # 통계: 사람축을 챙긴 주
+var loop_tint_spent: float = 0.0  # 루프 드립으로 깎은 tint 누적 (상한 -20)
 var tutorial_step = 3
 
 var route_orthodox: int = 0
@@ -244,6 +251,12 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 	week_of_month = 1
 	action_points = 2
 	max_action_points = 2
+	week_money_ap = 0
+	week_human_ap = 0
+	grind_streak_weeks = 0
+	money_weeks_total = 0
+	human_weeks_total = 0
+	loop_tint_spent = 0.0
 	tutorial_step = 3
 	reputation = 5
 	gambling_tendency = 0
@@ -516,6 +529,7 @@ func _init_market_prices():
 func advance_calendar() -> bool:
 	if is_game_over:
 		return false
+	_evaluate_week_axis()   # 지난 주를 무엇에 썼는지 정산 (돈 vs 사람)
 	turn += 1
 	week_of_month += 1
 	var month_ended := false
@@ -1009,6 +1023,32 @@ func restore_ap():
 	action_points = max_action_points
 	month_focus = ""
 	stats_changed.emit()
+
+# AP 축 기록 — 각 행동이 돈축("money")인지 사람·자기축("human")인지 알린다.
+# docs/AP_REDESIGN.md Phase 1. 숫자는 플레이어에게 직접 노출하지 않는다(색·서술로만).
+func register_action_axis(axis: String) -> void:
+	if axis == "money":
+		week_money_ap += 1
+	elif axis == "human":
+		week_human_ap += 1
+
+# 주가 끝날 때(advance_calendar) 한 번 호출 — 그 주를 무엇에 썼는지 정산한다.
+# 사람축을 한 번이라도 챙긴 주는 마모를 리셋. 돈에만 갈아넣은 주가 쌓이면 서서히 마모.
+func _evaluate_week_axis() -> void:
+	if week_human_ap > 0:
+		human_weeks_total += 1
+		grind_streak_weeks = 0
+	elif week_money_ap > 0:
+		money_weeks_total += 1
+		grind_streak_weeks += 1
+		# 한 달 내내(4주) 사람 없이 갈아넣으면 — 조용히 마모된다.
+		if grind_streak_weeks % 4 == 0:
+			modify_stat("mental", -1)
+			if loop_tint_spent > -20.0:
+				shift_moral_tint(-1.0)
+				loop_tint_spent -= 1.0
+	week_money_ap = 0
+	week_human_ap = 0
 
 func get_current_title() -> String:
 	if mental <= 12: return LocaleManager.ui("번아웃 직전", "Near Burnout")
@@ -1655,6 +1695,10 @@ func serialize():
 		"reputation": reputation,
 		"action_points": action_points,
 		"max_action_points": max_action_points,
+		"grind_streak_weeks": grind_streak_weeks,
+		"money_weeks_total": money_weeks_total,
+		"human_weeks_total": human_weeks_total,
+		"loop_tint_spent": loop_tint_spent,
 		"tutorial_step": tutorial_step,
 		"route_orthodox": route_orthodox,
 		"route_unorthodox": route_unorthodox,
@@ -1703,6 +1747,7 @@ func load_from_dict(data):
 		"gambling_tendency", "addiction_tendency",
 		"job_tenure", "work_performance",
 		"action_points", "max_action_points", "tutorial_step",
+		"grind_streak_weeks", "money_weeks_total", "human_weeks_total",
 		"route_orthodox", "route_unorthodox", "events_seen",
 		"moral_band_last",
 	]
