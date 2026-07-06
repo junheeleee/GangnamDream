@@ -80,8 +80,10 @@
   - [x] **1a 백엔드 축 엔진** (구조 리스크 낮음): GameState `week_money_ap`/`week_human_ap`(transient),
         `grind_streak_weeks`/`money_weeks_total`/`human_weeks_total`/`loop_tint_spent`(persist).
         `register_action_axis()`, `advance_calendar`에서 `_evaluate_week_axis()` — 그라인드 4주마다 정신−1·tint−1(루프 드립 상한 −20), 사람축 주는 streak 리셋. serialize+audit.
-  - [ ] **1b 두 긴장 바 + 포기 힌트** (Y1 한정 렌더): 강남(종잣돈) vs 관계 바를 AP 화면에 표시,
-        AP를 한 축에 몰 때 "이번 주 못 하는 것" 힌트. 그라인드-월 시 관계 바 소폭 drift.
+  - [x] **1b 보이는 tradeoff** (2026-07-06): This Week 압박 행에 4번째 셀 "곁의 사람"(TO GANGNAM 옆 =
+        두 긴장의 대비, `_closest_person()` 배우자>연인>최고호감>아버지, streak 2주+ "뜸하다"/4주+ "멀어진다"),
+        그라인드 2주+ 시 행동 목록 위 구체 인물 포기 힌트("%s에게 연락 못 한 지 %d주"), 전부-돈 주간 종료 라벨 변주.
+        ScreenshotQA ap-en 렌더 직접 확인(PEOPLE 셀 4분할 잘림 없음). 시각 폴리싱(색·간격)은 Codex 몫.
   - [ ] **1c 월말 몽타주 프리뷰**: 그 달의 축 배분을 한 줄로("갈아넣은 4주 / 균형 4주") — B의 맛보기.
   - 각 단계 후 serialize 완전성 + 밸런스 밴드 유지 검증. 재미 판정 후 전체 확장 여부 결정.
 - [ ] **Phase 2 — C: Act별 메뉴 진화** (대부분 게이팅)

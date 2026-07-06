@@ -4596,6 +4596,42 @@ func _render_week_pressure_row(parent: Control, net: float, total: float, has_wa
 	_add_week_pressure_cell(row, _tr("현금흐름", "CASHFLOW"), cash_text, net >= 0.0)
 	_add_week_pressure_cell(row, _tr("강남까지", "TO GANGNAM"), GameState.format_money(goal_gap), goal_gap <= 1_000_000_000.0)
 	_add_week_pressure_cell(row, _tr("몸과 마음", "CONDITION"), condition, not has_warning)
+	# 네 번째 긴장: 강남까지 ↔ 곁의 사람. 돈에만 갈아넣으면 이 칸이 식는다 (AP_REDESIGN 1b)
+	var people := _people_pressure_state()
+	_add_week_pressure_cell(row, _tr("곁의 사람", "PEOPLE"), str(people.get("text", "")), bool(people.get("good", true)))
+
+## 지금 가장 가까운 사람 — 배우자/연인 > 최고 호감 인연 > 아버지. 아무도 없으면 빈 dict.
+func _closest_person() -> Dictionary:
+	var f: Dictionary = GameState.flags
+	if f.get("daeun_married", false) or f.get("daeun_romance_started", false):
+		return {"id": "daeun"}
+	if f.get("jiyeon_romance_started", false):
+		return {"id": "jiyeon"}
+	var best_id := ""
+	var best_aff := -999
+	for pid in ["daeun", "jiyeon", "hyunsu", "jaehyuk"]:
+		if GameState.cast_has_met(pid):
+			var aff := GameState.get_cast_affinity(pid)
+			if aff > best_aff:
+				best_aff = aff
+				best_id = pid
+	if best_id != "" and best_aff >= 10:
+		return {"id": best_id}
+	if not f.get("father_passed", false):
+		return {"id": "father"}
+	return {}
+
+func _people_pressure_state() -> Dictionary:
+	var person := _closest_person()
+	if person.is_empty():
+		return {"text": _tr("아무도 없다", "No one"), "good": false}
+	var pname: String = str(ImageRegistry.get_person_info(str(person["id"])).get("name", ""))
+	var streak: int = GameState.grind_streak_weeks
+	if streak >= 4:
+		return {"text": _tr("%s — 멀어진다", "%s — drifting") % pname, "good": false}
+	if streak >= 2:
+		return {"text": _tr("%s — 뜸하다", "%s — quiet") % pname, "good": false}
+	return {"text": _tr("%s — 곁에 있다", "%s — near") % pname, "good": true}
 
 func _add_week_pressure_cell(parent: Control, label_text: String, value_text: String, good: bool) -> void:
 	var cell := PanelContainer.new()
@@ -4884,8 +4920,25 @@ func _render_situation_cards():
 		var left_lbl := _label(_tr("──  남은 시간에, 무엇을 할까  ──", "──  What to do with the time left  ──"), 12, "#9aa4b8")
 		left_lbl.set_meta("moral_role", "hint_text")
 		choice_box.add_child(left_lbl)
+		# 보이는 tradeoff — 몇 주째 돈만 쫓고 있으면, 지금 포기 중인 사람이 구체적으로 보인다
+		var streak: int = GameState.grind_streak_weeks
+		if streak >= 2:
+			var person := _closest_person()
+			if not person.is_empty():
+				var pname: String = str(ImageRegistry.get_person_info(str(person["id"])).get("name", ""))
+				var cost_text: String
+				if LocaleManager.is_english():
+					cost_text = "While chasing money — it's been %d weeks since you reached out to %s." % [streak, pname]
+				else:
+					cost_text = "돈을 쫓는 사이 — %s에게 연락 못 한 지 %d주가 됐다." % [pname, streak]
+				var cost_lbl := _wrap_label(cost_text, 11, "#8a7f74")
+				cost_lbl.set_meta("moral_role", "hint_text")
+				choice_box.add_child(cost_lbl)
 	else:
-		var spent_lbl := _label(_tr("이번 주를 다 보냈다. [다음 주]로.", "This week is spent. On to [Next Week]."), 12, "#7a8496")
+		var all_money: bool = GameState.week_human_ap == 0 and GameState.week_money_ap >= 2
+		var spent_text := _tr("이번 주도 전부 돈에 썼다. [다음 주]로.", "Another week spent entirely on money. On to [Next Week].") \
+				if all_money else _tr("이번 주를 다 보냈다. [다음 주]로.", "This week is spent. On to [Next Week].")
+		var spent_lbl := _label(spent_text, 12, "#7a8496")
 		spent_lbl.set_meta("moral_role", "hint_text")
 		choice_box.add_child(spent_lbl)
 	_render_essential_actions(ap)
